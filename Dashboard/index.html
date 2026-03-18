@@ -568,6 +568,7 @@
   <header class="header">
     <h1>Picks Dashboard</h1>
     <p class="subtitle">Bayesian model spread picks &middot; Units at -110</p>
+    <div id="last-run-info" class="subtitle" style="margin-top:4px;font-size:0.75rem;color:var(--muted)"></div>
   </header>
 
   <nav class="tabs" aria-label="Model selection">
@@ -838,15 +839,8 @@
       const pct = total > 0 ? (e.w / total * 100).toFixed(1) : '0.0';
       const uClass = e.units > 0 ? 'positive' : e.units < 0 ? 'negative' : 'neutral';
       const pClass = parseFloat(pct) > 52.4 ? 'positive' : parseFloat(pct) < 50 ? 'negative' : 'neutral';
-      const nonBurnIn = runs.filter(r => !r.burnIn);
-      const lastRun = nonBurnIn.length ? nonBurnIn[nonBurnIn.length - 1] : null;
-      const lastRunDisplay = lastRun ? (lastRun.dateDisplay || `${lastRun.date.slice(0,4)}-${lastRun.date.slice(4,6)}-${lastRun.date.slice(6,8)}`) : 'N/A';
       return `
         <div class="record-banner">
-          <div class="record-item">
-            <div class="label">Last Run</div>
-            <div class="value" style="font-size:0.85rem">${lastRunDisplay}</div>
-          </div>
           <div class="record-item">
             <div class="label">Elite Record</div>
             <div class="value">${e.w}-${e.l}${e.p > 0 ? `-${e.p}` : ''}</div>
@@ -1182,6 +1176,23 @@
         </div>`;
     }
 
+    // ─── Last Run Info ───
+
+    function updateLastRunInfo() {
+      const labels = { nba: 'NBA', fullseason: 'Full Season', ncaa: 'NCAA' };
+      const parts = Object.keys(SOURCES).map(key => {
+        const data = cache[key];
+        if (!data || !data.runs) return null;
+        const nonBurn = data.runs.filter(r => !r.burnIn);
+        const last = nonBurn.length ? nonBurn[nonBurn.length - 1] : null;
+        if (!last) return null;
+        const ts = last.ranAt || last.dateDisplay || `${last.date.slice(0,4)}-${last.date.slice(4,6)}-${last.date.slice(6,8)}`;
+        return `${labels[key]}: ${ts}`;
+      }).filter(Boolean);
+      const el = document.getElementById('last-run-info');
+      if (el) el.textContent = parts.length ? 'Last run (CT) \u2014 ' + parts.join(' \u00b7 ') : '';
+    }
+
     // ─── Main Render ───
 
     async function render() {
@@ -1198,6 +1209,9 @@
       const nonBurnIn = runs.filter(r => !r.burnIn);
       const latestRun = nonBurnIn.length ? nonBurnIn[nonBurnIn.length - 1] : null;
       const totalPages = Math.ceil(nonBurnIn.length / DAYS_PER_PAGE);
+
+      // Update last run timestamps per model
+      updateLastRunInfo();
 
       let html = renderRecordBanner(runs);
 

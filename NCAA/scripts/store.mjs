@@ -32,6 +32,7 @@ export function saveStore(store) {
 
 export function upsertRun(store, run) {
   if (!Array.isArray(store.runs)) store.runs = [];
+  run.ranAt = new Date().toLocaleString("en-US", { timeZone: "America/Chicago" });
   const idx = store.runs.findIndex(r => r.date === run.date);
   if (idx >= 0) store.runs[idx] = run;
   else store.runs.push(run);

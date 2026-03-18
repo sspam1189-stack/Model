@@ -623,6 +623,7 @@
     <h1>Python Picks Dashboard</h1>
     <p class="subtitle">Ensemble model spread picks &middot; Units at -110</p>
     <div class="ensemble-badge">Python &nbsp;|&nbsp; Bayesian + XGBoost + Linear</div>
+    <div id="last-run-info" class="subtitle" style="margin-top:4px;font-size:0.75rem;color:var(--muted)"></div>
   </header>
 
   <nav class="tabs" aria-label="Model selection">
@@ -1380,6 +1381,23 @@
         </div>`;
     }
 
+    // ─── Last Run Info ───
+
+    function updateLastRunInfo() {
+      const labels = { nba: 'NBA', fullseason: 'Full Season', ncaa: 'NCAA' };
+      const parts = Object.keys(SOURCES).map(key => {
+        const data = cache[key];
+        if (!data || !data.runs) return null;
+        const nonBurn = data.runs.filter(r => !r.burnIn);
+        const last = nonBurn.length ? nonBurn[nonBurn.length - 1] : null;
+        if (!last) return null;
+        const ts = last.ranAt || last.dateDisplay || `${last.date.slice(0,4)}-${last.date.slice(4,6)}-${last.date.slice(6,8)}`;
+        return `${labels[key]}: ${ts}`;
+      }).filter(Boolean);
+      const el = document.getElementById('last-run-info');
+      if (el) el.textContent = parts.length ? 'Last run (CT) \u2014 ' + parts.join(' \u00b7 ') : '';
+    }
+
     // ─── Main Render ───
 
     async function render() {
@@ -1406,6 +1424,9 @@
       const latestRun = nonBurnIn.length ? nonBurnIn[nonBurnIn.length - 1] : null;
       const totalPages = Math.ceil(nonBurnIn.length / DAYS_PER_PAGE);
       const modelSummary = await fetchModelSummary(activeTab);
+
+      // Update last run timestamps per model
+      updateLastRunInfo();
 
       let html = renderRecordBanner(runs, modelSummary);
 
