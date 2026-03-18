@@ -1385,17 +1385,15 @@
 
     function updateLastRunInfo() {
       const labels = { nba: 'NBA', fullseason: 'Full Season', ncaa: 'NCAA' };
-      const parts = Object.keys(SOURCES).map(key => {
-        const data = cache[key];
-        if (!data || !data.runs) return null;
-        const nonBurn = data.runs.filter(r => !r.burnIn);
-        const last = nonBurn.length ? nonBurn[nonBurn.length - 1] : null;
-        if (!last) return null;
-        const ts = last.ranAt || last.dateDisplay || `${last.date.slice(0,4)}-${last.date.slice(4,6)}-${last.date.slice(6,8)}`;
-        return `${labels[key]}: ${ts}`;
-      }).filter(Boolean);
+      const data = cache[activeTab];
       const el = document.getElementById('last-run-info');
-      if (el) el.textContent = parts.length ? 'Last run (CT) \u2014 ' + parts.join(' \u00b7 ') : '';
+      if (!el) return;
+      if (!data || !data.runs) { el.textContent = ''; return; }
+      const nonBurn = data.runs.filter(r => !r.burnIn);
+      const last = nonBurn.length ? nonBurn[nonBurn.length - 1] : null;
+      if (!last) { el.textContent = ''; return; }
+      const ts = last.ranAt || last.dateDisplay || `${last.date.slice(0,4)}-${last.date.slice(4,6)}-${last.date.slice(6,8)}`;
+      el.textContent = `Last run (CT) \u2014 ${labels[activeTab]}: ${ts}`;
     }
 
     // ─── Main Render ───
