@@ -5,7 +5,7 @@ on:
 
 jobs:
   nba:
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     steps:
       - uses: actions/checkout@v4
 
@@ -36,7 +36,7 @@ jobs:
           git push
 
   nba-fullseason:
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     needs: nba
     steps:
       - uses: actions/checkout@v4
