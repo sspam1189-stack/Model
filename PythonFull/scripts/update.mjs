@@ -4,7 +4,7 @@
 //   2. Fetch today's stats, odds, trends, injuries
 //   3. Analyze each game via model engine
 //   4. Build HTML + text email with records, trends, rolling windows
-//   5. Send via email + Discord
+//   5. Send via email
 
 
 import { fetchNBAStats, fetchNBAStatsEnhanced } from "./sources/nba_stats.mjs";
@@ -26,7 +26,6 @@ import {
 } from "./kalman_state.mjs";
 import { buildCalibrationTable, buildCalibrationHtml } from "./calibration.mjs";
 import { sendEmail } from "./email.mjs";
-import { sendDiscord } from "./discord.mjs";
 
 // ─── Constants ───────────────────────────────────────────────────────────────
 
@@ -1129,83 +1128,6 @@ function buildEmailHtml(run, summaryObj, last10, last10Totals, weeklySpread, wee
   </body></html>`;
 }
 
-// ─── Discord Message Builder ─────────────────────────────────────────────────
-
-function buildDiscordMessages(run, store, yesterdayDate) {
-  const messages = [];
-
-  // ── Today's Final Picks (post injury report) ──
-  const lines = [];
-  lines.push(`**🔥 FINAL PICKS — ${run.dateDisplay}**`);
-  lines.push("");
-
-  const todayGames = (run.games || []).filter(
-    (g) => g.status !== "MISSING_ODDS" && g.status !== "SKIPPED"
-  );
-
-  const spreadPicks = todayGames.filter((g) => g.sPick && g.sPick !== "PASS" && isActionable(g.sConf));
-  const totalPicks  = run.date >= TOTAL_PICKS_END_DATE ? [] : todayGames.filter((g) => g.oPick && g.oPick !== "PASS" && isActionable(g.oConf));
-
-  if (spreadPicks.length) {
-    lines.push("**Spread:**");
-    for (const g of spreadPicks.sort((a, b) => (b.pCover ?? 0) - (a.pCover ?? 0))) {
-      const conf = g.sConf === "elite" ? "🔒 ELITE" : "🟢 HIGH";
-      const projMargin = Math.round((g.hS - g.aS) * 10) / 10;
-      const favTeam = projMargin >= 0 ? g.home : g.away;
-      lines.push(`> ${conf} | ${g.away} @ ${g.home} → **${g.sPick}** (line ${g.line > 0 ? "+" : ""}${fmtNum(g.line, 1)} · proj ${esc(favTeam)} by ${fmtNum(Math.abs(projMargin), 1)} · edge ${fmtNum(g.sDiff, 1)}${g.pCover ? ` · P=${(g.pCover*100).toFixed(0)}%` : ""})`);
-    }
-    lines.push("");
-  }
-
-  if (totalPicks.length) {
-    lines.push("**Totals:**");
-    for (const g of totalPicks.sort((a, b) => (b.pOU ?? 0) - (a.pOU ?? 0))) {
-      const conf = g.oConf === "elite" ? "🔒 ELITE" : "🟢 HIGH";
-      const arrow = g.oPick === "OVER" ? "⬆️" : "⬇️";
-      const cleanTotal = Number.isFinite(g.tDiff) && Number.isFinite(g.total) ? g.total + g.tDiff : g.pT;
-      lines.push(`> ${conf} | ${g.away} @ ${g.home} → ${arrow} **${g.oPick} ${fmtNum(g.total, 1)}** (proj ${fmtNum(cleanTotal, 1)} · edge ${fmtNum(Math.abs(g.tDiff), 1)}${g.pOU ? ` · P=${(g.pOU*100).toFixed(0)}%` : ""})`);
-    }
-    lines.push("");
-  }
-
-  if (!spreadPicks.length && !totalPicks.length) {
-    lines.push("> No actionable picks today.");
-  }
-
-  messages.push(lines.join("\n"));
-
-  // ── Message 2: Season Record + Last 10 ──
-  const s = computeSummaryObj(store);
-  const recordLines = [];
-  recordLines.push("**📊 SEASON RECORD**");
-  recordLines.push("");
-
-  const fmtRecord = (label, b) =>
-    `> ${label}: **${b.w}-${b.l}-${b.p}** (${b.pct}%) | ${fmtUnits(b.units)}`;
-
-  const l10s = computeLast10(store, "spread");
-  const l10t = computeLast10(store, "total");
-  const t10s = tallyL10(l10s, "spread");
-  const t10t = tallyL10(l10t, "total");
-
-  const fmtElite = (label, b, t10) =>
-    `> ${label}: **${b.w}-${b.l}-${b.p}** (${b.pct}%) | ${fmtUnits(b.units)} · L10: **${t10.w}-${t10.l}** (${t10.pct}%) ${fmtUnits(t10.units)}`;
-
-  recordLines.push("**Spread (ATS)**");
-  recordLines.push(fmtElite("🔒 Elite", s.spread.elite, t10s));
-  recordLines.push(fmtRecord("⭐ Favorites", s.favdog.fav));
-  recordLines.push(fmtRecord("🐶 Underdogs", s.favdog.dog));
-  recordLines.push("");
-
-  recordLines.push("**Total (O/U)**");
-  recordLines.push(fmtElite("🔒 Elite", s.total.elite, t10t));
-  recordLines.push(fmtRecord("⬆️ Over", s.ouside.over));
-  recordLines.push(fmtRecord("⬇️ Under", s.ouside.under));
-
-  messages.push(recordLines.join("\n"));
-
-  return messages;
-}
 
 // ─── Text Email Builder ──────────────────────────────────────────────────────
 
@@ -1469,18 +1391,14 @@ async function main() {
   const calibRows = buildCalibrationTable(store);
   const yesterdayRecap = computeYesterdayRecap(store, yesterday);
 
-  // 9. Send email + Discord
-  console.log("[6/7] Sending email + Discord...");
+  // 9. Send email
+  console.log("[6/7] Sending email...");
   const html = buildEmailHtml(run, summaryObj, l10, l10t, weeklySpread, weeklyTotal, rollingSpread, rollingTotal, teamRecords, calibRows, yesterdayRecap);
   const text = buildTextEmail(run, store);
   const subject = `NBA Picks (Full Season) ${run.dateDisplay}`;
 
   await sendEmail(subject, text, html);
 
-  const discordMessages = buildDiscordMessages(run, store, yesterday);
-  for (const msg of discordMessages) {
-    await sendDiscord(msg);
-  }
 
   // 10. Summary
   console.log(`\nDone: ${subject}`);

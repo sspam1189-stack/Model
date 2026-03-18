@@ -4,7 +4,7 @@
 //   2. Fetch today's stats, odds, trends, injuries
 //   3. Analyze each game via model engine
 //   4. Build HTML + text email with records, trends, rolling windows
-//   5. Send via email + Discord
+//   5. Send via email
 
 import { createRequire } from "module";
 const require = createRequire(import.meta.url);
@@ -28,7 +28,6 @@ import {
 } from "./kalman_state.mjs";
 import { buildCalibrationTable, buildCalibrationHtml } from "./calibration.mjs";
 import { sendEmail } from "./email.mjs";
-import { sendDiscord } from "./discord.mjs";
 
 // ─── Constants ───────────────────────────────────────────────────────────────
 
@@ -1110,96 +1109,6 @@ function buildEmailHtml(run, summaryObj, last10, last10Totals, weeklySpread, wee
   </body></html>`;
 }
 
-// ─── Discord Message Builder ─────────────────────────────────────────────────
-
-function buildDiscordMessages(run, store, yesterdayDate) {
-  const messages = [];
-
-  // ── Message 1: Yesterday's Recap + Records ──
-  const lines1 = [];
-
-  // Yesterday recap — actionable picks only, one line per game
-  const yesterdayRun = (store.runs || []).find((r) => r.date === yesterdayDate);
-  lines1.push(`**🏀 NBA Recap — ${toDisplayDate(yesterdayDate)}**`);
-  if (yesterdayRun) {
-    const recapPicks = (yesterdayRun.games || []).filter(
-      (g) => g.status !== "MISSING_ODDS" && g.status !== "SKIPPED" &&
-        Number.isFinite(g.homeScore) && Number.isFinite(g.awayScore) &&
-        g.sPick && g.sPick !== "PASS" && isActionable(g.sConf)
-    );
-
-    if (recapPicks.length) {
-      let sW = 0, sL = 0, sP = 0, sUnits = 0;
-      for (const g of recapPicks) {
-        const res = g.sResult || gradeSpreadPick(g);
-        const emoji = res === "WIN" ? "✅" : res === "LOSS" ? "❌" : "➖";
-        if (res === "WIN") { sW++; sUnits += 1; }
-        else if (res === "LOSS") { sL++; sUnits += UNIT_LOSS; }
-        else sP++;
-        lines1.push(`> **${g.away} @ ${g.home}** — ${emoji} ${g.sPick}`);
-      }
-      lines1.push(`> **${sW}W-${sL}L-${sP}P ${fmtUnits(sUnits)}**`);
-    } else {
-      lines1.push(`> No actionable picks graded.`);
-    }
-  } else {
-    lines1.push(`> No run found.`);
-  }
-
-  // Season record + L10 — single merged line each
-  lines1.push("");
-  const s = computeSummaryObj(store);
-  const l10s = computeLast10(store, "spread");
-  const l10t = computeLast10(store, "total");
-  const t10s = tallyL10(l10s, "spread");
-  const t10t = tallyL10(l10t, "total");
-
-  lines1.push("**📊 Record**");
-  lines1.push(`> ATS: **${s.spread.all.w}-${s.spread.all.l}** (${s.spread.all.pct}%) ${fmtUnits(s.spread.all.units)} · L10: **${t10s.w}-${t10s.l}** (${t10s.pct}%) ${fmtUnits(t10s.units)}`);
-  lines1.push(`> O/U: **${s.total.all.w}-${s.total.all.l}** (${s.total.all.pct}%) ${fmtUnits(s.total.all.units)} · L10: **${t10t.w}-${t10t.l}** (${t10t.pct}%) ${fmtUnits(t10t.units)}`);
-
-  messages.push(lines1.join("\n"));
-
-  // ── Message 2: Today's Preemptive Picks (before injury report) ──
-  const lines2 = [];
-  lines2.push("**🔮 Today's Picks (Pre-Injury Report)**");
-  lines2.push("");
-
-  const todayGames = (run.games || []).filter(
-    (g) => g.status !== "MISSING_ODDS" && g.status !== "SKIPPED"
-  );
-
-  const spreadPicks = todayGames.filter((g) => g.sPick && g.sPick !== "PASS" && isActionable(g.sConf));
-  const totalPicks  = run.date >= TOTAL_PICKS_END_DATE ? [] : todayGames.filter((g) => g.oPick && g.oPick !== "PASS" && isActionable(g.oConf));
-
-  if (spreadPicks.length) {
-    lines2.push("**Spread:**");
-    for (const g of spreadPicks.sort((a, b) => (b.pCover ?? 0) - (a.pCover ?? 0))) {
-      const conf = g.sConf === "elite" ? "🔒 ELITE" : "🟢 HIGH";
-      lines2.push(`> ${conf} | ${g.away} @ ${g.home} → **${g.sPick}**`);
-    }
-    lines2.push("");
-  }
-
-  if (totalPicks.length) {
-    lines2.push("**Totals:**");
-    for (const g of totalPicks.sort((a, b) => (b.pOU ?? 0) - (a.pOU ?? 0))) {
-      const conf = g.oConf === "elite" ? "🔒 ELITE" : "🟢 HIGH";
-      lines2.push(`> ${conf} | ${g.away} @ ${g.home} → **${g.oPick} ${fmtNum(g.total, 1)}**`);
-    }
-    lines2.push("");
-  }
-
-  if (!spreadPicks.length && !totalPicks.length) {
-    lines2.push("> No actionable picks today.");
-  } else {
-    lines2.push("*Full projections and final picks after injury report at 5:00PM*");
-  }
-
-  messages.push(lines2.join("\n"));
-
-  return messages;
-}
 
 // ─── Text Email Builder ──────────────────────────────────────────────────────
 
@@ -1458,17 +1367,13 @@ async function main() {
   const yesterdayRecap = computeYesterdayRecap(store, yesterday);
 
   // 9. Send
-  console.log("[6/7] Sending email + Discord...");
+  console.log("[6/7] Sending email...");
   const html = buildEmailHtml(run, summaryObj, l10, l10t, weeklySpread, weeklyTotal, rollingSpread, rollingTotal, teamRecords, calibRows, yesterdayRecap);
   const text = buildTextEmail(run, store);
   const subject = `NBA Picks ${run.dateDisplay} (Actionable)`;
 
   await sendEmail(subject, text, html);
 
-  const discordMessages = buildDiscordMessages(run, store, yesterday);
-  for (const msg of discordMessages) {
-    await sendDiscord(msg);
-  }
 
   // 10. Summary
   console.log(`\nDone: ${subject}`);
