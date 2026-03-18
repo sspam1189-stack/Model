@@ -24,6 +24,7 @@ jobs:
         run: curl -sSL "https://raw.githubusercontent.com/sspam1189-stack/PythonNCAA/main/data/history.json" -o data/ncaa.json
 
       - name: Commit and push if changed
+        shell: bash
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"

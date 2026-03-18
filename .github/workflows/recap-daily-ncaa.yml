@@ -28,6 +28,7 @@ jobs:
         run: node scripts/RECAPrun_daily.mjs
 
       - name: Commit & push data changes
+        shell: bash
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"

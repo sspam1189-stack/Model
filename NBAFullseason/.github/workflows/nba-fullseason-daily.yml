@@ -38,6 +38,7 @@ jobs:
         run: node scripts/run_daily.mjs
 
       - name: Commit updated data files
+        shell: bash
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
