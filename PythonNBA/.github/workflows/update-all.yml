@@ -1,0 +1,32 @@
+name: Update All Repos
+
+on:
+  workflow_dispatch:
+
+jobs:
+  trigger-all:
+    runs-on: self-hosted
+    defaults:
+      run:
+        shell: bash
+
+    steps:
+      - name: Add Git Bash to PATH
+        shell: powershell
+        run: |
+          echo "C:\Program Files\Git\bin" | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
+
+      - name: Trigger NBA Update
+        env:
+          GH_TOKEN: ${{ secrets.DISPATCH_TOKEN }}
+        run: gh workflow run "NBA Update (Manual)" -R sspam1189-stack/NBA
+
+      - name: Trigger NCAA Update
+        env:
+          GH_TOKEN: ${{ secrets.DISPATCH_TOKEN }}
+        run: gh workflow run "NCAA Update (Manual)" -R sspam1189-stack/NCAA
+
+      - name: Trigger NBAFullseason Update
+        env:
+          GH_TOKEN: ${{ secrets.DISPATCH_TOKEN }}
+        run: gh workflow run "NBA Full Season Update (Manual)" -R sspam1189-stack/NBAFullseason

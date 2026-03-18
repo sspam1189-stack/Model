@@ -1,0 +1,63 @@
+{
+  "n_rows": 3072,
+  "n_test": 3022,
+  "lookback": 120,
+  "min_train": 50,
+  "results": [
+    {
+      "name": "XGBoost(cal,independent)",
+      "wins": 1004,
+      "losses": 713,
+      "pushes": 0,
+      "picks": 1717,
+      "win_pct": 58.47408270238789,
+      "units": 219.69999999999993,
+      "all_side_acc": 55.989410986101916,
+      "avg_t": 0.5444573130377234
+    },
+    {
+      "name": "EnsembleEqual(cal)",
+      "wins": 976,
+      "losses": 710,
+      "pushes": 0,
+      "picks": 1686,
+      "win_pct": 57.88849347568209,
+      "units": 194.9999999999999,
+      "all_side_acc": 55.55923229649239,
+      "avg_t": 0.5402382528127069
+    },
+    {
+      "name": "EnsembleAdaptive(cal)",
+      "wins": 933,
+      "losses": 684,
+      "pushes": 0,
+      "picks": 1617,
+      "win_pct": 57.69944341372913,
+      "units": 180.5999999999999,
+      "all_side_acc": 55.32759761747187,
+      "avg_t": 0.5428325612177366
+    },
+    {
+      "name": "Bayesian(cal)",
+      "wins": 843,
+      "losses": 606,
+      "pushes": 0,
+      "picks": 1449,
+      "win_pct": 58.178053830227746,
+      "units": 176.39999999999998,
+      "all_side_acc": 55.39377895433488,
+      "avg_t": 0.54909662475182
+    },
+    {
+      "name": "Ridge(cal,independent)",
+      "wins": 895,
+      "losses": 665,
+      "pushes": 0,
+      "picks": 1560,
+      "win_pct": 57.37179487179487,
+      "units": 163.4999999999999,
+      "all_side_acc": 54.99669093315685,
+      "avg_t": 0.5467273328921244
+    }
+  ]
+}

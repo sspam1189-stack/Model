@@ -1,0 +1,63 @@
+{
+  "n_rows": 810,
+  "n_test": 760,
+  "lookback": 120,
+  "min_train": 50,
+  "results": [
+    {
+      "name": "EnsembleAdaptive(cal)",
+      "wins": 291,
+      "losses": 212,
+      "pushes": 0,
+      "picks": 503,
+      "win_pct": 57.85288270377733,
+      "units": 57.79999999999998,
+      "all_side_acc": 56.8421052631579,
+      "avg_t": 0.5390921052631578
+    },
+    {
+      "name": "EnsembleEqual(cal)",
+      "wins": 306,
+      "losses": 228,
+      "pushes": 0,
+      "picks": 534,
+      "win_pct": 57.30337078651685,
+      "units": 55.19999999999999,
+      "all_side_acc": 57.36842105263158,
+      "avg_t": 0.5347368421052632
+    },
+    {
+      "name": "Ridge(cal,independent)",
+      "wins": 269,
+      "losses": 197,
+      "pushes": 0,
+      "picks": 466,
+      "win_pct": 57.72532188841202,
+      "units": 52.29999999999998,
+      "all_side_acc": 55.6578947368421,
+      "avg_t": 0.5464605263157896
+    },
+    {
+      "name": "Bayesian(cal)",
+      "wins": 228,
+      "losses": 162,
+      "pushes": 0,
+      "picks": 390,
+      "win_pct": 58.46153846153846,
+      "units": 49.79999999999998,
+      "all_side_acc": 54.60526315789474,
+      "avg_t": 0.5580789473684211
+    },
+    {
+      "name": "XGBoost(cal,independent)",
+      "wins": 254,
+      "losses": 191,
+      "pushes": 0,
+      "picks": 445,
+      "win_pct": 57.07865168539326,
+      "units": 43.89999999999998,
+      "all_side_acc": 55.13157894736842,
+      "avg_t": 0.5518157894736843
+    }
+  ]
+}

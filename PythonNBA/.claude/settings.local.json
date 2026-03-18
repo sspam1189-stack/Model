@@ -1,0 +1,18 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(wc -c \"C:/Users/Henry Pham/Desktop/nba_picks_daily_bot/W.ouHigh\" \"C:/Users/Henry Pham/Desktop/nba_picks_daily_bot/W.sprHigh\" \"C:/Users/Henry Pham/Desktop/nba_picks_daily_bot/g.total\" \"C:/Users/Henry Pham/Desktop/nba_picks_daily_bot/o\" \"C:/Users/Henry Pham/Desktop/nba_picks_daily_bot/s\" \"C:/Users/Henry Pham/Desktop/nba_picks_daily_bot/node\" \"C:/Users/Henry Pham/Desktop/nba_picks_daily_bot/r.date\" \"C:/Users/Henry Pham/Desktop/nba_picks_daily_bot/x.away\" \"C:/Users/Henry Pham/Desktop/nba_picks_daily_bot/p.type\" \"{\")",
+      "Bash(node -e \"const fs=require\\(''fs''\\); const h=JSON.parse\\(fs.readFileSync\\(''C:/Users/Henry Pham/Desktop/nba_picks_daily_bot/data/b/history.json''\\)\\); console.log\\(''Total runs:'', h.runs.length\\); console.log\\(''Dates:'', h.runs.map\\(r=>r.dateDisplay\\).join\\('', ''\\)\\);\")",
+      "Bash(node -e \"const fs=require\\(''fs''\\); const h=JSON.parse\\(fs.readFileSync\\(''C:/Users/Henry Pham/Desktop/nba_picks_daily_bot/data/b/history.json''\\)\\); const last=h.runs[h.runs.length-1]; console.log\\(''Last run:'', last.dateDisplay, ''— games:'', last.games.length\\); console.log\\(''Has scores:'', last.games.filter\\(g=>g.homeScore!=null\\).length, ''/'', last.games.length\\);\")",
+      "Bash(node -e \"const fs=require\\(''fs''\\); const h=JSON.parse\\(fs.readFileSync\\(''C:/Users/Henry Pham/Desktop/nba_picks_daily_bot/data/b/history.json''\\)\\); const last=h.runs[h.runs.length-1]; console.log\\(''Last run:'', last.dateDisplay, ''games:'', last.games.length\\); console.log\\(''Has scores:'', last.games.filter\\(g=>g.homeScore!=null\\).length\\);\")",
+      "Bash(node -e \"const fs=require\\(''fs''\\); const h=JSON.parse\\(fs.readFileSync\\(''C:/Users/Henry Pham/Desktop/nba_picks_daily_bot/data/b/history.json''\\)\\); const last=h.runs[h.runs.length-1]; console.log\\(''Last run:'', last.dateDisplay, ''games:'', last.games.length\\); const scored = last.games.filter\\(function\\(g\\){return g.homeScore !== null;}\\); console.log\\(''Has scores:'', scored.length\\);\")",
+      "Bash(node -e 'const fs=require\\(\"\"fs\"\"\\); const h=JSON.parse\\(fs.readFileSync\\(\"\"C:/Users/Henry Pham/Desktop/nba_picks_daily_bot/data/b/history.json\"\"\\)\\); const last=h.runs[h.runs.length-1]; console.log\\(\"\"Last run:\"\", last.dateDisplay, \"\"games:\"\", last.games.length\\);')",
+      "Bash(node -e 'const fs=require\\(\"\"fs\"\"\\); const h=JSON.parse\\(fs.readFileSync\\(\"\"C:/Users/Henry Pham/Desktop/nba_picks_daily_bot/data/b/history.json\"\"\\)\\); h.runs.slice\\(-5\\).forEach\\(r => console.log\\(r.dateDisplay, \"\"games:\"\", r.games.length\\)\\);')",
+      "Bash(node -e 'const fs=require\\(\"\"fs\"\"\\); const h=JSON.parse\\(fs.readFileSync\\(\"\"C:/Users/Henry Pham/Desktop/nba_picks_daily_bot/data/b/history.json\"\"\\)\\); h.runs.slice\\(-10\\).forEach\\(r => console.log\\(r.date, r.dateDisplay, \"\"games:\"\", r.games.length\\)\\);')",
+      "Bash(node -e 'const fs=require\\(\"\"fs\"\"\\); const a=JSON.parse\\(fs.readFileSync\\(\"\"C:/Users/Henry Pham/Desktop/nba_picks_daily_bot/data/a/history.json\"\"\\)\\); console.log\\(\"\"Store A runs:\"\", a.runs.length\\); a.runs.slice\\(-5\\).forEach\\(r => console.log\\(r.date, r.dateDisplay, \"\"games:\"\", r.games.length\\)\\);')",
+      "Read(//c/Users/Henry Pham/Desktop/ncaa_picks_daily_bot/**)",
+      "Bash(node scripts/run_daily.mjs)",
+      "Bash(node scripts/_check.mjs)"
+    ]
+  }
+}
