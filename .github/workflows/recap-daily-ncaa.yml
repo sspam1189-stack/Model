@@ -3,6 +3,9 @@ name: Recap Daily NCAA
 on:
   workflow_dispatch:
 
+permissions:
+  contents: write
+
 jobs:
   ncaa:
     runs-on: self-hosted

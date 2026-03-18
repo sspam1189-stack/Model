@@ -3,6 +3,9 @@ name: Run Daily (NBA + Fullseason)
 on:
   workflow_dispatch:
 
+permissions:
+  contents: write
+
 jobs:
   nba:
     runs-on: self-hosted
