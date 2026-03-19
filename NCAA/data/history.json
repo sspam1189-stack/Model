@@ -138691,48 +138691,49 @@
       "games": [
         {
           "away": "TCU",
-          "home": "Ohio",
+          "home": "Ohio St.",
           "line": 2.5,
           "total": 145.5,
           "_book": "DraftKings",
-          "aS": 80.3,
-          "hS": 64.6,
-          "pT": 144.9,
-          "margin": -18.2,
-          "sDiff": 18.2,
-          "tDiff": -0.2,
-          "sPick": "TCU +2.5",
+          "_date": "20260319",
+          "aS": 68,
+          "hS": 73.8,
+          "pT": 141.8,
+          "margin": 3.3,
+          "sDiff": 3.3,
+          "tDiff": -1.4,
+          "sPick": "Ohio St. -2.5",
           "sConf": "elite",
           "oPick": "PASS",
           "oConf": "low",
           "injuryNote": null,
-          "pHomeCover": 0.077,
-          "pAwayCover": 0.923,
-          "pOver": 0.494,
-          "pUnder": 0.506,
-          "pCover": 0.923,
+          "pHomeCover": 0.603,
+          "pAwayCover": 0.397,
+          "pOver": 0.458,
+          "pUnder": 0.542,
+          "pCover": 0.603,
           "pOU": null,
-          "marginVar": 163.3,
-          "marginStd": 12.8,
+          "marginVar": 158.5,
+          "marginStd": 12.6,
           "_features": {
-            "dTS": 0,
-            "dTO": -0.018000000000000016,
-            "dORR": 0,
-            "dNET": -20.115799999999993,
-            "avgPace": 68.20394999999999
+            "dTS": 0.05599999999999994,
+            "dTO": -0.009000000000000064,
+            "dORR": -0.0010000000000000009,
+            "dNET": 8.472200000000015,
+            "avgPace": 66.85105
           },
           "_marginFeatures": {
-            "dTS": 0,
-            "dTO": 0.012117113757000012,
-            "dORR": 0,
-            "dNET": -6.770706580918348,
+            "dTS": 0.03694991235599996,
+            "dTO": 0.005938378771500042,
+            "dORR": -0.0006598198635000005,
+            "dNET": 2.7950629237723548,
             "hca": 1,
-            "_baseline": -6.770706580918343,
-            "_pace": 0.6731729865
+            "_baseline": 2.7950629237723548,
+            "_pace": 0.6598198635
           },
           "trends": {
             "away": "ATS +/- 1.4 · Over 45.5% · Under 54.6% · O/U +/- 0.3",
-            "home": "ATS +/- -3 · Over 50% · Under 50% · O/U +/- 1.5"
+            "home": "ATS +/- 2 · Over 48.5% · Under 51.5% · O/U +/- -0.6"
           }
         },
         {
@@ -138741,6 +138742,7 @@
           "line": 13.5,
           "total": 138.5,
           "_book": "DraftKings",
+          "_date": "20260319",
           "aS": 62,
           "hS": 80.2,
           "pT": 142.2,
@@ -138787,6 +138789,7 @@
           "line": 4.5,
           "total": 163.5,
           "_book": "DraftKings",
+          "_date": "20260319",
           "aS": 71.3,
           "hS": 79,
           "pT": 150.3,
@@ -138833,6 +138836,7 @@
           "line": 10.5,
           "total": 162.5,
           "_book": "DraftKings",
+          "_date": "20260319",
           "aS": 70.7,
           "hS": 85.7,
           "pT": 156.4,
@@ -138879,6 +138883,7 @@
           "line": 27.5,
           "total": 135.5,
           "_book": "DraftKings",
+          "_date": "20260319",
           "aS": 53.2,
           "hS": 82.3,
           "pT": 135.5,
@@ -138920,12 +138925,51 @@
           }
         },
         {
-          "away": "McNeese Cowboys",
-          "home": "Vanderbilt Commodores",
+          "away": "McNeese St.",
+          "home": "Vanderbilt",
           "line": 12.5,
           "total": 149.5,
           "_book": "DraftKings",
-          "status": "SKIPPED"
+          "_date": "20260319",
+          "aS": 66.7,
+          "hS": 76.1,
+          "pT": 142.8,
+          "margin": -3.1,
+          "sDiff": 3.1,
+          "tDiff": -3.6,
+          "sPick": "PASS",
+          "sConf": "low",
+          "oPick": "PASS",
+          "oConf": "low",
+          "injuryNote": null,
+          "pHomeCover": 0.41,
+          "pAwayCover": 0.59,
+          "pOver": 0.401,
+          "pUnder": 0.599,
+          "pCover": null,
+          "pOU": null,
+          "marginVar": 185.9,
+          "marginStd": 13.6,
+          "_features": {
+            "dTS": 0.04299999999999993,
+            "dTO": -0.0009999999999999454,
+            "dORR": -0.010000000000000009,
+            "dNET": 16.986499999999992,
+            "avgPace": 67.5429
+          },
+          "_marginFeatures": {
+            "dTS": 0.028665882188999955,
+            "dTO": 0.0006666484229999637,
+            "dORR": -0.006666484230000006,
+            "dNET": 5.662011718644748,
+            "hca": 1,
+            "_baseline": 5.662011718644752,
+            "_pace": 0.666648423
+          },
+          "trends": {
+            "away": "ATS +/- -0.3 · Over 46.7% · Under 53.3% · O/U +/- -1.5",
+            "home": "ATS +/- 1 · Over 50% · Under 50% · O/U +/- 1.5"
+          }
         },
         {
           "away": "North Dakota St.",
@@ -138933,6 +138977,7 @@
           "line": 16.5,
           "total": 143.5,
           "_book": "DraftKings",
+          "_date": "20260319",
           "aS": 66.7,
           "hS": 79.4,
           "pT": 146.1,
@@ -138974,11 +139019,12 @@
           }
         },
         {
-          "away": "Hawai'i Rainbow Warriors",
-          "home": "Arkansas Razorbacks",
+          "away": "Hawai'i",
+          "home": "Arkansas",
           "line": 15.5,
           "total": 159.5,
           "_book": "DraftKings",
+          "_date": "20260319",
           "status": "SKIPPED"
         },
         {
@@ -138987,6 +139033,7 @@
           "line": 2.5,
           "total": 151.5,
           "_book": "DraftKings",
+          "_date": "20260319",
           "aS": 71.2,
           "hS": 75.7,
           "pT": 146.9,
@@ -139033,6 +139080,7 @@
           "line": 30.5,
           "total": 151.5,
           "_book": "DraftKings",
+          "_date": "20260319",
           "aS": 58.8,
           "hS": 90,
           "pT": 148.8,
@@ -139079,6 +139127,7 @@
           "line": 2.5,
           "total": 157.5,
           "_book": "DraftKings",
+          "_date": "20260319",
           "aS": 75.8,
           "hS": 76.1,
           "pT": 151.9,
@@ -139125,6 +139174,7 @@
           "line": 3.5,
           "total": 147.5,
           "_book": "DraftKings",
+          "_date": "20260319",
           "aS": 67.1,
           "hS": 75.1,
           "pT": 142.2,
@@ -139166,11 +139216,12 @@
           }
         },
         {
-          "away": "Pennsylvania Quakers",
-          "home": "Illinois Fighting Illini",
+          "away": "Pennsylvania",
+          "home": "Illinois",
           "line": 25.5,
           "total": 151.5,
           "_book": "DraftKings",
+          "_date": "20260319",
           "status": "SKIPPED"
         },
         {
@@ -139179,6 +139230,7 @@
           "line": 2.5,
           "total": 169.5,
           "_book": "DraftKings",
+          "_date": "20260319",
           "aS": 79.6,
           "hS": 75.6,
           "pT": 155.2,
@@ -139225,6 +139277,7 @@
           "line": 21.5,
           "total": 154.5,
           "_book": "DraftKings",
+          "_date": "20260319",
           "aS": 66.4,
           "hS": 84.3,
           "pT": 150.7,
@@ -139271,6 +139324,7 @@
           "line": 23.5,
           "total": 138.5,
           "_book": "DraftKings",
+          "_date": "20260319",
           "aS": 56.9,
           "hS": 79.3,
           "pT": 136.2,
@@ -139313,7 +139367,7 @@
         }
       ],
       "summaryText": "RECORD (graded picks only)\n\nSPREAD (ATS)\n  All:         629-312-0   (66.8%)   [graded 941]\n  Elite:       629-312-0   (66.8%)   [graded 941]\n\nFAV/DOG (Spread)\n  Favorites:   273-144-0   (65.5%)   [graded 417]\n  Underdogs:   356-168-0   (67.9%)   [graded 524]\n",
-      "ranAt": "3/19/2026, 2:28:15 AM"
+      "ranAt": "3/19/2026, 2:43:00 AM"
     }
   ],
   "weights": {
