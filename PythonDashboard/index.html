@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="color-scheme" content="dark">
-  <meta name="description" content="Python Bayesian + XGBoost + Linear ensemble spread and totals picks dashboard for NBA and NCAA">
+  <meta name="description" content="Python Bayesian + XGBoost ensemble spread and totals picks dashboard for NBA and NCAA">
   <title>Python Picks Dashboard</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -384,10 +384,31 @@
       color: var(--orange);
       border: 1px solid rgba(251, 146, 60, 0.2);
     }
-    .model-badge.linear {
-      background: var(--blue-dim);
-      color: var(--blue);
-      border: 1px solid rgba(96, 165, 250, 0.2);
+    .model-badge.agree {
+      background: var(--green-dim);
+      color: var(--green);
+      border: 1px solid rgba(52, 211, 153, 0.2);
+    }
+    .model-badge.ens-override {
+      background: var(--purple-dim);
+      color: var(--purple);
+      border: 1px solid rgba(167, 139, 250, 0.2);
+    }
+    .model-badge.ens-pass {
+      background: var(--red-dim);
+      color: var(--red);
+      border: 1px solid rgba(248, 113, 113, 0.2);
+    }
+    .bayes-disagree {
+      font-size: 0.65rem;
+      color: var(--yellow);
+      font-weight: 600;
+      margin-left: 4px;
+    }
+    .weight-info {
+      font-size: 0.63rem;
+      color: var(--muted);
+      margin-left: 4px;
     }
     .ensemble-detail {
       font-size: 0.68rem;
@@ -622,7 +643,7 @@
   <header class="header">
     <h1>Python Picks Dashboard</h1>
     <p class="subtitle">Ensemble model spread picks &middot; Units at -110</p>
-    <div class="ensemble-badge">Python &nbsp;|&nbsp; Bayesian + XGBoost + Linear</div>
+    <div class="ensemble-badge">Python &nbsp;|&nbsp; Bayesian + XGBoost Ensemble</div>
     <div id="last-run-info" class="subtitle" style="margin-top:4px;font-size:0.75rem;color:var(--muted)"></div>
   </header>
 
@@ -802,27 +823,54 @@
     }
 
     // ─── Ensemble Info Helper ───
+
+    function pickSourceBadge(g) {
+      const ps = g.pickSource;
+      if (ps === 'AGREE') return '<span class="model-badge agree">AGREE</span>';
+      if (ps === 'ENS') return '<span class="model-badge ens-override">ENS</span>';
+      if (ps === 'ENS_PASS') return '<span class="model-badge ens-pass">ENS&#11015;</span>';
+      return '';
+    }
+
+    function bayesDisagreeNote(g) {
+      const ps = g.pickSource;
+      if (!ps) return '';
+      if (ps === 'ENS' && g.sPick_bayes != null && g.sPick_bayes !== g.sPick) {
+        return `<span class="bayes-disagree">[Bayes: ${esc(g.sPick_bayes)}]</span>`;
+      }
+      if (ps === 'ENS_PASS' && g.sPick_bayes != null && g.sPick_bayes !== 'PASS') {
+        return `<span class="bayes-disagree">Bayes picked ${esc(g.sPick_bayes)} (downgraded)</span>`;
+      }
+      return '';
+    }
+
+    function adaptiveWeightsInfo(g) {
+      if (g.ens_bayesW == null) return '';
+      const bPct = Math.round(g.ens_bayesW * 100);
+      const xPct = 100 - bPct;
+      return `<span class="weight-info">Weights: B ${bPct}% / X ${xPct}%</span>`;
+    }
+
     function ensembleInfo(g) {
       const parts = [];
-      if (g.ensemblePHomeCover != null) {
-        parts.push(`<span class="ens-label">Ens</span> ${fmtProb(g.ensemblePHomeCover)}`);
+      if (g.ens_pHomeCover != null) {
+        parts.push(`<span class="ens-label">Ens</span> ${fmtProb(g.ens_pHomeCover)}`);
       }
-      if (g.xgbPHomeCover != null) {
-        parts.push(`<span class="model-badge xgb">XGB</span> ${fmtProb(g.xgbPHomeCover)}${g.xgbMargin != null ? ' (margin ' + (g.xgbMargin >= 0 ? '+' : '') + fmtNum(g.xgbMargin, 1) + ')' : ''}`);
+      if (g.xgb_pHomeCover != null) {
+        parts.push(`<span class="model-badge xgb">XGB</span> ${fmtProb(g.xgb_pHomeCover)}${g.xgb_margin != null ? ' (margin ' + (g.xgb_margin >= 0 ? '+' : '') + fmtNum(g.xgb_margin, 1) + ')' : ''}`);
       }
-      if (g.linearPHomeCover != null) {
-        const lm = g.linearModelUsed ? ` [${g.linearModelUsed}]` : '';
-        parts.push(`<span class="model-badge linear">LIN</span> ${fmtProb(g.linearPHomeCover)}${g.linearMargin != null ? ' (margin ' + (g.linearMargin >= 0 ? '+' : '') + fmtNum(g.linearMargin, 1) + ')' : ''}${lm}`);
-      }
-      if (!parts.length) return '';
-      return `<div class="ensemble-detail">${parts.join(' &middot; ')}</div>`;
+      const weightsStr = adaptiveWeightsInfo(g);
+      if (!parts.length && !weightsStr) return '';
+      let html = `<div class="ensemble-detail">${parts.join(' &middot; ')}`;
+      if (weightsStr) html += ` ${weightsStr}`;
+      html += `</div>`;
+      return html;
     }
 
     function modelBadges(g) {
       let html = '';
-      if (g.ensemblePHomeCover != null) html += '<span class="model-badge bayesian">BAY</span>';
-      if (g.xgbPHomeCover != null) html += '<span class="model-badge xgb">XGB</span>';
-      if (g.linearPHomeCover != null) html += '<span class="model-badge linear">LIN</span>';
+      if (g.ens_pHomeCover != null) html += '<span class="model-badge bayesian">BAY</span>';
+      if (g.xgb_pHomeCover != null) html += '<span class="model-badge xgb">XGB</span>';
       return html;
     }
 
@@ -1082,6 +1130,8 @@
           <span class="pick-team">${esc(g.sPick)}</span>
           ${confBadge(g.sConf)}
           ${modelBadges(g)}
+          ${pickSourceBadge(g)}
+          ${bayesDisagreeNote(g)}
           <span class="pick-meta">proj ${esc(favTeam)} by ${fmtNum(Math.abs(projMargin), 1)} \u00b7 sDiff ${fmtNum(g.sDiff, 1)}${pStr}</span>
           ${ensembleInfo(g)}
         </div>`;
@@ -1163,18 +1213,20 @@
           ? `<span class="pick-team">${esc(g.sPick)}</span> ${confBadge(g.sConf)}`
           : `<span style="color:var(--muted)">PASS</span>`;
         const pCover = g.pCover != null ? `<b>${fmtProb(g.pCover)}</b>` : '<span style="color:var(--muted)">\u2014</span>';
+        // Show pCover_bayes as secondary when it differs from pCover
+        const bayesSecondary = (g.pCover_bayes != null && g.pCover_bayes !== g.pCover)
+          ? `<div class="card-subtitle" style="margin-top:2px;font-size:0.63rem;color:var(--yellow)">Bayes: ${fmtProb(g.pCover_bayes)}</div>` : '';
         const pHome = g.pHomeCover != null ? fmtProb(g.pHomeCover) : '\u2014';
         const pAway = g.pAwayCover != null ? fmtProb(g.pAwayCover) : '\u2014';
         const margin = Number.isFinite(g.margin) ? (g.margin >= 0 ? '+' : '') + fmtNum(g.margin, 1) : '\u2014';
-        // Ensemble probabilities
-        const ensP = g.ensemblePHomeCover != null ? fmtProb(g.ensemblePHomeCover) : '\u2014';
-        const xgbP = g.xgbPHomeCover != null ? fmtProb(g.xgbPHomeCover) : '\u2014';
-        const linP = g.linearPHomeCover != null ? fmtProb(g.linearPHomeCover) : '\u2014';
+        // Ensemble probabilities (new field names)
+        const ensP = g.ens_pHomeCover != null ? fmtProb(g.ens_pHomeCover) : '\u2014';
+        const xgbP = g.xgb_pHomeCover != null ? fmtProb(g.xgb_pHomeCover) : '\u2014';
         return `<tr>
           <td style="font-weight:700">${esc(g.away)} @ ${esc(g.home)}</td>
           <td>${sPick}<div class="card-subtitle" style="margin:2px 0 0">Line ${fmtNum(g.line,1)} \u00b7 proj ${margin} \u00b7 sDiff ${fmtNum(g.sDiff,1)}</div></td>
-          <td class="center">${pCover}<div class="card-subtitle">${pAway} away / ${pHome} home</div></td>
-          <td class="center"><div style="font-size:0.72rem"><span class="model-badge bayesian" style="font-size:0.5rem">ENS</span> ${ensP}</div><div style="font-size:0.68rem;color:var(--muted);margin-top:2px"><span class="model-badge xgb" style="font-size:0.5rem">XGB</span> ${xgbP} <span class="model-badge linear" style="font-size:0.5rem">LIN</span> ${linP}</div></td>
+          <td class="center">${pCover}${bayesSecondary}<div class="card-subtitle">${pAway} away / ${pHome} home</div></td>
+          <td class="center"><div style="font-size:0.72rem"><span class="model-badge bayesian" style="font-size:0.5rem">ENS</span> ${ensP}</div><div style="font-size:0.68rem;color:var(--muted);margin-top:2px"><span class="model-badge xgb" style="font-size:0.5rem">XGB</span> ${xgbP}</div></td>
         </tr>`;
       }).join('');
       return `
@@ -1184,7 +1236,7 @@
             <thead><tr><th>Game</th><th>Spread Pick</th><th class="center">P(Cover)</th><th class="center">Ensemble</th></tr></thead>
             <tbody>${rows}</tbody>
           </table>
-          <div class="card-subtitle" style="margin-top:8px">P(Cover) = probability the picked side wins. Ensemble column shows Bayesian ensemble, XGBoost, and Linear model home-cover probabilities.</div>
+          <div class="card-subtitle" style="margin-top:8px">P(Cover) = probability the picked side wins. Ensemble column shows Bayesian ensemble and XGBoost home-cover probabilities.</div>
         </div>`;
     }
 
@@ -1198,7 +1250,7 @@
         if (!isSkipped && g.sPick && g.sPick !== 'PASS') {
           const projMargin = Math.round((g.hS - g.aS) * 10) / 10;
           const favTeam = projMargin >= 0 ? g.home : g.away;
-          spreadHtml = `<div class="game-detail"><span class="pick-team">${esc(g.sPick)}</span> ${confBadge(g.sConf)} ${modelBadges(g)} <span class="label">proj ${esc(favTeam)} by ${fmtNum(Math.abs(projMargin), 1)} \u00b7 sDiff ${fmtNum(g.sDiff, 1)}${g.pCover != null ? ` \u00b7 P=${fmtProb(g.pCover)}` : ''}</span></div>`;
+          spreadHtml = `<div class="game-detail"><span class="pick-team">${esc(g.sPick)}</span> ${confBadge(g.sConf)} ${modelBadges(g)} ${pickSourceBadge(g)} ${bayesDisagreeNote(g)} ${adaptiveWeightsInfo(g)} <span class="label">proj ${esc(favTeam)} by ${fmtNum(Math.abs(projMargin), 1)} \u00b7 sDiff ${fmtNum(g.sDiff, 1)}${g.pCover != null ? ` \u00b7 P=${fmtProb(g.pCover)}` : ''}</span></div>`;
           spreadHtml += ensembleInfo(g);
         } else {
           spreadHtml = `<div class="game-detail"><span class="label">Spread: ${isSkipped ? esc(g.status) : 'PASS'}</span></div>`;
@@ -1363,7 +1415,7 @@
         return `<div class="game-card">
           <div class="game-title">${esc(g.away)} @ ${esc(g.home)} <span style="font-weight:400;font-size:0.72rem;color:var(--muted)">Line ${fmtNum(g.line,1)}</span></div>
           <div class="game-detail">
-            ${isPick ? `<span class="pick-team">${esc(g.sPick)}</span> ${confBadge(g.sConf)} ${modelBadges(g)}` : `<span style="color:var(--muted)">${isSkipped ? esc(g.status) : 'PASS'}</span>`}
+            ${isPick ? `<span class="pick-team">${esc(g.sPick)}</span> ${confBadge(g.sConf)} ${modelBadges(g)} ${pickSourceBadge(g)} ${bayesDisagreeNote(g)}` : `<span style="color:var(--muted)">${isSkipped ? esc(g.status) : 'PASS'}</span>`}
             ${result ? resultBadge(result) : (isPick && !hasScore ? '<span class="result-badge pending">PENDING</span>' : '')}
           </div>
           ${isPick ? ensembleInfo(g) : ''}
@@ -1444,6 +1496,14 @@
 
         html += '<div class="section-label">Games</div>';
         html += renderGameCards(latestRun);
+
+        html += '<div class="section-label">Spread Trends</div>';
+        html += renderLast10(runs);
+        html += renderWeekly(runs);
+        html += renderRolling(runs);
+
+        html += '<div class="section-label">Team Records</div>';
+        html += renderTeamRecords(runs);
 
       } else if (viewMode === 'history') {
         html += `
