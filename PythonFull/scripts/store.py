@@ -4,7 +4,8 @@ import json
 import os
 import datetime
 
-DATA = os.path.join(os.getcwd(), "data", "history.json")
+_DIR = os.path.dirname(os.path.abspath(__file__))
+DATA = os.path.join(_DIR, "..", "data", "history.json")
 
 EMPTY_STORE = {"runs": [], "weights": {}}
 

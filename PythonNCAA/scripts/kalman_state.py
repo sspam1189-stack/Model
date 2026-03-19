@@ -33,7 +33,8 @@ import math
 import os
 from datetime import datetime, timedelta, timezone
 
-DATA_DIR = os.path.join(os.getcwd(), "data")
+_DIR = os.path.dirname(os.path.abspath(__file__))
+DATA_DIR = os.path.join(_DIR, "..", "data")
 STATE_PATH = os.path.join(DATA_DIR, "kalman_state.json")
 
 
