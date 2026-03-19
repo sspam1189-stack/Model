@@ -138691,49 +138691,54 @@
       "games": [
         {
           "away": "TCU",
-          "home": "Ohio",
+          "home": "Ohio St.",
           "line": 2.5,
           "total": 145.5,
           "_book": "DraftKings",
-          "aS": 80.3,
-          "hS": 66.6,
-          "pT": 146.9,
-          "margin": -16.2,
-          "sDiff": 16.2,
-          "tDiff": -0.2,
-          "sPick": "TCU +2.5",
+          "aS": 68.0,
+          "hS": 75.8,
+          "pT": 143.8,
+          "margin": 5.3,
+          "sDiff": 5.3,
+          "tDiff": -1.4,
+          "sPick": "Ohio St. -2.5",
           "sConf": "elite",
           "oPick": "PASS",
           "oConf": "low",
           "injuryNote": null,
-          "pHomeCover": 0.103,
-          "pAwayCover": 0.897,
-          "pOver": 0.494,
-          "pUnder": 0.506,
-          "pCover": 0.897,
+          "pHomeCover": 0.695,
+          "pAwayCover": 0.305,
+          "pOver": 0.458,
+          "pUnder": 0.542,
+          "pCover": 0.695,
           "pOU": null,
-          "marginVar": 163.6,
-          "marginStd": 12.8,
+          "marginVar": 158.8,
+          "marginStd": 12.6,
           "_features": {
-            "dTS": 0.0,
-            "dTO": -0.018000000000000016,
-            "dORR": 0.0,
-            "dNET": -20.115799999999993,
-            "avgPace": 68.20394999999999
+            "dTS": 0.05599999999999994,
+            "dTO": -0.009000000000000064,
+            "dORR": -0.0010000000000000009,
+            "dNET": 8.472200000000015,
+            "avgPace": 66.85105
           },
           "_marginFeatures": {
-            "dTS": 0.0,
-            "dTO": 0.012117113757000012,
-            "dORR": 0.0,
-            "dNET": -6.770706580918348,
+            "dTS": 0.03694991235599996,
+            "dTO": 0.005938378771500042,
+            "dORR": -0.0006598198635000005,
+            "dNET": 2.7950629237723548,
             "hca": 1.0,
-            "_baseline": -6.770706580918343,
-            "_pace": 0.6731729865
+            "_baseline": 2.7950629237723548,
+            "_pace": 0.6598198635
           },
           "trends": {
             "away": "ATS +/- 1.4 \u00b7 Over 45.5% \u00b7 Under 54.6% \u00b7 O/U +/- 0.3",
-            "home": "ATS +/- -3.0 \u00b7 Over 50.0% \u00b7 Under 50.0% \u00b7 O/U +/- 1.5"
-          }
+            "home": "ATS +/- 2.0 \u00b7 Over 48.5% \u00b7 Under 51.5% \u00b7 O/U +/- -0.6"
+          },
+          "_ensWeights": [
+            0.284,
+            0.395,
+            0.321
+          ]
         },
         {
           "away": "Troy",
@@ -138798,11 +138803,11 @@
           "oPick": "PASS",
           "oConf": "low",
           "injuryNote": null,
-          "pHomeCover": 0.659,
-          "pAwayCover": 0.341,
+          "pHomeCover": 0.68,
+          "pAwayCover": 0.32,
           "pOver": 0.19,
           "pUnder": 0.81,
-          "pCover": 0.659,
+          "pCover": 0.68,
           "pOU": null,
           "marginVar": 160.8,
           "marginStd": 12.7,
@@ -138825,7 +138830,12 @@
           "trends": {
             "away": "ATS +/- 1.1 \u00b7 Over 48.3% \u00b7 Under 51.7% \u00b7 O/U +/- 3.5",
             "home": "ATS +/- 0.3 \u00b7 Over 42.4% \u00b7 Under 57.6% \u00b7 O/U +/- -3.7"
-          }
+          },
+          "_ensWeights": [
+            0.284,
+            0.395,
+            0.321
+          ]
         },
         {
           "away": "High Point",
@@ -138920,12 +138930,50 @@
           }
         },
         {
-          "away": "McNeese Cowboys",
-          "home": "Vanderbilt Commodores",
+          "away": "McNeese St.",
+          "home": "Vanderbilt",
           "line": 12.5,
           "total": 149.5,
           "_book": "DraftKings",
-          "status": "SKIPPED"
+          "aS": 66.7,
+          "hS": 78.1,
+          "pT": 144.8,
+          "margin": -1.1,
+          "sDiff": 1.1,
+          "tDiff": -3.6,
+          "sPick": "PASS",
+          "sConf": "low",
+          "oPick": "PASS",
+          "oConf": "low",
+          "injuryNote": null,
+          "pHomeCover": 0.468,
+          "pAwayCover": 0.532,
+          "pOver": 0.401,
+          "pUnder": 0.599,
+          "pCover": null,
+          "pOU": null,
+          "marginVar": 186.2,
+          "marginStd": 13.6,
+          "_features": {
+            "dTS": 0.04299999999999993,
+            "dTO": -0.0009999999999999454,
+            "dORR": -0.010000000000000009,
+            "dNET": 16.986499999999992,
+            "avgPace": 67.5429
+          },
+          "_marginFeatures": {
+            "dTS": 0.028665882188999955,
+            "dTO": 0.0006666484229999637,
+            "dORR": -0.006666484230000006,
+            "dNET": 5.662011718644748,
+            "hca": 1.0,
+            "_baseline": 5.662011718644752,
+            "_pace": 0.666648423
+          },
+          "trends": {
+            "away": "ATS +/- -0.3 \u00b7 Over 46.7% \u00b7 Under 53.3% \u00b7 O/U +/- -1.5",
+            "home": "ATS +/- 1.0 \u00b7 Over 50.0% \u00b7 Under 50.0% \u00b7 O/U +/- 1.5"
+          }
         },
         {
           "away": "North Dakota St.",
@@ -138974,12 +139022,19 @@
           }
         },
         {
-          "away": "Hawai'i Rainbow Warriors",
-          "home": "Arkansas Razorbacks",
+          "away": "Hawai'i",
+          "home": "Arkansas",
           "line": 15.5,
           "total": 159.5,
           "_book": "DraftKings",
-          "status": "SKIPPED"
+          "status": "SKIPPED",
+          "pHomeCover": 0.304,
+          "pAwayCover": 0.696,
+          "_ensWeights": [
+            0.284,
+            0.395,
+            0.321
+          ]
         },
         {
           "away": "VCU",
@@ -138998,11 +139053,11 @@
           "oPick": "PASS",
           "oConf": "low",
           "injuryNote": null,
-          "pHomeCover": 0.624,
-          "pAwayCover": 0.376,
+          "pHomeCover": 0.619,
+          "pAwayCover": 0.381,
           "pOver": 0.399,
           "pUnder": 0.601,
-          "pCover": 0.624,
+          "pCover": 0.619,
           "pOU": null,
           "marginVar": 159.9,
           "marginStd": 12.6,
@@ -139025,7 +139080,12 @@
           "trends": {
             "away": "ATS +/- 0.8 \u00b7 Over 44.1% \u00b7 Under 55.9% \u00b7 O/U +/- 0.1",
             "home": "ATS +/- 0.7 \u00b7 Over 40.6% \u00b7 Under 59.4% \u00b7 O/U +/- -2.5"
-          }
+          },
+          "_ensWeights": [
+            0.284,
+            0.395,
+            0.321
+          ]
         },
         {
           "away": "Howard",
@@ -139136,11 +139196,11 @@
           "oPick": "PASS",
           "oConf": "low",
           "injuryNote": null,
-          "pHomeCover": 0.699,
-          "pAwayCover": 0.301,
+          "pHomeCover": 0.565,
+          "pAwayCover": 0.435,
           "pOver": 0.454,
           "pUnder": 0.546,
-          "pCover": 0.699,
+          "pCover": 0.565,
           "pOU": null,
           "marginVar": 156.2,
           "marginStd": 12.5,
@@ -139163,15 +139223,27 @@
           "trends": {
             "away": "ATS +/- 0.8 \u00b7 Over 59.4% \u00b7 Under 40.6% \u00b7 O/U +/- 3.2",
             "home": "ATS +/- 1.9 \u00b7 Over 45.2% \u00b7 Under 54.8% \u00b7 O/U +/- -0.1"
-          }
+          },
+          "_ensWeights": [
+            0.284,
+            0.395,
+            0.321
+          ]
         },
         {
-          "away": "Pennsylvania Quakers",
-          "home": "Illinois Fighting Illini",
+          "away": "Pennsylvania",
+          "home": "Illinois",
           "line": 25.5,
           "total": 151.5,
           "_book": "DraftKings",
-          "status": "SKIPPED"
+          "status": "SKIPPED",
+          "pHomeCover": 0.244,
+          "pAwayCover": 0.756,
+          "_ensWeights": [
+            0.284,
+            0.395,
+            0.321
+          ]
         },
         {
           "away": "Saint Louis",
@@ -139190,11 +139262,11 @@
           "oPick": "PASS",
           "oConf": "low",
           "injuryNote": null,
-          "pHomeCover": 0.361,
-          "pAwayCover": 0.639,
+          "pHomeCover": 0.509,
+          "pAwayCover": 0.491,
           "pOver": 0.185,
           "pUnder": 0.815,
-          "pCover": 0.639,
+          "pCover": 0.509,
           "pOU": null,
           "marginVar": 159.7,
           "marginStd": 12.6,
@@ -139217,7 +139289,12 @@
           "trends": {
             "away": "ATS +/- 2.1 \u00b7 Over 50.0% \u00b7 Under 50.0% \u00b7 O/U +/- -0.9",
             "home": "ATS +/- 1.2 \u00b7 Over 53.1% \u00b7 Under 46.9% \u00b7 O/U +/- 4.7"
-          }
+          },
+          "_ensWeights": [
+            0.284,
+            0.395,
+            0.321
+          ]
         },
         {
           "away": "Kennesaw St.",
@@ -139313,7 +139390,7 @@
         }
       ],
       "summaryText": "RECORD (graded picks only)\n\nSPREAD (ATS)\n  All:         629-312-0   (66.8%)   [graded 941]\n  Elite:       629-312-0   (66.8%)   [graded 941]\n\nFAV/DOG (Spread)\n  Favorites:   273-144-0   (65.5%)   [graded 417]\n  Underdogs:   356-168-0   (67.9%)   [graded 524]\n",
-      "ranAt": "03/19/2026, 01:37:37 AM"
+      "ranAt": "03/19/2026, 02:32:02 AM"
     }
   ],
   "weights": {
