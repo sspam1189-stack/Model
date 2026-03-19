@@ -722,8 +722,8 @@
       if (!cfg) return null;
       const bust = `?t=${Date.now()}`;
       const attempts = [
-        { mode: 'local', url: cfg.local + bust, label: 'Local snapshot' },
-        { mode: 'remote', url: cfg.remote + bust, label: 'GitHub raw fallback' },
+        { mode: 'remote', url: cfg.remote + bust, label: 'GitHub raw (live)' },
+        { mode: 'local', url: cfg.local + bust, label: 'Local snapshot fallback' },
       ];
       let lastErr = '';
       try {
