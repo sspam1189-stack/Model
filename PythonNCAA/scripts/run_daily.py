@@ -1192,7 +1192,7 @@ def main(subject_label="[PY]"):
     # 4b. Ensemble pick override -- re-evaluate sPick using ensemble P(cover)
     #     instead of Bayesian-only P(cover)
     P_COVER_THRESH_ENS = 0.60        # same threshold the Bayesian path uses
-    FAV_LINE_CAP_ENS   = 8           # max line for favorites (dogs uncapped)
+    FAV_LINE_CAP_ENS   = 7           # max line for favorites (dogs uncapped)
 
     ens_overrides = 0
     for g in games:

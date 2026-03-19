@@ -400,9 +400,9 @@ def analyze_game(g, H, a, W, injury_adj=None, kalman_state=None, W_var=None, res
         prob_oe = W.get("probOUElite", 0.64)
 
         # Spread — pCover is sole gatekeeper (sDiff redundant above 0.60).
-        #   Fav line cap 8. Dogs: no line cap.
+        #   Fav line cap 7. Dogs: no line cap.
         P_COVER_THRESH = 0.60
-        FAV_LINE_CAP = 8
+        FAV_LINE_CAP = 7
         best_spread_p = max(p_home_cover, p_away_cover)
         spread_side = "home" if p_home_cover >= p_away_cover else "away"
 

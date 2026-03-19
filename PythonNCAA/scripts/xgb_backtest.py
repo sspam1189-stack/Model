@@ -479,7 +479,7 @@ def run_backtest(
 
     # ── Production-filtered ensemble evaluation ────────────────────
     PROD_MIN_PROB = 0.60
-    PROD_FAV_LINE_CAP = 8.0  # fav picks capped at 8, dogs uncapped
+    PROD_FAV_LINE_CAP = 7.0  # fav picks capped at 7, dogs uncapped
 
     prod_filtered_models = []
     for ew in ENSEMBLE_WEIGHTS:

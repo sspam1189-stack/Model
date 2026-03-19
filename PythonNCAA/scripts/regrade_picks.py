@@ -42,7 +42,7 @@ def grade_total(g):
 SDIFF_MIN = 3
 SDIFF_CAP = 12
 P_COVER_THRESH = 0.65
-FAV_LINE_CAP = 6
+FAV_LINE_CAP = 7
 
 
 def re_pick_spread(g):
