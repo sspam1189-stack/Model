@@ -132,7 +132,8 @@ def parse_barttorvik_data(data):
 
 
 # Local cache: store fetched data to avoid repeat Barttorvik requests.
-CACHE_DIR = os.path.join(os.getcwd(), "data")
+_SRCDIR = os.path.dirname(os.path.abspath(__file__))
+CACHE_DIR = os.path.join(_SRCDIR, "..", "..", "data")
 CACHE_FILE = os.path.join(CACHE_DIR, "barttorvik_cache.json")
 CACHE_TTL_MS = 20 * 3600 * 1000  # 20 hours -- stats update once/day
 
