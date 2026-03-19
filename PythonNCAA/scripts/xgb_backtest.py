@@ -478,9 +478,8 @@ def run_backtest(
     top_features = [{"feature": f, "importance": round(v, 4)} for f, v in fi_pairs[:15]]
 
     # ── Production-filtered ensemble evaluation ────────────────────
-    PROD_MIN_PROB = 0.57
-    PROD_SDIFF_CAP = 9.0
-    PROD_ABS_LINE_CAP = 12.0
+    PROD_MIN_PROB = 0.60
+    PROD_FAV_LINE_CAP = 8.0  # fav picks capped at 8, dogs uncapped
 
     prod_filtered_models = []
     for ew in ENSEMBLE_WEIGHTS:
@@ -491,16 +490,23 @@ def run_backtest(
             if pf_pushes[j]:
                 continue
             p_home = probs_list[j]
+            line = pf_lines[j]
             # Determine pick side
             if p_home >= 0.5:
                 p_cover = p_home
                 actual = pf_actuals[j]
+                picked_side_is_dog = line < 0  # picking home, line negative = home is dog
             else:
                 p_cover = 1.0 - p_home
                 actual = not pf_actuals[j]
+                picked_side_is_dog = line > 0  # picking away, line positive = away is dog
             if p_cover < PROD_MIN_PROB:
                 continue
-            if pf_sdiffs[j] > PROD_SDIFF_CAP or abs(pf_lines[j]) >= PROD_ABS_LINE_CAP:
+            # Fav line cap: dogs uncapped, favs capped at 8
+            if not picked_side_is_dog and abs(line) > PROD_FAV_LINE_CAP:
+                filtered_out += 1
+                continue
+            if abs(line) == 0:
                 filtered_out += 1
                 continue
             if actual:
@@ -587,7 +593,7 @@ def print_results(results: dict, trackers: List[PickTracker]):
     if pf_models:
         print(f"\n{sep}")
         print("  Production-Filtered Ensemble Results")
-        print("  (P(cover)>=0.57, sDiff<=9, abs(line)<12)")
+        print("  (P(cover)>=0.60, favLine<=8, dogs uncapped)")
         print(sep)
         print(f"  {'Model':<28s} {'Record':<14s} {'Win%':>6s} {'Units':>8s} {'ROI%':>7s} {'Picks':>6s} {'Filt':>6s}")
         print("  " + "-" * 78)
