@@ -38705,7 +38705,15 @@
           "trends": {
             "away": "ATS +/- 1.8 \u00b7 Over 46.3% \u00b7 Under 53.7% \u00b7 O/U +/- -0.9",
             "home": "ATS +/- -0.9 \u00b7 Over 55.9% \u00b7 Under 44.1% \u00b7 O/U +/- 2.8"
-          }
+          },
+          "xgb_margin": 1.83,
+          "xgb_pCover": 0.6602,
+          "xgb_pCover_raw": 0.5888,
+          "ensemble_pCover": 0.5973,
+          "sPick_bayes": "PASS",
+          "sConf_bayes": "low",
+          "pCover_bayes": null,
+          "pickSource": "AGREE"
         },
         {
           "away": "Orlando Magic",
@@ -38760,27 +38768,35 @@
           "trends": {
             "away": "ATS +/- -0.7 \u00b7 Over 52.9% \u00b7 Under 47.1% \u00b7 O/U +/- 1.6",
             "home": "ATS +/- 5.3 \u00b7 Over 39.1% \u00b7 Under 60.9% \u00b7 O/U +/- -3.8"
-          }
+          },
+          "xgb_margin": -0.7,
+          "xgb_pCover": 0.5228,
+          "xgb_pCover_raw": 0.4661,
+          "ensemble_pCover": 0.5302,
+          "sPick_bayes": "PASS",
+          "sConf_bayes": "low",
+          "pCover_bayes": null,
+          "pickSource": "AGREE"
         },
         {
           "away": "Cleveland Cavaliers",
           "home": "Chicago Bulls",
-          "line": -12.5,
+          "line": -13.5,
           "total": 241.5,
           "_book": "DraftKings",
           "aS": 125.1,
           "hS": 112.0,
           "pT": 237.1,
-          "margin": -0.6,
-          "sDiff": 0.6,
+          "margin": 0.4,
+          "sDiff": 0.4,
           "tDiff": -8.3,
           "sPick": "PASS",
           "sConf": "low",
           "oPick": "UNDER",
           "oConf": "elite",
           "injuryNote": "Away: Jarrett Allen (out/starter) | Home: Isaac Okoro (out/starter), Jaden Ivey (out/starter), Anfernee Simons (out/starter), Zach Collins (out/starter)",
-          "pHomeCover": 0.484,
-          "pAwayCover": 0.516,
+          "pHomeCover": 0.511,
+          "pAwayCover": 0.489,
           "pOver": 0.299,
           "pUnder": 0.701,
           "pCover": null,
@@ -38823,7 +38839,15 @@
             "away": "ATS +/- -1.4 \u00b7 Over 49.3% \u00b7 Under 50.7% \u00b7 O/U +/- -0.3",
             "home": "ATS +/- -1.7 \u00b7 Over 46.4% \u00b7 Under 53.6% \u00b7 O/U +/- 0.0"
           },
-          "b2bNote": "Chicago Bulls: B2B: OFF -1.5, DEF +0.8"
+          "b2bNote": "Chicago Bulls: B2B: OFF -1.5, DEF +0.8",
+          "xgb_margin": -14.79,
+          "xgb_pCover": 0.1279,
+          "xgb_pCover_raw": 0.035,
+          "ensemble_pCover": 0.1997,
+          "sPick_bayes": "PASS",
+          "sConf_bayes": "low",
+          "pCover_bayes": null,
+          "pickSource": "AGREE"
         },
         {
           "away": "LA Clippers",
@@ -38837,8 +38861,8 @@
           "margin": -2.2,
           "sDiff": 2.2,
           "tDiff": 0.6,
-          "sPick": "PASS",
-          "sConf": "low",
+          "sPick": "New Orleans Pelicans -1.5",
+          "sConf": "elite",
           "oPick": "PASS",
           "oConf": "low",
           "injuryNote": "Away: Bennedict Mathurin (out/star) | Home: Bryce McGowens (out/starter)",
@@ -38846,7 +38870,7 @@
           "pAwayCover": 0.559,
           "pOver": 0.515,
           "pUnder": 0.485,
-          "pCover": null,
+          "pCover": 0.653,
           "pOU": null,
           "marginVar": 221.0,
           "marginStd": 14.9,
@@ -38879,7 +38903,17 @@
             "away": "ATS +/- -0.1 \u00b7 Over 50.7% \u00b7 Under 49.3% \u00b7 O/U +/- 2.5",
             "home": "ATS +/- 1.2 \u00b7 Over 50.0% \u00b7 Under 50.0% \u00b7 O/U +/- 0.1"
           },
-          "b2bNote": "New Orleans Pelicans: B2B: OFF -1.5, DEF +0.8"
+          "b2bNote": "New Orleans Pelicans: B2B: OFF -1.5, DEF +0.8",
+          "xgb_margin": 2.7,
+          "xgb_pCover": 0.7014,
+          "xgb_pCover_raw": 0.6295,
+          "ensemble_pCover": 0.6526,
+          "sPick_bayes": "PASS",
+          "sConf_bayes": "low",
+          "pCover_bayes": null,
+          "pickSource": "ENS",
+          "ensemble_pCover_side": 0.6526,
+          "xgb_pCover_side": 0.7014
         },
         {
           "away": "Los Angeles Lakers",
@@ -38893,8 +38927,8 @@
           "margin": 0.7,
           "sDiff": 0.7,
           "tDiff": -8.6,
-          "sPick": "PASS",
-          "sConf": "low",
+          "sPick": "Miami Heat -3.5",
+          "sConf": "elite",
           "oPick": "UNDER",
           "oConf": "elite",
           "injuryNote": "Home: Andrew Wiggins (out/star)",
@@ -38902,7 +38936,7 @@
           "pAwayCover": 0.481,
           "pOver": 0.291,
           "pUnder": 0.709,
-          "pCover": null,
+          "pCover": 0.835,
           "pOU": 0.709,
           "marginVar": 220.7,
           "marginStd": 14.9,
@@ -38942,20 +38976,30 @@
             "away": "ATS +/- -0.7 \u00b7 Over 52.2% \u00b7 Under 47.8% \u00b7 O/U +/- -0.1",
             "home": "ATS +/- 2.4 \u00b7 Over 52.2% \u00b7 Under 47.8% \u00b7 O/U +/- 1.2"
           },
-          "b2bNote": "Los Angeles Lakers: B2B: OFF -1.5, DEF +0.8"
+          "b2bNote": "Los Angeles Lakers: B2B: OFF -1.5, DEF +0.8",
+          "xgb_margin": 12.4,
+          "xgb_pCover": 0.9074,
+          "xgb_pCover_raw": 0.9356,
+          "ensemble_pCover": 0.8346,
+          "sPick_bayes": "PASS",
+          "sConf_bayes": "low",
+          "pCover_bayes": null,
+          "pickSource": "ENS",
+          "ensemble_pCover_side": 0.8346,
+          "xgb_pCover_side": 0.9074
         },
         {
           "away": "Phoenix Suns",
           "home": "San Antonio Spurs",
           "line": 9.5,
-          "total": 226.5,
+          "total": 227.5,
           "_book": "DraftKings",
           "aS": 108.1,
           "hS": 126.0,
           "pT": 234.1,
           "margin": 8.4,
           "sDiff": 8.4,
-          "tDiff": 2.1,
+          "tDiff": 1.1,
           "sPick": "San Antonio Spurs -9.5",
           "sConf": "elite",
           "oPick": "PASS",
@@ -38963,9 +39007,9 @@
           "injuryNote": "Away: Dillon Brooks (out/star), Mark Williams (out/starter)",
           "pHomeCover": 0.713,
           "pAwayCover": 0.287,
-          "pOver": 0.553,
-          "pUnder": 0.447,
-          "pCover": 0.713,
+          "pOver": 0.528,
+          "pUnder": 0.472,
+          "pCover": 0.788,
           "pOU": null,
           "marginVar": 222.4,
           "marginStd": 14.9,
@@ -39004,7 +39048,17 @@
           "trends": {
             "away": "ATS +/- 1.6 \u00b7 Over 42.0% \u00b7 Under 58.0% \u00b7 O/U +/- -2.3",
             "home": "ATS +/- 3.0 \u00b7 Over 44.3% \u00b7 Under 55.7% \u00b7 O/U +/- -1.3"
-          }
+          },
+          "xgb_margin": 5.54,
+          "xgb_pCover": 0.8056,
+          "xgb_pCover_raw": 0.7512,
+          "ensemble_pCover": 0.7882,
+          "xgb_pCover_side": 0.8056,
+          "ensemble_pCover_side": 0.7882,
+          "sPick_bayes": "San Antonio Spurs -9.5",
+          "sConf_bayes": "elite",
+          "pCover_bayes": 0.713,
+          "pickSource": "AGREE"
         },
         {
           "away": "Milwaukee Bucks",
@@ -39027,7 +39081,7 @@
           "pAwayCover": 0.371,
           "pOver": 0.579,
           "pUnder": 0.421,
-          "pCover": 0.629,
+          "pCover": 0.672,
           "pOU": null,
           "marginVar": 220.5,
           "marginStd": 14.9,
@@ -39067,7 +39121,17 @@
             "away": "ATS +/- -3.0 \u00b7 Over 44.1% \u00b7 Under 55.9% \u00b7 O/U +/- 0.7",
             "home": "ATS +/- -0.4 \u00b7 Over 58.0% \u00b7 Under 42.0% \u00b7 O/U +/- 4.6"
           },
-          "b2bNote": "Utah Jazz: B2B: OFF -1.5, DEF +0.8"
+          "b2bNote": "Utah Jazz: B2B: OFF -1.5, DEF +0.8",
+          "xgb_margin": 2.29,
+          "xgb_pCover": 0.6823,
+          "xgb_pCover_raw": 0.6104,
+          "ensemble_pCover": 0.6723,
+          "xgb_pCover_side": 0.6823,
+          "ensemble_pCover_side": 0.6723,
+          "sPick_bayes": "Utah Jazz +5.5",
+          "sConf_bayes": "elite",
+          "pCover_bayes": 0.629,
+          "pickSource": "AGREE"
         },
         {
           "away": "Philadelphia 76ers",
@@ -39090,7 +39154,7 @@
           "pAwayCover": 0.361,
           "pOver": 0.569,
           "pUnder": 0.431,
-          "pCover": 0.639,
+          "pCover": 0.766,
           "pOU": null,
           "marginVar": 220.6,
           "marginStd": 14.9,
@@ -39129,11 +39193,21 @@
           "trends": {
             "away": "ATS +/- -1.0 \u00b7 Over 50.7% \u00b7 Under 49.3% \u00b7 O/U +/- 1.4",
             "home": "ATS +/- -2.5 \u00b7 Over 50.0% \u00b7 Under 50.0% \u00b7 O/U +/- -0.3"
-          }
+          },
+          "xgb_margin": 5.18,
+          "xgb_pCover": 0.7951,
+          "xgb_pCover_raw": 0.7371,
+          "ensemble_pCover": 0.7658,
+          "xgb_pCover_side": 0.7951,
+          "ensemble_pCover_side": 0.7658,
+          "sPick_bayes": "Sacramento Kings +2.5",
+          "sConf_bayes": "elite",
+          "pCover_bayes": 0.639,
+          "pickSource": "AGREE"
         }
       ],
       "summaryText": "RECORD (graded picks only)\n\nSPREAD (ATS)\n  All:         139-87-0   (61.5%)   [graded 226]\n  Elite:       139-87-0   (61.5%)   [graded 226]\n\nFAV/DOG (Spread)\n  Favorites:   75-50-0   (60.0%)   [graded 125]\n  Underdogs:   64-37-0   (63.4%)   [graded 101]\n\nTOTAL (O/U)\n  All:         59-47-0   (55.7%)   [graded 106]\n  Elite:       59-47-0   (55.7%)   [graded 106]\n\nOVER/UNDER\n  Over:        28-18-0   (60.9%)   [graded 46]\n  Under:       31-29-0   (51.7%)   [graded 60]",
-      "ranAt": "03/19/2026, 10:00:28 AM"
+      "ranAt": "03/19/2026, 11:06:37 AM"
     }
   ],
   "weights": {
