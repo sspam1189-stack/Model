@@ -854,64 +854,32 @@
 
     // ─── Ensemble Info Helper ───
 
-    function pickSourceBadge(g) {
-      const ps = g.pickSource;
-      if (ps === 'AGREE') return '<span class="model-badge agree">AGREE</span>';
-      if (ps === 'ENS') return '<span class="model-badge ens-override">ENS</span>';
-      if (ps === 'ENS_PASS') return '<span class="model-badge ens-pass">ENS&#11015;</span>';
-      return '';
-    }
-
-    function bayesDisagreeNote(g) {
-      const ps = g.pickSource;
-      if (!ps) return '';
-      if (ps === 'ENS' && g.sPick_bayes != null && g.sPick_bayes !== g.sPick) {
-        return `<span class="bayes-disagree">[Bayes: ${esc(g.sPick_bayes)}]</span>`;
-      }
-      if (ps === 'ENS_PASS' && g.sPick_bayes != null && g.sPick_bayes !== 'PASS') {
-        return `<span class="bayes-disagree">Bayes picked ${esc(g.sPick_bayes)} (downgraded)</span>`;
-      }
-      return '';
-    }
-
-    function adaptiveWeightsInfo(g) {
-      // LR confirmation model doesn't use adaptive weights
-      return '';
-    }
+    function pickSourceBadge(g) { return ''; }
+    function bayesDisagreeNote(g) { return ''; }
+    function adaptiveWeightsInfo(g) { return ''; }
 
     function lrVerdictBadge(verdict) {
       if (!verdict) return '';
-      const cls = verdict === 'CONFIRM' ? 'confirm' : verdict === 'VETO' ? 'veto' : 'neutral';
-      return `<span class="lr-verdict-badge ${cls}">${esc(verdict)}</span>`;
+      const v = verdict.toUpperCase();
+      const cls = v === 'CONFIRM' ? 'confirm' : v === 'VETO' ? 'veto' : 'neutral';
+      return `<span class="lr-verdict-badge ${cls}">${esc(v)}</span>`;
     }
 
     function ensembleInfo(g) {
-      const parts = [];
-      const ensP = g.ens_pHomeCover ?? g.ensemble_pCover ?? null;
-      const lrP = g.lrProb ?? null;
       const lrV = g.lrVerdict ?? null;
-      if (ensP != null) {
-        parts.push(`<span class="ens-label">Ens</span> ${fmtProb(ensP)}`);
-      }
-      if (lrV != null || lrP != null) {
-        let lrStr = '<span class="model-badge lr">LR</span>';
-        if (lrV != null) lrStr += ` ${lrVerdictBadge(lrV)}`;
-        if (lrP != null) lrStr += ` P(cover) ${Math.round(lrP * 100)}%`;
-        parts.push(lrStr);
-      }
-      if (g.lrVetoed) {
-        parts.push(`<span class="lr-vetoed">LR Vetoed: ${esc(g.lrVetoed)}</span>`);
-      }
-      if (!parts.length) return '';
-      let html = `<div class="ensemble-detail">${parts.join(' &middot; ')}</div>`;
-      return html;
+      const lrP = g.lrProb ?? null;
+      if (lrV == null && lrP == null && !g.lrVetoed) return '';
+      let parts = [];
+      if (lrV != null) parts.push(lrVerdictBadge(lrV));
+      if (lrP != null) parts.push(`P(cover) ${Math.round(lrP * 100)}%`);
+      if (g.lrVetoed) parts.push(`<span class="lr-vetoed">Vetoed: ${esc(g.lrVetoed)}</span>`);
+      return `<div class="ensemble-detail">${parts.join(' &middot; ')}</div>`;
     }
 
     function modelBadges(g) {
-      let html = '';
-      if ((g.ens_pHomeCover ?? g.ensemble_pCover) != null) html += '<span class="model-badge bayesian">BAY</span>';
-      if (g.lrVerdict != null || g.lrProb != null) html += '<span class="model-badge lr">LR</span>';
-      return html;
+      const lrV = g.lrVerdict ?? null;
+      if (lrV != null) return lrVerdictBadge(lrV);
+      return '';
     }
 
     // ─── Data Computations ───
@@ -1248,8 +1216,7 @@
         const pHome = g.pHomeCover != null ? fmtProb(g.pHomeCover) : '\u2014';
         const pAway = g.pAwayCover != null ? fmtProb(g.pAwayCover) : '\u2014';
         const margin = Number.isFinite(g.margin) ? (g.margin >= 0 ? '+' : '') + fmtNum(g.margin, 1) : '\u2014';
-        // Ensemble + LR probabilities
-        const ensP = (g.ens_pHomeCover ?? g.ensemble_pCover) != null ? fmtProb(g.ens_pHomeCover ?? g.ensemble_pCover) : '\u2014';
+        // LR confirmation
         const lrP = g.lrProb != null ? Math.round(g.lrProb * 100) + '%' : '\u2014';
         const lrV = g.lrVerdict ?? null;
         const lrVerdictHtml = lrV ? lrVerdictBadge(lrV) : '';
@@ -1258,17 +1225,17 @@
           <td style="font-weight:700">${esc(g.away)} @ ${esc(g.home)}</td>
           <td>${sPick}<div class="card-subtitle" style="margin:2px 0 0">Line ${fmtNum(g.line,1)} \u00b7 proj ${margin} \u00b7 sDiff ${fmtNum(g.sDiff,1)}</div></td>
           <td class="center">${pCover}${bayesSecondary}<div class="card-subtitle">${pAway} away / ${pHome} home</div></td>
-          <td class="center"><div style="font-size:0.72rem"><span class="model-badge bayesian" style="font-size:0.5rem">ENS</span> ${ensP}</div><div style="font-size:0.68rem;color:var(--muted);margin-top:2px"><span class="model-badge lr" style="font-size:0.5rem">LR</span> ${lrVerdictHtml} ${lrP}</div>${lrVetoedHtml}</td>
+          <td class="center"><div style="font-size:0.72rem">${lrVerdictHtml} ${lrP}</div>${lrVetoedHtml}</td>
         </tr>`;
       }).join('');
       return `
         <div class="card card-probs">
           <div class="card-title">Cover Probabilities \u2014 All Games</div>
           <table class="data">
-            <thead><tr><th>Game</th><th>Spread Pick</th><th class="center">P(Cover)</th><th class="center">Models</th></tr></thead>
+            <thead><tr><th>Game</th><th>Spread Pick</th><th class="center">P(Cover)</th><th class="center">LR</th></tr></thead>
             <tbody>${rows}</tbody>
           </table>
-          <div class="card-subtitle" style="margin-top:8px">P(Cover) = probability the picked side wins. Models column shows Bayesian ensemble P(cover) and LR confirmation verdict with P(cover).</div>
+          <div class="card-subtitle" style="margin-top:8px">P(Cover) = Bayesian probability the picked side wins. LR column shows independent confirmation verdict (CONFIRM / VETO / NEUTRAL).</div>
         </div>`;
     }
 
@@ -1290,16 +1257,11 @@
 
         let projHtml = '';
         if (!isSkipped && Number.isFinite(g.aS) && Number.isFinite(g.hS)) {
-          let bayesLine = `<span class="label">Proj</span> <span class="model-badge bayesian" style="font-size:0.5rem">BAY</span> <b>${esc(g.away)} ${fmtNum(g.aS, 1)}</b> \u2013 <b>${esc(g.home)} ${fmtNum(g.hS, 1)}</b>`;
-          projHtml = `<div class="game-detail">${bayesLine}</div>`;
-          if (g.lrVerdict != null || g.lrProb != null) {
-            let lrLine = `<span class="label" style="visibility:hidden">Proj</span> <span class="model-badge lr" style="font-size:0.5rem">LR</span>`;
-            if (g.lrVerdict) lrLine += ` ${lrVerdictBadge(g.lrVerdict)}`;
-            if (g.lrProb != null) lrLine += ` P(cover) ${Math.round(g.lrProb * 100)}%`;
-            projHtml += `<div class="game-detail">${lrLine}</div>`;
-          }
+          let projLine = `<span class="label">Proj</span> <b>${esc(g.away)} ${fmtNum(g.aS, 1)}</b> \u2013 <b>${esc(g.home)} ${fmtNum(g.hS, 1)}</b>`;
+          if (g.lrVerdict) projLine += ` ${lrVerdictBadge(g.lrVerdict)}`;
+          projHtml = `<div class="game-detail">${projLine}</div>`;
           if (g.lrVetoed) {
-            projHtml += `<div class="game-detail"><span class="lr-vetoed">LR Vetoed: ${esc(g.lrVetoed)}</span></div>`;
+            projHtml += `<div class="game-detail"><span class="lr-vetoed">Vetoed: ${esc(g.lrVetoed)}</span></div>`;
           }
         }
 
