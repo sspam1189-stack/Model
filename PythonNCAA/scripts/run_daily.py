@@ -99,12 +99,21 @@ def safe_fuzzy(a, b):
     return shorter in longer
 
 
+TEAM_ALIASES = {
+    "ohio state buckeyes": "Ohio St.",
+    "ohio state": "Ohio St.",
+    "ohio st": "Ohio St.",
+}
+
 def resolve_key(obj, team_name):
     if not obj or not team_name:
         return None
     if team_name in obj:
         return team_name
     wanted = norm_key(team_name)
+    alias = TEAM_ALIASES.get(wanted)
+    if alias and alias in obj:
+        return alias
 
     for k in obj:
         if norm_key(k) == wanted:

@@ -87,11 +87,21 @@ function safeFuzzy(a, b) {
   return longer.includes(shorter);
 }
 
+// Explicit aliases for commonly confused teams
+const TEAM_ALIASES = {
+  "ohio state buckeyes": "Ohio St.",
+  "ohio state": "Ohio St.",
+  "ohio st": "Ohio St.",
+};
+
 function resolveKey(obj, teamName) {
   if (!obj || !teamName) return null;
   if (obj[teamName]) return teamName;
 
   const wanted = normKey(teamName);
+
+  // Check explicit aliases first
+  if (TEAM_ALIASES[wanted] && obj[TEAM_ALIASES[wanted]]) return TEAM_ALIASES[wanted];
 
   // Exact normKey match
   for (const k of Object.keys(obj)) {
