@@ -1220,7 +1220,7 @@ async function main() {
     // Cache injury + player data for Python models to reuse
     const injCacheDir = pathMod.join(scriptsDir, "..", "data", "injury_cache");
     if (!fsx.existsSync(injCacheDir)) fsx.mkdirSync(injCacheDir, { recursive: true });
-    fsx.writeFileSync(pathMod.join(injCacheDir, date + ".json"), JSON.stringify({ injuryData, playerAdvanced }));
+    fsx.writeFileSync(pathMod.join(injCacheDir, date + ".json"), JSON.stringify({ injuryData, playerAdvanced, h2hMatchups }));
   } catch (e) { /* non-critical */ }
 
   // 3. Lineup-adjusted stats + B2B rest + Kalman state

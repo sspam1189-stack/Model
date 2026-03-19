@@ -621,9 +621,10 @@ def main(subject_label="[PY]"):
     odds = fetch_todays_odds()
     ats = fetch_ats_trends()
     ou = fetch_ou_trends()
-    # Try JS model's injury cache first
+    # Try JS model's injury/h2h cache first
     injury_data = None
     player_advanced = None
+    h2h_matchups = None
     _scripts = os.path.dirname(os.path.abspath(__file__))
     _inj_cache = os.path.join(_scripts, "..", "..", "NBAFullseason", "data", "injury_cache", f"{date}.json")
     if os.path.exists(_inj_cache):
@@ -632,7 +633,8 @@ def main(subject_label="[PY]"):
                 _cached = json.load(_f)
             injury_data = _cached.get("injuryData", {"report": {}, "playerMPG": {}})
             player_advanced = _cached.get("playerAdvanced", {})
-            print(f"  [cache] Using JS injury cache for {date}")
+            h2h_matchups = _cached.get("h2hMatchups")
+            print(f"  [cache] Using JS injury/h2h cache for {date}")
         except Exception:
             injury_data = None
     if injury_data is None:
@@ -647,8 +649,9 @@ def main(subject_label="[PY]"):
         except Exception as e: print(f"  Warning: Player advanced fetch failed: {e}"); player_advanced = {}
     try: b2b_teams = detect_b2b()
     except Exception: b2b_teams = set()
-    try: h2h_matchups = fetch_h2h_matchups()
-    except Exception as e: print(f"  Warning: H2H fetch failed: {e}"); h2h_matchups = None
+    if h2h_matchups is None:
+        try: h2h_matchups = fetch_h2h_matchups()
+        except Exception as e: print(f"  Warning: H2H fetch failed: {e}"); h2h_matchups = None
 
     base_w = store.get("weights") or defaults["DEFAULT_W"]
     base_w_var = store.get("weightsVar") or defaults["DEFAULT_W_VAR"]

@@ -1221,7 +1221,7 @@ async function main() {
     fsx.writeFileSync(pathMod.join(cacheDir, date + ".json"), JSON.stringify(enhancedStats));
     const injCacheDir = pathMod.join(scriptsDir, "..", "data", "injury_cache");
     if (!fsx.existsSync(injCacheDir)) fsx.mkdirSync(injCacheDir, { recursive: true });
-    fsx.writeFileSync(pathMod.join(injCacheDir, date + ".json"), JSON.stringify({ injuryData, playerAdvanced }));
+    fsx.writeFileSync(pathMod.join(injCacheDir, date + ".json"), JSON.stringify({ injuryData, playerAdvanced, h2hMatchups }));
   } catch (e) { /* non-critical */ }
 
   // 3. Lineup-adjusted stats + B2B rest + Kalman state
