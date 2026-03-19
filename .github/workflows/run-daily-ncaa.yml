@@ -34,7 +34,7 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add -A
+          git add NCAA/data/
           git diff --cached --quiet || git commit -m "Run daily NCAA"
           git pull --rebase origin main
           git push
