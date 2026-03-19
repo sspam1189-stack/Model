@@ -1237,13 +1237,13 @@ def main(subject_label="[PY]"):
 
             # Tag source: did ensemble change the pick?
             if g["sPick_bayes"] == "PASS":
-                g["pick_source"] = "ENS"   # upgraded from PASS
+                g["pickSource"] = "ENS"   # upgraded from PASS
                 ens_overrides += 1
             elif g["sPick_bayes"] != new_pick:
-                g["pick_source"] = "ENS"   # changed side
+                g["pickSource"] = "ENS"   # changed side
                 ens_overrides += 1
             else:
-                g["pick_source"] = "AGREE"  # both agree
+                g["pickSource"] = "AGREE"  # both agree
         else:
             # Ensemble says PASS
             if g["sPick_bayes"] != "PASS":
@@ -1252,10 +1252,10 @@ def main(subject_label="[PY]"):
                 g["sConf"] = "low"
                 g["pCover"] = None
                 g["pCoverEns"] = round(best_ens_p * 1000) / 1000
-                g["pick_source"] = "ENS_PASS"  # downgraded by ensemble
+                g["pickSource"] = "ENS_PASS"  # downgraded by ensemble
                 ens_overrides += 1
             else:
-                g["pick_source"] = "AGREE"  # both PASS
+                g["pickSource"] = "AGREE"  # both PASS
 
     if ens_overrides:
         print(f"[4b] Ensemble overrode {ens_overrides} pick(s)")
