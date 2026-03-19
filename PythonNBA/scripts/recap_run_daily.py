@@ -97,11 +97,14 @@ def main(subject_label="[PY Recap]"):
     odds = fetch_todays_odds()
     ats = fetch_ats_trends()
     ou = fetch_ou_trends()
+    import time as _time
+    _time.sleep(5)
     try:
         injury_data = fetch_injury_data(None, season_type=season_type, espn_type=espn_type)
     except Exception as e:
         print(f"  Warning: Injury fetch failed: {e}")
         injury_data = {"report": {}, "playerMPG": {}}
+    _time.sleep(5)
     try:
         player_advanced = fetch_player_advanced(season_type=season_type)
     except Exception as e:
