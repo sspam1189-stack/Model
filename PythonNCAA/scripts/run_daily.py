@@ -894,7 +894,7 @@ def main(subject_label=None):
     store = load_store()
     defaults = load_defaults()
 
-    print(f"\n\u2550\u2550 NCAAB Picks Pipeline \u2014 {date_display} \u2550\u2550\n")
+    print(f"\n== NCAAB Picks Pipeline -- {date_display} ==\n")
 
     # 1. Grade recent days
     days_to_grade = set()
