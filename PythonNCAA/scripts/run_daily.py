@@ -1177,9 +1177,7 @@ def main():
     # 4b. Ensemble pick override -- re-evaluate sPick using ensemble P(cover)
     #     instead of Bayesian-only P(cover)
     P_COVER_THRESH_ENS = 0.60        # same threshold the Bayesian path uses
-    FAV_LINE_CAP_ENS   = 8           # max line for favorites
-    SDIFF_CAP_ENS      = 9           # max sDiff filter
-    ABS_LINE_CAP_ENS   = 12          # skip extreme lines
+    FAV_LINE_CAP_ENS   = 8           # max line for favorites (dogs uncapped)
 
     ens_overrides = 0
     for g in games:
@@ -1210,13 +1208,11 @@ def main():
         # Fav line cap: dogs have no cap, favs capped at FAV_LINE_CAP_ENS
         line_ok = True if picked_side_is_dog else abs_line <= FAV_LINE_CAP_ENS
 
-        # Production filters
-        s_diff = g.get("sDiff", 99)
+        # Production filters (P>=0.60, favLine<=8, dogs uncapped)
         passes_filters = (
             best_ens_p >= P_COVER_THRESH_ENS
             and line_ok
             and abs_line > 0
-            and abs_line < ABS_LINE_CAP_ENS
         )
 
         if passes_filters:
