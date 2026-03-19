@@ -1031,6 +1031,10 @@ def main(subject_label=None):
                     continue
                 bayes_p = g.get("pHomeCover", 0.5)
                 ens = predict_ensemble(ens_models, g, bayes_p)
+                g["ens_pHomeCover"] = round(ens["pHomeCover"], 3)
+                g["ens_pAwayCover"] = round(ens["pAwayCover"], 3)
+                g["xgb_pHomeCover"] = round(ens.get("xgb_raw", 0.5), 3)
+                g["xgb_pAwayCover"] = round(1.0 - ens.get("xgb_raw", 0.5), 3)
                 g["pHomeCover"] = round(ens["pHomeCover"], 3)
                 g["pAwayCover"] = round(ens["pAwayCover"], 3)
                 if g.get("sPick") and g["sPick"] != "PASS":
