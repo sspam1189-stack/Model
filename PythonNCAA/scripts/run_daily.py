@@ -697,9 +697,17 @@ def build_game_prob_table(games):
         if g.get("status") in ("MISSING_ODDS", "SKIPPED"):
             continue
         s_pick_display = esc(g["sPick"]) if g.get("sPick") and g["sPick"] != "PASS" else '<span style="color:#9ca3af">PASS</span>'
+        if g.get("pick_source") == "ENS":
+            s_pick_display += ' <span class="badge" style="background:#6366f1;color:#fff;border-color:#6366f1;font-size:9px">ENS</span>'
+        elif g.get("pick_source") == "ENS_PASS":
+            s_pick_display = f'<span style="color:#9ca3af">PASS</span> <span class="tiny" style="color:#f59e0b">(was {esc(g.get("sPick_bayes", "?"))})</span>'
         p_cover_str = f'<b>{g["pCover"]*100:.0f}%</b>' if g.get("pCover") is not None else '<span style="color:#9ca3af">\u2014</span>'
         p_home = f'{g["pHomeCover"]*100:.0f}%' if g.get("pHomeCover") is not None else "\u2014"
         p_away = f'{g["pAwayCover"]*100:.0f}%' if g.get("pAwayCover") is not None else "\u2014"
+        # Show Bayesian P(cover) alongside ensemble for comparison
+        p_bayes_note = ""
+        if g.get("pCover_bayes") is not None and g.get("pCoverEns") is not None:
+            p_bayes_note = f'<div class="tiny">Bayes={g["pCover_bayes"]*100:.0f}% / Ens={g["pCoverEns"]*100:.0f}%</div>'
         s_conf_badge = f' {conf_badge(g.get("sConf"))}' if g.get("sPick") and g["sPick"] != "PASS" else ""
         margin = ("+" if g.get("margin", 0) >= 0 else "") + fmt_num(g.get("margin"), 1) if isinstance(g.get("margin"), (int, float)) and math.isfinite(g["margin"]) else "\u2014"
         t_diff = ("+" if g.get("tDiff", 0) >= 0 else "") + fmt_num(g.get("tDiff"), 1) if isinstance(g.get("tDiff"), (int, float)) and math.isfinite(g["tDiff"]) else "\u2014"
@@ -714,7 +722,7 @@ def build_game_prob_table(games):
         rows += f'''<tr>
         <td style="font-weight:700">{esc(g["away"])} @ {esc(g["home"])}</td>
         <td>{s_pick_display}{s_conf_badge}<div class="tiny" style="margin-top:2px">Line {fmt_num(g.get("line"), 1)} \u00b7 proj {margin} \u00b7 sDiff {fmt_num(g.get("sDiff"), 1)}</div></td>
-        <td style="text-align:center">{p_cover_str}<div class="tiny">{p_away} away / {p_home} home</div>{xgb_info}</td>
+        <td style="text-align:center">{p_cover_str}<div class="tiny">{p_away} away / {p_home} home</div>{p_bayes_note}{xgb_info}</td>
         <td style="text-align:center"><div class="tiny">O/U {fmt_num(g.get("total"), 1)} \u00b7 diff {t_diff}</div></td>
       </tr>'''
     if not rows:
@@ -751,21 +759,33 @@ def build_email_html(run, summary_obj, last10, last10_totals, weekly_spread, wee
             html += '<div style="padding:4px 0 2px; font-weight:700; font-size:13px; color:#111827;">\U0001F512 Elite</div>'
             for g in elites:
                 if is_spread:
-                    p_str = f' \u00b7 P={g["pCover"]*100:.0f}%' if g.get("pCover") else ""
-                    ens_str = f' \u00b7 Ens={g["pCoverEns"]*100:.0f}%' if g.get("pCoverEns") else ""
+                    p_bayes_str = f' \u00b7 Bayes={g["pCover_bayes"]*100:.0f}%' if g.get("pCover_bayes") else ""
+                    p_ens_str = f' \u00b7 Ens={g["pCoverEns"]*100:.0f}%' if g.get("pCoverEns") else (f' \u00b7 P={g["pCover"]*100:.0f}%' if g.get("pCover") else "")
                     proj_margin = round((g.get("hS", 0) - g.get("aS", 0)) * 10) / 10
                     fav_team = g["home"] if proj_margin >= 0 else g["away"]
-                    html += f'<div style="padding:6px 0; border-bottom:1px dashed #eef2f7;">\U0001F3C0 <span class="pick-team">{esc(g["sPick"])}</span> <span class="trend-label">proj {esc(fav_team)} by {fmt_num(abs(proj_margin), 1)} \u00b7 sDiff {fmt_num(g.get("sDiff"), 1)}{p_str}{ens_str}</span> {conf_badge(g["sConf"])}</div>'
+                    src_tag = f' <span class="badge" style="background:#6366f1;color:#fff;border-color:#6366f1;font-size:9px">ENS</span>' if g.get("pick_source") == "ENS" else ""
+                    disagree_note = ""
+                    if g.get("sPick_bayes") and g.get("sPick_bayes") != "PASS" and g.get("sPick_bayes") != g.get("sPick"):
+                        disagree_note = f' <span class="tiny" style="color:#f59e0b">(Bayes: {esc(g["sPick_bayes"])})</span>'
+                    elif g.get("sPick_bayes") == "PASS" and g.get("pick_source") == "ENS":
+                        disagree_note = ' <span class="tiny" style="color:#f59e0b">(Bayes: PASS)</span>'
+                    html += f'<div style="padding:6px 0; border-bottom:1px dashed #eef2f7;">\U0001F3C0 <span class="pick-team">{esc(g["sPick"])}</span>{src_tag} <span class="trend-label">proj {esc(fav_team)} by {fmt_num(abs(proj_margin), 1)} \u00b7 sDiff {fmt_num(g.get("sDiff"), 1)}{p_bayes_str}{p_ens_str}</span> {conf_badge(g["sConf"])}{disagree_note}</div>'
         if highs:
             pad = "10" if elites else "4"
             html += f'<div style="padding:{pad}px 0 2px; font-weight:700; font-size:13px; color:#047857;">\U0001F7E2 High</div>'
             for g in highs:
                 if is_spread:
-                    p_str = f' \u00b7 P={g["pCover"]*100:.0f}%' if g.get("pCover") else ""
-                    ens_str = f' \u00b7 Ens={g["pCoverEns"]*100:.0f}%' if g.get("pCoverEns") else ""
+                    p_bayes_str = f' \u00b7 Bayes={g["pCover_bayes"]*100:.0f}%' if g.get("pCover_bayes") else ""
+                    p_ens_str = f' \u00b7 Ens={g["pCoverEns"]*100:.0f}%' if g.get("pCoverEns") else (f' \u00b7 P={g["pCover"]*100:.0f}%' if g.get("pCover") else "")
                     proj_margin = round((g.get("hS", 0) - g.get("aS", 0)) * 10) / 10
                     fav_team = g["home"] if proj_margin >= 0 else g["away"]
-                    html += f'<div style="padding:6px 0; border-bottom:1px dashed #eef2f7;">\U0001F3C0 <span class="pick-team">{esc(g["sPick"])}</span> <span class="trend-label">proj {esc(fav_team)} by {fmt_num(abs(proj_margin), 1)} \u00b7 sDiff {fmt_num(g.get("sDiff"), 1)}{p_str}{ens_str}</span> {conf_badge(g["sConf"])}</div>'
+                    src_tag = f' <span class="badge" style="background:#6366f1;color:#fff;border-color:#6366f1;font-size:9px">ENS</span>' if g.get("pick_source") == "ENS" else ""
+                    disagree_note = ""
+                    if g.get("sPick_bayes") and g.get("sPick_bayes") != "PASS" and g.get("sPick_bayes") != g.get("sPick"):
+                        disagree_note = f' <span class="tiny" style="color:#f59e0b">(Bayes: {esc(g["sPick_bayes"])})</span>'
+                    elif g.get("sPick_bayes") == "PASS" and g.get("pick_source") == "ENS":
+                        disagree_note = ' <span class="tiny" style="color:#f59e0b">(Bayes: PASS)</span>'
+                    html += f'<div style="padding:6px 0; border-bottom:1px dashed #eef2f7;">\U0001F3C0 <span class="pick-team">{esc(g["sPick"])}</span>{src_tag} <span class="trend-label">proj {esc(fav_team)} by {fmt_num(abs(proj_margin), 1)} \u00b7 sDiff {fmt_num(g.get("sDiff"), 1)}{p_bayes_str}{p_ens_str}</span> {conf_badge(g["sConf"])}{disagree_note}</div>'
         return html
 
     def build_last10_card(title, picks, type_):
@@ -823,7 +843,15 @@ def build_email_html(run, summary_obj, last10, last10_totals, weekly_spread, wee
             proj_margin = round((g.get("hS", 0) - g.get("aS", 0)) * 10) / 10
             fav_team = g["home"] if proj_margin >= 0 else g["away"]
             p_str = f' \u00b7 P={g["pCover"]*100:.0f}%' if g.get("pCover") else ""
-            spread_pick = f'<div><span class="pick-team">{esc(g["sPick"])}</span> {conf_badge(g["sConf"])} <span class="trend-label">proj {esc(fav_team)} by {fmt_num(abs(proj_margin), 1)} \u00b7 sDiff {fmt_num(g.get("sDiff"), 1)}{p_str}</span></div>'
+            src_tag = f' <span class="badge" style="background:#6366f1;color:#fff;border-color:#6366f1;font-size:9px">ENS</span>' if g.get("pick_source") == "ENS" else ""
+            disagree_note = ""
+            if g.get("sPick_bayes") and g.get("sPick_bayes") != "PASS" and g.get("sPick_bayes") != g.get("sPick"):
+                disagree_note = f'<div class="tiny" style="color:#f59e0b">Bayes pick: {esc(g["sPick_bayes"])}</div>'
+            elif g.get("sPick_bayes") == "PASS" and g.get("pick_source") == "ENS":
+                disagree_note = '<div class="tiny" style="color:#f59e0b">Bayes: PASS (upgraded by ensemble)</div>'
+            elif g.get("pick_source") == "ENS_PASS":
+                disagree_note = f'<div class="tiny" style="color:#f59e0b">Bayes pick: {esc(g.get("sPick_bayes", "?"))} (downgraded by ensemble)</div>'
+            spread_pick = f'<div><span class="pick-team">{esc(g["sPick"])}</span>{src_tag} {conf_badge(g["sConf"])} <span class="trend-label">proj {esc(fav_team)} by {fmt_num(abs(proj_margin), 1)} \u00b7 sDiff {fmt_num(g.get("sDiff"), 1)}{p_str}</span></div>{disagree_note}'
         else:
             spread_pick = f'<div class="tiny">Spread: <span class="trend-label">{esc(g.get("status", "PASS") if is_skipped else "PASS")}</span></div>'
         if not is_skipped and g.get("oPick") and g["oPick"] != "PASS":
@@ -905,7 +933,13 @@ def build_text_email(run, store):
                 xgb_txt = f" | XGB P(h)={g['xgb_pHomeCover']*100:.0f}%"
             if g.get("ens_pHomeCover") is not None:
                 xgb_txt += f" Ens={g['ens_pHomeCover']*100:.0f}%"
-            lines.append(f"  Spread: {g['sPick']} ({str(g.get('sConf', '')).upper()}) | proj {fav_team} by {fmt_num(abs(proj_margin), 1)} | edge {fmt_num(g.get('sDiff'), 1)}{xgb_txt}")
+            src_tag = " [ENS]" if g.get("pick_source") == "ENS" else ""
+            bayes_note = ""
+            if g.get("sPick_bayes") and g.get("sPick_bayes") != g.get("sPick"):
+                bayes_note = f" (Bayes: {g['sPick_bayes']})"
+            lines.append(f"  Spread: {g['sPick']} ({str(g.get('sConf', '')).upper()}){src_tag} | proj {fav_team} by {fmt_num(abs(proj_margin), 1)} | edge {fmt_num(g.get('sDiff'), 1)}{xgb_txt}{bayes_note}")
+        elif g.get("pick_source") == "ENS_PASS" and g.get("sPick_bayes") and g["sPick_bayes"] != "PASS":
+            lines.append(f"  Spread: PASS (ensemble downgrade from {g['sPick_bayes']})")
         else:
             lines.append("  Spread: PASS")
         if g.get("oPick") and g["oPick"] != "PASS":
@@ -1056,7 +1090,13 @@ def main():
         )
         game_avgs = get_avgs(game_stats)
         injury_adj = None
-        r = analyze_game(g, game_stats, game_avgs, base_w, injury_adj, kalman_state, base_w_var, dynamic_residual_var)
+
+        # Tournament neutral-site override: zero out HCA for March Madness games
+        game_w = base_w
+        if is_tourney_today:
+            game_w = {**base_w, "hca": 0}
+
+        r = analyze_game(g, game_stats, game_avgs, game_w, injury_adj, kalman_state, base_w_var, dynamic_residual_var)
         if not r:
             games.append({**g, "status": "SKIPPED"})
             continue
@@ -1094,6 +1134,98 @@ def main():
                 print(f"[xgb] Prediction failed for {g.get('away')} @ {g.get('home')}: {e}")
 
         games.append(r)
+
+    # 4b. Ensemble pick override -- re-evaluate sPick using ensemble P(cover)
+    #     instead of Bayesian-only P(cover)
+    P_COVER_THRESH_ENS = 0.60        # same threshold the Bayesian path uses
+    FAV_LINE_CAP_ENS   = 8           # max line for favorites
+    SDIFF_CAP_ENS      = 9           # max sDiff filter
+    ABS_LINE_CAP_ENS   = 12          # skip extreme lines
+
+    ens_overrides = 0
+    for g in games:
+        if g.get("status") in ("MISSING_ODDS", "SKIPPED"):
+            continue
+        if g.get("ens_pHomeCover") is None:
+            # No XGBoost prediction available -- keep Bayesian pick as-is
+            continue
+
+        # Stash the original Bayesian pick for comparison in the email
+        g["sPick_bayes"] = g.get("sPick", "PASS")
+        g["sConf_bayes"] = g.get("sConf", "low")
+        g["pCover_bayes"] = g.get("pCover")
+
+        ens_p_home = g["ens_pHomeCover"]
+        ens_p_away = g["ens_pAwayCover"]
+        best_ens_p = max(ens_p_home, ens_p_away)
+        ens_side = "home" if ens_p_home >= ens_p_away else "away"
+
+        abs_line = abs(g.get("line", 0))
+        home_fav = g.get("line", 0) > 0
+
+        # Check if picked side is underdog (line favors the other team)
+        picked_side_is_dog = (
+            (g["line"] < 0 if ens_side == "home" else g["line"] > 0)
+        )
+
+        # Fav line cap: dogs have no cap, favs capped at FAV_LINE_CAP_ENS
+        line_ok = True if picked_side_is_dog else abs_line <= FAV_LINE_CAP_ENS
+
+        # Production filters
+        s_diff = g.get("sDiff", 99)
+        passes_filters = (
+            best_ens_p >= P_COVER_THRESH_ENS
+            and line_ok
+            and abs_line > 0
+            and abs_line < ABS_LINE_CAP_ENS
+        )
+
+        if passes_filters:
+            # Build the pick string
+            if ens_side == "home":
+                new_pick = f"{g['home']} -{abs_line}" if home_fav else f"{g['home']} +{abs_line}"
+            else:
+                new_pick = f"{g['away']} +{abs_line}" if home_fav else f"{g['away']} -{abs_line}"
+
+            # Confidence tiers based on ensemble probability
+            if best_ens_p >= 0.68:
+                new_conf = "elite"
+            elif best_ens_p >= 0.62:
+                new_conf = "high"
+            else:
+                new_conf = "elite"  # 0.60-0.62 still "elite" (single-tier like Bayesian)
+
+            g["sPick"] = new_pick
+            g["sConf"] = new_conf
+            g["pCover"] = round(best_ens_p * 1000) / 1000
+            g["pCoverEns"] = round(best_ens_p * 1000) / 1000
+
+            # Tag source: did ensemble change the pick?
+            if g["sPick_bayes"] == "PASS":
+                g["pick_source"] = "ENS"   # upgraded from PASS
+                ens_overrides += 1
+            elif g["sPick_bayes"] != new_pick:
+                g["pick_source"] = "ENS"   # changed side
+                ens_overrides += 1
+            else:
+                g["pick_source"] = "AGREE"  # both agree
+        else:
+            # Ensemble says PASS
+            if g["sPick_bayes"] != "PASS":
+                # Downgrade: Bayesian said pick but ensemble says PASS
+                g["sPick"] = "PASS"
+                g["sConf"] = "low"
+                g["pCover"] = None
+                g["pCoverEns"] = round(best_ens_p * 1000) / 1000
+                g["pick_source"] = "ENS_PASS"  # downgraded by ensemble
+                ens_overrides += 1
+            else:
+                g["pick_source"] = "AGREE"  # both PASS
+
+    if ens_overrides:
+        print(f"[4b] Ensemble overrode {ens_overrides} pick(s)")
+    else:
+        print("[4b] Ensemble agrees with all Bayesian picks")
 
     # 5. Attach trends
     for g in games:

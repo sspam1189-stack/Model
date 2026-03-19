@@ -81,12 +81,12 @@ class GameRow:
     __slots__ = (
         "date", "x", "y", "cover", "push", "bayes_p",
         "is_tournament", "is_neutral", "seed_diff",
-        "is_conference", "home", "away", "line",
+        "is_conference", "home", "away", "line", "sDiff",
     )
 
     def __init__(self, *, date, x, y, cover, push, bayes_p,
                  is_tournament, is_neutral, seed_diff,
-                 is_conference, home, away, line):
+                 is_conference, home, away, line, sDiff):
         self.date = date
         self.x = x
         self.y = y
@@ -100,6 +100,7 @@ class GameRow:
         self.home = home
         self.away = away
         self.line = line
+        self.sDiff = sDiff
 
 
 def load_rows(path: Path, start_date: str = "") -> List[GameRow]:
@@ -145,6 +146,7 @@ def load_rows(path: Path, start_date: str = "") -> List[GameRow]:
                 home=g.get("home", ""),
                 away=g.get("away", ""),
                 line=float(line),
+                sDiff=_safe_num(g.get("sDiff"), 0.0),
             ))
     return rows
 
@@ -366,6 +368,13 @@ def run_backtest(
     split_nonconf = SplitTracker()
     seed_buckets: Dict[str, SplitTracker] = {b[0]: SplitTracker() for b in SEED_DIFF_BUCKETS}
 
+    # Storage for production-filtered ensemble evaluation
+    pf_ens_probs: Dict[float, List[float]] = {w: [] for w in ENSEMBLE_WEIGHTS}
+    pf_actuals: List[bool] = []
+    pf_pushes: List[bool] = []
+    pf_sdiffs: List[float] = []
+    pf_lines: List[float] = []
+
     # Feature importance accumulators
     fi_sums = np.zeros(len(FEATURE_NAMES), dtype=np.float64)
     fi_count = 0
@@ -433,6 +442,12 @@ def run_backtest(
         for ew, tracker in ens_trackers.items():
             ens_p = (1.0 - ew) * bayes_p + ew * cal_p
             tracker.add(ens_p, covered, push)
+            pf_ens_probs[ew].append(ens_p)
+
+        pf_actuals.append(covered)
+        pf_pushes.append(push)
+        pf_sdiffs.append(r.sDiff)
+        pf_lines.append(r.line)
 
         # NCAA splits (using default ensemble weight)
         ens_default_p = (1.0 - default_ew) * bayes_p + default_ew * cal_p
@@ -462,6 +477,50 @@ def run_backtest(
     fi_pairs = sorted(zip(FEATURE_NAMES, fi_avg.tolist()), key=lambda t: -t[1])
     top_features = [{"feature": f, "importance": round(v, 4)} for f, v in fi_pairs[:15]]
 
+    # ── Production-filtered ensemble evaluation ────────────────────
+    PROD_MIN_PROB = 0.57
+    PROD_SDIFF_CAP = 9.0
+    PROD_ABS_LINE_CAP = 12.0
+
+    prod_filtered_models = []
+    for ew in ENSEMBLE_WEIGHTS:
+        label = f"Ensemble(xgb={ew:.0%})"
+        probs_list = pf_ens_probs[ew]
+        wins = losses = filtered_out = 0
+        for j in range(len(pf_actuals)):
+            if pf_pushes[j]:
+                continue
+            p_home = probs_list[j]
+            # Determine pick side
+            if p_home >= 0.5:
+                p_cover = p_home
+                actual = pf_actuals[j]
+            else:
+                p_cover = 1.0 - p_home
+                actual = not pf_actuals[j]
+            if p_cover < PROD_MIN_PROB:
+                continue
+            if pf_sdiffs[j] > PROD_SDIFF_CAP or abs(pf_lines[j]) >= PROD_ABS_LINE_CAP:
+                filtered_out += 1
+                continue
+            if actual:
+                wins += 1
+            else:
+                losses += 1
+        picks = wins + losses
+        units = wins * UNIT_WIN + losses * UNIT_LOSS
+        win_pct = (100.0 * wins / picks) if picks else 0.0
+        roi = (100.0 * units / picks) if picks else 0.0
+        prod_filtered_models.append({
+            "name": label,
+            "record": f"{wins}-{losses}-0",
+            "picks": picks,
+            "win_pct": round(win_pct, 1),
+            "units": round(units, 1),
+            "roi_pct": round(roi, 2),
+            "filtered_out": filtered_out,
+        })
+
     # ── Assemble output ──────────────────────────────────────────────
     all_trackers = [bayes_tracker, xgb_tracker] + [ens_trackers[w] for w in ENSEMBLE_WEIGHTS]
 
@@ -483,6 +542,7 @@ def run_backtest(
             "seed_diff": {k: v.to_dict() for k, v in seed_buckets.items()},
         },
         "feature_importance_top15": top_features,
+        "production_filtered_ensemble": prod_filtered_models,
     }
 
     for window in (50, 100, 200):
@@ -521,6 +581,24 @@ def print_results(results: dict, trackers: List[PickTracker]):
             f"{m['win_pct']:5.1f}% {m['units']:+7.1f} "
             f"{m['roi_pct']:6.2f}% {m['brier']:.4f}"
         )
+
+    # ── Production-filtered ensemble results ────────────────────────
+    pf_models = results.get("production_filtered_ensemble", [])
+    if pf_models:
+        print(f"\n{sep}")
+        print("  Production-Filtered Ensemble Results")
+        print("  (P(cover)>=0.57, sDiff<=9, abs(line)<12)")
+        print(sep)
+        print(f"  {'Model':<28s} {'Record':<14s} {'Win%':>6s} {'Units':>8s} {'ROI%':>7s} {'Picks':>6s} {'Filt':>6s}")
+        print("  " + "-" * 78)
+        pf_sorted = sorted(pf_models, key=lambda m: m["units"], reverse=True)
+        for m in pf_sorted:
+            print(
+                f"  {m['name']:<28s} {m['record']:<14s} "
+                f"{m['win_pct']:5.1f}% {m['units']:+7.1f} "
+                f"{m['roi_pct']:6.2f}% {m['picks']:5d}  "
+                f"{m.get('filtered_out', 0):5d}"
+            )
 
     # ── Calibration ──────────────────────────────────────────────────
     print(f"\n{sep}")

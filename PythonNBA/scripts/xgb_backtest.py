@@ -143,6 +143,7 @@ def load_graded_games(history_path: Path) -> List[dict]:
                 "line": float(line),
                 "homeScore": float(hs),
                 "awayScore": float(aws),
+                "sDiff": _safe_num(g.get("sDiff"), 0.0),
             })
 
     return rows
@@ -241,6 +242,8 @@ def walk_forward_backtest(
     pushes: List[bool] = []
     dates: List[str] = []
     game_infos: List[dict] = []
+    sdiffs: List[float] = []
+    lines: List[float] = []
 
     xgb_model = None
     xgb_std = 12.0
@@ -279,6 +282,8 @@ def walk_forward_backtest(
             "line": r["line"],
             "date": r["date"],
         })
+        sdiffs.append(r["sDiff"])
+        lines.append(r["line"])
 
         # XGBoost prediction
         x_row = np.array([r["x"]], dtype=np.float64)
@@ -370,6 +375,22 @@ def walk_forward_backtest(
     ]:
         rolling[name] = _rolling_windows(probs, actuals, pushes, min_prob)
 
+    # --- Production-filtered ensemble results ---
+    prod_filtered: Dict[str, dict] = {}
+    for xw in ENSEMBLE_WEIGHTS_TO_TEST:
+        bw = 1.0 - xw
+        ens_probs = [
+            bw * bp + xw * xp for bp, xp in zip(bayes_probs, xgb_cal_probs)
+        ]
+        label = f"Ens_{int(xw*100)}xgb"
+        prod_filtered[label] = _evaluate_model_filtered(
+            label, ens_probs, actuals, pushes, sdiffs, lines,
+        )
+    # Adaptive ensemble filtered
+    prod_filtered["Ens_adaptive"] = _evaluate_model_filtered(
+        "Ens_adaptive", adaptive_probs, actuals, pushes, sdiffs, lines,
+    )
+
     # Feature importance (top 15)
     top_features = (last_feature_importance or [])[:15]
 
@@ -389,6 +410,9 @@ def walk_forward_backtest(
         "brier_scores": brier,
         "rolling_performance": rolling,
         "top_features": top_features,
+        "production_filtered_ensemble": {k: v for k, v in sorted(
+            prod_filtered.items(), key=lambda kv: kv[1]["units"], reverse=True
+        )},
     }
 
 
@@ -508,6 +532,81 @@ def _evaluate_model(
         "roi_pct": round(roi, 2),
         "all_side_acc": round(100.0 * correct_all / total_non_push, 1) if total_non_push else 0.0,
         "total_non_push": total_non_push,
+    }
+
+
+def _evaluate_model_filtered(
+    name: str,
+    probs: List[float],
+    actuals: List[bool],
+    pushes: List[bool],
+    sdiffs: List[float],
+    lines: List[float],
+    min_prob: float = 0.57,
+    sdiff_cap: float = 9.0,
+    abs_line_cap: float = 12.0,
+) -> dict:
+    """Evaluate with production filters: probHigh, sDiff cap, absLine cap.
+
+    Only takes picks when all three conditions are met:
+      - P(cover) >= min_prob (or <= 1-min_prob for away side)
+      - sDiff <= sdiff_cap
+      - abs(line) < abs_line_cap
+    """
+    wins = losses = push_count = 0
+    total_games = 0
+    filtered_out = 0
+
+    for i, p in enumerate(probs):
+        if pushes[i]:
+            continue
+
+        a = actuals[i]
+        lo = 1.0 - min_prob
+
+        # Check probability threshold first
+        has_pick = p >= min_prob or p <= lo
+        if not has_pick:
+            continue
+
+        # Apply production filters
+        if sdiffs[i] > sdiff_cap or abs(lines[i]) >= abs_line_cap:
+            filtered_out += 1
+            continue
+
+        total_games += 1
+        if p >= min_prob:
+            if a:
+                wins += 1
+            else:
+                losses += 1
+        elif p <= lo:
+            if not a:
+                wins += 1
+            else:
+                losses += 1
+
+    picks = wins + losses
+    units = wins * UNIT_WIN + losses * UNIT_LOSS
+    win_pct = (100.0 * wins / picks) if picks else 0.0
+    roi = (100.0 * units / picks) if picks else 0.0
+
+    return {
+        "name": name,
+        "record": f"{wins}-{losses}-{push_count}",
+        "wins": wins,
+        "losses": losses,
+        "pushes": push_count,
+        "picks": picks,
+        "win_pct": round(win_pct, 1),
+        "units": round(units, 2),
+        "roi_pct": round(roi, 2),
+        "filtered_out": filtered_out,
+        "filters": {
+            "min_prob": min_prob,
+            "sdiff_cap": sdiff_cap,
+            "abs_line_cap": abs_line_cap,
+        },
     }
 
 
@@ -644,6 +743,22 @@ def print_results(results: dict) -> None:
         for rank, (fname, imp) in enumerate(results["top_features"], 1):
             bar = "#" * int(imp * 200)
             print(f"    {rank:>2}. {fname:<18} {imp:.4f}  {bar}")
+        print()
+
+    # --- Production-filtered ensemble results ---
+    if results.get("production_filtered_ensemble"):
+        print("-" * 80)
+        print("  Production-Filtered Ensemble Results")
+        print("  (P(cover)>=0.57, sDiff<=9, abs(line)<12)")
+        print("-" * 80)
+        print(f"  {'Model':<20} {'Record':<12} {'Win%':>6} {'Units':>8} {'ROI%':>7} {'Picks':>6} {'Filt':>6}")
+        print("-" * 80)
+        for name, m in results["production_filtered_ensemble"].items():
+            print(
+                f"  {m['name']:<20} {m['record']:<12} {m['win_pct']:>5.1f}% "
+                f"{m['units']:>+7.1f}u {m['roi_pct']:>+6.1f}% "
+                f"{m['picks']:>5}  {m.get('filtered_out', 0):>5}"
+            )
         print()
 
     # --- Rolling performance ---

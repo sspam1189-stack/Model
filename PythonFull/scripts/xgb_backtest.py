@@ -100,6 +100,7 @@ def load_graded_games(history_path: Path) -> List[dict]:
                 "features": feats,
                 "bayes_pHomeCover": _safe_num(g.get("pHomeCover"), 0.5),
                 "bayes_pCover": _safe_num(g.get("pCover"), 0.5),
+                "sDiff": _safe_num(g.get("sDiff"), 0.0),
             })
     return games
 
@@ -248,6 +249,13 @@ def run_backtest(games: List[dict], min_train: int, retrain_every: int,
     n_trains = 0
     test_count = 0
 
+    # Storage for production-filtered ensemble evaluation
+    pf_ens_p_homes: Dict[float, List[float]] = {w: [] for w in ENSEMBLE_WEIGHTS}
+    pf_actuals: List[bool] = []
+    pf_pushes: List[bool] = []
+    pf_sdiffs: List[float] = []
+    pf_lines: List[float] = []
+
     for i in range(min_train, n):
         g = games[i]
 
@@ -315,6 +323,12 @@ def run_backtest(games: List[dict], min_train: int, retrain_every: int,
                 ens_p = 1.0 - ens_p_home
                 ens_actual = not actual_cover
             tracker.record(ens_p, ens_actual, is_push, min_prob)
+            pf_ens_p_homes[w_xgb].append(ens_p_home)
+
+        pf_actuals.append(actual_cover)
+        pf_pushes.append(is_push)
+        pf_sdiffs.append(g["sDiff"])
+        pf_lines.append(g["line"])
 
         test_count += 1
 
@@ -327,6 +341,49 @@ def run_backtest(games: List[dict], min_train: int, retrain_every: int,
             names += [f"f{i}" for i in range(len(names), len(avg_imp))]
         pairs = sorted(zip(names, avg_imp), key=lambda p: p[1], reverse=True)
         feat_imp = {name: round(float(v), 5) for name, v in pairs[:15]}
+
+    # --- Production-filtered ensemble evaluation ---
+    PROD_MIN_PROB = 0.57
+    PROD_SDIFF_CAP = 9.0
+    PROD_ABS_LINE_CAP = 12.0
+
+    prod_filtered = {}
+    for w_xgb in ENSEMBLE_WEIGHTS:
+        label = f"Ensemble(xgb={w_xgb:.0%})"
+        p_homes = pf_ens_p_homes[w_xgb]
+        wins = losses = filtered_out = 0
+        for j in range(len(pf_actuals)):
+            if pf_pushes[j]:
+                continue
+            p_home = p_homes[j]
+            if p_home >= 0.5:
+                p_cover = p_home
+                actual = pf_actuals[j]
+            else:
+                p_cover = 1.0 - p_home
+                actual = not pf_actuals[j]
+            if p_cover < PROD_MIN_PROB:
+                continue
+            if pf_sdiffs[j] > PROD_SDIFF_CAP or abs(pf_lines[j]) >= PROD_ABS_LINE_CAP:
+                filtered_out += 1
+                continue
+            if actual:
+                wins += 1
+            else:
+                losses += 1
+        picks = wins + losses
+        units = wins * UNIT_WIN + losses * UNIT_LOSS
+        win_pct = (100.0 * wins / picks) if picks else 0.0
+        roi = (100.0 * units / picks) if picks else 0.0
+        prod_filtered[f"ensemble_xgb_{int(w_xgb*100)}pct"] = {
+            "name": label,
+            "record": f"{wins}-{losses}-0",
+            "win_pct": round(win_pct, 1),
+            "units": round(units, 2),
+            "roi_pct": round(roi, 2),
+            "total_picks": picks,
+            "filtered_out": filtered_out,
+        }
 
     return {
         "test_games": test_count,
@@ -345,6 +402,7 @@ def run_backtest(games: List[dict], min_train: int, retrain_every: int,
             },
         },
         "feature_importance_top15": feat_imp,
+        "production_filtered_ensemble": prod_filtered,
     }
 
 
@@ -377,6 +435,23 @@ def print_summary(results: dict) -> None:
         print(f"  {m['name']:<28} {m['record']:<14} "
               f"{m['win_pct']:>5.1f}% {m['units']:>+7.1f}u "
               f"{m['roi_pct']:>+6.1f}% {m['brier']:>7.4f}")
+
+    # Production-filtered ensemble results
+    pf = results.get("production_filtered_ensemble")
+    if pf:
+        print("\n" + "-" * 80)
+        print("  Production-Filtered Ensemble Results")
+        print("  (P(cover)>=0.57, sDiff<=9, abs(line)<12)")
+        print("  " + "-" * 76)
+        pf_header = f"  {'Model':<28} {'Record':<14} {'Win%':>6} {'Units':>8} {'ROI%':>7} {'Picks':>6} {'Filt':>6}"
+        print(pf_header)
+        print("  " + "-" * 76)
+        pf_items = sorted(pf.items(), key=lambda kv: kv[1]["units"], reverse=True)
+        for key, m in pf_items:
+            print(f"  {m['name']:<28} {m['record']:<14} "
+                  f"{m['win_pct']:>5.1f}% {m['units']:>+7.1f}u "
+                  f"{m['roi_pct']:>+6.1f}% {m['total_picks']:>5}  "
+                  f"{m.get('filtered_out', 0):>5}")
 
     # Rolling performance
     print("\n" + "-" * 80)
