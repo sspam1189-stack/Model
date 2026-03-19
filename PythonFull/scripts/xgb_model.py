@@ -4,7 +4,7 @@ xgb_model.py -- XGBoost margin prediction for production use.
 
 Adapted from ml_independent_backtest.py for live daily pipeline.
 Provides:
-  - Feature extraction from pregame game data (43+ features)
+  - Feature extraction from pregame game data (42 features)
   - Walk-forward training on historical graded games
   - Periodic retraining (every N new games)
   - Margin prediction -> P(cover) via Normal CDF
@@ -151,8 +151,8 @@ def _delta_features(adj: dict | None, side: str, stat: str) -> float:
 
 def extract_features(g: dict) -> List[float]:
     """
-    Extract 47 pregame features from a game dict.
-    Same core 45 features as ml_independent_backtest.py plus 2 H2H features.
+    Extract 42 pregame features from a game dict.
+    Same core 40 features as NBA xgb_model.py plus 2 H2H features.
     Works for both historical (graded) games and live games.
     """
     f = g.get("_features") or {}
@@ -239,7 +239,7 @@ def extract_features(g: dict) -> List[float]:
         home_pace_d,
         away_pace_d,
         home_pace_d - away_pace_d,
-        # H2H features (47-48)
+        # H2H features (40-41)
         h2h_margin,
         h2h_games,
     ]

@@ -1252,7 +1252,14 @@
 
         let projHtml = '';
         if (!isSkipped && Number.isFinite(g.aS) && Number.isFinite(g.hS)) {
-          projHtml = `<div class="game-detail"><span class="label">Proj:</span> <b>${esc(g.away)} ${fmtNum(g.aS, 1)}</b> \u2013 <b>${esc(g.home)} ${fmtNum(g.hS, 1)}</b></div>`;
+          let bayesLine = `<span class="label">Proj</span> <span class="model-badge bayesian" style="font-size:0.5rem">BAY</span> <b>${esc(g.away)} ${fmtNum(g.aS, 1)}</b> \u2013 <b>${esc(g.home)} ${fmtNum(g.hS, 1)}</b>`;
+          projHtml = `<div class="game-detail">${bayesLine}</div>`;
+          if (Number.isFinite(g.xgb_margin) && Number.isFinite(g.line) && Number.isFinite(g.total)) {
+            const xgbGameMargin = g.line + g.xgb_margin;
+            const xgbHome = Math.round((g.total + xgbGameMargin) / 2 * 10) / 10;
+            const xgbAway = Math.round((g.total - xgbGameMargin) / 2 * 10) / 10;
+            projHtml += `<div class="game-detail"><span class="label" style="visibility:hidden">Proj</span> <span class="model-badge xgb" style="font-size:0.5rem">XGB</span> <b>${esc(g.away)} ${fmtNum(xgbAway, 1)}</b> \u2013 <b>${esc(g.home)} ${fmtNum(xgbHome, 1)}</b></div>`;
+          }
         }
 
         const injuryHtml = g.injuryNote ? g.injuryNote.split(' | ').map(s => `<div class="injury">${esc(s)}</div>`).join('') : '';

@@ -2,7 +2,7 @@
 # XGBoost model integration for NBA picks pipeline.
 #
 # Provides:
-#   - Feature extraction from pregame game data (40+ features)
+#   - Feature extraction from pregame game data (40 features)
 #   - Walk-forward training on historical graded games
 #   - Margin prediction -> P(cover) via Normal CDF
 #   - Platt scaling calibration on trailing window
@@ -110,7 +110,7 @@ def _delta_features(adj, side: str, stat: str) -> float:
 
 
 # ---------------------------------------------------------------------------
-# Feature extraction (40+ features, identical to backtest)
+# Feature extraction (40 features, identical to backtest)
 # ---------------------------------------------------------------------------
 
 def extract_features(g: dict) -> List[float]:

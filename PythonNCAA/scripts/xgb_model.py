@@ -3,7 +3,7 @@
 #
 # Adapts the NBA ml_independent_backtest.py approach for NCAA:
 #   - Walk-forward training on historical graded games
-#   - Feature extraction from pregame stats + market context
+#   - Feature extraction from pregame stats + market context (30 features)
 #   - Margin prediction -> P(cover) via Normal CDF
 #   - Platt scaling calibration
 #   - Adaptive ensemble with Bayesian model
