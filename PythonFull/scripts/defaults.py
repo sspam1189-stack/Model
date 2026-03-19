@@ -76,7 +76,7 @@ DEFAULT_W_VAR = {
 
 XGB_RETRAIN_INTERVAL = 20      # retrain after this many new graded games
 XGB_MIN_TRAINING_GAMES = 50    # minimum graded games required to train
-XGB_ENSEMBLE_WEIGHT = 0.35     # default XGBoost weight in ensemble (Bayesian gets 1-this)
+XGB_ENSEMBLE_WEIGHT = 0.20     # default XGBoost weight in ensemble (Bayesian gets 1-this)
 XGB_LOOKBACK_WINDOW = 30       # trailing window for calibration & adaptive weighting
 
 # -- Bayesian hyperparameters -------------------------------------------------

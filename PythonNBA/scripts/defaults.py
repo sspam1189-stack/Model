@@ -94,5 +94,5 @@ BAYES_HYPER = {
 
 XGB_RETRAIN_INTERVAL = 20      # games between retrains
 XGB_MIN_TRAINING_GAMES = 50    # minimum graded history before XGBoost activates
-XGB_ENSEMBLE_WEIGHT = 0.35     # XGBoost weight in ensemble (Bayesian gets 0.65)
+XGB_ENSEMBLE_WEIGHT = 0.40     # XGBoost weight in ensemble (adaptive overrides this)
 XGB_LOOKBACK_WINDOW = 30       # games for adaptive weight calculation
