@@ -548,18 +548,23 @@ def build_email_html(run, summary_obj, last10, last10_totals, weekly_spread, wee
 
     EMAIL_STYLES = '<style>body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;margin:0;padding:0;background:#f3f4f6}.wrap{max-width:920px;margin:0 auto;padding:16px}.h1{font-size:20px;font-weight:800;color:#111827}.sub{font-size:12px;color:#6b7280}.card{background:#fff;border:1px solid #e5e7eb;border-radius:14px;padding:12px;box-shadow:0 1px 3px rgba(0,0,0,.05)}.card .summaryTitle{font-size:12px;font-weight:800;color:#111827;letter-spacing:.02em;margin-bottom:8px}.tiny{font-size:11px;color:#6b7280;line-height:1.35}table.data{width:100%;border-collapse:collapse}table.data th,table.data td{font-size:12px;padding:7px 6px;border-bottom:1px solid #eef2f7}table.data th{text-align:left;color:#6b7280;font-weight:700}.badge{display:inline-block;font-size:10px;font-weight:800;padding:3px 8px;border-radius:999px;border:1px solid #e5e7eb;white-space:nowrap}.b-high{background:#ecfdf5;color:#047857;border-color:#a7f3d0}.b-elite{background:#111827;color:#fff;border-color:#111827}.b-low{background:#fef3c7;color:#92400e;border-color:#fde68a}.pick-team{font-weight:800;color:#111827}.pick-line{font-size:11px;color:#6b7280}.no-picks{color:#6b7280;font-size:12px;padding:6px 0}.trend-label{font-size:11px;color:#6b7280}.win-text{color:#047857}.loss-text{color:#b91c1c}.card-picks{border-left:4px solid #6366f1}.card-records{border-left:4px solid #0ea5e9}.card-games{border-left:4px solid #f59e0b}.card-trends{border-left:4px solid #10b981}.section-label{font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.1em;padding:10px 0 4px;opacity:.55}</style>'
 
+    def row_full(content):
+        return f'<table width="100%" cellpadding="0" cellspacing="0" border="0" style="margin-bottom:10px;"><tr><td>{content}</td></tr></table>'
+
+    record_card = f'''<div class="card card-records"><div class="summaryTitle">Spread (ATS)</div>
+        <table class="data"><thead><tr><th>Bucket</th><th>W-L-P</th><th>Win%</th><th>Flat</th><th>Graded</th></tr></thead>
+        <tbody>{rrow("Elite", s["spread"]["elite"])}{rrow("Favorites", s["favdog"]["fav"])}{rrow("Underdogs", s["favdog"]["dog"])}</tbody></table>
+        <div class="tiny">Only graded picks.</div></div>'''
+
     return f'''<html><head>{EMAIL_STYLES}</head><body><div class="wrap">
       <table width="100%" cellpadding="0" cellspacing="0" border="0" style="margin-bottom:10px;"><tr>
         <td><div class="h1">NBA Picks (Full Season) - {esc(run.get("dateDisplay",""))}</div><div class="sub">High + Elite only. Units at -110. Times in {TIMEZONE}.</div></td>
         <td style="text-align:right;" valign="top"><div class="sub">{esc(timestamp)}</div></td></tr></table>
-      {f'<div style="margin-bottom:10px;">{recap_html}</div>' if recap_html else ""}
-      <div style="margin-bottom:10px;"><div class="card card-picks"><div class="summaryTitle">Today\'s Spread Picks (Actionable)</div>{spread_picks_html}</div></div>
-      <div style="margin-bottom:10px;"><div class="card card-records"><div class="summaryTitle">Spread (ATS)</div>
-        <table class="data"><thead><tr><th>Bucket</th><th>W-L-P</th><th>Win%</th><th>Flat</th><th>Graded</th></tr></thead>
-        <tbody>{rrow("Elite", s["spread"]["elite"])}{rrow("Favorites", s["favdog"]["fav"])}{rrow("Underdogs", s["favdog"]["dog"])}</tbody></table>
-        <div class="tiny">Only graded picks.</div></div></div>
+      {row_full(recap_html) if recap_html else ""}
+      {row_full(f'<div class="card card-picks"><div class="summaryTitle">Today\'s Spread Picks (Actionable)</div>{spread_picks_html}</div>')}
+      {row_full(record_card)}
       <div class="section-label">Games</div>{gcards}
-      {f'<div class="section-label">Model Calibration</div><div style="margin-bottom:10px;"><div class="card"><div class="summaryTitle">P(cover) Calibration</div>{calib_html}</div></div>' if calib_html else ""}
+      {('<div class="section-label">Model Calibration</div>' + row_full('<div class="card"><div class="summaryTitle">P(cover) Calibration</div>' + calib_html + '</div>')) if calib_html else ""}
     </div></body></html>'''
 
 # ---- Main Pipeline ----
