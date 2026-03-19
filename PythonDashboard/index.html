@@ -720,9 +720,10 @@
       if (cache[key]) return cache[key];
       const cfg = SOURCES[key];
       if (!cfg) return null;
+      const bust = `?t=${Date.now()}`;
       const attempts = [
-        { mode: 'local', url: cfg.local, label: 'Local snapshot' },
-        { mode: 'remote', url: cfg.remote, label: 'GitHub raw fallback' },
+        { mode: 'local', url: cfg.local + bust, label: 'Local snapshot' },
+        { mode: 'remote', url: cfg.remote + bust, label: 'GitHub raw fallback' },
       ];
       let lastErr = '';
       try {
@@ -762,7 +763,7 @@
       const cfg = SUMMARY_SOURCES[key];
       if (!cfg) return null;
       try {
-        const resp = await fetch(cfg.remote, { cache: 'no-store' });
+        const resp = await fetch(cfg.remote + `?t=${Date.now()}`, { cache: 'no-store' });
         if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
         const data = await resp.json();
         if (!data || !Array.isArray(data.results) || !data.results.length) {
