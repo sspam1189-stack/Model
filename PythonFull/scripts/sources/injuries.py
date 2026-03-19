@@ -56,9 +56,20 @@ def _fetch_mpg_leaguedash(season_type="Regular Season"):
     url = f"https://stats.nba.com/stats/leaguedashplayerstats?{urlencode(params)}"
     print("  [injuries] Trying leaguedashplayerstats...")
 
-    res = requests.get(url, headers=NBA_HEADERS)
-    if res.status_code != 200:
-        raise Exception(f"HTTP {res.status_code}")
+    res = None
+    for attempt in range(1, 4):
+        try:
+            res = requests.get(url, headers=NBA_HEADERS, timeout=60)
+            if res.status_code == 200:
+                break
+            raise Exception(f"HTTP {res.status_code}")
+        except Exception as err:
+            if attempt == 3:
+                raise
+            import time
+            time.sleep(attempt * 10)
+    if res is None or res.status_code != 200:
+        raise Exception(f"HTTP {res.status_code if res else 'no response'}")
 
     json_data = res.json()
     result_set = (json_data.get("resultSets") or [None])[0]
@@ -98,7 +109,7 @@ def _fetch_mpg_playerindex(season_type="Regular Season"):
     url = f"https://stats.nba.com/stats/playerindex?{urlencode(params)}"
     print("  [injuries] Trying playerindex fallback...")
 
-    res = requests.get(url, headers=NBA_HEADERS)
+    res = requests.get(url, headers=NBA_HEADERS, timeout=60)
     if res.status_code != 200:
         raise Exception(f"HTTP {res.status_code}")
 

@@ -63,9 +63,20 @@ def _fetch_mpg_leaguedash(season_type="Regular Season"):
     url = "https://stats.nba.com/stats/leaguedashplayerstats"
     print("  [injuries] Trying leaguedashplayerstats...")
 
-    res = requests.get(url, params=params, headers=NBA_HEADERS, timeout=30)
-    if res.status_code != 200:
-        raise Exception(f"HTTP {res.status_code}")
+    res = None
+    for attempt in range(1, 4):
+        try:
+            res = requests.get(url, params=params, headers=NBA_HEADERS, timeout=60)
+            if res.status_code == 200:
+                break
+            raise Exception(f"HTTP {res.status_code}")
+        except Exception as err:
+            if attempt == 3:
+                raise
+            import time
+            time.sleep(attempt * 10)
+    if res is None or res.status_code != 200:
+        raise Exception(f"HTTP {res.status_code if res else 'no response'}")
 
     json_data = res.json()
     result_set = (json_data.get("resultSets") or [None])[0]
