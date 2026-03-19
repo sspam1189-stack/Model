@@ -885,7 +885,9 @@ def build_text_email(run, store):
 
 # --- Main Pipeline ------------------------------------------------------------
 
-def main():
+def main(subject_label=None):
+    if subject_label is None:
+        subject_label = "[PY] NCAA Daily"
     date = today_central_yyyymmdd()
     date_display = to_display_date(date)
     store = load_store()
@@ -1058,7 +1060,7 @@ def main():
     print("[6/7] Sending email...")
     html = build_email_html(run, summary_obj, l10, l10t, weekly_spread, weekly_total, rolling_spread, rolling_total, team_recs, calib_rows, yesterday_recap)
     text = build_text_email(run, store)
-    subject = f"NCAA Picks {run['dateDisplay']} (Actionable)"
+    subject = f"{subject_label} Picks \u2014 {run['dateDisplay']}"
     send_email(subject, text, html)
 
     # 10. Summary

@@ -1,0 +1,12 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(for f:*)",
+      "Bash(do)",
+      "Bash(sed -i 's/      - name: Commit updated data files/      - name: Commit updated data files\\\\n        shell: bash/' \"$f\")",
+      "Bash(echo \"Fixed: $f\")",
+      "Bash(done)",
+      "Bash(git pull:*)"
+    ]
+  }
+}

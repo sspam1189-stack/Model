@@ -508,7 +508,9 @@ def build_email_html(run, summary_obj, last10, last10_totals, weekly_spread, wee
 
 # ---- Main Pipeline ----
 
-def main():
+def main(subject_label=None):
+    if subject_label is None:
+        subject_label = "[PY] NBA Full Season Daily"
     date = today_central_yyyymmdd()
     date_display = to_display_date(date)
     store = load_store()
@@ -658,7 +660,7 @@ def main():
     print("[6/7] Sending email...")
     html = build_email_html(run, summary_obj, l10, l10t, ws, wt, rs, rt, tr, cr, yr)
     text = build_text_email(run, store)
-    subject = f"NBA Picks (Full Season) {run['dateDisplay']}"
+    subject = f"{subject_label} Picks \u2014 {run['dateDisplay']}"
     send_email(subject, text, html)
     print(f"\nDone: {subject}")
 

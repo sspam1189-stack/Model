@@ -278,7 +278,7 @@ def main():
     print("[6/7] Sending email...")
     html = build_email_html(run, summary_obj, l10, l10t, weekly_spread, weekly_total, rolling_spread, rolling_total, team_records_data, calib_rows, yesterday_recap)
     text = build_text_email(run, store)
-    subject = f"NBA Picks {run['dateDisplay']} (Actionable)"
+    subject = f"[PY] NBA Update Picks \u2014 {run['dateDisplay']}"
 
     send_email(subject, text, html)
 

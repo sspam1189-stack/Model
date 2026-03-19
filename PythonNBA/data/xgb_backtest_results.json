@@ -1,0 +1,539 @@
+{
+  "n_total_games": 379,
+  "n_test_games": 329,
+  "start_index": 50,
+  "min_train": 50,
+  "retrain_every": 20,
+  "min_prob": 0.55,
+  "start_date": null,
+  "n_retrains": 17,
+  "model_results": {
+    "XGB_cal": {
+      "name": "XGB_cal",
+      "record": "148-87-0",
+      "wins": 148,
+      "losses": 87,
+      "pushes": 0,
+      "picks": 235,
+      "win_pct": 63.0,
+      "units": 52.3,
+      "roi_pct": 22.26,
+      "all_side_acc": 61.4,
+      "total_non_push": 329
+    },
+    "Ens_40xgb": {
+      "name": "Ens_40xgb",
+      "record": "138-82-0",
+      "wins": 138,
+      "losses": 82,
+      "pushes": 0,
+      "picks": 220,
+      "win_pct": 62.7,
+      "units": 47.8,
+      "roi_pct": 21.73,
+      "all_side_acc": 60.8,
+      "total_non_push": 329
+    },
+    "Ens_adaptive": {
+      "name": "Ens_adaptive",
+      "record": "139-83-0",
+      "wins": 139,
+      "losses": 83,
+      "pushes": 0,
+      "picks": 222,
+      "win_pct": 62.6,
+      "units": 47.7,
+      "roi_pct": 21.49,
+      "all_side_acc": 59.9,
+      "total_non_push": 329
+    },
+    "Ens_50xgb": {
+      "name": "Ens_50xgb",
+      "record": "140-84-0",
+      "wins": 140,
+      "losses": 84,
+      "pushes": 0,
+      "picks": 224,
+      "win_pct": 62.5,
+      "units": 47.6,
+      "roi_pct": 21.25,
+      "all_side_acc": 59.9,
+      "total_non_push": 329
+    },
+    "Ens_35xgb": {
+      "name": "Ens_35xgb",
+      "record": "136-85-0",
+      "wins": 136,
+      "losses": 85,
+      "pushes": 0,
+      "picks": 221,
+      "win_pct": 61.5,
+      "units": 42.5,
+      "roi_pct": 19.23,
+      "all_side_acc": 60.8,
+      "total_non_push": 329
+    },
+    "Ens_20xgb": {
+      "name": "Ens_20xgb",
+      "record": "139-89-0",
+      "wins": 139,
+      "losses": 89,
+      "pushes": 0,
+      "picks": 228,
+      "win_pct": 61.0,
+      "units": 41.1,
+      "roi_pct": 18.03,
+      "all_side_acc": 58.7,
+      "total_non_push": 329
+    },
+    "Ens_30xgb": {
+      "name": "Ens_30xgb",
+      "record": "138-90-0",
+      "wins": 138,
+      "losses": 90,
+      "pushes": 0,
+      "picks": 228,
+      "win_pct": 60.5,
+      "units": 39.0,
+      "roi_pct": 17.11,
+      "all_side_acc": 59.3,
+      "total_non_push": 329
+    },
+    "Bayesian": {
+      "name": "Bayesian",
+      "record": "139-93-0",
+      "wins": 139,
+      "losses": 93,
+      "pushes": 0,
+      "picks": 232,
+      "win_pct": 59.9,
+      "units": 36.7,
+      "roi_pct": 15.82,
+      "all_side_acc": 57.4,
+      "total_non_push": 329
+    },
+    "XGB_raw": {
+      "name": "XGB_raw",
+      "record": "165-137-0",
+      "wins": 165,
+      "losses": 137,
+      "pushes": 0,
+      "picks": 302,
+      "win_pct": 54.6,
+      "units": 14.3,
+      "roi_pct": 4.74,
+      "all_side_acc": 53.8,
+      "total_non_push": 329
+    }
+  },
+  "calibration": {
+    "Bayesian": [
+      {
+        "bucket": "0.50-0.55",
+        "n": 97,
+        "predicted": 0.525,
+        "actual": 0.515,
+        "gap": -0.01
+      },
+      {
+        "bucket": "0.55-0.60",
+        "n": 77,
+        "predicted": 0.574,
+        "actual": 0.597,
+        "gap": 0.024
+      },
+      {
+        "bucket": "0.60-0.65",
+        "n": 79,
+        "predicted": 0.623,
+        "actual": 0.608,
+        "gap": -0.016
+      },
+      {
+        "bucket": "0.65-0.70",
+        "n": 42,
+        "predicted": 0.672,
+        "actual": 0.667,
+        "gap": -0.006
+      },
+      {
+        "bucket": "0.70-1.01",
+        "n": 34,
+        "predicted": 0.767,
+        "actual": 0.5,
+        "gap": -0.267
+      }
+    ],
+    "XGB_cal": [
+      {
+        "bucket": "0.50-0.55",
+        "n": 94,
+        "predicted": 0.524,
+        "actual": 0.574,
+        "gap": 0.05
+      },
+      {
+        "bucket": "0.55-0.60",
+        "n": 101,
+        "predicted": 0.574,
+        "actual": 0.634,
+        "gap": 0.06
+      },
+      {
+        "bucket": "0.60-0.65",
+        "n": 68,
+        "predicted": 0.623,
+        "actual": 0.618,
+        "gap": -0.005
+      },
+      {
+        "bucket": "0.65-0.70",
+        "n": 36,
+        "predicted": 0.668,
+        "actual": 0.667,
+        "gap": -0.002
+      },
+      {
+        "bucket": "0.70-1.01",
+        "n": 30,
+        "predicted": 0.87,
+        "actual": 0.6,
+        "gap": -0.27
+      }
+    ],
+    "Ens_35xgb": [
+      {
+        "bucket": "0.50-0.55",
+        "n": 108,
+        "predicted": 0.527,
+        "actual": 0.593,
+        "gap": 0.066
+      },
+      {
+        "bucket": "0.55-0.60",
+        "n": 94,
+        "predicted": 0.574,
+        "actual": 0.574,
+        "gap": 0.001
+      },
+      {
+        "bucket": "0.60-0.65",
+        "n": 75,
+        "predicted": 0.623,
+        "actual": 0.693,
+        "gap": 0.07
+      },
+      {
+        "bucket": "0.65-0.70",
+        "n": 32,
+        "predicted": 0.675,
+        "actual": 0.594,
+        "gap": -0.081
+      },
+      {
+        "bucket": "0.70-1.01",
+        "n": 20,
+        "predicted": 0.743,
+        "actual": 0.55,
+        "gap": -0.193
+      }
+    ]
+  },
+  "brier_scores": {
+    "Bayesian": 0.249984,
+    "XGB_raw": 0.31206,
+    "XGB_cal": 0.245629,
+    "Ens_adaptive": 0.240346
+  },
+  "rolling_performance": {
+    "Bayesian": {
+      "last_50": {
+        "name": "last_50",
+        "record": "16-20-0",
+        "wins": 16,
+        "losses": 20,
+        "pushes": 0,
+        "picks": 36,
+        "win_pct": 44.4,
+        "units": -6.0,
+        "roi_pct": -16.67,
+        "all_side_acc": 42.0,
+        "total_non_push": 50
+      },
+      "last_100": {
+        "name": "last_100",
+        "record": "43-31-0",
+        "wins": 43,
+        "losses": 31,
+        "pushes": 0,
+        "picks": 74,
+        "win_pct": 58.1,
+        "units": 8.9,
+        "roi_pct": 12.03,
+        "all_side_acc": 52.0,
+        "total_non_push": 100
+      },
+      "last_200": {
+        "name": "last_200",
+        "record": "89-53-0",
+        "wins": 89,
+        "losses": 53,
+        "pushes": 0,
+        "picks": 142,
+        "win_pct": 62.7,
+        "units": 30.7,
+        "roi_pct": 21.62,
+        "all_side_acc": 57.0,
+        "total_non_push": 200
+      }
+    },
+    "XGB_cal": {
+      "last_50": {
+        "name": "last_50",
+        "record": "18-17-0",
+        "wins": 18,
+        "losses": 17,
+        "pushes": 0,
+        "picks": 35,
+        "win_pct": 51.4,
+        "units": -0.7,
+        "roi_pct": -2.0,
+        "all_side_acc": 56.0,
+        "total_non_push": 50
+      },
+      "last_100": {
+        "name": "last_100",
+        "record": "37-26-0",
+        "wins": 37,
+        "losses": 26,
+        "pushes": 0,
+        "picks": 63,
+        "win_pct": 58.7,
+        "units": 8.4,
+        "roi_pct": 13.33,
+        "all_side_acc": 60.0,
+        "total_non_push": 100
+      },
+      "last_200": {
+        "name": "last_200",
+        "record": "87-55-0",
+        "wins": 87,
+        "losses": 55,
+        "pushes": 0,
+        "picks": 142,
+        "win_pct": 61.3,
+        "units": 26.5,
+        "roi_pct": 18.66,
+        "all_side_acc": 60.0,
+        "total_non_push": 200
+      }
+    },
+    "Ens_35xgb": {
+      "last_50": {
+        "name": "last_50",
+        "record": "17-17-0",
+        "wins": 17,
+        "losses": 17,
+        "pushes": 0,
+        "picks": 34,
+        "win_pct": 50.0,
+        "units": -1.7,
+        "roi_pct": -5.0,
+        "all_side_acc": 50.0,
+        "total_non_push": 50
+      },
+      "last_100": {
+        "name": "last_100",
+        "record": "41-28-0",
+        "wins": 41,
+        "losses": 28,
+        "pushes": 0,
+        "picks": 69,
+        "win_pct": 59.4,
+        "units": 10.2,
+        "roi_pct": 14.78,
+        "all_side_acc": 54.0,
+        "total_non_push": 100
+      },
+      "last_200": {
+        "name": "last_200",
+        "record": "82-49-0",
+        "wins": 82,
+        "losses": 49,
+        "pushes": 0,
+        "picks": 131,
+        "win_pct": 62.6,
+        "units": 28.1,
+        "roi_pct": 21.45,
+        "all_side_acc": 61.0,
+        "total_non_push": 200
+      }
+    }
+  },
+  "top_features": [
+    [
+      "impl_gap",
+      0.07287035882472992
+    ],
+    [
+      "mf_dNET",
+      0.051753029227256775
+    ],
+    [
+      "dNET*absLine",
+      0.04614201560616493
+    ],
+    [
+      "dNET",
+      0.04598959907889366
+    ],
+    [
+      "mf_dTS",
+      0.04508235678076744
+    ],
+    [
+      "inj_delta",
+      0.041831277310848236
+    ],
+    [
+      "impl_home",
+      0.04048052430152893
+    ],
+    [
+      "dTS",
+      0.03925856202840805
+    ],
+    [
+      "pace*line",
+      0.03844718262553215
+    ],
+    [
+      "mf_baseline",
+      0.03483223542571068
+    ],
+    [
+      "dNET*line",
+      0.03470594808459282
+    ],
+    [
+      "h_def_d",
+      0.034610114991664886
+    ],
+    [
+      "total",
+      0.03446366637945175
+    ],
+    [
+      "avgPace",
+      0.034374501556158066
+    ],
+    [
+      "abs_line",
+      0.03394937142729759
+    ]
+  ],
+  "production_filtered_ensemble": {
+    "Ens_adaptive": {
+      "name": "Ens_adaptive",
+      "record": "84-35-0",
+      "wins": 84,
+      "losses": 35,
+      "pushes": 0,
+      "picks": 119,
+      "win_pct": 70.6,
+      "units": 45.5,
+      "roi_pct": 38.24,
+      "filtered_out": 54,
+      "filters": {
+        "min_prob": 0.57,
+        "sdiff_cap": 9.0,
+        "abs_line_cap": 12.0
+      }
+    },
+    "Ens_40xgb": {
+      "name": "Ens_40xgb",
+      "record": "86-39-0",
+      "wins": 86,
+      "losses": 39,
+      "pushes": 0,
+      "picks": 125,
+      "win_pct": 68.8,
+      "units": 43.1,
+      "roi_pct": 34.48,
+      "filtered_out": 57,
+      "filters": {
+        "min_prob": 0.57,
+        "sdiff_cap": 9.0,
+        "abs_line_cap": 12.0
+      }
+    },
+    "Ens_35xgb": {
+      "name": "Ens_35xgb",
+      "record": "84-38-0",
+      "wins": 84,
+      "losses": 38,
+      "pushes": 0,
+      "picks": 122,
+      "win_pct": 68.9,
+      "units": 42.2,
+      "roi_pct": 34.59,
+      "filtered_out": 58,
+      "filters": {
+        "min_prob": 0.57,
+        "sdiff_cap": 9.0,
+        "abs_line_cap": 12.0
+      }
+    },
+    "Ens_50xgb": {
+      "name": "Ens_50xgb",
+      "record": "84-39-0",
+      "wins": 84,
+      "losses": 39,
+      "pushes": 0,
+      "picks": 123,
+      "win_pct": 68.3,
+      "units": 41.1,
+      "roi_pct": 33.41,
+      "filtered_out": 57,
+      "filters": {
+        "min_prob": 0.57,
+        "sdiff_cap": 9.0,
+        "abs_line_cap": 12.0
+      }
+    },
+    "Ens_30xgb": {
+      "name": "Ens_30xgb",
+      "record": "81-40-0",
+      "wins": 81,
+      "losses": 40,
+      "pushes": 0,
+      "picks": 121,
+      "win_pct": 66.9,
+      "units": 37.0,
+      "roi_pct": 30.58,
+      "filtered_out": 57,
+      "filters": {
+        "min_prob": 0.57,
+        "sdiff_cap": 9.0,
+        "abs_line_cap": 12.0
+      }
+    },
+    "Ens_20xgb": {
+      "name": "Ens_20xgb",
+      "record": "82-45-0",
+      "wins": 82,
+      "losses": 45,
+      "pushes": 0,
+      "picks": 127,
+      "win_pct": 64.6,
+      "units": 32.5,
+      "roi_pct": 25.59,
+      "filtered_out": 62,
+      "filters": {
+        "min_prob": 0.57,
+        "sdiff_cap": 9.0,
+        "abs_line_cap": 12.0
+      }
+    }
+  }
+}

@@ -1,0 +1,460 @@
+{
+  "test_games": 760,
+  "total_games": 810,
+  "min_train": 50,
+  "retrain_every": 20,
+  "min_prob": 0.55,
+  "start_date": "(all)",
+  "n_retrains": 38,
+  "models": {
+    "bayesian": {
+      "name": "Bayesian-only",
+      "record": "343-228-0",
+      "win_pct": 60.1,
+      "units": 92.2,
+      "roi_pct": 16.15,
+      "brier": 0.2465,
+      "total_picks": 571,
+      "calibration": {
+        "0.50-0.55": {
+          "correct": 96,
+          "total": 189,
+          "pct": 50.8
+        },
+        "0.55-0.60": {
+          "correct": 89,
+          "total": 162,
+          "pct": 54.9
+        },
+        "0.60-0.65": {
+          "correct": 92,
+          "total": 146,
+          "pct": 63.0
+        },
+        "0.65-0.70": {
+          "correct": 61,
+          "total": 107,
+          "pct": 57.0
+        },
+        "0.70-0.75": {
+          "correct": 40,
+          "total": 60,
+          "pct": 66.7
+        },
+        "0.75-1.01": {
+          "correct": 61,
+          "total": 96,
+          "pct": 63.5
+        }
+      },
+      "rolling": {
+        "last_50": {
+          "record": "23-27-0",
+          "units": -6.7
+        },
+        "last_100": {
+          "record": "57-43-0",
+          "units": 9.7
+        },
+        "last_200": {
+          "record": "119-81-0",
+          "units": 29.9
+        }
+      }
+    },
+    "xgboost": {
+      "name": "XGBoost-only",
+      "record": "360-295-0",
+      "win_pct": 55.0,
+      "units": 35.5,
+      "roi_pct": 5.42,
+      "brier": 0.2839,
+      "total_picks": 655,
+      "calibration": {
+        "0.50-0.55": {
+          "correct": 55,
+          "total": 105,
+          "pct": 52.4
+        },
+        "0.55-0.60": {
+          "correct": 56,
+          "total": 98,
+          "pct": 57.1
+        },
+        "0.60-0.65": {
+          "correct": 51,
+          "total": 99,
+          "pct": 51.5
+        },
+        "0.65-0.70": {
+          "correct": 41,
+          "total": 88,
+          "pct": 46.6
+        },
+        "0.70-0.75": {
+          "correct": 44,
+          "total": 90,
+          "pct": 48.9
+        },
+        "0.75-1.01": {
+          "correct": 168,
+          "total": 280,
+          "pct": 60.0
+        }
+      },
+      "rolling": {
+        "last_50": {
+          "record": "22-28-0",
+          "units": -8.8
+        },
+        "last_100": {
+          "record": "49-51-0",
+          "units": -7.1
+        },
+        "last_200": {
+          "record": "100-100-0",
+          "units": -10.0
+        }
+      }
+    },
+    "ensemble_xgb_20pct": {
+      "name": "Ensemble(xgb=20%)",
+      "record": "338-215-0",
+      "win_pct": 61.1,
+      "units": 101.5,
+      "roi_pct": 18.35,
+      "brier": 0.2442,
+      "total_picks": 553,
+      "calibration": {
+        "0.50-0.55": {
+          "correct": 103,
+          "total": 207,
+          "pct": 49.8
+        },
+        "0.55-0.60": {
+          "correct": 81,
+          "total": 137,
+          "pct": 59.1
+        },
+        "0.60-0.65": {
+          "correct": 96,
+          "total": 153,
+          "pct": 62.7
+        },
+        "0.65-0.70": {
+          "correct": 62,
+          "total": 113,
+          "pct": 54.9
+        },
+        "0.70-0.75": {
+          "correct": 39,
+          "total": 72,
+          "pct": 54.2
+        },
+        "0.75-1.01": {
+          "correct": 60,
+          "total": 78,
+          "pct": 76.9
+        }
+      },
+      "rolling": {
+        "last_50": {
+          "record": "23-27-0",
+          "units": -6.7
+        },
+        "last_100": {
+          "record": "59-41-0",
+          "units": 13.9
+        },
+        "last_200": {
+          "record": "115-85-0",
+          "units": 21.5
+        }
+      }
+    },
+    "ensemble_xgb_30pct": {
+      "name": "Ensemble(xgb=30%)",
+      "record": "340-230-0",
+      "win_pct": 59.6,
+      "units": 87.0,
+      "roi_pct": 15.26,
+      "brier": 0.2449,
+      "total_picks": 570,
+      "calibration": {
+        "0.50-0.55": {
+          "correct": 98,
+          "total": 190,
+          "pct": 51.6
+        },
+        "0.55-0.60": {
+          "correct": 81,
+          "total": 148,
+          "pct": 54.7
+        },
+        "0.60-0.65": {
+          "correct": 85,
+          "total": 144,
+          "pct": 59.0
+        },
+        "0.65-0.70": {
+          "correct": 68,
+          "total": 121,
+          "pct": 56.2
+        },
+        "0.70-0.75": {
+          "correct": 45,
+          "total": 75,
+          "pct": 60.0
+        },
+        "0.75-1.01": {
+          "correct": 61,
+          "total": 82,
+          "pct": 74.4
+        }
+      },
+      "rolling": {
+        "last_50": {
+          "record": "23-27-0",
+          "units": -6.7
+        },
+        "last_100": {
+          "record": "57-43-0",
+          "units": 9.7
+        },
+        "last_200": {
+          "record": "113-87-0",
+          "units": 17.3
+        }
+      }
+    },
+    "ensemble_xgb_35pct": {
+      "name": "Ensemble(xgb=35%)",
+      "record": "347-241-0",
+      "win_pct": 59.0,
+      "units": 81.9,
+      "roi_pct": 13.93,
+      "brier": 0.2457,
+      "total_picks": 588,
+      "calibration": {
+        "0.50-0.55": {
+          "correct": 88,
+          "total": 172,
+          "pct": 51.2
+        },
+        "0.55-0.60": {
+          "correct": 89,
+          "total": 162,
+          "pct": 54.9
+        },
+        "0.60-0.65": {
+          "correct": 73,
+          "total": 130,
+          "pct": 56.2
+        },
+        "0.65-0.70": {
+          "correct": 72,
+          "total": 130,
+          "pct": 55.4
+        },
+        "0.70-0.75": {
+          "correct": 48,
+          "total": 79,
+          "pct": 60.8
+        },
+        "0.75-1.01": {
+          "correct": 65,
+          "total": 87,
+          "pct": 74.7
+        }
+      },
+      "rolling": {
+        "last_50": {
+          "record": "24-26-0",
+          "units": -4.6
+        },
+        "last_100": {
+          "record": "57-43-0",
+          "units": 9.7
+        },
+        "last_200": {
+          "record": "114-86-0",
+          "units": 19.4
+        }
+      }
+    },
+    "ensemble_xgb_40pct": {
+      "name": "Ensemble(xgb=40%)",
+      "record": "345-250-0",
+      "win_pct": 58.0,
+      "units": 70.0,
+      "roi_pct": 11.76,
+      "brier": 0.2468,
+      "total_picks": 595,
+      "calibration": {
+        "0.50-0.55": {
+          "correct": 90,
+          "total": 165,
+          "pct": 54.5
+        },
+        "0.55-0.60": {
+          "correct": 81,
+          "total": 160,
+          "pct": 50.6
+        },
+        "0.60-0.65": {
+          "correct": 78,
+          "total": 134,
+          "pct": 58.2
+        },
+        "0.65-0.70": {
+          "correct": 66,
+          "total": 124,
+          "pct": 53.2
+        },
+        "0.70-0.75": {
+          "correct": 51,
+          "total": 83,
+          "pct": 61.4
+        },
+        "0.75-1.01": {
+          "correct": 69,
+          "total": 94,
+          "pct": 73.4
+        }
+      },
+      "rolling": {
+        "last_50": {
+          "record": "23-27-0",
+          "units": -6.7
+        },
+        "last_100": {
+          "record": "55-45-0",
+          "units": 5.5
+        },
+        "last_200": {
+          "record": "112-88-0",
+          "units": 15.2
+        }
+      }
+    },
+    "ensemble_xgb_50pct": {
+      "name": "Ensemble(xgb=50%)",
+      "record": "349-259-0",
+      "win_pct": 57.4,
+      "units": 64.1,
+      "roi_pct": 10.54,
+      "brier": 0.2499,
+      "total_picks": 608,
+      "calibration": {
+        "0.50-0.55": {
+          "correct": 86,
+          "total": 152,
+          "pct": 56.6
+        },
+        "0.55-0.60": {
+          "correct": 74,
+          "total": 146,
+          "pct": 50.7
+        },
+        "0.60-0.65": {
+          "correct": 74,
+          "total": 131,
+          "pct": 56.5
+        },
+        "0.65-0.70": {
+          "correct": 65,
+          "total": 119,
+          "pct": 54.6
+        },
+        "0.70-0.75": {
+          "correct": 49,
+          "total": 94,
+          "pct": 52.1
+        },
+        "0.75-1.01": {
+          "correct": 87,
+          "total": 118,
+          "pct": 73.7
+        }
+      },
+      "rolling": {
+        "last_50": {
+          "record": "21-29-0",
+          "units": -10.9
+        },
+        "last_100": {
+          "record": "54-46-0",
+          "units": 3.4
+        },
+        "last_200": {
+          "record": "107-93-0",
+          "units": 4.7
+        }
+      }
+    }
+  },
+  "feature_importance_top15": {
+    "implied_gap": 0.05823,
+    "dNET_x_line": 0.04325,
+    "avgPace_x_line": 0.04318,
+    "mf_baseline": 0.04291,
+    "dNET_x_absline": 0.04099,
+    "dNET": 0.03799,
+    "abs_line": 0.03711,
+    "d_def_d": 0.036,
+    "mf_pace": 0.03544,
+    "line": 0.03528,
+    "mf_dNET": 0.03508,
+    "avgPace": 0.03456,
+    "dORR": 0.033,
+    "d_off_d": 0.03282,
+    "implied_home": 0.03209
+  },
+  "production_filtered_ensemble": {
+    "ensemble_xgb_20pct": {
+      "name": "Ensemble(xgb=20%)",
+      "record": "201-129-0",
+      "win_pct": 60.9,
+      "units": 59.1,
+      "roi_pct": 17.91,
+      "total_picks": 330,
+      "filtered_out": 163
+    },
+    "ensemble_xgb_30pct": {
+      "name": "Ensemble(xgb=30%)",
+      "record": "206-140-0",
+      "win_pct": 59.5,
+      "units": 52.0,
+      "roi_pct": 15.03,
+      "total_picks": 346,
+      "filtered_out": 160
+    },
+    "ensemble_xgb_35pct": {
+      "name": "Ensemble(xgb=35%)",
+      "record": "209-150-0",
+      "win_pct": 58.2,
+      "units": 44.0,
+      "roi_pct": 12.26,
+      "total_picks": 359,
+      "filtered_out": 160
+    },
+    "ensemble_xgb_40pct": {
+      "name": "Ensemble(xgb=40%)",
+      "record": "216-160-0",
+      "win_pct": 57.4,
+      "units": 40.0,
+      "roi_pct": 10.64,
+      "total_picks": 376,
+      "filtered_out": 156
+    },
+    "ensemble_xgb_50pct": {
+      "name": "Ensemble(xgb=50%)",
+      "record": "221-176-0",
+      "win_pct": 55.7,
+      "units": 27.4,
+      "roi_pct": 6.9,
+      "total_picks": 397,
+      "filtered_out": 157
+    }
+  }
+}

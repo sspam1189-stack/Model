@@ -1376,7 +1376,7 @@ async function main() {
   console.log("[6/7] Sending email...");
   const html = buildEmailHtml(run, summaryObj, l10, l10t, weeklySpread, weeklyTotal, rollingSpread, rollingTotal, teamRecords, calibRows, yesterdayRecap);
   const text = buildTextEmail(run, store);
-  const subject = `NBA Picks (Full Season) ${run.dateDisplay}`;
+  const subject = `[JS] NBA Full Season Daily Picks \u2014 ${run.dateDisplay}`;
 
   await sendEmail(subject, text, html);
 
