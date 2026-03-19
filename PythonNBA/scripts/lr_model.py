@@ -528,34 +528,30 @@ def predict_lr(model_bundle, features):
     -------
     dict
         {lr_prob: float, lr_verdict: str}
-        lr_prob is P(home covers).
-        lr_verdict is 'confirm', 'veto', or 'neutral'.
+        lr_prob is P(Bayesian pick covers) 0-1.
+        lr_verdict is "CONFIRM", "VETO", or "NEUTRAL".
     """
     if model_bundle is None or features is None:
-        return {"lr_prob": None, "lr_verdict": "neutral"}
+        return {"lr_prob": None, "lr_verdict": "NEUTRAL"}
 
     model = model_bundle["model"]
     scaler = model_bundle["scaler"]
 
     try:
         X = scaler.transform([features])
-        proba = model.predict_proba(X)[0]
-        # proba[1] = P(home covers), proba[0] = P(away covers)
-        p_home = float(proba[1]) if len(proba) > 1 else 0.5
+        prob = float(model.predict_proba(X)[0, 1])
     except Exception as e:
         print(f"lr_model: predict error -- {e}")
-        return {"lr_prob": None, "lr_verdict": "neutral"}
+        return {"lr_prob": None, "lr_verdict": "NEUTRAL"}
 
-    # Verdict relative to the pick side is determined by the caller.
-    # Here we return raw P(home cover) and a generic verdict.
-    if p_home >= LR_CONFIRM_THRESH:
-        verdict = "confirm_home"
-    elif p_home <= LR_VETO_THRESH:
-        verdict = "confirm_away"
+    if prob >= LR_CONFIRM_THRESH:
+        verdict = "CONFIRM"
+    elif prob <= LR_VETO_THRESH:
+        verdict = "VETO"
     else:
-        verdict = "neutral"
+        verdict = "NEUTRAL"
 
-    return {"lr_prob": round(p_home, 4), "lr_verdict": verdict}
+    return {"lr_prob": round(prob, 3), "lr_verdict": verdict}
 
 
 def predict_lr_for_pick(model_bundle, features, picked_home):
