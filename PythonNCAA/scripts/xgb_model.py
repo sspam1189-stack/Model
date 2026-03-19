@@ -62,18 +62,18 @@ FEATURE_NAMES = [
     "dTS", "dTO", "dORR", "dNET", "avgPace",
     # Margin features (5-8)
     "mf_dTS", "mf_dTO", "mf_dORR", "mf_dNET",
-    # Market context (9-11)
-    "line", "total", "abs_line",
-    # Interactions (16-18)
-    "dNET_x_line", "dNET_x_absline", "avgPace_x_line",
-    # Trends (19-30)
+    # Market context (9-10)
+    "total", "abs_line",
+    # Interactions (11)
+    "dNET_x_absline",
+    # Trends (12-23)
     "h_ats", "a_ats", "ats_diff",
     "h_ou", "a_ou", "ou_diff",
     "h_ats_pm", "a_ats_pm", "ats_pm_diff",
     "h_tot_pm", "a_tot_pm", "tot_pm_diff",
-    # Schedule (31-33)
+    # Schedule (24-26)
     "home_b2b", "away_b2b", "b2b_diff",
-    # Tournament context (34-36)
+    # Tournament context (27-29)
     "is_tournament", "is_neutral", "seed_diff",
 ]
 
@@ -184,13 +184,10 @@ def extract_features(g: dict, stats: Optional[dict] = None, w: Optional[dict] = 
         _safe_num(mf.get("dORR")),
         _safe_num(mf.get("dNET")),
         # Market context
-        line,
         total,
         abs_line,
         # Interactions
-        _safe_num(f.get("dNET")) * line,
         _safe_num(f.get("dNET")) * abs_line,
-        avg_pace * line,
         # Trends
         h_ats,
         a_ats,

@@ -72,8 +72,8 @@ XGB_PARAMS = dict(
 FEATURE_NAMES = [
     "dTS", "dTO", "dORR", "dNET", "avgPace",
     "mf_dTS", "mf_dTO", "mf_dORR", "mf_dNET", "mf_pace",
-    "line", "total", "abs_line",
-    "dNET_x_line", "dNET_x_absline", "avgPace_x_line",
+    "total", "abs_line",
+    "dNET_x_absline",
     "h_ats", "a_ats", "d_ats", "h_ou", "a_ou", "d_ou",
     "h_ats_pm", "a_ats_pm", "d_ats_pm", "h_tot_pm", "a_tot_pm", "d_tot_pm",
     "home_b2b", "away_b2b", "d_b2b",
@@ -205,13 +205,10 @@ def extract_features(g: dict) -> List[float]:
         _safe_num(mf.get("dNET")),
         _safe_num(mf.get("_pace"), 1.0),
         # Market context
-        line,
         total,
         abs_line,
-        # Interactions (17-19)
-        dNET * line,
+        # Interactions
         dNET * abs_line,
-        avgPace * line,
         # Trends (20-31)
         h_ats,
         a_ats,

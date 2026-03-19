@@ -69,8 +69,8 @@ UNIT_PUSH = 0.0
 FEATURE_NAMES = [
     "dTS", "dTO", "dORR", "dNET", "avgPace",
     "mf_dTS", "mf_dTO", "mf_dORR", "mf_dNET", "mf_pace",
-    "line", "total", "abs_line",
-    "dNET*line", "dNET*absLine", "pace*line",
+    "total", "abs_line",
+    "dNET*absLine",
     "h_ats", "a_ats", "ats_delta",
     "h_ou", "a_ou", "ou_delta",
     "h_ats_pm", "a_ats_pm", "ats_pm_delta",

@@ -2,7 +2,7 @@
 # XGBoost model integration for NBA picks pipeline.
 #
 # Provides:
-#   - Feature extraction from pregame game data (43+ features)
+#   - Feature extraction from pregame game data (40+ features)
 #   - Walk-forward training on historical graded games
 #   - Margin prediction -> P(cover) via Normal CDF
 #   - Platt scaling calibration on trailing window
@@ -110,7 +110,7 @@ def _delta_features(adj, side: str, stat: str) -> float:
 
 
 # ---------------------------------------------------------------------------
-# Feature extraction (43+ features, identical to backtest)
+# Feature extraction (40+ features, identical to backtest)
 # ---------------------------------------------------------------------------
 
 def extract_features(g: dict) -> List[float]:
@@ -149,7 +149,7 @@ def extract_features(g: dict) -> List[float]:
     away_pace_d = _delta_features(g.get("_adjDeltas"), "away", "PACE")
 
     return [
-        # Raw matchup/stat features (0-10)
+        # Raw matchup/stat features (0-9)
         _safe_num(f.get("dTS")),
         _safe_num(f.get("dTO")),
         _safe_num(f.get("dORR")),
@@ -160,15 +160,12 @@ def extract_features(g: dict) -> List[float]:
         _safe_num(mf.get("dORR")),
         _safe_num(mf.get("dNET")),
         _safe_num(mf.get("_pace"), 1.0),
-        # Market context
-        line,
+        # Market context (10-11)
         total,
         abs_line,
-        # Interactions (17-19)
-        _safe_num(f.get("dNET")) * line,
+        # Interactions (12)
         _safe_num(f.get("dNET")) * abs_line,
-        _safe_num(f.get("avgPace"), 98.0) * line,
-        # Trends (20-31)
+        # Trends (13-24)
         h_ats,
         a_ats,
         h_ats - a_ats,
@@ -181,14 +178,14 @@ def extract_features(g: dict) -> List[float]:
         h_tot_pm,
         a_tot_pm,
         h_tot_pm - a_tot_pm,
-        # Schedule/injury (32-37)
+        # Schedule/injury (25-30)
         float(home_b2b),
         float(away_b2b),
         float(home_b2b - away_b2b),
         float(home_inj),
         float(away_inj),
         float(home_inj - away_inj),
-        # Lineup adjustment deltas (38-46)
+        # Lineup adjustment deltas (31-39)
         home_off_d,
         away_off_d,
         home_off_d - away_off_d,
