@@ -19,6 +19,7 @@ jobs:
         working-directory: PythonNBA/scripts
         env:
           PYTHONUTF8: "1"
+          PYTHONUNBUFFERED: "1"
           PYTHONIOENCODING: "utf-8"
           ODDS_API_KEY: ${{ secrets.ODDS_API_KEY_PAID }}
           GMAIL_USER: ${{ secrets.GMAIL_USER }}
@@ -54,6 +55,7 @@ jobs:
         working-directory: PythonFull/scripts
         env:
           PYTHONUTF8: "1"
+          PYTHONUNBUFFERED: "1"
           PYTHONIOENCODING: "utf-8"
           ODDS_API_KEY: ${{ secrets.ODDS_API_KEY_PAID }}
           GMAIL_USER: ${{ secrets.GMAIL_USER }}
