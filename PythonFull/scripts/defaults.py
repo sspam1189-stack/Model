@@ -72,13 +72,6 @@ DEFAULT_W_VAR = {
 
 # -- Bayesian hyperparameters -------------------------------------------------
 
-# -- XGBoost integration defaults ---------------------------------------------
-
-XGB_RETRAIN_INTERVAL = 20      # retrain after this many new graded games
-XGB_MIN_TRAINING_GAMES = 50    # minimum graded games required to train
-XGB_ENSEMBLE_WEIGHT = 0.20     # default XGBoost weight in ensemble (Bayesian gets 1-this)
-XGB_LOOKBACK_WINDOW = 30       # trailing window for calibration & adaptive weighting
-
 # -- Bayesian hyperparameters -------------------------------------------------
 
 BAYES_HYPER = {
@@ -103,3 +96,9 @@ BAYES_HYPER = {
     # travel, rest, motivation, ref variance, etc.
     "residualVar": 100,
 }
+
+# --- Logistic Regression confirmation model -----------------------------------
+LR_CONFIRM_THRESH = 0.60        # LR P(cover) >= this to confirm Bayesian pick (backtest optimal)
+LR_VETO_THRESH    = 0.40        # LR P(cover) < this to veto Bayesian pick (backtest optimal)
+LR_MIN_TRAINING_GAMES = 80      # minimum games before LR starts predicting
+LR_RETRAIN_INTERVAL   = 20      # retrain LR every N new graded games

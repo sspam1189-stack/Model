@@ -260,14 +260,14 @@ export function projTotal(homeTeam, awayTeam, H, a, W) {
 // Returns the feature vector used by self_tune for the margin regression.
 // margin ≈ features · weights + baseline
 
-export function extractMarginFeatures(homeStats, awayStats, avgStats, paceAdj) {
+export function extractMarginFeatures(homeStats, awayStats, avgStats, paceAdj, neutral = false) {
   const pace = ((homeStats.PACE + awayStats.PACE) / 2 * paceAdj) / 100;
   return {
     dTS:  (homeStats.TS - awayStats.TS) * pace,
     dTO:  -(homeStats.TO - awayStats.TO) * pace,    // negative: higher TO is bad
     dORR: (homeStats.ORR - awayStats.ORR) * pace,
     dNET: 0.5 * ((homeStats.OFF - homeStats.DEF) - (awayStats.OFF - awayStats.DEF)) * pace,
-    hca:  1.0,  // home court present
+    hca:  neutral ? 0.0 : 1.0,  // zero for neutral-site tournament games
     // Baseline (not weight-dependent): ((hOFF+aDEF)/2 - (aOFF+hDEF)/2) * pace
     _baseline: ((homeStats.OFF + awayStats.DEF) / 2 - (awayStats.OFF + homeStats.DEF) / 2) * pace,
     _pace: pace,
@@ -436,7 +436,7 @@ export function analyzeGame(g, H, a, W, injuryAdj = null, kalmanState = null, W_
   };
 
   // Margin features for Bayesian weight update
-  const _marginFeatures = extractMarginFeatures(hTeam, aTeam, a, W.paceAdj);
+  const _marginFeatures = extractMarginFeatures(hTeam, aTeam, a, W.paceAdj, neutral);
 
   return {
     ...gg,

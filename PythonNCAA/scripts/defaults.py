@@ -48,9 +48,8 @@ BAYES_HYPER = {
     "residualVar": 130,    # higher irreducible noise in college
 }
 
-# --- XGBoost ensemble settings ------------------------------------------------
-
-XGB_RETRAIN_INTERVAL = 20     # retrain after this many new graded games
-XGB_MIN_TRAINING_GAMES = 50   # minimum graded games before XGBoost can train
-XGB_ENSEMBLE_WEIGHT = 0.35    # base weight for XGBoost in ensemble (Bayesian gets 1 - this)
-XGB_LOOKBACK_WINDOW = 30      # trailing window for adaptive weight computation
+# --- Logistic Regression confirmation model -----------------------------------
+LR_CONFIRM_THRESH = 0.58        # LR P(cover) >= this to confirm Bayesian pick (backtest optimal)
+LR_VETO_THRESH    = 0.42        # LR P(cover) < this to veto Bayesian pick (backtest optimal)
+LR_MIN_TRAINING_GAMES = 80      # minimum games before LR starts predicting
+LR_RETRAIN_INTERVAL   = 20      # retrain LR every N new graded games

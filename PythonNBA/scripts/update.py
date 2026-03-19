@@ -46,13 +46,7 @@ from kalman_state import (
 )
 from calibration import build_calibration_table, build_calibration_html
 from email_report import send_email
-from xgb_model import (
-    load_or_train_model as xgb_load_or_train,
-    extract_features as xgb_extract_features,
-    predict_game as xgb_predict_game,
-    ensemble_probability as xgb_ensemble,
-    compute_recent_performance as xgb_recent_perf,
-)
+from lr_model import load_or_train_lr, build_team_histories, extract_lr_features, predict_lr
 
 
 def main(subject_label="[PY Update]"):
@@ -232,10 +226,11 @@ def main(subject_label="[PY Update]"):
     dynamic_residual_var = compute_residual_var(store.get("runs", []))
     store["residualVar"] = dynamic_residual_var
 
-    # 3d. Load or retrain XGBoost model
-    print("[3d] XGBoost model...")
-    xgb_bundle = xgb_load_or_train(store)
-    xgb_perf = xgb_recent_perf(store, xgb_bundle) if xgb_bundle else None
+    # 3d. Load / train LR confirmation model
+    lr_bundle = load_or_train_lr(store)
+    lr_histories = build_team_histories(store)
+    if lr_bundle:
+        print(f"  LR model ready ({lr_bundle.get('n_train', '?')} training games)")
 
     # 4. Analyze each game
     print(f"[3/7] Analyzing {len(odds)} games...")
@@ -261,6 +256,19 @@ def main(subject_label="[PY Update]"):
         if not r:
             games.append(dict(g, status="SKIPPED"))
             continue
+
+        # LR confirmation / veto
+        home_hist = lr_histories.get(r.get("home"), [])
+        away_hist = lr_histories.get(r.get("away"), [])
+        lr_features = extract_lr_features(home_hist, away_hist, g, home_hist, away_hist)
+        lr_result = predict_lr(lr_bundle, lr_features)
+        r["lrProb"] = lr_result["lr_prob"]
+        r["lrVerdict"] = lr_result["lr_verdict"]
+
+        if lr_result["lr_verdict"] == "VETO" and r.get("sPick") and r["sPick"] != "PASS":
+            r["lrVetoed"] = r["sPick"]
+            r["sPick"] = "PASS"
+            r["sConf"] = "vetoed"
 
         away_delta = compute_team_delta(g["away"])
         home_delta = compute_team_delta(g["home"])
@@ -294,122 +302,6 @@ def main(subject_label="[PY Update]"):
             if home_b2b:
                 parts.append(f"{g['home']}: {home_b2b}")
             g["b2bNote"] = " | ".join(parts)
-
-    # 5b. XGBoost predictions + ensemble
-    if xgb_bundle:
-        xgb_count = 0
-        for g in games:
-            if g.get("status") in ("MISSING_ODDS", "SKIPPED"):
-                continue
-            try:
-                feats = xgb_extract_features(g)
-                xgb_pred = xgb_predict_game(xgb_bundle, feats)
-                g["xgb_margin"] = xgb_pred["xgb_margin"]
-                g["xgb_pCover"] = xgb_pred["xgb_pCover"]
-                g["xgb_pCover_raw"] = xgb_pred["xgb_pCover_raw"]
-                g["xgb_pHomeCover"] = xgb_pred["xgb_pCover"]  # dashboard field
-
-                # Ensemble spread P(cover)
-                bayes_p = g.get("pHomeCover", 0.5)
-                ens_p = xgb_ensemble(bayes_p, xgb_pred["xgb_pCover"], xgb_perf)
-                g["ensemble_pCover"] = round(ens_p, 4)
-                g["ens_pHomeCover"] = round(ens_p, 4)  # dashboard field
-                g["ens_pAwayCover"] = round(1.0 - ens_p, 4)
-
-                # For the picked side: if Bayesian picked away, flip ensemble too
-                if g.get("pCover") is not None and g.get("pHomeCover") is not None:
-                    if g["pCover"] == (1.0 - g["pHomeCover"]):
-                        g["xgb_pCover_side"] = round(1.0 - xgb_pred["xgb_pCover"], 4)
-                        g["ensemble_pCover_side"] = round(1.0 - ens_p, 4)
-                    else:
-                        g["xgb_pCover_side"] = round(xgb_pred["xgb_pCover"], 4)
-                        g["ensemble_pCover_side"] = round(ens_p, 4)
-
-                xgb_count += 1
-            except Exception as e:
-                print(f"  [XGB] Prediction failed for {g.get('away', '?')} @ {g.get('home', '?')}: {e}")
-        print(f"  [XGB] Predicted {xgb_count} games")
-    else:
-        print("  [XGB] No model available -- skipping predictions")
-
-    # 5c. Ensemble pick override: re-evaluate spread picks using ensemble P(cover)
-    if xgb_bundle:
-        prob_h = base_w.get("probHigh", 0.57)
-        SDIFF_CAP = 9
-        override_count = 0
-
-        for g in games:
-            if g.get("status") in ("MISSING_ODDS", "SKIPPED"):
-                continue
-            if g.get("ensemble_pCover") is None:
-                continue
-
-            g["sPick_bayes"] = g.get("sPick", "PASS")
-            g["sConf_bayes"] = g.get("sConf", "low")
-            g["pCover_bayes"] = g.get("pCover")
-
-            ens_p_home = g["ensemble_pCover"]
-            ens_p_away = 1.0 - ens_p_home
-
-            best_ens_p = max(ens_p_home, ens_p_away)
-            ens_side = "home" if ens_p_home >= ens_p_away else "away"
-
-            abs_line = abs(g.get("line", 0))
-            home_fav = g.get("line", 0) > 0
-            s_diff = g.get("sDiff", 99)
-
-            ens_passes_filter = (best_ens_p >= prob_h and s_diff <= SDIFF_CAP and abs_line < 12)
-
-            if ens_passes_filter:
-                if ens_side == "home":
-                    new_pick = f"{g['home']} -{abs_line}" if home_fav else f"{g['home']} +{abs_line}"
-                else:
-                    new_pick = f"{g['away']} +{abs_line}" if home_fav else f"{g['away']} -{abs_line}"
-
-                if best_ens_p >= 0.64:
-                    new_conf = "elite"
-                elif best_ens_p >= prob_h:
-                    new_conf = "elite"
-                else:
-                    new_conf = "low"
-
-                bayes_had_pick = g["sPick_bayes"] != "PASS"
-                if bayes_had_pick and new_pick == g["sPick_bayes"]:
-                    g["sPick"] = new_pick
-                    g["sConf"] = new_conf
-                    g["pCover"] = round(best_ens_p * 1000) / 1000
-                    g["pickSource"] = "AGREE"
-                elif bayes_had_pick:
-                    g["sPick"] = new_pick
-                    g["sConf"] = new_conf
-                    g["pCover"] = round(best_ens_p * 1000) / 1000
-                    g["pickSource"] = "ENS"
-                    override_count += 1
-                else:
-                    g["sPick"] = new_pick
-                    g["sConf"] = new_conf
-                    g["pCover"] = round(best_ens_p * 1000) / 1000
-                    g["pickSource"] = "ENS"
-                    override_count += 1
-            else:
-                if g["sPick_bayes"] != "PASS":
-                    g["sPick"] = "PASS"
-                    g["sConf"] = "low"
-                    g["pCover"] = None
-                    g["pickSource"] = "ENS_PASS"
-                    override_count += 1
-                else:
-                    g["pickSource"] = "AGREE"
-
-            if g["sPick"] != "PASS":
-                g["ensemble_pCover_side"] = round(best_ens_p, 4)
-                xgb_p_home = g.get("xgb_pCover", 0.5)
-                if ens_side == "away":
-                    g["xgb_pCover_side"] = round(1.0 - xgb_p_home, 4)
-                else:
-                    g["xgb_pCover_side"] = round(xgb_p_home, 4)
-
-        print(f"  [ENS] Ensemble pick override: {override_count} picks changed")
 
     # 6. Build run record
     print("[4/7] Saving...")
