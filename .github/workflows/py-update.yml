@@ -12,12 +12,8 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - uses: actions/setup-python@v5
-        with:
-          python-version: '3.11'
-
       - name: Install dependencies
-        run: pip install requests beautifulsoup4 python-dotenv scipy
+        run: pip install requests beautifulsoup4 python-dotenv scipy pytz
 
       - name: Run update
         working-directory: PythonNBA/scripts
@@ -46,15 +42,11 @@ jobs:
         with:
           ref: main
 
-      - uses: actions/setup-python@v5
-        with:
-          python-version: '3.11'
-
       - name: Pull latest
         run: git pull origin main
 
       - name: Install dependencies
-        run: pip install requests beautifulsoup4 python-dotenv scipy
+        run: pip install requests beautifulsoup4 python-dotenv scipy pytz
 
       - name: Run update
         working-directory: PythonFull/scripts
