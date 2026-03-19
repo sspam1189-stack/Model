@@ -127,11 +127,6 @@ def extract_features(g: dict) -> List[float]:
     total = _safe_num(g.get("total"), 220.0)
     abs_line = abs(line)
 
-    # Market implied scoring
-    implied_home = (total + line) / 2.0
-    implied_away = (total - line) / 2.0
-    implied_gap = implied_home - implied_away
-
     # Trend deltas
     h_ats = _trend_val(trends, "home", "atsPct")
     a_ats = _trend_val(trends, "away", "atsPct")
@@ -164,15 +159,11 @@ def extract_features(g: dict) -> List[float]:
         _safe_num(mf.get("dTO")),
         _safe_num(mf.get("dORR")),
         _safe_num(mf.get("dNET")),
-        _safe_num(mf.get("_baseline")),
         _safe_num(mf.get("_pace"), 1.0),
-        # Market context (11-16)
+        # Market context
         line,
         total,
         abs_line,
-        implied_home,
-        implied_away,
-        implied_gap,
         # Interactions (17-19)
         _safe_num(f.get("dNET")) * line,
         _safe_num(f.get("dNET")) * abs_line,

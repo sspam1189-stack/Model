@@ -60,10 +60,10 @@ META_PATH = MODEL_DIR / "ncaa_xgb_meta.json"
 FEATURE_NAMES = [
     # Core stat deltas (0-4)
     "dTS", "dTO", "dORR", "dNET", "avgPace",
-    # Margin features (5-9)
-    "mf_dTS", "mf_dTO", "mf_dORR", "mf_dNET", "mf_baseline",
-    # Market context (10-15)
-    "line", "total", "abs_line", "implied_home", "implied_away", "implied_gap",
+    # Margin features (5-8)
+    "mf_dTS", "mf_dTO", "mf_dORR", "mf_dNET",
+    # Market context (9-11)
+    "line", "total", "abs_line",
     # Interactions (16-18)
     "dNET_x_line", "dNET_x_absline", "avgPace_x_line",
     # Trends (19-30)
@@ -147,11 +147,6 @@ def extract_features(g: dict, stats: Optional[dict] = None, w: Optional[dict] = 
     total = _safe_num(g.get("total"), 220.0)
     abs_line = abs(line)
 
-    # Market implied scoring
-    implied_home = (total + line) / 2.0
-    implied_away = (total - line) / 2.0
-    implied_gap = implied_home - implied_away
-
     # Trend features
     h_ats = _trend_val(trends, "home", "atsPct")
     a_ats = _trend_val(trends, "away", "atsPct")
@@ -188,14 +183,10 @@ def extract_features(g: dict, stats: Optional[dict] = None, w: Optional[dict] = 
         _safe_num(mf.get("dTO")),
         _safe_num(mf.get("dORR")),
         _safe_num(mf.get("dNET")),
-        _safe_num(mf.get("_baseline")),
         # Market context
         line,
         total,
         abs_line,
-        implied_home,
-        implied_away,
-        implied_gap,
         # Interactions
         _safe_num(f.get("dNET")) * line,
         _safe_num(f.get("dNET")) * abs_line,

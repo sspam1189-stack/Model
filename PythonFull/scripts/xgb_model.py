@@ -71,8 +71,8 @@ XGB_PARAMS = dict(
 # Feature names for debugging / importance analysis
 FEATURE_NAMES = [
     "dTS", "dTO", "dORR", "dNET", "avgPace",
-    "mf_dTS", "mf_dTO", "mf_dORR", "mf_dNET", "mf_baseline", "mf_pace",
-    "line", "total", "abs_line", "implied_home", "implied_away", "implied_gap",
+    "mf_dTS", "mf_dTO", "mf_dORR", "mf_dNET", "mf_pace",
+    "line", "total", "abs_line",
     "dNET_x_line", "dNET_x_absline", "avgPace_x_line",
     "h_ats", "a_ats", "d_ats", "h_ou", "a_ou", "d_ou",
     "h_ats_pm", "a_ats_pm", "d_ats_pm", "h_tot_pm", "a_tot_pm", "d_tot_pm",
@@ -163,11 +163,6 @@ def extract_features(g: dict) -> List[float]:
     total = _safe_num(g.get("total"), 220.0)
     abs_line = abs(line)
 
-    # Market implied scoring
-    implied_home = (total + line) / 2.0
-    implied_away = (total - line) / 2.0
-    implied_gap = implied_home - implied_away
-
     # Trend deltas
     h_ats = _trend_val(trends, "home", "atsPct")
     a_ats = _trend_val(trends, "away", "atsPct")
@@ -208,15 +203,11 @@ def extract_features(g: dict) -> List[float]:
         _safe_num(mf.get("dTO")),
         _safe_num(mf.get("dORR")),
         _safe_num(mf.get("dNET")),
-        _safe_num(mf.get("_baseline")),
         _safe_num(mf.get("_pace"), 1.0),
-        # Market context (11-16)
+        # Market context
         line,
         total,
         abs_line,
-        implied_home,
-        implied_away,
-        implied_gap,
         # Interactions (17-19)
         dNET * line,
         dNET * abs_line,
