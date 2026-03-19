@@ -412,12 +412,226 @@ def build_game_injury_adj(away_team, home_team, injury_report, player_mpg=None):
     return {"awayInjuries": get_key_injuries(injury_report, away_team, player_mpg),
             "homeInjuries": get_key_injuries(injury_report, home_team, player_mpg)}
 
-# ---- Email HTML Builder (simplified but complete) ----
+# ---- Email HTML Builder ----
+
+def build_team_record_table(team_records):
+    sorted_teams = sorted(
+        [(name, t) for name, t in team_records.items() if t["w"] + t["l"] >= 3],
+        key=lambda x: x[1]["w"] - x[1]["l"] * 1.1,
+        reverse=True
+    )
+    if not sorted_teams:
+        return ""
+    rows = []
+    for name, t in sorted_teams:
+        total = t["w"] + t["l"]
+        pct = round(100 * t["w"] / total) if total > 0 else 0
+        flat_units = round((t["w"] - t["l"] * 1.1) * 10) / 10
+        flat_str = f"{'+' if flat_units >= 0 else ''}{flat_units:.1f}u"
+        flat_color = "#10b981" if flat_units >= 0 else "#ef4444"
+        rows.append(
+            f'<tr><td>{esc(name)}</td><td class="">{t["picks"]}</td>'
+            f'<td class="">{t["w"]}-{t["l"]}-{t["p"]}</td>'
+            f'<td class="">{pct}%</td>'
+            f'<td class="" style="color:{flat_color}">{flat_str}</td>'
+            f'<td class="">{t["fav"]}</td><td class="">{t["dog"]}</td></tr>'
+        )
+    return f'''
+    <div class="card card-records">
+      <div class="summaryTitle">\U0001F3C0 Team Spread Record (ATS)</div>
+      <table class="data">
+        <thead><tr>
+          <th>Team</th><th class="">Picks</th><th class="">W-L-P</th>
+          <th class="">Win%</th><th class="">Flat</th>
+          <th class="">Fav</th><th class="">Dog</th>
+        </tr></thead>
+        <tbody>{"".join(rows)}</tbody>
+      </table>
+      <div class="tiny">Only graded spread picks. Units at -110 juice.</div>
+    </div>'''
+
+
+def build_recap_html(recap):
+    if not recap or not recap.get("picks"):
+        return ""
+    def result_badge(result):
+        if result == "WIN":
+            return '<span style="color:#10b981; font-weight:700">\u2713 WIN</span>'
+        if result == "LOSS":
+            return '<span style="color:#ef4444; font-weight:700">\u2717 LOSS</span>'
+        return '<span style="color:#6b7280; font-weight:700">\u229c PUSH</span>'
+    rows = ""
+    for p in recap["picks"]:
+        s_diff_str = f"{p['sDiff']:.1f}" if p.get("sDiff") is not None else "\u2014"
+        rows += f'''<tr>
+      <td>\U0001F3C0 {esc(p["matchup"])}</td>
+      <td><b>{esc(p["pick"])}</b> <span class="trend-label">sDiff {s_diff_str}</span></td>
+      <td style="text-align:center">{result_badge(p["result"])}</td>
+      <td style="text-align:center">{esc(p["final"])}</td>
+    </tr>'''
+    t = recap["tally"]
+    p_val = t["p"]
+    summary_str = f'<b>{t["w"]}-{t["l"]}{f"-{p_val}" if p_val else ""}</b>'
+    units_color = "#10b981" if recap["units"] >= 0 else "#ef4444"
+    units_str = f'<span style="color:{units_color}; font-weight:700">{recap["units"]:+.2f}u</span>'
+    return f'''
+    <div class="card" style="border-left:4px solid #f59e0b; margin-bottom:10px;">
+      <div class="summaryTitle">\U0001F4CB Yesterday\'s Recap ({esc(recap["dateDisplay"])})</div>
+      <table class="data">
+        <thead><tr>
+          <th>Game</th><th>Pick</th>
+          <th style="text-align:center">Result</th>
+          <th style="text-align:center">Final</th>
+        </tr></thead>
+        <tbody>{rows}</tbody>
+      </table>
+      <div class="tiny" style="margin-top:6px">Spread: {summary_str} \u00b7 {units_str}</div>
+    </div>'''
+
+
+EMAIL_STYLES = '''
+<style>
+  body { font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif; margin:0; padding:0; background:#f3f4f6; }
+  .wrap { max-width: 920px; margin: 0 auto; padding: 16px; }
+  .h1 { font-size:20px; font-weight:800; color:#111827; }
+  .sub { font-size:12px; color:#6b7280; }
+  .card { background:#fff; border:1px solid #e5e7eb; border-radius:14px; padding:12px; box-shadow: 0 1px 3px rgba(0,0,0,.05); }
+  .card .summaryTitle { font-size:12px; font-weight:800; color:#111827; letter-spacing:.02em; margin-bottom:8px; }
+  .tiny { font-size:11px; color:#6b7280; line-height:1.35; }
+  table.data { width:100%; border-collapse:collapse; }
+  table.data th, table.data td { font-size:12px; padding:7px 6px; border-bottom:1px solid #eef2f7; }
+  table.data th { text-align:left; color:#6b7280; font-weight:700; }
+  .right { text-align:right; }
+  .badge { display:inline-block; font-size:10px; font-weight:800; padding:3px 8px; border-radius:999px; border:1px solid #e5e7eb; white-space:nowrap; }
+  .b-high { background:#ecfdf5; color:#047857; border-color:#a7f3d0; }
+  .b-elite { background:#111827; color:#ffffff; border-color:#111827; }
+  .b-low { background:#fef3c7; color:#92400e; border-color:#fde68a; }
+  .pick-team { font-weight:800; color:#111827; }
+  .pick-line { font-size:11px; color:#6b7280; }
+  .no-picks { color:#6b7280; font-size:12px; padding:6px 0; }
+  .trend-label { font-size:11px; color:#6b7280; }
+  .l10-tally { margin-top:10px; font-size:13px; font-weight:700; color:#111827; }
+  .win-text { color:#047857; }
+  .loss-text { color:#b91c1c; }
+  .section-label { font-size:10px; font-weight:800; text-transform:uppercase; letter-spacing:.1em; padding:10px 0 4px; opacity:.55; }
+  .card-picks { border-left: 4px solid #6366f1; }
+  .card-records { border-left: 4px solid #0ea5e9; }
+  .card-games { border-left: 4px solid #f59e0b; }
+  .card-trends { border-left: 4px solid #10b981; }
+</style>'''
+
+
+def win_rate_class(pct):
+    try:
+        n = float(pct)
+    except (ValueError, TypeError):
+        return ""
+    return "win-text" if n >= 55 else ("loss-text" if n <= 50 else "")
+
+
+def units_class(u):
+    if not isinstance(u, (int, float)) or not math.isfinite(u):
+        return ""
+    return "win-text" if u > 0 else ("loss-text" if u < 0 else "")
+
 
 def conf_badge(conf):
     c = str(conf or "").lower()
     cls = "b-elite" if c == "elite" else ("b-high" if c == "high" else "b-low")
     return f'<span class="badge {cls}">{esc(c.upper() if c else "N/A")}</span>'
+
+
+def build_table(rows, cols):
+    if not rows:
+        return '<div class="no-picks">Not enough picks yet.</div>'
+    header = "".join(f"<th>{esc(c['label'])}</th>" for c in cols)
+    body = "".join(
+        "<tr>" + "".join(f"<td>{c['render'](r)}</td>" for c in cols) + "</tr>"
+        for r in rows
+    )
+    return f'<table class="data"><thead><tr>{header}</tr></thead><tbody>{body}</tbody></table>'
+
+
+def wlp_html(r):
+    return f'<span class="win-text">{r["w"]}W</span>\u2013<span class="loss-text">{r["l"]}L</span>\u2013{r["p"]}P'
+
+
+def pct_html(pct):
+    return f'<span class="{win_rate_class(pct)}">{pct}%</span>'
+
+
+def units_html(units):
+    return f'<span class="{units_class(units)}">{fmt_units(units)}</span>'
+
+
+def tally_l10(rows, pick_type="spread"):
+    w = sum(1 for x in rows if x.get("result") == "WIN")
+    l = sum(1 for x in rows if x.get("result") == "LOSS")
+    p = sum(1 for x in rows if x.get("result") == "PUSH")
+    if pick_type == "total":
+        units = sum(total_pick_unit(x.get("date", ""), x.get("result", "")) for x in rows)
+    else:
+        units = calc_units(w, l)
+    return {"w": w, "l": l, "p": p, "pct": win_pct(w, l), "units": units}
+
+
+def build_combined_record_table(title, elite_bucket, split_rows, card_class="card-records"):
+    def row(label, b):
+        return (f'<tr><td>{label}</td><td class="">{b["w"]}-{b["l"]}-{b["p"]}</td>'
+                f'<td class="">{esc(b["pct"])}%</td><td class="">{esc(fmt_units(b["units"]))}</td>'
+                f'<td class="">{b["played"]}</td></tr>')
+    split_body = "".join(row(f'{r["emoji"]} {r["label"]}', r["data"]) for r in split_rows)
+    return f'''
+    <div class="card {card_class}">
+      <div class="summaryTitle">{esc(title)}</div>
+      <table class="data">
+        <thead><tr><th>Bucket</th><th class="">W-L-P</th><th class="">Win%</th><th class="">Flat</th><th class="">Graded</th></tr></thead>
+        <tbody>
+          {row("\U0001F512 Elite", elite_bucket)}
+          {split_body}
+        </tbody>
+      </table>
+      <div class="tiny">Only graded picks (games with final scores + a non-PASS pick).</div>
+    </div>'''
+
+
+def build_game_prob_table(games):
+    filtered = [g for g in (games or []) if g.get("status") not in ("MISSING_ODDS", "SKIPPED")]
+    if not filtered:
+        return ""
+    rows = ""
+    for g in filtered:
+        s_pick_display = esc(g["sPick"]) if g.get("sPick") and g["sPick"] != "PASS" else '<span style="color:#9ca3af">PASS</span>'
+        o_pick_display = esc(g["oPick"]) if g.get("oPick") and g["oPick"] != "PASS" else '<span style="color:#9ca3af">PASS</span>'
+        p_cover_str = f'<b>{g["pCover"] * 100:.0f}%</b>' if g.get("pCover") is not None else '<span style="color:#9ca3af">\u2014</span>'
+        p_ou_str = f'<b>{g["pOU"] * 100:.0f}%</b>' if g.get("pOU") is not None else '<span style="color:#9ca3af">\u2014</span>'
+        p_home = f'{g["pHomeCover"] * 100:.0f}%' if g.get("pHomeCover") is not None else "\u2014"
+        p_away = f'{g["pAwayCover"] * 100:.0f}%' if g.get("pAwayCover") is not None else "\u2014"
+        p_over = f'{g["pOver"] * 100:.0f}%' if g.get("pOver") is not None else "\u2014"
+        p_under = f'{g["pUnder"] * 100:.0f}%' if g.get("pUnder") is not None else "\u2014"
+        s_conf_badge = f" {conf_badge(g.get('sConf'))}" if g.get("sPick") and g["sPick"] != "PASS" else ""
+        o_conf_badge = f" {conf_badge(g.get('oConf'))}" if g.get("oPick") and g["oPick"] != "PASS" else ""
+        margin = (("+" if g["margin"] >= 0 else "") + fmt_num(g["margin"], 1)) if isinstance(g.get("margin"), (int, float)) and math.isfinite(g["margin"]) else "\u2014"
+        t_diff = (("+" if g["tDiff"] >= 0 else "") + fmt_num(g["tDiff"], 1)) if isinstance(g.get("tDiff"), (int, float)) and math.isfinite(g["tDiff"]) else "\u2014"
+        rows += f'''<tr>
+        <td style="font-weight:700">{esc(g["away"])} @ {esc(g["home"])}</td>
+        <td>{s_pick_display}{s_conf_badge}<div class="tiny" style="margin-top:2px">Line {fmt_num(g.get("line"), 1)} \u00b7 proj {margin} \u00b7 sDiff {fmt_num(g.get("sDiff"), 1)}</div></td>
+        <td style="text-align:center">{p_cover_str}<div class="tiny">{p_away} away / {p_home} home</div></td>
+        <td>{o_pick_display}{o_conf_badge}<div class="tiny" style="margin-top:2px">O/U {fmt_num(g.get("total"), 1)} \u00b7 diff {t_diff}</div></td>
+        <td style="text-align:center">{p_ou_str}<div class="tiny">{p_over} over / {p_under} under</div></td>
+      </tr>'''
+    return f'''<div class="card" style="border-left:4px solid #8b5cf6; margin-bottom:10px;">
+    <div class="summaryTitle">\U0001F3AF Cover Probabilities \u2014 All Games</div>
+    <table class="data">
+      <thead><tr>
+        <th>Game</th><th>Spread Pick</th><th style="text-align:center">P(Cover)</th>
+        <th>Total Pick</th><th style="text-align:center">P(Hit)</th>
+      </tr></thead>
+      <tbody>{rows}</tbody>
+    </table>
+    <div class="tiny" style="margin-top:6px">P(Cover) / P(Hit) = probability the picked side wins. Directional % shown below.</div>
+  </div>'''
+
 
 def build_text_email(run, store):
     lines = [f"NBA PICKS \u2014 {run['dateDisplay']}", "", "TODAY (Actionable only)", ""]
@@ -442,69 +656,232 @@ def build_text_email(run, store):
     lines.extend(["\u2014", compute_summary_text(store), "", last10_text(store, "spread"), "", last10_text(store, "total")])
     return "\n".join(lines)
 
+
 def build_email_html(run, summary_obj, last10, last10_totals, weekly_spread, weekly_total,
                      rolling_spread, rolling_total, team_records, calib_rows, yesterday_recap):
-    # Simplified but functionally complete HTML email builder
     s = summary_obj or compute_summary_obj({"runs": []})
     calib_html = build_calibration_html(calib_rows) if calib_rows else ""
-    from email_report import send_email as _  # just to verify import works
+
+    # Today's picks
+    def build_picks_list(games, pick_type):
+        is_spread = pick_type == "spread"
+        if not is_spread and run.get("date", "") >= TOTAL_PICKS_END_DATE:
+            return '<div class="no-picks">Totals picks discontinued.</div>'
+        filtered = [g for g in games
+                    if g.get("status") not in ("MISSING_ODDS", "SKIPPED")
+                    and ((g.get("sPick") if is_spread else g.get("oPick")) or "") not in ("", "PASS")
+                    and is_actionable(g.get("sConf") if is_spread else g.get("oConf"))]
+        filtered.sort(key=lambda a: (a.get("pCover", 0) if is_spread else a.get("pOU", 0)) or 0, reverse=True)
+        if not filtered:
+            return f'<div class="no-picks">No actionable {pick_type} picks today.</div>'
+        parts = []
+        for g in filtered:
+            if is_spread:
+                p_str = f" \u00b7 P={g['pCover'] * 100:.0f}%" if g.get("pCover") else ""
+                proj_margin = round((g["hS"] - g["aS"]) * 10) / 10
+                fav_team = g["home"] if proj_margin >= 0 else g["away"]
+                parts.append(
+                    f'<div style="padding:6px 0; border-bottom:1px dashed #eef2f7;">\U0001F3C0 <span class="pick-team">{esc(g["sPick"])}</span>'
+                    f' <span class="trend-label">proj {esc(fav_team)} by {fmt_num(abs(proj_margin), 1)} \u00b7 sDiff {fmt_num(g.get("sDiff"), 1)}{p_str}</span>'
+                    f' {conf_badge(g.get("sConf"))}</div>'
+                )
+            else:
+                arrow = "\u2B06\uFE0F" if g.get("oPick") == "OVER" else "\u2B07\uFE0F"
+                p_str = f" \u00b7 P={g['pOU'] * 100:.0f}%" if g.get("pOU") else ""
+                clean_total = g["total"] + g["tDiff"] if isinstance(g.get("tDiff"), (int, float)) and isinstance(g.get("total"), (int, float)) else g.get("pT")
+                parts.append(
+                    f'<div style="padding:6px 0; border-bottom:1px dashed #eef2f7;">{arrow}'
+                    f' <span class="pick-team">{esc(g["oPick"])} {fmt_num(g.get("total"), 1)}</span>'
+                    f' <span class="pick-line">{esc(g["away"])} @ {esc(g["home"])}</span>'
+                    f' <span class="trend-label">proj {fmt_num(clean_total, 1)} \u00b7 edge {fmt_num(abs(g.get("tDiff", 0)), 1)}{p_str}</span>'
+                    f' {conf_badge(g.get("oConf"))}</div>'
+                )
+        return "".join(parts)
+
+    # Last 10 cards
+    def build_last10_card(title, picks, pick_type):
+        rows_data = [dict(p, dateDisp=to_display_date(p["date"])) for p in picks]
+        t = tally_l10(rows_data, pick_type)
+        pick_col = (
+            {"label": "Pick", "render": lambda r: f'<span class="pick-team">{esc(r["pick"])} {esc(str(r.get("total", "")))}</span>'}
+            if pick_type == "total" else
+            {"label": "Pick", "render": lambda r: f'<span class="pick-team">{esc(r["pick"])}</span>'}
+        )
+        return (
+            f'<div class="card card-trends"><div class="summaryTitle">{title}</div>' +
+            build_table(rows_data, [
+                {"label": "Date", "render": lambda r: esc(r["dateDisp"])},
+                {"label": "Matchup", "render": lambda r: esc(r["matchup"])},
+                pick_col,
+                {"label": "Conf", "render": lambda r: conf_badge(r.get("conf"))},
+                {"label": "Result", "render": lambda r: esc(r.get("result", ""))},
+                {"label": "Final", "render": lambda r: esc(r.get("final", ""))},
+            ]) +
+            f'<div class="l10-tally">Last 10: {wlp_html(t)} \u00b7 {pct_html(t["pct"])} \u00b7 {units_html(t["units"])}</div></div>'
+        )
+
+    # Weekly + Rolling cards
+    def build_weekly_card(title, rows_data):
+        return (
+            f'<div class="card card-trends"><div class="summaryTitle">{title}</div>' +
+            build_table(rows_data, [
+                {"label": "Week of", "render": lambda r: esc(r["week"])},
+                {"label": "W-L-P", "render": wlp_html},
+                {"label": "Win%", "render": lambda r: pct_html(r["pct"])},
+                {"label": "Flat", "render": lambda r: units_html(r["units"])},
+            ]) + '</div>'
+        )
+
+    def build_rolling_card(title, rows_data):
+        window_size = re.search(r"#\d+\u2013(\d+)", rows_data[0]["label"]).group(1) if rows_data else "?"
+        full_title = title.replace("{n}", str(window_size))
+        return (
+            f'<div class="card card-trends"><div class="summaryTitle">{full_title}</div>'
+            f'<div class="tiny" style="margin-bottom:6px">Green = above break-even (52.4%) \u00b7 Red = below \u00b7 Units at -110</div>' +
+            build_table(rows_data, [
+                {"label": "Window", "render": lambda r: esc(r["label"])},
+                {"label": "W-L-P", "render": wlp_html},
+                {"label": "Win%", "render": lambda r: pct_html(r["pct"])},
+                {"label": "Flat", "render": lambda r: units_html(r["units"])},
+                {"label": "Dates", "render": lambda r: f'<span class="trend-label">{esc(r["startDate"])} \u2192 {esc(r["endDate"])}</span>'},
+            ]) + '</div>'
+        )
+
+    # Layout helpers
+    def row2col(left, right):
+        return f'''<table width="100%" cellpadding="0" cellspacing="0" border="0" style="margin-bottom:10px;">
+      <tr>
+        <td width="50%" valign="top" style="padding-right:5px;">{left}</td>
+        <td width="50%" valign="top" style="padding-left:5px;">{right}</td>
+      </tr>
+    </table>'''
+
+    def row_full(content):
+        return f'<div style="margin-bottom:10px;">{content}</div>'
+
+    def section_label(text):
+        return f'<div class="section-label">{esc(text)}</div>'
+
+    # Helper for pCover/pOU in f-strings
+    def _p_cover_str(g):
+        pc = g.get("pCover")
+        return f" . P={pc*100:.0f}%" if pc else ""
+
+    def _p_ou_str(g):
+        po = g.get("pOU")
+        return f" . P={po*100:.0f}%" if po else ""
+
+    # Build game cards
+    game_cards = []
+    for g in run.get("games", []):
+        is_skipped = g.get("status") in ("MISSING_ODDS", "SKIPPED")
+
+        if not is_skipped and g.get("sPick") and g["sPick"] != "PASS":
+            proj_margin = round((g["hS"] - g["aS"]) * 10) / 10
+            fav_team = g["home"] if proj_margin >= 0 else g["away"]
+            spread_pick = (
+                f'<div><span class="pick-team">{esc(g["sPick"])}</span> {conf_badge(g.get("sConf"))}'
+                f' <span class="trend-label">proj {esc(fav_team)} by {fmt_num(abs(proj_margin), 1)} \u00b7 sDiff {fmt_num(g.get("sDiff"), 1)}'
+                f'{_p_cover_str(g)}</span></div>'
+            )
+        else:
+            spread_pick = f'<div class="tiny">Spread: <span class="trend-label">{esc(g.get("status", "PASS") if is_skipped else "PASS")}</span></div>'
+
+        if not is_skipped and g.get("oPick") and g["oPick"] != "PASS":
+            clean_total = g["total"] + g["tDiff"] if isinstance(g.get("tDiff"), (int, float)) and isinstance(g.get("total"), (int, float)) else g.get("pT")
+            total_pick = (
+                f'<div class="tiny">Total: <span class="pick-team">{esc(g["oPick"])} {fmt_num(g.get("total"), 1)}</span>'
+                f' {conf_badge(g.get("oConf"))}'
+                f' <span class="trend-label">proj {fmt_num(clean_total, 1)} \u00b7 edge {fmt_num(abs(g.get("tDiff", 0)), 1)}'
+                f'{_p_ou_str(g)}</span></div>'
+            )
+        else:
+            total_pick = f'<div class="tiny">Total: <span class="trend-label">{esc(g.get("status", "PASS") if is_skipped else "PASS")}</span></div>'
+
+        proj_line = ""
+        if not is_skipped and isinstance(g.get("aS"), (int, float)) and isinstance(g.get("hS"), (int, float)):
+            clean_total = g["total"] + g["tDiff"] if isinstance(g.get("tDiff"), (int, float)) and isinstance(g.get("total"), (int, float)) else g.get("pT")
+            proj_line = (
+                f'<div class="tiny" style="margin-top:4px">\U0001F4D0 Proj: <b>{esc(g["away"])} {fmt_num(g["aS"], 1)}</b> \u2013 <b>{esc(g["home"])} {fmt_num(g["hS"], 1)}</b></div>'
+                f'<div class="tiny">\U0001F4D0 Total: <b>{fmt_num(clean_total, 1)}</b> <span class="trend-label">(line {fmt_num(g.get("total"), 1)})</span></div>'
+            )
+
+        trends_html = ""
+        if g.get("trends"):
+            trends_html = (
+                f'<div class="tiny" style="margin-top:4px">'
+                f'<div><b>{esc(g["away"])}:</b> {esc(g["trends"].get("away", "\u2014"))}</div>'
+                f'<div><b>{esc(g["home"])}:</b> {esc(g["trends"].get("home", "\u2014"))}</div></div>'
+            )
+
+        injury_html = ""
+        if g.get("injuryNote"):
+            sides = g["injuryNote"].split(" | ")
+            injury_html = '<div class="tiny" style="margin-top:4px">' + "".join(f'<div style="margin-left:0">\U0001F3E5 {esc(s)}</div>' for s in sides) + '</div>'
+
+        b2b_html = f'<div class="tiny" style="margin-top:4px">\U0001F504 {esc(g["b2bNote"])}</div>' if g.get("b2bNote") else ""
+
+        score_line = ""
+        if isinstance(g.get("awayScore"), (int, float)) and isinstance(g.get("homeScore"), (int, float)):
+            score_line = f'<div class="tiny" style="margin-top:4px">Final: <b>{esc(str(g["awayScore"]))}-{esc(str(g["homeScore"]))}</b></div>'
+
+        game_cards.append(
+            f'<div class="card card-games">'
+            f'<div class="summaryTitle">{esc(g.get("away", ""))} @ {esc(g.get("home", ""))} <span class="tiny">Line {fmt_num(g.get("line"), 1)} \u00b7 Total {fmt_num(g.get("total"), 1)}</span></div>'
+            f'{spread_pick}{total_pick}{proj_line}{injury_html}{b2b_html}{score_line}{trends_html}'
+            f'</div>'
+        )
+
+    # Pair game cards into 2-col rows
+    games_html = ""
+    for i in range(0, len(game_cards), 2):
+        if i + 1 < len(game_cards):
+            games_html += row2col(game_cards[i], game_cards[i + 1])
+        else:
+            games_html += row_full(game_cards[i])
+
+    # Assemble full HTML
     tz = _get_tz()
     timestamp = datetime.now(tz).strftime("%m/%d/%Y, %I:%M:%S %p")
-    recap_html = ""
-    if yesterday_recap and yesterday_recap.get("picks"):
-        def rb(result):
-            if result == "WIN": return '<span style="color:#10b981;font-weight:700">WIN</span>'
-            if result == "LOSS": return '<span style="color:#ef4444;font-weight:700">LOSS</span>'
-            return '<span style="color:#6b7280;font-weight:700">PUSH</span>'
-        rrows = "".join(f'<tr><td>{esc(p["matchup"])}</td><td><b>{esc(p["pick"])}</b></td><td style="text-align:center">{rb(p["result"])}</td><td style="text-align:center">{esc(p["final"])}</td></tr>' for p in yesterday_recap["picks"])
-        t = yesterday_recap["tally"]
-        uc = "#10b981" if yesterday_recap["units"] >= 0 else "#ef4444"
-        recap_html = f'<div class="card" style="border-left:4px solid #f59e0b;margin-bottom:10px;"><div class="summaryTitle">Yesterday\'s Recap ({esc(yesterday_recap["dateDisplay"])})</div><table class="data"><thead><tr><th>Game</th><th>Pick</th><th style="text-align:center">Result</th><th style="text-align:center">Final</th></tr></thead><tbody>{rrows}</tbody></table><div class="tiny" style="margin-top:6px">Spread: <b>{t["w"]}-{t["l"]}</b> <span style="color:{uc};font-weight:700">{yesterday_recap["units"]:+.2f}u</span></div></div>'
+    recap_html = build_recap_html(yesterday_recap) if yesterday_recap else ""
 
-    # Build spread picks
-    spread_picks_html = ""
-    filtered = [g for g in run.get("games",[]) if g.get("status") not in ("MISSING_ODDS","SKIPPED") and g.get("sPick") and g["sPick"] != "PASS" and is_actionable(g.get("sConf"))]
-    filtered.sort(key=lambda g: g.get("pCover",0) or 0, reverse=True)
-    if filtered:
-        for g in filtered:
-            ps = f' P={g["pCover"]*100:.0f}%' if g.get("pCover") else ""
-            pm = round((g.get("hS",0)-g.get("aS",0))*10)/10
-            ft = g["home"] if pm >= 0 else g["away"]
-            spread_picks_html += f'<div style="padding:6px 0;border-bottom:1px dashed #eef2f7;"><span class="pick-team">{esc(g["sPick"])}</span> <span class="trend-label">proj {esc(ft)} by {fmt_num(abs(pm),1)} sDiff {fmt_num(g.get("sDiff"),1)}{ps}</span> {conf_badge(g.get("sConf"))}</div>'
-    else:
-        spread_picks_html = '<div class="no-picks">No actionable spread picks today.</div>'
+    return f'''<html><head>{EMAIL_STYLES}</head><body>
+    <div class="wrap">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0" style="margin-bottom:10px;">
+        <tr>
+          <td>
+            <div class="h1">NBA Picks (Full Season) \u2014 {esc(run.get("dateDisplay", ""))}</div>
+            <div class="sub">High + Elite only (no medium). Units at -110. Times in {TIMEZONE}.</div>
+          </td>
+          <td style="text-align:right;" valign="top"><div class="sub">{esc(timestamp)}</div></td>
+        </tr>
+      </table>
 
-    # Game cards
-    gcards = ""
-    for g in run.get("games",[]):
-        skip = g.get("status") in ("MISSING_ODDS","SKIPPED")
-        proj = ""
-        if not skip and isinstance(g.get("aS"),(int,float)) and isinstance(g.get("hS"),(int,float)):
-            ct = (g["total"]+g["tDiff"]) if isinstance(g.get("tDiff"),(int,float)) and isinstance(g.get("total"),(int,float)) else g.get("pT")
-            proj = f'<div class="tiny" style="margin-top:4px">Proj: <b>{esc(g["away"])} {fmt_num(g["aS"],1)}</b> - <b>{esc(g["home"])} {fmt_num(g["hS"],1)}</b> Total: <b>{fmt_num(ct,1)}</b></div>'
-        b2b = f'<div class="tiny" style="margin-top:4px">{esc(g["b2bNote"])}</div>' if g.get("b2bNote") else ""
-        inj = f'<div class="tiny" style="margin-top:4px">{esc(g.get("injuryNote",""))}</div>' if g.get("injuryNote") else ""
-        gcards += f'<div class="card card-games" style="margin-bottom:8px;"><div class="summaryTitle">{esc(g.get("away",""))} @ {esc(g.get("home",""))} <span class="tiny">Line {fmt_num(g.get("line"),1)} Total {fmt_num(g.get("total"),1)}</span></div>{proj}{inj}{b2b}</div>'
+      {row_full(recap_html) if recap_html else ""}
 
-    # Record row helper
-    def rrow(label, b):
-        return f'<tr><td>{label}</td><td>{b["w"]}-{b["l"]}-{b["p"]}</td><td>{b["pct"]}%</td><td>{fmt_units(b["units"])}</td><td>{b["played"]}</td></tr>'
+      {row_full(f'<div class="card card-picks"><div class="summaryTitle">\U0001F525 Today\'s Spread Picks (Actionable)</div>{build_picks_list(run.get("games", []), "spread")}</div>')}
+      {row_full(build_combined_record_table("\U0001F4CA Spread (ATS)", s["spread"]["elite"], [
+          {"label": "Favorites", "emoji": "\u2B50", "data": s["favdog"]["fav"]},
+          {"label": "Underdogs", "emoji": "\U0001F436", "data": s["favdog"]["dog"]},
+        ]))}
 
-    EMAIL_STYLES = '<style>body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;margin:0;padding:0;background:#f3f4f6}.wrap{max-width:920px;margin:0 auto;padding:16px}.h1{font-size:20px;font-weight:800;color:#111827}.sub{font-size:12px;color:#6b7280}.card{background:#fff;border:1px solid #e5e7eb;border-radius:14px;padding:12px;box-shadow:0 1px 3px rgba(0,0,0,.05)}.card .summaryTitle{font-size:12px;font-weight:800;color:#111827;letter-spacing:.02em;margin-bottom:8px}.tiny{font-size:11px;color:#6b7280;line-height:1.35}table.data{width:100%;border-collapse:collapse}table.data th,table.data td{font-size:12px;padding:7px 6px;border-bottom:1px solid #eef2f7}table.data th{text-align:left;color:#6b7280;font-weight:700}.badge{display:inline-block;font-size:10px;font-weight:800;padding:3px 8px;border-radius:999px;border:1px solid #e5e7eb;white-space:nowrap}.b-high{background:#ecfdf5;color:#047857;border-color:#a7f3d0}.b-elite{background:#111827;color:#fff;border-color:#111827}.b-low{background:#fef3c7;color:#92400e;border-color:#fde68a}.pick-team{font-weight:800;color:#111827}.pick-line{font-size:11px;color:#6b7280}.no-picks{color:#6b7280;font-size:12px;padding:6px 0}.trend-label{font-size:11px;color:#6b7280}.win-text{color:#047857}.loss-text{color:#b91c1c}.card-picks{border-left:4px solid #6366f1}.card-records{border-left:4px solid #0ea5e9}.card-games{border-left:4px solid #f59e0b}.card-trends{border-left:4px solid #10b981}.section-label{font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.1em;padding:10px 0 4px;opacity:.55}</style>'
+      {section_label("Games")}
+      {games_html}
 
-    return f'''<html><head>{EMAIL_STYLES}</head><body><div class="wrap">
-      <table width="100%" cellpadding="0" cellspacing="0" border="0" style="margin-bottom:10px;"><tr>
-        <td><div class="h1">NBA Picks (Full Season) - {esc(run.get("dateDisplay",""))}</div><div class="sub">High + Elite only. Units at -110. Times in {TIMEZONE}.</div></td>
-        <td style="text-align:right;" valign="top"><div class="sub">{esc(timestamp)}</div></td></tr></table>
-      {f'<div style="margin-bottom:10px;">{recap_html}</div>' if recap_html else ""}
-      <div style="margin-bottom:10px;"><div class="card card-picks"><div class="summaryTitle">Today\'s Spread Picks (Actionable)</div>{spread_picks_html}</div></div>
-      <div style="margin-bottom:10px;"><div class="card card-records"><div class="summaryTitle">Spread (ATS)</div>
-        <table class="data"><thead><tr><th>Bucket</th><th>W-L-P</th><th>Win%</th><th>Flat</th><th>Graded</th></tr></thead>
-        <tbody>{rrow("Elite", s["spread"]["elite"])}{rrow("Favorites", s["favdog"]["fav"])}{rrow("Underdogs", s["favdog"]["dog"])}</tbody></table>
-        <div class="tiny">Only graded picks.</div></div></div>
-      <div class="section-label">Games</div>{gcards}
-      {f'<div class="section-label">Model Calibration</div><div style="margin-bottom:10px;"><div class="card"><div class="summaryTitle">P(cover) Calibration</div>{calib_html}</div></div>' if calib_html else ""}
-    </div></body></html>'''
+      {section_label("Cover Probabilities")}
+      {row_full(build_game_prob_table(run.get("games", [])))}
+
+      {section_label("Spread Trends")}
+      {row_full(build_last10_card("\U0001F9FE Last 10 Spread", last10 or [], "spread"))}
+      {row_full(build_weekly_card("\U0001F4C5 Weekly Spread", weekly_spread or []))}
+      {row_full(build_rolling_card("\U0001F4CA Rolling {{n}}-Pick Groups (Spread)", rolling_spread or []))}
+
+      {section_label("Team Records")}
+      {row_full(build_team_record_table(team_records or {}))}
+
+      {f'{section_label("Model Calibration")}{row_full(f"""<div class="card"><div class="summaryTitle">\\U0001F4CA P(cover) Calibration</div><div class="tiny" style="margin-bottom:6px">Expected vs actual win rate by probability bucket. D shows calibration error.</div>{calib_html}</div>""")}' if calib_html else ""}
+    </div>
+  </body></html>'''
 
 # ---- Main Pipeline ----
 

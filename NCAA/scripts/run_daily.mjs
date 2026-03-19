@@ -1032,6 +1032,7 @@ function buildEmailHtml(run, summaryObj, last10, last10Totals, weeklySpread, wee
           <td style="text-align:right;" valign="top"><div class="sub">${esc(timestamp)}</div></td>
         </tr>
       </table>
+      <div style="text-align:center;color:#888;font-size:11px;margin:4px 0 12px">Filters: P(cover) &ge; 0.60 | Fav line &le; 8 | Dogs uncapped · Tournament: HCA = 0 (neutral sites)</div>
 
       ${recapHtml ? rowFull(recapHtml) : ""}
 

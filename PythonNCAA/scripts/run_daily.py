@@ -837,6 +837,7 @@ def build_email_html(run, summary_obj, last10, last10_totals, weekly_spread, wee
       <table width="100%" cellpadding="0" cellspacing="0" border="0" style="margin-bottom:10px;">
         <tr><td><div class="h1">NCAAB Picks \u2014 {esc(run.get("dateDisplay", ""))}</div><div class="sub">High + Elite only (no medium). Units at -110. Times in {TIMEZONE}.</div></td>
           <td style="text-align:right;" valign="top"><div class="sub">{esc(timestamp)}</div></td></tr></table>
+      <div style="text-align:center;color:#888;font-size:11px;margin:4px 0 12px">Filters: P(cover) \u2265 0.60 | Fav line \u2264 8 | Dogs uncapped &mdash; Ensemble: 65% Bayesian / 35% XGBoost (adaptive) &mdash; Tournament: HCA = 0 (neutral sites)</div>
       {row_full(recap_html) if recap_html else ""}
       {row_full(f'<div class="card card-picks"><div class="summaryTitle">\U0001F525 Today\'s Spread Picks (Actionable)</div>{build_picks_list(run.get("games") or [], "spread")}</div>')}
       {row_full(build_combined_record_table("\U0001F4CA Spread (ATS)", s["spread"]["elite"], [

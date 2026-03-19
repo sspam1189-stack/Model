@@ -1132,6 +1132,7 @@ def build_email_html(run, summary_obj, last10, last10_totals, weekly_spread, wee
           <td style="text-align:right;" valign="top"><div class="sub">{esc(timestamp)}</div></td>
         </tr>
       </table>
+      <div style="text-align:center;color:#888;font-size:11px;margin:4px 0 12px">Filters: P(cover) \u2265 0.57 | sDiff \u2264 9 | abs(line) &lt; 12 &mdash; Ensemble: 65% Bayesian / 35% XGBoost (adaptive)</div>
 
       {row_full(recap_html) if recap_html else ""}
 
