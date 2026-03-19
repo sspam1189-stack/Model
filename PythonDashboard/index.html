@@ -1063,15 +1063,9 @@
     function renderRecordBanner(runs, modelSummary = null) {
       const s = computeSummary(runs);
       let e = s.elite;
-      let label = 'Model Record';
-      const model = getModelBucket(modelSummary);
-      if (model) {
-        e = model;
-      } else {
-        label = 'Elite Record';
-      }
+      let label = 'Elite Record';
       const total = e.w + e.l;
-      const pct = model ? Number(e.pct || 0) : (total > 0 ? (e.w / total * 100) : 0);
+      const pct = total > 0 ? (e.w / total * 100) : 0;
       const uClass = e.units > 0 ? 'positive' : e.units < 0 ? 'negative' : 'neutral';
       const pClass = pct > 52.4 ? 'positive' : pct < 50 ? 'negative' : 'neutral';
       return `
@@ -1177,16 +1171,7 @@
 
     function renderSpreadRecord(runs, modelSummary = null) {
       const s = computeSummary(runs);
-      const modelBucket = (modelSummary && Array.isArray(modelSummary.results) && modelSummary.results.length)
-        ? {
-            w: Number(modelSummary.results[0].wins || 0),
-            l: Number(modelSummary.results[0].losses || 0),
-            p: Number(modelSummary.results[0].pushes || 0),
-            pct: Number(modelSummary.results[0].win_pct || 0),
-            units: Number(modelSummary.results[0].units || 0),
-            played: Number(modelSummary.results[0].picks || 0),
-          }
-        : s.elite;
+      const modelBucket = s.elite;
       const row = (label, b) => `<tr><td>${label}</td><td>${b.w}-${b.l}-${b.p}</td>
         <td class="center"><span class="${pctClass(b.pct)}">${fmtPct(Number(b.pct || 0))}</span></td>
         <td class="center"><span class="${unitClass(b.units)}">${fmtUnits(b.units)}</span></td>
