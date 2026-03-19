@@ -38686,8 +38686,8 @@
             "_baseline": -8.999344194362514,
             "_pace": 1.0209125575000002
           },
-          "lrProb": 0.2998,
-          "lrVerdict": "confirm_away",
+          "lrProb": 0.3,
+          "lrVerdict": "VETO",
           "_adjDeltas": {
             "away": {
               "OFF": -0.56,
@@ -38750,8 +38750,8 @@
             "_baseline": 1.231257778592192,
             "_pace": 1.0015314925
           },
-          "lrProb": 0.5584,
-          "lrVerdict": "neutral",
+          "lrProb": 0.558,
+          "lrVerdict": "NEUTRAL",
           "_adjDeltas": {
             "away": {
               "OFF": 0.04,
@@ -38807,8 +38807,8 @@
             "_baseline": -5.008676559150001,
             "_pace": 1.0242692350000002
           },
-          "lrProb": 0.4729,
-          "lrVerdict": "neutral",
+          "lrProb": 0.473,
+          "lrVerdict": "NEUTRAL",
           "_adjDeltas": {
             "away": {
               "OFF": -0.18,
@@ -38872,8 +38872,8 @@
             "_baseline": -2.1870939832500187,
             "_pace": 1.0090399
           },
-          "lrProb": 0.5535,
-          "lrVerdict": "neutral",
+          "lrProb": 0.554,
+          "lrVerdict": "NEUTRAL",
           "_adjDeltas": {
             "home": {
               "OFF": -1.72,
@@ -38930,8 +38930,8 @@
             "_baseline": 1.5631623721999814,
             "_pace": 1.0283962975
           },
-          "lrProb": 0.4819,
-          "lrVerdict": "neutral",
+          "lrProb": 0.482,
+          "lrVerdict": "NEUTRAL",
           "_adjDeltas": {
             "away": {
               "OFF": -1.515,
@@ -38995,8 +38995,8 @@
             "_baseline": 3.7329880207125035,
             "_pace": 1.0048419975
           },
-          "lrProb": 0.5089,
-          "lrVerdict": "neutral",
+          "lrProb": 0.509,
+          "lrVerdict": "NEUTRAL",
           "_adjDeltas": {
             "away": {
               "OFF": -0.25,
@@ -39021,25 +39021,25 @@
         {
           "away": "Milwaukee Bucks",
           "home": "Utah Jazz",
-          "line": -5.5,
+          "line": -6.5,
           "total": 229.5,
           "_book": "DraftKings",
           "aS": 119.1,
           "hS": 118.5,
           "pT": 237.6,
-          "margin": 4.9,
-          "sDiff": 4.9,
+          "margin": 5.9,
+          "sDiff": 5.9,
           "tDiff": 3.1,
-          "sPick": "Utah Jazz +5.5",
+          "sPick": "Utah Jazz +6.5",
           "sConf": "elite",
           "oPick": "PASS",
           "oConf": "low",
           "injuryNote": "Away: Giannis Antetokounmpo (out/star) | Home: Keyonte George (out/star), Lauri Markkanen (out/star), Jaren Jackson Jr. (out/star)",
-          "pHomeCover": 0.629,
-          "pAwayCover": 0.371,
+          "pHomeCover": 0.654,
+          "pAwayCover": 0.346,
           "pOver": 0.579,
           "pUnder": 0.421,
-          "pCover": 0.629,
+          "pCover": 0.654,
           "pOU": null,
           "marginVar": 220.5,
           "marginStd": 14.9,
@@ -39059,8 +39059,8 @@
             "_baseline": -0.8775925229500092,
             "_pace": 1.01455783
           },
-          "lrProb": 0.4991,
-          "lrVerdict": "neutral",
+          "lrProb": 0.501,
+          "lrVerdict": "NEUTRAL",
           "_adjDeltas": {
             "away": {
               "OFF": -0.715,
@@ -39087,23 +39087,23 @@
           "away": "Philadelphia 76ers",
           "home": "Sacramento Kings",
           "line": -2.5,
-          "total": 228.5,
+          "total": 227.5,
           "_book": "DraftKings",
           "aS": 116.5,
           "hS": 119.3,
           "pT": 235.8,
           "margin": 5.3,
           "sDiff": 5.3,
-          "tDiff": 0.7,
-          "sPick": "Sacramento Kings +2.5",
-          "sConf": "elite",
+          "tDiff": 1.7,
+          "sPick": "PASS",
+          "sConf": "vetoed",
           "oPick": "PASS",
           "oConf": "low",
           "injuryNote": "Away: Joel Embiid (out/star), Kelly Oubre Jr. (out/star), Tyrese Maxey (out/star) | Home: Malik Monk (out/starter), Keegan Murray (out/star)",
           "pHomeCover": 0.639,
           "pAwayCover": 0.361,
-          "pOver": 0.518,
-          "pUnder": 0.482,
+          "pOver": 0.543,
+          "pUnder": 0.457,
           "pCover": 0.639,
           "pOU": null,
           "marginVar": 220.6,
@@ -39124,8 +39124,9 @@
             "_baseline": -1.5038044427656303,
             "_pace": 1.0169429875
           },
-          "lrProb": 0.3702,
-          "lrVerdict": "confirm_away",
+          "lrProb": 0.37,
+          "lrVerdict": "VETO",
+          "lrVetoed": "Sacramento Kings +2.5",
           "_adjDeltas": {
             "away": {
               "OFF": -1.765,
@@ -39149,7 +39150,7 @@
         }
       ],
       "summaryText": "RECORD (graded picks only)\n\nSPREAD (ATS)\n  All:         139-87-0   (61.5%)   [graded 226]\n  Elite:       139-87-0   (61.5%)   [graded 226]\n\nFAV/DOG (Spread)\n  Favorites:   75-50-0   (60.0%)   [graded 125]\n  Underdogs:   64-37-0   (63.4%)   [graded 101]\n\nTOTAL (O/U)\n  All:         59-47-0   (55.7%)   [graded 106]\n  Elite:       59-47-0   (55.7%)   [graded 106]\n\nOVER/UNDER\n  Over:        28-18-0   (60.9%)   [graded 46]\n  Under:       31-29-0   (51.7%)   [graded 60]",
-      "ranAt": "03/19/2026, 05:07:25 PM"
+      "ranAt": "03/19/2026, 05:21:55 PM"
     }
   ],
   "weights": {
