@@ -34,10 +34,13 @@ from kalman_state import (
 )
 from calibration import build_calibration_table, build_calibration_html
 from email_report import send_email
-try:
-    from ensemble import ENSEMBLE_AVAILABLE, train_ensemble, predict_ensemble
-except ImportError:
-    ENSEMBLE_AVAILABLE = False
+from xgb_model import (
+    load_or_train_model as xgb_load_or_train,
+    extract_features as xgb_extract_features,
+    predict_game as xgb_predict_game,
+    ensemble_probability as xgb_ensemble,
+    compute_recent_performance as xgb_recent_perf,
+)
 
 # --- Constants ---
 
@@ -898,10 +901,22 @@ def build_game_prob_table(games):
 
     rows = ""
     for g in filtered:
-        s_pick_display = esc(g["sPick"]) if g.get("sPick") and g["sPick"] != "PASS" else '<span style="color:#9ca3af">PASS</span>'
+        # ENS tag for spread pick in prob table
+        ens_tag_pt = ""
+        if g.get("pickSource") == "ENS":
+            ens_tag_pt = ' <span style="background:#7c3aed;color:#fff;font-size:9px;padding:1px 4px;border-radius:3px;">ENS</span>'
+        s_pick_display = (esc(g["sPick"]) + ens_tag_pt) if g.get("sPick") and g["sPick"] != "PASS" else '<span style="color:#9ca3af">PASS</span>'
+        if g.get("pickSource") == "ENS_PASS" and g.get("sPick_bayes", "PASS") != "PASS":
+            s_pick_display = f'<span style="color:#9ca3af">PASS</span> <span class="tiny" style="color:#f59e0b">[was {esc(g["sPick_bayes"])}]</span>'
         o_pick_display = esc(g["oPick"]) if g.get("oPick") and g["oPick"] != "PASS" else '<span style="color:#9ca3af">PASS</span>'
 
-        p_cover_str = f'<b>{g["pCover"] * 100:.0f}%</b>' if g.get("pCover") is not None else '<span style="color:#9ca3af">\u2014</span>'
+        # Show ensemble P(cover) as primary, Bayesian as secondary
+        if g.get("pCover") is not None and g.get("pCover_bayes") is not None:
+            p_cover_str = f'<b>{g["pCover"] * 100:.0f}%</b><div class="tiny">Bayes {g["pCover_bayes"] * 100:.0f}%</div>'
+        elif g.get("pCover") is not None:
+            p_cover_str = f'<b>{g["pCover"] * 100:.0f}%</b>'
+        else:
+            p_cover_str = '<span style="color:#9ca3af">\u2014</span>'
         p_ou_str = f'<b>{g["pOU"] * 100:.0f}%</b>' if g.get("pOU") is not None else '<span style="color:#9ca3af">\u2014</span>'
 
         p_home = f'{g["pHomeCover"] * 100:.0f}%' if g.get("pHomeCover") is not None else "\u2014"
@@ -915,10 +930,23 @@ def build_game_prob_table(games):
         margin = (("+" if g["margin"] >= 0 else "") + fmt_num(g["margin"], 1)) if isinstance(g.get("margin"), (int, float)) and math.isfinite(g["margin"]) else "\u2014"
         t_diff = (("+" if g["tDiff"] >= 0 else "") + fmt_num(g["tDiff"], 1)) if isinstance(g.get("tDiff"), (int, float)) and math.isfinite(g["tDiff"]) else "\u2014"
 
+        # XGBoost column
+        xgb_margin_str = fmt_num(g.get("xgb_margin"), 1) if g.get("xgb_margin") is not None else "\u2014"
+        xgb_p_str = f'{g["xgb_pCover"] * 100:.0f}%' if g.get("xgb_pCover") is not None else "\u2014"
+        ens_p_str = f'<b>{g["ensemble_pCover"] * 100:.0f}%</b>' if g.get("ensemble_pCover") is not None else "\u2014"
+
+        # Agreement indicator
+        agree_icon = ""
+        if g.get("xgb_pCover") is not None and g.get("pHomeCover") is not None:
+            bayes_side = g["pHomeCover"] >= 0.5
+            xgb_side = g["xgb_pCover"] >= 0.5
+            agree_icon = ' <span style="color:#10b981">&#10003;</span>' if bayes_side == xgb_side else ' <span style="color:#ef4444">&#10007;</span>'
+
         rows += f'''<tr>
         <td style="font-weight:700">{esc(g["away"])} @ {esc(g["home"])}</td>
         <td>{s_pick_display}{s_conf_badge}<div class="tiny" style="margin-top:2px">Line {fmt_num(g.get("line"), 1)} \u00b7 proj {margin} \u00b7 sDiff {fmt_num(g.get("sDiff"), 1)}</div></td>
         <td style="text-align:center">{p_cover_str}<div class="tiny">{p_away} away / {p_home} home</div></td>
+        <td style="text-align:center"><div class="tiny">XGB {xgb_p_str} (m {xgb_margin_str})</div><div>Ens {ens_p_str}{agree_icon}</div></td>
         <td>{o_pick_display}{o_conf_badge}<div class="tiny" style="margin-top:2px">O/U {fmt_num(g.get("total"), 1)} \u00b7 diff {t_diff}</div></td>
         <td style="text-align:center">{p_ou_str}<div class="tiny">{p_over} over / {p_under} under</div></td>
       </tr>'''
@@ -928,6 +956,7 @@ def build_game_prob_table(games):
     <table class="data">
       <thead><tr>
         <th>Game</th><th>Spread Pick</th><th style="text-align:center">P(Cover)</th>
+        <th style="text-align:center">XGB/Ens</th>
         <th>Total Pick</th><th style="text-align:center">P(Hit)</th>
       </tr></thead>
       <tbody>{rows}</tbody>
@@ -960,9 +989,33 @@ def build_email_html(run, summary_obj, last10, last10_totals, weekly_spread, wee
                 p_str = f" \u00b7 P={g['pCover'] * 100:.0f}%" if g.get("pCover") else ""
                 proj_margin = round((g["hS"] - g["aS"]) * 10) / 10
                 fav_team = g["home"] if proj_margin >= 0 else g["away"]
+
+                # ENS tag for ensemble-driven picks
+                ens_tag = ""
+                if g.get("pickSource") == "ENS":
+                    ens_tag = ' <span class="badge" style="background:#7c3aed;color:#fff;border-color:#7c3aed;font-size:9px;">ENS</span>'
+                elif g.get("pickSource") == "AGREE":
+                    ens_tag = ''
+
+                # Show both Bayesian and Ensemble P(cover)
+                prob_detail = ""
+                if g.get("pCover_bayes") is not None and g.get("pCover") is not None:
+                    prob_detail = f' <span class="trend-label">(Bayes {g["pCover_bayes"] * 100:.0f}% / Ens {g["pCover"] * 100:.0f}%)</span>'
+                elif g.get("pCover") is not None:
+                    prob_detail = f' <span class="trend-label">P={g["pCover"] * 100:.0f}%</span>'
+
+                # Disagreement note
+                disagree_note = ""
+                if g.get("pickSource") == "ENS" and g.get("sPick_bayes") and g["sPick_bayes"] != "PASS":
+                    disagree_note = f' <span class="trend-label" style="color:#f59e0b">[Bayes: {esc(g["sPick_bayes"])}]</span>'
+                elif g.get("pickSource") == "ENS" and g.get("sPick_bayes") == "PASS":
+                    disagree_note = ' <span class="trend-label" style="color:#f59e0b">[Bayes: PASS]</span>'
+
                 parts.append(
                     f'<div style="padding:6px 0; border-bottom:1px dashed #eef2f7;">\U0001F3C0 <span class="pick-team">{esc(g["sPick"])}</span>'
+                    f'{ens_tag}'
                     f' <span class="trend-label">proj {esc(fav_team)} by {fmt_num(abs(proj_margin), 1)} \u00b7 sDiff {fmt_num(g.get("sDiff"), 1)}{p_str}</span>'
+                    f'{prob_detail}{disagree_note}'
                     f' {conf_badge(g.get("sConf"))}</div>'
                 )
             else:
@@ -1059,13 +1112,36 @@ def build_email_html(run, summary_obj, last10, last10_totals, weekly_spread, wee
         if not is_skipped and g.get("sPick") and g["sPick"] != "PASS":
             proj_margin = round((g["hS"] - g["aS"]) * 10) / 10
             fav_team = g["home"] if proj_margin >= 0 else g["away"]
+
+            # ENS tag
+            gc_ens_tag = ""
+            if g.get("pickSource") == "ENS":
+                gc_ens_tag = ' <span class="badge" style="background:#7c3aed;color:#fff;border-color:#7c3aed;font-size:9px;">ENS</span>'
+
+            # Dual probability display
+            gc_prob_str = _p_cover_str(g)
+            if g.get("pCover_bayes") is not None and g.get("pCover") is not None:
+                gc_prob_str = f' <span class="trend-label">(B {g["pCover_bayes"]*100:.0f}% / E {g["pCover"]*100:.0f}%)</span>'
+
+            # Bayes disagreement
+            gc_disagree = ""
+            if g.get("pickSource") == "ENS" and g.get("sPick_bayes", "PASS") != "PASS":
+                gc_disagree = f'<div class="tiny" style="color:#f59e0b">Bayes picked: {esc(g["sPick_bayes"])}</div>'
+            elif g.get("pickSource") == "ENS" and g.get("sPick_bayes") == "PASS":
+                gc_disagree = '<div class="tiny" style="color:#f59e0b">Bayes: PASS (upgraded by ensemble)</div>'
+            elif g.get("pickSource") == "ENS_PASS":
+                gc_disagree = f'<div class="tiny" style="color:#f59e0b">Bayes picked {esc(g.get("sPick_bayes", "?"))} (downgraded by ensemble)</div>'
+
             spread_pick = (
-                f'<div><span class="pick-team">{esc(g["sPick"])}</span> {conf_badge(g.get("sConf"))}'
+                f'<div><span class="pick-team">{esc(g["sPick"])}</span>{gc_ens_tag} {conf_badge(g.get("sConf"))}'
                 f' <span class="trend-label">proj {esc(fav_team)} by {fmt_num(abs(proj_margin), 1)} \u00b7 sDiff {fmt_num(g.get("sDiff"), 1)}'
-                f'{_p_cover_str(g)}</span></div>'
+                f'{gc_prob_str}</span>{gc_disagree}</div>'
             )
         else:
-            spread_pick = f'<div class="tiny">Spread: <span class="trend-label">{esc(g.get("status", "PASS") if is_skipped else "PASS")}</span></div>'
+            ens_pass_note = ""
+            if not is_skipped and g.get("pickSource") == "ENS_PASS" and g.get("sPick_bayes", "PASS") != "PASS":
+                ens_pass_note = f' <span class="trend-label" style="color:#f59e0b">[Bayes: {esc(g["sPick_bayes"])} downgraded]</span>'
+            spread_pick = f'<div class="tiny">Spread: <span class="trend-label">{esc(g.get("status", "PASS") if is_skipped else "PASS")}</span>{ens_pass_note}</div>'
 
         if not is_skipped and g.get("oPick") and g["oPick"] != "PASS":
             clean_total = g["total"] + g["tDiff"] if isinstance(g.get("tDiff"), (int, float)) and isinstance(g.get("total"), (int, float)) else g.get("pT")
@@ -1101,6 +1177,21 @@ def build_email_html(run, summary_obj, last10, last10_totals, weekly_spread, wee
 
         b2b_html = f'<div class="tiny" style="margin-top:4px">\U0001F504 {esc(g["b2bNote"])}</div>' if g.get("b2bNote") else ""
 
+        xgb_html = ""
+        if g.get("xgb_margin") is not None:
+            xgb_agree = ""
+            if g.get("xgb_pCover") is not None and g.get("pHomeCover") is not None:
+                bayes_side = g["pHomeCover"] >= 0.5
+                xgb_side = g["xgb_pCover"] >= 0.5
+                xgb_agree = " AGREE" if bayes_side == xgb_side else " DISAGREE"
+            xgb_html = (
+                f'<div class="tiny" style="margin-top:4px">'
+                f'XGB: margin {fmt_num(g["xgb_margin"], 1)} '
+                f'P(home)={fmt_num(g.get("xgb_pCover", 0) * 100, 0)}% '
+                f'Ens={fmt_num(g.get("ensemble_pCover", 0) * 100, 0)}%'
+                f'<b>{xgb_agree}</b></div>'
+            )
+
         score_line = ""
         if isinstance(g.get("awayScore"), (int, float)) and isinstance(g.get("homeScore"), (int, float)):
             score_line = f'<div class="tiny" style="margin-top:4px">Final: <b>{esc(str(g["awayScore"]))}-{esc(str(g["homeScore"]))}</b></div>'
@@ -1108,7 +1199,7 @@ def build_email_html(run, summary_obj, last10, last10_totals, weekly_spread, wee
         game_cards.append(
             f'<div class="card card-games">'
             f'<div class="summaryTitle">{esc(g.get("away", ""))} @ {esc(g.get("home", ""))} <span class="tiny">Line {fmt_num(g.get("line"), 1)} \u00b7 Total {fmt_num(g.get("total"), 1)}</span></div>'
-            f'{spread_pick}{total_pick}{proj_line}{injury_html}{b2b_html}{score_line}{trends_html}'
+            f'{spread_pick}{total_pick}{proj_line}{xgb_html}{injury_html}{b2b_html}{score_line}{trends_html}'
             f'</div>'
         )
 
@@ -1136,7 +1227,6 @@ def build_email_html(run, summary_obj, last10, last10_totals, weekly_spread, wee
           <td style="text-align:right;" valign="top"><div class="sub">{esc(timestamp)}</div></td>
         </tr>
       </table>
-      <div style="text-align:center;color:#888;font-size:11px;margin:4px 0 12px">Filters: P(cover) \u2265 0.57 | sDiff \u2264 9 | abs(line) &lt; 12 &mdash; Ensemble: 65% Bayesian / 35% XGBoost (adaptive)</div>
 
       {row_full(recap_html) if recap_html else ""}
 
@@ -1181,15 +1271,36 @@ def build_text_email(run, store):
         if g.get("sPick") and g["sPick"] != "PASS":
             proj_margin = round((g["hS"] - g["aS"]) * 10) / 10
             fav_team = g["home"] if proj_margin >= 0 else g["away"]
-            lines.append(f"  Spread: {g['sPick']} ({str(g.get('sConf', '')).upper()}) | proj {fav_team} by {fmt_num(abs(proj_margin), 1)} | edge {fmt_num(g.get('sDiff'), 1)}")
+            ens_label = " [ENS]" if g.get("pickSource") == "ENS" else ""
+            prob_detail = ""
+            if g.get("pCover_bayes") is not None and g.get("pCover") is not None:
+                prob_detail = f" | Bayes P={fmt_num(g['pCover_bayes'] * 100, 0)}% Ens P={fmt_num(g['pCover'] * 100, 0)}%"
+            disagree = ""
+            if g.get("pickSource") == "ENS" and g.get("sPick_bayes", "PASS") != "PASS":
+                disagree = f" [Bayes: {g['sPick_bayes']}]"
+            elif g.get("pickSource") == "ENS" and g.get("sPick_bayes") == "PASS":
+                disagree = " [Bayes: PASS]"
+            lines.append(f"  Spread: {g['sPick']} ({str(g.get('sConf', '')).upper()}){ens_label} | proj {fav_team} by {fmt_num(abs(proj_margin), 1)} | edge {fmt_num(g.get('sDiff'), 1)}{prob_detail}{disagree}")
         else:
-            lines.append("  Spread: PASS")
+            ens_pass_note = ""
+            if g.get("pickSource") == "ENS_PASS" and g.get("sPick_bayes", "PASS") != "PASS":
+                ens_pass_note = f" [Bayes: {g['sPick_bayes']} downgraded by ensemble]"
+            lines.append(f"  Spread: PASS{ens_pass_note}")
 
         if g.get("oPick") and g["oPick"] != "PASS":
             clean_total = g["total"] + g["tDiff"] if isinstance(g.get("tDiff"), (int, float)) and isinstance(g.get("total"), (int, float)) else g.get("pT")
             lines.append(f"  Total:  {g['oPick']} {fmt_num(g.get('total'), 1)} ({str(g.get('oConf', '')).upper()}) | proj {fmt_num(clean_total, 1)} | edge {fmt_num(abs(g.get('tDiff', 0)), 1)}")
         else:
             lines.append("  Total:  PASS")
+
+        if g.get("xgb_margin") is not None:
+            xgb_agree = ""
+            if g.get("xgb_pCover") is not None and g.get("pHomeCover") is not None:
+                bayes_side = g["pHomeCover"] >= 0.5
+                xgb_side = g["xgb_pCover"] >= 0.5
+                xgb_agree = " AGREE" if bayes_side == xgb_side else " DISAGREE"
+            pick_src = f" | src={g.get('pickSource', 'N/A')}" if g.get("pickSource") else ""
+            lines.append(f"  XGB:    margin {fmt_num(g['xgb_margin'], 1)} | P(home)={fmt_num(g.get('xgb_pCover', 0) * 100, 0)}% | Ens={fmt_num(g.get('ensemble_pCover', 0) * 100, 0)}%{xgb_agree}{pick_src}")
 
         if g.get("injuryNote"):
             lines.append(f"  Injury: {g['injuryNote']}")
@@ -1210,7 +1321,7 @@ def main():
     store = load_store()
     defaults = load_defaults()
 
-    print(f"\n== NBA Picks Pipeline -- {date_display} ==\n")
+    print(f"\n\u2550\u2550 NBA Picks Pipeline \u2014 {date_display} \u2550\u2550\n")
 
     # 1. Grade recent days
     days_to_grade = set()
@@ -1349,6 +1460,11 @@ def main():
     dynamic_residual_var = compute_residual_var(store.get("runs", []))
     store["residualVar"] = dynamic_residual_var
 
+    # 3d. Load or retrain XGBoost model
+    print("[3d] XGBoost model...")
+    xgb_bundle = xgb_load_or_train(store)
+    xgb_perf = xgb_recent_perf(store, xgb_bundle) if xgb_bundle else None
+
     # 4. Analyze each game
     print(f"[3/7] Analyzing {len(odds)} games...")
     games = []
@@ -1410,30 +1526,133 @@ def main():
                 parts.append(f"{g['home']}: {home_b2b}")
             g["b2bNote"] = " | ".join(parts)
 
-    # -- Ensemble overlay (XGBoost + Ridge + Bayesian blend) --
-    if ENSEMBLE_AVAILABLE:
-        ens_models = train_ensemble(store, min_train=50, max_xgb_weight=0.40)
-        if ens_models:
-            wb, wx = ens_models["weights"]
-            print(f"[ENS] Trained on {ens_models['n_trained']} games | weights: Bayes={wb:.2f} XGB={wx:.2f}")
-            for g in games:
-                if g.get("sPick") == "PASS" and g.get("oPick") == "PASS":
-                    continue
+    # 5b. XGBoost predictions + ensemble
+    if xgb_bundle:
+        xgb_count = 0
+        for g in games:
+            if g.get("status") in ("MISSING_ODDS", "SKIPPED"):
+                continue
+            try:
+                feats = xgb_extract_features(g)
+                xgb_pred = xgb_predict_game(xgb_bundle, feats)
+                g["xgb_margin"] = xgb_pred["xgb_margin"]
+                g["xgb_pCover"] = xgb_pred["xgb_pCover"]
+                g["xgb_pCover_raw"] = xgb_pred["xgb_pCover_raw"]
+
+                # Ensemble spread P(cover)
                 bayes_p = g.get("pHomeCover", 0.5)
-                ens = predict_ensemble(ens_models, g, bayes_p)
-                g["ens_pHomeCover"] = round(ens["pHomeCover"], 3)
-                g["ens_pAwayCover"] = round(ens["pAwayCover"], 3)
-                g["xgb_pHomeCover"] = round(ens.get("xgb_raw", 0.5), 3)
-                g["xgb_pAwayCover"] = round(1.0 - ens.get("xgb_raw", 0.5), 3)
-                g["pHomeCover"] = round(ens["pHomeCover"], 3)
-                g["pAwayCover"] = round(ens["pAwayCover"], 3)
-                if g.get("sPick") and g["sPick"] != "PASS":
-                    g["pCover"] = round(max(ens["pHomeCover"], ens["pAwayCover"]), 3)
-                g["_ensWeights"] = ens["weights"]
-        else:
-            print("[ENS] Not enough history to train, using Bayesian-only")
+                ens_p = xgb_ensemble(bayes_p, xgb_pred["xgb_pCover"], xgb_perf)
+                g["ensemble_pCover"] = round(ens_p, 4)
+
+                # For the picked side: if Bayesian picked away, flip ensemble too
+                if g.get("pCover") is not None and g.get("pHomeCover") is not None:
+                    if g["pCover"] == (1.0 - g["pHomeCover"]):
+                        # Away side was picked
+                        g["xgb_pCover_side"] = round(1.0 - xgb_pred["xgb_pCover"], 4)
+                        g["ensemble_pCover_side"] = round(1.0 - ens_p, 4)
+                    else:
+                        g["xgb_pCover_side"] = round(xgb_pred["xgb_pCover"], 4)
+                        g["ensemble_pCover_side"] = round(ens_p, 4)
+
+                xgb_count += 1
+            except Exception as e:
+                print(f"  [XGB] Prediction failed for {g.get('away', '?')} @ {g.get('home', '?')}: {e}")
+        print(f"  [XGB] Predicted {xgb_count} games")
     else:
-        print("[ENS] xgboost/sklearn not installed, using Bayesian-only")
+        print("  [XGB] No model available -- skipping predictions")
+
+    # 5c. Ensemble pick override: re-evaluate spread picks using ensemble P(cover)
+    if xgb_bundle:
+        prob_h = base_w.get("probHigh", 0.57)
+        SDIFF_CAP = 9
+        override_count = 0
+
+        for g in games:
+            if g.get("status") in ("MISSING_ODDS", "SKIPPED"):
+                continue
+            if g.get("ensemble_pCover") is None:
+                continue
+
+            # Save original Bayesian pick for comparison
+            g["sPick_bayes"] = g.get("sPick", "PASS")
+            g["sConf_bayes"] = g.get("sConf", "low")
+            g["pCover_bayes"] = g.get("pCover")
+
+            # Compute ensemble P(cover) for both sides
+            ens_p_home = g["ensemble_pCover"]
+            ens_p_away = 1.0 - ens_p_home
+
+            best_ens_p = max(ens_p_home, ens_p_away)
+            ens_side = "home" if ens_p_home >= ens_p_away else "away"
+
+            abs_line = abs(g.get("line", 0))
+            home_fav = g.get("line", 0) > 0
+            s_diff = g.get("sDiff", 99)
+
+            # Apply production filters (same as Bayesian)
+            ens_passes_filter = (best_ens_p >= prob_h and s_diff <= SDIFF_CAP and abs_line < 12)
+
+            if ens_passes_filter:
+                # Ensemble says pick
+                if ens_side == "home":
+                    new_pick = f"{g['home']} -{abs_line}" if home_fav else f"{g['home']} +{abs_line}"
+                else:
+                    new_pick = f"{g['away']} +{abs_line}" if home_fav else f"{g['away']} -{abs_line}"
+
+                # Determine confidence tier from ensemble probability
+                if best_ens_p >= 0.64:
+                    new_conf = "elite"
+                elif best_ens_p >= prob_h:
+                    new_conf = "elite"  # single tier, matches Bayesian logic
+                else:
+                    new_conf = "low"
+
+                # Tag source: did Bayesian agree or was this an XGB upgrade?
+                bayes_had_pick = g["sPick_bayes"] != "PASS"
+                if bayes_had_pick and new_pick == g["sPick_bayes"]:
+                    # Both agree -- keep pick, note agreement
+                    g["sPick"] = new_pick
+                    g["sConf"] = new_conf
+                    g["pCover"] = round(best_ens_p * 1000) / 1000
+                    g["pickSource"] = "AGREE"
+                elif bayes_had_pick:
+                    # Bayesian picked different side, ensemble overrides
+                    g["sPick"] = new_pick
+                    g["sConf"] = new_conf
+                    g["pCover"] = round(best_ens_p * 1000) / 1000
+                    g["pickSource"] = "ENS"
+                    override_count += 1
+                else:
+                    # Bayesian said PASS, ensemble upgrades to a pick
+                    g["sPick"] = new_pick
+                    g["sConf"] = new_conf
+                    g["pCover"] = round(best_ens_p * 1000) / 1000
+                    g["pickSource"] = "ENS"
+                    override_count += 1
+            else:
+                # Ensemble says PASS
+                if g["sPick_bayes"] != "PASS":
+                    # Bayesian had a pick but ensemble downgrades to PASS
+                    g["sPick"] = "PASS"
+                    g["sConf"] = "low"
+                    g["pCover"] = None
+                    g["pickSource"] = "ENS_PASS"
+                    override_count += 1
+                else:
+                    # Both say PASS -- no change
+                    g["pickSource"] = "AGREE"
+
+            # Store ensemble probability for the picked side
+            if g["sPick"] != "PASS":
+                g["ensemble_pCover_side"] = round(best_ens_p, 4)
+                # Also compute XGB-only P for the picked side
+                xgb_p_home = g.get("xgb_pCover", 0.5)
+                if ens_side == "away":
+                    g["xgb_pCover_side"] = round(1.0 - xgb_p_home, 4)
+                else:
+                    g["xgb_pCover_side"] = round(xgb_p_home, 4)
+
+        print(f"  [ENS] Ensemble pick override: {override_count} picks changed")
 
     # 6. Build run record
     print("[4/7] Saving...")
@@ -1464,7 +1683,7 @@ def main():
     print("[6/7] Sending email...")
     html = build_email_html(run, summary_obj, l10, l10t, weekly_spread, weekly_total, rolling_spread, rolling_total, team_records_data, calib_rows, yesterday_recap)
     text = build_text_email(run, store)
-    subject = f"[PY] NBA Daily Picks \u2014 {run['dateDisplay']}"
+    subject = f"NBA Picks {run['dateDisplay']} (Actionable)"
 
     send_email(subject, text, html)
 

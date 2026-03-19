@@ -15,7 +15,7 @@ from run_daily import main
 
 if __name__ == "__main__":
     try:
-        main(subject_label="[PY] NBA Full Season Update")
+        main()
     except Exception as err:
         import traceback
         traceback.print_exc()

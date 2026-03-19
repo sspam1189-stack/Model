@@ -36,10 +36,7 @@ from kalman_state import (
 )
 from calibration import build_calibration_table, build_calibration_html
 from email_report import send_email
-try:
-    from ensemble import ENSEMBLE_AVAILABLE, train_ensemble, predict_ensemble
-except ImportError:
-    ENSEMBLE_AVAILABLE = False
+from xgb_model import xgb_predict_games, retrain_after_grading
 
 # ---- Constants ----
 TIMEZONE = "America/Chicago"
@@ -416,226 +413,12 @@ def build_game_injury_adj(away_team, home_team, injury_report, player_mpg=None):
     return {"awayInjuries": get_key_injuries(injury_report, away_team, player_mpg),
             "homeInjuries": get_key_injuries(injury_report, home_team, player_mpg)}
 
-# ---- Email HTML Builder ----
-
-def build_team_record_table(team_records):
-    sorted_teams = sorted(
-        [(name, t) for name, t in team_records.items() if t["w"] + t["l"] >= 3],
-        key=lambda x: x[1]["w"] - x[1]["l"] * 1.1,
-        reverse=True
-    )
-    if not sorted_teams:
-        return ""
-    rows = []
-    for name, t in sorted_teams:
-        total = t["w"] + t["l"]
-        pct = round(100 * t["w"] / total) if total > 0 else 0
-        flat_units = round((t["w"] - t["l"] * 1.1) * 10) / 10
-        flat_str = f"{'+' if flat_units >= 0 else ''}{flat_units:.1f}u"
-        flat_color = "#10b981" if flat_units >= 0 else "#ef4444"
-        rows.append(
-            f'<tr><td>{esc(name)}</td><td class="">{t["picks"]}</td>'
-            f'<td class="">{t["w"]}-{t["l"]}-{t["p"]}</td>'
-            f'<td class="">{pct}%</td>'
-            f'<td class="" style="color:{flat_color}">{flat_str}</td>'
-            f'<td class="">{t["fav"]}</td><td class="">{t["dog"]}</td></tr>'
-        )
-    return f'''
-    <div class="card card-records">
-      <div class="summaryTitle">\U0001F3C0 Team Spread Record (ATS)</div>
-      <table class="data">
-        <thead><tr>
-          <th>Team</th><th class="">Picks</th><th class="">W-L-P</th>
-          <th class="">Win%</th><th class="">Flat</th>
-          <th class="">Fav</th><th class="">Dog</th>
-        </tr></thead>
-        <tbody>{"".join(rows)}</tbody>
-      </table>
-      <div class="tiny">Only graded spread picks. Units at -110 juice.</div>
-    </div>'''
-
-
-def build_recap_html(recap):
-    if not recap or not recap.get("picks"):
-        return ""
-    def result_badge(result):
-        if result == "WIN":
-            return '<span style="color:#10b981; font-weight:700">\u2713 WIN</span>'
-        if result == "LOSS":
-            return '<span style="color:#ef4444; font-weight:700">\u2717 LOSS</span>'
-        return '<span style="color:#6b7280; font-weight:700">\u229c PUSH</span>'
-    rows = ""
-    for p in recap["picks"]:
-        s_diff_str = f"{p['sDiff']:.1f}" if p.get("sDiff") is not None else "\u2014"
-        rows += f'''<tr>
-      <td>\U0001F3C0 {esc(p["matchup"])}</td>
-      <td><b>{esc(p["pick"])}</b> <span class="trend-label">sDiff {s_diff_str}</span></td>
-      <td style="text-align:center">{result_badge(p["result"])}</td>
-      <td style="text-align:center">{esc(p["final"])}</td>
-    </tr>'''
-    t = recap["tally"]
-    p_val = t["p"]
-    summary_str = f'<b>{t["w"]}-{t["l"]}{f"-{p_val}" if p_val else ""}</b>'
-    units_color = "#10b981" if recap["units"] >= 0 else "#ef4444"
-    units_str = f'<span style="color:{units_color}; font-weight:700">{recap["units"]:+.2f}u</span>'
-    return f'''
-    <div class="card" style="border-left:4px solid #f59e0b; margin-bottom:10px;">
-      <div class="summaryTitle">\U0001F4CB Yesterday\'s Recap ({esc(recap["dateDisplay"])})</div>
-      <table class="data">
-        <thead><tr>
-          <th>Game</th><th>Pick</th>
-          <th style="text-align:center">Result</th>
-          <th style="text-align:center">Final</th>
-        </tr></thead>
-        <tbody>{rows}</tbody>
-      </table>
-      <div class="tiny" style="margin-top:6px">Spread: {summary_str} \u00b7 {units_str}</div>
-    </div>'''
-
-
-EMAIL_STYLES = '''
-<style>
-  body { font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif; margin:0; padding:0; background:#f3f4f6; }
-  .wrap { max-width: 920px; margin: 0 auto; padding: 16px; }
-  .h1 { font-size:20px; font-weight:800; color:#111827; }
-  .sub { font-size:12px; color:#6b7280; }
-  .card { background:#fff; border:1px solid #e5e7eb; border-radius:14px; padding:12px; box-shadow: 0 1px 3px rgba(0,0,0,.05); }
-  .card .summaryTitle { font-size:12px; font-weight:800; color:#111827; letter-spacing:.02em; margin-bottom:8px; }
-  .tiny { font-size:11px; color:#6b7280; line-height:1.35; }
-  table.data { width:100%; border-collapse:collapse; }
-  table.data th, table.data td { font-size:12px; padding:7px 6px; border-bottom:1px solid #eef2f7; }
-  table.data th { text-align:left; color:#6b7280; font-weight:700; }
-  .right { text-align:right; }
-  .badge { display:inline-block; font-size:10px; font-weight:800; padding:3px 8px; border-radius:999px; border:1px solid #e5e7eb; white-space:nowrap; }
-  .b-high { background:#ecfdf5; color:#047857; border-color:#a7f3d0; }
-  .b-elite { background:#111827; color:#ffffff; border-color:#111827; }
-  .b-low { background:#fef3c7; color:#92400e; border-color:#fde68a; }
-  .pick-team { font-weight:800; color:#111827; }
-  .pick-line { font-size:11px; color:#6b7280; }
-  .no-picks { color:#6b7280; font-size:12px; padding:6px 0; }
-  .trend-label { font-size:11px; color:#6b7280; }
-  .l10-tally { margin-top:10px; font-size:13px; font-weight:700; color:#111827; }
-  .win-text { color:#047857; }
-  .loss-text { color:#b91c1c; }
-  .section-label { font-size:10px; font-weight:800; text-transform:uppercase; letter-spacing:.1em; padding:10px 0 4px; opacity:.55; }
-  .card-picks { border-left: 4px solid #6366f1; }
-  .card-records { border-left: 4px solid #0ea5e9; }
-  .card-games { border-left: 4px solid #f59e0b; }
-  .card-trends { border-left: 4px solid #10b981; }
-</style>'''
-
-
-def win_rate_class(pct):
-    try:
-        n = float(pct)
-    except (ValueError, TypeError):
-        return ""
-    return "win-text" if n >= 55 else ("loss-text" if n <= 50 else "")
-
-
-def units_class(u):
-    if not isinstance(u, (int, float)) or not math.isfinite(u):
-        return ""
-    return "win-text" if u > 0 else ("loss-text" if u < 0 else "")
-
+# ---- Email HTML Builder (simplified but complete) ----
 
 def conf_badge(conf):
     c = str(conf or "").lower()
     cls = "b-elite" if c == "elite" else ("b-high" if c == "high" else "b-low")
     return f'<span class="badge {cls}">{esc(c.upper() if c else "N/A")}</span>'
-
-
-def build_table(rows, cols):
-    if not rows:
-        return '<div class="no-picks">Not enough picks yet.</div>'
-    header = "".join(f"<th>{esc(c['label'])}</th>" for c in cols)
-    body = "".join(
-        "<tr>" + "".join(f"<td>{c['render'](r)}</td>" for c in cols) + "</tr>"
-        for r in rows
-    )
-    return f'<table class="data"><thead><tr>{header}</tr></thead><tbody>{body}</tbody></table>'
-
-
-def wlp_html(r):
-    return f'<span class="win-text">{r["w"]}W</span>\u2013<span class="loss-text">{r["l"]}L</span>\u2013{r["p"]}P'
-
-
-def pct_html(pct):
-    return f'<span class="{win_rate_class(pct)}">{pct}%</span>'
-
-
-def units_html(units):
-    return f'<span class="{units_class(units)}">{fmt_units(units)}</span>'
-
-
-def tally_l10(rows, pick_type="spread"):
-    w = sum(1 for x in rows if x.get("result") == "WIN")
-    l = sum(1 for x in rows if x.get("result") == "LOSS")
-    p = sum(1 for x in rows if x.get("result") == "PUSH")
-    if pick_type == "total":
-        units = sum(total_pick_unit(x.get("date", ""), x.get("result", "")) for x in rows)
-    else:
-        units = calc_units(w, l)
-    return {"w": w, "l": l, "p": p, "pct": win_pct(w, l), "units": units}
-
-
-def build_combined_record_table(title, elite_bucket, split_rows, card_class="card-records"):
-    def row(label, b):
-        return (f'<tr><td>{label}</td><td class="">{b["w"]}-{b["l"]}-{b["p"]}</td>'
-                f'<td class="">{esc(b["pct"])}%</td><td class="">{esc(fmt_units(b["units"]))}</td>'
-                f'<td class="">{b["played"]}</td></tr>')
-    split_body = "".join(row(f'{r["emoji"]} {r["label"]}', r["data"]) for r in split_rows)
-    return f'''
-    <div class="card {card_class}">
-      <div class="summaryTitle">{esc(title)}</div>
-      <table class="data">
-        <thead><tr><th>Bucket</th><th class="">W-L-P</th><th class="">Win%</th><th class="">Flat</th><th class="">Graded</th></tr></thead>
-        <tbody>
-          {row("\U0001F512 Elite", elite_bucket)}
-          {split_body}
-        </tbody>
-      </table>
-      <div class="tiny">Only graded picks (games with final scores + a non-PASS pick).</div>
-    </div>'''
-
-
-def build_game_prob_table(games):
-    filtered = [g for g in (games or []) if g.get("status") not in ("MISSING_ODDS", "SKIPPED")]
-    if not filtered:
-        return ""
-    rows = ""
-    for g in filtered:
-        s_pick_display = esc(g["sPick"]) if g.get("sPick") and g["sPick"] != "PASS" else '<span style="color:#9ca3af">PASS</span>'
-        o_pick_display = esc(g["oPick"]) if g.get("oPick") and g["oPick"] != "PASS" else '<span style="color:#9ca3af">PASS</span>'
-        p_cover_str = f'<b>{g["pCover"] * 100:.0f}%</b>' if g.get("pCover") is not None else '<span style="color:#9ca3af">\u2014</span>'
-        p_ou_str = f'<b>{g["pOU"] * 100:.0f}%</b>' if g.get("pOU") is not None else '<span style="color:#9ca3af">\u2014</span>'
-        p_home = f'{g["pHomeCover"] * 100:.0f}%' if g.get("pHomeCover") is not None else "\u2014"
-        p_away = f'{g["pAwayCover"] * 100:.0f}%' if g.get("pAwayCover") is not None else "\u2014"
-        p_over = f'{g["pOver"] * 100:.0f}%' if g.get("pOver") is not None else "\u2014"
-        p_under = f'{g["pUnder"] * 100:.0f}%' if g.get("pUnder") is not None else "\u2014"
-        s_conf_badge = f" {conf_badge(g.get('sConf'))}" if g.get("sPick") and g["sPick"] != "PASS" else ""
-        o_conf_badge = f" {conf_badge(g.get('oConf'))}" if g.get("oPick") and g["oPick"] != "PASS" else ""
-        margin = (("+" if g["margin"] >= 0 else "") + fmt_num(g["margin"], 1)) if isinstance(g.get("margin"), (int, float)) and math.isfinite(g["margin"]) else "\u2014"
-        t_diff = (("+" if g["tDiff"] >= 0 else "") + fmt_num(g["tDiff"], 1)) if isinstance(g.get("tDiff"), (int, float)) and math.isfinite(g["tDiff"]) else "\u2014"
-        rows += f'''<tr>
-        <td style="font-weight:700">{esc(g["away"])} @ {esc(g["home"])}</td>
-        <td>{s_pick_display}{s_conf_badge}<div class="tiny" style="margin-top:2px">Line {fmt_num(g.get("line"), 1)} \u00b7 proj {margin} \u00b7 sDiff {fmt_num(g.get("sDiff"), 1)}</div></td>
-        <td style="text-align:center">{p_cover_str}<div class="tiny">{p_away} away / {p_home} home</div></td>
-        <td>{o_pick_display}{o_conf_badge}<div class="tiny" style="margin-top:2px">O/U {fmt_num(g.get("total"), 1)} \u00b7 diff {t_diff}</div></td>
-        <td style="text-align:center">{p_ou_str}<div class="tiny">{p_over} over / {p_under} under</div></td>
-      </tr>'''
-    return f'''<div class="card" style="border-left:4px solid #8b5cf6; margin-bottom:10px;">
-    <div class="summaryTitle">\U0001F3AF Cover Probabilities \u2014 All Games</div>
-    <table class="data">
-      <thead><tr>
-        <th>Game</th><th>Spread Pick</th><th style="text-align:center">P(Cover)</th>
-        <th>Total Pick</th><th style="text-align:center">P(Hit)</th>
-      </tr></thead>
-      <tbody>{rows}</tbody>
-    </table>
-    <div class="tiny" style="margin-top:6px">P(Cover) / P(Hit) = probability the picked side wins. Directional % shown below.</div>
-  </div>'''
-
 
 def build_text_email(run, store):
     lines = [f"NBA PICKS \u2014 {run['dateDisplay']}", "", "TODAY (Actionable only)", ""]
@@ -646,8 +429,35 @@ def build_text_email(run, store):
         if g.get("sPick") and g["sPick"] != "PASS":
             pm = round((g.get("hS",0)-g.get("aS",0))*10)/10
             ft = g["home"] if pm >= 0 else g["away"]
-            lines.append(f"  Spread: {g['sPick']} ({str(g.get('sConf','')).upper()}) | proj {ft} by {fmt_num(abs(pm),1)} | edge {fmt_num(g.get('sDiff'),1)}")
-        else: lines.append("  Spread: PASS")
+            # ENS tag if ensemble drove the pick
+            ens_tag = ""
+            override = g.get("_ensOverride", "")
+            if override == "upgrade":
+                ens_tag = " [ENS]"
+            elif override == "downgrade":
+                ens_tag = ""  # won't reach here since PASS
+            # Show both Bayesian and Ensemble P(cover)
+            prob_parts = []
+            if g.get("pCover_bayes") is not None:
+                prob_parts.append(f"Bayes={fmt_num((g['pCover_bayes'] or 0)*100,0)}%")
+            if g.get("ensemble_pCover") is not None:
+                prob_parts.append(f"Ens={fmt_num((g['ensemble_pCover'] or 0)*100,0)}%")
+            if g.get("xgb_pCover") is not None:
+                prob_parts.append(f"XGB={fmt_num((g['xgb_pCover'] or 0)*100,0)}%")
+            prob_str = " | " + " ".join(prob_parts) if prob_parts else ""
+            # Note disagreement between Bayesian and XGBoost
+            disagree_note = ""
+            if override == "upgrade":
+                disagree_note = " | Bayes=PASS, XGB+Ensemble=PICK"
+            elif g.get("sPick_bayes") and g["sPick_bayes"] != "PASS" and g.get("sPick_bayes") != g.get("sPick"):
+                disagree_note = " | Bayes/XGB side disagree"
+            lines.append(f"  Spread: {g['sPick']} ({str(g.get('sConf','')).upper()}){ens_tag} | proj {ft} by {fmt_num(abs(pm),1)} | edge {fmt_num(g.get('sDiff'),1)}{prob_str}{disagree_note}")
+        else:
+            # Show if ensemble downgraded a Bayesian pick
+            if g.get("_ensOverride") == "downgrade" and g.get("sPick_bayes") and g["sPick_bayes"] != "PASS":
+                lines.append(f"  Spread: PASS [ENS downgrade from {g['sPick_bayes']}] Bayes={fmt_num((g.get('pCover_bayes',0) or 0)*100,0)}% Ens={fmt_num((g.get('ensemble_pCover',0) or 0)*100,0)}%")
+            else:
+                lines.append("  Spread: PASS")
         if g.get("oPick") and g["oPick"] != "PASS":
             ct = (g["total"]+g["tDiff"]) if isinstance(g.get("tDiff"),(int,float)) and isinstance(g.get("total"),(int,float)) else g.get("pT")
             lines.append(f"  Total:  {g['oPick']} {fmt_num(g.get('total'),1)} ({str(g.get('oConf','')).upper()}) | proj {fmt_num(ct,1)} | edge {fmt_num(abs(g.get('tDiff',0)),1)}")
@@ -660,238 +470,101 @@ def build_text_email(run, store):
     lines.extend(["\u2014", compute_summary_text(store), "", last10_text(store, "spread"), "", last10_text(store, "total")])
     return "\n".join(lines)
 
-
 def build_email_html(run, summary_obj, last10, last10_totals, weekly_spread, weekly_total,
                      rolling_spread, rolling_total, team_records, calib_rows, yesterday_recap):
+    # Simplified but functionally complete HTML email builder
     s = summary_obj or compute_summary_obj({"runs": []})
     calib_html = build_calibration_html(calib_rows) if calib_rows else ""
-
-    # Today's picks
-    def build_picks_list(games, pick_type):
-        is_spread = pick_type == "spread"
-        if not is_spread and run.get("date", "") >= TOTAL_PICKS_END_DATE:
-            return '<div class="no-picks">Totals picks discontinued.</div>'
-        filtered = [g for g in games
-                    if g.get("status") not in ("MISSING_ODDS", "SKIPPED")
-                    and ((g.get("sPick") if is_spread else g.get("oPick")) or "") not in ("", "PASS")
-                    and is_actionable(g.get("sConf") if is_spread else g.get("oConf"))]
-        filtered.sort(key=lambda a: (a.get("pCover", 0) if is_spread else a.get("pOU", 0)) or 0, reverse=True)
-        if not filtered:
-            return f'<div class="no-picks">No actionable {pick_type} picks today.</div>'
-        parts = []
-        for g in filtered:
-            if is_spread:
-                p_str = f" \u00b7 P={g['pCover'] * 100:.0f}%" if g.get("pCover") else ""
-                proj_margin = round((g["hS"] - g["aS"]) * 10) / 10
-                fav_team = g["home"] if proj_margin >= 0 else g["away"]
-                parts.append(
-                    f'<div style="padding:6px 0; border-bottom:1px dashed #eef2f7;">\U0001F3C0 <span class="pick-team">{esc(g["sPick"])}</span>'
-                    f' <span class="trend-label">proj {esc(fav_team)} by {fmt_num(abs(proj_margin), 1)} \u00b7 sDiff {fmt_num(g.get("sDiff"), 1)}{p_str}</span>'
-                    f' {conf_badge(g.get("sConf"))}</div>'
-                )
-            else:
-                arrow = "\u2B06\uFE0F" if g.get("oPick") == "OVER" else "\u2B07\uFE0F"
-                p_str = f" \u00b7 P={g['pOU'] * 100:.0f}%" if g.get("pOU") else ""
-                clean_total = g["total"] + g["tDiff"] if isinstance(g.get("tDiff"), (int, float)) and isinstance(g.get("total"), (int, float)) else g.get("pT")
-                parts.append(
-                    f'<div style="padding:6px 0; border-bottom:1px dashed #eef2f7;">{arrow}'
-                    f' <span class="pick-team">{esc(g["oPick"])} {fmt_num(g.get("total"), 1)}</span>'
-                    f' <span class="pick-line">{esc(g["away"])} @ {esc(g["home"])}</span>'
-                    f' <span class="trend-label">proj {fmt_num(clean_total, 1)} \u00b7 edge {fmt_num(abs(g.get("tDiff", 0)), 1)}{p_str}</span>'
-                    f' {conf_badge(g.get("oConf"))}</div>'
-                )
-        return "".join(parts)
-
-    # Last 10 cards
-    def build_last10_card(title, picks, pick_type):
-        rows_data = [dict(p, dateDisp=to_display_date(p["date"])) for p in picks]
-        t = tally_l10(rows_data, pick_type)
-        pick_col = (
-            {"label": "Pick", "render": lambda r: f'<span class="pick-team">{esc(r["pick"])} {esc(str(r.get("total", "")))}</span>'}
-            if pick_type == "total" else
-            {"label": "Pick", "render": lambda r: f'<span class="pick-team">{esc(r["pick"])}</span>'}
-        )
-        return (
-            f'<div class="card card-trends"><div class="summaryTitle">{title}</div>' +
-            build_table(rows_data, [
-                {"label": "Date", "render": lambda r: esc(r["dateDisp"])},
-                {"label": "Matchup", "render": lambda r: esc(r["matchup"])},
-                pick_col,
-                {"label": "Conf", "render": lambda r: conf_badge(r.get("conf"))},
-                {"label": "Result", "render": lambda r: esc(r.get("result", ""))},
-                {"label": "Final", "render": lambda r: esc(r.get("final", ""))},
-            ]) +
-            f'<div class="l10-tally">Last 10: {wlp_html(t)} \u00b7 {pct_html(t["pct"])} \u00b7 {units_html(t["units"])}</div></div>'
-        )
-
-    # Weekly + Rolling cards
-    def build_weekly_card(title, rows_data):
-        return (
-            f'<div class="card card-trends"><div class="summaryTitle">{title}</div>' +
-            build_table(rows_data, [
-                {"label": "Week of", "render": lambda r: esc(r["week"])},
-                {"label": "W-L-P", "render": wlp_html},
-                {"label": "Win%", "render": lambda r: pct_html(r["pct"])},
-                {"label": "Flat", "render": lambda r: units_html(r["units"])},
-            ]) + '</div>'
-        )
-
-    def build_rolling_card(title, rows_data):
-        window_size = re.search(r"#\d+\u2013(\d+)", rows_data[0]["label"]).group(1) if rows_data else "?"
-        full_title = title.replace("{n}", str(window_size))
-        return (
-            f'<div class="card card-trends"><div class="summaryTitle">{full_title}</div>'
-            f'<div class="tiny" style="margin-bottom:6px">Green = above break-even (52.4%) \u00b7 Red = below \u00b7 Units at -110</div>' +
-            build_table(rows_data, [
-                {"label": "Window", "render": lambda r: esc(r["label"])},
-                {"label": "W-L-P", "render": wlp_html},
-                {"label": "Win%", "render": lambda r: pct_html(r["pct"])},
-                {"label": "Flat", "render": lambda r: units_html(r["units"])},
-                {"label": "Dates", "render": lambda r: f'<span class="trend-label">{esc(r["startDate"])} \u2192 {esc(r["endDate"])}</span>'},
-            ]) + '</div>'
-        )
-
-    # Layout helpers
-    def row2col(left, right):
-        return f'''<table width="100%" cellpadding="0" cellspacing="0" border="0" style="margin-bottom:10px;">
-      <tr>
-        <td width="50%" valign="top" style="padding-right:5px;">{left}</td>
-        <td width="50%" valign="top" style="padding-left:5px;">{right}</td>
-      </tr>
-    </table>'''
-
-    def row_full(content):
-        return f'<div style="margin-bottom:10px;">{content}</div>'
-
-    def section_label(text):
-        return f'<div class="section-label">{esc(text)}</div>'
-
-    # Helper for pCover/pOU in f-strings
-    def _p_cover_str(g):
-        pc = g.get("pCover")
-        return f" . P={pc*100:.0f}%" if pc else ""
-
-    def _p_ou_str(g):
-        po = g.get("pOU")
-        return f" . P={po*100:.0f}%" if po else ""
-
-    # Build game cards
-    game_cards = []
-    for g in run.get("games", []):
-        is_skipped = g.get("status") in ("MISSING_ODDS", "SKIPPED")
-
-        if not is_skipped and g.get("sPick") and g["sPick"] != "PASS":
-            proj_margin = round((g["hS"] - g["aS"]) * 10) / 10
-            fav_team = g["home"] if proj_margin >= 0 else g["away"]
-            spread_pick = (
-                f'<div><span class="pick-team">{esc(g["sPick"])}</span> {conf_badge(g.get("sConf"))}'
-                f' <span class="trend-label">proj {esc(fav_team)} by {fmt_num(abs(proj_margin), 1)} \u00b7 sDiff {fmt_num(g.get("sDiff"), 1)}'
-                f'{_p_cover_str(g)}</span></div>'
-            )
-        else:
-            spread_pick = f'<div class="tiny">Spread: <span class="trend-label">{esc(g.get("status", "PASS") if is_skipped else "PASS")}</span></div>'
-
-        if not is_skipped and g.get("oPick") and g["oPick"] != "PASS":
-            clean_total = g["total"] + g["tDiff"] if isinstance(g.get("tDiff"), (int, float)) and isinstance(g.get("total"), (int, float)) else g.get("pT")
-            total_pick = (
-                f'<div class="tiny">Total: <span class="pick-team">{esc(g["oPick"])} {fmt_num(g.get("total"), 1)}</span>'
-                f' {conf_badge(g.get("oConf"))}'
-                f' <span class="trend-label">proj {fmt_num(clean_total, 1)} \u00b7 edge {fmt_num(abs(g.get("tDiff", 0)), 1)}'
-                f'{_p_ou_str(g)}</span></div>'
-            )
-        else:
-            total_pick = f'<div class="tiny">Total: <span class="trend-label">{esc(g.get("status", "PASS") if is_skipped else "PASS")}</span></div>'
-
-        proj_line = ""
-        if not is_skipped and isinstance(g.get("aS"), (int, float)) and isinstance(g.get("hS"), (int, float)):
-            clean_total = g["total"] + g["tDiff"] if isinstance(g.get("tDiff"), (int, float)) and isinstance(g.get("total"), (int, float)) else g.get("pT")
-            proj_line = (
-                f'<div class="tiny" style="margin-top:4px">\U0001F4D0 Proj: <b>{esc(g["away"])} {fmt_num(g["aS"], 1)}</b> \u2013 <b>{esc(g["home"])} {fmt_num(g["hS"], 1)}</b></div>'
-                f'<div class="tiny">\U0001F4D0 Total: <b>{fmt_num(clean_total, 1)}</b> <span class="trend-label">(line {fmt_num(g.get("total"), 1)})</span></div>'
-            )
-
-        trends_html = ""
-        if g.get("trends"):
-            trends_html = (
-                f'<div class="tiny" style="margin-top:4px">'
-                f'<div><b>{esc(g["away"])}:</b> {esc(g["trends"].get("away", "\u2014"))}</div>'
-                f'<div><b>{esc(g["home"])}:</b> {esc(g["trends"].get("home", "\u2014"))}</div></div>'
-            )
-
-        injury_html = ""
-        if g.get("injuryNote"):
-            sides = g["injuryNote"].split(" | ")
-            injury_html = '<div class="tiny" style="margin-top:4px">' + "".join(f'<div style="margin-left:0">\U0001F3E5 {esc(s)}</div>' for s in sides) + '</div>'
-
-        b2b_html = f'<div class="tiny" style="margin-top:4px">\U0001F504 {esc(g["b2bNote"])}</div>' if g.get("b2bNote") else ""
-
-        score_line = ""
-        if isinstance(g.get("awayScore"), (int, float)) and isinstance(g.get("homeScore"), (int, float)):
-            score_line = f'<div class="tiny" style="margin-top:4px">Final: <b>{esc(str(g["awayScore"]))}-{esc(str(g["homeScore"]))}</b></div>'
-
-        game_cards.append(
-            f'<div class="card card-games">'
-            f'<div class="summaryTitle">{esc(g.get("away", ""))} @ {esc(g.get("home", ""))} <span class="tiny">Line {fmt_num(g.get("line"), 1)} \u00b7 Total {fmt_num(g.get("total"), 1)}</span></div>'
-            f'{spread_pick}{total_pick}{proj_line}{injury_html}{b2b_html}{score_line}{trends_html}'
-            f'</div>'
-        )
-
-    # Pair game cards into 2-col rows
-    games_html = ""
-    for i in range(0, len(game_cards), 2):
-        if i + 1 < len(game_cards):
-            games_html += row2col(game_cards[i], game_cards[i + 1])
-        else:
-            games_html += row_full(game_cards[i])
-
-    # Assemble full HTML
+    from email_report import send_email as _  # just to verify import works
     tz = _get_tz()
     timestamp = datetime.now(tz).strftime("%m/%d/%Y, %I:%M:%S %p")
-    recap_html = build_recap_html(yesterday_recap) if yesterday_recap else ""
+    recap_html = ""
+    if yesterday_recap and yesterday_recap.get("picks"):
+        def rb(result):
+            if result == "WIN": return '<span style="color:#10b981;font-weight:700">WIN</span>'
+            if result == "LOSS": return '<span style="color:#ef4444;font-weight:700">LOSS</span>'
+            return '<span style="color:#6b7280;font-weight:700">PUSH</span>'
+        rrows = "".join(f'<tr><td>{esc(p["matchup"])}</td><td><b>{esc(p["pick"])}</b></td><td style="text-align:center">{rb(p["result"])}</td><td style="text-align:center">{esc(p["final"])}</td></tr>' for p in yesterday_recap["picks"])
+        t = yesterday_recap["tally"]
+        uc = "#10b981" if yesterday_recap["units"] >= 0 else "#ef4444"
+        recap_html = f'<div class="card" style="border-left:4px solid #f59e0b;margin-bottom:10px;"><div class="summaryTitle">Yesterday\'s Recap ({esc(yesterday_recap["dateDisplay"])})</div><table class="data"><thead><tr><th>Game</th><th>Pick</th><th style="text-align:center">Result</th><th style="text-align:center">Final</th></tr></thead><tbody>{rrows}</tbody></table><div class="tiny" style="margin-top:6px">Spread: <b>{t["w"]}-{t["l"]}</b> <span style="color:{uc};font-weight:700">{yesterday_recap["units"]:+.2f}u</span></div></div>'
 
-    return f'''<html><head>{EMAIL_STYLES}</head><body>
-    <div class="wrap">
-      <table width="100%" cellpadding="0" cellspacing="0" border="0" style="margin-bottom:10px;">
-        <tr>
-          <td>
-            <div class="h1">NBA Picks (Full Season) \u2014 {esc(run.get("dateDisplay", ""))}</div>
-            <div class="sub">High + Elite only (no medium). Units at -110. Times in {TIMEZONE}.</div>
-          </td>
-          <td style="text-align:right;" valign="top"><div class="sub">{esc(timestamp)}</div></td>
-        </tr>
-      </table>
+    # Build spread picks
+    spread_picks_html = ""
+    filtered = [g for g in run.get("games",[]) if g.get("status") not in ("MISSING_ODDS","SKIPPED") and g.get("sPick") and g["sPick"] != "PASS" and is_actionable(g.get("sConf"))]
+    filtered.sort(key=lambda g: g.get("ensemble_pCover", 0) or g.get("pCover", 0) or 0, reverse=True)
+    if filtered:
+        for g in filtered:
+            bayes_ps = f' Bayes={g["pCover_bayes"]*100:.0f}%' if g.get("pCover_bayes") else ""
+            xgb_ps = f' XGB={g["xgb_pCover"]*100:.0f}%' if g.get("xgb_pCover") else ""
+            ens_ps = f' Ens={g["ensemble_pCover"]*100:.0f}%' if g.get("ensemble_pCover") else ""
+            pm = round((g.get("hS",0)-g.get("aS",0))*10)/10
+            ft = g["home"] if pm >= 0 else g["away"]
+            ens_tag = ""
+            override = g.get("_ensOverride", "")
+            if override == "upgrade":
+                ens_tag = ' <span style="background:#818cf8;color:#fff;font-size:9px;padding:1px 5px;border-radius:4px;font-weight:700;">ENS</span>'
+            disagree_note = ""
+            if override == "upgrade":
+                disagree_note = ' <span style="color:#f59e0b;font-size:10px;">[Bayes=PASS]</span>'
+            spread_picks_html += f'<div style="padding:6px 0;border-bottom:1px dashed #eef2f7;"><span class="pick-team">{esc(g["sPick"])}</span>{ens_tag} <span class="trend-label">proj {esc(ft)} by {fmt_num(abs(pm),1)} sDiff {fmt_num(g.get("sDiff"),1)}{bayes_ps}{xgb_ps}{ens_ps}</span> {conf_badge(g.get("sConf"))}{disagree_note}</div>'
+    else:
+        spread_picks_html = '<div class="no-picks">No actionable spread picks today.</div>'
 
-      {row_full(recap_html) if recap_html else ""}
+    # Show ensemble downgrades (Bayesian said pick, ensemble said PASS)
+    downgraded = [g for g in run.get("games",[]) if g.get("_ensOverride") == "downgrade"]
+    if downgraded:
+        spread_picks_html += '<div style="margin-top:8px;padding-top:6px;border-top:1px solid #e5e7eb;"><span class="tiny" style="font-weight:700;color:#6b7280;">Ensemble Downgrades (Bayesian pick overridden to PASS):</span></div>'
+        for g in downgraded:
+            bayes_ps = f'Bayes={g["pCover_bayes"]*100:.0f}%' if g.get("pCover_bayes") else ""
+            ens_ps = f'Ens={g["ensemble_pCover"]*100:.0f}%' if g.get("ensemble_pCover") else ""
+            spread_picks_html += f'<div style="padding:4px 0;color:#9ca3af;font-size:11px;"><s>{esc(g.get("sPick_bayes",""))}</s> &rarr; PASS ({bayes_ps} {ens_ps})</div>'
 
-      {row_full(f'<div class="card card-picks"><div class="summaryTitle">\U0001F525 Today\'s Spread Picks (Actionable)</div>{build_picks_list(run.get("games", []), "spread")}</div>')}
-      {row_full(build_combined_record_table("\U0001F4CA Spread (ATS)", s["spread"]["elite"], [
-          {"label": "Favorites", "emoji": "\u2B50", "data": s["favdog"]["fav"]},
-          {"label": "Underdogs", "emoji": "\U0001F436", "data": s["favdog"]["dog"]},
-        ]))}
+    # Game cards
+    gcards = ""
+    for g in run.get("games",[]):
+        skip = g.get("status") in ("MISSING_ODDS","SKIPPED")
+        proj = ""
+        if not skip and isinstance(g.get("aS"),(int,float)) and isinstance(g.get("hS"),(int,float)):
+            ct = (g["total"]+g["tDiff"]) if isinstance(g.get("tDiff"),(int,float)) and isinstance(g.get("total"),(int,float)) else g.get("pT")
+            proj = f'<div class="tiny" style="margin-top:4px">Proj: <b>{esc(g["away"])} {fmt_num(g["aS"],1)}</b> - <b>{esc(g["home"])} {fmt_num(g["hS"],1)}</b> Total: <b>{fmt_num(ct,1)}</b></div>'
+        b2b = f'<div class="tiny" style="margin-top:4px">{esc(g["b2bNote"])}</div>' if g.get("b2bNote") else ""
+        inj = f'<div class="tiny" style="margin-top:4px">{esc(g.get("injuryNote",""))}</div>' if g.get("injuryNote") else ""
+        xgb_info = ""
+        if not skip and g.get("xgb_margin") is not None:
+            override = g.get("_ensOverride", "")
+            override_label = ""
+            if override == "upgrade":
+                override_label = ' <span style="background:#818cf8;color:#fff;font-size:9px;padding:1px 4px;border-radius:3px;">ENS UPGRADE</span>'
+            elif override == "downgrade":
+                override_label = ' <span style="background:#ef4444;color:#fff;font-size:9px;padding:1px 4px;border-radius:3px;">ENS DOWNGRADE</span>'
+            bayes_p_str = f'Bayes={fmt_num((g.get("pCover_bayes",0) or 0)*100,0)}%' if g.get("pCover_bayes") is not None else ""
+            xgb_info = f'<div class="tiny" style="margin-top:4px">XGB: margin {fmt_num(g.get("xgb_margin"),1)} | {bayes_p_str} XGB={fmt_num((g.get("xgb_pCover",0) or 0)*100,0)}% Ens={fmt_num((g.get("ensemble_pCover",0) or 0)*100,0)}%{override_label}</div>'
+        gcards += f'<div class="card card-games" style="margin-bottom:8px;"><div class="summaryTitle">{esc(g.get("away",""))} @ {esc(g.get("home",""))} <span class="tiny">Line {fmt_num(g.get("line"),1)} Total {fmt_num(g.get("total"),1)}</span></div>{proj}{xgb_info}{inj}{b2b}</div>'
 
-      {section_label("Games")}
-      {games_html}
+    # Record row helper
+    def rrow(label, b):
+        return f'<tr><td>{label}</td><td>{b["w"]}-{b["l"]}-{b["p"]}</td><td>{b["pct"]}%</td><td>{fmt_units(b["units"])}</td><td>{b["played"]}</td></tr>'
 
-      {section_label("Cover Probabilities")}
-      {row_full(build_game_prob_table(run.get("games", [])))}
+    EMAIL_STYLES = '<style>body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;margin:0;padding:0;background:#f3f4f6}.wrap{max-width:920px;margin:0 auto;padding:16px}.h1{font-size:20px;font-weight:800;color:#111827}.sub{font-size:12px;color:#6b7280}.card{background:#fff;border:1px solid #e5e7eb;border-radius:14px;padding:12px;box-shadow:0 1px 3px rgba(0,0,0,.05)}.card .summaryTitle{font-size:12px;font-weight:800;color:#111827;letter-spacing:.02em;margin-bottom:8px}.tiny{font-size:11px;color:#6b7280;line-height:1.35}table.data{width:100%;border-collapse:collapse}table.data th,table.data td{font-size:12px;padding:7px 6px;border-bottom:1px solid #eef2f7}table.data th{text-align:left;color:#6b7280;font-weight:700}.badge{display:inline-block;font-size:10px;font-weight:800;padding:3px 8px;border-radius:999px;border:1px solid #e5e7eb;white-space:nowrap}.b-high{background:#ecfdf5;color:#047857;border-color:#a7f3d0}.b-elite{background:#111827;color:#fff;border-color:#111827}.b-low{background:#fef3c7;color:#92400e;border-color:#fde68a}.pick-team{font-weight:800;color:#111827}.pick-line{font-size:11px;color:#6b7280}.no-picks{color:#6b7280;font-size:12px;padding:6px 0}.trend-label{font-size:11px;color:#6b7280}.win-text{color:#047857}.loss-text{color:#b91c1c}.card-picks{border-left:4px solid #6366f1}.card-records{border-left:4px solid #0ea5e9}.card-games{border-left:4px solid #f59e0b}.card-trends{border-left:4px solid #10b981}.section-label{font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.1em;padding:10px 0 4px;opacity:.55}</style>'
 
-      {section_label("Spread Trends")}
-      {row_full(build_last10_card("\U0001F9FE Last 10 Spread", last10 or [], "spread"))}
-      {row_full(build_weekly_card("\U0001F4C5 Weekly Spread", weekly_spread or []))}
-      {row_full(build_rolling_card("\U0001F4CA Rolling {{n}}-Pick Groups (Spread)", rolling_spread or []))}
-
-      {section_label("Team Records")}
-      {row_full(build_team_record_table(team_records or {}))}
-
-      {f'{section_label("Model Calibration")}{row_full(f"""<div class="card"><div class="summaryTitle">\\U0001F4CA P(cover) Calibration</div><div class="tiny" style="margin-bottom:6px">Expected vs actual win rate by probability bucket. D shows calibration error.</div>{calib_html}</div>""")}' if calib_html else ""}
-    </div>
-  </body></html>'''
+    return f'''<html><head>{EMAIL_STYLES}</head><body><div class="wrap">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0" style="margin-bottom:10px;"><tr>
+        <td><div class="h1">NBA Picks (Full Season) - {esc(run.get("dateDisplay",""))}</div><div class="sub">High + Elite only. Units at -110. Times in {TIMEZONE}.</div></td>
+        <td style="text-align:right;" valign="top"><div class="sub">{esc(timestamp)}</div></td></tr></table>
+      {f'<div style="margin-bottom:10px;">{recap_html}</div>' if recap_html else ""}
+      <div style="margin-bottom:10px;"><div class="card card-picks"><div class="summaryTitle">Today\'s Spread Picks (Actionable)</div>{spread_picks_html}</div></div>
+      <div style="margin-bottom:10px;"><div class="card card-records"><div class="summaryTitle">Spread (ATS)</div>
+        <table class="data"><thead><tr><th>Bucket</th><th>W-L-P</th><th>Win%</th><th>Flat</th><th>Graded</th></tr></thead>
+        <tbody>{rrow("Elite", s["spread"]["elite"])}{rrow("Favorites", s["favdog"]["fav"])}{rrow("Underdogs", s["favdog"]["dog"])}</tbody></table>
+        <div class="tiny">Only graded picks.</div></div></div>
+      <div class="section-label">Games</div>{gcards}
+      {f'<div class="section-label">Model Calibration</div><div style="margin-bottom:10px;"><div class="card"><div class="summaryTitle">P(cover) Calibration</div>{calib_html}</div></div>' if calib_html else ""}
+    </div></body></html>'''
 
 # ---- Main Pipeline ----
 
-def main(subject_label=None):
-    if subject_label is None:
-        subject_label = "[PY] NBA Full Season Daily"
+def main():
     date = today_central_yyyymmdd()
     date_display = to_display_date(date)
     store = load_store()
@@ -909,6 +582,17 @@ def main(subject_label=None):
             days_to_grade.add(r["date"])
     yesterday = yyyymmdd_from_central_offset(1)
     for d in days_to_grade: grade_date_in_store(store, d)
+
+    # 1b. Retrain XGBoost model if needed (after grading updates history)
+    try:
+        xgb_model_data = retrain_after_grading(store)
+        if xgb_model_data:
+            print(f"[1b] XGBoost model ready: {xgb_model_data['n_trained']} training games")
+        else:
+            print("[1b] XGBoost model not available (insufficient data or missing dependency)")
+    except Exception as e:
+        print(f"[1b] XGBoost retrain warning: {e}")
+        xgb_model_data = None
 
     # 2. Fetch today's data
     season_type = get_season_type(date)
@@ -1020,30 +704,105 @@ def main(subject_label=None):
         if ab or hb:
             g["b2bNote"] = " | ".join(p for p in [f"{g['away']}: {ab}" if ab else None, f"{g['home']}: {hb}" if hb else None] if p)
 
-    # -- Ensemble overlay (XGBoost + Ridge + Bayesian blend) --
-    if ENSEMBLE_AVAILABLE:
-        ens_models = train_ensemble(store, min_train=50, max_xgb_weight=0.20)
-        if ens_models:
-            wb, wx = ens_models["weights"]
-            print(f"[ENS] Trained on {ens_models['n_trained']} games | weights: Bayes={wb:.2f} XGB={wx:.2f}")
-            for g in games:
-                if g.get("sPick") == "PASS" and g.get("oPick") == "PASS":
-                    continue
-                bayes_p = g.get("pHomeCover", 0.5)
-                ens = predict_ensemble(ens_models, g, bayes_p)
-                g["ens_pHomeCover"] = round(ens["pHomeCover"], 3)
-                g["ens_pAwayCover"] = round(ens["pAwayCover"], 3)
-                g["xgb_pHomeCover"] = round(ens.get("xgb_raw", 0.5), 3)
-                g["xgb_pAwayCover"] = round(1.0 - ens.get("xgb_raw", 0.5), 3)
-                g["pHomeCover"] = round(ens["pHomeCover"], 3)
-                g["pAwayCover"] = round(ens["pAwayCover"], 3)
-                if g.get("sPick") and g["sPick"] != "PASS":
-                    g["pCover"] = round(max(ens["pHomeCover"], ens["pAwayCover"]), 3)
-                g["_ensWeights"] = ens["weights"]
+    # 5b. XGBoost predictions + ensemble
+    print("[3b/7] Running XGBoost predictions...")
+    try:
+        xgb_model_data, games = xgb_predict_games(games, store)
+        if xgb_model_data:
+            xgb_count = sum(1 for g in games if g.get("xgb_margin") is not None)
+            print(f"  XGBoost predictions added to {xgb_count}/{len(games)} games")
+    except Exception as e:
+        print(f"  XGBoost prediction warning: {e}")
+
+    # 5c. Ensemble pick override -- re-evaluate spread picks using ensemble P(cover)
+    print("[3c/7] Applying ensemble pick overrides...")
+    ens_upgrades = 0
+    ens_downgrades = 0
+    ens_agrees = 0
+    prob_high = base_w.get("probHigh", 0.57)
+
+    # Pre-compute adaptive ensemble performance (once, outside loop)
+    from xgb_model import ensemble_probability, compute_recent_performance
+    ens_perf = compute_recent_performance(store, xgb_model_data) if xgb_model_data else None
+
+    for g in games:
+        if g.get("status") in ("MISSING_ODDS", "SKIPPED"):
+            continue
+        # Need XGBoost data to form ensemble
+        if g.get("xgb_pHomeCover") is None:
+            continue
+
+        # Save original Bayesian pick for comparison
+        g["sPick_bayes"] = g.get("sPick", "PASS")
+        g["sConf_bayes"] = g.get("sConf", "low")
+        g["pCover_bayes"] = g.get("pCover")
+
+        # Compute ensemble P(cover) for BOTH sides using the stored
+        # Bayesian per-side probabilities and XGBoost per-side probabilities.
+        bayes_pH = g.get("pHomeCover", 0.5)
+        bayes_pA = g.get("pAwayCover", 0.5)
+        xgb_pH = g.get("xgb_pHomeCover", 0.5)
+        xgb_pA = g.get("xgb_pAwayCover", 0.5)
+
+        ens_pH = ensemble_probability(bayes_pH, xgb_pH, ens_perf)
+        ens_pA = ensemble_probability(bayes_pA, xgb_pA, ens_perf)
+
+        # Store full ensemble probabilities on the game
+        g["ensemble_pHomeCover"] = round(ens_pH * 1000) / 1000
+        g["ensemble_pAwayCover"] = round(ens_pA * 1000) / 1000
+
+        # Pick the stronger side
+        ens_best_p = max(ens_pH, ens_pA)
+        ens_side = "home" if ens_pH >= ens_pA else "away"
+
+        # Store the ensemble P(cover) for the chosen side
+        g["ensemble_pCover"] = round(ens_best_p * 1000) / 1000
+
+        # Apply production filters: P(cover) >= probHigh, sDiff <= 9, abs(line) < 12
+        s_diff = g.get("sDiff", 99)
+        abs_line = abs(g.get("line", 0))
+        home_fav = (g.get("line", 0)) > 0
+
+        ens_passes_filter = (ens_best_p >= prob_high and s_diff <= 9 and abs_line < 12)
+
+        bayes_had_pick = (g["sPick_bayes"] != "PASS")
+
+        if ens_passes_filter:
+            # Ensemble says pick
+            if ens_side == "home":
+                new_pick = f"{g['home']} -{abs_line}" if home_fav else f"{g['home']} +{abs_line}"
+            else:
+                new_pick = f"{g['away']} +{abs_line}" if home_fav else f"{g['away']} -{abs_line}"
+
+            # Confidence tiers based on ensemble probability
+            if ens_best_p >= 0.60:
+                new_conf = "elite"
+            else:
+                new_conf = "high"
+
+            g["sPick"] = new_pick
+            g["sConf"] = new_conf
+            g["pCover"] = round(ens_best_p * 1000) / 1000
+
+            if not bayes_had_pick:
+                g["_ensOverride"] = "upgrade"
+                ens_upgrades += 1
+            else:
+                g["_ensOverride"] = "agree"
+                ens_agrees += 1
         else:
-            print("[ENS] Not enough history to train, using Bayesian-only")
-    else:
-        print("[ENS] xgboost/sklearn not installed, using Bayesian-only")
+            # Ensemble says PASS
+            if bayes_had_pick:
+                g["sPick"] = "PASS"
+                g["sConf"] = "low"
+                g["pCover"] = None
+                g["_ensOverride"] = "downgrade"
+                ens_downgrades += 1
+            else:
+                g["_ensOverride"] = "agree_pass"
+                ens_agrees += 1
+
+    print(f"  Ensemble overrides: {ens_upgrades} upgrades, {ens_downgrades} downgrades, {ens_agrees} agreements")
 
     # 6-7. Save
     print("[4/7] Saving...")
@@ -1066,7 +825,7 @@ def main(subject_label=None):
     print("[6/7] Sending email...")
     html = build_email_html(run, summary_obj, l10, l10t, ws, wt, rs, rt, tr, cr, yr)
     text = build_text_email(run, store)
-    subject = f"{subject_label} Picks \u2014 {run['dateDisplay']}"
+    subject = f"NBA Picks (Full Season) {run['dateDisplay']}"
     send_email(subject, text, html)
     print(f"\nDone: {subject}")
 

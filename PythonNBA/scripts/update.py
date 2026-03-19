@@ -47,11 +47,6 @@ from kalman_state import (
 from calibration import build_calibration_table, build_calibration_html
 from email_report import send_email
 
-try:
-    from ensemble import ENSEMBLE_AVAILABLE, train_ensemble, predict_ensemble
-except ImportError:
-    ENSEMBLE_AVAILABLE = False
-
 
 def main():
     date = today_central_yyyymmdd()
@@ -59,7 +54,7 @@ def main():
     store = load_store()
     defaults = load_defaults()
 
-    print(f"\n== NBA Picks Pipeline -- {date_display} ==\n")
+    print(f"\n\u2550\u2550 NBA Picks Pipeline \u2014 {date_display} \u2550\u2550\n")
 
     # 1. Grade recent days
     days_to_grade = set()
@@ -232,31 +227,6 @@ def main():
 
         games.append(r)
 
-    # -- Ensemble overlay (XGBoost + Ridge + Bayesian blend) --
-    if ENSEMBLE_AVAILABLE:
-        ens_models = train_ensemble(store, min_train=50, max_xgb_weight=0.40)
-        if ens_models:
-            wb, wx = ens_models["weights"]
-            print(f"[ENS] Trained on {ens_models['n_trained']} games | weights: Bayes={wb:.2f} XGB={wx:.2f}")
-            for g in games:
-                if g.get("sPick") == "PASS" and g.get("oPick") == "PASS":
-                    continue
-                bayes_p = g.get("pHomeCover", 0.5)
-                ens = predict_ensemble(ens_models, g, bayes_p)
-                g["ens_pHomeCover"] = round(ens["pHomeCover"], 3)
-                g["ens_pAwayCover"] = round(ens["pAwayCover"], 3)
-                g["xgb_pHomeCover"] = round(ens.get("xgb_raw", 0.5), 3)
-                g["xgb_pAwayCover"] = round(1.0 - ens.get("xgb_raw", 0.5), 3)
-                g["pHomeCover"] = round(ens["pHomeCover"], 3)
-                g["pAwayCover"] = round(ens["pAwayCover"], 3)
-                if g.get("sPick") and g["sPick"] != "PASS":
-                    g["pCover"] = round(max(ens["pHomeCover"], ens["pAwayCover"]), 3)
-                g["_ensWeights"] = ens["weights"]
-        else:
-            print("[ENS] Not enough history to train, using Bayesian-only")
-    else:
-        print("[ENS] xgboost/sklearn not installed, using Bayesian-only")
-
     # 5. Attach trends
     for g in games:
         if g.get("status") in ("MISSING_ODDS", "SKIPPED"):
@@ -308,7 +278,7 @@ def main():
     print("[6/7] Sending email...")
     html = build_email_html(run, summary_obj, l10, l10t, weekly_spread, weekly_total, rolling_spread, rolling_total, team_records_data, calib_rows, yesterday_recap)
     text = build_text_email(run, store)
-    subject = f"[PY] NBA Update Picks \u2014 {run['dateDisplay']}"
+    subject = f"NBA Picks {run['dateDisplay']} (Actionable)"
 
     send_email(subject, text, html)
 
