@@ -14,7 +14,7 @@ require("dotenv").config();
 import { fetchNCAAStatsEnhanced } from "./sources/ncaa_stats.mjs";
 import { blendBase, blendForGame } from "./sources/blend_stats.mjs";
 import { fetchTodaysOdds } from "./sources/odds_theoddsapi.mjs";
-import { fetchScoreboard, extractFinalScores } from "./sources/espn_scoreboard.mjs";
+import { fetchScoreboard, extractFinalScores, fetchTournamentTeams } from "./sources/espn_scoreboard.mjs";
 import { fetchATSTrends, fetchOUTrends } from "./sources/teamrankings_trends.mjs";
 import { detectB2B, applyB2BAdjustment } from "./sources/rest_detect.mjs";
 import { loadDefaults, getAvgs, analyzeGame } from "./model_engine.mjs";
@@ -1133,13 +1133,63 @@ async function main() {
 
   // 2. Fetch today's data (no injuries, no lineup adjust, no season type for NCAA v1)
   console.log("[1/7] Fetching stats, odds, trends...");
-  const [enhancedStats, odds, ats, ou, b2bTeams] = await Promise.all([
+  const [enhancedStats, rawOdds, ats, ou, b2bTeams] = await Promise.all([
     fetchNCAAStatsEnhanced(date),
     fetchTodaysOdds(),
     fetchATSTrends(),
     fetchOUTrends(),
     detectB2B().catch(() => new Set()),
   ]);
+
+  // Tournament team validation (March Madness / NIT)
+  let odds = rawOdds;
+  let tourneyTeams = {};
+  try {
+    tourneyTeams = await fetchTournamentTeams(date, Object.keys(enhancedStats.season || {}));
+  } catch (e) {
+    console.log(`  [tourney] WARNING: Could not fetch tournament teams: ${e.message}`);
+  }
+
+  if (Object.keys(tourneyTeams).length) {
+    console.log(`  [tourney] ${Object.keys(tourneyTeams).length} tournament team names loaded`);
+    const normT = s => String(s || "").toLowerCase()
+      .replace(/[^a-z0-9\s]/g, " ")
+      .replace(/\bstate\b/g, "st")
+      .replace(/\s+/g, " ").trim();
+
+    const fuzzyTourney = (nameNorm) => {
+      if (!nameNorm) return null;
+      let best = null, bestLen = 0;
+      for (const [tk, tv] of Object.entries(tourneyTeams)) {
+        if (tk.startsWith(nameNorm) || nameNorm.startsWith(tk)) {
+          if (tk.length > bestLen) { best = tv; bestLen = tk.length; }
+        }
+      }
+      return best;
+    };
+
+    const validatedOdds = [];
+    for (const g of odds) {
+      const awayN = normT(g.away);
+      const homeN = normT(g.home);
+      const awayMatch = tourneyTeams[awayN] || fuzzyTourney(awayN);
+      const homeMatch = tourneyTeams[homeN] || fuzzyTourney(homeN);
+      if (awayMatch || homeMatch) {
+        if (awayMatch && awayMatch !== g.away) {
+          console.log(`  [tourney] Corrected: ${g.away} -> ${awayMatch}`);
+          g.away = awayMatch;
+        }
+        if (homeMatch && homeMatch !== g.home) {
+          console.log(`  [tourney] Corrected: ${g.home} -> ${homeMatch}`);
+          g.home = homeMatch;
+        }
+        validatedOdds.push(g);
+      } else {
+        console.log(`  [tourney] Skipping non-tournament game: ${g.away} @ ${g.home}`);
+      }
+    }
+    odds = validatedOdds;
+  }
 
   let baseW = store.weights || defaults.DEFAULT_W;
   let baseWVar = store.weightsVar || defaults.DEFAULT_W_VAR;

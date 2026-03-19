@@ -19,7 +19,7 @@ load_dotenv()
 from sources.ncaa_stats import fetch_ncaa_stats_enhanced
 from sources.blend_stats import blend_base, blend_for_game
 from sources.odds_theoddsapi import fetch_todays_odds
-from sources.espn_scoreboard import fetch_scoreboard, extract_final_scores
+from sources.espn_scoreboard import fetch_scoreboard, extract_final_scores, fetch_tournament_teams
 from sources.teamrankings_trends import fetch_ats_trends, fetch_ou_trends
 from sources.rest_detect import detect_b2b, apply_b2b_adjustment
 from model_engine import load_defaults, get_avgs, analyze_game
@@ -922,6 +922,56 @@ def main(subject_label=None):
     print("[1/7] Fetching stats, odds, trends...")
     enhanced_stats = fetch_ncaa_stats_enhanced(date)
     odds = fetch_todays_odds()
+
+    # Tournament team validation (March Madness / NIT)
+    tourney_teams = {}
+    try:
+        tourney_teams = fetch_tournament_teams(date, stats_keys=enhanced_stats.get("season", {}).keys())
+        if tourney_teams:
+            print(f"  [tourney] {len(tourney_teams)} tournament team names loaded")
+    except Exception as e:
+        print(f"  [tourney] WARNING: Could not fetch tournament teams: {e}")
+
+    if tourney_teams:
+        def _norm_t(s):
+            s = str(s or "").lower()
+            s = re.sub(r"[^a-z0-9\s]", " ", s)
+            s = re.sub(r"\bstate\b", "st", s)
+            s = re.sub(r"\s+", " ", s).strip()
+            return s
+
+        def _fuzzy_tourney(name_norm):
+            """Try prefix/substring match against tourney teams when exact match fails."""
+            if not name_norm:
+                return None
+            best, best_len = None, 0
+            for tk, tv in tourney_teams.items():
+                if tk.startswith(name_norm) or name_norm.startswith(tk):
+                    if len(tk) > best_len:
+                        best, best_len = tv, len(tk)
+            return best
+
+        filtered = []
+        for g in odds:
+            away_n = _norm_t(g.get("away", ""))
+            home_n = _norm_t(g.get("home", ""))
+            away_match = tourney_teams.get(away_n) or _fuzzy_tourney(away_n)
+            home_match = tourney_teams.get(home_n) or _fuzzy_tourney(home_n)
+            if away_match or home_match:
+                # Correct team names using ESPN's authoritative names
+                if away_match and away_match != g["away"]:
+                    old = g["away"]
+                    g["away"] = away_match
+                    print(f"  [tourney] Corrected: {old} -> {g['away']}")
+                if home_match and home_match != g["home"]:
+                    old = g["home"]
+                    g["home"] = home_match
+                    print(f"  [tourney] Corrected: {old} -> {g['home']}")
+                filtered.append(g)
+            else:
+                print(f"  [tourney] Skipping non-tournament game: {g.get('away')} @ {g.get('home')}")
+        odds = filtered
+
     ats = fetch_ats_trends()
     ou = fetch_ou_trends()
     try:

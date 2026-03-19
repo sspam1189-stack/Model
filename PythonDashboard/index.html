@@ -1016,30 +1016,34 @@
     function getYesterdayRecap(runs) {
       const nonBurnIn = runs.filter(r => !r.burnIn);
       if (nonBurnIn.length < 2) return null;
-      const yesterday = nonBurnIn[nonBurnIn.length - 2];
-      const picks = [];
-      for (const g of yesterday.games || []) {
-        if (g.status === 'MISSING_ODDS' || g.status === 'SKIPPED') continue;
-        if (!g.sPick || g.sPick === 'PASS' || !isActionable(g.sConf)) continue;
-        if (!Number.isFinite(g.homeScore) || !Number.isFinite(g.awayScore)) continue;
-        const result = g.sResult || gradeSpread(g);
-        if (!result) continue;
-        picks.push({
-          matchup: `${g.away} @ ${g.home}`,
-          pick: g.sPick, conf: g.sConf, result,
-          final: `${g.awayScore}-${g.homeScore}`,
-          sDiff: g.sDiff,
-        });
+      // Search backwards from second-to-last for the most recent run with graded picks
+      for (let i = nonBurnIn.length - 2; i >= Math.max(0, nonBurnIn.length - 4); i--) {
+        const day = nonBurnIn[i];
+        const picks = [];
+        for (const g of day.games || []) {
+          if (g.status === 'MISSING_ODDS' || g.status === 'SKIPPED') continue;
+          if (!g.sPick || g.sPick === 'PASS' || !isActionable(g.sConf)) continue;
+          if (!Number.isFinite(g.homeScore) || !Number.isFinite(g.awayScore)) continue;
+          const result = g.sResult || gradeSpread(g);
+          if (!result) continue;
+          picks.push({
+            matchup: `${g.away} @ ${g.home}`,
+            pick: g.sPick, conf: g.sConf, result,
+            final: `${g.awayScore}-${g.homeScore}`,
+            sDiff: g.sDiff,
+          });
+        }
+        if (!picks.length) continue;
+        const w = picks.filter(x => x.result === 'WIN').length;
+        const l = picks.filter(x => x.result === 'LOSS').length;
+        const p = picks.filter(x => x.result === 'PUSH').length;
+        return {
+          dateDisplay: day.dateDisplay || day.date,
+          picks, tally: { w, l, p },
+          units: calcUnits(w, l),
+        };
       }
-      if (!picks.length) return null;
-      const w = picks.filter(x => x.result === 'WIN').length;
-      const l = picks.filter(x => x.result === 'LOSS').length;
-      const p = picks.filter(x => x.result === 'PUSH').length;
-      return {
-        dateDisplay: yesterday.dateDisplay || yesterday.date,
-        picks, tally: { w, l, p },
-        units: calcUnits(w, l),
-      };
+      return null;
     }
 
     // ─── Render Sections ───
