@@ -1085,24 +1085,23 @@ def main(subject_label="[PY]"):
             games.append({**g, "status": "SKIPPED"})
             continue
 
-        # 4b. LR confirmation / veto
-        home_hist = lr_histories.get(r.get("home"), [])
-        away_hist = lr_histories.get(r.get("away"), [])
-        # Pass team histories as season_lines (handles dict format)
-        lr_game = {**g}
-        if is_tourney_today:
-            lr_game["is_tournament"] = True
-            lr_game["is_neutral"] = True
-        lr_features = extract_lr_features(home_hist, away_hist, lr_game, home_hist, away_hist)
-        lr_result = predict_lr(lr_bundle, lr_features)
-        r["lrProb"] = lr_result["lr_prob"]
-        r["lrVerdict"] = lr_result["lr_verdict"]
+        # 4b. LR confirmation / veto (only when there's an actual pick)
+        if r.get("sPick") and r["sPick"] != "PASS":
+            home_hist = lr_histories.get(r.get("home"), [])
+            away_hist = lr_histories.get(r.get("away"), [])
+            lr_game = {**g}
+            if is_tourney_today:
+                lr_game["is_tournament"] = True
+                lr_game["is_neutral"] = True
+            lr_features = extract_lr_features(home_hist, away_hist, lr_game, home_hist, away_hist)
+            lr_result = predict_lr(lr_bundle, lr_features)
+            r["lrProb"] = lr_result["lr_prob"]
+            r["lrVerdict"] = lr_result["lr_verdict"]
 
-        # Veto: downgrade actionable pick to PASS
-        if lr_result["lr_verdict"] == "VETO" and r.get("sPick") and r["sPick"] != "PASS":
-            r["lrVetoed"] = r["sPick"]
-            r["sPick"] = "PASS"
-            r["sConf"] = "vetoed"
+            if lr_result["lr_verdict"] == "VETO":
+                r["lrVetoed"] = r["sPick"]
+                r["sPick"] = "PASS"
+                r["sConf"] = "vetoed"
 
         games.append(r)
 

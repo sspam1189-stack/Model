@@ -257,18 +257,19 @@ def main(subject_label="[PY Recap]"):
             games.append(dict(g, status="SKIPPED"))
             continue
 
-        # LR confirmation / veto
-        home_hist = lr_histories.get(r.get("home"), [])
-        away_hist = lr_histories.get(r.get("away"), [])
-        lr_features = extract_lr_features(home_hist, away_hist, g, home_hist, away_hist)
-        lr_result = predict_lr(lr_bundle, lr_features)
-        r["lrProb"] = lr_result["lr_prob"]
-        r["lrVerdict"] = lr_result["lr_verdict"]
+        # LR confirmation / veto (only when there's an actual pick)
+        if r.get("sPick") and r["sPick"] != "PASS":
+            home_hist = lr_histories.get(r.get("home"), [])
+            away_hist = lr_histories.get(r.get("away"), [])
+            lr_features = extract_lr_features(home_hist, away_hist, g, home_hist, away_hist)
+            lr_result = predict_lr(lr_bundle, lr_features)
+            r["lrProb"] = lr_result["lr_prob"]
+            r["lrVerdict"] = lr_result["lr_verdict"]
 
-        if lr_result["lr_verdict"] == "VETO" and r.get("sPick") and r["sPick"] != "PASS":
-            r["lrVetoed"] = r["sPick"]
-            r["sPick"] = "PASS"
-            r["sConf"] = "vetoed"
+            if lr_result["lr_verdict"] == "VETO":
+                r["lrVetoed"] = r["sPick"]
+                r["sPick"] = "PASS"
+                r["sConf"] = "vetoed"
 
         away_delta = compute_team_delta(g["away"])
         home_delta = compute_team_delta(g["home"])
