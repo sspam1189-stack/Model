@@ -846,19 +846,23 @@
     }
 
     function adaptiveWeightsInfo(g) {
-      if (g.ens_bayesW == null) return '';
-      const bPct = Math.round(g.ens_bayesW * 100);
+      const bw = g.ens_bayesW ?? (g._ensWeights ? g._ensWeights[0] : null);
+      if (bw == null) return '';
+      const bPct = Math.round(bw * 100);
       const xPct = 100 - bPct;
       return `<span class="weight-info">Weights: B ${bPct}% / X ${xPct}%</span>`;
     }
 
     function ensembleInfo(g) {
       const parts = [];
-      if (g.ens_pHomeCover != null) {
-        parts.push(`<span class="ens-label">Ens</span> ${fmtProb(g.ens_pHomeCover)}`);
+      const ensP = g.ens_pHomeCover ?? g.ensemble_pCover ?? null;
+      const xgbP = g.xgb_pHomeCover ?? g.xgb_pCover ?? null;
+      const xgbM = g.xgb_margin ?? null;
+      if (ensP != null) {
+        parts.push(`<span class="ens-label">Ens</span> ${fmtProb(ensP)}`);
       }
-      if (g.xgb_pHomeCover != null) {
-        parts.push(`<span class="model-badge xgb">XGB</span> ${fmtProb(g.xgb_pHomeCover)}${g.xgb_margin != null ? ' (margin ' + (g.xgb_margin >= 0 ? '+' : '') + fmtNum(g.xgb_margin, 1) + ')' : ''}`);
+      if (xgbP != null) {
+        parts.push(`<span class="model-badge xgb">XGB</span> ${fmtProb(xgbP)}${xgbM != null ? ' (margin ' + (xgbM >= 0 ? '+' : '') + fmtNum(xgbM, 1) + ')' : ''}`);
       }
       const weightsStr = adaptiveWeightsInfo(g);
       if (!parts.length && !weightsStr) return '';
@@ -870,8 +874,8 @@
 
     function modelBadges(g) {
       let html = '';
-      if (g.ens_pHomeCover != null) html += '<span class="model-badge bayesian">BAY</span>';
-      if (g.xgb_pHomeCover != null) html += '<span class="model-badge xgb">XGB</span>';
+      if ((g.ens_pHomeCover ?? g.ensemble_pCover) != null) html += '<span class="model-badge bayesian">BAY</span>';
+      if ((g.xgb_pHomeCover ?? g.xgb_pCover) != null) html += '<span class="model-badge xgb">XGB</span>';
       return html;
     }
 
@@ -1210,8 +1214,8 @@
         const pAway = g.pAwayCover != null ? fmtProb(g.pAwayCover) : '\u2014';
         const margin = Number.isFinite(g.margin) ? (g.margin >= 0 ? '+' : '') + fmtNum(g.margin, 1) : '\u2014';
         // Ensemble probabilities (new field names)
-        const ensP = g.ens_pHomeCover != null ? fmtProb(g.ens_pHomeCover) : '\u2014';
-        const xgbP = g.xgb_pHomeCover != null ? fmtProb(g.xgb_pHomeCover) : '\u2014';
+        const ensP = (g.ens_pHomeCover ?? g.ensemble_pCover) != null ? fmtProb(g.ens_pHomeCover ?? g.ensemble_pCover) : '\u2014';
+        const xgbP = (g.xgb_pHomeCover ?? g.xgb_pCover) != null ? fmtProb(g.xgb_pHomeCover ?? g.xgb_pCover) : '\u2014';
         return `<tr>
           <td style="font-weight:700">${esc(g.away)} @ ${esc(g.home)}</td>
           <td>${sPick}<div class="card-subtitle" style="margin:2px 0 0">Line ${fmtNum(g.line,1)} \u00b7 proj ${margin} \u00b7 sDiff ${fmtNum(g.sDiff,1)}</div></td>
