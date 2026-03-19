@@ -8,10 +8,13 @@
 // The old threshold-based logic is kept as a fallback if Kalman state is null.
 //
 // NCAA adaptation: no team aliases (362 D1 teams — use fuzzy matching only),
+// Tournament games are neutral site — HCA is zeroed out automatically.
+
 // higher HCA default (4.0), MIN_GP = 5, SDIFF_CAP = 12.
 // ────────────────────────────────────────────────────────────────────────────
 
 import { DEFAULT_STATS, DEFAULT_W, DEFAULT_W_VAR, BAYES_HYPER } from "./defaults.mjs";
+import { isTournament } from "./sources/season_type.mjs";
 
 export function loadDefaults() {
   return { DEFAULT_STATS, DEFAULT_W, DEFAULT_W_VAR, BAYES_HYPER };
@@ -311,9 +314,13 @@ export function analyzeGame(g, H, a, W, injuryAdj = null, kalmanState = null, W_
   homeKalman = getAdj(homeKey);
   awayKalman = getAdj(awayKey);
 
+  // Tournament games are neutral site — no home court advantage
+  const neutral = isTournament(g._date);
+  const homeFlag = !neutral;
+
   // Project scores
   const aProj = projScore(gg.away, gg.home, false, H, a, W, awayKalman, W_var, residualVar, teamHCA);
-  const hProj = projScore(gg.home, gg.away, true, H, a, W, homeKalman, W_var, residualVar, teamHCA);
+  const hProj = projScore(gg.home, gg.away, homeFlag, H, a, W, homeKalman, W_var, residualVar, teamHCA);
   if (!aProj || !hProj) return null;
 
   const aS = aProj.score;

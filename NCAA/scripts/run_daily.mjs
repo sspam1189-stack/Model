@@ -1231,6 +1231,7 @@ async function main() {
     // No injury adjustment for NCAA
     const injuryAdj = null;
 
+    g._date = date;  // used by analyzeGame for tournament neutral-site detection
     const r = analyzeGame(g, gameStats, gameAvgs, baseW, injuryAdj, kalmanState, baseWVar, dynamicResidualVar);
 
     if (!r) {
