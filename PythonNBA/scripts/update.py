@@ -79,7 +79,21 @@ def main(subject_label="[PY Update]"):
     espn_type = get_espn_season_type(date)
     print(f"[1/7] Fetching stats, odds, trends, injuries, player data... [{season_type}]")
 
-    enhanced_stats = fetch_nba_stats_enhanced(date, season_type=season_type)
+    # Try JS model's stats cache first to avoid duplicate NBA.com API calls
+    enhanced_stats = None
+    js_cache = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "..", "NBA", "data", "stats_cache", f"{date}.json")
+    if os.path.exists(js_cache):
+        try:
+            with open(js_cache, "r", encoding="utf-8") as f:
+                enhanced_stats = json.load(f)
+            if enhanced_stats.get("season") and len(enhanced_stats["season"]) >= 20:
+                print(f"  [nba_stats] Using JS model cache ({len(enhanced_stats['season'])} teams)")
+            else:
+                enhanced_stats = None
+        except Exception:
+            enhanced_stats = None
+    if not enhanced_stats:
+        enhanced_stats = fetch_nba_stats_enhanced(date, season_type=season_type)
     odds = fetch_todays_odds()
     ats = fetch_ats_trends()
     ou = fetch_ou_trends()
