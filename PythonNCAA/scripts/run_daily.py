@@ -984,7 +984,22 @@ def main(subject_label="[PY]"):
 
     # 2. Fetch today's data
     print("[1/7] Fetching stats, odds, trends...")
-    enhanced_stats = fetch_ncaa_stats_enhanced(date)
+    # Try JS model's stats cache first
+    enhanced_stats = None
+    _scripts = os.path.dirname(os.path.abspath(__file__))
+    js_cache = os.path.join(_scripts, "..", "..", "NCAA", "data", "stats_cache", f"{date}.json")
+    if os.path.exists(js_cache):
+        try:
+            with open(js_cache, "r", encoding="utf-8") as _f:
+                enhanced_stats = json.load(_f)
+            if enhanced_stats.get("season") and len(enhanced_stats["season"]) >= 100:
+                print(f"  [ncaa_stats] Using JS model cache ({len(enhanced_stats['season'])} teams)")
+            else:
+                enhanced_stats = None
+        except Exception:
+            enhanced_stats = None
+    if not enhanced_stats:
+        enhanced_stats = fetch_ncaa_stats_enhanced(date)
     odds = fetch_todays_odds()
 
     # Tournament team validation (March Madness / NIT)
