@@ -137,7 +137,7 @@ def _extract_graded_rows(store: dict):
     return rows_x, rows_y, rows_bayes, rows_actual, rows_push
 
 
-def train_ensemble(store: dict, min_train: int = 50, lookback: int = 120) -> Optional[dict]:
+def train_ensemble(store: dict, min_train: int = 50, lookback: int = 120, max_xgb_weight: float = 1.0) -> Optional[dict]:
     if not ENSEMBLE_AVAILABLE:
         return None
     rows_x, rows_y, rows_bayes, rows_actual, rows_push = _extract_graded_rows(store)
@@ -181,6 +181,10 @@ def train_ensemble(store: dict, min_train: int = 50, lookback: int = 120) -> Opt
     raw_r = max(floor, (r_wins / r_total) - 0.40) if r_total >= 30 else floor
     s = raw_b + raw_x + raw_r
     weights = (raw_b / s, raw_x / s, raw_r / s) if s > 0 else (1.0, 0.0, 0.0)
+    # Cap XGB weight and redistribute excess to Bayesian
+    if max_xgb_weight < 1.0 and weights[1] > max_xgb_weight:
+        excess = weights[1] - max_xgb_weight
+        weights = (weights[0] + excess, max_xgb_weight, weights[2])
     return {
         "xgb_model": xgb_model, "ridge_model": ridge_model, "scaler": scaler,
         "xgb_std": xgb_std, "ridge_std": ridge_std, "weights": weights,

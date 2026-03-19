@@ -1022,7 +1022,7 @@ def main(subject_label=None):
 
     # -- Ensemble overlay (XGBoost + Ridge + Bayesian blend) --
     if ENSEMBLE_AVAILABLE:
-        ens_models = train_ensemble(store, min_train=50)
+        ens_models = train_ensemble(store, min_train=50, max_xgb_weight=0.20)
         if ens_models:
             wb, wx, wr = ens_models["weights"]
             print(f"[ENS] Trained on {ens_models['n_trained']} games | weights: Bayes={wb:.2f} XGB={wx:.2f} Ridge={wr:.2f}")
