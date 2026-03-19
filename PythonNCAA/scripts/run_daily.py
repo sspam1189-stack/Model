@@ -31,6 +31,14 @@ from kalman_state import (
 )
 from calibration import build_calibration_table, build_calibration_html
 from email_report import send_email
+from xgb_model import (
+    load_or_train_model as xgb_load_or_train,
+    extract_features as xgb_extract_features,
+    predict_game as xgb_predict_game,
+    ensemble_probability as xgb_ensemble,
+    compute_recent_performance as xgb_recent_perf,
+)
+from sources.season_type import is_tournament
 
 # --- Constants ----------------------------------------------------------------
 
@@ -72,6 +80,15 @@ def win_pct(w, l):
 
 def is_actionable(conf):
     return str(conf).lower() in CONF_ACTIONABLE
+
+
+def _safe_seed_diff(g):
+    """Extract seed differential if available (tournament context)."""
+    hs = g.get("homeSeed") or g.get("home_seed")
+    aws = g.get("awaySeed") or g.get("away_seed")
+    if isinstance(hs, (int, float)) and isinstance(aws, (int, float)):
+        return float(aws - hs)  # positive = home is better seed (lower number)
+    return 0.0
 
 # --- Team Name Resolution ----------------------------------------------------
 
@@ -686,10 +703,18 @@ def build_game_prob_table(games):
         s_conf_badge = f' {conf_badge(g.get("sConf"))}' if g.get("sPick") and g["sPick"] != "PASS" else ""
         margin = ("+" if g.get("margin", 0) >= 0 else "") + fmt_num(g.get("margin"), 1) if isinstance(g.get("margin"), (int, float)) and math.isfinite(g["margin"]) else "\u2014"
         t_diff = ("+" if g.get("tDiff", 0) >= 0 else "") + fmt_num(g.get("tDiff"), 1) if isinstance(g.get("tDiff"), (int, float)) and math.isfinite(g["tDiff"]) else "\u2014"
+        # XGBoost ensemble info
+        xgb_info = ""
+        if g.get("xgb_pHomeCover") is not None:
+            xgb_home = f'{g["xgb_pHomeCover"]*100:.0f}%'
+            xgb_margin_str = fmt_num(g.get("xgb_margin"), 1)
+            ens_home = f'{g["ens_pHomeCover"]*100:.0f}%' if g.get("ens_pHomeCover") is not None else "\u2014"
+            ens_w = f'B{g.get("ens_bayesW", 0)*100:.0f}/X{g.get("ens_xgbW", 0)*100:.0f}' if g.get("ens_bayesW") is not None else ""
+            xgb_info = f'<div class="tiny" style="color:#6366f1">XGB: {xgb_home} (mgn {xgb_margin_str}) \u00b7 Ens: {ens_home} [{ens_w}]</div>'
         rows += f'''<tr>
         <td style="font-weight:700">{esc(g["away"])} @ {esc(g["home"])}</td>
         <td>{s_pick_display}{s_conf_badge}<div class="tiny" style="margin-top:2px">Line {fmt_num(g.get("line"), 1)} \u00b7 proj {margin} \u00b7 sDiff {fmt_num(g.get("sDiff"), 1)}</div></td>
-        <td style="text-align:center">{p_cover_str}<div class="tiny">{p_away} away / {p_home} home</div></td>
+        <td style="text-align:center">{p_cover_str}<div class="tiny">{p_away} away / {p_home} home</div>{xgb_info}</td>
         <td style="text-align:center"><div class="tiny">O/U {fmt_num(g.get("total"), 1)} \u00b7 diff {t_diff}</div></td>
       </tr>'''
     if not rows:
@@ -727,18 +752,20 @@ def build_email_html(run, summary_obj, last10, last10_totals, weekly_spread, wee
             for g in elites:
                 if is_spread:
                     p_str = f' \u00b7 P={g["pCover"]*100:.0f}%' if g.get("pCover") else ""
+                    ens_str = f' \u00b7 Ens={g["pCoverEns"]*100:.0f}%' if g.get("pCoverEns") else ""
                     proj_margin = round((g.get("hS", 0) - g.get("aS", 0)) * 10) / 10
                     fav_team = g["home"] if proj_margin >= 0 else g["away"]
-                    html += f'<div style="padding:6px 0; border-bottom:1px dashed #eef2f7;">\U0001F3C0 <span class="pick-team">{esc(g["sPick"])}</span> <span class="trend-label">proj {esc(fav_team)} by {fmt_num(abs(proj_margin), 1)} \u00b7 sDiff {fmt_num(g.get("sDiff"), 1)}{p_str}</span> {conf_badge(g["sConf"])}</div>'
+                    html += f'<div style="padding:6px 0; border-bottom:1px dashed #eef2f7;">\U0001F3C0 <span class="pick-team">{esc(g["sPick"])}</span> <span class="trend-label">proj {esc(fav_team)} by {fmt_num(abs(proj_margin), 1)} \u00b7 sDiff {fmt_num(g.get("sDiff"), 1)}{p_str}{ens_str}</span> {conf_badge(g["sConf"])}</div>'
         if highs:
             pad = "10" if elites else "4"
             html += f'<div style="padding:{pad}px 0 2px; font-weight:700; font-size:13px; color:#047857;">\U0001F7E2 High</div>'
             for g in highs:
                 if is_spread:
                     p_str = f' \u00b7 P={g["pCover"]*100:.0f}%' if g.get("pCover") else ""
+                    ens_str = f' \u00b7 Ens={g["pCoverEns"]*100:.0f}%' if g.get("pCoverEns") else ""
                     proj_margin = round((g.get("hS", 0) - g.get("aS", 0)) * 10) / 10
                     fav_team = g["home"] if proj_margin >= 0 else g["away"]
-                    html += f'<div style="padding:6px 0; border-bottom:1px dashed #eef2f7;">\U0001F3C0 <span class="pick-team">{esc(g["sPick"])}</span> <span class="trend-label">proj {esc(fav_team)} by {fmt_num(abs(proj_margin), 1)} \u00b7 sDiff {fmt_num(g.get("sDiff"), 1)}{p_str}</span> {conf_badge(g["sConf"])}</div>'
+                    html += f'<div style="padding:6px 0; border-bottom:1px dashed #eef2f7;">\U0001F3C0 <span class="pick-team">{esc(g["sPick"])}</span> <span class="trend-label">proj {esc(fav_team)} by {fmt_num(abs(proj_margin), 1)} \u00b7 sDiff {fmt_num(g.get("sDiff"), 1)}{p_str}{ens_str}</span> {conf_badge(g["sConf"])}</div>'
         return html
 
     def build_last10_card(title, picks, type_):
@@ -809,6 +836,11 @@ def build_email_html(run, summary_obj, last10, last10_totals, weekly_spread, wee
         if not is_skipped and isinstance(g.get("aS"), (int, float)) and isinstance(g.get("hS"), (int, float)):
             clean_total = g["total"] + g["tDiff"] if isinstance(g.get("tDiff"), (int, float)) and isinstance(g.get("total"), (int, float)) else g.get("pT")
             proj_line = f'<div class="tiny" style="margin-top:4px">\U0001F4D0 Proj: <b>{esc(g["away"])} {fmt_num(g["aS"], 1)}</b> \u2013 <b>{esc(g["home"])} {fmt_num(g["hS"], 1)}</b></div><div class="tiny">\U0001F4D0 Total: <b>{fmt_num(clean_total, 1)}</b> <span class="trend-label">(line {fmt_num(g.get("total"), 1)})</span></div>'
+        xgb_line = ""
+        if not is_skipped and g.get("xgb_pHomeCover") is not None:
+            xgb_home_p = f'{g["xgb_pHomeCover"]*100:.0f}%'
+            ens_p_str = f'{g["ens_pHomeCover"]*100:.0f}%' if g.get("ens_pHomeCover") is not None else "\u2014"
+            xgb_line = f'<div class="tiny" style="margin-top:4px; color:#6366f1">\U0001F916 XGB P(home)={xgb_home_p} \u00b7 Ens={ens_p_str} \u00b7 mgn {fmt_num(g.get("xgb_margin"), 1)}</div>'
         trends = ""
         if g.get("trends"):
             trends = f'<div class="tiny" style="margin-top:4px"><div><b>{esc(g["away"])}:</b> {esc(g["trends"].get("away", "\u2014"))}</div><div><b>{esc(g["home"])}:</b> {esc(g["trends"].get("home", "\u2014"))}</div></div>'
@@ -818,7 +850,7 @@ def build_email_html(run, summary_obj, last10, last10_totals, weekly_spread, wee
             score_line = f'<div class="tiny" style="margin-top:4px">Final: <b>{esc(str(g["awayScore"]))}-{esc(str(g["homeScore"]))}</b></div>'
         game_cards.append(f'''<div class="card card-games">
       <div class="summaryTitle">{esc(g["away"])} @ {esc(g["home"])} <span class="tiny">Line {fmt_num(g.get("line"), 1)} \u00b7 Total {fmt_num(g.get("total"), 1)}</span></div>
-      {spread_pick}{total_pick}{proj_line}{b2b}{score_line}{trends}
+      {spread_pick}{total_pick}{proj_line}{xgb_line}{b2b}{score_line}{trends}
     </div>''')
 
     games_html = ""
@@ -868,7 +900,12 @@ def build_text_email(run, store):
         if g.get("sPick") and g["sPick"] != "PASS":
             proj_margin = round((g.get("hS", 0) - g.get("aS", 0)) * 10) / 10
             fav_team = g["home"] if proj_margin >= 0 else g["away"]
-            lines.append(f"  Spread: {g['sPick']} ({str(g.get('sConf', '')).upper()}) | proj {fav_team} by {fmt_num(abs(proj_margin), 1)} | edge {fmt_num(g.get('sDiff'), 1)}")
+            xgb_txt = ""
+            if g.get("xgb_pHomeCover") is not None:
+                xgb_txt = f" | XGB P(h)={g['xgb_pHomeCover']*100:.0f}%"
+            if g.get("ens_pHomeCover") is not None:
+                xgb_txt += f" Ens={g['ens_pHomeCover']*100:.0f}%"
+            lines.append(f"  Spread: {g['sPick']} ({str(g.get('sConf', '')).upper()}) | proj {fav_team} by {fmt_num(abs(proj_margin), 1)} | edge {fmt_num(g.get('sDiff'), 1)}{xgb_txt}")
         else:
             lines.append("  Spread: PASS")
         if g.get("oPick") and g["oPick"] != "PASS":
@@ -993,6 +1030,19 @@ def main():
     dynamic_residual_var = compute_residual_var(store.get("runs") or [])
     store["residualVar"] = dynamic_residual_var
 
+    # 3d. Load/train XGBoost model
+    print("[3d] Loading/training XGBoost model...")
+    xgb_bundle = None
+    xgb_perf = {}
+    try:
+        xgb_bundle = xgb_load_or_train(store)
+        if xgb_bundle:
+            xgb_perf = xgb_recent_perf(store)
+    except Exception as e:
+        print(f"[3d] XGBoost init failed: {e}")
+
+    is_tourney_today = is_tournament(date)
+
     # 4. Analyze each game
     print(f"[3/7] Analyzing {len(odds)} games...")
     games = []
@@ -1010,6 +1060,39 @@ def main():
         if not r:
             games.append({**g, "status": "SKIPPED"})
             continue
+
+        # XGBoost prediction + ensemble
+        if xgb_bundle:
+            try:
+                # Add tournament context for feature extraction
+                r["is_tournament"] = is_tourney_today
+                r["is_neutral"] = is_tourney_today  # tournament = neutral site
+                r["seed_diff"] = _safe_seed_diff(g)
+
+                xgb_features = xgb_extract_features(r)
+                xgb_pred = xgb_predict_game(xgb_bundle, xgb_features)
+                if xgb_pred:
+                    r["xgb_margin"] = xgb_pred["pred_margin"]
+                    r["xgb_pHomeCover"] = xgb_pred["cal_p_cover"]
+                    r["xgb_pAwayCover"] = round((1 - xgb_pred["cal_p_cover"]) * 1000) / 1000
+
+                    # Ensemble with Bayesian
+                    bayes_p = r.get("pHomeCover", 0.5)
+                    ens = xgb_ensemble(bayes_p, xgb_pred["cal_p_cover"], xgb_perf)
+                    r["ens_pHomeCover"] = ens["ensemble_p"]
+                    r["ens_pAwayCover"] = round((1 - ens["ensemble_p"]) * 1000) / 1000
+                    r["ens_bayesW"] = ens["bayes_weight"]
+                    r["ens_xgbW"] = ens["xgb_weight"]
+
+                    # Update pCover to use ensemble if a pick was made
+                    if r.get("sPick") and r["sPick"] != "PASS":
+                        if r.get("pHomeCover", 0) >= r.get("pAwayCover", 0):
+                            r["pCoverEns"] = ens["ensemble_p"]
+                        else:
+                            r["pCoverEns"] = round((1 - ens["ensemble_p"]) * 1000) / 1000
+            except Exception as e:
+                print(f"[xgb] Prediction failed for {g.get('away')} @ {g.get('home')}: {e}")
+
         games.append(r)
 
     # 5. Attach trends

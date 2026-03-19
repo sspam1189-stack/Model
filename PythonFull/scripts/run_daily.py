@@ -36,6 +36,7 @@ from kalman_state import (
 )
 from calibration import build_calibration_table, build_calibration_html
 from email_report import send_email
+from xgb_model import xgb_predict_games, retrain_after_grading
 
 # ---- Constants ----
 TIMEZONE = "America/Chicago"
@@ -428,7 +429,10 @@ def build_text_email(run, store):
         if g.get("sPick") and g["sPick"] != "PASS":
             pm = round((g.get("hS",0)-g.get("aS",0))*10)/10
             ft = g["home"] if pm >= 0 else g["away"]
-            lines.append(f"  Spread: {g['sPick']} ({str(g.get('sConf','')).upper()}) | proj {ft} by {fmt_num(abs(pm),1)} | edge {fmt_num(g.get('sDiff'),1)}")
+            xgb_note = ""
+            if g.get("xgb_margin") is not None:
+                xgb_note = f" | XGB margin {fmt_num(g['xgb_margin'],1)} P={fmt_num((g.get('xgb_pCover',0) or 0)*100,0)}% Ens={fmt_num((g.get('ensemble_pCover',0) or 0)*100,0)}%"
+            lines.append(f"  Spread: {g['sPick']} ({str(g.get('sConf','')).upper()}) | proj {ft} by {fmt_num(abs(pm),1)} | edge {fmt_num(g.get('sDiff'),1)}{xgb_note}")
         else: lines.append("  Spread: PASS")
         if g.get("oPick") and g["oPick"] != "PASS":
             ct = (g["total"]+g["tDiff"]) if isinstance(g.get("tDiff"),(int,float)) and isinstance(g.get("total"),(int,float)) else g.get("pT")
@@ -468,9 +472,11 @@ def build_email_html(run, summary_obj, last10, last10_totals, weekly_spread, wee
     if filtered:
         for g in filtered:
             ps = f' P={g["pCover"]*100:.0f}%' if g.get("pCover") else ""
+            xgb_ps = f' XGB={g["xgb_pCover"]*100:.0f}%' if g.get("xgb_pCover") else ""
+            ens_ps = f' Ens={g["ensemble_pCover"]*100:.0f}%' if g.get("ensemble_pCover") else ""
             pm = round((g.get("hS",0)-g.get("aS",0))*10)/10
             ft = g["home"] if pm >= 0 else g["away"]
-            spread_picks_html += f'<div style="padding:6px 0;border-bottom:1px dashed #eef2f7;"><span class="pick-team">{esc(g["sPick"])}</span> <span class="trend-label">proj {esc(ft)} by {fmt_num(abs(pm),1)} sDiff {fmt_num(g.get("sDiff"),1)}{ps}</span> {conf_badge(g.get("sConf"))}</div>'
+            spread_picks_html += f'<div style="padding:6px 0;border-bottom:1px dashed #eef2f7;"><span class="pick-team">{esc(g["sPick"])}</span> <span class="trend-label">proj {esc(ft)} by {fmt_num(abs(pm),1)} sDiff {fmt_num(g.get("sDiff"),1)}{ps}{xgb_ps}{ens_ps}</span> {conf_badge(g.get("sConf"))}</div>'
     else:
         spread_picks_html = '<div class="no-picks">No actionable spread picks today.</div>'
 
@@ -484,7 +490,10 @@ def build_email_html(run, summary_obj, last10, last10_totals, weekly_spread, wee
             proj = f'<div class="tiny" style="margin-top:4px">Proj: <b>{esc(g["away"])} {fmt_num(g["aS"],1)}</b> - <b>{esc(g["home"])} {fmt_num(g["hS"],1)}</b> Total: <b>{fmt_num(ct,1)}</b></div>'
         b2b = f'<div class="tiny" style="margin-top:4px">{esc(g["b2bNote"])}</div>' if g.get("b2bNote") else ""
         inj = f'<div class="tiny" style="margin-top:4px">{esc(g.get("injuryNote",""))}</div>' if g.get("injuryNote") else ""
-        gcards += f'<div class="card card-games" style="margin-bottom:8px;"><div class="summaryTitle">{esc(g.get("away",""))} @ {esc(g.get("home",""))} <span class="tiny">Line {fmt_num(g.get("line"),1)} Total {fmt_num(g.get("total"),1)}</span></div>{proj}{inj}{b2b}</div>'
+        xgb_info = ""
+        if not skip and g.get("xgb_margin") is not None:
+            xgb_info = f'<div class="tiny" style="margin-top:4px">XGB: margin {fmt_num(g.get("xgb_margin"),1)} | P(cover) {fmt_num((g.get("xgb_pCover",0) or 0)*100,0)}% | Ensemble {fmt_num((g.get("ensemble_pCover",0) or 0)*100,0)}%</div>'
+        gcards += f'<div class="card card-games" style="margin-bottom:8px;"><div class="summaryTitle">{esc(g.get("away",""))} @ {esc(g.get("home",""))} <span class="tiny">Line {fmt_num(g.get("line"),1)} Total {fmt_num(g.get("total"),1)}</span></div>{proj}{xgb_info}{inj}{b2b}</div>'
 
     # Record row helper
     def rrow(label, b):
@@ -526,6 +535,17 @@ def main():
             days_to_grade.add(r["date"])
     yesterday = yyyymmdd_from_central_offset(1)
     for d in days_to_grade: grade_date_in_store(store, d)
+
+    # 1b. Retrain XGBoost model if needed (after grading updates history)
+    try:
+        xgb_model_data = retrain_after_grading(store)
+        if xgb_model_data:
+            print(f"[1b] XGBoost model ready: {xgb_model_data['n_trained']} training games")
+        else:
+            print("[1b] XGBoost model not available (insufficient data or missing dependency)")
+    except Exception as e:
+        print(f"[1b] XGBoost retrain warning: {e}")
+        xgb_model_data = None
 
     # 2. Fetch today's data
     season_type = get_season_type(date)
@@ -636,6 +656,16 @@ def main():
         ab, hb = b2b_notes.get(g.get("away")), b2b_notes.get(g.get("home"))
         if ab or hb:
             g["b2bNote"] = " | ".join(p for p in [f"{g['away']}: {ab}" if ab else None, f"{g['home']}: {hb}" if hb else None] if p)
+
+    # 5b. XGBoost predictions + ensemble
+    print("[3b/7] Running XGBoost predictions...")
+    try:
+        xgb_model_data, games = xgb_predict_games(games, store)
+        if xgb_model_data:
+            xgb_count = sum(1 for g in games if g.get("xgb_margin") is not None)
+            print(f"  XGBoost predictions added to {xgb_count}/{len(games)} games")
+    except Exception as e:
+        print(f"  XGBoost prediction warning: {e}")
 
     # 6-7. Save
     print("[4/7] Saving...")

@@ -34,6 +34,13 @@ from kalman_state import (
 )
 from calibration import build_calibration_table, build_calibration_html
 from email_report import send_email
+from xgb_model import (
+    load_or_train_model as xgb_load_or_train,
+    extract_features as xgb_extract_features,
+    predict_game as xgb_predict_game,
+    ensemble_probability as xgb_ensemble,
+    compute_recent_performance as xgb_recent_perf,
+)
 
 # --- Constants ---
 
@@ -911,10 +918,23 @@ def build_game_prob_table(games):
         margin = (("+" if g["margin"] >= 0 else "") + fmt_num(g["margin"], 1)) if isinstance(g.get("margin"), (int, float)) and math.isfinite(g["margin"]) else "\u2014"
         t_diff = (("+" if g["tDiff"] >= 0 else "") + fmt_num(g["tDiff"], 1)) if isinstance(g.get("tDiff"), (int, float)) and math.isfinite(g["tDiff"]) else "\u2014"
 
+        # XGBoost column
+        xgb_margin_str = fmt_num(g.get("xgb_margin"), 1) if g.get("xgb_margin") is not None else "\u2014"
+        xgb_p_str = f'{g["xgb_pCover"] * 100:.0f}%' if g.get("xgb_pCover") is not None else "\u2014"
+        ens_p_str = f'<b>{g["ensemble_pCover"] * 100:.0f}%</b>' if g.get("ensemble_pCover") is not None else "\u2014"
+
+        # Agreement indicator
+        agree_icon = ""
+        if g.get("xgb_pCover") is not None and g.get("pHomeCover") is not None:
+            bayes_side = g["pHomeCover"] >= 0.5
+            xgb_side = g["xgb_pCover"] >= 0.5
+            agree_icon = ' <span style="color:#10b981">&#10003;</span>' if bayes_side == xgb_side else ' <span style="color:#ef4444">&#10007;</span>'
+
         rows += f'''<tr>
         <td style="font-weight:700">{esc(g["away"])} @ {esc(g["home"])}</td>
         <td>{s_pick_display}{s_conf_badge}<div class="tiny" style="margin-top:2px">Line {fmt_num(g.get("line"), 1)} \u00b7 proj {margin} \u00b7 sDiff {fmt_num(g.get("sDiff"), 1)}</div></td>
         <td style="text-align:center">{p_cover_str}<div class="tiny">{p_away} away / {p_home} home</div></td>
+        <td style="text-align:center"><div class="tiny">XGB {xgb_p_str} (m {xgb_margin_str})</div><div>Ens {ens_p_str}{agree_icon}</div></td>
         <td>{o_pick_display}{o_conf_badge}<div class="tiny" style="margin-top:2px">O/U {fmt_num(g.get("total"), 1)} \u00b7 diff {t_diff}</div></td>
         <td style="text-align:center">{p_ou_str}<div class="tiny">{p_over} over / {p_under} under</div></td>
       </tr>'''
@@ -924,6 +944,7 @@ def build_game_prob_table(games):
     <table class="data">
       <thead><tr>
         <th>Game</th><th>Spread Pick</th><th style="text-align:center">P(Cover)</th>
+        <th style="text-align:center">XGB/Ens</th>
         <th>Total Pick</th><th style="text-align:center">P(Hit)</th>
       </tr></thead>
       <tbody>{rows}</tbody>
@@ -1097,6 +1118,21 @@ def build_email_html(run, summary_obj, last10, last10_totals, weekly_spread, wee
 
         b2b_html = f'<div class="tiny" style="margin-top:4px">\U0001F504 {esc(g["b2bNote"])}</div>' if g.get("b2bNote") else ""
 
+        xgb_html = ""
+        if g.get("xgb_margin") is not None:
+            xgb_agree = ""
+            if g.get("xgb_pCover") is not None and g.get("pHomeCover") is not None:
+                bayes_side = g["pHomeCover"] >= 0.5
+                xgb_side = g["xgb_pCover"] >= 0.5
+                xgb_agree = " AGREE" if bayes_side == xgb_side else " DISAGREE"
+            xgb_html = (
+                f'<div class="tiny" style="margin-top:4px">'
+                f'XGB: margin {fmt_num(g["xgb_margin"], 1)} '
+                f'P(home)={fmt_num(g.get("xgb_pCover", 0) * 100, 0)}% '
+                f'Ens={fmt_num(g.get("ensemble_pCover", 0) * 100, 0)}%'
+                f'<b>{xgb_agree}</b></div>'
+            )
+
         score_line = ""
         if isinstance(g.get("awayScore"), (int, float)) and isinstance(g.get("homeScore"), (int, float)):
             score_line = f'<div class="tiny" style="margin-top:4px">Final: <b>{esc(str(g["awayScore"]))}-{esc(str(g["homeScore"]))}</b></div>'
@@ -1104,7 +1140,7 @@ def build_email_html(run, summary_obj, last10, last10_totals, weekly_spread, wee
         game_cards.append(
             f'<div class="card card-games">'
             f'<div class="summaryTitle">{esc(g.get("away", ""))} @ {esc(g.get("home", ""))} <span class="tiny">Line {fmt_num(g.get("line"), 1)} \u00b7 Total {fmt_num(g.get("total"), 1)}</span></div>'
-            f'{spread_pick}{total_pick}{proj_line}{injury_html}{b2b_html}{score_line}{trends_html}'
+            f'{spread_pick}{total_pick}{proj_line}{xgb_html}{injury_html}{b2b_html}{score_line}{trends_html}'
             f'</div>'
         )
 
@@ -1185,6 +1221,14 @@ def build_text_email(run, store):
             lines.append(f"  Total:  {g['oPick']} {fmt_num(g.get('total'), 1)} ({str(g.get('oConf', '')).upper()}) | proj {fmt_num(clean_total, 1)} | edge {fmt_num(abs(g.get('tDiff', 0)), 1)}")
         else:
             lines.append("  Total:  PASS")
+
+        if g.get("xgb_margin") is not None:
+            xgb_agree = ""
+            if g.get("xgb_pCover") is not None and g.get("pHomeCover") is not None:
+                bayes_side = g["pHomeCover"] >= 0.5
+                xgb_side = g["xgb_pCover"] >= 0.5
+                xgb_agree = " AGREE" if bayes_side == xgb_side else " DISAGREE"
+            lines.append(f"  XGB:    margin {fmt_num(g['xgb_margin'], 1)} | P(home)={fmt_num(g.get('xgb_pCover', 0) * 100, 0)}% | Ens={fmt_num(g.get('ensemble_pCover', 0) * 100, 0)}%{xgb_agree}")
 
         if g.get("injuryNote"):
             lines.append(f"  Injury: {g['injuryNote']}")
@@ -1344,6 +1388,11 @@ def main():
     dynamic_residual_var = compute_residual_var(store.get("runs", []))
     store["residualVar"] = dynamic_residual_var
 
+    # 3d. Load or retrain XGBoost model
+    print("[3d] XGBoost model...")
+    xgb_bundle = xgb_load_or_train(store)
+    xgb_perf = xgb_recent_perf(store, xgb_bundle) if xgb_bundle else None
+
     # 4. Analyze each game
     print(f"[3/7] Analyzing {len(odds)} games...")
     games = []
@@ -1404,6 +1453,41 @@ def main():
             if home_b2b:
                 parts.append(f"{g['home']}: {home_b2b}")
             g["b2bNote"] = " | ".join(parts)
+
+    # 5b. XGBoost predictions + ensemble
+    if xgb_bundle:
+        xgb_count = 0
+        for g in games:
+            if g.get("status") in ("MISSING_ODDS", "SKIPPED"):
+                continue
+            try:
+                feats = xgb_extract_features(g)
+                xgb_pred = xgb_predict_game(xgb_bundle, feats)
+                g["xgb_margin"] = xgb_pred["xgb_margin"]
+                g["xgb_pCover"] = xgb_pred["xgb_pCover"]
+                g["xgb_pCover_raw"] = xgb_pred["xgb_pCover_raw"]
+
+                # Ensemble spread P(cover)
+                bayes_p = g.get("pHomeCover", 0.5)
+                ens_p = xgb_ensemble(bayes_p, xgb_pred["xgb_pCover"], xgb_perf)
+                g["ensemble_pCover"] = round(ens_p, 4)
+
+                # For the picked side: if Bayesian picked away, flip ensemble too
+                if g.get("pCover") is not None and g.get("pHomeCover") is not None:
+                    if g["pCover"] == (1.0 - g["pHomeCover"]):
+                        # Away side was picked
+                        g["xgb_pCover_side"] = round(1.0 - xgb_pred["xgb_pCover"], 4)
+                        g["ensemble_pCover_side"] = round(1.0 - ens_p, 4)
+                    else:
+                        g["xgb_pCover_side"] = round(xgb_pred["xgb_pCover"], 4)
+                        g["ensemble_pCover_side"] = round(ens_p, 4)
+
+                xgb_count += 1
+            except Exception as e:
+                print(f"  [XGB] Prediction failed for {g.get('away', '?')} @ {g.get('home', '?')}: {e}")
+        print(f"  [XGB] Predicted {xgb_count} games")
+    else:
+        print("  [XGB] No model available -- skipping predictions")
 
     # 6. Build run record
     print("[4/7] Saving...")
