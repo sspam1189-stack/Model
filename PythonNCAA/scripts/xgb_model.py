@@ -169,6 +169,19 @@ def extract_features(g: dict, stats: Optional[dict] = None, w: Optional[dict] = 
     if is_tourney and not g.get("is_neutral"):
         is_neutral = 1.0
 
+    # Neutral-site symmetry: average home/away trends so XGBoost sees no
+    # implicit home advantage from the arbitrary home/away designation.
+    if is_neutral:
+        avg_ats = (h_ats + a_ats) / 2
+        h_ats = a_ats = avg_ats
+        avg_ou = (h_ou + a_ou) / 2
+        h_ou = a_ou = avg_ou
+        avg_ats_pm = (h_ats_pm + a_ats_pm) / 2
+        h_ats_pm = a_ats_pm = avg_ats_pm
+        avg_tot_pm = (h_tot_pm + a_tot_pm) / 2
+        h_tot_pm = a_tot_pm = avg_tot_pm
+        home_b2b = away_b2b = 0
+
     avg_pace = _safe_num(f.get("avgPace"), 68.0)  # NCAA pace ~68 possessions
 
     return [
