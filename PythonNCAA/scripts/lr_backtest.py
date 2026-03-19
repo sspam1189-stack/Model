@@ -181,7 +181,7 @@ def main():
             scaler = StandardScaler()
             X_train = scaler.fit_transform(X[:i])
             model = LogisticRegression(
-                penalty="l2", C=1.0, class_weight="balanced", max_iter=1000,
+                l1_ratio=0, C=1.0, class_weight="balanced", max_iter=1000,
             )
             model.fit(X_train, y[:i])
             last_train = i

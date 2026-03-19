@@ -508,7 +508,7 @@ def train_lr_model(store, min_games=80):
     X_scaled = scaler.fit_transform(X_all)
 
     model = LogisticRegression(
-        penalty="l2",
+        l1_ratio=0,
         C=1.0,
         class_weight="balanced",
         max_iter=1000,
