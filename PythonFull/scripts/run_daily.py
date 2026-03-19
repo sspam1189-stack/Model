@@ -1024,8 +1024,8 @@ def main(subject_label=None):
     if ENSEMBLE_AVAILABLE:
         ens_models = train_ensemble(store, min_train=50, max_xgb_weight=0.20)
         if ens_models:
-            wb, wx, wr = ens_models["weights"]
-            print(f"[ENS] Trained on {ens_models['n_trained']} games | weights: Bayes={wb:.2f} XGB={wx:.2f} Ridge={wr:.2f}")
+            wb, wx = ens_models["weights"]
+            print(f"[ENS] Trained on {ens_models['n_trained']} games | weights: Bayes={wb:.2f} XGB={wx:.2f}")
             for g in games:
                 if g.get("sPick") == "PASS" and g.get("oPick") == "PASS":
                     continue

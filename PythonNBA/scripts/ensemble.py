@@ -1,7 +1,7 @@
 """
-ensemble.py -- XGBoost + Ridge + Bayesian ensemble for daily pipeline.
+ensemble.py -- XGBoost + Bayesian ensemble for daily pipeline.
 Trains on graded history, predicts for today's games, blends with Bayesian.
-Falls back to Bayesian-only if xgboost/sklearn unavailable.
+Falls back to Bayesian-only if xgboost unavailable.
 """
 from __future__ import annotations
 import math
@@ -10,17 +10,11 @@ from typing import Dict, List, Optional, Tuple
 
 try:
     import numpy as np
-    from sklearn.linear_model import Ridge
-    from sklearn.preprocessing import StandardScaler
     import xgboost as xgb
     ENSEMBLE_AVAILABLE = True
 except ImportError:
     ENSEMBLE_AVAILABLE = False
 
-
-# ---------------------------------------------------------------------------
-# Feature helpers (identical to ml_independent_backtest.py)
-# ---------------------------------------------------------------------------
 
 def normal_cdf(x: float) -> float:
     a1, a2, a3, a4, a5 = 0.254829592, -0.284496736, 1.421413741, -1.453152027, 1.061405429
@@ -70,7 +64,6 @@ def _delta_features(adj, side: str, stat: str) -> float:
 
 
 def extract_features(g: dict) -> List[float]:
-    """Extract 45 independent features from an analyzed game dict."""
     f = g.get("_features") or {}
     mf = g.get("_marginFeatures") or {}
     trends = g.get("trends") or {}
@@ -116,12 +109,7 @@ def extract_features(g: dict) -> List[float]:
     ]
 
 
-# ---------------------------------------------------------------------------
-# Training
-# ---------------------------------------------------------------------------
-
 def _extract_graded_rows(store: dict):
-    """Extract training rows from graded history."""
     rows_x, rows_y, rows_bayes, rows_actual, rows_push = [], [], [], [], []
     for run in store.get("runs", []):
         if run.get("burnIn"):
@@ -148,18 +136,14 @@ def _extract_graded_rows(store: dict):
 
 
 def train_ensemble(store: dict, min_train: int = 50, lookback: int = 120, max_xgb_weight: float = 1.0) -> Optional[dict]:
-    """Train XGBoost + Ridge on graded history. Returns models dict or None."""
     if not ENSEMBLE_AVAILABLE:
         return None
     rows_x, rows_y, rows_bayes, rows_actual, rows_push = _extract_graded_rows(store)
     n = len(rows_x)
     if n < min_train:
         return None
-
     X = np.array(rows_x, dtype=float)
     y = np.array(rows_y, dtype=float)
-
-    # Train XGBoost on raw features
     xgb_model = xgb.XGBRegressor(
         n_estimators=120, max_depth=4, learning_rate=0.05,
         subsample=0.8, colsample_bytree=0.8,
@@ -168,77 +152,47 @@ def train_ensemble(store: dict, min_train: int = 50, lookback: int = 120, max_xg
     )
     xgb_model.fit(X, y)
     xgb_std = max(float(np.std(y - xgb_model.predict(X))), 1.0)
-
-    # Train Ridge on scaled features
-    scaler = StandardScaler()
-    Xs = scaler.fit_transform(X)
-    ridge_model = Ridge(alpha=1.0)
-    ridge_model.fit(Xs, y)
-    ridge_std = max(float(np.std(y - ridge_model.predict(Xs))), 1.0)
-
     # Compute adaptive weights from trailing performance
     tail = min(lookback, n)
     tail_start = n - tail
-    b_wins = b_total = x_wins = x_total = r_wins = r_total = 0
+    b_wins = b_total = x_wins = x_total = 0
     for i in range(tail_start, n):
         if rows_push[i]:
             continue
         a = rows_actual[i]
         bp = rows_bayes[i]
         xp = normal_cdf(float(xgb_model.predict(np.array([rows_x[i]], dtype=float))[0]) / xgb_std)
-        rp = normal_cdf(float(ridge_model.predict(scaler.transform(np.array([rows_x[i]], dtype=float)))[0]) / ridge_std)
         b_wins += int((bp >= 0.5) == a)
         x_wins += int((xp >= 0.5) == a)
-        r_wins += int((rp >= 0.5) == a)
         b_total += 1
         x_total += 1
-        r_total += 1
-
     floor = 0.10
     raw_b = max(floor, (b_wins / b_total) - 0.40) if b_total >= 30 else floor
     raw_x = max(floor, (x_wins / x_total) - 0.40) if x_total >= 30 else floor
-    raw_r = max(floor, (r_wins / r_total) - 0.40) if r_total >= 30 else floor
-    s = raw_b + raw_x + raw_r
-    weights = (raw_b / s, raw_x / s, raw_r / s) if s > 0 else (1.0, 0.0, 0.0)
+    s = raw_b + raw_x
+    wb = raw_b / s if s > 0 else 1.0
+    wx = raw_x / s if s > 0 else 0.0
     # Cap XGB weight and redistribute excess to Bayesian
-    if max_xgb_weight < 1.0 and weights[1] > max_xgb_weight:
-        excess = weights[1] - max_xgb_weight
-        weights = (weights[0] + excess, max_xgb_weight, weights[2])
-
+    if max_xgb_weight < 1.0 and wx > max_xgb_weight:
+        wb += wx - max_xgb_weight
+        wx = max_xgb_weight
     return {
         "xgb_model": xgb_model,
-        "ridge_model": ridge_model,
-        "scaler": scaler,
-        "xgb_std": xgb_std,
-        "ridge_std": ridge_std,
-        "weights": weights,
+        "xgb_std": xgb_std, "weights": (wb, wx),
         "n_trained": n,
-        "trailing_acc": {
-            "bayes": f"{b_wins}/{b_total}",
-            "xgb": f"{x_wins}/{x_total}",
-            "ridge": f"{r_wins}/{r_total}",
-        },
+        "trailing_acc": {"bayes": f"{b_wins}/{b_total}", "xgb": f"{x_wins}/{x_total}"},
     }
 
 
-# ---------------------------------------------------------------------------
-# Prediction
-# ---------------------------------------------------------------------------
-
 def predict_ensemble(models: dict, game_dict: dict, bayes_p_home: float) -> dict:
-    """Predict ensemble P(home cover) for a single game."""
     x = np.array([extract_features(game_dict)], dtype=float)
     xgb_margin = float(models["xgb_model"].predict(x)[0])
     xgb_p = normal_cdf(xgb_margin / models["xgb_std"])
-    ridge_margin = float(models["ridge_model"].predict(models["scaler"].transform(x))[0])
-    ridge_p = normal_cdf(ridge_margin / models["ridge_std"])
-    wb, wx, wr = models["weights"]
-    p_home = wb * bayes_p_home + wx * xgb_p + wr * ridge_p
+    wb, wx = models["weights"]
+    p_home = wb * bayes_p_home + wx * xgb_p
     p_home = max(0.001, min(0.999, p_home))
     return {
-        "pHomeCover": p_home,
-        "pAwayCover": 1.0 - p_home,
-        "weights": (round(wb, 3), round(wx, 3), round(wr, 3)),
+        "pHomeCover": p_home, "pAwayCover": 1.0 - p_home,
+        "weights": (round(wb, 3), round(wx, 3)),
         "xgb_raw": xgb_p,
-        "ridge_raw": ridge_p,
     }
