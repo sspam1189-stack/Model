@@ -621,13 +621,30 @@ def main(subject_label="[PY]"):
     odds = fetch_todays_odds()
     ats = fetch_ats_trends()
     ou = fetch_ou_trends()
-    import time as _time
-    _time.sleep(5)  # pause before NBA.com injury calls to avoid rate limiting
-    try: injury_data = fetch_injury_data(None, season_type=season_type, espn_type=espn_type)
-    except Exception as e: print(f"  Warning: Injury fetch failed: {e}"); injury_data = {"report":{},"playerMPG":{}}
-    _time.sleep(5)
-    try: player_advanced = fetch_player_advanced(season_type=season_type)
-    except Exception as e: print(f"  Warning: Player advanced fetch failed: {e}"); player_advanced = {}
+    # Try JS model's injury cache first
+    injury_data = None
+    player_advanced = None
+    _scripts = os.path.dirname(os.path.abspath(__file__))
+    _inj_cache = os.path.join(_scripts, "..", "..", "NBAFullseason", "data", "injury_cache", f"{date}.json")
+    if os.path.exists(_inj_cache):
+        try:
+            with open(_inj_cache, "r", encoding="utf-8") as _f:
+                _cached = json.load(_f)
+            injury_data = _cached.get("injuryData", {"report": {}, "playerMPG": {}})
+            player_advanced = _cached.get("playerAdvanced", {})
+            print(f"  [cache] Using JS injury cache for {date}")
+        except Exception:
+            injury_data = None
+    if injury_data is None:
+        import time as _time
+        _time.sleep(5)
+        try: injury_data = fetch_injury_data(None, season_type=season_type, espn_type=espn_type)
+        except Exception as e: print(f"  Warning: Injury fetch failed: {e}"); injury_data = {"report":{},"playerMPG":{}}
+    if player_advanced is None:
+        import time as _time
+        _time.sleep(5)
+        try: player_advanced = fetch_player_advanced(season_type=season_type)
+        except Exception as e: print(f"  Warning: Player advanced fetch failed: {e}"); player_advanced = {}
     try: b2b_teams = detect_b2b()
     except Exception: b2b_teams = set()
     try: h2h_matchups = fetch_h2h_matchups()
