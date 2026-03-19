@@ -48,7 +48,7 @@ from calibration import build_calibration_table, build_calibration_html
 from email_report import send_email
 
 
-def main():
+def main(subject_label="[PY Recap]"):
     date = today_central_yyyymmdd()
     date_display = to_display_date(date)
     store = load_store()
@@ -278,7 +278,7 @@ def main():
     print("[6/7] Sending email...")
     html = build_email_html(run, summary_obj, l10, l10t, weekly_spread, weekly_total, rolling_spread, rolling_total, team_records_data, calib_rows, yesterday_recap)
     text = build_text_email(run, store)
-    subject = f"NBA Picks {run['dateDisplay']} (Actionable)"
+    subject = f"{subject_label} NBA Picks {run['dateDisplay']} (Actionable)"
 
     send_email(subject, text, html)
 
@@ -288,7 +288,7 @@ def main():
 
 if __name__ == "__main__":
     try:
-        main()
+        main(subject_label="[PY Recap]")
     except Exception as err:
         import traceback
         traceback.print_exc()
