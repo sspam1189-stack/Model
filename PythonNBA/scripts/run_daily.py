@@ -1572,11 +1572,14 @@ def main(subject_label="[PY]"):
                 g["xgb_margin"] = xgb_pred["xgb_margin"]
                 g["xgb_pCover"] = xgb_pred["xgb_pCover"]
                 g["xgb_pCover_raw"] = xgb_pred["xgb_pCover_raw"]
+                g["xgb_pHomeCover"] = xgb_pred["xgb_pCover"]  # dashboard field
 
                 # Ensemble spread P(cover)
                 bayes_p = g.get("pHomeCover", 0.5)
                 ens_p = xgb_ensemble(bayes_p, xgb_pred["xgb_pCover"], xgb_perf)
                 g["ensemble_pCover"] = round(ens_p, 4)
+                g["ens_pHomeCover"] = round(ens_p, 4)  # dashboard field
+                g["ens_pAwayCover"] = round(1.0 - ens_p, 4)
 
                 # For the picked side: if Bayesian picked away, flip ensemble too
                 if g.get("pCover") is not None and g.get("pHomeCover") is not None:

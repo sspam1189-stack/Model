@@ -792,6 +792,8 @@ def main(subject_label="[PY]"):
         # Store full ensemble probabilities on the game
         g["ensemble_pHomeCover"] = round(ens_pH * 1000) / 1000
         g["ensemble_pAwayCover"] = round(ens_pA * 1000) / 1000
+        g["ens_pHomeCover"] = round(ens_pH * 1000) / 1000  # dashboard field
+        g["ens_pAwayCover"] = round(ens_pA * 1000) / 1000
 
         # Pick the stronger side
         ens_best_p = max(ens_pH, ens_pA)
@@ -828,9 +830,11 @@ def main(subject_label="[PY]"):
 
             if not bayes_had_pick:
                 g["_ensOverride"] = "upgrade"
+                g["pickSource"] = "ENS"
                 ens_upgrades += 1
             else:
                 g["_ensOverride"] = "agree"
+                g["pickSource"] = "AGREE"
                 ens_agrees += 1
         else:
             # Ensemble says PASS
@@ -839,9 +843,11 @@ def main(subject_label="[PY]"):
                 g["sConf"] = "low"
                 g["pCover"] = None
                 g["_ensOverride"] = "downgrade"
+                g["pickSource"] = "ENS_PASS"
                 ens_downgrades += 1
             else:
                 g["_ensOverride"] = "agree_pass"
+                g["pickSource"] = "AGREE"
                 ens_agrees += 1
 
     print(f"  Ensemble overrides: {ens_upgrades} upgrades, {ens_downgrades} downgrades, {ens_agrees} agreements")
