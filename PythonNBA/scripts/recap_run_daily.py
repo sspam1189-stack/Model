@@ -47,6 +47,11 @@ from kalman_state import (
 from calibration import build_calibration_table, build_calibration_html
 from email_report import send_email
 
+try:
+    from ensemble import ENSEMBLE_AVAILABLE, train_ensemble, predict_ensemble
+except ImportError:
+    ENSEMBLE_AVAILABLE = False
+
 
 def main():
     date = today_central_yyyymmdd()
@@ -226,6 +231,27 @@ def main():
                 r["_adjDeltas"]["home"] = home_delta
 
         games.append(r)
+
+    # -- Ensemble overlay (XGBoost + Ridge + Bayesian blend) --
+    if ENSEMBLE_AVAILABLE:
+        ens_models = train_ensemble(store, min_train=50)
+        if ens_models:
+            wb, wx, wr = ens_models["weights"]
+            print(f"[ENS] Trained on {ens_models['n_trained']} games | weights: Bayes={wb:.2f} XGB={wx:.2f} Ridge={wr:.2f}")
+            for g in games:
+                if g.get("sPick") == "PASS" and g.get("oPick") == "PASS":
+                    continue
+                bayes_p = g.get("pHomeCover", 0.5)
+                ens = predict_ensemble(ens_models, g, bayes_p)
+                g["pHomeCover"] = round(ens["pHomeCover"], 3)
+                g["pAwayCover"] = round(ens["pAwayCover"], 3)
+                if g.get("sPick") and g["sPick"] != "PASS":
+                    g["pCover"] = round(max(ens["pHomeCover"], ens["pAwayCover"]), 3)
+                g["_ensWeights"] = ens["weights"]
+        else:
+            print("[ENS] Not enough history to train, using Bayesian-only")
+    else:
+        print("[ENS] xgboost/sklearn not installed, using Bayesian-only")
 
     # 5. Attach trends
     for g in games:
