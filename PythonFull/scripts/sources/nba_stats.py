@@ -65,17 +65,18 @@ def fetch_team_stats(date_to=None, date_from=None, last_n_games=0, location="", 
 
     url = f"https://stats.nba.com/stats/leaguedashteamstats?{urlencode(params)}"
     res = None
-    for attempt in range(1, 4):
+    for attempt in range(1, 6):
         try:
-            res = requests.get(url, headers=NBA_HEADERS, timeout=30)
+            res = requests.get(url, headers=NBA_HEADERS, timeout=60)
             if res.status_code == 200:
                 break
             raise Exception(f"NBA.com stats failed: {res.status_code}")
         except Exception as err:
-            if attempt == 3:
+            if attempt == 5:
                 raise err
-            print(f"  ⚠ NBA.com fetch attempt {attempt}/3 failed ({err}), retrying in {attempt * 5}s...")
-            time.sleep(attempt * 5)
+            wait = attempt * 10
+            print(f"  Warning: NBA.com fetch attempt {attempt}/5 failed ({err}), retrying in {wait}s...")
+            time.sleep(wait)
 
     if not res or res.status_code != 200:
         raise Exception(f"NBA.com stats failed: {res.status_code if res else 'no response'}")
