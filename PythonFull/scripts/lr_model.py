@@ -279,7 +279,10 @@ def extract_lr_features(home_hist, away_hist, game, home_lines=None, away_lines=
 
         # line_vs_team_avg: how unusual is this line for the home team?
         if home_lines:
-            avg_home_line = _safe_mean(home_lines)
+            if isinstance(home_lines[0], dict):
+                avg_home_line = _safe_mean([g.get("line_for_team", g.get("line", 0)) for g in home_lines])
+            else:
+                avg_home_line = _safe_mean(home_lines)
         else:
             avg_home_line = hf["avg_line"]
         line_vs_team_avg = line - avg_home_line
