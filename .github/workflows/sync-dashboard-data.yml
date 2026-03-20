@@ -1,0 +1,35 @@
+name: Sync Dashboard Data
+
+on:
+  schedule:
+    - cron: '0 */6 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Sync JS Dashboard data
+        run: |
+          cp NBA/data/history.json Dashboard/data/nba.json
+          cp NBAFullseason/data/history.json Dashboard/data/fullseason.json
+          cp NCAA/data/history.json Dashboard/data/ncaa.json
+
+      - name: Sync Python Dashboard data
+        run: |
+          cp PythonNBA/data/history.json PythonDashboard/data/nba.json
+          cp PythonFull/data/history.json PythonDashboard/data/fullseason.json
+          cp PythonNCAA/data/history.json PythonDashboard/data/ncaa.json
+
+      - name: Commit and push if changed
+        shell: bash
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add Dashboard/data/ PythonDashboard/data/
+          git diff --staged --quiet || (git commit -m "Sync dashboard data snapshots [skip ci]" && git push)
