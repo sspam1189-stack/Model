@@ -268,6 +268,7 @@ def main(subject_label="[PY Recap]"):
 
             if lr_result["lr_verdict"] == "VETO":
                 r["lrVetoed"] = r["sPick"]
+                r["lrReasons"] = lr_result.get("lr_reasons", [])
                 r["sPick"] = "PASS"
                 r["sConf"] = "vetoed"
 

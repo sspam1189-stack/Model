@@ -511,6 +511,91 @@ def train_lr_model(store, min_games=80):
 
 
 # ---------------------------------------------------------------------------
+# Human-readable feature labels for veto explanations
+# ---------------------------------------------------------------------------
+
+_FEATURE_LABELS = {
+    "away_ats_pct_5":    "Away ATS L5",
+    "home_ats_pct_5":    "Home ATS L5",
+    "away_ats_pct_10":   "Away ATS L10",
+    "home_ats_pct_10":   "Home ATS L10",
+    "away_ats_pm_5":     "Away ATS margin L5",
+    "home_ats_pm_5":     "Home ATS margin L5",
+    "away_over_pct_10":  "Away O/U trend L10",
+    "home_over_pct_10":  "Home O/U trend L10",
+    "away_ou_pm_10":     "Away O/U margin L10",
+    "home_ou_pm_10":     "Home O/U margin L10",
+    "abs_line":          "Spread size",
+    "line_vs_home_avg":  "Line vs home avg",
+    "line_vs_away_avg":  "Line vs away avg",
+    "home_is_fav":       "Home is favorite",
+    "away_rest_days":    "Away rest days",
+    "home_rest_days":    "Home rest days",
+    "rest_advantage":    "Rest advantage",
+    "away_win_pct_5":    "Away win% L5",
+    "home_win_pct_5":    "Home win% L5",
+    "away_avg_margin_5": "Away avg margin L5",
+    "home_avg_margin_5": "Home avg margin L5",
+}
+
+
+def _explain_lr(model_bundle, features, top_n=3):
+    """Return the top contributing features pushing the LR prediction.
+
+    Uses coefficient * scaled_feature to find which features most strongly
+    drove the prediction away from 0.5.
+
+    Returns list of short human-readable strings, e.g.
+        ["Home ATS L5: 20% (cold)", "Away win% L5: 80% (hot)"]
+    """
+    if model_bundle is None or features is None:
+        return []
+
+    model = model_bundle["model"]
+    scaler = model_bundle["scaler"]
+    names = model_bundle.get("feature_names", LR_FEATURE_NAMES)
+
+    try:
+        X_scaled = scaler.transform([features])[0]
+        coefs = model.coef_[0]
+    except Exception:
+        return []
+
+    # contribution = coef * scaled_value; negative contributions push toward veto
+    contributions = []
+    for i, (name, coef, scaled_val, raw_val) in enumerate(
+        zip(names, coefs, X_scaled, features)
+    ):
+        contrib = coef * scaled_val
+        contributions.append((contrib, name, raw_val))
+
+    # Sort by contribution (most negative first = biggest veto drivers)
+    contributions.sort(key=lambda x: x[0])
+
+    reasons = []
+    for contrib, name, raw_val in contributions[:top_n]:
+        label = _FEATURE_LABELS.get(name, name)
+        # Format the raw value sensibly
+        if "pct" in name or "win_pct" in name:
+            val_str = f"{raw_val * 100:.0f}%"
+        elif "rest" in name:
+            val_str = f"{raw_val:.0f}d"
+        elif "margin" in name or "pm" in name:
+            val_str = f"{raw_val:+.1f}"
+        elif name == "abs_line":
+            val_str = f"{raw_val:.1f}"
+        elif name == "home_is_fav":
+            val_str = "yes" if raw_val > 0.5 else "no"
+        elif "line_vs" in name:
+            val_str = f"{raw_val:+.1f}"
+        else:
+            val_str = f"{raw_val:.2f}"
+        reasons.append(f"{label}: {val_str}")
+
+    return reasons
+
+
+# ---------------------------------------------------------------------------
 # predict_lr
 # ---------------------------------------------------------------------------
 
@@ -527,12 +612,13 @@ def predict_lr(model_bundle, features):
     Returns
     -------
     dict
-        {lr_prob: float, lr_verdict: str}
+        {lr_prob: float, lr_verdict: str, lr_reasons: list}
         lr_prob is P(Bayesian pick covers) 0-1.
         lr_verdict is "CONFIRM", "VETO", or "NEUTRAL".
+        lr_reasons is a list of human-readable strings (only populated on VETO).
     """
     if model_bundle is None or features is None:
-        return {"lr_prob": None, "lr_verdict": "NEUTRAL"}
+        return {"lr_prob": None, "lr_verdict": "NEUTRAL", "lr_reasons": []}
 
     model = model_bundle["model"]
     scaler = model_bundle["scaler"]
@@ -542,7 +628,7 @@ def predict_lr(model_bundle, features):
         prob = float(model.predict_proba(X)[0, 1])
     except Exception as e:
         print(f"lr_model: predict error -- {e}")
-        return {"lr_prob": None, "lr_verdict": "NEUTRAL"}
+        return {"lr_prob": None, "lr_verdict": "NEUTRAL", "lr_reasons": []}
 
     if prob >= LR_CONFIRM_THRESH:
         verdict = "CONFIRM"
@@ -551,7 +637,9 @@ def predict_lr(model_bundle, features):
     else:
         verdict = "NEUTRAL"
 
-    return {"lr_prob": round(prob, 3), "lr_verdict": verdict}
+    reasons = _explain_lr(model_bundle, features) if verdict == "VETO" else []
+
+    return {"lr_prob": round(prob, 3), "lr_verdict": verdict, "lr_reasons": reasons}
 
 
 def predict_lr_for_pick(model_bundle, features, picked_home):
