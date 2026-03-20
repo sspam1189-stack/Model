@@ -448,6 +448,56 @@ def build_text_email(run, store):
     lines.extend(["\u2014", compute_summary_text(store), "", last10_text(store, "spread"), "", last10_text(store, "total")])
     return "\n".join(lines)
 
+def build_game_prob_table(games):
+    filtered = [g for g in (games or []) if g.get("status") not in ("MISSING_ODDS", "SKIPPED")]
+    if not filtered:
+        return ""
+
+    rows = ""
+    for g in filtered:
+        s_pick_display = esc(g["sPick"]) if g.get("sPick") and g["sPick"] != "PASS" else '<span style="color:#9ca3af">PASS</span>'
+        s_conf_badge = f" {conf_badge(g.get('sConf'))}" if g.get("sPick") and g["sPick"] != "PASS" else ""
+
+        veto_html = ""
+        reason_html = ""
+        if g.get("lrVetoed"):
+            reasons = g.get("lrReasons", [])
+            reason_str = " \u00b7 ".join(reasons) if reasons else ""
+            veto_html = (
+                f'<div class="tiny" style="margin-top:2px;color:#dc2626">'
+                f'\u274C <s>{esc(g["lrVetoed"])}</s> vetoed'
+                f'</div>'
+            )
+            reason_html = (
+                f'<div class="tiny" style="color:#dc2626">'
+                f'{esc(reason_str)}'
+                f'</div>'
+            ) if reason_str else ""
+
+        p_cover_str = f'<b>{g["pCover"] * 100:.0f}%</b>' if g.get("pCover") is not None else '<span style="color:#9ca3af">\u2014</span>'
+        p_home = f'{g["pHomeCover"] * 100:.0f}%' if g.get("pHomeCover") is not None else "\u2014"
+        p_away = f'{g["pAwayCover"] * 100:.0f}%' if g.get("pAwayCover") is not None else "\u2014"
+        margin = (("+" if g["margin"] >= 0 else "") + fmt_num(g["margin"], 1)) if isinstance(g.get("margin"), (int, float)) and math.isfinite(g["margin"]) else "\u2014"
+
+        rows += f'''<tr>
+        <td style="font-weight:700">{esc(g["away"])} @ {esc(g["home"])}</td>
+        <td>{s_pick_display}{s_conf_badge}<div class="tiny" style="margin-top:2px">Line {fmt_num(g.get("line"), 1)} \u00b7 proj {margin} \u00b7 sDiff {fmt_num(g.get("sDiff"), 1)}</div>{veto_html}</td>
+        <td style="text-align:center">{p_cover_str}<div class="tiny">{p_away} away / {p_home} home</div></td>
+        <td style="text-align:center">{reason_html}</td>
+      </tr>'''
+
+    return f'''<div class="card" style="border-left:4px solid #8b5cf6; margin-bottom:10px;">
+    <div class="summaryTitle">\U0001F3AF Cover Probabilities \u2014 All Games</div>
+    <table class="data">
+      <thead><tr>
+        <th>Game</th><th>Spread Pick</th><th style="text-align:center">P(Cover)</th><th style="text-align:center">LR Reason</th>
+      </tr></thead>
+      <tbody>{rows}</tbody>
+    </table>
+    <div class="tiny" style="margin-top:6px">P(Cover) = probability the picked side wins. Directional % shown below.</div>
+  </div>'''
+
+
 def build_email_html(run, summary_obj, last10, last10_totals, weekly_spread, weekly_total,
                      rolling_spread, rolling_total, team_records, calib_rows, yesterday_recap):
     # Simplified but functionally complete HTML email builder
@@ -513,6 +563,7 @@ def build_email_html(run, summary_obj, last10, last10_totals, weekly_spread, wee
       {row_full(recap_html) if recap_html else ""}
       {row_full(f'<div class="card card-picks"><div class="summaryTitle">Today\'s Spread Picks (Actionable)</div>{spread_picks_html}</div>')}
       {row_full(record_card)}
+      {row_full(build_game_prob_table(run.get("games", [])))}
       <div class="section-label">Games</div>{gcards}
       {('<div class="section-label">Model Calibration</div>' + row_full('<div class="card"><div class="summaryTitle">P(cover) Calibration</div>' + calib_html + '</div>')) if calib_html else ""}
     </div></body></html>'''
