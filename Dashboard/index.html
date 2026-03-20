@@ -576,9 +576,18 @@
 
   <script>
     const SOURCES = {
-      nba:        'https://raw.githubusercontent.com/sspam1189-stack/Model/main/NBA/data/history.json',
-      fullseason: 'https://raw.githubusercontent.com/sspam1189-stack/Model/main/NBAFullseason/data/history.json',
-      ncaa:       'https://raw.githubusercontent.com/sspam1189-stack/Model/main/NCAA/data/history.json'
+      nba: {
+        remote: 'https://raw.githubusercontent.com/sspam1189-stack/Model/main/NBA/data/history.json',
+        local: 'data/nba.json'
+      },
+      fullseason: {
+        remote: 'https://raw.githubusercontent.com/sspam1189-stack/Model/main/NBAFullseason/data/history.json',
+        local: 'data/fullseason.json'
+      },
+      ncaa: {
+        remote: 'https://raw.githubusercontent.com/sspam1189-stack/Model/main/NCAA/data/history.json',
+        local: 'data/ncaa.json'
+      }
     };
 
     let cache = {};
@@ -605,16 +614,26 @@
 
     async function fetchData(key) {
       if (cache[key]) return cache[key];
-      try {
-        const resp = await fetch(SOURCES[key] + `?t=${Date.now()}`, { cache: 'no-store' });
-        if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
-        const data = await resp.json();
-        cache[key] = data;
-        return data;
-      } catch (e) {
-        console.error(`Failed to load ${key}:`, e);
-        return null;
+      const cfg = SOURCES[key];
+      if (!cfg) return null;
+      const bust = `?t=${Date.now()}`;
+      const attempts = [
+        { url: cfg.remote + bust, label: 'GitHub raw' },
+        { url: cfg.local + bust, label: 'Local snapshot' },
+      ];
+      for (const attempt of attempts) {
+        try {
+          const resp = await fetch(attempt.url, { cache: 'no-store' });
+          if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
+          const data = await resp.json();
+          if (!data || !Array.isArray(data.runs)) throw new Error('Invalid feed shape');
+          cache[key] = data;
+          return data;
+        } catch (e) {
+          console.error(`${attempt.label} failed for ${key}:`, e.message);
+        }
       }
+      return null;
     }
 
     // ─── Helpers ───
