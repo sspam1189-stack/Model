@@ -66727,8 +66727,8 @@
             "_baseline": 3.782979182013274,
             "_pace": 0.9984768543749999
           },
-          "lrProb": null,
-          "lrVerdict": "NEUTRAL",
+          "lrProb": 0.772,
+          "lrVerdict": "CONFIRM",
           "_adjDeltas": {
             "away": {
               "OFF": -0.355,
@@ -66763,8 +66763,8 @@
           "margin": -7.7,
           "sDiff": 7.7,
           "tDiff": -1.9,
-          "sPick": "Atlanta Hawks +3.5",
-          "sConf": "elite",
+          "sPick": "PASS",
+          "sConf": "vetoed",
           "oPick": "PASS",
           "oConf": "low",
           "injuryNote": "Away: Jonathan Kuminga (out/starter) | Home: Steven Adams (out/starter)",
@@ -66796,8 +66796,9 @@
             "_baseline": -1.1686822921210824,
             "_pace": 0.999942068125
           },
-          "lrProb": null,
-          "lrVerdict": "NEUTRAL",
+          "lrProb": 0.294,
+          "lrVerdict": "VETO",
+          "lrVetoed": "Atlanta Hawks +3.5",
           "_adjDeltas": {
             "away": {
               "OFF": 0.03,
@@ -66923,7 +66924,7 @@
             "_baseline": 2.6616447248015547,
             "_pace": 1.0168652243749998
           },
-          "lrProb": null,
+          "lrProb": 0.485,
           "lrVerdict": "NEUTRAL",
           "_adjDeltas": {
             "away": {
@@ -66991,8 +66992,8 @@
             "_baseline": 0.450886187314063,
             "_pace": 0.9964335631249999
           },
-          "lrProb": null,
-          "lrVerdict": "NEUTRAL",
+          "lrProb": 0.752,
+          "lrVerdict": "CONFIRM",
           "_adjDeltas": {
             "away": {
               "OFF": 0.22,
@@ -67016,7 +67017,7 @@
         }
       ],
       "summaryText": "RECORD (graded picks only)\n\nSPREAD (ATS)\n  All:         336-210-0   (61.5%)   [graded 546]\n  Elite:       336-210-0   (61.5%)   [graded 546]\n\nFAV/DOG (Spread)\n  Favorites:   180-116-0   (60.8%)   [graded 296]\n  Underdogs:   156-94-0   (62.4%)   [graded 250]\n\nTOTAL (O/U)\n  All:         197-147-0   (57.3%)   [graded 344]\n  Elite:       197-147-0   (57.3%)   [graded 344]\n\nOVER/UNDER\n  Over:        31-27-0   (53.4%)   [graded 58]\n  Under:       166-120-0   (58.0%)   [graded 286]",
-      "ranAt": "03/20/2026, 10:01:07 AM"
+      "ranAt": "03/20/2026, 10:15:53 AM"
     }
   ],
   "weights": {
