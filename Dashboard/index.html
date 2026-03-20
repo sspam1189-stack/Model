@@ -8,7 +8,7 @@
   <title>Picks Dashboard</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@500;700;800;900&display=swap" rel="stylesheet">
   <style>
     :root {
       --bg: #06080f;
@@ -52,10 +52,7 @@
     body::before {
       content: '';
       position: fixed;
-      top: -50%;
-      left: -20%;
-      width: 140%;
-      height: 100%;
+      inset: 0;
       background: radial-gradient(ellipse at 30% 0%, rgba(124, 108, 240, 0.06) 0%, transparent 60%),
                   radial-gradient(ellipse at 70% 0%, rgba(96, 165, 250, 0.04) 0%, transparent 50%);
       pointer-events: none;
@@ -98,6 +95,7 @@
       background: linear-gradient(180deg, var(--bg) 60%, transparent 100%);
       backdrop-filter: blur(20px);
       -webkit-backdrop-filter: blur(20px);
+      will-change: transform;
     }
     .tab {
       padding: 10px 28px;
@@ -107,10 +105,9 @@
       color: var(--muted);
       cursor: pointer;
       font-size: 0.85rem;
-      font-weight: 600;
+      font-weight: 700;
       font-family: inherit;
-      transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
-      backdrop-filter: blur(10px);
+      transition: border-color 0.25s, color 0.25s, background 0.25s, transform 0.25s;
       letter-spacing: 0.01em;
       user-select: none;
     }
@@ -190,9 +187,7 @@
       border-radius: var(--radius);
       padding: 20px;
       margin-bottom: 14px;
-      backdrop-filter: blur(16px);
-      -webkit-backdrop-filter: blur(16px);
-      transition: border-color 0.2s, box-shadow 0.2s;
+      transition: border-color 0.2s;
     }
     .card:hover {
       border-color: var(--border-light);
@@ -250,7 +245,6 @@
       background: var(--card);
       border: 1px solid var(--border);
       border-radius: var(--radius);
-      backdrop-filter: blur(16px);
       transition: border-color 0.2s, transform 0.2s;
     }
     .record-item:hover {
@@ -286,9 +280,6 @@
       font-weight: 700;
       font-size: 0.68rem;
       letter-spacing: 0.06em;
-    }
-    table.data tbody tr {
-      transition: background 0.15s;
     }
     table.data tbody tr:hover {
       background: rgba(255, 255, 255, 0.02);
@@ -347,7 +338,6 @@
       align-items: center;
       gap: 10px;
       flex-wrap: wrap;
-      transition: background 0.15s;
     }
     .pick-item:last-child { border-bottom: none; }
     .pick-item:hover { background: rgba(255, 255, 255, 0.015); margin: 0 -20px; padding: 12px 20px; }
@@ -365,7 +355,7 @@
       border: 1px solid var(--border);
       border-radius: var(--radius-sm);
       padding: 16px;
-      transition: border-color 0.2s, transform 0.2s, box-shadow 0.2s;
+      transition: border-color 0.2s, transform 0.2s;
       position: relative;
       overflow: hidden;
     }
@@ -382,7 +372,6 @@
     .game-card:hover {
       border-color: var(--border-light);
       transform: translateY(-2px);
-      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
     }
     .game-card .game-title {
       font-size: 0.85rem;
@@ -458,9 +447,9 @@
       color: var(--muted);
       cursor: pointer;
       font-size: 0.8rem;
-      font-weight: 600;
+      font-weight: 700;
       font-family: inherit;
-      transition: all 0.2s;
+      transition: border-color 0.2s, color 0.2s, background 0.2s;
     }
     .view-btn:hover {
       border-color: var(--accent);
@@ -489,10 +478,9 @@
       color: var(--text);
       cursor: pointer;
       font-size: 0.82rem;
-      font-weight: 600;
+      font-weight: 700;
       font-family: inherit;
-      transition: all 0.2s;
-      backdrop-filter: blur(10px);
+      transition: border-color 0.2s, transform 0.2s;
     }
     .date-nav button:hover:not(:disabled) {
       border-color: var(--accent);
@@ -528,7 +516,7 @@
     .date-header .date-record {
       font-size: 0.78rem;
       color: var(--muted);
-      font-weight: 600;
+      font-weight: 700;
     }
 
     /* ─── Scrollbar ─── */
@@ -536,6 +524,12 @@
     ::-webkit-scrollbar-track { background: transparent; }
     ::-webkit-scrollbar-thumb { background: var(--border-light); border-radius: 3px; }
     ::-webkit-scrollbar-thumb:hover { background: var(--muted); }
+
+    /* ─── Layout containment for off-screen sections ─── */
+    .card, .games-grid, .record-banner {
+      content-visibility: auto;
+      contain-intrinsic-size: auto 300px;
+    }
 
     /* ─── Responsive ─── */
     @media (max-width: 700px) {
@@ -591,6 +585,7 @@
     };
 
     let cache = {};
+    let computeCache = {};
     let activeTab = 'nba';
     let viewMode = 'today';
     let historyPage = 0;
@@ -628,6 +623,7 @@
           const data = await resp.json();
           if (!data || !Array.isArray(data.runs)) throw new Error('Invalid feed shape');
           cache[key] = data;
+          delete computeCache[key];
           return data;
         } catch (e) {
           console.error(`${attempt.label} failed for ${key}:`, e.message);
@@ -676,19 +672,28 @@
       return 'PUSH';
     }
 
-    // ─── Data Computations ───
+    // ─── Data Computations (with memoization per tab) ───
+
+    function getCached(key, runs, computeFn) {
+      const tab = activeTab;
+      if (!computeCache[tab]) computeCache[tab] = {};
+      if (!computeCache[tab][key]) computeCache[tab][key] = computeFn(runs);
+      return computeCache[tab][key];
+    }
 
     function getGradedPicks(runs) {
-      const picks = [];
-      for (const r of runs) {
-        if (r.burnIn) continue;
-        for (const g of r.games || []) {
-          if (g.status === 'MISSING_ODDS' || g.status === 'SKIPPED') continue;
-          if (!Number.isFinite(g.homeScore) || !Number.isFinite(g.awayScore)) continue;
-          picks.push({ date: r.date, dateDisplay: r.dateDisplay, ...g });
+      return getCached('gradedPicks', runs, _runs => {
+        const picks = [];
+        for (const r of _runs) {
+          if (r.burnIn) continue;
+          for (const g of r.games || []) {
+            if (g.status === 'MISSING_ODDS' || g.status === 'SKIPPED') continue;
+            if (!Number.isFinite(g.homeScore) || !Number.isFinite(g.awayScore)) continue;
+            picks.push({ date: r.date, dateDisplay: r.dateDisplay, ...g });
+          }
         }
-      }
-      return picks;
+        return picks;
+      });
     }
 
     function tallyPicks(picks, { conf = null, side = null } = {}) {
@@ -713,34 +718,38 @@
     }
 
     function computeSummary(runs) {
-      const picks = getGradedPicks(runs);
-      return {
-        elite: tallyPicks(picks, { conf: 'elite' }),
-        fav: tallyPicks(picks, { side: 'fav' }),
-        dog: tallyPicks(picks, { side: 'dog' }),
-      };
+      return getCached('summary', runs, _runs => {
+        const picks = getGradedPicks(_runs);
+        return {
+          elite: tallyPicks(picks, { conf: 'elite' }),
+          fav: tallyPicks(picks, { side: 'fav' }),
+          dog: tallyPicks(picks, { side: 'dog' }),
+        };
+      });
     }
 
     function getActionablePicks(runs) {
-      const results = [];
-      for (const r of runs) {
-        if (r.burnIn) continue;
-        for (const g of r.games || []) {
-          if (g.status === 'MISSING_ODDS' || g.status === 'SKIPPED') continue;
-          if (!g.sPick || g.sPick === 'PASS' || !isActionable(g.sConf)) continue;
-          if (!Number.isFinite(g.homeScore) || !Number.isFinite(g.awayScore)) continue;
-          const result = g.sResult || gradeSpread(g);
-          if (!result) continue;
-          results.push({
-            date: r.date, dateDisplay: r.dateDisplay,
-            matchup: `${g.away} @ ${g.home}`,
-            pick: g.sPick, conf: g.sConf, result,
-            final: `${g.awayScore}-${g.homeScore}`,
-            sDiff: g.sDiff, pCover: g.pCover,
-          });
+      return getCached('actionablePicks', runs, _runs => {
+        const results = [];
+        for (const r of _runs) {
+          if (r.burnIn) continue;
+          for (const g of r.games || []) {
+            if (g.status === 'MISSING_ODDS' || g.status === 'SKIPPED') continue;
+            if (!g.sPick || g.sPick === 'PASS' || !isActionable(g.sConf)) continue;
+            if (!Number.isFinite(g.homeScore) || !Number.isFinite(g.awayScore)) continue;
+            const result = g.sResult || gradeSpread(g);
+            if (!result) continue;
+            results.push({
+              date: r.date, dateDisplay: r.dateDisplay,
+              matchup: `${g.away} @ ${g.home}`,
+              pick: g.sPick, conf: g.sConf, result,
+              final: `${g.awayScore}-${g.homeScore}`,
+              sDiff: g.sDiff, pCover: g.pCover,
+            });
+          }
         }
-      }
-      return results;
+        return results;
+      });
     }
 
     function computeLast10(runs) {
@@ -774,9 +783,8 @@
       const rows = [];
       for (let i = 0; i + window <= picks.length; i += window) {
         const chunk = picks.slice(i, i + window);
-        const w = chunk.filter(x => x.result === 'WIN').length;
-        const l = chunk.filter(x => x.result === 'LOSS').length;
-        const p = chunk.filter(x => x.result === 'PUSH').length;
+        let w = 0, l = 0, p = 0;
+        for (const x of chunk) { if (x.result === 'WIN') w++; else if (x.result === 'LOSS') l++; else p++; }
         rows.push({
           label: `#${i + 1}\u2013${i + window}`,
           w, l, p, pct: winPct(w, l), units: calcUnits(w, l),
@@ -834,9 +842,8 @@
           });
         }
         if (!picks.length) continue;
-        const w = picks.filter(x => x.result === 'WIN').length;
-        const l = picks.filter(x => x.result === 'LOSS').length;
-        const p = picks.filter(x => x.result === 'PUSH').length;
+        let w = 0, l = 0, p = 0;
+        for (const x of picks) { if (x.result === 'WIN') w++; else if (x.result === 'LOSS') l++; else p++; }
         return {
           dateDisplay: day.dateDisplay || day.date,
           picks, tally: { w, l, p },
@@ -941,11 +948,11 @@
 
       let html = `<div class="card card-picks"><div class="card-title">Today's Picks (Actionable)</div>`;
       if (spreadItems) {
-        html += `<div class="card-subtitle" style="margin-bottom:8px;font-weight:600;color:var(--text)">Spreads</div>`;
+        html += `<div class="card-subtitle" style="margin-bottom:8px;font-weight:700;color:var(--text)">Spreads</div>`;
         html += spreadItems;
       }
       if (underItems) {
-        html += `<div class="card-subtitle" style="margin:12px 0 8px;font-weight:600;color:var(--blue)">Totals</div>`;
+        html += `<div class="card-subtitle" style="margin:12px 0 8px;font-weight:700;color:var(--blue)">Totals</div>`;
         html += underItems;
       }
       html += `</div>`;
@@ -1054,7 +1061,8 @@
         <td class="center">${resultBadge(p.result)}</td>
         <td class="center">${esc(p.final)}</td>
       </tr>`).join('');
-      const t = { w: picks.filter(x => x.result === 'WIN').length, l: picks.filter(x => x.result === 'LOSS').length, p: picks.filter(x => x.result === 'PUSH').length };
+      const t = { w: 0, l: 0, p: 0 };
+      for (const x of picks) { if (x.result === 'WIN') t.w++; else if (x.result === 'LOSS') t.l++; else t.p++; }
       t.pct = winPct(t.w, t.l); t.units = calcUnits(t.w, t.l);
       return `
         <div class="card card-trends">
@@ -1111,16 +1119,11 @@
       const teams = computeTeamRecords(runs);
       const sorted = Object.entries(teams)
         .filter(([, t]) => t.w + t.l >= 3)
-        .sort((a, b) => {
-          const uA = a[1].w * 0.91 - a[1].l;
-          const uB = b[1].w * 0.91 - b[1].l;
-          return uB - uA;
-        });
+        .sort((a, b) => calcUnits(b[1].w, b[1].l) - calcUnits(a[1].w, a[1].l));
       if (!sorted.length) return '';
       const rows = sorted.map(([name, t]) => {
-        const total = t.w + t.l;
-        const pct = total > 0 ? Math.round(100 * t.w / total) : 0;
-        const units = Math.round((t.w * 0.91 - t.l) * 100) / 100;
+        const pct = winPct(t.w, t.l);
+        const units = calcUnits(t.w, t.l);
         return `<tr>
           <td>${esc(name)}</td>
           <td class="center">${t.picks}</td>
@@ -1154,9 +1157,13 @@
     function renderHistoryDay(run) {
       const games = run.games || [];
       const picks = games.filter(g => g.sPick && g.sPick !== 'PASS' && isActionable(g.sConf));
-      const dayW = picks.filter(g => (g.sResult || gradeSpread(g)) === 'WIN').length;
-      const dayL = picks.filter(g => (g.sResult || gradeSpread(g)) === 'LOSS').length;
-      const dayP = picks.filter(g => (g.sResult || gradeSpread(g)) === 'PUSH').length;
+      let dayW = 0, dayL = 0, dayP = 0;
+      for (const g of picks) {
+        const r = g.sResult || gradeSpread(g);
+        if (r === 'WIN') dayW++;
+        else if (r === 'LOSS') dayL++;
+        else if (r === 'PUSH') dayP++;
+      }
       const hasResults = dayW + dayL + dayP > 0;
       const recordStr = hasResults ? `${dayW}-${dayL}${dayP ? `-${dayP}` : ''}` : `${picks.length} pick${picks.length !== 1 ? 's' : ''}`;
 
@@ -1173,7 +1180,7 @@
         const result = isPick ? (g.sResult || gradeSpread(g)) : null;
         const hasScore = Number.isFinite(g.homeScore) && Number.isFinite(g.awayScore);
         return `<div class="game-card">
-          <div class="game-title">${esc(g.away)} @ ${esc(g.home)} <span style="font-weight:400;font-size:0.72rem;color:var(--muted)">Line ${fmtNum(g.line,1)}</span></div>
+          <div class="game-title">${esc(g.away)} @ ${esc(g.home)} <span style="font-weight:500;font-size:0.72rem;color:var(--muted)">Line ${fmtNum(g.line,1)}</span></div>
           <div class="game-detail">
             ${isPick ? `<span class="pick-team">${esc(g.sPick)}</span> ${confBadge(g.sConf)}` : `<span style="color:var(--muted)">${isSkipped ? esc(g.status) : 'PASS'}</span>`}
             ${result ? resultBadge(result) : (isPick && !hasScore ? '<span class="result-badge pending">PENDING</span>' : '')}
@@ -1282,6 +1289,13 @@
     function nextPage() { historyPage++; render(); }
 
     render();
+
+    // Prefetch other tabs after initial load
+    requestIdleCallback(() => {
+      for (const key of Object.keys(SOURCES)) {
+        if (key !== activeTab && !cache[key]) fetchData(key);
+      }
+    });
   </script>
 </body>
 </html>

@@ -102,3 +102,91 @@ LR_CONFIRM_THRESH = 0.60        # LR P(cover) >= this to confirm Bayesian pick (
 LR_VETO_THRESH    = 0.40        # LR P(cover) < this to veto Bayesian pick (backtest optimal)
 LR_MIN_TRAINING_GAMES = 80      # minimum games before LR starts predicting
 LR_RETRAIN_INTERVAL   = 20      # retrain LR every N new graded games
+
+# --- Core engine config (used by core/model_engine.py) -------------------------
+ENGINE_CONFIG = {
+    "TEAM_NAME_ALIASES": {
+        "la lakers":             "Los Angeles Lakers",
+        "lakers":                "Los Angeles Lakers",
+        "la clippers":           "LA Clippers",
+        "los angeles clippers":  "LA Clippers",
+        "clippers":              "Los Angeles Clippers",
+        "golden state":          "Golden State Warriors",
+        "warriors":              "Golden State Warriors",
+        "oklahoma city":         "Oklahoma City Thunder",
+        "thunder":               "Oklahoma City Thunder",
+        "new orleans":           "New Orleans Pelicans",
+        "pelicans":              "New Orleans Pelicans",
+        "new york":              "New York Knicks",
+        "knicks":                "New York Knicks",
+        "san antonio":           "San Antonio Spurs",
+        "spurs":                 "San Antonio Spurs",
+        "portland":              "Portland Trail Blazers",
+        "trail blazers":         "Portland Trail Blazers",
+        "philadelphia":          "Philadelphia 76ers",
+        "76ers":                 "Philadelphia 76ers",
+        "sixers":                "Philadelphia 76ers",
+        "minnesota":             "Minnesota Timberwolves",
+        "timberwolves":          "Minnesota Timberwolves",
+        "wolves":                "Minnesota Timberwolves",
+        "memphis":               "Memphis Grizzlies",
+        "grizzlies":             "Memphis Grizzlies",
+        "charlotte":             "Charlotte Hornets",
+        "hornets":               "Charlotte Hornets",
+        "indiana":               "Indiana Pacers",
+        "pacers":                "Indiana Pacers",
+        "washington":            "Washington Wizards",
+        "wizards":               "Washington Wizards",
+        "orlando":               "Orlando Magic",
+        "magic":                 "Orlando Magic",
+        "miami":                 "Miami Heat",
+        "heat":                  "Miami Heat",
+        "atlanta":               "Atlanta Hawks",
+        "hawks":                 "Atlanta Hawks",
+        "chicago":               "Chicago Bulls",
+        "bulls":                 "Chicago Bulls",
+        "detroit":               "Detroit Pistons",
+        "pistons":               "Detroit Pistons",
+        "cleveland":             "Cleveland Cavaliers",
+        "cavaliers":             "Cleveland Cavaliers",
+        "cavs":                  "Cleveland Cavaliers",
+        "toronto":               "Toronto Raptors",
+        "raptors":               "Toronto Raptors",
+        "brooklyn":              "Brooklyn Nets",
+        "nets":                  "Brooklyn Nets",
+        "boston":                 "Boston Celtics",
+        "celtics":               "Boston Celtics",
+        "milwaukee":             "Milwaukee Bucks",
+        "bucks":                 "Milwaukee Bucks",
+        "denver":                "Denver Nuggets",
+        "nuggets":               "Denver Nuggets",
+        "utah":                  "Utah Jazz",
+        "jazz":                  "Utah Jazz",
+        "phoenix":               "Phoenix Suns",
+        "suns":                  "Phoenix Suns",
+        "sacramento":            "Sacramento Kings",
+        "kings":                 "Sacramento Kings",
+        "dallas":                "Dallas Mavericks",
+        "mavericks":             "Dallas Mavericks",
+        "mavs":                  "Dallas Mavericks",
+        "houston":               "Houston Rockets",
+        "rockets":               "Houston Rockets",
+    },
+    "MIN_GP": 15,
+    "USE_SAFE_FUZZY": False,
+    "USE_COLLAPSE_ABBR": False,
+}
+
+# --- Self-tune HCA clamps (used by core/self_tune.py) -------------------------
+HCA_CLAMP_LO  = 1.5
+HCA_CLAMP_HI  = 3.5
+HCA_VAR_FLOOR = 0.2
+
+# --- Kalman filter defaults (used by core/kalman_state.py) ---------------------
+KALMAN_DEFAULTS = {
+    "initialVar":  16,
+    "gameNoise":   144,
+    "dailyDrift":  0.15,
+    "minVar":      2.0,
+    "maxVar":      30,
+}

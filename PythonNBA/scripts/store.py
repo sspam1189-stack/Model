@@ -1,54 +1,11 @@
-# scripts/store.py
+# scripts/store.py  --  thin wrapper around core/store.py
+import sys, os
 
-import json
-import os
-import datetime
-from zoneinfo import ZoneInfo
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', '..'))
 
-_DIR = os.path.dirname(os.path.abspath(__file__))
-DATA = os.path.join(_DIR, "..", "data", "history.json")
+import core.store as _store
 
-EMPTY_STORE = {"runs": [], "weights": {}}
+_store.DATA_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'data', 'history.json')
 
-
-def load_store():
-    try:
-        with open(DATA, "r", encoding="utf-8") as f:
-            store = json.load(f)
-
-        # If any weight is null/missing, wipe weights so defaults kick in
-        w = store.get("weights") or {}
-        has_nulls = any(v is None for v in w.values())
-        if has_nulls or len(w) == 0:
-            print("store.py: weights null or missing -- resetting to defaults")
-            store["weights"] = None
-
-        if not isinstance(store.get("runs"), list):
-            store["runs"] = []
-        return store
-    except Exception:
-        # File doesn't exist or bad JSON -- start fresh
-        print("store.py: history.json not found or invalid -- starting fresh")
-        os.makedirs(os.path.dirname(DATA), exist_ok=True)
-        with open(DATA, "w", encoding="utf-8") as f:
-            json.dump(EMPTY_STORE, f, indent=2)
-        return {**EMPTY_STORE, "runs": []}
-
-
-def save_store(store):
-    os.makedirs(os.path.dirname(DATA), exist_ok=True)
-    with open(DATA, "w", encoding="utf-8") as f:
-        json.dump(store, f, indent=2)
-
-
-def upsert_run(store, run):
-    if not isinstance(store.get("runs"), list):
-        store["runs"] = []
-    now = datetime.datetime.now(ZoneInfo("America/Chicago"))
-    run["ranAt"] = now.strftime("%m/%d/%Y, %I:%M:%S %p")
-    idx = next((i for i, r in enumerate(store["runs"]) if r.get("date") == run.get("date")), -1)
-    if idx >= 0:
-        store["runs"][idx] = run
-    else:
-        store["runs"].append(run)
-    store["runs"].sort(key=lambda a: a.get("date", ""))
+# Re-export public API
+from core.store import load_store, save_store, upsert_run

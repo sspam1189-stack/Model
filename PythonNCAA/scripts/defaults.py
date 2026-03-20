@@ -53,3 +53,25 @@ LR_CONFIRM_THRESH = 0.58        # LR P(cover) >= this to confirm Bayesian pick (
 LR_VETO_THRESH    = 0.42        # LR P(cover) < this to veto Bayesian pick (backtest optimal)
 LR_MIN_TRAINING_GAMES = 80      # minimum games before LR starts predicting
 LR_RETRAIN_INTERVAL   = 20      # retrain LR every N new graded games
+
+# --- Core engine config (used by core/model_engine.py) -------------------------
+ENGINE_CONFIG = {
+    "TEAM_NAME_ALIASES": {},       # NCAA: no aliases, 362 D1 teams — fuzzy matching only
+    "MIN_GP": 5,                   # NCAA: fewer games needed (lower sample threshold)
+    "USE_SAFE_FUZZY": True,        # NCAA: safe fuzzy matching (prevents "arkansas"/"kansas")
+    "USE_COLLAPSE_ABBR": True,     # NCAA: collapse abbreviation dots ("N.C. State" -> "NC State")
+}
+
+# --- Self-tune HCA clamps (used by core/self_tune.py) -------------------------
+HCA_CLAMP_LO  = 2.0              # NCAA HCA range is higher and more variable than NBA
+HCA_CLAMP_HI  = 6.0
+HCA_VAR_FLOOR = 0.3
+
+# --- Kalman filter defaults (used by core/kalman_state.py) ---------------------
+KALMAN_DEFAULTS = {
+    "initialVar":  20,             # higher: 362 teams, more uncertain per team
+    "gameNoise":   196,            # higher: ~14 pt std dev in college margins
+    "dailyDrift":  0.15,
+    "minVar":      2.0,
+    "maxVar":      40,             # higher: teams can go weeks between games
+}
