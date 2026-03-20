@@ -810,8 +810,7 @@
       if (lrV != null) parts.push(lrVerdictBadge(lrV));
       if (lrP != null) parts.push(`P(cover) ${Math.round(lrP * 100)}%`);
       if (g.lrVetoed) {
-        const reasons = (g.lrReasons || []).length ? ` &mdash; ${g.lrReasons.map(r => esc(r)).join(' &middot; ')}` : '';
-        parts.push(`<span class="lr-vetoed">Vetoed: ${esc(g.lrVetoed)}${reasons}</span>`);
+        parts.push(`<span class="lr-vetoed">Vetoed: ${esc(g.lrVetoed)}</span>`);
       }
       return `<div class="lr-detail">${parts.join(' &middot; ')}</div>`;
     }
@@ -1152,20 +1151,21 @@
         const lrP = g.lrProb != null ? Math.round(g.lrProb * 100) + '%' : '\u2014';
         const lrV = g.lrVerdict ?? null;
         const lrVerdictHtml = lrV ? lrVerdictBadge(lrV) : '';
-        const lrReasons = (g.lrReasons || []).length ? ` &mdash; ${g.lrReasons.map(r => esc(r)).join(' &middot; ')}` : '';
-        const lrVetoedHtml = g.lrVetoed ? `<div style="font-size:0.6rem;margin-top:2px"><span class="lr-vetoed">Vetoed: ${esc(g.lrVetoed)}${lrReasons}</span></div>` : '';
+        const lrVetoedHtml = g.lrVetoed ? `<div style="font-size:0.6rem;margin-top:2px"><span class="lr-vetoed">Vetoed: ${esc(g.lrVetoed)}</span></div>` : '';
+        const lrReasonHtml = (g.lrReasons || []).length ? `<div style="font-size:0.6rem"><span class="lr-vetoed">${g.lrReasons.map(r => esc(r)).join(' &middot; ')}</span></div>` : '';
         return `<tr>
           <td style="font-weight:700">${esc(g.away)} @ ${esc(g.home)}</td>
           <td>${sPick}<div class="card-subtitle" style="margin:2px 0 0">Line ${fmtNum(g.line,1)} \u00b7 proj ${margin} \u00b7 sDiff ${fmtNum(g.sDiff,1)}</div></td>
           <td class="center">${pCover}${bayesSecondary}<div class="card-subtitle">${pAway} away / ${pHome} home</div></td>
           <td class="center"><div style="font-size:0.72rem">${lrVerdictHtml} ${lrP}</div>${lrVetoedHtml}</td>
+          <td class="center">${lrReasonHtml}</td>
         </tr>`;
       }).join('');
       return `
         <div class="card card-probs">
           <div class="card-title">Cover Probabilities \u2014 All Games</div>
           <table class="data">
-            <thead><tr><th>Game</th><th>Spread Pick</th><th class="center">P(Cover)</th><th class="center">LR</th></tr></thead>
+            <thead><tr><th>Game</th><th>Spread Pick</th><th class="center">P(Cover)</th><th class="center">LR</th><th class="center">LR Reason</th></tr></thead>
             <tbody>${rows}</tbody>
           </table>
           <div class="card-subtitle" style="margin-top:8px">P(Cover) = Bayesian probability the picked side wins. LR column shows independent confirmation verdict (CONFIRM / VETO / NEUTRAL).</div>

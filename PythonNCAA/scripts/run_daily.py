@@ -691,28 +691,34 @@ def build_game_prob_table(games):
         t_diff = ("+" if g.get("tDiff", 0) >= 0 else "") + fmt_num(g.get("tDiff"), 1) if isinstance(g.get("tDiff"), (int, float)) and math.isfinite(g["tDiff"]) else "\u2014"
 
         veto_html = ""
+        reason_html = ""
         if g.get("lrVetoed"):
             reasons = g.get("lrReasons", [])
             reason_str = " \u00b7 ".join(reasons) if reasons else ""
             veto_html = (
                 f'<div class="tiny" style="margin-top:2px;color:#dc2626">'
                 f'\u274C <s>{esc(g["lrVetoed"])}</s> vetoed'
-                f'{" \u2014 " + esc(reason_str) if reason_str else ""}'
                 f'</div>'
             )
+            reason_html = (
+                f'<div class="tiny" style="color:#dc2626">'
+                f'{esc(reason_str)}'
+                f'</div>'
+            ) if reason_str else ""
 
         rows += f'''<tr>
         <td style="font-weight:700">{esc(g["away"])} @ {esc(g["home"])}</td>
         <td>{s_pick_display}{s_conf_badge}<div class="tiny" style="margin-top:2px">Line {fmt_num(g.get("line"), 1)} \u00b7 proj {margin} \u00b7 sDiff {fmt_num(g.get("sDiff"), 1)}</div>{veto_html}</td>
         <td style="text-align:center">{p_cover_str}<div class="tiny">{p_away} away / {p_home} home</div></td>
         <td style="text-align:center"><div class="tiny">O/U {fmt_num(g.get("total"), 1)} \u00b7 diff {t_diff}</div></td>
+        <td style="text-align:center">{reason_html}</td>
       </tr>'''
     if not rows:
         return ""
     return f'''<div class="card" style="border-left:4px solid #8b5cf6; margin-bottom:10px;">
     <div class="summaryTitle">\U0001F3AF Cover Probabilities \u2014 All Games</div>
     <table class="data">
-      <thead><tr><th>Game</th><th>Spread Pick</th><th style="text-align:center">P(Cover)</th><th style="text-align:center">O/U Info</th></tr></thead>
+      <thead><tr><th>Game</th><th>Spread Pick</th><th style="text-align:center">P(Cover)</th><th style="text-align:center">O/U Info</th><th style="text-align:center">LR Reason</th></tr></thead>
       <tbody>{rows}</tbody>
     </table>
     <div class="tiny" style="margin-top:6px">P(Cover) / P(Hit) = probability the picked side wins. Directional % shown below.</div>

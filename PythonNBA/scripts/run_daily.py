@@ -900,13 +900,18 @@ def build_game_prob_table(games):
 
         # Show vetoed pick with strikethrough and reason
         veto_html = ""
+        reason_html = ""
         if g.get("lrVetoed"):
             reasons = g.get("lrReasons", [])
             reason_str = " \u00b7 ".join(reasons) if reasons else ""
             veto_html = (
                 f'<div class="tiny" style="margin-top:2px;color:#dc2626">'
                 f'\u274C <s>{esc(g["lrVetoed"])}</s> vetoed'
-                f'{" \u2014 " + esc(reason_str) if reason_str else ""}'
+                f'</div>'
+            )
+            reason_html = (
+                f'<div class="tiny" style="color:#dc2626">'
+                f'{esc(reason_str) if reason_str else ""}'
                 f'</div>'
             )
 
@@ -930,6 +935,7 @@ def build_game_prob_table(games):
         <td style="text-align:center">{p_cover_str}<div class="tiny">{p_away} away / {p_home} home</div></td>
         <td>{o_pick_display}{o_conf_badge}<div class="tiny" style="margin-top:2px">O/U {fmt_num(g.get("total"), 1)} \u00b7 diff {t_diff}</div></td>
         <td style="text-align:center">{p_ou_str}<div class="tiny">{p_over} over / {p_under} under</div></td>
+        <td style="text-align:center">{reason_html}</td>
       </tr>'''
 
     return f'''<div class="card" style="border-left:4px solid #8b5cf6; margin-bottom:10px;">
@@ -937,7 +943,7 @@ def build_game_prob_table(games):
     <table class="data">
       <thead><tr>
         <th>Game</th><th>Spread Pick</th><th style="text-align:center">P(Cover)</th>
-        <th>Total Pick</th><th style="text-align:center">P(Hit)</th>
+        <th>Total Pick</th><th style="text-align:center">P(Hit)</th><th style="text-align:center">LR Reason</th>
       </tr></thead>
       <tbody>{rows}</tbody>
     </table>
