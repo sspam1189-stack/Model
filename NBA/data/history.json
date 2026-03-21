@@ -39645,6 +39645,68 @@
       },
       "games": [
         {
+          "away": "Oklahoma City Thunder",
+          "home": "Washington Wizards",
+          "line": -21.5,
+          "total": 231.5,
+          "_book": "DraftKings",
+          "aS": 126.2,
+          "hS": 101.5,
+          "pT": 227.7,
+          "margin": -3.2,
+          "sDiff": 3.2,
+          "tDiff": -7.9,
+          "sPick": "PASS",
+          "sConf": "low",
+          "oPick": "UNDER",
+          "oConf": "elite",
+          "injuryNote": "Away: Luguentz Dort (out/starter), Jalen Williams (out/star) | Home: Tre Johnson (out/starter), Trae Young (out/starter), Anthony Davis (out/star), Kyshawn George (out/star)",
+          "pHomeCover": 0.418,
+          "pAwayCover": 0.582,
+          "pOver": 0.314,
+          "pUnder": 0.686,
+          "pCover": null,
+          "pOU": 0.686,
+          "marginVar": 240.3,
+          "marginStd": 15.5,
+          "_features": {
+            "dTS": -0.02939999999999998,
+            "dTO": -0.17604999999999998,
+            "dORR": 0.028000000000000025,
+            "dNET": -22.689999999999998,
+            "avgPace": 101.3471875
+          },
+          "_marginFeatures": {
+            "dTS": -0.029408724174374984,
+            "dTO": 0.17610224118703124,
+            "dORR": 0.028008308737500025,
+            "dNET": -11.348366522390625,
+            "hca": 1,
+            "_baseline": -11.348366522390625,
+            "_pace": 1.000296740625
+          },
+          "_adjDeltas": {
+            "away": {
+              "OFF": 0.165,
+              "DEF": -0.79,
+              "TS": 0.0118,
+              "TO": 0.3477,
+              "ORR": 0.0022
+            },
+            "home": {
+              "OFF": -1.06,
+              "DEF": -0.32,
+              "TS": -0.0025,
+              "TO": 0.0669,
+              "ORR": 0.0005
+            }
+          },
+          "trends": {
+            "away": "ATS +/- 0.7 · Over 48.6% · Under 51.4% · O/U +/- -1.8",
+            "home": "ATS +/- -1 · Over 55.1% · Under 44.9% · O/U +/- 2.4"
+          }
+        },
+        {
           "away": "Memphis Grizzlies",
           "home": "Charlotte Hornets",
           "line": 18.5,
@@ -39907,7 +39969,7 @@
           "pUnder": 0.69,
           "pCover": null,
           "pOU": 0.69,
-          "marginVar": 235.8,
+          "marginVar": 235.9,
           "marginStd": 15.4,
           "_features": {
             "dTS": 0.05009999999999992,
@@ -40015,19 +40077,19 @@
           "line": -7.5,
           "total": 233.5,
           "_book": "DraftKings",
-          "aS": 119,
+          "aS": 119.1,
           "hS": 110,
-          "pT": 229,
-          "margin": -1.5,
-          "sDiff": 1.5,
+          "pT": 229.1,
+          "margin": -1.6,
+          "sDiff": 1.6,
           "tDiff": -8.9,
           "sPick": "PASS",
           "sConf": "low",
           "oPick": "UNDER",
           "oConf": "elite",
           "injuryNote": "Away: Bennedict Mathurin (out/star) | Home: Brandon Williams (out/starter)",
-          "pHomeCover": 0.46,
-          "pAwayCover": 0.54,
+          "pHomeCover": 0.458,
+          "pAwayCover": 0.542,
           "pOver": 0.286,
           "pUnder": 0.714,
           "pCover": null,
@@ -40149,7 +40211,7 @@
           "pUnder": 0.47,
           "pCover": 0.677,
           "pOU": null,
-          "marginVar": 226.7,
+          "marginVar": 226.6,
           "marginStd": 15.1,
           "_features": {
             "dTS": -0.010624999999999996,
@@ -40190,7 +40252,7 @@
         }
       ],
       "summaryText": "RECORD (graded picks only)\n\nSPREAD (ATS)\n  All:         141-92-0   (60.5%)   [graded 233]\n  Elite:       141-92-0   (60.5%)   [graded 233]\n\nFAV/DOG (Spread)\n  Favorites:   75-53-0   (58.6%)   [graded 128]\n  Underdogs:   66-39-0   (62.9%)   [graded 105]\n\nTOTAL (O/U)\n  All:         60-50-0   (54.5%)   [graded 110]\n  Elite:       60-50-0   (54.5%)   [graded 110]\n\nOVER/UNDER\n  Over:        28-20-0   (58.3%)   [graded 48]\n  Under:       32-30-0   (51.6%)   [graded 62]",
-      "ranAt": "3/21/2026, 4:31:38 PM"
+      "ranAt": "3/21/2026, 4:38:44 PM"
     }
   ],
   "weights": {
