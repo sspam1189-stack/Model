@@ -1,0 +1,150 @@
+﻿name: Run Daily combined
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  nba:
+    runs-on: self-hosted
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install dependencies
+        run: npm ci
+        working-directory: NBA
+
+      - name: Run daily
+        working-directory: NBA
+        env:
+          ODDS_API_KEY: ${{ secrets.ODDS_API_KEY }}
+          GMAIL_USER: ${{ secrets.GMAIL_USER }}
+          GMAIL_APP_PASSWORD: ${{ secrets.GMAIL_APP_PASSWORD }}
+          TO_EMAIL: ${{ secrets.TO_EMAIL }}
+        run: node scripts/run_daily.mjs
+
+      - name: Commit & push data changes
+        shell: bash
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add NBA/data/
+          git diff --cached --quiet || git commit -m "Run daily NBA"
+          git pull --rebase origin main
+          git push
+
+  nba-fullseason:
+    runs-on: self-hosted
+    needs: nba
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Pull latest
+        run: git pull origin main
+
+      - name: Install dependencies
+        run: npm ci
+        working-directory: NBAFullseason
+
+      - name: Run daily
+        working-directory: NBAFullseason
+        env:
+          ODDS_API_KEY: ${{ secrets.ODDS_API_KEY }}
+          GMAIL_USER: ${{ secrets.GMAIL_USER }}
+          GMAIL_APP_PASSWORD: ${{ secrets.GMAIL_APP_PASSWORD }}
+          TO_EMAIL: ${{ secrets.TO_EMAIL }}
+        run: node scripts/run_daily.mjs
+
+      - name: Commit & push data changes
+        shell: bash
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add NBAFullseason/data/
+          git diff --cached --quiet || git commit -m "Run daily NBA Fullseason"
+          git pull --rebase origin main
+          git push
+
+  py-nba:
+    runs-on: self-hosted
+    needs: nba-fullseason
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+
+      - name: Pull latest
+        run: git pull origin main
+
+      - name: Install dependencies
+        run: pip install -r PythonNBA/requirements.txt
+
+      - name: Run daily
+        working-directory: PythonNBA/scripts
+        env:
+          PYTHONUTF8: "1"
+          PYTHONUNBUFFERED: "1"
+          PYTHONIOENCODING: "utf-8"
+          ODDS_API_KEY: ${{ secrets.ODDS_API_KEY }}
+          GMAIL_USER: ${{ secrets.GMAIL_USER }}
+          GMAIL_APP_PASSWORD: ${{ secrets.GMAIL_APP_PASSWORD }}
+          TO_EMAIL: ${{ secrets.TO_EMAIL }}
+        run: python run_daily.py
+
+      - name: Commit & push data changes
+        shell: bash
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add PythonNBA/data/
+          git diff --cached --quiet || git commit -m "Run daily Python NBA"
+          git pull --rebase origin main
+          git push
+
+  py-fullseason:
+    runs-on: self-hosted
+    needs: py-nba
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+
+      - name: Pull latest
+        run: git pull origin main
+
+      - name: Install dependencies
+        run: pip install -r PythonFull/requirements.txt
+
+      - name: Run daily
+        working-directory: PythonFull/scripts
+        env:
+          PYTHONUTF8: "1"
+          PYTHONUNBUFFERED: "1"
+          PYTHONIOENCODING: "utf-8"
+          ODDS_API_KEY: ${{ secrets.ODDS_API_KEY }}
+          GMAIL_USER: ${{ secrets.GMAIL_USER }}
+          GMAIL_APP_PASSWORD: ${{ secrets.GMAIL_APP_PASSWORD }}
+          TO_EMAIL: ${{ secrets.TO_EMAIL }}
+        run: python run_daily.py
+
+      - name: Commit & push data changes
+        shell: bash
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add PythonFull/data/
+          git diff --cached --quiet || git commit -m "Run daily Python Fullseason"
+          git pull --rebase origin main
+          git push
