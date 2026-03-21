@@ -67074,6 +67074,72 @@
       },
       "games": [
         {
+          "away": "Oklahoma City Thunder",
+          "home": "Washington Wizards",
+          "line": -21.5,
+          "total": 231.5,
+          "_book": "DraftKings",
+          "aS": 129.7,
+          "hS": 98.7,
+          "pT": 228.4,
+          "margin": -10.2,
+          "sDiff": 10.2,
+          "tDiff": -8,
+          "sPick": "PASS",
+          "sConf": "low",
+          "oPick": "UNDER",
+          "oConf": "elite",
+          "injuryNote": "Away: Luguentz Dort (out/starter), Jalen Williams (out/star) | Home: Tre Johnson (out/starter), Trae Young (out/starter), Anthony Davis (out/star), Kyshawn George (out/star)",
+          "h2hAdj": -0.7,
+          "h2hGames": 1,
+          "h2hRecord": "0-1",
+          "h2hNote": "H2H Washington Wizards 0-1 (avg -19.0, adj -0.7)",
+          "pHomeCover": 0.247,
+          "pAwayCover": 0.753,
+          "pOver": 0.304,
+          "pUnder": 0.696,
+          "pCover": null,
+          "pOU": 0.696,
+          "marginVar": 221.8,
+          "marginStd": 14.9,
+          "_features": {
+            "dTS": -0.030975000000000086,
+            "dTO": -0.17897500000000008,
+            "dORR": 0.01959999999999995,
+            "dNET": -22.712500000000006,
+            "avgPace": 101.37606249999999
+          },
+          "_marginFeatures": {
+            "dTS": -0.030961618064343832,
+            "dTO": 0.17889767854934382,
+            "dORR": 0.01959153233449995,
+            "dNET": -11.351343830289064,
+            "hca": 1,
+            "_baseline": -11.35134383028905,
+            "_pace": 0.9995679762499999
+          },
+          "_adjDeltas": {
+            "away": {
+              "OFF": 0.16,
+              "DEF": -0.79,
+              "TS": 0.0118,
+              "TO": 0.3478,
+              "ORR": 0.0022
+            },
+            "home": {
+              "OFF": -1.06,
+              "DEF": -0.32,
+              "TS": -0.0025,
+              "TO": 0.0669,
+              "ORR": 0.0005
+            }
+          },
+          "trends": {
+            "away": "ATS +/- 0.7 · Over 48.6% · Under 51.4% · O/U +/- -1.8",
+            "home": "ATS +/- -1 · Over 55.1% · Under 44.9% · O/U +/- 2.4"
+          }
+        },
+        {
           "away": "Memphis Grizzlies",
           "home": "Charlotte Hornets",
           "line": 18.5,
@@ -67335,11 +67401,11 @@
           "line": 17.5,
           "total": 234.5,
           "_book": "DraftKings",
-          "aS": 99.8,
+          "aS": 99.9,
           "hS": 132,
-          "pT": 231.8,
-          "margin": 15.1,
-          "sDiff": 15.1,
+          "pT": 231.9,
+          "margin": 15,
+          "sDiff": 15,
           "tDiff": -8.4,
           "sPick": "PASS",
           "sConf": "low",
@@ -67350,13 +67416,13 @@
           "h2hGames": 1,
           "h2hRecord": "1-0",
           "h2hNote": "H2H San Antonio Spurs 1-0 (avg +10.0, adj +0.4)",
-          "pHomeCover": 0.847,
-          "pAwayCover": 0.153,
+          "pHomeCover": 0.845,
+          "pAwayCover": 0.155,
           "pOver": 0.294,
           "pUnder": 0.706,
           "pCover": null,
           "pOU": 0.706,
-          "marginVar": 218.1,
+          "marginVar": 218.2,
           "marginStd": 14.8,
           "_features": {
             "dTS": 0.04830000000000001,
@@ -67422,7 +67488,7 @@
           "pUnder": 0.607,
           "pCover": null,
           "pOU": null,
-          "marginVar": 208.6,
+          "marginVar": 208.7,
           "marginStd": 14.4,
           "_features": {
             "dTS": -0.0020499999999999963,
@@ -67655,7 +67721,7 @@
         }
       ],
       "summaryText": "RECORD (graded picks only)\n\nSPREAD (ATS)\n  All:         338-212-0   (61.5%)   [graded 550]\n  Elite:       338-212-0   (61.5%)   [graded 550]\n\nFAV/DOG (Spread)\n  Favorites:   181-117-0   (60.7%)   [graded 298]\n  Underdogs:   157-95-0   (62.3%)   [graded 252]\n\nTOTAL (O/U)\n  All:         199-149-0   (57.2%)   [graded 348]\n  Elite:       199-149-0   (57.2%)   [graded 348]\n\nOVER/UNDER\n  Over:        31-29-0   (51.7%)   [graded 60]\n  Under:       168-120-0   (58.3%)   [graded 288]",
-      "ranAt": "3/21/2026, 4:32:12 PM"
+      "ranAt": "3/21/2026, 4:39:17 PM"
     }
   ],
   "weights": {
