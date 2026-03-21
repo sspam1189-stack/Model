@@ -23,7 +23,7 @@ jobs:
       - name: Run recap daily
         working-directory: NBA
         env:
-          ODDS_API_KEY: ${{ secrets.ODDS_API_KEY_PAID }}
+          ODDS_API_KEY: ${{ secrets.ODDS_API_KEY }}
           GMAIL_USER: ${{ secrets.GMAIL_USER }}
           GMAIL_APP_PASSWORD: ${{ secrets.GMAIL_APP_PASSWORD }}
           TO_EMAIL: ${{ secrets.TO_EMAIL }}
@@ -61,7 +61,7 @@ jobs:
       - name: Run recap daily
         working-directory: NBAFullseason
         env:
-          ODDS_API_KEY: ${{ secrets.ODDS_API_KEY_PAID }}
+          ODDS_API_KEY: ${{ secrets.ODDS_API_KEY }}
           GMAIL_USER: ${{ secrets.GMAIL_USER }}
           GMAIL_APP_PASSWORD: ${{ secrets.GMAIL_APP_PASSWORD }}
           TO_EMAIL: ${{ secrets.TO_EMAIL }}
