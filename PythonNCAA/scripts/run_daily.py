@@ -142,6 +142,25 @@ def resolve_key(obj, team_name):
     return None
 
 
+# Common NCAA abbreviation aliases (store name -> ESPN displayName prefix)
+MATCH_ALIASES = {
+    "liu": "long island university",
+    "cal baptist": "california baptist",
+    "umbc": "maryland baltimore county",
+    "utsa": "ut san antonio",
+    "utep": "ut el paso",
+    "uab": "alabama birmingham",
+    "unc": "north carolina",
+    "lsu": "louisiana st",
+    "smu": "southern methodist",
+    "tcu": "texas christian",
+    "ucf": "central florida",
+    "vcu": "virginia commonwealth",
+    "fiu": "florida international",
+    "fau": "florida atlantic",
+}
+
+
 def match_team(a, b):
     if a == b:
         return True
@@ -149,6 +168,26 @@ def match_team(a, b):
     if na == nb:
         return True
     if safe_fuzzy(na, nb):
+        return True
+    # Prefix match: "kentucky" matches "kentucky wildcats" (ESPN displayName includes mascot)
+    shorter = na if len(na) <= len(nb) else nb
+    longer = nb if len(na) <= len(nb) else na
+    if len(shorter) >= 3 and (longer.startswith(shorter + " ") or longer == shorter):
+        return True
+    # Strip trailing " st" and retry prefix (handles "Sam Houston St." vs "Sam Houston Bearkats")
+    def strip_st(s):
+        return s[:-3] if s.endswith(" st") else s
+    sa, sb2 = strip_st(na), strip_st(nb)
+    if len(sa) >= 3 and nb.startswith(sa + " "):
+        return True
+    if len(sb2) >= 3 and na.startswith(sb2 + " "):
+        return True
+    # Alias lookup
+    alias_a = MATCH_ALIASES.get(na)
+    alias_b = MATCH_ALIASES.get(nb)
+    if alias_a and (nb.startswith(alias_a) or nb == alias_a):
+        return True
+    if alias_b and (na.startswith(alias_b) or na == alias_b):
         return True
     a_last = na.split(" ")[-1]
     b_last = nb.split(" ")[-1]

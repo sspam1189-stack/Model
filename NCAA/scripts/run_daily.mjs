@@ -151,11 +151,46 @@ function resolveKey(obj, teamName) {
 }
 
 // Fuzzy team matching for score grading
+// Common NCAA abbreviation aliases (store name → ESPN displayName prefix)
+const MATCH_ALIASES = {
+  "liu": "long island university",
+  "cal baptist": "california baptist",
+  "umbc": "maryland baltimore county",
+  "utsa": "ut san antonio",
+  "utep": "ut el paso",
+  "uab": "alabama birmingham",
+  "unc": "north carolina",
+  "lsu": "louisiana st",
+  "smu": "southern methodist",
+  "tcu": "texas christian",
+  "ucf": "central florida",
+  "vcu": "virginia commonwealth",
+  "fiu": "florida international",
+  "fau": "florida atlantic",
+};
+
 function matchTeam(a, b) {
   if (a === b) return true;
   const na = normKey(a), nb = normKey(b);
   if (na === nb) return true;
   if (safeFuzzy(na, nb)) return true;
+
+  // Prefix match: "kentucky" matches "kentucky wildcats" (ESPN displayName includes mascot)
+  const shorter = na.length <= nb.length ? na : nb;
+  const longer  = na.length <= nb.length ? nb : na;
+  if (shorter.length >= 3 && (longer.startsWith(shorter + " ") || longer === shorter)) return true;
+
+  // Strip trailing " st" and retry prefix (handles "Sam Houston St." vs "Sam Houston Bearkats")
+  const stripSt = (s) => s.endsWith(" st") ? s.slice(0, -3) : s;
+  const sa = stripSt(na), sb2 = stripSt(nb);
+  if (sa.length >= 3 && nb.startsWith(sa + " ")) return true;
+  if (sb2.length >= 3 && na.startsWith(sb2 + " ")) return true;
+
+  // Alias lookup
+  const aliasA = MATCH_ALIASES[na];
+  const aliasB = MATCH_ALIASES[nb];
+  if (aliasA && (nb.startsWith(aliasA) || nb === aliasA)) return true;
+  if (aliasB && (na.startsWith(aliasB) || na === aliasB)) return true;
 
   // Last-word mascot match
   const aWords = na.split(" ");
