@@ -42166,16 +42166,376 @@
       ],
       "summaryText": "",
       "ranAt": "03/22/2026, 04:09:52 AM"
+    },
+    {
+      "date": "20260322",
+      "dateDisplay": "2026-03-22",
+      "burnIn": false,
+      "weightsUsed": {
+        "wTS": 1.046,
+        "wTO": 0.923,
+        "wORR": 1.035,
+        "wNET": 1.281,
+        "constant": -0.016,
+        "paceAdj": 0.99,
+        "hca": 1.5,
+        "sprHigh": 4,
+        "ouHigh": 5,
+        "sprEliteBump": 3,
+        "ouEliteBump": 3,
+        "probHigh": 0.57,
+        "probElite": 0.63,
+        "probOUHigh": 0.58,
+        "probOUElite": 0.64,
+        "recentWeight": 0.35,
+        "locationWeight": 0.25
+      },
+      "weightsNext": {
+        "wTS": 1.046,
+        "wTO": 0.923,
+        "wORR": 1.035,
+        "wNET": 1.281,
+        "constant": -0.016,
+        "paceAdj": 0.99,
+        "hca": 1.5,
+        "sprHigh": 4,
+        "ouHigh": 5,
+        "sprEliteBump": 3,
+        "ouEliteBump": 3,
+        "probHigh": 0.57,
+        "probElite": 0.63,
+        "probOUHigh": 0.58,
+        "probOUElite": 0.64,
+        "recentWeight": 0.35,
+        "locationWeight": 0.25
+      },
+      "games": [
+        {
+          "away": "Portland Trail Blazers",
+          "home": "Denver Nuggets",
+          "line": 8.5,
+          "total": 242.5,
+          "_book": "DraftKings",
+          "aS": 111.1,
+          "hS": 120.6,
+          "pT": 231.7,
+          "margin": 1.0,
+          "sDiff": 1.0,
+          "tDiff": -16.5,
+          "sPick": "PASS",
+          "sConf": "low",
+          "oPick": "UNDER",
+          "oConf": "elite",
+          "injuryNote": "Away: Shaedon Sharpe (out/star) | Home: Peyton Watson (out/star)",
+          "pHomeCover": 0.528,
+          "pAwayCover": 0.472,
+          "pOver": 0.135,
+          "pUnder": 0.865,
+          "pCover": null,
+          "pOU": 0.865,
+          "marginVar": 203.8,
+          "marginStd": 14.3,
+          "_features": {
+            "dTS": 0.04414999999999991,
+            "dTO": -0.160225,
+            "dORR": -0.07230000000000003,
+            "dNET": 5.252500000000012,
+            "avgPace": 100.71156250000001
+          },
+          "_marginFeatures": {
+            "dTS": 0.044019513295312424,
+            "dTO": 0.15975145000546878,
+            "dORR": -0.07208631509062505,
+            "dNET": 2.618488036054694,
+            "hca": 1.0,
+            "_baseline": 2.618488036054701,
+            "_pace": 0.9970444687500002
+          },
+          "_adjDeltas": {
+            "away": {
+              "OFF": -0.135,
+              "DEF": -0.135,
+              "TS": 0.002,
+              "TO": -0.0635,
+              "ORR": 0.0018
+            },
+            "home": {
+              "OFF": -0.63,
+              "DEF": -0.41,
+              "TS": -0.0009,
+              "TO": -0.2252,
+              "ORR": 0.0009
+            }
+          },
+          "trends": {
+            "away": "ATS +/- -1.1 \u00b7 Over 52.1% \u00b7 Under 47.9% \u00b7 O/U +/- 0.0",
+            "home": "ATS +/- 0.9 \u00b7 Over 60.6% \u00b7 Under 39.4% \u00b7 O/U +/- 3.3"
+          }
+        },
+        {
+          "away": "Brooklyn Nets",
+          "home": "Sacramento Kings",
+          "line": 5.5,
+          "total": 218.5,
+          "_book": "DraftKings",
+          "aS": 111.4,
+          "hS": 118.6,
+          "pT": 230.0,
+          "margin": 1.7,
+          "sDiff": 1.7,
+          "tDiff": 1.8,
+          "sPick": "PASS",
+          "sConf": "low",
+          "oPick": "PASS",
+          "oConf": "low",
+          "injuryNote": "Away: Noah Clowney (out/starter), Nic Claxton (out/star), Michael Porter Jr. (out/star) | Home: Russell Westbrook (out/star), Keegan Murray (out/star), De'Andre Hunter (out/starter)",
+          "pHomeCover": 0.547,
+          "pAwayCover": 0.453,
+          "pOver": 0.548,
+          "pUnder": 0.452,
+          "pCover": null,
+          "pOU": null,
+          "marginVar": 203.4,
+          "marginStd": 14.3,
+          "_features": {
+            "dTS": 0.015550000000000064,
+            "dTO": -0.7168249999999999,
+            "dORR": -0.00500000000000006,
+            "dNET": 2.762500000000017,
+            "avgPace": 99.23162500000001
+          },
+          "_marginFeatures": {
+            "dTS": 0.015276212510625064,
+            "dTO": 0.7042039249471875,
+            "dORR": -0.0049119654375000595,
+            "dNET": 1.3569304521093835,
+            "hca": 1.0,
+            "_baseline": 1.3569304521093835,
+            "_pace": 0.9823930875000001
+          },
+          "_adjDeltas": {
+            "away": {
+              "OFF": -1.21,
+              "DEF": -1.67,
+              "TS": -0.0079,
+              "TO": 0.6456,
+              "ORR": -0.0037
+            },
+            "home": {
+              "OFF": -0.13,
+              "DEF": -0.17,
+              "TS": 0.0077,
+              "TO": -0.2639,
+              "ORR": 0.0029
+            }
+          },
+          "trends": {
+            "away": "ATS +/- -0.7 \u00b7 Over 44.3% \u00b7 Under 55.7% \u00b7 O/U +/- -1.2",
+            "home": "ATS +/- -2.7 \u00b7 Over 50.7% \u00b7 Under 49.3% \u00b7 O/U +/- 0.1"
+          }
+        },
+        {
+          "away": "Washington Wizards",
+          "home": "New York Knicks",
+          "line": 19.5,
+          "total": 228.5,
+          "_book": "DraftKings",
+          "aS": 97.6,
+          "hS": 132.4,
+          "pT": 230.0,
+          "margin": 15.3,
+          "sDiff": 15.3,
+          "tDiff": -3.5,
+          "sPick": "PASS",
+          "sConf": "low",
+          "oPick": "PASS",
+          "oConf": "low",
+          "injuryNote": "Away: Tre Johnson (out/starter), Trae Young (out/starter), Anthony Davis (out/star), Kyshawn George (out/star) | Home: Landry Shamet (out/starter), Miles McBride (out/star)",
+          "pHomeCover": 0.851,
+          "pAwayCover": 0.149,
+          "pOver": 0.41,
+          "pUnder": 0.59,
+          "pCover": null,
+          "pOU": null,
+          "marginVar": 215.8,
+          "marginStd": 14.7,
+          "_features": {
+            "dTS": 0.02157500000000001,
+            "dTO": 0.6819749999999999,
+            "dORR": 0.05610000000000004,
+            "dNET": 22.784999999999982,
+            "avgPace": 100.2058125
+          },
+          "_marginFeatures": {
+            "dTS": 0.021403210006406256,
+            "dTO": -0.676544803898906,
+            "dORR": 0.05565330620437503,
+            "dNET": 11.301787717171864,
+            "hca": 1.0,
+            "_baseline": 11.301787717171857,
+            "_pace": 0.9920375437499999
+          },
+          "_adjDeltas": {
+            "away": {
+              "OFF": -2.545,
+              "DEF": 0.55,
+              "TS": -0.0025,
+              "TO": 0.062,
+              "ORR": 0.0006
+            },
+            "home": {
+              "OFF": -0.63,
+              "DEF": 0.225,
+              "TS": -0.0023,
+              "TO": 0.9878,
+              "ORR": 0.0072
+            }
+          },
+          "trends": {
+            "away": "ATS +/- -1.0 \u00b7 Over 55.7% \u00b7 Under 44.3% \u00b7 O/U +/- 2.6",
+            "home": "ATS +/- 1.3 \u00b7 Over 47.2% \u00b7 Under 52.8% \u00b7 O/U +/- -2.1"
+          },
+          "b2bNote": "Washington Wizards: B2B: OFF -1.5, DEF +0.8"
+        },
+        {
+          "away": "Minnesota Timberwolves",
+          "home": "Boston Celtics",
+          "line": 9.5,
+          "total": 219.5,
+          "_book": "DraftKings",
+          "aS": 105.1,
+          "hS": 114.9,
+          "pT": 220.0,
+          "margin": 0.3,
+          "sDiff": 0.3,
+          "tDiff": 2.4,
+          "sPick": "PASS",
+          "sConf": "low",
+          "oPick": "PASS",
+          "oConf": "low",
+          "injuryNote": "Away: Naz Reid (out/starter), Anthony Edwards (out/star)",
+          "pHomeCover": 0.508,
+          "pAwayCover": 0.492,
+          "pOver": 0.564,
+          "pUnder": 0.436,
+          "pCover": null,
+          "pOU": null,
+          "marginVar": 203.9,
+          "marginStd": 14.3,
+          "_features": {
+            "dTS": -0.018750000000000155,
+            "dTO": -0.021387499999999976,
+            "dORR": 0.03245000000000009,
+            "dNET": 5.893750000000011,
+            "avgPace": 98.2890625
+          },
+          "_marginFeatures": {
+            "dTS": -0.018244907226562652,
+            "dTO": 0.020811357509765604,
+            "dORR": 0.031575852773437586,
+            "dNET": 2.867491252441412,
+            "hca": 1.0,
+            "_baseline": 2.867491252441412,
+            "_pace": 0.97306171875
+          },
+          "_adjDeltas": {
+            "away": {
+              "OFF": -0.49,
+              "DEF": -0.25,
+              "TS": -0.0016,
+              "TO": 0.0045,
+              "ORR": 0.0041
+            }
+          },
+          "trends": {
+            "away": "ATS +/- -1.5 \u00b7 Over 46.5% \u00b7 Under 53.5% \u00b7 O/U +/- 1.6",
+            "home": "ATS +/- 2.4 \u00b7 Over 35.7% \u00b7 Under 64.3% \u00b7 O/U +/- -4.3"
+          }
+        },
+        {
+          "away": "Toronto Raptors",
+          "home": "Phoenix Suns",
+          "line": -2.5,
+          "total": 220.5,
+          "_book": "DraftKings",
+          "aS": 113.2,
+          "hS": 108.0,
+          "pT": 221.2,
+          "margin": -2.7,
+          "sDiff": 2.7,
+          "tDiff": -1.9,
+          "sPick": "PASS",
+          "sConf": "vetoed",
+          "oPick": "PASS",
+          "oConf": "low",
+          "injuryNote": "Away: Collin Murray-Boyles (out/starter) | Home: Royce O'Neale (out/star), Grayson Allen (out/star), Dillon Brooks (out/star)",
+          "pHomeCover": 0.425,
+          "pAwayCover": 0.575,
+          "pOver": 0.449,
+          "pUnder": 0.551,
+          "pCover": 0.575,
+          "pOU": null,
+          "marginVar": 203.5,
+          "marginStd": 14.3,
+          "_features": {
+            "dTS": -0.013374999999999915,
+            "dTO": 0.5888749999999999,
+            "dORR": 0.043375,
+            "dNET": -2.3549999999999898,
+            "avgPace": 98.146875
+          },
+          "_marginFeatures": {
+            "dTS": -0.012995873085937415,
+            "dTO": -0.5721827860546873,
+            "dORR": 0.04214549496093749,
+            "dNET": -1.144122658593745,
+            "hca": 1.0,
+            "_baseline": -1.144122658593731,
+            "_pace": 0.9716540624999999
+          },
+          "lrProb": 0.312,
+          "lrVerdict": "VETO",
+          "lrVetoed": "Toronto Raptors -2.5",
+          "lrReasons": [
+            "Home ATS margin L5: -9.3",
+            "Line vs team avg: -3.5",
+            "Home is favorite: yes"
+          ],
+          "_adjDeltas": {
+            "away": {
+              "OFF": 0.225,
+              "DEF": 0.105,
+              "TS": -0.0015,
+              "TO": -0.1454,
+              "ORR": -0.0035
+            },
+            "home": {
+              "OFF": -2.035,
+              "DEF": -0.39,
+              "TS": -0.0045,
+              "TO": 0.6282,
+              "ORR": 0.0096
+            }
+          },
+          "trends": {
+            "away": "ATS +/- 0.8 \u00b7 Over 39.1% \u00b7 Under 60.9% \u00b7 O/U +/- -2.9",
+            "home": "ATS +/- 1.5 \u00b7 Over 40.9% \u00b7 Under 59.2% \u00b7 O/U +/- -2.7"
+          },
+          "b2bNote": "Phoenix Suns: B2B: OFF -1.5, DEF +0.8"
+        }
+      ],
+      "summaryText": "RECORD (graded picks only)\n\nSPREAD (ATS)\n  All:         121-67-0   (64.4%)   [graded 188]\n  Elite:       121-67-0   (64.4%)   [graded 188]\n\nFAV/DOG (Spread)\n  Favorites:   72-35-0   (67.3%)   [graded 107]\n  Underdogs:   49-32-0   (60.5%)   [graded 81]\n\nTOTAL (O/U)\n  All:         121-96-0   (55.8%)   [graded 217]\n  Elite:       121-96-0   (55.8%)   [graded 217]\n\nOVER/UNDER\n  Over:        20-16-0   (55.6%)   [graded 36]\n  Under:       101-80-0   (55.8%)   [graded 181]",
+      "ranAt": "03/22/2026, 06:19:18 AM"
     }
   ],
   "weights": {
-    "wTS": 1.026,
-    "wTO": 0.921,
-    "wORR": 1.032,
-    "wNET": 1.267,
+    "wTS": 1.046,
+    "wTO": 0.923,
+    "wORR": 1.035,
+    "wNET": 1.281,
     "constant": -0.016,
     "paceAdj": 0.99,
-    "hca": 1.815,
+    "hca": 1.5,
     "sprHigh": 4,
     "ouHigh": 5,
     "sprEliteBump": 3,
@@ -42192,9 +42552,9 @@
     "wTO": 0.4901,
     "wORR": 0.5,
     "wNET": 0.05,
-    "hca": 0.2246,
+    "hca": 0.2,
     "constant": 0.5
   },
-  "lastTuneDate": "20260321",
-  "residualVar": 208.3
+  "lastTuneDate": "20260322",
+  "residualVar": 188.5
 }
