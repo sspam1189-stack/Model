@@ -136,25 +136,9 @@ def fetch_todays_odds():
                 if d_chicago != today:
                     continue
 
-                # Game already started -- fetch pre-game odds from historical API
+                # Game already started -- skip (run_daily preserves from previous run)
                 if commence <= now:
-                    print(f"  [odds] Game already started: {away} @ {home} -- fetching historical odds...")
-                    try:
-                        hist = fetch_closing_odds_for_game(
-                            home=home,
-                            away=away,
-                            commence_time_iso=commence_str,
-                        )
-                        if isinstance(hist.get("line"), (int, float)) and isinstance(hist.get("total"), (int, float)):
-                            games.append({
-                                "away": away, "home": home,
-                                "line": hist["line"], "total": hist["total"],
-                                "_book": hist.get("_book"),
-                            })
-                        else:
-                            print(f"  [odds] No historical odds found for {away} @ {home} -- skipping")
-                    except Exception as e:
-                        print(f"  [odds] Historical fetch failed for {away} @ {home}: {e}")
+                    print(f"  [odds] Game already started: {away} @ {home} -- skipping")
                     continue
 
         book = _pick_best_bookmaker(ev.get("bookmakers"))
@@ -192,47 +176,5 @@ def fetch_todays_odds():
             "total": total,
             "_book": book.get("title") if book else None,
         })
-
-    # Cross-reference ESPN schedule -- pick up finished games missing from Odds API
-    try:
-        espn_sb = fetch_scoreboard(today.replace("-", ""))
-    except Exception:
-        espn_sb = None
-    espn_games = _extract_all_espn_games(espn_sb) if espn_sb else []
-
-    for eg in espn_games:
-        if not eg["isFinal"]:
-            continue  # only care about finished games here
-
-        # Check if already in our games list
-        n_away = _norm_team(eg["away"])
-        n_home = _norm_team(eg["home"])
-        already = any(
-            _norm_team(g["away"]) == n_away and _norm_team(g["home"]) == n_home
-            for g in games
-        )
-        if already:
-            continue
-
-        # Finished game missing from Odds API -- fetch pre-game historical line
-        print(f"  [odds] Finished game not in API: {eg['away']} @ {eg['home']} -- fetching historical odds...")
-        try:
-            hist = fetch_closing_odds_for_game(
-                home=eg["home"],
-                away=eg["away"],
-                commence_time_iso=eg["commenceTimeIso"],
-            )
-            if isinstance(hist.get("line"), (int, float)) and isinstance(hist.get("total"), (int, float)):
-                games.append({
-                    "away": eg["away"], "home": eg["home"],
-                    "line": hist["line"], "total": hist["total"],
-                    "_book": hist.get("_book"),
-                })
-            else:
-                print(f"  [odds] No historical odds for {eg['away']} @ {eg['home']}")
-                games.append({"away": eg["away"], "home": eg["home"], "line": None, "total": None, "_book": None})
-        except Exception as e:
-            print(f"  [odds] Historical fetch failed for {eg['away']} @ {eg['home']}: {e}")
-            games.append({"away": eg["away"], "home": eg["home"], "line": None, "total": None, "_book": None})
 
     return games

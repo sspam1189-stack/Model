@@ -195,7 +195,6 @@ def fetch_todays_odds():
     today = today_iso_chicago()
     games = []
     now = datetime.now(timezone.utc)
-    started_games = []  # games that already tipped off
 
     try:
         from zoneinfo import ZoneInfo
@@ -222,48 +221,14 @@ def fetch_todays_odds():
             if d != today:
                 continue
 
-            # Game already started -- queue for historical odds lookup
+            # Game already started -- skip (run_daily preserves from previous run)
             if commence <= now:
-                started_games.append({"ev": ev, "commence": commence, "home": home, "away": away})
+                print(f"  [odds] Game already started: {away} @ {home} -- skipping")
                 continue
 
         game = extract_odds_from_event(ev)
         if game:
             games.append(game)
 
-    # Fetch historical (pre-tip) odds for any games that already started
-    if started_games:
-        print(f"  [odds] {len(started_games)} game(s) already started -- fetching historical odds (1.5h pre-tip):")
-        for sg in started_games:
-            ev = sg["ev"]
-            commence = sg["commence"]
-            home = sg["home"]
-            away = sg["away"]
-            event_id = (ev or {}).get("id")
-            if not event_id:
-                print(f"  [odds]   {away} @ {home} -- no event ID, skipping")
-                continue
-            snap_time = commence - timedelta(seconds=HISTORICAL_OFFSET_SEC)
-            snap_label = _format_chicago_time(snap_time)
-            tip_label = _format_chicago_time(commence)
-            print(f"  [odds]   {away} @ {home} (tipped {tip_label}) -> snapshot @ {snap_label}")
-
-            hist_data = fetch_historical_odds_for_game(api_key, event_id, commence)
-            if hist_data:
-                game = extract_odds_from_event(hist_data)
-                if game and (game.get("line") is not None or game.get("total") is not None):
-                    game["_historical"] = True
-                    games.append(game)
-                    line_str = game.get("line") if game.get("line") is not None else "n/a"
-                    total_str = game.get("total") if game.get("total") is not None else "n/a"
-                    print(f"  [odds]     Got line: {line_str}, total: {total_str} ({game.get('_book') or 'unknown'})")
-                else:
-                    print(f"  [odds]     No spread/total in historical snapshot")
-
-    hist_count = sum(1 for g in games if g.get("_historical"))
-    live_count = len(games) - hist_count
-    if hist_count > 0:
-        print(f"  [odds] Got {len(games)} NCAAB games with odds for today ({live_count} live + {hist_count} historical)")
-    else:
-        print(f"  [odds] Got {len(games)} NCAAB games with odds for today")
+    print(f"  [odds] Got {len(games)} NCAAB games with odds for today")
     return games

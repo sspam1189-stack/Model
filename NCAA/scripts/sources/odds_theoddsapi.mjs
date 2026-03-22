@@ -164,9 +164,9 @@ export async function fetchTodaysOdds() {
       }).format(commence);
       if (d !== today) continue;
 
-      // Game already started — queue for historical odds lookup
+      // Game already started — skip (run_daily preserves from previous run)
       if (commence <= now) {
-        startedGames.push({ ev, commence, home, away });
+        console.log(`  [odds] Game already started: ${away} @ ${home} — skipping`);
         continue;
       }
     }
@@ -175,39 +175,6 @@ export async function fetchTodaysOdds() {
     if (game) games.push(game);
   }
 
-  // Fetch historical (pre-tip) odds for any games that already started
-  if (startedGames.length > 0) {
-    console.log(`  [odds] ${startedGames.length} game(s) already started — fetching historical odds (1.5h pre-tip):`);
-    for (const { ev, commence, home, away } of startedGames) {
-      const eventId = ev?.id;
-      if (!eventId) {
-        console.log(`  [odds]   ${away} @ ${home} — no event ID, skipping`);
-        continue;
-      }
-      const snapTime = new Date(commence.getTime() - HISTORICAL_OFFSET_MS);
-      const snapLabel = snapTime.toLocaleTimeString("en-US", { timeZone: "America/Chicago", hour: "numeric", minute: "2-digit" });
-      console.log(`  [odds]   ${away} @ ${home} (tipped ${commence.toLocaleTimeString("en-US", { timeZone: "America/Chicago", hour: "numeric", minute: "2-digit" })}) → snapshot @ ${snapLabel}`);
-
-      const histData = await fetchHistoricalOddsForGame(apiKey, eventId, commence);
-      if (histData) {
-        const game = extractOddsFromEvent(histData);
-        if (game && (game.line != null || game.total != null)) {
-          game._historical = true;
-          games.push(game);
-          console.log(`  [odds]     ✓ Got line: ${game.line ?? "n/a"}, total: ${game.total ?? "n/a"} (${game._book || "unknown"})`);
-        } else {
-          console.log(`  [odds]     ✗ No spread/total in historical snapshot`);
-        }
-      }
-    }
-  }
-
-  const histCount = games.filter(g => g._historical).length;
-  const liveCount = games.length - histCount;
-  if (histCount > 0) {
-    console.log(`  [odds] Got ${games.length} NCAAB games with odds for today (${liveCount} live + ${histCount} historical)`);
-  } else {
-    console.log(`  [odds] Got ${games.length} NCAAB games with odds for today`);
-  }
+  console.log(`  [odds] Got ${games.length} NCAAB games with odds for today`);
   return games;
 }
