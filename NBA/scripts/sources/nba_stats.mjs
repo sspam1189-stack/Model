@@ -210,12 +210,18 @@ export async function fetchNBAStatsEnhanced(dateTo = null, { seasonType = "Regul
   let last10, home, away;
 
   try {
-    // In playoffs, L10 from playoff games may be too few — fetch regular season L10 as well
-    if (inPlayoffs) {
-      // Use regular season L10 as base (more stable)
-      last10 = await fetchTeamStats(dateTo, null, { lastNGames: 10, seasonType: "Regular Season" });
+    // In playoffs, use regular season L10 (more stable)
+    const l10Type = inPlayoffs ? "Regular Season" : seasonType;
+    // LastNGames counts from TODAY, not DateTo — useless for historical dates.
+    // Fix: when dateTo is provided, use a DateFrom window (~25 days back) instead.
+    if (dateTo) {
+      const s = String(dateTo).replace(/-/g, "");
+      const dt = new Date(Date.UTC(+s.slice(0,4), +s.slice(4,6)-1, +s.slice(6,8)));
+      dt.setUTCDate(dt.getUTCDate() - 25);
+      const from = dt.toISOString().slice(0, 10); // YYYY-MM-DD
+      last10 = await fetchTeamStats(dateTo, from, { seasonType: l10Type });
     } else {
-      last10 = await fetchTeamStats(dateTo, null, { lastNGames: 10, seasonType });
+      last10 = await fetchTeamStats(dateTo, null, { lastNGames: 10, seasonType: l10Type });
     }
     console.log(`  [nba_stats] Last 10: ${Object.keys(last10).length} teams`);
     await sleep(2000);

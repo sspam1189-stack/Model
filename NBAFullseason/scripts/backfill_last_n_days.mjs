@@ -45,9 +45,9 @@ function toDisplayDate(yyyymmddStr) {
 }
 
 function yyyymmddFromDate(d) {
-  const y = d.getFullYear();
-  const m = String(d.getMonth() + 1).padStart(2, "0");
-  const day = String(d.getDate()).padStart(2, "0");
+  const y = d.getUTCFullYear();
+  const m = String(d.getUTCMonth() + 1).padStart(2, "0");
+  const day = String(d.getUTCDate()).padStart(2, "0");
   return `${y}${m}${day}`;
 }
 
@@ -154,7 +154,7 @@ async function main() {
   let prevAllScored = [];  // all games with scores → H2H (includes SKIPPED)
   let b2bTeams = new Set(); // teams that played yesterday → B2B penalty in analyzeGame
 
-  for (let i = days; i >= 0; i--) {
+  for (let i = days; i >= 1; i--) {  // stop at yesterday — never backfill today
     const date = dateMinusDaysCentral(i);
     const dateDisplay = toDisplayDate(date);
 
@@ -391,8 +391,8 @@ async function main() {
     upsertRun(store, run);
     saveStore(store);
 
-    // Save Kalman state every 10 dates — if backfill crashes, we don't lose everything
-    if (kalmanState && i % 10 === 0) {
+    // Save Kalman state every day
+    if (kalmanState) {
       saveKalmanState(kalmanState);
     }
 

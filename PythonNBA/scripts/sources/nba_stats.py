@@ -216,10 +216,18 @@ def fetch_nba_stats_enhanced(date_to=None, season_type="Regular Season"):
     away = None
 
     try:
-        if in_playoffs:
-            last10 = _fetch_team_stats(date_to, None, last_n_games=10, season_type="Regular Season")
+        # In playoffs, use regular season L10 (more stable)
+        l10_type = "Regular Season" if in_playoffs else season_type
+        # LastNGames counts from TODAY, not DateTo -- useless for historical dates.
+        # Fix: when date_to is provided, use a DateFrom window (~25 days back) instead.
+        if date_to:
+            s = str(date_to).replace("-", "")
+            dt = datetime.datetime(int(s[:4]), int(s[4:6]), int(s[6:8]))
+            from_dt = dt - datetime.timedelta(days=25)
+            date_from = from_dt.strftime("%Y-%m-%d")
+            last10 = _fetch_team_stats(date_to, date_from, season_type=l10_type)
         else:
-            last10 = _fetch_team_stats(date_to, None, last_n_games=10, season_type=season_type)
+            last10 = _fetch_team_stats(date_to, None, last_n_games=10, season_type=l10_type)
         print(f"  [nba_stats] Last 10: {len(last10)} teams")
         time.sleep(2)
     except Exception as e:

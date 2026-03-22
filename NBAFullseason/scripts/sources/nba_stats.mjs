@@ -129,15 +129,15 @@ export async function fetchNBAStats(dateTo = null, dateFrom = null, { seasonType
 
   const stats = await fetchTeamStats(dateTo, dateFrom, { seasonType });
   const count = Object.keys(stats).length;
-  const skipped = Object.values(stats).filter(s => s.GP < 10).length;
-  console.log(`  [nba_stats] Got ${count} teams (${skipped} with < 10 games)`);
+  const skipped = Object.values(stats).filter(s => s.GP < 1).length;
+  console.log(`  [nba_stats] Got ${count} teams (${skipped} with < 1 game)`);
 
-  // Filter out teams with too few games
+  // Filter out teams with zero games
   for (const [k, v] of Object.entries(stats)) {
-    if (v.GP < 10) delete stats[k];
+    if (v.GP < 1) delete stats[k];
   }
 
-  if (Object.keys(stats).length < 20) {
+  if (Object.keys(stats).length === 0) {
     throw new Error(`NBA.com stats incomplete: only ${Object.keys(stats).length} teams`);
   }
 
@@ -258,7 +258,7 @@ export async function fetchNBAStatsEnhanced(dateTo = null, { seasonType = "Regul
   const count = Object.keys(season).length;
   console.log(`  [nba_stats] Enhanced: ${count} teams (season), ${last10 ? Object.keys(last10).length : 0} (L10), ${home ? Object.keys(home).length : 0} (home), ${away ? Object.keys(away).length : 0} (away)`);
 
-  if (count < 20) {
+  if (count === 0) {
     throw new Error(`NBA.com stats incomplete: only ${count} teams`);
   }
 

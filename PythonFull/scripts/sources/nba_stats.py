@@ -132,13 +132,13 @@ def fetch_nba_stats(date_to=None, date_from=None, season_type="Regular Season"):
 
     stats = fetch_team_stats(date_to, date_from, season_type=season_type)
     count = len(stats)
-    skipped = sum(1 for s in stats.values() if s["GP"] < 10)
-    print(f"  [nba_stats] Got {count} teams ({skipped} with < 10 games)")
+    skipped = sum(1 for s in stats.values() if s["GP"] < 1)
+    print(f"  [nba_stats] Got {count} teams ({skipped} with < 1 game)")
 
-    # Filter out teams with too few games
-    stats = {k: v for k, v in stats.items() if v["GP"] >= 10}
+    # Filter out teams with zero games
+    stats = {k: v for k, v in stats.items() if v["GP"] >= 1}
 
-    if len(stats) < 20:
+    if len(stats) == 0:
         raise Exception(f"NBA.com stats incomplete: only {len(stats)} teams")
 
     return stats
@@ -235,7 +235,7 @@ def fetch_nba_stats_enhanced(date_to=None, season_type="Regular Season"):
     count = len(season)
     print(f"  [nba_stats] Enhanced: {count} teams (season), {len(last10) if last10 else 0} (L10), {len(home) if home else 0} (home), {len(away) if away else 0} (away)")
 
-    if count < 20:
+    if count == 0:
         raise Exception(f"NBA.com stats incomplete: only {count} teams")
 
     return {"season": season, "last10": last10, "home": home, "away": away}

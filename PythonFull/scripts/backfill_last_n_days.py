@@ -165,7 +165,7 @@ def main():
 
     STAT_KEYS = ["OFF", "DEF", "TS", "TO", "ORR", "PACE"]
 
-    for i in range(days, -1, -1):
+    for i in range(days, 0, -1):  # stop at yesterday -- never backfill today
         date = date_minus_days_central(i)
         date_display = to_display_date(date)
 
@@ -401,8 +401,8 @@ def main():
         upsert_run(store, run)
         save_store(store)
 
-        # Save Kalman state every 10 dates
-        if kalman_state and i % 10 == 0:
+        # Save Kalman state every day
+        if kalman_state:
             save_kalman_state(kalman_state)
 
         counts = {}

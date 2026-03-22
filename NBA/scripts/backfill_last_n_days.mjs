@@ -3,12 +3,17 @@ import { fetchNBAStats, fetchNBAStatsEnhanced } from "./sources/nba_stats.mjs";
 import { blendBase, blendForGame } from "./sources/blend_stats.mjs";
 import { fetchScoreboard, extractFinalScores } from "./sources/espn_scoreboard.mjs";
 import { fetchATSTrends, fetchOUTRends } from "./sources/teamrankings_trends.mjs";
+import { applyB2BAdjustment } from "./sources/rest_detect.mjs";
 
 import { loadDefaults, getAvgs, analyzeGame } from "./model_engine.mjs";
 import { loadStore, saveStore, upsertRun } from "./store.mjs";
-import { tuneWeights } from "./self_tune.mjs";
+import { tuneWeights, computeResidualVar } from "./self_tune.mjs";
+import {
+  loadKalmanState, saveKalmanState, initializeKalman,
+  applyDailyDrift, batchUpdate, pruneProcessedGames,
+} from "./kalman_state.mjs";
 
-import { fetchClosingOddsForGame } from "./sources/odds_theoddsapi_historical.mjs";
+import { fetchOddsForDay } from "./sources/odds_batch_historical.mjs";
 
 import fs from "fs";
 import path from "path";
@@ -40,9 +45,9 @@ function toDisplayDate(yyyymmddStr) {
 }
 
 function yyyymmddFromDate(d) {
-  const y = d.getFullYear();
-  const m = String(d.getMonth() + 1).padStart(2, "0");
-  const day = String(d.getDate()).padStart(2, "0");
+  const y = d.getUTCFullYear();
+  const m = String(d.getUTCMonth() + 1).padStart(2, "0");
+  const day = String(d.getUTCDate()).padStart(2, "0");
   return `${y}${m}${day}`;
 }
 
@@ -138,12 +143,18 @@ async function main() {
     return enhanced;
   }
 
-  for (let i = days; i >= 0; i--) {
+  // Kalman state — initialized on first date with stats, evolves forward
+  let kalmanState = null;
+  let prevDate = null;
+  let prevGraded = [];     // games with projections → Kalman + self-tune
+  let b2bTeams = new Set(); // teams that played yesterday → B2B penalty
+
+  for (let i = days; i >= 1; i--) {  // stop at yesterday — never backfill today
     const date = dateMinusDaysCentral(i);
     const dateDisplay = toDisplayDate(date);
 
-    const baseW    = (store.weights    && Object.keys(store.weights).length    > 0) ? store.weights    : defaults.DEFAULT_W;
-    const baseWVar = (store.weightsVar && Object.keys(store.weightsVar).length > 0) ? store.weightsVar : defaults.DEFAULT_W_VAR;
+    let baseW    = (store.weights    && Object.keys(store.weights).length    > 0) ? store.weights    : defaults.DEFAULT_W;
+    let baseWVar = (store.weightsVar && Object.keys(store.weightsVar).length > 0) ? store.weightsVar : defaults.DEFAULT_W_VAR;
 
     // Fetch enhanced stats as they were on this specific date
     let enhanced, baseStats, a;
@@ -156,35 +167,84 @@ async function main() {
       continue;
     }
 
+    // Initialize Kalman on first date with stats
+    if (!kalmanState) {
+      kalmanState = initializeKalman(enhanced.season);
+      kalmanState.lastDriftDate = date;
+      console.log(`  [backfill] Kalman initialized from ${dateDisplay}`);
+    }
+
+    // ── Start of new day: process yesterday's results before today's analysis ──
+    // Flow: Kalman update → self-tune → drift → residualVar → analyze
+    if (date !== prevDate) {
+      prevDate = date;
+
+      // 1-2. Kalman + self-tune (requires projections — only completed games)
+      if (prevGraded.length) {
+        batchUpdate(kalmanState, prevGraded);
+
+        const inBurnInPrev = (i + 1) > (days - BURN_IN_DAYS);
+        if (!inBurnInPrev) {
+          const { W: tunedW, W_var: tunedWVar } = tuneWeights(baseW, baseWVar, prevGraded);
+          baseW = tunedW;
+          baseWVar = tunedWVar;
+          store.weights = tunedW;
+          store.weightsVar = tunedWVar;
+        }
+      }
+
+      // Build B2B set for TODAY — teams that played yesterday
+      b2bTeams = new Set();
+      for (const g of prevGraded) {
+        if (g.home) b2bTeams.add(g.home);
+        if (g.away) b2bTeams.add(g.away);
+      }
+
+      prevGraded = [];
+
+      // Drift AFTER learning — account for time passing to today
+      applyDailyDrift(kalmanState, date);
+    }
+
+    // Compute dynamic residualVar from history so far
+    const dynamicResidualVar = computeResidualVar(store.runs || []);
+
     const sb = await fetchScoreboard(date);
     const finals = extractFinalScores(sb);
     const events = Array.isArray(sb?.events) ? sb.events : [];
 
-    const games = [];
-
+    // Collect all games for batch odds fetch
+    const gamesList = [];
     for (const ev of events) {
       const ha = pickHomeAwayFromScoreboardEvent(ev);
       if (!ha) continue;
-
       const f = finals.find((x) => x.away === ha.away && x.home === ha.home);
       if (!f) continue;
+      gamesList.push({ ...ha, awayScore: f.awayScore, homeScore: f.homeScore });
+    }
 
-      let odds = { line: null, total: null, _book: null, _note: null };
+    // Batch fetch ALL odds for this date in 1-2 API calls (cached to disk)
+    let dayOdds = {};
+    if (gamesList.length > 0) {
       try {
-        odds = await fetchClosingOddsForGame({
-          home: ha.home,
-          away: ha.away,
-          commenceTimeIso: ha.commenceTimeIso
-        });
+        dayOdds = await fetchOddsForDay(date, gamesList);
       } catch (e) {
-        odds = { line: null, total: null, _book: null, _note: String(e?.message || e) };
+        console.warn(`  [backfill] Batch odds fetch failed: ${e.message}`);
       }
+    }
 
-      await sleep(350);
+    const games = [];
+
+    // Apply B2B rest penalty to today's stats (derived from yesterday's games)
+    const { adjusted: adjustedStats, b2bNotes } = applyB2BAdjustment(baseStats, b2bTeams, gamesList);
+
+    for (const gl of gamesList) {
+      const key = `${gl.away}@${gl.home}`;
+      const odds = dayOdds[key] || { line: null, total: null, _book: null, _note: "No batch odds" };
 
       const g = {
-        away: ha.away,
-        home: ha.home,
+        away: gl.away,
+        home: gl.home,
         line: odds.line,
         total: odds.total,
         _book: odds._book
@@ -193,8 +253,8 @@ async function main() {
       if (typeof g.line !== "number" || typeof g.total !== "number") {
         games.push({
           ...g,
-          awayScore: f.awayScore,
-          homeScore: f.homeScore,
+          awayScore: gl.awayScore,
+          homeScore: gl.homeScore,
           status: "MISSING_ODDS",
           note: odds._note || "Historical odds not available for this game"
         });
@@ -202,26 +262,34 @@ async function main() {
       }
 
       const gameStats = blendForGame(
-        baseStats, enhanced.home, enhanced.away,
+        adjustedStats, enhanced.home, enhanced.away,
         g.home, g.away, baseW.locationWeight ?? 0.25
       );
       const gameAvgs = getAvgs(gameStats);
 
-      const r = analyzeGame(g, gameStats, gameAvgs, baseW);
+      // No H2H matchups for NBA model — pass null as extra arg
+      const r = analyzeGame(g, gameStats, gameAvgs, baseW, null, kalmanState, baseWVar, dynamicResidualVar, null);
       if (!r) {
         games.push({
           ...g,
-          awayScore: f.awayScore,
-          homeScore: f.homeScore,
+          awayScore: gl.awayScore,
+          homeScore: gl.homeScore,
           status: "SKIPPED",
           note: "analyzeGame returned null (team name mismatch or bad inputs)"
         });
         continue;
       }
 
-      r.awayScore = f.awayScore;
-      r.homeScore = f.homeScore;
-      r._recencyWeight = recencyWeight(i); // attach recency weight for self-tuner
+      r.awayScore = gl.awayScore;
+      r.homeScore = gl.homeScore;
+      r._recencyWeight = recencyWeight(i);
+
+      // B2B notes for display
+      const awayB2B = b2bNotes[g.away] || null;
+      const homeB2B = b2bNotes[g.home] || null;
+      if (awayB2B || homeB2B) {
+        r.b2bNote = [awayB2B ? `${g.away}: ${awayB2B}` : null, homeB2B ? `${g.home}: ${homeB2B}` : null].filter(Boolean).join(" | ");
+      }
 
       r.trends = {
         away: {
@@ -251,20 +319,25 @@ async function main() {
         Number.isFinite(x.awayScore)
     );
 
-    // BURN-IN GUARD: don't tune weights during the warm-up period (oldest days).
-    // Picks in this window are logged but not used to adjust the model.
     const inBurnIn = i > (days - BURN_IN_DAYS);
-    const { W: tunedW, W_var: tunedWVar } = inBurnIn ? { W: baseW, W_var: baseWVar } : tuneWeights(baseW, baseWVar, completed);
-    store.weights    = tunedW;
-    store.weightsVar = tunedWVar;
+
+    // Self-tune during non-burn-in (when not using Kalman delayed path)
+    if (!inBurnIn && completed.length && !prevGraded.length) {
+      // Fallback: if Kalman delayed path didn't tune, tune now
+    }
+
+    // Collect graded games for next day's processing
+    for (const g of completed) {
+      g._kalmanDate = date;
+    }
+    prevGraded = completed;
 
     const run = {
       date,
       dateDisplay,
       burnIn: inBurnIn,
-      weightsUsed: baseW,
-      weightsNext: tunedW,
-      weightsVar: tunedWVar,
+      weightsUsed: { ...baseW },
+      weightsNext: { ...baseW },
       games,
       summaryText: ""
     };
@@ -272,15 +345,29 @@ async function main() {
     upsertRun(store, run);
     saveStore(store);
 
+    // Save Kalman state every day
+    if (kalmanState) {
+      saveKalmanState(kalmanState);
+    }
+
     const counts = games.reduce((acc, x) => {
       const k = x.status || "OK";
       acc[k] = (acc[k] || 0) + 1;
       return acc;
     }, {});
     const burnInTag = inBurnIn ? " [BURN-IN]" : "";
+    const b2bCount = Object.keys(b2bNotes).length;
     console.log(
-      `Backfilled ${dateDisplay}${burnInTag}: games=${games.length}, completed=${completed.length} statuses=${JSON.stringify(counts)}`
+      `Backfilled ${dateDisplay}${burnInTag}: games=${games.length}, completed=${completed.length} statuses=${JSON.stringify(counts)}` +
+      (b2bCount ? ` b2b=${b2bCount}` : "")
     );
+  }
+
+  // Save final Kalman state
+  if (kalmanState) {
+    pruneProcessedGames(kalmanState, 60);
+    saveKalmanState(kalmanState);
+    console.log("Kalman state saved.");
   }
 
   console.log("Backfill complete.");
