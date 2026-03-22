@@ -193,7 +193,10 @@ def build_team_histories(store):
             total = g["total"]
             actual_total = home_score + away_score
             home_margin = home_score - away_score
-            home_covered = (home_margin + line) > 0
+            # Line convention: +X means HOME favored by X, -X means AWAY favored by X.
+            # Convert to home-team spread for ATS math.
+            home_spread = -line
+            home_covered = (home_margin + home_spread) > 0
             game_over = actual_total > total
 
             base = {
@@ -213,7 +216,7 @@ def build_team_histories(store):
                 "margin": home_margin,
                 "covered": home_covered,
                 "over": game_over,
-                "line_for_team": line,
+                "line_for_team": home_spread,
                 "abs_line": abs(line),
                 "won": home_score > away_score,
             })
@@ -226,7 +229,7 @@ def build_team_histories(store):
                 "margin": -home_margin,
                 "covered": not home_covered,
                 "over": game_over,
-                "line_for_team": -line,
+                "line_for_team": -home_spread,
                 "abs_line": abs(line),
                 "won": away_score > home_score,
             })
@@ -316,6 +319,9 @@ def extract_lr_features(home_hist, away_hist, game, home_lines=None, away_lines=
 
         line = game.get("line", 0) or 0
         abs_line = abs(line)
+        # Line convention: +X means HOME favored by X, -X means AWAY favored by X.
+        # Convert to home-team spread for ATS math.
+        home_spread = -line
 
         # Line vs team avg
         if home_lines:
@@ -334,11 +340,11 @@ def extract_lr_features(home_hist, away_hist, game, home_lines=None, away_lines=
         else:
             avg_away_line = 0.0
 
-        line_vs_team_avg = line - avg_home_line
+        line_vs_team_avg = home_spread - avg_home_line
         line_vs_home_avg = abs_line - abs(avg_home_line)
         line_vs_away_avg = abs_line - avg_away_line
 
-        home_is_fav = 1.0 if line < 0 else 0.0
+        home_is_fav = 1.0 if line > 0 else 0.0
 
         away_rest = af["rest_days"]
         home_rest = hf["rest_days"]
@@ -577,7 +583,7 @@ def train_lr_model(store, min_games=None):
             if features is not None:
                 home_margin = g["homeScore"] - g["awayScore"]
                 line = g["line"]
-                ats_margin = home_margin + line
+                ats_margin = home_margin - line
 
                 # Skip pushes
                 if ats_margin != 0:
@@ -638,7 +644,10 @@ def _append_to_running(running, g, run_date):
     total = g["total"]
     actual_total = home_score + away_score
     home_margin = home_score - away_score
-    home_covered = (home_margin + line) > 0
+    # Line convention: +X means HOME favored by X, -X means AWAY favored by X.
+    # Convert to home-team spread for ATS math.
+    home_spread = -line
+    home_covered = (home_margin + home_spread) > 0
     game_over = actual_total > total
 
     base = {
@@ -658,7 +667,7 @@ def _append_to_running(running, g, run_date):
         "margin": home_margin,
         "covered": home_covered,
         "over": game_over,
-        "line_for_team": line,
+        "line_for_team": home_spread,
         "abs_line": abs(line),
         "won": home_score > away_score,
     }
@@ -681,7 +690,7 @@ def _append_to_running(running, g, run_date):
         "margin": -home_margin,
         "covered": not home_covered,
         "over": game_over,
-        "line_for_team": -line,
+        "line_for_team": -home_spread,
         "abs_line": abs(line),
         "won": away_score > home_score,
     }
