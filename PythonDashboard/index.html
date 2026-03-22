@@ -692,7 +692,11 @@
       const cfg = SOURCES[key];
       if (!cfg) return null;
       const bust = `?t=${Date.now()}`;
-      const attempts = [
+      const isLocal = location.hostname === 'localhost' || location.hostname === '127.0.0.1';
+      const attempts = isLocal ? [
+        { mode: 'local', url: cfg.local + bust, label: 'Local snapshot' },
+        { mode: 'remote', url: cfg.remote + bust, label: 'GitHub raw fallback' },
+      ] : [
         { mode: 'remote', url: cfg.remote + bust, label: 'GitHub raw (live)' },
         { mode: 'local', url: cfg.local + bust, label: 'Local snapshot fallback' },
       ];
@@ -1173,6 +1177,98 @@
         </div>`;
     }
 
+    // ─── Veto Tracker ───
+
+    function gradeVetoedPick(g) {
+      if (!Number.isFinite(g.homeScore) || !Number.isFinite(g.awayScore)) return null;
+      const pick = g.lrVetoed;
+      if (!pick) return null;
+      const parsed = parseSpreadPick(pick);
+      if (!parsed) return null;
+      const margin = g.homeScore - g.awayScore;
+      const isHome = parsed.team === g.home;
+      const spreadVal = parsed.sign === '-' ? -parsed.spread : parsed.spread;
+      const covered = isHome ? margin + spreadVal : -margin + spreadVal;
+      if (covered > 0) return 'WIN';
+      if (covered < 0) return 'LOSS';
+      return 'PUSH';
+    }
+
+    function getVetoedGames(runs) {
+      const vetoed = [];
+      for (const r of runs) {
+        if (r.burnIn) continue;
+        for (const g of r.games || []) {
+          if (g.lrVetoed) {
+            vetoed.push({ date: r.date, dateDisplay: r.dateDisplay, ...g });
+          }
+        }
+      }
+      return vetoed;
+    }
+
+    function renderVetoTable(runs) {
+      const vetoed = getVetoedGames(runs);
+      if (!vetoed.length) return '';
+      let w = 0, l = 0, p = 0, pending = 0;
+      for (const g of vetoed) {
+        const result = gradeVetoedPick(g);
+        if (result === 'WIN') w++;
+        else if (result === 'LOSS') l++;
+        else if (result === 'PUSH') p++;
+        else pending++;
+      }
+      const graded = w + l + p;
+      const unitsMissed = graded > 0 ? calcUnits(w, l) : 0;
+      const missedLabel = unitsMissed >= 0 ? 'Missed out on' : 'Saved';
+      const missedVal = Math.abs(unitsMissed);
+      const missedColor = unitsMissed >= 0 ? 'var(--red)' : 'var(--green)';
+      const row = (label, val) => `<tr><td>${label}</td><td class="center" style="font-weight:700">${val}</td></tr>`;
+      return `
+        <div class="card">
+          <div class="card-title">Veto Tracker</div>
+          <table class="data">
+            <tbody>
+              ${row('Games Vetoed', vetoed.length)}
+              ${row('Vetoed Record', `${w}-${l}${p ? '-' + p : ''}${pending ? ' <span style="color:var(--muted)">(${pending} pending)</span>' : ''}`)}
+              ${row(missedLabel, `<span style="color:${missedColor}">${fmtUnits(missedVal)}</span>`)}
+            </tbody>
+          </table>
+          <div class="card-subtitle" style="margin-top:8px">If vetoed picks had been played, this is the result the model would have had.</div>
+        </div>`;
+    }
+
+    function renderRecentVetoes(runs) {
+      const vetoed = getVetoedGames(runs);
+      if (!vetoed.length) return '';
+      const recent = vetoed.slice(-5).reverse();
+      const rows = recent.map(g => {
+        const result = gradeVetoedPick(g);
+        const resultHtml = result
+          ? `<span class="badge ${result === 'WIN' ? 'b-high' : result === 'LOSS' ? 'b-pass' : 'b-elite'}">${result}</span>`
+          : '<span style="color:var(--muted)">Pending</span>';
+        const reasons = (g.lrReasons || []).map(r => esc(r)).join(' &middot; ');
+        const score = Number.isFinite(g.awayScore) && Number.isFinite(g.homeScore)
+          ? `${g.awayScore}-${g.homeScore}` : '\u2014';
+        return `<tr>
+          <td style="white-space:nowrap">${esc(g.dateDisplay || g.date)}</td>
+          <td style="font-weight:700">${esc(g.away)} @ ${esc(g.home)}</td>
+          <td>${esc(g.lrVetoed)}</td>
+          <td class="center">${resultHtml}</td>
+          <td class="center">${score}</td>
+          <td style="font-size:0.65rem">${reasons || '\u2014'}</td>
+        </tr>`;
+      }).join('');
+      return `
+        <div class="card">
+          <div class="card-title">Last ${recent.length} Vetoed Game${recent.length !== 1 ? 's' : ''}</div>
+          <table class="data">
+            <thead><tr><th>Date</th><th>Game</th><th>Vetoed Pick</th><th class="center">Result</th><th class="center">Score</th><th>Reason</th></tr></thead>
+            <tbody>${rows}</tbody>
+          </table>
+        </div>`;
+    }
+
     function renderGameCards(run) {
       const games = run.games || [];
       if (!games.length) return '';
@@ -1450,6 +1546,8 @@
         html += renderSpreadRecord(runs, modelSummary);
         html += '<div class="section-label">Cover Probabilities</div>';
         html += renderProbTable(latestRun);
+        html += renderVetoTable(runs);
+        html += renderRecentVetoes(runs);
 
         html += '<div class="section-label">Games</div>';
         html += renderGameCards(latestRun);
