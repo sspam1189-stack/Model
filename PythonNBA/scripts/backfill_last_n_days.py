@@ -105,9 +105,12 @@ def main():
         if os.path.exists(disk_path):
             with open(disk_path, "r") as f:
                 raw = json.load(f)
-            enhanced = raw if "season" in raw else {"season": raw, "last10": None, "home": None, "away": None}
-            stats_cache[date_yyyymmdd] = enhanced
-            return enhanced
+            # If enhanced format with last10 data, use it directly
+            if "season" in raw and raw.get("last10"):
+                stats_cache[date_yyyymmdd] = raw
+                return raw
+            # Old format (no last10/home/away) — re-fetch enhanced from NBA.com
+            print(f"  [backfill] Old-format cache for {date_yyyymmdd} -- re-fetching enhanced stats...")
 
         # Fetch from NBA.com
         date_to = f"{date_yyyymmdd[:4]}-{date_yyyymmdd[4:6]}-{date_yyyymmdd[6:8]}"

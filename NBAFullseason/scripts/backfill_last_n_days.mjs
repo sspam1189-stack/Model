@@ -115,10 +115,13 @@ async function main() {
     const diskPath = path.join(CACHE_DIR, dateYYYYMMDD + ".json");
     if (fs.existsSync(diskPath)) {
       const raw = JSON.parse(fs.readFileSync(diskPath, "utf8"));
-      // Handle old (plain stats) vs new (enhanced) cache format
-      const enhanced = raw.season ? raw : { season: raw, last10: null, home: null, away: null };
-      statsCache.set(dateYYYYMMDD, enhanced);
-      return enhanced;
+      // If enhanced format with last10 data, use it directly
+      if (raw.season && raw.last10) {
+        statsCache.set(dateYYYYMMDD, raw);
+        return raw;
+      }
+      // Old format (no last10/home/away) — re-fetch enhanced from NBA.com
+      console.log(`  [backfill] Old-format cache for ${dateYYYYMMDD} — re-fetching enhanced stats...`);
     }
 
     // Fetch enhanced from NBA.com (date-accurate stats as-of that day)
