@@ -1,6 +1,77 @@
 {
   "runs": [
     {
+      "date": "20251021",
+      "dateDisplay": "2025-10-21",
+      "burnIn": false,
+      "weightsUsed": {
+        "wTS": 1.098,
+        "wTO": 0.987,
+        "wORR": 1.274,
+        "wNET": 1.084,
+        "constant": -0.017,
+        "paceAdj": 0.986,
+        "hca": 1.79,
+        "sprHigh": 4,
+        "ouHigh": 5,
+        "sprEliteBump": 3,
+        "ouEliteBump": 3,
+        "probHigh": 0.57,
+        "probElite": 0.63,
+        "probOUHigh": 0.58,
+        "probOUElite": 0.64,
+        "recentWeight": 0.35,
+        "locationWeight": 0.25,
+        "h2hWeight": 0.15
+      },
+      "weightsNext": {
+        "wTS": 1.098,
+        "wTO": 0.987,
+        "wORR": 1.274,
+        "wNET": 1.084,
+        "constant": -0.017,
+        "paceAdj": 0.986,
+        "hca": 1.79,
+        "sprHigh": 4,
+        "ouHigh": 5,
+        "sprEliteBump": 3,
+        "ouEliteBump": 3,
+        "probHigh": 0.57,
+        "probElite": 0.63,
+        "probOUHigh": 0.58,
+        "probOUElite": 0.64,
+        "recentWeight": 0.35,
+        "locationWeight": 0.25,
+        "h2hWeight": 0.15
+      },
+      "games": [
+        {
+          "away": "Houston Rockets",
+          "home": "Oklahoma City Thunder",
+          "line": 6.5,
+          "total": 227.5,
+          "_book": "DraftKings",
+          "awayScore": 124.0,
+          "homeScore": 125.0,
+          "status": "SKIPPED",
+          "note": "analyzeGame returned null (team name mismatch or bad inputs)"
+        },
+        {
+          "away": "Golden State Warriors",
+          "home": "Los Angeles Lakers",
+          "line": -2.5,
+          "total": 227.5,
+          "_book": "DraftKings",
+          "awayScore": 119.0,
+          "homeScore": 109.0,
+          "status": "SKIPPED",
+          "note": "analyzeGame returned null (team name mismatch or bad inputs)"
+        }
+      ],
+      "summaryText": "",
+      "ranAt": "03/22/2026, 05:24:22 AM"
+    },
+    {
       "date": "20251026",
       "dateDisplay": "2025-10-26",
       "burnIn": false,
