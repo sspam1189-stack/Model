@@ -123,23 +123,9 @@ export async function fetchTodaysOdds() {
       }).format(commence);
       if (d !== today) continue;
 
-      // Game already started — fetch pre-game odds from historical API (-90min snapshot)
+      // Game already started — skip (run_daily preserves from previous run)
       if (commence <= now) {
-        console.log(`  [odds] Game already started: ${away} @ ${home} — fetching historical odds...`);
-        try {
-          const hist = await fetchClosingOddsForGame({
-            home,
-            away,
-            commenceTimeIso: ev.commence_time
-          });
-          if (typeof hist.line === "number" && typeof hist.total === "number") {
-            games.push({ away, home, line: hist.line, total: hist.total, _book: hist._book ?? null });
-          } else {
-            console.log(`  [odds] No historical odds found for ${away} @ ${home} — skipping`);
-          }
-        } catch (e) {
-          console.warn(`  [odds] Historical fetch failed for ${away} @ ${home}:`, e.message);
-        }
+        console.log(`  [odds] Game already started: ${away} @ ${home} — skipping`);
         continue;
       }
     }
@@ -175,39 +161,6 @@ export async function fetchTodaysOdds() {
       total,
       _book: book?.title ?? null
     });
-  }
-
-  // Cross-reference ESPN schedule — pick up finished games missing from Odds API
-  const espnSb = await fetchScoreboard(today.replace(/-/g, "")).catch(() => null);
-  const espnGames = espnSb ? extractAllESPNGames(espnSb) : [];
-
-  for (const eg of espnGames) {
-    if (!eg.isFinal) continue; // only care about finished games here
-
-    // Check if already in our games list
-    const nAway = normTeam(eg.away);
-    const nHome = normTeam(eg.home);
-    const already = games.some(g => normTeam(g.away) === nAway && normTeam(g.home) === nHome);
-    if (already) continue;
-
-    // Finished game missing from Odds API — fetch pre-game historical line
-    console.log(`  [odds] Finished game not in API: ${eg.away} @ ${eg.home} — fetching historical odds...`);
-    try {
-      const hist = await fetchClosingOddsForGame({
-        home: eg.home,
-        away: eg.away,
-        commenceTimeIso: eg.commenceTimeIso
-      });
-      if (typeof hist.line === "number" && typeof hist.total === "number") {
-        games.push({ away: eg.away, home: eg.home, line: hist.line, total: hist.total, _book: hist._book ?? null });
-      } else {
-        console.log(`  [odds] No historical odds for ${eg.away} @ ${eg.home}`);
-        games.push({ away: eg.away, home: eg.home, line: null, total: null, _book: null });
-      }
-    } catch (e) {
-      console.warn(`  [odds] Historical fetch failed for ${eg.away} @ ${eg.home}:`, e.message);
-      games.push({ away: eg.away, home: eg.home, line: null, total: null, _book: null });
-    }
   }
 
   return games;

@@ -1197,6 +1197,47 @@ async function main() {
     detectB2B().catch(() => new Set()),
   ]);
 
+  // Detect started/finished games via ESPN scoreboard
+  let _espnStatuses = {};
+  try {
+    const _espnSb = await fetchScoreboard(date);
+    for (const _ev of (_espnSb || {}).events || []) {
+      const _comp = (_ev.competitions || [null])[0];
+      if (!_comp) continue;
+      const _ac = (_comp.competitors || []).find(c => c.homeAway === "away");
+      const _hc = (_comp.competitors || []).find(c => c.homeAway === "home");
+      if (_ac && _hc) {
+        const _a = (_ac.team || {}).displayName || "";
+        const _h = (_hc.team || {}).displayName || "";
+        const _st = ((_comp.status || {}).type || {}).name || "";
+        _espnStatuses[`${_a}::${_h}`] = _st;
+      }
+    }
+  } catch (_e) { /* ESPN down — all games will be re-analyzed */ }
+
+  function _gameStartedOrFinished(away, home) {
+    for (const [key, st] of Object.entries(_espnStatuses)) {
+      const [ea, eh] = key.split("::");
+      if (matchTeam(away, ea) && matchTeam(home, eh)) {
+        if (!["STATUS_SCHEDULED", "STATUS_DELAYED", "STATUS_POSTPONED", "STATUS_CANCELED", ""].includes(st)) return true;
+      }
+    }
+    return false;
+  }
+
+  const _prevRun = (store.runs || []).find(r => r.date === date) || null;
+  const _prevGames = new Map();
+  if (_prevRun) {
+    for (const g of _prevRun.games || []) _prevGames.set(`${g.away}::${g.home}`, g);
+  }
+  function _findPrevGame(away, home) {
+    for (const [key, pg] of _prevGames) {
+      const [pa, ph] = key.split("::");
+      if (matchTeam(away, pa) && matchTeam(home, ph)) return pg;
+    }
+    return null;
+  }
+
   let baseW = store.weights || defaults.DEFAULT_W;
   let baseWVar = store.weightsVar || defaults.DEFAULT_W_VAR;
 
@@ -1263,16 +1304,27 @@ async function main() {
   // Apply drift AFTER learning — account for time passing to today
   applyDailyDrift(kalmanState, date);
 
-  // 3b. Self-tune weights on yesterday's graded games BEFORE analysis
-  //     so re-running today always uses the same tuned weights.
-  //     Guard: only tune once per day to ensure idempotent re-runs.
-  const yesterdayRun = (store.runs || []).find(r => r.date === yesterday);
+  // 3b. Self-tune weights (with recency weighting, matching backfill logic)
+  function _recencyWeight(daysAgo) {
+    if (daysAgo <= 15) return 1.0;
+    if (daysAgo <= 30) return 0.75;
+    if (daysAgo <= 45) return 0.5;
+    return 0.25;
+  }
+  const TUNE_WINDOW = 60;
   const recentGraded = [];
-  if (yesterdayRun) {
-    for (const g of yesterdayRun.games || []) {
+  const todayMs = new Date(date.slice(0,4) + "-" + date.slice(4,6) + "-" + date.slice(6)).getTime();
+  for (const r of store.runs || []) {
+    const rd = r.date || "";
+    if (!rd || rd >= date) continue;
+    const rdMs = new Date(rd.slice(0,4) + "-" + rd.slice(4,6) + "-" + rd.slice(6)).getTime();
+    const daysAgo = Math.round((todayMs - rdMs) / 86400000);
+    if (daysAgo < 1 || daysAgo > TUNE_WINDOW) continue;
+    for (const g of r.games || []) {
       if (g.status === "MISSING_ODDS" || g.status === "SKIPPED") continue;
       if (!Number.isFinite(g.homeScore) || !Number.isFinite(g.awayScore)) continue;
       if (!g._features) continue;
+      g._recencyWeight = _recencyWeight(daysAgo);
       recentGraded.push(g);
     }
   }
@@ -1283,7 +1335,7 @@ async function main() {
     store.weights = tunedW;
     store.weightsVar = tunedWVar;
     store.lastTuneDate = date;
-    console.log("[3b] Weights tuned on", recentGraded.length, "graded games from", yesterday);
+    console.log(`[3b] Weights tuned on ${recentGraded.length} graded games from last ${TUNE_WINDOW} days`);
   } else if (store.lastTuneDate === date) {
     console.log("[3b] Weights already tuned today — skipping");
   }
@@ -1293,9 +1345,16 @@ async function main() {
   store.residualVar = dynamicResidualVar;
 
   // 4. Analyze each game
+  let _skippedLive = 0;
   console.log("[3/7] Analyzing " + odds.length + " games...");
   const games = [];
   for (const g of odds) {
+    // Preserve previous picks for games already started or finished
+    if (_gameStartedOrFinished(g.away || "", g.home || "")) {
+      const prev = _findPrevGame(g.away || "", g.home || "");
+      if (prev) { games.push(prev); _skippedLive++; continue; }
+    }
+
     if (typeof g.line !== "number" || typeof g.total !== "number") {
       games.push({ ...g, status: "MISSING_ODDS" });
       continue;
@@ -1328,6 +1387,8 @@ async function main() {
 
     games.push(r);
   }
+
+  if (_skippedLive) console.log(`  [${_skippedLive} game(s) already started/finished — preserved from previous run]`);
 
   // 5. Attach trends (silent — only warn on total failure)
   for (const g of games) {
