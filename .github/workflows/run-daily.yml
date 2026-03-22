@@ -17,7 +17,7 @@ jobs:
           node-version: 20
 
       - name: Install dependencies
-        run: npm ci
+        run: npm ci && npm ci --prefix ../core-js
         working-directory: jsNBA
 
       - name: Run daily
@@ -55,7 +55,7 @@ jobs:
         run: git pull origin main
 
       - name: Install dependencies
-        run: npm ci
+        run: npm ci && npm ci --prefix ../core-js
         working-directory: jsFull
 
       - name: Run daily

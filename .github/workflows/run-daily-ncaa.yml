@@ -17,7 +17,7 @@ jobs:
           node-version: 20
 
       - name: Install dependencies
-        run: npm ci
+        run: npm ci && npm ci --prefix ../core-js
         working-directory: jsNCAA
 
       - name: Run daily
