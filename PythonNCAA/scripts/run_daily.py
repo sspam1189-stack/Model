@@ -991,6 +991,40 @@ def main(subject_label="[PY]"):
         enhanced_stats = fetch_ncaa_stats_enhanced(date)
     odds = fetch_todays_odds()
 
+    # Detect started/finished games via ESPN scoreboard
+    try:
+        _espn_sb = fetch_scoreboard(date)
+    except Exception:
+        _espn_sb = None
+    _espn_statuses = {}
+    for _ev in (_espn_sb or {}).get("events", []):
+        _comp = (_ev.get("competitions") or [None])[0]
+        if not _comp: continue
+        _comps = _comp.get("competitors", [])
+        _ac = next((c for c in _comps if c.get("homeAway") == "away"), None)
+        _hc = next((c for c in _comps if c.get("homeAway") == "home"), None)
+        if _ac and _hc:
+            _a = (_ac.get("team") or {}).get("displayName", "")
+            _h = (_hc.get("team") or {}).get("displayName", "")
+            _st = ((_comp.get("status") or {}).get("type") or {}).get("name", "")
+            _espn_statuses[(_a, _h)] = _st
+
+    def _game_started_or_finished(away, home):
+        for (ea, eh), st in _espn_statuses.items():
+            if match_team(away, ea) and match_team(home, eh):
+                if st not in ("STATUS_SCHEDULED", "STATUS_DELAYED", "STATUS_POSTPONED", "STATUS_CANCELED", ""):
+                    return True
+        return False
+
+    _prev_run = next((r for r in (store.get("runs") or []) if r.get("date") == date), None)
+    _prev_games = {(g.get("away", ""), g.get("home", "")): g for g in (_prev_run or {}).get("games", [])} if _prev_run else {}
+
+    def _find_prev_game(away, home):
+        for (pa, ph), pg in _prev_games.items():
+            if match_team(away, pa) and match_team(home, ph):
+                return pg
+        return None
+
     # Tournament team validation (March Madness / NIT)
     tourney_teams = {}
     try:
@@ -1080,17 +1114,33 @@ def main(subject_label="[PY]"):
     batch_update(kalman_state, newly_graded)
     apply_daily_drift(kalman_state, date)
 
-    # 3b. Self-tune weights
-    yesterday_run = next((r for r in (store.get("runs") or []) if r.get("date") == yesterday), None)
+    # 3b. Self-tune weights (with recency weighting, matching backfill logic)
+    def _recency_weight(days_ago):
+        if days_ago <= 15: return 1.0
+        if days_ago <= 30: return 0.75
+        if days_ago <= 45: return 0.5
+        return 0.25
+
+    TUNE_WINDOW = 60
     recent_graded = []
-    if yesterday_run:
-        for g in (yesterday_run.get("games") or []):
+    for r in (store.get("runs") or []):
+        rd = r.get("date", "")
+        if not rd or rd >= date:
+            continue
+        try:
+            days_ago = (datetime.strptime(date, "%Y%m%d") - datetime.strptime(rd, "%Y%m%d")).days
+        except Exception:
+            continue
+        if days_ago < 1 or days_ago > TUNE_WINDOW:
+            continue
+        for g in (r.get("games") or []):
             if g.get("status") in ("MISSING_ODDS", "SKIPPED"):
                 continue
             if not isinstance(g.get("homeScore"), (int, float)) or not isinstance(g.get("awayScore"), (int, float)):
                 continue
             if not g.get("_features"):
                 continue
+            g["_recencyWeight"] = _recency_weight(days_ago)
             recent_graded.append(g)
     if recent_graded and store.get("lastTuneDate") != date:
         tuned = tune_weights(base_w, base_w_var, recent_graded)
@@ -1099,7 +1149,7 @@ def main(subject_label="[PY]"):
         store["weights"] = base_w
         store["weightsVar"] = base_w_var
         store["lastTuneDate"] = date
-        print(f"[3b] Weights tuned on {len(recent_graded)} graded games from {yesterday}")
+        print(f"[3b] Weights tuned on {len(recent_graded)} graded games from last {TUNE_WINDOW} days")
     elif store.get("lastTuneDate") == date:
         print("[3b] Weights already tuned today -- skipping")
 
@@ -1119,9 +1169,18 @@ def main(subject_label="[PY]"):
         print("  LR model not ready (insufficient training data)")
 
     # 4. Analyze each game
+    _skipped_live = 0
     print(f"[3/7] Analyzing {len(odds)} games...")
     games = []
     for g in odds:
+        # Preserve previous picks for games already started or finished
+        if _game_started_or_finished(g.get("away", ""), g.get("home", "")):
+            prev = _find_prev_game(g.get("away", ""), g.get("home", ""))
+            if prev:
+                games.append(prev)
+                _skipped_live += 1
+                continue
+
         if not isinstance(g.get("line"), (int, float)) or not isinstance(g.get("total"), (int, float)):
             games.append({**g, "status": "MISSING_ODDS"})
             continue
@@ -1162,6 +1221,9 @@ def main(subject_label="[PY]"):
                 r["sConf"] = "vetoed"
 
         games.append(r)
+
+    if _skipped_live:
+        print(f"  [{_skipped_live} game(s) already started/finished -- preserved from previous run]")
 
     # 5. Attach trends
     for g in games:
