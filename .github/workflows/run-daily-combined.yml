@@ -18,10 +18,10 @@ jobs:
 
       - name: Install dependencies
         run: npm ci
-        working-directory: NBA
+        working-directory: jsNBA
 
       - name: Run daily
-        working-directory: NBA
+        working-directory: jsNBA
         env:
           ODDS_API_KEY: ${{ secrets.ODDS_API_KEY }}
           GMAIL_USER: ${{ secrets.GMAIL_USER }}
@@ -34,7 +34,7 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add NBA/data/
+          git add jsNBA/data/
           git diff --cached --quiet || git commit -m "Run daily NBA"
           git pull --rebase origin main
           git push
@@ -56,10 +56,10 @@ jobs:
 
       - name: Install dependencies
         run: npm ci
-        working-directory: NBAFullseason
+        working-directory: jsFull
 
       - name: Run daily
-        working-directory: NBAFullseason
+        working-directory: jsFull
         env:
           ODDS_API_KEY: ${{ secrets.ODDS_API_KEY }}
           GMAIL_USER: ${{ secrets.GMAIL_USER }}
@@ -72,7 +72,7 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add NBAFullseason/data/
+          git add jsFull/data/
           git diff --cached --quiet || git commit -m "Run daily NBA Fullseason"
           git pull --rebase origin main
           git push
@@ -89,10 +89,10 @@ jobs:
         run: git pull origin main
 
       - name: Install dependencies
-        run: pip install -r PythonNBA/requirements.txt
+        run: pip install -r pyNBA/requirements.txt
 
       - name: Run daily
-        working-directory: PythonNBA/scripts
+        working-directory: pyNBA/scripts
         env:
           PYTHONUTF8: "1"
           PYTHONUNBUFFERED: "1"
@@ -108,7 +108,7 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add PythonNBA/data/
+          git add pyNBA/data/
           git diff --cached --quiet || git commit -m "Run daily Python NBA"
           git pull --rebase origin main
           git push
@@ -125,10 +125,10 @@ jobs:
         run: git pull origin main
 
       - name: Install dependencies
-        run: pip install -r PythonFull/requirements.txt
+        run: pip install -r pyFull/requirements.txt
 
       - name: Run daily
-        working-directory: PythonFull/scripts
+        working-directory: pyFull/scripts
         env:
           PYTHONUTF8: "1"
           PYTHONUNBUFFERED: "1"
@@ -144,7 +144,7 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add PythonFull/data/
+          git add pyFull/data/
           git diff --cached --quiet || git commit -m "Run daily Python Fullseason"
           git pull --rebase origin main
           git push

@@ -16,15 +16,15 @@ jobs:
 
       - name: Sync JS Dashboard data
         run: |
-          cp NBA/data/history.json Dashboard/data/nba.json
-          cp NBAFullseason/data/history.json Dashboard/data/fullseason.json
-          cp NCAA/data/history.json Dashboard/data/ncaa.json
+          cp jsNBA/data/history.json Dashboard/data/nba.json
+          cp jsFull/data/history.json Dashboard/data/fullseason.json
+          cp jsNCAA/data/history.json Dashboard/data/ncaa.json
 
       - name: Sync Python Dashboard data
         run: |
-          cp PythonNBA/data/history.json PythonDashboard/data/nba.json
-          cp PythonFull/data/history.json PythonDashboard/data/fullseason.json
-          cp PythonNCAA/data/history.json PythonDashboard/data/ncaa.json
+          cp pyNBA/data/history.json PythonDashboard/data/nba.json
+          cp pyFull/data/history.json PythonDashboard/data/fullseason.json
+          cp pyNCAA/data/history.json PythonDashboard/data/ncaa.json
 
       - name: Commit and push if changed
         shell: bash

@@ -70,9 +70,9 @@ def _build_inputs():
 
 
 def test_python_engines():
-    nba = _load_module("py_nba_engine", os.path.join("PythonNBA", "scripts", "model_engine.py"))
-    full = _load_module("py_full_engine", os.path.join("PythonFull", "scripts", "model_engine.py"))
-    ncaa = _load_module("py_ncaa_engine", os.path.join("PythonNCAA", "scripts", "model_engine.py"))
+    nba = _load_module("py_nba_engine", os.path.join("pyNBA", "scripts", "model_engine.py"))
+    full = _load_module("py_full_engine", os.path.join("pyFull", "scripts", "model_engine.py"))
+    ncaa = _load_module("py_ncaa_engine", os.path.join("pyNCAA", "scripts", "model_engine.py"))
 
     H, g, kalman, h2h = _build_inputs()
 

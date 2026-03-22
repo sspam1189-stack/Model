@@ -1,0 +1,12 @@
+set GMAIL_USER=YOUR_GMAIL_ADDRESS
+set GMAIL_APP_PASSWORD=YOUR_GMAIL_APP_PASSWORD
+set TO_EMAIL=YOUR_RECIPIENT_EMAIL
+set ODDS_API_KEY=YOUR_ODDS_API_KEY
+set ODDS_API_KEY=YOUR_ODDS_API_KEY
+
+import { createRequire } from "module";
+const require = createRequire(import.meta.url);
+require("dotenv").config();
+
+
+DISCORD_WEBHOOK_URL=https://discordapp.com/api/webhooks/1477784619708452981/5XmlWNjCnklxZ1OKnlKIl97hB-GxaWWP8nAjA74LhaJaHTFieSPH69QU4se1vznBNC54

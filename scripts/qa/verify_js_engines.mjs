@@ -1,6 +1,6 @@
-import { loadDefaults as loadDefaultsNBA, getAvgs as getAvgsNBA, analyzeGame as analyzeGameNBA } from "../../NBA/scripts/model_engine.mjs";
-import { loadDefaults as loadDefaultsFull, getAvgs as getAvgsFull, analyzeGame as analyzeGameFull } from "../../NBAFullseason/scripts/model_engine.mjs";
-import { loadDefaults as loadDefaultsNCAA, getAvgs as getAvgsNCAA, analyzeGame as analyzeGameNCAA } from "../../NCAA/scripts/model_engine.mjs";
+import { loadDefaults as loadDefaultsNBA, getAvgs as getAvgsNBA, analyzeGame as analyzeGameNBA } from "../../jsNBA/scripts/model_engine.mjs";
+import { loadDefaults as loadDefaultsFull, getAvgs as getAvgsFull, analyzeGame as analyzeGameFull } from "../../jsFull/scripts/model_engine.mjs";
+import { loadDefaults as loadDefaultsNCAA, getAvgs as getAvgsNCAA, analyzeGame as analyzeGameNCAA } from "../../jsNCAA/scripts/model_engine.mjs";
 
 function buildInputs() {
   const H = {

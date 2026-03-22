@@ -18,10 +18,10 @@ jobs:
 
       - name: Install dependencies
         run: npm ci
-        working-directory: NCAA
+        working-directory: jsNCAA
 
       - name: Run daily
-        working-directory: NCAA
+        working-directory: jsNCAA
         env:
           ODDS_API_KEY: ${{ secrets.ODDS_API_KEY }}
           GMAIL_USER: ${{ secrets.GMAIL_USER }}
@@ -34,7 +34,7 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add NCAA/data/
+          git add jsNCAA/data/
           git diff --cached --quiet || git commit -m "Run daily NCAA"
           git pull --rebase origin main
           git push
@@ -49,10 +49,10 @@ jobs:
         run: git pull origin main
 
       - name: Install dependencies
-        run: pip install -r PythonNCAA/requirements.txt
+        run: pip install -r pyNCAA/requirements.txt
 
       - name: Run daily
-        working-directory: PythonNCAA/scripts
+        working-directory: pyNCAA/scripts
         env:
           PYTHONUTF8: "1"
           PYTHONUNBUFFERED: "1"
@@ -68,7 +68,7 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add PythonNCAA/data/
+          git add pyNCAA/data/
           git diff --cached --quiet || git commit -m "Run daily Python NCAA"
           git pull --rebase origin main
           git push

@@ -19,18 +19,18 @@ import sys
 import time
 from pathlib import Path
 
-# Add PythonNBA scripts to path for nba_stats module
+# Add pyNBA scripts to path for nba_stats module
 ROOT = Path(__file__).resolve().parent.parent
-sys.path.insert(0, str(ROOT / "PythonNBA" / "scripts"))
-sys.path.insert(0, str(ROOT / "PythonNBA" / "scripts" / "sources"))
+sys.path.insert(0, str(ROOT / "pyNBA" / "scripts"))
+sys.path.insert(0, str(ROOT / "pyNBA" / "scripts" / "sources"))
 
 from nba_stats import fetch_nba_stats_enhanced
 
 CACHE_DIRS = [
     ROOT / "NBA" / "data" / "stats_cache",
-    ROOT / "PythonNBA" / "data" / "stats_cache",
-    ROOT / "NBAFullseason" / "data" / "stats_cache",
-    ROOT / "PythonFull" / "data" / "stats_cache",
+    ROOT / "pyNBA" / "data" / "stats_cache",
+    ROOT / "jsFull" / "data" / "stats_cache",
+    ROOT / "pyFull" / "data" / "stats_cache",
 ]
 
 # NBA.com rate limits — wait between requests
