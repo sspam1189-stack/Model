@@ -21,6 +21,9 @@
 // ────────────────────────────────────────────────────────────────────────────
 
 import "dotenv/config";
+import fs from "fs";
+import path from "path";
+import { fileURLToPath } from "url";
 import { fetchNCAAStats } from "./sources/ncaa_stats.mjs";
 import { fetchScoreboard, extractFinalScores } from "./sources/espn_scoreboard.mjs";
 import { loadStore, saveStore, upsertRun } from "./store.mjs";
@@ -33,6 +36,9 @@ import {
   analyzeGame, getAvgs, extractMarginFeatures, loadDefaults,
 } from "./model_engine.mjs";
 import { blendBase } from "./sources/blend_stats.mjs";
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+const CACHE_DIR = path.join(__dirname, "..", "data", "stats_cache");
 
 // ── Date helpers ─────────────────────────────────────────────────────────
 
@@ -338,14 +344,40 @@ async function main() {
   console.log(`  ${fmtDate(startDate)} → ${fmtDate(endDate)} (${dates.length} days)`);
   console.log(`══════════════════════════════════════════════════════════\n`);
 
-  // ── Step 1: Fetch current season stats from Barttorvik ──────────────
-  console.log("[1/3] Fetching Barttorvik team stats...");
-  const seasonStats = await fetchNCAAStats();
-  const teamCount = Object.keys(seasonStats).length;
-  console.log(`  Got ${teamCount} teams\n`);
+  // ── Step 1: Stats cache (per-date when available, else live Barttorvik) ──
+  if (!fs.existsSync(CACHE_DIR)) fs.mkdirSync(CACHE_DIR, { recursive: true });
 
-  const blended = blendBase(seasonStats, null, 0);
-  const avgs = getAvgs(blended);
+  // In-memory cache so we only fetch once per date
+  const statsCache = new Map();
+  let liveFetched = null; // lazy — only fetch from Barttorvik if needed
+
+  async function getStatsForDate(dateYYYYMMDD) {
+    if (statsCache.has(dateYYYYMMDD)) return statsCache.get(dateYYYYMMDD);
+
+    // Check disk cache first (saved by run_daily.mjs)
+    const diskPath = path.join(CACHE_DIR, dateYYYYMMDD + ".json");
+    if (fs.existsSync(diskPath)) {
+      try {
+        const raw = JSON.parse(fs.readFileSync(diskPath, "utf8"));
+        const enhanced = raw.season ? raw : { season: raw, last10: null, home: null, away: null };
+        statsCache.set(dateYYYYMMDD, enhanced);
+        console.log(`  [cache] Loaded stats from disk cache for ${dateYYYYMMDD}`);
+        return enhanced;
+      } catch (e) {
+        console.warn(`  [cache] Failed to read ${diskPath}: ${e.message}`);
+      }
+    }
+
+    // No cache — fall back to live Barttorvik fetch (same stats for all uncached dates)
+    if (!liveFetched) {
+      console.log("[stats] No cache for this date — fetching live from Barttorvik...");
+      const raw = await fetchNCAAStats();
+      liveFetched = { season: raw, last10: null, home: null, away: null };
+      console.log(`  Got ${Object.keys(raw).length} teams`);
+    }
+    statsCache.set(dateYYYYMMDD, liveFetched);
+    return liveFetched;
+  }
 
   // ── Step 2: Load / initialize state ────────────────────────────────
   let store = loadStore();
@@ -355,11 +387,11 @@ async function main() {
   let W_var = { ...DEFAULT_W_VAR, ...(store.weightsVar || {}) };
 
   let kalman = loadKalmanState();
-  if (!kalman.teams || Object.keys(kalman.teams).length === 0) {
-    console.log("[2/3] Initializing Kalman state...");
-    kalman = initializeKalman(blended);
-  } else {
+  let kalmanInitialized = kalman.teams && Object.keys(kalman.teams).length > 0;
+  if (kalmanInitialized) {
     console.log(`[2/3] Loaded existing Kalman state (${Object.keys(kalman.teams).length} teams)`);
+  } else {
+    console.log("[2/3] Kalman will initialize on first day's stats");
   }
 
   // ── Step 3: Process each day ──────────────────────────────────────
@@ -374,6 +406,17 @@ async function main() {
   let totalPushes = 0;
 
   for (const date of dates) {
+    // ── Fetch per-date stats (from cache or live) ────────────────
+    const enhanced = await getStatsForDate(date);
+    const blended = blendBase(enhanced.season, null, 0);
+    const avgs = getAvgs(blended);
+
+    // Initialize Kalman on first day if needed
+    if (!kalmanInitialized) {
+      kalman = initializeKalman(blended);
+      kalmanInitialized = true;
+    }
+
     // ── Fetch historical odds ──────────────────────────────────────
     let odds = [];
     try {

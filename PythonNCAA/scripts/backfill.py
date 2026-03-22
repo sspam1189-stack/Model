@@ -14,6 +14,7 @@ import re
 import json
 import math
 import time
+from pathlib import Path
 from datetime import datetime, timedelta
 from urllib.parse import quote
 
@@ -287,14 +288,41 @@ def main():
     print(f"  {fmt_date(start_date)} -> {fmt_date(end_date)} ({len(dates)} days)")
     print(f"{'=' * 58}\n")
 
-    # Step 1: Fetch current season stats
-    print("[1/3] Fetching Barttorvik team stats...")
-    season_stats = fetch_ncaa_stats()
-    team_count = len(season_stats)
-    print(f"  Got {team_count} teams\n")
+    # Step 1: Stats cache (per-date when available, else live Barttorvik)
+    scripts_dir = Path(__file__).resolve().parent
+    cache_dir = scripts_dir / ".." / "data" / "stats_cache"
+    cache_dir.mkdir(parents=True, exist_ok=True)
+    js_cache_dir = scripts_dir / ".." / ".." / ".." / "NCAA" / "data" / "stats_cache"
 
-    blended = blend_base(season_stats, None, 0)
-    avgs = get_avgs(blended)
+    stats_cache = {}
+    live_fetched = None
+
+    def get_stats_for_date(date_yyyymmdd):
+        nonlocal live_fetched
+        if date_yyyymmdd in stats_cache:
+            return stats_cache[date_yyyymmdd]
+
+        # Check own disk cache first, then JS NCAA cache
+        for cdir, label in [(cache_dir, "Python"), (js_cache_dir, "JS")]:
+            disk_path = cdir / f"{date_yyyymmdd}.json"
+            if disk_path.exists():
+                try:
+                    raw = json.loads(disk_path.read_text(encoding="utf-8"))
+                    enhanced = raw if "season" in raw else {"season": raw, "last10": None, "home": None, "away": None}
+                    stats_cache[date_yyyymmdd] = enhanced
+                    print(f"  [cache] Loaded stats from {label} cache for {date_yyyymmdd}")
+                    return enhanced
+                except Exception as e:
+                    print(f"  [cache] Failed to read {disk_path}: {e}")
+
+        # No cache — fall back to live Barttorvik fetch
+        if not live_fetched:
+            print("[stats] No cache for this date -- fetching live from Barttorvik...")
+            raw = fetch_ncaa_stats()
+            live_fetched = {"season": raw, "last10": None, "home": None, "away": None}
+            print(f"  Got {len(raw)} teams")
+        stats_cache[date_yyyymmdd] = live_fetched
+        return live_fetched
 
     # Step 2: Load / initialize state
     store = load_store()
@@ -303,11 +331,11 @@ def main():
     W_var = {**defs["DEFAULT_W_VAR"], **(store.get("weightsVar") or {})}
 
     kalman = load_kalman_state()
-    if not kalman.get("teams"):
-        print("[2/3] Initializing Kalman state...")
-        kalman = initialize_kalman(blended)
-    else:
+    kalman_initialized = bool(kalman.get("teams"))
+    if kalman_initialized:
         print(f"[2/3] Loaded existing Kalman state ({len(kalman['teams'])} teams)")
+    else:
+        print("[2/3] Kalman will initialize on first day's stats")
 
     # Step 3: Process each day
     print("\n[3/3] Processing games day by day...\n")
@@ -320,6 +348,16 @@ def main():
     total_pushes = 0
 
     for date in dates:
+        # Fetch per-date stats (from cache or live)
+        enhanced = get_stats_for_date(date)
+        blended = blend_base(enhanced["season"], None, 0)
+        avgs = get_avgs(blended)
+
+        # Initialize Kalman on first day if needed
+        if not kalman_initialized:
+            kalman = initialize_kalman(blended)
+            kalman_initialized = True
+
         odds = []
         try:
             odds = fetch_historical_odds(date)
