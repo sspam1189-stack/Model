@@ -17,6 +17,7 @@ jobs:
           node-version: 20
 
       - name: Install dependencies
+        shell: bash
         run: npm ci && npm ci --prefix ../core-js
         working-directory: jsNCAA
 
