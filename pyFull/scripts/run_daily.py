@@ -776,8 +776,10 @@ def main(subject_label="[PY]"):
             prev = _find_prev_game(g.get("away", ""), g.get("home", ""))
             if prev:
                 games.append(prev)
-                _skipped_live += 1
-                continue
+            else:
+                games.append(dict(g, status="STARTED"))
+            _skipped_live += 1
+            continue
 
         if not isinstance(g.get("line"),(int,float)) or not isinstance(g.get("total"),(int,float)):
             games.append({**g, "status": "MISSING_ODDS"}); continue
@@ -809,6 +811,17 @@ def main(subject_label="[PY]"):
             if ad: r["_adjDeltas"]["away"] = ad
             if hd: r["_adjDeltas"]["home"] = hd
         games.append(r)
+
+    # Merge in previous-run games that are no longer in the odds feed
+    if _prev_games:
+        _seen = set()
+        for g in games:
+            _seen.add((g.get("away", ""), g.get("home", "")))
+        for (pa, ph), pg in _prev_games.items():
+            already = any(match_team(pa, sa) and match_team(ph, sh) for sa, sh in _seen)
+            if not already:
+                games.append(pg)
+                _skipped_live += 1
 
     if _skipped_live:
         print(f"  [{_skipped_live} game(s) already started/finished -- preserved from previous run]")

@@ -1369,7 +1369,8 @@ async function main() {
   for (const g of odds) {
     if (_gameStartedOrFinished(g.away || "", g.home || "")) {
       const prev = _findPrevGame(g.away || "", g.home || "");
-      if (prev) { games.push(prev); _skippedLive++; continue; }
+      if (prev) { games.push(prev); } else { games.push({ ...g, status: "STARTED" }); }
+      _skippedLive++; continue;
     }
 
     if (typeof g.line !== "number" || typeof g.total !== "number") {
@@ -1396,6 +1397,16 @@ async function main() {
     }
 
     games.push(r);
+  }
+
+  // Merge in previous-run games that are no longer in the odds feed
+  if (_prevGames.size) {
+    const _seen = new Set(games.map(g => `${g.away||""}::${g.home||""}`));
+    for (const [key, pg] of _prevGames) {
+      const [pa, ph] = key.split("::");
+      const already = [..._seen].some(s => { const [sa, sh] = s.split("::"); return matchTeam(pa, sa) && matchTeam(ph, sh); });
+      if (!already) { games.push(pg); _skippedLive++; }
+    }
   }
 
   if (_skippedLive) console.log(`  [${_skippedLive} game(s) already started/finished — preserved from previous run]`);
