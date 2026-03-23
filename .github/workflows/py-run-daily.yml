@@ -31,15 +31,11 @@ jobs:
           TO_EMAIL: ${{ secrets.TO_EMAIL }}
         run: python run_daily.py
 
-      - name: Commit & push data changes
-        shell: bash
-        run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add pyNBA/data/
-          git diff --cached --quiet || git commit -m "Run daily Python NBA"
-          git pull --rebase origin main
-          git push
+      - name: Upload pyNBA data
+        uses: actions/upload-artifact@v4
+        with:
+          name: pyNBA-data
+          path: pyNBA/data
 
   nba-fullseason:
     runs-on: self-hosted
@@ -71,12 +67,43 @@ jobs:
           TO_EMAIL: ${{ secrets.TO_EMAIL }}
         run: python run_daily.py
 
+      - name: Upload pyFull data
+        uses: actions/upload-artifact@v4
+        with:
+          name: pyFull-data
+          path: pyFull/data
+
+  commit-and-push:
+    runs-on: ubuntu-latest
+    needs: [nba, nba-fullseason]
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 0
+
+      - uses: actions/download-artifact@v4
+        with:
+          name: pyNBA-data
+          path: artifacts/pyNBA
+
+      - uses: actions/download-artifact@v4
+        with:
+          name: pyFull-data
+          path: artifacts/pyFull
+
+      - name: Copy artifacts
+        shell: bash
+        run: |
+          cp -a artifacts/pyNBA/data/. pyNBA/data/
+          cp -a artifacts/pyFull/data/. pyFull/data/
+
       - name: Commit & push data changes
         shell: bash
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add pyFull/data/
-          git diff --cached --quiet || git commit -m "Run daily Python Fullseason"
+          git add pyNBA/data/ pyFull/data/
+          git diff --cached --quiet || git commit -m "Run daily Python NBA + Fullseason"
           git pull --rebase origin main
           git push

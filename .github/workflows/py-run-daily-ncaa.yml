@@ -31,6 +31,31 @@ jobs:
           TO_EMAIL: ${{ secrets.TO_EMAIL }}
         run: python run_daily.py
 
+      - name: Upload pyNCAA data
+        uses: actions/upload-artifact@v4
+        with:
+          name: pyNCAA-data
+          path: pyNCAA/data
+
+  commit-and-push:
+    runs-on: ubuntu-latest
+    needs: [ncaa]
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 0
+
+      - uses: actions/download-artifact@v4
+        with:
+          name: pyNCAA-data
+          path: artifacts/pyNCAA
+
+      - name: Copy artifacts
+        shell: bash
+        run: |
+          cp -a artifacts/pyNCAA/data/. pyNCAA/data/
+
       - name: Commit & push data changes
         shell: bash
         run: |

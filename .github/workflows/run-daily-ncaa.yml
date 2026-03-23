@@ -34,6 +34,31 @@ jobs:
           TO_EMAIL: ${{ secrets.TO_EMAIL }}
         run: node scripts/run_daily.mjs
 
+      - name: Upload jsNCAA data
+        uses: actions/upload-artifact@v4
+        with:
+          name: jsNCAA-data
+          path: jsNCAA/data
+
+  commit-and-push:
+    runs-on: ubuntu-latest
+    needs: [ncaa]
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 0
+
+      - uses: actions/download-artifact@v4
+        with:
+          name: jsNCAA-data
+          path: artifacts/jsNCAA
+
+      - name: Copy artifacts
+        shell: bash
+        run: |
+          cp -a artifacts/jsNCAA/data/. jsNCAA/data/
+
       - name: Commit & push data changes
         shell: bash
         run: |

@@ -34,15 +34,11 @@ jobs:
           TO_EMAIL: ${{ secrets.TO_EMAIL }}
         run: node scripts/run_daily.mjs
 
-      - name: Commit & push data changes
-        shell: bash
-        run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add jsNBA/data/
-          git diff --cached --quiet || git commit -m "Run daily NBA"
-          git pull --rebase origin main
-          git push
+      - name: Upload jsNBA data
+        uses: actions/upload-artifact@v4
+        with:
+          name: jsNBA-data
+          path: jsNBA/data
 
   nba-fullseason:
     runs-on: self-hosted
@@ -77,12 +73,43 @@ jobs:
           TO_EMAIL: ${{ secrets.TO_EMAIL }}
         run: node scripts/run_daily.mjs
 
+      - name: Upload jsFull data
+        uses: actions/upload-artifact@v4
+        with:
+          name: jsFull-data
+          path: jsFull/data
+
+  commit-and-push:
+    runs-on: ubuntu-latest
+    needs: [nba, nba-fullseason]
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 0
+
+      - uses: actions/download-artifact@v4
+        with:
+          name: jsNBA-data
+          path: artifacts/jsNBA
+
+      - uses: actions/download-artifact@v4
+        with:
+          name: jsFull-data
+          path: artifacts/jsFull
+
+      - name: Copy artifacts
+        shell: bash
+        run: |
+          cp -a artifacts/jsNBA/data/. jsNBA/data/
+          cp -a artifacts/jsFull/data/. jsFull/data/
+
       - name: Commit & push data changes
         shell: bash
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add jsFull/data/
-          git diff --cached --quiet || git commit -m "Run daily NBA Fullseason"
+          git add jsNBA/data/ jsFull/data/
+          git diff --cached --quiet || git commit -m "Run daily NBA + Fullseason"
           git pull --rebase origin main
           git push
