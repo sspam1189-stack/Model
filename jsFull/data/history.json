@@ -6605,14 +6605,14 @@
           "_features": {
             "dTS": 0.038149999999999906,
             "dTO": -0.02840000000000001,
-            "dORR": 4.999999999999449e-05,
+            "dORR": 0.00004999999999999449,
             "dNET": 7.355000000000018,
             "avgPace": 104.2185
           },
           "_marginFeatures": {
             "dTS": 0.039600320318999904,
             "dTO": 0.029479661784000008,
-            "dORR": 5.1900812999994286e-05,
+            "dORR": 0.000051900812999994286,
             "dNET": 3.8173047961500095,
             "hca": 1,
             "_baseline": 3.8173047961500095,
@@ -17157,14 +17157,14 @@
           "marginStd": 14.9,
           "_features": {
             "dTS": -0.044837499999999864,
-            "dTO": -2.5000000000025002e-05,
+            "dTO": -0.000025000000000025002,
             "dORR": -0.04473750000000004,
             "dNET": -12.316249999999997,
             "avgPace": 99.34
           },
           "_marginFeatures": {
             "dTS": -0.04467519721749986,
-            "dTO": 2.490950500002491e-05,
+            "dTO": 0.00002490950500002491,
             "dORR": -0.04457555919750004,
             "dNET": -6.135833819124998,
             "hca": 1,
@@ -23523,14 +23523,14 @@
           "marginStd": 14.7,
           "_features": {
             "dTS": -0.05875000000000008,
-            "dTO": 4.999999999999449e-05,
+            "dTO": 0.00004999999999999449,
             "dORR": 0.0011874999999999525,
             "dNET": -3.7475000000000165,
             "avgPace": 102.174125
           },
           "_marginFeatures": {
             "dTS": -0.06050751682500008,
-            "dTO": -5.1495758999994325e-05,
+            "dTO": -0.000051495758999994325,
             "dORR": 0.001223024276249951,
             "dNET": -1.9298035685250083,
             "hca": 1,
@@ -33601,7 +33601,7 @@
           "marginVar": 212.6,
           "marginStd": 14.6,
           "_features": {
-            "dTS": 9.999999999998899e-05,
+            "dTS": 0.00009999999999998899,
             "dTO": -0.008987499999999982,
             "dORR": -0.04657499999999992,
             "dNET": 2.2762499999999903,
@@ -39531,14 +39531,14 @@
           "marginVar": 213.3,
           "marginStd": 14.6,
           "_features": {
-            "dTS": -9.999999999998899e-05,
+            "dTS": -0.00009999999999998899,
             "dTO": -0.008787500000000004,
             "dORR": -0.05806250000000002,
             "dNET": -6.909999999999997,
             "avgPace": 101.8325625
           },
           "_marginFeatures": {
-            "dTS": -9.857392049998913e-05,
+            "dTS": -0.00009857392049998913,
             "dTO": 0.008662183263937502,
             "dORR": -0.05723448259031251,
             "dNET": -3.405728953274998,
@@ -48546,7 +48546,7 @@
           "marginVar": 212,
           "marginStd": 14.6,
           "_features": {
-            "dTS": -9.999999999998899e-05,
+            "dTS": -0.00009999999999998899,
             "dTO": 0.0011749999999999816,
             "dORR": 0.006012500000000032,
             "dNET": -6.040000000000006,
@@ -65489,14 +65489,14 @@
           "marginStd": 14.5,
           "_features": {
             "dTS": -0.026337500000000014,
-            "dTO": 1.2499999999998623e-05,
+            "dTO": 0.000012499999999998623,
             "dORR": 0.03333750000000002,
             "dNET": -2.373749999999987,
             "avgPace": 99.6964375
           },
           "_marginFeatures": {
             "dTS": -0.026362579423468764,
-            "dTO": -1.2511902906248623e-05,
+            "dTO": -0.000012511902906248623,
             "dORR": 0.03336924505096877,
             "dNET": -1.1880051809484309,
             "hca": 1,
@@ -67639,10 +67639,12 @@
             }
           },
           "trends": {
-            "away": "ATS +/- -1 \u00c2\u00b7 Over 55.7% \u00c2\u00b7 Under 44.3% \u00c2\u00b7 O/U +/- 2.6",
-            "home": "ATS +/- 1.3 \u00c2\u00b7 Over 47.2% \u00c2\u00b7 Under 52.8% \u00c2\u00b7 O/U +/- -2.1"
+            "away": "ATS +/- -1.1 · Over 56.3% · Under 43.7% · O/U +/- 2.9",
+            "home": "ATS +/- 1.5 · Over 48% · Under 52.1% · O/U +/- -1.6"
           },
-          "b2bNote": "Washington Wizards: B2B: OFF -1.5, DEF +0.8"
+          "b2bNote": "Washington Wizards: B2B: OFF -1.5, DEF +0.8",
+          "awayScore": 113,
+          "homeScore": 145
         },
         {
           "away": "Minnesota Timberwolves",
@@ -67699,9 +67701,11 @@
             }
           },
           "trends": {
-            "away": "ATS +/- -1.5 \u00c2\u00b7 Over 46.5% \u00c2\u00b7 Under 53.5% \u00c2\u00b7 O/U +/- 1.6",
-            "home": "ATS +/- 2.4 \u00c2\u00b7 Over 35.7% \u00c2\u00b7 Under 64.3% \u00c2\u00b7 O/U +/- -4.3"
-          }
+            "away": "ATS +/- -1.2 · Over 45.8% · Under 54.2% · O/U +/- 1.2",
+            "home": "ATS +/- 2.1 · Over 35.2% · Under 64.8% · O/U +/- -4.6"
+          },
+          "awayScore": 102,
+          "homeScore": 92
         },
         {
           "away": "Toronto Raptors",
@@ -67765,8 +67769,8 @@
             }
           },
           "trends": {
-            "away": "ATS +/- 0.8 \u00c2\u00b7 Over 39.1% \u00c2\u00b7 Under 60.9% \u00c2\u00b7 O/U +/- -2.9",
-            "home": "ATS +/- 1.5 \u00c2\u00b7 Over 40.9% \u00c2\u00b7 Under 59.2% \u00c2\u00b7 O/U +/- -2.7"
+            "away": "ATS +/- 0.8 · Over 39.1% · Under 60.9% · O/U +/- -2.9",
+            "home": "ATS +/- 1.5 · Over 40.9% · Under 59.2% · O/U +/- -2.7"
           },
           "b2bNote": "Phoenix Suns: B2B: OFF -1.5, DEF +0.8"
         },
@@ -67832,9 +67836,13 @@
             }
           },
           "trends": {
-            "away": "ATS +/- -1.1 \u00c2\u00b7 Over 52.1% \u00c2\u00b7 Under 47.9% \u00c2\u00b7 O/U +/- 0",
-            "home": "ATS +/- 0.9 \u00c2\u00b7 Over 60.6% \u00c2\u00b7 Under 39.4% \u00c2\u00b7 O/U +/- 3.3"
-          }
+            "away": "ATS +/- -1.2 · Over 52.8% · Under 47.2% · O/U +/- 0.1",
+            "home": "ATS +/- 1 · Over 61.1% · Under 38.9% · O/U +/- 3.3"
+          },
+          "awayScore": 112,
+          "homeScore": 128,
+          "sResult": "WIN",
+          "oResult": "WIN"
         },
         {
           "away": "Brooklyn Nets",
@@ -67898,13 +67906,15 @@
             }
           },
           "trends": {
-            "away": "ATS +/- -0.7 \u00c2\u00b7 Over 44.3% \u00c2\u00b7 Under 55.7% \u00c2\u00b7 O/U +/- -1.2",
-            "home": "ATS +/- -2.7 \u00c2\u00b7 Over 50.7% \u00c2\u00b7 Under 49.3% \u00c2\u00b7 O/U +/- 0.1"
-          }
+            "away": "ATS +/- -0.7 · Over 45.1% · Under 54.9% · O/U +/- -0.8",
+            "home": "ATS +/- -2.7 · Over 51.4% · Under 48.6% · O/U +/- 0.5"
+          },
+          "awayScore": 122,
+          "homeScore": 126
         }
       ],
-      "summaryText": "RECORD (graded picks only)\n\nSPREAD (ATS)\n  All:         252-152-0   (62.4%)   [graded 404]\n  Elite:       252-152-0   (62.4%)   [graded 404]\n\nFAV/DOG (Spread)\n  Favorites:   139-82-0   (62.9%)   [graded 221]\n  Underdogs:   113-70-0   (61.7%)   [graded 183]\n\nTOTAL (O/U)\n  All:         214-161-0   (57.1%)   [graded 375]\n  Elite:       214-161-0   (57.1%)   [graded 375]\n\nOVER/UNDER\n  Over:        31-27-0   (53.4%)   [graded 58]\n  Under:       183-134-0   (57.7%)   [graded 317]",
-      "ranAt": "3/22/2026, 5:46:52 PM"
+      "summaryText": "RECORD (graded picks only)\n\nSPREAD (ATS)\n  All:         253-152-0   (62.5%)   [graded 405]\n  Elite:       253-152-0   (62.5%)   [graded 405]\n\nFAV/DOG (Spread)\n  Favorites:   140-82-0   (63.1%)   [graded 222]\n  Underdogs:   113-70-0   (61.7%)   [graded 183]\n\nTOTAL (O/U)\n  All:         215-161-0   (57.2%)   [graded 376]\n  Elite:       215-161-0   (57.2%)   [graded 376]\n\nOVER/UNDER\n  Over:        31-27-0   (53.4%)   [graded 58]\n  Under:       184-134-0   (57.9%)   [graded 318]",
+      "ranAt": "3/22/2026, 10:13:15 PM"
     }
   ],
   "weights": {
@@ -67936,5 +67946,5 @@
     "constant": 4
   },
   "lastTuneDate": "20260322",
-  "residualVar": 193.9
+  "residualVar": 193.4
 }
