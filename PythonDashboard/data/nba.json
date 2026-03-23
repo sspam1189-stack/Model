@@ -42271,7 +42271,9 @@
             "away": "ATS +/- -1.1 \u00b7 Over 56.3% \u00b7 Under 43.7% \u00b7 O/U +/- 2.9",
             "home": "ATS +/- 1.5 \u00b7 Over 48.0% \u00b7 Under 52.1% \u00b7 O/U +/- -1.6"
           },
-          "b2bNote": "Washington Wizards: B2B: OFF -1.5, DEF +0.8"
+          "b2bNote": "Washington Wizards: B2B: OFF -1.5, DEF +0.8",
+          "awayScore": 113.0,
+          "homeScore": 145.0
         },
         {
           "away": "Minnesota Timberwolves",
@@ -42326,7 +42328,9 @@
           "trends": {
             "away": "ATS +/- -1.2 \u00b7 Over 45.8% \u00b7 Under 54.2% \u00b7 O/U +/- 1.2",
             "home": "ATS +/- 2.1 \u00b7 Over 35.2% \u00b7 Under 64.8% \u00b7 O/U +/- -4.6"
-          }
+          },
+          "awayScore": 102.0,
+          "homeScore": 92.0
         },
         {
           "away": "Toronto Raptors",
@@ -42386,10 +42390,12 @@
             }
           },
           "trends": {
-            "away": "ATS +/- 0.8 \u00b7 Over 39.1% \u00b7 Under 60.9% \u00b7 O/U +/- -2.9",
-            "home": "ATS +/- 1.5 \u00b7 Over 40.9% \u00b7 Under 59.2% \u00b7 O/U +/- -2.7"
+            "away": "ATS +/- 0.4 \u00b7 Over 38.6% \u00b7 Under 61.4% \u00b7 O/U +/- -2.9",
+            "home": "ATS +/- 1.8 \u00b7 Over 40.3% \u00b7 Under 59.7% \u00b7 O/U +/- -2.7"
           },
-          "b2bNote": "Phoenix Suns: B2B: OFF -1.5, DEF +0.8"
+          "b2bNote": "Phoenix Suns: B2B: OFF -1.5, DEF +0.8",
+          "awayScore": 98.0,
+          "homeScore": 120.0
         },
         {
           "away": "Portland Trail Blazers",
@@ -42449,9 +42455,12 @@
             }
           },
           "trends": {
-            "away": "ATS +/- -1.1 \u00b7 Over 52.1% \u00b7 Under 47.9% \u00b7 O/U +/- 0.0",
-            "home": "ATS +/- 0.9 \u00b7 Over 60.6% \u00b7 Under 39.4% \u00b7 O/U +/- 3.3"
-          }
+            "away": "ATS +/- -1.2 \u00b7 Over 52.8% \u00b7 Under 47.2% \u00b7 O/U +/- 0.1",
+            "home": "ATS +/- 1.0 \u00b7 Over 61.1% \u00b7 Under 38.9% \u00b7 O/U +/- 3.3"
+          },
+          "awayScore": 112.0,
+          "homeScore": 128.0,
+          "oResult": "WIN"
         },
         {
           "away": "Brooklyn Nets",
@@ -42511,13 +42520,15 @@
             }
           },
           "trends": {
-            "away": "ATS +/- -0.7 \u00b7 Over 44.3% \u00b7 Under 55.7% \u00b7 O/U +/- -1.2",
-            "home": "ATS +/- -2.7 \u00b7 Over 50.7% \u00b7 Under 49.3% \u00b7 O/U +/- 0.1"
-          }
+            "away": "ATS +/- -0.7 \u00b7 Over 45.1% \u00b7 Under 54.9% \u00b7 O/U +/- -0.8",
+            "home": "ATS +/- -2.7 \u00b7 Over 51.4% \u00b7 Under 48.6% \u00b7 O/U +/- 0.5"
+          },
+          "awayScore": 122.0,
+          "homeScore": 126.0
         }
       ],
-      "summaryText": "RECORD (graded picks only)\n\nSPREAD (ATS)\n  All:         121-67-0   (64.4%)   [graded 188]\n  Elite:       121-67-0   (64.4%)   [graded 188]\n\nFAV/DOG (Spread)\n  Favorites:   72-35-0   (67.3%)   [graded 107]\n  Underdogs:   49-32-0   (60.5%)   [graded 81]\n\nTOTAL (O/U)\n  All:         121-96-0   (55.8%)   [graded 217]\n  Elite:       121-96-0   (55.8%)   [graded 217]\n\nOVER/UNDER\n  Over:        20-16-0   (55.6%)   [graded 36]\n  Under:       101-80-0   (55.8%)   [graded 181]",
-      "ranAt": "03/22/2026, 10:06:10 PM"
+      "summaryText": "RECORD (graded picks only)\n\nSPREAD (ATS)\n  All:         121-67-0   (64.4%)   [graded 188]\n  Elite:       121-67-0   (64.4%)   [graded 188]\n\nFAV/DOG (Spread)\n  Favorites:   72-35-0   (67.3%)   [graded 107]\n  Underdogs:   49-32-0   (60.5%)   [graded 81]\n\nTOTAL (O/U)\n  All:         122-96-0   (56.0%)   [graded 218]\n  Elite:       122-96-0   (56.0%)   [graded 218]\n\nOVER/UNDER\n  Over:        20-16-0   (55.6%)   [graded 36]\n  Under:       102-80-0   (56.0%)   [graded 182]",
+      "ranAt": "03/22/2026, 10:34:27 PM"
     }
   ],
   "weights": {
@@ -42548,5 +42559,5 @@
     "constant": 0.5
   },
   "lastTuneDate": "20260322",
-  "residualVar": 188.5
+  "residualVar": 189.3
 }
