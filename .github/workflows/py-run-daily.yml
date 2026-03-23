@@ -32,6 +32,7 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
+          git rebase --abort 2>/dev/null || true
           git add pyNBA/data/
           git diff --cached --quiet || git commit -m "Run daily Python NBA"
           git pull --rebase origin main
@@ -68,6 +69,7 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
+          git rebase --abort 2>/dev/null || true
           git add pyFull/data/
           git diff --cached --quiet || git commit -m "Run daily Python Fullseason"
           git pull --rebase origin main
