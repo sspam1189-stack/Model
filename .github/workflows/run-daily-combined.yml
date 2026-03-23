@@ -102,8 +102,12 @@ jobs:
       - name: Pull latest
         run: git pull origin main
 
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
       - name: Install dependencies
-        run: pip install -r pyNBA/requirements.txt
+        run: python -m pip install -r pyNBA/requirements.txt
 
       - name: Run daily
         working-directory: pyNBA/scripts
@@ -142,8 +146,12 @@ jobs:
       - name: Pull latest
         run: git pull origin main
 
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
       - name: Install dependencies
-        run: pip install -r pyFull/requirements.txt
+        run: python -m pip install -r pyFull/requirements.txt
 
       - name: Run daily
         working-directory: pyFull/scripts
