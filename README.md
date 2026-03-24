@@ -7,7 +7,6 @@ A Bayesian sports prediction platform that generates daily against-the-spread (A
 - **Bayesian spread projections** with probability-of-cover (P(cover)) thresholds
 - **Kalman filter tracking** of per-team strength drift throughout the season
 - **Self-tuning weights** that learn from daily graded results via Bayesian updates
-- **Kelly criterion bet sizing** for optimal unit allocation
 - **Calibration monitoring** to validate predicted probabilities against actual hit rates
 - **Injury and lineup adjustments** based on player availability
 - **Back-to-back fatigue detection** for scheduling edges
@@ -36,7 +35,7 @@ scripts/           Global utilities and QA tests
 1. **Data collection** — Fetches team stats, scores, injuries, and odds from ESPN, NBA.com, The Odds API, and Barttorvik (NCAA)
 2. **Projection** — Blends full-season averages, last-10-game form, and home/away splits with weighted advanced stats (OFF/DEF rating, TS%, TO%, ORR, NET rating)
 3. **Spread modeling** — Applies home court advantage, pace normalization, and variance propagation to compute P(cover) via normal distribution
-4. **Pick selection** — Filters picks by P(cover) threshold and calculates Kelly-optimal unit sizing
+4. **Pick selection** — Filters picks by P(cover) threshold
 5. **Self-tuning** — Grades previous picks and updates projection weights, Kalman states, and thresholds daily
 6. **Reporting** — Sends picks via email (Gmail SMTP) and Discord webhooks with performance metrics and calibration tables
 
