@@ -573,6 +573,13 @@ def analyze_game(game_data, team_stats, weights, kalman_states=None,
         home_st, away_st, is_home=True, inj_home=inj_home, inj_away=inj_away
     )
 
+    # Build raw feature vector for ridge training (backfill collects these)
+    _home_fv = build_feature_vector(
+        home_st, away_st, is_home=True,
+        injury_delta_a=inj_home, injury_delta_b=inj_away,
+    )
+    _feature_vec = _home_fv.tolist() if hasattr(_home_fv, 'tolist') else list(_home_fv)
+
     # ---------------------------------------------------------------------------
     # Result
     # ---------------------------------------------------------------------------
@@ -621,6 +628,8 @@ def analyze_game(game_data, team_stats, weights, kalman_states=None,
 
         # Internal features (for self_tune and diagnostics)
         "_marginFeatures": margin_features,
+        # Raw feature vector for ridge regression training (backfill)
+        "_features": _feature_vec,
     }
 
     # Propagate raw game_data fields (date, week, etc.)

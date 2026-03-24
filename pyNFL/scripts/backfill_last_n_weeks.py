@@ -223,9 +223,9 @@ def backfill(seasons, output_dir=None):
         if kalman_state and kalman_state.get("teams"):
             print(f"  Decaying Kalman states for season transition...")
             for team, ts in kalman_state.get("teams", {}).items():
-                if isinstance(ts.get("var"), (int, float)):
+                if isinstance(ts.get("adj_var"), (int, float)):
                     # Increase variance substantially at season boundary
-                    ts["var"] = min(ts["var"] * 3.0, defaults.KALMAN_DEFAULTS.get("maxVar", 40))
+                    ts["adj_var"] = min(ts["adj_var"] * 3.0, defaults.KALMAN_DEFAULTS.get("maxVar", 40))
             kalman_state["lastDriftDate"] = f"{season}_W0"
 
         # 2. Replay week-by-week
@@ -394,15 +394,19 @@ def backfill(seasons, output_dir=None):
                     r["sResult"] = grade_spread_pick(r)
 
                 # Collect features for ridge regression training
-                if r.get("_features"):
+                # _features is a list of floats (numpy feature vector from
+                # model_engine.build_feature_vector) when using the real engine,
+                # or a dict of named features from the stub fallback.
+                feat = r.get("_features")
+                if feat is not None:
                     actual_margin = home_score - away_score
-                    all_features.append(r["_features"])
+                    all_features.append(feat)
                     all_margins.append(actual_margin)
 
                     # Collect for LR training
                     if r.get("sResult") in ("WIN", "LOSS"):
                         all_pick_outcomes.append({
-                            "features": r["_features"],
+                            "features": feat,
                             "result": r["sResult"],
                         })
 
@@ -458,6 +462,23 @@ def backfill(seasons, output_dir=None):
             total_weeks += 1
             total_games += len(games)
 
+        # --- End of season: grade final week's games through Kalman ---
+        # prev_graded from the last week would otherwise be lost because
+        # the next season starts at week=1 where the `week > 1` guard skips it.
+        if prev_graded and kalman_state:
+            batch_update(kalman_state, prev_graded)
+            # Self-tune on final week as well
+            if len(prev_graded) > 0:
+                try:
+                    tuned = tune_weights(base_w, base_w_var, prev_graded)
+                    base_w = tuned["W"]
+                    base_w_var = tuned["W_var"]
+                    store["weights"] = tuned["W"]
+                    store["weightsVar"] = tuned["W_var"]
+                except Exception:
+                    pass
+            prev_graded = []
+
     # -----------------------------------------------------------------------
     # Post-replay: Train ridge regression + LR model
     # -----------------------------------------------------------------------
@@ -470,16 +491,47 @@ def backfill(seasons, output_dir=None):
     print(f"  Feature samples: {len(all_features)}")
     print(f"  LR samples: {len(all_pick_outcomes)}")
 
-    # --- Train ridge regression ---
+    # --- Train ridge regression via model_engine.train_ridge ---
     trained_weights = {}
     trained_thresholds = {}
 
     if len(all_features) >= 30:
         print("\n[train] Training ridge regression on accumulated data...")
         try:
-            trained_weights, trained_thresholds = _train_ridge(
-                all_features, all_margins, output_dir
-            )
+            import numpy as np
+
+            # all_features may be lists of floats (from real engine) or dicts
+            # (from stub). Convert to numpy array accordingly.
+            sample = all_features[0]
+            if isinstance(sample, dict):
+                # Stub path: features are dicts -> use backfill's own _train_ridge
+                print("  (Using backfill dict-based ridge training — stub features)")
+                trained_weights, trained_thresholds = _train_ridge(
+                    all_features, all_margins, output_dir
+                )
+            else:
+                # Real engine path: features are lists of floats -> numpy array
+                X = np.array(all_features, dtype=np.float64)
+                y = np.array(all_margins, dtype=np.float64)
+
+                # Remove rows with NaN/Inf
+                mask = np.all(np.isfinite(X), axis=1) & np.isfinite(y)
+                X = X[mask]
+                y = y[mask]
+
+                if len(X) >= 20:
+                    from model_engine import train_ridge
+                    trained_weights = train_ridge(X, y)
+                    # Build thresholds from residuals
+                    trained_thresholds = {
+                        "residual_var": trained_weights.get("residual_var", 0),
+                        "r_squared": trained_weights.get("r_squared", 0),
+                        "n_train": trained_weights.get("n_train", len(X)),
+                        "source": "backfill_ridge",
+                    }
+                else:
+                    print(f"  [ridge] Only {len(X)} valid samples after NaN filter — too few")
+
             print(f"  Ridge trained on {len(all_features)} games")
         except Exception as e:
             print(f"  WARNING: Ridge training failed: {e}")
@@ -488,17 +540,33 @@ def backfill(seasons, output_dir=None):
     else:
         print(f"\n[train] Insufficient data for ridge regression ({len(all_features)} < 30)")
 
-    # --- Train LR model ---
-    if len(all_pick_outcomes) >= defaults.LR_MIN_TRAINING_GAMES:
-        print(f"\n[train] Training LR model on {len(all_pick_outcomes)} pick outcomes...")
+    # --- Train LR model via lr_model.train_lr_model ---
+    # train_lr_model reads graded games from the store (which we've been
+    # populating above), so it has all the data it needs.
+    graded_count = sum(
+        1 for r in store.get("runs", [])
+        if r.get("backfill") and not r.get("burnIn")
+        for g in r.get("games", [])
+        if g.get("sResult") in ("WIN", "LOSS")
+    )
+    if graded_count >= defaults.LR_MIN_TRAINING_GAMES:
+        print(f"\n[train] Training LR model on store ({graded_count} graded picks)...")
         try:
-            _train_lr(all_pick_outcomes, output_dir)
+            from lr_model import train_lr_model
+            lr_bundle = train_lr_model(store)
+            if lr_bundle:
+                # train_lr_model already saves to pyNFL/data/lr_models/ via
+                # _save_model, so we just report success here.
+                print(f"  [lr] LR model trained: accuracy={lr_bundle.get('accuracy', 0):.3f}, "
+                      f"n_train={lr_bundle.get('n_train', 0)}")
+            else:
+                print("  [lr] train_lr_model returned None (insufficient data?)")
         except Exception as e:
             print(f"  WARNING: LR training failed: {e}")
             import traceback
             traceback.print_exc()
     else:
-        print(f"\n[train] Insufficient data for LR training ({len(all_pick_outcomes)} < {defaults.LR_MIN_TRAINING_GAMES})")
+        print(f"\n[train] Insufficient graded picks for LR training ({graded_count} < {defaults.LR_MIN_TRAINING_GAMES})")
 
     # --- Save final artifacts ---
     weights_path = os.path.join(output_dir, "weights.json")
