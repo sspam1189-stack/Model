@@ -1,0 +1,40 @@
+{
+  "coefficients": [
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.22252087698638057,
+    0.0,
+    0.0,
+    0.6567101973438059,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0
+  ],
+  "intercept": 2.5594226018629986,
+  "alpha": 1048.1131341546852,
+  "feature_columns": [
+    "passOffEPA_diff",
+    "rushOffEPA_diff",
+    "passDefEPA_diff",
+    "rushDefEPA_diff",
+    "pace_diff",
+    "rz_diff",
+    "home_flag",
+    "cpoe_diff",
+    "pressure_diff",
+    "success_rate_diff",
+    "qb_epa_diff",
+    "turnover_diff",
+    "injury_delta_a",
+    "injury_delta_b"
+  ],
+  "n_train": 518,
+  "residual_var": 185.0526416046753,
+  "r_squared": 0.08574159774294254,
+  "source": "ridge_cv"
+}

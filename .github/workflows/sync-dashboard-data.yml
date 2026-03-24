@@ -38,6 +38,9 @@ jobs:
           cp pyNBA/data/history.json PythonDashboard/data/nba.json
           cp pyFull/data/history.json PythonDashboard/data/fullseason.json
           cp pyNCAA/data/history.json PythonDashboard/data/ncaa.json
+          if [ -f pyNFL/data/nfl.json ]; then
+            cp pyNFL/data/nfl.json PythonDashboard/data/nfl.json
+          fi
 
       - name: Commit and push if changed
         shell: bash

@@ -1,0 +1,974 @@
+#!/usr/bin/env python3
+"""
+scripts/backfill_last_n_weeks.py
+Historical replay for calibrating the NFL model.
+
+Architecture: SAME as pyNBA's backfill_last_n_days.py but week-by-week.
+
+For each week in chronological order:
+  1. Fetch historical play-by-play for that week
+  2. Compute team stats with decay (only data available at that point)
+  3. Fetch historical odds for that week's games
+  4. If not first week: grade previous week's picks, update Kalman, tune weights
+  5. Compute residualVar from accumulated history (sequential, NOT frozen)
+  6. For each game: run analyze_game, store results
+  7. Save Kalman state
+
+After full replay:
+  - Train ridge regression on accumulated feature/margin pairs
+  - Train LR model on accumulated pick outcomes
+  - Save weights.json, thresholds.json, LR model
+
+CRITICAL: residualVar computes and updates naturally each week. No freezing.
+Each week processes, residualVar updates from that week's results, next week
+uses the updated value.
+
+Usage:
+  python scripts/backfill_last_n_weeks.py --seasons 2023 2024 2025
+  python scripts/backfill_last_n_weeks.py --seasons 2024 --output-dir ../data
+"""
+
+import argparse
+import json
+import math
+import os
+import sys
+import time
+from datetime import datetime
+
+# ---------------------------------------------------------------------------
+# Path setup
+# ---------------------------------------------------------------------------
+SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
+sys.path.insert(0, SCRIPT_DIR)
+sys.path.insert(0, os.path.join(SCRIPT_DIR, "..", ".."))
+
+from dotenv import load_dotenv
+load_dotenv()
+
+# ---------------------------------------------------------------------------
+# Local imports
+# ---------------------------------------------------------------------------
+from store import load_store, save_store, upsert_run
+from self_tune import tune_weights, compute_residual_var
+from kalman_state import (
+    load_kalman_state, save_kalman_state, initialize_kalman,
+    apply_daily_drift, batch_update, prune_processed_games,
+)
+import defaults
+
+# Source modules
+from sources.nflfastr import fetch_pbp
+from sources.nfl_stats import (
+    compute_team_stats, compute_team_stats_through_week,
+    compute_player_stats, compute_player_stats_through_week,
+)
+from sources.odds_theoddsapi import fetch_historical_odds
+from sources.espn_scoreboard import fetch_week_scores
+
+# ---------------------------------------------------------------------------
+# Constants
+# ---------------------------------------------------------------------------
+BURN_IN_WEEKS = 2       # First N weeks per season: warm-up only, picks not evaluated
+MIN_WEEKS_FOR_STATS = 1 # Minimum weeks of data before producing picks
+NFL_REGULAR_WEEKS = 18  # 18 regular season weeks (17 games per team since 2021)
+ODDS_API_DELAY = 1.5    # Seconds between historical odds API calls (rate limit)
+
+UNIT_WIN = 1.0
+UNIT_LOSS = -1.1
+
+
+# ---------------------------------------------------------------------------
+# Helpers
+# ---------------------------------------------------------------------------
+
+def fmt_num(x, digits=1):
+    if isinstance(x, (int, float)) and math.isfinite(x):
+        return f"{x:.{digits}f}"
+    return "n/a"
+
+
+def _norm_team(name):
+    import re
+    s = str(name or "").lower().strip()
+    s = re.sub(r"[^a-z0-9\s]", " ", s)
+    s = re.sub(r"\s+", " ", s).strip()
+    return s
+
+
+# Build canonical team resolver from defaults.NFL_TEAMS alias map
+_TEAM_CANONICAL = {}
+try:
+    from defaults import NFL_TEAMS
+    for canonical, aliases in NFL_TEAMS.items():
+        key = _norm_team(canonical)
+        _TEAM_CANONICAL[key] = key
+        for alias in aliases:
+            _TEAM_CANONICAL[_norm_team(alias)] = key
+except ImportError:
+    pass
+
+
+def _canonical(name):
+    """Resolve any team name/abbreviation to a canonical normalized form."""
+    n = _norm_team(name)
+    if n in _TEAM_CANONICAL:
+        return _TEAM_CANONICAL[n]
+    # Fuzzy: check if any alias is a substring
+    for alias, canon in _TEAM_CANONICAL.items():
+        if alias in n or n in alias:
+            return canon
+    return n
+
+
+def _match_team(a, b):
+    if not a or not b:
+        return False
+    if a == b:
+        return True
+    return _canonical(a) == _canonical(b)
+
+
+def grade_spread_pick(g):
+    """Grade a spread pick against final scores. Returns WIN/LOSS/PUSH."""
+    import re
+    pick = g.get("sPick")
+    if not pick or pick == "PASS":
+        return None
+    m = re.match(r"(.+?)\s+([+-])(\d+(?:\.\d+)?)", pick)
+    if not m:
+        return None
+    team = m.group(1).strip()
+    sign = m.group(2)
+    pts = float(m.group(3))
+    chosen_is_home = team == g.get("home")
+    margin = (g["homeScore"] - g["awayScore"]) if chosen_is_home else (g["awayScore"] - g["homeScore"])
+    val = margin + pts if sign == "+" else margin - pts
+    if val == 0:
+        return "PUSH"
+    return "WIN" if val > 0 else "LOSS"
+
+
+# ---------------------------------------------------------------------------
+# Core backfill function
+# ---------------------------------------------------------------------------
+
+def backfill(seasons, output_dir=None):
+    """
+    Replay N seasons of NFL data sequentially for model calibration.
+
+    Parameters
+    ----------
+    seasons : list[int]
+        List of NFL season years to replay (e.g. [2023, 2024, 2025]).
+    output_dir : str or None
+        Directory to save trained artifacts. Defaults to pyNFL/data/.
+    """
+    if output_dir is None:
+        output_dir = os.path.join(SCRIPT_DIR, "..", "data")
+    os.makedirs(output_dir, exist_ok=True)
+
+    store = load_store()
+
+    # Clear previous backfill runs so we get clean history
+    store["runs"] = [
+        r for r in store.get("runs", [])
+        if not r.get("backfill", False)
+    ]
+
+    # Tracking for ridge regression training after full replay
+    all_features = []   # list of feature dicts per game
+    all_margins = []    # actual score margins (home - away)
+    all_pick_outcomes = []  # for LR training: (features, WIN/LOSS)
+
+    # Kalman state — initialized on first season with stats, evolves forward
+    kalman_state = None
+    prev_graded = []    # games with projections from previous week -> Kalman + self-tune
+
+    total_weeks = 0
+    total_games = 0
+
+    for season in sorted(seasons):
+        print(f"\n{'='*70}")
+        print(f"  BACKFILL — Season {season}")
+        print(f"{'='*70}\n")
+
+        # 1. Load full season play-by-play
+        print(f"[{season}] Loading play-by-play...")
+        try:
+            pbp = fetch_pbp(season)
+            print(f"  {len(pbp):,} plays loaded")
+        except Exception as e:
+            print(f"  ERROR: PBP load failed for {season}: {e} — skipping season")
+            continue
+
+        # Determine available weeks
+        if "week" not in pbp.columns or pbp.empty:
+            print(f"  ERROR: No week column or empty PBP for {season}")
+            continue
+        available_weeks = sorted(pbp["week"].dropna().unique().astype(int))
+        if not available_weeks:
+            print(f"  No weeks found in PBP for {season}")
+            continue
+        max_week = min(max(available_weeks), NFL_REGULAR_WEEKS)
+        print(f"  Available weeks: {available_weeks[0]}-{max_week}")
+
+        # Reset weights at season boundaries (but keep Kalman with decay)
+        base_w = store.get("weights") or {**defaults.DEFAULT_W}
+        base_w_var = store.get("weightsVar") or {**defaults.DEFAULT_W_VAR}
+        base_w = {**base_w}
+        base_w_var = {**base_w_var}
+
+        # Decay Kalman states at season boundary (prior-year info is still useful)
+        if kalman_state and kalman_state.get("teams"):
+            print(f"  Decaying Kalman states for season transition...")
+            for team, ts in kalman_state.get("teams", {}).items():
+                if isinstance(ts.get("adj_var"), (int, float)):
+                    # Increase variance substantially at season boundary
+                    ts["adj_var"] = min(ts["adj_var"] * 3.0, defaults.KALMAN_DEFAULTS.get("maxVar", 40))
+            # Set lastDriftDate to Aug 1 of new season (YYYYMMDD format required by core)
+            kalman_state["lastDriftDate"] = f"{season}0801"
+
+        # 2. Replay week-by-week
+        for week in range(1, max_week + 1):
+            week_key = f"{season}_W{week}"
+            is_burn_in = (week <= BURN_IN_WEEKS)
+            burn_tag = " [BURN-IN]" if is_burn_in else ""
+
+            # --- Step A: Grade previous week's results (Kalman + self-tune) ---
+            if prev_graded and week > 1:
+                # Kalman batch update from last week's completed games
+                if kalman_state:
+                    batch_update(kalman_state, prev_graded)
+
+                # Self-tune weights (skip during burn-in)
+                if not is_burn_in and len(prev_graded) > 0:
+                    try:
+                        tuned = tune_weights(base_w, base_w_var, prev_graded)
+                        base_w = tuned["W"]
+                        base_w_var = tuned["W_var"]
+                        store["weights"] = tuned["W"]
+                        store["weightsVar"] = tuned["W_var"]
+                    except Exception as e:
+                        print(f"    [tune] Warning: self-tune failed for {week_key}: {e}")
+
+            prev_graded = []
+
+            # --- Step B: Compute team stats through this week ---
+            # We use stats through (week - 1) for projections, then after grading
+            # week's games, the stats for *this* week become available.
+            through_week = max(1, week - 1) if week > 1 else 1
+            team_stats = compute_team_stats_through_week(pbp, through_week, decay=0.85)
+            if not team_stats:
+                print(f"  {week_key}{burn_tag}: No stats available — skipping")
+                continue
+
+            # Compute player stats for injury deltas
+            try:
+                player_stats = compute_player_stats_through_week(pbp, through_week)
+            except Exception:
+                player_stats = {}
+
+            # Convert week key to YYYYMMDD date string for Kalman drift.
+            # NFL Week 1 starts ~first Thursday of September; each week is +7 days.
+            from datetime import datetime as _dt, timedelta as _td
+            _sept1 = _dt(season, 9, 1)
+            # First Thursday on or after Sep 1
+            _first_thu = _sept1 + _td(days=(3 - _sept1.weekday()) % 7)
+            _week_date = _first_thu + _td(weeks=week - 1)
+            _date_str = _week_date.strftime("%Y%m%d")
+
+            # --- Step C: Initialize Kalman on first week with data ---
+            if kalman_state is None:
+                kalman_state = initialize_kalman(team_stats)
+                kalman_state["lastDriftDate"] = _date_str
+                print(f"  Kalman initialized from {week_key} ({_date_str})")
+
+            # Apply drift to account for time passing
+            apply_daily_drift(kalman_state, _date_str)
+
+            # --- Step D: Compute residualVar from history so far ---
+            # CRITICAL: Sequential, not frozen. Updates naturally each week.
+            dynamic_residual_var = compute_residual_var(store.get("runs", []))
+
+            # --- Step E: Fetch final scores for this week (for grading later) ---
+            try:
+                finals = fetch_week_scores(week, season=season)
+            except Exception as e:
+                print(f"  {week_key}{burn_tag}: Score fetch failed: {e}")
+                finals = []
+
+            if not finals:
+                print(f"  {week_key}{burn_tag}: No final scores — skipping")
+                continue
+
+            # --- Step F: Fetch historical odds ---
+            week_odds = []
+            try:
+                week_odds = fetch_historical_odds(season=season, week=week)
+                if ODDS_API_DELAY > 0:
+                    time.sleep(ODDS_API_DELAY)
+            except Exception as e:
+                print(f"    [odds] Historical odds failed for {week_key}: {e}")
+
+            # Build odds lookup by canonical team names
+            odds_lookup = {}
+            for o in week_odds:
+                key = (_canonical(o.get("away")), _canonical(o.get("home")))
+                odds_lookup[key] = o
+
+            # --- Step G: Match games with odds and analyze ---
+            games = []
+
+            for f in finals:
+                away = f["away"]
+                home = f["home"]
+                away_score = f["awayScore"]
+                home_score = f["homeScore"]
+
+                # Find matching odds
+                odds_match = None
+                c_away = _canonical(away)
+                c_home = _canonical(home)
+
+                # Match by canonical name
+                odds_match = odds_lookup.get((c_away, c_home))
+                if not odds_match:
+                    # Fallback: try fuzzy match
+                    for (oa, oh), o in odds_lookup.items():
+                        if _match_team(oa, away) and _match_team(oh, home):
+                            odds_match = o
+                            break
+
+                g = {
+                    "away": away,
+                    "home": home,
+                    "line": odds_match.get("line") if odds_match else None,
+                    "total": odds_match.get("total") if odds_match else None,
+                    "_book": odds_match.get("_book") if odds_match else None,
+                }
+
+                if not isinstance(g["line"], (int, float)) or not isinstance(g["total"], (int, float)):
+                    games.append({
+                        **g,
+                        "awayScore": away_score,
+                        "homeScore": home_score,
+                        "status": "MISSING_ODDS",
+                        "note": "Historical odds not available",
+                    })
+                    continue
+
+                # Run model engine
+                try:
+                    from model_engine import analyze_game
+                    r = analyze_game(
+                        game_data=g,
+                        team_stats=team_stats,
+                        weights=base_w,
+                        kalman_states=kalman_state,
+                        injury_deltas=None,    # No historical injury data in backfill
+                        residual_var=dynamic_residual_var,
+                        thresholds={},
+                    )
+                except ImportError:
+                    # model_engine.py not yet available — create stub result
+                    r = _stub_analyze(g, team_stats, base_w, kalman_state, dynamic_residual_var)
+                except Exception as e:
+                    print(f"    [engine] Warning: analyze_game failed for {away}@{home}: {e}")
+                    r = None
+
+                if not r:
+                    games.append({
+                        **g,
+                        "awayScore": away_score,
+                        "homeScore": home_score,
+                        "status": "SKIPPED",
+                        "note": "analyze_game returned None",
+                    })
+                    continue
+
+                r["awayScore"] = away_score
+                r["homeScore"] = home_score
+
+                # Grade immediately since we have scores
+                if r.get("sPick") and r["sPick"] != "PASS":
+                    r["sResult"] = grade_spread_pick(r)
+
+                # Collect features for ridge regression training
+                # _features is a list of floats (numpy feature vector from
+                # model_engine.build_feature_vector) when using the real engine,
+                # or a dict of named features from the stub fallback.
+                feat = r.get("_features")
+                if feat is not None:
+                    actual_margin = home_score - away_score
+                    all_features.append(feat)
+                    all_margins.append(actual_margin)
+
+                    # Collect for LR training
+                    if r.get("sResult") in ("WIN", "LOSS"):
+                        all_pick_outcomes.append({
+                            "features": feat,
+                            "result": r["sResult"],
+                        })
+
+                games.append(r)
+
+            # --- Step H: Collect completed games for next week's Kalman + tune ---
+            completed = [
+                x for x in games
+                if x.get("status") not in ("MISSING_ODDS", "SKIPPED")
+                and isinstance(x.get("homeScore"), (int, float)) and math.isfinite(x["homeScore"])
+                and isinstance(x.get("awayScore"), (int, float)) and math.isfinite(x["awayScore"])
+            ]
+
+            for g in completed:
+                g["_kalmanDate"] = week_key
+            prev_graded = completed
+
+            # --- Step I: Save run to store ---
+            run = {
+                "weekKey": week_key,
+                "season": season,
+                "week": week,
+                "date": week_key,
+                "dateDisplay": f"{season} Week {week}",
+                "burnIn": is_burn_in,
+                "backfill": True,
+                "weightsUsed": {**base_w},
+                "games": games,
+                "summaryText": "",
+            }
+
+            upsert_run(store, run)
+            save_store(store)
+
+            # Save Kalman state every week
+            if kalman_state:
+                save_kalman_state(kalman_state)
+
+            # Print progress
+            n_ok = len(completed)
+            n_miss = sum(1 for x in games if x.get("status") == "MISSING_ODDS")
+            n_skip = sum(1 for x in games if x.get("status") == "SKIPPED")
+            wins = sum(1 for x in completed if x.get("sResult") == "WIN")
+            losses = sum(1 for x in completed if x.get("sResult") == "LOSS")
+            units = UNIT_WIN * wins + UNIT_LOSS * losses
+
+            print(
+                f"  {week_key}{burn_tag}: "
+                f"games={len(games)} completed={n_ok} missing_odds={n_miss} skipped={n_skip} "
+                f"W-L={wins}-{losses} ({'+' if units >= 0 else ''}{units:.1f}u)"
+            )
+
+            total_weeks += 1
+            total_games += len(games)
+
+        # --- End of season: grade final week's games through Kalman ---
+        # prev_graded from the last week would otherwise be lost because
+        # the next season starts at week=1 where the `week > 1` guard skips it.
+        if prev_graded and kalman_state:
+            batch_update(kalman_state, prev_graded)
+            # Self-tune on final week as well
+            if len(prev_graded) > 0:
+                try:
+                    tuned = tune_weights(base_w, base_w_var, prev_graded)
+                    base_w = tuned["W"]
+                    base_w_var = tuned["W_var"]
+                    store["weights"] = tuned["W"]
+                    store["weightsVar"] = tuned["W_var"]
+                except Exception:
+                    pass
+            prev_graded = []
+
+    # -----------------------------------------------------------------------
+    # Post-replay: Train ridge regression + LR model
+    # -----------------------------------------------------------------------
+
+    print(f"\n{'='*70}")
+    print(f"  POST-REPLAY TRAINING")
+    print(f"{'='*70}\n")
+    print(f"  Total weeks replayed: {total_weeks}")
+    print(f"  Total games: {total_games}")
+    print(f"  Feature samples: {len(all_features)}")
+    print(f"  LR samples: {len(all_pick_outcomes)}")
+
+    # --- Train ridge regression via model_engine.train_ridge ---
+    trained_weights = {}
+    trained_thresholds = {}
+
+    if len(all_features) >= 30:
+        print("\n[train] Training ridge regression on accumulated data...")
+        try:
+            import numpy as np
+
+            # all_features may be lists of floats (from real engine) or dicts
+            # (from stub). Convert to numpy array accordingly.
+            sample = all_features[0]
+            if isinstance(sample, dict):
+                # Stub path: features are dicts -> use backfill's own _train_ridge
+                print("  (Using backfill dict-based ridge training — stub features)")
+                trained_weights, trained_thresholds = _train_ridge(
+                    all_features, all_margins, output_dir
+                )
+            else:
+                # Real engine path: features are lists of floats -> numpy array
+                X = np.array(all_features, dtype=np.float64)
+                y = np.array(all_margins, dtype=np.float64)
+
+                # Remove rows with NaN/Inf
+                mask = np.all(np.isfinite(X), axis=1) & np.isfinite(y)
+                X = X[mask]
+                y = y[mask]
+
+                if len(X) >= 20:
+                    from model_engine import train_ridge
+                    trained_weights = train_ridge(X, y)
+                    # Build thresholds from residuals
+                    trained_thresholds = {
+                        "residual_var": trained_weights.get("residual_var", 0),
+                        "r_squared": trained_weights.get("r_squared", 0),
+                        "n_train": trained_weights.get("n_train", len(X)),
+                        "source": "backfill_ridge",
+                    }
+                else:
+                    print(f"  [ridge] Only {len(X)} valid samples after NaN filter — too few")
+
+            print(f"  Ridge trained on {len(all_features)} games")
+        except Exception as e:
+            print(f"  WARNING: Ridge training failed: {e}")
+            import traceback
+            traceback.print_exc()
+    else:
+        print(f"\n[train] Insufficient data for ridge regression ({len(all_features)} < 30)")
+
+    # --- Train LR model via lr_model.train_lr_model ---
+    # train_lr_model reads graded games from the store (which we've been
+    # populating above), so it has all the data it needs.
+    graded_count = sum(
+        1 for r in store.get("runs", [])
+        if r.get("backfill") and not r.get("burnIn")
+        for g in r.get("games", [])
+        if g.get("sResult") in ("WIN", "LOSS")
+    )
+    if graded_count >= defaults.LR_MIN_TRAINING_GAMES:
+        print(f"\n[train] Training LR model on store ({graded_count} graded picks)...")
+        try:
+            from lr_model import train_lr_model
+            lr_bundle = train_lr_model(store)
+            if lr_bundle:
+                # train_lr_model already saves to pyNFL/data/lr_models/ via
+                # _save_model, so we just report success here.
+                print(f"  [lr] LR model trained: accuracy={lr_bundle.get('accuracy', 0):.3f}, "
+                      f"n_train={lr_bundle.get('n_train', 0)}")
+            else:
+                print("  [lr] train_lr_model returned None (insufficient data?)")
+        except Exception as e:
+            print(f"  WARNING: LR training failed: {e}")
+            import traceback
+            traceback.print_exc()
+    else:
+        print(f"\n[train] Insufficient graded picks for LR training ({graded_count} < {defaults.LR_MIN_TRAINING_GAMES})")
+
+    # --- Save final artifacts ---
+    weights_path = os.path.join(output_dir, "weights.json")
+    thresholds_path = os.path.join(output_dir, "thresholds.json")
+
+    if trained_weights:
+        with open(weights_path, "w") as f:
+            json.dump(trained_weights, f, indent=2)
+        print(f"\n  Saved weights.json ({len(trained_weights)} keys)")
+
+    if trained_thresholds:
+        with open(thresholds_path, "w") as f:
+            json.dump(trained_thresholds, f, indent=2)
+        print(f"  Saved thresholds.json")
+
+    # Save final Kalman state
+    if kalman_state:
+        prune_processed_games(kalman_state, 60)
+        save_kalman_state(kalman_state)
+        print("  Saved final Kalman state")
+
+    save_store(store)
+
+    # --- Print final summary ---
+    _print_backfill_summary(store, seasons)
+
+
+# ---------------------------------------------------------------------------
+# Ridge regression training
+# ---------------------------------------------------------------------------
+
+def _train_ridge(features_list, margins, output_dir):
+    """
+    Train ridge regression on accumulated (feature_dict, margin) pairs.
+    Uses 5-fold CV to select alpha. Returns (weights_dict, thresholds_dict).
+    """
+    import numpy as np
+    from sklearn.linear_model import RidgeCV
+    from sklearn.preprocessing import StandardScaler
+
+    # Build feature matrix
+    # Determine all feature keys from the union
+    all_keys = set()
+    for fd in features_list:
+        all_keys.update(fd.keys())
+    feature_keys = sorted(all_keys)
+
+    X = np.zeros((len(features_list), len(feature_keys)))
+    y = np.array(margins, dtype=float)
+
+    for i, fd in enumerate(features_list):
+        for j, key in enumerate(feature_keys):
+            val = fd.get(key, 0)
+            if isinstance(val, (int, float)) and math.isfinite(val):
+                X[i, j] = val
+
+    # Remove rows with NaN/Inf in y
+    mask = np.isfinite(y)
+    X = X[mask]
+    y = y[mask]
+
+    if len(X) < 20:
+        print(f"  [ridge] Only {len(X)} valid samples — too few for training")
+        return {}, {}
+
+    # Standardize features
+    scaler = StandardScaler()
+    X_scaled = scaler.fit_transform(X)
+
+    # 5-fold CV to select alpha
+    alphas = [0.01, 0.1, 0.5, 1.0, 2.0, 5.0, 10.0, 50.0, 100.0]
+    ridge = RidgeCV(alphas=alphas, cv=5, scoring="neg_mean_squared_error")
+    ridge.fit(X_scaled, y)
+
+    best_alpha = ridge.alpha_
+    coefs = ridge.coef_
+    intercept = ridge.intercept_
+    r2 = ridge.score(X_scaled, y)
+
+    print(f"  [ridge] Best alpha={best_alpha}, R²={r2:.4f}, intercept={intercept:.3f}")
+
+    # Build weights dict: map feature keys to ridge coefficients
+    weights = {"_type": "ridge", "_alpha": float(best_alpha), "_intercept": float(intercept)}
+    for j, key in enumerate(feature_keys):
+        weights[key] = float(coefs[j])
+
+    # Store scaler params for inference
+    weights["_scaler_mean"] = scaler.mean_.tolist()
+    weights["_scaler_scale"] = scaler.scale_.tolist()
+    weights["_feature_keys"] = feature_keys
+
+    # Compute sDiff thresholds from residuals
+    y_pred = ridge.predict(X_scaled)
+    residuals = y - y_pred
+    rmse = float(np.sqrt(np.mean(residuals ** 2)))
+    residual_std = float(np.std(residuals))
+
+    # Calibrate thresholds from historical sDiff distribution
+    # These define "high" and "elite" confidence buckets
+    thresholds = {
+        "rmse": rmse,
+        "residual_std": residual_std,
+        "ridgeAlpha": float(best_alpha),
+        "r2": float(r2),
+        "n_train": len(X),
+        "feature_keys": feature_keys,
+    }
+
+    print(f"  [ridge] RMSE={rmse:.2f}, residual_std={residual_std:.2f}")
+
+    return weights, thresholds
+
+
+# ---------------------------------------------------------------------------
+# LR model training
+# ---------------------------------------------------------------------------
+
+def _train_lr(pick_outcomes, output_dir):
+    """
+    Train logistic regression on historical pick outcomes.
+    Saves model to output_dir/lr_models/.
+    """
+    import numpy as np
+    from sklearn.linear_model import LogisticRegression
+    from sklearn.preprocessing import StandardScaler
+    import pickle
+
+    # Build feature matrix from pick outcome features
+    all_keys = set()
+    for po in pick_outcomes:
+        all_keys.update(po["features"].keys())
+    feature_keys = sorted(all_keys)
+
+    X = np.zeros((len(pick_outcomes), len(feature_keys)))
+    y = np.array([1 if po["result"] == "WIN" else 0 for po in pick_outcomes])
+
+    for i, po in enumerate(pick_outcomes):
+        for j, key in enumerate(feature_keys):
+            val = po["features"].get(key, 0)
+            if isinstance(val, (int, float)) and math.isfinite(val):
+                X[i, j] = val
+
+    # Standardize
+    scaler = StandardScaler()
+    X_scaled = scaler.fit_transform(X)
+
+    # Train LR
+    lr = LogisticRegression(C=1.0, max_iter=1000, solver="lbfgs")
+    lr.fit(X_scaled, y)
+
+    accuracy = lr.score(X_scaled, y)
+    print(f"  [lr] Training accuracy: {accuracy:.3f} ({len(X)} samples)")
+
+    # Save model
+    lr_dir = os.path.join(output_dir, "lr_models")
+    os.makedirs(lr_dir, exist_ok=True)
+
+    model_data = {
+        "model": lr,
+        "scaler": scaler,
+        "feature_keys": feature_keys,
+        "n_train": len(X),
+        "accuracy": float(accuracy),
+    }
+
+    model_path = os.path.join(lr_dir, "lr_model.pkl")
+    with open(model_path, "wb") as f:
+        pickle.dump(model_data, f)
+
+    # Also save metadata as JSON for inspection
+    meta_path = os.path.join(lr_dir, "lr_meta.json")
+    with open(meta_path, "w") as f:
+        json.dump({
+            "feature_keys": feature_keys,
+            "n_train": len(X),
+            "accuracy": float(accuracy),
+            "coefs": lr.coef_[0].tolist(),
+            "intercept": float(lr.intercept_[0]),
+        }, f, indent=2)
+
+    print(f"  [lr] Model saved to {model_path}")
+
+
+# ---------------------------------------------------------------------------
+# Stub analyze (fallback when model_engine.py is not yet available)
+# ---------------------------------------------------------------------------
+
+def _stub_analyze(g, team_stats, weights, kalman_state, residual_var):
+    """
+    Minimal projection stub used when model_engine.py is not yet available.
+    Produces a basic spread projection from team EPA differentials + HFA.
+    """
+    away = g.get("away", "")
+    home = g.get("home", "")
+
+    away_stats = team_stats.get(away)
+    home_stats = team_stats.get(home)
+
+    if not away_stats or not home_stats:
+        # Try fuzzy match
+        for k, v in team_stats.items():
+            if _match_team(k, away):
+                away_stats = v
+            if _match_team(k, home):
+                home_stats = v
+
+    if not away_stats or not home_stats:
+        return None
+
+    # Simple projection: EPA differential + HFA
+    hfa = weights.get("hfa", 2.5)
+    home_off = home_stats.get("off_pass_epa", 0) * 0.65 + home_stats.get("off_rush_epa", 0) * 0.35
+    away_off = away_stats.get("off_pass_epa", 0) * 0.65 + away_stats.get("off_rush_epa", 0) * 0.35
+    home_def = home_stats.get("def_pass_epa", 0) * 0.65 + home_stats.get("def_rush_epa", 0) * 0.35
+    away_def = away_stats.get("def_pass_epa", 0) * 0.65 + away_stats.get("def_rush_epa", 0) * 0.35
+
+    # EPA differential -> points (rough scaling: 1 EPA ~ 7 points per game)
+    epa_scale = 7.0
+    home_advantage = (home_off - away_def) * epa_scale
+    away_advantage = (away_off - home_def) * epa_scale
+    proj_spread = (home_advantage - away_advantage) + hfa  # positive = home favored
+
+    line = g.get("line", 0) or 0
+    s_diff = proj_spread - line  # positive = model says home covers more
+
+    # Compute P(cover) using normal CDF with residualVar
+    p_cover = 0.5
+    try:
+        from scipy.stats import norm
+        sigma = math.sqrt(max(residual_var, 50))
+        p_cover = float(norm.cdf(abs(s_diff) / sigma))
+    except ImportError:
+        if abs(s_diff) > 5:
+            p_cover = 0.65
+        elif abs(s_diff) > 3:
+            p_cover = 0.58
+
+    # Determine pick
+    prob_high = weights.get("probHigh", 0.57)
+    prob_elite = weights.get("probElite", 0.63)
+
+    pick = "PASS"
+    conf = "low"
+    if p_cover >= prob_elite:
+        conf = "elite"
+    elif p_cover >= prob_high:
+        conf = "high"
+
+    if conf in ("high", "elite") and abs(s_diff) > 1.5:
+        if s_diff > 0:
+            # Home covers: pick home at the spread
+            if line >= 0:
+                pick = f"{home} +{abs(line)}"
+            else:
+                pick = f"{home} {'-' if line < 0 else '+'}{abs(line)}"
+        else:
+            # Away covers
+            if line >= 0:
+                pick = f"{away} -{abs(line)}"
+            else:
+                pick = f"{away} +{abs(line)}"
+
+    # Feature dict for ridge regression training
+    features = {
+        "home_off_pass_epa": home_stats.get("off_pass_epa", 0),
+        "home_off_rush_epa": home_stats.get("off_rush_epa", 0),
+        "home_def_pass_epa": home_stats.get("def_pass_epa", 0),
+        "home_def_rush_epa": home_stats.get("def_rush_epa", 0),
+        "away_off_pass_epa": away_stats.get("off_pass_epa", 0),
+        "away_off_rush_epa": away_stats.get("off_rush_epa", 0),
+        "away_def_pass_epa": away_stats.get("def_pass_epa", 0),
+        "away_def_rush_epa": away_stats.get("def_rush_epa", 0),
+        "home_pace": home_stats.get("pace", 65),
+        "away_pace": away_stats.get("pace", 65),
+        "home_rz": home_stats.get("rz_td_pct_off", 0.55),
+        "away_rz": away_stats.get("rz_td_pct_off", 0.55),
+        "home_success_off": home_stats.get("success_rate_off", 0.45),
+        "away_success_off": away_stats.get("success_rate_off", 0.45),
+        "hfa": hfa,
+        "line": line,
+    }
+
+    return {
+        "away": away,
+        "home": home,
+        "line": line,
+        "total": g.get("total"),
+        "_book": g.get("_book"),
+        "projSpread": round(proj_spread, 2),
+        "sDiff": round(s_diff, 2),
+        "pCover": round(p_cover, 4),
+        "sPick": pick,
+        "sConf": conf,
+        "_features": features,
+    }
+
+
+# ---------------------------------------------------------------------------
+# Print final summary
+# ---------------------------------------------------------------------------
+
+def _print_backfill_summary(store, seasons):
+    """Print end-of-backfill summary statistics."""
+    print(f"\n{'='*70}")
+    print(f"  BACKFILL SUMMARY")
+    print(f"{'='*70}\n")
+
+    total_w = total_l = total_p = 0
+    season_stats = {}
+
+    for r in store.get("runs", []):
+        if not r.get("backfill"):
+            continue
+        if r.get("burnIn"):
+            continue
+
+        s = r.get("season", 0)
+        if s not in season_stats:
+            season_stats[s] = {"w": 0, "l": 0, "p": 0, "games": 0, "weeks": 0}
+        season_stats[s]["weeks"] += 1
+
+        for g in r.get("games", []):
+            if g.get("status") in ("MISSING_ODDS", "SKIPPED"):
+                continue
+            season_stats[s]["games"] += 1
+
+            result = g.get("sResult")
+            if result == "WIN":
+                season_stats[s]["w"] += 1
+                total_w += 1
+            elif result == "LOSS":
+                season_stats[s]["l"] += 1
+                total_l += 1
+            elif result == "PUSH":
+                season_stats[s]["p"] += 1
+                total_p += 1
+
+    for s in sorted(season_stats.keys()):
+        ss = season_stats[s]
+        units = UNIT_WIN * ss["w"] + UNIT_LOSS * ss["l"]
+        total = ss["w"] + ss["l"]
+        pct = f"{ss['w'] / total * 100:.1f}%" if total > 0 else "n/a"
+        print(
+            f"  {s}: {ss['weeks']} weeks, {ss['games']} games, "
+            f"{ss['w']}W-{ss['l']}L-{ss['p']}P ({pct}) "
+            f"{'+'if units >= 0 else ''}{units:.1f}u"
+        )
+
+    total_units = UNIT_WIN * total_w + UNIT_LOSS * total_l
+    grand_total = total_w + total_l
+    grand_pct = f"{total_w / grand_total * 100:.1f}%" if grand_total > 0 else "n/a"
+
+    print(f"\n  TOTAL: {total_w}W-{total_l}L-{total_p}P ({grand_pct}) "
+          f"{'+'if total_units >= 0 else ''}{total_units:.1f}u")
+    print()
+
+
+# ---------------------------------------------------------------------------
+# CLI entry point
+# ---------------------------------------------------------------------------
+
+def main():
+    parser = argparse.ArgumentParser(
+        description="NFL historical backfill — replay seasons week-by-week for model calibration"
+    )
+    parser.add_argument(
+        "--seasons",
+        nargs="+",
+        type=int,
+        default=None,
+        help="Season years to replay (e.g. --seasons 2023 2024 2025). Defaults to last 2 seasons.",
+    )
+    parser.add_argument(
+        "--output-dir",
+        default=None,
+        help="Directory to save trained artifacts (default: pyNFL/data/)",
+    )
+    args = parser.parse_args()
+
+    if args.seasons:
+        seasons = sorted(args.seasons)
+    else:
+        from sources.nflfastr import current_season
+        cur = current_season()
+        seasons = [cur - 1, cur]
+
+    print(f"\n{'='*60}")
+    print(f"  NFL BACKFILL — Seasons: {seasons}")
+    print(f"{'='*60}\n")
+
+    start_time = time.time()
+    backfill(seasons, output_dir=args.output_dir)
+    elapsed = time.time() - start_time
+
+    print(f"\nBackfill completed in {elapsed:.1f}s ({elapsed / 60:.1f}m)")
+
+
+if __name__ == "__main__":
+    try:
+        main()
+    except Exception as err:
+        import traceback
+        traceback.print_exc()
+        sys.exit(1)
