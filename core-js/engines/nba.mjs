@@ -6,5 +6,11 @@ export function createNbaEngine({ DEFAULT_STATS, DEFAULT_W, DEFAULT_W_VAR, BAYES
     DEFAULT_W,
     DEFAULT_W_VAR,
     BAYES_HYPER,
+    bayes: {
+      spread: { useSDiff: false, sDiffCap: null },
+    },
+    legacy: {
+      spread: { diffCap: null },
+    },
   });
 }

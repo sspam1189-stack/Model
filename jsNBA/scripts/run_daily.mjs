@@ -1072,7 +1072,7 @@ function buildEmailHtml(run, summaryObj, last10, last10Totals, weeklySpread, wee
           <td style="text-align:right;" valign="top"><div class="sub">${esc(timestamp)}</div></td>
         </tr>
       </table>
-      <div style="text-align:center;color:#888;font-size:11px;margin:4px 0 12px">Filters: P(cover) &ge; 0.57 | sDiff &le; 9 | abs(line) &lt; 12</div>
+      <div style="text-align:center;color:#888;font-size:11px;margin:4px 0 12px">Filters: P(cover) &ge; 0.57 | abs(line) &lt; 12</div>
 
       ${recapHtml ? rowFull(recapHtml) : ""}
 
