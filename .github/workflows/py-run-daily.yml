@@ -9,10 +9,12 @@ permissions:
 jobs:
   nba:
     runs-on: self-hosted
+    defaults:
+      run:
+        shell: bash
     steps:
       - name: Clean up stale rebase
         run: git rebase --abort 2>/dev/null || true
-        shell: bash
 
       - uses: actions/checkout@v4
 
@@ -40,10 +42,12 @@ jobs:
   nba-fullseason:
     runs-on: self-hosted
     needs: nba
+    defaults:
+      run:
+        shell: bash
     steps:
       - name: Clean up stale rebase
         run: git rebase --abort 2>/dev/null || true
-        shell: bash
 
       - uses: actions/checkout@v4
         with:

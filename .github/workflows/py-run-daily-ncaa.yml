@@ -9,10 +9,12 @@ permissions:
 jobs:
   ncaa:
     runs-on: self-hosted
+    defaults:
+      run:
+        shell: bash
     steps:
       - name: Clean up stale rebase
         run: git rebase --abort 2>/dev/null || true
-        shell: bash
 
       - uses: actions/checkout@v4
 
