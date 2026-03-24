@@ -96,6 +96,12 @@ jobs:
       - name: Pull latest
         run: git pull origin main
 
+      - name: Download jsNBA cache
+        uses: actions/download-artifact@v4
+        with:
+          name: jsNBA-data
+          path: jsNBA/data
+
       - name: Install dependencies
         run: pip install -r pyNBA/requirements.txt
 
@@ -133,6 +139,12 @@ jobs:
 
       - name: Pull latest
         run: git pull origin main
+
+      - name: Download jsFull cache
+        uses: actions/download-artifact@v4
+        with:
+          name: jsFull-data
+          path: jsFull/data
 
       - name: Install dependencies
         run: pip install -r pyFull/requirements.txt
