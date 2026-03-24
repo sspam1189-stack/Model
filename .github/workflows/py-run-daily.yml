@@ -99,8 +99,8 @@ jobs:
       - name: Copy artifacts
         shell: bash
         run: |
-          cp -a artifacts/pyNBA/data/. pyNBA/data/
-          cp -a artifacts/pyFull/data/. pyFull/data/
+          cp -a artifacts/pyNBA/. pyNBA/data/
+          cp -a artifacts/pyFull/. pyFull/data/
 
       - name: Commit & push data changes
         shell: bash

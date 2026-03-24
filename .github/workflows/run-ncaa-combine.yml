@@ -115,8 +115,8 @@ jobs:
       - name: Copy artifacts
         shell: bash
         run: |
-          cp -a artifacts/jsNCAA/data/. jsNCAA/data/
-          cp -a artifacts/pyNCAA/data/. pyNCAA/data/
+          cp -a artifacts/jsNCAA/. jsNCAA/data/
+          cp -a artifacts/pyNCAA/. pyNCAA/data/
 
       - name: Commit & push data changes
         shell: bash

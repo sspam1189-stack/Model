@@ -101,8 +101,8 @@ jobs:
       - name: Copy artifacts
         shell: bash
         run: |
-          cp -a artifacts/jsNBA/data/. jsNBA/data/
-          cp -a artifacts/jsFull/data/. jsFull/data/
+          cp -a artifacts/jsNBA/. jsNBA/data/
+          cp -a artifacts/jsFull/. jsFull/data/
 
       - name: Commit & push data changes
         shell: bash

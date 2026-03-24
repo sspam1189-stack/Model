@@ -57,7 +57,7 @@ jobs:
       - name: Copy artifacts
         shell: bash
         run: |
-          cp -a artifacts/jsNCAA/data/. jsNCAA/data/
+          cp -a artifacts/jsNCAA/. jsNCAA/data/
 
       - name: Commit & push data changes
         shell: bash
