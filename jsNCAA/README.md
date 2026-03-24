@@ -11,7 +11,6 @@ An automated NCAA men's basketball spread-picking system that uses a Bayesian mo
 - **Self-tuning weights** via diagonal Bayesian linear regression updated after each graded game
 - **Probability threshold tuning** that automatically tightens or relaxes pick criteria based on ATS profitability
 - **P(cover) calibration table** to verify that model probabilities match real-world hit rates
-- **Kelly criterion bet sizing** (quarter-Kelly) for unit recommendations
 - **Back-to-back detection** with offensive/defensive stat adjustments for fatigued teams
 - **Stats blending** combining season averages with recent form and home/away splits
 - **Backfill mode** to replay historical games and train the model on past data
@@ -166,7 +165,7 @@ ncaa_picks_daily_bot/
 │   ├── defaults.mjs              # Default weights, variances, and hyperparameters
 │   ├── self_tune.mjs             # Bayesian weight update + threshold tuning
 │   ├── kalman_state.mjs          # Kalman filter for per-team strength tracking
-│   ├── calibration.mjs           # P(cover) calibration table + Kelly criterion sizing
+│   ├── calibration.mjs           # P(cover) calibration table
 │   ├── store.mjs                 # JSON-based persistence (history.json)
 │   ├── backfill.mjs              # Historical replay with Odds API historical data
 │   ├── email.mjs                 # Gmail SMTP email sender (nodemailer)
@@ -203,7 +202,7 @@ ncaa_picks_daily_bot/
 
 The bot sends a formatted HTML email containing:
 
-- Today's spread picks with P(cover) probabilities and Kelly unit sizing
+- Today's spread picks with P(cover) probabilities
 - Season-to-date record and unit profit/loss
 - Rolling window records (7-day, 14-day, 30-day)
 - Yesterday's grading results

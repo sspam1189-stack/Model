@@ -25,7 +25,6 @@ An automated NBA spread and totals prediction system that runs daily, grades its
 - **Bayesian self-tuning model** -- Projection weights (TS%, TO%, ORR, NET rating, HCA) are updated daily using a diagonal Kalman filter (Bayesian linear regression). The model learns from its own prediction errors.
 - **Kalman filter team tracker** -- Each team carries an adjustment offset that tracks how many points better or worse they are performing relative to season-long stats. Uncertainty shrinks with more data and grows with daily drift.
 - **Probability-based pick logic** -- Picks are triggered by P(cover) thresholds rather than raw point edges. The model computes the full probability distribution of the projected margin and uses the normal CDF to estimate cover probability.
-- **Kelly criterion bet sizing** -- Each pick is assigned a unit size (0.5u to 3u) based on quarter-Kelly optimal sizing derived from the estimated edge.
 - **Calibration tracking** -- Buckets historical picks by their predicted P(cover) and compares against actual hit rates to measure model calibration.
 - **Stats blending** -- Merges full-season stats with last-10-game stats and home/away splits to capture recent form and location-specific performance.
 - **Injury-aware projections** -- Fetches per-game player availability from ESPN and adjusts team efficiency ratings based on which players are out, using minutes-weighted lineup impact analysis.
@@ -130,7 +129,7 @@ nba_picks_daily_botfullseason/
     |-- defaults.mjs                # Default weights, variances, Bayesian hyperparameters
     |-- self_tune.mjs               # Bayesian weight update + threshold tuning
     |-- kalman_state.mjs            # Kalman filter for team strength tracking
-    |-- calibration.mjs             # P(cover) calibration table + Kelly sizing
+    |-- calibration.mjs             # P(cover) calibration table
     |-- store.mjs                   # history.json read/write
     |-- email.mjs                   # Gmail SMTP sender (HTML + plain text)
     |-- discord.mjs                 # Discord webhook sender (auto-chunking)
@@ -244,7 +243,7 @@ node scripts/run_daily.mjs
 ### Email (Gmail SMTP)
 
 The bot sends a formatted HTML email containing:
-- Today's picks with projected scores, margins, P(cover), and Kelly unit sizing
+- Today's picks with projected scores, margins, and P(cover)
 - Yesterday's graded results (WIN/LOSS/PUSH)
 - Cumulative season record with rolling 7-day and 14-day windows
 - Calibration table showing predicted vs. actual hit rates

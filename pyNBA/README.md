@@ -11,7 +11,6 @@ An automated NBA spread prediction system that runs daily, combining Bayesian st
 - **Self-tuning weights** that adapt daily based on grading results (Bayesian weight update + profitability-based threshold tuning)
 - **Lineup-adjusted projections** accounting for injuries, rest (back-to-back detection), and player availability
 - **Stats blending** combining full-season averages, last-10-game form, and home/away splits
-- **Kelly criterion bet sizing** for optimal unit allocation per pick
 - **Calibration monitoring** bucketing historical P(cover) vs actual hit rates
 - **Dual notifications** via Gmail and Discord webhook
 - **Persistent history** with daily grading, rolling records, and unit P&L tracking
@@ -183,7 +182,7 @@ nba_picks_daily_bot/
 │   ├── defaults.mjs              # Default weights, variances, Bayesian hyperparameters
 │   ├── kalman_state.mjs          # Kalman filter: load/save/init/drift/update
 │   ├── self_tune.mjs             # Bayesian weight update, threshold tuning, residual variance
-│   ├── calibration.mjs           # P(cover) calibration table, Kelly criterion sizing
+│   ├── calibration.mjs           # P(cover) calibration table
 │   ├── store.mjs                 # History persistence (load/save/upsert)
 │   ├── email.mjs                 # Gmail notification via nodemailer
 │   ├── discord.mjs               # Discord webhook notification (auto-chunking)
@@ -211,7 +210,7 @@ nba_picks_daily_bot/
 
 Daily picks are sent as a formatted HTML email via Gmail's SMTP service using `nodemailer`. The email includes:
 
-- Today's spread picks with P(cover), projected scores, and Kelly unit sizing
+- Today's spread picks with P(cover) and projected scores
 - Season-to-date record (W-L-P) with win percentage and unit P&L
 - Rolling 7-day and 30-day performance windows
 - Injury notes for key players (starters and stars who are out)
