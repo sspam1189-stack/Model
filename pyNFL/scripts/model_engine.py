@@ -283,6 +283,16 @@ def project_score(features, weights):
         Projected score contribution (not the full game score — this is the
         margin contribution from team A's perspective).
     """
+    if "coefficients" not in weights:
+        # No trained ridge model yet — use simple EPA-differential estimate.
+        # features[0..3] are EPA diffs (passOff, rushOff, passDef, rushDef),
+        # features[6] is HFA flag, features[12-13] are injury deltas.
+        # Use naive weighting: ~7 * sum(EPA diffs) + HFA + injuries
+        epa_sum = sum(float(features[i]) for i in range(min(4, len(features))))
+        hfa = float(features[6]) if len(features) > 6 else 0
+        inj = sum(float(features[i]) for i in range(12, min(14, len(features))))
+        return epa_sum * 7.0 + hfa * 2.5 + inj
+
     coefs = np.array(weights["coefficients"], dtype=np.float64)
 
     # Handle feature count mismatch gracefully
@@ -437,8 +447,10 @@ def analyze_game(game_data, team_stats, weights, kalman_states=None,
     if not home_st or not away_st:
         return None
 
-    # Check minimum games played
-    if home_st.get("GP", 0) < MIN_GP or away_st.get("GP", 0) < MIN_GP:
+    # Check minimum games played (nfl_stats uses "games_played", fallback to "GP")
+    home_gp = home_st.get("games_played", home_st.get("GP", 0))
+    away_gp = away_st.get("games_played", away_st.get("GP", 0))
+    if home_gp < MIN_GP or away_gp < MIN_GP:
         return None
 
     # Injury deltas
@@ -864,11 +876,29 @@ def _resolve_team(team_stats, name):
         if key.lower().strip() == name_lower:
             return key
 
-    # Alias lookup
+    # Alias lookup — resolve full name to canonical, then check all aliases
+    # including abbreviations (since nfl_data_py uses abbreviations as keys)
     aliases = ENGINE_CONFIG.get("TEAM_NAME_ALIASES", {})
     canonical = aliases.get(name_lower)
-    if canonical and canonical in team_stats:
-        return canonical
+    if canonical:
+        # Direct canonical match
+        if canonical in team_stats:
+            return canonical
+        # Try abbreviation: NFL_TEAMS maps canonical -> [abbrev, ...]
+        try:
+            from defaults import NFL_TEAMS
+            abbrevs = NFL_TEAMS.get(canonical, [])
+            for a in abbrevs:
+                if a in team_stats:
+                    return a
+                if a.upper() in team_stats:
+                    return a.upper()
+        except ImportError:
+            pass
+
+    # Try the name directly as abbreviation (e.g., "CAR", "ATL")
+    if name.upper() in team_stats:
+        return name.upper()
 
     # Substring match (fuzzy)
     for key in team_stats:
