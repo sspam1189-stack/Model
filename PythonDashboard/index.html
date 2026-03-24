@@ -1520,7 +1520,8 @@
     // injuries (array), injuryDelta, homeScore, awayScore, sResult, week
 
     function nflGetWeekLabel(run) {
-      if (run.week != null) return `Week ${run.week}`;
+      const season = run.season ? `${run.season} ` : '';
+      if (run.week != null) return `${season}Week ${run.week}`;
       return run.dateDisplay || run.date || '—';
     }
 
@@ -1978,6 +1979,29 @@
     }
 
     // ─── NFL Main Render Dispatcher ───
+    // NFL season filter state
+    let nflSeasonFilter = 'all';
+    function setNflSeason(val) {
+      nflSeasonFilter = val;
+      historyPage = 0;
+      render();
+    }
+
+    function nflFilterBySeason(runs) {
+      if (nflSeasonFilter === 'all') return runs;
+      return runs.filter(r => String(r.season) === String(nflSeasonFilter));
+    }
+
+    function nflSeasonSelector(runs) {
+      const seasons = [...new Set(runs.map(r => r.season).filter(Boolean))].sort();
+      if (seasons.length <= 1) return '';
+      let opts = `<option value="all" ${nflSeasonFilter === 'all' ? 'selected' : ''}>All Seasons</option>`;
+      for (const s of seasons) {
+        opts += `<option value="${s}" ${String(nflSeasonFilter) === String(s) ? 'selected' : ''}>${s}</option>`;
+      }
+      return `<select onchange="setNflSeason(this.value)" style="background:#1e1e1e;color:#e0e0e0;border:1px solid #444;border-radius:6px;padding:4px 10px;font-size:13px;margin-left:10px;cursor:pointer">${opts}</select>`;
+    }
+
     async function renderNFL() {
       const el = document.getElementById('content');
       const data = await fetchData('nfl');
@@ -1990,7 +2014,8 @@
           </div>`;
         return;
       }
-      const runs = data.runs;
+      const allRuns = data.runs;
+      const runs = nflFilterBySeason(allRuns);
       const nonBurnIn = runs.filter(r => !r.burnIn);
       const latestRun = nonBurnIn.length ? nonBurnIn[nonBurnIn.length - 1] : null;
       const totalPages = Math.ceil(nonBurnIn.length / DAYS_PER_PAGE);
@@ -2004,6 +2029,7 @@
         <div class="view-toggle">
           <button class="view-btn ${viewMode === 'today' ? 'active' : ''}" onclick="setView('today')">Latest Week</button>
           <button class="view-btn ${viewMode === 'history' ? 'active' : ''}" onclick="setView('history')">History</button>
+          ${nflSeasonSelector(allRuns)}
         </div>`;
 
       if (viewMode === 'today' && latestRun) {
@@ -2036,7 +2062,7 @@
         const start = historyPage * DAYS_PER_PAGE;
         const pageRuns = reversed.slice(start, start + DAYS_PER_PAGE);
         if (!pageRuns.length) {
-          html += '<div class="no-picks">No picks available yet.</div>';
+          html += '<div class="no-picks">No picks available for this season.</div>';
         } else {
           html += pageRuns.map(nflRenderHistoryWeek).join('');
         }

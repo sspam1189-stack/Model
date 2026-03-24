@@ -315,16 +315,14 @@ def fetch_historical_odds(api_key=None, season=None, week=None):
     if not season or not week:
         raise Exception("season and week are required for historical odds fetch.")
 
-    # Approximate the Sunday of the given NFL week.
-    # NFL Week 1 typically starts the Thursday after Labor Day.
-    # We use a rough mapping: Week 1 Sunday ~ first Sunday in September.
-    # For more precise dates, the caller should pass commence_time_iso per game.
+    # Compute target dates for this NFL week.
+    # NFL games occur on Thursday, Saturday (late season/playoffs), Sunday, and Monday.
+    # We take multiple snapshots to capture all game windows.
     import calendar
 
     year = int(season)
     # Find first Monday in September (Labor Day)
     sept1 = datetime.date(year, 9, 1)
-    # Monday = 0 in weekday()
     days_to_monday = (7 - sept1.weekday()) % 7
     if sept1.weekday() == 0:
         days_to_monday = 0
@@ -333,23 +331,54 @@ def fetch_historical_odds(api_key=None, season=None, week=None):
     # Week 1 Sunday is the day after the Thursday following Labor Day = Labor Day + 6
     week1_sunday = labor_day + datetime.timedelta(days=6)
     target_sunday = week1_sunday + datetime.timedelta(weeks=int(week) - 1)
+    target_thursday = target_sunday - datetime.timedelta(days=3)
+    target_saturday = target_sunday - datetime.timedelta(days=1)
 
-    # Snapshot at Sunday 12:00 PM ET (just before most kickoffs)
-    ts = f"{target_sunday.isoformat()}T12:00:00-04:00"
-    ts_utc = _to_historical_iso(ts)
-    if not ts_utc:
-        return []
+    # Take snapshots at multiple windows to capture TNF, Saturday, and Sunday games
+    snapshots = [
+        (target_thursday, "12:00:00", "Thu"),   # Thursday Night Football
+        (target_saturday, "12:00:00", "Sat"),   # Saturday games (Weeks 15-18, playoffs)
+        (target_sunday, "12:00:00", "Sun"),     # Main Sunday slate
+    ]
 
-    print(f"  [odds] Fetching historical odds for {season} Week {week} (snapshot: {ts_utc})")
+    # Deduplicate games across all snapshots (same matchup from different windows)
+    seen = set()
+    all_games = []
 
-    try:
-        data = _fetch_snapshot(api_key, ts_utc)
-    except Exception as e:
-        print(f"  [odds] Historical fetch failed: {e}")
-        return []
+    for snap_date, snap_time, label in snapshots:
+        ts = f"{snap_date.isoformat()}T{snap_time}-05:00"
+        ts_utc = _to_historical_iso(ts)
+        if not ts_utc:
+            continue
+
+        try:
+            data = _fetch_snapshot(api_key, ts_utc)
+        except Exception as e:
+            continue
+
+        if not data:
+            continue
+
+        count_before = len(all_games)
+        for ev in data:
+            home = _norm_team(ev.get("home_team"))
+            away = _norm_team(ev.get("away_team"))
+            if not home or not away:
+                continue
+            key = (away.lower(), home.lower())
+            if key in seen:
+                continue
+            seen.add(key)
+            all_games.append(ev)
+
+        new = len(all_games) - count_before
+        if new > 0:
+            print(f"  [odds] {label} snapshot ({ts_utc}): +{new} new games")
+
+    print(f"  [odds] Total historical odds for {season} Week {week}: {len(all_games)} games")
 
     games = []
-    for ev in data:
+    for ev in all_games:
         home = _norm_team(ev.get("home_team"))
         away = _norm_team(ev.get("away_team"))
         if not home or not away:
