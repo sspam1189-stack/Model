@@ -226,7 +226,8 @@ def backfill(seasons, output_dir=None):
                 if isinstance(ts.get("adj_var"), (int, float)):
                     # Increase variance substantially at season boundary
                     ts["adj_var"] = min(ts["adj_var"] * 3.0, defaults.KALMAN_DEFAULTS.get("maxVar", 40))
-            kalman_state["lastDriftDate"] = f"{season}_W0"
+            # Set lastDriftDate to Aug 1 of new season (YYYYMMDD format required by core)
+            kalman_state["lastDriftDate"] = f"{season}0801"
 
         # 2. Replay week-by-week
         for week in range(1, max_week + 1):

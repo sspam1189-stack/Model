@@ -1,0 +1,31 @@
+{
+  "n_train": 455,
+  "accuracy": 0.5604,
+  "trained_at": "2026-03-24T16:14:27",
+  "features": [
+    "epa_diff",
+    "pass_epa_diff",
+    "rush_epa_diff",
+    "def_epa_diff",
+    "home_injury_delta",
+    "away_injury_delta",
+    "market_line",
+    "sdiff",
+    "abs_line",
+    "pace_diff",
+    "success_rate_diff",
+    "turnover_diff",
+    "home_ats_pct_5",
+    "away_ats_pct_5",
+    "home_ats_margin_5",
+    "away_ats_margin_5",
+    "home_win_pct_5",
+    "away_win_pct_5",
+    "home_avg_margin_5",
+    "away_avg_margin_5",
+    "home_flag",
+    "rest_advantage"
+  ],
+  "confirm_threshold": 0.58,
+  "veto_threshold": 0.42
+}
