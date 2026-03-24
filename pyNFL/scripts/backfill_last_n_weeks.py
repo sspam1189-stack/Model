@@ -96,17 +96,37 @@ def _norm_team(name):
     return s
 
 
+# Build canonical team resolver from defaults.NFL_TEAMS alias map
+_TEAM_CANONICAL = {}
+try:
+    from defaults import NFL_TEAMS
+    for canonical, aliases in NFL_TEAMS.items():
+        key = _norm_team(canonical)
+        _TEAM_CANONICAL[key] = key
+        for alias in aliases:
+            _TEAM_CANONICAL[_norm_team(alias)] = key
+except ImportError:
+    pass
+
+
+def _canonical(name):
+    """Resolve any team name/abbreviation to a canonical normalized form."""
+    n = _norm_team(name)
+    if n in _TEAM_CANONICAL:
+        return _TEAM_CANONICAL[n]
+    # Fuzzy: check if any alias is a substring
+    for alias, canon in _TEAM_CANONICAL.items():
+        if alias in n or n in alias:
+            return canon
+    return n
+
+
 def _match_team(a, b):
     if not a or not b:
         return False
     if a == b:
         return True
-    na, nb = _norm_team(a), _norm_team(b)
-    if na == nb:
-        return True
-    if na in nb or nb in na:
-        return True
-    return False
+    return _canonical(a) == _canonical(b)
 
 
 def grade_spread_pick(g):
@@ -248,14 +268,23 @@ def backfill(seasons, output_dir=None):
             except Exception:
                 player_stats = {}
 
+            # Convert week key to YYYYMMDD date string for Kalman drift.
+            # NFL Week 1 starts ~first Thursday of September; each week is +7 days.
+            from datetime import datetime as _dt, timedelta as _td
+            _sept1 = _dt(season, 9, 1)
+            # First Thursday on or after Sep 1
+            _first_thu = _sept1 + _td(days=(3 - _sept1.weekday()) % 7)
+            _week_date = _first_thu + _td(weeks=week - 1)
+            _date_str = _week_date.strftime("%Y%m%d")
+
             # --- Step C: Initialize Kalman on first week with data ---
             if kalman_state is None:
                 kalman_state = initialize_kalman(team_stats)
-                kalman_state["lastDriftDate"] = week_key
-                print(f"  Kalman initialized from {week_key}")
+                kalman_state["lastDriftDate"] = _date_str
+                print(f"  Kalman initialized from {week_key} ({_date_str})")
 
             # Apply drift to account for time passing
-            apply_daily_drift(kalman_state, week_key)
+            apply_daily_drift(kalman_state, _date_str)
 
             # --- Step D: Compute residualVar from history so far ---
             # CRITICAL: Sequential, not frozen. Updates naturally each week.
@@ -281,10 +310,10 @@ def backfill(seasons, output_dir=None):
             except Exception as e:
                 print(f"    [odds] Historical odds failed for {week_key}: {e}")
 
-            # Build odds lookup by normalized team names
+            # Build odds lookup by canonical team names
             odds_lookup = {}
             for o in week_odds:
-                key = (_norm_team(o.get("away")), _norm_team(o.get("home")))
+                key = (_canonical(o.get("away")), _canonical(o.get("home")))
                 odds_lookup[key] = o
 
             # --- Step G: Match games with odds and analyze ---
@@ -298,15 +327,17 @@ def backfill(seasons, output_dir=None):
 
                 # Find matching odds
                 odds_match = None
-                n_away = _norm_team(away)
-                n_home = _norm_team(home)
+                c_away = _canonical(away)
+                c_home = _canonical(home)
 
-                # Try exact match first, then fuzzy
-                for (oa, oh), o in odds_lookup.items():
-                    if (oa == n_away and oh == n_home) or \
-                       (_match_team(oa, n_away) and _match_team(oh, n_home)):
-                        odds_match = o
-                        break
+                # Match by canonical name
+                odds_match = odds_lookup.get((c_away, c_home))
+                if not odds_match:
+                    # Fallback: try fuzzy match
+                    for (oa, oh), o in odds_lookup.items():
+                        if _match_team(oa, away) and _match_team(oh, home):
+                            odds_match = o
+                            break
 
                 g = {
                     "away": away,
@@ -330,9 +361,12 @@ def backfill(seasons, output_dir=None):
                 try:
                     from model_engine import analyze_game
                     r = analyze_game(
-                        g, team_stats, base_w, kalman_state,
-                        base_w_var, dynamic_residual_var,
-                        injury_adj=None,    # No historical injury data in backfill
+                        game_data=g,
+                        team_stats=team_stats,
+                        weights=base_w,
+                        kalman_states=kalman_state,
+                        injury_deltas=None,    # No historical injury data in backfill
+                        residual_var=dynamic_residual_var,
                         thresholds={},
                     )
                 except ImportError:

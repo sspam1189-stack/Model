@@ -48,13 +48,11 @@ PBP_COLUMNS = [
     # field position / red zone
     "fixed_drive", "fixed_drive_result",
     "drive_play_count",
-    # pressure (available in recent seasons)
-    "was_pressure",
 ]
 
 # Columns that may not exist in older seasons -- we request them but don't
-# fail if they're absent.
-_OPTIONAL_COLS = {"was_pressure", "cpoe", "air_yards", "yards_after_catch"}
+# fail if they're absent.  Pressure is derived from qb_hit + sack columns.
+_OPTIONAL_COLS = {"cpoe", "air_yards", "yards_after_catch"}
 
 
 def _ensure_cache_dir():
