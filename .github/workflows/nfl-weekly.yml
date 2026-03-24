@@ -1,0 +1,186 @@
+name: NFL Weekly Pipeline
+
+# ─────────────────────────────────────────────────────────────────────────────
+# Cron schedule (commented out — enable once regular season starts)
+# All times are UTC.  CT = UTC-5 (CST) / UTC-6 (CDT).
+#
+#   Wed 10:00 AM CT  =  15:00 UTC (CDT) / 16:00 UTC (CST)
+#   Thu  6:00 PM CT  =  23:00 UTC (CDT) / 00:00+1 UTC (CST)
+#   Fri  6:00 PM CT  =  23:00 UTC (CDT) / 00:00+1 UTC (CST)
+#   Sun 10:00 AM CT  =  15:00 UTC (CDT) / 16:00 UTC (CST)
+#   Sun 11:30 PM CT  =  04:30+1 UTC (CDT) — post-game window (SNF)
+#   Mon 11:30 PM CT  =  04:30+2 UTC (CDT) — post-game window (MNF)
+#   Tue  8:00 AM CT  =  13:00 UTC (CDT)  — morning-after grade
+#
+# schedule:
+#   # Mid-week fetch + project (Wed morning)
+#   - cron: '0 15 * * 3'
+#   # Pre-game refresh (Thu evening)
+#   - cron: '0 23 * * 4'
+#   # Pre-game refresh (Fri evening)
+#   - cron: '0 23 * * 5'
+#   # Sunday morning full pipeline
+#   - cron: '0 15 * * 0'
+#   # Post-SNF grade (Mon early AM UTC)
+#   - cron: '30 4 * * 1'
+#   # Post-MNF grade (Tue early AM UTC)
+#   - cron: '30 4 * * 2'
+# ─────────────────────────────────────────────────────────────────────────────
+
+on:
+  workflow_dispatch:
+    inputs:
+      stage:
+        description: 'Pipeline stage to run'
+        required: true
+        default: 'all'
+        type: choice
+        options:
+          - all
+          - fetch
+          - injuries
+          - project
+          - grade
+
+permissions:
+  contents: write
+
+jobs:
+  # ---------------------------------------------------------------------------
+  # Main pipeline job — runs the chosen stage
+  # ---------------------------------------------------------------------------
+  nfl-weekly:
+    runs-on: self-hosted
+    defaults:
+      run:
+        shell: bash
+    steps:
+      - name: Clean up stale rebase
+        run: git rebase --abort 2>/dev/null || true
+
+      - uses: actions/checkout@v4
+
+      - name: Install dependencies
+        run: pip install -r pyNFL/requirements.txt
+
+      - name: Run weekly pipeline
+        working-directory: pyNFL/scripts
+        env:
+          PYTHONUTF8: "1"
+          PYTHONUNBUFFERED: "1"
+          PYTHONIOENCODING: "utf-8"
+          ODDS_API_KEY: ${{ secrets.ODDS_API_KEY }}
+          GMAIL_USER: ${{ secrets.GMAIL_USER }}
+          GMAIL_APP_PASSWORD: ${{ secrets.GMAIL_APP_PASSWORD }}
+          TO_EMAIL: ${{ secrets.TO_EMAIL }}
+        run: python run_weekly.py --stage ${{ inputs.stage }}
+
+      - name: Upload pyNFL data
+        uses: actions/upload-artifact@v4
+        with:
+          name: pyNFL-data
+          path: pyNFL/data
+
+  # ---------------------------------------------------------------------------
+  # Commit & push data changes (runs on ubuntu-latest for git ops)
+  # ---------------------------------------------------------------------------
+  commit-and-push:
+    runs-on: ubuntu-latest
+    needs: [nfl-weekly]
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 0
+
+      - uses: actions/download-artifact@v4
+        with:
+          name: pyNFL-data
+          path: artifacts/pyNFL
+
+      - name: Copy artifacts
+        shell: bash
+        run: |
+          cp -a artifacts/pyNFL/. pyNFL/data/
+
+      - name: Commit & push data changes
+        shell: bash
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add pyNFL/data/
+          git diff --cached --quiet || git commit -m "Run weekly NFL pipeline [skip ci]"
+          git pull --rebase origin main
+          git push
+
+  # ---------------------------------------------------------------------------
+  # Post-game grading job (standalone — can be triggered separately)
+  # Grades the previous week's picks after game windows close.
+  # ---------------------------------------------------------------------------
+  post-game-grade:
+    if: ${{ inputs.stage == 'grade' }}
+    runs-on: self-hosted
+    needs: [commit-and-push]
+    defaults:
+      run:
+        shell: bash
+    steps:
+      - name: Clean up stale rebase
+        run: git rebase --abort 2>/dev/null || true
+
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+
+      - name: Pull latest
+        run: git pull origin main
+
+      - name: Install dependencies
+        run: pip install -r pyNFL/requirements.txt
+
+      - name: Grade previous week
+        working-directory: pyNFL/scripts
+        env:
+          PYTHONUTF8: "1"
+          PYTHONUNBUFFERED: "1"
+          PYTHONIOENCODING: "utf-8"
+        run: python run_weekly.py --stage grade
+
+      - name: Upload graded data
+        uses: actions/upload-artifact@v4
+        with:
+          name: pyNFL-graded-data
+          path: pyNFL/data
+
+  # ---------------------------------------------------------------------------
+  # Commit graded results
+  # ---------------------------------------------------------------------------
+  commit-graded:
+    if: ${{ inputs.stage == 'grade' }}
+    runs-on: ubuntu-latest
+    needs: [post-game-grade]
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 0
+
+      - uses: actions/download-artifact@v4
+        with:
+          name: pyNFL-graded-data
+          path: artifacts/pyNFL
+
+      - name: Copy artifacts
+        shell: bash
+        run: |
+          cp -a artifacts/pyNFL/. pyNFL/data/
+
+      - name: Commit & push graded results
+        shell: bash
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add pyNFL/data/
+          git diff --cached --quiet || git commit -m "Grade NFL weekly picks [skip ci]"
+          git pull --rebase origin main
+          git push
