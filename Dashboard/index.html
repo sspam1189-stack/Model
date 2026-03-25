@@ -636,7 +636,9 @@
     // ─── Helpers ───
     function esc(v) { return String(v ?? '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
     function fmtNum(v, d) { return Number.isFinite(v) ? v.toFixed(d) : '\u2014'; }
-    function winPct(w, l) { return (w + l) > 0 ? Math.round(100 * w / (w + l)) : 0; }
+    function fmtPct(v) { return Number.isFinite(v) ? v.toFixed(2) + '%' : '\u2014'; }
+    function fmtProb(v) { return Number.isFinite(v) ? (v * 100).toFixed(2) + '%' : '\u2014'; }
+    function winPct(w, l) { return (w + l) > 0 ? (100 * w / (w + l)) : 0; }
     function calcUnits(w, l) { return Math.round((w * 0.91 - l) * 100) / 100; }
     function fmtUnits(u) { return (u >= 0 ? '+' : '') + u.toFixed(2) + 'u'; }
     function confBadge(conf) {
@@ -860,9 +862,9 @@
       const s = computeSummary(runs);
       const e = s.elite;
       const total = e.w + e.l;
-      const pct = total > 0 ? (e.w / total * 100).toFixed(1) : '0.0';
+      const pct = total > 0 ? (e.w / total * 100) : 0;
       const uClass = e.units > 0 ? 'positive' : e.units < 0 ? 'negative' : 'neutral';
-      const pClass = parseFloat(pct) > 52.4 ? 'positive' : parseFloat(pct) < 50 ? 'negative' : 'neutral';
+      const pClass = pct > 52.4 ? 'positive' : pct < 50 ? 'negative' : 'neutral';
       return `
         <div class="record-banner">
           <div class="record-item">
@@ -871,7 +873,7 @@
           </div>
           <div class="record-item">
             <div class="label">Win %</div>
-            <div class="value ${pClass}">${pct}%</div>
+            <div class="value ${pClass}">${fmtPct(pct)}</div>
           </div>
           <div class="record-item">
             <div class="label">Units</div>
@@ -915,7 +917,7 @@
       let spreadItems = games.map(g => {
         const projMargin = Math.round((g.hS - g.aS) * 10) / 10;
         const favTeam = projMargin >= 0 ? g.home : g.away;
-        const pStr = g.pCover ? ` \u00b7 P=${(g.pCover * 100).toFixed(0)}%` : '';
+        const pStr = g.pCover != null ? ` \u00b7 P=${fmtProb(g.pCover)}` : '';
         return `<div class="pick-item">
           <span class="pick-team">${esc(g.sPick)}</span>
           ${confBadge(g.sConf)}
@@ -935,7 +937,7 @@
 
         underItems = todayUnders.map(g => {
           const tDiffAbs = Math.abs(g.tDiff);
-          const pU = g.pUnder != null ? ` \u00b7 P(U)=${(g.pUnder * 100).toFixed(0)}%` : '';
+          const pU = g.pUnder != null ? ` \u00b7 P(U)=${fmtProb(g.pUnder)}` : '';
           return `<div class="pick-item" style="border-left: 2px solid var(--blue);">
             <span class="pick-team">UNDER ${fmtNum(g.total, 1)}</span>
             ${g.oConf ? confBadge(g.oConf) : ''}
@@ -963,7 +965,7 @@
     function renderSpreadRecord(runs) {
       const s = computeSummary(runs);
       const row = (label, b) => `<tr><td>${label}</td><td>${b.w}-${b.l}-${b.p}</td>
-        <td class="center"><span class="${pctClass(b.pct)}">${b.pct}%</span></td>
+        <td class="center"><span class="${pctClass(b.pct)}">${fmtPct(b.pct)}</span></td>
         <td class="center"><span class="${unitClass(b.units)}">${fmtUnits(b.units)}</span></td>
         <td class="center">${b.played}</td></tr>`;
       return `
@@ -988,9 +990,9 @@
         const sPick = g.sPick && g.sPick !== 'PASS'
           ? `<span class="pick-team">${esc(g.sPick)}</span> ${confBadge(g.sConf)}`
           : `<span style="color:var(--muted)">PASS</span>`;
-        const pCover = g.pCover != null ? `<b>${(g.pCover * 100).toFixed(0)}%</b>` : '<span style="color:var(--muted)">\u2014</span>';
-        const pHome = g.pHomeCover != null ? (g.pHomeCover * 100).toFixed(0) + '%' : '\u2014';
-        const pAway = g.pAwayCover != null ? (g.pAwayCover * 100).toFixed(0) + '%' : '\u2014';
+        const pCover = g.pCover != null ? `<b>${fmtProb(g.pCover)}</b>` : '<span style="color:var(--muted)">\u2014</span>';
+        const pHome = g.pHomeCover != null ? fmtProb(g.pHomeCover) : '\u2014';
+        const pAway = g.pAwayCover != null ? fmtProb(g.pAwayCover) : '\u2014';
         const margin = Number.isFinite(g.margin) ? (g.margin >= 0 ? '+' : '') + fmtNum(g.margin, 1) : '\u2014';
         return `<tr>
           <td style="font-weight:700">${esc(g.away)} @ ${esc(g.home)}</td>
@@ -1019,7 +1021,7 @@
         if (!isSkipped && g.sPick && g.sPick !== 'PASS') {
           const projMargin = Math.round((g.hS - g.aS) * 10) / 10;
           const favTeam = projMargin >= 0 ? g.home : g.away;
-          spreadHtml = `<div class="game-detail"><span class="pick-team">${esc(g.sPick)}</span> ${confBadge(g.sConf)} <span class="label">proj ${esc(favTeam)} by ${fmtNum(Math.abs(projMargin), 1)} \u00b7 sDiff ${fmtNum(g.sDiff, 1)}${g.pCover ? ` \u00b7 P=${(g.pCover*100).toFixed(0)}%` : ''}</span></div>`;
+          spreadHtml = `<div class="game-detail"><span class="pick-team">${esc(g.sPick)}</span> ${confBadge(g.sConf)} <span class="label">proj ${esc(favTeam)} by ${fmtNum(Math.abs(projMargin), 1)} \u00b7 sDiff ${fmtNum(g.sDiff, 1)}${g.pCover != null ? ` \u00b7 P=${fmtProb(g.pCover)}` : ''}</span></div>`;
         } else {
           spreadHtml = `<div class="game-detail"><span class="label">Spread: ${isSkipped ? esc(g.status) : 'PASS'}</span></div>`;
         }
@@ -1072,7 +1074,7 @@
             <thead><tr><th>Date</th><th>Matchup</th><th>Pick</th><th class="center">Conf</th><th class="center">Result</th><th class="center">Final</th></tr></thead>
             <tbody>${rows}</tbody>
           </table>
-          <div class="l10-tally">Last 10: <span class="win-text">${t.w}W</span>\u2013<span class="loss-text">${t.l}L</span>\u2013${t.p}P \u00b7 <span class="${pctClass(t.pct)}">${t.pct}%</span> \u00b7 <span class="${unitClass(t.units)}">${fmtUnits(t.units)}</span></div>
+          <div class="l10-tally">Last 10: <span class="win-text">${t.w}W</span>\u2013<span class="loss-text">${t.l}L</span>\u2013${t.p}P \u00b7 <span class="${pctClass(t.pct)}">${fmtPct(t.pct)}</span> \u00b7 <span class="${unitClass(t.units)}">${fmtUnits(t.units)}</span></div>
         </div>`;
     }
 
@@ -1082,7 +1084,7 @@
       const rows = weeks.map(r => `<tr>
         <td>${esc(r.week)}</td>
         <td class="center"><span class="win-text">${r.w}W</span>\u2013<span class="loss-text">${r.l}L</span>\u2013${r.p}P</td>
-        <td class="center"><span class="${pctClass(r.pct)}">${r.pct}%</span></td>
+        <td class="center"><span class="${pctClass(r.pct)}">${fmtPct(r.pct)}</span></td>
         <td class="center"><span class="${unitClass(r.units)}">${fmtUnits(r.units)}</span></td>
       </tr>`).join('');
       return `
@@ -1101,14 +1103,14 @@
       const body = rows.map(r => `<tr>
         <td>${esc(r.label)}</td>
         <td class="center"><span class="win-text">${r.w}W</span>\u2013<span class="loss-text">${r.l}L</span>\u2013${r.p}P</td>
-        <td class="center"><span class="${pctClass(r.pct)}">${r.pct}%</span></td>
+        <td class="center"><span class="${pctClass(r.pct)}">${fmtPct(r.pct)}</span></td>
         <td class="center"><span class="${unitClass(r.units)}">${fmtUnits(r.units)}</span></td>
         <td class="center" style="font-size:0.7rem;color:var(--muted)">${esc(r.startDate)} \u2192 ${esc(r.endDate)}</td>
       </tr>`).join('');
       return `
         <div class="card card-trends">
           <div class="card-title">Rolling ${window}-Pick Groups (Spread)</div>
-          <div class="card-subtitle">Green = above break-even (52.4%) \u00b7 Red = below \u00b7 Units at -110</div>
+          <div class="card-subtitle">Green = above break-even (${fmtPct(52.4)}) \u00b7 Red = below \u00b7 Units at -110</div>
           <table class="data">
             <thead><tr><th>Window</th><th class="center">W-L-P</th><th class="center">Win%</th><th class="center">Flat</th><th class="center">Dates</th></tr></thead>
             <tbody>${body}</tbody>
@@ -1129,7 +1131,7 @@
           <td>${esc(name)}</td>
           <td class="center">${t.picks}</td>
           <td class="center">${t.w}-${t.l}-${t.p}</td>
-          <td class="center"><span class="${pctClass(pct)}">${pct}%</span></td>
+          <td class="center"><span class="${pctClass(pct)}">${fmtPct(pct)}</span></td>
           <td class="center"><span class="${unitClass(units)}">${fmtUnits(units)}</span></td>
           <td class="center">${t.fav}</td>
           <td class="center">${t.dog}</td>
