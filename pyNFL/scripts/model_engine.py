@@ -447,11 +447,7 @@ def analyze_game(game_data, team_stats, weights, kalman_states=None,
     if not home_st or not away_st:
         return None
 
-    # Check minimum games played (nfl_stats uses "games_played", fallback to "GP")
-    home_gp = home_st.get("games_played", home_st.get("GP", 0))
-    away_gp = away_st.get("games_played", away_st.get("GP", 0))
-    if home_gp < MIN_GP or away_gp < MIN_GP:
-        return None
+
 
     # Injury deltas
     inj = injury_deltas or {}
