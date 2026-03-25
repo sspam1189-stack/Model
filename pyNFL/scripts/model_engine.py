@@ -518,7 +518,7 @@ def analyze_game(game_data, team_stats, weights, kalman_states=None,
     # ---------------------------------------------------------------------------
     thresh = thresholds or SDIFF_THRESHOLDS
     abs_line = abs(market_spread)
-    home_fav = market_spread < 0  # Negative line = home is favored
+    home_fav = market_spread > 0  # Positive line = home favored (convention: +X home fav, -X away fav)
 
     # Spread pick
     s_pick = "PASS"
