@@ -183,7 +183,7 @@ function resolveTeamName(teamName, knownKeys) {
 // Returns: adjusted copy of teamStats (same shape). Teams not playing today or
 //          with no meaningful injuries pass through unchanged.
 
-export function adjustTeamStats(teamStats, injuryReport, playerMPG, playerAdv, todaysGames) {
+export function adjustTeamStats(teamStats, injuryReport, playerMPG, playerAdv, todaysGames, { recentWeight = 0.35 } = {}) {
   if (!playerAdv || !Object.keys(playerAdv).length) {
 
     return teamStats;
@@ -283,12 +283,15 @@ export function adjustTeamStats(teamStats, injuryReport, playerMPG, playerAdv, t
       // Player's above-average impact (vs roster average)
       const offImpact = (star.offRtg || 0) - (fullOFF || 0);
       const defImpact = (star.defRtg || 0) - (fullDEF || 0);
-      // Scale by: missed fraction × game-time share × conservative dampen
+      // Scale by: missed fraction × game-time share × season-weight × dampen
       // Game-time share: fraction of the 48-min game the player is on court
+      // Season-weight: only correct the season-stats portion (1 - recentWeight)
+      // because the last-10 blend already partially captures the player's return.
       const gameShare = Math.min(star.min / 48, 1);
-      const RETURN_DAMPEN = 0.50; // conservative — don't over-correct
-      const boostOFF = offImpact * missedFrac * gameShare * RETURN_DAMPEN;
-      const boostDEF = defImpact * missedFrac * gameShare * RETURN_DAMPEN;
+      const seasonPortion = 1 - recentWeight;
+      const RETURN_DAMPEN = 0.50;
+      const boostOFF = offImpact * missedFrac * gameShare * seasonPortion * RETURN_DAMPEN;
+      const boostDEF = defImpact * missedFrac * gameShare * seasonPortion * RETURN_DAMPEN;
       // Cap individual player boost at ±3.0 pts
       const MAX_BOOST = 3.0;
       adj.OFF = Math.round((adj.OFF + Math.max(-MAX_BOOST, Math.min(MAX_BOOST, boostOFF))) * 100) / 100;
