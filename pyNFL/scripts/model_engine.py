@@ -532,7 +532,7 @@ def analyze_game(game_data, team_stats, weights, kalman_states=None,
     prob_threshold = DEFAULT_W.get("probHigh", 0.57)
 
     # Caps: don't pick into huge spreads or tiny edges
-    s_diff_cap = 15.0       # Don't trust edges > 15 pts (likely data issue)
+    s_diff_cap = 9.0        # sDiff > 9 hits at 58% (barely above breakeven)
     abs_line_cap = 14.0     # Don't pick into lines > 14 pts
 
     if (best_spread_p >= prob_threshold
