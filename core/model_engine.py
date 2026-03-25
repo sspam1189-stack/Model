@@ -480,7 +480,7 @@ def create_model_engine(
             fav_line_cap = bayes_cfg["spread"]["fav_line_cap"]
             line_ok = True if fav_line_cap is None else (True if picked_side_is_dog else abs_line <= fav_line_cap)
 
-            s_diff_ok = True if not bayes_cfg["spread"]["use_s_diff"] else (s_diff <= bayes_cfg["spread"]["s_diff_cap"])
+            s_diff_ok = True if (not bayes_cfg["spread"]["use_s_diff"] or bayes_cfg["spread"]["s_diff_cap"] is None) else (s_diff <= bayes_cfg["spread"]["s_diff_cap"])
             abs_line_ok = _line_cap_ok(abs_line, bayes_cfg["spread"]["abs_line_cap"], bayes_cfg["spread"]["abs_line_cap_inclusive"])
             non_zero_ok = True if not bayes_cfg["spread"]["require_line_nonzero"] else abs_line > 0
 

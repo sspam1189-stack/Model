@@ -11,14 +11,14 @@ def create_nba_engine(DEFAULT_STATS, DEFAULT_W, DEFAULT_W_VAR, BAYES_HYPER, ENGI
         engine_config=ENGINE_CONFIG,
         bayes={
             "spread": {
-                "s_diff_cap": 9,
+                "s_diff_cap": None,
                 "abs_line_cap": 12,
                 "abs_line_cap_inclusive": False,
             },
         },
         legacy={
             "spread": {
-                "diff_cap": 9,
+                "diff_cap": None,
                 "abs_line_cap": 12,
                 "abs_line_cap_inclusive": False,
             },

@@ -12,14 +12,14 @@ def create_fullseason_engine(DEFAULT_STATS, DEFAULT_W, DEFAULT_W_VAR, BAYES_HYPE
         enable_h2h=True,
         bayes={
             "spread": {
-                "s_diff_cap": 10,
+                "s_diff_cap": None,
                 "abs_line_cap": 12,
                 "abs_line_cap_inclusive": False,
             },
         },
         legacy={
             "spread": {
-                "diff_cap": 10,
+                "diff_cap": None,
                 "abs_line_cap": 12,
                 "abs_line_cap_inclusive": False,
             },
