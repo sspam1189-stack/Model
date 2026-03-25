@@ -16,8 +16,10 @@ ESPN_NFL_SCOREBOARD = "https://site.api.espn.com/apis/site/v2/sports/football/nf
 _CACHE_DIR = Path(__file__).resolve().parents[2] / "data" / "scores"
 
 
-def _cache_path(season, week):
-    """Return the cache file path for a given season/week."""
+def _cache_path(season, week, season_type=2):
+    """Return the cache file path for a given season/week/season_type."""
+    if season_type == 3:
+        return _CACHE_DIR / f"nfl_scores_{season}_POST_W{week}.json"
     return _CACHE_DIR / f"nfl_scores_{season}_W{week}.json"
 
 
@@ -179,16 +181,16 @@ def fetch_week_scores(week, season=None, season_type=2):
     """
     # --- try cache ---
     if season and week:
-        cp = _cache_path(season, week)
+        cp = _cache_path(season, week, season_type)
         cached = _load_cache(cp, max_age_hours=None)  # optimistic: try permanent first
         if cached is not None:
             if _all_games_final(cached):
-                print(f"  [scores] Using cached final scores for {season} W{week} ({cp.name})")
+                print(f"  [scores] Using cached final scores for {season} W{week} st={season_type} ({cp.name})")
                 return cached
             # Cache exists but not all games final -- honour 2-hour window
             cached_fresh = _load_cache(cp, max_age_hours=2)
             if cached_fresh is not None:
-                print(f"  [scores] Using cached (partial) scores for {season} W{week} ({cp.name})")
+                print(f"  [scores] Using cached (partial) scores for {season} W{week} st={season_type} ({cp.name})")
                 return cached_fresh
 
     sb = fetch_nfl_scoreboard(week=week, season=season, season_type=season_type)
@@ -196,7 +198,7 @@ def fetch_week_scores(week, season=None, season_type=2):
 
     # --- save to cache ---
     if season and week and scores:
-        _save_cache(scores, _cache_path(season, week))
+        _save_cache(scores, _cache_path(season, week, season_type))
 
     return scores
 
