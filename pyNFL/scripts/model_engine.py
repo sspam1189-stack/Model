@@ -485,15 +485,15 @@ def analyze_game(game_data, team_stats, weights, kalman_states=None,
     r_var = residual_var or weights.get("residual_var", BAYES_HYPER["residualVar"])
 
     # Market data
-    market_spread = game_data.get("line", 0.0)   # Positive = away favored
+    market_spread = game_data.get("line", 0.0)   # Standard: negative = home favored
     market_total = game_data.get("total", 0.0)
 
     # Edge computation
     # model_margin = proj_home - proj_away (positive = home favored)
-    # line = market_spread (positive = away favored, i.e. home is underdog)
-    # margin_vs_line = model says home is X better than market says
+    # market_spread: standard betting convention (negative = home favored)
+    # margin_vs_line = how much better model thinks home is vs the line
     model_margin = proj_home - proj_away
-    margin_vs_line = model_margin - (-market_spread)  # Convert line convention
+    margin_vs_line = model_margin - (-market_spread)  # = model_margin + market_spread
     s_diff = abs(margin_vs_line)
 
     # Total edge
@@ -518,7 +518,7 @@ def analyze_game(game_data, team_stats, weights, kalman_states=None,
     # ---------------------------------------------------------------------------
     thresh = thresholds or SDIFF_THRESHOLDS
     abs_line = abs(market_spread)
-    home_fav = market_spread < 0  # Negative line = home is favored (standard convention)
+    home_fav = market_spread < 0  # Standard betting: negative spread = home is favored
 
     # Spread pick
     s_pick = "PASS"
