@@ -23,6 +23,7 @@ from props_engine import (
     build_player_game_logs, project_player_props,
     ROLLING_WINDOW, MIN_GAMES_PASSER, MIN_GAMES_RECEIVER, MIN_GAMES_RUSHER,
     PROP_PROB_HIGH, PROP_PROB_ELITE, MARKET_THRESHOLDS, UNDER_ONLY_MARKETS,
+    MIN_EDGE, MAX_EDGE, MIN_LINE,
 )
 
 # Try to import historical props fetch
@@ -133,8 +134,18 @@ def backtest_props(seasons, start_week=4, use_real_lines=False):
                     mkt_thresh = MARKET_THRESHOLDS.get(market, {"high": PROP_PROB_HIGH, "elite": PROP_PROB_ELITE})
                     if best_p >= mkt_thresh["high"]:
                         pick = "OVER" if p_over > p_under else "UNDER"
-                        # UNDER-only filter for non-pass markets
+                        # UNDER-only filter
                         if market in UNDER_ONLY_MARKETS and pick == "OVER":
+                            continue
+                        # Edge size filter
+                        abs_edge = abs(diff)
+                        min_e = MIN_EDGE.get(market, 0)
+                        max_e = MAX_EDGE.get(market, 999)
+                        if abs_edge < min_e or abs_edge > max_e:
+                            continue
+                        # Minimum line filter
+                        min_l = MIN_LINE.get(market, 0)
+                        if sim_line < min_l:
                             continue
                         won = (pick == "OVER" and actual_val > sim_line) or \
                               (pick == "UNDER" and actual_val < sim_line)

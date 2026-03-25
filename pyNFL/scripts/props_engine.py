@@ -44,11 +44,23 @@ RUSH_YDS_VAR_MULT = 1.5   # RB usage is highly variable
 REC_YDS_VAR_MULT = 1.6    # WR targets are volatile
 RECEPTIONS_VAR_MULT = 1.3
 
-# Directional filter: UNDER-only for rush/rec/receptions markets
-# Backtest shows OVER picks lose money in these markets; UNDER picks are +90u over 3 seasons.
+# Directional filter: UNDER-only for all markets
+# Backtest shows OVER picks lose money in every market; UNDER picks are +117u over 3 seasons.
 # Sportsbooks set lines slightly high to attract OVER action — this captures that bias.
-# pass_yds is excluded from this filter (keeps both directions).
 UNDER_ONLY_MARKETS = {"pass_yds", "rush_yds", "rec_yds", "receptions"}
+
+# Minimum edge size per market (|proj - line|)
+# Filters out picks where model barely disagrees with market (noise) and extreme outliers (model wrong).
+# pass_yds <20 yds: 49W-61L (-18u), 50+: 40W-45L (-9.5u) — only 20-50 is profitable
+# rush_yds <5: 0W-3L, 20+: 88W-90L — sweet spot is 5-20
+# receptions: edge 1-2 is the bulk of edge (252W-197L +35u)
+# Edge size filters per market
+MIN_EDGE = {"pass_yds": 20, "receptions": 0.5}
+MAX_EDGE = {"pass_yds": 50}
+
+# Minimum line value per market (filters out low-volume players where noise dominates)
+# rec_yds line<50: 64W-72L (-15u) vs line>=50: 31W-13L (+16.7u)
+MIN_LINE = {"rec_yds": 50}
 
 
 # ---------------------------------------------------------------------------
@@ -402,8 +414,18 @@ def _make_prop(name, team, market, proj, std, line_lookup, opp):
         mkt_thresh = MARKET_THRESHOLDS.get(market, {"high": PROP_PROB_HIGH, "elite": PROP_PROB_ELITE})
         if best_p >= mkt_thresh["high"]:
             direction = "OVER" if p_over > p_under else "UNDER"
-            # UNDER-only filter for non-pass markets (sportsbooks set lines high to attract OVER action)
+            # UNDER-only filter (sportsbooks set lines high to attract OVER action)
             if market in UNDER_ONLY_MARKETS and direction == "OVER":
+                return result  # keep as PASS
+            # Edge size filter: skip tiny edges (noise) and extreme edges (model wrong)
+            abs_edge = abs(diff)
+            min_e = MIN_EDGE.get(market, 0)
+            max_e = MAX_EDGE.get(market, 999)
+            if abs_edge < min_e or abs_edge > max_e:
+                return result  # keep as PASS
+            # Minimum line filter: skip low-volume players where noise dominates
+            min_l = MIN_LINE.get(market, 0)
+            if line < min_l:
                 return result  # keep as PASS
             result["pick"] = direction
             result["conf"] = "elite" if best_p >= mkt_thresh["elite"] else "high"
