@@ -160,7 +160,7 @@ HCA_VAR_FLOOR = 0.3
 # ---------------------------------------------------------------------------
 
 BURN_IN_WEEKS = 1           # Weeks before model starts making picks
-MIN_GP = 4                  # Minimum games played before projecting a team
+MIN_GP = 0                  # No minimum — project from Week 1
 
 # sDiff thresholds for confidence tiers (calibrated by backfill)
 SDIFF_THRESHOLDS = {
