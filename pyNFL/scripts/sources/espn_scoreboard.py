@@ -1,11 +1,81 @@
 # pyNFL/scripts/sources/espn_scoreboard.py
 # Fetches NFL final scores from ESPN's public JSON scoreboard endpoint.
 
+import os
+import json
+import time
 import requests
 import math
+from pathlib import Path
 
 
 ESPN_NFL_SCOREBOARD = "https://site.api.espn.com/apis/site/v2/sports/football/nfl/scoreboard"
+
+# --------------- disk cache helpers ---------------
+
+_CACHE_DIR = Path(__file__).resolve().parents[2] / "data" / "scores"
+
+
+def _cache_path(season, week):
+    """Return the cache file path for a given season/week."""
+    return _CACHE_DIR / f"nfl_scores_{season}_W{week}.json"
+
+
+def _save_cache(data, path):
+    """Write *data* as JSON to *path*, creating directories as needed."""
+    try:
+        os.makedirs(path.parent, exist_ok=True)
+        with open(path, "w") as f:
+            json.dump(data, f, indent=2)
+    except Exception as exc:
+        print(f"  [scores-cache] WARNING: could not write cache {path}: {exc}")
+
+
+def _load_cache(path, max_age_hours=None):
+    """
+    Load JSON from *path* if it exists and is fresh enough.
+
+    Args:
+        path: Path to cache file.
+        max_age_hours: Maximum age in hours.  ``None`` means never expire
+                       (use for completed / final scores that won't change).
+
+    Returns:
+        Parsed JSON data, or ``None`` if cache miss / stale / unreadable.
+    """
+    try:
+        if not path.exists():
+            return None
+        if max_age_hours is not None:
+            age_s = time.time() - path.stat().st_mtime
+            if age_s > max_age_hours * 3600:
+                return None
+        with open(path) as f:
+            return json.load(f)
+    except Exception as exc:
+        print(f"  [scores-cache] WARNING: could not read cache {path}: {exc}")
+        return None
+
+
+def _all_games_final(scores):
+    """Return True if every game in the scores list has a final status."""
+    if not scores:
+        return False
+    return all(
+        g.get("awayScore") is not None and g.get("homeScore") is not None
+        for g in scores
+    )
+
+
+def clear_cache():
+    """Remove all cached scores files from disk."""
+    try:
+        if _CACHE_DIR.exists():
+            for f in _CACHE_DIR.glob("nfl_scores_*.json"):
+                f.unlink(missing_ok=True)
+            print(f"  [scores-cache] Cleared cache directory {_CACHE_DIR}")
+    except Exception as exc:
+        print(f"  [scores-cache] WARNING: could not clear cache: {exc}")
 
 
 def fetch_nfl_scoreboard(week=None, season=None, season_type=2):
@@ -95,6 +165,10 @@ def fetch_week_scores(week, season=None, season_type=2):
     """
     Convenience: fetch scoreboard for a specific week and return final scores.
 
+    Uses a disk cache:
+      - If all games are final the cache never expires (scores won't change).
+      - Otherwise cached for up to 2 hours (games still in progress).
+
     Args:
         week: NFL week number
         season: 4-digit year (defaults to current season)
@@ -103,8 +177,28 @@ def fetch_week_scores(week, season=None, season_type=2):
     Returns:
         List of final score dicts from extract_final_scores.
     """
+    # --- try cache ---
+    if season and week:
+        cp = _cache_path(season, week)
+        cached = _load_cache(cp, max_age_hours=None)  # optimistic: try permanent first
+        if cached is not None:
+            if _all_games_final(cached):
+                print(f"  [scores] Using cached final scores for {season} W{week} ({cp.name})")
+                return cached
+            # Cache exists but not all games final -- honour 2-hour window
+            cached_fresh = _load_cache(cp, max_age_hours=2)
+            if cached_fresh is not None:
+                print(f"  [scores] Using cached (partial) scores for {season} W{week} ({cp.name})")
+                return cached_fresh
+
     sb = fetch_nfl_scoreboard(week=week, season=season, season_type=season_type)
-    return extract_final_scores(sb)
+    scores = extract_final_scores(sb)
+
+    # --- save to cache ---
+    if season and week and scores:
+        _save_cache(scores, _cache_path(season, week))
+
+    return scores
 
 
 def extract_all_games(scoreboard_json):

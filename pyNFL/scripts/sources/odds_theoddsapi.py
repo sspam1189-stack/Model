@@ -4,15 +4,73 @@
 
 import os
 import re
+import json
 import math
 import time
 import requests
 import datetime
+from pathlib import Path
 from urllib.parse import quote
 from zoneinfo import ZoneInfo
 
 BASE = "https://api.the-odds-api.com/v4"
 SPORT_KEY = "americanfootball_nfl"
+
+# --------------- disk cache helpers ---------------
+
+_CACHE_DIR = Path(__file__).resolve().parents[2] / "data" / "odds"
+
+
+def _cache_path(season, week):
+    """Return the cache file path for a given season/week."""
+    return _CACHE_DIR / f"nfl_odds_{season}_W{week}.json"
+
+
+def _save_cache(data, path):
+    """Write *data* as JSON to *path*, creating directories as needed."""
+    try:
+        os.makedirs(path.parent, exist_ok=True)
+        with open(path, "w") as f:
+            json.dump(data, f, indent=2)
+    except Exception as exc:
+        print(f"  [odds-cache] WARNING: could not write cache {path}: {exc}")
+
+
+def _load_cache(path, max_age_hours=None):
+    """
+    Load JSON from *path* if it exists and is fresh enough.
+
+    Args:
+        path: Path to cache file.
+        max_age_hours: Maximum age in hours.  ``None`` means never expire
+                       (use for historical / backfill data that won't change).
+
+    Returns:
+        Parsed JSON data, or ``None`` if cache miss / stale / unreadable.
+    """
+    try:
+        if not path.exists():
+            return None
+        if max_age_hours is not None:
+            age_s = time.time() - path.stat().st_mtime
+            if age_s > max_age_hours * 3600:
+                return None
+        with open(path) as f:
+            return json.load(f)
+    except Exception as exc:
+        print(f"  [odds-cache] WARNING: could not read cache {path}: {exc}")
+        return None
+
+
+def clear_cache():
+    """Remove all cached odds files from disk."""
+    try:
+        if _CACHE_DIR.exists():
+            for f in _CACHE_DIR.glob("nfl_odds_*.json"):
+                f.unlink(missing_ok=True)
+            print(f"  [odds-cache] Cleared cache directory {_CACHE_DIR}")
+    except Exception as exc:
+        print(f"  [odds-cache] WARNING: could not clear cache: {exc}")
 
 
 def _norm_team(name):
@@ -105,12 +163,23 @@ def _expand_aliases(name):
 
 # -- Live odds fetch --
 
-def fetch_nfl_odds(api_key=None):
+def fetch_nfl_odds(api_key=None, season=None, week=None):
     """
     Fetch current NFL odds (spreads + totals) from The Odds API.
     Returns list of dicts: [{ away, home, line, total, _book }]
     Line convention: +X = home favored, -X = away favored.
+
+    If *season* and *week* are provided the result is cached to disk
+    (< 2 hours for live odds).
     """
+    # --- try cache first (live odds: 2-hour freshness) ---
+    if season and week:
+        cp = _cache_path(season, week)
+        cached = _load_cache(cp, max_age_hours=2)
+        if cached is not None:
+            print(f"  [odds] Using cached live odds for {season} W{week} ({cp.name})")
+            return cached
+
     api_key = api_key or os.environ.get("ODDS_API_KEY")
     if not api_key:
         raise Exception("Missing ODDS_API_KEY env var (The Odds API key).")
@@ -192,6 +261,10 @@ def fetch_nfl_odds(api_key=None):
             "commenceTimeIso": commence_str,
             "_book": book.get("title") if book else None,
         })
+
+    # --- save to cache ---
+    if season and week:
+        _save_cache(games, _cache_path(season, week))
 
     return games
 
@@ -306,8 +379,18 @@ def fetch_historical_odds(api_key=None, season=None, week=None):
     Uses The Odds API historical endpoint with a timestamp near Sunday 1pm ET
     of the given week.
 
+    Results are cached permanently (historical data never changes).
+
     Returns list of dicts: [{ away, home, line, total, _book }]
     """
+    # --- try cache first (historical: never expires) ---
+    if season and week:
+        cp = _cache_path(season, week)
+        cached = _load_cache(cp, max_age_hours=None)
+        if cached is not None:
+            print(f"  [odds] Using cached historical odds for {season} W{week} ({cp.name})")
+            return cached
+
     api_key = api_key or os.environ.get("ODDS_API_KEY")
     if not api_key:
         raise Exception("Missing ODDS_API_KEY env var.")
@@ -422,4 +505,9 @@ def fetch_historical_odds(api_key=None, season=None, week=None):
         })
 
     print(f"  [odds] Got historical odds for {len(games)} games")
+
+    # --- save to cache (permanent for historical) ---
+    if season and week and games:
+        _save_cache(games, _cache_path(season, week))
+
     return games
