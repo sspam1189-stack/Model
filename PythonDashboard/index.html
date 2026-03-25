@@ -683,11 +683,35 @@
 
     // ─── Generic Season Filter (shared across ALL tabs) ───
     let seasonFilter = 'all';
+    let nflWeekFilter = 'latest';
 
     function setSeasonFilter(val) {
       seasonFilter = val;
+      nflWeekFilter = 'latest';
       historyPage = 0;
       render();
+    }
+
+    function setNflWeekFilter(val) {
+      nflWeekFilter = val;
+      render();
+    }
+
+    function nflWeekSelector(runs) {
+      if (activeTab !== 'nfl') return '';
+      const weeks = runs
+        .filter(r => !r.burnIn)
+        .map(r => ({ week: r.week, label: r.dateDisplay || `Week ${r.week}`, playoff: r.playoff }))
+        .sort((a, b) => a.week - b.week);
+      if (weeks.length <= 1) return '';
+      let opts = `<option value="latest" ${nflWeekFilter === 'latest' ? 'selected' : ''}>Latest</option>`;
+      opts += `<option value="all" ${nflWeekFilter === 'all' ? 'selected' : ''}>All Weeks</option>`;
+      for (const w of weeks) {
+        const val = String(w.week);
+        const label = w.label.replace(/^\d{4}\s*/, '');  // strip season prefix since season dropdown handles that
+        opts += `<option value="${val}" ${nflWeekFilter === val ? 'selected' : ''}>${label}</option>`;
+      }
+      return `<select onchange="setNflWeekFilter(this.value)" style="background:#1e1e1e;color:#e0e0e0;border:1px solid #444;border-radius:6px;padding:4px 10px;font-size:13px;margin-left:6px;cursor:pointer">${opts}</select>`;
     }
 
     // Derive NBA/NCAA season label from a date string like "20260324"
@@ -743,6 +767,7 @@
         historyPage = 0;
         viewMode = 'today';
         seasonFilter = 'all';
+        nflWeekFilter = 'latest';
         render();
       });
     });
@@ -2050,36 +2075,49 @@
       const latestRun = nonBurnIn.length ? nonBurnIn[nonBurnIn.length - 1] : null;
       const totalPages = Math.ceil(nonBurnIn.length / DAYS_PER_PAGE);
 
+      // Week filter: pick which run to show in the "Latest" view
+      let selectedRun = latestRun;
+      if (nflWeekFilter !== 'latest' && nflWeekFilter !== 'all') {
+        const wk = parseInt(nflWeekFilter);
+        selectedRun = nonBurnIn.find(r => r.week === wk) || latestRun;
+      }
+
+      // For stats views: if a specific week is selected, show cumulative up to that week
+      const statsRuns = (nflWeekFilter !== 'latest' && nflWeekFilter !== 'all')
+        ? runs.filter(r => r.week <= parseInt(nflWeekFilter))
+        : runs;
+
       updateLastRunInfo();
       updateLastSyncInfo();
 
-      let html = nflRenderRecordBanner(runs);
+      let html = nflRenderRecordBanner(statsRuns);
 
       html += `
         <div class="view-toggle">
           <button class="view-btn ${viewMode === 'today' ? 'active' : ''}" onclick="setView('today')">Latest</button>
           <button class="view-btn ${viewMode === 'history' ? 'active' : ''}" onclick="setView('history')">History</button>
           ${seasonSelector(allRuns)}
+          ${nflWeekSelector(runs)}
         </div>`;
 
-      if (viewMode === 'today' && latestRun) {
-        html += nflRenderTodayPicks(latestRun);
-        html += nflRenderWeeklyPicks(latestRun);
+      if (viewMode === 'today' && selectedRun) {
+        html += nflRenderTodayPicks(selectedRun);
+        html += nflRenderWeeklyPicks(selectedRun);
 
         html += '<div class="section-label">Season P&L</div>';
-        html += nflRenderPnL(runs);
+        html += nflRenderPnL(statsRuns);
 
         html += '<div class="section-label">Injury Adjustments</div>';
-        html += nflRenderInjuries(latestRun);
+        html += nflRenderInjuries(selectedRun);
 
         html += '<div class="section-label">Model vs Market</div>';
-        html += nflRenderScatter(runs);
+        html += nflRenderScatter(statsRuns);
 
         html += '<div class="section-label">Hit Rate Trends</div>';
-        html += nflRenderRollingRate(runs);
+        html += nflRenderRollingRate(statsRuns);
 
         html += '<div class="section-label">Calibration</div>';
-        html += nflRenderCalibration(runs);
+        html += nflRenderCalibration(statsRuns);
 
       } else if (viewMode === 'history') {
         html += `
