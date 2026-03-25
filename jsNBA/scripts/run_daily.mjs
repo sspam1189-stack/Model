@@ -1262,7 +1262,7 @@ async function main() {
   // 3. Lineup-adjusted stats + B2B rest + Kalman state
   console.log("[2/7] Applying lineup adjustments + B2B rest + Kalman filter...");
 
-  const lineupStats = adjustTeamStats(stats, injuryData.report, injuryData.playerMPG, playerAdvanced, odds, { recentWeight: baseW.recentWeight ?? 0.35 });
+  const lineupStats = adjustTeamStats(stats, injuryData.report, injuryData.playerMPG, playerAdvanced, odds);
   const { adjusted: adjustedStats, b2bNotes } = applyB2BAdjustment(lineupStats, b2bTeams, odds);
   const a = getAvgs(adjustedStats); // league averages (used as fallback)
 
