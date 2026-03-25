@@ -315,6 +315,41 @@ def tune_weights(current_w, current_w_var, completed_rows):
 
         W["constant"] = _r3(W["constant"] - clamp_step(lr * g_constant))
 
+    # ==================================================================
+    # SIGNAL 4: Adaptive Kalman parameters (gameNoise, dailyDrift)
+    # ==================================================================
+    # Adapt gameNoise based on rolling prediction error variance.
+    # If actual errors are larger than assumed noise, increase it (and vice versa).
+
+    KALMAN_ADAPT_RATE = 0.15
+    MIN_GAMES_FOR_KALMAN = 10
+
+    margin_errors = []
+    for r in completed_rows:
+        if (not _is_finite(r.get("homeScore")) or not _is_finite(r.get("awayScore"))
+                or not _is_finite(r.get("pH")) or not _is_finite(r.get("pA"))):
+            continue
+        actual_margin = r["homeScore"] - r["awayScore"]
+        pred_margin = r["pH"] - r["pA"]
+        margin_errors.append(actual_margin - pred_margin)
+
+    if len(margin_errors) >= MIN_GAMES_FOR_KALMAN:
+        import numpy as _np
+        empirical_game_noise = float(_np.var(margin_errors))
+        current_noise = W.get("_kalman_gameNoise", _BAYES_HYPER.get("marginNoise", 225))
+        new_noise = (1 - KALMAN_ADAPT_RATE) * current_noise + KALMAN_ADAPT_RATE * empirical_game_noise
+        W["_kalman_gameNoise"] = _r3(max(100, min(400, new_noise)))
+
+        # Adapt dailyDrift: if predictions consistently biased, increase drift
+        mean_error = float(_np.mean(margin_errors))
+        current_drift = W.get("_kalman_dailyDrift", 0.5)
+        if abs(mean_error) > 2.0:
+            # Predictions are consistently biased — teams are changing faster
+            W["_kalman_dailyDrift"] = _r3(min(2.0, current_drift * 1.15))
+        elif abs(mean_error) < 0.5:
+            # Well-calibrated — slightly reduce drift
+            W["_kalman_dailyDrift"] = _r3(max(0.2, current_drift * 0.95))
+
     # Final guard: heal any NaN / None that crept in
     for k in list(W.keys()):
         if W[k] is None or (isinstance(W[k], float) and math.isnan(W[k])):

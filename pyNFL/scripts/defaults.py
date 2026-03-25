@@ -66,6 +66,12 @@ DEFAULT_W = {
     "wQBEPA": 2.0,          # QB EPA/dropback differential
     "wTurnover": 0.8,       # Turnover margin differential
 
+    # -- Interaction / matchup feature weights --
+    "wPassMatchup": 1.0,    # passOffEPA * passDefEPA interaction
+    "wRushMatchup": 0.5,    # rushOffEPA * rushDefEPA interaction
+    "wPaceXEPA": 0.3,       # pace_diff * total_epa_diff interaction
+    "wThirdDown": 1.0,      # Third-down conversion differential
+
     # -- Additive adjustments --
     "constant": 0.0,        # Additive constant to base projection
 
@@ -76,10 +82,10 @@ DEFAULT_W = {
     "ouEliteBump": 2.0,     # Extra |tDiff| above ouHigh for "elite"
 
     # -- Bayesian probability thresholds --
-    "probHigh": 0.57,       # Min P(cover) for "high" confidence pick
-    "probElite": 0.63,      # Min P(cover) for "elite" confidence (lock)
-    "probOUHigh": 0.58,     # Totals: min P(over/under) for "high"
-    "probOUElite": 0.64,    # Totals: min P(over/under) for "elite"
+    "probHigh": 0.58,       # Min P(cover) for "high" pick (calibrated for t-dist + variance fix)
+    "probElite": 0.64,      # Min P(cover) for "elite" confidence (lock)
+    "probOUHigh": 0.62,     # Totals: min P(over/under) for "high" (higher bar — totals are noisier)
+    "probOUElite": 0.68,    # Totals: min P(over/under) for "elite"
 }
 
 
@@ -102,6 +108,10 @@ DEFAULT_W_VAR = {
     "wSuccessRate": 5.0,
     "wQBEPA": 5.0,
     "wTurnover": 5.0,
+    "wPassMatchup": 5.0,
+    "wRushMatchup": 5.0,
+    "wPaceXEPA": 4.0,
+    "wThirdDown": 5.0,
     "constant": 4.0,
 }
 
@@ -281,4 +291,8 @@ FEATURE_COLUMNS = [
     "turnover_diff",        # Turnover margin differential
     "injury_delta_a",       # Injury adjustment for team A
     "injury_delta_b",       # Injury adjustment for team B
+    "pass_matchup",         # passOffEPA * passDefEPA interaction
+    "rush_matchup",         # rushOffEPA * rushDefEPA interaction
+    "pace_x_epa",           # pace_diff * total EPA diff interaction
+    "third_down_diff",      # Third-down conversion differential
 ]

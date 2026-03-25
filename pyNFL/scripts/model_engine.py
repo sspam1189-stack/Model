@@ -25,7 +25,7 @@ import os
 import sys
 
 import numpy as np
-from scipy.stats import norm
+from scipy.stats import norm, t as t_dist
 
 # Lazy import sklearn — only needed for training, not inference
 _RidgeCV = None
@@ -213,6 +213,12 @@ def build_feature_vector(team_a_stats, team_b_stats, is_home,
     qb_epa_diff = a.get("qbEPA", 0.0) - b.get("qbEPA", 0.0)
     turnover_diff = a.get("toMargin", 0.0) - b.get("toMargin", 0.0)
 
+    # Interaction / matchup features
+    pass_matchup = a.get("passOffEPA", 0.0) * b.get("passDefEPA", 0.0)
+    rush_matchup = a.get("rushOffEPA", 0.0) * b.get("rushDefEPA", 0.0)
+    pace_x_epa = pace_diff * (pass_off_diff + rush_off_diff)
+    third_down_diff = a.get("thirdDownOff", 0.0) - b.get("thirdDownDef", 0.0)
+
     features = np.array([
         pass_off_diff,
         rush_off_diff,
@@ -228,6 +234,10 @@ def build_feature_vector(team_a_stats, team_b_stats, is_home,
         turnover_diff,
         injury_delta_a,
         injury_delta_b,
+        pass_matchup,
+        rush_matchup,
+        pace_x_epa,
+        third_down_diff,
     ], dtype=np.float64)
 
     return features
@@ -481,8 +491,27 @@ def analyze_game(game_data, team_stats, weights, kalman_states=None,
     proj_total = proj["projTotal"]
     margin_var = proj["marginVar"]
 
-    # Use dynamic residual_var if provided
+    # --- Apply weather adjustment (primarily affects total) ---
+    weather_adj = game_data.get("_weatherAdj", {})
+    weather_total_adj = weather_adj.get("total_adj", 0.0)
+    proj_total = round((proj_total + weather_total_adj) * 10) / 10
+
+    # --- Apply rest/schedule adjustments (affects spread) ---
+    rest_adj = game_data.get("_restAdj", {})
+    home_rest = rest_adj.get("home_rest_adj", 0.0)
+    away_rest = rest_adj.get("away_rest_adj", 0.0)
+    travel = rest_adj.get("travel_adj", 0.0)  # positive = home advantage
+    # Net schedule adjustment to home team projection
+    sched_adj = (home_rest - away_rest + travel)
+    proj_home = round((proj_home + sched_adj / 2) * 10) / 10
+    proj_away = round((proj_away - sched_adj / 2) * 10) / 10
+
+    # Dynamic residual_var override (if provided by caller, e.g. self_tune)
     r_var = residual_var or weights.get("residual_var", BAYES_HYPER["residualVar"])
+
+    # margin_var already includes residual_var + kalman_var + feature uncertainty.
+    # Avoid double-counting: use max(margin_var, r_var) instead of sum.
+    effective_var = max(margin_var, r_var)
 
     # Market data
     market_spread = game_data.get("line", 0.0)   # Standard: negative = home favored
@@ -500,17 +529,32 @@ def analyze_game(game_data, team_stats, weights, kalman_states=None,
     t_diff = round((proj_total - market_total) * 10) / 10
 
     # ---------------------------------------------------------------------------
-    # P(cover) via Normal CDF
+    # P(cover) via Student's t-distribution (df=5)
+    # Heavier tails than Normal, matching NFL's empirical margin distribution
+    # (blowouts, key-number clustering at 3, 7, 10, 14).
     # ---------------------------------------------------------------------------
-    margin_std = math.sqrt(max(margin_var + r_var, 1.0))
+    NFL_T_DF = 5
+    KEY_NUMBERS = [3.0, 7.0, 10.0, 14.0]
+    KEY_NUMBER_DEADBAND = 1.5
+    KEY_NUMBER_DAMPENING = 0.92  # Pull probability 8% toward 0.50 near key numbers
+
+    margin_std = math.sqrt(max(effective_var, 4.0))
 
     # P(home covers): model says home beats the spread
-    p_home_cover = norm.cdf(margin_vs_line / margin_std)
+    p_home_cover = float(t_dist.cdf(margin_vs_line / margin_std, df=NFL_T_DF))
     p_away_cover = 1.0 - p_home_cover
 
-    # P(over/under)
-    total_std = math.sqrt(max((margin_var + r_var) * 1.1, 1.0))
-    p_over = norm.cdf(t_diff / total_std) if market_total > 0 else 0.5
+    # Key-number dampening: markets are sharpest at key numbers
+    for kn in KEY_NUMBERS:
+        if abs(abs(margin_vs_line) - kn) < KEY_NUMBER_DEADBAND:
+            p_home_cover = 0.5 + (p_home_cover - 0.5) * KEY_NUMBER_DAMPENING
+            p_away_cover = 1.0 - p_home_cover
+            break
+
+    # P(over/under) — totals have higher variance than margins in NFL
+    # Use 1.4x multiplier (totals are noisier: two teams' scoring combined)
+    total_std = math.sqrt(max(effective_var * 1.4, 4.0))
+    p_over = float(t_dist.cdf(t_diff / total_std, df=NFL_T_DF)) if market_total > 0 else 0.5
     p_under = 1.0 - p_over
 
     # ---------------------------------------------------------------------------
@@ -545,16 +589,17 @@ def analyze_game(game_data, team_stats, weights, kalman_states=None,
         p_cover = best_spread_p
         confidence_tier = _classify_confidence(s_diff, thresh)
 
-    # Over/Under pick
+    # Over/Under pick (two tiers like spreads)
     o_pick = "PASS"
     o_conf = "low"
     p_ou = None
     best_total_p = max(p_over, p_under)
-    ou_prob_threshold = DEFAULT_W.get("probOUElite", 0.64)
+    ou_prob_high = DEFAULT_W.get("probOUHigh", 0.59)
+    ou_prob_elite = DEFAULT_W.get("probOUElite", 0.65)
 
-    if best_total_p >= ou_prob_threshold and market_total > 0:
+    if best_total_p >= ou_prob_high and market_total > 0:
         o_pick = "OVER" if p_over >= p_under else "UNDER"
-        o_conf = "elite"
+        o_conf = "elite" if best_total_p >= ou_prob_elite else "high"
         p_ou = best_total_p
 
     # ---------------------------------------------------------------------------
@@ -723,27 +768,40 @@ def train_ridge(historical_features, historical_margins, alpha=None):
 
     RidgeCV = _get_ridge_cv()
 
+    # Standardize features so ridge penalizes all features equally
+    from sklearn.preprocessing import StandardScaler
+    scaler = StandardScaler()
+    X_scaled = scaler.fit_transform(X)
+
     if alpha is not None:
         # Fixed alpha — still use RidgeCV with single alpha for consistent API
         model = RidgeCV(alphas=[alpha], cv=min(5, n_samples))
     else:
-        # CV over a wide range of alphas
-        alphas = np.logspace(-2, 4, 50)  # 0.01 to 10000
+        # CV over a capped range — alpha > 100 causes catastrophic zeroing
+        alphas = np.logspace(-2, 2, 30)  # 0.01 to 100
         n_folds = min(5, n_samples)
-        model = RidgeCV(alphas=alphas, cv=n_folds, scoring="neg_mean_squared_error")
+        model = RidgeCV(alphas=alphas, cv=n_folds,
+                        scoring="neg_mean_absolute_error")
 
-    model.fit(X, y)
+    model.fit(X_scaled, y)
 
-    # Compute residuals for residual variance
-    predictions = model.predict(X)
+    # Transform coefficients back to original (unscaled) feature space
+    coefs_original = model.coef_ / scaler.scale_
+    intercept_original = model.intercept_ - np.dot(model.coef_,
+                                                   scaler.mean_ / scaler.scale_)
+
+    # Compute residuals for residual variance (using original-space predictions)
+    predictions = X @ coefs_original + intercept_original
     residuals = y - predictions
     residual_var = float(np.var(residuals))
-    r_squared = float(model.score(X, y))
+    ss_total = float(np.var(y)) * n_samples
+    ss_res = float(np.sum(residuals ** 2))
+    r_squared = 1.0 - ss_res / ss_total if ss_total > 0 else 0.0
 
     # Build weights dict
-    coefficients = model.coef_.tolist()
-    intercept = float(model.intercept_)
-    best_alpha = float(model.alpha_)
+    coefficients = coefs_original.tolist()
+    intercept = float(intercept_original)
+    best_alpha = max(float(model.alpha_), 0.1)  # Alpha floor
 
     print(f"  [model_engine] Ridge trained: alpha={best_alpha:.4f},"
           f" R²={r_squared:.4f}, residualVar={residual_var:.1f},"

@@ -150,6 +150,28 @@ def grade_spread_pick(g):
     return "WIN" if val > 0 else "LOSS"
 
 
+def grade_ou_pick(g):
+    """Grade an over/under pick against final scores. Returns WIN/LOSS/PUSH."""
+    pick = g.get("oPick")
+    if not pick or pick == "PASS":
+        return None
+    total_line = g.get("total", 0)
+    if total_line <= 0:
+        return None
+    hs = g.get("homeScore")
+    aws = g.get("awayScore")
+    if hs is None or aws is None:
+        return None
+    actual_total = hs + aws
+    if actual_total == total_line:
+        return "PUSH"
+    is_over = "OVER" in pick.upper()
+    if is_over:
+        return "WIN" if actual_total > total_line else "LOSS"
+    else:
+        return "WIN" if actual_total < total_line else "LOSS"
+
+
 # ---------------------------------------------------------------------------
 # Core backfill function
 # ---------------------------------------------------------------------------
@@ -376,6 +398,24 @@ def backfill(seasons, output_dir=None):
                     })
                     continue
 
+                # Enrich with schedule/weather data
+                try:
+                    from sources.weather import compute_weather_adjustment
+                    from sources.schedule import compute_rest_adjustment
+                    from defaults import NFL_TEAMS
+                    _n2a = {}
+                    for _fn, _al in NFL_TEAMS.items():
+                        if _al:
+                            _n2a[_fn] = _al[0]
+                    g["_homeAbbr"] = _n2a.get(home, "")
+                    g["_awayAbbr"] = _n2a.get(away, "")
+                    # Dome/outdoor classification (no live weather for backfill)
+                    g["_weatherAdj"] = compute_weather_adjustment(None, g["_homeAbbr"])
+                    # Rest/schedule from previous week games
+                    g["_restAdj"] = compute_rest_adjustment(g, prev_graded)
+                except Exception:
+                    pass  # Non-critical — proceed without enrichment
+
                 # Run model engine
                 try:
                     from model_engine import analyze_game
@@ -411,6 +451,8 @@ def backfill(seasons, output_dir=None):
                 # Grade immediately since we have scores
                 if r.get("sPick") and r["sPick"] != "PASS":
                     r["sResult"] = grade_spread_pick(r)
+                if r.get("oPick") and r["oPick"] != "PASS":
+                    r["oResult"] = grade_ou_pick(r)
 
                 # Collect features for ridge regression training
                 # _features is a list of floats (numpy feature vector from
@@ -475,11 +517,15 @@ def backfill(seasons, output_dir=None):
             wins = sum(1 for x in completed if x.get("sResult") == "WIN")
             losses = sum(1 for x in completed if x.get("sResult") == "LOSS")
             units = UNIT_WIN * wins + UNIT_LOSS * losses
+            ou_wins = sum(1 for x in completed if x.get("oResult") == "WIN")
+            ou_losses = sum(1 for x in completed if x.get("oResult") == "LOSS")
+            ou_units = UNIT_WIN * ou_wins + UNIT_LOSS * ou_losses
 
+            ou_tag = f" | OU={ou_wins}-{ou_losses} ({'+' if ou_units >= 0 else ''}{ou_units:.1f}u)" if (ou_wins + ou_losses) > 0 else ""
             print(
                 f"  {week_key}{burn_tag}: "
                 f"games={len(games)} completed={n_ok} missing_odds={n_miss} skipped={n_skip} "
-                f"W-L={wins}-{losses} ({'+' if units >= 0 else ''}{units:.1f}u)"
+                f"W-L={wins}-{losses} ({'+' if units >= 0 else ''}{units:.1f}u){ou_tag}"
             )
 
             total_weeks += 1
@@ -900,6 +946,7 @@ def _print_backfill_summary(store, seasons):
     print(f"{'='*70}\n")
 
     total_w = total_l = total_p = 0
+    total_ow = total_ol = total_op = 0
     season_stats = {}
 
     for r in store.get("runs", []):
@@ -910,7 +957,9 @@ def _print_backfill_summary(store, seasons):
 
         s = r.get("season", 0)
         if s not in season_stats:
-            season_stats[s] = {"w": 0, "l": 0, "p": 0, "games": 0, "weeks": 0}
+            season_stats[s] = {"w": 0, "l": 0, "p": 0,
+                               "ow": 0, "ol": 0, "op": 0,
+                               "games": 0, "weeks": 0}
         season_stats[s]["weeks"] += 1
 
         for g in r.get("games", []):
@@ -929,23 +978,46 @@ def _print_backfill_summary(store, seasons):
                 season_stats[s]["p"] += 1
                 total_p += 1
 
+            o_result = g.get("oResult")
+            if o_result == "WIN":
+                season_stats[s]["ow"] += 1
+                total_ow += 1
+            elif o_result == "LOSS":
+                season_stats[s]["ol"] += 1
+                total_ol += 1
+            elif o_result == "PUSH":
+                season_stats[s]["op"] += 1
+                total_op += 1
+
     for s in sorted(season_stats.keys()):
         ss = season_stats[s]
         units = UNIT_WIN * ss["w"] + UNIT_LOSS * ss["l"]
         total = ss["w"] + ss["l"]
         pct = f"{ss['w'] / total * 100:.1f}%" if total > 0 else "n/a"
+        ou_units = UNIT_WIN * ss["ow"] + UNIT_LOSS * ss["ol"]
+        ou_total = ss["ow"] + ss["ol"]
+        ou_pct = f"{ss['ow'] / ou_total * 100:.1f}%" if ou_total > 0 else "n/a"
+        ou_tag = f" | OU: {ss['ow']}W-{ss['ol']}L ({ou_pct}) {'+' if ou_units >= 0 else ''}{ou_units:.1f}u" if ou_total > 0 else ""
         print(
             f"  {s}: {ss['weeks']} weeks, {ss['games']} games, "
-            f"{ss['w']}W-{ss['l']}L-{ss['p']}P ({pct}) "
-            f"{'+'if units >= 0 else ''}{units:.1f}u"
+            f"ATS: {ss['w']}W-{ss['l']}L-{ss['p']}P ({pct}) "
+            f"{'+'if units >= 0 else ''}{units:.1f}u{ou_tag}"
         )
 
     total_units = UNIT_WIN * total_w + UNIT_LOSS * total_l
     grand_total = total_w + total_l
     grand_pct = f"{total_w / grand_total * 100:.1f}%" if grand_total > 0 else "n/a"
+    total_ou_units = UNIT_WIN * total_ow + UNIT_LOSS * total_ol
+    ou_grand = total_ow + total_ol
+    ou_grand_pct = f"{total_ow / ou_grand * 100:.1f}%" if ou_grand > 0 else "n/a"
 
-    print(f"\n  TOTAL: {total_w}W-{total_l}L-{total_p}P ({grand_pct}) "
+    print(f"\n  ATS TOTAL:  {total_w}W-{total_l}L-{total_p}P ({grand_pct}) "
           f"{'+'if total_units >= 0 else ''}{total_units:.1f}u")
+    if ou_grand > 0:
+        print(f"  O/U TOTAL:  {total_ow}W-{total_ol}L-{total_op}P ({ou_grand_pct}) "
+              f"{'+'if total_ou_units >= 0 else ''}{total_ou_units:.1f}u")
+        combined = total_units + total_ou_units
+        print(f"  COMBINED:   {'+'if combined >= 0 else ''}{combined:.1f}u")
     print()
 
 
