@@ -684,10 +684,12 @@
     // ─── Generic Season Filter (shared across ALL tabs) ───
     let seasonFilter = 'all';
     let nflWeekFilter = 'latest';
+    let nflHistoryWeekFilter = 'all';
 
     function setSeasonFilter(val) {
       seasonFilter = val;
       nflWeekFilter = 'latest';
+      nflHistoryWeekFilter = 'all';
       historyPage = 0;
       render();
     }
@@ -697,21 +699,55 @@
       render();
     }
 
+    function setNflHistoryWeekFilter(val) {
+      nflHistoryWeekFilter = val;
+      historyPage = 0;
+      render();
+    }
+
+    function nflWeekLabel(weekNum, run) {
+      // For playoff weeks use round name; for regular season use "Week N"
+      if (run && run.playoffRound) return run.playoffRound;
+      if (weekNum > 18) {
+        const names = { 19: 'Wild Card', 20: 'Divisional', 21: 'Conference Championship', 22: 'Super Bowl' };
+        return names[weekNum] || `Week ${weekNum}`;
+      }
+      return `Week ${weekNum}`;
+    }
+
     function nflWeekSelector(runs) {
       if (activeTab !== 'nfl') return '';
       const weeks = runs
         .filter(r => !r.burnIn)
-        .map(r => ({ week: r.week, label: r.dateDisplay || `Week ${r.week}`, playoff: r.playoff }))
+        .map(r => ({ week: r.week, label: nflWeekLabel(r.week, r), playoff: r.playoff }))
         .sort((a, b) => a.week - b.week);
       if (weeks.length <= 1) return '';
       let opts = `<option value="latest" ${nflWeekFilter === 'latest' ? 'selected' : ''}>Latest</option>`;
       opts += `<option value="all" ${nflWeekFilter === 'all' ? 'selected' : ''}>All Weeks</option>`;
       for (const w of weeks) {
         const val = String(w.week);
-        const label = w.label.replace(/^\d{4}\s*/, '');  // strip season prefix since season dropdown handles that
-        opts += `<option value="${val}" ${nflWeekFilter === val ? 'selected' : ''}>${label}</option>`;
+        opts += `<option value="${val}" ${nflWeekFilter === val ? 'selected' : ''}>${w.label}</option>`;
       }
       return `<select onchange="setNflWeekFilter(this.value)" style="background:#1e1e1e;color:#e0e0e0;border:1px solid #444;border-radius:6px;padding:4px 10px;font-size:13px;margin-left:6px;cursor:pointer">${opts}</select>`;
+    }
+
+    function nflHistoryWeekSelector(runs) {
+      if (activeTab !== 'nfl') return '';
+      const seen = new Map();
+      for (const r of runs) {
+        if (r.burnIn) continue;
+        if (!seen.has(r.week)) {
+          seen.set(r.week, nflWeekLabel(r.week, r));
+        }
+      }
+      const weeks = [...seen.entries()].sort((a, b) => a[0] - b[0]);
+      if (weeks.length <= 1) return '';
+      let opts = `<option value="all" ${nflHistoryWeekFilter === 'all' ? 'selected' : ''}>All Weeks</option>`;
+      for (const [wk, label] of weeks) {
+        const val = String(wk);
+        opts += `<option value="${val}" ${nflHistoryWeekFilter === val ? 'selected' : ''}>${label}</option>`;
+      }
+      return `<select onchange="setNflHistoryWeekFilter(this.value)" style="background:#1e1e1e;color:#e0e0e0;border:1px solid #444;border-radius:6px;padding:4px 10px;font-size:13px;margin-left:6px;cursor:pointer">${opts}</select>`;
     }
 
     // Derive NBA/NCAA season label from a date string like "20260324"
@@ -768,6 +804,7 @@
         viewMode = 'today';
         seasonFilter = 'all';
         nflWeekFilter = 'latest';
+        nflHistoryWeekFilter = 'all';
         render();
       });
     });
@@ -2090,14 +2127,20 @@
       updateLastRunInfo();
       updateLastSyncInfo();
 
-      let html = nflRenderRecordBanner(statsRuns);
+      // Apply history week filter to stats when in history mode
+      const historyWeekStatsRuns = (viewMode === 'history' && nflHistoryWeekFilter !== 'all')
+        ? statsRuns.filter(r => r.week === parseInt(nflHistoryWeekFilter))
+        : statsRuns;
+      const bannerRuns = viewMode === 'history' ? historyWeekStatsRuns : statsRuns;
+
+      let html = nflRenderRecordBanner(bannerRuns);
 
       html += `
         <div class="view-toggle">
           <button class="view-btn ${viewMode === 'today' ? 'active' : ''}" onclick="setView('today')">Latest</button>
           <button class="view-btn ${viewMode === 'history' ? 'active' : ''}" onclick="setView('history')">History</button>
           ${seasonSelector(allRuns)}
-          ${nflWeekSelector(runs)}
+          ${viewMode === 'today' ? nflWeekSelector(runs) : nflHistoryWeekSelector(runs)}
         </div>`;
 
       if (viewMode === 'today' && selectedRun) {
@@ -2123,17 +2166,22 @@
         html += nflRenderCalibration(statsRuns);
 
       } else if (viewMode === 'history') {
+        // Filter history runs by week if a specific week is selected
+        const historyRuns = nflHistoryWeekFilter !== 'all'
+          ? nonBurnIn.filter(r => r.week === parseInt(nflHistoryWeekFilter))
+          : nonBurnIn;
+        const historyTotalPages = Math.ceil(historyRuns.length / DAYS_PER_PAGE);
         html += `
           <div class="date-nav">
             <button onclick="prevPage()" ${historyPage === 0 ? 'disabled' : ''}>Newer</button>
-            <span class="current-view">Page ${historyPage + 1} / ${totalPages}</span>
-            <button onclick="nextPage()" ${historyPage >= totalPages - 1 ? 'disabled' : ''}>Older</button>
+            <span class="current-view">Page ${historyPage + 1} / ${historyTotalPages || 1}</span>
+            <button onclick="nextPage()" ${historyPage >= historyTotalPages - 1 ? 'disabled' : ''}>Older</button>
           </div>`;
-        const reversed = [...nonBurnIn].reverse();
+        const reversed = [...historyRuns].reverse();
         const start = historyPage * DAYS_PER_PAGE;
         const pageRuns = reversed.slice(start, start + DAYS_PER_PAGE);
         if (!pageRuns.length) {
-          html += '<div class="no-picks">No picks available for this season.</div>';
+          html += '<div class="no-picks">No picks available for this selection.</div>';
         } else {
           html += pageRuns.map(nflRenderHistoryWeek).join('');
         }
