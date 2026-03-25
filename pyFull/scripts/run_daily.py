@@ -856,12 +856,12 @@ def main(subject_label="[PY]"):
     cr = build_calibration_table(store)
     yr = compute_yesterday_recap(store, yesterday)
 
-    # 9. Send
-    print("[6/7] Sending email...")
+    # 9. Send (disabled for now)
+    print("[6/7] Email disabled (not sending).")
     html = build_email_html(run, summary_obj, l10, l10t, ws, wt, rs, rt, tr, cr, yr)
     text = build_text_email(run, store)
     subject = f"{subject_label} NBA Picks (Full Season) {run['dateDisplay']}"
-    send_email(subject, text, html)
+    # send_email(subject, text, html)
     print(f"\nDone: {subject}")
 
 if __name__ == "__main__":

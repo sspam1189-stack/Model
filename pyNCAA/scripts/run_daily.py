@@ -1281,12 +1281,12 @@ def main(subject_label="[PY]"):
     calib_rows = build_calibration_table(store)
     yesterday_recap = compute_yesterday_recap(store, yesterday)
 
-    # 9. Send
-    print("[6/7] Sending email...")
+    # 9. Send (disabled for now)
+    print("[6/7] Email disabled (not sending).")
     html = build_email_html(run, summary_obj, l10, l10t, weekly_spread, weekly_total, rolling_spread, rolling_total, team_recs, calib_rows, yesterday_recap)
     text = build_text_email(run, store)
     subject = f"{subject_label} NCAA Picks {run['dateDisplay']} (Actionable)"
-    send_email(subject, text, html)
+    # send_email(subject, text, html)
 
     # 10. Summary
     print(f"\nDone: {subject}")
