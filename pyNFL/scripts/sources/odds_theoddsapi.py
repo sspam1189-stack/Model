@@ -401,9 +401,10 @@ def fetch_historical_odds(api_key=None, season=None, week=None):
     # Compute target dates for this NFL week.
     # NFL games occur on Thursday, Saturday (late season/playoffs), Sunday, and Monday.
     # We take multiple snapshots to capture all game windows.
-    import calendar
 
     year = int(season)
+    wk = int(week)
+
     # Find first Monday in September (Labor Day)
     sept1 = datetime.date(year, 9, 1)
     days_to_monday = (7 - sept1.weekday()) % 7
@@ -413,16 +414,42 @@ def fetch_historical_odds(api_key=None, season=None, week=None):
 
     # Week 1 Sunday is the day after the Thursday following Labor Day = Labor Day + 6
     week1_sunday = labor_day + datetime.timedelta(days=6)
-    target_sunday = week1_sunday + datetime.timedelta(weeks=int(week) - 1)
-    target_thursday = target_sunday - datetime.timedelta(days=3)
-    target_saturday = target_sunday - datetime.timedelta(days=1)
 
-    # Take snapshots at multiple windows to capture TNF, Saturday, and Sunday games
-    snapshots = [
-        (target_thursday, "12:00:00", "Thu"),   # Thursday Night Football
-        (target_saturday, "12:00:00", "Sat"),   # Saturday games (Weeks 15-18, playoffs)
-        (target_sunday, "12:00:00", "Sun"),     # Main Sunday slate
-    ]
+    if wk <= 18:
+        # Regular season: straightforward week offset
+        target_sunday = week1_sunday + datetime.timedelta(weeks=wk - 1)
+        target_thursday = target_sunday - datetime.timedelta(days=3)
+        target_saturday = target_sunday - datetime.timedelta(days=1)
+
+        # Take snapshots at multiple windows to capture TNF, Saturday, and Sunday games
+        snapshots = [
+            (target_thursday, "12:00:00", "Thu"),   # Thursday Night Football
+            (target_saturday, "12:00:00", "Sat"),   # Saturday games (Weeks 15-18)
+            (target_sunday, "12:00:00", "Sun"),     # Main Sunday slate
+        ]
+    else:
+        # Playoff weeks (19-22):
+        # Week 19 = Wild Card (1 week after Week 18)
+        # Week 20 = Divisional (2 weeks after Week 18)
+        # Week 21 = Conference Championship (3 weeks after Week 18)
+        # Week 22 = Super Bowl (5 weeks after Week 18 -- extra bye week)
+        week18_sunday = week1_sunday + datetime.timedelta(weeks=17)
+
+        if wk == 22:
+            # Super Bowl: 5 weeks after Week 18 (bye week between Conf Champ and SB)
+            playoff_offset_weeks = 5
+        else:
+            # Wild Card=1, Divisional=2, Conference=3
+            playoff_offset_weeks = wk - 18
+
+        target_sunday = week18_sunday + datetime.timedelta(weeks=playoff_offset_weeks)
+        target_saturday = target_sunday - datetime.timedelta(days=1)
+
+        # Playoff games are primarily Saturday and Sunday (no Thursday games)
+        snapshots = [
+            (target_saturday, "12:00:00", "Sat"),   # Saturday playoff games
+            (target_sunday, "12:00:00", "Sun"),      # Sunday playoff games / Super Bowl
+        ]
 
     # Deduplicate games across all snapshots (same matchup from different windows)
     seen = set()

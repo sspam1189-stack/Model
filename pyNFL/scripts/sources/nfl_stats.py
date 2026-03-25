@@ -586,6 +586,10 @@ def compute_team_stats_through_week(pbp_df, through_week, decay=0.85):
 
     Useful for backtesting -- avoids look-ahead by filtering data.
 
+    For regular season weeks (1-18), only REG games are included.
+    For playoff weeks (19+), both REG and POST games through that week
+    are included so playoff performance feeds into the model.
+
     Parameters
     ----------
     pbp_df : pd.DataFrame
@@ -600,7 +604,16 @@ def compute_team_stats_through_week(pbp_df, through_week, decay=0.85):
     dict[str, dict]
         Same format as compute_team_stats().
     """
-    filtered = pbp_df[pbp_df["week"] <= through_week].copy()
+    week_mask = pbp_df["week"] <= through_week
+
+    # If through_week is within regular season, exclude any playoff games
+    # that might share overlapping week numbers in some data sources.
+    if through_week <= 18 and "season_type" in pbp_df.columns:
+        season_type_mask = pbp_df["season_type"].isin(["REG", "reg"])
+        filtered = pbp_df[week_mask & season_type_mask].copy()
+    else:
+        filtered = pbp_df[week_mask].copy()
+
     if filtered.empty:
         print(f"  [nfl_stats] No plays through week {through_week}")
         return {}
@@ -624,7 +637,15 @@ def compute_player_stats_through_week(pbp_df, through_week):
     dict[str, dict]
         Same format as compute_player_stats().
     """
-    filtered = pbp_df[pbp_df["week"] <= through_week].copy()
+    week_mask = pbp_df["week"] <= through_week
+
+    # Same season_type guard as compute_team_stats_through_week
+    if through_week <= 18 and "season_type" in pbp_df.columns:
+        season_type_mask = pbp_df["season_type"].isin(["REG", "reg"])
+        filtered = pbp_df[week_mask & season_type_mask].copy()
+    else:
+        filtered = pbp_df[week_mask].copy()
+
     if filtered.empty:
         return {}
 
