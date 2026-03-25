@@ -54,8 +54,8 @@ _DATA_DIR = os.path.normpath(os.path.join(_SCRIPT_DIR, "..", "data"))
 MODEL_DIR = os.path.join(_DATA_DIR, "lr_models")
 
 # Thresholds for confirm/veto gate (calibrated via backtest)
-LR_CONFIRM_THRESH = 0.58
-LR_VETO_THRESH = 0.42
+LR_CONFIRM_THRESH = 0.55
+LR_VETO_THRESH = 0.45
 
 # Retraining schedule
 RETRAIN_INTERVAL = 20    # retrain after this many new graded games
