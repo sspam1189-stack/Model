@@ -925,6 +925,16 @@
       return { team: m[1], sign: m[2], spread: parseFloat(m[3]) };
     }
 
+    // NFL pick labels use internal sign convention (inverted from standard betting).
+    // Flip +/- for display so "KC +4.5" shows as "KC -4.5" (KC is the favorite).
+    function nflDisplayPick(pick) {
+      if (!pick || pick === 'PASS') return pick;
+      const m = pick.match(/^(.+?)\s+([+-])(\d+(?:\.\d+)?)$/);
+      if (!m) return pick;
+      const flipped = m[2] === '+' ? '-' : '+';
+      return m[1] + ' ' + flipped + m[3];
+    }
+
     function gradeSpread(g) {
       if (!Number.isFinite(g.homeScore) || !Number.isFinite(g.awayScore)) return null;
       if (!g.sPick || g.sPick === 'PASS') return null;
@@ -1732,7 +1742,7 @@
                         (g.lrConfirm === true ? lrVerdictBadge('CONFIRM') :
                          g.lrConfirm === false ? lrVerdictBadge('VETO') : '');
         const pickHtml = g.sPick && g.sPick !== 'PASS'
-          ? `<span class="pick-team">${esc(g.sPick)}</span> ${confBadge(g.sConf)}`
+          ? `<span class="pick-team">${esc(nflDisplayPick(g.sPick))}</span> ${confBadge(g.sConf)}`
           : `<span style="color:var(--muted)">PASS</span>`;
         const result = g.sResult || gradeSpread(g);
         const resultHtml = result ? resultBadge(result) : (Number.isFinite(g.homeScore) ? '' : '<span class="result-badge pending">PENDING</span>');
@@ -2067,7 +2077,7 @@
                         (g.lrConfirm === true ? lrVerdictBadge('CONFIRM') :
                          g.lrConfirm === false ? lrVerdictBadge('VETO') : '');
         return `<div class="pick-item">
-          <span class="pick-team">${esc(g.sPick)}</span>
+          <span class="pick-team">${esc(nflDisplayPick(g.sPick))}</span>
           ${confBadge(g.sConf)}
           ${lrBadge}
           <span class="pick-meta">sDiff ${fmtNum(g.sDiff, 1)}${pStr}</span>
@@ -2095,7 +2105,7 @@
         return `<div class="game-card">
           <div class="game-title">${esc(g.away)} @ ${esc(g.home)} <span style="font-weight:400;font-size:0.72rem;color:var(--muted)">Line ${fmtNum(g.line,1)}</span></div>
           <div class="game-detail">
-            ${isPick ? `<span class="pick-team">${esc(g.sPick)}</span> ${confBadge(g.sConf)} ${lrBadge}` : `<span style="color:var(--muted)">${isSkipped ? esc(g.status) : 'PASS'}</span>`}
+            ${isPick ? `<span class="pick-team">${esc(nflDisplayPick(g.sPick))}</span> ${confBadge(g.sConf)} ${lrBadge}` : `<span style="color:var(--muted)">${isSkipped ? esc(g.status) : 'PASS'}</span>`}
             ${result ? resultBadge(result) : (isPick && !hasScore ? '<span class="result-badge pending">PENDING</span>' : '')}
           </div>
           ${hasScore ? `<div class="game-detail"><span class="label">Final:</span> ${g.awayScore}-${g.homeScore}</div>` : ''}
