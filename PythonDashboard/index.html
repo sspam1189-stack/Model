@@ -623,6 +623,7 @@
     <button class="tab" data-tab="fullseason" type="button">NBA Full Season</button>
     <button class="tab" data-tab="ncaa" type="button">NCAA</button>
     <button class="tab" data-tab="nfl" type="button">NFL</button>
+    <button class="tab" data-tab="nfl-props" type="button">NFL Player Props</button>
   </nav>
 
   <main class="content" id="content">
@@ -653,6 +654,12 @@
         name: 'pyNFL',
         local: 'data/nfl.json',
         remote: 'https://raw.githubusercontent.com/sspam1189-stack/Model/main/pyNFL/data/nfl.json',
+        repo: 'https://github.com/sspam1189-stack/Model'
+      },
+      'nfl-props': {
+        name: 'NFL Props',
+        local: 'data/nfl-props.json',
+        remote: 'https://raw.githubusercontent.com/sspam1189-stack/Model/main/pyNFL/data/nfl-props.json',
         repo: 'https://github.com/sspam1189-stack/Model'
       }
     };
@@ -2113,6 +2120,98 @@
         </div>`;
     }
 
+    // ─── NFL Player Props Render ───
+
+    async function renderNFLProps() {
+      const el = document.getElementById('content');
+      const data = await fetchData('nfl-props');
+      if (!data || !data.props || !data.props.length) {
+        el.textContent = '';
+        const card = document.createElement('div');
+        card.className = 'card card-games';
+        card.appendChild(Object.assign(document.createElement('div'), {className:'card-title', textContent:'NFL Player Props'}));
+        card.appendChild(Object.assign(document.createElement('div'), {className:'no-picks', textContent:'No prop projections available yet. Run the props pipeline to generate projections.'}));
+        el.appendChild(card);
+        return;
+      }
+
+      const marketLabels = {pass_yds:'Pass Yards', rush_yds:'Rush Yards', rec_yds:'Rec Yards', receptions:'Receptions'};
+      const picks = data.props.filter(p => p.pick !== 'PASS');
+      const grouped = {};
+      for (const p of picks) {
+        const ml = marketLabels[p.market] || p.market;
+        if (!grouped[ml]) grouped[ml] = [];
+        grouped[ml].push(p);
+      }
+
+      el.textContent = '';
+
+      // Header card
+      const hdr = document.createElement('div');
+      hdr.className = 'card card-games';
+      hdr.style.marginBottom = '16px';
+      hdr.appendChild(Object.assign(document.createElement('div'), {className:'card-title', textContent:`NFL Player Props \u2014 ${data.season || ''} Week ${data.week || ''}`}));
+      hdr.appendChild(Object.assign(document.createElement('div'), {className:'card-subtitle', textContent:`${data.summary || ''} | Generated: ${(data.generated || '').slice(0,16)}`}));
+      el.appendChild(hdr);
+
+      for (const [market, props] of Object.entries(grouped)) {
+        props.sort((a, b) => (b.pCover || 0) - (a.pCover || 0));
+        const card = document.createElement('div');
+        card.className = 'card card-games';
+        card.appendChild(Object.assign(document.createElement('div'), {className:'card-title', textContent:market}));
+
+        const tbl = document.createElement('table');
+        tbl.style.cssText = 'width:100%;border-collapse:collapse;margin-top:8px';
+
+        const thead = tbl.createTHead();
+        const hRow = thead.insertRow();
+        ['Player','Team','vs','Proj','Line','Edge','Pick','P(cover)','Conf'].forEach((h, i) => {
+          const th = document.createElement('th');
+          th.textContent = h;
+          th.style.cssText = 'padding:6px 10px;text-align:' + (i >= 3 && i <= 5 ? 'right' : i >= 6 ? 'center' : 'left') + ';border-bottom:1px solid rgba(255,255,255,0.1)';
+          hRow.appendChild(th);
+        });
+
+        const tbody = tbl.createTBody();
+        for (const p of props) {
+          const row = tbody.insertRow();
+          row.style.borderBottom = '1px solid rgba(255,255,255,0.05)';
+          const cells = [
+            p.player, p.team, p.opp || '',
+            String(p.proj), p.line != null ? String(p.line) : '\u2014',
+            p.edge != null ? (p.edge > 0 ? '+' : '') + p.edge : '\u2014',
+            p.pick,
+            p.pCover != null ? (p.pCover * 100).toFixed(1) + '%' : '\u2014',
+            p.conf === 'elite' ? 'ELITE' : 'HIGH'
+          ];
+          cells.forEach((val, i) => {
+            const td = row.insertCell();
+            td.textContent = val;
+            td.style.padding = '6px 10px';
+            if (i >= 3 && i <= 5) td.style.textAlign = 'right';
+            if (i >= 6) td.style.textAlign = 'center';
+            if (i === 0) td.style.fontWeight = '600';
+            if (i === 1 || i === 2) td.style.color = '#999';
+            if (i === 5) td.style.color = (p.edge || 0) > 0 ? 'var(--green)' : 'var(--red)';
+            if (i === 6) { td.style.fontWeight = '700'; td.style.color = p.pick === 'OVER' ? 'var(--green)' : 'var(--red)'; }
+            if (i === 8) {
+              td.style.cssText += ';font-size:11px';
+              if (p.conf === 'elite') { td.style.background = '#7c6cf0'; td.style.color = '#fff'; td.style.borderRadius = '4px'; }
+            }
+          });
+        }
+        card.appendChild(tbl);
+        el.appendChild(card);
+      }
+
+      if (picks.length === 0) {
+        const empty = document.createElement('div');
+        empty.className = 'card card-games';
+        empty.appendChild(Object.assign(document.createElement('div'), {className:'no-picks', textContent:'No prop picks meet confidence threshold.'}));
+        el.appendChild(empty);
+      }
+    }
+
     // ─── NFL Main Render Dispatcher ───
 
     async function renderNFL() {
@@ -2243,6 +2342,10 @@
       // NFL has its own render pipeline
       if (activeTab === 'nfl') {
         return renderNFL();
+      }
+      // NFL Player Props
+      if (activeTab === 'nfl-props') {
+        return renderNFLProps();
       }
 
       const data = await fetchData(activeTab);

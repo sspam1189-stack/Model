@@ -540,3 +540,264 @@ def fetch_historical_odds(api_key=None, season=None, week=None):
         _save_cache(games, _cache_path(season, week))
 
     return games
+
+
+# ---------------------------------------------------------------------------
+# Player props fetch
+# ---------------------------------------------------------------------------
+
+PROP_MARKETS = [
+    "player_pass_yds",
+    "player_rush_yds",
+    "player_reception_yds",
+    "player_receptions",
+]
+
+# Map API market keys to our internal market names
+_MARKET_MAP = {
+    "player_pass_yds": "pass_yds",
+    "player_rush_yds": "rush_yds",
+    "player_reception_yds": "rec_yds",
+    "player_receptions": "receptions",
+}
+
+_PROPS_CACHE_DIR = Path(__file__).resolve().parents[2] / "data" / "props"
+
+
+def _props_cache_path(season, week):
+    return _PROPS_CACHE_DIR / f"nfl_props_{season}_W{week}.json"
+
+
+def fetch_nfl_player_props(api_key=None, season=None, week=None):
+    """
+    Fetch player prop lines for all current NFL events.
+
+    Returns list of dicts:
+    [{"player": str, "market": str, "line": float, "over_price": int, "under_price": int,
+      "event_home": str, "event_away": str}, ...]
+    """
+    # Check cache
+    if season and week:
+        cp = _props_cache_path(season, week)
+        cached = _load_cache(cp, max_age_hours=2)
+        if cached is not None:
+            print(f"  [props] Using cached props for {season} W{week} ({cp.name})")
+            return cached
+
+    api_key = api_key or os.environ.get("ODDS_API_KEY")
+    if not api_key:
+        raise Exception("Missing ODDS_API_KEY env var.")
+
+    # Step 1: Get event IDs
+    events_url = f"{BASE}/sports/{SPORT_KEY}/events?apiKey={quote(api_key)}"
+    res = requests.get(events_url, timeout=30)
+    if res.status_code != 200:
+        raise Exception(f"Events fetch failed: {res.status_code}")
+
+    events = res.json()
+    print(f"  [props] Found {len(events)} NFL events")
+
+    all_props = []
+    markets_str = ",".join(PROP_MARKETS)
+
+    for ev in events:
+        event_id = ev.get("id")
+        home = ev.get("home_team", "")
+        away = ev.get("away_team", "")
+
+        url = (
+            f"{BASE}/sports/{SPORT_KEY}/events/{event_id}/odds?"
+            f"apiKey={quote(api_key)}"
+            f"&regions=us"
+            f"&markets={markets_str}"
+            f"&oddsFormat=american"
+        )
+
+        try:
+            r = requests.get(url, timeout=30)
+            if r.status_code != 200:
+                continue
+            data = r.json()
+        except Exception:
+            continue
+
+        # Parse bookmaker data
+        bookmakers = data.get("bookmakers", [])
+        if not bookmakers:
+            continue
+
+        # Use first available bookmaker
+        book = bookmakers[0]
+        for market in book.get("markets", []):
+            market_key = market.get("key", "")
+            internal_market = _MARKET_MAP.get(market_key)
+            if not internal_market:
+                continue
+
+            outcomes = market.get("outcomes", [])
+            # Group by player (over/under pairs)
+            player_lines = {}
+            for o in outcomes:
+                desc = o.get("description", "")
+                name = o.get("name", "")  # "Over" or "Under"
+                point = o.get("point")
+                price = o.get("price")
+                if desc and point is not None:
+                    if desc not in player_lines:
+                        player_lines[desc] = {"player": desc, "line": point}
+                    if name == "Over":
+                        player_lines[desc]["over_price"] = price
+                    elif name == "Under":
+                        player_lines[desc]["under_price"] = price
+
+            for pl in player_lines.values():
+                all_props.append({
+                    **pl,
+                    "market": internal_market,
+                    "event_home": home,
+                    "event_away": away,
+                })
+
+        # Rate limit: small delay between event requests
+        time.sleep(0.3)
+
+    print(f"  [props] Fetched {len(all_props)} player prop lines")
+
+    if season and week and all_props:
+        os.makedirs(_PROPS_CACHE_DIR, exist_ok=True)
+        _save_cache(all_props, _props_cache_path(season, week))
+
+    return all_props
+
+
+def fetch_historical_player_props(season, week, api_key=None):
+    """
+    Fetch historical player prop lines for a given NFL season/week.
+    Uses the historical events endpoint + per-event odds with prop markets.
+    Results are cached permanently.
+
+    Returns list of dicts:
+    [{"player": str, "market": str, "line": float, "event_home": str, "event_away": str}, ...]
+    """
+    # Check cache first
+    cp = _props_cache_path(season, week)
+    cached = _load_cache(cp, max_age_hours=None)
+    if cached is not None:
+        print(f"  [props] Using cached historical props for {season} W{week} ({cp.name})")
+        return cached
+
+    api_key = api_key or os.environ.get("ODDS_API_KEY")
+    if not api_key:
+        raise Exception("Missing ODDS_API_KEY env var.")
+
+    # Compute target date (same logic as fetch_historical_nfl_odds)
+    year = int(season)
+    wk = int(week)
+    sept1 = datetime.date(year, 9, 1)
+    days_to_monday = (7 - sept1.weekday()) % 7
+    if sept1.weekday() == 0:
+        days_to_monday = 0
+    labor_day = sept1 + datetime.timedelta(days=days_to_monday)
+    week1_sunday = labor_day + datetime.timedelta(days=6)
+
+    if wk <= 18:
+        target_sunday = week1_sunday + datetime.timedelta(weeks=wk - 1)
+    elif wk == 22:
+        week18_sunday = week1_sunday + datetime.timedelta(weeks=17)
+        target_sunday = week18_sunday + datetime.timedelta(weeks=5)
+    else:
+        week18_sunday = week1_sunday + datetime.timedelta(weeks=17)
+        target_sunday = week18_sunday + datetime.timedelta(weeks=wk - 18)
+
+    ts = f"{target_sunday.isoformat()}T12:00:00-05:00"
+    ts_utc = _to_historical_iso(ts)
+    if not ts_utc:
+        return []
+
+    # Step 1: Get historical events for this date
+    events_url = (
+        f"{BASE}/historical/sports/{SPORT_KEY}/events?"
+        f"apiKey={quote(api_key)}"
+        f"&date={quote(ts_utc)}"
+    )
+    res = _fetch_with_retry(events_url)
+    if res.status_code != 200:
+        print(f"  [props] Historical events fetch failed: {res.status_code}")
+        return []
+
+    events_data = res.json().get("data", [])
+    if not events_data:
+        print(f"  [props] No historical events for {season} W{week}")
+        return []
+
+    print(f"  [props] Found {len(events_data)} historical events for {season} W{week}")
+
+    # Step 2: For each event, fetch prop odds
+    markets_str = ",".join(PROP_MARKETS)
+    all_props = []
+
+    for ev in events_data:
+        event_id = ev.get("id")
+        home = _norm_team(ev.get("home_team", ""))
+        away = _norm_team(ev.get("away_team", ""))
+
+        url = (
+            f"{BASE}/historical/sports/{SPORT_KEY}/events/{event_id}/odds?"
+            f"apiKey={quote(api_key)}"
+            f"&regions=us"
+            f"&markets={markets_str}"
+            f"&oddsFormat=american"
+            f"&date={quote(ts_utc)}"
+        )
+
+        try:
+            r = _fetch_with_retry(url)
+            if r.status_code != 200:
+                continue
+            data = r.json().get("data", {})
+        except Exception:
+            continue
+
+        bookmakers = data.get("bookmakers", [])
+        if not bookmakers:
+            continue
+
+        book = bookmakers[0]
+        for market in book.get("markets", []):
+            market_key = market.get("key", "")
+            internal_market = _MARKET_MAP.get(market_key)
+            if not internal_market:
+                continue
+
+            outcomes = market.get("outcomes", [])
+            player_lines = {}
+            for o in outcomes:
+                desc = o.get("description", "")
+                name = o.get("name", "")
+                point = o.get("point")
+                price = o.get("price")
+                if desc and point is not None:
+                    if desc not in player_lines:
+                        player_lines[desc] = {"player": desc, "line": point}
+                    if name == "Over":
+                        player_lines[desc]["over_price"] = price
+                    elif name == "Under":
+                        player_lines[desc]["under_price"] = price
+
+            for pl in player_lines.values():
+                all_props.append({
+                    **pl,
+                    "market": internal_market,
+                    "event_home": home,
+                    "event_away": away,
+                })
+
+        time.sleep(0.3)  # Rate limit
+
+    print(f"  [props] Fetched {len(all_props)} historical prop lines for {season} W{week}")
+
+    if all_props:
+        os.makedirs(_PROPS_CACHE_DIR, exist_ok=True)
+        _save_cache(all_props, cp)
+
+    return all_props

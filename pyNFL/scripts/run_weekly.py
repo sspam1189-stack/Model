@@ -616,6 +616,20 @@ def stage_project(season, week, store):
     except Exception as e:
         print(f"  WARNING: LR model load failed: {e}")
 
+    # --- Weather + schedule enrichment ---
+    try:
+        from sources.weather import compute_weather_adjustment, fetch_forecast, get_stadium_for_home, is_dome_game
+        from sources.schedule import compute_rest_adjustment
+        from defaults import NFL_TEAMS
+        _name_to_abbr = {}
+        for full_name, aliases in NFL_TEAMS.items():
+            if aliases:
+                _name_to_abbr[full_name] = aliases[0]  # First alias is always the abbrev
+        _has_weather_sched = True
+    except ImportError as _e:
+        print(f"  WARNING: weather/schedule modules not available: {_e}")
+        _has_weather_sched = False
+
     # Analyze each matchup
     print(f"[project] Analyzing {len(odds)} matchups...")
     games = []
@@ -632,6 +646,30 @@ def stage_project(season, week, store):
         if away_delta or home_delta:
             game_injury = {"away": away_delta, "home": home_delta}
 
+        # Enrich with weather + schedule data
+        if _has_weather_sched:
+            try:
+                home_abbr = _name_to_abbr.get(g.get("home"), "")
+                away_abbr = _name_to_abbr.get(g.get("away"), "")
+                g["_homeAbbr"] = home_abbr
+                g["_awayAbbr"] = away_abbr
+
+                # Weather
+                if home_abbr and not is_dome_game(home_abbr):
+                    stadium = get_stadium_for_home(home_abbr)
+                    if stadium and g.get("commenceTimeIso"):
+                        wx = fetch_forecast(stadium["lat"], stadium["lon"], g["commenceTimeIso"])
+                        g["_weatherAdj"] = compute_weather_adjustment(wx, home_abbr)
+                    else:
+                        g["_weatherAdj"] = compute_weather_adjustment(None, home_abbr)
+                else:
+                    g["_weatherAdj"] = compute_weather_adjustment(None, home_abbr)
+
+                # Rest/schedule (prev_week_games from store if available)
+                g["_restAdj"] = compute_rest_adjustment(g)
+            except Exception as _we:
+                print(f"  WARNING: weather/schedule enrichment failed: {_we}")
+
         try:
             r = analyze_game(
                 g, team_stats, base_w, kalman_state,
@@ -647,7 +685,7 @@ def stage_project(season, week, store):
             games.append({**g, "status": "SKIPPED", "note": "analyze_game returned None"})
             continue
 
-        # LR confirmation / veto
+        # LR confirmation / veto gate
         if lr_bundle and r.get("sPick") and r["sPick"] != "PASS":
             try:
                 lr_features = extract_lr_features(r, g, team_stats, kalman_state)

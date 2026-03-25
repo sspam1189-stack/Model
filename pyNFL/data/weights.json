@@ -4,10 +4,14 @@
     0.0,
     0.0,
     0.0,
-    0.049656012286894174,
+    0.06545425561384842,
     0.0,
     0.0,
-    0.44836391235613976,
+    0.443134825929216,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
     0.0,
     0.0,
     0.0,
@@ -15,8 +19,8 @@
     0.0,
     0.0
   ],
-  "intercept": 2.594490241318422,
-  "alpha": 3237.45754281764,
+  "intercept": 2.618929180732666,
+  "alpha": 72.78953843983146,
   "feature_columns": [
     "passOffEPA_diff",
     "rushOffEPA_diff",
@@ -31,10 +35,14 @@
     "qb_epa_diff",
     "turnover_diff",
     "injury_delta_a",
-    "injury_delta_b"
+    "injury_delta_b",
+    "pass_matchup",
+    "rush_matchup",
+    "pace_x_epa",
+    "third_down_diff"
   ],
   "n_train": 784,
-  "residual_var": 197.20200213861438,
-  "r_squared": 0.05764504382104485,
+  "residual_var": 197.21862302502814,
+  "r_squared": 0.0575656187923016,
   "source": "ridge_cv"
 }
