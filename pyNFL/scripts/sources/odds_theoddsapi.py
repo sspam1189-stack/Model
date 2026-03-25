@@ -92,13 +92,15 @@ def _today_iso_chicago():
 
 def _to_model_line(home_team, away_team, spread_points, team_for_spread):
     """
-    Convert The Odds API spread into model convention:
-    +X means HOME favored by X, -X means AWAY favored by X
+    Convert The Odds API spread into standard betting convention from home
+    perspective: -X means home favored by X, +X means away favored by X.
+
+    The Odds API returns ``point: -4.5`` for the team listed in the outcome,
+    meaning that team is giving 4.5 points (i.e. the favorite).
     """
     if not isinstance(spread_points, (int, float)) or not math.isfinite(spread_points):
         return None
 
-    abs_val = abs(spread_points)
     is_home = team_for_spread == home_team
     is_away = team_for_spread == away_team
 
@@ -106,8 +108,8 @@ def _to_model_line(home_team, away_team, spread_points, team_for_spread):
         return None
 
     if is_home:
-        return abs_val if spread_points < 0 else -abs_val
-    return -abs_val if spread_points < 0 else abs_val
+        return spread_points  # home team's spread directly
+    return -spread_points  # flip sign since we store from home perspective
 
 
 def _pick_best_bookmaker(bookmakers):
@@ -167,7 +169,7 @@ def fetch_nfl_odds(api_key=None, season=None, week=None):
     """
     Fetch current NFL odds (spreads + totals) from The Odds API.
     Returns list of dicts: [{ away, home, line, total, _book }]
-    Line convention: +X = home favored, -X = away favored.
+    Line convention: -X = home favored, +X = away favored (standard betting).
 
     If *season* and *week* are provided the result is cached to disk
     (< 2 hours for live odds).
