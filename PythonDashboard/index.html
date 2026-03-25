@@ -681,6 +681,55 @@
     let historyPage = 0;
     const DAYS_PER_PAGE = 7;
 
+    // ─── Generic Season Filter (shared across ALL tabs) ───
+    let seasonFilter = 'all';
+
+    function setSeasonFilter(val) {
+      seasonFilter = val;
+      historyPage = 0;
+      render();
+    }
+
+    // Derive NBA/NCAA season label from a date string like "20260324"
+    // NBA season runs Oct-Jun: Oct-Dec = first year, Jan-Sep = second year
+    // e.g. "20251015" -> "2025-26", "20260324" -> "2025-26"
+    function nbaSeason(dateStr) {
+      if (!dateStr || dateStr.length < 8) return null;
+      const y = parseInt(dateStr.slice(0, 4));
+      const m = parseInt(dateStr.slice(4, 6));
+      // Oct (10) through Dec (12) = start of season year Y
+      // Jan (1) through Sep (9) = end of season year Y-1
+      if (m >= 10) {
+        return `${y}-${String(y + 1).slice(2)}`;
+      } else {
+        return `${y - 1}-${String(y).slice(2)}`;
+      }
+    }
+
+    // For NFL, the season field is already on the run object
+    function getRunSeason(run) {
+      if (activeTab === 'nfl') {
+        return run.season ? String(run.season) : null;
+      }
+      // NBA / NCAA / fullseason: derive from date
+      return nbaSeason(run.date);
+    }
+
+    function filterBySeason(runs) {
+      if (seasonFilter === 'all') return runs;
+      return runs.filter(r => getRunSeason(r) === String(seasonFilter));
+    }
+
+    function seasonSelector(runs) {
+      const seasons = [...new Set(runs.map(r => getRunSeason(r)).filter(Boolean))].sort();
+      if (seasons.length <= 1) return '';
+      let opts = `<option value="all" ${seasonFilter === 'all' ? 'selected' : ''}>All Seasons</option>`;
+      for (const s of seasons) {
+        opts += `<option value="${s}" ${String(seasonFilter) === String(s) ? 'selected' : ''}>${s}</option>`;
+      }
+      return `<select onchange="setSeasonFilter(this.value)" style="background:#1e1e1e;color:#e0e0e0;border:1px solid #444;border-radius:6px;padding:4px 10px;font-size:13px;margin-left:10px;cursor:pointer">${opts}</select>`;
+    }
+
     // Tab switching
     document.querySelectorAll('.tab').forEach(tab => {
       tab.addEventListener('click', () => {
@@ -693,6 +742,7 @@
         activeTab = tab.dataset.tab;
         historyPage = 0;
         viewMode = 'today';
+        seasonFilter = 'all';
         render();
       });
     });
@@ -1520,9 +1570,11 @@
     // injuries (array), injuryDelta, homeScore, awayScore, sResult, week
 
     function nflGetWeekLabel(run) {
+      if (run.dateDisplay) return run.dateDisplay;
       const season = run.season ? `${run.season} ` : '';
+      if (run.playoffRound) return `${season}${run.playoffRound}`;
       if (run.week != null) return `${season}Week ${run.week}`;
-      return run.dateDisplay || run.date || '—';
+      return run.date || '—';
     }
 
     function nflGetActionablePicks(runs) {
@@ -1979,28 +2031,6 @@
     }
 
     // ─── NFL Main Render Dispatcher ───
-    // NFL season filter state
-    let nflSeasonFilter = 'all';
-    function setNflSeason(val) {
-      nflSeasonFilter = val;
-      historyPage = 0;
-      render();
-    }
-
-    function nflFilterBySeason(runs) {
-      if (nflSeasonFilter === 'all') return runs;
-      return runs.filter(r => String(r.season) === String(nflSeasonFilter));
-    }
-
-    function nflSeasonSelector(runs) {
-      const seasons = [...new Set(runs.map(r => r.season).filter(Boolean))].sort();
-      if (seasons.length <= 1) return '';
-      let opts = `<option value="all" ${nflSeasonFilter === 'all' ? 'selected' : ''}>All Seasons</option>`;
-      for (const s of seasons) {
-        opts += `<option value="${s}" ${String(nflSeasonFilter) === String(s) ? 'selected' : ''}>${s}</option>`;
-      }
-      return `<select onchange="setNflSeason(this.value)" style="background:#1e1e1e;color:#e0e0e0;border:1px solid #444;border-radius:6px;padding:4px 10px;font-size:13px;margin-left:10px;cursor:pointer">${opts}</select>`;
-    }
 
     async function renderNFL() {
       const el = document.getElementById('content');
@@ -2015,7 +2045,7 @@
         return;
       }
       const allRuns = data.runs;
-      const runs = nflFilterBySeason(allRuns);
+      const runs = filterBySeason(allRuns);
       const nonBurnIn = runs.filter(r => !r.burnIn);
       const latestRun = nonBurnIn.length ? nonBurnIn[nonBurnIn.length - 1] : null;
       const totalPages = Math.ceil(nonBurnIn.length / DAYS_PER_PAGE);
@@ -2027,9 +2057,9 @@
 
       html += `
         <div class="view-toggle">
-          <button class="view-btn ${viewMode === 'today' ? 'active' : ''}" onclick="setView('today')">Latest Week</button>
+          <button class="view-btn ${viewMode === 'today' ? 'active' : ''}" onclick="setView('today')">Latest</button>
           <button class="view-btn ${viewMode === 'history' ? 'active' : ''}" onclick="setView('history')">History</button>
-          ${nflSeasonSelector(allRuns)}
+          ${seasonSelector(allRuns)}
         </div>`;
 
       if (viewMode === 'today' && latestRun) {
@@ -2099,7 +2129,8 @@
         return;
       }
 
-      const runs = data.runs;
+      const allRuns = data.runs;
+      const runs = filterBySeason(allRuns);
       const nonBurnIn = runs.filter(r => !r.burnIn);
       const latestRun = nonBurnIn.length ? nonBurnIn[nonBurnIn.length - 1] : null;
       const totalPages = Math.ceil(nonBurnIn.length / DAYS_PER_PAGE);
@@ -2116,6 +2147,7 @@
         <div class="view-toggle">
           <button class="view-btn ${viewMode === 'today' ? 'active' : ''}" onclick="setView('today')">Latest</button>
           <button class="view-btn ${viewMode === 'history' ? 'active' : ''}" onclick="setView('history')">History</button>
+          ${seasonSelector(allRuns)}
         </div>`;
 
       if (viewMode === 'today' && latestRun) {
