@@ -589,6 +589,8 @@ def backfill(seasons, output_dir=None):
         save_kalman_state(kalman_state)
         print("  Saved final Kalman state")
 
+    # Sort runs by season + week before final save
+    store["runs"].sort(key=lambda r: (r.get("season", 0), r.get("week", 0)))
     save_store(store)
 
     # --- Print final summary ---
