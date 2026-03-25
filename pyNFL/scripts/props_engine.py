@@ -44,6 +44,49 @@ RUSH_YDS_VAR_MULT = 1.5   # RB usage is highly variable
 REC_YDS_VAR_MULT = 1.6    # WR targets are volatile
 RECEPTIONS_VAR_MULT = 1.3
 
+# Directional filter: UNDER-only for rush/rec/receptions markets
+# Backtest shows OVER picks lose money in these markets; UNDER picks are +90u over 3 seasons.
+# Sportsbooks set lines slightly high to attract OVER action — this captures that bias.
+# pass_yds is excluded from this filter (keeps both directions).
+UNDER_ONLY_MARKETS = {"rush_yds", "rec_yds", "receptions"}
+
+
+# ---------------------------------------------------------------------------
+# Name matching (nflfastr uses "K.Murray", Odds API uses "Kyler Murray")
+# ---------------------------------------------------------------------------
+
+def _name_key(name):
+    """
+    Normalize a player name to (first_initial, last_name) for cross-source matching.
+
+    'K.Murray'       -> ('k', 'murray')
+    'Kyler Murray'   -> ('k', 'murray')
+    'De\'Von Achane' -> ('d', 'achane')
+    'T.J. Watt'      -> ('t', 'watt')
+    'A.J. Brown'     -> ('a', 'brown')
+    """
+    name = name.strip()
+    if not name:
+        return ('', '')
+
+    # nflfastr format: "K.Murray" or "De.Smith"
+    if '.' in name and ' ' not in name:
+        parts = name.split('.', 1)
+        return (parts[0][0].lower(), parts[1].lower())
+
+    # Full name: "Kyler Murray", "De'Von Achane", "T.J. Watt", "Marvin Harrison Jr."
+    parts = name.split()
+    # Strip suffixes like Jr., Sr., II, III, IV
+    suffixes = {'jr', 'jr.', 'sr', 'sr.', 'ii', 'iii', 'iv', 'v'}
+    while len(parts) > 2 and parts[-1].lower().rstrip('.') in suffixes:
+        parts.pop()
+    if len(parts) >= 2:
+        first_initial = parts[0][0].lower()
+        last = parts[-1].lower().rstrip('.')
+        return (first_initial, last)
+
+    return (name[0].lower(), name.lower())
+
 
 # ---------------------------------------------------------------------------
 # Player game log aggregation
@@ -243,11 +286,12 @@ def project_player_props(player_logs, team_stats, prop_lines=None):
     avg_pass_def = np.mean(list(def_pass_ranks.values())) if def_pass_ranks else 0.0
     avg_rush_def = np.mean(list(def_rush_ranks.values())) if def_rush_ranks else 0.0
 
-    # Index prop lines by player name + market for quick lookup
+    # Index prop lines by (first_initial, last_name, market) for cross-source matching
     line_lookup = {}
     if prop_lines:
         for pl in prop_lines:
-            key = (pl.get("player", "").lower(), pl.get("market", ""))
+            nk = _name_key(pl.get("player", ""))
+            key = (nk[0], nk[1], pl.get("market", ""))
             line_lookup[key] = pl
 
     for pid, games in player_logs.items():
@@ -320,8 +364,9 @@ def project_player_props(player_logs, team_stats, prop_lines=None):
 
 def _make_prop(name, team, market, proj, std, line_lookup, opp):
     """Build a single prop projection + pick."""
-    # Look up market line
-    line_key = (name.lower(), market)
+    # Look up market line using normalized name key
+    nk = _name_key(name)
+    line_key = (nk[0], nk[1], market)
     line_data = line_lookup.get(line_key)
 
     line = None
@@ -356,7 +401,11 @@ def _make_prop(name, team, market, proj, std, line_lookup, opp):
         # Market-specific thresholds
         mkt_thresh = MARKET_THRESHOLDS.get(market, {"high": PROP_PROB_HIGH, "elite": PROP_PROB_ELITE})
         if best_p >= mkt_thresh["high"]:
-            result["pick"] = "OVER" if p_over > p_under else "UNDER"
+            direction = "OVER" if p_over > p_under else "UNDER"
+            # UNDER-only filter for non-pass markets (sportsbooks set lines high to attract OVER action)
+            if market in UNDER_ONLY_MARKETS and direction == "OVER":
+                return result  # keep as PASS
+            result["pick"] = direction
             result["conf"] = "elite" if best_p >= mkt_thresh["elite"] else "high"
 
     return result
