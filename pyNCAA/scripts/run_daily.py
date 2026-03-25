@@ -32,7 +32,7 @@ from kalman_state import (
 from calibration import build_calibration_table, build_calibration_html
 from email_report import send_email
 from sources.season_type import is_tournament
-from lr_model import load_or_train_lr, build_team_histories, extract_lr_features, predict_lr
+from lr_model import load_or_train_lr, build_team_histories, extract_lr_features, predict_lr, predict_lr_for_pick
 
 # --- Constants ----------------------------------------------------------------
 
@@ -1212,11 +1212,13 @@ def main(subject_label="[PY]"):
                 lr_game["is_tournament"] = True
                 lr_game["is_neutral"] = True
             lr_features = extract_lr_features(home_hist, away_hist, lr_game, home_hist, away_hist)
-            lr_result = predict_lr(lr_bundle, lr_features, game=lr_game)
+            picked_home = r.get("home", "") in r.get("sPick", "")
+            lr_result = predict_lr_for_pick(lr_bundle, lr_features, picked_home, game=lr_game)
             r["lrProb"] = lr_result["lr_prob"]
+            r["lrPickProb"] = lr_result.get("lr_pick_prob")
             r["lrVerdict"] = lr_result["lr_verdict"]
 
-            if lr_result["lr_verdict"] == "VETO":
+            if lr_result["lr_verdict"] == "veto":
                 r["lrVetoed"] = r["sPick"]
                 r["lrReasons"] = lr_result.get("lr_reasons", [])
                 r["sPick"] = "PASS"
