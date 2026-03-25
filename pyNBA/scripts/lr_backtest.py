@@ -122,33 +122,65 @@ def main():
             margin_vs_line = h_score - a_score - line_f
             actual_total = h_score + a_score
 
+            # Build history entries matching core/lr_model._team_features() keys:
+            #   covered, over, margin, line_for_team, won, rest_days, actual_total, total, abs_line
+            home_spread = -line_f          # positive = home favored
+            home_margin = h_score - a_score
+            home_covered = (home_margin + home_spread) > 0
+            game_over = actual_total > total_f
+
+            base = {
+                "date": date,
+                "home": home,
+                "away": away,
+                "line": line_f,
+                "total": total_f,
+                "actual_total": actual_total,
+                "abs_line": abs(line_f),
+            }
+
+            def _rest(team):
+                hist = team_histories.get(team, [])
+                if not hist:
+                    return 3
+                prev = hist[-1].get("date", "")
+                if prev and date and prev != date:
+                    try:
+                        from datetime import datetime as _dt
+                        d0 = _dt.strptime(prev, "%Y-%m-%d")
+                        d1 = _dt.strptime(date[:10], "%Y-%m-%d")
+                        return max(0, min((d1 - d0).days - 1, 14))
+                    except Exception:
+                        return 1
+                return 1
+
             if home:
                 team_histories.setdefault(home, []).append({
-                    "date": date, "is_home": True,
-                    "line": line_f, "total": total_f,
-                    "homeScore": h_score, "awayScore": a_score,
-                    "margin_vs_line": margin_vs_line,
-                    "actual_total": actual_total,
-                    "ou_margin": actual_total - total_f,
-                    "game_margin": h_score - a_score,
+                    **base,
+                    "is_home": True,
+                    "score": h_score,
+                    "opp_score": a_score,
+                    "margin": home_margin,
+                    "covered": home_covered,
+                    "over": game_over,
+                    "line_for_team": home_spread,
                     "won": h_score > a_score,
-                    "covered": margin_vs_line > 0,
-                    "went_over": actual_total > total_f,
+                    "rest_days": _rest(home),
                 })
                 team_season_lines.setdefault(home, []).append(abs(line_f))
 
             if away:
                 team_histories.setdefault(away, []).append({
-                    "date": date, "is_home": False,
-                    "line": line_f, "total": total_f,
-                    "homeScore": h_score, "awayScore": a_score,
-                    "margin_vs_line": margin_vs_line,
-                    "actual_total": actual_total,
-                    "ou_margin": actual_total - total_f,
-                    "game_margin": a_score - h_score,
+                    **base,
+                    "is_home": False,
+                    "score": a_score,
+                    "opp_score": h_score,
+                    "margin": -home_margin,
+                    "covered": not home_covered,
+                    "over": game_over,
+                    "line_for_team": -home_spread,
                     "won": a_score > h_score,
-                    "covered": margin_vs_line < 0,
-                    "went_over": actual_total > total_f,
+                    "rest_days": _rest(away),
                 })
                 team_season_lines.setdefault(away, []).append(abs(line_f))
 

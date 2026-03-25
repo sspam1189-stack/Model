@@ -45,8 +45,8 @@ except ImportError:
 # -- Configurable (set by sport wrapper) ------------------------------------
 
 MODEL_DIR = None            # Must be set by wrapper
-LR_CONFIRM_THRESH = 0.60
-LR_VETO_THRESH = 0.40
+LR_CONFIRM_THRESH = 0.55
+LR_VETO_THRESH = 0.45
 RETRAIN_INTERVAL = 20
 MIN_TRAINING_GAMES = 80
 
