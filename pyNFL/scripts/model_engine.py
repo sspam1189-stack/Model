@@ -531,12 +531,10 @@ def analyze_game(game_data, team_stats, weights, kalman_states=None,
     spread_side = "home" if p_home_cover >= p_away_cover else "away"
     prob_threshold = DEFAULT_W.get("probHigh", 0.57)
 
-    # Caps: don't pick into huge spreads or tiny edges
-    s_diff_cap = 9.0        # sDiff > 9 hits at 58% (barely above breakeven)
+    # Caps: don't pick into huge spreads
     abs_line_cap = 14.0     # Don't pick into lines > 14 pts
 
     if (best_spread_p >= prob_threshold
-            and s_diff <= s_diff_cap
             and abs_line <= abs_line_cap):
         s_pick = _format_spread_pick(
             home_name, away_name, spread_side, abs_line, home_fav
