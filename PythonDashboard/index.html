@@ -2104,6 +2104,9 @@
         html += nflRenderTodayPicks(selectedRun);
         html += nflRenderWeeklyPicks(selectedRun);
 
+        html += '<div class="section-label">Spread Record (ATS)</div>';
+        html += renderSpreadRecord(statsRuns);
+
         html += '<div class="section-label">Season P&L</div>';
         html += nflRenderPnL(statsRuns);
 
