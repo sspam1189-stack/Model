@@ -324,6 +324,16 @@ def backfill(seasons, output_dir=None):
             for o in week_odds:
                 key = (_canonical(o.get("away")), _canonical(o.get("home")))
                 odds_lookup[key] = o
+                # Super Bowl (week 22): neutral site, so home/away may be
+                # flipped between ESPN and The Odds API.  Add a reverse key
+                # with a negated line so the match works either way.
+                if week == 22:
+                    rev = dict(o)
+                    if isinstance(rev.get("line"), (int, float)):
+                        rev["line"] = -rev["line"]
+                    rev_key = (_canonical(o.get("home")), _canonical(o.get("away")))
+                    if rev_key not in odds_lookup:
+                        odds_lookup[rev_key] = rev
 
             # --- Step G: Match games with odds and analyze ---
             games = []

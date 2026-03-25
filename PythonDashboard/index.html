@@ -694,6 +694,15 @@
       render();
     }
 
+    // Parse a week filter value that may be "3" or "2023_3" (season_week)
+    function parseNflWeekFilter(val) {
+      if (val.includes('_')) {
+        const [s, w] = val.split('_');
+        return { season: parseInt(s), week: parseInt(w) };
+      }
+      return { season: null, week: parseInt(val) };
+    }
+
     function setNflWeekFilter(val) {
       nflWeekFilter = val;
       render();
@@ -717,35 +726,45 @@
 
     function nflWeekSelector(runs) {
       if (activeTab !== 'nfl') return '';
+      const showSeason = seasonFilter === 'all';
       const weeks = runs
         .filter(r => !r.burnIn)
-        .map(r => ({ week: r.week, label: nflWeekLabel(r.week, r), playoff: r.playoff }))
-        .sort((a, b) => a.week - b.week);
+        .map(r => {
+          const base = nflWeekLabel(r.week, r);
+          const label = showSeason && r.season ? `${r.season} ${base}` : base;
+          const val = showSeason && r.season ? `${r.season}_${r.week}` : String(r.week);
+          return { week: r.week, season: r.season || 0, label, val, playoff: r.playoff };
+        })
+        .sort((a, b) => a.season !== b.season ? a.season - b.season : a.week - b.week);
       if (weeks.length <= 1) return '';
       let opts = `<option value="latest" ${nflWeekFilter === 'latest' ? 'selected' : ''}>Latest</option>`;
       opts += `<option value="all" ${nflWeekFilter === 'all' ? 'selected' : ''}>All Weeks</option>`;
       for (const w of weeks) {
-        const val = String(w.week);
-        opts += `<option value="${val}" ${nflWeekFilter === val ? 'selected' : ''}>${w.label}</option>`;
+        opts += `<option value="${w.val}" ${nflWeekFilter === w.val ? 'selected' : ''}>${w.label}</option>`;
       }
       return `<select onchange="setNflWeekFilter(this.value)" style="background:#1e1e1e;color:#e0e0e0;border:1px solid #444;border-radius:6px;padding:4px 10px;font-size:13px;margin-left:6px;cursor:pointer">${opts}</select>`;
     }
 
     function nflHistoryWeekSelector(runs) {
       if (activeTab !== 'nfl') return '';
+      const showSeason = seasonFilter === 'all';
       const seen = new Map();
       for (const r of runs) {
         if (r.burnIn) continue;
-        if (!seen.has(r.week)) {
-          seen.set(r.week, nflWeekLabel(r.week, r));
+        const base = nflWeekLabel(r.week, r);
+        const label = showSeason && r.season ? `${r.season} ${base}` : base;
+        const val = showSeason && r.season ? `${r.season}_${r.week}` : String(r.week);
+        if (!seen.has(val)) {
+          seen.set(val, { label, season: r.season || 0, week: r.week });
         }
       }
-      const weeks = [...seen.entries()].sort((a, b) => a[0] - b[0]);
+      const weeks = [...seen.entries()].sort((a, b) =>
+        a[1].season !== b[1].season ? a[1].season - b[1].season : a[1].week - b[1].week
+      );
       if (weeks.length <= 1) return '';
       let opts = `<option value="all" ${nflHistoryWeekFilter === 'all' ? 'selected' : ''}>All Weeks</option>`;
-      for (const [wk, label] of weeks) {
-        const val = String(wk);
-        opts += `<option value="${val}" ${nflHistoryWeekFilter === val ? 'selected' : ''}>${label}</option>`;
+      for (const [val, info] of weeks) {
+        opts += `<option value="${val}" ${nflHistoryWeekFilter === val ? 'selected' : ''}>${info.label}</option>`;
       }
       return `<select onchange="setNflHistoryWeekFilter(this.value)" style="background:#1e1e1e;color:#e0e0e0;border:1px solid #444;border-radius:6px;padding:4px 10px;font-size:13px;margin-left:6px;cursor:pointer">${opts}</select>`;
     }
@@ -2115,13 +2134,24 @@
       // Week filter: pick which run to show in the "Latest" view
       let selectedRun = latestRun;
       if (nflWeekFilter !== 'latest' && nflWeekFilter !== 'all') {
-        const wk = parseInt(nflWeekFilter);
-        selectedRun = nonBurnIn.find(r => r.week === wk) || latestRun;
+        const parsed = parseNflWeekFilter(nflWeekFilter);
+        selectedRun = nonBurnIn.find(r =>
+          r.week === parsed.week && (!parsed.season || r.season == parsed.season)
+        ) || latestRun;
       }
 
       // For stats views: if a specific week is selected, show cumulative up to that week
       const statsRuns = (nflWeekFilter !== 'latest' && nflWeekFilter !== 'all')
-        ? runs.filter(r => r.week <= parseInt(nflWeekFilter))
+        ? (() => {
+            const parsed = parseNflWeekFilter(nflWeekFilter);
+            return runs.filter(r => {
+              if (parsed.season) {
+                // With season: include all prior seasons + weeks up to selected in same season
+                return r.season < parsed.season || (r.season == parsed.season && r.week <= parsed.week);
+              }
+              return r.week <= parsed.week;
+            });
+          })()
         : runs;
 
       updateLastRunInfo();
@@ -2129,7 +2159,12 @@
 
       // Apply history week filter to stats when in history mode
       const historyWeekStatsRuns = (viewMode === 'history' && nflHistoryWeekFilter !== 'all')
-        ? statsRuns.filter(r => r.week === parseInt(nflHistoryWeekFilter))
+        ? (() => {
+            const parsed = parseNflWeekFilter(nflHistoryWeekFilter);
+            return statsRuns.filter(r =>
+              r.week === parsed.week && (!parsed.season || r.season == parsed.season)
+            );
+          })()
         : statsRuns;
       const bannerRuns = viewMode === 'history' ? historyWeekStatsRuns : statsRuns;
 
@@ -2168,7 +2203,12 @@
       } else if (viewMode === 'history') {
         // Filter history runs by week if a specific week is selected
         const historyRuns = nflHistoryWeekFilter !== 'all'
-          ? nonBurnIn.filter(r => r.week === parseInt(nflHistoryWeekFilter))
+          ? (() => {
+              const parsed = parseNflWeekFilter(nflHistoryWeekFilter);
+              return nonBurnIn.filter(r =>
+                r.week === parsed.week && (!parsed.season || r.season == parsed.season)
+              );
+            })()
           : nonBurnIn;
         const historyTotalPages = Math.ceil(historyRuns.length / DAYS_PER_PAGE);
         html += `
