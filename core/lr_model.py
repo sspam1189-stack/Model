@@ -429,8 +429,12 @@ def build_lr_features_for_game(game, team_histories, run_date=None):
 # _explain_lr
 # ---------------------------------------------------------------------------
 
-def _explain_lr(model_bundle, features, top_n=3, game=None):
-    """Return the top contributing features pushing the LR prediction."""
+def _explain_lr(model_bundle, features, top_n=3, game=None, picked_home=True):
+    """Return the top contributing features pushing AGAINST the picked side.
+
+    LR predicts P(home covers). For home picks, most negative contributions
+    hurt the pick. For away picks, most positive contributions hurt the pick.
+    """
     if model_bundle is None or features is None:
         return []
     if not HAS_SKLEARN:
@@ -457,7 +461,9 @@ def _explain_lr(model_bundle, features, top_n=3, game=None):
         contrib = coef * scaled_val
         contributions.append((contrib, name, raw_val))
 
-    contributions.sort(key=lambda x: x[0])
+    # For home picks: most negative = hurts pick (sort ascending, take first)
+    # For away picks: most positive = hurts pick (sort descending, take first)
+    contributions.sort(key=lambda x: x[0], reverse=(not picked_home))
 
     reasons = []
     for contrib, name, raw_val in contributions[:top_n]:
@@ -524,15 +530,15 @@ def predict_lr(model_bundle, features, game=None):
         return {"lr_prob": None, "lr_verdict": "NEUTRAL", "lr_reasons": []}
 
 
-def predict_lr_for_pick(model_bundle, features, picked_home):
+def predict_lr_for_pick(model_bundle, features, picked_home, game=None):
     """Predict and return a verdict relative to the picked side.
 
     Returns dict with lr_prob (P(home covers)), lr_pick_prob (P(picked side covers)),
-    and lr_verdict ('confirm', 'veto', or 'neutral').
+    lr_verdict ('confirm', 'veto', or 'neutral'), and lr_reasons on veto.
     """
-    raw = predict_lr(model_bundle, features)
+    raw = predict_lr(model_bundle, features, game=game)
     if raw["lr_prob"] is None:
-        return {"lr_prob": None, "lr_pick_prob": None, "lr_verdict": "neutral"}
+        return {"lr_prob": None, "lr_pick_prob": None, "lr_verdict": "neutral", "lr_reasons": []}
 
     p_home = raw["lr_prob"]
     p_pick = p_home if picked_home else (1.0 - p_home)
@@ -544,10 +550,16 @@ def predict_lr_for_pick(model_bundle, features, picked_home):
     else:
         verdict = "neutral"
 
+    # Get reasons on veto — sort by features hurting the picked side
+    reasons = []
+    if verdict == "veto":
+        reasons = _explain_lr(model_bundle, features, game=game, picked_home=picked_home)
+
     return {
         "lr_prob": round(p_home, 4),
         "lr_pick_prob": round(p_pick, 4),
         "lr_verdict": verdict,
+        "lr_reasons": reasons,
     }
 
 
