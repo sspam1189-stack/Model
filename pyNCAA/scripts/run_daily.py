@@ -1212,7 +1212,7 @@ def main(subject_label="[PY]"):
                 lr_game["is_tournament"] = True
                 lr_game["is_neutral"] = True
             lr_features = extract_lr_features(home_hist, away_hist, lr_game, home_hist, away_hist)
-            lr_result = predict_lr(lr_bundle, lr_features)
+            lr_result = predict_lr(lr_bundle, lr_features, game=lr_game)
             r["lrProb"] = lr_result["lr_prob"]
             r["lrVerdict"] = lr_result["lr_verdict"]
 

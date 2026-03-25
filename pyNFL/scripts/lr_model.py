@@ -476,7 +476,7 @@ def build_lr_features_for_game(game, team_histories, team_stats=None,
 # _explain_lr — top contributing features
 # ---------------------------------------------------------------------------
 
-def _explain_lr(model_bundle, features, top_n=3):
+def _explain_lr(model_bundle, features, top_n=3, game=None):
     """Return top contributing features pushing the LR prediction.
 
     Parameters
@@ -487,6 +487,8 @@ def _explain_lr(model_bundle, features, top_n=3):
         Feature vector.
     top_n : int
         Number of top contributions to return.
+    game : dict or None
+        Game dict with 'home'/'away' keys for team-name labels.
 
     Returns
     -------
@@ -495,6 +497,9 @@ def _explain_lr(model_bundle, features, top_n=3):
     """
     if model_bundle is None or features is None or not HAS_SKLEARN:
         return []
+
+    home_name = (game or {}).get("home", "Home")
+    away_name = (game or {}).get("away", "Away")
 
     try:
         model = model_bundle["model"]
@@ -516,6 +521,7 @@ def _explain_lr(model_bundle, features, top_n=3):
         reasons = []
         for contrib, name, raw_val in contributions[:top_n]:
             label = _FEATURE_LABELS.get(name, name)
+            label = label.replace("Home", home_name).replace("Away", away_name)
             if "pct" in name:
                 val_str = f"{raw_val * 100:.0f}%"
             elif "margin" in name or "diff" in name or "delta" in name:
@@ -539,7 +545,7 @@ def _explain_lr(model_bundle, features, top_n=3):
 # predict_lr
 # ---------------------------------------------------------------------------
 
-def predict_lr(model_bundle, features):
+def predict_lr(model_bundle, features, game=None):
     """Run a single LR prediction.
 
     Parameters
@@ -548,6 +554,8 @@ def predict_lr(model_bundle, features):
         Trained model bundle from load_or_train_lr().
     features : list[float] or None
         Feature vector from extract_lr_features().
+    game : dict or None
+        Game dict with 'home'/'away' keys for team-name labels in reasons.
 
     Returns
     -------
@@ -580,7 +588,7 @@ def predict_lr(model_bundle, features):
         else:
             verdict = "NEUTRAL"
 
-        reasons = _explain_lr(model_bundle, features) if verdict == "VETO" else []
+        reasons = _explain_lr(model_bundle, features, game=game) if verdict == "VETO" else []
 
         return {"lr_prob": round(prob, 3), "lr_verdict": verdict, "lr_reasons": reasons}
 

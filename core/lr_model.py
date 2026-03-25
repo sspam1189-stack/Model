@@ -415,7 +415,7 @@ def build_lr_features_for_game(game, team_histories, run_date=None):
 # _explain_lr
 # ---------------------------------------------------------------------------
 
-def _explain_lr(model_bundle, features, top_n=3):
+def _explain_lr(model_bundle, features, top_n=3, game=None):
     """Return the top contributing features pushing the LR prediction."""
     if model_bundle is None or features is None:
         return []
@@ -425,6 +425,10 @@ def _explain_lr(model_bundle, features, top_n=3):
     model = model_bundle["model"]
     scaler = model_bundle["scaler"]
     names = model_bundle.get("feature_names", LR_FEATURE_NAMES)
+
+    # Build team-name substitutions for labels
+    home_name = (game or {}).get("home", "Home")
+    away_name = (game or {}).get("away", "Away")
 
     try:
         X_scaled = scaler.transform(np.array([features], dtype=np.float64))[0]
@@ -444,6 +448,8 @@ def _explain_lr(model_bundle, features, top_n=3):
     reasons = []
     for contrib, name, raw_val in contributions[:top_n]:
         label = _FEATURE_LABELS.get(name, name)
+        # Replace generic Home/Away with actual team names
+        label = label.replace("Home", home_name).replace("Away", away_name)
         if "pct" in name or "win_pct" in name:
             val_str = f"{raw_val * 100:.0f}%"
         elif "rest" in name:
@@ -467,11 +473,12 @@ def _explain_lr(model_bundle, features, top_n=3):
 # predict_lr
 # ---------------------------------------------------------------------------
 
-def predict_lr(model_bundle, features):
+def predict_lr(model_bundle, features, game=None):
     """Run a single prediction.
 
     Returns dict with lr_prob (float), lr_verdict ("CONFIRM"/"VETO"/"NEUTRAL"),
     and lr_reasons (list of strings, only populated on VETO).
+    game : optional dict with 'home'/'away' keys for team-name labels in reasons.
     """
     if model_bundle is None or features is None:
         return {"lr_prob": None, "lr_verdict": "NEUTRAL", "lr_reasons": []}
@@ -495,7 +502,7 @@ def predict_lr(model_bundle, features):
         else:
             verdict = "NEUTRAL"
 
-        reasons = _explain_lr(model_bundle, features) if verdict == "VETO" else []
+        reasons = _explain_lr(model_bundle, features, game=game) if verdict == "VETO" else []
 
         return {"lr_prob": round(prob, 3), "lr_verdict": verdict, "lr_reasons": reasons}
     except Exception as e:

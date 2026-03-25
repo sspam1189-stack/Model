@@ -795,7 +795,7 @@ def main(subject_label="[PY]"):
             home_hist = lr_histories.get(r.get("home"), [])
             away_hist = lr_histories.get(r.get("away"), [])
             lr_features = extract_lr_features(home_hist, away_hist, g, home_hist, away_hist)
-            lr_result = predict_lr(lr_bundle, lr_features)
+            lr_result = predict_lr(lr_bundle, lr_features, game=g)
             r["lrProb"] = lr_result["lr_prob"]
             r["lrVerdict"] = lr_result["lr_verdict"]
 

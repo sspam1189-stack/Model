@@ -651,7 +651,7 @@ def stage_project(season, week, store):
         if lr_bundle and r.get("sPick") and r["sPick"] != "PASS":
             try:
                 lr_features = extract_lr_features(r, g, team_stats, kalman_state)
-                lr_result = predict_lr(lr_bundle, lr_features)
+                lr_result = predict_lr(lr_bundle, lr_features, game=g)
                 r["lrProb"] = lr_result.get("lr_prob")
                 r["lrVerdict"] = lr_result.get("lr_verdict")
 
