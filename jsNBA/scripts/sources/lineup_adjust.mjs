@@ -216,25 +216,79 @@ export function adjustTeamStats(teamStats, injuryReport, playerMPG, playerAdv, t
       [...teamsTonight].some(t => resolveTeamName(t, [teamKey]));
     if (!isTonight) continue;
 
+    const roster = playersByTeam[teamKey];
+    if (!roster || roster.length < 5) continue;
+
     // Get injury report for this team
     const injKey = resolveTeamName(teamKey, Object.keys(injuryReport || {}));
-    const injuries = injKey ? injuryReport[injKey] : [];
-    if (!injuries || !injuries.length) continue;
+    const injuries = injKey ? (injuryReport[injKey] || []) : [];
 
-    // Only care about players who are OUT or DOUBTFUL
     const outPlayers = new Set(
       injuries
         .filter(i => i.status === "out" || i.status === "doubtful")
         .map(i => i.player)
     );
-    if (!outPlayers.size) continue;
 
-    // Get all rostered players for this team
-    const roster = playersByTeam[teamKey];
-    if (!roster || roster.length < 5) {
+    // ── Returning-star boost ────────────────────────────────────────────
+    // When a high-minute player missed a significant portion of the season,
+    // both the season stats AND last-10 blend are diluted by their absence.
+    // If they're active tonight, boost the team toward their "with star" level.
+    // Uses the same weighted-avg delta approach as the injury-out adjustment
+    // but in reverse: full-roster avg vs without-star avg = star's impact.
+    const teamGP = Math.max(...roster.map(r => r.gp));
+    if (teamGP >= 30) {
+      const MIN_MPG = 24;
+      const GP_MISS_THRESHOLD = 0.20; // must have missed ≥20% of team games
+      let totalBoostOFF = 0, totalBoostDEF = 0;
 
-      continue;
+      for (const p of roster) {
+        if (p.min < MIN_MPG) continue;
+        if (p.gp >= teamGP * (1 - GP_MISS_THRESHOLD)) continue;
+        // Must be active tonight (not in injury report)
+        if (outPlayers.has(p.name)) continue;
+        const lastName = p.name.split(" ").pop().toLowerCase();
+        let isOut = false;
+        for (const outN of outPlayers) {
+          if (outN.split(" ").pop().toLowerCase() === lastName) { isOut = true; break; }
+        }
+        if (isOut) continue;
+
+        const missedFrac = 1 - (p.gp / teamGP);
+        const gameShare = Math.min(p.min / 48, 1);
+
+        // Compute roster avg without this player to get their true delta
+        const others = roster.filter(r => r.name !== p.name);
+        const othersMin = others.reduce((s, r) => s + r.min, 0);
+        if (othersMin <= 0) continue;
+        const othersOFF = others.reduce((s, r) => s + r.min * (r.offRtg || 0), 0) / othersMin;
+        const othersDEF = others.reduce((s, r) => s + r.min * (r.defRtg || 0), 0) / othersMin;
+
+        const offDelta = ((p.offRtg || 0) - othersOFF) * missedFrac * gameShare;
+        const defDelta = ((p.defRtg || 0) - othersDEF) * missedFrac * gameShare;
+
+        // Cap at ±3.0 pts per player
+        const capVal = (v) => Math.max(-3.0, Math.min(3.0, v));
+        totalBoostOFF += capVal(offDelta);
+        totalBoostDEF += capVal(defDelta);
+
+        console.log(`  [lineup] Returning-star boost: ${p.name} (${p.gp}/${teamGP} GP, ${p.min} mpg) → ${teamKey} OFF ${offDelta > 0 ? "+" : ""}${offDelta.toFixed(1)}, DEF ${defDelta > 0 ? "+" : ""}${defDelta.toFixed(1)}`);
+      }
+
+      // Apply team-level cap (±4.0) to prevent overcounting when multiple stars return
+      if (totalBoostOFF !== 0 || totalBoostDEF !== 0) {
+        const teamCap = (v) => Math.max(-4.0, Math.min(4.0, v));
+        const orig = adjusted[teamKey];
+        adjusted[teamKey] = {
+          ...orig,
+          OFF: Math.round((orig.OFF + teamCap(totalBoostOFF)) * 100) / 100,
+          DEF: Math.round((orig.DEF + teamCap(totalBoostDEF)) * 100) / 100,
+        };
+        adjustedCount++;
+      }
     }
+
+    // ── Injury-out adjustment ───────────────────────────────────────────
+    if (!outPlayers.size) continue;
 
     // Match out players to roster using exact + fuzzy name matching
     const rosterOut = new Set();
@@ -314,7 +368,7 @@ export function adjustTeamStats(teamStats, injuryReport, playerMPG, playerAdv, t
     }
     const DAMPEN = impactDampen(out);
 
-    const orig = teamStats[teamKey];
+    const orig = adjusted[teamKey] || teamStats[teamKey];
     const adj = { ...orig };
     let anyChange = false;
 
