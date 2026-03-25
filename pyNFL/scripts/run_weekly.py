@@ -653,8 +653,7 @@ def stage_project(season, week, store):
                 lr_features = extract_lr_features(r, g, team_stats, kalman_state)
                 picked_home = r.get("home", "") in r.get("sPick", "")
                 lr_result = predict_lr_for_pick(lr_bundle, lr_features, picked_home, game=g)
-                r["lrProb"] = lr_result.get("lr_prob")
-                r["lrPickProb"] = lr_result.get("lr_pick_prob")
+                r["lrProb"] = lr_result.get("lr_pick_prob") or lr_result.get("lr_prob")
                 r["lrVerdict"] = lr_result.get("lr_verdict")
 
                 if lr_result.get("lr_verdict") == "veto":
