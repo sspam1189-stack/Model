@@ -63,6 +63,7 @@ UNIT_WIN = 1.0
 UNIT_LOSS = -1.1   # 1u flat, to-win-1u at standard -110 juice
 CONF_ACTIONABLE = ("high", "elite")
 NFL_WEEKS_REGULAR = 18
+NFL_WEEKS_MAX = 22  # Includes playoffs: 19=WC, 20=Div, 21=Conf, 22=SB
 BURN_IN_WEEKS = 1   # first N weeks in backfill are warm-up only
 
 # ---------------------------------------------------------------------------
@@ -112,7 +113,7 @@ def current_nfl_week(season=None):
     if delta < 0:
         return 0  # preseason
     week = delta // 7 + 1
-    return min(week, NFL_WEEKS_REGULAR)
+    return min(week, NFL_WEEKS_MAX)
 
 
 # ---------------------------------------------------------------------------
@@ -751,8 +752,8 @@ def main():
     season = args.season or current_season()
     week = args.week or current_nfl_week(season)
 
-    if week < 1 or week > NFL_WEEKS_REGULAR:
-        print(f"WARNING: Week {week} is outside regular season range (1-{NFL_WEEKS_REGULAR})")
+    if week < 1 or week > NFL_WEEKS_MAX:
+        print(f"WARNING: Week {week} is outside season range (1-{NFL_WEEKS_MAX})")
         if week < 1:
             week = 1
 

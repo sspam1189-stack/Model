@@ -1520,9 +1520,11 @@
     // injuries (array), injuryDelta, homeScore, awayScore, sResult, week
 
     function nflGetWeekLabel(run) {
+      if (run.dateDisplay) return run.dateDisplay;
       const season = run.season ? `${run.season} ` : '';
+      if (run.playoffRound) return `${season}${run.playoffRound}`;
       if (run.week != null) return `${season}Week ${run.week}`;
-      return run.dateDisplay || run.date || '—';
+      return run.date || '—';
     }
 
     function nflGetActionablePicks(runs) {

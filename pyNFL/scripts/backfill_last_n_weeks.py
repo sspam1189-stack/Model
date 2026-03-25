@@ -72,6 +72,7 @@ from sources.espn_scoreboard import fetch_week_scores
 BURN_IN_WEEKS = 2       # First N weeks per season: warm-up only, picks not evaluated
 MIN_WEEKS_FOR_STATS = 1 # Minimum weeks of data before producing picks
 NFL_REGULAR_WEEKS = 18  # 18 regular season weeks (17 games per team since 2021)
+NFL_PLAYOFF_WEEKS = [19, 20, 21, 22]  # Wild Card, Divisional, Conference Championship, Super Bowl
 ODDS_API_DELAY = 1.5    # Seconds between historical odds API calls (rate limit)
 
 UNIT_WIN = 1.0
@@ -210,7 +211,7 @@ def backfill(seasons, output_dir=None):
         if not available_weeks:
             print(f"  No weeks found in PBP for {season}")
             continue
-        max_week = min(max(available_weeks), NFL_REGULAR_WEEKS)
+        max_week = max(available_weeks)  # Includes playoffs (weeks 19-22) if available
         print(f"  Available weeks: {available_weeks[0]}-{max_week}")
 
         # Reset weights at season boundaries (but keep Kalman with decay)
@@ -292,8 +293,10 @@ def backfill(seasons, output_dir=None):
             dynamic_residual_var = compute_residual_var(store.get("runs", []))
 
             # --- Step E: Fetch final scores for this week (for grading later) ---
+            is_playoff = week > NFL_REGULAR_WEEKS
+            season_type = 3 if is_playoff else 2
             try:
-                finals = fetch_week_scores(week, season=season)
+                finals = fetch_week_scores(week, season=season, season_type=season_type)
             except Exception as e:
                 print(f"  {week_key}{burn_tag}: Score fetch failed: {e}")
                 finals = []
@@ -426,14 +429,18 @@ def backfill(seasons, output_dir=None):
             prev_graded = completed
 
             # --- Step I: Save run to store ---
+            _playoff_names = {19: "Wild Card", 20: "Divisional", 21: "Conference Championship", 22: "Super Bowl"}
+            _week_label = _playoff_names.get(week, f"Week {week}")
             run = {
                 "weekKey": week_key,
                 "season": season,
                 "week": week,
                 "date": week_key,
-                "dateDisplay": f"{season} Week {week}",
+                "dateDisplay": f"{season} {_week_label}",
                 "burnIn": is_burn_in,
                 "backfill": True,
+                "playoff": is_playoff,
+                "playoffRound": _playoff_names.get(week) if is_playoff else None,
                 "weightsUsed": {**base_w},
                 "games": games,
                 "summaryText": "",
