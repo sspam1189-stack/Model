@@ -346,8 +346,22 @@ def extract_lr_features(home_hist, away_hist, game, home_lines=None, away_lines=
 
         home_is_fav = 1.0 if line > 0 else 0.0
 
-        away_rest = af["rest_days"]
-        home_rest = hf["rest_days"]
+        # Compute rest days from last game to current game date (not last game's rest)
+        run_date = game.get("_run_date") or game.get("date")
+        cur = _parse_date(run_date) if run_date else None
+
+        if cur and home_hist:
+            last_home = _parse_date(home_hist[-1].get("date"))
+            home_rest = max(0, min((cur - last_home).days - 1, 14)) if last_home else af["rest_days"]
+        else:
+            home_rest = hf["rest_days"]
+
+        if cur and away_hist:
+            last_away = _parse_date(away_hist[-1].get("date"))
+            away_rest = max(0, min((cur - last_away).days - 1, 14)) if last_away else hf["rest_days"]
+        else:
+            away_rest = af["rest_days"]
+
         rest_advantage = home_rest - away_rest
 
         # Build base features (matches the default 20-feature set)

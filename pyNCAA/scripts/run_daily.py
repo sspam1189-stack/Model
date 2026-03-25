@@ -1207,7 +1207,7 @@ def main(subject_label="[PY]"):
         if r.get("sPick") and r["sPick"] != "PASS":
             home_hist = lr_histories.get(r.get("home"), [])
             away_hist = lr_histories.get(r.get("away"), [])
-            lr_game = {**g}
+            lr_game = {**g, "_run_date": date}
             if is_tourney_today:
                 lr_game["is_tournament"] = True
                 lr_game["is_neutral"] = True
