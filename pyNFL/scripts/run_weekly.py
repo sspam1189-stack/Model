@@ -685,49 +685,20 @@ def stage_project(season, week, store):
             games.append({**g, "status": "SKIPPED", "note": "analyze_game returned None"})
             continue
 
-        # LR ensemble blending (replaces old confirm/veto gate)
+        # LR confirmation / veto gate
         if lr_bundle and r.get("sPick") and r["sPick"] != "PASS":
             try:
                 lr_features = extract_lr_features(r, g, team_stats, kalman_state)
-                lr_result = predict_lr(lr_bundle, lr_features)
-                p_lr = lr_result.get("lr_prob")
-                p_ridge = r.get("pCover")
-                r["lrProb"] = p_lr
+                picked_home = r.get("home", "") in r.get("sPick", "")
+                lr_result = predict_lr_for_pick(lr_bundle, lr_features, picked_home, game=g)
+                r["lrProb"] = lr_result.get("lr_pick_prob") or lr_result.get("lr_prob")
+                r["lrVerdict"] = lr_result.get("lr_verdict")
 
-                if p_lr is not None and p_ridge is not None:
-                    # Determine which side ridge picked via pHomeCover
-                    p_home = r.get("pHomeCover", 0.5)
-                    picked_home = p_home >= 0.5
-                    # LR returns P(home cover); convert to P(picked side)
-                    p_lr_side = p_lr if picked_home else (1.0 - p_lr)
-
-                    # Hard veto: extreme LR disagreement
-                    if p_lr_side < 0.35:
-                        r["lrVetoed"] = r["sPick"]
-                        r["lrReasons"] = lr_result.get("lr_reasons", [])
-                        r["sPick"] = "PASS"
-                        r["sConf"] = "vetoed"
-                        r["lrVerdict"] = "VETO"
-                    else:
-                        # Blend on log-odds scale
-                        import math as _m
-                        _logit = lambda p: _m.log(max(p, 1e-6) / max(1 - p, 1e-6))
-                        _inv_logit = lambda x: 1.0 / (1.0 + _m.exp(-x))
-                        RIDGE_W, LR_W = 0.45, 0.55
-                        blended = _inv_logit(
-                            RIDGE_W * _logit(p_ridge) + LR_W * _logit(p_lr_side)
-                        )
-                        r["pRidge"] = p_ridge
-                        r["pLR"] = round(p_lr_side, 3)
-                        r["pCover"] = round(blended, 3)
-                        r["lrVerdict"] = "BLENDED"
-
-                        # Re-check threshold after blending
-                        prob_threshold = base_w.get("probHigh", 0.57)
-                        if blended < prob_threshold:
-                            r["lrVetoed"] = r["sPick"]
-                            r["sPick"] = "PASS"
-                            r["sConf"] = "blended_below"
+                if lr_result.get("lr_verdict") == "veto":
+                    r["lrVetoed"] = r["sPick"]
+                    r["lrReasons"] = lr_result.get("lr_reasons", [])
+                    r["sPick"] = "PASS"
+                    r["sConf"] = "vetoed"
             except Exception as e:
                 print(f"  WARNING: LR predict failed: {e}")
 
