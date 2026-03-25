@@ -54,8 +54,8 @@ _DATA_DIR = os.path.normpath(os.path.join(_SCRIPT_DIR, "..", "data"))
 MODEL_DIR = os.path.join(_DATA_DIR, "lr_models")
 
 # Thresholds for confirm/veto gate (calibrated via backtest)
-LR_CONFIRM_THRESH = 0.58
-LR_VETO_THRESH = 0.42
+LR_CONFIRM_THRESH = 0.55
+LR_VETO_THRESH = 0.45
 
 # Retraining schedule
 RETRAIN_INTERVAL = 20    # retrain after this many new graded games
@@ -476,7 +476,7 @@ def build_lr_features_for_game(game, team_histories, team_stats=None,
 # _explain_lr — top contributing features
 # ---------------------------------------------------------------------------
 
-def _explain_lr(model_bundle, features, top_n=3):
+def _explain_lr(model_bundle, features, top_n=3, game=None):
     """Return top contributing features pushing the LR prediction.
 
     Parameters
@@ -487,6 +487,8 @@ def _explain_lr(model_bundle, features, top_n=3):
         Feature vector.
     top_n : int
         Number of top contributions to return.
+    game : dict or None
+        Game dict with 'home'/'away' keys for team-name labels.
 
     Returns
     -------
@@ -495,6 +497,9 @@ def _explain_lr(model_bundle, features, top_n=3):
     """
     if model_bundle is None or features is None or not HAS_SKLEARN:
         return []
+
+    home_name = (game or {}).get("home", "Home")
+    away_name = (game or {}).get("away", "Away")
 
     try:
         model = model_bundle["model"]
@@ -511,11 +516,12 @@ def _explain_lr(model_bundle, features, top_n=3):
             contrib = coef * scaled_val
             contributions.append((contrib, name, raw_val))
 
-        contributions.sort(key=lambda x: x[0])
+        contributions.sort(key=lambda x: x[0], reverse=(not picked_home))
 
         reasons = []
         for contrib, name, raw_val in contributions[:top_n]:
             label = _FEATURE_LABELS.get(name, name)
+            label = label.replace("Home", home_name).replace("Away", away_name)
             if "pct" in name:
                 val_str = f"{raw_val * 100:.0f}%"
             elif "margin" in name or "diff" in name or "delta" in name:
@@ -539,7 +545,7 @@ def _explain_lr(model_bundle, features, top_n=3):
 # predict_lr
 # ---------------------------------------------------------------------------
 
-def predict_lr(model_bundle, features):
+def predict_lr(model_bundle, features, game=None):
     """Run a single LR prediction.
 
     Parameters
@@ -548,6 +554,8 @@ def predict_lr(model_bundle, features):
         Trained model bundle from load_or_train_lr().
     features : list[float] or None
         Feature vector from extract_lr_features().
+    game : dict or None
+        Game dict with 'home'/'away' keys for team-name labels in reasons.
 
     Returns
     -------
@@ -580,7 +588,7 @@ def predict_lr(model_bundle, features):
         else:
             verdict = "NEUTRAL"
 
-        reasons = _explain_lr(model_bundle, features) if verdict == "VETO" else []
+        reasons = _explain_lr(model_bundle, features, game=game) if verdict == "VETO" else []
 
         return {"lr_prob": round(prob, 3), "lr_verdict": verdict, "lr_reasons": reasons}
 
@@ -589,7 +597,7 @@ def predict_lr(model_bundle, features):
         return {"lr_prob": None, "lr_verdict": "NEUTRAL", "lr_reasons": []}
 
 
-def predict_lr_for_pick(model_bundle, features, picked_home):
+def predict_lr_for_pick(model_bundle, features, picked_home, game=None):
     """Predict and return a verdict relative to the picked side.
 
     Parameters
@@ -610,9 +618,9 @@ def predict_lr_for_pick(model_bundle, features, picked_home):
             "lr_verdict": "confirm" | "veto" | "neutral",
         }
     """
-    raw = predict_lr(model_bundle, features)
+    raw = predict_lr(model_bundle, features, game=game)
     if raw["lr_prob"] is None:
-        return {"lr_prob": None, "lr_pick_prob": None, "lr_verdict": "neutral"}
+        return {"lr_prob": None, "lr_pick_prob": None, "lr_verdict": "neutral", "lr_reasons": []}
 
     p_home = raw["lr_prob"]
     p_pick = p_home if picked_home else (1.0 - p_home)
@@ -624,10 +632,15 @@ def predict_lr_for_pick(model_bundle, features, picked_home):
     else:
         verdict = "neutral"
 
+    reasons = []
+    if verdict == "veto":
+        reasons = _explain_lr(model_bundle, features, game=game, picked_home=picked_home)
+
     return {
         "lr_prob": round(p_home, 4),
         "lr_pick_prob": round(p_pick, 4),
         "lr_verdict": verdict,
+        "lr_reasons": reasons,
     }
 
 

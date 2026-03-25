@@ -32,7 +32,7 @@ from kalman_state import (
 from calibration import build_calibration_table, build_calibration_html
 from email_report import send_email
 from sources.season_type import is_tournament
-from lr_model import load_or_train_lr, build_team_histories, extract_lr_features, predict_lr
+from lr_model import load_or_train_lr, build_team_histories, extract_lr_features, predict_lr, predict_lr_for_pick
 
 # --- Constants ----------------------------------------------------------------
 
@@ -1207,16 +1207,17 @@ def main(subject_label="[PY]"):
         if r.get("sPick") and r["sPick"] != "PASS":
             home_hist = lr_histories.get(r.get("home"), [])
             away_hist = lr_histories.get(r.get("away"), [])
-            lr_game = {**g}
+            lr_game = {**g, "_run_date": date}
             if is_tourney_today:
                 lr_game["is_tournament"] = True
                 lr_game["is_neutral"] = True
             lr_features = extract_lr_features(home_hist, away_hist, lr_game, home_hist, away_hist)
-            lr_result = predict_lr(lr_bundle, lr_features)
-            r["lrProb"] = lr_result["lr_prob"]
+            picked_home = r.get("home", "") in r.get("sPick", "")
+            lr_result = predict_lr_for_pick(lr_bundle, lr_features, picked_home, game=lr_game)
+            r["lrProb"] = lr_result.get("lr_pick_prob") or lr_result["lr_prob"]
             r["lrVerdict"] = lr_result["lr_verdict"]
 
-            if lr_result["lr_verdict"] == "VETO":
+            if lr_result["lr_verdict"] == "veto":
                 r["lrVetoed"] = r["sPick"]
                 r["lrReasons"] = lr_result.get("lr_reasons", [])
                 r["sPick"] = "PASS"
@@ -1280,12 +1281,12 @@ def main(subject_label="[PY]"):
     calib_rows = build_calibration_table(store)
     yesterday_recap = compute_yesterday_recap(store, yesterday)
 
-    # 9. Send
-    print("[6/7] Sending email...")
+    # 9. Send (disabled for now)
+    print("[6/7] Email disabled (not sending).")
     html = build_email_html(run, summary_obj, l10, l10t, weekly_spread, weekly_total, rolling_spread, rolling_total, team_recs, calib_rows, yesterday_recap)
     text = build_text_email(run, store)
     subject = f"{subject_label} NCAA Picks {run['dateDisplay']} (Actionable)"
-    send_email(subject, text, html)
+    # send_email(subject, text, html)
 
     # 10. Summary
     print(f"\nDone: {subject}")

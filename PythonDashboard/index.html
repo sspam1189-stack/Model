@@ -963,7 +963,7 @@
       if (lrV == null && lrP == null && !g.lrVetoed) return '';
       let parts = [];
       if (lrV != null) parts.push(lrVerdictBadge(lrV));
-      if (lrP != null) parts.push(`P(cover) ${Math.round(lrP * 100)}%`);
+      if (lrP != null) parts.push(`P(cover) ${fmtProb(lrP)}`);
       if (g.lrVetoed) {
         parts.push(`<span class="lr-vetoed">Vetoed: ${esc(g.lrVetoed)}</span>`);
       }
@@ -1524,7 +1524,7 @@
       return `
         <div class="card card-trends">
           <div class="card-title">Rolling ${window}-Pick Groups (Spread)</div>
-          <div class="card-subtitle">Green = above break-even (52.4%) \u00b7 Red = below \u00b7 Units at -110</div>
+          <div class="card-subtitle">Green = above break-even (${fmtPct(52.4)}) \u00b7 Red = below \u00b7 Units at -110</div>
           <table class="data">
             <thead><tr><th>Window</th><th class="center">W-L-P</th><th class="center">Win%</th><th class="center">Flat</th><th class="center">Dates</th></tr></thead>
             <tbody>${body}</tbody>
@@ -1989,9 +1989,9 @@
       const chartSvg = `
         <svg viewBox="0 0 ${chartW} ${chartH}" style="width:100%;max-width:${chartW}px;height:auto;display:block;margin:8px auto">
           <line x1="${padL}" y1="${breakEvenY}" x2="${chartW-padR}" y2="${breakEvenY}" stroke="var(--yellow)" stroke-dasharray="4,3" opacity="0.5"/>
-          <text x="${padL-4}" y="${breakEvenY+4}" fill="var(--yellow)" font-size="9" text-anchor="end">52.4%</text>
+          <text x="${padL-4}" y="${breakEvenY+4}" fill="var(--yellow)" font-size="9" text-anchor="end">${fmtPct(52.4)}</text>
           <polyline points="${rollingPts.map((p,i) => `${sxr(i).toFixed(1)},${syr(p.rate).toFixed(1)}`).join(' ')}" fill="none" stroke="var(--accent)" stroke-width="2.5" stroke-linejoin="round"/>
-          ${rollingPts.map((p, i) => `<circle cx="${sxr(i).toFixed(1)}" cy="${syr(p.rate).toFixed(1)}" r="3" fill="var(--accent)"><title>Wk ${p.week}: ${p.rate.toFixed(1)}% (${p.w}-${p.l})</title></circle>`).join('')}
+          ${rollingPts.map((p, i) => `<circle cx="${sxr(i).toFixed(1)}" cy="${syr(p.rate).toFixed(1)}" r="3" fill="var(--accent)"><title>Wk ${p.week}: ${p.rate.toFixed(2)}% (${p.w}-${p.l})</title></circle>`).join('')}
           <text x="${chartW/2}" y="${chartH-2}" fill="var(--muted)" font-size="10" text-anchor="middle">Rolling ${windowSize}-Week Hit Rate</text>
         </svg>`;
 
@@ -2037,7 +2037,7 @@
 
       const rows = filled.map(r => {
         const diff = r.actualPct !== null ? r.actualPct - r.midPred : null;
-        const diffStr = diff !== null ? `${diff >= 0 ? '+' : ''}${diff.toFixed(1)}%` : '—';
+        const diffStr = diff !== null ? `${diff >= 0 ? '+' : ''}${diff.toFixed(2)}%` : '—';
         const diffColor = diff !== null ? (diff >= -3 ? 'var(--green)' : diff >= -8 ? 'var(--yellow)' : 'var(--red)') : '';
         return `<tr>
           <td class="center">${esc(r.label)}</td>

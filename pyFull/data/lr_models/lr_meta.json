@@ -1,7 +1,7 @@
 {
-  "n_train": 773,
-  "accuracy": 0.5653,
-  "trained_at": "2026-03-24T18:01:55",
+  "n_train": 777,
+  "accuracy": 0.5714,
+  "trained_at": "2026-03-25T18:01:15",
   "features": [
     "away_ats_pct_5",
     "home_ats_pct_5",
@@ -24,6 +24,6 @@
     "away_avg_margin_5",
     "home_avg_margin_5"
   ],
-  "confirm_threshold": 0.6,
-  "veto_threshold": 0.4
+  "confirm_threshold": 0.55,
+  "veto_threshold": 0.45
 }

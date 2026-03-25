@@ -6,7 +6,8 @@
       "Bash(sed -i 's/      - name: Commit updated data files/      - name: Commit updated data files\\\\n        shell: bash/' \"$f\")",
       "Bash(echo \"Fixed: $f\")",
       "Bash(done)",
-      "Bash(git pull:*)"
+      "Bash(git pull:*)",
+      "mcp__scheduled-tasks__list_scheduled_tasks"
     ]
   }
 }

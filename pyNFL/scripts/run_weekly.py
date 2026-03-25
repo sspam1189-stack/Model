@@ -605,7 +605,7 @@ def stage_project(season, week, store):
     # Load LR model
     lr_bundle = None
     try:
-        from lr_model import load_or_train_lr, extract_lr_features, predict_lr
+        from lr_model import load_or_train_lr, extract_lr_features, predict_lr, predict_lr_for_pick
         lr_bundle = load_or_train_lr(store)
         if lr_bundle:
             print(f"  LR model ready ({lr_bundle.get('n_train', '?')} training games)")

@@ -1444,13 +1444,13 @@ async function main() {
   const calibRows = buildCalibrationTable(store);
   const yesterdayRecap = computeYesterdayRecap(store, yesterday);
 
-  // 9. Send
-  console.log("[6/7] Sending email...");
+  // 9. Send (disabled for now)
+  console.log("[6/7] Email disabled (not sending).");
   const html = buildEmailHtml(run, summaryObj, l10, l10t, weeklySpread, weeklyTotal, rollingSpread, rollingTotal, teamRecords, calibRows, yesterdayRecap);
   const text = buildTextEmail(run, store);
   const subject = `[JS] NBA Daily Picks \u2014 ${run.dateDisplay}`;
 
-  await sendEmail(subject, text, html);
+  // await sendEmail(subject, text, html);
 
 
   // 10. Summary
