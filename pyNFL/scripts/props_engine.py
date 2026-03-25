@@ -48,7 +48,7 @@ RECEPTIONS_VAR_MULT = 1.3
 # Backtest shows OVER picks lose money in these markets; UNDER picks are +90u over 3 seasons.
 # Sportsbooks set lines slightly high to attract OVER action — this captures that bias.
 # pass_yds is excluded from this filter (keeps both directions).
-UNDER_ONLY_MARKETS = {"rush_yds", "rec_yds", "receptions"}
+UNDER_ONLY_MARKETS = {"pass_yds", "rush_yds", "rec_yds", "receptions"}
 
 
 # ---------------------------------------------------------------------------
