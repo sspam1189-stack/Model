@@ -210,16 +210,14 @@ export function adjustTeamStats(teamStats, injuryReport, playerMPG, playerAdv, t
 
   let adjustedCount = 0;
 
-  // ── Returning-player boost ──────────────────────────────────────────────
-  // When a high-impact player has missed a large chunk of the season (low GP
-  // relative to team GP), the season-long team stats are diluted by games
-  // without them. If they're ACTIVE tonight (not in injury report), boost the
-  // team stats to approximate "full-strength" performance.
-  //
-  // Approach: for each team playing tonight, find stars/starters whose GP is
-  // significantly below the team median. If they're active, compute a positive
-  // delta proportional to their above-average on-court impact × missed-game
-  // fraction, capped conservatively.
+  // ── Identify returning stars per team ───────────────────────────────────
+  // A "returning star" is a high-minute player (24+ MPG) who missed games
+  // this season (GP < team max) but is ACTIVE tonight. Their presence means:
+  //   1. Season stats are diluted → apply a positive boost
+  //   2. Bench players who got inflated minutes lose time → redistribute MPG
+  const returningByTeam = {}; // teamKey → [player names]
+  const MIN_MPG = 24;
+
   for (const teamKey of teamKeys) {
     const isTonight = teamsTonight.has(teamKey) ||
       [...teamsTonight].some(t => resolveTeamName(t, [teamKey]));
@@ -228,7 +226,6 @@ export function adjustTeamStats(teamStats, injuryReport, playerMPG, playerAdv, t
     const roster = playersByTeam[teamKey];
     if (!roster || roster.length < 5) continue;
 
-    // Get who's out tonight for this team
     const injKey = resolveTeamName(teamKey, Object.keys(injuryReport || {}));
     const injuries = injKey ? (injuryReport[injKey] || []) : [];
     const outNames = new Set(
@@ -237,21 +234,13 @@ export function adjustTeamStats(teamStats, injuryReport, playerMPG, playerAdv, t
         .map(i => i.player)
     );
 
-    // Team GP from stats (approximate from max-GP player on roster)
     const teamGP = Math.max(...roster.map(r => r.gp));
-    if (teamGP < 30) continue; // too early in season
-
-    // Find returning stars: active tonight with fewer GP than the team.
-    // No GP threshold — the missedFrac in the boost formula naturally scales
-    // the adjustment (a player who missed 5% gets a negligible boost; one who
-    // missed 50% gets a large one).
-    const MIN_MPG = 24; // only care about high-minute players
+    if (teamGP < 30) continue;
 
     const returningStars = roster.filter(p => {
       if (p.min < MIN_MPG) return false;
-      if (p.gp >= teamGP) return false; // played every game — no dilution
+      if (p.gp >= teamGP) return false;
       if (outNames.has(p.name)) return false;
-      // Check fuzzy name match for out list
       const lastName = p.name.split(" ").pop().toLowerCase();
       for (const outN of outNames) {
         if (outN.split(" ").pop().toLowerCase() === lastName) return false;
@@ -260,8 +249,12 @@ export function adjustTeamStats(teamStats, injuryReport, playerMPG, playerAdv, t
     });
 
     if (!returningStars.length) continue;
+    returningByTeam[teamKey] = new Set(returningStars.map(p => p.name));
 
-    // Compute full-roster weighted average (all players)
+    // ── Returning-star boost ────────────────────────────────────────────
+    // Correct the diluted season baseline. Only correct the season-stats
+    // portion (1 - recentWeight) since the last-10 blend already partially
+    // captures the player's return.
     const weightedAvg = (players, getter) => {
       let sum = 0, validMin = 0;
       for (const pl of players) {
@@ -280,19 +273,13 @@ export function adjustTeamStats(teamStats, injuryReport, playerMPG, playerAdv, t
 
     for (const star of returningStars) {
       const missedFrac = 1 - (star.gp / teamGP);
-      // Player's above-average impact (vs roster average)
       const offImpact = (star.offRtg || 0) - (fullOFF || 0);
       const defImpact = (star.defRtg || 0) - (fullDEF || 0);
-      // Scale by: missed fraction × game-time share × season-weight × dampen
-      // Game-time share: fraction of the 48-min game the player is on court
-      // Season-weight: only correct the season-stats portion (1 - recentWeight)
-      // because the last-10 blend already partially captures the player's return.
       const gameShare = Math.min(star.min / 48, 1);
       const seasonPortion = 1 - recentWeight;
       const RETURN_DAMPEN = 0.50;
       const boostOFF = offImpact * missedFrac * gameShare * seasonPortion * RETURN_DAMPEN;
       const boostDEF = defImpact * missedFrac * gameShare * seasonPortion * RETURN_DAMPEN;
-      // Cap individual player boost at ±3.0 pts
       const MAX_BOOST = 3.0;
       adj.OFF = Math.round((adj.OFF + Math.max(-MAX_BOOST, Math.min(MAX_BOOST, boostOFF))) * 100) / 100;
       adj.DEF = Math.round((adj.DEF + Math.max(-MAX_BOOST, Math.min(MAX_BOOST, boostDEF))) * 100) / 100;
@@ -307,7 +294,7 @@ export function adjustTeamStats(teamStats, injuryReport, playerMPG, playerAdv, t
     }
   }
 
-  // ── Injury-out adjustment (existing logic) ──────────────────────────────
+  // ── Injury-out adjustment ───────────────────────────────────────────────
   for (const teamKey of teamKeys) {
     // Only adjust teams playing tonight
     const isTonight = teamsTonight.has(teamKey) ||
@@ -360,38 +347,53 @@ export function adjustTeamStats(teamStats, injuryReport, playerMPG, playerAdv, t
       continue;
     }
 
-    // Compute full-roster weighted averages (weighted by minutes)
+    // Compute full-roster weighted averages
     const fullTotalMin = roster.reduce((s, r) => s + r.min, 0);
     if (fullTotalMin <= 0) continue;
 
-    const weightedAvg = (players, totalMin, getter) => {
+    // Weighted average using each player's effective minutes as weight.
+    // When returning stars are present, bench players' season MPG is inflated
+    // (they played more while the star was out). Redistribute: returning stars
+    // keep their MPG, the remaining 240 minutes are split among everyone else
+    // proportionally to their season MPG.
+    const returnSet = returningByTeam[teamKey];
+    function effectiveMin(p, playerList) {
+      if (!returnSet || !returnSet.size) return p.min; // no returning stars — use raw MPG
+      if (returnSet.has(p.name)) return p.min;         // star keeps their MPG
+      // Compress non-star minutes: 240 - stars' total → split proportionally
+      const starMin = playerList.filter(r => returnSet.has(r.name)).reduce((s, r) => s + r.min, 0);
+      const nonStarRawMin = playerList.filter(r => !returnSet.has(r.name)).reduce((s, r) => s + r.min, 0);
+      if (nonStarRawMin <= 0) return p.min;
+      const remainingMin = Math.max(240 - starMin, 48); // floor at 48 to avoid negatives
+      return p.min * (remainingMin / nonStarRawMin);
+    }
+
+    const weightedAvg = (players, getter) => {
       let sum = 0, validMin = 0;
       for (const p of players) {
         const val = getter(p);
         if (Number.isFinite(val)) {
-          sum += p.min * val;
-          validMin += p.min;
+          const w = effectiveMin(p, players);
+          sum += w * val;
+          validMin += w;
         }
       }
       return validMin > 0 ? sum / validMin : null;
     };
 
-    // Full-roster weighted averages
-    const fullOFF = weightedAvg(roster, fullTotalMin, p => p.offRtg);
-    const fullDEF = weightedAvg(roster, fullTotalMin, p => p.defRtg);
-    const fullTS  = weightedAvg(roster, fullTotalMin, p => p.tsPct);
-    const fullTOV = weightedAvg(roster, fullTotalMin, p => p.tovPct);
-    const fullORB = weightedAvg(roster, fullTotalMin, p => p.orbPct);
+    // Full-roster weighted averages (with redistributed minutes)
+    const fullOFF = weightedAvg(roster, p => p.offRtg);
+    const fullDEF = weightedAvg(roster, p => p.defRtg);
+    const fullTS  = weightedAvg(roster, p => p.tsPct);
+    const fullTOV = weightedAvg(roster, p => p.tovPct);
+    const fullORB = weightedAvg(roster, p => p.orbPct);
 
-    // Available-roster: redistribute proportionally
-    // Each available player's projected minutes = their MPG × (total / available_total)
-    // But for the weighted average, the scaling cancels out — we just weight by each
-    // available player's original minutes.
-    const availOFF = weightedAvg(available, 0, p => p.offRtg);
-    const availDEF = weightedAvg(available, 0, p => p.defRtg);
-    const availTS  = weightedAvg(available, 0, p => p.tsPct);
-    const availTOV = weightedAvg(available, 0, p => p.tovPct);
-    const availORB = weightedAvg(available, 0, p => p.orbPct);
+    // Available-roster weighted averages (with redistributed minutes)
+    const availOFF = weightedAvg(available, p => p.offRtg);
+    const availDEF = weightedAvg(available, p => p.defRtg);
+    const availTS  = weightedAvg(available, p => p.tsPct);
+    const availTOV = weightedAvg(available, p => p.tovPct);
+    const availORB = weightedAvg(available, p => p.orbPct);
 
     // Compute deltas and apply to team stats
     // Impact-aware dampening — stars with high NET ratings have outsized impact
