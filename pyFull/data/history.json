@@ -69070,8 +69070,8 @@
           "margin": 5.9,
           "sDiff": 5.9,
           "tDiff": -3.1,
-          "sPick": "Detroit Pistons -2.5",
-          "sConf": "elite",
+          "sPick": "PASS",
+          "sConf": "vetoed",
           "oPick": "PASS",
           "oConf": "low",
           "injuryNote": "Home: Cade Cunningham (out/star), Isaiah Stewart (out/starter)",
@@ -69103,8 +69103,14 @@
           "h2hGames": 3,
           "h2hRecord": "3-0",
           "h2hNote": "H2H Detroit Pistons 3-0 (avg +12.0, adj +1.5)",
-          "lrProb": 0.451,
-          "lrVerdict": "NEUTRAL",
+          "lrProb": 0.437,
+          "lrVerdict": "VETO",
+          "lrVetoed": "Detroit Pistons -2.5",
+          "lrReasons": [
+            "Detroit Pistons win% L5: 80%",
+            "Spread size: 2.5",
+            "Atlanta Hawks avg margin L5: +12.0"
+          ],
           "_adjDeltas": {
             "home": {
               "OFF": -0.55,
@@ -69131,8 +69137,8 @@
           "margin": -6.0,
           "sDiff": 6.0,
           "tDiff": -13.2,
-          "sPick": "PASS",
-          "sConf": "vetoed",
+          "sPick": "Chicago Bulls +6.5",
+          "sConf": "elite",
           "oPick": "UNDER",
           "oConf": "elite",
           "injuryNote": "Away: Isaac Okoro (out/starter), Anfernee Simons (out/starter), Jaden Ivey (out/starter), Zach Collins (out/starter) | Home: Joel Embiid (out/star), Kelly Oubre Jr. (out/star), Tyrese Maxey (out/star)",
@@ -69164,14 +69170,8 @@
           "h2hGames": 2,
           "h2hRecord": "0-2",
           "h2hNote": "H2H Philadelphia 76ers 0-2 (avg -4.5, adj -0.4)",
-          "lrProb": 0.399,
-          "lrVerdict": "VETO",
-          "lrVetoed": "Chicago Bulls +6.5",
-          "lrReasons": [
-            "Chicago Bulls rest days: 3d",
-            "Rest advantage: -2d",
-            "Philadelphia 76ers O/U margin L10: +7.9"
-          ],
+          "lrProb": 0.452,
+          "lrVerdict": "NEUTRAL",
           "_adjDeltas": {
             "away": {
               "OFF": -0.855,
@@ -69297,7 +69297,7 @@
           "h2hGames": 1,
           "h2hRecord": "0-1",
           "h2hNote": "H2H Boston Celtics 0-1 (avg -2.0, adj -0.1)",
-          "lrProb": 0.4,
+          "lrProb": 0.388,
           "lrVerdict": "VETO",
           "lrVetoed": "Oklahoma City Thunder -2.5",
           "lrReasons": [
@@ -69314,14 +69314,14 @@
           "away": "Miami Heat",
           "home": "Cleveland Cavaliers",
           "line": 2.5,
-          "total": 242.5,
+          "total": 243.5,
           "_book": "DraftKings",
           "aS": 112.6,
           "hS": 116.9,
           "pT": 229.5,
           "margin": 2.3,
           "sDiff": 2.3,
-          "tDiff": -11.7,
+          "tDiff": -12.7,
           "sPick": "PASS",
           "sConf": "low",
           "oPick": "UNDER",
@@ -69329,10 +69329,10 @@
           "injuryNote": "Home: Jarrett Allen (out/starter)",
           "pHomeCover": 0.563,
           "pAwayCover": 0.437,
-          "pOver": 0.22,
-          "pUnder": 0.78,
+          "pOver": 0.201,
+          "pUnder": 0.799,
           "pCover": null,
-          "pOU": 0.78,
+          "pOU": 0.799,
           "marginVar": 208.8,
           "marginStd": 14.4,
           "_features": {
@@ -69481,8 +69481,8 @@
           "h2hGames": 1,
           "h2hRecord": "1-0",
           "h2hNote": "H2H Utah Jazz 1-0 (avg +10.0, adj +0.4)",
-          "lrProb": 0.556,
-          "lrVerdict": "CONFIRM",
+          "lrProb": 0.531,
+          "lrVerdict": "NEUTRAL",
           "_adjDeltas": {
             "away": {
               "OFF": -0.585,
@@ -69516,8 +69516,8 @@
           "margin": 8.6,
           "sDiff": 8.6,
           "tDiff": -2.1,
-          "sPick": "Minnesota Timberwolves +1.5",
-          "sConf": "elite",
+          "sPick": "PASS",
+          "sConf": "vetoed",
           "oPick": "PASS",
           "oConf": "low",
           "injuryNote": "Away: Steven Adams (out/starter) | Home: Anthony Edwards (out/star)",
@@ -69549,8 +69549,14 @@
           "h2hGames": 1,
           "h2hRecord": "0-1",
           "h2hNote": "H2H Minnesota Timberwolves 0-1 (avg -5.0, adj -0.2)",
-          "lrProb": 0.457,
-          "lrVerdict": "NEUTRAL",
+          "lrProb": 0.443,
+          "lrVerdict": "VETO",
+          "lrVetoed": "Minnesota Timberwolves +1.5",
+          "lrReasons": [
+            "Spread size: 1.5",
+            "Minnesota Timberwolves ATS margin L5: +8.1",
+            "Line vs team avg: +5.4"
+          ],
           "_adjDeltas": {
             "away": {
               "OFF": -0.22,
@@ -69709,14 +69715,14 @@
           "away": "Milwaukee Bucks",
           "home": "Portland Trail Blazers",
           "line": 12.5,
-          "total": 226.5,
+          "total": 225.5,
           "_book": "DraftKings",
           "aS": 103.0,
           "hS": 125.1,
           "pT": 228.1,
           "margin": 10.0,
           "sDiff": 10.0,
-          "tDiff": -2.9,
+          "tDiff": -1.9,
           "sPick": "PASS",
           "sConf": "low",
           "oPick": "PASS",
@@ -69724,8 +69730,8 @@
           "injuryNote": "Away: Kevin Porter Jr. (out/star), Giannis Antetokounmpo (out/star) | Home: Shaedon Sharpe (out/star)",
           "pHomeCover": 0.755,
           "pAwayCover": 0.245,
-          "pOver": 0.424,
-          "pUnder": 0.576,
+          "pOver": 0.45,
+          "pUnder": 0.55,
           "pCover": null,
           "pOU": null,
           "marginVar": 210.3,
@@ -69823,7 +69829,7 @@
         }
       ],
       "summaryText": "RECORD (graded picks only)\n\nSPREAD (ATS)\n  All:         257-155-0   (62.4%)   [graded 412]\n  Elite:       257-155-0   (62.4%)   [graded 412]\n\nFAV/DOG (Spread)\n  Favorites:   141-84-0   (62.7%)   [graded 225]\n  Underdogs:   116-71-0   (62.0%)   [graded 187]\n\nTOTAL (O/U)\n  All:         217-168-0   (56.4%)   [graded 385]\n  Elite:       217-168-0   (56.4%)   [graded 385]\n\nOVER/UNDER\n  Over:        31-27-0   (53.4%)   [graded 58]\n  Under:       186-141-0   (56.9%)   [graded 327]",
-      "ranAt": "03/25/2026, 10:57:42 AM"
+      "ranAt": "03/25/2026, 11:07:33 AM"
     }
   ],
   "weights": {

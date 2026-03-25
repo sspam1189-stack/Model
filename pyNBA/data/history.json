@@ -43641,13 +43641,13 @@
             "_baseline": 1.9640534359500104,
             "_pace": 1.00334786
           },
-          "lrProb": 0.4,
+          "lrProb": 0.394,
           "lrVerdict": "VETO",
           "lrVetoed": "Detroit Pistons -2.5",
           "lrReasons": [
             "Detroit Pistons win% L5: 80%",
-            "Atlanta Hawks ATS L5: 80%",
-            "Detroit Pistons O/U margin L10: +3.3"
+            "Detroit Pistons O/U margin L10: +3.3",
+            "Atlanta Hawks ATS L5: 80%"
           ],
           "_adjDeltas": {
             "home": {
@@ -43704,13 +43704,13 @@
             "_baseline": 0.33052438390001493,
             "_pace": 1.00923476
           },
-          "lrProb": 0.298,
+          "lrProb": 0.369,
           "lrVerdict": "VETO",
           "lrVetoed": "Chicago Bulls +6.5",
           "lrReasons": [
             "Philadelphia 76ers O/U margin L10: +7.9",
-            "Chicago Bulls rest days: 3d",
-            "Chicago Bulls ATS L5: 80%"
+            "Chicago Bulls ATS L5: 80%",
+            "Philadelphia 76ers win% L5: 60%"
           ],
           "_adjDeltas": {
             "away": {
@@ -43829,7 +43829,7 @@
             "_baseline": -1.880338806275001,
             "_pace": 0.97112398
           },
-          "lrProb": 0.429,
+          "lrProb": 0.404,
           "lrVerdict": "VETO",
           "lrVetoed": "Oklahoma City Thunder -2.5",
           "lrReasons": [
@@ -44001,7 +44001,7 @@
             "_baseline": 3.4853867943250014,
             "_pace": 1.01429954
           },
-          "lrProb": 0.532,
+          "lrProb": 0.506,
           "lrVerdict": "NEUTRAL",
           "_adjDeltas": {
             "away": {
@@ -44036,8 +44036,8 @@
           "margin": 8.5,
           "sDiff": 8.5,
           "tDiff": -2.1,
-          "sPick": "Minnesota Timberwolves +1.5",
-          "sConf": "elite",
+          "sPick": "PASS",
+          "sConf": "vetoed",
           "oPick": "PASS",
           "oConf": "low",
           "injuryNote": "Away: Steven Adams (out/starter) | Home: Anthony Edwards (out/star)",
@@ -44065,8 +44065,14 @@
             "_baseline": 0.9973327905000029,
             "_pace": 0.9850200400000001
           },
-          "lrProb": 0.457,
-          "lrVerdict": "NEUTRAL",
+          "lrProb": 0.435,
+          "lrVerdict": "VETO",
+          "lrVetoed": "Minnesota Timberwolves +1.5",
+          "lrReasons": [
+            "Minnesota Timberwolves ATS margin L5: +8.1",
+            "Minnesota Timberwolves O/U margin L10: +2.9",
+            "Minnesota Timberwolves win% L5: 60%"
+          ],
           "_adjDeltas": {
             "away": {
               "OFF": -0.22,
@@ -44217,14 +44223,14 @@
           "away": "Milwaukee Bucks",
           "home": "Portland Trail Blazers",
           "line": 12.5,
-          "total": 226.5,
+          "total": 225.5,
           "_book": "DraftKings",
           "aS": 103.3,
           "hS": 125.4,
           "pT": 228.7,
           "margin": 9.6,
           "sDiff": 9.6,
-          "tDiff": -2.9,
+          "tDiff": -1.9,
           "sPick": "PASS",
           "sConf": "low",
           "oPick": "PASS",
@@ -44232,8 +44238,8 @@
           "injuryNote": "Away: Kevin Porter Jr. (out/star), Giannis Antetokounmpo (out/star) | Home: Shaedon Sharpe (out/star)",
           "pHomeCover": 0.748,
           "pAwayCover": 0.252,
-          "pOver": 0.424,
-          "pUnder": 0.576,
+          "pOver": 0.45,
+          "pUnder": 0.55,
           "pCover": null,
           "pOU": null,
           "marginVar": 205.7,
@@ -44323,7 +44329,7 @@
         }
       ],
       "summaryText": "RECORD (graded picks only)\n\nSPREAD (ATS)\n  All:         124-69-0   (64.2%)   [graded 193]\n  Elite:       124-69-0   (64.2%)   [graded 193]\n\nFAV/DOG (Spread)\n  Favorites:   73-36-0   (67.0%)   [graded 109]\n  Underdogs:   51-33-0   (60.7%)   [graded 84]\n\nTOTAL (O/U)\n  All:         124-103-0   (54.6%)   [graded 227]\n  Elite:       124-103-0   (54.6%)   [graded 227]\n\nOVER/UNDER\n  Over:        20-16-0   (55.6%)   [graded 36]\n  Under:       104-87-0   (54.5%)   [graded 191]",
-      "ranAt": "03/25/2026, 10:57:01 AM"
+      "ranAt": "03/25/2026, 11:06:38 AM"
     }
   ],
   "weights": {
