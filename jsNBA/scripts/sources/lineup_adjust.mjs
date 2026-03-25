@@ -241,20 +241,22 @@ export function adjustTeamStats(teamStats, injuryReport, playerMPG, playerAdv, t
     const teamGP = Math.max(...roster.map(r => r.gp));
     if (teamGP < 30) continue; // too early in season
 
-    // Find returning stars: active tonight, but missed ≥30% of the season
-    const GP_MISS_THRESHOLD = 0.30; // must have missed at least 30%
-    const MIN_MPG = 24;            // only care about high-minute players
+    // Find returning stars: active tonight with fewer GP than the team.
+    // No GP threshold — the missedFrac in the boost formula naturally scales
+    // the adjustment (a player who missed 5% gets a negligible boost; one who
+    // missed 50% gets a large one).
+    const MIN_MPG = 24; // only care about high-minute players
 
     const returningStars = roster.filter(p => {
       if (p.min < MIN_MPG) return false;
+      if (p.gp >= teamGP) return false; // played every game — no dilution
       if (outNames.has(p.name)) return false;
       // Check fuzzy name match for out list
       const lastName = p.name.split(" ").pop().toLowerCase();
       for (const outN of outNames) {
         if (outN.split(" ").pop().toLowerCase() === lastName) return false;
       }
-      const missedFrac = 1 - (p.gp / teamGP);
-      return missedFrac >= GP_MISS_THRESHOLD;
+      return true;
     });
 
     if (!returningStars.length) continue;
