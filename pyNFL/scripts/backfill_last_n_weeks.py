@@ -295,8 +295,13 @@ def backfill(seasons, output_dir=None):
             # --- Step E: Fetch final scores for this week (for grading later) ---
             is_playoff = week > NFL_REGULAR_WEEKS
             season_type = 3 if is_playoff else 2
+            # ESPN postseason uses week 1-5 under seasontype=3, not 19-22
+            # nflfastR: 19=Wild Card, 20=Divisional, 21=Conf Champ, 22=Super Bowl
+            # ESPN:     1=Wild Card, 2=Divisional, 3=Conf Champ, 5=Super Bowl
+            _ESPN_PLAYOFF_WEEK = {19: 1, 20: 2, 21: 3, 22: 5}
+            espn_week = _ESPN_PLAYOFF_WEEK.get(week, week) if is_playoff else week
             try:
-                finals = fetch_week_scores(week, season=season, season_type=season_type)
+                finals = fetch_week_scores(espn_week, season=season, season_type=season_type)
             except Exception as e:
                 print(f"  {week_key}{burn_tag}: Score fetch failed: {e}")
                 finals = []
