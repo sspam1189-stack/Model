@@ -1274,7 +1274,7 @@ async function main() {
     if (fsx2.existsSync(cacheDir2)) {
       const cacheFiles = fsx2.readdirSync(cacheDir2)
         .filter(f => f.endsWith(".json") && f < date + ".json") // only past dates
-        .sort().reverse().slice(0, 10); // last 10 days of caches
+        .sort().reverse().slice(0, 25); // last 25 days — matches the last-10 blend window
       for (const f of cacheFiles) {
         const cached = JSON.parse(fsx2.readFileSync(pathMod2.join(cacheDir2, f), "utf8"));
         const report = cached.report || cached.injuryData?.report || {};
