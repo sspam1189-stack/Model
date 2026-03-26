@@ -45,6 +45,7 @@ def backtest_props(seasons, start_week=4, use_real_lines=False):
 
     If use_real_lines=True and API key is available, fetches historical
     prop lines from The Odds API (costs credits).
+    Always writes graded picks to nfl-props.json for the dashboard.
     """
     results = {
         "pass_yds": {"projections": [], "actuals": [], "picks": []},
@@ -157,6 +158,9 @@ def backtest_props(seasons, start_week=4, use_real_lines=False):
                             "season": season,
                             "week": week,
                             "player": player,
+                            "team": proj.get("team", ""),
+                            "opp": proj.get("opp", ""),
+                            "market": market,
                             "proj": proj_val,
                             "line": sim_line,
                             "actual": actual_val,
@@ -220,17 +224,19 @@ def backtest_props(seasons, start_week=4, use_real_lines=False):
                 "season": int(p["season"]),
                 "week": int(p["week"]),
                 "player": p["player"],
-                "market": market,
+                "team": p.get("team", ""),
+                "opp": p.get("opp", ""),
+                "market": p.get("market", market),
                 "pick": p["pick"],
                 "line": p["line"],
                 "proj": round(p["proj"], 1),
+                "edge": round(p["proj"] - p["line"], 1),
                 "actual": round(p["actual"], 1),
                 "pCover": round(p["pCover"], 3),
                 "conf": p["conf"],
                 "result": "W" if p["won"] else "L",
             })
 
-    # Sort by season, week, market
     all_picks.sort(key=lambda x: (x["season"], x["week"], x["market"], x["player"]))
 
     # Build per-market summary
@@ -247,7 +253,10 @@ def backtest_props(seasons, start_week=4, use_real_lines=False):
             "units": round(w * 1.0 + l * (-1.1), 1),
         }
 
+    latest_season = max(seasons) if seasons else 2025
     output = {
+        "season": latest_season,
+        "week": "backtest",
         "generated": datetime.now().isoformat(),
         "seasons": seasons,
         "realLines": use_real_lines,
@@ -256,17 +265,25 @@ def backtest_props(seasons, start_week=4, use_real_lines=False):
         "winPct": round(grand_w / max(1, grand_w + grand_l) * 100, 1),
         "units": round(grand_units, 1),
         "marketSummary": market_summary,
-        "picks": all_picks,
+        "props": all_picks,
+        "summary": f"{grand_w}W-{grand_l}L ({'+' if grand_units >= 0 else ''}{grand_units:.1f}u) from {len(all_picks)} picks",
     }
 
-    # Save to both locations
+    class _Encoder(json.JSONEncoder):
+        def default(self, o):
+            if isinstance(o, (np.integer,)):
+                return int(o)
+            if isinstance(o, (np.floating,)):
+                return float(o)
+            return super().default(o)
+
     data_dir = os.path.join(os.path.dirname(__file__), "..", "data")
     dash_dir = os.path.join(os.path.dirname(__file__), "..", "..", "PythonDashboard", "data")
     for out_dir in [data_dir, dash_dir]:
         out_path = os.path.join(out_dir, "nfl-props.json")
         if os.path.isdir(out_dir):
             with open(out_path, "w") as f:
-                json.dump(output, f, indent=2)
+                json.dump(output, f, indent=2, cls=_Encoder)
             print(f"\n  Saved {len(all_picks)} graded picks to {out_path}")
 
 
