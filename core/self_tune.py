@@ -295,7 +295,8 @@ def compute_residual_var(runs):
             if not _is_finite(g.get("margin")) or not _is_finite(g.get("line")):
                 continue
 
-            actual_edge = (g["homeScore"] - g["awayScore"]) - g["line"]
+            # `line` is the signed home spread, so ATS edge is actual margin plus that line.
+            actual_edge = (g["homeScore"] - g["awayScore"]) + g["line"]
             proj_edge = g["margin"]
             errors.append(actual_edge - proj_edge)
 
