@@ -1267,7 +1267,29 @@ async function main() {
   // 3. Lineup-adjusted stats + B2B rest + Kalman state
   console.log("[2/7] Applying lineup adjustments + B2B rest + Kalman filter...");
 
-  const lineupStats = adjustTeamStats(stats, injuryData.report, injuryData.playerMPG, playerAdvanced, odds);
+  // Load recent injury caches for returning-star detection
+  let recentInjuryDates = {};
+  try {
+    const { fileURLToPath: toPath2 } = await import("url");
+    const { default: fsx2 } = await import("fs");
+    const { default: pathMod2 } = await import("path");
+    const cacheDir2 = pathMod2.join(pathMod2.dirname(toPath2(import.meta.url)), "..", "data", "injury_cache");
+    if (fsx2.existsSync(cacheDir2)) {
+      const cacheFiles = fsx2.readdirSync(cacheDir2)
+        .filter(f => f.endsWith(".json") && f < date + ".json")
+        .sort().reverse().slice(0, 10);
+      for (const f of cacheFiles) {
+        const cached = JSON.parse(fsx2.readFileSync(pathMod2.join(cacheDir2, f), "utf8"));
+        const report = cached.report || cached.injuryData?.report || {};
+        if (Object.keys(report).length) {
+          recentInjuryDates[f.replace(".json", "")] = report;
+        }
+      }
+      console.log(`  [lineup] Loaded ${Object.keys(recentInjuryDates).length} recent injury caches for returning-star detection`);
+    }
+  } catch (e) { /* non-critical */ }
+
+  const lineupStats = adjustTeamStats(stats, injuryData.report, injuryData.playerMPG, playerAdvanced, odds, { recentInjuryDates });
   const { adjusted: adjustedStats, b2bNotes } = applyB2BAdjustment(lineupStats, b2bTeams, odds);
   const a = getAvgs(adjustedStats); // league averages (used as fallback)
 

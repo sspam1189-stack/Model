@@ -57,14 +57,15 @@ function findMarket(bookmaker, key) {
   return bookmaker.markets.find(m => m?.key === key) || null;
 }
 
+// Convert The Odds API spread into sportsbook convention:
+// -X = home favored by X, +X = away favored by X
 function toModelLine(homeTeam, awayTeam, spreadPoints, teamForSpread) {
   if (!Number.isFinite(spreadPoints)) return null;
-  const abs = Math.abs(spreadPoints);
   const isHome = teamForSpread === homeTeam;
   const isAway = teamForSpread === awayTeam;
   if (!isHome && !isAway) return null;
-  if (isHome) return spreadPoints < 0 ? abs : -abs;
-  return spreadPoints < 0 ? -abs : abs;
+  if (isHome) return spreadPoints;
+  return -spreadPoints;
 }
 
 async function fetchWithRetry(url, tries = 5) {
@@ -152,10 +153,7 @@ function extractOddsForGame(data, home, away) {
 // Returns: Map of "away@home" → { line, total, _book, _note }
 
 export async function fetchOddsForDay(dateYYYYMMDD, gamesList) {
-  const apiKey = process.env.ODDS_API_KEY;
-  if (!apiKey) throw new Error("Missing ODDS_API_KEY env var.");
-
-  // Check disk cache first
+  // Check disk cache first (before API key check so cached results work without a key)
   if (!fs.existsSync(ODDS_CACHE_DIR)) fs.mkdirSync(ODDS_CACHE_DIR, { recursive: true });
   const cachePath = path.join(ODDS_CACHE_DIR, dateYYYYMMDD + ".json");
   if (fs.existsSync(cachePath)) {
@@ -163,6 +161,9 @@ export async function fetchOddsForDay(dateYYYYMMDD, gamesList) {
     console.log(`  [odds_batch] ${dateYYYYMMDD}: loaded from cache (${Object.keys(cached).length} games)`);
     return cached;
   }
+
+  const apiKey = process.env.ODDS_API_KEY;
+  if (!apiKey) throw new Error("Missing ODDS_API_KEY env var.");
 
   // Build snapshot timestamps to try.
   // Priority: per-game commence-based times FIRST (90 min before tipoff),

@@ -316,6 +316,7 @@ export function createModelEngine(options = {}) {
   }
 
   function projScore(team, opp, isHome, H, a, W, kalmanAdj = null, W_var = null, residualVar = null, teamHCA = null) {
+    const r = x => Math.round(x * 10000) / 10000;
     const tKey = resolveTeam(H, team);
     const oKey = resolveTeam(H, opp);
 
@@ -329,18 +330,18 @@ export function createModelEngine(options = {}) {
     const tDEF = t.DEF;
 
     const base =
-      (tOFF + o.DEF) / 2 +
-      (t.TS - a.ts) * W.wTS -
-      (t.TO - a.to) * W.wTO +
-      (t.ORR - a.orr) * W.wORR +
-      (W.wNET * 0.5) * ((tOFF - tDEF) - (o.OFF - o.DEF)) +
+      r((tOFF + o.DEF) / 2) +
+      r((t.TS - a.ts) * W.wTS) -
+      r((t.TO - a.to) * W.wTO) +
+      r((t.ORR - a.orr) * W.wORR) +
+      r((W.wNET * 0.5) * ((tOFF - tDEF) - (o.OFF - o.DEF))) +
       W.constant;
 
-    const pace = (((t.PACE + o.PACE) / 2) * W.paceAdj) / 100;
+    const pace = Math.round(((((t.PACE + o.PACE) / 2) * W.paceAdj) / 100) * 10000) / 10000;
     const hca = isHome
       ? (enableTeamHCA && teamHCA ? (teamHCA[tKey] ?? W.hca) : W.hca)
       : 0;
-    let score = base * pace + hca;
+    let score = Math.round(base * pace * 10) / 10 + hca;
 
     if (kalmanAdj) {
       score += kalmanAdj.mean;
@@ -388,14 +389,15 @@ export function createModelEngine(options = {}) {
   }
 
   function extractMarginFeatures(homeStats, awayStats, avgStats, paceAdj, neutral = false) {
-    const pace = ((homeStats.PACE + awayStats.PACE) / 2 * paceAdj) / 100;
+    const r4 = x => Math.round(x * 10000) / 10000;
+    const pace = r4(((homeStats.PACE + awayStats.PACE) / 2 * paceAdj) / 100);
     return {
-      dTS:  (homeStats.TS - awayStats.TS) * pace,
-      dTO:  -(homeStats.TO - awayStats.TO) * pace,
-      dORR: (homeStats.ORR - awayStats.ORR) * pace,
-      dNET: 0.5 * ((homeStats.OFF - homeStats.DEF) - (awayStats.OFF - awayStats.DEF)) * pace,
+      dTS:  r4((homeStats.TS - awayStats.TS) * pace),
+      dTO:  r4(-(homeStats.TO - awayStats.TO) * pace),
+      dORR: r4((homeStats.ORR - awayStats.ORR) * pace),
+      dNET: r4(0.5 * ((homeStats.OFF - homeStats.DEF) - (awayStats.OFF - awayStats.DEF)) * pace),
       hca:  neutral ? 0.0 : 1.0,
-      _baseline: ((homeStats.OFF + awayStats.DEF) / 2 - (awayStats.OFF + homeStats.DEF) / 2) * pace,
+      _baseline: r4(((homeStats.OFF + awayStats.DEF) / 2 - (awayStats.OFF + homeStats.DEF) / 2) * pace),
       _pace: pace,
     };
   }
@@ -434,7 +436,7 @@ export function createModelEngine(options = {}) {
 
     const cleanTotal = projTotal(gg.home, gg.away, H, a, W) || pT;
 
-    let margin = hS - aS - gg.line;
+    let margin = hS - aS + gg.line;
 
     let h2h = null;
     if (enableH2H) {
@@ -453,7 +455,7 @@ export function createModelEngine(options = {}) {
     const cleanTDiff = Math.round((cleanTotal - gg.total) * 10) / 10;
 
     const absLine = Math.abs(gg.line);
-    const homeFav = gg.line > 0;
+    const homeFav = gg.line < 0;
 
     const marginVar = (hProj.variance || 0) + (aProj.variance || 0);
     const marginStd = Math.sqrt(Math.max(marginVar, 1));
@@ -484,12 +486,12 @@ export function createModelEngine(options = {}) {
         : (W[bayesCfg.spread.probKey] ?? bayesCfg.spread.minProb);
 
       const pickedSideIsDog = spreadSide === "home"
-        ? gg.line < 0
-        : gg.line > 0;
+        ? gg.line > 0
+        : gg.line < 0;
       const favLineCap = bayesCfg.spread.favLineCap;
       const lineOK = favLineCap != null ? (pickedSideIsDog ? true : absLine <= favLineCap) : true;
 
-      const sDiffOK = bayesCfg.spread.useSDiff ? (sDiff <= bayesCfg.spread.sDiffCap) : true;
+      const sDiffOK = bayesCfg.spread.useSDiff ? (bayesCfg.spread.sDiffCap == null || sDiff <= bayesCfg.spread.sDiffCap) : true;
       const absLineOK = lineCapOk(absLine, bayesCfg.spread.absLineCap, bayesCfg.spread.absLineCapInclusive);
       const nonZeroOK = bayesCfg.spread.requireLineNonZero ? absLine > 0 : true;
 

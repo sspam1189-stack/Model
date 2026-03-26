@@ -116,11 +116,11 @@ export function createKalmanState(options = {}) {
     const K_home = h.adj_var / S;
     const K_away = a.adj_var / S;
 
-    h.adj_mean += K_home * innovation;
-    a.adj_mean -= K_away * innovation;
+    h.adj_mean = Math.round((h.adj_mean + K_home * innovation) * 10000) / 10000;
+    a.adj_mean = Math.round((a.adj_mean - K_away * innovation) * 10000) / 10000;
 
-    h.adj_var = Math.max(cfg.minVar, (1 - K_home) * h.adj_var);
-    a.adj_var = Math.max(cfg.minVar, (1 - K_away) * a.adj_var);
+    h.adj_var = Math.round(Math.max(cfg.minVar, (1 - K_home) * h.adj_var) * 10000) / 10000;
+    a.adj_var = Math.round(Math.max(cfg.minVar, (1 - K_away) * a.adj_var) * 10000) / 10000;
   }
 
   function batchUpdate(state, gradedGames, opts = {}) {

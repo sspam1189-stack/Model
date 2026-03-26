@@ -56,7 +56,7 @@ for _, run in items2:
         if s_diff < 3 or s_diff > 9 or p_cover < 0.63: continue
         side = "home" if g.get("pHomeCover", 0) >= g.get("pAwayCover", 0) else "away"
         abs_line = abs(g.get("line", 0))
-        home_fav = g.get("line", 0) > 0
+        home_fav = g.get("line", 0) < 0
         if side == "home":
             pick_str = f"{g['home']} -{abs_line}" if home_fav else f"{g['home']} +{abs_line}"
         else:
@@ -101,4 +101,4 @@ if line_pos_home_total > 0:
     print(f"line > 0: home wins {line_pos_home_win}/{line_pos_home_total} ({line_pos_home_win / line_pos_home_total * 100:.1f}%)")
 if line_neg_home_total > 0:
     print(f"line < 0: home wins {line_neg_home_win}/{line_neg_home_total} ({line_neg_home_win / line_neg_home_total * 100:.1f}%)")
-print("\nIf line>0 means home favored, home should win >50% when line>0")
+print("\nIf line<0 means home favored (sportsbook), home should win >50% when line<0")

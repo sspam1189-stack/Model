@@ -211,7 +211,7 @@ def run_lr_backtest(store, data_dir=None):
                     "away_win_pct_5": af["win_pct_5"],
                     "home_avg_margin_5": hf["avg_margin_5"],
                     "away_avg_margin_5": af["avg_margin_5"],
-                    "home_flag": 1.0 if line > 0 else 0.0,
+                    "home_flag": 1.0 if line < 0 else 0.0,
                     "rest_advantage": hf["rest_days"] - af["rest_days"],
                 }
 

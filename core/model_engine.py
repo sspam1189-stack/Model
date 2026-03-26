@@ -6,6 +6,11 @@ import re
 from types import SimpleNamespace
 
 
+def _jround(x):
+    """Round half-up (matches JS Math.round behavior, not Python's banker's rounding)."""
+    return math.floor(x + 0.5)
+
+
 def _norm_key(s: str) -> str:
     s = str(s or "").lower()
     s = re.sub(r"[^a-z0-9\s]", " ", s)
@@ -240,6 +245,7 @@ def create_model_engine(
         return 0.5 * (1.0 + sign * y)
 
     def proj_score(team, opp, is_home, H, a, W, kalman_adj=None, W_var=None, residual_var=None, team_hca=None):
+        _r4 = lambda x: _jround(x * 10000) / 10000
         t_key = resolve_team(H, team)
         o_key = resolve_team(H, opp)
 
@@ -256,26 +262,26 @@ def create_model_engine(
         t_def = t["DEF"]
 
         base = (
-            (t_off + o["DEF"]) / 2
-            + (t["TS"] - a["ts"]) * W["wTS"]
-            - (t["TO"] - a["to"]) * W["wTO"]
-            + (t["ORR"] - a["orr"]) * W["wORR"]
-            + (W["wNET"] * 0.5) * ((t_off - t_def) - (o["OFF"] - o["DEF"]))
+            _r4((t_off + o["DEF"]) / 2)
+            + _r4((t["TS"] - a["ts"]) * W["wTS"])
+            - _r4((t["TO"] - a["to"]) * W["wTO"])
+            + _r4((t["ORR"] - a["orr"]) * W["wORR"])
+            + _r4((W["wNET"] * 0.5) * ((t_off - t_def) - (o["OFF"] - o["DEF"])))
             + W["constant"]
         )
 
-        pace = (((t["PACE"] + o["PACE"]) / 2) * W["paceAdj"]) / 100
+        pace = _r4((((t["PACE"] + o["PACE"]) / 2) * W["paceAdj"]) / 100)
         if enable_team_hca and team_hca:
             hca = team_hca.get(t_key, W["hca"]) if is_home else 0
         else:
             hca = W["hca"] if is_home else 0
 
-        score = base * pace + hca
+        score = _jround(base * pace * 10) / 10 + hca
 
         if kalman_adj:
             score += kalman_adj["mean"]
 
-        score = round(score * 10) / 10
+        score = _jround(score * 10) / 10
 
         variance = (residual_var / 2) if residual_var is not None else BAYES_HYPER["residualVar"]
 
@@ -314,17 +320,18 @@ def create_model_engine(
         total_base = (h["OFF"] + aw["DEF"]) / 2 + (aw["OFF"] + h["DEF"]) / 2
 
         pace = (((h["PACE"] + aw["PACE"]) / 2) * (W.get("paceAdj", 1))) / 100 * pace_scoring_factor
-        return round(total_base * pace * 10) / 10
+        return _jround(total_base * pace * 10) / 10
 
     def extract_margin_features(home_stats, away_stats, avg_stats, pace_adj, neutral=False):
-        pace = ((home_stats["PACE"] + away_stats["PACE"]) / 2 * pace_adj) / 100
+        _r4 = lambda x: _jround(x * 10000) / 10000
+        pace = _r4(((home_stats["PACE"] + away_stats["PACE"]) / 2 * pace_adj) / 100)
         return {
-            "dTS":  (home_stats["TS"] - away_stats["TS"]) * pace,
-            "dTO":  -(home_stats["TO"] - away_stats["TO"]) * pace,
-            "dORR": (home_stats["ORR"] - away_stats["ORR"]) * pace,
-            "dNET": 0.5 * ((home_stats["OFF"] - home_stats["DEF"]) - (away_stats["OFF"] - away_stats["DEF"])) * pace,
+            "dTS":  _r4((home_stats["TS"] - away_stats["TS"]) * pace),
+            "dTO":  _r4(-(home_stats["TO"] - away_stats["TO"]) * pace),
+            "dORR": _r4((home_stats["ORR"] - away_stats["ORR"]) * pace),
+            "dNET": _r4(0.5 * ((home_stats["OFF"] - home_stats["DEF"]) - (away_stats["OFF"] - away_stats["DEF"])) * pace),
             "hca":  0.0 if neutral else 1.0,
-            "_baseline": ((home_stats["OFF"] + away_stats["DEF"]) / 2 - (away_stats["OFF"] + home_stats["DEF"]) / 2) * pace,
+            "_baseline": _r4(((home_stats["OFF"] + away_stats["DEF"]) / 2 - (away_stats["OFF"] + home_stats["DEF"]) / 2) * pace),
             "_pace": pace,
         }
 
@@ -382,10 +389,10 @@ def create_model_engine(
 
         avg_margin = total_margin / n_games
         return {
-            "h2hAdj": round(adj * 10) / 10,
+            "h2hAdj": _jround(adj * 10) / 10,
             "h2hGames": n_games,
             "h2hRecord": f"{home_wins}-{home_losses}",
-            "h2hMargin": round(avg_margin * 10) / 10,
+            "h2hMargin": _jround(avg_margin * 10) / 10,
             "h2hNote": f"H2H {home_team} {home_wins}-{home_losses} (avg {'+' if avg_margin > 0 else ''}{avg_margin:.1f}, adj {'+' if adj > 0 else ''}{adj:.1f})",
         }
 
@@ -428,11 +435,11 @@ def create_model_engine(
 
         a_s = a_proj["score"]
         h_s = h_proj["score"]
-        p_t = round((a_s + h_s) * 10) / 10
+        p_t = _jround((a_s + h_s) * 10) / 10
 
         clean_total = proj_total(gg["home"], gg["away"], H, a, W) or p_t
 
-        margin = h_s - a_s - gg["line"]
+        margin = h_s - a_s + gg["line"]
 
         h2h = None
         if enable_h2h:
@@ -441,11 +448,11 @@ def create_model_engine(
                 margin += h2h["h2hAdj"]
 
         s_diff = abs(margin)
-        t_diff = round((p_t - gg["total"]) * 10) / 10
-        clean_t_diff = round((clean_total - gg["total"]) * 10) / 10
+        t_diff = _jround((p_t - gg["total"]) * 10) / 10
+        clean_t_diff = _jround((clean_total - gg["total"]) * 10) / 10
 
         abs_line = abs(gg["line"])
-        home_fav = gg["line"] > 0
+        home_fav = gg["line"] < 0
 
         margin_var = (h_proj.get("variance", 0)) + (a_proj.get("variance", 0))
         margin_std = math.sqrt(max(margin_var, 1))
@@ -476,7 +483,7 @@ def create_model_engine(
             else:
                 spread_prob = W.get(bayes_cfg["spread"]["prob_key"], bayes_cfg["spread"]["min_prob"])
 
-            picked_side_is_dog = (gg["line"] < 0) if spread_side == "home" else (gg["line"] > 0)
+            picked_side_is_dog = (gg["line"] > 0) if spread_side == "home" else (gg["line"] < 0)
             fav_line_cap = bayes_cfg["spread"]["fav_line_cap"]
             line_ok = True if fav_line_cap is None else (True if picked_side_is_dog else abs_line <= fav_line_cap)
 
@@ -531,8 +538,8 @@ def create_model_engine(
             "aS": a_s,
             "hS": h_s,
             "pT": p_t,
-            "margin": round(margin * 10) / 10,
-            "sDiff": round(s_diff * 10) / 10,
+            "margin": _jround(margin * 10) / 10,
+            "sDiff": _jround(s_diff * 10) / 10,
             "tDiff": clean_t_diff,
             "sPick": s_pick,
             "sConf": s_conf,
@@ -540,14 +547,14 @@ def create_model_engine(
             "oConf": o_conf,
             "injuryNote": _build_injury_note(injury_adj) if injury_adj else None,
 
-            "pHomeCover": round(p_home_cover * 1000) / 1000,
-            "pAwayCover": round(p_away_cover * 1000) / 1000,
-            "pOver": round(p_over * 1000) / 1000,
-            "pUnder": round(p_under * 1000) / 1000,
-            "pCover": round(p_cover * 1000) / 1000 if p_cover else None,
-            "pOU": round(p_ou * 1000) / 1000 if p_ou else None,
-            "marginVar": round(margin_var * 10) / 10,
-            "marginStd": round(margin_std * 10) / 10,
+            "pHomeCover": _jround(p_home_cover * 1000) / 1000,
+            "pAwayCover": _jround(p_away_cover * 1000) / 1000,
+            "pOver": _jround(p_over * 1000) / 1000,
+            "pUnder": _jround(p_under * 1000) / 1000,
+            "pCover": _jround(p_cover * 1000) / 1000 if p_cover else None,
+            "pOU": _jround(p_ou * 1000) / 1000 if p_ou else None,
+            "marginVar": _jround(margin_var * 10) / 10,
+            "marginStd": _jround(margin_std * 10) / 10,
 
             "_features": _features,
             "_marginFeatures": _margin_features,
