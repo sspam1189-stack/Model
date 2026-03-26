@@ -171,7 +171,6 @@ def create_model_engine(
     h2h_max_adj=4.0,
     h2h_recency_decay=0.85,
     bayes=None,
-    legacy=None,
 ):
     if engine_config is None:
         engine_config = {}
@@ -187,14 +186,13 @@ def create_model_engine(
         return _resolve_team_nba(H, name, aliases)
 
     bayes = bayes or {}
-    legacy = legacy or {}
 
     bayes_cfg = {
         "spread": {
             "mode": "probHigh",
             "prob_key": "probHigh",
             "min_prob": 0.57,
-            "s_diff_cap": 9,
+            "s_diff_cap": None,
             "abs_line_cap": 12,
             "abs_line_cap_inclusive": False,
             "require_line_nonzero": False,
@@ -211,23 +209,6 @@ def create_model_engine(
         },
     }
 
-    legacy_cfg = {
-        "spread": {
-            "min_diff_key": "sprHigh",
-            "min_diff_floor": None,
-            "diff_cap": 9,
-            "abs_line_cap": 12,
-            "abs_line_cap_inclusive": False,
-            **(legacy.get("spread") or {}),
-        },
-        "totals": {
-            "enabled": True,
-            "min_diff_key": "ouHigh",
-            "elite_bump_key": "ouEliteBump",
-            "elite_bump_default": 3,
-            **(legacy.get("totals") or {}),
-        },
-    }
 
     def load_defaults():
         return {
@@ -487,54 +468,34 @@ def create_model_engine(
         p_cover = None
         p_ou = None
 
-        use_bayesian = kalman_state is not None and W_var is not None
+        best_spread_p = max(p_home_cover, p_away_cover)
+        spread_side = "home" if p_home_cover >= p_away_cover else "away"
 
-        if use_bayesian:
-            best_spread_p = max(p_home_cover, p_away_cover)
-            spread_side = "home" if p_home_cover >= p_away_cover else "away"
-
-            if bayes_cfg["spread"]["mode"] == "fixed":
-                spread_prob = bayes_cfg["spread"]["threshold"]
-            else:
-                spread_prob = W.get(bayes_cfg["spread"]["prob_key"], bayes_cfg["spread"]["min_prob"])
-
-            picked_side_is_dog = (gg["line"] > 0) if spread_side == "home" else (gg["line"] < 0)
-            fav_line_cap = bayes_cfg["spread"]["fav_line_cap"]
-            line_ok = True if fav_line_cap is None else (True if picked_side_is_dog else abs_line <= fav_line_cap)
-
-            s_diff_ok = True if (not bayes_cfg["spread"]["use_s_diff"] or bayes_cfg["spread"]["s_diff_cap"] is None) else (s_diff <= bayes_cfg["spread"]["s_diff_cap"])
-            abs_line_ok = _line_cap_ok(abs_line, bayes_cfg["spread"]["abs_line_cap"], bayes_cfg["spread"]["abs_line_cap_inclusive"])
-            non_zero_ok = True if not bayes_cfg["spread"]["require_line_nonzero"] else abs_line > 0
-
-            if best_spread_p >= spread_prob and line_ok and s_diff_ok and abs_line_ok and non_zero_ok:
-                s_pick = _format_spread_pick(gg, spread_side, abs_line, home_fav)
-                s_conf = "elite"
-                p_cover = best_spread_p
-
-            if bayes_cfg["totals"]["enabled"]:
-                best_total_p = max(p_over, p_under)
-                total_prob = W.get(bayes_cfg["totals"]["prob_key"], bayes_cfg["totals"]["min_prob"])
-                if best_total_p >= total_prob:
-                    o_pick = "OVER" if p_over >= p_under else "UNDER"
-                    o_conf = "elite"
-                    p_ou = best_total_p
+        if bayes_cfg["spread"]["mode"] == "fixed":
+            spread_prob = bayes_cfg["spread"]["threshold"]
         else:
-            min_diff = W.get(legacy_cfg["spread"]["min_diff_key"])
-            min_floor = legacy_cfg["spread"]["min_diff_floor"]
-            s_diff_ok = (min_floor is None or s_diff >= min_floor) and (min_diff is None or s_diff >= min_diff)
-            s_cap_ok = True if legacy_cfg["spread"]["diff_cap"] is None else s_diff <= legacy_cfg["spread"]["diff_cap"]
-            abs_line_ok = _line_cap_ok(abs_line, legacy_cfg["spread"]["abs_line_cap"], legacy_cfg["spread"]["abs_line_cap_inclusive"])
+            spread_prob = W.get(bayes_cfg["spread"]["prob_key"], bayes_cfg["spread"]["min_prob"])
 
-            if s_diff_ok and s_cap_ok and abs_line_ok:
-                s_pick = _format_spread_pick(gg, "home" if margin > 0 else "away", abs_line, home_fav)
-                s_conf = "elite"
+        picked_side_is_dog = (gg["line"] > 0) if spread_side == "home" else (gg["line"] < 0)
+        fav_line_cap = bayes_cfg["spread"]["fav_line_cap"]
+        line_ok = True if fav_line_cap is None else (True if picked_side_is_dog else abs_line <= fav_line_cap)
 
-            if legacy_cfg["totals"]["enabled"] and abs(clean_t_diff) >= W.get(legacy_cfg["totals"]["min_diff_key"]):
-                elite_bump = W.get(legacy_cfg["totals"]["elite_bump_key"], legacy_cfg["totals"]["elite_bump_default"])
-                ou_elite_adj = W.get(legacy_cfg["totals"]["min_diff_key"]) + elite_bump
-                if abs(clean_t_diff) >= ou_elite_adj:
-                    o_pick = "OVER" if clean_t_diff > 0 else "UNDER"
-                    o_conf = "elite"
+        s_diff_ok = True if (not bayes_cfg["spread"]["use_s_diff"] or bayes_cfg["spread"]["s_diff_cap"] is None) else (s_diff <= bayes_cfg["spread"]["s_diff_cap"])
+        abs_line_ok = _line_cap_ok(abs_line, bayes_cfg["spread"]["abs_line_cap"], bayes_cfg["spread"]["abs_line_cap_inclusive"])
+        non_zero_ok = True if not bayes_cfg["spread"]["require_line_nonzero"] else abs_line > 0
+
+        if best_spread_p >= spread_prob and line_ok and s_diff_ok and abs_line_ok and non_zero_ok:
+            s_pick = _format_spread_pick(gg, spread_side, abs_line, home_fav)
+            s_conf = "elite"
+            p_cover = best_spread_p
+
+        if bayes_cfg["totals"]["enabled"]:
+            best_total_p = max(p_over, p_under)
+            total_prob = W.get(bayes_cfg["totals"]["prob_key"], bayes_cfg["totals"]["min_prob"])
+            if best_total_p >= total_prob:
+                o_pick = "OVER" if p_over >= p_under else "UNDER"
+                o_conf = "elite"
+                p_ou = best_total_p
 
         h_team = H[home_key]
         a_team = H[away_key]
