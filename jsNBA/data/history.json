@@ -43066,16 +43066,242 @@
       ],
       "summaryText": "",
       "ranAt": "3/26/2026, 12:18:08 PM"
+    },
+    {
+      "date": "20260326",
+      "dateDisplay": "2026-03-26",
+      "burnIn": false,
+      "weightsUsed": {
+        "wTS": 1.318,
+        "wTO": 1.018,
+        "wORR": 0.964,
+        "wNET": 1.426,
+        "constant": 0.021,
+        "paceAdj": 1.027,
+        "hca": 1.5,
+        "sprHigh": 4,
+        "ouHigh": 5,
+        "sprEliteBump": 3,
+        "ouEliteBump": 3,
+        "probHigh": 0.57,
+        "probElite": 0.63,
+        "probOUHigh": 0.58,
+        "probOUElite": 0.64,
+        "recentWeight": 0.35,
+        "locationWeight": 0.25
+      },
+      "weightsNext": {
+        "wTS": 1.318,
+        "wTO": 1.018,
+        "wORR": 0.964,
+        "wNET": 1.426,
+        "constant": 0.021,
+        "paceAdj": 1.027,
+        "hca": 1.5,
+        "sprHigh": 4,
+        "ouHigh": 5,
+        "sprEliteBump": 3,
+        "ouEliteBump": 3,
+        "probHigh": 0.57,
+        "probElite": 0.63,
+        "probOUHigh": 0.58,
+        "probOUElite": 0.64,
+        "recentWeight": 0.35,
+        "locationWeight": 0.25
+      },
+      "games": [
+        {
+          "away": "New York Knicks",
+          "home": "Charlotte Hornets",
+          "line": -1.5,
+          "total": 222.5,
+          "_book": "DraftKings",
+          "aS": 112,
+          "hS": 118.7,
+          "pT": 230.7,
+          "margin": 5.2,
+          "sDiff": 5.2,
+          "tDiff": 6.9,
+          "sPick": "Charlotte Hornets -1.5",
+          "sConf": "elite",
+          "oPick": "OVER",
+          "oConf": "elite",
+          "injuryNote": "Away: Landry Shamet (out/starter), Miles McBride (out/star)",
+          "pHomeCover": 0.637,
+          "pAwayCover": 0.363,
+          "pOver": 0.672,
+          "pUnder": 0.328,
+          "pCover": 0.637,
+          "pOU": 0.672,
+          "marginVar": 218.5,
+          "marginStd": 14.8,
+          "_features": {
+            "dTS": 0,
+            "dTO": -0.72,
+            "dORR": 0.009999999999999953,
+            "dNET": 0.3499999999999943,
+            "avgPace": 97.845
+          },
+          "_marginFeatures": {
+            "dTS": 0,
+            "dTO": 0.7235,
+            "dORR": 0.01,
+            "dNET": 0.1759,
+            "hca": 1,
+            "_baseline": 0.1759,
+            "_pace": 1.0049
+          },
+          "_adjDeltas": {
+            "away": {
+              "OFF": -0.53,
+              "DEF": 0.26,
+              "TS": -0.0016,
+              "TO": 0.9843,
+              "ORR": 0.0072
+            }
+          },
+          "trends": {
+            "away": "ATS +/- 1.4 · Over 48.7% · Under 51.4% · O/U +/- -1.5",
+            "home": "ATS +/- 5.7 · Over 38.9% · Under 61.1% · O/U +/- -3.7"
+          }
+        },
+        {
+          "away": "New Orleans Pelicans",
+          "home": "Detroit Pistons",
+          "line": -3.5,
+          "total": 226.5,
+          "_book": "DraftKings",
+          "aS": 111.9,
+          "hS": 124.7,
+          "pT": 236.6,
+          "margin": 9.3,
+          "sDiff": 9.3,
+          "tDiff": 6.3,
+          "sPick": "Detroit Pistons -3.5",
+          "sConf": "elite",
+          "oPick": "OVER",
+          "oConf": "elite",
+          "injuryNote": "Away: Bryce McGowens (out/starter)",
+          "pHomeCover": 0.735,
+          "pAwayCover": 0.265,
+          "pOver": 0.658,
+          "pUnder": 0.342,
+          "pCover": 0.735,
+          "pOU": 0.658,
+          "marginVar": 218.5,
+          "marginStd": 14.8,
+          "_features": {
+            "dTS": 0.010000000000000009,
+            "dTO": -0.24,
+            "dORR": 0.02999999999999997,
+            "dNET": 9.059999999999988,
+            "avgPace": 100.055
+          },
+          "_marginFeatures": {
+            "dTS": 0.0103,
+            "dTO": 0.2466,
+            "dORR": 0.0308,
+            "dNET": 4.655,
+            "hca": 1,
+            "_baseline": 4.655,
+            "_pace": 1.0276
+          },
+          "_adjDeltas": {
+            "away": {
+              "OFF": -0.16,
+              "DEF": -0.19,
+              "TS": -0.0023,
+              "TO": 0.2946,
+              "ORR": 0.0021
+            },
+            "home": {
+              "OFF": -1.27,
+              "DEF": 0.99,
+              "TO": -0.0309,
+              "ORR": 0.001
+            }
+          },
+          "trends": {
+            "away": "ATS +/- 1.2 · Over 49.3% · Under 50.7% · O/U +/- -0.5",
+            "home": "ATS +/- 2 · Over 45.1% · Under 54.9% · O/U +/- -0.8"
+          },
+          "b2bNote": "Detroit Pistons: B2B: OFF -1.5, DEF +0.8"
+        },
+        {
+          "away": "Sacramento Kings",
+          "home": "Orlando Magic",
+          "line": -15.5,
+          "total": 230.5,
+          "_book": "DraftKings",
+          "aS": 110,
+          "hS": 130.5,
+          "pT": 240.5,
+          "margin": 5,
+          "sDiff": 5,
+          "tDiff": 4.4,
+          "sPick": "PASS",
+          "sConf": "low",
+          "oPick": "PASS",
+          "oConf": "low",
+          "injuryNote": "Away: Russell Westbrook (out/star), Keegan Murray (out/star) | Home: Anthony Black (out/star), Franz Wagner (out/star)",
+          "pHomeCover": 0.632,
+          "pAwayCover": 0.368,
+          "pOver": 0.611,
+          "pUnder": 0.389,
+          "pCover": null,
+          "pOU": null,
+          "marginVar": 219.8,
+          "marginStd": 14.8,
+          "_features": {
+            "dTS": 0.029999999999999916,
+            "dTO": 0.05,
+            "dORR": 0.02999999999999997,
+            "dNET": 11.650000000000006,
+            "avgPace": 100.25999999999999
+          },
+          "_marginFeatures": {
+            "dTS": 0.0309,
+            "dTO": -0.0515,
+            "dORR": 0.0309,
+            "dNET": 5.998,
+            "hca": 1,
+            "_baseline": 5.998,
+            "_pace": 1.0297
+          },
+          "_adjDeltas": {
+            "away": {
+              "OFF": 0.14,
+              "DEF": -0.34,
+              "TS": 0.0083,
+              "TO": -0.0367,
+              "ORR": 0.0013
+            },
+            "home": {
+              "OFF": 0.17,
+              "DEF": 0.19,
+              "TS": 0.0047,
+              "TO": 0.0383,
+              "ORR": 0.0017
+            }
+          },
+          "trends": {
+            "away": "ATS +/- -3 · Over 50.7% · Under 49.3% · O/U +/- 0.4",
+            "home": "ATS +/- -0.9 · Over 54.2% · Under 45.8% · O/U +/- 2.2"
+          }
+        }
+      ],
+      "summaryText": "RECORD (graded picks only)\n\nSPREAD (ATS)\n  All:         161-99-0   (61.9%)   [graded 260]\n  Elite:       161-99-0   (61.9%)   [graded 260]\n\nFAV/DOG (Spread)\n  Favorites:   100-57-0   (63.7%)   [graded 157]\n  Underdogs:   61-42-0   (59.2%)   [graded 103]\n\nTOTAL (O/U)\n  All:         112-88-0   (56.0%)   [graded 200]\n  Elite:       112-88-0   (56.0%)   [graded 200]\n\nOVER/UNDER\n  Over:        21-19-0   (52.5%)   [graded 40]\n  Under:       91-69-0   (56.9%)   [graded 160]",
+      "ranAt": "3/26/2026, 12:29:19 PM"
     }
   ],
   "weights": {
-    "wTS": 1.18,
-    "wTO": 1.022,
-    "wORR": 0.976,
-    "wNET": 1.449,
-    "constant": 0.02,
-    "paceAdj": 1.026,
-    "hca": 2.073,
+    "wTS": 1.318,
+    "wTO": 1.018,
+    "wORR": 0.964,
+    "wNET": 1.426,
+    "constant": 0.021,
+    "paceAdj": 1.027,
+    "hca": 1.5,
     "sprHigh": 4,
     "ouHigh": 5,
     "sprEliteBump": 3,
@@ -43088,11 +43314,13 @@
     "locationWeight": 0.25
   },
   "weightsVar": {
-    "wTS": 3.9916,
-    "wTO": 3.9958,
-    "wORR": 3.947,
+    "wTS": 3.9828,
+    "wTO": 3.9915,
+    "wORR": 3.8939,
     "wNET": 0.05,
-    "hca": 0.424,
+    "hca": 0.2377,
     "constant": 4
-  }
+  },
+  "lastTuneDate": "20260326",
+  "residualVar": 201.7
 }
