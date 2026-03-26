@@ -10,7 +10,7 @@ for (const r of runs) {
   for (const g of r.games || []) {
     if (!Number.isFinite(g.homeScore) || !Number.isFinite(g.awayScore)) continue;
     if (!Number.isFinite(g.margin) || !Number.isFinite(g.line)) continue;
-    const actualEdge = (g.homeScore - g.awayScore) - g.line;
+    const actualEdge = (g.homeScore - g.awayScore) + g.line;
     const projEdge = g.margin;
     errors.push(actualEdge - projEdge);
   }

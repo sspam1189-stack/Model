@@ -57,14 +57,14 @@ function findMarket(bookmaker, key) {
   return bookmaker.markets.find(m => m?.key === key) || null;
 }
 
+// Sportsbook convention: -X = home favored by X, +X = away favored by X
 function toModelLine(homeTeam, awayTeam, spreadPoints, teamForSpread) {
   if (!Number.isFinite(spreadPoints)) return null;
-  const abs = Math.abs(spreadPoints);
   const isHome = teamForSpread === homeTeam;
   const isAway = teamForSpread === awayTeam;
   if (!isHome && !isAway) return null;
-  if (isHome) return spreadPoints < 0 ? abs : -abs;
-  return spreadPoints < 0 ? -abs : abs;
+  if (isHome) return spreadPoints;
+  return -spreadPoints;
 }
 
 async function fetchWithRetry(url, tries = 5) {
@@ -153,16 +153,34 @@ function extractOddsForGame(data, home, away) {
 
 export async function fetchOddsForDay(dateYYYYMMDD, gamesList) {
   const apiKey = process.env.ODDS_API_KEY;
-  if (!apiKey) throw new Error("Missing ODDS_API_KEY env var.");
 
   // Check disk cache first
   if (!fs.existsSync(ODDS_CACHE_DIR)) fs.mkdirSync(ODDS_CACHE_DIR, { recursive: true });
   const cachePath = path.join(ODDS_CACHE_DIR, dateYYYYMMDD + ".json");
   if (fs.existsSync(cachePath)) {
     const cached = JSON.parse(fs.readFileSync(cachePath, "utf8"));
+    // Fuzzy-match cache keys to ESPN names via alias expansion
+    if (gamesList?.length) {
+      const cacheEntries = Object.entries(cached);
+      for (const g of gamesList) {
+        const espnKey = `${g.away}@${g.home}`;
+        if (cached[espnKey]) continue;
+        const awayAliases = expandAliases(g.away);
+        const homeAliases = expandAliases(g.home);
+        for (const [ck, cv] of cacheEntries) {
+          const [cAway, cHome] = ck.split("@").map(normKey);
+          if (awayAliases.includes(cAway) && homeAliases.includes(cHome)) {
+            cached[espnKey] = cv;
+            break;
+          }
+        }
+      }
+    }
     console.log(`  [odds_batch] ${dateYYYYMMDD}: loaded from cache (${Object.keys(cached).length} games)`);
     return cached;
   }
+
+  if (!apiKey) throw new Error("Missing ODDS_API_KEY env var (no cache found, need API).");
 
   // Build snapshot timestamps to try.
   // Priority: per-game commence-based times FIRST (90 min before tipoff),
@@ -184,9 +202,8 @@ export async function fetchOddsForDay(dateYYYYMMDD, gamesList) {
 
   // Fixed fallbacks (only used if commence times aren't available)
   const fallbacks = [
-    `${dateStr}T15:00:00Z`,  // ~10 AM ET — catches early Sunday tips
-    `${dateStr}T19:00:00Z`,  // ~2 PM ET
-    `${dateStr}T22:00:00Z`,  // ~5 PM ET — before most weekday tipoffs
+    `${dateStr}T16:00:00Z`,  // 4 PM UTC — 11 AM ET, catches early tips
+    `${dateStr}T23:00:00Z`,  // 11 PM UTC — 6 PM ET, catches evening tips
   ];
 
   // Deduplicate: game-specific first, then fallbacks

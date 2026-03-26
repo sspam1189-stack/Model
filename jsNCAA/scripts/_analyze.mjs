@@ -112,7 +112,7 @@ for (const r of h.runs || []) {
   for (const g of r.games || []) {
     if (typeof g.homeScore !== "number" || typeof g.awayScore !== "number") continue;
     if (typeof g.margin !== "number" || typeof g.line !== "number") continue;
-    const err = (g.homeScore - g.awayScore) - g.line - g.margin;
+    const err = (g.homeScore - g.awayScore) + g.line - g.margin;
     errors.push(err);
   }
 }

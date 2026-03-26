@@ -7,10 +7,12 @@ export function createNbaEngine({ DEFAULT_STATS, DEFAULT_W, DEFAULT_W_VAR, BAYES
     DEFAULT_W_VAR,
     BAYES_HYPER,
     bayes: {
-      spread: { sDiffCap: 9, useSDiff: true },
+      spread: { sDiffCap: null, useSDiff: false, absLineCap: 12, absLineCapInclusive: false },
+      totals: { enabled: false },
     },
     legacy: {
-      spread: { diffCap: 9 },
+      spread: { diffCap: null, absLineCap: 12, absLineCapInclusive: false },
+      totals: { enabled: false },
     },
   });
 }

@@ -4,6 +4,12 @@
 
 import { fetchClosingOddsForGame } from "./odds_theoddsapi_historical.mjs";
 import { fetchScoreboard } from "./espn_scoreboard.mjs";
+import fs from "fs";
+import path from "path";
+import { fileURLToPath } from "url";
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+const ODDS_CACHE_DIR = path.join(__dirname, "..", "..", "data", "odds_cache");
 
 const BASE = "https://api.the-odds-api.com/v4";
 
@@ -43,23 +49,15 @@ function todayISOChicago() {
   return fmt.format(new Date()); // "YYYY-MM-DD"
 }
 
-// Convert The Odds API spread into your convention:
-// +X means HOME favored by X
-// -X means AWAY favored by X
+// Convert The Odds API spread into sportsbook convention:
+// -X = home favored by X, +X = away favored by X
 function toModelLine(homeTeam, awayTeam, spreadPoints, teamForSpread) {
   if (!Number.isFinite(spreadPoints)) return null;
-  const abs = Math.abs(spreadPoints);
-
   const isHome = teamForSpread === homeTeam;
   const isAway = teamForSpread === awayTeam;
-
   if (!isHome && !isAway) return null;
-
-  // In The Odds API, spread points are usually negative for favorite (e.g., -5.5)
-  // If HOME team is the favorite, model line should be +5.5
-  // If AWAY team is the favorite, model line should be -5.5
-  if (isHome) return spreadPoints < 0 ? abs : -abs;
-  return spreadPoints < 0 ? -abs : abs;
+  if (isHome) return spreadPoints;
+  return -spreadPoints;
 }
 
 function pickBestBookmaker(bookmakers) {
@@ -161,6 +159,27 @@ export async function fetchTodaysOdds() {
       total,
       _book: book?.title ?? null
     });
+  }
+
+  // Cache today's odds in batch format so backfill can reuse
+  if (games.length > 0) {
+    try {
+      if (!fs.existsSync(ODDS_CACHE_DIR)) fs.mkdirSync(ODDS_CACHE_DIR, { recursive: true });
+      const dateKey = today.replace(/-/g, "");
+      const cachePath = path.join(ODDS_CACHE_DIR, dateKey + ".json");
+      let existing = {};
+      if (fs.existsSync(cachePath)) {
+        try { existing = JSON.parse(fs.readFileSync(cachePath, "utf8")); } catch {}
+      }
+      for (const g of games) {
+        const key = `${g.away}@${g.home}`;
+        if (!existing[key] || existing[key].line == null) {
+          existing[key] = { line: g.line, total: g.total, _book: g._book, _note: "live fetch" };
+        }
+      }
+      fs.writeFileSync(cachePath, JSON.stringify(existing, null, 2));
+      console.log(`  [odds] Cached ${games.length} games to ${dateKey}.json`);
+    } catch {}
   }
 
   return games;

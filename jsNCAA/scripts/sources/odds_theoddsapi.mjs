@@ -4,6 +4,12 @@
 // Requires env var: ODDS_API_KEY
 
 import { fetchScoreboard } from "./espn_scoreboard.mjs";
+import fs from "fs";
+import path from "path";
+import { fileURLToPath } from "url";
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+const ODDS_CACHE_DIR = path.join(__dirname, "..", "..", "data", "odds_cache");
 
 const BASE = "https://api.the-odds-api.com/v4";
 const HISTORICAL_OFFSET_MS = 90 * 60 * 1000; // 1.5 hours before tip-off
@@ -180,5 +186,27 @@ export async function fetchTodaysOdds() {
   }
 
   console.log(`  [odds] Got ${games.length} NCAAB games with odds for today`);
+
+  // Cache today's odds in batch format so backfill can reuse
+  if (games.length > 0) {
+    try {
+      if (!fs.existsSync(ODDS_CACHE_DIR)) fs.mkdirSync(ODDS_CACHE_DIR, { recursive: true });
+      const dateKey = today.replace(/-/g, "");
+      const cachePath = path.join(ODDS_CACHE_DIR, dateKey + ".json");
+      let existing = {};
+      if (fs.existsSync(cachePath)) {
+        try { existing = JSON.parse(fs.readFileSync(cachePath, "utf8")); } catch {}
+      }
+      for (const g of games) {
+        const key = `${g.away}@${g.home}`;
+        if (!existing[key] || existing[key].line == null) {
+          existing[key] = { line: g.line, total: g.total, _book: g._book, _note: "live fetch" };
+        }
+      }
+      fs.writeFileSync(cachePath, JSON.stringify(existing, null, 2));
+      console.log(`  [odds] Cached ${games.length} games to ${dateKey}.json`);
+    } catch {}
+  }
+
   return games;
 }

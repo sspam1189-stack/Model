@@ -2,9 +2,13 @@ import requests
 import os
 import math
 import re
+import json
 from datetime import datetime
 from urllib.parse import quote
 import pytz
+
+_dir = os.path.dirname(os.path.abspath(__file__))
+ODDS_CACHE_DIR = os.path.join(_dir, "..", "..", "data", "odds_cache")
 
 from .odds_theoddsapi_historical import fetch_closing_odds_for_game
 from .espn_scoreboard import fetch_scoreboard
@@ -53,12 +57,11 @@ def today_iso_chicago():
 
 def to_model_line(home_team, away_team, spread_points, team_for_spread):
     """
-    +X means HOME favored by X
-    -X means AWAY favored by X
+    Sportsbook convention (home perspective):
+    -X = home favored by X, +X = away favored by X
     """
     if not math.isfinite(spread_points):
         return None
-    abs_val = abs(spread_points)
 
     is_home = team_for_spread == home_team
     is_away = team_for_spread == away_team
@@ -67,8 +70,8 @@ def to_model_line(home_team, away_team, spread_points, team_for_spread):
         return None
 
     if is_home:
-        return abs_val if spread_points < 0 else -abs_val
-    return -abs_val if spread_points < 0 else abs_val
+        return spread_points
+    return -spread_points
 
 
 def pick_best_bookmaker(bookmakers):
@@ -171,5 +174,28 @@ def fetch_todays_odds():
             "total": total,
             "_book": (book or {}).get("title"),
         })
+
+    # Cache today's odds in batch format so backfill can reuse
+    if games:
+        try:
+            os.makedirs(ODDS_CACHE_DIR, exist_ok=True)
+            date_key = today.replace("-", "")
+            cache_path = os.path.join(ODDS_CACHE_DIR, date_key + ".json")
+            existing = {}
+            if os.path.exists(cache_path):
+                try:
+                    with open(cache_path, "r") as f:
+                        existing = json.load(f)
+                except Exception:
+                    pass
+            for g in games:
+                key = f"{g['away']}@{g['home']}"
+                if key not in existing or existing[key].get("line") is None:
+                    existing[key] = {"line": g["line"], "total": g["total"], "_book": g["_book"], "_note": "live fetch"}
+            with open(cache_path, "w") as f:
+                json.dump(existing, f, indent=2)
+            print(f"  [odds] Cached {len(games)} games to {date_key}.json")
+        except Exception:
+            pass
 
     return games

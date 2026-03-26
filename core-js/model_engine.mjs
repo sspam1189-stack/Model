@@ -434,7 +434,7 @@ export function createModelEngine(options = {}) {
 
     const cleanTotal = projTotal(gg.home, gg.away, H, a, W) || pT;
 
-    let margin = hS - aS - gg.line;
+    let margin = hS - aS + gg.line;
 
     let h2h = null;
     if (enableH2H) {
@@ -453,7 +453,7 @@ export function createModelEngine(options = {}) {
     const cleanTDiff = Math.round((cleanTotal - gg.total) * 10) / 10;
 
     const absLine = Math.abs(gg.line);
-    const homeFav = gg.line > 0;
+    const homeFav = gg.line < 0;
 
     const marginVar = (hProj.variance || 0) + (aProj.variance || 0);
     const marginStd = Math.sqrt(Math.max(marginVar, 1));
@@ -484,8 +484,8 @@ export function createModelEngine(options = {}) {
         : (W[bayesCfg.spread.probKey] ?? bayesCfg.spread.minProb);
 
       const pickedSideIsDog = spreadSide === "home"
-        ? gg.line < 0
-        : gg.line > 0;
+        ? gg.line > 0
+        : gg.line < 0;
       const favLineCap = bayesCfg.spread.favLineCap;
       const lineOK = favLineCap != null ? (pickedSideIsDog ? true : absLine <= favLineCap) : true;
 

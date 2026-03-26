@@ -9,9 +9,11 @@ export function createFullseasonEngine({ DEFAULT_STATS, DEFAULT_W, DEFAULT_W_VAR
     enableH2H: true,
     bayes: {
       spread: { sDiffCap: 10, useSDiff: true },
+      totals: { enabled: false },
     },
     legacy: {
       spread: { diffCap: 10 },
+      totals: { enabled: false },
     },
   });
 }

@@ -162,8 +162,6 @@ def fetch_odds_for_day(date_yyyymmdd, games_list):
     Returns: dict of "away@home" -> { line, total, _book, _note }
     """
     api_key = os.environ.get("ODDS_API_KEY")
-    if not api_key:
-        raise Exception("Missing ODDS_API_KEY env var.")
 
     # Check disk cache first
     if not os.path.exists(ODDS_CACHE_DIR):
@@ -172,8 +170,27 @@ def fetch_odds_for_day(date_yyyymmdd, games_list):
     if os.path.exists(cache_path):
         with open(cache_path, "r", encoding="utf-8") as f:
             cached = json.load(f)
+        # Fuzzy-match cache keys to ESPN names via alias expansion
+        if games_list:
+            cache_entries = list(cached.items())
+            for g in games_list:
+                espn_key = f"{g['away']}@{g['home']}"
+                if espn_key in cached:
+                    continue
+                away_aliases = expand_aliases(g["away"])
+                home_aliases = expand_aliases(g["home"])
+                for ck, cv in cache_entries:
+                    parts = ck.split("@")
+                    if len(parts) == 2:
+                        c_away, c_home = norm_key(parts[0]), norm_key(parts[1])
+                        if c_away in away_aliases and c_home in home_aliases:
+                            cached[espn_key] = cv
+                            break
         print(f"  [odds_batch] {date_yyyymmdd}: loaded from cache ({len(cached)} games)")
         return cached
+
+    if not api_key:
+        raise Exception("Missing ODDS_API_KEY env var (no cache found, need API).")
 
     # Build snapshot timestamps to try
     date_str = f"{date_yyyymmdd[0:4]}-{date_yyyymmdd[4:6]}-{date_yyyymmdd[6:8]}"
@@ -190,11 +207,10 @@ def fetch_odds_for_day(date_yyyymmdd, games_list):
             except (ValueError, AttributeError):
                 pass
 
-    # Fixed fallbacks
+    # Fixed fallbacks: 4 PM UTC (11 AM ET) + 11 PM UTC (6 PM ET)
     fallbacks = [
-        f"{date_str}T15:00:00Z",
-        f"{date_str}T19:00:00Z",
-        f"{date_str}T22:00:00Z",
+        f"{date_str}T16:00:00Z",
+        f"{date_str}T23:00:00Z",
     ]
 
     # Deduplicate: game-specific first, then fallbacks
