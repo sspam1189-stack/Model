@@ -1,7 +1,7 @@
 {
   "n_train": 281,
   "accuracy": 0.6263,
-  "trained_at": "2026-03-26T00:23:07",
+  "trained_at": "2026-03-26T09:48:48",
   "features": [
     "picked_ou_pm_10",
     "opp_over_pct_10",
@@ -11,6 +11,6 @@
     "opp_win_pct_5",
     "picked_win_pct_5"
   ],
-  "confirm_threshold": 0.5,
-  "veto_threshold": 0.5
+  "confirm_threshold": 0.55,
+  "veto_threshold": 0.45
 }
