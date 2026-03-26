@@ -14,7 +14,7 @@ console.log(`Older runs (< ${cutoff}): ${olderRuns.length} days\n`);
 
 function gradeSpread(g, side) {
   const homeMargin = g.homeScore - g.awayScore;
-  const v = homeMargin - g.line;
+  const v = homeMargin + g.line;
   if (side === "home") return v > 0 ? "WIN" : v === 0 ? "PUSH" : "LOSS";
   else return v < 0 ? "WIN" : v === 0 ? "PUSH" : "LOSS";
 }
@@ -47,7 +47,7 @@ function sweep(runSet, label) {
       const absLine = Math.abs(g.line);
 
       // Dog check for fav line cap
-      const isDog = side === "home" ? g.line < 0 : g.line > 0;
+      const isDog = side === "home" ? g.line > 0 : g.line < 0;
       const lineOK = isDog ? true : absLine <= 6;
 
       if (bestP >= pThresh && lineOK && absLine > 0) {

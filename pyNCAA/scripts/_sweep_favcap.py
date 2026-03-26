@@ -16,7 +16,7 @@ for r in runs:
 
 def grade_spread(g, side):
     margin = g["homeScore"] - g["awayScore"]
-    v = margin - g["line"]
+    v = margin + g["line"]
     if side == "home": return "WIN" if v > 0 else ("PUSH" if v == 0 else "LOSS")
     return "WIN" if v < 0 else ("PUSH" if v == 0 else "LOSS")
 
@@ -31,7 +31,7 @@ for lo, hi in line_ranges:
         best_p = max(pH, pA)
         side = "home" if pH >= pA else "away"
         abs_line = abs(g.get("line", 0))
-        is_dog = (side == "home" and g["line"] < 0) or (side == "away" and g["line"] > 0)
+        is_dog = (side == "home" and g["line"] > 0) or (side == "away" and g["line"] < 0)
         if is_dog: continue
         if best_p < 0.60: continue
         if abs_line < lo or abs_line > hi: continue
@@ -51,7 +51,7 @@ for cap in [4, 5, 6, 8, 10, 15, 99]:
         best_p = max(pH, pA)
         side = "home" if pH >= pA else "away"
         abs_line = abs(g.get("line", 0))
-        is_dog = (side == "home" and g["line"] < 0) or (side == "away" and g["line"] > 0)
+        is_dog = (side == "home" and g["line"] > 0) or (side == "away" and g["line"] < 0)
         line_ok = True if is_dog else abs_line <= cap
         if best_p >= 0.60 and line_ok and abs_line > 0:
             result = grade_spread(g, side)

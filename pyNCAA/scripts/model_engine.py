@@ -6,8 +6,9 @@ sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', '..'))
 from core.engines.ncaa import create_ncaa_engine
 from core.model_engine import compute_team_hca
 from defaults import DEFAULT_STATS, DEFAULT_W, DEFAULT_W_VAR, BAYES_HYPER, ENGINE_CONFIG
+from sources.season_type import is_tournament
 
-_engine = create_ncaa_engine(DEFAULT_STATS, DEFAULT_W, DEFAULT_W_VAR, BAYES_HYPER, ENGINE_CONFIG)
+_engine = create_ncaa_engine(DEFAULT_STATS, DEFAULT_W, DEFAULT_W_VAR, BAYES_HYPER, ENGINE_CONFIG, is_tournament=is_tournament)
 
 load_defaults = _engine.load_defaults
 get_avgs = _engine.get_avgs

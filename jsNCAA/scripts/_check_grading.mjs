@@ -13,7 +13,7 @@ for (const r of runs) {
       console.log("\n--- Grading analysis ---");
       console.log("away:", g.away, "| home:", g.home);
       console.log("awayScore:", g.awayScore, "| homeScore:", g.homeScore);
-      console.log("line:", g.line, "(positive = home is dog)");
+      console.log("line:", g.line, "(negative = home favored, positive = home is dog)");
 
       const absLine = Math.abs(g.line);
       const homeDog = g.line > 0;

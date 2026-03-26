@@ -47,10 +47,10 @@ function rePickSpread(g) {
   const side = pHomeCover >= pAwayCover ? "home" : "away";
 
   const absLine = Math.abs(g.line || 0);
-  const homeFav = g.line > 0;
+  const homeFav = g.line < 0;
 
-  // Dog/fav detection
-  const isDog = side === "home" ? g.line < 0 : g.line > 0;
+  // Dog/fav detection (sportsbook: negative line = home favored)
+  const isDog = side === "home" ? g.line > 0 : g.line < 0;
   // Dogs: no line cap. Favs: line <= 6
   const lineOK = isDog ? true : absLine <= FAV_LINE_CAP;
 

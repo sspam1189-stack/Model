@@ -1,5 +1,5 @@
 import { createNcaaEngine } from "../../core-js/engines/ncaa.mjs";
-import { DEFAULT_STATS, DEFAULT_W, DEFAULT_W_VAR, BAYES_HYPER } from "./defaults.mjs";
+import { DEFAULT_STATS, DEFAULT_W, DEFAULT_W_VAR, BAYES_HYPER, ENGINE_CONFIG } from "./defaults.mjs";
 import { isTournament } from "./sources/season_type.mjs";
 
 const engine = createNcaaEngine({
@@ -7,6 +7,7 @@ const engine = createNcaaEngine({
   DEFAULT_W,
   DEFAULT_W_VAR,
   BAYES_HYPER,
+  ENGINE_CONFIG,
   isTournament,
 });
 

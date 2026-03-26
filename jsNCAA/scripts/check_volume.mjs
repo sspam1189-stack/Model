@@ -72,13 +72,13 @@ for (const r of h.runs) {
 
     // Determine which side has best pCover
     const side = (g.pHomeCover || 0) >= (g.pAwayCover || 0) ? "home" : "away";
-    const isDog = side === "home" ? g.line < 0 : g.line > 0;
+    const isDog = side === "home" ? g.line > 0 : g.line < 0;
     const lineOK = isDog ? true : absLine <= 6;
     if (!lineOK) continue;
 
     // Check result
     const actualMargin = (g.homeScore - g.awayScore);
-    const spread = g.line; // positive = home is dog
+    const spread = g.line; // negative = home fav, positive = home dog
     const coverMargin = actualMargin + spread;
     let result;
     if (side === "home") {

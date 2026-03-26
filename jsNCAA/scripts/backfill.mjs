@@ -39,6 +39,7 @@ import { blendBase } from "./sources/blend_stats.mjs";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const CACHE_DIR = path.join(__dirname, "..", "data", "stats_cache");
+const ODDS_CACHE_DIR = path.join(__dirname, "..", "data", "odds_cache");
 
 // ── Date helpers ─────────────────────────────────────────────────────────
 
@@ -82,6 +83,17 @@ function sleep(ms) {
 
 // ── Fuzzy team name matcher ──────────────────────────────────────────────
 
+// ESPN/OddsAPI name variants → Barttorvik keys for ambiguous cases
+const TEAM_ALIASES = {
+  "miami hurricanes": "Miami FL",
+  "miami fl hurricanes": "Miami FL",
+  "miami oh redhawks": "Miami OH",
+  "miami redhawks": "Miami OH",
+  "ohio bobcats": "Ohio",
+  "ohio st buckeyes": "Ohio St.",
+  "ohio state buckeyes": "Ohio St.",
+};
+
 function normKey(s) {
   return String(s || "")
     .toLowerCase()
@@ -105,6 +117,10 @@ function resolveTeamFuzzy(stats, name) {
   if (stats[name]) return name;
   const keys = Object.keys(stats);
   const wanted = normKey(name);
+
+  // 0.5. Check alias map
+  const aliased = TEAM_ALIASES[wanted];
+  if (aliased && stats[aliased]) return aliased;
 
   // 1. Exact normKey match
   for (const k of keys) {
@@ -169,14 +185,14 @@ function pickBestBookmaker(bookmakers) {
   return bookmakers[0];
 }
 
+// Sportsbook convention: -X = home favored by X, +X = away favored by X
 function toModelLine(homeTeam, awayTeam, spreadPoints, teamForSpread) {
   if (!Number.isFinite(spreadPoints)) return null;
-  const abs = Math.abs(spreadPoints);
   const isHome = teamForSpread === homeTeam;
   const isAway = teamForSpread === awayTeam;
   if (!isHome && !isAway) return null;
-  if (isHome) return spreadPoints < 0 ? abs : -abs;
-  return spreadPoints < 0 ? -abs : abs;
+  if (isHome) return spreadPoints;
+  return -spreadPoints;
 }
 
 function parseOddsSnapshot(data) {
@@ -249,6 +265,17 @@ async function fetchSnapshotAt(dateYYYYMMDD, hourUTC) {
 }
 
 async function fetchHistoricalOdds(dateYYYYMMDD) {
+  // Check disk cache first
+  if (!fs.existsSync(ODDS_CACHE_DIR)) fs.mkdirSync(ODDS_CACHE_DIR, { recursive: true });
+  const cachePath = path.join(ODDS_CACHE_DIR, dateYYYYMMDD + ".json");
+  if (fs.existsSync(cachePath)) {
+    try {
+      const cached = JSON.parse(fs.readFileSync(cachePath, "utf8"));
+      console.log(`  [odds] ${dateYYYYMMDD}: loaded from cache (${cached.length} games)`);
+      return cached;
+    } catch (e) { /* fall through to API */ }
+  }
+
   // Take multiple snapshots throughout the day to get pre-game lines
   // ~1.5 hours before each tipoff window.
   // NCAA tipoff windows (ET): noon(17UTC), 2pm(19UTC), 4pm(21UTC), 7pm(00UTC), 9pm(02UTC)
@@ -302,7 +329,17 @@ async function fetchHistoricalOdds(dateYYYYMMDD) {
     }
   }
 
-  return Array.from(bestLines.values()).map(v => v.game);
+  const result = Array.from(bestLines.values()).map(v => {
+    // Strip non-serializable Date objects for cache
+    const { commence, ...rest } = v.game;
+    return rest;
+  });
+
+  // Cache to disk
+  try { fs.writeFileSync(cachePath, JSON.stringify(result, null, 2)); }
+  catch (e) { /* non-critical */ }
+
+  return result;
 }
 
 // ── Grading functions ────────────────────────────────────────────────────
@@ -502,6 +539,7 @@ async function main() {
         away: awayKey,
         home: homeKey,
         line,
+        _date: date,
         total,
       };
 

@@ -41,14 +41,18 @@ function todayISOChicago() {
   return fmt.format(new Date());
 }
 
+// Convert The Odds API spread into sportsbook convention:
+// -X = home favored by X, +X = away favored by X
 function toModelLine(homeTeam, awayTeam, spreadPoints, teamForSpread) {
   if (!Number.isFinite(spreadPoints)) return null;
-  const abs = Math.abs(spreadPoints);
   const isHome = teamForSpread === homeTeam;
   const isAway = teamForSpread === awayTeam;
   if (!isHome && !isAway) return null;
-  if (isHome) return spreadPoints < 0 ? abs : -abs;
-  return spreadPoints < 0 ? -abs : abs;
+  // The Odds API already uses sportsbook convention for the named team.
+  // If the spread is for the home team, return it directly.
+  // If the spread is for the away team, negate to express as home line.
+  if (isHome) return spreadPoints;
+  return -spreadPoints;
 }
 
 function pickBestBookmaker(bookmakers) {
