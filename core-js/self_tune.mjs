@@ -223,7 +223,8 @@ export function createSelfTune(options = {}) {
         if (!Number.isFinite(g.homeScore) || !Number.isFinite(g.awayScore)) continue;
         if (!Number.isFinite(g.margin) || !Number.isFinite(g.line)) continue;
 
-        const actualEdge = (g.homeScore - g.awayScore) - g.line;
+        // `line` is stored as the signed home spread: home -5.5 means home must win by >5.5.
+        const actualEdge = (g.homeScore - g.awayScore) + g.line;
         const projEdge   = g.margin;
         errors.push(actualEdge - projEdge);
       }

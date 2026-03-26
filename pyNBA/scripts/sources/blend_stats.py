@@ -15,7 +15,7 @@ def _blend_team(base, overlay, weight):
         ov = overlay.get(k)
         bv = base.get(k)
         if isinstance(ov, (int, float)) and math.isfinite(ov) and isinstance(bv, (int, float)) and math.isfinite(bv):
-            out[k] = bv * (1 - weight) + ov * weight
+            out[k] = math.floor((bv * (1 - weight) + ov * weight) * 100 + 0.5) / 100
     return out
 
 

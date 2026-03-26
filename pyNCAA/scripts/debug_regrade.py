@@ -18,7 +18,7 @@ for _, run in items:
             s_diff = g.get("sDiff", 0)
             best_p = max(g["pHomeCover"], g["pAwayCover"])
             side = "home" if g["pHomeCover"] >= g["pAwayCover"] else "away"
-            is_dog = (side == "home" and g.get("line", 0) < 0) or (side == "away" and g.get("line", 0) > 0)
+            is_dog = (side == "home" and g.get("line", 0) > 0) or (side == "away" and g.get("line", 0) < 0)
             if is_dog and best_p >= 0.60 and 3 <= s_diff <= 9:
                 new_picks += 1
                 if side == "home":
@@ -53,7 +53,7 @@ for _, run in items3:
         if g.get("sResult") != "LOSS" or loss_count >= 5: continue
         if g.get("pHomeCover") is None: continue
         side = "home" if g.get("pHomeCover", 0) >= g.get("pAwayCover", 0) else "away"
-        is_dog = (side == "home" and g.get("line", 0) < 0) or (side == "away" and g.get("line", 0) > 0)
+        is_dog = (side == "home" and g.get("line", 0) > 0) or (side == "away" and g.get("line", 0) < 0)
         loss_count += 1
         print(f"\nLOSS: {g.get('away')} @ {g.get('home')}")
         print(f"  sPick: {g.get('sPick')} | line: {g.get('line')}")

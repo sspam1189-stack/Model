@@ -74,7 +74,7 @@ LR_FEATURE_NAMES = [
     "home_injury_delta",      # home team injury EPA delta
     "away_injury_delta",      # away team injury EPA delta
     # Market context (3)
-    "market_line",            # market spread (+ = home favored)
+    "market_line",            # market spread (- = home favored, sportsbook convention)
     "sdiff",                  # model spread - market spread
     "abs_line",               # absolute spread size
     # Pace & efficiency (3)
@@ -202,7 +202,7 @@ def build_team_histories(store):
             total = g.get("total", home_score + away_score)
             actual_total = home_score + away_score
             home_margin = home_score - away_score
-            home_spread = -line
+            home_spread = line  # sportsbook convention: line IS home spread
             home_covered = (home_margin + home_spread) > 0
             game_over = actual_total > total
 
@@ -439,8 +439,8 @@ def build_lr_features_for_game(game, team_histories, team_stats=None,
     # sDiff
     sdiff = _safe_float(game.get("sdiff", game.get("sDiff")))
 
-    # Home flag — is the home team favored?
-    home_flag = 1.0 if line > 0 else 0.0
+    # Home flag — is the home team favored? (sportsbook: negative = home favored)
+    home_flag = 1.0 if line < 0 else 0.0
 
     # Rest advantage
     rest_adv = hf["rest_days"] - af["rest_days"]
@@ -668,7 +668,7 @@ def _append_to_running(running, g, run_date):
     total = g.get("total", home_score + away_score)
     actual_total = home_score + away_score
     home_margin = home_score - away_score
-    home_spread = -line
+    home_spread = line  # sportsbook convention: line IS home spread
     home_covered = (home_margin + home_spread) > 0
     game_over = actual_total > total
 
@@ -791,7 +791,7 @@ def train_lr_model(store, min_games=None):
                     "away_win_pct_5": af["win_pct_5"],
                     "home_avg_margin_5": hf["avg_margin_5"],
                     "away_avg_margin_5": af["avg_margin_5"],
-                    "home_flag": 1.0 if line > 0 else 0.0,
+                    "home_flag": 1.0 if line < 0 else 0.0,
                     "rest_advantage": hf["rest_days"] - af["rest_days"],
                 }
 
@@ -799,7 +799,7 @@ def train_lr_model(store, min_games=None):
 
                 if features is not None:
                     home_margin = g["homeScore"] - g["awayScore"]
-                    ats_margin = home_margin - line
+                    ats_margin = home_margin + line  # sportsbook: line is home spread (negative = favored)
                     # Skip pushes
                     if ats_margin != 0:
                         home_covered = 1 if ats_margin > 0 else 0

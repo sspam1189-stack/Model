@@ -61,12 +61,17 @@ def _grade_total(g):
     return "WIN" if actual < g["total"] else "LOSS"
 
 
+def _jround(x):
+    """Round half-up (matches JS Math.round)."""
+    return math.floor(x + 0.5)
+
+
 def _r4(x):
-    return round(x * 10000) / 10000
+    return _jround(x * 10000) / 10000
 
 
 def _r3(x):
-    return round(x * 1000) / 1000
+    return _jround(x * 1000) / 1000
 
 
 def _clamp(x, lo, hi):
@@ -290,7 +295,8 @@ def compute_residual_var(runs):
             if not _is_finite(g.get("margin")) or not _is_finite(g.get("line")):
                 continue
 
-            actual_edge = (g["homeScore"] - g["awayScore"]) - g["line"]
+            # `line` is the signed home spread, so ATS edge is actual margin plus that line.
+            actual_edge = (g["homeScore"] - g["awayScore"]) + g["line"]
             proj_edge = g["margin"]
             errors.append(actual_edge - proj_edge)
 
@@ -300,7 +306,7 @@ def compute_residual_var(runs):
 
     mean = sum(errors) / len(errors)
     variance = sum((x - mean) ** 2 for x in errors) / len(errors)
-    rounded = round(variance * 10) / 10
+    rounded = _jround(variance * 10) / 10
 
     print(f"  [self_tune] residualVar: {rounded} (std={math.sqrt(variance):.1f}) from {len(errors)} games")
     return rounded

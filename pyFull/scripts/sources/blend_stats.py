@@ -9,7 +9,7 @@ def _blend_team(base, overlay, weight):
     out = {**base}
     for k in STAT_KEYS:
         if math.isfinite(overlay.get(k, float("nan"))) and math.isfinite(base.get(k, float("nan"))):
-            out[k] = base[k] * (1 - weight) + overlay[k] * weight
+            out[k] = math.floor((base[k] * (1 - weight) + overlay[k] * weight) * 100 + 0.5) / 100
     return out
 
 

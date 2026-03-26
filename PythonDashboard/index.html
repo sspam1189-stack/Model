@@ -2125,7 +2125,7 @@
     async function renderNFLProps() {
       const el = document.getElementById('content');
       const data = await fetchData('nfl-props');
-      if (!data || !data.props || !data.props.length) {
+      if (!data || !data.picks || !data.picks.length) {
         el.textContent = '';
         const card = document.createElement('div');
         card.className = 'card card-games';
@@ -2136,7 +2136,7 @@
       }
 
       const marketLabels = {pass_yds:'Pass Yards', rush_yds:'Rush Yards', rec_yds:'Rec Yards', receptions:'Receptions'};
-      const picks = data.props.filter(p => p.pick !== 'PASS');
+      const picks = data.picks.filter(p => p.pick !== 'PASS');
       const grouped = {};
       for (const p of picks) {
         const ml = marketLabels[p.market] || p.market;
@@ -2145,30 +2145,46 @@
       }
 
       el.textContent = '';
+      const isBacktest = data.week === 'backtest' || picks.some(p => p.result);
 
       // Header card
       const hdr = document.createElement('div');
       hdr.className = 'card card-games';
       hdr.style.marginBottom = '16px';
-      hdr.appendChild(Object.assign(document.createElement('div'), {className:'card-title', textContent:`NFL Player Props \u2014 ${data.season || ''} Week ${data.week || ''}`}));
-      hdr.appendChild(Object.assign(document.createElement('div'), {className:'card-subtitle', textContent:`${data.summary || ''} | Generated: ${(data.generated || '').slice(0,16)}`}));
+      const titleText = isBacktest
+        ? `NFL Player Props \u2014 Backtest ${data.season || ''}`
+        : `NFL Player Props \u2014 ${data.season || ''} Week ${data.week || ''}`;
+      hdr.appendChild(Object.assign(document.createElement('div'), {className:'card-title', textContent:titleText}));
+      const subtitleParts = [data.summary || ''];
+      if (data.record) subtitleParts.push(data.record);
+      if (data.units != null) subtitleParts.push((data.units >= 0 ? '+' : '') + data.units + 'u');
+      hdr.appendChild(Object.assign(document.createElement('div'), {className:'card-subtitle', textContent:subtitleParts.join(' | ')}));
       el.appendChild(hdr);
 
       for (const [market, props] of Object.entries(grouped)) {
         props.sort((a, b) => (b.pCover || 0) - (a.pCover || 0));
+        const mktW = props.filter(p => p.result === 'W').length;
+        const mktL = props.filter(p => p.result === 'L').length;
         const card = document.createElement('div');
         card.className = 'card card-games';
-        card.appendChild(Object.assign(document.createElement('div'), {className:'card-title', textContent:market}));
+        const mktTitle = isBacktest && (mktW + mktL) > 0
+          ? `${market}  (${mktW}W-${mktL}L)`
+          : market;
+        card.appendChild(Object.assign(document.createElement('div'), {className:'card-title', textContent:mktTitle}));
 
         const tbl = document.createElement('table');
         tbl.style.cssText = 'width:100%;border-collapse:collapse;margin-top:8px';
 
+        const headers = isBacktest
+          ? ['Player','Wk','Proj','Line','Edge','Pick','Actual','Result','P(cover)','Conf']
+          : ['Player','Team','vs','Proj','Line','Edge','Pick','P(cover)','Conf'];
         const thead = tbl.createTHead();
         const hRow = thead.insertRow();
-        ['Player','Team','vs','Proj','Line','Edge','Pick','P(cover)','Conf'].forEach((h, i) => {
+        headers.forEach(h => {
           const th = document.createElement('th');
           th.textContent = h;
-          th.style.cssText = 'padding:6px 10px;text-align:' + (i >= 3 && i <= 5 ? 'right' : i >= 6 ? 'center' : 'left') + ';border-bottom:1px solid rgba(255,255,255,0.1)';
+          th.style.cssText = 'padding:6px 10px;text-align:center;border-bottom:1px solid rgba(255,255,255,0.1)';
+          if (h === 'Player') th.style.textAlign = 'left';
           hRow.appendChild(th);
         });
 
@@ -2176,7 +2192,17 @@
         for (const p of props) {
           const row = tbody.insertRow();
           row.style.borderBottom = '1px solid rgba(255,255,255,0.05)';
-          const cells = [
+          const cells = isBacktest ? [
+            p.player,
+            (p.season ? String(p.season).slice(-2) : '') + ' W' + (p.week || ''),
+            String(p.proj), p.line != null ? String(p.line) : '\u2014',
+            p.edge != null ? (p.edge > 0 ? '+' : '') + p.edge : '\u2014',
+            p.pick,
+            p.actual != null ? String(p.actual) : '\u2014',
+            p.result || '\u2014',
+            p.pCover != null ? (p.pCover * 100).toFixed(1) + '%' : '\u2014',
+            p.conf === 'elite' ? 'ELITE' : 'HIGH'
+          ] : [
             p.player, p.team, p.opp || '',
             String(p.proj), p.line != null ? String(p.line) : '\u2014',
             p.edge != null ? (p.edge > 0 ? '+' : '') + p.edge : '\u2014',
@@ -2187,16 +2213,19 @@
           cells.forEach((val, i) => {
             const td = row.insertCell();
             td.textContent = val;
-            td.style.padding = '6px 10px';
-            if (i >= 3 && i <= 5) td.style.textAlign = 'right';
-            if (i >= 6) td.style.textAlign = 'center';
-            if (i === 0) td.style.fontWeight = '600';
-            if (i === 1 || i === 2) td.style.color = '#999';
-            if (i === 5) td.style.color = (p.edge || 0) > 0 ? 'var(--green)' : 'var(--red)';
-            if (i === 6) { td.style.fontWeight = '700'; td.style.color = p.pick === 'OVER' ? 'var(--green)' : 'var(--red)'; }
-            if (i === 8) {
-              td.style.cssText += ';font-size:11px';
-              if (p.conf === 'elite') { td.style.background = '#7c6cf0'; td.style.color = '#fff'; td.style.borderRadius = '4px'; }
+            td.style.cssText = 'padding:6px 10px;text-align:center';
+            if (i === 0) { td.style.textAlign = 'left'; td.style.fontWeight = '600'; }
+            if (isBacktest) {
+              if (i === 1) td.style.color = '#999';
+              const pickIdx = 5, actualIdx = 6, resultIdx = 7, confIdx = 9;
+              if (i === pickIdx) { td.style.fontWeight = '700'; td.style.color = p.pick === 'OVER' ? 'var(--green)' : 'var(--red)'; }
+              if (i === resultIdx) { td.style.fontWeight = '700'; td.style.color = p.result === 'W' ? 'var(--green)' : 'var(--red)'; }
+              if (i === confIdx && p.conf === 'elite') { td.style.fontSize = '11px'; td.style.background = '#7c6cf0'; td.style.color = '#fff'; td.style.borderRadius = '4px'; }
+            } else {
+              if (i === 1 || i === 2) td.style.color = '#999';
+              const pickIdx = 6, confIdx = 8;
+              if (i === pickIdx) { td.style.fontWeight = '700'; td.style.color = p.pick === 'OVER' ? 'var(--green)' : 'var(--red)'; }
+              if (i === confIdx && p.conf === 'elite') { td.style.fontSize = '11px'; td.style.background = '#7c6cf0'; td.style.color = '#fff'; td.style.borderRadius = '4px'; }
             }
           });
         }

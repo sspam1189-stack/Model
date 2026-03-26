@@ -11,7 +11,9 @@ hit rates (using rolling average as proxy line).
 import sys
 import os
 import math
+import json
 import argparse
+from datetime import datetime
 import numpy as np
 
 sys.path.insert(0, os.path.dirname(__file__))
@@ -43,6 +45,7 @@ def backtest_props(seasons, start_week=4, use_real_lines=False):
 
     If use_real_lines=True and API key is available, fetches historical
     prop lines from The Odds API (costs credits).
+    Always writes graded picks to nfl-props.json for the dashboard.
     """
     results = {
         "pass_yds": {"projections": [], "actuals": [], "picks": []},
@@ -155,6 +158,9 @@ def backtest_props(seasons, start_week=4, use_real_lines=False):
                             "season": season,
                             "week": week,
                             "player": player,
+                            "team": proj.get("team", ""),
+                            "opp": proj.get("opp", ""),
+                            "market": market,
                             "proj": proj_val,
                             "line": sim_line,
                             "actual": actual_val,
@@ -209,6 +215,76 @@ def backtest_props(seasons, start_week=4, use_real_lines=False):
     print(f"\n  TOTAL: {grand_w}W-{grand_l}L "
           f"({grand_w / max(1, grand_w + grand_l) * 100:.1f}%) "
           f"{'+' if grand_units >= 0 else ''}{grand_units:.1f}u")
+
+    # --- Save graded results to nfl-props.json ---
+    all_picks = []
+    for market, data in results.items():
+        for p in data["picks"]:
+            all_picks.append({
+                "season": int(p["season"]),
+                "week": int(p["week"]),
+                "player": p["player"],
+                "team": p.get("team", ""),
+                "opp": p.get("opp", ""),
+                "market": p.get("market", market),
+                "pick": p["pick"],
+                "line": p["line"],
+                "proj": round(p["proj"], 1),
+                "edge": round(p["proj"] - p["line"], 1),
+                "actual": round(p["actual"], 1),
+                "pCover": round(p["pCover"], 3),
+                "conf": p["conf"],
+                "result": "W" if p["won"] else "L",
+            })
+
+    all_picks.sort(key=lambda x: (x["season"], x["week"], x["market"], x["player"]))
+
+    # Build per-market summary
+    market_summary = {}
+    for market, data in results.items():
+        picks = data["picks"]
+        if not picks:
+            continue
+        w = sum(1 for p in picks if p["won"])
+        l = len(picks) - w
+        market_summary[market] = {
+            "wins": w, "losses": l,
+            "winPct": round(w / max(1, w + l) * 100, 1),
+            "units": round(w * 1.0 + l * (-1.1), 1),
+        }
+
+    latest_season = max(seasons) if seasons else 2025
+    output = {
+        "season": latest_season,
+        "week": "backtest",
+        "generated": datetime.now().isoformat(),
+        "seasons": seasons,
+        "realLines": use_real_lines,
+        "totalPicks": len(all_picks),
+        "record": f"{grand_w}W-{grand_l}L",
+        "winPct": round(grand_w / max(1, grand_w + grand_l) * 100, 1),
+        "units": round(grand_units, 1),
+        "marketSummary": market_summary,
+        "props": all_picks,
+        "summary": f"{grand_w}W-{grand_l}L ({'+' if grand_units >= 0 else ''}{grand_units:.1f}u) from {len(all_picks)} picks",
+    }
+
+    class _Encoder(json.JSONEncoder):
+        def default(self, o):
+            if isinstance(o, (np.integer,)):
+                return int(o)
+            if isinstance(o, (np.floating,)):
+                return float(o)
+            return super().default(o)
+
+    data_dir = os.path.join(os.path.dirname(__file__), "..", "data")
+    dash_dir = os.path.join(os.path.dirname(__file__), "..", "..", "PythonDashboard", "data")
+    for out_dir in [data_dir, dash_dir]:
+        out_path = os.path.join(out_dir, "nfl-props.json")
+        if os.path.isdir(out_dir):
+            with open(out_path, "w") as f:
+                json.dump(output, f, indent=2, cls=_Encoder)
+            print(f"\n  Saved {len(all_picks)} graded picks to {out_path}")
 
 
 def _find_actual(player_name, market, actual_logs):

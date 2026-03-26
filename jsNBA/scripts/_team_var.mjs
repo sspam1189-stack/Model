@@ -10,7 +10,7 @@ for (const r of h.runs || []) {
     if (typeof g.homeScore !== "number" || typeof g.awayScore !== "number") continue;
     if (typeof g.margin !== "number" || typeof g.line !== "number") continue;
 
-    const actualEdge = (g.homeScore - g.awayScore) - g.line;
+    const actualEdge = (g.homeScore - g.awayScore) + g.line;
     const projEdge = g.margin;
     const err = actualEdge - projEdge;
 
