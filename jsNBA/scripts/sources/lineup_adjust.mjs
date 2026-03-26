@@ -264,7 +264,9 @@ export function adjustTeamStats(teamStats, injuryReport, playerMPG, playerAdv, t
           );
           if (wasOut) recentOutCount++;
         }
-        if (recentOutCount === 0) continue; // wasn't recently out — last-10 already has them
+        // Need at least 3 recent games missed to trigger — a 1-game rest or
+        // load management day doesn't dilute the last-10 blend meaningfully.
+        if (recentOutCount < 3) continue;
 
         const missedFrac = 1 - (p.gp / teamGP);
         const gameShare = Math.min(p.min / 48, 1);
