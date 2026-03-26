@@ -87,7 +87,7 @@ for (const [key, run] of Object.entries(runs)) {
 
     const side = g.pHomeCover >= g.pAwayCover ? 'home' : 'away';
     const absLine = Math.abs(g.line || 0);
-    const homeFav = g.line > 0;
+    const homeFav = g.line < 0;
 
     // Build the hypothetical pick string
     let pickStr;
@@ -146,19 +146,13 @@ for (const s of favSamples) {
 }
 
 // Step 4: Check specifically - when model picks a fav, what does that mean?
-// If pHomeCover > pAwayCover AND home is favored (line > 0), then:
+// Sportsbook convention: line < 0 = home favored, line > 0 = home dog
+// If pHomeCover > pAwayCover AND home is favored (line < 0), then:
 // pick = "Home -X" (fav). For this to cover: homeScore - X > awayScore
-// That means home must win by MORE than the spread.
-// At 67.4%, that seems high for NCAA. Let me verify the line convention.
 
 console.log('\n=== LINE CONVENTION CHECK ===');
-console.log('homeFav = (line > 0) per model_engine.mjs line 315');
+console.log('homeFav = (line < 0) — sportsbook convention');
 console.log('');
-
-// Check: when line > 0, is the home team actually favored in the odds?
-// In standard convention: negative spread = favored.
-// But this model uses a different convention.
-// Let's look at what the actual picks look like with known games.
 
 let lineChecks = 0;
 for (const [key, run] of Object.entries(runs)) {
@@ -167,14 +161,14 @@ for (const [key, run] of Object.entries(runs)) {
     if (g.homeScore == null || lineChecks >= 10) continue;
     if (Math.abs(g.line) < 3 || Math.abs(g.line) > 20) continue;
     lineChecks++;
-    const homeFav = g.line > 0;
+    const homeFav = g.line < 0;
     // If home is favored, they should win more often (on average)
     const homeWon = g.homeScore > g.awayScore;
     console.log('  line: ' + String(g.line).padEnd(6) + ' homeFav: ' + homeFav + ' | H:' + g.homeScore + ' A:' + g.awayScore + ' | homeWon: ' + homeWon + ' | ' + g.away + ' @ ' + g.home);
   }
 }
 
-// Aggregate: when line > 0, does home win more?
+// Aggregate: when line < 0, does home win more? (sportsbook: line < 0 = home fav)
 let linePosHomeWin = 0, linePosHomeTotal = 0;
 let lineNegHomeWin = 0, lineNegHomeTotal = 0;
 for (const [key, run] of Object.entries(runs)) {
@@ -190,4 +184,4 @@ console.log('');
 console.log('line > 0: home wins ' + linePosHomeWin + '/' + linePosHomeTotal + ' (' + (linePosHomeWin/linePosHomeTotal*100).toFixed(1) + '%)');
 console.log('line < 0: home wins ' + lineNegHomeWin + '/' + lineNegHomeTotal + ' (' + (lineNegHomeWin/lineNegHomeTotal*100).toFixed(1) + '%)');
 console.log('');
-console.log('If line>0 means home favored, home should win >50% when line>0');
+console.log('If line<0 means home favored, home should win >50% when line<0');

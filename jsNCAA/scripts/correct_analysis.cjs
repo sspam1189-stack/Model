@@ -9,17 +9,10 @@ function checkCover(home, away, homeScore, awayScore, line, picksHome) {
   const absLine = Math.abs(line);
 
   if (picksHome) {
-    // Home is dog when line < 0 (negative line = home favored? No...)
-    // Wait, let me think about line convention:
-    // From the data: line=-8.5, pick="Cal Poly +8.5" (home getting 8.5)
-    // So line < 0 means home is favored? But pick says +8.5 (dog)...
-    // Actually: homeFav = line > 0 (from model_engine.mjs line 315)
-    // So line=-8.5 means home is NOT favored → home is dog
-    // Pick: homeFav ? home -absLine : home +absLine
-    // line=-8.5, homeFav=false → "home +8.5"
-    // gradeSpread: chosenIsHome=true, margin=homeScore-awayScore, sign='+', pts=8.5
-    // val = margin + 8.5 → covers if homeScore - awayScore + 8.5 > 0
-    const homeFav = line > 0;
+    // Sportsbook convention: line < 0 = home favored, line > 0 = home dog
+    // line=+8.5 means home is dog getting 8.5 points
+    // line=-8.5 means home is fav giving 8.5 points
+    const homeFav = line < 0;
     if (homeFav) {
       // home is fav, pick = "home -absLine"
       // gradeSpread: val = (homeScore-awayScore) - absLine
@@ -31,15 +24,12 @@ function checkCover(home, away, homeScore, awayScore, line, picksHome) {
     }
   } else {
     // Picking away
-    const homeFav = line > 0;
+    const homeFav = line < 0;
     if (homeFav) {
       // away is dog (home is fav), pick = "away +absLine"
-      // gradeSpread: chosenIsHome=false, margin=awayScore-homeScore, sign='+', pts=absLine
-      // val = (awayScore-homeScore) + absLine
       return (awayScore - homeScore) + absLine > 0;
     } else {
       // away is fav (home is dog), pick = "away -absLine"
-      // gradeSpread: val = (awayScore-homeScore) - absLine
       return (awayScore - homeScore) - absLine > 0;
     }
   }
@@ -79,15 +69,11 @@ for (const [key, run] of Object.entries(runs)) {
 
     const side = g.pHomeCover >= g.pAwayCover ? 'home' : 'away';
     const absLine = Math.abs(g.line || 0);
-    const homeFav = g.line > 0;
+    const homeFav = g.line < 0;
     const dNET = Math.abs((g._features?.dNET) || 0);
 
-    // Is picked side dog?
-    const isDog = side === 'home' ? g.line < 0 : g.line > 0;
-    // Wait: homeFav = line > 0, so if picking home and line < 0, home is dog
-    // If picking away and line > 0, away gets points = away is dog? No...
-    // line > 0 means homeFav=true, home is favored, away is dog
-    // So if side='away' and line>0, away is dog ✓
+    // Is picked side dog? (sportsbook: line < 0 = home fav)
+    const isDog = side === 'home' ? g.line > 0 : g.line < 0;
 
     const covers = checkCover(g.home, g.away, g.homeScore, g.awayScore, g.line, side === 'home');
 

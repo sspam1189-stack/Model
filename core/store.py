@@ -3,6 +3,7 @@
 
 import json
 import os
+import time
 from datetime import datetime
 
 try:
@@ -25,7 +26,7 @@ EMPTY_STORE = {"runs": [], "weights": {}}
 
 def _get_data_path():
     if DATA_PATH:
-        return DATA_PATH
+        return os.path.abspath(os.path.normpath(DATA_PATH))
     raise RuntimeError("core.store.DATA_PATH not configured. Set it from the sport wrapper.")
 
 
@@ -53,8 +54,24 @@ def load_store():
 def save_store(store):
     path = _get_data_path()
     os.makedirs(os.path.dirname(path), exist_ok=True)
-    with open(path, "w", encoding="utf-8") as f:
-        json.dump(store, f, indent=2)
+    tmp_path = path + ".tmp"
+    last_err = None
+    for attempt in range(3):
+        try:
+            with open(tmp_path, "w", encoding="utf-8") as f:
+                json.dump(store, f, indent=2)
+            os.replace(tmp_path, path)
+            return
+        except OSError as err:
+            last_err = err
+            try:
+                if os.path.exists(tmp_path):
+                    os.remove(tmp_path)
+            except OSError:
+                pass
+            if attempt < 2:
+                time.sleep(0.1 * (attempt + 1))
+    raise last_err
 
 
 def upsert_run(store, run):

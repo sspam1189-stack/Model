@@ -28,7 +28,7 @@ function isPower(team) {
 
 function checkCover(g, side) {
   const absLine = Math.abs(g.line || 0);
-  const homeFav = g.line > 0;
+  const homeFav = g.line < 0;
   if (side === 'home') {
     if (homeFav) return (g.homeScore - g.awayScore) - absLine > 0;
     else return (g.homeScore - g.awayScore) + absLine > 0;
@@ -51,7 +51,7 @@ for (const run of runs) {
     const pCover = Math.max(g.pHomeCover, g.pAwayCover);
     const side = g.pHomeCover >= g.pAwayCover ? 'home' : 'away';
     const absLine = Math.abs(g.line);
-    const isDog = side === 'home' ? g.line < 0 : g.line > 0;
+    const isDog = side === 'home' ? g.line > 0 : g.line < 0;
     const lineOK = isDog ? true : absLine <= 6;
     if (pCover < 0.67 || sDiff < 3 || sDiff > 12 || !lineOK) continue;
 
@@ -93,7 +93,7 @@ for (const [lo, hi, label] of [[0,3,'0-3 (sharp)'], [3,6,'3-6'], [6,10,'6-10'], 
       const sDiff = g.sDiff || 0;
       const pCover = Math.max(g.pHomeCover, g.pAwayCover);
       const side = g.pHomeCover >= g.pAwayCover ? 'home' : 'away';
-      const isDog = side === 'home' ? g.line < 0 : g.line > 0;
+      const isDog = side === 'home' ? g.line > 0 : g.line < 0;
       const lineOK = isDog ? true : absLine <= 6;
       if (pCover < 0.67 || sDiff < 3 || sDiff > 12 || !lineOK) continue;
       const covers = checkCover(g, side);
@@ -122,7 +122,7 @@ for (const run of runs) {
     const pCover = Math.max(g.pHomeCover, g.pAwayCover);
     const side = g.pHomeCover >= g.pAwayCover ? 'home' : 'away';
     const absLine = Math.abs(g.line);
-    const isDog = side === 'home' ? g.line < 0 : g.line > 0;
+    const isDog = side === 'home' ? g.line > 0 : g.line < 0;
     const lineOK = isDog ? true : absLine <= 6;
     if (pCover < 0.63 || sDiff < 3 || sDiff > 12 || !lineOK) continue;
     const covers = checkCover(g, side);
@@ -142,7 +142,7 @@ for (const run of runs) {
     const pCover = Math.max(g.pHomeCover, g.pAwayCover);
     const side = g.pHomeCover >= g.pAwayCover ? 'home' : 'away';
     const absLine = Math.abs(g.line);
-    const isDog = side === 'home' ? g.line < 0 : g.line > 0;
+    const isDog = side === 'home' ? g.line > 0 : g.line < 0;
     const lineOK = isDog ? true : absLine <= 6;
     if (pCover < 0.65 || sDiff < 3 || sDiff > 12 || !lineOK) continue;
     const covers = checkCover(g, side);

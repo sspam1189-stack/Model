@@ -62,6 +62,17 @@ def fmt_date(d):
 
 # -- Fuzzy team name matcher ---------------------------------------------------
 
+# ESPN/OddsAPI name variants -> Barttorvik keys for ambiguous cases
+TEAM_ALIASES = {
+    "miami hurricanes": "Miami FL",
+    "miami fl hurricanes": "Miami FL",
+    "miami oh redhawks": "Miami OH",
+    "miami redhawks": "Miami OH",
+    "ohio bobcats": "Ohio",
+    "ohio st buckeyes": "Ohio St.",
+    "ohio state buckeyes": "Ohio St.",
+}
+
 def norm_key(s):
     s = str(s or "").lower()
     s = re.sub(r"[^a-z0-9\s]", " ", s)
@@ -89,6 +100,11 @@ def resolve_team_fuzzy(stats, name):
         return name
     keys = list(stats.keys())
     wanted = norm_key(name)
+
+    # 0.5. Check alias map
+    aliased = TEAM_ALIASES.get(wanted)
+    if aliased and aliased in stats:
+        return aliased
 
     for k in keys:
         if norm_key(k) == wanted:
@@ -214,6 +230,18 @@ def fetch_snapshot_at(date_yyyymmdd, hour_utc):
 
 
 def fetch_historical_odds(date_yyyymmdd):
+    # Check disk cache first
+    odds_cache_dir = Path(__file__).resolve().parent / ".." / "data" / "odds_cache"
+    odds_cache_dir.mkdir(parents=True, exist_ok=True)
+    cache_path = odds_cache_dir / f"{date_yyyymmdd}.json"
+    if cache_path.exists():
+        try:
+            cached = json.loads(cache_path.read_text())
+            print(f"  [odds] {date_yyyymmdd}: loaded from cache ({len(cached)} games)")
+            return cached
+        except Exception:
+            pass
+
     snapshot_hours = [13, 15, 17, 19, 21, 23]
     snapshots = []
     for h in snapshot_hours:
@@ -244,7 +272,19 @@ def fetch_historical_odds(date_yyyymmdd):
                 best_lines[key] = {"game": g, "timeBefore": min_before}
             elif min_before < existing["timeBefore"]:
                 best_lines[key] = {"game": g, "timeBefore": min_before}
-    return [v["game"] for v in best_lines.values()]
+
+    result = []
+    for v in best_lines.values():
+        g = {k: val for k, val in v["game"].items() if k != "commence"}
+        result.append(g)
+
+    # Cache to disk
+    try:
+        cache_path.write_text(json.dumps(result, indent=2))
+    except Exception:
+        pass
+
+    return result
 
 # -- Grading functions ---------------------------------------------------------
 
@@ -421,7 +461,7 @@ def main():
             line = matched_odds["line"] if matched_odds else 0
             total = matched_odds["total"] if matched_odds and matched_odds.get("total") else 0
 
-            g = {"away": away_key, "home": home_key, "line": line, "total": total}
+            g = {"away": away_key, "home": home_key, "line": line, "total": total, "_date": date}
             result = analyze_game(g, blended, avgs, W, None, kalman, W_var, residual_var)
             if not result:
                 day_unmatched += 1

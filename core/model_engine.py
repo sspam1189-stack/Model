@@ -45,6 +45,11 @@ def _resolve_team_nba(H, name, aliases):
     return None
 
 
+def _norm_state(s: str) -> str:
+    """Normalize 'state' -> 'st' for NCAA team matching."""
+    return re.sub(r'\bstate\b', 'st', s)
+
+
 def _collapse_abbr(s: str) -> str:
     return s.replace(".", "")
 
@@ -68,32 +73,42 @@ def _resolve_team_ncaa(H, name, aliases, use_collapse_abbr=True, use_safe_fuzzy=
         return name
     keys = list(H.keys())
     wanted = _norm_key(name)
+    wanted_st = _norm_state(wanted)
     wanted_collapsed = _norm_key(_collapse_abbr(name)) if use_collapse_abbr else wanted
 
     for k in keys:
-        if _norm_key(k) == wanted:
+        nk = _norm_key(k)
+        if nk == wanted or _norm_state(nk) == wanted_st:
             return k
     if use_collapse_abbr:
         for k in keys:
-            if _norm_key(_collapse_abbr(k)) == wanted_collapsed:
+            nkc = _norm_key(_collapse_abbr(k))
+            if nkc == wanted_collapsed or _norm_state(nkc) == _norm_state(wanted_collapsed):
                 return k
     expanded = _norm_key(_expand_team_name(name, aliases))
+    expanded_st = _norm_state(expanded)
     for k in keys:
-        if _norm_key(k) == expanded:
+        nk = _norm_key(k)
+        if nk == expanded or _norm_state(nk) == expanded_st:
             return k
     if use_safe_fuzzy:
         for k in keys:
             nk = _norm_key(k)
-            if _safe_fuzzy(nk, wanted) or _safe_fuzzy(nk, expanded):
+            nk_st = _norm_state(nk)
+            if (_safe_fuzzy(nk, wanted) or _safe_fuzzy(nk, expanded)
+                    or _safe_fuzzy(nk_st, wanted_st) or _safe_fuzzy(nk_st, expanded_st)):
                 return k
     # "School Mascot" prefix match: odds API sends "UMBC Retrievers", cache has "UMBC"
     best_prefix = None
     best_len = 0
     for k in keys:
         nk = _norm_key(k)
+        nk_st = _norm_state(nk)
         nkc = _norm_key(_collapse_abbr(k)) if use_collapse_abbr else nk
-        match_nk = wanted.startswith(nk + " ") or wanted_collapsed.startswith(nk + " ")
-        match_nkc = wanted_collapsed.startswith(nkc + " ")
+        nkc_st = _norm_state(nkc)
+        match_nk = (wanted.startswith(nk + " ") or wanted_collapsed.startswith(nk + " ")
+                     or wanted_st.startswith(nk_st + " "))
+        match_nkc = wanted_collapsed.startswith(nkc + " ") or _norm_state(wanted_collapsed).startswith(nkc_st + " ")
         if (match_nk or match_nkc) and len(nk) >= 3:
             length = max(len(nk), len(nkc))
             if length > best_len:

@@ -2,7 +2,7 @@
 from core.model_engine import create_model_engine
 
 
-def create_ncaa_engine(DEFAULT_STATS, DEFAULT_W, DEFAULT_W_VAR, BAYES_HYPER, ENGINE_CONFIG):
+def create_ncaa_engine(DEFAULT_STATS, DEFAULT_W, DEFAULT_W_VAR, BAYES_HYPER, ENGINE_CONFIG, is_tournament=None):
     return create_model_engine(
         DEFAULT_STATS,
         DEFAULT_W,
@@ -10,6 +10,7 @@ def create_ncaa_engine(DEFAULT_STATS, DEFAULT_W, DEFAULT_W_VAR, BAYES_HYPER, ENG
         BAYES_HYPER,
         engine_config=ENGINE_CONFIG,
         enable_team_hca=True,
+        is_neutral_site=(lambda g: is_tournament(g.get("_date"))) if is_tournament else None,
         bayes={
             "spread": {
                 "mode": "fixed",

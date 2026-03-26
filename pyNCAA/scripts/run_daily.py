@@ -1193,12 +1193,9 @@ def main(subject_label="[PY]"):
         game_avgs = get_avgs(game_stats)
         injury_adj = None
 
-        # Tournament neutral-site override: zero out HCA for March Madness games
-        game_w = base_w
-        if is_tourney_today:
-            game_w = {**base_w, "hca": 0}
+        g["_date"] = date  # used by engine for tournament neutral-site detection
 
-        r = analyze_game(g, game_stats, game_avgs, game_w, injury_adj, kalman_state, base_w_var, dynamic_residual_var)
+        r = analyze_game(g, game_stats, game_avgs, base_w, injury_adj, kalman_state, base_w_var, dynamic_residual_var)
         if not r:
             games.append({**g, "status": "SKIPPED"})
             continue
@@ -1211,9 +1208,9 @@ def main(subject_label="[PY]"):
             if is_tourney_today:
                 lr_game["is_tournament"] = True
                 lr_game["is_neutral"] = True
-            lr_features = extract_lr_features(home_hist, away_hist, lr_game, home_hist, away_hist)
             picked_home = r.get("home", "") in r.get("sPick", "")
-            lr_result = predict_lr_for_pick(lr_bundle, lr_features, picked_home, game=lr_game)
+            lr_features = extract_lr_features(home_hist, away_hist, lr_game, home_hist, away_hist, picked_home=picked_home)
+            lr_result = predict_lr_for_pick(lr_bundle, lr_features, picked_home)
             r["lrProb"] = lr_result.get("lr_pick_prob") or lr_result["lr_prob"]
             r["lrVerdict"] = lr_result["lr_verdict"]
 

@@ -15,7 +15,7 @@ for (const [key, run] of Object.entries(runs)) {
       const sDiff = g.sDiff || 0;
       const bestP = Math.max(g.pHomeCover, g.pAwayCover);
       const side = g.pHomeCover >= g.pAwayCover ? "home" : "away";
-      const isDog = side === "home" ? g.line < 0 : g.line > 0;
+      const isDog = side === "home" ? g.line > 0 : g.line < 0;
 
       if (isDog && bestP >= 0.60 && sDiff >= 3 && sDiff <= 9) {
         newPicks++;
@@ -61,7 +61,7 @@ for (const [key, run] of Object.entries(runs)) {
     if (g.pHomeCover == null) continue;
 
     const side = g.pHomeCover >= g.pAwayCover ? "home" : "away";
-    const isDog = side === "home" ? g.line < 0 : g.line > 0;
+    const isDog = side === "home" ? g.line > 0 : g.line < 0;
 
     lossCount++;
     console.log('');

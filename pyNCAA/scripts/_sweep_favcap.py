@@ -16,7 +16,7 @@ for r in runs:
 
 def grade_spread(g, side):
     margin = g["homeScore"] - g["awayScore"]
-    v = margin - g["line"]
+    v = margin + g["line"]
     if side == "home": return "WIN" if v > 0 else ("PUSH" if v == 0 else "LOSS")
     return "WIN" if v < 0 else ("PUSH" if v == 0 else "LOSS")
 

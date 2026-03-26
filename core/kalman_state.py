@@ -8,6 +8,7 @@
 import json
 import os
 import math
+import time
 from datetime import datetime, timedelta
 
 
@@ -46,7 +47,7 @@ EMPTY_STATE = {
 
 def _get_state_path():
     if STATE_PATH:
-        return STATE_PATH
+        return os.path.abspath(os.path.normpath(STATE_PATH))
     raise RuntimeError("core.kalman_state.STATE_PATH not configured.")
 
 
@@ -66,8 +67,24 @@ def load_kalman_state():
 def save_kalman_state(state):
     path = _get_state_path()
     os.makedirs(os.path.dirname(path), exist_ok=True)
-    with open(path, "w", encoding="utf-8") as f:
-        json.dump(state, f, indent=2)
+    tmp_path = path + ".tmp"
+    last_err = None
+    for attempt in range(3):
+        try:
+            with open(tmp_path, "w", encoding="utf-8") as f:
+                json.dump(state, f, indent=2)
+            os.replace(tmp_path, path)
+            return
+        except OSError as err:
+            last_err = err
+            try:
+                if os.path.exists(tmp_path):
+                    os.remove(tmp_path)
+            except OSError:
+                pass
+            if attempt < 2:
+                time.sleep(0.1 * (attempt + 1))
+    raise last_err
 
 
 def initialize_kalman(team_stats, opts=None):

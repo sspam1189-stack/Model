@@ -17,7 +17,7 @@ for (const r of runs) {
 
 function gradeSpread(g, side) {
   const homeMargin = g.homeScore - g.awayScore;
-  const v = homeMargin - g.line;
+  const v = homeMargin + g.line;
   if (side === "home") return v > 0 ? "WIN" : v === 0 ? "PUSH" : "LOSS";
   else return v < 0 ? "WIN" : v === 0 ? "PUSH" : "LOSS";
 }
@@ -36,7 +36,7 @@ for (const [lo, hi] of buckets) {
     const side = pH >= pA ? "home" : "away";
     const absLine = Math.abs(g.line);
     // Is picked side the fav?
-    const isDog = side === "home" ? g.line < 0 : g.line > 0;
+    const isDog = side === "home" ? g.line > 0 : g.line < 0;
     if (isDog) continue; // only favs
     if (bestP < 0.60) continue;
     if (absLine < lo || absLine > hi) continue;
@@ -63,7 +63,7 @@ for (const cap of [4, 5, 6, 8, 10, 15, 99]) {
     const bestP = Math.max(pH, pA);
     const side = pH >= pA ? "home" : "away";
     const absLine = Math.abs(g.line);
-    const isDog = side === "home" ? g.line < 0 : g.line > 0;
+    const isDog = side === "home" ? g.line > 0 : g.line < 0;
     const lineOK = isDog ? true : absLine <= cap;
 
     if (bestP >= 0.60 && lineOK && absLine > 0) {

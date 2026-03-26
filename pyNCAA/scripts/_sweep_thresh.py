@@ -17,7 +17,7 @@ total_days = len(set(r.get("date") for r in runs))
 
 def grade_spread(g, side):
     margin = g["homeScore"] - g["awayScore"]
-    v = margin - g["line"]
+    v = margin + g["line"]
     if side == "home": return "WIN" if v > 0 else ("PUSH" if v == 0 else "LOSS")
     return "WIN" if v < 0 else ("PUSH" if v == 0 else "LOSS")
 
@@ -25,7 +25,7 @@ def grade_spread(g, side):
 dog_w, dog_l = 0, 0
 for g in games:
     if g.get("line", 0) == 0: continue
-    dog_side = "home" if g["line"] < 0 else "away"
+    dog_side = "home" if g["line"] > 0 else "away"
     r = grade_spread(g, dog_side)
     if r == "WIN": dog_w += 1
     elif r == "LOSS": dog_l += 1
@@ -64,8 +64,8 @@ for p_thresh in [0.50, 0.52, 0.53, 0.55, 0.57, 0.58, 0.60, 0.62, 0.65]:
         for g in games:
             abs_line = abs(g.get("line", 0))
             if abs_line < min_line: continue
-            home_dog = g.get("line", 0) < 0
-            away_dog = g.get("line", 0) > 0
+            home_dog = g.get("line", 0) > 0
+            away_dog = g.get("line", 0) < 0
             if not home_dog and not away_dog: continue
             dog_side = "home" if home_dog else "away"
             dog_p_cover = g.get("pHomeCover", 0) if home_dog else g.get("pAwayCover", 0)

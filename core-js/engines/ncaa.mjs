@@ -5,6 +5,7 @@ export function createNcaaEngine({
   DEFAULT_W,
   DEFAULT_W_VAR,
   BAYES_HYPER,
+  ENGINE_CONFIG = {},
   isTournament,
 }) {
   return createModelEngine({
@@ -13,7 +14,8 @@ export function createNcaaEngine({
     DEFAULT_W_VAR,
     BAYES_HYPER,
     resolver: "ncaa",
-    minGames: 5,
+    teamAliases: ENGINE_CONFIG.TEAM_NAME_ALIASES || {},
+    minGames: ENGINE_CONFIG.MIN_GP || 5,
     enableTeamHCA: true,
     isNeutralSite: (g) => isTournament(g._date),
     bayes: {

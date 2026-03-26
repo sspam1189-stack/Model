@@ -26,7 +26,7 @@ console.log('These would be picked at 0.63 but not at 0.67:\n');
 
 function checkCover(g, side) {
   const absLine = Math.abs(g.line || 0);
-  const homeFav = g.line > 0;
+  const homeFav = g.line < 0;
   if (side === 'home') {
     if (homeFav) return (g.homeScore - g.awayScore) - absLine > 0;
     else return (g.homeScore - g.awayScore) + absLine > 0;
@@ -46,7 +46,7 @@ for (const run of runs) {
     const pCover = Math.max(g.pHomeCover, g.pAwayCover);
     const side = g.pHomeCover >= g.pAwayCover ? 'home' : 'away';
     const absLine = Math.abs(g.line);
-    const isDog = side === 'home' ? g.line < 0 : g.line > 0;
+    const isDog = side === 'home' ? g.line > 0 : g.line < 0;
     const lineOK = isDog ? true : absLine <= 6;
 
     // Games that pass at 0.63 but fail at 0.67
@@ -69,7 +69,7 @@ for (const run of runs) {
     const pCover = Math.max(g.pHomeCover, g.pAwayCover);
     const side = g.pHomeCover >= g.pAwayCover ? 'home' : 'away';
     const absLine = Math.abs(g.line);
-    const isDog = side === 'home' ? g.line < 0 : g.line > 0;
+    const isDog = side === 'home' ? g.line > 0 : g.line < 0;
     const lineOK = isDog ? true : absLine <= 6;
     if (sDiff < 3 || sDiff > 12 || !lineOK) continue;
 
@@ -100,7 +100,7 @@ for (const run of runs) {
     const pCover = Math.max(g.pHomeCover, g.pAwayCover);
     const side = g.pHomeCover >= g.pAwayCover ? 'home' : 'away';
     const absLine = Math.abs(g.line);
-    const isDog = side === 'home' ? g.line < 0 : g.line > 0;
+    const isDog = side === 'home' ? g.line > 0 : g.line < 0;
     const lineOK = isDog ? true : absLine <= 6;
     if (sDiff < 3 || sDiff > 12 || !lineOK) continue;
 
@@ -129,7 +129,7 @@ for (const run of runs) {
     const pCover = Math.max(g.pHomeCover, g.pAwayCover);
     const side = g.pHomeCover >= g.pAwayCover ? 'home' : 'away';
     const absLine = Math.abs(g.line);
-    const isDog = side === 'home' ? g.line < 0 : g.line > 0;
+    const isDog = side === 'home' ? g.line > 0 : g.line < 0;
     const lineOK = isDog ? true : absLine <= 6;
     if (sDiff < 3 || sDiff > 12 || !lineOK) continue;
 

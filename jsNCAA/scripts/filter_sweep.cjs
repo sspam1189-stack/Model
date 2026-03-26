@@ -4,7 +4,7 @@ const runs = h.runs || {};
 
 function checkCover(g, side) {
   const absLine = Math.abs(g.line || 0);
-  const homeFav = g.line > 0;
+  const homeFav = g.line < 0;
   if (side === 'home') {
     if (homeFav) return (g.homeScore - g.awayScore) - absLine > 0;
     else return (g.homeScore - g.awayScore) + absLine > 0;
@@ -25,7 +25,7 @@ for (const [key, run] of Object.entries(runs)) {
     const pCover = Math.max(g.pHomeCover, g.pAwayCover);
     const side = g.pHomeCover >= g.pAwayCover ? 'home' : 'away';
     const absLine = Math.abs(g.line || 0);
-    const isDog = side === 'home' ? g.line < 0 : g.line > 0;
+    const isDog = side === 'home' ? g.line > 0 : g.line < 0;
     const covers = checkCover(g, side);
     games.push({ sDiff, pCover, absLine, isDog, covers, side });
   }
