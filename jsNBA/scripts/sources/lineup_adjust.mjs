@@ -183,7 +183,7 @@ function resolveTeamName(teamName, knownKeys) {
 // Returns: adjusted copy of teamStats (same shape). Teams not playing today or
 //          with no meaningful injuries pass through unchanged.
 
-export function adjustTeamStats(teamStats, injuryReport, playerMPG, playerAdv, todaysGames) {
+export function adjustTeamStats(teamStats, injuryReport, playerMPG, playerAdv, todaysGames, { recentInjuryDates = null } = {}) {
   if (!playerAdv || !Object.keys(playerAdv).length) {
 
     return teamStats;
@@ -230,20 +230,18 @@ export function adjustTeamStats(teamStats, injuryReport, playerMPG, playerAdv, t
     );
 
     // ── Returning-star boost ────────────────────────────────────────────
-    // When a high-minute player missed a significant portion of the season,
-    // both the season stats AND last-10 blend are diluted by their absence.
-    // If they're active tonight, boost the team toward their "with star" level.
-    // Uses the same weighted-avg delta approach as the injury-out adjustment
-    // but in reverse: full-roster avg vs without-star avg = star's impact.
-    const teamGP = Math.max(...roster.map(r => r.gp));
-    if (teamGP >= 30) {
+    // When a high-minute player was recently OUT but is active tonight,
+    // the last-10 blend hasn't caught up yet — boost the team toward their
+    // "with star" level. Only triggers if the player appears as OUT in
+    // recent injury caches, so the boost naturally stops once the last-10
+    // window includes their games.
+    if (recentInjuryDates && Object.keys(recentInjuryDates).length) {
+      const teamGP = Math.max(...roster.map(r => r.gp));
       const MIN_MPG = 24;
-      const GP_MISS_THRESHOLD = 0.20; // must have missed ≥20% of team games
       let totalBoostOFF = 0, totalBoostDEF = 0;
 
       for (const p of roster) {
         if (p.min < MIN_MPG) continue;
-        if (p.gp >= teamGP * (1 - GP_MISS_THRESHOLD)) continue;
         // Must be active tonight (not in injury report)
         if (outPlayers.has(p.name)) continue;
         const lastName = p.name.split(" ").pop().toLowerCase();
@@ -253,8 +251,26 @@ export function adjustTeamStats(teamStats, injuryReport, playerMPG, playerAdv, t
         }
         if (isOut) continue;
 
+        // Only boost if this player was OUT in recent injury caches.
+        // This means they just came back and the last-10 blend doesn't
+        // reflect their presence yet.
+        let recentOutCount = 0;
+        for (const [date, report] of Object.entries(recentInjuryDates)) {
+          const teamInj = report[teamKey] ||
+            report[Object.keys(report).find(k => resolveTeamName(k, [teamKey]))] || [];
+          const wasOut = teamInj.some(inj =>
+            (inj.status === "out" || inj.status === "doubtful") &&
+            (inj.player === p.name || inj.player?.split(" ").pop().toLowerCase() === lastName)
+          );
+          if (wasOut) recentOutCount++;
+        }
+        if (recentOutCount === 0) continue; // wasn't recently out — last-10 already has them
+
         const missedFrac = 1 - (p.gp / teamGP);
         const gameShare = Math.min(p.min / 48, 1);
+        // Scale boost by how many recent games they missed (out of available caches)
+        // If they were out 3/5 recent games, apply 60% of the boost
+        const recentMissFrac = recentOutCount / Object.keys(recentInjuryDates).length;
 
         // Compute roster avg without this player to get their true delta
         const others = roster.filter(r => r.name !== p.name);
@@ -263,18 +279,18 @@ export function adjustTeamStats(teamStats, injuryReport, playerMPG, playerAdv, t
         const othersOFF = others.reduce((s, r) => s + r.min * (r.offRtg || 0), 0) / othersMin;
         const othersDEF = others.reduce((s, r) => s + r.min * (r.defRtg || 0), 0) / othersMin;
 
-        const offDelta = ((p.offRtg || 0) - othersOFF) * missedFrac * gameShare;
-        const defDelta = ((p.defRtg || 0) - othersDEF) * missedFrac * gameShare;
+        const offDelta = ((p.offRtg || 0) - othersOFF) * missedFrac * gameShare * recentMissFrac;
+        const defDelta = ((p.defRtg || 0) - othersDEF) * missedFrac * gameShare * recentMissFrac;
 
         // Cap at ±3.0 pts per player
         const capVal = (v) => Math.max(-3.0, Math.min(3.0, v));
         totalBoostOFF += capVal(offDelta);
         totalBoostDEF += capVal(defDelta);
 
-        console.log(`  [lineup] Returning-star boost: ${p.name} (${p.gp}/${teamGP} GP, ${p.min} mpg) → ${teamKey} OFF ${offDelta > 0 ? "+" : ""}${offDelta.toFixed(1)}, DEF ${defDelta > 0 ? "+" : ""}${defDelta.toFixed(1)}`);
+        console.log(`  [lineup] Returning-star boost: ${p.name} (${p.gp}/${teamGP} GP, out ${recentOutCount}/${Object.keys(recentInjuryDates).length} recent) → ${teamKey} OFF ${offDelta > 0 ? "+" : ""}${offDelta.toFixed(1)}, DEF ${defDelta > 0 ? "+" : ""}${defDelta.toFixed(1)}`);
       }
 
-      // Apply team-level cap (±4.0) to prevent overcounting when multiple stars return
+      // Apply team-level cap (±4.0)
       if (totalBoostOFF !== 0 || totalBoostDEF !== 0) {
         const teamCap = (v) => Math.max(-4.0, Math.min(4.0, v));
         const orig = adjusted[teamKey];
