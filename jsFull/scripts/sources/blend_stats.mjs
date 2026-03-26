@@ -22,7 +22,7 @@ function blendTeam(base, overlay, weight) {
   const out = { ...base };
   for (const k of STAT_KEYS) {
     if (Number.isFinite(overlay[k]) && Number.isFinite(base[k])) {
-      out[k] = base[k] * (1 - weight) + overlay[k] * weight;
+      out[k] = Math.round((base[k] * (1 - weight) + overlay[k] * weight) * 100) / 100;
     }
   }
   return out;

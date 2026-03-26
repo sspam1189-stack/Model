@@ -23,7 +23,7 @@ POWER = {
 
 def check_cover(g, side):
     abs_line = abs(g.get("line", 0))
-    home_fav = g.get("line", 0) > 0
+    home_fav = g.get("line", 0) < 0
     if side == "home":
         return (g["homeScore"] - g["awayScore"]) - abs_line > 0 if home_fav else (g["homeScore"] - g["awayScore"]) + abs_line > 0
     else:
@@ -40,7 +40,7 @@ for run in runs:
         p_cover = max(g.get("pHomeCover", 0), g.get("pAwayCover", 0))
         side = "home" if g.get("pHomeCover", 0) >= g.get("pAwayCover", 0) else "away"
         abs_line = abs(g["line"])
-        is_dog = (side == "home" and g["line"] < 0) or (side == "away" and g["line"] > 0)
+        is_dog = (side == "home" and g["line"] > 0) or (side == "away" and g["line"] < 0)
         line_ok = True if is_dog else abs_line <= 6
         if p_cover < 0.67 or s_diff < 3 or s_diff > 12 or not line_ok: continue
         covers = check_cover(g, side)
@@ -74,7 +74,7 @@ for lo, hi, label in [(0,3,"0-3 (sharp)"),(3,6,"3-6"),(6,10,"6-10"),(10,20,"10-2
             s_diff = g.get("sDiff", 0)
             p_cover = max(g.get("pHomeCover", 0), g.get("pAwayCover", 0))
             side = "home" if g.get("pHomeCover", 0) >= g.get("pAwayCover", 0) else "away"
-            is_dog = (side == "home" and g["line"] < 0) or (side == "away" and g["line"] > 0)
+            is_dog = (side == "home" and g["line"] > 0) or (side == "away" and g["line"] < 0)
             line_ok = True if is_dog else abs_line <= 6
             if p_cover < 0.67 or s_diff < 3 or s_diff > 12 or not line_ok: continue
             covers = check_cover(g, side)

@@ -52,7 +52,7 @@ for r in (h.get("runs") or []):
         abs_line = abs(g.get("line", 0))
         if s_diff < 3 or s_diff > 12 or abs_line == 0: continue
         side = "home" if g.get("pHomeCover", 0) >= g.get("pAwayCover", 0) else "away"
-        is_dog = (side == "home" and g.get("line", 0) < 0) or (side == "away" and g.get("line", 0) > 0)
+        is_dog = (side == "home" and g.get("line", 0) > 0) or (side == "away" and g.get("line", 0) < 0)
         line_ok = True if is_dog else abs_line <= 6
         if not line_ok: continue
         if not isinstance(g.get("homeScore"), (int, float)): continue

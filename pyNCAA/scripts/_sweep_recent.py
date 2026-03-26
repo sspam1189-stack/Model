@@ -37,7 +37,7 @@ def sweep(run_set, label):
             best_p = max(pH, pA)
             side = "home" if pH >= pA else "away"
             abs_line = abs(g.get("line", 0))
-            is_dog = (side == "home" and g["line"] < 0) or (side == "away" and g["line"] > 0)
+            is_dog = (side == "home" and g["line"] > 0) or (side == "away" and g["line"] < 0)
             line_ok = True if is_dog else abs_line <= 6
             if best_p >= p_thresh and line_ok and abs_line > 0:
                 result = grade_spread(g, side)

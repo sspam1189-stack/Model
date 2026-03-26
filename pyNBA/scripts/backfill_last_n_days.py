@@ -144,6 +144,7 @@ def main():
     prev_graded = []       # games with projections -> Kalman + self-tune
     b2b_teams = set()      # teams that played yesterday -> B2B penalty
 
+
     for i in range(days, 0, -1):  # stop at yesterday -- never backfill today
         date = date_minus_days_central(i)
         date_display = to_display_date(date)

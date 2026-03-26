@@ -101,9 +101,10 @@ def main():
             h_lines = list(team_season_lines.get(home, []))
             a_lines = list(team_season_lines.get(away, []))
 
-            features = extract_lr_features(home_hist, away_hist, g, h_lines, a_lines)
-
             pick = parse_pick(g.get("sPick"))
+            picked_home = pick["team"] == home if pick else True
+            features = extract_lr_features(home_hist, away_hist, g, h_lines, a_lines, picked_home=picked_home)
+
             label = None
             if pick:
                 label = grade_pick(g, pick)

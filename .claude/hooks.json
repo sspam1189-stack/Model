@@ -1,0 +1,16 @@
+{
+  "description": "Project hooks",
+  "hooks": {
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "powershell -NoProfile -Command \"git -C 'C:\\\\Users\\\\Henry Pham\\\\Desktop\\\\Model' pull --ff-only\"",
+            "timeout": 120
+          }
+        ]
+      }
+    ]
+  }
+}

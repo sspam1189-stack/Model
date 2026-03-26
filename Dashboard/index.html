@@ -1038,9 +1038,17 @@
 
         let trendsHtml = '';
         if (g.trends) {
+          const fmtTrend = (t) => {
+            if (!t || typeof t === 'string') return t || '';
+            const parts = [];
+            if (t.atsPct != null) parts.push(`ATS ${(t.atsPct * 100).toFixed(0)}%`);
+            if (t.atsPlusMinus != null) parts.push(`${t.atsPlusMinus > 0 ? '+' : ''}${t.atsPlusMinus.toFixed(1)}u`);
+            if (t.overPct != null) parts.push(`O ${(t.overPct * 100).toFixed(0)}%`);
+            return parts.join(' · ') || '';
+          };
           trendsHtml = `<div class="trends-info">`;
-          if (g.trends.away) trendsHtml += `<div><b>${esc(g.away)}:</b> ${esc(g.trends.away)}</div>`;
-          if (g.trends.home) trendsHtml += `<div><b>${esc(g.home)}:</b> ${esc(g.trends.home)}</div>`;
+          if (g.trends.away) trendsHtml += `<div><b>${esc(g.away)}:</b> ${esc(fmtTrend(g.trends.away))}</div>`;
+          if (g.trends.home) trendsHtml += `<div><b>${esc(g.home)}:</b> ${esc(fmtTrend(g.trends.home))}</div>`;
           trendsHtml += `</div>`;
         }
 

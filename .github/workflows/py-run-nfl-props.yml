@@ -28,7 +28,7 @@ jobs:
           PYTHONUNBUFFERED: "1"
           PYTHONIOENCODING: "utf-8"
           ODDS_API_KEY: ${{ secrets.ODDS_API_KEY }}
-        run: python props_backtest.py --seasons 2023 2024 2025 --real-lines --write-json
+        run: python props_backtest.py --seasons 2023 2024 2025 --real-lines
 
       - name: Upload pyNFL data
         uses: actions/upload-artifact@v4

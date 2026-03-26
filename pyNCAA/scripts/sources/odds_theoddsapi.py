@@ -61,16 +61,18 @@ def today_iso_chicago():
 
 
 def to_model_line(home_team, away_team, spread_points, team_for_spread):
+    """
+    -X means HOME favored by X, +X means AWAY favored by X
+    """
     if not math.isfinite(spread_points):
         return None
-    abs_val = abs(spread_points)
     is_home = team_for_spread == home_team
     is_away = team_for_spread == away_team
     if not is_home and not is_away:
         return None
     if is_home:
-        return abs_val if spread_points < 0 else -abs_val
-    return -abs_val if spread_points < 0 else abs_val
+        return spread_points
+    return -spread_points
 
 
 def pick_best_bookmaker(bookmakers):

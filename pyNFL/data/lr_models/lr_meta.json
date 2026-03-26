@@ -1,7 +1,7 @@
 {
   "n_train": 721,
   "accuracy": 0.8031,
-  "trained_at": "2026-03-25T11:18:49",
+  "trained_at": "2026-03-25T18:29:36",
   "features": [
     "epa_diff",
     "pass_epa_diff",
@@ -26,6 +26,6 @@
     "home_flag",
     "rest_advantage"
   ],
-  "confirm_threshold": 0.58,
-  "veto_threshold": 0.42
+  "confirm_threshold": 0.55,
+  "veto_threshold": 0.45
 }

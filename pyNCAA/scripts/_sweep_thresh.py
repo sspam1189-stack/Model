@@ -43,7 +43,7 @@ for p_thresh in [0.55, 0.58, 0.60, 0.62, 0.63, 0.65, 0.67, 0.70]:
             side = "home" if pH >= pA else "away"
             abs_line = abs(g.get("line", 0))
             sd = g.get("sDiff", 0)
-            is_dog = (side == "home" and g["line"] < 0) or (side == "away" and g["line"] > 0)
+            is_dog = (side == "home" and g["line"] > 0) or (side == "away" and g["line"] < 0)
             line_ok = True if is_dog else abs_line <= 6
             if best_p >= p_thresh and sd >= sd_min and sd <= 12 and line_ok and abs_line > 0:
                 result = grade_spread(g, side)
