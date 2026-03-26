@@ -161,10 +161,6 @@ def fetch_odds_for_day(date_yyyymmdd, games_list):
     Uses disk cache so re-runs don't hit the API at all.
     Returns: dict of "away@home" -> { line, total, _book, _note }
     """
-    api_key = os.environ.get("ODDS_API_KEY")
-    if not api_key:
-        raise Exception("Missing ODDS_API_KEY env var.")
-
     # Check disk cache first
     if not os.path.exists(ODDS_CACHE_DIR):
         os.makedirs(ODDS_CACHE_DIR, exist_ok=True)
@@ -174,6 +170,10 @@ def fetch_odds_for_day(date_yyyymmdd, games_list):
             cached = json.load(f)
         print(f"  [odds_batch] {date_yyyymmdd}: loaded from cache ({len(cached)} games)")
         return cached
+
+    api_key = os.environ.get("ODDS_API_KEY")
+    if not api_key:
+        raise Exception("Missing ODDS_API_KEY env var.")
 
     # Build snapshot timestamps to try
     date_str = f"{date_yyyymmdd[0:4]}-{date_yyyymmdd[4:6]}-{date_yyyymmdd[6:8]}"

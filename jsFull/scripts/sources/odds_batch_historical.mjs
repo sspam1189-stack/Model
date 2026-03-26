@@ -152,9 +152,6 @@ function extractOddsForGame(data, home, away) {
 // Returns: Map of "away@home" → { line, total, _book, _note }
 
 export async function fetchOddsForDay(dateYYYYMMDD, gamesList) {
-  const apiKey = process.env.ODDS_API_KEY;
-  if (!apiKey) throw new Error("Missing ODDS_API_KEY env var.");
-
   // Check disk cache first
   if (!fs.existsSync(ODDS_CACHE_DIR)) fs.mkdirSync(ODDS_CACHE_DIR, { recursive: true });
   const cachePath = path.join(ODDS_CACHE_DIR, dateYYYYMMDD + ".json");
@@ -163,6 +160,9 @@ export async function fetchOddsForDay(dateYYYYMMDD, gamesList) {
     console.log(`  [odds_batch] ${dateYYYYMMDD}: loaded from cache (${Object.keys(cached).length} games)`);
     return cached;
   }
+
+  const apiKey = process.env.ODDS_API_KEY;
+  if (!apiKey) throw new Error("Missing ODDS_API_KEY env var.");
 
   // Build snapshot timestamps to try.
   // Priority: per-game commence-based times FIRST (90 min before tipoff),

@@ -5,7 +5,9 @@ sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', '..'))
 
 import core.store as _store
 
-_store.DATA_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'data', 'history.json')
+_store.DATA_PATH = os.path.abspath(os.path.normpath(
+    os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'data', 'history.json')
+))
 
 # Re-export public API
 from core.store import load_store, save_store, upsert_run

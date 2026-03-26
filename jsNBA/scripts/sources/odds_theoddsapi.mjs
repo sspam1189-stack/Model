@@ -2,9 +2,15 @@
 // Fetch NBA spreads + totals from The Odds API and return in your bot format.
 // Requires env var: ODDS_API_KEY
 
+import fs from "fs";
+import path from "path";
+import { fileURLToPath } from "url";
+
 import { fetchClosingOddsForGame } from "./odds_theoddsapi_historical.mjs";
 import { fetchScoreboard } from "./espn_scoreboard.mjs";
 
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+const DAILY_ODDS_CACHE_DIR = path.join(__dirname, "..", "..", "data", "odds_cache_live");
 const BASE = "https://api.the-odds-api.com/v4";
 
 function extractAllESPNGames(scoreboardJson) {
@@ -41,6 +47,17 @@ function todayISOChicago() {
     day: "2-digit"
   });
   return fmt.format(new Date()); // "YYYY-MM-DD"
+}
+
+function todayKeyChicago() {
+  return todayISOChicago().replaceAll("-", "");
+}
+
+function dailyCachePath(dateKey) {
+  if (!fs.existsSync(DAILY_ODDS_CACHE_DIR)) {
+    fs.mkdirSync(DAILY_ODDS_CACHE_DIR, { recursive: true });
+  }
+  return path.join(DAILY_ODDS_CACHE_DIR, `${dateKey}.json`);
 }
 
 // Convert The Odds API spread into your convention:
@@ -80,6 +97,14 @@ function findMarket(bookmaker, key) {
 }
 
 export async function fetchTodaysOdds() {
+  const today = todayISOChicago();
+  const cachePath = dailyCachePath(todayKeyChicago());
+  if (fs.existsSync(cachePath)) {
+    const cached = JSON.parse(fs.readFileSync(cachePath, "utf8"));
+    console.log(`  [odds] Using cached daily odds for ${today} (${cached.length} games)`);
+    return cached;
+  }
+
   const apiKey = process.env.ODDS_API_KEY;
   if (!apiKey) {
     throw new Error("Missing ODDS_API_KEY env var (The Odds API key).");
@@ -101,8 +126,6 @@ export async function fetchTodaysOdds() {
   }
 
   const data = await res.json();
-  const today = todayISOChicago();
-
   const games = [];
 
   const now = new Date();
@@ -162,6 +185,8 @@ export async function fetchTodaysOdds() {
       _book: book?.title ?? null
     });
   }
+
+  fs.writeFileSync(cachePath, JSON.stringify(games, null, 2));
 
   return games;
 }

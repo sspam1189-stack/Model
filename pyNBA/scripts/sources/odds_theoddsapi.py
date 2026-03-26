@@ -13,6 +13,8 @@ from zoneinfo import ZoneInfo
 from .odds_theoddsapi_historical import fetch_closing_odds_for_game
 from .espn_scoreboard import fetch_scoreboard
 
+_dir = os.path.dirname(os.path.abspath(__file__))
+DAILY_ODDS_CACHE_DIR = os.path.join(_dir, "..", "..", "data", "odds_cache_live")
 BASE = "https://api.the-odds-api.com/v4"
 
 
@@ -55,6 +57,15 @@ def _today_iso_chicago():
     return now.strftime("%Y-%m-%d")
 
 
+def _today_key_chicago():
+    return _today_iso_chicago().replace("-", "")
+
+
+def _daily_cache_path(date_key):
+    os.makedirs(DAILY_ODDS_CACHE_DIR, exist_ok=True)
+    return os.path.join(DAILY_ODDS_CACHE_DIR, f"{date_key}.json")
+
+
 def _to_model_line(home_team, away_team, spread_points, team_for_spread):
     """
     Convert The Odds API spread into model convention:
@@ -94,6 +105,14 @@ def _find_market(bookmaker, key):
 
 
 def fetch_todays_odds():
+    today = _today_iso_chicago()
+    cache_path = _daily_cache_path(_today_key_chicago())
+    if os.path.exists(cache_path):
+        with open(cache_path, "r", encoding="utf-8") as f:
+            cached = json.load(f)
+        print(f"  [odds] Using cached daily odds for {today} ({len(cached)} games)")
+        return cached
+
     api_key = os.environ.get("ODDS_API_KEY")
     if not api_key:
         raise Exception("Missing ODDS_API_KEY env var (The Odds API key).")
@@ -112,8 +131,6 @@ def fetch_todays_odds():
         raise Exception(f"TheOddsAPI failed: {res.status_code} {res.reason} {txt}")
 
     data = res.json()
-    today = _today_iso_chicago()
-
     games = []
     now = datetime.datetime.now(datetime.timezone.utc)
 
@@ -176,5 +193,8 @@ def fetch_todays_odds():
             "total": total,
             "_book": book.get("title") if book else None,
         })
+
+    with open(cache_path, "w", encoding="utf-8") as f:
+        json.dump(games, f, indent=2)
 
     return games

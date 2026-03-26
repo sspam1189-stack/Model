@@ -9,6 +9,8 @@ import pytz
 from .odds_theoddsapi_historical import fetch_closing_odds_for_game
 from .espn_scoreboard import fetch_scoreboard
 
+_dir = os.path.dirname(os.path.abspath(__file__))
+DAILY_ODDS_CACHE_DIR = os.path.join(_dir, "..", "..", "data", "odds_cache_live")
 BASE = "https://api.the-odds-api.com/v4"
 
 
@@ -51,6 +53,15 @@ def today_iso_chicago():
     return now.strftime("%Y-%m-%d")
 
 
+def today_key_chicago():
+    return today_iso_chicago().replace("-", "")
+
+
+def daily_cache_path(date_key):
+    os.makedirs(DAILY_ODDS_CACHE_DIR, exist_ok=True)
+    return os.path.join(DAILY_ODDS_CACHE_DIR, f"{date_key}.json")
+
+
 def to_model_line(home_team, away_team, spread_points, team_for_spread):
     """
     +X means HOME favored by X
@@ -90,6 +101,14 @@ def find_market(bookmaker, key):
 
 
 def fetch_todays_odds():
+    today = today_iso_chicago()
+    cache_path = daily_cache_path(today_key_chicago())
+    if os.path.exists(cache_path):
+        with open(cache_path, "r", encoding="utf-8") as f:
+            cached = json.load(f)
+        print(f"  [odds] Using cached daily odds for {today} ({len(cached)} games)")
+        return cached
+
     api_key = os.environ.get("ODDS_API_KEY")
     if not api_key:
         raise Exception("Missing ODDS_API_KEY env var (The Odds API key).")
@@ -108,8 +127,6 @@ def fetch_todays_odds():
         raise Exception(f"TheOddsAPI failed: {res.status_code} {res.reason} {txt}")
 
     data = res.json()
-    today = today_iso_chicago()
-
     games = []
     now = datetime.now(pytz.UTC)
 
@@ -171,5 +188,8 @@ def fetch_todays_odds():
             "total": total,
             "_book": (book or {}).get("title"),
         })
+
+    with open(cache_path, "w", encoding="utf-8") as f:
+        json.dump(games, f, indent=2)
 
     return games
