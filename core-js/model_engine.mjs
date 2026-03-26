@@ -236,7 +236,6 @@ export function createModelEngine(options = {}) {
     h2hMaxAdj = 4.0,
     h2hRecencyDecay = 0.85,
     bayes = {},
-    legacy = {},
   } = options;
 
   if (!DEFAULT_STATS || !DEFAULT_W || !DEFAULT_W_VAR || !BAYES_HYPER) {
@@ -256,7 +255,7 @@ export function createModelEngine(options = {}) {
       mode: "probHigh",
       probKey: "probHigh",
       minProb: 0.57,
-      sDiffCap: 9,
+      sDiffCap: null,
       absLineCap: 12,
       absLineCapInclusive: false,
       requireLineNonZero: false,
@@ -273,23 +272,6 @@ export function createModelEngine(options = {}) {
     },
   };
 
-  const legacyCfg = {
-    spread: {
-      minDiffKey: "sprHigh",
-      minDiffFloor: null,
-      diffCap: 9,
-      absLineCap: 12,
-      absLineCapInclusive: false,
-      ...(legacy.spread || {}),
-    },
-    totals: {
-      enabled: true,
-      minDiffKey: "ouHigh",
-      eliteBumpKey: "ouEliteBump",
-      eliteBumpDefault: 3,
-      ...(legacy.totals || {}),
-    },
-  };
 
   function loadDefaults() {
     return { DEFAULT_STATS, DEFAULT_W, DEFAULT_W_VAR, BAYES_HYPER };
@@ -473,9 +455,7 @@ export function createModelEngine(options = {}) {
     let pCover = null;
     let pOU = null;
 
-    const useBayesian = kalmanState != null && W_var != null;
-
-    if (useBayesian) {
+    {
       const bestSpreadP = Math.max(pHomeCover, pAwayCover);
       const spreadSide = pHomeCover >= pAwayCover ? "home" : "away";
 
@@ -506,27 +486,6 @@ export function createModelEngine(options = {}) {
           oPick = pOver >= pUnder ? "OVER" : "UNDER";
           oConf = "elite";
           pOU = bestTotalP;
-        }
-      }
-    } else {
-      const minDiff = W[legacyCfg.spread.minDiffKey];
-      const minFloor = legacyCfg.spread.minDiffFloor;
-      const sDiffOK = (minFloor == null || sDiff >= minFloor) && (minDiff == null || sDiff >= minDiff);
-      const sCapOK = legacyCfg.spread.diffCap == null ? true : sDiff <= legacyCfg.spread.diffCap;
-      const absLineOK = lineCapOk(absLine, legacyCfg.spread.absLineCap, legacyCfg.spread.absLineCapInclusive);
-
-      if (sDiffOK && sCapOK && absLineOK) {
-        sPick = margin > 0
-          ? formatSpreadPick(gg, "home", absLine, homeFav)
-          : formatSpreadPick(gg, "away", absLine, homeFav);
-        sConf = "elite";
-      }
-
-      if (legacyCfg.totals.enabled && Math.abs(cleanTDiff) >= W[legacyCfg.totals.minDiffKey]) {
-        const ouEliteAdj = W[legacyCfg.totals.minDiffKey] + (W[legacyCfg.totals.eliteBumpKey] ?? legacyCfg.totals.eliteBumpDefault);
-        if (Math.abs(cleanTDiff) >= ouEliteAdj) {
-          oPick = cleanTDiff > 0 ? "OVER" : "UNDER";
-          oConf = "elite";
         }
       }
     }

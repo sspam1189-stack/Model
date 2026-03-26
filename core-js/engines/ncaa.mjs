@@ -29,13 +29,5 @@ export function createNcaaEngine({
       },
       totals: { enabled: false },
     },
-    legacy: {
-      spread: {
-        minDiffFloor: 3,
-        diffCap: 9,
-        absLineCap: 10,
-        absLineCapInclusive: true,
-      },
-    },
   });
 }

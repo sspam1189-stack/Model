@@ -24,12 +24,4 @@ def create_ncaa_engine(DEFAULT_STATS, DEFAULT_W, DEFAULT_W_VAR, BAYES_HYPER, ENG
                 "enabled": False,
             },
         },
-        legacy={
-            "spread": {
-                "min_diff_floor": 3,
-                "diff_cap": 9,
-                "abs_line_cap": 10,
-                "abs_line_cap_inclusive": True,
-            },
-        },
     )
