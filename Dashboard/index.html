@@ -614,8 +614,10 @@
       if (!cfg) return null;
       const bust = `?t=${Date.now()}`;
       const attempts = [
-        { url: cfg.remote + bust, label: 'GitHub raw' },
+        // The synced dashboard snapshot is the stable source for the page.
+        // Raw history feeds can be mid-pipeline or use stale line conventions.
         { url: cfg.local + bust, label: 'Local snapshot' },
+        { url: cfg.remote + bust, label: 'GitHub raw fallback' },
       ];
       for (const attempt of attempts) {
         try {

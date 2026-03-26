@@ -10,7 +10,9 @@ from .odds_theoddsapi_historical import fetch_closing_odds_for_game
 from .espn_scoreboard import fetch_scoreboard
 
 _dir = os.path.dirname(os.path.abspath(__file__))
-DAILY_ODDS_CACHE_DIR = os.path.join(_dir, "..", "..", "data", "odds_cache_live")
+# Bump the cache namespace so runners stop reusing odds captured under the
+# previous line-sign convention.
+DAILY_ODDS_CACHE_DIR = os.path.join(_dir, "..", "..", "data", "odds_cache_live_v2")
 BASE = "https://api.the-odds-api.com/v4"
 
 
