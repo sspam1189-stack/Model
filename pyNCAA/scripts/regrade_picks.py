@@ -56,10 +56,10 @@ def re_pick_spread(g):
     side = "home" if p_home_cover >= p_away_cover else "away"
 
     abs_line = abs(g.get("line", 0))
-    home_fav = g.get("line", 0) > 0
+    home_fav = g.get("line", 0) < 0
 
     # Dog/fav detection
-    is_dog = (side == "home" and g.get("line", 0) < 0) or (side == "away" and g.get("line", 0) > 0)
+    is_dog = (side == "home" and g.get("line", 0) > 0) or (side == "away" and g.get("line", 0) < 0)
     line_ok = True if is_dog else abs_line <= FAV_LINE_CAP
 
     if best_p >= P_COVER_THRESH and SDIFF_MIN <= s_diff <= SDIFF_CAP and line_ok and abs_line > 0:

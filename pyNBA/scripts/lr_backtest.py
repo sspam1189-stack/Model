@@ -101,9 +101,10 @@ def main():
             h_lines = list(team_season_lines.get(home, []))
             a_lines = list(team_season_lines.get(away, []))
 
-            features = extract_lr_features(home_hist, away_hist, g, h_lines, a_lines)
-
             pick = parse_pick(g.get("sPick"))
+            picked_home = pick["team"] == home if pick else True
+            features = extract_lr_features(home_hist, away_hist, g, h_lines, a_lines, picked_home=picked_home)
+
             label = None
             if pick:
                 label = grade_pick(g, pick)
@@ -119,21 +120,26 @@ def main():
             a_score = _safe_float(aws)
             line_f = _safe_float(line)
             total_f = _safe_float(total, 220.0)
-            margin_vs_line = h_score - a_score - line_f
+            margin_vs_line = h_score - a_score + line_f
             actual_total = h_score + a_score
+
+            home_margin = h_score - a_score
+            home_spread = line_f
+            home_covered = (home_margin + home_spread) > 0
+            game_over = actual_total > total_f
 
             if home:
                 team_histories.setdefault(home, []).append({
                     "date": date, "is_home": True,
                     "line": line_f, "total": total_f,
                     "homeScore": h_score, "awayScore": a_score,
-                    "margin_vs_line": margin_vs_line,
+                    "margin": home_margin,
+                    "line_for_team": home_spread,
+                    "abs_line": abs(line_f),
+                    "covered": home_covered,
+                    "over": game_over,
                     "actual_total": actual_total,
                     "ou_margin": actual_total - total_f,
-                    "game_margin": h_score - a_score,
-                    "won": h_score > a_score,
-                    "covered": margin_vs_line > 0,
-                    "went_over": actual_total > total_f,
                 })
                 team_season_lines.setdefault(home, []).append(abs(line_f))
 
@@ -142,13 +148,13 @@ def main():
                     "date": date, "is_home": False,
                     "line": line_f, "total": total_f,
                     "homeScore": h_score, "awayScore": a_score,
-                    "margin_vs_line": margin_vs_line,
+                    "margin": -home_margin,
+                    "line_for_team": -home_spread,
+                    "abs_line": abs(line_f),
+                    "covered": not home_covered,
+                    "over": game_over,
                     "actual_total": actual_total,
                     "ou_margin": actual_total - total_f,
-                    "game_margin": a_score - h_score,
-                    "won": a_score > h_score,
-                    "covered": margin_vs_line < 0,
-                    "went_over": actual_total > total_f,
                 })
                 team_season_lines.setdefault(away, []).append(abs(line_f))
 

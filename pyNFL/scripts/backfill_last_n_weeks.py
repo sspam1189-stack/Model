@@ -861,7 +861,7 @@ def _stub_analyze(g, team_stats, weights, kalman_state, residual_var):
     proj_spread = (home_advantage - away_advantage) + hfa  # positive = home favored
 
     line = g.get("line", 0) or 0
-    s_diff = proj_spread - line  # positive = model says home covers more
+    s_diff = proj_spread + line  # sportsbook: line is negative when home favored; positive = model edge
 
     # Compute P(cover) using normal CDF with residualVar
     p_cover = 0.5
@@ -889,16 +889,18 @@ def _stub_analyze(g, team_stats, weights, kalman_state, residual_var):
     if conf in ("high", "elite") and abs(s_diff) > 1.5:
         if s_diff > 0:
             # Home covers: pick home at the spread
-            if line >= 0:
-                pick = f"{home} +{abs(line)}"
+            # Sportsbook: line < 0 = home favored (laying), line >= 0 = home dog (getting)
+            if line < 0:
+                pick = f"{home} -{abs(line)}"
             else:
-                pick = f"{home} {'-' if line < 0 else '+'}{abs(line)}"
+                pick = f"{home} +{abs(line)}"
         else:
             # Away covers
-            if line >= 0:
-                pick = f"{away} -{abs(line)}"
-            else:
+            # Sportsbook: line < 0 = home favored, so away gets points (+)
+            if line < 0:
                 pick = f"{away} +{abs(line)}"
+            else:
+                pick = f"{away} -{abs(line)}"
 
     # Feature dict for ridge regression training
     features = {

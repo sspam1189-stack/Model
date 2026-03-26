@@ -52,47 +52,24 @@ MIN_TRAINING_GAMES = 80
 
 # Feature configuration -- wrappers can override these
 LR_FEATURE_NAMES = [
-    # ATS Momentum (6)
-    "away_ats_pct_5", "home_ats_pct_5",
-    "away_ats_pct_10", "home_ats_pct_10",
-    "away_ats_pm_5", "home_ats_pm_5",
-    # O/U Trend (4)
-    "away_over_pct_10", "home_over_pct_10",
-    "away_ou_pm_10", "home_ou_pm_10",
-    # Line Context (3-4)
-    "abs_line", "line_vs_team_avg", "home_is_fav",
-    # Rest (3)
-    "away_rest_days", "home_rest_days", "rest_advantage",
-    # Performance (4)
-    "away_win_pct_5", "home_win_pct_5",
-    "away_avg_margin_5", "home_avg_margin_5",
+    # O/U Trend (3) — strongest signals
+    "picked_ou_pm_10", "opp_over_pct_10", "picked_over_pct_10",
+    # ATS Momentum (1)
+    "picked_ats_pm_5",
+    # Performance (3)
+    "picked_avg_margin_5", "opp_win_pct_5", "picked_win_pct_5",
 ]
 
 _FEATURE_LABELS = {
-    "away_ats_pct_5":    "Away ATS L5",
-    "home_ats_pct_5":    "Home ATS L5",
-    "away_ats_pct_10":   "Away ATS L10",
-    "home_ats_pct_10":   "Home ATS L10",
-    "away_ats_pm_5":     "Away ATS margin L5",
-    "home_ats_pm_5":     "Home ATS margin L5",
-    "away_over_pct_10":  "Away O/U trend L10",
-    "home_over_pct_10":  "Home O/U trend L10",
-    "away_ou_pm_10":     "Away O/U margin L10",
-    "home_ou_pm_10":     "Home O/U margin L10",
-    "abs_line":          "Spread size",
-    "line_vs_team_avg":  "Line vs team avg",
-    "line_vs_home_avg":  "Line vs home avg",
-    "line_vs_away_avg":  "Line vs away avg",
-    "home_is_fav":       "Home is favorite",
-    "away_rest_days":    "Away rest days",
-    "home_rest_days":    "Home rest days",
-    "rest_advantage":    "Rest advantage",
-    "away_win_pct_5":    "Away win% L5",
-    "home_win_pct_5":    "Home win% L5",
-    "away_avg_margin_5": "Away avg margin L5",
-    "home_avg_margin_5": "Home avg margin L5",
-    "is_tournament":     "Tournament game",
-    "is_neutral":        "Neutral site",
+    "picked_ou_pm_10":     "Picked O/U margin L10",
+    "opp_over_pct_10":     "Opp O/U trend L10",
+    "picked_over_pct_10":  "Picked O/U trend L10",
+    "picked_ats_pm_5":     "Picked ATS margin L5",
+    "picked_avg_margin_5": "Picked avg margin L5",
+    "opp_win_pct_5":       "Opp win% L5",
+    "picked_win_pct_5":    "Picked win% L5",
+    "is_tournament":       "Tournament game",
+    "is_neutral":          "Neutral site",
 }
 
 # Optional: sport-specific extra feature function
@@ -193,9 +170,9 @@ def build_team_histories(store):
             total = g["total"]
             actual_total = home_score + away_score
             home_margin = home_score - away_score
-            # Line convention: +X means HOME favored by X, -X means AWAY favored by X.
-            # Convert to home-team spread for ATS math.
-            home_spread = -line
+            # Line convention (sportsbook): -X means HOME favored by X, +X means AWAY favored by X.
+            # line IS the home spread already.
+            home_spread = line
             home_covered = (home_margin + home_spread) > 0
             game_over = actual_total > total
 
@@ -297,8 +274,8 @@ def _team_features(hist, n5=5, n10=10):
 # extract_lr_features
 # ---------------------------------------------------------------------------
 
-def extract_lr_features(home_hist, away_hist, game, home_lines=None, away_lines=None):
-    """Build the feature vector for a single game.
+def extract_lr_features(home_hist, away_hist, game, home_lines=None, away_lines=None, picked_home=True):
+    """Build the feature vector for a single game, oriented to the picked side.
 
     Parameters
     ----------
@@ -307,6 +284,7 @@ def extract_lr_features(home_hist, away_hist, game, home_lines=None, away_lines=
     game      : dict  -- must have 'line', 'total'
     home_lines : list -- optional, all lines seen by home (for avg)
     away_lines : list -- optional, all lines seen by away (for avg)
+    picked_home : bool -- True if the model picked the home team
 
     Returns list[float] matching LR_FEATURE_NAMES, or None on error.
     """
@@ -314,67 +292,64 @@ def extract_lr_features(home_hist, away_hist, game, home_lines=None, away_lines=
         return None
 
     try:
-        hf = _team_features(home_hist)
-        af = _team_features(away_hist)
+        # Orient features to picked/opponent (not home/away)
+        if picked_home:
+            picked_hist, opp_hist = home_hist, away_hist
+            picked_lines, opp_lines = home_lines, away_lines
+        else:
+            picked_hist, opp_hist = away_hist, home_hist
+            picked_lines, opp_lines = away_lines, home_lines
+
+        pf = _team_features(picked_hist)
+        of = _team_features(opp_hist)
 
         line = game.get("line", 0) or 0
         abs_line = abs(line)
-        # Line convention: +X means HOME favored by X, -X means AWAY favored by X.
-        # Convert to home-team spread for ATS math.
-        home_spread = -line
 
-        # Line vs team avg
-        if home_lines:
-            if isinstance(home_lines[0], dict):
-                avg_home_line = _safe_mean([g.get("line_for_team", g.get("line", 0)) for g in home_lines])
+        # Line vs picked team's average line
+        if picked_lines:
+            if isinstance(picked_lines[0], dict):
+                avg_picked_line = _safe_mean([g.get("line_for_team", g.get("line", 0)) for g in picked_lines])
             else:
-                avg_home_line = _safe_mean(home_lines)
+                avg_picked_line = _safe_mean(picked_lines)
         else:
-            avg_home_line = hf["avg_line"]
+            avg_picked_line = pf["avg_line"]
 
-        if away_lines:
-            if isinstance(away_lines[0], dict):
-                avg_away_line = _safe_mean([abs(g.get("line", 0)) for g in away_lines])
-            else:
-                avg_away_line = _safe_mean(away_lines)
+        # picked team's spread from their perspective
+        picked_spread = line if picked_home else -line
+        line_vs_team_avg = picked_spread - avg_picked_line
+
+        # Picked is fav/dog
+        # Sportsbook: line < 0 = home favored, line > 0 = away favored
+        if picked_home:
+            picked_is_fav = 1.0 if line < 0 else 0.0
         else:
-            avg_away_line = 0.0
+            picked_is_fav = 1.0 if line > 0 else 0.0
+        picked_is_dog = 1.0 - picked_is_fav
 
-        line_vs_team_avg = home_spread - avg_home_line
-        line_vs_home_avg = abs_line - abs(avg_home_line)
-        line_vs_away_avg = abs_line - avg_away_line
-
-        home_is_fav = 1.0 if line > 0 else 0.0
-
-        # Compute rest days from last game to current game date (not last game's rest)
+        # Rest days
         run_date = game.get("_run_date") or game.get("date")
         cur = _parse_date(run_date) if run_date else None
 
-        if cur and home_hist:
-            last_home = _parse_date(home_hist[-1].get("date"))
-            home_rest = max(0, min((cur - last_home).days - 1, 14)) if last_home else af["rest_days"]
+        if cur and picked_hist:
+            last_picked = _parse_date(picked_hist[-1].get("date"))
+            picked_rest = max(0, min((cur - last_picked).days - 1, 14)) if last_picked else pf["rest_days"]
         else:
-            home_rest = hf["rest_days"]
+            picked_rest = pf["rest_days"]
 
-        if cur and away_hist:
-            last_away = _parse_date(away_hist[-1].get("date"))
-            away_rest = max(0, min((cur - last_away).days - 1, 14)) if last_away else hf["rest_days"]
+        if cur and opp_hist:
+            last_opp = _parse_date(opp_hist[-1].get("date"))
+            opp_rest = max(0, min((cur - last_opp).days - 1, 14)) if last_opp else of["rest_days"]
         else:
-            away_rest = af["rest_days"]
+            opp_rest = of["rest_days"]
 
-        rest_advantage = home_rest - away_rest
+        rest_advantage = picked_rest - opp_rest
 
-        # Build base features (matches the default 20-feature set)
+        # Build features — top 7 by importance, all from picked team's perspective
         features = [
-            af["ats_pct_5"], hf["ats_pct_5"],
-            af["ats_pct_10"], hf["ats_pct_10"],
-            af["ats_pm_5"], hf["ats_pm_5"],
-            af["over_pct_10"], hf["over_pct_10"],
-            af["ou_pm_10"], hf["ou_pm_10"],
-            abs_line, line_vs_team_avg, home_is_fav,
-            away_rest, home_rest, rest_advantage,
-            af["win_pct_5"], hf["win_pct_5"],
-            af["avg_margin_5"], hf["avg_margin_5"],
+            pf["ou_pm_10"], of["over_pct_10"], pf["over_pct_10"],
+            pf["ats_pm_5"],
+            pf["avg_margin_5"], of["win_pct_5"], pf["win_pct_5"],
         ]
 
         # Add sport-specific extra features if configured
@@ -398,7 +373,7 @@ def extract_lr_features(home_hist, away_hist, game, home_lines=None, away_lines=
 # build_lr_features_for_game -- convenience for live predictions
 # ---------------------------------------------------------------------------
 
-def build_lr_features_for_game(game, team_histories, run_date=None):
+def build_lr_features_for_game(game, team_histories, run_date=None, picked_home=True):
     """Build LR features for a single upcoming game.
 
     Parameters
@@ -406,6 +381,7 @@ def build_lr_features_for_game(game, team_histories, run_date=None):
     game : dict -- must have 'home', 'away', 'line', 'total'
     team_histories : dict -- output of build_team_histories(store)
     run_date : str or None -- YYYYMMDD for rest-day calculation
+    picked_home : bool -- True if the model picked the home team
 
     Returns list or None.
     """
@@ -422,6 +398,7 @@ def build_lr_features_for_game(game, team_histories, run_date=None):
     return extract_lr_features(
         home_hist, away_hist, game_with_date,
         home_hist, away_hist,
+        picked_home=picked_home,
     )
 
 
@@ -432,8 +409,8 @@ def build_lr_features_for_game(game, team_histories, run_date=None):
 def _explain_lr(model_bundle, features, top_n=3, game=None, picked_home=True):
     """Return the top contributing features pushing AGAINST the picked side.
 
-    LR predicts P(home covers). For home picks, most negative contributions
-    hurt the pick. For away picks, most positive contributions hurt the pick.
+    LR predicts P(picked team covers). Most negative contributions
+    hurt the pick (they push probability down).
     """
     if model_bundle is None or features is None:
         return []
@@ -445,8 +422,10 @@ def _explain_lr(model_bundle, features, top_n=3, game=None, picked_home=True):
     names = model_bundle.get("feature_names", LR_FEATURE_NAMES)
 
     # Build team-name substitutions for labels
-    home_name = (game or {}).get("home", "Home")
-    away_name = (game or {}).get("away", "Away")
+    home_name = (game or {}).get("home", "Picked")
+    away_name = (game or {}).get("away", "Opp")
+    picked_name = home_name if picked_home else away_name
+    opp_name = away_name if picked_home else home_name
 
     try:
         X_scaled = scaler.transform(np.array([features], dtype=np.float64))[0]
@@ -461,15 +440,14 @@ def _explain_lr(model_bundle, features, top_n=3, game=None, picked_home=True):
         contrib = coef * scaled_val
         contributions.append((contrib, name, raw_val))
 
-    # For home picks: most negative = hurts pick (sort ascending, take first)
-    # For away picks: most positive = hurts pick (sort descending, take first)
-    contributions.sort(key=lambda x: x[0], reverse=(not picked_home))
+    # Most negative = hurts pick (features already oriented to picked side)
+    contributions.sort(key=lambda x: x[0])
 
     reasons = []
     for contrib, name, raw_val in contributions[:top_n]:
         label = _FEATURE_LABELS.get(name, name)
-        # Replace generic Home/Away with actual team names
-        label = label.replace("Home", home_name).replace("Away", away_name)
+        # Replace generic Picked/Opp with actual team names
+        label = label.replace("Picked", picked_name).replace("Opp", opp_name)
         if "pct" in name or "win_pct" in name:
             val_str = f"{raw_val * 100:.0f}%"
         elif "rest" in name:
@@ -531,17 +509,19 @@ def predict_lr(model_bundle, features, game=None):
 
 
 def predict_lr_for_pick(model_bundle, features, picked_home, game=None):
-    """Predict and return a verdict relative to the picked side.
+    """Predict and return a verdict for the picked side.
 
-    Returns dict with lr_prob (P(home covers)), lr_pick_prob (P(picked side covers)),
+    Features are already oriented to the picked team's perspective,
+    so lr_prob IS P(picked team covers) — no flip needed.
+
+    Returns dict with lr_prob (P(picked covers)), lr_pick_prob (same),
     lr_verdict ('confirm', 'veto', or 'neutral'), and lr_reasons on veto.
     """
     raw = predict_lr(model_bundle, features, game=game)
     if raw["lr_prob"] is None:
         return {"lr_prob": None, "lr_pick_prob": None, "lr_verdict": "neutral", "lr_reasons": []}
 
-    p_home = raw["lr_prob"]
-    p_pick = p_home if picked_home else (1.0 - p_home)
+    p_pick = raw["lr_prob"]  # Already P(picked covers), no flip needed
 
     if p_pick >= LR_CONFIRM_THRESH:
         verdict = "confirm"
@@ -550,13 +530,12 @@ def predict_lr_for_pick(model_bundle, features, picked_home, game=None):
     else:
         verdict = "neutral"
 
-    # Get reasons on veto — sort by features hurting the picked side
     reasons = []
     if verdict == "veto":
         reasons = _explain_lr(model_bundle, features, game=game, picked_home=picked_home)
 
     return {
-        "lr_prob": round(p_home, 4),
+        "lr_prob": round(p_pick, 4),
         "lr_pick_prob": round(p_pick, 4),
         "lr_verdict": verdict,
         "lr_reasons": reasons,
@@ -605,24 +584,36 @@ def train_lr_model(store, min_games=None):
             home = g["home"]
             away = g["away"]
 
-            # Extract features using history *before* this game
+            # Determine which side the model picked
+            pick = g.get("sPick", "")
+            if not pick or pick == "PASS":
+                # No pick — still record history but skip training
+                _append_to_running(running, g, run_date)
+                continue
+            picked_home = home in pick
+
+            # Extract features oriented to picked side
             game_with_date = {**g, "_run_date": run_date, "date": run_date}
             features = extract_lr_features(
                 running[home], running[away], game_with_date,
                 home_lines=[x["line_for_team"] for x in running[home]] if running[home] else None,
                 away_lines=[x["line_for_team"] for x in running[away]] if running[away] else None,
+                picked_home=picked_home,
             )
 
             if features is not None:
                 home_margin = g["homeScore"] - g["awayScore"]
                 line = g["line"]
-                ats_margin = home_margin - line
+                ats_margin = home_margin + line
 
-                # Skip pushes
+                # Label: did the PICKED team cover?
                 if ats_margin != 0:
-                    home_covered = 1 if ats_margin > 0 else 0
+                    if picked_home:
+                        picked_covered = 1 if ats_margin > 0 else 0
+                    else:
+                        picked_covered = 1 if ats_margin < 0 else 0
                     X_rows.append(features)
-                    y_rows.append(home_covered)
+                    y_rows.append(picked_covered)
 
             # Record into running histories
             _append_to_running(running, g, run_date)
@@ -634,7 +625,7 @@ def train_lr_model(store, min_games=None):
     X = np.array(X_rows, dtype=np.float64)
     y = np.array(y_rows, dtype=np.int32)
 
-    print(f"lr_model: Training on {len(X)} games (home covers: {y.sum()}, away covers: {len(y) - y.sum()})...")
+    print(f"lr_model: Training on {len(X)} picks (picked covers: {y.sum()}, picked loses: {len(y) - y.sum()})...")
 
     scaler = StandardScaler()
     X_scaled = scaler.fit_transform(X)
@@ -677,9 +668,9 @@ def _append_to_running(running, g, run_date):
     total = g["total"]
     actual_total = home_score + away_score
     home_margin = home_score - away_score
-    # Line convention: +X means HOME favored by X, -X means AWAY favored by X.
-    # Convert to home-team spread for ATS math.
-    home_spread = -line
+    # Line convention (sportsbook): -X means HOME favored by X, +X means AWAY favored by X.
+    # line IS the home spread already.
+    home_spread = line
     home_covered = (home_margin + home_spread) > 0
     game_over = actual_total > total
 

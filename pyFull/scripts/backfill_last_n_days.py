@@ -161,6 +161,7 @@ def main():
     prev_date = None
     prev_graded = []       # games with projections -> Kalman + self-tune
     prev_all_scored = []   # all games with scores -> H2H (includes SKIPPED)
+
     b2b_teams = set()      # teams that played yesterday -> B2B penalty in analyzeGame
 
     STAT_KEYS = ["OFF", "DEF", "TS", "TO", "ORR", "PACE"]

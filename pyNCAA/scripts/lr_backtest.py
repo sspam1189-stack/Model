@@ -131,7 +131,7 @@ def main():
             a_score = _safe_float(aws)
             line_f = _safe_float(line)
             total_f = _safe_float(total, 140.0)
-            ats_margin = h_score - a_score - line_f
+            ats_margin = h_score - a_score + line_f
             actual_total = h_score + a_score
             abs_line = abs(line_f)
 

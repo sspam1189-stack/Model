@@ -1,29 +1,16 @@
 {
-  "n_train": 551,
-  "accuracy": 0.5626,
-  "trained_at": "2026-03-25T18:00:35",
+  "n_train": 188,
+  "accuracy": 0.6223,
+  "trained_at": "2026-03-25T23:36:14",
   "features": [
-    "away_ats_pct_5",
-    "home_ats_pct_5",
-    "away_ats_pct_10",
-    "home_ats_pct_10",
-    "away_ats_pm_5",
-    "home_ats_pm_5",
-    "away_over_pct_10",
-    "home_over_pct_10",
-    "away_ou_pm_10",
-    "home_ou_pm_10",
-    "abs_line",
-    "line_vs_team_avg",
-    "home_is_fav",
-    "away_rest_days",
-    "home_rest_days",
-    "rest_advantage",
-    "away_win_pct_5",
-    "home_win_pct_5",
-    "away_avg_margin_5",
-    "home_avg_margin_5"
+    "picked_ou_pm_10",
+    "opp_over_pct_10",
+    "picked_over_pct_10",
+    "picked_ats_pm_5",
+    "picked_avg_margin_5",
+    "opp_win_pct_5",
+    "picked_win_pct_5"
   ],
-  "confirm_threshold": 0.55,
-  "veto_threshold": 0.45
+  "confirm_threshold": 0.5,
+  "veto_threshold": 0.5
 }

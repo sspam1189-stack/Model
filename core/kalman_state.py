@@ -10,6 +10,10 @@ import os
 import math
 from datetime import datetime, timedelta
 
+
+def _jround(x):
+    return math.floor(x + 0.5)
+
 try:
     from zoneinfo import ZoneInfo
 except ImportError:
@@ -155,11 +159,11 @@ def update_from_game(state, game, proj_margin, game_date=None, opts=None):
     K_home = h["adj_var"] / S
     K_away = a["adj_var"] / S
 
-    h["adj_mean"] += K_home * innovation
-    a["adj_mean"] -= K_away * innovation
+    h["adj_mean"] = _jround((h["adj_mean"] + K_home * innovation) * 10000) / 10000
+    a["adj_mean"] = _jround((a["adj_mean"] - K_away * innovation) * 10000) / 10000
 
-    h["adj_var"] = max(cfg["minVar"], (1 - K_home) * h["adj_var"])
-    a["adj_var"] = max(cfg["minVar"], (1 - K_away) * a["adj_var"])
+    h["adj_var"] = _jround(max(cfg["minVar"], (1 - K_home) * h["adj_var"]) * 10000) / 10000
+    a["adj_var"] = _jround(max(cfg["minVar"], (1 - K_away) * a["adj_var"]) * 10000) / 10000
 
 
 def batch_update(state, graded_games, opts=None):

@@ -7,7 +7,7 @@ runs = h.get("runs") or {}
 
 def check_cover(g, side):
     abs_line = abs(g.get("line", 0))
-    home_fav = g.get("line", 0) > 0
+    home_fav = g.get("line", 0) < 0
     if side == "home":
         return (g["homeScore"] - g["awayScore"]) - abs_line > 0 if home_fav else (g["homeScore"] - g["awayScore"]) + abs_line > 0
     else:
@@ -24,7 +24,7 @@ for _, run in items:
         p_cover = max(g.get("pHomeCover", 0), g.get("pAwayCover", 0))
         side = "home" if g.get("pHomeCover", 0) >= g.get("pAwayCover", 0) else "away"
         abs_line = abs(g.get("line", 0))
-        is_dog = (side == "home" and g.get("line", 0) < 0) or (side == "away" and g.get("line", 0) > 0)
+        is_dog = (side == "home" and g.get("line", 0) > 0) or (side == "away" and g.get("line", 0) < 0)
         covers = check_cover(g, side)
         games.append({"sDiff": s_diff, "pCover": p_cover, "absLine": abs_line, "isDog": is_dog, "covers": covers})
 
