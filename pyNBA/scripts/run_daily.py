@@ -1363,7 +1363,26 @@ def main(subject_label="[PY]"):
     # 3. Lineup-adjusted stats + B2B rest + Kalman state
     print("[2/7] Applying lineup adjustments + B2B rest + Kalman filter...")
 
-    lineup_stats = adjust_team_stats(stats, injury_data.get("report", {}), injury_data.get("playerMPG", {}), player_advanced, odds)
+    # Load recent injury caches for returning-star detection
+    recent_injury_dates = {}
+    try:
+        inj_cache_dir = os.path.join(os.path.dirname(__file__), "..", "data", "injury_cache")
+        if os.path.isdir(inj_cache_dir):
+            cache_files = sorted(
+                [f for f in os.listdir(inj_cache_dir) if f.endswith(".json") and f < date + ".json"],
+                reverse=True
+            )[:10]
+            for f in cache_files:
+                with open(os.path.join(inj_cache_dir, f)) as fh:
+                    cached = json.load(fh)
+                report = cached.get("report") or (cached.get("injuryData") or {}).get("report") or {}
+                if report:
+                    recent_injury_dates[f.replace(".json", "")] = report
+            print(f"  [lineup] Loaded {len(recent_injury_dates)} recent injury caches for returning-star detection")
+    except Exception:
+        pass
+
+    lineup_stats = adjust_team_stats(stats, injury_data.get("report", {}), injury_data.get("playerMPG", {}), player_advanced, odds, recent_injury_dates=recent_injury_dates)
     result = apply_b2b_adjustment(lineup_stats, b2b_teams, odds)
     adjusted_stats = result["adjusted"]
     b2b_notes = result.get("b2bNotes", {})

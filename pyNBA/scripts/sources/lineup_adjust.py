@@ -179,7 +179,7 @@ def _resolve_team_name(team_name, known_keys):
 
 # -- Core: Compute lineup-adjusted team stats --
 
-def adjust_team_stats(team_stats, injury_report, player_mpg, player_adv, todays_games):
+def adjust_team_stats(team_stats, injury_report, player_mpg, player_adv, todays_games, recent_injury_dates=None):
     """
     Compute lineup-adjusted team stats based on who's actually playing tonight.
     Returns: adjusted copy of team_stats (same shape).
@@ -218,23 +218,92 @@ def adjust_team_stats(team_stats, injury_report, player_mpg, player_adv, todays_
         if not is_tonight:
             continue
 
+        # Get all rostered players for this team
+        roster = players_by_team.get(team_key)
+        if not roster or len(roster) < 5:
+            continue
+
         # Get injury report for this team
         inj_key = _resolve_team_name(team_key, list((injury_report or {}).keys()))
         injuries = (injury_report or {}).get(inj_key, []) if inj_key else []
-        if not injuries:
-            continue
 
         # Only care about players who are OUT or DOUBTFUL
         out_players = set(
             i["player"] for i in injuries
             if i.get("status") in ("out", "doubtful")
         )
-        if not out_players:
-            continue
 
-        # Get all rostered players for this team
-        roster = players_by_team.get(team_key)
-        if not roster or len(roster) < 5:
+        # -- Returning-star boost --
+        if recent_injury_dates and len(recent_injury_dates) > 0:
+            team_gp = max(r["gp"] for r in roster)
+            MIN_MPG = 24
+            total_boost_off = 0
+            total_boost_def = 0
+
+            for p in roster:
+                if p["min"] < MIN_MPG:
+                    continue
+                # Must be active tonight
+                if p["name"] in out_players:
+                    continue
+                last_name = p["name"].split(" ")[-1].lower()
+                is_out = any(
+                    on.split(" ")[-1].lower() == last_name for on in out_players
+                )
+                if is_out:
+                    continue
+
+                # Only boost if player was OUT in 3+ recent injury caches
+                recent_out_count = 0
+                for cache_date, report in recent_injury_dates.items():
+                    team_inj = report.get(team_key, [])
+                    if not team_inj:
+                        # Try resolving team name
+                        resolved = _resolve_team_name(team_key, list(report.keys()))
+                        team_inj = report.get(resolved, []) if resolved else []
+                    was_out = any(
+                        inj.get("status") in ("out", "doubtful")
+                        and (inj.get("player") == p["name"]
+                             or (inj.get("player") or "").split(" ")[-1].lower() == last_name)
+                        for inj in team_inj
+                    )
+                    if was_out:
+                        recent_out_count += 1
+
+                if recent_out_count < 3:
+                    continue
+
+                missed_frac = 1 - (p["gp"] / team_gp)
+                game_share = min(p["min"] / 48, 1)
+                recent_miss_frac = recent_out_count / len(recent_injury_dates)
+
+                others = [r for r in roster if r["name"] != p["name"]]
+                others_min = sum(r["min"] for r in others)
+                if others_min <= 0:
+                    continue
+                others_off = sum(r["min"] * (r.get("offRtg") or 0) for r in others) / others_min
+                others_def = sum(r["min"] * (r.get("defRtg") or 0) for r in others) / others_min
+
+                off_delta = ((p.get("offRtg") or 0) - others_off) * missed_frac * game_share * recent_miss_frac
+                def_delta = ((p.get("defRtg") or 0) - others_def) * missed_frac * game_share * recent_miss_frac
+
+                cap_val = lambda v: max(-3.0, min(3.0, v))
+                total_boost_off += cap_val(off_delta)
+                total_boost_def += cap_val(def_delta)
+
+                print(f"  [lineup] Returning-star boost: {p['name']} ({p['gp']}/{team_gp} GP, out {recent_out_count}/{len(recent_injury_dates)} recent) → {team_key} OFF {'+' if off_delta > 0 else ''}{off_delta:.1f}, DEF {'+' if def_delta > 0 else ''}{def_delta:.1f}")
+
+            if total_boost_off != 0 or total_boost_def != 0:
+                team_cap = lambda v: max(-4.0, min(4.0, v))
+                orig = adjusted.get(team_key, team_stats[team_key])
+                adjusted[team_key] = {
+                    **orig,
+                    "OFF": round((orig["OFF"] + team_cap(total_boost_off)) * 100) / 100,
+                    "DEF": round((orig["DEF"] + team_cap(total_boost_def)) * 100) / 100,
+                }
+                adjusted_count += 1
+
+        if not out_players:
             continue
 
         # Match out players to roster using exact + fuzzy name matching
@@ -314,7 +383,7 @@ def adjust_team_stats(team_stats, injury_report, player_mpg, player_adv, todays_
 
         dampen = impact_dampen(out_list)
 
-        orig = team_stats[team_key]
+        orig = adjusted.get(team_key, team_stats[team_key])
         adj = dict(orig)
         any_change = False
 
