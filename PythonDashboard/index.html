@@ -923,6 +923,17 @@
       const c = String(conf || '').trim().toLowerCase();
       return c === 'elite' || c === 'high';
     }
+    function formatTrendText(trend) {
+      if (!trend) return '';
+      if (typeof trend === 'string') return trend;
+      const parts = [];
+      if (trend.atsPct != null) parts.push(`ATS ${(trend.atsPct * 100).toFixed(0)}%`);
+      if (trend.atsPlusMinus != null) parts.push(`${trend.atsPlusMinus > 0 ? '+' : ''}${trend.atsPlusMinus.toFixed(1)}u`);
+      if (trend.overPct != null) parts.push(`O ${(trend.overPct * 100).toFixed(0)}%`);
+      if (trend.underPct != null) parts.push(`U ${(trend.underPct * 100).toFixed(0)}%`);
+      if (trend.totalPlusMinus != null) parts.push(`T ${trend.totalPlusMinus > 0 ? '+' : ''}${trend.totalPlusMinus.toFixed(1)}u`);
+      return parts.join(' · ');
+    }
 
     function parseSpreadPick(pick) {
       const m = pick.match(/^(.+?)\s+([+-])(\d+(?:\.\d+)?)$/);
@@ -1452,8 +1463,8 @@
         let trendsHtml = '';
         if (g.trends) {
           trendsHtml = `<div class="trends-info">`;
-          if (g.trends.away) trendsHtml += `<div><b>${esc(g.away)}:</b> ${esc(g.trends.away)}</div>`;
-          if (g.trends.home) trendsHtml += `<div><b>${esc(g.home)}:</b> ${esc(g.trends.home)}</div>`;
+          if (g.trends.away) trendsHtml += `<div><b>${esc(g.away)}:</b> ${esc(formatTrendText(g.trends.away))}</div>`;
+          if (g.trends.home) trendsHtml += `<div><b>${esc(g.home)}:</b> ${esc(formatTrendText(g.trends.home))}</div>`;
           trendsHtml += `</div>`;
         }
 
