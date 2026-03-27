@@ -34,7 +34,6 @@ from kalman_state import (
 )
 from calibration import build_calibration_table, build_calibration_html
 from email_report import send_email
-from lr_model import load_or_train_lr, build_team_histories, extract_lr_features, predict_lr, predict_lr_for_pick
 
 # --- Constants ---
 
@@ -1470,15 +1469,6 @@ def main(subject_label="[PY]"):
     dynamic_residual_var = compute_residual_var(store.get("runs", []))
     store["residualVar"] = dynamic_residual_var
 
-    # 3d. Load / train LR confirmation model
-    print("[3d] Loading LR confirmation model...")
-    lr_bundle = load_or_train_lr(store)
-    lr_histories = build_team_histories(store)
-    if lr_bundle:
-        print(f"  LR model ready ({lr_bundle.get('n_train', '?')} training games)")
-    else:
-        print("  LR model not ready (insufficient training data)")
-
     # 4. Analyze each game
     _skipped_live = 0
     print(f"[3/7] Analyzing {len(odds)} games...")
@@ -1515,23 +1505,6 @@ def main(subject_label="[PY]"):
         if not r:
             games.append(dict(g, status="SKIPPED"))
             continue
-
-        # 4b. LR confirmation / veto (only when there's an actual pick)
-        if r.get("sPick") and r["sPick"] != "PASS":
-            home_hist = lr_histories.get(r.get("home"), [])
-            away_hist = lr_histories.get(r.get("away"), [])
-            lr_game = {**g, "_run_date": date}
-            lr_features = extract_lr_features(home_hist, away_hist, lr_game, home_hist, away_hist)
-            picked_home = r.get("home", "") in r.get("sPick", "")
-            lr_result = predict_lr_for_pick(lr_bundle, lr_features, picked_home, game=lr_game)
-            r["lrProb"] = lr_result.get("lr_pick_prob") or lr_result["lr_prob"]
-            r["lrVerdict"] = lr_result["lr_verdict"]
-            r["lrReasons"] = lr_result.get("lr_reasons", [])
-
-            if lr_result["lr_verdict"] == "veto":
-                r["lrVetoed"] = r["sPick"]
-                r["sPick"] = "PASS"
-                r["sConf"] = "vetoed"
 
         # Cache lineup/B2B deltas
         away_delta = compute_team_delta(g["away"])

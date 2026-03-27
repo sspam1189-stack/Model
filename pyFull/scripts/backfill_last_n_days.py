@@ -23,7 +23,6 @@ from kalman_state import (
 )
 
 from sources.odds_batch_historical import fetch_odds_for_day
-from lr_model import load_or_train_lr, build_team_histories, extract_lr_features, predict_lr_for_pick, train_lr_model
 
 SCRIPTS_DIR = os.path.dirname(os.path.abspath(__file__))
 CACHE_DIR = os.path.join(SCRIPTS_DIR, "..", "data", "stats_cache")
@@ -171,12 +170,6 @@ def main():
     b2b_teams = set()      # teams that played yesterday -> B2B penalty in analyzeGame
 
     STAT_KEYS = ["OFF", "DEF", "TS", "TO", "ORR", "PACE"]
-
-    # LR model — retrain every LR_RETRAIN_INTERVAL graded games
-    LR_RETRAIN_INTERVAL = 20
-    lr_bundle = None
-    lr_histories = {}
-    lr_graded_since_train = 0
 
     for i in range(days, 0, -1):  # stop at yesterday -- never backfill today
         date = date_minus_days_central(i)
@@ -376,22 +369,6 @@ def main():
                 },
             }
 
-            # LR confirmation / veto
-            if lr_bundle and r.get("sPick") and r["sPick"] != "PASS":
-                home_hist = lr_histories.get(r.get("home"), [])
-                away_hist = lr_histories.get(r.get("away"), [])
-                lr_game = {**g, "_run_date": date}
-                lr_features = extract_lr_features(home_hist, away_hist, lr_game, home_hist, away_hist)
-                picked_home = r.get("home", "") in r.get("sPick", "")
-                lr_result = predict_lr_for_pick(lr_bundle, lr_features, picked_home, game=lr_game)
-                r["lrProb"] = lr_result.get("lr_pick_prob") or lr_result["lr_prob"]
-                r["lrVerdict"] = lr_result["lr_verdict"]
-                r["lrReasons"] = lr_result.get("lr_reasons", [])
-                if lr_result["lr_verdict"] == "veto":
-                    r["lrVetoed"] = r["sPick"]
-                    r["sPick"] = "PASS"
-                    r["sConf"] = "vetoed"
-
             games.append(r)
 
         completed = [
@@ -429,18 +406,6 @@ def main():
 
         upsert_run(store, run)
         save_store(store)
-
-        # Retrain LR periodically as graded games accumulate
-        lr_graded_since_train += len(completed)
-        if lr_graded_since_train >= LR_RETRAIN_INTERVAL or (lr_bundle is None and len(store.get("runs", [])) >= 3):
-            try:
-                lr_bundle = train_lr_model(store)
-                lr_histories = build_team_histories(store)
-                if lr_bundle:
-                    print(f"  [LR] Retrained ({lr_bundle.get('n_train', '?')} games)")
-                lr_graded_since_train = 0
-            except Exception as e:
-                print(f"  [LR] Train failed: {e}")
 
         # Save Kalman state every day
         if kalman_state:
