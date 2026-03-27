@@ -46,17 +46,27 @@ RECEPTIONS_VAR_MULT = 1.3
 
 # Directional filter: UNDER-only for all markets
 # Backtest shows OVER picks lose money in every market; UNDER picks are +117u over 3 seasons.
-# Sportsbooks set lines slightly high to attract OVER action — this captures that bias.
+# Sportsbooks set lines high to attract OVER action — this captures that bias.
 UNDER_ONLY_MARKETS = {"pass_yds", "rush_yds", "rec_yds", "receptions"}
 
+# ---------------------------------------------------------------------------
+# Calibration offsets (add to raw projection to correct systematic bias)
+# ---------------------------------------------------------------------------
+# Model under-projects every market. Without correction, UNDER wins from
+# bias rather than model skill. With correction, only genuine edge remains.
+#
+# Derived from 3-season backtest: mean(proj) - mean(actual)
+CALIBRATION_OFFSET = {
+    "pass_yds":   +17.6,   # Model under-projects by 17.6 yds
+    "rush_yds":   +13.5,   # Model under-projects by 13.5 yds
+    "rec_yds":    +19.2,   # Model under-projects by 19.2 yds
+    "receptions":  +1.1,   # Model under-projects by 1.1 rec
+}
+
 # Minimum edge size per market (|proj - line|)
-# Filters out picks where model barely disagrees with market (noise) and extreme outliers (model wrong).
-# pass_yds <20 yds: 49W-61L (-18u), 50+: 40W-45L (-9.5u) — only 20-50 is profitable
-# rush_yds <5: 0W-3L, 20+: 88W-90L — sweet spot is 5-20
-# receptions: edge 1-2 is the bulk of edge (252W-197L +35u)
-# Edge size filters per market
-MIN_EDGE = {"pass_yds": 20, "receptions": 0.5}
-MAX_EDGE = {"pass_yds": 50}
+# After calibration, pass_yds edge is much smaller — lower threshold
+MIN_EDGE = {"pass_yds": 10, "rush_yds": 5, "rec_yds": 5, "receptions": 0.5}
+MAX_EDGE = {"pass_yds": 40, "rush_yds": 30, "rec_yds": 30}
 
 # Minimum line value per market (filters out low-volume players where noise dominates)
 # rec_yds line<50: 64W-72L (-15u) vs line>=50: 31W-13L (+16.7u)
@@ -329,6 +339,9 @@ def project_player_props(player_logs, team_stats, prop_lines=None):
             opp_adj = (opp_pass_def - avg_pass_def) * 25  # ~25 yds per 0.1 EPA above avg
             proj += opp_adj
 
+            # Calibration offset (correct systematic under-projection)
+            proj += CALIBRATION_OFFSET.get("pass_yds", 0.0)
+
             prop = _make_prop(name, team, "pass_yds", proj, std, line_lookup, latest_opp)
             if prop:
                 projections.append(prop)
@@ -342,6 +355,9 @@ def project_player_props(player_logs, team_stats, prop_lines=None):
             opp_rush_def = def_rush_ranks.get(latest_opp, avg_rush_def)
             opp_adj = (opp_rush_def - avg_rush_def) * 15
             proj += opp_adj
+
+            # Calibration offset
+            proj += CALIBRATION_OFFSET.get("rush_yds", 0.0)
 
             prop = _make_prop(name, team, "rush_yds", proj, std, line_lookup, latest_opp)
             if prop:
@@ -357,6 +373,9 @@ def project_player_props(player_logs, team_stats, prop_lines=None):
             opp_adj = (opp_pass_def - avg_pass_def) * 15
             proj += opp_adj
 
+            # Calibration offset
+            proj += CALIBRATION_OFFSET.get("rec_yds", 0.0)
+
             prop = _make_prop(name, team, "rec_yds", proj, std, line_lookup, latest_opp)
             if prop:
                 projections.append(prop)
@@ -366,6 +385,9 @@ def project_player_props(player_logs, team_stats, prop_lines=None):
         if len(rec_vals) >= MIN_GAMES_RECEIVER:
             proj = _weighted_avg(rec_vals)
             std = _weighted_std(rec_vals) * RECEPTIONS_VAR_MULT
+
+            # Calibration offset
+            proj += CALIBRATION_OFFSET.get("receptions", 0.0)
 
             prop = _make_prop(name, team, "receptions", proj, std, line_lookup, latest_opp)
             if prop:
