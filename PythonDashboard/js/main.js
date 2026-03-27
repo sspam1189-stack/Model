@@ -219,8 +219,8 @@ async function fetchData(key) {
     { mode: 'local', url: cfg.local + bust, label: 'Local snapshot' },
     { mode: 'remote', url: cfg.remote + bust, label: 'GitHub raw fallback' },
   ] : [
-    { mode: 'remote', url: cfg.remote + bust, label: 'GitHub raw (live)' },
-    { mode: 'local', url: cfg.local + bust, label: 'Local snapshot fallback' },
+    { mode: 'local', url: cfg.local + bust, label: 'Local snapshot' },
+    { mode: 'remote', url: cfg.remote + bust, label: 'GitHub raw fallback' },
   ];
   let lastErr = '';
   try {
