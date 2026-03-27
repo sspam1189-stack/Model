@@ -2147,12 +2147,6 @@
       const marketLabels = {points:'Points', rebounds:'Rebounds', assists:'Assists', threes:'Threes', pts_rebs_asts:'Pts+Reb+Ast', steals:'Steals', blocks:'Blocks', turnovers:'Turnovers'};
       const picks = data.props.filter(p => p.pick !== 'PASS');
       const isBacktest = picks.some(p => p.result != null);
-      const grouped = {};
-      for (const p of picks) {
-        const ml = marketLabels[p.market] || p.market;
-        if (!grouped[ml]) grouped[ml] = [];
-        grouped[ml].push(p);
-      }
 
       el.textContent = '';
 
@@ -2161,145 +2155,213 @@
       hdr.className = 'card card-games';
       hdr.style.marginBottom = '16px';
       const mode = data.mode === 'backtest' ? 'Backtest' : 'Daily';
+      const allW = picks.filter(p => p.result === 'WIN').length;
+      const allL = picks.filter(p => p.result === 'LOSS').length;
+      const allU = allW * 1.0 + allL * (-1.1);
+      const allPct = (allW + allL) > 0 ? (allW / (allW + allL) * 100).toFixed(1) : '0';
+      const fullSummary = `Full backtest: ${allW}W-${allL}L (${allPct}%) ${allU >= 0 ? '+' : ''}${allU.toFixed(1)}u`;
       hdr.appendChild(Object.assign(document.createElement('div'), {className:'card-title', textContent:`NBA Player Props \u2014 ${data.season || ''} ${mode}`}));
-      hdr.appendChild(Object.assign(document.createElement('div'), {className:'card-subtitle', textContent:`${data.summary || ''} | Model: ${data.model || 'kalman_blend'} | Generated: ${(data.generated || '').slice(0,16)}`}));
+      hdr.appendChild(Object.assign(document.createElement('div'), {className:'card-subtitle', textContent:`${fullSummary} | Model: ${data.model || 'kalman_blend'} | Generated: ${(data.generated || '').slice(0,16)}`}));
       el.appendChild(hdr);
 
-      // Per-market summary cards (if backtest)
-      if (isBacktest) {
-        const summCard = document.createElement('div');
-        summCard.className = 'card card-games';
-        summCard.style.marginBottom = '16px';
-        summCard.appendChild(Object.assign(document.createElement('div'), {className:'card-title', textContent:'Market Breakdown'}));
-        const summTbl = document.createElement('table');
-        summTbl.style.cssText = 'width:100%;border-collapse:collapse;margin-top:8px';
-        const sh = summTbl.createTHead().insertRow();
-        ['Market','Picks','W','L','Win%','Units'].forEach(h => {
-          const th = document.createElement('th');
-          th.textContent = h;
-          th.style.cssText = 'padding:6px 10px;text-align:right;border-bottom:1px solid rgba(255,255,255,0.1)';
-          if (h === 'Market') th.style.textAlign = 'left';
-          sh.appendChild(th);
-        });
-        const sb = summTbl.createTBody();
-        let grandW = 0, grandL = 0;
-        for (const [market, mPicks] of Object.entries(grouped)) {
-          const w = mPicks.filter(p => p.result === 'WIN').length;
-          const l = mPicks.filter(p => p.result === 'LOSS').length;
-          const u = w * 1.0 + l * (-1.1);
-          const pct = (w + l) > 0 ? (w / (w + l) * 100).toFixed(1) : 'n/a';
-          grandW += w; grandL += l;
-          const sr = sb.insertRow();
-          [market, String(mPicks.length), String(w), String(l), pct + '%', (u >= 0 ? '+' : '') + u.toFixed(1) + 'u'].forEach((v, i) => {
-            const td = sr.insertCell();
-            td.textContent = v;
-            td.style.padding = '6px 10px';
-            td.style.textAlign = i === 0 ? 'left' : 'right';
-            if (i === 5) td.style.color = u >= 0 ? 'var(--green)' : 'var(--red)';
-          });
-        }
-        // Grand total row
-        const grandU = grandW * 1.0 + grandL * (-1.1);
-        const tr = sb.insertRow();
-        tr.style.borderTop = '2px solid rgba(255,255,255,0.2)';
-        tr.style.fontWeight = '700';
-        ['TOTAL', String(picks.length), String(grandW), String(grandL),
-         (grandW + grandL > 0 ? (grandW / (grandW + grandL) * 100).toFixed(1) : '0') + '%',
-         (grandU >= 0 ? '+' : '') + grandU.toFixed(1) + 'u'].forEach((v, i) => {
-          const td = tr.insertCell();
-          td.textContent = v;
-          td.style.padding = '6px 10px';
-          td.style.textAlign = i === 0 ? 'left' : 'right';
-          if (i === 5) td.style.color = grandU >= 0 ? 'var(--green)' : 'var(--red)';
-        });
-        summCard.appendChild(summTbl);
-        el.appendChild(summCard);
-      }
+      // Filter controls: Date, Prop Type
+      const selStyle = 'padding:6px 12px;border-radius:6px;background:#1a1a2e;color:#fff;border:1px solid rgba(255,255,255,0.15);font-size:13px';
+      const allDates = [...new Set(picks.map(p => p.date))].sort().reverse();
+
+      const filterBar = document.createElement('div');
+      filterBar.style.cssText = 'display:flex;gap:12px;align-items:center;margin-bottom:16px;flex-wrap:wrap';
+
+      // Date dropdown
+      const dateSel = document.createElement('select');
+      dateSel.style.cssText = selStyle;
+      dateSel.innerHTML = '<option value="all">All Dates</option>' + allDates.map(d => `<option value="${d}">${d}</option>`).join('');
+
+      // Prop type dropdown
+      const marketSel = document.createElement('select');
+      marketSel.style.cssText = selStyle;
+      const allMarketKeys = [...new Set(picks.map(p => p.market))];
+      marketSel.innerHTML = '<option value="all">All Props</option>' + allMarketKeys.map(m => `<option value="${m}">${marketLabels[m] || m}</option>`).join('');
+
+      // Team dropdown
+      const teamSel = document.createElement('select');
+      teamSel.style.cssText = selStyle;
+      const allTeams = [...new Set(picks.map(p => p.team))].filter(Boolean).sort();
+      teamSel.innerHTML = '<option value="all">All Teams</option>' + allTeams.map(t => `<option value="${t}">${t}</option>`).join('');
+
+      const filterLabel = document.createElement('span');
+      filterLabel.style.cssText = 'color:#999;font-size:12px';
+      filterLabel.textContent = `Showing ${picks.length} picks`;
+
+      filterBar.appendChild(dateSel);
+      filterBar.appendChild(marketSel);
+      filterBar.appendChild(teamSel);
+      filterBar.appendChild(filterLabel);
+      el.appendChild(filterBar);
 
       const headers = isBacktest
         ? ['Date','Player','Team','Opp','Proj','Line','Actual','Edge','Pick','Result','P(cover)','Conf']
         : ['Player','Team','vs','Proj','Line','Edge','Pick','P(cover)','Conf'];
 
-      for (const [market, props] of Object.entries(grouped)) {
-        props.sort((a, b) => (b.pCover || 0) - (a.pCover || 0));
-        const card = document.createElement('div');
-        card.className = 'card card-games';
-        const mW = props.filter(p => p.result === 'WIN').length;
-        const mL = props.filter(p => p.result === 'LOSS').length;
-        const titleSuffix = isBacktest ? ` (${mW}W-${mL}L)` : '';
-        card.appendChild(Object.assign(document.createElement('div'), {className:'card-title', textContent:market + titleSuffix}));
+      function getFilteredPicks() {
+        let fp = data.props.filter(p => p.pick !== 'PASS');
+        if (dateSel.value !== 'all') fp = fp.filter(p => p.date === dateSel.value);
+        if (marketSel.value !== 'all') fp = fp.filter(p => p.market === marketSel.value);
+        if (teamSel.value !== 'all') fp = fp.filter(p => p.team === teamSel.value);
+        // Sort latest date first
+        fp.sort((a, b) => (b.date || '').localeCompare(a.date || ''));
+        return fp;
+      }
 
-        const tbl = document.createElement('table');
-        tbl.style.cssText = 'width:100%;border-collapse:collapse;margin-top:8px';
+      const contentArea = document.createElement('div');
+      el.appendChild(contentArea);
 
-        const thead = tbl.createTHead();
-        const hRow = thead.insertRow();
-        headers.forEach(h => {
-          const th = document.createElement('th');
-          th.textContent = h;
-          th.style.cssText = 'padding:6px 10px;text-align:center;border-bottom:1px solid rgba(255,255,255,0.1)';
-          if (h === 'Player') th.style.textAlign = 'left';
-          hRow.appendChild(th);
-        });
+      function renderNBAPropsTable() {
+        contentArea.textContent = '';
+        const filteredPicks = getFilteredPicks();
+        filterLabel.textContent = `Showing ${filteredPicks.length} picks`;
 
-        const tbody = tbl.createTBody();
-        for (const p of props) {
-          const row = tbody.insertRow();
-          row.style.borderBottom = '1px solid rgba(255,255,255,0.05)';
-
-          const cells = isBacktest ? [
-            p.date || '',
-            p.player,
-            p.team || '',
-            p.opp || '',
-            String(p.proj),
-            p.line != null ? String(p.line) : '\u2014',
-            p.actual != null ? String(p.actual) : '\u2014',
-            p.edge != null ? (p.edge > 0 ? '+' : '') + p.edge : '\u2014',
-            p.pick,
-            p.result || '\u2014',
-            p.pCover != null ? (p.pCover * 100).toFixed(1) + '%' : '\u2014',
-            p.conf === 'elite' ? 'ELITE' : 'HIGH'
-          ] : [
-            p.player, p.team, p.opp || '',
-            String(p.proj), p.line != null ? String(p.line) : '\u2014',
-            p.edge != null ? (p.edge > 0 ? '+' : '') + p.edge : '\u2014',
-            p.pick,
-            p.pCover != null ? (p.pCover * 100).toFixed(1) + '%' : '\u2014',
-            p.conf === 'elite' ? 'ELITE' : 'HIGH'
-          ];
-
-          cells.forEach((val, i) => {
-            const td = row.insertCell();
-            td.textContent = val;
-            td.style.cssText = 'padding:6px 10px;text-align:center';
-            if (isBacktest) {
-              if (i === 1) { td.style.textAlign = 'left'; td.style.fontWeight = '600'; }
-              if (i === 0) td.style.color = '#999'; td.style.fontSize = '12px';
-              if (i === 2 || i === 3) td.style.color = '#999';
-              if (i === 7) td.style.color = (p.edge || 0) > 0 ? 'var(--green)' : 'var(--red)';
-              if (i === 8) { td.style.fontWeight = '700'; td.style.color = p.pick === 'OVER' ? 'var(--green)' : 'var(--red)'; }
-              if (i === 9) { td.style.fontWeight = '700'; td.style.color = p.result === 'WIN' ? 'var(--green)' : 'var(--red)'; }
-              if (i === 11 && p.conf === 'elite') { td.style.background = '#7c6cf0'; td.style.color = '#fff'; td.style.borderRadius = '4px'; td.style.fontSize = '11px'; }
-            } else {
-              if (i === 0) { td.style.textAlign = 'left'; td.style.fontWeight = '600'; }
-              if (i === 1 || i === 2) td.style.color = '#999';
-              if (i === 5) td.style.color = (p.edge || 0) > 0 ? 'var(--green)' : 'var(--red)';
-              if (i === 6) { td.style.fontWeight = '700'; td.style.color = p.pick === 'OVER' ? 'var(--green)' : 'var(--red)'; }
-              if (i === 8 && p.conf === 'elite') { td.style.background = '#7c6cf0'; td.style.color = '#fff'; td.style.borderRadius = '4px'; td.style.fontSize = '11px'; }
-            }
-          });
+        const fGrouped = {};
+        for (const p of filteredPicks) {
+          const ml = marketLabels[p.market] || p.market;
+          if (!fGrouped[ml]) fGrouped[ml] = [];
+          fGrouped[ml].push(p);
         }
-        card.appendChild(tbl);
-        el.appendChild(card);
+
+        // Dynamic market breakdown
+        if (isBacktest && filteredPicks.length > 0) {
+          const summCard = document.createElement('div');
+          summCard.className = 'card card-games';
+          summCard.style.marginBottom = '16px';
+          summCard.appendChild(Object.assign(document.createElement('div'), {className:'card-title', textContent:'Market Breakdown'}));
+          const summTbl = document.createElement('table');
+          summTbl.style.cssText = 'width:100%;border-collapse:collapse;margin-top:8px';
+          const sh = summTbl.createTHead().insertRow();
+          ['Market','Picks','W','L','Win%','Units'].forEach(h => {
+            const th = document.createElement('th');
+            th.textContent = h;
+            th.style.cssText = 'padding:6px 10px;text-align:right;border-bottom:1px solid rgba(255,255,255,0.1)';
+            if (h === 'Market') th.style.textAlign = 'left';
+            sh.appendChild(th);
+          });
+          const sb = summTbl.createTBody();
+          let gW = 0, gL = 0;
+          for (const [market, mPicks] of Object.entries(fGrouped)) {
+            const w = mPicks.filter(p => p.result === 'WIN').length;
+            const l = mPicks.filter(p => p.result === 'LOSS').length;
+            const u = w * 1.0 + l * (-1.1);
+            const pct = (w + l) > 0 ? (w / (w + l) * 100).toFixed(1) : 'n/a';
+            gW += w; gL += l;
+            const sr = sb.insertRow();
+            [market, String(mPicks.length), String(w), String(l), pct + '%', (u >= 0 ? '+' : '') + u.toFixed(1) + 'u'].forEach((v, i) => {
+              const td = sr.insertCell();
+              td.textContent = v;
+              td.style.padding = '6px 10px';
+              td.style.textAlign = i === 0 ? 'left' : 'right';
+              if (i === 5) td.style.color = u >= 0 ? 'var(--green)' : 'var(--red)';
+            });
+          }
+          const gU = gW * 1.0 + gL * (-1.1);
+          const tr = sb.insertRow();
+          tr.style.borderTop = '2px solid rgba(255,255,255,0.2)';
+          tr.style.fontWeight = '700';
+          ['TOTAL', String(filteredPicks.length), String(gW), String(gL),
+           (gW+gL>0?(gW/(gW+gL)*100).toFixed(1):'0')+'%',
+           (gU>=0?'+':'')+gU.toFixed(1)+'u'].forEach((v,i) => {
+            const td = tr.insertCell();
+            td.textContent = v;
+            td.style.padding = '6px 10px';
+            td.style.textAlign = i === 0 ? 'left' : 'right';
+            if (i === 5) td.style.color = gU >= 0 ? 'var(--green)' : 'var(--red)';
+          });
+          summCard.appendChild(summTbl);
+          contentArea.appendChild(summCard);
+        }
+
+        // Per-market tables
+        for (const [market, mProps] of Object.entries(fGrouped)) {
+          const card = document.createElement('div');
+          card.className = 'card card-games';
+          const mW = mProps.filter(p => p.result === 'WIN').length;
+          const mL = mProps.filter(p => p.result === 'LOSS').length;
+          const titleSuffix = isBacktest ? ` (${mW}W-${mL}L)` : '';
+          card.appendChild(Object.assign(document.createElement('div'), {className:'card-title', textContent:market + titleSuffix}));
+
+          const tbl = document.createElement('table');
+          tbl.style.cssText = 'width:100%;border-collapse:collapse;margin-top:8px';
+          const thead = tbl.createTHead();
+          const hRow = thead.insertRow();
+          headers.forEach(h => {
+            const th = document.createElement('th');
+            th.textContent = h;
+            th.style.cssText = 'padding:6px 10px;text-align:center;border-bottom:1px solid rgba(255,255,255,0.1)';
+            if (h === 'Player') th.style.textAlign = 'left';
+            hRow.appendChild(th);
+          });
+
+          const tbody = tbl.createTBody();
+          for (const p of mProps) {
+            const row = tbody.insertRow();
+            row.style.borderBottom = '1px solid rgba(255,255,255,0.05)';
+
+            const cells = isBacktest ? [
+              p.date || '',
+              p.player,
+              p.team || '',
+              p.opp || '',
+              String(p.proj),
+              p.line != null ? String(p.line) : '\u2014',
+              p.actual != null ? String(p.actual) : '\u2014',
+              p.edge != null ? (p.edge > 0 ? '+' : '') + p.edge : '\u2014',
+              p.pick,
+              p.result || '\u2014',
+              p.pCover != null ? (p.pCover * 100).toFixed(1) + '%' : '\u2014',
+              p.conf === 'elite' ? 'ELITE' : 'HIGH'
+            ] : [
+              p.player, p.team, p.opp || '',
+              String(p.proj), p.line != null ? String(p.line) : '\u2014',
+              p.edge != null ? (p.edge > 0 ? '+' : '') + p.edge : '\u2014',
+              p.pick,
+              p.pCover != null ? (p.pCover * 100).toFixed(1) + '%' : '\u2014',
+              p.conf === 'elite' ? 'ELITE' : 'HIGH'
+            ];
+
+            cells.forEach((val, i) => {
+              const td = row.insertCell();
+              td.textContent = val;
+              td.style.cssText = 'padding:6px 10px;text-align:center';
+              if (isBacktest) {
+                if (i === 1) { td.style.textAlign = 'left'; td.style.fontWeight = '600'; }
+                if (i === 0) { td.style.color = '#999'; td.style.fontSize = '12px'; }
+                if (i === 2 || i === 3) td.style.color = '#999';
+                if (i === 7) td.style.color = (p.edge || 0) > 0 ? 'var(--green)' : 'var(--red)';
+                if (i === 8) { td.style.fontWeight = '700'; td.style.color = p.pick === 'OVER' ? 'var(--green)' : 'var(--red)'; }
+                if (i === 9) { td.style.fontWeight = '700'; td.style.color = p.result === 'WIN' ? 'var(--green)' : 'var(--red)'; }
+                if (i === 11 && p.conf === 'elite') { td.style.background = '#7c6cf0'; td.style.color = '#fff'; td.style.borderRadius = '4px'; td.style.fontSize = '11px'; }
+              } else {
+                if (i === 0) { td.style.textAlign = 'left'; td.style.fontWeight = '600'; }
+                if (i === 1 || i === 2) td.style.color = '#999';
+                if (i === 5) td.style.color = (p.edge || 0) > 0 ? 'var(--green)' : 'var(--red)';
+                if (i === 6) { td.style.fontWeight = '700'; td.style.color = p.pick === 'OVER' ? 'var(--green)' : 'var(--red)'; }
+                if (i === 8 && p.conf === 'elite') { td.style.background = '#7c6cf0'; td.style.color = '#fff'; td.style.borderRadius = '4px'; td.style.fontSize = '11px'; }
+              }
+            });
+          }
+          card.appendChild(tbl);
+          contentArea.appendChild(card);
+        }
+
+        if (filteredPicks.length === 0) {
+          const empty = document.createElement('div');
+          empty.className = 'card card-games';
+          empty.appendChild(Object.assign(document.createElement('div'), {className:'no-picks', textContent:'No picks for selected filter.'}));
+          contentArea.appendChild(empty);
+        }
       }
 
-      if (picks.length === 0) {
-        const empty = document.createElement('div');
-        empty.className = 'card card-games';
-        empty.appendChild(Object.assign(document.createElement('div'), {className:'no-picks', textContent:'No prop picks meet confidence threshold.'}));
-        el.appendChild(empty);
-      }
+      dateSel.addEventListener('change', renderNBAPropsTable);
+      marketSel.addEventListener('change', renderNBAPropsTable);
+      teamSel.addEventListener('change', renderNBAPropsTable);
+      renderNBAPropsTable();
     }
 
     async function renderNFLProps() {
