@@ -334,9 +334,35 @@ def write_dashboard_json(results, seasons):
     for path in paths:
         path = os.path.normpath(path)
         os.makedirs(os.path.dirname(path), exist_ok=True)
+
+        # Smart merge: keep picks from weeks not in this backtest run
+        existing_props = []
+        try:
+            if os.path.exists(path):
+                with open(path, "r") as f:
+                    existing = json.load(f)
+                existing_props = existing.get("props", [])
+        except Exception:
+            existing_props = []
+
+        # Build set of (season, week) combos in the new data
+        new_weeks = set()
+        for p in all_picks:
+            new_weeks.add((p.get("season"), p.get("week")))
+
+        # Keep existing picks from weeks NOT in the new data
+        kept = [p for p in existing_props
+                if (p.get("season"), p.get("week")) not in new_weeks]
+
+        merged = kept + all_picks
+        dashboard_merged = {**dashboard, "props": merged, "totalPicks": len(merged)}
+
+        if kept:
+            print(f"  Merged: kept {len(kept)} picks from other weeks + {len(all_picks)} new")
+
         with open(path, "w") as f:
-            json.dump(dashboard, f, indent=2, cls=_NumpyEncoder)
-        print(f"  Wrote {len(all_picks)} picks to {path}")
+            json.dump(dashboard_merged, f, indent=2, cls=_NumpyEncoder)
+        print(f"  Wrote {len(merged)} picks to {path}")
 
 
 if __name__ == "__main__":
