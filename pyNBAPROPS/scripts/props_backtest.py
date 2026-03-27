@@ -42,9 +42,11 @@ from defaults import (
 )
 
 
-def backtest_props(season="2024-25", start_game=15, use_real_lines=False, start_date=None):
+def backfill(season="2024-25", start_game=15, start_date=None, use_real_lines=True):
     """
     Walk-forward backtest with Kalman filter trained incrementally.
+    Always uses real prop lines — fetches from Odds API and caches if not already cached.
+    Always resets Kalman state from scratch (no prior history).
 
     For each game date:
       1. Project using prior data + current Kalman state (no lookahead)
@@ -87,7 +89,12 @@ def backtest_props(season="2024-25", start_game=15, use_real_lines=False, start_
     all_dates = sorted(set(g.get("game_date", "") for g in all_logs if g.get("game_date")))
     print(f"  {len(all_dates)} game dates in season")
 
-    # Initialize Kalman state (empty — will be populated as games are processed)
+    # Always reset Kalman state from scratch — delete any persisted state
+    kalman_state_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "data", "kalman_state.json")
+    kalman_state_path = os.path.normpath(kalman_state_path)
+    if os.path.exists(kalman_state_path):
+        os.remove(kalman_state_path)
+        print(f"  [kalman] Reset: deleted {kalman_state_path}")
     kalman_state = new_player_kalman_state()
 
     # All markets to track
@@ -137,18 +144,22 @@ def backtest_props(season="2024-25", start_game=15, use_real_lines=False, start_
                 batch_update_from_game_logs(kalman_state, prior_date_logs)
             continue
 
-        # Phase 3: Load cached prop lines if available (run fetch_odds.py first)
+        # Phase 3: Load real prop lines — fetch from Odds API + cache if missing
         real_lines = None
-        if use_real_lines:
-            try:
-                from sources.odds_theoddsapi import _props_cache_path, _load_cache
-                date_key = game_date.replace("-", "")
-                cp = _props_cache_path(date_key)
-                cached = _load_cache(cp, max_age_hours=None)
-                if cached:
-                    real_lines = cached
-            except Exception:
-                pass
+        try:
+            from sources.odds_theoddsapi import _props_cache_path, _load_cache, fetch_historical_nba_props
+            date_key = game_date.replace("-", "")
+            cp = _props_cache_path(date_key)
+            cached = _load_cache(cp, max_age_hours=None)
+            if cached is not None:
+                real_lines = cached
+            else:
+                print(f"  [{game_date}] No cached props — fetching from Odds API...")
+                real_lines = fetch_historical_nba_props(game_date)
+                if not real_lines:
+                    print(f"  [{game_date}] No props from API — skipping date")
+        except Exception as e:
+            print(f"  [{game_date}] Props fetch error: {e}")
 
         # Phase 4: Project props using prior data + current Kalman state + advanced stats
         projections = project_player_props(
@@ -175,11 +186,11 @@ def backtest_props(season="2024-25", start_game=15, use_real_lines=False, start_
             results[market]["projections"].append(proj_val)
             results[market]["actuals"].append(actual_val)
 
-            # Use real line or simulate
+            # Always use real line — skip if no real line available
             pick_line = proj.get("line")
             if pick_line is None:
-                pick_line = _get_simulated_line(player, market, prior_logs)
-            if pick_line is not None and std > 0:
+                continue
+            if std > 0:
                 diff = proj_val - pick_line
                 from scipy.stats import t as t_dist_mod
                 z = diff / std
@@ -258,37 +269,6 @@ def _find_actual(player_name, market, actual_games, player_logs):
                 return float(val)
     return None
 
-
-def _get_simulated_line(player_name, market, prior_logs):
-    """Simulate a market line using simple rolling average."""
-    stat_key = STAT_KEYS.get(market)
-    min_games = MIN_GAMES.get(market, 5)
-
-    if market == "pts_rebs_asts":
-        for pid, games in prior_logs.items():
-            if not games:
-                continue
-            if games[-1].get("player_name") == player_name:
-                recent = [g for g in games[-ROLLING_WINDOW:] if g.get("min", 0) >= MIN_MINUTES]
-                vals = [g.get("pts", 0) + g.get("reb", 0) + g.get("ast", 0) for g in recent]
-                if len(vals) >= min_games:
-                    return round(sum(vals) / len(vals), 1)
-                return None
-        return None
-
-    if not stat_key:
-        return None
-
-    for pid, games in prior_logs.items():
-        if not games:
-            continue
-        if games[-1].get("player_name") == player_name:
-            recent = [g for g in games[-ROLLING_WINDOW:] if g.get("min", 0) >= MIN_MINUTES]
-            vals = [g.get(stat_key, 0) for g in recent if g.get(stat_key) is not None]
-            if len(vals) >= min_games:
-                return round(sum(vals) / len(vals), 1)
-            return None
-    return None
 
 
 def _print_summary(results, total_projected, season):
@@ -405,11 +385,8 @@ if __name__ == "__main__":
                         help="Min game dates before projecting (default: 15)")
     parser.add_argument("--start-date", type=str, default=None,
                         help="Start projecting from this date (YYYY-MM-DD, e.g. '2026-01-01')")
-    parser.add_argument("--real-lines", action="store_true",
-                        help="Fetch historical prop lines from The Odds API (costs credits)")
     args = parser.parse_args()
 
-    results = backtest_props(args.season, args.start_game, use_real_lines=args.real_lines,
-                             start_date=args.start_date)
+    results = backfill(args.season, args.start_game, start_date=args.start_date)
     if results:
         write_dashboard_json(results, args.season)
