@@ -29,6 +29,7 @@ sys.path.insert(0, os.path.dirname(__file__))
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..'))
 
 from sources.nba_player_stats import fetch_player_game_logs, fetch_team_def_stats, fetch_player_advanced_stats
+from sources.odds_fanduel import fetch_fanduel_nba_props
 from sources.odds_theoddsapi import fetch_nba_player_props
 from props_engine import organize_player_logs, project_player_props, format_props_for_dashboard
 from player_kalman import (
@@ -95,9 +96,12 @@ def run_daily(date_key=None):
     adv_stats = fetch_player_advanced_stats(season=season, date_to=date_iso)
     print(f"  {len(adv_stats)} players with advanced stats")
 
-    # --- Stage 6: Fetch prop lines ---
-    print(f"\n  [6/8] Fetching prop lines from The Odds API...")
-    prop_lines = fetch_nba_player_props(date_key=date_key)
+    # --- Stage 6: Fetch prop lines (FanDuel primary, Odds API fallback) ---
+    print(f"\n  [6/8] Fetching prop lines (FanDuel primary)...")
+    prop_lines = fetch_fanduel_nba_props(date_key=date_key)
+    if not prop_lines:
+        print(f"  FanDuel returned 0 lines, falling back to The Odds API...")
+        prop_lines = fetch_nba_player_props(date_key=date_key)
     print(f"  {len(prop_lines)} prop lines fetched")
 
     # --- Stage 7: Project props ---
