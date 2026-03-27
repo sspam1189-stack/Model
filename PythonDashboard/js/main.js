@@ -683,7 +683,8 @@ function renderProbTable(run) {
     const lrV = g.lrVerdict ?? null;
     const lrVerdictHtml = lrV ? lrVerdictBadge(lrV) : '';
     const lrVetoedHtml = g.lrVetoed ? `<div style="font-size:0.6rem;margin-top:2px"><span class="lr-vetoed">Vetoed: ${esc(g.lrVetoed)}</span></div>` : '';
-    const lrReasonHtml = (g.lrReasons || []).length ? `<div style="font-size:0.6rem"><span class="lr-vetoed">${g.lrReasons.map(r => esc(r)).join(' &middot; ')}</span></div>` : '';
+    const lrReasonCls = lrV === 'confirm' ? 'lr-confirmed' : 'lr-vetoed';
+    const lrReasonHtml = (g.lrReasons || []).length ? `<div style="font-size:0.6rem" class="${lrReasonCls}">${g.lrReasons.map(r => `<div>${esc(r)}</div>`).join('')}</div>` : '';
     return `<tr>
       <td style="font-weight:700">${esc(g.away)} @ ${esc(g.home)}</td>
       <td>${sPick}<div class="card-subtitle" style="margin:2px 0 0">Line ${fmtNum(g.line,1)} \u00b7 proj ${margin} \u00b7 sDiff ${fmtNum(g.sDiff,1)}</div></td>
@@ -773,7 +774,7 @@ function renderRecentVetoes(runs) {
     const resultHtml = result
       ? `<span class="badge ${result === 'WIN' ? 'b-high' : result === 'LOSS' ? 'b-pass' : 'b-elite'}">${result}</span>`
       : '<span style="color:var(--muted)">Pending</span>';
-    const reasons = (g.lrReasons || []).map(r => esc(r)).join(' &middot; ');
+    const reasons = (g.lrReasons || []).map(r => `<div>${esc(r)}</div>`).join('');
     const score = Number.isFinite(g.awayScore) && Number.isFinite(g.homeScore)
       ? `${g.awayScore}-${g.homeScore}` : '\u2014';
     return `<tr>
@@ -817,8 +818,11 @@ function renderGameCards(run) {
       if (g.lrVerdict) projLine += ` ${lrVerdictBadge(g.lrVerdict)}`;
       projHtml = `<div class="game-detail">${projLine}</div>`;
       if (g.lrVetoed) {
-        const vetoReasons = (g.lrReasons || []).length ? ` &mdash; ${g.lrReasons.map(r => esc(r)).join(' &middot; ')}` : '';
-        projHtml += `<div class="game-detail"><span class="lr-vetoed">Vetoed: ${esc(g.lrVetoed)}${vetoReasons}</span></div>`;
+        const vetoReasons = (g.lrReasons || []).length ? g.lrReasons.map(r => `<div style="margin-left:0.5em">${esc(r)}</div>`).join('') : '';
+        projHtml += `<div class="game-detail"><span class="lr-vetoed">Vetoed: ${esc(g.lrVetoed)}</span>${vetoReasons}</div>`;
+      } else if (g.lrVerdict === 'confirm' && (g.lrReasons || []).length) {
+        const confirmReasons = g.lrReasons.map(r => `<div style="margin-left:0.5em">${esc(r)}</div>`).join('');
+        projHtml += `<div class="game-detail lr-confirmed">${confirmReasons}</div>`;
       }
     }
 

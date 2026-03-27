@@ -372,6 +372,11 @@ table.data td.right, table.data th.right { text-align: right; }
   color: var(--red);
   font-weight: 600;
 }
+.lr-confirmed {
+  font-size: 0.65rem;
+  color: var(--green);
+  font-weight: 600;
+}
 .lr-detail {
   font-size: 0.68rem;
   color: var(--muted);
