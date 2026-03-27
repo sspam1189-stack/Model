@@ -56,7 +56,9 @@ LR_RETRAIN_INTERVAL   = 20      # retrain LR every N new graded games
 
 # --- Core engine config (used by core/model_engine.py) -------------------------
 ENGINE_CONFIG = {
-    "TEAM_NAME_ALIASES": {},       # NCAA: no aliases, 362 D1 teams — fuzzy matching only
+    "TEAM_NAME_ALIASES": {
+        "uconn huskies": "Connecticut",  # Odds API sends "UConn Huskies", stats has "Connecticut"
+    },
     "MIN_GP": 5,                   # NCAA: fewer games needed (lower sample threshold)
     "USE_SAFE_FUZZY": True,        # NCAA: safe fuzzy matching (prevents "arkansas"/"kansas")
     "USE_COLLAPSE_ABBR": True,     # NCAA: collapse abbreviation dots ("N.C. State" -> "NC State")
