@@ -130,9 +130,26 @@ def fetch_fanduel_nba_props(date_key=None):
         return []
 
     events = data.get("attachments", {}).get("events", {})
-    # Filter to actual games (have " @ " in name)
-    game_events = {eid: ev for eid, ev in events.items() if " @ " in ev.get("name", "")}
-    print(f"  [fanduel] Found {len(game_events)} NBA games")
+
+    # Filter to actual games (have " @ " in name) on the requested date
+    # FanDuel openDate is UTC (e.g. "2026-03-27T23:40:00.000Z")
+    # NBA games tip between ~7pm-10pm ET = next day UTC for evening games
+    # So a "March 27" game in ET could be "March 27" or "March 28" in UTC
+    target_date = f"{date_key[:4]}-{date_key[4:6]}-{date_key[6:8]}"
+    # Also accept next day UTC (evening ET games show as next day in UTC)
+    from datetime import timedelta
+    target_dt = datetime.datetime.strptime(target_date, "%Y-%m-%d")
+    next_day = (target_dt + timedelta(days=1)).strftime("%Y-%m-%d")
+
+    game_events = {}
+    for eid, ev in events.items():
+        if " @ " not in ev.get("name", ""):
+            continue
+        open_date = ev.get("openDate", "")[:10]  # "2026-03-27"
+        if open_date == target_date or open_date == next_day:
+            game_events[eid] = ev
+
+    print(f"  [fanduel] Found {len(game_events)} NBA games for {target_date}")
 
     if not game_events:
         return []
