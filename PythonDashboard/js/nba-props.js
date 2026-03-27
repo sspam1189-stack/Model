@@ -614,7 +614,7 @@
         });
         const sb = summTbl.createTBody();
         let totW = 0, totL = 0;
-        for (const ws of sortedWeeks) {
+        for (const ws of [...sortedWeeks].reverse()) {
           const wPicks = weekMap[ws];
           const w = wPicks.filter(p => p.result === 'WIN').length;
           const l = wPicks.filter(p => p.result === 'LOSS').length;
