@@ -2180,6 +2180,88 @@
       hdr.appendChild(Object.assign(document.createElement('div'), {className:'card-subtitle', textContent:`${summaryText} | Generated: ${(data.generated || '').slice(0,16)}`}));
       el.appendChild(hdr);
 
+      // ── Yesterday's Recap + Today's Picks ──
+      (function renderNBADailyCards() {
+        const now = new Date();
+        const toISO = d => d.toISOString().slice(0, 10);
+        const todayStr = toISO(now);
+        const yest = new Date(now); yest.setDate(yest.getDate() - 1);
+        const yesterdayStr = toISO(yest);
+
+        // Yesterday's Recap
+        const yesterdayPicks = picks.filter(p => p.date === yesterdayStr && p.result);
+        if (yesterdayPicks.length > 0) {
+          const yW = yesterdayPicks.filter(p => p.result === 'WIN').length;
+          const yL = yesterdayPicks.filter(p => p.result === 'LOSS').length;
+          const yU = yW * 1.0 + yL * (-1.1);
+          const uColor = yU >= 0 ? 'var(--green)' : 'var(--red)';
+          const recapCard = document.createElement('div');
+          recapCard.className = 'card card-recap';
+          recapCard.style.marginBottom = '16px';
+          recapCard.appendChild(Object.assign(document.createElement('div'), {
+            className: 'card-title',
+            textContent: `Yesterday\u2019s Recap (${yesterdayStr})`
+          }));
+          const tbl = document.createElement('table');
+          tbl.className = 'data';
+          tbl.style.cssText = 'width:100%;border-collapse:collapse;margin-top:8px';
+          const hRow = tbl.createTHead().insertRow();
+          ['Player','Team','Opp','Market','Proj','Line','Actual','Pick','Result'].forEach((h, i) => {
+            const th = document.createElement('th');
+            th.textContent = h;
+            th.style.cssText = 'padding:6px 10px;border-bottom:1px solid rgba(255,255,255,0.1);' + (i === 0 ? 'text-align:left' : 'text-align:center');
+            hRow.appendChild(th);
+          });
+          const tbody = tbl.createTBody();
+          for (const p of yesterdayPicks.sort((a,b) => (b.pCover||0)-(a.pCover||0))) {
+            const row = tbody.insertRow();
+            row.style.borderBottom = '1px solid rgba(255,255,255,0.05)';
+            [p.player, p.team||'', p.opp||'', marketLabels[p.market]||p.market,
+             String(p.proj), p.line!=null?String(p.line):'—', p.actual!=null?String(p.actual):'—',
+             p.pick, p.result].forEach((v, i) => {
+              const td = row.insertCell();
+              td.textContent = v;
+              td.style.cssText = 'padding:6px 10px;text-align:center';
+              if (i === 0) { td.style.textAlign = 'left'; td.style.fontWeight = '600'; }
+              if (i === 1 || i === 2) td.style.color = '#999';
+              if (i === 7) { td.style.fontWeight = '700'; td.style.color = v === 'OVER' ? 'var(--green)' : 'var(--red)'; }
+              if (i === 8) { td.style.fontWeight = '700'; td.style.color = v === 'WIN' ? 'var(--green)' : 'var(--red)'; }
+            });
+          }
+          recapCard.appendChild(tbl);
+          const tally = document.createElement('div');
+          tally.className = 'l10-tally';
+          tally.innerHTML = `Props: <b>${yW}W-${yL}L</b> &middot; <span style="color:${uColor}">${yU >= 0 ? '+' : ''}${yU.toFixed(1)}u</span>`;
+          recapCard.appendChild(tally);
+          el.appendChild(recapCard);
+        }
+
+        // Today's Picks
+        const todayPicks = picks.filter(p => p.date === todayStr);
+        if (todayPicks.length > 0) {
+          const todayCard = document.createElement('div');
+          todayCard.className = 'card card-picks';
+          todayCard.style.marginBottom = '16px';
+          todayCard.appendChild(Object.assign(document.createElement('div'), {
+            className: 'card-title',
+            textContent: `Today\u2019s Picks (${todayStr})`
+          }));
+          for (const p of todayPicks.sort((a,b) => (b.pCover||0)-(a.pCover||0))) {
+            const item = document.createElement('div');
+            item.className = 'pick-item';
+            const confBg = p.conf === 'elite' ? 'background:#7c6cf0;color:#fff;border-radius:3px;padding:1px 5px;font-size:10px;font-weight:700' : 'background:rgba(255,255,255,0.1);color:#ccc;border-radius:3px;padding:1px 5px;font-size:10px';
+            const pickColor = p.pick === 'OVER' ? 'var(--green)' : 'var(--red)';
+            item.innerHTML = `
+              <span class="pick-team" style="color:${pickColor}">${p.pick} ${p.line != null ? p.line : ''}</span>
+              <span style="${confBg}">${(p.conf||'').toUpperCase()}</span>
+              <span class="pick-meta">${p.player} (${p.team||''}) &middot; ${marketLabels[p.market]||p.market} &middot; proj ${p.proj} &middot; edge ${p.edge != null ? (p.edge > 0 ? '+' : '') + p.edge : '—'} &middot; P=${p.pCover != null ? (p.pCover*100).toFixed(1)+'%' : '—'}${p.opp ? ' vs '+p.opp : ''}</span>
+            `;
+            todayCard.appendChild(item);
+          }
+          el.appendChild(todayCard);
+        }
+      })();
+
       // ── View toggle: All Picks / Weekly ──
       const selStyle = 'padding:6px 12px;border-radius:6px;background:#1a1a2e;color:#fff;border:1px solid rgba(255,255,255,0.15);font-size:13px';
       const btnStyle = 'padding:5px 14px;border-radius:16px;border:1px solid rgba(255,255,255,0.15);background:transparent;color:#ccc;font-size:12px;cursor:pointer';
