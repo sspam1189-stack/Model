@@ -39,55 +39,30 @@ def _today_espn():
 # -- Player MPG from NBA.com --
 
 def _fetch_mpg_leaguedash(season_type="Regular Season"):
-    """Attempt 1: leaguedashplayerstats (full stats endpoint)."""
+    """Fetch player MPG via nba_api (replaces raw stats.nba.com calls)."""
+    from nba_api.stats.endpoints import leaguedashplayerstats
+
     season = _current_season()
-    params = {
-        "College": "", "Conference": "", "Country": "",
-        "DateFrom": "", "DateTo": "", "Division": "",
-        "DraftPick": "", "DraftYear": "", "GameScope": "",
-        "GameSegment": "", "Height": "", "ISTRound": "",
-        "LastNGames": "0", "LeagueID": "00",
-        "Location": "", "MeasureType": "Base",
-        "Month": "0", "OpponentTeamID": "0",
-        "Outcome": "", "PORound": "0",
-        "PaceAdjust": "N", "PerMode": "PerGame",
-        "Period": "0", "PlayerExperience": "",
-        "PlayerPosition": "", "PlusMinus": "N",
-        "Rank": "N", "Season": season,
-        "SeasonSegment": "", "SeasonType": season_type,
-        "ShotClockRange": "", "StarterBench": "",
-        "TeamID": "0", "TwoWay": "0",
-        "VsConference": "", "VsDivision": "", "Weight": "",
-    }
+    print("  [injuries] Fetching leaguedashplayerstats via nba_api...")
 
-    url = "https://stats.nba.com/stats/leaguedashplayerstats"
-    print("  [injuries] Trying leaguedashplayerstats...")
+    try:
+        endpoint = leaguedashplayerstats.LeagueDashPlayerStats(
+            season=season,
+            season_type_all_star=season_type,
+            measure_type_detailed_defense="Base",
+            per_mode_detailed="PerGame",
+            timeout=120,
+        )
+        df = endpoint.get_data_frames()[0]
+    except Exception as e:
+        raise Exception(f"nba_api leaguedashplayerstats failed: {e}")
 
-    res = None
-    for attempt in range(1, 4):
-        try:
-            res = requests.get(url, params=params, headers=NBA_HEADERS, timeout=60)
-            if res.status_code == 200:
-                break
-            raise Exception(f"HTTP {res.status_code}")
-        except Exception as err:
-            if attempt == 3:
-                raise
-            import time
-            time.sleep(attempt * 10)
-    if res is None or res.status_code != 200:
-        raise Exception(f"HTTP {res.status_code if res else 'no response'}")
+    if df.empty:
+        raise Exception("nba_api: empty response")
 
-    json_data = res.json()
-    result_set = (json_data.get("resultSets") or [None])[0]
-    if not result_set:
-        raise Exception("no resultSet in response")
-
-    headers = result_set.get("headers", [])
-    rows = result_set.get("rowSet", [])
-
-    if not headers or not rows:
-        raise Exception(f"empty response ({len(headers)} headers, {len(rows)} rows)")
+    # Convert DataFrame back to raw format for backward compat
+    headers = list(df.columns)
+    rows = df.values.tolist()
 
     i_name = headers.index("PLAYER_NAME") if "PLAYER_NAME" in headers else -1
     i_team = headers.index("TEAM_NAME") if "TEAM_NAME" in headers else (headers.index("TEAM_ABBREVIATION") if "TEAM_ABBREVIATION" in headers else -1)

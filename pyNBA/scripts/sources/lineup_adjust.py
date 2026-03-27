@@ -55,49 +55,28 @@ def fetch_player_advanced(season_type="Regular Season"):
     """
     effective_type = "Regular Season"
     season = _current_season()
-    params = {
-        "College": "", "Conference": "", "Country": "",
-        "DateFrom": "", "DateTo": "", "Division": "",
-        "DraftPick": "", "DraftYear": "", "GameScope": "",
-        "GameSegment": "", "Height": "", "ISTRound": "",
-        "LastNGames": "0", "LeagueID": "00",
-        "Location": "", "MeasureType": "Advanced",
-        "Month": "0", "OpponentTeamID": "0",
-        "Outcome": "", "PORound": "0",
-        "PaceAdjust": "N", "PerMode": "PerGame",
-        "Period": "0", "PlayerExperience": "",
-        "PlayerPosition": "", "PlusMinus": "N",
-        "Rank": "N", "Season": season,
-        "SeasonSegment": "", "SeasonType": effective_type,
-        "ShotClockRange": "", "StarterBench": "",
-        "TeamID": "0", "TwoWay": "0",
-        "VsConference": "", "VsDivision": "", "Weight": "",
-    }
 
-    url = "https://stats.nba.com/stats/leaguedashplayerstats"
+    # Use nba_api instead of raw requests (handles headers/cookies/retries)
+    from nba_api.stats.endpoints import leaguedashplayerstats
 
-    res = None
-    for attempt in range(1, 4):
-        try:
-            res = requests.get(url, params=params, headers=NBA_HEADERS, timeout=60)
-            if res.status_code == 200:
-                break
-            raise Exception(f"HTTP {res.status_code}")
-        except Exception as err:
-            if attempt == 3:
-                raise Exception(f"leaguedashplayerstats Advanced failed after 3 attempts: {err}")
-            import time
-            time.sleep(attempt * 10)
-    if res is None or res.status_code != 200:
-        raise Exception(f"leaguedashplayerstats Advanced failed: HTTP {res.status_code if res else 'no response'}")
+    try:
+        endpoint = leaguedashplayerstats.LeagueDashPlayerStats(
+            season=season,
+            season_type_all_star=effective_type,
+            measure_type_detailed_defense="Advanced",
+            per_mode_detailed="PerGame",
+            timeout=120,
+        )
+        df = endpoint.get_data_frames()[0]
+    except Exception as e:
+        raise Exception(f"nba_api leaguedashplayerstats Advanced failed: {e}")
 
-    json_data = res.json()
-    rs = (json_data.get("resultSets") or [None])[0]
-    if not rs or not rs.get("headers") or not rs.get("rowSet"):
-        raise Exception("unexpected response shape")
+    if df.empty:
+        raise Exception("nba_api: empty response")
 
-    headers = rs["headers"]
-    rows = rs["rowSet"]
+    # Convert DataFrame to raw format for backward compat
+    headers = list(df.columns)
+    rows = df.values.tolist()
 
     def idx(name):
         return headers.index(name) if name in headers else -1

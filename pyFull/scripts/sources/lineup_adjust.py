@@ -1,8 +1,16 @@
+# scripts/sources/lineup_adjust.py
+# Lineup-adjusted team efficiency: replaces season-long team OFF/DEF/TS/TO/ORR
+# with tonight's expected values given who's actually playing.
+#
+# Usage:
+#   from sources.lineup_adjust import fetch_player_advanced, adjust_team_stats
+#   player_adv = fetch_player_advanced()
+#   adjusted   = adjust_team_stats(team_stats, injury_report, player_mpg, player_adv, games)
+
 import requests
+import datetime
 import math
 import re
-from datetime import datetime
-from urllib.parse import urlencode
 
 NBA_HEADERS = {
     "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36",
@@ -15,64 +23,60 @@ NBA_HEADERS = {
 }
 
 
-def current_season():
-    now = datetime.now()
+def _current_season():
+    now = datetime.datetime.now()
     year = now.year
     month = now.month
     start = year if month >= 10 else year - 1
     return f"{start}-{str(start + 1)[2:]}"
 
 
-# -- Fetch per-player advanced stats ------------------------------------------
+# -- Fetch per-player advanced stats --
+
+ABBREV_TO_NAME = {
+    "ATL": "Atlanta Hawks", "BOS": "Boston Celtics", "BKN": "Brooklyn Nets",
+    "CHA": "Charlotte Hornets", "CHI": "Chicago Bulls", "CLE": "Cleveland Cavaliers",
+    "DAL": "Dallas Mavericks", "DEN": "Denver Nuggets", "DET": "Detroit Pistons",
+    "GSW": "Golden State Warriors", "HOU": "Houston Rockets", "IND": "Indiana Pacers",
+    "LAC": "LA Clippers", "LAL": "Los Angeles Lakers", "MEM": "Memphis Grizzlies",
+    "MIA": "Miami Heat", "MIL": "Milwaukee Bucks", "MIN": "Minnesota Timberwolves",
+    "NOP": "New Orleans Pelicans", "NYK": "New York Knicks", "OKC": "Oklahoma City Thunder",
+    "ORL": "Orlando Magic", "PHI": "Philadelphia 76ers", "PHX": "Phoenix Suns",
+    "POR": "Portland Trail Blazers", "SAC": "Sacramento Kings", "SAS": "San Antonio Spurs",
+    "TOR": "Toronto Raptors", "UTA": "Utah Jazz", "WAS": "Washington Wizards",
+}
+
 
 def fetch_player_advanced(season_type="Regular Season"):
     """
-    Returns: { playerName: { team, min, gp, offRtg, defRtg, netRtg, tsPct, tovPct, orbPct, pace } }
+    Fetch per-player advanced stats from NBA.com.
+    Returns: { player_name: { team, min, gp, offRtg, defRtg, netRtg, tsPct, tovPct, orbPct, pace } }
+    Always uses Regular Season for player advanced stats.
     """
-    season = current_season()
-    params = {
-        "College": "", "Conference": "", "Country": "",
-        "DateFrom": "", "DateTo": "", "Division": "",
-        "DraftPick": "", "DraftYear": "", "GameScope": "",
-        "GameSegment": "", "Height": "", "ISTRound": "",
-        "LastNGames": "0", "LeagueID": "00",
-        "Location": "", "MeasureType": "Advanced",
-        "Month": "0", "OpponentTeamID": "0",
-        "Outcome": "", "PORound": "0",
-        "PaceAdjust": "N", "PerMode": "PerGame",
-        "Period": "0", "PlayerExperience": "",
-        "PlayerPosition": "", "PlusMinus": "N",
-        "Rank": "N", "Season": season,
-        "SeasonSegment": "", "SeasonType": "Regular Season",
-        "ShotClockRange": "", "StarterBench": "",
-        "TeamID": "0", "TwoWay": "0",
-        "VsConference": "", "VsDivision": "", "Weight": "",
-    }
+    effective_type = "Regular Season"
+    season = _current_season()
 
-    url = f"https://stats.nba.com/stats/leaguedashplayerstats?{urlencode(params)}"
+    # Use nba_api instead of raw requests (handles headers/cookies/retries)
+    from nba_api.stats.endpoints import leaguedashplayerstats
 
-    res = None
-    for attempt in range(1, 4):
-        try:
-            res = requests.get(url, headers=NBA_HEADERS, timeout=60)
-            if res.status_code == 200:
-                break
-            raise Exception(f"HTTP {res.status_code}")
-        except Exception as err:
-            if attempt == 3:
-                raise Exception(f"leaguedashplayerstats Advanced failed after 3 attempts: {err}")
-            import time
-            time.sleep(attempt * 10)
-    if res is None or res.status_code != 200:
-        raise Exception(f"leaguedashplayerstats Advanced failed: HTTP {res.status_code if res else 'no response'}")
+    try:
+        endpoint = leaguedashplayerstats.LeagueDashPlayerStats(
+            season=season,
+            season_type_all_star=effective_type,
+            measure_type_detailed_defense="Advanced",
+            per_mode_detailed="PerGame",
+            timeout=120,
+        )
+        df = endpoint.get_data_frames()[0]
+    except Exception as e:
+        raise Exception(f"nba_api leaguedashplayerstats Advanced failed: {e}")
 
-    json_data = res.json()
-    rs = (json_data.get("resultSets") or [None])[0]
-    if not rs or not rs.get("headers") or not rs.get("rowSet"):
-        raise Exception("unexpected response shape")
+    if df.empty:
+        raise Exception("nba_api: empty response")
 
-    headers = rs["headers"]
-    rows = rs["rowSet"]
+    # Convert DataFrame to raw format for backward compat
+    headers = list(df.columns)
+    rows = df.values.tolist()
 
     def idx(name):
         return headers.index(name) if name in headers else -1
@@ -90,30 +94,19 @@ def fetch_player_advanced(season_type="Regular Season"):
     i_orb = idx("OREB_PCT")
     i_pace = idx("PACE")
 
-    if any(i == -1 for i in [i_name, i_min, i_gp, i_off, i_def]):
+    # Minimum required columns
+    if -1 in [i_name, i_min, i_gp, i_off, i_def]:
         raise Exception(f"missing expected columns (got: {', '.join(headers[:15])})")
-
-    ABBREV_TO_NAME = {
-        "ATL": "Atlanta Hawks", "BOS": "Boston Celtics", "BKN": "Brooklyn Nets",
-        "CHA": "Charlotte Hornets", "CHI": "Chicago Bulls", "CLE": "Cleveland Cavaliers",
-        "DAL": "Dallas Mavericks", "DEN": "Denver Nuggets", "DET": "Detroit Pistons",
-        "GSW": "Golden State Warriors", "HOU": "Houston Rockets", "IND": "Indiana Pacers",
-        "LAC": "LA Clippers", "LAL": "Los Angeles Lakers", "MEM": "Memphis Grizzlies",
-        "MIA": "Miami Heat", "MIL": "Milwaukee Bucks", "MIN": "Minnesota Timberwolves",
-        "NOP": "New Orleans Pelicans", "NYK": "New York Knicks", "OKC": "Oklahoma City Thunder",
-        "ORL": "Orlando Magic", "PHI": "Philadelphia 76ers", "PHX": "Phoenix Suns",
-        "POR": "Portland Trail Blazers", "SAC": "Sacramento Kings", "SAS": "San Antonio Spurs",
-        "TOR": "Toronto Raptors", "UTA": "Utah Jazz", "WAS": "Washington Wizards",
-    }
 
     players = {}
     skipped = 0
 
     for row in rows:
         name = row[i_name]
-        gp = int(row[i_gp])
+        gp = float(row[i_gp])
         min_val = float(row[i_min])
 
+        # Skip players with very few games or very low minutes
         if gp < 10 or min_val < 5:
             skipped += 1
             continue
@@ -138,19 +131,24 @@ def fetch_player_advanced(season_type="Regular Season"):
     return players
 
 
-# -- Team name matching --------------------------------------------------------
+# -- Team name matching --
 
 def _norm_key(s):
-    return re.sub(r" +", " ", re.sub(r"[^a-z0-9 ]", " ", str(s or "").lower())).strip()
+    s = str(s or "").lower()
+    s = re.sub(r"[^a-z0-9 ]", " ", s)
+    s = re.sub(r" +", " ", s)
+    return s.strip()
 
 
 def _resolve_team_name(team_name, known_keys):
+    """Match a team name from injury report / odds to the stats object key."""
     if not team_name:
         return None
     wanted = _norm_key(team_name)
     for k in known_keys:
         if _norm_key(k) == wanted:
             return k
+    # Substring fallback
     for k in known_keys:
         nk = _norm_key(k)
         if nk in wanted or wanted in nk:
@@ -158,17 +156,17 @@ def _resolve_team_name(team_name, known_keys):
     return None
 
 
-# -- Core: Compute lineup-adjusted team stats ----------------------------------
+# -- Core: Compute lineup-adjusted team stats --
 
 def adjust_team_stats(team_stats, injury_report, player_mpg, player_adv, todays_games, recent_injury_dates=None):
     """
-    Returns: adjusted copy of team_stats (same shape). Teams not playing today or
-    with no meaningful injuries pass through unchanged.
+    Compute lineup-adjusted team stats based on who's actually playing tonight.
+    Returns: adjusted copy of team_stats (same shape).
     """
     if not player_adv or not len(player_adv):
         return team_stats
 
-    adjusted = {**team_stats}
+    adjusted = dict(team_stats)
     team_keys = list(team_stats.keys())
 
     # Build set of teams playing tonight
@@ -193,16 +191,15 @@ def adjust_team_stats(team_stats, injury_report, player_mpg, player_adv, todays_
 
     for team_key in team_keys:
         # Only adjust teams playing tonight
-        is_tonight = (
-            team_key in teams_tonight
-            or any(_resolve_team_name(t, [team_key]) for t in teams_tonight)
+        is_tonight = team_key in teams_tonight or any(
+            _resolve_team_name(t, [team_key]) for t in teams_tonight
         )
         if not is_tonight:
             continue
 
         # Get all rostered players for this team
-        roster = players_by_team.get(team_key, [])
-        if len(roster) < 5:
+        roster = players_by_team.get(team_key)
+        if not roster or len(roster) < 5:
             continue
 
         # Get injury report for this team
@@ -240,6 +237,7 @@ def adjust_team_stats(team_stats, injury_report, player_mpg, player_adv, todays_
                 for cache_date, report in recent_injury_dates.items():
                     team_inj = report.get(team_key, [])
                     if not team_inj:
+                        # Try resolving team name
                         resolved = _resolve_team_name(team_key, list(report.keys()))
                         team_inj = report.get(resolved, []) if resolved else []
                     was_out = any(
@@ -290,12 +288,14 @@ def adjust_team_stats(team_stats, injury_report, player_mpg, player_adv, todays_
         # Match out players to roster using exact + fuzzy name matching
         roster_out = set()
         for out_name in out_players:
+            # Exact match
             found = next((r for r in roster if r["name"] == out_name), None)
+            # Last-name fallback
             if not found:
                 last_name = out_name.split(" ")[-1].lower()
                 found = next(
                     (r for r in roster if r["name"].split(" ")[-1].lower() == last_name),
-                    None
+                    None,
                 )
             if found:
                 roster_out.add(found["name"])
@@ -303,8 +303,9 @@ def adjust_team_stats(team_stats, injury_report, player_mpg, player_adv, todays_
         if not roster_out:
             continue
 
+        # Separate available vs out
         available = [r for r in roster if r["name"] not in roster_out]
-        out = [r for r in roster if r["name"] in roster_out]
+        out_list = [r for r in roster if r["name"] in roster_out]
 
         if len(available) < 5:
             continue
@@ -314,22 +315,24 @@ def adjust_team_stats(team_stats, injury_report, player_mpg, player_adv, todays_
         if full_total_min <= 0:
             continue
 
-        def weighted_avg(players_list, getter):
+        def weighted_avg(player_list, getter):
             total_sum = 0
             valid_min = 0
-            for p in players_list:
+            for p in player_list:
                 val = getter(p)
-                if val is not None and math.isfinite(val):
+                if isinstance(val, (int, float)) and math.isfinite(val):
                     total_sum += p["min"] * val
                     valid_min += p["min"]
             return total_sum / valid_min if valid_min > 0 else None
 
+        # Full-roster weighted averages
         full_off = weighted_avg(roster, lambda p: p.get("offRtg"))
         full_def = weighted_avg(roster, lambda p: p.get("defRtg"))
         full_ts = weighted_avg(roster, lambda p: p.get("tsPct"))
         full_tov = weighted_avg(roster, lambda p: p.get("tovPct"))
         full_orb = weighted_avg(roster, lambda p: p.get("orbPct"))
 
+        # Available-roster weighted averages
         avail_off = weighted_avg(available, lambda p: p.get("offRtg"))
         avail_def = weighted_avg(available, lambda p: p.get("defRtg"))
         avail_ts = weighted_avg(available, lambda p: p.get("tsPct"))
@@ -337,9 +340,9 @@ def adjust_team_stats(team_stats, injury_report, player_mpg, player_adv, todays_
         avail_orb = weighted_avg(available, lambda p: p.get("orbPct"))
 
         # Impact-aware dampening
-        def impact_dampen(out_list):
+        def impact_dampen(out_l):
             best = 0.70
-            for p in out_list:
+            for p in out_l:
                 net = p.get("netRtg")
                 if net is None:
                     off_r = p.get("offRtg")
@@ -357,10 +360,10 @@ def adjust_team_stats(team_stats, injury_report, player_mpg, player_adv, todays_
                     best = d
             return best
 
-        dampen = impact_dampen(out)
+        dampen = impact_dampen(out_list)
 
         orig = adjusted.get(team_key, team_stats[team_key])
-        adj = {**orig}
+        adj = dict(orig)
         any_change = False
 
         if full_off is not None and avail_off is not None:
@@ -388,10 +391,13 @@ def adjust_team_stats(team_stats, injury_report, player_mpg, player_adv, todays_
     return adjusted
 
 
-# -- Diagnostic: build human-readable adjustment notes per game ----------------
+# -- Diagnostic: build human-readable adjustment notes per game --
 
 def get_adjustment_notes(original_stats, adjusted_stats):
-    """Returns: { teamName: { offDelta, defDelta, ... } }"""
+    """
+    Returns: { team_name: { offDelta, defDelta, adjOFF, adjDEF, origOFF, origDEF } }
+    Useful for email display.
+    """
     notes = {}
     for team, orig in original_stats.items():
         adj = adjusted_stats.get(team)
@@ -401,6 +407,7 @@ def get_adjustment_notes(original_stats, adjusted_stats):
         off_delta = adj["OFF"] - orig["OFF"]
         def_delta = adj["DEF"] - orig["DEF"]
 
+        # Only note if there's a meaningful change (> 0.3 pts)
         if abs(off_delta) > 0.3 or abs(def_delta) > 0.3:
             notes[team] = {
                 "offDelta": round(off_delta * 10) / 10,

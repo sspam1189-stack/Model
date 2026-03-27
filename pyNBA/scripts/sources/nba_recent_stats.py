@@ -1,13 +1,12 @@
 # scripts/sources/nba_recent_stats.py
 # Fetches team stats from NBA.com scoped to a date range (e.g. post-trade-deadline).
 # Blends with full-season Hollinger stats to prevent small-sample volatility.
+#
+# Uses nba_api package instead of raw requests.
 
-import requests
 import datetime
 import math
 import re
-
-NBA_BASE = "https://stats.nba.com/stats/leaguedashteamstats"
 
 
 def _current_season():
@@ -19,17 +18,6 @@ def _current_season():
 
 
 SEASON = _current_season()
-
-NBA_HEADERS = {
-    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
-    "Referer": "https://www.nba.com/",
-    "Origin": "https://www.nba.com",
-    "Accept": "application/json, text/plain, */*",
-    "Accept-Language": "en-US,en;q=0.9",
-    "x-nba-stats-origin": "stats",
-    "x-nba-stats-token": "true",
-    "Connection": "keep-alive",
-}
 
 
 def _today_mmddyyyy():
@@ -87,48 +75,34 @@ def _map_team_name(nba_name):
 
 
 def _fetch_nba_stats(measure_type, date_from, date_to):
-    params = {
-        "MeasureType": measure_type,
-        "PerMode": "PerGame",
-        "PaceAdjust": "N",
-        "PlusMinus": "N",
-        "Rank": "N",
-        "Season": SEASON,
-        "SeasonType": "Regular Season",
-        "DateFrom": date_from,
-        "DateTo": date_to,
-        "Outcome": "",
-        "Location": "",
-        "Month": "0",
-        "SeasonSegment": "",
-        "OpponentTeamID": "0",
-        "VsConference": "",
-        "VsDivision": "",
-        "GameSegment": "",
-        "Period": "0",
-        "ShotClockRange": "",
-        "LastNGames": "0",
-    }
+    """Fetch NBA team stats via nba_api for a date range."""
+    from nba_api.stats.endpoints import leaguedashteamstats
 
-    res = requests.get(NBA_BASE, params=params, headers=NBA_HEADERS, timeout=30)
-    if res.status_code != 200:
-        raise Exception(f"NBA.com {measure_type} failed: {res.status_code}")
+    # Convert MM/DD/YYYY to MM/DD/YYYY (nba_api accepts this format)
+    try:
+        endpoint = leaguedashteamstats.LeagueDashTeamStats(
+            season=SEASON,
+            season_type_all_star="Regular Season",
+            measure_type_detailed_defense=measure_type,
+            per_mode_detailed="PerGame",
+            date_from_nullable=date_from if date_from else None,
+            date_to_nullable=date_to if date_to else None,
+            timeout=120,
+        )
+        df = endpoint.get_data_frames()[0]
+    except Exception as e:
+        raise Exception(f"nba_api {measure_type} failed: {e}")
 
-    json_data = res.json()
-    rs = (json_data.get("resultSets") or [None])[0]
-    if not rs or not rs.get("headers") or not rs.get("rowSet"):
-        raise Exception(f"NBA.com {measure_type}: unexpected response shape")
+    if df.empty:
+        raise Exception(f"nba_api {measure_type}: no data returned")
 
     # Convert to map: hollinger_key -> { col_name: value }
     out = {}
-    for row in rs["rowSet"]:
-        obj = {}
-        for i, h in enumerate(rs["headers"]):
-            obj[h] = row[i]
-        team_name = obj.get("TEAM_NAME", "")
+    for _, row in df.iterrows():
+        team_name = str(row.get("TEAM_NAME") or "")
         key = _map_team_name(team_name)
         if key:
-            out[key] = obj
+            out[key] = row.to_dict()
     return out
 
 
@@ -150,7 +124,7 @@ def fetch_blended_stats(hollinger_stats, date_from, recent_weight=0.65):
         min_games = min(game_counts) if game_counts else 0
         print(f"  [nba_recent] Got {len(advanced_map)} teams, min games: {min_games}")
     except Exception as e:
-        print(f"  [nba_recent] NBA.com fetch failed ({e}) -- using Hollinger only")
+        print(f"  [nba_recent] nba_api fetch failed ({e}) -- using Hollinger only")
         return hollinger_stats
 
     # If too few games (< 5), don't trust recent stats -- fall back to Hollinger

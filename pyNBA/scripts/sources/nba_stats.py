@@ -1,25 +1,17 @@
 # scripts/sources/nba_stats.py
 # Fetches NBA.com team stats -- full season, last N games, home/away splits.
 #
+# Uses nba_api package instead of raw requests to stats.nba.com.
+# nba_api handles headers, cookies, and retries automatically.
+#
 # Usage:
 #   fetch_nba_stats("2026-01-30")              -> season stats as of Jan 30
 #   fetch_nba_stats()                           -> season stats as of today
 #   fetch_nba_stats_enhanced("20260301")        -> { season, last10, home, away }
 
-import requests
 import time
 import datetime
 import math
-
-NBA_HEADERS = {
-    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
-    "Referer": "https://www.nba.com/",
-    "Origin": "https://www.nba.com",
-    "Accept": "application/json, text/plain, */*",
-    "Accept-Language": "en-US,en;q=0.9",
-    "x-nba-stats-origin": "stats",
-    "x-nba-stats-token": "true",
-}
 
 
 def current_season():
@@ -42,90 +34,57 @@ def to_nba_date(date_str):
 
 
 def _fetch_team_stats(date_to=None, date_from=None, last_n_games=0, location="", season_type="Regular Season"):
-    """Core fetch -- builds the NBA.com API URL with optional overrides."""
+    """Core fetch -- uses nba_api LeagueDashTeamStats endpoint."""
+    from nba_api.stats.endpoints import leaguedashteamstats
+
     season = current_season()
-    date_to_param = to_nba_date(date_to) if date_to else ""
-    date_from_param = to_nba_date(date_from) if date_from else ""
+    date_to_param = to_nba_date(date_to) if date_to else None
+    date_from_param = to_nba_date(date_from) if date_from else None
 
-    params = {
-        "MeasureType": "Advanced",
-        "PerMode": "PerGame",
-        "PaceAdjust": "N",
-        "PlusMinus": "N",
-        "Rank": "N",
-        "Season": season,
-        "SeasonType": season_type,
-        "DateFrom": date_from_param,
-        "DateTo": date_to_param,
-        "Outcome": "",
-        "Location": location,  # "" = all, "Home" = home, "Road" = away
-        "Month": "0",
-        "SeasonSegment": "",
-        "OpponentTeamID": "0",
-        "VsConference": "",
-        "VsDivision": "",
-        "GameSegment": "",
-        "Period": "0",
-        "ShotClockRange": "",
-        "LastNGames": str(last_n_games),  # 0 = all games
-    }
+    # Map location param: "" -> None, "Home" -> "Home", "Road" -> "Road"
+    location_param = location if location else None
 
-    url = "https://stats.nba.com/stats/leaguedashteamstats"
-    res = None
-    for attempt in range(1, 6):
-        try:
-            res = requests.get(url, params=params, headers=NBA_HEADERS, timeout=60)
-            if res.status_code == 200:
-                break
-            raise Exception(f"NBA.com stats failed: {res.status_code}")
-        except Exception as err:
-            if attempt == 5:
-                raise
-            wait = attempt * 10
-            print(f"  Warning: NBA.com fetch attempt {attempt}/5 failed ({err}), retrying in {wait}s...")
-            time.sleep(wait)
+    try:
+        endpoint = leaguedashteamstats.LeagueDashTeamStats(
+            season=season,
+            season_type_all_star=season_type,
+            measure_type_detailed_defense="Advanced",
+            per_mode_detailed="PerGame",
+            date_to_nullable=date_to_param,
+            date_from_nullable=date_from_param,
+            last_n_games=last_n_games,
+            location_nullable=location_param,
+            timeout=120,
+        )
+        df = endpoint.get_data_frames()[0]
+    except Exception as e:
+        raise Exception(f"nba_api team stats fetch failed: {e}")
 
-    if res is None or res.status_code != 200:
-        raise Exception(f"NBA.com stats failed: {res.status_code if res else 'no response'}")
-
-    json_data = res.json()
-    result_sets = json_data.get("resultSets")
-    if not result_sets or not len(result_sets):
-        raise Exception("NBA.com: no resultSet in response")
-    result_set = result_sets[0]
-
-    headers = result_set.get("headers", [])
-    rows = result_set.get("rowSet", [])
-
-    def idx(name):
-        return headers.index(name) if name in headers else -1
-
-    i_team_name = idx("TEAM_NAME")
-    i_gp = idx("GP")
-    i_off = idx("OFF_RATING")
-    i_def = idx("DEF_RATING")
-    i_ts = idx("TS_PCT")
-    i_to = idx("TM_TOV_PCT")
-    i_orr = idx("OREB_PCT")
-    i_pace = idx("PACE")
-
-    if -1 in [i_team_name, i_gp, i_off, i_def, i_ts, i_to, i_orr, i_pace]:
-        raise Exception("NBA.com: missing expected columns in response")
+    if df.empty:
+        raise Exception("nba_api: no data returned")
 
     stats = {}
-    for row in rows:
-        team_name = row[i_team_name]
-        gp = float(row[i_gp])
+    for _, row in df.iterrows():
+        team_name = str(row.get("TEAM_NAME") or "")
+        gp = float(row.get("GP", 0))
         stats[team_name] = {
-            "OFF": float(row[i_off]),
-            "DEF": float(row[i_def]),
-            "TS": float(row[i_ts]),
-            "TO": float(row[i_to]),
-            "ORR": float(row[i_orr]),
-            "PACE": float(row[i_pace]),
+            "OFF": _safe_float(row.get("OFF_RATING")),
+            "DEF": _safe_float(row.get("DEF_RATING")),
+            "TS": _safe_float(row.get("TS_PCT")),
+            "TO": _safe_float(row.get("TM_TOV_PCT")),
+            "ORR": _safe_float(row.get("OREB_PCT")),
+            "PACE": _safe_float(row.get("PACE")),
             "GP": gp,
         }
     return stats
+
+
+def _safe_float(val):
+    """Convert value to float, defaulting to 0.0."""
+    try:
+        return float(val) if val is not None else 0.0
+    except (ValueError, TypeError):
+        return 0.0
 
 
 # -- Public: season stats (backward compatible) --
