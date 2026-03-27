@@ -270,7 +270,7 @@ function fmtNum(v, d) { return Number.isFinite(v) ? v.toFixed(d) : '\u2014'; }
 function winPct(w, l) { return (w + l) > 0 ? (100 * w / (w + l)) : 0; }
 function fmtPct(v) { return Number.isFinite(v) ? v.toFixed(2) + '%' : '\u2014'; }
 function fmtProb(v) { return Number.isFinite(v) ? (v * 100).toFixed(2) + '%' : '\u2014'; }
-function calcUnits(w, l) { return Math.round((w * 0.91 - l) * 100) / 100; }
+function calcUnits(w, l) { return Math.round((w - l * 1.1) * 100) / 100; }
 function fmtUnits(u) { return (u >= 0 ? '+' : '') + u.toFixed(2) + 'u'; }
 function confBadge(conf) {
   const c = String(conf || '').toLowerCase();
@@ -778,15 +778,15 @@ function renderTeamRecords(runs) {
   const sorted = Object.entries(teams)
     .filter(([, t]) => t.w + t.l >= 3)
     .sort((a, b) => {
-      const uA = a[1].w * 0.91 - a[1].l;
-      const uB = b[1].w * 0.91 - b[1].l;
+      const uA = calcUnits(a[1].w, a[1].l);
+      const uB = calcUnits(b[1].w, b[1].l);
       return uB - uA;
     });
   if (!sorted.length) return '';
   const rows = sorted.map(([name, t]) => {
     const total = t.w + t.l;
     const pct = total > 0 ? (100 * t.w / total) : 0;
-    const units = Math.round((t.w * 0.91 - t.l) * 100) / 100;
+    const units = calcUnits(t.w, t.l);
     return `<tr>
       <td>${esc(name)}</td>
       <td class="center">${t.picks}</td>

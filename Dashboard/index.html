@@ -639,7 +639,7 @@
     function fmtPct(v) { return Number.isFinite(v) ? v.toFixed(2) + '%' : '\u2014'; }
     function fmtProb(v) { return Number.isFinite(v) ? (v * 100).toFixed(2) + '%' : '\u2014'; }
     function winPct(w, l) { return (w + l) > 0 ? (100 * w / (w + l)) : 0; }
-    function calcUnits(w, l) { return Math.round((w * 0.91 - l) * 100) / 100; }
+    function calcUnits(w, l) { return Math.round((w - l * 1.1) * 100) / 100; }
     function fmtUnits(u) { return (u >= 0 ? '+' : '') + u.toFixed(2) + 'u'; }
     function confBadge(conf) {
       const c = String(conf || '');
