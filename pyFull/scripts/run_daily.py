@@ -476,21 +476,29 @@ def main(subject_label="[PY]"):
     season_type = get_season_type(date)
     espn_type = get_espn_season_type(date)
     print(f"[1/7] Fetching stats, odds, trends, injuries, player data... [{season_type}]")
-    # Try JS model's stats cache first to avoid duplicate NBA.com API calls
+    # Try own stats cache first, then fetch via nba_api
     enhanced_stats = None
-    js_cache = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "..", "jsFull", "data", "stats_cache", f"{date}.json")
-    if os.path.exists(js_cache):
+    _scripts_dir = os.path.dirname(os.path.abspath(__file__))
+    _own_cache = os.path.join(_scripts_dir, "..", "data", "stats_cache", f"{date}.json")
+    if os.path.exists(_own_cache):
         try:
-            with open(js_cache, "r", encoding="utf-8") as f:
+            with open(_own_cache, "r", encoding="utf-8") as f:
                 enhanced_stats = json.load(f)
             if enhanced_stats.get("season") and len(enhanced_stats["season"]) >= 20:
-                print(f"  [nba_stats] Using JS model cache ({len(enhanced_stats['season'])} teams)")
+                print(f"  [nba_stats] Using cached stats ({len(enhanced_stats['season'])} teams)")
             else:
                 enhanced_stats = None
         except Exception:
             enhanced_stats = None
     if not enhanced_stats:
         enhanced_stats = fetch_nba_stats_enhanced(date, season_type=season_type)
+        # Cache to own stats_cache
+        os.makedirs(os.path.join(_scripts_dir, "..", "data", "stats_cache"), exist_ok=True)
+        try:
+            with open(_own_cache, "w", encoding="utf-8") as f:
+                json.dump(enhanced_stats, f)
+        except Exception:
+            pass
     odds = fetch_todays_odds()
 
     # Detect started/finished games via ESPN scoreboard
@@ -529,12 +537,12 @@ def main(subject_label="[PY]"):
 
     ats = fetch_ats_trends()
     ou = fetch_ou_trends()
-    # Try JS model's injury/h2h cache first
+    # Try own injury/h2h cache first
     injury_data = None
     player_advanced = None
     h2h_matchups = None
     _scripts = os.path.dirname(os.path.abspath(__file__))
-    _inj_cache = os.path.join(_scripts, "..", "..", "jsFull", "data", "injury_cache", f"{date}.json")
+    _inj_cache = os.path.join(_scripts, "..", "data", "injury_cache", f"{date}.json")
     if os.path.exists(_inj_cache):
         try:
             with open(_inj_cache, "r", encoding="utf-8") as _f:
@@ -542,7 +550,7 @@ def main(subject_label="[PY]"):
             injury_data = _cached.get("injuryData", {"report": {}, "playerMPG": {}})
             player_advanced = _cached.get("playerAdvanced", {})
             h2h_matchups = _cached.get("h2hMatchups")
-            print(f"  [cache] Using JS injury/h2h cache for {date}")
+            print(f"  [cache] Using cached injury/h2h for {date}")
         except Exception:
             injury_data = None
     if injury_data is None:
