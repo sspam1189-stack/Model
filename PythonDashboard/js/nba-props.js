@@ -313,7 +313,7 @@
       }
 
       function buildMarketBreakdown(filteredPicks) {
-        const nbaMarketOrder = ['Points','Rebounds','Assists','Pts+Reb+Ast','Threes','Steals','Blocks','Turnovers'];
+        const nbaMarketOrder = ['PTS','REB','AST','PRA',"3's",'STL','BLK','TO'];
         const fGrouped = {};
         for (const p of filteredPicks) {
           const ml = marketLabels[p.market] || p.market;
