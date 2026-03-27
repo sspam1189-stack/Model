@@ -554,17 +554,27 @@ def fetch_historical_odds(api_key=None, season=None, week=None):
 
 PROP_MARKETS = [
     "player_pass_yds",
+    "player_pass_tds",
+    "player_pass_attempts",
+    "player_pass_completions",
     "player_rush_yds",
+    "player_rush_attempts",
     "player_reception_yds",
     "player_receptions",
+    "player_interceptions",
 ]
 
 # Map API market keys to our internal market names
 _MARKET_MAP = {
     "player_pass_yds": "pass_yds",
+    "player_pass_tds": "pass_tds",
+    "player_pass_attempts": "pass_att",
+    "player_pass_completions": "completions",
     "player_rush_yds": "rush_yds",
+    "player_rush_attempts": "rush_att",
     "player_reception_yds": "rec_yds",
     "player_receptions": "receptions",
+    "player_interceptions": "interceptions",
 }
 
 _PROPS_CACHE_DIR = Path(__file__).resolve().parents[2] / "data" / "props"

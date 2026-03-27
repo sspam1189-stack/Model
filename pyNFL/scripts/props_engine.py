@@ -32,22 +32,41 @@ PROP_PROB_ELITE = 0.64
 
 # Market-specific thresholds (rush/rec need higher bar due to higher variance)
 MARKET_THRESHOLDS = {
-    "pass_yds":   {"high": 0.58, "elite": 0.64},
-    "rush_yds":   {"high": 0.72, "elite": 0.78},  # RB usage is very volatile
-    "rec_yds":    {"high": 0.72, "elite": 0.78},  # WR targets are volatile
-    "receptions": {"high": 0.75, "elite": 0.80},  # Catch count is very noisy — extreme selectivity
+    "pass_yds":      {"high": 0.58, "elite": 0.64},
+    "pass_tds":      {"high": 0.62, "elite": 0.70},  # TD count is low-volume, noisy
+    "pass_att":      {"high": 0.60, "elite": 0.68},
+    "completions":   {"high": 0.60, "elite": 0.68},
+    "rush_yds":      {"high": 0.72, "elite": 0.78},  # RB usage is very volatile
+    "rush_att":      {"high": 0.65, "elite": 0.72},
+    "rec_yds":       {"high": 0.72, "elite": 0.78},  # WR targets are volatile
+    "receptions":    {"high": 0.75, "elite": 0.80},  # Catch count is very noisy
+    "interceptions": {"high": 0.70, "elite": 0.78},  # Rare event — need high bar
 }
 
 # Variance multipliers (player stats are more variable than team totals)
-PASS_YDS_VAR_MULT = 1.2   # QBs have moderate variance
-RUSH_YDS_VAR_MULT = 1.5   # RB usage is highly variable
-REC_YDS_VAR_MULT = 1.6    # WR targets are volatile
-RECEPTIONS_VAR_MULT = 1.3
+VAR_MULT = {
+    "pass_yds":      1.2,
+    "pass_tds":      1.5,   # TDs are low-count, high variance
+    "pass_att":      1.1,   # Attempts are stable
+    "completions":   1.1,   # Completions are stable
+    "rush_yds":      1.5,   # RB usage is highly variable
+    "rush_att":      1.2,   # Rush attempts are moderately stable
+    "rec_yds":       1.6,   # WR targets are volatile
+    "receptions":    1.3,
+    "interceptions": 1.8,   # Rare event, very noisy
+}
+
+# Legacy aliases
+PASS_YDS_VAR_MULT = VAR_MULT["pass_yds"]
+RUSH_YDS_VAR_MULT = VAR_MULT["rush_yds"]
+REC_YDS_VAR_MULT = VAR_MULT["rec_yds"]
+RECEPTIONS_VAR_MULT = VAR_MULT["receptions"]
 
 # Directional filter: UNDER-only for all markets
 # Backtest shows OVER picks lose money in every market; UNDER picks are +117u over 3 seasons.
 # Sportsbooks set lines high to attract OVER action — this captures that bias.
-UNDER_ONLY_MARKETS = {"pass_yds", "rush_yds", "rec_yds", "receptions"}
+UNDER_ONLY_MARKETS = {"pass_yds", "rush_yds", "rec_yds", "receptions",
+                      "pass_att", "completions", "rush_att"}
 
 # ---------------------------------------------------------------------------
 # Calibration offsets — REMOVED (root cause fixed)
@@ -61,12 +80,28 @@ UNDER_ONLY_MARKETS = {"pass_yds", "rush_yds", "rec_yds", "receptions"}
 # Fixed by raising filters to: pass_att >= 15, rush_att >= 8, targets >= 4
 
 # Minimum edge size per market (|proj - line|)
-MIN_EDGE = {"pass_yds": 10, "rush_yds": 5, "rec_yds": 5, "receptions": 0.5}
-MAX_EDGE = {"pass_yds": 40, "rush_yds": 30, "rec_yds": 30}
+MIN_EDGE = {
+    "pass_yds": 10, "pass_tds": 0.3, "pass_att": 2, "completions": 2,
+    "rush_yds": 5, "rush_att": 2,
+    "rec_yds": 5, "receptions": 0.5,
+    "interceptions": 0.2,
+}
+MAX_EDGE = {
+    "pass_yds": 40, "pass_tds": 2, "pass_att": 10, "completions": 8,
+    "rush_yds": 30, "rush_att": 8,
+    "rec_yds": 30, "receptions": 4,
+    "interceptions": 1.5,
+}
 
 # Minimum line value per market (filters out low-volume players where noise dominates)
-# rec_yds line<50: 64W-72L (-15u) vs line>=50: 31W-13L (+16.7u)
-MIN_LINE = {"rec_yds": 50}
+MIN_LINE = {
+    "rec_yds": 50,
+    "pass_yds": 150,
+    "rush_yds": 20,
+    "pass_att": 20,
+    "completions": 12,
+    "rush_att": 8,
+}
 
 
 # ---------------------------------------------------------------------------
@@ -323,62 +358,87 @@ def project_player_props(player_logs, team_stats, prop_lines=None):
         team = games[-1].get("team", "")
         latest_opp = games[-1].get("opp", "")
 
-        # --- Passing yards projection ---
-        # Filter: >= 15 pass attempts (excludes backup QBs in garbage time)
-        pass_yds_vals = [g.get("pass_yds", 0) for g in recent if g.get("pass_att", 0) >= 15]
-        if len(pass_yds_vals) >= MIN_GAMES_PASSER:
-            proj = _weighted_avg(pass_yds_vals)
-            std = _weighted_std(pass_yds_vals) * PASS_YDS_VAR_MULT
+        # --- Qualified game sets (reused across markets) ---
+        passer_games = [g for g in recent if g.get("pass_att", 0) >= 15]
+        rusher_games = [g for g in recent if g.get("rush_att", 0) >= 8]
+        receiver_games = [g for g in recent if g.get("targets", 0) >= 4]
 
-            # Opponent adjustment (zero-sum by construction)
-            opp_pass_def = def_pass_ranks.get(latest_opp, avg_pass_def)
-            opp_adj = (opp_pass_def - avg_pass_def) * 25
-            proj += opp_adj
+        opp_pass_def = def_pass_ranks.get(latest_opp, avg_pass_def)
+        opp_rush_def = def_rush_ranks.get(latest_opp, avg_rush_def)
+        pass_opp_adj = (opp_pass_def - avg_pass_def)
+        rush_opp_adj = (opp_rush_def - avg_rush_def)
 
+        # --- Passing yards ---
+        if len(passer_games) >= MIN_GAMES_PASSER:
+            vals = [g["pass_yds"] for g in passer_games]
+            proj = _weighted_avg(vals) + pass_opp_adj * 25
+            std = _weighted_std(vals) * VAR_MULT["pass_yds"]
             prop = _make_prop(name, team, "pass_yds", proj, std, line_lookup, latest_opp)
-            if prop:
-                projections.append(prop)
+            if prop: projections.append(prop)
 
-        # --- Rushing yards projection ---
-        # Filter: >= 8 rush attempts (excludes QBs with a few scrambles)
-        rush_yds_vals = [g.get("rush_yds", 0) for g in recent if g.get("rush_att", 0) >= 8]
-        if len(rush_yds_vals) >= MIN_GAMES_RUSHER:
-            proj = _weighted_avg(rush_yds_vals)
-            std = _weighted_std(rush_yds_vals) * RUSH_YDS_VAR_MULT
+        # --- Pass TDs ---
+        if len(passer_games) >= MIN_GAMES_PASSER:
+            vals = [g.get("pass_td", 0) for g in passer_games]
+            proj = _weighted_avg(vals) + pass_opp_adj * 0.5
+            std = _weighted_std(vals) * VAR_MULT["pass_tds"]
+            prop = _make_prop(name, team, "pass_tds", proj, std, line_lookup, latest_opp)
+            if prop: projections.append(prop)
 
-            opp_rush_def = def_rush_ranks.get(latest_opp, avg_rush_def)
-            opp_adj = (opp_rush_def - avg_rush_def) * 15
-            proj += opp_adj
+        # --- Pass attempts ---
+        if len(passer_games) >= MIN_GAMES_PASSER:
+            vals = [g.get("pass_att", 0) for g in passer_games]
+            proj = _weighted_avg(vals)  # No opp adj — attempts are game-script driven
+            std = _weighted_std(vals) * VAR_MULT["pass_att"]
+            prop = _make_prop(name, team, "pass_att", proj, std, line_lookup, latest_opp)
+            if prop: projections.append(prop)
 
+        # --- Completions ---
+        if len(passer_games) >= MIN_GAMES_PASSER:
+            vals = [g.get("completions", 0) for g in passer_games]
+            proj = _weighted_avg(vals)
+            std = _weighted_std(vals) * VAR_MULT["completions"]
+            prop = _make_prop(name, team, "completions", proj, std, line_lookup, latest_opp)
+            if prop: projections.append(prop)
+
+        # --- Interceptions ---
+        if len(passer_games) >= MIN_GAMES_PASSER:
+            vals = [g.get("interceptions", 0) for g in passer_games]
+            proj = _weighted_avg(vals)
+            std = _weighted_std(vals) * VAR_MULT["interceptions"]
+            prop = _make_prop(name, team, "interceptions", proj, std, line_lookup, latest_opp)
+            if prop: projections.append(prop)
+
+        # --- Rushing yards ---
+        if len(rusher_games) >= MIN_GAMES_RUSHER:
+            vals = [g["rush_yds"] for g in rusher_games]
+            proj = _weighted_avg(vals) + rush_opp_adj * 15
+            std = _weighted_std(vals) * VAR_MULT["rush_yds"]
             prop = _make_prop(name, team, "rush_yds", proj, std, line_lookup, latest_opp)
-            if prop:
-                projections.append(prop)
+            if prop: projections.append(prop)
 
-        # --- Receiving yards projection ---
-        # Filter: >= 4 targets (excludes RBs/TEs with 2 dump-offs)
-        rec_yds_vals = [g.get("rec_yds", 0) for g in recent if g.get("targets", 0) >= 4]
-        if len(rec_yds_vals) >= MIN_GAMES_RECEIVER:
-            proj = _weighted_avg(rec_yds_vals)
-            std = _weighted_std(rec_yds_vals) * REC_YDS_VAR_MULT
+        # --- Rush attempts ---
+        if len(rusher_games) >= MIN_GAMES_RUSHER:
+            vals = [g.get("rush_att", 0) for g in rusher_games]
+            proj = _weighted_avg(vals)
+            std = _weighted_std(vals) * VAR_MULT["rush_att"]
+            prop = _make_prop(name, team, "rush_att", proj, std, line_lookup, latest_opp)
+            if prop: projections.append(prop)
 
-            opp_pass_def = def_pass_ranks.get(latest_opp, avg_pass_def)
-            opp_adj = (opp_pass_def - avg_pass_def) * 15
-            proj += opp_adj
-
+        # --- Receiving yards ---
+        if len(receiver_games) >= MIN_GAMES_RECEIVER:
+            vals = [g["rec_yds"] for g in receiver_games]
+            proj = _weighted_avg(vals) + pass_opp_adj * 15
+            std = _weighted_std(vals) * VAR_MULT["rec_yds"]
             prop = _make_prop(name, team, "rec_yds", proj, std, line_lookup, latest_opp)
-            if prop:
-                projections.append(prop)
+            if prop: projections.append(prop)
 
-        # --- Receptions projection ---
-        # Filter: >= 4 targets (same as rec_yds — only real receiving options)
-        rec_vals = [g.get("receptions", 0) for g in recent if g.get("targets", 0) >= 4]
-        if len(rec_vals) >= MIN_GAMES_RECEIVER:
-            proj = _weighted_avg(rec_vals)
-            std = _weighted_std(rec_vals) * RECEPTIONS_VAR_MULT
-
+        # --- Receptions ---
+        if len(receiver_games) >= MIN_GAMES_RECEIVER:
+            vals = [g.get("receptions", 0) for g in receiver_games]
+            proj = _weighted_avg(vals)
+            std = _weighted_std(vals) * VAR_MULT["receptions"]
             prop = _make_prop(name, team, "receptions", proj, std, line_lookup, latest_opp)
-            if prop:
-                projections.append(prop)
+            if prop: projections.append(prop)
 
     return projections
 
