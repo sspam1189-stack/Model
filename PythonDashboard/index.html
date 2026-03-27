@@ -2293,13 +2293,13 @@
         const allBtn = document.createElement('button');
         allBtn.textContent = 'All';
         allBtn.style.cssText = nbaActiveMarket === 'all' ? btnActiveStyle : btnStyle;
-        allBtn.onclick = () => { nbaActiveMarket = 'all'; renderNBAMarketBtns(); refreshView(); };
+        allBtn.onclick = () => { nbaActiveMarket = 'all'; allPicksPage = 0; weeklyPage = 0; renderNBAMarketBtns(); refreshView(); };
         nbaMarketBtnBar.appendChild(allBtn);
         for (const m of allMarketKeys) {
           const btn = document.createElement('button');
           btn.textContent = marketLabels[m] || m;
           btn.style.cssText = nbaActiveMarket === m ? btnActiveStyle : btnStyle;
-          btn.onclick = () => { nbaActiveMarket = m; renderNBAMarketBtns(); refreshView(); };
+          btn.onclick = () => { nbaActiveMarket = m; allPicksPage = 0; weeklyPage = 0; renderNBAMarketBtns(); refreshView(); };
           nbaMarketBtnBar.appendChild(btn);
         }
       }
@@ -2426,7 +2426,9 @@
       }
 
       const PAGE_SIZE = 50;
+      const WEEKS_PER_PAGE = 4;
       let allPicksPage = 0;
+      let weeklyPage = 0;
 
       function renderAllPicksView() {
         contentArea.textContent = '';
@@ -2685,8 +2687,41 @@
         summCard.appendChild(summTbl);
         contentArea.appendChild(summCard);
 
-        // Per-week pick cards
-        for (const ws of sortedWeeks) {
+        // Per-week pick cards — paginated (WEEKS_PER_PAGE per page)
+        const totalWeekPages = Math.ceil(sortedWeeks.length / WEEKS_PER_PAGE);
+        weeklyPage = Math.min(weeklyPage, Math.max(0, totalWeekPages - 1));
+        const weekPageStart = weeklyPage * WEEKS_PER_PAGE;
+        const visibleWeeks = weekSel.value !== 'all'
+          ? sortedWeeks  // specific week selected → show it (no pagination)
+          : sortedWeeks.slice(weekPageStart, weekPageStart + WEEKS_PER_PAGE);
+
+        // Pagination bar (only shown when "all weeks" and more than one page)
+        if (weekSel.value === 'all' && totalWeekPages > 1) {
+          const pgBar = document.createElement('div');
+          pgBar.style.cssText = 'display:flex;align-items:center;gap:10px;margin-bottom:12px;flex-wrap:wrap';
+          const pgLabel = document.createElement('span');
+          pgLabel.style.cssText = 'color:#999;font-size:12px;flex:1';
+          pgLabel.textContent = `Weeks ${weekPageStart+1}–${Math.min(weekPageStart+WEEKS_PER_PAGE, sortedWeeks.length)} of ${sortedWeeks.length}`;
+          const prevBtn = document.createElement('button');
+          prevBtn.textContent = '← Prev';
+          prevBtn.style.cssText = 'padding:4px 12px;border-radius:6px;border:1px solid rgba(255,255,255,0.15);background:transparent;color:#ccc;font-size:12px;cursor:pointer';
+          prevBtn.disabled = weeklyPage === 0;
+          prevBtn.style.opacity = weeklyPage === 0 ? '0.3' : '1';
+          const nextBtn = document.createElement('button');
+          nextBtn.textContent = 'Next →';
+          nextBtn.style.cssText = 'padding:4px 12px;border-radius:6px;border:1px solid rgba(255,255,255,0.15);background:transparent;color:#ccc;font-size:12px;cursor:pointer';
+          nextBtn.disabled = weeklyPage >= totalWeekPages - 1;
+          nextBtn.style.opacity = weeklyPage >= totalWeekPages - 1 ? '0.3' : '1';
+          prevBtn.onclick = () => { weeklyPage--; renderWeeklyView(); window.scrollTo(0,0); };
+          nextBtn.onclick = () => { weeklyPage++; renderWeeklyView(); window.scrollTo(0,0); };
+          pgBar.appendChild(pgLabel);
+          pgBar.appendChild(prevBtn);
+          pgBar.appendChild(document.createTextNode(`Page ${weeklyPage+1} / ${totalWeekPages}`));
+          pgBar.appendChild(nextBtn);
+          contentArea.appendChild(pgBar);
+        }
+
+        for (const ws of visibleWeeks) {
           const wPicks = weekMap[ws].slice().sort((a, b) => (b.date || '').localeCompare(a.date || ''));
           const we = getWeekEnd(ws);
           const wW = wPicks.filter(p => p.result === 'WIN').length;
