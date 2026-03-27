@@ -1,13 +1,35 @@
 // scripts/sources/espn_scoreboard.mjs
 // ESPN scoreboard for NCAA men's basketball
+import fs from "fs";
+import path from "path";
+import { fileURLToPath } from "url";
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+const CACHE_DIR = path.resolve(__dirname, "..", "..", "..", "cache", "espn_ncaa");
 
 export async function fetchScoreboard(dateYYYYMMDD) {
+  // Disk cache — shared across jsNCAA/pyNCAA
+  if (dateYYYYMMDD) {
+    if (!fs.existsSync(CACHE_DIR)) fs.mkdirSync(CACHE_DIR, { recursive: true });
+    const diskPath = path.join(CACHE_DIR, dateYYYYMMDD + ".json");
+    if (fs.existsSync(diskPath)) {
+      return JSON.parse(fs.readFileSync(diskPath, "utf8"));
+    }
+  }
+
   const base = "https://site.api.espn.com/apis/site/v2/sports/basketball/mens-college-basketball/scoreboard";
   const params = dateYYYYMMDD ? `?dates=${dateYYYYMMDD}&groups=50&limit=365` : `?groups=50&limit=365`;
   const url = `${base}${params}`;
   const res = await fetch(url, { headers: { "user-agent": "ncaa-picks-bot/1.0" } });
   if (!res.ok) throw new Error(`HTTP ${res.status} for ${url}`);
-  return await res.json();
+  const data = await res.json();
+
+  if (dateYYYYMMDD) {
+    try { fs.writeFileSync(path.join(CACHE_DIR, dateYYYYMMDD + ".json"), JSON.stringify(data)); }
+    catch (e) { /* ignore */ }
+  }
+
+  return data;
 }
 
 export function extractFinalScores(scoreboardJson) {

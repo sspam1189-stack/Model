@@ -1,8 +1,13 @@
 # scripts/sources/espn_scoreboard.py
 # Uses ESPN's public JSON scoreboard endpoint.
 
+import os
+import json
 import requests
 import math
+
+_HERE = os.path.dirname(os.path.abspath(__file__))
+CACHE_DIR = os.path.normpath(os.path.join(_HERE, "..", "..", "..", "cache", "espn_nba"))
 
 
 def fetch_scoreboard(date_yyyymmdd=None):
@@ -10,12 +15,29 @@ def fetch_scoreboard(date_yyyymmdd=None):
     Fetch ESPN NBA scoreboard JSON.
     date_yyyymmdd: optional string like "20260130"
     """
+    # Disk cache — shared across jsNBA/jsFull/pyNBA/pyFull
+    if date_yyyymmdd:
+        os.makedirs(CACHE_DIR, exist_ok=True)
+        disk_path = os.path.join(CACHE_DIR, date_yyyymmdd + ".json")
+        if os.path.exists(disk_path):
+            with open(disk_path, "r") as f:
+                return json.load(f)
+
     base = "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/scoreboard"
     url = f"{base}?dates={date_yyyymmdd}" if date_yyyymmdd else base
     res = requests.get(url, headers={"user-agent": "nba-picks-bot/1.0"})
     if res.status_code != 200:
         raise Exception(f"HTTP {res.status_code} for {url}")
-    return res.json()
+    data = res.json()
+
+    if date_yyyymmdd:
+        try:
+            with open(os.path.join(CACHE_DIR, date_yyyymmdd + ".json"), "w") as f:
+                json.dump(data, f)
+        except Exception:
+            pass
+
+    return data
 
 
 def extract_final_scores(scoreboard_json):

@@ -1,19 +1,41 @@
 # scripts/sources/espn_scoreboard.py
 # ESPN scoreboard for NCAA men's basketball
 
+import os
 import re
+import json
 import requests
 import math
 
+_HERE = os.path.dirname(os.path.abspath(__file__))
+CACHE_DIR = os.path.normpath(os.path.join(_HERE, "..", "..", "..", "cache", "espn_ncaa"))
+
 
 def fetch_scoreboard(date_yyyymmdd=None):
+    # Disk cache — shared across jsNCAA/pyNCAA
+    if date_yyyymmdd:
+        os.makedirs(CACHE_DIR, exist_ok=True)
+        disk_path = os.path.join(CACHE_DIR, date_yyyymmdd + ".json")
+        if os.path.exists(disk_path):
+            with open(disk_path, "r") as f:
+                return json.load(f)
+
     base = "https://site.api.espn.com/apis/site/v2/sports/basketball/mens-college-basketball/scoreboard"
     params = f"?dates={date_yyyymmdd}&groups=50&limit=365" if date_yyyymmdd else "?groups=50&limit=365"
     url = f"{base}{params}"
     res = requests.get(url, headers={"user-agent": "ncaa-picks-bot/1.0"})
     if not res.ok:
         raise Exception(f"HTTP {res.status_code} for {url}")
-    return res.json()
+    data = res.json()
+
+    if date_yyyymmdd:
+        try:
+            with open(os.path.join(CACHE_DIR, date_yyyymmdd + ".json"), "w") as f:
+                json.dump(data, f)
+        except Exception:
+            pass
+
+    return data
 
 
 def _norm_for_match(s):
