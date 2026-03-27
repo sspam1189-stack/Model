@@ -2373,6 +2373,12 @@
       const weekSel = document.createElement('select');
       weekSel.style.cssText = selStyle;
 
+      // Market/prop type dropdown
+      const marketSel = document.createElement('select');
+      marketSel.style.cssText = selStyle;
+      const allMarketKeys = [...new Set(picks.map(p => p.market))];
+      marketSel.innerHTML = '<option value="all">All Props</option>' + allMarketKeys.map(m => `<option value="${m}">${marketLabels[m] || m}</option>`).join('');
+
       function updateWeekOptions() {
         let seasonPicks = data.props.filter(p => p.pick !== 'PASS');
         if (seasonSel.value !== 'all') seasonPicks = seasonPicks.filter(p => String(p.season) === seasonSel.value);
@@ -2387,15 +2393,15 @@
 
       filterBar.appendChild(seasonSel);
       filterBar.appendChild(weekSel);
+      filterBar.appendChild(marketSel);
       filterBar.appendChild(filterLabel);
       el.appendChild(filterBar);
 
       function getFilteredPicks() {
         let fp = data.props.filter(p => p.pick !== 'PASS');
         if (seasonSel.value !== 'all') fp = fp.filter(p => String(p.season) === seasonSel.value);
-        if (weekSel.value !== 'all') {
-          fp = fp.filter(p => String(p.week) === weekSel.value);
-        }
+        if (weekSel.value !== 'all') fp = fp.filter(p => String(p.week) === weekSel.value);
+        if (marketSel.value !== 'all') fp = fp.filter(p => p.market === marketSel.value);
         // Sort by week ascending, then pCover descending
         fp.sort((a, b) => {
           const wA = (a.season || 0) * 100 + (a.week || 0);
@@ -2550,6 +2556,7 @@
 
       seasonSel.addEventListener('change', () => { updateWeekOptions(); renderNFLPropsTable(); });
       weekSel.addEventListener('change', renderNFLPropsTable);
+      marketSel.addEventListener('change', renderNFLPropsTable);
       renderNFLPropsTable();
     }
 
