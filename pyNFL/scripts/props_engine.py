@@ -80,28 +80,13 @@ OVER_ONLY_MARKETS = {"pass_tds"}  # OVER 60.3% vs UNDER 48.3%
 # Fixed by raising filters to: pass_att >= 15, rush_att >= 8, targets >= 4
 
 # Minimum edge size per market (|proj - line|)
-MIN_EDGE = {
-    "pass_yds": 10, "pass_tds": 0.3, "pass_att": 2, "completions": 2,
-    "rush_yds": 5, "rush_att": 2,
-    "rec_yds": 5, "receptions": 0.5,
-    "interceptions": 0.2,
-}
-MAX_EDGE = {
-    "pass_yds": 40, "pass_tds": 2, "pass_att": 10, "completions": 8,
-    "rush_yds": 30, "rush_att": 8,
-    "rec_yds": 30, "receptions": 4,
-    "interceptions": 1.5,
-}
+# Original +155u filters — DO NOT CHANGE without re-backtesting
+MIN_EDGE = {"pass_yds": 20, "pass_tds": 0.3, "receptions": 0.5, "rush_att": 2}
+MAX_EDGE = {"pass_yds": 50, "pass_tds": 2, "rush_att": 8}
 
 # Minimum line value per market (filters out low-volume players where noise dominates)
-MIN_LINE = {
-    "rec_yds": 50,
-    "pass_yds": 150,
-    "rush_yds": 20,
-    "pass_att": 20,
-    "completions": 12,
-    "rush_att": 8,
-}
+# rec_yds line<50: 64W-72L (-15u) vs line>=50: 31W-13L (+16.7u)
+MIN_LINE = {"rec_yds": 50}
 
 
 # ---------------------------------------------------------------------------
@@ -359,9 +344,11 @@ def project_player_props(player_logs, team_stats, prop_lines=None):
         latest_opp = games[-1].get("opp", "")
 
         # --- Qualified game sets (reused across markets) ---
-        passer_games = [g for g in recent if g.get("pass_att", 0) >= 15]
-        rusher_games = [g for g in recent if g.get("rush_att", 0) >= 8]
-        receiver_games = [g for g in recent if g.get("targets", 0) >= 4]
+        # Original filters from +155u backtest — lower filters capture the
+        # under-projection bias which IS the edge (model projects low → UNDER wins)
+        passer_games = [g for g in recent if g.get("pass_att", 0) >= 10]
+        rusher_games = [g for g in recent if g.get("rush_att", 0) >= 5]
+        receiver_games = [g for g in recent if g.get("targets", 0) >= 2]
 
         opp_pass_def = def_pass_ranks.get(latest_opp, avg_pass_def)
         opp_rush_def = def_rush_ranks.get(latest_opp, avg_rush_def)
