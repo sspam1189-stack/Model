@@ -2515,7 +2515,7 @@
           if (!weekMap[ws]) weekMap[ws] = [];
           weekMap[ws].push(p);
         }
-        const sortedWeeks = Object.keys(weekMap).sort().reverse();
+        const sortedWeeks = Object.keys(weekMap).sort();
 
         weekFilterLabel.textContent = `${fp.length} picks across ${sortedWeeks.length} week${sortedWeeks.length !== 1 ? 's' : ''}`;
 
