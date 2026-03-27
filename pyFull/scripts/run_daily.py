@@ -4,8 +4,7 @@
 #   1. Grade yesterday's picks against final scores
 #   2. Fetch today's stats, odds, trends, injuries
 #   3. Analyze each game via model engine
-#   4. Build HTML + text email with records, trends, rolling windows
-#   5. Send via email
+#   4. Save store and output results
 
 import json
 import math
@@ -35,7 +34,6 @@ from kalman_state import (
     apply_daily_drift, batch_update, kalman_summary, prune_processed_games,
 )
 from calibration import build_calibration_table, build_calibration_html
-from email_report import send_email
 
 
 # ---- Constants ----
@@ -413,39 +411,10 @@ def build_game_injury_adj(away_team, home_team, injury_report, player_mpg=None):
     return {"awayInjuries": get_key_injuries(injury_report, away_team, player_mpg),
             "homeInjuries": get_key_injuries(injury_report, home_team, player_mpg)}
 
-# ---- Email HTML Builder (simplified but complete) ----
-
 def conf_badge(conf):
     c = str(conf or "").lower()
     cls = "b-elite" if c == "elite" else ("b-high" if c == "high" else "b-low")
     return f'<span class="badge {cls}">{esc(c.upper() if c else "N/A")}</span>'
-
-def build_text_email(run, store):
-    lines = [f"NBA PICKS \u2014 {run['dateDisplay']}", "", "TODAY (Actionable only)", ""]
-    for g in run.get("games", []):
-        if g.get("status") in ("MISSING_ODDS", "SKIPPED"):
-            lines.extend([f"{g.get('away','')} @ {g.get('home','')} | {g['status']} | {g.get('note', '')}", ""]); continue
-        lines.append(f"{g['away']} @ {g['home']} | Line: {g['home']} {'+'if (g.get('line') or 0)>0 else ''}{fmt_num(g.get('line'),1)} | Total: {fmt_num(g.get('total'),1)}")
-        if g.get("sPick") and g["sPick"] != "PASS":
-            pm = round((g.get("hS",0)-g.get("aS",0))*10)/10
-            ft = g["home"] if pm >= 0 else g["away"]
-            prob_str = ""
-            if g.get("pCover") is not None:
-                prob_str = f" | P(cover)={fmt_num((g['pCover'] or 0)*100,0)}%"
-            lines.append(f"  Spread: {g['sPick']} ({str(g.get('sConf','')).upper()}) | proj {ft} by {fmt_num(abs(pm),1)} | edge {fmt_num(g.get('sDiff'),1)}{prob_str}")
-        else:
-            lines.append("  Spread: PASS")
-        if g.get("oPick") and g["oPick"] != "PASS":
-            ct = (g["total"]+g["tDiff"]) if isinstance(g.get("tDiff"),(int,float)) and isinstance(g.get("total"),(int,float)) else g.get("pT")
-            lines.append(f"  Total:  {g['oPick']} {fmt_num(g.get('total'),1)} ({str(g.get('oConf','')).upper()}) | proj {fmt_num(ct,1)} | edge {fmt_num(abs(g.get('tDiff',0)),1)}")
-        else: lines.append("  Total:  PASS")
-        if g.get("injuryNote"): lines.append(f"  Injury: {g['injuryNote']}")
-        if g.get("trends"):
-            lines.append(f"  Trends Away: {g['trends'].get('away','\u2014')}")
-            lines.append(f"  Trends Home: {g['trends'].get('home','\u2014')}")
-        lines.append("")
-    lines.extend(["\u2014", compute_summary_text(store), "", last10_text(store, "spread"), "", last10_text(store, "total")])
-    return "\n".join(lines)
 
 def build_game_prob_table(games):
     filtered = [g for g in (games or []) if g.get("status") not in ("MISSING_ODDS", "SKIPPED")]
@@ -496,76 +465,6 @@ def build_game_prob_table(games):
     <div class="tiny" style="margin-top:6px">P(Cover) = probability the picked side wins. Directional % shown below.</div>
   </div>'''
 
-
-def build_email_html(run, summary_obj, last10, last10_totals, weekly_spread, weekly_total,
-                     rolling_spread, rolling_total, team_records, calib_rows, yesterday_recap):
-    # Simplified but functionally complete HTML email builder
-    s = summary_obj or compute_summary_obj({"runs": []})
-    calib_html = build_calibration_html(calib_rows) if calib_rows else ""
-    from email_report import send_email as _  # just to verify import works
-    tz = _get_tz()
-    timestamp = datetime.now(tz).strftime("%m/%d/%Y, %I:%M:%S %p")
-    recap_html = ""
-    if yesterday_recap and yesterday_recap.get("picks"):
-        def rb(result):
-            if result == "WIN": return '<span style="color:#10b981;font-weight:700">WIN</span>'
-            if result == "LOSS": return '<span style="color:#ef4444;font-weight:700">LOSS</span>'
-            return '<span style="color:#6b7280;font-weight:700">PUSH</span>'
-        rrows = "".join(f'<tr><td>{esc(p["matchup"])}</td><td><b>{esc(p["pick"])}</b></td><td style="text-align:center">{rb(p["result"])}</td><td style="text-align:center">{esc(p["final"])}</td></tr>' for p in yesterday_recap["picks"])
-        t = yesterday_recap["tally"]
-        uc = "#10b981" if yesterday_recap["units"] >= 0 else "#ef4444"
-        recap_html = f'<div class="card" style="border-left:4px solid #f59e0b;margin-bottom:10px;"><div class="summaryTitle">Yesterday\'s Recap ({esc(yesterday_recap["dateDisplay"])})</div><table class="data"><thead><tr><th>Game</th><th>Pick</th><th style="text-align:center">Result</th><th style="text-align:center">Final</th></tr></thead><tbody>{rrows}</tbody></table><div class="tiny" style="margin-top:6px">Spread: <b>{t["w"]}-{t["l"]}</b> <span style="color:{uc};font-weight:700">{yesterday_recap["units"]:+.2f}u</span></div></div>'
-
-    # Build spread picks
-    spread_picks_html = ""
-    filtered = [g for g in run.get("games",[]) if g.get("status") not in ("MISSING_ODDS","SKIPPED") and g.get("sPick") and g["sPick"] != "PASS" and is_actionable(g.get("sConf"))]
-    filtered.sort(key=lambda g: g.get("pCover", 0) or 0, reverse=True)
-    if filtered:
-        for g in filtered:
-            pcover_ps = f' P(cover)={g["pCover"]*100:.0f}%' if g.get("pCover") else ""
-            pm = round((g.get("hS",0)-g.get("aS",0))*10)/10
-            ft = g["home"] if pm >= 0 else g["away"]
-            spread_picks_html += f'<div style="padding:6px 0;border-bottom:1px dashed #eef2f7;"><span class="pick-team">{esc(g["sPick"])}</span> <span class="trend-label">proj {esc(ft)} by {fmt_num(abs(pm),1)} sDiff {fmt_num(g.get("sDiff"),1)}{pcover_ps}</span> {conf_badge(g.get("sConf"))}</div>'
-    else:
-        spread_picks_html = '<div class="no-picks">No actionable spread picks today.</div>'
-
-    # Game cards
-    gcards = ""
-    for g in run.get("games",[]):
-        skip = g.get("status") in ("MISSING_ODDS","SKIPPED")
-        proj = ""
-        if not skip and isinstance(g.get("aS"),(int,float)) and isinstance(g.get("hS"),(int,float)):
-            ct = (g["total"]+g["tDiff"]) if isinstance(g.get("tDiff"),(int,float)) and isinstance(g.get("total"),(int,float)) else g.get("pT")
-            proj = f'<div class="tiny" style="margin-top:4px">Proj: <b>{esc(g["away"])} {fmt_num(g["aS"],1)}</b> - <b>{esc(g["home"])} {fmt_num(g["hS"],1)}</b> Total: <b>{fmt_num(ct,1)}</b></div>'
-        b2b = f'<div class="tiny" style="margin-top:4px">{esc(g["b2bNote"])}</div>' if g.get("b2bNote") else ""
-        inj = f'<div class="tiny" style="margin-top:4px">{esc(g.get("injuryNote",""))}</div>' if g.get("injuryNote") else ""
-        gcards += f'<div class="card card-games" style="margin-bottom:8px;"><div class="summaryTitle">{esc(g.get("away",""))} @ {esc(g.get("home",""))} <span class="tiny">Line {fmt_num(g.get("line"),1)} Total {fmt_num(g.get("total"),1)}</span></div>{proj}{inj}{b2b}</div>'
-
-    # Record row helper
-    def rrow(label, b):
-        return f'<tr><td>{label}</td><td>{b["w"]}-{b["l"]}-{b["p"]}</td><td>{b["pct"]}%</td><td>{fmt_units(b["units"])}</td><td>{b["played"]}</td></tr>'
-
-    EMAIL_STYLES = '<style>body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;margin:0;padding:0;background:#f3f4f6}.wrap{max-width:920px;margin:0 auto;padding:16px}.h1{font-size:20px;font-weight:800;color:#111827}.sub{font-size:12px;color:#6b7280}.card{background:#fff;border:1px solid #e5e7eb;border-radius:14px;padding:12px;box-shadow:0 1px 3px rgba(0,0,0,.05)}.card .summaryTitle{font-size:12px;font-weight:800;color:#111827;letter-spacing:.02em;margin-bottom:8px}.tiny{font-size:11px;color:#6b7280;line-height:1.35}table.data{width:100%;border-collapse:collapse}table.data th,table.data td{font-size:12px;padding:7px 6px;border-bottom:1px solid #eef2f7}table.data th{text-align:left;color:#6b7280;font-weight:700}.badge{display:inline-block;font-size:10px;font-weight:800;padding:3px 8px;border-radius:999px;border:1px solid #e5e7eb;white-space:nowrap}.b-high{background:#ecfdf5;color:#047857;border-color:#a7f3d0}.b-elite{background:#111827;color:#fff;border-color:#111827}.b-low{background:#fef3c7;color:#92400e;border-color:#fde68a}.pick-team{font-weight:800;color:#111827}.pick-line{font-size:11px;color:#6b7280}.no-picks{color:#6b7280;font-size:12px;padding:6px 0}.trend-label{font-size:11px;color:#6b7280}.win-text{color:#047857}.loss-text{color:#b91c1c}.card-picks{border-left:4px solid #6366f1}.card-records{border-left:4px solid #0ea5e9}.card-games{border-left:4px solid #f59e0b}.card-trends{border-left:4px solid #10b981}.section-label{font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.1em;padding:10px 0 4px;opacity:.55}</style>'
-
-    def row_full(content):
-        return f'<table width="100%" cellpadding="0" cellspacing="0" border="0" style="margin-bottom:10px;"><tr><td>{content}</td></tr></table>'
-
-    record_card = f'''<div class="card card-records"><div class="summaryTitle">Spread (ATS)</div>
-        <table class="data"><thead><tr><th>Bucket</th><th>W-L-P</th><th>Win%</th><th>Flat</th><th>Graded</th></tr></thead>
-        <tbody>{rrow("Elite", s["spread"]["elite"])}{rrow("Favorites", s["favdog"]["fav"])}{rrow("Underdogs", s["favdog"]["dog"])}</tbody></table>
-        <div class="tiny">Only graded picks.</div></div>'''
-
-    return f'''<html><head>{EMAIL_STYLES}</head><body><div class="wrap">
-      <table width="100%" cellpadding="0" cellspacing="0" border="0" style="margin-bottom:10px;"><tr>
-        <td><div class="h1">NBA Picks (Full Season) - {esc(run.get("dateDisplay",""))}</div><div class="sub">High + Elite only. Units at -110. Times in {TIMEZONE}.</div></td>
-        <td style="text-align:right;" valign="top"><div class="sub">{esc(timestamp)}</div></td></tr></table>
-      {row_full(recap_html) if recap_html else ""}
-      {row_full(f'<div class="card card-picks"><div class="summaryTitle">Today\'s Spread Picks (Actionable)</div>{spread_picks_html}</div>')}
-      {row_full(record_card)}
-      {row_full(build_game_prob_table(run.get("games", [])))}
-      <div class="section-label">Games</div>{gcards}
-      {('<div class="section-label">Model Calibration</div>' + row_full('<div class="card"><div class="summaryTitle">P(cover) Calibration</div>' + calib_html + '</div>')) if calib_html else ""}
-    </div></body></html>'''
 
 # ---- Main Pipeline ----
 
@@ -839,22 +738,7 @@ def main(subject_label="[PY]"):
     upsert_run(store, run); save_store(store)
     prune_processed_games(kalman_state, 30); save_kalman_state(kalman_state)
 
-    # 8. Compute trend data
-    summary_obj = compute_summary_obj(store)
-    l10, l10t = compute_last10(store,"spread"), compute_last10(store,"total")
-    ws, wt = compute_weekly_breakdown(store,"spread"), compute_weekly_breakdown(store,"total")
-    rs, rt = compute_rolling_windows(store,"spread"), compute_rolling_windows(store,"total")
-    tr = compute_team_records(store)
-    cr = build_calibration_table(store)
-    yr = compute_yesterday_recap(store, yesterday)
-
-    # 9. Send (disabled for now)
-    print("[6/7] Email disabled (not sending).")
-    html = build_email_html(run, summary_obj, l10, l10t, ws, wt, rs, rt, tr, cr, yr)
-    text = build_text_email(run, store)
-    subject = f"{subject_label} NBA Picks (Full Season) {run['dateDisplay']}"
-    # send_email(subject, text, html)
-    print(f"\nDone: {subject}")
+    print(f"\nDone: {subject_label} NBA Picks (Full Season) {run['dateDisplay']}")
 
 if __name__ == "__main__":
     try: main()
