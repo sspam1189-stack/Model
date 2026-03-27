@@ -90,12 +90,6 @@ BAYES_HYPER = {
     "residualVar": 100,
 }
 
-# --- Logistic Regression confirmation model -----------------------------------
-LR_CONFIRM_THRESH = 0.55        # LR P(cover) >= this to confirm Bayesian pick
-LR_VETO_THRESH    = 0.45        # LR P(cover) < this to veto Bayesian pick
-LR_MIN_TRAINING_GAMES = 80      # minimum games before LR starts predicting
-LR_RETRAIN_INTERVAL   = 20      # retrain LR every N new graded games
-
 # --- Core engine configuration ------------------------------------------------
 
 ENGINE_CONFIG = {

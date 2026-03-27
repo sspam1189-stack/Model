@@ -48,16 +48,56 @@ BAYES_HYPER = {
     "residualVar": 130,    # higher irreducible noise in college
 }
 
-# --- Logistic Regression confirmation model -----------------------------------
-LR_CONFIRM_THRESH = 0.55        # LR P(cover) >= this to confirm Bayesian pick
-LR_VETO_THRESH    = 0.45        # LR P(cover) < this to veto Bayesian pick
-LR_MIN_TRAINING_GAMES = 80      # minimum games before LR starts predicting
-LR_RETRAIN_INTERVAL   = 20      # retrain LR every N new graded games
-
 # --- Core engine config (used by core/model_engine.py) -------------------------
 ENGINE_CONFIG = {
     "TEAM_NAME_ALIASES": {
-        "uconn huskies": "Connecticut",  # Odds API sends "UConn Huskies", stats has "Connecticut"
+        "ohio state": "Ohio St.",
+        "ohio state buckeyes": "Ohio St.",
+        "ohio bobcats": "Ohio",
+        "oregon state": "Oregon St.",
+        "oregon state beavers": "Oregon St.",
+        "oregon ducks": "Oregon",
+        "miami hurricanes": "Miami FL",
+        "miami fl": "Miami FL",
+        "miami florida": "Miami FL",
+        "miami oh": "Miami OH",
+        "miami ohio": "Miami OH",
+        "miami redhawks": "Miami OH",
+        "miami oh redhawks": "Miami OH",
+        "penn state": "Penn St.",
+        "penn state nittany lions": "Penn St.",
+        "penn quakers": "Penn",
+        "mississippi state": "Mississippi St.",
+        "mississippi rebels": "Mississippi",
+        "ole miss rebels": "Mississippi",
+        "michigan state": "Michigan St.",
+        "michigan state spartans": "Michigan St.",
+        "michigan wolverines": "Michigan",
+        "washington state": "Washington St.",
+        "uconn huskies": "Connecticut",
+        "washington huskies": "Washington",
+        "iowa state": "Iowa St.",
+        "iowa state cyclones": "Iowa St.",
+        "iowa hawkeyes": "Iowa",
+        "kansas state": "Kansas St.",
+        "kansas state wildcards": "Kansas St.",
+        "kansas jayhawks": "Kansas",
+        "oklahoma state": "Oklahoma St.",
+        "oklahoma sooners": "Oklahoma",
+        "nc state": "N.C. State",
+        "north carolina state": "N.C. State",
+        "north carolina tar heels": "North Carolina",
+        "colorado state": "Colorado St.",
+        "fresno state": "Fresno St.",
+        "san diego state": "San Diego St.",
+        "boise state": "Boise St.",
+        "arizona state": "Arizona St.",
+        "arizona wildcats": "Arizona",
+        "utah state": "Utah St.",
+        "utah utes": "Utah",
+        "florida state": "Florida St.",
+        "florida gators": "Florida",
+        "wichita state": "Wichita St.",
     },
     "MIN_GP": 5,                   # NCAA: fewer games needed (lower sample threshold)
     "USE_SAFE_FUZZY": True,        # NCAA: safe fuzzy matching (prevents "arkansas"/"kansas")

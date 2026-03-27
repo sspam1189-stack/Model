@@ -20,7 +20,7 @@ def main():
             if not all(isinstance(v, (int, float)) for v in [home_score, away_score, margin, line]):
                 continue
 
-            actual_edge = (home_score - away_score) - line
+            actual_edge = (home_score - away_score) + line
             proj_edge = margin
             err = actual_edge - proj_edge
 

@@ -290,7 +290,7 @@ def compute_residual_var(runs):
             if not _is_finite(g.get("margin")) or not _is_finite(g.get("line")):
                 continue
 
-            actual_edge = (g["homeScore"] - g["awayScore"]) - g["line"]
+            actual_edge = (g["homeScore"] - g["awayScore"]) + g["line"]
             proj_edge = g["margin"]
             errors.append(actual_edge - proj_edge)
 

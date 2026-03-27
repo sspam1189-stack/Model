@@ -115,7 +115,7 @@ for r in (h.get("runs") or []):
             continue
         if not isinstance(g.get("margin"), (int, float)) or not isinstance(g.get("line"), (int, float)):
             continue
-        err = (g["homeScore"] - g["awayScore"]) - g["line"] - g["margin"]
+        err = (g["homeScore"] - g["awayScore"]) + g["line"] - g["margin"]
         errors.append(err)
 mean = sum(errors) / len(errors) if errors else 0
 variance = sum((x - mean) ** 2 for x in errors) / len(errors) if errors else 0

@@ -71,7 +71,7 @@ def compute_residual_var_with_factor(runs, factor):
             line = g.get("line")
             if not all(isinstance(v, (int, float)) and math.isfinite(v) for v in [home_score, away_score, margin, line]):
                 continue
-            actual_edge = (home_score - away_score) - line
+            actual_edge = (home_score - away_score) + line
             proj_edge = margin
             errors.append(actual_edge - proj_edge)
     if len(errors) < 30:

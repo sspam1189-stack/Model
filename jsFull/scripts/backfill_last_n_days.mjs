@@ -89,6 +89,32 @@ function pickHomeAwayFromScoreboardEvent(ev) {
   return { home: homeName, away: awayName, commenceTimeIso };
 }
 
+// ── Grading functions ────────────────────────────────────────────────────
+
+function parseSpreadPick(pick) {
+  if (!pick || pick === "PASS") return null;
+  const m = pick.match(/(.+?)\s+([+-])(\d+(?:\.\d+)?)/);
+  return m ? { team: m[1].trim(), sign: m[2], pts: parseFloat(m[3]) } : null;
+}
+
+function gradeSpread(g) {
+  const p = parseSpreadPick(g.sPick);
+  if (!p) return null;
+  const chosenIsHome = p.team === g.home;
+  const margin = chosenIsHome ? g.homeScore - g.awayScore : g.awayScore - g.homeScore;
+  const val = p.sign === "+" ? margin + p.pts : margin - p.pts;
+  if (val === 0) return "PUSH";
+  return val > 0 ? "WIN" : "LOSS";
+}
+
+function gradeTotal(g) {
+  if (!g.oPick || g.oPick === "PASS") return null;
+  const actual = g.homeScore + g.awayScore;
+  if (actual === g.total) return "PUSH";
+  if (g.oPick === "OVER") return actual > g.total ? "WIN" : "LOSS";
+  return actual < g.total ? "WIN" : "LOSS";
+}
+
 async function main() {
   const days = Number(process.argv[2] || 60);
   if (!Number.isFinite(days) || days <= 0) {
@@ -347,6 +373,14 @@ async function main() {
         }
       };
 
+      // Grade picks
+      if (r.sPick && r.sPick !== "PASS" && Number.isFinite(r.homeScore) && Number.isFinite(r.awayScore)) {
+        r.sResult = gradeSpread(r);
+      }
+      if (r.oPick && r.oPick !== "PASS" && Number.isFinite(r.homeScore) && Number.isFinite(r.awayScore)) {
+        r.oResult = gradeTotal(r);
+      }
+
       games.push(r);
     }
 
@@ -416,7 +450,22 @@ async function main() {
     console.log("Kalman state saved.");
   }
 
-  console.log("Backfill complete.");
+  // ── Summary ──
+  let totalW = 0, totalL = 0, totalP = 0;
+  for (const r of store.runs || []) {
+    if (r.burnIn) continue;
+    for (const g of r.games || []) {
+      if (g.sResult === "WIN") totalW++;
+      else if (g.sResult === "LOSS") totalL++;
+      else if (g.sResult === "PUSH") totalP++;
+    }
+  }
+  const total = totalW + totalL;
+  const pct = total > 0 ? ((totalW / total) * 100).toFixed(1) : "N/A";
+  const units = (totalW * 0.9091 - totalL).toFixed(2);
+  console.log(`\nBACKFILL COMPLETE`);
+  console.log(`  SPREAD RECORD: ${totalW}-${totalL}-${totalP} (${pct}%)`);
+  console.log(`  Units: ${units}u`);
 }
 
 main().catch((err) => {

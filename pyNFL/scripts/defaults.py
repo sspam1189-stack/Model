@@ -265,10 +265,6 @@ ENGINE_CONFIG["TEAM_NAME_ALIASES"] = _build_alias_map()
 # Logistic Regression confirmation model
 # ---------------------------------------------------------------------------
 
-LR_CONFIRM_THRESH = 0.55
-LR_VETO_THRESH = 0.45
-LR_MIN_TRAINING_GAMES = 60         # Fewer NFL games -> lower threshold than NBA
-LR_RETRAIN_INTERVAL = 16           # Retrain every ~1 week of games
 
 
 # ---------------------------------------------------------------------------

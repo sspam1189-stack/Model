@@ -22,12 +22,11 @@ for run in runs:
     print(f"  {run['date']} | {s_picks} picks / {total_games} games | {s_wins}-{s_loss} ({pct}%)")
 
 def check_cover(g, side):
-    abs_line = abs(g.get("line", 0))
-    home_fav = g.get("line", 0) > 0
+    cover_margin = (g["homeScore"] - g["awayScore"]) + g.get("line", 0)
     if side == "home":
-        return (g["homeScore"] - g["awayScore"]) - abs_line > 0 if home_fav else (g["homeScore"] - g["awayScore"]) + abs_line > 0
+        return cover_margin > 0
     else:
-        return (g["awayScore"] - g["homeScore"]) + abs_line > 0 if home_fav else (g["awayScore"] - g["homeScore"]) - abs_line > 0
+        return cover_margin < 0
 
 # Threshold comparison
 w63, l63, w65, l65, w67, l67 = 0, 0, 0, 0, 0, 0

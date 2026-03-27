@@ -861,22 +861,7 @@ def build_game_prob_table(games):
         s_pick_display = esc(g["sPick"]) if g.get("sPick") and g["sPick"] != "PASS" else '<span style="color:#9ca3af">PASS</span>'
         o_pick_display = esc(g["oPick"]) if g.get("oPick") and g["oPick"] != "PASS" else '<span style="color:#9ca3af">PASS</span>'
 
-        # Show vetoed pick with strikethrough and reason
-        veto_html = ""
-        reason_html = ""
-        if g.get("lrVetoed"):
-            reasons = g.get("lrReasons", [])
-            reason_str = " \u00b7 ".join(reasons) if reasons else ""
-            veto_html = (
-                f'<div class="tiny" style="margin-top:2px;color:#dc2626">'
-                f'\u274C <s>{esc(g["lrVetoed"])}</s> vetoed'
-                f'</div>'
-            )
-            reason_html = (
-                f'<div class="tiny" style="color:#dc2626">'
-                f'{esc(reason_str) if reason_str else ""}'
-                f'</div>'
-            )
+
 
         p_cover_str = f'<b>{g["pCover"] * 100:.0f}%</b>' if g.get("pCover") is not None else '<span style="color:#9ca3af">\u2014</span>'
         p_ou_str = f'<b>{g["pOU"] * 100:.0f}%</b>' if g.get("pOU") is not None else '<span style="color:#9ca3af">\u2014</span>'
@@ -894,11 +879,11 @@ def build_game_prob_table(games):
 
         rows += f'''<tr>
         <td style="font-weight:700">{esc(g["away"])} @ {esc(g["home"])}</td>
-        <td>{s_pick_display}{s_conf_badge}<div class="tiny" style="margin-top:2px">Line {fmt_num(g.get("line"), 1)} \u00b7 proj {margin} \u00b7 sDiff {fmt_num(g.get("sDiff"), 1)}</div>{veto_html}</td>
+        <td>{s_pick_display}{s_conf_badge}<div class="tiny" style="margin-top:2px">Line {fmt_num(g.get("line"), 1)} \u00b7 proj {margin} \u00b7 sDiff {fmt_num(g.get("sDiff"), 1)}</div></td>
         <td style="text-align:center">{p_cover_str}<div class="tiny">{p_away} away / {p_home} home</div></td>
         <td>{o_pick_display}{o_conf_badge}<div class="tiny" style="margin-top:2px">O/U {fmt_num(g.get("total"), 1)} \u00b7 diff {t_diff}</div></td>
         <td style="text-align:center">{p_ou_str}<div class="tiny">{p_over} over / {p_under} under</div></td>
-        <td style="text-align:center">{reason_html}</td>
+        <td style="text-align:center"></td>
       </tr>'''
 
     return f'''<div class="card" style="border-left:4px solid #8b5cf6; margin-bottom:10px;">

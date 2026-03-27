@@ -22,12 +22,11 @@ POWER = {
 }
 
 def check_cover(g, side):
-    abs_line = abs(g.get("line", 0))
-    home_fav = g.get("line", 0) > 0
+    cover_margin = (g["homeScore"] - g["awayScore"]) + g.get("line", 0)
     if side == "home":
-        return (g["homeScore"] - g["awayScore"]) - abs_line > 0 if home_fav else (g["homeScore"] - g["awayScore"]) + abs_line > 0
+        return cover_margin > 0
     else:
-        return (g["awayScore"] - g["homeScore"]) + abs_line > 0 if home_fav else (g["awayScore"] - g["homeScore"]) - abs_line > 0
+        return cover_margin < 0
 
 power_w, power_l, mid_w, mid_l, low_w, low_l = 0, 0, 0, 0, 0, 0
 

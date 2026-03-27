@@ -311,10 +311,6 @@ function gradeSpread(g) {
   return 'PUSH';
 }
 
-// ─── LR Info Helper ───
-
-function lrVerdictBadge() { return ''; }
-function lrInfo() { return ''; }
 
 // ─── Data Computations ───
 
@@ -897,7 +893,6 @@ async function updateLastSyncInfo() {
 
 // NFL uses weekly cadence. Each run = one NFL week.
 // Game fields: away, home, line (marketSpread), projSpread, projHome,
-// projAway, sDiff, pCover, sPick, sConf, lrVerdict, lrProb, lrConfirm,
 // injuries (array), injuryDelta, homeScore, awayScore, sResult, week
 
 function nflGetWeekLabel(run) {
@@ -924,7 +919,6 @@ function nflGetActionablePicks(runs) {
         pick: g.sPick, conf: g.sConf, result,
         final: `${g.awayScore}-${g.homeScore}`,
         sDiff: g.sDiff, pCover: g.pCover,
-        lrVerdict: g.lrVerdict, lrProb: g.lrProb,
         projSpread: g.projSpread ?? (Number.isFinite(g.hS) && Number.isFinite(g.aS) ? Math.round((g.hS - g.aS) * 10) / 10 : null),
         marketSpread: g.line,
       });

@@ -3,6 +3,7 @@
 
 import json
 import math
+import re
 import os
 import sys
 import time
@@ -101,6 +102,33 @@ def pick_home_away_from_scoreboard_event(ev):
     commence_time_iso = comp.get("date")
     return {"home": home_name, "away": away_name, "commenceTimeIso": commence_time_iso}
 
+
+def _parse_spread_pick(pick):
+    if not pick or pick == "PASS":
+        return None
+    m = re.match(r"(.+?)\s+([+-])(\d+(?:\.\d+)?)", pick)
+    return {"team": m.group(1).strip(), "sign": m.group(2), "pts": float(m.group(3))} if m else None
+
+def grade_spread(g):
+    p = _parse_spread_pick(g.get("sPick"))
+    if not p:
+        return None
+    chosen_is_home = p["team"] == g.get("home")
+    margin = (g["homeScore"] - g["awayScore"]) if chosen_is_home else (g["awayScore"] - g["homeScore"])
+    val = margin + p["pts"] if p["sign"] == "+" else margin - p["pts"]
+    if val == 0:
+        return "PUSH"
+    return "WIN" if val > 0 else "LOSS"
+
+def grade_total(g):
+    if not g.get("oPick") or g["oPick"] == "PASS":
+        return None
+    actual = g["homeScore"] + g["awayScore"]
+    if actual == g.get("total"):
+        return "PUSH"
+    if g["oPick"] == "OVER":
+        return "WIN" if actual > g["total"] else "LOSS"
+    return "WIN" if actual < g["total"] else "LOSS"
 
 def main():
     days = int(sys.argv[1]) if len(sys.argv) > 1 else 60
@@ -369,6 +397,12 @@ def main():
                 },
             }
 
+            # Grade picks
+            if r.get("sPick") and r["sPick"] != "PASS" and isinstance(r.get("homeScore"), (int, float)) and isinstance(r.get("awayScore"), (int, float)):
+                r["sResult"] = grade_spread(r)
+            if r.get("oPick") and r["oPick"] != "PASS" and isinstance(r.get("homeScore"), (int, float)) and isinstance(r.get("awayScore"), (int, float)):
+                r["oResult"] = grade_total(r)
+
             games.append(r)
 
         completed = [
@@ -428,7 +462,21 @@ def main():
         save_kalman_state(kalman_state)
         print("Kalman state saved.")
 
-    print("Backfill complete.")
+    # ── Summary ──
+    total_w = total_l = total_p = 0
+    for r in store.get("runs", []):
+        if r.get("burnIn"):
+            continue
+        for g in r.get("games", []):
+            if g.get("sResult") == "WIN": total_w += 1
+            elif g.get("sResult") == "LOSS": total_l += 1
+            elif g.get("sResult") == "PUSH": total_p += 1
+    total = total_w + total_l
+    pct = f"{total_w / total * 100:.1f}" if total else "N/A"
+    units = total_w * 0.9091 - total_l
+    print(f"\nBACKFILL COMPLETE")
+    print(f"  SPREAD RECORD: {total_w}-{total_l}-{total_p} ({pct}%)")
+    print(f"  Units: {units:+.2f}u")
 
 
 if __name__ == "__main__":

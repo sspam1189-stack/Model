@@ -602,20 +602,6 @@ def stage_project(season, week, store):
         print("  ERROR: model_engine.py not yet available — cannot project")
         return
 
-    # Load LR model
-    lr_bundle = None
-    try:
-        from lr_model import load_or_train_lr, extract_lr_features, predict_lr, predict_lr_for_pick
-        lr_bundle = load_or_train_lr(store)
-        if lr_bundle:
-            print(f"  LR model ready ({lr_bundle.get('n_train', '?')} training games)")
-        else:
-            print("  LR model not ready (insufficient training data)")
-    except ImportError:
-        print("  WARNING: lr_model.py not yet available — skipping LR confirmation")
-    except Exception as e:
-        print(f"  WARNING: LR model load failed: {e}")
-
     # --- Weather + schedule enrichment ---
     try:
         from sources.weather import compute_weather_adjustment, fetch_forecast, get_stadium_for_home, is_dome_game
@@ -686,22 +672,6 @@ def stage_project(season, week, store):
             continue
 
         # LR confirmation / veto gate
-        if lr_bundle and r.get("sPick") and r["sPick"] != "PASS":
-            try:
-                lr_features = extract_lr_features(r, g, team_stats, kalman_state)
-                picked_home = r.get("home", "") in r.get("sPick", "")
-                lr_result = predict_lr_for_pick(lr_bundle, lr_features, picked_home, game=g)
-                r["lrProb"] = lr_result.get("lr_pick_prob") or lr_result.get("lr_prob")
-                r["lrVerdict"] = lr_result.get("lr_verdict")
-
-                if lr_result.get("lr_verdict") == "veto":
-                    r["lrVetoed"] = r["sPick"]
-                    r["lrReasons"] = lr_result.get("lr_reasons", [])
-                    r["sPick"] = "PASS"
-                    r["sConf"] = "vetoed"
-            except Exception as e:
-                print(f"  WARNING: LR predict failed: {e}")
-
         games.append(r)
 
     # Build and save run
@@ -747,17 +717,11 @@ def stage_project(season, week, store):
             marker = " ***" if conf == "elite" else " **"
             actionable.append(g)
 
-        lr_tag = ""
-        if g.get("lrVerdict"):
-            lr_tag = f" [LR:{g['lrVerdict']}]"
-        if g.get("lrVetoed"):
-            lr_tag = f" [VETOED: was {g['lrVetoed']}]"
-
         print(
             f"  {g.get('away', '?'):24s} @ {g.get('home', '?'):24s}  "
             f"Line:{fmt_num(line, 1):>6s}  Proj:{fmt_num(proj_spread, 1):>6s}  "
             f"sDiff:{fmt_num(s_diff, 1):>5s}  P:{fmt_num(p_cover, 2):>5s}  "
-            f"=> {pick:30s} [{conf}]{marker}{lr_tag}"
+            f"=> {pick:30s} [{conf}]{marker}"
         )
 
     print(f"\n  Total games: {len(games)}")

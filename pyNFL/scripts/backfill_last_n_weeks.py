@@ -609,33 +609,6 @@ def backfill(seasons, output_dir=None):
     else:
         print(f"\n[train] Insufficient data for ridge regression ({len(all_features)} < 30)")
 
-    # --- Train LR model via lr_model.train_lr_model ---
-    # train_lr_model reads graded games from the store (which we've been
-    # populating above), so it has all the data it needs.
-    graded_count = sum(
-        1 for r in store.get("runs", [])
-        if r.get("backfill") and not r.get("burnIn")
-        for g in r.get("games", [])
-        if g.get("sResult") in ("WIN", "LOSS")
-    )
-    if graded_count >= defaults.LR_MIN_TRAINING_GAMES:
-        print(f"\n[train] Training LR model on store ({graded_count} graded picks)...")
-        try:
-            from lr_model import train_lr_model
-            lr_bundle = train_lr_model(store)
-            if lr_bundle:
-                # train_lr_model already saves to pyNFL/data/lr_models/ via
-                # _save_model, so we just report success here.
-                print(f"  [lr] LR model trained: accuracy={lr_bundle.get('accuracy', 0):.3f}, "
-                      f"n_train={lr_bundle.get('n_train', 0)}")
-            else:
-                print("  [lr] train_lr_model returned None (insufficient data?)")
-        except Exception as e:
-            print(f"  WARNING: LR training failed: {e}")
-            import traceback
-            traceback.print_exc()
-    else:
-        print(f"\n[train] Insufficient graded picks for LR training ({graded_count} < {defaults.LR_MIN_TRAINING_GAMES})")
 
     # --- Save final artifacts ---
     weights_path = os.path.join(output_dir, "weights.json")
@@ -751,74 +724,6 @@ def _train_ridge(features_list, margins, output_dir):
     return weights, thresholds
 
 
-# ---------------------------------------------------------------------------
-# LR model training
-# ---------------------------------------------------------------------------
-
-def _train_lr(pick_outcomes, output_dir):
-    """
-    Train logistic regression on historical pick outcomes.
-    Saves model to output_dir/lr_models/.
-    """
-    import numpy as np
-    from sklearn.linear_model import LogisticRegression
-    from sklearn.preprocessing import StandardScaler
-    import pickle
-
-    # Build feature matrix from pick outcome features
-    all_keys = set()
-    for po in pick_outcomes:
-        all_keys.update(po["features"].keys())
-    feature_keys = sorted(all_keys)
-
-    X = np.zeros((len(pick_outcomes), len(feature_keys)))
-    y = np.array([1 if po["result"] == "WIN" else 0 for po in pick_outcomes])
-
-    for i, po in enumerate(pick_outcomes):
-        for j, key in enumerate(feature_keys):
-            val = po["features"].get(key, 0)
-            if isinstance(val, (int, float)) and math.isfinite(val):
-                X[i, j] = val
-
-    # Standardize
-    scaler = StandardScaler()
-    X_scaled = scaler.fit_transform(X)
-
-    # Train LR
-    lr = LogisticRegression(C=1.0, max_iter=1000, solver="lbfgs")
-    lr.fit(X_scaled, y)
-
-    accuracy = lr.score(X_scaled, y)
-    print(f"  [lr] Training accuracy: {accuracy:.3f} ({len(X)} samples)")
-
-    # Save model
-    lr_dir = os.path.join(output_dir, "lr_models")
-    os.makedirs(lr_dir, exist_ok=True)
-
-    model_data = {
-        "model": lr,
-        "scaler": scaler,
-        "feature_keys": feature_keys,
-        "n_train": len(X),
-        "accuracy": float(accuracy),
-    }
-
-    model_path = os.path.join(lr_dir, "lr_model.pkl")
-    with open(model_path, "wb") as f:
-        pickle.dump(model_data, f)
-
-    # Also save metadata as JSON for inspection
-    meta_path = os.path.join(lr_dir, "lr_meta.json")
-    with open(meta_path, "w") as f:
-        json.dump({
-            "feature_keys": feature_keys,
-            "n_train": len(X),
-            "accuracy": float(accuracy),
-            "coefs": lr.coef_[0].tolist(),
-            "intercept": float(lr.intercept_[0]),
-        }, f, indent=2)
-
-    print(f"  [lr] Model saved to {model_path}")
 
 
 # ---------------------------------------------------------------------------

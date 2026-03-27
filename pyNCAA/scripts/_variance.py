@@ -15,7 +15,7 @@ for r in runs:
             continue
         if not isinstance(g.get("margin"), (int, float)) or not isinstance(g.get("line"), (int, float)):
             continue
-        actual_edge = (g["homeScore"] - g["awayScore"]) - g["line"]
+        actual_edge = (g["homeScore"] - g["awayScore"]) + g["line"]
         proj_edge = g["margin"]
         errors.append(actual_edge - proj_edge)
 
