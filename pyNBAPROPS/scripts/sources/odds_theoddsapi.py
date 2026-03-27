@@ -149,12 +149,15 @@ def fetch_nba_player_props(date_key=None):
         now = datetime.datetime.now(ZoneInfo("America/Chicago"))
         date_key = now.strftime("%Y%m%d")
 
-    # Check cache (2-hour freshness for live props)
+    # Load existing cache for smart merge (keep lines for started/finished games)
     cp = _props_cache_path(date_key)
-    cached = _load_cache(cp, max_age_hours=2)
-    if cached is not None:
-        print(f"  [nba_props] Using cache: {cp.name} ({len(cached)} lines)")
-        return cached
+    existing_props = _load_cache(cp, max_age_hours=None) or []
+
+    # Build set of games already cached
+    cached_games = set()
+    for p in existing_props:
+        game_key = f"{p.get('event_away', '')} @ {p.get('event_home', '')}"
+        cached_games.add(game_key)
 
     api_key = os.environ.get("ODDS_API_KEY")
     if not api_key:
@@ -175,14 +178,20 @@ def fetch_nba_player_props(date_key=None):
 
     print(f"  [nba_props] Found {len(events)} NBA events")
 
-    # Step 2: For each event, fetch prop odds
-    all_props = []
+    # Step 2: For each event, fetch prop odds (skip games already cached)
+    new_props = []
+    skipped_games = 0
     markets_str = ",".join(PROP_MARKETS_API)
 
     for ev in events:
         event_id = ev.get("id")
         home = _TEAM_ABBR.get(ev.get("home_team", ""), ev.get("home_team", ""))
         away = _TEAM_ABBR.get(ev.get("away_team", ""), ev.get("away_team", ""))
+
+        game_key = f"{away} @ {home}"
+        if game_key in cached_games:
+            skipped_games += 1
+            continue
 
         url = (
             f"{BASE}/sports/{SPORT_KEY}/events/{event_id}/odds?"
@@ -231,7 +240,7 @@ def fetch_nba_player_props(date_key=None):
                         player_lines[desc]["under_price"] = price
 
             for pl in player_lines.values():
-                all_props.append({
+                new_props.append({
                     **pl,
                     "market": internal_market,
                     "event_home": home,
@@ -240,9 +249,14 @@ def fetch_nba_player_props(date_key=None):
 
         time.sleep(0.3)  # Rate limit
 
-    print(f"  [nba_props] Fetched {len(all_props)} player prop lines")
+    # Merge: keep existing cached lines + add new lines
+    all_props = existing_props + new_props
 
-    # Cache results
+    if skipped_games > 0:
+        print(f"  [nba_props] Kept {len(existing_props)} cached lines ({skipped_games} games already fetched)")
+    print(f"  [nba_props] Fetched {len(new_props)} new lines, {len(all_props)} total")
+
+    # Save merged result
     if all_props:
         _save_cache(all_props, cp)
 
