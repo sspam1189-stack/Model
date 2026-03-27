@@ -95,9 +95,6 @@ jobs:
       - name: Pull latest
         run: git pull origin main
 
-      - name: Seed props data from dashboard (gitignored locally, needed for merge)
-        run: cp -f PythonDashboard/data/nba-props.json pyNBAPROPS/data/nba-props.json 2>/dev/null || true
-
       - name: Install dependencies
         run: pip install -r pyNBAPROPS/requirements.txt
 
