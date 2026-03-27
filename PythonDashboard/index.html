@@ -2324,7 +2324,7 @@
         picks.sort((a, b) => {
           const wA = (a.season || 0) * 100 + (a.week || 0);
           const wB = (b.season || 0) * 100 + (b.week || 0);
-          return wA !== wB ? wA - wB : (b.pCover || 0) - (a.pCover || 0);
+          return wB - wA;
         });
       }
 
@@ -2400,7 +2400,7 @@
         fp.sort((a, b) => {
           const wA = (a.season || 0) * 100 + (a.week || 0);
           const wB = (b.season || 0) * 100 + (b.week || 0);
-          return wA !== wB ? wA - wB : (b.pCover || 0) - (a.pCover || 0);
+          return wB - wA;
         });
         return fp;
       }
