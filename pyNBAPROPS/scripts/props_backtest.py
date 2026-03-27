@@ -156,6 +156,7 @@ def backtest_props(season="2024-25", start_game=15, use_real_lines=False, start_
             prop_lines=real_lines,
             kalman_state=kalman_state,
             player_adv_stats=adv_stats,
+            today_games=actual_games,
         )
 
         # Phase 5: Grade projections against actuals

@@ -141,7 +141,8 @@ def _weighted_std(values, decay=DECAY_FACTOR):
 # ---------------------------------------------------------------------------
 
 def project_player_props(player_logs, team_def_stats=None, prop_lines=None,
-                         kalman_state=None, player_adv_stats=None):
+                         kalman_state=None, player_adv_stats=None,
+                         today_games=None):
     """
     Project player props for all players with sufficient game logs.
 
@@ -158,6 +159,10 @@ def project_player_props(player_logs, team_def_stats=None, prop_lines=None,
     player_adv_stats : dict or None
         {player_id_str: {"USG_PCT", "TS_PCT", "PACE", "MIN", ...}}
         from fetch_player_advanced_stats.
+    today_games : dict or None
+        {player_id: game_log_dict} for today's actual games.
+        Used in backtest to get correct opponent/home/away for each player.
+        When None (live mode), falls back to games[-1] (most recent game).
 
     Returns
     -------
@@ -190,9 +195,18 @@ def project_player_props(player_logs, team_def_stats=None, prop_lines=None,
         recent = games[-ROLLING_WINDOW:]
         name = games[-1].get("player_name", "Unknown")
         team = games[-1].get("team", "")
-        latest_opp = games[-1].get("opp", "")
-        is_home = games[-1].get("is_home", True)  # Next game venue hint
-        game_date = games[-1].get("game_date", "")
+
+        # Use today's actual game info if available (backtest mode),
+        # otherwise fall back to most recent game (live mode).
+        today_game = (today_games or {}).get(pid)
+        if today_game:
+            latest_opp = today_game.get("opp", "")
+            is_home = today_game.get("is_home", True)
+            game_date = today_game.get("game_date", "")
+        else:
+            latest_opp = games[-1].get("opp", "")
+            is_home = games[-1].get("is_home", True)
+            game_date = games[-1].get("game_date", "")
 
         # Filter to games with meaningful minutes
         qualified = [g for g in recent if g.get("min", 0) >= MIN_MINUTES]
