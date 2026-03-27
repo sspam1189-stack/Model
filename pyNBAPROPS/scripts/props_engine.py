@@ -568,8 +568,17 @@ def format_props_for_dashboard(projections, date_str="today"):
     picks = [p for p in projections if p["pick"] != "PASS"]
     picks.sort(key=lambda p: p.get("pCover", 0) or 0, reverse=True)
 
+    # Ensure every pick has a date field for dashboard filtering
+    for p in picks:
+        if not p.get("date"):
+            p["date"] = date_str
+
     return {
         "sport": "nba",
+        "type": "player_props",
+        "season": "2025-26",
+        "mode": "live",
+        "model": "kalman_blend",
         "date": date_str,
         "generated": dt.datetime.now().isoformat(),
         "totalProjections": len(projections),

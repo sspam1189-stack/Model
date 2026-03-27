@@ -1,16 +1,16 @@
 #!/usr/bin/env python3
 """
-pyNBAPROPS/scripts/props_backtest.py
-Walk-forward backtest of NBA player prop projections with Kalman filtering.
+pyNBAPROPS/scripts/props_backfill.py
+Walk-forward backfill of NBA player prop projections with Kalman filtering.
 
 For each game date, projects player stats using only prior games' data,
 then compares to actual results. The Kalman filter is trained incrementally
 as games are processed (no lookahead).
 
 Usage:
-    python -m scripts.props_backtest
-    python -m scripts.props_backtest --season 2025-26 --start-game 15
-    python -m scripts.props_backtest --real-lines
+    python -m scripts.props_backfill
+    python -m scripts.props_backfill --season 2025-26 --start-game 15
+    python -m scripts.props_backfill --real-lines
 """
 
 import sys
@@ -44,7 +44,7 @@ from defaults import (
 
 def backfill(season="2025-26", start_game=15, start_date=None, use_real_lines=True):
     """
-    Walk-forward backtest with Kalman filter trained incrementally.
+    Walk-forward backfill with Kalman filter trained incrementally.
     Always uses real prop lines — fetches from Odds API and caches if not already cached.
     Always resets Kalman state from scratch (no prior history).
 
@@ -242,6 +242,12 @@ def backfill(season="2025-26", start_game=15, start_date=None, use_real_lines=Tr
         if date_picks > 0 and date_idx % 10 == 0:
             print(f"  {game_date}: {date_picks} picks")
 
+    # --- Save Kalman state so run_daily can pick up from here ---
+    from player_kalman import save_player_kalman_state, prune_inactive_players
+    prune_inactive_players(kalman_state)
+    save_player_kalman_state(kalman_state, kalman_state_path)
+    print(f"  Saved Kalman state ({len(kalman_state['players'])} players) to {kalman_state_path}")
+
     # --- Summary ---
     print(kalman_summary(kalman_state, top_n=10, stat_key="pts"))
     _print_summary(results, total_projected, season)
@@ -272,7 +278,7 @@ def _find_actual(player_name, market, actual_games, player_logs):
 
 
 def _print_summary(results, total_projected, season):
-    """Print formatted backtest summary."""
+    """Print formatted backfill summary."""
     print(f"\n{'='*60}")
     print(f"  NBA PROPS BACKTEST SUMMARY (Kalman) — {season}")
     print(f"{'='*60}")
@@ -311,7 +317,7 @@ def _print_summary(results, total_projected, season):
 
 
 def write_dashboard_json(results, season):
-    """Write graded backtest picks to dashboard JSON files."""
+    """Write graded backfill picks to dashboard JSON files."""
     all_picks = []
     for market, data in results.items():
         for p in data["picks"]:
@@ -342,7 +348,7 @@ def write_dashboard_json(results, season):
         "sport": "nba",
         "type": "player_props",
         "season": season,
-        "mode": "backtest",
+        "mode": "backfill",
         "model": "kalman_blend",
         "generated": datetime.now().isoformat(),
         "totalProjections": sum(len(d["projections"]) for d in results.values()),
@@ -369,12 +375,38 @@ def write_dashboard_json(results, season):
         os.path.join(script_dir, "..", "..", "PythonDashboard", "data", "nba-props.json"),
     ]
 
+    # Collect all backfill dates so we know which are "historical"
+    backfill_dates = set(p.get("date", "") for p in all_picks)
+
     for path in paths:
         path = os.path.normpath(path)
         os.makedirs(os.path.dirname(path), exist_ok=True)
+
+        # Merge: preserve any live/today's picks that aren't in backfill date range
+        existing_live_picks = []
+        try:
+            if os.path.exists(path):
+                with open(path, "r") as f:
+                    existing = json.load(f)
+                existing_live_picks = [
+                    p for p in existing.get("props", [])
+                    if p.get("date") not in backfill_dates
+                ]
+        except Exception:
+            existing_live_picks = []
+
+        merged_props = all_picks + existing_live_picks
+        dashboard["props"] = merged_props
+        dashboard["totalPicks"] = len(merged_props)
+
+        n_bt = len(all_picks)
+        n_live = len(existing_live_picks)
+        if n_live > 0:
+            print(f"  Merged: {n_bt} backfill picks + {n_live} live picks preserved")
+
         with open(path, "w") as f:
             json.dump(dashboard, f, indent=2, cls=_NumpyEncoder)
-        print(f"  Wrote {len(all_picks)} picks to {path}")
+        print(f"  Wrote {len(merged_props)} picks to {path}")
 
 
 if __name__ == "__main__":

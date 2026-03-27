@@ -145,6 +145,7 @@ def run_daily(date_key=None):
         os.makedirs(os.path.dirname(path), exist_ok=True)
 
         # Load existing dashboard data if it exists
+        existing = {}
         existing_props = []
         try:
             if os.path.exists(path):
@@ -152,6 +153,7 @@ def run_daily(date_key=None):
                     existing = json.load(f)
                 existing_props = existing.get("props", [])
         except Exception:
+            existing = {}
             existing_props = []
 
         # Keep picks from OTHER dates (already graded / historical)
@@ -160,7 +162,16 @@ def run_daily(date_key=None):
         today_picks = [p for p in dashboard.get("props", []) if p.get("date") == date_iso or not p.get("date")]
 
         merged_props = kept + today_picks
-        dashboard_merged = {**dashboard, "props": merged_props}
+
+        # Preserve existing metadata (season, mode, model from backtest)
+        # but update generated timestamp and totals
+        dashboard_merged = {**existing, **dashboard, "props": merged_props}
+        if existing.get("season"):
+            dashboard_merged["season"] = existing["season"]
+        if existing.get("mode"):
+            dashboard_merged["mode"] = existing["mode"]
+        if existing.get("model"):
+            dashboard_merged["model"] = existing["model"]
         dashboard_merged["totalPicks"] = len(merged_props)
 
         n_kept = len(kept)
