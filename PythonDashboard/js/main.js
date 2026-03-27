@@ -38,20 +38,7 @@ const SOURCES = {
   }
 };
 
-const SUMMARY_SOURCES = {
-  nba: {
-    remote: 'https://raw.githubusercontent.com/sspam1189-stack/Model/main/pyNBA/data/independent_ml_backtest.json'
-  },
-  fullseason: {
-    remote: 'https://raw.githubusercontent.com/sspam1189-stack/Model/main/pyFull/data/independent_ml_backtest.json'
-  },
-  ncaa: {
-    remote: 'https://raw.githubusercontent.com/sspam1189-stack/Model/main/pyNCAA/data/independent_ml_backtest.json'
-  },
-  nfl: {
-    remote: 'https://raw.githubusercontent.com/sspam1189-stack/Model/main/pyNFL/data/independent_ml_backtest.json'
-  }
-};
+const SUMMARY_SOURCES = {};
 
 let cache = {};
 let sourceMeta = {};
