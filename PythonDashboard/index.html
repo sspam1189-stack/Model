@@ -2410,7 +2410,7 @@
       const allL = allPicks.filter(p => p.result === 'LOSS').length;
       const allU = allW * 1.0 + allL * (-1.1);
       const allPct = (allW + allL) > 0 ? (allW / (allW + allL) * 100).toFixed(1) : '0';
-      const fullSummary = `Full backtest: ${allW}W-${allL}L (${allPct}%) ${allU >= 0 ? '+' : ''}${allU.toFixed(1)}u`;
+      const fullSummary = `${allW}W-${allL}L (${allPct}%) ${allU >= 0 ? '+' : ''}${allU.toFixed(1)}u`;
       const hasGraded = isBacktest && (allW + allL) > 0;
       hdr.appendChild(Object.assign(document.createElement('div'), {className:'card-title', textContent:`NFL Player Props \u2014 ${data.season || ''}`}));
       hdr.appendChild(Object.assign(document.createElement('div'), {className:'card-subtitle', textContent:`${fullSummary} | Generated: ${(data.generated || '').slice(0,16)}`}));
