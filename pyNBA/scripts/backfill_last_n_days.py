@@ -26,7 +26,7 @@ from kalman_state import (
 from sources.odds_batch_historical import fetch_odds_for_day
 
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
-CACHE_DIR = os.path.join(SCRIPT_DIR, "..", "data", "stats_cache")
+CACHE_DIR = os.path.join(SCRIPT_DIR, "..", "..", "cache", "py_nba_stats")
 
 # Days at the START of the window (oldest) used for warm-up only -- picks not evaluated
 BURN_IN_DAYS = 20

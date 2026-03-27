@@ -476,13 +476,14 @@ def main(subject_label="[PY]"):
     season_type = get_season_type(date)
     espn_type = get_espn_season_type(date)
     print(f"[1/7] Fetching stats, odds, trends, injuries, player data... [{season_type}]")
-    # Try own stats cache first, then fetch via nba_api
+    # Try shared stats cache first, then fetch via nba_api
     enhanced_stats = None
     _scripts_dir = os.path.dirname(os.path.abspath(__file__))
-    _own_cache = os.path.join(_scripts_dir, "..", "data", "stats_cache", f"{date}.json")
-    if os.path.exists(_own_cache):
+    _shared_cache_dir = os.path.join(_scripts_dir, "..", "..", "cache", "py_nba_stats")
+    _cache_path = os.path.join(_shared_cache_dir, f"{date}.json")
+    if os.path.exists(_cache_path):
         try:
-            with open(_own_cache, "r", encoding="utf-8") as f:
+            with open(_cache_path, "r", encoding="utf-8") as f:
                 enhanced_stats = json.load(f)
             if enhanced_stats.get("season") and len(enhanced_stats["season"]) >= 20:
                 print(f"  [nba_stats] Using cached stats ({len(enhanced_stats['season'])} teams)")
@@ -492,10 +493,9 @@ def main(subject_label="[PY]"):
             enhanced_stats = None
     if not enhanced_stats:
         enhanced_stats = fetch_nba_stats_enhanced(date, season_type=season_type)
-        # Cache to own stats_cache
-        os.makedirs(os.path.join(_scripts_dir, "..", "data", "stats_cache"), exist_ok=True)
+        os.makedirs(_shared_cache_dir, exist_ok=True)
         try:
-            with open(_own_cache, "w", encoding="utf-8") as f:
+            with open(_cache_path, "w", encoding="utf-8") as f:
                 json.dump(enhanced_stats, f)
         except Exception:
             pass
