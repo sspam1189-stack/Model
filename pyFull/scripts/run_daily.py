@@ -819,10 +819,10 @@ def main(subject_label="[PY]"):
             lr_result = predict_lr_for_pick(lr_bundle, lr_features, picked_home, game=lr_game)
             r["lrProb"] = lr_result.get("lr_pick_prob") or lr_result["lr_prob"]
             r["lrVerdict"] = lr_result["lr_verdict"]
+            r["lrReasons"] = lr_result.get("lr_reasons", [])
 
             if lr_result["lr_verdict"] == "veto":
                 r["lrVetoed"] = r["sPick"]
-                r["lrReasons"] = lr_result.get("lr_reasons", [])
                 r["sPick"] = "PASS"
                 r["sConf"] = "vetoed"
 
