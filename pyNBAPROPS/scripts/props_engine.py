@@ -182,11 +182,21 @@ def project_player_props(player_logs, team_def_stats=None, prop_lines=None,
 
     # Index prop lines by (first_name, last_name, market)
     line_lookup = {}
+    # Build team→opponent lookup from prop lines (event_home/event_away)
+    team_opp_lookup = {}
+    team_home_lookup = {}
     if prop_lines:
         for pl in prop_lines:
             nk = _name_key(pl.get("player", ""))
             key = (nk[0], nk[1], pl.get("market", ""))
             line_lookup[key] = pl
+            home = pl.get("event_home", "")
+            away = pl.get("event_away", "")
+            if home and away:
+                team_opp_lookup[home] = away
+                team_opp_lookup[away] = home
+                team_home_lookup[home] = True
+                team_home_lookup[away] = False
 
     for pid, games in player_logs.items():
         if not games:
@@ -197,12 +207,16 @@ def project_player_props(player_logs, team_def_stats=None, prop_lines=None,
         team = games[-1].get("team", "")
 
         # Use today's actual game info if available (backtest mode),
-        # otherwise fall back to most recent game (live mode).
+        # otherwise derive opponent from prop lines, then fall back to last game.
         today_game = (today_games or {}).get(pid)
         if today_game:
             latest_opp = today_game.get("opp", "")
             is_home = today_game.get("is_home", True)
             game_date = today_game.get("game_date", "")
+        elif team in team_opp_lookup:
+            latest_opp = team_opp_lookup[team]
+            is_home = team_home_lookup.get(team, True)
+            game_date = ""
         else:
             latest_opp = games[-1].get("opp", "")
             is_home = games[-1].get("is_home", True)
