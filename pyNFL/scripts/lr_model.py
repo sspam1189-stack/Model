@@ -202,7 +202,7 @@ def build_team_histories(store):
             total = g.get("total", home_score + away_score)
             actual_total = home_score + away_score
             home_margin = home_score - away_score
-            home_spread = -line
+            home_spread = line
             home_covered = (home_margin + home_spread) > 0
             game_over = actual_total > total
 
@@ -668,7 +668,7 @@ def _append_to_running(running, g, run_date):
     total = g.get("total", home_score + away_score)
     actual_total = home_score + away_score
     home_margin = home_score - away_score
-    home_spread = -line
+    home_spread = line
     home_covered = (home_margin + home_spread) > 0
     game_over = actual_total > total
 

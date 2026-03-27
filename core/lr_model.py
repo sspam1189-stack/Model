@@ -193,9 +193,10 @@ def build_team_histories(store):
             total = g["total"]
             actual_total = home_score + away_score
             home_margin = home_score - away_score
-            # Line convention: +X means HOME favored by X, -X means AWAY favored by X.
-            # Convert to home-team spread for ATS math.
-            home_spread = -line
+            # Line convention: +X means AWAY favored by X (home is dog getting points),
+            # -X means HOME favored by X (home is fav laying points).
+            # home_spread = the points the home team gets (positive = getting, negative = laying).
+            home_spread = line
             home_covered = (home_margin + home_spread) > 0
             game_over = actual_total > total
 
@@ -319,9 +320,9 @@ def extract_lr_features(home_hist, away_hist, game, home_lines=None, away_lines=
 
         line = game.get("line", 0) or 0
         abs_line = abs(line)
-        # Line convention: +X means HOME favored by X, -X means AWAY favored by X.
-        # Convert to home-team spread for ATS math.
-        home_spread = -line
+        # Line convention: +X means AWAY favored (home getting points),
+        # -X means HOME favored (home laying points).
+        home_spread = line
 
         # Line vs team avg
         if home_lines:
@@ -688,9 +689,9 @@ def _append_to_running(running, g, run_date):
     total = g["total"]
     actual_total = home_score + away_score
     home_margin = home_score - away_score
-    # Line convention: +X means HOME favored by X, -X means AWAY favored by X.
-    # Convert to home-team spread for ATS math.
-    home_spread = -line
+    # Line convention: +X means AWAY favored (home getting points),
+    # -X means HOME favored (home laying points).
+    home_spread = line
     home_covered = (home_margin + home_spread) > 0
     game_over = actual_total > total
 
