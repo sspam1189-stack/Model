@@ -2178,8 +2178,12 @@
       dateSel.style.cssText = selStyle;
       dateSel.innerHTML = '<option value="all">All Dates</option>' + allDates.map(d => `<option value="${d}">${d}</option>`).join('');
 
-      // Prop type buttons
-      const allMarketKeys = [...new Set(picks.map(p => p.market))];
+      // Prop type buttons (sorted: Points, Rebounds, Assists, PRA, Threes)
+      const nbaButtonOrder = ['points','rebounds','assists','pts_rebs_asts','threes','steals','blocks','turnovers'];
+      const allMarketKeys = [...new Set(picks.map(p => p.market))].sort((a, b) => {
+        const ia = nbaButtonOrder.indexOf(a); const ib = nbaButtonOrder.indexOf(b);
+        return (ia === -1 ? 99 : ia) - (ib === -1 ? 99 : ib);
+      });
       const nbaMarketBtnBar = document.createElement('div');
       nbaMarketBtnBar.style.cssText = 'display:flex;gap:6px;flex-wrap:wrap';
       let nbaActiveMarket = 'all';
@@ -2249,7 +2253,14 @@
           fGrouped[ml].push(p);
         }
 
-        // Dynamic market breakdown
+        // Sort markets in display order
+        const nbaMarketOrder = ['Points','Rebounds','Assists','Pts+Reb+Ast','Threes','Steals','Blocks','Turnovers'];
+        const sortedMarkets = Object.keys(fGrouped).sort((a, b) => {
+          const ia = nbaMarketOrder.indexOf(a); const ib = nbaMarketOrder.indexOf(b);
+          return (ia === -1 ? 99 : ia) - (ib === -1 ? 99 : ib);
+        });
+
+        // Dynamic market breakdown (NBA)
         if (isBacktest && filteredPicks.length > 0) {
           const summCard = document.createElement('div');
           summCard.className = 'card card-games';
@@ -2267,7 +2278,8 @@
           });
           const sb = summTbl.createTBody();
           let gW = 0, gL = 0;
-          for (const [market, mPicks] of Object.entries(fGrouped)) {
+          for (const market of sortedMarkets) {
+            const mPicks = fGrouped[market];
             const w = mPicks.filter(p => p.result === 'WIN').length;
             const l = mPicks.filter(p => p.result === 'LOSS').length;
             const u = w * 1.0 + l * (-1.1);
@@ -2299,8 +2311,9 @@
           contentArea.appendChild(summCard);
         }
 
-        // Per-market tables
-        for (const [market, mProps] of Object.entries(fGrouped)) {
+        // Per-market tables (sorted)
+        for (const market of sortedMarkets) {
+          const mProps = fGrouped[market];
           const card = document.createElement('div');
           card.className = 'card card-games';
           const mW = mProps.filter(p => p.result === 'WIN').length;
