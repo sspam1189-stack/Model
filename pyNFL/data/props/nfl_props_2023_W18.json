@@ -1,6 +1,60 @@
 [
   {
     "player": "Derek Carr",
+    "line": 33.5,
+    "over_price": -120,
+    "under_price": -110,
+    "market": "pass_att",
+    "event_home": "New Orleans Saints",
+    "event_away": "Atlanta Falcons"
+  },
+  {
+    "player": "Taylor Heinicke",
+    "line": 28.5,
+    "over_price": -125,
+    "under_price": -105,
+    "market": "pass_att",
+    "event_home": "New Orleans Saints",
+    "event_away": "Atlanta Falcons"
+  },
+  {
+    "player": "Derek Carr",
+    "line": 22.5,
+    "over_price": -105,
+    "under_price": -125,
+    "market": "completions",
+    "event_home": "New Orleans Saints",
+    "event_away": "Atlanta Falcons"
+  },
+  {
+    "player": "Taylor Heinicke",
+    "line": 17.5,
+    "over_price": -115,
+    "under_price": -115,
+    "market": "completions",
+    "event_home": "New Orleans Saints",
+    "event_away": "Atlanta Falcons"
+  },
+  {
+    "player": "Derek Carr",
+    "line": 1.5,
+    "over_price": 110,
+    "under_price": -140,
+    "market": "pass_tds",
+    "event_home": "New Orleans Saints",
+    "event_away": "Atlanta Falcons"
+  },
+  {
+    "player": "Taylor Heinicke",
+    "line": 0.5,
+    "over_price": -220,
+    "under_price": 170,
+    "market": "pass_tds",
+    "event_home": "New Orleans Saints",
+    "event_away": "Atlanta Falcons"
+  },
+  {
+    "player": "Derek Carr",
     "line": 240.5,
     "over_price": -115,
     "under_price": -115,
@@ -154,6 +208,24 @@
   },
   {
     "player": "Baker Mayfield",
+    "line": 1.5,
+    "over_price": 114,
+    "under_price": -145,
+    "market": "pass_tds",
+    "event_home": "Carolina Panthers",
+    "event_away": "Tampa Bay Buccaneers"
+  },
+  {
+    "player": "Bryce Young",
+    "line": 0.5,
+    "over_price": -175,
+    "under_price": 135,
+    "market": "pass_tds",
+    "event_home": "Carolina Panthers",
+    "event_away": "Tampa Bay Buccaneers"
+  },
+  {
+    "player": "Baker Mayfield",
     "line": 223.5,
     "over_price": -115,
     "under_price": -115,
@@ -243,6 +315,24 @@
     "event_away": "Tampa Bay Buccaneers"
   },
   {
+    "player": "Baker Mayfield",
+    "line": 2.5,
+    "over_price": -145,
+    "under_price": 114,
+    "market": "rush_att",
+    "event_home": "Carolina Panthers",
+    "event_away": "Tampa Bay Buccaneers"
+  },
+  {
+    "player": "Rachaad White",
+    "line": 18.5,
+    "over_price": -110,
+    "under_price": -120,
+    "market": "rush_att",
+    "event_home": "Carolina Panthers",
+    "event_away": "Tampa Bay Buccaneers"
+  },
+  {
     "player": "Rachaad White",
     "line": 70.5,
     "over_price": -115,
@@ -250,6 +340,24 @@
     "market": "rush_yds",
     "event_home": "Carolina Panthers",
     "event_away": "Tampa Bay Buccaneers"
+  },
+  {
+    "player": "Nick Mullens",
+    "line": 1.5,
+    "over_price": -113,
+    "under_price": -113,
+    "market": "pass_tds",
+    "event_home": "Detroit Lions",
+    "event_away": "Minnesota Vikings"
+  },
+  {
+    "player": "Jared Goff",
+    "line": 1.5,
+    "over_price": 142,
+    "under_price": -184,
+    "market": "pass_tds",
+    "event_home": "Detroit Lions",
+    "event_away": "Minnesota Vikings"
   },
   {
     "player": "Nick Mullens",
@@ -334,6 +442,15 @@
   },
   {
     "player": "Ryan Tannehill",
+    "line": 0.5,
+    "over_price": -188,
+    "under_price": 146,
+    "market": "pass_tds",
+    "event_home": "Tennessee Titans",
+    "event_away": "Jacksonville Jaguars"
+  },
+  {
+    "player": "Ryan Tannehill",
     "line": 196.5,
     "over_price": -110,
     "under_price": -110,
@@ -376,6 +493,60 @@
     "market": "rush_yds",
     "event_home": "Tennessee Titans",
     "event_away": "Jacksonville Jaguars"
+  },
+  {
+    "player": "Geno Smith",
+    "line": 34.5,
+    "over_price": -102,
+    "under_price": -130,
+    "market": "pass_att",
+    "event_home": "Arizona Cardinals",
+    "event_away": "Seattle Seahawks"
+  },
+  {
+    "player": "Kyler Murray",
+    "line": 32.5,
+    "over_price": -108,
+    "under_price": -122,
+    "market": "pass_att",
+    "event_home": "Arizona Cardinals",
+    "event_away": "Seattle Seahawks"
+  },
+  {
+    "player": "Geno Smith",
+    "line": 23.5,
+    "over_price": -102,
+    "under_price": -130,
+    "market": "completions",
+    "event_home": "Arizona Cardinals",
+    "event_away": "Seattle Seahawks"
+  },
+  {
+    "player": "Kyler Murray",
+    "line": 21.5,
+    "over_price": -114,
+    "under_price": -114,
+    "market": "completions",
+    "event_home": "Arizona Cardinals",
+    "event_away": "Seattle Seahawks"
+  },
+  {
+    "player": "Kyler Murray",
+    "line": 1.5,
+    "over_price": 144,
+    "under_price": -186,
+    "market": "pass_tds",
+    "event_home": "Arizona Cardinals",
+    "event_away": "Seattle Seahawks"
+  },
+  {
+    "player": "Geno Smith",
+    "line": 1.5,
+    "over_price": -136,
+    "under_price": 106,
+    "market": "pass_tds",
+    "event_home": "Arizona Cardinals",
+    "event_away": "Seattle Seahawks"
   },
   {
     "player": "Kyler Murray",
@@ -613,6 +784,42 @@
   },
   {
     "player": "Jordan Love",
+    "line": 34.5,
+    "over_price": -125,
+    "under_price": -105,
+    "market": "pass_att",
+    "event_home": "Green Bay Packers",
+    "event_away": "Chicago Bears"
+  },
+  {
+    "player": "Jordan Love",
+    "line": 23.5,
+    "over_price": 105,
+    "under_price": -135,
+    "market": "completions",
+    "event_home": "Green Bay Packers",
+    "event_away": "Chicago Bears"
+  },
+  {
+    "player": "Jordan Love",
+    "line": 1.5,
+    "over_price": -166,
+    "under_price": 130,
+    "market": "pass_tds",
+    "event_home": "Green Bay Packers",
+    "event_away": "Chicago Bears"
+  },
+  {
+    "player": "Justin Fields",
+    "line": 1.5,
+    "over_price": 185,
+    "under_price": -245,
+    "market": "pass_tds",
+    "event_home": "Green Bay Packers",
+    "event_away": "Chicago Bears"
+  },
+  {
+    "player": "Jordan Love",
     "line": 250.5,
     "over_price": -115,
     "under_price": -115,
@@ -739,6 +946,33 @@
   },
   {
     "player": "Aaron Jones",
+    "line": 16.5,
+    "over_price": -110,
+    "under_price": -120,
+    "market": "rush_att",
+    "event_home": "Green Bay Packers",
+    "event_away": "Chicago Bears"
+  },
+  {
+    "player": "Jordan Love",
+    "line": 2.5,
+    "over_price": -115,
+    "under_price": -115,
+    "market": "rush_att",
+    "event_home": "Green Bay Packers",
+    "event_away": "Chicago Bears"
+  },
+  {
+    "player": "Justin Fields",
+    "line": 9.5,
+    "over_price": -110,
+    "under_price": -120,
+    "market": "rush_att",
+    "event_home": "Green Bay Packers",
+    "event_away": "Chicago Bears"
+  },
+  {
+    "player": "Aaron Jones",
     "line": 67.5,
     "over_price": -115,
     "under_price": -115,
@@ -772,6 +1006,24 @@
     "market": "rush_yds",
     "event_home": "Green Bay Packers",
     "event_away": "Chicago Bears"
+  },
+  {
+    "player": "Dak Prescott",
+    "line": 1.5,
+    "over_price": -210,
+    "under_price": 160,
+    "market": "pass_tds",
+    "event_home": "Washington Commanders",
+    "event_away": "Dallas Cowboys"
+  },
+  {
+    "player": "Sam Howell",
+    "line": 0.5,
+    "over_price": -260,
+    "under_price": 195,
+    "market": "pass_tds",
+    "event_home": "Washington Commanders",
+    "event_away": "Dallas Cowboys"
   },
   {
     "player": "Dak Prescott",
@@ -892,6 +1144,15 @@
   },
   {
     "player": "Tyrod Taylor",
+    "line": 1.5,
+    "over_price": 200,
+    "under_price": -270,
+    "market": "pass_tds",
+    "event_home": "New York Giants",
+    "event_away": "Philadelphia Eagles"
+  },
+  {
+    "player": "Tyrod Taylor",
     "line": 207.5,
     "over_price": -115,
     "under_price": -115,
@@ -973,6 +1234,15 @@
   },
   {
     "player": "Saquon Barkley",
+    "line": 15.5,
+    "over_price": -130,
+    "under_price": 100,
+    "market": "rush_att",
+    "event_home": "New York Giants",
+    "event_away": "Philadelphia Eagles"
+  },
+  {
+    "player": "Saquon Barkley",
     "line": 65.5,
     "over_price": -115,
     "under_price": -115,
@@ -988,6 +1258,60 @@
     "market": "rush_yds",
     "event_home": "New York Giants",
     "event_away": "Philadelphia Eagles"
+  },
+  {
+    "player": "Tua Tagovailoa",
+    "line": 35.5,
+    "over_price": -108,
+    "under_price": -122,
+    "market": "pass_att",
+    "event_home": "Miami Dolphins",
+    "event_away": "Buffalo Bills"
+  },
+  {
+    "player": "Josh Allen",
+    "line": 33.5,
+    "over_price": -114,
+    "under_price": -114,
+    "market": "pass_att",
+    "event_home": "Miami Dolphins",
+    "event_away": "Buffalo Bills"
+  },
+  {
+    "player": "Josh Allen",
+    "line": 22.5,
+    "over_price": -114,
+    "under_price": -114,
+    "market": "completions",
+    "event_home": "Miami Dolphins",
+    "event_away": "Buffalo Bills"
+  },
+  {
+    "player": "Tua Tagovailoa",
+    "line": 23.5,
+    "over_price": -122,
+    "under_price": -108,
+    "market": "completions",
+    "event_home": "Miami Dolphins",
+    "event_away": "Buffalo Bills"
+  },
+  {
+    "player": "Josh Allen",
+    "line": 1.5,
+    "over_price": -136,
+    "under_price": 106,
+    "market": "pass_tds",
+    "event_home": "Miami Dolphins",
+    "event_away": "Buffalo Bills"
+  },
+  {
+    "player": "Tua Tagovailoa",
+    "line": 1.5,
+    "over_price": -113,
+    "under_price": -113,
+    "market": "pass_tds",
+    "event_home": "Miami Dolphins",
+    "event_away": "Buffalo Bills"
   },
   {
     "player": "Tua Tagovailoa",

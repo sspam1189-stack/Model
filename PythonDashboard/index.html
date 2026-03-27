@@ -2425,13 +2425,26 @@
         return { fGrouped, sortedMarkets };
       }
 
+      const PAGE_SIZE = 50;
+      let allPicksPage = 0;
+
       function renderAllPicksView() {
         contentArea.textContent = '';
         const filteredPicks = getFilteredPicks();
         filterLabel.textContent = `Showing ${filteredPicks.length} picks`;
+
+        if (filteredPicks.length === 0) {
+          const empty = document.createElement('div');
+          empty.className = 'card card-games';
+          empty.appendChild(Object.assign(document.createElement('div'), {className:'no-picks', textContent:'No picks for selected filter.'}));
+          contentArea.appendChild(empty);
+          return;
+        }
+
         const { fGrouped, sortedMarkets } = buildMarketBreakdown(filteredPicks);
 
-        if (isBacktest && filteredPicks.length > 0) {
+        // Market breakdown summary (always shown)
+        if (isBacktest) {
           const summCard = document.createElement('div');
           summCard.className = 'card card-games';
           summCard.style.marginBottom = '16px';
@@ -2456,7 +2469,7 @@
             const pct = (w + l) > 0 ? (w / (w + l) * 100).toFixed(1) : 'n/a';
             gW += w; gL += l;
             const sr = sb.insertRow();
-            [market, String(mPicks.length), String(w), String(l), pct + '%', (u >= 0 ? '+' : '') + u.toFixed(1) + 'u'].forEach((v, i) => {
+            [market, String(mPicks.length), String(w), String(l), pct+'%', (u>=0?'+':'')+u.toFixed(1)+'u'].forEach((v,i) => {
               const td = sr.insertCell();
               td.textContent = v;
               td.style.padding = '6px 10px';
@@ -2481,24 +2494,118 @@
           contentArea.appendChild(summCard);
         }
 
-        for (const market of sortedMarkets) {
-          const mProps = fGrouped[market];
+        // Single market selected → show that market's table only
+        if (nbaActiveMarket !== 'all') {
           const card = document.createElement('div');
           card.className = 'card card-games';
-          const mW = mProps.filter(p => p.result === 'WIN').length;
-          const mL = mProps.filter(p => p.result === 'LOSS').length;
+          const mW = filteredPicks.filter(p => p.result === 'WIN').length;
+          const mL = filteredPicks.filter(p => p.result === 'LOSS').length;
           const titleSuffix = isBacktest ? ` (${mW}W-${mL}L)` : '';
-          card.appendChild(Object.assign(document.createElement('div'), {className:'card-title', textContent:market + titleSuffix}));
-          card.appendChild(buildPropsTable(mProps));
+          card.appendChild(Object.assign(document.createElement('div'), {className:'card-title', textContent:(marketLabels[nbaActiveMarket]||nbaActiveMarket)+titleSuffix}));
+          card.appendChild(buildPropsTable(filteredPicks));
           contentArea.appendChild(card);
+          return;
         }
 
-        if (filteredPicks.length === 0) {
-          const empty = document.createElement('div');
-          empty.className = 'card card-games';
-          empty.appendChild(Object.assign(document.createElement('div'), {className:'no-picks', textContent:'No picks for selected filter.'}));
-          contentArea.appendChild(empty);
+        // All markets → single paginated table
+        allPicksPage = Math.min(allPicksPage, Math.floor((filteredPicks.length - 1) / PAGE_SIZE));
+        const totalPages = Math.ceil(filteredPicks.length / PAGE_SIZE);
+        const pageStart = allPicksPage * PAGE_SIZE;
+        const pagePicks = filteredPicks.slice(pageStart, pageStart + PAGE_SIZE);
+
+        const card = document.createElement('div');
+        card.className = 'card card-games';
+
+        // Pagination controls
+        const pgBar = document.createElement('div');
+        pgBar.style.cssText = 'display:flex;align-items:center;gap:10px;margin-bottom:12px;flex-wrap:wrap';
+        const pgLabel = document.createElement('span');
+        pgLabel.style.cssText = 'color:#999;font-size:12px;flex:1';
+        pgLabel.textContent = `${pageStart+1}–${Math.min(pageStart+PAGE_SIZE, filteredPicks.length)} of ${filteredPicks.length} picks`;
+        const prevBtn = document.createElement('button');
+        prevBtn.textContent = '← Prev';
+        prevBtn.style.cssText = 'padding:4px 12px;border-radius:6px;border:1px solid rgba(255,255,255,0.15);background:transparent;color:#ccc;font-size:12px;cursor:pointer';
+        prevBtn.disabled = allPicksPage === 0;
+        prevBtn.style.opacity = allPicksPage === 0 ? '0.3' : '1';
+        const nextBtn = document.createElement('button');
+        nextBtn.textContent = 'Next →';
+        nextBtn.style.cssText = 'padding:4px 12px;border-radius:6px;border:1px solid rgba(255,255,255,0.15);background:transparent;color:#ccc;font-size:12px;cursor:pointer';
+        nextBtn.disabled = allPicksPage >= totalPages - 1;
+        nextBtn.style.opacity = allPicksPage >= totalPages - 1 ? '0.3' : '1';
+        prevBtn.onclick = () => { allPicksPage--; renderAllPicksView(); window.scrollTo(0,0); };
+        nextBtn.onclick = () => { allPicksPage++; renderAllPicksView(); window.scrollTo(0,0); };
+        pgBar.appendChild(pgLabel);
+        pgBar.appendChild(prevBtn);
+        pgBar.appendChild(document.createTextNode(`Page ${allPicksPage+1} / ${totalPages}`));
+        pgBar.appendChild(nextBtn);
+        card.appendChild(pgBar);
+
+        // Unified table with Market column
+        const tbl = document.createElement('table');
+        tbl.style.cssText = 'width:100%;border-collapse:collapse';
+        const hdrs = isBacktest
+          ? ['Date','Player','Team','Opp','Market','Proj','Line','Actual','Edge','Pick','Result','P(cover)','Conf']
+          : ['Player','Team','vs','Market','Proj','Line','Edge','Pick','P(cover)','Conf'];
+        const hRow = tbl.createTHead().insertRow();
+        hdrs.forEach(h => {
+          const th = document.createElement('th');
+          th.textContent = h;
+          th.style.cssText = 'padding:6px 8px;text-align:center;border-bottom:1px solid rgba(255,255,255,0.1);font-size:12px';
+          if (h === 'Player') th.style.textAlign = 'left';
+          hRow.appendChild(th);
+        });
+        const tbody = tbl.createTBody();
+        for (const p of pagePicks) {
+          const row = tbody.insertRow();
+          row.style.borderBottom = '1px solid rgba(255,255,255,0.05)';
+          const ml = marketLabels[p.market] || p.market;
+          const cells = isBacktest ? [
+            p.date||'', p.player, p.team||'', p.opp||'', ml,
+            String(p.proj), p.line!=null?String(p.line):'\u2014',
+            p.actual!=null?String(p.actual):'\u2014',
+            p.edge!=null?(p.edge>0?'+':'')+p.edge:'\u2014',
+            p.pick, p.result||'\u2014',
+            p.pCover!=null?(p.pCover*100).toFixed(1)+'%':'\u2014',
+            p.conf==='elite'?'ELITE':'HIGH'
+          ] : [
+            p.player, p.team, p.opp||'', ml, String(p.proj),
+            p.line!=null?String(p.line):'\u2014',
+            p.edge!=null?(p.edge>0?'+':'')+p.edge:'\u2014',
+            p.pick, p.pCover!=null?(p.pCover*100).toFixed(1)+'%':'\u2014',
+            p.conf==='elite'?'ELITE':'HIGH'
+          ];
+          cells.forEach((val, i) => {
+            const td = row.insertCell();
+            td.textContent = val;
+            td.style.cssText = 'padding:5px 8px;text-align:center;font-size:13px';
+            if (isBacktest) {
+              if (i===1) { td.style.textAlign='left'; td.style.fontWeight='600'; }
+              if (i===0) { td.style.color='#999'; td.style.fontSize='11px'; }
+              if (i===2||i===3) td.style.color='#999';
+              if (i===4) { td.style.color='#aaa'; td.style.fontSize='11px'; }
+              if (i===8) td.style.color=(p.edge||0)>0?'var(--green)':'var(--red)';
+              if (i===9) { td.style.fontWeight='700'; td.style.color=p.pick==='OVER'?'var(--green)':'var(--red)'; }
+              if (i===10) { td.style.fontWeight='700'; td.style.color=p.result==='WIN'?'var(--green)':'var(--red)'; }
+              if (i===12&&p.conf==='elite') { td.style.background='#7c6cf0'; td.style.color='#fff'; td.style.borderRadius='4px'; td.style.fontSize='10px'; }
+            } else {
+              if (i===0) { td.style.textAlign='left'; td.style.fontWeight='600'; }
+              if (i===1||i===2) td.style.color='#999';
+              if (i===3) { td.style.color='#aaa'; td.style.fontSize='11px'; }
+              if (i===6) td.style.color=(p.edge||0)>0?'var(--green)':'var(--red)';
+              if (i===7) { td.style.fontWeight='700'; td.style.color=p.pick==='OVER'?'var(--green)':'var(--red)'; }
+              if (i===9&&p.conf==='elite') { td.style.background='#7c6cf0'; td.style.color='#fff'; td.style.borderRadius='4px'; td.style.fontSize='10px'; }
+            }
+          });
         }
+        card.appendChild(tbl);
+        // Bottom pagination
+        const pgBar2 = pgBar.cloneNode(true);
+        pgBar2.style.marginTop = '12px';
+        pgBar2.style.marginBottom = '0';
+        pgBar2.querySelectorAll('button')[0].onclick = () => { allPicksPage--; renderAllPicksView(); window.scrollTo(0,0); };
+        pgBar2.querySelectorAll('button')[1].onclick = () => { allPicksPage++; renderAllPicksView(); window.scrollTo(0,0); };
+        card.appendChild(pgBar2);
+        contentArea.appendChild(card);
       }
 
       function renderWeeklyView() {
