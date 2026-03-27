@@ -50,19 +50,15 @@ RECEPTIONS_VAR_MULT = 1.3
 UNDER_ONLY_MARKETS = {"pass_yds", "rush_yds", "rec_yds", "receptions"}
 
 # ---------------------------------------------------------------------------
-# Calibration offsets (add to raw projection to correct systematic bias)
+# Calibration offsets — REMOVED (root cause fixed)
 # ---------------------------------------------------------------------------
-# NFL has only 17 games/season — not enough data to isolate and fix each
-# adjustment's bias individually (unlike NBA's 82 games). Static offset
-# is the right approach here.
-#
-# Derived from 3-season backtest: mean(proj) - mean(actual)
-CALIBRATION_OFFSET = {
-    "pass_yds":   +17.6,   # Model under-projects by 17.6 yds
-    "rush_yds":   +13.5,   # Model under-projects by 13.5 yds
-    "rec_yds":    +19.2,   # Model under-projects by 19.2 yds
-    "receptions":  +1.1,   # Model under-projects by 1.1 rec
-}
+# The under-projection bias was caused by low minimum attempt filters:
+#   - pass_att >= 10: included backup QBs with 12 garbage time attempts
+#   - rush_att >= 5: included QBs with 5 scrambles (not real rushers)
+#   - targets >= 2: included RBs with 2 dump-offs (not real receivers)
+# These low-volume games dragged down the rolling average far below
+# the player's true production level.
+# Fixed by raising filters to: pass_att >= 15, rush_att >= 8, targets >= 4
 
 # Minimum edge size per market (|proj - line|)
 MIN_EDGE = {"pass_yds": 10, "rush_yds": 5, "rec_yds": 5, "receptions": 0.5}
@@ -328,26 +324,24 @@ def project_player_props(player_logs, team_stats, prop_lines=None):
         latest_opp = games[-1].get("opp", "")
 
         # --- Passing yards projection ---
-        pass_yds_vals = [g.get("pass_yds", 0) for g in recent if g.get("pass_att", 0) >= 10]
+        # Filter: >= 15 pass attempts (excludes backup QBs in garbage time)
+        pass_yds_vals = [g.get("pass_yds", 0) for g in recent if g.get("pass_att", 0) >= 15]
         if len(pass_yds_vals) >= MIN_GAMES_PASSER:
             proj = _weighted_avg(pass_yds_vals)
             std = _weighted_std(pass_yds_vals) * PASS_YDS_VAR_MULT
 
-            # Opponent adjustment: if facing worse-than-avg pass D, boost projection
+            # Opponent adjustment (zero-sum by construction)
             opp_pass_def = def_pass_ranks.get(latest_opp, avg_pass_def)
-            # Higher passDefEPA = worse defense = more yards allowed
-            opp_adj = (opp_pass_def - avg_pass_def) * 25  # ~25 yds per 0.1 EPA above avg
+            opp_adj = (opp_pass_def - avg_pass_def) * 25
             proj += opp_adj
-
-            # Calibration offset (correct systematic under-projection)
-            proj += CALIBRATION_OFFSET.get("pass_yds", 0.0)
 
             prop = _make_prop(name, team, "pass_yds", proj, std, line_lookup, latest_opp)
             if prop:
                 projections.append(prop)
 
         # --- Rushing yards projection ---
-        rush_yds_vals = [g.get("rush_yds", 0) for g in recent if g.get("rush_att", 0) >= 5]
+        # Filter: >= 8 rush attempts (excludes QBs with a few scrambles)
+        rush_yds_vals = [g.get("rush_yds", 0) for g in recent if g.get("rush_att", 0) >= 8]
         if len(rush_yds_vals) >= MIN_GAMES_RUSHER:
             proj = _weighted_avg(rush_yds_vals)
             std = _weighted_std(rush_yds_vals) * RUSH_YDS_VAR_MULT
@@ -356,15 +350,13 @@ def project_player_props(player_logs, team_stats, prop_lines=None):
             opp_adj = (opp_rush_def - avg_rush_def) * 15
             proj += opp_adj
 
-            # Calibration offset
-            proj += CALIBRATION_OFFSET.get("rush_yds", 0.0)
-
             prop = _make_prop(name, team, "rush_yds", proj, std, line_lookup, latest_opp)
             if prop:
                 projections.append(prop)
 
         # --- Receiving yards projection ---
-        rec_yds_vals = [g.get("rec_yds", 0) for g in recent if g.get("targets", 0) >= 2]
+        # Filter: >= 4 targets (excludes RBs/TEs with 2 dump-offs)
+        rec_yds_vals = [g.get("rec_yds", 0) for g in recent if g.get("targets", 0) >= 4]
         if len(rec_yds_vals) >= MIN_GAMES_RECEIVER:
             proj = _weighted_avg(rec_yds_vals)
             std = _weighted_std(rec_yds_vals) * REC_YDS_VAR_MULT
@@ -373,21 +365,16 @@ def project_player_props(player_logs, team_stats, prop_lines=None):
             opp_adj = (opp_pass_def - avg_pass_def) * 15
             proj += opp_adj
 
-            # Calibration offset
-            proj += CALIBRATION_OFFSET.get("rec_yds", 0.0)
-
             prop = _make_prop(name, team, "rec_yds", proj, std, line_lookup, latest_opp)
             if prop:
                 projections.append(prop)
 
         # --- Receptions projection ---
-        rec_vals = [g.get("receptions", 0) for g in recent if g.get("targets", 0) >= 2]
+        # Filter: >= 4 targets (same as rec_yds — only real receiving options)
+        rec_vals = [g.get("receptions", 0) for g in recent if g.get("targets", 0) >= 4]
         if len(rec_vals) >= MIN_GAMES_RECEIVER:
             proj = _weighted_avg(rec_vals)
             std = _weighted_std(rec_vals) * RECEPTIONS_VAR_MULT
-
-            # Calibration offset
-            proj += CALIBRATION_OFFSET.get("receptions", 0.0)
 
             prop = _make_prop(name, team, "receptions", proj, std, line_lookup, latest_opp)
             if prop:
