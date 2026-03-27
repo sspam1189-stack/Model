@@ -1,4 +1,4 @@
-name: Python Run Daily (NBA + Fullseason)
+name: Python Run Daily (NBA + Fullseason + NBA Props)
 
 on:
   workflow_dispatch:
@@ -78,9 +78,44 @@ jobs:
           name: pyFull-data
           path: pyFull/data
 
+  nba-props:
+    runs-on: self-hosted
+    needs: nba
+    defaults:
+      run:
+        shell: bash
+    steps:
+      - name: Clean up stale rebase
+        run: git rebase --abort 2>/dev/null || true
+
+      - uses: actions/checkout@v6
+        with:
+          ref: main
+
+      - name: Pull latest
+        run: git pull origin main
+
+      - name: Install dependencies
+        run: pip install -r pyNBAPROPS/requirements.txt
+
+      - name: Run daily NBA props
+        working-directory: pyNBAPROPS
+        env:
+          PYTHONUTF8: "1"
+          PYTHONUNBUFFERED: "1"
+          PYTHONIOENCODING: "utf-8"
+          ODDS_API_KEY: ${{ secrets.ODDS_API_KEY }}
+        run: python -m scripts.run_daily
+
+      - name: Upload pyNBAPROPS data
+        uses: actions/upload-artifact@v7
+        with:
+          name: pyNBAPROPS-data
+          path: pyNBAPROPS/data
+
   commit-and-push:
     runs-on: ubuntu-latest
-    needs: [nba, nba-fullseason]
+    needs: [nba, nba-fullseason, nba-props]
     steps:
       - uses: actions/checkout@v6
         with:
@@ -97,18 +132,26 @@ jobs:
           name: pyFull-data
           path: artifacts/pyFull
 
+      - uses: actions/download-artifact@v8
+        with:
+          name: pyNBAPROPS-data
+          path: artifacts/pyNBAPROPS
+
       - name: Copy artifacts
         shell: bash
         run: |
           cp -a artifacts/pyNBA/. pyNBA/data/
           cp -a artifacts/pyFull/. pyFull/data/
+          cp -a artifacts/pyNBAPROPS/. pyNBAPROPS/data/
+          # Also copy nba-props.json to dashboard
+          cp -f artifacts/pyNBAPROPS/nba-props.json PythonDashboard/data/nba-props.json 2>/dev/null || true
 
       - name: Commit & push data changes
         shell: bash
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add pyNBA/data/ pyFull/data/
-          git diff --cached --quiet || git commit -m "Run daily Python NBA + Fullseason"
+          git add pyNBA/data/ pyFull/data/ pyNBAPROPS/data/ PythonDashboard/data/nba-props.json
+          git diff --cached --quiet || git commit -m "Run daily Python NBA + Fullseason + NBA Props"
           git pull --rebase origin main
           git push
