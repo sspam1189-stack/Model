@@ -1210,7 +1210,7 @@ def main(subject_label="[PY]"):
                 lr_game["is_neutral"] = True
             picked_home = r.get("home", "") in r.get("sPick", "")
             lr_features = extract_lr_features(home_hist, away_hist, lr_game, home_hist, away_hist, picked_home=picked_home)
-            lr_result = predict_lr_for_pick(lr_bundle, lr_features, picked_home)
+            lr_result = predict_lr_for_pick(lr_bundle, lr_features, picked_home, game=lr_game)
             r["lrProb"] = lr_result.get("lr_pick_prob") or lr_result["lr_prob"]
             r["lrVerdict"] = lr_result["lr_verdict"]
             r["lrReasons"] = lr_result.get("lr_reasons", [])
