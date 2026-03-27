@@ -20,13 +20,12 @@ BASE = "https://api.the-odds-api.com/v4"
 SPORT_KEY = "basketball_nba"
 
 # Full team name -> abbreviation (normalize to match game logs)
+# Same comprehensive map as odds_fanduel.py
 _TEAM_ABBR = {
     "Atlanta Hawks": "ATL", "Boston Celtics": "BOS", "Brooklyn Nets": "BKN",
     "Charlotte Hornets": "CHA", "Chicago Bulls": "CHI", "Cleveland Cavaliers": "CLE",
     "Dallas Mavericks": "DAL", "Denver Nuggets": "DEN", "Detroit Pistons": "DET",
     "Golden State Warriors": "GSW", "Houston Rockets": "HOU", "Indiana Pacers": "IND",
-    "LA Clippers": "LAC", "Los Angeles Clippers": "LAC",
-    "Los Angeles Lakers": "LAL", "LA Lakers": "LAL",
     "Memphis Grizzlies": "MEM", "Miami Heat": "MIA", "Milwaukee Bucks": "MIL",
     "Minnesota Timberwolves": "MIN", "New Orleans Pelicans": "NOP",
     "New York Knicks": "NYK", "Oklahoma City Thunder": "OKC", "Orlando Magic": "ORL",
@@ -34,6 +33,23 @@ _TEAM_ABBR = {
     "Portland Trail Blazers": "POR", "Sacramento Kings": "SAC",
     "San Antonio Spurs": "SAS", "Toronto Raptors": "TOR",
     "Utah Jazz": "UTA", "Washington Wizards": "WAS",
+    # LA teams
+    "Los Angeles Lakers": "LAL", "LA Lakers": "LAL", "L.A. Lakers": "LAL",
+    "Los Angeles Clippers": "LAC", "LA Clippers": "LAC", "L.A. Clippers": "LAC",
+    # NY/BKN
+    "NY Knicks": "NYK", "New York Nets": "BKN",
+    # City-only
+    "Atlanta": "ATL", "Boston": "BOS", "Brooklyn": "BKN",
+    "Charlotte": "CHA", "Chicago": "CHI", "Cleveland": "CLE",
+    "Dallas": "DAL", "Denver": "DEN", "Detroit": "DET",
+    "Golden State": "GSW", "Houston": "HOU", "Indiana": "IND",
+    "Memphis": "MEM", "Miami": "MIA", "Milwaukee": "MIL",
+    "Minnesota": "MIN", "New Orleans": "NOP",
+    "New York": "NYK", "Oklahoma City": "OKC", "Orlando": "ORL",
+    "Philadelphia": "PHI", "Phoenix": "PHX",
+    "Portland": "POR", "Sacramento": "SAC",
+    "San Antonio": "SAS", "Toronto": "TOR",
+    "Utah": "UTA", "Washington": "WAS",
 }
 
 _PROPS_CACHE_DIR = Path(__file__).resolve().parents[2] / "data" / "props_cache"

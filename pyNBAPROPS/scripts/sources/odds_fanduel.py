@@ -31,13 +31,13 @@ FD_HEADERS = {
 }
 
 # Full team name -> abbreviation (for consistent format with game logs)
+# Includes all known variations from Odds API, FanDuel, ESPN, NBA.com
 TEAM_NAME_TO_ABBR = {
+    # Standard full names
     "Atlanta Hawks": "ATL", "Boston Celtics": "BOS", "Brooklyn Nets": "BKN",
     "Charlotte Hornets": "CHA", "Chicago Bulls": "CHI", "Cleveland Cavaliers": "CLE",
     "Dallas Mavericks": "DAL", "Denver Nuggets": "DEN", "Detroit Pistons": "DET",
     "Golden State Warriors": "GSW", "Houston Rockets": "HOU", "Indiana Pacers": "IND",
-    "LA Clippers": "LAC", "Los Angeles Clippers": "LAC",
-    "Los Angeles Lakers": "LAL", "LA Lakers": "LAL",
     "Memphis Grizzlies": "MEM", "Miami Heat": "MIA", "Milwaukee Bucks": "MIL",
     "Minnesota Timberwolves": "MIN", "New Orleans Pelicans": "NOP",
     "New York Knicks": "NYK", "Oklahoma City Thunder": "OKC", "Orlando Magic": "ORL",
@@ -45,6 +45,42 @@ TEAM_NAME_TO_ABBR = {
     "Portland Trail Blazers": "POR", "Sacramento Kings": "SAC",
     "San Antonio Spurs": "SAS", "Toronto Raptors": "TOR",
     "Utah Jazz": "UTA", "Washington Wizards": "WAS",
+    # LA teams — all variations
+    "Los Angeles Lakers": "LAL", "LA Lakers": "LAL", "L.A. Lakers": "LAL",
+    "Los Angeles Clippers": "LAC", "LA Clippers": "LAC", "L.A. Clippers": "LAC",
+    # NY/BKN variations
+    "NY Knicks": "NYK", "New York Nets": "BKN",
+    # City-only (ESPN/some APIs)
+    "Atlanta": "ATL", "Boston": "BOS", "Brooklyn": "BKN",
+    "Charlotte": "CHA", "Chicago": "CHI", "Cleveland": "CLE",
+    "Dallas": "DAL", "Denver": "DEN", "Detroit": "DET",
+    "Golden State": "GSW", "Houston": "HOU", "Indiana": "IND",
+    "Memphis": "MEM", "Miami": "MIA", "Milwaukee": "MIL",
+    "Minnesota": "MIN", "New Orleans": "NOP",
+    "New York": "NYK", "Oklahoma City": "OKC", "Orlando": "ORL",
+    "Philadelphia": "PHI", "Phoenix": "PHX",
+    "Portland": "POR", "Sacramento": "SAC",
+    "San Antonio": "SAS", "Toronto": "TOR",
+    "Utah": "UTA", "Washington": "WAS",
+    # Mascot-only (rare but some APIs)
+    "Hawks": "ATL", "Celtics": "BOS", "Nets": "BKN",
+    "Hornets": "CHA", "Bulls": "CHI", "Cavaliers": "CLE", "Cavs": "CLE",
+    "Mavericks": "DAL", "Mavs": "DAL", "Nuggets": "DEN", "Pistons": "DET",
+    "Warriors": "GSW", "Rockets": "HOU", "Pacers": "IND",
+    "Grizzlies": "MEM", "Heat": "MIA", "Bucks": "MIL",
+    "Timberwolves": "MIN", "Wolves": "MIN", "Pelicans": "NOP",
+    "Knicks": "NYK", "Thunder": "OKC", "Magic": "ORL",
+    "76ers": "PHI", "Sixers": "PHI", "Suns": "PHX",
+    "Trail Blazers": "POR", "Blazers": "POR", "Kings": "SAC",
+    "Spurs": "SAS", "Raptors": "TOR",
+    "Jazz": "UTA", "Wizards": "WAS",
+    # Already abbreviations (pass-through)
+    "ATL": "ATL", "BOS": "BOS", "BKN": "BKN", "CHA": "CHA", "CHI": "CHI",
+    "CLE": "CLE", "DAL": "DAL", "DEN": "DEN", "DET": "DET", "GSW": "GSW",
+    "HOU": "HOU", "IND": "IND", "LAC": "LAC", "LAL": "LAL", "MEM": "MEM",
+    "MIA": "MIA", "MIL": "MIL", "MIN": "MIN", "NOP": "NOP", "NYK": "NYK",
+    "OKC": "OKC", "ORL": "ORL", "PHI": "PHI", "PHX": "PHX", "POR": "POR",
+    "SAC": "SAC", "SAS": "SAS", "TOR": "TOR", "UTA": "UTA", "WAS": "WAS",
 }
 
 # FanDuel tab names that contain over/under player prop markets
