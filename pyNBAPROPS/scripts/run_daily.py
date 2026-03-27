@@ -70,7 +70,7 @@ def run_daily(date_key=None):
 
     # --- Stage 2: Fetch player game logs ---
     print(f"\n  [2/7] Fetching player game logs...")
-    player_game_logs = fetch_player_game_logs(season=season, date_to=date_iso)
+    player_game_logs = fetch_player_game_logs(season=season)
     if not player_game_logs:
         print("  ERROR: No player game logs fetched. Exiting.")
         return
@@ -88,12 +88,12 @@ def run_daily(date_key=None):
 
     # --- Stage 4: Fetch team defensive stats ---
     print(f"\n  [4/7] Fetching team defensive stats...")
-    team_def = fetch_team_def_stats(season=season, date_to=date_iso)
+    team_def = fetch_team_def_stats(season=season)
     print(f"  {len(team_def)} teams with defensive stats")
 
     # --- Stage 5: Fetch advanced player stats ---
     print(f"\n  [5/8] Fetching advanced player stats (USG%, TS%, PACE)...")
-    adv_stats = fetch_player_advanced_stats(season=season, date_to=date_iso)
+    adv_stats = fetch_player_advanced_stats(season=season)
     print(f"  {len(adv_stats)} players with advanced stats")
 
     # --- Stage 6: Fetch prop lines (FanDuel primary, Odds API fallback) ---
