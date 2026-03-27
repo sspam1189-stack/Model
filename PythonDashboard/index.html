@@ -2411,7 +2411,7 @@
         return;
       }
 
-      const marketLabels = {pass_yds:'Pass Yards', rush_yds:'Rush Yards', rec_yds:'Rec Yards', receptions:'Receptions'};
+      const marketLabels = {pass_yds:'Pass Yards', pass_tds:'Pass TDs', rush_yds:'Rush Yards', rush_att:'Rush Att', rec_yds:'Rec Yards', receptions:'Receptions'};
       let picks = data.props.filter(p => p.pick !== 'PASS');
       const isBacktest = picks.some(p => p.result != null);
 
