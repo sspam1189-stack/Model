@@ -210,6 +210,8 @@ def backtest_props(seasons, start_week=4, use_real_lines=False):
           f"({grand_w / max(1, grand_w + grand_l) * 100:.1f}%) "
           f"{'+' if grand_units >= 0 else ''}{grand_units:.1f}u")
 
+    return results
+
 
 def _find_actual(player_name, market, actual_logs):
     """Find a player's actual stat value from this week's game logs."""
@@ -266,13 +268,85 @@ def _get_simulated_line(player_name, market, prior_logs):
     return None
 
 
+def write_dashboard_json(results, seasons):
+    """Write graded backtest picks to dashboard JSON files."""
+    import json
+    from datetime import datetime
+
+    all_picks = []
+    for market, data in results.items():
+        for p in data["picks"]:
+            all_picks.append({
+                "player": p["player"],
+                "team": "",
+                "opp": "",
+                "market": market,
+                "proj": p["proj"],
+                "std": 0,
+                "line": p["line"],
+                "pick": p["pick"],
+                "edge": round(p["proj"] - p["line"], 1),
+                "pCover": p["pCover"],
+                "conf": p["conf"],
+                "actual": p["actual"],
+                "result": "WIN" if p["won"] else "LOSS",
+                "season": p["season"],
+                "week": p["week"],
+            })
+
+    # Sort by season desc, week desc, pCover desc
+    all_picks.sort(key=lambda x: (-x["season"], -x["week"], -(x["pCover"] or 0)))
+
+    total_w = sum(1 for p in all_picks if p["result"] == "WIN")
+    total_l = sum(1 for p in all_picks if p["result"] == "LOSS")
+    units = total_w * 1.0 + total_l * (-1.1)
+
+    dashboard = {
+        "season": seasons[-1] if seasons else 0,
+        "week": "backtest",
+        "generated": datetime.now().isoformat(),
+        "totalProjections": sum(len(d["projections"]) for d in results.values()),
+        "totalPicks": len(all_picks),
+        "props": all_picks,
+        "summary": (
+            f"{len(all_picks)} graded picks across {len(seasons)} seasons: "
+            f"{total_w}W-{total_l}L ({total_w / max(1, total_w + total_l) * 100:.1f}%) "
+            f"{'+' if units >= 0 else ''}{units:.1f}u"
+        ),
+    }
+
+    # Write to both locations
+    script_dir = os.path.dirname(os.path.abspath(__file__))
+    paths = [
+        os.path.join(script_dir, "..", "data", "nfl-props.json"),
+        os.path.join(script_dir, "..", "..", "PythonDashboard", "data", "nfl-props.json"),
+    ]
+
+    class _NumpyEncoder(json.JSONEncoder):
+        def default(self, obj):
+            import numpy as np
+            if isinstance(obj, (np.integer,)):
+                return int(obj)
+            if isinstance(obj, (np.floating,)):
+                return float(obj)
+            return super().default(obj)
+
+    for path in paths:
+        path = os.path.normpath(path)
+        os.makedirs(os.path.dirname(path), exist_ok=True)
+        with open(path, "w") as f:
+            json.dump(dashboard, f, indent=2, cls=_NumpyEncoder)
+        print(f"  Wrote {len(all_picks)} picks to {path}")
+
+
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Backtest player prop projections")
-    parser.add_argument("--seasons", nargs="+", type=int, default=[2024, 2025])
+    parser.add_argument("--seasons", nargs="+", type=int, default=[2023, 2024, 2025])
     parser.add_argument("--start-week", type=int, default=4,
                         help="First week to start projecting (need prior data)")
     parser.add_argument("--real-lines", action="store_true",
                         help="Fetch historical prop lines from The Odds API (costs credits)")
     args = parser.parse_args()
 
-    backtest_props(args.seasons, args.start_week, use_real_lines=args.real_lines)
+    results = backtest_props(args.seasons, args.start_week, use_real_lines=args.real_lines)
+    write_dashboard_json(results, args.seasons)
