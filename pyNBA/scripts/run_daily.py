@@ -1000,7 +1000,7 @@ def main(subject_label="[PY]"):
     injury_data = None
     player_advanced = None
     _scripts = os.path.dirname(os.path.abspath(__file__))
-    _inj_cache = os.path.join(_scripts, "..", "data", "injury_cache", f"{date}.json")
+    _inj_cache = os.path.join(_scripts, "..", "..", "jsNBA", "data", "injury_cache", f"{date}.json")
     if os.path.exists(_inj_cache):
         try:
             with open(_inj_cache, "r", encoding="utf-8") as _f:
@@ -1019,7 +1019,7 @@ def main(subject_label="[PY]"):
             print(f"  Warning: Injury fetch failed: {e}")
             injury_data = {"report": {}, "playerMPG": {}}
         # Cache for reuse
-        os.makedirs(os.path.join(_scripts, "..", "data", "injury_cache"), exist_ok=True)
+        os.makedirs(os.path.join(_scripts, "..", "..", "jsNBA", "data", "injury_cache"), exist_ok=True)
         try:
             with open(_inj_cache, "w", encoding="utf-8") as _f:
                 json.dump({"injuryData": injury_data, "playerAdvanced": player_advanced}, _f)
