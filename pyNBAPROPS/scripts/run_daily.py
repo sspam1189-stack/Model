@@ -120,7 +120,7 @@ def run_daily(date_key=None):
     # Print Kalman summary for top scorers
     print(kalman_summary(kalman_state, top_n=5, stat_key="pts"))
 
-    # --- Stage 8: Output ---
+    # --- Stage 8: Output (merge with existing — preserve started/finished games) ---
     dashboard = format_props_for_dashboard(projections, date_str=date_iso)
 
     import numpy as np
@@ -138,11 +138,38 @@ def run_daily(date_key=None):
         os.path.join(SCRIPT_DIR, "..", "..", "PythonDashboard", "data", "nba-props.json"),
     ]
 
+    # Merge: keep picks from previous runs (earlier dates / graded picks),
+    # only replace picks for today's date
     for path in output_paths:
         path = os.path.normpath(path)
         os.makedirs(os.path.dirname(path), exist_ok=True)
+
+        # Load existing dashboard data if it exists
+        existing_props = []
+        try:
+            if os.path.exists(path):
+                with open(path, "r") as f:
+                    existing = json.load(f)
+                existing_props = existing.get("props", [])
+        except Exception:
+            existing_props = []
+
+        # Keep picks from OTHER dates (already graded / historical)
+        # Replace picks from TODAY's date with fresh projections
+        kept = [p for p in existing_props if p.get("date") != date_iso]
+        today_picks = [p for p in dashboard.get("props", []) if p.get("date") == date_iso or not p.get("date")]
+
+        merged_props = kept + today_picks
+        dashboard_merged = {**dashboard, "props": merged_props}
+        dashboard_merged["totalPicks"] = len(merged_props)
+
+        n_kept = len(kept)
+        n_new = len(today_picks)
+        if n_kept > 0:
+            print(f"  Merged: kept {n_kept} historical picks + {n_new} today's picks")
+
         with open(path, "w") as f:
-            json.dump(dashboard, f, indent=2, cls=_NumpyEncoder)
+            json.dump(dashboard_merged, f, indent=2, cls=_NumpyEncoder)
         print(f"  Wrote to {path}")
 
     # Save updated Kalman state
