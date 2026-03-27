@@ -16,6 +16,13 @@ jobs:
         shell: bash
 
       - uses: actions/checkout@v6
+        with:
+          ref: main
+          clean: true
+
+      - name: Pull latest
+        run: git pull origin main
+        shell: bash
 
       - uses: actions/setup-node@v6
         with:
@@ -104,13 +111,15 @@ jobs:
         run: |
           cp -a artifacts/jsNBA/. jsNBA/data/
           cp -a artifacts/jsFull/. jsFull/data/
+          cp jsNBA/data/history.json Dashboard/data/nba.json
+          cp jsFull/data/history.json Dashboard/data/fullseason.json
 
       - name: Commit & push data changes
         shell: bash
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add jsNBA/data/ jsFull/data/
+          git add jsNBA/data/ jsFull/data/ Dashboard/data/nba.json Dashboard/data/fullseason.json
           git diff --cached --quiet || git commit -m "Run daily NBA + Fullseason"
           git pull --rebase origin main
           git push

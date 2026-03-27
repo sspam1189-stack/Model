@@ -19,7 +19,11 @@ jobs:
 
       - uses: actions/checkout@v6
         with:
-          clean: false
+          ref: main
+          clean: true
+
+      - name: Pull latest
+        run: git pull origin main
 
       - name: Install dependencies
         run: pip install -r pyNBA/requirements.txt
@@ -147,7 +151,8 @@ jobs:
           cp -a artifacts/pyNBA/. pyNBA/data/
           cp -a artifacts/pyFull/. pyFull/data/
           cp -a artifacts/pyNBAPROPS/. pyNBAPROPS/data/
-          # Also copy nba-props.json to dashboard
+          cp pyNBA/data/history.json PythonDashboard/data/nba.json
+          cp pyFull/data/history.json PythonDashboard/data/fullseason.json
           cp -f artifacts/pyNBAPROPS/nba-props.json PythonDashboard/data/nba-props.json 2>/dev/null || true
 
       - name: Commit & push data changes
@@ -155,7 +160,7 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add pyNBA/data/ pyFull/data/ pyNBAPROPS/data/ PythonDashboard/data/nba-props.json
+          git add pyNBA/data/ pyFull/data/ pyNBAPROPS/data/ PythonDashboard/data/nba.json PythonDashboard/data/fullseason.json PythonDashboard/data/nba-props.json
           git diff --cached --quiet || git commit -m "Run daily Python NBA + Fullseason + NBA Props"
           git pull --rebase origin main
           git push
