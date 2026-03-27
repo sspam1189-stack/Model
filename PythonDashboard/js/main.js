@@ -326,25 +326,8 @@ function gradeSpread(g) {
 
 // ─── LR Info Helper ───
 
-function lrVerdictBadge(verdict) {
-  if (!verdict) return '';
-  const v = verdict.toUpperCase();
-  const cls = v === 'CONFIRM' ? 'confirm' : v === 'VETO' ? 'veto' : 'neutral';
-  return `<span class="lr-verdict-badge ${cls}">${esc(v)}</span>`;
-}
-
-function lrInfo(g) {
-  const lrV = g.lrVerdict ?? null;
-  const lrP = g.lrProb ?? null;
-  if (lrV == null && lrP == null && !g.lrVetoed) return '';
-  let parts = [];
-  if (lrV != null) parts.push(lrVerdictBadge(lrV));
-  if (lrP != null) parts.push(`P(cover) ${fmtProb(lrP)}`);
-  if (g.lrVetoed) {
-    parts.push(`<span class="lr-vetoed">Vetoed: ${esc(g.lrVetoed)}</span>`);
-  }
-  return `<div class="lr-detail">${parts.join(' &middot; ')}</div>`;
-}
+function lrVerdictBadge() { return ''; }
+function lrInfo() { return ''; }
 
 // ─── Data Computations ───
 
@@ -599,9 +582,7 @@ function renderTodayPicks(run, runs) {
     return `<div class="pick-item">
       <span class="pick-team">${esc(g.sPick)}</span>
       ${confBadge(g.sConf)}
-      ${lrVerdictBadge(g.lrVerdict)}
       <span class="pick-meta">proj ${esc(favTeam)} by ${fmtNum(Math.abs(projMargin), 1)} \u00b7 sDiff ${fmtNum(g.sDiff, 1)}${pStr}</span>
-      ${lrInfo(g)}
     </div>`;
   }).join('');
 
@@ -678,123 +659,25 @@ function renderProbTable(run) {
     const pHome = g.pHomeCover != null ? fmtProb(g.pHomeCover) : '\u2014';
     const pAway = g.pAwayCover != null ? fmtProb(g.pAwayCover) : '\u2014';
     const margin = Number.isFinite(g.margin) ? (g.margin >= 0 ? '+' : '') + fmtNum(g.margin, 1) : '\u2014';
-    // LR confirmation
-    const lrP = g.lrProb != null ? Math.round(g.lrProb * 100) + '%' : '\u2014';
-    const lrV = g.lrVerdict ?? null;
-    const lrVerdictHtml = lrV ? lrVerdictBadge(lrV) : '';
-    const lrVetoedHtml = g.lrVetoed ? `<div style="font-size:0.6rem;margin-top:2px"><span class="lr-vetoed">Vetoed: ${esc(g.lrVetoed)}</span></div>` : '';
-    const lrReasonCls = lrV === 'confirm' ? 'lr-confirmed' : 'lr-vetoed';
-    const lrReasonHtml = (g.lrReasons || []).length ? `<div style="font-size:0.6rem" class="${lrReasonCls}">${g.lrReasons.map(r => `<div>${esc(r)}</div>`).join('')}</div>` : '';
     return `<tr>
       <td style="font-weight:700">${esc(g.away)} @ ${esc(g.home)}</td>
       <td>${sPick}<div class="card-subtitle" style="margin:2px 0 0">Line ${fmtNum(g.line,1)} \u00b7 proj ${margin} \u00b7 sDiff ${fmtNum(g.sDiff,1)}</div></td>
       <td class="center">${pCover}${bayesSecondary}<div class="card-subtitle">${pAway} away / ${pHome} home</div></td>
-      <td class="center"><div style="font-size:0.72rem">${lrVerdictHtml} ${lrP}</div>${lrVetoedHtml}</td>
-      <td class="center">${lrReasonHtml}</td>
     </tr>`;
   }).join('');
   return `
     <div class="card card-probs">
       <div class="card-title">Cover Probabilities \u2014 All Games</div>
       <table class="data">
-        <thead><tr><th>Game</th><th>Spread Pick</th><th class="center">P(Cover)</th><th class="center">LR</th><th class="center">LR Reason</th></tr></thead>
+        <thead><tr><th>Game</th><th>Spread Pick</th><th class="center">P(Cover)</th></tr></thead>
         <tbody>${rows}</tbody>
       </table>
-      <div class="card-subtitle" style="margin-top:8px">P(Cover) = Bayesian probability the picked side wins. LR column shows independent confirmation verdict (CONFIRM / VETO / NEUTRAL).</div>
+      <div class="card-subtitle" style="margin-top:8px">P(Cover) = Bayesian probability the picked side covers the spread.</div>
     </div>`;
 }
 
-// ─── Veto Tracker ───
-
-function gradeVetoedPick(g) {
-  if (!Number.isFinite(g.homeScore) || !Number.isFinite(g.awayScore)) return null;
-  const pick = g.lrVetoed;
-  if (!pick) return null;
-  const parsed = parseSpreadPick(pick);
-  if (!parsed) return null;
-  const margin = g.homeScore - g.awayScore;
-  const isHome = parsed.team === g.home;
-  const spreadVal = parsed.sign === '-' ? -parsed.spread : parsed.spread;
-  const covered = isHome ? margin + spreadVal : -margin + spreadVal;
-  if (covered > 0) return 'WIN';
-  if (covered < 0) return 'LOSS';
-  return 'PUSH';
-}
-
-function getVetoedGames(runs) {
-  const vetoed = [];
-  for (const r of runs) {
-    if (r.burnIn) continue;
-    for (const g of r.games || []) {
-      if (g.lrVetoed) {
-        vetoed.push({ date: r.date, dateDisplay: r.dateDisplay, ...g });
-      }
-    }
-  }
-  return vetoed;
-}
-
-function renderVetoTable(runs) {
-  const vetoed = getVetoedGames(runs);
-  if (!vetoed.length) return '';
-  let w = 0, l = 0, p = 0, pending = 0;
-  for (const g of vetoed) {
-    const result = gradeVetoedPick(g);
-    if (result === 'WIN') w++;
-    else if (result === 'LOSS') l++;
-    else if (result === 'PUSH') p++;
-    else pending++;
-  }
-  const graded = w + l + p;
-  const unitsMissed = graded > 0 ? calcUnits(w, l) : 0;
-  const missedLabel = unitsMissed >= 0 ? 'Missed out on' : 'Saved';
-  const missedVal = Math.abs(unitsMissed);
-  const missedColor = unitsMissed >= 0 ? 'var(--red)' : 'var(--green)';
-  const row = (label, val) => `<tr><td>${label}</td><td class="center" style="font-weight:700">${val}</td></tr>`;
-  return `
-    <div class="card">
-      <div class="card-title">Veto Tracker</div>
-      <table class="data">
-        <tbody>
-          ${row('Games Vetoed', vetoed.length)}
-          ${row('Vetoed Record', `${w}-${l}${p ? '-' + p : ''}${pending ? ' <span style="color:var(--muted)">(${pending} pending)</span>' : ''}`)}
-          ${row(missedLabel, `<span style="color:${missedColor}">${fmtUnits(missedVal)}</span>`)}
-        </tbody>
-      </table>
-      <div class="card-subtitle" style="margin-top:8px">If vetoed picks had been played, this is the result the model would have had.</div>
-    </div>`;
-}
-
-function renderRecentVetoes(runs) {
-  const vetoed = getVetoedGames(runs);
-  if (!vetoed.length) return '';
-  const recent = vetoed.slice(-5).reverse();
-  const rows = recent.map(g => {
-    const result = gradeVetoedPick(g);
-    const resultHtml = result
-      ? `<span class="badge ${result === 'WIN' ? 'b-high' : result === 'LOSS' ? 'b-pass' : 'b-elite'}">${result}</span>`
-      : '<span style="color:var(--muted)">Pending</span>';
-    const reasons = (g.lrReasons || []).map(r => `<div>${esc(r)}</div>`).join('');
-    const score = Number.isFinite(g.awayScore) && Number.isFinite(g.homeScore)
-      ? `${g.awayScore}-${g.homeScore}` : '\u2014';
-    return `<tr>
-      <td style="white-space:nowrap">${esc(g.dateDisplay || g.date)}</td>
-      <td style="font-weight:700">${esc(g.away)} @ ${esc(g.home)}</td>
-      <td>${esc(g.lrVetoed)}</td>
-      <td class="center">${resultHtml}</td>
-      <td class="center">${score}</td>
-      <td style="font-size:0.65rem">${reasons || '\u2014'}</td>
-    </tr>`;
-  }).join('');
-  return `
-    <div class="card">
-      <div class="card-title">Last ${recent.length} Vetoed Game${recent.length !== 1 ? 's' : ''}</div>
-      <table class="data">
-        <thead><tr><th>Date</th><th>Game</th><th>Vetoed Pick</th><th class="center">Result</th><th class="center">Score</th><th>Reason</th></tr></thead>
-        <tbody>${rows}</tbody>
-      </table>
-    </div>`;
-}
+function renderVetoTable() { return ''; }
+function renderRecentVetoes() { return ''; }
 
 function renderGameCards(run) {
   const games = run.games || [];
@@ -806,8 +689,7 @@ function renderGameCards(run) {
     if (!isSkipped && g.sPick && g.sPick !== 'PASS') {
       const projMargin = Math.round((g.hS - g.aS) * 10) / 10;
       const favTeam = projMargin >= 0 ? g.home : g.away;
-      spreadHtml = `<div class="game-detail"><span class="pick-team">${esc(g.sPick)}</span> ${confBadge(g.sConf)} ${lrVerdictBadge(g.lrVerdict)} <span class="label">proj ${esc(favTeam)} by ${fmtNum(Math.abs(projMargin), 1)} \u00b7 sDiff ${fmtNum(g.sDiff, 1)}${g.pCover != null ? ` \u00b7 P=${fmtProb(g.pCover)}` : ''}</span></div>`;
-      spreadHtml += lrInfo(g);
+      spreadHtml = `<div class="game-detail"><span class="pick-team">${esc(g.sPick)}</span> ${confBadge(g.sConf)} <span class="label">proj ${esc(favTeam)} by ${fmtNum(Math.abs(projMargin), 1)} \u00b7 sDiff ${fmtNum(g.sDiff, 1)}${g.pCover != null ? ` \u00b7 P=${fmtProb(g.pCover)}` : ''}</span></div>`;
     } else {
       spreadHtml = `<div class="game-detail"><span class="label">Spread: ${isSkipped ? esc(g.status) : 'PASS'}</span></div>`;
     }
@@ -815,15 +697,7 @@ function renderGameCards(run) {
     let projHtml = '';
     if (!isSkipped && Number.isFinite(g.aS) && Number.isFinite(g.hS)) {
       let projLine = `<span class="label">Proj</span> <b>${esc(g.away)} ${fmtNum(g.aS, 1)}</b> \u2013 <b>${esc(g.home)} ${fmtNum(g.hS, 1)}</b>`;
-      if (g.lrVerdict) projLine += ` ${lrVerdictBadge(g.lrVerdict)}`;
       projHtml = `<div class="game-detail">${projLine}</div>`;
-      if (g.lrVetoed) {
-        const vetoReasons = (g.lrReasons || []).length ? g.lrReasons.map(r => `<div style="margin-left:0.5em">${esc(r)}</div>`).join('') : '';
-        projHtml += `<div class="game-detail"><span class="lr-vetoed">Vetoed: ${esc(g.lrVetoed)}</span>${vetoReasons}</div>`;
-      } else if (g.lrVerdict === 'confirm' && (g.lrReasons || []).length) {
-        const confirmReasons = g.lrReasons.map(r => `<div style="margin-left:0.5em">${esc(r)}</div>`).join('');
-        projHtml += `<div class="game-detail lr-confirmed">${confirmReasons}</div>`;
-      }
     }
 
     const injuryHtml = g.injuryNote ? g.injuryNote.split(' | ').map(s => `<div class="injury">${esc(s)}</div>`).join('') : '';
@@ -980,7 +854,7 @@ function renderHistoryDay(run) {
     return `<div class="game-card">
       <div class="game-title">${esc(g.away)} @ ${esc(g.home)} <span style="font-weight:400;font-size:0.72rem;color:var(--muted)">Line ${fmtNum(g.line,1)}</span></div>
       <div class="game-detail">
-        ${isPick ? `<span class="pick-team">${esc(g.sPick)}</span> ${confBadge(g.sConf)} ${lrVerdictBadge(g.lrVerdict)}` : `<span style="color:var(--muted)">${isSkipped ? esc(g.status) : 'PASS'}</span>`}
+        ${isPick ? `<span class="pick-team">${esc(g.sPick)}</span> ${confBadge(g.sConf)}` : `<span style="color:var(--muted)">${isSkipped ? esc(g.status) : 'PASS'}</span>`}
         ${result ? resultBadge(result) : (isPick && !hasScore ? '<span class="result-badge pending">PENDING</span>' : '')}
       </div>
       ${isPick ? lrInfo(g) : ''}
@@ -1117,9 +991,6 @@ function nflRenderWeeklyPicks(run) {
     const projSpr = g.projSpread ?? (Number.isFinite(g.hS) && Number.isFinite(g.aS) ? Math.round((g.aS - g.hS) * 10) / 10 : null);
     const mktSpr = g.line;
     const sDiff = g.sDiff;
-    const lrBadge = g.lrVerdict ? lrVerdictBadge(g.lrVerdict) :
-                    (g.lrConfirm === true ? lrVerdictBadge('CONFIRM') :
-                     g.lrConfirm === false ? lrVerdictBadge('VETO') : '');
     const pickHtml = g.sPick && g.sPick !== 'PASS'
       ? `<span class="pick-team">${esc(g.sPick)}</span> ${confBadge(g.sConf)}`
       : `<span style="color:var(--muted)">PASS</span>`;
@@ -1130,7 +1001,6 @@ function nflRenderWeeklyPicks(run) {
       <td class="center">${fmtNum(projSpr, 1)}</td>
       <td class="center">${fmtNum(mktSpr, 1)}</td>
       <td class="center" style="font-weight:700;${Math.abs(sDiff) >= 3 ? 'color:var(--green)' : ''}">${fmtNum(sDiff, 1)}</td>
-      <td class="center">${lrBadge}</td>
       <td>${pickHtml}</td>
       <td class="center">${resultHtml}</td>
     </tr>`;
@@ -1141,7 +1011,7 @@ function nflRenderWeeklyPicks(run) {
       <table class="data">
         <thead><tr>
           <th>Matchup</th><th class="center">Proj Spr</th><th class="center">Mkt Spr</th>
-          <th class="center">sDiff</th><th class="center">LR</th><th>Pick</th><th class="center">Result</th>
+          <th class="center">sDiff</th><th>Pick</th><th class="center">Result</th>
         </tr></thead>
         <tbody>${rows}</tbody>
       </table>
@@ -1452,15 +1322,10 @@ function nflRenderTodayPicks(run) {
   const items = games.map(g => {
     const projMargin = g.projSpread ?? (Number.isFinite(g.hS) && Number.isFinite(g.aS) ? Math.round((g.hS - g.aS) * 10) / 10 : null);
     const pStr = g.pCover != null ? ` \u00b7 P=${fmtProb(g.pCover)}` : '';
-    const lrBadge = g.lrVerdict ? lrVerdictBadge(g.lrVerdict) :
-                    (g.lrConfirm === true ? lrVerdictBadge('CONFIRM') :
-                     g.lrConfirm === false ? lrVerdictBadge('VETO') : '');
     return `<div class="pick-item">
       <span class="pick-team">${esc(g.sPick)}</span>
       ${confBadge(g.sConf)}
-      ${lrBadge}
       <span class="pick-meta">sDiff ${fmtNum(g.sDiff, 1)}${pStr}</span>
-      ${lrInfo(g)}
     </div>`;
   }).join('');
   return `<div class="card card-picks"><div class="card-title">Picks — ${nflGetWeekLabel(run)} (Actionable)</div>${items}</div>`;
@@ -1480,11 +1345,10 @@ function nflRenderHistoryWeek(run) {
     const isPick = g.sPick && g.sPick !== 'PASS';
     const result = isPick ? (g.sResult || gradeSpread(g)) : null;
     const hasScore = Number.isFinite(g.homeScore) && Number.isFinite(g.awayScore);
-    const lrBadge = g.lrVerdict ? lrVerdictBadge(g.lrVerdict) : (g.lrConfirm === true ? lrVerdictBadge('CONFIRM') : g.lrConfirm === false ? lrVerdictBadge('VETO') : '');
     return `<div class="game-card">
       <div class="game-title">${esc(g.away)} @ ${esc(g.home)} <span style="font-weight:400;font-size:0.72rem;color:var(--muted)">Line ${fmtNum(g.line,1)}</span></div>
       <div class="game-detail">
-        ${isPick ? `<span class="pick-team">${esc(g.sPick)}</span> ${confBadge(g.sConf)} ${lrBadge}` : `<span style="color:var(--muted)">${isSkipped ? esc(g.status) : 'PASS'}</span>`}
+        ${isPick ? `<span class="pick-team">${esc(g.sPick)}</span> ${confBadge(g.sConf)}` : `<span style="color:var(--muted)">${isSkipped ? esc(g.status) : 'PASS'}</span>`}
         ${result ? resultBadge(result) : (isPick && !hasScore ? '<span class="result-badge pending">PENDING</span>' : '')}
       </div>
       ${hasScore ? `<div class="game-detail"><span class="label">Final:</span> ${g.awayScore}-${g.homeScore}</div>` : ''}

@@ -343,47 +343,6 @@ table.data td.right, table.data th.right { text-align: right; }
 .result-badge.pending { background: rgba(107, 112, 148, 0.1); color: var(--muted); }
 
 /* ─── LR Verdict Badges ─── */
-.lr-verdict-badge {
-  display: inline-block;
-  font-size: 0.6rem;
-  font-weight: 700;
-  padding: 2px 8px;
-  border-radius: 999px;
-  white-space: nowrap;
-  letter-spacing: 0.03em;
-}
-.lr-verdict-badge.confirm {
-  background: var(--green-dim);
-  color: var(--green);
-  border: 1px solid rgba(52, 211, 153, 0.2);
-}
-.lr-verdict-badge.veto {
-  background: var(--red-dim);
-  color: var(--red);
-  border: 1px solid rgba(248, 113, 113, 0.2);
-}
-.lr-verdict-badge.neutral {
-  background: var(--yellow-dim);
-  color: var(--yellow);
-  border: 1px solid rgba(251, 191, 36, 0.2);
-}
-.lr-vetoed {
-  font-size: 0.65rem;
-  color: var(--red);
-  font-weight: 600;
-}
-.lr-confirmed {
-  font-size: 0.65rem;
-  color: var(--green);
-  font-weight: 600;
-}
-.lr-detail {
-  font-size: 0.68rem;
-  color: var(--muted);
-  margin-top: 4px;
-  line-height: 1.5;
-}
-
 /* ─── Pick List Items ─── */
 .pick-item {
   padding: 12px 0;
