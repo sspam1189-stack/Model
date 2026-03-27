@@ -12,7 +12,7 @@
         return;
       }
 
-      const marketLabels = {pass_yds:'Pass Yards', pass_tds:'Pass TDs', rush_yds:'Rush Yards', rush_att:'Rush Att', rec_yds:'Rec Yards', receptions:'Receptions'};
+      const marketLabels = {pass_yds:'PaYd', pass_tds:'pTD', rush_yds:'RuYd', rush_att:'RuAt', rec_yds:'RecY', receptions:'Rec', pass_att:'PassAtt'};
       let picks = data.props.filter(p => p.pick !== 'PASS');
       const isBacktest = picks.some(p => p.result != null);
 
@@ -52,8 +52,11 @@
       // Market breakdown placeholder (rendered dynamically inside renderNFLPropsTable)
 
       const headers = isBacktest
-        ? ['Wk','Player','Proj','Line','Actual','Edge','Pick','Result','P(cover)','Conf']
-        : ['Player','Team','vs','Proj','Line','Edge','Pick','P(cover)','Conf'];
+        ? ['Wk','Player','Proj','Line','Actual','Pick','Result','Conf']
+        : ['Player','Team','vs','Proj','Line','Pick','Conf'];
+      const colClasses = isBacktest
+        ? ['col-wk','col-player','col-proj','col-line','col-actual','col-pick','col-result','col-conf']
+        : ['col-player','col-team','col-opp','col-proj','col-line','col-pick','col-conf'];
 
       // ── Unified Toolbar ──
       const selStyle = 'padding:6px 12px;border-radius:6px;background:rgba(255,255,255,0.06);color:#fff;border:1px solid rgba(255,255,255,0.1);font-size:13px;outline:none';
@@ -168,12 +171,14 @@
         const wrap = document.createElement('div');
         wrap.className = 'props-table-wrap';
         const tbl = document.createElement('table');
+        tbl.className = 'props-data-table';
         tbl.style.cssText = 'width:100%;border-collapse:collapse;margin-top:8px';
         const hRow = tbl.createTHead().insertRow();
-        headers.forEach(h => {
+        headers.forEach((h, i) => {
           const th = document.createElement('th');
           th.textContent = h;
-          th.style.cssText = 'padding:6px 8px;text-align:center;border-bottom:1px solid rgba(255,255,255,0.1);font-size:12px';
+          th.className = colClasses[i] || 'col-' + i;
+          th.style.cssText = 'padding:4px 4px;text-align:center;border-bottom:1px solid rgba(255,255,255,0.1);font-size:12px';
           if (h === 'Player') th.style.textAlign = 'left';
           hRow.appendChild(th);
         });
@@ -186,34 +191,33 @@
             p.player, String(p.proj),
             p.line != null ? String(p.line) : '\u2014',
             p.actual != null ? String(p.actual) : '\u2014',
-            p.edge != null ? (p.edge > 0 ? '+' : '') + p.edge : '\u2014',
-            p.pick, p.result || '\u2014',
-            p.pCover != null ? (p.pCover * 100).toFixed(1) + '%' : '\u2014',
+            p.pick === 'OVER' ? 'O' : 'U',
+            p.result === 'WIN' ? 'W' : p.result === 'LOSS' ? 'L' : '\u2014',
             p.conf === 'elite' ? 'ELITE' : 'HIGH'
           ] : [
             p.player, p.team, p.opp || '', String(p.proj),
             p.line != null ? String(p.line) : '\u2014',
-            p.edge != null ? (p.edge > 0 ? '+' : '') + p.edge : '\u2014',
-            p.pick, p.pCover != null ? (p.pCover * 100).toFixed(1) + '%' : '\u2014',
+            p.pick === 'OVER' ? 'O' : 'U',
             p.conf === 'elite' ? 'ELITE' : 'HIGH'
           ];
           cells.forEach((val, i) => {
             const td = row.insertCell();
             td.textContent = val;
-            td.style.cssText = 'padding:5px 8px;text-align:center;font-size:13px';
+            td.className = colClasses[i] || 'col-' + i;
+            td.style.cssText = 'padding:4px 4px;text-align:center;font-size:13px';
             if (isBacktest) {
               if (i === 1) { td.style.textAlign = 'left'; td.style.fontWeight = '600'; }
               if (i === 0) { td.style.color = '#999'; td.style.fontSize = '11px'; }
-              if (i === 5) td.style.color = (p.edge || 0) > 0 ? 'var(--green)' : 'var(--red)';
-              if (i === 6) { td.style.fontWeight = '700'; td.style.color = p.pick === 'OVER' ? 'var(--green)' : 'var(--red)'; }
-              if (i === 7) { td.style.fontWeight = '700'; td.style.color = p.result === 'WIN' ? 'var(--green)' : 'var(--red)'; }
-              if (i === 9 && p.conf === 'elite') { td.style.background = '#7c6cf0'; td.style.color = '#fff'; td.style.borderRadius = '4px'; td.style.fontSize = '10px'; }
+              if (i === 2) td.style.color = p.proj > p.line ? 'var(--green)' : p.proj < p.line ? 'var(--red)' : '';
+              if (i === 5) { td.style.fontWeight = '700'; td.style.color = p.pick === 'OVER' ? 'var(--green)' : 'var(--red)'; }
+              if (i === 6) { td.style.fontWeight = '700'; td.style.color = p.result === 'WIN' ? 'var(--green)' : 'var(--red)'; }
+              if (i === 7 && p.conf === 'elite') { td.style.background = '#7c6cf0'; td.style.color = '#fff'; td.style.borderRadius = '4px'; td.style.fontSize = '10px'; }
             } else {
               if (i === 0) { td.style.textAlign = 'left'; td.style.fontWeight = '600'; }
               if (i === 1 || i === 2) td.style.color = '#999';
-              if (i === 5) td.style.color = (p.edge || 0) > 0 ? 'var(--green)' : 'var(--red)';
-              if (i === 6) { td.style.fontWeight = '700'; td.style.color = p.pick === 'OVER' ? 'var(--green)' : 'var(--red)'; }
-              if (i === 8 && p.conf === 'elite') { td.style.background = '#7c6cf0'; td.style.color = '#fff'; td.style.borderRadius = '4px'; td.style.fontSize = '10px'; }
+              if (i === 3) td.style.color = p.proj > p.line ? 'var(--green)' : p.proj < p.line ? 'var(--red)' : '';
+              if (i === 5) { td.style.fontWeight = '700'; td.style.color = p.pick === 'OVER' ? 'var(--green)' : 'var(--red)'; }
+              if (i === 6 && p.conf === 'elite') { td.style.background = '#7c6cf0'; td.style.color = '#fff'; td.style.borderRadius = '4px'; td.style.fontSize = '10px'; }
             }
           });
         }
@@ -290,11 +294,11 @@
           const summTbl = document.createElement('table');
           summTbl.style.cssText = 'width:100%;border-collapse:collapse;margin-top:8px';
           const sh = summTbl.createTHead().insertRow();
-          ['Market','Picks','W','L','Win%','Units'].forEach(h => {
+          ['Cat','Picks','W','L','Win%','Units'].forEach(h => {
             const th = document.createElement('th');
             th.textContent = h;
             th.style.cssText = 'padding:6px 10px;text-align:right;border-bottom:1px solid rgba(255,255,255,0.1)';
-            if (h === 'Market') th.style.textAlign = 'left';
+            if (h === 'Cat') th.style.textAlign = 'left';
             sh.appendChild(th);
           });
           const sb = summTbl.createTBody();
@@ -386,13 +390,13 @@
         const tbl = document.createElement('table');
         tbl.style.cssText = 'width:100%;border-collapse:collapse';
         const hdrs = isBacktest
-          ? ['Wk','Player','Market','Proj','Line','Actual','Edge','Pick','Result','P(cover)','Conf']
-          : ['Player','Team','vs','Market','Proj','Line','Edge','Pick','P(cover)','Conf'];
+          ? ['Wk','Player','Cat','Proj','Line','Actual','Pick','Result','Conf']
+          : ['Player','Team','vs','Cat','Proj','Line','Pick','Conf'];
         const hRow = tbl.createTHead().insertRow();
         hdrs.forEach(h => {
           const th = document.createElement('th');
           th.textContent = h;
-          th.style.cssText = 'padding:6px 8px;text-align:center;border-bottom:1px solid rgba(255,255,255,0.1);font-size:12px';
+          th.style.cssText = 'padding:4px 4px;text-align:center;border-bottom:1px solid rgba(255,255,255,0.1);font-size:12px';
           if (h === 'Player') th.style.textAlign = 'left';
           hRow.appendChild(th);
         });
@@ -406,36 +410,35 @@
             p.player, ml, String(p.proj),
             p.line!=null?String(p.line):'\u2014',
             p.actual!=null?String(p.actual):'\u2014',
-            p.edge!=null?(p.edge>0?'+':'')+p.edge:'\u2014',
-            p.pick, p.result||'\u2014',
-            p.pCover!=null?(p.pCover*100).toFixed(1)+'%':'\u2014',
+            p.pick==='OVER'?'O':'U',
+            p.result==='WIN'?'W':p.result==='LOSS'?'L':'\u2014',
             p.conf==='elite'?'ELITE':'HIGH'
           ] : [
             p.player, p.team, p.opp||'', ml, String(p.proj),
             p.line!=null?String(p.line):'\u2014',
-            p.edge!=null?(p.edge>0?'+':'')+p.edge:'\u2014',
-            p.pick, p.pCover!=null?(p.pCover*100).toFixed(1)+'%':'\u2014',
+            p.pick==='OVER'?'O':'U',
             p.conf==='elite'?'ELITE':'HIGH'
           ];
           cells.forEach((val, i) => {
             const td = row.insertCell();
             td.textContent = val;
-            td.style.cssText = 'padding:5px 8px;text-align:center;font-size:13px';
+            td.className = colClasses[i] || 'col-' + i;
+            td.style.cssText = 'padding:4px 4px;text-align:center;font-size:13px';
             if (isBacktest) {
               if (i===1) { td.style.textAlign='left'; td.style.fontWeight='600'; }
               if (i===0) { td.style.color='#999'; td.style.fontSize='11px'; }
               if (i===2) { td.style.color='#aaa'; td.style.fontSize='11px'; }
-              if (i===6) td.style.color=(p.edge||0)>0?'var(--green)':'var(--red)';
-              if (i===7) { td.style.fontWeight='700'; td.style.color=p.pick==='OVER'?'var(--green)':'var(--red)'; }
-              if (i===8) { td.style.fontWeight='700'; td.style.color=p.result==='WIN'?'var(--green)':'var(--red)'; }
-              if (i===10&&p.conf==='elite') { td.style.background='#7c6cf0'; td.style.color='#fff'; td.style.borderRadius='4px'; td.style.fontSize='10px'; }
+              if (i===3) td.style.color=p.proj>p.line?'var(--green)':p.proj<p.line?'var(--red)':'';
+              if (i===6) { td.style.fontWeight='700'; td.style.color=p.pick==='OVER'?'var(--green)':'var(--red)'; }
+              if (i===7) { td.style.fontWeight='700'; td.style.color=p.result==='WIN'?'var(--green)':'var(--red)'; }
+              if (i===8&&p.conf==='elite') { td.style.background='#7c6cf0'; td.style.color='#fff'; td.style.borderRadius='4px'; td.style.fontSize='10px'; }
             } else {
               if (i===0) { td.style.textAlign='left'; td.style.fontWeight='600'; }
               if (i===1||i===2) td.style.color='#999';
               if (i===3) { td.style.color='#aaa'; td.style.fontSize='11px'; }
-              if (i===6) td.style.color=(p.edge||0)>0?'var(--green)':'var(--red)';
-              if (i===7) { td.style.fontWeight='700'; td.style.color=p.pick==='OVER'?'var(--green)':'var(--red)'; }
-              if (i===9&&p.conf==='elite') { td.style.background='#7c6cf0'; td.style.color='#fff'; td.style.borderRadius='4px'; td.style.fontSize='10px'; }
+              if (i===4) td.style.color=p.proj>p.line?'var(--green)':p.proj<p.line?'var(--red)':'';
+              if (i===6) { td.style.fontWeight='700'; td.style.color=p.pick==='OVER'?'var(--green)':'var(--red)'; }
+              if (i===7&&p.conf==='elite') { td.style.background='#7c6cf0'; td.style.color='#fff'; td.style.borderRadius='4px'; td.style.fontSize='10px'; }
             }
           });
         }

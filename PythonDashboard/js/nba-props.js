@@ -1,398 +1,473 @@
 // NBA Player Props rendering
-async function renderNBAProps() {
-  const el = document.getElementById('content');
-  const data = await fetchData('nba-props');
-  if (!data || !data.props || !data.props.length) {
-    el.textContent = '';
-    const card = document.createElement('div');
-    card.className = 'card card-games';
-    card.appendChild(Object.assign(document.createElement('div'), {className:'card-title', textContent:'NBA Player Props'}));
-    card.appendChild(Object.assign(document.createElement('div'), {className:'no-picks', textContent:'No prop projections available yet. Run the props pipeline to generate projections.'}));
-    el.appendChild(card);
-    return;
-  }
-
-  const marketLabels = {points:'Points', rebounds:'Rebounds', assists:'Assists', threes:'Threes', pts_rebs_asts:'Pts+Reb+Ast', steals:'Steals', blocks:'Blocks', turnovers:'Turnovers'};
-  const picks = data.props.filter(p => p.pick !== 'PASS');
-  const isBacktest = picks.some(p => p.result != null);
-
-  // Helper: get ISO week start (Monday) for a date string
-  function getWeekStart(dateStr) {
-    const d = new Date(dateStr + 'T00:00:00Z');
-    const day = d.getUTCDay();
-    const diff = day === 0 ? -6 : 1 - day;
-    d.setUTCDate(d.getUTCDate() + diff);
-    return d.toISOString().slice(0, 10);
-  }
-  function getWeekEnd(weekStart) {
-    const d = new Date(weekStart + 'T00:00:00Z');
-    d.setUTCDate(d.getUTCDate() + 6);
-    return d.toISOString().slice(0, 10);
-  }
-
-  el.textContent = '';
-
-  // Header card
-  const hdr = document.createElement('div');
-  hdr.className = 'card card-games';
-  hdr.style.marginBottom = '16px';
-  const allW = picks.filter(p => p.result === 'WIN').length;
-  const allL = picks.filter(p => p.result === 'LOSS').length;
-  const allU = allW * 1.0 + allL * (-1.1);
-  const allPct = (allW + allL) > 0 ? (allW / (allW + allL) * 100).toFixed(1) : '0';
-  const hasGraded = isBacktest && (allW + allL) > 0;
-  const summaryText = hasGraded
-    ? `${allW}W-${allL}L (${allPct}%) ${allU >= 0 ? '+' : ''}${allU.toFixed(1)}u`
-    : `${picks.length} picks`;
-  hdr.appendChild(Object.assign(document.createElement('div'), {className:'card-title', textContent:`NBA Player Props \u2014 ${data.season || ''}`}));
-  hdr.appendChild(Object.assign(document.createElement('div'), {className:'card-subtitle', textContent:`${summaryText} | Generated: ${(data.generated || '').slice(0,16)}`}));
-  el.appendChild(hdr);
-
-  // ── Yesterday's Recap + Today's Picks ──
-  (function renderNBADailyCards() {
-    const now = new Date();
-    const toISO = d => d.toISOString().slice(0, 10);
-    const todayStr = toISO(now);
-    const yest = new Date(now); yest.setDate(yest.getDate() - 1);
-    const yesterdayStr = toISO(yest);
-
-    // Yesterday's Recap
-    const yesterdayPicks = picks.filter(p => p.date === yesterdayStr && p.result);
-    if (yesterdayPicks.length > 0) {
-      const yW = yesterdayPicks.filter(p => p.result === 'WIN').length;
-      const yL = yesterdayPicks.filter(p => p.result === 'LOSS').length;
-      const yU = yW * 1.0 + yL * (-1.1);
-      const uColor = yU >= 0 ? 'var(--green)' : 'var(--red)';
-      const recapCard = document.createElement('div');
-      recapCard.className = 'card card-recap';
-      recapCard.style.marginBottom = '16px';
-      recapCard.appendChild(Object.assign(document.createElement('div'), {
-        className: 'card-title',
-        textContent: `Yesterday\u2019s Recap (${yesterdayStr})`
-      }));
-      const tbl = document.createElement('table');
-      tbl.className = 'data';
-      tbl.style.cssText = 'width:100%;border-collapse:collapse;margin-top:8px';
-      const hRow = tbl.createTHead().insertRow();
-      ['Player','Team','Opp','Market','Proj','Line','Actual','Pick','Result'].forEach((h, i) => {
-        const th = document.createElement('th');
-        th.textContent = h;
-        th.style.cssText = 'padding:6px 10px;border-bottom:1px solid rgba(255,255,255,0.1);' + (i === 0 ? 'text-align:left' : 'text-align:center');
-        hRow.appendChild(th);
-      });
-      const tbody = tbl.createTBody();
-      for (const p of yesterdayPicks.sort((a,b) => (b.pCover||0)-(a.pCover||0))) {
-        const row = tbody.insertRow();
-        row.style.borderBottom = '1px solid rgba(255,255,255,0.05)';
-        [p.player, p.team||'', p.opp||'', marketLabels[p.market]||p.market,
-         String(p.proj), p.line!=null?String(p.line):'—', p.actual!=null?String(p.actual):'—',
-         p.pick, p.result].forEach((v, i) => {
-          const td = row.insertCell();
-          td.textContent = v;
-          td.style.cssText = 'padding:6px 10px;text-align:center';
-          if (i === 0) { td.style.textAlign = 'left'; td.style.fontWeight = '600'; }
-          if (i === 1 || i === 2) td.style.color = '#999';
-          if (i === 7) { td.style.fontWeight = '700'; td.style.color = v === 'OVER' ? 'var(--green)' : 'var(--red)'; }
-          if (i === 8) { td.style.fontWeight = '700'; td.style.color = v === 'WIN' ? 'var(--green)' : 'var(--red)'; }
-        });
+    function shortName(name) {
+      if (!name) return '';
+      const parts = name.trim().split(/\s+/);
+      if (parts.length < 2) return name;
+      return parts[0][0] + '.' + parts[parts.length - 1];
+    }
+    async function renderNBAProps() {
+      const el = document.getElementById('content');
+      const data = await fetchData('nba-props');
+      if (!data || !data.props || !data.props.length) {
+        el.textContent = '';
+        const card = document.createElement('div');
+        card.className = 'card card-games';
+        card.appendChild(Object.assign(document.createElement('div'), {className:'card-title', textContent:'NBA Player Props'}));
+        card.appendChild(Object.assign(document.createElement('div'), {className:'no-picks', textContent:'No prop projections available yet. Run the props pipeline to generate projections.'}));
+        el.appendChild(card);
+        return;
       }
-      recapCard.appendChild(tbl);
-      const tally = document.createElement('div');
-      tally.className = 'l10-tally';
-      tally.innerHTML = `Props: <b>${yW}W-${yL}L</b> &middot; <span style="color:${uColor}">${yU >= 0 ? '+' : ''}${yU.toFixed(1)}u</span>`;
-      recapCard.appendChild(tally);
-      el.appendChild(recapCard);
-    }
 
-    // Today's Picks
-    const todayPicks = picks.filter(p => p.date === todayStr);
-    if (todayPicks.length > 0) {
-      const todayCard = document.createElement('div');
-      todayCard.className = 'card card-picks';
-      todayCard.style.marginBottom = '16px';
-      todayCard.appendChild(Object.assign(document.createElement('div'), {
-        className: 'card-title',
-        textContent: `Today\u2019s Picks (${todayStr})`
-      }));
-      for (const p of todayPicks.sort((a,b) => (b.pCover||0)-(a.pCover||0))) {
-        const item = document.createElement('div');
-        item.className = 'pick-item';
-        const confBg = p.conf === 'elite' ? 'background:#7c6cf0;color:#fff;border-radius:3px;padding:1px 5px;font-size:10px;font-weight:700' : 'background:rgba(255,255,255,0.1);color:#ccc;border-radius:3px;padding:1px 5px;font-size:10px';
-        const pickColor = p.pick === 'OVER' ? 'var(--green)' : 'var(--red)';
-        item.innerHTML = `
-          <span class="pick-team" style="color:${pickColor}">${p.pick} ${p.line != null ? p.line : ''}</span>
-          <span style="${confBg}">${(p.conf||'').toUpperCase()}</span>
-          <span class="pick-meta">${p.player} (${p.team||''}) &middot; ${marketLabels[p.market]||p.market} &middot; proj ${p.proj} &middot; edge ${p.edge != null ? (p.edge > 0 ? '+' : '') + p.edge : '—'} &middot; P=${p.pCover != null ? (p.pCover*100).toFixed(1)+'%' : '—'}${p.opp ? ' vs '+p.opp : ''}</span>
-        `;
-        todayCard.appendChild(item);
+      const marketLabels = {points:'PTS', rebounds:'REB', assists:'AST', threes:"3's", pts_rebs_asts:'PRA', steals:'STL', blocks:'BLK', turnovers:'TO'};
+      const picks = data.props.filter(p => p.pick !== 'PASS');
+      const isBacktest = picks.some(p => p.result != null);
+
+      // Helper: get ISO week start (Monday) for a date string
+      function getWeekStart(dateStr) {
+        const d = new Date(dateStr + 'T00:00:00Z');
+        const day = d.getUTCDay();
+        const diff = day === 0 ? -6 : 1 - day;
+        d.setUTCDate(d.getUTCDate() + diff);
+        return d.toISOString().slice(0, 10);
       }
-      el.appendChild(todayCard);
-    }
-  })();
+      function getWeekEnd(weekStart) {
+        const d = new Date(weekStart + 'T00:00:00Z');
+        d.setUTCDate(d.getUTCDate() + 6);
+        return d.toISOString().slice(0, 10);
+      }
 
-  // ── Unified Toolbar ──
-  const selStyle = 'padding:6px 12px;border-radius:6px;background:rgba(255,255,255,0.06);color:#fff;border:1px solid rgba(255,255,255,0.1);font-size:13px;outline:none';
-  const pillStyle = 'padding:5px 14px;border-radius:16px;border:1px solid rgba(255,255,255,0.12);background:transparent;color:#999;font-size:12px;cursor:pointer;transition:all 0.15s';
-  const pillActiveStyle = 'padding:5px 14px;border-radius:16px;border:1px solid #7c6cf0;background:#7c6cf0;color:#fff;font-size:12px;cursor:pointer;transition:all 0.15s';
-  const tabStyle = 'padding:6px 16px;border:none;background:transparent;color:#999;font-size:13px;cursor:pointer;border-bottom:2px solid transparent;transition:all 0.15s';
-  const tabActiveStyle = 'padding:6px 16px;border:none;background:transparent;color:#fff;font-size:13px;cursor:pointer;border-bottom:2px solid #7c6cf0;transition:all 0.15s';
+      el.textContent = '';
 
-  let nbaView = 'all'; // 'all' | 'weekly'
+      // Header card
+      const hdr = document.createElement('div');
+      hdr.className = 'card card-games';
+      hdr.style.marginBottom = '16px';
+      const allW = picks.filter(p => p.result === 'WIN').length;
+      const allL = picks.filter(p => p.result === 'LOSS').length;
+      const allU = allW * 1.0 + allL * (-1.1);
+      const allPct = (allW + allL) > 0 ? (allW / (allW + allL) * 100).toFixed(1) : '0';
+      const hasGraded = isBacktest && (allW + allL) > 0;
+      const summaryText = hasGraded
+        ? `${allW}W-${allL}L (${allPct}%) ${allU >= 0 ? '+' : ''}${allU.toFixed(1)}u`
+        : `${picks.length} picks`;
+      hdr.appendChild(Object.assign(document.createElement('div'), {className:'card-title', textContent:`NBA Player Props \u2014 ${data.season || ''}`}));
+      hdr.appendChild(Object.assign(document.createElement('div'), {className:'card-subtitle', textContent:`${summaryText} | Generated: ${(data.generated || '').slice(0,16)}`}));
+      el.appendChild(hdr);
 
-  const toolbar = document.createElement('div');
-  toolbar.className = 'card';
-  toolbar.style.cssText = 'padding:0;margin-bottom:16px;overflow:hidden';
+      // ── Yesterday's Recap + Today's Picks ──
+      (function renderNBADailyCards() {
+        const now = new Date();
+        const toISO = d => d.toISOString().slice(0, 10);
+        const todayStr = toISO(now);
+        const yest = new Date(now); yest.setDate(yest.getDate() - 1);
+        const yesterdayStr = toISO(yest);
 
-  // Row 1: View tabs
-  const tabRow = document.createElement('div');
-  tabRow.className = 'props-toolbar-tabs';
-  tabRow.style.cssText = 'display:flex;border-bottom:1px solid rgba(255,255,255,0.08)';
-  const viewAllBtn = document.createElement('button');
-  viewAllBtn.textContent = 'All Picks';
-  const viewWeeklyBtn = document.createElement('button');
-  viewWeeklyBtn.textContent = 'Weekly';
-  tabRow.appendChild(viewAllBtn);
-  tabRow.appendChild(viewWeeklyBtn);
-  toolbar.appendChild(tabRow);
-
-  // Row 2: Market filter pills
-  const nbaButtonOrder = ['points','rebounds','assists','pts_rebs_asts','threes','steals','blocks','turnovers'];
-  const allMarketKeys = [...new Set(picks.map(p => p.market))].sort((a, b) => {
-    const ia = nbaButtonOrder.indexOf(a); const ib = nbaButtonOrder.indexOf(b);
-    return (ia === -1 ? 99 : ia) - (ib === -1 ? 99 : ib);
-  });
-  const nbaMarketBtnBar = document.createElement('div');
-  nbaMarketBtnBar.className = 'props-toolbar-pills';
-  nbaMarketBtnBar.style.cssText = 'display:flex;gap:6px;flex-wrap:wrap;padding:12px 16px;border-bottom:1px solid rgba(255,255,255,0.08)';
-  let nbaActiveMarket = 'all';
-
-  function renderNBAMarketBtns() {
-    nbaMarketBtnBar.textContent = '';
-    const allBtn = document.createElement('button');
-    allBtn.textContent = 'All';
-    allBtn.style.cssText = nbaActiveMarket === 'all' ? pillActiveStyle : pillStyle;
-    allBtn.onclick = () => { nbaActiveMarket = 'all'; allPicksPage = 0; weeklyPage = 0; renderNBAMarketBtns(); refreshView(); };
-    nbaMarketBtnBar.appendChild(allBtn);
-    for (const m of allMarketKeys) {
-      const btn = document.createElement('button');
-      btn.textContent = marketLabels[m] || m;
-      btn.style.cssText = nbaActiveMarket === m ? pillActiveStyle : pillStyle;
-      btn.onclick = () => { nbaActiveMarket = m; allPicksPage = 0; weeklyPage = 0; renderNBAMarketBtns(); refreshView(); };
-      nbaMarketBtnBar.appendChild(btn);
-    }
-  }
-  toolbar.appendChild(nbaMarketBtnBar);
-
-  // Row 3: Contextual filters
-  const filterRow = document.createElement('div');
-  filterRow.className = 'props-toolbar-filters';
-  filterRow.style.cssText = 'display:flex;gap:12px;align-items:center;padding:12px 16px;flex-wrap:wrap';
-
-  // All Picks filters
-  const allDates = [...new Set(picks.map(p => p.date))].sort().reverse();
-  const dateSel = document.createElement('select');
-  dateSel.style.cssText = selStyle;
-  dateSel.innerHTML = '<option value="all">All Dates</option>' + allDates.map(d => `<option value="${d}">${d}</option>`).join('');
-  const teamSel = document.createElement('select');
-  teamSel.style.cssText = selStyle;
-  const allTeams = [...new Set(picks.map(p => p.team))].filter(Boolean).sort();
-  teamSel.innerHTML = '<option value="all">All Teams</option>' + allTeams.map(t => `<option value="${t}">${t}</option>`).join('');
-  const filterLabel = document.createElement('span');
-  filterLabel.style.cssText = 'color:#666;font-size:12px;margin-left:auto';
-  filterLabel.textContent = `${picks.length} picks`;
-
-  // Weekly filters
-  const allWeekStarts = [...new Set(picks.filter(p => p.date).map(p => getWeekStart(p.date)))].sort().reverse();
-  const weekSel = document.createElement('select');
-  weekSel.style.cssText = selStyle;
-  weekSel.innerHTML = '<option value="all">All Weeks</option>' + allWeekStarts.map(ws => {
-    const we = getWeekEnd(ws);
-    return `<option value="${ws}">${ws} \u2013 ${we}</option>`;
-  }).join('');
-  const weekFilterLabel = document.createElement('span');
-  weekFilterLabel.style.cssText = 'color:#666;font-size:12px;margin-left:auto';
-
-  toolbar.appendChild(filterRow);
-  el.appendChild(toolbar);
-
-  const contentArea = document.createElement('div');
-  el.appendChild(contentArea);
-
-  const headers = isBacktest
-    ? ['Date','Player','Team','Opp','Proj','Line','Actual','Edge','Pick','Result','P(cover)','Conf']
-    : ['Player','Team','vs','Proj','Line','Edge','Pick','P(cover)','Conf'];
-
-  function getFilteredPicks() {
-    let fp = picks.slice();
-    if (dateSel.value !== 'all') fp = fp.filter(p => p.date === dateSel.value);
-    if (nbaActiveMarket !== 'all') fp = fp.filter(p => p.market === nbaActiveMarket);
-    if (teamSel.value !== 'all') fp = fp.filter(p => p.team === teamSel.value);
-    fp.sort((a, b) => (b.date || '').localeCompare(a.date || ''));
-    return fp;
-  }
-
-  function buildPropsTable(mProps) {
-    const wrap = document.createElement('div');
-    wrap.className = 'props-table-wrap';
-    const tbl = document.createElement('table');
-    tbl.style.cssText = 'width:100%;border-collapse:collapse;margin-top:8px';
-    const hRow = tbl.createTHead().insertRow();
-    headers.forEach(h => {
-      const th = document.createElement('th');
-      th.textContent = h;
-      th.style.cssText = 'padding:6px 10px;text-align:center;border-bottom:1px solid rgba(255,255,255,0.1)';
-      if (h === 'Player') th.style.textAlign = 'left';
-      hRow.appendChild(th);
-    });
-    const tbody = tbl.createTBody();
-    for (const p of mProps) {
-      const row = tbody.insertRow();
-      row.style.borderBottom = '1px solid rgba(255,255,255,0.05)';
-      const cells = isBacktest ? [
-        p.date || '', p.player, p.team || '', p.opp || '',
-        String(p.proj),
-        p.line != null ? String(p.line) : '\u2014',
-        p.actual != null ? String(p.actual) : '\u2014',
-        p.edge != null ? (p.edge > 0 ? '+' : '') + p.edge : '\u2014',
-        p.pick, p.result || '\u2014',
-        p.pCover != null ? (p.pCover * 100).toFixed(1) + '%' : '\u2014',
-        p.conf === 'elite' ? 'ELITE' : 'HIGH'
-      ] : [
-        p.player, p.team, p.opp || '', String(p.proj),
-        p.line != null ? String(p.line) : '\u2014',
-        p.edge != null ? (p.edge > 0 ? '+' : '') + p.edge : '\u2014',
-        p.pick,
-        p.pCover != null ? (p.pCover * 100).toFixed(1) + '%' : '\u2014',
-        p.conf === 'elite' ? 'ELITE' : 'HIGH'
-      ];
-      cells.forEach((val, i) => {
-        const td = row.insertCell();
-        td.textContent = val;
-        td.style.cssText = 'padding:6px 10px;text-align:center';
-        if (isBacktest) {
-          if (i === 1) { td.style.textAlign = 'left'; td.style.fontWeight = '600'; }
-          if (i === 0) { td.style.color = '#999'; td.style.fontSize = '12px'; }
-          if (i === 2 || i === 3) td.style.color = '#999';
-          if (i === 7) td.style.color = (p.edge || 0) > 0 ? 'var(--green)' : 'var(--red)';
-          if (i === 8) { td.style.fontWeight = '700'; td.style.color = p.pick === 'OVER' ? 'var(--green)' : 'var(--red)'; }
-          if (i === 9) { td.style.fontWeight = '700'; td.style.color = p.result === 'WIN' ? 'var(--green)' : 'var(--red)'; }
-          if (i === 11 && p.conf === 'elite') { td.style.background = '#7c6cf0'; td.style.color = '#fff'; td.style.borderRadius = '4px'; td.style.fontSize = '11px'; }
-        } else {
-          if (i === 0) { td.style.textAlign = 'left'; td.style.fontWeight = '600'; }
-          if (i === 1 || i === 2) td.style.color = '#999';
-          if (i === 5) td.style.color = (p.edge || 0) > 0 ? 'var(--green)' : 'var(--red)';
-          if (i === 6) { td.style.fontWeight = '700'; td.style.color = p.pick === 'OVER' ? 'var(--green)' : 'var(--red)'; }
-          if (i === 8 && p.conf === 'elite') { td.style.background = '#7c6cf0'; td.style.color = '#fff'; td.style.borderRadius = '4px'; td.style.fontSize = '11px'; }
+        // Yesterday's Recap
+        const yesterdayPicks = picks.filter(p => p.date === yesterdayStr && p.result);
+        if (yesterdayPicks.length > 0) {
+          const yW = yesterdayPicks.filter(p => p.result === 'WIN').length;
+          const yL = yesterdayPicks.filter(p => p.result === 'LOSS').length;
+          const yU = yW * 1.0 + yL * (-1.1);
+          const uColor = yU >= 0 ? 'var(--green)' : 'var(--red)';
+          const recapCard = document.createElement('div');
+          recapCard.className = 'card card-recap';
+          recapCard.style.marginBottom = '16px';
+          recapCard.appendChild(Object.assign(document.createElement('div'), {
+            className: 'card-title',
+            textContent: `Yesterday\u2019s Recap (${yesterdayStr})`
+          }));
+          const tbl = document.createElement('table');
+          tbl.className = 'data';
+          tbl.style.cssText = 'width:100%;border-collapse:collapse;margin-top:8px';
+          const hRow = tbl.createTHead().insertRow();
+          ['Player','Team','Opp','Cat','Proj','Line','Actual','Pick','Result'].forEach((h, i) => {
+            const th = document.createElement('th');
+            th.textContent = h;
+            th.style.cssText = 'padding:6px 10px;border-bottom:1px solid rgba(255,255,255,0.1);' + (i === 0 ? 'text-align:left' : 'text-align:center');
+            hRow.appendChild(th);
+          });
+          const tbody = tbl.createTBody();
+          for (const p of yesterdayPicks.sort((a,b) => (b.pCover||0)-(a.pCover||0))) {
+            const row = tbody.insertRow();
+            row.style.borderBottom = '1px solid rgba(255,255,255,0.05)';
+            [shortName(p.player), p.team||'', p.opp||'', marketLabels[p.market]||p.market,
+             String(p.proj), p.line!=null?String(p.line):'\u2014', p.actual!=null?String(p.actual):'\u2014',
+             p.pick==='OVER'?'O':'U', p.result==='WIN'?'W':'L'].forEach((v, i) => {
+              const td = row.insertCell();
+              td.textContent = v;
+              td.style.cssText = 'padding:4px 4px;text-align:center';
+              if (i === 0) { td.style.textAlign = 'left'; td.style.fontWeight = '600'; }
+              if (i === 1 || i === 2) td.style.color = '#999';
+              if (i === 4) td.style.color = p.proj > p.line ? 'var(--green)' : p.proj < p.line ? 'var(--red)' : '';
+              if (i === 7) { td.style.fontWeight = '700'; td.style.color = p.pick === 'OVER' ? 'var(--green)' : 'var(--red)'; }
+              if (i === 8) { td.style.fontWeight = '700'; td.style.color = p.result === 'WIN' ? 'var(--green)' : 'var(--red)'; }
+            });
+          }
+          recapCard.appendChild(tbl);
+          const tally = document.createElement('div');
+          tally.className = 'l10-tally';
+          tally.innerHTML = `Props: <b>${yW}W-${yL}L</b> &middot; <span style="color:${uColor}">${yU >= 0 ? '+' : ''}${yU.toFixed(1)}u</span>`;
+          recapCard.appendChild(tally);
+          el.appendChild(recapCard);
         }
+
+        // Today's Picks
+        const todayPicks = picks.filter(p => p.date === todayStr);
+        if (todayPicks.length > 0) {
+          const todayCard = document.createElement('div');
+          todayCard.className = 'card card-picks';
+          todayCard.style.marginBottom = '16px';
+          todayCard.appendChild(Object.assign(document.createElement('div'), {
+            className: 'card-title',
+            textContent: `Today\u2019s Picks (${todayStr})`
+          }));
+          for (const p of todayPicks.sort((a,b) => (b.pCover||0)-(a.pCover||0))) {
+            const item = document.createElement('div');
+            item.className = 'pick-item';
+            const confBg = p.conf === 'elite' ? 'background:#7c6cf0;color:#fff;border-radius:3px;padding:1px 5px;font-size:10px;font-weight:700' : 'background:rgba(255,255,255,0.1);color:#ccc;border-radius:3px;padding:1px 5px;font-size:10px';
+            const pickColor = p.pick === 'OVER' ? 'var(--green)' : 'var(--red)';
+            item.innerHTML = `
+              <span class="pick-team" style="color:${pickColor}">${p.pick} ${p.line != null ? p.line : ''}</span>
+              <span style="${confBg}">${(p.conf||'').toUpperCase()}</span>
+              <span class="pick-meta">${shortName(p.player)} (${p.team||''}) &middot; ${marketLabels[p.market]||p.market} &middot; proj ${p.proj}${p.opp ? ' vs '+p.opp : ''}</span>
+            `;
+            todayCard.appendChild(item);
+          }
+          el.appendChild(todayCard);
+        }
+      })();
+
+      // ── Unified Toolbar ──
+      const selStyle = 'padding:6px 12px;border-radius:6px;background:rgba(255,255,255,0.06);color:#fff;border:1px solid rgba(255,255,255,0.1);font-size:13px;outline:none';
+      const pillStyle = 'padding:5px 14px;border-radius:16px;border:1px solid rgba(255,255,255,0.12);background:transparent;color:#999;font-size:12px;cursor:pointer;transition:all 0.15s';
+      const pillActiveStyle = 'padding:5px 14px;border-radius:16px;border:1px solid #7c6cf0;background:#7c6cf0;color:#fff;font-size:12px;cursor:pointer;transition:all 0.15s';
+      const tabStyle = 'padding:6px 16px;border:none;background:transparent;color:#999;font-size:13px;cursor:pointer;border-bottom:2px solid transparent;transition:all 0.15s';
+      const tabActiveStyle = 'padding:6px 16px;border:none;background:transparent;color:#fff;font-size:13px;cursor:pointer;border-bottom:2px solid #7c6cf0;transition:all 0.15s';
+
+      let nbaView = 'all'; // 'all' | 'weekly'
+
+      const toolbar = document.createElement('div');
+      toolbar.className = 'card';
+      toolbar.style.cssText = 'padding:0;margin-bottom:16px;overflow:hidden';
+
+      // Row 1: View tabs
+      const tabRow = document.createElement('div');
+      tabRow.className = 'props-toolbar-tabs';
+      tabRow.style.cssText = 'display:flex;border-bottom:1px solid rgba(255,255,255,0.08)';
+      const viewAllBtn = document.createElement('button');
+      viewAllBtn.textContent = 'All Picks';
+      const viewWeeklyBtn = document.createElement('button');
+      viewWeeklyBtn.textContent = 'Weekly';
+      tabRow.appendChild(viewAllBtn);
+      tabRow.appendChild(viewWeeklyBtn);
+      toolbar.appendChild(tabRow);
+
+      // Row 2: Market filter pills
+      const nbaButtonOrder = ['points','rebounds','assists','pts_rebs_asts','threes','steals','blocks','turnovers'];
+      const allMarketKeys = [...new Set(picks.map(p => p.market))].sort((a, b) => {
+        const ia = nbaButtonOrder.indexOf(a); const ib = nbaButtonOrder.indexOf(b);
+        return (ia === -1 ? 99 : ia) - (ib === -1 ? 99 : ib);
       });
-    }
-    wrap.appendChild(tbl);
-    return wrap;
-  }
+      const nbaMarketBtnBar = document.createElement('div');
+      nbaMarketBtnBar.className = 'props-toolbar-pills';
+      nbaMarketBtnBar.style.cssText = 'display:flex;gap:6px;flex-wrap:wrap;padding:12px 16px;border-bottom:1px solid rgba(255,255,255,0.08)';
+      let nbaActiveMarket = 'all';
 
-  function buildMarketBreakdown(filteredPicks) {
-    const nbaMarketOrder = ['Points','Rebounds','Assists','Pts+Reb+Ast','Threes','Steals','Blocks','Turnovers'];
-    const fGrouped = {};
-    for (const p of filteredPicks) {
-      const ml = marketLabels[p.market] || p.market;
-      if (!fGrouped[ml]) fGrouped[ml] = [];
-      fGrouped[ml].push(p);
-    }
-    const sortedMarkets = Object.keys(fGrouped).sort((a, b) => {
-      const ia = nbaMarketOrder.indexOf(a); const ib = nbaMarketOrder.indexOf(b);
-      return (ia === -1 ? 99 : ia) - (ib === -1 ? 99 : ib);
-    });
-    return { fGrouped, sortedMarkets };
-  }
-
-  const PAGE_SIZE = 25;
-  const WEEKS_PER_PAGE = 1;
-  let allPicksPage = 0;
-  let weeklyPage = 0;
-
-  function renderAllPicksView() {
-    contentArea.textContent = '';
-    const filteredPicks = getFilteredPicks();
-    filterLabel.textContent = `Showing ${filteredPicks.length} picks`;
-
-    if (filteredPicks.length === 0) {
-      const empty = document.createElement('div');
-      empty.className = 'card card-games';
-      empty.appendChild(Object.assign(document.createElement('div'), {className:'no-picks', textContent:'No picks for selected filter.'}));
-      contentArea.appendChild(empty);
-      return;
-    }
-
-    const { fGrouped, sortedMarkets } = buildMarketBreakdown(filteredPicks);
-
-    // Market breakdown summary (always shown)
-    if (isBacktest) {
-      const summCard = document.createElement('div');
-      summCard.className = 'card card-games';
-      summCard.style.marginBottom = '16px';
-      summCard.appendChild(Object.assign(document.createElement('div'), {className:'card-title', textContent:'Market Breakdown'}));
-      const summWrap = document.createElement('div');
-      summWrap.className = 'props-table-wrap';
-      const summTbl = document.createElement('table');
-      summTbl.style.cssText = 'width:100%;border-collapse:collapse;margin-top:8px';
-      const sh = summTbl.createTHead().insertRow();
-      ['Market','Picks','W','L','Win%','Units'].forEach(h => {
-        const th = document.createElement('th');
-        th.textContent = h;
-        th.style.cssText = 'padding:6px 10px;text-align:right;border-bottom:1px solid rgba(255,255,255,0.1)';
-        if (h === 'Market') th.style.textAlign = 'left';
-        sh.appendChild(th);
-      });
-      const sb = summTbl.createTBody();
-      let gW = 0, gL = 0;
-      for (const market of sortedMarkets) {
-        const mPicks = fGrouped[market];
-        const w = mPicks.filter(p => p.result === 'WIN').length;
-        const l = mPicks.filter(p => p.result === 'LOSS').length;
-        const u = w * 1.0 + l * (-1.1);
-        const pct = (w + l) > 0 ? (w / (w + l) * 100).toFixed(1) : 'n/a';
-        gW += w; gL += l;
-        const sr = sb.insertRow();
-        [market, String(mPicks.length), String(w), String(l), pct+'%', (u>=0?'+':'')+u.toFixed(1)+'u'].forEach((v,i) => {
-          const td = sr.insertCell();
-          td.textContent = v;
-          td.style.padding = '6px 10px';
-          td.style.textAlign = i === 0 ? 'left' : 'right';
-          if (i === 5) td.style.color = u >= 0 ? 'var(--green)' : 'var(--red)';
-        });
+      function renderNBAMarketBtns() {
+        nbaMarketBtnBar.textContent = '';
+        const allBtn = document.createElement('button');
+        allBtn.textContent = 'All';
+        allBtn.style.cssText = nbaActiveMarket === 'all' ? pillActiveStyle : pillStyle;
+        allBtn.onclick = () => { nbaActiveMarket = 'all'; allPicksPage = 0; weeklyPage = 0; renderNBAMarketBtns(); refreshView(); };
+        nbaMarketBtnBar.appendChild(allBtn);
+        for (const m of allMarketKeys) {
+          const btn = document.createElement('button');
+          btn.textContent = marketLabels[m] || m;
+          btn.style.cssText = nbaActiveMarket === m ? pillActiveStyle : pillStyle;
+          btn.onclick = () => { nbaActiveMarket = m; allPicksPage = 0; weeklyPage = 0; renderNBAMarketBtns(); refreshView(); };
+          nbaMarketBtnBar.appendChild(btn);
+        }
       }
-      const gU = gW * 1.0 + gL * (-1.1);
-      const tr = sb.insertRow();
-      tr.style.borderTop = '2px solid rgba(255,255,255,0.2)';
-      tr.style.fontWeight = '700';
-      ['TOTAL', String(filteredPicks.length), String(gW), String(gL),
-       (gW+gL>0?(gW/(gW+gL)*100).toFixed(1):'0')+'%',
-       (gU>=0?'+':'')+gU.toFixed(1)+'u'].forEach((v,i) => {
-        const td = tr.insertCell();
-        td.textContent = v;
-        td.style.padding = '6px 10px';
-        td.style.textAlign = i === 0 ? 'left' : 'right';
-        if (i === 5) td.style.color = gU >= 0 ? 'var(--green)' : 'var(--red)';
-      });
-      summWrap.appendChild(summTbl); summCard.appendChild(summWrap);
-      contentArea.appendChild(summCard);
-    }
+      toolbar.appendChild(nbaMarketBtnBar);
 
-    // Single market selected → paginated table for that market
-    if (nbaActiveMarket !== 'all') {
-      allPicksPage = Math.min(allPicksPage, Math.floor(Math.max(0, filteredPicks.length - 1) / PAGE_SIZE));
-      const totalPages = Math.ceil(filteredPicks.length / PAGE_SIZE);
-      const pageStart = allPicksPage * PAGE_SIZE;
-      const pagePicks = filteredPicks.slice(pageStart, pageStart + PAGE_SIZE);
+      // Row 3: Contextual filters
+      const filterRow = document.createElement('div');
+      filterRow.className = 'props-toolbar-filters';
+      filterRow.style.cssText = 'display:flex;gap:12px;align-items:center;padding:12px 16px;flex-wrap:wrap';
 
-      const card = document.createElement('div');
-      card.className = 'card card-games';
-      const mW = filteredPicks.filter(p => p.result === 'WIN').length;
-      const mL = filteredPicks.filter(p => p.result === 'LOSS').length;
-      const titleSuffix = isBacktest ? ` (${mW}W-${mL}L)` : '';
-      card.appendChild(Object.assign(document.createElement('div'), {className:'card-title', textContent:(marketLabels[nbaActiveMarket]||nbaActiveMarket)+titleSuffix}));
+      // All Picks filters
+      const allDates = [...new Set(picks.map(p => p.date))].sort().reverse();
+      const dateSel = document.createElement('select');
+      dateSel.style.cssText = selStyle;
+      dateSel.innerHTML = '<option value="all">All Dates</option>' + allDates.map(d => `<option value="${d}">${d}</option>`).join('');
+      const teamSel = document.createElement('select');
+      teamSel.style.cssText = selStyle;
+      const allTeams = [...new Set(picks.map(p => p.team))].filter(Boolean).sort();
+      teamSel.innerHTML = '<option value="all">All Teams</option>' + allTeams.map(t => `<option value="${t}">${t}</option>`).join('');
+      const filterLabel = document.createElement('span');
+      filterLabel.style.cssText = 'color:#666;font-size:12px;margin-left:auto';
+      filterLabel.textContent = `${picks.length} picks`;
 
-      if (totalPages > 1) {
+      // Weekly filters
+      const allWeekStarts = [...new Set(picks.filter(p => p.date).map(p => getWeekStart(p.date)))].sort().reverse();
+      const weekSel = document.createElement('select');
+      weekSel.style.cssText = selStyle;
+      weekSel.innerHTML = '<option value="all">All Weeks</option>' + allWeekStarts.map(ws => {
+        const we = getWeekEnd(ws);
+        return `<option value="${ws}">${ws} \u2013 ${we}</option>`;
+      }).join('');
+      const weekFilterLabel = document.createElement('span');
+      weekFilterLabel.style.cssText = 'color:#666;font-size:12px;margin-left:auto';
+
+      toolbar.appendChild(filterRow);
+      el.appendChild(toolbar);
+
+      const contentArea = document.createElement('div');
+      el.appendChild(contentArea);
+
+      const headers = isBacktest
+        ? ['Date','Player','Team','Opp','Proj','Line','Actual','Pick','Result','Conf']
+        : ['Player','Team','vs','Proj','Line','Pick','Conf'];
+      const colClasses = isBacktest
+        ? ['col-date','col-player','col-team','col-opp','col-proj','col-line','col-actual','col-pick','col-result','col-conf']
+        : ['col-player','col-team','col-opp','col-proj','col-line','col-pick','col-conf'];
+
+      function getFilteredPicks() {
+        let fp = picks.slice();
+        if (dateSel.value !== 'all') fp = fp.filter(p => p.date === dateSel.value);
+        if (nbaActiveMarket !== 'all') fp = fp.filter(p => p.market === nbaActiveMarket);
+        if (teamSel.value !== 'all') fp = fp.filter(p => p.team === teamSel.value);
+        fp.sort((a, b) => (b.date || '').localeCompare(a.date || ''));
+        return fp;
+      }
+
+      function buildPropsTable(mProps) {
+        const wrap = document.createElement('div');
+        wrap.className = 'props-table-wrap';
+        const tbl = document.createElement('table');
+        tbl.className = 'props-data-table';
+        tbl.style.cssText = 'width:100%;border-collapse:collapse;margin-top:8px';
+        const hRow = tbl.createTHead().insertRow();
+        headers.forEach((h, i) => {
+          const th = document.createElement('th');
+          th.textContent = h;
+          th.className = colClasses[i] || 'col-' + i;
+          th.style.cssText = 'padding:4px 4px;text-align:center;border-bottom:1px solid rgba(255,255,255,0.1)';
+          if (h === 'Player') th.style.textAlign = 'left';
+          hRow.appendChild(th);
+        });
+        const tbody = tbl.createTBody();
+        for (const p of mProps) {
+          const row = tbody.insertRow();
+          row.style.borderBottom = '1px solid rgba(255,255,255,0.05)';
+          const cells = isBacktest ? [
+            p.date ? (parseInt(p.date.slice(5,7))+'/'+parseInt(p.date.slice(8))) : '', shortName(p.player), p.team || '', p.opp || '',
+            String(p.proj),
+            p.line != null ? String(p.line) : '\u2014',
+            p.actual != null ? String(p.actual) : '\u2014',
+            p.pick === 'OVER' ? 'O' : 'U',
+            p.result === 'WIN' ? 'W' : p.result === 'LOSS' ? 'L' : '\u2014',
+            p.conf === 'elite' ? 'ELITE' : 'HIGH'
+          ] : [
+            shortName(p.player), p.team, p.opp || '', String(p.proj),
+            p.line != null ? String(p.line) : '\u2014',
+            p.pick === 'OVER' ? 'O' : 'U',
+            p.conf === 'elite' ? 'ELITE' : 'HIGH'
+          ];
+          cells.forEach((val, i) => {
+            const td = row.insertCell();
+            td.textContent = val;
+            td.className = colClasses[i] || 'col-' + i;
+            td.style.cssText = 'padding:4px 4px;text-align:center';
+            if (isBacktest) {
+              if (i === 1) { td.style.textAlign = 'left'; td.style.fontWeight = '600'; }
+              if (i === 0) { td.style.color = '#999'; td.style.fontSize = '12px'; }
+              if (i === 2 || i === 3) td.style.color = '#999';
+              if (i === 4) td.style.color = p.proj > p.line ? 'var(--green)' : p.proj < p.line ? 'var(--red)' : '';
+              if (i === 7) { td.style.fontWeight = '700'; td.style.color = p.pick === 'OVER' ? 'var(--green)' : 'var(--red)'; }
+              if (i === 8) { td.style.fontWeight = '700'; td.style.color = p.result === 'WIN' ? 'var(--green)' : 'var(--red)'; }
+              if (i === 9 && p.conf === 'elite') { td.style.background = '#7c6cf0'; td.style.color = '#fff'; td.style.borderRadius = '4px'; td.style.fontSize = '11px'; }
+            } else {
+              if (i === 0) { td.style.textAlign = 'left'; td.style.fontWeight = '600'; }
+              if (i === 1 || i === 2) td.style.color = '#999';
+              if (i === 3) td.style.color = p.proj > p.line ? 'var(--green)' : p.proj < p.line ? 'var(--red)' : '';
+              if (i === 5) { td.style.fontWeight = '700'; td.style.color = p.pick === 'OVER' ? 'var(--green)' : 'var(--red)'; }
+              if (i === 6 && p.conf === 'elite') { td.style.background = '#7c6cf0'; td.style.color = '#fff'; td.style.borderRadius = '4px'; td.style.fontSize = '11px'; }
+            }
+          });
+        }
+        wrap.appendChild(tbl);
+        return wrap;
+      }
+
+      function buildMarketBreakdown(filteredPicks) {
+        const nbaMarketOrder = ['Points','Rebounds','Assists','Pts+Reb+Ast','Threes','Steals','Blocks','Turnovers'];
+        const fGrouped = {};
+        for (const p of filteredPicks) {
+          const ml = marketLabels[p.market] || p.market;
+          if (!fGrouped[ml]) fGrouped[ml] = [];
+          fGrouped[ml].push(p);
+        }
+        const sortedMarkets = Object.keys(fGrouped).sort((a, b) => {
+          const ia = nbaMarketOrder.indexOf(a); const ib = nbaMarketOrder.indexOf(b);
+          return (ia === -1 ? 99 : ia) - (ib === -1 ? 99 : ib);
+        });
+        return { fGrouped, sortedMarkets };
+      }
+
+      const PAGE_SIZE = 25;
+      const WEEKS_PER_PAGE = 1;
+      let allPicksPage = 0;
+      let weeklyPage = 0;
+
+      function renderAllPicksView() {
+        contentArea.textContent = '';
+        const filteredPicks = getFilteredPicks();
+        filterLabel.textContent = `Showing ${filteredPicks.length} picks`;
+
+        if (filteredPicks.length === 0) {
+          const empty = document.createElement('div');
+          empty.className = 'card card-games';
+          empty.appendChild(Object.assign(document.createElement('div'), {className:'no-picks', textContent:'No picks for selected filter.'}));
+          contentArea.appendChild(empty);
+          return;
+        }
+
+        const { fGrouped, sortedMarkets } = buildMarketBreakdown(filteredPicks);
+
+        // Market breakdown summary (always shown)
+        if (isBacktest) {
+          const summCard = document.createElement('div');
+          summCard.className = 'card card-games';
+          summCard.style.marginBottom = '16px';
+          summCard.appendChild(Object.assign(document.createElement('div'), {className:'card-title', textContent:'Market Breakdown'}));
+          const summWrap = document.createElement('div');
+          summWrap.className = 'props-table-wrap';
+          const summTbl = document.createElement('table');
+          summTbl.style.cssText = 'width:100%;border-collapse:collapse;margin-top:8px';
+          const sh = summTbl.createTHead().insertRow();
+          ['Cat','Picks','W','L','Win%','Units'].forEach(h => {
+            const th = document.createElement('th');
+            th.textContent = h;
+            th.style.cssText = 'padding:6px 10px;text-align:right;border-bottom:1px solid rgba(255,255,255,0.1)';
+            if (h === 'Cat') th.style.textAlign = 'left';
+            sh.appendChild(th);
+          });
+          const sb = summTbl.createTBody();
+          let gW = 0, gL = 0;
+          for (const market of sortedMarkets) {
+            const mPicks = fGrouped[market];
+            const w = mPicks.filter(p => p.result === 'WIN').length;
+            const l = mPicks.filter(p => p.result === 'LOSS').length;
+            const u = w * 1.0 + l * (-1.1);
+            const pct = (w + l) > 0 ? (w / (w + l) * 100).toFixed(1) : 'n/a';
+            gW += w; gL += l;
+            const sr = sb.insertRow();
+            [market, String(mPicks.length), String(w), String(l), pct+'%', (u>=0?'+':'')+u.toFixed(1)+'u'].forEach((v,i) => {
+              const td = sr.insertCell();
+              td.textContent = v;
+              td.style.padding = '6px 10px';
+              td.style.textAlign = i === 0 ? 'left' : 'right';
+              if (i === 5) td.style.color = u >= 0 ? 'var(--green)' : 'var(--red)';
+            });
+          }
+          const gU = gW * 1.0 + gL * (-1.1);
+          const tr = sb.insertRow();
+          tr.style.borderTop = '2px solid rgba(255,255,255,0.2)';
+          tr.style.fontWeight = '700';
+          ['TOTAL', String(filteredPicks.length), String(gW), String(gL),
+           (gW+gL>0?(gW/(gW+gL)*100).toFixed(1):'0')+'%',
+           (gU>=0?'+':'')+gU.toFixed(1)+'u'].forEach((v,i) => {
+            const td = tr.insertCell();
+            td.textContent = v;
+            td.style.padding = '6px 10px';
+            td.style.textAlign = i === 0 ? 'left' : 'right';
+            if (i === 5) td.style.color = gU >= 0 ? 'var(--green)' : 'var(--red)';
+          });
+          summWrap.appendChild(summTbl); summCard.appendChild(summWrap);
+          contentArea.appendChild(summCard);
+        }
+
+        // Single market selected → paginated table for that market
+        if (nbaActiveMarket !== 'all') {
+          allPicksPage = Math.min(allPicksPage, Math.floor(Math.max(0, filteredPicks.length - 1) / PAGE_SIZE));
+          const totalPages = Math.ceil(filteredPicks.length / PAGE_SIZE);
+          const pageStart = allPicksPage * PAGE_SIZE;
+          const pagePicks = filteredPicks.slice(pageStart, pageStart + PAGE_SIZE);
+
+          const card = document.createElement('div');
+          card.className = 'card card-games';
+          const mW = filteredPicks.filter(p => p.result === 'WIN').length;
+          const mL = filteredPicks.filter(p => p.result === 'LOSS').length;
+          const titleSuffix = isBacktest ? ` (${mW}W-${mL}L)` : '';
+          card.appendChild(Object.assign(document.createElement('div'), {className:'card-title', textContent:(marketLabels[nbaActiveMarket]||nbaActiveMarket)+titleSuffix}));
+
+          if (totalPages > 1) {
+            const pgBar = document.createElement('div');
+            pgBar.className = 'props-pg-bar'; pgBar.style.cssText = 'display:flex;align-items:center;gap:10px;margin-bottom:12px;flex-wrap:wrap';
+            const pgLabel = document.createElement('span');
+            pgLabel.style.cssText = 'color:#999;font-size:12px;flex:1';
+            pgLabel.textContent = `${pageStart+1}\u2013${Math.min(pageStart+PAGE_SIZE, filteredPicks.length)} of ${filteredPicks.length} picks`;
+            const prevBtn = document.createElement('button');
+            prevBtn.textContent = '\u2190 Prev';
+            prevBtn.style.cssText = 'padding:4px 12px;border-radius:6px;border:1px solid rgba(255,255,255,0.15);background:transparent;color:#ccc;font-size:12px;cursor:pointer';
+            prevBtn.disabled = allPicksPage === 0;
+            prevBtn.style.opacity = allPicksPage === 0 ? '0.3' : '1';
+            const nextBtn = document.createElement('button');
+            nextBtn.textContent = 'Next \u2192';
+            nextBtn.style.cssText = 'padding:4px 12px;border-radius:6px;border:1px solid rgba(255,255,255,0.15);background:transparent;color:#ccc;font-size:12px;cursor:pointer';
+            nextBtn.disabled = allPicksPage >= totalPages - 1;
+            nextBtn.style.opacity = allPicksPage >= totalPages - 1 ? '0.3' : '1';
+            prevBtn.onclick = () => { allPicksPage--; renderAllPicksView(); window.scrollTo(0,0); };
+            nextBtn.onclick = () => { allPicksPage++; renderAllPicksView(); window.scrollTo(0,0); };
+            pgBar.appendChild(pgLabel);
+            pgBar.appendChild(prevBtn);
+            pgBar.appendChild(document.createTextNode(`Page ${allPicksPage+1} / ${totalPages}`));
+            pgBar.appendChild(nextBtn);
+            card.appendChild(pgBar);
+          }
+
+          card.appendChild(buildPropsTable(pagePicks));
+
+          if (totalPages > 1) {
+            const pgBar2 = document.createElement('div');
+            pgBar2.style.cssText = 'display:flex;align-items:center;gap:10px;margin-top:12px;flex-wrap:wrap';
+            const pgLabel2 = document.createElement('span');
+            pgLabel2.style.cssText = 'color:#999;font-size:12px;flex:1';
+            pgLabel2.textContent = `${pageStart+1}\u2013${Math.min(pageStart+PAGE_SIZE, filteredPicks.length)} of ${filteredPicks.length} picks`;
+            const prevBtn2 = document.createElement('button');
+            prevBtn2.textContent = '\u2190 Prev';
+            prevBtn2.style.cssText = 'padding:4px 12px;border-radius:6px;border:1px solid rgba(255,255,255,0.15);background:transparent;color:#ccc;font-size:12px;cursor:pointer';
+            prevBtn2.disabled = allPicksPage === 0;
+            prevBtn2.style.opacity = allPicksPage === 0 ? '0.3' : '1';
+            const nextBtn2 = document.createElement('button');
+            nextBtn2.textContent = 'Next \u2192';
+            nextBtn2.style.cssText = 'padding:4px 12px;border-radius:6px;border:1px solid rgba(255,255,255,0.15);background:transparent;color:#ccc;font-size:12px;cursor:pointer';
+            nextBtn2.disabled = allPicksPage >= totalPages - 1;
+            nextBtn2.style.opacity = allPicksPage >= totalPages - 1 ? '0.3' : '1';
+            prevBtn2.onclick = () => { allPicksPage--; renderAllPicksView(); window.scrollTo(0,0); };
+            nextBtn2.onclick = () => { allPicksPage++; renderAllPicksView(); window.scrollTo(0,0); };
+            pgBar2.appendChild(pgLabel2);
+            pgBar2.appendChild(prevBtn2);
+            pgBar2.appendChild(document.createTextNode(`Page ${allPicksPage+1} / ${totalPages}`));
+            pgBar2.appendChild(nextBtn2);
+            card.appendChild(pgBar2);
+          }
+
+          contentArea.appendChild(card);
+          return;
+        }
+
+        // All markets → single paginated table
+        allPicksPage = Math.min(allPicksPage, Math.floor((filteredPicks.length - 1) / PAGE_SIZE));
+        const totalPages = Math.ceil(filteredPicks.length / PAGE_SIZE);
+        const pageStart = allPicksPage * PAGE_SIZE;
+        const pagePicks = filteredPicks.slice(pageStart, pageStart + PAGE_SIZE);
+
+        const card = document.createElement('div');
+        card.className = 'card card-games';
+
+        // Pagination controls
         const pgBar = document.createElement('div');
         pgBar.className = 'props-pg-bar'; pgBar.style.cssText = 'display:flex;align-items:center;gap:10px;margin-bottom:12px;flex-wrap:wrap';
         const pgLabel = document.createElement('span');
@@ -415,316 +490,251 @@ async function renderNBAProps() {
         pgBar.appendChild(document.createTextNode(`Page ${allPicksPage+1} / ${totalPages}`));
         pgBar.appendChild(nextBtn);
         card.appendChild(pgBar);
-      }
 
-      card.appendChild(buildPropsTable(pagePicks));
-
-      if (totalPages > 1) {
-        const pgBar2 = document.createElement('div');
-        pgBar2.style.cssText = 'display:flex;align-items:center;gap:10px;margin-top:12px;flex-wrap:wrap';
-        const pgLabel2 = document.createElement('span');
-        pgLabel2.style.cssText = 'color:#999;font-size:12px;flex:1';
-        pgLabel2.textContent = `${pageStart+1}\u2013${Math.min(pageStart+PAGE_SIZE, filteredPicks.length)} of ${filteredPicks.length} picks`;
-        const prevBtn2 = document.createElement('button');
-        prevBtn2.textContent = '\u2190 Prev';
-        prevBtn2.style.cssText = 'padding:4px 12px;border-radius:6px;border:1px solid rgba(255,255,255,0.15);background:transparent;color:#ccc;font-size:12px;cursor:pointer';
-        prevBtn2.disabled = allPicksPage === 0;
-        prevBtn2.style.opacity = allPicksPage === 0 ? '0.3' : '1';
-        const nextBtn2 = document.createElement('button');
-        nextBtn2.textContent = 'Next \u2192';
-        nextBtn2.style.cssText = 'padding:4px 12px;border-radius:6px;border:1px solid rgba(255,255,255,0.15);background:transparent;color:#ccc;font-size:12px;cursor:pointer';
-        nextBtn2.disabled = allPicksPage >= totalPages - 1;
-        nextBtn2.style.opacity = allPicksPage >= totalPages - 1 ? '0.3' : '1';
-        prevBtn2.onclick = () => { allPicksPage--; renderAllPicksView(); window.scrollTo(0,0); };
-        nextBtn2.onclick = () => { allPicksPage++; renderAllPicksView(); window.scrollTo(0,0); };
-        pgBar2.appendChild(pgLabel2);
-        pgBar2.appendChild(prevBtn2);
-        pgBar2.appendChild(document.createTextNode(`Page ${allPicksPage+1} / ${totalPages}`));
-        pgBar2.appendChild(nextBtn2);
+        // Unified table with Market column
+        const tbl = document.createElement('table');
+        tbl.style.cssText = 'width:100%;border-collapse:collapse';
+        const hdrs = isBacktest
+          ? ['Date','Player','Team','Opp','Cat','Proj','Line','Actual','Pick','Result','Conf']
+          : ['Player','Team','vs','Cat','Proj','Line','Pick','Conf'];
+        const hRow = tbl.createTHead().insertRow();
+        hdrs.forEach(h => {
+          const th = document.createElement('th');
+          th.textContent = h;
+          th.style.cssText = 'padding:4px 4px;text-align:center;border-bottom:1px solid rgba(255,255,255,0.1);font-size:12px';
+          if (h === 'Player') th.style.textAlign = 'left';
+          hRow.appendChild(th);
+        });
+        const tbody = tbl.createTBody();
+        for (const p of pagePicks) {
+          const row = tbody.insertRow();
+          row.style.borderBottom = '1px solid rgba(255,255,255,0.05)';
+          const ml = marketLabels[p.market] || p.market;
+          const cells = isBacktest ? [
+            p.date?(parseInt(p.date.slice(5,7))+'/'+parseInt(p.date.slice(8))):'', shortName(p.player), p.team||'', p.opp||'', ml,
+            String(p.proj), p.line!=null?String(p.line):'\u2014',
+            p.actual!=null?String(p.actual):'\u2014',
+            p.pick==='OVER'?'O':'U',
+            p.result==='WIN'?'W':p.result==='LOSS'?'L':'\u2014',
+            p.conf==='elite'?'ELITE':'HIGH'
+          ] : [
+            shortName(p.player), p.team, p.opp||'', ml, String(p.proj),
+            p.line!=null?String(p.line):'\u2014',
+            p.pick==='OVER'?'O':'U',
+            p.conf==='elite'?'ELITE':'HIGH'
+          ];
+          cells.forEach((val, i) => {
+            const td = row.insertCell();
+            td.textContent = val;
+            td.style.cssText = 'padding:4px 4px;text-align:center;font-size:13px';
+            if (isBacktest) {
+              if (i===1) { td.style.textAlign='left'; td.style.fontWeight='600'; }
+              if (i===0) { td.style.color='#999'; td.style.fontSize='11px'; }
+              if (i===2||i===3) td.style.color='#999';
+              if (i===4) { td.style.color='#aaa'; td.style.fontSize='11px'; }
+              if (i===5) td.style.color=p.proj>p.line?'var(--green)':p.proj<p.line?'var(--red)':'';
+              if (i===8) { td.style.fontWeight='700'; td.style.color=p.pick==='OVER'?'var(--green)':'var(--red)'; }
+              if (i===9) { td.style.fontWeight='700'; td.style.color=p.result==='WIN'?'var(--green)':'var(--red)'; }
+              if (i===10&&p.conf==='elite') { td.style.background='#7c6cf0'; td.style.color='#fff'; td.style.borderRadius='4px'; td.style.fontSize='10px'; }
+            } else {
+              if (i===0) { td.style.textAlign='left'; td.style.fontWeight='600'; }
+              if (i===1||i===2) td.style.color='#999';
+              if (i===3) { td.style.color='#aaa'; td.style.fontSize='11px'; }
+              if (i===4) td.style.color=p.proj>p.line?'var(--green)':p.proj<p.line?'var(--red)':'';
+              if (i===6) { td.style.fontWeight='700'; td.style.color=p.pick==='OVER'?'var(--green)':'var(--red)'; }
+              if (i===7&&p.conf==='elite') { td.style.background='#7c6cf0'; td.style.color='#fff'; td.style.borderRadius='4px'; td.style.fontSize='10px'; }
+            }
+          });
+        }
+        card.appendChild(tbl);
+        // Bottom pagination
+        const pgBar2 = pgBar.cloneNode(true);
+        pgBar2.style.marginTop = '12px';
+        pgBar2.style.marginBottom = '0';
+        pgBar2.querySelectorAll('button')[0].onclick = () => { allPicksPage--; renderAllPicksView(); window.scrollTo(0,0); };
+        pgBar2.querySelectorAll('button')[1].onclick = () => { allPicksPage++; renderAllPicksView(); window.scrollTo(0,0); };
         card.appendChild(pgBar2);
+        contentArea.appendChild(card);
       }
 
-      contentArea.appendChild(card);
-      return;
-    }
+      function renderWeeklyView() {
+        contentArea.textContent = '';
+        let fp = picks.slice();
+        if (nbaActiveMarket !== 'all') fp = fp.filter(p => p.market === nbaActiveMarket);
+        if (weekSel.value !== 'all') fp = fp.filter(p => p.date && getWeekStart(p.date) === weekSel.value);
 
-    // All markets → single paginated table
-    allPicksPage = Math.min(allPicksPage, Math.floor((filteredPicks.length - 1) / PAGE_SIZE));
-    const totalPages = Math.ceil(filteredPicks.length / PAGE_SIZE);
-    const pageStart = allPicksPage * PAGE_SIZE;
-    const pagePicks = filteredPicks.slice(pageStart, pageStart + PAGE_SIZE);
+        // Group by week start
+        const weekMap = {};
+        for (const p of fp) {
+          if (!p.date) continue;
+          const ws = getWeekStart(p.date);
+          if (!weekMap[ws]) weekMap[ws] = [];
+          weekMap[ws].push(p);
+        }
+        const sortedWeeks = Object.keys(weekMap).sort().reverse();
 
-    const card = document.createElement('div');
-    card.className = 'card card-games';
+        weekFilterLabel.textContent = `${fp.length} picks across ${sortedWeeks.length} week${sortedWeeks.length !== 1 ? 's' : ''}`;
 
-    // Pagination controls
-    const pgBar = document.createElement('div');
-    pgBar.className = 'props-pg-bar'; pgBar.style.cssText = 'display:flex;align-items:center;gap:10px;margin-bottom:12px;flex-wrap:wrap';
-    const pgLabel = document.createElement('span');
-    pgLabel.style.cssText = 'color:#999;font-size:12px;flex:1';
-    pgLabel.textContent = `${pageStart+1}–${Math.min(pageStart+PAGE_SIZE, filteredPicks.length)} of ${filteredPicks.length} picks`;
-    const prevBtn = document.createElement('button');
-    prevBtn.textContent = '← Prev';
-    prevBtn.style.cssText = 'padding:4px 12px;border-radius:6px;border:1px solid rgba(255,255,255,0.15);background:transparent;color:#ccc;font-size:12px;cursor:pointer';
-    prevBtn.disabled = allPicksPage === 0;
-    prevBtn.style.opacity = allPicksPage === 0 ? '0.3' : '1';
-    const nextBtn = document.createElement('button');
-    nextBtn.textContent = 'Next →';
-    nextBtn.style.cssText = 'padding:4px 12px;border-radius:6px;border:1px solid rgba(255,255,255,0.15);background:transparent;color:#ccc;font-size:12px;cursor:pointer';
-    nextBtn.disabled = allPicksPage >= totalPages - 1;
-    nextBtn.style.opacity = allPicksPage >= totalPages - 1 ? '0.3' : '1';
-    prevBtn.onclick = () => { allPicksPage--; renderAllPicksView(); window.scrollTo(0,0); };
-    nextBtn.onclick = () => { allPicksPage++; renderAllPicksView(); window.scrollTo(0,0); };
-    pgBar.appendChild(pgLabel);
-    pgBar.appendChild(prevBtn);
-    pgBar.appendChild(document.createTextNode(`Page ${allPicksPage+1} / ${totalPages}`));
-    pgBar.appendChild(nextBtn);
-    card.appendChild(pgBar);
+        if (sortedWeeks.length === 0) {
+          const empty = document.createElement('div');
+          empty.className = 'card card-games';
+          empty.appendChild(Object.assign(document.createElement('div'), {className:'no-picks', textContent:'No picks for selected filter.'}));
+          contentArea.appendChild(empty);
+          return;
+        }
 
-    // Unified table with Market column
-    const tbl = document.createElement('table');
-    tbl.style.cssText = 'width:100%;border-collapse:collapse';
-    const hdrs = isBacktest
-      ? ['Date','Player','Team','Opp','Market','Proj','Line','Actual','Edge','Pick','Result','P(cover)','Conf']
-      : ['Player','Team','vs','Market','Proj','Line','Edge','Pick','P(cover)','Conf'];
-    const hRow = tbl.createTHead().insertRow();
-    hdrs.forEach(h => {
-      const th = document.createElement('th');
-      th.textContent = h;
-      th.style.cssText = 'padding:6px 8px;text-align:center;border-bottom:1px solid rgba(255,255,255,0.1);font-size:12px';
-      if (h === 'Player') th.style.textAlign = 'left';
-      hRow.appendChild(th);
-    });
-    const tbody = tbl.createTBody();
-    for (const p of pagePicks) {
-      const row = tbody.insertRow();
-      row.style.borderBottom = '1px solid rgba(255,255,255,0.05)';
-      const ml = marketLabels[p.market] || p.market;
-      const cells = isBacktest ? [
-        p.date||'', p.player, p.team||'', p.opp||'', ml,
-        String(p.proj), p.line!=null?String(p.line):'\u2014',
-        p.actual!=null?String(p.actual):'\u2014',
-        p.edge!=null?(p.edge>0?'+':'')+p.edge:'\u2014',
-        p.pick, p.result||'\u2014',
-        p.pCover!=null?(p.pCover*100).toFixed(1)+'%':'\u2014',
-        p.conf==='elite'?'ELITE':'HIGH'
-      ] : [
-        p.player, p.team, p.opp||'', ml, String(p.proj),
-        p.line!=null?String(p.line):'\u2014',
-        p.edge!=null?(p.edge>0?'+':'')+p.edge:'\u2014',
-        p.pick, p.pCover!=null?(p.pCover*100).toFixed(1)+'%':'\u2014',
-        p.conf==='elite'?'ELITE':'HIGH'
-      ];
-      cells.forEach((val, i) => {
-        const td = row.insertCell();
-        td.textContent = val;
-        td.style.cssText = 'padding:5px 8px;text-align:center;font-size:13px';
-        if (isBacktest) {
-          if (i===1) { td.style.textAlign='left'; td.style.fontWeight='600'; }
-          if (i===0) { td.style.color='#999'; td.style.fontSize='11px'; }
-          if (i===2||i===3) td.style.color='#999';
-          if (i===4) { td.style.color='#aaa'; td.style.fontSize='11px'; }
-          if (i===8) td.style.color=(p.edge||0)>0?'var(--green)':'var(--red)';
-          if (i===9) { td.style.fontWeight='700'; td.style.color=p.pick==='OVER'?'var(--green)':'var(--red)'; }
-          if (i===10) { td.style.fontWeight='700'; td.style.color=p.result==='WIN'?'var(--green)':'var(--red)'; }
-          if (i===12&&p.conf==='elite') { td.style.background='#7c6cf0'; td.style.color='#fff'; td.style.borderRadius='4px'; td.style.fontSize='10px'; }
+        // Weekly summary table
+        const summCard = document.createElement('div');
+        summCard.className = 'card card-games';
+        summCard.style.marginBottom = '16px';
+        summCard.appendChild(Object.assign(document.createElement('div'), {className:'card-title', textContent:'Weekly Summary'}));
+        const summWrap = document.createElement('div');
+        summWrap.className = 'props-table-wrap';
+        const summTbl = document.createElement('table');
+        summTbl.style.cssText = 'width:100%;border-collapse:collapse;margin-top:8px';
+        const sh = summTbl.createTHead().insertRow();
+        ['Week','Picks','W','L','Win%','Units'].forEach(h => {
+          const th = document.createElement('th');
+          th.textContent = h;
+          th.style.cssText = 'padding:6px 10px;text-align:right;border-bottom:1px solid rgba(255,255,255,0.1)';
+          if (h === 'Week') th.style.textAlign = 'left';
+          sh.appendChild(th);
+        });
+        const sb = summTbl.createTBody();
+        let totW = 0, totL = 0;
+        for (const ws of sortedWeeks) {
+          const wPicks = weekMap[ws];
+          const w = wPicks.filter(p => p.result === 'WIN').length;
+          const l = wPicks.filter(p => p.result === 'LOSS').length;
+          const u = w * 1.0 + l * (-1.1);
+          const pct = (w + l) > 0 ? (w / (w + l) * 100).toFixed(1) : '\u2014';
+          totW += w; totL += l;
+          const sr = sb.insertRow();
+          const we = getWeekEnd(ws);
+          [`${ws} \u2013 ${we}`, String(wPicks.length), String(w), String(l),
+           (w+l>0?pct+'%':'\u2014'), (w+l>0?(u>=0?'+':'')+u.toFixed(1)+'u':'\u2014')].forEach((v, i) => {
+            const td = sr.insertCell();
+            td.textContent = v;
+            td.style.padding = '6px 10px';
+            td.style.textAlign = i === 0 ? 'left' : 'right';
+            if (i === 5 && w+l > 0) td.style.color = u >= 0 ? 'var(--green)' : 'var(--red)';
+          });
+        }
+        const totU = totW * 1.0 + totL * (-1.1);
+        const tr = sb.insertRow();
+        tr.style.borderTop = '2px solid rgba(255,255,255,0.2)';
+        tr.style.fontWeight = '700';
+        ['TOTAL', String(fp.length), String(totW), String(totL),
+         (totW+totL>0?(totW/(totW+totL)*100).toFixed(1)+'%':'\u2014'),
+         (totU>=0?'+':'')+totU.toFixed(1)+'u'].forEach((v,i) => {
+          const td = tr.insertCell();
+          td.textContent = v;
+          td.style.padding = '6px 10px';
+          td.style.textAlign = i === 0 ? 'left' : 'right';
+          if (i === 5) td.style.color = totU >= 0 ? 'var(--green)' : 'var(--red)';
+        });
+        summWrap.appendChild(summTbl); summCard.appendChild(summWrap);
+        contentArea.appendChild(summCard);
+
+        // Per-week pick cards — paginated (WEEKS_PER_PAGE per page)
+        const totalWeekPages = Math.ceil(sortedWeeks.length / WEEKS_PER_PAGE);
+        weeklyPage = Math.min(weeklyPage, Math.max(0, totalWeekPages - 1));
+        const weekPageStart = weeklyPage * WEEKS_PER_PAGE;
+        const visibleWeeks = weekSel.value !== 'all'
+          ? sortedWeeks  // specific week selected → show it (no pagination)
+          : sortedWeeks.slice(weekPageStart, weekPageStart + WEEKS_PER_PAGE);
+
+        // Pagination bar (only shown when "all weeks" and more than one page)
+        if (weekSel.value === 'all' && totalWeekPages > 1) {
+          const pgBar = document.createElement('div');
+          pgBar.className = 'props-pg-bar'; pgBar.style.cssText = 'display:flex;align-items:center;gap:10px;margin-bottom:12px;flex-wrap:wrap';
+          const pgLabel = document.createElement('span');
+          pgLabel.style.cssText = 'color:#999;font-size:12px;flex:1';
+          pgLabel.textContent = `Weeks ${weekPageStart+1}\u2013${Math.min(weekPageStart+WEEKS_PER_PAGE, sortedWeeks.length)} of ${sortedWeeks.length}`;
+          const prevBtn = document.createElement('button');
+          prevBtn.textContent = '\u2190 Prev';
+          prevBtn.style.cssText = 'padding:4px 12px;border-radius:6px;border:1px solid rgba(255,255,255,0.15);background:transparent;color:#ccc;font-size:12px;cursor:pointer';
+          prevBtn.disabled = weeklyPage === 0;
+          prevBtn.style.opacity = weeklyPage === 0 ? '0.3' : '1';
+          const nextBtn = document.createElement('button');
+          nextBtn.textContent = 'Next \u2192';
+          nextBtn.style.cssText = 'padding:4px 12px;border-radius:6px;border:1px solid rgba(255,255,255,0.15);background:transparent;color:#ccc;font-size:12px;cursor:pointer';
+          nextBtn.disabled = weeklyPage >= totalWeekPages - 1;
+          nextBtn.style.opacity = weeklyPage >= totalWeekPages - 1 ? '0.3' : '1';
+          prevBtn.onclick = () => { weeklyPage--; renderWeeklyView(); window.scrollTo(0,0); };
+          nextBtn.onclick = () => { weeklyPage++; renderWeeklyView(); window.scrollTo(0,0); };
+          pgBar.appendChild(pgLabel);
+          pgBar.appendChild(prevBtn);
+          pgBar.appendChild(document.createTextNode(`Page ${weeklyPage+1} / ${totalWeekPages}`));
+          pgBar.appendChild(nextBtn);
+          contentArea.appendChild(pgBar);
+        }
+
+        for (const ws of visibleWeeks) {
+          const wPicks = weekMap[ws].slice().sort((a, b) => (b.date || '').localeCompare(a.date || ''));
+          const we = getWeekEnd(ws);
+          const wW = wPicks.filter(p => p.result === 'WIN').length;
+          const wL = wPicks.filter(p => p.result === 'LOSS').length;
+          const wU = wW * 1.0 + wL * (-1.1);
+          const wPct = (wW + wL) > 0 ? ` \u2014 ${wW}W-${wL}L (${(wW/(wW+wL)*100).toFixed(1)}%) ${wU>=0?'+':''}${wU.toFixed(1)}u` : ` \u2014 ${wPicks.length} picks`;
+
+          const card = document.createElement('div');
+          card.className = 'card card-games';
+          card.appendChild(Object.assign(document.createElement('div'), {
+            className: 'card-title',
+            textContent: `Week of ${ws} \u2013 ${we}${wPct}`
+          }));
+
+          // Mini market breakdown for this week
+          const { fGrouped: wGrouped, sortedMarkets: wMarkets } = buildMarketBreakdown(wPicks);
+          if (wMarkets.length > 1) {
+            const mkRow = document.createElement('div');
+            mkRow.style.cssText = 'display:flex;gap:16px;flex-wrap:wrap;margin:8px 0 12px;font-size:12px;color:#999';
+            for (const mk of wMarkets) {
+              const mp = wGrouped[mk];
+              const mw = mp.filter(p => p.result === 'WIN').length;
+              const ml2 = mp.length - mw;
+              const mu = mw - ml2 * 1.1;
+              const span = document.createElement('span');
+              span.innerHTML = `<span style="color:#ccc">${mk}</span> ${mw}W-${ml2}L <span style="color:${mu>=0?'var(--green)':'var(--red)'}">${mu>=0?'+':''}${mu.toFixed(1)}u</span>`;
+              mkRow.appendChild(span);
+            }
+            card.appendChild(mkRow);
+          }
+
+          card.appendChild(buildPropsTable(wPicks));
+          contentArea.appendChild(card);
+        }
+      }
+
+      function refreshView() {
+        if (nbaView === 'weekly') renderWeeklyView();
+        else renderAllPicksView();
+      }
+
+      function setView(v) {
+        nbaView = v;
+        viewAllBtn.style.cssText = v === 'all' ? tabActiveStyle : tabStyle;
+        viewWeeklyBtn.style.cssText = v === 'weekly' ? tabActiveStyle : tabStyle;
+        // Swap filter row contents
+        filterRow.textContent = '';
+        if (v === 'all') {
+          filterRow.appendChild(dateSel);
+          filterRow.appendChild(teamSel);
+          filterRow.appendChild(filterLabel);
         } else {
-          if (i===0) { td.style.textAlign='left'; td.style.fontWeight='600'; }
-          if (i===1||i===2) td.style.color='#999';
-          if (i===3) { td.style.color='#aaa'; td.style.fontSize='11px'; }
-          if (i===6) td.style.color=(p.edge||0)>0?'var(--green)':'var(--red)';
-          if (i===7) { td.style.fontWeight='700'; td.style.color=p.pick==='OVER'?'var(--green)':'var(--red)'; }
-          if (i===9&&p.conf==='elite') { td.style.background='#7c6cf0'; td.style.color='#fff'; td.style.borderRadius='4px'; td.style.fontSize='10px'; }
+          filterRow.appendChild(weekSel);
+          filterRow.appendChild(weekFilterLabel);
         }
-      });
-    }
-    card.appendChild(tbl);
-    // Bottom pagination
-    const pgBar2 = pgBar.cloneNode(true);
-    pgBar2.style.marginTop = '12px';
-    pgBar2.style.marginBottom = '0';
-    pgBar2.querySelectorAll('button')[0].onclick = () => { allPicksPage--; renderAllPicksView(); window.scrollTo(0,0); };
-    pgBar2.querySelectorAll('button')[1].onclick = () => { allPicksPage++; renderAllPicksView(); window.scrollTo(0,0); };
-    card.appendChild(pgBar2);
-    contentArea.appendChild(card);
-  }
-
-  function renderWeeklyView() {
-    contentArea.textContent = '';
-    let fp = picks.slice();
-    if (nbaActiveMarket !== 'all') fp = fp.filter(p => p.market === nbaActiveMarket);
-    if (weekSel.value !== 'all') fp = fp.filter(p => p.date && getWeekStart(p.date) === weekSel.value);
-
-    // Group by week start
-    const weekMap = {};
-    for (const p of fp) {
-      if (!p.date) continue;
-      const ws = getWeekStart(p.date);
-      if (!weekMap[ws]) weekMap[ws] = [];
-      weekMap[ws].push(p);
-    }
-    const sortedWeeks = Object.keys(weekMap).sort().reverse();
-
-    weekFilterLabel.textContent = `${fp.length} picks across ${sortedWeeks.length} week${sortedWeeks.length !== 1 ? 's' : ''}`;
-
-    if (sortedWeeks.length === 0) {
-      const empty = document.createElement('div');
-      empty.className = 'card card-games';
-      empty.appendChild(Object.assign(document.createElement('div'), {className:'no-picks', textContent:'No picks for selected filter.'}));
-      contentArea.appendChild(empty);
-      return;
-    }
-
-    // Weekly summary table
-    const summCard = document.createElement('div');
-    summCard.className = 'card card-games';
-    summCard.style.marginBottom = '16px';
-    summCard.appendChild(Object.assign(document.createElement('div'), {className:'card-title', textContent:'Weekly Summary'}));
-    const summTbl = document.createElement('table');
-    summTbl.style.cssText = 'width:100%;border-collapse:collapse;margin-top:8px';
-    const sh = summTbl.createTHead().insertRow();
-    ['Week','Picks','W','L','Win%','Units'].forEach(h => {
-      const th = document.createElement('th');
-      th.textContent = h;
-      th.style.cssText = 'padding:6px 10px;text-align:right;border-bottom:1px solid rgba(255,255,255,0.1)';
-      if (h === 'Week') th.style.textAlign = 'left';
-      sh.appendChild(th);
-    });
-    const sb = summTbl.createTBody();
-    let totW = 0, totL = 0;
-    for (const ws of sortedWeeks) {
-      const wPicks = weekMap[ws];
-      const w = wPicks.filter(p => p.result === 'WIN').length;
-      const l = wPicks.filter(p => p.result === 'LOSS').length;
-      const u = w * 1.0 + l * (-1.1);
-      const pct = (w + l) > 0 ? (w / (w + l) * 100).toFixed(1) : '\u2014';
-      totW += w; totL += l;
-      const sr = sb.insertRow();
-      const we = getWeekEnd(ws);
-      [`${ws} \u2013 ${we}`, String(wPicks.length), String(w), String(l),
-       (w+l>0?pct+'%':'\u2014'), (w+l>0?(u>=0?'+':'')+u.toFixed(1)+'u':'\u2014')].forEach((v, i) => {
-        const td = sr.insertCell();
-        td.textContent = v;
-        td.style.padding = '6px 10px';
-        td.style.textAlign = i === 0 ? 'left' : 'right';
-        if (i === 5 && w+l > 0) td.style.color = u >= 0 ? 'var(--green)' : 'var(--red)';
-      });
-    }
-    const totU = totW * 1.0 + totL * (-1.1);
-    const tr = sb.insertRow();
-    tr.style.borderTop = '2px solid rgba(255,255,255,0.2)';
-    tr.style.fontWeight = '700';
-    ['TOTAL', String(fp.length), String(totW), String(totL),
-     (totW+totL>0?(totW/(totW+totL)*100).toFixed(1)+'%':'—'),
-     (totU>=0?'+':'')+totU.toFixed(1)+'u'].forEach((v,i) => {
-      const td = tr.insertCell();
-      td.textContent = v;
-      td.style.padding = '6px 10px';
-      td.style.textAlign = i === 0 ? 'left' : 'right';
-      if (i === 5) td.style.color = totU >= 0 ? 'var(--green)' : 'var(--red)';
-    });
-    summWrap.appendChild(summTbl); summCard.appendChild(summWrap);
-    contentArea.appendChild(summCard);
-
-    // Per-week pick cards — paginated (WEEKS_PER_PAGE per page)
-    const totalWeekPages = Math.ceil(sortedWeeks.length / WEEKS_PER_PAGE);
-    weeklyPage = Math.min(weeklyPage, Math.max(0, totalWeekPages - 1));
-    const weekPageStart = weeklyPage * WEEKS_PER_PAGE;
-    const visibleWeeks = weekSel.value !== 'all'
-      ? sortedWeeks  // specific week selected → show it (no pagination)
-      : sortedWeeks.slice(weekPageStart, weekPageStart + WEEKS_PER_PAGE);
-
-    // Pagination bar (only shown when "all weeks" and more than one page)
-    if (weekSel.value === 'all' && totalWeekPages > 1) {
-      const pgBar = document.createElement('div');
-      pgBar.className = 'props-pg-bar'; pgBar.style.cssText = 'display:flex;align-items:center;gap:10px;margin-bottom:12px;flex-wrap:wrap';
-      const pgLabel = document.createElement('span');
-      pgLabel.style.cssText = 'color:#999;font-size:12px;flex:1';
-      pgLabel.textContent = `Weeks ${weekPageStart+1}–${Math.min(weekPageStart+WEEKS_PER_PAGE, sortedWeeks.length)} of ${sortedWeeks.length}`;
-      const prevBtn = document.createElement('button');
-      prevBtn.textContent = '← Prev';
-      prevBtn.style.cssText = 'padding:4px 12px;border-radius:6px;border:1px solid rgba(255,255,255,0.15);background:transparent;color:#ccc;font-size:12px;cursor:pointer';
-      prevBtn.disabled = weeklyPage === 0;
-      prevBtn.style.opacity = weeklyPage === 0 ? '0.3' : '1';
-      const nextBtn = document.createElement('button');
-      nextBtn.textContent = 'Next →';
-      nextBtn.style.cssText = 'padding:4px 12px;border-radius:6px;border:1px solid rgba(255,255,255,0.15);background:transparent;color:#ccc;font-size:12px;cursor:pointer';
-      nextBtn.disabled = weeklyPage >= totalWeekPages - 1;
-      nextBtn.style.opacity = weeklyPage >= totalWeekPages - 1 ? '0.3' : '1';
-      prevBtn.onclick = () => { weeklyPage--; renderWeeklyView(); window.scrollTo(0,0); };
-      nextBtn.onclick = () => { weeklyPage++; renderWeeklyView(); window.scrollTo(0,0); };
-      pgBar.appendChild(pgLabel);
-      pgBar.appendChild(prevBtn);
-      pgBar.appendChild(document.createTextNode(`Page ${weeklyPage+1} / ${totalWeekPages}`));
-      pgBar.appendChild(nextBtn);
-      contentArea.appendChild(pgBar);
-    }
-
-    for (const ws of visibleWeeks) {
-      const wPicks = weekMap[ws].slice().sort((a, b) => (b.date || '').localeCompare(a.date || ''));
-      const we = getWeekEnd(ws);
-      const wW = wPicks.filter(p => p.result === 'WIN').length;
-      const wL = wPicks.filter(p => p.result === 'LOSS').length;
-      const wU = wW * 1.0 + wL * (-1.1);
-      const wPct = (wW + wL) > 0 ? ` \u2014 ${wW}W-${wL}L (${(wW/(wW+wL)*100).toFixed(1)}%) ${wU>=0?'+':''}${wU.toFixed(1)}u` : ` \u2014 ${wPicks.length} picks`;
-
-      const card = document.createElement('div');
-      card.className = 'card card-games';
-      card.appendChild(Object.assign(document.createElement('div'), {
-        className: 'card-title',
-        textContent: `Week of ${ws} \u2013 ${we}${wPct}`
-      }));
-
-      // Mini market breakdown for this week
-      const { fGrouped: wGrouped, sortedMarkets: wMarkets } = buildMarketBreakdown(wPicks);
-      if (wMarkets.length > 1) {
-        const mkRow = document.createElement('div');
-        mkRow.style.cssText = 'display:flex;gap:16px;flex-wrap:wrap;margin:8px 0 12px;font-size:12px;color:#999';
-        for (const mk of wMarkets) {
-          const mp = wGrouped[mk];
-          const mw = mp.filter(p => p.result === 'WIN').length;
-          const ml2 = mp.length - mw;
-          const mu = mw - ml2 * 1.1;
-          const span = document.createElement('span');
-          span.innerHTML = `<span style="color:#ccc">${mk}</span> ${mw}W-${ml2}L <span style="color:${mu>=0?'var(--green)':'var(--red)'}">${mu>=0?'+':''}${mu.toFixed(1)}u</span>`;
-          mkRow.appendChild(span);
-        }
-        card.appendChild(mkRow);
+        refreshView();
       }
 
-      card.appendChild(buildPropsTable(wPicks));
-      contentArea.appendChild(card);
+      viewAllBtn.onclick = () => setView('all');
+      viewWeeklyBtn.onclick = () => setView('weekly');
+      dateSel.addEventListener('change', renderAllPicksView);
+      teamSel.addEventListener('change', renderAllPicksView);
+      weekSel.addEventListener('change', renderWeeklyView);
+
+      renderNBAMarketBtns();
+      setView('all');
     }
-  }
-
-  function refreshView() {
-    if (nbaView === 'weekly') renderWeeklyView();
-    else renderAllPicksView();
-  }
-
-  function setView(v) {
-    nbaView = v;
-    viewAllBtn.style.cssText = v === 'all' ? tabActiveStyle : tabStyle;
-    viewWeeklyBtn.style.cssText = v === 'weekly' ? tabActiveStyle : tabStyle;
-    // Swap filter row contents
-    filterRow.textContent = '';
-    if (v === 'all') {
-      filterRow.appendChild(dateSel);
-      filterRow.appendChild(teamSel);
-      filterRow.appendChild(filterLabel);
-    } else {
-      filterRow.appendChild(weekSel);
-      filterRow.appendChild(weekFilterLabel);
-    }
-    refreshView();
-  }
-
-  viewAllBtn.onclick = () => setView('all');
-  viewWeeklyBtn.onclick = () => setView('weekly');
-  dateSel.addEventListener('change', renderAllPicksView);
-  teamSel.addEventListener('change', renderAllPicksView);
-  weekSel.addEventListener('change', renderWeeklyView);
-
-  renderNBAMarketBtns();
-  setView('all');
-}
