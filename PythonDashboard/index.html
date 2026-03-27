@@ -2351,40 +2351,7 @@
       hdr.appendChild(Object.assign(document.createElement('div'), {className:'card-subtitle', textContent:`${fullSummary} | Generated: ${(data.generated || '').slice(0,16)}`}));
       el.appendChild(hdr);
 
-      // Per-market summary cards (if backtest)
-      if (isBacktest) {
-        const summCard = document.createElement('div');
-        summCard.className = 'card card-games';
-        summCard.style.marginBottom = '16px';
-        summCard.appendChild(Object.assign(document.createElement('div'), {className:'card-title', textContent:'Market Breakdown'}));
-        const summTbl = document.createElement('table');
-        summTbl.style.cssText = 'width:100%;border-collapse:collapse;margin-top:8px';
-        const sh = summTbl.createTHead().insertRow();
-        ['Market','Picks','W','L','Win%','Units'].forEach(h => {
-          const th = document.createElement('th');
-          th.textContent = h;
-          th.style.cssText = 'padding:6px 10px;text-align:right;border-bottom:1px solid rgba(255,255,255,0.1)';
-          if (h === 'Market') th.style.textAlign = 'left';
-          sh.appendChild(th);
-        });
-        const sb = summTbl.createTBody();
-        for (const [market, mPicks] of Object.entries(grouped)) {
-          const w = mPicks.filter(p => p.result === 'WIN').length;
-          const l = mPicks.filter(p => p.result === 'LOSS').length;
-          const u = w * 1.0 + l * (-1.1);
-          const pct = (w + l) > 0 ? (w / (w + l) * 100).toFixed(1) : 'n/a';
-          const sr = sb.insertRow();
-          [market, String(mPicks.length), String(w), String(l), pct + '%', (u >= 0 ? '+' : '') + u.toFixed(1) + 'u'].forEach((v, i) => {
-            const td = sr.insertCell();
-            td.textContent = v;
-            td.style.padding = '6px 10px';
-            td.style.textAlign = i === 0 ? 'left' : 'right';
-            if (i === 5) td.style.color = u >= 0 ? 'var(--green)' : 'var(--red)';
-          });
-        }
-        summCard.appendChild(summTbl);
-        el.appendChild(summCard);
-      }
+      // Market breakdown placeholder (rendered dynamically inside renderNFLPropsTable)
 
       const headers = isBacktest
         ? ['Wk','Player','Proj','Line','Actual','Edge','Pick','Result','P(cover)','Conf']
@@ -2392,20 +2359,27 @@
 
       // Season/week filter controls
       const allSeasons = [...new Set(picks.map(p => p.season))].sort();
-      const allWeeks = [...new Set(picks.map(p => p.week))].sort((a, b) => a - b);
+      const selStyle = 'padding:6px 12px;border-radius:6px;background:#1a1a2e;color:#fff;border:1px solid rgba(255,255,255,0.15);font-size:13px';
 
       const filterBar = document.createElement('div');
       filterBar.style.cssText = 'display:flex;gap:12px;align-items:center;margin-bottom:16px;flex-wrap:wrap';
 
       // Season dropdown
       const seasonSel = document.createElement('select');
-      seasonSel.style.cssText = 'padding:6px 12px;border-radius:6px;background:#1a1a2e;color:#fff;border:1px solid rgba(255,255,255,0.15);font-size:13px';
+      seasonSel.style.cssText = selStyle;
       seasonSel.innerHTML = '<option value="all">All Seasons</option>' + allSeasons.map(s => `<option value="${s}">${s}</option>`).join('');
 
-      // Week dropdown
+      // Week dropdown (populated dynamically based on season)
       const weekSel = document.createElement('select');
-      weekSel.style.cssText = 'padding:6px 12px;border-radius:6px;background:#1a1a2e;color:#fff;border:1px solid rgba(255,255,255,0.15);font-size:13px';
-      weekSel.innerHTML = '<option value="all">All Weeks</option>' + allWeeks.map(w => `<option value="${w}">Week ${w}</option>`).join('');
+      weekSel.style.cssText = selStyle;
+
+      function updateWeekOptions() {
+        let seasonPicks = data.props.filter(p => p.pick !== 'PASS');
+        if (seasonSel.value !== 'all') seasonPicks = seasonPicks.filter(p => String(p.season) === seasonSel.value);
+        const weeks = [...new Set(seasonPicks.map(p => p.week))].sort((a, b) => a - b);
+        weekSel.innerHTML = '<option value="all">All Weeks</option>' + weeks.map(w => `<option value="${w}">Week ${w}</option>`).join('');
+      }
+      updateWeekOptions();
 
       const filterLabel = document.createElement('span');
       filterLabel.style.cssText = 'color:#999;font-size:12px';
@@ -2444,6 +2418,56 @@
           const ml = marketLabels[p.market] || p.market;
           if (!fGrouped[ml]) fGrouped[ml] = [];
           fGrouped[ml].push(p);
+        }
+
+        // Market breakdown summary (dynamic — updates with filters)
+        if (isBacktest && filteredPicks.length > 0) {
+          const summCard = document.createElement('div');
+          summCard.className = 'card card-games';
+          summCard.style.marginBottom = '16px';
+          summCard.appendChild(Object.assign(document.createElement('div'), {className:'card-title', textContent:'Market Breakdown'}));
+          const summTbl = document.createElement('table');
+          summTbl.style.cssText = 'width:100%;border-collapse:collapse;margin-top:8px';
+          const sh = summTbl.createTHead().insertRow();
+          ['Market','Picks','W','L','Win%','Units'].forEach(h => {
+            const th = document.createElement('th');
+            th.textContent = h;
+            th.style.cssText = 'padding:6px 10px;text-align:right;border-bottom:1px solid rgba(255,255,255,0.1)';
+            if (h === 'Market') th.style.textAlign = 'left';
+            sh.appendChild(th);
+          });
+          const sb = summTbl.createTBody();
+          let gW = 0, gL = 0;
+          for (const [market, mPicks] of Object.entries(fGrouped)) {
+            const w = mPicks.filter(p => p.result === 'WIN').length;
+            const l = mPicks.filter(p => p.result === 'LOSS').length;
+            const u = w * 1.0 + l * (-1.1);
+            const pct = (w + l) > 0 ? (w / (w + l) * 100).toFixed(1) : 'n/a';
+            gW += w; gL += l;
+            const sr = sb.insertRow();
+            [market, String(mPicks.length), String(w), String(l), pct + '%', (u >= 0 ? '+' : '') + u.toFixed(1) + 'u'].forEach((v, i) => {
+              const td = sr.insertCell();
+              td.textContent = v;
+              td.style.padding = '6px 10px';
+              td.style.textAlign = i === 0 ? 'left' : 'right';
+              if (i === 5) td.style.color = u >= 0 ? 'var(--green)' : 'var(--red)';
+            });
+          }
+          const gU = gW * 1.0 + gL * (-1.1);
+          const tr = sb.insertRow();
+          tr.style.borderTop = '2px solid rgba(255,255,255,0.2)';
+          tr.style.fontWeight = '700';
+          ['TOTAL', String(filteredPicks.length), String(gW), String(gL),
+           (gW+gL>0?(gW/(gW+gL)*100).toFixed(1):'0')+'%',
+           (gU>=0?'+':'')+gU.toFixed(1)+'u'].forEach((v,i) => {
+            const td = tr.insertCell();
+            td.textContent = v;
+            td.style.padding = '6px 10px';
+            td.style.textAlign = i === 0 ? 'left' : 'right';
+            if (i === 5) td.style.color = gU >= 0 ? 'var(--green)' : 'var(--red)';
+          });
+          summCard.appendChild(summTbl);
+          contentArea.appendChild(summCard);
         }
 
         for (const [market, mProps] of Object.entries(fGrouped)) {
@@ -2524,7 +2548,7 @@
         }
       }
 
-      seasonSel.addEventListener('change', renderNFLPropsTable);
+      seasonSel.addEventListener('change', () => { updateWeekOptions(); renderNFLPropsTable(); });
       weekSel.addEventListener('change', renderNFLPropsTable);
       renderNFLPropsTable();
     }
