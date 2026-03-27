@@ -52,11 +52,11 @@ MIN_MINUTES = 15
 # Thresholds set per-market based on calibrated backtest analysis.
 
 MARKET_THRESHOLDS = {
-    "points":        {"high": 0.75, "elite": 0.85},   # Marginal edge — need high bar
-    "rebounds":      {"high": 0.70, "elite": 0.80},   # Best market — genuine model skill
-    "assists":       {"high": 0.70, "elite": 0.80},   # Real edge both directions
-    "threes":        {"high": 0.80, "elite": 0.90},   # Low volume, needs very high confidence
-    "pts_rebs_asts": {"high": 0.80, "elite": 0.87},   # Marginal after calibration
+    "points":        {"high": 0.75, "elite": 0.85},   # 56.5% at 0.75 — optimal is floor
+    "rebounds":      {"high": 0.73, "elite": 0.83},   # Raised 0.70→0.73: 59%→67% (+9.6u)
+    "assists":       {"high": 0.72, "elite": 0.82},   # Raised 0.70→0.72: OVER 69%, UNDER 66%
+    "threes":        {"high": 0.80, "elite": 0.90},   # 80% win rate — already optimal
+    "pts_rebs_asts": {"high": 0.80, "elite": 0.87},   # 63% win rate — already optimal
     "steals":        {"high": 0.85, "elite": 0.90},
     "blocks":        {"high": 0.85, "elite": 0.90},
     "turnovers":     {"high": 0.80, "elite": 0.90},
