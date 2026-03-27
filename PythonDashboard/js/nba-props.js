@@ -38,21 +38,7 @@
 
       el.textContent = '';
 
-      // Header card
-      const hdr = document.createElement('div');
-      hdr.className = 'card card-games';
-      hdr.style.marginBottom = '16px';
-      const allW = picks.filter(p => p.result === 'WIN').length;
-      const allL = picks.filter(p => p.result === 'LOSS').length;
-      const allU = allW * 1.0 + allL * (-1.1);
-      const allPct = (allW + allL) > 0 ? (allW / (allW + allL) * 100).toFixed(1) : '0';
-      const hasGraded = isBacktest && (allW + allL) > 0;
-      const summaryText = hasGraded
-        ? `${allW}W-${allL}L (${allPct}%) ${allU >= 0 ? '+' : ''}${allU.toFixed(1)}u`
-        : `${picks.length} picks`;
-      hdr.appendChild(Object.assign(document.createElement('div'), {className:'card-title', textContent:`NBA Player Props \u2014 ${data.season || ''}`}));
-      hdr.appendChild(Object.assign(document.createElement('div'), {className:'card-subtitle', textContent:`${summaryText} | Generated: ${(data.generated || '').slice(0,16)}`}));
-      el.appendChild(hdr);
+
 
       // ── Yesterday's Recap + Today's Picks ──
       (function renderNBADailyCards() {
@@ -111,7 +97,7 @@
           el.appendChild(recapCard);
         }
 
-        // Today's Picks
+        // Today's Picks (table format matching All Picks)
         const todayPicks = picks.filter(p => p.date === todayStr);
         if (todayPicks.length > 0) {
           const todayCard = document.createElement('div');
@@ -121,18 +107,42 @@
             className: 'card-title',
             textContent: `Today\u2019s Picks (${todayStr})`
           }));
+          const tbl = document.createElement('table');
+          tbl.className = 'props-data-table';
+          tbl.style.cssText = 'width:100%;border-collapse:collapse;margin-top:8px';
+          const todayHeaders = ['Player','Team','Opp','Cat','Proj','Line','Pick','Conf'];
+          const hRow = tbl.createTHead().insertRow();
+          todayHeaders.forEach((h, i) => {
+            const th = document.createElement('th');
+            th.textContent = h;
+            th.style.cssText = 'padding:4px 4px;text-align:center;border-bottom:1px solid rgba(255,255,255,0.1)';
+            if (h === 'Player') th.style.textAlign = 'left';
+            hRow.appendChild(th);
+          });
+          const tbody = tbl.createTBody();
           for (const p of todayPicks.sort((a,b) => (b.pCover||0)-(a.pCover||0))) {
-            const item = document.createElement('div');
-            item.className = 'pick-item';
-            const confBg = p.conf === 'elite' ? 'background:#7c6cf0;color:#fff;border-radius:3px;padding:1px 5px;font-size:10px;font-weight:700' : 'background:rgba(255,255,255,0.1);color:#ccc;border-radius:3px;padding:1px 5px;font-size:10px';
-            const pickColor = p.pick === 'OVER' ? 'var(--green)' : 'var(--red)';
-            item.innerHTML = `
-              <span class="pick-team" style="color:${pickColor}">${p.pick} ${p.line != null ? p.line : ''}</span>
-              <span style="${confBg}">${(p.conf||'').toUpperCase()}</span>
-              <span class="pick-meta">${shortName(p.player)} (${p.team||''}) &middot; ${marketLabels[p.market]||p.market} &middot; proj ${p.proj}${p.opp ? ' vs '+p.opp : ''}</span>
-            `;
-            todayCard.appendChild(item);
+            const row = tbody.insertRow();
+            row.style.borderBottom = '1px solid rgba(255,255,255,0.05)';
+            const cells = [
+              shortName(p.player), p.team || '', p.opp || '',
+              marketLabels[p.market] || p.market,
+              String(p.proj),
+              p.line != null ? String(p.line) : '\u2014',
+              p.pick === 'OVER' ? 'O' : 'U',
+              p.conf === 'elite' ? 'ELITE' : 'HIGH'
+            ];
+            cells.forEach((val, i) => {
+              const td = row.insertCell();
+              td.textContent = val;
+              td.style.cssText = 'padding:4px 4px;text-align:center';
+              if (i === 0) { td.style.textAlign = 'left'; td.style.fontWeight = '600'; }
+              if (i === 1 || i === 2) td.style.color = '#999';
+              if (i === 4) td.style.color = p.proj > p.line ? 'var(--green)' : p.proj < p.line ? 'var(--red)' : '';
+              if (i === 6) { td.style.fontWeight = '700'; td.style.color = p.pick === 'OVER' ? 'var(--green)' : 'var(--red)'; }
+              if (i === 7 && p.conf === 'elite') { td.style.background = '#7c6cf0'; td.style.color = '#fff'; td.style.borderRadius = '4px'; td.style.fontSize = '11px'; }
+            });
           }
+          todayCard.appendChild(tbl);
           el.appendChild(todayCard);
         }
       })();
