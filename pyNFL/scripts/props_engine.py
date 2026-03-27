@@ -62,11 +62,11 @@ RUSH_YDS_VAR_MULT = VAR_MULT["rush_yds"]
 REC_YDS_VAR_MULT = VAR_MULT["rec_yds"]
 RECEPTIONS_VAR_MULT = VAR_MULT["receptions"]
 
-# Directional filter: UNDER-only for all markets
-# Backtest shows OVER picks lose money in every market; UNDER picks are +117u over 3 seasons.
-# Sportsbooks set lines high to attract OVER action — this captures that bias.
-UNDER_ONLY_MARKETS = {"pass_yds", "rush_yds", "rec_yds", "receptions",
-                      "pass_att", "completions", "rush_att"}
+# Directional filter
+# UNDER-only markets: sportsbooks set lines high to attract OVER action
+# Pass TDs is the exception: OVER wins 60.3% (books set TD lines low)
+UNDER_ONLY_MARKETS = {"pass_yds", "rush_yds", "rec_yds", "receptions", "rush_att"}
+OVER_ONLY_MARKETS = {"pass_tds"}  # OVER 60.3% vs UNDER 48.3%
 
 # ---------------------------------------------------------------------------
 # Calibration offsets — REMOVED (root cause fixed)
@@ -384,29 +384,9 @@ def project_player_props(player_logs, team_stats, prop_lines=None):
             prop = _make_prop(name, team, "pass_tds", proj, std, line_lookup, latest_opp)
             if prop: projections.append(prop)
 
-        # --- Pass attempts ---
-        if len(passer_games) >= MIN_GAMES_PASSER:
-            vals = [g.get("pass_att", 0) for g in passer_games]
-            proj = _weighted_avg(vals)  # No opp adj — attempts are game-script driven
-            std = _weighted_std(vals) * VAR_MULT["pass_att"]
-            prop = _make_prop(name, team, "pass_att", proj, std, line_lookup, latest_opp)
-            if prop: projections.append(prop)
-
-        # --- Completions ---
-        if len(passer_games) >= MIN_GAMES_PASSER:
-            vals = [g.get("completions", 0) for g in passer_games]
-            proj = _weighted_avg(vals)
-            std = _weighted_std(vals) * VAR_MULT["completions"]
-            prop = _make_prop(name, team, "completions", proj, std, line_lookup, latest_opp)
-            if prop: projections.append(prop)
-
-        # --- Interceptions ---
-        if len(passer_games) >= MIN_GAMES_PASSER:
-            vals = [g.get("interceptions", 0) for g in passer_games]
-            proj = _weighted_avg(vals)
-            std = _weighted_std(vals) * VAR_MULT["interceptions"]
-            prop = _make_prop(name, team, "interceptions", proj, std, line_lookup, latest_opp)
-            if prop: projections.append(prop)
+        # --- Pass attempts --- DISABLED: 42.0% win rate, -15u over 3 seasons
+        # --- Completions --- DISABLED: 47.1% win rate, -17u over 3 seasons
+        # --- Interceptions --- DISABLED: corr=0.01, no predictive power + invalid Odds API market
 
         # --- Rushing yards ---
         if len(rusher_games) >= MIN_GAMES_RUSHER:
@@ -483,8 +463,10 @@ def _make_prop(name, team, market, proj, std, line_lookup, opp):
         mkt_thresh = MARKET_THRESHOLDS.get(market, {"high": PROP_PROB_HIGH, "elite": PROP_PROB_ELITE})
         if best_p >= mkt_thresh["high"]:
             direction = "OVER" if p_over > p_under else "UNDER"
-            # UNDER-only filter (sportsbooks set lines high to attract OVER action)
+            # Directional filters
             if market in UNDER_ONLY_MARKETS and direction == "OVER":
+                return result  # keep as PASS
+            if market in OVER_ONLY_MARKETS and direction == "UNDER":
                 return result  # keep as PASS
             # Edge size filter: skip tiny edges (noise) and extreme edges (model wrong)
             abs_edge = abs(diff)

@@ -46,9 +46,14 @@ def backtest_props(seasons, start_week=4, use_real_lines=False):
     """
     results = {
         "pass_yds": {"projections": [], "actuals": [], "picks": []},
+        "pass_tds": {"projections": [], "actuals": [], "picks": []},
+        "pass_att": {"projections": [], "actuals": [], "picks": []},
+        "completions": {"projections": [], "actuals": [], "picks": []},
         "rush_yds": {"projections": [], "actuals": [], "picks": []},
+        "rush_att": {"projections": [], "actuals": [], "picks": []},
         "rec_yds": {"projections": [], "actuals": [], "picks": []},
         "receptions": {"projections": [], "actuals": [], "picks": []},
+        "interceptions": {"projections": [], "actuals": [], "picks": []},
     }
 
     total_games_projected = 0
@@ -217,9 +222,14 @@ def _find_actual(player_name, market, actual_logs):
     """Find a player's actual stat value from this week's game logs."""
     stat_key = {
         "pass_yds": "pass_yds",
+        "pass_tds": "pass_td",
+        "pass_att": "pass_att",
+        "completions": "completions",
         "rush_yds": "rush_yds",
+        "rush_att": "rush_att",
         "rec_yds": "rec_yds",
         "receptions": "receptions",
+        "interceptions": "interceptions",
     }.get(market)
 
     if not stat_key:
@@ -241,15 +251,25 @@ def _get_simulated_line(player_name, market, prior_logs):
     """
     stat_key = {
         "pass_yds": "pass_yds",
+        "pass_tds": "pass_td",
+        "pass_att": "pass_att",
+        "completions": "completions",
         "rush_yds": "rush_yds",
+        "rush_att": "rush_att",
         "rec_yds": "rec_yds",
         "receptions": "receptions",
+        "interceptions": "interceptions",
     }.get(market)
     min_games = {
         "pass_yds": MIN_GAMES_PASSER,
+        "pass_tds": MIN_GAMES_PASSER,
+        "pass_att": MIN_GAMES_PASSER,
+        "completions": MIN_GAMES_PASSER,
         "rush_yds": MIN_GAMES_RUSHER,
+        "rush_att": MIN_GAMES_RUSHER,
         "rec_yds": MIN_GAMES_RECEIVER,
         "receptions": MIN_GAMES_RECEIVER,
+        "interceptions": MIN_GAMES_PASSER,
     }.get(market, 3)
 
     if not stat_key:

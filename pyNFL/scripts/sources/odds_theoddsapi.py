@@ -561,7 +561,7 @@ PROP_MARKETS = [
     "player_rush_attempts",
     "player_reception_yds",
     "player_receptions",
-    "player_interceptions",
+    # "player_interceptions",  # Invalid on Odds API (422 error)
 ]
 
 # Map API market keys to our internal market names
