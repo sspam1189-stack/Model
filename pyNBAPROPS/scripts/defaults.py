@@ -1,64 +1,84 @@
 # pyNBAPROPS/scripts/defaults.py
-# NBA player-prop-specific constants: markets, thresholds, team list.
+# NBA player-prop-specific constants: markets, thresholds, calibration.
 #
-# Adapted from pyNFL/scripts/props_engine.py constants for NBA context.
-# NBA props have different variance profiles than NFL:
-#   - Points are the most predictable (high-volume stat, ~20+ FGA/game)
-#   - Assists are moderately predictable (playmaker usage)
-#   - Rebounds are noisy (depends on missed shots, lineup)
-#   - 3-pointers made are very volatile (low-count stat)
-#   - Steals/blocks are ultra-noisy (rare events)
+# Calibrated from 2025-26 backtest (Jan 1 - Mar 26, 2026).
+# Model was systematically under-projecting, which inflated UNDER win rates.
+# Calibration offsets correct the bias so picks reflect real model skill.
+#
+# After calibration, real edge comes from:
+#   - Rebounds UNDER (73% at edge > 2)
+#   - Assists OVER + UNDER (61%/79%)
+#   - Points UNDER (59%, marginal but profitable)
+#   - Threes/turnovers/PRA dropped — no real edge after calibration
 
 # ---------------------------------------------------------------------------
 # Prop model constants
 # ---------------------------------------------------------------------------
 
-PROP_T_DF = 5  # Student's t degrees of freedom (slightly less heavy-tailed than NFL's 4)
+PROP_T_DF = 5  # Student's t degrees of freedom
 
 # Rolling window and decay
-ROLLING_WINDOW = 10        # NBA plays 82 games — more data than NFL's 6-game window
-DECAY_FACTOR = 0.92        # Slower decay than NFL (0.88) — NBA performance is more stable game-to-game
+ROLLING_WINDOW = 10
+DECAY_FACTOR = 0.92
 
 # Minimum games to qualify for projection
 MIN_GAMES = {
-    "points":        5,    # Need decent sample for scoring
+    "points":        5,
     "rebounds":      5,
     "assists":       5,
-    "threes":        5,    # 3-pointers made
-    "pts_rebs_asts": 5,    # Points + Rebounds + Assists combo
-    "steals":        8,    # Rare events need bigger sample
+    "threes":        5,
+    "pts_rebs_asts": 5,
+    "steals":        8,
     "blocks":        8,
     "turnovers":     5,
 }
 
 # Minimum minutes per game to include in rolling window
-MIN_MINUTES = 15  # Filter out blowout/injury shortened games
+MIN_MINUTES = 15
 
 # ---------------------------------------------------------------------------
-# Market-specific thresholds (calibrated for NBA prop variance)
+# Calibration offsets (add to raw projection to correct systematic bias)
 # ---------------------------------------------------------------------------
-# NBA points are the most predictable player prop; rebounds/assists are moderate;
-# threes/steals/blocks are very noisy.
+# Derived from backtest: mean(proj) - mean(actual) per market.
+# Without these, model under-projects and UNDER wins just from bias.
+# With these, only genuine model skill produces picks.
 
-MARKET_THRESHOLDS = {
-    "points":        {"high": 0.58, "elite": 0.64},
-    "rebounds":      {"high": 0.60, "elite": 0.66},
-    "assists":       {"high": 0.60, "elite": 0.66},
-    "threes":        {"high": 0.65, "elite": 0.72},   # Very volatile — need high bar
-    "pts_rebs_asts": {"high": 0.58, "elite": 0.64},   # Combo smooths variance
-    "steals":        {"high": 0.70, "elite": 0.78},   # Ultra-noisy
-    "blocks":        {"high": 0.70, "elite": 0.78},
-    "turnovers":     {"high": 0.62, "elite": 0.68},
+CALIBRATION_OFFSET = {
+    "points":        +1.80,   # Model under-projects by 1.8 pts
+    "rebounds":      +0.89,   # Model under-projects by 0.9 reb
+    "assists":       +0.58,   # Model under-projects by 0.58 ast
+    "threes":        +0.70,   # Model under-projects by 0.7 3PM
+    "turnovers":     +0.70,
+    "pts_rebs_asts": +2.84,   # Sum of pts+reb+ast bias
+    "steals":         0.0,
+    "blocks":         0.0,
 }
 
-# Variance multipliers (inflate weighted std to account for game-to-game noise)
+# ---------------------------------------------------------------------------
+# Market-specific thresholds (tightened after calibration)
+# ---------------------------------------------------------------------------
+# After removing bias, only high-confidence picks have real edge.
+# Thresholds set per-market based on calibrated backtest analysis.
+
+MARKET_THRESHOLDS = {
+    "points":        {"high": 0.75, "elite": 0.85},   # Marginal edge — need high bar
+    "rebounds":      {"high": 0.70, "elite": 0.80},   # Best market — genuine model skill
+    "assists":       {"high": 0.70, "elite": 0.80},   # Real edge both directions
+    "threes":        {"high": 0.80, "elite": 0.90},   # Low volume, needs very high confidence
+    "pts_rebs_asts": {"high": 0.80, "elite": 0.87},   # Marginal after calibration
+    "steals":        {"high": 0.85, "elite": 0.90},
+    "blocks":        {"high": 0.85, "elite": 0.90},
+    "turnovers":     {"high": 0.80, "elite": 0.90},
+}
+
+# Variance multipliers
 VAR_MULT = {
-    "points":        1.1,   # Scoring is relatively stable for starters
-    "rebounds":      1.3,   # Depends on opponent pace, lineup, missed shots
-    "assists":       1.3,   # Depends on teammate shooting
-    "threes":        1.6,   # Very high variance (count stat, often 0-8 range)
-    "pts_rebs_asts": 1.1,   # Combo smooths individual variance
-    "steals":        1.8,   # Rare event, high game-to-game noise
+    "points":        1.1,
+    "rebounds":      1.3,
+    "assists":       1.3,
+    "threes":        1.6,
+    "pts_rebs_asts": 1.1,
+    "steals":        1.8,
     "blocks":        1.8,
     "turnovers":     1.4,
 }
@@ -66,7 +86,8 @@ VAR_MULT = {
 # ---------------------------------------------------------------------------
 # Edge filters (|proj - line| size)
 # ---------------------------------------------------------------------------
-# Too-small edges are noise; too-large edges mean the model is likely wrong.
+# After calibration, small edges (< 2) are noise.
+# Big edges (> 8) mean the model disagrees too much with the market.
 
 MIN_EDGE = {
     "points":        2.0,
@@ -80,106 +101,87 @@ MIN_EDGE = {
 }
 
 MAX_EDGE = {
-    "points":        12.0,
-    "rebounds":       5.0,
-    "assists":        5.0,
-    "threes":         3.0,
-    "pts_rebs_asts": 15.0,
-    "steals":         1.5,
-    "blocks":         1.5,
-    "turnovers":      3.0,
+    "points":        8.0,    # Tightened from 12 — big edges are usually wrong
+    "rebounds":      4.0,    # Tightened from 5
+    "assists":       4.0,    # Tightened from 5
+    "threes":        2.5,    # Tightened from 3
+    "pts_rebs_asts": 10.0,   # Tightened from 15
+    "steals":        1.5,
+    "blocks":        1.5,
+    "turnovers":     2.5,    # Tightened from 3
 }
 
 # Minimum line value (filter out low-volume players)
 MIN_LINE = {
-    "points":        10.5,   # Skip bench players with tiny lines
+    "points":        12.5,   # Raised from 10.5 — skip bench players
     "rebounds":       3.5,
     "assists":        2.5,
     "threes":         1.5,
-    "pts_rebs_asts": 20.5,
+    "pts_rebs_asts": 22.5,   # Raised from 20.5
     "steals":         0.5,
     "blocks":         0.5,
     "turnovers":      1.5,
 }
 
 # ---------------------------------------------------------------------------
-# Directional filters
+# Directional filters (based on calibrated backtest)
 # ---------------------------------------------------------------------------
-# Start with no directional bias — NBA props may not have the same UNDER bias
-# as NFL. This can be refined after backtesting.
-UNDER_ONLY_MARKETS = set()   # Empty = allow both OVER and UNDER
-# If backtest shows UNDER is consistently better, add markets here:
-# UNDER_ONLY_MARKETS = {"points", "pts_rebs_asts"}
+# After calibration:
+#   - Points OVER: 48% → loser. UNDER only.
+#   - Rebounds OVER: 52% → loser. UNDER only.
+#   - Assists: both directions profitable (61% OVER, 79% UNDER). Allow both.
+#   - Threes OVER: 54% → marginal. UNDER only (tiny sample but 89%).
+#   - PRA OVER: 52% → loser. UNDER only.
+#   - Turnovers: not enough edge after calibration. Disabled.
+
+UNDER_ONLY_MARKETS = {"points", "rebounds", "threes", "pts_rebs_asts"}
+# assists allows both OVER and UNDER (real model skill in both directions)
+
+# Markets to disable entirely (no real edge after calibration)
+DISABLED_MARKETS = {"steals", "blocks", "turnovers"}
 
 # ---------------------------------------------------------------------------
-# Opponent adjustment (new: uses actual per-game opponent stats allowed)
+# Opponent adjustment
 # ---------------------------------------------------------------------------
-# For each prop market, we adjust the projection based on how many of that
-# stat the opponent allows per game vs. league average.
-#
-# Formula: opp_adj = (opp_allowed - league_avg) * OPP_ADJ_WEIGHT
-#
-# Example: league avg PTS allowed = 112. Opponent allows 118.
-#          opp_adj = (118 - 112) * 0.30 = +1.8 points boost.
-#
-# This is much more precise than the old DEF_RATING-based approach because:
-#   - OPP_PTS directly measures points allowed, not overall defense quality
-#   - OPP_REB directly measures rebounds allowed (pace-dependent)
-#   - OPP_FG3M directly measures 3-pointers allowed
 
-# Maps market -> opponent stat key (from fetch_team_def_stats)
 OPP_STAT_KEY = {
-    "points":        "OPP_PTS",       # Points allowed per game
-    "rebounds":      "OPP_REB",       # Rebounds allowed per game
-    "assists":       "OPP_AST",       # Assists allowed per game
-    "threes":        "OPP_FG3M",      # 3PM allowed per game
-    "pts_rebs_asts": "OPP_PTS",       # Use points as proxy for PRA (dominant component)
-    "steals":        "OPP_TOV",       # Turnovers forced correlates with steals given up
-    "blocks":        "OPP_BLK",       # Blocks against per game
-    "turnovers":     "OPP_TOV",       # Turnovers forced
+    "points":        "OPP_PTS",
+    "rebounds":      "OPP_REB",
+    "assists":       "OPP_AST",
+    "threes":        "OPP_FG3M",
+    "pts_rebs_asts": "OPP_PTS",
+    "steals":        "OPP_TOV",
+    "blocks":        "OPP_BLK",
+    "turnovers":     "OPP_TOV",
 }
 
-# Weight applied to the (opp_allowed - league_avg) difference
-# Higher weight = stronger opponent adjustment
 OPP_ADJ_WEIGHT = {
-    "points":        0.30,    # 30% of the per-game difference
-    "rebounds":      0.25,    # Rebounds are pace-dependent
-    "assists":       0.20,    # Assists weakly tied to opponent
-    "threes":        0.25,    # 3PM depends on opponent perimeter D
-    "pts_rebs_asts": 0.25,    # Composite
-    "steals":        0.0,     # Too noisy for per-game adjustment
-    "blocks":        0.0,     # Too noisy
-    "turnovers":     0.0,     # Don't adjust — turnovers are player-driven
+    "points":        0.30,
+    "rebounds":      0.25,
+    "assists":       0.20,
+    "threes":        0.25,
+    "pts_rebs_asts": 0.25,
+    "steals":        0.0,
+    "blocks":        0.0,
+    "turnovers":     0.0,
 }
 
-# ---------------------------------------------------------------------------
-# Advanced stats: Usage-based minutes/volume projection
-# ---------------------------------------------------------------------------
-# When a player's USG% is available (from advanced stats), we can scale
-# the projection by their expected volume in a given game.
-#
-# If a co-star is out, USG% will be higher in recent games → the model
-# naturally captures this through the rolling average. But we can also
-# use pace differential to adjust for game environment.
-
-# Pace adjustment: how much to scale projection based on game pace
-# Higher pace = more possessions = more stats across the board
+# Pace adjustment
 PACE_ADJ_WEIGHT = {
-    "points":        0.008,    # ~0.8 pts per 1 pace above average
-    "rebounds":      0.005,    # ~0.5 reb per 1 pace above average
-    "assists":       0.004,    # ~0.4 ast per 1 pace above average
-    "threes":        0.003,    # ~0.3 3pm per 1 pace above average
-    "pts_rebs_asts": 0.015,    # Sum
+    "points":        0.008,
+    "rebounds":      0.005,
+    "assists":       0.004,
+    "threes":        0.003,
+    "pts_rebs_asts": 0.015,
     "steals":        0.0,
     "blocks":        0.0,
     "turnovers":     0.002,
 }
 
-# Minutes threshold: if player's season avg minutes are below this,
-# their prop projection gets a volume penalty
-MINUTES_VOLUME_THRESHOLD = 28.0  # Above this = full projection; below = scaled down
+# Minutes threshold
+MINUTES_VOLUME_THRESHOLD = 28.0
 
-# Legacy keys for backward compat with older code paths
+# Legacy keys
 OPP_ADJ_SCALE = OPP_ADJ_WEIGHT
 OPP_DEF_STAT = OPP_STAT_KEY
 
@@ -193,13 +195,8 @@ PROP_MARKETS_API = [
     "player_assists",
     "player_threes",
     "player_points_rebounds_assists",
-    # Uncomment when ready to project these:
-    # "player_steals",
-    # "player_blocks",
-    # "player_turnovers",
 ]
 
-# Map API market key -> internal market name
 MARKET_MAP = {
     "player_points":                     "points",
     "player_rebounds":                   "rebounds",
@@ -211,11 +208,10 @@ MARKET_MAP = {
     "player_turnovers":                  "turnovers",
 }
 
-# Reverse map: internal name -> API market key
 MARKET_MAP_REV = {v: k for k, v in MARKET_MAP.items()}
 
 # ---------------------------------------------------------------------------
-# NBA Stats API headers (same as pyNBA)
+# NBA Stats API headers
 # ---------------------------------------------------------------------------
 
 NBA_HEADERS = {

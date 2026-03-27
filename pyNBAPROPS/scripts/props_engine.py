@@ -20,7 +20,7 @@ from scipy.stats import t as t_dist
 from defaults import (
     PROP_T_DF, ROLLING_WINDOW, DECAY_FACTOR, MIN_GAMES, MIN_MINUTES,
     MARKET_THRESHOLDS, VAR_MULT, MIN_EDGE, MAX_EDGE, MIN_LINE,
-    UNDER_ONLY_MARKETS,
+    UNDER_ONLY_MARKETS, DISABLED_MARKETS, CALIBRATION_OFFSET,
     OPP_STAT_KEY, OPP_ADJ_WEIGHT, PACE_ADJ_WEIGHT,
     MINUTES_VOLUME_THRESHOLD,
 )
@@ -213,6 +213,10 @@ def project_player_props(player_logs, team_def_stats=None, prop_lines=None,
 
         # --- Project each individual market ---
         for market, stat_key in STAT_KEYS.items():
+            # Skip disabled markets (no real edge after calibration)
+            if market in DISABLED_MARKETS:
+                continue
+
             min_g = MIN_GAMES.get(market, 5)
             vals = [g.get(stat_key, 0) for g in qualified]
 
@@ -265,11 +269,16 @@ def project_player_props(player_logs, team_def_stats=None, prop_lines=None,
             # --- Volume adjustment (low-minutes players) ---
             proj = _apply_volume_adjustment(proj, adv)
 
+            # --- Calibration offset (correct systematic under-projection) ---
+            proj += CALIBRATION_OFFSET.get(market, 0.0)
+
             prop = _make_prop(name, team, market, proj, std, line_lookup, latest_opp)
             if prop:
                 projections.append(prop)
 
         # --- PRA combo (Points + Rebounds + Assists) ---
+        if "pts_rebs_asts" in DISABLED_MARKETS:
+            continue
         min_g_pra = MIN_GAMES.get("pts_rebs_asts", 5)
         if len(qualified) >= min_g_pra:
             pts_vals = [g.get("pts", 0) for g in qualified]
@@ -315,6 +324,9 @@ def project_player_props(player_logs, team_def_stats=None, prop_lines=None,
             proj += pra_split_adj
 
             proj = _apply_volume_adjustment(proj, adv)
+
+            # --- Calibration offset ---
+            proj += CALIBRATION_OFFSET.get("pts_rebs_asts", 0.0)
 
             prop = _make_prop(name, team, "pts_rebs_asts", proj, std, line_lookup, latest_opp)
             if prop:
