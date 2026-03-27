@@ -589,23 +589,81 @@
     ::-webkit-scrollbar-thumb { background: var(--border-light); border-radius: 3px; }
     ::-webkit-scrollbar-thumb:hover { background: var(--muted); }
 
-    /* ─── Responsive ─── */
-    @media (max-width: 700px) {
-      .header h1 { font-size: 1.5rem; }
-      .tabs { flex-wrap: wrap; gap: 6px; }
-      .tab { padding: 8px 18px; font-size: 0.8rem; }
-      .record-banner { grid-template-columns: repeat(2, 1fr); }
-      .record-item .value { font-size: 1.3rem; }
-      .games-grid { grid-template-columns: 1fr; }
-      table.data th, table.data td { font-size: 0.7rem; padding: 8px 4px; }
+    /* ─── Table scroll wrapper ─── */
+    .table-scroll {
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      /* hide scrollbar visually but keep it functional */
+      scrollbar-width: thin;
+      scrollbar-color: var(--border-light) transparent;
+    }
+    .table-scroll::-webkit-scrollbar { height: 4px; }
+    .table-scroll::-webkit-scrollbar-thumb { background: var(--border-light); border-radius: 2px; }
+
+    /* ─── Responsive — tablet ─── */
+    @media (max-width: 900px) {
+      .games-grid { grid-template-columns: 1fr 1fr; }
+    }
+
+    /* ─── Responsive — mobile ─── */
+    @media (max-width: 640px) {
+      /* Header */
+      .header { padding: 24px 12px 6px; }
+      .header h1 { font-size: 1.4rem; }
+      .header .subtitle { font-size: 0.78rem; }
+
+      /* Tabs — horizontally scrollable, no wrap */
+      .tabs {
+        justify-content: flex-start;
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        gap: 6px;
+        padding: 16px 12px 12px;
+        scrollbar-width: none;
+      }
+      .tabs::-webkit-scrollbar { display: none; }
+      .tab { padding: 9px 18px; font-size: 0.78rem; flex-shrink: 0; min-height: 40px; }
+
+      /* Content padding */
       .content { padding: 0 12px 40px; }
-      .card { padding: 16px; }
+
+      /* Cards */
+      .card { padding: 14px; }
+
+      /* Record banner: 4-col → 2×2 */
+      .record-banner { grid-template-columns: repeat(2, 1fr); gap: 8px; margin-bottom: 14px; }
+      .record-item { padding: 14px 8px; }
+      .record-item .value { font-size: 1.25rem; }
+
+      /* Tables — reduce font & padding */
+      table.data th, table.data td { font-size: 0.68rem; padding: 7px 4px; }
+
+      /* Games grid — single column */
+      .games-grid { grid-template-columns: 1fr; }
+
+      /* View toggle / date nav — wrap buttons */
+      .view-toggle { flex-wrap: wrap; gap: 6px; }
+      .view-btn { min-height: 40px; padding: 8px 16px; }
+      .date-nav { flex-wrap: wrap; gap: 8px; }
+      .date-nav button { min-height: 40px; padding: 8px 16px; }
+
+      /* Section labels */
+      .section-label { padding: 20px 0 8px; }
+
+      /* Pick items */
+      .pick-item { gap: 8px; }
+      .pick-item:hover { margin: 0 -14px; padding: 12px 14px; }
+
+      /* No picks */
+      .no-picks { padding: 28px 16px; }
     }
 
     @media (max-width: 400px) {
-      .record-banner { grid-template-columns: repeat(2, 1fr); gap: 8px; }
-      .record-item { padding: 14px 8px; }
+      .record-banner { gap: 6px; }
+      .record-item { padding: 12px 6px; }
       .record-item .value { font-size: 1.1rem; }
+      .header h1 { font-size: 1.25rem; }
     }
   </style>
 </head>
@@ -1211,10 +1269,12 @@
       return `
         <div class="card card-recap">
           <div class="card-title">Yesterday's Recap (${esc(recap.dateDisplay)})</div>
+          <div class="table-scroll">
           <table class="data">
             <thead><tr><th>Game</th><th>Pick</th><th class="center">Result</th><th class="center">Final</th></tr></thead>
             <tbody>${rows}</tbody>
           </table>
+          </div>
           <div class="l10-tally">Spread: <b>${recap.tally.w}-${recap.tally.l}${recap.tally.p ? `-${recap.tally.p}` : ''}</b> &middot; <span class="${uColor}">${fmtUnits(recap.units)}</span></div>
         </div>`;
     }
@@ -1285,6 +1345,7 @@
       return `
         <div class="card card-records">
           <div class="card-title">Spread Record (ATS)</div>
+          <div class="table-scroll">
           <table class="data">
             <thead><tr><th>Bucket</th><th>W-L-P</th><th class="center">Win%</th><th class="center">Flat</th><th class="center">Graded</th></tr></thead>
             <tbody>
@@ -1293,6 +1354,7 @@
               ${row('Underdogs', s.dog)}
             </tbody>
           </table>
+          </div>
           <div class="card-subtitle">Only graded picks (games with final scores + a non-PASS pick).</div>
         </div>`;
     }
@@ -1328,10 +1390,12 @@
       return `
         <div class="card card-probs">
           <div class="card-title">Cover Probabilities \u2014 All Games</div>
+          <div class="table-scroll">
           <table class="data">
             <thead><tr><th>Game</th><th>Spread Pick</th><th class="center">P(Cover)</th><th class="center">LR</th><th class="center">LR Reason</th></tr></thead>
             <tbody>${rows}</tbody>
           </table>
+          </div>
           <div class="card-subtitle" style="margin-top:8px">P(Cover) = Bayesian probability the picked side wins. LR column shows independent confirmation verdict (CONFIRM / VETO / NEUTRAL).</div>
         </div>`;
     }
@@ -1386,6 +1450,7 @@
       return `
         <div class="card">
           <div class="card-title">Veto Tracker</div>
+          <div class="table-scroll">
           <table class="data">
             <tbody>
               ${row('Games Vetoed', vetoed.length)}
@@ -1393,6 +1458,7 @@
               ${row(missedLabel, `<span style="color:${missedColor}">${fmtUnits(missedVal)}</span>`)}
             </tbody>
           </table>
+          </div>
           <div class="card-subtitle" style="margin-top:8px">If vetoed picks had been played, this is the result the model would have had.</div>
         </div>`;
     }
@@ -1421,10 +1487,12 @@
       return `
         <div class="card">
           <div class="card-title">Last ${recent.length} Vetoed Game${recent.length !== 1 ? 's' : ''}</div>
+          <div class="table-scroll">
           <table class="data">
             <thead><tr><th>Date</th><th>Game</th><th>Vetoed Pick</th><th class="center">Result</th><th class="center">Score</th><th>Reason</th></tr></thead>
             <tbody>${rows}</tbody>
           </table>
+          </div>
         </div>`;
     }
 
@@ -1493,10 +1561,12 @@
       return `
         <div class="card card-trends">
           <div class="card-title">Last 10 Spread</div>
+          <div class="table-scroll">
           <table class="data">
             <thead><tr><th>Date</th><th>Matchup</th><th>Pick</th><th class="center">Conf</th><th class="center">Result</th><th class="center">Final</th></tr></thead>
             <tbody>${rows}</tbody>
           </table>
+          </div>
           <div class="l10-tally">Last 10: <span class="win-text">${t.w}W</span>\u2013<span class="loss-text">${t.l}L</span>\u2013${t.p}P \u00b7 <span class="${pctClass(t.pct)}">${fmtPct(t.pct)}</span> \u00b7 <span class="${unitClass(t.units)}">${fmtUnits(t.units)}</span></div>
         </div>`;
     }
@@ -1513,10 +1583,12 @@
       return `
         <div class="card card-trends">
           <div class="card-title">Weekly Spread</div>
+          <div class="table-scroll">
           <table class="data">
             <thead><tr><th>Week of</th><th class="center">W-L-P</th><th class="center">Win%</th><th class="center">Flat</th></tr></thead>
             <tbody>${rows}</tbody>
           </table>
+          </div>
         </div>`;
     }
 
@@ -1534,10 +1606,12 @@
         <div class="card card-trends">
           <div class="card-title">Rolling ${window}-Pick Groups (Spread)</div>
           <div class="card-subtitle">Green = above break-even (${fmtPct(52.4)}) \u00b7 Red = below \u00b7 Units at -110</div>
+          <div class="table-scroll">
           <table class="data">
             <thead><tr><th>Window</th><th class="center">W-L-P</th><th class="center">Win%</th><th class="center">Flat</th><th class="center">Dates</th></tr></thead>
             <tbody>${body}</tbody>
           </table>
+          </div>
         </div>`;
     }
 
@@ -1568,10 +1642,12 @@
       return `
         <div class="card card-records">
           <div class="card-title">Team Spread Record (ATS)</div>
+          <div class="table-scroll">
           <table class="data">
             <thead><tr><th>Team</th><th class="center">Picks</th><th class="center">W-L-P</th><th class="center">Win%</th><th class="center">Flat</th><th class="center">Fav</th><th class="center">Dog</th></tr></thead>
             <tbody>${rows}</tbody>
           </table>
+          </div>
           <div class="card-subtitle">Only graded spread picks. Units at -110 juice.</div>
         </div>`;
     }
@@ -1767,6 +1843,7 @@
       return `
         <div class="card card-picks">
           <div class="card-title">Weekly Picks — ${nflGetWeekLabel(run)}</div>
+          <div class="table-scroll">
           <table class="data">
             <thead><tr>
               <th>Matchup</th><th class="center">Proj Spr</th><th class="center">Mkt Spr</th>
@@ -1774,6 +1851,7 @@
             </tr></thead>
             <tbody>${rows}</tbody>
           </table>
+          </div>
         </div>`;
     }
 
@@ -1842,10 +1920,12 @@
         <div class="card card-records">
           <div class="card-title">Season P&L — 1u Flat</div>
           ${chartSvg}
+          <div class="table-scroll">
           <table class="data" style="margin-top:12px">
             <thead><tr><th>Week</th><th class="center">W-L-P</th><th class="center">Week Units</th><th class="center">Cumulative</th></tr></thead>
             <tbody>${weekRows}</tbody>
           </table>
+          </div>
         </div>`;
     }
 
@@ -1882,10 +1962,12 @@
       return `
         <div class="card" style="border-left:3px solid var(--red);background:linear-gradient(135deg,var(--card) 0%,rgba(248,113,113,0.03) 100%)">
           <div class="card-title">Injury Adjustments — ${nflGetWeekLabel(run)}</div>
+          <div class="table-scroll">
           <table class="data">
             <thead><tr><th>Matchup</th><th>Players Out / Limited</th><th class="center">Net Delta</th></tr></thead>
             <tbody>${rows}</tbody>
           </table>
+          </div>
           <div class="card-subtitle" style="margin-top:8px">Delta = projected point adjustment from injuries. Positive = team benefits (opponent injuries).</div>
         </div>`;
     }
@@ -2008,10 +2090,12 @@
         <div class="card card-trends">
           <div class="card-title">Rolling Hit Rate by Week</div>
           ${chartSvg}
+          <div class="table-scroll">
           <table class="data">
             <thead><tr><th>Week</th><th class="center">W-L</th><th class="center">Hit Rate</th></tr></thead>
             <tbody>${rows}</tbody>
           </table>
+          </div>
         </div>`;
     }
 
