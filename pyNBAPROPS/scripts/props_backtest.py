@@ -9,7 +9,7 @@ as games are processed (no lookahead).
 
 Usage:
     python -m scripts.props_backtest
-    python -m scripts.props_backtest --season 2024-25 --start-game 15
+    python -m scripts.props_backtest --season 2025-26 --start-game 15
     python -m scripts.props_backtest --real-lines
 """
 
@@ -42,7 +42,7 @@ from defaults import (
 )
 
 
-def backfill(season="2024-25", start_game=15, start_date=None, use_real_lines=True):
+def backfill(season="2025-26", start_game=15, start_date=None, use_real_lines=True):
     """
     Walk-forward backtest with Kalman filter trained incrementally.
     Always uses real prop lines — fetches from Odds API and caches if not already cached.
@@ -379,8 +379,8 @@ def write_dashboard_json(results, season):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Backtest NBA player prop projections (Kalman)")
-    parser.add_argument("--season", type=str, default="2024-25",
-                        help="NBA season string (e.g. '2024-25')")
+    parser.add_argument("--season", type=str, default="2025-26",
+                        help="NBA season string (e.g. '2025-26')")
     parser.add_argument("--start-game", type=int, default=15,
                         help="Min game dates before projecting (default: 15)")
     parser.add_argument("--start-date", type=str, default=None,
