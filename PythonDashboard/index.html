@@ -2178,11 +2178,30 @@
       dateSel.style.cssText = selStyle;
       dateSel.innerHTML = '<option value="all">All Dates</option>' + allDates.map(d => `<option value="${d}">${d}</option>`).join('');
 
-      // Prop type dropdown
-      const marketSel = document.createElement('select');
-      marketSel.style.cssText = selStyle;
+      // Prop type buttons
       const allMarketKeys = [...new Set(picks.map(p => p.market))];
-      marketSel.innerHTML = '<option value="all">All Props</option>' + allMarketKeys.map(m => `<option value="${m}">${marketLabels[m] || m}</option>`).join('');
+      const nbaMarketBtnBar = document.createElement('div');
+      nbaMarketBtnBar.style.cssText = 'display:flex;gap:6px;flex-wrap:wrap';
+      let nbaActiveMarket = 'all';
+      const nbaBtnStyle = 'padding:5px 14px;border-radius:16px;border:1px solid rgba(255,255,255,0.15);background:transparent;color:#ccc;font-size:12px;cursor:pointer';
+      const nbaBtnActiveStyle = 'padding:5px 14px;border-radius:16px;border:1px solid #7c6cf0;background:#7c6cf0;color:#fff;font-size:12px;cursor:pointer';
+
+      function renderNBAMarketBtns() {
+        nbaMarketBtnBar.textContent = '';
+        const allBtn = document.createElement('button');
+        allBtn.textContent = 'All';
+        allBtn.style.cssText = nbaActiveMarket === 'all' ? nbaBtnActiveStyle : nbaBtnStyle;
+        allBtn.onclick = () => { nbaActiveMarket = 'all'; renderNBAMarketBtns(); renderNBAPropsTable(); };
+        nbaMarketBtnBar.appendChild(allBtn);
+        for (const m of allMarketKeys) {
+          const btn = document.createElement('button');
+          btn.textContent = marketLabels[m] || m;
+          btn.style.cssText = nbaActiveMarket === m ? nbaBtnActiveStyle : nbaBtnStyle;
+          btn.onclick = () => { nbaActiveMarket = m; renderNBAMarketBtns(); renderNBAPropsTable(); };
+          nbaMarketBtnBar.appendChild(btn);
+        }
+      }
+      renderNBAMarketBtns();
 
       // Team dropdown
       const teamSel = document.createElement('select');
@@ -2195,10 +2214,11 @@
       filterLabel.textContent = `Showing ${picks.length} picks`;
 
       filterBar.appendChild(dateSel);
-      filterBar.appendChild(marketSel);
       filterBar.appendChild(teamSel);
       filterBar.appendChild(filterLabel);
       el.appendChild(filterBar);
+      el.appendChild(nbaMarketBtnBar);
+      nbaMarketBtnBar.style.marginBottom = '16px';
 
       const headers = isBacktest
         ? ['Date','Player','Team','Opp','Proj','Line','Actual','Edge','Pick','Result','P(cover)','Conf']
@@ -2207,7 +2227,7 @@
       function getFilteredPicks() {
         let fp = data.props.filter(p => p.pick !== 'PASS');
         if (dateSel.value !== 'all') fp = fp.filter(p => p.date === dateSel.value);
-        if (marketSel.value !== 'all') fp = fp.filter(p => p.market === marketSel.value);
+        if (nbaActiveMarket !== 'all') fp = fp.filter(p => p.market === nbaActiveMarket);
         if (teamSel.value !== 'all') fp = fp.filter(p => p.team === teamSel.value);
         // Sort latest date first
         fp.sort((a, b) => (b.date || '').localeCompare(a.date || ''));
@@ -2361,7 +2381,6 @@
       }
 
       dateSel.addEventListener('change', renderNBAPropsTable);
-      marketSel.addEventListener('change', renderNBAPropsTable);
       teamSel.addEventListener('change', renderNBAPropsTable);
       renderNBAPropsTable();
     }
@@ -2438,11 +2457,36 @@
       const weekSel = document.createElement('select');
       weekSel.style.cssText = selStyle;
 
-      // Market/prop type dropdown
-      const marketSel = document.createElement('select');
-      marketSel.style.cssText = selStyle;
+      // Market/prop type buttons
       const allMarketKeys = [...new Set(picks.map(p => p.market))];
-      marketSel.innerHTML = '<option value="all">All Props</option>' + allMarketKeys.map(m => `<option value="${m}">${marketLabels[m] || m}</option>`).join('');
+      const marketBtnBar = document.createElement('div');
+      marketBtnBar.style.cssText = 'display:flex;gap:6px;flex-wrap:wrap';
+      let activeMarketFilter = 'all';
+      const btnStyle = 'padding:5px 14px;border-radius:16px;border:1px solid rgba(255,255,255,0.15);background:transparent;color:#ccc;font-size:12px;cursor:pointer';
+      const btnActiveStyle = 'padding:5px 14px;border-radius:16px;border:1px solid #7c6cf0;background:#7c6cf0;color:#fff;font-size:12px;cursor:pointer';
+
+      function renderMarketBtns() {
+        marketBtnBar.textContent = '';
+        const allBtn = document.createElement('button');
+        allBtn.textContent = 'All';
+        allBtn.style.cssText = activeMarketFilter === 'all' ? btnActiveStyle : btnStyle;
+        allBtn.onclick = () => { activeMarketFilter = 'all'; renderMarketBtns(); renderNFLPropsTable(); };
+        marketBtnBar.appendChild(allBtn);
+        for (const m of allMarketKeys) {
+          const btn = document.createElement('button');
+          btn.textContent = marketLabels[m] || m;
+          btn.style.cssText = activeMarketFilter === m ? btnActiveStyle : btnStyle;
+          btn.onclick = () => { activeMarketFilter = m; renderMarketBtns(); renderNFLPropsTable(); };
+          marketBtnBar.appendChild(btn);
+        }
+      }
+      renderMarketBtns();
+
+      // Team dropdown
+      const teamSel = document.createElement('select');
+      teamSel.style.cssText = selStyle;
+      const allTeams = [...new Set(picks.map(p => p.team))].filter(Boolean).sort();
+      teamSel.innerHTML = '<option value="all">All Teams</option>' + allTeams.map(t => `<option value="${t}">${t}</option>`).join('');
 
       function updateWeekOptions() {
         let seasonPicks = data.props.filter(p => p.pick !== 'PASS');
@@ -2458,15 +2502,18 @@
 
       filterBar.appendChild(seasonSel);
       filterBar.appendChild(weekSel);
-      filterBar.appendChild(marketSel);
+      filterBar.appendChild(teamSel);
       filterBar.appendChild(filterLabel);
       el.appendChild(filterBar);
+      el.appendChild(marketBtnBar);
+      marketBtnBar.style.marginBottom = '16px';
 
       function getFilteredPicks() {
         let fp = data.props.filter(p => p.pick !== 'PASS');
         if (seasonSel.value !== 'all') fp = fp.filter(p => String(p.season) === seasonSel.value);
         if (weekSel.value !== 'all') fp = fp.filter(p => String(p.week) === weekSel.value);
-        if (marketSel.value !== 'all') fp = fp.filter(p => p.market === marketSel.value);
+        if (activeMarketFilter !== 'all') fp = fp.filter(p => p.market === activeMarketFilter);
+        if (teamSel.value !== 'all') fp = fp.filter(p => p.team === teamSel.value);
         // Sort by week ascending, then pCover descending
         fp.sort((a, b) => {
           const wA = (a.season || 0) * 100 + (a.week || 0);
@@ -2621,7 +2668,7 @@
 
       seasonSel.addEventListener('change', () => { updateWeekOptions(); renderNFLPropsTable(); });
       weekSel.addEventListener('change', renderNFLPropsTable);
-      marketSel.addEventListener('change', renderNFLPropsTable);
+      teamSel.addEventListener('change', renderNFLPropsTable);
       renderNFLPropsTable();
     }
 
