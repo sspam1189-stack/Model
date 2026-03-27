@@ -30,6 +30,23 @@ FD_HEADERS = {
     "Accept": "application/json",
 }
 
+# Full team name -> abbreviation (for consistent format with game logs)
+TEAM_NAME_TO_ABBR = {
+    "Atlanta Hawks": "ATL", "Boston Celtics": "BOS", "Brooklyn Nets": "BKN",
+    "Charlotte Hornets": "CHA", "Chicago Bulls": "CHI", "Cleveland Cavaliers": "CLE",
+    "Dallas Mavericks": "DAL", "Denver Nuggets": "DEN", "Detroit Pistons": "DET",
+    "Golden State Warriors": "GSW", "Houston Rockets": "HOU", "Indiana Pacers": "IND",
+    "LA Clippers": "LAC", "Los Angeles Clippers": "LAC",
+    "Los Angeles Lakers": "LAL", "LA Lakers": "LAL",
+    "Memphis Grizzlies": "MEM", "Miami Heat": "MIA", "Milwaukee Bucks": "MIL",
+    "Minnesota Timberwolves": "MIN", "New Orleans Pelicans": "NOP",
+    "New York Knicks": "NYK", "Oklahoma City Thunder": "OKC", "Orlando Magic": "ORL",
+    "Philadelphia 76ers": "PHI", "Phoenix Suns": "PHX",
+    "Portland Trail Blazers": "POR", "Sacramento Kings": "SAC",
+    "San Antonio Spurs": "SAS", "Toronto Raptors": "TOR",
+    "Utah Jazz": "UTA", "Washington Wizards": "WAS",
+}
+
 # FanDuel tab names that contain over/under player prop markets
 FD_PROP_TABS = [
     "player-points",
@@ -241,8 +258,8 @@ def fetch_fanduel_nba_props(date_key=None):
                     "line": float(line),
                     "over_price": over_price,
                     "under_price": under_price,
-                    "event_home": home_team,
-                    "event_away": away_team,
+                    "event_home": TEAM_NAME_TO_ABBR.get(home_team, home_team),
+                    "event_away": TEAM_NAME_TO_ABBR.get(away_team, away_team),
                     "source": "fanduel",
                 })
 

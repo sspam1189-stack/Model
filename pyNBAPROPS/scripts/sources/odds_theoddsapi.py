@@ -19,6 +19,23 @@ from defaults import PROP_MARKETS_API, MARKET_MAP
 BASE = "https://api.the-odds-api.com/v4"
 SPORT_KEY = "basketball_nba"
 
+# Full team name -> abbreviation (normalize to match game logs)
+_TEAM_ABBR = {
+    "Atlanta Hawks": "ATL", "Boston Celtics": "BOS", "Brooklyn Nets": "BKN",
+    "Charlotte Hornets": "CHA", "Chicago Bulls": "CHI", "Cleveland Cavaliers": "CLE",
+    "Dallas Mavericks": "DAL", "Denver Nuggets": "DEN", "Detroit Pistons": "DET",
+    "Golden State Warriors": "GSW", "Houston Rockets": "HOU", "Indiana Pacers": "IND",
+    "LA Clippers": "LAC", "Los Angeles Clippers": "LAC",
+    "Los Angeles Lakers": "LAL", "LA Lakers": "LAL",
+    "Memphis Grizzlies": "MEM", "Miami Heat": "MIA", "Milwaukee Bucks": "MIL",
+    "Minnesota Timberwolves": "MIN", "New Orleans Pelicans": "NOP",
+    "New York Knicks": "NYK", "Oklahoma City Thunder": "OKC", "Orlando Magic": "ORL",
+    "Philadelphia 76ers": "PHI", "Phoenix Suns": "PHX",
+    "Portland Trail Blazers": "POR", "Sacramento Kings": "SAC",
+    "San Antonio Spurs": "SAS", "Toronto Raptors": "TOR",
+    "Utah Jazz": "UTA", "Washington Wizards": "WAS",
+}
+
 _PROPS_CACHE_DIR = Path(__file__).resolve().parents[2] / "data" / "props_cache"
 
 
@@ -148,8 +165,8 @@ def fetch_nba_player_props(date_key=None):
 
     for ev in events:
         event_id = ev.get("id")
-        home = ev.get("home_team", "")
-        away = ev.get("away_team", "")
+        home = _TEAM_ABBR.get(ev.get("home_team", ""), ev.get("home_team", ""))
+        away = _TEAM_ABBR.get(ev.get("away_team", ""), ev.get("away_team", ""))
 
         url = (
             f"{BASE}/sports/{SPORT_KEY}/events/{event_id}/odds?"
@@ -273,8 +290,8 @@ def fetch_historical_nba_props(date_str, api_key=None):
 
     for ev in events_data:
         event_id = ev.get("id")
-        home = ev.get("home_team", "")
-        away = ev.get("away_team", "")
+        home = _TEAM_ABBR.get(ev.get("home_team", ""), ev.get("home_team", ""))
+        away = _TEAM_ABBR.get(ev.get("away_team", ""), ev.get("away_team", ""))
 
         url = (
             f"{BASE}/historical/sports/{SPORT_KEY}/events/{event_id}/odds?"
