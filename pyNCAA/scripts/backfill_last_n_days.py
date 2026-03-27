@@ -26,6 +26,7 @@ import requests
 from sources.ncaa_stats import fetch_ncaa_stats
 from sources.espn_scoreboard import fetch_scoreboard, extract_final_scores
 from store import load_store, save_store, upsert_run
+from lr_model import build_team_histories, extract_lr_features, predict_lr_for_pick, train_lr_model
 from kalman_state import (
     load_kalman_state, save_kalman_state, initialize_kalman,
     apply_daily_drift, batch_update, kalman_summary, prune_processed_games,
@@ -379,8 +380,15 @@ def main():
     # Step 2: Load / initialize state
     store = load_store()
     defs = load_defaults()
-    W = {**defs["DEFAULT_W"], **(store.get("weights") or {})}
-    W_var = {**defs["DEFAULT_W_VAR"], **(store.get("weightsVar") or {})}
+
+    # Reset weights to defaults for clean backfill (avoid data leakage)
+    store["weights"] = {**defs["DEFAULT_W"]}
+    store["weightsVar"] = {**defs["DEFAULT_W_VAR"]}
+    store["runs"] = []
+    print(f"  [backfill] Reset weights to defaults and cleared history")
+
+    W = {**defs["DEFAULT_W"]}
+    W_var = {**defs["DEFAULT_W_VAR"]}
 
     kalman = load_kalman_state()
     kalman_initialized = bool(kalman.get("teams"))
@@ -398,6 +406,12 @@ def main():
     total_wins = 0
     total_losses = 0
     total_pushes = 0
+
+    # LR model — retrain every LR_RETRAIN_INTERVAL graded games
+    LR_RETRAIN_INTERVAL = 40  # NCAA has more games per day
+    lr_bundle = None
+    lr_histories = {}
+    lr_graded_since_train = 0
 
     for date in dates:
         # Fetch per-date stats (from cache or live)
@@ -502,6 +516,22 @@ def main():
             if result.get("oPick") and result["oPick"] != "PASS":
                 result["oResult"] = grade_total(result)
 
+            # LR confirmation / veto
+            if lr_bundle and result.get("sPick") and result["sPick"] != "PASS":
+                home_hist = lr_histories.get(result.get("home"), [])
+                away_hist = lr_histories.get(result.get("away"), [])
+                lr_game = {"home": result["home"], "away": result["away"], "line": result.get("line", 0), "_run_date": date}
+                picked_home = result.get("home", "") in result.get("sPick", "")
+                lr_features = extract_lr_features(home_hist, away_hist, lr_game, home_hist, away_hist, picked_home=picked_home)
+                lr_result = predict_lr_for_pick(lr_bundle, lr_features, picked_home, game=lr_game)
+                result["lrProb"] = lr_result.get("lr_pick_prob") or lr_result["lr_prob"]
+                result["lrVerdict"] = lr_result["lr_verdict"]
+                result["lrReasons"] = lr_result.get("lr_reasons", [])
+                if lr_result["lr_verdict"] == "veto":
+                    result["lrVetoed"] = result["sPick"]
+                    result["sPick"] = "PASS"
+                    result["sConf"] = "vetoed"
+
             games.append(result)
             day_matched += 1
 
@@ -521,6 +551,18 @@ def main():
         store["weights"] = W
         store["weightsVar"] = W_var
         store["lastTuneDate"] = date
+
+        # Retrain LR periodically
+        lr_graded_since_train += day_matched
+        if lr_graded_since_train >= LR_RETRAIN_INTERVAL or (lr_bundle is None and len(store.get("runs", [])) >= 3):
+            try:
+                lr_bundle = train_lr_model(store)
+                lr_histories = build_team_histories(store)
+                if lr_bundle:
+                    print(f"  [LR] Retrained ({lr_bundle.get('n_train', '?')} games)")
+                lr_graded_since_train = 0
+            except Exception as e:
+                print(f"  [LR] Train failed: {e}")
 
         total_games += day_matched
         total_days += 1

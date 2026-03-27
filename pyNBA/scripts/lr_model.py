@@ -13,6 +13,7 @@ _lr.MODEL_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', '
 from core.lr_model import (
     build_team_histories,
     extract_lr_features,
+    extract_team_lr_features,
     build_lr_features_for_game,
     LR_FEATURE_NAMES,
     train_lr_model,
