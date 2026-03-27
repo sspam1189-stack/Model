@@ -447,8 +447,8 @@ def main():
         day_wins = 0
         day_losses = 0
 
-        residual_var = compute_residual_var(store.get("runs") or [])
-        store["residualVar"] = residual_var
+        dynamic_residual_var = compute_residual_var(store.get("runs") or [])
+        store["residualVar"] = dynamic_residual_var
 
         for s in scores:
             home_key = resolve_team_fuzzy(blended, s["home"])
@@ -480,7 +480,7 @@ def main():
             total = matched_odds["total"] if matched_odds and matched_odds.get("total") else 0
 
             g = {"away": away_key, "home": home_key, "line": line, "total": total, "_date": date}
-            result = analyze_game(g, blended, avgs, W, None, kalman, W_var, residual_var)
+            result = analyze_game(g, blended, avgs, W, None, kalman, W_var, dynamic_residual_var)
             if not result:
                 day_unmatched += 1
                 continue

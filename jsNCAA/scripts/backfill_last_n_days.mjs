@@ -504,8 +504,8 @@ async function main() {
     let dayWins = 0;
     let dayLosses = 0;
 
-    const residualVar = computeResidualVar(store.runs);
-    store.residualVar = residualVar;
+    const dynamicResidualVar = computeResidualVar(store.runs);
+    store.residualVar = dynamicResidualVar;
 
     for (const s of scores) {
       const homeKey = resolveTeamFuzzy(blended, s.home);
@@ -556,7 +556,7 @@ async function main() {
         total,
       };
 
-      const result = analyzeGame(g, blended, avgs, W, null, kalman, W_var, residualVar);
+      const result = analyzeGame(g, blended, avgs, W, null, kalman, W_var, dynamicResidualVar);
 
       if (!result) {
         dayUnmatched++;
