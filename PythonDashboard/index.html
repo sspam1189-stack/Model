@@ -609,6 +609,32 @@
     }
     select { background-color: #1a1a2e; color: #fff; }
     select option { background-color: #1a1a2e; color: #fff; padding: 4px 8px; }
+
+    /* ─── Props mobile responsive ─── */
+    .props-table-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+    .props-table-wrap table { min-width: 600px; }
+
+    @media (max-width: 700px) {
+      .props-toolbar-tabs { font-size: 12px !important; }
+      .props-toolbar-tabs button { padding: 6px 12px !important; font-size: 12px !important; }
+      .props-toolbar-pills { padding: 8px 12px !important; gap: 4px !important; }
+      .props-toolbar-pills button { padding: 4px 10px !important; font-size: 11px !important; }
+      .props-toolbar-filters { padding: 8px 12px !important; gap: 8px !important; }
+      .props-toolbar-filters select { padding: 5px 8px !important; font-size: 12px !important; }
+      .props-pg-bar { gap: 6px !important; }
+      .props-pg-bar button { padding: 3px 8px !important; font-size: 11px !important; }
+      .props-pg-bar span { font-size: 11px !important; }
+      .props-recap table { min-width: 500px; }
+      .props-mini-breakdown { font-size: 11px !important; gap: 8px !important; }
+    }
+
+    @media (max-width: 480px) {
+      .props-toolbar-pills { overflow-x: auto; flex-wrap: nowrap !important; padding-bottom: 8px !important; }
+      .props-toolbar-pills button { white-space: nowrap; flex-shrink: 0; }
+      .props-toolbar-filters { flex-direction: column; align-items: stretch !important; }
+      .props-toolbar-filters select { width: 100%; }
+      .props-toolbar-filters span { margin-left: 0 !important; text-align: right; }
+    }
   </style>
 </head>
 <body>
@@ -2279,6 +2305,7 @@
 
       // Row 1: View tabs
       const tabRow = document.createElement('div');
+      tabRow.className = 'props-toolbar-tabs';
       tabRow.style.cssText = 'display:flex;border-bottom:1px solid rgba(255,255,255,0.08)';
       const viewAllBtn = document.createElement('button');
       viewAllBtn.textContent = 'All Picks';
@@ -2295,6 +2322,7 @@
         return (ia === -1 ? 99 : ia) - (ib === -1 ? 99 : ib);
       });
       const nbaMarketBtnBar = document.createElement('div');
+      nbaMarketBtnBar.className = 'props-toolbar-pills';
       nbaMarketBtnBar.style.cssText = 'display:flex;gap:6px;flex-wrap:wrap;padding:12px 16px;border-bottom:1px solid rgba(255,255,255,0.08)';
       let nbaActiveMarket = 'all';
 
@@ -2317,6 +2345,7 @@
 
       // Row 3: Contextual filters
       const filterRow = document.createElement('div');
+      filterRow.className = 'props-toolbar-filters';
       filterRow.style.cssText = 'display:flex;gap:12px;align-items:center;padding:12px 16px;flex-wrap:wrap';
 
       // All Picks filters
@@ -2363,6 +2392,8 @@
       }
 
       function buildPropsTable(mProps) {
+        const wrap = document.createElement('div');
+        wrap.className = 'props-table-wrap';
         const tbl = document.createElement('table');
         tbl.style.cssText = 'width:100%;border-collapse:collapse;margin-top:8px';
         const hRow = tbl.createTHead().insertRow();
@@ -2415,7 +2446,8 @@
             }
           });
         }
-        return tbl;
+        wrap.appendChild(tbl);
+        return wrap;
       }
 
       function buildMarketBreakdown(filteredPicks) {
@@ -2459,6 +2491,8 @@
           summCard.className = 'card card-games';
           summCard.style.marginBottom = '16px';
           summCard.appendChild(Object.assign(document.createElement('div'), {className:'card-title', textContent:'Market Breakdown'}));
+          const summWrap = document.createElement('div');
+          summWrap.className = 'props-table-wrap';
           const summTbl = document.createElement('table');
           summTbl.style.cssText = 'width:100%;border-collapse:collapse;margin-top:8px';
           const sh = summTbl.createTHead().insertRow();
@@ -2500,7 +2534,7 @@
             td.style.textAlign = i === 0 ? 'left' : 'right';
             if (i === 5) td.style.color = gU >= 0 ? 'var(--green)' : 'var(--red)';
           });
-          summCard.appendChild(summTbl);
+          summWrap.appendChild(summTbl); summCard.appendChild(summWrap);
           contentArea.appendChild(summCard);
         }
 
@@ -2520,7 +2554,7 @@
 
           if (totalPages > 1) {
             const pgBar = document.createElement('div');
-            pgBar.style.cssText = 'display:flex;align-items:center;gap:10px;margin-bottom:12px;flex-wrap:wrap';
+            pgBar.className = 'props-pg-bar'; pgBar.style.cssText = 'display:flex;align-items:center;gap:10px;margin-bottom:12px;flex-wrap:wrap';
             const pgLabel = document.createElement('span');
             pgLabel.style.cssText = 'color:#999;font-size:12px;flex:1';
             pgLabel.textContent = `${pageStart+1}\u2013${Math.min(pageStart+PAGE_SIZE, filteredPicks.length)} of ${filteredPicks.length} picks`;
@@ -2585,7 +2619,7 @@
 
         // Pagination controls
         const pgBar = document.createElement('div');
-        pgBar.style.cssText = 'display:flex;align-items:center;gap:10px;margin-bottom:12px;flex-wrap:wrap';
+        pgBar.className = 'props-pg-bar'; pgBar.style.cssText = 'display:flex;align-items:center;gap:10px;margin-bottom:12px;flex-wrap:wrap';
         const pgLabel = document.createElement('span');
         pgLabel.style.cssText = 'color:#999;font-size:12px;flex:1';
         pgLabel.textContent = `${pageStart+1}–${Math.min(pageStart+PAGE_SIZE, filteredPicks.length)} of ${filteredPicks.length} picks`;
@@ -2749,7 +2783,7 @@
           td.style.textAlign = i === 0 ? 'left' : 'right';
           if (i === 5) td.style.color = totU >= 0 ? 'var(--green)' : 'var(--red)';
         });
-        summCard.appendChild(summTbl);
+        summWrap.appendChild(summTbl); summCard.appendChild(summWrap);
         contentArea.appendChild(summCard);
 
         // Per-week pick cards — paginated (WEEKS_PER_PAGE per page)
@@ -2763,7 +2797,7 @@
         // Pagination bar (only shown when "all weeks" and more than one page)
         if (weekSel.value === 'all' && totalWeekPages > 1) {
           const pgBar = document.createElement('div');
-          pgBar.style.cssText = 'display:flex;align-items:center;gap:10px;margin-bottom:12px;flex-wrap:wrap';
+          pgBar.className = 'props-pg-bar'; pgBar.style.cssText = 'display:flex;align-items:center;gap:10px;margin-bottom:12px;flex-wrap:wrap';
           const pgLabel = document.createElement('span');
           pgLabel.style.cssText = 'color:#999;font-size:12px;flex:1';
           pgLabel.textContent = `Weeks ${weekPageStart+1}–${Math.min(weekPageStart+WEEKS_PER_PAGE, sortedWeeks.length)} of ${sortedWeeks.length}`;
@@ -2926,6 +2960,7 @@
 
       // Row 1: View tabs
       const tabRow = document.createElement('div');
+      tabRow.className = 'props-toolbar-tabs';
       tabRow.style.cssText = 'display:flex;border-bottom:1px solid rgba(255,255,255,0.08)';
       const viewAllBtn = document.createElement('button');
       viewAllBtn.textContent = 'All Picks';
@@ -2938,6 +2973,7 @@
       // Row 2: Market filter pills
       const allMarketKeys = [...new Set(picks.map(p => p.market))];
       const marketBtnBar = document.createElement('div');
+      marketBtnBar.className = 'props-toolbar-pills';
       marketBtnBar.style.cssText = 'display:flex;gap:6px;flex-wrap:wrap;padding:12px 16px;border-bottom:1px solid rgba(255,255,255,0.08)';
       let activeMarketFilter = 'all';
 
@@ -2960,6 +2996,7 @@
 
       // Row 3: Contextual filters
       const filterRow = document.createElement('div');
+      filterRow.className = 'props-toolbar-filters';
       filterRow.style.cssText = 'display:flex;gap:12px;align-items:center;padding:12px 16px;flex-wrap:wrap';
 
       // All Picks filters
@@ -3018,6 +3055,8 @@
       }
 
       function buildNFLPropsTable(mProps) {
+        const wrap = document.createElement('div');
+        wrap.className = 'props-table-wrap';
         const tbl = document.createElement('table');
         tbl.style.cssText = 'width:100%;border-collapse:collapse;margin-top:8px';
         const hRow = tbl.createTHead().insertRow();
@@ -3068,7 +3107,8 @@
             }
           });
         }
-        return tbl;
+        wrap.appendChild(tbl);
+        return wrap;
       }
 
       function buildNFLMarketBreakdown(filteredPicks) {
@@ -3088,7 +3128,7 @@
 
       function makePgBar(pageStart, pageSize, total, totalPages, currentPage, onPrev, onNext) {
         const pgBar = document.createElement('div');
-        pgBar.style.cssText = 'display:flex;align-items:center;gap:10px;flex-wrap:wrap';
+        pgBar.className = 'props-pg-bar'; pgBar.style.cssText = 'display:flex;align-items:center;gap:10px;flex-wrap:wrap';
         const pgLabel = document.createElement('span');
         pgLabel.style.cssText = 'color:#999;font-size:12px;flex:1';
         pgLabel.textContent = `${pageStart+1}\u2013${Math.min(pageStart+pageSize, total)} of ${total} picks`;
@@ -3135,6 +3175,8 @@
           summCard.className = 'card card-games';
           summCard.style.marginBottom = '16px';
           summCard.appendChild(Object.assign(document.createElement('div'), {className:'card-title', textContent:'Market Breakdown'}));
+          const summWrap = document.createElement('div');
+          summWrap.className = 'props-table-wrap';
           const summTbl = document.createElement('table');
           summTbl.style.cssText = 'width:100%;border-collapse:collapse;margin-top:8px';
           const sh = summTbl.createTHead().insertRow();
@@ -3176,7 +3218,7 @@
             td.style.textAlign = i === 0 ? 'left' : 'right';
             if (i === 5) td.style.color = gU >= 0 ? 'var(--green)' : 'var(--red)';
           });
-          summCard.appendChild(summTbl);
+          summWrap.appendChild(summTbl); summCard.appendChild(summWrap);
           contentArea.appendChild(summCard);
         }
 
@@ -3377,7 +3419,7 @@
             td.style.textAlign = i === 0 ? 'left' : 'right';
             if (i === 5) td.style.color = totU >= 0 ? 'var(--green)' : 'var(--red)';
           });
-          summCard.appendChild(summTbl);
+          summWrap.appendChild(summTbl); summCard.appendChild(summWrap);
           contentArea.appendChild(summCard);
         }
 
