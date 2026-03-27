@@ -22,7 +22,13 @@ _CACHE_DIR = Path(__file__).resolve().parents[2] / "data" / "odds"
 
 
 def _cache_path(season, week):
-    """Return the cache file path for a given season/week."""
+    """Return daily cache path (preserves daily snapshots for line movement)."""
+    today = datetime.datetime.now(ZoneInfo("America/Chicago")).strftime("%Y%m%d")
+    return _CACHE_DIR / f"nfl_odds_{season}_W{week}_{today}.json"
+
+
+def _historical_cache_path(season, week):
+    """Return permanent cache path for historical data (no date suffix)."""
     return _CACHE_DIR / f"nfl_odds_{season}_W{week}.json"
 
 
@@ -174,12 +180,12 @@ def fetch_nfl_odds(api_key=None, season=None, week=None):
     If *season* and *week* are provided the result is cached to disk
     (< 2 hours for live odds).
     """
-    # --- try cache first (live odds: 2-hour freshness) ---
+    # --- check if today's cache already exists (don't re-fetch same day) ---
     if season and week:
         cp = _cache_path(season, week)
-        cached = _load_cache(cp, max_age_hours=2)
+        cached = _load_cache(cp, max_age_hours=None)
         if cached is not None:
-            print(f"  [odds] Using cached live odds for {season} W{week} ({cp.name})")
+            print(f"  [odds] Using today's cached odds for {season} W{week} ({cp.name})")
             return cached
 
     api_key = api_key or os.environ.get("ODDS_API_KEY")
@@ -385,9 +391,9 @@ def fetch_historical_odds(api_key=None, season=None, week=None):
 
     Returns list of dicts: [{ away, home, line, total, _book }]
     """
-    # --- try cache first (historical: never expires) ---
+    # --- try cache first (historical: never expires, no date suffix) ---
     if season and week:
-        cp = _cache_path(season, week)
+        cp = _historical_cache_path(season, week)
         cached = _load_cache(cp, max_age_hours=None)
         if cached is not None:
             print(f"  [odds] Using cached historical odds for {season} W{week} ({cp.name})")
@@ -535,9 +541,9 @@ def fetch_historical_odds(api_key=None, season=None, week=None):
 
     print(f"  [odds] Got historical odds for {len(games)} games")
 
-    # --- save to cache (permanent for historical) ---
+    # --- save to cache (permanent for historical — no date suffix) ---
     if season and week and games:
-        _save_cache(games, _cache_path(season, week))
+        _save_cache(games, _historical_cache_path(season, week))
 
     return games
 
@@ -565,6 +571,13 @@ _PROPS_CACHE_DIR = Path(__file__).resolve().parents[2] / "data" / "props"
 
 
 def _props_cache_path(season, week):
+    """Daily cache for live props (preserves daily snapshots)."""
+    today = datetime.datetime.now(ZoneInfo("America/Chicago")).strftime("%Y%m%d")
+    return _PROPS_CACHE_DIR / f"nfl_props_{season}_W{week}_{today}.json"
+
+
+def _historical_props_cache_path(season, week):
+    """Permanent cache for historical props (no date suffix)."""
     return _PROPS_CACHE_DIR / f"nfl_props_{season}_W{week}.json"
 
 
@@ -576,12 +589,12 @@ def fetch_nfl_player_props(api_key=None, season=None, week=None):
     [{"player": str, "market": str, "line": float, "over_price": int, "under_price": int,
       "event_home": str, "event_away": str}, ...]
     """
-    # Check cache
+    # Check if today's cache already exists (don't re-fetch same day)
     if season and week:
         cp = _props_cache_path(season, week)
-        cached = _load_cache(cp, max_age_hours=2)
+        cached = _load_cache(cp, max_age_hours=None)
         if cached is not None:
-            print(f"  [props] Using cached props for {season} W{week} ({cp.name})")
+            print(f"  [props] Using today's cached props for {season} W{week} ({cp.name})")
             return cached
 
     api_key = api_key or os.environ.get("ODDS_API_KEY")
@@ -679,8 +692,8 @@ def fetch_historical_player_props(season, week, api_key=None):
     Returns list of dicts:
     [{"player": str, "market": str, "line": float, "event_home": str, "event_away": str}, ...]
     """
-    # Check cache first
-    cp = _props_cache_path(season, week)
+    # Check cache first (permanent — historical doesn't change)
+    cp = _historical_props_cache_path(season, week)
     cached = _load_cache(cp, max_age_hours=None)
     if cached is not None:
         print(f"  [props] Using cached historical props for {season} W{week} ({cp.name})")
