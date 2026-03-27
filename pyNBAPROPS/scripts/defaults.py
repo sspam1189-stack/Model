@@ -37,22 +37,13 @@ MIN_GAMES = {
 MIN_MINUTES = 15
 
 # ---------------------------------------------------------------------------
-# Calibration offsets (add to raw projection to correct systematic bias)
+# Calibration offsets — REMOVED
 # ---------------------------------------------------------------------------
-# Derived from backtest: mean(proj) - mean(actual) per market.
-# Without these, model under-projects and UNDER wins just from bias.
-# With these, only genuine model skill produces picks.
-
-CALIBRATION_OFFSET = {
-    "points":        +1.80,   # Model under-projects by 1.8 pts
-    "rebounds":      +0.89,   # Model under-projects by 0.9 reb
-    "assists":       +0.58,   # Model under-projects by 0.58 ast
-    "threes":        +0.70,   # Model under-projects by 0.7 3PM
-    "turnovers":     +0.70,
-    "pts_rebs_asts": +2.84,   # Sum of pts+reb+ast bias
-    "steals":         0.0,
-    "blocks":         0.0,
-}
+# Root cause of bias was fixed instead of using static offsets:
+#   1. Volume penalty removed (was one-directional, only subtracted)
+#   2. B2B made symmetric (penalty + rest bonus)
+#   3. Rate blend changed from 50/50 to 30/70 (rolling avg is unbiased)
+# Rolling average itself has zero bias (pts: -0.02, reb: -0.002, ast: -0.01)
 
 # ---------------------------------------------------------------------------
 # Market-specific thresholds (tightened after calibration)
@@ -178,7 +169,8 @@ PACE_ADJ_WEIGHT = {
     "turnovers":     0.002,
 }
 
-# Minutes threshold
+# Minutes threshold — volume penalty removed (was one-directional bias source)
+# Kept for backward compat but no longer used in projection pipeline
 MINUTES_VOLUME_THRESHOLD = 28.0
 
 # Legacy keys

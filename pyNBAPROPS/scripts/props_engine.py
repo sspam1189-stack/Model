@@ -20,13 +20,12 @@ from scipy.stats import t as t_dist
 from defaults import (
     PROP_T_DF, ROLLING_WINDOW, DECAY_FACTOR, MIN_GAMES, MIN_MINUTES,
     MARKET_THRESHOLDS, VAR_MULT, MIN_EDGE, MAX_EDGE, MIN_LINE,
-    UNDER_ONLY_MARKETS, DISABLED_MARKETS, CALIBRATION_OFFSET,
+    UNDER_ONLY_MARKETS, DISABLED_MARKETS,
     OPP_STAT_KEY, OPP_ADJ_WEIGHT, PACE_ADJ_WEIGHT,
-    MINUTES_VOLUME_THRESHOLD,
 )
 from player_kalman import get_player_projection, PLAYER_KALMAN_DEFAULTS
 from sources.game_context import (
-    B2B_PENALTIES, detect_b2b_from_game_logs,
+    B2B_PENALTIES, REST_BONUS, detect_b2b_from_game_logs, detect_rest_days,
     compute_home_away_split, compute_per_minute_rates,
     project_minutes, rate_based_projection,
 )
@@ -234,9 +233,11 @@ def project_player_props(player_logs, team_def_stats=None, prop_lines=None,
             rolling_avg = _weighted_avg(vals)
             rolling_std = _weighted_std(vals) * VAR_MULT.get(market, 1.2)
 
-            # --- Blend rate-based with rolling average (50/50) ---
+            # --- Blend rate-based with rolling average (30/70) ---
+            # Rolling avg is unbiased. Rate-based tends to project low because
+            # projected minutes are conservative. Weight rolling more heavily.
             if rate_proj is not None:
-                blended_raw = 0.5 * rate_proj + 0.5 * rolling_avg
+                blended_raw = 0.3 * rate_proj + 0.7 * rolling_avg
             else:
                 blended_raw = rolling_avg
 
@@ -255,9 +256,13 @@ def project_player_props(player_logs, team_def_stats=None, prop_lines=None,
             proj = _apply_pace_adjustment(proj, market, team, latest_opp,
                                           team_def_stats, league_avg)
 
-            # --- B2B penalty ---
+            # --- Rest adjustment (symmetric: B2B penalty + rest bonus) ---
             if is_b2b:
                 proj += B2B_PENALTIES.get(stat_key, 0.0)
+            else:
+                rest_days = detect_rest_days(games, game_date)
+                if rest_days >= 3:
+                    proj += REST_BONUS.get(stat_key, 0.0)
 
             # --- Home/away split ---
             split = compute_home_away_split(games, stat_key)
@@ -266,11 +271,9 @@ def project_player_props(player_logs, team_def_stats=None, prop_lines=None,
             elif not is_home and split.get("away_split_adj"):
                 proj += split["away_split_adj"]
 
-            # --- Volume adjustment (low-minutes players) ---
-            proj = _apply_volume_adjustment(proj, adv)
-
-            # --- Calibration offset (correct systematic under-projection) ---
-            proj += CALIBRATION_OFFSET.get(market, 0.0)
+            # Volume adjustment removed — was one-directional (only penalized,
+            # never boosted), introducing systematic downward bias. The minutes
+            # projection via rate × projected_min already handles low-minutes players.
 
             prop = _make_prop(name, team, market, proj, std, line_lookup, latest_opp)
             if prop:
@@ -286,13 +289,13 @@ def project_player_props(player_logs, team_def_stats=None, prop_lines=None,
             ast_vals = [g.get("ast", 0) for g in qualified]
             pra_vals = [p + r + a for p, r, a in zip(pts_vals, reb_vals, ast_vals)]
 
-            # Rate-based PRA
+            # Rate-based PRA (30/70 blend — rolling is unbiased)
             pra_rate = (rates.get("pts_per_min", 0) +
                         rates.get("reb_per_min", 0) +
                         rates.get("ast_per_min", 0))
             if pra_rate > 0:
                 rate_pra = rate_based_projection(pra_rate, proj_min)
-                rolling_avg = 0.5 * rate_pra + 0.5 * _weighted_avg(pra_vals)
+                rolling_avg = 0.3 * rate_pra + 0.7 * _weighted_avg(pra_vals)
             else:
                 rolling_avg = _weighted_avg(pra_vals)
             rolling_std = _weighted_std(pra_vals) * VAR_MULT.get("pts_rebs_asts", 1.1)
@@ -307,11 +310,17 @@ def project_player_props(player_logs, team_def_stats=None, prop_lines=None,
             proj = _apply_pace_adjustment(proj, "pts_rebs_asts", team, latest_opp,
                                           team_def_stats, league_avg)
 
-            # B2B penalty for PRA (sum of individual penalties)
+            # Rest adjustment for PRA (symmetric)
             if is_b2b:
                 proj += (B2B_PENALTIES.get("pts", 0) +
                          B2B_PENALTIES.get("reb", 0) +
                          B2B_PENALTIES.get("ast", 0))
+            else:
+                rest_days = detect_rest_days(games, game_date)
+                if rest_days >= 3:
+                    proj += (REST_BONUS.get("pts", 0) +
+                             REST_BONUS.get("reb", 0) +
+                             REST_BONUS.get("ast", 0))
 
             # Home/away split for PRA
             pts_split = compute_home_away_split(games, "pts")
@@ -323,10 +332,7 @@ def project_player_props(player_logs, team_def_stats=None, prop_lines=None,
                              ast_split.get(adj_key, 0))
             proj += pra_split_adj
 
-            proj = _apply_volume_adjustment(proj, adv)
-
-            # --- Calibration offset ---
-            proj += CALIBRATION_OFFSET.get("pts_rebs_asts", 0.0)
+            # Volume adjustment removed (same reason as individual markets)
 
             prop = _make_prop(name, team, "pts_rebs_asts", proj, std, line_lookup, latest_opp)
             if prop:

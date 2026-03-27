@@ -22,14 +22,29 @@ _B2B_CACHE_DIR = os.path.join(_dir, "..", "..", "data", "b2b_cache")
 # 1. Rest / Back-to-back detection
 # ---------------------------------------------------------------------------
 
-# Stat penalties for players on back-to-backs (based on NBA research):
-# B2B players average ~2-3 fewer points, ~0.5 fewer rebounds, ~0.5 fewer assists
+# Rest adjustments: SYMMETRIC so they don't introduce net-negative bias.
+# B2B penalty AND rest bonus must average to ~0 across all games.
+# ~15% of games are B2B, ~15% are 2+ days rest, ~70% are normal (1 day).
+# B2B: -1.5 pts × 15% = -0.225 avg contribution
+# Rest: +0.5 pts × 15% = +0.075 avg contribution
+# Net: -0.15 (close to zero vs old -0.30)
 B2B_PENALTIES = {
-    "pts":  -2.0,     # Points drop ~2 on B2B
-    "reb":  -0.5,
-    "ast":  -0.5,
-    "fg3m": -0.3,
-    "stl":   0.0,     # Too noisy to adjust
+    "pts":  -1.5,     # Reduced from -2.0 (old value introduced too much bias)
+    "reb":  -0.4,
+    "ast":  -0.3,
+    "fg3m": -0.2,
+    "stl":   0.0,
+    "blk":   0.0,
+    "tov":   0.0,
+}
+
+# Rest bonus: player with 2+ days rest performs slightly better
+REST_BONUS = {
+    "pts":  +0.5,
+    "reb":  +0.2,
+    "ast":  +0.1,
+    "fg3m": +0.1,
+    "stl":   0.0,
     "blk":   0.0,
     "tov":   0.0,
 }
@@ -133,6 +148,34 @@ def detect_b2b_from_game_logs(player_games, game_date):
         if gd == yesterday:
             return True
     return False
+
+
+def detect_rest_days(player_games, game_date):
+    """
+    Detect how many days of rest a player has (days since last game).
+
+    Returns
+    -------
+    int
+        Days since last game. 1 = played yesterday (B2B), 2+ = extra rest.
+        Returns 99 if no prior games found.
+    """
+    try:
+        today = datetime.datetime.strptime(game_date[:10], "%Y-%m-%d")
+    except (ValueError, TypeError):
+        return 99
+
+    for g in reversed(player_games):
+        gd = g.get("game_date", "")[:10]
+        if not gd:
+            continue
+        try:
+            game_dt = datetime.datetime.strptime(gd, "%Y-%m-%d")
+            if game_dt < today:
+                return (today - game_dt).days
+        except (ValueError, TypeError):
+            continue
+    return 99
 
 
 # ---------------------------------------------------------------------------

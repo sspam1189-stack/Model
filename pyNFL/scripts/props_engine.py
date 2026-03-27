@@ -52,8 +52,9 @@ UNDER_ONLY_MARKETS = {"pass_yds", "rush_yds", "rec_yds", "receptions"}
 # ---------------------------------------------------------------------------
 # Calibration offsets (add to raw projection to correct systematic bias)
 # ---------------------------------------------------------------------------
-# Model under-projects every market. Without correction, UNDER wins from
-# bias rather than model skill. With correction, only genuine edge remains.
+# NFL has only 17 games/season — not enough data to isolate and fix each
+# adjustment's bias individually (unlike NBA's 82 games). Static offset
+# is the right approach here.
 #
 # Derived from 3-season backtest: mean(proj) - mean(actual)
 CALIBRATION_OFFSET = {
@@ -64,7 +65,6 @@ CALIBRATION_OFFSET = {
 }
 
 # Minimum edge size per market (|proj - line|)
-# After calibration, pass_yds edge is much smaller — lower threshold
 MIN_EDGE = {"pass_yds": 10, "rush_yds": 5, "rec_yds": 5, "receptions": 0.5}
 MAX_EDGE = {"pass_yds": 40, "rush_yds": 30, "rec_yds": 30}
 
