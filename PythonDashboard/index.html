@@ -622,6 +622,7 @@
     <button class="tab active" data-tab="nba" type="button">NBA</button>
     <button class="tab" data-tab="fullseason" type="button">NBA Full Season</button>
     <button class="tab" data-tab="ncaa" type="button">NCAA</button>
+    <button class="tab" data-tab="nba-props" type="button">NBA Player Props</button>
     <button class="tab" data-tab="nfl" type="button">NFL</button>
     <button class="tab" data-tab="nfl-props" type="button">NFL Player Props</button>
   </nav>
@@ -654,6 +655,12 @@
         name: 'pyNFL',
         local: 'data/nfl.json',
         remote: 'https://raw.githubusercontent.com/sspam1189-stack/Model/main/pyNFL/data/nfl.json',
+        repo: 'https://github.com/sspam1189-stack/Model'
+      },
+      'nba-props': {
+        name: 'NBA Props',
+        local: 'data/nba-props.json',
+        remote: 'https://raw.githubusercontent.com/sspam1189-stack/Model/main/pyNBAPROPS/data/nba-props.json',
         repo: 'https://github.com/sspam1189-stack/Model'
       },
       'nfl-props': {
@@ -855,7 +862,9 @@
             const resp = await fetch(attempt.url, { cache: 'no-store' });
             if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
             const data = await resp.json();
-            if (!data || !Array.isArray(data.runs)) throw new Error('Invalid feed shape');
+            // Props feeds have data.props, game feeds have data.runs
+            const isProps = key.includes('props');
+            if (!data || (!isProps && !Array.isArray(data.runs)) || (isProps && !Array.isArray(data.props))) throw new Error('Invalid feed shape');
             cache[key] = data;
             sourceMeta[key] = {
               mode: attempt.mode,
@@ -2122,6 +2131,177 @@
 
     // ─── NFL Player Props Render ───
 
+    async function renderNBAProps() {
+      const el = document.getElementById('content');
+      const data = await fetchData('nba-props');
+      if (!data || !data.props || !data.props.length) {
+        el.textContent = '';
+        const card = document.createElement('div');
+        card.className = 'card card-games';
+        card.appendChild(Object.assign(document.createElement('div'), {className:'card-title', textContent:'NBA Player Props'}));
+        card.appendChild(Object.assign(document.createElement('div'), {className:'no-picks', textContent:'No prop projections available yet. Run the props pipeline to generate projections.'}));
+        el.appendChild(card);
+        return;
+      }
+
+      const marketLabels = {points:'Points', rebounds:'Rebounds', assists:'Assists', threes:'Threes', pts_rebs_asts:'Pts+Reb+Ast', steals:'Steals', blocks:'Blocks', turnovers:'Turnovers'};
+      const picks = data.props.filter(p => p.pick !== 'PASS');
+      const isBacktest = picks.some(p => p.result != null);
+      const grouped = {};
+      for (const p of picks) {
+        const ml = marketLabels[p.market] || p.market;
+        if (!grouped[ml]) grouped[ml] = [];
+        grouped[ml].push(p);
+      }
+
+      el.textContent = '';
+
+      // Header card
+      const hdr = document.createElement('div');
+      hdr.className = 'card card-games';
+      hdr.style.marginBottom = '16px';
+      const mode = data.mode === 'backtest' ? 'Backtest' : 'Daily';
+      hdr.appendChild(Object.assign(document.createElement('div'), {className:'card-title', textContent:`NBA Player Props \u2014 ${data.season || ''} ${mode}`}));
+      hdr.appendChild(Object.assign(document.createElement('div'), {className:'card-subtitle', textContent:`${data.summary || ''} | Model: ${data.model || 'kalman_blend'} | Generated: ${(data.generated || '').slice(0,16)}`}));
+      el.appendChild(hdr);
+
+      // Per-market summary cards (if backtest)
+      if (isBacktest) {
+        const summCard = document.createElement('div');
+        summCard.className = 'card card-games';
+        summCard.style.marginBottom = '16px';
+        summCard.appendChild(Object.assign(document.createElement('div'), {className:'card-title', textContent:'Market Breakdown'}));
+        const summTbl = document.createElement('table');
+        summTbl.style.cssText = 'width:100%;border-collapse:collapse;margin-top:8px';
+        const sh = summTbl.createTHead().insertRow();
+        ['Market','Picks','W','L','Win%','Units'].forEach(h => {
+          const th = document.createElement('th');
+          th.textContent = h;
+          th.style.cssText = 'padding:6px 10px;text-align:right;border-bottom:1px solid rgba(255,255,255,0.1)';
+          if (h === 'Market') th.style.textAlign = 'left';
+          sh.appendChild(th);
+        });
+        const sb = summTbl.createTBody();
+        let grandW = 0, grandL = 0;
+        for (const [market, mPicks] of Object.entries(grouped)) {
+          const w = mPicks.filter(p => p.result === 'WIN').length;
+          const l = mPicks.filter(p => p.result === 'LOSS').length;
+          const u = w * 1.0 + l * (-1.1);
+          const pct = (w + l) > 0 ? (w / (w + l) * 100).toFixed(1) : 'n/a';
+          grandW += w; grandL += l;
+          const sr = sb.insertRow();
+          [market, String(mPicks.length), String(w), String(l), pct + '%', (u >= 0 ? '+' : '') + u.toFixed(1) + 'u'].forEach((v, i) => {
+            const td = sr.insertCell();
+            td.textContent = v;
+            td.style.padding = '6px 10px';
+            td.style.textAlign = i === 0 ? 'left' : 'right';
+            if (i === 5) td.style.color = u >= 0 ? 'var(--green)' : 'var(--red)';
+          });
+        }
+        // Grand total row
+        const grandU = grandW * 1.0 + grandL * (-1.1);
+        const tr = sb.insertRow();
+        tr.style.borderTop = '2px solid rgba(255,255,255,0.2)';
+        tr.style.fontWeight = '700';
+        ['TOTAL', String(picks.length), String(grandW), String(grandL),
+         (grandW + grandL > 0 ? (grandW / (grandW + grandL) * 100).toFixed(1) : '0') + '%',
+         (grandU >= 0 ? '+' : '') + grandU.toFixed(1) + 'u'].forEach((v, i) => {
+          const td = tr.insertCell();
+          td.textContent = v;
+          td.style.padding = '6px 10px';
+          td.style.textAlign = i === 0 ? 'left' : 'right';
+          if (i === 5) td.style.color = grandU >= 0 ? 'var(--green)' : 'var(--red)';
+        });
+        summCard.appendChild(summTbl);
+        el.appendChild(summCard);
+      }
+
+      const headers = isBacktest
+        ? ['Date','Player','Team','Opp','Proj','Line','Actual','Edge','Pick','Result','P(cover)','Conf']
+        : ['Player','Team','vs','Proj','Line','Edge','Pick','P(cover)','Conf'];
+
+      for (const [market, props] of Object.entries(grouped)) {
+        props.sort((a, b) => (b.pCover || 0) - (a.pCover || 0));
+        const card = document.createElement('div');
+        card.className = 'card card-games';
+        const mW = props.filter(p => p.result === 'WIN').length;
+        const mL = props.filter(p => p.result === 'LOSS').length;
+        const titleSuffix = isBacktest ? ` (${mW}W-${mL}L)` : '';
+        card.appendChild(Object.assign(document.createElement('div'), {className:'card-title', textContent:market + titleSuffix}));
+
+        const tbl = document.createElement('table');
+        tbl.style.cssText = 'width:100%;border-collapse:collapse;margin-top:8px';
+
+        const thead = tbl.createTHead();
+        const hRow = thead.insertRow();
+        headers.forEach(h => {
+          const th = document.createElement('th');
+          th.textContent = h;
+          th.style.cssText = 'padding:6px 10px;text-align:center;border-bottom:1px solid rgba(255,255,255,0.1)';
+          if (h === 'Player') th.style.textAlign = 'left';
+          hRow.appendChild(th);
+        });
+
+        const tbody = tbl.createTBody();
+        for (const p of props) {
+          const row = tbody.insertRow();
+          row.style.borderBottom = '1px solid rgba(255,255,255,0.05)';
+
+          const cells = isBacktest ? [
+            p.date || '',
+            p.player,
+            p.team || '',
+            p.opp || '',
+            String(p.proj),
+            p.line != null ? String(p.line) : '\u2014',
+            p.actual != null ? String(p.actual) : '\u2014',
+            p.edge != null ? (p.edge > 0 ? '+' : '') + p.edge : '\u2014',
+            p.pick,
+            p.result || '\u2014',
+            p.pCover != null ? (p.pCover * 100).toFixed(1) + '%' : '\u2014',
+            p.conf === 'elite' ? 'ELITE' : 'HIGH'
+          ] : [
+            p.player, p.team, p.opp || '',
+            String(p.proj), p.line != null ? String(p.line) : '\u2014',
+            p.edge != null ? (p.edge > 0 ? '+' : '') + p.edge : '\u2014',
+            p.pick,
+            p.pCover != null ? (p.pCover * 100).toFixed(1) + '%' : '\u2014',
+            p.conf === 'elite' ? 'ELITE' : 'HIGH'
+          ];
+
+          cells.forEach((val, i) => {
+            const td = row.insertCell();
+            td.textContent = val;
+            td.style.cssText = 'padding:6px 10px;text-align:center';
+            if (isBacktest) {
+              if (i === 1) { td.style.textAlign = 'left'; td.style.fontWeight = '600'; }
+              if (i === 0) td.style.color = '#999'; td.style.fontSize = '12px';
+              if (i === 2 || i === 3) td.style.color = '#999';
+              if (i === 7) td.style.color = (p.edge || 0) > 0 ? 'var(--green)' : 'var(--red)';
+              if (i === 8) { td.style.fontWeight = '700'; td.style.color = p.pick === 'OVER' ? 'var(--green)' : 'var(--red)'; }
+              if (i === 9) { td.style.fontWeight = '700'; td.style.color = p.result === 'WIN' ? 'var(--green)' : 'var(--red)'; }
+              if (i === 11 && p.conf === 'elite') { td.style.background = '#7c6cf0'; td.style.color = '#fff'; td.style.borderRadius = '4px'; td.style.fontSize = '11px'; }
+            } else {
+              if (i === 0) { td.style.textAlign = 'left'; td.style.fontWeight = '600'; }
+              if (i === 1 || i === 2) td.style.color = '#999';
+              if (i === 5) td.style.color = (p.edge || 0) > 0 ? 'var(--green)' : 'var(--red)';
+              if (i === 6) { td.style.fontWeight = '700'; td.style.color = p.pick === 'OVER' ? 'var(--green)' : 'var(--red)'; }
+              if (i === 8 && p.conf === 'elite') { td.style.background = '#7c6cf0'; td.style.color = '#fff'; td.style.borderRadius = '4px'; td.style.fontSize = '11px'; }
+            }
+          });
+        }
+        card.appendChild(tbl);
+        el.appendChild(card);
+      }
+
+      if (picks.length === 0) {
+        const empty = document.createElement('div');
+        empty.className = 'card card-games';
+        empty.appendChild(Object.assign(document.createElement('div'), {className:'no-picks', textContent:'No prop picks meet confidence threshold.'}));
+        el.appendChild(empty);
+      }
+    }
+
     async function renderNFLProps() {
       const el = document.getElementById('content');
       const data = await fetchData('nfl-props');
@@ -2403,6 +2583,10 @@
       // NFL has its own render pipeline
       if (activeTab === 'nfl') {
         return renderNFL();
+      }
+      // NBA Player Props
+      if (activeTab === 'nba-props') {
+        return renderNBAProps();
       }
       // NFL Player Props
       if (activeTab === 'nfl-props') {
