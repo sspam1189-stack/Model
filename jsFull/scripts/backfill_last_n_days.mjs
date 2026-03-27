@@ -250,6 +250,7 @@ async function main() {
 
     // 4. Compute dynamic residualVar from history so far
     const dynamicResidualVar = computeResidualVar(store.runs || []);
+    store.residualVar = dynamicResidualVar;
 
     const sb = await fetchScoreboard(date);
     const finals = extractFinalScores(sb);

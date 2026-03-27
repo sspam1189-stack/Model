@@ -505,6 +505,7 @@ async function main() {
     let dayLosses = 0;
 
     const residualVar = computeResidualVar(store.runs);
+    store.residualVar = residualVar;
 
     for (const s of scores) {
       const homeKey = resolveTeamFuzzy(blended, s.home);

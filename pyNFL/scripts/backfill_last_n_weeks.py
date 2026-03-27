@@ -313,6 +313,7 @@ def backfill(seasons, output_dir=None):
             # --- Step D: Compute residualVar from history so far ---
             # CRITICAL: Sequential, not frozen. Updates naturally each week.
             dynamic_residual_var = compute_residual_var(store.get("runs", []))
+            store["residualVar"] = dynamic_residual_var
 
             # --- Step E: Fetch final scores for this week (for grading later) ---
             is_playoff = week > NFL_REGULAR_WEEKS

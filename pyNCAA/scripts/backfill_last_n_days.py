@@ -448,6 +448,7 @@ def main():
         day_losses = 0
 
         residual_var = compute_residual_var(store.get("runs") or [])
+        store["residualVar"] = residual_var
 
         for s in scores:
             home_key = resolve_team_fuzzy(blended, s["home"])

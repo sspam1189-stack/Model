@@ -270,6 +270,7 @@ def main():
 
         # 4. Compute dynamic residualVar from history so far
         dynamic_residual_var = compute_residual_var(store.get("runs", []))
+        store["residualVar"] = dynamic_residual_var
 
         sb = fetch_scoreboard(date)
         finals = extract_final_scores(sb)
