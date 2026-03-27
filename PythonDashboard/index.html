@@ -2319,19 +2319,8 @@
       let picks = data.props.filter(p => p.pick !== 'PASS');
       const isBacktest = picks.some(p => p.result != null);
 
-      // In backtest mode: only show last 2 weeks, sorted by week (newest first)
+      // Sort by week ascending
       if (isBacktest && picks.length > 0) {
-        // Find all unique (season, week) combos and get the last 2
-        const weekKeys = [...new Set(picks.map(p => `${p.season || ''}:${p.week || ''}`))];
-        // Sort by season desc then week desc
-        weekKeys.sort((a, b) => {
-          const [aS, aW] = a.split(':').map(Number);
-          const [bS, bW] = b.split(':').map(Number);
-          return bS !== aS ? bS - aS : bW - aW;
-        });
-        const last2 = new Set(weekKeys.slice(0, 2));
-        picks = picks.filter(p => last2.has(`${p.season || ''}:${p.week || ''}`));
-        // Sort by week ascending within the filtered picks
         picks.sort((a, b) => {
           const wA = (a.season || 0) * 100 + (a.week || 0);
           const wB = (b.season || 0) * 100 + (b.week || 0);
@@ -2358,7 +2347,7 @@
       const allU = allW * 1.0 + allL * (-1.1);
       const allPct = (allW + allL) > 0 ? (allW / (allW + allL) * 100).toFixed(1) : '0';
       const fullSummary = `Full backtest: ${allW}W-${allL}L (${allPct}%) ${allU >= 0 ? '+' : ''}${allU.toFixed(1)}u`;
-      hdr.appendChild(Object.assign(document.createElement('div'), {className:'card-title', textContent:`NFL Player Props \u2014 ${data.season || ''} ${data.week === 'backtest' ? 'Backtest (Last 2 Weeks)' : 'Week ' + (data.week || '')}`}));
+      hdr.appendChild(Object.assign(document.createElement('div'), {className:'card-title', textContent:`NFL Player Props \u2014 ${data.season || ''} ${data.week === 'backtest' ? 'Backtest' : 'Week ' + (data.week || '')}`}));
       hdr.appendChild(Object.assign(document.createElement('div'), {className:'card-subtitle', textContent:`${fullSummary} | Generated: ${(data.generated || '').slice(0,16)}`}));
       el.appendChild(hdr);
 
@@ -2416,7 +2405,7 @@
       // Week dropdown
       const weekSel = document.createElement('select');
       weekSel.style.cssText = 'padding:6px 12px;border-radius:6px;background:#1a1a2e;color:#fff;border:1px solid rgba(255,255,255,0.15);font-size:13px';
-      weekSel.innerHTML = '<option value="last2">Last 2 Weeks</option><option value="all">All Weeks</option>' + allWeeks.map(w => `<option value="${w}">Week ${w}</option>`).join('');
+      weekSel.innerHTML = '<option value="all">All Weeks</option>' + allWeeks.map(w => `<option value="${w}">Week ${w}</option>`).join('');
 
       const filterLabel = document.createElement('span');
       filterLabel.style.cssText = 'color:#999;font-size:12px';
@@ -2430,12 +2419,7 @@
       function getFilteredPicks() {
         let fp = data.props.filter(p => p.pick !== 'PASS');
         if (seasonSel.value !== 'all') fp = fp.filter(p => String(p.season) === seasonSel.value);
-        if (weekSel.value === 'last2') {
-          const wks = [...new Set(fp.map(p => `${p.season}:${p.week}`))];
-          wks.sort((a, b) => { const [aS,aW] = a.split(':').map(Number); const [bS,bW] = b.split(':').map(Number); return bS !== aS ? bS - aS : bW - aW; });
-          const last2set = new Set(wks.slice(0, 2));
-          fp = fp.filter(p => last2set.has(`${p.season}:${p.week}`));
-        } else if (weekSel.value !== 'all') {
+        if (weekSel.value !== 'all') {
           fp = fp.filter(p => String(p.week) === weekSel.value);
         }
         // Sort by week ascending, then pCover descending
