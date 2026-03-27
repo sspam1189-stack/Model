@@ -7,10 +7,16 @@
 #   get_key_injuries(report, team_name) -> [{ player, status, tier, mpg }]
 #   game_uncertainty_score(away_inj, home_inj) -> number 0-4
 
+import os
+import json
+import time
 import requests
 import datetime
 import re
 from zoneinfo import ZoneInfo
+
+_dir = os.path.dirname(os.path.abspath(__file__))
+INJURY_CACHE_DIR = os.path.join(_dir, "..", "..", "data", "injury_cache")
 
 NBA_HEADERS = {
     "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36",
@@ -21,6 +27,34 @@ NBA_HEADERS = {
     "x-nba-stats-origin": "stats",
     "x-nba-stats-token": "true",
 }
+
+
+def _load_injury_cache(date_key, max_age_hours=2):
+    """Load cached injury data if fresh enough."""
+    path = os.path.join(INJURY_CACHE_DIR, f"{date_key}.json")
+    if not os.path.exists(path):
+        return None
+    if max_age_hours is not None:
+        age_h = (time.time() - os.path.getmtime(path)) / 3600
+        if age_h > max_age_hours:
+            return None
+    try:
+        with open(path, "r") as f:
+            return json.load(f)
+    except Exception:
+        return None
+
+
+def _save_injury_cache(date_key, data):
+    """Save injury data to cache."""
+    os.makedirs(INJURY_CACHE_DIR, exist_ok=True)
+    path = os.path.join(INJURY_CACHE_DIR, f"{date_key}.json")
+    try:
+        with open(path, "w") as f:
+            json.dump(data, f, indent=2)
+        print(f"  [injuries] Cached to {os.path.basename(path)}")
+    except Exception as e:
+        print(f"  [injuries] Cache write failed: {e}")
 
 
 def _current_season():
@@ -313,8 +347,22 @@ def _fetch_game_availability(date=None):
 def fetch_injury_data(date=None, season_type="Regular Season", espn_type=2):
     """
     Returns { "report": { team -> [{ player, status, tier, mpg, reason }] }, "playerMPG": {...} }
+
+    Caches results to injury_cache/YYYYMMDD.json (2-hour TTL for live,
+    permanent for historical dates).
     """
-    # Fetch both in sequence (Python doesn't have Promise.all, but we handle errors individually)
+    date_key = date or _today_espn()
+
+    # Check cache -- 2-hour TTL for today, permanent for past dates
+    is_today = (date_key == _today_espn())
+    max_age = 2 if is_today else None  # None = never expire
+    cached = _load_injury_cache(date_key, max_age_hours=max_age)
+    if cached is not None:
+        n_players = sum(len(v) for v in cached.get("report", {}).values())
+        print(f"  [injuries] Using cache: {date_key}.json ({n_players} players)")
+        return cached
+
+    # Fetch both in sequence
     try:
         game_availability = _fetch_game_availability(date)
     except Exception as e:
@@ -351,7 +399,13 @@ def fetch_injury_data(date=None, season_type="Regular Season", espn_type=2):
 
         report[team_name] = enriched
 
-    return {"report": report, "playerMPG": player_mpg}
+    result = {"report": report, "playerMPG": player_mpg}
+
+    # Cache the result
+    if report:
+        _save_injury_cache(date_key, result)
+
+    return result
 
 
 # -- Convenience exports --
