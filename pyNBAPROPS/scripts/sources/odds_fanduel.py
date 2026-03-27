@@ -107,12 +107,15 @@ def fetch_fanduel_nba_props(date_key=None):
         now = datetime.datetime.now(ZoneInfo("America/Chicago"))
         date_key = now.strftime("%Y%m%d")
 
-    # Check cache (2-hour freshness for live props)
+    # Load existing cache (if any) — we'll merge, not overwrite
     cp = _props_cache_path(date_key)
-    cached = _load_cache(cp, max_age_hours=2)
-    if cached is not None:
-        print(f"  [fanduel] Using cache: {cp.name} ({len(cached)} lines)")
-        return cached
+    existing_props = _load_cache(cp, max_age_hours=None) or []
+
+    # Build set of games already cached (started/finished — don't overwrite)
+    cached_games = set()
+    for p in existing_props:
+        game_key = f"{p.get('event_away', '')} @ {p.get('event_home', '')}"
+        cached_games.add(game_key)
 
     # Step 1: Get NBA events from FanDuel
     nba_url = f"{FD_BASE}/content-managed-page?page=CUSTOM&customPageId=nba&_ak={FD_API_KEY}"
@@ -135,7 +138,9 @@ def fetch_fanduel_nba_props(date_key=None):
         return []
 
     # Step 2: For each game, fetch player prop tabs
-    all_props = []
+    # Only fetch props for games NOT already in cache (games that started/finished keep their lines)
+    new_props = []
+    skipped_games = 0
 
     for event_id, ev in game_events.items():
         event_name = ev.get("name", "")
@@ -147,6 +152,13 @@ def fetch_fanduel_nba_props(date_key=None):
         else:
             away_team = event_name
             home_team = ""
+
+        game_key = f"{away_team} @ {home_team}"
+
+        # If this game is already cached, skip it (game may have started/finished)
+        if game_key in cached_games:
+            skipped_games += 1
+            continue
 
         for tab in FD_PROP_TABS:
             tab_url = (
@@ -206,7 +218,7 @@ def fetch_fanduel_nba_props(date_key=None):
                     over_price = None
                     under_price = None
 
-                all_props.append({
+                new_props.append({
                     "player": player_name,
                     "market": internal_market,
                     "line": float(line),
@@ -219,9 +231,14 @@ def fetch_fanduel_nba_props(date_key=None):
 
             time.sleep(0.2)  # Rate limit between tab requests
 
-    print(f"  [fanduel] Fetched {len(all_props)} player prop lines")
+    # Merge: keep existing cached lines + add new lines
+    all_props = existing_props + new_props
 
-    # Cache results
+    if skipped_games > 0:
+        print(f"  [fanduel] Kept {len(existing_props)} cached lines ({skipped_games} games already fetched)")
+    print(f"  [fanduel] Fetched {len(new_props)} new lines, {len(all_props)} total")
+
+    # Save merged result
     if all_props:
         _save_cache(all_props, cp)
 
