@@ -1479,7 +1479,19 @@ async function main() {
   // await sendEmail(subject, text, html);
 
 
-  // 10. Summary
+  // 10. Sync to Dashboard
+  try {
+    const { default: _fs } = await import("fs");
+    const { default: _path } = await import("path");
+    const { fileURLToPath: _fu } = await import("url");
+    const _dir = _path.dirname(_fu(import.meta.url));
+    const src = _path.resolve(_dir, "..", "data", "history.json");
+    const dst = _path.resolve(_dir, "..", "..", "Dashboard", "data", "fullseason.json");
+    _fs.copyFileSync(src, dst);
+    console.log("[7/7] Dashboard synced.");
+  } catch (e) { console.warn("  [dashboard] sync failed:", e.message); }
+
+  // 11. Summary
   console.log(`\nDone: ${subject}`);
 }
 

@@ -996,36 +996,19 @@ def main(subject_label="[PY]"):
 
     ats = fetch_ats_trends()
     ou = fetch_ou_trends()
-    # Try own injury cache first
-    injury_data = None
-    player_advanced = None
-    _scripts = os.path.dirname(os.path.abspath(__file__))
-    _inj_cache = os.path.join(_scripts, "..", "data", "injury_cache", f"{date}.json")
-    if os.path.exists(_inj_cache):
-        try:
-            with open(_inj_cache, "r", encoding="utf-8") as _f:
-                _cached = json.load(_f)
-            injury_data = _cached.get("injuryData", {"report": {}, "playerMPG": {}})
-            player_advanced = _cached.get("playerAdvanced", {})
-            print(f"  [cache] Using cached injuries for {date}")
-        except Exception:
-            injury_data = None
-    if injury_data is None:
-        import time as _time
-        _time.sleep(5)
-        try:
-            injury_data = fetch_injury_data(None, season_type=season_type, espn_type=espn_type)
-        except Exception as e:
-            print(f"  Warning: Injury fetch failed: {e}")
-            injury_data = {"report": {}, "playerMPG": {}}
-    if player_advanced is None:
-        import time as _time
-        _time.sleep(5)
-        try:
-            player_advanced = fetch_player_advanced(season_type=season_type)
-        except Exception as e:
-            print(f"  Warning: Player advanced fetch failed: {e}")
-            player_advanced = {}
+    import time as _time
+    _time.sleep(5)
+    try:
+        injury_data = fetch_injury_data(None, season_type=season_type, espn_type=espn_type)
+    except Exception as e:
+        print(f"  Warning: Injury fetch failed: {e}")
+        injury_data = {"report": {}, "playerMPG": {}}
+    _time.sleep(5)
+    try:
+        player_advanced = fetch_player_advanced(season_type=season_type)
+    except Exception as e:
+        print(f"  Warning: Player advanced fetch failed: {e}")
+        player_advanced = {}
     try:
         b2b_teams = detect_b2b()
     except Exception:
@@ -1255,6 +1238,16 @@ def main(subject_label="[PY]"):
 
     prune_processed_games(kalman_state, 30)
     save_kalman_state(kalman_state)
+
+    # Sync to PythonDashboard
+    try:
+        import shutil
+        _here = os.path.dirname(os.path.abspath(__file__))
+        shutil.copy2(os.path.join(_here, "..", "data", "history.json"),
+                     os.path.join(_here, "..", "..", "PythonDashboard", "data", "nba.json"))
+        print("[7/7] Dashboard synced.")
+    except Exception as e:
+        print(f"  [dashboard] sync failed: {e}")
 
     print(f"\nDone: {subject_label} NBA Picks {run['dateDisplay']} (Actionable)")
 
