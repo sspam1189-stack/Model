@@ -4,9 +4,9 @@
   "season": "2025-26",
   "mode": "backfill",
   "model": "kalman_blend",
-  "generated": "2026-03-27T10:35:09.309547",
+  "generated": "2026-03-27T11:48:18.688669",
   "totalProjections": 1905,
-  "totalPicks": 550,
+  "totalPicks": 551,
   "props": [
     {
       "player": "James Harden",
@@ -8745,6 +8745,20 @@
       "date": "2026-03-10"
     },
     {
+      "player": "Jayson Tatum",
+      "team": "BOS",
+      "opp": "ATL",
+      "market": "points",
+      "proj": 19.5,
+      "std": 4.0,
+      "line": 24.5,
+      "pick": "UNDER",
+      "edge": -5.0,
+      "pCover": 0.871,
+      "conf": "elite",
+      "date": "2026-03-27"
+    },
+    {
       "player": "Jaime Jaquez Jr.",
       "team": "MIA",
       "opp": "CLE",
@@ -8762,13 +8776,13 @@
       "player": "Jayson Tatum",
       "team": "BOS",
       "opp": "ATL",
-      "market": "points",
-      "proj": 19.5,
-      "std": 4.0,
-      "line": 23.5,
+      "market": "pts_rebs_asts",
+      "proj": 32.4,
+      "std": 6.4,
+      "line": 38.5,
       "pick": "UNDER",
-      "edge": -4.0,
-      "pCover": 0.823,
+      "edge": -6.1,
+      "pCover": 0.807,
       "conf": "high",
       "date": "2026-03-27"
     },
@@ -8801,6 +8815,6 @@
       "date": "2026-03-27"
     }
   ],
-  "summary": "4 picks from 1905 projections",
+  "summary": "5 picks from 1905 projections",
   "date": "2026-03-27"
 }
