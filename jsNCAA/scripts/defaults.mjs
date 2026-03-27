@@ -65,6 +65,7 @@ export const ENGINE_CONFIG = {
     "michigan state spartans": "Michigan St.",
     "michigan wolverines": "Michigan",
     "washington state": "Washington St.",
+    "uconn huskies": "Connecticut",
     "washington huskies": "Washington",
     "iowa state": "Iowa St.",
     "iowa state cyclones": "Iowa St.",
