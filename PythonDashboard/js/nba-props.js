@@ -120,7 +120,9 @@
             hRow.appendChild(th);
           });
           const tbody = tbl.createTBody();
-          for (const p of todayPicks.sort((a,b) => (b.pCover||0)-(a.pCover||0))) {
+          const catOrder = {points:0, rebounds:1, assists:2, pts_rebs_asts:3, threes:4, steals:5, blocks:6, turnovers:7};
+          todayPicks.sort((a,b) => (catOrder[a.market]??99) - (catOrder[b.market]??99) || (b.pCover||0) - (a.pCover||0));
+          for (const p of todayPicks) {
             const row = tbody.insertRow();
             row.style.borderBottom = '1px solid rgba(255,255,255,0.05)';
             const cells = [
