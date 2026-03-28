@@ -42,13 +42,12 @@
 
       // ── Yesterday's Recap + Today's Picks ──
       (function renderNBADailyCards() {
-        // Use Chicago timezone to match how picks are dated
-        const now = new Date();
-        const chicagoDate = new Intl.DateTimeFormat('en-CA', {
-          timeZone: 'America/Chicago', year: 'numeric', month: '2-digit', day: '2-digit'
-        }).format(now);
-        const todayStr = chicagoDate;  // "2026-03-27"
-        const yest = new Date(chicagoDate + 'T12:00:00');
+        // Show the most recent run's picks as "today" until the next run,
+        // rather than using the current CT date (which would hide picks after midnight).
+        const allDates = [...new Set(picks.map(p => p.date))].sort();
+        const latestPickDate = allDates[allDates.length - 1] || '';
+        const todayStr = latestPickDate;
+        const yest = new Date(latestPickDate + 'T12:00:00');
         yest.setDate(yest.getDate() - 1);
         const yesterdayStr = yest.toISOString().slice(0, 10);
 
