@@ -36,7 +36,6 @@ jobs:
       - name: Run daily
         working-directory: jsNBA
         env:
-          ODDS_API_KEY: ${{ secrets.ODDS_API_KEY }}
           GMAIL_USER: ${{ secrets.GMAIL_USER }}
           GMAIL_APP_PASSWORD: ${{ secrets.GMAIL_APP_PASSWORD }}
           TO_EMAIL: ${{ secrets.TO_EMAIL }}
@@ -75,7 +74,6 @@ jobs:
       - name: Run daily
         working-directory: jsFull
         env:
-          ODDS_API_KEY: ${{ secrets.ODDS_API_KEY }}
           GMAIL_USER: ${{ secrets.GMAIL_USER }}
           GMAIL_APP_PASSWORD: ${{ secrets.GMAIL_APP_PASSWORD }}
           TO_EMAIL: ${{ secrets.TO_EMAIL }}

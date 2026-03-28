@@ -12,6 +12,7 @@ require("dotenv").config();
 
 import { fetchNCAAStatsEnhanced } from "./sources/ncaa_stats.mjs";
 import { blendBase, blendForGame } from "./sources/blend_stats.mjs";
+import { fetchFanDuelNCAABOdds } from "./sources/odds_fanduel.mjs";
 import { fetchTodaysOdds } from "./sources/odds_theoddsapi.mjs";
 import { fetchScoreboard, extractFinalScores, fetchTournamentTeams } from "./sources/espn_scoreboard.mjs";
 import { fetchATSTrends, fetchOUTrends } from "./sources/teamrankings_trends.mjs";
@@ -1202,7 +1203,7 @@ async function main() {
 
   const [enhancedStats, rawOdds, ats, ou, b2bTeams] = await Promise.all([
     _cachedStats(),
-    fetchTodaysOdds(),
+    fetchFanDuelNCAABOdds().then(g => g.length ? g : fetchTodaysOdds().catch(() => [])),
     fetchATSTrends(),
     fetchOUTrends(),
     detectB2B().catch(() => new Set()),

@@ -12,6 +12,7 @@ require("dotenv").config();
 
 import { fetchNBAStats, fetchNBAStatsEnhanced } from "./sources/nba_stats.mjs";
 import { blendBase, blendForGame } from "./sources/blend_stats.mjs";
+import { fetchFanDuelNBAOdds } from "./sources/odds_fanduel.mjs";
 import { fetchTodaysOdds } from "./sources/odds_theoddsapi.mjs";
 import { fetchScoreboard, extractFinalScores } from "./sources/espn_scoreboard.mjs";
 import { fetchATSTrends, fetchOUTRends } from "./sources/teamrankings_trends.mjs";
@@ -1206,7 +1207,7 @@ async function main() {
 
   const [enhancedStats, odds, ats, ou, injuryData, playerAdvanced, b2bTeams, h2hMatchups] = await Promise.all([
     _cachedStats(),
-    fetchTodaysOdds(),
+    fetchFanDuelNBAOdds().then(g => g.length ? g : fetchTodaysOdds().catch(() => [])),
     fetchATSTrends(),
     fetchOUTRends(),
     fetchInjuryData(null, { seasonType, espnType }).catch((e) => {

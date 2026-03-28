@@ -34,7 +34,6 @@ jobs:
           PYTHONUTF8: "1"
           PYTHONUNBUFFERED: "1"
           PYTHONIOENCODING: "utf-8"
-          ODDS_API_KEY: ${{ secrets.ODDS_API_KEY }}
           GMAIL_USER: ${{ secrets.GMAIL_USER }}
           GMAIL_APP_PASSWORD: ${{ secrets.GMAIL_APP_PASSWORD }}
           TO_EMAIL: ${{ secrets.TO_EMAIL }}
@@ -73,7 +72,6 @@ jobs:
           PYTHONUTF8: "1"
           PYTHONUNBUFFERED: "1"
           PYTHONIOENCODING: "utf-8"
-          ODDS_API_KEY: ${{ secrets.ODDS_API_KEY }}
           GMAIL_USER: ${{ secrets.GMAIL_USER }}
           GMAIL_APP_PASSWORD: ${{ secrets.GMAIL_APP_PASSWORD }}
           TO_EMAIL: ${{ secrets.TO_EMAIL }}
@@ -112,7 +110,6 @@ jobs:
           PYTHONUTF8: "1"
           PYTHONUNBUFFERED: "1"
           PYTHONIOENCODING: "utf-8"
-          ODDS_API_KEY: ${{ secrets.ODDS_API_KEY }}
         run: python -m scripts.run_daily
 
       - name: Upload pyNBAPROPS data

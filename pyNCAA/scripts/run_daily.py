@@ -17,6 +17,7 @@ load_dotenv()
 
 from sources.ncaa_stats import fetch_ncaa_stats_enhanced
 from sources.blend_stats import blend_base, blend_for_game
+from sources.odds_fanduel import fetch_fanduel_ncaab_odds
 from sources.odds_theoddsapi import fetch_todays_odds
 from sources.espn_scoreboard import fetch_scoreboard, extract_final_scores, fetch_tournament_teams
 from sources.teamrankings_trends import fetch_ats_trends, fetch_ou_trends
@@ -770,7 +771,14 @@ def main(subject_label="[PY]"):
                 json.dump(enhanced_stats, _f)
         except Exception:
             pass
-    odds = fetch_todays_odds()
+    # FanDuel primary (no API key needed), The Odds API fallback
+    odds = fetch_fanduel_ncaab_odds()
+    if not odds:
+        try:
+            odds = fetch_todays_odds()
+        except Exception as e:
+            print(f"  [odds] Odds API fallback failed: {e}")
+            odds = []
 
     # Detect started/finished games via ESPN scoreboard
     try:
