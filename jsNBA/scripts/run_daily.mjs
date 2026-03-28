@@ -1181,8 +1181,30 @@ async function main() {
   const seasonType = getSeasonType(date);
   const espnType = getESPNSeasonType(date);
   console.log(`[1/7] Fetching stats, odds, trends, injuries, player data... [${seasonType}]`);
+
+  // Check shared stats cache before hitting nba_api
+  let _statsCameFromCache = false;
+  async function _cachedStats() {
+    try {
+      const { default: _fs } = await import("fs");
+      const { default: _path } = await import("path");
+      const { fileURLToPath: _toPath } = await import("url");
+      const _dir = _path.join(_path.dirname(_toPath(import.meta.url)), "..", "..", "data", "stats_cache", "nba");
+      const _fp = _path.join(_dir, date + ".json");
+      if (_fs.existsSync(_fp)) {
+        const _raw = JSON.parse(_fs.readFileSync(_fp, "utf8"));
+        if (_raw.season && Object.keys(_raw.season).length >= 20) {
+          console.log(`  [nba_stats] Using cached stats (${Object.keys(_raw.season).length} teams)`);
+          _statsCameFromCache = true;
+          return _raw;
+        }
+      }
+    } catch (_) { /* fall through */ }
+    return fetchNBAStatsEnhanced(date, { seasonType });
+  }
+
   const [enhancedStats, odds, ats, ou, injuryData, playerAdvanced, b2bTeams] = await Promise.all([
-    fetchNBAStatsEnhanced(date, { seasonType }),
+    _cachedStats(),
     fetchTodaysOdds(),
     fetchATSTrends(),
     fetchOUTRends(),
@@ -1244,19 +1266,45 @@ async function main() {
   // Blend season + last 10 games for recent form
   const stats = blendBase(enhancedStats.season, enhancedStats.last10, baseW.recentWeight ?? 0.35);
 
-  // Cache stats to disk for recalculate.mjs (full enhanced set)
+  // Cache stats + injury data to disk (skip stats write if we read from cache)
   try {
     const { fileURLToPath: toPath } = await import("url");
     const { default: fsx } = await import("fs");
     const { default: pathMod } = await import("path");
     const scriptsDir = pathMod.dirname(toPath(import.meta.url));
-    const cacheDir = pathMod.join(scriptsDir, "..", "data", "stats_cache");
-    if (!fsx.existsSync(cacheDir)) fsx.mkdirSync(cacheDir, { recursive: true });
-    fsx.writeFileSync(pathMod.join(cacheDir, date + ".json"), JSON.stringify(enhancedStats));
-    // Cache injury + player data for Python models to reuse
-    const injCacheDir = pathMod.join(scriptsDir, "..", "data", "injury_cache");
+    if (!_statsCameFromCache) {
+      const cacheDir = pathMod.join(scriptsDir, "..", "..", "data", "stats_cache", "nba");
+      if (!fsx.existsSync(cacheDir)) fsx.mkdirSync(cacheDir, { recursive: true });
+      fsx.writeFileSync(pathMod.join(cacheDir, date + ".json"), JSON.stringify(enhancedStats));
+    }
+    // Cache injury + player data — preserve report entries for started/finished games
+    const injCacheDir = pathMod.join(scriptsDir, "..", "..", "data", "injury_cache", "nba");
     if (!fsx.existsSync(injCacheDir)) fsx.mkdirSync(injCacheDir, { recursive: true });
-    fsx.writeFileSync(pathMod.join(injCacheDir, date + ".json"), JSON.stringify({ injuryData, playerAdvanced }));
+    const _injCachePath = pathMod.join(injCacheDir, date + ".json");
+    let _injToWrite = { injuryData, playerAdvanced };
+    try {
+      if (fsx.existsSync(_injCachePath)) {
+        const _oldInj = JSON.parse(fsx.readFileSync(_injCachePath, "utf8"));
+        const _oldReport = _oldInj.injuryData?.report || {};
+        // Build set of teams whose games have started/finished
+        const _lockedTeams = new Set();
+        for (const [key, st] of Object.entries(_espnStatuses)) {
+          if (!["STATUS_SCHEDULED", "STATUS_DELAYED", "STATUS_POSTPONED", "STATUS_CANCELED", ""].includes(st)) {
+            const [a, h] = key.split("::");
+            _lockedTeams.add(a); _lockedTeams.add(h);
+          }
+        }
+        // Merge: keep old report entries for locked teams
+        if (_lockedTeams.size > 0) {
+          const _merged = { ...(_injToWrite.injuryData?.report || {}) };
+          for (const [team, entries] of Object.entries(_oldReport)) {
+            if ([..._lockedTeams].some(lt => matchTeam(team, lt))) _merged[team] = entries;
+          }
+          _injToWrite.injuryData = { ..._injToWrite.injuryData, report: _merged };
+        }
+      }
+    } catch (_) { /* merge failed — write fresh */ }
+    fsx.writeFileSync(_injCachePath, JSON.stringify(_injToWrite));
   } catch (e) { /* non-critical */ }
 
   // 3. Lineup-adjusted stats + B2B rest + Kalman state
@@ -1270,7 +1318,7 @@ async function main() {
     const { fileURLToPath: toPath2 } = await import("url");
     const { default: fsx2 } = await import("fs");
     const { default: pathMod2 } = await import("path");
-    const cacheDir2 = pathMod2.join(pathMod2.dirname(toPath2(import.meta.url)), "..", "data", "injury_cache");
+    const cacheDir2 = pathMod2.join(pathMod2.dirname(toPath2(import.meta.url)), "..", "..", "data", "injury_cache", "nba");
     if (fsx2.existsSync(cacheDir2)) {
       const cacheFiles = fsx2.readdirSync(cacheDir2)
         .filter(f => f.endsWith(".json") && f < date + ".json") // only past dates

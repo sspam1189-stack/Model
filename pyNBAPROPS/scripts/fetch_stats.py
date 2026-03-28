@@ -93,7 +93,7 @@ def fetch_all_stats(seasons=None, date_to=None, force=False):
 
     print(f"\n{'='*60}")
     print(f"  DONE — All stats cached.")
-    print(f"  Cache dir: pyNBAPROPS/data/player_cache/")
+    print(f"  Cache dir: data/player_cache/nba/")
     print(f"{'='*60}\n")
 
 

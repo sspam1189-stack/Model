@@ -18,7 +18,7 @@ import sys
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
 from defaults import MARKET_MAP
 
-_PROPS_CACHE_DIR = Path(__file__).resolve().parents[2] / "data" / "props_cache"
+_PROPS_CACHE_DIR = Path(__file__).resolve().parents[3] / "data" / "props_cache" / "nba"
 
 # FanDuel API base (Michigan endpoint — works outside MI too)
 FD_BASE = "https://sbapi.mi.sportsbook.fanduel.com/api"
@@ -162,15 +162,9 @@ def fetch_fanduel_nba_props(date_key=None):
         now = datetime.datetime.now(ZoneInfo("America/Chicago"))
         date_key = now.strftime("%Y%m%d")
 
-    # Load existing cache (if any) — we'll merge, not overwrite
+    # Load existing cache for started-game preservation
     cp = _props_cache_path(date_key)
     existing_props = _load_cache(cp, max_age_hours=None) or []
-
-    # Build set of games already cached (started/finished — don't overwrite)
-    cached_games = set()
-    for p in existing_props:
-        game_key = f"{p.get('event_away', '')} @ {p.get('event_home', '')}"
-        cached_games.add(game_key)
 
     # Step 1: Get NBA events from FanDuel
     nba_url = f"{FD_BASE}/content-managed-page?page=CUSTOM&customPageId=nba&_ak={FD_API_KEY}"
@@ -210,9 +204,10 @@ def fetch_fanduel_nba_props(date_key=None):
         return []
 
     # Step 2: For each game, fetch player prop tabs
-    # Only fetch props for games NOT already in cache (games that started/finished keep their lines)
+    # Always fetch fresh for pre-game, skip started/finished games
+    now_utc = datetime.datetime.now(datetime.timezone.utc)
     new_props = []
-    skipped_games = 0
+    started_games = set()  # track which games have started (preserve from cache)
 
     for event_id, ev in game_events.items():
         event_name = ev.get("name", "")
@@ -227,10 +222,16 @@ def fetch_fanduel_nba_props(date_key=None):
 
         game_key = f"{away_team} @ {home_team}"
 
-        # If this game is already cached, skip it (game may have started/finished)
-        if game_key in cached_games:
-            skipped_games += 1
-            continue
+        # Check if game has started (openDate is UTC)
+        open_date_str = ev.get("openDate", "")
+        if open_date_str:
+            try:
+                open_dt = datetime.datetime.fromisoformat(open_date_str.replace("Z", "+00:00"))
+                if open_dt <= now_utc:
+                    started_games.add(game_key)
+                    continue
+            except (ValueError, AttributeError):
+                pass
 
         for tab in FD_PROP_TABS:
             tab_url = (
@@ -303,14 +304,20 @@ def fetch_fanduel_nba_props(date_key=None):
 
             time.sleep(0.2)  # Rate limit between tab requests
 
-    # Merge: keep existing cached lines + add new lines
-    all_props = existing_props + new_props
+    # Merge: keep cached props ONLY for started/finished games, fresh for everything else
+    kept_props = [p for p in existing_props
+                  if f"{p.get('event_away', '')} @ {p.get('event_home', '')}" in started_games
+                  # Also keep if game key matches using abbreviations
+                  or any(TEAM_NAME_TO_ABBR.get(sg.split(" @ ")[0], "") == p.get("event_away", "")
+                         and TEAM_NAME_TO_ABBR.get(sg.split(" @ ")[1], "") == p.get("event_home", "")
+                         for sg in started_games)]
+    all_props = kept_props + new_props
 
-    if skipped_games > 0:
-        print(f"  [fanduel] Kept {len(existing_props)} cached lines ({skipped_games} games already fetched)")
+    if started_games:
+        print(f"  [fanduel] Preserved {len(kept_props)} cached lines for {len(started_games)} started games")
     print(f"  [fanduel] Fetched {len(new_props)} new lines, {len(all_props)} total")
 
-    # Save merged result
+    # Save
     if all_props:
         _save_cache(all_props, cp)
 

@@ -750,7 +750,7 @@ def main(subject_label="[PY]"):
     # Try JS model's stats cache first
     enhanced_stats = None
     _scripts = os.path.dirname(os.path.abspath(__file__))
-    js_cache = os.path.join(_scripts, "..", "..", "NCAA", "data", "stats_cache", f"{date}.json")
+    js_cache = os.path.join(_scripts, "..", "..", "data", "stats_cache", "ncaab", f"{date}.json")
     if os.path.exists(js_cache):
         try:
             with open(js_cache, "r", encoding="utf-8") as _f:
@@ -763,6 +763,13 @@ def main(subject_label="[PY]"):
             enhanced_stats = None
     if not enhanced_stats:
         enhanced_stats = fetch_ncaa_stats_enhanced(date)
+        # Write to shared cache
+        try:
+            os.makedirs(os.path.dirname(js_cache), exist_ok=True)
+            with open(js_cache, "w", encoding="utf-8") as _f:
+                json.dump(enhanced_stats, _f)
+        except Exception:
+            pass
     odds = fetch_todays_odds()
 
     # Detect started/finished games via ESPN scoreboard
@@ -850,15 +857,7 @@ def main(subject_label="[PY]"):
     # Blend season + last 10 games for recent form
     stats = blend_base(enhanced_stats["season"], enhanced_stats.get("last10"), base_w.get("recentWeight", 0.35))
 
-    # Cache stats to disk
-    try:
-        scripts_dir = os.path.dirname(os.path.abspath(__file__))
-        cache_dir = os.path.join(scripts_dir, "..", "data", "stats_cache")
-        os.makedirs(cache_dir, exist_ok=True)
-        with open(os.path.join(cache_dir, f"{date}.json"), "w") as f:
-            json.dump(enhanced_stats, f)
-    except Exception:
-        pass
+    # Stats already cached in the read-or-fetch block above
 
     # 3. B2B rest + Kalman state
     print("[2/7] Applying B2B rest + Kalman filter...")

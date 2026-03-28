@@ -231,7 +231,7 @@ def fetch_snapshot_at(date_yyyymmdd, hour_utc):
 
 def fetch_historical_odds(date_yyyymmdd):
     # Check disk cache first
-    odds_cache_dir = Path(__file__).resolve().parent / ".." / "data" / "odds_cache"
+    odds_cache_dir = Path(__file__).resolve().parent / ".." / ".." / "data" / "odds_cache" / "ncaab"
     odds_cache_dir.mkdir(parents=True, exist_ok=True)
     cache_path = odds_cache_dir / f"{date_yyyymmdd}.json"
     if cache_path.exists():
@@ -342,9 +342,8 @@ def main():
 
     # Step 1: Stats cache (per-date when available, else live Barttorvik)
     scripts_dir = Path(__file__).resolve().parent
-    cache_dir = scripts_dir / ".." / "data" / "stats_cache"
+    cache_dir = scripts_dir / ".." / ".." / "data" / "stats_cache" / "ncaab"
     cache_dir.mkdir(parents=True, exist_ok=True)
-    js_cache_dir = scripts_dir / ".." / ".." / ".." / "NCAA" / "data" / "stats_cache"
 
     stats_cache = {}
     live_fetched = None
@@ -354,18 +353,17 @@ def main():
         if date_yyyymmdd in stats_cache:
             return stats_cache[date_yyyymmdd]
 
-        # Check own disk cache first, then JS NCAA cache
-        for cdir, label in [(cache_dir, "Python"), (js_cache_dir, "JS")]:
-            disk_path = cdir / f"{date_yyyymmdd}.json"
-            if disk_path.exists():
-                try:
-                    raw = json.loads(disk_path.read_text(encoding="utf-8"))
-                    enhanced = raw if "season" in raw else {"season": raw, "last10": None, "home": None, "away": None}
-                    stats_cache[date_yyyymmdd] = enhanced
-                    print(f"  [cache] Loaded stats from {label} cache for {date_yyyymmdd}")
-                    return enhanced
-                except Exception as e:
-                    print(f"  [cache] Failed to read {disk_path}: {e}")
+        # Check shared disk cache
+        disk_path = cache_dir / f"{date_yyyymmdd}.json"
+        if disk_path.exists():
+            try:
+                raw = json.loads(disk_path.read_text(encoding="utf-8"))
+                enhanced = raw if "season" in raw else {"season": raw, "last10": None, "home": None, "away": None}
+                stats_cache[date_yyyymmdd] = enhanced
+                print(f"  [cache] Loaded stats from cache for {date_yyyymmdd}")
+                return enhanced
+            except Exception as e:
+                print(f"  [cache] Failed to read {disk_path}: {e}")
 
         # No cache — fall back to live Barttorvik fetch
         if not live_fetched:

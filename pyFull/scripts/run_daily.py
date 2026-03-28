@@ -479,7 +479,7 @@ def main(subject_label="[PY]"):
     # Try shared stats cache first, then fetch via nba_api
     enhanced_stats = None
     _scripts_dir = os.path.dirname(os.path.abspath(__file__))
-    _shared_cache_dir = os.path.join(_scripts_dir, "..", "..", "cache", "py_nba_stats")
+    _shared_cache_dir = os.path.join(_scripts_dir, "..", "..", "data", "stats_cache", "nba")
     _cache_path = os.path.join(_shared_cache_dir, f"{date}.json")
     if os.path.exists(_cache_path):
         try:
@@ -526,6 +526,24 @@ def main(subject_label="[PY]"):
                     return True
         return False
 
+    # Merge + write injury cache: preserve report entries for started/finished teams
+    try:
+        _locked_teams = set()
+        for (_ea, _eh), _st in _espn_statuses.items():
+            if _st not in ("STATUS_SCHEDULED", "STATUS_DELAYED", "STATUS_POSTPONED", "STATUS_CANCELED", ""):
+                _locked_teams.add(_ea); _locked_teams.add(_eh)
+        _merged_report = dict(injury_data.get("report", {}))
+        if _locked_teams and _old_inj_report:
+            for _team, _entries in _old_inj_report.items():
+                if any(match_team(_team, lt) for lt in _locked_teams):
+                    _merged_report[_team] = _entries
+        _inj_to_write = {"injuryData": {**injury_data, "report": _merged_report}, "playerAdvanced": player_advanced, "h2hMatchups": h2h_matchups}
+        os.makedirs(_inj_cache_dir, exist_ok=True)
+        with open(_inj_cache, "w", encoding="utf-8") as _f:
+            json.dump(_inj_to_write, _f)
+    except Exception:
+        pass
+
     _prev_run = next((r for r in store.get("runs", []) if r.get("date") == date), None)
     _prev_games = {(g.get("away", ""), g.get("home", "")): g for g in (_prev_run or {}).get("games", [])} if _prev_run else {}
 
@@ -538,33 +556,25 @@ def main(subject_label="[PY]"):
     ats = fetch_ats_trends()
     ou = fetch_ou_trends()
     h2h_matchups = None
-    # Try own injury/h2h cache first
+    # Always fetch fresh injuries, merge with cache for started/finished games
     injury_data = None
     player_advanced = None
     _scripts = os.path.dirname(os.path.abspath(__file__))
-    _inj_cache = os.path.join(_scripts, "..", "..", "jsFull", "data", "injury_cache", f"{date}.json")
+    _inj_cache_dir = os.path.join(_scripts, "..", "..", "data", "injury_cache", "nba")
+    _inj_cache = os.path.join(_inj_cache_dir, f"{date}.json")
+    _old_inj_report = {}
     if os.path.exists(_inj_cache):
         try:
             with open(_inj_cache, "r", encoding="utf-8") as _f:
-                _cached = json.load(_f)
-            injury_data = _cached.get("injuryData", {"report": {}, "playerMPG": {}})
-            player_advanced = _cached.get("playerAdvanced", {})
-            h2h_matchups = _cached.get("h2hMatchups")
-            print(f"  [cache] Using cached injury/h2h for {date}")
-        except Exception:
-            injury_data = None
-    if injury_data is None:
-        import time as _time
-        _time.sleep(5)
-        try: injury_data = fetch_injury_data(None, season_type=season_type, espn_type=espn_type)
-        except Exception as e: print(f"  Warning: Injury fetch failed: {e}"); injury_data = {"report":{},"playerMPG":{}}
-        # Cache for reuse
-        os.makedirs(os.path.join(_scripts, "..", "..", "jsFull", "data", "injury_cache"), exist_ok=True)
-        try:
-            with open(_inj_cache, "w", encoding="utf-8") as _f:
-                json.dump({"injuryData": injury_data, "playerAdvanced": player_advanced, "h2hMatchups": h2h_matchups}, _f)
+                _old = json.load(_f)
+            _old_inj_report = (_old.get("injuryData") or {}).get("report", {})
+            h2h_matchups = _old.get("h2hMatchups")
         except Exception:
             pass
+    import time as _time
+    _time.sleep(5)
+    try: injury_data = fetch_injury_data(None, season_type=season_type, espn_type=espn_type)
+    except Exception as e: print(f"  Warning: Injury fetch failed: {e}"); injury_data = {"report":{},"playerMPG":{}}
     if player_advanced is None:
         import time as _time
         _time.sleep(5)
@@ -580,19 +590,14 @@ def main(subject_label="[PY]"):
     base_w_var = store.get("weightsVar") or defaults["DEFAULT_W_VAR"]
     stats = blend_base(enhanced_stats["season"], enhanced_stats.get("last10"), base_w.get("recentWeight", 0.35))
 
-    # Cache stats to disk
-    try:
-        cache_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "data", "stats_cache")
-        os.makedirs(cache_dir, exist_ok=True)
-        with open(os.path.join(cache_dir, date + ".json"), "w") as f: json.dump(enhanced_stats, f)
-    except Exception: pass
+    # Stats already cached in the read-or-fetch block above
 
     # 3. Lineup-adjusted stats + B2B rest + Kalman state
     print("[2/7] Applying lineup adjustments + B2B rest + Kalman filter...")
     # Load recent injury caches for returning-star detection
     recent_injury_dates = {}
     try:
-        inj_cache_dir = os.path.join(os.path.dirname(__file__), "..", "data", "injury_cache")
+        inj_cache_dir = os.path.join(os.path.dirname(__file__), "..", "..", "data", "injury_cache", "nba")
         if os.path.isdir(inj_cache_dir):
             cache_files = sorted(
                 [f for f in os.listdir(inj_cache_dir) if f.endswith(".json") and f < date + ".json"],

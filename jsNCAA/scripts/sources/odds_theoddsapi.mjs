@@ -9,7 +9,7 @@ import path from "path";
 import { fileURLToPath } from "url";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
-const ODDS_CACHE_DIR = path.join(__dirname, "..", "..", "data", "odds_cache");
+const ODDS_CACHE_DIR = path.join(__dirname, "..", "..", "..", "data", "odds_cache", "ncaab");
 
 const BASE = "https://api.the-odds-api.com/v4";
 const HISTORICAL_OFFSET_MS = 90 * 60 * 1000; // 1.5 hours before tip-off
@@ -174,11 +174,8 @@ export async function fetchTodaysOdds() {
       }).format(commence);
       if (d !== today) continue;
 
-      // Game already started — skip (run_daily preserves from previous run)
-      if (commence <= now) {
-        console.log(`  [odds] Game already started: ${away} @ ${home} — skipping`);
-        continue;
-      }
+      // Game already started — skip fetch, will backfill from cache
+      if (commence <= now) continue;
     }
 
     const game = extractOddsFromEvent(ev);
@@ -187,25 +184,39 @@ export async function fetchTodaysOdds() {
 
   console.log(`  [odds] Got ${games.length} NCAAB games with odds for today`);
 
-  // Cache today's odds in batch format so backfill can reuse
+  // Load existing cache
+  const dateKey = today.replace(/-/g, "");
+  const cachePath = path.join(ODDS_CACHE_DIR, dateKey + ".json");
+  let existing = {};
+  try {
+    if (fs.existsSync(cachePath)) {
+      existing = JSON.parse(fs.readFileSync(cachePath, "utf8"));
+    }
+  } catch {}
+
+  // Write fresh pre-game odds to cache
   if (games.length > 0) {
     try {
       if (!fs.existsSync(ODDS_CACHE_DIR)) fs.mkdirSync(ODDS_CACHE_DIR, { recursive: true });
-      const dateKey = today.replace(/-/g, "");
-      const cachePath = path.join(ODDS_CACHE_DIR, dateKey + ".json");
-      let existing = {};
-      if (fs.existsSync(cachePath)) {
-        try { existing = JSON.parse(fs.readFileSync(cachePath, "utf8")); } catch {}
-      }
       for (const g of games) {
         const key = `${g.away}@${g.home}`;
-        if (!existing[key] || existing[key].line == null) {
-          existing[key] = { line: g.line, total: g.total, _book: g._book, _note: "live fetch" };
-        }
+        existing[key] = { line: g.line, total: g.total, _book: g._book, _note: "live fetch" };
       }
       fs.writeFileSync(cachePath, JSON.stringify(existing, null, 2));
       console.log(`  [odds] Cached ${games.length} games to ${dateKey}.json`);
     } catch {}
+  }
+
+  // Backfill started/finished games from cache
+  const freshKeys = new Set(games.map(g => `${g.away}@${g.home}`));
+  for (const [key, val] of Object.entries(existing)) {
+    if (!freshKeys.has(key) && val.line != null) {
+      const [a, h] = key.split("@");
+      if (a && h) {
+        games.push({ away: a, home: h, line: val.line, total: val.total, _book: val._book });
+        console.log(`  [odds] Backfilled started/finished game from cache: ${key}`);
+      }
+    }
   }
 
   return games;

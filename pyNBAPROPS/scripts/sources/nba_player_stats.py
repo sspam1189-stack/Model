@@ -20,7 +20,7 @@ import json
 import time
 
 _dir = os.path.dirname(os.path.abspath(__file__))
-PLAYER_CACHE_DIR = os.path.join(_dir, "..", "..", "data", "player_cache")
+PLAYER_CACHE_DIR = os.path.join(_dir, "..", "..", "..", "data", "player_cache", "nba")
 
 import sys
 sys.path.insert(0, os.path.join(_dir, ".."))

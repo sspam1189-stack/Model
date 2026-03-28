@@ -42,11 +42,15 @@
 
       // ── Yesterday's Recap + Today's Picks ──
       (function renderNBADailyCards() {
+        // Use Chicago timezone to match how picks are dated
         const now = new Date();
-        const toISO = d => d.toISOString().slice(0, 10);
-        const todayStr = toISO(now);
-        const yest = new Date(now); yest.setDate(yest.getDate() - 1);
-        const yesterdayStr = toISO(yest);
+        const chicagoDate = new Intl.DateTimeFormat('en-CA', {
+          timeZone: 'America/Chicago', year: 'numeric', month: '2-digit', day: '2-digit'
+        }).format(now);
+        const todayStr = chicagoDate;  // "2026-03-27"
+        const yest = new Date(chicagoDate + 'T12:00:00');
+        yest.setDate(yest.getDate() - 1);
+        const yesterdayStr = yest.toISOString().slice(0, 10);
 
         // Yesterday's Recap
         const yesterdayPicks = picks.filter(p => p.date === yesterdayStr && p.result);

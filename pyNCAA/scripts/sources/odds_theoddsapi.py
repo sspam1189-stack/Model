@@ -223,14 +223,34 @@ def fetch_todays_odds():
             if d != today:
                 continue
 
-            # Game already started -- skip (run_daily preserves from previous run)
+            # Game already started — skip fetch, will backfill from cache
             if commence <= now:
-                print(f"  [odds] Game already started: {away} @ {home} -- skipping")
                 continue
 
         game = extract_odds_from_event(ev)
         if game:
             games.append(game)
+
+    # Backfill started/finished games from cache
+    date_key = today.replace("-", "")
+    cache_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "..", "..", "data", "odds_cache", "ncaab")
+    cache_path = os.path.join(cache_dir, date_key + ".json")
+    existing = {}
+    try:
+        if os.path.exists(cache_path):
+            with open(cache_path, "r") as f:
+                existing = json.load(f)
+    except Exception:
+        pass
+
+    fresh_keys = {f"{g['away']}@{g['home']}" for g in games}
+    for key, val in existing.items():
+        if key not in fresh_keys and val.get("line") is not None:
+            parts = key.split("@", 1)
+            if len(parts) == 2:
+                games.append({"away": parts[0], "home": parts[1], "line": val["line"],
+                              "total": val.get("total"), "_book": val.get("_book")})
+                print(f"  [odds] Backfilled started/finished game from cache: {key}")
 
     print(f"  [odds] Got {len(games)} NCAAB games with odds for today")
     return games

@@ -4,7 +4,7 @@ import requests
 import math
 
 _HERE = os.path.dirname(os.path.abspath(__file__))
-CACHE_DIR = os.path.normpath(os.path.join(_HERE, "..", "..", "..", "cache", "espn_nba"))
+CACHE_DIR = os.path.normpath(os.path.join(_HERE, "..", "..", "..", "data", "espn_cache", "nba"))
 
 
 def fetch_scoreboard(date_yyyymmdd=None):
@@ -12,8 +12,10 @@ def fetch_scoreboard(date_yyyymmdd=None):
     Uses ESPN's public JSON scoreboard endpoint.
     Example base: https://site.api.espn.com/apis/site/v2/sports/basketball/nba/scoreboard?dates=YYYYMMDD
     """
-    # Disk cache — shared across jsNBA/jsFull/pyNBA/pyFull
-    if date_yyyymmdd:
+    # Disk cache — shared across all NBA engines (skip for today — statuses change)
+    import datetime as _dt
+    _today = _dt.datetime.now(_dt.timezone.utc).strftime("%Y%m%d")
+    if date_yyyymmdd and date_yyyymmdd != _today:
         os.makedirs(CACHE_DIR, exist_ok=True)
         disk_path = os.path.join(CACHE_DIR, date_yyyymmdd + ".json")
         if os.path.exists(disk_path):

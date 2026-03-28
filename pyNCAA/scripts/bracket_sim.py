@@ -9,7 +9,7 @@ import sys
 SCRIPTS_DIR = os.path.dirname(os.path.abspath(__file__))
 DATA_DIR = os.path.join(SCRIPTS_DIR, "..", "data")
 
-stats_data = json.loads(open(os.path.join(DATA_DIR, "stats_cache", "20250317.json"), "r").read())
+stats_data = json.loads(open(os.path.join(SCRIPTS_DIR, "..", "..", "data", "stats_cache", "ncaab", "20250317.json"), "r").read())
 H = stats_data["season"]
 ks = json.loads(open(os.path.join(DATA_DIR, "kalman_state.json"), "r").read())
 

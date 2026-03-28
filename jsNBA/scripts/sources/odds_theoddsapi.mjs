@@ -9,7 +9,7 @@ import path from "path";
 import { fileURLToPath } from "url";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
-const ODDS_CACHE_DIR = path.join(__dirname, "..", "..", "data", "odds_cache");
+const ODDS_CACHE_DIR = path.join(__dirname, "..", "..", "..", "data", "odds_cache", "nba");
 
 const BASE = "https://api.the-odds-api.com/v4";
 
@@ -124,11 +124,8 @@ export async function fetchTodaysOdds() {
       }).format(commence);
       if (d !== today) continue;
 
-      // Game already started — skip (run_daily preserves from previous run)
-      if (commence <= now) {
-        console.log(`  [odds] Game already started: ${away} @ ${home} — skipping`);
-        continue;
-      }
+      // Game already started — skip fetch, will backfill from cache
+      if (commence <= now) continue;
     }
 
     const book = pickBestBookmaker(ev?.bookmakers);
@@ -139,7 +136,6 @@ export async function fetchTodaysOdds() {
     const spreads = book ? findMarket(book, "spreads") : null;
     const totals = book ? findMarket(book, "totals") : null;
 
-    // spreads: outcomes like [{name: team, point: -5.5}, ...]
     if (spreads?.outcomes?.length) {
       const out = spreads.outcomes.find((o) => Number.isFinite(Number(o?.point)));
       if (out) {
@@ -149,41 +145,47 @@ export async function fetchTodaysOdds() {
       }
     }
 
-    // totals: outcomes like [{name:"Over", point: 226.5}, {name:"Under", point:226.5}]
     if (totals?.outcomes?.length) {
       const out = totals.outcomes.find((o) => Number.isFinite(Number(o?.point)));
       if (out) total = Number(out.point);
     }
 
-    games.push({
-      away,
-      home,
-      line,
-      total,
-      _book: book?.title ?? null
-    });
+    games.push({ away, home, line, total, _book: book?.title ?? null });
   }
 
-  // Cache today's odds in batch format so backfill can reuse
+  // Load existing cache
+  const dateKey = today.replace(/-/g, "");
+  const cachePath = path.join(ODDS_CACHE_DIR, dateKey + ".json");
+  let existing = {};
+  try {
+    if (fs.existsSync(cachePath)) {
+      existing = JSON.parse(fs.readFileSync(cachePath, "utf8"));
+    }
+  } catch {}
+
+  // Write fresh pre-game odds to cache
   if (games.length > 0) {
     try {
       if (!fs.existsSync(ODDS_CACHE_DIR)) fs.mkdirSync(ODDS_CACHE_DIR, { recursive: true });
-      const dateKey = today.replace(/-/g, "");
-      const cachePath = path.join(ODDS_CACHE_DIR, dateKey + ".json");
-      // Merge with existing cache (don't overwrite games already cached)
-      let existing = {};
-      if (fs.existsSync(cachePath)) {
-        try { existing = JSON.parse(fs.readFileSync(cachePath, "utf8")); } catch {}
-      }
       for (const g of games) {
         const key = `${g.away}@${g.home}`;
-        if (!existing[key] || existing[key].line == null) {
-          existing[key] = { line: g.line, total: g.total, _book: g._book, _note: "live fetch" };
-        }
+        existing[key] = { line: g.line, total: g.total, _book: g._book, _note: "live fetch" };
       }
       fs.writeFileSync(cachePath, JSON.stringify(existing, null, 2));
       console.log(`  [odds] Cached ${games.length} games to ${dateKey}.json`);
     } catch {}
+  }
+
+  // Backfill started/finished games from cache
+  const freshKeys = new Set(games.map(g => `${g.away}@${g.home}`));
+  for (const [key, val] of Object.entries(existing)) {
+    if (!freshKeys.has(key) && val.line != null) {
+      const [a, h] = key.split("@");
+      if (a && h) {
+        games.push({ away: a, home: h, line: val.line, total: val.total, _book: val._book });
+        console.log(`  [odds] Backfilled started/finished game from cache: ${key}`);
+      }
+    }
   }
 
   return games;

@@ -38,8 +38,8 @@ import {
 import { blendBase } from "./sources/blend_stats.mjs";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
-const CACHE_DIR = path.join(__dirname, "..", "data", "stats_cache");
-const ODDS_CACHE_DIR = path.join(__dirname, "..", "data", "odds_cache");
+const CACHE_DIR = path.join(__dirname, "..", "..", "data", "stats_cache", "ncaab");
+const ODDS_CACHE_DIR = path.join(__dirname, "..", "..", "data", "odds_cache", "ncaab");
 
 // ── Date helpers ─────────────────────────────────────────────────────────
 

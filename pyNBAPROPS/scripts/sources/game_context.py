@@ -16,7 +16,7 @@ import requests
 import re
 
 _dir = os.path.dirname(os.path.abspath(__file__))
-_B2B_CACHE_DIR = os.path.join(_dir, "..", "..", "data", "b2b_cache")
+_B2B_CACHE_DIR = os.path.join(_dir, "..", "..", "..", "data", "b2b_cache", "nba")
 
 # ---------------------------------------------------------------------------
 # 1. Rest / Back-to-back detection

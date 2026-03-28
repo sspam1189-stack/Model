@@ -7,11 +7,12 @@ import path from "path";
 import { fileURLToPath } from "url";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
-const CACHE_DIR = path.resolve(__dirname, "..", "..", "..", "cache", "espn_nba");
+const CACHE_DIR = path.resolve(__dirname, "..", "..", "..", "data", "espn_cache", "nba");
 
 export async function fetchScoreboard(dateYYYYMMDD) {
-  // Disk cache — shared across jsNBA/jsFull/pyNBA/pyFull
-  if (dateYYYYMMDD) {
+  // Disk cache — shared across all NBA engines (skip for today — statuses change)
+  const _today = new Date().toISOString().slice(0, 10).replace(/-/g, "");
+  if (dateYYYYMMDD && dateYYYYMMDD !== _today) {
     if (!fs.existsSync(CACHE_DIR)) fs.mkdirSync(CACHE_DIR, { recursive: true });
     const diskPath = path.join(CACHE_DIR, dateYYYYMMDD + ".json");
     if (fs.existsSync(diskPath)) {

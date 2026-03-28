@@ -8,7 +8,7 @@ from urllib.parse import quote
 from datetime import datetime, timedelta
 
 _dir = os.path.dirname(os.path.abspath(__file__))
-ODDS_CACHE_DIR = os.path.join(_dir, "..", "..", "data", "odds_cache")
+ODDS_CACHE_DIR = os.path.join(_dir, "..", "..", "..", "data", "odds_cache", "nba")
 
 BASE = "https://api.the-odds-api.com/v4"
 

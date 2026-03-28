@@ -120,7 +120,7 @@ def fetch_odds_range(start_date, end_date=None, dry_run=False, delay=1.0):
     print(f"  Empty dates:    {empty_count}")
     if error_count:
         print(f"  Errors:         {error_count}")
-    print(f"  Cache dir: pyNBAPROPS/data/props_cache/")
+    print(f"  Cache dir: data/props_cache/nba/")
     print(f"{'='*60}\n")
 
 

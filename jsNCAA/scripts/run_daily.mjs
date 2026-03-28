@@ -1178,8 +1178,30 @@ async function main() {
 
   // 2. Fetch today's data (no injuries, no lineup adjust, no season type for NCAA v1)
   console.log("[1/7] Fetching stats, odds, trends...");
+
+  // Check shared stats cache before hitting Barttorvik
+  let _statsCameFromCache = false;
+  async function _cachedStats() {
+    try {
+      const { default: _fs } = await import("fs");
+      const { default: _path } = await import("path");
+      const { fileURLToPath: _toPath } = await import("url");
+      const _dir = _path.join(_path.dirname(_toPath(import.meta.url)), "..", "..", "data", "stats_cache", "ncaab");
+      const _fp = _path.join(_dir, date + ".json");
+      if (_fs.existsSync(_fp)) {
+        const _raw = JSON.parse(_fs.readFileSync(_fp, "utf8"));
+        if (_raw.season && Object.keys(_raw.season).length >= 100) {
+          console.log(`  [ncaa_stats] Using cached stats (${Object.keys(_raw.season).length} teams)`);
+          _statsCameFromCache = true;
+          return _raw;
+        }
+      }
+    } catch (_) { /* fall through */ }
+    return fetchNCAAStatsEnhanced(date);
+  }
+
   const [enhancedStats, rawOdds, ats, ou, b2bTeams] = await Promise.all([
-    fetchNCAAStatsEnhanced(date),
+    _cachedStats(),
     fetchTodaysOdds(),
     fetchATSTrends(),
     fetchOUTrends(),
@@ -1283,16 +1305,18 @@ async function main() {
   // Blend season + last 10 games for recent form
   const stats = blendBase(enhancedStats.season, enhancedStats.last10, baseW.recentWeight ?? 0.35);
 
-  // Cache stats to disk for recalculate.mjs (full enhanced set)
-  try {
-    const { fileURLToPath: toPath } = await import("url");
-    const { default: fsx } = await import("fs");
-    const { default: pathMod } = await import("path");
-    const scriptsDir = pathMod.dirname(toPath(import.meta.url));
-    const cacheDir = pathMod.join(scriptsDir, "..", "data", "stats_cache");
-    if (!fsx.existsSync(cacheDir)) fsx.mkdirSync(cacheDir, { recursive: true });
-    fsx.writeFileSync(pathMod.join(cacheDir, date + ".json"), JSON.stringify(enhancedStats));
-  } catch (e) { /* non-critical */ }
+  // Cache stats to disk (skip write if we read from cache)
+  if (!_statsCameFromCache) {
+    try {
+      const { fileURLToPath: toPath } = await import("url");
+      const { default: fsx } = await import("fs");
+      const { default: pathMod } = await import("path");
+      const scriptsDir = pathMod.dirname(toPath(import.meta.url));
+      const cacheDir = pathMod.join(scriptsDir, "..", "..", "data", "stats_cache", "ncaab");
+      if (!fsx.existsSync(cacheDir)) fsx.mkdirSync(cacheDir, { recursive: true });
+      fsx.writeFileSync(pathMod.join(cacheDir, date + ".json"), JSON.stringify(enhancedStats));
+    } catch (e) { /* non-critical */ }
+  }
 
   // 3. B2B rest + Kalman state (no lineup adjustment for NCAA)
   console.log("[2/7] Applying B2B rest + Kalman filter...");

@@ -19,7 +19,7 @@ import nfl_data_py as nfl
 # ---------------------------------------------------------------------------
 _SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 _DATA_DIR = os.path.normpath(os.path.join(_SCRIPT_DIR, "..", "..", "data"))
-_CACHE_DIR = os.path.join(_DATA_DIR, "cache")
+_CACHE_DIR = os.path.normpath(os.path.join(_SCRIPT_DIR, "..", "..", "..", "data", "stats_cache", "nfl"))
 
 # Columns we actually need from the massive PBP dataset (~370+ cols).
 # Pulling only what we use keeps memory manageable.

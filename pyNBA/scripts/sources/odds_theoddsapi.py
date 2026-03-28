@@ -12,7 +12,7 @@ from urllib.parse import quote
 from zoneinfo import ZoneInfo
 
 _dir = os.path.dirname(os.path.abspath(__file__))
-ODDS_CACHE_DIR = os.path.join(_dir, "..", "..", "data", "odds_cache")
+ODDS_CACHE_DIR = os.path.join(_dir, "..", "..", "..", "data", "odds_cache", "nba")
 
 from .odds_theoddsapi_historical import fetch_closing_odds_for_game
 from .espn_scoreboard import fetch_scoreboard
@@ -141,9 +141,8 @@ def fetch_todays_odds():
                 if d_chicago != today:
                     continue
 
-                # Game already started -- skip (run_daily preserves from previous run)
+                # Game already started — skip fetch, will backfill from cache
                 if commence <= now:
-                    print(f"  [odds] Game already started: {away} @ {home} -- skipping")
                     continue
 
         book = _pick_best_bookmaker(ev.get("bookmakers"))
@@ -182,27 +181,38 @@ def fetch_todays_odds():
             "_book": book.get("title") if book else None,
         })
 
-    # Cache today's odds in batch format so backfill can reuse
+    # Load existing cache
+    date_key = today.replace("-", "")
+    cache_path = os.path.join(ODDS_CACHE_DIR, date_key + ".json")
+    existing = {}
+    try:
+        if os.path.exists(cache_path):
+            with open(cache_path, "r") as f:
+                existing = json.load(f)
+    except Exception:
+        pass
+
+    # Write fresh pre-game odds to cache
     if games:
         try:
             os.makedirs(ODDS_CACHE_DIR, exist_ok=True)
-            date_key = today.replace("-", "")
-            cache_path = os.path.join(ODDS_CACHE_DIR, date_key + ".json")
-            existing = {}
-            if os.path.exists(cache_path):
-                try:
-                    with open(cache_path, "r") as f:
-                        existing = json.load(f)
-                except Exception:
-                    pass
             for g in games:
                 key = f"{g['away']}@{g['home']}"
-                if key not in existing or existing[key].get("line") is None:
-                    existing[key] = {"line": g["line"], "total": g["total"], "_book": g["_book"], "_note": "live fetch"}
+                existing[key] = {"line": g["line"], "total": g["total"], "_book": g["_book"], "_note": "live fetch"}
             with open(cache_path, "w") as f:
                 json.dump(existing, f, indent=2)
             print(f"  [odds] Cached {len(games)} games to {date_key}.json")
         except Exception:
             pass
+
+    # Backfill started/finished games from cache (so they still appear in output)
+    fresh_keys = {f"{g['away']}@{g['home']}" for g in games}
+    for key, val in existing.items():
+        if key not in fresh_keys and val.get("line") is not None:
+            parts = key.split("@", 1)
+            if len(parts) == 2:
+                games.append({"away": parts[0], "home": parts[1], "line": val["line"],
+                              "total": val.get("total"), "_book": val.get("_book")})
+                print(f"  [odds] Backfilled started/finished game from cache: {key}")
 
     return games

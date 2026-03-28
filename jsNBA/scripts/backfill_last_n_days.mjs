@@ -20,7 +20,7 @@ import path from "path";
 import { fileURLToPath } from "url";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
-const CACHE_DIR = path.join(__dirname, "..", "data", "stats_cache");
+const CACHE_DIR = path.join(__dirname, "..", "..", "data", "stats_cache", "nba");
 
 function sleep(ms) {
   return new Promise((r) => setTimeout(r, ms));

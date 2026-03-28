@@ -18,7 +18,7 @@ SPORT_KEY = "americanfootball_nfl"
 
 # --------------- disk cache helpers ---------------
 
-_CACHE_DIR = Path(__file__).resolve().parents[2] / "data" / "odds"
+_CACHE_DIR = Path(__file__).resolve().parents[3] / "data" / "odds_cache" / "nfl"
 
 
 def _cache_path(season, week):
@@ -577,7 +577,7 @@ _MARKET_MAP = {
     "player_interceptions": "interceptions",
 }
 
-_PROPS_CACHE_DIR = Path(__file__).resolve().parents[2] / "data" / "props"
+_PROPS_CACHE_DIR = Path(__file__).resolve().parents[3] / "data" / "props_cache" / "nfl"
 
 
 def _props_cache_path(season, week):

@@ -16,7 +16,7 @@ import re
 from zoneinfo import ZoneInfo
 
 _dir = os.path.dirname(os.path.abspath(__file__))
-INJURY_CACHE_DIR = os.path.join(_dir, "..", "..", "data", "injury_cache")
+INJURY_CACHE_DIR = os.path.join(_dir, "..", "..", "..", "data", "injury_cache", "nba")
 
 NBA_HEADERS = {
     "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36",

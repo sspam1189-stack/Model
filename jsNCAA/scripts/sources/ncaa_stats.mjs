@@ -12,6 +12,9 @@ import { execSync } from "child_process";
 import fs from "fs";
 import path from "path";
 import os from "os";
+import { fileURLToPath } from "url";
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 function currentSeasonYear() {
   const now = new Date();
@@ -115,7 +118,7 @@ function parseBarttovikData(data) {
 }
 
 // Local cache: store fetched data to avoid repeat Barttorvik requests.
-const CACHE_DIR = path.join(process.cwd(), "data");
+const CACHE_DIR = path.join(__dirname, "..", "..", "..", "data");
 const CACHE_FILE = path.join(CACHE_DIR, "barttorvik_cache.json");
 const CACHE_TTL_MS = 20 * 3600 * 1000; // 20 hours — stats update once/day
 

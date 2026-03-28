@@ -2,7 +2,10 @@
 // March Madness 2026 bracket simulation using full model stats + Kalman adjustments
 import fs from 'fs';
 
-const statsData = JSON.parse(fs.readFileSync('data/stats_cache/20260317.json', 'utf8'));
+import path from 'path';
+import { fileURLToPath } from 'url';
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+const statsData = JSON.parse(fs.readFileSync(path.join(__dirname, '..', '..', 'data', 'stats_cache', 'ncaab', '20260317.json'), 'utf8'));
 const H = statsData.season;
 const ks = JSON.parse(fs.readFileSync('data/kalman_state.json', 'utf8'));
 

@@ -52,7 +52,7 @@ _TEAM_ABBR = {
     "Utah": "UTA", "Washington": "WAS",
 }
 
-_PROPS_CACHE_DIR = Path(__file__).resolve().parents[2] / "data" / "props_cache"
+_PROPS_CACHE_DIR = Path(__file__).resolve().parents[3] / "data" / "props_cache" / "nba"
 
 
 def _props_cache_path(date_key):
@@ -149,15 +149,9 @@ def fetch_nba_player_props(date_key=None):
         now = datetime.datetime.now(ZoneInfo("America/Chicago"))
         date_key = now.strftime("%Y%m%d")
 
-    # Load existing cache for smart merge (keep lines for started/finished games)
+    # Load existing cache for started-game preservation
     cp = _props_cache_path(date_key)
     existing_props = _load_cache(cp, max_age_hours=None) or []
-
-    # Build set of games already cached
-    cached_games = set()
-    for p in existing_props:
-        game_key = f"{p.get('event_away', '')} @ {p.get('event_home', '')}"
-        cached_games.add(game_key)
 
     api_key = os.environ.get("ODDS_API_KEY")
     if not api_key:
@@ -178,9 +172,11 @@ def fetch_nba_player_props(date_key=None):
 
     print(f"  [nba_props] Found {len(events)} NBA events")
 
-    # Step 2: For each event, fetch prop odds (skip games already cached)
+    # Step 2: For each event, fetch prop odds
+    # Always fetch fresh for pre-game, skip started/finished games
+    now_utc = datetime.datetime.now(datetime.timezone.utc)
     new_props = []
-    skipped_games = 0
+    started_games = set()
     markets_str = ",".join(PROP_MARKETS_API)
 
     for ev in events:
@@ -188,10 +184,16 @@ def fetch_nba_player_props(date_key=None):
         home = _TEAM_ABBR.get(ev.get("home_team", ""), ev.get("home_team", ""))
         away = _TEAM_ABBR.get(ev.get("away_team", ""), ev.get("away_team", ""))
 
-        game_key = f"{away} @ {home}"
-        if game_key in cached_games:
-            skipped_games += 1
-            continue
+        # Check if game has started
+        commence_str = ev.get("commence_time", "")
+        if commence_str:
+            try:
+                commence = datetime.datetime.fromisoformat(commence_str.replace("Z", "+00:00"))
+                if commence <= now_utc:
+                    started_games.add(f"{away} @ {home}")
+                    continue
+            except (ValueError, AttributeError):
+                pass
 
         url = (
             f"{BASE}/sports/{SPORT_KEY}/events/{event_id}/odds?"
@@ -249,14 +251,16 @@ def fetch_nba_player_props(date_key=None):
 
         time.sleep(0.3)  # Rate limit
 
-    # Merge: keep existing cached lines + add new lines
-    all_props = existing_props + new_props
+    # Merge: keep cached props ONLY for started/finished games, fresh for everything else
+    kept_props = [p for p in existing_props
+                  if f"{p.get('event_away', '')} @ {p.get('event_home', '')}" in started_games]
+    all_props = kept_props + new_props
 
-    if skipped_games > 0:
-        print(f"  [nba_props] Kept {len(existing_props)} cached lines ({skipped_games} games already fetched)")
+    if started_games:
+        print(f"  [nba_props] Preserved {len(kept_props)} cached lines for {len(started_games)} started games")
     print(f"  [nba_props] Fetched {len(new_props)} new lines, {len(all_props)} total")
 
-    # Save merged result
+    # Save
     if all_props:
         _save_cache(all_props, cp)
 

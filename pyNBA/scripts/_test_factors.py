@@ -17,7 +17,7 @@ from kalman_state import initialize_kalman, apply_daily_drift, batch_update
 
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 DATA_DIR = os.path.join(SCRIPT_DIR, "..", "data")
-CACHE_DIR = os.path.join(DATA_DIR, "stats_cache")
+CACHE_DIR = os.path.join(SCRIPT_DIR, "..", "..", "data", "stats_cache", "nba")
 HISTORY_PATH = os.path.join(DATA_DIR, "history_pre_recalc_2026-03-15T15-00-39.json")
 KALMAN_PATH = os.path.join(DATA_DIR, "kalman_state.json")
 

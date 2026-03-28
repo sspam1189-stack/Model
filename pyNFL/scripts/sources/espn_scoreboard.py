@@ -13,7 +13,7 @@ ESPN_NFL_SCOREBOARD = "https://site.api.espn.com/apis/site/v2/sports/football/nf
 
 # --------------- disk cache helpers ---------------
 
-_CACHE_DIR = Path(__file__).resolve().parents[2] / "data" / "scores"
+_CACHE_DIR = Path(__file__).resolve().parents[3] / "data" / "espn_cache" / "nfl"
 
 
 def _cache_path(season, week, season_type=2):

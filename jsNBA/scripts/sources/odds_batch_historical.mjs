@@ -11,7 +11,7 @@ import path from "path";
 import { fileURLToPath } from "url";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
-const ODDS_CACHE_DIR = path.join(__dirname, "..", "..", "data", "odds_cache");
+const ODDS_CACHE_DIR = path.join(__dirname, "..", "..", "..", "data", "odds_cache", "nba");
 
 const BASE = "https://api.the-odds-api.com/v4";
 

@@ -8,12 +8,14 @@ import requests
 import math
 
 _HERE = os.path.dirname(os.path.abspath(__file__))
-CACHE_DIR = os.path.normpath(os.path.join(_HERE, "..", "..", "..", "cache", "espn_ncaa"))
+CACHE_DIR = os.path.normpath(os.path.join(_HERE, "..", "..", "..", "data", "espn_cache", "ncaab"))
 
 
 def fetch_scoreboard(date_yyyymmdd=None):
-    # Disk cache — shared across jsNCAA/pyNCAA
-    if date_yyyymmdd:
+    # Disk cache — shared across NCAA engines (skip for today — statuses change)
+    import datetime as _dt
+    _today = _dt.datetime.now(_dt.timezone.utc).strftime("%Y%m%d")
+    if date_yyyymmdd and date_yyyymmdd != _today:
         os.makedirs(CACHE_DIR, exist_ok=True)
         disk_path = os.path.join(CACHE_DIR, date_yyyymmdd + ".json")
         if os.path.exists(disk_path):

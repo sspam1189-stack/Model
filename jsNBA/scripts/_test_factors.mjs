@@ -14,7 +14,7 @@ import { initializeKalman, applyDailyDrift, batchUpdate } from './kalman_state.m
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const DATA_DIR = path.join(__dirname, '..', 'data');
-const CACHE_DIR = path.join(DATA_DIR, 'stats_cache');
+const CACHE_DIR = path.join(__dirname, '..', '..', 'data', 'stats_cache', 'nba');
 const HISTORY_PATH = path.join(DATA_DIR, 'history_pre_recalc_2026-03-15T15-00-39.json');
 const KALMAN_PATH = path.join(DATA_DIR, 'kalman_state.json');
 
