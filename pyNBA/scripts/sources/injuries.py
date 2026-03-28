@@ -442,3 +442,30 @@ def game_uncertainty_score(away_injuries, home_injuries):
         if inj.get("tier") == "star" and inj.get("status") == "doubtful":
             score += 1
     return min(score, 5)
+
+
+def fetch_out_for_season():
+    """
+    Fetch the ESPN league-wide injuries page and return a set of player names
+    whose fantasyStatus is "OFS" (Out For Season).
+    """
+    url = "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
+    try:
+        r = requests.get(url, headers={"User-Agent": "Mozilla/5.0", "Accept": "application/json"}, timeout=15)
+        if r.status_code != 200:
+            print("  [injuries] ESPN league-wide injuries fetch failed")
+            return set()
+        data = r.json()
+        ofs_players = set()
+        for team in data.get("injuries", []):
+            for inj in team.get("injuries", []):
+                abbr = (inj.get("details") or {}).get("fantasyStatus", {}).get("abbreviation", "")
+                if abbr == "OFS":
+                    name = (inj.get("athlete") or {}).get("displayName", "")
+                    if name:
+                        ofs_players.add(name)
+        print(f"  [injuries] Found {len(ofs_players)} out-for-season players from ESPN")
+        return ofs_players
+    except Exception as e:
+        print(f"  [injuries] OFS fetch error: {e}")
+        return set()

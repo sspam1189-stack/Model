@@ -20,7 +20,7 @@ from sources.blend_stats import blend_base, blend_for_game
 from sources.odds_theoddsapi import fetch_todays_odds
 from sources.espn_scoreboard import fetch_scoreboard, extract_final_scores
 from sources.teamrankings_trends import fetch_ats_trends, fetch_ou_trends
-from sources.injuries import fetch_injury_data, get_key_injuries
+from sources.injuries import fetch_injury_data, get_key_injuries, fetch_out_for_season
 from sources.lineup_adjust import fetch_player_advanced, adjust_team_stats
 from sources.rest_detect import detect_b2b, apply_b2b_adjustment
 from sources.season_type import get_season_type, get_espn_season_type
@@ -1079,7 +1079,14 @@ def main(subject_label="[PY]"):
     except Exception:
         pass
 
-    lineup_stats = adjust_team_stats(stats, injury_data.get("report", {}), injury_data.get("playerMPG", {}), player_advanced, odds, recent_injury_dates=recent_injury_dates)
+    # Fetch out-for-season players from ESPN league-wide injuries page
+    ofs_players = set()
+    try:
+        ofs_players = fetch_out_for_season()
+    except Exception:
+        pass
+
+    lineup_stats = adjust_team_stats(stats, injury_data.get("report", {}), injury_data.get("playerMPG", {}), player_advanced, odds, recent_injury_dates=recent_injury_dates, ofs_players=ofs_players)
     result = apply_b2b_adjustment(lineup_stats, b2b_teams, odds)
     adjusted_stats = result["adjusted"]
     b2b_notes = result.get("b2bNotes", {})

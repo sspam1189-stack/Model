@@ -15,7 +15,7 @@ import { blendBase, blendForGame } from "./sources/blend_stats.mjs";
 import { fetchTodaysOdds } from "./sources/odds_theoddsapi.mjs";
 import { fetchScoreboard, extractFinalScores } from "./sources/espn_scoreboard.mjs";
 import { fetchATSTrends, fetchOUTRends } from "./sources/teamrankings_trends.mjs";
-import { fetchInjuryData, getKeyInjuries } from "./sources/injuries.mjs";
+import { fetchInjuryData, getKeyInjuries, fetchOutForSeason } from "./sources/injuries.mjs";
 import { fetchPlayerAdvanced, adjustTeamStats } from "./sources/lineup_adjust.mjs";
 import { detectB2B, applyB2BAdjustment } from "./sources/rest_detect.mjs";
 import { getSeasonType, getESPNSeasonType } from "./sources/season_type.mjs";
@@ -1334,7 +1334,11 @@ async function main() {
     }
   } catch (e) { /* non-critical */ }
 
-  const lineupStats = adjustTeamStats(stats, injuryData.report, injuryData.playerMPG, playerAdvanced, odds, { recentInjuryDates });
+  // Fetch out-for-season players from ESPN league-wide injuries page
+  let ofsPlayers = new Set();
+  try { ofsPlayers = await fetchOutForSeason(); } catch (e) { /* non-critical */ }
+
+  const lineupStats = adjustTeamStats(stats, injuryData.report, injuryData.playerMPG, playerAdvanced, odds, { recentInjuryDates, ofsPlayers });
   const { adjusted: adjustedStats, b2bNotes } = applyB2BAdjustment(lineupStats, b2bTeams, odds);
   const a = getAvgs(adjustedStats); // league averages (used as fallback)
 

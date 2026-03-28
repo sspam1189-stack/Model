@@ -423,3 +423,37 @@ export function gameUncertaintyScore(awayInjuries, homeInjuries) {
   }
   return Math.min(score, 5);
 }
+
+// ── Out-for-season detection ────────────────────────────────────────────────
+// Fetches the ESPN league-wide injuries page and returns a Set of player names
+// whose fantasyStatus is "OFS" (Out For Season).
+export async function fetchOutForSeason() {
+  const url = "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries";
+  try {
+    const res = await fetch(url, {
+      headers: { "User-Agent": "Mozilla/5.0", Accept: "application/json" },
+    }).catch(() => null);
+    if (!res?.ok) {
+      console.warn("  [injuries] ESPN league-wide injuries fetch failed");
+      return new Set();
+    }
+    const data = await res.json().catch(() => null);
+    if (!data?.injuries) return new Set();
+
+    const ofsPlayers = new Set();
+    for (const team of data.injuries) {
+      for (const inj of team.injuries || []) {
+        const abbr = inj?.details?.fantasyStatus?.abbreviation;
+        if (abbr === "OFS") {
+          const name = inj?.athlete?.displayName;
+          if (name) ofsPlayers.add(name);
+        }
+      }
+    }
+    console.log(`  [injuries] Found ${ofsPlayers.size} out-for-season players from ESPN`);
+    return ofsPlayers;
+  } catch (e) {
+    console.warn(`  [injuries] OFS fetch error: ${e.message}`);
+    return new Set();
+  }
+}

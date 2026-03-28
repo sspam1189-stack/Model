@@ -180,7 +180,7 @@ function resolveTeamName(teamName, knownKeys) {
 // Returns: adjusted copy of teamStats (same shape). Teams not playing today or
 //          with no meaningful injuries pass through unchanged.
 
-export function adjustTeamStats(teamStats, injuryReport, playerMPG, playerAdv, todaysGames, { recentInjuryDates = null } = {}) {
+export function adjustTeamStats(teamStats, injuryReport, playerMPG, playerAdv, todaysGames, { recentInjuryDates = null, ofsPlayers = null } = {}) {
   if (!playerAdv || !Object.keys(playerAdv).length) {
 
     return teamStats;
@@ -228,18 +228,24 @@ export function adjustTeamStats(teamStats, injuryReport, playerMPG, playerAdv, t
 
     // ── Returning-star boost ────────────────────────────────────────────
     // When a high-minute player was recently OUT but is active tonight,
-    // the last-10 blend hasn't caught up yet — boost the team toward their
-    // "with star" level. Only triggers if the player appears as OUT in
-    // recent injury caches, so the boost naturally stops once the last-10
-    // window includes their games.
+    // boost the team by their value over league average, decaying 0.1/day.
     if (recentInjuryDates && Object.keys(recentInjuryDates).length) {
-      const teamGP = Math.max(...roster.map(r => r.gp));
       const MIN_MPG = 24;
       let totalBoostOFF = 0, totalBoostDEF = 0;
 
+      // Compute league averages from team stats
+      const allTeamVals = Object.values(teamStats).filter(t => t && typeof t === "object" && "OFF" in t);
+      const leagueAvgOFF = allTeamVals.reduce((s, t) => s + t.OFF, 0) / (allTeamVals.length || 1);
+      const leagueAvgDEF = allTeamVals.reduce((s, t) => s + t.DEF, 0) / (allTeamVals.length || 1);
+
+      // Today's date from the most recent cache key (YYYYMMDD)
+      const todayStr = Object.keys(recentInjuryDates).sort().pop();
+
+      // OFS set for season-ending detection
+      const _ofs = ofsPlayers || new Set();
+
       for (const p of roster) {
         if (p.min < MIN_MPG) continue;
-        // Must be active tonight (not in injury report)
         if (outPlayers.has(p.name)) continue;
         const lastName = p.name.split(" ").pop().toLowerCase();
         let isOut = false;
@@ -248,10 +254,14 @@ export function adjustTeamStats(teamStats, injuryReport, playerMPG, playerAdv, t
         }
         if (isOut) continue;
 
-        // Only boost if this player was OUT in recent injury caches.
-        // This means they just came back and the last-10 blend doesn't
-        // reflect their presence yet.
-        let recentOutCount = 0;
+        // Skip out-for-season players (from ESPN league-wide injuries)
+        if (_ofs.has(p.name) || [..._ofs].some(n => n.split(" ").pop().toLowerCase() === lastName)) {
+          console.log(`  [lineup] Skipping returning-star boost for ${p.name} — out for season (ESPN OFS)`);
+          continue;
+        }
+
+        // Find dates where this player was OUT in recent caches
+        const outDates = [];
         for (const [date, report] of Object.entries(recentInjuryDates)) {
           const teamInj = report[teamKey] ||
             report[Object.keys(report).find(k => resolveTeamName(k, [teamKey]))] || [];
@@ -259,44 +269,32 @@ export function adjustTeamStats(teamStats, injuryReport, playerMPG, playerAdv, t
             (inj.status === "out" || inj.status === "doubtful") &&
             (inj.player === p.name || inj.player?.split(" ").pop().toLowerCase() === lastName)
           );
-          if (wasOut) recentOutCount++;
+          if (wasOut) outDates.push(date);
         }
-        // Need at least 3 recent games missed to trigger — a 1-game rest or
-        // load management day doesn't dilute the last-10 blend meaningfully.
-        if (recentOutCount < 3) continue;
+        if (outDates.length < 3) continue;
 
-        const missedFrac = 1 - (p.gp / teamGP);
-        const gameShare = Math.min(p.min / 48, 1);
-        // Scale boost by how many recent games they missed (out of available caches)
-        // If they were out 3/5 recent games, apply 60% of the boost
-        const recentMissFrac = recentOutCount / Object.keys(recentInjuryDates).length;
+        // Decay: 0.1 per day since last OUT appearance
+        const lastOut = outDates.sort().pop();
+        const parseD = (s) => new Date(`${s.slice(0,4)}-${s.slice(4,6)}-${s.slice(6,8)}`);
+        const daysBack = Math.round((parseD(todayStr) - parseD(lastOut)) / 86400000);
+        const decay = Math.max(0, 1 - 0.1 * daysBack);
+        if (decay <= 0) continue;
 
-        // Compute roster avg without this player to get their true delta
-        const others = roster.filter(r => r.name !== p.name);
-        const othersMin = others.reduce((s, r) => s + r.min, 0);
-        if (othersMin <= 0) continue;
-        const othersOFF = others.reduce((s, r) => s + r.min * (r.offRtg || 0), 0) / othersMin;
-        const othersDEF = others.reduce((s, r) => s + r.min * (r.defRtg || 0), 0) / othersMin;
+        const offDelta = ((p.offRtg || 0) - leagueAvgOFF) * decay;
+        const defDelta = ((p.defRtg || 0) - leagueAvgDEF) * decay;
 
-        const offDelta = ((p.offRtg || 0) - othersOFF) * missedFrac * gameShare * recentMissFrac;
-        const defDelta = ((p.defRtg || 0) - othersDEF) * missedFrac * gameShare * recentMissFrac;
+        totalBoostOFF += offDelta;
+        totalBoostDEF += defDelta;
 
-        // Cap at ±3.0 pts per player
-        const capVal = (v) => Math.max(-3.0, Math.min(3.0, v));
-        totalBoostOFF += capVal(offDelta);
-        totalBoostDEF += capVal(defDelta);
-
-        console.log(`  [lineup] Returning-star boost: ${p.name} (${p.gp}/${teamGP} GP, out ${recentOutCount}/${Object.keys(recentInjuryDates).length} recent) → ${teamKey} OFF ${offDelta > 0 ? "+" : ""}${offDelta.toFixed(1)}, DEF ${defDelta > 0 ? "+" : ""}${defDelta.toFixed(1)}`);
+        console.log(`  [lineup] Returning-star boost: ${p.name} (offRtg ${(p.offRtg||0).toFixed(1)}, defRtg ${(p.defRtg||0).toFixed(1)}, ${daysBack}d back, decay ${decay.toFixed(1)}) → ${teamKey} OFF ${offDelta > 0 ? "+" : ""}${offDelta.toFixed(1)}, DEF ${defDelta > 0 ? "+" : ""}${defDelta.toFixed(1)}`);
       }
 
-      // Apply team-level cap (±4.0)
       if (totalBoostOFF !== 0 || totalBoostDEF !== 0) {
-        const teamCap = (v) => Math.max(-4.0, Math.min(4.0, v));
         const orig = adjusted[teamKey];
         adjusted[teamKey] = {
           ...orig,
-          OFF: Math.round((orig.OFF + teamCap(totalBoostOFF)) * 100) / 100,
-          DEF: Math.round((orig.DEF + teamCap(totalBoostDEF)) * 100) / 100,
+          OFF: Math.round((orig.OFF + totalBoostOFF) * 100) / 100,
+          DEF: Math.round((orig.DEF + totalBoostDEF) * 100) / 100,
         };
         adjustedCount++;
       }
