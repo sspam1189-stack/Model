@@ -99,9 +99,7 @@ def _find_market(bookmaker, key):
 
 
 def fetch_todays_odds():
-    api_key = os.environ.get("ODDS_API_KEY")
-    if not api_key:
-        raise Exception("Missing ODDS_API_KEY env var (The Odds API key).")
+    api_key = os.environ.get("ODDS_API_KEY", "6c5699682d30fc8664737160274f8d12")
 
     url = (
         f"{BASE}/sports/basketball_nba/odds?"

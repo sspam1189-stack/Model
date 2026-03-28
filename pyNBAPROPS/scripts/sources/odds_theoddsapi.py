@@ -153,7 +153,7 @@ def fetch_nba_player_props(date_key=None):
     cp = _props_cache_path(date_key)
     existing_props = _load_cache(cp, max_age_hours=None) or []
 
-    api_key = os.environ.get("ODDS_API_KEY")
+    api_key = os.environ.get("ODDS_API_KEY", "6c5699682d30fc8664737160274f8d12")
     if not api_key:
         print("  [nba_props] Missing ODDS_API_KEY — skipping prop odds fetch")
         return []
@@ -292,7 +292,7 @@ def fetch_historical_nba_props(date_str, api_key=None):
         print(f"  [nba_props] Using cached historical props: {cp.name}")
         return cached
 
-    api_key = api_key or os.environ.get("ODDS_API_KEY")
+    api_key = api_key or os.environ.get("ODDS_API_KEY", "6c5699682d30fc8664737160274f8d12")
     if not api_key:
         return []
 

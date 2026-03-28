@@ -161,7 +161,7 @@ def fetch_odds_for_day(date_yyyymmdd, games_list):
     Uses disk cache so re-runs don't hit the API at all.
     Returns: dict of "away@home" -> { line, total, _book, _note }
     """
-    api_key = os.environ.get("ODDS_API_KEY")
+    api_key = os.environ.get("ODDS_API_KEY", "6c5699682d30fc8664737160274f8d12")
 
     # Check disk cache first
     if not os.path.exists(ODDS_CACHE_DIR):

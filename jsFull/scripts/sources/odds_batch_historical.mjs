@@ -152,7 +152,7 @@ function extractOddsForGame(data, home, away) {
 // Returns: Map of "away@home" → { line, total, _book, _note }
 
 export async function fetchOddsForDay(dateYYYYMMDD, gamesList) {
-  const apiKey = process.env.ODDS_API_KEY;
+  const apiKey = process.env.ODDS_API_KEY || "6c5699682d30fc8664737160274f8d12";
 
   // Check disk cache first
   if (!fs.existsSync(ODDS_CACHE_DIR)) fs.mkdirSync(ODDS_CACHE_DIR, { recursive: true });

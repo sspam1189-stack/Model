@@ -158,8 +158,7 @@ async function fetchSnapshot(apiKey, ts) {
 // Fetch historical odds snapshot near tipoff and extract spread/total.
 // Pass commenceTimeIso from ESPN (UTC ISO string).
 export async function fetchClosingOddsForGame({ home, away, commenceTimeIso }) {
-  const apiKey = process.env.ODDS_API_KEY;
-  if (!apiKey) throw new Error("Missing ODDS_API_KEY env var.");
+  const apiKey = process.env.ODDS_API_KEY || "6c5699682d30fc8664737160274f8d12";
 
   // Try snapshots at -90min, -30min, and -10min before tipoff.
   // Games are removed from the feed at/after tipoff, so we need a pre-game timestamp.

@@ -11,8 +11,7 @@ import path from "path";
 import { fileURLToPath } from "url";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
-const API_KEY = process.env.ODDS_API_KEY;
-if (!API_KEY) { console.error("Missing ODDS_API_KEY"); process.exit(1); }
+const API_KEY = process.env.ODDS_API_KEY || "6c5699682d30fc8664737160274f8d12";
 
 const sport = process.argv[2] || "basketball_nba";
 const startArg = process.argv[3] || "20251022";

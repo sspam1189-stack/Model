@@ -174,9 +174,8 @@ def fetch_closing_odds_for_game(home, away, commence_time_iso):
     Fetch historical odds snapshot near tipoff and extract spread/total.
     Pass commence_time_iso from ESPN (UTC ISO string).
     """
-    api_key = os.environ.get("ODDS_API_KEY")
+    api_key = os.environ.get("ODDS_API_KEY", "6c5699682d30fc8664737160274f8d12")
     if not api_key:
-        raise Exception("Missing ODDS_API_KEY env var.")
 
     # Try snapshots at -90min, -30min, and -10min before tipoff.
     offsets = [-90, -30, -10]
