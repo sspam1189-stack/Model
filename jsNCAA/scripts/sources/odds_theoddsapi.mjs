@@ -138,7 +138,6 @@ async function fetchHistoricalOddsForGame(apiKey, eventId, commence) {
 
 export async function fetchTodaysOdds() {
   const apiKey = process.env.ODDS_API_KEY || "6c5699682d30fc8664737160274f8d12";
-  }
 
   const url =
     `${BASE}/sports/basketball_ncaab/odds?` +
