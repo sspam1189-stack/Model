@@ -4,9 +4,9 @@
   "season": "2025-26",
   "mode": "backfill",
   "model": "kalman_blend",
-  "generated": "2026-03-28T10:36:28.387761",
-  "totalProjections": 52275,
-  "totalPicks": 565,
+  "generated": "2026-03-28T12:21:48.392436",
+  "totalProjections": 1905,
+  "totalPicks": 570,
   "props": [
     {
       "player": "James Harden",
@@ -9047,7 +9047,78 @@
       "actual": 0.0,
       "result": "WIN",
       "date": "2026-03-13"
+    },
+    {
+      "player": "Naz Reid",
+      "team": "MIN",
+      "opp": "DET",
+      "market": "points",
+      "proj": 10.8,
+      "std": 4.0,
+      "line": 15.5,
+      "pick": "UNDER",
+      "edge": -4.7,
+      "pCover": 0.853,
+      "conf": "elite",
+      "date": "2026-03-28"
+    },
+    {
+      "player": "Kyle Anderson",
+      "team": "MIN",
+      "opp": "DET",
+      "market": "rebounds",
+      "proj": 2.6,
+      "std": 1.9,
+      "line": 4.5,
+      "pick": "UNDER",
+      "edge": -1.9,
+      "pCover": 0.813,
+      "conf": "high",
+      "date": "2026-03-28"
+    },
+    {
+      "player": "Daniss Jenkins",
+      "team": "DET",
+      "opp": "MIN",
+      "market": "assists",
+      "proj": 5.1,
+      "std": 3.0,
+      "line": 7.5,
+      "pick": "UNDER",
+      "edge": -2.4,
+      "pCover": 0.772,
+      "conf": "high",
+      "date": "2026-03-28"
+    },
+    {
+      "player": "Donte DiVincenzo",
+      "team": "MIN",
+      "opp": "DET",
+      "market": "points",
+      "proj": 9.0,
+      "std": 6.1,
+      "line": 13.5,
+      "pick": "UNDER",
+      "edge": -4.5,
+      "pCover": 0.754,
+      "conf": "high",
+      "date": "2026-03-28"
+    },
+    {
+      "player": "Grayson Allen",
+      "team": "PHX",
+      "opp": "UTA",
+      "market": "assists",
+      "proj": 5.5,
+      "std": 3.1,
+      "line": 3.5,
+      "pick": "OVER",
+      "edge": 2.0,
+      "pCover": 0.728,
+      "conf": "high",
+      "date": "2026-03-28"
     }
   ],
-  "summary": "564 graded picks for 2025-26: 360W-204L (63.8%) +135.6u"
+  "summary": "5 picks from 1905 projections",
+  "date": "2026-03-28"
 }
