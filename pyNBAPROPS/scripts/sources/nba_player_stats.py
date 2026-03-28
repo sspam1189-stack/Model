@@ -181,6 +181,66 @@ def fetch_player_advanced_stats(season=None, date_to=None):
     return result
 
 
+def fetch_player_per36_stats(season=None, date_to=None):
+    """
+    Fetch per-36-minute stats for all players via nba_api.
+    Returns: {player_id_str: {"PTS": float, "REB": float, "AST": float, ...}}
+    All values are per 36 minutes (NBA.com normalized).
+    """
+    from nba_api.stats.endpoints import leaguedashplayerstats
+
+    season = season or current_season()
+
+    cache_key = f"per36_{season}"
+    if date_to:
+        cache_key += f"_{str(date_to).replace('-', '')}"
+    cache_path = os.path.join(PLAYER_CACHE_DIR, f"{cache_key}.json")
+
+    if os.path.exists(cache_path):
+        age_h = (time.time() - os.path.getmtime(cache_path)) / 3600
+        if age_h < 6:
+            with open(cache_path, "r") as f:
+                cached = json.load(f)
+            print(f"  [per36] Using cache: {os.path.basename(cache_path)} ({len(cached)} players)")
+            return cached
+
+    date_to_fmt = _fmt_date_nba_api(date_to)
+
+    try:
+        stats = leaguedashplayerstats.LeagueDashPlayerStats(
+            season=season,
+            season_type_all_star="Regular Season",
+            per_mode_detailed="Per36",
+            date_to_nullable=date_to_fmt if date_to_fmt else None,
+            timeout=120,
+        )
+        df = stats.get_data_frames()[0]
+    except Exception as e:
+        print(f"  [per36] ERROR: {e}")
+        return {}
+
+    result = {}
+    for _, row in df.iterrows():
+        pid = row.get("PLAYER_ID")
+        gp = _si(row, "GP")
+        if pid is None or gp < 5:
+            continue
+        result[str(int(pid))] = {
+            "PTS":  _sf(row, "PTS"),
+            "REB":  _sf(row, "REB"),
+            "AST":  _sf(row, "AST"),
+            "FG3M": _sf(row, "FG3M"),
+            "STL":  _sf(row, "STL"),
+            "BLK":  _sf(row, "BLK"),
+            "TOV":  _sf(row, "TOV"),
+        }
+
+    if result:
+        _write_cache(cache_path, result)
+    print(f"  [per36] Fetched per-36 stats for {len(result)} players")
+    return result
+
+
 # ---------------------------------------------------------------------------
 # 3. Team defensive stats (for opponent adjustment)
 # ---------------------------------------------------------------------------
@@ -280,6 +340,122 @@ def fetch_team_def_stats(season=None, date_to=None):
 
     print(f"  [team_def] Fetched defense stats for {len(teams)} teams")
     return teams
+
+
+# ---------------------------------------------------------------------------
+# 4. Player positions (G/F/C) — one bulk call
+# ---------------------------------------------------------------------------
+
+def fetch_player_positions(season=None):
+    """
+    Fetch position for every player from PlayerIndex.
+    Returns: {player_id_int: "G"/"F"/"C"}
+    """
+    from nba_api.stats.endpoints import playerindex
+
+    season = season or current_season()
+    cache_path = os.path.join(PLAYER_CACHE_DIR, f"positions_{season}.json")
+
+    if os.path.exists(cache_path):
+        age_h = (time.time() - os.path.getmtime(cache_path)) / 3600
+        if age_h < 24:
+            with open(cache_path, "r") as f:
+                cached = json.load(f)
+            print(f"  [positions] Using cache: {os.path.basename(cache_path)} ({len(cached)} players)")
+            return {int(k): v for k, v in cached.items()}
+
+    try:
+        ep = playerindex.PlayerIndex(season=season, timeout=120)
+        df = ep.get_data_frames()[0]
+    except Exception as e:
+        print(f"  [positions] ERROR: {e}")
+        return {}
+
+    def _normalize_pos(raw):
+        raw = str(raw or "").upper().strip()
+        if raw in ("G", "G-F", "F-G"):
+            return "G"
+        if raw in ("F", "F-C"):
+            return "F"
+        if raw in ("C", "C-F"):
+            return "C"
+        # Fallback: first letter
+        if raw and raw[0] in ("G", "F", "C"):
+            return raw[0]
+        return "F"  # default
+
+    positions = {}
+    for _, row in df.iterrows():
+        pid = int(row.get("PERSON_ID", 0))
+        if pid:
+            positions[pid] = _normalize_pos(row.get("POSITION", ""))
+
+    if positions:
+        _write_cache(cache_path, positions)
+
+    print(f"  [positions] Fetched positions for {len(positions)} players")
+    return positions
+
+
+# ---------------------------------------------------------------------------
+# 5. Team defense stats by position (G/F/C)
+# ---------------------------------------------------------------------------
+
+def fetch_team_def_by_position(season=None, date_to=None):
+    """
+    Fetch opponent stats allowed broken down by position (G/F/C).
+    Returns: {team_abbr: {"G": {OPP_PTS, OPP_AST, ...}, "F": {...}, "C": {...}}}
+    """
+    from nba_api.stats.endpoints import leaguedashteamstats
+    from nba_api.stats.static import teams as nba_teams
+
+    season = season or current_season()
+    date_to_fmt = _fmt_date_nba_api(date_to)
+
+    cache_key = f"teamdef_bypos_{season}"
+    if date_to:
+        cache_key += f"_{str(date_to).replace('-', '')}"
+    cache_path = os.path.join(PLAYER_CACHE_DIR, f"{cache_key}.json")
+
+    if os.path.exists(cache_path):
+        age_h = (time.time() - os.path.getmtime(cache_path)) / 3600
+        if age_h < 6:
+            with open(cache_path, "r") as f:
+                cached = json.load(f)
+            print(f"  [team_def_pos] Using cache: {os.path.basename(cache_path)} ({len(cached)} teams)")
+            return cached
+
+    team_name_to_abbr = {t['full_name']: t['abbreviation'] for t in nba_teams.get_teams()}
+    result = {}
+    stat_keys = ["OPP_PTS", "OPP_REB", "OPP_AST", "OPP_FG3M", "OPP_TOV", "OPP_STL", "OPP_BLK"]
+
+    for pos in ("G", "F", "C"):
+        try:
+            ep = leaguedashteamstats.LeagueDashTeamStats(
+                season=season,
+                season_type_all_star="Regular Season",
+                measure_type_detailed_defense="Opponent",
+                per_mode_detailed="PerGame",
+                player_position_abbreviation_nullable=pos,
+                date_to_nullable=date_to_fmt if date_to_fmt else None,
+                timeout=120,
+            )
+            df = ep.get_data_frames()[0]
+            for _, row in df.iterrows():
+                team_name = str(row.get("TEAM_NAME") or "")
+                abbr = team_name_to_abbr.get(team_name, team_name[:3].upper())
+                if abbr not in result:
+                    result[abbr] = {}
+                result[abbr][pos] = {k: _sf(row, k) for k in stat_keys}
+        except Exception as e:
+            print(f"  [team_def_pos] ERROR fetching pos={pos}: {e}")
+        time.sleep(1)
+
+    if result:
+        _write_cache(cache_path, result)
+
+    print(f"  [team_def_pos] Fetched positional defense for {len(result)} teams")
+    return result
 
 
 # ---------------------------------------------------------------------------

@@ -28,7 +28,10 @@ import datetime
 sys.path.insert(0, os.path.dirname(__file__))
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..'))
 
-from sources.nba_player_stats import fetch_player_game_logs, fetch_team_def_stats, fetch_player_advanced_stats
+from sources.nba_player_stats import (
+    fetch_player_game_logs, fetch_team_def_stats, fetch_player_advanced_stats,
+    fetch_player_positions, fetch_team_def_by_position, fetch_player_per36_stats,
+)
 from sources.odds_fanduel import fetch_fanduel_nba_props
 from sources.odds_theoddsapi import fetch_nba_player_props
 from props_engine import organize_player_logs, project_player_props, format_props_for_dashboard
@@ -96,6 +99,13 @@ def run_daily(date_key=None):
     adv_stats = fetch_player_advanced_stats(season=season)
     print(f"  {len(adv_stats)} players with advanced stats")
 
+    # --- Stage 5b: Fetch player positions, positional defense, per-36 ---
+    print(f"\n  [5b/8] Fetching player positions, positional defense, per-36 stats...")
+    player_positions = fetch_player_positions(season=season)
+    team_def_by_pos = fetch_team_def_by_position(season=season)
+    player_per36 = fetch_player_per36_stats(season=season)
+    print(f"  {len(player_positions)} positions, {len(team_def_by_pos)} teams pos-def, {len(player_per36)} per-36")
+
     # --- Stage 6: Fetch prop lines (FanDuel primary, Odds API fallback) ---
     print(f"\n  [6/8] Fetching prop lines (FanDuel primary)...")
     prop_lines = fetch_fanduel_nba_props(date_key=date_key)
@@ -105,13 +115,16 @@ def run_daily(date_key=None):
     print(f"  {len(prop_lines)} prop lines fetched")
 
     # --- Stage 7: Project props ---
-    print(f"\n  [7/8] Projecting player props (Kalman + advanced stats)...")
+    print(f"\n  [7/8] Projecting player props (Kalman + positional defense)...")
     projections = project_player_props(
         player_logs,
         team_def_stats=team_def,
         prop_lines=prop_lines,
         kalman_state=kalman_state,
         player_adv_stats=adv_stats,
+        player_positions=player_positions,
+        team_def_by_pos=team_def_by_pos,
+        player_per36=player_per36,
     )
 
     picks = [p for p in projections if p["pick"] != "PASS"]
