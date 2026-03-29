@@ -624,7 +624,7 @@ def main(subject_label="[PY]"):
     # Fetch out-for-season players from ESPN league-wide injuries page
     ofs_players = set()
     try:
-        ofs_players = fetch_out_for_season()
+        ofs_players = fetch_out_for_season(injury_data.get("report", {}))
     except Exception:
         pass
 

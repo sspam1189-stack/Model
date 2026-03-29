@@ -444,12 +444,24 @@ def game_uncertainty_score(away_injuries, home_injuries):
     return min(score, 5)
 
 
-def fetch_out_for_season():
+def fetch_out_for_season(game_injury_report=None):
     """
     Fetch the ESPN league-wide injuries page and return a set of player names
-    whose fantasyStatus is "OFS" (Out For Season).
+    who are status=Out with a return date still in the future.
+    Players listed as questionable/DTD in today's per-game report are excluded.
     """
+    if game_injury_report is None:
+        game_injury_report = {}
     url = "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
+    today = datetime.datetime.now(ZoneInfo("America/New_York")).strftime("%Y-%m-%d")
+
+    # Build set of players listed as questionable/DTD in today's per-game report
+    game_dtd = set()
+    for players in game_injury_report.values():
+        for p in players:
+            if p.get("status") in ("questionable", "doubtful"):
+                game_dtd.add(p.get("player", ""))
+
     try:
         r = requests.get(url, headers={"User-Agent": "Mozilla/5.0", "Accept": "application/json"}, timeout=15)
         if r.status_code != 200:
@@ -459,12 +471,15 @@ def fetch_out_for_season():
         ofs_players = set()
         for team in data.get("injuries", []):
             for inj in team.get("injuries", []):
-                abbr = (inj.get("details") or {}).get("fantasyStatus", {}).get("abbreviation", "")
-                if abbr == "OFS":
+                status = (inj.get("status") or "").lower()
+                return_date = (inj.get("details") or {}).get("returnDate", "")
+                if status == "out" and return_date > today:
                     name = (inj.get("athlete") or {}).get("displayName", "")
-                    if name:
+                    if name and name not in game_dtd:
                         ofs_players.add(name)
-        print(f"  [injuries] Found {len(ofs_players)} out-for-season players from ESPN")
+        if game_dtd:
+            print(f"  [injuries] Excluded {len(game_dtd)} game-day DTD/questionable players from out list")
+        print(f"  [injuries] Found {len(ofs_players)} players still out (returnDate > {today})")
         return ofs_players
     except Exception as e:
         print(f"  [injuries] OFS fetch error: {e}")

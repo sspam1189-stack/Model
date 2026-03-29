@@ -1338,7 +1338,7 @@ async function main() {
 
   // Fetch out-for-season players from ESPN league-wide injuries page
   let ofsPlayers = new Set();
-  try { ofsPlayers = await fetchOutForSeason(); } catch (e) { /* non-critical */ }
+  try { ofsPlayers = await fetchOutForSeason(injuryData.report || {}); } catch (e) { /* non-critical */ }
 
   const lineupStats = adjustTeamStats(stats, injuryData.report, injuryData.playerMPG, playerAdvanced, odds, { recentInjuryDates, ofsPlayers });
   const { adjusted: adjustedStats, b2bNotes } = applyB2BAdjustment(lineupStats, b2bTeams, odds);

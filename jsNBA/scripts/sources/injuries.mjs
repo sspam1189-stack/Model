@@ -427,7 +427,7 @@ export function gameUncertaintyScore(awayInjuries, homeInjuries) {
 // ── Out-for-season detection ────────────────────────────────────────────────
 // Fetches the ESPN league-wide injuries page and returns a Set of player names
 // whose fantasyStatus is "OFS" (Out For Season).
-export async function fetchOutForSeason() {
+export async function fetchOutForSeason(gameInjuryReport = {}) {
   const url = "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries";
   try {
     const res = await fetch(url, {
@@ -440,17 +440,34 @@ export async function fetchOutForSeason() {
     const data = await res.json().catch(() => null);
     if (!data?.injuries) return new Set();
 
-    const ofsPlayers = new Set();
-    for (const team of data.injuries) {
-      for (const inj of team.injuries || []) {
-        const abbr = inj?.details?.fantasyStatus?.abbreviation;
-        if (abbr === "OFS") {
-          const name = inj?.athlete?.displayName;
-          if (name) ofsPlayers.add(name);
+    // Build set of players listed as questionable/DTD in today's per-game report
+    // These players are day-to-day, not truly out — don't flag them
+    const gameDTD = new Set();
+    for (const players of Object.values(gameInjuryReport)) {
+      for (const p of players) {
+        if (p.status === "questionable" || p.status === "doubtful") {
+          gameDTD.add(p.player);
         }
       }
     }
-    console.log(`  [injuries] Found ${ofsPlayers.size} out-for-season players from ESPN`);
+
+    const today = new Intl.DateTimeFormat("en-CA", { timeZone: "America/New_York" })
+      .format(new Date());  // YYYY-MM-DD
+    const ofsPlayers = new Set();
+    for (const team of data.injuries) {
+      for (const inj of team.injuries || []) {
+        const status = (inj?.status || "").toLowerCase();
+        const returnDate = inj?.details?.returnDate || "";
+        if (status === "out" && returnDate > today) {
+          const name = inj?.athlete?.displayName;
+          if (name && !gameDTD.has(name)) {
+            ofsPlayers.add(name);
+          }
+        }
+      }
+    }
+    if (gameDTD.size) console.log(`  [injuries] Excluded ${gameDTD.size} game-day DTD/questionable players from out list`);
+    console.log(`  [injuries] Found ${ofsPlayers.size} players still out (returnDate > ${today})`);
     return ofsPlayers;
   } catch (e) {
     console.warn(`  [injuries] OFS fetch error: ${e.message}`);

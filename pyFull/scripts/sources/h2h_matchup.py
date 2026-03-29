@@ -1,3 +1,4 @@
+import time
 import requests
 from urllib.parse import urlencode
 
@@ -26,7 +27,15 @@ def _fetch_season_game_logs(season=SEASON):
     }
 
     url = f"{GAME_LOG_URL}?{urlencode(params)}"
-    resp = requests.get(url, headers=NBA_HEADERS)
+    for attempt in range(3):
+        try:
+            resp = requests.get(url, headers=NBA_HEADERS, timeout=30)
+            break
+        except requests.exceptions.Timeout:
+            print(f"  [h2h] Timeout on attempt {attempt + 1}/3, retrying...")
+            time.sleep(3)
+    else:
+        raise Exception("NBA game log fetch timed out after 3 attempts")
     if resp.status_code != 200:
         raise Exception(f"NBA game log fetch failed: {resp.status_code}")
 
