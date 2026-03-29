@@ -1038,10 +1038,27 @@
 
         let trendsHtml = '';
         if (g.trends) {
-          trendsHtml = `<div class="trends-info">`;
-          if (g.trends.away && typeof g.trends.away === 'string') trendsHtml += `<div><b>${esc(g.away)}:</b> ${esc(g.trends.away)}</div>`;
-          if (g.trends.home && typeof g.trends.home === 'string') trendsHtml += `<div><b>${esc(g.home)}:</b> ${esc(g.trends.home)}</div>`;
-          trendsHtml += `</div>`;
+          function fmtTrend(t) {
+            if (!t) return '';
+            if (typeof t === 'string') return t;
+            if (typeof t === 'object') {
+              const parts = [];
+              if (t.atsPct != null) parts.push(`ATS ${t.atsPct.toFixed(0)}%`);
+              if (t.atsPlusMinus != null) parts.push(`ATS ${t.atsPlusMinus >= 0 ? '+' : ''}${t.atsPlusMinus.toFixed(1)}`);
+              if (t.overPct != null) parts.push(`O ${t.overPct.toFixed(0)}%`);
+              if (t.underPct != null) parts.push(`U ${t.underPct.toFixed(0)}%`);
+              return parts.join(' \u00b7 ') || '';
+            }
+            return '';
+          }
+          const awayTrend = fmtTrend(g.trends.away);
+          const homeTrend = fmtTrend(g.trends.home);
+          if (awayTrend || homeTrend) {
+            trendsHtml = `<div class="trends-info">`;
+            if (awayTrend) trendsHtml += `<div><b>${esc(g.away)}:</b> ${esc(awayTrend)}</div>`;
+            if (homeTrend) trendsHtml += `<div><b>${esc(g.home)}:</b> ${esc(homeTrend)}</div>`;
+            trendsHtml += `</div>`;
+          }
         }
 
         return `<div class="game-card">
