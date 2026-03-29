@@ -47,6 +47,12 @@ jobs:
           name: jsNBA-data
           path: jsNBA/data
 
+      - name: Upload shared injury cache
+        uses: actions/upload-artifact@v7
+        with:
+          name: shared-injury-cache
+          path: data/injury_cache/nba
+
   nba-fullseason:
     runs-on: self-hosted
     needs: nba
@@ -104,11 +110,18 @@ jobs:
           name: jsFull-data
           path: artifacts/jsFull
 
+      - uses: actions/download-artifact@v8
+        with:
+          name: shared-injury-cache
+          path: artifacts/injury-cache
+
       - name: Copy artifacts
         shell: bash
         run: |
           cp -a artifacts/jsNBA/. jsNBA/data/
           cp -a artifacts/jsFull/. jsFull/data/
+          mkdir -p data/injury_cache/nba
+          cp -a artifacts/injury-cache/. data/injury_cache/nba/
           cp jsNBA/data/history.json Dashboard/data/nba.json
           cp jsFull/data/history.json Dashboard/data/fullseason.json
 
@@ -117,7 +130,7 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add jsNBA/data/ jsFull/data/ Dashboard/data/nba.json Dashboard/data/fullseason.json
+          git add jsNBA/data/ jsFull/data/ data/injury_cache/nba/ Dashboard/data/nba.json Dashboard/data/fullseason.json
           git diff --cached --quiet || git commit -m "Run daily NBA + Fullseason"
           git pull --rebase origin main
           git push
