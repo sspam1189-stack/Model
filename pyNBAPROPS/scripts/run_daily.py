@@ -34,7 +34,7 @@ from sources.nba_player_stats import (
 )
 from sources.odds_fanduel import fetch_fanduel_nba_props
 from sources.odds_theoddsapi import fetch_nba_player_props
-from props_engine import organize_player_logs, project_player_props, format_props_for_dashboard
+from props_engine import organize_player_logs, project_player_props, format_props_for_dashboard, STAT_KEYS
 from player_kalman import (
     load_player_kalman_state, save_player_kalman_state,
     new_player_kalman_state, batch_update_from_game_logs,
@@ -45,6 +45,133 @@ from defaults import current_season
 # Path to persistent Kalman state
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 KALMAN_STATE_PATH = os.path.join(SCRIPT_DIR, "..", "data", "kalman_state.json")
+
+
+def grade_previous_picks(season=None):
+    """Grade ungraded picks from previous dates using actual game logs."""
+    from collections import defaultdict
+
+    output_paths = [
+        os.path.join(SCRIPT_DIR, "..", "data", "nba-props.json"),
+        os.path.join(SCRIPT_DIR, "..", "..", "PythonDashboard", "data", "nba-props.json"),
+    ]
+
+    # Load existing picks from first available path
+    existing = {}
+    source_path = None
+    for path in output_paths:
+        path = os.path.normpath(path)
+        if os.path.exists(path):
+            try:
+                with open(path, "r") as f:
+                    existing = json.load(f)
+                source_path = path
+                break
+            except Exception:
+                continue
+
+    if not existing:
+        print("  [grade] No existing props file found — skipping grading")
+        return
+
+    props = existing.get("props", [])
+    from zoneinfo import ZoneInfo
+    today = datetime.datetime.now(ZoneInfo("America/Chicago")).strftime("%Y-%m-%d")
+
+    # Find ungraded picks from previous dates
+    ungraded = [p for p in props if p.get("date") and p["date"] < today and not p.get("result")]
+    if not ungraded:
+        print("  [grade] No ungraded picks from previous dates")
+        return
+
+    # Get unique dates that need grading
+    dates_to_grade = sorted(set(p["date"] for p in ungraded))
+    print(f"  [grade] Found {len(ungraded)} ungraded picks from {', '.join(dates_to_grade)}")
+
+    # Fetch player game logs for the season
+    if season is None:
+        from defaults import current_season
+        season = current_season()
+    all_logs = fetch_player_game_logs(season=season)
+    if not all_logs:
+        print("  [grade] Could not fetch game logs — skipping grading")
+        return
+
+    # Index logs by (player_name, game_date) for fast lookup
+    logs_by_player_date = defaultdict(list)
+    for g in all_logs:
+        key = (g.get("player_name", ""), g.get("game_date", ""))
+        logs_by_player_date[key].append(g)
+
+    # Grade each pick
+    graded = 0
+    wins = 0
+    losses = 0
+    pushes = 0
+
+    for pick in props:
+        if pick.get("result") or not pick.get("date") or pick["date"] >= today:
+            continue
+
+        player = pick.get("player", "")
+        market = pick.get("market", "")
+        line = pick.get("line")
+        direction = pick.get("pick", "")
+
+        if line is None or direction not in ("OVER", "UNDER"):
+            continue
+
+        # Find actual stat
+        games = logs_by_player_date.get((player, pick["date"]), [])
+        if not games:
+            continue
+        game = games[0]
+
+        if market == "pts_rebs_asts":
+            actual = float(game.get("pts", 0)) + float(game.get("reb", 0)) + float(game.get("ast", 0))
+        else:
+            stat_key = STAT_KEYS.get(market)
+            if not stat_key:
+                continue
+            val = game.get(stat_key)
+            if val is None:
+                continue
+            actual = float(val)
+
+        pick["actual"] = round(actual, 1)
+
+        if actual == line:
+            pick["result"] = "PUSH"
+            pushes += 1
+        elif (direction == "OVER" and actual > line) or (direction == "UNDER" and actual < line):
+            pick["result"] = "WIN"
+            wins += 1
+        else:
+            pick["result"] = "LOSS"
+            losses += 1
+        graded += 1
+
+    if graded == 0:
+        print("  [grade] No picks could be matched to actual stats")
+        return
+
+    total = wins + losses
+    pct = wins / max(1, total) * 100
+    units = wins * 1.0 + losses * (-1.1)
+    print(f"  [grade] Graded {graded} picks: {wins}W-{losses}L ({pct:.1f}%) {'+' if units >= 0 else ''}{units:.1f}u"
+          + (f" + {pushes} pushes" if pushes else ""))
+
+    # Write back to all output paths
+    existing["props"] = props
+    for path in output_paths:
+        path = os.path.normpath(path)
+        if os.path.exists(os.path.dirname(path)):
+            try:
+                with open(path, "w") as f:
+                    json.dump(existing, f, indent=2)
+                print(f"  [grade] Updated {path}")
+            except Exception as e:
+                print(f"  [grade] Failed to write {path}: {e}")
 
 
 def run_daily(date_key=None):
@@ -64,6 +191,10 @@ def run_daily(date_key=None):
     print(f"  NBA PLAYER PROPS (Kalman) — {date_iso}")
     print(f"  Season: {season}")
     print(f"{'='*60}")
+
+    # --- Grade previous picks ---
+    print(f"\n  [0/8] Grading previous picks...")
+    grade_previous_picks(season)
 
     # --- Stage 1: Load Kalman state ---
     print(f"\n  [1/7] Loading Kalman state...")
