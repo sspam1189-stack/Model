@@ -60,6 +60,9 @@ jobs:
         run: git rebase --abort 2>/dev/null || true
 
       - uses: actions/checkout@v6
+        with:
+          ref: main
+          clean: true
 
       - name: Install dependencies
         run: pip install -r pyNFL/requirements.txt
@@ -131,6 +134,7 @@ jobs:
       - uses: actions/checkout@v6
         with:
           ref: main
+          clean: true
 
       - name: Pull latest
         run: git pull origin main

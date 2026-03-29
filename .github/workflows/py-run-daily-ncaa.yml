@@ -18,6 +18,9 @@ jobs:
         run: git rebase --abort 2>/dev/null || true
 
       - uses: actions/checkout@v6
+        with:
+          ref: main
+          clean: true
 
       - name: Clear bytecode cache
         run: find pyNCAA/scripts -name "__pycache__" -exec rm -rf {} + 2>/dev/null || true

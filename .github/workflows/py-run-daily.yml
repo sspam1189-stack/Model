@@ -67,7 +67,7 @@ jobs:
       - uses: actions/checkout@v6
         with:
           ref: main
-          clean: false
+          clean: true
 
       - name: Pull latest
         run: git pull origin main
@@ -108,7 +108,7 @@ jobs:
       - uses: actions/checkout@v6
         with:
           ref: main
-          clean: false
+          clean: true
 
       - name: Pull latest
         run: git pull origin main
