@@ -691,8 +691,8 @@ function renderGameCards(run) {
     let trendsHtml = '';
     if (g.trends) {
       trendsHtml = `<div class="trends-info">`;
-      if (g.trends.away) trendsHtml += `<div><b>${esc(g.away)}:</b> ${esc(g.trends.away)}</div>`;
-      if (g.trends.home) trendsHtml += `<div><b>${esc(g.home)}:</b> ${esc(g.trends.home)}</div>`;
+      if (g.trends.away && typeof g.trends.away === 'string') trendsHtml += `<div><b>${esc(g.away)}:</b> ${esc(g.trends.away)}</div>`;
+      if (g.trends.home && typeof g.trends.home === 'string') trendsHtml += `<div><b>${esc(g.home)}:</b> ${esc(g.trends.home)}</div>`;
       trendsHtml += `</div>`;
     }
 
