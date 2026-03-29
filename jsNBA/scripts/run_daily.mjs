@@ -1279,7 +1279,7 @@ async function main() {
       fsx.writeFileSync(pathMod.join(cacheDir, date + ".json"), JSON.stringify(enhancedStats));
     }
     // Cache injury + player data — preserve report entries for started/finished games
-    const injCacheDir = pathMod.join(scriptsDir, "..", "..", "data", "injury_cache", "nba");
+    const injCacheDir = pathMod.join(scriptsDir, "..", "..", "..", "data", "injury_cache", "nba");
     if (!fsx.existsSync(injCacheDir)) fsx.mkdirSync(injCacheDir, { recursive: true });
     const _injCachePath = pathMod.join(injCacheDir, date + ".json");
     let _injToWrite = { injuryData, playerAdvanced };
@@ -1319,7 +1319,7 @@ async function main() {
     const { fileURLToPath: toPath2 } = await import("url");
     const { default: fsx2 } = await import("fs");
     const { default: pathMod2 } = await import("path");
-    const cacheDir2 = pathMod2.join(pathMod2.dirname(toPath2(import.meta.url)), "..", "..", "data", "injury_cache", "nba");
+    const cacheDir2 = pathMod2.join(pathMod2.dirname(toPath2(import.meta.url)), "..", "..", "..", "data", "injury_cache", "nba");
     if (fsx2.existsSync(cacheDir2)) {
       const cacheFiles = fsx2.readdirSync(cacheDir2)
         .filter(f => f.endsWith(".json") && f < date + ".json") // only past dates
