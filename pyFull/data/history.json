@@ -71178,66 +71178,6 @@
           }
         },
         {
-          "away": "LA Clippers",
-          "home": "Milwaukee Bucks",
-          "line": 17.5,
-          "total": 219.5,
-          "_book": "FanDuel",
-          "aS": 131.8,
-          "hS": 102.4,
-          "pT": 234.2,
-          "margin": -11.9,
-          "sDiff": 11.9,
-          "tDiff": 11.1,
-          "sPick": "PASS",
-          "sConf": "low",
-          "oPick": "PASS",
-          "oConf": "low",
-          "injuryNote": "Home: Kyle Kuzma (out/starter), Ryan Rollins (out/star), Myles Turner (out/starter)",
-          "pHomeCover": 0.206,
-          "pAwayCover": 0.794,
-          "pOver": 0.767,
-          "pUnder": 0.233,
-          "pCover": null,
-          "pOU": null,
-          "marginVar": 210.5,
-          "marginStd": 14.5,
-          "_features": {
-            "dTS": -0.024900000000000033,
-            "dTO": -0.0247,
-            "dORR": -0.03187499999999999,
-            "dNET": -14.59499999999997,
-            "avgPace": 97.9621875
-          },
-          "_marginFeatures": {
-            "dTS": -0.025,
-            "dTO": 0.0248,
-            "dORR": -0.0319,
-            "dNET": -7.3136,
-            "hca": 1.0,
-            "_baseline": -7.3136,
-            "_pace": 1.0022
-          },
-          "h2hAdj": 0,
-          "h2hGames": 0,
-          "h2hRecord": null,
-          "h2hNote": null,
-          "_adjDeltas": {
-            "home": {
-              "OFF": -2.495,
-              "DEF": 1.33,
-              "TS": -0.0079,
-              "TO": -0.0541,
-              "ORR": -0.0051
-            }
-          },
-          "trends": {
-            "away": "ATS +/- 0.3 \u00b7 Over 50.0% \u00b7 Under 50.0% \u00b7 O/U +/- 2.2",
-            "home": "ATS +/- -3.8 \u00b7 Over 43.8% \u00b7 Under 56.2% \u00b7 O/U +/- 0.5"
-          },
-          "b2bNote": "Milwaukee Bucks: B2B: OFF -1.5, DEF +0.8"
-        },
-        {
           "away": "Miami Heat",
           "home": "Indiana Pacers",
           "line": 8.0,
@@ -71307,47 +71247,56 @@
           "away": "Houston Rockets",
           "home": "New Orleans Pelicans",
           "line": 6.0,
-          "total": 225.5,
+          "total": 226.5,
           "_book": "FanDuel",
-          "aS": 117.7,
-          "hS": 117.3,
-          "pT": 235.0,
-          "margin": 5.6,
-          "sDiff": 5.6,
-          "tDiff": 5.3,
+          "aS": 117.6,
+          "hS": 117.0,
+          "pT": 234.6,
+          "margin": 5.4,
+          "sDiff": 5.4,
+          "tDiff": 4.1,
           "sPick": "New Orleans Pelicans +6.0",
           "sConf": "elite",
           "oPick": "PASS",
           "oConf": "low",
-          "injuryNote": "Away: Steven Adams (out/starter) | Home: Bryce McGowens (out/starter)",
-          "pHomeCover": 0.652,
-          "pAwayCover": 0.348,
-          "pOver": 0.638,
-          "pUnder": 0.362,
-          "pCover": 0.652,
+          "injuryNote": "Away: Steven Adams (out/starter) | Home: Trey Murphy III (out/star), Bryce McGowens (out/starter)",
+          "pHomeCover": 0.647,
+          "pAwayCover": 0.353,
+          "pOver": 0.607,
+          "pUnder": 0.393,
+          "pCover": 0.647,
           "pOU": null,
-          "marginVar": 205.9,
-          "marginStd": 14.3,
+          "marginVar": 206.1,
+          "marginStd": 14.4,
           "_features": {
-            "dTS": 0.0034874999999999767,
-            "dTO": -0.0254625,
-            "dORR": -0.0662875,
-            "dNET": -3.362499999999983,
+            "dTS": -0.000787500000000052,
+            "dTO": 0.14636249999999998,
+            "dORR": -0.06422499999999998,
+            "dNET": -3.369999999999976,
             "avgPace": 98.90200000000002
           },
           "_marginFeatures": {
-            "dTS": 0.0035,
-            "dTO": 0.0258,
-            "dORR": -0.0671,
-            "dNET": -1.7011,
+            "dTS": -0.0008,
+            "dTO": -0.1481,
+            "dORR": -0.065,
+            "dNET": -1.7049,
             "hca": 1.0,
-            "_baseline": -1.7011,
+            "_baseline": -1.7049,
             "_pace": 1.0118
           },
           "h2hAdj": 0,
           "h2hGames": 0,
           "h2hRecord": null,
           "h2hNote": null,
+          "_adjDeltas": {
+            "home": {
+              "OFF": -0.21,
+              "DEF": -0.2,
+              "TS": -0.0057,
+              "TO": 0.2291,
+              "ORR": 0.0027
+            }
+          },
           "trends": {
             "away": "ATS +/- -2.2 \u00b7 Over 44.4% \u00b7 Under 55.6% \u00b7 O/U +/- -0.6",
             "home": "ATS +/- 0.9 \u00b7 Over 49.3% \u00b7 Under 50.7% \u00b7 O/U +/- -0.4"
@@ -71443,7 +71392,7 @@
           "pUnder": 0.563,
           "pCover": null,
           "pOU": null,
-          "marginVar": 206.4,
+          "marginVar": 206.6,
           "marginStd": 14.4,
           "_features": {
             "dTS": 0.03749999999999998,
@@ -71549,42 +71498,42 @@
         {
           "away": "New York Knicks",
           "home": "Oklahoma City Thunder",
-          "line": -8.5,
+          "line": -8.0,
           "total": 223.5,
           "_book": "FanDuel",
-          "aS": 107.8,
-          "hS": 118.2,
-          "pT": 226.0,
-          "margin": 1.9,
-          "sDiff": 1.9,
-          "tDiff": 4.7,
-          "sPick": "PASS",
-          "sConf": "low",
+          "aS": 114.9,
+          "hS": 112.4,
+          "pT": 227.3,
+          "margin": -10.5,
+          "sDiff": 10.5,
+          "tDiff": 5.4,
+          "sPick": "New York Knicks +8.0",
+          "sConf": "elite",
           "oPick": "PASS",
           "oConf": "low",
-          "injuryNote": "Away: Miles McBride (out/star), Landry Shamet (out/starter)",
-          "pHomeCover": 0.552,
-          "pAwayCover": 0.448,
-          "pOver": 0.622,
-          "pUnder": 0.378,
-          "pCover": null,
+          "injuryNote": "Away: Landry Shamet (out/starter)",
+          "pHomeCover": 0.232,
+          "pAwayCover": 0.768,
+          "pOver": 0.64,
+          "pUnder": 0.36,
+          "pCover": 0.768,
           "pOU": null,
-          "marginVar": 207.7,
+          "marginVar": 205.9,
           "marginStd": 14.4,
           "_features": {
-            "dTS": 0.0033375000000001043,
-            "dTO": -0.6183624999999999,
-            "dORR": -0.07073750000000001,
-            "dNET": 4.953750000000014,
+            "dTS": 0.0037875000000000547,
+            "dTO": -0.12088750000000001,
+            "dORR": -0.06706250000000002,
+            "dNET": -1.4812499999999744,
             "avgPace": 98.87125
           },
           "_marginFeatures": {
-            "dTS": 0.0034,
-            "dTO": 0.6255,
-            "dORR": -0.0716,
-            "dNET": 2.5054,
+            "dTS": 0.0038,
+            "dTO": 0.1223,
+            "dORR": -0.0678,
+            "dNET": -0.7491,
             "hca": 1.0,
-            "_baseline": 2.5054,
+            "_baseline": -0.7491,
             "_pace": 1.0115
           },
           "h2hAdj": 0,
@@ -71593,11 +71542,11 @@
           "h2hNote": null,
           "_adjDeltas": {
             "away": {
-              "OFF": -0.03,
-              "DEF": 0.28,
-              "TS": 0.002,
-              "TO": 0.797,
-              "ORR": 0.0067
+              "OFF": 5.21,
+              "DEF": -3.06,
+              "TS": 0.0014,
+              "TO": 0.1336,
+              "ORR": 0.0018
             }
           },
           "trends": {
@@ -71663,10 +71612,72 @@
             "away": "ATS +/- -1.1 \u00b7 Over 54.8% \u00b7 Under 45.2% \u00b7 O/U +/- 2.3",
             "home": "ATS +/- 0.2 \u00b7 Over 38.4% \u00b7 Under 61.6% \u00b7 O/U +/- -2.5"
           }
+        },
+        {
+          "away": "LA Clippers",
+          "home": "Milwaukee Bucks",
+          "line": 17.5,
+          "total": 219.5,
+          "_book": "FanDuel",
+          "aS": 131.8,
+          "hS": 102.4,
+          "pT": 234.2,
+          "margin": -11.9,
+          "sDiff": 11.9,
+          "tDiff": 11.1,
+          "sPick": "PASS",
+          "sConf": "low",
+          "oPick": "PASS",
+          "oConf": "low",
+          "injuryNote": "Home: Kyle Kuzma (out/starter), Ryan Rollins (out/star), Myles Turner (out/starter)",
+          "pHomeCover": 0.206,
+          "pAwayCover": 0.794,
+          "pOver": 0.767,
+          "pUnder": 0.233,
+          "pCover": null,
+          "pOU": null,
+          "marginVar": 210.5,
+          "marginStd": 14.5,
+          "_features": {
+            "dTS": -0.024900000000000033,
+            "dTO": -0.0247,
+            "dORR": -0.03187499999999999,
+            "dNET": -14.59499999999997,
+            "avgPace": 97.9621875
+          },
+          "_marginFeatures": {
+            "dTS": -0.025,
+            "dTO": 0.0248,
+            "dORR": -0.0319,
+            "dNET": -7.3136,
+            "hca": 1.0,
+            "_baseline": -7.3136,
+            "_pace": 1.0022
+          },
+          "h2hAdj": 0,
+          "h2hGames": 0,
+          "h2hRecord": null,
+          "h2hNote": null,
+          "_adjDeltas": {
+            "home": {
+              "OFF": -2.495,
+              "DEF": 1.33,
+              "TS": -0.0079,
+              "TO": -0.0541,
+              "ORR": -0.0051
+            }
+          },
+          "trends": {
+            "away": "ATS +/- 0.3 \u00b7 Over 50.7% \u00b7 Under 49.3% \u00b7 O/U +/- 2.4",
+            "home": "ATS +/- -3.7 \u00b7 Over 44.6% \u00b7 Under 55.4% \u00b7 O/U +/- 0.8"
+          },
+          "b2bNote": "Milwaukee Bucks: B2B: OFF -1.5, DEF +0.8",
+          "awayScore": 127.0,
+          "homeScore": 113.0
         }
       ],
       "summaryText": "RECORD (graded picks only)\n\nSPREAD (ATS)\n  All:         309-179-0   (63.3%)   [graded 488]\n  Elite:       309-179-0   (63.3%)   [graded 488]\n\nFAV/DOG (Spread)\n  Favorites:   151-100-0   (60.2%)   [graded 251]\n  Underdogs:   158-79-0   (66.7%)   [graded 237]\n\nTOTAL (O/U)\n  All:         0-0-0   (n/a%)   [graded 0]\n  Elite:       0-0-0   (n/a%)   [graded 0]\n\nOVER/UNDER\n  Over:        0-0-0   (n/a%)   [graded 0]\n  Under:       0-0-0   (n/a%)   [graded 0]",
-      "ranAt": "03/29/2026, 02:53:45 PM"
+      "ranAt": "03/29/2026, 06:04:25 PM"
     }
   ],
   "weightsVar": {
@@ -71677,6 +71688,6 @@
     "hca": 0.21,
     "constant": 4.0
   },
-  "residualVar": 190.8,
+  "residualVar": 190.9,
   "lastTuneDate": "20260329"
 }
