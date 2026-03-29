@@ -303,9 +303,36 @@ def adjust_team_stats(team_stats, injury_report, player_mpg, player_adv, todays_
         if not out_players:
             continue
 
+        # Only deduct for NEWLY out players. If a player has been out for many
+        # recent games, the team's blended stats already reflect their absence.
+        long_term_out = set()
+        if recent_injury_dates and len(recent_injury_dates) >= 5:
+            for out_name in out_players:
+                last_name = out_name.split(" ")[-1].lower()
+                dates_out = 0
+                for report in recent_injury_dates.values():
+                    team_inj = report.get(team_key) or []
+                    if not team_inj:
+                        resolved = _resolve_team_name(team_key, list(report.keys()))
+                        if resolved:
+                            team_inj = report.get(resolved, [])
+                    was_out = any(
+                        inj.get("status") in ("out", "doubtful")
+                        and (inj.get("player") == out_name or inj.get("player", "").split(" ")[-1].lower() == last_name)
+                        for inj in team_inj
+                    )
+                    if was_out:
+                        dates_out += 1
+                if dates_out >= 5:
+                    long_term_out.add(out_name)
+            if long_term_out:
+                print(f"  [lineup] Skipping deduction for {len(long_term_out)} long-term out players on {team_key} (already in team stats)")
+
         # Match out players to roster using exact + fuzzy name matching
         roster_out = set()
         for out_name in out_players:
+            if out_name in long_term_out:
+                continue  # skip long-term absences
             # Exact match
             found = next((r for r in roster if r["name"] == out_name), None)
             # Last-name fallback

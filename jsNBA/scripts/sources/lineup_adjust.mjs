@@ -304,11 +304,36 @@ export function adjustTeamStats(teamStats, injuryReport, playerMPG, playerAdv, t
     }
 
     // ── Injury-out adjustment ───────────────────────────────────────────
+    // Only deduct for NEWLY out players. If a player has been out for many
+    // recent games, the team's blended stats already reflect their absence.
     if (!outPlayers.size) continue;
+
+    // Build set of players who were already out in recent caches (long-term)
+    const longTermOut = new Set();
+    if (recentInjuryDates && Object.keys(recentInjuryDates).length >= 5) {
+      for (const outName of outPlayers) {
+        const lastName = outName.split(" ").pop().toLowerCase();
+        let datesOut = 0;
+        for (const report of Object.values(recentInjuryDates)) {
+          const teamInj = report[teamKey] ||
+            report[Object.keys(report).find(k => resolveTeamName(k, [teamKey]))] || [];
+          const wasOut = teamInj.some(inj =>
+            (inj.status === "out" || inj.status === "doubtful") &&
+            (inj.player === outName || inj.player?.split(" ").pop().toLowerCase() === lastName)
+          );
+          if (wasOut) datesOut++;
+        }
+        if (datesOut >= 5) longTermOut.add(outName);
+      }
+      if (longTermOut.size) {
+        console.log(`  [lineup] Skipping deduction for ${longTermOut.size} long-term out players on ${teamKey} (already in team stats)`);
+      }
+    }
 
     // Match out players to roster using exact + fuzzy name matching
     const rosterOut = new Set();
     for (const outName of outPlayers) {
+      if (longTermOut.has(outName)) continue; // skip long-term absences
       // Exact match
       let found = roster.find(r => r.name === outName);
       // Last-name fallback (same as injuries.mjs)
