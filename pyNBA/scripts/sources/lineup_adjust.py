@@ -256,10 +256,9 @@ def adjust_team_stats(team_stats, injury_report, player_mpg, player_adv, todays_
                     continue
 
                 # Skip out-for-season players (from ESPN league-wide injuries)
-                if p["name"] in _ofs or any(
-                    _real_last_name(n) == last_name for n in _ofs
-                ):
-                    print(f"  [lineup] Skipping returning-star boost for {p['name']} — out for season (ESPN OFS)")
+                # Exact name match only — last-name fuzzy causes false positives
+                if p["name"] in _ofs:
+                    print(f"  [lineup] Skipping returning-star boost for {p['name']} — still out (ESPN returnDate > today)")
                     continue
 
                 # Find dates where this player was OUT in recent caches

@@ -266,8 +266,9 @@ export function adjustTeamStats(teamStats, injuryReport, playerMPG, playerAdv, t
         if (isOut) continue;
 
         // Skip out-for-season players (from ESPN league-wide injuries)
-        if (_ofs.has(p.name) || [..._ofs].some(n => realLastName(n) === lastName)) {
-          console.log(`  [lineup] Skipping returning-star boost for ${p.name} — out for season (ESPN OFS)`);
+        // Exact name match only — last-name fuzzy causes false positives (e.g. Jamal Murray ≠ Keegan Murray)
+        if (_ofs.has(p.name)) {
+          console.log(`  [lineup] Skipping returning-star boost for ${p.name} — still out (ESPN returnDate > today)`);
           continue;
         }
 
