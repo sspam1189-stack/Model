@@ -54,10 +54,24 @@ export async function fetchFanDuelNBAOdds() {
   const events = attachments.events || {};
   const markets = attachments.markets || {};
 
+  const today = todayChicago();
   const games = [];
   for (const [eid, ev] of Object.entries(events)) {
     const name = ev.name || "";
     if (!name.includes("@")) continue;
+
+    // Filter to today's games only (Chicago time)
+    const openDate = ev.openDate || "";
+    if (openDate) {
+      try {
+        const dt = new Date(openDate);
+        const gameDate = new Intl.DateTimeFormat("en-CA", {
+          timeZone: "America/Chicago",
+          year: "numeric", month: "2-digit", day: "2-digit",
+        }).format(dt);
+        if (gameDate !== today) continue;
+      } catch (e) { /* ignore parse errors */ }
+    }
 
     const parts = name.split(" @ ");
     if (parts.length !== 2) continue;

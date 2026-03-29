@@ -68,11 +68,23 @@ def fetch_fanduel_nba_odds():
     events = attachments.get("events", {})
     markets = attachments.get("markets", {})
 
+    today = _today_chicago()
     games = []
     for eid, ev in events.items():
         name = ev.get("name", "")
         if "@" not in name:
             continue
+
+        # Filter to today's games only (Chicago time)
+        open_date = ev.get("openDate", "")
+        if open_date:
+            try:
+                dt = datetime.datetime.fromisoformat(open_date.replace("Z", "+00:00"))
+                game_date = dt.astimezone(ZoneInfo("America/Chicago")).strftime("%Y-%m-%d")
+                if game_date != today:
+                    continue
+            except (ValueError, TypeError):
+                pass
 
         parts = name.split(" @ ", 1)
         if len(parts) != 2:
