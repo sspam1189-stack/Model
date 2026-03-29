@@ -140,6 +140,16 @@ def _norm_key(s):
     return s.strip()
 
 
+_NAME_SUFFIXES = {"jr.", "jr", "sr.", "sr", "ii", "iii", "iv", "v"}
+
+def _real_last_name(full_name):
+    parts = str(full_name or "").split(" ")
+    for i in range(len(parts) - 1, 0, -1):
+        if parts[i].lower() not in _NAME_SUFFIXES:
+            return parts[i].lower()
+    return parts[-1].lower()
+
+
 def _resolve_team_name(team_name, known_keys):
     """Match a team name from injury report / odds to the stats object key."""
     if not team_name:
@@ -238,16 +248,16 @@ def adjust_team_stats(team_stats, injury_report, player_mpg, player_adv, todays_
                 # Must be active tonight
                 if p["name"] in out_players:
                     continue
-                last_name = p["name"].split(" ")[-1].lower()
+                last_name = _real_last_name(p["name"])
                 is_out = any(
-                    on.split(" ")[-1].lower() == last_name for on in out_players
+                    _real_last_name(on) == last_name for on in out_players
                 )
                 if is_out:
                     continue
 
                 # Skip out-for-season players (from ESPN league-wide injuries)
                 if p["name"] in _ofs or any(
-                    n.split(" ")[-1].lower() == last_name for n in _ofs
+                    _real_last_name(n) == last_name for n in _ofs
                 ):
                     print(f"  [lineup] Skipping returning-star boost for {p['name']} — out for season (ESPN OFS)")
                     continue
@@ -262,7 +272,7 @@ def adjust_team_stats(team_stats, injury_report, player_mpg, player_adv, todays_
                     was_out = any(
                         inj.get("status") in ("out", "doubtful")
                         and (inj.get("player") == p["name"]
-                             or (inj.get("player") or "").split(" ")[-1].lower() == last_name)
+                             or _real_last_name(inj.get("player", "")) == last_name)
                         for inj in team_inj
                     )
                     if was_out:
@@ -308,7 +318,7 @@ def adjust_team_stats(team_stats, injury_report, player_mpg, player_adv, todays_
         long_term_out = set()
         if recent_injury_dates and len(recent_injury_dates) >= 5:
             for out_name in out_players:
-                last_name = out_name.split(" ")[-1].lower()
+                last_name = _real_last_name(out_name)
                 dates_out = 0
                 for report in recent_injury_dates.values():
                     team_inj = report.get(team_key) or []
@@ -318,7 +328,7 @@ def adjust_team_stats(team_stats, injury_report, player_mpg, player_adv, todays_
                             team_inj = report.get(resolved, [])
                     was_out = any(
                         inj.get("status") in ("out", "doubtful")
-                        and (inj.get("player") == out_name or inj.get("player", "").split(" ")[-1].lower() == last_name)
+                        and (inj.get("player") == out_name or _real_last_name(inj.get("player", "")) == last_name)
                         for inj in team_inj
                     )
                     if was_out:
@@ -337,9 +347,9 @@ def adjust_team_stats(team_stats, injury_report, player_mpg, player_adv, todays_
             found = next((r for r in roster if r["name"] == out_name), None)
             # Last-name fallback
             if not found:
-                last_name = out_name.split(" ")[-1].lower()
+                last_name = _real_last_name(out_name)
                 found = next(
-                    (r for r in roster if r["name"].split(" ")[-1].lower() == last_name),
+                    (r for r in roster if _real_last_name(r["name"]) == last_name),
                     None,
                 )
             if found:

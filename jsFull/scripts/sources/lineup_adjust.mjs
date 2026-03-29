@@ -147,6 +147,17 @@ export async function fetchPlayerAdvanced({ seasonType = "Regular Season" } = {}
 }
 
 
+// ── Name helpers ───────────────────────────────────────────────────────────
+
+const NAME_SUFFIXES = new Set(["jr.", "jr", "sr.", "sr", "ii", "iii", "iv", "v"]);
+function realLastName(fullName) {
+  const parts = String(fullName || "").split(" ");
+  for (let i = parts.length - 1; i >= 1; i--) {
+    if (!NAME_SUFFIXES.has(parts[i].toLowerCase())) return parts[i].toLowerCase();
+  }
+  return parts[parts.length - 1].toLowerCase();
+}
+
 // ── Team name matching ──────────────────────────────────────────────────────
 
 function normKey(s) {
@@ -247,15 +258,15 @@ export function adjustTeamStats(teamStats, injuryReport, playerMPG, playerAdv, t
       for (const p of roster) {
         if (p.min < MIN_MPG) continue;
         if (outPlayers.has(p.name)) continue;
-        const lastName = p.name.split(" ").pop().toLowerCase();
+        const lastName = realLastName(p.name);
         let isOut = false;
         for (const outN of outPlayers) {
-          if (outN.split(" ").pop().toLowerCase() === lastName) { isOut = true; break; }
+          if (realLastName(outN) === lastName) { isOut = true; break; }
         }
         if (isOut) continue;
 
         // Skip out-for-season players (from ESPN league-wide injuries)
-        if (_ofs.has(p.name) || [..._ofs].some(n => n.split(" ").pop().toLowerCase() === lastName)) {
+        if (_ofs.has(p.name) || [..._ofs].some(n => realLastName(n) === lastName)) {
           console.log(`  [lineup] Skipping returning-star boost for ${p.name} — out for season (ESPN OFS)`);
           continue;
         }
@@ -267,7 +278,7 @@ export function adjustTeamStats(teamStats, injuryReport, playerMPG, playerAdv, t
             report[Object.keys(report).find(k => resolveTeamName(k, [teamKey]))] || [];
           const wasOut = teamInj.some(inj =>
             (inj.status === "out" || inj.status === "doubtful") &&
-            (inj.player === p.name || inj.player?.split(" ").pop().toLowerCase() === lastName)
+            (inj.player === p.name || realLastName(inj.player) === lastName)
           );
           if (wasOut) outDates.push(date);
         }
@@ -309,14 +320,14 @@ export function adjustTeamStats(teamStats, injuryReport, playerMPG, playerAdv, t
     const longTermOut = new Set();
     if (recentInjuryDates && Object.keys(recentInjuryDates).length >= 5) {
       for (const outName of outPlayers) {
-        const lastName = outName.split(" ").pop().toLowerCase();
+        const lastName = realLastName(outName);
         let datesOut = 0;
         for (const report of Object.values(recentInjuryDates)) {
           const teamInj = report[teamKey] ||
             report[Object.keys(report).find(k => resolveTeamName(k, [teamKey]))] || [];
           const wasOut = teamInj.some(inj =>
             (inj.status === "out" || inj.status === "doubtful") &&
-            (inj.player === outName || inj.player?.split(" ").pop().toLowerCase() === lastName)
+            (inj.player === outName || realLastName(inj.player) === lastName)
           );
           if (wasOut) datesOut++;
         }
@@ -336,9 +347,9 @@ export function adjustTeamStats(teamStats, injuryReport, playerMPG, playerAdv, t
       let found = roster.find(r => r.name === outName);
       // Last-name fallback (same as injuries.mjs)
       if (!found) {
-        const lastName = outName.split(" ").pop().toLowerCase();
+        const lastName = realLastName(outName);
         found = roster.find(r =>
-          r.name.split(" ").pop().toLowerCase() === lastName
+          realLastName(r.name) === lastName
         );
       }
       if (found) rosterOut.add(found.name);
