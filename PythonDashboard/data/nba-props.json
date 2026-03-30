@@ -4,9 +4,9 @@
   "season": "2025-26",
   "mode": "backfill",
   "model": "kalman_blend",
-  "generated": "2026-03-30T15:37:57.737171",
-  "totalProjections": 84000,
-  "totalPicks": 620,
+  "generated": "2026-03-30T15:55:19.360857",
+  "totalProjections": 1930,
+  "totalPicks": 621,
   "props": [
     {
       "player": "James Harden",
@@ -9849,16 +9849,30 @@
       "result": "WIN"
     },
     {
+      "player": "James Harden",
+      "team": "CLE",
+      "opp": "UTA",
+      "market": "pts_rebs_asts",
+      "proj": 42.8,
+      "std": 7.3,
+      "line": 34.5,
+      "pick": "OVER",
+      "edge": 8.3,
+      "pCover": 0.846,
+      "conf": "high",
+      "date": "2026-03-30"
+    },
+    {
       "player": "Daniss Jenkins",
       "team": "DET",
       "opp": "OKC",
       "market": "pts_rebs_asts",
-      "proj": 17.2,
+      "proj": 16.8,
       "std": 10.0,
       "line": 26.5,
       "pick": "UNDER",
-      "edge": -9.3,
-      "pCover": 0.802,
+      "edge": -9.7,
+      "pCover": 0.812,
       "conf": "high",
       "date": "2026-03-30"
     },
@@ -9867,12 +9881,12 @@
       "team": "MEM",
       "opp": "PHX",
       "market": "points",
-      "proj": 13.2,
+      "proj": 12.9,
       "std": 5.0,
       "line": 17.5,
       "pick": "UNDER",
-      "edge": -4.3,
-      "pCover": 0.787,
+      "edge": -4.6,
+      "pCover": 0.801,
       "conf": "high",
       "date": "2026-03-30"
     },
@@ -9881,12 +9895,12 @@
       "team": "DET",
       "opp": "OKC",
       "market": "points",
-      "proj": 9.7,
+      "proj": 9.4,
       "std": 8.0,
       "line": 16.5,
       "pick": "UNDER",
-      "edge": -6.8,
-      "pCover": 0.784,
+      "edge": -7.1,
+      "pCover": 0.793,
       "conf": "high",
       "date": "2026-03-30"
     },
@@ -9919,5 +9933,6 @@
       "date": "2026-03-30"
     }
   ],
-  "summary": "602 graded picks for 2025-26: 384W-218L (63.8%) +144.2u"
+  "summary": "6 picks from 1930 projections",
+  "date": "2026-03-30"
 }
