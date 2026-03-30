@@ -107,6 +107,7 @@ export function createSelfTune(options = {}) {
       console.log(`  [self_tune] Bayesian update on ${nBayes} games ->` +
         ` wTS=${W.wTS} (var=${W_var.wTS.toFixed(3)})` +
         ` wTO=${W.wTO} (var=${W_var.wTO.toFixed(3)})` +
+        ` wORR=${W.wORR} (var=${W_var.wORR.toFixed(3)})` +
         ` wDEF=${W.wDEF} (var=${W_var.wDEF.toFixed(3)})` +
         ` hca=${W.hca} (var=${W_var.hca.toFixed(3)})`
       );

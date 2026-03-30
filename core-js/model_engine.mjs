@@ -469,7 +469,7 @@ export function createModelEngine(options = {}) {
       const favLineCap = bayesCfg.spread.favLineCap;
       const lineOK = favLineCap != null ? (pickedSideIsDog ? true : absLine <= favLineCap) : true;
 
-      const sDiffOK = bayesCfg.spread.useSDiff ? (sDiff <= bayesCfg.spread.sDiffCap) : true;
+      const sDiffOK = (bayesCfg.spread.useSDiff && bayesCfg.spread.sDiffCap != null) ? (sDiff <= bayesCfg.spread.sDiffCap) : true;
       const absLineOK = lineCapOk(absLine, bayesCfg.spread.absLineCap, bayesCfg.spread.absLineCapInclusive);
       const nonZeroOK = bayesCfg.spread.requireLineNonZero ? absLine > 0 : true;
 

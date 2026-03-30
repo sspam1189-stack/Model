@@ -1344,9 +1344,6 @@ async function main() {
   }
   batchUpdate(kalmanState, newlyGraded);
 
-  // Apply drift AFTER learning — account for time passing to today
-  applyDailyDrift(kalmanState, date);
-
   // 3b. Self-tune weights (with recency weighting, matching backfill logic)
   function _recencyWeight(daysAgo) {
     if (daysAgo <= 15) return 1.0;
@@ -1382,6 +1379,9 @@ async function main() {
   } else if (store.lastTuneDate === date) {
     console.log("[3b] Weights already tuned today — skipping");
   }
+
+  // Apply drift AFTER learning + tuning (matches backfill order)
+  applyDailyDrift(kalmanState, date);
 
   // 3c. Compute dynamic residualVar from historical prediction errors
   const dynamicResidualVar = computeResidualVar(store.runs || []);

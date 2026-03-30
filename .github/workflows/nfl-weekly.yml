@@ -105,13 +105,15 @@ jobs:
         shell: bash
         run: |
           cp -a artifacts/pyNFL/. pyNFL/data/
+          cp -f pyNFL/data/nfl.json PythonDashboard/data/nfl.json 2>/dev/null || true
+          cp -f pyNFL/data/nfl-props.json PythonDashboard/data/nfl-props.json 2>/dev/null || true
 
       - name: Commit & push data changes
         shell: bash
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add pyNFL/data/
+          git add pyNFL/data/ PythonDashboard/data/nfl.json PythonDashboard/data/nfl-props.json
           git diff --cached --quiet || git commit -m "Run weekly NFL pipeline [skip ci]"
           git pull --rebase origin main
           git push
@@ -178,13 +180,15 @@ jobs:
         shell: bash
         run: |
           cp -a artifacts/pyNFL/. pyNFL/data/
+          cp -f pyNFL/data/nfl.json PythonDashboard/data/nfl.json 2>/dev/null || true
+          cp -f pyNFL/data/nfl-props.json PythonDashboard/data/nfl-props.json 2>/dev/null || true
 
       - name: Commit & push graded results
         shell: bash
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add pyNFL/data/
+          git add pyNFL/data/ PythonDashboard/data/nfl.json PythonDashboard/data/nfl-props.json
           git diff --cached --quiet || git commit -m "Grade NFL weekly picks [skip ci]"
           git pull --rebase origin main
           git push

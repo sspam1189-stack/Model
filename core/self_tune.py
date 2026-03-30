@@ -154,6 +154,7 @@ def tune_weights(current_w, current_w_var, completed_rows):
         print(f"  [self_tune] Bayesian update on {n_bayes} games ->"
               f" wTS={W['wTS']} (v={W_var['wTS']:.3f})"
               f" wTO={W['wTO']} (v={W_var['wTO']:.3f})"
+              f" wORR={W['wORR']} (v={W_var['wORR']:.3f})"
               f" wDEF={W['wDEF']} (v={W_var['wDEF']:.3f})"
               f" hca={W['hca']} (v={W_var['hca']:.3f})")
 

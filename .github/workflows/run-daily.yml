@@ -53,6 +53,24 @@ jobs:
           name: shared-injury-cache
           path: data/injury_cache/nba
 
+      - name: Upload shared odds cache
+        uses: actions/upload-artifact@v7
+        with:
+          name: shared-odds-cache
+          path: data/odds_cache/nba
+
+      - name: Upload shared stats cache
+        uses: actions/upload-artifact@v7
+        with:
+          name: shared-stats-cache
+          path: data/stats_cache/nba
+
+      - name: Upload shared ESPN cache
+        uses: actions/upload-artifact@v7
+        with:
+          name: shared-espn-cache
+          path: data/espn_cache/nba
+
   nba-fullseason:
     runs-on: self-hosted
     needs: nba
@@ -116,6 +134,21 @@ jobs:
           name: shared-injury-cache
           path: artifacts/injury-cache
 
+      - uses: actions/download-artifact@v8
+        with:
+          name: shared-odds-cache
+          path: artifacts/odds-cache
+
+      - uses: actions/download-artifact@v8
+        with:
+          name: shared-stats-cache
+          path: artifacts/stats-cache
+
+      - uses: actions/download-artifact@v8
+        with:
+          name: shared-espn-cache
+          path: artifacts/espn-cache
+
       - name: Copy artifacts
         shell: bash
         run: |
@@ -123,6 +156,12 @@ jobs:
           cp -a artifacts/jsFull/. jsFull/data/
           mkdir -p data/injury_cache/nba
           cp -a artifacts/injury-cache/. data/injury_cache/nba/
+          mkdir -p data/odds_cache/nba
+          cp -a artifacts/odds-cache/. data/odds_cache/nba/
+          mkdir -p data/stats_cache/nba
+          cp -a artifacts/stats-cache/. data/stats_cache/nba/
+          mkdir -p data/espn_cache/nba
+          cp -a artifacts/espn-cache/. data/espn_cache/nba/
           cp jsNBA/data/history.json Dashboard/data/nba.json
           cp jsFull/data/history.json Dashboard/data/fullseason.json
 
@@ -131,7 +170,7 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add jsNBA/data/ jsFull/data/ data/injury_cache/nba/ data/odds_cache/nba/ Dashboard/data/nba.json Dashboard/data/fullseason.json
+          git add jsNBA/data/ jsFull/data/ data/injury_cache/nba/ data/odds_cache/nba/ data/stats_cache/nba/ data/espn_cache/nba/ Dashboard/data/nba.json Dashboard/data/fullseason.json
           git diff --cached --quiet || git commit -m "Run daily NBA + Fullseason"
           git pull --rebase origin main
           git push
