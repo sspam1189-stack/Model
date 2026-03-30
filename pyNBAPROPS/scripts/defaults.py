@@ -81,7 +81,7 @@ VAR_MULT = {
 # Big edges (> 8) mean the model disagrees too much with the market.
 
 MIN_EDGE = {
-    "points":        2.0,
+    "points":        4.0,   # small edges (2-3) are 38% — noise
     "rebounds":      1.0,
     "assists":       1.0,
     "threes":        0.5,
