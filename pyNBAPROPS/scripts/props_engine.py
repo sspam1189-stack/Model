@@ -22,6 +22,7 @@ from defaults import (
     MARKET_THRESHOLDS, VAR_MULT, MIN_EDGE, MAX_EDGE, MIN_LINE,
     UNDER_ONLY_MARKETS, DISABLED_MARKETS,
     OPP_STAT_KEY, OPP_ADJ_WEIGHT, PACE_ADJ_WEIGHT,
+    SEASON_ANCHOR_WEIGHT, PER36_STAT_KEY,
 )
 from player_kalman import get_player_projection, PLAYER_KALMAN_DEFAULTS
 from sources.game_context import (
@@ -285,6 +286,18 @@ def project_player_props(player_logs, team_def_stats=None, prop_lines=None,
             else:
                 blended_raw = rolling_avg
 
+            # --- Season anchor (per-36 regression) ---
+            # Rolling avg chases recent cold/hot streaks. For scoring markets,
+            # anchor toward the per-36 season baseline to prevent recency bias.
+            anchor_w = SEASON_ANCHOR_WEIGHT.get(market, 0.0)
+            if anchor_w > 0 and player_per36:
+                p36_key = PER36_STAT_KEY.get(market)
+                p36 = (player_per36.get(str(pid)) or {}).get(p36_key) if p36_key else None
+                if p36 is not None and p36 > 0:
+                    # Scale per-36 to projected minutes
+                    season_baseline = p36 * (proj_min / 36.0)
+                    blended_raw = (1 - anchor_w) * blended_raw + anchor_w * season_baseline
+
             # --- Kalman blending ---
             kalman_key = KALMAN_STAT_KEYS.get(market)
             proj, std = _blend_with_kalman(
@@ -342,6 +355,18 @@ def project_player_props(player_logs, team_def_stats=None, prop_lines=None,
             else:
                 rolling_avg = _weighted_avg(pra_vals)
             rolling_std = _weighted_std(pra_vals) * VAR_MULT.get("pts_rebs_asts", 1.1)
+
+            # Season anchor for PRA
+            anchor_w = SEASON_ANCHOR_WEIGHT.get("pts_rebs_asts", 0.0)
+            if anchor_w > 0 and player_per36:
+                p36_data = player_per36.get(str(pid))
+                if p36_data:
+                    p36_pra = ((p36_data.get("PTS") or 0) +
+                               (p36_data.get("REB") or 0) +
+                               (p36_data.get("AST") or 0))
+                    if p36_pra > 0:
+                        season_baseline = p36_pra * (proj_min / 36.0)
+                        rolling_avg = (1 - anchor_w) * rolling_avg + anchor_w * season_baseline
 
             proj, std = _blend_pra_with_kalman(
                 kalman_state, str(pid),

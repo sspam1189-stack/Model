@@ -125,11 +125,11 @@ MIN_LINE = {
 #   - PRA OVER: 52% → loser. UNDER only.
 #   - Turnovers: not enough edge after calibration. Disabled.
 
-UNDER_ONLY_MARKETS = {"rebounds", "threes"}
+UNDER_ONLY_MARKETS = {"points", "rebounds"}  # OVER still unprofitable even with season anchor
 # assists allows both OVER and UNDER (real model skill in both directions)
 
 # Markets to disable entirely (no real edge after calibration)
-DISABLED_MARKETS = {"steals", "blocks", "turnovers", "points", "pts_rebs_asts"}
+DISABLED_MARKETS = {"steals", "blocks", "turnovers"}
 
 # ---------------------------------------------------------------------------
 # Opponent adjustment
@@ -172,6 +172,30 @@ PACE_ADJ_WEIGHT = {
 # Minutes threshold — volume penalty removed (was one-directional bias source)
 # Kept for backward compat but no longer used in projection pipeline
 MINUTES_VOLUME_THRESHOLD = 28.0
+
+# ---------------------------------------------------------------------------
+# Season anchor (per36 regression toward season mean)
+# ---------------------------------------------------------------------------
+# Rolling avg chases recent variance; points/rebounds are streaky.
+# Blend the rolling-based projection with a per-36 season baseline to
+# prevent recency-driven deflation that inflates phantom UNDER edges.
+# Weight 0.0 = pure rolling (old behavior), 1.0 = pure per-36 season.
+
+SEASON_ANCHOR_WEIGHT = {
+    "points":        0.25,
+    "rebounds":      0.15,
+    "assists":       0.0,   # already unbiased — no anchor needed
+    "threes":        0.0,   # small sample, rolling is fine
+    "pts_rebs_asts": 0.20,
+}
+
+# Per-36 stat keys (maps market -> key in per36 dict from nba_api)
+PER36_STAT_KEY = {
+    "points":   "PTS",
+    "rebounds":  "REB",
+    "assists":   "AST",
+    "threes":    "FG3M",
+}
 
 # Legacy keys
 OPP_ADJ_SCALE = OPP_ADJ_WEIGHT
