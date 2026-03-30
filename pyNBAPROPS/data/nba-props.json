@@ -4,9 +4,9 @@
   "season": "2025-26",
   "mode": "backfill",
   "model": "kalman_blend",
-  "generated": "2026-03-30T14:05:34.632359",
-  "totalProjections": 52805,
-  "totalPicks": 579,
+  "generated": "2026-03-30T14:28:35.109169",
+  "totalProjections": 1930,
+  "totalPicks": 584,
   "props": [
     {
       "player": "James Harden",
@@ -9156,7 +9156,9 @@
       "edge": -6.2,
       "pCover": 0.885,
       "conf": "elite",
-      "date": "2026-03-29"
+      "date": "2026-03-29",
+      "actual": 32.0,
+      "result": "LOSS"
     },
     {
       "player": "Devin Carter",
@@ -9170,7 +9172,9 @@
       "edge": -1.7,
       "pCover": 0.85,
       "conf": "elite",
-      "date": "2026-03-29"
+      "date": "2026-03-29",
+      "actual": 5.0,
+      "result": "LOSS"
     },
     {
       "player": "Jayson Tatum",
@@ -9184,7 +9188,9 @@
       "edge": -8.3,
       "pCover": 0.848,
       "conf": "high",
-      "date": "2026-03-29"
+      "date": "2026-03-29",
+      "actual": 45.0,
+      "result": "LOSS"
     },
     {
       "player": "Nique Clifford",
@@ -9198,7 +9204,9 @@
       "edge": -5.0,
       "pCover": 0.832,
       "conf": "high",
-      "date": "2026-03-29"
+      "date": "2026-03-29",
+      "actual": 17.0,
+      "result": "LOSS"
     },
     {
       "player": "Devin Carter",
@@ -9212,7 +9220,9 @@
       "edge": -9.2,
       "pCover": 0.804,
       "conf": "high",
-      "date": "2026-03-29"
+      "date": "2026-03-29",
+      "actual": 33.0,
+      "result": "LOSS"
     },
     {
       "player": "Zion Williamson",
@@ -9226,7 +9236,9 @@
       "edge": -1.6,
       "pCover": 0.801,
       "conf": "high",
-      "date": "2026-03-29"
+      "date": "2026-03-29",
+      "actual": 4.0,
+      "result": "WIN"
     },
     {
       "player": "Devin Carter",
@@ -9240,7 +9252,9 @@
       "edge": -5.8,
       "pCover": 0.758,
       "conf": "high",
-      "date": "2026-03-29"
+      "date": "2026-03-29",
+      "actual": 20.0,
+      "result": "LOSS"
     },
     {
       "player": "Jalen Suggs",
@@ -9254,8 +9268,81 @@
       "edge": -1.6,
       "pCover": 0.724,
       "conf": "high",
-      "date": "2026-03-29"
+      "date": "2026-03-29",
+      "actual": 5.0,
+      "result": "WIN"
+    },
+    {
+      "player": "Daniss Jenkins",
+      "team": "DET",
+      "opp": "OKC",
+      "market": "pts_rebs_asts",
+      "proj": 17.2,
+      "std": 10.0,
+      "line": 26.5,
+      "pick": "UNDER",
+      "edge": -9.3,
+      "pCover": 0.802,
+      "conf": "high",
+      "date": "2026-03-30"
+    },
+    {
+      "player": "GG Jackson",
+      "team": "MEM",
+      "opp": "PHX",
+      "market": "points",
+      "proj": 13.2,
+      "std": 5.0,
+      "line": 17.5,
+      "pick": "UNDER",
+      "edge": -4.3,
+      "pCover": 0.787,
+      "conf": "high",
+      "date": "2026-03-30"
+    },
+    {
+      "player": "Daniss Jenkins",
+      "team": "DET",
+      "opp": "OKC",
+      "market": "points",
+      "proj": 9.7,
+      "std": 8.0,
+      "line": 16.5,
+      "pick": "UNDER",
+      "edge": -6.8,
+      "pCover": 0.784,
+      "conf": "high",
+      "date": "2026-03-30"
+    },
+    {
+      "player": "Walter Clayton Jr.",
+      "team": "MEM",
+      "opp": "PHX",
+      "market": "assists",
+      "proj": 3.7,
+      "std": 2.7,
+      "line": 5.5,
+      "pick": "UNDER",
+      "edge": -1.8,
+      "pCover": 0.735,
+      "conf": "high",
+      "date": "2026-03-30"
+    },
+    {
+      "player": "Anthony Edwards",
+      "team": "MIN",
+      "opp": "DAL",
+      "market": "assists",
+      "proj": 4.6,
+      "std": 1.6,
+      "line": 3.5,
+      "pick": "OVER",
+      "edge": 1.1,
+      "pCover": 0.732,
+      "conf": "high",
+      "date": "2026-03-30"
     }
   ],
-  "summary": "565 graded picks for 2025-26: 360W-205L (63.7%) +134.5u"
+  "summary": "5 picks from 1930 projections",
+  "date": "2026-03-30"
 }
