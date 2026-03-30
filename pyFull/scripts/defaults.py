@@ -50,10 +50,9 @@ DEFAULT_W = {
     #   0.25 = moderate adjustment. Captures home/away gaps without overfitting.
     "locationWeight": 0.25,
 
-    # h2hWeight: how much to adjust margin based on head-to-head history.
-    #   0.0 = ignore H2H, 1.0 = fully trust H2H margin.
-    #   0.15 = moderate starting point. Self-tune adjusts this.
-    "h2hWeight": 0.15,
+    # h2hWeight: disabled — H2H adds noise without improving accuracy.
+    # Backtest: pyNBA (no H2H) 62.1% vs pyFull (with H2H) 60.6%.
+    "h2hWeight": 0.0,
 }
 
 # -- Bayesian weight variances ------------------------------------------------
