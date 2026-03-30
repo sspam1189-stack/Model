@@ -57,7 +57,7 @@ export function createSelfTune(options = {}) {
     const minVar = BAYES_HYPER.minWeightVar;
     const maxVar = BAYES_HYPER.maxWeightVar;
 
-    const WEIGHT_KEYS = ["wTS", "wTO", "wORR", "wNET", "hca"];
+    const WEIGHT_KEYS = ["wTS", "wTO", "wORR", "wDEF", "hca"];
     let nBayes = 0;
 
     for (const r of completedRows) {
@@ -66,7 +66,7 @@ export function createSelfTune(options = {}) {
       const mf = r._marginFeatures;
       if (!mf) continue;
 
-      const x = [mf.dTS, mf.dTO, mf.dORR, mf.dNET, mf.hca];
+      const x = [mf.dTS, mf.dTO, mf.dORR, mf.dDEF ?? 0, mf.hca];
 
       const baseline = mf._baseline || 0;
       let prediction = baseline;
@@ -100,14 +100,15 @@ export function createSelfTune(options = {}) {
     W.wTS  = clamp(W.wTS,  0, 5);
     W.wTO  = clamp(W.wTO,  0, 5);
     W.wORR = clamp(W.wORR, 0, 5);
-    W.wNET = clamp(W.wNET, 0, 5);
+    W.wDEF = clamp(W.wDEF, 0, 5);
     W.hca  = clamp(W.hca,  hcaMin, hcaMax);
 
     if (nBayes > 0) {
       console.log(`  [self_tune] Bayesian update on ${nBayes} games ->` +
         ` wTS=${W.wTS} (var=${W_var.wTS.toFixed(3)})` +
         ` wTO=${W.wTO} (var=${W_var.wTO.toFixed(3)})` +
-        ` wNET=${W.wNET} (var=${W_var.wNET.toFixed(3)})` +
+        ` wORR=${W.wORR} (var=${W_var.wORR.toFixed(3)})` +
+        ` wDEF=${W.wDEF} (var=${W_var.wDEF.toFixed(3)})` +
         ` hca=${W.hca} (var=${W_var.hca.toFixed(3)})`
       );
     }

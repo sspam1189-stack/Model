@@ -1136,9 +1136,6 @@ def main(subject_label="[PY]"):
             newly_graded.append(g)
     batch_update(kalman_state, newly_graded)
 
-    # Apply drift AFTER learning
-    apply_daily_drift(kalman_state, date)
-
     # 3b. Self-tune weights (with recency weighting, matching backfill logic)
     def _recency_weight(days_ago):
         if days_ago <= 15: return 1.0
@@ -1177,6 +1174,9 @@ def main(subject_label="[PY]"):
         print(f"[3b] Weights tuned on {len(recent_graded)} graded games from last {TUNE_WINDOW} days")
     elif store.get("lastTuneDate") == date:
         print("[3b] Weights already tuned today -- skipping")
+
+    # Apply drift AFTER learning + tuning (matches backfill order)
+    apply_daily_drift(kalman_state, date)
 
     # 3c. Compute dynamic residualVar
     dynamic_residual_var = compute_residual_var(store.get("runs", []))

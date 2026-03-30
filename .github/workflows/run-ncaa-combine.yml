@@ -43,6 +43,24 @@ jobs:
           name: jsNCAA-data
           path: jsNCAA/data
 
+      - name: Upload shared NCAA odds cache
+        uses: actions/upload-artifact@v7
+        with:
+          name: shared-ncaa-odds-cache
+          path: data/odds_cache/ncaab
+
+      - name: Upload shared NCAA stats cache
+        uses: actions/upload-artifact@v7
+        with:
+          name: shared-ncaa-stats-cache
+          path: data/stats_cache/ncaab
+
+      - name: Upload shared NCAA ESPN cache
+        uses: actions/upload-artifact@v7
+        with:
+          name: shared-ncaa-espn-cache
+          path: data/espn_cache/ncaab
+
   ncaa-python:
     needs: ncaa-js
     runs-on: self-hosted
@@ -117,11 +135,32 @@ jobs:
           name: pyNCAA-data
           path: artifacts/pyNCAA
 
+      - uses: actions/download-artifact@v8
+        with:
+          name: shared-ncaa-odds-cache
+          path: artifacts/ncaa-odds-cache
+
+      - uses: actions/download-artifact@v8
+        with:
+          name: shared-ncaa-stats-cache
+          path: artifacts/ncaa-stats-cache
+
+      - uses: actions/download-artifact@v8
+        with:
+          name: shared-ncaa-espn-cache
+          path: artifacts/ncaa-espn-cache
+
       - name: Copy artifacts
         shell: bash
         run: |
           cp -a artifacts/jsNCAA/. jsNCAA/data/
           cp -a artifacts/pyNCAA/. pyNCAA/data/
+          mkdir -p data/odds_cache/ncaab
+          cp -a artifacts/ncaa-odds-cache/. data/odds_cache/ncaab/
+          mkdir -p data/stats_cache/ncaab
+          cp -a artifacts/ncaa-stats-cache/. data/stats_cache/ncaab/
+          mkdir -p data/espn_cache/ncaab
+          cp -a artifacts/ncaa-espn-cache/. data/espn_cache/ncaab/
           cp jsNCAA/data/history.json Dashboard/data/ncaa.json
           cp pyNCAA/data/history.json PythonDashboard/data/ncaa.json
 
@@ -130,7 +169,7 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add jsNCAA/data/ pyNCAA/data/ Dashboard/data/ncaa.json PythonDashboard/data/ncaa.json
+          git add jsNCAA/data/ pyNCAA/data/ data/odds_cache/ncaab/ data/stats_cache/ncaab/ data/espn_cache/ncaab/ Dashboard/data/ncaa.json PythonDashboard/data/ncaa.json
           git diff --cached --quiet || git commit -m "Run daily NCAA combined"
           git pull --rebase origin main
           git push

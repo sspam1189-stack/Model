@@ -103,7 +103,7 @@ def tune_weights(current_w, current_w_var, completed_rows):
     # SIGNAL 1: Bayesian weight update
     # ==================================================================
 
-    WEIGHT_KEYS = ["wTS", "wTO", "wORR", "wNET", "hca"]
+    WEIGHT_KEYS = ["wTS", "wTO", "wORR", "wDEF", "hca"]
     n_bayes = 0
 
     for r in completed_rows:
@@ -116,7 +116,7 @@ def tune_weights(current_w, current_w_var, completed_rows):
         if not mf:
             continue
 
-        x = [mf["dTS"], mf["dTO"], mf["dORR"], mf["dNET"], mf["hca"]]
+        x = [mf["dTS"], mf["dTO"], mf["dORR"], mf.get("dDEF", 0), mf["hca"]]
 
         baseline = mf.get("_baseline", 0)
         prediction = baseline
@@ -147,14 +147,15 @@ def tune_weights(current_w, current_w_var, completed_rows):
     W["wTS"] = _clamp(W["wTS"], 0, 5)
     W["wTO"] = _clamp(W["wTO"], 0, 5)
     W["wORR"] = _clamp(W["wORR"], 0, 5)
-    W["wNET"] = _clamp(W["wNET"], 0, 5)
+    W["wDEF"] = _clamp(W["wDEF"], 0, 5)
     W["hca"] = _clamp(W["hca"], HCA_CLAMP_LO, HCA_CLAMP_HI)
 
     if n_bayes > 0:
         print(f"  [self_tune] Bayesian update on {n_bayes} games ->"
               f" wTS={W['wTS']} (v={W_var['wTS']:.3f})"
               f" wTO={W['wTO']} (v={W_var['wTO']:.3f})"
-              f" wNET={W['wNET']} (v={W_var['wNET']:.3f})"
+              f" wORR={W['wORR']} (v={W_var['wORR']:.3f})"
+              f" wDEF={W['wDEF']} (v={W_var['wDEF']:.3f})"
               f" hca={W['hca']} (v={W_var['hca']:.3f})")
 
     # ==================================================================

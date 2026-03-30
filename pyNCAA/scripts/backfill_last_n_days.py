@@ -563,7 +563,7 @@ def main():
     print(f"  Units:            {'+'if units > 0 else ''}{units:.2f}u")
     print(f"{'-' * 58}")
     print(f"  Final weights:")
-    print(f"    wTS={W.get('wTS')}  wTO={W.get('wTO')}  wORR={W.get('wORR')}  wNET={W.get('wNET')}")
+    print(f"    wTS={W.get('wTS')}  wTO={W.get('wTO')}  wORR={W.get('wORR')}  wDEF={W.get('wDEF')}")
     print(f"    hca={W.get('hca')}  constant={W.get('constant')}  paceAdj={W.get('paceAdj')}")
     print(f"    probHigh={W.get('probHigh')}  probOUElite={W.get('probOUElite')}")
     print(f"{'-' * 58}")

@@ -1,127 +1,306 @@
 {
   "teams": {
     "Atlanta Hawks": {
-      "adj_mean": -0.23437532068243538,
+      "adj_mean": -0.3664415142557588,
       "adj_var": 7.160426162444458
     },
     "Boston Celtics": {
-      "adj_mean": -2.6808236963417302,
+      "adj_mean": -1.1798468801272808,
       "adj_var": 7.491104935280712
     },
     "Brooklyn Nets": {
-      "adj_mean": 2.029269687632591,
+      "adj_mean": 0.453463782465107,
       "adj_var": 7.104682417854847
     },
     "Charlotte Hornets": {
-      "adj_mean": 0.9525524123318192,
+      "adj_mean": 2.5892302463630354,
       "adj_var": 7.104501931005126
     },
     "Chicago Bulls": {
-      "adj_mean": 0.36637629738899746,
+      "adj_mean": -0.5083946345447459,
       "adj_var": 7.259620861370483
     },
     "Cleveland Cavaliers": {
-      "adj_mean": -2.3134712653220535,
+      "adj_mean": -0.6935122861023872,
       "adj_var": 7.4678565423351335
     },
     "Dallas Mavericks": {
-      "adj_mean": 1.1966101865434002,
+      "adj_mean": -1.1367123158287757,
       "adj_var": 7.296961951750016
     },
     "Detroit Pistons": {
-      "adj_mean": -0.9488025008843027,
+      "adj_mean": -1.4539976343074574,
       "adj_var": 6.6828733552697335
     },
     "Golden State Warriors": {
-      "adj_mean": -1.8110869702759613,
+      "adj_mean": -2.177199896422243,
       "adj_var": 7.31280579470876
     },
     "Houston Rockets": {
-      "adj_mean": -2.140014415836621,
+      "adj_mean": -1.8264802315557307,
       "adj_var": 7.214770343756042
     },
     "LA Clippers": {
-      "adj_mean": 1.5215576243436746,
+      "adj_mean": 2.885000436133387,
       "adj_var": 7.16729458929109
     },
     "Los Angeles Lakers": {
-      "adj_mean": 1.4583590083861728,
+      "adj_mean": 3.0381579228350675,
       "adj_var": 7.164223677638678
     },
     "Memphis Grizzlies": {
-      "adj_mean": -1.5668522464073154,
+      "adj_mean": -1.0016219151810872,
       "adj_var": 6.912634321704662
     },
     "Miami Heat": {
-      "adj_mean": -1.8815036691014055,
+      "adj_mean": -2.22337015811949,
       "adj_var": 7.492490847713965
     },
     "Milwaukee Bucks": {
-      "adj_mean": -1.4826870322350185,
+      "adj_mean": -1.6120173850302242,
       "adj_var": 6.937316005928187
     },
     "Minnesota Timberwolves": {
-      "adj_mean": -1.6332037804758737,
+      "adj_mean": -1.9060334667014904,
       "adj_var": 7.1422736311718955
     },
     "New Orleans Pelicans": {
-      "adj_mean": 2.509657901846242,
+      "adj_mean": 3.142120876722079,
       "adj_var": 7.371508763137399
     },
     "New York Knicks": {
-      "adj_mean": -1.972139412016378,
+      "adj_mean": -1.2450971139468454,
       "adj_var": 7.187731284206848
     },
     "Oklahoma City Thunder": {
-      "adj_mean": -3.2732009053545155,
+      "adj_mean": -4.6460753274882896,
       "adj_var": 7.546282923675209
     },
     "Orlando Magic": {
-      "adj_mean": -1.4377569628894877,
+      "adj_mean": -2.0340416639677645,
       "adj_var": 6.990746630361218
     },
     "Philadelphia 76ers": {
-      "adj_mean": 1.4222890193865356,
+      "adj_mean": 1.2821899294424024,
       "adj_var": 6.905500298913122
     },
     "Phoenix Suns": {
-      "adj_mean": 0.20767829489061257,
+      "adj_mean": -0.708161817246007,
       "adj_var": 7.043502953208512
     },
     "Portland Trail Blazers": {
-      "adj_mean": 2.2637253657100107,
+      "adj_mean": 1.2257389633916873,
       "adj_var": 7.242768230012445
     },
     "Sacramento Kings": {
-      "adj_mean": 2.6857984897347844,
+      "adj_mean": 2.408662067601835,
       "adj_var": 6.992197188213545
     },
     "San Antonio Spurs": {
-      "adj_mean": -0.11255421292577755,
+      "adj_mean": 0.29077470069764866,
       "adj_var": 6.920238926827286
     },
     "Toronto Raptors": {
-      "adj_mean": -0.7858071559903403,
+      "adj_mean": -1.6666756333208286,
       "adj_var": 7.508761022491564
     },
     "Utah Jazz": {
-      "adj_mean": -0.8931833294839294,
+      "adj_mean": 0.4187724388679881,
       "adj_var": 7.045740911244102
     },
     "Washington Wizards": {
-      "adj_mean": 4.619549759625791,
+      "adj_mean": 4.047916220994794,
       "adj_var": 7.290978389840596
     },
     "Indiana Pacers": {
-      "adj_mean": 3.0734556268455204,
+      "adj_mean": 1.6881957734985744,
       "adj_var": 7.381369587665933
     },
     "Denver Nuggets": {
-      "adj_mean": 0.310688869609839,
+      "adj_mean": 3.377499067253326,
       "adj_var": 7.165995672015215
     }
   },
   "processedGames": {
+    "20260129:Sacramento Kings@Philadelphia 76ers": true,
+    "20260129:Milwaukee Bucks@Washington Wizards": true,
+    "20260129:Houston Rockets@Atlanta Hawks": true,
+    "20260129:Miami Heat@Chicago Bulls": true,
+    "20260129:Charlotte Hornets@Dallas Mavericks": true,
+    "20260129:Brooklyn Nets@Denver Nuggets": true,
+    "20260129:Detroit Pistons@Phoenix Suns": true,
+    "20260129:Oklahoma City Thunder@Minnesota Timberwolves": true,
+    "20260130:Los Angeles Lakers@Washington Wizards": true,
+    "20260130:Toronto Raptors@Orlando Magic": true,
+    "20260130:Sacramento Kings@Boston Celtics": true,
+    "20260130:Portland Trail Blazers@New York Knicks": true,
+    "20260130:Memphis Grizzlies@New Orleans Pelicans": true,
+    "20260130:Cleveland Cavaliers@Phoenix Suns": true,
+    "20260130:LA Clippers@Denver Nuggets": true,
+    "20260130:Brooklyn Nets@Utah Jazz": true,
+    "20260130:Detroit Pistons@Golden State Warriors": true,
+    "20260131:San Antonio Spurs@Charlotte Hornets": true,
+    "20260131:Atlanta Hawks@Indiana Pacers": true,
+    "20260131:New Orleans Pelicans@Philadelphia 76ers": true,
+    "20260131:Chicago Bulls@Miami Heat": true,
+    "20260131:Minnesota Timberwolves@Memphis Grizzlies": true,
+    "20260131:Dallas Mavericks@Houston Rockets": true,
+    "20260201:Milwaukee Bucks@Boston Celtics": true,
+    "20260201:Brooklyn Nets@Detroit Pistons": true,
+    "20260201:Chicago Bulls@Miami Heat": true,
+    "20260201:Utah Jazz@Toronto Raptors": true,
+    "20260201:Sacramento Kings@Washington Wizards": true,
+    "20260201:Los Angeles Lakers@New York Knicks": true,
+    "20260201:LA Clippers@Phoenix Suns": true,
+    "20260201:Orlando Magic@San Antonio Spurs": true,
+    "20260201:Cleveland Cavaliers@Portland Trail Blazers": true,
+    "20260201:Oklahoma City Thunder@Denver Nuggets": true,
+    "20260202:New Orleans Pelicans@Charlotte Hornets": true,
+    "20260202:Houston Rockets@Indiana Pacers": true,
+    "20260202:Minnesota Timberwolves@Memphis Grizzlies": true,
+    "20260202:Philadelphia 76ers@LA Clippers": true,
+    "20260203:Denver Nuggets@Detroit Pistons": true,
+    "20260203:Utah Jazz@Indiana Pacers": true,
+    "20260203:New York Knicks@Washington Wizards": true,
+    "20260203:Los Angeles Lakers@Brooklyn Nets": true,
+    "20260203:Atlanta Hawks@Miami Heat": true,
+    "20260203:Boston Celtics@Dallas Mavericks": true,
+    "20260203:Chicago Bulls@Milwaukee Bucks": true,
+    "20260203:Orlando Magic@Oklahoma City Thunder": true,
+    "20260203:Philadelphia 76ers@Golden State Warriors": true,
+    "20260203:Phoenix Suns@Portland Trail Blazers": true,
+    "20260204:Denver Nuggets@New York Knicks": true,
+    "20260204:Minnesota Timberwolves@Toronto Raptors": true,
+    "20260204:Boston Celtics@Houston Rockets": true,
+    "20260204:New Orleans Pelicans@Milwaukee Bucks": true,
+    "20260204:Oklahoma City Thunder@San Antonio Spurs": true,
+    "20260204:Memphis Grizzlies@Sacramento Kings": true,
+    "20260204:Cleveland Cavaliers@LA Clippers": true,
+    "20260205:Washington Wizards@Detroit Pistons": true,
+    "20260205:Brooklyn Nets@Orlando Magic": true,
+    "20260205:Utah Jazz@Atlanta Hawks": true,
+    "20260205:Chicago Bulls@Toronto Raptors": true,
+    "20260205:Charlotte Hornets@Houston Rockets": true,
+    "20260205:San Antonio Spurs@Dallas Mavericks": true,
+    "20260205:Golden State Warriors@Phoenix Suns": true,
+    "20260205:Philadelphia 76ers@Los Angeles Lakers": true,
+    "20260206:Miami Heat@Boston Celtics": true,
+    "20260206:New York Knicks@Detroit Pistons": true,
+    "20260206:Indiana Pacers@Milwaukee Bucks": true,
+    "20260206:New Orleans Pelicans@Minnesota Timberwolves": true,
+    "20260206:Memphis Grizzlies@Portland Trail Blazers": true,
+    "20260206:LA Clippers@Sacramento Kings": true,
+    "20260207:Washington Wizards@Brooklyn Nets": true,
+    "20260207:Houston Rockets@Oklahoma City Thunder": true,
+    "20260207:Dallas Mavericks@San Antonio Spurs": true,
+    "20260207:Utah Jazz@Orlando Magic": true,
+    "20260207:Charlotte Hornets@Atlanta Hawks": true,
+    "20260207:Denver Nuggets@Chicago Bulls": true,
+    "20260207:Golden State Warriors@Los Angeles Lakers": true,
+    "20260207:Philadelphia 76ers@Phoenix Suns": true,
+    "20260207:Memphis Grizzlies@Portland Trail Blazers": true,
+    "20260207:Cleveland Cavaliers@Sacramento Kings": true,
+    "20260208:New York Knicks@Boston Celtics": true,
+    "20260208:Miami Heat@Washington Wizards": true,
+    "20260208:Indiana Pacers@Toronto Raptors": true,
+    "20260208:LA Clippers@Minnesota Timberwolves": true,
+    "20260209:Detroit Pistons@Charlotte Hornets": true,
+    "20260209:Chicago Bulls@Brooklyn Nets": true,
+    "20260209:Utah Jazz@Miami Heat": true,
+    "20260209:Milwaukee Bucks@Orlando Magic": true,
+    "20260209:Atlanta Hawks@Minnesota Timberwolves": true,
+    "20260209:Sacramento Kings@New Orleans Pelicans": true,
+    "20260209:Cleveland Cavaliers@Denver Nuggets": true,
+    "20260209:Memphis Grizzlies@Golden State Warriors": true,
+    "20260209:Oklahoma City Thunder@Los Angeles Lakers": true,
+    "20260209:Philadelphia 76ers@Portland Trail Blazers": true,
+    "20260210:Indiana Pacers@New York Knicks": true,
+    "20260210:LA Clippers@Houston Rockets": true,
+    "20260210:Dallas Mavericks@Phoenix Suns": true,
+    "20260210:San Antonio Spurs@Los Angeles Lakers": true,
+    "20260211:Atlanta Hawks@Charlotte Hornets": true,
+    "20260211:Washington Wizards@Cleveland Cavaliers": true,
+    "20260211:Milwaukee Bucks@Orlando Magic": true,
+    "20260211:Chicago Bulls@Boston Celtics": true,
+    "20260211:Indiana Pacers@Brooklyn Nets": true,
+    "20260211:New York Knicks@Philadelphia 76ers": true,
+    "20260211:Detroit Pistons@Toronto Raptors": true,
+    "20260211:LA Clippers@Houston Rockets": true,
+    "20260211:Portland Trail Blazers@Minnesota Timberwolves": true,
+    "20260211:Miami Heat@New Orleans Pelicans": true,
+    "20260211:Oklahoma City Thunder@Phoenix Suns": true,
+    "20260211:Sacramento Kings@Utah Jazz": true,
+    "20260211:Memphis Grizzlies@Denver Nuggets": true,
+    "20260211:San Antonio Spurs@Golden State Warriors": true,
+    "20260212:Milwaukee Bucks@Oklahoma City Thunder": true,
+    "20260212:Portland Trail Blazers@Utah Jazz": true,
+    "20260212:Dallas Mavericks@Los Angeles Lakers": true,
+    "20260219:Houston Rockets@Charlotte Hornets": true,
+    "20260219:Brooklyn Nets@Cleveland Cavaliers": true,
+    "20260219:Atlanta Hawks@Philadelphia 76ers": true,
+    "20260219:Indiana Pacers@Washington Wizards": true,
+    "20260219:Detroit Pistons@New York Knicks": true,
+    "20260219:Toronto Raptors@Chicago Bulls": true,
+    "20260219:Phoenix Suns@San Antonio Spurs": true,
+    "20260219:Boston Celtics@Golden State Warriors": true,
+    "20260219:Orlando Magic@Sacramento Kings": true,
+    "20260219:Denver Nuggets@LA Clippers": true,
+    "20260220:Cleveland Cavaliers@Charlotte Hornets": true,
+    "20260220:Indiana Pacers@Washington Wizards": true,
+    "20260220:Utah Jazz@Memphis Grizzlies": true,
+    "20260220:Miami Heat@Atlanta Hawks": true,
+    "20260220:Dallas Mavericks@Minnesota Timberwolves": true,
+    "20260220:Milwaukee Bucks@New Orleans Pelicans": true,
+    "20260220:Brooklyn Nets@Oklahoma City Thunder": true,
+    "20260220:Denver Nuggets@Portland Trail Blazers": true,
+    "20260220:LA Clippers@Los Angeles Lakers": true,
+    "20260221:Orlando Magic@Phoenix Suns": true,
+    "20260221:Philadelphia 76ers@New Orleans Pelicans": true,
+    "20260221:Memphis Grizzlies@Miami Heat": true,
+    "20260221:Detroit Pistons@Chicago Bulls": true,
+    "20260221:Sacramento Kings@San Antonio Spurs": true,
+    "20260221:Houston Rockets@New York Knicks": true,
+    "20260222:Cleveland Cavaliers@Oklahoma City Thunder": true,
+    "20260222:Brooklyn Nets@Atlanta Hawks": true,
+    "20260222:Toronto Raptors@Milwaukee Bucks": true,
+    "20260222:Denver Nuggets@Golden State Warriors": true,
+    "20260222:Dallas Mavericks@Indiana Pacers": true,
+    "20260222:Charlotte Hornets@Washington Wizards": true,
+    "20260222:Boston Celtics@Los Angeles Lakers": true,
+    "20260222:Philadelphia 76ers@Minnesota Timberwolves": true,
+    "20260222:New York Knicks@Chicago Bulls": true,
+    "20260222:Portland Trail Blazers@Phoenix Suns": true,
+    "20260222:Orlando Magic@LA Clippers": true,
+    "20260223:San Antonio Spurs@Detroit Pistons": true,
+    "20260223:Sacramento Kings@Memphis Grizzlies": true,
+    "20260223:Utah Jazz@Houston Rockets": true,
+    "20260224:Philadelphia 76ers@Indiana Pacers": true,
+    "20260224:Washington Wizards@Atlanta Hawks": true,
+    "20260224:Dallas Mavericks@Brooklyn Nets": true,
+    "20260224:Oklahoma City Thunder@Toronto Raptors": true,
+    "20260224:New York Knicks@Cleveland Cavaliers": true,
+    "20260224:Charlotte Hornets@Chicago Bulls": true,
+    "20260224:Miami Heat@Milwaukee Bucks": true,
+    "20260224:Golden State Warriors@New Orleans Pelicans": true,
+    "20260224:Boston Celtics@Phoenix Suns": true,
+    "20260224:Minnesota Timberwolves@Portland Trail Blazers": true,
+    "20260224:Orlando Magic@Los Angeles Lakers": true,
+    "20260225:Oklahoma City Thunder@Detroit Pistons": true,
+    "20260225:San Antonio Spurs@Toronto Raptors": true,
+    "20260225:Golden State Warriors@Memphis Grizzlies": true,
+    "20260225:Sacramento Kings@Houston Rockets": true,
+    "20260225:Cleveland Cavaliers@Milwaukee Bucks": true,
+    "20260225:Boston Celtics@Denver Nuggets": true,
+    "20260226:Charlotte Hornets@Indiana Pacers": true,
+    "20260226:Miami Heat@Philadelphia 76ers": true,
+    "20260226:Washington Wizards@Atlanta Hawks": true,
+    "20260226:San Antonio Spurs@Brooklyn Nets": true,
+    "20260226:Houston Rockets@Orlando Magic": true,
+    "20260226:Portland Trail Blazers@Chicago Bulls": true,
+    "20260226:Sacramento Kings@Dallas Mavericks": true,
+    "20260226:Los Angeles Lakers@Phoenix Suns": true,
+    "20260226:New Orleans Pelicans@Utah Jazz": true,
+    "20260226:Minnesota Timberwolves@LA Clippers": true,
     "20260227:Cleveland Cavaliers@Detroit Pistons": true,
     "20260227:Brooklyn Nets@Boston Celtics": true,
     "20260227:New York Knicks@Milwaukee Bucks": true,
@@ -341,6 +520,6 @@
   "lastDriftDate": "20260329",
   "meta": {
     "season": "2025-26",
-    "created": "2026-03-29T08:55:27.572Z"
+    "created": "2026-03-30T19:05:17.902Z"
   }
 }
