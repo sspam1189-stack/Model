@@ -1,0 +1,58 @@
+name: MLB Daily Picks
+
+on:
+  schedule:
+    - cron: '0 17 * * *'  # 5 PM UTC = 12 PM ET (before afternoon games)
+  workflow_dispatch:        # Allow manual trigger
+    inputs:
+      date:
+        description: 'Date to run (YYYYMMDD, leave empty for today)'
+        required: false
+        default: ''
+      stage:
+        description: 'Stage to run'
+        required: false
+        default: 'all'
+        type: choice
+        options: [all, fetch, grade, project]
+
+permissions:
+  contents: write
+
+jobs:
+  run-mlb-daily:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install dependencies
+        run: pip install pybaseball numpy scipy scikit-learn requests python-dotenv
+
+      - name: Run pipeline
+        env:
+          ODDS_API_KEY: ${{ secrets.ODDS_API_KEY }}
+          GMAIL_USER: ${{ secrets.GMAIL_USER }}
+          GMAIL_APP_PASSWORD: ${{ secrets.GMAIL_APP_PASSWORD }}
+        run: |
+          cd pyMLB
+          if [ -n "${{ github.event.inputs.date }}" ]; then
+            DATE_ARG="--date ${{ github.event.inputs.date }}"
+          else
+            DATE_ARG=""
+          fi
+          STAGE="${{ github.event.inputs.stage || 'all' }}"
+          python scripts/run_daily.py --stage $STAGE $DATE_ARG
+
+      - name: Commit data changes
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add pyMLB/data/ data/espn_cache/mlb/ data/odds_cache/mlb/ data/stats_cache/mlb/ data/pitcher_cache/mlb/ data/injury_cache/mlb/ || true
+          git diff --staged --quiet || git commit -m "chore: MLB daily data update $(date -u +%Y%m%d)"
+          git push || true
