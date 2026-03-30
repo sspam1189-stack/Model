@@ -18,7 +18,7 @@ DEFAULT_W = {
     "wTS":  1,          # true shooting % delta weight
     "wTO":  1,          # turnover % delta weight
     "wORR": 1,          # offensive rebound rate delta weight
-    "wNET": 1,          # net rating delta weight (applied at 0.5x in projScore)
+    "wDEF": 0.4,        # defensive rating delta weight
     "constant": 0,      # additive constant to base projection
     "paceAdj": 1,       # pace multiplier (1.0 = neutral)
     "hca": 1.5,         # home court advantage (points)
@@ -64,7 +64,7 @@ DEFAULT_W_VAR = {
     "wTS":      4.0,     # wide prior -- let the data decide
     "wTO":      4.0,
     "wORR":     4.0,
-    "wNET":     4.0,
+    "wDEF":     4.0,
     "hca":      2.0,     # HCA is well-studied (~3 pts), less uncertain
     "constant": 4.0,
     # paceAdj is handled separately (non-linear, stays gradient descent)

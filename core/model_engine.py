@@ -262,7 +262,7 @@ def create_model_engine(
             + _r4((t["TS"] - a["ts"]) * W["wTS"])
             - _r4((t["TO"] - a["to"]) * W["wTO"])
             + _r4((t["ORR"] - a["orr"]) * W["wORR"])
-            + _r4((W["wNET"] * 0.5) * ((t_off - t_def) - (o["OFF"] - o["DEF"])))
+            + _r4(W["wDEF"] * (o["DEF"] - t_def))
             + W["constant"]
         )
 
@@ -288,13 +288,13 @@ def create_model_engine(
             d_ts = t["TS"] - a["ts"]
             d_to = t["TO"] - a["to"]
             d_orr = t["ORR"] - a["orr"]
-            d_net = (t_off - t_def) - (o["OFF"] - o["DEF"])
+            d_def = o["DEF"] - t_def
 
             weight_var = (
                 (d_ts * pace) ** 2 * (W_var.get("wTS", 0))
                 + (d_to * pace) ** 2 * (W_var.get("wTO", 0))
                 + (d_orr * pace) ** 2 * (W_var.get("wORR", 0))
-                + (0.5 * d_net * pace) ** 2 * (W_var.get("wNET", 0))
+                + (d_def * pace) ** 2 * (W_var.get("wDEF", 0))
                 + (1 if is_home else 0) * (W_var.get("hca", 0))
             )
 
@@ -325,7 +325,7 @@ def create_model_engine(
             "dTS":  _r4((home_stats["TS"] - away_stats["TS"]) * pace),
             "dTO":  _r4(-(home_stats["TO"] - away_stats["TO"]) * pace),
             "dORR": _r4((home_stats["ORR"] - away_stats["ORR"]) * pace),
-            "dNET": _r4(0.5 * ((home_stats["OFF"] - home_stats["DEF"]) - (away_stats["OFF"] - away_stats["DEF"])) * pace),
+            "dDEF": _r4((away_stats["DEF"] - home_stats["DEF"]) * pace),
             "hca":  0.0 if neutral else 1.0,
             "_baseline": _r4(((home_stats["OFF"] + away_stats["DEF"]) / 2 - (away_stats["OFF"] + home_stats["DEF"]) / 2) * pace),
             "_pace": pace,
@@ -503,7 +503,7 @@ def create_model_engine(
             "dTS":  h_team["TS"] - a_team["TS"],
             "dTO":  h_team["TO"] - a_team["TO"],
             "dORR": h_team["ORR"] - a_team["ORR"],
-            "dNET": (h_team["OFF"] - h_team["DEF"]) - (a_team["OFF"] - a_team["DEF"]),
+            "dDEF": a_team["DEF"] - h_team["DEF"],
             "avgPace": (h_team["PACE"] + a_team["PACE"]) / 2,
         }
 

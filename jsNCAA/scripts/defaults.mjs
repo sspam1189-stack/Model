@@ -8,7 +8,7 @@ export const DEFAULT_W = {
   wTS:  1,          // true shooting / eFG% delta weight
   wTO:  1,          // turnover rate delta weight
   wORR: 1,          // offensive rebound rate delta weight
-  wNET: 1,          // net rating delta weight
+  wDEF: 0.4,        // defensive rating delta weight
   constant: 0,      // additive constant
   paceAdj: 1,       // pace multiplier (1.0 = neutral)
   hca: 4.0,         // home court advantage (points) — higher in college
@@ -35,7 +35,7 @@ export const DEFAULT_W_VAR = {
   wTS:      4.0,
   wTO:      4.0,
   wORR:     4.0,
-  wNET:     4.0,
+  wDEF:     4.0,
   hca:      2.0,
   constant: 4.0,
 };

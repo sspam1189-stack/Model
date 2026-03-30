@@ -179,7 +179,7 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add pyNBA/data/ pyFull/data/ pyNBAPROPS/data/ data/injury_cache/nba/ PythonDashboard/data/nba.json PythonDashboard/data/fullseason.json PythonDashboard/data/nba-props.json
+          git add pyNBA/data/ pyFull/data/ pyNBAPROPS/data/ data/injury_cache/nba/ data/odds_cache/nba/ PythonDashboard/data/nba.json PythonDashboard/data/fullseason.json PythonDashboard/data/nba-props.json
           git diff --cached --quiet || git commit -m "Run daily Python NBA + Fullseason + NBA Props"
           git pull --rebase origin main
           git push

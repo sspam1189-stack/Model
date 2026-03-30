@@ -315,7 +315,7 @@ export function createModelEngine(options = {}) {
       (t.TS - a.ts) * W.wTS -
       (t.TO - a.to) * W.wTO +
       (t.ORR - a.orr) * W.wORR +
-      (W.wNET * 0.5) * ((tOFF - tDEF) - (o.OFF - o.DEF)) +
+      W.wDEF * (o.DEF - tDEF) +
       W.constant;
 
     const pace = (((t.PACE + o.PACE) / 2) * W.paceAdj) / 100;
@@ -340,13 +340,13 @@ export function createModelEngine(options = {}) {
       const dTS  = t.TS - a.ts;
       const dTO  = t.TO - a.to;
       const dORR = t.ORR - a.orr;
-      const dNET = (tOFF - tDEF) - (o.OFF - o.DEF);
+      const dDEF = o.DEF - tDEF;
 
       const weightVar =
         (dTS * pace) ** 2  * (W_var.wTS  || 0) +
         (dTO * pace) ** 2  * (W_var.wTO  || 0) +
         (dORR * pace) ** 2 * (W_var.wORR || 0) +
-        (0.5 * dNET * pace) ** 2 * (W_var.wNET || 0) +
+        (dDEF * pace) ** 2 * (W_var.wDEF || 0) +
         (isHome ? 1 : 0) * (W_var.hca || 0);
 
       variance += weightVar;
@@ -375,7 +375,7 @@ export function createModelEngine(options = {}) {
       dTS:  (homeStats.TS - awayStats.TS) * pace,
       dTO:  -(homeStats.TO - awayStats.TO) * pace,
       dORR: (homeStats.ORR - awayStats.ORR) * pace,
-      dNET: 0.5 * ((homeStats.OFF - homeStats.DEF) - (awayStats.OFF - awayStats.DEF)) * pace,
+      dDEF: (awayStats.DEF - homeStats.DEF) * pace,
       hca:  neutral ? 0.0 : 1.0,
       _baseline: ((homeStats.OFF + awayStats.DEF) / 2 - (awayStats.OFF + homeStats.DEF) / 2) * pace,
       _pace: pace,
@@ -495,7 +495,7 @@ export function createModelEngine(options = {}) {
       dTS:  hTeam.TS  - aTeam.TS,
       dTO:  hTeam.TO  - aTeam.TO,
       dORR: hTeam.ORR - aTeam.ORR,
-      dNET: (hTeam.OFF - hTeam.DEF) - (aTeam.OFF - aTeam.DEF),
+      dDEF: aTeam.DEF - hTeam.DEF,
       avgPace: (hTeam.PACE + aTeam.PACE) / 2,
     };
 

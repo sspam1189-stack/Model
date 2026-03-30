@@ -1,93 +1,19 @@
 {
   "report": {
-    "Milwaukee Bucks": [
-      {
-        "player": "Kyle Kuzma",
-        "status": "out",
-        "reason": "Out",
-        "tier": "starter",
-        "mpg": 26.4
-      },
-      {
-        "player": "Ryan Rollins",
-        "status": "out",
-        "reason": "Out",
-        "tier": "star",
-        "mpg": 32.0
-      },
-      {
-        "player": "Thanasis Antetokounmpo",
-        "status": "out",
-        "reason": "Out",
-        "tier": "bench",
-        "mpg": 3.7
-      },
-      {
-        "player": "Myles Turner",
-        "status": "out",
-        "reason": "Out",
-        "tier": "starter",
-        "mpg": 27.1
-      },
-      {
-        "player": "Gary Harris",
-        "status": "out",
-        "reason": "Out",
-        "tier": "bench",
-        "mpg": 13.7
-      }
-    ],
-    "LA Clippers": [
-      {
-        "player": "Isaiah Jackson",
-        "status": "out",
-        "reason": "Out",
-        "tier": "bench",
-        "mpg": 16.5
-      },
-      {
-        "player": "Yanic Konan Niederhauser",
-        "status": "out",
-        "reason": "Out",
-        "tier": "bench",
-        "mpg": 0
-      },
-      {
-        "player": "Bradley Beal",
-        "status": "out",
-        "reason": "Out",
-        "tier": "starter",
-        "mpg": 20.2
-      }
-    ],
     "Indiana Pacers": [
       {
         "player": "Jarace Walker",
-        "status": "questionable",
-        "reason": "Day-To-Day",
+        "status": "out",
+        "reason": "Out",
         "tier": "starter",
         "mpg": 25.6
       },
       {
         "player": "Aaron Nesmith",
-        "status": "questionable",
-        "reason": "Day-To-Day",
+        "status": "out",
+        "reason": "Out",
         "tier": "star",
         "mpg": 29.7
-      },
-      {
-        "player": "Obi Toppin",
-        "status": "questionable",
-        "reason": "Day-To-Day",
-        "tier": "bench",
-        "mpg": 17.3
-      },
-      {
-        "player": "Pascal Siakam",
-        "status": "questionable",
-        "reason": "Day-To-Day",
-        "tier": "star",
-        "mpg": 33.4
       },
       {
         "player": "Ivica Zubac",
@@ -95,6 +21,20 @@
         "reason": "Out",
         "tier": "star",
         "mpg": 30.1
+      },
+      {
+        "player": "Johnny Furphy",
+        "status": "out",
+        "reason": "Out",
+        "tier": "starter",
+        "mpg": 18.4
+      },
+      {
+        "player": "Tyrese Haliburton",
+        "status": "out",
+        "reason": "Out",
+        "tier": "bench",
+        "mpg": 0
       }
     ],
     "Miami Heat": [
@@ -116,8 +56,8 @@
     "Brooklyn Nets": [
       {
         "player": "Jalen Wilson",
-        "status": "questionable",
-        "reason": "Day-To-Day",
+        "status": "out",
+        "reason": "Out",
         "tier": "bench",
         "mpg": 14.7
       },
@@ -201,34 +141,20 @@
         "reason": "Out",
         "tier": "starter",
         "mpg": 19.4
-      },
-      {
-        "player": "Liam McNeeley",
-        "status": "questionable",
-        "reason": "Day-To-Day",
-        "tier": "bench",
-        "mpg": 12.1
       }
     ],
     "Boston Celtics": [
       {
-        "player": "Neemias Queta",
-        "status": "questionable",
-        "reason": "Day-To-Day",
-        "tier": "starter",
-        "mpg": 25.2
-      },
-      {
-        "player": "Jaylen Brown",
+        "player": "Derrick White",
         "status": "out",
         "reason": "Out",
         "tier": "star",
         "mpg": 34.3
       },
       {
-        "player": "Derrick White",
-        "status": "questionable",
-        "reason": "Day-To-Day",
+        "player": "Jaylen Brown",
+        "status": "out",
+        "reason": "Out",
         "tier": "star",
         "mpg": 34.3
       },
@@ -242,11 +168,18 @@
     ],
     "Toronto Raptors": [
       {
-        "player": "RJ Barrett",
-        "status": "questionable",
-        "reason": "Day-To-Day",
+        "player": "Brandon Ingram",
+        "status": "out",
+        "reason": "Out",
         "tier": "star",
-        "mpg": 30.1
+        "mpg": 34.0
+      },
+      {
+        "player": "Collin Murray-Boyles",
+        "status": "out",
+        "reason": "Out",
+        "tier": "starter",
+        "mpg": 22.0
       },
       {
         "player": "Jamison Battle",
@@ -256,25 +189,18 @@
         "mpg": 9.0
       },
       {
-        "player": "Collin Murray-Boyles",
-        "status": "questionable",
-        "reason": "Day-To-Day",
-        "tier": "starter",
-        "mpg": 22.0
-      },
-      {
-        "player": "Brandon Ingram",
-        "status": "questionable",
-        "reason": "Day-To-Day",
+        "player": "Immanuel Quickley",
+        "status": "out",
+        "reason": "Out",
         "tier": "star",
-        "mpg": 34.0
+        "mpg": 32.4
       },
       {
-        "player": "Trayce Jackson-Davis",
-        "status": "questionable",
-        "reason": "Day-To-Day",
+        "player": "Chucky Hepburn",
+        "status": "out",
+        "reason": "Out",
         "tier": "bench",
-        "mpg": 9.8
+        "mpg": 0
       }
     ],
     "Orlando Magic": [
@@ -301,13 +227,6 @@
       }
     ],
     "Portland Trail Blazers": [
-      {
-        "player": "Robert Williams III",
-        "status": "questionable",
-        "reason": "Day-To-Day",
-        "tier": "bench",
-        "mpg": 16.9
-      },
       {
         "player": "Vit Krejci",
         "status": "out",
@@ -374,41 +293,94 @@
         "mpg": 31.3
       }
     ],
+    "Milwaukee Bucks": [
+      {
+        "player": "Kyle Kuzma",
+        "status": "out",
+        "reason": "Out",
+        "tier": "starter",
+        "mpg": 26.4
+      },
+      {
+        "player": "Ryan Rollins",
+        "status": "out",
+        "reason": "Out",
+        "tier": "star",
+        "mpg": 32.0
+      },
+      {
+        "player": "Thanasis Antetokounmpo",
+        "status": "out",
+        "reason": "Out",
+        "tier": "bench",
+        "mpg": 3.7
+      },
+      {
+        "player": "Myles Turner",
+        "status": "out",
+        "reason": "Out",
+        "tier": "starter",
+        "mpg": 27.1
+      },
+      {
+        "player": "Gary Harris",
+        "status": "out",
+        "reason": "Out",
+        "tier": "bench",
+        "mpg": 13.7
+      }
+    ],
+    "LA Clippers": [
+      {
+        "player": "Isaiah Jackson",
+        "status": "out",
+        "reason": "Out",
+        "tier": "bench",
+        "mpg": 16.5
+      },
+      {
+        "player": "Yanic Konan Niederhauser",
+        "status": "out",
+        "reason": "Out",
+        "tier": "bench",
+        "mpg": 0
+      },
+      {
+        "player": "Bradley Beal",
+        "status": "out",
+        "reason": "Out",
+        "tier": "starter",
+        "mpg": 20.2
+      }
+    ],
     "New Orleans Pelicans": [
+      {
+        "player": "Trey Murphy III",
+        "status": "out",
+        "reason": "Out",
+        "tier": "star",
+        "mpg": 35.5
+      },
+      {
+        "player": "Josh Oduro",
+        "status": "out",
+        "reason": "Out",
+        "tier": "bench",
+        "mpg": 0
+      },
+      {
+        "player": "Hunter Dickinson",
+        "status": "out",
+        "reason": "Out",
+        "tier": "bench",
+        "mpg": 0
+      },
       {
         "player": "Bryce McGowens",
         "status": "out",
         "reason": "Out",
         "tier": "starter",
         "mpg": 21.0
-      },
-      {
-        "player": "Dejounte Murray",
-        "status": "questionable",
-        "reason": "Day-To-Day",
-        "tier": "starter",
-        "mpg": 27.8
-      },
-      {
-        "player": "Trey Murphy III",
-        "status": "questionable",
-        "reason": "Day-To-Day",
-        "tier": "star",
-        "mpg": 35.5
-      },
-      {
-        "player": "Josh Oduro",
-        "status": "questionable",
-        "reason": "Day-To-Day",
-        "tier": "bench",
-        "mpg": 0
-      },
-      {
-        "player": "Hunter Dickinson",
-        "status": "questionable",
-        "reason": "Day-To-Day",
-        "tier": "bench",
-        "mpg": 0
       }
     ],
     "Houston Rockets": [
@@ -429,13 +401,6 @@
     ],
     "Oklahoma City Thunder": [
       {
-        "player": "Brooks Barnhizer",
-        "status": "questionable",
-        "reason": "Day-To-Day",
-        "tier": "bench",
-        "mpg": 7.7
-      },
-      {
         "player": "Thomas Sorber",
         "status": "out",
         "reason": "Out",
@@ -444,13 +409,6 @@
       }
     ],
     "New York Knicks": [
-      {
-        "player": "Miles McBride",
-        "status": "out",
-        "reason": "Out",
-        "tier": "star",
-        "mpg": 28.0
-      },
       {
         "player": "Landry Shamet",
         "status": "out",
@@ -513,7 +471,7 @@
     "AJ Green": {
       "team": "Milwaukee Bucks",
       "mpg": 28.5,
-      "gp": 69.0
+      "gp": 70.0
     },
     "AJ Johnson": {
       "team": "Dallas Mavericks",
@@ -612,8 +570,8 @@
     },
     "Andre Jackson Jr.": {
       "team": "Milwaukee Bucks",
-      "mpg": 6.8,
-      "gp": 40.0
+      "mpg": 7.4,
+      "gp": 41.0
     },
     "Andrew Nembhard": {
       "team": "Indiana Pacers",
@@ -703,7 +661,7 @@
     "Bennedict Mathurin": {
       "team": "LA Clippers",
       "mpg": 31.0,
-      "gp": 46.0
+      "gp": 47.0
     },
     "Bez Mbeng": {
       "team": "Utah Jazz",
@@ -792,8 +750,8 @@
     },
     "Brook Lopez": {
       "team": "LA Clippers",
-      "mpg": 21.1,
-      "gp": 67.0
+      "mpg": 21.2,
+      "gp": 68.0
     },
     "Brooks Barnhizer": {
       "team": "Oklahoma City Thunder",
@@ -1052,8 +1010,8 @@
     },
     "Darius Garland": {
       "team": "LA Clippers",
-      "mpg": 29.8,
-      "gp": 38.0
+      "mpg": 29.7,
+      "gp": 39.0
     },
     "David Jones Garcia": {
       "team": "San Antonio Spurs",
@@ -1137,8 +1095,8 @@
     },
     "Derrick Jones Jr.": {
       "team": "LA Clippers",
-      "mpg": 27.5,
-      "gp": 42.0
+      "mpg": 27.4,
+      "gp": 43.0
     },
     "Derrick White": {
       "team": "Boston Celtics",
@@ -1342,8 +1300,8 @@
     },
     "Gary Trent Jr.": {
       "team": "Milwaukee Bucks",
-      "mpg": 21.2,
-      "gp": 61.0
+      "mpg": 21.4,
+      "gp": 62.0
     },
     "Giannis Antetokounmpo": {
       "team": "Milwaukee Bucks",
@@ -1747,8 +1705,8 @@
     },
     "Jericho Sims": {
       "team": "Milwaukee Bucks",
-      "mpg": 18.1,
-      "gp": 58.0
+      "mpg": 18.2,
+      "gp": 59.0
     },
     "Jett Howard": {
       "team": "Orlando Magic",
@@ -1787,8 +1745,8 @@
     },
     "John Collins": {
       "team": "LA Clippers",
-      "mpg": 27.3,
-      "gp": 61.0
+      "mpg": 27.5,
+      "gp": 62.0
     },
     "John Konchar": {
       "team": "Utah Jazz",
@@ -1857,8 +1815,8 @@
     },
     "Jordan Miller": {
       "team": "LA Clippers",
-      "mpg": 21.5,
-      "gp": 52.0
+      "mpg": 21.6,
+      "gp": 53.0
     },
     "Jordan Poole": {
       "team": "New Orleans Pelicans",
@@ -1972,8 +1930,8 @@
     },
     "Kawhi Leonard": {
       "team": "LA Clippers",
-      "mpg": 32.2,
-      "gp": 58.0
+      "mpg": 32.0,
+      "gp": 59.0
     },
     "Keaton Wallace": {
       "team": "Atlanta Hawks",
@@ -2097,8 +2055,8 @@
     },
     "Kobe Sanders": {
       "team": "LA Clippers",
-      "mpg": 20.4,
-      "gp": 60.0
+      "mpg": 20.2,
+      "gp": 61.0
     },
     "Koby Brea": {
       "team": "Phoenix Suns",
@@ -2112,8 +2070,8 @@
     },
     "Kris Dunn": {
       "team": "LA Clippers",
-      "mpg": 27.4,
-      "gp": 74.0
+      "mpg": 27.5,
+      "gp": 75.0
     },
     "Kris Murray": {
       "team": "Portland Trail Blazers",
@@ -2467,8 +2425,8 @@
     },
     "Nicolas Batum": {
       "team": "LA Clippers",
-      "mpg": 18.2,
-      "gp": 68.0
+      "mpg": 18.1,
+      "gp": 69.0
     },
     "Nigel Hayes-Davis": {
       "team": "Phoenix Suns",
@@ -2562,8 +2520,8 @@
     },
     "Ousmane Dieng": {
       "team": "Milwaukee Bucks",
-      "mpg": 16.9,
-      "gp": 48.0
+      "mpg": 17.0,
+      "gp": 49.0
     },
     "P.J. Washington": {
       "team": "Dallas Mavericks",
@@ -2632,8 +2590,8 @@
     },
     "Pete Nance": {
       "team": "Milwaukee Bucks",
-      "mpg": 13.5,
-      "gp": 40.0
+      "mpg": 14.2,
+      "gp": 41.0
     },
     "Peyton Watson": {
       "team": "Denver Nuggets",
@@ -2867,8 +2825,8 @@
     },
     "Taurean Prince": {
       "team": "Milwaukee Bucks",
-      "mpg": 20.6,
-      "gp": 18.0
+      "mpg": 21.6,
+      "gp": 19.0
     },
     "Taylor Hendricks": {
       "team": "Memphis Grizzlies",
