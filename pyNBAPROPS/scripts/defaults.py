@@ -147,7 +147,7 @@ OPP_STAT_KEY = {
 }
 
 OPP_ADJ_WEIGHT = {
-    "points":        0.30,
+    "points":        0.30,  # matches best backtest config
     "rebounds":      0.25,
     "assists":       0.20,
     "threes":        0.25,
@@ -182,11 +182,11 @@ MINUTES_VOLUME_THRESHOLD = 28.0
 # Weight 0.0 = pure rolling (old behavior), 1.0 = pure per-36 season.
 
 SEASON_ANCHOR_WEIGHT = {
-    "points":        0.25,
-    "rebounds":      0.15,
-    "assists":       0.0,   # already unbiased — no anchor needed
-    "threes":        0.0,   # small sample, rolling is fine
-    "pts_rebs_asts": 0.20,
+    "points":        0.25,  # with rate blend
+    "rebounds":      0.20,  # no rate blend — 68.1% +39.2u
+    "assists":       0.0,   # already unbiased
+    "threes":        0.0,   # small sample
+    "pts_rebs_asts": 0.30,  # no rate blend — best bias fix
 }
 
 # Per-36 stat keys (maps market -> key in per36 dict from nba_api)

@@ -267,34 +267,24 @@ def project_player_props(player_logs, team_def_stats=None, prop_lines=None,
             if len(vals) < min_g:
                 continue
 
-            # --- Rate-based projection: per-min rate × projected minutes ---
-            rate_key = f"{stat_key}_per_min"
-            if rate_key in rates and rates[rate_key] > 0:
-                rate_proj = rate_based_projection(rates[rate_key], proj_min)
-            else:
-                rate_proj = None
-
             # --- Rolling average (traditional) ---
             rolling_avg = _weighted_avg(vals)
             rolling_std = _weighted_std(vals) * VAR_MULT.get(market, 1.2)
 
-            # --- Blend rate-based with rolling average (30/70) ---
-            # Rolling avg is unbiased. Rate-based tends to project low because
-            # projected minutes are conservative. Weight rolling more heavily.
-            if rate_proj is not None:
+            # --- Rate blend (points only — helps points, hurts other markets) ---
+            rate_key = f"{stat_key}_per_min"
+            if market == "points" and rate_key in rates and rates[rate_key] > 0:
+                rate_proj = rate_based_projection(rates[rate_key], proj_min)
                 blended_raw = 0.3 * rate_proj + 0.7 * rolling_avg
             else:
                 blended_raw = rolling_avg
 
-            # --- Season anchor (per-36 regression) ---
-            # Rolling avg chases recent cold/hot streaks. For scoring markets,
-            # anchor toward the per-36 season baseline to prevent recency bias.
+            # --- Season anchor (per-36 baseline) ---
             anchor_w = SEASON_ANCHOR_WEIGHT.get(market, 0.0)
             if anchor_w > 0 and player_per36:
                 p36_key = PER36_STAT_KEY.get(market)
                 p36 = (player_per36.get(str(pid)) or {}).get(p36_key) if p36_key else None
                 if p36 is not None and p36 > 0:
-                    # Scale per-36 to projected minutes
                     season_baseline = p36 * (proj_min / 36.0)
                     blended_raw = (1 - anchor_w) * blended_raw + anchor_w * season_baseline
 
@@ -345,15 +335,7 @@ def project_player_props(player_logs, team_def_stats=None, prop_lines=None,
             ast_vals = [g.get("ast", 0) for g in qualified]
             pra_vals = [p + r + a for p, r, a in zip(pts_vals, reb_vals, ast_vals)]
 
-            # Rate-based PRA (30/70 blend — rolling is unbiased)
-            pra_rate = (rates.get("pts_per_min", 0) +
-                        rates.get("reb_per_min", 0) +
-                        rates.get("ast_per_min", 0))
-            if pra_rate > 0:
-                rate_pra = rate_based_projection(pra_rate, proj_min)
-                rolling_avg = 0.3 * rate_pra + 0.7 * _weighted_avg(pra_vals)
-            else:
-                rolling_avg = _weighted_avg(pra_vals)
+            rolling_avg = _weighted_avg(pra_vals)
             rolling_std = _weighted_std(pra_vals) * VAR_MULT.get("pts_rebs_asts", 1.1)
 
             # Season anchor for PRA
