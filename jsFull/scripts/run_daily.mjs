@@ -1219,10 +1219,7 @@ async function main() {
       return {};
     }),
     detectB2B().catch(() => new Set()),
-    fetchH2HMatchups().catch((e) => {
-      console.warn("  ⚠ H2H fetch failed:", e.message);
-      return null;
-    }),
+    Promise.resolve(null), // H2H disabled (h2hWeight=0)
   ]);
 
   // Detect started/finished games via ESPN scoreboard

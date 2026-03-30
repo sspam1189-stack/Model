@@ -576,7 +576,6 @@ def main(subject_label="[PY]"):
             with open(_inj_cache, "r", encoding="utf-8") as _f:
                 _old = json.load(_f)
             _old_inj_report = (_old.get("injuryData") or {}).get("report", {})
-            h2h_matchups = _old.get("h2hMatchups")
         except Exception:
             pass
     import time as _time
@@ -590,9 +589,8 @@ def main(subject_label="[PY]"):
         except Exception as e: print(f"  Warning: Player advanced fetch failed: {e}"); player_advanced = {}
     try: b2b_teams = detect_b2b()
     except Exception: b2b_teams = set()
-    if h2h_matchups is None:
-        try: h2h_matchups = fetch_h2h_matchups()
-        except Exception as e: print(f"  Warning: H2H fetch failed: {e}"); h2h_matchups = None
+    # H2H disabled (h2hWeight=0) — skip fetch entirely
+    h2h_matchups = None
 
     base_w = store.get("weights") or defaults["DEFAULT_W"]
     base_w_var = store.get("weightsVar") or defaults["DEFAULT_W_VAR"]

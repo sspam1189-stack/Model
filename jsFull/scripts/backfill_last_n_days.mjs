@@ -169,9 +169,8 @@ async function main() {
     return enhanced;
   }
 
-  // H2H matchup history — builds progressively as days are backfilled.
-  // Each date only sees games that happened before it.
-  const h2hMatchups = {};
+  // H2H disabled (h2hWeight=0) — skip entirely
+  const h2hMatchups = null;
 
   // Kalman state — initialized on first date with stats, evolves forward
   let kalmanState = null;
@@ -221,18 +220,7 @@ async function main() {
         store.weightsVar = tunedWVar;
       }
 
-      // 3. H2H matchup history (just needs scores — includes early season SKIPPED games)
-      for (const g of prevAllScored) {
-        const key = [g.home, g.away].sort().join("::");
-        if (!h2hMatchups[key]) {
-          h2hMatchups[key] = { team1: [g.home, g.away].sort()[0], team2: [g.home, g.away].sort()[1], games: [] };
-        }
-        h2hMatchups[key].games.push({
-          date: g._kalmanDate || date,
-          home: { team: g.home, pts: g.homeScore },
-          away: { team: g.away, pts: g.awayScore },
-        });
-      }
+      // 3. H2H disabled — skip
 
       // 5. Build B2B set for TODAY — teams that played yesterday
       b2bTeams = new Set();

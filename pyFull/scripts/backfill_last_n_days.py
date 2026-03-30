@@ -187,8 +187,8 @@ def main():
 
         return enhanced
 
-    # H2H matchup history — builds progressively as days are backfilled.
-    h2h_matchups = {}
+    # H2H disabled (h2hWeight=0) — skip entirely
+    h2h_matchups = None
 
     # Kalman state — initialized on first date with stats, evolves forward
     kalman_state = None
@@ -242,17 +242,7 @@ def main():
                 store["weights"] = result["W"]
                 store["weightsVar"] = result["W_var"]
 
-            # 3. H2H matchup history
-            for g in prev_all_scored:
-                key = "::".join(sorted([g["home"], g["away"]]))
-                if key not in h2h_matchups:
-                    sorted_teams = sorted([g["home"], g["away"]])
-                    h2h_matchups[key] = {"team1": sorted_teams[0], "team2": sorted_teams[1], "games": []}
-                h2h_matchups[key]["games"].append({
-                    "date": g.get("_kalmanDate", date),
-                    "home": {"team": g["home"], "pts": g["homeScore"]},
-                    "away": {"team": g["away"], "pts": g["awayScore"]},
-                })
+            # 3. H2H disabled — skip
 
             # 5. Build B2B set for TODAY
             b2b_teams = set()
