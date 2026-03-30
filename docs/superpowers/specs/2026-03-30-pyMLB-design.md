@@ -33,7 +33,7 @@ pyMLB/
     run_daily.py         # Daily pipeline: grade -> fetch -> project -> report
     backfill.py          # Prior-season ridge training via pybaseball
     pitcher_layer.py     # Starter swap + bullpen workload adjustments
-    self_tune.py         # Thin wrapper -> core/self_tune.py
+    self_tune.py         # Standalone MLB Bayesian tuner (like pyNFL/scripts/self_tune.py)
     kalman_state.py      # Thin wrapper -> core/kalman_state.py
     calibration.py       # Thin wrapper -> core/calibration.py
     store.py             # Thin wrapper -> core/store.py
@@ -55,9 +55,9 @@ pyMLB/
 
 ---
 
-## 3. Ridge Feature Set (20 features)
+## 3. Ridge Feature Set (19 features)
 
-### Starter pitching (weighted by projected ~5.5 IP)
+### Starter pitching (weighted by starter's season-average IP/start, typically ~5.5)
 
 | Feature | Description |
 |---|---|
@@ -67,7 +67,7 @@ pyMLB/
 | `starter_siera_diff` | SIERA differential (batted ball aware) |
 | `starter_handedness` | Platoon flag (L/R vs opposing lineup splits) |
 
-### Bullpen (weighted by projected ~3.5 IP)
+### Bullpen (weighted by complement of starter IP, typically ~3.5)
 
 | Feature | Description |
 |---|---|
@@ -99,7 +99,6 @@ pyMLB/
 | Feature | Description |
 |---|---|
 | `starter_x_lineup` | Starter FIP * opposing wRC+ interaction |
-| `bullpen_x_lead` | Bullpen FIP * projected lead magnitude |
 
 ---
 
@@ -108,19 +107,21 @@ pyMLB/
 ### Step 1 — Grade yesterday's picks
 - Fetch final scores from ESPN scoreboard
 - Parse each pick (run line ATS + over/under result)
-- Feed results into `core/self_tune.py` for Bayesian weight updates
+- Feed results into `pyMLB/scripts/self_tune.py` for Bayesian weight updates
 - Update Kalman state from actual vs projected margins
 
 ### Step 2 — Fetch team stats
 - `mlb_stats.py`: pybaseball `team_batting()` + `team_pitching()` for season aggregates
-- Blend: 70% season / 30% last-30-days rolling window
+- Blend: 70% season / 30% last-30-days rolling window. First 30 days of season: 100% season stats (no rolling window available yet), then linearly ramp in the 30-day blend from day 30 to day 60.
 - Cache to `data/stats_cache/mlb/YYYYMMDD.json` (same cache mechanic as NBA/NFL)
+- Rate limiting: 2-second sleep between pybaseball API calls, exponential backoff on 429 errors
 
 ### Step 3 — Fetch pitcher stats
 - `pitcher_stats.py`: pybaseball `pitching_stats()` for individual pitcher lines
 - Separate starter pool vs bullpen pool per team
 - Compute team bullpen aggregate (FIP, K-BB%) weighted by IP
 - Cache to `data/pitcher_cache/mlb/YYYYMMDD.json`
+- Same rate limiting as Step 2
 
 ### Step 4 — Fetch probable starters + injuries
 - `injuries.py`: ESPN API for IL status + probable pitcher assignments
@@ -134,15 +135,17 @@ pyMLB/
 ### Step 6 — Fetch weather
 - `weather.py`: Open-Meteo API for game-time temperature + wind speed/direction
 - Skip domed/retractable-roof stadiums (weather features zeroed)
+- Only fetch same-day forecasts (run_daily.py runs day-of for that day's games)
 
 ### Step 7 — Apply Kalman drift
 - Daily variance drift for all 30 teams via `core/kalman_state.py`
 
 ### Step 8 — Project games
-- For each game: build 20-feature vector -> ridge prediction -> projected margin + total
+- For each game: build 19-feature vector -> ridge prediction -> projected margin + total
 - Apply park factor + weather adjustments to total
 - Compute P(cover) and P(over/under) via normal CDF with variance propagation
 - Generate picks where P exceeds thresholds
+- Confidence tiers: `P >= probElite` -> "elite", `P >= probHigh` -> "high", else PASS
 
 ### Step 9 — Save + report
 - Upsert run to `mlb_history.json` via `core/store.py`
@@ -152,7 +155,56 @@ pyMLB/
 
 ## 5. Defaults & Hyperparameters
 
+### DEFAULT_STATS (team stat template populated by mlb_stats.py)
+
+```python
+DEFAULT_STATS = {
+    "GP": 0,                # Games played
+    "wRC_plus": 100,        # Weighted runs created plus (100 = league avg)
+    "xwOBA": 0.320,         # Expected weighted on-base average
+    "ISO": 0.150,           # Isolated power
+    "K_pct": 0.220,         # Strikeout rate
+    "BB_pct": 0.080,        # Walk rate
+    "wRC_vs_L": 100,        # wRC+ vs left-handed pitchers
+    "wRC_vs_R": 100,        # wRC+ vs right-handed pitchers
+    "team_FIP": 4.00,       # Team pitching FIP
+    "team_xFIP": 4.00,      # Team pitching xFIP
+    "team_SIERA": 4.00,     # Team pitching SIERA
+    "team_K_BB_pct": 0.100, # Team pitching K-BB%
+    "bullpen_FIP": 4.00,    # Bullpen FIP
+    "bullpen_K_BB_pct": 0.100, # Bullpen K-BB%
+    "bullpen_IP_last3": 0.0,  # Bullpen innings pitched last 3 days
+}
+```
+
+### FEATURE_COLUMNS (canonical ridge feature vector ordering)
+
+```python
+FEATURE_COLUMNS = [
+    "starter_fip_diff",
+    "starter_kbb_diff",
+    "starter_xfip_diff",
+    "starter_siera_diff",
+    "starter_handedness",
+    "bullpen_fip_diff",
+    "bullpen_workload",
+    "bullpen_kbb_diff",
+    "wrc_plus_diff",
+    "xwoba_diff",
+    "iso_diff",
+    "kbb_bat_diff",
+    "wrc_vs_hand_diff",
+    "home_flag",
+    "park_factor",
+    "temperature_adj",
+    "wind_adj",
+    "starter_x_lineup",
+]
+```
+
 ### Initial ridge weight seeds (overwritten by backfill)
+
+Weight keys use the `w` prefix convention. The mapping from FEATURE_COLUMNS to weight keys is positional (same order).
 
 ```python
 DEFAULT_W = {
@@ -179,7 +231,6 @@ DEFAULT_W = {
     "wWindAdj": 0.1,
     # Interactions
     "wStarterXLineup": 0.5,
-    "wBullpenXLead": 0.3,
     # Additive
     "constant": 0.0,
     # Pick thresholds
@@ -187,6 +238,63 @@ DEFAULT_W = {
     "probElite": 0.63,
     "probOUHigh": 0.58,
     "probOUElite": 0.65,
+    # Legacy thresholds (for self-tune Signal 2 compatibility)
+    "sprHigh": 1.5,
+    "ouHigh": 2.0,
+    "sprEliteBump": 1.0,
+    "ouEliteBump": 1.0,
+}
+```
+
+### Weight keys for Bayesian margin update (self-tune Signal 1)
+
+```python
+_WEIGHT_KEYS = [
+    "wStarterFIP", "wStarterKBB", "wStarterXFIP", "wStarterSIERA", "wStarterHand",
+    "wBullpenFIP", "wBullpenWorkload", "wBullpenKBB",
+    "wWRCPlus", "wXWOBA", "wISO", "wKBBBat", "wWRCvsHand",
+    "hfa", "wParkFactor", "wTempAdj", "wWindAdj",
+    "wStarterXLineup",
+]
+
+_FEATURE_KEYS = [
+    "dStarterFIP", "dStarterKBB", "dStarterXFIP", "dStarterSIERA", "dStarterHand",
+    "dBullpenFIP", "dBullpenWorkload", "dBullpenKBB",
+    "dWRCPlus", "dXWOBA", "dISO", "dKBBBat", "dWRCvsHand",
+    "hca", "dParkFactor", "dTempAdj", "dWindAdj",
+    "dStarterXLineup",
+]
+```
+
+### DEFAULT_W_VAR (Bayesian uncertainty per weight)
+
+```python
+DEFAULT_W_VAR = {
+    # Starter pitching — moderate uncertainty
+    "wStarterFIP": 4.0,
+    "wStarterKBB": 4.0,
+    "wStarterXFIP": 4.0,
+    "wStarterSIERA": 4.0,
+    "wStarterHand": 3.0,
+    # Bullpen
+    "wBullpenFIP": 4.0,
+    "wBullpenWorkload": 3.0,
+    "wBullpenKBB": 4.0,
+    # Batting
+    "wWRCPlus": 4.0,
+    "wXWOBA": 4.0,
+    "wISO": 4.0,
+    "wKBBBat": 3.0,
+    "wWRCvsHand": 4.0,
+    # Environment — HFA is well-studied
+    "hfa": 1.5,
+    "wParkFactor": 2.0,
+    "wTempAdj": 3.0,
+    "wWindAdj": 3.0,
+    # Interactions
+    "wStarterXLineup": 4.0,
+    # Additive
+    "constant": 3.0,
 }
 ```
 
@@ -222,6 +330,34 @@ HCA_CLAMP_HI = 1.0
 HCA_VAR_FLOOR = 0.1
 ```
 
+### Confidence tiers
+
+```python
+SDIFF_THRESHOLDS = {
+    "elite": 2.5,     # Very high edge
+    "high": 1.5,      # Clear edge — standard pick
+    "medium": 0.5,    # Marginal — lean
+    "low": 0.0,       # Below threshold — PASS
+}
+```
+
+### Engine config
+
+```python
+ENGINE_CONFIG = {
+    "TEAM_NAME_ALIASES": {},    # Populated by _build_alias_map()
+    "MIN_GP": 0,                # Project from day 1
+    "USE_SAFE_FUZZY": True,
+    "USE_COLLAPSE_ABBR": True,
+}
+```
+
+### Ridge regression default alpha
+
+```python
+DEFAULT_RIDGE_ALPHA = 1.0  # Overridden by CV during backfill
+```
+
 ### Burn-in: 14 days
 
 ---
@@ -231,13 +367,13 @@ HCA_VAR_FLOOR = 0.1
 **Data sources for backfill:**
 - pybaseball: prior season team + pitcher stats
 - ESPN scoreboard: prior season final scores
-- Historical odds: `C:\Users\Henry Pham\Desktop\odds historical\MLB`
+- Historical odds: path configured via `HISTORICAL_ODDS_DIR` env var (default: `C:\Users\Henry Pham\Desktop\odds historical\MLB`)
 - FanGraphs park factors: prior season
 
 **Training process:**
 1. For each prior-season game (~2,430):
    - Look up that day's probable starter stats per team
-   - Build 20-feature vector from team + pitcher + park stats
+   - Build 18-feature vector from team + pitcher + park stats
    - Target = actual margin (home - away)
 2. Apply exponential recency decay (lambda ~0.998/game)
 3. Fit `sklearn.linear_model.RidgeCV` with alphas [0.1, 0.5, 1.0, 5.0, 10.0]
@@ -256,7 +392,29 @@ HCA_VAR_FLOOR = 0.1
 
 ---
 
-## 7. MLB-Specific Considerations
+## 7. Self-Tune Integration
+
+`pyMLB/scripts/self_tune.py` is a **standalone reimplementation** for MLB weight keys, following the exact pattern of `pyNFL/scripts/self_tune.py`. It does NOT import `tune_weights` from `core/self_tune.py` because that module hard-codes NBA feature names.
+
+**What it imports from core:**
+- `core.self_tune._configure(defaults)` — sets module-level defaults
+- `core.self_tune.compute_residual_var` — sport-agnostic residual variance helper
+
+**What it reimplements locally:**
+- `tune_weights()` with MLB-specific `_WEIGHT_KEYS` and `_FEATURE_KEYS` (see Section 5)
+- Signal 1: Bayesian posterior update on margin weights (18 MLB features)
+- Signal 2: Profitability threshold tuning (probHigh, probOUElite, sprHigh, ouHigh)
+- Signal 3: Gradient descent on `constant` using total prediction error (no `paceAdj` — MLB has fixed 9-inning games)
+- Signal 4: Adaptive Kalman parameters (gameNoise, dailyDrift) from rolling prediction error variance
+
+**Weight clamping:**
+- Pitching/batting weights: [0, 10]
+- hfa: [HCA_CLAMP_LO, HCA_CLAMP_HI] = [0.2, 1.0]
+- Environment weights: no clamp (park factor and weather are bounded by construction)
+
+---
+
+## 8. MLB-Specific Considerations
 
 ### Domed stadiums (skip weather fetch)
 
@@ -292,23 +450,28 @@ DOMED_STADIUMS = {
 ### Universal DH
 - In effect since 2022. No AL/NL lineup split needed.
 
+### Starter IP projection
+- Derived from the starter's season-average innings per start (IP / GS)
+- Bullpen projected IP = 9.0 - starter projected IP
+- Used to weight starter vs bullpen features during feature vector construction
+
 ---
 
-## 8. Shared Core Integration
+## 9. Shared Core Integration
 
 | Shared module | MLB usage |
 |---|---|
-| `core/self_tune.py` | Bayesian weight updates after grading |
-| `core/kalman_state.py` | Per-team strength drift tracking |
-| `core/calibration.py` | P(cover) bucket analysis + dashboard output |
-| `core/store.py` | JSON persistence for runs + weights |
+| `core/kalman_state.py` | Per-team strength drift tracking (thin wrapper) |
+| `core/calibration.py` | P(cover) bucket analysis + dashboard output (thin wrapper) |
+| `core/store.py` | JSON persistence for runs + weights (thin wrapper) |
 | `core/email_report.py` | Daily pick email delivery |
+| `core/self_tune.py` | Only `_configure()` and `compute_residual_var` imported; `tune_weights()` is reimplemented in `pyMLB/scripts/self_tune.py` with MLB-specific weight keys |
 
 MLB model engine (`pyMLB/scripts/model_engine.py`) is fully self-contained — it builds feature vectors and runs ridge projection without depending on `core/model_engine.py` (which is NBA stat-delta specific). Same pattern as `pyNFL/scripts/model_engine.py`.
 
 ---
 
-## 9. 30 MLB Teams
+## 10. 30 MLB Teams
 
 ```
 AL East:  Baltimore Orioles, Boston Red Sox, New York Yankees, Tampa Bay Rays, Toronto Blue Jays
@@ -319,4 +482,4 @@ NL Central: Chicago Cubs, Cincinnati Reds, Milwaukee Brewers, Pittsburgh Pirates
 NL West: Arizona Diamondbacks, Colorado Rockies, Los Angeles Dodgers, San Diego Padres, San Francisco Giants
 ```
 
-Full alias map (abbreviations, city names, nicknames) built in `defaults.py` following the NFL pattern.
+Full alias map (abbreviations, city names, nicknames) built in `defaults.py` following the NFL pattern via `_build_alias_map()`.
