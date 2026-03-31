@@ -306,7 +306,7 @@
           const tbl = document.createElement('table');
           tbl.style.cssText = 'width:100%;border-collapse:collapse';
           const hRow = tbl.createTHead().insertRow();
-          ['Player','Team','Cat','Proj','Line','Pick','Conf'].forEach((h,i) => {
+          ['Player','Team','Cat','Proj','Line','Edge','Pick','Conf'].forEach((h,i) => {
             const th = document.createElement('th');
             th.textContent = h;
             th.style.cssText = 'padding:5px 8px;text-align:'+(i===0?'left':'center')+';border-bottom:1px solid rgba(255,255,255,0.1);font-size:12px;color:#999';
@@ -319,8 +319,11 @@
             const isPick = p.pick && p.pick !== 'PASS';
             if (isPick) row.style.background = 'rgba(124,108,240,0.06)';
             const confLabel = p.conf === 'elite' ? 'ELITE' : p.conf === 'high' ? 'HIGH' : '—';
+            const edge = (p.proj != null && p.line != null) ? +(p.proj - p.line).toFixed(1) : null;
+            const edgeStr = edge != null ? (edge > 0 ? '+'+edge : String(edge)) : '—';
             [shortName(p.player), p.team||'', marketLabels[p.market]||p.market,
              p.proj!=null?String(p.proj):'—', p.line!=null?String(p.line):'—',
+             edgeStr,
              isPick?(p.pick==='OVER'?'O':'U'):'—', confLabel
             ].forEach((v,i) => {
               const td = row.insertCell();
@@ -329,8 +332,9 @@
               if (i===0) td.style.fontWeight = '600';
               if (i===1) td.style.color = '#999';
               if (i===3 && p.line!=null) td.style.color = p.proj > p.line ? 'var(--green)' : p.proj < p.line ? 'var(--red)' : '';
-              if (i===5 && isPick) { td.style.fontWeight='700'; td.style.color = p.pick==='OVER'?'var(--green)':'var(--red)'; }
-              if (i===6 && p.conf==='elite') { td.style.background='#7c6cf0'; td.style.color='#fff'; td.style.borderRadius='4px'; td.style.fontSize='11px'; td.style.padding='2px 6px'; }
+              if (i===5 && edge!=null) td.style.color = edge > 0 ? 'var(--green)' : edge < 0 ? 'var(--red)' : '#999';
+              if (i===6 && isPick) { td.style.fontWeight='700'; td.style.color = p.pick==='OVER'?'var(--green)':'var(--red)'; }
+              if (i===7 && p.conf==='elite') { td.style.background='#7c6cf0'; td.style.color='#fff'; td.style.borderRadius='4px'; td.style.fontSize='11px'; td.style.padding='2px 6px'; }
             });
           }
           tableWrap.appendChild(tbl);
