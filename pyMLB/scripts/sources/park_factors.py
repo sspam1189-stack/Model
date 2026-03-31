@@ -61,7 +61,4 @@ def get_stadium_coords(home_team):
 
 def is_dome(home_team):
     """Check if the home team plays in a domed/retractable roof stadium."""
-    data = PARK_DATA.get(home_team)
-    if data:
-        return data["stadium"] in defaults.DOMED_STADIUMS
-    return False
+    return home_team in defaults.DOMED_STADIUMS
