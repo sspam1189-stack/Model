@@ -289,6 +289,30 @@
 
         const PAGE_SIZE = 30;
         let currentPage = 0;
+        // sortCol: 'cat'|'edge'|'cover'|'proj'  sortDir: 1=asc -1=desc
+        let sortCol = 'cat';
+        let sortDir = 1;
+
+        const catOrd = {points:0,rebounds:1,assists:2,threes:3,steals:4,blocks:5,turnovers:6};
+
+        function sortRows(rows) {
+          return [...rows].sort((a, b) => {
+            let v;
+            if (sortCol === 'cat') {
+              v = ((catOrd[a.market]??99) - (catOrd[b.market]??99)) ||
+                  (((a.proj??0)-(a.line??0)) < ((b.proj??0)-(b.line??0)) ? 1 : ((a.proj??0)-(a.line??0)) > ((b.proj??0)-(b.line??0)) ? -1 : 0);
+            } else if (sortCol === 'edge') {
+              v = ((b.proj??0)-(b.line??0)) - ((a.proj??0)-(a.line??0));
+            } else if (sortCol === 'cover') {
+              v = (b.pCover??0) - (a.pCover??0);
+            } else if (sortCol === 'proj') {
+              v = (b.proj??0) - (a.proj??0);
+            } else {
+              v = 0;
+            }
+            return sortCol === 'cat' ? v : v * sortDir;
+          });
+        }
 
         function renderGameTable() {
           tableWrap.textContent = '';
@@ -303,23 +327,42 @@
             tableWrap.appendChild(Object.assign(document.createElement('div'), {textContent:'No projections found.', style:'color:#666;font-size:13px'}));
             return;
           }
-          // Sort by category first, then player name, then pCover
-          const catOrd = {points:0,rebounds:1,assists:2,threes:3,steals:4,blocks:5,turnovers:6};
-          gameProj.sort((a,b) => (catOrd[a.market]??99)-(catOrd[b.market]??99) || (a.player||'').localeCompare(b.player||'') || (b.pCover||0)-(a.pCover||0));
 
-          const totalPages = Math.ceil(gameProj.length / PAGE_SIZE);
+          const sorted = sortRows(gameProj);
+          const totalPages = Math.ceil(sorted.length / PAGE_SIZE);
           currentPage = Math.max(0, Math.min(currentPage, totalPages - 1));
-          const pageRows = gameProj.slice(currentPage * PAGE_SIZE, (currentPage + 1) * PAGE_SIZE);
+          const pageRows = sorted.slice(currentPage * PAGE_SIZE, (currentPage + 1) * PAGE_SIZE);
 
           const tbl = document.createElement('table');
           tbl.style.cssText = 'width:100%;border-collapse:collapse';
           const hRow = tbl.createTHead().insertRow();
-          ['Player','Team','Cat','Proj','Line','Edge','Pick','Conf'].forEach((h,i) => {
+
+          // col def: [label, sortKey, align-left?]
+          const cols = [
+            ['Player', null, true],
+            ['Team',   null, false],
+            ['Cat',    'cat', false],
+            ['Proj',   'proj', false],
+            ['Line',   null, false],
+            ['Edge',   'edge', false],
+            ['Cover%', 'cover', false],
+            ['Pick',   null, false],
+            ['Conf',   null, false],
+          ];
+          cols.forEach(([label, key, leftAlign], i) => {
             const th = document.createElement('th');
-            th.textContent = h;
-            th.style.cssText = 'padding:5px 8px;text-align:'+(i===0?'left':'center')+';border-bottom:1px solid rgba(255,255,255,0.1);font-size:12px;color:#999';
+            const isActive = key && sortCol === key;
+            const arrow = isActive ? (sortDir === 1 ? ' ↑' : ' ↓') : '';
+            th.textContent = label + arrow;
+            th.style.cssText = `padding:5px 8px;text-align:${leftAlign?'left':'center'};border-bottom:1px solid rgba(255,255,255,0.1);font-size:12px;color:${isActive?'#fff':'#999'};${key?'cursor:pointer;user-select:none':''}`;
+            if (key) th.onclick = () => {
+              if (sortCol === key) { sortDir *= -1; } else { sortCol = key; sortDir = key === 'cat' ? 1 : -1; }
+              currentPage = 0;
+              renderGameTable();
+            };
             hRow.appendChild(th);
           });
+
           const tbody = tbl.createTBody();
           for (const p of pageRows) {
             const row = tbody.insertRow();
@@ -329,9 +372,10 @@
             const confLabel = p.conf === 'elite' ? 'ELITE' : p.conf === 'high' ? 'HIGH' : '—';
             const edge = (p.proj != null && p.line != null) ? +(p.proj - p.line).toFixed(1) : null;
             const edgeStr = edge != null ? (edge > 0 ? '+'+edge : String(edge)) : '—';
+            const coverStr = p.pCover != null ? (p.pCover * 100).toFixed(1) + '%' : '—';
             [shortName(p.player), p.team||'', marketLabels[p.market]||p.market,
              p.proj!=null?String(p.proj):'—', p.line!=null?String(p.line):'—',
-             edgeStr,
+             edgeStr, coverStr,
              isPick?(p.pick==='OVER'?'O':'U'):'—', confLabel
             ].forEach((v,i) => {
               const td = row.insertCell();
@@ -341,8 +385,9 @@
               if (i===1) td.style.color = '#999';
               if (i===3 && p.line!=null) td.style.color = p.proj > p.line ? 'var(--green)' : p.proj < p.line ? 'var(--red)' : '';
               if (i===5 && edge!=null) td.style.color = edge > 0 ? 'var(--green)' : edge < 0 ? 'var(--red)' : '#999';
-              if (i===6 && isPick) { td.style.fontWeight='700'; td.style.color = p.pick==='OVER'?'var(--green)':'var(--red)'; }
-              if (i===7 && p.conf==='elite') { td.style.background='#7c6cf0'; td.style.color='#fff'; td.style.borderRadius='4px'; td.style.fontSize='11px'; td.style.padding='2px 6px'; }
+              if (i===6 && p.pCover!=null) td.style.color = p.pCover >= 0.65 ? 'var(--green)' : p.pCover <= 0.45 ? 'var(--red)' : '#ccc';
+              if (i===7 && isPick) { td.style.fontWeight='700'; td.style.color = p.pick==='OVER'?'var(--green)':'var(--red)'; }
+              if (i===8 && p.conf==='elite') { td.style.background='#7c6cf0'; td.style.color='#fff'; td.style.borderRadius='4px'; td.style.fontSize='11px'; td.style.padding='2px 6px'; }
             });
           }
           tableWrap.appendChild(tbl);
@@ -351,7 +396,6 @@
           if (totalPages > 1) {
             const pgRow = document.createElement('div');
             pgRow.style.cssText = 'display:flex;align-items:center;justify-content:center;gap:8px;padding:10px 0 2px';
-            const btnStyle = (active) => `padding:4px 12px;border-radius:6px;border:1px solid ${active?'#7c6cf0':'rgba(255,255,255,0.12)'};background:${active?'#7c6cf0':'transparent'};color:${active?'#fff':'#999'};font-size:12px;cursor:${active?'default':'pointer'}`;
             const prevBtn = document.createElement('button');
             prevBtn.textContent = '← Prev';
             prevBtn.style.cssText = 'padding:4px 12px;border-radius:6px;border:1px solid rgba(255,255,255,0.12);background:transparent;color:'+(currentPage===0?'#444':'#ccc')+';font-size:12px;cursor:'+(currentPage===0?'default':'pointer');
@@ -363,7 +407,7 @@
             nextBtn.disabled = currentPage === totalPages - 1;
             nextBtn.onclick = () => { currentPage++; renderGameTable(); tableWrap.scrollIntoView({behavior:'smooth',block:'nearest'}); };
             const info = Object.assign(document.createElement('span'), {
-              textContent: `Page ${currentPage+1} of ${totalPages}  (${gameProj.length} rows)`,
+              textContent: `Page ${currentPage+1} of ${totalPages}  (${sorted.length} rows)`,
               style: 'font-size:12px;color:#666'
             });
             pgRow.appendChild(prevBtn);
