@@ -18,8 +18,8 @@
         return;
       }
 
-      const marketLabels = {points:'PTS', rebounds:'REB', assists:'AST', threes:"3's", pts_rebs_asts:'PRA', steals:'STL', blocks:'BLK', turnovers:'TO'};
-      const picks = data.props.filter(p => p.pick !== 'PASS');
+      const marketLabels = {points:'PTS', rebounds:'REB', assists:'AST', threes:"3's", steals:'STL', blocks:'BLK', turnovers:'TO'};
+      const picks = data.props.filter(p => p.pick !== 'PASS' && p.market !== 'pts_rebs_asts');
       const isBacktest = picks.some(p => p.result != null);
 
       // Helper: get ISO week start (Monday) for a date string
@@ -179,7 +179,7 @@
             hRow.appendChild(th);
           });
           const tbody = tbl.createTBody();
-          const catOrder = {points:0, rebounds:1, assists:2, pts_rebs_asts:3, threes:4, steals:5, blocks:6, turnovers:7};
+          const catOrder = {points:0, rebounds:1, assists:2, threes:3, steals:4, blocks:5, turnovers:6};
           todayPicks.sort((a,b) => (catOrder[a.market]??99) - (catOrder[b.market]??99) || (b.pCover||0) - (a.pCover||0));
           for (const p of todayPicks) {
             const row = tbody.insertRow();
@@ -234,7 +234,7 @@
       toolbar.appendChild(tabRow);
 
       // Row 2: Market filter pills
-      const nbaButtonOrder = ['points','rebounds','assists','pts_rebs_asts','threes','steals','blocks','turnovers'];
+      const nbaButtonOrder = ['points','rebounds','assists','threes','steals','blocks','turnovers'];
       const allMarketKeys = [...new Set(picks.map(p => p.market))].sort((a, b) => {
         const ia = nbaButtonOrder.indexOf(a); const ib = nbaButtonOrder.indexOf(b);
         return (ia === -1 ? 99 : ia) - (ib === -1 ? 99 : ib);
@@ -372,7 +372,7 @@
       }
 
       function buildMarketBreakdown(filteredPicks) {
-        const nbaMarketOrder = ['PTS','REB','AST','PRA',"3's",'STL','BLK','TO'];
+        const nbaMarketOrder = ['PTS','REB','AST',"3's",'STL','BLK','TO'];
         const fGrouped = {};
         for (const p of filteredPicks) {
           const ml = marketLabels[p.market] || p.market;
@@ -406,58 +406,6 @@
 
         const { fGrouped, sortedMarkets } = buildMarketBreakdown(filteredPicks);
 
-        // Market breakdown summary (always shown)
-        if (isBacktest) {
-          const summCard = document.createElement('div');
-          summCard.className = 'card card-games';
-          summCard.style.marginBottom = '16px';
-          summCard.appendChild(Object.assign(document.createElement('div'), {className:'card-title', textContent:'Market Breakdown'}));
-          const summWrap = document.createElement('div');
-          summWrap.className = 'props-table-wrap';
-          const summTbl = document.createElement('table');
-          summTbl.style.cssText = 'width:100%;border-collapse:collapse;margin-top:8px';
-          const sh = summTbl.createTHead().insertRow();
-          ['Cat','Picks','W','L','Win%','Units'].forEach(h => {
-            const th = document.createElement('th');
-            th.textContent = h;
-            th.style.cssText = 'padding:6px 10px;text-align:right;border-bottom:1px solid rgba(255,255,255,0.1)';
-            if (h === 'Cat') th.style.textAlign = 'left';
-            sh.appendChild(th);
-          });
-          const sb = summTbl.createTBody();
-          let gW = 0, gL = 0;
-          for (const market of sortedMarkets) {
-            const mPicks = fGrouped[market];
-            const w = mPicks.filter(p => p.result === 'WIN').length;
-            const l = mPicks.filter(p => p.result === 'LOSS').length;
-            const u = w * 1.0 + l * (-1.1);
-            const pct = (w + l) > 0 ? (w / (w + l) * 100).toFixed(1) : 'n/a';
-            gW += w; gL += l;
-            const sr = sb.insertRow();
-            [market, String(mPicks.length), String(w), String(l), pct+'%', (u>=0?'+':'')+u.toFixed(1)+'u'].forEach((v,i) => {
-              const td = sr.insertCell();
-              td.textContent = v;
-              td.style.padding = '6px 10px';
-              td.style.textAlign = i === 0 ? 'left' : 'right';
-              if (i === 5) td.style.color = u >= 0 ? 'var(--green)' : 'var(--red)';
-            });
-          }
-          const gU = gW * 1.0 + gL * (-1.1);
-          const tr = sb.insertRow();
-          tr.style.borderTop = '2px solid rgba(255,255,255,0.2)';
-          tr.style.fontWeight = '700';
-          ['TOTAL', String(filteredPicks.length), String(gW), String(gL),
-           (gW+gL>0?(gW/(gW+gL)*100).toFixed(1):'0')+'%',
-           (gU>=0?'+':'')+gU.toFixed(1)+'u'].forEach((v,i) => {
-            const td = tr.insertCell();
-            td.textContent = v;
-            td.style.padding = '6px 10px';
-            td.style.textAlign = i === 0 ? 'left' : 'right';
-            if (i === 5) td.style.color = gU >= 0 ? 'var(--green)' : 'var(--red)';
-          });
-          summWrap.appendChild(summTbl); summCard.appendChild(summWrap);
-          contentArea.appendChild(summCard);
-        }
 
         // Single market selected → paginated table for that market
         if (nbaActiveMarket !== 'all') {
