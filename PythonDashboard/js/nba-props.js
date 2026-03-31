@@ -197,7 +197,7 @@
               p.line != null ? String(p.line) : '\u2014',
               tEdgeStr,
               p.pick === 'OVER' ? 'O' : 'U',
-              'PICK'
+              p.conf === 'elite' ? 'ELITE' : 'HIGH'
             ];
             cells.forEach((val, i) => {
               const td = row.insertCell();
@@ -208,7 +208,7 @@
               if (i === 4) td.style.color = p.proj > p.line ? 'var(--green)' : p.proj < p.line ? 'var(--red)' : '';
               if (i === 6 && tEdge != null) td.style.color = tEdge > 0 ? 'var(--green)' : tEdge < 0 ? 'var(--red)' : '#999';
               if (i === 7) { td.style.fontWeight = '700'; td.style.color = p.pick === 'OVER' ? 'var(--green)' : 'var(--red)'; }
- td.style.color = '#fff'; td.style.borderRadius = '4px'; td.style.fontSize = '11px'; }
+              if (i === 8 && p.conf === 'elite') { td.style.background = '#7c6cf0'; td.style.color = '#fff'; td.style.borderRadius = '4px'; td.style.fontSize = '11px'; }
             });
           }
           todayCard.appendChild(tbl);
@@ -294,16 +294,6 @@
         let sortDir = 1;
 
         const catOrd = {points:0,rebounds:1,assists:2,threes:3,steals:4,blocks:5,turnovers:6};
-        // Per-market pick thresholds (mirrors defaults.py MARKET_THRESHOLDS)
-        const mktThresh = {
-          points:   0.75,
-          rebounds: 0.73,
-          assists:  0.72,
-          threes:   0.80,
-          steals:   0.85,
-          blocks:   0.85,
-          turnovers:0.80,
-        };
 
         function sortRows(rows) {
           return [...rows].sort((a, b) => {
@@ -379,7 +369,7 @@
             row.style.borderBottom = '1px solid rgba(255,255,255,0.04)';
             const isPick = p.pick && p.pick !== 'PASS';
             if (isPick) row.style.background = 'rgba(124,108,240,0.06)';
-            const confLabel = p.pick && p.pick !== 'PASS' ? 'PICK' : '—';
+            const confLabel = p.conf === 'elite' ? 'ELITE' : p.conf === 'high' ? 'HIGH' : '—';
             const edge = (p.proj != null && p.line != null) ? +(p.proj - p.line).toFixed(1) : null;
             const edgeStr = edge != null ? (edge > 0 ? '+'+edge : String(edge)) : '—';
             const coverStr = p.pCover != null ? (p.pCover * 100).toFixed(1) + '%' : '—';
@@ -395,9 +385,9 @@
               if (i===1) td.style.color = '#999';
               if (i===3 && p.line!=null) td.style.color = p.proj > p.line ? 'var(--green)' : p.proj < p.line ? 'var(--red)' : '';
               if (i===5 && edge!=null) td.style.color = edge > 0 ? 'var(--green)' : edge < 0 ? 'var(--red)' : '#999';
-              if (i===6 && p.pCover!=null) { const t = mktThresh[p.market]; td.style.color = t != null && p.pCover >= t ? 'var(--green)' : '#666'; }
+              if (i===6 && p.pCover!=null) td.style.color = p.pCover >= 0.65 ? 'var(--green)' : p.pCover <= 0.45 ? 'var(--red)' : '#ccc';
               if (i===7 && isPick) { td.style.fontWeight='700'; td.style.color = p.pick==='OVER'?'var(--green)':'var(--red)'; }
- td.style.color='#fff'; td.style.borderRadius='4px'; td.style.fontSize='11px'; td.style.padding='2px 6px'; }
+              if (i===8 && p.conf==='elite') { td.style.background='#7c6cf0'; td.style.color='#fff'; td.style.borderRadius='4px'; td.style.fontSize='11px'; td.style.padding='2px 6px'; }
             });
           }
           tableWrap.appendChild(tbl);
@@ -606,12 +596,12 @@
             p.actual != null ? String(p.actual) : '\u2014',
             p.pick === 'OVER' ? 'O' : 'U',
             p.result === 'WIN' ? 'W' : p.result === 'LOSS' ? 'L' : '\u2014',
-            'PICK'
+            p.conf === 'elite' ? 'ELITE' : 'HIGH'
           ] : [
             shortName(p.player), p.team, p.opp || '', String(p.proj),
             p.line != null ? String(p.line) : '\u2014',
             p.pick === 'OVER' ? 'O' : 'U',
-            'PICK'
+            p.conf === 'elite' ? 'ELITE' : 'HIGH'
           ];
           cells.forEach((val, i) => {
             const td = row.insertCell();
@@ -625,13 +615,13 @@
               if (i === 4) td.style.color = p.proj > p.line ? 'var(--green)' : p.proj < p.line ? 'var(--red)' : '';
               if (i === 7) { td.style.fontWeight = '700'; td.style.color = p.pick === 'OVER' ? 'var(--green)' : 'var(--red)'; }
               if (i === 8) { td.style.fontWeight = '700'; td.style.color = p.result === 'WIN' ? 'var(--green)' : 'var(--red)'; }
- td.style.color = '#fff'; td.style.borderRadius = '4px'; td.style.fontSize = '11px'; }
+              if (i === 9 && p.conf === 'elite') { td.style.background = '#7c6cf0'; td.style.color = '#fff'; td.style.borderRadius = '4px'; td.style.fontSize = '11px'; }
             } else {
               if (i === 0) { td.style.textAlign = 'left'; td.style.fontWeight = '600'; }
               if (i === 1 || i === 2) td.style.color = '#999';
               if (i === 3) td.style.color = p.proj > p.line ? 'var(--green)' : p.proj < p.line ? 'var(--red)' : '';
               if (i === 5) { td.style.fontWeight = '700'; td.style.color = p.pick === 'OVER' ? 'var(--green)' : 'var(--red)'; }
- td.style.color = '#fff'; td.style.borderRadius = '4px'; td.style.fontSize = '11px'; }
+              if (i === 6 && p.conf === 'elite') { td.style.background = '#7c6cf0'; td.style.color = '#fff'; td.style.borderRadius = '4px'; td.style.fontSize = '11px'; }
             }
           });
         }
@@ -803,12 +793,12 @@
             p.actual!=null?String(p.actual):'\u2014',
             p.pick==='OVER'?'O':'U',
             p.result==='WIN'?'W':p.result==='LOSS'?'L':'\u2014',
-            'PICK'
+            p.conf==='elite'?'ELITE':'HIGH'
           ] : [
             shortName(p.player), p.team, p.opp||'', ml, String(p.proj),
             p.line!=null?String(p.line):'\u2014',
             p.pick==='OVER'?'O':'U',
-            'PICK'
+            p.conf==='elite'?'ELITE':'HIGH'
           ];
           cells.forEach((val, i) => {
             const td = row.insertCell();
@@ -822,14 +812,14 @@
               if (i===5) td.style.color=p.proj>p.line?'var(--green)':p.proj<p.line?'var(--red)':'';
               if (i===8) { td.style.fontWeight='700'; td.style.color=p.pick==='OVER'?'var(--green)':'var(--red)'; }
               if (i===9) { td.style.fontWeight='700'; td.style.color=p.result==='WIN'?'var(--green)':'var(--red)'; }
- td.style.color='#fff'; td.style.borderRadius='4px'; td.style.fontSize='10px'; }
+              if (i===10&&p.conf==='elite') { td.style.background='#7c6cf0'; td.style.color='#fff'; td.style.borderRadius='4px'; td.style.fontSize='10px'; }
             } else {
               if (i===0) { td.style.textAlign='left'; td.style.fontWeight='600'; }
               if (i===1||i===2) td.style.color='#999';
               if (i===3) { td.style.color='#aaa'; td.style.fontSize='11px'; }
               if (i===4) td.style.color=p.proj>p.line?'var(--green)':p.proj<p.line?'var(--red)':'';
               if (i===6) { td.style.fontWeight='700'; td.style.color=p.pick==='OVER'?'var(--green)':'var(--red)'; }
- td.style.color='#fff'; td.style.borderRadius='4px'; td.style.fontSize='10px'; }
+              if (i===7&&p.conf==='elite') { td.style.background='#7c6cf0'; td.style.color='#fff'; td.style.borderRadius='4px'; td.style.fontSize='10px'; }
             }
           });
         }

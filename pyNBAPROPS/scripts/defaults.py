@@ -52,20 +52,14 @@ MIN_MINUTES = 15
 # Thresholds set per-market based on calibrated backtest analysis.
 
 MARKET_THRESHOLDS = {
-    "points":        0.60,  # lowered — 0.60-0.80 window: ~65.8% win rate +42.8u
-    "rebounds":      0.73,  # 66.1%  +34.9u — 0.60-0.70 bands are noise, keep high-quality
-    "assists":       0.70,  # lowered from 0.72 — 0.70-0.72 band: 63.3% +25.0u; 0.65-0.70 is -8.7u
-    "threes":        0.80,  # 81.2% — already optimal
-    "pts_rebs_asts": 0.80,
-    "steals":        0.85,
-    "blocks":        0.85,
-    "turnovers":     0.80,
-}
-
-# Maximum pCover per market — picks above this ceiling are cut (over-confident / bad calibration)
-# Points: 0.75-0.80 band = 71.4% win rate; above 0.80 drops to ~54% for both OVER and UNDER
-MAX_PCOVER = {
-    "points": 0.80,
+    "points":        {"high": 0.75, "elite": 0.85},   # 56.5% at 0.75 — optimal is floor
+    "rebounds":      {"high": 0.73, "elite": 0.83},   # Raised 0.70→0.73: 59%→67% (+9.6u)
+    "assists":       {"high": 0.72, "elite": 0.82},   # Raised 0.70→0.72: OVER 69%, UNDER 66%
+    "threes":        {"high": 0.80, "elite": 0.90},   # 80% win rate — already optimal
+    "pts_rebs_asts": {"high": 0.80, "elite": 0.87},   # 63% win rate — already optimal
+    "steals":        {"high": 0.85, "elite": 0.90},
+    "blocks":        {"high": 0.85, "elite": 0.90},
+    "turnovers":     {"high": 0.80, "elite": 0.90},
 }
 
 # Variance multipliers
