@@ -208,6 +208,128 @@
         }
       })();
 
+      // ── Today's Games Explorer ──
+      (function renderGamesSection() {
+        const allDates = [...new Set(data.props.map(p => p.date))].sort();
+        const todayStr = allDates[allDates.length - 1] || '';
+        const todayAllProj = data.props.filter(p => p.date === todayStr && p.market !== 'pts_rebs_asts' && p.proj != null);
+        if (todayAllProj.length === 0) return;
+
+        // Build unique games from today's projections
+        const gameSet = new Map();
+        for (const p of todayAllProj) {
+          const key = [p.team, p.opp].sort().join('@');
+          if (!gameSet.has(key)) gameSet.set(key, `${p.team} vs ${p.opp}`);
+        }
+        const games = [...gameSet.entries()]; // [[key, label], ...]
+
+        const gCard = document.createElement('div');
+        gCard.className = 'card';
+        gCard.style.cssText = 'padding:0;margin-bottom:16px;overflow:hidden';
+
+        // Title row
+        const titleRow = document.createElement('div');
+        titleRow.style.cssText = 'padding:12px 16px 8px;border-bottom:1px solid rgba(255,255,255,0.08)';
+        titleRow.appendChild(Object.assign(document.createElement('div'), {className:'card-title', textContent:`Today\u2019s Games (${todayStr})`}));
+        gCard.appendChild(titleRow);
+
+        // Game selector pills
+        const gamePills = document.createElement('div');
+        gamePills.style.cssText = 'display:flex;gap:6px;flex-wrap:wrap;padding:10px 16px;border-bottom:1px solid rgba(255,255,255,0.08)';
+        let activeGame = games[0]?.[0] || null;
+
+        // Market filter pills
+        const mktPills = document.createElement('div');
+        mktPills.style.cssText = 'display:flex;gap:6px;flex-wrap:wrap;padding:10px 16px;border-bottom:1px solid rgba(255,255,255,0.08)';
+        const mktFilters = ['all','points','rebounds','assists','threes'];
+        let activeMkt = 'all';
+
+        // Table container
+        const tableWrap = document.createElement('div');
+        tableWrap.style.cssText = 'padding:12px 16px';
+
+        function renderGameTable() {
+          tableWrap.textContent = '';
+          const gameProj = todayAllProj.filter(p => {
+            const key = [p.team, p.opp].sort().join('@');
+            const mktMatch = activeMkt === 'all' || p.market === activeMkt;
+            return key === activeGame && mktMatch;
+          });
+          if (gameProj.length === 0) {
+            tableWrap.appendChild(Object.assign(document.createElement('div'), {textContent:'No projections for this game.', style:'color:#666;font-size:13px'}));
+            return;
+          }
+          // Sort by team then catOrder then pCover
+          const catOrd = {points:0,rebounds:1,assists:2,threes:3,steals:4,blocks:5,turnovers:6};
+          gameProj.sort((a,b) => (a.team||'').localeCompare(b.team||'') || (catOrd[a.market]??99)-(catOrd[b.market]??99) || (b.pCover||0)-(a.pCover||0));
+
+          const tbl = document.createElement('table');
+          tbl.style.cssText = 'width:100%;border-collapse:collapse';
+          const hRow = tbl.createTHead().insertRow();
+          ['Player','Team','Cat','Proj','Line','Pick','Conf'].forEach((h,i) => {
+            const th = document.createElement('th');
+            th.textContent = h;
+            th.style.cssText = 'padding:5px 8px;text-align:'+(i===0?'left':'center')+';border-bottom:1px solid rgba(255,255,255,0.1);font-size:12px;color:#999';
+            hRow.appendChild(th);
+          });
+          const tbody = tbl.createTBody();
+          for (const p of gameProj) {
+            const row = tbody.insertRow();
+            row.style.borderBottom = '1px solid rgba(255,255,255,0.04)';
+            const isPick = p.pick && p.pick !== 'PASS';
+            if (isPick) row.style.background = 'rgba(124,108,240,0.06)';
+            const confLabel = p.conf === 'elite' ? 'ELITE' : p.conf === 'high' ? 'HIGH' : '—';
+            [shortName(p.player), p.team||'', marketLabels[p.market]||p.market,
+             p.proj!=null?String(p.proj):'—', p.line!=null?String(p.line):'—',
+             isPick?(p.pick==='OVER'?'O':'U'):'—', confLabel
+            ].forEach((v,i) => {
+              const td = row.insertCell();
+              td.textContent = v;
+              td.style.cssText = 'padding:5px 8px;text-align:'+(i===0?'left':'center')+';font-size:12px';
+              if (i===0) td.style.fontWeight = '600';
+              if (i===1) td.style.color = '#999';
+              if (i===3 && p.line!=null) td.style.color = p.proj > p.line ? 'var(--green)' : p.proj < p.line ? 'var(--red)' : '';
+              if (i===5 && isPick) { td.style.fontWeight='700'; td.style.color = p.pick==='OVER'?'var(--green)':'var(--red)'; }
+              if (i===6 && p.conf==='elite') { td.style.background='#7c6cf0'; td.style.color='#fff'; td.style.borderRadius='4px'; td.style.fontSize='11px'; td.style.padding='2px 6px'; }
+            });
+          }
+          tableWrap.appendChild(tbl);
+        }
+
+        function refreshPills() {
+          // Game pills
+          gamePills.textContent = '';
+          for (const [key, label] of games) {
+            const btn = document.createElement('button');
+            btn.textContent = label;
+            btn.style.cssText = key === activeGame
+              ? 'padding:5px 14px;border-radius:16px;border:1px solid #7c6cf0;background:#7c6cf0;color:#fff;font-size:12px;cursor:pointer'
+              : 'padding:5px 14px;border-radius:16px;border:1px solid rgba(255,255,255,0.12);background:transparent;color:#999;font-size:12px;cursor:pointer';
+            btn.onclick = () => { activeGame = key; refreshPills(); renderGameTable(); };
+            gamePills.appendChild(btn);
+          }
+          // Market pills
+          mktPills.textContent = '';
+          for (const m of mktFilters) {
+            const label = m === 'all' ? 'All' : (marketLabels[m] || m);
+            const btn = document.createElement('button');
+            btn.textContent = label;
+            btn.style.cssText = m === activeMkt
+              ? 'padding:5px 14px;border-radius:16px;border:1px solid #7c6cf0;background:#7c6cf0;color:#fff;font-size:12px;cursor:pointer'
+              : 'padding:5px 14px;border-radius:16px;border:1px solid rgba(255,255,255,0.12);background:transparent;color:#999;font-size:12px;cursor:pointer';
+            btn.onclick = () => { activeMkt = m; refreshPills(); renderGameTable(); };
+            mktPills.appendChild(btn);
+          }
+        }
+
+        refreshPills();
+        renderGameTable();
+        gCard.appendChild(gamePills);
+        gCard.appendChild(mktPills);
+        gCard.appendChild(tableWrap);
+        el.appendChild(gCard);
+      })();
+
       // ── Unified Toolbar ──
       const selStyle = 'padding:6px 12px;border-radius:6px;background:rgba(255,255,255,0.06);color:#fff;border:1px solid rgba(255,255,255,0.1);font-size:13px;outline:none';
       const pillStyle = 'padding:5px 14px;border-radius:16px;border:1px solid rgba(255,255,255,0.12);background:transparent;color:#999;font-size:12px;cursor:pointer;transition:all 0.15s';
