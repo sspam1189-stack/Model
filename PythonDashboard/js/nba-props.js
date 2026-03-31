@@ -277,7 +277,10 @@
           playerSelect.value = activePlayer === 'all' || !playersInGame.includes(activePlayer) ? 'all' : activePlayer;
           activePlayer = playerSelect.value;
         }
-        playerSelect.onchange = () => { activePlayer = playerSelect.value; renderGameTable(); };
+        playerSelect.onchange = () => { activePlayer = playerSelect.value; currentPage = 0; renderGameTable(); };
+
+        const PAGE_SIZE = 25;
+        let currentPage = 0;
 
         function renderGameTable() {
           tableWrap.textContent = '';
@@ -296,6 +299,10 @@
           const catOrd = {points:0,rebounds:1,assists:2,threes:3,steals:4,blocks:5,turnovers:6};
           gameProj.sort((a,b) => (catOrd[a.market]??99)-(catOrd[b.market]??99) || (a.player||'').localeCompare(b.player||'') || (b.pCover||0)-(a.pCover||0));
 
+          const totalPages = Math.ceil(gameProj.length / PAGE_SIZE);
+          currentPage = Math.max(0, Math.min(currentPage, totalPages - 1));
+          const pageRows = gameProj.slice(currentPage * PAGE_SIZE, (currentPage + 1) * PAGE_SIZE);
+
           const tbl = document.createElement('table');
           tbl.style.cssText = 'width:100%;border-collapse:collapse';
           const hRow = tbl.createTHead().insertRow();
@@ -306,7 +313,7 @@
             hRow.appendChild(th);
           });
           const tbody = tbl.createTBody();
-          for (const p of gameProj) {
+          for (const p of pageRows) {
             const row = tbody.insertRow();
             row.style.borderBottom = '1px solid rgba(255,255,255,0.04)';
             const isPick = p.pick && p.pick !== 'PASS';
@@ -327,6 +334,31 @@
             });
           }
           tableWrap.appendChild(tbl);
+
+          // Pagination controls (only show when more than one page)
+          if (totalPages > 1) {
+            const pgRow = document.createElement('div');
+            pgRow.style.cssText = 'display:flex;align-items:center;justify-content:center;gap:8px;padding:10px 0 2px';
+            const btnStyle = (active) => `padding:4px 12px;border-radius:6px;border:1px solid ${active?'#7c6cf0':'rgba(255,255,255,0.12)'};background:${active?'#7c6cf0':'transparent'};color:${active?'#fff':'#999'};font-size:12px;cursor:${active?'default':'pointer'}`;
+            const prevBtn = document.createElement('button');
+            prevBtn.textContent = '← Prev';
+            prevBtn.style.cssText = 'padding:4px 12px;border-radius:6px;border:1px solid rgba(255,255,255,0.12);background:transparent;color:'+(currentPage===0?'#444':'#ccc')+';font-size:12px;cursor:'+(currentPage===0?'default':'pointer');
+            prevBtn.disabled = currentPage === 0;
+            prevBtn.onclick = () => { currentPage--; renderGameTable(); tableWrap.scrollIntoView({behavior:'smooth',block:'nearest'}); };
+            const nextBtn = document.createElement('button');
+            nextBtn.textContent = 'Next →';
+            nextBtn.style.cssText = 'padding:4px 12px;border-radius:6px;border:1px solid rgba(255,255,255,0.12);background:transparent;color:'+(currentPage===totalPages-1?'#444':'#ccc')+';font-size:12px;cursor:'+(currentPage===totalPages-1?'default':'pointer');
+            nextBtn.disabled = currentPage === totalPages - 1;
+            nextBtn.onclick = () => { currentPage++; renderGameTable(); tableWrap.scrollIntoView({behavior:'smooth',block:'nearest'}); };
+            const info = Object.assign(document.createElement('span'), {
+              textContent: `Page ${currentPage+1} of ${totalPages}  (${gameProj.length} rows)`,
+              style: 'font-size:12px;color:#666'
+            });
+            pgRow.appendChild(prevBtn);
+            pgRow.appendChild(info);
+            pgRow.appendChild(nextBtn);
+            tableWrap.appendChild(pgRow);
+          }
         }
 
         function refreshPills() {
@@ -337,7 +369,7 @@
           allGamesBtn.style.cssText = activeGame === 'all'
             ? 'padding:5px 14px;border-radius:16px;border:1px solid #7c6cf0;background:#7c6cf0;color:#fff;font-size:12px;cursor:pointer'
             : 'padding:5px 14px;border-radius:16px;border:1px solid rgba(255,255,255,0.12);background:transparent;color:#999;font-size:12px;cursor:pointer';
-          allGamesBtn.onclick = () => { activeGame = 'all'; activePlayer = 'all'; refreshPills(); refreshPlayerDropdown(); renderGameTable(); };
+          allGamesBtn.onclick = () => { activeGame = 'all'; activePlayer = 'all'; currentPage = 0; refreshPills(); refreshPlayerDropdown(); renderGameTable(); };
           gamePills.appendChild(allGamesBtn);
           for (const [key, label] of games) {
             const btn = document.createElement('button');
@@ -345,7 +377,7 @@
             btn.style.cssText = key === activeGame
               ? 'padding:5px 14px;border-radius:16px;border:1px solid #7c6cf0;background:#7c6cf0;color:#fff;font-size:12px;cursor:pointer'
               : 'padding:5px 14px;border-radius:16px;border:1px solid rgba(255,255,255,0.12);background:transparent;color:#999;font-size:12px;cursor:pointer';
-            btn.onclick = () => { activeGame = key; activePlayer = 'all'; refreshPills(); refreshPlayerDropdown(); renderGameTable(); };
+            btn.onclick = () => { activeGame = key; activePlayer = 'all'; currentPage = 0; refreshPills(); refreshPlayerDropdown(); renderGameTable(); };
             gamePills.appendChild(btn);
           }
           // Market pills
@@ -357,7 +389,7 @@
             btn.style.cssText = m === activeMkt
               ? 'padding:5px 14px;border-radius:16px;border:1px solid #7c6cf0;background:#7c6cf0;color:#fff;font-size:12px;cursor:pointer'
               : 'padding:5px 14px;border-radius:16px;border:1px solid rgba(255,255,255,0.12);background:transparent;color:#999;font-size:12px;cursor:pointer';
-            btn.onclick = () => { activeMkt = m; refreshPills(); renderGameTable(); };
+            btn.onclick = () => { activeMkt = m; currentPage = 0; refreshPills(); renderGameTable(); };
             mktPills.appendChild(btn);
           }
         }
