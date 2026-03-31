@@ -11,7 +11,7 @@
       if (!data || !data.props || !data.props.length) {
         el.textContent = '';
         const card = document.createElement('div');
-        card.className = 'card card-games';
+        card.className = 'card-games';
         card.appendChild(Object.assign(document.createElement('div'), {className:'card-title', textContent:'NBA Player Props'}));
         card.appendChild(Object.assign(document.createElement('div'), {className:'no-picks', textContent:'No prop projections available yet. Run the props pipeline to generate projections.'}));
         el.appendChild(card);
@@ -341,9 +341,12 @@
 
       let nbaView = 'all'; // 'all' | 'weekly'
 
+      const allPicksCard = document.createElement('div');
+      allPicksCard.className = 'card';
+      allPicksCard.style.cssText = 'padding:0;margin-bottom:16px;overflow:hidden';
+
       const toolbar = document.createElement('div');
-      toolbar.className = 'card';
-      toolbar.style.cssText = 'padding:0;margin-bottom:16px;overflow:hidden';
+      toolbar.style.cssText = 'overflow:hidden';
 
       // Row 1: View tabs
       const tabRow = document.createElement('div');
@@ -415,10 +418,13 @@
       weekFilterLabel.style.cssText = 'color:#666;font-size:12px;margin-left:auto';
 
       toolbar.appendChild(filterRow);
-      el.appendChild(toolbar);
 
       const contentArea = document.createElement('div');
-      el.appendChild(contentArea);
+      contentArea.style.cssText = 'padding:0 16px 16px';
+
+      allPicksCard.appendChild(toolbar);
+      allPicksCard.appendChild(contentArea);
+      el.appendChild(allPicksCard);
 
       const headers = isBacktest
         ? ['Date','Player','Team','Opp','Proj','Line','Actual','Pick','Result','Conf']
@@ -522,7 +528,7 @@
 
         if (filteredPicks.length === 0) {
           const empty = document.createElement('div');
-          empty.className = 'card card-games';
+          empty.className = 'card-games';
           empty.appendChild(Object.assign(document.createElement('div'), {className:'no-picks', textContent:'No picks for selected filter.'}));
           contentArea.appendChild(empty);
           return;
@@ -539,7 +545,7 @@
           const pagePicks = filteredPicks.slice(pageStart, pageStart + PAGE_SIZE);
 
           const card = document.createElement('div');
-          card.className = 'card card-games';
+          card.className = 'card-games';
           const mW = filteredPicks.filter(p => p.result === 'WIN').length;
           const mL = filteredPicks.filter(p => p.result === 'LOSS').length;
           const titleSuffix = isBacktest ? ` (${mW}W-${mL}L)` : '';
@@ -608,7 +614,7 @@
         const pagePicks = filteredPicks.slice(pageStart, pageStart + PAGE_SIZE);
 
         const card = document.createElement('div');
-        card.className = 'card card-games';
+        card.className = 'card-games';
 
         // Pagination controls
         const pgBar = document.createElement('div');
@@ -720,7 +726,7 @@
 
         if (sortedWeeks.length === 0) {
           const empty = document.createElement('div');
-          empty.className = 'card card-games';
+          empty.className = 'card-games';
           empty.appendChild(Object.assign(document.createElement('div'), {className:'no-picks', textContent:'No picks for selected filter.'}));
           contentArea.appendChild(empty);
           return;
@@ -728,7 +734,7 @@
 
         // Weekly summary table
         const summCard = document.createElement('div');
-        summCard.className = 'card card-games';
+        summCard.className = 'card-games';
         summCard.style.marginBottom = '16px';
         summCard.appendChild(Object.assign(document.createElement('div'), {className:'card-title', textContent:'Weekly Summary'}));
         const summWrap = document.createElement('div');
@@ -822,7 +828,7 @@
           const wPct = (wW + wL) > 0 ? ` \u2014 ${wW}W-${wL}L (${(wW/(wW+wL)*100).toFixed(1)}%) ${wU>=0?'+':''}${wU.toFixed(1)}u` : ` \u2014 ${wPicks.length} picks`;
 
           const card = document.createElement('div');
-          card.className = 'card card-games';
+          card.className = 'card-games';
           card.appendChild(Object.assign(document.createElement('div'), {
             className: 'card-title',
             textContent: `Week of ${ws} \u2013 ${we}${wPct}`
