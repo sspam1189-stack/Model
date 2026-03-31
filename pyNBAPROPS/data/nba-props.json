@@ -4,9 +4,9 @@
   "season": "2025-26",
   "mode": "backfill",
   "model": "kalman_blend",
-  "generated": "2026-03-30T18:02:23.104634",
+  "generated": "2026-03-31T09:40:01.027803",
   "totalProjections": 1930,
-  "totalPicks": 572,
+  "totalPicks": 575,
   "props": [
     {
       "player": "James Harden",
@@ -9076,7 +9076,9 @@
       "edge": 8.3,
       "pCover": 0.847,
       "conf": "high",
-      "date": "2026-03-30"
+      "date": "2026-03-30",
+      "actual": 33.0,
+      "result": "LOSS"
     },
     {
       "player": "GG Jackson",
@@ -9090,7 +9092,9 @@
       "edge": -4.6,
       "pCover": 0.801,
       "conf": "high",
-      "date": "2026-03-30"
+      "date": "2026-03-30",
+      "actual": 14.0,
+      "result": "WIN"
     },
     {
       "player": "Quentin Grimes",
@@ -9104,7 +9108,9 @@
       "edge": 1.7,
       "pCover": 0.763,
       "conf": "high",
-      "date": "2026-03-30"
+      "date": "2026-03-30",
+      "actual": 4.0,
+      "result": "WIN"
     },
     {
       "player": "Daniss Jenkins",
@@ -9118,7 +9124,9 @@
       "edge": -6.1,
       "pCover": 0.76,
       "conf": "high",
-      "date": "2026-03-30"
+      "date": "2026-03-30",
+      "actual": 15.0,
+      "result": "WIN"
     },
     {
       "player": "Walter Clayton Jr.",
@@ -9132,7 +9140,9 @@
       "edge": -1.8,
       "pCover": 0.733,
       "conf": "high",
-      "date": "2026-03-30"
+      "date": "2026-03-30",
+      "actual": 7.0,
+      "result": "LOSS"
     },
     {
       "player": "Anthony Edwards",
@@ -9146,9 +9156,53 @@
       "edge": 1.1,
       "pCover": 0.733,
       "conf": "high",
-      "date": "2026-03-30"
+      "date": "2026-03-30",
+      "actual": 4.0,
+      "result": "WIN"
+    },
+    {
+      "player": "Scoot Henderson",
+      "team": "POR",
+      "opp": "LAC",
+      "market": "points",
+      "proj": 12.7,
+      "std": 6.1,
+      "line": 17.5,
+      "pick": "UNDER",
+      "edge": -4.8,
+      "pCover": 0.768,
+      "conf": "high",
+      "date": "2026-03-31"
+    },
+    {
+      "player": "Scottie Barnes",
+      "team": "TOR",
+      "opp": "DET",
+      "market": "rebounds",
+      "proj": 6.1,
+      "std": 1.9,
+      "line": 7.5,
+      "pick": "UNDER",
+      "edge": -1.4,
+      "pCover": 0.76,
+      "conf": "high",
+      "date": "2026-03-31"
+    },
+    {
+      "player": "Collin Gillespie",
+      "team": "PHX",
+      "opp": "ORL",
+      "market": "assists",
+      "proj": 5.9,
+      "std": 3.9,
+      "line": 3.5,
+      "pick": "OVER",
+      "edge": 2.4,
+      "pCover": 0.721,
+      "conf": "high",
+      "date": "2026-03-31"
     }
   ],
-  "summary": "6 picks from 1930 projections",
-  "date": "2026-03-30"
+  "summary": "3 picks from 1930 projections",
+  "date": "2026-03-31"
 }

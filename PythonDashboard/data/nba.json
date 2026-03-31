@@ -29692,7 +29692,7 @@
           },
           "awayScore": 93.0,
           "homeScore": 109.0,
-          "_recencyWeight": 0.75,
+          "_recencyWeight": 0.5,
           "trends": {
             "away": {
               "atsPct": null,
@@ -29755,7 +29755,7 @@
           },
           "awayScore": 105.0,
           "homeScore": 115.0,
-          "_recencyWeight": 0.75,
+          "_recencyWeight": 0.5,
           "trends": {
             "away": {
               "atsPct": null,
@@ -29818,7 +29818,7 @@
           },
           "awayScore": 134.0,
           "homeScore": 125.0,
-          "_recencyWeight": 0.75,
+          "_recencyWeight": 0.5,
           "trends": {
             "away": {
               "atsPct": null,
@@ -29880,7 +29880,7 @@
           },
           "awayScore": 129.0,
           "homeScore": 101.0,
-          "_recencyWeight": 0.75,
+          "_recencyWeight": 0.5,
           "trends": {
             "away": {
               "atsPct": null,
@@ -29943,7 +29943,7 @@
           },
           "awayScore": 115.0,
           "homeScore": 105.0,
-          "_recencyWeight": 0.75,
+          "_recencyWeight": 0.5,
           "trends": {
             "away": {
               "atsPct": null,
@@ -37567,7 +37567,7 @@
           },
           "awayScore": 103.0,
           "homeScore": 116.0,
-          "_recencyWeight": 1.0,
+          "_recencyWeight": 0.75,
           "trends": {
             "away": {
               "atsPct": null,
@@ -37630,7 +37630,7 @@
           },
           "awayScore": 130.0,
           "homeScore": 120.0,
-          "_recencyWeight": 1.0,
+          "_recencyWeight": 0.75,
           "trends": {
             "away": {
               "atsPct": null,
@@ -37692,7 +37692,7 @@
           },
           "awayScore": 108.0,
           "homeScore": 119.0,
-          "_recencyWeight": 1.0,
+          "_recencyWeight": 0.75,
           "trends": {
             "away": {
               "atsPct": null,
@@ -37754,7 +37754,7 @@
           },
           "awayScore": 123.0,
           "homeScore": 134.0,
-          "_recencyWeight": 1.0,
+          "_recencyWeight": 0.75,
           "b2bNote": "Milwaukee Bucks: B2B: OFF -1.5, DEF +0.8",
           "trends": {
             "away": {
@@ -37818,7 +37818,7 @@
           },
           "awayScore": 103.0,
           "homeScore": 109.0,
-          "_recencyWeight": 1.0,
+          "_recencyWeight": 0.75,
           "b2bNote": "Philadelphia 76ers: B2B: OFF -1.5, DEF +0.8",
           "trends": {
             "away": {
@@ -37882,7 +37882,7 @@
           },
           "awayScore": 107.0,
           "homeScore": 110.0,
-          "_recencyWeight": 1.0,
+          "_recencyWeight": 0.75,
           "trends": {
             "away": {
               "atsPct": null,
@@ -37944,7 +37944,7 @@
           },
           "awayScore": 111.0,
           "homeScore": 116.0,
-          "_recencyWeight": 1.0,
+          "_recencyWeight": 0.75,
           "b2bNote": "Sacramento Kings: B2B: OFF -1.5, DEF +0.8",
           "trends": {
             "away": {
@@ -45316,16 +45316,470 @@
       ],
       "summaryText": "RECORD (graded picks only)\n\nSPREAD (ATS)\n  All:         169-104-0   (61.9%)   [graded 273]\n  Elite:       169-104-0   (61.9%)   [graded 273]\n\nFAV/DOG (Spread)\n  Favorites:   93-66-0   (58.5%)   [graded 159]\n  Underdogs:   76-38-0   (66.7%)   [graded 114]\n\nTOTAL (O/U)\n  All:         0-0-0   (n/a%)   [graded 0]\n  Elite:       0-0-0   (n/a%)   [graded 0]\n\nOVER/UNDER\n  Over:        0-0-0   (n/a%)   [graded 0]\n  Under:       0-0-0   (n/a%)   [graded 0]",
       "ranAt": "03/30/2026, 06:00:50 PM"
+    },
+    {
+      "date": "20260331",
+      "dateDisplay": "2026-03-31",
+      "burnIn": false,
+      "weightsUsed": {
+        "wTS": 2.013,
+        "wTO": 1.155,
+        "wORR": 1.545,
+        "wDEF": 1.318,
+        "constant": 0.007,
+        "paceAdj": 1.012,
+        "hca": 1.678,
+        "sprHigh": 4,
+        "ouHigh": 5,
+        "sprEliteBump": 3,
+        "ouEliteBump": 3,
+        "probHigh": 0.57,
+        "probElite": 0.63,
+        "probOUHigh": 0.58,
+        "probOUElite": 0.64,
+        "recentWeight": 0.35,
+        "locationWeight": 0.25
+      },
+      "weightsNext": {
+        "wTS": 2.013,
+        "wTO": 1.155,
+        "wORR": 1.545,
+        "wDEF": 1.318,
+        "constant": 0.007,
+        "paceAdj": 1.012,
+        "hca": 1.678,
+        "sprHigh": 4,
+        "ouHigh": 5,
+        "sprEliteBump": 3,
+        "ouEliteBump": 3,
+        "probHigh": 0.57,
+        "probElite": 0.63,
+        "probOUHigh": 0.58,
+        "probOUElite": 0.64,
+        "recentWeight": 0.35,
+        "locationWeight": 0.25
+      },
+      "games": [
+        {
+          "away": "Phoenix Suns",
+          "home": "Orlando Magic",
+          "line": -2.0,
+          "total": 224.5,
+          "_book": "FanDuel",
+          "aS": 115.5,
+          "hS": 111.7,
+          "pT": 227.2,
+          "margin": -5.8,
+          "sDiff": 5.8,
+          "tDiff": 3.8,
+          "sPick": "Phoenix Suns +2.0",
+          "sConf": "elite",
+          "oPick": "PASS",
+          "oConf": "low",
+          "injuryNote": "Away: Dillon Brooks (out/star), Mark Williams (out/starter) | Home: Anthony Black (out/star), Franz Wagner (out/star)",
+          "pHomeCover": 0.349,
+          "pAwayCover": 0.651,
+          "pOver": 0.596,
+          "pUnder": 0.404,
+          "pCover": 0.651,
+          "pOU": null,
+          "marginVar": 222.8,
+          "marginStd": 14.9,
+          "_features": {
+            "dTS": 0.015762500000000013,
+            "dTO": 0.00783749999999997,
+            "dORR": -0.030874999999999986,
+            "dDEF": -0.7962500000000148,
+            "avgPace": 98.98425
+          },
+          "_marginFeatures": {
+            "dTS": 0.0158,
+            "dTO": -0.0079,
+            "dORR": -0.0309,
+            "dDEF": -0.7976,
+            "hca": 1.0,
+            "_baseline": -0.2066,
+            "_pace": 1.0017
+          },
+          "_adjDeltas": {
+            "away": {
+              "OFF": -1.43,
+              "DEF": 0.675,
+              "TS": -0.0071,
+              "TO": -0.0119,
+              "ORR": -0.0051
+            }
+          },
+          "trends": {
+            "away": "ATS +/- 2.1 \u00b7 Over 42.7% \u00b7 Under 57.3% \u00b7 O/U +/- -2.1",
+            "home": "ATS +/- -1.7 \u00b7 Over 54.1% \u00b7 Under 46.0% \u00b7 O/U +/- 2.2"
+          },
+          "b2bNote": "Phoenix Suns: B2B: OFF -1.5, DEF +0.8"
+        },
+        {
+          "away": "Charlotte Hornets",
+          "home": "Brooklyn Nets",
+          "line": 17.0,
+          "total": 218.5,
+          "_book": "FanDuel",
+          "aS": 122.1,
+          "hS": 108.8,
+          "pT": 230.9,
+          "margin": 3.7,
+          "sDiff": 3.7,
+          "tDiff": 5.8,
+          "sPick": "PASS",
+          "sConf": "low",
+          "oPick": "PASS",
+          "oConf": "low",
+          "injuryNote": "Home: Danny Wolf (out/starter), Terance Mann (out/starter), Michael Porter Jr. (out/star)",
+          "pHomeCover": 0.598,
+          "pAwayCover": 0.402,
+          "pOver": 0.644,
+          "pUnder": 0.356,
+          "pCover": null,
+          "pOU": null,
+          "marginVar": 223.4,
+          "marginStd": 14.9,
+          "_features": {
+            "dTS": -0.025574999999999903,
+            "dTO": 0.08106249999999998,
+            "dORR": -0.07139999999999996,
+            "dDEF": -3.003750000000011,
+            "avgPace": 97.749375
+          },
+          "_marginFeatures": {
+            "dTS": -0.0253,
+            "dTO": -0.0802,
+            "dORR": -0.0706,
+            "dDEF": -2.9713,
+            "hca": 1.0,
+            "_baseline": -6.6926,
+            "_pace": 0.9892
+          },
+          "_adjDeltas": {
+            "home": {
+              "OFF": 0.135,
+              "DEF": 0.05,
+              "TS": 0.0026,
+              "TO": 0.0965,
+              "ORR": -0.0001
+            }
+          },
+          "trends": {
+            "away": "ATS +/- 5.2 \u00b7 Over 37.3% \u00b7 Under 62.7% \u00b7 O/U +/- -3.7",
+            "home": "ATS +/- -0.5 \u00b7 Over 44.0% \u00b7 Under 56.0% \u00b7 O/U +/- -0.7"
+          }
+        },
+        {
+          "away": "Toronto Raptors",
+          "home": "Detroit Pistons",
+          "line": -2.5,
+          "total": 219.5,
+          "_book": "FanDuel",
+          "aS": 108.1,
+          "hS": 119.3,
+          "pT": 227.4,
+          "margin": 8.7,
+          "sDiff": 8.7,
+          "tDiff": 6.6,
+          "sPick": "Detroit Pistons -2.5",
+          "sConf": "elite",
+          "oPick": "PASS",
+          "oConf": "low",
+          "injuryNote": "Away: Immanuel Quickley (out/star) | Home: Isaiah Stewart (out/starter), Cade Cunningham (out/star)",
+          "pHomeCover": 0.719,
+          "pAwayCover": 0.281,
+          "pOver": 0.663,
+          "pUnder": 0.337,
+          "pCover": 0.719,
+          "pOU": null,
+          "marginVar": 224.1,
+          "marginStd": 15.0,
+          "_features": {
+            "dTS": -0.0006750000000000922,
+            "dTO": -0.18548750000000003,
+            "dORR": 0.053149999999999975,
+            "dDEF": 3.4750000000000227,
+            "avgPace": 99.63
+          },
+          "_marginFeatures": {
+            "dTS": -0.0007,
+            "dTO": 0.187,
+            "dORR": 0.0536,
+            "dDEF": 3.5038,
+            "hca": 1.0,
+            "_baseline": 2.2057,
+            "_pace": 1.0083
+          },
+          "_adjDeltas": {
+            "away": {
+              "OFF": -0.29,
+              "DEF": -0.025,
+              "TS": -0.0005,
+              "TO": 0.266,
+              "ORR": 0.0048
+            },
+            "home": {
+              "OFF": -1.5,
+              "DEF": 0.795
+            }
+          },
+          "trends": {
+            "away": "ATS +/- 0.9 \u00b7 Over 37.8% \u00b7 Under 62.2% \u00b7 O/U +/- -2.5",
+            "home": "ATS +/- 2.5 \u00b7 Over 46.0% \u00b7 Under 54.1% \u00b7 O/U +/- -0.9"
+          },
+          "b2bNote": "Detroit Pistons: B2B: OFF -1.5, DEF +0.8"
+        },
+        {
+          "away": "New York Knicks",
+          "home": "Houston Rockets",
+          "line": 1.0,
+          "total": 217.5,
+          "_book": "FanDuel",
+          "aS": 110.5,
+          "hS": 115.5,
+          "pT": 226.0,
+          "margin": 6.0,
+          "sDiff": 6.0,
+          "tDiff": 7.0,
+          "sPick": "Houston Rockets +1.0",
+          "sConf": "elite",
+          "oPick": "PASS",
+          "oConf": "low",
+          "injuryNote": "Away: Landry Shamet (out/starter) | Home: Steven Adams (out/starter)",
+          "pHomeCover": 0.656,
+          "pAwayCover": 0.344,
+          "pOver": 0.673,
+          "pUnder": 0.327,
+          "pCover": 0.656,
+          "pOU": null,
+          "marginVar": 223.0,
+          "marginStd": 14.9,
+          "_features": {
+            "dTS": -0.017875000000000085,
+            "dTO": -0.1833875,
+            "dORR": 0.044137499999999996,
+            "dDEF": 1.1000000000000085,
+            "avgPace": 97.3965625
+          },
+          "_marginFeatures": {
+            "dTS": -0.0176,
+            "dTO": 0.1808,
+            "dORR": 0.0435,
+            "dDEF": 1.0843,
+            "hca": 1.0,
+            "_baseline": -0.8255,
+            "_pace": 0.9857
+          },
+          "_adjDeltas": {
+            "away": {
+              "OFF": 0.055,
+              "DEF": 0.235,
+              "TS": -0.0008,
+              "TO": 0.268,
+              "ORR": 0.0022
+            }
+          },
+          "trends": {
+            "away": "ATS +/- 1.2 \u00b7 Over 47.4% \u00b7 Under 52.6% \u00b7 O/U +/- -1.7",
+            "home": "ATS +/- -1.8 \u00b7 Over 45.2% \u00b7 Under 54.8% \u00b7 O/U +/- -0.5"
+          }
+        },
+        {
+          "away": "Dallas Mavericks",
+          "home": "Milwaukee Bucks",
+          "line": 1.0,
+          "total": 228.5,
+          "_book": "FanDuel",
+          "aS": 119.6,
+          "hS": 112.4,
+          "pT": 232.0,
+          "margin": -6.2,
+          "sDiff": 6.2,
+          "tDiff": 1.7,
+          "sPick": "Dallas Mavericks -1.0",
+          "sConf": "elite",
+          "oPick": "PASS",
+          "oConf": "low",
+          "injuryNote": "Home: Kyle Kuzma (out/starter), Bobby Portis (out/starter)",
+          "pHomeCover": 0.339,
+          "pAwayCover": 0.661,
+          "pOver": 0.543,
+          "pUnder": 0.457,
+          "pCover": 0.661,
+          "pOU": null,
+          "marginVar": 224.3,
+          "marginStd": 15.0,
+          "_features": {
+            "dTS": 0.022524999999999906,
+            "dTO": 0.32824999999999993,
+            "dORR": -0.030850000000000016,
+            "dDEF": -3.174999999999997,
+            "avgPace": 100.405
+          },
+          "_marginFeatures": {
+            "dTS": 0.0229,
+            "dTO": -0.3335,
+            "dORR": -0.0313,
+            "dDEF": -3.2261,
+            "hca": 1.0,
+            "_baseline": -0.3467,
+            "_pace": 1.0161
+          },
+          "_adjDeltas": {
+            "away": {
+              "OFF": -1.33,
+              "DEF": 0.865,
+              "TS": 0.0014,
+              "TO": -0.0356,
+              "ORR": 0.0006
+            },
+            "home": {
+              "OFF": -0.68,
+              "DEF": 0.225,
+              "TS": -0.0076,
+              "TO": 0.3845,
+              "ORR": -0.0076
+            }
+          },
+          "trends": {
+            "away": "ATS +/- -0.9 \u00b7 Over 44.0% \u00b7 Under 56.0% \u00b7 O/U +/- 0.3",
+            "home": "ATS +/- -3.7 \u00b7 Over 44.6% \u00b7 Under 55.4% \u00b7 O/U +/- 0.8"
+          },
+          "b2bNote": "Dallas Mavericks: B2B: OFF -1.5, DEF +0.8"
+        },
+        {
+          "away": "Cleveland Cavaliers",
+          "home": "Los Angeles Lakers",
+          "line": -2.0,
+          "total": 236.5,
+          "_book": "FanDuel",
+          "aS": 116.5,
+          "hS": 123.0,
+          "pT": 239.5,
+          "margin": 4.5,
+          "sDiff": 4.5,
+          "tDiff": -3.2,
+          "sPick": "Los Angeles Lakers -2.0",
+          "sConf": "elite",
+          "oPick": "PASS",
+          "oConf": "low",
+          "injuryNote": "Away: Jaylon Tyson (out/starter), Dean Wade (out/starter) | Home: Marcus Smart (out/star)",
+          "pHomeCover": 0.618,
+          "pAwayCover": 0.382,
+          "pOver": 0.419,
+          "pUnder": 0.581,
+          "pCover": 0.618,
+          "pOU": null,
+          "marginVar": 223.8,
+          "marginStd": 15.0,
+          "_features": {
+            "dTS": 0.025450000000000084,
+            "dTO": -0.319325,
+            "dORR": -0.014724999999999988,
+            "dDEF": 0.23749999999998295,
+            "avgPace": 99.78687500000001
+          },
+          "_marginFeatures": {
+            "dTS": 0.0257,
+            "dTO": 0.3225,
+            "dORR": -0.0149,
+            "dDEF": 0.2398,
+            "hca": 1.0,
+            "_baseline": -0.279,
+            "_pace": 1.0098
+          },
+          "_adjDeltas": {
+            "away": {
+              "OFF": -1.79,
+              "DEF": 0.865,
+              "TS": -0.0028,
+              "TO": 0.2302,
+              "ORR": -0.001
+            },
+            "home": {
+              "OFF": -1.705,
+              "DEF": 1.105,
+              "TS": 0.0083,
+              "TO": -0.2066,
+              "ORR": 0.0015
+            }
+          },
+          "trends": {
+            "away": "ATS +/- -1.6 \u00b7 Over 48.0% \u00b7 Under 52.0% \u00b7 O/U +/- -0.1",
+            "home": "ATS +/- -0.6 \u00b7 Over 50.7% \u00b7 Under 49.3% \u00b7 O/U +/- -0.2"
+          },
+          "b2bNote": "Cleveland Cavaliers: B2B: OFF -1.5, DEF +0.8 | Los Angeles Lakers: B2B: OFF -1.5, DEF +0.8"
+        },
+        {
+          "away": "Portland Trail Blazers",
+          "home": "LA Clippers",
+          "line": -5.5,
+          "total": 227.5,
+          "_book": "FanDuel",
+          "aS": 122.0,
+          "hS": 114.3,
+          "pT": 236.3,
+          "margin": -13.2,
+          "sDiff": 13.2,
+          "tDiff": 0.9,
+          "sPick": "Portland Trail Blazers +5.5",
+          "sConf": "elite",
+          "oPick": "PASS",
+          "oConf": "low",
+          "injuryNote": "Away: Jerami Grant (out/star), Shaedon Sharpe (out/star)",
+          "pHomeCover": 0.189,
+          "pAwayCover": 0.811,
+          "pOver": 0.523,
+          "pUnder": 0.477,
+          "pCover": 0.811,
+          "pOU": null,
+          "marginVar": 224.5,
+          "marginStd": 15.0,
+          "_features": {
+            "dTS": 0.04317499999999996,
+            "dTO": -0.06972500000000004,
+            "dORR": -0.06530000000000002,
+            "dDEF": -4.22499999999998,
+            "avgPace": 99.83943749999999
+          },
+          "_marginFeatures": {
+            "dTS": 0.0436,
+            "dTO": 0.0705,
+            "dORR": -0.066,
+            "dDEF": -4.2689,
+            "hca": 1.0,
+            "_baseline": 1.0938,
+            "_pace": 1.0104
+          },
+          "_adjDeltas": {
+            "away": {
+              "OFF": -0.34,
+              "DEF": -0.355,
+              "TS": -0.0031,
+              "TO": 0.0499,
+              "ORR": 0.0017
+            }
+          },
+          "trends": {
+            "away": "ATS +/- -0.6 \u00b7 Over 52.6% \u00b7 Under 47.4% \u00b7 O/U +/- -0.6",
+            "home": "ATS +/- 0.3 \u00b7 Over 50.7% \u00b7 Under 49.3% \u00b7 O/U +/- 2.4"
+          }
+        }
+      ],
+      "summaryText": "RECORD (graded picks only)\n\nSPREAD (ATS)\n  All:         169-104-0   (61.9%)   [graded 273]\n  Elite:       169-104-0   (61.9%)   [graded 273]\n\nFAV/DOG (Spread)\n  Favorites:   93-66-0   (58.5%)   [graded 159]\n  Underdogs:   76-38-0   (66.7%)   [graded 114]\n\nTOTAL (O/U)\n  All:         0-0-0   (n/a%)   [graded 0]\n  Elite:       0-0-0   (n/a%)   [graded 0]\n\nOVER/UNDER\n  Over:        0-0-0   (n/a%)   [graded 0]\n  Under:       0-0-0   (n/a%)   [graded 0]",
+      "ranAt": "03/31/2026, 09:37:43 AM"
     }
   ],
   "weights": {
-    "wTS": 1.689,
-    "wTO": 1.116,
-    "wORR": 1.413,
-    "wDEF": 1.291,
-    "constant": 0.006,
-    "paceAdj": 1.011,
-    "hca": 1.795,
+    "wTS": 2.013,
+    "wTO": 1.155,
+    "wORR": 1.545,
+    "wDEF": 1.318,
+    "constant": 0.007,
+    "paceAdj": 1.012,
+    "hca": 1.678,
     "sprHigh": 4,
     "ouHigh": 5,
     "sprEliteBump": 3,
@@ -45338,13 +45792,13 @@
     "locationWeight": 0.25
   },
   "weightsVar": {
-    "wTS": 3.9825,
-    "wTO": 3.9926,
-    "wORR": 3.9035,
+    "wTS": 3.9739,
+    "wTO": 3.9888,
+    "wORR": 3.8583,
     "wDEF": 0.05,
-    "hca": 0.244,
+    "hca": 0.2,
     "constant": 4.0
   },
   "residualVar": 208.0,
-  "lastTuneDate": "20260330"
+  "lastTuneDate": "20260331"
 }
