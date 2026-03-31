@@ -294,6 +294,16 @@
         let sortDir = 1;
 
         const catOrd = {points:0,rebounds:1,assists:2,threes:3,steals:4,blocks:5,turnovers:6};
+        // Per-market pick thresholds (mirrors defaults.py MARKET_THRESHOLDS)
+        const mktThresh = {
+          points:   {high:0.75, elite:0.85},
+          rebounds: {high:0.73, elite:0.83},
+          assists:  {high:0.72, elite:0.82},
+          threes:   {high:0.80, elite:0.90},
+          steals:   {high:0.85, elite:0.90},
+          blocks:   {high:0.85, elite:0.90},
+          turnovers:{high:0.80, elite:0.90},
+        };
 
         function sortRows(rows) {
           return [...rows].sort((a, b) => {
@@ -385,7 +395,7 @@
               if (i===1) td.style.color = '#999';
               if (i===3 && p.line!=null) td.style.color = p.proj > p.line ? 'var(--green)' : p.proj < p.line ? 'var(--red)' : '';
               if (i===5 && edge!=null) td.style.color = edge > 0 ? 'var(--green)' : edge < 0 ? 'var(--red)' : '#999';
-              if (i===6 && p.pCover!=null) td.style.color = p.pCover >= 0.65 ? 'var(--green)' : p.pCover <= 0.45 ? 'var(--red)' : '#ccc';
+              if (i===6 && p.pCover!=null) { const t = mktThresh[p.market]; td.style.color = t && p.pCover >= t.elite ? '#a78bfa' : t && p.pCover >= t.high ? 'var(--green)' : '#666'; }
               if (i===7 && isPick) { td.style.fontWeight='700'; td.style.color = p.pick==='OVER'?'var(--green)':'var(--red)'; }
               if (i===8 && p.conf==='elite') { td.style.background='#7c6cf0'; td.style.color='#fff'; td.style.borderRadius='4px'; td.style.fontSize='11px'; td.style.padding='2px 6px'; }
             });
