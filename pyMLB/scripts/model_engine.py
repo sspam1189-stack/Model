@@ -495,13 +495,8 @@ def analyze_game(game_data, team_stats, pitcher_adjustments, weights,
     p_home_cover = float(norm.cdf(margin_vs_line / margin_std))
     p_away_cover = 1.0 - p_home_cover
 
-    # P(over/under) — totals have more variance (two teams combined)
-    total_std = math.sqrt(max(effective_var * 1.3, 4.0))
-    p_over = float(norm.cdf(t_diff / total_std)) if market_total > 0 else 0.5
-    p_under = 1.0 - p_over
-
     # ---------------------------------------------------------------------------
-    # Pick logic
+    # Pick logic — spread only, minimum 60% confidence
     # ---------------------------------------------------------------------------
     thresh = thresholds or SDIFF_THRESHOLDS
     abs_line = abs(market_spread)
@@ -509,35 +504,20 @@ def analyze_game(game_data, team_stats, pitcher_adjustments, weights,
 
     confidence_tier = _classify_confidence(s_diff, thresh)
 
-    # Spread pick
     s_pick = "PASS"
     s_conf = "low"
     p_cover = None
 
     best_spread_p = max(p_home_cover, p_away_cover)
     spread_side = "home" if p_home_cover >= p_away_cover else "away"
-    prob_threshold = DEFAULT_W.get("probHigh", 0.57)
+    prob_threshold = DEFAULT_W.get("probHigh", 0.60)   # 60% minimum
     abs_line_cap = 5.0  # Don't pick into lines > 5 runs (MLB cap)
 
     if best_spread_p >= prob_threshold and abs_line <= abs_line_cap:
         s_pick = _format_spread_pick(home_name, away_name, spread_side, abs_line, home_fav)
-        s_conf = "elite" if best_spread_p >= DEFAULT_W.get("probElite", 0.63) else "high"
+        s_conf = "elite" if best_spread_p >= DEFAULT_W.get("probElite", 0.65) else "high"
         p_cover = best_spread_p
         confidence_tier = _classify_confidence(s_diff, thresh)
-
-    # Over/Under pick
-    o_pick = "PASS"
-    o_conf = "low"
-    p_ou = None
-
-    best_total_p = max(p_over, p_under)
-    ou_prob_high = DEFAULT_W.get("probOUHigh", 0.58)
-    ou_prob_elite = DEFAULT_W.get("probOUElite", 0.65)
-
-    if best_total_p >= ou_prob_high and market_total > 0:
-        o_pick = "OVER" if p_over >= p_under else "UNDER"
-        o_conf = "elite" if best_total_p >= ou_prob_elite else "high"
-        p_ou = best_total_p
 
     # ---------------------------------------------------------------------------
     # Pitcher note
@@ -571,33 +551,25 @@ def analyze_game(game_data, team_stats, pitcher_adjustments, weights,
         "home": home_key,
         "away": away_key,
         "line": market_spread,
-        "total": market_total,
 
         # Projections
         "hS": proj_home,
         "aS": proj_away,
-        "pT": proj_total,
         "projSpread": proj_spread,
 
         # Edge metrics
         "margin": round(margin_vs_line * 10) / 10,
         "sDiff": round(s_diff * 10) / 10,
-        "tDiff": t_diff,
 
-        # Picks
+        # Spread pick only
         "sPick": s_pick,
         "sConf": s_conf,
-        "oPick": o_pick,
-        "oConf": o_conf,
         "confidenceTier": confidence_tier,
 
         # Probabilities
         "pHomeCover": round(p_home_cover * 1000) / 1000,
         "pAwayCover": round(p_away_cover * 1000) / 1000,
-        "pOver": round(p_over * 1000) / 1000,
-        "pUnder": round(p_under * 1000) / 1000,
         "pCover": round(p_cover * 1000) / 1000 if p_cover is not None else None,
-        "pOU": round(p_ou * 1000) / 1000 if p_ou is not None else None,
 
         # Variance
         "marginVar": round(margin_var * 10) / 10,

@@ -272,12 +272,10 @@ def backtest(season, odds_dir=None, output_dir=None, min_conf=0.52):
     all_runs = []
     prev_games = []          # games from previous date with projections (for grading)
 
-    # Running totals
+    # Running totals — spread only
     spread_w = spread_l = spread_p = 0
-    total_w = total_l = total_p = 0
     # Tier totals: (w, l, p) keyed by min confidence
-    tiers = {0.60: [0, 0, 0], 0.55: [0, 0, 0]}
-    tiers_t = {0.60: [0, 0, 0], 0.55: [0, 0, 0]}
+    tiers = {0.65: [0, 0, 0], 0.60: [0, 0, 0]}
 
     for date_idx, date_str in enumerate(dates_sorted):
         is_burn_in = date_idx < BURN_IN_DAYS
@@ -286,7 +284,6 @@ def backtest(season, odds_dir=None, output_dir=None, min_conf=0.52):
         if prev_games:
             for g in prev_games:
                 g["sResult"] = grade_spread(g)
-                g["oResult"] = grade_total(g)
 
             if not is_burn_in:
                 # Kalman batch update
@@ -305,9 +302,7 @@ def backtest(season, odds_dir=None, output_dir=None, min_conf=0.52):
                 sr = g.get("sResult")
                 or_ = g.get("oResult")
                 p_cover = g.get("pCover", 0.5)
-                p_ou = g.get("pOU", 0.5)
                 conf_s = max(p_cover, 1 - p_cover)
-                conf_t = max(p_ou, 1 - p_ou)
 
                 if sr == "WIN":
                     spread_w += 1
@@ -323,22 +318,6 @@ def backtest(season, odds_dir=None, output_dir=None, min_conf=0.52):
                     spread_p += 1
                     for thresh, cnt in tiers.items():
                         if conf_s >= thresh:
-                            cnt[2] += 1
-
-                if or_ == "WIN":
-                    total_w += 1
-                    for thresh, cnt in tiers_t.items():
-                        if conf_t >= thresh:
-                            cnt[0] += 1
-                elif or_ == "LOSS":
-                    total_l += 1
-                    for thresh, cnt in tiers_t.items():
-                        if conf_t >= thresh:
-                            cnt[1] += 1
-                elif or_ == "PUSH":
-                    total_p += 1
-                    for thresh, cnt in tiers_t.items():
-                        if conf_t >= thresh:
                             cnt[2] += 1
 
         # --- Step B: Kalman drift for today ---
@@ -384,7 +363,6 @@ def backtest(season, odds_dir=None, output_dir=None, min_conf=0.52):
 
             odds_data = day_odds.get(f"{away}@{home}") or day_odds.get(f"{home}@{away}")
             line = odds_data.get("line", 0.0) if odds_data else 0.0
-            total_line = odds_data.get("total", 9.0) if odds_data else 9.0
 
             # Kalman adjustment
             home_k = kalman_state.get("teams", {}).get(home_key, {})
@@ -398,14 +376,10 @@ def backtest(season, odds_dir=None, output_dir=None, min_conf=0.52):
             )
 
             proj_margin = model_engine.project_score(fv, weights, use_total_model=False) + kalman_adj
-            proj_total  = model_engine.project_score(fv, weights, use_total_model=True) * park_factor
-
             std = max(residual_var ** 0.5, 1.0)
-
             p_home_cover = norm.cdf((proj_margin - (-line)) / std)
-            p_over       = norm.cdf((proj_total - total_line) / std)
 
-            # Spread pick
+            # Spread pick — 60% minimum confidence
             if p_home_cover > 0.5:
                 s_pick = f"{home_key} {line:+.1f}" if line != 0 else f"{home_key} -0.5"
                 s_conf = _conf_label(p_home_cover)
@@ -413,10 +387,6 @@ def backtest(season, odds_dir=None, output_dir=None, min_conf=0.52):
                 away_line = -line
                 s_pick = f"{away_key} {away_line:+.1f}" if away_line != 0 else f"{away_key} -0.5"
                 s_conf = _conf_label(1 - p_home_cover)
-
-            # Total pick
-            o_pick = "OVER" if p_over > 0.5 else "UNDER"
-            o_conf = _conf_label(max(p_over, 1 - p_over))
 
             # hS/aS required by core kalman batch_update
             league_avg = 4.5
@@ -430,17 +400,12 @@ def backtest(season, odds_dir=None, output_dir=None, min_conf=0.52):
                 "homeScore": home_score,
                 "awayScore": away_score,
                 "line": line,
-                "total": total_line,
                 "projMargin": round(proj_margin, 2),
-                "projTotal": round(proj_total, 2),
                 "hS": round(proj_home_score, 2),   # for Kalman batch_update
                 "aS": round(proj_away_score, 2),   # for Kalman batch_update
                 "pCover": round(p_home_cover, 4),
-                "pOU": round(p_over, 4),
                 "sPick": s_pick,
                 "sConf": s_conf,
-                "oPick": o_pick,
-                "oConf": o_conf,
                 "burnIn": is_burn_in,
             }
             projected.append(game_rec)
@@ -456,46 +421,34 @@ def backtest(season, odds_dir=None, output_dir=None, min_conf=0.52):
         # Progress every 30 days
         if (date_idx + 1) % 30 == 0 or date_idx == len(dates_sorted) - 1:
             s_n = spread_w + spread_l
-            t_n = total_w + total_l
             s_pct = f"{spread_w / s_n * 100:.1f}%" if s_n else "n/a"
-            t_pct = f"{total_w / t_n * 100:.1f}%" if t_n else "n/a"
             print(f"  {date_str} ({date_idx+1}/{len(dates_sorted)}) | "
-                  f"Spread {spread_w}-{spread_l} ({s_pct}) | "
-                  f"Total {total_w}-{total_l} ({t_pct})")
+                  f"Spread {spread_w}-{spread_l} ({s_pct})")
 
     # ---- Final results ----
     s_n = spread_w + spread_l
-    t_n = total_w + total_l
     s_units = spread_w * UNIT_WIN + spread_l * UNIT_LOSS
-    t_units = total_w * UNIT_WIN + total_l * UNIT_LOSS
 
     print(f"\n{'='*65}")
-    print(f"  2025 Walk-Forward Backtest Results (all picks)")
+    print(f"  {season} Walk-Forward Backtest — Spread Only (60%+ confidence)")
     print(f"{'='*65}")
-    print(f"  Dates:     {len(dates_sorted)}  |  Burn-in: {BURN_IN_DAYS} days")
+    print(f"  Dates: {len(dates_sorted)}  |  Burn-in: {BURN_IN_DAYS} days")
     print()
     if s_n:
-        print(f"  Spread:  {spread_w}-{spread_l}-{spread_p}  "
+        print(f"  All 60%+:  {spread_w}-{spread_l}-{spread_p}  "
               f"({spread_w/s_n*100:.1f}%)  "
               f"{s_units:+.1f}u  ROI: {s_units/s_n*100:+.1f}%  (n={s_n})")
-    if t_n:
-        print(f"  Totals:  {total_w}-{total_l}-{total_p}  "
-              f"({total_w/t_n*100:.1f}%)  "
-              f"{t_units:+.1f}u  ROI: {t_units/t_n*100:+.1f}%  (n={t_n})")
 
     print()
-    print(f"  {'Tier':<10}  {'Spread':>22}  {'Totals':>22}")
-    print(f"  {'-'*56}")
-    for thresh in [0.60, 0.55]:
+    print(f"  {'Tier':<8}  {'Record':>20}  {'Units':>8}  {'ROI':>7}")
+    print(f"  {'-'*50}")
+    for thresh in [0.65, 0.60]:
         sw, sl, sp = tiers[thresh]
-        tw, tl, tp = tiers_t[thresh]
         sn = sw + sl
-        tn = tw + tl
         su = sw * UNIT_WIN + sl * UNIT_LOSS if sn else 0
-        tu = tw * UNIT_WIN + tl * UNIT_LOSS if tn else 0
-        s_str = f"{sw}-{sl}-{sp} ({sw/sn*100:.1f}%) {su:+.1f}u" if sn else "n/a"
-        t_str = f"{tw}-{tl}-{tp} ({tw/tn*100:.1f}%) {tu:+.1f}u" if tn else "n/a"
-        print(f"  {thresh*100:.0f}%+{'':<4}  {s_str:>22}  {t_str:>22}")
+        s_str = f"{sw}-{sl}-{sp} ({sw/sn*100:.1f}%)" if sn else "n/a"
+        roi_str = f"{su/sn*100:+.1f}%" if sn else "n/a"
+        print(f"  {thresh*100:.0f}%+{'':<4}  {s_str:>20}  {su:>+8.1f}u  {roi_str:>7}")
     print()
 
     # ---- Save to disk ----
@@ -507,9 +460,6 @@ def backtest(season, odds_dir=None, output_dir=None, min_conf=0.52):
             "spread": {"w": spread_w, "l": spread_l, "p": spread_p,
                        "units": round(s_units, 2), "n": s_n,
                        "roi_pct": round(s_units / s_n * 100, 2) if s_n else None},
-            "total":  {"w": total_w,  "l": total_l,  "p": total_p,
-                       "units": round(t_units, 2), "n": t_n,
-                       "roi_pct": round(t_units / t_n * 100, 2) if t_n else None},
         }
     }
     with open(out_path, "w") as f:

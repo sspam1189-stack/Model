@@ -117,18 +117,6 @@ def grade_spread_pick(g):
     return "WIN" if val > 0 else "LOSS"
 
 
-def grade_total_pick(g):
-    o_pick = g.get("oPick")
-    if not o_pick or o_pick == "PASS":
-        return None
-    actual = g["homeScore"] + g["awayScore"]
-    if actual == g.get("total"):
-        return "PUSH"
-    if o_pick == "OVER":
-        return "WIN" if actual > g["total"] else "LOSS"
-    return "WIN" if actual < g["total"] else "LOSS"
-
-
 # ---------------------------------------------------------------------------
 # Team name normalization
 # ---------------------------------------------------------------------------
@@ -176,23 +164,18 @@ def get_graded_picks(store):
     return picks
 
 
-def tally_picks(picks, pick_type="spread", conf=None):
+def tally_picks(picks, conf=None):
     w = l = p = 0
     for g in picks:
-        pick = g.get("sPick") if pick_type == "spread" else g.get("oPick")
-        pick_conf = g.get("sConf") if pick_type == "spread" else g.get("oConf")
+        pick = g.get("sPick")
+        pick_conf = g.get("sConf")
         if not pick or pick == "PASS":
             continue
         if conf and pick_conf != conf:
             continue
-
-        if pick_type == "spread":
-            result = g.get("sResult") or grade_spread_pick(g)
-        else:
-            result = g.get("oResult") or grade_total_pick(g)
+        result = g.get("sResult") or grade_spread_pick(g)
         if not result:
             continue
-
         if result == "WIN":
             w += 1
         elif result == "LOSS":
@@ -208,18 +191,14 @@ def tally_picks(picks, pick_type="spread", conf=None):
 
 def compute_summary_text(store):
     picks = get_graded_picks(store)
-    s_all = tally_picks(picks, "spread")
-    s_elite = tally_picks(picks, "spread", conf="elite")
-    o_all = tally_picks(picks, "total")
+    s_all = tally_picks(picks)
+    s_elite = tally_picks(picks, conf="elite")
 
     lines = [
         "RECORD (graded picks only)", "",
-        "SPREAD (ATS)",
+        "SPREAD (ATS) — 60%+ confidence only",
         f"  All:      {s_all['w']}-{s_all['l']}-{s_all['p']}  ({s_all['pct']}%)  {fmt_units(s_all['units'])}",
         f"  Elite:    {s_elite['w']}-{s_elite['l']}-{s_elite['p']}  ({s_elite['pct']}%)  {fmt_units(s_elite['units'])}",
-        "",
-        "TOTALS (O/U)",
-        f"  All:      {o_all['w']}-{o_all['l']}-{o_all['p']}  ({o_all['pct']}%)  {fmt_units(o_all['units'])}",
     ]
     return "\n".join(lines)
 
@@ -311,8 +290,6 @@ def stage_grade(date_str, store):
 
             if g.get("sPick") and g["sPick"] != "PASS":
                 g["sResult"] = grade_spread_pick(g)
-            if g.get("oPick") and g["oPick"] != "PASS":
-                g["oResult"] = grade_total_pick(g)
 
             graded_count += 1
             completed_games.append(g)
@@ -640,41 +617,32 @@ def stage_project(date_str, store):
 
         pick = g.get("sPick", "PASS")
         conf = g.get("sConf", "")
-        o_pick = g.get("oPick", "PASS")
-        o_conf = g.get("oConf", "")
         proj_spread = g.get("projSpread", 0)
         line = g.get("line", 0)
-        proj_total = g.get("projTotal", 0)
-        total = g.get("total", 0)
         home_sp = g.get("_homeSP", "")
         away_sp = g.get("_awaySP", "")
 
         marker = ""
-        if is_actionable(conf) or is_actionable(o_conf):
-            marker = " ***" if (conf == "elite" or o_conf == "elite") else " **"
+        if is_actionable(conf):
+            marker = " ***" if conf == "elite" else " **"
             actionable.append(g)
 
         sp_str = f"[{away_sp} vs {home_sp}]" if (away_sp or home_sp) else ""
         print(
             f"  {g.get('away', '?'):24s} @ {g.get('home', '?'):24s}  "
             f"Line:{fmt_num(line, 1):>6s}  Proj:{fmt_num(proj_spread, 1):>6s}  "
-            f"Ou:{fmt_num(total, 1):>5s}  ProjTot:{fmt_num(proj_total, 1):>5s}  "
-            f"=> {pick:28s} [{conf}] / {o_pick:5s} [{o_conf}]{marker}"
+            f"=> {pick:28s} [{conf}]{marker}"
         )
         if sp_str:
             print(f"    {sp_str}")
 
     print(f"\n  Total games: {len(games)}")
-    print(f"  Actionable picks: {len(actionable)}")
+    print(f"  Picks (60%+): {len(actionable)}")
     if actionable:
-        print(f"\n  Actionable summary:")
+        print(f"\n  Picks:")
         for g in actionable:
-            s_line = f"    {g.get('sPick', 'PASS')} ({g.get('sConf', '')})" if g.get("sPick", "PASS") != "PASS" else ""
-            o_line = f"    {g.get('oPick', 'PASS')} ({g.get('oConf', '')})" if g.get("oPick", "PASS") != "PASS" else ""
-            if s_line:
-                print(s_line)
-            if o_line:
-                print(o_line)
+            s_line = f"    {g.get('sPick', 'PASS')} ({g.get('sConf', '')})"
+            print(s_line)
 
     print(f"\n{compute_summary_text(store)}")
     print()

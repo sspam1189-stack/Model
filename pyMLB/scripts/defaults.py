@@ -106,10 +106,8 @@ DEFAULT_W = {
     "constant": 0.0,            # Additive constant to base projection
 
     # -- Legacy pick thresholds (fallback / display reference) --
-    "probHigh": 0.57,           # Min P(cover) for "high" pick
-    "probElite": 0.63,          # Min P(cover) for "elite" confidence
-    "probOUHigh": 0.58,         # Totals: min P(over/under) for "high"
-    "probOUElite": 0.65,        # Totals: min P(over/under) for "elite"
+    "probHigh": 0.60,           # Min P(cover) for a spread pick (60%)
+    "probElite": 0.65,          # Min P(cover) for "elite" confidence (65%)
     "sprHigh": 1.5,             # Min sDiff for a spread pick (runs)
     "ouHigh": 2.0,              # Min |tDiff| for a total pick (runs)
     "sprEliteBump": 1.0,        # Extra sDiff above sprHigh for "elite"
