@@ -51,6 +51,62 @@
         yest.setDate(yest.getDate() - 1);
         const yesterdayStr = yest.toISOString().slice(0, 10);
 
+        // Market Breakdown (season-long, graded picks only)
+        const gradedPicks = picks.filter(p => p.result);
+        if (gradedPicks.length > 0) {
+          const { fGrouped, sortedMarkets } = buildMarketBreakdown(gradedPicks);
+          const mbCard = document.createElement('div');
+          mbCard.className = 'card card-games';
+          mbCard.style.marginBottom = '16px';
+          mbCard.appendChild(Object.assign(document.createElement('div'), {className:'card-title', textContent:'Market Breakdown'}));
+          const mbWrap = document.createElement('div');
+          mbWrap.className = 'props-table-wrap';
+          const mbTbl = document.createElement('table');
+          mbTbl.style.cssText = 'width:100%;border-collapse:collapse;margin-top:8px';
+          const mh = mbTbl.createTHead().insertRow();
+          ['Cat','Picks','W','L','Win%','Units'].forEach(h => {
+            const th = document.createElement('th');
+            th.textContent = h;
+            th.style.cssText = 'padding:6px 10px;text-align:right;border-bottom:1px solid rgba(255,255,255,0.1)';
+            if (h === 'Cat') th.style.textAlign = 'left';
+            mh.appendChild(th);
+          });
+          const mb = mbTbl.createTBody();
+          let gW = 0, gL = 0;
+          for (const market of sortedMarkets) {
+            const mPicks = fGrouped[market];
+            const w = mPicks.filter(p => p.result === 'WIN').length;
+            const l = mPicks.filter(p => p.result === 'LOSS').length;
+            const u = w * 1.0 + l * (-1.1);
+            const pct = (w + l) > 0 ? (w / (w + l) * 100).toFixed(1) : 'n/a';
+            gW += w; gL += l;
+            const sr = mb.insertRow();
+            [market, String(mPicks.length), String(w), String(l), pct+'%', (u>=0?'+':'')+u.toFixed(1)+'u'].forEach((v,i) => {
+              const td = sr.insertCell();
+              td.textContent = v;
+              td.style.padding = '6px 10px';
+              td.style.textAlign = i === 0 ? 'left' : 'right';
+              if (i === 5) td.style.color = u >= 0 ? 'var(--green)' : 'var(--red)';
+            });
+          }
+          const gU = gW * 1.0 + gL * (-1.1);
+          const tr = mb.insertRow();
+          tr.style.borderTop = '2px solid rgba(255,255,255,0.2)';
+          tr.style.fontWeight = '700';
+          ['TOTAL', String(gradedPicks.length), String(gW), String(gL),
+           (gW+gL>0?(gW/(gW+gL)*100).toFixed(1):'0')+'%',
+           (gU>=0?'+':'')+gU.toFixed(1)+'u'].forEach((v,i) => {
+            const td = tr.insertCell();
+            td.textContent = v;
+            td.style.padding = '6px 10px';
+            td.style.textAlign = i === 0 ? 'left' : 'right';
+            if (i === 5) td.style.color = gU >= 0 ? 'var(--green)' : 'var(--red)';
+          });
+          mbWrap.appendChild(mbTbl);
+          mbCard.appendChild(mbWrap);
+          el.appendChild(mbCard);
+        }
+
         // Yesterday's Recap
         const yesterdayPicks = picks.filter(p => p.date === yesterdayStr && p.result);
         if (yesterdayPicks.length > 0) {
