@@ -25,25 +25,11 @@
     ],
     "Phoenix Suns": [
       {
-        "player": "Dillon Brooks",
+        "player": "Amir Coffey",
         "status": "out",
         "reason": "Out",
-        "tier": "star",
-        "mpg": 30.6
-      },
-      {
-        "player": "Grayson Allen",
-        "status": "questionable",
-        "reason": "Day-To-Day",
-        "tier": "star",
-        "mpg": 29.5
-      },
-      {
-        "player": "Mark Williams",
-        "status": "out",
-        "reason": "Out",
-        "tier": "starter",
-        "mpg": 23.6
+        "tier": "bench",
+        "mpg": 10.2
       },
       {
         "player": "Haywood Highsmith",
@@ -53,21 +39,14 @@
         "mpg": 13.4
       },
       {
-        "player": "Amir Coffey",
+        "player": "Mark Williams",
         "status": "out",
         "reason": "Out",
-        "tier": "bench",
-        "mpg": 10.2
+        "tier": "starter",
+        "mpg": 23.6
       }
     ],
     "Brooklyn Nets": [
-      {
-        "player": "Jalen Wilson",
-        "status": "questionable",
-        "reason": "Day-To-Day",
-        "tier": "bench",
-        "mpg": 14.7
-      },
       {
         "player": "Danny Wolf",
         "status": "out",
@@ -95,15 +74,29 @@
         "reason": "Out",
         "tier": "bench",
         "mpg": 0
+      },
+      {
+        "player": "Day'Ron Sharpe",
+        "status": "out",
+        "reason": "Out",
+        "tier": "starter",
+        "mpg": 18.7
       }
     ],
     "Detroit Pistons": [
       {
-        "player": "Duncan Robinson",
+        "player": "Caris LeVert",
         "status": "questionable",
         "reason": "Day-To-Day",
         "tier": "starter",
-        "mpg": 27.6
+        "mpg": 19.5
+      },
+      {
+        "player": "Marcus Sasser",
+        "status": "questionable",
+        "reason": "Day-To-Day",
+        "tier": "bench",
+        "mpg": 12.8
       },
       {
         "player": "Tobias Harris",
@@ -113,25 +106,18 @@
         "mpg": 28.2
       },
       {
+        "player": "Duncan Robinson",
+        "status": "questionable",
+        "reason": "Day-To-Day",
+        "tier": "starter",
+        "mpg": 27.6
+      },
+      {
         "player": "Jalen Duren",
         "status": "questionable",
         "reason": "Day-To-Day",
         "tier": "star",
         "mpg": 28.0
-      },
-      {
-        "player": "Isaiah Stewart",
-        "status": "out",
-        "reason": "Out",
-        "tier": "starter",
-        "mpg": 23.2
-      },
-      {
-        "player": "Cade Cunningham",
-        "status": "out",
-        "reason": "Out",
-        "tier": "star",
-        "mpg": 34.4
       }
     ],
     "Toronto Raptors": [
@@ -164,11 +150,11 @@
         "mpg": 32.4
       },
       {
-        "player": "RJ Barrett",
-        "status": "questionable",
-        "reason": "Day-To-Day",
-        "tier": "star",
-        "mpg": 30.0
+        "player": "Chucky Hepburn",
+        "status": "out",
+        "reason": "Out",
+        "tier": "bench",
+        "mpg": 0
       }
     ],
     "Houston Rockets": [
@@ -242,23 +228,16 @@
     ],
     "Dallas Mavericks": [
       {
-        "player": "P.J. Washington",
+        "player": "Klay Thompson",
         "status": "questionable",
         "reason": "Day-To-Day",
-        "tier": "star",
-        "mpg": 31.0
-      },
-      {
-        "player": "Naji Marshall",
-        "status": "questionable",
-        "reason": "Day-To-Day",
-        "tier": "star",
-        "mpg": 29.7
+        "tier": "starter",
+        "mpg": 21.8
       },
       {
         "player": "Marvin Bagley III",
-        "status": "questionable",
-        "reason": "Day-To-Day",
+        "status": "out",
+        "reason": "Out",
         "tier": "starter",
         "mpg": 20.0
       },
@@ -270,11 +249,18 @@
         "mpg": 14.8
       },
       {
-        "player": "Kyrie Irving",
+        "player": "Naji Marshall",
         "status": "out",
         "reason": "Out",
-        "tier": "bench",
-        "mpg": 0
+        "tier": "star",
+        "mpg": 29.7
+      },
+      {
+        "player": "P.J. Washington",
+        "status": "out",
+        "reason": "Out",
+        "tier": "star",
+        "mpg": 31.0
       }
     ],
     "Los Angeles Lakers": [
