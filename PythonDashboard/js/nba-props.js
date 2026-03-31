@@ -238,7 +238,7 @@
         // Game selector pills
         const gamePills = document.createElement('div');
         gamePills.style.cssText = 'display:flex;gap:6px;flex-wrap:wrap;padding:10px 16px;border-bottom:1px solid rgba(255,255,255,0.08)';
-        let activeGame = games[0]?.[0] || null;
+        let activeGame = 'all';
 
         // Player dropdown
         const playerRow = document.createElement('div');
@@ -263,7 +263,7 @@
         function refreshPlayerDropdown() {
           playerSelect.textContent = '';
           const playersInGame = [...new Set(
-            todayAllProj.filter(p => [p.team, p.opp].sort().join('@') === activeGame)
+            todayAllProj.filter(p => activeGame === 'all' || [p.team, p.opp].sort().join('@') === activeGame)
               .map(p => p.player)
           )].sort();
           const allOpt = document.createElement('option');
@@ -283,12 +283,13 @@
           tableWrap.textContent = '';
           const gameProj = todayAllProj.filter(p => {
             const key = [p.team, p.opp].sort().join('@');
+            const gameMatch = activeGame === 'all' || key === activeGame;
             const mktMatch = activeMkt === 'all' || p.market === activeMkt;
             const playerMatch = activePlayer === 'all' || p.player === activePlayer;
-            return key === activeGame && mktMatch && playerMatch;
+            return gameMatch && mktMatch && playerMatch;
           });
           if (gameProj.length === 0) {
-            tableWrap.appendChild(Object.assign(document.createElement('div'), {textContent:'No projections for this game.', style:'color:#666;font-size:13px'}));
+            tableWrap.appendChild(Object.assign(document.createElement('div'), {textContent:'No projections found.', style:'color:#666;font-size:13px'}));
             return;
           }
           // Sort by category first, then player name, then pCover
@@ -329,8 +330,15 @@
         }
 
         function refreshPills() {
-          // Game pills
+          // Game pills — "All" first, then each game
           gamePills.textContent = '';
+          const allGamesBtn = document.createElement('button');
+          allGamesBtn.textContent = 'All';
+          allGamesBtn.style.cssText = activeGame === 'all'
+            ? 'padding:5px 14px;border-radius:16px;border:1px solid #7c6cf0;background:#7c6cf0;color:#fff;font-size:12px;cursor:pointer'
+            : 'padding:5px 14px;border-radius:16px;border:1px solid rgba(255,255,255,0.12);background:transparent;color:#999;font-size:12px;cursor:pointer';
+          allGamesBtn.onclick = () => { activeGame = 'all'; activePlayer = 'all'; refreshPills(); refreshPlayerDropdown(); renderGameTable(); };
+          gamePills.appendChild(allGamesBtn);
           for (const [key, label] of games) {
             const btn = document.createElement('button');
             btn.textContent = label;
