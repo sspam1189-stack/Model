@@ -4,9 +4,9 @@
   "season": "2025-26",
   "mode": "backfill",
   "model": "kalman_blend",
-  "generated": "2026-03-31T09:40:01.027803",
+  "generated": "2026-03-31T10:56:59.135851",
   "totalProjections": 1930,
-  "totalPicks": 575,
+  "totalPicks": 576,
   "props": [
     {
       "player": "James Harden",
@@ -9161,6 +9161,20 @@
       "result": "WIN"
     },
     {
+      "player": "Ousmane Dieng",
+      "team": "MIL",
+      "opp": "DAL",
+      "market": "pts_rebs_asts",
+      "proj": 17.4,
+      "std": 5.7,
+      "line": 23.5,
+      "pick": "UNDER",
+      "edge": -6.1,
+      "pCover": 0.836,
+      "conf": "high",
+      "date": "2026-03-31"
+    },
+    {
       "player": "Scoot Henderson",
       "team": "POR",
       "opp": "LAC",
@@ -9203,6 +9217,6 @@
       "date": "2026-03-31"
     }
   ],
-  "summary": "3 picks from 1930 projections",
+  "summary": "4 picks from 1930 projections",
   "date": "2026-03-31"
 }
