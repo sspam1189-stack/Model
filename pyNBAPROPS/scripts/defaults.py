@@ -129,7 +129,7 @@ UNDER_ONLY_MARKETS = {"points", "rebounds"}  # OVER still unprofitable even with
 # assists allows both OVER and UNDER (real model skill in both directions)
 
 # Markets to disable entirely (no real edge after calibration)
-DISABLED_MARKETS = {"steals", "blocks", "turnovers"}
+DISABLED_MARKETS = {"steals", "blocks", "turnovers", "pts_rebs_asts"}
 
 # ---------------------------------------------------------------------------
 # Opponent adjustment
