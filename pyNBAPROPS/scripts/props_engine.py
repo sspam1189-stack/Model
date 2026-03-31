@@ -387,6 +387,17 @@ def project_player_props(player_logs, team_def_stats=None, prop_lines=None,
 
             prop = _make_prop(name, team, "pts_rebs_asts", proj, std, line_lookup, latest_opp)
             if prop:
+                # Gate: PRA OVER only allowed if assists is also OVER
+                if prop.get("pick") == "OVER":
+                    ast_over = any(
+                        p for p in projections
+                        if p.get("player") == name
+                        and p.get("market") == "assists"
+                        and p.get("pick") == "OVER"
+                    )
+                    if not ast_over:
+                        prop["pick"] = "PASS"
+                        prop["conf"] = "low"
                 projections.append(prop)
 
     return projections
