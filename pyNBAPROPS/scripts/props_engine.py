@@ -360,15 +360,17 @@ def project_player_props(player_logs, team_def_stats=None, prop_lines=None,
             prop = _make_prop(name, team, "pts_rebs_asts", proj, std, line_lookup, latest_opp)
             if prop:
                 # Gate: PRA only fires if at least one individual stat (pts/reb/ast)
-                # also has an active pick — prevents PRA from triggering in isolation
-                if prop.get("pick") != "PASS":
-                    individual_pick = any(
+                # fires in the same direction — prevents PRA from triggering in
+                # isolation or contradicting its own components
+                pra_direction = prop.get("pick")
+                if pra_direction not in ("PASS", None):
+                    same_direction = any(
                         p for p in projections
                         if p.get("player") == name
                         and p.get("market") in ("points", "rebounds", "assists")
-                        and p.get("pick") not in ("PASS", None)
+                        and p.get("pick") == pra_direction
                     )
-                    if not individual_pick:
+                    if not same_direction:
                         prop["pick"] = "PASS"
                         prop["conf"] = "low"
                 projections.append(prop)
