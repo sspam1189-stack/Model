@@ -4,9 +4,9 @@
   "season": "2025-26",
   "mode": "backfill",
   "model": "kalman_blend",
-  "generated": "2026-03-30T16:35:09.583939",
-  "totalProjections": 84775,
-  "totalPicks": 571,
+  "generated": "2026-03-30T18:02:23.104634",
+  "totalProjections": 1930,
+  "totalPicks": 572,
   "props": [
     {
       "player": "James Harden",
@@ -9074,7 +9074,7 @@
       "line": 34.5,
       "pick": "OVER",
       "edge": 8.3,
-      "pCover": 0.846,
+      "pCover": 0.847,
       "conf": "high",
       "date": "2026-03-30"
     },
@@ -9089,6 +9089,20 @@
       "pick": "UNDER",
       "edge": -4.6,
       "pCover": 0.801,
+      "conf": "high",
+      "date": "2026-03-30"
+    },
+    {
+      "player": "Quentin Grimes",
+      "team": "PHI",
+      "opp": "MIA",
+      "market": "assists",
+      "proj": 4.2,
+      "std": 2.2,
+      "line": 2.5,
+      "pick": "OVER",
+      "edge": 1.7,
+      "pCover": 0.763,
       "conf": "high",
       "date": "2026-03-30"
     },
@@ -9116,7 +9130,7 @@
       "line": 5.5,
       "pick": "UNDER",
       "edge": -1.8,
-      "pCover": 0.735,
+      "pCover": 0.733,
       "conf": "high",
       "date": "2026-03-30"
     },
@@ -9130,10 +9144,11 @@
       "line": 3.5,
       "pick": "OVER",
       "edge": 1.1,
-      "pCover": 0.732,
+      "pCover": 0.733,
       "conf": "high",
       "date": "2026-03-30"
     }
   ],
-  "summary": "560 graded picks for 2025-26: 364W-196L (65.0%) +148.4u"
+  "summary": "6 picks from 1930 projections",
+  "date": "2026-03-30"
 }
