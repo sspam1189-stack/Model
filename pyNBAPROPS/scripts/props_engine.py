@@ -641,8 +641,8 @@ def _make_prop(name, team, market, proj, std, line_lookup, opp):
         result["edge"] = round(diff, 1)
         result["pCover"] = round(best_p, 3)
 
-        mkt_thresh = MARKET_THRESHOLDS.get(market, {"high": 0.58, "elite": 0.64})
-        if best_p >= mkt_thresh["high"]:
+        mkt_thresh = MARKET_THRESHOLDS.get(market, 0.58)
+        if best_p >= mkt_thresh:
             direction = "OVER" if p_over > p_under else "UNDER"
 
             if market in UNDER_ONLY_MARKETS and direction == "OVER":
@@ -659,7 +659,7 @@ def _make_prop(name, team, market, proj, std, line_lookup, opp):
                 return result
 
             result["pick"] = direction
-            result["conf"] = "elite" if best_p >= mkt_thresh["elite"] else "high"
+            result["conf"] = "pick"
 
     return result
 

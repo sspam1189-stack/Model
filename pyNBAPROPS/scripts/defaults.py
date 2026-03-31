@@ -52,14 +52,14 @@ MIN_MINUTES = 15
 # Thresholds set per-market based on calibrated backtest analysis.
 
 MARKET_THRESHOLDS = {
-    "points":        {"high": 0.75, "elite": 0.85},   # 56.5% at 0.75 — optimal is floor
-    "rebounds":      {"high": 0.73, "elite": 0.83},   # Raised 0.70→0.73: 59%→67% (+9.6u)
-    "assists":       {"high": 0.72, "elite": 0.82},   # Raised 0.70→0.72: OVER 69%, UNDER 66%
-    "threes":        {"high": 0.80, "elite": 0.90},   # 80% win rate — already optimal
-    "pts_rebs_asts": {"high": 0.80, "elite": 0.87},   # 63% win rate — already optimal
-    "steals":        {"high": 0.85, "elite": 0.90},
-    "blocks":        {"high": 0.85, "elite": 0.90},
-    "turnovers":     {"high": 0.80, "elite": 0.90},
+    "points":        0.75,  # optimal floor — win rate drops above 0.78
+    "rebounds":      0.73,  # 66.1%  +34.9u — dropped picks win equally, keep volume
+    "assists":       0.72,  # 65.8% +55.3u — volume wins, dropped picks still +28u at 62.6%
+    "threes":        0.80,  # 81.2% — already optimal
+    "pts_rebs_asts": 0.80,
+    "steals":        0.85,
+    "blocks":        0.85,
+    "turnovers":     0.80,
 }
 
 # Variance multipliers
