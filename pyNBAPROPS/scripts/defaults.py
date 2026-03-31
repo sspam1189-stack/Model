@@ -52,9 +52,9 @@ MIN_MINUTES = 15
 # Thresholds set per-market based on calibrated backtest analysis.
 
 MARKET_THRESHOLDS = {
-    "points":        0.75,  # optimal floor — win rate drops above 0.78
-    "rebounds":      0.73,  # 66.1%  +34.9u — dropped picks win equally, keep volume
-    "assists":       0.72,  # 65.8% +55.3u — volume wins, dropped picks still +28u at 62.6%
+    "points":        0.60,  # lowered — 0.60-0.80 window: ~65.8% win rate +42.8u
+    "rebounds":      0.73,  # 66.1%  +34.9u — 0.60-0.70 bands are noise, keep high-quality
+    "assists":       0.70,  # lowered from 0.72 — 0.70-0.72 band: 63.3% +25.0u; 0.65-0.70 is -8.7u
     "threes":        0.80,  # 81.2% — already optimal
     "pts_rebs_asts": 0.80,
     "steals":        0.85,
