@@ -1,0 +1,72 @@
+name: MLB Daily Picks
+
+on:
+  schedule:
+    - cron: '0 17 * * *'  # 5 PM UTC = 12 PM ET (before afternoon games)
+  workflow_dispatch:
+    inputs:
+      date:
+        description: 'Date to run (YYYYMMDD, leave empty for today)'
+        required: false
+        default: ''
+      stage:
+        description: 'Stage to run'
+        required: false
+        default: 'all'
+        type: choice
+        options: [all, fetch, grade, project]
+
+permissions:
+  contents: write
+
+jobs:
+  mlb:
+    runs-on: self-hosted
+    defaults:
+      run:
+        shell: bash
+    steps:
+      - name: Clean up stale rebase
+        run: git rebase --abort 2>/dev/null || true
+
+      - uses: actions/checkout@v6
+        with:
+          ref: main
+          clean: true
+
+      - name: Pull latest
+        run: git pull origin main
+
+      - name: Clear bytecode cache
+        run: find pyMLB/scripts -name "__pycache__" -exec rm -rf {} + 2>/dev/null || true
+
+      - name: Install dependencies
+        run: pip install pybaseball numpy scipy scikit-learn requests python-dotenv
+
+      - name: Run pipeline
+        working-directory: pyMLB/scripts
+        env:
+          PYTHONUTF8: "1"
+          PYTHONUNBUFFERED: "1"
+          PYTHONIOENCODING: "utf-8"
+          ODDS_API_KEY: ${{ secrets.ODDS_API_KEY }}
+          GMAIL_USER: ${{ secrets.GMAIL_USER }}
+          GMAIL_APP_PASSWORD: ${{ secrets.GMAIL_APP_PASSWORD }}
+          TO_EMAIL: ${{ secrets.TO_EMAIL }}
+        run: |
+          if [ -n "${{ github.event.inputs.date }}" ]; then
+            DATE_ARG="--date ${{ github.event.inputs.date }}"
+          else
+            DATE_ARG=""
+          fi
+          STAGE="${{ github.event.inputs.stage || 'all' }}"
+          python run_daily.py --stage $STAGE $DATE_ARG
+
+      - name: Commit & push data changes
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add pyMLB/data/ data/espn_cache/mlb/ data/odds_cache/mlb/ data/stats_cache/mlb/ data/pitcher_cache/mlb/ data/injury_cache/mlb/ 2>/dev/null || true
+          git diff --cached --quiet || git commit -m "Run daily MLB"
+          git pull --rebase origin main
+          git push
