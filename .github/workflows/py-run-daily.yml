@@ -151,6 +151,12 @@ jobs:
           name: pyNBAPROPS-data
           path: pyNBAPROPS/data
 
+      - name: Upload shared props cache
+        uses: actions/upload-artifact@v7
+        with:
+          name: shared-props-cache
+          path: data/props_cache/nba
+
   commit-and-push:
     runs-on: ubuntu-latest
     needs: [nba, nba-fullseason, nba-props]
@@ -195,6 +201,11 @@ jobs:
           name: shared-espn-cache
           path: artifacts/espn-cache
 
+      - uses: actions/download-artifact@v8
+        with:
+          name: shared-props-cache
+          path: artifacts/props-cache
+
       - name: Copy artifacts
         shell: bash
         run: |
@@ -209,6 +220,8 @@ jobs:
           cp -a artifacts/stats-cache/. data/stats_cache/nba/
           mkdir -p data/espn_cache/nba
           cp -a artifacts/espn-cache/. data/espn_cache/nba/
+          mkdir -p data/props_cache/nba
+          cp -a artifacts/props-cache/. data/props_cache/nba/
           cp pyNBA/data/history.json PythonDashboard/data/nba.json
           cp pyFull/data/history.json PythonDashboard/data/fullseason.json
           cp -f artifacts/pyNBAPROPS/nba-props.json PythonDashboard/data/nba-props.json 2>/dev/null || true
@@ -218,7 +231,7 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add pyNBA/data/ pyFull/data/ pyNBAPROPS/data/ data/injury_cache/nba/ data/odds_cache/nba/ data/stats_cache/nba/ data/espn_cache/nba/ PythonDashboard/data/nba.json PythonDashboard/data/fullseason.json PythonDashboard/data/nba-props.json
+          git add pyNBA/data/ pyFull/data/ pyNBAPROPS/data/ data/injury_cache/nba/ data/odds_cache/nba/ data/stats_cache/nba/ data/espn_cache/nba/ data/props_cache/nba/ PythonDashboard/data/nba.json PythonDashboard/data/fullseason.json PythonDashboard/data/nba-props.json
           git diff --cached --quiet || git commit -m "Run daily Python NBA + Fullseason + NBA Props"
           git pull --rebase origin main
           git push
