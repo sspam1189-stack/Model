@@ -240,6 +240,16 @@
         gamePills.style.cssText = 'display:flex;gap:6px;flex-wrap:wrap;padding:10px 16px;border-bottom:1px solid rgba(255,255,255,0.08)';
         let activeGame = games[0]?.[0] || null;
 
+        // Player dropdown
+        const playerRow = document.createElement('div');
+        playerRow.style.cssText = 'padding:8px 16px;border-bottom:1px solid rgba(255,255,255,0.08);display:flex;align-items:center;gap:8px';
+        const playerLabel = Object.assign(document.createElement('span'), {textContent:'Player:', style:'font-size:12px;color:#999'});
+        const playerSelect = document.createElement('select');
+        playerSelect.style.cssText = 'padding:5px 10px;border-radius:6px;background:rgba(255,255,255,0.06);color:#fff;border:1px solid rgba(255,255,255,0.1);font-size:12px;outline:none;cursor:pointer;max-width:200px';
+        let activePlayer = 'all';
+        playerRow.appendChild(playerLabel);
+        playerRow.appendChild(playerSelect);
+
         // Market filter pills
         const mktPills = document.createElement('div');
         mktPills.style.cssText = 'display:flex;gap:6px;flex-wrap:wrap;padding:10px 16px;border-bottom:1px solid rgba(255,255,255,0.08)';
@@ -250,20 +260,40 @@
         const tableWrap = document.createElement('div');
         tableWrap.style.cssText = 'padding:12px 16px';
 
+        function refreshPlayerDropdown() {
+          playerSelect.textContent = '';
+          const playersInGame = [...new Set(
+            todayAllProj.filter(p => [p.team, p.opp].sort().join('@') === activeGame)
+              .map(p => p.player)
+          )].sort();
+          const allOpt = document.createElement('option');
+          allOpt.value = 'all'; allOpt.textContent = 'All Players';
+          playerSelect.appendChild(allOpt);
+          for (const name of playersInGame) {
+            const opt = document.createElement('option');
+            opt.value = name; opt.textContent = name;
+            playerSelect.appendChild(opt);
+          }
+          playerSelect.value = activePlayer === 'all' || !playersInGame.includes(activePlayer) ? 'all' : activePlayer;
+          activePlayer = playerSelect.value;
+        }
+        playerSelect.onchange = () => { activePlayer = playerSelect.value; renderGameTable(); };
+
         function renderGameTable() {
           tableWrap.textContent = '';
           const gameProj = todayAllProj.filter(p => {
             const key = [p.team, p.opp].sort().join('@');
             const mktMatch = activeMkt === 'all' || p.market === activeMkt;
-            return key === activeGame && mktMatch;
+            const playerMatch = activePlayer === 'all' || p.player === activePlayer;
+            return key === activeGame && mktMatch && playerMatch;
           });
           if (gameProj.length === 0) {
             tableWrap.appendChild(Object.assign(document.createElement('div'), {textContent:'No projections for this game.', style:'color:#666;font-size:13px'}));
             return;
           }
-          // Sort by team then catOrder then pCover
+          // Sort by category first, then player name, then pCover
           const catOrd = {points:0,rebounds:1,assists:2,threes:3,steals:4,blocks:5,turnovers:6};
-          gameProj.sort((a,b) => (a.team||'').localeCompare(b.team||'') || (catOrd[a.market]??99)-(catOrd[b.market]??99) || (b.pCover||0)-(a.pCover||0));
+          gameProj.sort((a,b) => (catOrd[a.market]??99)-(catOrd[b.market]??99) || (a.player||'').localeCompare(b.player||'') || (b.pCover||0)-(a.pCover||0));
 
           const tbl = document.createElement('table');
           tbl.style.cssText = 'width:100%;border-collapse:collapse';
@@ -307,7 +337,7 @@
             btn.style.cssText = key === activeGame
               ? 'padding:5px 14px;border-radius:16px;border:1px solid #7c6cf0;background:#7c6cf0;color:#fff;font-size:12px;cursor:pointer'
               : 'padding:5px 14px;border-radius:16px;border:1px solid rgba(255,255,255,0.12);background:transparent;color:#999;font-size:12px;cursor:pointer';
-            btn.onclick = () => { activeGame = key; refreshPills(); renderGameTable(); };
+            btn.onclick = () => { activeGame = key; activePlayer = 'all'; refreshPills(); refreshPlayerDropdown(); renderGameTable(); };
             gamePills.appendChild(btn);
           }
           // Market pills
@@ -325,8 +355,10 @@
         }
 
         refreshPills();
+        refreshPlayerDropdown();
         renderGameTable();
         gCard.appendChild(gamePills);
+        gCard.appendChild(playerRow);
         gCard.appendChild(mktPills);
         gCard.appendChild(tableWrap);
         el.appendChild(gCard);

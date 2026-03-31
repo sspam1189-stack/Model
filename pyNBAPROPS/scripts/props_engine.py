@@ -14,6 +14,7 @@
 #  10. Apply market-specific confidence thresholds and edge filters
 
 import math
+import unicodedata
 import numpy as np
 from scipy.stats import t as t_dist
 
@@ -39,6 +40,8 @@ def _name_key(name):
     """
     Normalize a player name for cross-source matching.
 
+    Strips diacritics so 'Luka Dončić' matches 'Luka Doncic'.
+
     'LeBron James'      -> ('lebron', 'james')
     'Shai Gilgeous-Alexander' -> ('shai', 'gilgeous-alexander')
     'P.J. Washington'   -> ('p.j.', 'washington')
@@ -47,6 +50,8 @@ def _name_key(name):
     name = name.strip()
     if not name:
         return ('', '')
+    # Strip diacritics (e.g. Dončić -> Doncic, Nurkić -> Nurkic)
+    name = unicodedata.normalize('NFKD', name).encode('ascii', 'ignore').decode('ascii')
 
     parts = name.split()
     suffixes = {'jr', 'jr.', 'sr', 'sr.', 'ii', 'iii', 'iv', 'v'}

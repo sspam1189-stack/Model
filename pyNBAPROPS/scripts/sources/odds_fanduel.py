@@ -96,14 +96,26 @@ FD_PROP_TABS = [
 
 # Map FanDuel market types to our internal market names
 FD_MARKET_TYPE_MAP = {
-    "TOTAL_POINTS":   "points",
-    "TOTAL_REBOUNDS":  "rebounds",
-    "TOTAL_ASSISTS":   "assists",
-    "TOTAL_POINTS_+_REB_+_AST": "pts_rebs_asts",
+    "TOTAL_POINTS":                     "points",
+    "TOTAL_REBOUNDS":                   "rebounds",
+    "TOTAL_ASSISTS":                    "assists",
+    "TOTAL_POINTS_+_REB_+_AST":        "pts_rebs_asts",
+    # 3-pointers made — FanDuel uses various names for this market
+    "TOTAL_3_POINTERS_MADE":            "threes",
+    "TOTAL_MADE_3_POINTERS":            "threes",
+    "TOTAL_3POINTERS_MADE":             "threes",
+    "TOTAL_3_PT_FIELD_GOALS_MADE":      "threes",
+    "TOTAL_3_POINT_FIELD_GOALS_MADE":   "threes",
+    "TOTAL_MADE_THREES":                "threes",
+    "TOTAL_MADE_THREE_POINTERS":        "threes",
+    "TOTAL_THREE_POINTERS_MADE":        "threes",
 }
 
+# Substring keywords for three-pointer fallback matching
+_THREES_KEYWORDS = ("3_POINT", "3POINT", "THREE_POINT", "THREEPOINT", "3_PT", "3PT_")
 
-def _match_fd_market_type(market_type):
+
+def _match_fd_market_type(market_type, tab=None):
     """Map a FanDuel marketType string to our internal market name."""
     mt = market_type.upper()
     # Strip PLAYER_X_ prefix (e.g. PLAYER_B_TOTAL_POINTS -> TOTAL_POINTS)
@@ -112,6 +124,16 @@ def _match_fd_market_type(market_type):
         for fd_key, internal in FD_MARKET_TYPE_MAP.items():
             if suffix == fd_key:
                 return internal
+
+    # Fallback: if fetching the threes tab, match any market type containing
+    # three-pointer keywords (catches unexpected FanDuel naming variations)
+    if tab == "player-threes":
+        for kw in _THREES_KEYWORDS:
+            if kw in mt:
+                return "threes"
+        # Log unmatched types from the threes tab so we can add exact mappings
+        print(f"  [fanduel] unmatched threes market type: {market_type!r}")
+
     return None
 
 
@@ -250,7 +272,7 @@ def fetch_fanduel_nba_props(date_key=None):
 
             for mk, mv in markets.items():
                 market_type = mv.get("marketType", "")
-                internal_market = _match_fd_market_type(market_type)
+                internal_market = _match_fd_market_type(market_type, tab=tab)
                 if not internal_market:
                     continue
 
