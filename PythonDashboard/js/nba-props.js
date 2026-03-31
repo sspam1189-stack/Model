@@ -214,7 +214,7 @@
         const todayStr = allDates[allDates.length - 1] || '';
         // Use todayProjections (all projections incl. PASS) if available, else fall back to picks only
         const todayAllProj = (data.todayProjections || data.props)
-          .filter(p => p.date === todayStr && p.market !== 'pts_rebs_asts' && p.proj != null);
+          .filter(p => p.date === todayStr && p.market !== 'pts_rebs_asts' && p.proj != null && p.line != null);
         if (todayAllProj.length === 0) return;
 
         // Build unique games from today's projections
