@@ -326,64 +326,36 @@ def project_player_props(player_logs, team_def_stats=None, prop_lines=None,
                 projections.append(prop)
 
         # --- PRA combo (Points + Rebounds + Assists) ---
+        # Use sum of individual fully-adjusted projections so each component's
+        # opponent, pace, rest, home/away, Kalman, and anchor adjustments are
+        # already baked in. Only the combined rolling std is computed here.
         if "pts_rebs_asts" in DISABLED_MARKETS:
             continue
         min_g_pra = MIN_GAMES.get("pts_rebs_asts", 5)
         if len(qualified) >= min_g_pra:
+            # Look up the individual projections already computed for this player
+            def _get_proj(market):
+                for p in reversed(projections):
+                    if p.get("player") == name and p.get("market") == market:
+                        return p.get("proj")
+                return None
+
+            proj_pts = _get_proj("points")
+            proj_reb = _get_proj("rebounds")
+            proj_ast = _get_proj("assists")
+
+            # Need all three individual projections to build PRA
+            if proj_pts is None or proj_reb is None or proj_ast is None:
+                continue
+
+            proj = proj_pts + proj_reb + proj_ast
+
+            # Std from combined raw game PRA values (captures combo volatility)
             pts_vals = [g.get("pts", 0) for g in qualified]
             reb_vals = [g.get("reb", 0) for g in qualified]
             ast_vals = [g.get("ast", 0) for g in qualified]
             pra_vals = [p + r + a for p, r, a in zip(pts_vals, reb_vals, ast_vals)]
-
-            rolling_avg = _weighted_avg(pra_vals)
-            rolling_std = _weighted_std(pra_vals) * VAR_MULT.get("pts_rebs_asts", 1.1)
-
-            # Season anchor for PRA
-            anchor_w = SEASON_ANCHOR_WEIGHT.get("pts_rebs_asts", 0.0)
-            if anchor_w > 0 and player_per36:
-                p36_data = player_per36.get(str(pid))
-                if p36_data:
-                    p36_pra = ((p36_data.get("PTS") or 0) +
-                               (p36_data.get("REB") or 0) +
-                               (p36_data.get("AST") or 0))
-                    if p36_pra > 0:
-                        season_baseline = p36_pra * (proj_min / 36.0)
-                        rolling_avg = (1 - anchor_w) * rolling_avg + anchor_w * season_baseline
-
-            proj, std = _blend_pra_with_kalman(
-                kalman_state, str(pid),
-                rolling_avg, rolling_std,
-            )
-
-            proj = _apply_opp_adjustment(proj, "pts_rebs_asts", latest_opp,
-                                         team_def_stats, league_avg,
-                                         player_pos=player_pos,
-                                         team_def_by_pos=team_def_by_pos,
-                                         league_avg_by_pos=league_avg_by_pos)
-            proj = _apply_pace_adjustment(proj, "pts_rebs_asts", team, latest_opp,
-                                          team_def_stats, league_avg)
-
-            # Rest adjustment for PRA (symmetric)
-            if is_b2b:
-                proj += (B2B_PENALTIES.get("pts", 0) +
-                         B2B_PENALTIES.get("reb", 0) +
-                         B2B_PENALTIES.get("ast", 0))
-            else:
-                rest_days = detect_rest_days(games, game_date)
-                if rest_days >= 3:
-                    proj += (REST_BONUS.get("pts", 0) +
-                             REST_BONUS.get("reb", 0) +
-                             REST_BONUS.get("ast", 0))
-
-            # Home/away split for PRA
-            pts_split = compute_home_away_split(games, "pts")
-            reb_split = compute_home_away_split(games, "reb")
-            ast_split = compute_home_away_split(games, "ast")
-            adj_key = "home_split_adj" if is_home else "away_split_adj"
-            pra_split_adj = (pts_split.get(adj_key, 0) +
-                             reb_split.get(adj_key, 0) +
-                             ast_split.get(adj_key, 0))
-            proj += pra_split_adj
+            std = _weighted_std(pra_vals) * VAR_MULT.get("pts_rebs_asts", 1.1)
 
             prop = _make_prop(name, team, "pts_rebs_asts", proj, std, line_lookup, latest_opp)
             if prop:
