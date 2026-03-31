@@ -279,7 +279,7 @@
         }
         playerSelect.onchange = () => { activePlayer = playerSelect.value; currentPage = 0; renderGameTable(); };
 
-        const PAGE_SIZE = 25;
+        const PAGE_SIZE = 30;
         let currentPage = 0;
 
         function renderGameTable() {
