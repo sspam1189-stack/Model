@@ -272,20 +272,20 @@ MLB_TEAMS = {
     "Baltimore Orioles": ["BAL", "baltimore", "orioles", "o's"],
     "Boston Red Sox": ["BOS", "boston", "red sox", "sox"],
     "New York Yankees": ["NYY", "ny yankees", "yankees", "new york yankees"],
-    "Tampa Bay Rays": ["TB", "tampa bay", "rays", "tampa"],
+    "Tampa Bay Rays": ["TB", "TBR", "tbr", "tampa bay", "rays", "tampa"],
     "Toronto Blue Jays": ["TOR", "toronto", "blue jays", "jays"],
 
     # AL Central
     "Chicago White Sox": ["CWS", "chw", "chicago white sox", "white sox"],
     "Cleveland Guardians": ["CLE", "cleveland", "guardians", "cleveland indians"],
     "Detroit Tigers": ["DET", "detroit", "tigers"],
-    "Kansas City Royals": ["KC", "kc", "kansas city", "royals"],
+    "Kansas City Royals": ["KC", "KCR", "kcr", "kc", "kansas city", "royals"],
     "Minnesota Twins": ["MIN", "minnesota", "twins"],
 
     # AL West
     "Houston Astros": ["HOU", "houston", "astros"],
     "Los Angeles Angels": ["LAA", "la angels", "angels", "anaheim angels", "california angels"],
-    "Oakland Athletics": ["OAK", "oak", "oakland", "athletics", "a's", "las vegas athletics"],
+    "Oakland Athletics": ["OAK", "ATH", "ath", "oak", "oakland", "athletics", "a's", "las vegas athletics", "sacramento athletics"],
     "Seattle Mariners": ["SEA", "seattle", "mariners", "m's"],
     "Texas Rangers": ["TEX", "texas", "rangers"],
 
@@ -294,7 +294,7 @@ MLB_TEAMS = {
     "Miami Marlins": ["MIA", "miami", "marlins", "florida marlins"],
     "New York Mets": ["NYM", "ny mets", "mets", "new york mets"],
     "Philadelphia Phillies": ["PHI", "philadelphia", "phillies"],
-    "Washington Nationals": ["WSH", "was", "washington", "nationals", "nats"],
+    "Washington Nationals": ["WSH", "WSN", "wsn", "was", "washington", "nationals", "nats"],
 
     # NL Central
     "Chicago Cubs": ["CHC", "chc", "chicago cubs", "cubs"],
