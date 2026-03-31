@@ -130,14 +130,21 @@ def _pick_best_starter(team_pitcher_data):
 
 def load_historical_odds(odds_dir, season):
     """
-    Scan odds_dir for JSON files matching {YYYYMMDD}.json or {season}-*.json.
+    Scan odds_dir (and monthly subdirs like '2025-04/') for Odds API bulk JSON files.
 
-    JSON format: {"AwayTeam@HomeTeam": {"line": float, "total": float}, ...}
+    Supports two file naming conventions:
+      - Flat:    {YYYYMMDD}.json  or  {YYYY-MM-DD}.json  in odds_dir root
+      - Monthly: {YYYY-MM}/{YYYY-MM-DD}.json  subdirectories
+
+    Odds API bulk format per file:
+      {"data": [{"home_team": str, "away_team": str, "bookmakers": [...]}]}
+
+    Bookmaker preference: fanduel > draftkings > betmgm > caesars > pointsbet.
 
     Returns
     -------
     dict
-        {date_str: {game_key: {"line": float, "total": float}}}
+        {date_str: {"AwayTeam@HomeTeam": {"line": float, "total": float}}}
     """
     if not odds_dir:
         return {}
@@ -146,71 +153,181 @@ def load_historical_odds(odds_dir, season):
         print(f"  [backfill] odds-dir not found: {odds_dir}")
         return {}
 
-    result = {}
+    _BK_PREF = ["fanduel", "draftkings", "betmgm", "caesars", "pointsbet", "betrivers"]
     season_str = str(season)
-    yyyymmdd_re = re.compile(r"^(\d{8})\.json$")
-    season_re = re.compile(rf"^{re.escape(season_str)}-(.+)\.json$")
 
+    def _parse_date_str(fname):
+        """Extract YYYYMMDD from filename. Returns None if not a valid date."""
+        base = os.path.splitext(fname)[0]  # strip .json
+        # Handle YYYY-MM-DD
+        m = re.match(r"^(\d{4})-(\d{2})-(\d{2})$", base)
+        if m:
+            return m.group(1) + m.group(2) + m.group(3)
+        # Handle YYYYMMDD
+        m2 = re.match(r"^(\d{8})$", base)
+        if m2:
+            return m2.group(1)
+        return None
+
+    def _parse_game(game):
+        """
+        Parse one Odds API game entry into (date_str, game_key, line, total).
+        Uses commence_time for the game date so multi-date files are handled correctly.
+        Returns None if not enough data.
+        """
+        home = game.get("home_team", "")
+        away = game.get("away_team", "")
+        commence = game.get("commence_time", "")
+        if not home or not away or not commence:
+            return None
+
+        # Extract YYYYMMDD from "2025-04-01T22:40:00Z"
+        try:
+            game_date = commence[:10].replace("-", "")  # "20250401"
+        except Exception:
+            return None
+
+        bookmakers = game.get("bookmakers", [])
+        # Sort by preference
+        bk_by_key = {bk["key"]: bk for bk in bookmakers if "key" in bk}
+        chosen_bk = None
+        for pref in _BK_PREF:
+            if pref in bk_by_key:
+                chosen_bk = bk_by_key[pref]
+                break
+        if chosen_bk is None and bookmakers:
+            chosen_bk = bookmakers[0]
+        if chosen_bk is None:
+            return None
+
+        markets = {mkt["key"]: mkt for mkt in chosen_bk.get("markets", []) if "key" in mkt}
+
+        # Spread line: home team's point value from 'spreads' market
+        line = 0.0
+        spreads_mkt = markets.get("spreads")
+        if spreads_mkt:
+            for outcome in spreads_mkt.get("outcomes", []):
+                if outcome.get("name", "").lower() == home.lower():
+                    try:
+                        line = float(outcome["point"])
+                    except (KeyError, TypeError, ValueError):
+                        pass
+                    break
+
+        # Total: Over outcome's point value from 'totals' market
+        total = 9.0
+        totals_mkt = markets.get("totals")
+        if totals_mkt:
+            for outcome in totals_mkt.get("outcomes", []):
+                if outcome.get("name", "").lower() == "over":
+                    try:
+                        total = float(outcome["point"])
+                    except (KeyError, TypeError, ValueError):
+                        pass
+                    break
+
+        game_key = f"{away}@{home}"
+        return (game_date, game_key, line, total)
+
+    def _load_file(fpath, date_str):
+        """Parse one odds file and return {game_key: {line, total}} or {}."""
+        try:
+            with open(fpath, "r", encoding="utf-8") as f:
+                raw = json.load(f)
+        except Exception:
+            return {}
+
+        if not isinstance(raw, dict):
+            return {}
+
+        # Detect format: Odds API bulk has {"data": [...]}
+        if "data" in raw and isinstance(raw["data"], list):
+            games = raw["data"]
+        elif all(isinstance(v, dict) for v in raw.values()):
+            # Legacy flat format: {"Away@Home": {"line": x, "total": y}}
+            day_odds = {}
+            for game_key, odds_data in raw.items():
+                try:
+                    day_odds[game_key] = {
+                        "line": float(odds_data.get("line", 0.0)),
+                        "total": float(odds_data.get("total", 9.0)),
+                    }
+                except (TypeError, ValueError):
+                    pass
+            return day_odds
+        else:
+            return {}
+
+        # Games are keyed by their actual game date (from commence_time),
+        # not the file's snapshot date — one file can cover multiple dates.
+        by_date = {}
+        for game in games:
+            parsed = _parse_game(game)
+            if parsed:
+                gdate, gk, line, total = parsed
+                if gdate not in by_date:
+                    by_date[gdate] = {}
+                by_date[gdate][gk] = {"line": line, "total": total}
+        return by_date  # {date_str: {game_key: {line, total}}}
+
+    # Collect all JSON files to process: (fpath, date_str)
+    candidates = []
+
+    # Walk root dir (flat files) and one level of subdirs (monthly)
     try:
-        entries = os.listdir(odds_dir)
+        root_entries = os.listdir(odds_dir)
     except OSError as exc:
         print(f"  [backfill] Cannot list odds_dir: {exc}")
         return {}
 
+    for entry in sorted(root_entries):
+        entry_path = os.path.join(odds_dir, entry)
+        if os.path.isfile(entry_path) and entry.endswith(".json"):
+            ds = _parse_date_str(entry)
+            if ds and ds.startswith(season_str):
+                candidates.append((entry_path, ds))
+        elif os.path.isdir(entry_path):
+            # Monthly subdir: e.g. "2025-04"
+            try:
+                sub_entries = os.listdir(entry_path)
+            except OSError:
+                continue
+            for sub in sorted(sub_entries):
+                if not sub.endswith(".json"):
+                    continue
+                ds = _parse_date_str(sub)
+                if ds and ds.startswith(season_str):
+                    candidates.append((os.path.join(entry_path, sub), ds))
+
+    result = {}
     files_loaded = 0
     games_loaded = 0
 
-    for fname in sorted(entries):
-        date_str = None
-
-        m = yyyymmdd_re.match(fname)
-        if m:
-            date_str = m.group(1)
-        else:
-            m2 = season_re.match(fname)
-            if m2:
-                # Convert "2025-04-15" -> "20250415"
-                raw = m2.group(1)
-                cleaned = raw.replace("-", "")
-                if len(cleaned) == 8 and cleaned.isdigit():
-                    date_str = cleaned
-
-        if date_str is None:
+    for fpath, date_str in candidates:
+        file_data = _load_file(fpath, date_str)
+        if not file_data:
             continue
 
-        # Only include dates in the season range
-        try:
-            dt = datetime.datetime.strptime(date_str, "%Y%m%d")
-        except ValueError:
-            continue
-        if dt.year != season:
-            continue
+        # _load_file returns either {date_str: {gk: odds}} (multi-date Odds API)
+        # or {gk: odds} (legacy flat format). Normalise to multi-date dict.
+        first_val = next(iter(file_data.values())) if file_data else None
+        if isinstance(first_val, dict) and "line" in first_val:
+            # Legacy flat: {game_key: {line, total}} — use the filename date
+            file_data = {date_str: file_data}
 
-        fpath = os.path.join(odds_dir, fname)
-        try:
-            with open(fpath, "r", encoding="utf-8") as f:
-                data = json.load(f)
-        except Exception:
-            continue  # silently skip non-JSON or malformed files
-
-        if not isinstance(data, dict):
-            continue
-
-        day_odds = {}
-        for game_key, odds_data in data.items():
-            if not isinstance(odds_data, dict):
+        added_this_file = 0
+        for gdate, day_odds in file_data.items():
+            # Only include games in the target season
+            if not gdate.startswith(season_str):
                 continue
-            try:
-                line = float(odds_data.get("line", 0.0))
-                total = float(odds_data.get("total", 9.0))
-            except (TypeError, ValueError):
-                continue
-            day_odds[game_key] = {"line": line, "total": total}
+            if gdate not in result:
+                result[gdate] = {}
+            result[gdate].update(day_odds)
+            added_this_file += len(day_odds)
 
-        if day_odds:
-            result[date_str] = day_odds
+        if added_this_file > 0:
             files_loaded += 1
-            games_loaded += len(day_odds)
+            games_loaded += added_this_file
 
     print(f"  [backfill] Historical odds: {files_loaded} dates, {games_loaded} games loaded")
     return result
