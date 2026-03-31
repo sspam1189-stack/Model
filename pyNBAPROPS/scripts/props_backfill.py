@@ -39,9 +39,6 @@ from player_kalman import (
 )
 from defaults import (
     ROLLING_WINDOW, MIN_GAMES, MIN_MINUTES,
-    MARKET_THRESHOLDS, UNDER_ONLY_MARKETS,
-    MIN_EDGE, MAX_EDGE, MIN_LINE,
-    PROP_T_DF,
 )
 
 
@@ -183,6 +180,9 @@ def backfill(season="2025-26", start_game=15, start_date=None, use_real_lines=Tr
         )
 
         # Phase 5: Grade projections against actuals
+        # Use pick/conf/pCover directly from project_player_props so all gate
+        # logic (directional PRA gate, UNDER_ONLY_MARKETS, edge filters, etc.)
+        # is applied consistently with the live model.
         date_picks = 0
         for proj in projections:
             player = proj["player"]
@@ -198,54 +198,39 @@ def backfill(season="2025-26", start_game=15, start_date=None, use_real_lines=Tr
             results[market]["projections"].append(proj_val)
             results[market]["actuals"].append(actual_val)
 
-            # Always use real line — skip if no real line available
+            # Skip if no active pick from the engine
+            pick = proj.get("pick")
+            if pick in ("PASS", None):
+                total_projected += 1
+                continue
+
             pick_line = proj.get("line")
             if pick_line is None:
+                total_projected += 1
                 continue
-            if std > 0:
-                diff = proj_val - pick_line
-                from scipy.stats import t as t_dist_mod
-                z = diff / std
-                p_over = float(t_dist_mod.cdf(z, df=PROP_T_DF))
-                p_under = 1.0 - p_over
-                best_p = max(p_over, p_under)
 
-                mkt_thresh = MARKET_THRESHOLDS.get(market, {"high": 0.58, "elite": 0.64})
-                if best_p >= mkt_thresh["high"]:
-                    pick = "OVER" if p_over > p_under else "UNDER"
+            if actual_val == pick_line:
+                total_projected += 1
+                continue  # Push
 
-                    if market in UNDER_ONLY_MARKETS and pick == "OVER":
-                        continue
-                    abs_edge = abs(diff)
-                    min_e = MIN_EDGE.get(market, 0)
-                    max_e = MAX_EDGE.get(market, 999)
-                    if abs_edge < min_e or abs_edge > max_e:
-                        continue
-                    min_l = MIN_LINE.get(market, 0)
-                    if pick_line < min_l:
-                        continue
+            won = (pick == "OVER" and actual_val > pick_line) or \
+                  (pick == "UNDER" and actual_val < pick_line)
 
-                    won = (pick == "OVER" and actual_val > pick_line) or \
-                          (pick == "UNDER" and actual_val < pick_line)
-                    if actual_val == pick_line:
-                        continue  # Push
-
-                    results[market]["picks"].append({
-                        "date": game_date,
-                        "player": player,
-                        "team": proj.get("team", ""),
-                        "opp": proj.get("opp", ""),
-                        "proj": proj_val,
-                        "std": std,
-                        "line": pick_line,
-                        "actual": actual_val,
-                        "pick": pick,
-                        "pCover": best_p,
-                        "conf": "elite" if best_p >= mkt_thresh["elite"] else "high",
-                        "won": won,
-                    })
-                    date_picks += 1
-
+            results[market]["picks"].append({
+                "date": game_date,
+                "player": player,
+                "team": proj.get("team", ""),
+                "opp": proj.get("opp", ""),
+                "proj": proj_val,
+                "std": std,
+                "line": pick_line,
+                "actual": actual_val,
+                "pick": pick,
+                "pCover": proj.get("pCover"),
+                "conf": proj.get("conf"),
+                "won": won,
+            })
+            date_picks += 1
             total_projected += 1
 
         # Phase 6: UPDATE Kalman with today's actual games (after projecting)
