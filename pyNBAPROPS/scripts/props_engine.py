@@ -675,6 +675,13 @@ def format_props_for_dashboard(projections, date_str="today"):
         if not p.get("date"):
             p["date"] = date_str
 
+    # All projections for today (including PASS) — used by Games Explorer
+    today_all = [p for p in projections if p.get("market") != "pts_rebs_asts"]
+    for p in today_all:
+        if not p.get("date"):
+            p["date"] = date_str
+    today_all.sort(key=lambda p: (p.get("team") or "", p.get("market") or "", -(p.get("pCover") or 0)))
+
     return {
         "sport": "nba",
         "type": "player_props",
@@ -686,5 +693,6 @@ def format_props_for_dashboard(projections, date_str="today"):
         "totalProjections": len(projections),
         "totalPicks": len(picks),
         "props": picks,
+        "todayProjections": today_all,
         "summary": f"{len(picks)} picks from {len(projections)} projections",
     }
