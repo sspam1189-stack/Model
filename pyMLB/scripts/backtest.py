@@ -275,7 +275,7 @@ def backtest(season, odds_dir=None, output_dir=None, min_conf=0.52):
     # Running totals — spread only
     spread_w = spread_l = spread_p = 0
     # Tier totals: (w, l, p) keyed by min confidence
-    tiers = {0.65: [0, 0, 0], 0.60: [0, 0, 0]}
+    tiers = {0.67: [0, 0, 0], 0.63: [0, 0, 0]}
 
     for date_idx, date_str in enumerate(dates_sorted):
         is_burn_in = date_idx < BURN_IN_DAYS
@@ -442,7 +442,7 @@ def backtest(season, odds_dir=None, output_dir=None, min_conf=0.52):
     print()
     print(f"  {'Tier':<8}  {'Record':>20}  {'Units':>8}  {'ROI':>7}")
     print(f"  {'-'*50}")
-    for thresh in [0.65, 0.60]:
+    for thresh in sorted(tiers.keys(), reverse=True):
         sw, sl, sp = tiers[thresh]
         sn = sw + sl
         su = sw * UNIT_WIN + sl * UNIT_LOSS if sn else 0

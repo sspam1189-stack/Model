@@ -510,7 +510,7 @@ def analyze_game(game_data, team_stats, pitcher_adjustments, weights,
 
     best_spread_p = max(p_home_cover, p_away_cover)
     spread_side = "home" if p_home_cover >= p_away_cover else "away"
-    prob_threshold = DEFAULT_W.get("probHigh", 0.60)   # 60% minimum
+    prob_threshold = DEFAULT_W.get("probHigh", 0.63)   # 63% minimum
     abs_line_cap = 5.0  # Don't pick into lines > 5 runs (MLB cap)
 
     if best_spread_p >= prob_threshold and abs_line <= abs_line_cap:
