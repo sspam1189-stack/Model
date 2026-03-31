@@ -125,7 +125,7 @@
           tbl.className = 'data';
           tbl.style.cssText = 'width:100%;border-collapse:collapse;margin-top:8px';
           const hRow = tbl.createTHead().insertRow();
-          ['Player','Team','Opp','Cat','Proj','Line','Actual','Pick','Result'].forEach((h, i) => {
+          ['Player','Team','Opp','Cat','Proj','Line','Edge','Actual','Pick','Result'].forEach((h, i) => {
             const th = document.createElement('th');
             th.textContent = h;
             th.style.cssText = 'padding:6px 10px;border-bottom:1px solid rgba(255,255,255,0.1);' + (i === 0 ? 'text-align:left' : 'text-align:center');
@@ -135,8 +135,11 @@
           for (const p of yesterdayPicks.sort((a,b) => (b.pCover||0)-(a.pCover||0))) {
             const row = tbody.insertRow();
             row.style.borderBottom = '1px solid rgba(255,255,255,0.05)';
+            const yEdge = (p.proj != null && p.line != null) ? +(p.proj - p.line).toFixed(1) : null;
+            const yEdgeStr = yEdge != null ? (yEdge > 0 ? '+'+yEdge : String(yEdge)) : '—';
             [shortName(p.player), p.team||'', p.opp||'', marketLabels[p.market]||p.market,
-             String(p.proj), p.line!=null?String(p.line):'\u2014', p.actual!=null?String(p.actual):'\u2014',
+             String(p.proj), p.line!=null?String(p.line):'\u2014', yEdgeStr,
+             p.actual!=null?String(p.actual):'\u2014',
              p.pick==='OVER'?'O':'U', p.result==='WIN'?'W':'L'].forEach((v, i) => {
               const td = row.insertCell();
               td.textContent = v;
@@ -144,8 +147,9 @@
               if (i === 0) { td.style.textAlign = 'left'; td.style.fontWeight = '600'; }
               if (i === 1 || i === 2) td.style.color = '#999';
               if (i === 4) td.style.color = p.proj > p.line ? 'var(--green)' : p.proj < p.line ? 'var(--red)' : '';
-              if (i === 7) { td.style.fontWeight = '700'; td.style.color = p.pick === 'OVER' ? 'var(--green)' : 'var(--red)'; }
-              if (i === 8) { td.style.fontWeight = '700'; td.style.color = p.result === 'WIN' ? 'var(--green)' : 'var(--red)'; }
+              if (i === 6 && yEdge != null) td.style.color = yEdge > 0 ? 'var(--green)' : yEdge < 0 ? 'var(--red)' : '#999';
+              if (i === 8) { td.style.fontWeight = '700'; td.style.color = p.pick === 'OVER' ? 'var(--green)' : 'var(--red)'; }
+              if (i === 9) { td.style.fontWeight = '700'; td.style.color = p.result === 'WIN' ? 'var(--green)' : 'var(--red)'; }
             });
           }
           recapCard.appendChild(tbl);
@@ -169,7 +173,7 @@
           const tbl = document.createElement('table');
           tbl.className = 'props-data-table';
           tbl.style.cssText = 'width:100%;border-collapse:collapse;margin-top:8px';
-          const todayHeaders = ['Player','Team','Opp','Cat','Proj','Line','Pick','Conf'];
+          const todayHeaders = ['Player','Team','Opp','Cat','Proj','Line','Edge','Pick','Conf'];
           const hRow = tbl.createTHead().insertRow();
           todayHeaders.forEach((h, i) => {
             const th = document.createElement('th');
@@ -184,11 +188,14 @@
           for (const p of todayPicks) {
             const row = tbody.insertRow();
             row.style.borderBottom = '1px solid rgba(255,255,255,0.05)';
+            const tEdge = (p.proj != null && p.line != null) ? +(p.proj - p.line).toFixed(1) : null;
+            const tEdgeStr = tEdge != null ? (tEdge > 0 ? '+'+tEdge : String(tEdge)) : '—';
             const cells = [
               shortName(p.player), p.team || '', p.opp || '',
               marketLabels[p.market] || p.market,
               String(p.proj),
               p.line != null ? String(p.line) : '\u2014',
+              tEdgeStr,
               p.pick === 'OVER' ? 'O' : 'U',
               p.conf === 'elite' ? 'ELITE' : 'HIGH'
             ];
@@ -199,8 +206,9 @@
               if (i === 0) { td.style.textAlign = 'left'; td.style.fontWeight = '600'; }
               if (i === 1 || i === 2) td.style.color = '#999';
               if (i === 4) td.style.color = p.proj > p.line ? 'var(--green)' : p.proj < p.line ? 'var(--red)' : '';
-              if (i === 6) { td.style.fontWeight = '700'; td.style.color = p.pick === 'OVER' ? 'var(--green)' : 'var(--red)'; }
-              if (i === 7 && p.conf === 'elite') { td.style.background = '#7c6cf0'; td.style.color = '#fff'; td.style.borderRadius = '4px'; td.style.fontSize = '11px'; }
+              if (i === 6 && tEdge != null) td.style.color = tEdge > 0 ? 'var(--green)' : tEdge < 0 ? 'var(--red)' : '#999';
+              if (i === 7) { td.style.fontWeight = '700'; td.style.color = p.pick === 'OVER' ? 'var(--green)' : 'var(--red)'; }
+              if (i === 8 && p.conf === 'elite') { td.style.background = '#7c6cf0'; td.style.color = '#fff'; td.style.borderRadius = '4px'; td.style.fontSize = '11px'; }
             });
           }
           todayCard.appendChild(tbl);
