@@ -21,7 +21,7 @@ from scipy.stats import t as t_dist
 from defaults import (
     PROP_T_DF, ROLLING_WINDOW, DECAY_FACTOR, MIN_GAMES, MIN_MINUTES,
     MARKET_THRESHOLDS, VAR_MULT, MIN_EDGE, MAX_EDGE, MIN_LINE,
-    UNDER_ONLY_MARKETS, DISABLED_MARKETS,
+    UNDER_ONLY_MARKETS, DISABLED_MARKETS, MAX_PCOVER,
     OPP_STAT_KEY, OPP_ADJ_WEIGHT, PACE_ADJ_WEIGHT,
     SEASON_ANCHOR_WEIGHT, PER36_STAT_KEY,
 )
@@ -642,7 +642,12 @@ def _make_prop(name, team, market, proj, std, line_lookup, opp):
         result["pCover"] = round(best_p, 3)
 
         mkt_thresh = MARKET_THRESHOLDS.get(market, 0.58)
+        mkt_max_pcover = MAX_PCOVER.get(market)
         if best_p >= mkt_thresh:
+            # Cut over-confident picks where calibration breaks down
+            if mkt_max_pcover is not None and best_p > mkt_max_pcover:
+                return result
+
             direction = "OVER" if p_over > p_under else "UNDER"
 
             if market in UNDER_ONLY_MARKETS and direction == "OVER":

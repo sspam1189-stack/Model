@@ -62,6 +62,12 @@ MARKET_THRESHOLDS = {
     "turnovers":     0.80,
 }
 
+# Maximum pCover per market — picks above this ceiling are cut (over-confident / bad calibration)
+# Points: 0.75-0.80 band = 71.4% win rate; above 0.80 drops to ~54% for both OVER and UNDER
+MAX_PCOVER = {
+    "points": 0.80,
+}
+
 # Variance multipliers
 VAR_MULT = {
     "points":        1.1,
