@@ -1,14 +1,17 @@
 # pyNBAPROPS/scripts/props_engine.py
-# NBA player prop projection engine — possession-based model.
+# NBA player prop projection engine with Bayesian Kalman filtering + advanced stats.
 #
 # Projection pipeline:
-#   1. Compute per-possession rates (season + recent blend)
-#   2. Estimate tonight's possessions from matchup pace
-#   3. Base projection = rate × possessions × minute share (× usage for pts)
-#   4. Multiplicative matchup adjustment (opponent defense / league avg)
-#   5. Kalman blend (smoothed baseline + uncertainty)
-#   6. Additive context: B2B/rest, home/away, injury with/without splits
-#   7. Compare to market line → Student's t cover probability → pick
+#   1. Organize per-player game logs from NBA.com data
+#   2. Compute rolling weighted averages (exponential decay)
+#   3. Query Kalman filter for smoothed player baseline + uncertainty
+#   4. Blend Kalman baseline with rolling average (configurable ratio)
+#   5. Adjust for opponent defense (per-game stats allowed, not just DEF_RATING)
+#   6. Adjust for pace (fast-paced games produce more stats)
+#   7. Adjust for minutes/volume (advanced stats: USG%, minutes context)
+#   8. Compare blended projection to market prop line
+#   9. Use Student's t-distribution (with Kalman variance) for cover probability
+#  10. Apply market-specific confidence thresholds and edge filters
 
 import math
 import unicodedata
@@ -19,13 +22,14 @@ from defaults import (
     PROP_T_DF, ROLLING_WINDOW, DECAY_FACTOR, MIN_GAMES, MIN_MINUTES,
     MARKET_THRESHOLDS, VAR_MULT, MIN_EDGE, MAX_EDGE, MIN_LINE,
     UNDER_ONLY_MARKETS, DISABLED_MARKETS,
-    OPP_STAT_KEY, PER100_STAT_KEY,
-    RATE_SEASON_WEIGHT, RATE_RECENT_WEIGHT, RECENT_WINDOW,
+    OPP_STAT_KEY, OPP_ADJ_WEIGHT, PACE_ADJ_WEIGHT,
+    SEASON_ANCHOR_WEIGHT, PER36_STAT_KEY,
 )
 from player_kalman import get_player_projection, PLAYER_KALMAN_DEFAULTS
 from sources.game_context import (
     B2B_PENALTIES, REST_BONUS, detect_b2b_from_game_logs, detect_rest_days,
-    compute_home_away_split, project_minutes,
+    compute_home_away_split, compute_per_minute_rates,
+    project_minutes, rate_based_projection,
     is_player_out, compute_teammate_absence_boost,
 )
 
@@ -146,7 +150,7 @@ def _weighted_std(values, decay=DECAY_FACTOR):
 def project_player_props(player_logs, team_def_stats=None, prop_lines=None,
                          kalman_state=None, player_adv_stats=None,
                          today_games=None, player_positions=None,
-                         team_def_by_pos=None,
+                         team_def_by_pos=None, player_per36=None,
                          injury_report=None, player_per100=None):
     """
     Project player props for all players with sufficient game logs.
@@ -246,89 +250,74 @@ def project_player_props(player_logs, team_def_stats=None, prop_lines=None,
         # Filter to games with meaningful minutes
         qualified = [g for g in recent if g.get("min", 0) >= MIN_MINUTES]
 
-        # Get this player's advanced stats
+        # Get this player's advanced stats (if available)
         adv = (player_adv_stats or {}).get(str(pid), {})
-        p100 = (player_per100 or {}).get(str(pid), {})
 
         # Get player position for position-specific defense adjustment
         player_pos = (player_positions or {}).get(int(pid)) if player_positions else None
+
+        # --- Per-minute rates ---
+        rates = compute_per_minute_rates(qualified)
 
         # --- Projected minutes ---
         is_b2b = detect_b2b_from_game_logs(games, game_date)
         proj_min = project_minutes(qualified, adv_stats=adv, is_b2b=is_b2b)
 
         if proj_min < 12:
-            continue
-
-        # --- Possession context ---
-        team_pace = (team_def_stats or {}).get(team, {}).get("PACE", 100.0) or 100.0
-        opp_pace = (team_def_stats or {}).get(latest_opp, {}).get("PACE", 100.0) or 100.0
-        game_pace = (team_pace + opp_pace) / 2.0
-        minute_share = proj_min / 48.0
-        on_court_poss = game_pace * minute_share
-
-        # --- Compute recent per-100 rates from game logs ---
-        recent_rates = _compute_recent_per100_rates(qualified, adv)
-
-        # --- Precompute injury boost (shared across markets) ---
-        inj_boost = {}
-        if injury_report:
-            inj_boost = compute_teammate_absence_boost(
-                team, injury_report,
-                player_adv_stats=player_adv_stats,
-                player_id=pid,
-                player_logs=player_logs,
-                player_per100=player_per100,
-            )
+            continue  # Skip players projected for very few minutes
 
         # --- Project each individual market ---
         for market, stat_key in STAT_KEYS.items():
+            # Skip disabled markets (no real edge after calibration)
             if market in DISABLED_MARKETS:
                 continue
 
             min_g = MIN_GAMES.get(market, 5)
             vals = [g.get(stat_key, 0) for g in qualified]
+
             if len(vals) < min_g:
                 continue
 
-            # --- 1. Per-possession rate (season + recent blend) ---
-            p100_key = PER100_STAT_KEY.get(market)
-            season_rate = p100.get(p100_key, 0) / 100.0 if p100_key and p100.get(p100_key) else None
-            recent_rate = recent_rates.get(stat_key)
-
-            if season_rate is not None and recent_rate is not None:
-                rate = RATE_SEASON_WEIGHT * season_rate + RATE_RECENT_WEIGHT * recent_rate
-            elif season_rate is not None:
-                rate = season_rate
-            elif recent_rate is not None:
-                rate = recent_rate
-            else:
-                continue  # no rate data at all
-
-            # --- 2. Base projection from possessions ---
-            # Per-100 rates already incorporate usage (a high-usage player has
-            # higher per-100 stats). So all stats use on-court possessions.
-            base_proj = on_court_poss * rate
-
-            # --- 3. Matchup adjustment (multiplicative) ---
-            matchup_factor = _matchup_factor(
-                market, latest_opp, team_def_stats, league_avg,
-                player_pos=player_pos,
-                team_def_by_pos=team_def_by_pos,
-                league_avg_by_pos=league_avg_by_pos,
-            )
-            proj = base_proj * matchup_factor
-
-            # --- 4. Kalman blend ---
+            # --- Rolling average (traditional) ---
+            rolling_avg = _weighted_avg(vals)
             rolling_std = _weighted_std(vals) * VAR_MULT.get(market, 1.2)
+
+            # --- Rate blend (points only — helps points, hurts other markets) ---
+            rate_key = f"{stat_key}_per_min"
+            if market == "points" and rate_key in rates and rates[rate_key] > 0:
+                rate_proj = rate_based_projection(rates[rate_key], proj_min)
+                blended_raw = 0.3 * rate_proj + 0.7 * rolling_avg
+            else:
+                blended_raw = rolling_avg
+
+            # --- Season anchor (per-36 baseline) ---
+            anchor_w = SEASON_ANCHOR_WEIGHT.get(market, 0.0)
+            if anchor_w > 0 and player_per36:
+                p36_key = PER36_STAT_KEY.get(market)
+                p36 = (player_per36.get(str(pid)) or {}).get(p36_key) if p36_key else None
+                if p36 is not None and p36 > 0:
+                    season_baseline = p36 * (proj_min / 36.0)
+                    blended_raw = (1 - anchor_w) * blended_raw + anchor_w * season_baseline
+
+            # --- Kalman blending ---
             kalman_key = KALMAN_STAT_KEYS.get(market)
             proj, std = _blend_with_kalman(
                 kalman_state, str(pid), kalman_key,
-                proj, rolling_std,
+                blended_raw, rolling_std,
             )
 
-            # --- 5. Additive context adjustments ---
-            # B2B / rest
+            # --- Opponent adjustment (position-specific if available) ---
+            proj = _apply_opp_adjustment(proj, market, latest_opp,
+                                         team_def_stats, league_avg,
+                                         player_pos=player_pos,
+                                         team_def_by_pos=team_def_by_pos,
+                                         league_avg_by_pos=league_avg_by_pos)
+
+            # --- Pace adjustment ---
+            proj = _apply_pace_adjustment(proj, market, team, latest_opp,
+                                          team_def_stats, league_avg)
+
+            # --- Rest adjustment (symmetric: B2B penalty + rest bonus) ---
             if is_b2b:
                 proj += B2B_PENALTIES.get(stat_key, 0.0)
             else:
@@ -336,15 +325,23 @@ def project_player_props(player_logs, team_def_stats=None, prop_lines=None,
                 if rest_days >= 3:
                     proj += REST_BONUS.get(stat_key, 0.0)
 
-            # Home/away split
+            # --- Home/away split ---
             split = compute_home_away_split(games, stat_key)
             if is_home and split.get("home_split_adj"):
                 proj += split["home_split_adj"]
             elif not is_home and split.get("away_split_adj"):
                 proj += split["away_split_adj"]
 
-            # Injury with/without diff
-            if inj_boost:
+            # --- Teammate injury boost ---
+            if injury_report:
+                inj_boost = compute_teammate_absence_boost(
+                    team, injury_report,
+                    player_per36=player_per36,
+                    player_adv_stats=player_adv_stats,
+                    player_id=pid,
+                    player_logs=player_logs,
+                    player_per100=player_per100,
+                )
                 proj += inj_boost.get(stat_key, 0.0)
 
             prop = _make_prop(name, team, market, proj, std, line_lookup, latest_opp)
@@ -352,10 +349,14 @@ def project_player_props(player_logs, team_def_stats=None, prop_lines=None,
                 projections.append(prop)
 
         # --- PRA combo (Points + Rebounds + Assists) ---
+        # Use sum of individual fully-adjusted projections so each component's
+        # opponent, pace, rest, home/away, Kalman, and anchor adjustments are
+        # already baked in. Only the combined rolling std is computed here.
         if "pts_rebs_asts" in DISABLED_MARKETS:
             continue
         min_g_pra = MIN_GAMES.get("pts_rebs_asts", 5)
         if len(qualified) >= min_g_pra:
+            # Look up the individual projections already computed for this player
             def _get_proj(market):
                 for p in reversed(projections):
                     if p.get("player") == name and p.get("market") == market:
@@ -366,16 +367,24 @@ def project_player_props(player_logs, team_def_stats=None, prop_lines=None,
             proj_reb = _get_proj("rebounds")
             proj_ast = _get_proj("assists")
 
+            # Need all three individual projections to build PRA
             if proj_pts is None or proj_reb is None or proj_ast is None:
                 continue
 
             proj = proj_pts + proj_reb + proj_ast
-            pra_vals = [g.get("pts", 0) + g.get("reb", 0) + g.get("ast", 0)
-                        for g in qualified]
+
+            # Std from combined raw game PRA values (captures combo volatility)
+            pts_vals = [g.get("pts", 0) for g in qualified]
+            reb_vals = [g.get("reb", 0) for g in qualified]
+            ast_vals = [g.get("ast", 0) for g in qualified]
+            pra_vals = [p + r + a for p, r, a in zip(pts_vals, reb_vals, ast_vals)]
             std = _weighted_std(pra_vals) * VAR_MULT.get("pts_rebs_asts", 1.1)
 
             prop = _make_prop(name, team, "pts_rebs_asts", proj, std, line_lookup, latest_opp)
             if prop:
+                # Gate: PRA only fires if at least one individual stat (pts/reb/ast)
+                # fires in the same direction — prevents PRA from triggering in
+                # isolation or contradicting its own components
                 pra_direction = prop.get("pick")
                 if pra_direction not in ("PASS", None):
                     same_direction = any(
@@ -454,78 +463,162 @@ def _blend_pra_with_kalman(kalman_state, player_id,
 
 
 # ---------------------------------------------------------------------------
-# Possession-based helpers
+# Adjustments: opponent, pace, volume
 # ---------------------------------------------------------------------------
 
-def _estimate_poss_from_game(g, player_pace=100.0):
-    """Estimate a player's on-court possessions from a single game log."""
-    mins = g.get("min", 0)
-    if mins <= 0:
-        return 0.0
-    # Best estimate: pace × minute_share
-    return player_pace * (mins / 48.0)
-
-
-def _compute_recent_per100_rates(qualified_games, adv_stats=None):
+def _apply_opp_adjustment(proj, market, opp_team, team_def_stats, league_avg,
+                          player_pos=None, team_def_by_pos=None, league_avg_by_pos=None):
     """
-    Compute per-100-possession rates from recent game logs.
+    Adjust projection based on opponent per-game stats allowed.
 
-    Returns {stat_key: rate_per_possession} (divide by 100 to get per-poss).
-    """
-    if not qualified_games:
-        return {}
-
-    pace = (adv_stats or {}).get("PACE", 100.0) or 100.0
-    stats = ("pts", "reb", "ast", "fg3m", "stl", "blk", "tov")
-    totals = {s: 0.0 for s in stats}
-    total_poss = 0.0
-
-    for g in qualified_games:
-        poss = _estimate_poss_from_game(g, pace)
-        if poss <= 0:
-            continue
-        total_poss += poss
-        for s in stats:
-            totals[s] += g.get(s, 0)
-
-    if total_poss <= 0:
-        return {}
-
-    # Return as per-possession (not per-100)
-    return {s: totals[s] / total_poss for s in stats}
-
-
-def _matchup_factor(market, opp_team, team_def_stats, league_avg,
-                    player_pos=None, team_def_by_pos=None, league_avg_by_pos=None):
-    """
-    Multiplicative matchup factor: opp_allowed / league_avg.
-
-    Returns >1 for soft defense (boost), <1 for tough defense (suppress).
-    Uses position-specific stats when available, falls back to team-total.
+    When position data is available, uses position-specific opponent stats
+    (e.g. how many assists a team allows to Guards vs Centers).
+    Falls back to team-total stats if position data is missing.
     """
     if not team_def_stats or not opp_team:
-        return 1.0
+        return proj
 
     opp_key = OPP_STAT_KEY.get(market)
-    if not opp_key:
-        return 1.0
+    weight = OPP_ADJ_WEIGHT.get(market, 0.0)
+    if not opp_key or weight == 0.0:
+        return proj
 
-    # Try position-specific first
-    if player_pos and team_def_by_pos and league_avg_by_pos:
+    # Position-specific residual: add the portion of position defense that
+    # team-total doesn't explain. Preserves full team-total adjustment and
+    # layers on a small nudge for position-specific matchup edge.
+    _RES_WEIGHTS = {
+        "points": 0.05, "rebounds": 0.0, "assists": 0.05,
+        "threes": 0.05, "pts_rebs_asts": 0.0,
+    }
+    res_w = _RES_WEIGHTS.get(market, 0.0)
+    if res_w > 0 and player_pos and team_def_by_pos and league_avg_by_pos:
         opp_pos_def = (team_def_by_pos.get(opp_team) or {}).get(player_pos, {})
         pos_avg = (league_avg_by_pos.get(player_pos) or {})
-        pos_opp_val = opp_pos_def.get(opp_key, 0)
-        pos_avg_val = pos_avg.get(opp_key, 0)
+        pos_opp_val = opp_pos_def.get(opp_key, 0.0)
+        pos_avg_val = pos_avg.get(opp_key, 0.0)
         if pos_opp_val > 0 and pos_avg_val > 0:
-            return pos_opp_val / pos_avg_val
+            opp_def = team_def_stats.get(opp_team, {})
+            team_opp_val = opp_def.get(opp_key, 0.0)
+            team_avg_val = league_avg.get(opp_key, 0.0)
+            team_adj = (team_opp_val - team_avg_val) * weight if team_opp_val > 0 and team_avg_val > 0 else 0.0
 
-    # Fallback: team-total
-    opp_val = (team_def_stats.get(opp_team) or {}).get(opp_key, 0)
-    avg_val = league_avg.get(opp_key, 0)
+            pos_share = pos_avg_val / team_avg_val if team_avg_val > 0 else 0.5
+            team_diff = team_opp_val - team_avg_val if team_opp_val > 0 else 0.0
+            residual = (pos_opp_val - pos_avg_val) - team_diff * pos_share
+
+            proj += team_adj + residual * res_w
+            return proj
+
+    # Fallback: team-total only
+    opp_def = team_def_stats.get(opp_team, {})
+    opp_val = opp_def.get(opp_key, 0.0)
+    avg_val = league_avg.get(opp_key, 0.0)
     if opp_val > 0 and avg_val > 0:
-        return opp_val / avg_val
+        proj += (opp_val - avg_val) * weight
 
-    return 1.0
+    return proj
+
+
+def _apply_pace_adjustment(proj, market, player_team, opp_team,
+                           team_def_stats, league_avg):
+    """
+    Adjust projection based on expected game pace.
+
+    Fast-paced games produce more possessions = more stats across the board.
+    Uses average of both teams' pace vs. league average.
+    """
+    if not team_def_stats or not player_team or not opp_team:
+        return proj
+
+    weight = PACE_ADJ_WEIGHT.get(market, 0.0)
+    if weight == 0.0:
+        return proj
+
+    team_pace = team_def_stats.get(player_team, {}).get("PACE", 0)
+    opp_pace = team_def_stats.get(opp_team, {}).get("PACE", 0)
+    avg_pace = league_avg.get("PACE", 0)
+
+    if team_pace > 0 and opp_pace > 0 and avg_pace > 0:
+        expected_pace = (team_pace + opp_pace) / 2
+        pace_diff = expected_pace - avg_pace
+        proj += pace_diff * weight * proj  # Multiplicative: scale by projection size
+
+    return proj
+
+
+def _apply_usage_trend(proj, market, qualified_games):
+    """
+    Adjust projection based on recent usage trend vs rolling window.
+
+    If a player's last 5 games show higher usage than their full rolling
+    window, they're taking on more volume (role change, teammate out, etc.).
+    Scale the projection proportionally.
+
+    Usage proxy: (FGA + 0.44*FTA + TOV) / MIN — proportional to true USG%.
+    """
+    if not qualified_games or len(qualified_games) < 6:
+        return proj
+
+    def _usage_rate(g):
+        mins = g.get("min", 0)
+        if mins < 10:
+            return 0.0
+        fga = g.get("fga", 0)
+        fta = g.get("fta", 0)
+        tov = g.get("tov", 0)
+        return (fga + 0.44 * fta + tov) / mins
+
+    # Full rolling window usage
+    all_usg = [_usage_rate(g) for g in qualified_games if _usage_rate(g) > 0]
+    # Recent 5 games usage
+    recent_usg = [_usage_rate(g) for g in qualified_games[-5:] if _usage_rate(g) > 0]
+
+    if not all_usg or not recent_usg:
+        return proj
+
+    avg_usg = sum(all_usg) / len(all_usg)
+    recent_avg = sum(recent_usg) / len(recent_usg)
+
+    if avg_usg <= 0:
+        return proj
+
+    # Usage ratio: >1 means trending up, <1 means trending down
+    ratio = recent_avg / avg_usg
+
+    # Only adjust scoring-related markets (pts, threes, PRA)
+    # Rebounds and assists are less directly tied to usage
+    USG_MARKETS = {"points", "threes", "pts_rebs_asts"}
+    if market not in USG_MARKETS:
+        return proj
+
+    # Scale: 10% usage increase -> ~5% projection increase (dampened)
+    # Cap at +/-8% to avoid over-correction
+    scale = 1.0 + max(-0.08, min(0.08, (ratio - 1.0) * 0.5))
+    return proj * scale
+
+
+def _apply_volume_adjustment(proj, adv_stats):
+    """
+    Adjust projection based on player's minutes context.
+
+    Players averaging fewer minutes than the volume threshold get a
+    slight downward adjustment (they might get pulled in blowouts).
+    """
+    if not adv_stats:
+        return proj
+
+    avg_min = adv_stats.get("MIN", 0)
+    if avg_min <= 0:
+        return proj
+
+    if avg_min < MINUTES_VOLUME_THRESHOLD:
+        # Scale down proportionally (e.g., 24 min avg → 24/28 = 0.857 factor)
+        volume_factor = avg_min / MINUTES_VOLUME_THRESHOLD
+        # Don't scale below 0.75 (25% penalty max)
+        volume_factor = max(0.75, volume_factor)
+        proj *= volume_factor
+
+    return proj
 
 
 # ---------------------------------------------------------------------------

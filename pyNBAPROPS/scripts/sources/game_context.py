@@ -384,7 +384,7 @@ def _compute_with_without_split(player_id, teammate_id, player_logs, date_roster
 
 
 def compute_teammate_absence_boost(team_abbrev, injury_report,
-                                   player_adv_stats=None,
+                                   player_per36=None, player_adv_stats=None,
                                    player_id=None, player_logs=None,
                                    player_per100=None):
     """
@@ -402,6 +402,8 @@ def compute_teammate_absence_boost(team_abbrev, injury_report,
     team_abbrev : str
     injury_report : dict
         From load_injury_report().
+    player_per36 : dict or None
+        Unused (kept for backward compat), prefer player_per100.
     player_adv_stats : dict or None
         {player_id_str: {"USG_PCT", "MIN", "player_name", "team", ...}}
     player_id : str or int or None
@@ -459,7 +461,12 @@ def compute_teammate_absence_boost(team_abbrev, injury_report,
         if not per100:
             continue
 
-        # Estimate per-game from per-100: per100_stat * (mpg / 48)
+        # Estimate per-game from per-100: per100_stat * (team_pace / 100)
+        # Use player's team pace from adv stats, default ~100
+        team_pace = 100.0
+        if player_adv_stats and pid_str:
+            team_pace = (player_adv_stats.get(pid_str) or {}).get("PACE", 100.0) or 100.0
+
         # Simple share: distribute equally among rotation players (>= 15 mpg)
         n_rotation = sum(
             1 for s in (player_adv_stats or {}).values()
@@ -473,7 +480,7 @@ def compute_teammate_absence_boost(team_abbrev, injury_report,
             val = per100.get(p100_key, 0)
             if val <= 0:
                 continue
-            per_game = val * (mpg / 48.0)
+            per_game = val * (team_pace / 100.0) * (mpg / 48.0)
             boost[log_key] += per_game * _REDISTRIBUTION_FACTOR / n_rotation
 
     return boost
