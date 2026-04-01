@@ -53,8 +53,8 @@ MIN_MINUTES = 15
 
 MARKET_THRESHOLDS = {
     "points":        {"high": 0.75},   # 61.1% — sweet spot at [0.75-0.78)
-    "rebounds":      {"high": 0.73},   # 66.1% — solid across all buckets
-    "assists":       {"high": 0.72},   # 65.8% — both OVER and UNDER profitable
+    "rebounds":      {"high": 0.73},   # 66.0% at 0.73, +51u
+    "assists":       {"high": 0.66},   # OVER 60.4% +89u, UNDER 64.5% +79u
     "threes":        {"high": 0.80},   # 81.2% — strong edge, small sample
     "pts_rebs_asts": {"high": 0.80},   # 59% at [0.80-0.85), drops above
     "steals":        {"high": 0.85},
