@@ -1,4 +1,13 @@
 // NBA Player Props rendering
+    // To-win-1u unit calc: win = +1u, loss = -to_win_1u (real odds), fallback -1.1u
+    function calcUnits(picks) {
+      let u = 0;
+      for (const p of picks) {
+        if (p.result === 'WIN') u += 1.0;
+        else if (p.result === 'LOSS') u -= (p.to_win_1u != null ? p.to_win_1u : 1.1);
+      }
+      return u;
+    }
     function shortName(name) {
       if (!name) return '';
       const parts = name.trim().split(/\s+/);
@@ -77,7 +86,7 @@
             const mPicks = fGrouped[market];
             const w = mPicks.filter(p => p.result === 'WIN').length;
             const l = mPicks.filter(p => p.result === 'LOSS').length;
-            const u = w * 1.0 + l * (-1.1);
+            const u = calcUnits(mPicks);
             const pct = (w + l) > 0 ? (w / (w + l) * 100).toFixed(1) : 'n/a';
             gW += w; gL += l;
             const sr = mb.insertRow();
@@ -89,7 +98,7 @@
               if (i === 5) td.style.color = u >= 0 ? 'var(--green)' : 'var(--red)';
             });
           }
-          const gU = gW * 1.0 + gL * (-1.1);
+          const gU = calcUnits(filteredPicks.filter(p => p.result === 'WIN' || p.result === 'LOSS'));
           const tr = mb.insertRow();
           tr.style.borderTop = '2px solid rgba(255,255,255,0.2)';
           tr.style.fontWeight = '700';
@@ -112,7 +121,7 @@
         if (yesterdayPicks.length > 0) {
           const yW = yesterdayPicks.filter(p => p.result === 'WIN').length;
           const yL = yesterdayPicks.filter(p => p.result === 'LOSS').length;
-          const yU = yW * 1.0 + yL * (-1.1);
+          const yU = calcUnits(yesterdayPicks);
           const uColor = yU >= 0 ? 'var(--green)' : 'var(--red)';
           const recapCard = document.createElement('div');
           recapCard.className = 'card card-recap';
@@ -883,7 +892,7 @@
           const wPicks = weekMap[ws];
           const w = wPicks.filter(p => p.result === 'WIN').length;
           const l = wPicks.filter(p => p.result === 'LOSS').length;
-          const u = w * 1.0 + l * (-1.1);
+          const u = calcUnits(wPicks);
           const pct = (w + l) > 0 ? (w / (w + l) * 100).toFixed(1) : '\u2014';
           totW += w; totL += l;
           const sr = sb.insertRow();
@@ -897,7 +906,7 @@
             if (i === 5 && w+l > 0) td.style.color = u >= 0 ? 'var(--green)' : 'var(--red)';
           });
         }
-        const totU = totW * 1.0 + totL * (-1.1);
+        const totU = calcUnits(fp);
         const tr = sb.insertRow();
         tr.style.borderTop = '2px solid rgba(255,255,255,0.2)';
         tr.style.fontWeight = '700';
@@ -952,7 +961,7 @@
           const we = getWeekEnd(ws);
           const wW = wPicks.filter(p => p.result === 'WIN').length;
           const wL = wPicks.filter(p => p.result === 'LOSS').length;
-          const wU = wW * 1.0 + wL * (-1.1);
+          const wU = calcUnits(wPicks);
           const wPct = (wW + wL) > 0 ? ` \u2014 ${wW}W-${wL}L (${(wW/(wW+wL)*100).toFixed(1)}%) ${wU>=0?'+':''}${wU.toFixed(1)}u` : ` \u2014 ${wPicks.length} picks`;
 
           const card = document.createElement('div');
@@ -971,7 +980,7 @@
               const mp = wGrouped[mk];
               const mw = mp.filter(p => p.result === 'WIN').length;
               const ml2 = mp.length - mw;
-              const mu = mw - ml2 * 1.1;
+              const mu = calcUnits(mp);
               const span = document.createElement('span');
               span.innerHTML = `<span style="color:#ccc">${mk}</span> ${mw}W-${ml2}L <span style="color:${mu>=0?'var(--green)':'var(--red)'}">${mu>=0?'+':''}${mu.toFixed(1)}u</span>`;
               mkRow.appendChild(span);

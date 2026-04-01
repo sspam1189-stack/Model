@@ -157,22 +157,15 @@ def grade_previous_picks(season=None):
 
     total = wins + losses
     pct = wins / max(1, total) * 100
-    # Calculate units using actual odds when available, fallback to -110
+    # To-win-1u: win = +1u, loss = -to_win_1u (real odds), fallback -1.1u (-110)
     units = 0.0
     for pick in props:
         r = pick.get("result")
         if r == "WIN":
-            odds = pick.get("odds")
-            if odds is not None:
-                odds = int(odds)
-                if odds > 0:
-                    units += odds / 100.0
-                else:
-                    units += 100.0 / abs(odds)
-            else:
-                units += 1.0  # fallback: even money
+            units += 1.0
         elif r == "LOSS":
-            units -= 1.0  # always risk 1 unit
+            w1u = pick.get("to_win_1u")
+            units -= float(w1u) if w1u is not None else 1.1
     print(f"  [grade] Graded {graded} picks: {wins}W-{losses}L ({pct:.1f}%) {'+' if units >= 0 else ''}{units:.1f}u"
           + (f" + {pushes} pushes" if pushes else ""))
 
@@ -469,7 +462,7 @@ def _print_picks(picks):
     for market, market_picks in sorted(by_market.items()):
         print(f"\n  --- {market.upper()} ({len(market_picks)} picks) ---")
         for p in sorted(market_picks, key=lambda x: -(x.get("pCover") or 0)):
-            conf_marker = "*" if p["conf"] == "elite" else ""
+            conf_marker = ""
             edge_sign = "+" if (p.get("edge") or 0) > 0 else ""
             odds_str = _format_odds(p.get("odds"))
             w1u = p.get("to_win_1u")
