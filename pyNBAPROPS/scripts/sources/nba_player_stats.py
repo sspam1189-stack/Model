@@ -48,7 +48,7 @@ def fetch_player_game_logs(season=None, season_type="Regular Season", date_to=No
 
     if os.path.exists(cache_path):
         age_h = (time.time() - os.path.getmtime(cache_path)) / 3600
-        if age_h < 6:
+        if age_h < 2:
             with open(cache_path, "r") as f:
                 data = json.load(f)
             print(f"  [player_stats] Using cache: {os.path.basename(cache_path)} ({len(data)} logs)")
@@ -129,7 +129,7 @@ def fetch_player_advanced_stats(season=None, date_to=None):
 
     if os.path.exists(cache_path):
         age_h = (time.time() - os.path.getmtime(cache_path)) / 3600
-        if age_h < 6:
+        if age_h < 2:
             with open(cache_path, "r") as f:
                 return json.load(f)
 
@@ -198,7 +198,7 @@ def fetch_player_per36_stats(season=None, date_to=None):
 
     if os.path.exists(cache_path):
         age_h = (time.time() - os.path.getmtime(cache_path)) / 3600
-        if age_h < 6:
+        if age_h < 2:
             with open(cache_path, "r") as f:
                 cached = json.load(f)
             print(f"  [per36] Using cache: {os.path.basename(cache_path)} ({len(cached)} players)")
@@ -265,7 +265,7 @@ def fetch_team_def_stats(season=None, date_to=None):
 
     if os.path.exists(cache_path):
         age_h = (time.time() - os.path.getmtime(cache_path)) / 3600
-        if age_h < 6:
+        if age_h < 2:
             with open(cache_path, "r") as f:
                 cached = json.load(f)
             print(f"  [team_def] Using cache: {os.path.basename(cache_path)} ({len(cached)} teams)")
@@ -419,7 +419,7 @@ def fetch_team_def_by_position(season=None, date_to=None):
 
     if os.path.exists(cache_path):
         age_h = (time.time() - os.path.getmtime(cache_path)) / 3600
-        if age_h < 6:
+        if age_h < 2:
             with open(cache_path, "r") as f:
                 cached = json.load(f)
             print(f"  [team_def_pos] Using cache: {os.path.basename(cache_path)} ({len(cached)} teams)")
