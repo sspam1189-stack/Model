@@ -296,8 +296,7 @@ def project_player_props(player_logs, team_def_stats=None, prop_lines=None,
                 p100_key = PER100_STAT_KEY.get(market)
                 p100 = (player_per100.get(str(pid)) or {}).get(p100_key) if p100_key else None
                 if p100 is not None and p100 > 0:
-                    team_pace = (adv or {}).get("PACE", 100.0) or 100.0
-                    season_baseline = p100 * (team_pace / 100.0) * (proj_min / 48.0)
+                    season_baseline = p100 * (proj_min / 48.0)
                     blended_raw = (1 - anchor_w) * blended_raw + anchor_w * season_baseline
 
             # --- Kalman blending ---
