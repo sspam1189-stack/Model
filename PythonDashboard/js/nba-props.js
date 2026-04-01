@@ -454,8 +454,8 @@
         refreshPlayerDropdown();
         renderGameTable();
         gCard.appendChild(gamePills);
-        gCard.appendChild(playerRow);
         gCard.appendChild(mktPills);
+        gCard.appendChild(playerRow);
         gCard.appendChild(tableWrap);
         el.appendChild(gCard);
       })();
