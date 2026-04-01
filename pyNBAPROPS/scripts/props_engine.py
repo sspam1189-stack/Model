@@ -23,7 +23,7 @@ from defaults import (
     MARKET_THRESHOLDS, VAR_MULT, MIN_EDGE, MAX_EDGE, MIN_LINE,
     UNDER_ONLY_MARKETS, DISABLED_MARKETS,
     OPP_STAT_KEY, OPP_ADJ_WEIGHT, PACE_ADJ_WEIGHT,
-    SEASON_ANCHOR_WEIGHT, PER36_STAT_KEY,
+    SEASON_ANCHOR_WEIGHT, PER100_STAT_KEY,
 )
 from player_kalman import get_player_projection, PLAYER_KALMAN_DEFAULTS
 from sources.game_context import (
@@ -150,7 +150,7 @@ def _weighted_std(values, decay=DECAY_FACTOR):
 def project_player_props(player_logs, team_def_stats=None, prop_lines=None,
                          kalman_state=None, player_adv_stats=None,
                          today_games=None, player_positions=None,
-                         team_def_by_pos=None, player_per36=None,
+                         team_def_by_pos=None,
                          injury_report=None, player_per100=None):
     """
     Project player props for all players with sufficient game logs.
@@ -290,13 +290,14 @@ def project_player_props(player_logs, team_def_stats=None, prop_lines=None,
             else:
                 blended_raw = rolling_avg
 
-            # --- Season anchor (per-36 baseline) ---
+            # --- Season anchor (per-100-possession baseline) ---
             anchor_w = SEASON_ANCHOR_WEIGHT.get(market, 0.0)
-            if anchor_w > 0 and player_per36:
-                p36_key = PER36_STAT_KEY.get(market)
-                p36 = (player_per36.get(str(pid)) or {}).get(p36_key) if p36_key else None
-                if p36 is not None and p36 > 0:
-                    season_baseline = p36 * (proj_min / 36.0)
+            if anchor_w > 0 and player_per100:
+                p100_key = PER100_STAT_KEY.get(market)
+                p100 = (player_per100.get(str(pid)) or {}).get(p100_key) if p100_key else None
+                if p100 is not None and p100 > 0:
+                    team_pace = (adv or {}).get("PACE", 100.0) or 100.0
+                    season_baseline = p100 * (team_pace / 100.0) * (proj_min / 48.0)
                     blended_raw = (1 - anchor_w) * blended_raw + anchor_w * season_baseline
 
             # --- Kalman blending ---
@@ -336,7 +337,6 @@ def project_player_props(player_logs, team_def_stats=None, prop_lines=None,
             if injury_report:
                 inj_boost = compute_teammate_absence_boost(
                     team, injury_report,
-                    player_per36=player_per36,
                     player_adv_stats=player_adv_stats,
                     player_id=pid,
                     player_logs=player_logs,

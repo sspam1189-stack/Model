@@ -384,7 +384,7 @@ def _compute_with_without_split(player_id, teammate_id, player_logs, date_roster
 
 
 def compute_teammate_absence_boost(team_abbrev, injury_report,
-                                   player_per36=None, player_adv_stats=None,
+                                   player_adv_stats=None,
                                    player_id=None, player_logs=None,
                                    player_per100=None):
     """
@@ -402,8 +402,6 @@ def compute_teammate_absence_boost(team_abbrev, injury_report,
     team_abbrev : str
     injury_report : dict
         From load_injury_report().
-    player_per36 : dict or None
-        Unused (kept for backward compat), prefer player_per100.
     player_adv_stats : dict or None
         {player_id_str: {"USG_PCT", "MIN", "player_name", "team", ...}}
     player_id : str or int or None
