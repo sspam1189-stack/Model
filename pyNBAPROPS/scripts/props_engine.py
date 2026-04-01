@@ -259,9 +259,10 @@ def project_player_props(player_logs, team_def_stats=None, prop_lines=None,
         # --- Per-minute rates ---
         rates = compute_per_minute_rates(qualified)
 
-        # --- Projected minutes ---
+        # --- Projected minutes (use unfiltered recent games so low-minute
+        #     games aren't excluded — gives a true picture of playing time) ---
         is_b2b = detect_b2b_from_game_logs(games, game_date)
-        proj_min = project_minutes(qualified, adv_stats=adv, is_b2b=is_b2b)
+        proj_min = project_minutes(recent, adv_stats=adv, is_b2b=is_b2b)
 
         if proj_min < 15:
             continue  # Skip players projected for fewer than 15 minutes
