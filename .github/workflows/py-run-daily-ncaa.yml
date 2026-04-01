@@ -15,7 +15,7 @@ jobs:
         shell: powershell
     steps:
       - name: Clean up stale rebase
-        run: git rebase --abort 2>$null; $true
+        run: try { git rebase --abort 2>&1 | Out-Null } catch { }; $true
 
       - uses: actions/checkout@v6
         with:
