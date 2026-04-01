@@ -279,26 +279,45 @@ def is_player_out(player_name, team_abbrev, injury_report):
     return False
 
 
-# Per-stat boost when a star teammate (≥28 mpg) is OUT, scaled by mpg/32.
-# Starter OUT gets half these values.
-_STAR_OUT_BOOST = {
-    "pts":  +1.5,
-    "reb":  +0.5,
-    "ast":  +0.3,
-    "fg3m": +0.2,
-    "stl":   0.0,
-    "blk":   0.0,
-    "tov":   0.0,
+# Stat keys: per-36 field -> game log field
+_P36_TO_LOG = {
+    "PTS": "pts", "REB": "reb", "AST": "ast", "FG3M": "fg3m",
+    "STL": "stl", "BLK": "blk", "TOV": "tov",
 }
 
+# Fraction of an OUT player's production that gets redistributed to teammates.
+# Not 100% — some is lost to fewer possessions, different lineup dynamics.
+_REDISTRIBUTION_FACTOR = 0.35
 
-def compute_teammate_absence_boost(team_abbrev, injury_report):
+# Approximate number of rotation players who split the redistributed production.
+_ROTATION_SIZE = 8
+
+
+def _find_player_id_by_name(player_name, team_abbrev, player_adv_stats):
+    """Match an injury-report player name to a player_id in adv stats."""
+    if not player_adv_stats:
+        return None
+    target = _injury_name_key(player_name)
+    for pid_str, stats in player_adv_stats.items():
+        if stats.get("team") != team_abbrev:
+            continue
+        cand = _injury_name_key(stats.get("player_name", ""))
+        if cand == target:
+            return pid_str
+    return None
+
+
+def compute_teammate_absence_boost(team_abbrev, injury_report,
+                                   player_per36=None, player_adv_stats=None,
+                                   player_id=None):
     """
-    Compute per-stat boost for a player based on OUT teammates.
+    Compute per-stat boost for a player based on OUT teammates' actual production.
 
-    When a high-usage teammate is out, remaining players absorb extra
-    touches and stats. The boost scales by the OUT player's minutes
-    (proxy for impact).
+    For each OUT teammate:
+      1. Look up their per-36 stats and mpg
+      2. Compute per-game production: per36_stat * (mpg / 36)
+      3. Redistribute a fraction to remaining rotation players
+      4. Scale by the projected player's usage share (higher usage = bigger share)
 
     Parameters
     ----------
@@ -306,31 +325,57 @@ def compute_teammate_absence_boost(team_abbrev, injury_report):
         Team abbreviation (e.g. "BOS").
     injury_report : dict
         From load_injury_report().
+    player_per36 : dict or None
+        {player_id_str: {"PTS": float, "REB": float, ...}}
+    player_adv_stats : dict or None
+        {player_id_str: {"USG_PCT": float, "MIN": float, "player_name": str, ...}}
+    player_id : str or None
+        The player being projected (to scale boost by their usage).
 
     Returns
     -------
     dict
-        {stat_key: float} boost to add to projection per stat.
+        {stat_key: float} boost to add to projection per stat (game-log keys).
     """
-    boost = {k: 0.0 for k in B2B_PENALTIES.keys()}
+    boost = {v: 0.0 for v in _P36_TO_LOG.values()}
     team_injuries = injury_report.get(team_abbrev, [])
     if not team_injuries:
         return boost
 
+    # Get projected player's usage share for scaling (default to equal share)
+    player_usg = 0.20  # league average
+    if player_adv_stats and player_id:
+        adv = player_adv_stats.get(str(player_id), {})
+        player_usg = adv.get("USG_PCT", 0.20) or 0.20
+
+    # Usage-based scaling: players with higher usage absorb more of the
+    # redistributed production. Normalize so league-avg usage gets 1.0x.
+    usg_scale = player_usg / 0.20
+
     for inj in team_injuries:
         if inj.get("status") not in ("out", "doubtful"):
             continue
-        tier = inj.get("tier", "bench")
         mpg = inj.get("mpg", 0)
+        if mpg < 15:
+            continue  # bench player — minimal redistribution
 
-        if tier == "star" and mpg >= 28:
-            scale = mpg / 32.0
-            for stat, val in _STAR_OUT_BOOST.items():
-                boost[stat] += val * scale
-        elif tier == "starter" and mpg >= 18:
-            scale = mpg / 32.0
-            for stat, val in _STAR_OUT_BOOST.items():
-                boost[stat] += (val * 0.5) * scale
+        # Find the OUT player's per-36 stats
+        out_pid = _find_player_id_by_name(
+            inj.get("player", ""), team_abbrev, player_adv_stats
+        )
+        out_p36 = (player_per36 or {}).get(out_pid, {}) if out_pid else {}
+
+        if not out_p36:
+            continue  # can't size the boost without per-36 data
+
+        # Compute per-game production and redistribute
+        for p36_key, log_key in _P36_TO_LOG.items():
+            per36_val = out_p36.get(p36_key, 0)
+            if per36_val <= 0:
+                continue
+            per_game = per36_val * (mpg / 36.0)
+            redistributed = per_game * _REDISTRIBUTION_FACTOR / _ROTATION_SIZE
+            boost[log_key] += redistributed * usg_scale
 
     return boost
 
