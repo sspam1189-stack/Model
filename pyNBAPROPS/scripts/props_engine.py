@@ -689,7 +689,7 @@ def _make_prop(name, team, market, proj, std, line_lookup, opp):
             # Directional edge overrides for points
             if market == "points":
                 if direction == "OVER":
-                    min_e, max_e = 4.0, 5.5
+                    min_e, max_e = 4.0, 5.6  # inclusive 5.5 (<=5.5)
                 else:
                     min_e, max_e = 4.5, 6.5
 

@@ -91,7 +91,7 @@
             const row = tbody.insertRow();
             row.style.borderBottom = '1px solid rgba(255,255,255,0.05)';
             const yEdge = (p.proj != null && p.line != null) ? +(p.proj - p.line).toFixed(1) : null;
-            const yEdgeStr = yEdge != null ? (yEdge > 0 ? '+'+yEdge : String(yEdge)) : '—';
+            const yEdgeStr = yEdge != null ? (yEdge > 0 ? '+'+yEdge : String(yEdge)) : '\u2014';
             [shortName(p.player), p.team||'', p.opp||'', marketLabels[p.market]||p.market,
              String(p.proj), p.line!=null?String(p.line):'\u2014', yEdgeStr,
              p.actual!=null?String(p.actual):'\u2014',

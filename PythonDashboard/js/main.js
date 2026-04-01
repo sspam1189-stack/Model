@@ -509,7 +509,7 @@ function renderRecordBanner(runs, modelSummary = null) {
   const pct = total > 0 ? (e.w / total * 100) : 0;
   const uClass = e.units > 0 ? 'positive' : e.units < 0 ? 'negative' : 'neutral';
   const pClass = pct > 52.4 ? 'positive' : pct < 50 ? 'negative' : 'neutral';
-  return `
+  let html = `
     <div class="record-banner">
       <div class="record-item">
         <div class="label">${label}</div>
@@ -528,6 +528,38 @@ function renderRecordBanner(runs, modelSummary = null) {
         <div class="value">${e.played}</div>
       </div>
     </div>`;
+
+  // Since 3/2 recent record
+  const recentRuns = runs.filter(r => r.date && r.date >= '20260302');
+  if (recentRuns.length > 0) {
+    const sr = computeSummary(recentRuns);
+    const re = sr.elite;
+    const rTotal = re.w + re.l;
+    const rPct = rTotal > 0 ? (re.w / rTotal * 100) : 0;
+    const rUClass = re.units > 0 ? 'positive' : re.units < 0 ? 'negative' : 'neutral';
+    const rPClass = rPct > 52.4 ? 'positive' : rPct < 50 ? 'negative' : 'neutral';
+    html += `
+    <div class="record-banner" style="margin-top:8px;opacity:0.85">
+      <div class="record-item">
+        <div class="label">Since 3/2</div>
+        <div class="value">${re.w}-${re.l}${re.p > 0 ? `-${re.p}` : ''}</div>
+      </div>
+      <div class="record-item">
+        <div class="label">Win %</div>
+        <div class="value ${rPClass}">${fmtPct(rPct)}</div>
+      </div>
+      <div class="record-item">
+        <div class="label">Units</div>
+        <div class="value ${rUClass}">${fmtUnits(re.units)}</div>
+      </div>
+      <div class="record-item">
+        <div class="label">Graded</div>
+        <div class="value">${re.played}</div>
+      </div>
+    </div>`;
+  }
+
+  return html;
 }
 
 function renderRecap(runs) {
