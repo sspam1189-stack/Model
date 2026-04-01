@@ -57,7 +57,7 @@ jobs:
         shell: powershell
     steps:
       - name: Clean up stale rebase
-        run: try { git rebase --abort 2>&1 | Out-Null } catch { }; $true
+        run: git rebase --abort 2>&1 | Out-Null; exit 0
 
       - uses: actions/checkout@v6
         with:
@@ -131,7 +131,7 @@ jobs:
         shell: powershell
     steps:
       - name: Clean up stale rebase
-        run: try { git rebase --abort 2>&1 | Out-Null } catch { }; $true
+        run: git rebase --abort 2>&1 | Out-Null; exit 0
 
       - uses: actions/checkout@v6
         with:
