@@ -98,7 +98,7 @@
               if (i === 5) td.style.color = u >= 0 ? 'var(--green)' : 'var(--red)';
             });
           }
-          const gU = calcPropsUnits(filteredPicks.filter(p => p.result === 'WIN' || p.result === 'LOSS'));
+          const gU = calcPropsUnits(gradedPicks);
           const tr = mb.insertRow();
           tr.style.borderTop = '2px solid rgba(255,255,255,0.2)';
           tr.style.fontWeight = '700';
