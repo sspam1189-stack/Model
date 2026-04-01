@@ -509,7 +509,8 @@ def _print_picks(picks):
             w1u = p.get("to_win_1u")
             w1u_str = f"  w1u={w1u:.2f}u" if w1u is not None else ""
             lock = " [LOCKED]" if p.get("_started") else ""
-            safe_name = p['player'].encode('ascii', 'replace').decode('ascii')
+            import unicodedata
+            safe_name = unicodedata.normalize('NFKD', p['player']).encode('ascii', 'ignore').decode('ascii')
             print(
                 f"    {safe_name:25s} {p['team']:3s} "
                 f"{p['pick']:5s} {p['line']:6.1f}  "
