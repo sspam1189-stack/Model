@@ -459,12 +459,7 @@ def compute_teammate_absence_boost(team_abbrev, injury_report,
         if not per100:
             continue
 
-        # Estimate per-game from per-100: per100_stat * (team_pace / 100)
-        # Use player's team pace from adv stats, default ~100
-        team_pace = 100.0
-        if player_adv_stats and pid_str:
-            team_pace = (player_adv_stats.get(pid_str) or {}).get("PACE", 100.0) or 100.0
-
+        # Estimate per-game from per-100: per100_stat * (mpg / 48)
         # Simple share: distribute equally among rotation players (>= 15 mpg)
         n_rotation = sum(
             1 for s in (player_adv_stats or {}).values()
@@ -478,7 +473,7 @@ def compute_teammate_absence_boost(team_abbrev, injury_report,
             val = per100.get(p100_key, 0)
             if val <= 0:
                 continue
-            per_game = val * (team_pace / 100.0) * (mpg / 48.0)
+            per_game = val * (mpg / 48.0)
             boost[log_key] += per_game * _REDISTRIBUTION_FACTOR / n_rotation
 
     return boost
