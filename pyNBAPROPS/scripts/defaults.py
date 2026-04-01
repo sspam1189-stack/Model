@@ -174,12 +174,13 @@ PACE_ADJ_WEIGHT = {
 MINUTES_VOLUME_THRESHOLD = 28.0
 
 # ---------------------------------------------------------------------------
-# Season anchor (per36 regression toward season mean)
+# Season anchor (per-100-possession regression toward season mean)
 # ---------------------------------------------------------------------------
 # Rolling avg chases recent variance; points/rebounds are streaky.
-# Blend the rolling-based projection with a per-36 season baseline to
-# prevent recency-driven deflation that inflates phantom UNDER edges.
-# Weight 0.0 = pure rolling (old behavior), 1.0 = pure per-36 season.
+# Blend the rolling-based projection with a per-100-possession season
+# baseline to prevent recency-driven deflation that inflates phantom
+# UNDER edges. Pace-normalized so fast/slow teams are treated equally.
+# Weight 0.0 = pure rolling (old behavior), 1.0 = pure per-100 season.
 
 SEASON_ANCHOR_WEIGHT = {
     "points":        0.25,  # with rate blend
@@ -189,13 +190,16 @@ SEASON_ANCHOR_WEIGHT = {
     "pts_rebs_asts": 0.30,  # no rate blend — best bias fix
 }
 
-# Per-36 stat keys (maps market -> key in per36 dict from nba_api)
-PER36_STAT_KEY = {
+# Per-100-possession stat keys (maps market -> key in per100 dict from nba_api)
+PER100_STAT_KEY = {
     "points":   "PTS",
     "rebounds":  "REB",
     "assists":   "AST",
     "threes":    "FG3M",
 }
+
+# Legacy alias
+PER36_STAT_KEY = PER100_STAT_KEY
 
 # Legacy keys
 OPP_ADJ_SCALE = OPP_ADJ_WEIGHT
