@@ -27,7 +27,7 @@ sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..'))
 
 from sources.nba_player_stats import (
     fetch_player_game_logs, fetch_team_def_stats, fetch_player_advanced_stats,
-    fetch_player_positions, fetch_team_def_by_position, fetch_player_per100_stats,
+    fetch_player_positions, fetch_team_def_by_position, fetch_player_per36_stats,
 )
 from props_engine import (
     organize_player_logs, project_player_props, _name_key, _weighted_avg,
@@ -82,10 +82,10 @@ def backfill(season="2025-26", start_game=15, start_date=None, use_real_lines=Tr
     adv_stats = fetch_player_advanced_stats(season=season)
 
     # Load player positions, positional defense, per-36
-    print(f"  Loading player positions, positional defense, per-100 stats...")
+    print(f"  Loading player positions, positional defense, per-36 stats...")
     player_positions = fetch_player_positions(season=season)
     team_def_by_pos = fetch_team_def_by_position(season=season)
-    player_per100 = fetch_player_per100_stats(season=season)
+    player_per36 = fetch_player_per36_stats(season=season)
 
     # Organize by player
     player_logs = organize_player_logs(all_logs)
@@ -176,7 +176,7 @@ def backfill(season="2025-26", start_game=15, start_date=None, use_real_lines=Tr
             today_games=actual_games,
             player_positions=player_positions,
             team_def_by_pos=team_def_by_pos,
-            player_per100=player_per100,
+            player_per36=player_per36,
         )
 
         # Phase 5: Grade projections against actuals
