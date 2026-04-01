@@ -60,61 +60,7 @@
         yest.setDate(yest.getDate() - 1);
         const yesterdayStr = yest.toISOString().slice(0, 10);
 
-        // Market Breakdown (season-long, graded picks only)
         const gradedPicks = picks.filter(p => p.result);
-        if (gradedPicks.length > 0) {
-          const { fGrouped, sortedMarkets } = buildMarketBreakdown(gradedPicks);
-          const mbCard = document.createElement('div');
-          mbCard.className = 'card card-games';
-          mbCard.style.marginBottom = '16px';
-          mbCard.appendChild(Object.assign(document.createElement('div'), {className:'card-title', textContent:'Market Breakdown'}));
-          const mbWrap = document.createElement('div');
-          mbWrap.className = 'props-table-wrap';
-          const mbTbl = document.createElement('table');
-          mbTbl.style.cssText = 'width:100%;border-collapse:collapse;margin-top:8px';
-          const mh = mbTbl.createTHead().insertRow();
-          ['Cat','Picks','W','L','Win%','Units'].forEach(h => {
-            const th = document.createElement('th');
-            th.textContent = h;
-            th.style.cssText = 'padding:6px 10px;text-align:right;border-bottom:1px solid rgba(255,255,255,0.1)';
-            if (h === 'Cat') th.style.textAlign = 'left';
-            mh.appendChild(th);
-          });
-          const mb = mbTbl.createTBody();
-          let gW = 0, gL = 0;
-          for (const market of sortedMarkets) {
-            const mPicks = fGrouped[market];
-            const w = mPicks.filter(p => p.result === 'WIN').length;
-            const l = mPicks.filter(p => p.result === 'LOSS').length;
-            const u = calcPropsUnits(mPicks);
-            const pct = (w + l) > 0 ? (w / (w + l) * 100).toFixed(1) : 'n/a';
-            gW += w; gL += l;
-            const sr = mb.insertRow();
-            [market, String(mPicks.length), String(w), String(l), pct+'%', (u>=0?'+':'')+u.toFixed(1)+'u'].forEach((v,i) => {
-              const td = sr.insertCell();
-              td.textContent = v;
-              td.style.padding = '6px 10px';
-              td.style.textAlign = i === 0 ? 'left' : 'right';
-              if (i === 5) td.style.color = u >= 0 ? 'var(--green)' : 'var(--red)';
-            });
-          }
-          const gU = calcPropsUnits(gradedPicks);
-          const tr = mb.insertRow();
-          tr.style.borderTop = '2px solid rgba(255,255,255,0.2)';
-          tr.style.fontWeight = '700';
-          ['TOTAL', String(gradedPicks.length), String(gW), String(gL),
-           (gW+gL>0?(gW/(gW+gL)*100).toFixed(1):'0')+'%',
-           (gU>=0?'+':'')+gU.toFixed(1)+'u'].forEach((v,i) => {
-            const td = tr.insertCell();
-            td.textContent = v;
-            td.style.padding = '6px 10px';
-            td.style.textAlign = i === 0 ? 'left' : 'right';
-            if (i === 5) td.style.color = gU >= 0 ? 'var(--green)' : 'var(--red)';
-          });
-          mbWrap.appendChild(mbTbl);
-          mbCard.appendChild(mbWrap);
-          el.appendChild(mbCard);
-        }
 
         // Yesterday's Recap
         const yesterdayPicks = picks.filter(p => p.date === yesterdayStr && p.result);
@@ -167,6 +113,127 @@
           tally.innerHTML = `Props: <b>${yW}W-${yL}L</b> &middot; <span style="color:${uColor}">${yU >= 0 ? '+' : ''}${yU.toFixed(1)}u</span>`;
           recapCard.appendChild(tally);
           el.appendChild(recapCard);
+        }
+
+        // Recent Record (3/27 - present)
+        const recentCutoff = '2026-03-27';
+        const recentPicks = gradedPicks.filter(p => p.date && p.date >= recentCutoff);
+        if (recentPicks.length > 0) {
+          const rW = recentPicks.filter(p => p.result === 'WIN').length;
+          const rL = recentPicks.filter(p => p.result === 'LOSS').length;
+          const rU = calcPropsUnits(recentPicks);
+          const rPct = (rW + rL) > 0 ? (rW / (rW + rL) * 100).toFixed(1) : '0';
+          const rROI = (rW + rL) > 0 ? (rU / (rW + rL) * 100).toFixed(1) : '0';
+          const rCard = document.createElement('div');
+          rCard.className = 'card card-games';
+          rCard.style.marginBottom = '16px';
+          rCard.appendChild(Object.assign(document.createElement('div'), {className:'card-title', textContent:`Recent Record (${recentCutoff} \u2013 present)`}));
+          const rWrap = document.createElement('div');
+          rWrap.className = 'props-table-wrap';
+          const rTbl = document.createElement('table');
+          rTbl.style.cssText = 'width:100%;border-collapse:collapse;margin-top:8px';
+          const rh = rTbl.createTHead().insertRow();
+          ['Cat','Picks','W','L','Win%','Units','ROI'].forEach(h => {
+            const th = document.createElement('th');
+            th.textContent = h;
+            th.style.cssText = 'padding:6px 10px;text-align:right;border-bottom:1px solid rgba(255,255,255,0.1)';
+            if (h === 'Cat') th.style.textAlign = 'left';
+            rh.appendChild(th);
+          });
+          const rb = rTbl.createTBody();
+          const { fGrouped: rGrouped, sortedMarkets: rMarkets } = buildMarketBreakdown(recentPicks);
+          let rTotW = 0, rTotL = 0;
+          for (const market of rMarkets) {
+            const mPicks = rGrouped[market];
+            const w = mPicks.filter(p => p.result === 'WIN').length;
+            const l = mPicks.filter(p => p.result === 'LOSS').length;
+            const u = calcPropsUnits(mPicks);
+            const pct = (w + l) > 0 ? (w / (w + l) * 100).toFixed(1) : 'n/a';
+            const roi = (w + l) > 0 ? (u / (w + l) * 100).toFixed(1) : 'n/a';
+            rTotW += w; rTotL += l;
+            const sr = rb.insertRow();
+            [market, String(mPicks.length), String(w), String(l), pct+'%', (u>=0?'+':'')+u.toFixed(1)+'u', (roi>=0?'+':'')+roi+'%'].forEach((v,i) => {
+              const td = sr.insertCell();
+              td.textContent = v;
+              td.style.padding = '6px 10px';
+              td.style.textAlign = i === 0 ? 'left' : 'right';
+              if (i === 5) td.style.color = u >= 0 ? 'var(--green)' : 'var(--red)';
+              if (i === 6) td.style.color = parseFloat(roi) >= 0 ? 'var(--green)' : 'var(--red)';
+            });
+          }
+          const rtr = rb.insertRow();
+          rtr.style.borderTop = '2px solid rgba(255,255,255,0.2)';
+          rtr.style.fontWeight = '700';
+          ['TOTAL', String(recentPicks.length), String(rW), String(rL), rPct+'%', (rU>=0?'+':'')+rU.toFixed(1)+'u', (rROI>=0?'+':'')+rROI+'%'].forEach((v,i) => {
+            const td = rtr.insertCell();
+            td.textContent = v;
+            td.style.padding = '6px 10px';
+            td.style.textAlign = i === 0 ? 'left' : 'right';
+            if (i === 5) td.style.color = rU >= 0 ? 'var(--green)' : 'var(--red)';
+            if (i === 6) td.style.color = parseFloat(rROI) >= 0 ? 'var(--green)' : 'var(--red)';
+          });
+          rWrap.appendChild(rTbl);
+          rCard.appendChild(rWrap);
+          el.appendChild(rCard);
+        }
+
+        // Market Breakdown (season-long, graded picks only)
+        if (gradedPicks.length > 0) {
+          const { fGrouped, sortedMarkets } = buildMarketBreakdown(gradedPicks);
+          const mbCard = document.createElement('div');
+          mbCard.className = 'card card-games';
+          mbCard.style.marginBottom = '16px';
+          mbCard.appendChild(Object.assign(document.createElement('div'), {className:'card-title', textContent:'Season Market Breakdown'}));
+          const mbWrap = document.createElement('div');
+          mbWrap.className = 'props-table-wrap';
+          const mbTbl = document.createElement('table');
+          mbTbl.style.cssText = 'width:100%;border-collapse:collapse;margin-top:8px';
+          const mh = mbTbl.createTHead().insertRow();
+          ['Cat','Picks','W','L','Win%','Units','ROI'].forEach(h => {
+            const th = document.createElement('th');
+            th.textContent = h;
+            th.style.cssText = 'padding:6px 10px;text-align:right;border-bottom:1px solid rgba(255,255,255,0.1)';
+            if (h === 'Cat') th.style.textAlign = 'left';
+            mh.appendChild(th);
+          });
+          const mb = mbTbl.createTBody();
+          let gW = 0, gL = 0;
+          for (const market of sortedMarkets) {
+            const mPicks = fGrouped[market];
+            const w = mPicks.filter(p => p.result === 'WIN').length;
+            const l = mPicks.filter(p => p.result === 'LOSS').length;
+            const u = calcPropsUnits(mPicks);
+            const pct = (w + l) > 0 ? (w / (w + l) * 100).toFixed(1) : 'n/a';
+            const roi = (w + l) > 0 ? (u / (w + l) * 100).toFixed(1) : 'n/a';
+            gW += w; gL += l;
+            const sr = mb.insertRow();
+            [market, String(mPicks.length), String(w), String(l), pct+'%', (u>=0?'+':'')+u.toFixed(1)+'u', (roi>=0?'+':'')+roi+'%'].forEach((v,i) => {
+              const td = sr.insertCell();
+              td.textContent = v;
+              td.style.padding = '6px 10px';
+              td.style.textAlign = i === 0 ? 'left' : 'right';
+              if (i === 5) td.style.color = u >= 0 ? 'var(--green)' : 'var(--red)';
+              if (i === 6) td.style.color = parseFloat(roi) >= 0 ? 'var(--green)' : 'var(--red)';
+            });
+          }
+          const gU = calcPropsUnits(gradedPicks);
+          const gROI = (gW+gL) > 0 ? (gU / (gW+gL) * 100).toFixed(1) : '0';
+          const tr = mb.insertRow();
+          tr.style.borderTop = '2px solid rgba(255,255,255,0.2)';
+          tr.style.fontWeight = '700';
+          ['TOTAL', String(gradedPicks.length), String(gW), String(gL),
+           (gW+gL>0?(gW/(gW+gL)*100).toFixed(1):'0')+'%',
+           (gU>=0?'+':'')+gU.toFixed(1)+'u', (gROI>=0?'+':'')+gROI+'%'].forEach((v,i) => {
+            const td = tr.insertCell();
+            td.textContent = v;
+            td.style.padding = '6px 10px';
+            td.style.textAlign = i === 0 ? 'left' : 'right';
+            if (i === 5) td.style.color = gU >= 0 ? 'var(--green)' : 'var(--red)';
+            if (i === 6) td.style.color = parseFloat(gROI) >= 0 ? 'var(--green)' : 'var(--red)';
+          });
+          mbWrap.appendChild(mbTbl);
+          mbCard.appendChild(mbWrap);
+          el.appendChild(mbCard);
         }
 
         // Today's Picks (table format matching All Picks)
