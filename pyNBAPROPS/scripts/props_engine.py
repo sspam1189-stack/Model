@@ -263,8 +263,8 @@ def project_player_props(player_logs, team_def_stats=None, prop_lines=None,
         is_b2b = detect_b2b_from_game_logs(games, game_date)
         proj_min = project_minutes(qualified, adv_stats=adv, is_b2b=is_b2b)
 
-        if proj_min < 12:
-            continue  # Skip players projected for very few minutes
+        if proj_min < 15:
+            continue  # Skip players projected for fewer than 15 minutes
 
         # --- Project each individual market ---
         for market, stat_key in STAT_KEYS.items():
