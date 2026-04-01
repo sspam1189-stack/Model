@@ -334,7 +334,12 @@ def project_player_props(player_logs, team_def_stats=None, prop_lines=None,
 
             # --- Teammate injury boost ---
             if injury_report:
-                inj_boost = compute_teammate_absence_boost(team, injury_report)
+                inj_boost = compute_teammate_absence_boost(
+                    team, injury_report,
+                    player_per36=player_per36,
+                    player_adv_stats=player_adv_stats,
+                    player_id=pid,
+                )
                 proj += inj_boost.get(stat_key, 0.0)
 
             prop = _make_prop(name, team, market, proj, std, line_lookup, latest_opp)
