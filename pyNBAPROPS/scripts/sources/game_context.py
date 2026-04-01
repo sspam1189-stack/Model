@@ -339,7 +339,9 @@ def _get_team_minutes_weights(team_abbrev, player_adv_stats, injury_report):
         if nk in out_names:
             continue
         gap = max(0.0, _MINUTES_CAP - mpg)
-        weights[pid_str] = gap
+        usg = stats.get("USG_PCT", 0.15) or 0.15
+        # Combined weight: minutes room * usage rate
+        weights[pid_str] = gap * usg
 
     total = sum(weights.values())
     return weights, total
@@ -351,15 +353,16 @@ def compute_teammate_absence_boost(team_abbrev, injury_report,
     """
     Compute per-stat boost for a player based on OUT teammates' actual production.
 
-    Uses minutes-gap weighting: players with more room to grow in minutes
-    absorb a bigger share. A 15-mpg bench guy stepping into the lineup gets
-    far more than a star already at 35 mpg.
+    Uses combined minutes-gap + usage weighting: weight = (36 - mpg) * USG%.
+    Players who have room to grow in minutes AND high usage absorb the most.
+    A high-usage role player stepping up gets more than a low-usage bench guy
+    or a star already maxed on minutes.
 
     For each OUT teammate:
       1. Look up their per-36 stats and mpg
       2. Compute per-game production: per36_stat * (mpg / 36)
       3. Redistribute a fraction (35%) to healthy teammates
-      4. Weight by minutes gap: max(0, 36 - player_mpg)
+      4. Weight by (minutes gap * usage rate)
 
     Parameters
     ----------
@@ -384,7 +387,7 @@ def compute_teammate_absence_boost(team_abbrev, injury_report,
     if not team_injuries:
         return boost
 
-    # Compute minutes-gap weights for all healthy teammates
+    # Compute combined (minutes-gap * usage) weights for healthy teammates
     weights, total_weight = _get_team_minutes_weights(
         team_abbrev, player_adv_stats, injury_report
     )
