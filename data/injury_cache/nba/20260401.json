@@ -2,6 +2,27 @@
   "report": {
     "Washington Wizards": [
       {
+        "player": "Tre Johnson",
+        "status": "questionable",
+        "reason": "Day-To-Day",
+        "tier": "starter",
+        "mpg": 24.0
+      },
+      {
+        "player": "Bilal Coulibaly",
+        "status": "questionable",
+        "reason": "Day-To-Day",
+        "tier": "starter",
+        "mpg": 26.5
+      },
+      {
+        "player": "Alex Sarr",
+        "status": "questionable",
+        "reason": "Day-To-Day",
+        "tier": "starter",
+        "mpg": 27.2
+      },
+      {
         "player": "Anthony Davis",
         "status": "out",
         "reason": "Out",
@@ -14,27 +35,6 @@
         "reason": "Out",
         "tier": "star",
         "mpg": 29.0
-      },
-      {
-        "player": "Trae Young",
-        "status": "out",
-        "reason": "Out",
-        "tier": "starter",
-        "mpg": 25.6
-      },
-      {
-        "player": "Tre Johnson",
-        "status": "questionable",
-        "reason": "Day-To-Day",
-        "tier": "starter",
-        "mpg": 24.0
-      },
-      {
-        "player": "Alex Sarr",
-        "status": "questionable",
-        "reason": "Day-To-Day",
-        "tier": "starter",
-        "mpg": 27.2
       }
     ],
     "Philadelphia 76ers": [
@@ -48,11 +48,11 @@
     ],
     "Orlando Magic": [
       {
-        "player": "Franz Wagner",
+        "player": "Jonathan Isaac",
         "status": "out",
         "reason": "Out",
-        "tier": "star",
-        "mpg": 31.8
+        "tier": "bench",
+        "mpg": 10.0
       },
       {
         "player": "Anthony Black",
@@ -62,11 +62,11 @@
         "mpg": 30.7
       },
       {
-        "player": "Jonathan Isaac",
+        "player": "Franz Wagner",
         "status": "out",
         "reason": "Out",
-        "tier": "bench",
-        "mpg": 10.0
+        "tier": "star",
+        "mpg": 31.8
       }
     ],
     "Atlanta Hawks": [
@@ -165,20 +165,6 @@
     ],
     "Toronto Raptors": [
       {
-        "player": "Brandon Ingram",
-        "status": "questionable",
-        "reason": "Day-To-Day",
-        "tier": "star",
-        "mpg": 34.0
-      },
-      {
-        "player": "Collin Murray-Boyles",
-        "status": "questionable",
-        "reason": "Day-To-Day",
-        "tier": "starter",
-        "mpg": 22.0
-      },
-      {
         "player": "Jamison Battle",
         "status": "out",
         "reason": "Out",
@@ -191,6 +177,20 @@
         "reason": "Out",
         "tier": "star",
         "mpg": 32.4
+      },
+      {
+        "player": "Brandon Ingram",
+        "status": "questionable",
+        "reason": "Day-To-Day",
+        "tier": "star",
+        "mpg": 34.0
+      },
+      {
+        "player": "Collin Murray-Boyles",
+        "status": "questionable",
+        "reason": "Day-To-Day",
+        "tier": "starter",
+        "mpg": 22.0
       },
       {
         "player": "Chucky Hepburn",
@@ -329,18 +329,18 @@
     ],
     "Milwaukee Bucks": [
       {
-        "player": "Gary Harris",
-        "status": "out",
-        "reason": "Out",
-        "tier": "bench",
-        "mpg": 13.7
-      },
-      {
         "player": "Thanasis Antetokounmpo",
         "status": "out",
         "reason": "Out",
         "tier": "bench",
         "mpg": 3.7
+      },
+      {
+        "player": "Gary Harris",
+        "status": "out",
+        "reason": "Out",
+        "tier": "bench",
+        "mpg": 13.7
       },
       {
         "player": "Bobby Portis",
