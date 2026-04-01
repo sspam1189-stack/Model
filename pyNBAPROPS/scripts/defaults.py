@@ -52,7 +52,7 @@ MIN_MINUTES = 15
 # Thresholds set per-market based on calibrated backtest analysis.
 
 MARKET_THRESHOLDS = {
-    "points":        {"high": 0.75},   # 61.1% — sweet spot at [0.75-0.78)
+    "points":        {"high": 0.76, "high_under": 0.70},   # OVER 0.76: 65.4% +32u 30.8% ROI, UNDER 0.70: 64% +42u 28% ROI
     "rebounds":      {"high": 0.73},   # 66.0% at 0.73, +51u
     "assists":       {"high": 0.66},   # OVER 60.4% +89u, UNDER 64.5% +79u
     "threes":        {"high": 0.80},   # 81.2% — strong edge, small sample
@@ -81,7 +81,7 @@ VAR_MULT = {
 # Big edges (> 8) mean the model disagrees too much with the market.
 
 MIN_EDGE = {
-    "points":        4.0,   # small edges (2-3) are 38% — noise
+    "points":        4.0,   # OVER: 4.0, UNDER: 4.5 (directional in engine)
     "rebounds":      1.0,
     "assists":       1.0,
     "threes":        0.5,
@@ -92,7 +92,7 @@ MIN_EDGE = {
 }
 
 MAX_EDGE = {
-    "points":        8.0,    # Tightened from 12 — big edges are usually wrong
+    "points":        5.5,    # OVER: 5.5, UNDER: 6.5 (directional in engine)
     "rebounds":      4.0,    # Tightened from 5
     "assists":       4.0,    # Tightened from 5
     "threes":        2.5,    # Tightened from 3
@@ -125,7 +125,7 @@ MIN_LINE = {
 #   - PRA OVER: 52% → loser. UNDER only.
 #   - Turnovers: not enough edge after calibration. Disabled.
 
-UNDER_ONLY_MARKETS = {"points", "rebounds"}  # OVER still unprofitable even with season anchor
+UNDER_ONLY_MARKETS = {"rebounds"}  # Points OVER now enabled with tighter threshold (0.76)
 # assists allows both OVER and UNDER (real model skill in both directions)
 
 # Markets to disable entirely (no real edge after calibration)

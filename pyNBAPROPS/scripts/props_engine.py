@@ -672,8 +672,12 @@ def _make_prop(name, team, market, proj, std, line_lookup, opp):
         result["pCover"] = round(best_p, 3)
 
         mkt_thresh = MARKET_THRESHOLDS.get(market, {"high": 0.58})
-        if best_p >= mkt_thresh["high"]:
-            direction = "OVER" if p_over > p_under else "UNDER"
+        direction = "OVER" if p_over > p_under else "UNDER"
+
+        # Directional threshold: use high_under for UNDER if available
+        thresh = mkt_thresh.get("high_under" if direction == "UNDER" else "high",
+                                mkt_thresh["high"])
+        if best_p >= thresh:
 
             if market in UNDER_ONLY_MARKETS and direction == "OVER":
                 return result
@@ -681,6 +685,14 @@ def _make_prop(name, team, market, proj, std, line_lookup, opp):
             abs_edge = abs(diff)
             min_e = MIN_EDGE.get(market, 0)
             max_e = MAX_EDGE.get(market, 999)
+
+            # Directional edge overrides for points
+            if market == "points":
+                if direction == "OVER":
+                    min_e, max_e = 4.0, 5.5
+                else:
+                    min_e, max_e = 4.5, 6.5
+
             if abs_edge < min_e or abs_edge > max_e:
                 return result
 
