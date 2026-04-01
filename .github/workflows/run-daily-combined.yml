@@ -10,10 +10,12 @@ permissions:
 jobs:
   nba:
     runs-on: self-hosted
+    defaults:
+      run:
+        shell: powershell
     steps:
       - name: Clean up stale rebase
-        run: git rebase --abort 2>/dev/null || true
-        shell: bash
+        run: git rebase --abort 2>$null; $true
 
       - uses: actions/checkout@v6
         with:
@@ -26,9 +28,10 @@ jobs:
           node-version: 22
 
       - name: Install dependencies
-        shell: bash
-        run: npm ci && npm ci --prefix ../core-js
-        working-directory: jsNBA
+        run: |
+          Set-Location jsNBA
+          npm ci
+          npm ci --prefix ../core-js
 
       - name: Run daily
         working-directory: jsNBA
@@ -71,10 +74,12 @@ jobs:
   nba-fullseason:
     runs-on: self-hosted
     needs: nba
+    defaults:
+      run:
+        shell: powershell
     steps:
       - name: Clean up stale rebase
-        run: git rebase --abort 2>/dev/null || true
-        shell: bash
+        run: git rebase --abort 2>$null; $true
 
       - uses: actions/checkout@v6
         with:
@@ -89,9 +94,10 @@ jobs:
         run: git pull origin main
 
       - name: Install dependencies
-        shell: bash
-        run: npm ci && npm ci --prefix ../core-js
-        working-directory: jsFull
+        run: |
+          Set-Location jsFull
+          npm ci
+          npm ci --prefix ../core-js
 
       - name: Run daily
         working-directory: jsFull
@@ -112,10 +118,10 @@ jobs:
     needs: nba-fullseason
     defaults:
       run:
-        shell: bash
+        shell: powershell
     steps:
       - name: Clean up stale rebase
-        run: git rebase --abort 2>/dev/null || true
+        run: git rebase --abort 2>$null; $true
 
       - uses: actions/checkout@v6
         with:
@@ -156,10 +162,10 @@ jobs:
     needs: py-nba
     defaults:
       run:
-        shell: bash
+        shell: powershell
     steps:
       - name: Clean up stale rebase
-        run: git rebase --abort 2>/dev/null || true
+        run: git rebase --abort 2>$null; $true
 
       - uses: actions/checkout@v6
         with:

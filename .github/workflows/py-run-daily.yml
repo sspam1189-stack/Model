@@ -12,10 +12,10 @@ jobs:
     runs-on: self-hosted
     defaults:
       run:
-        shell: bash
+        shell: powershell
     steps:
       - name: Clean up stale rebase
-        run: git rebase --abort 2>/dev/null || true
+        run: git rebase --abort 2>$null; $true
 
       - uses: actions/checkout@v6
         with:
@@ -26,7 +26,7 @@ jobs:
         run: git pull origin main
 
       - name: Clear bytecode cache
-        run: find pyNBA/scripts -name "__pycache__" -exec rm -rf {} + 2>/dev/null || true
+        run: Get-ChildItem -Path pyNBA/scripts -Filter __pycache__ -Recurse -Directory -ErrorAction SilentlyContinue | Remove-Item -Recurse -Force
 
       - name: Install dependencies
         run: pip install -r pyNBA/requirements.txt
@@ -77,10 +77,10 @@ jobs:
     needs: nba
     defaults:
       run:
-        shell: bash
+        shell: powershell
     steps:
       - name: Clean up stale rebase
-        run: git rebase --abort 2>/dev/null || true
+        run: git rebase --abort 2>$null; $true
 
       - uses: actions/checkout@v6
         with:
@@ -91,7 +91,7 @@ jobs:
         run: git pull origin main
 
       - name: Clear bytecode cache
-        run: find pyFull/scripts -name "__pycache__" -exec rm -rf {} + 2>/dev/null || true
+        run: Get-ChildItem -Path pyFull/scripts -Filter __pycache__ -Recurse -Directory -ErrorAction SilentlyContinue | Remove-Item -Recurse -Force
 
       - name: Install dependencies
         run: pip install -r pyFull/requirements.txt
@@ -118,10 +118,10 @@ jobs:
     needs: nba
     defaults:
       run:
-        shell: bash
+        shell: powershell
     steps:
       - name: Clean up stale rebase
-        run: git rebase --abort 2>/dev/null || true
+        run: git rebase --abort 2>$null; $true
 
       - uses: actions/checkout@v6
         with:
@@ -132,7 +132,7 @@ jobs:
         run: git pull origin main
 
       - name: Clear bytecode cache
-        run: find pyNBAPROPS -name "__pycache__" -exec rm -rf {} + 2>/dev/null || true
+        run: Get-ChildItem -Path pyNBAPROPS -Filter __pycache__ -Recurse -Directory -ErrorAction SilentlyContinue | Remove-Item -Recurse -Force
 
       - name: Install dependencies
         run: pip install -r pyNBAPROPS/requirements.txt

@@ -10,10 +10,12 @@ permissions:
 jobs:
   ncaa-js:
     runs-on: self-hosted
+    defaults:
+      run:
+        shell: powershell
     steps:
       - name: Clean up stale rebase
-        run: git rebase --abort 2>/dev/null || true
-        shell: bash
+        run: git rebase --abort 2>$null; $true
 
       - uses: actions/checkout@v6
         with:
@@ -25,9 +27,10 @@ jobs:
           node-version: 22
 
       - name: Install dependencies
-        shell: bash
-        run: npm ci && npm ci --prefix ../core-js
-        working-directory: jsNCAA
+        run: |
+          Set-Location jsNCAA
+          npm ci
+          npm ci --prefix ../core-js
 
       - name: Run daily
         working-directory: jsNCAA
@@ -64,10 +67,12 @@ jobs:
   ncaa-python:
     needs: ncaa-js
     runs-on: self-hosted
+    defaults:
+      run:
+        shell: pwsh
     steps:
       - name: Clean up stale rebase
-        run: git rebase --abort 2>/dev/null || true
-        shell: bash
+        run: git rebase --abort 2>$null; $true
 
       - uses: actions/checkout@v6
         with:
@@ -79,7 +84,6 @@ jobs:
 
       - name: Resolve Python
         id: py
-        shell: pwsh
         run: |
           $cmd = Get-Command python -ErrorAction SilentlyContinue
           if (-not $cmd) { $cmd = Get-Command py -ErrorAction SilentlyContinue }
@@ -87,13 +91,11 @@ jobs:
           "PY_CMD=$($cmd.Name)" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
 
       - name: Python version
-        shell: pwsh
         run: |
           & ${{ steps.py.outputs.PY_CMD }} --version
           & ${{ steps.py.outputs.PY_CMD }} -m pip --version
 
       - name: Install dependencies
-        shell: pwsh
         run: |
           & ${{ steps.py.outputs.PY_CMD }} -m pip install -r pyNCAA/requirements.txt
 
@@ -106,7 +108,6 @@ jobs:
           GMAIL_USER: ${{ secrets.GMAIL_USER }}
           GMAIL_APP_PASSWORD: ${{ secrets.GMAIL_APP_PASSWORD }}
           TO_EMAIL: ${{ secrets.TO_EMAIL }}
-        shell: pwsh
         run: |
           & ${{ steps.py.outputs.PY_CMD }} run_daily.py
 
