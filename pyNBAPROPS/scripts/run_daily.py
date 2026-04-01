@@ -35,6 +35,7 @@ from sources.nba_player_stats import (
 from sources.odds_fanduel import fetch_fanduel_nba_props
 from sources.odds_theoddsapi import fetch_nba_player_props
 from props_engine import organize_player_logs, project_player_props, format_props_for_dashboard, STAT_KEYS
+from sources.game_context import load_injury_report
 from player_kalman import (
     load_player_kalman_state, save_player_kalman_state,
     new_player_kalman_state, batch_update_from_game_logs,
@@ -354,8 +355,19 @@ def run_daily(date_key=None):
     for pid, games in player_logs.items():
         player_logs[pid] = [g for g in games if g.get("game_date", "") != date_iso]
 
+    # --- Stage 6d: Load injury report ---
+    print(f"\n  [6d/8] Loading injury report...")
+    injury_report = load_injury_report(date_key)
+    if injury_report:
+        n_out = sum(1 for team_inj in injury_report.values()
+                    for p in team_inj if p.get("status") in ("out", "doubtful"))
+        n_teams = len(injury_report)
+        print(f"  {n_out} players out/doubtful across {n_teams} teams")
+    else:
+        print(f"  No injury cache for {date_key} — projecting without injuries")
+
     # --- Stage 7: Project props ---
-    print(f"\n  [7/8] Projecting player props (Kalman + positional defense)...")
+    print(f"\n  [7/8] Projecting player props (Kalman + positional defense + injuries)...")
     projections = project_player_props(
         player_logs,
         team_def_stats=team_def,
@@ -365,6 +377,7 @@ def run_daily(date_key=None):
         player_positions=player_positions,
         team_def_by_pos=team_def_by_pos,
         player_per36=player_per36,
+        injury_report=injury_report,
     )
 
     picks = [p for p in projections if p["pick"] != "PASS"]

@@ -30,6 +30,7 @@ from sources.game_context import (
     B2B_PENALTIES, REST_BONUS, detect_b2b_from_game_logs, detect_rest_days,
     compute_home_away_split, compute_per_minute_rates,
     project_minutes, rate_based_projection,
+    is_player_out, compute_teammate_absence_boost,
 )
 
 # ---------------------------------------------------------------------------
@@ -149,7 +150,8 @@ def _weighted_std(values, decay=DECAY_FACTOR):
 def project_player_props(player_logs, team_def_stats=None, prop_lines=None,
                          kalman_state=None, player_adv_stats=None,
                          today_games=None, player_positions=None,
-                         team_def_by_pos=None, player_per36=None):
+                         team_def_by_pos=None, player_per36=None,
+                         injury_report=None):
     """
     Project player props for all players with sufficient game logs.
 
@@ -224,6 +226,10 @@ def project_player_props(player_logs, team_def_stats=None, prop_lines=None,
         recent = games[-ROLLING_WINDOW:]
         name = games[-1].get("player_name", "Unknown")
         team = games[-1].get("team", "")
+
+        # Skip players listed as OUT/DOUBTFUL in injury report
+        if injury_report and is_player_out(name, team, injury_report):
+            continue
 
         # Use today's actual game info if available (backtest mode),
         # otherwise derive opponent from prop lines, then fall back to last game.
@@ -325,6 +331,11 @@ def project_player_props(player_logs, team_def_stats=None, prop_lines=None,
                 proj += split["home_split_adj"]
             elif not is_home and split.get("away_split_adj"):
                 proj += split["away_split_adj"]
+
+            # --- Teammate injury boost ---
+            if injury_report:
+                inj_boost = compute_teammate_absence_boost(team, injury_report)
+                proj += inj_boost.get(stat_key, 0.0)
 
             prop = _make_prop(name, team, market, proj, std, line_lookup, latest_opp)
             if prop:
