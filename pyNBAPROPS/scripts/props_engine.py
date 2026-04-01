@@ -339,6 +339,7 @@ def project_player_props(player_logs, team_def_stats=None, prop_lines=None,
                     player_per36=player_per36,
                     player_adv_stats=player_adv_stats,
                     player_id=pid,
+                    player_logs=player_logs,
                 )
                 proj += inj_boost.get(stat_key, 0.0)
 

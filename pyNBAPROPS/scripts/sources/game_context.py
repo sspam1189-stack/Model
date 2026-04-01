@@ -289,8 +289,8 @@ _P36_TO_LOG = {
 # Not 100% — some is lost to fewer possessions, different lineup dynamics.
 _REDISTRIBUTION_FACTOR = 0.35
 
-# Minutes ceiling — players near this have no room to absorb more.
-_MINUTES_CAP = 36.0
+# Number of recent games to scan for max minutes.
+_MAX_MIN_WINDOW = 15
 
 
 def _find_player_id_by_name(player_name, team_abbrev, player_adv_stats):
@@ -307,17 +307,27 @@ def _find_player_id_by_name(player_name, team_abbrev, player_adv_stats):
     return None
 
 
-def _get_team_minutes_weights(team_abbrev, player_adv_stats, injury_report):
-    """
-    Compute minutes-gap weights for all healthy teammates.
+def _player_max_minutes(games, window=_MAX_MIN_WINDOW):
+    """Return the max minutes played in the last `window` games."""
+    recent = games[-window:] if games else []
+    if not recent:
+        return 0.0
+    return max(g.get("min", 0) for g in recent)
 
-    Weight = max(0, CAP - current_mpg). Players already near 36 mpg get
-    almost zero weight; bench guys with room to grow get the most.
+
+def _get_team_minutes_weights(team_abbrev, player_adv_stats, injury_report,
+                              player_logs=None):
+    """
+    Compute (minutes-gap * usage) weights for all healthy teammates.
+
+    Gap = player's recent max minutes - their average mpg.
+    This is their personal ceiling based on what the coach has actually
+    given them, not an arbitrary fixed cap.
 
     Returns
     -------
     dict
-        {player_id_str: weight} and total_weight (for normalization).
+        {player_id_str: weight}.
     float
         Sum of all weights.
     """
@@ -338,7 +348,13 @@ def _get_team_minutes_weights(team_abbrev, player_adv_stats, injury_report):
         nk = _injury_name_key(stats.get("player_name", ""))
         if nk in out_names:
             continue
-        gap = max(0.0, _MINUTES_CAP - mpg)
+
+        # Personal ceiling: max minutes from recent game logs
+        games = (player_logs or {}).get(int(pid_str), []) or (player_logs or {}).get(pid_str, [])
+        max_min = _player_max_minutes(games) if games else mpg + 4
+        # Gap = room to grow from average to personal max
+        gap = max(0.0, max_min - mpg)
+
         usg = stats.get("USG_PCT", 0.15) or 0.15
         # Combined weight: minutes room * usage rate
         weights[pid_str] = gap * usg
@@ -349,20 +365,19 @@ def _get_team_minutes_weights(team_abbrev, player_adv_stats, injury_report):
 
 def compute_teammate_absence_boost(team_abbrev, injury_report,
                                    player_per36=None, player_adv_stats=None,
-                                   player_id=None):
+                                   player_id=None, player_logs=None):
     """
     Compute per-stat boost for a player based on OUT teammates' actual production.
 
-    Uses combined minutes-gap + usage weighting: weight = (36 - mpg) * USG%.
-    Players who have room to grow in minutes AND high usage absorb the most.
-    A high-usage role player stepping up gets more than a low-usage bench guy
-    or a star already maxed on minutes.
+    Uses combined (minutes-gap * usage) weighting where the gap is each
+    player's personal ceiling (max minutes from last 15 games) minus their
+    average mpg. Players who have room to grow AND high usage absorb the most.
 
     For each OUT teammate:
       1. Look up their per-36 stats and mpg
       2. Compute per-game production: per36_stat * (mpg / 36)
       3. Redistribute a fraction (35%) to healthy teammates
-      4. Weight by (minutes gap * usage rate)
+      4. Weight by (personal minutes gap * usage rate)
 
     Parameters
     ----------
@@ -376,6 +391,8 @@ def compute_teammate_absence_boost(team_abbrev, injury_report,
         {player_id_str: {"USG_PCT": float, "MIN": float, "player_name": str, ...}}
     player_id : str or None
         The player being projected.
+    player_logs : dict or None
+        {player_id: [game_log, ...]} for computing personal max minutes.
 
     Returns
     -------
@@ -389,7 +406,8 @@ def compute_teammate_absence_boost(team_abbrev, injury_report,
 
     # Compute combined (minutes-gap * usage) weights for healthy teammates
     weights, total_weight = _get_team_minutes_weights(
-        team_abbrev, player_adv_stats, injury_report
+        team_abbrev, player_adv_stats, injury_report,
+        player_logs=player_logs,
     )
     if total_weight <= 0 or not weights:
         return boost
