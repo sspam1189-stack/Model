@@ -132,9 +132,16 @@ UNDER_ONLY_MARKETS = {"rebounds"}  # Points OVER now enabled with tighter thresh
 DISABLED_MARKETS = {"steals", "blocks", "turnovers", "pts_rebs_asts"}
 
 # ---------------------------------------------------------------------------
-# Opponent adjustment
+# Possession-based projection model
 # ---------------------------------------------------------------------------
 
+# Rate blending: season per-100 rate vs recent per-100 rate
+# Fights recency bias while staying responsive to form changes.
+RATE_SEASON_WEIGHT = 0.6   # season-long per-100 rate
+RATE_RECENT_WEIGHT = 0.4   # last ROLLING_WINDOW games per-100 rate
+RECENT_WINDOW = 10         # games for recent rate calculation
+
+# Opponent defense stat keys (maps market -> team def field for matchup factor)
 OPP_STAT_KEY = {
     "points":        "OPP_PTS",
     "rebounds":      "OPP_REB",
@@ -146,64 +153,16 @@ OPP_STAT_KEY = {
     "turnovers":     "OPP_TOV",
 }
 
-OPP_ADJ_WEIGHT = {
-    "points":        0.30,  # matches best backtest config
-    "rebounds":      0.25,
-    "assists":       0.20,
-    "threes":        0.25,
-    "pts_rebs_asts": 0.25,
-    "steals":        0.0,
-    "blocks":        0.0,
-    "turnovers":     0.0,
-}
-
-# Pace adjustment
-PACE_ADJ_WEIGHT = {
-    "points":        0.008,
-    "rebounds":      0.005,
-    "assists":       0.004,
-    "threes":        0.003,
-    "pts_rebs_asts": 0.015,
-    "steals":        0.0,
-    "blocks":        0.0,
-    "turnovers":     0.002,
-}
-
-# Minutes threshold — volume penalty removed (was one-directional bias source)
-# Kept for backward compat but no longer used in projection pipeline
-MINUTES_VOLUME_THRESHOLD = 28.0
-
-# ---------------------------------------------------------------------------
-# Season anchor (per-100-possession regression toward season mean)
-# ---------------------------------------------------------------------------
-# Rolling avg chases recent variance; points/rebounds are streaky.
-# Blend the rolling-based projection with a per-100-possession season
-# baseline to prevent recency-driven deflation that inflates phantom
-# UNDER edges. Pace-normalized so fast/slow teams are treated equally.
-# Weight 0.0 = pure rolling (old behavior), 1.0 = pure per-100 season.
-
-SEASON_ANCHOR_WEIGHT = {
-    "points":        0.25,  # with rate blend
-    "rebounds":      0.20,  # no rate blend — 68.1% +39.2u
-    "assists":       0.0,   # already unbiased
-    "threes":        0.0,   # small sample
-    "pts_rebs_asts": 0.30,  # no rate blend — best bias fix
-}
-
-# Per-100-possession stat keys (maps market -> key in per100 dict from nba_api)
+# Per-100-possession stat keys (maps market -> key in per100 dict)
 PER100_STAT_KEY = {
     "points":   "PTS",
     "rebounds":  "REB",
     "assists":   "AST",
     "threes":    "FG3M",
+    "steals":    "STL",
+    "blocks":    "BLK",
+    "turnovers": "TOV",
 }
-
-# Legacy alias
-PER36_STAT_KEY = PER100_STAT_KEY
-
-# Legacy keys
-OPP_ADJ_SCALE = OPP_ADJ_WEIGHT
-OPP_DEF_STAT = OPP_STAT_KEY
 
 # ---------------------------------------------------------------------------
 # The Odds API: NBA prop market keys
