@@ -182,6 +182,33 @@ def grade_previous_picks(season=None):
                 print(f"  [grade] Failed to write {path}: {e}")
 
 
+def _get_todays_teams(date_key):
+    """
+    Return set of team abbreviations that actually play today per ESPN schedule.
+    Filters out tomorrow's games that FanDuel may have cached early.
+    """
+    espn_path = os.path.join(SCRIPT_DIR, "..", "..", "data", "espn_cache", "nba", f"{date_key}.json")
+    espn_path = os.path.normpath(espn_path)
+    if not os.path.exists(espn_path):
+        return None  # None = don't filter (no ESPN data)
+
+    try:
+        with open(espn_path, "r") as f:
+            espn = json.load(f)
+    except Exception:
+        return None
+
+    teams = set()
+    for ev in espn.get("events", []):
+        comp = (ev.get("competitions") or [{}])[0]
+        for team in comp.get("competitors", []):
+            abbr = (team.get("team") or {}).get("abbreviation", "")
+            if abbr:
+                teams.add(abbr)
+
+    return teams
+
+
 def _get_started_teams(date_key):
     """
     Return set of team abbreviations whose games have already tipped off.
@@ -291,9 +318,23 @@ def run_daily(date_key=None):
         prop_lines = fetch_nba_player_props(date_key=date_key)
     print(f"  {len(prop_lines)} prop lines fetched")
 
-    # --- Stage 6b: Filter out started games ---
-    # Determine which team pairs have already tipped off using ESPN schedule.
-    # Drop their prop lines so we don't project games that can't be bet.
+    # --- Stage 6b: Filter to today's games only ---
+    # FanDuel sometimes caches tomorrow's lines early. Cross-reference ESPN
+    # schedule to only keep prop lines for games actually on today's date.
+    todays_teams = _get_todays_teams(date_key)
+    if todays_teams is not None:
+        before = len(prop_lines)
+        prop_lines = [
+            p for p in prop_lines
+            if p.get("event_home") in todays_teams
+               or p.get("event_away") in todays_teams
+        ]
+        dropped = before - len(prop_lines)
+        if dropped:
+            print(f"  Dropped {dropped} prop lines for non-today games (FanDuel early cache)")
+        print(f"  {len(prop_lines)} prop lines for today's games")
+
+    # Filter out started games
     started_teams = _get_started_teams(date_key)
     if started_teams:
         before = len(prop_lines)

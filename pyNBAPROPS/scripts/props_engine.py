@@ -728,7 +728,8 @@ def format_props_for_dashboard(projections, date_str="today"):
             p["date"] = date_str
 
     # All projections for today (including PASS) — used by Games Explorer
-    today_all = [p for p in projections if p.get("market") != "pts_rebs_asts"]
+    # Only include players who have a prop line (actually playing today)
+    today_all = [p for p in projections if p.get("market") != "pts_rebs_asts" and p.get("line") is not None]
     for p in today_all:
         if not p.get("date"):
             p["date"] = date_str
