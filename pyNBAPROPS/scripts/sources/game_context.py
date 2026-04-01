@@ -289,8 +289,8 @@ _P36_TO_LOG = {
 # Not 100% — some is lost to fewer possessions, different lineup dynamics.
 _REDISTRIBUTION_FACTOR = 0.35
 
-# Approximate number of rotation players who split the redistributed production.
-_ROTATION_SIZE = 8
+# Minutes ceiling — players near this have no room to absorb more.
+_MINUTES_CAP = 36.0
 
 
 def _find_player_id_by_name(player_name, team_abbrev, player_adv_stats):
@@ -307,17 +307,59 @@ def _find_player_id_by_name(player_name, team_abbrev, player_adv_stats):
     return None
 
 
+def _get_team_minutes_weights(team_abbrev, player_adv_stats, injury_report):
+    """
+    Compute minutes-gap weights for all healthy teammates.
+
+    Weight = max(0, CAP - current_mpg). Players already near 36 mpg get
+    almost zero weight; bench guys with room to grow get the most.
+
+    Returns
+    -------
+    dict
+        {player_id_str: weight} and total_weight (for normalization).
+    float
+        Sum of all weights.
+    """
+    # Build set of OUT player names for this team
+    out_names = set()
+    for inj in injury_report.get(team_abbrev, []):
+        if inj.get("status") in ("out", "doubtful"):
+            out_names.add(_injury_name_key(inj.get("player", "")))
+
+    weights = {}
+    for pid_str, stats in (player_adv_stats or {}).items():
+        if stats.get("team") != team_abbrev:
+            continue
+        mpg = stats.get("MIN", 0)
+        if mpg < 15:
+            continue  # not in rotation
+        # Skip OUT players themselves
+        nk = _injury_name_key(stats.get("player_name", ""))
+        if nk in out_names:
+            continue
+        gap = max(0.0, _MINUTES_CAP - mpg)
+        weights[pid_str] = gap
+
+    total = sum(weights.values())
+    return weights, total
+
+
 def compute_teammate_absence_boost(team_abbrev, injury_report,
                                    player_per36=None, player_adv_stats=None,
                                    player_id=None):
     """
     Compute per-stat boost for a player based on OUT teammates' actual production.
 
+    Uses minutes-gap weighting: players with more room to grow in minutes
+    absorb a bigger share. A 15-mpg bench guy stepping into the lineup gets
+    far more than a star already at 35 mpg.
+
     For each OUT teammate:
       1. Look up their per-36 stats and mpg
       2. Compute per-game production: per36_stat * (mpg / 36)
-      3. Redistribute a fraction to remaining rotation players
-      4. Scale by the projected player's usage share (higher usage = bigger share)
+      3. Redistribute a fraction (35%) to healthy teammates
+      4. Weight by minutes gap: max(0, 36 - player_mpg)
 
     Parameters
     ----------
@@ -330,7 +372,7 @@ def compute_teammate_absence_boost(team_abbrev, injury_report,
     player_adv_stats : dict or None
         {player_id_str: {"USG_PCT": float, "MIN": float, "player_name": str, ...}}
     player_id : str or None
-        The player being projected (to scale boost by their usage).
+        The player being projected.
 
     Returns
     -------
@@ -342,15 +384,19 @@ def compute_teammate_absence_boost(team_abbrev, injury_report,
     if not team_injuries:
         return boost
 
-    # Get projected player's usage share for scaling (default to equal share)
-    player_usg = 0.20  # league average
-    if player_adv_stats and player_id:
-        adv = player_adv_stats.get(str(player_id), {})
-        player_usg = adv.get("USG_PCT", 0.20) or 0.20
+    # Compute minutes-gap weights for all healthy teammates
+    weights, total_weight = _get_team_minutes_weights(
+        team_abbrev, player_adv_stats, injury_report
+    )
+    if total_weight <= 0 or not weights:
+        return boost
 
-    # Usage-based scaling: players with higher usage absorb more of the
-    # redistributed production. Normalize so league-avg usage gets 1.0x.
-    usg_scale = player_usg / 0.20
+    player_weight = weights.get(str(player_id), 0.0) if player_id else 0.0
+    if player_weight <= 0:
+        return boost  # this player has no room to absorb (or not found)
+
+    # This player's share of the redistributed production
+    share = player_weight / total_weight
 
     for inj in team_injuries:
         if inj.get("status") not in ("out", "doubtful"):
@@ -368,14 +414,13 @@ def compute_teammate_absence_boost(team_abbrev, injury_report,
         if not out_p36:
             continue  # can't size the boost without per-36 data
 
-        # Compute per-game production and redistribute
+        # Compute per-game production and redistribute by minutes gap
         for p36_key, log_key in _P36_TO_LOG.items():
             per36_val = out_p36.get(p36_key, 0)
             if per36_val <= 0:
                 continue
             per_game = per36_val * (mpg / 36.0)
-            redistributed = per_game * _REDISTRIBUTION_FACTOR / _ROTATION_SIZE
-            boost[log_key] += redistributed * usg_scale
+            boost[log_key] += per_game * _REDISTRIBUTION_FACTOR * share
 
     return boost
 
