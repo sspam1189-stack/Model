@@ -157,7 +157,22 @@ def grade_previous_picks(season=None):
 
     total = wins + losses
     pct = wins / max(1, total) * 100
-    units = wins * 1.0 + losses * (-1.1)
+    # Calculate units using actual odds when available, fallback to -110
+    units = 0.0
+    for pick in props:
+        r = pick.get("result")
+        if r == "WIN":
+            odds = pick.get("odds")
+            if odds is not None:
+                odds = int(odds)
+                if odds > 0:
+                    units += odds / 100.0
+                else:
+                    units += 100.0 / abs(odds)
+            else:
+                units += 1.0  # fallback: even money
+        elif r == "LOSS":
+            units -= 1.0  # always risk 1 unit
     print(f"  [grade] Graded {graded} picks: {wins}W-{losses}L ({pct:.1f}%) {'+' if units >= 0 else ''}{units:.1f}u"
           + (f" + {pushes} pushes" if pushes else ""))
 
@@ -172,6 +187,44 @@ def grade_previous_picks(season=None):
                 print(f"  [grade] Updated {path}")
             except Exception as e:
                 print(f"  [grade] Failed to write {path}: {e}")
+
+
+def _get_started_teams(date_key):
+    """
+    Return set of team abbreviations whose games have already tipped off.
+    Uses ESPN scoreboard cache to check commence times vs. now.
+    """
+    espn_path = os.path.join(SCRIPT_DIR, "..", "..", "data", "espn_cache", "nba", f"{date_key}.json")
+    espn_path = os.path.normpath(espn_path)
+    if not os.path.exists(espn_path):
+        return set()
+
+    try:
+        with open(espn_path, "r") as f:
+            espn = json.load(f)
+    except Exception:
+        return set()
+
+    now_utc = datetime.datetime.now(datetime.timezone.utc)
+    started = set()
+
+    for ev in espn.get("events", []):
+        comp = (ev.get("competitions") or [{}])[0]
+        tip_str = comp.get("date", "")
+        if not tip_str:
+            continue
+        try:
+            tip = datetime.datetime.fromisoformat(tip_str.replace("Z", "+00:00"))
+        except (ValueError, AttributeError):
+            continue
+
+        if tip <= now_utc:
+            for team in comp.get("competitors", []):
+                abbr = (team.get("team") or {}).get("abbreviation", "")
+                if abbr:
+                    started.add(abbr)
+
+    return started
 
 
 def run_daily(date_key=None):
@@ -245,6 +298,28 @@ def run_daily(date_key=None):
         prop_lines = fetch_nba_player_props(date_key=date_key)
     print(f"  {len(prop_lines)} prop lines fetched")
 
+    # --- Stage 6b: Filter out started games ---
+    # Determine which team pairs have already tipped off using ESPN schedule.
+    # Drop their prop lines so we don't project games that can't be bet.
+    started_teams = _get_started_teams(date_key)
+    if started_teams:
+        before = len(prop_lines)
+        prop_lines = [
+            p for p in prop_lines
+            if p.get("event_home") not in started_teams
+               and p.get("event_away") not in started_teams
+        ]
+        dropped = before - len(prop_lines)
+        if dropped:
+            print(f"  Dropped {dropped} prop lines for {len(started_teams)} started-game teams")
+        print(f"  {len(prop_lines)} prop lines remaining (non-started games)")
+
+    # --- Stage 6c: Strip today's game logs from rolling window ---
+    # NBA.com game log cache may already include today's in-progress stats.
+    # Remove them so projections use only completed games.
+    for pid, games in player_logs.items():
+        player_logs[pid] = [g for g in games if g.get("game_date", "") != date_iso]
+
     # --- Stage 7: Project props ---
     print(f"\n  [7/8] Projecting player props (Kalman + positional defense)...")
     projections = project_player_props(
@@ -259,7 +334,8 @@ def run_daily(date_key=None):
     )
 
     picks = [p for p in projections if p["pick"] != "PASS"]
-    print(f"  {len(projections)} total projections, {len(picks)} actionable picks")
+    # Also count started-game picks that were preserved from earlier runs
+    print(f"  {len(projections)} total projections, {len(picks)} new actionable picks")
 
     # Print Kalman summary for top scorers
     print(kalman_summary(kalman_state, top_n=5, stat_key="pts"))
@@ -301,15 +377,32 @@ def run_daily(date_key=None):
             existing_props = []
 
         # Keep picks from OTHER dates (already graded / historical)
-        # Replace picks from TODAY's date with fresh projections
         kept = [p for p in existing_props if p.get("date") != date_iso]
-        today_picks = [p for p in dashboard.get("props", []) if p.get("date") == date_iso or not p.get("date")]
 
-        merged_props = kept + today_picks
+        # For TODAY's picks: preserve existing picks for started games
+        # (they were made pre-game and are still valid), only replace
+        # picks for non-started games with fresh projections.
+        today_existing = [p for p in existing_props if p.get("date") == date_iso]
+        today_started = [p for p in today_existing
+                         if p.get("team") in started_teams]
+        today_fresh = [p for p in dashboard.get("props", [])
+                       if p.get("date") == date_iso or not p.get("date")]
+
+        merged_props = kept + today_started + today_fresh
+
+        # Preserve todayProjections for started games too — they were
+        # generated pre-game and are valid. Only replace projections
+        # for non-started games with fresh ones.
+        existing_today_projs = existing.get("todayProjections", [])
+        locked_projs = [p for p in existing_today_projs
+                        if p.get("team") in started_teams]
+        fresh_projs = dashboard.get("todayProjections", [])
+        merged_today_projs = locked_projs + fresh_projs
 
         # Preserve existing metadata (season, mode, model from backtest)
         # but update generated timestamp and totals
-        dashboard_merged = {**existing, **dashboard, "props": merged_props}
+        dashboard_merged = {**existing, **dashboard, "props": merged_props,
+                            "todayProjections": merged_today_projs}
         if existing.get("season"):
             dashboard_merged["season"] = existing["season"]
         if existing.get("mode"):
@@ -319,9 +412,13 @@ def run_daily(date_key=None):
         dashboard_merged["totalPicks"] = len(merged_props)
 
         n_kept = len(kept)
-        n_new = len(today_picks)
-        if n_kept > 0:
-            print(f"  Merged: kept {n_kept} historical picks + {n_new} today's picks")
+        n_started = len(today_started)
+        n_new = len(today_fresh)
+        n_locked_projs = len(locked_projs)
+        n_fresh_projs = len(fresh_projs)
+        if n_kept > 0 or n_started > 0:
+            print(f"  Merged picks: {n_kept} historical + {n_started} started-game + {n_new} fresh")
+            print(f"  Merged projections: {n_locked_projs} locked + {n_fresh_projs} fresh")
 
         with open(path, "w") as f:
             json.dump(dashboard_merged, f, indent=2, cls=_NumpyEncoder)
@@ -332,8 +429,22 @@ def run_daily(date_key=None):
     save_player_kalman_state(kalman_state, KALMAN_STATE_PATH)
     print(f"  Saved Kalman state ({len(kalman_state['players'])} players)")
 
-    # Print picks
-    _print_picks(picks)
+    # Print all today's picks: fresh + preserved started-game picks
+    # Load preserved picks from the file we just wrote
+    all_today_picks = list(picks)  # fresh non-started picks
+    try:
+        with open(os.path.normpath(output_paths[0]), "r") as f:
+            written = json.load(f)
+        for p in written.get("props", []):
+            if (p.get("date") == date_iso
+                    and p.get("pick") not in ("PASS", None)
+                    and p.get("team") in started_teams):
+                p["_started"] = True
+                all_today_picks.append(p)
+    except Exception:
+        pass
+
+    _print_picks(all_today_picks)
 
     return dashboard
 
@@ -360,12 +471,27 @@ def _print_picks(picks):
         for p in sorted(market_picks, key=lambda x: -(x.get("pCover") or 0)):
             conf_marker = "*" if p["conf"] == "elite" else ""
             edge_sign = "+" if (p.get("edge") or 0) > 0 else ""
+            odds_str = _format_odds(p.get("odds"))
+            w1u = p.get("to_win_1u")
+            w1u_str = f"  w1u={w1u:.2f}u" if w1u is not None else ""
+            lock = " [LOCKED]" if p.get("_started") else ""
             print(
                 f"    {p['player']:25s} {p['team']:3s} "
                 f"{p['pick']:5s} {p['line']:6.1f}  "
                 f"proj={p['proj']:6.1f}  edge={edge_sign}{p.get('edge', 0):5.1f}  "
-                f"p={p.get('pCover', 0):.3f}{conf_marker}"
+                f"p={p.get('pCover', 0):.3f}{conf_marker}  "
+                f"{odds_str}{w1u_str}{lock}"
             )
+
+
+def _format_odds(price):
+    """Format American odds with +/- prefix."""
+    if price is None:
+        return "odds=N/A"
+    price = int(price)
+    if price > 0:
+        return f"odds=+{price}"
+    return f"odds={price}"
 
 
 if __name__ == "__main__":

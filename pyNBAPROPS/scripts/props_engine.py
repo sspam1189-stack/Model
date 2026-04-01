@@ -607,6 +607,30 @@ def _apply_volume_adjustment(proj, adv_stats):
 # Pick generation
 # ---------------------------------------------------------------------------
 
+def _american_to_decimal(price):
+    """Convert American odds to decimal odds (e.g. -110 -> 1.909, +150 -> 2.5)."""
+    if price is None:
+        return None
+    price = int(price)
+    if price > 0:
+        return 1.0 + price / 100.0
+    elif price < 0:
+        return 1.0 + 100.0 / abs(price)
+    return None
+
+
+def _to_win_1u(price):
+    """Calculate wager needed to win 1 unit at given American odds."""
+    if price is None:
+        return None
+    price = int(price)
+    if price > 0:
+        return round(100.0 / price, 2)
+    elif price < 0:
+        return round(abs(price) / 100.0, 2)
+    return None
+
+
 def _make_prop(name, team, market, proj, std, line_lookup, opp):
     """Build a single prop projection + pick."""
     nk = _name_key(name)
@@ -614,8 +638,12 @@ def _make_prop(name, team, market, proj, std, line_lookup, opp):
     line_data = line_lookup.get(line_key)
 
     line = None
+    over_price = None
+    under_price = None
     if line_data:
         line = line_data.get("line")
+        over_price = line_data.get("over_price")
+        under_price = line_data.get("under_price")
 
     result = {
         "player": name,
@@ -625,6 +653,8 @@ def _make_prop(name, team, market, proj, std, line_lookup, opp):
         "proj": round(proj, 1),
         "std": round(std, 1),
         "line": line,
+        "over_price": over_price,
+        "under_price": under_price,
         "pick": "PASS",
         "edge": None,
         "pCover": None,
@@ -660,6 +690,11 @@ def _make_prop(name, team, market, proj, std, line_lookup, opp):
 
             result["pick"] = direction
             result["conf"] = "elite" if best_p >= mkt_thresh["elite"] else "high"
+
+            # Attach the relevant odds for the picked direction
+            pick_price = over_price if direction == "OVER" else under_price
+            result["odds"] = pick_price
+            result["to_win_1u"] = _to_win_1u(pick_price)
 
     return result
 
