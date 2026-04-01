@@ -509,8 +509,9 @@ def _print_picks(picks):
             w1u = p.get("to_win_1u")
             w1u_str = f"  w1u={w1u:.2f}u" if w1u is not None else ""
             lock = " [LOCKED]" if p.get("_started") else ""
+            safe_name = p['player'].encode('ascii', 'replace').decode('ascii')
             print(
-                f"    {p['player']:25s} {p['team']:3s} "
+                f"    {safe_name:25s} {p['team']:3s} "
                 f"{p['pick']:5s} {p['line']:6.1f}  "
                 f"proj={p['proj']:6.1f}  edge={edge_sign}{p.get('edge', 0):5.1f}  "
                 f"p={p.get('pCover', 0):.3f}{conf_marker}  "
