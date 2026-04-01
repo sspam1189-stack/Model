@@ -30,7 +30,6 @@ from sources.game_context import (
     B2B_PENALTIES, REST_BONUS, detect_b2b_from_game_logs, detect_rest_days,
     compute_home_away_split, compute_per_minute_rates,
     project_minutes, rate_based_projection,
-    is_player_out, compute_teammate_absence_boost,
 )
 
 # ---------------------------------------------------------------------------
@@ -150,8 +149,7 @@ def _weighted_std(values, decay=DECAY_FACTOR):
 def project_player_props(player_logs, team_def_stats=None, prop_lines=None,
                          kalman_state=None, player_adv_stats=None,
                          today_games=None, player_positions=None,
-                         team_def_by_pos=None, player_per36=None,
-                         injury_report=None, player_per100=None):
+                         team_def_by_pos=None, player_per36=None):
     """
     Project player props for all players with sufficient game logs.
 
@@ -227,10 +225,6 @@ def project_player_props(player_logs, team_def_stats=None, prop_lines=None,
         name = games[-1].get("player_name", "Unknown")
         team = games[-1].get("team", "")
 
-        # Skip players listed as OUT/DOUBTFUL in injury report
-        if injury_report and is_player_out(name, team, injury_report):
-            continue
-
         # Use today's actual game info if available (backtest mode),
         # otherwise derive opponent from prop lines, then fall back to last game.
         today_game = (today_games or {}).get(pid)
@@ -259,13 +253,12 @@ def project_player_props(player_logs, team_def_stats=None, prop_lines=None,
         # --- Per-minute rates ---
         rates = compute_per_minute_rates(qualified)
 
-        # --- Projected minutes (use unfiltered recent games so low-minute
-        #     games aren't excluded — gives a true picture of playing time) ---
+        # --- Projected minutes ---
         is_b2b = detect_b2b_from_game_logs(games, game_date)
-        proj_min = project_minutes(recent, adv_stats=adv, is_b2b=is_b2b)
+        proj_min = project_minutes(qualified, adv_stats=adv, is_b2b=is_b2b)
 
-        if proj_min < 15:
-            continue  # Skip players projected for fewer than 15 minutes
+        if proj_min < 12:
+            continue  # Skip players projected for very few minutes
 
         # --- Project each individual market ---
         for market, stat_key in STAT_KEYS.items():
@@ -332,18 +325,6 @@ def project_player_props(player_logs, team_def_stats=None, prop_lines=None,
                 proj += split["home_split_adj"]
             elif not is_home and split.get("away_split_adj"):
                 proj += split["away_split_adj"]
-
-            # --- Teammate injury boost ---
-            if injury_report:
-                inj_boost = compute_teammate_absence_boost(
-                    team, injury_report,
-                    player_per36=player_per36,
-                    player_adv_stats=player_adv_stats,
-                    player_id=pid,
-                    player_logs=player_logs,
-                    player_per100=player_per100,
-                )
-                proj += inj_boost.get(stat_key, 0.0)
 
             prop = _make_prop(name, team, market, proj, std, line_lookup, latest_opp)
             if prop:

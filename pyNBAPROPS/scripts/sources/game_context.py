@@ -179,310 +179,64 @@ def detect_rest_days(player_games, game_date):
 
 
 # ---------------------------------------------------------------------------
-# 2. Injury report loading & teammate absence boost
+# 2. Injury / absence usage boost
 # ---------------------------------------------------------------------------
 
-_INJURY_CACHE_DIR = os.path.join(_dir, "..", "..", "..", "data", "injury_cache", "nba")
-
-# Full team name → abbreviation (reverse of pyFull's ABBREV_TO_NAME)
-NAME_TO_ABBREV = {
-    "Atlanta Hawks": "ATL", "Boston Celtics": "BOS", "Brooklyn Nets": "BKN",
-    "Charlotte Hornets": "CHA", "Chicago Bulls": "CHI", "Cleveland Cavaliers": "CLE",
-    "Dallas Mavericks": "DAL", "Denver Nuggets": "DEN", "Detroit Pistons": "DET",
-    "Golden State Warriors": "GSW", "Houston Rockets": "HOU", "Indiana Pacers": "IND",
-    "LA Clippers": "LAC", "Los Angeles Lakers": "LAL", "Memphis Grizzlies": "MEM",
-    "Miami Heat": "MIA", "Milwaukee Bucks": "MIL", "Minnesota Timberwolves": "MIN",
-    "New Orleans Pelicans": "NOP", "New York Knicks": "NYK", "Oklahoma City Thunder": "OKC",
-    "Orlando Magic": "ORL", "Philadelphia 76ers": "PHI", "Phoenix Suns": "PHX",
-    "Portland Trail Blazers": "POR", "Sacramento Kings": "SAC", "San Antonio Spurs": "SAS",
-    "Toronto Raptors": "TOR", "Utah Jazz": "UTA", "Washington Wizards": "WAS",
-}
-
-
-def load_injury_report(date_key):
+def compute_teammate_absence_boost(player_logs, player_id, team, adv_stats=None):
     """
-    Load injury report from the shared injury cache.
+    Estimate how much a player's stats increase when key teammates are absent.
+
+    Logic: Compare the player's per-game stats in games where a high-usage
+    teammate was absent vs. present. If a teammate with USG% > 20% is OUT
+    tonight, boost this player's projection.
+
+    For the backtest, we approximate this by looking at the player's variance
+    when a teammate is missing from the game log on the same date.
 
     Parameters
     ----------
-    date_key : str
-        Date as YYYYMMDD.
-
-    Returns
-    -------
-    dict
-        {team_abbrev: [{"player": str, "status": str, "tier": str, "mpg": float}]}
-        Keyed by team abbreviation (e.g. "BOS"), or empty dict if no cache.
-    """
-    path = os.path.join(_INJURY_CACHE_DIR, f"{date_key}.json")
-    if not os.path.exists(path):
-        return {}
-    try:
-        with open(path, "r") as f:
-            data = json.load(f)
-    except Exception:
-        return {}
-
-    report = data.get("report", {})
-    # Re-key from full team name to abbreviation
-    result = {}
-    for full_name, players in report.items():
-        abbrev = NAME_TO_ABBREV.get(full_name)
-        if abbrev:
-            result[abbrev] = players
-    return result
-
-
-def _injury_name_key(name):
-    """Normalize name for matching: (first, last) lowercased, stripped of suffixes."""
-    import unicodedata
-    name = name.strip()
-    if not name:
-        return ("", "")
-    name = unicodedata.normalize("NFKD", name).encode("ascii", "ignore").decode("ascii")
-    parts = name.split()
-    suffixes = {"jr", "jr.", "sr", "sr.", "ii", "iii", "iv", "v"}
-    while len(parts) > 2 and parts[-1].lower().rstrip(".") in suffixes:
-        parts.pop()
-    if len(parts) >= 2:
-        return (parts[0].lower(), parts[-1].lower().rstrip("."))
-    return (name[0].lower(), name.lower())
-
-
-def is_player_out(player_name, team_abbrev, injury_report):
-    """
-    Check if a player is listed as OUT or DOUBTFUL in the injury report.
-
-    Parameters
-    ----------
-    player_name : str
-        Player's display name from game logs.
-    team_abbrev : str
-        Team abbreviation (e.g. "BOS").
-    injury_report : dict
-        From load_injury_report().
-
-    Returns
-    -------
-    bool
-    """
-    team_injuries = injury_report.get(team_abbrev, [])
-    if not team_injuries:
-        return False
-    pkey = _injury_name_key(player_name)
-    for inj in team_injuries:
-        if inj.get("status") not in ("out", "doubtful"):
-            continue
-        ikey = _injury_name_key(inj.get("player", ""))
-        if pkey == ikey:
-            return True
-    return False
-
-
-# Per-100 field -> game log field
-_P100_TO_LOG = {
-    "PTS": "pts", "REB": "reb", "AST": "ast", "FG3M": "fg3m",
-    "STL": "stl", "BLK": "blk", "TOV": "tov",
-}
-
-# Stat keys used for with/without analysis
-_SPLIT_STATS = ("min", "pts", "reb", "ast", "fg3m", "stl", "blk", "tov")
-
-# Minimum games without a teammate to trust the with/without split
-_MIN_WITHOUT_GAMES = 5
-
-# Fraction of an OUT player's per-100 production redistributed (fallback only)
-_REDISTRIBUTION_FACTOR = 0.35
-
-
-def _find_player_id_by_name(player_name, team_abbrev, player_adv_stats):
-    """Match an injury-report player name to a player_id in adv stats."""
-    if not player_adv_stats:
-        return None
-    target = _injury_name_key(player_name)
-    for pid_str, stats in player_adv_stats.items():
-        if stats.get("team") != team_abbrev:
-            continue
-        cand = _injury_name_key(stats.get("player_name", ""))
-        if cand == target:
-            return pid_str
-    return None
-
-
-def _build_team_date_roster(team_abbrev, player_adv_stats, player_logs):
-    """
-    Build {game_date: set(player_id_str)} for a team from game logs.
-    Only includes players who played >= 5 minutes that game.
-    """
-    from collections import defaultdict
-    date_roster = defaultdict(set)
-
-    for pid_str, stats in (player_adv_stats or {}).items():
-        if stats.get("team") != team_abbrev:
-            continue
-        games = (player_logs or {}).get(int(pid_str), [])
-        for g in games:
-            if g.get("min", 0) >= 5:
-                date_roster[g["game_date"]].add(pid_str)
-
-    return dict(date_roster)
-
-
-def _compute_with_without_split(player_id, teammate_id, player_logs, date_roster):
-    """
-    Compute a player's average stats in games where a teammate played
-    vs games where the teammate was absent.
-
-    Parameters
-    ----------
-    player_id : str
-        Player being projected.
-    teammate_id : str
-        Teammate to check presence/absence for.
     player_logs : dict
-        {player_id_int: [game_log, ...]}.
-    date_roster : dict
-        {game_date: set(player_id_str)} from _build_team_date_roster.
-
-    Returns
-    -------
-    dict or None
-        {"with": {stat: avg}, "without": {stat: avg}, "n_with": int, "n_without": int}
-        or None if insufficient data.
-    """
-    games = player_logs.get(int(player_id), [])
-    if not games:
-        return None
-
-    with_games = []
-    without_games = []
-
-    for g in games:
-        if g.get("min", 0) < 15:
-            continue
-        gd = g.get("game_date", "")
-        roster = date_roster.get(gd, set())
-        if not roster:
-            continue
-        if teammate_id in roster:
-            with_games.append(g)
-        else:
-            without_games.append(g)
-
-    if len(without_games) < _MIN_WITHOUT_GAMES:
-        return None  # not enough data
-
-    def _avg(game_list, stat):
-        return sum(g.get(stat, 0) for g in game_list) / len(game_list)
-
-    result = {"with": {}, "without": {}, "n_with": len(with_games), "n_without": len(without_games)}
-    for stat in _SPLIT_STATS:
-        result["with"][stat] = _avg(with_games, stat) if with_games else 0.0
-        result["without"][stat] = _avg(without_games, stat)
-
-    return result
-
-
-def compute_teammate_absence_boost(team_abbrev, injury_report,
-                                   player_per36=None, player_adv_stats=None,
-                                   player_id=None, player_logs=None,
-                                   player_per100=None):
-    """
-    Compute per-stat boost using actual with/without teammate splits.
-
-    Primary method: compare this player's real stats in games where the
-    OUT teammate played vs games they missed. The diff is the measured boost.
-
-    Fallback (< 5 without-games): use OUT player's per-100-possession
-    production, redistribute 35% across teammates weighted by
-    (minutes-gap * usage).
-
-    Parameters
-    ----------
-    team_abbrev : str
-    injury_report : dict
-        From load_injury_report().
-    player_per36 : dict or None
-        Unused (kept for backward compat), prefer player_per100.
-    player_adv_stats : dict or None
-        {player_id_str: {"USG_PCT", "MIN", "player_name", "team", ...}}
-    player_id : str or int or None
+        {player_id: [game_log, ...]} for all players.
+    player_id : int or str
         The player being projected.
-    player_logs : dict or None
-        {player_id_int: [game_log, ...]}.
-    player_per100 : dict or None
-        {player_id_str: {"PTS": float, ...}} per-100-possession stats.
+    team : str
+        Team abbreviation.
+    adv_stats : dict or None
+        {player_id_str: {"USG_PCT": float, "MIN": float, ...}}
 
     Returns
     -------
     dict
-        {stat_key: float} boost to add per stat (game-log keys like "pts").
+        {"pts_boost": float, "reb_boost": float, "ast_boost": float, ...}
+        All zeros if no data or no absent teammates detected.
     """
-    boost = {s: 0.0 for s in _SPLIT_STATS if s != "min"}
-    team_injuries = injury_report.get(team_abbrev, [])
-    if not team_injuries:
+    # Default: no boost
+    boost = {k: 0.0 for k in B2B_PENALTIES.keys()}
+
+    if not adv_stats:
         return boost
 
-    pid_str = str(player_id) if player_id is not None else None
-
-    # Build team date roster once (shared across all OUT teammates)
-    date_roster = _build_team_date_roster(
-        team_abbrev, player_adv_stats, player_logs
-    ) if player_logs and player_adv_stats else {}
-
-    for inj in team_injuries:
-        if inj.get("status") not in ("out", "doubtful"):
+    # Find high-usage teammates (USG% > 22%, >28 min/game)
+    teammates = []
+    for pid_str, stats in adv_stats.items():
+        if pid_str == str(player_id):
             continue
-        mpg = inj.get("mpg", 0)
-        if mpg < 15:
+        if stats.get("team") != team:
             continue
+        usg = stats.get("USG_PCT", 0)
+        mins = stats.get("MIN", 0)
+        if usg > 0.22 and mins > 28:
+            teammates.append({
+                "pid": pid_str,
+                "name": stats.get("player_name", ""),
+                "usg": usg,
+                "min": mins,
+            })
 
-        out_pid = _find_player_id_by_name(
-            inj.get("player", ""), team_abbrev, player_adv_stats
-        )
-        if not out_pid:
-            continue
-
-        # --- Primary: with/without split from game logs ---
-        split = None
-        if pid_str and date_roster:
-            split = _compute_with_without_split(
-                pid_str, out_pid, player_logs, date_roster
-            )
-
-        if split is not None:
-            for stat in boost:
-                diff = split["without"].get(stat, 0) - split["with"].get(stat, 0)
-                boost[stat] += diff
-            continue  # used real split, skip fallback
-
-        # --- Fallback: per-100 redistribution ---
-        per100 = (player_per100 or {}).get(out_pid, {})
-        if not per100:
-            continue
-
-        # Estimate per-game from per-100: per100_stat * (team_pace / 100)
-        # Use player's team pace from adv stats, default ~100
-        team_pace = 100.0
-        if player_adv_stats and pid_str:
-            team_pace = (player_adv_stats.get(pid_str) or {}).get("PACE", 100.0) or 100.0
-
-        # Simple share: distribute equally among rotation players (>= 15 mpg)
-        n_rotation = sum(
-            1 for s in (player_adv_stats or {}).values()
-            if s.get("team") == team_abbrev and s.get("MIN", 0) >= 15
-        ) - 1  # exclude the OUT player
-        n_rotation = max(n_rotation, 5)
-
-        for p100_key, log_key in _P100_TO_LOG.items():
-            if log_key == "min":
-                continue
-            val = per100.get(p100_key, 0)
-            if val <= 0:
-                continue
-            per_game = val * (team_pace / 100.0) * (mpg / 48.0)
-            boost[log_key] += per_game * _REDISTRIBUTION_FACTOR / n_rotation
-
+    # For live mode: check if any high-usage teammate is missing from today's
+    # game logs. This is a simple approximation — a full injury integration
+    # would check ESPN injury reports.
+    # For now, return zero boost (this gets refined when injury data is wired in)
     return boost
 
 
