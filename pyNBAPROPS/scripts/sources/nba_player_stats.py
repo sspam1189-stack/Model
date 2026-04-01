@@ -241,6 +241,66 @@ def fetch_player_per36_stats(season=None, date_to=None):
     return result
 
 
+def fetch_player_per100_stats(season=None, date_to=None):
+    """
+    Fetch per-100-possession stats for all players via nba_api.
+    Pace-normalized: a player on a fast team won't look artificially productive.
+    Returns: {player_id_str: {"PTS": float, "REB": float, "AST": float, ...}}
+    """
+    from nba_api.stats.endpoints import leaguedashplayerstats
+
+    season = season or current_season()
+
+    cache_key = f"per100_{season}"
+    if date_to:
+        cache_key += f"_{str(date_to).replace('-', '')}"
+    cache_path = os.path.join(PLAYER_CACHE_DIR, f"{cache_key}.json")
+
+    if os.path.exists(cache_path):
+        age_h = (time.time() - os.path.getmtime(cache_path)) / 3600
+        if age_h < 2:
+            with open(cache_path, "r") as f:
+                cached = json.load(f)
+            print(f"  [per100] Using cache: {os.path.basename(cache_path)} ({len(cached)} players)")
+            return cached
+
+    date_to_fmt = _fmt_date_nba_api(date_to)
+
+    try:
+        stats = leaguedashplayerstats.LeagueDashPlayerStats(
+            season=season,
+            season_type_all_star="Regular Season",
+            per_mode_detailed="Per100Possessions",
+            date_to_nullable=date_to_fmt if date_to_fmt else None,
+            timeout=120,
+        )
+        df = stats.get_data_frames()[0]
+    except Exception as e:
+        print(f"  [per100] ERROR: {e}")
+        return {}
+
+    result = {}
+    for _, row in df.iterrows():
+        pid = row.get("PLAYER_ID")
+        gp = _si(row, "GP")
+        if pid is None or gp < 5:
+            continue
+        result[str(int(pid))] = {
+            "PTS":  _sf(row, "PTS"),
+            "REB":  _sf(row, "REB"),
+            "AST":  _sf(row, "AST"),
+            "FG3M": _sf(row, "FG3M"),
+            "STL":  _sf(row, "STL"),
+            "BLK":  _sf(row, "BLK"),
+            "TOV":  _sf(row, "TOV"),
+        }
+
+    if result:
+        _write_cache(cache_path, result)
+    print(f"  [per100] Fetched per-100-possession stats for {len(result)} players")
+    return result
+
+
 # ---------------------------------------------------------------------------
 # 3. Team defensive stats (for opponent adjustment)
 # ---------------------------------------------------------------------------

@@ -279,18 +279,20 @@ def is_player_out(player_name, team_abbrev, injury_report):
     return False
 
 
-# Stat keys: per-36 field -> game log field
-_P36_TO_LOG = {
+# Per-100 field -> game log field
+_P100_TO_LOG = {
     "PTS": "pts", "REB": "reb", "AST": "ast", "FG3M": "fg3m",
     "STL": "stl", "BLK": "blk", "TOV": "tov",
 }
 
-# Fraction of an OUT player's production that gets redistributed to teammates.
-# Not 100% — some is lost to fewer possessions, different lineup dynamics.
-_REDISTRIBUTION_FACTOR = 0.35
+# Stat keys used for with/without analysis
+_SPLIT_STATS = ("min", "pts", "reb", "ast", "fg3m", "stl", "blk", "tov")
 
-# Number of recent games to scan for max minutes.
-_MAX_MIN_WINDOW = 15
+# Minimum games without a teammate to trust the with/without split
+_MIN_WITHOUT_GAMES = 5
+
+# Fraction of an OUT player's per-100 production redistributed (fallback only)
+_REDISTRIBUTION_FACTOR = 0.35
 
 
 def _find_player_id_by_name(player_name, team_abbrev, player_adv_stats):
@@ -307,141 +309,179 @@ def _find_player_id_by_name(player_name, team_abbrev, player_adv_stats):
     return None
 
 
-def _player_max_minutes(games, window=_MAX_MIN_WINDOW):
-    """Return the max minutes played in the last `window` games."""
-    recent = games[-window:] if games else []
-    if not recent:
-        return 0.0
-    return max(g.get("min", 0) for g in recent)
-
-
-def _get_team_minutes_weights(team_abbrev, player_adv_stats, injury_report,
-                              player_logs=None):
+def _build_team_date_roster(team_abbrev, player_adv_stats, player_logs):
     """
-    Compute (minutes-gap * usage) weights for all healthy teammates.
-
-    Gap = player's recent max minutes - their average mpg.
-    This is their personal ceiling based on what the coach has actually
-    given them, not an arbitrary fixed cap.
-
-    Returns
-    -------
-    dict
-        {player_id_str: weight}.
-    float
-        Sum of all weights.
+    Build {game_date: set(player_id_str)} for a team from game logs.
+    Only includes players who played >= 5 minutes that game.
     """
-    # Build set of OUT player names for this team
-    out_names = set()
-    for inj in injury_report.get(team_abbrev, []):
-        if inj.get("status") in ("out", "doubtful"):
-            out_names.add(_injury_name_key(inj.get("player", "")))
+    from collections import defaultdict
+    date_roster = defaultdict(set)
 
-    weights = {}
     for pid_str, stats in (player_adv_stats or {}).items():
         if stats.get("team") != team_abbrev:
             continue
-        mpg = stats.get("MIN", 0)
-        if mpg < 15:
-            continue  # not in rotation
-        # Skip OUT players themselves
-        nk = _injury_name_key(stats.get("player_name", ""))
-        if nk in out_names:
+        games = (player_logs or {}).get(int(pid_str), [])
+        for g in games:
+            if g.get("min", 0) >= 5:
+                date_roster[g["game_date"]].add(pid_str)
+
+    return dict(date_roster)
+
+
+def _compute_with_without_split(player_id, teammate_id, player_logs, date_roster):
+    """
+    Compute a player's average stats in games where a teammate played
+    vs games where the teammate was absent.
+
+    Parameters
+    ----------
+    player_id : str
+        Player being projected.
+    teammate_id : str
+        Teammate to check presence/absence for.
+    player_logs : dict
+        {player_id_int: [game_log, ...]}.
+    date_roster : dict
+        {game_date: set(player_id_str)} from _build_team_date_roster.
+
+    Returns
+    -------
+    dict or None
+        {"with": {stat: avg}, "without": {stat: avg}, "n_with": int, "n_without": int}
+        or None if insufficient data.
+    """
+    games = player_logs.get(int(player_id), [])
+    if not games:
+        return None
+
+    with_games = []
+    without_games = []
+
+    for g in games:
+        if g.get("min", 0) < 15:
             continue
+        gd = g.get("game_date", "")
+        roster = date_roster.get(gd, set())
+        if not roster:
+            continue
+        if teammate_id in roster:
+            with_games.append(g)
+        else:
+            without_games.append(g)
 
-        # Personal ceiling: max minutes from recent game logs
-        games = (player_logs or {}).get(int(pid_str), []) or (player_logs or {}).get(pid_str, [])
-        max_min = _player_max_minutes(games) if games else mpg + 4
-        # Gap = room to grow from average to personal max
-        gap = max(0.0, max_min - mpg)
+    if len(without_games) < _MIN_WITHOUT_GAMES:
+        return None  # not enough data
 
-        usg = stats.get("USG_PCT", 0.15) or 0.15
-        # Combined weight: minutes room * usage rate
-        weights[pid_str] = gap * usg
+    def _avg(game_list, stat):
+        return sum(g.get(stat, 0) for g in game_list) / len(game_list)
 
-    total = sum(weights.values())
-    return weights, total
+    result = {"with": {}, "without": {}, "n_with": len(with_games), "n_without": len(without_games)}
+    for stat in _SPLIT_STATS:
+        result["with"][stat] = _avg(with_games, stat) if with_games else 0.0
+        result["without"][stat] = _avg(without_games, stat)
+
+    return result
 
 
 def compute_teammate_absence_boost(team_abbrev, injury_report,
                                    player_per36=None, player_adv_stats=None,
-                                   player_id=None, player_logs=None):
+                                   player_id=None, player_logs=None,
+                                   player_per100=None):
     """
-    Compute per-stat boost for a player based on OUT teammates' actual production.
+    Compute per-stat boost using actual with/without teammate splits.
 
-    Uses combined (minutes-gap * usage) weighting where the gap is each
-    player's personal ceiling (max minutes from last 15 games) minus their
-    average mpg. Players who have room to grow AND high usage absorb the most.
+    Primary method: compare this player's real stats in games where the
+    OUT teammate played vs games they missed. The diff is the measured boost.
 
-    For each OUT teammate:
-      1. Look up their per-36 stats and mpg
-      2. Compute per-game production: per36_stat * (mpg / 36)
-      3. Redistribute a fraction (35%) to healthy teammates
-      4. Weight by (personal minutes gap * usage rate)
+    Fallback (< 5 without-games): use OUT player's per-100-possession
+    production, redistribute 35% across teammates weighted by
+    (minutes-gap * usage).
 
     Parameters
     ----------
     team_abbrev : str
-        Team abbreviation (e.g. "BOS").
     injury_report : dict
         From load_injury_report().
     player_per36 : dict or None
-        {player_id_str: {"PTS": float, "REB": float, ...}}
+        Unused (kept for backward compat), prefer player_per100.
     player_adv_stats : dict or None
-        {player_id_str: {"USG_PCT": float, "MIN": float, "player_name": str, ...}}
-    player_id : str or None
+        {player_id_str: {"USG_PCT", "MIN", "player_name", "team", ...}}
+    player_id : str or int or None
         The player being projected.
     player_logs : dict or None
-        {player_id: [game_log, ...]} for computing personal max minutes.
+        {player_id_int: [game_log, ...]}.
+    player_per100 : dict or None
+        {player_id_str: {"PTS": float, ...}} per-100-possession stats.
 
     Returns
     -------
     dict
-        {stat_key: float} boost to add to projection per stat (game-log keys).
+        {stat_key: float} boost to add per stat (game-log keys like "pts").
     """
-    boost = {v: 0.0 for v in _P36_TO_LOG.values()}
+    boost = {s: 0.0 for s in _SPLIT_STATS if s != "min"}
     team_injuries = injury_report.get(team_abbrev, [])
     if not team_injuries:
         return boost
 
-    # Compute combined (minutes-gap * usage) weights for healthy teammates
-    weights, total_weight = _get_team_minutes_weights(
-        team_abbrev, player_adv_stats, injury_report,
-        player_logs=player_logs,
-    )
-    if total_weight <= 0 or not weights:
-        return boost
+    pid_str = str(player_id) if player_id is not None else None
 
-    player_weight = weights.get(str(player_id), 0.0) if player_id else 0.0
-    if player_weight <= 0:
-        return boost  # this player has no room to absorb (or not found)
-
-    # This player's share of the redistributed production
-    share = player_weight / total_weight
+    # Build team date roster once (shared across all OUT teammates)
+    date_roster = _build_team_date_roster(
+        team_abbrev, player_adv_stats, player_logs
+    ) if player_logs and player_adv_stats else {}
 
     for inj in team_injuries:
         if inj.get("status") not in ("out", "doubtful"):
             continue
         mpg = inj.get("mpg", 0)
         if mpg < 15:
-            continue  # bench player — minimal redistribution
+            continue
 
-        # Find the OUT player's per-36 stats
         out_pid = _find_player_id_by_name(
             inj.get("player", ""), team_abbrev, player_adv_stats
         )
-        out_p36 = (player_per36 or {}).get(out_pid, {}) if out_pid else {}
+        if not out_pid:
+            continue
 
-        if not out_p36:
-            continue  # can't size the boost without per-36 data
+        # --- Primary: with/without split from game logs ---
+        split = None
+        if pid_str and date_roster:
+            split = _compute_with_without_split(
+                pid_str, out_pid, player_logs, date_roster
+            )
 
-        # Compute per-game production and redistribute by minutes gap
-        for p36_key, log_key in _P36_TO_LOG.items():
-            per36_val = out_p36.get(p36_key, 0)
-            if per36_val <= 0:
+        if split is not None:
+            for stat in boost:
+                diff = split["without"].get(stat, 0) - split["with"].get(stat, 0)
+                boost[stat] += diff
+            continue  # used real split, skip fallback
+
+        # --- Fallback: per-100 redistribution ---
+        per100 = (player_per100 or {}).get(out_pid, {})
+        if not per100:
+            continue
+
+        # Estimate per-game from per-100: per100_stat * (team_pace / 100)
+        # Use player's team pace from adv stats, default ~100
+        team_pace = 100.0
+        if player_adv_stats and pid_str:
+            team_pace = (player_adv_stats.get(pid_str) or {}).get("PACE", 100.0) or 100.0
+
+        # Simple share: distribute equally among rotation players (>= 15 mpg)
+        n_rotation = sum(
+            1 for s in (player_adv_stats or {}).values()
+            if s.get("team") == team_abbrev and s.get("MIN", 0) >= 15
+        ) - 1  # exclude the OUT player
+        n_rotation = max(n_rotation, 5)
+
+        for p100_key, log_key in _P100_TO_LOG.items():
+            if log_key == "min":
                 continue
-            per_game = per36_val * (mpg / 36.0)
-            boost[log_key] += per_game * _REDISTRIBUTION_FACTOR * share
+            val = per100.get(p100_key, 0)
+            if val <= 0:
+                continue
+            per_game = val * (team_pace / 100.0) * (mpg / 48.0)
+            boost[log_key] += per_game * _REDISTRIBUTION_FACTOR / n_rotation
 
     return boost
 

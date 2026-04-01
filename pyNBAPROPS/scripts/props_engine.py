@@ -151,7 +151,7 @@ def project_player_props(player_logs, team_def_stats=None, prop_lines=None,
                          kalman_state=None, player_adv_stats=None,
                          today_games=None, player_positions=None,
                          team_def_by_pos=None, player_per36=None,
-                         injury_report=None):
+                         injury_report=None, player_per100=None):
     """
     Project player props for all players with sufficient game logs.
 
@@ -340,6 +340,7 @@ def project_player_props(player_logs, team_def_stats=None, prop_lines=None,
                     player_adv_stats=player_adv_stats,
                     player_id=pid,
                     player_logs=player_logs,
+                    player_per100=player_per100,
                 )
                 proj += inj_boost.get(stat_key, 0.0)
 
