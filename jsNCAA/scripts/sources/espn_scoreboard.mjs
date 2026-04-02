@@ -14,7 +14,12 @@ export async function fetchScoreboard(dateYYYYMMDD) {
     if (!fs.existsSync(CACHE_DIR)) fs.mkdirSync(CACHE_DIR, { recursive: true });
     const diskPath = path.join(CACHE_DIR, dateYYYYMMDD + ".json");
     if (fs.existsSync(diskPath)) {
-      return JSON.parse(fs.readFileSync(diskPath, "utf8"));
+      const cached = JSON.parse(fs.readFileSync(diskPath, "utf8"));
+      const allFinal = (cached.events || []).length > 0 && (cached.events || []).every(ev => {
+        const st = ev?.competitions?.[0]?.status?.type?.name || "";
+        return st === "STATUS_FINAL" || st === "STATUS_FINAL_OVERTIME";
+      });
+      if (allFinal) return cached;
     }
   }
 
