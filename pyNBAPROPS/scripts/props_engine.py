@@ -392,9 +392,9 @@ def project_player_props(player_logs, team_def_stats=None, prop_lines=None,
     # Assists OVER: solo 66.3% vs paired 57.1%
     # Points UNDER: solo 69.7% vs paired 42.9%
     from collections import defaultdict
-    # Skip all paired: assists OVER, points UNDER
+    # Skip all paired: points UNDER
+    # Assists OVER: allowed (monitoring — paired 57.1% vs solo 66.3%)
     paired_skip_all = [
-        ("assists", "OVER"),
         ("points", "UNDER"),
     ]
     for market, direction in paired_skip_all:
@@ -737,7 +737,7 @@ def _make_prop(name, team, market, proj, std, line_lookup, opp):
                 if direction == "OVER":
                     min_e, max_e = 4.0, 5.6  # inclusive 5.5 (<=5.5)
                 else:
-                    min_e, max_e = 4.5, 6.5
+                    min_e, max_e = 4.5, 5.5
 
             if abs_edge < min_e or abs_edge > max_e:
                 return result

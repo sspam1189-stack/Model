@@ -92,7 +92,7 @@ MIN_EDGE = {
 }
 
 MAX_EDGE = {
-    "points":        5.5,    # OVER: 5.5, UNDER: 6.5 (directional in engine)
+    "points":        5.5,    # OVER: 5.5, UNDER: 5.5 (directional in engine)
     "rebounds":      4.0,    # Tightened from 5
     "assists":       4.0,    # Tightened from 5
     "threes":        2.5,    # Tightened from 3
