@@ -209,7 +209,7 @@
           });
           const tbody = tbl.createTBody();
           const yCatOrder = {points:0, rebounds:1, assists:2, threes:3, steals:4, blocks:5, turnovers:6};
-          for (const p of yesterdayPicks.sort((a,b) => (yCatOrder[a.market]??99) - (yCatOrder[b.market]??99) || Math.abs(b.proj-b.line||0) - Math.abs(a.proj-a.line||0))) {
+          for (const p of yesterdayPicks.sort((a,b) => (yCatOrder[a.market]??99) - (yCatOrder[b.market]??99) || (b.pCover||0) - (a.pCover||0))) {
             const row = tbody.insertRow();
             row.style.borderBottom = '1px solid rgba(255,255,255,0.05)';
             const yEdge = (p.proj != null && p.line != null) ? +(p.proj - p.line).toFixed(1) : null;
@@ -250,7 +250,7 @@
           const tbl = document.createElement('table');
           tbl.className = 'props-data-table';
           tbl.style.cssText = 'width:100%;border-collapse:collapse;margin-top:8px';
-          const todayHeaders = ['Player','Team','Opp','Cat','Proj','Line','Edge','Pick','Conf'];
+          const todayHeaders = ['Player','Team','Opp','Cat','Proj','Line','Edge','Pick'];
           const hRow = tbl.createTHead().insertRow();
           todayHeaders.forEach((h, i) => {
             const th = document.createElement('th');
@@ -261,7 +261,7 @@
           });
           const tbody = tbl.createTBody();
           const catOrder = {points:0, rebounds:1, assists:2, threes:3, steals:4, blocks:5, turnovers:6};
-          todayPicks.sort((a,b) => (catOrder[a.market]??99) - (catOrder[b.market]??99) || Math.abs(b.proj-b.line||0) - Math.abs(a.proj-a.line||0));
+          todayPicks.sort((a,b) => (catOrder[a.market]??99) - (catOrder[b.market]??99) || (b.pCover||0) - (a.pCover||0));
           for (const p of todayPicks) {
             const row = tbody.insertRow();
             row.style.borderBottom = '1px solid rgba(255,255,255,0.05)';
@@ -273,8 +273,7 @@
               String(p.proj),
               p.line != null ? String(p.line) : '\u2014',
               tEdgeStr,
-              p.pick === 'OVER' ? 'O' : 'U',
-              p.conf === 'elite' ? 'ELITE' : 'HIGH'
+              p.pick === 'OVER' ? 'O' : 'U'
             ];
             cells.forEach((val, i) => {
               const td = row.insertCell();
@@ -285,7 +284,6 @@
               if (i === 4) td.style.color = p.proj > p.line ? 'var(--green)' : p.proj < p.line ? 'var(--red)' : '';
               if (i === 6 && tEdge != null) td.style.color = tEdge > 0 ? 'var(--green)' : tEdge < 0 ? 'var(--red)' : '#999';
               if (i === 7) { td.style.fontWeight = '700'; td.style.color = p.pick === 'OVER' ? 'var(--green)' : 'var(--red)'; }
-              if (i === 8 && p.conf === 'elite') { td.style.background = '#7c6cf0'; td.style.color = '#fff'; td.style.borderRadius = '4px'; td.style.fontSize = '11px'; }
             });
           }
           todayCard.appendChild(tbl);
@@ -424,7 +422,6 @@
             ['Edge',   'edge', false],
             ['Cover%', 'cover', false],
             ['Pick',   null, false],
-            ['Conf',   null, false],
           ];
           cols.forEach(([label, key, leftAlign], i) => {
             const th = document.createElement('th');
@@ -446,14 +443,13 @@
             row.style.borderBottom = '1px solid rgba(255,255,255,0.04)';
             const isPick = p.pick && p.pick !== 'PASS';
             if (isPick) row.style.background = 'rgba(124,108,240,0.06)';
-            const confLabel = p.conf === 'elite' ? 'ELITE' : p.conf === 'high' ? 'HIGH' : '—';
             const edge = (p.proj != null && p.line != null) ? +(p.proj - p.line).toFixed(1) : null;
             const edgeStr = edge != null ? (edge > 0 ? '+'+edge : String(edge)) : '—';
             const coverStr = p.pCover != null ? (p.pCover * 100).toFixed(1) + '%' : '—';
             [shortName(p.player), p.team||'', marketLabels[p.market]||p.market,
              p.proj!=null?String(p.proj):'—', p.line!=null?String(p.line):'—',
              edgeStr, coverStr,
-             isPick?(p.pick==='OVER'?'O':'U'):'—', confLabel
+             isPick?(p.pick==='OVER'?'O':'U'):'—'
             ].forEach((v,i) => {
               const td = row.insertCell();
               td.textContent = v;
@@ -464,7 +460,6 @@
               if (i===5 && edge!=null) td.style.color = edge > 0 ? 'var(--green)' : edge < 0 ? 'var(--red)' : '#999';
               if (i===6 && p.pCover!=null) td.style.color = p.pCover >= 0.65 ? 'var(--green)' : p.pCover <= 0.45 ? 'var(--red)' : '#ccc';
               if (i===7 && isPick) { td.style.fontWeight='700'; td.style.color = p.pick==='OVER'?'var(--green)':'var(--red)'; }
-              if (i===8 && p.conf==='elite') { td.style.background='#7c6cf0'; td.style.color='#fff'; td.style.borderRadius='4px'; td.style.fontSize='11px'; td.style.padding='2px 6px'; }
             });
           }
           tableWrap.appendChild(tbl);
@@ -632,11 +627,11 @@
       el.appendChild(allPicksCard);
 
       const headers = isBacktest
-        ? ['Date','Player','Team','Opp','Proj','Line','Actual','Pick','Result','Conf']
-        : ['Player','Team','vs','Proj','Line','Pick','Conf'];
+        ? ['Date','Player','Team','Opp','Proj','Line','Actual','Pick','Result']
+        : ['Player','Team','vs','Proj','Line','Pick'];
       const colClasses = isBacktest
-        ? ['col-date','col-player','col-team','col-opp','col-proj','col-line','col-actual','col-pick','col-result','col-conf']
-        : ['col-player','col-team','col-opp','col-proj','col-line','col-pick','col-conf'];
+        ? ['col-date','col-player','col-team','col-opp','col-proj','col-line','col-actual','col-pick','col-result']
+        : ['col-player','col-team','col-opp','col-proj','col-line','col-pick'];
 
       function getFilteredPicks() {
         let fp = picks.slice();
@@ -672,13 +667,11 @@
             p.line != null ? String(p.line) : '\u2014',
             p.actual != null ? String(p.actual) : '\u2014',
             p.pick === 'OVER' ? 'O' : 'U',
-            p.result === 'WIN' ? 'W' : p.result === 'LOSS' ? 'L' : '\u2014',
-            p.conf === 'elite' ? 'ELITE' : 'HIGH'
+            p.result === 'WIN' ? 'W' : p.result === 'LOSS' ? 'L' : '\u2014'
           ] : [
             shortName(p.player), p.team, p.opp || '', String(p.proj),
             p.line != null ? String(p.line) : '\u2014',
-            p.pick === 'OVER' ? 'O' : 'U',
-            p.conf === 'elite' ? 'ELITE' : 'HIGH'
+            p.pick === 'OVER' ? 'O' : 'U'
           ];
           cells.forEach((val, i) => {
             const td = row.insertCell();
@@ -692,13 +685,11 @@
               if (i === 4) td.style.color = p.proj > p.line ? 'var(--green)' : p.proj < p.line ? 'var(--red)' : '';
               if (i === 7) { td.style.fontWeight = '700'; td.style.color = p.pick === 'OVER' ? 'var(--green)' : 'var(--red)'; }
               if (i === 8) { td.style.fontWeight = '700'; td.style.color = p.result === 'WIN' ? 'var(--green)' : 'var(--red)'; }
-              if (i === 9 && p.conf === 'elite') { td.style.background = '#7c6cf0'; td.style.color = '#fff'; td.style.borderRadius = '4px'; td.style.fontSize = '11px'; }
             } else {
               if (i === 0) { td.style.textAlign = 'left'; td.style.fontWeight = '600'; }
               if (i === 1 || i === 2) td.style.color = '#999';
               if (i === 3) td.style.color = p.proj > p.line ? 'var(--green)' : p.proj < p.line ? 'var(--red)' : '';
               if (i === 5) { td.style.fontWeight = '700'; td.style.color = p.pick === 'OVER' ? 'var(--green)' : 'var(--red)'; }
-              if (i === 6 && p.conf === 'elite') { td.style.background = '#7c6cf0'; td.style.color = '#fff'; td.style.borderRadius = '4px'; td.style.fontSize = '11px'; }
             }
           });
         }
@@ -849,8 +840,8 @@
         const tbl = document.createElement('table');
         tbl.style.cssText = 'width:100%;border-collapse:collapse';
         const hdrs = isBacktest
-          ? ['Date','Player','Team','Opp','Cat','Proj','Line','Actual','Pick','Result','Conf']
-          : ['Player','Team','vs','Cat','Proj','Line','Pick','Conf'];
+          ? ['Date','Player','Team','Opp','Cat','Proj','Line','Actual','Pick','Result']
+          : ['Player','Team','vs','Cat','Proj','Line','Pick'];
         const hRow = tbl.createTHead().insertRow();
         hdrs.forEach(h => {
           const th = document.createElement('th');
@@ -869,13 +860,11 @@
             String(p.proj), p.line!=null?String(p.line):'\u2014',
             p.actual!=null?String(p.actual):'\u2014',
             p.pick==='OVER'?'O':'U',
-            p.result==='WIN'?'W':p.result==='LOSS'?'L':'\u2014',
-            p.conf==='elite'?'ELITE':'HIGH'
+            p.result==='WIN'?'W':p.result==='LOSS'?'L':'\u2014'
           ] : [
             shortName(p.player), p.team, p.opp||'', ml, String(p.proj),
             p.line!=null?String(p.line):'\u2014',
-            p.pick==='OVER'?'O':'U',
-            p.conf==='elite'?'ELITE':'HIGH'
+            p.pick==='OVER'?'O':'U'
           ];
           cells.forEach((val, i) => {
             const td = row.insertCell();
@@ -889,14 +878,12 @@
               if (i===5) td.style.color=p.proj>p.line?'var(--green)':p.proj<p.line?'var(--red)':'';
               if (i===8) { td.style.fontWeight='700'; td.style.color=p.pick==='OVER'?'var(--green)':'var(--red)'; }
               if (i===9) { td.style.fontWeight='700'; td.style.color=p.result==='WIN'?'var(--green)':'var(--red)'; }
-              if (i===10&&p.conf==='elite') { td.style.background='#7c6cf0'; td.style.color='#fff'; td.style.borderRadius='4px'; td.style.fontSize='10px'; }
             } else {
               if (i===0) { td.style.textAlign='left'; td.style.fontWeight='600'; }
               if (i===1||i===2) td.style.color='#999';
               if (i===3) { td.style.color='#aaa'; td.style.fontSize='11px'; }
               if (i===4) td.style.color=p.proj>p.line?'var(--green)':p.proj<p.line?'var(--red)':'';
               if (i===6) { td.style.fontWeight='700'; td.style.color=p.pick==='OVER'?'var(--green)':'var(--red)'; }
-              if (i===7&&p.conf==='elite') { td.style.background='#7c6cf0'; td.style.color='#fff'; td.style.borderRadius='4px'; td.style.fontSize='10px'; }
             }
           });
         }
