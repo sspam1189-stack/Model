@@ -20,7 +20,14 @@ def fetch_scoreboard(date_yyyymmdd=None):
         disk_path = os.path.join(CACHE_DIR, date_yyyymmdd + ".json")
         if os.path.exists(disk_path):
             with open(disk_path, "r") as f:
-                return json.load(f)
+                cached = json.load(f)
+            all_final = all(
+                (ev.get("competitions", [{}])[0].get("status", {}).get("type", {}).get("name", "")
+                 in ("STATUS_FINAL", "STATUS_FINAL_OVERTIME"))
+                for ev in cached.get("events", [])
+            ) if cached.get("events") else False
+            if all_final:
+                return cached
 
     base = "https://site.api.espn.com/apis/site/v2/sports/basketball/mens-college-basketball/scoreboard"
     params = f"?dates={date_yyyymmdd}&groups=50&limit=365" if date_yyyymmdd else "?groups=50&limit=365"
