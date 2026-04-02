@@ -86,6 +86,14 @@ def fetch_fanduel_nba_odds():
             except (ValueError, TypeError):
                 pass
 
+        # Capture start time
+        start_time_utc = None
+        if open_date:
+            try:
+                start_time_utc = open_date.replace("Z", "+00:00") if "Z" in open_date else open_date
+            except Exception:
+                pass
+
         parts = name.split(" @ ", 1)
         if len(parts) != 2:
             continue
@@ -122,6 +130,7 @@ def fetch_fanduel_nba_odds():
             "home": home,
             "line": line,
             "total": total,
+            "startTimeUTC": start_time_utc,
             "_book": "FanDuel",
         })
 

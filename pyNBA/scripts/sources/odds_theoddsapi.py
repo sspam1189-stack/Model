@@ -176,6 +176,7 @@ def fetch_todays_odds():
             "home": home,
             "line": line,
             "total": total,
+            "startTimeUTC": commence_str,
             "_book": book.get("title") if book else None,
         })
 

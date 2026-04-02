@@ -972,6 +972,7 @@ def main(subject_label="[PY]"):
     except Exception:
         _espn_sb = None
     _espn_statuses = {}  # key: (norm_away, norm_home) -> status_name
+    _espn_start_times = {}  # key: (norm_away, norm_home) -> ISO start time
     for _ev in (_espn_sb or {}).get("events", []):
         _comp = (_ev.get("competitions") or [None])[0]
         if not _comp:
@@ -984,6 +985,18 @@ def main(subject_label="[PY]"):
             _h = (_hc.get("team") or {}).get("displayName", "")
             _st = ((_comp.get("status") or {}).get("type") or {}).get("name", "")
             _espn_statuses[(_a, _h)] = _st
+            _start = _comp.get("date") or _ev.get("date") or ""
+            if _start:
+                _espn_start_times[(_a, _h)] = _start
+
+    # Backfill startTimeUTC on odds from ESPN scoreboard
+    for g in odds:
+        if g.get("startTimeUTC"):
+            continue
+        for (ea, eh), st in _espn_start_times.items():
+            if match_team(g.get("away", ""), ea) and match_team(g.get("home", ""), eh):
+                g["startTimeUTC"] = st
+                break
 
     def _game_started_or_finished(away, home):
         for (ea, eh), st in _espn_statuses.items():
@@ -1267,6 +1280,9 @@ def main(subject_label="[PY]"):
             if home_b2b:
                 parts.append(f"{g['home']}: {home_b2b}")
             g["b2bNote"] = " | ".join(parts)
+
+    # Sort games by start time
+    games.sort(key=lambda g: g.get("startTimeUTC") or "")
 
     # 6. Build run record
     print("[4/7] Saving...")
