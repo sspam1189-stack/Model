@@ -199,13 +199,16 @@ def _get_todays_teams(date_key):
     except Exception:
         return None
 
+    # ESPN uses non-standard abbreviations for some teams
+    espn_to_fd = {"GS": "GSW", "SA": "SAS", "NY": "NYK", "UTAH": "UTA", "WSH": "WAS"}
+
     teams = set()
     for ev in espn.get("events", []):
         comp = (ev.get("competitions") or [{}])[0]
         for team in comp.get("competitors", []):
             abbr = (team.get("team") or {}).get("abbreviation", "")
             if abbr:
-                teams.add(abbr)
+                teams.add(espn_to_fd.get(abbr, abbr))
 
     return teams
 
