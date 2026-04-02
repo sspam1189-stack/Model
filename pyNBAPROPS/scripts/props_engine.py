@@ -392,9 +392,9 @@ def project_player_props(player_logs, team_def_stats=None, prop_lines=None,
     # Assists OVER: solo 66.3% vs paired 57.1%
     # Points UNDER: solo 69.7% vs paired 42.9%
     from collections import defaultdict
-    # Skip all paired: assists OVER, points UNDER
+    # Skip all paired: points UNDER
+    # Assists OVER: allowed (monitoring — paired 57.1% vs solo 66.3%)
     paired_skip_all = [
-        ("assists", "OVER"),
         ("points", "UNDER"),
     ]
     for market, direction in paired_skip_all:
