@@ -342,6 +342,41 @@ def _fetch_game_availability(date=None):
     return availability
 
 
+def _fetch_leaguewide_injuries(teams_playing):
+    """
+    Fetch ESPN league-wide /injuries endpoint and return players listed as
+    Out or Doubtful whose team is playing today.
+    Returns: { teamDisplayName -> [{ player, status, reason }] }
+    """
+    url = "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
+    try:
+        r = requests.get(url, headers={"User-Agent": "Mozilla/5.0", "Accept": "application/json"}, timeout=15)
+        if r.status_code != 200:
+            return {}
+        data = r.json()
+    except Exception:
+        return {}
+
+    result = {}
+    for team_data in data.get("injuries", []):
+        team_name = team_data.get("displayName", "")
+        if not team_name or team_name not in teams_playing:
+            continue
+        players = []
+        for inj in team_data.get("injuries", []):
+            status = _normalize_status(inj.get("status"))
+            if status not in ("out", "doubtful", "questionable"):
+                continue
+            name = (inj.get("athlete") or {}).get("displayName", "")
+            if not name:
+                continue
+            reason = inj.get("shortComment") or inj.get("longComment") or inj.get("status") or ""
+            players.append({"player": name, "status": status, "reason": reason})
+        if players:
+            result[team_name] = players
+    return result
+
+
 # -- Main export --
 
 def fetch_injury_data(date=None, season_type="Regular Season", espn_type=2):
@@ -368,6 +403,36 @@ def fetch_injury_data(date=None, season_type="Regular Season", espn_type=2):
     except Exception as e:
         print(f"  [injuries] Game availability fetch failed: {e}")
         game_availability = {}
+
+    # Supplement with league-wide injuries for players the per-game data missed
+    try:
+        teams_playing = set(game_availability.keys())
+        # Also need teams that had games but returned no injuries
+        # Use scoreboard to get all teams playing today
+        day = date or _today_espn()
+        sb_url = f"https://site.api.espn.com/apis/site/v2/sports/basketball/nba/scoreboard?dates={day}"
+        sb_res = requests.get(sb_url, headers={"User-Agent": "Mozilla/5.0"}, timeout=10)
+        if sb_res.status_code == 200:
+            for ev in sb_res.json().get("events", []):
+                for comp in ev.get("competitions", []):
+                    for c in comp.get("competitors", []):
+                        tname = c.get("team", {}).get("displayName", "")
+                        if tname:
+                            teams_playing.add(tname)
+
+        lw_injuries = _fetch_leaguewide_injuries(teams_playing)
+        # Merge: add players from league-wide that aren't already in per-game data
+        added = 0
+        for team_name, lw_players in lw_injuries.items():
+            existing_names = {p["player"] for p in game_availability.get(team_name, [])}
+            for p in lw_players:
+                if p["player"] not in existing_names:
+                    game_availability.setdefault(team_name, []).append(p)
+                    added += 1
+        if added:
+            print(f"  [injuries] Merged {added} additional players from league-wide injuries")
+    except Exception as e:
+        print(f"  [injuries] League-wide merge failed (non-fatal): {e}")
 
     try:
         player_mpg = fetch_player_mpg(season_type=season_type, espn_type=espn_type)

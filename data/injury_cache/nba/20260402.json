@@ -23,29 +23,22 @@
         "reason": "Out",
         "tier": "bench",
         "mpg": 13.4
-      },
-      {
-        "player": "Mark Williams",
-        "status": "out",
-        "reason": "Out",
-        "tier": "starter",
-        "mpg": 23.6
       }
     ],
     "Detroit Pistons": [
+      {
+        "player": "Tobias Harris",
+        "status": "questionable",
+        "reason": "Day-To-Day",
+        "tier": "star",
+        "mpg": 28.3
+      },
       {
         "player": "Cade Cunningham",
         "status": "out",
         "reason": "Out",
         "tier": "star",
         "mpg": 34.4
-      },
-      {
-        "player": "Marcus Sasser",
-        "status": "questionable",
-        "reason": "Day-To-Day",
-        "tier": "bench",
-        "mpg": 12.7
       },
       {
         "player": "Isaiah Stewart",
@@ -58,8 +51,8 @@
     "Minnesota Timberwolves": [
       {
         "player": "Anthony Edwards",
-        "status": "questionable",
-        "reason": "Day-To-Day",
+        "status": "out",
+        "reason": "Out",
         "tier": "star",
         "mpg": 35.3
       },
@@ -98,6 +91,20 @@
     ],
     "Golden State Warriors": [
       {
+        "player": "Seth Curry",
+        "status": "questionable",
+        "reason": "Day-To-Day",
+        "tier": "bench",
+        "mpg": 11.4
+      },
+      {
+        "player": "Quinten Post",
+        "status": "out",
+        "reason": "Out",
+        "tier": "bench",
+        "mpg": 17.3
+      },
+      {
         "player": "Gui Santos",
         "status": "questionable",
         "reason": "Day-To-Day",
@@ -105,25 +112,11 @@
         "mpg": 20.1
       },
       {
-        "player": "Quinten Post",
-        "status": "questionable",
-        "reason": "Day-To-Day",
-        "tier": "bench",
-        "mpg": 17.3
-      },
-      {
-        "player": "Kristaps Porzingis",
-        "status": "questionable",
-        "reason": "Day-To-Day",
-        "tier": "bench",
-        "mpg": 0
-      },
-      {
-        "player": "Gary Payton II",
-        "status": "questionable",
-        "reason": "Day-To-Day",
-        "tier": "bench",
-        "mpg": 15.3
+        "player": "Stephen Curry",
+        "status": "out",
+        "reason": "Out",
+        "tier": "star",
+        "mpg": 31.3
       },
       {
         "player": "De'Anthony Melton",
@@ -131,6 +124,27 @@
         "reason": "Day-To-Day",
         "tier": "starter",
         "mpg": 22.9
+      },
+      {
+        "player": "Al Horford",
+        "status": "out",
+        "reason": "Horford is making good progress in his recovery from a right soleus strain and will be re-evaluated in one week, Brett Siegel of ClutchPoints.com reports.",
+        "tier": "starter",
+        "mpg": 21.7
+      },
+      {
+        "player": "Moses Moody",
+        "status": "out",
+        "reason": "Moody has been diagnosed with a torn patellar tendon in his left knee, Shams Charania of ESPN reports.",
+        "tier": "starter",
+        "mpg": 25.7
+      },
+      {
+        "player": "Jimmy Butler III",
+        "status": "out",
+        "reason": "Butler underwent successful surgery Monday to repair a torn right anterior cruciate ligament.",
+        "tier": "star",
+        "mpg": 31.1
       }
     ],
     "Cleveland Cavaliers": [
@@ -227,11 +241,11 @@
     ],
     "San Antonio Spurs": [
       {
-        "player": "Luke Kornet",
-        "status": "questionable",
-        "reason": "Day-To-Day",
-        "tier": "starter",
-        "mpg": 21.0
+        "player": "Victor Wembanyama",
+        "status": "out",
+        "reason": "Out",
+        "tier": "star",
+        "mpg": 29.2
       },
       {
         "player": "Emanuel Miller",
@@ -1012,7 +1026,7 @@
     },
     "Dylan Harper": {
       "team": "San Antonio Spurs",
-      "mpg": 22.3,
+      "mpg": 22.4,
       "gp": 63.0
     },
     "Dyson Daniels": {
@@ -1132,7 +1146,7 @@
     },
     "Harrison Barnes": {
       "team": "San Antonio Spurs",
-      "mpg": 26.0,
+      "mpg": 26.1,
       "gp": 71.0
     },
     "Harrison Ingram": {
@@ -2012,7 +2026,7 @@
     },
     "Malevy Leons": {
       "team": "Golden State Warriors",
-      "mpg": 9.5,
+      "mpg": 9.7,
       "gp": 21.0
     },
     "Malik Monk": {
@@ -2197,7 +2211,7 @@
     },
     "Nate Williams": {
       "team": "Golden State Warriors",
-      "mpg": 15.7,
+      "mpg": 16.0,
       "gp": 12.0
     },
     "Naz Reid": {
@@ -2307,7 +2321,7 @@
     },
     "Omer Yurtseven": {
       "team": "Golden State Warriors",
-      "mpg": 11.2,
+      "mpg": 11.6,
       "gp": 9.0
     },
     "Onyeka Okongwu": {
@@ -2362,7 +2376,7 @@
     },
     "Pat Spencer": {
       "team": "Golden State Warriors",
-      "mpg": 18.1,
+      "mpg": 18.2,
       "gp": 60.0
     },
     "Patrick Baldwin Jr.": {
@@ -2862,7 +2876,7 @@
     },
     "Will Richard": {
       "team": "Golden State Warriors",
-      "mpg": 20.4,
+      "mpg": 20.5,
       "gp": 65.0
     },
     "Will Riley": {
