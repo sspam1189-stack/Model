@@ -179,7 +179,78 @@ def detect_rest_days(player_games, game_date):
 
 
 # ---------------------------------------------------------------------------
-# 2. Injury / absence usage boost
+# 2. Injury report — skip OUT/DOUBTFUL players
+# ---------------------------------------------------------------------------
+
+_INJURY_CACHE_DIR = os.path.join(_dir, "..", "..", "..", "data", "injury_cache", "nba")
+
+NAME_TO_ABBREV = {
+    "Atlanta Hawks": "ATL", "Boston Celtics": "BOS", "Brooklyn Nets": "BKN",
+    "Charlotte Hornets": "CHA", "Chicago Bulls": "CHI", "Cleveland Cavaliers": "CLE",
+    "Dallas Mavericks": "DAL", "Denver Nuggets": "DEN", "Detroit Pistons": "DET",
+    "Golden State Warriors": "GSW", "Houston Rockets": "HOU", "Indiana Pacers": "IND",
+    "LA Clippers": "LAC", "Los Angeles Lakers": "LAL", "Memphis Grizzlies": "MEM",
+    "Miami Heat": "MIA", "Milwaukee Bucks": "MIL", "Minnesota Timberwolves": "MIN",
+    "New Orleans Pelicans": "NOP", "New York Knicks": "NYK", "Oklahoma City Thunder": "OKC",
+    "Orlando Magic": "ORL", "Philadelphia 76ers": "PHI", "Phoenix Suns": "PHX",
+    "Portland Trail Blazers": "POR", "Sacramento Kings": "SAC", "San Antonio Spurs": "SAS",
+    "Toronto Raptors": "TOR", "Utah Jazz": "UTA", "Washington Wizards": "WAS",
+}
+
+
+def load_injury_report(date_key):
+    """Load injury report from shared cache, keyed by team abbreviation."""
+    path = os.path.join(_INJURY_CACHE_DIR, f"{date_key}.json")
+    if not os.path.exists(path):
+        return {}
+    try:
+        with open(path, "r") as f:
+            data = json.load(f)
+    except Exception:
+        return {}
+
+    report = data.get("report", {})
+    result = {}
+    for full_name, players in report.items():
+        abbrev = NAME_TO_ABBREV.get(full_name)
+        if abbrev:
+            result[abbrev] = players
+    return result
+
+
+def _injury_name_key(name):
+    """Normalize name for matching: (first, last) lowercased, stripped of suffixes."""
+    import unicodedata
+    name = name.strip()
+    if not name:
+        return ("", "")
+    name = unicodedata.normalize("NFKD", name).encode("ascii", "ignore").decode("ascii")
+    parts = name.split()
+    suffixes = {"jr", "jr.", "sr", "sr.", "ii", "iii", "iv", "v"}
+    while len(parts) > 2 and parts[-1].lower().rstrip(".") in suffixes:
+        parts.pop()
+    if len(parts) >= 2:
+        return (parts[0].lower(), parts[-1].lower().rstrip("."))
+    return (name[0].lower(), name.lower())
+
+
+def is_player_out(player_name, team_abbrev, injury_report):
+    """Check if a player is listed as OUT or DOUBTFUL in the injury report."""
+    team_injuries = injury_report.get(team_abbrev, [])
+    if not team_injuries:
+        return False
+    pkey = _injury_name_key(player_name)
+    for inj in team_injuries:
+        if inj.get("status") not in ("out", "doubtful"):
+            continue
+        ikey = _injury_name_key(inj.get("player", ""))
+        if pkey == ikey:
+            return True
+    return False
+
+
+# ---------------------------------------------------------------------------
+# 3. Injury / absence usage boost (stubbed)
 # ---------------------------------------------------------------------------
 
 def compute_teammate_absence_boost(player_logs, player_id, team, adv_stats=None):
