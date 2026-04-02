@@ -208,7 +208,8 @@
             hRow.appendChild(th);
           });
           const tbody = tbl.createTBody();
-          for (const p of yesterdayPicks.sort((a,b) => (b.pCover||0)-(a.pCover||0))) {
+          const yCatOrder = {points:0, rebounds:1, assists:2, threes:3, steals:4, blocks:5, turnovers:6};
+          for (const p of yesterdayPicks.sort((a,b) => (yCatOrder[a.market]??99) - (yCatOrder[b.market]??99) || Math.abs(b.proj-b.line||0) - Math.abs(a.proj-a.line||0))) {
             const row = tbody.insertRow();
             row.style.borderBottom = '1px solid rgba(255,255,255,0.05)';
             const yEdge = (p.proj != null && p.line != null) ? +(p.proj - p.line).toFixed(1) : null;
@@ -260,7 +261,7 @@
           });
           const tbody = tbl.createTBody();
           const catOrder = {points:0, rebounds:1, assists:2, threes:3, steals:4, blocks:5, turnovers:6};
-          todayPicks.sort((a,b) => (catOrder[a.market]??99) - (catOrder[b.market]??99) || (b.pCover||0) - (a.pCover||0));
+          todayPicks.sort((a,b) => (catOrder[a.market]??99) - (catOrder[b.market]??99) || Math.abs(b.proj-b.line||0) - Math.abs(a.proj-a.line||0));
           for (const p of todayPicks) {
             const row = tbody.insertRow();
             row.style.borderBottom = '1px solid rgba(255,255,255,0.05)';
