@@ -380,6 +380,40 @@ def project_player_props(player_logs, team_def_stats=None, prop_lines=None,
                         prop["conf"] = "low"
                 projections.append(prop)
 
+    # --- Paired teammate filter ---
+    # When 2+ teammates both pick the same direction in a stat, the correlation
+    # between them drags down win rate. Skip all when paired.
+    # Assists OVER: solo 66.3% vs paired 57.1%
+    # Points UNDER: solo 69.7% vs paired 42.9%
+    from collections import defaultdict
+    # Skip all paired: assists OVER, points UNDER
+    paired_skip_all = [
+        ("assists", "OVER"),
+        ("points", "UNDER"),
+    ]
+    for market, direction in paired_skip_all:
+        by_team = defaultdict(list)
+        for p in projections:
+            if p.get("market") == market and p.get("pick") == direction:
+                by_team[p.get("team", "")].append(p)
+        for team, picks in by_team.items():
+            if len(picks) >= 2:
+                for p in picks:
+                    p["pick"] = "PASS"
+                    p["conf"] = "low"
+
+    # Paired rebounds UNDER: keep only the biggest edge, skip the rest
+    reb_under_by_team = defaultdict(list)
+    for p in projections:
+        if p.get("market") == "rebounds" and p.get("pick") == "UNDER":
+            reb_under_by_team[p.get("team", "")].append(p)
+    for team, picks in reb_under_by_team.items():
+        if len(picks) >= 2:
+            picks.sort(key=lambda x: -abs(x.get("edge") or 0))
+            for p in picks[1:]:  # skip all except biggest edge
+                p["pick"] = "PASS"
+                p["conf"] = "low"
+
     return projections
 
 
