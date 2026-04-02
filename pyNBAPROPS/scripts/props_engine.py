@@ -402,17 +402,24 @@ def project_player_props(player_logs, team_def_stats=None, prop_lines=None,
                     p["pick"] = "PASS"
                     p["conf"] = "low"
 
-    # Paired rebounds UNDER: keep only the biggest edge, skip the rest
-    reb_under_by_team = defaultdict(list)
-    for p in projections:
-        if p.get("market") == "rebounds" and p.get("pick") == "UNDER":
-            reb_under_by_team[p.get("team", "")].append(p)
-    for team, picks in reb_under_by_team.items():
-        if len(picks) >= 2:
-            picks.sort(key=lambda x: -abs(x.get("edge") or 0))
-            for p in picks[1:]:  # skip all except biggest edge
-                p["pick"] = "PASS"
-                p["conf"] = "low"
+    # Paired UNDER: keep only the biggest edge, skip the rest
+    # Rebounds: bigger edge 65% vs smaller 53%
+    # Assists: bigger edge 86% vs smaller 57%
+    paired_keep_biggest = [
+        ("rebounds", "UNDER"),
+        ("assists", "UNDER"),
+    ]
+    for market, direction in paired_keep_biggest:
+        by_team = defaultdict(list)
+        for p in projections:
+            if p.get("market") == market and p.get("pick") == direction:
+                by_team[p.get("team", "")].append(p)
+        for team, picks in by_team.items():
+            if len(picks) >= 2:
+                picks.sort(key=lambda x: -abs(x.get("edge") or 0))
+                for p in picks[1:]:
+                    p["pick"] = "PASS"
+                    p["conf"] = "low"
 
     return projections
 
