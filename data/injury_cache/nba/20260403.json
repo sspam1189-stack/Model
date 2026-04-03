@@ -2,18 +2,25 @@
   "report": {
     "Charlotte Hornets": [
       {
-        "player": "Grant Williams",
-        "status": "questionable",
-        "reason": "Day-To-Day",
-        "tier": "starter",
-        "mpg": 19.5
+        "player": "PJ Hall",
+        "status": "out",
+        "reason": "Out",
+        "tier": "bench",
+        "mpg": 11.2
       },
       {
-        "player": "PJ Hall",
+        "player": "Moussa Diabate",
         "status": "questionable",
         "reason": "Day-To-Day",
         "tier": "bench",
-        "mpg": 11.2
+        "mpg": 0
+      },
+      {
+        "player": "Grant Williams",
+        "status": "out",
+        "reason": "Out",
+        "tier": "starter",
+        "mpg": 19.5
       }
     ],
     "Indiana Pacers": [
@@ -83,18 +90,18 @@
     ],
     "Philadelphia 76ers": [
       {
-        "player": "Johni Broome",
-        "status": "out",
-        "reason": "Out",
-        "tier": "bench",
-        "mpg": 5.0
-      },
-      {
         "player": "Joel Embiid",
         "status": "questionable",
         "reason": "Day-To-Day",
         "tier": "star",
         "mpg": 31.3
+      },
+      {
+        "player": "Johni Broome",
+        "status": "out",
+        "reason": "Out",
+        "tier": "bench",
+        "mpg": 5.0
       }
     ],
     "Minnesota Timberwolves": [
@@ -114,20 +121,6 @@
       }
     ],
     "Brooklyn Nets": [
-      {
-        "player": "Nic Claxton",
-        "status": "questionable",
-        "reason": "Day-To-Day",
-        "tier": "starter",
-        "mpg": 27.9
-      },
-      {
-        "player": "Noah Clowney",
-        "status": "questionable",
-        "reason": "Day-To-Day",
-        "tier": "starter",
-        "mpg": 27.1
-      },
       {
         "player": "Danny Wolf",
         "status": "out",
@@ -152,7 +145,7 @@
       {
         "player": "Day'Ron Sharpe",
         "status": "out",
-        "reason": "Sharpe has been diagnosed with an ulnar collateral ligament tear in his left thumb and will require season-ending surgery, Erik Slater of ClutchPoints.com reports.",
+        "reason": "Out",
         "tier": "starter",
         "mpg": 18.7
       }
@@ -166,7 +159,30 @@
         "mpg": 22.1
       }
     ],
+    "New York Knicks": [
+      {
+        "player": "Karl-Anthony Towns",
+        "status": "questionable",
+        "reason": "Day-To-Day",
+        "tier": "star",
+        "mpg": 31.0
+      }
+    ],
     "Chicago Bulls": [
+      {
+        "player": "Tre Jones",
+        "status": "questionable",
+        "reason": "Day-To-Day",
+        "tier": "starter",
+        "mpg": 27.0
+      },
+      {
+        "player": "Josh Giddey",
+        "status": "questionable",
+        "reason": "Day-To-Day",
+        "tier": "star",
+        "mpg": 32.2
+      },
       {
         "player": "Guerschon Yabusele",
         "status": "questionable",
@@ -191,23 +207,9 @@
       {
         "player": "Mac McClung",
         "status": "questionable",
-        "reason": "Day-To-Day",
+        "reason": "McClung (abdomen) is probable for Friday's game against the Knicks.",
         "tier": "bench",
         "mpg": 11.7
-      },
-      {
-        "player": "Tre Jones",
-        "status": "questionable",
-        "reason": "Day-To-Day",
-        "tier": "starter",
-        "mpg": 27.0
-      },
-      {
-        "player": "Josh Giddey",
-        "status": "questionable",
-        "reason": "Giddey (hamstring) is questionable for Friday's game against the Knicks.",
-        "tier": "star",
-        "mpg": 32.2
       },
       {
         "player": "Anfernee Simons",
