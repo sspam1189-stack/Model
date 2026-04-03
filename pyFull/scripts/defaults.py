@@ -43,7 +43,7 @@ DEFAULT_W = {
     # recentWeight: how much to weight last-10-games vs full season.
     #   0.0 = pure season averages, 1.0 = pure last 10 games.
     #   0.35 = research-backed starting point for NBA recent form.
-    "recentWeight": 0.35,
+    "recentWeight": 0.87,
 
     # locationWeight: how much to adjust toward home/away splits.
     #   0.0 = ignore splits, 1.0 = full location-specific stats.
