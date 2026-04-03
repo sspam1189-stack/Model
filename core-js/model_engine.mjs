@@ -284,6 +284,7 @@ export function createModelEngine(options = {}) {
       ts: teams.reduce((s, x) => s + x.TS, 0) / n,
       to: teams.reduce((s, x) => s + x.TO, 0) / n,
       orr: teams.reduce((s, x) => s + x.ORR, 0) / n,
+      def: teams.reduce((s, x) => s + x.DEF, 0) / n,
     };
   }
 
@@ -308,14 +309,10 @@ export function createModelEngine(options = {}) {
     if ((t.GP != null && t.GP < minGames) || (o.GP != null && o.GP < minGames)) return null;
 
     const tOFF = t.OFF;
-    const tDEF = t.DEF;
 
     const base =
-      (tOFF + o.DEF) / 2 +
-      (t.TS - a.ts) * W.wTS -
-      (t.TO - a.to) * W.wTO +
-      (t.ORR - a.orr) * W.wORR +
-      W.wDEF * (o.DEF - tDEF) +
+      (W.wOFF || 1) * tOFF +
+      W.wDEF * (o.DEF - a.def) +
       W.constant;
 
     const pace = (((t.PACE + o.PACE) / 2) * W.paceAdj) / 100;
@@ -337,15 +334,9 @@ export function createModelEngine(options = {}) {
     }
 
     if (W_var) {
-      const dTS  = t.TS - a.ts;
-      const dTO  = t.TO - a.to;
-      const dORR = t.ORR - a.orr;
-      const dDEF = o.DEF - tDEF;
+      const dDEF = o.DEF - a.def;
 
       const weightVar =
-        (dTS * pace) ** 2  * (W_var.wTS  || 0) +
-        (dTO * pace) ** 2  * (W_var.wTO  || 0) +
-        (dORR * pace) ** 2 * (W_var.wORR || 0) +
         (dDEF * pace) ** 2 * (W_var.wDEF || 0) +
         (isHome ? 1 : 0) * (W_var.hca || 0);
 
@@ -377,7 +368,7 @@ export function createModelEngine(options = {}) {
       dORR: (homeStats.ORR - awayStats.ORR) * pace,
       dDEF: (awayStats.DEF - homeStats.DEF) * pace,
       hca:  neutral ? 0.0 : 1.0,
-      _baseline: ((homeStats.OFF + awayStats.DEF) / 2 - (awayStats.OFF + homeStats.DEF) / 2) * pace,
+      _baseline: (homeStats.OFF - awayStats.OFF) * pace,
       _pace: pace,
     };
   }

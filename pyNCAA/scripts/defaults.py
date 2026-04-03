@@ -5,6 +5,7 @@ DEFAULT_STATS = {}
 
 DEFAULT_W = {
     # Projection weights (means)
+    "wOFF": 1,          # offensive rating weight
     "wTS": 1,           # true shooting / eFG% delta weight
     "wTO": 1,           # turnover rate delta weight
     "wORR": 1,          # offensive rebound rate delta weight

@@ -13,7 +13,7 @@ def create_fullseason_engine(DEFAULT_STATS, DEFAULT_W, DEFAULT_W_VAR, BAYES_HYPE
         bayes={
             "spread": {
                 "s_diff_cap": None,
-                "abs_line_cap": 13,
+                "abs_line_cap": 18,
                 "abs_line_cap_inclusive": False,
             },
             "totals": {"enabled": False},

@@ -179,6 +179,12 @@ async function main() {
   let prevAllScored = [];  // all games with scores → H2H (includes SKIPPED)
   let b2bTeams = new Set(); // teams that played yesterday → B2B penalty in analyzeGame
 
+  // Reset weights to defaults for clean backfill (avoid data leakage)
+  store.weights = { ...defaults.DEFAULT_W };
+  store.weightsVar = { ...defaults.DEFAULT_W_VAR };
+  store.runs = [];
+  console.log("  [backfill] Reset weights to defaults and cleared history");
+
   for (let i = days; i >= 1; i--) {  // stop at yesterday — never backfill today
     const date = dateMinusDaysCentral(i);
     const dateDisplay = toDisplayDate(date);
