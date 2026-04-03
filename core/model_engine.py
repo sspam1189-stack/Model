@@ -193,7 +193,7 @@ def create_model_engine(
             "prob_key": "probHigh",
             "min_prob": 0.57,
             "s_diff_cap": None,
-            "abs_line_cap": 12,
+            "abs_line_cap": 13,
             "abs_line_cap_inclusive": False,
             "require_line_nonzero": False,
             "fav_line_cap": None,

@@ -256,7 +256,7 @@ export function createModelEngine(options = {}) {
       probKey: "probHigh",
       minProb: 0.57,
       sDiffCap: null,
-      absLineCap: 12,
+      absLineCap: 13,
       absLineCapInclusive: false,
       requireLineNonZero: false,
       favLineCap: null,

@@ -12,7 +12,7 @@ def create_nba_engine(DEFAULT_STATS, DEFAULT_W, DEFAULT_W_VAR, BAYES_HYPER, ENGI
         bayes={
             "spread": {
                 "s_diff_cap": None,
-                "abs_line_cap": 12,
+                "abs_line_cap": 13,
                 "abs_line_cap_inclusive": False,
             },
             "totals": {"enabled": False},
