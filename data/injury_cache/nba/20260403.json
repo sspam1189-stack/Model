@@ -2,18 +2,18 @@
   "report": {
     "Charlotte Hornets": [
       {
+        "player": "Moussa Diabate",
+        "status": "out",
+        "reason": "Out",
+        "tier": "bench",
+        "mpg": 0
+      },
+      {
         "player": "PJ Hall",
         "status": "out",
         "reason": "Out",
         "tier": "bench",
         "mpg": 11.2
-      },
-      {
-        "player": "Moussa Diabate",
-        "status": "questionable",
-        "reason": "Day-To-Day",
-        "tier": "bench",
-        "mpg": 0
       },
       {
         "player": "Grant Williams",
@@ -39,13 +39,6 @@
         "mpg": 25.6
       },
       {
-        "player": "Obi Toppin",
-        "status": "questionable",
-        "reason": "Day-To-Day",
-        "tier": "bench",
-        "mpg": 16.8
-      },
-      {
         "player": "Aaron Nesmith",
         "status": "out",
         "reason": "Out",
@@ -60,16 +53,9 @@
         "mpg": 17.2
       },
       {
-        "player": "Pascal Siakam",
-        "status": "questionable",
-        "reason": "Siakam is probable for Friday's game against the Hornets due to right knee injury management.",
-        "tier": "star",
-        "mpg": 33.2
-      },
-      {
         "player": "Ivica Zubac",
         "status": "out",
-        "reason": "Zubac will miss the rest of the season with a fractured rib, Dustin Dopirak of The Indianapolis Star reports.",
+        "reason": "Out",
         "tier": "star",
         "mpg": 30.1
       },
@@ -90,13 +76,6 @@
     ],
     "Philadelphia 76ers": [
       {
-        "player": "Joel Embiid",
-        "status": "questionable",
-        "reason": "Day-To-Day",
-        "tier": "star",
-        "mpg": 31.3
-      },
-      {
         "player": "Johni Broome",
         "status": "out",
         "reason": "Out",
@@ -105,13 +84,6 @@
       }
     ],
     "Minnesota Timberwolves": [
-      {
-        "player": "Anthony Edwards",
-        "status": "questionable",
-        "reason": "Day-To-Day",
-        "tier": "star",
-        "mpg": 35.3
-      },
       {
         "player": "Jaden McDaniels",
         "status": "out",
@@ -122,18 +94,18 @@
     ],
     "Brooklyn Nets": [
       {
-        "player": "Danny Wolf",
-        "status": "out",
-        "reason": "Out",
-        "tier": "starter",
-        "mpg": 20.8
-      },
-      {
         "player": "Michael Porter Jr.",
         "status": "out",
         "reason": "Out",
         "tier": "star",
         "mpg": 32.5
+      },
+      {
+        "player": "Danny Wolf",
+        "status": "out",
+        "reason": "Out",
+        "tier": "starter",
+        "mpg": 20.8
       },
       {
         "player": "Egor Demin",
@@ -170,34 +142,6 @@
     ],
     "Chicago Bulls": [
       {
-        "player": "Tre Jones",
-        "status": "questionable",
-        "reason": "Day-To-Day",
-        "tier": "starter",
-        "mpg": 27.0
-      },
-      {
-        "player": "Josh Giddey",
-        "status": "questionable",
-        "reason": "Day-To-Day",
-        "tier": "star",
-        "mpg": 32.2
-      },
-      {
-        "player": "Guerschon Yabusele",
-        "status": "questionable",
-        "reason": "Day-To-Day",
-        "tier": "bench",
-        "mpg": 14.4
-      },
-      {
-        "player": "Lachlan Olbrich",
-        "status": "questionable",
-        "reason": "Day-To-Day",
-        "tier": "bench",
-        "mpg": 7.0
-      },
-      {
         "player": "Nick Richards",
         "status": "out",
         "reason": "Out",
@@ -205,37 +149,30 @@
         "mpg": 14.6
       },
       {
-        "player": "Mac McClung",
-        "status": "questionable",
-        "reason": "McClung (abdomen) is probable for Friday's game against the Knicks.",
-        "tier": "bench",
-        "mpg": 11.7
-      },
-      {
         "player": "Anfernee Simons",
         "status": "out",
-        "reason": "Simons (wrist) is out for Friday's game against the Knicks.",
+        "reason": "Out",
         "tier": "starter",
         "mpg": 24.9
       },
       {
         "player": "Jalen Smith",
         "status": "out",
-        "reason": "Smith (calf) will miss the remainder of the season, Joel Lorenzi of The Athletic reports.",
+        "reason": "Out",
         "tier": "starter",
         "mpg": 20.7
       },
       {
         "player": "Zach Collins",
         "status": "out",
-        "reason": "Collins will undergo surgery for a sprain right toe and will be sidelined for the rest of the 2025-26 season.",
+        "reason": "Out",
         "tier": "starter",
         "mpg": 18.4
       },
       {
         "player": "Noa Essengue",
         "status": "out",
-        "reason": "Essengue will undergo left shoulder surgery and will miss the remainder of the 2025-26 season, K.C. Johnson of Chicago Sports Network reports.",
+        "reason": "Out",
         "tier": "bench",
         "mpg": 0
       }
@@ -309,6 +246,20 @@
     ],
     "Memphis Grizzlies": [
       {
+        "player": "Olivier-Maxence Prosper",
+        "status": "out",
+        "reason": "Out",
+        "tier": "starter",
+        "mpg": 18.6
+      },
+      {
+        "player": "Walter Clayton Jr.",
+        "status": "questionable",
+        "reason": "Day-To-Day",
+        "tier": "starter",
+        "mpg": 20.3
+      },
+      {
         "player": "Taj Gibson",
         "status": "out",
         "reason": "Out",
@@ -330,16 +281,9 @@
         "mpg": 23.9
       },
       {
-        "player": "Olivier-Maxence Prosper",
-        "status": "questionable",
-        "reason": "Day-To-Day",
-        "tier": "starter",
-        "mpg": 18.6
-      },
-      {
         "player": "Jaylen Wells",
         "status": "out",
-        "reason": "Out",
+        "reason": "Wells (toe) underwent a successful procedure Tuesday to stabilize his right great toe.",
         "tier": "starter",
         "mpg": 26.4
       },
@@ -395,13 +339,6 @@
         "mpg": 0
       },
       {
-        "player": "Jamison Battle",
-        "status": "out",
-        "reason": "Out",
-        "tier": "bench",
-        "mpg": 9.0
-      },
-      {
         "player": "Immanuel Quickley",
         "status": "out",
         "reason": "Out",
@@ -411,23 +348,16 @@
     ],
     "Milwaukee Bucks": [
       {
-        "player": "Jericho Sims",
-        "status": "questionable",
-        "reason": "Day-To-Day",
-        "tier": "starter",
-        "mpg": 18.7
-      },
-      {
-        "player": "Thanasis Antetokounmpo",
+        "player": "Ryan Rollins",
         "status": "out",
         "reason": "Out",
-        "tier": "bench",
-        "mpg": 3.7
+        "tier": "star",
+        "mpg": 32.1
       },
       {
         "player": "Gary Trent Jr.",
-        "status": "questionable",
-        "reason": "Day-To-Day",
+        "status": "out",
+        "reason": "Out",
         "tier": "starter",
         "mpg": 21.2
       },
@@ -439,23 +369,16 @@
         "mpg": 24.2
       },
       {
-        "player": "Ryan Rollins",
-        "status": "questionable",
-        "reason": "Day-To-Day",
-        "tier": "star",
-        "mpg": 32.1
-      },
-      {
         "player": "Giannis Antetokounmpo",
         "status": "out",
-        "reason": "Antetokounmpo (knee) is out for Friday's game against the Celtics.",
+        "reason": "Out",
         "tier": "star",
         "mpg": 28.9
       },
       {
         "player": "Kevin Porter Jr.",
         "status": "out",
-        "reason": "Bucks head coach Doc Rivers told reporters Saturday that he would \"be surprised\" if Porter (knee) plays again this season, Eric Nehm of The Athletic reports.",
+        "reason": "Out",
         "tier": "star",
         "mpg": 33.2
       }
@@ -525,8 +448,8 @@
     "Sacramento Kings": [
       {
         "player": "Malik Monk",
-        "status": "questionable",
-        "reason": "Day-To-Day",
+        "status": "out",
+        "reason": "Out",
         "tier": "starter",
         "mpg": 22.5
       },
@@ -582,11 +505,18 @@
     ],
     "New Orleans Pelicans": [
       {
-        "player": "Dejounte Murray",
+        "player": "Bryce McGowens",
+        "status": "out",
+        "reason": "Out",
+        "tier": "starter",
+        "mpg": 21.0
+      },
+      {
+        "player": "Trey Murphy III",
         "status": "questionable",
         "reason": "Day-To-Day",
-        "tier": "starter",
-        "mpg": 27.8
+        "tier": "star",
+        "mpg": 35.5
       },
       {
         "player": "Karlo Matkovic",
@@ -596,11 +526,11 @@
         "mpg": 0
       },
       {
-        "player": "Bryce McGowens",
+        "player": "Dejounte Murray",
         "status": "out",
         "reason": "Out",
         "tier": "starter",
-        "mpg": 21.0
+        "mpg": 27.8
       }
     ]
   },
