@@ -225,6 +225,7 @@ def create_model_engine(
             "ts": sum(x["TS"] for x in teams) / n,
             "to": sum(x["TO"] for x in teams) / n,
             "orr": sum(x["ORR"] for x in teams) / n,
+            "def": sum(x["DEF"] for x in teams) / n,
         }
 
     def normal_cdf(x):
@@ -255,14 +256,10 @@ def create_model_engine(
             return None
 
         t_off = t["OFF"]
-        t_def = t["DEF"]
 
         base = (
-            _r4((t_off + o["DEF"]) / 2)
-            + _r4((t["TS"] - a["ts"]) * W["wTS"])
-            - _r4((t["TO"] - a["to"]) * W["wTO"])
-            + _r4((t["ORR"] - a["orr"]) * W["wORR"])
-            + _r4(W["wDEF"] * (o["DEF"] - t_def))
+            _r4(W.get("wOFF", 1) * t_off)
+            + _r4(W["wDEF"] * (o["DEF"] - a["def"]))
             + W["constant"]
         )
 
@@ -285,16 +282,10 @@ def create_model_engine(
             variance += kalman_adj["var"]
 
         if W_var:
-            d_ts = t["TS"] - a["ts"]
-            d_to = t["TO"] - a["to"]
-            d_orr = t["ORR"] - a["orr"]
-            d_def = o["DEF"] - t_def
+            d_def = o["DEF"] - a["def"]
 
             weight_var = (
-                (d_ts * pace) ** 2 * (W_var.get("wTS", 0))
-                + (d_to * pace) ** 2 * (W_var.get("wTO", 0))
-                + (d_orr * pace) ** 2 * (W_var.get("wORR", 0))
-                + (d_def * pace) ** 2 * (W_var.get("wDEF", 0))
+                (d_def * pace) ** 2 * (W_var.get("wDEF", 0))
                 + (1 if is_home else 0) * (W_var.get("hca", 0))
             )
 
@@ -327,7 +318,7 @@ def create_model_engine(
             "dORR": _r4((home_stats["ORR"] - away_stats["ORR"]) * pace),
             "dDEF": _r4((away_stats["DEF"] - home_stats["DEF"]) * pace),
             "hca":  0.0 if neutral else 1.0,
-            "_baseline": _r4(((home_stats["OFF"] + away_stats["DEF"]) / 2 - (away_stats["OFF"] + home_stats["DEF"]) / 2) * pace),
+            "_baseline": _r4((home_stats["OFF"] - away_stats["OFF"]) * pace),
             "_pace": pace,
         }
 
