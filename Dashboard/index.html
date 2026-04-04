@@ -724,6 +724,7 @@
       return getCached('summary', runs, _runs => {
         const picks = getGradedPicks(_runs);
         return {
+          all: tallyPicks(picks),
           elite: tallyPicks(picks, { conf: 'elite' }),
           fav: tallyPicks(picks, { side: 'fav' }),
           dog: tallyPicks(picks, { side: 'dog' }),
@@ -860,7 +861,7 @@
 
     function renderRecordBanner(runs) {
       const s = computeSummary(runs);
-      const e = s.elite;
+      const e = s.all;
       const total = e.w + e.l;
       const pct = total > 0 ? (e.w / total * 100) : 0;
       const uClass = e.units > 0 ? 'positive' : e.units < 0 ? 'negative' : 'neutral';
@@ -974,7 +975,7 @@
           <table class="data">
             <thead><tr><th>Bucket</th><th>W-L-P</th><th class="center">Win%</th><th class="center">Flat</th><th class="center">Graded</th></tr></thead>
             <tbody>
-              ${row('Elite', s.elite)}
+              ${row('Model', s.all)}
               ${row('Favorites', s.fav)}
               ${row('Underdogs', s.dog)}
             </tbody>

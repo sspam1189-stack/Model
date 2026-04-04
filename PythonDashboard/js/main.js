@@ -352,6 +352,7 @@ function tallyPicks(picks, { conf = null, side = null } = {}) {
 function computeSummary(runs) {
   const picks = getGradedPicks(runs);
   return {
+    all: tallyPicks(picks),
     elite: tallyPicks(picks, { conf: 'elite' }),
     fav: tallyPicks(picks, { side: 'fav' }),
     dog: tallyPicks(picks, { side: 'dog' }),
@@ -503,7 +504,7 @@ function getModelBucket(modelSummary) {
 
 function renderRecordBanner(runs, modelSummary = null) {
   const s = computeSummary(runs);
-  let e = s.elite;
+  let e = s.all;
   let label = 'Elite Record';
   const total = e.w + e.l;
   const pct = total > 0 ? (e.w / total * 100) : 0;
@@ -533,7 +534,7 @@ function renderRecordBanner(runs, modelSummary = null) {
   const recentRuns = runs.filter(r => r.date && r.date >= '20260302');
   if (recentRuns.length > 0) {
     const sr = computeSummary(recentRuns);
-    const re = sr.elite;
+    const re = sr.all;
     const rTotal = re.w + re.l;
     const rPct = rTotal > 0 ? (re.w / rTotal * 100) : 0;
     const rUClass = re.units > 0 ? 'positive' : re.units < 0 ? 'negative' : 'neutral';
@@ -640,7 +641,7 @@ function renderTodayPicks(run, runs) {
 
 function renderSpreadRecord(runs, modelSummary = null) {
   const s = computeSummary(runs);
-  const modelBucket = s.elite;
+  const modelBucket = s.all;
   const row = (label, b) => `<tr><td>${label}</td><td>${b.w}-${b.l}-${b.p}</td>
     <td class="center"><span class="${pctClass(b.pct)}">${fmtPct(Number(b.pct || 0))}</span></td>
     <td class="center"><span class="${unitClass(b.units)}">${fmtUnits(b.units)}</span></td>
