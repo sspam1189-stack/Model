@@ -342,8 +342,8 @@ function normalizeStatus(raw) {
 }
 
 function classifyTier(mpg) {
-  if (mpg >= 28) return "star";
-  if (mpg >= 18) return "starter";
+  if (mpg >= 32) return "star";
+  if (mpg >= 22) return "starter";
   return "bench";
 }
 

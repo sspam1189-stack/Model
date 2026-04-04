@@ -336,9 +336,9 @@ export function adjustTeamStats(teamStats, injuryReport, playerMPG, playerAdv, t
       for (const p of outList) {
         const net = p.netRtg ?? (p.offRtg != null && p.defRtg != null ? p.offRtg - p.defRtg : 0);
         let d;
-        if (p.min >= 28 && net > 5)  d = 1.20;  // star with elite NET
-        else if (p.min >= 28)        d = 1.00;  // star, moderate NET
-        else if (p.min >= 18)        d = 0.85;  // starter
+        if (p.min >= 32 && net > 5)  d = 1.20;  // star with elite NET
+        else if (p.min >= 32)        d = 1.00;  // star, moderate NET
+        else if (p.min >= 22)        d = 0.85;  // starter
         else                         d = 0.70;  // bench
         if (d > best) best = d;
       }
@@ -384,6 +384,122 @@ export function adjustTeamStats(teamStats, injuryReport, playerMPG, playerAdv, t
     }
   }
 
+
+  // --- Return boost: boost teams getting star/starter back from 5+ day absence ---
+  if (recentInjuryDates && Object.keys(recentInjuryDates).length >= 5) {
+    for (const teamKey of teamKeys) {
+      const isTonight = teamsTonight.has(teamKey) ||
+        [...teamsTonight].some(t => resolveTeamName(t, [teamKey]));
+      if (!isTonight) continue;
+
+      const roster = playersByTeam[teamKey];
+      if (!roster || roster.length < 5) continue;
+
+      // Today's out/doubtful players
+      const injKey = resolveTeamName(teamKey, Object.keys(injuryReport || {}));
+      const injuries = injKey ? (injuryReport[injKey] || []) : [];
+      const todaysOut = new Set(
+        injuries
+          .filter(i => i.status === "out" || i.status === "doubtful")
+          .map(i => i.player)
+      );
+
+      // Find players who were out 5+ of last 10 days but are NOT out today
+      const returnees = [];
+      for (const p of roster) {
+        if (todaysOut.has(p.name)) continue; // still out
+        if (p.min < 22) continue; // only star (>=32) and starter (>=22)
+        const lastName = realLastName(p.name);
+        let datesOut = 0;
+        for (const report of Object.values(recentInjuryDates)) {
+          const teamInj = report[teamKey] ||
+            report[Object.keys(report).find(k => resolveTeamName(k, [teamKey]))] || [];
+          const wasOut = teamInj.some(inj =>
+            (inj.status === "out" || inj.status === "doubtful") &&
+            (inj.player === p.name || realLastName(inj.player) === lastName)
+          );
+          if (wasOut) datesOut++;
+        }
+        if (datesOut >= 5) {
+          const tier = p.min >= 32 ? "star" : "starter";
+          returnees.push({ player: p, tier, daysOut: datesOut });
+        }
+      }
+
+      if (!returnees.length) continue;
+
+      const fullTotalMin = roster.reduce((s, r) => s + r.min, 0);
+      if (fullTotalMin <= 0) continue;
+
+      const returneeNames = new Set(returnees.map(r => r.player.name));
+      const withoutReturnees = roster.filter(r => !returneeNames.has(r.name));
+      if (withoutReturnees.length < 5) continue;
+
+      const wAvg = (players, getter) => {
+        let sum = 0, validMin = 0;
+        for (const p of players) {
+          const val = getter(p);
+          if (Number.isFinite(val)) { sum += p.min * val; validMin += p.min; }
+        }
+        return validMin > 0 ? sum / validMin : null;
+      };
+
+      const fOFF = wAvg(roster, p => p.offRtg);
+      const fDEF = wAvg(roster, p => p.defRtg);
+      const fTS  = wAvg(roster, p => p.tsPct);
+      const fTOV = wAvg(roster, p => p.tovPct);
+      const fORB = wAvg(roster, p => p.orbPct);
+
+      const wOFF = wAvg(withoutReturnees, p => p.offRtg);
+      const wDEF = wAvg(withoutReturnees, p => p.defRtg);
+      const wTS  = wAvg(withoutReturnees, p => p.tsPct);
+      const wTOV = wAvg(withoutReturnees, p => p.tovPct);
+      const wORB = wAvg(withoutReturnees, p => p.orbPct);
+
+      // Dampening: 0.8x of normal tier impact (ramp-up / minutes restriction)
+      let bestDampen = 0.70;
+      for (const ret of returnees) {
+        const p = ret.player;
+        const net = p.netRtg ?? (p.offRtg != null && p.defRtg != null ? p.offRtg - p.defRtg : 0);
+        let d;
+        if (p.min >= 32 && net > 5)  d = 1.20;
+        else if (p.min >= 32)        d = 1.00;
+        else if (p.min >= 22)        d = 0.85;
+        else                         d = 0.70;
+        if (d > bestDampen) bestDampen = d;
+      }
+      const boostDampen = bestDampen * 0.8;
+
+      const orig = adjusted[teamKey] || teamStats[teamKey];
+      const adj = { ...orig };
+      let anyChange = false;
+
+      if (fOFF != null && wOFF != null) {
+        adj.OFF = Math.round((orig.OFF + (fOFF - wOFF) * boostDampen) * 100) / 100;
+        anyChange = true;
+      }
+      if (fDEF != null && wDEF != null) {
+        adj.DEF = Math.round((orig.DEF + (fDEF - wDEF) * boostDampen) * 100) / 100;
+        anyChange = true;
+      }
+      if (fTS != null && wTS != null) {
+        adj.TS = Math.round((orig.TS + (fTS - wTS) * boostDampen) * 10000) / 10000;
+      }
+      if (fTOV != null && wTOV != null) {
+        adj.TO = Math.round((orig.TO + (fTOV - wTOV) * boostDampen) * 10000) / 10000;
+      }
+      if (fORB != null && wORB != null) {
+        adj.ORR = Math.round((orig.ORR + (fORB - wORB) * boostDampen) * 10000) / 10000;
+      }
+
+      if (anyChange) {
+        adjusted[teamKey] = adj;
+        for (const ret of returnees) {
+          console.log(`  [lineup] Boosting ${teamKey} for returning ${ret.tier}: ${ret.player.name} (was out ${ret.daysOut} of last ${Object.keys(recentInjuryDates).length} days)`);
+        }
+      }
+    }
+  }
 
   return adjusted;
 }
