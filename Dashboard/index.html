@@ -866,7 +866,7 @@
       const pct = total > 0 ? (e.w / total * 100) : 0;
       const uClass = e.units > 0 ? 'positive' : e.units < 0 ? 'negative' : 'neutral';
       const pClass = pct > 52.4 ? 'positive' : pct < 50 ? 'negative' : 'neutral';
-      return `
+      let html = `
         <div class="record-banner">
           <div class="record-item">
             <div class="label">Elite Record</div>
