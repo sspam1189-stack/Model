@@ -2,13 +2,6 @@
   "report": {
     "Miami Heat": [
       {
-        "player": "Tyler Herro",
-        "status": "questionable",
-        "reason": "Day-To-Day",
-        "tier": "star",
-        "mpg": 31.7
-      },
-      {
         "player": "Norman Powell",
         "status": "out",
         "reason": "Out",
@@ -25,18 +18,11 @@
     ],
     "Washington Wizards": [
       {
-        "player": "Justin Champagnie",
-        "status": "questionable",
-        "reason": "Day-To-Day",
-        "tier": "starter",
-        "mpg": 19.7
-      },
-      {
-        "player": "Trae Young",
+        "player": "Tristan Vukcevic",
         "status": "out",
         "reason": "Out",
-        "tier": "starter",
-        "mpg": 25.6
+        "tier": "bench",
+        "mpg": 13.7
       },
       {
         "player": "Alex Sarr",
@@ -46,37 +32,23 @@
         "mpg": 27.2
       },
       {
-        "player": "Bilal Coulibaly",
-        "status": "questionable",
-        "reason": "Day-To-Day",
+        "player": "Trae Young",
+        "status": "out",
+        "reason": "Out",
         "tier": "starter",
-        "mpg": 26.3
-      },
-      {
-        "player": "Tristan Vukcevic",
-        "status": "questionable",
-        "reason": "Day-To-Day",
-        "tier": "bench",
-        "mpg": 13.7
-      },
-      {
-        "player": "Tre Johnson",
-        "status": "questionable",
-        "reason": "Johnson (foot) is questionable for Saturday's game versus Miami.",
-        "tier": "starter",
-        "mpg": 24.0
+        "mpg": 25.6
       },
       {
         "player": "Kyshawn George",
         "status": "out",
-        "reason": "George (elbow) will miss the rest of the 2025-26 season, Chase Hughes of Monumental Sports Network reports.",
+        "reason": "Out",
         "tier": "star",
         "mpg": 29.0
       },
       {
         "player": "Anthony Davis",
         "status": "out",
-        "reason": "Davis (finger) is healing on schedule and has been cleared for light contact work, though he remains without a timetable for a return, Josh Robbins of The Athletic reports.",
+        "reason": "Out",
         "tier": "star",
         "mpg": 31.3
       },
@@ -102,13 +74,6 @@
         "reason": "Out",
         "tier": "bench",
         "mpg": 11.9
-      },
-      {
-        "player": "Tim Hardaway Jr.",
-        "status": "questionable",
-        "reason": "Day-To-Day",
-        "tier": "starter",
-        "mpg": 26.7
       },
       {
         "player": "Spencer Jones",
@@ -143,18 +108,18 @@
     ],
     "Philadelphia 76ers": [
       {
+        "player": "Joel Embiid",
+        "status": "out",
+        "reason": "Out",
+        "tier": "star",
+        "mpg": 31.4
+      },
+      {
         "player": "Paul George",
         "status": "questionable",
         "reason": "Day-To-Day",
         "tier": "star",
         "mpg": 30.9
-      },
-      {
-        "player": "Joel Embiid",
-        "status": "questionable",
-        "reason": "Day-To-Day",
-        "tier": "star",
-        "mpg": 31.4
       },
       {
         "player": "Johni Broome",
@@ -166,11 +131,11 @@
     ],
     "Detroit Pistons": [
       {
-        "player": "Marcus Sasser",
+        "player": "Jalen Duren",
         "status": "questionable",
         "reason": "Day-To-Day",
-        "tier": "bench",
-        "mpg": 12.5
+        "tier": "star",
+        "mpg": 28.3
       },
       {
         "player": "Isaiah Stewart",
