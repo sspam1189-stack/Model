@@ -33,7 +33,7 @@ export const DEFAULT_W = {
   // These replace sprHigh/ouHigh as the primary pick trigger.
   // P(cover) must exceed these values to fire a pick.
   // At -110 juice, break-even is ~0.524. We require a meaningful edge above that.
-  probHigh:  0.57,   // min P(cover) for "high" confidence pick
+  probHigh:  0.58,   // min P(cover) for "high" confidence pick
   probElite: 0.63,   // min P(cover) for "elite" confidence (lock)
 
   probOUHigh:  0.58, // totals are noisier, require slightly more confidence
