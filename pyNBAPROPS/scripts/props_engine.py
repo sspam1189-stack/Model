@@ -393,7 +393,7 @@ def project_player_props(player_logs, team_def_stats=None, prop_lines=None,
     # Points UNDER: solo 69.7% vs paired 42.9%
     from collections import defaultdict
     # Skip all paired: points UNDER
-    # Assists OVER: allowed (monitoring — paired 57.1% vs solo 66.3%)
+    # Assists OVER: keep best pCover only (paired 57.1% vs solo 66.3%)
     paired_skip_all = [
         ("points", "UNDER"),
     ]
@@ -413,6 +413,7 @@ def project_player_props(player_logs, team_def_stats=None, prop_lines=None,
     paired_keep_best = [
         ("rebounds", "UNDER"),
         ("assists", "UNDER"),
+        ("assists", "OVER"),
     ]
     for market, direction in paired_keep_best:
         by_team = defaultdict(list)
