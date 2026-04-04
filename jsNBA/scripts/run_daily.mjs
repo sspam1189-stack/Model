@@ -684,9 +684,9 @@ function buildRecapHtml(recap) {
 
 // Injury Helpers (display only - line already prices in injuries)
 
-async function buildGameInjuryAdj(awayTeam, homeTeam, injuryReport, playerMPG = null) {
-  const awayInjuries = getKeyInjuries(injuryReport, awayTeam, playerMPG);
-  const homeInjuries = getKeyInjuries(injuryReport, homeTeam, playerMPG);
+async function buildGameInjuryAdj(awayTeam, homeTeam, injuryReport, playerMPG = null, { recentInjuryDates = null } = {}) {
+  const awayInjuries = getKeyInjuries(injuryReport, awayTeam, playerMPG, { recentInjuryDates });
+  const homeInjuries = getKeyInjuries(injuryReport, homeTeam, playerMPG, { recentInjuryDates });
   return { awayInjuries, homeInjuries };
 }
 
@@ -1038,13 +1038,17 @@ function buildEmailHtml(run, summaryObj, last10, last10Totals, weeklySpread, wee
       ? `<div class="tiny" style="margin-top:4px">🔄 ${esc(g.b2bNote)}</div>`
       : "";
 
+    const returnSignal = g.returnNote
+      ? `<div class="tiny" style="margin-top:4px">🔙 ${esc(g.returnNote)}</div>`
+      : "";
+
     const scoreLine = Number.isFinite(g.awayScore) && Number.isFinite(g.homeScore)
       ? `<div class="tiny" style="margin-top:4px">Final: <b>${esc(g.awayScore)}-${esc(g.homeScore)}</b></div>`
       : "";
 
     return `<div class="card card-games">
       <div class="summaryTitle">${esc(g.away)} @ ${esc(g.home)} <span class="tiny">Line ${fmtNum(g.line, 1)} · Total ${fmtNum(g.total, 1)}</span></div>
-      ${spreadPick}${totalPick}${projLine}${injury}${b2b}${scoreLine}${trends}
+      ${spreadPick}${totalPick}${projLine}${injury}${returnSignal}${b2b}${scoreLine}${trends}
     </div>`;
   });
 
@@ -1438,7 +1442,7 @@ async function main() {
       continue;
     }
 
-    const injuryAdj = await buildGameInjuryAdj(g.away, g.home, injuryData.report, injuryData.playerMPG).catch(() => null);
+    const injuryAdj = await buildGameInjuryAdj(g.away, g.home, injuryData.report, injuryData.playerMPG, { recentInjuryDates }).catch(() => null);
 
     // Per-game: blend home team toward their home splits, away toward road splits
     const gameStats = blendForGame(
@@ -1493,6 +1497,47 @@ async function main() {
     const homeB2B = b2bNotes[g.home] || null;
     if (awayB2B || homeB2B) {
       g.b2bNote = [awayB2B ? `${g.away}: ${awayB2B}` : null, homeB2B ? `${g.home}: ${homeB2B}` : null].filter(Boolean).join(" | ");
+    }
+
+    // Return notes — signal when star/starter returns from 5+ day absence
+    if (recentInjuryDates && Object.keys(recentInjuryDates).length >= 5) {
+      const detectReturns = (teamName) => {
+        const injKey = Object.keys(injuryData.report || {}).find(k =>
+          k === teamName || k.toLowerCase().includes(teamName.toLowerCase().split(" ").pop())
+        ) || teamName;
+        const todaysInj = (injuryData.report || {})[injKey] || [];
+        const todaysOutNames = new Set(
+          todaysInj.filter(i => i.status === "out" || i.status === "doubtful").map(i => i.player)
+        );
+        const mpgData = injuryData.playerMPG || {};
+        const returns = [];
+        for (const [pName, pInfo] of Object.entries(mpgData)) {
+          if (!pInfo.team || !teamName.toLowerCase().includes(pInfo.team.toLowerCase().split(" ").pop())) continue;
+          if (pInfo.mpg < 22) continue; // star/starter only
+          if (todaysOutNames.has(pName)) continue; // still out
+          const lastName = pName.split(" ").pop().toLowerCase();
+          let datesOut = 0;
+          for (const report of Object.values(recentInjuryDates)) {
+            const teamInj = report[teamName] || report[injKey] || [];
+            const wasOut = teamInj.some(inj =>
+              (inj.status === "out" || inj.status === "doubtful") &&
+              (inj.player === pName || inj.player.split(" ").pop().toLowerCase() === lastName)
+            );
+            if (wasOut) datesOut++;
+          }
+          if (datesOut >= 5) {
+            const tier = pInfo.mpg >= 32 ? "star" : "starter";
+            returns.push(`${pName} (${tier})`);
+          }
+        }
+        return returns;
+      };
+      const awayReturns = detectReturns(g.away);
+      const homeReturns = detectReturns(g.home);
+      const parts = [];
+      if (awayReturns.length) parts.push(`${g.away}: ${awayReturns.join(", ")}`);
+      if (homeReturns.length) parts.push(`${g.home}: ${homeReturns.join(", ")}`);
+      if (parts.length) g.returnNote = parts.join(" | ");
     }
   }
 

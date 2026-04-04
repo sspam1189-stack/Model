@@ -394,19 +394,40 @@ const TEAM_ALIASES = {
   "LA Clippers": "Los Angeles Clippers",
 };
 
-export function getKeyInjuries(report, teamName, playerMPG = null) {
+export function getKeyInjuries(report, teamName, playerMPG = null, { recentInjuryDates = null } = {}) {
   const entries = report[teamName] || report[TEAM_ALIASES[teamName]] || [];
+
+  // Build set of long-term out players (5+ days) — these are already in team stats
+  // and not used in lineup adjustment, so hide them from dashboard
+  const longTermOut = new Set();
+  if (recentInjuryDates && Object.keys(recentInjuryDates).length >= 5) {
+    for (const entry of entries) {
+      if (entry.status !== "out" && entry.status !== "doubtful") continue;
+      const name = entry.player;
+      const lastName = name.split(" ").pop().toLowerCase();
+      let datesOut = 0;
+      for (const dateReport of Object.values(recentInjuryDates)) {
+        const teamInj = dateReport[teamName] || dateReport[TEAM_ALIASES[teamName]] || [];
+        const wasOut = teamInj.some(inj =>
+          (inj.status === "out" || inj.status === "doubtful") &&
+          (inj.player === name || inj.player.split(" ").pop().toLowerCase() === lastName)
+        );
+        if (wasOut) datesOut++;
+      }
+      if (datesOut >= 5) longTermOut.add(name);
+    }
+  }
+
   return entries.filter(p => {
     if (p.status !== "out" && p.status !== "doubtful") return false;
     if (p.tier !== "star" && p.tier !== "starter") return false;
-    // Skip players with too few games — they won't affect lineup adjustment
+    if (longTermOut.has(p.player)) return false;
     if (playerMPG) {
       const mpgEntry = playerMPG[p.player];
       if (!mpgEntry || mpgEntry.gp < 10) return false;
     }
     return true;
-  }
-  );
+  });
 }
 
 // Returns 0 (no concern) -> 5+ (skip the game)
