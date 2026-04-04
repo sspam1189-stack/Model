@@ -392,6 +392,17 @@ def run_daily(date_key=None):
     # --- Stage 8: Output (merge with existing — preserve started/finished games) ---
     dashboard = format_props_for_dashboard(projections, date_str=date_iso)
 
+    # Filter todayProjections to ESPN teams (FanDuel may include tomorrow's games)
+    if todays_teams is not None:
+        before_tp = len(dashboard.get("todayProjections", []))
+        dashboard["todayProjections"] = [
+            p for p in dashboard.get("todayProjections", [])
+            if p.get("team") in todays_teams or p.get("opp") in todays_teams
+        ]
+        dropped_tp = before_tp - len(dashboard["todayProjections"])
+        if dropped_tp:
+            print(f"  Dropped {dropped_tp} todayProjections for non-today games")
+
     import numpy as np
 
     class _NumpyEncoder(json.JSONEncoder):
