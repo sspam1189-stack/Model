@@ -75457,6 +75457,73 @@
       },
       "games": [
         {
+          "away": "Detroit Pistons",
+          "home": "Philadelphia 76ers",
+          "line": 4,
+          "total": 226.5,
+          "_book": "FanDuel",
+          "aS": 127.8,
+          "hS": 107.8,
+          "pT": 235.6,
+          "margin": -16,
+          "sDiff": 16,
+          "tDiff": 3.2,
+          "sPick": "Detroit Pistons -4",
+          "sConf": "elite",
+          "oPick": "PASS",
+          "oConf": "low",
+          "injuryNote": "Away: Isaiah Stewart (out/starter), Cade Cunningham (out/star) | Home: Joel Embiid (out/starter)",
+          "pHomeCover": 0.134,
+          "pAwayCover": 0.866,
+          "pOver": 0.584,
+          "pUnder": 0.416,
+          "pCover": 0.866,
+          "pOU": null,
+          "marginVar": 209.1,
+          "marginStd": 14.5,
+          "_features": {
+            "dTS": -0.009849999999999914,
+            "dTO": 0.183675,
+            "dORR": -0.04612499999999997,
+            "dDEF": -7.489999999999981,
+            "avgPace": 100.66825
+          },
+          "_marginFeatures": {
+            "dTS": -0.009955485915499914,
+            "dTO": -0.18564201782025,
+            "dORR": -0.04661896323374997,
+            "dDEF": -7.5702121326999805,
+            "hca": 1,
+            "_baseline": -5.541213353474987,
+            "_pace": 1.01070923
+          },
+          "h2hAdj": 0,
+          "h2hGames": 0,
+          "h2hRecord": null,
+          "h2hNote": null,
+          "_adjDeltas": {
+            "away": {
+              "OFF": -0.599,
+              "DEF": -0.618,
+              "TS": -0.0048,
+              "TO": -0.2792,
+              "ORR": 0.0029
+            },
+            "home": {
+              "OFF": -1.764,
+              "DEF": 0.971,
+              "TS": 0.0014,
+              "TO": -0.006,
+              "ORR": -0.0021
+            }
+          },
+          "trends": {
+            "away": "ATS +/- 2.5 · Over 46.1% · Under 54% · O/U +/- -0.6",
+            "home": "ATS +/- -0.3 · Over 50.7% · Under 49.4% · O/U +/- 2.6"
+          },
+          "b2bNote": "Philadelphia 76ers: B2B: OFF -1.5, DEF +0.8"
+        },
+        {
           "away": "Washington Wizards",
           "home": "Miami Heat",
           "line": -17.5,
@@ -75517,76 +75584,11 @@
             }
           },
           "trends": {
-            "away": "ATS +/- -1 · Over 56.6% · Under 43.4% · O/U +/- 3.2",
-            "home": "ATS +/- 1.5 · Over 54.6% · Under 45.5% · O/U +/- 2.2"
-          }
-        },
-        {
-          "away": "Detroit Pistons",
-          "home": "Philadelphia 76ers",
-          "line": 3,
-          "total": 226.5,
-          "_book": "FanDuel",
-          "aS": 127.7,
-          "hS": 108,
-          "pT": 235.7,
-          "margin": -16.7,
-          "sDiff": 16.7,
-          "tDiff": 3.3,
-          "sPick": "Detroit Pistons -3",
-          "sConf": "elite",
-          "oPick": "PASS",
-          "oConf": "low",
-          "injuryNote": "Away: Isaiah Stewart (out/starter), Cade Cunningham (out/star)",
-          "pHomeCover": 0.124,
-          "pAwayCover": 0.876,
-          "pOver": 0.586,
-          "pUnder": 0.414,
-          "pCover": 0.876,
-          "pOU": null,
-          "marginVar": 209.2,
-          "marginStd": 14.5,
-          "_features": {
-            "dTS": -0.008275000000000032,
-            "dTO": 0.193725,
-            "dORR": -0.044999999999999984,
-            "dDEF": -7.4375,
-            "avgPace": 100.66825
+            "away": "ATS +/- -0.9 · Over 57.1% · Under 42.9% · O/U +/- 3.7",
+            "home": "ATS +/- 1.4 · Over 55.1% · Under 44.9% · O/U +/- 2.7"
           },
-          "_marginFeatures": {
-            "dTS": -0.008363618878250033,
-            "dTO": -0.19579964558175,
-            "dORR": -0.045481915349999985,
-            "dDEF": -7.517149898125,
-            "hca": 1,
-            "_baseline": -5.328964415175008,
-            "_pace": 1.01070923
-          },
-          "h2hAdj": 0,
-          "h2hGames": 0,
-          "h2hRecord": null,
-          "h2hNote": null,
-          "_adjDeltas": {
-            "away": {
-              "OFF": -0.599,
-              "DEF": -0.618,
-              "TS": -0.0048,
-              "TO": -0.2792,
-              "ORR": 0.0029
-            },
-            "home": {
-              "OFF": -1.274,
-              "DEF": 0.901,
-              "TS": 0.0035,
-              "TO": 0.0074,
-              "ORR": -0.0006
-            }
-          },
-          "trends": {
-            "away": "ATS +/- 2.5 · Over 46.1% · Under 54% · O/U +/- -0.6",
-            "home": "ATS +/- -0.3 · Over 50.7% · Under 49.4% · O/U +/- 2.6"
-          },
-          "b2bNote": "Philadelphia 76ers: B2B: OFF -1.5, DEF +0.8"
+          "awayScore": 136,
+          "homeScore": 152
         },
         {
           "away": "San Antonio Spurs",
@@ -75650,13 +75652,16 @@
             }
           },
           "trends": {
-            "away": "ATS +/- 3.4 · Over 43.6% · Under 56.4% · O/U +/- -1.6",
-            "home": "ATS +/- 0.7 · Over 61% · Under 39% · O/U +/- 3.5"
-          }
+            "away": "ATS +/- 3.3 · Over 44.3% · Under 55.7% · O/U +/- -1.2",
+            "home": "ATS +/- 0.8 · Over 61.5% · Under 38.5% · O/U +/- 3.8"
+          },
+          "awayScore": 134,
+          "homeScore": 136,
+          "sResult": "LOSS"
         }
       ],
-      "summaryText": "RECORD (graded picks only)\n\nSPREAD (ATS)\n  All:         353-197-0   (64.2%)   [graded 550]\n  Elite:       353-197-0   (64.2%)   [graded 550]\n\nFAV/DOG (Spread)\n  Favorites:   160-102-0   (61.1%)   [graded 262]\n  Underdogs:   193-95-0   (67.0%)   [graded 288]\n\nTOTAL (O/U)\n  All:         0-0-0   (n/a%)   [graded 0]\n  Elite:       0-0-0   (n/a%)   [graded 0]\n\nOVER/UNDER\n  Over:        0-0-0   (n/a%)   [graded 0]\n  Under:       0-0-0   (n/a%)   [graded 0]",
-      "ranAt": "4/4/2026, 10:41:22 AM"
+      "summaryText": "RECORD (graded picks only)\n\nSPREAD (ATS)\n  All:         353-198-0   (64.1%)   [graded 551]\n  Elite:       353-198-0   (64.1%)   [graded 551]\n\nFAV/DOG (Spread)\n  Favorites:   160-103-0   (60.8%)   [graded 263]\n  Underdogs:   193-95-0   (67.0%)   [graded 288]\n\nTOTAL (O/U)\n  All:         0-0-0   (n/a%)   [graded 0]\n  Elite:       0-0-0   (n/a%)   [graded 0]\n\nOVER/UNDER\n  Over:        0-0-0   (n/a%)   [graded 0]\n  Under:       0-0-0   (n/a%)   [graded 0]",
+      "ranAt": "4/4/2026, 5:47:30 PM"
     }
   ],
   "weights": {
@@ -75679,7 +75684,7 @@
     "locationWeight": 0.25,
     "h2hWeight": 0
   },
-  "residualVar": 189.6,
+  "residualVar": 189.4,
   "weightsVar": {
     "wTS": 3.9651,
     "wTO": 3.9843,
