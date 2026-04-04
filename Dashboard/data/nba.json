@@ -48126,16 +48126,249 @@
       ],
       "summaryText": "",
       "ranAt": "4/4/2026, 12:14:17 AM"
+    },
+    {
+      "date": "20260404",
+      "dateDisplay": "2026-04-04",
+      "burnIn": false,
+      "weightsUsed": {
+        "wTS": 1.543,
+        "wTO": 1.168,
+        "wORR": 1.284,
+        "wDEF": 1.379,
+        "constant": 0.001,
+        "paceAdj": 1.004,
+        "hca": 1.5,
+        "sprHigh": 4,
+        "ouHigh": 5,
+        "sprEliteBump": 3,
+        "ouEliteBump": 3,
+        "probHigh": 0.57,
+        "probElite": 0.63,
+        "probOUHigh": 0.58,
+        "probOUElite": 0.64,
+        "recentWeight": 0.65,
+        "locationWeight": 0.25
+      },
+      "weightsNext": {
+        "wTS": 1.543,
+        "wTO": 1.168,
+        "wORR": 1.284,
+        "wDEF": 1.379,
+        "constant": 0.001,
+        "paceAdj": 1.004,
+        "hca": 1.5,
+        "sprHigh": 4,
+        "ouHigh": 5,
+        "sprEliteBump": 3,
+        "ouEliteBump": 3,
+        "probHigh": 0.57,
+        "probElite": 0.63,
+        "probOUHigh": 0.58,
+        "probOUElite": 0.64,
+        "recentWeight": 0.65,
+        "locationWeight": 0.25
+      },
+      "games": [
+        {
+          "away": "Washington Wizards",
+          "home": "Miami Heat",
+          "line": -17.5,
+          "total": 245.5,
+          "_book": "FanDuel",
+          "aS": 115.7,
+          "hS": 128,
+          "pT": 243.7,
+          "margin": -5.2,
+          "sDiff": 5.2,
+          "tDiff": -6,
+          "sPick": "PASS",
+          "sConf": "low",
+          "oPick": "PASS",
+          "oConf": "low",
+          "injuryNote": "Away: Trae Young (out/starter), Alex Sarr (out/starter) | Home: Norman Powell (out/starter)",
+          "pHomeCover": 0.363,
+          "pAwayCover": 0.637,
+          "pOver": 0.35,
+          "pUnder": 0.65,
+          "pCover": null,
+          "pOU": null,
+          "marginVar": 221.8,
+          "marginStd": 14.9,
+          "_features": {
+            "dTS": 0.010000000000000009,
+            "dTO": -0.11502499999999999,
+            "dORR": 0.02942499999999998,
+            "dDEF": 4.295000000000016,
+            "avgPace": 103.5106875
+          },
+          "_marginFeatures": {
+            "dTS": 0.010392473025000012,
+            "dTO": 0.11953942097006251,
+            "dORR": 0.030579851876062485,
+            "dDEF": 4.463567164237517,
+            "hca": 1,
+            "_baseline": 6.131559084750021,
+            "_pace": 1.0392473025000002
+          },
+          "_adjDeltas": {
+            "away": {
+              "OFF": -0.5,
+              "DEF": -0.475,
+              "TS": -0.0021,
+              "TO": 0.1505
+            },
+            "home": {
+              "OFF": -0.095,
+              "DEF": -0.12,
+              "TS": -0.003,
+              "TO": 0.0358,
+              "ORR": 0.0028
+            }
+          },
+          "trends": {
+            "away": "ATS +/- -1 · Over 56.6% · Under 43.4% · O/U +/- 3.2",
+            "home": "ATS +/- 1.5 · Over 54.6% · Under 45.5% · O/U +/- 2.2"
+          }
+        },
+        {
+          "away": "Detroit Pistons",
+          "home": "Philadelphia 76ers",
+          "line": 3,
+          "total": 226.5,
+          "_book": "FanDuel",
+          "aS": 126.6,
+          "hS": 106.8,
+          "pT": 233.4,
+          "margin": -16.8,
+          "sDiff": 16.8,
+          "tDiff": 2.4,
+          "sPick": "Detroit Pistons -3",
+          "sConf": "elite",
+          "oPick": "PASS",
+          "oConf": "low",
+          "injuryNote": "Away: Isaiah Stewart (out/starter), Cade Cunningham (out/star)",
+          "pHomeCover": 0.131,
+          "pAwayCover": 0.869,
+          "pOver": 0.561,
+          "pUnder": 0.439,
+          "pCover": 0.869,
+          "pOU": null,
+          "marginVar": 224.7,
+          "marginStd": 15,
+          "_features": {
+            "dTS": -0.005800000000000027,
+            "dTO": 0.195975,
+            "dORR": -0.045674999999999966,
+            "dDEF": -7.227499999999992,
+            "avgPace": 100.53625
+          },
+          "_marginFeatures": {
+            "dTS": -0.005854426910000027,
+            "dTO": -0.19781401960125,
+            "dORR": -0.04610361191624996,
+            "dDEF": -7.295322498624992,
+            "hca": 1,
+            "_baseline": -5.178139663499995,
+            "_pace": 1.00938395
+          },
+          "_adjDeltas": {
+            "away": {
+              "OFF": -0.595,
+              "DEF": -0.62,
+              "TS": -0.0049,
+              "TO": -0.2792,
+              "ORR": 0.0029
+            },
+            "home": {
+              "OFF": -1.28,
+              "DEF": 0.905,
+              "TS": 0.0035,
+              "TO": 0.0075,
+              "ORR": -0.0006
+            }
+          },
+          "trends": {
+            "away": "ATS +/- 2.5 · Over 46.1% · Under 54% · O/U +/- -0.6",
+            "home": "ATS +/- -0.3 · Over 50.7% · Under 49.4% · O/U +/- 2.6"
+          },
+          "b2bNote": "Philadelphia 76ers: B2B: OFF -1.5, DEF +0.8"
+        },
+        {
+          "away": "San Antonio Spurs",
+          "home": "Denver Nuggets",
+          "line": 2,
+          "total": 242.5,
+          "_book": "FanDuel",
+          "aS": 124.2,
+          "hS": 114.8,
+          "pT": 239,
+          "margin": -7.4,
+          "sDiff": 7.4,
+          "tDiff": -9,
+          "sPick": "San Antonio Spurs -2",
+          "sConf": "elite",
+          "oPick": "PASS",
+          "oConf": "low",
+          "injuryNote": "Home: Spencer Jones (out/starter), Peyton Watson (out/starter)",
+          "pHomeCover": 0.31,
+          "pAwayCover": 0.69,
+          "pOver": 0.282,
+          "pUnder": 0.718,
+          "pCover": 0.69,
+          "pOU": null,
+          "marginVar": 222.1,
+          "marginStd": 14.9,
+          "_features": {
+            "dTS": 0.023025000000000073,
+            "dTO": -0.1961,
+            "dORR": -0.050449999999999995,
+            "dDEF": -4.634999999999991,
+            "avgPace": 100.66506249999999
+          },
+          "_marginFeatures": {
+            "dTS": 0.02327084316318757,
+            "dTO": 0.19819380431274997,
+            "dORR": -0.05098866612737498,
+            "dDEF": -4.68448894946249,
+            "hca": 1,
+            "_baseline": -1.8116389302937392,
+            "_pace": 1.0106772274999998
+          },
+          "_adjDeltas": {
+            "away": {
+              "OFF": -0.1,
+              "DEF": 0.125,
+              "TS": 0.0003,
+              "TO": -0.0101,
+              "ORR": -0.0002
+            },
+            "home": {
+              "OFF": 0.06,
+              "DEF": -0.26,
+              "TS": -0.0005,
+              "TO": -0.2632,
+              "ORR": -0.0008
+            }
+          },
+          "trends": {
+            "away": "ATS +/- 3.4 · Over 43.6% · Under 56.4% · O/U +/- -1.6",
+            "home": "ATS +/- 0.7 · Over 61% · Under 39% · O/U +/- 3.5"
+          }
+        }
+      ],
+      "summaryText": "RECORD (graded picks only)\n\nSPREAD (ATS)\n  All:         211-119-0   (63.9%)   [graded 330]\n  Elite:       211-119-0   (63.9%)   [graded 330]\n\nFAV/DOG (Spread)\n  Favorites:   118-77-0   (60.5%)   [graded 195]\n  Underdogs:   93-42-0   (68.9%)   [graded 135]\n\nTOTAL (O/U)\n  All:         0-0-0   (n/a%)   [graded 0]\n  Elite:       0-0-0   (n/a%)   [graded 0]\n\nOVER/UNDER\n  Over:        0-0-0   (n/a%)   [graded 0]\n  Under:       0-0-0   (n/a%)   [graded 0]",
+      "ranAt": "4/4/2026, 10:39:59 AM"
     }
   ],
   "weights": {
-    "wTS": 1.281,
-    "wTO": 1.077,
-    "wORR": 1.143,
-    "wDEF": 1.158,
-    "constant": 0,
-    "paceAdj": 1.003,
-    "hca": 1.905,
+    "wTS": 1.543,
+    "wTO": 1.168,
+    "wORR": 1.284,
+    "wDEF": 1.379,
+    "constant": 0.001,
+    "paceAdj": 1.004,
+    "hca": 1.5,
     "sprHigh": 4,
     "ouHigh": 5,
     "sprEliteBump": 3,
@@ -48147,14 +48380,14 @@
     "recentWeight": 0.65,
     "locationWeight": 0.25
   },
-  "residualVar": 205.8,
+  "residualVar": 205.3,
   "weightsVar": {
-    "wTS": 3.9878,
-    "wTO": 3.9943,
-    "wORR": 3.9421,
+    "wTS": 3.9761,
+    "wTO": 3.9884,
+    "wORR": 3.8887,
     "wDEF": 0.05,
-    "hca": 0.3933,
+    "hca": 0.2252,
     "constant": 4
   },
-  "lastTuneDate": "20260403"
+  "lastTuneDate": "20260404"
 }
