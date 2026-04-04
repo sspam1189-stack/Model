@@ -48422,9 +48422,11 @@
             }
           },
           "trends": {
-            "away": "ATS +/- -1.0 \u00b7 Over 56.6% \u00b7 Under 43.4% \u00b7 O/U +/- 3.2",
-            "home": "ATS +/- 1.5 \u00b7 Over 54.6% \u00b7 Under 45.5% \u00b7 O/U +/- 2.2"
-          }
+            "away": "ATS +/- -0.9 \u00b7 Over 57.1% \u00b7 Under 42.9% \u00b7 O/U +/- 3.7",
+            "home": "ATS +/- 1.4 \u00b7 Over 55.1% \u00b7 Under 44.9% \u00b7 O/U +/- 2.7"
+          },
+          "awayScore": 136.0,
+          "homeScore": 152.0
         },
         {
           "away": "San Antonio Spurs",
@@ -48478,35 +48480,38 @@
             }
           },
           "trends": {
-            "away": "ATS +/- 3.4 \u00b7 Over 43.6% \u00b7 Under 56.4% \u00b7 O/U +/- -1.6",
-            "home": "ATS +/- 0.7 \u00b7 Over 61.0% \u00b7 Under 39.0% \u00b7 O/U +/- 3.5"
-          }
+            "away": "ATS +/- 3.3 \u00b7 Over 44.3% \u00b7 Under 55.7% \u00b7 O/U +/- -1.2",
+            "home": "ATS +/- 0.8 \u00b7 Over 61.5% \u00b7 Under 38.5% \u00b7 O/U +/- 3.8"
+          },
+          "awayScore": 134.0,
+          "homeScore": 136.0,
+          "sResult": "LOSS"
         },
         {
           "away": "Detroit Pistons",
           "home": "Philadelphia 76ers",
-          "line": 2.5,
-          "total": 225.5,
-          "startTimeUTC": "2026-04-04T23:10:00.000+00:00",
+          "line": 3.5,
+          "total": 226.5,
+          "startTimeUTC": "2026-04-04T23:12:00.000+00:00",
           "_book": "FanDuel",
           "aS": 122.0,
           "hS": 109.6,
           "pT": 231.6,
-          "margin": -9.9,
-          "sDiff": 9.9,
-          "tDiff": 5.8,
-          "sPick": "Detroit Pistons -2.5",
+          "margin": -8.9,
+          "sDiff": 8.9,
+          "tDiff": 4.8,
+          "sPick": "Detroit Pistons -3.5",
           "sConf": "elite",
           "oPick": "PASS",
           "oConf": "low",
           "injuryNote": "Away: Isaiah Stewart (out/starter), Cade Cunningham (out/star) | Home: Joel Embiid (out/star)",
-          "pHomeCover": 0.247,
-          "pAwayCover": 0.753,
-          "pOver": 0.649,
-          "pUnder": 0.351,
-          "pCover": 0.753,
+          "pHomeCover": 0.269,
+          "pAwayCover": 0.731,
+          "pOver": 0.624,
+          "pUnder": 0.376,
+          "pCover": 0.731,
           "pOU": null,
-          "marginVar": 210.0,
+          "marginVar": 209.4,
           "marginStd": 14.5,
           "_features": {
             "dTS": -0.015437499999999993,
@@ -48540,8 +48545,8 @@
           "b2bNote": "Philadelphia 76ers: B2B: OFF -1.5, DEF +0.8"
         }
       ],
-      "summaryText": "RECORD (graded picks only)\n\nSPREAD (ATS)\n  All:         192-113-0   (63.0%)   [graded 305]\n  Elite:       192-113-0   (63.0%)   [graded 305]\n\nFAV/DOG (Spread)\n  Favorites:   101-60-0   (62.7%)   [graded 161]\n  Underdogs:   91-53-0   (63.2%)   [graded 144]\n\nTOTAL (O/U)\n  All:         0-0-0   (n/a%)   [graded 0]\n  Elite:       0-0-0   (n/a%)   [graded 0]\n\nOVER/UNDER\n  Over:        0-0-0   (n/a%)   [graded 0]\n  Under:       0-0-0   (n/a%)   [graded 0]",
-      "ranAt": "04/04/2026, 01:41:39 PM"
+      "summaryText": "RECORD (graded picks only)\n\nSPREAD (ATS)\n  All:         192-114-0   (62.7%)   [graded 306]\n  Elite:       192-114-0   (62.7%)   [graded 306]\n\nFAV/DOG (Spread)\n  Favorites:   101-61-0   (62.3%)   [graded 162]\n  Underdogs:   91-53-0   (63.2%)   [graded 144]\n\nTOTAL (O/U)\n  All:         0-0-0   (n/a%)   [graded 0]\n  Elite:       0-0-0   (n/a%)   [graded 0]\n\nOVER/UNDER\n  Over:        0-0-0   (n/a%)   [graded 0]\n  Under:       0-0-0   (n/a%)   [graded 0]",
+      "ranAt": "04/04/2026, 06:00:45 PM"
     }
   ],
   "weights": {
@@ -48572,6 +48577,6 @@
     "hca": 0.2,
     "constant": 4.0
   },
-  "residualVar": 193.9,
+  "residualVar": 193.3,
   "lastTuneDate": "20260404"
 }
