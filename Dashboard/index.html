@@ -886,11 +886,13 @@
           </div>
         </div>`;
 
-      // Since 3/2 recent record
-      const recentRuns = runs.filter(r => r.date && r.date >= '20260302');
-      if (recentRuns.length > 0) {
-        const sr = computeSummary(recentRuns);
-        const re = sr.all;
+      // Since 3/2 recent record (filter by pick date, not run date)
+      const recentPicks = getActionablePicks(runs).filter(p => (p.date || '') >= '20260302');
+      if (recentPicks.length > 0) {
+        const rw = recentPicks.filter(p => p.result === 'WIN').length;
+        const rl = recentPicks.filter(p => p.result === 'LOSS').length;
+        const rp = recentPicks.filter(p => p.result === 'PUSH').length;
+        const re = { w: rw, l: rl, p: rp, pct: winPct(rw, rl), units: calcUnits(rw, rl), played: rw + rl + rp };
         const rTotal = re.w + re.l;
         const rPct = rTotal > 0 ? (re.w / rTotal * 100) : 0;
         const rUClass = re.units > 0 ? 'positive' : re.units < 0 ? 'negative' : 'neutral';
