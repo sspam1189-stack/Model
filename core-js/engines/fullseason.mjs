@@ -8,7 +8,7 @@ export function createFullseasonEngine({ DEFAULT_STATS, DEFAULT_W, DEFAULT_W_VAR
     BAYES_HYPER,
     enableH2H: true,
     bayes: {
-      spread: { sDiffCap: null, useSDiff: false },
+      spread: { sDiffCap: null, absLineCap: 13, absLineCapInclusive: false, useSDiff: false },
       totals: { enabled: false },
     },
   });
