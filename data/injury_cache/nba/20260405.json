@@ -1,49 +1,24 @@
 {
   "report": {
-    "Boston Celtics": [
-      {
-        "player": "Nikola Vucevic",
-        "status": "out",
-        "reason": "Out",
-        "tier": "bench",
-        "mpg": 0
-      }
-    ],
-    "Toronto Raptors": [
-      {
-        "player": "Chucky Hepburn",
-        "status": "out",
-        "reason": "Out",
-        "tier": "bench",
-        "mpg": 0
-      },
-      {
-        "player": "Immanuel Quickley",
-        "status": "out",
-        "reason": "Out",
-        "tier": "star",
-        "mpg": 32.4
-      }
-    ],
     "Brooklyn Nets": [
       {
         "player": "Ben Saraf",
-        "status": "questionable",
-        "reason": "Day-To-Day",
+        "status": "out",
+        "reason": "Out",
         "tier": "starter",
         "mpg": 19.6
       },
       {
         "player": "Terance Mann",
-        "status": "questionable",
-        "reason": "Day-To-Day",
+        "status": "out",
+        "reason": "Out",
         "tier": "starter",
         "mpg": 24.3
       },
       {
         "player": "Noah Clowney",
-        "status": "questionable",
-        "reason": "Day-To-Day",
+        "status": "out",
+        "reason": "Out",
         "tier": "starter",
         "mpg": 27.0
       },
@@ -79,8 +54,8 @@
         "player": "Egor Demin",
         "status": "out",
         "reason": "Demin underwent a non-surgical procedure to address plantar fasciitis in his left foot, and there's hope he will make a full recovery in time for NBA Summer League, Brian Lewis of the New York Post reports",
-        "tier": "bench",
-        "mpg": 0
+        "tier": "starter",
+        "mpg": 25.2
       },
       {
         "player": "Day'Ron Sharpe",
@@ -92,11 +67,32 @@
     ],
     "Washington Wizards": [
       {
+        "player": "Justin Champagnie",
+        "status": "out",
+        "reason": "Out",
+        "tier": "starter",
+        "mpg": 19.7
+      },
+      {
         "player": "Tristan Vukcevic",
-        "status": "questionable",
-        "reason": "Day-To-Day",
+        "status": "out",
+        "reason": "Out",
         "tier": "bench",
         "mpg": 13.7
+      },
+      {
+        "player": "Tre Johnson",
+        "status": "out",
+        "reason": "Out",
+        "tier": "starter",
+        "mpg": 24.0
+      },
+      {
+        "player": "Bilal Coulibaly",
+        "status": "out",
+        "reason": "Out",
+        "tier": "starter",
+        "mpg": 26.3
       },
       {
         "player": "Trae Young",
@@ -104,27 +100,6 @@
         "reason": "Out",
         "tier": "starter",
         "mpg": 25.6
-      },
-      {
-        "player": "Tre Johnson",
-        "status": "questionable",
-        "reason": "Day-To-Day",
-        "tier": "starter",
-        "mpg": 24.0
-      },
-      {
-        "player": "Bilal Coulibaly",
-        "status": "questionable",
-        "reason": "Day-To-Day",
-        "tier": "starter",
-        "mpg": 26.3
-      },
-      {
-        "player": "Justin Champagnie",
-        "status": "questionable",
-        "reason": "Day-To-Day",
-        "tier": "starter",
-        "mpg": 19.7
       },
       {
         "player": "Alex Sarr",
@@ -162,13 +137,43 @@
         "mpg": 16.9
       }
     ],
+    "Toronto Raptors": [
+      {
+        "player": "Chucky Hepburn",
+        "status": "out",
+        "reason": "Out",
+        "tier": "bench",
+        "mpg": 0
+      },
+      {
+        "player": "Immanuel Quickley",
+        "status": "out",
+        "reason": "Out",
+        "tier": "star",
+        "mpg": 32.4
+      }
+    ],
     "Chicago Bulls": [
       {
+        "player": "Nick Richards",
+        "status": "out",
+        "reason": "Out",
+        "tier": "bench",
+        "mpg": 14.6
+      },
+      {
         "player": "Matas Buzelis",
-        "status": "questionable",
-        "reason": "Day-To-Day",
+        "status": "out",
+        "reason": "Out",
         "tier": "star",
         "mpg": 29.2
+      },
+      {
+        "player": "Josh Giddey",
+        "status": "out",
+        "reason": "Out",
+        "tier": "star",
+        "mpg": 32.1
       },
       {
         "player": "Anfernee Simons",
@@ -178,37 +183,9 @@
         "mpg": 24.9
       },
       {
-        "player": "Collin Sexton",
-        "status": "questionable",
-        "reason": "Day-To-Day",
-        "tier": "starter",
-        "mpg": 23.2
-      },
-      {
-        "player": "Lachlan Olbrich",
-        "status": "questionable",
-        "reason": "Day-To-Day",
-        "tier": "bench",
-        "mpg": 7.1
-      },
-      {
-        "player": "Josh Giddey",
-        "status": "questionable",
-        "reason": "Day-To-Day",
-        "tier": "star",
-        "mpg": 32.1
-      },
-      {
-        "player": "Nick Richards",
-        "status": "out",
-        "reason": "Richards (elbow) is questionable for Sunday's game against Phoenix.",
-        "tier": "bench",
-        "mpg": 14.6
-      },
-      {
         "player": "Jalen Smith",
         "status": "out",
-        "reason": "Smith (calf) will miss the remainder of the season, Joel Lorenzi of The Athletic reports.",
+        "reason": "Out",
         "tier": "starter",
         "mpg": 20.7
       },
@@ -228,13 +205,6 @@
       }
     ],
     "Phoenix Suns": [
-      {
-        "player": "Amir Coffey",
-        "status": "out",
-        "reason": "Out",
-        "tier": "bench",
-        "mpg": 10.2
-      },
       {
         "player": "Haywood Highsmith",
         "status": "out",
@@ -266,13 +236,6 @@
         "mpg": 21.2
       },
       {
-        "player": "Ryan Rollins",
-        "status": "questionable",
-        "reason": "Day-To-Day",
-        "tier": "star",
-        "mpg": 32.1
-      },
-      {
         "player": "Kevin Porter Jr.",
         "status": "out",
         "reason": "Out",
@@ -282,9 +245,16 @@
     ],
     "Memphis Grizzlies": [
       {
+        "player": "Cedric Coward",
+        "status": "out",
+        "reason": "Out",
+        "tier": "starter",
+        "mpg": 26.0
+      },
+      {
         "player": "GG Jackson",
-        "status": "questionable",
-        "reason": "Day-To-Day",
+        "status": "out",
+        "reason": "Out",
         "tier": "starter",
         "mpg": 21.5
       },
@@ -294,13 +264,6 @@
         "reason": "Out",
         "tier": "starter",
         "mpg": 20.1
-      },
-      {
-        "player": "Cedric Coward",
-        "status": "questionable",
-        "reason": "Day-To-Day",
-        "tier": "starter",
-        "mpg": 26.0
       },
       {
         "player": "Cam Spencer",
@@ -315,20 +278,6 @@
         "reason": "Out",
         "tier": "starter",
         "mpg": 19.8
-      },
-      {
-        "player": "Walter Clayton Jr.",
-        "status": "questionable",
-        "reason": "Clayton (hip) is questionable for Sunday's game against the Bucks.",
-        "tier": "starter",
-        "mpg": 20.3
-      },
-      {
-        "player": "Taj Gibson",
-        "status": "out",
-        "reason": "Gisbon (foot) is probable for Sunday's game against the Bucks.",
-        "tier": "bench",
-        "mpg": 9.3
       },
       {
         "player": "Ty Jerome",
@@ -427,8 +376,8 @@
     "Indiana Pacers": [
       {
         "player": "Ben Sheppard",
-        "status": "questionable",
-        "reason": "Day-To-Day",
+        "status": "out",
+        "reason": "Out",
         "tier": "starter",
         "mpg": 21.4
       },
@@ -447,13 +396,6 @@
         "mpg": 33.2
       },
       {
-        "player": "Obi Toppin",
-        "status": "questionable",
-        "reason": "Day-To-Day",
-        "tier": "bench",
-        "mpg": 17.0
-      },
-      {
         "player": "Aaron Nesmith",
         "status": "out",
         "reason": "Out",
@@ -463,7 +405,7 @@
       {
         "player": "Andrew Nembhard",
         "status": "out",
-        "reason": "Nembhard (back) is out for Sunday's game in Cleveland.",
+        "reason": "Out",
         "tier": "star",
         "mpg": 31.3
       },
@@ -499,8 +441,8 @@
     "Minnesota Timberwolves": [
       {
         "player": "Anthony Edwards",
-        "status": "questionable",
-        "reason": "Day-To-Day",
+        "status": "out",
+        "reason": "Out",
         "tier": "star",
         "mpg": 35.2
       },
@@ -519,46 +461,46 @@
         "reason": "Out",
         "tier": "bench",
         "mpg": 11.2
-      },
-      {
-        "player": "Moussa Diabate",
-        "status": "questionable",
-        "reason": "Day-To-Day",
-        "tier": "bench",
-        "mpg": 0
       }
     ],
     "New Orleans Pelicans": [
+      {
+        "player": "Karlo Matkovic",
+        "status": "out",
+        "reason": "Out",
+        "tier": "bench",
+        "mpg": 14.7
+      },
+      {
+        "player": "Dejounte Murray",
+        "status": "out",
+        "reason": "Out",
+        "tier": "starter",
+        "mpg": 27.8
+      },
+      {
+        "player": "Trey Murphy III",
+        "status": "out",
+        "reason": "Out",
+        "tier": "star",
+        "mpg": 35.5
+      },
       {
         "player": "Bryce McGowens",
         "status": "out",
         "reason": "Out",
         "tier": "starter",
         "mpg": 21.0
-      },
-      {
-        "player": "Trey Murphy III",
-        "status": "questionable",
-        "reason": "Day-To-Day",
-        "tier": "star",
-        "mpg": 35.5
-      },
-      {
-        "player": "Dejounte Murray",
-        "status": "questionable",
-        "reason": "Day-To-Day",
-        "tier": "starter",
-        "mpg": 27.8
-      },
-      {
-        "player": "Karlo Matkovic",
-        "status": "questionable",
-        "reason": "Day-To-Day",
-        "tier": "bench",
-        "mpg": 0
       }
     ],
     "Orlando Magic": [
+      {
+        "player": "Jett Howard",
+        "status": "out",
+        "reason": "Out",
+        "tier": "bench",
+        "mpg": 12.6
+      },
       {
         "player": "Anthony Black",
         "status": "out",
@@ -616,8 +558,8 @@
         "player": "Jusuf Nurkic",
         "status": "out",
         "reason": "Out",
-        "tier": "bench",
-        "mpg": 0
+        "tier": "starter",
+        "mpg": 26.4
       },
       {
         "player": "Jaren Jackson Jr.",
@@ -673,13 +615,6 @@
     ],
     "Los Angeles Lakers": [
       {
-        "player": "Jarred Vanderbilt",
-        "status": "questionable",
-        "reason": "Day-To-Day",
-        "tier": "bench",
-        "mpg": 17.5
-      },
-      {
         "player": "Marcus Smart",
         "status": "out",
         "reason": "Out",
@@ -697,8 +632,8 @@
         "player": "Luka Doncic",
         "status": "out",
         "reason": "Out",
-        "tier": "bench",
-        "mpg": 0
+        "tier": "star",
+        "mpg": 35.8
       }
     ],
     "Sacramento Kings": [
@@ -765,7 +700,7 @@
         "status": "out",
         "reason": "Out",
         "tier": "bench",
-        "mpg": 0
+        "mpg": 10.3
       },
       {
         "player": "Bradley Beal",
@@ -776,6 +711,13 @@
       }
     ],
     "Golden State Warriors": [
+      {
+        "player": "LJ Cryer",
+        "status": "out",
+        "reason": "Out",
+        "tier": "bench",
+        "mpg": 16.3
+      },
       {
         "player": "Seth Curry",
         "status": "questionable",
@@ -807,7 +749,7 @@
       {
         "player": "Quinten Post",
         "status": "out",
-        "reason": "Out",
+        "reason": "The Warriors announced Saturday that Post (foot) will be re-evaluated next week.",
         "tier": "bench",
         "mpg": 17.3
       },
