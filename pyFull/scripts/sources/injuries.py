@@ -13,10 +13,15 @@ import time
 import requests
 import datetime
 import re
+import unicodedata
 from zoneinfo import ZoneInfo
 
 _dir = os.path.dirname(os.path.abspath(__file__))
 INJURY_CACHE_DIR = os.path.join(_dir, "..", "..", "..", "data", "injury_cache", "nba")
+
+def _strip_accents(s):
+    """Luka Dončić -> Luka Doncic"""
+    return "".join(c for c in unicodedata.normalize("NFD", s) if unicodedata.category(c) != "Mn")
 
 NBA_HEADERS = {
     "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36",
@@ -445,13 +450,15 @@ def fetch_injury_data(date=None, season_type="Regular Season", espn_type=2):
     for team_name, players in game_availability.items():
         enriched = []
         for p in players:
-            # Look up MPG -- exact match first, then same-team last-name fallback
+            # Look up MPG -- exact match first, then accent-stripped / last-name fallback
             mpg_entry = player_mpg.get(p["player"])
             if not mpg_entry:
-                last_name = p["player"].split(" ")[-1].lower()
+                stripped = _strip_accents(p["player"]).lower()
+                last_name = stripped.split(" ")[-1]
                 found = next(
                     (k for k in player_mpg
-                     if k.split(" ")[-1].lower() == last_name
+                     if (_strip_accents(k).lower() == stripped
+                         or _strip_accents(k).split(" ")[-1].lower() == last_name)
                      and player_mpg[k]["team"] == team_name),
                     None,
                 )
@@ -492,6 +499,13 @@ def get_key_injuries(report, team_name, player_mpg=None):
             continue
         if player_mpg:
             mpg_entry = player_mpg.get(p["player"])
+            if not mpg_entry:
+                stripped = _strip_accents(p["player"]).lower()
+                mpg_entry = next(
+                    (v for k, v in player_mpg.items()
+                     if _strip_accents(k).lower() == stripped),
+                    None,
+                )
             if not mpg_entry or mpg_entry.get("gp", 0) < 10:
                 continue
         result.append(p)
