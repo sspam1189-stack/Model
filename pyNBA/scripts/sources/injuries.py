@@ -398,6 +398,22 @@ def fetch_injury_data(date=None, season_type="Regular Season", espn_type=2):
     max_age = 2 if is_today else None  # None = never expire
     cached = _load_injury_cache(date_key, max_age_hours=max_age)
     if cached is not None:
+        # Re-enrich tiers using accent-aware matching (fixes stale caches)
+        player_mpg = cached.get("playerMPG", {})
+        if player_mpg:
+            for team_name, players in cached.get("report", {}).items():
+                for p in players:
+                    if p.get("mpg", 0) == 0:
+                        stripped = _strip_accents(p["player"]).lower()
+                        found = next(
+                            (k for k in player_mpg
+                             if _strip_accents(k).lower() == stripped
+                             and player_mpg[k]["team"] == team_name),
+                            None,
+                        )
+                        if found:
+                            p["mpg"] = player_mpg[found]["mpg"]
+                            p["tier"] = _classify_tier(p["mpg"])
         n_players = sum(len(v) for v in cached.get("report", {}).values())
         print(f"  [injuries] Using cache: {date_key}.json ({n_players} players)")
         return cached
