@@ -12,6 +12,10 @@
 //   getKeyInjuries(report, teamName) → [{ player, status, tier, mpg }]
 //   gameUncertaintyScore(awayInj, homeInj) → number 0–4
 
+function stripAccents(s) {
+  return s.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+}
+
 const NBA_HEADERS = {
   "User-Agent":          "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36",
   "Referer":             "https://www.nba.com/",
@@ -370,12 +374,14 @@ export async function fetchInjuryData(date = null, { seasonType = "Regular Seaso
 
   for (const [teamName, players] of Object.entries(gameAvailability)) {
     const enriched = players.map(p => {
-      // Look up MPG — exact match first, then same-team last-name fallback
+      // Look up MPG — exact match first, then accent-stripped / last-name fallback
       let mpgEntry = playerMPG[p.player];
       if (!mpgEntry) {
-        const lastName = p.player.split(" ").pop().toLowerCase();
+        const stripped = stripAccents(p.player).toLowerCase();
+        const lastName = stripped.split(" ").pop();
         const found = Object.keys(playerMPG).find(k =>
-          k.split(" ").pop().toLowerCase() === lastName &&
+          (stripAccents(k).toLowerCase() === stripped ||
+           stripAccents(k).split(" ").pop().toLowerCase() === lastName) &&
           playerMPG[k].team === teamName
         );
         if (found) mpgEntry = playerMPG[found];
@@ -428,7 +434,12 @@ export function getKeyInjuries(report, teamName, playerMPG = null, { recentInjur
     if (p.tier !== "star" && p.tier !== "starter") return false;
     if (longTermOut.has(p.player)) return false;
     if (playerMPG) {
-      const mpgEntry = playerMPG[p.player];
+      let mpgEntry = playerMPG[p.player];
+      if (!mpgEntry) {
+        const stripped = stripAccents(p.player).toLowerCase();
+        const key = Object.keys(playerMPG).find(k => stripAccents(k).toLowerCase() === stripped);
+        if (key) mpgEntry = playerMPG[key];
+      }
       if (!mpgEntry || mpgEntry.gp < 10) return false;
     }
     return true;
