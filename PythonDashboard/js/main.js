@@ -664,7 +664,8 @@ function renderSpreadRecord(runs, modelSummary = null) {
 }
 
 function renderProbTable(run) {
-  const games = (run.games || []).filter(g => g.status !== 'MISSING_ODDS' && g.status !== 'SKIPPED');
+  const games = (run.games || []).filter(g => g.status !== 'MISSING_ODDS' && g.status !== 'SKIPPED')
+    .sort((a, b) => (a.startTimeUTC || '').localeCompare(b.startTimeUTC || ''));
   if (!games.length) return '';
   const rows = games.map(g => {
     const sPick = g.sPick && g.sPick !== 'PASS'
