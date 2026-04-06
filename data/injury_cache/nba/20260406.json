@@ -11,18 +11,18 @@
     ],
     "Orlando Magic": [
       {
-        "player": "Franz Wagner",
-        "status": "questionable",
-        "reason": "Day-To-Day",
-        "tier": "star",
-        "mpg": 30.6
-      },
-      {
         "player": "Jett Howard",
-        "status": "questionable",
-        "reason": "Day-To-Day",
+        "status": "out",
+        "reason": "Out",
         "tier": "bench",
         "mpg": 12.6
+      },
+      {
+        "player": "Jonathan Isaac",
+        "status": "out",
+        "reason": "Out",
+        "tier": "bench",
+        "mpg": 10.0
       },
       {
         "player": "Anthony Black",
@@ -32,14 +32,21 @@
         "mpg": 30.7
       },
       {
-        "player": "Jonathan Isaac",
+        "player": "Franz Wagner",
         "status": "out",
         "reason": "Out",
-        "tier": "bench",
-        "mpg": 10.0
+        "tier": "star",
+        "mpg": 30.6
       }
     ],
     "Detroit Pistons": [
+      {
+        "player": "Caris LeVert",
+        "status": "questionable",
+        "reason": "Day-To-Day",
+        "tier": "starter",
+        "mpg": 19.4
+      },
       {
         "player": "Isaiah Stewart",
         "status": "out",
@@ -2739,7 +2746,7 @@
       "gp": 12.0
     },
     "Tony Bradley": {
-      "team": "Indiana Pacers",
+      "team": "Atlanta Hawks",
       "mpg": 11.0,
       "gp": 38.0
     },
