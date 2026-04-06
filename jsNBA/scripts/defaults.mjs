@@ -15,6 +15,7 @@ export const DEFAULT_STATS = {};
 
 export const DEFAULT_W = {
   // ── Projection weights (means) ────────────────────────────────────────
+  wOFF: 1,          // offensive rating weight
   wTS:  1,          // true shooting % delta weight
   wTO:  1,          // turnover % delta weight
   wORR: 1,          // offensive rebound rate delta weight

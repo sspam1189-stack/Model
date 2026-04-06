@@ -104,7 +104,7 @@ export async function fetchFanDuelNBAOdds() {
       }
     }
 
-    games.push({ away, home, line, total, _book: "FanDuel" });
+    games.push({ away, home, line, total, _book: "FanDuel", startTimeUTC: openDate || null });
   }
 
   // Cache
@@ -117,9 +117,15 @@ export async function fetchFanDuelNBAOdds() {
       if (fs.existsSync(cachePath)) {
         existing = JSON.parse(fs.readFileSync(cachePath, "utf8"));
       }
+      const now = new Date();
       for (const g of games) {
         if (g.line != null || g.total != null) {
-          existing[`${g.away}@${g.home}`] = { line: g.line, total: g.total, _book: "FanDuel", _note: "fanduel live" };
+          const key = `${g.away}@${g.home}`;
+          // Lock odds once game has started — allow line movement updates before tip-off
+          const started = g.startTimeUTC && new Date(g.startTimeUTC) <= now;
+          if (!existing[key] || !started) {
+            existing[key] = { line: g.line, total: g.total, _book: "FanDuel", _note: "fanduel live" };
+          }
         }
       }
       fs.writeFileSync(cachePath, JSON.stringify(existing, null, 2));

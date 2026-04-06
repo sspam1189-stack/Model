@@ -326,21 +326,21 @@ export function adjustTeamStats(teamStats, injuryReport, playerMPG, playerAdv, t
     const availORB = weightedAvg(available, 0, p => p.orbPct);
 
     // Compute deltas and apply to team stats
-    // Impact-aware dampening — stars with high NET ratings have outsized impact
-    // that the weighted-average approach underestimates (spacing, gravity, shot creation).
-    // Scale the dampening factor based on the best out player's impact.
+    // Impact-aware dampening — scale continuously with player's actual MPG + NET
+    // rating. Stacks for multiple key absences: best player's dampen is the base,
+    // each additional player with dampen > 0.75 adds 15% of theirs on top.
+    // NBA is star-driven — losing 2+ key guys compounds the impact.
     function impactDampen(outList) {
-      let best = 0.70;
-      for (const p of outList) {
+      const dampens = outList.map(p => {
         const net = p.netRtg ?? (p.offRtg != null && p.defRtg != null ? p.offRtg - p.defRtg : 0);
-        let d;
-        if (p.min >= 32 && net > 5)  d = 1.20;  // star with elite NET
-        else if (p.min >= 32)        d = 1.00;  // star, moderate NET
-        else if (p.min >= 22)        d = 0.85;  // starter
-        else                         d = 0.70;  // bench
-        if (d > best) best = d;
+        return Math.min(1.40, Math.max(0.50, 0.50 + p.min * 0.008 + net * 0.03));
+      }).sort((a, b) => b - a);  // highest first
+      if (!dampens.length) return 0.50;
+      let total = dampens[0];
+      for (let i = 1; i < dampens.length; i++) {
+        if (dampens[i] > 0.75) total += dampens[i] * 0.15;
       }
-      return best;
+      return Math.min(1.60, total);
     }
     const DAMPEN = impactDampen(out);
 
@@ -348,7 +348,11 @@ export function adjustTeamStats(teamStats, injuryReport, playerMPG, playerAdv, t
     const adj = { ...orig };
     let anyChange = false;
 
-    const outNames = out.map(o => `${o.name} (${o.min.toFixed(0)} min)`).join(", ");
+    const outNames = out.map(o => {
+      const net = o.netRtg ?? (o.offRtg != null && o.defRtg != null ? o.offRtg - o.defRtg : 0);
+      return `${o.name} (${o.min.toFixed(0)} mpg, NET ${net >= 0 ? "+" : ""}${net.toFixed(1)})`;
+    }).join(", ");
+    console.log(`  [lineup] ${teamKey} missing: ${outNames} → dampen=${DAMPEN.toFixed(2)}`);
 
     if (fullOFF != null && availOFF != null) {
       const delta = (availOFF - fullOFF) * DAMPEN;
@@ -454,18 +458,16 @@ export function adjustTeamStats(teamStats, injuryReport, playerMPG, playerAdv, t
       const wTOV = wAvg(withoutReturnees, p => p.tovPct);
       const wORB = wAvg(withoutReturnees, p => p.orbPct);
 
-      let bestDampen = 0.70;
-      for (const ret of returnees) {
+      const retDampens = returnees.map(ret => {
         const p = ret.player;
         const net = p.netRtg ?? (p.offRtg != null && p.defRtg != null ? p.offRtg - p.defRtg : 0);
-        let d;
-        if (p.min >= 32 && net > 5)  d = 1.20;
-        else if (p.min >= 32)        d = 1.00;
-        else if (p.min >= 22)        d = 0.85;
-        else                         d = 0.70;
-        if (d > bestDampen) bestDampen = d;
+        return Math.min(1.40, Math.max(0.50, 0.50 + p.min * 0.008 + net * 0.03));
+      }).sort((a, b) => b - a);
+      let stackedDampen = retDampens[0] || 0.50;
+      for (let i = 1; i < retDampens.length; i++) {
+        if (retDampens[i] > 0.75) stackedDampen += retDampens[i] * 0.15;
       }
-      const boostDampen = bestDampen * 0.8;
+      const boostDampen = Math.min(1.60, stackedDampen) * 0.8;
 
       const orig = adjusted[teamKey] || teamStats[teamKey];
       const adj = { ...orig };
@@ -492,7 +494,9 @@ export function adjustTeamStats(teamStats, injuryReport, playerMPG, playerAdv, t
       if (anyChange) {
         adjusted[teamKey] = adj;
         for (const ret of returnees) {
-          console.log(`  [lineup] Boosting ${teamKey} for returning ${ret.tier}: ${ret.player.name} (was out ${ret.daysOut} of last ${Object.keys(recentInjuryDates).length} days)`);
+          const p = ret.player;
+          const net = p.netRtg ?? (p.offRtg != null && p.defRtg != null ? p.offRtg - p.defRtg : 0);
+          console.log(`  [lineup] Boosting ${teamKey} for returning ${ret.tier}: ${p.name} (${p.min.toFixed(0)} mpg, NET ${net >= 0 ? "+" : ""}${net.toFixed(1)}, dampen=${boostDampen.toFixed(2)}, was out ${ret.daysOut}/${Object.keys(recentInjuryDates).length} days)`);
         }
       }
     }

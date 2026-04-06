@@ -144,10 +144,20 @@ def fetch_fanduel_nba_odds():
             if os.path.exists(cache_path):
                 with open(cache_path, "r") as f:
                     existing = json.load(f)
+            now = datetime.datetime.now(datetime.timezone.utc)
             for g in games:
                 if g["line"] is not None or g["total"] is not None:
                     key = f"{g['away']}@{g['home']}"
-                    existing[key] = {"line": g["line"], "total": g["total"], "_book": "FanDuel", "_note": "fanduel live"}
+                    # Lock odds once game has started — allow line movement updates before tip-off
+                    started = False
+                    if g.get("startTimeUTC"):
+                        try:
+                            tip = datetime.datetime.fromisoformat(g["startTimeUTC"].replace("Z", "+00:00"))
+                            started = tip <= now
+                        except Exception:
+                            pass
+                    if key not in existing or not started:
+                        existing[key] = {"line": g["line"], "total": g["total"], "_book": "FanDuel", "_note": "fanduel live"}
             with open(cache_path, "w") as f:
                 json.dump(existing, f, indent=2)
             print(f"  [fanduel] Cached {len(games)} games to {date_key}.json")

@@ -1223,10 +1223,7 @@
       const recordStr = hasResults ? `${dayW}-${dayL}${dayP ? `-${dayP}` : ''}` : `${picks.length} pick${picks.length !== 1 ? 's' : ''}`;
 
       const sorted = [...games].sort((a, b) => {
-        const aP = a.sPick && a.sPick !== 'PASS' ? 0 : 1;
-        const bP = b.sPick && b.sPick !== 'PASS' ? 0 : 1;
-        if (aP !== bP) return aP - bP;
-        return (b.pCover || 0) - (a.pCover || 0);
+        return (a.startTimeUTC || '').localeCompare(b.startTimeUTC || '');
       });
 
       const cards = sorted.map(g => {
