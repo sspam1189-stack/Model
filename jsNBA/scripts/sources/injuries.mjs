@@ -356,6 +356,36 @@ function classifyTier(mpg) {
   return "bench";
 }
 
+// ── League-wide injuries supplement ─────────────────────────────────────────
+async function fetchLeagueWideInjuries(teamsPlaying) {
+  const url = "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries";
+  try {
+    const res = await fetch(url, {
+      headers: { "User-Agent": "Mozilla/5.0", Accept: "application/json" },
+    }).catch(() => null);
+    if (!res?.ok) return {};
+    const data = await res.json().catch(() => null);
+    if (!data?.injuries) return {};
+
+    const result = {};
+    for (const teamData of data.injuries) {
+      const teamName = teamData?.displayName || "";
+      if (!teamName || !teamsPlaying.has(teamName)) continue;
+      const players = [];
+      for (const inj of teamData?.injuries || []) {
+        const status = normalizeStatus(inj?.status || "");
+        if (status !== "out" && status !== "doubtful" && status !== "questionable") continue;
+        const name = inj?.athlete?.displayName;
+        if (!name) continue;
+        const reason = inj?.shortComment || inj?.longComment || inj?.status || "";
+        players.push({ player: name, status, reason });
+      }
+      if (players.length) result[teamName] = players;
+    }
+    return result;
+  } catch (_) { return {}; }
+}
+
 // ── Main export ─────────────────────────────────────────────────────────────
 // report -> { "Boston Celtics": [{ player, status, tier, mpg, reason }] }
 export async function fetchInjuryData(date = null, { seasonType = "Regular Season", espnType = 2 } = {}) {
@@ -369,6 +399,40 @@ export async function fetchInjuryData(date = null, { seasonType = "Regular Seaso
       return {};
     }),
   ]);
+
+  // Supplement with league-wide injuries for players the per-game data missed
+  try {
+    const teamsPlaying = new Set(Object.keys(gameAvailability));
+    const day = date || todayESPN();
+    const sbUrl = `https://site.api.espn.com/apis/site/v2/sports/basketball/nba/scoreboard?dates=${day}`;
+    const sbRes = await fetch(sbUrl, { headers: { "User-Agent": "Mozilla/5.0" } }).catch(() => null);
+    if (sbRes?.ok) {
+      const sb = await sbRes.json().catch(() => null);
+      for (const ev of sb?.events || []) {
+        for (const comp of ev?.competitions || []) {
+          for (const c of comp?.competitors || []) {
+            const tname = c?.team?.displayName;
+            if (tname) teamsPlaying.add(tname);
+          }
+        }
+      }
+    }
+    const lwInjuries = await fetchLeagueWideInjuries(teamsPlaying);
+    let added = 0;
+    for (const [teamName, lwPlayers] of Object.entries(lwInjuries)) {
+      const existingNames = new Set((gameAvailability[teamName] || []).map(p => p.player));
+      for (const p of lwPlayers) {
+        if (!existingNames.has(p.player)) {
+          if (!gameAvailability[teamName]) gameAvailability[teamName] = [];
+          gameAvailability[teamName].push(p);
+          added++;
+        }
+      }
+    }
+    if (added) console.log(`  [injuries] Merged ${added} additional players from league-wide injuries`);
+  } catch (e) {
+    console.warn(`  [injuries] League-wide merge failed (non-fatal): ${e.message}`);
+  }
 
   const report = {};
 
