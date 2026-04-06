@@ -591,7 +591,7 @@ function renderTodayPicks(run, runs) {
   const games = (run.games || [])
     .filter(g => g.status !== 'MISSING_ODDS' && g.status !== 'SKIPPED')
     .filter(g => g.sPick && g.sPick !== 'PASS' && isActionable(g.sConf))
-    .sort((a, b) => (b.pCover || 0) - (a.pCover || 0));
+    .sort((a, b) => (a.startTimeUTC || '').localeCompare(b.startTimeUTC || ''));
 
   let spreadItems = games.map(g => {
     const projMargin = Math.round((g.hS - g.aS) * 10) / 10;
@@ -1347,7 +1347,7 @@ function nflRenderTodayPicks(run) {
   const games = (run.games || [])
     .filter(g => g.status !== 'MISSING_ODDS' && g.status !== 'SKIPPED')
     .filter(g => g.sPick && g.sPick !== 'PASS' && isActionable(g.sConf))
-    .sort((a, b) => (b.pCover || 0) - (a.pCover || 0));
+    .sort((a, b) => (a.startTimeUTC || '').localeCompare(b.startTimeUTC || ''));
   if (!games.length) return `<div class="card card-picks"><div class="card-title">Picks — ${nflGetWeekLabel(run)}</div><div class="no-picks">No actionable picks this week.</div></div>`;
   const items = games.map(g => {
     const projMargin = g.projSpread ?? (Number.isFinite(g.hS) && Number.isFinite(g.aS) ? Math.round((g.hS - g.aS) * 10) / 10 : null);
