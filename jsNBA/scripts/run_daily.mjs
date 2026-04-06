@@ -1343,7 +1343,7 @@ async function main() {
   let ofsPlayers = new Set();
   try { ofsPlayers = await fetchOutForSeason(injuryData.report || {}); } catch (e) { /* non-critical */ }
 
-  const lineupStats = adjustTeamStats(stats, injuryData.report, injuryData.playerMPG, playerAdvanced, odds, { recentInjuryDates, ofsPlayers });
+  const lineupStats = await adjustTeamStats(stats, injuryData.report, injuryData.playerMPG, playerAdvanced, odds, { recentInjuryDates, ofsPlayers });
   const { adjusted: adjustedStats, b2bNotes } = applyB2BAdjustment(lineupStats, b2bTeams, odds);
   const a = getAvgs(adjustedStats); // league averages (used as fallback)
 

@@ -182,6 +182,143 @@ function resolveTeamName(teamName, knownKeys) {
 }
 
 
+// ── Team ID mapping for on/off API ──────────────────────────────────────────
+const TEAM_IDS = {
+  "Atlanta Hawks": "1610612737", "Boston Celtics": "1610612738",
+  "Brooklyn Nets": "1610612751", "Charlotte Hornets": "1610612766",
+  "Chicago Bulls": "1610612741", "Cleveland Cavaliers": "1610612739",
+  "Dallas Mavericks": "1610612742", "Denver Nuggets": "1610612743",
+  "Detroit Pistons": "1610612765", "Golden State Warriors": "1610612744",
+  "Houston Rockets": "1610612745", "Indiana Pacers": "1610612754",
+  "LA Clippers": "1610612746", "Los Angeles Lakers": "1610612747",
+  "Memphis Grizzlies": "1610612763", "Miami Heat": "1610612748",
+  "Milwaukee Bucks": "1610612749", "Minnesota Timberwolves": "1610612750",
+  "New Orleans Pelicans": "1610612740", "New York Knicks": "1610612752",
+  "Oklahoma City Thunder": "1610612760", "Orlando Magic": "1610612753",
+  "Philadelphia 76ers": "1610612755", "Phoenix Suns": "1610612756",
+  "Portland Trail Blazers": "1610612757", "Sacramento Kings": "1610612758",
+  "San Antonio Spurs": "1610612759", "Toronto Raptors": "1610612761",
+  "Utah Jazz": "1610612762", "Washington Wizards": "1610612764",
+};
+
+// ── Fetch on/off data for a team ────────────────────────────────────────────
+// Returns: { playerName: { onOFF, offOFF, onDEF, offDEF, onMin, offMin } }
+async function fetchTeamOnOff(teamName) {
+  const teamId = TEAM_IDS[teamName];
+  if (!teamId) return null;
+
+  const season = currentSeason();
+  const params = new URLSearchParams({
+    TeamID: teamId, MeasureType: "Advanced", Season: season,
+    SeasonType: "Regular Season", PerMode: "PerGame", LeagueID: "00",
+    DateFrom: "", DateTo: "", GameSegment: "", LastNGames: "0",
+    Location: "", Month: "0", OpponentTeamID: "0", Outcome: "",
+    PORound: "0", PaceAdjust: "N", Period: "0", PlusMinus: "N",
+    Rank: "N", SeasonSegment: "", ShotClockRange: "", VsConference: "", VsDivision: "",
+  });
+
+  const url = `https://stats.nba.com/stats/teamplayeronoffdetails?${params}`;
+  const res = await fetch(url, { headers: NBA_HEADERS }).catch(() => null);
+  if (!res?.ok) return null;
+
+  const json = await res.json().catch(() => null);
+  if (!json?.resultSets) return null;
+
+  const onSet = json.resultSets.find(r => r.name === "PlayersOnCourtTeamPlayerOnOffDetails");
+  const offSet = json.resultSets.find(r => r.name === "PlayersOffCourtTeamPlayerOnOffDetails");
+  const overallSet = json.resultSets.find(r => r.name === "OverallTeamPlayerOnOffDetails");
+  if (!onSet?.rowSet?.length || !offSet?.rowSet?.length) return null;
+
+  const hi = (headers, name) => headers.indexOf(name);
+  const teamTotalMin = overallSet?.rowSet?.[0]?.[hi(overallSet.headers, "MIN")] || 0;
+
+  const result = {};
+  for (const row of onSet.rowSet) {
+    const name = row[hi(onSet.headers, "VS_PLAYER_NAME")];
+    const onOFF = row[hi(onSet.headers, "OFF_RATING")];
+    const onDEF = row[hi(onSet.headers, "DEF_RATING")];
+    const onMin = row[hi(onSet.headers, "MIN")];
+    if (!name) continue;
+    result[name] = { onOFF, onDEF, onMin, offOFF: null, offDEF: null, offMin: 0 };
+  }
+  for (const row of offSet.rowSet) {
+    const name = row[hi(offSet.headers, "VS_PLAYER_NAME")];
+    const offOFF = row[hi(offSet.headers, "OFF_RATING")];
+    const offDEF = row[hi(offSet.headers, "DEF_RATING")];
+    const offMin = row[hi(offSet.headers, "MIN")];
+    if (!name || !result[name]) continue;
+    result[name].offOFF = offOFF;
+    result[name].offDEF = offDEF;
+    result[name].offMin = offMin;
+  }
+
+  return { players: result, teamTotalMin };
+}
+
+// ── On/off adjustment for a team ────────────────────────────────────────────
+// 1. Sort out players by |ON-OFF delta| (biggest impact first)
+// 2. Primary player: use their off-court rating directly
+// 3. Additional players: subtract delta × (onMin / teamTotalMin) — the overlap
+function computeOnOffAdj(outPlayerNames, onOffData, teamOFF, teamDEF) {
+  const { players, teamTotalMin } = onOffData;
+  if (!teamTotalMin) return null;
+
+  // Match out players to on/off data (last name fallback)
+  const matched = [];
+  for (const outName of outPlayerNames) {
+    // Try exact match (on/off uses "Last, First" format)
+    const lastName = realLastName(outName);
+    const firstName = outName.split(" ")[0];
+    const onOffKey = Object.keys(players).find(k => {
+      const parts = k.split(", ");
+      return (parts[0]?.toLowerCase() === lastName && parts[1]?.toLowerCase() === firstName.toLowerCase())
+        || k === outName;
+    });
+    if (onOffKey && players[onOffKey].offOFF != null && players[onOffKey].onMin >= 200) {
+      const p = players[onOffKey];
+      matched.push({
+        name: outName,
+        onOFF: p.onOFF, offOFF: p.offOFF,
+        onDEF: p.onDEF, offDEF: p.offDEF,
+        onMin: p.onMin,
+        offDelta: p.onOFF - p.offOFF,
+        defDelta: p.onDEF - p.offDEF,
+      });
+    }
+  }
+
+  if (!matched.length) return null;
+
+  // Sort by OFF delta magnitude (biggest impact first)
+  matched.sort((a, b) => Math.abs(b.offDelta) - Math.abs(a.offDelta));
+
+  // Primary player: use off-court rating directly
+  const primary = matched[0];
+  let adjOFF = primary.offOFF;
+  let adjDEF = primary.offDEF;
+
+  const parts = [`${primary.name}: off-court OFF=${primary.offOFF} DEF=${primary.offDEF}`];
+
+  // Additional players: subtract their boost from primary's off-court sample
+  for (let i = 1; i < matched.length; i++) {
+    const p = matched[i];
+    const onFrac = p.onMin / teamTotalMin;
+    const offBoost = p.offDelta * onFrac;
+    const defBoost = p.defDelta * onFrac;
+    adjOFF -= offBoost;
+    adjDEF -= defBoost;
+    parts.push(`${p.name}: delta=${p.offDelta.toFixed(1)} × ${(onFrac*100).toFixed(0)}% = ${offBoost.toFixed(2)}`);
+  }
+
+  const offAdj = adjOFF - teamOFF;
+  const defAdj = adjDEF - teamDEF;
+
+  console.log(`  [lineup/onoff] ${parts.join(" | ")}`);
+  console.log(`  [lineup/onoff] Adjusted OFF: ${adjOFF.toFixed(1)} (delta ${offAdj >= 0 ? "+" : ""}${offAdj.toFixed(1)}), DEF: ${adjDEF.toFixed(1)} (delta ${defAdj >= 0 ? "+" : ""}${defAdj.toFixed(1)})`);
+
+  return { offAdj, defAdj };
+}
+
 // ── Core: Compute lineup-adjusted team stats ────────────────────────────────
 //
 // teamStats:     { "Cleveland Cavaliers": { OFF, DEF, TS, TO, ORR, PACE, GP } }
@@ -193,7 +330,7 @@ function resolveTeamName(teamName, knownKeys) {
 // Returns: adjusted copy of teamStats (same shape). Teams not playing today or
 //          with no meaningful injuries pass through unchanged.
 
-export function adjustTeamStats(teamStats, injuryReport, playerMPG, playerAdv, todaysGames, { recentInjuryDates = null, ofsPlayers = null } = {}) {
+export async function adjustTeamStats(teamStats, injuryReport, playerMPG, playerAdv, todaysGames, { recentInjuryDates = null, ofsPlayers = null } = {}) {
   if (!playerAdv || !Object.keys(playerAdv).length) {
 
     return teamStats;
@@ -294,35 +431,6 @@ export function adjustTeamStats(teamStats, injuryReport, playerMPG, playerAdv, t
       continue;
     }
 
-    // Compute full-roster weighted averages
-    // Offensive stats (OFF, TS%, TOV%) weighted by usage — captures shot creation impact
-    // Defensive stats (DEF) and rebounding (ORB%) weighted by minutes — defense is about court time
-    const fullTotalMin = roster.reduce((s, r) => s + r.min, 0);
-    if (fullTotalMin <= 0) continue;
-
-    const weightedAvg = (players, getter, weightFn) => {
-      let sum = 0, totalW = 0;
-      for (const p of players) {
-        const val = getter(p);
-        const w = weightFn(p);
-        if (Number.isFinite(val) && Number.isFinite(w) && w > 0) {
-          sum += w * val;
-          totalW += w;
-        }
-      }
-      return totalW > 0 ? sum / totalW : null;
-    };
-
-    const byUsage = (p) => (p.usgPct ?? 0) * p.min;  // usage × minutes = total possessions used
-    const byMin   = (p) => p.min;
-
-    // Only adjust OFF and DEF — these are the only stats the model uses in projScore.
-    // OFF weighted by usage (captures shot creation impact), DEF weighted by minutes.
-    const fullOFF  = weightedAvg(roster, p => p.offRtg, byUsage);
-    const fullDEF  = weightedAvg(roster, p => p.defRtg, byMin);
-    const availOFF = weightedAvg(available, p => p.offRtg, byUsage);
-    const availDEF = weightedAvg(available, p => p.defRtg, byMin);
-
     const orig = adjusted[teamKey] || teamStats[teamKey];
     const adj = { ...orig };
     let anyChange = false;
@@ -334,13 +442,58 @@ export function adjustTeamStats(teamStats, injuryReport, playerMPG, playerAdv, t
     const totalMPG = out.reduce((s, o) => s + o.min, 0);
     console.log(`  [lineup] ${teamKey} missing: ${outNames} (${totalMPG.toFixed(0)} total mpg)`);
 
-    if (fullOFF != null && availOFF != null) {
-      adj.OFF = Math.round((orig.OFF + (availOFF - fullOFF)) * 100) / 100;
-      anyChange = true;
+    // Try on/off approach first (uses real measured team performance with/without each player)
+    const outPlayerNames = out.map(o => o.name);
+    let onOffResult = null;
+    try {
+      const onOffData = await fetchTeamOnOff(teamKey);
+      if (onOffData) {
+        onOffResult = computeOnOffAdj(outPlayerNames, onOffData, orig.OFF, orig.DEF);
+      }
+    } catch (e) {
+      console.warn(`  [lineup/onoff] Failed for ${teamKey}: ${e.message}`);
     }
-    if (fullDEF != null && availDEF != null) {
-      adj.DEF = Math.round((orig.DEF + (availDEF - fullDEF)) * 100) / 100;
+
+    if (onOffResult) {
+      // Use on/off adjustment
+      adj.OFF = Math.round((orig.OFF + onOffResult.offAdj) * 100) / 100;
+      adj.DEF = Math.round((orig.DEF + onOffResult.defAdj) * 100) / 100;
       anyChange = true;
+    } else {
+      // Fallback: usage-weighted roster average
+      console.log(`  [lineup] Falling back to weighted average for ${teamKey}`);
+      const fullTotalMin = roster.reduce((s, r) => s + r.min, 0);
+      if (fullTotalMin <= 0) continue;
+
+      const weightedAvg = (players, getter, weightFn) => {
+        let sum = 0, totalW = 0;
+        for (const p of players) {
+          const val = getter(p);
+          const w = weightFn(p);
+          if (Number.isFinite(val) && Number.isFinite(w) && w > 0) {
+            sum += w * val;
+            totalW += w;
+          }
+        }
+        return totalW > 0 ? sum / totalW : null;
+      };
+
+      const byUsage = (p) => (p.usgPct ?? 0) * p.min;
+      const byMin   = (p) => p.min;
+
+      const fullOFF  = weightedAvg(roster, p => p.offRtg, byUsage);
+      const fullDEF  = weightedAvg(roster, p => p.defRtg, byMin);
+      const availOFF = weightedAvg(available, p => p.offRtg, byUsage);
+      const availDEF = weightedAvg(available, p => p.defRtg, byMin);
+
+      if (fullOFF != null && availOFF != null) {
+        adj.OFF = Math.round((orig.OFF + (availOFF - fullOFF)) * 100) / 100;
+        anyChange = true;
+      }
+      if (fullDEF != null && availDEF != null) {
+        adj.DEF = Math.round((orig.DEF + (availDEF - fullDEF)) * 100) / 100;
+        anyChange = true;
+      }
     }
 
     if (anyChange) {
