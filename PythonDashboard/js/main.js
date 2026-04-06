@@ -721,8 +721,7 @@ function renderGameCards(run) {
 
     const injuryHtml = g.injuryNote ? g.injuryNote.split(' | ').map(s => `<div class="injury">${esc(s)}</div>`).join('') : '';
     const b2bHtml = g.b2bNote ? `<div class="b2b">${esc(g.b2bNote)}</div>` : '';
-    const scoreHtml = Number.isFinite(g.awayScore) && Number.isFinite(g.homeScore)
-      ? `<div class="final-score">Final: ${g.awayScore}-${g.homeScore}</div>` : '';
+    const scoreHtml = '';
 
     let trendsHtml = '';
     if (g.trends) {
