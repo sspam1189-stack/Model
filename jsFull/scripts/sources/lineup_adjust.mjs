@@ -325,30 +325,9 @@ export function adjustTeamStats(teamStats, injuryReport, playerMPG, playerAdv, t
     const availTOV = weightedAvg(available, 0, p => p.tovPct);
     const availORB = weightedAvg(available, 0, p => p.orbPct);
 
-    // Compute deltas and apply to team stats
-    // Impact-aware dampening — scale continuously with player's actual MPG + NET
-    // rating. Stacks for multiple key absences: best player's dampen is the base,
-    // each additional player with dampen > 0.75 adds to the total.
-    // High-usage players (28+ mpg) stack at 30%, others at 15%.
-    // NBA is star-driven — losing 2+ key guys compounds the impact.
-    function impactDampen(outList) {
-      const entries = outList.map(p => {
-        const net = p.netRtg ?? (p.offRtg != null && p.defRtg != null ? p.offRtg - p.defRtg : 0);
-        const d = Math.min(1.40, Math.max(0.50, 0.50 + p.min * 0.008 + net * 0.03));
-        return { d, min: p.min };
-      }).sort((a, b) => b.d - a.d);  // highest first
-      if (!entries.length) return 0.50;
-      let total = entries[0].d;
-      for (let i = 1; i < entries.length; i++) {
-        if (entries[i].d > 0.75) {
-          const stackRate = entries[i].min >= 28 ? 0.30 : 0.15;
-          total += entries[i].d * stackRate;
-        }
-      }
-      return Math.min(1.60, total);
-    }
-    const DAMPEN = impactDampen(out);
-
+    // Compute deltas and apply directly to team stats.
+    // The weighted average delta already captures each player's impact
+    // proportional to their minutes — no dampening needed.
     const orig = adjusted[teamKey] || teamStats[teamKey];
     const adj = { ...orig };
     let anyChange = false;
@@ -357,29 +336,25 @@ export function adjustTeamStats(teamStats, injuryReport, playerMPG, playerAdv, t
       const net = o.netRtg ?? (o.offRtg != null && o.defRtg != null ? o.offRtg - o.defRtg : 0);
       return `${o.name} (${o.min.toFixed(0)} mpg, NET ${net >= 0 ? "+" : ""}${net.toFixed(1)})`;
     }).join(", ");
-    console.log(`  [lineup] ${teamKey} missing: ${outNames} → dampen=${DAMPEN.toFixed(2)}`);
+    const totalMPG = out.reduce((s, o) => s + o.min, 0);
+    console.log(`  [lineup] ${teamKey} missing: ${outNames} (${totalMPG.toFixed(0)} total mpg)`);
 
     if (fullOFF != null && availOFF != null) {
-      const delta = (availOFF - fullOFF) * DAMPEN;
-      adj.OFF = Math.round((orig.OFF + delta) * 100) / 100;
+      adj.OFF = Math.round((orig.OFF + (availOFF - fullOFF)) * 100) / 100;
       anyChange = true;
     }
     if (fullDEF != null && availDEF != null) {
-      const delta = (availDEF - fullDEF) * DAMPEN;
-      adj.DEF = Math.round((orig.DEF + delta) * 100) / 100;
+      adj.DEF = Math.round((orig.DEF + (availDEF - fullDEF)) * 100) / 100;
       anyChange = true;
     }
     if (fullTS != null && availTS != null) {
-      const delta = (availTS - fullTS) * DAMPEN;
-      adj.TS = Math.round((orig.TS + delta) * 10000) / 10000;
+      adj.TS = Math.round((orig.TS + (availTS - fullTS)) * 10000) / 10000;
     }
     if (fullTOV != null && availTOV != null) {
-      const delta = (availTOV - fullTOV) * DAMPEN;
-      adj.TO = Math.round((orig.TO + delta) * 10000) / 10000;
+      adj.TO = Math.round((orig.TO + (availTOV - fullTOV)) * 10000) / 10000;
     }
     if (fullORB != null && availORB != null) {
-      const delta = (availORB - fullORB) * DAMPEN;
-      adj.ORR = Math.round((orig.ORR + delta) * 10000) / 10000;
+      adj.ORR = Math.round((orig.ORR + (availORB - fullORB)) * 10000) / 10000;
     }
 
     if (anyChange) {
