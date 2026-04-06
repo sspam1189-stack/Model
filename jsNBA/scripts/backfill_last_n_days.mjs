@@ -280,7 +280,8 @@ async function main() {
         home: gl.home,
         line: odds.line,
         total: odds.total,
-        _book: odds._book
+        _book: odds._book,
+        startTimeUTC: gl.commenceTimeIso || null,
       };
 
       if (typeof g.line !== "number" || typeof g.total !== "number") {

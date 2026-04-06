@@ -144,7 +144,7 @@ export async function fetchTodaysOdds() {
       if (out) total = Number(out.point);
     }
 
-    games.push({ away, home, line, total, _book: book?.title ?? null });
+    games.push({ away, home, line, total, _book: book?.title ?? null, startTimeUTC: ev?.commence_time || null });
   }
 
   // Load existing cache
