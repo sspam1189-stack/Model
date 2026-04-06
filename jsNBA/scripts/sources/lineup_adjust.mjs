@@ -330,16 +330,21 @@ export function adjustTeamStats(teamStats, injuryReport, playerMPG, playerAdv, t
     // Compute deltas and apply to team stats
     // Impact-aware dampening — scale continuously with player's actual MPG + NET
     // rating. Stacks for multiple key absences: best player's dampen is the base,
-    // each additional player with dampen > 0.75 adds 15% of theirs on top.
+    // each additional player with dampen > 0.75 adds to the total.
+    // High-usage players (28+ mpg) stack at 30%, others at 15%.
     function impactDampen(outList) {
-      const dampens = outList.map(p => {
+      const entries = outList.map(p => {
         const net = p.netRtg ?? (p.offRtg != null && p.defRtg != null ? p.offRtg - p.defRtg : 0);
-        return Math.min(1.40, Math.max(0.50, 0.50 + p.min * 0.008 + net * 0.03));
-      }).sort((a, b) => b - a);
-      if (!dampens.length) return 0.50;
-      let total = dampens[0];
-      for (let i = 1; i < dampens.length; i++) {
-        if (dampens[i] > 0.75) total += dampens[i] * 0.15;
+        const d = Math.min(1.40, Math.max(0.50, 0.50 + p.min * 0.008 + net * 0.03));
+        return { d, min: p.min };
+      }).sort((a, b) => b.d - a.d);
+      if (!entries.length) return 0.50;
+      let total = entries[0].d;
+      for (let i = 1; i < entries.length; i++) {
+        if (entries[i].d > 0.75) {
+          const stackRate = entries[i].min >= 28 ? 0.30 : 0.15;
+          total += entries[i].d * stackRate;
+        }
       }
       return Math.min(1.60, total);
     }
