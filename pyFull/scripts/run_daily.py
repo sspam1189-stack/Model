@@ -705,7 +705,24 @@ def main(subject_label="[PY]"):
     dynamic_residual_var = compute_residual_var(store.get("runs", []))
     store["residualVar"] = dynamic_residual_var
 
-    # 4. Analyze each game
+    # 4. Analyze each game — filter to only games on the run date
+    def _game_on_run_date(g):
+        st = g.get("startTimeUTC")
+        if not st:
+            return True
+        try:
+            from datetime import datetime, timezone, timedelta
+            dt = datetime.fromisoformat(st.replace("Z", "+00:00"))
+            chicago = dt.astimezone(timezone(timedelta(hours=-5)))  # CDT approx
+            game_date = chicago.strftime("%Y%m%d")
+            if game_date != date:
+                print(f"  [filter] Skipping {g.get('away','')} @ {g.get('home','')} — game date {game_date} != run date {date}")
+                return False
+        except Exception:
+            pass
+        return True
+
+    odds = [g for g in odds if _game_on_run_date(g)]
     _skipped_live = 0
     print(f"[3/7] Analyzing {len(odds)} games...")
     games = []
