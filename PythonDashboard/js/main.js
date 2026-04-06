@@ -665,7 +665,7 @@ function renderSpreadRecord(runs, modelSummary = null) {
 
 function renderProbTable(run) {
   const games = (run.games || []).filter(g => g.status !== 'MISSING_ODDS' && g.status !== 'SKIPPED')
-    .sort((a, b) => (a.startTimeUTC || '').localeCompare(b.startTimeUTC || ''));
+    .sort((a, b) => (a.startTimeUTC || '').localeCompare(b.startTimeUTC || '') || (a.home || '').localeCompare(b.home || ''));
   if (!games.length) return '';
   const rows = games.map(g => {
     const sPick = g.sPick && g.sPick !== 'PASS'
@@ -876,7 +876,7 @@ function renderHistoryDay(run) {
   const recordStr = hasResults ? `${dayW}-${dayL}${dayP ? `-${dayP}` : ''}` : `${picks.length} pick${picks.length !== 1 ? 's' : ''}`;
 
   const sorted = [...games].sort((a, b) => {
-    return (a.startTimeUTC || '').localeCompare(b.startTimeUTC || '');
+    return (a.startTimeUTC || '').localeCompare(b.startTimeUTC || '') || (a.home || '').localeCompare(b.home || '');
   });
 
   const cards = sorted.map(g => {
