@@ -1425,11 +1425,24 @@ async function main() {
   const dynamicResidualVar = computeResidualVar(store.runs || []);
   store.residualVar = dynamicResidualVar;
 
-  // 4. Analyze each game
+  // 4. Analyze each game — filter to only games on the run date
+  const filteredOdds = odds.filter(g => {
+    if (!g.startTimeUTC) return true;
+    try {
+      const gameDate = new Intl.DateTimeFormat("en-CA", {
+        timeZone: "America/Chicago", year: "numeric", month: "2-digit", day: "2-digit",
+      }).format(new Date(g.startTimeUTC)).replace(/-/g, "");
+      if (gameDate !== date) {
+        console.log(`  [filter] Skipping ${g.away} @ ${g.home} — game date ${gameDate} != run date ${date}`);
+        return false;
+      }
+    } catch (_) {}
+    return true;
+  });
   let _skippedLive = 0;
-  console.log("[3/7] Analyzing " + odds.length + " games...");
+  console.log("[3/7] Analyzing " + filteredOdds.length + " games...");
   const games = [];
-  for (const g of odds) {
+  for (const g of filteredOdds) {
     // Preserve previous picks for games already started or finished
     if (_gameStartedOrFinished(g.away || "", g.home || "")) {
       const prev = _findPrevGame(g.away || "", g.home || "");
