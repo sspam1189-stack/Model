@@ -318,23 +318,13 @@ export function adjustTeamStats(teamStats, injuryReport, playerMPG, playerAdv, t
     const byUsage = (p) => (p.usgPct ?? 0) * p.min;  // usage × minutes = total possessions used
     const byMin   = (p) => p.min;
 
-    // Full-roster weighted averages
-    // OFF and TS% weighted by usage — these are individual scoring stats
-    // DEF, TOV%, ORB% weighted by minutes — team-level stats driven by court time
-    const fullOFF = weightedAvg(roster, p => p.offRtg, byUsage);
-    const fullDEF = weightedAvg(roster, p => p.defRtg, byMin);
-    const fullTS  = weightedAvg(roster, p => p.tsPct,  byUsage);
-    const fullTOV = weightedAvg(roster, p => p.tovPct, byMin);
-    const fullORB = weightedAvg(roster, p => p.orbPct, byMin);
-
-    // Available-roster weighted averages (same weighting scheme)
+    // Only adjust OFF and DEF — these are the only stats the model uses in projScore.
+    // OFF weighted by usage (captures shot creation impact), DEF weighted by minutes.
+    const fullOFF  = weightedAvg(roster, p => p.offRtg, byUsage);
+    const fullDEF  = weightedAvg(roster, p => p.defRtg, byMin);
     const availOFF = weightedAvg(available, p => p.offRtg, byUsage);
     const availDEF = weightedAvg(available, p => p.defRtg, byMin);
-    const availTS  = weightedAvg(available, p => p.tsPct,  byUsage);
-    const availTOV = weightedAvg(available, p => p.tovPct, byMin);
-    const availORB = weightedAvg(available, p => p.orbPct, byMin);
 
-    // Compute deltas and apply directly to team stats.
     const orig = adjusted[teamKey] || teamStats[teamKey];
     const adj = { ...orig };
     let anyChange = false;
@@ -353,15 +343,6 @@ export function adjustTeamStats(teamStats, injuryReport, playerMPG, playerAdv, t
     if (fullDEF != null && availDEF != null) {
       adj.DEF = Math.round((orig.DEF + (availDEF - fullDEF)) * 100) / 100;
       anyChange = true;
-    }
-    if (fullTS != null && availTS != null) {
-      adj.TS = Math.round((orig.TS + (availTS - fullTS)) * 10000) / 10000;
-    }
-    if (fullTOV != null && availTOV != null) {
-      adj.TO = Math.round((orig.TO + (availTOV - fullTOV)) * 10000) / 10000;
-    }
-    if (fullORB != null && availORB != null) {
-      adj.ORR = Math.round((orig.ORR + (availORB - fullORB)) * 10000) / 10000;
     }
 
     if (anyChange) {
