@@ -78,44 +78,37 @@
     ],
     "Memphis Grizzlies": [
       {
-        "player": "Cam Spencer",
-        "status": "questionable",
-        "reason": "Day-To-Day",
-        "tier": "starter",
-        "mpg": 23.9
-      },
-      {
         "player": "Javon Small",
-        "status": "questionable",
-        "reason": "Day-To-Day",
+        "status": "out",
+        "reason": "Out",
         "tier": "starter",
         "mpg": 20.1
       },
       {
-        "player": "Jahmai Mashack",
+        "player": "Taylor Hendricks",
         "status": "questionable",
         "reason": "Day-To-Day",
+        "tier": "starter",
+        "mpg": 18.9
+      },
+      {
+        "player": "Taj Gibson",
+        "status": "questionable",
+        "reason": "Day-To-Day",
+        "tier": "bench",
+        "mpg": 9.1
+      },
+      {
+        "player": "Jahmai Mashack",
+        "status": "out",
+        "reason": "Out",
         "tier": "starter",
         "mpg": 19.8
       },
       {
-        "player": "GG Jackson",
-        "status": "questionable",
-        "reason": "Day-To-Day",
-        "tier": "starter",
-        "mpg": 21.5
-      },
-      {
-        "player": "Cedric Coward",
-        "status": "questionable",
-        "reason": "Day-To-Day",
-        "tier": "starter",
-        "mpg": 26.0
-      },
-      {
         "player": "Ty Jerome",
         "status": "out",
-        "reason": "Jerome (ankle) won't play Sunday in Milwaukee.",
+        "reason": "Out",
         "tier": "starter",
         "mpg": 22.6
       },
@@ -171,25 +164,25 @@
     ],
     "Cleveland Cavaliers": [
       {
-        "player": "Evan Mobley",
-        "status": "questionable",
-        "reason": "Day-To-Day",
-        "tier": "star",
-        "mpg": 32.1
+        "player": "Thomas Bryant",
+        "status": "out",
+        "reason": "Out",
+        "tier": "bench",
+        "mpg": 12.2
       },
       {
-        "player": "Sam Merrill",
-        "status": "questionable",
-        "reason": "Day-To-Day",
+        "player": "Dean Wade",
+        "status": "out",
+        "reason": "Out",
         "tier": "starter",
-        "mpg": 26.4
+        "mpg": 22.4
       },
       {
-        "player": "Jarrett Allen",
-        "status": "questionable",
-        "reason": "Day-To-Day",
+        "player": "Max Strus",
+        "status": "out",
+        "reason": "Out",
         "tier": "starter",
-        "mpg": 27.1
+        "mpg": 25.1
       },
       {
         "player": "Jaylon Tyson",
@@ -199,11 +192,18 @@
         "mpg": 27.0
       },
       {
-        "player": "Dean Wade",
+        "player": "James Harden",
         "status": "out",
         "reason": "Out",
-        "tier": "starter",
-        "mpg": 22.4
+        "tier": "star",
+        "mpg": 35.0
+      },
+      {
+        "player": "Donovan Mitchell",
+        "status": "out",
+        "reason": "Mitchell is out for Monday's game against the Grizzlies with a left ankle sprain.",
+        "tier": "star",
+        "mpg": 33.4
       }
     ],
     "San Antonio Spurs": [
