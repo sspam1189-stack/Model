@@ -95,6 +95,7 @@ export async function fetchPlayerAdvanced({ seasonType = "Regular Season" } = {}
   const iTOV    = idx("TM_TOV_PCT");    // team turnover % when player is on court
   const iORB    = idx("OREB_PCT");      // team offensive rebound % when player is on court
   const iPACE   = idx("PACE");
+  const iUSG    = idx("USG_PCT");       // usage rate — % of team possessions used by player
 
   // Minimum required columns
   if ([iName, iMIN, iGP, iOFF, iDEF].some(i => i === -1)) {
@@ -141,6 +142,7 @@ export async function fetchPlayerAdvanced({ seasonType = "Regular Season" } = {}
       tovPct:  iTOV !== -1 ? Number(row[iTOV]) : null,
       orbPct:  iORB !== -1 ? Number(row[iORB]) : null,
       pace:    iPACE !== -1 ? Number(row[iPACE]) : null,
+      usgPct:  iUSG !== -1 ? Number(row[iUSG]) : null,
     };
   }
 
@@ -294,49 +296,42 @@ export function adjustTeamStats(teamStats, injuryReport, playerMPG, playerAdv, t
       continue;
     }
 
-    // Compute full-roster weighted averages (weighted by minutes)
+    // Compute full-roster weighted averages
+    // Offensive stats (OFF, TS%, TOV%) weighted by usage — captures shot creation impact
+    // Defensive stats (DEF) and rebounding (ORB%) weighted by minutes — defense is about court time
     const fullTotalMin = roster.reduce((s, r) => s + r.min, 0);
     if (fullTotalMin <= 0) continue;
 
-    const weightedAvg = (players, totalMin, getter) => {
-      let sum = 0, validMin = 0;
+    const weightedAvg = (players, getter, weightFn) => {
+      let sum = 0, totalW = 0;
       for (const p of players) {
         const val = getter(p);
-        if (Number.isFinite(val)) {
-          sum += p.min * val;
-          validMin += p.min;
+        const w = weightFn(p);
+        if (Number.isFinite(val) && Number.isFinite(w) && w > 0) {
+          sum += w * val;
+          totalW += w;
         }
       }
-      return validMin > 0 ? sum / validMin : null;
+      return totalW > 0 ? sum / totalW : null;
     };
 
-    // Full-roster weighted averages
-    const fullOFF = weightedAvg(roster, fullTotalMin, p => p.offRtg);
-    const fullDEF = weightedAvg(roster, fullTotalMin, p => p.defRtg);
-    const fullTS  = weightedAvg(roster, fullTotalMin, p => p.tsPct);
-    const fullTOV = weightedAvg(roster, fullTotalMin, p => p.tovPct);
-    const fullORB = weightedAvg(roster, fullTotalMin, p => p.orbPct);
+    const byUsage = (p) => (p.usgPct ?? 0) * p.min;  // usage × minutes = total possessions used
+    const byMin   = (p) => p.min;
 
-    // Available-roster: redistribute proportionally
-    // Each available player's projected minutes = their MPG × (total / available_total)
-    // But for the weighted average, the scaling cancels out — we just weight by each
-    // available player's original minutes.
-    const availOFF = weightedAvg(available, 0, p => p.offRtg);
-    const availDEF = weightedAvg(available, 0, p => p.defRtg);
-    const availTS  = weightedAvg(available, 0, p => p.tsPct);
-    const availTOV = weightedAvg(available, 0, p => p.tovPct);
-    const availORB = weightedAvg(available, 0, p => p.orbPct);
+    // Only adjust OFF and DEF — these are the only stats the model uses in projScore.
+    // OFF weighted by usage (captures shot creation impact), DEF weighted by minutes.
+    const fullOFF  = weightedAvg(roster, p => p.offRtg, byUsage);
+    const fullDEF  = weightedAvg(roster, p => p.defRtg, byMin);
+    const availOFF = weightedAvg(available, p => p.offRtg, byUsage);
+    const availDEF = weightedAvg(available, p => p.defRtg, byMin);
 
-    // Compute deltas and apply directly to team stats.
-    // The weighted average delta already captures each player's impact
-    // proportional to their minutes — no dampening needed.
     const orig = adjusted[teamKey] || teamStats[teamKey];
     const adj = { ...orig };
     let anyChange = false;
 
     const outNames = out.map(o => {
-      const net = o.netRtg ?? (o.offRtg != null && o.defRtg != null ? o.offRtg - o.defRtg : 0);
-      return `${o.name} (${o.min.toFixed(0)} mpg, NET ${net >= 0 ? "+" : ""}${net.toFixed(1)})`;
+      const usg = o.usgPct != null ? (o.usgPct * 100).toFixed(1) : "?";
+      return `${o.name} (${o.min.toFixed(0)} mpg, USG ${usg}%)`;
     }).join(", ");
     const totalMPG = out.reduce((s, o) => s + o.min, 0);
     console.log(`  [lineup] ${teamKey} missing: ${outNames} (${totalMPG.toFixed(0)} total mpg)`);
@@ -348,15 +343,6 @@ export function adjustTeamStats(teamStats, injuryReport, playerMPG, playerAdv, t
     if (fullDEF != null && availDEF != null) {
       adj.DEF = Math.round((orig.DEF + (availDEF - fullDEF)) * 100) / 100;
       anyChange = true;
-    }
-    if (fullTS != null && availTS != null) {
-      adj.TS = Math.round((orig.TS + (availTS - fullTS)) * 10000) / 10000;
-    }
-    if (fullTOV != null && availTOV != null) {
-      adj.TO = Math.round((orig.TO + (availTOV - fullTOV)) * 10000) / 10000;
-    }
-    if (fullORB != null && availORB != null) {
-      adj.ORR = Math.round((orig.ORR + (availORB - fullORB)) * 10000) / 10000;
     }
 
     if (anyChange) {
