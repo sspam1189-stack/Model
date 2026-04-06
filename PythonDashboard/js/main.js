@@ -699,7 +699,8 @@ function renderVetoTable() { return ''; }
 function renderRecentVetoes() { return ''; }
 
 function renderGameCards(run) {
-  const games = run.games || [];
+  const games = [...(run.games || [])].sort((a, b) =>
+    (a.startTimeUTC || '').localeCompare(b.startTimeUTC || '') || (a.home || '').localeCompare(b.home || ''));
   if (!games.length) return '';
   const cards = games.map(g => {
     const isSkipped = g.status === 'MISSING_ODDS' || g.status === 'SKIPPED';
