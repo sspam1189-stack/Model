@@ -305,8 +305,7 @@ async function main() {
       if (typeof g.line !== "number" || typeof g.total !== "number") {
         games.push({
           ...g,
-          awayScore: gl.awayScore,
-          homeScore: gl.homeScore,
+          ...(i > 1 ? { awayScore: gl.awayScore, homeScore: gl.homeScore } : {}),
           status: "MISSING_ODDS",
           note: odds._note || "Historical odds not available for this game"
         });
@@ -323,16 +322,18 @@ async function main() {
       if (!r) {
         games.push({
           ...g,
-          awayScore: gl.awayScore,
-          homeScore: gl.homeScore,
+          ...(i > 1 ? { awayScore: gl.awayScore, homeScore: gl.homeScore } : {}),
           status: "SKIPPED",
           note: "analyzeGame returned null (team name mismatch or bad inputs)"
         });
         continue;
       }
 
-      r.awayScore = gl.awayScore;
-      r.homeScore = gl.homeScore;
+      // Don't attach scores on last day — let the live run grade them
+      if (i > 1) {
+        r.awayScore = gl.awayScore;
+        r.homeScore = gl.homeScore;
+      }
       r._recencyWeight = recencyWeight(i);
 
       // Cache B2B deltas for recalculate replay (same pattern as run_daily)
