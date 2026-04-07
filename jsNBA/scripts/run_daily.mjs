@@ -684,9 +684,9 @@ function buildRecapHtml(recap) {
 
 // Injury Helpers (display only - line already prices in injuries)
 
-async function buildGameInjuryAdj(awayTeam, homeTeam, injuryReport, playerMPG = null, { recentInjuryDates = null } = {}) {
-  const awayInjuries = getKeyInjuries(injuryReport, awayTeam, playerMPG, { recentInjuryDates });
-  const homeInjuries = getKeyInjuries(injuryReport, homeTeam, playerMPG, { recentInjuryDates });
+async function buildGameInjuryAdj(awayTeam, homeTeam, injuryReport, playerMPG = null, { recentInjuryDates = null, ofsPlayers = null } = {}) {
+  const awayInjuries = getKeyInjuries(injuryReport, awayTeam, playerMPG, { recentInjuryDates, ofsPlayers });
+  const homeInjuries = getKeyInjuries(injuryReport, homeTeam, playerMPG, { recentInjuryDates, ofsPlayers });
   return { awayInjuries, homeInjuries };
 }
 
@@ -1455,7 +1455,7 @@ async function main() {
       continue;
     }
 
-    const injuryAdj = await buildGameInjuryAdj(g.away, g.home, injuryData.report, injuryData.playerMPG, { recentInjuryDates }).catch(() => null);
+    const injuryAdj = await buildGameInjuryAdj(g.away, g.home, injuryData.report, injuryData.playerMPG, { recentInjuryDates, ofsPlayers }).catch(() => null);
 
     // Per-game: blend home team toward their home splits, away toward road splits
     const gameStats = blendForGame(

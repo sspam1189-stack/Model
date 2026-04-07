@@ -504,10 +504,10 @@ TEAM_ALIASES = {
 }
 
 
-def get_key_injuries(report, team_name, player_mpg=None, recent_injury_dates=None):
+def get_key_injuries(report, team_name, player_mpg=None, recent_injury_dates=None, ofs_players=None):
     """Returns only Out/Doubtful players who are Star or Starter tier.
-    Filters out long-term injuries (out 5+ of last 10 caches) since
-    their absence is already baked into team stats."""
+    Filters out long-term injuries (out 5+ of last 10 caches) and
+    out-for-season players since their absence is already baked into team stats."""
     entries = report.get(team_name) or report.get(TEAM_ALIASES.get(team_name, "")) or []
 
     # Build set of long-term out players
@@ -538,6 +538,8 @@ def get_key_injuries(report, team_name, player_mpg=None, recent_injury_dates=Non
         if p["tier"] not in ("star", "starter"):
             continue
         if p["player"] in long_term_out:
+            continue
+        if ofs_players and p["player"] in ofs_players:
             continue
         if player_mpg:
             mpg_entry = player_mpg.get(p["player"])
@@ -589,18 +591,19 @@ def fetch_out_for_season(game_injury_report=None):
             print("  [injuries] ESPN league-wide injuries fetch failed")
             return set()
         data = r.json()
+        # Only flag truly season-ending injuries — return date past July 1
+        now = datetime.datetime.now()
+        season_end = f"{now.year + 1 if now.month >= 10 else now.year}-07-01"
         ofs_players = set()
         for team in data.get("injuries", []):
             for inj in team.get("injuries", []):
                 status = (inj.get("status") or "").lower()
                 return_date = (inj.get("details") or {}).get("returnDate", "")
-                if status == "out" and return_date > today:
+                if status == "out" and return_date >= season_end:
                     name = (inj.get("athlete") or {}).get("displayName", "")
                     if name and name not in game_dtd:
                         ofs_players.add(name)
-        if game_dtd:
-            print(f"  [injuries] Excluded {len(game_dtd)} game-day DTD/questionable players from out list")
-        print(f"  [injuries] Found {len(ofs_players)} players still out (returnDate > {today})")
+        print(f"  [injuries] Found {len(ofs_players)} out-for-season players (returnDate >= {season_end})")
         return ofs_players
     except Exception as e:
         print(f"  [injuries] OFS fetch error: {e}")
