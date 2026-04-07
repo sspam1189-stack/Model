@@ -399,16 +399,20 @@ export async function adjustTeamStats(teamStats, injuryReport, playerMPG, player
     const totalMPG = out.reduce((s, o) => s + o.min, 0);
     console.log(`  [lineup] ${teamKey} missing: ${outNames} (${totalMPG.toFixed(0)} total mpg)`);
 
-    // Try on/off approach first
+    // Try on/off approach first — only when total missing MPG is significant (25+)
     const outPlayerNames = out.map(o => o.name);
     let onOffResult = null;
-    try {
-      const onOffData = await fetchTeamOnOff(teamKey);
-      if (onOffData) {
-        onOffResult = computeOnOffAdj(outPlayerNames, onOffData, orig.OFF, orig.DEF);
+    if (totalMPG >= 25) {
+      try {
+        const onOffData = await fetchTeamOnOff(teamKey);
+        if (onOffData) {
+          onOffResult = computeOnOffAdj(outPlayerNames, onOffData, orig.OFF, orig.DEF);
+        }
+      } catch (e) {
+        console.warn(`  [lineup/onoff] Failed for ${teamKey}: ${e.message}`);
       }
-    } catch (e) {
-      console.warn(`  [lineup/onoff] Failed for ${teamKey}: ${e.message}`);
+    } else {
+      console.log(`  [lineup] Skipping on/off for ${teamKey} — only ${totalMPG.toFixed(0)} total mpg out (need 25+)`);
     }
 
     if (onOffResult) {
