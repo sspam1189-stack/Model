@@ -504,10 +504,10 @@ TEAM_ALIASES = {
 }
 
 
-def get_key_injuries(report, team_name, player_mpg=None, recent_injury_dates=None, ofs_players=None):
+def get_key_injuries(report, team_name, player_mpg=None, recent_injury_dates=None):
     """Returns only Out/Doubtful players who are Star or Starter tier.
-    Filters out long-term injuries (out 5+ of last 10 caches) and
-    out-for-season players since their absence is already baked into team stats."""
+    Filters out long-term injuries (out 5+ of last 10 caches) since
+    their absence is already baked into team stats."""
     entries = report.get(team_name) or report.get(TEAM_ALIASES.get(team_name, "")) or []
 
     # Build set of long-term out players
@@ -538,8 +538,6 @@ def get_key_injuries(report, team_name, player_mpg=None, recent_injury_dates=Non
         if p["tier"] not in ("star", "starter"):
             continue
         if p["player"] in long_term_out:
-            continue
-        if ofs_players and p["player"] in ofs_players:
             continue
         if player_mpg:
             mpg_entry = player_mpg.get(p["player"])

@@ -469,7 +469,7 @@ const TEAM_ALIASES = {
   "LA Clippers": "Los Angeles Clippers",
 };
 
-export function getKeyInjuries(report, teamName, playerMPG = null, { recentInjuryDates = null, ofsPlayers = null } = {}) {
+export function getKeyInjuries(report, teamName, playerMPG = null, { recentInjuryDates = null } = {}) {
   const entries = report[teamName] || report[TEAM_ALIASES[teamName]] || [];
 
   // Build set of long-term out players (5+ days) — these are already in team stats
@@ -497,7 +497,6 @@ export function getKeyInjuries(report, teamName, playerMPG = null, { recentInjur
     if (p.status !== "out" && p.status !== "doubtful") return false;
     if (p.tier !== "star" && p.tier !== "starter") return false;
     if (longTermOut.has(p.player)) return false;
-    if (ofsPlayers && ofsPlayers.has(p.player)) return false;
     if (playerMPG) {
       let mpgEntry = playerMPG[p.player];
       if (!mpgEntry) {
