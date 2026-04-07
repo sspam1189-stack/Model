@@ -158,15 +158,24 @@ def grade_previous_picks(season=None):
 
     total = wins + losses
     pct = wins / max(1, total) * 100
-    # To-win-1u: win = +1u, loss = -to_win_1u (real odds), fallback -1.1u (-110)
+    # Staking: plus odds risk 1u to win payout, negative odds risk X to win 1u
+    # +120: risk 1u, win +1.2u, loss -1u
+    # -150: risk 1.5u, win +1u, loss -1.5u
     units = 0.0
     for pick in props:
         r = pick.get("result")
+        price = pick.get("odds")
         if r == "WIN":
-            units += 1.0
+            if price is not None and int(price) > 0:
+                units += int(price) / 100.0  # +120 → win 1.2u
+            else:
+                units += 1.0  # negative odds → win 1u
         elif r == "LOSS":
-            w1u = pick.get("to_win_1u")
-            units -= float(w1u) if w1u is not None else 1.1
+            if price is not None and int(price) > 0:
+                units -= 1.0  # plus odds → risk 1u
+            else:
+                w1u = pick.get("to_win_1u")
+                units -= float(w1u) if w1u is not None else 1.1  # -150 → risk 1.5u
     print(f"  [grade] Graded {graded} picks: {wins}W-{losses}L ({pct:.1f}%) {'+' if units >= 0 else ''}{units:.1f}u"
           + (f" + {pushes} pushes" if pushes else ""))
 
