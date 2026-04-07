@@ -408,9 +408,9 @@ def compute_team_records(store):
             else: teams[team]["p"] += 1
     return teams
 
-def build_game_injury_adj(away_team, home_team, injury_report, player_mpg=None):
-    return {"awayInjuries": get_key_injuries(injury_report, away_team, player_mpg),
-            "homeInjuries": get_key_injuries(injury_report, home_team, player_mpg)}
+def build_game_injury_adj(away_team, home_team, injury_report, player_mpg=None, recent_injury_dates=None):
+    return {"awayInjuries": get_key_injuries(injury_report, away_team, player_mpg, recent_injury_dates),
+            "homeInjuries": get_key_injuries(injury_report, home_team, player_mpg, recent_injury_dates)}
 
 def conf_badge(conf):
     c = str(conf or "").lower()
@@ -739,7 +739,7 @@ def main(subject_label="[PY]"):
 
         if not isinstance(g.get("line"),(int,float)) or not isinstance(g.get("total"),(int,float)):
             games.append({**g, "status": "MISSING_ODDS"}); continue
-        try: injury_adj = build_game_injury_adj(g["away"], g["home"], injury_data.get("report",{}), injury_data.get("playerMPG"))
+        try: injury_adj = build_game_injury_adj(g["away"], g["home"], injury_data.get("report",{}), injury_data.get("playerMPG"), recent_injury_dates)
         except Exception: injury_adj = None
         game_stats = blend_for_game(adjusted_stats, enhanced_stats.get("home"), enhanced_stats.get("away"), g["home"], g["away"], base_w.get("locationWeight", 0.25))
         game_avgs = get_avgs(game_stats)
