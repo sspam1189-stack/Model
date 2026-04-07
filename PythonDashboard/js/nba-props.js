@@ -1,10 +1,16 @@
 // NBA Player Props rendering
-    // To-win-1u unit calc: win = +1u, loss = -to_win_1u (real odds), fallback -1.1u
+    // Staking: plus odds risk 1u to win payout, negative odds risk X to win 1u
     function calcPropsUnits(picks) {
       let u = 0;
       for (const p of picks) {
-        if (p.result === 'WIN') u += 1.0;
-        else if (p.result === 'LOSS') u -= (p.to_win_1u != null ? p.to_win_1u : 1.1);
+        const price = p.odds != null ? Number(p.odds) : null;
+        if (p.result === 'WIN') {
+          if (price != null && price > 0) u += price / 100;  // +120 → win 1.2u
+          else u += 1.0;
+        } else if (p.result === 'LOSS') {
+          if (price != null && price > 0) u -= 1.0;  // +120 → risk 1u
+          else u -= (p.to_win_1u != null ? p.to_win_1u : 1.1);
+        }
       }
       return u;
     }
