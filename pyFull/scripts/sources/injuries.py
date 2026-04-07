@@ -512,11 +512,32 @@ def get_key_injuries(report, team_name, player_mpg=None, recent_injury_dates=Non
     not to the dashboard display."""
     entries = report.get(team_name) or report.get(TEAM_ALIASES.get(team_name, "")) or []
 
+    long_term_out = set()
+    if recent_injury_dates and len(recent_injury_dates) >= 5:
+        for entry in entries:
+            if entry["status"] not in ("out", "doubtful"):
+                continue
+            name = entry["player"]
+            last_name = name.split(" ")[-1].lower()
+            dates_out = 0
+            for date_report in recent_injury_dates.values():
+                team_inj = date_report.get(team_name) or date_report.get(TEAM_ALIASES.get(team_name, "")) or []
+                if any(inj for inj in team_inj
+                       if inj.get("status") in ("out", "doubtful")
+                       and (inj["player"] == name or inj["player"].split(" ")[-1].lower() == last_name)):
+                    dates_out += 1
+            if dates_out >= 4:
+                long_term_out.add(name)
+
     result = []
     for p in entries:
         if p["status"] not in ("out", "doubtful"):
             continue
         if p["tier"] == "deep_bench":
+            continue
+        if p["player"] in long_term_out:
+            continue
+        if ofs_players and p["player"] in ofs_players:
             continue
         if player_mpg:
             mpg_entry = player_mpg.get(p["player"])
