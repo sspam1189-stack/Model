@@ -518,6 +518,8 @@ def get_key_injuries(report, team_name, player_mpg=None, recent_injury_dates=Non
             continue
         if p["tier"] == "deep_bench":
             continue
+        if ofs_players and p["player"] in ofs_players:
+            continue
         if player_mpg:
             mpg_entry = player_mpg.get(p["player"])
             if not mpg_entry:

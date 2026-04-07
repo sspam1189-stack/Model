@@ -477,6 +477,7 @@ export function getKeyInjuries(report, teamName, playerMPG = null, { recentInjur
   return entries.filter(p => {
     if (p.status !== "out" && p.status !== "doubtful") return false;
     if (p.tier === "deep_bench") return false;
+    if (ofsPlayers && ofsPlayers.has(p.player)) return false;
     if (playerMPG) {
       let mpgEntry = playerMPG[p.player];
       if (!mpgEntry) {
