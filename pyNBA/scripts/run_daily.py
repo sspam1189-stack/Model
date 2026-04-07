@@ -733,9 +733,9 @@ def build_recap_html(recap):
 
 
 # Injury Helpers
-def build_game_injury_adj(away_team, home_team, injury_report, player_mpg=None):
-    away_injuries = get_key_injuries(injury_report, away_team, player_mpg)
-    home_injuries = get_key_injuries(injury_report, home_team, player_mpg)
+def build_game_injury_adj(away_team, home_team, injury_report, player_mpg=None, recent_injury_dates=None):
+    away_injuries = get_key_injuries(injury_report, away_team, player_mpg, recent_injury_dates)
+    home_injuries = get_key_injuries(injury_report, home_team, player_mpg, recent_injury_dates)
     return {"awayInjuries": away_injuries, "homeInjuries": home_injuries}
 
 
@@ -1232,7 +1232,7 @@ def main(subject_label="[PY]"):
             continue
 
         try:
-            injury_adj = build_game_injury_adj(g["away"], g["home"], injury_data.get("report", {}), injury_data.get("playerMPG"))
+            injury_adj = build_game_injury_adj(g["away"], g["home"], injury_data.get("report", {}), injury_data.get("playerMPG"), recent_injury_dates)
         except Exception:
             injury_adj = None
 
