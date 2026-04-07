@@ -550,14 +550,15 @@ export async function fetchOutForSeason(gameInjuryReport = {}) {
       }
     }
 
-    const today = new Intl.DateTimeFormat("en-CA", { timeZone: "America/New_York" })
-      .format(new Date());  // YYYY-MM-DD
+    // Only flag truly season-ending injuries — return date past July 1 of current year
+    const now = new Date();
+    const seasonEnd = `${now.getMonth() >= 9 ? now.getFullYear() + 1 : now.getFullYear()}-07-01`;
     const ofsPlayers = new Set();
     for (const team of data.injuries) {
       for (const inj of team.injuries || []) {
         const status = (inj?.status || "").toLowerCase();
         const returnDate = inj?.details?.returnDate || "";
-        if (status === "out" && returnDate > today) {
+        if (status === "out" && returnDate >= seasonEnd) {
           const name = inj?.athlete?.displayName;
           if (name && !gameDTD.has(name)) {
             ofsPlayers.add(name);
@@ -565,8 +566,7 @@ export async function fetchOutForSeason(gameInjuryReport = {}) {
         }
       }
     }
-    if (gameDTD.size) console.log(`  [injuries] Excluded ${gameDTD.size} game-day DTD/questionable players from out list`);
-    console.log(`  [injuries] Found ${ofsPlayers.size} players still out (returnDate > ${today})`);
+    console.log(`  [injuries] Found ${ofsPlayers.size} out-for-season players (returnDate >= ${seasonEnd})`);
     return ofsPlayers;
   } catch (e) {
     console.warn(`  [injuries] OFS fetch error: ${e.message}`);
