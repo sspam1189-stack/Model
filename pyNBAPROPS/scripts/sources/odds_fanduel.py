@@ -131,8 +131,8 @@ def _match_fd_market_type(market_type, tab=None):
         for kw in _THREES_KEYWORDS:
             if kw in mt:
                 return "threes"
-        # Log unmatched types from the threes tab so we can add exact mappings
-        print(f"  [fanduel] unmatched threes market type: {market_type!r}")
+        # Silently ignore known non-prop market types that bleed into player tabs
+        # (alt threes like N+_MADE_THREES, game-level markets, etc.)
 
     return None
 
