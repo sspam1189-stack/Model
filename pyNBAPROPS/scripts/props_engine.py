@@ -750,10 +750,6 @@ def _make_prop(name, team, market, proj, std, line_lookup, opp):
             # Attach the relevant odds for the picked direction
             pick_price = over_price if direction == "OVER" else under_price
 
-            # Skip plus odds — only take bets with negative (juiced) prices
-            if pick_price is not None and int(pick_price) > 0:
-                return result
-
             result["pick"] = direction
             result["conf"] = "high"
             result["odds"] = pick_price
