@@ -528,7 +528,7 @@ def get_key_injuries(report, team_name, player_mpg=None, recent_injury_dates=Non
                 )
                 if was_out:
                     dates_out += 1
-            if dates_out >= 5:
+            if dates_out >= 4:
                 long_term_out.add(name)
 
     result = []

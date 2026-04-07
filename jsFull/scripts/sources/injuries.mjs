@@ -487,7 +487,7 @@ export function getKeyInjuries(report, teamName, playerMPG = null, { recentInjur
         );
         if (wasOut) datesOut++;
       }
-      if (datesOut >= 5) longTermOut.add(name);
+      if (datesOut >= 4) longTermOut.add(name);
     }
   }
 
