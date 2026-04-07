@@ -473,9 +473,29 @@ const TEAM_ALIASES = {
 export function getKeyInjuries(report, teamName, playerMPG = null, { recentInjuryDates = null, ofsPlayers = null } = {}) {
   const entries = report[teamName] || report[TEAM_ALIASES[teamName]] || [];
 
+  const longTermOut = new Set();
+  if (recentInjuryDates && Object.keys(recentInjuryDates).length >= 5) {
+    for (const entry of entries) {
+      if (entry.status !== "out" && entry.status !== "doubtful") continue;
+      const name = entry.player;
+      const lastName = name.split(" ").pop().toLowerCase();
+      let datesOut = 0;
+      for (const dateReport of Object.values(recentInjuryDates)) {
+        const teamInj = dateReport[teamName] || dateReport[TEAM_ALIASES[teamName]] || [];
+        if (teamInj.some(inj =>
+          (inj.status === "out" || inj.status === "doubtful") &&
+          (inj.player === name || inj.player.split(" ").pop().toLowerCase() === lastName)
+        )) datesOut++;
+      }
+      if (datesOut >= 4) longTermOut.add(name);
+    }
+  }
+
   return entries.filter(p => {
     if (p.status !== "out" && p.status !== "doubtful") return false;
     if (p.tier === "deep_bench") return false;
+    if (longTermOut.has(p.player)) return false;
+    if (ofsPlayers && ofsPlayers.has(p.player)) return false;
     if (playerMPG) {
       let mpgEntry = playerMPG[p.player];
       if (!mpgEntry) {
