@@ -408,6 +408,7 @@ export async function adjustTeamStats(teamStats, injuryReport, playerMPG, player
     const rosterOut = new Set();
     for (const outName of outPlayers) {
       if (longTermOut.has(outName)) continue; // skip long-term absences
+      if (ofsPlayers && ofsPlayers.has(outName)) continue; // skip out-for-season
       // Exact match
       let found = roster.find(r => r.name === outName);
       // Last-name fallback (same as injuries.mjs)
