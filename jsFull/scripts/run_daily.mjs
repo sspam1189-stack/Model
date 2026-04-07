@@ -1535,7 +1535,7 @@ async function main() {
             );
             if (wasOut) datesOut++;
           }
-          if (datesOut >= 5) {
+          if (datesOut >= 4) {
             const tier = pInfo.mpg >= 32 ? "star" : "starter";
             returns.push(`${pName} (${tier})`);
           }

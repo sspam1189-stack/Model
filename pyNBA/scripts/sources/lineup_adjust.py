@@ -245,7 +245,7 @@ def adjust_team_stats(team_stats, injury_report, player_mpg, player_adv, todays_
                     )
                     if was_out:
                         dates_out += 1
-                if dates_out >= 5:
+                if dates_out >= 4:
                     long_term_out.add(out_name)
             if long_term_out:
                 print(f"  [lineup] Skipping deduction for {len(long_term_out)} long-term out players on {team_key} (already in team stats)")

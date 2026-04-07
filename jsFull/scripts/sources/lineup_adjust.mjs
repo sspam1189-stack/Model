@@ -397,7 +397,7 @@ export async function adjustTeamStats(teamStats, injuryReport, playerMPG, player
           if (wasOut) datesOut++;
         }
         // If out in 5+ of last 10 caches, their absence is already in team stats
-        if (datesOut >= 5) longTermOut.add(outName);
+        if (datesOut >= 4) longTermOut.add(outName);
       }
       if (longTermOut.size) {
         console.log(`  [lineup] Skipping deduction for ${longTermOut.size} long-term out players on ${teamKey} (already in team stats)`);
@@ -546,7 +546,7 @@ export async function adjustTeamStats(teamStats, injuryReport, playerMPG, player
           );
           if (wasOut) datesOut++;
         }
-        if (datesOut >= 5) {
+        if (datesOut >= 4) {
           const tier = p.min >= 32 ? "star" : "starter";
           returnees.push({ player: p, tier, daysOut: datesOut });
         }
