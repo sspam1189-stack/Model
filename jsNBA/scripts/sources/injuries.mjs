@@ -352,8 +352,9 @@ function normalizeStatus(raw) {
 
 function classifyTier(mpg) {
   if (mpg >= 32) return "star";
-  if (mpg >= 22) return "starter";
-  return "bench";
+  if (mpg >= 28) return "starter";
+  if (mpg >= 18) return "bench";
+  return "deep_bench";
 }
 
 // ── League-wide injuries supplement ─────────────────────────────────────────
@@ -495,7 +496,7 @@ export function getKeyInjuries(report, teamName, playerMPG = null, { recentInjur
 
   return entries.filter(p => {
     if (p.status !== "out" && p.status !== "doubtful") return false;
-    if (p.tier !== "star" && p.tier !== "starter") return false;
+    if (p.tier === "deep_bench") return false;
     if (longTermOut.has(p.player)) return false;
     if (ofsPlayers && ofsPlayers.has(p.player)) return false;
     if (playerMPG) {

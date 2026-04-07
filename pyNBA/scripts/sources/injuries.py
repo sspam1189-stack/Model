@@ -258,11 +258,13 @@ def _normalize_status(raw):
 
 
 def _classify_tier(mpg):
-    if mpg >= 28:
+    if mpg >= 32:
         return "star"
-    if mpg >= 18:
+    if mpg >= 28:
         return "starter"
-    return "bench"
+    if mpg >= 18:
+        return "bench"
+    return "deep_bench"
 
 
 def _fetch_game_availability(date=None):
@@ -535,7 +537,7 @@ def get_key_injuries(report, team_name, player_mpg=None, recent_injury_dates=Non
     for p in entries:
         if p["status"] not in ("out", "doubtful"):
             continue
-        if p["tier"] not in ("star", "starter"):
+        if p["tier"] == "deep_bench":
             continue
         if p["player"] in long_term_out:
             continue
