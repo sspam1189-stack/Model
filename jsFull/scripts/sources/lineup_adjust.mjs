@@ -256,9 +256,12 @@ async function fetchTeamOnOff(teamName) {
 }
 
 // ── On/off adjustment for a team ────────────────────────────────────────────
-// 1. Sort out players by |ON-OFF delta| (biggest impact first)
-// 2. Primary player: use their off-court rating directly
-// 3. Additional players: subtract delta × (onMin / teamTotalMin) — the overlap
+// Additive approach: each missing player's on/off delta is weighted by their
+// fraction of game time (onMin / teamTotalMin ≈ mpg/48). Losing a player with
+// a positive delta hurts the team, so we negate.
+// This avoids the "primary player" baseline contamination when multiple players
+// are out simultaneously (e.g., the primary's off-court sample includes other
+// missing players still playing).
 function computeOnOffAdj(outPlayerNames, onOffData, teamOFF, teamDEF) {
   const { players, teamTotalMin } = onOffData;
   if (!teamTotalMin) return null;
@@ -289,32 +292,22 @@ function computeOnOffAdj(outPlayerNames, onOffData, teamOFF, teamDEF) {
 
   if (!matched.length) return null;
 
-  // Sort by OFF delta magnitude (biggest impact first)
-  matched.sort((a, b) => Math.abs(b.offDelta) - Math.abs(a.offDelta));
+  // Sum each player's impact independently: negate delta × game-time fraction
+  let offAdj = 0;
+  let defAdj = 0;
+  const parts = [];
 
-  // Primary player: use off-court rating directly
-  const primary = matched[0];
-  let adjOFF = primary.offOFF;
-  let adjDEF = primary.offDEF;
-
-  const parts = [`${primary.name}: off-court OFF=${primary.offOFF} DEF=${primary.offDEF}`];
-
-  // Additional players: subtract their boost from primary's off-court sample
-  for (let i = 1; i < matched.length; i++) {
-    const p = matched[i];
-    const onFrac = p.onMin / teamTotalMin;
-    const offBoost = p.offDelta * onFrac;
-    const defBoost = p.defDelta * onFrac;
-    adjOFF -= offBoost;
-    adjDEF -= defBoost;
-    parts.push(`${p.name}: delta=${p.offDelta.toFixed(1)} × ${(onFrac*100).toFixed(0)}% = ${offBoost.toFixed(2)}`);
+  for (const p of matched) {
+    const frac = p.onMin / teamTotalMin;
+    const offImpact = -p.offDelta * frac;
+    const defImpact = -p.defDelta * frac;
+    offAdj += offImpact;
+    defAdj += defImpact;
+    parts.push(`${p.name}: delta=${p.offDelta.toFixed(1)}/${p.defDelta.toFixed(1)} x ${(frac*100).toFixed(0)}% = OFF${offImpact >= 0 ? "+" : ""}${offImpact.toFixed(2)} DEF${defImpact >= 0 ? "+" : ""}${defImpact.toFixed(2)}`);
   }
 
-  const offAdj = adjOFF - teamOFF;
-  const defAdj = adjDEF - teamDEF;
-
   console.log(`  [lineup/onoff] ${parts.join(" | ")}`);
-  console.log(`  [lineup/onoff] Adjusted OFF: ${adjOFF.toFixed(1)} (delta ${offAdj >= 0 ? "+" : ""}${offAdj.toFixed(1)}), DEF: ${adjDEF.toFixed(1)} (delta ${defAdj >= 0 ? "+" : ""}${defAdj.toFixed(1)})`);
+  console.log(`  [lineup/onoff] Adjusted OFF: ${(teamOFF + offAdj).toFixed(1)} (delta ${offAdj >= 0 ? "+" : ""}${offAdj.toFixed(1)}), DEF: ${(teamDEF + defAdj).toFixed(1)} (delta ${defAdj >= 0 ? "+" : ""}${defAdj.toFixed(1)})`);
 
   return { offAdj, defAdj };
 }
