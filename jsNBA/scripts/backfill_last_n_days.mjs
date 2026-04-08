@@ -4,6 +4,7 @@ import { blendBase, blendForGame } from "./sources/blend_stats.mjs";
 import { fetchScoreboard, extractFinalScores } from "./sources/espn_scoreboard.mjs";
 import { fetchATSTrends, fetchOUTRends } from "./sources/teamrankings_trends.mjs";
 import { applyB2BAdjustment } from "./sources/rest_detect.mjs";
+import { adjustTeamStats } from "./sources/lineup_adjust.mjs";
 
 import { loadDefaults, getAvgs, analyzeGame } from "./model_engine.mjs";
 import { loadStore, saveStore, upsertRun } from "./store.mjs";
@@ -21,6 +22,7 @@ import { fileURLToPath } from "url";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const CACHE_DIR = path.join(__dirname, "..", "..", "data", "stats_cache", "nba");
+const INJ_CACHE_DIR = path.join(__dirname, "..", "..", "..", "data", "injury_cache", "nba");
 
 function sleep(ms) {
   return new Promise((r) => setTimeout(r, ms));
@@ -268,8 +270,38 @@ async function main() {
 
     const games = [];
 
-    // Apply B2B rest penalty to today's stats (derived from yesterday's games)
-    const { adjusted: adjustedStats, b2bNotes } = applyB2BAdjustment(baseStats, b2bTeams, gamesList);
+    // Apply lineup adjustments from cached injury data (if available)
+    let lineupStats = baseStats;
+    const injCachePath = path.join(INJ_CACHE_DIR, date + ".json");
+    if (fs.existsSync(injCachePath)) {
+      try {
+        const injCache = JSON.parse(fs.readFileSync(injCachePath, "utf8"));
+        const report = injCache.report || (injCache.injuryData || {}).report || {};
+        const playerMPG = injCache.playerMPG || (injCache.injuryData || {}).playerMPG || {};
+        const playerAdv = injCache.playerAdvanced || {};
+        if (Object.keys(report).length && Object.keys(playerAdv).length) {
+          // Load recent injury caches for long-term detection
+          const recentInjuryDates = {};
+          const priorFiles = fs.readdirSync(INJ_CACHE_DIR)
+            .filter(f => f.endsWith(".json") && f < date + ".json")
+            .sort().reverse().slice(0, 10);
+          for (const f of priorFiles) {
+            try {
+              const c = JSON.parse(fs.readFileSync(path.join(INJ_CACHE_DIR, f), "utf8"));
+              const r = c.report || (c.injuryData || {}).report || {};
+              if (Object.keys(r).length) recentInjuryDates[f.replace(".json", "")] = r;
+            } catch (_) {}
+          }
+          const todaysGames = gamesList.map(g => ({ away: g.away, home: g.home }));
+          lineupStats = await adjustTeamStats(baseStats, report, playerMPG, playerAdv, todaysGames, { recentInjuryDates });
+        }
+      } catch (e) {
+        console.warn(`  [backfill] Injury cache load failed: ${e.message}`);
+      }
+    }
+
+    // Apply B2B rest penalty on top of lineup-adjusted stats
+    const { adjusted: adjustedStats, b2bNotes } = applyB2BAdjustment(lineupStats, b2bTeams, gamesList);
 
     for (const gl of gamesList) {
       const key = `${gl.away}@${gl.home}`;
