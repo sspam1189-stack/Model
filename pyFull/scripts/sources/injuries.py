@@ -444,16 +444,32 @@ def fetch_injury_data(date=None, season_type="Regular Season", espn_type=2):
                             teams_playing.add(tname)
 
         lw_injuries = _fetch_leaguewide_injuries(teams_playing)
-        # Merge: add players from league-wide that aren't already in per-game data
+        # Merge: add players from league-wide that aren't already in per-game data,
+        # and upgrade status if league-wide is more severe (e.g. DTD -> doubtful)
+        _severity = {"active": 0, "probable": 1, "questionable": 2, "doubtful": 3, "out": 4}
         added = 0
+        upgraded = 0
         for team_name, lw_players in lw_injuries.items():
-            existing_names = {p["player"] for p in game_availability.get(team_name, [])}
+            existing = {p["player"]: p for p in game_availability.get(team_name, [])}
             for p in lw_players:
-                if p["player"] not in existing_names:
+                if p["player"] not in existing:
                     game_availability.setdefault(team_name, []).append(p)
                     added += 1
-        if added:
-            print(f"  [injuries] Merged {added} additional players from league-wide injuries")
+                else:
+                    # Upgrade status if league-wide is more severe
+                    cur = existing[p["player"]]
+                    if _severity.get(p["status"], 0) > _severity.get(cur["status"], 0):
+                        cur["status"] = p["status"]
+                        if p.get("reason") and (not cur.get("reason") or cur["reason"] == cur.get("status", "")):
+                            cur["reason"] = p["reason"]
+                        upgraded += 1
+        if added or upgraded:
+            parts = []
+            if added:
+                parts.append(f"{added} added")
+            if upgraded:
+                parts.append(f"{upgraded} upgraded")
+            print(f"  [injuries] Merged from league-wide injuries: {', '.join(parts)}")
     except Exception as e:
         print(f"  [injuries] League-wide merge failed (non-fatal): {e}")
 
