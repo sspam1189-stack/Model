@@ -299,6 +299,7 @@ export function createModelEngine(options = {}) {
   }
 
   function projScore(team, opp, isHome, H, a, W, kalmanAdj = null, W_var = null, residualVar = null, teamHCA = null) {
+    const _r4 = x => Math.round(x * 10000) / 10000;
     const tKey = resolveTeam(H, team);
     const oKey = resolveTeam(H, opp);
 
@@ -311,15 +312,15 @@ export function createModelEngine(options = {}) {
     const tOFF = t.OFF;
 
     const base =
-      (W.wOFF || 1) * tOFF +
-      W.wDEF * (o.DEF - a.def) +
+      _r4((W.wOFF || 1) * tOFF) +
+      _r4(W.wDEF * (o.DEF - a.def)) +
       W.constant;
 
-    const pace = (((t.PACE + o.PACE) / 2) * W.paceAdj) / 100;
+    const pace = _r4((((t.PACE + o.PACE) / 2) * W.paceAdj) / 100);
     const hca = isHome
       ? (enableTeamHCA && teamHCA ? (teamHCA[tKey] ?? W.hca) : W.hca)
       : 0;
-    let score = base * pace + hca;
+    let score = Math.round(base * pace * 10) / 10 + hca;
 
     if (kalmanAdj) {
       score += kalmanAdj.mean;
@@ -361,14 +362,15 @@ export function createModelEngine(options = {}) {
   }
 
   function extractMarginFeatures(homeStats, awayStats, avgStats, paceAdj, neutral = false) {
-    const pace = ((homeStats.PACE + awayStats.PACE) / 2 * paceAdj) / 100;
+    const _r4 = x => Math.round(x * 10000) / 10000;
+    const pace = _r4(((homeStats.PACE + awayStats.PACE) / 2 * paceAdj) / 100);
     return {
-      dTS:  (homeStats.TS - awayStats.TS) * pace,
-      dTO:  -(homeStats.TO - awayStats.TO) * pace,
-      dORR: (homeStats.ORR - awayStats.ORR) * pace,
-      dDEF: (awayStats.DEF - homeStats.DEF) * pace,
+      dTS:  _r4((homeStats.TS - awayStats.TS) * pace),
+      dTO:  _r4(-(homeStats.TO - awayStats.TO) * pace),
+      dORR: _r4((homeStats.ORR - awayStats.ORR) * pace),
+      dDEF: _r4((awayStats.DEF - homeStats.DEF) * pace),
       hca:  neutral ? 0.0 : 1.0,
-      _baseline: (homeStats.OFF - awayStats.OFF) * pace,
+      _baseline: _r4((homeStats.OFF - awayStats.OFF) * pace),
       _pace: pace,
     };
   }
