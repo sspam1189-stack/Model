@@ -71,18 +71,18 @@
     ],
     "Minnesota Timberwolves": [
       {
-        "player": "Anthony Edwards",
-        "status": "questionable",
-        "reason": "Day-To-Day",
-        "tier": "star",
-        "mpg": 35.2
-      },
-      {
         "player": "Jaden McDaniels",
         "status": "out",
         "reason": "Out",
         "tier": "starter",
         "mpg": 31.9
+      },
+      {
+        "player": "Anthony Edwards",
+        "status": "out",
+        "reason": "Day-To-Day",
+        "tier": "star",
+        "mpg": 35.2
       }
     ],
     "Detroit Pistons": [
@@ -118,7 +118,7 @@
       },
       {
         "player": "Kyle Kuzma",
-        "status": "questionable",
+        "status": "out",
         "reason": "Day-To-Day",
         "tier": "bench",
         "mpg": 26.2
@@ -192,7 +192,7 @@
       },
       {
         "player": "Olivier-Maxence Prosper",
-        "status": "questionable",
+        "status": "doubtful",
         "reason": "Day-To-Day",
         "tier": "bench",
         "mpg": 18.6
@@ -263,18 +263,18 @@
     ],
     "San Antonio Spurs": [
       {
+        "player": "Victor Wembanyama",
+        "status": "out",
+        "reason": "Out",
+        "tier": "starter",
+        "mpg": 29.2
+      },
+      {
         "player": "Stephon Castle",
-        "status": "questionable",
+        "status": "doubtful",
         "reason": "Day-To-Day",
         "tier": "starter",
         "mpg": 30.0
-      },
-      {
-        "player": "Victor Wembanyama",
-        "status": "questionable",
-        "reason": "Day-To-Day",
-        "tier": "starter",
-        "mpg": 29.2
       },
       {
         "player": "Emanuel Miller",
@@ -347,7 +347,7 @@
     "Oklahoma City Thunder": [
       {
         "player": "Jalen Williams",
-        "status": "questionable",
+        "status": "out",
         "reason": "Day-To-Day",
         "tier": "starter",
         "mpg": 28.2
@@ -379,14 +379,14 @@
       },
       {
         "player": "P.J. Washington",
-        "status": "questionable",
+        "status": "out",
         "reason": "Day-To-Day",
         "tier": "starter",
         "mpg": 31.0
       },
       {
         "player": "Daniel Gafford",
-        "status": "questionable",
+        "status": "out",
         "reason": "Day-To-Day",
         "tier": "bench",
         "mpg": 21.7
