@@ -125,7 +125,7 @@ MIN_LINE = {
 #   - PRA OVER: 52% → loser. UNDER only.
 #   - Turnovers: not enough edge after calibration. Disabled.
 
-UNDER_ONLY_MARKETS = {"rebounds"}  # Points OVER now enabled with tighter threshold (0.76)
+UNDER_ONLY_MARKETS = {"rebounds", "points"}  # Only UNDER for rebounds and points
 # assists allows both OVER and UNDER (real model skill in both directions)
 
 # Markets to disable entirely (no real edge after calibration)
