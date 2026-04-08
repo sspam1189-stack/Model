@@ -41,20 +41,6 @@
     ],
     "Orlando Magic": [
       {
-        "player": "Jamal Cain",
-        "status": "questionable",
-        "reason": "Day-To-Day",
-        "tier": "deep_bench",
-        "mpg": 11.6
-      },
-      {
-        "player": "Wendell Carter Jr.",
-        "status": "questionable",
-        "reason": "Day-To-Day",
-        "tier": "starter",
-        "mpg": 29.5
-      },
-      {
         "player": "Jonathan Isaac",
         "status": "out",
         "reason": "Out",
@@ -70,6 +56,13 @@
       }
     ],
     "Minnesota Timberwolves": [
+      {
+        "player": "Rudy Gobert",
+        "status": "out",
+        "reason": "Out",
+        "tier": "starter",
+        "mpg": 31.3
+      },
       {
         "player": "Mike Conley",
         "status": "out",
@@ -97,13 +90,6 @@
         "reason": "Out",
         "tier": "bench",
         "mpg": 27.3
-      },
-      {
-        "player": "Rudy Gobert",
-        "status": "questionable",
-        "reason": "Day-To-Day",
-        "tier": "starter",
-        "mpg": 31.3
       },
       {
         "player": "Jaden McDaniels",
@@ -344,6 +330,13 @@
     ],
     "LA Clippers": [
       {
+        "player": "Darius Garland",
+        "status": "out",
+        "reason": "Out",
+        "tier": "starter",
+        "mpg": 29.7
+      },
+      {
         "player": "Isaiah Jackson",
         "status": "out",
         "reason": "Out",
@@ -367,13 +360,6 @@
     ],
     "Oklahoma City Thunder": [
       {
-        "player": "Jalen Williams",
-        "status": "out",
-        "reason": "Day-To-Day",
-        "tier": "starter",
-        "mpg": 28.2
-      },
-      {
         "player": "Thomas Sorber",
         "status": "out",
         "reason": "Out",
@@ -388,36 +374,43 @@
         "reason": "Out",
         "tier": "deep_bench",
         "mpg": 13.4
+      },
+      {
+        "player": "Grayson Allen",
+        "status": "questionable",
+        "reason": "Day-To-Day",
+        "tier": "starter",
+        "mpg": 29.1
+      },
+      {
+        "player": "Mark Williams",
+        "status": "out",
+        "reason": "Out",
+        "tier": "bench",
+        "mpg": 23.7
       }
     ],
     "Dallas Mavericks": [
       {
         "player": "Brandon Williams",
-        "status": "questionable",
+        "status": "doubtful",
         "reason": "Day-To-Day",
         "tier": "bench",
         "mpg": 22.2
       },
       {
         "player": "P.J. Washington",
-        "status": "out",
+        "status": "doubtful",
         "reason": "Day-To-Day",
         "tier": "starter",
         "mpg": 31.0
       },
       {
-        "player": "Daniel Gafford",
-        "status": "out",
+        "player": "Klay Thompson",
+        "status": "doubtful",
         "reason": "Day-To-Day",
         "tier": "bench",
-        "mpg": 21.7
-      },
-      {
-        "player": "Naji Marshall",
-        "status": "questionable",
-        "reason": "Day-To-Day",
-        "tier": "starter",
-        "mpg": 29.5
+        "mpg": 21.9
       },
       {
         "player": "Caleb Martin",
@@ -425,6 +418,27 @@
         "reason": "Out",
         "tier": "deep_bench",
         "mpg": 14.8
+      },
+      {
+        "player": "Naji Marshall",
+        "status": "doubtful",
+        "reason": "Day-To-Day",
+        "tier": "starter",
+        "mpg": 29.5
+      },
+      {
+        "player": "Cooper Flagg",
+        "status": "questionable",
+        "reason": "Flagg is probable for Wednesday's game against the Suns due to a left wrist sprain.",
+        "tier": "star",
+        "mpg": 33.9
+      },
+      {
+        "player": "Daniel Gafford",
+        "status": "out",
+        "reason": "Gafford (shoulder) is doubtful for Wednesday's game against the Suns.",
+        "tier": "bench",
+        "mpg": 21.7
       },
       {
         "player": "Kyrie Irving",
