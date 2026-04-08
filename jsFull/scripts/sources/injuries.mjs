@@ -417,18 +417,32 @@ export async function fetchInjuryData(date = null, { seasonType = "Regular Seaso
       }
     }
     const lwInjuries = await fetchLeagueWideInjuries(teamsPlaying);
-    let added = 0;
+    const _severity = { active: 0, probable: 1, questionable: 2, doubtful: 3, out: 4 };
+    let added = 0, upgraded = 0;
     for (const [teamName, lwPlayers] of Object.entries(lwInjuries)) {
-      const existingNames = new Set((gameAvailability[teamName] || []).map(p => p.player));
+      const existing = Object.fromEntries((gameAvailability[teamName] || []).map(p => [p.player, p]));
       for (const p of lwPlayers) {
-        if (!existingNames.has(p.player)) {
+        if (!existing[p.player]) {
           if (!gameAvailability[teamName]) gameAvailability[teamName] = [];
           gameAvailability[teamName].push(p);
           added++;
+        } else {
+          // Upgrade status if league-wide is more severe (e.g. DTD -> doubtful)
+          const cur = existing[p.player];
+          if ((_severity[p.status] || 0) > (_severity[cur.status] || 0)) {
+            cur.status = p.status;
+            if (p.reason && (!cur.reason || cur.reason === cur.status)) cur.reason = p.reason;
+            upgraded++;
+          }
         }
       }
     }
-    if (added) console.log(`  [injuries] Merged ${added} additional players from league-wide injuries`);
+    if (added || upgraded) {
+      const parts = [];
+      if (added) parts.push(`${added} added`);
+      if (upgraded) parts.push(`${upgraded} upgraded`);
+      console.log(`  [injuries] Merged from league-wide injuries: ${parts.join(", ")}`);
+    }
   } catch (e) {
     console.warn(`  [injuries] League-wide merge failed (non-fatal): ${e.message}`);
   }
