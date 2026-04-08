@@ -71,21 +71,56 @@
     ],
     "Minnesota Timberwolves": [
       {
-        "player": "Jaden McDaniels",
+        "player": "Mike Conley",
         "status": "out",
         "reason": "Out",
-        "tier": "starter",
-        "mpg": 31.9
+        "tier": "bench",
+        "mpg": 18.2
       },
       {
         "player": "Anthony Edwards",
         "status": "out",
-        "reason": "Day-To-Day",
+        "reason": "Out",
         "tier": "star",
         "mpg": 35.2
+      },
+      {
+        "player": "Julius Randle",
+        "status": "out",
+        "reason": "Out",
+        "tier": "star",
+        "mpg": 33.0
+      },
+      {
+        "player": "Ayo Dosunmu",
+        "status": "out",
+        "reason": "Out",
+        "tier": "bench",
+        "mpg": 27.3
+      },
+      {
+        "player": "Rudy Gobert",
+        "status": "questionable",
+        "reason": "Day-To-Day",
+        "tier": "starter",
+        "mpg": 31.3
+      },
+      {
+        "player": "Jaden McDaniels",
+        "status": "out",
+        "reason": "McDaniels (knee) has been upgraded to questionable for Wednesday's game against the Magic.",
+        "tier": "starter",
+        "mpg": 31.9
       }
     ],
     "Detroit Pistons": [
+      {
+        "player": "Kevin Huerter",
+        "status": "questionable",
+        "reason": "Day-To-Day",
+        "tier": "bench",
+        "mpg": 22.6
+      },
       {
         "player": "Cade Cunningham",
         "status": "out",
@@ -103,25 +138,32 @@
     ],
     "Milwaukee Bucks": [
       {
+        "player": "Bobby Portis",
+        "status": "out",
+        "reason": "Out",
+        "tier": "bench",
+        "mpg": 24.2
+      },
+      {
         "player": "Myles Turner",
-        "status": "questionable",
-        "reason": "Day-To-Day",
+        "status": "out",
+        "reason": "Out",
         "tier": "bench",
         "mpg": 26.9
       },
       {
-        "player": "Ryan Rollins",
-        "status": "questionable",
-        "reason": "Day-To-Day",
-        "tier": "star",
-        "mpg": 32.1
-      },
-      {
         "player": "Kyle Kuzma",
         "status": "out",
-        "reason": "Day-To-Day",
+        "reason": "Out",
         "tier": "bench",
         "mpg": 26.2
+      },
+      {
+        "player": "Giannis Antetokounmpo",
+        "status": "out",
+        "reason": "Out",
+        "tier": "starter",
+        "mpg": 28.9
       },
       {
         "player": "Kevin Porter Jr.",
@@ -129,27 +171,6 @@
         "reason": "Out",
         "tier": "star",
         "mpg": 33.2
-      },
-      {
-        "player": "Gary Trent Jr.",
-        "status": "out",
-        "reason": "Out",
-        "tier": "bench",
-        "mpg": 21.2
-      },
-      {
-        "player": "Bobby Portis",
-        "status": "out",
-        "reason": "Portis (wrist) has been ruled out for Tuesday's game against the Nets.",
-        "tier": "bench",
-        "mpg": 24.2
-      },
-      {
-        "player": "Giannis Antetokounmpo",
-        "status": "out",
-        "reason": "Antetokounmpo (knee) has been ruled out for Tuesday's game against the Nets.",
-        "tier": "starter",
-        "mpg": 28.9
       }
     ],
     "Denver Nuggets": [
@@ -263,18 +284,18 @@
     ],
     "San Antonio Spurs": [
       {
+        "player": "Stephon Castle",
+        "status": "out",
+        "reason": "Out",
+        "tier": "starter",
+        "mpg": 30.0
+      },
+      {
         "player": "Victor Wembanyama",
         "status": "out",
         "reason": "Out",
         "tier": "starter",
         "mpg": 29.2
-      },
-      {
-        "player": "Stephon Castle",
-        "status": "doubtful",
-        "reason": "Day-To-Day",
-        "tier": "starter",
-        "mpg": 30.0
       },
       {
         "player": "Emanuel Miller",
