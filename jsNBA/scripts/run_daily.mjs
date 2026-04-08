@@ -19,7 +19,7 @@ import { fetchATSTrends, fetchOUTRends } from "./sources/teamrankings_trends.mjs
 import { fetchInjuryData, getKeyInjuries, fetchOutForSeason } from "./sources/injuries.mjs";
 import { fetchPlayerAdvanced, adjustTeamStats } from "./sources/lineup_adjust.mjs";
 import { detectB2B, applyB2BAdjustment } from "./sources/rest_detect.mjs";
-import { getSeasonType, getESPNSeasonType } from "./sources/season_type.mjs";
+import { getSeasonType, getESPNSeasonType, isPlayoffs } from "./sources/season_type.mjs";
 import { loadDefaults, getAvgs, analyzeGame } from "./model_engine.mjs";
 import { loadStore, saveStore, upsertRun } from "./store.mjs";
 import { tuneWeights, computeResidualVar } from "./self_tune.mjs";
@@ -1343,7 +1343,9 @@ async function main() {
   let ofsPlayers = new Set();
   try { ofsPlayers = await fetchOutForSeason(injuryData.report || {}); } catch (e) { /* non-critical */ }
 
-  const lineupStats = await adjustTeamStats(stats, injuryData.report, injuryData.playerMPG, playerAdvanced, odds, { recentInjuryDates, ofsPlayers });
+  const playoffMode = isPlayoffs(date);
+  if (playoffMode) console.log("  [PLAYOFF MODE] Minutes inflation active");
+  const lineupStats = await adjustTeamStats(stats, injuryData.report, injuryData.playerMPG, playerAdvanced, odds, { recentInjuryDates, ofsPlayers, playoffMode });
   const { adjusted: adjustedStats, b2bNotes } = applyB2BAdjustment(lineupStats, b2bTeams, odds);
   const a = getAvgs(adjustedStats); // league averages (used as fallback)
 

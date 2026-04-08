@@ -330,7 +330,7 @@ function computeOnOffAdj(outPlayerNames, onOffData, teamOFF, teamDEF) {
 // Returns: adjusted copy of teamStats (same shape). Teams not playing today or
 //          with no meaningful injuries pass through unchanged.
 
-export async function adjustTeamStats(teamStats, injuryReport, playerMPG, playerAdv, todaysGames, { recentInjuryDates = null, ofsPlayers = null } = {}) {
+export async function adjustTeamStats(teamStats, injuryReport, playerMPG, playerAdv, todaysGames, { recentInjuryDates = null, ofsPlayers = null, playoffMode = false } = {}) {
   if (!playerAdv || !Object.keys(playerAdv).length) {
 
     return teamStats;
@@ -424,12 +424,27 @@ export async function adjustTeamStats(teamStats, injuryReport, playerMPG, player
     if (!rosterOut.size) continue;
 
     // Separate available vs out
-    const available = roster.filter(r => !rosterOut.has(r.name));
-    const out       = roster.filter(r => rosterOut.has(r.name));
+    let available = roster.filter(r => !rosterOut.has(r.name));
+    let out       = roster.filter(r => rosterOut.has(r.name));
 
     if (available.length < 5) {
 
       continue;
+    }
+
+    // Playoff minutes inflation — stars/starters play more, bench less
+    if (playoffMode) {
+      const inflate = (p) => {
+        const m = p.min;
+        let adj;
+        if (m >= 32) adj = Math.min(m * 1.15, 42);       // star
+        else if (m >= 28) adj = Math.min(m * 1.10, 38);  // starter
+        else if (m >= 18) adj = m * 0.85;                 // bench
+        else adj = m * 0.50;                              // deep bench
+        return { ...p, min: adj };
+      };
+      available = available.map(inflate);
+      out = out.map(inflate);
     }
 
     const orig = adjusted[teamKey] || teamStats[teamKey];
