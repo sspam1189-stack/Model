@@ -62,8 +62,13 @@ export function applyB2BAdjustment(teamStats, b2bTeams, todaysGames) {
     const statKey = findStatKey(teamStats, b2bName);
     if (!statKey) continue;
 
+    const nk = normKey(statKey);
     const isTonight = teamsTonight.has(statKey) ||
-      [...teamsTonight].some(t => normKey(t) === normKey(statKey));
+      [...teamsTonight].some(t => {
+        const nt = normKey(t);
+        return nt === nk || nk.includes(nt) || nt.includes(nk)
+          || nt.split(' ').pop() === nk.split(' ').pop();
+      });
     if (!isTonight) continue;
 
     const orig = teamStats[statKey];

@@ -95,8 +95,11 @@ def apply_b2b_adjustment(team_stats, b2b_teams, todays_games):
         if not stat_key:
             continue
 
+        nk = _norm_key(stat_key)
         is_tonight = stat_key in teams_tonight or any(
-            _norm_key(t) == _norm_key(stat_key) for t in teams_tonight
+            _norm_key(t) == nk or nk in _norm_key(t) or _norm_key(t) in nk
+            or _norm_key(t).split()[-1] == nk.split()[-1]
+            for t in teams_tonight
         )
         if not is_tonight:
             continue
