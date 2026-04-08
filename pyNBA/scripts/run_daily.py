@@ -1073,6 +1073,49 @@ def main(subject_label="[PY]"):
     base_w = store.get("weights") or defaults["DEFAULT_W"]
     base_w_var = store.get("weightsVar") or defaults["DEFAULT_W_VAR"]
 
+    # TEMP OVERRIDE: Orlando L10 — drop 3/29 TOR (87-139) + 4/1 ATL (101-130) blowouts
+    # Auto-disables after 2026-04-20.
+    _orl_deadline = "20260420"
+    if date <= _orl_deadline and enhanced_stats.get("last10", {}).get("Orlando Magic"):
+        try:
+            from nba_api.stats.endpoints import teamgamelog as _tgl
+            from nba_api.stats.endpoints import boxscoreadvancedv3 as _bsa
+            import time as _time
+
+            _logs = _tgl.TeamGameLog(team_id=1610612753, season="2025-26", season_type_all_star="Regular Season", timeout=30)
+            _df = _logs.get_data_frames()[0]
+            _exclude = {"0022501086", "0022501107"}  # TOR 3/29, ATL 4/1
+            _clean = _df[~_df["Game_ID"].isin(_exclude)].head(10)
+
+            if len(_clean) == 10:
+                _adv = []
+                for _, _r in _clean.iterrows():
+                    _time.sleep(0.6)
+                    try:
+                        _box = _bsa.BoxScoreAdvancedV3(game_id=_r["Game_ID"], timeout=30)
+                        _tdf = _box.get_data_frames()[1]
+                        _orl = _tdf[_tdf["teamName"] == "Magic"].iloc[0]
+                        _adv.append({
+                            "OFF": float(_orl["offensiveRating"]),
+                            "DEF": float(_orl["defensiveRating"]),
+                            "TS": float(_orl["trueShootingPercentage"]),
+                            "TO": float(_orl["turnoverRatio"]) / 100,
+                            "ORR": float(_orl["offensiveReboundPercentage"]),
+                            "PACE": float(_orl["pace"]),
+                        })
+                    except Exception:
+                        pass
+
+                if len(_adv) >= 8:
+                    _avg = lambda k: round(sum(g[k] for g in _adv) / len(_adv), 4)
+                    _patch = {k: _avg(k) for k in ["OFF", "DEF", "TS", "TO", "ORR", "PACE"]}
+                    enhanced_stats["last10"]["Orlando Magic"].update(_patch)
+                    print(f"  [override] Patched Orlando Magic L10 from {len(_adv)} clean games: OFF={_patch['OFF']} DEF={_patch['DEF']}")
+                else:
+                    print(f"  [override] Only got {len(_adv)} box scores — skipping Orlando patch")
+        except Exception as _e:
+            print(f"  [override] Orlando L10 patch failed (non-fatal): {_e}")
+
     # Blend season + last 10 games for recent form
     stats = blend_base(enhanced_stats["season"], enhanced_stats.get("last10"), base_w.get("recentWeight", 0.35))
 

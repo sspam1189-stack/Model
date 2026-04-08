@@ -1268,6 +1268,78 @@ async function main() {
   let baseW = store.weights || defaults.DEFAULT_W;
   let baseWVar = store.weightsVar || defaults.DEFAULT_W_VAR;
 
+  // TEMP OVERRIDE: Orlando L10 — drop 3/29 TOR (87-139) + 4/1 ATL (101-130) blowouts
+  // Fetches game log at runtime, removes those games, recomputes L10 from remaining.
+  // Auto-disables after 2026-04-20 (both games will have dropped out of L10 by then).
+  if (date <= "20260420" && enhancedStats.last10?.["Orlando Magic"]) {
+    try {
+      const _teamGameLogUrl = "https://stats.nba.com/stats/teamgamelog?TeamID=1610612753&Season=2025-26&SeasonType=Regular+Season";
+      const _boxScoreUrl = (gid) => `https://stats.nba.com/stats/boxscoreadvancedv3?GameID=${gid}&StartPeriod=0&EndPeriod=0&StartRange=0&EndRange=0&RangeType=0`;
+      const _nbaHeaders = {
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36",
+        "Referer": "https://www.nba.com/", "Origin": "https://www.nba.com",
+        "Accept": "application/json", "x-nba-stats-origin": "stats", "x-nba-stats-token": "true",
+      };
+
+      const _glRes = await fetch(_teamGameLogUrl, { headers: _nbaHeaders }).catch(() => null);
+      if (_glRes?.ok) {
+        const _glData = await _glRes.json();
+        const _glHeaders = _glData.resultSets[0].headers;
+        const _glRows = _glData.resultSets[0].rowSet;
+        const _iGID = _glHeaders.indexOf("Game_ID");
+
+        const _excludeGIDs = new Set(["0022501086", "0022501107"]); // TOR 3/29, ATL 4/1
+        const _cleanGames = _glRows.filter(r => !_excludeGIDs.has(r[_iGID]));
+        const _l10Games = _cleanGames.slice(0, 10);
+
+        if (_l10Games.length === 10) {
+          const _advStats = [];
+          for (const _g of _l10Games) {
+            await new Promise(r => setTimeout(r, 600));
+            try {
+              const _bRes = await fetch(_boxScoreUrl(_g[_iGID]), { headers: _nbaHeaders });
+              if (!_bRes?.ok) continue;
+              const _bData = await _bRes.json();
+              const _bHeaders = _bData.resultSets[0].headers;
+              const _bRows = _bData.resultSets[0].rowSet;
+              const _iTeam = _bHeaders.indexOf("teamName");
+              const _orl = _bRows.find(r => r[_iTeam] === "Magic");
+              if (_orl) {
+                const _idx = (n) => _bHeaders.indexOf(n);
+                _advStats.push({
+                  OFF: Number(_orl[_idx("offensiveRating")]),
+                  DEF: Number(_orl[_idx("defensiveRating")]),
+                  TS: Number(_orl[_idx("trueShootingPercentage")]),
+                  TO: Number(_orl[_idx("turnoverRatio")]) / 100,
+                  ORR: Number(_orl[_idx("offensiveReboundPercentage")]),
+                  PACE: Number(_orl[_idx("pace")]),
+                });
+              }
+            } catch (_) {}
+          }
+
+          if (_advStats.length >= 8) {
+            const _avg = (arr, k) => arr.reduce((s, g) => s + g[k], 0) / arr.length;
+            const _clean = {
+              OFF: Math.round(_avg(_advStats, "OFF") * 100) / 100,
+              DEF: Math.round(_avg(_advStats, "DEF") * 100) / 100,
+              TS: Math.round(_avg(_advStats, "TS") * 10000) / 10000,
+              TO: Math.round(_avg(_advStats, "TO") * 10000) / 10000,
+              ORR: Math.round(_avg(_advStats, "ORR") * 10000) / 10000,
+              PACE: Math.round(_avg(_advStats, "PACE") * 100) / 100,
+            };
+            Object.assign(enhancedStats.last10["Orlando Magic"], _clean);
+            console.log(`  [override] Patched Orlando Magic L10 from ${_advStats.length} clean games (removed TOR+ATL blowouts): OFF=${_clean.OFF} DEF=${_clean.DEF}`);
+          } else {
+            console.warn(`  [override] Only got ${_advStats.length} box scores — skipping Orlando patch`);
+          }
+        }
+      }
+    } catch (_e) {
+      console.warn("  [override] Orlando L10 patch failed (non-fatal):", _e.message);
+    }
+  }
+
   // Blend season + last 10 games for recent form
   const stats = blendBase(enhancedStats.season, enhancedStats.last10, baseW.recentWeight ?? 0.35);
 
