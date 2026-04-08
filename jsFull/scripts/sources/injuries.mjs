@@ -314,13 +314,13 @@ async function fetchGameAvailability(date) {
         const playerName = inj?.athlete?.displayName;
         if (!playerName) continue;
 
-        // status: "Out", "Questionable", "Doubtful", "Day-To-Day", "Probable", etc.
+        // reason includes: "Injury/Illness", "Rest", "Personal Reasons", "Load Management", etc.
         const rawStatus = inj?.status || "";
-        const status    = normalizeStatus(rawStatus);
+        const reason = inj?.shortComment || inj?.longComment || rawStatus || "";
+        // status: "Out", "Questionable", "Doubtful", "Day-To-Day", "Probable", etc.
+        const status    = normalizeStatus(rawStatus, reason);
         if (status === "active" || status === "probable") continue;
 
-        // reason includes: "Injury/Illness", "Rest", "Personal Reasons", "Load Management", etc.
-        const reason = inj?.shortComment || inj?.longComment || rawStatus || "";
         players.push({ player: playerName, status, reason });
       }
 
@@ -336,11 +336,20 @@ async function fetchGameAvailability(date) {
 }
 
 // ── Helpers ─────────────────────────────────────────────────────────────────
-function normalizeStatus(raw) {
+function normalizeStatus(raw, comment) {
   const s = String(raw || "").toLowerCase();
   if (s.includes("out"))                                                          return "out";
   if (s.includes("doubtful"))                                                     return "doubtful";
-  if (s.includes("questionable") || s.includes("day-to-day") || s.includes("dtd")) return "questionable";
+  if (s.includes("questionable") || s.includes("day-to-day") || s.includes("dtd")) {
+    // Comment often has the real game-day status, e.g.
+    // "Wembanyama (ribs) is listed as doubtful for Wednesday's game"
+    if (comment) {
+      const c = String(comment).toLowerCase();
+      if (c.includes("ruled out") || c.includes("will not play") || c.includes("will miss")) return "out";
+      if (c.includes("listed as doubtful") || c.includes("is doubtful")) return "doubtful";
+    }
+    return "questionable";
+  }
   if (s.includes("probable"))                                                     return "probable";
   return "active";
 }
@@ -371,11 +380,11 @@ async function fetchLeagueWideInjuries(teamsPlaying) {
       if (!teamName || !teamsPlaying.has(teamName)) continue;
       const players = [];
       for (const inj of teamData?.injuries || []) {
-        const status = normalizeStatus(inj?.status || "");
-        if (status !== "out" && status !== "doubtful" && status !== "questionable") continue;
         const name = inj?.athlete?.displayName;
         if (!name) continue;
         const reason = inj?.shortComment || inj?.longComment || inj?.status || "";
+        const status = normalizeStatus(inj?.status || "", reason);
+        if (status !== "out" && status !== "doubtful" && status !== "questionable") continue;
         players.push({ player: name, status, reason });
       }
       if (players.length) result[teamName] = players;

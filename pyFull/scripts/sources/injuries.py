@@ -244,13 +244,23 @@ def fetch_player_mpg(season_type="Regular Season", espn_type=2):
 
 # -- ESPN per-game availability --
 
-def _normalize_status(raw):
+def _normalize_status(raw, comment=None):
+    """Normalize injury status. If raw is vague (e.g. Day-To-Day), also check
+    the comment text for a more specific designation (doubtful, out, etc.)."""
     s = str(raw or "").lower()
     if "out" in s:
         return "out"
     if "doubtful" in s:
         return "doubtful"
     if "questionable" in s or "day-to-day" in s or "dtd" in s:
+        # Comment often has the real game-day status, e.g.
+        # "Wembanyama (ribs) is listed as doubtful for Wednesday's game"
+        if comment:
+            c = str(comment).lower()
+            if "ruled out" in c or "will not play" in c or "will miss" in c:
+                return "out"
+            if "listed as doubtful" in c or "is doubtful" in c:
+                return "doubtful"
         return "questionable"
     if "probable" in s:
         return "probable"
@@ -334,11 +344,11 @@ def _fetch_game_availability(date=None):
                     continue
 
                 raw_status = inj.get("status") or ""
-                status = _normalize_status(raw_status)
+                reason = inj.get("shortComment") or inj.get("longComment") or raw_status or ""
+                status = _normalize_status(raw_status, reason)
                 if status in ("active", "probable"):
                     continue
 
-                reason = inj.get("shortComment") or inj.get("longComment") or raw_status or ""
                 players.append({"player": player_name, "status": status, "reason": reason})
 
             if players:
@@ -371,13 +381,13 @@ def _fetch_leaguewide_injuries(teams_playing):
             continue
         players = []
         for inj in team_data.get("injuries", []):
-            status = _normalize_status(inj.get("status"))
-            if status not in ("out", "doubtful", "questionable"):
-                continue
             name = (inj.get("athlete") or {}).get("displayName", "")
             if not name:
                 continue
             reason = inj.get("shortComment") or inj.get("longComment") or inj.get("status") or ""
+            status = _normalize_status(inj.get("status"), reason)
+            if status not in ("out", "doubtful", "questionable"):
+                continue
             players.append({"player": name, "status": status, "reason": reason})
         if players:
             result[team_name] = players
