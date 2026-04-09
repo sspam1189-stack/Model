@@ -2,6 +2,13 @@
   "report": {
     "Toronto Raptors": [
       {
+        "player": "Trayce Jackson-Davis",
+        "status": "out",
+        "reason": "Out",
+        "tier": "deep_bench",
+        "mpg": 9.4
+      },
+      {
         "player": "Chucky Hepburn",
         "status": "out",
         "reason": "Out",
@@ -16,13 +23,6 @@
         "reason": "Day-To-Day",
         "tier": "deep_bench",
         "mpg": 16.3
-      },
-      {
-        "player": "Norman Powell",
-        "status": "questionable",
-        "reason": "Day-To-Day",
-        "tier": "starter",
-        "mpg": 30.0
       },
       {
         "player": "Nikola Jovic",
@@ -41,16 +41,30 @@
     ],
     "Washington Wizards": [
       {
+        "player": "Alex Sarr",
+        "status": "out",
+        "reason": "Out",
+        "tier": "bench",
+        "mpg": 27.2
+      },
+      {
         "player": "Jaden Hardy",
-        "status": "questionable",
-        "reason": "Day-To-Day",
+        "status": "out",
+        "reason": "Out",
         "tier": "deep_bench",
         "mpg": 15.7
       },
       {
+        "player": "Bilal Coulibaly",
+        "status": "out",
+        "reason": "Out",
+        "tier": "bench",
+        "mpg": 26.3
+      },
+      {
         "player": "Tre Johnson",
-        "status": "questionable",
-        "reason": "Day-To-Day",
+        "status": "out",
+        "reason": "Out",
         "tier": "bench",
         "mpg": 24.0
       },
@@ -60,34 +74,6 @@
         "reason": "Out",
         "tier": "deep_bench",
         "mpg": 13.7
-      },
-      {
-        "player": "Anthony Gill",
-        "status": "questionable",
-        "reason": "Day-To-Day",
-        "tier": "deep_bench",
-        "mpg": 16.3
-      },
-      {
-        "player": "Alex Sarr",
-        "status": "out",
-        "reason": "Out",
-        "tier": "bench",
-        "mpg": 27.2
-      },
-      {
-        "player": "Bilal Coulibaly",
-        "status": "questionable",
-        "reason": "Coulibaly (foot) is questionable for Thursday's game against Chicago.",
-        "tier": "bench",
-        "mpg": 26.3
-      },
-      {
-        "player": "Justin Champagnie",
-        "status": "questionable",
-        "reason": "Champagnie (knee) is questionable for Thursday's game against the Bulls.",
-        "tier": "bench",
-        "mpg": 19.8
       },
       {
         "player": "Anthony Davis",
@@ -127,6 +113,13 @@
     ],
     "Chicago Bulls": [
       {
+        "player": "Isaac Okoro",
+        "status": "out",
+        "reason": "Out",
+        "tier": "bench",
+        "mpg": 26.9
+      },
+      {
         "player": "Collin Sexton",
         "status": "questionable",
         "reason": "Day-To-Day",
@@ -157,7 +150,7 @@
       {
         "player": "Josh Giddey",
         "status": "out",
-        "reason": "Out",
+        "reason": "Giddey (hamstring) is out for Thursday's game against the Wizards",
         "tier": "star",
         "mpg": 32.1
       },
@@ -167,13 +160,6 @@
         "reason": "Richards (elbow) is out for Thursday's game against the Wizards.",
         "tier": "deep_bench",
         "mpg": 14.6
-      },
-      {
-        "player": "Isaac Okoro",
-        "status": "questionable",
-        "reason": "Okoro (quadriceps) is questionable for Thursday's game against the Wizards.",
-        "tier": "bench",
-        "mpg": 26.9
       },
       {
         "player": "Anfernee Simons",
@@ -351,13 +337,20 @@
     "New York Knicks": [
       {
         "player": "Tyler Kolek",
-        "status": "questionable",
-        "reason": "Day-To-Day",
+        "status": "out",
+        "reason": "Out",
         "tier": "deep_bench",
         "mpg": 11.7
       }
     ],
     "Boston Celtics": [
+      {
+        "player": "Jaylen Brown",
+        "status": "out",
+        "reason": "Out",
+        "tier": "star",
+        "mpg": 34.5
+      },
       {
         "player": "Neemias Queta",
         "status": "questionable",
@@ -366,28 +359,21 @@
         "mpg": 25.5
       },
       {
-        "player": "Sam Hauser",
-        "status": "questionable",
-        "reason": "Day-To-Day",
-        "tier": "bench",
-        "mpg": 24.7
-      },
-      {
         "player": "Derrick White",
         "status": "questionable",
         "reason": "Day-To-Day",
         "tier": "star",
         "mpg": 34.3
-      },
-      {
-        "player": "Jaylen Brown",
-        "status": "questionable",
-        "reason": "Day-To-Day",
-        "tier": "star",
-        "mpg": 34.5
       }
     ],
     "Houston Rockets": [
+      {
+        "player": "Tari Eason",
+        "status": "questionable",
+        "reason": "Day-To-Day",
+        "tier": "bench",
+        "mpg": 25.9
+      },
       {
         "player": "Steven Adams",
         "status": "out",
@@ -405,6 +391,13 @@
     ],
     "Philadelphia 76ers": [
       {
+        "player": "Joel Embiid",
+        "status": "out",
+        "reason": "Out",
+        "tier": "starter",
+        "mpg": 31.6
+      },
+      {
         "player": "Johni Broome",
         "status": "out",
         "reason": "Out",
@@ -421,11 +414,11 @@
     ],
     "Golden State Warriors": [
       {
-        "player": "Will Richard",
-        "status": "doubtful",
-        "reason": "Day-To-Day",
-        "tier": "bench",
-        "mpg": 20.2
+        "player": "Stephen Curry",
+        "status": "out",
+        "reason": "Out",
+        "tier": "starter",
+        "mpg": 31.0
       },
       {
         "player": "Charles Bassey",
@@ -433,6 +426,13 @@
         "reason": "Day-To-Day",
         "tier": "deep_bench",
         "mpg": 8.9
+      },
+      {
+        "player": "Will Richard",
+        "status": "out",
+        "reason": "Out",
+        "tier": "bench",
+        "mpg": 20.2
       },
       {
         "player": "Gui Santos",
@@ -451,16 +451,9 @@
       {
         "player": "Kristaps Porzingis",
         "status": "out",
-        "reason": "Out",
+        "reason": "Porzingis (illness) is out for Thursday's game against the Lakers.",
         "tier": "bench",
         "mpg": 24.0
-      },
-      {
-        "player": "Stephen Curry",
-        "status": "questionable",
-        "reason": "Curry (knee) is questionable for Thursday's game against the Lakers.",
-        "tier": "starter",
-        "mpg": 31.0
       },
       {
         "player": "Al Horford",
@@ -493,18 +486,18 @@
     ],
     "Los Angeles Lakers": [
       {
-        "player": "Jaxson Hayes",
-        "status": "out",
-        "reason": "Out",
-        "tier": "bench",
-        "mpg": 18.3
-      },
-      {
         "player": "Marcus Smart",
         "status": "out",
         "reason": "Out",
         "tier": "starter",
         "mpg": 28.7
+      },
+      {
+        "player": "Jaxson Hayes",
+        "status": "out",
+        "reason": "Out",
+        "tier": "bench",
+        "mpg": 18.3
       },
       {
         "player": "Luka Doncic",
