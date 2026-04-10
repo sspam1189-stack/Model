@@ -2,13 +2,6 @@
   "report": {
     "Charlotte Hornets": [
       {
-        "player": "Coby White",
-        "status": "questionable",
-        "reason": "Day-To-Day",
-        "tier": "bench",
-        "mpg": 25.4
-      },
-      {
         "player": "PJ Hall",
         "status": "out",
         "reason": "Out",
@@ -16,43 +9,20 @@
         "mpg": 11.2
       }
     ],
-    "Detroit Pistons": [
-      {
-        "player": "Kevin Huerter",
-        "status": "questionable",
-        "reason": "Day-To-Day",
-        "tier": "bench",
-        "mpg": 22.6
-      }
-    ],
     "Washington Wizards": [
-      {
-        "player": "Jaden Hardy",
-        "status": "questionable",
-        "reason": "Day-To-Day",
-        "tier": "deep_bench",
-        "mpg": 15.7
-      },
-      {
-        "player": "Bilal Coulibaly",
-        "status": "questionable",
-        "reason": "Day-To-Day",
-        "tier": "bench",
-        "mpg": 26.3
-      },
-      {
-        "player": "Alex Sarr",
-        "status": "out",
-        "reason": "Out",
-        "tier": "bench",
-        "mpg": 27.2
-      },
       {
         "player": "Tre Johnson",
         "status": "out",
         "reason": "Out",
         "tier": "bench",
         "mpg": 24.0
+      },
+      {
+        "player": "Justin Champagnie",
+        "status": "out",
+        "reason": "Out",
+        "tier": "bench",
+        "mpg": 19.8
       },
       {
         "player": "Tristan Vukcevic",
@@ -62,9 +32,16 @@
         "mpg": 13.7
       },
       {
+        "player": "Alex Sarr",
+        "status": "out",
+        "reason": "Out",
+        "tier": "bench",
+        "mpg": 27.2
+      },
+      {
         "player": "Anthony Davis",
         "status": "out",
-        "reason": "Head coach Brian Keefe said Tuesday that Davis (finger) is not expected to play again this season, Chase Hughes of Monumental Sports Network reports.",
+        "reason": "Out",
         "tier": "starter",
         "mpg": 31.3
       },
@@ -99,9 +76,30 @@
     ],
     "Miami Heat": [
       {
+        "player": "Davion Mitchell",
+        "status": "out",
+        "reason": "Out",
+        "tier": "starter",
+        "mpg": 28.6
+      },
+      {
+        "player": "Norman Powell",
+        "status": "out",
+        "reason": "Out",
+        "tier": "starter",
+        "mpg": 29.7
+      },
+      {
+        "player": "Tyler Herro",
+        "status": "out",
+        "reason": "Out",
+        "tier": "starter",
+        "mpg": 31.6
+      },
+      {
         "player": "Dru Smith",
-        "status": "questionable",
-        "reason": "Day-To-Day",
+        "status": "out",
+        "reason": "Out",
         "tier": "deep_bench",
         "mpg": 16.3
       },
@@ -111,13 +109,6 @@
         "reason": "Out",
         "tier": "deep_bench",
         "mpg": 17.2
-      },
-      {
-        "player": "Terry Rozier",
-        "status": "out",
-        "reason": "Out",
-        "tier": "deep_bench",
-        "mpg": 0
       }
     ],
     "Atlanta Hawks": [
@@ -136,13 +127,6 @@
         "reason": "Out",
         "tier": "bench",
         "mpg": 26.5
-      },
-      {
-        "player": "Jaylon Tyson",
-        "status": "out",
-        "reason": "Out",
-        "tier": "bench",
-        "mpg": 27.0
       },
       {
         "player": "Jarrett Allen",
@@ -169,20 +153,34 @@
     "Boston Celtics": [
       {
         "player": "Jayson Tatum",
-        "status": "questionable",
-        "reason": "Day-To-Day",
+        "status": "out",
+        "reason": "Out",
         "tier": "star",
         "mpg": 32.6
-      },
-      {
-        "player": "Jaylen Brown",
-        "status": "questionable",
-        "reason": "Day-To-Day",
-        "tier": "star",
-        "mpg": 34.5
       }
     ],
     "New Orleans Pelicans": [
+      {
+        "player": "Saddiq Bey",
+        "status": "out",
+        "reason": "Out",
+        "tier": "starter",
+        "mpg": 31.2
+      },
+      {
+        "player": "Herbert Jones",
+        "status": "out",
+        "reason": "Out",
+        "tier": "starter",
+        "mpg": 28.4
+      },
+      {
+        "player": "Karlo Matkovic",
+        "status": "out",
+        "reason": "Out",
+        "tier": "deep_bench",
+        "mpg": 14.7
+      },
       {
         "player": "Bryce McGowens",
         "status": "out",
@@ -196,27 +194,6 @@
         "reason": "Out",
         "tier": "bench",
         "mpg": 19.7
-      },
-      {
-        "player": "Saddiq Bey",
-        "status": "questionable",
-        "reason": "Day-To-Day",
-        "tier": "starter",
-        "mpg": 31.2
-      },
-      {
-        "player": "Karlo Matkovic",
-        "status": "out",
-        "reason": "Out",
-        "tier": "deep_bench",
-        "mpg": 14.7
-      },
-      {
-        "player": "Herbert Jones",
-        "status": "questionable",
-        "reason": "Day-To-Day",
-        "tier": "starter",
-        "mpg": 28.4
       },
       {
         "player": "Dejounte Murray",
@@ -242,32 +219,11 @@
     ],
     "Indiana Pacers": [
       {
-        "player": "Kobe Brown",
-        "status": "questionable",
-        "reason": "Day-To-Day",
-        "tier": "deep_bench",
-        "mpg": 15.3
-      },
-      {
         "player": "Ben Sheppard",
         "status": "out",
         "reason": "Out",
         "tier": "bench",
         "mpg": 21.4
-      },
-      {
-        "player": "Tyrese Haliburton",
-        "status": "out",
-        "reason": "Out",
-        "tier": "deep_bench",
-        "mpg": 0
-      },
-      {
-        "player": "T.J. McConnell",
-        "status": "out",
-        "reason": "Out",
-        "tier": "deep_bench",
-        "mpg": 17.2
       },
       {
         "player": "Andrew Nembhard",
@@ -279,16 +235,44 @@
       {
         "player": "Aaron Nesmith",
         "status": "out",
-        "reason": "Nesmith (neck) is out for Thursday's game against the Nets.",
+        "reason": "Out",
         "tier": "starter",
         "mpg": 29.7
       },
       {
+        "player": "Kobe Brown",
+        "status": "questionable",
+        "reason": "Day-To-Day",
+        "tier": "deep_bench",
+        "mpg": 15.3
+      },
+      {
+        "player": "T.J. McConnell",
+        "status": "out",
+        "reason": "Out",
+        "tier": "deep_bench",
+        "mpg": 17.2
+      },
+      {
         "player": "Pascal Siakam",
         "status": "out",
-        "reason": "Siakam (ankle) is out for Thursday's game against the Nets.",
+        "reason": "Siakam (ankle) has been ruled out for Friday's game against the 76ers.",
         "tier": "star",
         "mpg": 33.2
+      },
+      {
+        "player": "Jarace Walker",
+        "status": "questionable",
+        "reason": "Walker (sacral contusion) is questionable for Friday's game against the 76ers.",
+        "tier": "bench",
+        "mpg": 25.7
+      },
+      {
+        "player": "Tyrese Haliburton",
+        "status": "out",
+        "reason": "Haliburton announced via his personal X account that he participated in 5-on-5 work Wednesday.",
+        "tier": "deep_bench",
+        "mpg": 0
       },
       {
         "player": "Ivica Zubac",
@@ -319,68 +303,75 @@
         "reason": "Out",
         "tier": "deep_bench",
         "mpg": 5.0
-      },
-      {
-        "player": "Cameron Payne",
-        "status": "out",
-        "reason": "Out",
-        "tier": "deep_bench",
-        "mpg": 17.0
       }
     ],
     "New York Knicks": [
       {
         "player": "Tyler Kolek",
-        "status": "questionable",
-        "reason": "Day-To-Day",
+        "status": "out",
+        "reason": "Out",
         "tier": "deep_bench",
         "mpg": 11.7
+      },
+      {
+        "player": "Miles McBride",
+        "status": "out",
+        "reason": "Out",
+        "tier": "bench",
+        "mpg": 26.4
+      },
+      {
+        "player": "Mitchell Robinson",
+        "status": "out",
+        "reason": "Out",
+        "tier": "bench",
+        "mpg": 19.6
       }
     ],
     "Toronto Raptors": [
-      {
-        "player": "Trayce Jackson-Davis",
-        "status": "questionable",
-        "reason": "Day-To-Day",
-        "tier": "deep_bench",
-        "mpg": 9.4
-      },
       {
         "player": "Chucky Hepburn",
         "status": "out",
         "reason": "Out",
         "tier": "deep_bench",
         "mpg": 0
-      }
-    ],
-    "Chicago Bulls": [
-      {
-        "player": "Isaac Okoro",
-        "status": "questionable",
-        "reason": "Day-To-Day",
-        "tier": "bench",
-        "mpg": 26.9
       },
       {
-        "player": "Guerschon Yabusele",
-        "status": "questionable",
-        "reason": "Day-To-Day",
-        "tier": "deep_bench",
-        "mpg": 15.0
-      },
-      {
-        "player": "Matas Buzelis",
+        "player": "Collin Murray-Boyles",
         "status": "out",
         "reason": "Out",
-        "tier": "starter",
-        "mpg": 29.2
+        "tier": "bench",
+        "mpg": 22.0
       },
       {
-        "player": "Josh Giddey",
+        "player": "Trayce Jackson-Davis",
+        "status": "out",
+        "reason": "Out",
+        "tier": "deep_bench",
+        "mpg": 9.4
+      },
+      {
+        "player": "Immanuel Quickley",
         "status": "out",
         "reason": "Out",
         "tier": "star",
         "mpg": 32.1
+      }
+    ],
+    "Chicago Bulls": [
+      {
+        "player": "Anfernee Simons",
+        "status": "out",
+        "reason": "Out",
+        "tier": "bench",
+        "mpg": 24.9
+      },
+      {
+        "player": "Guerschon Yabusele",
+        "status": "out",
+        "reason": "Out",
+        "tier": "deep_bench",
+        "mpg": 15.0
       },
       {
         "player": "Nick Richards",
@@ -390,11 +381,46 @@
         "mpg": 14.6
       },
       {
-        "player": "Anfernee Simons",
+        "player": "Josh Giddey",
         "status": "out",
-        "reason": "Simons (wrist) is out for Thursday's game against the Wizards.",
+        "reason": "Out",
+        "tier": "star",
+        "mpg": 32.1
+      },
+      {
+        "player": "Leonard Miller",
+        "status": "questionable",
+        "reason": "Day-To-Day",
+        "tier": "deep_bench",
+        "mpg": 14.7
+      },
+      {
+        "player": "Collin Sexton",
+        "status": "questionable",
+        "reason": "Sexton (finger) is probable for Friday's game against the Magic.",
         "tier": "bench",
-        "mpg": 24.9
+        "mpg": 23.6
+      },
+      {
+        "player": "Patrick Williams",
+        "status": "questionable",
+        "reason": "Williams (thumb) is probable for Friday's matchup against the Magic.",
+        "tier": "bench",
+        "mpg": 20.2
+      },
+      {
+        "player": "Lachlan Olbrich",
+        "status": "questionable",
+        "reason": "Olbrich (foot) is probable for Friday's matchup against the Magic.",
+        "tier": "deep_bench",
+        "mpg": 8.1
+      },
+      {
+        "player": "Isaac Okoro",
+        "status": "doubtful",
+        "reason": "Okoro (quadriceps) is doubtful for Friday's game against Orlando.",
+        "tier": "bench",
+        "mpg": 26.9
       },
       {
         "player": "Jalen Smith",
@@ -436,6 +462,20 @@
     ],
     "Milwaukee Bucks": [
       {
+        "player": "Ryan Rollins",
+        "status": "out",
+        "reason": "Out",
+        "tier": "star",
+        "mpg": 32.1
+      },
+      {
+        "player": "Pete Nance",
+        "status": "out",
+        "reason": "Out",
+        "tier": "deep_bench",
+        "mpg": 15.7
+      },
+      {
         "player": "Gary Trent Jr.",
         "status": "out",
         "reason": "Out",
@@ -459,32 +499,32 @@
       {
         "player": "Kevin Porter Jr.",
         "status": "out",
-        "reason": "Out",
+        "reason": "The Bucks announced that Porter underwent arthroscopic surgery on his right knee Tuesday and will miss the remainder of the 2025-26 campaign.",
         "tier": "star",
         "mpg": 33.2
       }
     ],
     "Brooklyn Nets": [
       {
-        "player": "Nolan Traore",
+        "player": "Noah Clowney",
         "status": "out",
-        "reason": "Day-To-Day",
+        "reason": "Out",
         "tier": "bench",
-        "mpg": 22.3
+        "mpg": 27.0
       },
       {
         "player": "Josh Minott",
         "status": "out",
-        "reason": "Day-To-Day",
+        "reason": "Out",
         "tier": "deep_bench",
         "mpg": 17.0
       },
       {
-        "player": "Terance Mann",
+        "player": "Drake Powell",
         "status": "out",
         "reason": "Out",
         "tier": "bench",
-        "mpg": 24.3
+        "mpg": 20.9
       },
       {
         "player": "Ziaire Williams",
@@ -494,18 +534,18 @@
         "mpg": 22.9
       },
       {
-        "player": "Noah Clowney",
+        "player": "Nic Claxton",
         "status": "out",
         "reason": "Out",
         "tier": "bench",
-        "mpg": 27.0
+        "mpg": 27.8
       },
       {
-        "player": "Nic Claxton",
+        "player": "Terance Mann",
         "status": "out",
-        "reason": "Claxton (finger) has been ruled out for Thursday's game against Indiana.",
+        "reason": "Mann (knee) will miss Friday's game against the Bucks.",
         "tier": "bench",
-        "mpg": 27.8
+        "mpg": 24.3
       },
       {
         "player": "Michael Porter Jr.",
@@ -539,8 +579,8 @@
     "San Antonio Spurs": [
       {
         "player": "Stephon Castle",
-        "status": "questionable",
-        "reason": "Day-To-Day",
+        "status": "out",
+        "reason": "Out",
         "tier": "starter",
         "mpg": 30.0
       },
@@ -561,6 +601,27 @@
     ],
     "Dallas Mavericks": [
       {
+        "player": "Klay Thompson",
+        "status": "out",
+        "reason": "Out",
+        "tier": "bench",
+        "mpg": 21.9
+      },
+      {
+        "player": "Dwight Powell",
+        "status": "questionable",
+        "reason": "Day-To-Day",
+        "tier": "deep_bench",
+        "mpg": 14.0
+      },
+      {
+        "player": "Marvin Bagley III",
+        "status": "questionable",
+        "reason": "Day-To-Day",
+        "tier": "bench",
+        "mpg": 20.2
+      },
+      {
         "player": "Brandon Williams",
         "status": "doubtful",
         "reason": "Day-To-Day",
@@ -577,30 +638,23 @@
       {
         "player": "Caleb Martin",
         "status": "out",
-        "reason": "Out",
+        "reason": "Martin is doubtful for Friday's game versus San Antonio due to a strained right heel.",
         "tier": "deep_bench",
         "mpg": 14.8
       },
       {
         "player": "Daniel Gafford",
         "status": "out",
-        "reason": "Out",
+        "reason": "Gafford is doubtful for Friday's game versus San Antonio.",
         "tier": "bench",
         "mpg": 21.7
       },
       {
         "player": "P.J. Washington",
         "status": "doubtful",
-        "reason": "Day-To-Day",
+        "reason": "Washington (elbow) is doubtful for Friday's game against San Antonio.",
         "tier": "starter",
         "mpg": 31.0
-      },
-      {
-        "player": "Cooper Flagg",
-        "status": "questionable",
-        "reason": "Flagg is probable for Friday's game against the Spurs due to a left wrist sprain.",
-        "tier": "star",
-        "mpg": 33.8
       },
       {
         "player": "Kyrie Irving",
@@ -618,6 +672,20 @@
       }
     ],
     "Denver Nuggets": [
+      {
+        "player": "Cameron Johnson",
+        "status": "questionable",
+        "reason": "Day-To-Day",
+        "tier": "starter",
+        "mpg": 30.5
+      },
+      {
+        "player": "Christian Braun",
+        "status": "questionable",
+        "reason": "Day-To-Day",
+        "tier": "starter",
+        "mpg": 31.8
+      },
       {
         "player": "Nikola Jokic",
         "status": "questionable",
@@ -642,14 +710,14 @@
       {
         "player": "Spencer Jones",
         "status": "out",
-        "reason": "Out",
+        "reason": "Jones (hamstring) has been ruled out for Friday's game against the Thunder.",
         "tier": "bench",
         "mpg": 22.1
       },
       {
         "player": "Peyton Watson",
         "status": "out",
-        "reason": "Out",
+        "reason": "Watson (hamstring) is considered week-to-week, Bennett Durando of The Denver Postreports.",
         "tier": "starter",
         "mpg": 29.6
       }
@@ -728,6 +796,13 @@
     ],
     "Houston Rockets": [
       {
+        "player": "Tari Eason",
+        "status": "questionable",
+        "reason": "Day-To-Day",
+        "tier": "bench",
+        "mpg": 25.9
+      },
+      {
         "player": "Steven Adams",
         "status": "out",
         "reason": "Out",
@@ -744,11 +819,25 @@
     ],
     "Minnesota Timberwolves": [
       {
-        "player": "Ayo Dosunmu",
+        "player": "Bones Hyland",
+        "status": "out",
+        "reason": "Out",
+        "tier": "deep_bench",
+        "mpg": 16.6
+      },
+      {
+        "player": "Naz Reid",
         "status": "questionable",
         "reason": "Day-To-Day",
         "tier": "bench",
-        "mpg": 27.3
+        "mpg": 26.1
+      },
+      {
+        "player": "Julius Randle",
+        "status": "out",
+        "reason": "Out",
+        "tier": "star",
+        "mpg": 33.0
       },
       {
         "player": "Joe Ingles",
@@ -756,13 +845,6 @@
         "reason": "Out",
         "tier": "deep_bench",
         "mpg": 4.6
-      },
-      {
-        "player": "Bones Hyland",
-        "status": "questionable",
-        "reason": "Day-To-Day",
-        "tier": "deep_bench",
-        "mpg": 16.6
       },
       {
         "player": "Anthony Edwards",
@@ -774,16 +856,9 @@
       {
         "player": "Rudy Gobert",
         "status": "out",
-        "reason": "Out",
+        "reason": "Gobert (rest) has been ruled out for Friday's game against the Rockets.",
         "tier": "starter",
         "mpg": 31.3
-      },
-      {
-        "player": "Julius Randle",
-        "status": "questionable",
-        "reason": "Randle (hand) is questionable for Friday's game against the Rockets.",
-        "tier": "star",
-        "mpg": 33.0
       }
     ],
     "Utah Jazz": [
@@ -1071,11 +1146,32 @@
     ],
     "Golden State Warriors": [
       {
+        "player": "Seth Curry",
+        "status": "out",
+        "reason": "Out",
+        "tier": "deep_bench",
+        "mpg": 13.4
+      },
+      {
+        "player": "LJ Cryer",
+        "status": "out",
+        "reason": "Out",
+        "tier": "deep_bench",
+        "mpg": 16.2
+      },
+      {
         "player": "Will Richard",
         "status": "questionable",
         "reason": "Day-To-Day",
         "tier": "bench",
         "mpg": 20.2
+      },
+      {
+        "player": "Charles Bassey",
+        "status": "questionable",
+        "reason": "Day-To-Day",
+        "tier": "deep_bench",
+        "mpg": 10.8
       },
       {
         "player": "Kristaps Porzingis",
@@ -1085,32 +1181,18 @@
         "mpg": 24.0
       },
       {
-        "player": "Stephen Curry",
-        "status": "questionable",
-        "reason": "Day-To-Day",
-        "tier": "starter",
-        "mpg": 31.0
-      },
-      {
         "player": "Gui Santos",
         "status": "questionable",
-        "reason": "Day-To-Day",
+        "reason": "Santos (pelvis) is questionable for Friday's game against the Kings.",
         "tier": "bench",
         "mpg": 20.5
       },
       {
-        "player": "LJ Cryer",
+        "player": "Stephen Curry",
         "status": "questionable",
-        "reason": "Day-To-Day",
-        "tier": "deep_bench",
-        "mpg": 16.2
-      },
-      {
-        "player": "Al Horford",
-        "status": "out",
-        "reason": "Horford (calf) took part in a 5-on-5 scrimmage Thursday, and the Warriors are hopeful he'll play Friday against the Kings, Sam Gordon of the San Francisco Chronicle reports.",
-        "tier": "bench",
-        "mpg": 21.7
+        "reason": "Curry (knee) is probable for Friday's game against the Kings.",
+        "tier": "starter",
+        "mpg": 31.0
       },
       {
         "player": "Quinten Post",
@@ -1136,18 +1218,18 @@
     ],
     "Los Angeles Lakers": [
       {
-        "player": "Jaxson Hayes",
-        "status": "out",
+        "player": "Luke Kennard",
+        "status": "questionable",
         "reason": "Day-To-Day",
         "tier": "bench",
-        "mpg": 18.3
+        "mpg": 21.6
       },
       {
-        "player": "Marcus Smart",
+        "player": "Jaxson Hayes",
         "status": "out",
         "reason": "Out",
-        "tier": "starter",
-        "mpg": 28.7
+        "tier": "bench",
+        "mpg": 18.3
       },
       {
         "player": "Luka Doncic",
