@@ -8,7 +8,7 @@ HEADERS = {
 
 
 def fetch_text(url):
-    res = requests.get(url, headers=HEADERS)
+    res = requests.get(url, headers=HEADERS, timeout=30)
     if res.status_code != 200:
         raise Exception(f"HTTP {res.status_code} for {url}")
     return res.text

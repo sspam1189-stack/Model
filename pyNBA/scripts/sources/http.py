@@ -12,7 +12,7 @@ HEADERS = {
 
 def fetch_text(url):
     """Fetch a URL and return its text content."""
-    res = requests.get(url, headers=HEADERS)
+    res = requests.get(url, headers=HEADERS, timeout=30)
     if res.status_code != 200:
         raise Exception(f"HTTP {res.status_code} for {url}")
     return res.text
@@ -25,7 +25,7 @@ def html(url, text):
 
 def fetch_json(url, headers=None):
     """Fetch a URL and return parsed JSON."""
-    res = requests.get(url, headers=headers or HEADERS)
+    res = requests.get(url, headers=headers or HEADERS, timeout=30)
     if res.status_code != 200:
         raise Exception(f"HTTP {res.status_code} for {url}")
     return res.json()
