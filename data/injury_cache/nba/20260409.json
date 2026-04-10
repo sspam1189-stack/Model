@@ -1,5 +1,44 @@
 {
   "report": {
+    "Houston Rockets": [
+      {
+        "player": "Steven Adams",
+        "status": "out",
+        "reason": "Out",
+        "tier": "bench",
+        "mpg": 22.8
+      },
+      {
+        "player": "Fred VanVleet",
+        "status": "out",
+        "reason": "Out",
+        "tier": "deep_bench",
+        "mpg": 0
+      }
+    ],
+    "Philadelphia 76ers": [
+      {
+        "player": "Joel Embiid",
+        "status": "out",
+        "reason": "Out",
+        "tier": "starter",
+        "mpg": 31.6
+      },
+      {
+        "player": "Johni Broome",
+        "status": "out",
+        "reason": "Out",
+        "tier": "deep_bench",
+        "mpg": 5.0
+      },
+      {
+        "player": "Cameron Payne",
+        "status": "out",
+        "reason": "Out",
+        "tier": "deep_bench",
+        "mpg": 17.0
+      }
+    ],
     "Toronto Raptors": [
       {
         "player": "Trayce Jackson-Davis",
@@ -19,8 +58,8 @@
     "Miami Heat": [
       {
         "player": "Dru Smith",
-        "status": "questionable",
-        "reason": "Day-To-Day",
+        "status": "out",
+        "reason": "Out",
         "tier": "deep_bench",
         "mpg": 16.3
       },
@@ -113,32 +152,18 @@
     ],
     "Chicago Bulls": [
       {
+        "player": "Guerschon Yabusele",
+        "status": "questionable",
+        "reason": "Day-To-Day",
+        "tier": "deep_bench",
+        "mpg": 15.0
+      },
+      {
         "player": "Isaac Okoro",
         "status": "out",
         "reason": "Out",
         "tier": "bench",
         "mpg": 26.9
-      },
-      {
-        "player": "Collin Sexton",
-        "status": "questionable",
-        "reason": "Day-To-Day",
-        "tier": "bench",
-        "mpg": 23.4
-      },
-      {
-        "player": "Lachlan Olbrich",
-        "status": "questionable",
-        "reason": "Day-To-Day",
-        "tier": "deep_bench",
-        "mpg": 7.8
-      },
-      {
-        "player": "Patrick Williams",
-        "status": "questionable",
-        "reason": "Day-To-Day",
-        "tier": "bench",
-        "mpg": 19.9
       },
       {
         "player": "Matas Buzelis",
@@ -150,14 +175,14 @@
       {
         "player": "Josh Giddey",
         "status": "out",
-        "reason": "Giddey (hamstring) is out for Thursday's game against the Wizards",
+        "reason": "Out",
         "tier": "star",
         "mpg": 32.1
       },
       {
         "player": "Nick Richards",
         "status": "out",
-        "reason": "Richards (elbow) is out for Thursday's game against the Wizards.",
+        "reason": "Out",
         "tier": "deep_bench",
         "mpg": 14.6
       },
@@ -264,32 +289,25 @@
     ],
     "Indiana Pacers": [
       {
-        "player": "Tyrese Haliburton",
+        "player": "Kobe Brown",
         "status": "out",
         "reason": "Out",
-        "tier": "deep_bench",
-        "mpg": 0
-      },
-      {
-        "player": "Kobe Brown",
-        "status": "questionable",
-        "reason": "Day-To-Day",
         "tier": "deep_bench",
         "mpg": 15.3
       },
       {
         "player": "Ben Sheppard",
-        "status": "questionable",
-        "reason": "Day-To-Day",
+        "status": "out",
+        "reason": "Out",
         "tier": "bench",
         "mpg": 21.4
       },
       {
-        "player": "Jarace Walker",
-        "status": "questionable",
-        "reason": "Day-To-Day",
-        "tier": "bench",
-        "mpg": 25.6
+        "player": "Tyrese Haliburton",
+        "status": "out",
+        "reason": "Out",
+        "tier": "deep_bench",
+        "mpg": 0
       },
       {
         "player": "T.J. McConnell",
@@ -301,7 +319,7 @@
       {
         "player": "Andrew Nembhard",
         "status": "out",
-        "reason": "Nembhard (back) is out for Thursday's game against the Nets.",
+        "reason": "Out",
         "tier": "starter",
         "mpg": 31.3
       },
@@ -350,82 +368,29 @@
         "reason": "Out",
         "tier": "star",
         "mpg": 34.5
-      },
-      {
-        "player": "Neemias Queta",
-        "status": "questionable",
-        "reason": "Day-To-Day",
-        "tier": "bench",
-        "mpg": 25.5
-      },
-      {
-        "player": "Derrick White",
-        "status": "questionable",
-        "reason": "Day-To-Day",
-        "tier": "star",
-        "mpg": 34.3
-      }
-    ],
-    "Houston Rockets": [
-      {
-        "player": "Tari Eason",
-        "status": "questionable",
-        "reason": "Day-To-Day",
-        "tier": "bench",
-        "mpg": 25.9
-      },
-      {
-        "player": "Steven Adams",
-        "status": "out",
-        "reason": "Out",
-        "tier": "bench",
-        "mpg": 22.8
-      },
-      {
-        "player": "Fred VanVleet",
-        "status": "out",
-        "reason": "Out",
-        "tier": "deep_bench",
-        "mpg": 0
-      }
-    ],
-    "Philadelphia 76ers": [
-      {
-        "player": "Joel Embiid",
-        "status": "out",
-        "reason": "Out",
-        "tier": "starter",
-        "mpg": 31.6
-      },
-      {
-        "player": "Johni Broome",
-        "status": "out",
-        "reason": "Out",
-        "tier": "deep_bench",
-        "mpg": 5.0
-      },
-      {
-        "player": "Cameron Payne",
-        "status": "out",
-        "reason": "Out",
-        "tier": "deep_bench",
-        "mpg": 17.0
       }
     ],
     "Golden State Warriors": [
+      {
+        "player": "Al Horford",
+        "status": "out",
+        "reason": "Out",
+        "tier": "bench",
+        "mpg": 21.7
+      },
+      {
+        "player": "Gui Santos",
+        "status": "out",
+        "reason": "Out",
+        "tier": "bench",
+        "mpg": 20.5
+      },
       {
         "player": "Stephen Curry",
         "status": "out",
         "reason": "Out",
         "tier": "starter",
         "mpg": 31.0
-      },
-      {
-        "player": "Charles Bassey",
-        "status": "questionable",
-        "reason": "Day-To-Day",
-        "tier": "deep_bench",
-        "mpg": 8.9
       },
       {
         "player": "Will Richard",
@@ -435,32 +400,11 @@
         "mpg": 20.2
       },
       {
-        "player": "Gui Santos",
-        "status": "questionable",
-        "reason": "Day-To-Day",
-        "tier": "bench",
-        "mpg": 20.5
-      },
-      {
-        "player": "LJ Cryer",
-        "status": "questionable",
-        "reason": "Day-To-Day",
-        "tier": "deep_bench",
-        "mpg": 16.3
-      },
-      {
         "player": "Kristaps Porzingis",
         "status": "out",
-        "reason": "Porzingis (illness) is out for Thursday's game against the Lakers.",
+        "reason": "Out",
         "tier": "bench",
         "mpg": 24.0
-      },
-      {
-        "player": "Al Horford",
-        "status": "out",
-        "reason": "Horford (calf) is \"making good progress\" toward a return and will be re-evaluated \"early next week.\"",
-        "tier": "bench",
-        "mpg": 21.7
       },
       {
         "player": "Quinten Post",
@@ -668,8 +612,8 @@
     },
     "Anthony Gill": {
       "team": "Washington Wizards",
-      "mpg": 16.3,
-      "gp": 52.0
+      "mpg": 16.7,
+      "gp": 53.0
     },
     "Antonio Reeves": {
       "team": "Charlotte Hornets",
@@ -834,7 +778,7 @@
     "Bub Carrington": {
       "team": "Washington Wizards",
       "mpg": 27.5,
-      "gp": 79.0
+      "gp": 80.0
     },
     "Buddy Hield": {
       "team": "Atlanta Hawks",
@@ -998,8 +942,8 @@
     },
     "Collin Sexton": {
       "team": "Chicago Bulls",
-      "mpg": 23.4,
-      "gp": 65.0
+      "mpg": 23.6,
+      "gp": 66.0
     },
     "Cooper Flagg": {
       "team": "Dallas Mavericks",
@@ -1399,7 +1343,7 @@
     "Guerschon Yabusele": {
       "team": "Chicago Bulls",
       "mpg": 15.0,
-      "gp": 66.0
+      "gp": 67.0
     },
     "Gui Santos": {
       "team": "Golden State Warriors",
@@ -1653,8 +1597,8 @@
     },
     "Jamir Watkins": {
       "team": "Washington Wizards",
-      "mpg": 20.0,
-      "gp": 47.0
+      "mpg": 20.1,
+      "gp": 48.0
     },
     "Jamison Battle": {
       "team": "Toronto Raptors",
@@ -1948,8 +1892,8 @@
     },
     "Julian Reese": {
       "team": "Washington Wizards",
-      "mpg": 30.7,
-      "gp": 10.0
+      "mpg": 31.5,
+      "gp": 11.0
     },
     "Julian Strawther": {
       "team": "Denver Nuggets",
@@ -1964,7 +1908,7 @@
     "Justin Champagnie": {
       "team": "Washington Wizards",
       "mpg": 19.8,
-      "gp": 67.0
+      "gp": 68.0
     },
     "Justin Edwards": {
       "team": "Philadelphia 76ers",
@@ -2193,8 +2137,8 @@
     },
     "Lachlan Olbrich": {
       "team": "Chicago Bulls",
-      "mpg": 7.8,
-      "gp": 34.0
+      "mpg": 8.1,
+      "gp": 35.0
     },
     "Landry Shamet": {
       "team": "New York Knicks",
@@ -2218,13 +2162,13 @@
     },
     "Leaky Black": {
       "team": "Washington Wizards",
-      "mpg": 29.3,
-      "gp": 12.0
+      "mpg": 30.2,
+      "gp": 13.0
     },
     "Leonard Miller": {
       "team": "Chicago Bulls",
-      "mpg": 14.1,
-      "gp": 43.0
+      "mpg": 14.7,
+      "gp": 44.0
     },
     "Liam McNeeley": {
       "team": "Charlotte Hornets",
@@ -2278,8 +2222,8 @@
     },
     "Mac McClung": {
       "team": "Chicago Bulls",
-      "mpg": 11.5,
-      "gp": 8.0
+      "mpg": 11.9,
+      "gp": 9.0
     },
     "Malachi Smith": {
       "team": "Brooklyn Nets",
@@ -2658,8 +2602,8 @@
     },
     "Patrick Williams": {
       "team": "Chicago Bulls",
-      "mpg": 19.9,
-      "gp": 69.0
+      "mpg": 20.2,
+      "gp": 70.0
     },
     "Paul George": {
       "team": "Philadelphia 76ers",
@@ -2743,8 +2687,8 @@
     },
     "Rob Dillingham": {
       "team": "Chicago Bulls",
-      "mpg": 14.3,
-      "gp": 62.0
+      "mpg": 14.5,
+      "gp": 63.0
     },
     "Robert Williams III": {
       "team": "Portland Trail Blazers",
@@ -2863,8 +2807,8 @@
     },
     "Sharife Cooper": {
       "team": "Washington Wizards",
-      "mpg": 16.8,
-      "gp": 38.0
+      "mpg": 16.7,
+      "gp": 39.0
     },
     "Sidy Cissoko": {
       "team": "Portland Trail Blazers",
@@ -3008,8 +2952,8 @@
     },
     "Tre Jones": {
       "team": "Chicago Bulls",
-      "mpg": 27.0,
-      "gp": 62.0
+      "mpg": 27.1,
+      "gp": 63.0
     },
     "Tre Mann": {
       "team": "Charlotte Hornets",
@@ -3163,8 +3107,8 @@
     },
     "Will Riley": {
       "team": "Washington Wizards",
-      "mpg": 21.6,
-      "gp": 71.0
+      "mpg": 21.8,
+      "gp": 72.0
     },
     "Xavier Tillman": {
       "team": "Charlotte Hornets",
@@ -3183,8 +3127,8 @@
     },
     "Yuki Kawamura": {
       "team": "Chicago Bulls",
-      "mpg": 10.9,
-      "gp": 15.0
+      "mpg": 11.6,
+      "gp": 16.0
     },
     "Yves Missi": {
       "team": "New Orleans Pelicans",
