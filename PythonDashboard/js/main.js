@@ -35,6 +35,12 @@ const SOURCES = {
     local: 'data/nfl-props.json',
     remote: 'https://raw.githubusercontent.com/sspam1189-stack/Model/main/pyNFL/data/nfl-props.json',
     repo: 'https://github.com/sspam1189-stack/Model'
+  },
+  'mlb-props': {
+    name: 'MLB Props',
+    local: 'data/mlb-props.json',
+    remote: 'https://raw.githubusercontent.com/sspam1189-stack/Model/main/MLBstrikeouts/data/mlb-props.json',
+    repo: 'https://github.com/sspam1189-stack/Model'
   }
 };
 
@@ -1413,6 +1419,10 @@ async function render() {
   // NFL Player Props
   if (activeTab === 'nfl-props') {
     return renderNFLProps();
+  }
+  // MLB Pitcher Props
+  if (activeTab === 'mlb-props') {
+    return renderMLBProps();
   }
 
   const data = await fetchData(activeTab);
