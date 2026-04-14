@@ -46,7 +46,7 @@ MIN_INNINGS = 3.0
 MARKET_THRESHOLDS = {
     "strikeouts":   {"high": 0.75},    # 57.5% at 0.75+, +5.9u
     "outs":         {"high": 0.62, "high_under": 0.62},  # UNDER only — OVER 40% vs UNDER 53%
-    "hits_allowed": {"high": 0.65, "high_under": 0.65},  # 64.1% at 0.65-0.80, +10.7u
+    "hits_allowed": {"high": 0.65, "high_under": 0.65},  # UNDER only — OVER 54% vs UNDER 60%
     "walks":        {"high": 0.80},    # disabled — no consistent edge
     "game_hits":    {"high": 0.65},
 }
@@ -73,10 +73,15 @@ MIN_EDGE = {
     "game_hits":    0.5,
 }
 
+# Edge dead zone: skip edges in this range (middle = uncertain, small/big = signal)
+EDGE_DEAD_ZONE = {
+    "strikeouts": (1.5, 2.5),   # 1.5-2.5 is 50% coin flip; <1.5 and 2.5+ are 85%
+}
+
 MAX_EDGE = {
     "strikeouts":   3.5,      # tightened — huge edges are model disagreement
     "outs":         2.0,       # edge 0-1.5 is 65%, 1.5+ is 39% — big edge = wrong
-    "hits_allowed": 3.0,      # tightened — 0.85+ pCover is losing (big edges = noise)
+    "hits_allowed": 1.8,      # edge 0-1.2 is 72.7%, 1.8+ is 45% — tight edge wins
     "walks":        2.5,
     "game_hits":    5.0,
 }
@@ -96,7 +101,7 @@ MIN_LINE = {
 # Disabled / under-only markets (none initially — tune after backtest)
 # ---------------------------------------------------------------------------
 DISABLED_MARKETS = {"walks"}   # walks has no edge after calibration
-UNDER_ONLY_MARKETS = {"outs"}   # OVER 40% vs UNDER 53% — OVER is a loser
+UNDER_ONLY_MARKETS = {"outs", "hits_allowed"}   # OVER is coin flip in both, UNDER has real edge
 
 # ---------------------------------------------------------------------------
 # Opponent adjustment config
