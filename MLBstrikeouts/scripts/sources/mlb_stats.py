@@ -78,6 +78,16 @@ def _current_season():
     return datetime.now().year
 
 
+def _safe_float(val, default=0.0):
+    """Convert a value to float, returning default for non-numeric strings like '-.--'."""
+    if val is None:
+        return default
+    try:
+        return float(val)
+    except (ValueError, TypeError):
+        return default
+
+
 def _fetch_json(url):
     """Fetch JSON from URL with basic error handling."""
     resp = requests.get(url, timeout=30)
@@ -92,6 +102,19 @@ def _fetch_json(url):
 def fetch_pitcher_game_logs(season=None):
     """
     Fetch pitcher game logs for the season.
+
+    The MLB Stats API bulk gameLog endpoint (playerPool=all) doesn't return
+    data for the current in-progress season. Instead, we build game logs
+    from the schedule + boxscore feed:
+      1. Get all completed regular-season games from the schedule
+      2. For each game, fetch the boxscore
+      3. Extract starting pitcher stats from each side
+
+    Results are cached. On subsequent calls within CACHE_FRESHNESS_HOURS,
+    the cache is returned directly. This means the first call of the day
+    may take 2-3 minutes (fetching ~15 boxscores per game day) but
+    subsequent calls are instant.
+
     Returns list of dicts with per-game pitching stats.
     """
     season = season or _current_season()
@@ -99,44 +122,105 @@ def fetch_pitcher_game_logs(season=None):
 
     cached = _load_cache(cache_path)
     if cached is not None:
+        print(f"  [mlb_stats] Using cached game logs ({len(cached)} entries)")
         return cached
 
-    url = (
-        f"{BASE_URL}/stats?stats=gameLog&group=pitching&season={season}"
-        f"&sportId=1&playerPool=all&limit=10000&gameType=R"
+    # Step 1: Get all completed regular-season games from the schedule
+    # Use season date range (spring training excluded by gameType filter in boxscore)
+    start_date = f"{season}-03-20"
+    end_date = date.today().strftime("%Y-%m-%d")
+
+    print(f"  [mlb_stats] Fetching schedule {start_date} to {end_date}...")
+    schedule_url = (
+        f"{BASE_URL}/schedule?sportId=1"
+        f"&startDate={start_date}&endDate={end_date}"
+        f"&gameType=R"  # Regular season only
     )
-    raw = _fetch_json(url)
-    time.sleep(0.5)
+    try:
+        sched = _fetch_json(schedule_url)
+    except Exception as e:
+        print(f"  [mlb_stats] Schedule fetch failed: {e}")
+        return []
 
+    # Collect completed game PKs
+    game_pks = []
+    for d in sched.get("dates", []):
+        for g in d.get("games", []):
+            status = g.get("status", {}).get("abstractGameState", "")
+            if status == "Final":
+                game_pks.append({
+                    "pk": g["gamePk"],
+                    "date": g.get("officialDate", ""),
+                    "home_id": g.get("teams", {}).get("home", {}).get("team", {}).get("id"),
+                    "away_id": g.get("teams", {}).get("away", {}).get("team", {}).get("id"),
+                })
+
+    print(f"  [mlb_stats] {len(game_pks)} completed games, fetching boxscores...")
+
+    # Step 2: Fetch boxscore for each game, extract starting pitcher stats
     rows = []
-    for stat_group in raw.get("stats", []):
-        for split in stat_group.get("splits", []):
-            stat = split.get("stat", {})
-            player_info = split.get("player", {})
-            team_info = split.get("team", {})
-            game_info = split.get("game", {})
-            opp_info = split.get("opponent", {})
+    for i, gm in enumerate(game_pks):
+        try:
+            box_url = f"{BASE_URL}.1/game/{gm['pk']}/feed/live"
+            live = _fetch_json(box_url)
+        except Exception:
+            continue
 
-            ip_str = stat.get("inningsPitched", "0")
+        box = live.get("liveData", {}).get("boxscore", {}).get("teams", {})
+        game_date = gm["date"]
 
-            row = {
-                "player_id": player_info.get("id"),
-                "player_name": player_info.get("fullName", ""),
-                "team": team_info.get("abbreviation", ""),
-                "game_date": split.get("date", ""),
-                "game_id": game_info.get("gamePk"),
-                "k": stat.get("strikeOuts", 0),
+        for side in ["away", "home"]:
+            side_data = box.get(side, {})
+            pitchers = side_data.get("pitchers", [])
+            players = side_data.get("players", {})
+            team_info = side_data.get("team", {})
+            team_id = team_info.get("id")
+            team_abbr = MLB_TEAM_ID_TO_ABBR.get(team_id, "")
+
+            # Opponent is the other side
+            opp_side = "home" if side == "away" else "away"
+            opp_id = box.get(opp_side, {}).get("team", {}).get("id")
+            opp_abbr = MLB_TEAM_ID_TO_ABBR.get(opp_id, "")
+
+            if not pitchers:
+                continue
+
+            # Starting pitcher = first pitcher in the list
+            sp_id = pitchers[0]
+            p_data = players.get(f"ID{sp_id}", {})
+            person = p_data.get("person", {})
+            p_stats = p_data.get("stats", {}).get("pitching", {})
+
+            if not p_stats:
+                continue
+
+            ip_str = p_stats.get("inningsPitched", "0")
+
+            rows.append({
+                "pitcher_id": person.get("id", sp_id),
+                "pitcher_name": person.get("fullName", ""),
+                "team": team_abbr,
+                "game_date": game_date,
+                "game_id": gm["pk"],
+                "k": p_stats.get("strikeOuts", 0),
                 "ip": _ip_to_float(ip_str),
+                "IP": _ip_to_float(ip_str),  # alias used by game_context
                 "ip_str": ip_str,
                 "outs": _ip_to_outs(ip_str),
-                "h": stat.get("hits", 0),
-                "bb": stat.get("baseOnBalls", 0),
-                "er": stat.get("earnedRuns", 0),
-                "pitches": stat.get("numberOfPitches", 0),
-                "opponent": opp_info.get("abbreviation", ""),
-                "home_away": split.get("homeOrAway", ""),
-            }
-            rows.append(row)
+                "h": p_stats.get("hits", 0),
+                "bb": p_stats.get("baseOnBalls", 0),
+                "er": p_stats.get("earnedRuns", 0),
+                "pitches": p_stats.get("numberOfPitches", 0),
+                "opp": opp_abbr,
+                "is_home": side == "home",
+                "is_start": True,
+            })
+
+        if (i + 1) % 50 == 0:
+            print(f"  [mlb_stats] Processed {i+1}/{len(game_pks)} games ({len(rows)} pitcher starts)")
+        time.sleep(0.15)  # light rate limiting
+
+    print(f"  [mlb_stats] Fetched {len(rows)} pitcher starts from {len(game_pks)} games")
 
     _save_cache(cache_path, rows)
     return rows
@@ -174,20 +258,24 @@ def fetch_pitcher_advanced_stats(season=None):
             if not pid:
                 continue
 
+            ip = _ip_to_float(stat.get("inningsPitched", "0"))
+            gs = stat.get("gamesStarted", 0)
             result[pid] = {
                 "player_name": player_info.get("fullName", ""),
                 "team": split.get("team", {}).get("abbreviation", ""),
-                "k_per_9": stat.get("strikeoutsPer9Inn", 0),
-                "bb_per_9": stat.get("walksPer9Inn", 0),
-                "whip": stat.get("whip", 0),
-                "era": stat.get("era", 0),
-                "ip": _ip_to_float(stat.get("inningsPitched", "0")),
+                "K_PER_9": _safe_float(stat.get("strikeoutsPer9Inn", 0) or 0),
+                "BB_PER_9": _safe_float(stat.get("walksPer9Inn", 0) or 0),
+                "H_PER_9": _safe_float(stat.get("hitsPer9Inn", 0) or 0),
+                "WHIP": _safe_float(stat.get("whip", 0) or 0),
+                "ERA": _safe_float(stat.get("era", 0) or 0),
+                "ip": ip,
+                "avg_ip": ip / gs if gs > 0 else 0,
                 "k": stat.get("strikeOuts", 0),
                 "bb": stat.get("baseOnBalls", 0),
                 "h": stat.get("hits", 0),
                 "hr": stat.get("homeRuns", 0),
                 "games": stat.get("gamesPlayed", 0),
-                "games_started": stat.get("gamesStarted", 0),
+                "games_started": gs,
             }
 
     _save_cache(cache_path, result)
@@ -228,11 +316,11 @@ def fetch_pitcher_sabermetrics(season=None):
 
             result[pid] = {
                 "player_name": player_info.get("fullName", ""),
-                "fip": stat.get("fip", None),
-                "xfip": stat.get("xfip", None),
-                "babip": stat.get("babip", None),
-                "k_pct": stat.get("strikeoutPercentage", None),
-                "bb_pct": stat.get("walkPercentage", None),
+                "fip": _safe_float(stat.get("fip", 0) or 0),
+                "xfip": _safe_float(stat.get("xfip", 0) or 0),
+                "babip": _safe_float(stat.get("babip", 0) or 0),
+                "k_pct": _safe_float(stat.get("strikeoutPercentage", 0) or 0),
+                "bb_pct": _safe_float(stat.get("walkPercentage", 0) or 0),
             }
 
     _save_cache(cache_path, result)
@@ -329,8 +417,8 @@ def fetch_team_batting_stats(season=None):
 
             result[abbr] = {
                 "K_PCT": round(k / pa, 4) if pa else 0,
-                "BA": stat.get("avg", None),
-                "OPS": stat.get("ops", None),
+                "BA": _safe_float(stat.get("avg", 0) or 0),
+                "OPS": _safe_float(stat.get("ops", 0) or 0),
                 "BB_PCT": round(bb / pa, 4) if pa else 0,
                 "PA": pa,
             }

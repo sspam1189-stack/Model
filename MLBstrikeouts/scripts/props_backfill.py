@@ -182,13 +182,15 @@ def backfill(season=None, start_game=10, start_date=None):
                 batch_update_from_game_logs(kalman_state, today_date_logs)
             continue
 
-        # Phase 2: Try loading real prop lines from odds cache
+        # Phase 2: Load real prop lines from cache (pre-fetched by fetch_odds.py)
         real_lines = None
         try:
-            from sources.odds_theoddsapi import fetch_mlb_pitcher_props
+            from sources.odds_theoddsapi import _props_cache_path, _load_cache
             date_key = game_date.replace("-", "")
-            # Try to load from cache (historical props)
-            real_lines = fetch_mlb_pitcher_props(date_key=date_key)
+            cp = _props_cache_path(date_key)
+            cached = _load_cache(cp, max_age_hours=None)
+            if cached is not None:
+                real_lines = cached
         except Exception as e:
             pass  # No props available for this date — project without lines
 
