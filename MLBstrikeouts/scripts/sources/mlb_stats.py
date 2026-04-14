@@ -461,10 +461,10 @@ def fetch_team_pitching_stats(season=None):
                 continue
 
             result[abbr] = {
-                "ERA": stat.get("era", None),
-                "WHIP": stat.get("whip", None),
-                "H_PER_9": stat.get("hitsPer9Inn", None),
-                "K_PER_9": stat.get("strikeoutsPer9Inn", None),
+                "ERA": _safe_float(stat.get("era")),
+                "WHIP": _safe_float(stat.get("whip")),
+                "H_PER_9": _safe_float(stat.get("hitsPer9Inn")),
+                "K_PER_9": _safe_float(stat.get("strikeoutsPer9Inn")),
             }
 
     _save_cache(cache_path, result)
