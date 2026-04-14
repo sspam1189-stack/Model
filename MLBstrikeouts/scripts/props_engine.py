@@ -25,7 +25,7 @@ from scipy.stats import t as t_dist
 from defaults import (
     PROP_T_DF, ROLLING_WINDOW, DECAY_FACTOR, MIN_GAMES, MIN_INNINGS,
     MARKET_THRESHOLDS, VAR_MULT, MIN_EDGE, MAX_EDGE, MIN_LINE,
-    UNDER_ONLY_MARKETS, DISABLED_MARKETS,
+    UNDER_ONLY_MARKETS, DISABLED_MARKETS, EDGE_DEAD_ZONE,
     OPP_STAT_KEY, OPP_ADJ_WEIGHT, HANDEDNESS_ADJ_WEIGHT,
     XFIP_ANCHOR_WEIGHT, SEASON_ANCHOR_WEIGHT,
     STAT_KEYS, KALMAN_STAT_KEYS,
@@ -857,6 +857,11 @@ def _make_prop(name, team, market, proj, std, line_lookup, opp):
             max_e = MAX_EDGE.get(market, 999)
 
             if abs_edge < min_e or abs_edge > max_e:
+                return result
+
+            # Edge dead zone: skip edges in the uncertain middle range
+            dead = EDGE_DEAD_ZONE.get(market)
+            if dead and dead[0] <= abs_edge < dead[1]:
                 return result
 
             min_l = MIN_LINE.get(market, 0)

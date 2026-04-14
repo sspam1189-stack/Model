@@ -44,11 +44,11 @@ MIN_INNINGS = 3.0
 # Market thresholds (initial — will be calibrated after backtest)
 # ---------------------------------------------------------------------------
 MARKET_THRESHOLDS = {
-    "strikeouts":   {"high": 0.62},
-    "outs":         {"high": 0.62},
-    "hits_allowed": {"high": 0.62},
-    "walks":        {"high": 0.65},
-    "game_hits":    {"high": 0.60},
+    "strikeouts":   {"high": 0.75},    # 57.5% at 0.75+, +5.9u
+    "outs":         {"high": 0.62, "high_under": 0.62},  # UNDER only — OVER 40% vs UNDER 53%
+    "hits_allowed": {"high": 0.65, "high_under": 0.65},  # UNDER only — OVER 54% vs UNDER 60%
+    "walks":        {"high": 0.80},    # disabled — no consistent edge
+    "game_hits":    {"high": 0.65},
 }
 
 # ---------------------------------------------------------------------------
@@ -73,10 +73,15 @@ MIN_EDGE = {
     "game_hits":    0.5,
 }
 
+# Edge dead zone: skip edges in this range (middle = uncertain, small/big = signal)
+EDGE_DEAD_ZONE = {
+    "strikeouts": (1.5, 2.5),   # 1.5-2.5 is 50% coin flip; <1.5 and 2.5+ are 85%
+}
+
 MAX_EDGE = {
-    "strikeouts":   4.0,
-    "outs":         6.0,
-    "hits_allowed": 4.0,
+    "strikeouts":   3.5,      # tightened — huge edges are model disagreement
+    "outs":         2.0,       # edge 0-1.5 is 65%, 1.5+ is 39% — big edge = wrong
+    "hits_allowed": 1.8,      # edge 0-1.2 is 72.7%, 1.8+ is 45% — tight edge wins
     "walks":        2.5,
     "game_hits":    5.0,
 }
@@ -86,7 +91,7 @@ MAX_EDGE = {
 # ---------------------------------------------------------------------------
 MIN_LINE = {
     "strikeouts":   4.5,
-    "outs":         14.5,
+    "outs":         16.5,      # low lines (14.5-16.5) are 10W-21L (32%)
     "hits_allowed": 4.5,
     "walks":        1.5,
     "game_hits":    14.5,
@@ -95,8 +100,8 @@ MIN_LINE = {
 # ---------------------------------------------------------------------------
 # Disabled / under-only markets (none initially — tune after backtest)
 # ---------------------------------------------------------------------------
-DISABLED_MARKETS = set()
-UNDER_ONLY_MARKETS = set()
+DISABLED_MARKETS = {"walks"}   # walks has no edge after calibration
+UNDER_ONLY_MARKETS = {"outs", "hits_allowed"}   # OVER is coin flip in both, UNDER has real edge
 
 # ---------------------------------------------------------------------------
 # Opponent adjustment config
