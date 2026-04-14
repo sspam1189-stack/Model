@@ -45,7 +45,7 @@ MIN_INNINGS = 3.0
 # ---------------------------------------------------------------------------
 MARKET_THRESHOLDS = {
     "strikeouts":   {"high": 0.75},    # 57.5% at 0.75+, +5.9u
-    "outs":         {"high": 0.80},    # disabled — no consistent edge
+    "outs":         {"high": 0.62, "high_under": 0.62},  # UNDER only — OVER 40% vs UNDER 53%
     "hits_allowed": {"high": 0.65, "high_under": 0.65},  # 64.1% at 0.65-0.80, +10.7u
     "walks":        {"high": 0.80},    # disabled — no consistent edge
     "game_hits":    {"high": 0.65},
@@ -75,7 +75,7 @@ MIN_EDGE = {
 
 MAX_EDGE = {
     "strikeouts":   3.5,      # tightened — huge edges are model disagreement
-    "outs":         6.0,
+    "outs":         2.0,       # edge 0-1.5 is 65%, 1.5+ is 39% — big edge = wrong
     "hits_allowed": 3.0,      # tightened — 0.85+ pCover is losing (big edges = noise)
     "walks":        2.5,
     "game_hits":    5.0,
@@ -86,7 +86,7 @@ MAX_EDGE = {
 # ---------------------------------------------------------------------------
 MIN_LINE = {
     "strikeouts":   4.5,
-    "outs":         14.5,
+    "outs":         16.5,      # low lines (14.5-16.5) are 10W-21L (32%)
     "hits_allowed": 4.5,
     "walks":        1.5,
     "game_hits":    14.5,
@@ -95,8 +95,8 @@ MIN_LINE = {
 # ---------------------------------------------------------------------------
 # Disabled / under-only markets (none initially — tune after backtest)
 # ---------------------------------------------------------------------------
-DISABLED_MARKETS = {"outs", "walks"}   # no edge after calibration
-UNDER_ONLY_MARKETS = set()
+DISABLED_MARKETS = {"walks"}   # walks has no edge after calibration
+UNDER_ONLY_MARKETS = {"outs"}   # OVER 40% vs UNDER 53% — OVER is a loser
 
 # ---------------------------------------------------------------------------
 # Opponent adjustment config
