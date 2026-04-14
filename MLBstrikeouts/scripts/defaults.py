@@ -81,7 +81,7 @@ EDGE_DEAD_ZONE = {
 MAX_EDGE = {
     "strikeouts":   3.5,      # tightened — huge edges are model disagreement
     "outs":         2.0,       # edge 0-1.5 is 65%, 1.5+ is 39% — big edge = wrong
-    "hits_allowed": 1.8,      # edge 0-1.2 is 72.7%, 1.8+ is 45% — tight edge wins
+    "hits_allowed": 1.8,      # edge 0-1.2 is 72.7%, 1.8+ is 45%
     "walks":        2.5,
     "game_hits":    5.0,
 }
