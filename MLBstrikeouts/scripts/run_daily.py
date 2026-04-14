@@ -391,7 +391,7 @@ def run_daily(date_key=None):
     # Stage 14: Save Kalman state
     prune_inactive_pitchers(kalman_state)
     save_pitcher_kalman_state(kalman_state, KALMAN_STATE_PATH)
-    print(f"  Saved Kalman state ({len(kalman_state['players'])} pitchers)")
+    print(f"  Saved Kalman state ({len(kalman_state.get('pitchers', {}))} pitchers)")
 
     # Print picks
     _print_picks(picks, game_hit_picks)
