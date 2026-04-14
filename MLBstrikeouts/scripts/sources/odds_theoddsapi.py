@@ -170,8 +170,11 @@ def fetch_mlb_pitcher_props(date_key=None):
     events_url = f"{BASE}/sports/{SPORT_KEY}/events?apiKey={quote(api_key)}"
     try:
         res = _fetch_with_retry(events_url)
-        if res is None or res.status_code != 200:
-            print(f"  [mlb_props] Events fetch failed")
+        if res is None:
+            print(f"  [mlb_props] Events fetch failed (no response)")
+            return []
+        if res.status_code != 200:
+            print(f"  [mlb_props] Events fetch failed: HTTP {res.status_code} — {res.text[:200]}")
             return []
         events = res.json()
     except Exception as e:
