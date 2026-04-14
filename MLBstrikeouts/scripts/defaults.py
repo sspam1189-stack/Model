@@ -44,11 +44,11 @@ MIN_INNINGS = 3.0
 # Market thresholds (initial — will be calibrated after backtest)
 # ---------------------------------------------------------------------------
 MARKET_THRESHOLDS = {
-    "strikeouts":   {"high": 0.62},
-    "outs":         {"high": 0.62},
-    "hits_allowed": {"high": 0.62},
-    "walks":        {"high": 0.65},
-    "game_hits":    {"high": 0.60},
+    "strikeouts":   {"high": 0.75},    # 57.5% at 0.75+, +5.9u
+    "outs":         {"high": 0.80},    # disabled — no consistent edge
+    "hits_allowed": {"high": 0.65, "high_under": 0.65},  # 64.1% at 0.65-0.80, +10.7u
+    "walks":        {"high": 0.80},    # disabled — no consistent edge
+    "game_hits":    {"high": 0.65},
 }
 
 # ---------------------------------------------------------------------------
@@ -74,9 +74,9 @@ MIN_EDGE = {
 }
 
 MAX_EDGE = {
-    "strikeouts":   4.0,
+    "strikeouts":   3.5,      # tightened — huge edges are model disagreement
     "outs":         6.0,
-    "hits_allowed": 4.0,
+    "hits_allowed": 3.0,      # tightened — 0.85+ pCover is losing (big edges = noise)
     "walks":        2.5,
     "game_hits":    5.0,
 }
@@ -95,7 +95,7 @@ MIN_LINE = {
 # ---------------------------------------------------------------------------
 # Disabled / under-only markets (none initially — tune after backtest)
 # ---------------------------------------------------------------------------
-DISABLED_MARKETS = set()
+DISABLED_MARKETS = {"outs", "walks"}   # no edge after calibration
 UNDER_ONLY_MARKETS = set()
 
 # ---------------------------------------------------------------------------
