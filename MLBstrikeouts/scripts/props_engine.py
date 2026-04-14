@@ -561,6 +561,12 @@ def _apply_opp_adjustment(proj, market, opp_team, team_batting_stats, league_avg
     if opp_val > 0 and avg_val > 0:
         # Multiplicative: scale by projection size (relative to league avg)
         diff = (opp_val - avg_val) / avg_val
+
+        # Invert for outs: high OPS = shorter outings = FEWER outs
+        # (all other markets: higher opponent stat = more of that stat)
+        if market == "outs":
+            diff = -diff
+
         proj += diff * weight * proj
 
     return proj
@@ -629,26 +635,33 @@ def _apply_rest_adjustment(proj, market, rest_days):
     Adjust projection based on days of rest between starts.
 
     Short rest (4 days or fewer) = penalty.
-    Extra rest (6+ days) = bonus.
+    Extra rest (6-9 days) = bonus.
+    Extended rest (10+ days) = rust penalty.
     Normal rest (5 days) = no adjustment.
 
-    Uses REST_ADJUSTMENTS from game_context which provides per-market
-    adjustments keyed by rest day count.
+    REST_ADJUSTMENTS from game_context is keyed by rest category
+    ("short_rest", "extra_rest", "extended_rest"), with values keyed
+    by stat key ("k", "outs", "h", "bb"). We map market -> stat_key
+    to look up the correct adjustment.
     """
-    if rest_days is None:
+    if rest_days is None or rest_days == 99:
         return proj
 
-    adjustments = REST_ADJUSTMENTS.get(market, {})
+    # Map market name to the stat key used in REST_ADJUSTMENTS
+    stat_key = STAT_KEYS.get(market)
+    if not stat_key:
+        return proj
 
     if rest_days <= 4:
-        # Short rest penalty
-        adj = adjustments.get(rest_days, adjustments.get(4, 0.0))
-        proj += adj
+        adj = REST_ADJUSTMENTS.get("short_rest", {}).get(stat_key, 0.0)
+    elif rest_days >= 10:
+        adj = REST_ADJUSTMENTS.get("extended_rest", {}).get(stat_key, 0.0)
     elif rest_days >= 6:
-        # Extra rest bonus
-        adj = adjustments.get(rest_days, adjustments.get(6, 0.0))
-        proj += adj
+        adj = REST_ADJUSTMENTS.get("extra_rest", {}).get(stat_key, 0.0)
+    else:
+        adj = 0.0  # normal rest (5 days)
 
+    proj += adj
     return proj
 
 
