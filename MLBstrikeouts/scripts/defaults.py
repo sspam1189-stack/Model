@@ -30,10 +30,10 @@ DECAY_FACTOR = 0.90
 # Minimum starts to qualify
 # ---------------------------------------------------------------------------
 MIN_GAMES = {
-    "strikeouts":   3,
-    "outs":         3,
-    "hits_allowed": 3,
-    "walks":        3,
+    "strikeouts":   2,
+    "outs":         2,
+    "hits_allowed": 2,
+    "walks":        2,
     "game_hits":    5,   # needs both pitchers to have data
 }
 

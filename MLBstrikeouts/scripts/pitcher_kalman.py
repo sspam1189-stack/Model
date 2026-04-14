@@ -56,7 +56,7 @@ PITCHER_KALMAN_DEFAULTS = {
     "maxVar": 60.0,        # Cap uncertainty for pitchers with no data
 
     # Minimum starts before Kalman state is used (cold start protection)
-    "minGamesForKalman": 3,
+    "minGamesForKalman": 2,
 
     # Blending: how much to trust Kalman mean vs. rolling average
     # 0.0 = pure rolling average, 1.0 = pure Kalman

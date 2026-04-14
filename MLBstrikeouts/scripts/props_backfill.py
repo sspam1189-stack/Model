@@ -171,7 +171,7 @@ def backfill(season=None, start_game=10, start_date=None):
             prior = [g for g in games if g.get("game_date", "") < game_date]
             today = [g for g in games if g.get("game_date", "") == game_date]
 
-            if prior and len(prior) >= min(MIN_GAMES.values()):
+            if prior:  # let the engine's own MIN_GAMES handle per-market filtering
                 prior_logs[pid] = prior
             if today:
                 actual_games[pid] = today[0]
@@ -260,8 +260,10 @@ def backfill(season=None, start_game=10, start_date=None):
         if today_date_logs:
             batch_update_from_game_logs(kalman_state, today_date_logs)
 
-        if date_picks > 0 and date_idx % 10 == 0:
-            print(f"  {game_date}: {date_picks} picks")
+        if date_picks > 0:
+            wins_today = sum(1 for m in results for p in results[m]["picks"] if p.get("date") == game_date and p.get("won"))
+            losses_today = sum(1 for m in results for p in results[m]["picks"] if p.get("date") == game_date and not p.get("won"))
+            print(f"  {game_date}: {date_picks} picks ({wins_today}W-{losses_today}L)")
 
     # --- Save Kalman state so run_daily can pick up from here ---
     prune_inactive_pitchers(kalman_state)
@@ -307,9 +309,12 @@ def _find_actual(pitcher_name, market, actual_games, pitcher_logs):
     if not stat_key:
         return None
 
+    from props_engine import _name_key
+    target_nk = _name_key(pitcher_name)
+
     for pid, g in actual_games.items():
         name = g.get("pitcher_name") or g.get("player_name", "")
-        if name == pitcher_name:
+        if _name_key(name) == target_nk:
             val = g.get(stat_key)
             if val is not None:
                 return float(val)
