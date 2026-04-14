@@ -28,6 +28,15 @@ jobs:
       - name: Clear bytecode cache
         run: Get-ChildItem -Path MLBstrikeouts -Filter __pycache__ -Recurse -Directory -ErrorAction SilentlyContinue | Remove-Item -Recurse -Force
 
+      - name: Clear stale pitcher caches
+        run: |
+          $ErrorActionPreference='SilentlyContinue'
+          Remove-Item -Path "data\pitcher_cache\mlb\team_pitching_*.json" -Force 2>&1 | Out-Null
+          Remove-Item -Path "data\pitcher_cache\mlb\team_batting_*.json" -Force 2>&1 | Out-Null
+          Remove-Item -Path "data\pitcher_cache\mlb\pitcher_advanced_*.json" -Force 2>&1 | Out-Null
+          Remove-Item -Path "data\pitcher_cache\mlb\pitcher_sabermetrics_*.json" -Force 2>&1 | Out-Null
+          exit 0
+
       - name: Install dependencies
         run: pip install -r MLBstrikeouts/requirements.txt
 
