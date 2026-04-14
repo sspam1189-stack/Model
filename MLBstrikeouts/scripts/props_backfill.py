@@ -1,0 +1,487 @@
+#!/usr/bin/env python3
+"""
+MLBstrikeouts/scripts/props_backfill.py
+Walk-forward backfill of MLB pitcher prop projections with Kalman filtering.
+
+For each game date, projects pitcher stats using only prior games' data,
+then compares to actual results. The Kalman filter is trained incrementally.
+
+Usage:
+    cd MLBstrikeouts
+    python -m scripts.props_backfill
+    python -m scripts.props_backfill --season 2026 --start-game 10
+    python -m scripts.props_backfill --start-date 2026-04-01
+"""
+
+import sys, os, math, argparse, json
+import numpy as np
+from datetime import datetime
+from collections import defaultdict
+
+sys.path.insert(0, os.path.dirname(__file__))
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..'))
+
+from sources.mlb_stats import (
+    fetch_pitcher_game_logs, fetch_team_batting_stats,
+    fetch_pitcher_advanced_stats, fetch_pitcher_sabermetrics,
+)
+from props_engine import (
+    organize_pitcher_logs, project_pitcher_props, STAT_KEYS,
+)
+from pitcher_kalman import (
+    new_pitcher_kalman_state, batch_update_from_game_logs,
+    apply_drift, kalman_summary, PITCHER_KALMAN_DEFAULTS,
+    save_pitcher_kalman_state, prune_inactive_pitchers,
+)
+from defaults import ROLLING_WINDOW, MIN_GAMES, current_season
+
+
+# ---------------------------------------------------------------------------
+# Field normalization
+# ---------------------------------------------------------------------------
+
+def _normalize_game_log(g):
+    """
+    Ensure game log has both player_* and pitcher_* field names.
+
+    MLB Stats API returns player_id / player_name, but
+    organize_pitcher_logs and pitcher_kalman expect pitcher_id / pitcher_name.
+    Add aliases so both consumers work.
+    """
+    if "pitcher_id" not in g and "player_id" in g:
+        g["pitcher_id"] = g["player_id"]
+    if "pitcher_name" not in g and "player_name" in g:
+        g["pitcher_name"] = g["player_name"]
+    # Also keep IP as float for organize_pitcher_logs filter
+    if "IP" not in g and "ip" in g:
+        g["IP"] = g["ip"]
+    # Opponent field: props_engine uses "opp", mlb_stats uses "opponent"
+    if "opp" not in g and "opponent" in g:
+        g["opp"] = g["opponent"]
+    return g
+
+
+# ---------------------------------------------------------------------------
+# Backfill
+# ---------------------------------------------------------------------------
+
+def backfill(season=None, start_game=10, start_date=None):
+    """
+    Walk-forward backfill with Kalman filter trained incrementally.
+    Always resets Kalman state from scratch (no prior history).
+
+    For each game date:
+      1. Project using prior data + current Kalman state (no lookahead)
+      2. Compare projections to actuals
+      3. Update Kalman state with today's actual results
+      4. Move to next date
+
+    Parameters
+    ----------
+    season : int or None
+        MLB season year (default: current_season()).
+    start_game : int
+        Minimum game dates before projecting (default: 10).
+    start_date : str or None
+        If set (YYYY-MM-DD), start projecting from this date instead of
+        using start_game. Games before this date still train the Kalman.
+    """
+    season = season or current_season()
+    date_label = f"from {start_date}" if start_date else f"after game #{start_game}"
+    print(f"\n{'='*60}")
+    print(f"  MLB PITCHER PROPS BACKTEST (Bayesian Kalman)")
+    print(f"  Season: {season}  |  Start {date_label}")
+    print(f"{'='*60}")
+
+    # Load pitcher game logs (from cache if available)
+    print(f"\n  Loading pitcher game logs...")
+    all_logs = fetch_pitcher_game_logs(season=season)
+    if not all_logs:
+        print("  No pitcher game logs found. Run fetch_stats first.")
+        return None
+
+    # Normalize field names (player_id -> pitcher_id, etc.)
+    for g in all_logs:
+        _normalize_game_log(g)
+
+    # Load team batting stats
+    print(f"  Loading team batting stats...")
+    team_batting = fetch_team_batting_stats(season=season)
+
+    # Load advanced pitcher stats
+    print(f"  Loading pitcher advanced stats...")
+    adv_stats = fetch_pitcher_advanced_stats(season=season)
+
+    # Load sabermetrics (FIP, xFIP)
+    print(f"  Loading pitcher sabermetrics...")
+    saber_stats = fetch_pitcher_sabermetrics(season=season)
+
+    # Organize by pitcher
+    pitcher_logs = organize_pitcher_logs(all_logs)
+    print(f"  {len(pitcher_logs)} pitchers, {len(all_logs)} total game logs")
+
+    # Get all unique game dates
+    all_dates = sorted(set(
+        g.get("game_date", "") for g in all_logs if g.get("game_date")
+    ))
+    print(f"  {len(all_dates)} game dates in season")
+
+    # Always reset Kalman state from scratch
+    kalman_state_path = os.path.join(
+        os.path.dirname(os.path.abspath(__file__)), "..", "data", "kalman_state.json"
+    )
+    kalman_state_path = os.path.normpath(kalman_state_path)
+    if os.path.exists(kalman_state_path):
+        os.remove(kalman_state_path)
+        print(f"  [kalman] Reset: deleted {kalman_state_path}")
+    kalman_state = new_pitcher_kalman_state()
+
+    # All markets to track
+    all_markets = list(STAT_KEYS.keys())
+    results = {m: {"projections": [], "actuals": [], "picks": []} for m in all_markets}
+    total_projected = 0
+
+    # --- Walk-forward loop ---
+    for date_idx, game_date in enumerate(all_dates):
+
+        # Collect today's logs (for Kalman update after projecting)
+        today_date_logs = [
+            g for g in all_logs
+            if g.get("game_date", "") == game_date and g.get("IP", 0) >= 3.0
+        ]
+
+        # Determine if we should start projecting yet
+        should_skip = False
+        if start_date:
+            should_skip = game_date < start_date
+        else:
+            should_skip = date_idx < start_game
+
+        if should_skip:
+            # Not projecting yet, but still update Kalman with this date's games
+            if today_date_logs:
+                batch_update_from_game_logs(kalman_state, today_date_logs)
+            continue
+
+        # Phase 1: Build prior-only pitcher logs for projection
+        prior_logs = {}
+        actual_games = {}
+
+        for pid, games in pitcher_logs.items():
+            prior = [g for g in games if g.get("game_date", "") < game_date]
+            today = [g for g in games if g.get("game_date", "") == game_date]
+
+            if prior and len(prior) >= min(MIN_GAMES.values()):
+                prior_logs[pid] = prior
+            if today:
+                actual_games[pid] = today[0]
+
+        if not prior_logs or not actual_games:
+            # Still update Kalman with today's games
+            if today_date_logs:
+                batch_update_from_game_logs(kalman_state, today_date_logs)
+            continue
+
+        # Phase 2: Try loading real prop lines from odds cache
+        real_lines = None
+        try:
+            from sources.odds_theoddsapi import fetch_mlb_pitcher_props
+            date_key = game_date.replace("-", "")
+            # Try to load from cache (historical props)
+            real_lines = fetch_mlb_pitcher_props(date_key=date_key)
+        except Exception as e:
+            pass  # No props available for this date — project without lines
+
+        # Phase 3: Project props using prior data + current Kalman state
+        projections = project_pitcher_props(
+            prior_logs,
+            team_batting_stats=team_batting,
+            prop_lines=real_lines,
+            kalman_state=kalman_state,
+            pitcher_adv_stats=adv_stats,
+            pitcher_sabermetrics=saber_stats,
+        )
+
+        # Phase 4: Grade projections against actuals
+        date_picks = 0
+        for proj in projections:
+            player = proj["player"]
+            market = proj["market"]
+
+            actual_val = _find_actual(player, market, actual_games, pitcher_logs)
+            if actual_val is None:
+                continue
+
+            proj_val = proj["proj"]
+            std = proj["std"]
+
+            results[market]["projections"].append(proj_val)
+            results[market]["actuals"].append(actual_val)
+
+            # Skip if no active pick from the engine
+            pick = proj.get("pick")
+            if pick in ("PASS", None):
+                total_projected += 1
+                continue
+
+            pick_line = proj.get("line")
+            if pick_line is None:
+                total_projected += 1
+                continue
+
+            if actual_val == pick_line:
+                total_projected += 1
+                continue  # Push
+
+            won = (pick == "OVER" and actual_val > pick_line) or \
+                  (pick == "UNDER" and actual_val < pick_line)
+
+            results[market]["picks"].append({
+                "date": game_date,
+                "player": player,
+                "team": proj.get("team", ""),
+                "opp": proj.get("opp", ""),
+                "proj": proj_val,
+                "std": std,
+                "line": pick_line,
+                "actual": actual_val,
+                "pick": pick,
+                "pCover": proj.get("pCover"),
+                "conf": proj.get("conf"),
+                "odds": proj.get("odds"),
+                "won": won,
+            })
+            date_picks += 1
+            total_projected += 1
+
+        # Phase 5: UPDATE Kalman with today's actual games (after projecting)
+        if today_date_logs:
+            batch_update_from_game_logs(kalman_state, today_date_logs)
+
+        if date_picks > 0 and date_idx % 10 == 0:
+            print(f"  {game_date}: {date_picks} picks")
+
+    # --- Save Kalman state so run_daily can pick up from here ---
+    prune_inactive_pitchers(kalman_state)
+    save_pitcher_kalman_state(kalman_state, kalman_state_path)
+    print(f"  Saved Kalman state ({len(kalman_state['pitchers'])} pitchers) "
+          f"to {kalman_state_path}")
+
+    # --- Summary ---
+    print(kalman_summary(kalman_state, top_n=10, stat_key="k"))
+    _print_summary(results, total_projected, season)
+
+    return results
+
+
+# ---------------------------------------------------------------------------
+# Helpers
+# ---------------------------------------------------------------------------
+
+def _find_actual(pitcher_name, market, actual_games, pitcher_logs):
+    """
+    Find a pitcher's actual stat value from today's games.
+
+    Searches actual_games by matching pitcher_name (from projection) to
+    the pitcher_name field in the game log entry.
+
+    Parameters
+    ----------
+    pitcher_name : str
+        Pitcher display name from the projection.
+    market : str
+        Market name (strikeouts, outs, hits_allowed, walks).
+    actual_games : dict
+        {pitcher_id: game_log_dict} for today's games.
+    pitcher_logs : dict
+        Full pitcher logs (unused, kept for API compatibility).
+
+    Returns
+    -------
+    float or None
+        Actual stat value, or None if not found.
+    """
+    stat_key = STAT_KEYS.get(market)
+    if not stat_key:
+        return None
+
+    for pid, g in actual_games.items():
+        name = g.get("pitcher_name") or g.get("player_name", "")
+        if name == pitcher_name:
+            val = g.get(stat_key)
+            if val is not None:
+                return float(val)
+    return None
+
+
+def _print_summary(results, total_projected, season):
+    """Print formatted backfill summary per market + grand total."""
+    print(f"\n{'='*60}")
+    print(f"  MLB PITCHER PROPS BACKTEST SUMMARY (Kalman) -- {season}")
+    print(f"{'='*60}")
+    print(f"  Total pitcher-games projected: {total_projected}\n")
+
+    grand_w = grand_l = 0
+    grand_units = 0.0
+
+    for market in results:
+        data = results[market]
+        projs = np.array(data["projections"])
+        acts = np.array(data["actuals"])
+        picks = data["picks"]
+
+        if len(projs) == 0:
+            continue
+
+        mae = np.mean(np.abs(projs - acts))
+        corr = np.corrcoef(projs, acts)[0, 1] if len(projs) > 1 else 0
+
+        wins = sum(1 for p in picks if p["won"])
+        losses = len(picks) - wins
+        units = wins * 1.0 + losses * (-1.1)
+        pct = wins / max(1, wins + losses) * 100
+
+        grand_w += wins
+        grand_l += losses
+        grand_units += units
+
+        print(f"  {market:14s}: MAE={mae:6.1f}  corr={corr:.3f}  "
+              f"picks={wins}W-{losses}L ({pct:.1f}%) "
+              f"{'+'if units >= 0 else ''}{units:.1f}u")
+
+    print(f"\n  TOTAL: {grand_w}W-{grand_l}L "
+          f"({grand_w / max(1, grand_w + grand_l) * 100:.1f}%) "
+          f"{'+'if grand_units >= 0 else ''}{grand_units:.1f}u")
+
+
+# ---------------------------------------------------------------------------
+# Dashboard JSON
+# ---------------------------------------------------------------------------
+
+class _NumpyEncoder(json.JSONEncoder):
+    """JSON encoder that handles numpy types."""
+    def default(self, obj):
+        if isinstance(obj, (np.integer,)):
+            return int(obj)
+        if isinstance(obj, (np.floating,)):
+            return float(obj)
+        if isinstance(obj, (np.bool_,)):
+            return bool(obj)
+        return super().default(obj)
+
+
+def write_dashboard_json(results, season):
+    """
+    Write graded backfill picks to dashboard JSON files.
+
+    Merges with existing live picks (preserves picks from dates not
+    in the backfill range).
+
+    Output paths:
+      - MLBstrikeouts/data/mlb-props.json
+      - PythonDashboard/data/mlb-props.json
+    """
+    all_picks = []
+    for market, data in results.items():
+        for p in data["picks"]:
+            all_picks.append({
+                "player": p["player"],
+                "team": p.get("team", ""),
+                "opp": p.get("opp", ""),
+                "market": market,
+                "proj": p["proj"],
+                "std": p.get("std", 0),
+                "line": p["line"],
+                "pick": p["pick"],
+                "edge": round(p["proj"] - p["line"], 1),
+                "pCover": p["pCover"],
+                "conf": p["conf"],
+                "odds": p.get("odds"),
+                "actual": p["actual"],
+                "result": "WIN" if p["won"] else "LOSS",
+                "date": p.get("date", ""),
+            })
+
+    all_picks.sort(key=lambda x: (-(x.get("pCover") or 0), x.get("date", "")))
+
+    total_w = sum(1 for p in all_picks if p["result"] == "WIN")
+    total_l = sum(1 for p in all_picks if p["result"] == "LOSS")
+    units = total_w * 1.0 + total_l * (-1.1)
+
+    dashboard = {
+        "sport": "mlb",
+        "type": "pitcher_props",
+        "season": str(season),
+        "mode": "backfill",
+        "model": "kalman_blend",
+        "generated": datetime.now().isoformat(),
+        "totalProjections": sum(len(d["projections"]) for d in results.values()),
+        "totalPicks": len(all_picks),
+        "props": all_picks,
+        "summary": (
+            f"{len(all_picks)} graded picks for {season}: "
+            f"{total_w}W-{total_l}L "
+            f"({total_w / max(1, total_w + total_l) * 100:.1f}%) "
+            f"{'+'if units >= 0 else ''}{units:.1f}u"
+        ),
+    }
+
+    script_dir = os.path.dirname(os.path.abspath(__file__))
+    paths = [
+        os.path.join(script_dir, "..", "data", "mlb-props.json"),
+        os.path.join(script_dir, "..", "..", "PythonDashboard", "data", "mlb-props.json"),
+    ]
+
+    # Collect all backfill dates so we know which are "historical"
+    backfill_dates = set(p.get("date", "") for p in all_picks)
+
+    for path in paths:
+        path = os.path.normpath(path)
+        os.makedirs(os.path.dirname(path), exist_ok=True)
+
+        # Merge: preserve any live/today's picks that aren't in backfill date range
+        existing_live_picks = []
+        try:
+            if os.path.exists(path):
+                with open(path, "r") as f:
+                    existing = json.load(f)
+                existing_live_picks = [
+                    p for p in existing.get("props", [])
+                    if p.get("date") not in backfill_dates
+                ]
+        except Exception:
+            existing_live_picks = []
+
+        merged_props = all_picks + existing_live_picks
+        dashboard["props"] = merged_props
+        dashboard["totalPicks"] = len(merged_props)
+
+        n_bt = len(all_picks)
+        n_live = len(existing_live_picks)
+        if n_live > 0:
+            print(f"  Merged: {n_bt} backfill picks + {n_live} live picks preserved")
+
+        with open(path, "w") as f:
+            json.dump(dashboard, f, indent=2, cls=_NumpyEncoder)
+        print(f"  Wrote {len(merged_props)} picks to {path}")
+
+
+# ---------------------------------------------------------------------------
+# CLI
+# ---------------------------------------------------------------------------
+
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser(
+        description="Backtest MLB pitcher prop projections (Kalman)"
+    )
+    parser.add_argument("--season", type=int, default=None,
+                        help="MLB season year (e.g. 2026)")
+    parser.add_argument("--start-game", type=int, default=10,
+                        help="Min game dates before projecting (default: 10)")
+    parser.add_argument("--start-date", type=str, default=None,
+                        help="Start projecting from this date (YYYY-MM-DD)")
+    args = parser.parse_args()
+
+    results = backfill(args.season, args.start_game, start_date=args.start_date)
+    if results:
+        write_dashboard_json(results, args.season or current_season())
