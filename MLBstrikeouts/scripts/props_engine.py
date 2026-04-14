@@ -309,7 +309,15 @@ def project_pitcher_props(pitcher_logs, team_batting_stats=None,
 
         # --- Projected innings ---
         rest_days = detect_rest_days(games, game_date)
-        proj_ip = project_innings(qualified, adv_stats=adv, rest_days=rest_days)
+        pitcher_bb9 = adv.get("BB_PER_9") or adv.get("bb_per_9")
+        opp_batting = (team_batting_stats or {}).get(latest_opp, {})
+        opp_ops = opp_batting.get("OPS") or opp_batting.get("ops")
+        proj_ip = project_innings(
+            qualified, adv_stats=adv, rest_days=rest_days,
+            pitcher_bb_per_9=pitcher_bb9,
+            opp_ops=opp_ops,
+            league_avg_ops=league_avg.get("OPS"),
+        )
 
         if proj_ip < 3.0:
             continue  # Skip pitchers projected for very few innings

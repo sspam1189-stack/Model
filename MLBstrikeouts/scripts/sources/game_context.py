@@ -185,7 +185,8 @@ def compute_home_away_split(pitcher_games, stat_key, min_games=3):
 # 3. Innings projection
 # ---------------------------------------------------------------------------
 
-def project_innings(pitcher_games, adv_stats=None, rest_days=5):
+def project_innings(pitcher_games, adv_stats=None, rest_days=5,
+                    pitcher_bb_per_9=None, opp_ops=None, league_avg_ops=None):
     """
     Project how many innings the pitcher will throw tonight.
 
@@ -194,6 +195,8 @@ def project_innings(pitcher_games, adv_stats=None, rest_days=5):
     - Season average IP from advanced stats (blended 70/30)
     - Rest day adjustment
     - Pitch count trend (high recent counts -> lower IP)
+    - Pitcher BB/9 (r=-0.129 with IP: wild pitchers get shorter leashes)
+    - Opponent OPS (r=-0.103 with IP: tough lineups shorten outings)
 
     Parameters
     ----------
@@ -204,6 +207,12 @@ def project_innings(pitcher_games, adv_stats=None, rest_days=5):
         Pitcher's season-level stats.  Looks for ``"avg_ip"`` key.
     rest_days : int
         Days since last start (from :func:`detect_rest_days`).
+    pitcher_bb_per_9 : float or None
+        Pitcher's BB/9 rate (from advanced stats).
+    opp_ops : float or None
+        Opposing team's OPS.
+    league_avg_ops : float or None
+        League average OPS (for relative opponent adjustment).
 
     Returns
     -------
@@ -242,6 +251,22 @@ def project_innings(pitcher_games, adv_stats=None, rest_days=5):
     recent_pc = _avg_pitch_count(pitcher_games, window=5)
     if recent_pc > 100:
         proj_ip -= 0.3 * ((recent_pc - 100) / 10)   # -0.3 IP per 10 pitches over 100
+
+    # BB/9 drag: wild pitchers (BB/9 > league avg ~3.3) get shorter leashes
+    # r=-0.129 with IP at game level. Every 1 BB/9 above avg -> ~0.15 fewer IP
+    LEAGUE_AVG_BB9 = 3.3
+    if pitcher_bb_per_9 is not None and pitcher_bb_per_9 > 0:
+        bb9_diff = pitcher_bb_per_9 - LEAGUE_AVG_BB9
+        proj_ip -= bb9_diff * 0.15  # +1 BB/9 above avg -> -0.15 IP
+
+    # Opponent OPS adjustment: tough lineups shorten outings
+    # r=-0.103 with IP. OPS above league avg -> fewer innings.
+    # Data shows -0.21 IP split between above/below median OPS.
+    if opp_ops is not None and opp_ops > 0:
+        avg_ops = league_avg_ops or 0.710  # fallback league avg
+        if avg_ops > 0:
+            ops_diff = (opp_ops - avg_ops) / avg_ops
+            proj_ip -= ops_diff * proj_ip * 0.10  # 10% weight, inverted
 
     return max(0.0, round(proj_ip, 1))
 
