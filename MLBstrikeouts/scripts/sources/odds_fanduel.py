@@ -107,21 +107,23 @@ FD_PROP_TABS = [
 # Map FanDuel market types to internal market names (player props)
 # ---------------------------------------------------------------------------
 FD_MARKET_TYPE_MAP = {
-    # Pitcher strikeouts
+    # Pitcher strikeouts — FanDuel uses PITCHER_X_TOTAL_STRIKEOUTS format
+    "TOTAL_STRIKEOUTS": "strikeouts",
     "PITCHER_STRIKEOUTS": "strikeouts",
     "TOTAL_PITCHER_STRIKEOUTS": "strikeouts",
     "STRIKEOUTS_THROWN": "strikeouts",
     "TOTAL_STRIKEOUTS_THROWN": "strikeouts",
-    # Pitcher outs
+    # Pitcher outs — FanDuel uses PITCHER_X_OUTS_RECORDED_SB format
+    "OUTS_RECORDED": "outs",
+    "OUTS_RECORDED_SB": "outs",
     "PITCHER_OUTS": "outs",
     "TOTAL_PITCHER_OUTS": "outs",
-    "OUTS_RECORDED": "outs",
     "TOTAL_OUTS_RECORDED": "outs",
     "PITCHING_OUTS": "outs",
     # Hits allowed
+    "HITS_ALLOWED": "hits_allowed",
     "PITCHER_HITS_ALLOWED": "hits_allowed",
     "TOTAL_PITCHER_HITS_ALLOWED": "hits_allowed",
-    "HITS_ALLOWED": "hits_allowed",
     "TOTAL_HITS_ALLOWED": "hits_allowed",
     # Walks
     "PITCHER_WALKS": "walks",
@@ -280,13 +282,16 @@ def fetch_fanduel_mlb_props(date_key=None):
 
     for event_id, ev in game_events.items():
         event_name = ev.get("name", "")
-        # Parse "Chicago Cubs @ Milwaukee Brewers"
-        parts = event_name.split(" @ ")
+        # Parse "Chicago Cubs (R Martin) @ Philadelphia Phillies (A Nola)"
+        # Strip pitcher names in parentheses before splitting
+        import re
+        clean_name = re.sub(r'\s*\([^)]*\)', '', event_name)
+        parts = clean_name.split(" @ ")
         if len(parts) == 2:
             away_team = parts[0].strip()
             home_team = parts[1].strip()
         else:
-            away_team = event_name
+            away_team = clean_name
             home_team = ""
 
         game_key = f"{away_team} @ {home_team}"
@@ -343,8 +348,19 @@ def fetch_fanduel_mlb_props(date_key=None):
                 if not over_runner or not under_runner:
                     continue
 
+                # Get line: prefer handicap field, fall back to parsing runner name
+                # FanDuel K markets: handicap=5.5 on runner
+                # FanDuel outs markets: handicap=0, line embedded in name ("Over 17.5")
                 line = over_runner.get("handicap")
-                if line is None:
+                if line is None or line == 0:
+                    # Try parsing from runner name: "Over 17.5" -> 17.5
+                    import re as _re
+                    m = _re.search(r'(\d+\.?\d*)', over_runner.get("runnerName", ""))
+                    if m:
+                        line = float(m.group(1))
+                    else:
+                        continue
+                if line is None or line == 0:
                     continue
 
                 over_odds = (over_runner.get("winRunnerOdds", {})
@@ -373,8 +389,20 @@ def fetch_fanduel_mlb_props(date_key=None):
                         "source": "fanduel",
                     })
                 else:
-                    # Player name from runner (e.g. "Corbin Burnes Over")
-                    player_name = over_runner.get("runnerName", "").replace(" Over", "").strip()
+                    # Player name: try runner first ("Corbin Burnes Over"),
+                    # fall back to marketName ("Aaron Nola Outs Recorded")
+                    runner_name = over_runner.get("runnerName", "")
+                    if runner_name.startswith("Over"):
+                        # Runner has no player name (e.g. "Over 17.5") — use marketName
+                        market_name = mv.get("marketName", "")
+                        # Strip suffixes like " - Strikeouts", " Outs Recorded", " - Hits Allowed"
+                        import re as _re2
+                        player_name = _re2.sub(r'\s*[-–]\s*(Strikeouts|Hits Allowed|Walks|Alt \w+).*', '', market_name)
+                        player_name = _re2.sub(r'\s*(Outs Recorded|Strikeouts|Hits Allowed|Walks).*', '', player_name).strip()
+                    else:
+                        player_name = runner_name.replace(" Over", "").strip()
+                    if not player_name:
+                        continue
                     new_props.append({
                         "player": player_name,
                         "market": internal_market,
