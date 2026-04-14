@@ -281,19 +281,32 @@ def run_daily(date_key=None):
     team_pitching = fetch_team_pitching_stats(season=season)
     print(f"  {len(team_pitching)} teams with pitching stats")
 
-    # Stage 10: Fetch prop lines (FanDuel primary, Odds API fallback)
-    print(f"\n  [10/14] Fetching prop lines (FanDuel primary)...")
+    # Stage 10: Fetch prop lines (FanDuel + Odds API combined)
+    # FanDuel has K + outs only. Odds API has K + outs + hits allowed + walks.
+    # Use FanDuel as primary for K/outs, Odds API fills in HA/walks.
+    print(f"\n  [10/14] Fetching prop lines (FanDuel + Odds API)...")
     fd_result = fetch_fanduel_mlb_props(date_key=date_key)
     if isinstance(fd_result, tuple):
-        prop_lines, game_hit_lines = fd_result
+        fd_props, game_hit_lines = fd_result
     else:
-        prop_lines = fd_result
+        fd_props = fd_result
         game_hit_lines = []
 
-    if not prop_lines:
-        print(f"  FanDuel returned 0 lines, falling back to The Odds API...")
-        prop_lines = fetch_mlb_pitcher_props(date_key=date_key)
-    print(f"  {len(prop_lines)} pitcher prop lines, {len(game_hit_lines)} game hit lines")
+    # Always fetch Odds API for hits_allowed + walks (FanDuel doesn't have these)
+    odds_api_props = fetch_mlb_pitcher_props(date_key=date_key)
+
+    # Merge: FanDuel lines take priority for K/outs, Odds API fills in HA/walks
+    fd_markets = {(p.get("player",""), p.get("market","")) for p in fd_props}
+    merged_props = list(fd_props)
+    for p in odds_api_props:
+        key = (p.get("player",""), p.get("market",""))
+        if key not in fd_markets:
+            merged_props.append(p)
+
+    prop_lines = merged_props
+    n_fd = len(fd_props)
+    n_api = len(prop_lines) - n_fd
+    print(f"  {n_fd} from FanDuel + {n_api} from Odds API = {len(prop_lines)} total prop lines, {len(game_hit_lines)} game hit lines")
 
     # Stage 11: Project pitcher props
     print(f"\n  [11/14] Projecting pitcher props (Kalman + advanced stats)...")
