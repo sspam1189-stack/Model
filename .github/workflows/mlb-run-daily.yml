@@ -1,0 +1,103 @@
+name: MLB Run Daily (Pitcher Props + Game Hits)
+
+on:
+  workflow_dispatch:
+
+
+permissions:
+  contents: write
+
+jobs:
+  mlb-props:
+    runs-on: self-hosted
+    defaults:
+      run:
+        shell: powershell
+    steps:
+      - name: Clean up stale rebase
+        run: $ErrorActionPreference='SilentlyContinue'; git rebase --abort 2>&1 | Out-Null; exit 0
+
+      - uses: actions/checkout@v6
+        with:
+          ref: main
+          clean: true
+
+      - name: Pull latest
+        run: git pull origin main
+
+      - name: Clear bytecode cache
+        run: Get-ChildItem -Path MLBstrikeouts -Filter __pycache__ -Recurse -Directory -ErrorAction SilentlyContinue | Remove-Item -Recurse -Force
+
+      - name: Install dependencies
+        run: pip install -r MLBstrikeouts/requirements.txt
+
+      - name: Run daily MLB props
+        working-directory: MLBstrikeouts
+        env:
+          PYTHONUTF8: "1"
+          PYTHONUNBUFFERED: "1"
+          PYTHONIOENCODING: "utf-8"
+          ODDS_API_KEY: ${{ secrets.ODDS_API_KEY }}
+        run: python -m scripts.run_daily
+
+      - name: Upload MLBstrikeouts data
+        uses: actions/upload-artifact@v7
+        with:
+          name: MLBstrikeouts-data
+          path: MLBstrikeouts/data
+
+      - name: Upload shared MLB props cache
+        uses: actions/upload-artifact@v7
+        with:
+          name: shared-mlb-props-cache
+          path: data/props_cache/mlb
+
+      - name: Upload shared MLB pitcher cache
+        uses: actions/upload-artifact@v7
+        with:
+          name: shared-mlb-pitcher-cache
+          path: data/pitcher_cache/mlb
+
+  commit-and-push:
+    runs-on: ubuntu-latest
+    needs: [mlb-props]
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          ref: main
+          fetch-depth: 0
+
+      - uses: actions/download-artifact@v8
+        with:
+          name: MLBstrikeouts-data
+          path: artifacts/MLBstrikeouts
+
+      - uses: actions/download-artifact@v8
+        with:
+          name: shared-mlb-props-cache
+          path: artifacts/mlb-props-cache
+
+      - uses: actions/download-artifact@v8
+        with:
+          name: shared-mlb-pitcher-cache
+          path: artifacts/mlb-pitcher-cache
+
+      - name: Copy artifacts
+        shell: bash
+        run: |
+          cp -a artifacts/MLBstrikeouts/. MLBstrikeouts/data/
+          mkdir -p data/props_cache/mlb
+          cp -a artifacts/mlb-props-cache/. data/props_cache/mlb/
+          mkdir -p data/pitcher_cache/mlb
+          cp -a artifacts/mlb-pitcher-cache/. data/pitcher_cache/mlb/
+          cp -f artifacts/MLBstrikeouts/mlb-props.json PythonDashboard/data/mlb-props.json 2>/dev/null || true
+
+      - name: Commit & push data changes
+        shell: bash
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add MLBstrikeouts/data/ data/props_cache/mlb/ data/pitcher_cache/mlb/ PythonDashboard/data/mlb-props.json
+          git diff --cached --quiet || git commit -m "Run daily MLB Pitcher Props + Game Hits [skip ci]"
+          git pull --rebase origin main
+          git push
