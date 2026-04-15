@@ -52,6 +52,14 @@
         return;
       }
 
+      // Update last-run-info with generated timestamp
+      const runEl = document.getElementById('last-run-info');
+      if (runEl && data.generated) {
+        const d = new Date(data.generated);
+        const ct = d.toLocaleString('en-US', { timeZone: 'America/Chicago', month: '2-digit', day: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: true });
+        runEl.textContent = `Last run (CT) \u2014 MLB Pitcher Props: ${ct}`;
+      }
+
       const marketLabels = {strikeouts:'K', outs:'OUTS', hits_allowed:'HA', game_hits:'HITS'};
       const picks = data.props.filter(p => p.pick !== 'PASS');
       const isBacktest = picks.some(p => p.result != null);
