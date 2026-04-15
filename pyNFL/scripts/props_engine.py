@@ -1,11 +1,16 @@
 # pyNFL/scripts/props_engine.py
-# NFL player prop projection engine.
+# NFL player prop projection engine — plays→volume→efficiency→output pipeline.
 #
-# Projects per-player stats (passing yards, rushing yards, receiving yards,
-# receptions) using rolling averages from nflfastr play-by-play data,
-# adjusted for opponent defense strength and game environment.
+# Projection pipeline:
+#   1. Game environment provides team-level volume (dropbacks, rush_attempts)
+#   2. Player shares allocate volume (target_share, rush_share)
+#   3. Player rates convert volume to output (ypa, ypc, catch_rate, etc.)
+#   4. Opponent adjustment scales rates by defensive EPA
+#   5. Variance: rate_std * volume * VAR_MULT
+#   6. Student's t-distribution for cover probability, uniform threshold
 #
-# Output: picks comparing projections vs. market prop lines.
+# Falls back to rolling averages from player_logs when Kalman/environment
+# data is unavailable, ensuring backward compatibility during testing.
 
 import math
 import numpy as np
@@ -15,78 +20,37 @@ from scipy.stats import t as t_dist
 # Constants
 # ---------------------------------------------------------------------------
 
-PROP_T_DF = 4  # Student's t for prop confidence (heavier tails than game totals)
+PROP_T_DF = 4           # Student's t degrees of freedom (heavier tails)
+DECAY_FACTOR = 0.88     # Exponential decay per game
+ROLLING_WINDOW = 6      # Recent games for rolling averages
+
+# Variance multipliers per market
+VAR_MULT = {
+    "pass_yds":   1.2,
+    "pass_tds":   1.4,
+    "rush_yds":   1.3,
+    "rush_att":   1.2,
+    "rec_yds":    1.4,
+    "receptions": 1.2,
+}
+
+# Single uniform threshold for all markets
+MARKET_THRESHOLDS = {
+    "pass_yds":   0.80,
+    "pass_tds":   0.80,
+    "rush_yds":   0.80,
+    "rush_att":   0.80,
+    "rec_yds":    0.90,
+    "receptions": 0.85,
+}
+
+# Opponent adjustment weight (uniform for all markets)
+OPP_ADJ_WEIGHT = 0.20
 
 # Minimum sample sizes
 MIN_GAMES_PASSER = 3
 MIN_GAMES_RUSHER = 3
 MIN_GAMES_RECEIVER = 3
-
-# Rolling window (recent games weighted more)
-ROLLING_WINDOW = 6
-DECAY_FACTOR = 0.88  # Exponential decay per game
-
-# Prop confidence thresholds (per-market — passing is more predictable)
-PROP_PROB_HIGH = 0.58
-PROP_PROB_ELITE = 0.64
-
-# Market-specific thresholds (rush/rec need higher bar due to higher variance)
-MARKET_THRESHOLDS = {
-    "pass_yds":      {"high": 0.58, "elite": 0.64},
-    "pass_tds":      {"high": 0.62, "elite": 0.70},  # TD count is low-volume, noisy
-    "pass_att":      {"high": 0.60, "elite": 0.68},
-    "completions":   {"high": 0.60, "elite": 0.68},
-    "rush_yds":      {"high": 0.72, "elite": 0.78},  # RB usage is very volatile
-    "rush_att":      {"high": 0.65, "elite": 0.72},
-    "rec_yds":       {"high": 0.72, "elite": 0.78},  # WR targets are volatile
-    "receptions":    {"high": 0.75, "elite": 0.80},  # Catch count is very noisy
-    "interceptions": {"high": 0.70, "elite": 0.78},  # Rare event — need high bar
-}
-
-# Variance multipliers (player stats are more variable than team totals)
-VAR_MULT = {
-    "pass_yds":      1.2,
-    "pass_tds":      1.5,   # TDs are low-count, high variance
-    "pass_att":      1.1,   # Attempts are stable
-    "completions":   1.1,   # Completions are stable
-    "rush_yds":      1.5,   # RB usage is highly variable
-    "rush_att":      1.2,   # Rush attempts are moderately stable
-    "rec_yds":       1.6,   # WR targets are volatile
-    "receptions":    1.3,
-    "interceptions": 1.8,   # Rare event, very noisy
-}
-
-# Legacy aliases
-PASS_YDS_VAR_MULT = VAR_MULT["pass_yds"]
-RUSH_YDS_VAR_MULT = VAR_MULT["rush_yds"]
-REC_YDS_VAR_MULT = VAR_MULT["rec_yds"]
-RECEPTIONS_VAR_MULT = VAR_MULT["receptions"]
-
-# Directional filter
-# UNDER-only markets: sportsbooks set lines high to attract OVER action
-# Pass TDs is the exception: OVER wins 60.3% (books set TD lines low)
-UNDER_ONLY_MARKETS = {"pass_yds", "rush_yds", "rec_yds", "receptions", "rush_att"}
-OVER_ONLY_MARKETS = {"pass_tds"}  # OVER 60.3% vs UNDER 48.3%
-
-# ---------------------------------------------------------------------------
-# Calibration offsets — REMOVED (root cause fixed)
-# ---------------------------------------------------------------------------
-# The under-projection bias was caused by low minimum attempt filters:
-#   - pass_att >= 10: included backup QBs with 12 garbage time attempts
-#   - rush_att >= 5: included QBs with 5 scrambles (not real rushers)
-#   - targets >= 2: included RBs with 2 dump-offs (not real receivers)
-# These low-volume games dragged down the rolling average far below
-# the player's true production level.
-# Fixed by raising filters to: pass_att >= 15, rush_att >= 8, targets >= 4
-
-# Minimum edge size per market (|proj - line|)
-# Original +155u filters — DO NOT CHANGE without re-backtesting
-MIN_EDGE = {"pass_yds": 20, "pass_tds": 0.3, "receptions": 0.5, "rush_att": 2}
-MAX_EDGE = {"pass_yds": 50, "pass_tds": 2, "rush_att": 8}
-
-# Minimum line value per market (filters out low-volume players where noise dominates)
-# rec_yds line<50: 64W-72L (-15u) vs line>=50: 31W-13L (+16.7u)
-MIN_LINE = {"rec_yds": 50}
 
 
 # ---------------------------------------------------------------------------
@@ -99,7 +63,7 @@ def _name_key(name):
 
     'K.Murray'       -> ('k', 'murray')
     'Kyler Murray'   -> ('k', 'murray')
-    'De\'Von Achane' -> ('d', 'achane')
+    'De\\'Von Achane' -> ('d', 'achane')
     'T.J. Watt'      -> ('t', 'watt')
     'A.J. Brown'     -> ('a', 'brown')
     """
@@ -149,7 +113,15 @@ def build_player_game_logs(pbp_df):
     logs = {}
 
     # --- Passers ---
-    pass_plays = pbp_df[pbp_df["pass"] == 1].copy()
+    # CRITICAL: exclude sacks from pass_yds and pass_att.
+    # nflfastR codes sacks as pass==1 with negative yards_gained.
+    # The betting market "passing yards" does NOT include sack yards.
+    # Including sacks was causing ~20-30 yard under-projection per game.
+    sack_col = "sack" if "sack" in pbp_df.columns else None
+    if sack_col:
+        pass_plays = pbp_df[(pbp_df["pass"] == 1) & (pbp_df[sack_col] != 1)].copy()
+    else:
+        pass_plays = pbp_df[pbp_df["pass"] == 1].copy()
     if not pass_plays.empty:
         passer_games = pass_plays.groupby(
             ["passer_player_id", "passer_player_name", "game_id", "week", "posteam", "defteam"]
@@ -268,7 +240,7 @@ def build_player_game_logs(pbp_df):
 
 
 # ---------------------------------------------------------------------------
-# Projection engine
+# Rolling average helpers
 # ---------------------------------------------------------------------------
 
 def _weighted_avg(values, decay=DECAY_FACTOR):
@@ -277,7 +249,7 @@ def _weighted_avg(values, decay=DECAY_FACTOR):
         return 0.0
     n = len(values)
     weights = [decay ** i for i in range(n)]  # [1.0, 0.88, 0.77, ...]
-    weights.reverse()  # oldest first in values list → newest gets highest weight
+    weights.reverse()  # oldest first in values list -> newest gets highest weight
     return sum(v * w for v, w in zip(values, weights)) / sum(weights)
 
 
@@ -294,9 +266,109 @@ def _weighted_std(values, decay=DECAY_FACTOR):
     return math.sqrt(max(var, 1.0))
 
 
-def project_player_props(player_logs, team_stats, prop_lines=None):
+def _weighted_rate_std(rates, decay=DECAY_FACTOR):
+    """Weighted std of a list of rate values (e.g. ypa, ypc per game)."""
+    if len(rates) < 2:
+        return 0.15  # safe default
+    n = len(rates)
+    weights = [decay ** (n - 1 - i) for i in range(n)]
+    w_sum = sum(weights)
+    avg = sum(r * w for r, w in zip(rates, weights)) / w_sum
+    var = sum(w * (r - avg) ** 2 for r, w in zip(rates, weights)) / w_sum
+    return math.sqrt(max(var, 0.01))
+
+
+# ---------------------------------------------------------------------------
+# Fallback: compute rates/shares from game logs
+# ---------------------------------------------------------------------------
+
+def _compute_fallback_passer_rates(passer_games):
+    """Compute rolling-average passer rates from game logs."""
+    ypa_vals = []
+    td_rate_vals = []
+    comp_pct_vals = []
+    dropback_vals = []
+    for g in passer_games:
+        att = g.get("pass_att", 0)
+        if att < 10:
+            continue
+        ypa_vals.append(g["pass_yds"] / att)
+        td_rate_vals.append(g.get("pass_td", 0) / att)
+        comp_pct_vals.append(g.get("completions", 0) / att)
+        dropback_vals.append(att)
+    if not ypa_vals:
+        return None
+    return {
+        "ypa": _weighted_avg(ypa_vals),
+        "td_rate": _weighted_avg(td_rate_vals),
+        "completion_pct": _weighted_avg(comp_pct_vals),
+        "dropbacks": _weighted_avg(dropback_vals),
+        "ypa_std": _weighted_rate_std(ypa_vals),
+        "td_rate_std": _weighted_rate_std(td_rate_vals),
+    }
+
+
+def _compute_fallback_rusher_rates(rusher_games):
+    """Compute rolling-average rusher rates from game logs."""
+    ypc_vals = []
+    rush_att_vals = []
+    for g in rusher_games:
+        att = g.get("rush_att", 0)
+        if att < 5:
+            continue
+        ypc_vals.append(g["rush_yds"] / att)
+        rush_att_vals.append(att)
+    if not ypc_vals:
+        return None
+    return {
+        "ypc": _weighted_avg(ypc_vals),
+        "rush_att": _weighted_avg(rush_att_vals),
+        "ypc_std": _weighted_rate_std(ypc_vals),
+        "rush_att_std": _weighted_rate_std(rush_att_vals),
+    }
+
+
+def _compute_fallback_receiver_rates(receiver_games, passer_games):
+    """Compute rolling-average receiver rates from game logs."""
+    catch_rate_vals = []
+    ypr_vals = []
+    target_vals = []
+    # Estimate target share: targets / team pass attempts (from passer games)
+    team_att_by_game = {}
+    for g in passer_games:
+        team_att_by_game[g.get("game_id")] = g.get("pass_att", 0)
+
+    for g in receiver_games:
+        tgt = g.get("targets", 0)
+        rec = g.get("receptions", 0)
+        if tgt < 2:
+            continue
+        catch_rate_vals.append(rec / tgt)
+        if rec > 0:
+            ypr_vals.append(g["rec_yds"] / rec)
+        else:
+            ypr_vals.append(0.0)
+        target_vals.append(tgt)
+    if not catch_rate_vals:
+        return None
+    return {
+        "catch_rate": _weighted_avg(catch_rate_vals),
+        "ypr": _weighted_avg(ypr_vals),
+        "targets_per_game": _weighted_avg(target_vals),
+        "catch_rate_std": _weighted_rate_std(catch_rate_vals),
+        "ypr_std": _weighted_rate_std(ypr_vals),
+    }
+
+
+# ---------------------------------------------------------------------------
+# Projection engine — plays -> volume -> efficiency -> output
+# ---------------------------------------------------------------------------
+
+def project_player_props(player_logs, team_stats, prop_lines=None,
+                         kalman_state=None, game_environment=None,
+                         player_shares=None, player_rates=None):
     """
-    Project player props for all players with sufficient game logs.
+    Project player props using the rate-based pipeline.
 
     Parameters
     ----------
@@ -306,6 +378,19 @@ def project_player_props(player_logs, team_stats, prop_lines=None):
         {team_abbr: stats_dict} for opponent strength adjustment.
     prop_lines : list[dict] or None
         Market prop lines: [{"player", "market", "line", "over_price", "under_price"}, ...]
+    kalman_state : dict or None
+        Per-player Kalman state for shares/rates (if available).
+    game_environment : dict or None
+        {team_abbr: {"dropbacks": float, "rush_attempts": float}}
+        Projected team-level volume. Falls back to rolling averages if None.
+    player_shares : dict or None
+        {player_id: {"target_share": float, "rush_share": float}}
+        Kalman-filtered if available. Falls back to game log computation.
+    player_rates : dict or None
+        {player_id: {"ypa": float, "completion_pct": float, "td_rate": float,
+                      "ypc": float, "catch_rate": float, "ypr": float,
+                      "ypa_std": float, ...}}
+        Kalman-filtered if available. Falls back to game log computation.
 
     Returns
     -------
@@ -314,23 +399,32 @@ def project_player_props(player_logs, team_stats, prop_lines=None):
     """
     projections = []
 
-    # Build opponent defense rankings for adjustment
+    # Build opponent defense EPA rankings for adjustment
     def_pass_ranks = {}
     def_rush_ranks = {}
     for team, st in team_stats.items():
         def_pass_ranks[team] = st.get("passDefEPA", 0.0)
         def_rush_ranks[team] = st.get("rushDefEPA", 0.0)
-    # League averages
     avg_pass_def = np.mean(list(def_pass_ranks.values())) if def_pass_ranks else 0.0
     avg_rush_def = np.mean(list(def_rush_ranks.values())) if def_rush_ranks else 0.0
 
-    # Index prop lines by (first_initial, last_name, market) for cross-source matching
+    # Index prop lines by (first_initial, last_name, market)
     line_lookup = {}
     if prop_lines:
         for pl in prop_lines:
             nk = _name_key(pl.get("player", ""))
             key = (nk[0], nk[1], pl.get("market", ""))
             line_lookup[key] = pl
+
+    # Collect all passer games per team (for receiver fallback target_share)
+    team_passer_games = {}
+    for pid, games in player_logs.items():
+        for g in games:
+            if g.get("pass_att", 0) >= 10:
+                t = g.get("team", "")
+                if t not in team_passer_games:
+                    team_passer_games[t] = []
+                team_passer_games[t].append(g)
 
     for pid, games in player_logs.items():
         if not games:
@@ -343,83 +437,202 @@ def project_player_props(player_logs, team_stats, prop_lines=None):
         team = games[-1].get("team", "")
         latest_opp = games[-1].get("opp", "")
 
-        # --- Qualified game sets (reused across markets) ---
-        # Original filters from +155u backtest — lower filters capture the
-        # under-projection bias which IS the edge (model projects low → UNDER wins)
+        # Qualified game subsets
         passer_games = [g for g in recent if g.get("pass_att", 0) >= 10]
         rusher_games = [g for g in recent if g.get("rush_att", 0) >= 5]
         receiver_games = [g for g in recent if g.get("targets", 0) >= 2]
 
+        # Opponent adjustment factors
         opp_pass_def = def_pass_ranks.get(latest_opp, avg_pass_def)
         opp_rush_def = def_rush_ranks.get(latest_opp, avg_rush_def)
-        pass_opp_adj = (opp_pass_def - avg_pass_def)
-        rush_opp_adj = (opp_rush_def - avg_rush_def)
+        pass_opp_mult = 1.0 + (opp_pass_def - avg_pass_def) * OPP_ADJ_WEIGHT
+        rush_opp_mult = 1.0 + (opp_rush_def - avg_rush_def) * OPP_ADJ_WEIGHT
 
-        # --- Passing yards ---
+        # --- Look up external data (or fall back to game logs) ---
+        env = (game_environment or {}).get(team, {})
+        shares = (player_shares or {}).get(pid, {})
+        rates = (player_rates or {}).get(pid, {})
+
+        # =================================================================
+        # PASSING MARKETS (pass_yds, pass_tds)
+        # =================================================================
         if len(passer_games) >= MIN_GAMES_PASSER:
-            vals = [g["pass_yds"] for g in passer_games]
-            proj = _weighted_avg(vals) + pass_opp_adj * 25
-            std = _weighted_std(vals) * VAR_MULT["pass_yds"]
-            prop = _make_prop(name, team, "pass_yds", proj, std, line_lookup, latest_opp)
-            if prop: projections.append(prop)
+            # Volume: team dropbacks
+            dropbacks = env.get("dropbacks")
+            if dropbacks is None:
+                # Fallback: rolling avg of this passer's attempts
+                dropbacks = _weighted_avg([g["pass_att"] for g in passer_games])
 
-        # --- Pass TDs ---
-        if len(passer_games) >= MIN_GAMES_PASSER:
-            vals = [g.get("pass_td", 0) for g in passer_games]
-            proj = _weighted_avg(vals) + pass_opp_adj * 0.5
-            std = _weighted_std(vals) * VAR_MULT["pass_tds"]
-            prop = _make_prop(name, team, "pass_tds", proj, std, line_lookup, latest_opp)
-            if prop: projections.append(prop)
+            # Rates from external source or fallback
+            ypa = rates.get("ypa")
+            td_rate = rates.get("td_rate")
+            ypa_std = rates.get("ypa_std")
+            td_rate_std = rates.get("td_rate_std")
 
-        # --- Pass attempts --- DISABLED: 42.0% win rate, -15u over 3 seasons
-        # --- Completions --- DISABLED: 47.1% win rate, -17u over 3 seasons
-        # --- Interceptions --- DISABLED: corr=0.01, no predictive power + invalid Odds API market
+            if ypa is None or td_rate is None:
+                fb = _compute_fallback_passer_rates(passer_games)
+                if fb:
+                    ypa = ypa or fb["ypa"]
+                    td_rate = td_rate or fb["td_rate"]
+                    ypa_std = ypa_std or fb["ypa_std"]
+                    td_rate_std = td_rate_std or fb["td_rate_std"]
 
-        # --- Rushing yards ---
+            if ypa is not None and ypa > 0:
+                # --- Pass yards: dropbacks * ypa * opp_adj ---
+                adj_ypa = ypa * pass_opp_mult
+                proj_pass_yds = dropbacks * adj_ypa
+                std_pass_yds = (ypa_std or 0.15) * dropbacks * VAR_MULT["pass_yds"]
+                prop = _make_prop(name, team, "pass_yds", proj_pass_yds,
+                                  std_pass_yds, line_lookup, latest_opp)
+                if prop:
+                    projections.append(prop)
+
+            if td_rate is not None and td_rate > 0:
+                # --- Pass TDs: dropbacks * td_rate * opp_adj ---
+                adj_td_rate = td_rate * pass_opp_mult
+                proj_pass_tds = dropbacks * adj_td_rate
+                std_pass_tds = (td_rate_std or 0.02) * dropbacks * VAR_MULT["pass_tds"]
+                prop = _make_prop(name, team, "pass_tds", proj_pass_tds,
+                                  std_pass_tds, line_lookup, latest_opp)
+                if prop:
+                    projections.append(prop)
+
+        # =================================================================
+        # RUSHING MARKETS (rush_att, rush_yds)
+        # =================================================================
         if len(rusher_games) >= MIN_GAMES_RUSHER:
-            vals = [g["rush_yds"] for g in rusher_games]
-            proj = _weighted_avg(vals) + rush_opp_adj * 15
-            std = _weighted_std(vals) * VAR_MULT["rush_yds"]
-            prop = _make_prop(name, team, "rush_yds", proj, std, line_lookup, latest_opp)
-            if prop: projections.append(prop)
+            # Volume: team rush attempts
+            team_rush_att = env.get("rush_attempts")
+            if team_rush_att is None:
+                # Fallback: this rusher's own attempts (no team total available)
+                team_rush_att = None  # signal to use direct projection
 
-        # --- Rush attempts ---
-        if len(rusher_games) >= MIN_GAMES_RUSHER:
-            vals = [g.get("rush_att", 0) for g in rusher_games]
-            proj = _weighted_avg(vals)
-            std = _weighted_std(vals) * VAR_MULT["rush_att"]
-            prop = _make_prop(name, team, "rush_att", proj, std, line_lookup, latest_opp)
-            if prop: projections.append(prop)
+            # Shares and rates
+            rush_share = shares.get("rush_share")
+            ypc = rates.get("ypc")
+            ypc_std = rates.get("ypc_std")
 
-        # --- Receiving yards ---
+            fb_rush = _compute_fallback_rusher_rates(rusher_games)
+
+            if rush_share is not None and team_rush_att is not None:
+                # Rate-based: rush_att = team_rush_att * rush_share
+                proj_rush_att = team_rush_att * rush_share
+            elif fb_rush:
+                # Fallback: rolling average of this player's rush attempts
+                proj_rush_att = fb_rush["rush_att"]
+            else:
+                proj_rush_att = None
+
+            if ypc is None and fb_rush:
+                ypc = fb_rush["ypc"]
+                ypc_std = fb_rush.get("ypc_std")
+
+            if proj_rush_att is not None and proj_rush_att > 0:
+                # --- Rush attempts ---
+                rush_att_std = (fb_rush["rush_att_std"] if fb_rush else 2.0) * VAR_MULT["rush_att"]
+                # For rush_att, variance is on the count itself, not rate*volume
+                std_rush_att = rush_att_std * proj_rush_att / max(
+                    fb_rush["rush_att"] if fb_rush else proj_rush_att, 1.0)
+                # Simpler: just use weighted std of raw rush_att values
+                raw_att_vals = [g.get("rush_att", 0) for g in rusher_games]
+                std_rush_att = _weighted_std(raw_att_vals) * VAR_MULT["rush_att"]
+
+                prop = _make_prop(name, team, "rush_att", proj_rush_att,
+                                  std_rush_att, line_lookup, latest_opp)
+                if prop:
+                    projections.append(prop)
+
+                if ypc is not None and ypc > 0:
+                    # --- Rush yards: rush_att * ypc * opp_adj ---
+                    adj_ypc = ypc * rush_opp_mult
+                    proj_rush_yds = proj_rush_att * adj_ypc
+                    std_rush_yds = (ypc_std or 0.5) * proj_rush_att * VAR_MULT["rush_yds"]
+                    prop = _make_prop(name, team, "rush_yds", proj_rush_yds,
+                                      std_rush_yds, line_lookup, latest_opp)
+                    if prop:
+                        projections.append(prop)
+
+        # =================================================================
+        # RECEIVING MARKETS (receptions, rec_yds)
+        # =================================================================
         if len(receiver_games) >= MIN_GAMES_RECEIVER:
-            vals = [g["rec_yds"] for g in receiver_games]
-            proj = _weighted_avg(vals) + pass_opp_adj * 15
-            std = _weighted_std(vals) * VAR_MULT["rec_yds"]
-            prop = _make_prop(name, team, "rec_yds", proj, std, line_lookup, latest_opp)
-            if prop: projections.append(prop)
+            # Volume: team dropbacks (same as passing)
+            dropbacks = env.get("dropbacks")
+            if dropbacks is None:
+                # Fallback: estimate from team passer games
+                team_pass_games = team_passer_games.get(team, [])
+                if team_pass_games:
+                    dropbacks = _weighted_avg(
+                        [g["pass_att"] for g in sorted(team_pass_games, key=lambda x: x.get("week", 0))[-ROLLING_WINDOW:]]
+                    )
+                else:
+                    dropbacks = 35.0  # league average fallback
 
-        # --- Receptions ---
-        if len(receiver_games) >= MIN_GAMES_RECEIVER:
-            vals = [g.get("receptions", 0) for g in receiver_games]
-            proj = _weighted_avg(vals)
-            std = _weighted_std(vals) * VAR_MULT["receptions"]
-            prop = _make_prop(name, team, "receptions", proj, std, line_lookup, latest_opp)
-            if prop: projections.append(prop)
+            # Shares and rates
+            target_share = shares.get("target_share")
+            catch_rate = rates.get("catch_rate")
+            ypr = rates.get("ypr")
+            catch_rate_std = rates.get("catch_rate_std")
+            ypr_std = rates.get("ypr_std")
+
+            fb_rec = _compute_fallback_receiver_rates(receiver_games, passer_games)
+
+            if target_share is None and fb_rec:
+                # Fallback: targets / team dropbacks
+                target_share = fb_rec["targets_per_game"] / dropbacks if dropbacks > 0 else 0.0
+            if catch_rate is None and fb_rec:
+                catch_rate = fb_rec["catch_rate"]
+                catch_rate_std = fb_rec.get("catch_rate_std")
+            if ypr is None and fb_rec:
+                ypr = fb_rec["ypr"]
+                ypr_std = fb_rec.get("ypr_std")
+
+            if target_share is not None and target_share > 0 and catch_rate is not None:
+                # --- Receptions: dropbacks * target_share * catch_rate * opp_adj ---
+                adj_catch_rate = catch_rate * pass_opp_mult
+                proj_receptions = dropbacks * target_share * adj_catch_rate
+                std_receptions = (catch_rate_std or 0.05) * dropbacks * target_share * VAR_MULT["receptions"]
+                prop = _make_prop(name, team, "receptions", proj_receptions,
+                                  std_receptions, line_lookup, latest_opp)
+                if prop:
+                    projections.append(prop)
+
+                if ypr is not None and ypr > 0:
+                    # --- Receiving yards: receptions * ypr * opp_adj ---
+                    # (opp_adj already in receptions via catch_rate; apply again
+                    #  to ypr would double-count, so ypr stays unadjusted)
+                    proj_rec_yds = proj_receptions * ypr
+                    std_rec_yds = (ypr_std or 1.0) * proj_receptions * VAR_MULT["rec_yds"]
+                    prop = _make_prop(name, team, "rec_yds", proj_rec_yds,
+                                      std_rec_yds, line_lookup, latest_opp)
+                    if prop:
+                        projections.append(prop)
 
     return projections
 
 
+# ---------------------------------------------------------------------------
+# Pick generation — simplified
+# ---------------------------------------------------------------------------
+
 def _make_prop(name, team, market, proj, std, line_lookup, opp):
-    """Build a single prop projection + pick."""
-    # Look up market line using normalized name key
+    """
+    Build a single prop projection + pick.
+
+    Simplified: uniform threshold, no directional filters, no edge windows,
+    no MIN_LINE. If p(cover) >= threshold, pick the direction.
+    """
     nk = _name_key(name)
     line_key = (nk[0], nk[1], market)
     line_data = line_lookup.get(line_key)
 
     line = None
+    over_price = None
+    under_price = None
     if line_data:
         line = line_data.get("line")
+        over_price = line_data.get("over_price")
+        under_price = line_data.get("under_price")
 
     result = {
         "player": name,
@@ -429,6 +642,8 @@ def _make_prop(name, team, market, proj, std, line_lookup, opp):
         "proj": round(proj, 1),
         "std": round(std, 1),
         "line": line,
+        "over_price": over_price,
+        "under_price": under_price,
         "pick": "PASS",
         "edge": None,
         "pCover": None,
@@ -446,27 +661,15 @@ def _make_prop(name, team, market, proj, std, line_lookup, opp):
         result["edge"] = round(diff, 1)
         result["pCover"] = round(best_p, 3)
 
-        # Market-specific thresholds
-        mkt_thresh = MARKET_THRESHOLDS.get(market, {"high": PROP_PROB_HIGH, "elite": PROP_PROB_ELITE})
-        if best_p >= mkt_thresh["high"]:
+        # Uniform threshold check
+        thresh = MARKET_THRESHOLDS.get(market, 0.80)
+        if best_p >= thresh:
             direction = "OVER" if p_over > p_under else "UNDER"
-            # Directional filters
-            if market in UNDER_ONLY_MARKETS and direction == "OVER":
-                return result  # keep as PASS
-            if market in OVER_ONLY_MARKETS and direction == "UNDER":
-                return result  # keep as PASS
-            # Edge size filter: skip tiny edges (noise) and extreme edges (model wrong)
-            abs_edge = abs(diff)
-            min_e = MIN_EDGE.get(market, 0)
-            max_e = MAX_EDGE.get(market, 999)
-            if abs_edge < min_e or abs_edge > max_e:
-                return result  # keep as PASS
-            # Minimum line filter: skip low-volume players where noise dominates
-            min_l = MIN_LINE.get(market, 0)
-            if line < min_l:
-                return result  # keep as PASS
+            pick_price = over_price if direction == "OVER" else under_price
+
             result["pick"] = direction
-            result["conf"] = "elite" if best_p >= mkt_thresh["elite"] else "high"
+            result["conf"] = "high"
+            result["odds"] = pick_price
 
     return result
 

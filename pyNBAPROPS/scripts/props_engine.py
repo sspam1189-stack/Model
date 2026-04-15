@@ -1,17 +1,17 @@
 # pyNBAPROPS/scripts/props_engine.py
 # NBA player prop projection engine with Bayesian Kalman filtering + advanced stats.
 #
-# Projection pipeline:
+# Projection pipeline (rate × minutes):
 #   1. Organize per-player game logs from NBA.com data
-#   2. Compute rolling weighted averages (exponential decay)
-#   3. Query Kalman filter for smoothed player baseline + uncertainty
-#   4. Blend Kalman baseline with rolling average (configurable ratio)
-#   5. Adjust for opponent defense (per-game stats allowed, not just DEF_RATING)
-#   6. Adjust for pace (fast-paced games produce more stats)
-#   7. Adjust for minutes/volume (advanced stats: USG%, minutes context)
-#   8. Compare blended projection to market prop line
-#   9. Use Student's t-distribution (with Kalman variance) for cover probability
-#  10. Apply market-specific confidence thresholds and edge filters
+#   2. Compute exponentially weighted per-minute rates for each stat
+#   3. Apply season anchor at rate level (regress toward per-36 season rate)
+#   4. Base projection = adjusted rate × projected minutes
+#   5. Blend with Kalman filter for smoothed baseline + regime detection
+#   6. Adjust for opponent defense (additive, per-game stats allowed)
+#   7. Adjust for pace (multiplicative, expected game pace)
+#   8. Adjust for rest (B2B penalty / rest bonus) and home/away
+#   9. Rate-based variance: std(rate) × proj_min × VAR_MULT
+#  10. Student's t-distribution for cover probability, uniform threshold
 
 import math
 import unicodedata
@@ -29,6 +29,7 @@ from player_kalman import get_player_projection, PLAYER_KALMAN_DEFAULTS
 from sources.game_context import (
     B2B_PENALTIES, REST_BONUS, detect_b2b_from_game_logs, detect_rest_days,
     compute_home_away_split, compute_per_minute_rates,
+    compute_weighted_per_minute_rates,
     project_minutes, rate_based_projection,
     is_player_out,
 )
@@ -141,6 +142,28 @@ def _weighted_std(values, decay=DECAY_FACTOR):
     w_sum = sum(weights)
     var = sum(w * (v - avg) ** 2 for v, w in zip(values, weights)) / w_sum
     return math.sqrt(max(var, 0.5))
+
+
+def _weighted_rate_std(games, stat_key, decay=DECAY_FACTOR, min_minutes=MIN_MINUTES):
+    """
+    Weighted std of per-minute rates.
+
+    This captures how variable a player's production RATE is, independent
+    of minutes. Multiply by projected minutes to get stat-level std.
+
+    Uses its own variance floor (0.001) appropriate for per-minute rates,
+    NOT the raw-stat floor (0.5) in _weighted_std.
+    """
+    qualified = [g for g in games if g.get("min", 0) >= min_minutes and g.get("min", 0) > 0]
+    if len(qualified) < 2:
+        return 0.15  # safe default per-min std (~5 pts in 33 min)
+    rates = [g.get(stat_key, 0) / g["min"] for g in qualified]
+    n = len(rates)
+    weights = [decay ** (n - 1 - i) for i in range(n)]
+    w_sum = sum(weights)
+    avg = sum(r * w for r, w in zip(rates, weights)) / w_sum
+    var = sum(w * (r - avg) ** 2 for r, w in zip(rates, weights)) / w_sum
+    return math.sqrt(max(var, 0.001))  # floor appropriate for per-min rates
 
 
 # ---------------------------------------------------------------------------
@@ -256,8 +279,8 @@ def project_player_props(player_logs, team_def_stats=None, prop_lines=None,
         # Get player position for position-specific defense adjustment
         player_pos = (player_positions or {}).get(int(pid)) if player_positions else None
 
-        # --- Per-minute rates ---
-        rates = compute_per_minute_rates(qualified)
+        # --- Per-minute rates (exponentially weighted) ---
+        rates = compute_weighted_per_minute_rates(qualified, decay=DECAY_FACTOR)
 
         # --- Projected minutes ---
         is_b2b = detect_b2b_from_game_logs(games, game_date)
@@ -278,32 +301,45 @@ def project_player_props(player_logs, team_def_stats=None, prop_lines=None,
             if len(vals) < min_g:
                 continue
 
-            # --- Rolling average (traditional) ---
-            rolling_avg = _weighted_avg(vals)
-            rolling_std = _weighted_std(vals) * VAR_MULT.get(market, 1.2)
+            # =============================================================
+            # CORE: Rate × Minutes projection
+            # =============================================================
+            # Instead of averaging raw stats (which lags when minutes change),
+            # compute per-minute rate and multiply by projected minutes.
+            # This adapts immediately to role/minute changes.
 
-            # --- Rate blend (points only — helps points, hurts other markets) ---
             rate_key = f"{stat_key}_per_min"
-            if market == "points" and rate_key in rates and rates[rate_key] > 0:
-                rate_proj = rate_based_projection(rates[rate_key], proj_min)
-                blended_raw = 0.3 * rate_proj + 0.7 * rolling_avg
-            else:
-                blended_raw = rolling_avg
+            per_min_rate = rates.get(rate_key, 0)
 
-            # --- Season anchor (per-36 baseline) ---
+            if per_min_rate <= 0:
+                # Fallback: raw rolling avg if rate unavailable
+                per_min_rate = _weighted_avg(vals) / proj_min if proj_min > 0 else 0
+                if per_min_rate <= 0:
+                    continue
+
+            # --- Season anchor at RATE level (not raw stat level) ---
             anchor_w = SEASON_ANCHOR_WEIGHT.get(market, 0.0)
             if anchor_w > 0 and player_per36:
                 p36_key = PER36_STAT_KEY.get(market)
                 p36 = (player_per36.get(str(pid)) or {}).get(p36_key) if p36_key else None
                 if p36 is not None and p36 > 0:
-                    season_baseline = p36 * (proj_min / 36.0)
-                    blended_raw = (1 - anchor_w) * blended_raw + anchor_w * season_baseline
+                    season_rate = p36 / 36.0  # per-minute rate from season
+                    per_min_rate = (1 - anchor_w) * per_min_rate + anchor_w * season_rate
+
+            # Base projection: rate × projected minutes
+            base_proj = per_min_rate * proj_min
+
+            # --- Rate-based variance ---
+            # Std of per-minute rates × projected minutes = honest stat-level std.
+            # This scales with minutes: more minutes = more total variance.
+            rate_std = _weighted_rate_std(qualified, stat_key)
+            proj_std = rate_std * proj_min * VAR_MULT.get(market, 1.2)
 
             # --- Kalman blending ---
             kalman_key = KALMAN_STAT_KEYS.get(market)
             proj, std = _blend_with_kalman(
                 kalman_state, str(pid), kalman_key,
-                blended_raw, rolling_std,
+                base_proj, proj_std,
             )
 
             # --- Opponent adjustment (position-specific if available) ---
@@ -370,62 +406,7 @@ def project_player_props(player_logs, team_def_stats=None, prop_lines=None,
 
             prop = _make_prop(name, team, "pts_rebs_asts", proj, std, line_lookup, latest_opp)
             if prop:
-                # Gate: PRA only fires if at least one individual stat (pts/reb/ast)
-                # fires in the same direction — prevents PRA from triggering in
-                # isolation or contradicting its own components
-                pra_direction = prop.get("pick")
-                if pra_direction not in ("PASS", None):
-                    same_direction = any(
-                        p for p in projections
-                        if p.get("player") == name
-                        and p.get("market") in ("points", "rebounds", "assists")
-                        and p.get("pick") == pra_direction
-                    )
-                    if not same_direction:
-                        prop["pick"] = "PASS"
-                        prop["conf"] = "low"
                 projections.append(prop)
-
-    # --- Paired teammate filter ---
-    # When 2+ teammates both pick the same direction in a stat, the correlation
-    # between them drags down win rate. Skip all when paired.
-    # Assists OVER: solo 66.3% vs paired 57.1%
-    # Points UNDER: solo 69.7% vs paired 42.9%
-    from collections import defaultdict
-    # Skip all paired: points UNDER
-    # Assists OVER: keep best pCover only (paired 57.1% vs solo 66.3%)
-    paired_skip_all = [
-        ("points", "UNDER"),
-    ]
-    for market, direction in paired_skip_all:
-        by_team = defaultdict(list)
-        for p in projections:
-            if p.get("market") == market and p.get("pick") == direction:
-                by_team[p.get("team", "")].append(p)
-        for team, picks in by_team.items():
-            if len(picks) >= 2:
-                for p in picks:
-                    p["pick"] = "PASS"
-                    p["conf"] = "low"
-
-    # Paired UNDER: keep only the highest pCover, skip the rest
-    # pCover includes edge + variance — more complete signal
-    paired_keep_best = [
-        ("rebounds", "UNDER"),
-        ("assists", "UNDER"),
-        ("assists", "OVER"),
-    ]
-    for market, direction in paired_keep_best:
-        by_team = defaultdict(list)
-        for p in projections:
-            if p.get("market") == market and p.get("pick") == direction:
-                by_team[p.get("team", "")].append(p)
-        for team, picks in by_team.items():
-            if len(picks) >= 2:
-                picks.sort(key=lambda x: -(x.get("pCover") or 0))
-                for p in picks[1:]:
-                    p["pick"] = "PASS"
-                    p["conf"] = "low"
 
     return projections
 
@@ -718,12 +699,11 @@ def _make_prop(name, team, market, proj, std, line_lookup, opp):
         result["edge"] = round(diff, 1)
         result["pCover"] = round(best_p, 3)
 
-        mkt_thresh = MARKET_THRESHOLDS.get(market, {"high": 0.58})
+        mkt_thresh = MARKET_THRESHOLDS.get(market, {"high": 0.65})
         direction = "OVER" if p_over > p_under else "UNDER"
 
-        # Directional threshold: use high_under for UNDER if available
-        thresh = mkt_thresh.get("high_under" if direction == "UNDER" else "high",
-                                mkt_thresh["high"])
+        # Single uniform threshold — no directional hacks
+        thresh = mkt_thresh["high"]
         if best_p >= thresh:
 
             if market in UNDER_ONLY_MARKETS and direction == "OVER":
@@ -732,14 +712,6 @@ def _make_prop(name, team, market, proj, std, line_lookup, opp):
             abs_edge = abs(diff)
             min_e = MIN_EDGE.get(market, 0)
             max_e = MAX_EDGE.get(market, 999)
-
-            # Directional edge overrides for points
-            if market == "points":
-                if direction == "OVER":
-                    min_e, max_e = 4.0, 5.6  # inclusive 5.5 (<=5.5)
-                else:
-                    min_e, max_e = 4.5, 5.5
-
             if abs_edge < min_e or abs_edge > max_e:
                 return result
 
