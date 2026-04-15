@@ -69,6 +69,31 @@ def _normalize_game_log(g):
     return g
 
 
+def _calc_pick_units(odds, won):
+    """Calculate units for a single pick using actual odds."""
+    if odds is not None:
+        odds = int(odds)
+        if won:
+            return odds / 100.0 if odds > 0 else 100.0 / abs(odds)
+        else:
+            return -1.0 if odds > 0 else -abs(odds) / 100.0
+    else:
+        return 1.0 if won else -1.1
+
+
+def _calc_units(picks):
+    """Calculate total units from backfill picks (have 'won' and 'odds')."""
+    return sum(_calc_pick_units(p.get("odds"), p["won"]) for p in picks)
+
+
+def _calc_units_from_dashboard(picks):
+    """Calculate total units from dashboard picks (have 'result' and 'odds')."""
+    return sum(
+        _calc_pick_units(p.get("odds"), p["result"] == "WIN")
+        for p in picks if p.get("result") in ("WIN", "LOSS")
+    )
+
+
 # ---------------------------------------------------------------------------
 # Backfill
 # ---------------------------------------------------------------------------
@@ -458,7 +483,7 @@ def _print_summary(results, total_projected, season):
 
         wins = sum(1 for p in picks if p["won"])
         losses = len(picks) - wins
-        units = wins * 1.0 + losses * (-1.1)
+        units = _calc_units(picks)
         pct = wins / max(1, wins + losses) * 100
 
         grand_w += wins
@@ -517,6 +542,7 @@ def write_dashboard_json(results, season):
                 "pCover": p["pCover"],
                 "conf": p["conf"],
                 "odds": p.get("odds"),
+                "to_win_1u": p.get("to_win_1u"),
                 "actual": p["actual"],
                 "result": "WIN" if p["won"] else "LOSS",
                 "date": p.get("date", ""),
@@ -526,7 +552,7 @@ def write_dashboard_json(results, season):
 
     total_w = sum(1 for p in all_picks if p["result"] == "WIN")
     total_l = sum(1 for p in all_picks if p["result"] == "LOSS")
-    units = total_w * 1.0 + total_l * (-1.1)
+    units = _calc_units_from_dashboard(all_picks)
 
     dashboard = {
         "sport": "mlb",
