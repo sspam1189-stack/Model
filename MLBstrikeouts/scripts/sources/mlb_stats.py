@@ -139,14 +139,20 @@ def fetch_pitcher_game_logs(season=None):
     """
     season = season or _current_season()
     cache_path = CACHE_DIR / f"game_logs_{season}.json"
+    batter_cache_path = CACHE_DIR / f"batter_game_logs_{season}.json"
 
-    cached = _load_cache(cache_path, same_day=True)
-    if cached is not None:
-        print(f"  [mlb_stats] Using cached game logs ({len(cached)} entries)")
-        return cached
+    # Load existing cache (never expires — we incrementally add new games)
+    existing_rows = _load_cache(cache_path) or []
+    existing_batter_logs = _load_cache(batter_cache_path) or {}
+
+    # Build set of already-cached game PKs to skip
+    cached_game_ids = set()
+    for r in existing_rows:
+        gid = r.get("game_id")
+        if gid:
+            cached_game_ids.add(gid)
 
     # Step 1: Get all completed regular-season games from the schedule
-    # Use season date range (spring training excluded by gameType filter in boxscore)
     start_date = f"{season}-03-20"
     end_date = date.today().strftime("%Y-%m-%d")
 
@@ -160,31 +166,35 @@ def fetch_pitcher_game_logs(season=None):
         sched = _fetch_json(schedule_url)
     except Exception as e:
         print(f"  [mlb_stats] Schedule fetch failed: {e}")
-        return []
+        return existing_rows if existing_rows else []
 
-    # Collect completed game PKs
-    game_pks = []
+    # Collect completed game PKs, skip already-cached ones
+    all_game_pks = []
     for d in sched.get("dates", []):
         for g in d.get("games", []):
             status = g.get("status", {}).get("abstractGameState", "")
             if status == "Final":
-                game_pks.append({
+                all_game_pks.append({
                     "pk": g["gamePk"],
                     "date": g.get("officialDate", ""),
                     "home_id": g.get("teams", {}).get("home", {}).get("team", {}).get("id"),
                     "away_id": g.get("teams", {}).get("away", {}).get("team", {}).get("id"),
                 })
 
-    print(f"  [mlb_stats] {len(game_pks)} completed games, fetching boxscores...")
+    new_game_pks = [g for g in all_game_pks if g["pk"] not in cached_game_ids]
 
-    # Step 2: Fetch boxscore for each game, extract starting pitcher stats
-    # Also extract batting orders per team per date for lineup handedness cache
-    # Also extract batter hitting stats (cached separately for fetch_batter_game_logs)
-    rows = []
+    if not new_game_pks:
+        print(f"  [mlb_stats] Using cached game logs ({len(existing_rows)} entries, 0 new games)")
+        return existing_rows
+
+    print(f"  [mlb_stats] {len(all_game_pks)} completed games, {len(new_game_pks)} new to fetch ({len(cached_game_ids)} cached)")
+
+    # Step 2: Fetch boxscore for NEW games only, extract pitcher + batter stats
+    rows = list(existing_rows)
     batting_orders_by_date = {}  # {date: {team_abbr: [player_ids]}}
-    batter_logs = {}  # {batter_id: [game_rows]} — built alongside pitcher logs
+    batter_logs = {int(k): v for k, v in existing_batter_logs.items()} if existing_batter_logs else {}
 
-    for i, gm in enumerate(game_pks):
+    for i, gm in enumerate(new_game_pks):
         try:
             box_url = f"{BASE_URL}.1/game/{gm['pk']}/feed/live"
             live = _fetch_json(box_url)
@@ -313,10 +323,11 @@ def fetch_pitcher_game_logs(season=None):
             })
 
         if (i + 1) % 50 == 0:
-            print(f"  [mlb_stats] Processed {i+1}/{len(game_pks)} games ({len(rows)} pitcher starts)")
+            print(f"  [mlb_stats] Processed {i+1}/{len(new_game_pks)} new games")
         time.sleep(0.15)  # light rate limiting
 
-    print(f"  [mlb_stats] Fetched {len(rows)} pitcher starts from {len(game_pks)} games")
+    new_pitcher_count = len(rows) - len(existing_rows)
+    print(f"  [mlb_stats] Fetched {new_pitcher_count} new pitcher starts from {len(new_game_pks)} new games (total: {len(rows)})")
 
     # Cache batting orders by date (used by fetch_lineup_handedness)
     bo_cache_path = CACHE_DIR / f"batting_orders_{season}.json"
@@ -977,7 +988,10 @@ def fetch_lineup_handedness(date_str, bat_sides=None, season=None):
     """
     cache_path = CACHE_DIR / f"lineup_handedness_{date_str}.json"
 
-    cached = _load_cache(cache_path, max_age_hours=None)  # lineups don't change
+    from datetime import date as dt_date_check
+    is_today = date_str >= dt_date_check.today().strftime("%Y-%m-%d")
+    # Today's lineups change (1hr TTL), past dates never expire
+    cached = _load_cache(cache_path, max_age_hours=CACHE_FRESHNESS_HOURS if is_today else None)
     if cached is not None:
         return cached
 
@@ -1133,7 +1147,7 @@ def fetch_batter_game_logs(season=None):
     season = season or _current_season()
     cache_path = CACHE_DIR / f"batter_game_logs_{season}.json"
 
-    cached = _load_cache(cache_path, same_day=True)
+    cached = _load_cache(cache_path)
     if cached is not None:
         total = sum(len(v) for v in cached.values())
         print(f"  [mlb_stats] Using cached batter game logs ({len(cached)} batters, {total} entries)")
