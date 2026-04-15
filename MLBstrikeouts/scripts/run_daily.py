@@ -241,7 +241,7 @@ def run_daily(date_key=None):
     # Stage 1: Load Kalman state
     print(f"\n  [1/19] Loading Kalman state...")
     kalman_state = load_pitcher_kalman_state(KALMAN_STATE_PATH)
-    n_pitchers = len(kalman_state.get("players", {}))
+    n_pitchers = len(kalman_state.get("pitchers", {}))
     print(f"  Kalman state: {n_pitchers} pitchers tracked")
 
     # Stage 2: Fetch pitcher game logs
