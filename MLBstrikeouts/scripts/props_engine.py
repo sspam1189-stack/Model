@@ -413,35 +413,115 @@ def project_pitcher_props(pitcher_logs, team_batting_stats=None,
                 expected_k_rate = (pitcher_k_rate * lineup_k_rate) / lg_k_rate
                 expected_k_rate = max(0.05, min(0.50, expected_k_rate))  # sanity bounds
 
-                # --- Projected batters faced ---
-                whip = adv.get("WHIP", 0) or 1.20
-                batters_per_inning = 3.0 + whip * 0.7
-                projected_bf = proj_ip * batters_per_inning
+                # --- Projected batters faced (from rolling efficiency) ---
+                # Use game-log efficiency instead of season WHIP:
+                # pitches_per_bf and avg pitch count → expected BF
+                game_bfs = []
+                game_pcs = []
+                game_ppbfs = []
+                for g in qualified:
+                    _outs = g.get("outs", 0)
+                    _h = g.get("h", 0)
+                    _bb = g.get("bb", 0)
+                    _pc = g.get("pitches", 0)
+                    _bf = _outs + _h + _bb + 1  # +1 approx HBP
+                    if _bf > 0 and _pc > 0:
+                        game_bfs.append(_bf)
+                        game_pcs.append(_pc)
+                        game_ppbfs.append(_pc / _bf)
+
+                if game_ppbfs:
+                    # Rolling weighted efficiency
+                    avg_ppbf = _weighted_avg(game_ppbfs)
+                    avg_pc = _weighted_avg(game_pcs)
+                    # BF = pitch count ceiling / pitches per batter
+                    projected_bf = avg_pc / avg_ppbf if avg_ppbf > 0 else 24.0
+                else:
+                    whip = adv.get("WHIP", 0) or 1.20
+                    projected_bf = proj_ip * (3.0 + whip * 0.7)
+
+                # --- Weather effect on K ---
+                # Cold + wind in = slightly more K (worse contact, less carry)
+                k_weather_mult = 1.0
+                if weather_by_game:
+                    _game_id = ctx.get("game_id")
+                    if _game_id:
+                        w_data = (weather_by_game.get(_game_id)
+                                  or weather_by_game.get(str(_game_id)))
+                        if w_data:
+                            import re as _re
+                            _temp_m = _re.search(r"(\d+)", str(w_data.get("temp", "")))
+                            if _temp_m:
+                                _temp = int(_temp_m.group(1))
+                                if _temp <= 50:
+                                    k_weather_mult += 0.02  # cold = more K
+                                elif _temp >= 90:
+                                    k_weather_mult -= 0.01  # hot = less K (better bat speed)
 
                 # --- K projection ---
-                model_proj = expected_k_rate * projected_bf
+                model_proj = expected_k_rate * projected_bf * k_weather_mult
 
-                # --- Kalman blend (still useful for tracking pitcher's trend) ---
+                # --- Kalman blend (tracks pitcher's K trend) ---
                 kalman_key = KALMAN_STAT_KEYS.get(market)
                 kalman_proj, _ = _blend_with_kalman(
                     kalman_state, str(pid), kalman_key,
                     model_proj, rolling_std,
                 )
-                # Blend: 60% rate-based, 40% Kalman (Kalman tracks raw K trend)
+                # 60% rate-based, 40% Kalman
                 model_proj = 0.6 * model_proj + 0.4 * kalman_proj
 
                 # Rest adjustment
                 model_proj = _apply_rest_adjustment(model_proj, market, rest_days)
 
             # =============================================================
-            # OUTS (and other markets): Rolling avg + Kalman approach
+            # OUTS: Efficiency-based projection with run environment
+            #
+            # Outs = f(pitch count ceiling, efficiency, run environment)
+            #
+            # High-run environment (hot, wind out, hitter park) = more
+            # baserunners = higher pitch counts = earlier hook = fewer outs.
             # =============================================================
             else:
+                # --- Rolling efficiency from game logs ---
+                game_pcs = []     # pitch counts
+                game_ppbfs = []   # pitches per batter faced
+                game_bfs = []     # batters faced
+                for g in qualified:
+                    _outs = g.get("outs", 0)
+                    _h = g.get("h", 0)
+                    _bb = g.get("bb", 0)
+                    _pc = g.get("pitches", 0)
+                    _bf = _outs + _h + _bb + 1
+                    if _bf > 0 and _pc > 0:
+                        game_pcs.append(_pc)
+                        game_ppbfs.append(_pc / _bf)
+                        game_bfs.append(_bf)
+
                 rolling_avg = _weighted_avg(vals)
-                rate_key = f"{stat_key}_per_ip"
-                if rate_key in rates and rates[rate_key] > 0:
-                    rate_proj = rate_based_projection(rates[rate_key], proj_ip)
-                    model_proj = 0.4 * rate_proj + 0.6 * rolling_avg
+
+                if game_ppbfs and game_pcs:
+                    # Efficiency-based: BF from pitch count / pitches per BF
+                    avg_ppbf = _weighted_avg(game_ppbfs)
+                    avg_pc = _weighted_avg(game_pcs)
+                    efficiency_bf = avg_pc / avg_ppbf if avg_ppbf > 0 else 24.0
+
+                    # Opponent patience adjustment
+                    # High-OBP teams see more pitches → fewer BF in same pitch count
+                    opp_obp = (team_batting_stats or {}).get(latest_opp, {}).get("OPS", 0.700)
+                    lg_ops = league_avg.get("OPS", 0.700) or 0.700
+                    if opp_obp > 0 and lg_ops > 0:
+                        patience_adj = 1.0 - (opp_obp - lg_ops) * 0.5
+                        efficiency_bf *= patience_adj
+
+                    # Convert BF to outs: not all BF are outs
+                    # out_rate = outs / BF from recent games
+                    total_outs = sum(g.get("outs", 0) for g in qualified)
+                    total_bf = sum(game_bfs) if game_bfs else 1
+                    out_rate = total_outs / total_bf if total_bf > 0 else 0.70
+                    outs_from_efficiency = efficiency_bf * out_rate
+
+                    # Blend with rolling avg (efficiency is better but rolling is stable)
+                    model_proj = 0.5 * outs_from_efficiency + 0.5 * rolling_avg
                 else:
                     model_proj = rolling_avg
 
@@ -474,6 +554,23 @@ def project_pitcher_props(pitcher_logs, team_batting_stats=None,
                     model_proj += split["home_split_adj"]
                 elif not is_home and split.get("away_split_adj"):
                     model_proj += split["away_split_adj"]
+
+                # --- Run environment adjustment (outs are very sensitive) ---
+                # High-run env = shorter outings = fewer outs
+                if weather_by_game:
+                    _game_id = ctx.get("game_id")
+                    if _game_id:
+                        w_data = (weather_by_game.get(_game_id)
+                                  or weather_by_game.get(str(_game_id)))
+                        if w_data:
+                            _home_team = ctx.get("team") if is_home else ctx.get("opp", "")
+                            # Reuse weather multiplier — but for outs, INVERT it
+                            # and amplify: outs are 0.8x as sensitive as hits
+                            w_mult = compute_weather_multiplier(w_data, _home_team)
+                            # w_mult > 1.0 means more hits expected → fewer outs
+                            # w_mult < 1.0 means fewer hits → more outs
+                            outs_mult = 1.0 - (w_mult - 1.0) * 0.8
+                            model_proj *= outs_mult
 
             # --- Final projection ---
             proj = model_proj
