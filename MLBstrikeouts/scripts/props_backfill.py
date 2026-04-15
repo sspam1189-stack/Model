@@ -39,6 +39,7 @@ from sources.mlb_stats import (
     fetch_pitcher_handedness_splits,
     fetch_player_bat_sides, fetch_lineup_handedness,
     fetch_batter_k_rates, load_pitch_hands,
+    fetch_savant_pitcher_rates,
     CACHE_DIR,
 )
 
@@ -128,11 +129,13 @@ def backfill(season=None, start_game=10, start_date=None):
     bat_sides = fetch_player_bat_sides(season=season)
     print(f"  {len(bat_sides)} players with bat-side data")
 
-    # Load batter K rates + pitcher hands
-    print(f"  Loading batter K rates...")
+    # Load batter K rates + pitcher hands + Savant rates
+    print(f"  Loading batter K rates + Savant pitcher rates...")
     batter_k_rates = fetch_batter_k_rates(season=season)
     print(f"  {len(batter_k_rates)} batters with K rates")
     pitch_hands = load_pitch_hands(season=season)
+    savant_rates = fetch_savant_pitcher_rates(season=season)
+    print(f"  {len(savant_rates)} pitchers with Savant K%/whiff%")
 
     # Inject pitcher hand into adv_stats
     for pid_str, adv in adv_stats.items():
@@ -247,6 +250,49 @@ def backfill(season=None, start_game=10, start_date=None):
         for abbr, order in date_bo.items():
             date_lineup_data[abbr] = {"player_ids": order}
 
+        # Build probable_pitchers from today's actual game logs
+        # (who actually started — mirrors what run_daily gets from schedule)
+        date_probable = []
+        today_starters = [
+            g for g in all_logs
+            if g.get("game_date", "") == game_date and g.get("IP", g.get("ip", 0)) >= 3.0
+        ]
+        # Group by game_id to pair home/away
+        from collections import defaultdict
+        games_by_id = defaultdict(list)
+        for g in today_starters:
+            gid = g.get("game_id", "")
+            if gid:
+                games_by_id[gid].append(g)
+        for gid, starters in games_by_id.items():
+            gm = {"game_id": gid}
+            for g in starters:
+                pid = g.get("pitcher_id") or g.get("player_id")
+                pname = g.get("pitcher_name") or g.get("player_name", "")
+                team = g.get("team", "")
+                opp = g.get("opp", g.get("opponent", ""))
+                is_home = g.get("is_home", False)
+                if is_home:
+                    gm["home_team"] = team
+                    gm["away_team"] = opp
+                    gm["home_pitcher_id"] = pid
+                    gm["home_pitcher_name"] = pname
+                else:
+                    gm["away_team"] = team
+                    gm["home_team"] = opp
+                    gm["away_pitcher_id"] = pid
+                    gm["away_pitcher_name"] = pname
+            date_probable.append(gm)
+
+        # Build pitcher_splits for today's starters
+        date_splits = {}
+        for g in today_starters:
+            pid = g.get("pitcher_id") or g.get("player_id")
+            if pid and str(pid) not in date_splits:
+                s = fetch_pitcher_handedness_splits(pid, season=season)
+                if s:
+                    date_splits[str(pid)] = s
+
         # Phase 3: Project props using prior data + current Kalman state
         projections = project_pitcher_props(
             prior_logs,
@@ -255,10 +301,21 @@ def backfill(season=None, start_game=10, start_date=None):
             kalman_state=kalman_state,
             pitcher_adv_stats=adv_stats,
             pitcher_sabermetrics=saber_stats,
+            pitcher_splits=date_splits,
+            probable_pitchers=date_probable,
             weather_by_game=weather_data,
             batter_k_rates=batter_k_rates,
             lineup_data=date_lineup_data,
+            savant_rates=savant_rates,
         )
+
+        # Save ALL projections for this date (for Games Explorer)
+        latest_all_projections = [
+            p for p in projections
+            if p.get("line") is not None and p.get("proj") is not None
+        ]
+        for p in latest_all_projections:
+            p["date"] = game_date
 
         # Phase 4: Grade projections against actuals
         date_picks = 0

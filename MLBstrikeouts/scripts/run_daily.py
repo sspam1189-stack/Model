@@ -44,6 +44,7 @@ from sources.mlb_stats import (
     fetch_today_probable_pitchers,
     fetch_player_bat_sides, fetch_lineup_handedness,
     fetch_batter_k_rates, load_pitch_hands,
+    fetch_savant_pitcher_rates,
 )
 from sources.weather import fetch_game_weather
 from sources.odds_fanduel import fetch_fanduel_mlb_props
@@ -318,10 +319,11 @@ def run_daily(date_key=None):
         pass
 
     # Fetch batter K rates (bulk, 2 API calls)
-    print(f"\n  [9b/17] Fetching batter K rates...")
+    print(f"\n  [9b/17] Fetching batter K rates + Savant pitcher rates...")
     batter_k_rates = fetch_batter_k_rates(season=season)
     pitch_hands = load_pitch_hands(season=season)
-    print(f"  {len(batter_k_rates)} batters with K rates")
+    savant_rates = fetch_savant_pitcher_rates(season=season)
+    print(f"  {len(batter_k_rates)} batters, {len(savant_rates)} pitchers with Savant K%/whiff%")
 
     # Inject pitcher hand into adv_stats for props_engine K% lookup
     for pid_str, adv in adv_stats.items():
@@ -383,6 +385,7 @@ def run_daily(date_key=None):
         weather_by_game=weather_data,
         batter_k_rates=batter_k_rates,
         lineup_data=lineup_data,
+        savant_rates=savant_rates,
     )
     picks = [p for p in projections if p["pick"] != "PASS"]
     print(f"  {len(projections)} projections, {len(picks)} actionable picks")

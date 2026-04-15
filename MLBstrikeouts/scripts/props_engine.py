@@ -190,7 +190,8 @@ def project_pitcher_props(pitcher_logs, team_batting_stats=None,
                           pitcher_adv_stats=None, pitcher_sabermetrics=None,
                           pitcher_splits=None, probable_pitchers=None,
                           injury_report=None, weather_by_game=None,
-                          batter_k_rates=None, lineup_data=None):
+                          batter_k_rates=None, lineup_data=None,
+                          savant_rates=None):
     """
     Project pitcher props for all pitchers with sufficient game logs.
 
@@ -336,129 +337,161 @@ def project_pitcher_props(pitcher_logs, team_batting_stats=None,
             if len(vals) < min_g:
                 continue
 
-            # =============================================================
-            # LINE-ANCHORED PROJECTION MODEL
-            #
-            # Philosophy: the market line is the best starting point.
-            # Our model's job is to find where the line is WRONG, not
-            # to build an independent projection from scratch.
-            #
-            # With 2-3 starts, our rolling avg is noise. The line
-            # incorporates career stats, sharp money, injury news,
-            # lineup info — things we don't have. So we start with
-            # the line and only deviate when we have real signal.
-            #
-            # As data accumulates (7+ starts), our model earns more
-            # weight because the rolling avg becomes reliable.
-            # =============================================================
-
             n_games = len(vals)
-
-            # --- 1. Build model projection (same as before) ---
-            rolling_avg = _weighted_avg(vals)
             rolling_std = _weighted_std(vals) * VAR_MULT.get(market, 1.2)
 
-            rate_key = f"{stat_key}_per_ip"
-            if rate_key in rates and rates[rate_key] > 0:
-                rate_proj = rate_based_projection(rates[rate_key], proj_ip)
-                model_proj = 0.4 * rate_proj + 0.6 * rolling_avg
+            # =============================================================
+            # STRIKEOUTS: Rate × Batters Faced projection
+            #
+            # K = pitcher_k_rate_vs_lineup × projected_batters_faced
+            #
+            # Pitcher K rate comes from:
+            #   1. Splits: K% vs LHB and K% vs RHB (most granular)
+            #   2. Savant: overall K% and whiff% (supplementary)
+            #   3. MLB API: season K% = k / bf (fallback)
+            #   4. Kalman-tracked K rate (adaptive baseline)
+            #
+            # Lineup K tendency from:
+            #   1. Individual batter K% vs pitcher hand
+            #
+            # Combined via log5: (pitcher_rate × lineup_rate) / league_rate
+            # =============================================================
+            if market == "strikeouts":
+                # --- Pitcher K rate by handedness ---
+                vl = splits.get("vs_left", {})
+                vr = splits.get("vs_right", {})
+                vl_k, vl_pa = vl.get("k", 0), vl.get("pa", 0)
+                vr_k, vr_pa = vr.get("k", 0), vr.get("pa", 0)
+
+                k_rate_vs_lhb = vl_k / vl_pa if vl_pa > 0 else 0.0
+                k_rate_vs_rhb = vr_k / vr_pa if vr_pa > 0 else 0.0
+
+                # Fallback: overall K% from advanced stats or Savant
+                overall_k_pct = adv.get("k_pct", 0) or 0.0
+                savant = (savant_rates or {}).get(str(pid), {})
+                savant_k_pct = savant.get("k_pct", 0) or 0.0
+
+                if overall_k_pct == 0 and savant_k_pct > 0:
+                    overall_k_pct = savant_k_pct
+                elif overall_k_pct == 0:
+                    # Compute from game logs
+                    total_k = sum(g.get("k", 0) for g in qualified)
+                    total_ip = sum(g.get("IP", g.get("ip", 0)) for g in qualified)
+                    est_bf = sum(
+                        int(g.get("IP", g.get("ip", 0)) * 3) + g.get("h", 0) + g.get("bb", 0)
+                        for g in qualified
+                    )
+                    overall_k_pct = total_k / est_bf if est_bf > 0 else 0.20
+
+                # If no split data, use overall for both sides
+                if k_rate_vs_lhb == 0:
+                    k_rate_vs_lhb = overall_k_pct
+                if k_rate_vs_rhb == 0:
+                    k_rate_vs_rhb = overall_k_pct
+
+                # Weight by tonight's lineup handedness
+                opp_stats = (team_batting_stats or {}).get(latest_opp, {})
+                pct_lhb = opp_stats.get("PCT_LHB", 0.40)
+
+                pitcher_k_rate = k_rate_vs_lhb * pct_lhb + k_rate_vs_rhb * (1.0 - pct_lhb)
+
+                # --- Lineup K tendency ---
+                lineup_k_rate = league_avg.get("K_PCT", 0.22)  # default
+                if batter_k_rates and lineup_data:
+                    opp_lineup = lineup_data.get(latest_opp, {})
+                    opp_player_ids = opp_lineup.get("player_ids", [])
+                    if opp_player_ids:
+                        _pitch_hand = adv.get("pitch_hand", "R")
+                        from sources.mlb_stats import compute_lineup_k_pct
+                        lk = compute_lineup_k_pct(opp_player_ids, batter_k_rates, _pitch_hand)
+                        if lk.get("lineup_k_pct_vs_hand", 0) > 0:
+                            lineup_k_rate = lk["lineup_k_pct_vs_hand"]
+
+                # --- Log5 combination ---
+                # expected_rate = (pitcher × lineup) / league
+                lg_k_rate = league_avg.get("K_PCT", 0.22) or 0.22
+                expected_k_rate = (pitcher_k_rate * lineup_k_rate) / lg_k_rate
+                expected_k_rate = max(0.05, min(0.50, expected_k_rate))  # sanity bounds
+
+                # --- Projected batters faced ---
+                whip = adv.get("WHIP", 0) or 1.20
+                batters_per_inning = 3.0 + whip * 0.7
+                projected_bf = proj_ip * batters_per_inning
+
+                # --- K projection ---
+                model_proj = expected_k_rate * projected_bf
+
+                # --- Kalman blend (still useful for tracking pitcher's trend) ---
+                kalman_key = KALMAN_STAT_KEYS.get(market)
+                kalman_proj, _ = _blend_with_kalman(
+                    kalman_state, str(pid), kalman_key,
+                    model_proj, rolling_std,
+                )
+                # Blend: 60% rate-based, 40% Kalman (Kalman tracks raw K trend)
+                model_proj = 0.6 * model_proj + 0.4 * kalman_proj
+
+                # Rest adjustment
+                model_proj = _apply_rest_adjustment(model_proj, market, rest_days)
+
+            # =============================================================
+            # OUTS (and other markets): Rolling avg + Kalman approach
+            # =============================================================
             else:
-                model_proj = rolling_avg
-
-            # --- 2. xFIP anchor (strikeouts, scaled by sample) ---
-            sample_scale = max(0.0, min(1.0, (n_games - 2) / 8.0))
-            if market == "strikeouts" and saber.get("xfip"):
-                k_per_9 = adv.get("K_PER_9", 0) or adv.get("k_per_9", 0)
-                xfip_k9 = _xfip_to_k9(saber["xfip"], k_per_9)
-                if xfip_k9 > 0:
-                    xfip_proj = xfip_k9 * proj_ip / 9.0
-                    w = XFIP_ANCHOR_WEIGHT * sample_scale
-                    model_proj = (1 - w) * model_proj + w * xfip_proj
-
-            # --- 3. Season anchor (scaled by sample) ---
-            anchor_w = SEASON_ANCHOR_WEIGHT.get(market, 0.0) * sample_scale
-            if anchor_w > 0 and adv:
-                season_rate = _get_season_rate(adv, market)
-                if season_rate and season_rate > 0:
-                    season_proj = season_rate * proj_ip / 9.0
-                    model_proj = (1 - anchor_w) * model_proj + anchor_w * season_proj
-
-            # --- 4. Kalman blending ---
-            kalman_key = KALMAN_STAT_KEYS.get(market)
-            model_proj, _ = _blend_with_kalman(
-                kalman_state, str(pid), kalman_key,
-                model_proj, rolling_std,
-            )
-
-            # --- 5. Matchup adjustments ---
-            # Opponent K% (lineup-specific if available)
-            if market == "strikeouts" and batter_k_rates and lineup_data:
-                opp_lineup = lineup_data.get(latest_opp, {})
-                opp_player_ids = opp_lineup.get("player_ids", [])
-                if opp_player_ids:
-                    _pitch_hand = (pitcher_adv_stats or {}).get(str(pid), {}).get("pitch_hand", "R")
-                    from sources.mlb_stats import compute_lineup_k_pct
-                    lineup_k = compute_lineup_k_pct(opp_player_ids, batter_k_rates, _pitch_hand)
-                    lineup_k_vs_hand = lineup_k.get("lineup_k_pct_vs_hand", 0)
-                    if lineup_k_vs_hand > 0 and league_avg.get("K_PCT", 0) > 0:
-                        ratio = lineup_k_vs_hand / league_avg["K_PCT"]
-                        weight = OPP_ADJ_WEIGHT.get("strikeouts", 0.25)
-                        model_proj *= (1.0 + (ratio - 1.0) * weight)
+                rolling_avg = _weighted_avg(vals)
+                rate_key = f"{stat_key}_per_ip"
+                if rate_key in rates and rates[rate_key] > 0:
+                    rate_proj = rate_based_projection(rates[rate_key], proj_ip)
+                    model_proj = 0.4 * rate_proj + 0.6 * rolling_avg
                 else:
-                    model_proj = _apply_opp_adjustment(model_proj, market, latest_opp,
-                                                       team_batting_stats, league_avg)
-            else:
+                    model_proj = rolling_avg
+
+                # Season anchor (scaled by sample)
+                sample_scale = max(0.0, min(1.0, (n_games - 2) / 8.0))
+                anchor_w = SEASON_ANCHOR_WEIGHT.get(market, 0.0) * sample_scale
+                if anchor_w > 0 and adv:
+                    season_rate = _get_season_rate(adv, market)
+                    if season_rate and season_rate > 0:
+                        season_proj = season_rate * proj_ip / 9.0
+                        model_proj = (1 - anchor_w) * model_proj + anchor_w * season_proj
+
+                # Kalman blending
+                kalman_key = KALMAN_STAT_KEYS.get(market)
+                model_proj, _ = _blend_with_kalman(
+                    kalman_state, str(pid), kalman_key,
+                    model_proj, rolling_std,
+                )
+
+                # Opponent adjustment
                 model_proj = _apply_opp_adjustment(model_proj, market, latest_opp,
                                                    team_batting_stats, league_avg)
 
-            # Handedness adjustment
-            model_proj = _apply_handedness_adjustment(model_proj, market, splits,
-                                                      latest_opp, team_batting_stats)
+                # Rest adjustment
+                model_proj = _apply_rest_adjustment(model_proj, market, rest_days)
 
-            # Rest adjustment
-            model_proj = _apply_rest_adjustment(model_proj, market, rest_days)
+                # Home/away split
+                split = compute_home_away_split(games, stat_key)
+                if is_home and split.get("home_split_adj"):
+                    model_proj += split["home_split_adj"]
+                elif not is_home and split.get("away_split_adj"):
+                    model_proj += split["away_split_adj"]
 
-            # Home/away split
-            split = compute_home_away_split(games, stat_key)
-            if is_home and split.get("home_split_adj"):
-                model_proj += split["home_split_adj"]
-            elif not is_home and split.get("away_split_adj"):
-                model_proj += split["away_split_adj"]
-
-            # Weather (hits markets only)
-            if market == "hits_allowed" and weather_by_game:
-                _game_id = ctx.get("game_id")
-                if _game_id:
-                    w_data = (weather_by_game.get(_game_id)
-                              or weather_by_game.get(str(_game_id)))
-                    if w_data:
-                        _home_team = ctx.get("team") if is_home else ctx.get("opp", "")
-                        w_mult = compute_weather_multiplier(w_data, _home_team)
-                        model_proj *= w_mult
-
-            # --- 6. Final projection ---
+            # --- Final projection ---
             proj = model_proj
 
-            # --- 7. Empirical std (replace unreliable sample std) ---
-            # Per-pitcher game-to-game std from 2026 season data.
-            # This is the average within-pitcher variance, NOT between-pitcher.
+            # --- Empirical std ---
             EMPIRICAL_STD = {
-                "strikeouts": 1.9,   # actual per-pitcher std = 1.86
-                "outs": 2.4,         # actual per-pitcher std = 2.44
-                "hits_allowed": 1.9, # actual per-pitcher std = 1.86
+                "strikeouts": 1.9,
+                "outs": 2.4,
             }
             emp_std = EMPIRICAL_STD.get(market, 2.0)
 
             if n_games <= 3:
-                # Don't trust sample std at all — use empirical
                 std = emp_std
             elif n_games <= 7:
-                # Blend toward empirical
-                blend = (n_games - 3) / 4.0  # 0 at 3, 1 at 7
+                blend = (n_games - 3) / 4.0
                 std = emp_std * (1 - blend) + rolling_std * blend
                 std = max(std, emp_std * 0.7)
             else:
-                # Trust sample std but keep a floor
                 std = max(rolling_std, emp_std * 0.5)
 
             # --- 8. Make pick ---

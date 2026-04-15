@@ -286,6 +286,10 @@ def fetch_pitcher_advanced_stats(season=None):
 
             ip = _ip_to_float(stat.get("inningsPitched", "0"))
             gs = stat.get("gamesStarted", 0)
+            bf = stat.get("battersFaced", 0) or 0
+            k = stat.get("strikeOuts", 0) or 0
+            k_pct = round(k / bf, 4) if bf > 0 else 0.0
+
             result[pid] = {
                 "player_name": player_info.get("fullName", ""),
                 "team": split.get("team", {}).get("abbreviation", ""),
@@ -296,7 +300,9 @@ def fetch_pitcher_advanced_stats(season=None):
                 "ERA": _safe_float(stat.get("era", 0) or 0),
                 "ip": ip,
                 "avg_ip": ip / gs if gs > 0 else 0,
-                "k": stat.get("strikeOuts", 0),
+                "k": k,
+                "k_pct": k_pct,
+                "bf": bf,
                 "bb": stat.get("baseOnBalls", 0),
                 "h": stat.get("hits", 0),
                 "hr": stat.get("homeRuns", 0),
@@ -304,6 +310,68 @@ def fetch_pitcher_advanced_stats(season=None):
                 "games_started": gs,
             }
 
+    _save_cache(cache_path, result)
+    return result
+
+
+# ---------------------------------------------------------------------------
+# 2b. Baseball Savant K%/Whiff% (CSV bulk download, free, no auth)
+# ---------------------------------------------------------------------------
+
+def fetch_savant_pitcher_rates(season=None, min_pa=10):
+    """
+    Fetch K%, whiff%, BB% from Baseball Savant custom leaderboard.
+
+    Single CSV download — no per-player calls needed.
+    Returns {player_id_str: {"k_pct": float, "whiff_pct": float, "bb_pct": float}}
+    """
+    import csv
+    import io
+
+    season = season or _current_season()
+    cache_path = CACHE_DIR / f"savant_rates_{season}.json"
+
+    cached = _load_cache(cache_path, max_age_hours=None)
+    if cached is not None:
+        print(f"  [savant] Using cached rates ({len(cached)} pitchers)")
+        return cached
+
+    url = (
+        f"https://baseballsavant.mlb.com/leaderboard/custom"
+        f"?year={season}&type=pitcher&filter=&min={min_pa}"
+        f"&selections=k_percent,whiff_percent,bb_percent"
+        f"&chart=false&csv=true"
+    )
+
+    try:
+        resp = requests.get(url, headers={"User-Agent": "Mozilla/5.0"}, timeout=30)
+        resp.raise_for_status()
+    except Exception as e:
+        print(f"  [savant] Failed to fetch: {e}")
+        return {}
+
+    text = resp.text.lstrip("\ufeff")
+    reader = csv.DictReader(io.StringIO(text))
+
+    result = {}
+    for row in reader:
+        pid = row.get("player_id", "").strip()
+        if not pid:
+            continue
+        try:
+            k_pct = float(row.get("k_percent", 0) or 0) / 100.0  # Savant gives as %
+            whiff_pct = float(row.get("whiff_percent", 0) or 0) / 100.0
+            bb_pct = float(row.get("bb_percent", 0) or 0) / 100.0
+        except (ValueError, TypeError):
+            continue
+
+        result[pid] = {
+            "k_pct": round(k_pct, 4),
+            "whiff_pct": round(whiff_pct, 4),
+            "bb_pct": round(bb_pct, 4),
+        }
+
+    print(f"  [savant] Fetched rates for {len(result)} pitchers")
     _save_cache(cache_path, result)
     return result
 
