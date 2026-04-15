@@ -358,16 +358,23 @@ def project_pitcher_props(pitcher_logs, team_batting_stats=None,
                 blended_raw = rolling_avg
 
             # --- 3. xFIP anchor (strikeouts only) ---
+            # Scale anchor weight by sample size: with 2-3 starts, the season
+            # K/9 and xFIP are just as noisy as the rolling average.
+            # Full weight at 10+ starts, linearly ramp from 0 at 2 starts.
+            n_games = len(vals)
+            sample_scale = max(0.0, min(1.0, (n_games - 2) / 8.0))  # 0 at 2, 1 at 10+
+
             if market == "strikeouts" and saber.get("xfip"):
                 k_per_9 = adv.get("K_PER_9", 0) or adv.get("k_per_9", 0)
                 xfip_k9 = _xfip_to_k9(saber["xfip"], k_per_9)
                 if xfip_k9 > 0:
                     xfip_proj = xfip_k9 * proj_ip / 9.0
-                    blended_raw = ((1 - XFIP_ANCHOR_WEIGHT) * blended_raw
-                                   + XFIP_ANCHOR_WEIGHT * xfip_proj)
+                    scaled_xfip_w = XFIP_ANCHOR_WEIGHT * sample_scale
+                    blended_raw = ((1 - scaled_xfip_w) * blended_raw
+                                   + scaled_xfip_w * xfip_proj)
 
             # --- 4. Season anchor (per-9 baseline) ---
-            anchor_w = SEASON_ANCHOR_WEIGHT.get(market, 0.0)
+            anchor_w = SEASON_ANCHOR_WEIGHT.get(market, 0.0) * sample_scale
             if anchor_w > 0 and adv:
                 season_rate = _get_season_rate(adv, market)
                 if season_rate and season_rate > 0:
