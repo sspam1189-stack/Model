@@ -40,8 +40,8 @@ MARKET_THRESHOLDS = {
     "pass_tds":   0.80,
     "rush_yds":   0.80,
     "rush_att":   0.80,
-    "rec_yds":    0.80,
-    "receptions": 0.80,
+    "rec_yds":    0.90,
+    "receptions": 0.85,
 }
 
 # Opponent adjustment weight (uniform for all markets)

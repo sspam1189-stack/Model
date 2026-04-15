@@ -622,7 +622,7 @@ def backtest_props(seasons, start_week=4):
                         p_under = 1.0 - p_over
                         best_p = max(p_over, p_under)
 
-                        thresh = MARKET_THRESHOLDS.get(market, 0.80)
+                        thresh = MARKET_THRESHOLDS.get(market, 0.80) if isinstance(MARKET_THRESHOLDS.get(market), (int, float)) else 0.80
                         if best_p >= thresh:
                             pick = "OVER" if p_over > p_under else "UNDER"
                             # No filters — let the model prove itself
