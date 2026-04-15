@@ -505,8 +505,11 @@ def fetch_fanduel_mlb_batter_props(date_str=None):
         now = datetime.datetime.now(ZoneInfo("America/Chicago"))
         date_str = now.strftime("%Y%m%d")
 
+    # Normalize date_str: accept both YYYYMMDD and YYYY-MM-DD
+    date_key = date_str.replace("-", "")
+
     # Load existing cache for started-game preservation
-    cp = _batter_props_cache_path(date_str)
+    cp = _batter_props_cache_path(date_key)
     existing_props = _load_cache(cp, max_age_hours=None) or []
 
     # Step 1: Get MLB events from FanDuel
@@ -524,7 +527,7 @@ def fetch_fanduel_mlb_batter_props(date_str=None):
     events = data.get("attachments", {}).get("events", {})
 
     # Filter to actual games on the requested date
-    target_date = f"{date_str[:4]}-{date_str[4:6]}-{date_str[6:8]}"
+    target_date = f"{date_key[:4]}-{date_key[4:6]}-{date_key[6:8]}"
     from datetime import timedelta
     target_dt = datetime.datetime.strptime(target_date, "%Y-%m-%d")
     next_day = (target_dt + timedelta(days=1)).strftime("%Y-%m-%d")
