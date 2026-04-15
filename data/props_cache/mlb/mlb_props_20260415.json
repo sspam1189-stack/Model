@@ -11,8 +11,8 @@
   {
     "player": "Eduardo Rodriguez",
     "line": 5.5,
-    "over_price": -127,
-    "under_price": -104,
+    "over_price": -142,
+    "under_price": 107,
     "market": "hits_allowed",
     "event_home": "BAL",
     "event_away": "ARI"
@@ -20,8 +20,8 @@
   {
     "player": "Eduardo Rodriguez",
     "line": 16.5,
-    "over_price": -108,
-    "under_price": -123,
+    "over_price": -119,
+    "under_price": -112,
     "market": "outs",
     "event_home": "BAL",
     "event_away": "ARI"
@@ -29,8 +29,8 @@
   {
     "player": "Kyle Bradish",
     "line": 15.5,
-    "over_price": -103,
-    "under_price": -128,
+    "over_price": -117,
+    "under_price": -113,
     "market": "outs",
     "event_home": "BAL",
     "event_away": "ARI"
@@ -38,44 +38,80 @@
   {
     "player": "Kyle Bradish",
     "line": 5.5,
-    "over_price": 109,
-    "under_price": -139,
+    "over_price": -111,
+    "under_price": -115,
     "market": "strikeouts",
     "event_home": "BAL",
     "event_away": "ARI"
   },
   {
     "player": "Eduardo Rodriguez",
-    "line": 4.5,
-    "over_price": -149,
-    "under_price": 117,
+    "line": 5.5,
+    "over_price": 117,
+    "under_price": -150,
     "market": "strikeouts",
+    "event_home": "BAL",
+    "event_away": "ARI"
+  },
+  {
+    "player": "Eduardo Rodriguez",
+    "line": 1.5,
+    "over_price": -172,
+    "under_price": 129,
+    "market": "walks",
     "event_home": "BAL",
     "event_away": "ARI"
   },
   {
     "player": "Kyle Bradish",
-    "line": 1.5,
-    "over_price": -181,
-    "under_price": 136,
+    "line": 2.5,
+    "over_price": 124,
+    "under_price": -165,
     "market": "walks",
     "event_home": "BAL",
     "event_away": "ARI"
   },
   {
-    "player": "Eduardo Rodriguez",
-    "line": 2.5,
-    "over_price": 126,
-    "under_price": -168,
-    "market": "walks",
-    "event_home": "BAL",
-    "event_away": "ARI"
+    "player": "Dustin May",
+    "line": 4.5,
+    "over_price": -156,
+    "under_price": 117,
+    "market": "hits_allowed",
+    "event_home": "STL",
+    "event_away": "CLE"
+  },
+  {
+    "player": "Slade Cecconi",
+    "line": 5.5,
+    "over_price": -119,
+    "under_price": -112,
+    "market": "hits_allowed",
+    "event_home": "STL",
+    "event_away": "CLE"
+  },
+  {
+    "player": "Slade Cecconi",
+    "line": 16.5,
+    "over_price": -109,
+    "under_price": -122,
+    "market": "outs",
+    "event_home": "STL",
+    "event_away": "CLE"
+  },
+  {
+    "player": "Dustin May",
+    "line": 14.5,
+    "over_price": -154,
+    "under_price": 116,
+    "market": "outs",
+    "event_home": "STL",
+    "event_away": "CLE"
   },
   {
     "player": "Slade Cecconi",
     "line": 4.5,
-    "over_price": 111,
-    "under_price": -141,
+    "over_price": 108,
+    "under_price": -137,
     "market": "strikeouts",
     "event_home": "STL",
     "event_away": "CLE"
@@ -83,9 +119,27 @@
   {
     "player": "Dustin May",
     "line": 3.5,
-    "over_price": -157,
-    "under_price": 123,
+    "over_price": -137,
+    "under_price": 107,
     "market": "strikeouts",
+    "event_home": "STL",
+    "event_away": "CLE"
+  },
+  {
+    "player": "Slade Cecconi",
+    "line": 1.5,
+    "over_price": -115,
+    "under_price": -115,
+    "market": "walks",
+    "event_home": "STL",
+    "event_away": "CLE"
+  },
+  {
+    "player": "Dustin May",
+    "line": 2.5,
+    "over_price": 140,
+    "under_price": -187,
+    "market": "walks",
     "event_home": "STL",
     "event_away": "CLE"
   },
@@ -109,9 +163,9 @@
   },
   {
     "player": "Simeon Woods Richardson",
-    "line": 15.5,
-    "over_price": 119,
-    "under_price": -159,
+    "line": 14.5,
+    "over_price": -174,
+    "under_price": 130,
     "market": "outs",
     "event_home": "MIN",
     "event_away": "BOS"
@@ -119,8 +173,8 @@
   {
     "player": "Connelly Early",
     "line": 14.5,
-    "over_price": -163,
-    "under_price": 123,
+    "over_price": -169,
+    "under_price": 127,
     "market": "outs",
     "event_home": "MIN",
     "event_away": "BOS"
@@ -136,9 +190,9 @@
   },
   {
     "player": "Simeon Woods Richardson",
-    "line": 4.5,
-    "over_price": 126,
-    "under_price": -161,
+    "line": 3.5,
+    "over_price": -155,
+    "under_price": 121,
     "market": "strikeouts",
     "event_home": "MIN",
     "event_away": "BOS"
@@ -146,8 +200,8 @@
   {
     "player": "Simeon Woods Richardson",
     "line": 1.5,
-    "over_price": -118,
-    "under_price": -113,
+    "over_price": -125,
+    "under_price": -106,
     "market": "walks",
     "event_home": "MIN",
     "event_away": "BOS"
@@ -155,26 +209,26 @@
   {
     "player": "Connelly Early",
     "line": 2.5,
-    "over_price": 146,
-    "under_price": -196,
+    "over_price": 152,
+    "under_price": -204,
     "market": "walks",
     "event_home": "MIN",
     "event_away": "BOS"
   },
   {
-    "player": "Jesus Luzardo",
-    "line": 5.5,
-    "over_price": 124,
-    "under_price": -165,
+    "player": "Shota Imanaga",
+    "line": 4.5,
+    "over_price": -156,
+    "under_price": 118,
     "market": "hits_allowed",
     "event_home": "PHI",
     "event_away": "CHC"
   },
   {
-    "player": "Shota Imanaga",
+    "player": "Jesus Luzardo",
     "line": 5.5,
-    "over_price": 121,
-    "under_price": -160,
+    "over_price": 125,
+    "under_price": -166,
     "market": "hits_allowed",
     "event_home": "PHI",
     "event_away": "CHC"
@@ -200,8 +254,8 @@
   {
     "player": "Jesus Luzardo",
     "line": 6.5,
-    "over_price": -103,
-    "under_price": -124,
+    "over_price": -113,
+    "under_price": -113,
     "market": "strikeouts",
     "event_home": "PHI",
     "event_away": "CHC"
@@ -218,8 +272,8 @@
   {
     "player": "Tyler Mahle",
     "line": 4.5,
-    "over_price": -136,
-    "under_price": 102,
+    "over_price": -124,
+    "under_price": -107,
     "market": "hits_allowed",
     "event_home": "CIN",
     "event_away": "SFG"
@@ -245,7 +299,7 @@
   {
     "player": "Tyler Mahle",
     "line": 14.5,
-    "over_price": -143,
+    "over_price": -142,
     "under_price": 107,
     "market": "outs",
     "event_home": "CIN",
@@ -263,11 +317,29 @@
   {
     "player": "Rhett Lowder",
     "line": 3.5,
-    "over_price": -114,
-    "under_price": -112,
+    "over_price": -110,
+    "under_price": -116,
     "market": "strikeouts",
     "event_home": "CIN",
     "event_away": "SFG"
+  },
+  {
+    "player": "Jack Flaherty",
+    "line": 4.5,
+    "over_price": -150,
+    "under_price": 113,
+    "market": "hits_allowed",
+    "event_home": "DET",
+    "event_away": "KCR"
+  },
+  {
+    "player": "Seth Lugo",
+    "line": 5.5,
+    "over_price": -107,
+    "under_price": -124,
+    "market": "hits_allowed",
+    "event_home": "DET",
+    "event_away": "KCR"
   },
   {
     "player": "Jack Flaherty",
@@ -284,6 +356,24 @@
     "over_price": 100,
     "under_price": -127,
     "market": "strikeouts",
+    "event_home": "DET",
+    "event_away": "KCR"
+  },
+  {
+    "player": "Jack Flaherty",
+    "line": 1.5,
+    "over_price": -148,
+    "under_price": 111,
+    "market": "walks",
+    "event_home": "DET",
+    "event_away": "KCR"
+  },
+  {
+    "player": "Seth Lugo",
+    "line": 2.5,
+    "over_price": 139,
+    "under_price": -186,
+    "market": "walks",
     "event_home": "DET",
     "event_away": "KCR"
   },
@@ -344,8 +434,8 @@
   {
     "player": "Bryce Elder",
     "line": 5.5,
-    "over_price": -104,
-    "under_price": -128,
+    "over_price": 101,
+    "under_price": -134,
     "market": "hits_allowed",
     "event_home": "ATL",
     "event_away": "MIA"
@@ -380,8 +470,8 @@
   {
     "player": "Bryce Elder",
     "line": 4.5,
-    "over_price": 123,
-    "under_price": -157,
+    "over_price": 118,
+    "under_price": -151,
     "market": "strikeouts",
     "event_home": "ATL",
     "event_away": "MIA"
@@ -389,8 +479,8 @@
   {
     "player": "Chris Paddack",
     "line": 3.5,
-    "over_price": 101,
-    "under_price": -129,
+    "over_price": 105,
+    "under_price": -134,
     "market": "strikeouts",
     "event_home": "ATL",
     "event_away": "MIA"
@@ -416,8 +506,8 @@
   {
     "player": "Chad Patrick",
     "line": 4.5,
-    "over_price": -108,
-    "under_price": -123,
+    "over_price": -104,
+    "under_price": -127,
     "market": "hits_allowed",
     "event_home": "MIL",
     "event_away": "TOR"
@@ -443,8 +533,8 @@
   {
     "player": "Dylan Cease",
     "line": 6.5,
-    "over_price": -143,
-    "under_price": 112,
+    "over_price": -138,
+    "under_price": 108,
     "market": "strikeouts",
     "event_home": "MIL",
     "event_away": "TOR"
@@ -452,8 +542,8 @@
   {
     "player": "Chad Patrick",
     "line": 4.5,
-    "over_price": 125,
-    "under_price": -160,
+    "over_price": 115,
+    "under_price": -147,
     "market": "strikeouts",
     "event_home": "MIL",
     "event_away": "TOR"
@@ -461,8 +551,8 @@
   {
     "player": "Spencer Arrighetti",
     "line": 4.5,
-    "over_price": 125,
-    "under_price": -167,
+    "over_price": 116,
+    "under_price": -155,
     "market": "hits_allowed",
     "event_home": "HOU",
     "event_away": "COL"
@@ -479,8 +569,8 @@
   {
     "player": "Spencer Arrighetti",
     "line": 15.5,
-    "over_price": -104,
-    "under_price": -127,
+    "over_price": 102,
+    "under_price": -135,
     "market": "outs",
     "event_home": "HOU",
     "event_away": "COL"
@@ -497,8 +587,8 @@
   {
     "player": "Spencer Arrighetti",
     "line": 6.5,
-    "over_price": 103,
-    "under_price": -131,
+    "over_price": 110,
+    "under_price": -141,
     "market": "strikeouts",
     "event_home": "HOU",
     "event_away": "COL"
@@ -560,8 +650,8 @@
   {
     "player": "Randy Vasquez",
     "line": 4.5,
-    "over_price": -154,
-    "under_price": 116,
+    "over_price": -149,
+    "under_price": 112,
     "market": "hits_allowed",
     "event_home": "SDP",
     "event_away": "SEA"
@@ -569,8 +659,8 @@
   {
     "player": "Emerson Hancock",
     "line": 5.5,
-    "over_price": 104,
-    "under_price": -138,
+    "over_price": 106,
+    "under_price": -140,
     "market": "hits_allowed",
     "event_home": "SDP",
     "event_away": "SEA"
@@ -578,8 +668,8 @@
   {
     "player": "Emerson Hancock",
     "line": 16.5,
-    "over_price": -122,
-    "under_price": -109,
+    "over_price": -102,
+    "under_price": -130,
     "market": "outs",
     "event_home": "SDP",
     "event_away": "SEA"
@@ -587,8 +677,8 @@
   {
     "player": "Randy Vasquez",
     "line": 16.5,
-    "over_price": 100,
-    "under_price": -133,
+    "over_price": 102,
+    "under_price": -136,
     "market": "outs",
     "event_home": "SDP",
     "event_away": "SEA"
@@ -596,8 +686,8 @@
   {
     "player": "Randy Vasquez",
     "line": 4.5,
-    "over_price": 118,
-    "under_price": -151,
+    "over_price": 128,
+    "under_price": -164,
     "market": "strikeouts",
     "event_home": "SDP",
     "event_away": "SEA"
@@ -605,8 +695,8 @@
   {
     "player": "Emerson Hancock",
     "line": 3.5,
-    "over_price": -156,
-    "under_price": 122,
+    "over_price": -144,
+    "under_price": 113,
     "market": "strikeouts",
     "event_home": "SDP",
     "event_away": "SEA"
@@ -623,8 +713,8 @@
   {
     "player": "Clay Holmes",
     "line": 4.5,
-    "over_price": -141,
-    "under_price": 106,
+    "over_price": -136,
+    "under_price": 102,
     "market": "hits_allowed",
     "event_home": "LAD",
     "event_away": "NYM"
@@ -640,9 +730,9 @@
   },
   {
     "player": "Clay Holmes",
-    "line": 14.5,
-    "over_price": -165,
-    "under_price": 124,
+    "line": 15.5,
+    "over_price": 126,
+    "under_price": -168,
     "market": "outs",
     "event_home": "LAD",
     "event_away": "NYM"
