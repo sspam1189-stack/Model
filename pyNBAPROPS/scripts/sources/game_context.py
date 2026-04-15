@@ -385,6 +385,7 @@ def compute_home_away_split(player_games, stat_key, min_games=5):
 def compute_per_minute_rates(player_games, min_minutes=15):
     """
     Compute per-minute production rates from recent game logs.
+    Simple unweighted version (total stat / total minutes).
 
     Parameters
     ----------
@@ -417,6 +418,49 @@ def compute_per_minute_rates(player_games, min_minutes=15):
 
     # Average minutes per game (for projecting tonight's minutes)
     rates["avg_min"] = sum(g.get("min", 0) for g in qualified) / len(qualified)
+
+    return rates
+
+
+def compute_weighted_per_minute_rates(player_games, decay=0.92, min_minutes=15):
+    """
+    Exponentially weighted per-minute production rates.
+
+    Unlike compute_per_minute_rates (which pools all stats/minutes),
+    this weights each game's rate individually by recency, so recent
+    role/minute changes are reflected faster.
+
+    Parameters
+    ----------
+    player_games : list[dict]
+        Player's recent game logs (already filtered to rolling window).
+    decay : float
+        Exponential decay factor (0.92 = 8% less weight per game back).
+    min_minutes : float
+        Minimum minutes to include a game.
+
+    Returns
+    -------
+    dict
+        {"pts_per_min": float, "reb_per_min": float, ...}
+    """
+    qualified = [g for g in player_games if g.get("min", 0) >= min_minutes]
+    if not qualified:
+        return {}
+
+    stats = ["pts", "reb", "ast", "fg3m", "stl", "blk", "tov"]
+    n = len(qualified)
+    weights = [decay ** (n - 1 - i) for i in range(n)]
+    w_sum = sum(weights)
+
+    rates = {}
+    for stat in stats:
+        rate_sum = sum(
+            (g.get(stat, 0) / g["min"]) * w
+            for g, w in zip(qualified, weights)
+            if g.get("min", 0) > 0
+        )
+        rates[f"{stat}_per_min"] = rate_sum / w_sum if w_sum > 0 else 0.0
 
     return rates
 

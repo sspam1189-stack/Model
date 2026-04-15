@@ -46,60 +46,63 @@ MIN_MINUTES = 15
 # Rolling average itself has zero bias (pts: -0.02, reb: -0.002, ast: -0.01)
 
 # ---------------------------------------------------------------------------
-# Market-specific thresholds (tightened after calibration)
+# Confidence threshold
 # ---------------------------------------------------------------------------
-# After removing bias, only high-confidence picks have real edge.
-# Thresholds set per-market based on calibrated backtest analysis.
+# With rate-based projections and honest variance (rate_std × minutes),
+# p(cover) values are properly calibrated. A single uniform threshold
+# is enough — no market-specific hacks needed.
 
 MARKET_THRESHOLDS = {
-    "points":        {"high": 0.76, "high_under": 0.70},   # OVER 0.76: 65.4% +32u 30.8% ROI, UNDER 0.70: 64% +42u 28% ROI
-    "rebounds":      {"high": 0.73},   # 66.0% at 0.73, +51u
-    "assists":       {"high": 0.66},   # OVER 60.4% +89u, UNDER 64.5% +79u
-    "threes":        {"high": 0.80},   # 81.2% — strong edge, small sample
-    "pts_rebs_asts": {"high": 0.80},   # 59% at [0.80-0.85), drops above
-    "steals":        {"high": 0.85},
-    "blocks":        {"high": 0.85},
+    "points":        {"high": 0.80},
+    "rebounds":      {"high": 0.80},
+    "assists":       {"high": 0.80},
+    "threes":        {"high": 0.80},
+    "pts_rebs_asts": {"high": 0.80},
+    "steals":        {"high": 0.80},
+    "blocks":        {"high": 0.80},
     "turnovers":     {"high": 0.80},
 }
 
-# Variance multipliers
+# Variance multipliers — applied to rate_std × proj_min
+# With rate-based variance, these can be uniform.
+# 1.2 = slight inflation to account for unmodeled factors (lineup changes, foul trouble).
 VAR_MULT = {
-    "points":        1.1,
-    "rebounds":      1.3,
-    "assists":       1.3,
-    "threes":        1.6,
-    "pts_rebs_asts": 1.1,
-    "steals":        1.8,
-    "blocks":        1.8,
-    "turnovers":     1.4,
+    "points":        1.2,
+    "rebounds":      1.2,
+    "assists":       1.2,
+    "threes":        1.4,   # 3PM has higher relative variance (low count stat)
+    "pts_rebs_asts": 1.2,
+    "steals":        1.6,   # rare events need more inflation
+    "blocks":        1.6,
+    "turnovers":     1.3,
 }
 
 # ---------------------------------------------------------------------------
-# Edge filters (|proj - line| size)
+# Edge bounds (sanity checks only — NOT the primary filter)
 # ---------------------------------------------------------------------------
-# After calibration, small edges (< 2) are noise.
-# Big edges (> 8) mean the model disagrees too much with the market.
+# With rate-based projections + honest variance, the confidence threshold
+# does the real filtering. These just catch model failures (insane outliers).
 
 MIN_EDGE = {
-    "points":        4.0,   # OVER: 4.0, UNDER: 4.5 (directional in engine)
-    "rebounds":      1.0,
-    "assists":       1.0,
-    "threes":        0.5,
-    "pts_rebs_asts": 3.0,
-    "steals":        0.3,
-    "blocks":        0.3,
-    "turnovers":     0.5,
+    "points":        0.5,
+    "rebounds":      0.5,
+    "assists":       0.5,
+    "threes":        0.3,
+    "pts_rebs_asts": 1.0,
+    "steals":        0.2,
+    "blocks":        0.2,
+    "turnovers":     0.3,
 }
 
 MAX_EDGE = {
-    "points":        5.5,    # OVER: 5.5, UNDER: 5.5 (directional in engine)
-    "rebounds":      4.0,    # Tightened from 5
-    "assists":       4.0,    # Tightened from 5
-    "threes":        2.5,    # Tightened from 3
-    "pts_rebs_asts": 10.0,   # Tightened from 15
-    "steals":        1.5,
-    "blocks":        1.5,
-    "turnovers":     2.5,    # Tightened from 3
+    "points":        10.0,
+    "rebounds":       6.0,
+    "assists":        6.0,
+    "threes":         4.0,
+    "pts_rebs_asts": 15.0,
+    "steals":         3.0,
+    "blocks":         3.0,
+    "turnovers":      4.0,
 }
 
 # Minimum line value (filter out low-volume players)
@@ -125,11 +128,9 @@ MIN_LINE = {
 #   - PRA OVER: 52% → loser. UNDER only.
 #   - Turnovers: not enough edge after calibration. Disabled.
 
-UNDER_ONLY_MARKETS = {"rebounds"}  # Only UNDER for rebounds
-# assists allows both OVER and UNDER (real model skill in both directions)
+UNDER_ONLY_MARKETS = set()  # no directional filters
 
-# Markets to disable entirely (no real edge after calibration)
-DISABLED_MARKETS = {"steals", "blocks", "turnovers", "pts_rebs_asts", "points"}
+DISABLED_MARKETS = {"steals", "blocks", "turnovers", "points", "pts_rebs_asts"}
 
 # ---------------------------------------------------------------------------
 # Opponent adjustment
@@ -146,24 +147,28 @@ OPP_STAT_KEY = {
     "turnovers":     "OPP_TOV",
 }
 
+# Opponent adjustment: additive (opp_stat - league_avg) × weight.
+# Uniform 0.20 — moderate, lets projection do the work.
 OPP_ADJ_WEIGHT = {
-    "points":        0.30,  # matches best backtest config
-    "rebounds":      0.25,
+    "points":        0.20,
+    "rebounds":      0.20,
     "assists":       0.20,
-    "threes":        0.25,
-    "pts_rebs_asts": 0.25,
+    "threes":        0.20,
+    "pts_rebs_asts": 0.20,
     "steals":        0.0,
     "blocks":        0.0,
     "turnovers":     0.0,
 }
 
 # Pace adjustment
+# Pace adjustment: multiplicative scaling by expected game pace.
+# Uniform 0.005 — pace affects all counting stats similarly.
 PACE_ADJ_WEIGHT = {
-    "points":        0.008,
+    "points":        0.005,
     "rebounds":      0.005,
-    "assists":       0.004,
+    "assists":       0.005,
     "threes":        0.003,
-    "pts_rebs_asts": 0.015,
+    "pts_rebs_asts": 0.005,
     "steals":        0.0,
     "blocks":        0.0,
     "turnovers":     0.002,
@@ -181,12 +186,16 @@ MINUTES_VOLUME_THRESHOLD = 28.0
 # prevent recency-driven deflation that inflates phantom UNDER edges.
 # Weight 0.0 = pure rolling (old behavior), 1.0 = pure per-36 season.
 
+# Season anchor blends per-minute rate with per-36 season rate.
+# Applied at rate level (not raw stat level), so it regresses
+# the rate toward the season baseline before multiplying by minutes.
+# Uniform weight — all markets benefit from mean regression.
 SEASON_ANCHOR_WEIGHT = {
-    "points":        0.25,  # with rate blend
-    "rebounds":      0.20,  # no rate blend — 68.1% +39.2u
-    "assists":       0.0,   # already unbiased
-    "threes":        0.0,   # small sample
-    "pts_rebs_asts": 0.30,  # no rate blend — best bias fix
+    "points":        0.15,
+    "rebounds":      0.15,
+    "assists":       0.15,
+    "threes":        0.10,   # smaller sample, trust recent more
+    "pts_rebs_asts": 0.15,
 }
 
 # Per-36 stat keys (maps market -> key in per36 dict from nba_api)
