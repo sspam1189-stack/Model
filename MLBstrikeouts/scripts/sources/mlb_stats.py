@@ -53,13 +53,24 @@ def _ip_to_float(ip_str):
         return 0.0
 
 
-def _load_cache(cache_path):
-    """Load cached JSON if it exists and is fresh enough."""
+def _load_cache(cache_path, max_age_hours=None):
+    """Load cached JSON if it exists and isn't too old.
+
+    Parameters
+    ----------
+    cache_path : Path
+        Path to cached JSON file.
+    max_age_hours : float or None
+        Maximum cache age in hours.  None = never expire (matches NBA pattern).
+        Default uses CACHE_FRESHNESS_HOURS (1hr) for backward compatibility.
+    """
     if not cache_path.exists():
         return None
+    if max_age_hours is None:
+        max_age_hours = CACHE_FRESHNESS_HOURS
     try:
         age_hours = (time.time() - cache_path.stat().st_mtime) / 3600
-        if age_hours > CACHE_FRESHNESS_HOURS:
+        if age_hours > max_age_hours:
             return None
         with open(cache_path, "r", encoding="utf-8") as f:
             return json.load(f)
@@ -158,7 +169,10 @@ def fetch_pitcher_game_logs(season=None):
     print(f"  [mlb_stats] {len(game_pks)} completed games, fetching boxscores...")
 
     # Step 2: Fetch boxscore for each game, extract starting pitcher stats
+    # Also extract batting orders per team per date for lineup handedness cache
     rows = []
+    batting_orders_by_date = {}  # {date: {team_abbr: [player_ids]}}
+
     for i, gm in enumerate(game_pks):
         try:
             box_url = f"{BASE_URL}.1/game/{gm['pk']}/feed/live"
@@ -181,6 +195,13 @@ def fetch_pitcher_game_logs(season=None):
             opp_side = "home" if side == "away" else "away"
             opp_id = box.get(opp_side, {}).get("team", {}).get("id")
             opp_abbr = MLB_TEAM_ID_TO_ABBR.get(opp_id, "")
+
+            # Extract batting order for lineup handedness cache
+            batting_order = side_data.get("battingOrder", [])
+            if batting_order and team_abbr:
+                if game_date not in batting_orders_by_date:
+                    batting_orders_by_date[game_date] = {}
+                batting_orders_by_date[game_date][team_abbr] = batting_order
 
             if not pitchers:
                 continue
@@ -221,6 +242,11 @@ def fetch_pitcher_game_logs(season=None):
         time.sleep(0.15)  # light rate limiting
 
     print(f"  [mlb_stats] Fetched {len(rows)} pitcher starts from {len(game_pks)} games")
+
+    # Cache batting orders by date (used by fetch_lineup_handedness)
+    bo_cache_path = CACHE_DIR / f"batting_orders_{season}.json"
+    _save_cache(bo_cache_path, batting_orders_by_date)
+    print(f"  [mlb_stats] Cached batting orders for {len(batting_orders_by_date)} dates")
 
     _save_cache(cache_path, rows)
     return rows
@@ -356,6 +382,16 @@ def fetch_pitcher_handedness_splits(pitcher_id, season=None):
             stat = split.get("stat", {})
             split_code = split.get("split", {}).get("code", "")
 
+            # Extract IP as float (e.g. "18.1" → 18.333)
+            ip_str = stat.get("inningsPitched", "0")
+            try:
+                ip_parts = str(ip_str).split(".")
+                ip_float = int(ip_parts[0]) + (int(ip_parts[1]) / 3.0 if len(ip_parts) > 1 else 0.0)
+            except (ValueError, IndexError):
+                ip_float = 0.0
+
+            bf = stat.get("battersFaced", 0) or 0
+
             split_data = {
                 "ba": stat.get("avg", None),
                 "obp": stat.get("obp", None),
@@ -365,9 +401,19 @@ def fetch_pitcher_handedness_splits(pitcher_id, season=None):
                 "bb": stat.get("baseOnBalls", 0),
                 "h": stat.get("hits", 0),
                 "ab": stat.get("atBats", 0),
-                "pa": stat.get("plateAppearances", 0),
+                "pa": bf,  # battersFaced is the real PA (API's plateAppearances is 0)
                 "hr": stat.get("homeRuns", 0),
+                "ip": round(ip_float, 2),
+                "whip": stat.get("whip", None),
+                "ground_outs": stat.get("groundOuts", 0),
+                "air_outs": stat.get("airOuts", 0),
             }
+
+            # Compute per-9 rates (the keys the handedness adjustment needs)
+            if ip_float > 0:
+                split_data["k_per_9"] = round(split_data["k"] / ip_float * 9, 2)
+                split_data["h_per_9"] = round(split_data["h"] / ip_float * 9, 2)
+                split_data["bb_per_9"] = round(split_data["bb"] / ip_float * 9, 2)
 
             if split_code == "vl":
                 result["vs_left"] = split_data
@@ -524,6 +570,206 @@ def fetch_today_probable_pitchers(date_str=None):
 
     _save_cache(cache_path, games)
     return games
+
+
+# ---------------------------------------------------------------------------
+# 8. Player bat-side lookup + game-lineup handedness
+# ---------------------------------------------------------------------------
+
+def fetch_player_bat_sides(season=None):
+    """
+    Build a player_id → bat_side_code lookup for the entire league.
+
+    Uses the bulk /sports/1/players endpoint (single API call, ~900 players).
+    Returns: {player_id (int): "L" | "R" | "S"}
+    Cached per season (never changes mid-season).
+    """
+    season = season or _current_season()
+    cache_path = CACHE_DIR / f"player_bat_sides_{season}.json"
+
+    cached = _load_cache(cache_path, max_age_hours=None)  # never expire
+    if cached is not None:
+        # Keys come back as strings from JSON; convert to int
+        return {int(k): v for k, v in cached.items()}
+
+    url = f"{BASE_URL}/sports/1/players?season={season}"
+    try:
+        raw = _fetch_json(url)
+    except Exception as e:
+        print(f"  [mlb_stats] Player bat-side fetch failed: {e}")
+        return {}
+    time.sleep(0.5)
+
+    result = {}
+    for player in raw.get("people", []):
+        pid = player.get("id")
+        bat_code = player.get("batSide", {}).get("code", "R")
+        if pid:
+            result[pid] = bat_code
+
+    print(f"  [mlb_stats] Fetched bat sides for {len(result)} players")
+    _save_cache(cache_path, result)
+    return result
+
+
+def fetch_lineup_handedness(date_str, bat_sides=None, season=None):
+    """
+    Fetch actual starting lineups for a given date and compute PCT_LHB
+    per team based on the real 9-man batting order.
+
+    For today/future dates: uses schedule hydrate=lineups (pre-game lineups).
+    For past dates: uses boxscore battingOrder (actual lineups).
+
+    Parameters
+    ----------
+    date_str : str
+        ISO date, e.g. "2026-04-14".
+    bat_sides : dict or None
+        {player_id: "L"/"R"/"S"} from fetch_player_bat_sides.
+        If None, will be fetched automatically.
+    season : int or None
+        Season year (for bat_sides fetch if needed).
+
+    Returns
+    -------
+    dict
+        {team_abbr: {"PCT_LHB": float, "n_batters": int, "source": str}}
+    """
+    cache_path = CACHE_DIR / f"lineup_handedness_{date_str}.json"
+
+    cached = _load_cache(cache_path, max_age_hours=None)  # lineups don't change
+    if cached is not None:
+        return cached
+
+    # Build bat-side lookup if not provided
+    if bat_sides is None:
+        bat_sides = fetch_player_bat_sides(season=season)
+
+    from datetime import date as dt_date
+    today = dt_date.today().strftime("%Y-%m-%d")
+    result = {}
+
+    if date_str >= today:
+        # --- Today/future: use schedule hydrate=lineups ---
+        url = (
+            f"{BASE_URL}/schedule?sportId=1&date={date_str}"
+            f"&hydrate=lineups"
+        )
+        try:
+            raw = _fetch_json(url)
+        except Exception as e:
+            print(f"  [mlb_stats] Lineup fetch failed: {e}")
+            return {}
+        time.sleep(0.5)
+
+        for date_entry in raw.get("dates", []):
+            for game in date_entry.get("games", []):
+                lineups = game.get("lineups", {})
+                teams = game.get("teams", {})
+
+                for side, lineup_key in [("home", "homePlayers"),
+                                          ("away", "awayPlayers")]:
+                    team_id = teams.get(side, {}).get("team", {}).get("id")
+                    abbr = MLB_TEAM_ID_TO_ABBR.get(team_id, "")
+                    if not abbr:
+                        continue
+
+                    players = lineups.get(lineup_key, [])
+                    if not players:
+                        continue
+
+                    pct = _compute_pct_lhb(
+                        [p.get("id") for p in players], bat_sides
+                    )
+                    result[abbr] = {
+                        "PCT_LHB": pct,
+                        "n_batters": len(players),
+                        "source": "lineup",
+                    }
+
+    else:
+        # --- Past dates: use cached batting orders from game logs ---
+        # fetch_pitcher_game_logs extracts battingOrder during boxscore pass,
+        # so we don't need to re-fetch every boxscore.
+        season = season or _current_season()
+        bo_cache_path = CACHE_DIR / f"batting_orders_{season}.json"
+        bo_data = _load_cache(bo_cache_path, max_age_hours=None)
+
+        if bo_data and date_str in bo_data:
+            for abbr, order in bo_data[date_str].items():
+                if order:
+                    pct = _compute_pct_lhb(order, bat_sides)
+                    result[abbr] = {
+                        "PCT_LHB": pct,
+                        "n_batters": len(order),
+                        "source": "boxscore",
+                    }
+        else:
+            # Fallback: fetch boxscores individually (slow, but works)
+            sched_url = (
+                f"{BASE_URL}/schedule?sportId=1&date={date_str}&gameType=R"
+            )
+            try:
+                sched = _fetch_json(sched_url)
+            except Exception:
+                return {}
+            time.sleep(0.3)
+
+            game_pks = []
+            for d in sched.get("dates", []):
+                for g in d.get("games", []):
+                    if g.get("status", {}).get("abstractGameState") == "Final":
+                        game_pks.append(g["gamePk"])
+
+            for gpk in game_pks:
+                try:
+                    box_url = f"{BASE_URL}.1/game/{gpk}/feed/live"
+                    live = _fetch_json(box_url)
+                except Exception:
+                    continue
+                time.sleep(0.15)
+
+                box = live.get("liveData", {}).get("boxscore", {}).get("teams", {})
+                for side in ["home", "away"]:
+                    side_data = box.get(side, {})
+                    team_id = side_data.get("team", {}).get("id")
+                    abbr = MLB_TEAM_ID_TO_ABBR.get(team_id, "")
+                    if not abbr:
+                        continue
+
+                    batting_order = side_data.get("battingOrder", [])
+                    if not batting_order:
+                        continue
+
+                    pct = _compute_pct_lhb(batting_order, bat_sides)
+                    result[abbr] = {
+                        "PCT_LHB": pct,
+                        "n_batters": len(batting_order),
+                        "source": "boxscore",
+                    }
+
+    if result:
+        _save_cache(cache_path, result)
+    return result
+
+
+def _compute_pct_lhb(player_ids, bat_sides):
+    """Compute PCT_LHB from a list of player IDs and bat-side lookup."""
+    left = 0.0
+    total = 0.0
+    for pid in player_ids:
+        code = bat_sides.get(pid, bat_sides.get(str(pid), "R"))
+        if code == "L":
+            left += 1.0
+            total += 1.0
+        elif code == "S":
+            left += 0.5
+            total += 1.0
+        else:
+            total += 1.0
+    if total == 0:
+        return 0.40  # fallback
+    return round(left / total, 4)
 
 
 # ---------------------------------------------------------------------------

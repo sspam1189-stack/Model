@@ -20,6 +20,7 @@ from defaults import (
     PROP_T_DF, ROLLING_WINDOW, DECAY_FACTOR,
     MARKET_THRESHOLDS, VAR_MULT, MIN_EDGE, MAX_EDGE, MIN_LINE,
 )
+from sources.weather import compute_weather_multiplier
 
 
 # ---------------------------------------------------------------------------
@@ -374,7 +375,7 @@ def _make_game_hit_prop(home, away, proj, std, line_data,
 
 def project_game_hits(games_today, pitcher_logs, team_batting_stats,
                       team_pitching_stats, kalman_state, pitcher_adv_stats,
-                      game_hit_lines):
+                      game_hit_lines, weather_by_game=None):
     """
     Project total game hits for each game today.
 
@@ -471,6 +472,16 @@ def project_game_hits(games_today, pitcher_logs, team_batting_stats,
         # --- Total game hits ---
         total_hits = (home_p_hits["proj_h"] + away_p_hits["proj_h"]
                       + home_bp_hits + away_bp_hits)
+
+        # --- Weather adjustment ---
+        if weather_by_game:
+            game_id = game.get("game_id")
+            if game_id:
+                w_data = (weather_by_game.get(game_id)
+                          or weather_by_game.get(str(game_id)))
+                if w_data:
+                    w_mult = compute_weather_multiplier(w_data, home)
+                    total_hits *= w_mult
 
         # --- Combined variance ---
         # Starter variance + bullpen variance (bullpen is noisier per IP)
