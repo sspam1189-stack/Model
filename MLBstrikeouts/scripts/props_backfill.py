@@ -34,6 +34,11 @@ from pitcher_kalman import (
     save_pitcher_kalman_state, prune_inactive_pitchers,
 )
 from defaults import ROLLING_WINDOW, MIN_GAMES, current_season
+from sources.weather import fetch_game_weather
+from sources.mlb_stats import (
+    fetch_pitcher_handedness_splits,
+    fetch_player_bat_sides, fetch_lineup_handedness,
+)
 
 
 # ---------------------------------------------------------------------------
@@ -116,6 +121,11 @@ def backfill(season=None, start_game=10, start_date=None):
     print(f"  Loading pitcher sabermetrics...")
     saber_stats = fetch_pitcher_sabermetrics(season=season)
 
+    # Load player bat-side lookup (for per-game lineup handedness)
+    print(f"  Loading player bat sides...")
+    bat_sides = fetch_player_bat_sides(season=season)
+    print(f"  {len(bat_sides)} players with bat-side data")
+
     # Organize by pitcher
     pitcher_logs = organize_pitcher_logs(all_logs)
     print(f"  {len(pitcher_logs)} pitchers, {len(all_logs)} total game logs")
@@ -194,14 +204,32 @@ def backfill(season=None, start_game=10, start_date=None):
         except Exception as e:
             pass  # No props available for this date — project without lines
 
+        # Phase 2b: Fetch lineup handedness + weather for this date
+        lineup_hand = fetch_lineup_handedness(
+            game_date, bat_sides=bat_sides, season=season
+        )
+        # Merge PCT_LHB into team_batting for this date's lineups
+        date_team_batting = dict(team_batting)  # shallow copy
+        for abbr, hand_data in lineup_hand.items():
+            if abbr in date_team_batting:
+                date_team_batting[abbr] = {
+                    **date_team_batting[abbr],
+                    "PCT_LHB": hand_data["PCT_LHB"],
+                }
+            else:
+                date_team_batting[abbr] = {"PCT_LHB": hand_data["PCT_LHB"]}
+
+        weather_data = fetch_game_weather(game_date)
+
         # Phase 3: Project props using prior data + current Kalman state
         projections = project_pitcher_props(
             prior_logs,
-            team_batting_stats=team_batting,
+            team_batting_stats=date_team_batting,
             prop_lines=real_lines,
             kalman_state=kalman_state,
             pitcher_adv_stats=adv_stats,
             pitcher_sabermetrics=saber_stats,
+            weather_by_game=weather_data,
         )
 
         # Phase 4: Grade projections against actuals

@@ -151,6 +151,68 @@
           el.appendChild(mbCard);
         }
 
+        // Recent Record (4/14 - present)
+        const recentCutoff = '2026-04-14';
+        const recentPicks = gradedPicks.filter(p => p.date && p.date >= recentCutoff);
+        if (recentPicks.length > 0) {
+          const rW = recentPicks.filter(p => p.result === 'WIN').length;
+          const rL = recentPicks.filter(p => p.result === 'LOSS').length;
+          const rU = calcMLBPropsUnits(recentPicks);
+          const rPct = (rW + rL) > 0 ? (rW / (rW + rL) * 100).toFixed(1) : '0';
+          const rROI = (rW + rL) > 0 ? (rU / (rW + rL) * 100).toFixed(1) : '0';
+          const rCard = document.createElement('div');
+          rCard.className = 'card card-games';
+          rCard.style.marginBottom = '16px';
+          rCard.appendChild(Object.assign(document.createElement('div'), {className:'card-title', textContent:`Recent Record (${recentCutoff} \u2013 present)`}));
+          const rWrap = document.createElement('div');
+          rWrap.className = 'props-table-wrap';
+          const rTbl = document.createElement('table');
+          rTbl.style.cssText = 'width:100%;border-collapse:collapse;margin-top:8px';
+          const rh = rTbl.createTHead().insertRow();
+          ['Cat','Picks','W','L','Win%','Units','ROI'].forEach(h => {
+            const th = document.createElement('th');
+            th.textContent = h;
+            th.style.cssText = 'padding:6px 10px;text-align:right;border-bottom:1px solid rgba(255,255,255,0.1)';
+            if (h === 'Cat') th.style.textAlign = 'left';
+            rh.appendChild(th);
+          });
+          const rb = rTbl.createTBody();
+          const { fGrouped: rGrouped, sortedMarkets: rMarkets } = buildMLBMarketBreakdown(recentPicks);
+          let rTotW = 0, rTotL = 0;
+          for (const market of rMarkets) {
+            const mPicks = rGrouped[market];
+            const w = mPicks.filter(p => p.result === 'WIN').length;
+            const l = mPicks.filter(p => p.result === 'LOSS').length;
+            const u = calcMLBPropsUnits(mPicks);
+            const pct = (w + l) > 0 ? (w / (w + l) * 100).toFixed(1) : 'n/a';
+            const roi = (w + l) > 0 ? (u / (w + l) * 100).toFixed(1) : 'n/a';
+            rTotW += w; rTotL += l;
+            const sr = rb.insertRow();
+            [market, String(mPicks.length), String(w), String(l), pct+'%', (u>=0?'+':'')+u.toFixed(1)+'u', (roi>=0?'+':'')+roi+'%'].forEach((v,i) => {
+              const td = sr.insertCell();
+              td.textContent = v;
+              td.style.padding = '6px 10px';
+              td.style.textAlign = i === 0 ? 'left' : 'right';
+              if (i === 5) td.style.color = u >= 0 ? 'var(--green)' : 'var(--red)';
+              if (i === 6) td.style.color = parseFloat(roi) >= 0 ? 'var(--green)' : 'var(--red)';
+            });
+          }
+          const rtr = rb.insertRow();
+          rtr.style.borderTop = '2px solid rgba(255,255,255,0.2)';
+          rtr.style.fontWeight = '700';
+          ['TOTAL', String(recentPicks.length), String(rW), String(rL), rPct+'%', (rU>=0?'+':'')+rU.toFixed(1)+'u', (rROI>=0?'+':'')+rROI+'%'].forEach((v,i) => {
+            const td = rtr.insertCell();
+            td.textContent = v;
+            td.style.padding = '6px 10px';
+            td.style.textAlign = i === 0 ? 'left' : 'right';
+            if (i === 5) td.style.color = rU >= 0 ? 'var(--green)' : 'var(--red)';
+            if (i === 6) td.style.color = parseFloat(rROI) >= 0 ? 'var(--green)' : 'var(--red)';
+          });
+          rWrap.appendChild(rTbl);
+          rCard.appendChild(rWrap);
+          el.appendChild(rCard);
+        }
+
         // Yesterday's Recap
         const yesterdayPicks = picks.filter(p => p.date === yesterdayStr && p.result);
         if (yesterdayPicks.length > 0) {

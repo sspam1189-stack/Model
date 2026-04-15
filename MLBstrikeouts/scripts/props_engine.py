@@ -36,6 +36,7 @@ from sources.game_context import (
     compute_home_away_split, compute_per_inning_rates,
     project_innings, rate_based_projection,
 )
+from sources.weather import compute_weather_multiplier
 
 
 # ---------------------------------------------------------------------------
@@ -188,7 +189,7 @@ def project_pitcher_props(pitcher_logs, team_batting_stats=None,
                           prop_lines=None, kalman_state=None,
                           pitcher_adv_stats=None, pitcher_sabermetrics=None,
                           pitcher_splits=None, probable_pitchers=None,
-                          injury_report=None):
+                          injury_report=None, weather_by_game=None):
     """
     Project pitcher props for all pitchers with sufficient game logs.
 
@@ -338,6 +339,15 @@ def project_pitcher_props(pitcher_logs, team_batting_stats=None,
             rolling_avg = _weighted_avg(vals)
             rolling_std = _weighted_std(vals) * VAR_MULT.get(market, 1.2)
 
+            # Small-sample variance inflation: with few games, we can't
+            # estimate true variance — inflate so pCover is harder to clear.
+            # This replaces hard MIN_GAMES filters with principled uncertainty.
+            n_games = len(vals)
+            if n_games <= 3:
+                # 2 games → ×1.8, 3 games → ×1.35, 4+ → ×1.0
+                small_sample_mult = 1.0 + 1.6 / (n_games ** 1.5)
+                rolling_std *= small_sample_mult
+
             # --- 2. Rate-based projection (rate x projected IP) ---
             rate_key = f"{stat_key}_per_ip"
             if rate_key in rates and rates[rate_key] > 0:
@@ -388,6 +398,17 @@ def project_pitcher_props(pitcher_logs, team_batting_stats=None,
                 proj += split["home_split_adj"]
             elif not is_home and split.get("away_split_adj"):
                 proj += split["away_split_adj"]
+
+            # --- 9b. Weather adjustment (hits markets only) ---
+            if market == "hits_allowed" and weather_by_game:
+                _game_id = ctx.get("game_id")
+                if _game_id:
+                    w_data = (weather_by_game.get(_game_id)
+                              or weather_by_game.get(str(_game_id)))
+                    if w_data:
+                        _home_team = ctx.get("team") if is_home else ctx.get("opp", "")
+                        w_mult = compute_weather_multiplier(w_data, _home_team)
+                        proj *= w_mult
 
             # --- 10. Make pick ---
             prop = _make_prop(name, team, market, proj, std, line_lookup, latest_opp)
@@ -616,9 +637,13 @@ def _apply_handedness_adjustment(proj, market, pitcher_splits,
     pct_rhb = 1.0 - pct_lhb
 
     # Get pitcher's rate vs each handedness
+    # Use rate stats that actually exist in the splits data:
+    #   - "ba" (batting avg against) for hits_allowed
+    #   - "k_rate" or fall back to k/pa for strikeouts
+    #   - "bb_rate" or fall back to bb/pa for walks
     stat_rate_key = {
         "strikeouts": "k_per_9",
-        "hits_allowed": "h_per_9",
+        "hits_allowed": "ba",       # BA against is in the splits data
         "walks": "bb_per_9",
     }.get(market)
 
@@ -627,6 +652,23 @@ def _apply_handedness_adjustment(proj, market, pitcher_splits,
 
     rate_vs_l = vs_left.get(stat_rate_key, 0)
     rate_vs_r = vs_right.get(stat_rate_key, 0)
+
+    # Fallback: compute rate from counting stats if per-9 not available
+    if rate_vs_l == 0 and rate_vs_r == 0:
+        count_key, denom_key = {
+            "strikeouts": ("k", "pa"),
+            "hits_allowed": ("h", "ab"),
+            "walks": ("bb", "pa"),
+        }.get(market, (None, None))
+        if count_key and denom_key:
+            l_count = vs_left.get(count_key, 0)
+            l_denom = vs_left.get(denom_key, 0)
+            r_count = vs_right.get(count_key, 0)
+            r_denom = vs_right.get(denom_key, 0)
+            if l_denom > 0:
+                rate_vs_l = l_count / l_denom
+            if r_denom > 0:
+                rate_vs_r = r_count / r_denom
 
     if rate_vs_l > 0 and rate_vs_r > 0:
         weighted_rate = rate_vs_l * pct_lhb + rate_vs_r * pct_rhb
