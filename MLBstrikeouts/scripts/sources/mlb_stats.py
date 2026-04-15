@@ -12,7 +12,6 @@ from pathlib import Path
 
 CACHE_DIR = Path(__file__).resolve().parents[3] / "data" / "pitcher_cache" / "mlb"
 CACHE_FRESHNESS_HOURS = 1      # default for frequently changing data (lineups, probable pitchers)
-CACHE_FRESHNESS_LONG = 6       # game logs, season stats — only refresh a few times per day
 
 MLB_TEAM_ID_TO_ABBR = {
     108: "LAA", 109: "ARI", 110: "BAL", 111: "BOS", 112: "CHC",
@@ -54,7 +53,7 @@ def _ip_to_float(ip_str):
         return 0.0
 
 
-def _load_cache(cache_path, max_age_hours=None):
+def _load_cache(cache_path, max_age_hours=None, same_day=False):
     """Load cached JSON if it exists and isn't too old.
 
     Parameters
@@ -62,17 +61,26 @@ def _load_cache(cache_path, max_age_hours=None):
     cache_path : Path
         Path to cached JSON file.
     max_age_hours : float or None
-        Maximum cache age in hours.  None = never expire (matches NBA pattern).
-        Default uses CACHE_FRESHNESS_HOURS (1hr) for backward compatibility.
+        Maximum cache age in hours.  None = never expire.
+        Pass CACHE_FRESHNESS_HOURS explicitly for short-lived caches.
+    same_day : bool
+        If True, cache expires at midnight (new day = re-fetch).
+        Used for game logs that need new games added daily.
     """
     if not cache_path.exists():
         return None
-    if max_age_hours is None:
-        max_age_hours = CACHE_FRESHNESS_HOURS
     try:
-        age_hours = (time.time() - cache_path.stat().st_mtime) / 3600
-        if age_hours > max_age_hours:
-            return None
+        mtime = cache_path.stat().st_mtime
+        if same_day:
+            from datetime import datetime
+            cache_date = datetime.fromtimestamp(mtime).date()
+            if cache_date < datetime.now().date():
+                return None
+        elif max_age_hours is not None:
+            age_hours = (time.time() - mtime) / 3600
+            if age_hours > max_age_hours:
+                return None
+        # max_age_hours=None and same_day=False → never expire
         with open(cache_path, "r", encoding="utf-8") as f:
             return json.load(f)
     except (json.JSONDecodeError, OSError):
@@ -132,7 +140,7 @@ def fetch_pitcher_game_logs(season=None):
     season = season or _current_season()
     cache_path = CACHE_DIR / f"game_logs_{season}.json"
 
-    cached = _load_cache(cache_path, max_age_hours=CACHE_FRESHNESS_LONG)
+    cached = _load_cache(cache_path, same_day=True)
     if cached is not None:
         print(f"  [mlb_stats] Using cached game logs ({len(cached)} entries)")
         return cached
@@ -337,7 +345,7 @@ def fetch_pitcher_advanced_stats(season=None):
     season = season or _current_season()
     cache_path = CACHE_DIR / f"pitcher_advanced_{season}.json"
 
-    cached = _load_cache(cache_path, max_age_hours=CACHE_FRESHNESS_LONG)
+    cached = _load_cache(cache_path, max_age_hours=None)
     if cached is not None:
         return cached
 
@@ -471,7 +479,7 @@ def fetch_pitcher_sabermetrics(season=None):
     season = season or _current_season()
     cache_path = CACHE_DIR / f"pitcher_sabermetrics_{season}.json"
 
-    cached = _load_cache(cache_path, max_age_hours=CACHE_FRESHNESS_LONG)
+    cached = _load_cache(cache_path, max_age_hours=None)
     if cached is not None:
         return cached
 
@@ -516,7 +524,7 @@ def fetch_pitcher_handedness_splits(pitcher_id, season=None):
     season = season or _current_season()
     cache_path = CACHE_DIR / f"handedness_{pitcher_id}_{season}.json"
 
-    cached = _load_cache(cache_path, max_age_hours=CACHE_FRESHNESS_LONG)
+    cached = _load_cache(cache_path, max_age_hours=None)
     if cached is not None:
         return cached
 
@@ -747,7 +755,7 @@ def fetch_team_batting_stats(season=None):
     season = season or _current_season()
     cache_path = CACHE_DIR / f"team_batting_{season}.json"
 
-    cached = _load_cache(cache_path, max_age_hours=CACHE_FRESHNESS_LONG)
+    cached = _load_cache(cache_path, max_age_hours=None)
     if cached is not None:
         return cached
 
@@ -796,7 +804,7 @@ def fetch_team_pitching_stats(season=None):
     season = season or _current_season()
     cache_path = CACHE_DIR / f"team_pitching_{season}.json"
 
-    cached = _load_cache(cache_path, max_age_hours=CACHE_FRESHNESS_LONG)
+    cached = _load_cache(cache_path, max_age_hours=None)
     if cached is not None:
         return cached
 
@@ -842,7 +850,7 @@ def fetch_today_probable_pitchers(date_str=None):
 
     cache_path = CACHE_DIR / f"probable_pitchers_{date_str}.json"
 
-    cached = _load_cache(cache_path)
+    cached = _load_cache(cache_path, max_age_hours=CACHE_FRESHNESS_HOURS)
     if cached is not None:
         return cached
 
@@ -1125,7 +1133,7 @@ def fetch_batter_game_logs(season=None):
     season = season or _current_season()
     cache_path = CACHE_DIR / f"batter_game_logs_{season}.json"
 
-    cached = _load_cache(cache_path, max_age_hours=CACHE_FRESHNESS_LONG)
+    cached = _load_cache(cache_path, same_day=True)
     if cached is not None:
         total = sum(len(v) for v in cached.values())
         print(f"  [mlb_stats] Using cached batter game logs ({len(cached)} batters, {total} entries)")
@@ -1136,7 +1144,7 @@ def fetch_batter_game_logs(season=None):
     fetch_pitcher_game_logs(season=season)
 
     # Now read the cache that fetch_pitcher_game_logs just built
-    cached = _load_cache(cache_path)
+    cached = _load_cache(cache_path, max_age_hours=None)
     if cached is not None:
         total = sum(len(v) for v in cached.values())
         print(f"  [mlb_stats] Batter game logs ready ({len(cached)} batters, {total} entries)")
