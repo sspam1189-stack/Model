@@ -650,8 +650,11 @@ def _apply_handedness_adjustment(proj, market, pitcher_splits,
     if not stat_rate_key:
         return proj
 
-    rate_vs_l = vs_left.get(stat_rate_key, 0)
-    rate_vs_r = vs_right.get(stat_rate_key, 0)
+    try:
+        rate_vs_l = float(vs_left.get(stat_rate_key, 0) or 0)
+        rate_vs_r = float(vs_right.get(stat_rate_key, 0) or 0)
+    except (ValueError, TypeError):
+        rate_vs_l, rate_vs_r = 0.0, 0.0
 
     # Fallback: compute rate from counting stats if per-9 not available
     if rate_vs_l == 0 and rate_vs_r == 0:
