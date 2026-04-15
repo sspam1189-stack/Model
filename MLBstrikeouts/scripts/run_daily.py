@@ -259,8 +259,30 @@ def run_daily(date_key=None):
 
     # Stage 6: Fetch probable pitchers
     print(f"\n  [6/17] Fetching today's probable pitchers...")
-    probable = fetch_today_probable_pitchers(date_str=date_iso)
-    print(f"  {len(probable)} games with probable pitchers")
+    all_probable = fetch_today_probable_pitchers(date_str=date_iso)
+
+    # Split into started vs unstarted — only project unstarted games.
+    # Started games keep their existing picks/projections untouched.
+    import datetime as _dt
+    _now_utc = _dt.datetime.now(_dt.timezone.utc)
+    started_teams = set()
+    probable = []
+    for g in all_probable:
+        game_time_str = g.get("game_time", "")
+        try:
+            game_time = _dt.datetime.fromisoformat(game_time_str.replace("Z", "+00:00"))
+            if game_time <= _now_utc:
+                # Game already started — mark teams, skip projection
+                if g.get("home_team"): started_teams.add(g["home_team"])
+                if g.get("away_team"): started_teams.add(g["away_team"])
+                continue
+        except (ValueError, AttributeError, TypeError):
+            pass  # Can't parse time — include game to be safe
+        probable.append(g)
+
+    if started_teams:
+        print(f"  {len(all_probable)} total games, {len(started_teams)//2} already started — skipping")
+    print(f"  {len(probable)} games to project (not yet started)")
 
     # Stage 7: Fetch handedness splits for probable starters only
     print(f"\n  [7/17] Fetching handedness splits for probable starters...")
@@ -370,6 +392,16 @@ def run_daily(date_key=None):
     n_api = len(prop_lines) - n_fd
     print(f"  {n_fd} from FanDuel + {n_api} from Odds API = {len(prop_lines)} total prop lines, {len(game_hit_lines)} game hit lines")
 
+    # Drop prop lines for started games — those picks stay from previous run
+    if started_teams:
+        before = len(prop_lines)
+        prop_lines = [p for p in prop_lines
+                      if p.get("team", "") not in started_teams]
+        dropped = before - len(prop_lines)
+        if dropped:
+            print(f"  Dropped {dropped} prop lines for started games")
+        print(f"  {len(prop_lines)} prop lines remaining (unstarted games)")
+
     # Stage 13: Project pitcher props
     print(f"\n  [13/17] Projecting pitcher props (Kalman + advanced stats)...")
     projections = project_pitcher_props(
@@ -450,11 +482,15 @@ def run_daily(date_key=None):
         # Keep picks from OTHER dates (already graded / historical)
         kept = [p for p in existing_props if p.get("date") != date_iso]
 
-        # For TODAY's picks: replace with fresh projections
+        # For TODAY: keep existing picks for started games, replace unstarted
+        today_existing_started = [
+            p for p in existing_props
+            if p.get("date") == date_iso and p.get("team", "") in started_teams
+        ]
         today_fresh = [p for p in combined.get("props", [])
                        if p.get("date") == date_iso or not p.get("date")]
 
-        merged_props = kept + today_fresh
+        merged_props = kept + today_existing_started + today_fresh
 
         combined_merged = {**existing, **combined, "props": merged_props}
         combined_merged["totalPicks"] = len(merged_props)
