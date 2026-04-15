@@ -11,7 +11,8 @@ from datetime import datetime, date
 from pathlib import Path
 
 CACHE_DIR = Path(__file__).resolve().parents[3] / "data" / "pitcher_cache" / "mlb"
-CACHE_FRESHNESS_HOURS = 1
+CACHE_FRESHNESS_HOURS = 1      # default for frequently changing data (lineups, probable pitchers)
+CACHE_FRESHNESS_LONG = 6       # game logs, season stats — only refresh a few times per day
 
 MLB_TEAM_ID_TO_ABBR = {
     108: "LAA", 109: "ARI", 110: "BAL", 111: "BOS", 112: "CHC",
@@ -131,7 +132,7 @@ def fetch_pitcher_game_logs(season=None):
     season = season or _current_season()
     cache_path = CACHE_DIR / f"game_logs_{season}.json"
 
-    cached = _load_cache(cache_path)
+    cached = _load_cache(cache_path, max_age_hours=CACHE_FRESHNESS_LONG)
     if cached is not None:
         print(f"  [mlb_stats] Using cached game logs ({len(cached)} entries)")
         return cached
@@ -170,8 +171,10 @@ def fetch_pitcher_game_logs(season=None):
 
     # Step 2: Fetch boxscore for each game, extract starting pitcher stats
     # Also extract batting orders per team per date for lineup handedness cache
+    # Also extract batter hitting stats (cached separately for fetch_batter_game_logs)
     rows = []
     batting_orders_by_date = {}  # {date: {team_abbr: [player_ids]}}
+    batter_logs = {}  # {batter_id: [game_rows]} — built alongside pitcher logs
 
     for i, gm in enumerate(game_pks):
         try:
@@ -203,6 +206,65 @@ def fetch_pitcher_game_logs(season=None):
                     batting_orders_by_date[game_date] = {}
                 batting_orders_by_date[game_date][team_abbr] = batting_order
 
+            # --- Opposing starting pitcher info (for batter logs) ---
+            opp_pitchers = box.get(opp_side, {}).get("pitchers", [])
+            opp_sp_id = opp_pitchers[0] if opp_pitchers else None
+            opp_sp_hand = ""
+            if opp_sp_id:
+                opp_p_data = box.get(opp_side, {}).get("players", {}).get(f"ID{opp_sp_id}", {})
+                opp_person = opp_p_data.get("person", {})
+                opp_sp_hand = opp_person.get("pitchHand", {}).get("code", "")
+                opp_sp_id = opp_person.get("id", opp_sp_id)
+
+            # --- Batter lineup slot lookup ---
+            slot_map = {}
+            for slot_idx, bo_pid in enumerate(batting_order):
+                slot_map[bo_pid] = slot_idx + 1
+
+            # --- Extract batter hitting stats ---
+            for player_key, p_data in players.items():
+                person = p_data.get("person", {})
+                b_pid = person.get("id")
+                if not b_pid:
+                    continue
+                pos = p_data.get("position", {}).get("abbreviation", "")
+                b_stats = p_data.get("stats", {}).get("batting", {})
+                if pos == "P":
+                    if not b_stats or (b_stats.get("atBats", 0) == 0 and
+                                       b_stats.get("baseOnBalls", 0) == 0):
+                        continue
+                if not b_stats:
+                    continue
+                ab = b_stats.get("atBats", 0) or 0
+                b_bb = b_stats.get("baseOnBalls", 0) or 0
+                b_hbp = b_stats.get("hitByPitch", 0) or 0
+                sac_fly = b_stats.get("sacFlies", 0) or 0
+                sac_bunt = b_stats.get("sacBunts", 0) or 0
+                pa = ab + b_bb + b_hbp + sac_fly + sac_bunt
+                if pa == 0:
+                    continue
+                b_h = b_stats.get("hits", 0) or 0
+                b_doubles = b_stats.get("doubles", 0) or 0
+                b_triples = b_stats.get("triples", 0) or 0
+                b_hr = b_stats.get("homeRuns", 0) or 0
+                b_k = b_stats.get("strikeOuts", 0) or 0
+                tb = b_h + b_doubles + 2 * b_triples + 3 * b_hr
+                if b_pid not in batter_logs:
+                    batter_logs[b_pid] = []
+                batter_logs[b_pid].append({
+                    "game_date": game_date,
+                    "team": team_abbr,
+                    "opp": opp_abbr,
+                    "pa": pa, "ab": ab, "h": b_h,
+                    "doubles": b_doubles, "triples": b_triples, "hr": b_hr,
+                    "bb": b_bb, "k": b_k, "hbp": b_hbp, "tb": tb,
+                    "lineup_slot": slot_map.get(b_pid, 0),
+                    "opp_pitcher_id": opp_sp_id,
+                    "opp_pitcher_hand": opp_sp_hand,
+                    "is_home": side == "home",
+                })
+
+            # --- Extract starting pitcher stats ---
             if not pitchers:
                 continue
 
@@ -253,6 +315,12 @@ def fetch_pitcher_game_logs(season=None):
     _save_cache(bo_cache_path, batting_orders_by_date)
     print(f"  [mlb_stats] Cached batting orders for {len(batting_orders_by_date)} dates")
 
+    # Cache batter game logs (used by fetch_batter_game_logs)
+    batter_cache_path = CACHE_DIR / f"batter_game_logs_{season}.json"
+    batter_total = sum(len(v) for v in batter_logs.values())
+    _save_cache(batter_cache_path, batter_logs)
+    print(f"  [mlb_stats] Cached batter game logs: {len(batter_logs)} batters, {batter_total} entries")
+
     _save_cache(cache_path, rows)
     return rows
 
@@ -269,7 +337,7 @@ def fetch_pitcher_advanced_stats(season=None):
     season = season or _current_season()
     cache_path = CACHE_DIR / f"pitcher_advanced_{season}.json"
 
-    cached = _load_cache(cache_path)
+    cached = _load_cache(cache_path, max_age_hours=CACHE_FRESHNESS_LONG)
     if cached is not None:
         return cached
 
@@ -403,7 +471,7 @@ def fetch_pitcher_sabermetrics(season=None):
     season = season or _current_season()
     cache_path = CACHE_DIR / f"pitcher_sabermetrics_{season}.json"
 
-    cached = _load_cache(cache_path)
+    cached = _load_cache(cache_path, max_age_hours=CACHE_FRESHNESS_LONG)
     if cached is not None:
         return cached
 
@@ -448,7 +516,7 @@ def fetch_pitcher_handedness_splits(pitcher_id, season=None):
     season = season or _current_season()
     cache_path = CACHE_DIR / f"handedness_{pitcher_id}_{season}.json"
 
-    cached = _load_cache(cache_path)
+    cached = _load_cache(cache_path, max_age_hours=CACHE_FRESHNESS_LONG)
     if cached is not None:
         return cached
 
@@ -679,7 +747,7 @@ def fetch_team_batting_stats(season=None):
     season = season or _current_season()
     cache_path = CACHE_DIR / f"team_batting_{season}.json"
 
-    cached = _load_cache(cache_path)
+    cached = _load_cache(cache_path, max_age_hours=CACHE_FRESHNESS_LONG)
     if cached is not None:
         return cached
 
@@ -728,7 +796,7 @@ def fetch_team_pitching_stats(season=None):
     season = season or _current_season()
     cache_path = CACHE_DIR / f"team_pitching_{season}.json"
 
-    cached = _load_cache(cache_path)
+    cached = _load_cache(cache_path, max_age_hours=CACHE_FRESHNESS_LONG)
     if cached is not None:
         return cached
 
@@ -1042,12 +1110,11 @@ def _compute_pct_lhb(player_ids, bat_sides):
 
 def fetch_batter_game_logs(season=None):
     """
-    Fetch batter game logs for the season from boxscore data.
+    Fetch batter game logs for the season.
 
-    Extracts hitting stats for every position player from the same
-    boxscore feed used by fetch_pitcher_game_logs. If the pitcher game
-    logs cache already exists we re-use its schedule/game list to avoid
-    re-fetching the schedule.
+    Reads from the cache built by fetch_pitcher_game_logs (which extracts
+    batter stats in the same boxscore loop). If the cache doesn't exist,
+    triggers fetch_pitcher_game_logs first to build it.
 
     Returns dict keyed by batter_id (int):
         {batter_id: [{"game_date", "team", "opp", "pa", "ab", "h",
@@ -1058,159 +1125,25 @@ def fetch_batter_game_logs(season=None):
     season = season or _current_season()
     cache_path = CACHE_DIR / f"batter_game_logs_{season}.json"
 
-    cached = _load_cache(cache_path)
+    cached = _load_cache(cache_path, max_age_hours=CACHE_FRESHNESS_LONG)
     if cached is not None:
         total = sum(len(v) for v in cached.values())
         print(f"  [mlb_stats] Using cached batter game logs ({len(cached)} batters, {total} entries)")
-        # Keys come back as strings from JSON; convert to int
         return {int(k): v for k, v in cached.items()}
 
-    # Step 1: Get completed games from schedule
-    start_date = f"{season}-03-20"
-    end_date = date.today().strftime("%Y-%m-%d")
+    # Cache doesn't exist — trigger pitcher game logs fetch which builds it
+    print(f"  [mlb_stats] Batter cache not found, building via pitcher game logs fetch...")
+    fetch_pitcher_game_logs(season=season)
 
-    print(f"  [mlb_stats] Fetching batter game logs, schedule {start_date} to {end_date}...")
-    schedule_url = (
-        f"{BASE_URL}/schedule?sportId=1"
-        f"&startDate={start_date}&endDate={end_date}"
-        f"&gameType=R"
-    )
-    try:
-        sched = _fetch_json(schedule_url)
-    except Exception as e:
-        print(f"  [mlb_stats] Schedule fetch failed: {e}")
-        return {}
+    # Now read the cache that fetch_pitcher_game_logs just built
+    cached = _load_cache(cache_path)
+    if cached is not None:
+        total = sum(len(v) for v in cached.values())
+        print(f"  [mlb_stats] Batter game logs ready ({len(cached)} batters, {total} entries)")
+        return {int(k): v for k, v in cached.items()}
 
-    game_pks = []
-    for d in sched.get("dates", []):
-        for g in d.get("games", []):
-            status = g.get("status", {}).get("abstractGameState", "")
-            if status == "Final":
-                game_pks.append({
-                    "pk": g["gamePk"],
-                    "date": g.get("officialDate", ""),
-                    "home_id": g.get("teams", {}).get("home", {}).get("team", {}).get("id"),
-                    "away_id": g.get("teams", {}).get("away", {}).get("team", {}).get("id"),
-                })
-
-    print(f"  [mlb_stats] {len(game_pks)} completed games, fetching boxscores for batter stats...")
-
-    # Step 2: Fetch boxscore for each game, extract batter hitting stats
-    result = {}  # {batter_id: [game_rows]}
-
-    for i, gm in enumerate(game_pks):
-        try:
-            box_url = f"{BASE_URL}.1/game/{gm['pk']}/feed/live"
-            live = _fetch_json(box_url)
-        except Exception:
-            continue
-
-        box = live.get("liveData", {}).get("boxscore", {}).get("teams", {})
-        game_date = gm["date"]
-
-        for side in ["away", "home"]:
-            side_data = box.get(side, {})
-            players = side_data.get("players", {})
-            team_info = side_data.get("team", {})
-            team_id = team_info.get("id")
-            team_abbr = MLB_TEAM_ID_TO_ABBR.get(team_id, "")
-
-            opp_side = "home" if side == "away" else "away"
-            opp_id = box.get(opp_side, {}).get("team", {}).get("id")
-            opp_abbr = MLB_TEAM_ID_TO_ABBR.get(opp_id, "")
-
-            # Get opposing starting pitcher info
-            opp_pitchers = box.get(opp_side, {}).get("pitchers", [])
-            opp_sp_id = opp_pitchers[0] if opp_pitchers else None
-            opp_sp_hand = ""
-            if opp_sp_id:
-                opp_p_data = box.get(opp_side, {}).get("players", {}).get(f"ID{opp_sp_id}", {})
-                opp_person = opp_p_data.get("person", {})
-                # pitchHand is available on the person object in the feed
-                opp_sp_hand = opp_person.get("pitchHand", {}).get("code", "")
-                opp_sp_id = opp_person.get("id", opp_sp_id)
-
-            # Batting order for lineup slot lookup
-            batting_order = side_data.get("battingOrder", [])
-            slot_map = {}
-            for slot_idx, pid in enumerate(batting_order):
-                slot_map[pid] = slot_idx + 1  # 1-indexed
-
-            # Extract hitting stats for each position player
-            for player_key, p_data in players.items():
-                person = p_data.get("person", {})
-                pid = person.get("id")
-                if not pid:
-                    continue
-
-                # Skip pitchers (check position)
-                pos = p_data.get("position", {}).get("abbreviation", "")
-                if pos == "P":
-                    # Still include if they batted (DH rule exceptions, NL)
-                    # Check if they have batting stats with AB > 0
-                    b_stats = p_data.get("stats", {}).get("batting", {})
-                    if not b_stats or (b_stats.get("atBats", 0) == 0 and
-                                       b_stats.get("baseOnBalls", 0) == 0):
-                        continue
-
-                b_stats = p_data.get("stats", {}).get("batting", {})
-                if not b_stats:
-                    continue
-
-                ab = b_stats.get("atBats", 0) or 0
-                bb = b_stats.get("baseOnBalls", 0) or 0
-                hbp = b_stats.get("hitByPitch", 0) or 0
-                sac_fly = b_stats.get("sacFlies", 0) or 0
-                sac_bunt = b_stats.get("sacBunts", 0) or 0
-                pa = ab + bb + hbp + sac_fly + sac_bunt
-
-                # Skip batters with no plate appearances
-                if pa == 0:
-                    continue
-
-                h = b_stats.get("hits", 0) or 0
-                doubles = b_stats.get("doubles", 0) or 0
-                triples = b_stats.get("triples", 0) or 0
-                hr = b_stats.get("homeRuns", 0) or 0
-                k = b_stats.get("strikeOuts", 0) or 0
-
-                # tb = h + doubles + 2*triples + 3*hr
-                tb = h + doubles + 2 * triples + 3 * hr
-
-                row = {
-                    "game_date": game_date,
-                    "team": team_abbr,
-                    "opp": opp_abbr,
-                    "pa": pa,
-                    "ab": ab,
-                    "h": h,
-                    "doubles": doubles,
-                    "triples": triples,
-                    "hr": hr,
-                    "bb": bb,
-                    "k": k,
-                    "hbp": hbp,
-                    "tb": tb,
-                    "lineup_slot": slot_map.get(pid, 0),
-                    "opp_pitcher_id": opp_sp_id,
-                    "opp_pitcher_hand": opp_sp_hand,
-                    "is_home": side == "home",
-                }
-
-                if pid not in result:
-                    result[pid] = []
-                result[pid].append(row)
-
-        if (i + 1) % 50 == 0:
-            total = sum(len(v) for v in result.values())
-            print(f"  [mlb_stats] Processed {i+1}/{len(game_pks)} games ({len(result)} batters, {total} entries)")
-        time.sleep(0.15)
-
-    total = sum(len(v) for v in result.values())
-    print(f"  [mlb_stats] Fetched batter game logs: {len(result)} batters, {total} entries from {len(game_pks)} games")
-
-    _save_cache(cache_path, result)
-    return result
+    print(f"  [mlb_stats] Warning: batter game logs cache not built after pitcher fetch")
+    return {}
 
 
 # ---------------------------------------------------------------------------
