@@ -43,7 +43,7 @@
       const allL = allPicks.filter(p => p.result === 'LOSS').length;
       const allU = allW * 1.0 + allL * (-1.1);
       const allPct = (allW + allL) > 0 ? (allW / (allW + allL) * 100).toFixed(1) : '0';
-      const fullSummary = `${allW}W-${allL}L (${allPct}%) ${allU >= 0 ? '+' : ''}${allU.toFixed(1)}u`;
+      const fullSummary = `${allW}W-${allL}L (${allPct}%) ${allU >= 0 ? '+' : ''}${allU.toFixed(2)}u`;
       const hasGraded = isBacktest && (allW + allL) > 0;
       hdr.appendChild(Object.assign(document.createElement('div'), {className:'card-title', textContent:`NFL Player Props \u2014 ${data.season || ''}`}));
       hdr.appendChild(Object.assign(document.createElement('div'), {className:'card-subtitle', textContent:`${fullSummary} | Generated: ${(data.generated || '').slice(0,16)}`}));
@@ -311,7 +311,7 @@
             const pct = (w + l) > 0 ? (w / (w + l) * 100).toFixed(1) : 'n/a';
             gW += w; gL += l;
             const sr = sb.insertRow();
-            [market, String(mPicks.length), String(w), String(l), pct + '%', (u >= 0 ? '+' : '') + u.toFixed(1) + 'u'].forEach((v, i) => {
+            [market, String(mPicks.length), String(w), String(l), pct + '%', (u >= 0 ? '+' : '') + u.toFixed(2) + 'u'].forEach((v, i) => {
               const td = sr.insertCell();
               td.textContent = v;
               td.style.padding = '6px 10px';
@@ -325,7 +325,7 @@
           tr.style.fontWeight = '700';
           ['TOTAL', String(filteredPicks.length), String(gW), String(gL),
            (gW+gL>0?(gW/(gW+gL)*100).toFixed(1):'0')+'%',
-           (gU>=0?'+':'')+gU.toFixed(1)+'u'].forEach((v,i) => {
+           (gU>=0?'+':'')+gU.toFixed(2)+'u'].forEach((v,i) => {
             const td = tr.insertCell();
             td.textContent = v;
             td.style.padding = '6px 10px';
@@ -511,7 +511,7 @@
             totW += w; totL += l;
             const sr = sb.insertRow();
             [`${wk.season} Week ${wk.week}`, String(wk.picks.length), String(w), String(l),
-             (w+l>0?pct+'%':'\u2014'), (w+l>0?(u>=0?'+':'')+u.toFixed(1)+'u':'\u2014')].forEach((v, i) => {
+             (w+l>0?pct+'%':'\u2014'), (w+l>0?(u>=0?'+':'')+u.toFixed(2)+'u':'\u2014')].forEach((v, i) => {
               const td = sr.insertCell();
               td.textContent = v;
               td.style.padding = '6px 10px';
@@ -525,7 +525,7 @@
           tr.style.fontWeight = '700';
           ['TOTAL', String(fp.length), String(totW), String(totL),
            (totW+totL>0?(totW/(totW+totL)*100).toFixed(1)+'%':'\u2014'),
-           (totU>=0?'+':'')+totU.toFixed(1)+'u'].forEach((v,i) => {
+           (totU>=0?'+':'')+totU.toFixed(2)+'u'].forEach((v,i) => {
             const td = tr.insertCell();
             td.textContent = v;
             td.style.padding = '6px 10px';
@@ -556,7 +556,7 @@
         const wW = wPicks.filter(p => p.result === 'WIN').length;
         const wL = wPicks.filter(p => p.result === 'LOSS').length;
         const wU = wW * 1.0 + wL * (-1.1);
-        const wPct = (wW + wL) > 0 ? ` \u2014 ${wW}W-${wL}L (${(wW/(wW+wL)*100).toFixed(1)}%) ${wU>=0?'+':''}${wU.toFixed(1)}u` : ` \u2014 ${wPicks.length} picks`;
+        const wPct = (wW + wL) > 0 ? ` \u2014 ${wW}W-${wL}L (${(wW/(wW+wL)*100).toFixed(1)}%) ${wU>=0?'+':''}${wU.toFixed(2)}u` : ` \u2014 ${wPicks.length} picks`;
 
         const card = document.createElement('div');
         card.className = 'card card-games';
@@ -576,7 +576,7 @@
             const ml2 = mp.length - mw;
             const mu = mw - ml2 * 1.1;
             const span = document.createElement('span');
-            span.innerHTML = `<span style="color:#ccc">${mk}</span> ${mw}W-${ml2}L <span style="color:${mu>=0?'var(--green)':'var(--red)'}">${mu>=0?'+':''}${mu.toFixed(1)}u</span>`;
+            span.innerHTML = `<span style="color:#ccc">${mk}</span> ${mw}W-${ml2}L <span style="color:${mu>=0?'var(--green)':'var(--red)'}">${mu>=0?'+':''}${mu.toFixed(2)}u</span>`;
             mkRow.appendChild(span);
           }
           card.appendChild(mkRow);
