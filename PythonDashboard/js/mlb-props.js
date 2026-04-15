@@ -22,8 +22,8 @@
     }
 
     function buildMLBMarketBreakdown(filteredPicks) {
-      const mlbMarketLabels = {strikeouts:'K', outs:'OUTS', game_hits:'HITS'};
-      const mlbMarketOrder = ['K','OUTS','HITS'];
+      const mlbMarketLabels = {strikeouts:'K', outs:'OUTS', hits_allowed:'HA', game_hits:'HITS'};
+      const mlbMarketOrder = ['K','OUTS','HA','HITS'];
       const fGrouped = {};
       for (const p of filteredPicks) {
         const ml = mlbMarketLabels[p.market] || p.market;
@@ -50,7 +50,7 @@
         return;
       }
 
-      const marketLabels = {strikeouts:'K', outs:'OUTS', game_hits:'HITS'};
+      const marketLabels = {strikeouts:'K', outs:'OUTS', hits_allowed:'HA', game_hits:'HITS'};
       const picks = data.props.filter(p => p.pick !== 'PASS');
       const isBacktest = picks.some(p => p.result != null);
 
@@ -238,7 +238,7 @@
             hRow.appendChild(th);
           });
           const tbody = tbl.createTBody();
-          const yCatOrder = {strikeouts:0, outs:1, game_hits:2};
+          const yCatOrder = {strikeouts:0, outs:1, hits_allowed:2, game_hits:3};
           for (const p of yesterdayPicks.sort((a,b) => (yCatOrder[a.market]??99) - (yCatOrder[b.market]??99) || (b.pCover||0) - (a.pCover||0))) {
             const row = tbody.insertRow();
             row.style.borderBottom = '1px solid rgba(255,255,255,0.05)';
@@ -292,7 +292,7 @@
             hRow.appendChild(th);
           });
           const tbody = tbl.createTBody();
-          const catOrder = {strikeouts:0, outs:1, game_hits:2};
+          const catOrder = {strikeouts:0, outs:1, hits_allowed:2, game_hits:3};
           todayPicks.sort((a,b) => (catOrder[a.market]??99) - (catOrder[b.market]??99) || (b.pCover||0) - (a.pCover||0));
           for (const p of todayPicks) {
             const row = tbody.insertRow();
@@ -370,7 +370,7 @@
         // Market filter pills
         const mktPills = document.createElement('div');
         mktPills.style.cssText = 'display:flex;gap:6px;flex-wrap:wrap;padding:10px 16px;border-bottom:1px solid rgba(255,255,255,0.08)';
-        const mktFilters = ['all','strikeouts','outs'];
+        const mktFilters = ['all','strikeouts','outs','hits_allowed'];
         let activeMkt = 'all';
 
         // Table container
@@ -403,7 +403,7 @@
         let sortCol = 'cat';
         let sortDir = 1;
 
-        const catOrd = {strikeouts:0, outs:1, game_hits:2};
+        const catOrd = {strikeouts:0, outs:1, hits_allowed:2, game_hits:3};
 
         function sortRows(rows) {
           return [...rows].sort((a, b) => {
@@ -596,7 +596,7 @@
       toolbar.appendChild(tabRow);
 
       // Row 2: Market filter pills
-      const mlbButtonOrder = ['strikeouts','outs','game_hits'];
+      const mlbButtonOrder = ['strikeouts','outs','hits_allowed','game_hits'];
       const allMarketKeys = [...new Set(picks.map(p => p.market))].sort((a, b) => {
         const ia = mlbButtonOrder.indexOf(a); const ib = mlbButtonOrder.indexOf(b);
         return (ia === -1 ? 99 : ia) - (ib === -1 ? 99 : ib);

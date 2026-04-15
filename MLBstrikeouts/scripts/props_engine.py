@@ -474,6 +474,143 @@ def project_pitcher_props(pitcher_logs, team_batting_stats=None,
                 model_proj = _apply_rest_adjustment(model_proj, market, rest_days)
 
             # =============================================================
+            # HITS ALLOWED: Decomposition model
+            #
+            # E[H] = E[HR] + (E[BF] - E[K] - E[BB] - E[HBP] - E[HR]) × BABIP_adj
+            #
+            # Each component projected separately. Park + weather adjust
+            # HR rate and BABIP directly.
+            # =============================================================
+            elif market == "hits_allowed":
+                # --- Projected BF (same as K model) ---
+                game_bfs_ha = []
+                game_pcs_ha = []
+                game_ppbfs_ha = []
+                for g in qualified:
+                    _bf = g.get("bf", 0) or (g.get("outs", 0) + g.get("h", 0) + g.get("bb", 0) + 1)
+                    _pc = g.get("pitches", 0)
+                    if _bf > 0 and _pc > 0:
+                        game_bfs_ha.append(_bf)
+                        game_pcs_ha.append(_pc)
+                        game_ppbfs_ha.append(_pc / _bf)
+
+                if game_ppbfs_ha:
+                    avg_ppbf = _weighted_avg(game_ppbfs_ha)
+                    avg_pc = _weighted_avg(game_pcs_ha)
+                    proj_bf = avg_pc / avg_ppbf if avg_ppbf > 0 else 24.0
+                else:
+                    whip = adv.get("WHIP", 0) or 1.20
+                    proj_bf = proj_ip * (3.0 + whip * 0.7)
+
+                # --- E[K] from our K model (reuse rate × BF) ---
+                vl = splits.get("vs_left", {})
+                vr = splits.get("vs_right", {})
+                vl_k, vl_pa = vl.get("k", 0), vl.get("pa", 0)
+                vr_k, vr_pa = vr.get("k", 0), vr.get("pa", 0)
+                k_rate_l = vl_k / vl_pa if vl_pa > 0 else (adv.get("k_pct", 0) or 0.20)
+                k_rate_r = vr_k / vr_pa if vr_pa > 0 else (adv.get("k_pct", 0) or 0.20)
+                opp_stats = (team_batting_stats or {}).get(latest_opp, {})
+                pct_lhb = opp_stats.get("PCT_LHB", 0.40)
+                proj_k_rate = k_rate_l * pct_lhb + k_rate_r * (1.0 - pct_lhb)
+                proj_k = proj_k_rate * proj_bf
+
+                # --- E[BB] from rolling BB rate ---
+                total_bb = sum(g.get("bb", 0) for g in qualified)
+                total_bf_q = sum(g.get("bf", 0) or (g.get("outs", 0) + g.get("h", 0) + g.get("bb", 0) + 1) for g in qualified)
+                bb_rate = total_bb / total_bf_q if total_bf_q > 0 else 0.08
+                proj_bb = bb_rate * proj_bf
+
+                # --- E[HBP] (small, use average ~0.3 per game) ---
+                total_hbp = sum(g.get("hbp", 0) for g in qualified)
+                hbp_rate = total_hbp / len(qualified) if qualified else 0.3
+                proj_hbp = max(hbp_rate, 0.2)
+
+                # --- E[HR] from rolling HR rate ---
+                total_hr = sum(g.get("hr", 0) for g in qualified)
+                hr_rate = total_hr / total_bf_q if total_bf_q > 0 else 0.03
+                proj_hr = hr_rate * proj_bf
+
+                # --- BIP (balls in play) ---
+                proj_bip = max(0, proj_bf - proj_k - proj_bb - proj_hbp - proj_hr)
+
+                # --- BABIP ---
+                # Compute from game logs
+                total_h = sum(g.get("h", 0) for g in qualified)
+                total_hr_q = sum(g.get("hr", 0) for g in qualified)
+                total_k_q = sum(g.get("k", 0) for g in qualified)
+                bip_actual = total_bf_q - total_k_q - total_bb - total_hr_q
+                pitcher_babip = (total_h - total_hr_q) / bip_actual if bip_actual > 0 else 0.300
+
+                # Shrink toward league average (.300) — BABIP is very noisy
+                lg_babip = 0.300
+                babip_shrink = 0.5  # 50% league, 50% pitcher
+                babip_adj = babip_shrink * lg_babip + (1 - babip_shrink) * pitcher_babip
+
+                # Savant xBA as better BABIP estimate if available
+                savant = (savant_rates or {}).get(str(pid), {})
+                if savant.get("xba", 0) > 0:
+                    # xBA is expected BA against — includes HR, so adjust
+                    # BABIP ≈ (xBA × BF - HR) / BIP, but simpler: use as anchor
+                    babip_adj = 0.4 * savant["xba"] + 0.3 * pitcher_babip + 0.3 * lg_babip
+
+                # --- Park + weather adjustments ---
+                hr_mult = 1.0
+                babip_mult = 1.0
+                if weather_by_game:
+                    _game_id = ctx.get("game_id")
+                    if _game_id:
+                        w_data = (weather_by_game.get(_game_id)
+                                  or weather_by_game.get(str(_game_id)))
+                        if w_data:
+                            _home_team = ctx.get("team") if is_home else ctx.get("opp", "")
+                            w_mult = compute_weather_multiplier(w_data, _home_team)
+                            # Weather affects HR more than BABIP
+                            hr_mult = 1.0 + (w_mult - 1.0) * 1.5   # amplify for HR
+                            babip_mult = 1.0 + (w_mult - 1.0) * 0.5  # dampen for BABIP
+
+                proj_hr *= hr_mult
+                babip_adj *= babip_mult
+
+                # --- Opponent batting adjustment ---
+                # Contact-heavy lineups with low K% = more BIP = more hits
+                opp_ba = opp_stats.get("BA", 0)
+                lg_ba = league_avg.get("BA", 0.250) or 0.250
+                if opp_ba > 0 and lg_ba > 0:
+                    ba_ratio = opp_ba / lg_ba
+                    babip_adj *= (1.0 + (ba_ratio - 1.0) * 0.3)
+
+                # --- Handedness adjustment on BABIP ---
+                # Use pitcher's BA against splits
+                vl_ba = vl.get("ba", 0)
+                vr_ba = vr.get("ba", 0)
+                try:
+                    vl_ba = float(vl_ba) if vl_ba else 0
+                    vr_ba = float(vr_ba) if vr_ba else 0
+                except (ValueError, TypeError):
+                    vl_ba, vr_ba = 0, 0
+                if vl_ba > 0 and vr_ba > 0:
+                    weighted_ba = vl_ba * pct_lhb + vr_ba * (1.0 - pct_lhb)
+                    overall_ba = (vl_ba + vr_ba) / 2.0
+                    if overall_ba > 0:
+                        hand_adj = (weighted_ba / overall_ba)
+                        babip_adj *= (1.0 + (hand_adj - 1.0) * 0.15)
+
+                # --- Final HA projection ---
+                model_proj = proj_hr + (proj_bip * babip_adj)
+
+                # Kalman blend (tracks raw H trend)
+                kalman_key = KALMAN_STAT_KEYS.get(market)
+                kalman_proj, _ = _blend_with_kalman(
+                    kalman_state, str(pid), kalman_key,
+                    model_proj, rolling_std,
+                )
+                # 60% decomposition, 40% Kalman
+                model_proj = 0.6 * model_proj + 0.4 * kalman_proj
+
+                # Rest adjustment
+                model_proj = _apply_rest_adjustment(model_proj, market, rest_days)
+
+            # =============================================================
             # OUTS: Efficiency-based projection with run environment
             #
             # Outs = f(pitch count ceiling, efficiency, run environment)
@@ -579,6 +716,7 @@ def project_pitcher_props(pitcher_logs, team_batting_stats=None,
             EMPIRICAL_STD = {
                 "strikeouts": 1.9,
                 "outs": 2.4,
+                "hits_allowed": 1.9,
             }
             emp_std = EMPIRICAL_STD.get(market, 2.0)
 

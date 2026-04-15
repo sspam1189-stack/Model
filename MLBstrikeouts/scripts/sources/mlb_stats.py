@@ -225,13 +225,18 @@ def fetch_pitcher_game_logs(season=None):
                 "game_id": gm["pk"],
                 "k": p_stats.get("strikeOuts", 0),
                 "ip": _ip_to_float(ip_str),
-                "IP": _ip_to_float(ip_str),  # alias used by game_context
+                "IP": _ip_to_float(ip_str),
                 "ip_str": ip_str,
                 "outs": _ip_to_outs(ip_str),
                 "h": p_stats.get("hits", 0),
                 "bb": p_stats.get("baseOnBalls", 0),
+                "hr": p_stats.get("homeRuns", 0),
+                "hbp": p_stats.get("hitByPitch", 0),
+                "bf": p_stats.get("battersFaced", 0),
                 "er": p_stats.get("earnedRuns", 0),
                 "pitches": p_stats.get("numberOfPitches", 0),
+                "ground_outs": p_stats.get("groundOuts", 0),
+                "fly_outs": p_stats.get("airOuts", 0),
                 "opp": opp_abbr,
                 "is_home": side == "home",
                 "is_start": True,
@@ -339,7 +344,7 @@ def fetch_savant_pitcher_rates(season=None, min_pa=10):
     url = (
         f"https://baseballsavant.mlb.com/leaderboard/custom"
         f"?year={season}&type=pitcher&filter=&min={min_pa}"
-        f"&selections=k_percent,whiff_percent,bb_percent"
+        f"&selections=k_percent,whiff_percent,bb_percent,xba,barrel_batted_rate,hard_hit_percent"
         f"&chart=false&csv=true"
     )
 
@@ -365,10 +370,20 @@ def fetch_savant_pitcher_rates(season=None, min_pa=10):
         except (ValueError, TypeError):
             continue
 
+        try:
+            xba = float(row.get("xba", 0) or 0)
+            barrel = float(row.get("barrel_batted_rate", 0) or 0) / 100.0
+            hard_hit = float(row.get("hard_hit_percent", 0) or 0) / 100.0
+        except (ValueError, TypeError):
+            xba, barrel, hard_hit = 0, 0, 0
+
         result[pid] = {
             "k_pct": round(k_pct, 4),
             "whiff_pct": round(whiff_pct, 4),
             "bb_pct": round(bb_pct, 4),
+            "xba": round(xba, 4),
+            "barrel_pct": round(barrel, 4),
+            "hard_hit_pct": round(hard_hit, 4),
         }
 
     print(f"  [savant] Fetched rates for {len(result)} pitchers")
