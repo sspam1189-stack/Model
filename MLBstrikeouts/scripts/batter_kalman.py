@@ -356,11 +356,9 @@ def batch_update_from_game_logs(state, batter_logs, defaults=None):
     ----------
     state : dict
         Batter Kalman state.
-    batter_logs : list[dict]
-        Game log entries. Each dict should have:
-          - batter_id: str
-          - batter_name: str
-          - game_id: str (optional, for dedup)
+    batter_logs : dict
+        {batter_id: [game_log_dicts]} where each game dict has:
+          - game_date: str
           - ab: int (at bats)
           - pa: int (plate appearances)
           - h: int (hits)
@@ -377,36 +375,32 @@ def batch_update_from_game_logs(state, batter_logs, defaults=None):
     cfg = defaults or BATTER_KALMAN_DEFAULTS
     processed = 0
 
-    for g in batter_logs:
-        bid = g.get("batter_id")
-        bname = g.get("batter_name", "")
-        game_id = g.get("game_id")
+    for bid, games in batter_logs.items():
+        for g in games:
+            game_id = g.get("game_date", "")
 
-        if bid is None:
-            continue
+            ab = g.get("ab", 0)
+            pa = g.get("pa", 0)
 
-        ab = g.get("ab", 0)
-        pa = g.get("pa", 0)
+            # Skip games where batter had 0 AB or 0 PA (pinch-run only, etc.)
+            if ab <= 0 or pa <= 0:
+                continue
 
-        # Skip games where batter had 0 AB or 0 PA (pinch-run only, etc.)
-        if ab <= 0 or pa <= 0:
-            continue
+            tb = g.get("tb", 0)
+            h = g.get("h", 0)
+            k = g.get("k", 0)
 
-        tb = g.get("tb", 0)
-        h = g.get("h", 0)
-        k = g.get("k", 0)
+            # Compute per-game observations
+            obs_iso = (tb - h) / ab if ab > 0 else None
+            obs_contact = 1.0 - (k / pa) if pa > 0 else None
 
-        # Compute per-game observations
-        obs_iso = (tb - h) / ab if ab > 0 else None
-        obs_contact = 1.0 - (k / pa) if pa > 0 else None
+            game_stats = {
+                "iso": obs_iso,
+                "contact": obs_contact,
+            }
 
-        game_stats = {
-            "iso": obs_iso,
-            "contact": obs_contact,
-        }
-
-        update_batter_from_game(state, str(bid), bname, game_stats, game_id, cfg)
-        processed += 1
+            update_batter_from_game(state, str(bid), "", game_stats, game_id, cfg)
+            processed += 1
 
     return processed
 
