@@ -236,6 +236,25 @@ def season_dates(season=None):
 
 
 # ---------------------------------------------------------------------------
+# Batter props — total bases
+# ---------------------------------------------------------------------------
+BATTER_MIN_GAMES = 10          # ~2 weeks of daily play
+BATTER_MIN_PA = 30             # minimum season PA to qualify
+BATTER_MARKET_THRESHOLDS = {
+    "total_bases": {"high": 0.58},  # both directions
+}
+BATTER_MIN_EDGE = {"total_bases": 0.0}
+BATTER_CONFIDENCE_FLOOR = 0.52  # don't pick if simulation too noisy
+BATTER_REQUIRE_LINEUP = True
+BATTER_PAIRED_FILTER = True
+
+# PA by lineup slot (expected plate appearances per game)
+LINEUP_SLOT_PA = {
+    1: 4.5, 2: 4.4, 3: 4.3, 4: 4.2, 5: 4.1,
+    6: 4.0, 7: 3.9, 8: 3.8, 9: 3.7,
+}
+
+# ---------------------------------------------------------------------------
 # MLB team abbreviations (full name -> standard abbreviation)
 # Includes common variations: city only, mascot only, etc.
 # ---------------------------------------------------------------------------

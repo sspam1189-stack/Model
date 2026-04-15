@@ -41,6 +41,12 @@ const SOURCES = {
     local: 'data/mlb-props.json',
     remote: 'https://raw.githubusercontent.com/sspam1189-stack/Model/main/MLBstrikeouts/data/mlb-props.json',
     repo: 'https://github.com/sspam1189-stack/Model'
+  },
+  'mlb-batter-props': {
+    name: 'MLB Batter Props',
+    local: 'data/mlb-props.json',
+    remote: 'https://raw.githubusercontent.com/sspam1189-stack/Model/main/MLBstrikeouts/data/mlb-props.json',
+    repo: 'https://github.com/sspam1189-stack/Model'
   }
 };
 
@@ -1423,6 +1429,10 @@ async function render() {
   // MLB Pitcher Props
   if (activeTab === 'mlb-props') {
     return renderMLBProps();
+  }
+  // MLB Batter Props
+  if (activeTab === 'mlb-batter-props') {
+    return renderMLBBatterProps();
   }
 
   const data = await fetchData(activeTab);

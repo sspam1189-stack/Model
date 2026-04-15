@@ -1037,6 +1037,384 @@ def _compute_pct_lhb(player_ids, bat_sides):
 
 
 # ---------------------------------------------------------------------------
+# 9. Batter Game Logs (from boxscores)
+# ---------------------------------------------------------------------------
+
+def fetch_batter_game_logs(season=None):
+    """
+    Fetch batter game logs for the season from boxscore data.
+
+    Extracts hitting stats for every position player from the same
+    boxscore feed used by fetch_pitcher_game_logs. If the pitcher game
+    logs cache already exists we re-use its schedule/game list to avoid
+    re-fetching the schedule.
+
+    Returns dict keyed by batter_id (int):
+        {batter_id: [{"game_date", "team", "opp", "pa", "ab", "h",
+                       "doubles", "triples", "hr", "bb", "k", "hbp",
+                       "tb", "lineup_slot", "opp_pitcher_id",
+                       "opp_pitcher_hand", "is_home"}, ...]}
+    """
+    season = season or _current_season()
+    cache_path = CACHE_DIR / f"batter_game_logs_{season}.json"
+
+    cached = _load_cache(cache_path)
+    if cached is not None:
+        total = sum(len(v) for v in cached.values())
+        print(f"  [mlb_stats] Using cached batter game logs ({len(cached)} batters, {total} entries)")
+        # Keys come back as strings from JSON; convert to int
+        return {int(k): v for k, v in cached.items()}
+
+    # Step 1: Get completed games from schedule
+    start_date = f"{season}-03-20"
+    end_date = date.today().strftime("%Y-%m-%d")
+
+    print(f"  [mlb_stats] Fetching batter game logs, schedule {start_date} to {end_date}...")
+    schedule_url = (
+        f"{BASE_URL}/schedule?sportId=1"
+        f"&startDate={start_date}&endDate={end_date}"
+        f"&gameType=R"
+    )
+    try:
+        sched = _fetch_json(schedule_url)
+    except Exception as e:
+        print(f"  [mlb_stats] Schedule fetch failed: {e}")
+        return {}
+
+    game_pks = []
+    for d in sched.get("dates", []):
+        for g in d.get("games", []):
+            status = g.get("status", {}).get("abstractGameState", "")
+            if status == "Final":
+                game_pks.append({
+                    "pk": g["gamePk"],
+                    "date": g.get("officialDate", ""),
+                    "home_id": g.get("teams", {}).get("home", {}).get("team", {}).get("id"),
+                    "away_id": g.get("teams", {}).get("away", {}).get("team", {}).get("id"),
+                })
+
+    print(f"  [mlb_stats] {len(game_pks)} completed games, fetching boxscores for batter stats...")
+
+    # Step 2: Fetch boxscore for each game, extract batter hitting stats
+    result = {}  # {batter_id: [game_rows]}
+
+    for i, gm in enumerate(game_pks):
+        try:
+            box_url = f"{BASE_URL}.1/game/{gm['pk']}/feed/live"
+            live = _fetch_json(box_url)
+        except Exception:
+            continue
+
+        box = live.get("liveData", {}).get("boxscore", {}).get("teams", {})
+        game_date = gm["date"]
+
+        for side in ["away", "home"]:
+            side_data = box.get(side, {})
+            players = side_data.get("players", {})
+            team_info = side_data.get("team", {})
+            team_id = team_info.get("id")
+            team_abbr = MLB_TEAM_ID_TO_ABBR.get(team_id, "")
+
+            opp_side = "home" if side == "away" else "away"
+            opp_id = box.get(opp_side, {}).get("team", {}).get("id")
+            opp_abbr = MLB_TEAM_ID_TO_ABBR.get(opp_id, "")
+
+            # Get opposing starting pitcher info
+            opp_pitchers = box.get(opp_side, {}).get("pitchers", [])
+            opp_sp_id = opp_pitchers[0] if opp_pitchers else None
+            opp_sp_hand = ""
+            if opp_sp_id:
+                opp_p_data = box.get(opp_side, {}).get("players", {}).get(f"ID{opp_sp_id}", {})
+                opp_person = opp_p_data.get("person", {})
+                # pitchHand is available on the person object in the feed
+                opp_sp_hand = opp_person.get("pitchHand", {}).get("code", "")
+                opp_sp_id = opp_person.get("id", opp_sp_id)
+
+            # Batting order for lineup slot lookup
+            batting_order = side_data.get("battingOrder", [])
+            slot_map = {}
+            for slot_idx, pid in enumerate(batting_order):
+                slot_map[pid] = slot_idx + 1  # 1-indexed
+
+            # Extract hitting stats for each position player
+            for player_key, p_data in players.items():
+                person = p_data.get("person", {})
+                pid = person.get("id")
+                if not pid:
+                    continue
+
+                # Skip pitchers (check position)
+                pos = p_data.get("position", {}).get("abbreviation", "")
+                if pos == "P":
+                    # Still include if they batted (DH rule exceptions, NL)
+                    # Check if they have batting stats with AB > 0
+                    b_stats = p_data.get("stats", {}).get("batting", {})
+                    if not b_stats or (b_stats.get("atBats", 0) == 0 and
+                                       b_stats.get("baseOnBalls", 0) == 0):
+                        continue
+
+                b_stats = p_data.get("stats", {}).get("batting", {})
+                if not b_stats:
+                    continue
+
+                ab = b_stats.get("atBats", 0) or 0
+                bb = b_stats.get("baseOnBalls", 0) or 0
+                hbp = b_stats.get("hitByPitch", 0) or 0
+                sac_fly = b_stats.get("sacFlies", 0) or 0
+                sac_bunt = b_stats.get("sacBunts", 0) or 0
+                pa = ab + bb + hbp + sac_fly + sac_bunt
+
+                # Skip batters with no plate appearances
+                if pa == 0:
+                    continue
+
+                h = b_stats.get("hits", 0) or 0
+                doubles = b_stats.get("doubles", 0) or 0
+                triples = b_stats.get("triples", 0) or 0
+                hr = b_stats.get("homeRuns", 0) or 0
+                k = b_stats.get("strikeOuts", 0) or 0
+
+                # tb = h + doubles + 2*triples + 3*hr
+                tb = h + doubles + 2 * triples + 3 * hr
+
+                row = {
+                    "game_date": game_date,
+                    "team": team_abbr,
+                    "opp": opp_abbr,
+                    "pa": pa,
+                    "ab": ab,
+                    "h": h,
+                    "doubles": doubles,
+                    "triples": triples,
+                    "hr": hr,
+                    "bb": bb,
+                    "k": k,
+                    "hbp": hbp,
+                    "tb": tb,
+                    "lineup_slot": slot_map.get(pid, 0),
+                    "opp_pitcher_id": opp_sp_id,
+                    "opp_pitcher_hand": opp_sp_hand,
+                    "is_home": side == "home",
+                }
+
+                if pid not in result:
+                    result[pid] = []
+                result[pid].append(row)
+
+        if (i + 1) % 50 == 0:
+            total = sum(len(v) for v in result.values())
+            print(f"  [mlb_stats] Processed {i+1}/{len(game_pks)} games ({len(result)} batters, {total} entries)")
+        time.sleep(0.15)
+
+    total = sum(len(v) for v in result.values())
+    print(f"  [mlb_stats] Fetched batter game logs: {len(result)} batters, {total} entries from {len(game_pks)} games")
+
+    _save_cache(cache_path, result)
+    return result
+
+
+# ---------------------------------------------------------------------------
+# 10. Baseball Savant Batter Rates (CSV bulk download)
+# ---------------------------------------------------------------------------
+
+def fetch_savant_batter_rates(season=None, min_pa=50):
+    """
+    Fetch batter Statcast rates from Baseball Savant custom leaderboard.
+
+    Single CSV download — no per-player calls needed.
+    Returns {player_id_str: {"barrel_pct", "hard_hit_pct", "xslg", "xwoba",
+                              "iso", "avg_ev", "fb_pct", "gb_pct"}}
+    """
+    import csv
+    import io
+
+    season = season or _current_season()
+    cache_path = CACHE_DIR / f"savant_batter_rates_{season}.json"
+
+    cached = _load_cache(cache_path, max_age_hours=None)
+    if cached is not None:
+        print(f"  [savant] Using cached batter rates ({len(cached)} batters)")
+        return cached
+
+    url = (
+        f"https://baseballsavant.mlb.com/leaderboard/custom"
+        f"?year={season}&type=batter&filter=&min={min_pa}"
+        f"&selections=barrel_batted_rate,hard_hit_percent,xslg,xwoba,iso,"
+        f"avg_hit_speed,flyballs_percent,groundballs_percent"
+        f"&chart=false&csv=true"
+    )
+
+    try:
+        resp = requests.get(url, headers={"User-Agent": "Mozilla/5.0"}, timeout=30)
+        resp.raise_for_status()
+    except Exception as e:
+        print(f"  [savant] Failed to fetch batter rates: {e}")
+        return {}
+
+    text = resp.text.lstrip("\ufeff")
+    reader = csv.DictReader(io.StringIO(text))
+
+    result = {}
+    for row in reader:
+        pid = row.get("player_id", "").strip()
+        if not pid:
+            continue
+
+        try:
+            barrel = float(row.get("barrel_batted_rate", 0) or 0) / 100.0
+            hard_hit = float(row.get("hard_hit_percent", 0) or 0) / 100.0
+        except (ValueError, TypeError):
+            barrel, hard_hit = 0, 0
+
+        try:
+            xslg = float(row.get("xslg", 0) or 0)
+            xwoba = float(row.get("xwoba", 0) or 0)
+            iso = float(row.get("iso", 0) or 0)
+        except (ValueError, TypeError):
+            xslg, xwoba, iso = 0, 0, 0
+
+        try:
+            avg_ev = float(row.get("avg_hit_speed", 0) or 0)
+        except (ValueError, TypeError):
+            avg_ev = 0
+
+        try:
+            fb_pct = float(row.get("flyballs_percent", 0) or 0) / 100.0
+            gb_pct = float(row.get("groundballs_percent", 0) or 0) / 100.0
+        except (ValueError, TypeError):
+            fb_pct, gb_pct = 0, 0
+
+        result[pid] = {
+            "barrel_pct": round(barrel, 4),
+            "hard_hit_pct": round(hard_hit, 4),
+            "xslg": round(xslg, 4),
+            "xwoba": round(xwoba, 4),
+            "iso": round(iso, 4),
+            "avg_ev": round(avg_ev, 1),
+            "fb_pct": round(fb_pct, 4),
+            "gb_pct": round(gb_pct, 4),
+        }
+
+    print(f"  [savant] Fetched batter rates for {len(result)} batters")
+    _save_cache(cache_path, result)
+    return result
+
+
+# ---------------------------------------------------------------------------
+# 11. Batter Hitting Splits (vs LHP / vs RHP)
+# ---------------------------------------------------------------------------
+
+def fetch_batter_splits(season=None):
+    """
+    Fetch batter hitting splits vs LHP and RHP (bulk, 2 API calls).
+
+    Returns dict keyed by batter_id (int):
+        {batter_id: {
+            "vs_lhp": {"ba", "slg", "iso", "hr_rate", "k_pct", "pa"},
+            "vs_rhp": {"ba", "slg", "iso", "hr_rate", "k_pct", "pa"},
+        }}
+    """
+    season = season or _current_season()
+    cache_path = CACHE_DIR / f"batter_splits_{season}.json"
+
+    cached = _load_cache(cache_path, max_age_hours=None)
+    if cached is not None:
+        print(f"  [mlb_stats] Using cached batter splits ({len(cached)} batters)")
+        return {int(k): v for k, v in cached.items()}
+
+    result = {}
+
+    # --- Bulk season stats (overall, to identify position players) ---
+    url = (
+        f"{BASE_URL}/stats?stats=season&group=hitting&season={season}"
+        f"&sportId=1&playerPool=all&limit=1000"
+    )
+    try:
+        raw = _fetch_json(url)
+    except Exception as e:
+        print(f"  [mlb_stats] Batter season stats fetch failed: {e}")
+        return {}
+    time.sleep(0.5)
+
+    # Build set of position player IDs (skip pitchers)
+    position_players = set()
+    for stat_group in raw.get("stats", []):
+        for split in stat_group.get("splits", []):
+            player = split.get("player", {})
+            pid = player.get("id")
+            pos = split.get("position", {}).get("abbreviation", "")
+            if pid and pos != "P":
+                position_players.add(pid)
+
+    # --- Bulk splits vs LHP/RHP ---
+    url2 = (
+        f"{BASE_URL}/stats?stats=statSplits&group=hitting&season={season}"
+        f"&sportId=1&sitCodes=vl,vr&playerPool=all&limit=1000"
+    )
+    try:
+        raw2 = _fetch_json(url2)
+    except Exception as e:
+        print(f"  [mlb_stats] Batter splits fetch failed: {e}")
+        return {}
+    time.sleep(0.5)
+
+    for stat_group in raw2.get("stats", []):
+        for split in stat_group.get("splits", []):
+            stat = split.get("stat", {})
+            player = split.get("player", {})
+            pid = player.get("id")
+            split_code = split.get("split", {}).get("code", "")
+
+            if not pid or pid not in position_players:
+                continue
+
+            # Compute PA (plateAppearances is often 0 in splits)
+            pa = stat.get("plateAppearances", 0) or 0
+            if pa == 0:
+                pa = ((stat.get("atBats", 0) or 0) +
+                      (stat.get("baseOnBalls", 0) or 0) +
+                      (stat.get("hitByPitch", 0) or 0) +
+                      (stat.get("sacFlies", 0) or 0) +
+                      (stat.get("sacBunts", 0) or 0))
+
+            ab = stat.get("atBats", 0) or 0
+            h = stat.get("hits", 0) or 0
+            hr = stat.get("homeRuns", 0) or 0
+            k = stat.get("strikeOuts", 0) or 0
+            doubles = stat.get("doubles", 0) or 0
+            triples = stat.get("triples", 0) or 0
+
+            ba = round(h / ab, 4) if ab > 0 else 0.0
+            # SLG = (1B + 2*2B + 3*3B + 4*HR) / AB
+            singles = h - doubles - triples - hr
+            slg = round((singles + 2 * doubles + 3 * triples + 4 * hr) / ab, 4) if ab > 0 else 0.0
+            iso = round(slg - ba, 4)
+            hr_rate = round(hr / pa, 4) if pa > 0 else 0.0
+            k_pct = round(k / pa, 4) if pa > 0 else 0.0
+
+            split_data = {
+                "ba": ba,
+                "slg": slg,
+                "iso": iso,
+                "hr_rate": hr_rate,
+                "k_pct": k_pct,
+                "pa": pa,
+            }
+
+            if pid not in result:
+                result[pid] = {"vs_lhp": {}, "vs_rhp": {}}
+
+            if split_code == "vl":  # vs left-handed pitcher
+                result[pid]["vs_lhp"] = split_data
+            elif split_code == "vr":  # vs right-handed pitcher
+                result[pid]["vs_rhp"] = split_data
+
+    print(f"  [mlb_stats] Fetched hitting splits for {len(result)} batters")
+    _save_cache(cache_path, result)
+    return result
+
+
+# ---------------------------------------------------------------------------
 # Main (quick test)
 # ---------------------------------------------------------------------------
 

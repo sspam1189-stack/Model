@@ -101,6 +101,9 @@ FD_PROP_TABS = [
     "pitcher-props",       # may contain hits allowed, walks
     "game-lines",          # may contain total game hits
     "innings",
+    "batter-total-bases",
+    "batter-props",
+    "batter-hits",
 ]
 
 # ---------------------------------------------------------------------------
@@ -141,6 +144,17 @@ FD_GAME_MARKET_MAP = {
     "TEAM_TOTAL_HITS": None,  # team-specific, not game total -- skip
 }
 
+# ---------------------------------------------------------------------------
+# Map FanDuel market types to internal batter market names
+# ---------------------------------------------------------------------------
+FD_BATTER_MARKET_MAP = {
+    "TOTAL_BASES": "total_bases",
+    "BATTER_TOTAL_BASES": "total_bases",
+    "PLAYER_TOTAL_BASES": "total_bases",
+    "TOTAL_BATTER_TOTAL_BASES": "total_bases",
+    "HITTER_TOTAL_BASES": "total_bases",
+}
+
 # Substring keywords for fallback matching per tab
 _STRIKEOUT_KEYWORDS = ("STRIKEOUT", "STRIKE_OUT", "K_THROWN", "KS_THROWN")
 _OUTS_KEYWORDS = ("OUTS_RECORDED", "PITCHING_OUT", "PITCHER_OUT")
@@ -155,6 +169,13 @@ def _match_fd_market_type(market_type, tab=None):
     for prefix_len in range(len(mt)):
         suffix = mt[prefix_len:]
         for fd_key, internal in FD_MARKET_TYPE_MAP.items():
+            if suffix == fd_key:
+                return internal
+
+    # --- Batter prop markets ---
+    for prefix_len in range(len(mt)):
+        suffix = mt[prefix_len:]
+        for fd_key, internal in FD_BATTER_MARKET_MAP.items():
             if suffix == fd_key:
                 return internal
 
@@ -449,3 +470,230 @@ def fetch_fanduel_mlb_props(date_key=None):
         _save_cache(all_game_hits, gh_cp)
 
     return (all_props, all_game_hits)
+
+
+def _batter_props_cache_path(date_key):
+    return _PROPS_CACHE_DIR / f"mlb_batter_props_{date_key}.json"
+
+
+# Batter-specific tabs to fetch
+_FD_BATTER_TABS = [
+    "batter-total-bases",
+    "batter-props",
+    "batter-hits",
+]
+
+
+def fetch_fanduel_mlb_batter_props(date_str=None):
+    """
+    Fetch MLB batter prop lines (total bases) from FanDuel.
+
+    Parameters
+    ----------
+    date_str : str or None
+        Date in YYYYMMDD format. Auto-detected if None.
+
+    Returns
+    -------
+    list[dict]
+        [{"player": str, "player_id": None, "team": str, "market": str,
+          "line": float, "over_price": int, "under_price": int}, ...]
+    """
+    from zoneinfo import ZoneInfo
+
+    if date_str is None:
+        now = datetime.datetime.now(ZoneInfo("America/Chicago"))
+        date_str = now.strftime("%Y%m%d")
+
+    # Load existing cache for started-game preservation
+    cp = _batter_props_cache_path(date_str)
+    existing_props = _load_cache(cp, max_age_hours=None) or []
+
+    # Step 1: Get MLB events from FanDuel
+    mlb_url = f"{FD_BASE}/content-managed-page?page=CUSTOM&customPageId=mlb&_ak={FD_API_KEY}"
+    try:
+        res = requests.get(mlb_url, headers=FD_HEADERS, timeout=15)
+        if res.status_code != 200:
+            print(f"  [fanduel-batter] MLB page failed: {res.status_code}")
+            return []
+        data = res.json()
+    except Exception as e:
+        print(f"  [fanduel-batter] MLB page error: {e}")
+        return []
+
+    events = data.get("attachments", {}).get("events", {})
+
+    # Filter to actual games on the requested date
+    target_date = f"{date_str[:4]}-{date_str[4:6]}-{date_str[6:8]}"
+    from datetime import timedelta
+    target_dt = datetime.datetime.strptime(target_date, "%Y-%m-%d")
+    next_day = (target_dt + timedelta(days=1)).strftime("%Y-%m-%d")
+
+    game_events = {}
+    for eid, ev in events.items():
+        if " @ " not in ev.get("name", ""):
+            continue
+        open_date = ev.get("openDate", "")[:10]
+        if open_date == target_date or open_date == next_day:
+            game_events[eid] = ev
+
+    print(f"  [fanduel-batter] Found {len(game_events)} MLB games for {target_date}")
+
+    if not game_events:
+        return existing_props
+
+    # Step 2: For each game, fetch batter prop tabs
+    now_utc = datetime.datetime.now(datetime.timezone.utc)
+    new_props = []
+    started_games = set()
+
+    for event_id, ev in game_events.items():
+        event_name = ev.get("name", "")
+        import re
+        clean_name = re.sub(r'\s*\([^)]*\)', '', event_name)
+        parts = clean_name.split(" @ ")
+        if len(parts) == 2:
+            away_team = parts[0].strip()
+            home_team = parts[1].strip()
+        else:
+            away_team = clean_name
+            home_team = ""
+
+        game_key = f"{away_team} @ {home_team}"
+
+        # Check if game has started
+        open_date_str = ev.get("openDate", "")
+        if open_date_str:
+            try:
+                open_dt = datetime.datetime.fromisoformat(open_date_str.replace("Z", "+00:00"))
+                if open_dt <= now_utc:
+                    started_games.add(game_key)
+                    continue
+            except (ValueError, AttributeError):
+                pass
+
+        home_abbr = MLB_TEAM_NAME_TO_ABBR.get(home_team, home_team)
+        away_abbr = MLB_TEAM_NAME_TO_ABBR.get(away_team, away_team)
+
+        for tab in _FD_BATTER_TABS:
+            tab_url = (
+                f"{FD_BASE}/event-page?eventId={event_id}"
+                f"&tab={tab}&_ak={FD_API_KEY}"
+            )
+            try:
+                r = requests.get(tab_url, headers=FD_HEADERS, timeout=10)
+                if r.status_code != 200:
+                    continue
+                tab_data = r.json()
+            except Exception:
+                continue
+
+            markets = tab_data.get("attachments", {}).get("markets", {})
+
+            for mk, mv in markets.items():
+                market_type = mv.get("marketType", "")
+                internal_market = _match_fd_market_type(market_type, tab=tab)
+                if internal_market != "total_bases":
+                    continue
+
+                runners = mv.get("runners", [])
+                if len(runners) != 2:
+                    continue
+
+                over_runner = None
+                under_runner = None
+                for rn in runners:
+                    name = rn.get("runnerName", "")
+                    if "Over" in name:
+                        over_runner = rn
+                    elif "Under" in name:
+                        under_runner = rn
+
+                if not over_runner or not under_runner:
+                    continue
+
+                line = over_runner.get("handicap")
+                if line is None or line == 0:
+                    import re as _re
+                    m = _re.search(r'(\d+\.?\d*)', over_runner.get("runnerName", ""))
+                    if m:
+                        line = float(m.group(1))
+                    else:
+                        continue
+                if line is None or line == 0:
+                    continue
+
+                over_odds = (over_runner.get("winRunnerOdds", {})
+                             .get("americanDisplayOdds", {})
+                             .get("americanOdds"))
+                under_odds = (under_runner.get("winRunnerOdds", {})
+                              .get("americanDisplayOdds", {})
+                              .get("americanOdds"))
+
+                try:
+                    over_price = int(over_odds) if over_odds else None
+                    under_price = int(under_odds) if under_odds else None
+                except (ValueError, TypeError):
+                    over_price = None
+                    under_price = None
+
+                # Player name from marketName (batter props)
+                market_name = mv.get("marketName", "")
+                import re as _re2
+                player_name = _re2.sub(
+                    r'\s*[-–]\s*(Total Bases|Batter Total Bases|Alt \w+).*', '', market_name
+                )
+                player_name = _re2.sub(
+                    r'\s*(Total Bases|Batter Total Bases).*', '', player_name
+                ).strip()
+
+                # Fallback: try runner name
+                if not player_name:
+                    runner_name = over_runner.get("runnerName", "")
+                    player_name = runner_name.replace(" Over", "").strip()
+
+                if not player_name:
+                    continue
+
+                new_props.append({
+                    "player": player_name,
+                    "player_id": None,
+                    "team": home_abbr if tab else None,
+                    "market": "total_bases",
+                    "line": float(line),
+                    "over_price": over_price,
+                    "under_price": under_price,
+                    "event_home": home_abbr,
+                    "event_away": away_abbr,
+                    "source": "fanduel",
+                })
+
+            time.sleep(0.2)  # Rate limit between tab requests
+
+    # Merge: keep cached props ONLY for started/finished games
+    def _game_key_from_prop(p):
+        return f"{p.get('event_away', '')} @ {p.get('event_home', '')}"
+
+    started_abbr_keys = set()
+    for sg in started_games:
+        sg_parts = sg.split(" @ ")
+        if len(sg_parts) == 2:
+            a = MLB_TEAM_NAME_TO_ABBR.get(sg_parts[0], sg_parts[0])
+            h = MLB_TEAM_NAME_TO_ABBR.get(sg_parts[1], sg_parts[1])
+            started_abbr_keys.add(f"{a} @ {h}")
+
+    kept_props = [p for p in existing_props
+                  if _game_key_from_prop(p) in started_abbr_keys]
+    all_props = kept_props + new_props
+
+    if started_games:
+        print(f"  [fanduel-batter] Preserved {len(kept_props)} cached batter lines "
+              f"for {len(started_games)} started games")
+    print(f"  [fanduel-batter] Fetched {len(new_props)} batter prop lines, "
+          f"total: {len(all_props)}")
+
+    # Save
+    if all_props:
+        _save_cache(all_props, cp)
+
+    return all_props

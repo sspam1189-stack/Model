@@ -60,6 +60,14 @@ _TEAM_ABBR = {
     "Washington": "WSN",
 }
 
+BATTER_PROP_MARKETS_API = [
+    "batter_total_bases",
+]
+
+BATTER_MARKET_MAP = {
+    "batter_total_bases": "total_bases",
+}
+
 _PROPS_CACHE_DIR = Path(__file__).resolve().parents[3] / "data" / "props_cache" / "mlb"
 
 
@@ -506,3 +514,152 @@ def fetch_historical_mlb_props_batch(start_date, end_date=None, dry_run=False, d
         print(f"  Errors:         {error_count}")
     print(f"  Cache dir: {_PROPS_CACHE_DIR}")
     print(f"{'='*60}\n")
+
+
+def _batter_props_cache_path(date_key):
+    """Cache path for batter props on a given date (YYYYMMDD)."""
+    return _PROPS_CACHE_DIR / f"mlb_batter_props_{date_key}.json"
+
+
+def fetch_mlb_batter_props(date_str=None, api_key=None):
+    """
+    Fetch MLB batter prop lines (total bases) for today's games.
+
+    Parameters
+    ----------
+    date_str : str or None
+        Date in YYYYMMDD format for caching. Auto-detected if None.
+    api_key : str or None
+        The Odds API key. Uses env var if None.
+
+    Returns
+    -------
+    list[dict]
+        [{"player": str, "player_id": None, "team": str, "market": str,
+          "line": float, "over_price": int, "under_price": int}, ...]
+    """
+    from zoneinfo import ZoneInfo
+
+    if date_str is None:
+        now = datetime.datetime.now(ZoneInfo("America/Chicago"))
+        date_str = now.strftime("%Y%m%d")
+
+    # Load existing cache for started-game preservation
+    cp = _batter_props_cache_path(date_str)
+    existing_props = _load_cache(cp, max_age_hours=None) or []
+
+    api_key = api_key or os.environ.get("ODDS_API_KEY", "6c5699682d30fc8664737160274f8d12")
+    if not api_key:
+        print("  [mlb_batter_props] Missing ODDS_API_KEY -- skipping batter prop odds fetch")
+        return []
+
+    # Step 1: Get MLB event IDs
+    events_url = f"{BASE}/sports/{SPORT_KEY}/events?apiKey={quote(api_key)}"
+    try:
+        res = _fetch_with_retry(events_url)
+        if res is None:
+            print(f"  [mlb_batter_props] Events fetch failed (no response)")
+            return []
+        if res.status_code != 200:
+            print(f"  [mlb_batter_props] Events fetch failed: HTTP {res.status_code} — {res.text[:200]}")
+            return []
+        events = res.json()
+    except Exception as e:
+        print(f"  [mlb_batter_props] Events fetch error: {e}")
+        return []
+
+    print(f"  [mlb_batter_props] Found {len(events)} MLB events")
+
+    # Step 2: For each event, fetch batter prop odds
+    now_utc = datetime.datetime.now(datetime.timezone.utc)
+    new_props = []
+    started_games = set()
+    markets_str = ",".join(BATTER_PROP_MARKETS_API)
+
+    for ev in events:
+        event_id = ev.get("id")
+        home = _TEAM_ABBR.get(ev.get("home_team", ""), ev.get("home_team", ""))
+        away = _TEAM_ABBR.get(ev.get("away_team", ""), ev.get("away_team", ""))
+
+        # Check if game has started
+        commence_str = ev.get("commence_time", "")
+        if commence_str:
+            try:
+                commence = datetime.datetime.fromisoformat(commence_str.replace("Z", "+00:00"))
+                if commence <= now_utc:
+                    started_games.add(f"{away} @ {home}")
+                    continue
+            except (ValueError, AttributeError):
+                pass
+
+        url = (
+            f"{BASE}/sports/{SPORT_KEY}/events/{event_id}/odds?"
+            f"apiKey={quote(api_key)}"
+            f"&regions=us"
+            f"&markets={markets_str}"
+            f"&oddsFormat=american"
+        )
+
+        try:
+            r = _fetch_with_retry(url)
+            if r is None or r.status_code != 200:
+                continue
+            data = r.json()
+        except Exception:
+            continue
+
+        bookmakers = data.get("bookmakers", [])
+        if not bookmakers:
+            continue
+
+        book = _pick_best_bookmaker(bookmakers)
+        if not book:
+            continue
+
+        for market in book.get("markets", []):
+            market_key = market.get("key", "")
+            internal_market = BATTER_MARKET_MAP.get(market_key)
+            if not internal_market:
+                continue
+
+            outcomes = market.get("outcomes", [])
+            # Group by player (over/under pairs)
+            player_lines = {}
+            for o in outcomes:
+                desc = o.get("description", "")
+                name = o.get("name", "")  # "Over" or "Under"
+                point = o.get("point")
+                price = o.get("price")
+                if desc and point is not None:
+                    if desc not in player_lines:
+                        player_lines[desc] = {"player": desc, "player_id": None, "line": point}
+                    if name == "Over":
+                        player_lines[desc]["over_price"] = price
+                    elif name == "Under":
+                        player_lines[desc]["under_price"] = price
+
+            for pl in player_lines.values():
+                new_props.append({
+                    **pl,
+                    "market": internal_market,
+                    "team": None,
+                    "event_home": home,
+                    "event_away": away,
+                })
+
+        time.sleep(0.3)  # Rate limit
+
+    # Merge: keep cached props ONLY for started/finished games
+    kept_props = [p for p in existing_props
+                  if f"{p.get('event_away', '')} @ {p.get('event_home', '')}" in started_games]
+    all_props = kept_props + new_props
+
+    if started_games:
+        print(f"  [mlb_batter_props] Preserved {len(kept_props)} cached lines for {len(started_games)} started games")
+    print(f"  [mlb_batter_props] Fetched {len(new_props)} new batter lines, {len(all_props)} total")
+
+    # Save
+    if all_props:
+        _save_cache(all_props, cp)
+
+    return all_props

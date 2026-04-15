@@ -1100,3 +1100,745 @@
       renderMLBMarketBtns();
       setView('all');
     }
+
+    // =====================================================================
+    // MLB Batter Props (Total Bases) — same layout as pitcher props
+    // =====================================================================
+    async function renderMLBBatterProps() {
+      const el = document.getElementById('content');
+      const data = await fetchData('mlb-batter-props');
+      if (!data || !data.batterProps || !data.batterProps.length) {
+        el.textContent = '';
+        const card = document.createElement('div');
+        card.className = 'card-games';
+        card.appendChild(Object.assign(document.createElement('div'), {className:'card-title', textContent:'MLB Batter Props'}));
+        card.appendChild(Object.assign(document.createElement('div'), {className:'no-picks', textContent:'No batter prop projections available yet. Run the batter props pipeline to generate projections.'}));
+        el.appendChild(card);
+        return;
+      }
+
+      const marketLabels = {total_bases:'TB'};
+      const picks = data.batterProps.filter(p => p.pick !== 'PASS');
+      const isBacktest = picks.some(p => p.result != null);
+
+      function getWeekStart(dateStr) {
+        const d = new Date(dateStr + 'T00:00:00Z');
+        const day = d.getUTCDay();
+        const diff = day === 0 ? -6 : 1 - day;
+        d.setUTCDate(d.getUTCDate() + diff);
+        return d.toISOString().slice(0, 10);
+      }
+      function getWeekEnd(weekStart) {
+        const d = new Date(weekStart + 'T00:00:00Z');
+        d.setUTCDate(d.getUTCDate() + 6);
+        return d.toISOString().slice(0, 10);
+      }
+
+      el.textContent = '';
+
+      function displayName(p) {
+        return mlbShortName(p.player);
+      }
+
+      function buildBatterMarketBreakdown(filteredPicks) {
+        const mlbMarketOrder = ['TB'];
+        const fGrouped = {};
+        for (const p of filteredPicks) {
+          const ml = marketLabels[p.market] || p.market;
+          if (!fGrouped[ml]) fGrouped[ml] = [];
+          fGrouped[ml].push(p);
+        }
+        const sortedMarkets = Object.keys(fGrouped).sort((a, b) => {
+          const ia = mlbMarketOrder.indexOf(a); const ib = mlbMarketOrder.indexOf(b);
+          return (ia === -1 ? 99 : ia) - (ib === -1 ? 99 : ib);
+        });
+        return { fGrouped, sortedMarkets };
+      }
+
+      // ── Yesterday's Recap + Today's Picks ──
+      (function renderBatterDailyCards() {
+        const allDates = [...new Set(picks.map(p => p.date))].sort();
+        const latestPickDate = allDates[allDates.length - 1] || '';
+        const todayStr = latestPickDate;
+        const yest = new Date(latestPickDate + 'T12:00:00');
+        yest.setDate(yest.getDate() - 1);
+        const yesterdayStr = yest.toISOString().slice(0, 10);
+
+        const gradedPicks = picks.filter(p => p.result);
+
+        // Season Market Breakdown
+        if (gradedPicks.length > 0) {
+          const { fGrouped, sortedMarkets } = buildBatterMarketBreakdown(gradedPicks);
+          const mbCard = document.createElement('div');
+          mbCard.className = 'card card-games';
+          mbCard.style.marginBottom = '16px';
+          mbCard.appendChild(Object.assign(document.createElement('div'), {className:'card-title', textContent:'Season Record'}));
+          const mbWrap = document.createElement('div');
+          mbWrap.className = 'props-table-wrap';
+          const mbTbl = document.createElement('table');
+          mbTbl.style.cssText = 'width:100%;border-collapse:collapse;margin-top:8px';
+          const mh = mbTbl.createTHead().insertRow();
+          ['Cat','Picks','W','L','Win%','Units','ROI'].forEach(h => {
+            const th = document.createElement('th');
+            th.textContent = h;
+            th.style.cssText = 'padding:6px 10px;text-align:right;border-bottom:1px solid rgba(255,255,255,0.1)';
+            if (h === 'Cat') th.style.textAlign = 'left';
+            mh.appendChild(th);
+          });
+          const mb = mbTbl.createTBody();
+          let gW = 0, gL = 0;
+          for (const market of sortedMarkets) {
+            const mPicks = fGrouped[market];
+            const w = mPicks.filter(p => p.result === 'WIN').length;
+            const l = mPicks.filter(p => p.result === 'LOSS').length;
+            const u = calcMLBPropsUnits(mPicks);
+            const pct = (w + l) > 0 ? (w / (w + l) * 100).toFixed(1) : 'n/a';
+            const roi = (w + l) > 0 ? (u / (w + l) * 100).toFixed(1) : 'n/a';
+            gW += w; gL += l;
+            const sr = mb.insertRow();
+            [market, String(mPicks.length), String(w), String(l), pct+'%', (u>=0?'+':'')+u.toFixed(1)+'u', (roi>=0?'+':'')+roi+'%'].forEach((v,i) => {
+              const td = sr.insertCell();
+              td.textContent = v;
+              td.style.padding = '6px 10px';
+              td.style.textAlign = i === 0 ? 'left' : 'right';
+              if (i === 5) td.style.color = u >= 0 ? 'var(--green)' : 'var(--red)';
+              if (i === 6) td.style.color = parseFloat(roi) >= 0 ? 'var(--green)' : 'var(--red)';
+            });
+          }
+          const gU = calcMLBPropsUnits(gradedPicks);
+          const gROI = (gW+gL) > 0 ? (gU / (gW+gL) * 100).toFixed(1) : '0';
+          const tr = mb.insertRow();
+          tr.style.borderTop = '2px solid rgba(255,255,255,0.2)';
+          tr.style.fontWeight = '700';
+          ['TOTAL', String(gradedPicks.length), String(gW), String(gL),
+           (gW+gL>0?(gW/(gW+gL)*100).toFixed(1):'0')+'%',
+           (gU>=0?'+':'')+gU.toFixed(1)+'u', (gROI>=0?'+':'')+gROI+'%'].forEach((v,i) => {
+            const td = tr.insertCell();
+            td.textContent = v;
+            td.style.padding = '6px 10px';
+            td.style.textAlign = i === 0 ? 'left' : 'right';
+            if (i === 5) td.style.color = gU >= 0 ? 'var(--green)' : 'var(--red)';
+            if (i === 6) td.style.color = parseFloat(gROI) >= 0 ? 'var(--green)' : 'var(--red)';
+          });
+          mbWrap.appendChild(mbTbl);
+          mbCard.appendChild(mbWrap);
+          el.appendChild(mbCard);
+        }
+
+        // Yesterday's Recap
+        const yesterdayPicks = picks.filter(p => p.date === yesterdayStr && p.result);
+        if (yesterdayPicks.length > 0) {
+          const yW = yesterdayPicks.filter(p => p.result === 'WIN').length;
+          const yL = yesterdayPicks.filter(p => p.result === 'LOSS').length;
+          const yU = calcMLBPropsUnits(yesterdayPicks);
+          const uColor = yU >= 0 ? 'var(--green)' : 'var(--red)';
+          const recapCard = document.createElement('div');
+          recapCard.className = 'card card-recap';
+          recapCard.style.marginBottom = '16px';
+          recapCard.appendChild(Object.assign(document.createElement('div'), {
+            className: 'card-title',
+            textContent: `Yesterday\u2019s Recap (${yesterdayStr})`
+          }));
+          const tbl = document.createElement('table');
+          tbl.className = 'data';
+          tbl.style.cssText = 'width:100%;border-collapse:collapse;margin-top:8px';
+          const hRow = tbl.createTHead().insertRow();
+          ['Player','Team','Opp','Proj','Line','Edge','Price','Actual','Pick','Result'].forEach((h, i) => {
+            const th = document.createElement('th');
+            th.textContent = h;
+            th.style.cssText = 'padding:6px 10px;border-bottom:1px solid rgba(255,255,255,0.1);' + (i === 0 ? 'text-align:left' : 'text-align:center');
+            hRow.appendChild(th);
+          });
+          const tbody = tbl.createTBody();
+          for (const p of yesterdayPicks.sort((a,b) => (b.pCover||0) - (a.pCover||0))) {
+            const row = tbody.insertRow();
+            row.style.borderBottom = '1px solid rgba(255,255,255,0.05)';
+            const yEdge = (p.proj != null && p.line != null) ? +(p.proj - p.line).toFixed(2) : null;
+            const yEdgeStr = yEdge != null ? (yEdge > 0 ? '+'+yEdge : String(yEdge)) : '\u2014';
+            const yPrice = p.odds != null ? (p.odds > 0 ? '+'+p.odds : String(p.odds)) : '\u2014';
+            [displayName(p), p.team||'', p.opp||'',
+             p.proj!=null?p.proj.toFixed(2):'\u2014', p.line!=null?String(p.line):'\u2014', yEdgeStr, yPrice,
+             p.actual!=null?String(p.actual):'\u2014',
+             p.pick==='OVER'?'O':'U', p.result==='WIN'?'W':'L'].forEach((v, i) => {
+              const td = row.insertCell();
+              td.textContent = v;
+              td.style.cssText = 'padding:4px 4px;text-align:center';
+              if (i === 0) { td.style.textAlign = 'left'; td.style.fontWeight = '600'; }
+              if (i === 1 || i === 2) td.style.color = '#999';
+              if (i === 3) td.style.color = p.proj > p.line ? 'var(--green)' : p.proj < p.line ? 'var(--red)' : '';
+              if (i === 5 && yEdge != null) td.style.color = yEdge > 0 ? 'var(--green)' : yEdge < 0 ? 'var(--red)' : '#999';
+              if (i === 6) td.style.color = '#999';
+              if (i === 8) { td.style.fontWeight = '700'; td.style.color = p.pick === 'OVER' ? 'var(--green)' : 'var(--red)'; }
+              if (i === 9) { td.style.fontWeight = '700'; td.style.color = p.result === 'WIN' ? 'var(--green)' : 'var(--red)'; }
+            });
+          }
+          recapCard.appendChild(tbl);
+          const tally = document.createElement('div');
+          tally.className = 'l10-tally';
+          tally.innerHTML = `Props: <b>${yW}W-${yL}L</b> &middot; <span style="color:${uColor}">${yU >= 0 ? '+' : ''}${yU.toFixed(1)}u</span>`;
+          recapCard.appendChild(tally);
+          el.appendChild(recapCard);
+        }
+
+        // Today's Picks
+        const todayPicks = picks.filter(p => p.date === todayStr);
+        if (todayPicks.length > 0) {
+          const todayCard = document.createElement('div');
+          todayCard.className = 'card card-picks';
+          todayCard.style.marginBottom = '16px';
+          todayCard.appendChild(Object.assign(document.createElement('div'), {
+            className: 'card-title',
+            textContent: `Today\u2019s Picks (${todayStr})`
+          }));
+          const tbl = document.createElement('table');
+          tbl.className = 'props-data-table';
+          tbl.style.cssText = 'width:100%;border-collapse:collapse;margin-top:8px';
+          const todayHeaders = ['Player','Team','Opp','Opp SP','Proj','Line','Edge','Price','Pick'];
+          const hRow = tbl.createTHead().insertRow();
+          todayHeaders.forEach((h, i) => {
+            const th = document.createElement('th');
+            th.textContent = h;
+            th.style.cssText = 'padding:4px 4px;text-align:center;border-bottom:1px solid rgba(255,255,255,0.1)';
+            if (h === 'Player') th.style.textAlign = 'left';
+            hRow.appendChild(th);
+          });
+          const tbody = tbl.createTBody();
+          todayPicks.sort((a,b) => (b.pCover||0) - (a.pCover||0));
+          for (const p of todayPicks) {
+            const row = tbody.insertRow();
+            row.style.borderBottom = '1px solid rgba(255,255,255,0.05)';
+            const tEdge = (p.proj != null && p.line != null) ? +(p.proj - p.line).toFixed(2) : null;
+            const tEdgeStr = tEdge != null ? (tEdge > 0 ? '+'+tEdge : String(tEdge)) : '\u2014';
+            const tPrice = p.odds != null ? (p.odds > 0 ? '+'+p.odds : String(p.odds)) : '\u2014';
+            const oppSP = p.opp_pitcher ? mlbShortName(p.opp_pitcher) : '\u2014';
+            const cells = [
+              displayName(p), p.team || '', p.opp || '', oppSP,
+              p.proj!=null?p.proj.toFixed(2):'\u2014',
+              p.line != null ? String(p.line) : '\u2014',
+              tEdgeStr, tPrice,
+              p.pick === 'OVER' ? 'O' : 'U'
+            ];
+            cells.forEach((val, i) => {
+              const td = row.insertCell();
+              td.textContent = val;
+              td.style.cssText = 'padding:4px 4px;text-align:center';
+              if (i === 0) { td.style.textAlign = 'left'; td.style.fontWeight = '600'; }
+              if (i === 1 || i === 2) td.style.color = '#999';
+              if (i === 3) td.style.color = '#aaa'; // opp SP
+              if (i === 4) td.style.color = p.proj > p.line ? 'var(--green)' : p.proj < p.line ? 'var(--red)' : '';
+              if (i === 6 && tEdge != null) td.style.color = tEdge > 0 ? 'var(--green)' : tEdge < 0 ? 'var(--red)' : '#999';
+              if (i === 7) td.style.color = '#999';
+              if (i === 8) { td.style.fontWeight = '700'; td.style.color = p.pick === 'OVER' ? 'var(--green)' : 'var(--red)'; }
+            });
+          }
+          todayCard.appendChild(tbl);
+          el.appendChild(todayCard);
+        }
+      })();
+
+      // ── Today's Batter Explorer ──
+      (function renderBatterGamesSection() {
+        const allDates = [...new Set(picks.map(p => p.date))].sort();
+        const todayStr = allDates[allDates.length - 1] || '';
+        const todayAllProj = (data.batterProjections || data.batterProps)
+          .filter(p => p.date === todayStr && p.proj != null && p.line != null);
+        if (todayAllProj.length === 0) return;
+
+        // Build unique games
+        const gameSet = new Map();
+        for (const p of todayAllProj) {
+          const key = [p.team, p.opp].sort().join('@');
+          if (!gameSet.has(key)) gameSet.set(key, `${p.team} vs ${p.opp}`);
+        }
+        const games = [...gameSet.entries()];
+
+        const gCard = document.createElement('div');
+        gCard.className = 'card';
+        gCard.style.cssText = 'padding:0;margin-bottom:16px;overflow:hidden';
+
+        const titleRow = document.createElement('div');
+        titleRow.style.cssText = 'padding:12px 16px 8px;border-bottom:1px solid rgba(255,255,255,0.08)';
+        titleRow.appendChild(Object.assign(document.createElement('div'), {className:'card-title', textContent:`Today\u2019s Batters (${todayStr})`}));
+        gCard.appendChild(titleRow);
+
+        // Game selector pills
+        const gamePills = document.createElement('div');
+        gamePills.style.cssText = 'display:flex;gap:6px;flex-wrap:wrap;padding:10px 16px;border-bottom:1px solid rgba(255,255,255,0.08)';
+        let activeGame = 'all';
+
+        // Player dropdown
+        const playerRow = document.createElement('div');
+        playerRow.style.cssText = 'padding:8px 16px;border-bottom:1px solid rgba(255,255,255,0.08);display:flex;align-items:center;gap:8px';
+        const playerLabel = Object.assign(document.createElement('span'), {textContent:'Player:', style:'font-size:12px;color:#999'});
+        const playerSelect = document.createElement('select');
+        playerSelect.style.cssText = 'padding:5px 10px;border-radius:6px;background:rgba(255,255,255,0.06);color:#fff;border:1px solid rgba(255,255,255,0.1);font-size:12px;outline:none;cursor:pointer;max-width:200px';
+        let activePlayer = 'all';
+        playerRow.appendChild(playerLabel);
+        playerRow.appendChild(playerSelect);
+
+        const tableWrap = document.createElement('div');
+        tableWrap.style.cssText = 'padding:12px 16px';
+
+        function refreshPlayerDropdown() {
+          playerSelect.textContent = '';
+          const playersInGame = [...new Set(
+            todayAllProj.filter(p => activeGame === 'all' || [p.team, p.opp].sort().join('@') === activeGame)
+              .map(p => p.player)
+          )].sort();
+          const allOpt = document.createElement('option');
+          allOpt.value = 'all'; allOpt.textContent = 'All Players';
+          playerSelect.appendChild(allOpt);
+          for (const name of playersInGame) {
+            const opt = document.createElement('option');
+            opt.value = name; opt.textContent = name;
+            playerSelect.appendChild(opt);
+          }
+          playerSelect.value = activePlayer === 'all' || !playersInGame.includes(activePlayer) ? 'all' : activePlayer;
+          activePlayer = playerSelect.value;
+        }
+        playerSelect.onchange = () => { activePlayer = playerSelect.value; bCurrentPage = 0; renderBatterTable(); };
+
+        const B_PAGE_SIZE = 30;
+        let bCurrentPage = 0;
+        let bSortCol = 'cover';
+        let bSortDir = -1;
+
+        function sortRows(rows) {
+          return [...rows].sort((a, b) => {
+            let v;
+            if (bSortCol === 'edge') v = ((b.proj??0)-(b.line??0)) - ((a.proj??0)-(a.line??0));
+            else if (bSortCol === 'cover') v = (b.pCover??0) - (a.pCover??0);
+            else if (bSortCol === 'proj') v = (b.proj??0) - (a.proj??0);
+            else v = 0;
+            return v * bSortDir;
+          });
+        }
+
+        function renderBatterTable() {
+          tableWrap.textContent = '';
+          const gameProj = todayAllProj.filter(p => {
+            const key = [p.team, p.opp].sort().join('@');
+            const gameMatch = activeGame === 'all' || key === activeGame;
+            const playerMatch = activePlayer === 'all' || p.player === activePlayer;
+            return gameMatch && playerMatch;
+          });
+          if (gameProj.length === 0) {
+            tableWrap.appendChild(Object.assign(document.createElement('div'), {textContent:'No projections found.', style:'color:#666;font-size:13px'}));
+            return;
+          }
+
+          const sorted = sortRows(gameProj);
+          const totalPages = Math.ceil(sorted.length / B_PAGE_SIZE);
+          bCurrentPage = Math.max(0, Math.min(bCurrentPage, totalPages - 1));
+          const pageRows = sorted.slice(bCurrentPage * B_PAGE_SIZE, (bCurrentPage + 1) * B_PAGE_SIZE);
+
+          const tbl = document.createElement('table');
+          tbl.style.cssText = 'width:100%;border-collapse:collapse';
+          const hRow = tbl.createTHead().insertRow();
+
+          const cols = [
+            ['Player', null, true],
+            ['Team',   null, false],
+            ['Opp SP', null, false],
+            ['Proj',   'proj', false],
+            ['Line',   null, false],
+            ['Edge',   'edge', false],
+            ['Cover%', 'cover', false],
+            ['Pick',   null, false],
+          ];
+          cols.forEach(([label, key, leftAlign]) => {
+            const th = document.createElement('th');
+            const isActive = key && bSortCol === key;
+            const arrow = isActive ? (bSortDir === 1 ? ' \u2191' : ' \u2193') : '';
+            th.textContent = label + arrow;
+            th.style.cssText = `padding:5px 8px;text-align:${leftAlign?'left':'center'};border-bottom:1px solid rgba(255,255,255,0.1);font-size:12px;color:${isActive?'#fff':'#999'};${key?'cursor:pointer;user-select:none':''}`;
+            if (key) th.onclick = () => {
+              if (bSortCol === key) { bSortDir *= -1; } else { bSortCol = key; bSortDir = -1; }
+              bCurrentPage = 0;
+              renderBatterTable();
+            };
+            hRow.appendChild(th);
+          });
+
+          const tbody = tbl.createTBody();
+          for (const p of pageRows) {
+            const row = tbody.insertRow();
+            row.style.borderBottom = '1px solid rgba(255,255,255,0.04)';
+            const isPick = p.pick && p.pick !== 'PASS';
+            if (isPick) row.style.background = 'rgba(124,108,240,0.06)';
+            const edge = (p.proj != null && p.line != null) ? +(p.proj - p.line).toFixed(2) : null;
+            const edgeStr = edge != null ? (edge > 0 ? '+'+edge : String(edge)) : '\u2014';
+            const coverStr = p.pCover != null ? (p.pCover * 100).toFixed(1) + '%' : '\u2014';
+            const oppSP = p.opp_pitcher ? mlbShortName(p.opp_pitcher) : '\u2014';
+            [displayName(p), p.team||'', oppSP,
+             p.proj!=null?p.proj.toFixed(2):'\u2014', p.line!=null?String(p.line):'\u2014',
+             edgeStr, coverStr,
+             isPick?(p.pick==='OVER'?'O':'U'):'\u2014'
+            ].forEach((v,i) => {
+              const td = row.insertCell();
+              td.textContent = v;
+              td.style.cssText = 'padding:5px 8px;text-align:'+(i===0?'left':'center')+';font-size:12px';
+              if (i===0) td.style.fontWeight = '600';
+              if (i===1) td.style.color = '#999';
+              if (i===2) td.style.color = '#aaa';
+              if (i===3 && p.line!=null) td.style.color = p.proj > p.line ? 'var(--green)' : p.proj < p.line ? 'var(--red)' : '';
+              if (i===5 && edge!=null) td.style.color = edge > 0 ? 'var(--green)' : edge < 0 ? 'var(--red)' : '#999';
+              if (i===6 && p.pCover!=null) td.style.color = p.pCover >= 0.65 ? 'var(--green)' : p.pCover <= 0.45 ? 'var(--red)' : '#ccc';
+              if (i===7 && isPick) { td.style.fontWeight='700'; td.style.color = p.pick==='OVER'?'var(--green)':'var(--red)'; }
+            });
+          }
+          tableWrap.appendChild(tbl);
+
+          if (totalPages > 1) {
+            const pgRow = document.createElement('div');
+            pgRow.style.cssText = 'display:flex;align-items:center;justify-content:center;gap:8px;padding:10px 0 2px';
+            const prevBtn = document.createElement('button');
+            prevBtn.textContent = '\u2190 Prev';
+            prevBtn.style.cssText = 'padding:4px 12px;border-radius:6px;border:1px solid rgba(255,255,255,0.12);background:transparent;color:'+(bCurrentPage===0?'#444':'#ccc')+';font-size:12px;cursor:'+(bCurrentPage===0?'default':'pointer');
+            prevBtn.disabled = bCurrentPage === 0;
+            prevBtn.onclick = () => { bCurrentPage--; renderBatterTable(); tableWrap.scrollIntoView({behavior:'smooth',block:'nearest'}); };
+            const nextBtn = document.createElement('button');
+            nextBtn.textContent = 'Next \u2192';
+            nextBtn.style.cssText = 'padding:4px 12px;border-radius:6px;border:1px solid rgba(255,255,255,0.12);background:transparent;color:'+(bCurrentPage===totalPages-1?'#444':'#ccc')+';font-size:12px;cursor:'+(bCurrentPage===totalPages-1?'default':'pointer');
+            nextBtn.disabled = bCurrentPage === totalPages - 1;
+            nextBtn.onclick = () => { bCurrentPage++; renderBatterTable(); tableWrap.scrollIntoView({behavior:'smooth',block:'nearest'}); };
+            const info = Object.assign(document.createElement('span'), {
+              textContent: `Page ${bCurrentPage+1} of ${totalPages}  (${sorted.length} rows)`,
+              style: 'font-size:12px;color:#666'
+            });
+            pgRow.appendChild(prevBtn);
+            pgRow.appendChild(info);
+            pgRow.appendChild(nextBtn);
+            tableWrap.appendChild(pgRow);
+          }
+        }
+
+        function refreshPills() {
+          gamePills.textContent = '';
+          const allGamesBtn = document.createElement('button');
+          allGamesBtn.textContent = 'All';
+          allGamesBtn.style.cssText = activeGame === 'all'
+            ? 'padding:5px 14px;border-radius:16px;border:1px solid #7c6cf0;background:#7c6cf0;color:#fff;font-size:12px;cursor:pointer'
+            : 'padding:5px 14px;border-radius:16px;border:1px solid rgba(255,255,255,0.12);background:transparent;color:#999;font-size:12px;cursor:pointer';
+          allGamesBtn.onclick = () => { activeGame = 'all'; activePlayer = 'all'; bCurrentPage = 0; refreshPills(); refreshPlayerDropdown(); renderBatterTable(); };
+          gamePills.appendChild(allGamesBtn);
+          for (const [key, label] of games) {
+            const btn = document.createElement('button');
+            btn.textContent = label;
+            btn.style.cssText = key === activeGame
+              ? 'padding:5px 14px;border-radius:16px;border:1px solid #7c6cf0;background:#7c6cf0;color:#fff;font-size:12px;cursor:pointer'
+              : 'padding:5px 14px;border-radius:16px;border:1px solid rgba(255,255,255,0.12);background:transparent;color:#999;font-size:12px;cursor:pointer';
+            btn.onclick = () => { activeGame = key; activePlayer = 'all'; bCurrentPage = 0; refreshPills(); refreshPlayerDropdown(); renderBatterTable(); };
+            gamePills.appendChild(btn);
+          }
+        }
+
+        refreshPills();
+        refreshPlayerDropdown();
+        renderBatterTable();
+        gCard.appendChild(gamePills);
+        gCard.appendChild(playerRow);
+        gCard.appendChild(tableWrap);
+        el.appendChild(gCard);
+      })();
+
+      // ── All Picks (with weekly view) ──
+      const selStyle = 'padding:6px 12px;border-radius:6px;background:rgba(255,255,255,0.06);color:#fff;border:1px solid rgba(255,255,255,0.1);font-size:13px;outline:none';
+      const pillStyle = 'padding:5px 14px;border-radius:16px;border:1px solid rgba(255,255,255,0.12);background:transparent;color:#999;font-size:12px;cursor:pointer;transition:all 0.15s';
+      const pillActiveStyle = 'padding:5px 14px;border-radius:16px;border:1px solid #7c6cf0;background:#7c6cf0;color:#fff;font-size:12px;cursor:pointer;transition:all 0.15s';
+      const tabStyle = 'padding:6px 16px;border:none;background:transparent;color:#999;font-size:13px;cursor:pointer;border-bottom:2px solid transparent;transition:all 0.15s';
+      const tabActiveStyle = 'padding:6px 16px;border:none;background:transparent;color:#fff;font-size:13px;cursor:pointer;border-bottom:2px solid #7c6cf0;transition:all 0.15s';
+
+      let batView = 'all';
+
+      const allPicksCard = document.createElement('div');
+      allPicksCard.className = 'card';
+      allPicksCard.style.cssText = 'padding:0;margin-bottom:16px;overflow:hidden';
+
+      const toolbar = document.createElement('div');
+      toolbar.style.cssText = 'overflow:hidden';
+
+      const tabRow = document.createElement('div');
+      tabRow.className = 'props-toolbar-tabs';
+      tabRow.style.cssText = 'display:flex;border-bottom:1px solid rgba(255,255,255,0.08)';
+      const viewAllBtn = document.createElement('button');
+      viewAllBtn.textContent = 'All Picks';
+      const viewWeeklyBtn = document.createElement('button');
+      viewWeeklyBtn.textContent = 'Weekly';
+      tabRow.appendChild(viewAllBtn);
+      tabRow.appendChild(viewWeeklyBtn);
+      toolbar.appendChild(tabRow);
+
+      // Filters
+      const filterRow = document.createElement('div');
+      filterRow.className = 'props-toolbar-filters';
+      filterRow.style.cssText = 'display:flex;gap:12px;align-items:center;padding:12px 16px;flex-wrap:wrap';
+
+      const allDates = [...new Set(picks.map(p => p.date))].sort().reverse();
+      const dateSel = document.createElement('select');
+      dateSel.style.cssText = selStyle;
+      dateSel.innerHTML = '<option value="all">All Dates</option>' + allDates.map(d => `<option value="${d}">${d}</option>`).join('');
+      const teamSel = document.createElement('select');
+      teamSel.style.cssText = selStyle;
+      const allTeams = [...new Set(picks.map(p => p.team))].filter(Boolean).sort();
+      teamSel.innerHTML = '<option value="all">All Teams</option>' + allTeams.map(t => `<option value="${t}">${t}</option>`).join('');
+      const filterLabel = document.createElement('span');
+      filterLabel.style.cssText = 'color:#666;font-size:12px;margin-left:auto';
+      filterLabel.textContent = `${picks.length} picks`;
+
+      const allWeekStarts = [...new Set(picks.filter(p => p.date).map(p => getWeekStart(p.date)))].sort().reverse();
+      const weekSel = document.createElement('select');
+      weekSel.style.cssText = selStyle;
+      weekSel.innerHTML = '<option value="all">All Weeks</option>' + allWeekStarts.map(ws => {
+        const we = getWeekEnd(ws);
+        return `<option value="${ws}">${ws} \u2013 ${we}</option>`;
+      }).join('');
+      const weekFilterLabel = document.createElement('span');
+      weekFilterLabel.style.cssText = 'color:#666;font-size:12px;margin-left:auto';
+
+      toolbar.appendChild(filterRow);
+
+      const contentArea = document.createElement('div');
+      contentArea.style.cssText = 'padding:0 16px 16px';
+
+      allPicksCard.appendChild(toolbar);
+      allPicksCard.appendChild(contentArea);
+      el.appendChild(allPicksCard);
+
+      const headers = isBacktest
+        ? ['Date','Player','Team','Opp','Proj','Line','Actual','Pick','Result']
+        : ['Player','Team','vs','Proj','Line','Pick'];
+
+      function getFilteredPicks() {
+        let fp = picks.slice();
+        if (dateSel.value !== 'all') fp = fp.filter(p => p.date === dateSel.value);
+        if (teamSel.value !== 'all') fp = fp.filter(p => p.team === teamSel.value);
+        fp.sort((a, b) => (b.date || '').localeCompare(a.date || ''));
+        return fp;
+      }
+
+      function buildPropsTable(mProps) {
+        const wrap = document.createElement('div');
+        wrap.className = 'props-table-wrap';
+        const tbl = document.createElement('table');
+        tbl.className = 'props-data-table';
+        tbl.style.cssText = 'width:100%;border-collapse:collapse;margin-top:8px';
+        const hRow = tbl.createTHead().insertRow();
+        headers.forEach((h) => {
+          const th = document.createElement('th');
+          th.textContent = h;
+          th.style.cssText = 'padding:4px 4px;text-align:center;border-bottom:1px solid rgba(255,255,255,0.1)';
+          if (h === 'Player') th.style.textAlign = 'left';
+          hRow.appendChild(th);
+        });
+        const tbody = tbl.createTBody();
+        for (const p of mProps) {
+          const row = tbody.insertRow();
+          row.style.borderBottom = '1px solid rgba(255,255,255,0.05)';
+          const cells = isBacktest ? [
+            p.date ? (parseInt(p.date.slice(5,7))+'/'+parseInt(p.date.slice(8))) : '', displayName(p), p.team || '', p.opp || '',
+            p.proj!=null?p.proj.toFixed(2):'\u2014',
+            p.line != null ? String(p.line) : '\u2014',
+            p.actual != null ? String(p.actual) : '\u2014',
+            p.pick === 'OVER' ? 'O' : 'U',
+            p.result === 'WIN' ? 'W' : p.result === 'LOSS' ? 'L' : '\u2014'
+          ] : [
+            displayName(p), p.team, p.opp || '',
+            p.proj!=null?p.proj.toFixed(2):'\u2014',
+            p.line != null ? String(p.line) : '\u2014',
+            p.pick === 'OVER' ? 'O' : 'U'
+          ];
+          cells.forEach((val, i) => {
+            const td = row.insertCell();
+            td.textContent = val;
+            td.style.cssText = 'padding:4px 4px;text-align:center';
+            if (isBacktest) {
+              if (i === 1) { td.style.textAlign = 'left'; td.style.fontWeight = '600'; }
+              if (i === 0) { td.style.color = '#999'; td.style.fontSize = '12px'; }
+              if (i === 2 || i === 3) td.style.color = '#999';
+              if (i === 4) td.style.color = p.proj > p.line ? 'var(--green)' : p.proj < p.line ? 'var(--red)' : '';
+              if (i === 7) { td.style.fontWeight = '700'; td.style.color = p.pick === 'OVER' ? 'var(--green)' : 'var(--red)'; }
+              if (i === 8) { td.style.fontWeight = '700'; td.style.color = p.result === 'WIN' ? 'var(--green)' : 'var(--red)'; }
+            } else {
+              if (i === 0) { td.style.textAlign = 'left'; td.style.fontWeight = '600'; }
+              if (i === 1 || i === 2) td.style.color = '#999';
+              if (i === 3) td.style.color = p.proj > p.line ? 'var(--green)' : p.proj < p.line ? 'var(--red)' : '';
+              if (i === 5) { td.style.fontWeight = '700'; td.style.color = p.pick === 'OVER' ? 'var(--green)' : 'var(--red)'; }
+            }
+          });
+        }
+        wrap.appendChild(tbl);
+        return wrap;
+      }
+
+      const BAT_PAGE_SIZE = 25;
+      let allPicksPage = 0;
+      let weeklyPage = 0;
+
+      function renderAllPicksView() {
+        contentArea.textContent = '';
+        const filteredPicks = getFilteredPicks();
+        filterLabel.textContent = `Showing ${filteredPicks.length} picks`;
+
+        if (filteredPicks.length === 0) {
+          contentArea.appendChild(Object.assign(document.createElement('div'), {className:'no-picks', textContent:'No picks for selected filter.'}));
+          return;
+        }
+
+        allPicksPage = Math.min(allPicksPage, Math.floor((filteredPicks.length - 1) / BAT_PAGE_SIZE));
+        const totalPages = Math.ceil(filteredPicks.length / BAT_PAGE_SIZE);
+        const pageStart = allPicksPage * BAT_PAGE_SIZE;
+        const pagePicks = filteredPicks.slice(pageStart, pageStart + BAT_PAGE_SIZE);
+
+        const card = document.createElement('div');
+        card.className = 'card-games';
+
+        if (totalPages > 1) {
+          const pgBar = document.createElement('div');
+          pgBar.style.cssText = 'display:flex;align-items:center;gap:10px;margin-bottom:12px;flex-wrap:wrap';
+          const pgLabel = document.createElement('span');
+          pgLabel.style.cssText = 'color:#999;font-size:12px;flex:1';
+          pgLabel.textContent = `${pageStart+1}\u2013${Math.min(pageStart+BAT_PAGE_SIZE, filteredPicks.length)} of ${filteredPicks.length} picks`;
+          const prevBtn = document.createElement('button');
+          prevBtn.textContent = '\u2190 Prev';
+          prevBtn.style.cssText = 'padding:4px 12px;border-radius:6px;border:1px solid rgba(255,255,255,0.15);background:transparent;color:#ccc;font-size:12px;cursor:pointer';
+          prevBtn.disabled = allPicksPage === 0;
+          prevBtn.style.opacity = allPicksPage === 0 ? '0.3' : '1';
+          const nextBtn = document.createElement('button');
+          nextBtn.textContent = 'Next \u2192';
+          nextBtn.style.cssText = 'padding:4px 12px;border-radius:6px;border:1px solid rgba(255,255,255,0.15);background:transparent;color:#ccc;font-size:12px;cursor:pointer';
+          nextBtn.disabled = allPicksPage >= totalPages - 1;
+          nextBtn.style.opacity = allPicksPage >= totalPages - 1 ? '0.3' : '1';
+          prevBtn.onclick = () => { allPicksPage--; renderAllPicksView(); window.scrollTo(0,0); };
+          nextBtn.onclick = () => { allPicksPage++; renderAllPicksView(); window.scrollTo(0,0); };
+          pgBar.appendChild(pgLabel);
+          pgBar.appendChild(prevBtn);
+          pgBar.appendChild(document.createTextNode(`Page ${allPicksPage+1} / ${totalPages}`));
+          pgBar.appendChild(nextBtn);
+          card.appendChild(pgBar);
+        }
+
+        card.appendChild(buildPropsTable(pagePicks));
+        contentArea.appendChild(card);
+      }
+
+      function renderWeeklyView() {
+        contentArea.textContent = '';
+        let fp = picks.slice();
+        if (weekSel.value !== 'all') fp = fp.filter(p => p.date && getWeekStart(p.date) === weekSel.value);
+
+        const weekMap = {};
+        for (const p of fp) {
+          if (!p.date) continue;
+          const ws = getWeekStart(p.date);
+          if (!weekMap[ws]) weekMap[ws] = [];
+          weekMap[ws].push(p);
+        }
+        const sortedWeeks = Object.keys(weekMap).sort().reverse();
+        weekFilterLabel.textContent = `${fp.length} picks across ${sortedWeeks.length} week${sortedWeeks.length !== 1 ? 's' : ''}`;
+
+        if (sortedWeeks.length === 0) {
+          contentArea.appendChild(Object.assign(document.createElement('div'), {className:'no-picks', textContent:'No picks for selected filter.'}));
+          return;
+        }
+
+        // Weekly summary
+        const summCard = document.createElement('div');
+        summCard.className = 'card-games';
+        summCard.style.marginBottom = '16px';
+        summCard.appendChild(Object.assign(document.createElement('div'), {className:'card-title', textContent:'Weekly Summary'}));
+        const summTbl = document.createElement('table');
+        summTbl.style.cssText = 'width:100%;border-collapse:collapse;margin-top:8px';
+        const sh = summTbl.createTHead().insertRow();
+        ['Week','Picks','W','L','Win%','Units'].forEach(h => {
+          const th = document.createElement('th');
+          th.textContent = h;
+          th.style.cssText = 'padding:6px 10px;text-align:right;border-bottom:1px solid rgba(255,255,255,0.1)';
+          if (h === 'Week') th.style.textAlign = 'left';
+          sh.appendChild(th);
+        });
+        const sb = summTbl.createTBody();
+        let totW = 0, totL = 0;
+        for (const ws of [...sortedWeeks].reverse()) {
+          const wPicks = weekMap[ws];
+          const w = wPicks.filter(p => p.result === 'WIN').length;
+          const l = wPicks.filter(p => p.result === 'LOSS').length;
+          const u = calcMLBPropsUnits(wPicks);
+          const pct = (w + l) > 0 ? (w / (w + l) * 100).toFixed(1) : '\u2014';
+          totW += w; totL += l;
+          const sr = sb.insertRow();
+          const we = getWeekEnd(ws);
+          [`${ws} \u2013 ${we}`, String(wPicks.length), String(w), String(l),
+           (w+l>0?pct+'%':'\u2014'), (w+l>0?(u>=0?'+':'')+u.toFixed(1)+'u':'\u2014')].forEach((v, i) => {
+            const td = sr.insertCell();
+            td.textContent = v;
+            td.style.padding = '6px 10px';
+            td.style.textAlign = i === 0 ? 'left' : 'right';
+            if (i === 5 && w+l > 0) td.style.color = u >= 0 ? 'var(--green)' : 'var(--red)';
+          });
+        }
+        const totU = calcMLBPropsUnits(fp);
+        const tr = sb.insertRow();
+        tr.style.borderTop = '2px solid rgba(255,255,255,0.2)';
+        tr.style.fontWeight = '700';
+        ['TOTAL', String(fp.length), String(totW), String(totL),
+         (totW+totL>0?(totW/(totW+totL)*100).toFixed(1)+'%':'\u2014'),
+         (totU>=0?'+':'')+totU.toFixed(1)+'u'].forEach((v,i) => {
+          const td = tr.insertCell();
+          td.textContent = v;
+          td.style.padding = '6px 10px';
+          td.style.textAlign = i === 0 ? 'left' : 'right';
+          if (i === 5) td.style.color = totU >= 0 ? 'var(--green)' : 'var(--red)';
+        });
+        summCard.appendChild(summTbl);
+        contentArea.appendChild(summCard);
+
+        // Per-week cards
+        for (const ws of sortedWeeks) {
+          const wPicks = weekMap[ws].slice().sort((a, b) => (b.date || '').localeCompare(a.date || ''));
+          const we = getWeekEnd(ws);
+          const wW = wPicks.filter(p => p.result === 'WIN').length;
+          const wL = wPicks.filter(p => p.result === 'LOSS').length;
+          const wU = calcMLBPropsUnits(wPicks);
+          const wPct = (wW + wL) > 0 ? ` \u2014 ${wW}W-${wL}L (${(wW/(wW+wL)*100).toFixed(1)}%) ${wU>=0?'+':''}${wU.toFixed(1)}u` : ` \u2014 ${wPicks.length} picks`;
+
+          const card = document.createElement('div');
+          card.className = 'card-games';
+          card.appendChild(Object.assign(document.createElement('div'), {
+            className: 'card-title',
+            textContent: `Week of ${ws} \u2013 ${we}${wPct}`
+          }));
+          card.appendChild(buildPropsTable(wPicks));
+          contentArea.appendChild(card);
+        }
+      }
+
+      function refreshView() {
+        if (batView === 'weekly') renderWeeklyView();
+        else renderAllPicksView();
+      }
+
+      function setView(v) {
+        batView = v;
+        viewAllBtn.style.cssText = v === 'all' ? tabActiveStyle : tabStyle;
+        viewWeeklyBtn.style.cssText = v === 'weekly' ? tabActiveStyle : tabStyle;
+        filterRow.textContent = '';
+        if (v === 'all') {
+          filterRow.appendChild(dateSel);
+          filterRow.appendChild(teamSel);
+          filterRow.appendChild(filterLabel);
+        } else {
+          filterRow.appendChild(weekSel);
+          filterRow.appendChild(weekFilterLabel);
+        }
+        refreshView();
+      }
+
+      viewAllBtn.onclick = () => setView('all');
+      viewWeeklyBtn.onclick = () => setView('weekly');
+      dateSel.addEventListener('change', renderAllPicksView);
+      teamSel.addEventListener('change', renderAllPicksView);
+      weekSel.addEventListener('change', renderWeeklyView);
+
+      setView('all');
+    }

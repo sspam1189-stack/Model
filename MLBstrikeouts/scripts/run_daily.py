@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
 MLBstrikeouts/scripts/run_daily.py
-Daily MLB pitcher prop + game hits projection pipeline with Kalman filtering.
+Daily MLB pitcher prop + game hits + batter TB projection pipeline with Kalman filtering.
 
 Stages:
   0. Grade previous picks
@@ -10,17 +10,20 @@ Stages:
   3. Update Kalman state with any new games
   4. Fetch pitcher advanced stats (K/9, BB/9, WHIP)
   5. Fetch pitcher sabermetrics (FIP, xFIP)
-  6. Fetch pitcher handedness splits (vs LHB/RHB)
-  7. Fetch team batting stats (K%, BA, OPS, BB%)
-  8. Fetch team pitching stats (for game hits model)
-  9. Fetch roster handedness composition (PCT_LHB per team)
-  10. Fetch today's probable pitchers + schedule
+  6. Fetch probable pitchers
+  7. Fetch handedness splits for probable starters
+  8. Fetch team batting stats
+  9. Fetch lineup handedness + batter K rates
+  10. Fetch team pitching stats
   11. Fetch game weather
   12. Fetch prop lines (FanDuel primary, Odds API fallback)
   13. Project all pitcher props (K, outs, hits, walks)
   14. Project total game hits
-  15. Generate picks, write output
-  16. Save updated Kalman state
+  15. Fetch batter data (game logs, Savant rates, splits, park factors)
+  16. Batter Kalman update
+  17. Project batter total bases
+  18. Generate picks, write output
+  19. Save updated Kalman state
 
 Usage:
     cd MLBstrikeouts
@@ -45,22 +48,31 @@ from sources.mlb_stats import (
     fetch_player_bat_sides, fetch_lineup_handedness,
     fetch_batter_k_rates, load_pitch_hands,
     fetch_savant_pitcher_rates,
+    fetch_batter_game_logs, fetch_savant_batter_rates, fetch_batter_splits,
 )
 from sources.weather import fetch_game_weather
-from sources.odds_fanduel import fetch_fanduel_mlb_props
+from sources.park_factors import compute_park_factors
+from sources.odds_fanduel import fetch_fanduel_mlb_props, fetch_fanduel_mlb_batter_props
 from sources.odds_theoddsapi import fetch_mlb_pitcher_props
 from props_engine import organize_pitcher_logs, project_pitcher_props, format_props_for_dashboard, STAT_KEYS
 from game_hits_engine import project_game_hits, format_game_hits_for_dashboard
+from batter_props_engine import project_batter_tb, format_batter_props_for_dashboard
 from pitcher_kalman import (
     load_pitcher_kalman_state, save_pitcher_kalman_state,
     new_pitcher_kalman_state, batch_update_from_game_logs,
     apply_drift, kalman_summary, prune_inactive_pitchers,
+)
+from batter_kalman import (
+    load_batter_kalman_state, save_batter_kalman_state,
+    new_batter_kalman_state, batch_update_from_game_logs as batter_batch_update,
+    apply_drift as batter_apply_drift, prune_inactive_batters,
 )
 from defaults import current_season
 
 # Path to persistent Kalman state
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 KALMAN_STATE_PATH = os.path.join(SCRIPT_DIR, "..", "data", "kalman_state.json")
+BATTER_KALMAN_STATE_PATH = os.path.join(SCRIPT_DIR, "..", "data", "batter_kalman_state.json")
 
 
 def grade_previous_picks(season=None):
@@ -218,22 +230,22 @@ def run_daily(date_key=None):
     season = current_season()
 
     print(f"\n{'='*60}")
-    print(f"  MLB PITCHER PROPS + GAME HITS — {date_iso}")
+    print(f"  MLB PITCHER PROPS + GAME HITS + BATTER TB — {date_iso}")
     print(f"  Season: {season}")
     print(f"{'='*60}")
 
     # Stage 0: Grade previous picks
-    print(f"\n  [0/17] Grading previous picks...")
+    print(f"\n  [0/19] Grading previous picks...")
     grade_previous_picks(season)
 
     # Stage 1: Load Kalman state
-    print(f"\n  [1/17] Loading Kalman state...")
+    print(f"\n  [1/19] Loading Kalman state...")
     kalman_state = load_pitcher_kalman_state(KALMAN_STATE_PATH)
     n_pitchers = len(kalman_state.get("players", {}))
     print(f"  Kalman state: {n_pitchers} pitchers tracked")
 
     # Stage 2: Fetch pitcher game logs
-    print(f"\n  [2/17] Fetching pitcher game logs...")
+    print(f"\n  [2/19] Fetching pitcher game logs...")
     pitcher_game_logs = fetch_pitcher_game_logs(season=season)
     if not pitcher_game_logs:
         print("  ERROR: No pitcher game logs fetched. Exiting.")
@@ -242,23 +254,23 @@ def run_daily(date_key=None):
     print(f"  {len(pitcher_logs)} pitchers with game logs")
 
     # Stage 3: Update Kalman with new games
-    print(f"\n  [3/17] Updating Kalman state with new games...")
+    print(f"\n  [3/19] Updating Kalman state with new games...")
     n_updated = batch_update_from_game_logs(kalman_state, pitcher_game_logs)
     print(f"  Processed {n_updated} pitcher-games")
     apply_drift(kalman_state, days_elapsed=1)
 
     # Stage 4: Fetch advanced stats
-    print(f"\n  [4/17] Fetching pitcher advanced stats...")
+    print(f"\n  [4/19] Fetching pitcher advanced stats...")
     adv_stats = fetch_pitcher_advanced_stats(season=season)
     print(f"  {len(adv_stats)} pitchers with advanced stats")
 
     # Stage 5: Fetch sabermetrics
-    print(f"\n  [5/17] Fetching pitcher sabermetrics (FIP, xFIP)...")
+    print(f"\n  [5/19] Fetching pitcher sabermetrics (FIP, xFIP)...")
     saber_stats = fetch_pitcher_sabermetrics(season=season)
     print(f"  {len(saber_stats)} pitchers with sabermetrics")
 
     # Stage 6: Fetch probable pitchers
-    print(f"\n  [6/17] Fetching today's probable pitchers...")
+    print(f"\n  [6/19] Fetching today's probable pitchers...")
     all_probable = fetch_today_probable_pitchers(date_str=date_iso)
 
     # Split into started vs unstarted — only project unstarted games.
@@ -285,7 +297,7 @@ def run_daily(date_key=None):
     print(f"  {len(probable)} games to project (not yet started)")
 
     # Stage 7: Fetch handedness splits for probable starters only
-    print(f"\n  [7/17] Fetching handedness splits for probable starters...")
+    print(f"\n  [7/19] Fetching handedness splits for probable starters...")
     pitcher_ids = set()
     for game in probable:
         for role in ("home_pitcher", "away_pitcher"):
@@ -300,12 +312,12 @@ def run_daily(date_key=None):
     print(f"  {len(splits)} pitchers with handedness splits")
 
     # Stage 8: Fetch team batting stats
-    print(f"\n  [8/17] Fetching team batting stats...")
+    print(f"\n  [8/19] Fetching team batting stats...")
     team_batting = fetch_team_batting_stats(season=season)
     print(f"  {len(team_batting)} teams with batting stats")
 
     # Stage 9: Fetch lineup handedness (actual starting lineups, not roster avg)
-    print(f"\n  [9/17] Fetching lineup handedness (actual batting orders)...")
+    print(f"\n  [9/19] Fetching lineup handedness (actual batting orders)...")
     bat_sides = fetch_player_bat_sides(season=season)
     lineup_hand = fetch_lineup_handedness(date_iso, bat_sides=bat_sides, season=season)
     print(f"  {len(lineup_hand)} teams with lineup handedness data")
@@ -341,7 +353,7 @@ def run_daily(date_key=None):
         pass
 
     # Fetch batter K rates (bulk, 2 API calls)
-    print(f"\n  [9b/17] Fetching batter K rates + Savant pitcher rates...")
+    print(f"\n  [9b/19] Fetching batter K rates + Savant pitcher rates...")
     batter_k_rates = fetch_batter_k_rates(season=season)
     pitch_hands = load_pitch_hands(season=season)
     savant_rates = fetch_savant_pitcher_rates(season=season)
@@ -355,12 +367,12 @@ def run_daily(date_key=None):
             pass
 
     # Stage 10: Fetch team pitching stats
-    print(f"\n  [10/17] Fetching team pitching stats...")
+    print(f"\n  [10/19] Fetching team pitching stats...")
     team_pitching = fetch_team_pitching_stats(season=season)
     print(f"  {len(team_pitching)} teams with pitching stats")
 
     # Stage 11: Fetch game weather
-    print(f"\n  [11/17] Fetching game weather...")
+    print(f"\n  [11/19] Fetching game weather...")
     weather_data = fetch_game_weather(date_iso)
     n_weather = len(weather_data)
     print(f"  Weather data for {n_weather} games")
@@ -368,7 +380,7 @@ def run_daily(date_key=None):
     # Stage 12: Fetch prop lines (FanDuel + Odds API combined)
     # FanDuel has K + outs only. Odds API has K + outs + hits allowed + walks.
     # Use FanDuel as primary for K/outs, Odds API fills in HA/walks.
-    print(f"\n  [12/17] Fetching prop lines (FanDuel + Odds API)...")
+    print(f"\n  [12/19] Fetching prop lines (FanDuel + Odds API)...")
     fd_result = fetch_fanduel_mlb_props(date_key=date_key)
     if isinstance(fd_result, tuple):
         fd_props, game_hit_lines = fd_result
@@ -403,7 +415,7 @@ def run_daily(date_key=None):
         print(f"  {len(prop_lines)} prop lines remaining (unstarted games)")
 
     # Stage 13: Project pitcher props
-    print(f"\n  [13/17] Projecting pitcher props (Kalman + advanced stats)...")
+    print(f"\n  [13/19] Projecting pitcher props (Kalman + advanced stats)...")
     projections = project_pitcher_props(
         pitcher_logs,
         team_batting_stats=team_batting,
@@ -423,7 +435,7 @@ def run_daily(date_key=None):
     print(f"  {len(projections)} projections, {len(picks)} actionable picks")
 
     # Stage 14: Project total game hits
-    print(f"\n  [14/17] Projecting total game hits...")
+    print(f"\n  [14/19] Projecting total game hits...")
     game_hit_projections = project_game_hits(
         probable, pitcher_logs, team_batting, team_pitching,
         kalman_state, adv_stats, game_hit_lines,
@@ -435,16 +447,62 @@ def run_daily(date_key=None):
     # Print Kalman summary
     print(kalman_summary(kalman_state, top_n=5, stat_key="k"))
 
-    # Stage 15: Output
-    print(f"\n  [15/17] Writing output...")
+    # Stage 15: Fetch batter data
+    print(f"\n  [15/19] Fetching batter data (game logs, Savant, splits, park factors)...")
+    batter_game_logs = fetch_batter_game_logs(season=season)
+    n_batters_logs = len(batter_game_logs) if batter_game_logs else 0
+    print(f"  {n_batters_logs} batters with game logs")
+    savant_batter_rates = fetch_savant_batter_rates(season=season)
+    print(f"  {len(savant_batter_rates)} batters with Savant rates")
+    batter_splits_data = fetch_batter_splits(season=season)
+    print(f"  {len(batter_splits_data)} batters with splits")
+    park_factors = compute_park_factors(batter_game_logs)
+    print(f"  {len(park_factors)} parks with factors")
+
+    # Stage 16: Batter Kalman update
+    print(f"\n  [16/19] Updating batter Kalman state...")
+    batter_kalman = load_batter_kalman_state(BATTER_KALMAN_STATE_PATH)
+    if not batter_kalman:
+        batter_kalman = new_batter_kalman_state()
+    n_batter_updated = batter_batch_update(batter_kalman, batter_game_logs)
+    batter_apply_drift(batter_kalman, date_iso)
+    n_batter_tracked = len(batter_kalman.get("players", {}))
+    print(f"  Processed {n_batter_updated} batter-games, {n_batter_tracked} batters tracked")
+
+    # Stage 17: Project batter total bases
+    print(f"\n  [17/19] Projecting batter total bases...")
+    batter_prop_lines = fetch_fanduel_mlb_batter_props(date_str=date_iso)
+    print(f"  {len(batter_prop_lines)} batter prop lines from FanDuel")
+
+    batter_projections = project_batter_tb(
+        batter_logs=batter_game_logs,
+        lineup_data=lineup_data,
+        prop_lines=batter_prop_lines,
+        kalman_state=batter_kalman,
+        savant_batter_rates=savant_batter_rates,
+        savant_pitcher_rates=savant_rates,
+        batter_splits=batter_splits_data,
+        probable_pitchers=probable,
+        park_factors=park_factors,
+        weather_by_game=weather_data,
+        pitch_hands=pitch_hands,
+    )
+    batter_dashboard = format_batter_props_for_dashboard(batter_projections, date_iso)
+    batter_picks = [p for p in batter_projections if p.get("pick") not in ("PASS", None)]
+    print(f"  {len(batter_projections)} batter projections, {len(batter_picks)} actionable picks")
+
+    # Stage 18: Output
+    print(f"\n  [18/19] Writing output...")
     dashboard = format_props_for_dashboard(projections, date_str=date_iso)
     game_hits_dash = format_game_hits_for_dashboard(game_hit_projections, date_str=date_iso)
 
-    # Merge pitcher props and game hits into single output
+    # Merge pitcher props, game hits, and batter props into single output
     combined = {
         **dashboard,
         "game_hits": game_hits_dash.get("game_hits", []),
         "game_hits_picks": game_hit_picks,
+        "batterProps": batter_dashboard.get("batterProps", []),
+        "batterProjections": batter_dashboard.get("batterProjections", []),
     }
 
     # Output paths
@@ -504,20 +562,27 @@ def run_daily(date_key=None):
             json.dump(combined_merged, f, indent=2, cls=_NumpyEncoder)
         print(f"  Wrote to {path}")
 
-    # Stage 16: Save Kalman state
+    # Stage 19: Save Kalman state
     prune_inactive_pitchers(kalman_state)
     save_pitcher_kalman_state(kalman_state, KALMAN_STATE_PATH)
-    print(f"  Saved Kalman state ({len(kalman_state.get('pitchers', {}))} pitchers)")
+    print(f"  Saved pitcher Kalman state ({len(kalman_state.get('pitchers', {}))} pitchers)")
+
+    # Save batter Kalman state
+    save_batter_kalman_state(batter_kalman, BATTER_KALMAN_STATE_PATH)
+    prune_inactive_batters(batter_kalman, active_ids=[], max_inactive_days=30)
+    print(f"  Saved batter Kalman state ({len(batter_kalman.get('players', {}))} batters)")
 
     # Print picks
-    _print_picks(picks, game_hit_picks)
+    _print_picks(picks, game_hit_picks, batter_picks)
 
     return combined
 
 
-def _print_picks(pitcher_picks, game_hit_picks):
+def _print_picks(pitcher_picks, game_hit_picks, batter_picks=None):
     """Print formatted picks summary."""
-    total = len(pitcher_picks) + len(game_hit_picks)
+    if batter_picks is None:
+        batter_picks = []
+    total = len(pitcher_picks) + len(game_hit_picks) + len(batter_picks)
     if total == 0:
         print("\n  No actionable picks today.")
         return
@@ -569,6 +634,24 @@ def _print_picks(pitcher_picks, game_hit_picks):
                 f"{odds_str}{w1u_str}"
             )
 
+    # Batter total bases
+    if batter_picks:
+        print(f"\n  --- BATTER TOTAL BASES ({len(batter_picks)} picks) ---")
+        for p in sorted(batter_picks, key=lambda x: -(x.get("pCover") or 0)):
+            import unicodedata
+            safe_name = unicodedata.normalize('NFKD', p.get('player', '')).encode('ascii', 'ignore').decode('ascii')
+            edge_sign = "+" if (p.get("edge") or 0) > 0 else ""
+            odds_str = _format_odds(p.get("odds"))
+            w1u = p.get("to_win_1u")
+            w1u_str = f"  w1u={w1u:.2f}u" if w1u is not None else ""
+            print(
+                f"    {safe_name:25s} {p.get('team', ''):3s} "
+                f"{p.get('pick', ''):5s} {p.get('line', 0):6.1f}  "
+                f"proj={p.get('proj', 0):6.2f}  edge={edge_sign}{p.get('edge', 0):5.2f}  "
+                f"p={p.get('pCover', 0):.3f}  "
+                f"{odds_str}{w1u_str}"
+            )
+
 
 def _format_odds(price):
     """Format American odds with +/- prefix."""
@@ -581,7 +664,7 @@ def _format_odds(price):
 
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description="Daily MLB pitcher prop + game hits projections (Kalman)")
+    parser = argparse.ArgumentParser(description="Daily MLB pitcher prop + game hits + batter TB projections (Kalman)")
     parser.add_argument("--date", type=str, default=None,
                         help="Date in YYYYMMDD format (default: today)")
     args = parser.parse_args()
