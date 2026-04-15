@@ -920,16 +920,29 @@ function renderHistoryDay(run) {
 // ─── Last Run Info ───
 
 function updateLastRunInfo() {
-  const labels = { nba: 'NBA', fullseason: 'Full Season', ncaa: 'NCAA', nfl: 'NFL' };
+  const labels = {
+    nba: 'NBA', fullseason: 'Full Season', ncaa: 'NCAA', nfl: 'NFL',
+    'nba-props': 'NBA Props', 'nfl-props': 'NFL Props',
+    'mlb-props': 'MLB Pitcher Props', 'mlb-batter-props': 'MLB Batter Props',
+  };
   const data = cache[activeTab];
   const el = document.getElementById('last-run-info');
   if (!el) return;
+
+  // MLB/props tabs use data.generated instead of data.runs
+  if (data && data.generated) {
+    const d = new Date(data.generated);
+    const ts = d.toLocaleString('en-US', {dateStyle: 'short', timeStyle: 'medium'});
+    el.textContent = `Last run (CT) \u2014 ${labels[activeTab] || activeTab}: ${ts}`;
+    return;
+  }
+
   if (!data || !data.runs) { el.textContent = ''; return; }
   const nonBurn = data.runs.filter(r => !r.burnIn);
   const last = nonBurn.length ? nonBurn[nonBurn.length - 1] : null;
   if (!last) { el.textContent = ''; return; }
   const ts = last.ranAt || last.dateDisplay || `${last.date.slice(0,4)}-${last.date.slice(4,6)}-${last.date.slice(6,8)}`;
-  el.textContent = `Last run (CT) \u2014 ${labels[activeTab]}: ${ts}`;
+  el.textContent = `Last run (CT) \u2014 ${labels[activeTab] || activeTab}: ${ts}`;
 }
 
 // ─── Last Sync Info ───
