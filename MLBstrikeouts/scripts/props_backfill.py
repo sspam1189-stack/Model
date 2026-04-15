@@ -38,6 +38,8 @@ from sources.weather import fetch_game_weather
 from sources.mlb_stats import (
     fetch_pitcher_handedness_splits,
     fetch_player_bat_sides, fetch_lineup_handedness,
+    fetch_batter_k_rates, load_pitch_hands,
+    CACHE_DIR,
 )
 
 
@@ -125,6 +127,24 @@ def backfill(season=None, start_game=10, start_date=None):
     print(f"  Loading player bat sides...")
     bat_sides = fetch_player_bat_sides(season=season)
     print(f"  {len(bat_sides)} players with bat-side data")
+
+    # Load batter K rates + pitcher hands
+    print(f"  Loading batter K rates...")
+    batter_k_rates = fetch_batter_k_rates(season=season)
+    print(f"  {len(batter_k_rates)} batters with K rates")
+    pitch_hands = load_pitch_hands(season=season)
+
+    # Inject pitcher hand into adv_stats
+    for pid_str, adv in adv_stats.items():
+        try:
+            adv["pitch_hand"] = pitch_hands.get(int(pid_str), "R")
+        except (ValueError, TypeError):
+            pass
+
+    # Load batting orders for lineup K% lookup
+    from sources.mlb_stats import _load_cache as _lc
+    bo_cache_path = CACHE_DIR / f"batting_orders_{season}.json"
+    batting_orders_all = _lc(bo_cache_path, max_age_hours=None) or {}
 
     # Organize by pitcher
     pitcher_logs = organize_pitcher_logs(all_logs)
@@ -221,6 +241,12 @@ def backfill(season=None, start_game=10, start_date=None):
 
         weather_data = fetch_game_weather(game_date)
 
+        # Build lineup_data for this date (player IDs from batting orders)
+        date_lineup_data = {}
+        date_bo = batting_orders_all.get(game_date, {})
+        for abbr, order in date_bo.items():
+            date_lineup_data[abbr] = {"player_ids": order}
+
         # Phase 3: Project props using prior data + current Kalman state
         projections = project_pitcher_props(
             prior_logs,
@@ -230,6 +256,8 @@ def backfill(season=None, start_game=10, start_date=None):
             pitcher_adv_stats=adv_stats,
             pitcher_sabermetrics=saber_stats,
             weather_by_game=weather_data,
+            batter_k_rates=batter_k_rates,
+            lineup_data=date_lineup_data,
         )
 
         # Phase 4: Grade projections against actuals

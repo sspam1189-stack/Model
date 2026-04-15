@@ -189,7 +189,8 @@ def project_pitcher_props(pitcher_logs, team_batting_stats=None,
                           prop_lines=None, kalman_state=None,
                           pitcher_adv_stats=None, pitcher_sabermetrics=None,
                           pitcher_splits=None, probable_pitchers=None,
-                          injury_report=None, weather_by_game=None):
+                          injury_report=None, weather_by_game=None,
+                          batter_k_rates=None, lineup_data=None):
     """
     Project pitcher props for all pitchers with sufficient game logs.
 
@@ -382,8 +383,29 @@ def project_pitcher_props(pitcher_logs, team_batting_stats=None,
             )
 
             # --- 6. Opponent batting adjustment ---
-            proj = _apply_opp_adjustment(proj, market, latest_opp,
-                                         team_batting_stats, league_avg)
+            # For strikeouts: use lineup-specific K% (vs pitcher hand) if available
+            if market == "strikeouts" and batter_k_rates and lineup_data:
+                opp_lineup = lineup_data.get(latest_opp, {})
+                opp_player_ids = opp_lineup.get("player_ids", [])
+                if opp_player_ids:
+                    # Determine pitcher's throwing hand
+                    _pitch_hand = (pitcher_adv_stats or {}).get(str(pid), {}).get("pitch_hand", "R")
+                    from sources.mlb_stats import compute_lineup_k_pct
+                    lineup_k = compute_lineup_k_pct(opp_player_ids, batter_k_rates, _pitch_hand)
+                    lineup_k_vs_hand = lineup_k.get("lineup_k_pct_vs_hand", 0)
+                    if lineup_k_vs_hand > 0 and league_avg.get("K_PCT", 0) > 0:
+                        # Same multiplicative adjustment as _apply_opp_adjustment
+                        # but using lineup K% vs pitcher hand instead of team K%
+                        ratio = lineup_k_vs_hand / league_avg["K_PCT"]
+                        weight = OPP_ADJ_WEIGHT.get("strikeouts", 0.25)
+                        proj *= (1.0 + (ratio - 1.0) * weight)
+                else:
+                    # Fallback to team-level
+                    proj = _apply_opp_adjustment(proj, market, latest_opp,
+                                                 team_batting_stats, league_avg)
+            else:
+                proj = _apply_opp_adjustment(proj, market, latest_opp,
+                                             team_batting_stats, league_avg)
 
             # --- 7. Handedness adjustment ---
             proj = _apply_handedness_adjustment(proj, market, splits,

@@ -43,6 +43,7 @@ from sources.mlb_stats import (
     fetch_team_batting_stats, fetch_team_pitching_stats,
     fetch_today_probable_pitchers,
     fetch_player_bat_sides, fetch_lineup_handedness,
+    fetch_batter_k_rates, load_pitch_hands,
 )
 from sources.weather import fetch_game_weather
 from sources.odds_fanduel import fetch_fanduel_mlb_props
@@ -293,6 +294,42 @@ def run_daily(date_key=None):
         else:
             team_batting[abbr] = {"PCT_LHB": hand_data["PCT_LHB"]}
 
+    # Build lineup_data with player_ids for K% lookup
+    # lineup_hand has {team: {PCT_LHB, n_batters, source}} but we also need player_ids
+    # Re-fetch lineup to get IDs (the schedule hydrate=lineups call is cached)
+    lineup_data = {}
+    try:
+        import requests
+        url = f"https://statsapi.mlb.com/api/v1/schedule?sportId=1&date={date_iso}&hydrate=lineups"
+        resp = requests.get(url, timeout=15)
+        sched = resp.json()
+        from sources.mlb_stats import MLB_TEAM_ID_TO_ABBR
+        for date_entry in sched.get("dates", []):
+            for game in date_entry.get("games", []):
+                lineups = game.get("lineups", {})
+                teams = game.get("teams", {})
+                for side, lineup_key in [("home", "homePlayers"), ("away", "awayPlayers")]:
+                    team_id = teams.get(side, {}).get("team", {}).get("id")
+                    abbr = MLB_TEAM_ID_TO_ABBR.get(team_id, "")
+                    if abbr:
+                        players = lineups.get(lineup_key, [])
+                        lineup_data[abbr] = {"player_ids": [p.get("id") for p in players]}
+    except Exception:
+        pass
+
+    # Fetch batter K rates (bulk, 2 API calls)
+    print(f"\n  [9b/17] Fetching batter K rates...")
+    batter_k_rates = fetch_batter_k_rates(season=season)
+    pitch_hands = load_pitch_hands(season=season)
+    print(f"  {len(batter_k_rates)} batters with K rates")
+
+    # Inject pitcher hand into adv_stats for props_engine K% lookup
+    for pid_str, adv in adv_stats.items():
+        try:
+            adv["pitch_hand"] = pitch_hands.get(int(pid_str), "R")
+        except (ValueError, TypeError):
+            pass
+
     # Stage 10: Fetch team pitching stats
     print(f"\n  [10/17] Fetching team pitching stats...")
     team_pitching = fetch_team_pitching_stats(season=season)
@@ -342,8 +379,10 @@ def run_daily(date_key=None):
         pitcher_sabermetrics=saber_stats,
         pitcher_splits=splits,
         probable_pitchers=probable,
-        injury_report=None,  # TODO: wire in MLB injury report
+        injury_report=None,
         weather_by_game=weather_data,
+        batter_k_rates=batter_k_rates,
+        lineup_data=lineup_data,
     )
     picks = [p for p in projections if p["pick"] != "PASS"]
     print(f"  {len(projections)} projections, {len(picks)} actionable picks")

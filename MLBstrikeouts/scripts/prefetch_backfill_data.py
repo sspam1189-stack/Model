@@ -107,8 +107,14 @@ def prefetch(season=None):
             print(f"    {fetched_count} fetched...")
     print(f"  {fetched_count} fetched, {cached_count} already cached")
 
-    # 6. Season-level stats (usually already cached)
-    print(f"\n  [6/7] Ensuring season stats are cached...")
+    # 6. Batter K rates (bulk, 2 API calls)
+    print(f"\n  [6/8] Fetching batter K rates (season + vs LHP/RHP)...")
+    from sources.mlb_stats import fetch_batter_k_rates
+    bk = fetch_batter_k_rates(season=season)
+    print(f"  {len(bk)} batters with K rates")
+
+    # 7. Season-level stats (usually already cached)
+    print(f"\n  [7/8] Ensuring season stats are cached...")
     adv = fetch_pitcher_advanced_stats(season=season)
     print(f"  Advanced stats: {len(adv)} pitchers")
     sab = fetch_pitcher_sabermetrics(season=season)
@@ -118,8 +124,8 @@ def prefetch(season=None):
     tp = fetch_team_pitching_stats(season=season)
     print(f"  Team pitching: {len(tp)} teams")
 
-    # 7. Summary
-    print(f"\n  [7/7] Verifying cache completeness...")
+    # 8. Summary
+    print(f"\n  [8/8] Verifying cache completeness...")
     import glob
     weather_files = glob.glob(str(CACHE_DIR / "weather_*.json"))
     lineup_files = glob.glob(str(CACHE_DIR / "lineup_handedness_*.json"))

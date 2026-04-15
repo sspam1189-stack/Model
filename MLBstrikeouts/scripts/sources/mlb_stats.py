@@ -425,6 +425,166 @@ def fetch_pitcher_handedness_splits(pitcher_id, season=None):
 
 
 # ---------------------------------------------------------------------------
+# 4b. Batter Strikeout Rates (season + vs LHP/RHP splits)
+# ---------------------------------------------------------------------------
+
+def fetch_batter_k_rates(season=None):
+    """
+    Fetch per-batter K% for the entire league (bulk, 2 API calls).
+
+    Returns dict keyed by player_id (int):
+        {player_id: {
+            "name": str, "team_id": int,
+            "k_pct": float,         # overall K%
+            "pa": int,              # plate appearances
+            "k": int,               # strikeouts
+            "k_pct_vs_lhp": float,  # K% vs left-handed pitchers
+            "k_pct_vs_rhp": float,  # K% vs right-handed pitchers
+            "pa_vs_lhp": int,
+            "pa_vs_rhp": int,
+        }}
+    """
+    season = season or _current_season()
+    cache_path = CACHE_DIR / f"batter_k_rates_{season}.json"
+
+    cached = _load_cache(cache_path, max_age_hours=None)  # season data, never expires
+    if cached is not None:
+        return {int(k): v for k, v in cached.items()}
+
+    result = {}
+
+    # --- Bulk season stats (overall K%) ---
+    url = (
+        f"{BASE_URL}/stats?stats=season&group=hitting&season={season}"
+        f"&sportId=1&playerPool=all&limit=1000"
+    )
+    try:
+        raw = _fetch_json(url)
+    except Exception as e:
+        print(f"  [mlb_stats] Batter stats fetch failed: {e}")
+        return {}
+    time.sleep(0.5)
+
+    for stat_group in raw.get("stats", []):
+        for split in stat_group.get("splits", []):
+            stat = split.get("stat", {})
+            player = split.get("player", {})
+            pid = player.get("id")
+            if not pid:
+                continue
+
+            pa = stat.get("plateAppearances", 0) or 0
+            k = stat.get("strikeOuts", 0) or 0
+            pos = split.get("position", {}).get("abbreviation", "")
+
+            # Skip pitchers
+            if pos == "P":
+                continue
+
+            result[pid] = {
+                "name": player.get("fullName", ""),
+                "team_id": split.get("team", {}).get("id"),
+                "k_pct": round(k / pa, 4) if pa > 0 else 0.0,
+                "pa": pa,
+                "k": k,
+                "k_pct_vs_lhp": 0.0,
+                "k_pct_vs_rhp": 0.0,
+                "pa_vs_lhp": 0,
+                "pa_vs_rhp": 0,
+            }
+
+    # --- Bulk splits vs LHP/RHP ---
+    url2 = (
+        f"{BASE_URL}/stats?stats=statSplits&group=hitting&season={season}"
+        f"&sportId=1&sitCodes=vl,vr&playerPool=all&limit=1000"
+    )
+    try:
+        raw2 = _fetch_json(url2)
+    except Exception as e:
+        print(f"  [mlb_stats] Batter splits fetch failed: {e}")
+        _save_cache(cache_path, result)
+        return result
+    time.sleep(0.5)
+
+    for stat_group in raw2.get("stats", []):
+        for split in stat_group.get("splits", []):
+            stat = split.get("stat", {})
+            player = split.get("player", {})
+            pid = player.get("id")
+            split_code = split.get("split", {}).get("code", "")
+
+            if not pid or pid not in result:
+                continue
+
+            pa = stat.get("plateAppearances", 0) or 0
+            # plateAppearances is often 0 in splits; use battersFaced or compute
+            if pa == 0:
+                pa = (stat.get("atBats", 0) or 0) + (stat.get("baseOnBalls", 0) or 0) + \
+                     (stat.get("hitByPitch", 0) or 0) + (stat.get("sacFlies", 0) or 0) + \
+                     (stat.get("sacBunts", 0) or 0)
+            k = stat.get("strikeOuts", 0) or 0
+
+            if split_code == "vl":  # vs left-handed pitcher
+                result[pid]["k_pct_vs_lhp"] = round(k / pa, 4) if pa > 0 else 0.0
+                result[pid]["pa_vs_lhp"] = pa
+            elif split_code == "vr":  # vs right-handed pitcher
+                result[pid]["k_pct_vs_rhp"] = round(k / pa, 4) if pa > 0 else 0.0
+                result[pid]["pa_vs_rhp"] = pa
+
+    print(f"  [mlb_stats] Fetched K rates for {len(result)} batters")
+    _save_cache(cache_path, result)
+    return result
+
+
+def compute_lineup_k_pct(lineup_player_ids, batter_k_rates, pitcher_hand="R"):
+    """
+    Compute lineup-specific K% from the actual batting order.
+
+    Parameters
+    ----------
+    lineup_player_ids : list[int]
+        Player IDs of the 9 batters in the lineup.
+    batter_k_rates : dict
+        {player_id: {"k_pct": float, "k_pct_vs_lhp": float, "k_pct_vs_rhp": float, ...}}
+    pitcher_hand : str
+        "L" or "R" — the pitcher's throwing hand.
+
+    Returns
+    -------
+    dict
+        {"lineup_k_pct": float, "lineup_k_pct_vs_hand": float, "n_batters": int}
+        lineup_k_pct: overall K% of the lineup
+        lineup_k_pct_vs_hand: K% specifically vs this pitcher's handedness
+    """
+    k_pcts = []
+    k_pcts_vs_hand = []
+
+    hand_key = "k_pct_vs_lhp" if pitcher_hand == "L" else "k_pct_vs_rhp"
+
+    for pid in lineup_player_ids:
+        batter = batter_k_rates.get(pid) or batter_k_rates.get(str(pid))
+        if not batter:
+            continue
+
+        if batter.get("k_pct", 0) > 0:
+            k_pcts.append(batter["k_pct"])
+
+        # Handedness-specific K%
+        vs_hand = batter.get(hand_key, 0)
+        if vs_hand > 0:
+            k_pcts_vs_hand.append(vs_hand)
+        elif batter.get("k_pct", 0) > 0:
+            # Fallback to overall if no split data
+            k_pcts_vs_hand.append(batter["k_pct"])
+
+    return {
+        "lineup_k_pct": round(sum(k_pcts) / len(k_pcts), 4) if k_pcts else 0.0,
+        "lineup_k_pct_vs_hand": round(sum(k_pcts_vs_hand) / len(k_pcts_vs_hand), 4) if k_pcts_vs_hand else 0.0,
+        "n_batters": len(k_pcts),
+    }
+
+
+# ---------------------------------------------------------------------------
 # 5. Team Batting Stats
 # ---------------------------------------------------------------------------
 
@@ -601,15 +761,36 @@ def fetch_player_bat_sides(season=None):
     time.sleep(0.5)
 
     result = {}
+    pitch_hands = {}
     for player in raw.get("people", []):
         pid = player.get("id")
         bat_code = player.get("batSide", {}).get("code", "R")
+        pitch_code = player.get("pitchHand", {}).get("code", "R")
         if pid:
             result[pid] = bat_code
+            pitch_hands[pid] = pitch_code
+
+    # Also cache pitch hands separately for K% lineup lookup
+    pitch_hand_path = CACHE_DIR / f"pitch_hands_{season}.json"
+    _save_cache(pitch_hand_path, pitch_hands)
+    print(f"  [mlb_stats] Also cached pitch hands for {len(pitch_hands)} players")
 
     print(f"  [mlb_stats] Fetched bat sides for {len(result)} players")
     _save_cache(cache_path, result)
     return result
+
+
+def load_pitch_hands(season=None):
+    """Load cached pitcher throwing hand lookup: {player_id: 'L'|'R'}."""
+    season = season or _current_season()
+    cache_path = CACHE_DIR / f"pitch_hands_{season}.json"
+    cached = _load_cache(cache_path, max_age_hours=None)
+    if cached:
+        return {int(k): v for k, v in cached.items()}
+    # If not cached, trigger bat_sides fetch which also caches pitch hands
+    fetch_player_bat_sides(season=season)
+    cached = _load_cache(cache_path, max_age_hours=None)
+    return {int(k): v for k, v in cached.items()} if cached else {}
 
 
 def fetch_lineup_handedness(date_str, bat_sides=None, season=None):
