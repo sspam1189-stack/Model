@@ -5,11 +5,13 @@
       for (const p of picks) {
         const price = p.odds != null ? Number(p.odds) : null;
         if (p.result === 'WIN') {
-          if (price != null && price > 0) u += price / 100;  // +120 → win 1.2u
+          if (price != null && price > 0) u += price / 100;        // +120 → win 1.2u
+          else if (price != null && price < 0) u += 100 / Math.abs(price); // -130 → win 0.77u
           else u += 1.0;
         } else if (p.result === 'LOSS') {
-          if (price != null && price > 0) u -= 1.0;  // +120 → risk 1u
-          else u -= (p.to_win_1u != null ? p.to_win_1u : 1.1);
+          if (price != null && price > 0) u -= 1.0;                // +120 → risk 1u
+          else if (price != null && price < 0) u -= Math.abs(price) / 100;  // -130 → risk 1.3u
+          else u -= 1.1;
         }
       }
       return u;
