@@ -41,14 +41,16 @@ MIN_GAMES = {
 MIN_INNINGS = 3.0
 
 # ---------------------------------------------------------------------------
-# Market thresholds (initial — will be calibrated after backtest)
+# Market thresholds — minimum pCover to make a pick
+# The model's empirical std and rate-based projections handle calibration,
+# so thresholds are set to minimum viable (just above coin flip).
 # ---------------------------------------------------------------------------
 MARKET_THRESHOLDS = {
-    "strikeouts":   {"high": 0.75},    # 57.5% at 0.75+, +5.9u
-    "outs":         {"high": 0.62, "high_under": 0.62},  # UNDER only — OVER 40% vs UNDER 53%
-    "hits_allowed": {"high": 0.65, "high_under": 0.65},  # UNDER only — OVER 54% vs UNDER 60%
-    "walks":        {"high": 0.80},    # disabled — no consistent edge
-    "game_hits":    {"high": 0.65},
+    "strikeouts":   {"high": 0.55},
+    "outs":         {"high": 0.55},
+    "hits_allowed": {"high": 0.55},
+    "walks":        {"high": 0.55},
+    "game_hits":    {"high": 0.55},
 }
 
 # ---------------------------------------------------------------------------
@@ -63,45 +65,42 @@ VAR_MULT = {
 }
 
 # ---------------------------------------------------------------------------
-# Edge filters
+# Edge filters — removed. Model accuracy handles this, not filters.
 # ---------------------------------------------------------------------------
 MIN_EDGE = {
-    "strikeouts":   0.5,
-    "outs":         1.0,
-    "hits_allowed": 0.5,
-    "walks":        0.3,
-    "game_hits":    0.5,
+    "strikeouts":   0.0,
+    "outs":         0.0,
+    "hits_allowed": 0.0,
+    "walks":        0.0,
+    "game_hits":    0.0,
 }
 
-# Edge dead zone: skip edges in this range (middle = uncertain, small/big = signal)
-EDGE_DEAD_ZONE = {
-    "strikeouts": (1.5, 2.5),   # 1.5-2.5 is 50% coin flip; <1.5 and 2.5+ are 85%
-}
+EDGE_DEAD_ZONE = {}
 
 MAX_EDGE = {
-    "strikeouts":   3.5,      # tightened — huge edges are model disagreement
-    "outs":         2.0,       # edge 0-1.5 is 65%, 1.5+ is 39% — big edge = wrong
-    "hits_allowed": 1.8,      # edge 0-1.2 is 72.7%, 1.8+ is 45%
-    "walks":        2.5,
-    "game_hits":    5.0,
+    "strikeouts":   999,
+    "outs":         999,
+    "hits_allowed": 999,
+    "walks":        999,
+    "game_hits":    999,
 }
 
 # ---------------------------------------------------------------------------
-# Min prop line (filter out low-volume lines)
+# Min prop line — removed. No artificial line cutoffs.
 # ---------------------------------------------------------------------------
 MIN_LINE = {
-    "strikeouts":   4.5,
-    "outs":         16.5,      # low lines (14.5-16.5) are 10W-21L (32%)
-    "hits_allowed": 4.5,
-    "walks":        1.5,
-    "game_hits":    14.5,
+    "strikeouts":   0,
+    "outs":         0,
+    "hits_allowed": 0,
+    "walks":        0,
+    "game_hits":    0,
 }
 
 # ---------------------------------------------------------------------------
-# Disabled / under-only markets (none initially — tune after backtest)
+# Disabled / direction-restricted markets
 # ---------------------------------------------------------------------------
-DISABLED_MARKETS = {"walks", "hits_allowed"}   # walks: no edge. HA: 53% even with decomposition
-UNDER_ONLY_MARKETS = {"outs", "hits_allowed"}   # OVER is coin flip for both
+DISABLED_MARKETS = {"walks"}
+UNDER_ONLY_MARKETS = set()  # no direction restrictions — model picks the direction
 
 # ---------------------------------------------------------------------------
 # Opponent adjustment config
