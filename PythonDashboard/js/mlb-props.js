@@ -765,7 +765,8 @@
           card.className = 'card-games';
           const mW = filteredPicks.filter(p => p.result === 'WIN').length;
           const mL = filteredPicks.filter(p => p.result === 'LOSS').length;
-          const titleSuffix = isBacktest ? ` (${mW}W-${mL}L)` : '';
+          const mU = calcMLBPropsUnits(filteredPicks);
+          const titleSuffix = isBacktest ? ` (${mW}W-${mL}L ${mU>=0?'+':''}${mU.toFixed(2)}u)` : '';
           card.appendChild(Object.assign(document.createElement('div'), {className:'card-title', textContent:(marketLabels[mlbActiveMarket]||mlbActiveMarket)+titleSuffix}));
 
           if (totalPages > 1) {
