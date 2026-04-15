@@ -32,6 +32,7 @@ jobs:
           cp -f pyNFL/data/nfl.json PythonDashboard/data/nfl.json 2>/dev/null || true
           cp -f pyNBAPROPS/data/nba-props.json PythonDashboard/data/nba-props.json 2>/dev/null || true
           cp -f pyNFL/data/nfl-props.json PythonDashboard/data/nfl-props.json 2>/dev/null || true
+          cp -f MLBstrikeouts/data/mlb-props.json PythonDashboard/data/mlb-props.json 2>/dev/null || true
 
       - name: Commit and push if changed
         shell: bash
