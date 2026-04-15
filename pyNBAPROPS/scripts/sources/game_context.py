@@ -525,3 +525,121 @@ def rate_based_projection(per_min_rate, projected_minutes):
         Projected raw stat value.
     """
     return per_min_rate * projected_minutes
+
+
+# ---------------------------------------------------------------------------
+# Lineup-context filtering
+# ---------------------------------------------------------------------------
+
+def build_team_date_roster(all_game_logs, min_minutes=10):
+    """
+    Build a lookup: (team, game_date) -> set of player_ids who played.
+
+    Single O(N) pass over raw game logs.  Called once at startup.
+    """
+    roster = {}
+    for g in all_game_logs:
+        if g.get("min", 0) < min_minutes:
+            continue
+        key = (g["team"], g.get("game_date", ""))
+        if key not in roster:
+            roster[key] = set()
+        roster[key].add(int(g["player_id"]))
+    return roster
+
+
+def build_team_name_to_pid(all_game_logs):
+    """
+    Map (team_abbr, injury_name_key) -> player_id.
+
+    Uses _injury_name_key() for name normalization (same as injury report matching).
+    Keeps the most recent entry per player so mid-season trades resolve correctly.
+    """
+    mapping = {}
+    for g in all_game_logs:
+        pid = int(g["player_id"])
+        team = g["team"]
+        name = g.get("player_name", "")
+        if not name:
+            continue
+        nk = _injury_name_key(name)
+        mapping[(team, nk)] = pid
+    return mapping
+
+
+def get_absent_player_ids(team, injury_report, team_name_to_pid, min_mpg=15.0):
+    """
+    Get player_ids of teammates who are OUT/DOUBTFUL tonight.
+
+    Only includes players averaging >= min_mpg minutes — bench warmers
+    don't meaningfully affect teammates' usage redistribution.
+    """
+    team_injuries = injury_report.get(team, [])
+    absent = set()
+    for inj in team_injuries:
+        if inj.get("status") not in ("out", "doubtful"):
+            continue
+        mpg = inj.get("mpg")
+        if mpg is not None and float(mpg) < min_mpg:
+            continue
+        nk = _injury_name_key(inj.get("player", ""))
+        pid = team_name_to_pid.get((team, nk))
+        if pid is not None:
+            absent.add(pid)
+    return absent
+
+
+def filter_games_by_lineup_context(player_games, player_id, team,
+                                    absent_pids, team_date_roster,
+                                    min_games=5):
+    """
+    Filter a player's game logs to prefer games with similar teammate absences.
+
+    Tiered fallback:
+      1. Games where ALL absent_pids were also missing
+      2. Games where >= HALF of absent_pids were missing
+      3. All games (unfiltered)
+
+    Falls back to next tier if current tier has < min_games.
+    Short-circuits if absent_pids is empty or all absent players are
+    chronically missing (already absent in every recent game).
+    """
+    if not absent_pids or not player_games:
+        return player_games
+
+    # Filter out chronic absences — players missing in ALL recent games
+    # already have their absence reflected in the rolling data.
+    acute_absent = set()
+    for apid in absent_pids:
+        present_in_any = False
+        for g in player_games:
+            roster = team_date_roster.get((team, g.get("game_date", "")), set())
+            if apid in roster:
+                present_in_any = True
+                break
+        if present_in_any:
+            acute_absent.add(apid)
+
+    if not acute_absent:
+        return player_games  # All absences are chronic — no filtering needed
+
+    n_absent = len(acute_absent)
+    half_threshold = max(1, n_absent // 2)
+
+    tier1 = []  # ALL absent stars also missing
+    tier2 = []  # >= HALF absent stars missing
+
+    for g in player_games:
+        roster = team_date_roster.get((team, g.get("game_date", "")), set())
+        missing_count = sum(1 for apid in acute_absent if apid not in roster)
+
+        if missing_count >= n_absent:
+            tier1.append(g)
+        if missing_count >= half_threshold:
+            tier2.append(g)
+
+    if len(tier1) >= min_games:
+        return tier1
+    if len(tier2) >= min_games:
+        return tier2
+    return player_games

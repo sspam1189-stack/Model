@@ -313,6 +313,12 @@ def run_daily(date_key=None):
     player_logs = organize_player_logs(player_game_logs)
     print(f"  {len(player_logs)} players with game logs")
 
+    # Build lineup-context lookups for game-log filtering
+    from sources.game_context import build_team_date_roster, build_team_name_to_pid
+    team_date_roster = build_team_date_roster(player_game_logs)
+    team_name_to_pid = build_team_name_to_pid(player_game_logs)
+    print(f"  Built lineup roster: {len(team_date_roster)} team-date entries")
+
     # --- Stage 3: Update Kalman with new games ---
     print(f"\n  [3/7] Updating Kalman state with new games...")
     n_updated = batch_update_from_game_logs(kalman_state, player_game_logs)
@@ -404,6 +410,8 @@ def run_daily(date_key=None):
         team_def_by_pos=team_def_by_pos,
         player_per36=player_per36,
         injury_report=injury_report,
+        team_date_roster=team_date_roster,
+        team_name_to_pid=team_name_to_pid,
     )
 
     picks = [p for p in projections if p["pick"] != "PASS"]
