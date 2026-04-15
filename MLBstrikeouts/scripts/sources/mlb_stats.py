@@ -354,9 +354,10 @@ def fetch_pitcher_advanced_stats(season=None):
     Returns dict keyed by str(player_id).
     """
     season = season or _current_season()
-    cache_path = CACHE_DIR / f"pitcher_advanced_{season}.json"
+    today_str = date.today().strftime("%Y%m%d")
+    cache_path = CACHE_DIR / f"pitcher_advanced_{season}_{today_str}.json"
 
-    cached = _load_cache(cache_path, max_age_hours=None)
+    cached = _load_cache(cache_path)
     if cached is not None:
         return cached
 
@@ -421,9 +422,10 @@ def fetch_savant_pitcher_rates(season=None, min_pa=10):
     import io
 
     season = season or _current_season()
-    cache_path = CACHE_DIR / f"savant_rates_{season}.json"
+    today_str = date.today().strftime("%Y%m%d")
+    cache_path = CACHE_DIR / f"savant_rates_{season}_{today_str}.json"
 
-    cached = _load_cache(cache_path, max_age_hours=None)
+    cached = _load_cache(cache_path)
     if cached is not None:
         print(f"  [savant] Using cached rates ({len(cached)} pitchers)")
         return cached
@@ -488,9 +490,10 @@ def fetch_pitcher_sabermetrics(season=None):
     Returns dict keyed by str(player_id).
     """
     season = season or _current_season()
-    cache_path = CACHE_DIR / f"pitcher_sabermetrics_{season}.json"
+    today_str = date.today().strftime("%Y%m%d")
+    cache_path = CACHE_DIR / f"pitcher_sabermetrics_{season}_{today_str}.json"
 
-    cached = _load_cache(cache_path, max_age_hours=None)
+    cached = _load_cache(cache_path)
     if cached is not None:
         return cached
 
@@ -615,9 +618,10 @@ def fetch_batter_k_rates(season=None):
         }}
     """
     season = season or _current_season()
-    cache_path = CACHE_DIR / f"batter_k_rates_{season}.json"
+    today_str = date.today().strftime("%Y%m%d")
+    cache_path = CACHE_DIR / f"batter_k_rates_{season}_{today_str}.json"
 
-    cached = _load_cache(cache_path, max_age_hours=None)  # season data, never expires
+    cached = _load_cache(cache_path)
     if cached is not None:
         return {int(k): v for k, v in cached.items()}
 
@@ -764,9 +768,10 @@ def fetch_team_batting_stats(season=None):
     Returns dict keyed by team abbreviation.
     """
     season = season or _current_season()
-    cache_path = CACHE_DIR / f"team_batting_{season}.json"
+    today_str = date.today().strftime("%Y%m%d")
+    cache_path = CACHE_DIR / f"team_batting_{season}_{today_str}.json"
 
-    cached = _load_cache(cache_path, max_age_hours=None)
+    cached = _load_cache(cache_path)
     if cached is not None:
         return cached
 
@@ -813,9 +818,10 @@ def fetch_team_pitching_stats(season=None):
     Returns dict keyed by team abbreviation.
     """
     season = season or _current_season()
-    cache_path = CACHE_DIR / f"team_pitching_{season}.json"
+    today_str = date.today().strftime("%Y%m%d")
+    cache_path = CACHE_DIR / f"team_pitching_{season}_{today_str}.json"
 
-    cached = _load_cache(cache_path, max_age_hours=None)
+    cached = _load_cache(cache_path)
     if cached is not None:
         return cached
 
@@ -1184,9 +1190,10 @@ def fetch_savant_batter_rates(season=None, min_pa=50):
     import io
 
     season = season or _current_season()
-    cache_path = CACHE_DIR / f"savant_batter_rates_{season}.json"
+    today_str = date.today().strftime("%Y%m%d")
+    cache_path = CACHE_DIR / f"savant_batter_rates_{season}_{today_str}.json"
 
-    cached = _load_cache(cache_path, max_age_hours=None)
+    cached = _load_cache(cache_path)
     if cached is not None:
         print(f"  [savant] Using cached batter rates ({len(cached)} batters)")
         return cached
@@ -1270,9 +1277,10 @@ def fetch_batter_splits(season=None):
         }}
     """
     season = season or _current_season()
-    cache_path = CACHE_DIR / f"batter_splits_{season}.json"
+    today_str = date.today().strftime("%Y%m%d")
+    cache_path = CACHE_DIR / f"batter_splits_{season}_{today_str}.json"
 
-    cached = _load_cache(cache_path, max_age_hours=None)
+    cached = _load_cache(cache_path)
     if cached is not None:
         print(f"  [mlb_stats] Using cached batter splits ({len(cached)} batters)")
         return {int(k): v for k, v in cached.items()}
