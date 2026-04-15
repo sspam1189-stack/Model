@@ -1414,6 +1414,10 @@ async function render() {
   const el = document.getElementById('content');
   el.innerHTML = '<div class="loading"><div class="spinner"></div><br>Loading picks...</div>';
 
+  // Clear/update last-run info for every tab switch
+  updateLastRunInfo();
+  updateLastSyncInfo();
+
   // NFL has its own render pipeline
   if (activeTab === 'nfl') {
     return renderNFL();
