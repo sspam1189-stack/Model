@@ -89,11 +89,18 @@ def grade_previous_picks(season=None):
     dates_to_grade = sorted(set(p["date"] for p in ungraded))
     print(f"  [grade] Found {len(ungraded)} ungraded picks from {', '.join(dates_to_grade)}")
 
-    # Fetch player game logs for the season
+    # Fetch player game logs for the season (Regular + PlayIn + Playoffs)
     if season is None:
         from defaults import current_season
         season = current_season()
     all_logs = fetch_player_game_logs(season=season)
+    for extra_type in ("PlayIn", "Playoffs"):
+        try:
+            extra = fetch_player_game_logs(season=season, season_type=extra_type)
+            if extra:
+                all_logs.extend(extra)
+        except Exception:
+            pass
     if not all_logs:
         print("  [grade] Could not fetch game logs — skipping grading")
         return
@@ -288,12 +295,20 @@ def run_daily(date_key=None):
     n_players = len(kalman_state.get("players", {}))
     print(f"  Kalman state: {n_players} players tracked")
 
-    # --- Stage 2: Fetch player game logs ---
+    # --- Stage 2: Fetch player game logs (Regular + PlayIn + Playoffs) ---
     print(f"\n  [2/7] Fetching player game logs...")
     player_game_logs = fetch_player_game_logs(season=season)
     if not player_game_logs:
         print("  ERROR: No player game logs fetched. Exiting.")
         return
+    for extra_type in ("PlayIn", "Playoffs"):
+        try:
+            extra = fetch_player_game_logs(season=season, season_type=extra_type)
+            if extra:
+                player_game_logs.extend(extra)
+                print(f"  +{len(extra)} {extra_type} logs")
+        except Exception:
+            pass
 
     player_logs = organize_player_logs(player_game_logs)
     print(f"  {len(player_logs)} players with game logs")
