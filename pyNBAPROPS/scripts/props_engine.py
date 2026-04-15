@@ -174,7 +174,8 @@ def project_player_props(player_logs, team_def_stats=None, prop_lines=None,
                          kalman_state=None, player_adv_stats=None,
                          today_games=None, player_positions=None,
                          team_def_by_pos=None, player_per36=None,
-                         injury_report=None):
+                         injury_report=None,
+                         team_date_roster=None, team_name_to_pid=None):
     """
     Project player props for all players with sufficient game logs.
 
@@ -269,6 +270,19 @@ def project_player_props(player_logs, team_def_stats=None, prop_lines=None,
             latest_opp = games[-1].get("opp", "")
             is_home = games[-1].get("is_home", True)
             game_date = games[-1].get("game_date", "")
+
+        # --- Lineup-context filtering ---
+        # When key teammates are OUT tonight, prefer games where they were
+        # also absent.  This naturally adjusts both per-minute rates AND
+        # projected minutes without any separate boost formula.
+        if injury_report and team_date_roster and team_name_to_pid:
+            from sources.game_context import (get_absent_player_ids,
+                                              filter_games_by_lineup_context)
+            absent_pids = get_absent_player_ids(team, injury_report,
+                                                team_name_to_pid)
+            if absent_pids:
+                recent = filter_games_by_lineup_context(
+                    recent, int(pid), team, absent_pids, team_date_roster)
 
         # Filter to games with meaningful minutes
         qualified = [g for g in recent if g.get("min", 0) >= MIN_MINUTES]

@@ -91,6 +91,13 @@ def backfill(season="2025-26", start_game=15, start_date=None, use_real_lines=Tr
     player_logs = organize_player_logs(all_logs)
     print(f"  {len(player_logs)} players, {len(all_logs)} total game logs")
 
+    # Build lineup-context lookups for game-log filtering
+    from sources.game_context import (build_team_date_roster, build_team_name_to_pid,
+                                       load_injury_report)
+    team_date_roster = build_team_date_roster(all_logs)
+    team_name_to_pid = build_team_name_to_pid(all_logs)
+    print(f"  Built lineup roster: {len(team_date_roster)} team-date entries")
+
     # Get all unique game dates
     all_dates = sorted(set(g.get("game_date", "") for g in all_logs if g.get("game_date")))
     print(f"  {len(all_dates)} game dates in season")
@@ -168,6 +175,10 @@ def backfill(season="2025-26", start_game=15, start_date=None, use_real_lines=Tr
             print(f"  [{game_date}] Props fetch error: {e}")
 
         # Phase 4: Project props using prior data + current Kalman state + advanced stats
+        # Load injury report for this date (if cached) for lineup-context filtering
+        date_key = game_date.replace("-", "")
+        injury_report = load_injury_report(date_key)
+
         projections = project_player_props(
             prior_logs, team_def,
             prop_lines=real_lines,
@@ -177,6 +188,9 @@ def backfill(season="2025-26", start_game=15, start_date=None, use_real_lines=Tr
             player_positions=player_positions,
             team_def_by_pos=team_def_by_pos,
             player_per36=player_per36,
+            injury_report=injury_report,
+            team_date_roster=team_date_roster,
+            team_name_to_pid=team_name_to_pid,
         )
 
         # Phase 5: Grade projections against actuals

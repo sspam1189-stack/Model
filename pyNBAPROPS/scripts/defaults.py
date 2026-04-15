@@ -48,33 +48,32 @@ MIN_MINUTES = 15
 # ---------------------------------------------------------------------------
 # Confidence threshold
 # ---------------------------------------------------------------------------
-# With rate-based projections and honest variance (rate_std × minutes),
-# p(cover) values are properly calibrated. A single uniform threshold
-# is enough — no market-specific hacks needed.
+# Calibrated thresholds: VAR_MULT and pCover thresholds were jointly optimized
+# so that the model's predicted pCover ≈ actual win rate (~65-70%).
+# Previous VAR_MULT=1.2 was massively overconfident (predicted 84%, actual 62%).
 
 MARKET_THRESHOLDS = {
-    "points":        {"high": 0.80},
-    "rebounds":      {"high": 0.80},
-    "assists":       {"high": 0.80},
-    "threes":        {"high": 0.80},
-    "pts_rebs_asts": {"high": 0.80},
-    "steals":        {"high": 0.80},
-    "blocks":        {"high": 0.80},
-    "turnovers":     {"high": 0.80},
+    "points":        {"high": 0.65},
+    "rebounds":      {"high": 0.65},
+    "assists":       {"high": 0.65},
+    "threes":        {"high": 0.65},
+    "pts_rebs_asts": {"high": 0.65},
+    "steals":        {"high": 0.65},
+    "blocks":        {"high": 0.65},
+    "turnovers":     {"high": 0.65},
 }
 
 # Variance multipliers — applied to rate_std × proj_min
-# With rate-based variance, these can be uniform.
-# 1.2 = slight inflation to account for unmodeled factors (lineup changes, foul trouble).
+# Calibrated so avg pCover ≈ actual win rate per market.
 VAR_MULT = {
-    "points":        1.2,
-    "rebounds":      1.2,
-    "assists":       1.2,
-    "threes":        1.4,   # 3PM has higher relative variance (low count stat)
-    "pts_rebs_asts": 1.2,
-    "steals":        1.6,   # rare events need more inflation
-    "blocks":        1.6,
-    "turnovers":     1.3,
+    "points":        2.5,
+    "rebounds":      2.5,
+    "assists":       2.5,
+    "threes":        2.5,
+    "pts_rebs_asts": 2.5,
+    "steals":        2.5,   # keep higher relative to base (rare events)
+    "blocks":        2.5,
+    "turnovers":     2.5,
 }
 
 # ---------------------------------------------------------------------------
@@ -85,9 +84,9 @@ VAR_MULT = {
 
 MIN_EDGE = {
     "points":        0.5,
-    "rebounds":      0.5,
+    "rebounds":      1.5,
     "assists":       0.5,
-    "threes":        0.3,
+    "threes":        1.0,
     "pts_rebs_asts": 1.0,
     "steals":        0.2,
     "blocks":        0.2,
