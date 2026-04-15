@@ -100,7 +100,7 @@ MIN_LINE = {
 # ---------------------------------------------------------------------------
 # Disabled / under-only markets (none initially — tune after backtest)
 # ---------------------------------------------------------------------------
-DISABLED_MARKETS = {"walks"}   # walks: no edge. HA re-enabled with decomposition model
+DISABLED_MARKETS = {"walks", "hits_allowed"}   # walks: no edge. HA: 53% even with decomposition
 UNDER_ONLY_MARKETS = {"outs", "hits_allowed"}   # OVER is coin flip for both
 
 # ---------------------------------------------------------------------------
