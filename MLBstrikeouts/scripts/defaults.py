@@ -46,7 +46,7 @@ MIN_INNINGS = 3.0
 # so thresholds are set to minimum viable (just above coin flip).
 # ---------------------------------------------------------------------------
 MARKET_THRESHOLDS = {
-    "strikeouts":   {"high": 0.55},          # no filter — model handles calibration
+    "strikeouts":   {"high": 0.60},
     "outs":         {"high": 0.62, "high_under": 0.62},  # keep filter for outs
     "hits_allowed": {"high": 0.55},
     "walks":        {"high": 0.55},
