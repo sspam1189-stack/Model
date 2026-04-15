@@ -46,8 +46,8 @@ MIN_INNINGS = 3.0
 # so thresholds are set to minimum viable (just above coin flip).
 # ---------------------------------------------------------------------------
 MARKET_THRESHOLDS = {
-    "strikeouts":   {"high": 0.55},
-    "outs":         {"high": 0.55},
+    "strikeouts":   {"high": 0.55},          # no filter — model handles calibration
+    "outs":         {"high": 0.62, "high_under": 0.62},  # keep filter for outs
     "hits_allowed": {"high": 0.55},
     "walks":        {"high": 0.55},
     "game_hits":    {"high": 0.55},
@@ -65,11 +65,11 @@ VAR_MULT = {
 }
 
 # ---------------------------------------------------------------------------
-# Edge filters — removed. Model accuracy handles this, not filters.
+# Edge filters — K has none. OUTS keeps min edge.
 # ---------------------------------------------------------------------------
 MIN_EDGE = {
     "strikeouts":   0.0,
-    "outs":         0.0,
+    "outs":         1.0,
     "hits_allowed": 0.0,
     "walks":        0.0,
     "game_hits":    0.0,
@@ -86,11 +86,11 @@ MAX_EDGE = {
 }
 
 # ---------------------------------------------------------------------------
-# Min prop line — removed. No artificial line cutoffs.
+# Min prop line — OUTS keeps its floor.
 # ---------------------------------------------------------------------------
 MIN_LINE = {
     "strikeouts":   0,
-    "outs":         0,
+    "outs":         16.5,
     "hits_allowed": 0,
     "walks":        0,
     "game_hits":    0,
@@ -99,8 +99,8 @@ MIN_LINE = {
 # ---------------------------------------------------------------------------
 # Disabled / direction-restricted markets
 # ---------------------------------------------------------------------------
-DISABLED_MARKETS = {"walks"}
-UNDER_ONLY_MARKETS = set()  # no direction restrictions — model picks the direction
+DISABLED_MARKETS = {"walks", "hits_allowed"}
+UNDER_ONLY_MARKETS = {"outs"}  # OUTS under only
 
 # ---------------------------------------------------------------------------
 # Opponent adjustment config
