@@ -274,28 +274,26 @@ def run_daily(date_key=None):
     print(f"\n  [6/19] Fetching today's probable pitchers...")
     all_probable = fetch_today_probable_pitchers(date_str=date_iso)
 
-    # Split into started vs unstarted — only project unstarted games.
-    # Started games keep their existing picks/projections untouched.
+    # Track which teams have started so we can preserve their PICKS
+    # (we still project all games — only picks are protected from changes).
     import datetime as _dt
     _now_utc = _dt.datetime.now(_dt.timezone.utc)
     started_teams = set()
-    probable = []
     for g in all_probable:
         game_time_str = g.get("game_time", "")
         try:
             game_time = _dt.datetime.fromisoformat(game_time_str.replace("Z", "+00:00"))
             if game_time <= _now_utc:
-                # Game already started — mark teams, skip projection
                 if g.get("home_team"): started_teams.add(g["home_team"])
                 if g.get("away_team"): started_teams.add(g["away_team"])
-                continue
         except (ValueError, AttributeError, TypeError):
-            pass  # Can't parse time — include game to be safe
-        probable.append(g)
+            pass
 
+    # Project ALL games — picks for started games are preserved at output merge
+    probable = list(all_probable)
     if started_teams:
-        print(f"  {len(all_probable)} total games, {len(started_teams)//2} already started — skipping")
-    print(f"  {len(probable)} games to project (not yet started)")
+        print(f"  {len(all_probable)} total games, {len(started_teams)//2} already started (picks preserved, projecting all)")
+    print(f"  {len(probable)} games to project")
 
     # Stage 7: Fetch handedness splits for probable starters only
     print(f"\n  [7/19] Fetching handedness splits for probable starters...")
@@ -418,15 +416,10 @@ def run_daily(date_key=None):
     n_api = len(prop_lines) - n_fd
     print(f"  {n_fd} from FanDuel + {n_api} from Odds API = {len(prop_lines)} total prop lines, {len(game_hit_lines)} game hit lines")
 
-    # Drop prop lines for started games — those picks stay from previous run
-    if started_teams:
-        before = len(prop_lines)
-        prop_lines = [p for p in prop_lines
-                      if p.get("team", "") not in started_teams]
-        dropped = before - len(prop_lines)
-        if dropped:
-            print(f"  Dropped {dropped} prop lines for started games")
-        print(f"  {len(prop_lines)} prop lines remaining (unstarted games)")
+    # NOTE: We DO NOT drop started-game prop lines here. We project all games
+    # so the Games Explorer always has fresh projections for every game.
+    # Started-game PICKS (in the props array) are still protected by the
+    # output merge logic below — picks made before lock are preserved.
 
     # Stage 13: Project pitcher props
     print(f"\n  [13/19] Projecting pitcher props (Kalman + advanced stats)...")
@@ -609,29 +602,44 @@ def run_daily(date_key=None):
             p for p in existing_props
             if p.get("date") == date_iso and p.get("team", "") in started_teams
         ]
+        # Exclude fresh picks for started games (those picks come from existing)
         today_fresh = [p for p in combined.get("props", [])
-                       if p.get("date") == date_iso or not p.get("date")]
+                       if (p.get("date") == date_iso or not p.get("date"))
+                       and p.get("team", "") not in started_teams]
 
         merged_props = kept + today_existing_started + today_fresh
 
-        # Same merge logic for todayProjections (full projection list, not just picks)
-        # so the Games Explorer keeps showing started games' projections
-        existing_today_proj = existing.get("todayProjections", []) or []
-        existing_started_proj = [
-            p for p in existing_today_proj
-            if p.get("date") == date_iso and p.get("team", "") in started_teams
-        ]
-        fresh_proj = combined.get("todayProjections", []) or []
-        merged_today_proj = existing_started_proj + fresh_proj
+        # Merge todayProjections (full projection list, drives Games Explorer).
+        # For started teams: prefer existing entries (locked at start time).
+        #   Fall back to fresh entry for that team if nothing exists yet.
+        # For unstarted teams: use fresh.
+        def _merge_projections(existing_list, fresh_list):
+            existing_today = [p for p in existing_list if p.get("date") == date_iso]
+            existing_keys = {(p.get("team",""), p.get("player",""), p.get("market","")):
+                             p for p in existing_today
+                             if p.get("team","") in started_teams}
+            merged = []
+            seen = set()
+            # Existing entries for started teams (locked)
+            for k, p in existing_keys.items():
+                merged.append(p)
+                seen.add(k)
+            # Fresh entries: skip if already added (started team had existing)
+            for p in fresh_list:
+                k = (p.get("team",""), p.get("player",""), p.get("market",""))
+                if k not in seen:
+                    merged.append(p)
+                    seen.add(k)
+            return merged
 
-        # Same for batter projections
-        existing_batter_proj = existing.get("batterProjections", []) or []
-        existing_started_batter = [
-            p for p in existing_batter_proj
-            if p.get("date") == date_iso and p.get("team", "") in started_teams
-        ]
-        fresh_batter_proj = combined.get("batterProjections", []) or []
-        merged_batter_proj = existing_started_batter + fresh_batter_proj
+        merged_today_proj = _merge_projections(
+            existing.get("todayProjections", []) or [],
+            combined.get("todayProjections", []) or [],
+        )
+        merged_batter_proj = _merge_projections(
+            existing.get("batterProjections", []) or [],
+            combined.get("batterProjections", []) or [],
+        )
 
         combined_merged = {
             **existing, **combined,
