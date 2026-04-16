@@ -614,7 +614,31 @@ def run_daily(date_key=None):
 
         merged_props = kept + today_existing_started + today_fresh
 
-        combined_merged = {**existing, **combined, "props": merged_props}
+        # Same merge logic for todayProjections (full projection list, not just picks)
+        # so the Games Explorer keeps showing started games' projections
+        existing_today_proj = existing.get("todayProjections", []) or []
+        existing_started_proj = [
+            p for p in existing_today_proj
+            if p.get("date") == date_iso and p.get("team", "") in started_teams
+        ]
+        fresh_proj = combined.get("todayProjections", []) or []
+        merged_today_proj = existing_started_proj + fresh_proj
+
+        # Same for batter projections
+        existing_batter_proj = existing.get("batterProjections", []) or []
+        existing_started_batter = [
+            p for p in existing_batter_proj
+            if p.get("date") == date_iso and p.get("team", "") in started_teams
+        ]
+        fresh_batter_proj = combined.get("batterProjections", []) or []
+        merged_batter_proj = existing_started_batter + fresh_batter_proj
+
+        combined_merged = {
+            **existing, **combined,
+            "props": merged_props,
+            "todayProjections": merged_today_proj,
+            "batterProjections": merged_batter_proj,
+        }
         combined_merged["totalPicks"] = len(merged_props)
 
         n_kept = len(kept)
