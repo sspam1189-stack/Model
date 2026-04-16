@@ -501,8 +501,9 @@ def project_batter_tb(batter_logs, lineup_data, prop_lines,
             home_team = gm.get("home_team", "")
             away_team = gm.get("away_team", "")
             game_id = gm.get("game_id", "")
-            home_pitcher = gm.get("home_pitcher", "")
-            away_pitcher = gm.get("away_pitcher", "")
+            # Support both naming conventions
+            home_pitcher = gm.get("home_pitcher_name") or gm.get("home_pitcher", "")
+            away_pitcher = gm.get("away_pitcher_name") or gm.get("away_pitcher", "")
 
             # Home team faces away pitcher
             if away_pitcher:
