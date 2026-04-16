@@ -45,6 +45,12 @@ LEAGUE_AVG_ISO = 0.150
 # Cover probability threshold for picks
 PCOVER_THRESHOLD = 0.58
 
+# Minimum |proj - line| required to make a pick (in TB units).
+# Without this, neutral projections (proj == line) generate spurious
+# picks because the discrete TB distribution has p_under > 0.5 even
+# when expected TB equals the line.
+MIN_TB_EDGE = 0.15
+
 # Rolling window for batter game logs
 ROLLING_WINDOW = 15
 DECAY_FACTOR = 0.92
@@ -690,11 +696,20 @@ def project_batter_tb(batter_logs, lineup_data, prop_lines,
                 p_cover = round(best_p, 3)
                 edge = round(edge_val, 1)
 
-                if best_p >= PCOVER_THRESHOLD:
-                    # Total bases: UNDER only per memory instructions
-                    # (points market equivalent)
+                # Require BOTH:
+                #   1. Model confidence (pCover above threshold)
+                #   2. Edge in same direction as pick (proj actually disagrees
+                #      with line — guards against distribution-skew picks
+                #      where E[TB] == line but discrete dist makes UNDER
+                #      look "confident" via zero-inflation)
+                edge_ok = abs(edge_val) >= MIN_TB_EDGE
+                direction_matches_edge = (
+                    (direction == "OVER" and edge_val > 0) or
+                    (direction == "UNDER" and edge_val < 0)
+                )
+
+                if best_p >= PCOVER_THRESHOLD and edge_ok and direction_matches_edge:
                     if direction == "UNDER" or best_p >= 0.62:
-                        # Allow OVER only at higher threshold
                         if direction == "OVER" and best_p < 0.62:
                             pass  # keep PASS
                         else:
