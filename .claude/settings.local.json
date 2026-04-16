@@ -7,7 +7,9 @@
       "Bash(echo \"Fixed: $f\")",
       "Bash(done)",
       "Bash(git pull:*)",
-      "mcp__scheduled-tasks__list_scheduled_tasks"
+      "mcp__scheduled-tasks__list_scheduled_tasks",
+      "Bash(git add *)",
+      "Bash(git commit *)"
     ]
   }
 }
