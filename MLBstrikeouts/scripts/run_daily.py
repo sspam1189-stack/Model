@@ -53,7 +53,7 @@ from sources.mlb_stats import (
 from sources.weather import fetch_game_weather
 from sources.park_factors import compute_park_factors
 from sources.odds_fanduel import fetch_fanduel_mlb_props, fetch_fanduel_mlb_batter_props
-from sources.odds_theoddsapi import fetch_mlb_pitcher_props
+from sources.odds_theoddsapi import fetch_mlb_pitcher_props, fetch_mlb_batter_props
 from props_engine import organize_pitcher_logs, project_pitcher_props, format_props_for_dashboard, STAT_KEYS
 from game_hits_engine import project_game_hits, format_game_hits_for_dashboard
 from batter_props_engine import project_batter_tb, format_batter_props_for_dashboard
@@ -471,8 +471,31 @@ def run_daily(date_key=None):
 
     # Stage 17: Project batter total bases
     print(f"\n  [17/19] Projecting batter total bases...")
-    batter_prop_lines = fetch_fanduel_mlb_batter_props(date_str=date_iso)
-    print(f"  {len(batter_prop_lines)} batter prop lines from FanDuel")
+    fd_batter_lines = fetch_fanduel_mlb_batter_props(date_str=date_iso)
+    print(f"  {len(fd_batter_lines)} batter prop lines from FanDuel")
+
+    # FanDuel public API does not expose total_bases — fetch from Odds API
+    odds_batter_lines = []
+    try:
+        odds_batter_lines = fetch_mlb_batter_props(date_str=date_iso) or []
+        print(f"  {len(odds_batter_lines)} batter prop lines from Odds API")
+    except Exception as e:
+        print(f"  [batter] Odds API fetch failed: {e}")
+
+    # Merge: dedupe by (player, market) — prefer FanDuel when both have it
+    seen = set()
+    batter_prop_lines = []
+    for line in fd_batter_lines:
+        key = (line.get("player", "").lower(), line.get("market", ""))
+        if key not in seen:
+            seen.add(key)
+            batter_prop_lines.append(line)
+    for line in odds_batter_lines:
+        key = (line.get("player", "").lower(), line.get("market", ""))
+        if key not in seen:
+            seen.add(key)
+            batter_prop_lines.append(line)
+    print(f"  {len(batter_prop_lines)} merged batter prop lines")
 
     batter_projections = project_batter_tb(
         batter_logs=batter_game_logs,
