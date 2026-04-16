@@ -336,9 +336,26 @@
           .filter(p => p.date === todayStr && p.proj != null && p.line != null);
         if (todayAllProj.length === 0) return;
 
-        // Build unique games from today's projections, sorted by start time
+        // Build unique games from gameTimes (all scheduled games, not just ones
+        // with prop lines). Falls back to projections if gameTimes missing.
         const gameTimes = data.gameTimes || {};
         const gameSet = new Map();
+
+        // First add games from gameTimes (covers games with no prop lines yet)
+        // gameTimes is {team_abbr: ISO_time} — pair up teams by matching times
+        const teamsByTime = {};
+        for (const [team, t] of Object.entries(gameTimes)) {
+          if (!teamsByTime[t]) teamsByTime[t] = [];
+          teamsByTime[t].push(team);
+        }
+        for (const [t, teams] of Object.entries(teamsByTime)) {
+          if (teams.length === 2) {
+            const key = [...teams].sort().join('@');
+            gameSet.set(key, { label: `${teams[0]} vs ${teams[1]}`, time: t });
+          }
+        }
+
+        // Also add any games from projections (handles cases where gameTimes is missing)
         for (const p of todayAllProj) {
           const key = [p.team, p.opp].sort().join('@');
           if (!gameSet.has(key)) {
