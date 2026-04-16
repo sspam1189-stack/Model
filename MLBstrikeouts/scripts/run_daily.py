@@ -53,6 +53,7 @@ from sources.mlb_stats import (
 from sources.weather import fetch_game_weather
 from sources.park_factors import compute_park_factors
 from sources.odds_fanduel import fetch_fanduel_mlb_props, fetch_fanduel_mlb_batter_props
+from sources.odds_bovada import fetch_bovada_mlb_batter_props
 from sources.odds_theoddsapi import fetch_mlb_pitcher_props, fetch_mlb_batter_props
 from props_engine import organize_pitcher_logs, project_pitcher_props, format_props_for_dashboard, STAT_KEYS
 from game_hits_engine import project_game_hits, format_game_hits_for_dashboard
@@ -470,19 +471,20 @@ def run_daily(date_key=None):
     print(f"  Processed {n_batter_updated} batter-games, {n_batter_tracked} batters tracked")
 
     # Stage 17: Project batter total bases
+    # Source priority: FanDuel -> Bovada -> Odds API (FD has no TB market,
+    # Bovada is free and has TB, Odds API costs credits)
     print(f"\n  [17/19] Projecting batter total bases...")
     fd_batter_lines = fetch_fanduel_mlb_batter_props(date_str=date_iso)
     print(f"  {len(fd_batter_lines)} batter prop lines from FanDuel")
 
-    # FanDuel public API does not expose total_bases — fetch from Odds API
-    odds_batter_lines = []
+    bovada_batter_lines = []
     try:
-        odds_batter_lines = fetch_mlb_batter_props(date_str=date_iso) or []
-        print(f"  {len(odds_batter_lines)} batter prop lines from Odds API")
+        bovada_batter_lines = fetch_bovada_mlb_batter_props(date_str=date_iso) or []
+        print(f"  {len(bovada_batter_lines)} batter prop lines from Bovada")
     except Exception as e:
-        print(f"  [batter] Odds API fetch failed: {e}")
+        print(f"  [batter] Bovada fetch failed: {e}")
 
-    # Merge: dedupe by (player, market) — prefer FanDuel when both have it
+    # Merge FanDuel + Bovada first
     seen = set()
     batter_prop_lines = []
     for line in fd_batter_lines:
@@ -490,11 +492,25 @@ def run_daily(date_key=None):
         if key not in seen:
             seen.add(key)
             batter_prop_lines.append(line)
-    for line in odds_batter_lines:
+    for line in bovada_batter_lines:
         key = (line.get("player", "").lower(), line.get("market", ""))
         if key not in seen:
             seen.add(key)
             batter_prop_lines.append(line)
+
+    # Only fall back to Odds API if we have no TB lines (saves credits)
+    if not batter_prop_lines:
+        try:
+            odds_batter_lines = fetch_mlb_batter_props(date_str=date_iso) or []
+            print(f"  {len(odds_batter_lines)} batter prop lines from Odds API (fallback)")
+            for line in odds_batter_lines:
+                key = (line.get("player", "").lower(), line.get("market", ""))
+                if key not in seen:
+                    seen.add(key)
+                    batter_prop_lines.append(line)
+        except Exception as e:
+            print(f"  [batter] Odds API fetch failed: {e}")
+
     print(f"  {len(batter_prop_lines)} merged batter prop lines")
 
     batter_projections = project_batter_tb(
