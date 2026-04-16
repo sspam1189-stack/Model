@@ -347,9 +347,22 @@ def run_daily(date_key=None):
                 for side, lineup_key in [("home", "homePlayers"), ("away", "awayPlayers")]:
                     team_id = teams.get(side, {}).get("team", {}).get("id")
                     abbr = MLB_TEAM_ID_TO_ABBR.get(team_id, "")
-                    if abbr:
-                        players = lineups.get(lineup_key, [])
-                        lineup_data[abbr] = {"player_ids": [p.get("id") for p in players]}
+                    if not abbr:
+                        continue
+                    players = lineups.get(lineup_key, [])
+                    lineup_entries = []
+                    for slot_idx, p in enumerate(players):
+                        lineup_entries.append({
+                            "batter_id": p.get("id"),
+                            "name": p.get("fullName", ""),
+                            "slot": slot_idx + 1,
+                        })
+                    lineup_data[abbr] = {
+                        "player_ids": [p.get("id") for p in players],
+                        "lineup": lineup_entries,
+                        "confirmed": len(lineup_entries) >= 9,
+                        "implied_runs": None,  # could be filled from totals odds later
+                    }
     except Exception:
         pass
 
