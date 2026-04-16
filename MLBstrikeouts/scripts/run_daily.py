@@ -548,6 +548,17 @@ def run_daily(date_key=None):
     dashboard = format_props_for_dashboard(projections, date_str=date_iso)
     game_hits_dash = format_game_hits_for_dashboard(game_hit_projections, date_str=date_iso)
 
+    # Build {team_abbr: game_time_iso} map so dashboard can sort games by start time
+    game_times = {}
+    for g in all_probable:
+        gt = g.get("game_time", "")
+        if not gt:
+            continue
+        if g.get("home_team"):
+            game_times[g["home_team"]] = gt
+        if g.get("away_team"):
+            game_times[g["away_team"]] = gt
+
     # Merge pitcher props, game hits, and batter props into single output
     combined = {
         **dashboard,
@@ -555,6 +566,7 @@ def run_daily(date_key=None):
         "game_hits_picks": game_hit_picks,
         "batterProps": batter_dashboard.get("batterProps", []),
         "batterProjections": batter_dashboard.get("batterProjections", []),
+        "gameTimes": game_times,
     }
 
     # Output paths

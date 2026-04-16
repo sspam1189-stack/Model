@@ -344,13 +344,19 @@
           .filter(p => p.date === todayStr && p.proj != null && p.line != null);
         if (todayAllProj.length === 0) return;
 
-        // Build unique games from today's projections
+        // Build unique games from today's projections, sorted by start time
+        const gameTimes = data.gameTimes || {};
         const gameSet = new Map();
         for (const p of todayAllProj) {
           const key = [p.team, p.opp].sort().join('@');
-          if (!gameSet.has(key)) gameSet.set(key, `${p.team} vs ${p.opp}`);
+          if (!gameSet.has(key)) {
+            const t = gameTimes[p.team] || gameTimes[p.opp] || '9999';
+            gameSet.set(key, { label: `${p.team} vs ${p.opp}`, time: t });
+          }
         }
-        const games = [...gameSet.entries()]; // [[key, label], ...]
+        const games = [...gameSet.entries()]
+          .sort((a, b) => (a[1].time || '').localeCompare(b[1].time || ''))
+          .map(([k, v]) => [k, v.label]); // [[key, label], ...]
 
         const gCard = document.createElement('div');
         gCard.className = 'card';
@@ -1353,13 +1359,19 @@
           .filter(p => p.date === todayStr && p.proj != null && p.line != null);
         if (todayAllProj.length === 0) return;
 
-        // Build unique games
+        // Build unique games, sorted by start time
+        const gameTimes = data.gameTimes || {};
         const gameSet = new Map();
         for (const p of todayAllProj) {
           const key = [p.team, p.opp].sort().join('@');
-          if (!gameSet.has(key)) gameSet.set(key, `${p.team} vs ${p.opp}`);
+          if (!gameSet.has(key)) {
+            const t = gameTimes[p.team] || gameTimes[p.opp] || '9999';
+            gameSet.set(key, { label: `${p.team} vs ${p.opp}`, time: t });
+          }
         }
-        const games = [...gameSet.entries()];
+        const games = [...gameSet.entries()]
+          .sort((a, b) => (a[1].time || '').localeCompare(b[1].time || ''))
+          .map(([k, v]) => [k, v.label]);
 
         const gCard = document.createElement('div');
         gCard.className = 'card';
