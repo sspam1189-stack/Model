@@ -706,7 +706,12 @@
         if (dateSel.value !== 'all') fp = fp.filter(p => p.date === dateSel.value);
         if (mlbActiveMarket !== 'all') fp = fp.filter(p => p.market === mlbActiveMarket);
         if (teamSel.value !== 'all') fp = fp.filter(p => p.team === teamSel.value);
-        fp.sort((a, b) => (b.date || '').localeCompare(a.date || ''));
+        if (dateSel.value !== 'all') {
+          const catOrder = {strikeouts:0, outs:1, hits_allowed:2, game_hits:3};
+          fp.sort((a, b) => (catOrder[a.market]??99) - (catOrder[b.market]??99) || (b.pCover||0) - (a.pCover||0));
+        } else {
+          fp.sort((a, b) => (b.date || '').localeCompare(a.date || ''));
+        }
         return fp;
       }
 
