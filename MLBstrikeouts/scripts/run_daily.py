@@ -489,65 +489,11 @@ def run_daily(date_key=None):
     n_batter_tracked = len(batter_kalman.get("players", {}))
     print(f"  Processed {n_batter_updated} batter-games, {n_batter_tracked} batters tracked")
 
-    # Stage 17: Project batter total bases
-    # Source priority: FanDuel -> Bovada -> Odds API (FD has no TB market,
-    # Bovada is free and has TB, Odds API costs credits)
-    print(f"\n  [17/19] Projecting batter total bases...")
-    fd_batter_lines = fetch_fanduel_mlb_batter_props(date_str=date_iso)
-    print(f"  {len(fd_batter_lines)} batter prop lines from FanDuel")
-
-    bovada_batter_lines = []
-    try:
-        bovada_batter_lines = fetch_bovada_mlb_batter_props(date_str=date_iso) or []
-        print(f"  {len(bovada_batter_lines)} batter prop lines from Bovada")
-    except Exception as e:
-        print(f"  [batter] Bovada fetch failed: {e}")
-
-    # Merge FanDuel + Bovada first
-    seen = set()
-    batter_prop_lines = []
-    for line in fd_batter_lines:
-        key = (line.get("player", "").lower(), line.get("market", ""))
-        if key not in seen:
-            seen.add(key)
-            batter_prop_lines.append(line)
-    for line in bovada_batter_lines:
-        key = (line.get("player", "").lower(), line.get("market", ""))
-        if key not in seen:
-            seen.add(key)
-            batter_prop_lines.append(line)
-
-    # Only fall back to Odds API if we have no TB lines (saves credits)
-    if not batter_prop_lines:
-        try:
-            odds_batter_lines = fetch_mlb_batter_props(date_str=date_iso) or []
-            print(f"  {len(odds_batter_lines)} batter prop lines from Odds API (fallback)")
-            for line in odds_batter_lines:
-                key = (line.get("player", "").lower(), line.get("market", ""))
-                if key not in seen:
-                    seen.add(key)
-                    batter_prop_lines.append(line)
-        except Exception as e:
-            print(f"  [batter] Odds API fetch failed: {e}")
-
-    print(f"  {len(batter_prop_lines)} merged batter prop lines")
-
-    batter_projections = project_batter_tb(
-        batter_logs=batter_game_logs,
-        lineup_data=lineup_data,
-        prop_lines=batter_prop_lines,
-        kalman_state=batter_kalman,
-        savant_batter_rates=savant_batter_rates,
-        savant_pitcher_rates=savant_rates,
-        batter_splits=batter_splits_data,
-        probable_pitchers=probable,
-        park_factors=park_factors,
-        weather_by_game=weather_data,
-        pitch_hands=pitch_hands,
-    )
-    batter_dashboard = format_batter_props_for_dashboard(batter_projections, date_iso)
-    batter_picks = [p for p in batter_projections if p.get("pick") not in ("PASS", None)]
-    print(f"  {len(batter_projections)} batter projections, {len(batter_picks)} actionable picks")
+    # Stage 17: Project batter total bases — DISABLED
+    print(f"\n  [17/19] Skipping batter total bases (disabled)")
+    batter_projections = []
+    batter_dashboard = format_batter_props_for_dashboard([], date_iso)
+    batter_picks = []
 
     # Stage 18: Output
     print(f"\n  [18/19] Writing output...")
