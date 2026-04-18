@@ -285,14 +285,23 @@
           const todayCard = document.createElement('div');
           todayCard.className = 'card card-picks';
           todayCard.style.marginBottom = '16px';
-          todayCard.appendChild(Object.assign(document.createElement('div'), {
+          const titleRow = document.createElement('div');
+          titleRow.style.cssText = 'display:flex;align-items:center;justify-content:space-between;gap:12px';
+          titleRow.appendChild(Object.assign(document.createElement('div'), {
             className: 'card-title',
             textContent: `Today\u2019s Picks (${todayStr})`
           }));
+          const sortToggle = document.createElement('button');
+          sortToggle.type = 'button';
+          sortToggle.style.cssText = 'background:var(--accent,#5a6cff);color:#fff;border:none;border-radius:6px;padding:4px 10px;font-size:0.75rem;cursor:pointer';
+          let sortMode = 'pcover'; // default
+          sortToggle.textContent = 'Sort: pCover';
+          titleRow.appendChild(sortToggle);
+          todayCard.appendChild(titleRow);
           const tbl = document.createElement('table');
           tbl.className = 'props-data-table';
           tbl.style.cssText = 'width:100%;border-collapse:collapse;margin-top:8px';
-          const todayHeaders = ['Pitcher','Team','Opp','Cat','Proj','Line','Edge','Price','Pick'];
+          const todayHeaders = ['Pitcher','Team','Opp','Cat','Proj','Line','Edge','Price','Pick','Status'];
           const hRow = tbl.createTHead().insertRow();
           todayHeaders.forEach((h, i) => {
             const th = document.createElement('th');
@@ -301,35 +310,64 @@
             if (h === 'Pitcher') th.style.textAlign = 'left';
             hRow.appendChild(th);
           });
-          const tbody = tbl.createTBody();
+          let tbody = tbl.createTBody();
           const catOrder = {strikeouts:0, outs:1, hits_allowed:2, game_hits:3};
-          todayPicks.sort((a,b) => (catOrder[a.market]??99) - (catOrder[b.market]??99) || (b.pCover||0) - (a.pCover||0));
-          for (const p of todayPicks) {
-            const row = tbody.insertRow();
-            row.style.borderBottom = '1px solid rgba(255,255,255,0.05)';
-            const tEdge = (p.proj != null && p.line != null) ? +(p.proj - p.line).toFixed(1) : null;
-            const tEdgeStr = tEdge != null ? (tEdge > 0 ? '+'+tEdge : String(tEdge)) : '\u2014';
-            const tPrice = p.odds != null ? (p.odds > 0 ? '+'+p.odds : String(p.odds)) : '\u2014';
-            const cells = [
-              displayName(p), p.team || '', p.opp || '',
-              marketLabels[p.market] || p.market,
-              String(p.proj),
-              p.line != null ? String(p.line) : '\u2014',
-              tEdgeStr, tPrice,
-              p.pick === 'OVER' ? 'O' : 'U'
-            ];
-            cells.forEach((val, i) => {
-              const td = row.insertCell();
-              td.textContent = val;
-              td.style.cssText = 'padding:4px 4px;text-align:center';
-              if (i === 0) { td.style.textAlign = 'left'; td.style.fontWeight = '600'; }
-              if (i === 1 || i === 2) td.style.color = '#999';
-              if (i === 4) td.style.color = p.proj > p.line ? 'var(--green)' : p.proj < p.line ? 'var(--red)' : '';
-              if (i === 6 && tEdge != null) td.style.color = tEdge > 0 ? 'var(--green)' : tEdge < 0 ? 'var(--red)' : '#999';
-              if (i === 7) td.style.color = '#999';
-              if (i === 8) { td.style.fontWeight = '700'; td.style.color = p.pick === 'OVER' ? 'var(--green)' : 'var(--red)'; }
-            });
+          const gameTimesToday = data.gameTimes || {};
+          function applySort() {
+            if (sortMode === 'time') {
+              todayPicks.sort((a,b) => {
+                const ta = gameTimesToday[a.team] || gameTimesToday[a.opp] || '9999';
+                const tb = gameTimesToday[b.team] || gameTimesToday[b.opp] || '9999';
+                return ta.localeCompare(tb)
+                  || (catOrder[a.market]??99) - (catOrder[b.market]??99)
+                  || (b.pCover||0) - (a.pCover||0);
+              });
+            } else {
+              todayPicks.sort((a,b) => (catOrder[a.market]??99) - (catOrder[b.market]??99) || (b.pCover||0) - (a.pCover||0));
+            }
           }
+          applySort();
+          function renderRows() {
+            const newBody = document.createElement('tbody');
+            for (const p of todayPicks) {
+              const row = newBody.insertRow();
+              row.style.borderBottom = '1px solid rgba(255,255,255,0.05)';
+              const tEdge = (p.proj != null && p.line != null) ? +(p.proj - p.line).toFixed(1) : null;
+              const tEdgeStr = tEdge != null ? (tEdge > 0 ? '+'+tEdge : String(tEdge)) : '\u2014';
+              const tPrice = p.odds != null ? (p.odds > 0 ? '+'+p.odds : String(p.odds)) : '\u2014';
+              const gt = gameTimesToday[p.team] || gameTimesToday[p.opp] || '';
+              const started = gt ? (new Date(gt).getTime() <= Date.now()) : false;
+              const cells = [
+                displayName(p), p.team || '', p.opp || '',
+                marketLabels[p.market] || p.market,
+                String(p.proj),
+                p.line != null ? String(p.line) : '\u2014',
+                tEdgeStr, tPrice,
+                p.pick === 'OVER' ? 'O' : 'U',
+                started ? '\u{1F552}' : ''
+              ];
+              cells.forEach((val, i) => {
+                const td = row.insertCell();
+                td.textContent = val;
+                td.style.cssText = 'padding:4px 4px;text-align:center';
+                if (i === 0) { td.style.textAlign = 'left'; td.style.fontWeight = '600'; }
+                if (i === 1 || i === 2) td.style.color = '#999';
+                if (i === 4) td.style.color = p.proj > p.line ? 'var(--green)' : p.proj < p.line ? 'var(--red)' : '';
+                if (i === 6 && tEdge != null) td.style.color = tEdge > 0 ? 'var(--green)' : tEdge < 0 ? 'var(--red)' : '#999';
+                if (i === 7) td.style.color = '#999';
+                if (i === 8) { td.style.fontWeight = '700'; td.style.color = p.pick === 'OVER' ? 'var(--green)' : 'var(--red)'; }
+              });
+            }
+            tbody.replaceWith(newBody);
+            tbody = newBody;
+          }
+          renderRows();
+          sortToggle.addEventListener('click', () => {
+            sortMode = (sortMode === 'pcover') ? 'time' : 'pcover';
+            sortToggle.textContent = sortMode === 'pcover' ? 'Sort: pCover' : 'Sort: Game Time';
+            applySort();
+            renderRows();
+          });
           todayCard.appendChild(tbl);
           el.appendChild(todayCard);
         }
