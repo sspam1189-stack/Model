@@ -74,6 +74,7 @@ def new_pitcher_kalman_state():
     return {
         "pitchers": {},
         "processedGames": {},
+        "lastDriftDate": None,
         "meta": {
             "version": "1.0",
             "created": datetime.now().isoformat(),
@@ -95,6 +96,8 @@ def load_pitcher_kalman_state(path):
                 state["pitchers"] = {}
             if "processedGames" not in state:
                 state["processedGames"] = {}
+            if "lastDriftDate" not in state:
+                state["lastDriftDate"] = None
             return state
         except Exception:
             pass
@@ -220,36 +223,59 @@ def update_pitcher_from_game(state, pitcher_id, pitcher_name, game_stats,
 # Drift
 # ---------------------------------------------------------------------------
 
-def apply_drift(state, days_elapsed=1, cfg=None):
+def apply_drift(state, days_elapsed=None, cfg=None, today=None):
     """
-    Apply process noise (drift) to all pitchers.
+    Apply process noise (drift) to all pitchers, at most once per calendar day.
 
-    Unlike the NBA version which drifts per game-slot, pitcher drift is
-    per-day because pitchers don't play every day. Between starts (~5 days),
-    uncertainty grows steadily:
+    Guarded by state["lastDriftDate"]: if drift has already been applied today,
+    this is a no-op. This prevents variance inflation when run_daily runs
+    multiple times per day.
+
+    When days_elapsed is None, it is computed from the gap between today and
+    state["lastDriftDate"] (capped at 14 days to avoid runaway inflation after
+    a long outage). An explicit days_elapsed override is honored for
+    walk-forward backfills that simulate historical dates.
 
       drift = gameDrift * days_elapsed
-
-    For a typical 5-day rotation: drift = 0.5 * 5 = 2.5 variance added.
-    This means after 5 days without a start, uncertainty grows by 2.5,
-    which is enough to make the filter more responsive to the next
-    observed start.
 
     Parameters
     ----------
     state : dict
         Pitcher Kalman state.
-    days_elapsed : int
-        Number of calendar days since last update.
+    days_elapsed : int or None
+        Override for days since last drift. If None, computed from
+        state["lastDriftDate"].
     cfg : dict or None
         Hyperparameters.
+    today : str or None
+        ISO date (YYYY-MM-DD). Defaults to today.
     """
     cfg = cfg or PITCHER_KALMAN_DEFAULTS
+    today_str = today or datetime.now().strftime("%Y-%m-%d")
+
+    if state.get("lastDriftDate") == today_str:
+        return
+
+    if days_elapsed is None:
+        last = state.get("lastDriftDate")
+        if last:
+            try:
+                last_dt = datetime.strptime(last, "%Y-%m-%d")
+                now_dt = datetime.strptime(today_str, "%Y-%m-%d")
+                days_elapsed = max(1, (now_dt - last_dt).days)
+                days_elapsed = min(days_elapsed, 14)
+            except (ValueError, TypeError):
+                days_elapsed = 1
+        else:
+            days_elapsed = 1
+
     drift = cfg["gameDrift"] * days_elapsed
 
     for pid, ps in state["pitchers"].items():
         for stat_key, s in ps.get("stats", {}).items():
             s["var"] = min(cfg["maxVar"], s["var"] + drift)
+
+    state["lastDriftDate"] = today_str
 
 
 # ---------------------------------------------------------------------------

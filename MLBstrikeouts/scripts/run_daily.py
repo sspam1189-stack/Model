@@ -258,7 +258,7 @@ def run_daily(date_key=None):
     print(f"\n  [3/19] Updating Kalman state with new games...")
     n_updated = batch_update_from_game_logs(kalman_state, pitcher_game_logs)
     print(f"  Processed {n_updated} pitcher-games")
-    apply_drift(kalman_state, days_elapsed=1)
+    apply_drift(kalman_state)
 
     # Stage 4: Fetch advanced stats
     print(f"\n  [4/19] Fetching pitcher advanced stats...")

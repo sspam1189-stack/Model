@@ -70,6 +70,7 @@ def new_player_kalman_state():
     return {
         "players": {},
         "processedGames": {},
+        "lastDriftDate": None,
         "meta": {
             "version": "1.0",
             "created": datetime.now().isoformat(),
@@ -87,6 +88,8 @@ def load_player_kalman_state(path):
                 state["players"] = {}
             if "processedGames" not in state:
                 state["processedGames"] = {}
+            if "lastDriftDate" not in state:
+                state["lastDriftDate"] = None
             return state
         except Exception:
             pass
@@ -186,28 +189,57 @@ def update_player_from_game(state, player_id, player_name, game_stats, game_id=N
     ps["gamesProcessed"] = ps.get("gamesProcessed", 0) + 1
 
 
-def apply_drift(state, games_elapsed=1, cfg=None):
+def apply_drift(state, games_elapsed=None, cfg=None, today=None):
     """
-    Apply process noise (drift) to all players.
+    Apply process noise (drift) to all players, at most once per calendar day.
 
-    Call this between game dates to increase uncertainty for players
-    who haven't played recently.
+    Guarded by state["lastDriftDate"]: if drift has already been applied today,
+    this is a no-op. This prevents variance inflation when run_daily runs
+    multiple times per day.
+
+    When games_elapsed is None, it is computed from the gap between today and
+    state["lastDriftDate"] (capped at 14 days). An explicit games_elapsed
+    override is honored for walk-forward backfills that simulate historical
+    dates.
 
     Parameters
     ----------
     state : dict
         Player Kalman state.
-    games_elapsed : int
-        Number of potential game slots since last update.
+    games_elapsed : int or None
+        Override for days since last drift. If None, computed from
+        state["lastDriftDate"].
     cfg : dict or None
         Hyperparameters.
+    today : str or None
+        ISO date (YYYY-MM-DD). Defaults to today.
     """
     cfg = cfg or PLAYER_KALMAN_DEFAULTS
+    today_str = today or datetime.now().strftime("%Y-%m-%d")
+
+    if state.get("lastDriftDate") == today_str:
+        return
+
+    if games_elapsed is None:
+        last = state.get("lastDriftDate")
+        if last:
+            try:
+                last_dt = datetime.strptime(last, "%Y-%m-%d")
+                now_dt = datetime.strptime(today_str, "%Y-%m-%d")
+                games_elapsed = max(1, (now_dt - last_dt).days)
+                games_elapsed = min(games_elapsed, 14)
+            except (ValueError, TypeError):
+                games_elapsed = 1
+        else:
+            games_elapsed = 1
+
     drift = cfg["gameDrift"] * games_elapsed
 
     for pid, ps in state["players"].items():
         for stat_key, s in ps.get("stats", {}).items():
             s["var"] = min(cfg["maxVar"], s["var"] + drift)
+
+    state["lastDriftDate"] = today_str
 
 
 def get_player_projection(state, player_id, stat_key, rolling_avg=None, cfg=None):

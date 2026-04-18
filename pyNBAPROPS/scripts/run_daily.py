@@ -354,7 +354,7 @@ def run_daily(date_key=None):
     print(f"  Processed {n_updated} player-games")
 
     # Apply drift (uncertainty grows for players who haven't played recently)
-    apply_drift(kalman_state, games_elapsed=1)
+    apply_drift(kalman_state)
 
     # --- Stage 4: Fetch team defensive stats ---
     print(f"\n  [4/7] Fetching team defensive stats...")
