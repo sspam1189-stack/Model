@@ -11,7 +11,7 @@ from datetime import datetime, date
 from pathlib import Path
 
 CACHE_DIR = Path(__file__).resolve().parents[3] / "data" / "pitcher_cache" / "mlb"
-CACHE_FRESHNESS_HOURS = 0.25   # 15 min TTL for frequently changing data (probable pitchers)
+CACHE_FRESHNESS_HOURS = 0      # always fetch fresh (lineups, probable pitchers)
 
 MLB_TEAM_ID_TO_ABBR = {
     108: "LAA", 109: "ARI", 110: "BAL", 111: "BOS", 112: "CHC",
