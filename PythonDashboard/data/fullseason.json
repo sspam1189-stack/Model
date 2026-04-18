@@ -81836,9 +81836,12 @@
           "h2hRecord": null,
           "h2hNote": null,
           "trends": {
-            "away": "ATS +/- 1.1 \u00b7 Over 39.0% \u00b7 Under 61.0% \u00b7 O/U +/- -2.2",
-            "home": "ATS +/- -1.8 \u00b7 Over 48.8% \u00b7 Under 51.2% \u00b7 O/U +/- 0.4"
-          }
+            "away": "ATS +/- 1.0 \u00b7 Over 39.8% \u00b7 Under 60.2% \u00b7 O/U +/- -1.9",
+            "home": "ATS +/- -1.7 \u00b7 Over 49.4% \u00b7 Under 50.6% \u00b7 O/U +/- 0.6"
+          },
+          "awayScore": 113.0,
+          "homeScore": 126.0,
+          "sResult": "LOSS"
         },
         {
           "away": "Minnesota Timberwolves",
@@ -81887,9 +81890,12 @@
           "h2hRecord": null,
           "h2hNote": null,
           "trends": {
-            "away": "ATS +/- -1.0 \u00b7 Over 45.1% \u00b7 Under 54.9% \u00b7 O/U +/- 1.1",
-            "home": "ATS +/- 1.1 \u00b7 Over 63.4% \u00b7 Under 36.6% \u00b7 O/U +/- 4.4"
-          }
+            "away": "ATS +/- -1.0 \u00b7 Over 44.6% \u00b7 Under 55.4% \u00b7 O/U +/- 1.0",
+            "home": "ATS +/- 1.1 \u00b7 Over 62.7% \u00b7 Under 37.4% \u00b7 O/U +/- 4.2"
+          },
+          "awayScore": 105.0,
+          "homeScore": 116.0,
+          "sResult": "WIN"
         },
         {
           "away": "Atlanta Hawks",
@@ -81946,7 +81952,7 @@
           "away": "Houston Rockets",
           "home": "Los Angeles Lakers",
           "line": 5.0,
-          "total": 208.5,
+          "total": 209.5,
           "startTimeUTC": "2026-04-19T00:40:00.000+00:00",
           "_book": "FanDuel",
           "aS": 119.7,
@@ -81954,7 +81960,7 @@
           "pT": 233.8,
           "margin": -0.6,
           "sDiff": 0.6,
-          "tDiff": 20.4,
+          "tDiff": 19.4,
           "sPick": "PASS",
           "sConf": "low",
           "oPick": "PASS",
@@ -81962,11 +81968,11 @@
           "injuryNote": "Away: Kevin Durant (out/star)",
           "pHomeCover": 0.483,
           "pAwayCover": 0.517,
-          "pOver": 0.913,
-          "pUnder": 0.087,
+          "pOver": 0.902,
+          "pUnder": 0.098,
           "pCover": null,
           "pOU": null,
-          "marginVar": 205.5,
+          "marginVar": 205.4,
           "marginStd": 14.3,
           "_features": {
             "dTS": 0.04403999999999986,
@@ -82003,8 +82009,8 @@
           }
         }
       ],
-      "summaryText": "RECORD (graded picks only)\n\nSPREAD (ATS)\n  All:         395-221-1   (64.1%)   [graded 617]\n  Elite:       395-221-1   (64.1%)   [graded 617]\n\nFAV/DOG (Spread)\n  Favorites:   186-100-1   (65.0%)   [graded 287]\n  Underdogs:   209-121-0   (63.3%)   [graded 330]\n\nTOTAL (O/U)\n  All:         0-0-0   (n/a%)   [graded 0]\n  Elite:       0-0-0   (n/a%)   [graded 0]\n\nOVER/UNDER\n  Over:        0-0-0   (n/a%)   [graded 0]\n  Under:       0-0-0   (n/a%)   [graded 0]",
-      "ranAt": "04/18/2026, 09:16:54 AM"
+      "summaryText": "RECORD (graded picks only)\n\nSPREAD (ATS)\n  All:         396-222-1   (64.1%)   [graded 619]\n  Elite:       396-222-1   (64.1%)   [graded 619]\n\nFAV/DOG (Spread)\n  Favorites:   187-100-1   (65.2%)   [graded 288]\n  Underdogs:   209-122-0   (63.1%)   [graded 331]\n\nTOTAL (O/U)\n  All:         0-0-0   (n/a%)   [graded 0]\n  Elite:       0-0-0   (n/a%)   [graded 0]\n\nOVER/UNDER\n  Over:        0-0-0   (n/a%)   [graded 0]\n  Under:       0-0-0   (n/a%)   [graded 0]",
+      "ranAt": "04/18/2026, 06:02:29 PM"
     }
   ],
   "weights": {
@@ -82036,6 +82042,6 @@
     "hca": 0.2,
     "constant": 4.0
   },
-  "residualVar": 189.1,
+  "residualVar": 189.0,
   "lastTuneDate": "20260418"
 }
