@@ -166,7 +166,14 @@ def fetch_nba_stats_enhanced(date_to=None, season_type="Regular Season"):
         print(f"  [nba_stats] Regular season base: {len(reg_season)} teams")
         time.sleep(2)
 
-    raw_season = _fetch_team_stats(date_to, None, season_type=season_type)
+    try:
+        raw_season = _fetch_team_stats(date_to, None, season_type=season_type)
+    except Exception as e:
+        if in_playoffs:
+            print(f"  [nba_stats] Playoffs stats empty (playoffs just started?): {e}. Using regular season as fallback.")
+            raw_season = reg_season
+        else:
+            raise
     season = _blend_playoff_stats(reg_season, raw_season) if in_playoffs else raw_season
     time.sleep(2)
 
