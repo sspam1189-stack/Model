@@ -267,6 +267,35 @@ def _get_started_teams(date_key):
     return started
 
 
+def _get_game_times(date_key):
+    """
+    Return {team_abbr: ISO_commence_time_utc} from ESPN scoreboard cache.
+    Used by the dashboard to show game-started status indicator.
+    """
+    espn_path = os.path.join(SCRIPT_DIR, "..", "..", "data", "espn_cache", "nba", f"{date_key}.json")
+    espn_path = os.path.normpath(espn_path)
+    if not os.path.exists(espn_path):
+        return {}
+    try:
+        with open(espn_path, "r") as f:
+            espn = json.load(f)
+    except Exception:
+        return {}
+
+    espn_to_fd = {"GS": "GSW", "SA": "SAS", "NY": "NYK", "UTAH": "UTA", "WSH": "WAS"}
+    times = {}
+    for ev in espn.get("events", []):
+        comp = (ev.get("competitions") or [{}])[0]
+        tip = comp.get("date", "")
+        if not tip:
+            continue
+        for team in comp.get("competitors", []):
+            abbr = (team.get("team") or {}).get("abbreviation", "")
+            if abbr:
+                times[espn_to_fd.get(abbr, abbr)] = tip
+    return times
+
+
 def run_daily(date_key=None):
     """Run the daily NBA player prop projection pipeline."""
     from zoneinfo import ZoneInfo
@@ -502,6 +531,7 @@ def run_daily(date_key=None):
         if existing.get("model"):
             dashboard_merged["model"] = existing["model"]
         dashboard_merged["totalPicks"] = len(merged_props)
+        dashboard_merged["gameTimes"] = _get_game_times(date_key)
 
         n_kept = len(kept)
         n_started = len(today_started)
