@@ -956,6 +956,46 @@ def fetch_player_bat_sides(season=None):
     return result
 
 
+def get_recent_batting_order(team_abbr, season=None, before_date=None, max_lookback_days=14):
+    """
+    Return the most recent batting order (list of player IDs) for a team prior
+    to `before_date`. Used as a fallback when today's lineup hasn't been posted.
+
+    Parameters
+    ----------
+    team_abbr : str
+        Team abbreviation (e.g., "NYM").
+    season : int or None
+    before_date : str or None
+        ISO date "YYYY-MM-DD". Looks for batting orders before this date.
+    max_lookback_days : int
+        Max days back to search.
+
+    Returns
+    -------
+    list of int or None
+        Most recent batting order, or None if not found.
+    """
+    season = season or _current_season()
+    bo_cache_path = CACHE_DIR / f"batting_orders_{season}.json"
+    bo_data = _load_cache(bo_cache_path, max_age_hours=None)
+    if not bo_data:
+        return None
+    from datetime import date as dt_date, timedelta, datetime as dt_dt
+    if before_date:
+        ref = dt_dt.strptime(before_date, "%Y-%m-%d").date()
+    else:
+        ref = dt_date.today()
+    # Walk backwards
+    for i in range(1, max_lookback_days + 1):
+        d = (ref - timedelta(days=i)).strftime("%Y-%m-%d")
+        day_data = bo_data.get(d, {})
+        order = day_data.get(team_abbr)
+        if order:
+            return order
+    return None
+
+
 def load_pitch_hands(season=None):
     """Load cached pitcher throwing hand lookup: {player_id: 'L'|'R'}."""
     season = season or _current_season()
@@ -1036,6 +1076,15 @@ def fetch_lineup_handedness(date_str, bat_sides=None, season=None):
 
                     players = lineups.get(lineup_key, [])
                     if not players:
+                        # Fallback: use team's most recent batting order
+                        recent = get_recent_batting_order(abbr, season=season, before_date=date_str)
+                        if recent:
+                            pct = _compute_pct_lhb(recent, bat_sides)
+                            result[abbr] = {
+                                "PCT_LHB": pct,
+                                "n_batters": len(recent),
+                                "source": "recent_lineup_fallback",
+                            }
                         continue
 
                     pct = _compute_pct_lhb(

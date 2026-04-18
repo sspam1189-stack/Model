@@ -355,10 +355,23 @@ def run_daily(date_key=None):
                             "name": p.get("fullName", ""),
                             "slot": slot_idx + 1,
                         })
+                    confirmed = len(lineup_entries) >= 9
+                    pids = [p.get("id") for p in players]
+                    # Fallback: use team's most recent batting order when today's
+                    # lineup isn't posted yet
+                    if not pids:
+                        from sources.mlb_stats import get_recent_batting_order
+                        recent = get_recent_batting_order(abbr, season=season, before_date=date_iso)
+                        if recent:
+                            pids = recent
+                            lineup_entries = [
+                                {"batter_id": pid, "name": "", "slot": i + 1}
+                                for i, pid in enumerate(recent)
+                            ]
                     lineup_data[abbr] = {
-                        "player_ids": [p.get("id") for p in players],
+                        "player_ids": pids,
                         "lineup": lineup_entries,
-                        "confirmed": len(lineup_entries) >= 9,
+                        "confirmed": confirmed,
                         "implied_runs": None,  # could be filled from totals odds later
                     }
     except Exception:
