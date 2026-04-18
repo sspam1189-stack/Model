@@ -99,8 +99,8 @@ MIN_LINE = {
 # ---------------------------------------------------------------------------
 # Disabled / direction-restricted markets
 # ---------------------------------------------------------------------------
-DISABLED_MARKETS = {"walks", "hits_allowed"}
-UNDER_ONLY_MARKETS = {"outs"}  # OUTS under only
+DISABLED_MARKETS = {"walks", "hits_allowed", "outs"}
+UNDER_ONLY_MARKETS = set()
 
 # ---------------------------------------------------------------------------
 # Opponent adjustment config
