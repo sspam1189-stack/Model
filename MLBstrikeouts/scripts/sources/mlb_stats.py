@@ -867,7 +867,10 @@ def fetch_today_probable_pitchers(date_str=None):
 
     cache_path = CACHE_DIR / f"probable_pitchers_{date_str}.json"
 
-    cached = _load_cache(cache_path, max_age_hours=CACHE_FRESHNESS_HOURS)
+    from datetime import date as dt_date_check
+    is_today = date_str >= dt_date_check.today().strftime("%Y-%m-%d")
+    # Always refetch for today (starter can change); past dates never expire
+    cached = _load_cache(cache_path, max_age_hours=0 if is_today else None)
     if cached is not None:
         return cached
 
