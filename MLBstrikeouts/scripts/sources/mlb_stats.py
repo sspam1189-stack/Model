@@ -11,7 +11,7 @@ from datetime import datetime, date
 from pathlib import Path
 
 CACHE_DIR = Path(__file__).resolve().parents[3] / "data" / "pitcher_cache" / "mlb"
-CACHE_FRESHNESS_HOURS = 0      # always fetch fresh for frequently changing data (lineups, probable pitchers)
+CACHE_FRESHNESS_HOURS = 0.25   # 15 min TTL for frequently changing data (probable pitchers)
 
 MLB_TEAM_ID_TO_ABBR = {
     108: "LAA", 109: "ARI", 110: "BAL", 111: "BOS", 112: "CHC",
@@ -1037,7 +1037,8 @@ def fetch_lineup_handedness(date_str, bat_sides=None, season=None):
     from datetime import date as dt_date_check
     is_today = date_str >= dt_date_check.today().strftime("%Y-%m-%d")
     # Today's lineups change (1hr TTL), past dates never expire
-    cached = _load_cache(cache_path, max_age_hours=CACHE_FRESHNESS_HOURS if is_today else None)
+    # Lineups: always refetch for today (they change as teams post), never expire for past dates
+    cached = _load_cache(cache_path, max_age_hours=0 if is_today else None)
     if cached is not None:
         return cached
 
