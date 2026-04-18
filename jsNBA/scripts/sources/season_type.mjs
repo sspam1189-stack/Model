@@ -15,9 +15,7 @@ const PLAYOFF_START = "20260418";  // first round game 1
 // ESPN API value: 2 (regular season) or 3 (playoffs)
 
 export function getSeasonType(dateStr) {
-  // dateStr can be "YYYYMMDD" or "YYYY-MM-DD"
-  const d = (dateStr || todayYYYYMMDD()).replace(/-/g, "");
-  return parseInt(d) >= parseInt(PLAYOFF_START) ? "Playoffs" : "Regular Season";
+  return "Regular Season";
 }
 
 export function getESPNSeasonType(dateStr) {
