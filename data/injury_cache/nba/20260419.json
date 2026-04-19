@@ -1,5 +1,14 @@
 {
   "report": {
+    "Orlando Magic": [
+      {
+        "player": "Jonathan Isaac",
+        "status": "out",
+        "reason": "Out",
+        "tier": "deep_bench",
+        "mpg": 10.0
+      }
+    ],
     "Philadelphia 76ers": [
       {
         "player": "Joel Embiid",
@@ -20,34 +29,18 @@
     ],
     "Phoenix Suns": [
       {
-        "player": "Grayson Allen",
+        "player": "Jordan Goodwin",
         "status": "out",
-        "reason": "Out",
-        "tier": "starter",
-        "mpg": 28.8
+        "reason": "Day-To-Day",
+        "tier": "bench",
+        "mpg": 22.5
       },
       {
         "player": "Mark Williams",
-        "status": "questionable",
-        "reason": "Day-To-Day",
-        "tier": "bench",
-        "mpg": 23.6
-      }
-    ],
-    "Orlando Magic": [
-      {
-        "player": "Desmond Bane",
-        "status": "questionable",
-        "reason": "Day-To-Day",
-        "tier": "star",
-        "mpg": 33.6
-      },
-      {
-        "player": "Jonathan Isaac",
         "status": "out",
         "reason": "Out",
-        "tier": "deep_bench",
-        "mpg": 10.0
+        "tier": "bench",
+        "mpg": 23.6
       }
     ],
     "San Antonio Spurs": [
