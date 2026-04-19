@@ -440,6 +440,15 @@ def project_pitcher_props(pitcher_logs, team_batting_stats=None,
                     whip = adv.get("WHIP", 0) or 1.20
                     projected_bf = proj_ip * (3.0 + whip * 0.7)
 
+                # Modern MLB reality: starters rarely exceed 23 BF and next-start
+                # BF is systematically below rolling average due to:
+                #  1. Survivorship bias — prior outings only include games where
+                #     the starter stayed in long enough to accumulate data
+                #  2. Bullpen-first game scripts (hooks at 2nd run scored, etc.)
+                #  3. Third-time-through-order penalty truncating long outings
+                # Apply 7% shrinkage + hard cap at 23.
+                projected_bf = min(projected_bf * 0.91, 23.0)
+
                 # --- Weather effect on K ---
                 # Cold + wind in = slightly more K (worse contact, less carry)
                 k_weather_mult = 1.0
