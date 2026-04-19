@@ -191,7 +191,10 @@ def fetch_pitcher_game_logs(season=None):
 
     # Step 2: Fetch boxscore for NEW games only, extract pitcher + batter stats
     rows = list(existing_rows)
-    batting_orders_by_date = {}  # {date: {team_abbr: [player_ids]}}
+    # Load existing batting orders and merge new games into them (incremental)
+    bo_cache_path = CACHE_DIR / f"batting_orders_{season}.json"
+    existing_bo = _load_cache(bo_cache_path) or {}
+    batting_orders_by_date = {d: dict(teams) for d, teams in existing_bo.items()}
     batter_logs = {int(k): v for k, v in existing_batter_logs.items()} if existing_batter_logs else {}
 
     for i, gm in enumerate(new_game_pks):
@@ -330,7 +333,7 @@ def fetch_pitcher_game_logs(season=None):
     print(f"  [mlb_stats] Fetched {new_pitcher_count} new pitcher starts from {len(new_game_pks)} new games (total: {len(rows)})")
 
     # Cache batting orders by date (used by fetch_lineup_handedness)
-    bo_cache_path = CACHE_DIR / f"batting_orders_{season}.json"
+    # bo_cache_path defined above; merged dict includes existing + new
     _save_cache(bo_cache_path, batting_orders_by_date)
     print(f"  [mlb_stats] Cached batting orders for {len(batting_orders_by_date)} dates")
 
@@ -1039,11 +1042,17 @@ def fetch_lineup_handedness(date_str, bat_sides=None, season=None):
 
     from datetime import date as dt_date_check
     is_today = date_str >= dt_date_check.today().strftime("%Y-%m-%d")
-    # Today's lineups change (1hr TTL), past dates never expire
-    # Lineups: always refetch for today (they change as teams post), never expire for past dates
-    cached = _load_cache(cache_path, max_age_hours=0 if is_today else None)
-    if cached is not None:
-        return cached
+    # Past dates: never expire (return cached)
+    # Today: always refetch, BUT merge with existing cache so partial fetches
+    # (e.g., early-morning runs before all teams post lineups) accumulate
+    # rather than overwriting fuller data from a later run.
+    if not is_today:
+        cached = _load_cache(cache_path, max_age_hours=None)
+        if cached is not None:
+            return cached
+        existing = {}
+    else:
+        existing = _load_cache(cache_path, max_age_hours=None) or {}
 
     # Build bat-side lookup if not provided
     if bat_sides is None:
@@ -1161,9 +1170,14 @@ def fetch_lineup_handedness(date_str, bat_sides=None, season=None):
                         "source": "boxscore",
                     }
 
-    if result:
-        _save_cache(cache_path, result)
-    return result
+    # Merge with existing cache: prefer fresh results, keep cached teams
+    # not refetched this run (so partial fetches accumulate across the day).
+    # For past dates `existing` is {} so this is a no-op replace.
+    merged = dict(existing)
+    merged.update(result)
+    if merged:
+        _save_cache(cache_path, merged)
+    return merged
 
 
 def _compute_pct_lhb(player_ids, bat_sides):

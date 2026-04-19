@@ -299,8 +299,8 @@ def run_daily(date_key=None):
     print(f"\n  [7/19] Fetching handedness splits for probable starters...")
     pitcher_ids = set()
     for game in probable:
-        for role in ("home_pitcher", "away_pitcher"):
-            pid = game.get(role, {}).get("id")
+        for key in ("home_pitcher_id", "away_pitcher_id"):
+            pid = game.get(key)
             if pid:
                 pitcher_ids.add(pid)
     splits = {}

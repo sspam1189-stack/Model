@@ -437,31 +437,41 @@ def fetch_fanduel_mlb_props(date_key=None):
 
             time.sleep(0.2)  # Rate limit between tab requests
 
-    # Merge: keep cached props ONLY for started/finished games, fresh for everything else
-    def _game_key_from_prop(p):
-        return f"{p.get('event_away', '')} @ {p.get('event_home', '')}"
+    # Cache rule:
+    #   - Upcoming games: fetch fresh, overwrite cached lines by (player, market, game)
+    #   - Started games: lines are frozen — cache is never overwritten, fresh ignored
+    #   - Never drop a cached line just because FanDuel stopped listing its game
+    def _line_key(p):
+        return (p.get("player", ""), p.get("market", ""),
+                p.get("event_away", ""), p.get("event_home", ""))
 
     started_abbr_keys = set()
     for sg in started_games:
-        sg_parts = sg.split(" @ ")
-        if len(sg_parts) == 2:
-            a = MLB_TEAM_NAME_TO_ABBR.get(sg_parts[0], sg_parts[0])
-            h = MLB_TEAM_NAME_TO_ABBR.get(sg_parts[1], sg_parts[1])
+        parts = sg.split(" @ ")
+        if len(parts) == 2:
+            a = MLB_TEAM_NAME_TO_ABBR.get(parts[0], parts[0])
+            h = MLB_TEAM_NAME_TO_ABBR.get(parts[1], parts[1])
             started_abbr_keys.add(f"{a} @ {h}")
 
-    kept_props = [p for p in existing_props
-                  if _game_key_from_prop(p) in started_abbr_keys]
-    kept_game_hits = [g for g in existing_game_hits
-                      if _game_key_from_prop(g) in started_abbr_keys]
+    def _is_started(p):
+        return f"{p.get('event_away','')} @ {p.get('event_home','')}" in started_abbr_keys
+
+    # Drop any fresh line for a started game (defensive — should be impossible)
+    new_props = [p for p in new_props if not _is_started(p)]
+    new_game_hits = [g for g in new_game_hits if not _is_started(g)]
+
+    # Merge: cached always kept; fresh overwrites only matching upcoming-game lines
+    fresh_keys = {_line_key(p) for p in new_props}
+    fresh_gh_keys = {_line_key(g) for g in new_game_hits}
+    kept_props = [p for p in existing_props if _line_key(p) not in fresh_keys]
+    kept_game_hits = [g for g in existing_game_hits if _line_key(g) not in fresh_gh_keys]
 
     all_props = kept_props + new_props
     all_game_hits = kept_game_hits + new_game_hits
 
-    if started_games:
-        print(f"  [fanduel] Preserved {len(kept_props)} cached prop lines "
-              f"+ {len(kept_game_hits)} game-hit lines for {len(started_games)} started games")
-    print(f"  [fanduel] Fetched {len(new_props)} prop lines + {len(new_game_hits)} game-hit lines, "
-          f"totals: {len(all_props)} props / {len(all_game_hits)} game hits")
+    print(f"  [fanduel] Kept {len(kept_props)} cached + {len(new_props)} fresh prop lines "
+          f"({len(started_abbr_keys)} games locked) — total {len(all_props)} props / "
+          f"{len(all_game_hits)} game hits")
 
     # Save
     if all_props:
@@ -673,27 +683,29 @@ def fetch_fanduel_mlb_batter_props(date_str=None):
 
             time.sleep(0.2)  # Rate limit between tab requests
 
-    # Merge: keep cached props ONLY for started/finished games
-    def _game_key_from_prop(p):
-        return f"{p.get('event_away', '')} @ {p.get('event_home', '')}"
+    # Cache rule: upcoming games refetch+overwrite; started games frozen
+    def _line_key(p):
+        return (p.get("player", ""), p.get("market", ""),
+                p.get("event_away", ""), p.get("event_home", ""))
 
     started_abbr_keys = set()
     for sg in started_games:
-        sg_parts = sg.split(" @ ")
-        if len(sg_parts) == 2:
-            a = MLB_TEAM_NAME_TO_ABBR.get(sg_parts[0], sg_parts[0])
-            h = MLB_TEAM_NAME_TO_ABBR.get(sg_parts[1], sg_parts[1])
+        parts = sg.split(" @ ")
+        if len(parts) == 2:
+            a = MLB_TEAM_NAME_TO_ABBR.get(parts[0], parts[0])
+            h = MLB_TEAM_NAME_TO_ABBR.get(parts[1], parts[1])
             started_abbr_keys.add(f"{a} @ {h}")
 
-    kept_props = [p for p in existing_props
-                  if _game_key_from_prop(p) in started_abbr_keys]
+    def _is_started(p):
+        return f"{p.get('event_away','')} @ {p.get('event_home','')}" in started_abbr_keys
+
+    new_props = [p for p in new_props if not _is_started(p)]
+    fresh_keys = {_line_key(p) for p in new_props}
+    kept_props = [p for p in existing_props if _line_key(p) not in fresh_keys]
     all_props = kept_props + new_props
 
-    if started_games:
-        print(f"  [fanduel-batter] Preserved {len(kept_props)} cached batter lines "
-              f"for {len(started_games)} started games")
-    print(f"  [fanduel-batter] Fetched {len(new_props)} batter prop lines, "
-          f"total: {len(all_props)}")
+    print(f"  [fanduel-batter] Kept {len(kept_props)} cached + {len(new_props)} fresh "
+          f"({len(started_abbr_keys)} games locked) — total {len(all_props)}")
 
     # Save
     if all_props:

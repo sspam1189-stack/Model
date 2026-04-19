@@ -270,14 +270,21 @@ def fetch_mlb_pitcher_props(date_key=None):
 
         time.sleep(0.3)  # Rate limit
 
-    # Merge: keep cached props ONLY for started/finished games, fresh for everything else
-    kept_props = [p for p in existing_props
-                  if f"{p.get('event_away', '')} @ {p.get('event_home', '')}" in started_games]
+    # Cache rule: upcoming games refetch+overwrite; started games frozen
+    def _line_key(p):
+        return (p.get("player", ""), p.get("market", ""),
+                p.get("event_away", ""), p.get("event_home", ""))
+
+    def _is_started(p):
+        return f"{p.get('event_away','')} @ {p.get('event_home','')}" in started_games
+
+    new_props = [p for p in new_props if not _is_started(p)]
+    fresh_keys = {_line_key(p) for p in new_props}
+    kept_props = [p for p in existing_props if _line_key(p) not in fresh_keys]
     all_props = kept_props + new_props
 
-    if started_games:
-        print(f"  [mlb_props] Preserved {len(kept_props)} cached lines for {len(started_games)} started games")
-    print(f"  [mlb_props] Fetched {len(new_props)} new lines, {len(all_props)} total")
+    print(f"  [mlb_props] Kept {len(kept_props)} cached + {len(new_props)} fresh "
+          f"({len(started_games)} games locked) — total {len(all_props)}")
 
     # Save
     if all_props:
@@ -649,14 +656,21 @@ def fetch_mlb_batter_props(date_str=None, api_key=None):
 
         time.sleep(0.3)  # Rate limit
 
-    # Merge: keep cached props ONLY for started/finished games
-    kept_props = [p for p in existing_props
-                  if f"{p.get('event_away', '')} @ {p.get('event_home', '')}" in started_games]
+    # Cache rule: upcoming games refetch+overwrite; started games frozen
+    def _line_key(p):
+        return (p.get("player", ""), p.get("market", ""),
+                p.get("event_away", ""), p.get("event_home", ""))
+
+    def _is_started(p):
+        return f"{p.get('event_away','')} @ {p.get('event_home','')}" in started_games
+
+    new_props = [p for p in new_props if not _is_started(p)]
+    fresh_keys = {_line_key(p) for p in new_props}
+    kept_props = [p for p in existing_props if _line_key(p) not in fresh_keys]
     all_props = kept_props + new_props
 
-    if started_games:
-        print(f"  [mlb_batter_props] Preserved {len(kept_props)} cached lines for {len(started_games)} started games")
-    print(f"  [mlb_batter_props] Fetched {len(new_props)} new batter lines, {len(all_props)} total")
+    print(f"  [mlb_batter_props] Kept {len(kept_props)} cached + {len(new_props)} fresh "
+          f"({len(started_games)} games locked) — total {len(all_props)}")
 
     # Save
     if all_props:

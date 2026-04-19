@@ -165,9 +165,6 @@ REST_PENALTIES = {
 # The Odds API market keys
 PROP_MARKETS_API = [
     "pitcher_strikeouts",
-    "pitcher_outs",
-    "pitcher_hits_allowed",
-    "pitcher_walks",
 ]
 
 MARKET_MAP = {
