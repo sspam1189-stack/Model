@@ -70,15 +70,24 @@ def _normalize_game_log(g):
 
 
 def _calc_pick_units(odds, won):
-    """Calculate units for a single pick using actual odds."""
-    if odds is not None:
-        odds = int(odds)
-        if won:
-            return odds / 100.0 if odds > 0 else 100.0 / abs(odds)
-        else:
-            return -1.0 if odds > 0 else -abs(odds) / 100.0
+    """
+    Calculate units for a single pick using risk-to-win-1u convention
+    (betting-industry standard).
+
+      + odds:  risk 1u to win (odds/100)u
+      - odds:  risk (|odds|/100)u to win 1u
+
+    So a win at +120 returns +1.2u; a win at -130 returns +1.0u.
+    A loss at +120 costs -1.0u; a loss at -130 costs -1.3u.
+    """
+    if odds is None:
+        return 1.0 if won else -1.1  # default -110 risk-to-win-1u
+
+    odds = int(odds)
+    if odds > 0:
+        return odds / 100.0 if won else -1.0
     else:
-        return 1.0 if won else -1.1
+        return 1.0 if won else -abs(odds) / 100.0
 
 
 def _calc_units(picks):

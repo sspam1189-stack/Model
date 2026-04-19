@@ -528,6 +528,7 @@
             ['Edge',   'edge', false],
             ['Cover%', 'cover', false],
             ['Pick',   null, false],
+            ['Price',  null, false],
           ];
           cols.forEach(([label, key, leftAlign], i) => {
             const th = document.createElement('th');
@@ -552,10 +553,12 @@
             const edge = (p.proj != null && p.line != null) ? +(p.proj - p.line).toFixed(1) : null;
             const edgeStr = edge != null ? (edge > 0 ? '+'+edge : String(edge)) : '\u2014';
             const coverStr = p.pCover != null ? (p.pCover * 100).toFixed(1) + '%' : '\u2014';
+            const priceStr = (isPick && p.odds != null) ? (p.odds > 0 ? '+' + p.odds : String(p.odds)) : '\u2014';
             [displayName(p), p.team||'', marketLabels[p.market]||p.market,
              p.proj!=null?String(p.proj):'\u2014', p.line!=null?String(p.line):'\u2014',
              edgeStr, coverStr,
-             isPick?(p.pick==='OVER'?'O':'U'):'\u2014'
+             isPick?(p.pick==='OVER'?'O':'U'):'\u2014',
+             priceStr
             ].forEach((v,i) => {
               const td = row.insertCell();
               td.textContent = v;
@@ -566,6 +569,7 @@
               if (i===5 && edge!=null) td.style.color = edge > 0 ? 'var(--green)' : edge < 0 ? 'var(--red)' : '#999';
               if (i===6 && p.pCover!=null) td.style.color = p.pCover >= 0.65 ? 'var(--green)' : p.pCover <= 0.45 ? 'var(--red)' : '#ccc';
               if (i===7 && isPick) { td.style.fontWeight='700'; td.style.color = p.pick==='OVER'?'var(--green)':'var(--red)'; }
+              if (i===8) td.style.color = '#999';
             });
           }
           tableWrap.appendChild(tbl);
@@ -733,11 +737,11 @@
       el.appendChild(allPicksCard);
 
       const headers = isBacktest
-        ? ['Date','Pitcher','Team','Opp','Proj','Line','Actual','Pick','Result']
-        : ['Pitcher','Team','vs','Proj','Line','Pick'];
+        ? ['Date','Pitcher','Team','Opp','Proj','Line','Actual','Pick','Price','Result']
+        : ['Pitcher','Team','vs','Proj','Line','Pick','Price'];
       const colClasses = isBacktest
-        ? ['col-date','col-player','col-team','col-opp','col-proj','col-line','col-actual','col-pick','col-result']
-        : ['col-player','col-team','col-opp','col-proj','col-line','col-pick'];
+        ? ['col-date','col-player','col-team','col-opp','col-proj','col-line','col-actual','col-pick','col-price','col-result']
+        : ['col-player','col-team','col-opp','col-proj','col-line','col-pick','col-price'];
 
       function getFilteredPicks() {
         let fp = picks.slice();
@@ -772,17 +776,20 @@
         for (const p of mProps) {
           const row = tbody.insertRow();
           row.style.borderBottom = '1px solid rgba(255,255,255,0.05)';
+          const priceStr = p.odds != null ? (p.odds > 0 ? '+' + p.odds : String(p.odds)) : '\u2014';
           const cells = isBacktest ? [
             p.date ? (parseInt(p.date.slice(5,7))+'/'+parseInt(p.date.slice(8))) : '', displayName(p), p.team || '', p.opp || '',
             String(p.proj),
             p.line != null ? String(p.line) : '\u2014',
             p.actual != null ? String(p.actual) : '\u2014',
             p.pick === 'OVER' ? 'O' : 'U',
+            priceStr,
             p.result === 'WIN' ? 'W' : p.result === 'LOSS' ? 'L' : '\u2014'
           ] : [
             displayName(p), p.team, p.opp || '', String(p.proj),
             p.line != null ? String(p.line) : '\u2014',
-            p.pick === 'OVER' ? 'O' : 'U'
+            p.pick === 'OVER' ? 'O' : 'U',
+            priceStr
           ];
           cells.forEach((val, i) => {
             const td = row.insertCell();
@@ -795,12 +802,14 @@
               if (i === 2 || i === 3) td.style.color = '#999';
               if (i === 4) td.style.color = p.proj > p.line ? 'var(--green)' : p.proj < p.line ? 'var(--red)' : '';
               if (i === 7) { td.style.fontWeight = '700'; td.style.color = p.pick === 'OVER' ? 'var(--green)' : 'var(--red)'; }
-              if (i === 8) { td.style.fontWeight = '700'; td.style.color = p.result === 'WIN' ? 'var(--green)' : 'var(--red)'; }
+              if (i === 8) td.style.color = '#999';
+              if (i === 9) { td.style.fontWeight = '700'; td.style.color = p.result === 'WIN' ? 'var(--green)' : 'var(--red)'; }
             } else {
               if (i === 0) { td.style.textAlign = 'left'; td.style.fontWeight = '600'; }
               if (i === 1 || i === 2) td.style.color = '#999';
               if (i === 3) td.style.color = p.proj > p.line ? 'var(--green)' : p.proj < p.line ? 'var(--red)' : '';
               if (i === 5) { td.style.fontWeight = '700'; td.style.color = p.pick === 'OVER' ? 'var(--green)' : 'var(--red)'; }
+              if (i === 6) td.style.color = '#999';
             }
           });
         }
@@ -936,8 +945,8 @@
         const tbl = document.createElement('table');
         tbl.style.cssText = 'width:100%;border-collapse:collapse';
         const hdrs = isBacktest
-          ? ['Date','Pitcher','Team','Opp','Cat','Proj','Line','Actual','Pick','Result']
-          : ['Pitcher','Team','vs','Cat','Proj','Line','Pick'];
+          ? ['Date','Pitcher','Team','Opp','Cat','Proj','Line','Actual','Pick','Price','Result']
+          : ['Pitcher','Team','vs','Cat','Proj','Line','Pick','Price'];
         const hRow = tbl.createTHead().insertRow();
         hdrs.forEach(h => {
           const th = document.createElement('th');
@@ -951,16 +960,19 @@
           const row = tbody.insertRow();
           row.style.borderBottom = '1px solid rgba(255,255,255,0.05)';
           const ml = marketLabels[p.market] || p.market;
+          const priceStr = p.odds != null ? (p.odds > 0 ? '+' + p.odds : String(p.odds)) : '\u2014';
           const cells = isBacktest ? [
             p.date?(parseInt(p.date.slice(5,7))+'/'+parseInt(p.date.slice(8))):'', displayName(p), p.team||'', p.opp||'', ml,
             String(p.proj), p.line!=null?String(p.line):'\u2014',
             p.actual!=null?String(p.actual):'\u2014',
             p.pick==='OVER'?'O':'U',
+            priceStr,
             p.result==='WIN'?'W':p.result==='LOSS'?'L':'\u2014'
           ] : [
             displayName(p), p.team, p.opp||'', ml, String(p.proj),
             p.line!=null?String(p.line):'\u2014',
-            p.pick==='OVER'?'O':'U'
+            p.pick==='OVER'?'O':'U',
+            priceStr
           ];
           cells.forEach((val, i) => {
             const td = row.insertCell();
@@ -973,13 +985,15 @@
               if (i===4) { td.style.color='#aaa'; td.style.fontSize='11px'; }
               if (i===5) td.style.color=p.proj>p.line?'var(--green)':p.proj<p.line?'var(--red)':'';
               if (i===8) { td.style.fontWeight='700'; td.style.color=p.pick==='OVER'?'var(--green)':'var(--red)'; }
-              if (i===9) { td.style.fontWeight='700'; td.style.color=p.result==='WIN'?'var(--green)':'var(--red)'; }
+              if (i===9) td.style.color='#999';
+              if (i===10) { td.style.fontWeight='700'; td.style.color=p.result==='WIN'?'var(--green)':'var(--red)'; }
             } else {
               if (i===0) { td.style.textAlign='left'; td.style.fontWeight='600'; }
               if (i===1||i===2) td.style.color='#999';
               if (i===3) { td.style.color='#aaa'; td.style.fontSize='11px'; }
               if (i===4) td.style.color=p.proj>p.line?'var(--green)':p.proj<p.line?'var(--red)':'';
               if (i===6) { td.style.fontWeight='700'; td.style.color=p.pick==='OVER'?'var(--green)':'var(--red)'; }
+              if (i===7) td.style.color='#999';
             }
           });
         }

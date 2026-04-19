@@ -282,7 +282,23 @@ function fmtNum(v, d) { return Number.isFinite(v) ? v.toFixed(d) : '\u2014'; }
 function winPct(w, l) { return (w + l) > 0 ? (100 * w / (w + l)) : 0; }
 function fmtPct(v) { return Number.isFinite(v) ? v.toFixed(2) + '%' : '\u2014'; }
 function fmtProb(v) { return Number.isFinite(v) ? (v * 100).toFixed(2) + '%' : '\u2014'; }
-function calcUnits(w, l) { return Math.round((w - l * 1.1) * 100) / 100; }
+// Per-pick unit calculation using actual American odds.
+// Win: +odds/100 if + odds, +100/|odds| if - odds. Loss: -1 if + odds, -|odds|/100 if - odds.
+function pickUnit(p) {
+  if (!p || !p.result || (p.result !== 'WIN' && p.result !== 'LOSS')) return 0;
+  const o = (p.odds !== null && p.odds !== undefined) ? Number(p.odds) : -110;
+  const win = p.result === 'WIN';
+  if (o > 0) return win ? (o / 100) : -1;
+  return win ? (100 / Math.abs(o)) : -(Math.abs(o) / 100);
+}
+function calcUnits(w, l, picks) {
+  if (Array.isArray(picks) && picks.length) {
+    const u = picks.reduce((a, p) => a + pickUnit(p), 0);
+    return Math.round(u * 100) / 100;
+  }
+  // Fallback: -110 flat assumption when per-pick odds unavailable
+  return Math.round((w * (100/110) - l) * 100) / 100;
+}
 function fmtUnits(u) { return (u >= 0 ? '+' : '') + u.toFixed(2) + 'u'; }
 function confBadge(conf) {
   const c = String(conf || '').toLowerCase();
@@ -342,6 +358,7 @@ function getGradedPicks(runs) {
 function tallyPicks(picks, { conf = null, side = null } = {}) {
   const confKey = conf ? String(conf).trim().toLowerCase() : null;
   let w = 0, l = 0, p = 0;
+  const matched = [];
   for (const g of picks) {
     if (!g.sPick || g.sPick === 'PASS') continue;
     if (!isActionable(g.sConf)) continue;
@@ -357,8 +374,9 @@ function tallyPicks(picks, { conf = null, side = null } = {}) {
     if (result === 'WIN') w++;
     else if (result === 'LOSS') l++;
     else p++;
+    matched.push({ result, odds: g.sOdds ?? g.odds });
   }
-  return { w, l, p, pct: winPct(w, l), units: calcUnits(w, l), played: w + l + p };
+  return { w, l, p, pct: winPct(w, l), units: calcUnits(w, l, matched), played: w + l + p };
 }
 
 function computeSummary(runs) {
