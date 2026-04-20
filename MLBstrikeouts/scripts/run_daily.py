@@ -724,28 +724,38 @@ def run_daily(date_key=None):
                 f"{sorted(dropped)[:5]}{'...' if len(dropped) > 5 else ''}"
             )
 
-        # Merge todayProjections + batterProjections with the same lock rule:
-        # entries for locked teams are preserved from existing; fresh used otherwise.
+        # Merge todayProjections + batterProjections with the SAME
+        # re-validate-at-lock rule as picks:
+        #   - already-locked (prior lockState was a lock state): preserve
+        #     unchanged (the projection was made when lineup was confirmed,
+        #     so it's the real thing).
+        #   - transitioning (prior was pending, team is locked this run):
+        #     use the FRESH projection, because this is the first projection
+        #     that actually used the confirmed lineup. Lock that fresh result.
+        #   - pending: use fresh.
         def _merge_projections(existing_list, fresh_list):
+            _LS = ("lineup_confirmed", "game_started", "final")
             existing_today = [p for p in existing_list if p.get("date") == date_iso]
-            existing_keys = {(p.get("team",""), p.get("player",""), p.get("market","")):
-                             p for p in existing_today
-                             if p.get("team","") in locked_teams}
+            # Only entries that were ALREADY locked before this run carry forward
+            already_locked_proj = {
+                (p.get("team",""), p.get("player",""), p.get("market","")): p
+                for p in existing_today
+                if p.get("team","") in locked_teams
+                and p.get("lockState") in _LS
+            }
             merged = []
             seen = set()
-            for k, p in existing_keys.items():
+            for k, p in already_locked_proj.items():
                 merged.append(_stamp(dict(p), p))
                 seen.add(k)
             for p in fresh_list:
                 k = (p.get("team",""), p.get("player",""), p.get("market",""))
                 if k in seen:
                     continue
-                if p.get("team","") in locked_teams:
-                    # Fresh entry for a locked team with no existing match:
-                    # allow (first-time pickup), but stamp lock.
-                    merged.append(_stamp(p))
-                else:
-                    merged.append(_stamp(p))
+                # Fresh entry (used current lineup data). Stamp lock if team
+                # is locked this run — this captures the "transitioning" case
+                # where the fresh projection is the first to use the real lineup.
+                merged.append(_stamp(p))
                 seen.add(k)
             return merged
 
