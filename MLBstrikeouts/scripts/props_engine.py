@@ -722,6 +722,9 @@ def project_pitcher_props(pitcher_logs, team_batting_stats=None,
             proj = model_proj
 
             # --- Empirical std ---
+            # Calibration (scripts.calibrate_threshold) confirmed current
+            # floors produce pCover that matches observed WR in 0.75-0.90
+            # buckets. Re-run calibration before changing these numbers.
             EMPIRICAL_STD = {
                 "strikeouts": 1.9,
                 "outs": 2.4,

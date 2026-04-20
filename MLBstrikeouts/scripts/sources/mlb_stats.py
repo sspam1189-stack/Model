@@ -1173,8 +1173,16 @@ def fetch_lineup_handedness(date_str, bat_sides=None, season=None):
     # Merge with existing cache: prefer fresh results, keep cached teams
     # not refetched this run (so partial fetches accumulate across the day).
     # For past dates `existing` is {} so this is a no-op replace.
+    # For today: once a team is "confirmed" (source=lineup with >=9 batters),
+    # freeze it — don't let a later refetch overwrite with altered data.
     merged = dict(existing)
-    merged.update(result)
+    for abbr, fresh in result.items():
+        prev = merged.get(abbr, {})
+        prev_confirmed = (prev.get("source") == "lineup"
+                          and prev.get("n_batters", 0) >= 9)
+        if is_today and prev_confirmed:
+            continue  # frozen
+        merged[abbr] = fresh
     if merged:
         _save_cache(cache_path, merged)
     return merged

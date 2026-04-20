@@ -46,7 +46,7 @@ MIN_INNINGS = 3.0
 # so thresholds are set to minimum viable (just above coin flip).
 # ---------------------------------------------------------------------------
 MARKET_THRESHOLDS = {
-    "strikeouts":   {"high": 0.75},
+    "strikeouts":   {"high": 0.70},
     "outs":         {"high": 0.62, "high_under": 0.62},  # keep filter for outs
     "hits_allowed": {"high": 0.55},
     "walks":        {"high": 0.55},
@@ -57,6 +57,10 @@ MARKET_THRESHOLDS = {
 # Variance multipliers (how noisy each stat is game-to-game)
 # ---------------------------------------------------------------------------
 VAR_MULT = {
+    # Calibration check (run scripts.calibrate_threshold) confirmed 1.2 for K
+    # produces pCover estimates that match observed win rates in every bucket
+    # from 0.75 to 0.90. Do not raise without re-running calibration — higher
+    # values will starve picks without improving accuracy.
     "strikeouts":   1.2,
     "outs":         1.1,
     "hits_allowed": 1.3,
