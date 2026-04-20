@@ -137,8 +137,8 @@
           el.appendChild(mbCard);
         }
 
-        // Recent Record (3/27 - present)
-        const recentCutoff = '2026-03-27';
+        // Recent Record (4/14 - present)
+        const recentCutoff = '2026-04-14';
         const recentPicks = gradedPicks.filter(p => p.date && p.date >= recentCutoff);
         if (recentPicks.length > 0) {
           const rW = recentPicks.filter(p => p.result === 'WIN').length;
