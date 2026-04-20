@@ -71,17 +71,18 @@ def _normalize_game_log(g):
 
 def _calc_pick_units(odds, won):
     """
-    Calculate units for a single pick using risk-to-win-1u convention
-    (betting-industry standard).
+    Calculate units for a single pick using risk-to-win-1u convention.
 
       + odds:  risk 1u to win (odds/100)u
       - odds:  risk (|odds|/100)u to win 1u
 
-    So a win at +120 returns +1.2u; a win at -130 returns +1.0u.
-    A loss at +120 costs -1.0u; a loss at -130 costs -1.3u.
+    If odds is None, returns 0.0 (pick contributes nothing to units). Every
+    real pick has a recorded price (FanDuel / Odds API); a None price means
+    the odds fetch broke. Silently pricing at -110 would misreport P/L, so
+    we surface the gap instead by contributing zero.
     """
     if odds is None:
-        return 1.0 if won else -1.1  # default -110 risk-to-win-1u
+        return 0.0
 
     odds = int(odds)
     if odds > 0:
