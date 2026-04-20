@@ -476,8 +476,12 @@ def project_pitcher_props(pitcher_logs, team_batting_stats=None,
                     kalman_state, str(pid), kalman_key,
                     model_proj, rolling_std,
                 )
-                # 60% rate-based, 40% Kalman
-                model_proj = 0.6 * model_proj + 0.4 * kalman_proj
+                # 50% rate-based, 50% Kalman (swept 0.40-0.60 in 0.01 steps on
+                # 2026 backtest: 0.50 produced the best win rate (81.1%) and
+                # ROI (+59.4%) with cleanest picks 60-14 at threshold 0.70.
+                # Rate model alone has best MAE/corr but picks too aggressively;
+                # 50/50 lets Kalman regularize extreme rate-model projections.)
+                model_proj = 0.5 * model_proj + 0.5 * kalman_proj
 
                 # Capture Kalman posterior variance as projection-uncertainty
                 # proxy. This adds to total std below (observation noise +
