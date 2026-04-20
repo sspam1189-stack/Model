@@ -4,7 +4,7 @@
   "season": "2026",
   "mode": "live",
   "model": "kalman_blend",
-  "generated": "2026-04-20T16:22:28.523400",
+  "generated": "2026-04-20T16:38:53.832526",
   "totalProjections": 16,
   "totalPicks": 78,
   "props": [
@@ -1381,26 +1381,6 @@
       "lockedAt": "2026-04-20T19:45:38.472109Z"
     },
     {
-      "player": "Dylan Cease",
-      "team": "TOR",
-      "opp": "LAA",
-      "market": "strikeouts",
-      "proj": 9.8,
-      "std": 2.5,
-      "line": 7.5,
-      "over_price": -112,
-      "under_price": -118,
-      "pick": "OVER",
-      "edge": 2.3,
-      "pCover": 0.795,
-      "conf": "high",
-      "odds": -112,
-      "to_win_1u": 1.12,
-      "date": "2026-04-20",
-      "lockState": "pending",
-      "lockedAt": null
-    },
-    {
       "player": "Kyle Bradish",
       "team": "BAL",
       "opp": "KC",
@@ -1419,6 +1399,26 @@
       "date": "2026-04-20",
       "lockState": "lineup_confirmed",
       "lockedAt": "2026-04-20T21:22:28.525836Z"
+    },
+    {
+      "player": "Dylan Cease",
+      "team": "TOR",
+      "opp": "LAA",
+      "market": "strikeouts",
+      "proj": 9.8,
+      "std": 2.5,
+      "line": 7.5,
+      "over_price": -112,
+      "under_price": -118,
+      "pick": "OVER",
+      "edge": 2.3,
+      "pCover": 0.795,
+      "conf": "high",
+      "odds": -112,
+      "to_win_1u": 1.12,
+      "date": "2026-04-20",
+      "lockState": "pending",
+      "lockedAt": null
     }
   ],
   "summary": "4 picks from 16 projections",
@@ -1679,8 +1679,8 @@
       "pCover": 0.683,
       "conf": "low",
       "date": "2026-04-20",
-      "lockState": "pending",
-      "lockedAt": null
+      "lockState": "lineup_confirmed",
+      "lockedAt": "2026-04-20T21:38:53.833919Z"
     },
     {
       "player": "J.T. Ginn",
