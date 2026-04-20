@@ -479,6 +479,16 @@ def project_pitcher_props(pitcher_logs, team_batting_stats=None,
                 # 60% rate-based, 40% Kalman
                 model_proj = 0.6 * model_proj + 0.4 * kalman_proj
 
+                # Capture Kalman posterior variance as projection-uncertainty
+                # proxy. This adds to total std below (observation noise +
+                # model uncertainty) — tighter for well-sampled pitchers,
+                # wider for noisy/new ones. Addresses calibration gap in
+                # 0.70-0.75 bucket where projection uncertainty dominates.
+                from pitcher_kalman import get_pitcher_projection
+                _kp = get_pitcher_projection(kalman_state, str(pid),
+                                             kalman_key, rolling_avg=model_proj)
+                k_kalman_var = _kp.get("var", 0.0)
+
                 # Rest adjustment
                 model_proj = _apply_rest_adjustment(model_proj, market, rest_days)
 
@@ -740,6 +750,17 @@ def project_pitcher_props(pitcher_logs, team_batting_stats=None,
                 std = max(std, emp_std * 0.7)
             else:
                 std = max(rolling_std, emp_std * 0.5)
+
+            # --- Model-uncertainty augmentation (strikeouts only for now) ---
+            # Combines observation noise (std above) with projection uncertainty
+            # via sum-of-variances. Kalman posterior var is the model's own
+            # confidence estimate — high for pitchers with few/noisy starts,
+            # low for established ones. Scaled by 0.5 so the contribution is
+            # capped (Kalman variance on K ~4-10 for new pitchers would
+            # otherwise dominate and inflate std to non-useful levels).
+            if market == "strikeouts":
+                k_model_var = locals().get("k_kalman_var", 0.0) * 0.5
+                std = math.sqrt(std**2 + k_model_var)
 
             # --- 8. Make pick ---
             prop = _make_prop(name, team, market, proj, std, line_lookup, latest_opp)
