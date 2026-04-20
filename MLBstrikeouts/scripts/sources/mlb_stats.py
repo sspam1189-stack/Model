@@ -24,6 +24,34 @@ MLB_TEAM_ID_TO_ABBR = {
 
 BASE_URL = "https://statsapi.mlb.com/api/v1"
 
+# ---------------------------------------------------------------------------
+# Walk-forward leak-fix config (used when through_date is passed)
+# ---------------------------------------------------------------------------
+RECENT_WINDOW_DAYS = 45
+RECENT_MIN_BF_PER_SPLIT = 40    # for pitcher splits fallback
+RECENT_MIN_TEAM_PA = 150        # for team batting fallback
+RECENT_MIN_BATTER_PA = 50       # for batter k_rates fallback
+
+
+def _date_window(season, through_date, window_days=RECENT_WINDOW_DAYS):
+    """
+    Return (startDate, endDate) ISO strings for a rolling window ending at
+    through_date, clamped so startDate is no earlier than {season}-03-20.
+
+    Parameters
+    ----------
+    season : int
+    through_date : str (YYYY-MM-DD)
+    window_days : int
+    """
+    from datetime import datetime as _dt, timedelta as _td
+    end = _dt.strptime(through_date, "%Y-%m-%d").date()
+    start = end - _td(days=window_days)
+    season_start = _dt.strptime(f"{season}-03-20", "%Y-%m-%d").date()
+    if start < season_start:
+        start = season_start
+    return start.strftime("%Y-%m-%d"), end.strftime("%Y-%m-%d")
+
 
 # ---------------------------------------------------------------------------
 # Helpers
@@ -533,25 +561,8 @@ def fetch_pitcher_sabermetrics(season=None):
 # 4. Pitcher Handedness Splits (vs LHB / vs RHB)
 # ---------------------------------------------------------------------------
 
-def fetch_pitcher_handedness_splits(pitcher_id, season=None):
-    """
-    Fetch pitcher splits vs left-handed and right-handed batters.
-    Returns dict with vs_left and vs_right keys.
-    """
-    season = season or _current_season()
-    cache_path = CACHE_DIR / f"handedness_{pitcher_id}_{season}.json"
-
-    cached = _load_cache(cache_path, max_age_hours=None)
-    if cached is not None:
-        return cached
-
-    url = (
-        f"{BASE_URL}/people/{pitcher_id}/stats"
-        f"?stats=statSplits&group=pitching&season={season}&sitCodes=vl,vr"
-    )
-    raw = _fetch_json(url)
-    time.sleep(0.5)
-
+def _parse_pitcher_splits_response(raw):
+    """Parse /people/{id}/stats?stats=statSplits response into vs_left/vs_right dict."""
     result = {"vs_left": {}, "vs_right": {}}
     for stat_group in raw.get("stats", []):
         for split in stat_group.get("splits", []):
@@ -585,7 +596,6 @@ def fetch_pitcher_handedness_splits(pitcher_id, season=None):
                 "air_outs": stat.get("airOuts", 0),
             }
 
-            # Compute per-9 rates (the keys the handedness adjustment needs)
             if ip_float > 0:
                 split_data["k_per_9"] = round(split_data["k"] / ip_float * 9, 2)
                 split_data["h_per_9"] = round(split_data["h"] / ip_float * 9, 2)
@@ -595,6 +605,79 @@ def fetch_pitcher_handedness_splits(pitcher_id, season=None):
                 result["vs_left"] = split_data
             elif split_code == "vr":
                 result["vs_right"] = split_data
+    return result
+
+
+def fetch_pitcher_handedness_splits(pitcher_id, season=None, through_date=None):
+    """
+    Fetch pitcher splits vs left-handed and right-handed batters.
+    Returns dict with vs_left and vs_right keys.
+
+    If `through_date` is provided, fetches only games within a rolling
+    RECENT_WINDOW_DAYS window ending at through_date (walk-forward mode).
+    Falls back to season-to-through_date when either split has fewer than
+    RECENT_MIN_BF_PER_SPLIT batters-faced.
+    """
+    season = season or _current_season()
+
+    if through_date is None:
+        # --- Live/default path: unchanged season-to-today behavior ---
+        cache_path = CACHE_DIR / f"handedness_{pitcher_id}_{season}.json"
+        cached = _load_cache(cache_path, max_age_hours=None)
+        if cached is not None:
+            return cached
+
+        url = (
+            f"{BASE_URL}/people/{pitcher_id}/stats"
+            f"?stats=statSplits&group=pitching&season={season}&sitCodes=vl,vr"
+        )
+        raw = _fetch_json(url)
+        time.sleep(0.5)
+        result = _parse_pitcher_splits_response(raw)
+        _save_cache(cache_path, result)
+        return result
+
+    # --- Walk-forward path: date-keyed cache + rolling window + fallback ---
+    thru_key = through_date.replace("-", "")
+    cache_path = CACHE_DIR / f"handedness_{pitcher_id}_{season}_thru_{thru_key}.json"
+    cached = _load_cache(cache_path, max_age_hours=None)
+    if cached is not None:
+        return cached
+
+    start_date, end_date = _date_window(season, through_date)
+    url = (
+        f"{BASE_URL}/people/{pitcher_id}/stats"
+        f"?stats=statSplits&group=pitching&sitCodes=vl,vr"
+        f"&startDate={start_date}&endDate={end_date}"
+    )
+    try:
+        raw = _fetch_json(url)
+    except Exception:
+        raw = {}
+    time.sleep(0.3)
+    result = _parse_pitcher_splits_response(raw)
+
+    # Fallback: if either split is too small, refetch season-to-through_date
+    vl_pa = (result.get("vs_left") or {}).get("pa", 0) or 0
+    vr_pa = (result.get("vs_right") or {}).get("pa", 0) or 0
+    if vl_pa < RECENT_MIN_BF_PER_SPLIT or vr_pa < RECENT_MIN_BF_PER_SPLIT:
+        season_start = f"{season}-03-20"
+        url2 = (
+            f"{BASE_URL}/people/{pitcher_id}/stats"
+            f"?stats=statSplits&group=pitching&sitCodes=vl,vr"
+            f"&startDate={season_start}&endDate={end_date}"
+        )
+        try:
+            raw2 = _fetch_json(url2)
+            time.sleep(0.3)
+            fallback = _parse_pitcher_splits_response(raw2)
+            # Use fallback for any split that was undersized
+            if vl_pa < RECENT_MIN_BF_PER_SPLIT and fallback.get("vs_left"):
+                result["vs_left"] = fallback["vs_left"]
+            if vr_pa < RECENT_MIN_BF_PER_SPLIT and fallback.get("vs_right"):
+                result["vs_right"] = fallback["vs_right"]
+        except Exception:
+            pass
 
     _save_cache(cache_path, result)
     return result
@@ -604,7 +687,95 @@ def fetch_pitcher_handedness_splits(pitcher_id, season=None):
 # 4b. Batter Strikeout Rates (season + vs LHP/RHP splits)
 # ---------------------------------------------------------------------------
 
-def fetch_batter_k_rates(season=None):
+def _fetch_batter_k_rates_window(season, start_date, end_date):
+    """Fetch per-batter K rates for a date range. Returns {pid: dict}."""
+    result = {}
+
+    # Overall hitting stats for the window
+    url = (
+        f"{BASE_URL}/stats?stats=byDateRange&group=hitting&sportId=1"
+        f"&playerPool=all&limit=1000"
+        f"&startDate={start_date}&endDate={end_date}"
+    )
+    try:
+        raw = _fetch_json(url)
+    except Exception as e:
+        print(f"  [mlb_stats] Batter window fetch failed ({start_date}..{end_date}): {e}")
+        return {}
+    time.sleep(0.3)
+
+    for stat_group in raw.get("stats", []):
+        for split in stat_group.get("splits", []):
+            stat = split.get("stat", {})
+            player = split.get("player", {})
+            pid = player.get("id")
+            if not pid:
+                continue
+
+            pa = stat.get("plateAppearances", 0) or 0
+            if pa == 0:
+                pa = ((stat.get("atBats", 0) or 0)
+                      + (stat.get("baseOnBalls", 0) or 0)
+                      + (stat.get("hitByPitch", 0) or 0)
+                      + (stat.get("sacFlies", 0) or 0)
+                      + (stat.get("sacBunts", 0) or 0))
+            k = stat.get("strikeOuts", 0) or 0
+            pos = split.get("position", {}).get("abbreviation", "")
+            if pos == "P":
+                continue
+
+            result[pid] = {
+                "name": player.get("fullName", ""),
+                "team_id": split.get("team", {}).get("id"),
+                "k_pct": round(k / pa, 4) if pa > 0 else 0.0,
+                "pa": pa,
+                "k": k,
+                "k_pct_vs_lhp": 0.0,
+                "k_pct_vs_rhp": 0.0,
+                "pa_vs_lhp": 0,
+                "pa_vs_rhp": 0,
+            }
+
+    # vs LHP/RHP splits are only available via stats=statSplits (season-scoped).
+    # For walk-forward we still use season-to-through_date splits; the splits
+    # endpoint doesn't support byDateRange. Fetch with endDate bound via season.
+    url2 = (
+        f"{BASE_URL}/stats?stats=statSplits&group=hitting&season={season}"
+        f"&sportId=1&sitCodes=vl,vr&playerPool=all&limit=1000"
+    )
+    try:
+        raw2 = _fetch_json(url2)
+        time.sleep(0.3)
+    except Exception:
+        return result
+
+    for stat_group in raw2.get("stats", []):
+        for split in stat_group.get("splits", []):
+            stat = split.get("stat", {})
+            player = split.get("player", {})
+            pid = player.get("id")
+            split_code = split.get("split", {}).get("code", "")
+            if not pid or pid not in result:
+                continue
+            pa = stat.get("plateAppearances", 0) or 0
+            if pa == 0:
+                pa = ((stat.get("atBats", 0) or 0)
+                      + (stat.get("baseOnBalls", 0) or 0)
+                      + (stat.get("hitByPitch", 0) or 0)
+                      + (stat.get("sacFlies", 0) or 0)
+                      + (stat.get("sacBunts", 0) or 0))
+            k = stat.get("strikeOuts", 0) or 0
+            if split_code == "vl":
+                result[pid]["k_pct_vs_lhp"] = round(k / pa, 4) if pa > 0 else 0.0
+                result[pid]["pa_vs_lhp"] = pa
+            elif split_code == "vr":
+                result[pid]["k_pct_vs_rhp"] = round(k / pa, 4) if pa > 0 else 0.0
+                result[pid]["pa_vs_rhp"] = pa
+
+    return result
+
+
+def fetch_batter_k_rates(season=None, through_date=None):
     """
     Fetch per-batter K% for the entire league (bulk, 2 API calls).
 
@@ -621,6 +792,42 @@ def fetch_batter_k_rates(season=None):
         }}
     """
     season = season or _current_season()
+
+    # --- Walk-forward path ---
+    if through_date is not None:
+        thru_key = through_date.replace("-", "")
+        cache_path = CACHE_DIR / f"batter_k_rates_{season}_thru_{thru_key}.json"
+        cached = _load_cache(cache_path, max_age_hours=None)
+        if cached is not None:
+            return {int(k): v for k, v in cached.items()}
+
+        start_date, end_date = _date_window(season, through_date)
+        window = _fetch_batter_k_rates_window(season, start_date, end_date)
+
+        # Per-batter fallback: refetch season-to-through_date, replace
+        # entries where window PA is too small.
+        season_start = f"{season}-03-20"
+        fallback = _fetch_batter_k_rates_window(season, season_start, end_date)
+
+        result = {}
+        # Union of batters seen in either window or fallback
+        all_pids = set(window.keys()) | set(fallback.keys())
+        for pid in all_pids:
+            w = window.get(pid)
+            f_entry = fallback.get(pid)
+            if w and w.get("pa", 0) >= RECENT_MIN_BATTER_PA:
+                result[pid] = w
+            elif f_entry:
+                # Use season-to-through_date for under-sampled batters
+                result[pid] = f_entry
+            elif w:
+                result[pid] = w
+
+        print(f"  [mlb_stats] Fetched K rates (walk-forward thru {through_date}) "
+              f"for {len(result)} batters")
+        _save_cache(cache_path, result)
+        return result
+
     today_str = date.today().strftime("%Y%m%d")
     cache_path = CACHE_DIR / f"batter_k_rates_{season}_{today_str}.json"
 
@@ -765,26 +972,8 @@ def compute_lineup_k_pct(lineup_player_ids, batter_k_rates, pitcher_hand="R"):
 # 5. Team Batting Stats
 # ---------------------------------------------------------------------------
 
-def fetch_team_batting_stats(season=None):
-    """
-    Fetch team-level batting stats.
-    Returns dict keyed by team abbreviation.
-    """
-    season = season or _current_season()
-    today_str = date.today().strftime("%Y%m%d")
-    cache_path = CACHE_DIR / f"team_batting_{season}_{today_str}.json"
-
-    cached = _load_cache(cache_path)
-    if cached is not None:
-        return cached
-
-    url = (
-        f"{BASE_URL}/teams/stats?stats=season&group=hitting"
-        f"&season={season}&sportId=1"
-    )
-    raw = _fetch_json(url)
-    time.sleep(0.5)
-
+def _parse_team_batting_response(raw):
+    """Parse team batting stats response into {abbr: {...}} dict."""
     result = {}
     for stat_group in raw.get("stats", []):
         for split in stat_group.get("splits", []):
@@ -795,9 +984,9 @@ def fetch_team_batting_stats(season=None):
             if not abbr:
                 continue
 
-            pa = stat.get("plateAppearances", 0)
-            k = stat.get("strikeOuts", 0)
-            bb = stat.get("baseOnBalls", 0)
+            pa = stat.get("plateAppearances", 0) or 0
+            k = stat.get("strikeOuts", 0) or 0
+            bb = stat.get("baseOnBalls", 0) or 0
 
             result[abbr] = {
                 "K_PCT": round(k / pa, 4) if pa else 0,
@@ -806,6 +995,77 @@ def fetch_team_batting_stats(season=None):
                 "BB_PCT": round(bb / pa, 4) if pa else 0,
                 "PA": pa,
             }
+    return result
+
+
+def fetch_team_batting_stats(season=None, through_date=None):
+    """
+    Fetch team-level batting stats.
+    Returns dict keyed by team abbreviation.
+
+    If `through_date` is provided, fetches only games within a rolling
+    RECENT_WINDOW_DAYS window ending at through_date (walk-forward mode).
+    Falls back to season-to-through_date when avg team PA < RECENT_MIN_TEAM_PA.
+    """
+    season = season or _current_season()
+
+    if through_date is None:
+        # --- Live/default path ---
+        today_str = date.today().strftime("%Y%m%d")
+        cache_path = CACHE_DIR / f"team_batting_{season}_{today_str}.json"
+
+        cached = _load_cache(cache_path)
+        if cached is not None:
+            return cached
+
+        url = (
+            f"{BASE_URL}/teams/stats?stats=season&group=hitting"
+            f"&season={season}&sportId=1"
+        )
+        raw = _fetch_json(url)
+        time.sleep(0.5)
+        result = _parse_team_batting_response(raw)
+        _save_cache(cache_path, result)
+        return result
+
+    # --- Walk-forward path ---
+    thru_key = through_date.replace("-", "")
+    cache_path = CACHE_DIR / f"team_batting_{season}_thru_{thru_key}.json"
+    cached = _load_cache(cache_path, max_age_hours=None)
+    if cached is not None:
+        return cached
+
+    start_date, end_date = _date_window(season, through_date)
+    url = (
+        f"{BASE_URL}/teams/stats?stats=byDateRange&group=hitting&sportId=1"
+        f"&startDate={start_date}&endDate={end_date}"
+    )
+    try:
+        raw = _fetch_json(url)
+    except Exception:
+        raw = {}
+    time.sleep(0.3)
+    result = _parse_team_batting_response(raw)
+
+    # Fallback: if avg team PA is too small, use season-to-through_date
+    if result:
+        avg_pa = sum(v.get("PA", 0) for v in result.values()) / max(1, len(result))
+    else:
+        avg_pa = 0
+    if avg_pa < RECENT_MIN_TEAM_PA:
+        season_start = f"{season}-03-20"
+        url2 = (
+            f"{BASE_URL}/teams/stats?stats=byDateRange&group=hitting&sportId=1"
+            f"&startDate={season_start}&endDate={end_date}"
+        )
+        try:
+            raw2 = _fetch_json(url2)
+            time.sleep(0.3)
+            fallback = _parse_team_batting_response(raw2)
+            if fallback:
+                result = fallback
+        except Exception:
+            pass
 
     _save_cache(cache_path, result)
     return result
