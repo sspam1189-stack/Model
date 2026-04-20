@@ -658,6 +658,32 @@ def run_daily(date_key=None):
 
         merged_props = kept + today_existing_locked + today_fresh
 
+        # PENDING-TEAM FRESHNESS RULE (explicit):
+        # Teams that are NOT yet locked (no confirmed lineup, no first pitch)
+        # must always reflect the latest projection. If a prior pick exists in
+        # existing_props but the current run did not produce it as a pick
+        # (pCover dropped below threshold), drop it. Locks only take effect
+        # AFTER lineup confirmation — before that, picks are freely overwritten
+        # by fresh projections.
+        today_fresh_keys = {_pkey(p) for p in today_fresh}
+        locked_keys_today = {_pkey(p) for p in today_existing_locked}
+        stale_pending = []
+        for p in existing_props:
+            if p.get("date") != date_iso:
+                continue
+            k = _pkey(p)
+            team = p.get("team", "")
+            if team in locked_teams:
+                continue  # locked-team picks are never touched here
+            if k not in today_fresh_keys:
+                stale_pending.append(p)
+        if stale_pending:
+            names = ", ".join(f"{p.get('player','?')}({p.get('team','?')})"
+                              for p in stale_pending[:5])
+            extra = "..." if len(stale_pending) > 5 else ""
+            print(f"  [merge] Dropped {len(stale_pending)} stale pending-team "
+                  f"picks (projection now PASS): {names}{extra}")
+
         # NEVER-SHRINK GUARD: refuse to drop any previously locked today pick.
         # Compare today's locked picks before/after; crash loudly if any vanish.
         prev_locked_keys = {
