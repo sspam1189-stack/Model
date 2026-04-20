@@ -328,54 +328,81 @@ def run_daily(date_key=None):
         else:
             team_batting[abbr] = {"PCT_LHB": hand_data["PCT_LHB"]}
 
-    # Build lineup_data with player_ids for K% lookup
-    # lineup_hand has {team: {PCT_LHB, n_batters, source}} but we also need player_ids
-    # Re-fetch lineup to get IDs (the schedule hydrate=lineups call is cached)
+    # Build lineup_data with player_ids for K% lookup.
+    # Cache confirmed lineups per-day so intra-day runs don't disagree:
+    # once a team's lineup is confirmed, freeze it. Only refetch teams
+    # still unconfirmed in the cache.
+    from sources.mlb_stats import CACHE_DIR as _MLB_CACHE_DIR
+    _lineup_cache_path = _MLB_CACHE_DIR / f"lineups_{date_iso.replace('-','')}.json"
     lineup_data = {}
     try:
-        import requests
-        url = f"https://statsapi.mlb.com/api/v1/schedule?sportId=1&date={date_iso}&hydrate=lineups"
-        resp = requests.get(url, timeout=15)
-        sched = resp.json()
-        from sources.mlb_stats import MLB_TEAM_ID_TO_ABBR
-        for date_entry in sched.get("dates", []):
-            for game in date_entry.get("games", []):
-                lineups = game.get("lineups", {})
-                teams = game.get("teams", {})
-                for side, lineup_key in [("home", "homePlayers"), ("away", "awayPlayers")]:
-                    team_id = teams.get(side, {}).get("team", {}).get("id")
-                    abbr = MLB_TEAM_ID_TO_ABBR.get(team_id, "")
-                    if not abbr:
-                        continue
-                    players = lineups.get(lineup_key, [])
-                    lineup_entries = []
-                    for slot_idx, p in enumerate(players):
-                        lineup_entries.append({
-                            "batter_id": p.get("id"),
-                            "name": p.get("fullName", ""),
-                            "slot": slot_idx + 1,
-                        })
-                    confirmed = len(lineup_entries) >= 9
-                    pids = [p.get("id") for p in players]
-                    # Fallback: use team's most recent batting order when today's
-                    # lineup isn't posted yet
-                    if not pids:
-                        from sources.mlb_stats import get_recent_batting_order
-                        recent = get_recent_batting_order(abbr, season=season, before_date=date_iso)
-                        if recent:
-                            pids = recent
-                            lineup_entries = [
-                                {"batter_id": pid, "name": "", "slot": i + 1}
-                                for i, pid in enumerate(recent)
-                            ]
-                    lineup_data[abbr] = {
-                        "player_ids": pids,
-                        "lineup": lineup_entries,
-                        "confirmed": confirmed,
-                        "implied_runs": None,  # could be filled from totals odds later
-                    }
+        if _lineup_cache_path.exists():
+            with open(_lineup_cache_path, "r") as _f:
+                lineup_data = json.load(_f) or {}
     except Exception:
-        pass
+        lineup_data = {}
+
+    _all_confirmed = (lineup_data
+                      and all(v.get("confirmed") for v in lineup_data.values()))
+
+    if not _all_confirmed:
+        try:
+            import requests
+            url = f"https://statsapi.mlb.com/api/v1/schedule?sportId=1&date={date_iso}&hydrate=lineups"
+            resp = requests.get(url, timeout=15)
+            sched = resp.json()
+            from sources.mlb_stats import MLB_TEAM_ID_TO_ABBR
+            for date_entry in sched.get("dates", []):
+                for game in date_entry.get("games", []):
+                    lineups = game.get("lineups", {})
+                    teams = game.get("teams", {})
+                    for side, lineup_key in [("home", "homePlayers"), ("away", "awayPlayers")]:
+                        team_id = teams.get(side, {}).get("team", {}).get("id")
+                        abbr = MLB_TEAM_ID_TO_ABBR.get(team_id, "")
+                        if not abbr:
+                            continue
+                        # Skip teams already confirmed in cache — freeze their lineup
+                        if lineup_data.get(abbr, {}).get("confirmed"):
+                            continue
+                        players = lineups.get(lineup_key, [])
+                        lineup_entries = []
+                        for slot_idx, p in enumerate(players):
+                            lineup_entries.append({
+                                "batter_id": p.get("id"),
+                                "name": p.get("fullName", ""),
+                                "slot": slot_idx + 1,
+                            })
+                        confirmed = len(lineup_entries) >= 9
+                        pids = [p.get("id") for p in players]
+                        # Fallback: use team's most recent batting order when today's
+                        # lineup isn't posted yet
+                        if not pids:
+                            from sources.mlb_stats import get_recent_batting_order
+                            recent = get_recent_batting_order(abbr, season=season, before_date=date_iso)
+                            if recent:
+                                pids = recent
+                                lineup_entries = [
+                                    {"batter_id": pid, "name": "", "slot": i + 1}
+                                    for i, pid in enumerate(recent)
+                                ]
+                        lineup_data[abbr] = {
+                            "player_ids": pids,
+                            "lineup": lineup_entries,
+                            "confirmed": confirmed,
+                            "implied_runs": None,  # could be filled from totals odds later
+                        }
+        except Exception:
+            pass
+
+        try:
+            os.makedirs(os.path.dirname(str(_lineup_cache_path)), exist_ok=True)
+            with open(_lineup_cache_path, "w") as _f:
+                json.dump(lineup_data, _f)
+        except Exception:
+            pass
+
+    _n_conf = sum(1 for v in lineup_data.values() if v.get("confirmed"))
+    print(f"  {len(lineup_data)} teams in lineup_data ({_n_conf} confirmed, frozen)")
 
     # Fetch batter K rates (bulk, 2 API calls)
     print(f"\n  [9b/19] Fetching batter K rates + Savant pitcher rates...")
@@ -538,6 +565,41 @@ def run_daily(date_key=None):
                 return float(obj)
             return super().default(obj)
 
+    # Build confirmed-teams set (teams whose starting lineup is posted).
+    # Once confirmed, a team's pick is locked the same way started teams are —
+    # later runs can't overwrite, erase, or reshuffle those picks.
+    confirmed_teams = {
+        abbr for abbr, v in (lineup_data or {}).items()
+        if v.get("confirmed")
+    }
+    # Any team in either set is "locked" for today.
+    locked_teams = set(started_teams) | confirmed_teams
+
+    # Lock-state priority ladder (only ever move UP, never down).
+    _LOCK_RANK = {"pending": 0, "lineup_confirmed": 1, "game_started": 2, "final": 3}
+    _now_iso = __import__("datetime").datetime.utcnow().isoformat() + "Z"
+
+    def _current_lock_state(team_abbr):
+        if team_abbr in started_teams:
+            return "game_started"
+        if team_abbr in confirmed_teams:
+            return "lineup_confirmed"
+        return "pending"
+
+    def _stamp(pick, existing_pick=None):
+        """Attach lockState + lockedAt to a pick, preserving existing stronger locks."""
+        team = pick.get("team", "")
+        new_state = _current_lock_state(team)
+        prev_state = (existing_pick or {}).get("lockState", "pending")
+        if existing_pick and _LOCK_RANK.get(prev_state, 0) >= _LOCK_RANK.get(new_state, 0):
+            pick["lockState"] = prev_state
+            pick["lockedAt"] = existing_pick.get("lockedAt")
+        else:
+            pick["lockState"] = new_state
+            pick["lockedAt"] = (pick.get("lockedAt")
+                                or (_now_iso if new_state != "pending" else None))
+        return pick
+
     for path in output_paths:
         path = os.path.normpath(path)
         os.makedirs(os.path.dirname(path), exist_ok=True)
@@ -556,39 +618,80 @@ def run_daily(date_key=None):
         # Keep picks from OTHER dates (already graded / historical)
         kept = [p for p in existing_props if p.get("date") != date_iso]
 
-        # For TODAY: keep existing picks for started games, replace unstarted
-        today_existing_started = [
+        # Index existing today picks by (team, player, market) for lock lookup
+        def _pkey(p):
+            return (p.get("team", ""), p.get("player", ""), p.get("market", ""))
+        existing_today_by_key = {
+            _pkey(p): p for p in existing_props if p.get("date") == date_iso
+        }
+
+        # LOCK: keep every existing pick for a locked team (started OR confirmed).
+        # This is the never-erase guarantee.
+        today_existing_locked = [
             p for p in existing_props
-            if p.get("date") == date_iso and p.get("team", "") in started_teams
+            if p.get("date") == date_iso and p.get("team", "") in locked_teams
         ]
-        # Exclude fresh picks for started games (those picks come from existing)
-        today_fresh = [p for p in combined.get("props", [])
-                       if (p.get("date") == date_iso or not p.get("date"))
-                       and p.get("team", "") not in started_teams]
+        locked_keys = {_pkey(p) for p in today_existing_locked}
 
-        merged_props = kept + today_existing_started + today_fresh
+        # Fresh picks: only for teams that are NOT locked yet (still pending)
+        today_fresh = []
+        for p in combined.get("props", []):
+            if not (p.get("date") == date_iso or not p.get("date")):
+                continue
+            team = p.get("team", "")
+            if team in locked_teams:
+                continue  # locked team — existing pick wins
+            if _pkey(p) in locked_keys:
+                continue  # defensive dedup
+            today_fresh.append(_stamp(p, existing_today_by_key.get(_pkey(p))))
 
-        # Merge todayProjections (full projection list, drives Games Explorer).
-        # For started teams: prefer existing entries (locked at start time).
-        #   Fall back to fresh entry for that team if nothing exists yet.
-        # For unstarted teams: use fresh.
+        # Re-stamp existing locked picks so their lockState is current
+        # (a pick locked earlier at "lineup_confirmed" upgrades to "game_started"
+        # once the team is in started_teams).
+        today_existing_locked = [
+            _stamp(dict(p), p) for p in today_existing_locked
+        ]
+
+        merged_props = kept + today_existing_locked + today_fresh
+
+        # NEVER-SHRINK GUARD: refuse to drop any previously locked today pick.
+        # Compare today's locked picks before/after; crash loudly if any vanish.
+        prev_locked_keys = {
+            _pkey(p) for p in existing_props
+            if p.get("date") == date_iso
+            and p.get("lockState") in ("lineup_confirmed", "game_started", "final")
+        }
+        new_today_keys = {_pkey(p) for p in merged_props if p.get("date") == date_iso}
+        dropped = prev_locked_keys - new_today_keys
+        if dropped:
+            raise RuntimeError(
+                f"Refusing to erase {len(dropped)} locked picks on {date_iso}: "
+                f"{sorted(dropped)[:5]}{'...' if len(dropped) > 5 else ''}"
+            )
+
+        # Merge todayProjections + batterProjections with the same lock rule:
+        # entries for locked teams are preserved from existing; fresh used otherwise.
         def _merge_projections(existing_list, fresh_list):
             existing_today = [p for p in existing_list if p.get("date") == date_iso]
             existing_keys = {(p.get("team",""), p.get("player",""), p.get("market","")):
                              p for p in existing_today
-                             if p.get("team","") in started_teams}
+                             if p.get("team","") in locked_teams}
             merged = []
             seen = set()
-            # Existing entries for started teams (locked)
             for k, p in existing_keys.items():
-                merged.append(p)
+                merged.append(_stamp(dict(p), p))
                 seen.add(k)
-            # Fresh entries: skip if already added (started team had existing)
             for p in fresh_list:
                 k = (p.get("team",""), p.get("player",""), p.get("market",""))
-                if k not in seen:
-                    merged.append(p)
-                    seen.add(k)
+                if k in seen:
+                    continue
+                if p.get("team","") in locked_teams:
+                    # Fresh entry for a locked team with no existing match:
+                    # allow (first-time pickup), but stamp lock.
+                    merged.append(_stamp(p))
+                else:
+                    merged.append(_stamp(p))
+                seen.add(k)
             return merged
 
         merged_today_proj = _merge_projections(
@@ -608,10 +711,14 @@ def run_daily(date_key=None):
         }
         combined_merged["totalPicks"] = len(merged_props)
 
-        n_kept = len(kept)
+        n_kept_hist = len(kept)
+        n_locked = len(today_existing_locked)
         n_new = len(today_fresh)
-        if n_kept > 0:
-            print(f"  Merged picks: {n_kept} historical + {n_new} fresh")
+        n_started = len([p for p in today_existing_locked
+                         if p.get("lockState") == "game_started"])
+        n_confirmed = n_locked - n_started
+        print(f"  Merged picks: {n_kept_hist} historical + {n_locked} locked "
+              f"({n_started} started, {n_confirmed} lineup-confirmed) + {n_new} fresh")
 
         with open(path, "w") as f:
             json.dump(combined_merged, f, indent=2, cls=_NumpyEncoder)
