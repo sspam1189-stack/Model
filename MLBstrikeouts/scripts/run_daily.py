@@ -481,15 +481,12 @@ def run_daily(date_key=None):
     picks = [p for p in projections if p["pick"] != "PASS"]
     print(f"  {len(projections)} projections, {len(picks)} actionable picks")
 
-    # Stage 14: Project total game hits
-    print(f"\n  [14/19] Projecting total game hits...")
-    game_hit_projections = project_game_hits(
-        probable, pitcher_logs, team_batting, team_pitching,
-        kalman_state, adv_stats, game_hit_lines,
-        weather_by_game=weather_data,
-    )
-    game_hit_picks = [p for p in game_hit_projections if p.get("pick") != "PASS"]
-    print(f"  {len(game_hit_projections)} game projections, {len(game_hit_picks)} picks")
+    # Stage 14: Project total game hits — DISABLED (market is in DISABLED_MARKETS).
+    # Stage numbering preserved ([15/19]..[18/19]) for consistency with logs/tooling.
+    # Re-enable by removing "game_hits" from DISABLED_MARKETS in defaults.py and
+    # restoring the project_game_hits(...) call below.
+    game_hit_projections = []
+    game_hit_picks = []
 
     # Print Kalman summary
     print(kalman_summary(kalman_state, top_n=5, stat_key="k"))

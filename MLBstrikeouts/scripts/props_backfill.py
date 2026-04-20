@@ -146,9 +146,9 @@ def backfill(season=None, start_game=10, start_date=None):
     for g in all_logs:
         _normalize_game_log(g)
 
-    # Load team batting stats
-    print(f"  Loading team batting stats...")
-    team_batting = fetch_team_batting_stats(season=season)
+    # Team batting is now fetched per-date inside the walk-forward loop
+    # (see Phase 2b) to avoid season-to-today leakage.
+    team_batting_by_date = {}
 
     # Load advanced pitcher stats
     print(f"  Loading pitcher advanced stats...")
@@ -163,10 +163,10 @@ def backfill(season=None, start_game=10, start_date=None):
     bat_sides = fetch_player_bat_sides(season=season)
     print(f"  {len(bat_sides)} players with bat-side data")
 
-    # Load batter K rates + pitcher hands + Savant rates
-    print(f"  Loading batter K rates + Savant pitcher rates...")
-    batter_k_rates = fetch_batter_k_rates(season=season)
-    print(f"  {len(batter_k_rates)} batters with K rates")
+    # Batter K rates are now fetched per-date inside the walk-forward loop
+    # to avoid season-to-today leakage.
+    print(f"  Batter K rates will be fetched per-date (walk-forward mode)...")
+    batter_k_rates_by_date = {}
     pitch_hands = load_pitch_hands(season=season)
     savant_rates = fetch_savant_pitcher_rates(season=season)
     print(f"  {len(savant_rates)} pitchers with Savant K%/whiff%")
@@ -265,6 +265,22 @@ def backfill(season=None, start_game=10, start_date=None):
         lineup_hand = fetch_lineup_handedness(
             game_date, bat_sides=bat_sides, season=season
         )
+
+        # Fetch per-date team batting (walk-forward: 45-day window ending at
+        # game_date, with season-to-game_date fallback for small samples).
+        if game_date not in team_batting_by_date:
+            team_batting_by_date[game_date] = fetch_team_batting_stats(
+                season=season, through_date=game_date
+            )
+        team_batting = team_batting_by_date[game_date]
+
+        # Fetch per-date batter K rates the same way.
+        if game_date not in batter_k_rates_by_date:
+            batter_k_rates_by_date[game_date] = fetch_batter_k_rates(
+                season=season, through_date=game_date
+            )
+        batter_k_rates = batter_k_rates_by_date[game_date]
+
         # Merge PCT_LHB into team_batting for this date's lineups
         date_team_batting = dict(team_batting)  # shallow copy
         for abbr, hand_data in lineup_hand.items():
@@ -323,7 +339,9 @@ def backfill(season=None, start_game=10, start_date=None):
         for g in today_starters:
             pid = g.get("pitcher_id") or g.get("player_id")
             if pid and str(pid) not in date_splits:
-                s = fetch_pitcher_handedness_splits(pid, season=season)
+                s = fetch_pitcher_handedness_splits(
+                    pid, season=season, through_date=game_date
+                )
                 if s:
                     date_splits[str(pid)] = s
 
