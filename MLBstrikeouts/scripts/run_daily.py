@@ -630,17 +630,24 @@ def run_daily(date_key=None):
         ]
         locked_keys = {_pkey(p) for p in today_existing_locked}
 
-        # Fresh picks: only for teams that are NOT locked yet (still pending)
+        # Fresh picks:
+        #   - Unlocked teams: always add (normal case).
+        #   - Locked teams: allow only if no prior pick exists for that
+        #     (team, player, market). This lets a pitcher who first qualifies
+        #     as a pick after lineup confirmation still show up, while never
+        #     overwriting an already-locked pick.
         today_fresh = []
+        existing_today_keys = set(existing_today_by_key.keys())
         for p in combined.get("props", []):
             if not (p.get("date") == date_iso or not p.get("date")):
                 continue
+            k = _pkey(p)
+            if k in locked_keys:
+                continue  # defensive dedup against carried-forward locked picks
             team = p.get("team", "")
-            if team in locked_teams:
-                continue  # locked team — existing pick wins
-            if _pkey(p) in locked_keys:
-                continue  # defensive dedup
-            today_fresh.append(_stamp(p, existing_today_by_key.get(_pkey(p))))
+            if team in locked_teams and k in existing_today_keys:
+                continue  # locked team with an existing pick — that one wins
+            today_fresh.append(_stamp(p, existing_today_by_key.get(k)))
 
         # Re-stamp existing locked picks so their lockState is current
         # (a pick locked earlier at "lineup_confirmed" upgrades to "game_started"

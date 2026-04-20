@@ -6,7 +6,7 @@
   "model": "kalman_blend",
   "generated": "2026-04-20T09:40:21.726314",
   "totalProjections": 16,
-  "totalPicks": 79,
+  "totalPicks": 80,
   "props": [
     {
       "player": "Sonny Gray",
@@ -1433,6 +1433,26 @@
       "date": "2026-04-20",
       "lockState": "pending",
       "lockedAt": null
+    },
+    {
+      "player": "Sonny Gray",
+      "team": "BOS",
+      "opp": "DET",
+      "market": "strikeouts",
+      "proj": 3.1,
+      "std": 2.2,
+      "line": 5.5,
+      "over_price": 104,
+      "under_price": -138,
+      "pick": "UNDER",
+      "edge": -2.4,
+      "pCover": 0.842,
+      "conf": "high",
+      "odds": -138,
+      "to_win_1u": 1.38,
+      "date": "2026-04-20",
+      "lockState": "lineup_confirmed",
+      "lockedAt": "2026-04-20T14:40:21.731319Z"
     }
   ],
   "summary": "3 picks from 16 projections",
