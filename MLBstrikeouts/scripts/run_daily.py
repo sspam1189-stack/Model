@@ -576,17 +576,29 @@ def run_daily(date_key=None):
     _LOCK_RANK = {"pending": 0, "lineup_confirmed": 1, "game_started": 2, "final": 3}
     _now_iso = __import__("datetime").datetime.utcnow().isoformat() + "Z"
 
-    def _current_lock_state(team_abbr):
-        if team_abbr in started_teams:
+    def _lock_key(pick):
+        """For pitcher K props, the OPPONENT'S lineup drives projection
+        accuracy (the pitcher doesn't bat). So we key locks on `opp`, not
+        `team`. Game-started flag includes both teams of any live game, so
+        either field works there — we use opp for consistency."""
+        return pick.get("opp", "") or pick.get("team", "")
+
+    def _current_lock_state(pick):
+        key = _lock_key(pick)
+        if key in started_teams:
             return "game_started"
-        if team_abbr in confirmed_teams:
+        if key in confirmed_teams:
             return "lineup_confirmed"
         return "pending"
 
+    def _is_locked(pick):
+        """True if this pick's projection was computed with real confirmed
+        lineup data, or game has started."""
+        return _current_lock_state(pick) != "pending"
+
     def _stamp(pick, existing_pick=None):
         """Attach lockState + lockedAt to a pick, preserving existing stronger locks."""
-        team = pick.get("team", "")
-        new_state = _current_lock_state(team)
+        new_state = _current_lock_state(pick)
         prev_state = (existing_pick or {}).get("lockState", "pending")
         if existing_pick and _LOCK_RANK.get(prev_state, 0) >= _LOCK_RANK.get(new_state, 0):
             pick["lockState"] = prev_state
@@ -635,23 +647,23 @@ def run_daily(date_key=None):
         already_locked_entries = [
             p for p in existing_props
             if p.get("date") == date_iso
-            and p.get("team", "") in locked_teams
+            and _is_locked(p)
             and p.get("lockState") in _LOCK_STATES
         ]
         transitioning_keys = {
             _pkey(p) for p in existing_props
             if p.get("date") == date_iso
-            and p.get("team", "") in locked_teams
+            and _is_locked(p)
             and p.get("lockState") not in _LOCK_STATES
         }
         locked_keys = {_pkey(p) for p in already_locked_entries}
 
         # Fresh picks:
-        #   - Unlocked teams: always add (normal case).
-        #   - Just-transitioning teams (pending → locked this run): add if the
-        #     fresh projection still qualifies. This is the re-validation gate.
-        #   - Already-locked teams: only add if no prior pick exists (first-time
-        #     pickup — original fix). Never overwrite an already-locked pick.
+        #   - Unlocked: always add (normal case).
+        #   - Just-transitioning (opp was pending, opp is locked this run):
+        #     add if the fresh projection still qualifies.
+        #   - Already-locked (opp was locked in a prior run): only add if no
+        #     prior pick exists. Never overwrite an already-locked pick.
         today_fresh = []
         existing_today_keys = set(existing_today_by_key.keys())
         for p in combined.get("props", []):
@@ -660,10 +672,9 @@ def run_daily(date_key=None):
             k = _pkey(p)
             if k in locked_keys:
                 continue  # defensive dedup against already-locked picks
-            team = p.get("team", "")
-            if team in locked_teams and k in existing_today_keys and k not in transitioning_keys:
-                # Team was already locked before this run AND had a prior pick.
-                # Don't overwrite.
+            if _is_locked(p) and k in existing_today_keys and k not in transitioning_keys:
+                # Opponent was already locked before this run AND had a prior
+                # pick. Don't overwrite.
                 continue
             today_fresh.append(_stamp(p, existing_today_by_key.get(k)))
 
@@ -686,12 +697,11 @@ def run_daily(date_key=None):
             if p.get("date") != date_iso:
                 continue
             k = _pkey(p)
-            team = p.get("team", "")
             if k in today_fresh_keys:
                 continue
             if k in {_pkey(x) for x in already_locked_entries}:
                 continue  # survived via already-locked preservation
-            if team in locked_teams:
+            if _is_locked(p):
                 stale_at_lock.append(p)   # transitioning & not re-validated
             else:
                 stale_pending.append(p)   # pending & projection dropped
@@ -740,7 +750,7 @@ def run_daily(date_key=None):
             already_locked_proj = {
                 (p.get("team",""), p.get("player",""), p.get("market","")): p
                 for p in existing_today
-                if p.get("team","") in locked_teams
+                if _is_locked(p)
                 and p.get("lockState") in _LS
             }
             merged = []
