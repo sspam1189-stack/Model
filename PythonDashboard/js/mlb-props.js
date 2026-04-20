@@ -917,6 +917,14 @@
         const card = document.createElement('div');
         card.className = 'card-games';
 
+        // Summary title: "ALL (XW-YL +Zu)" — mirrors the per-market view
+        const aW = filteredPicks.filter(p => p.result === 'WIN').length;
+        const aL = filteredPicks.filter(p => p.result === 'LOSS').length;
+        const aU = calcMLBPropsUnits(filteredPicks);
+        const allTitleSuffix = isBacktest ? ` (${aW}W-${aL}L ${aU>=0?'+':''}${aU.toFixed(2)}u)` : '';
+        card.appendChild(Object.assign(document.createElement('div'),
+          {className:'card-title', textContent:'ALL'+allTitleSuffix}));
+
         // Pagination controls
         const pgBar = document.createElement('div');
         pgBar.className = 'props-pg-bar'; pgBar.style.cssText = 'display:flex;align-items:center;gap:10px;margin-bottom:12px;flex-wrap:wrap';
