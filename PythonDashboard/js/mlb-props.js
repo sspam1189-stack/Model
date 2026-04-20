@@ -554,7 +554,17 @@
             const edge = (p.proj != null && p.line != null) ? +(p.proj - p.line).toFixed(1) : null;
             const edgeStr = edge != null ? (edge > 0 ? '+'+edge : String(edge)) : '\u2014';
             const coverStr = p.pCover != null ? (p.pCover * 100).toFixed(1) + '%' : '\u2014';
-            const priceStr = (isPick && p.odds != null) ? (p.odds > 0 ? '+' + p.odds : String(p.odds)) : '\u2014';
+            // Price column: for picks use the pick's odds; for non-picks show
+            // the price of the direction the projection leans (OVER if proj>line,
+            // UNDER if proj<line). This lets users see every available line's price.
+            const fmtOdds = (o) => o == null ? '\u2014' : (o > 0 ? '+' + o : String(o));
+            let priceStr = '\u2014';
+            if (isPick && p.odds != null) {
+              priceStr = fmtOdds(p.odds);
+            } else if (p.proj != null && p.line != null) {
+              if (p.proj > p.line && p.over_price != null) priceStr = fmtOdds(p.over_price);
+              else if (p.proj < p.line && p.under_price != null) priceStr = fmtOdds(p.under_price);
+            }
             [displayName(p), p.team||'', marketLabels[p.market]||p.market,
              p.proj!=null?String(p.proj):'\u2014', p.line!=null?String(p.line):'\u2014',
              edgeStr, coverStr,
