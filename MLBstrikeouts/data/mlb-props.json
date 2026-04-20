@@ -4,9 +4,9 @@
   "season": "2026",
   "mode": "live",
   "model": "kalman_blend",
-  "generated": "2026-04-20T16:38:53.832526",
+  "generated": "2026-04-20T17:20:46.365662",
   "totalProjections": 16,
-  "totalPicks": 78,
+  "totalPicks": 79,
   "props": [
     {
       "player": "Sonny Gray",
@@ -1417,11 +1417,31 @@
       "odds": -112,
       "to_win_1u": 1.12,
       "date": "2026-04-20",
-      "lockState": "pending",
-      "lockedAt": null
+      "lockState": "lineup_confirmed",
+      "lockedAt": "2026-04-20T22:20:46.367272Z"
+    },
+    {
+      "player": "Emerson Hancock",
+      "team": "SEA",
+      "opp": "OAK",
+      "market": "strikeouts",
+      "proj": 6.8,
+      "std": 2.2,
+      "line": 5.5,
+      "over_price": 118,
+      "under_price": -158,
+      "pick": "OVER",
+      "edge": 1.3,
+      "pCover": 0.704,
+      "conf": "high",
+      "odds": 118,
+      "to_win_1u": 0.85,
+      "date": "2026-04-20",
+      "lockState": "lineup_confirmed",
+      "lockedAt": "2026-04-20T22:20:46.367272Z"
     }
   ],
-  "summary": "4 picks from 16 projections",
+  "summary": "5 picks from 16 projections",
   "date": "2026-04-20",
   "todayProjections": [
     {
@@ -1495,7 +1515,7 @@
       "pCover": 0.535,
       "conf": "low",
       "date": "2026-04-20",
-      "lockState": "lineup_confirmed",
+      "lockState": "game_started",
       "lockedAt": "2026-04-20T19:45:38.472109Z"
     },
     {
@@ -1697,8 +1717,8 @@
       "pCover": 0.52,
       "conf": "low",
       "date": "2026-04-20",
-      "lockState": "pending",
-      "lockedAt": null
+      "lockState": "lineup_confirmed",
+      "lockedAt": "2026-04-20T22:20:46.367272Z"
     },
     {
       "player": "Dylan Cease",
@@ -1717,8 +1737,8 @@
       "odds": -112,
       "to_win_1u": 1.12,
       "date": "2026-04-20",
-      "lockState": "pending",
-      "lockedAt": null
+      "lockState": "lineup_confirmed",
+      "lockedAt": "2026-04-20T22:20:46.367272Z"
     }
   ],
   "game_hits": [],
