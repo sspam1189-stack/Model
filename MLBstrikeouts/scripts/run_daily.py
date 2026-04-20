@@ -622,20 +622,36 @@ def run_daily(date_key=None):
             _pkey(p): p for p in existing_props if p.get("date") == date_iso
         }
 
-        # LOCK: keep every existing pick for a locked team (started OR confirmed).
-        # This is the never-erase guarantee.
-        today_existing_locked = [
+        # LOCK: the rule is "lock at lineup confirmation OR first pitch, based
+        # on the CURRENT projection at that moment." So we split existing
+        # locked picks into two groups:
+        #   - already-locked: entry's prior lockState was already a lock
+        #     state (lineup_confirmed / game_started / final). Preserve as-is.
+        #   - just-transitioning: entry was pending before, team is now locked
+        #     this run. Re-validate against the fresh projection — if the
+        #     fresh run no longer produces it as a pick, DROP it rather than
+        #     lock a stale projection.
+        _LOCK_STATES = ("lineup_confirmed", "game_started", "final")
+        already_locked_entries = [
             p for p in existing_props
-            if p.get("date") == date_iso and p.get("team", "") in locked_teams
+            if p.get("date") == date_iso
+            and p.get("team", "") in locked_teams
+            and p.get("lockState") in _LOCK_STATES
         ]
-        locked_keys = {_pkey(p) for p in today_existing_locked}
+        transitioning_keys = {
+            _pkey(p) for p in existing_props
+            if p.get("date") == date_iso
+            and p.get("team", "") in locked_teams
+            and p.get("lockState") not in _LOCK_STATES
+        }
+        locked_keys = {_pkey(p) for p in already_locked_entries}
 
         # Fresh picks:
         #   - Unlocked teams: always add (normal case).
-        #   - Locked teams: allow only if no prior pick exists for that
-        #     (team, player, market). This lets a pitcher who first qualifies
-        #     as a pick after lineup confirmation still show up, while never
-        #     overwriting an already-locked pick.
+        #   - Just-transitioning teams (pending → locked this run): add if the
+        #     fresh projection still qualifies. This is the re-validation gate.
+        #   - Already-locked teams: only add if no prior pick exists (first-time
+        #     pickup — original fix). Never overwrite an already-locked pick.
         today_fresh = []
         existing_today_keys = set(existing_today_by_key.keys())
         for p in combined.get("props", []):
@@ -643,46 +659,55 @@ def run_daily(date_key=None):
                 continue
             k = _pkey(p)
             if k in locked_keys:
-                continue  # defensive dedup against carried-forward locked picks
+                continue  # defensive dedup against already-locked picks
             team = p.get("team", "")
-            if team in locked_teams and k in existing_today_keys:
-                continue  # locked team with an existing pick — that one wins
+            if team in locked_teams and k in existing_today_keys and k not in transitioning_keys:
+                # Team was already locked before this run AND had a prior pick.
+                # Don't overwrite.
+                continue
             today_fresh.append(_stamp(p, existing_today_by_key.get(k)))
 
-        # Re-stamp existing locked picks so their lockState is current
-        # (a pick locked earlier at "lineup_confirmed" upgrades to "game_started"
-        # once the team is in started_teams).
+        # Re-stamp already-locked picks so their lockState ladder is current
+        # (lineup_confirmed → game_started as games start).
         today_existing_locked = [
-            _stamp(dict(p), p) for p in today_existing_locked
+            _stamp(dict(p), p) for p in already_locked_entries
         ]
 
         merged_props = kept + today_existing_locked + today_fresh
 
-        # PENDING-TEAM FRESHNESS RULE (explicit):
-        # Teams that are NOT yet locked (no confirmed lineup, no first pitch)
-        # must always reflect the latest projection. If a prior pick exists in
-        # existing_props but the current run did not produce it as a pick
-        # (pCover dropped below threshold), drop it. Locks only take effect
-        # AFTER lineup confirmation — before that, picks are freely overwritten
-        # by fresh projections.
+        # FRESHNESS LOGGING: report picks dropped during this merge.
+        #   - stale_pending: team still pending, new projection no longer a pick.
+        #   - stale_at_lock: team just transitioned to locked this run, but
+        #     the fresh projection no longer qualifies → pick dropped at the
+        #     moment of lock rather than getting a stale pick frozen in.
         today_fresh_keys = {_pkey(p) for p in today_fresh}
-        locked_keys_today = {_pkey(p) for p in today_existing_locked}
-        stale_pending = []
+        stale_pending, stale_at_lock = [], []
         for p in existing_props:
             if p.get("date") != date_iso:
                 continue
             k = _pkey(p)
             team = p.get("team", "")
+            if k in today_fresh_keys:
+                continue
+            if k in {_pkey(x) for x in already_locked_entries}:
+                continue  # survived via already-locked preservation
             if team in locked_teams:
-                continue  # locked-team picks are never touched here
-            if k not in today_fresh_keys:
-                stale_pending.append(p)
+                stale_at_lock.append(p)   # transitioning & not re-validated
+            else:
+                stale_pending.append(p)   # pending & projection dropped
         if stale_pending:
             names = ", ".join(f"{p.get('player','?')}({p.get('team','?')})"
                               for p in stale_pending[:5])
             extra = "..." if len(stale_pending) > 5 else ""
-            print(f"  [merge] Dropped {len(stale_pending)} stale pending-team "
-                  f"picks (projection now PASS): {names}{extra}")
+            print(f"  [merge] Dropped {len(stale_pending)} stale pending picks "
+                  f"(projection now PASS): {names}{extra}")
+        if stale_at_lock:
+            names = ", ".join(f"{p.get('player','?')}({p.get('team','?')})"
+                              for p in stale_at_lock[:5])
+            extra = "..." if len(stale_at_lock) > 5 else ""
+            print(f"  [merge] Dropped {len(stale_at_lock)} picks at lock "
+                  f"(lineup confirmed, fresh projection no longer a pick): "
+                  f"{names}{extra}")
 
         # NEVER-SHRINK GUARD: refuse to drop any previously locked today pick.
         # Compare today's locked picks before/after; crash loudly if any vanish.
