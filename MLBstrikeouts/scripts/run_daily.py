@@ -481,6 +481,45 @@ def run_daily(date_key=None):
     picks = [p for p in projections if p["pick"] != "PASS"]
     print(f"  {len(projections)} projections, {len(picks)} actionable picks")
 
+    # Projection-input trace: dump every K projection's inputs+intermediates
+    # to a per-day JSONL. Run-to-run divergences are diffable by (player, market)
+    # across `run_ts` lines. Kept out of mlb-props.json to avoid schema churn.
+    try:
+        import datetime as _dt
+        _run_ts = _dt.datetime.utcnow().isoformat() + "Z"
+        _trace_path = os.path.join(SCRIPT_DIR, "..", "data",
+                                   f"proj_debug_{date_iso.replace('-','')}.jsonl")
+        os.makedirs(os.path.dirname(_trace_path), exist_ok=True)
+        with open(_trace_path, "a") as _tf:
+            for _p in projections:
+                _dbg = _p.get("_debug")
+                if not _dbg:
+                    continue
+                _tf.write(json.dumps({
+                    "run_ts": _run_ts,
+                    "date": date_iso,
+                    "player": _p.get("player"),
+                    "team": _p.get("team"),
+                    "opp": _p.get("opp"),
+                    "market": _p.get("market"),
+                    "line": _p.get("line"),
+                    "over_price": _p.get("over_price"),
+                    "under_price": _p.get("under_price"),
+                    "proj": _p.get("proj"),
+                    "std": _p.get("std"),
+                    "pCover": _p.get("pCover"),
+                    "pick": _p.get("pick"),
+                    **_dbg,
+                }, default=str) + "\n")
+        print(f"  [trace] Wrote projection debug trace → {os.path.basename(_trace_path)}")
+    except Exception as _e:
+        print(f"  [trace] Failed to write projection trace: {_e}")
+
+    # Strip _debug from projections before dashboard output so mlb-props.json
+    # stays lean. Debug data lives in proj_debug_<date>.jsonl only.
+    for _p in projections:
+        _p.pop("_debug", None)
+
     # Stage 14: Project total game hits — DISABLED (market is in DISABLED_MARKETS).
     # Stage numbering preserved ([15/19]..[18/19]) for consistency with logs/tooling.
     # Re-enable by removing "game_hits" from DISABLED_MARKETS in defaults.py and

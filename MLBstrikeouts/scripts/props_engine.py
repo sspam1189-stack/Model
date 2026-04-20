@@ -494,7 +494,34 @@ def project_pitcher_props(pitcher_logs, team_batting_stats=None,
                 k_kalman_var = _kp.get("var", 0.0)
 
                 # Rest adjustment
+                _pre_rest_proj = model_proj
                 model_proj = _apply_rest_adjustment(model_proj, market, rest_days)
+
+                _dbg_opp_pids = (lineup_data or {}).get(latest_opp, {}).get("player_ids", []) or []
+                import hashlib as _hl
+                _k_debug = {
+                    "k_rate_vs_lhb": round(k_rate_vs_lhb, 5),
+                    "k_rate_vs_rhb": round(k_rate_vs_rhb, 5),
+                    "pct_lhb": round(pct_lhb, 5),
+                    "pitcher_k_rate": round(pitcher_k_rate, 5),
+                    "lineup_k_rate": round(lineup_k_rate, 5),
+                    "opp_n_players": len(_dbg_opp_pids),
+                    "opp_player_ids_hash": _hl.sha1(
+                        ",".join(str(x) for x in _dbg_opp_pids).encode()
+                    ).hexdigest()[:10],
+                    "opp_confirmed": bool((lineup_data or {}).get(latest_opp, {}).get("confirmed")),
+                    "lg_k_rate": round(lg_k_rate, 5),
+                    "expected_k_rate": round(expected_k_rate, 5),
+                    "projected_bf": round(projected_bf, 3),
+                    "temp": locals().get("_temp"),
+                    "k_weather_mult": round(k_weather_mult, 4),
+                    "model_proj_rate": round(expected_k_rate * projected_bf * k_weather_mult, 4),
+                    "kalman_proj": round(kalman_proj, 4),
+                    "k_kalman_var": round(k_kalman_var, 4),
+                    "proj_pre_rest": round(_pre_rest_proj, 4),
+                    "rest_days": rest_days,
+                    "proj_final": round(model_proj, 4),
+                }
 
             # =============================================================
             # HITS ALLOWED: Decomposition model
@@ -769,6 +796,10 @@ def project_pitcher_props(pitcher_logs, team_batting_stats=None,
             # --- 8. Make pick ---
             prop = _make_prop(name, team, market, proj, std, line_lookup, latest_opp)
             if prop:
+                if market == "strikeouts":
+                    _dbg = locals().get("_k_debug")
+                    if _dbg is not None:
+                        prop["_debug"] = _dbg
                 projections.append(prop)
 
     # --- Game hits (game-level market) ---
