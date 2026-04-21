@@ -302,7 +302,7 @@
           const tbl = document.createElement('table');
           tbl.className = 'props-data-table';
           tbl.style.cssText = 'width:100%;border-collapse:collapse;margin-top:8px';
-          const todayHeaders = ['Pitcher','Team','Opp','Cat','Proj','Line','Edge','Price','Pick','Lock','Status'];
+          const todayHeaders = ['Pitcher','Team','Opp','Cat','Proj','Line','Edge','Price','Pick','Confirmed','Status'];
           const hRow = tbl.createTHead().insertRow();
           todayHeaders.forEach((h, i) => {
             const th = document.createElement('th');
@@ -338,11 +338,11 @@
               const tPrice = p.odds != null ? (p.odds > 0 ? '+'+p.odds : String(p.odds)) : '\u2014';
               const gt = gameTimesToday[p.team] || gameTimesToday[p.opp] || '';
               const started = gt ? (new Date(gt).getTime() <= Date.now()) : false;
-              // Lock indicator: 🔒 if pick is locked (lineup_confirmed / game_started / final),
-              // 🔓 if still pending (projection can change on next run)
+              // Confirmed = lineup_confirmed / game_started / final (projection locked
+              // using real confirmed lineup). Otherwise unconfirmed (pending).
               const _LOCK_STATES = new Set(['lineup_confirmed','game_started','final']);
-              const isLocked = _LOCK_STATES.has(p.lockState);
-              const lockIcon = isLocked ? '\u{1F512}' : '\u{1F513}';
+              const isConfirmed = _LOCK_STATES.has(p.lockState);
+              const confText = isConfirmed ? 'Confirmed' : 'Unconfirmed';
               const cells = [
                 displayName(p), p.team || '', p.opp || '',
                 marketLabels[p.market] || p.market,
@@ -350,7 +350,7 @@
                 p.line != null ? String(p.line) : '\u2014',
                 tEdgeStr, tPrice,
                 p.pick === 'OVER' ? 'O' : 'U',
-                lockIcon,
+                confText,
                 started ? '\u{1F552}' : ''
               ];
               cells.forEach((val, i) => {
@@ -363,7 +363,12 @@
                 if (i === 6 && tEdge != null) td.style.color = tEdge > 0 ? 'var(--green)' : tEdge < 0 ? 'var(--red)' : '#999';
                 if (i === 7) td.style.color = '#999';
                 if (i === 8) { td.style.fontWeight = '700'; td.style.color = p.pick === 'OVER' ? 'var(--green)' : 'var(--red)'; }
-                if (i === 9) { td.title = p.lockState || 'pending'; td.style.fontSize = '13px'; }
+                if (i === 9) {
+                  td.title = p.lockState || 'pending';
+                  td.style.fontSize = '11px';
+                  td.style.fontWeight = '600';
+                  td.style.color = isConfirmed ? 'var(--green)' : '#999';
+                }
               });
             }
             tbody.replaceWith(newBody);
