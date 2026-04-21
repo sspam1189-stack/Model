@@ -282,22 +282,23 @@ function fmtNum(v, d) { return Number.isFinite(v) ? v.toFixed(d) : '\u2014'; }
 function winPct(w, l) { return (w + l) > 0 ? (100 * w / (w + l)) : 0; }
 function fmtPct(v) { return Number.isFinite(v) ? v.toFixed(2) + '%' : '\u2014'; }
 function fmtProb(v) { return Number.isFinite(v) ? (v * 100).toFixed(2) + '%' : '\u2014'; }
-// Per-pick unit calculation using actual American odds.
-// Win: +odds/100 if + odds, +100/|odds| if - odds. Loss: -1 if + odds, -|odds|/100 if - odds.
+// Per-pick unit calculation using risk-to-win-1u convention (industry std).
+//   + odds: risk 1u to win (odds/100)u   → WIN +odds/100, LOSS -1
+//   - odds: risk (|odds|/100)u to win 1u → WIN +1, LOSS -|odds|/100
 function pickUnit(p) {
   if (!p || !p.result || (p.result !== 'WIN' && p.result !== 'LOSS')) return 0;
   const o = (p.odds !== null && p.odds !== undefined) ? Number(p.odds) : -110;
   const win = p.result === 'WIN';
   if (o > 0) return win ? (o / 100) : -1;
-  return win ? (100 / Math.abs(o)) : -(Math.abs(o) / 100);
+  return win ? 1 : -(Math.abs(o) / 100);
 }
 function calcUnits(w, l, picks) {
   if (Array.isArray(picks) && picks.length) {
     const u = picks.reduce((a, p) => a + pickUnit(p), 0);
     return Math.round(u * 100) / 100;
   }
-  // Fallback: -110 flat assumption when per-pick odds unavailable
-  return Math.round((w * (100/110) - l) * 100) / 100;
+  // Fallback: -110 assumption (risk-to-win-1u): WIN=+1u, LOSS=-1.1u
+  return Math.round((w - l * 1.1) * 100) / 100;
 }
 function fmtUnits(u) { return (u >= 0 ? '+' : '') + u.toFixed(2) + 'u'; }
 function confBadge(conf) {
