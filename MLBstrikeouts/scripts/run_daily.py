@@ -615,14 +615,18 @@ def run_daily(date_key=None):
 
         existing = {}
         existing_props = []
+        existing_today_proj = []
         try:
             if os.path.exists(path):
                 with open(path, "r") as f:
                     existing = json.load(f)
                 existing_props = existing.get("props", [])
+                existing_today_proj = [p for p in existing.get("todayProjections", [])
+                                       if p.get("date") == date_iso]
         except Exception:
             existing = {}
             existing_props = []
+            existing_today_proj = []
 
         # Keep picks from OTHER dates (already graded / historical)
         kept = [p for p in existing_props if p.get("date") != date_iso]
@@ -632,6 +636,17 @@ def run_daily(date_key=None):
             return (p.get("team", ""), p.get("player", ""), p.get("market", ""))
         existing_today_by_key = {
             _pkey(p): p for p in existing_props if p.get("date") == date_iso
+        }
+        # Also index existing todayProjections so we can see locked PASS
+        # decisions (which don't appear in props). Projections also carry
+        # lockState, so "opp confirmed at time X, projection was PASS" is
+        # stored here and must block later runs from flipping to a pick.
+        existing_proj_by_key = {_pkey(p): p for p in existing_today_proj}
+        # A key is "already locked via projections" if its prior projection
+        # had lockState in _LOCK_STATES (set at or after opp confirmation).
+        proj_locked_keys = {
+            k for k, p in existing_proj_by_key.items()
+            if p.get("lockState") in ("lineup_confirmed", "game_started", "final")
         }
 
         # LOCK: the rule is "lock at lineup confirmation OR first pitch, based
@@ -662,8 +677,9 @@ def run_daily(date_key=None):
         #   - Unlocked: always add (normal case).
         #   - Just-transitioning (opp was pending, opp is locked this run):
         #     add if the fresh projection still qualifies.
-        #   - Already-locked (opp was locked in a prior run): only add if no
-        #     prior pick exists. Never overwrite an already-locked pick.
+        #   - Already-locked (opp was locked in a prior run): never add a new
+        #     pick — the projection was frozen at confirmation time. This
+        #     applies whether the prior state was a PICK or a PASS.
         today_fresh = []
         existing_today_keys = set(existing_today_by_key.keys())
         for p in combined.get("props", []):
@@ -672,9 +688,13 @@ def run_daily(date_key=None):
             k = _pkey(p)
             if k in locked_keys:
                 continue  # defensive dedup against already-locked picks
+            if k in proj_locked_keys and k not in transitioning_keys:
+                # Projection was already locked in a prior run (PASS or pick).
+                # Drift in later runs must not flip the decision.
+                continue
             if _is_locked(p) and k in existing_today_keys and k not in transitioning_keys:
                 # Opponent was already locked before this run AND had a prior
-                # pick. Don't overwrite.
+                # pick in props. Don't overwrite.
                 continue
             today_fresh.append(_stamp(p, existing_today_by_key.get(k)))
 
