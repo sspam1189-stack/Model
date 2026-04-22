@@ -696,6 +696,14 @@ def run_daily(date_key=None):
                 # Opponent was already locked before this run AND had a prior
                 # pick in props. Don't overwrite.
                 continue
+            if (_is_locked(p)
+                and k not in existing_today_keys
+                and k not in existing_proj_by_key):
+                # First-time entry for an already-locked/started game: the
+                # odds feed only just started publishing this line, so we
+                # have no pre-lock projection to anchor to. Refuse to lock
+                # in a post-first-pitch pick out of thin air.
+                continue
             today_fresh.append(_stamp(p, existing_today_by_key.get(k)))
 
         # Re-stamp already-locked picks so their lockState ladder is current
