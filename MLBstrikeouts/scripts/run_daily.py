@@ -822,6 +822,10 @@ def run_daily(date_key=None):
         def _merge_projections(existing_list, fresh_list):
             _LS = ("lineup_confirmed", "game_started", "final")
             existing_today = [p for p in existing_list if p.get("date") == date_iso]
+            existing_today_keys = {
+                (p.get("team",""), p.get("player",""), p.get("market",""))
+                for p in existing_today
+            }
             # Only entries that were ALREADY locked before this run carry forward
             already_locked_proj = {
                 (p.get("team",""), p.get("player",""), p.get("market","")): p
@@ -837,6 +841,12 @@ def run_daily(date_key=None):
             for p in fresh_list:
                 k = (p.get("team",""), p.get("player",""), p.get("market",""))
                 if k in seen:
+                    continue
+                if _is_locked(p) and k not in existing_today_keys:
+                    # First-time projection for an already-locked/started game:
+                    # no pre-lock projection to anchor to, so refuse to emit a
+                    # post-first-pitch projection out of thin air (mirrors the
+                    # guard in the props merge loop).
                     continue
                 # Fresh entry (used current lineup data). Stamp lock if team
                 # is locked this run — this captures the "transitioning" case
