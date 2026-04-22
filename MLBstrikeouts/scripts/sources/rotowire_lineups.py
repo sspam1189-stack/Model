@@ -23,6 +23,13 @@ CACHE_DIR.mkdir(parents=True, exist_ok=True)
 
 _UA = "Mozilla/5.0 (compatible; MLB-Model/1.0)"
 
+# Rotowire uses "ATH" for the Sacramento Athletics (formerly OAK).
+# Unknown team codes silently fall through to ARI's default page, so we
+# must translate rather than trust the model's abbreviation verbatim.
+_ROTOWIRE_ABBR_ALIASES = {
+    "OAK": "ATH",
+}
+
 # Matches: Default vs. RHP</div> ... <ol class="list is-rankings ..."> ... </ol>
 _SECTION_RE = re.compile(
     r'Default vs\. (RHP|LHP)\s*</div>\s*'
@@ -82,7 +89,8 @@ def fetch_default_lineup(team_abbr: str, vs_hand: str, date_str: str,
         except Exception:
             cached = None
 
-    url = f"https://www.rotowire.com/baseball/batting-orders.php?team={team_abbr}"
+    rw_abbr = _ROTOWIRE_ABBR_ALIASES.get(team_abbr, team_abbr)
+    url = f"https://www.rotowire.com/baseball/batting-orders.php?team={rw_abbr}"
     try:
         req = urllib.request.Request(url, headers={"User-Agent": _UA})
         html = urllib.request.urlopen(req, timeout=15).read().decode(
