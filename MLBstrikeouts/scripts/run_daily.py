@@ -55,6 +55,10 @@ from sources.park_factors import compute_park_factors
 from sources.odds_fanduel import fetch_fanduel_mlb_props, fetch_fanduel_mlb_batter_props
 from sources.odds_bovada import fetch_bovada_mlb_batter_props
 from sources.odds_theoddsapi import fetch_mlb_pitcher_props, fetch_mlb_batter_props
+from sources.rotowire_lineups import (
+    fetch_default_lineup as fetch_rotowire_default_lineup,
+    fetch_team_roster_name_to_id as fetch_rotowire_team_roster,
+)
 from props_engine import organize_pitcher_logs, project_pitcher_props, format_props_for_dashboard, STAT_KEYS
 from game_hits_engine import project_game_hits, format_game_hits_for_dashboard
 from batter_props_engine import project_batter_tb, format_batter_props_for_dashboard
@@ -295,6 +299,20 @@ def run_daily(date_key=None):
         print(f"  {len(all_probable)} total games, {len(started_teams)//2} already started (picks preserved, projecting all)")
     print(f"  {len(probable)} games to project")
 
+    # Map team_abbr → opposing probable pitcher id, for Rotowire vs-hand
+    # fallback when the official lineup isn't posted yet.
+    opposing_pitcher_by_team = {}
+    for _g in all_probable:
+        if _g.get("home_team") and _g.get("away_pitcher_id"):
+            opposing_pitcher_by_team[_g["home_team"]] = _g["away_pitcher_id"]
+        if _g.get("away_team") and _g.get("home_pitcher_id"):
+            opposing_pitcher_by_team[_g["away_team"]] = _g["home_pitcher_id"]
+
+    # Load pitcher throw-hands now (needed for Rotowire vs-hand fallback in
+    # the lineup block below; load_pitch_hands is cached so the later call
+    # at stage 9b reuses the result).
+    _pitch_hands_early = load_pitch_hands(season=season)
+
     # Stage 7: Fetch handedness splits for probable starters only
     print(f"\n  [7/19] Fetching handedness splits for probable starters...")
     pitcher_ids = set()
@@ -374,8 +392,35 @@ def run_daily(date_key=None):
                             })
                         confirmed = len(lineup_entries) >= 9
                         pids = [p.get("id") for p in players]
-                        # Fallback: use team's most recent batting order when today's
-                        # lineup isn't posted yet
+                        # Fallback chain when today's lineup isn't posted:
+                        #   1. Rotowire "Default vs RHP/LHP" (matches opposing
+                        #      starter's hand — closest to the real lineup).
+                        #   2. Team's most recent batting order (from prior
+                        #      game log; shaped by the PREVIOUS opponent's
+                        #      starter hand, so less accurate).
+                        _lineup_source = None
+                        if not pids:
+                            opp_pid = opposing_pitcher_by_team.get(abbr)
+                            vs_hand = _pitch_hands_early.get(opp_pid) if opp_pid else None
+                            if vs_hand in ("R", "L"):
+                                rw = fetch_rotowire_default_lineup(
+                                    abbr, vs_hand, date_iso
+                                ) or []
+                                if rw:
+                                    from sources.rotowire_lineups import _norm_name
+                                    roster = fetch_rotowire_team_roster(team_id)
+                                    resolved = []
+                                    for e in rw:
+                                        pid = roster.get(_norm_name(e["name"]))
+                                        if pid:
+                                            resolved.append((pid, e["name"]))
+                                    if len(resolved) >= 5:
+                                        pids = [pid for pid, _ in resolved]
+                                        lineup_entries = [
+                                            {"batter_id": pid, "name": nm, "slot": i + 1}
+                                            for i, (pid, nm) in enumerate(resolved)
+                                        ]
+                                        _lineup_source = f"rotowire_default_vs_{vs_hand}HP"
                         if not pids:
                             from sources.mlb_stats import get_recent_batting_order
                             recent = get_recent_batting_order(abbr, season=season, before_date=date_iso)
@@ -385,10 +430,13 @@ def run_daily(date_key=None):
                                     {"batter_id": pid, "name": "", "slot": i + 1}
                                     for i, pid in enumerate(recent)
                                 ]
+                                _lineup_source = "recent_lineup_fallback"
                         lineup_data[abbr] = {
                             "player_ids": pids,
                             "lineup": lineup_entries,
                             "confirmed": confirmed,
+                            "source": ("lineup" if confirmed else
+                                       (_lineup_source or "none")),
                             "implied_runs": None,  # could be filled from totals odds later
                         }
         except Exception:
