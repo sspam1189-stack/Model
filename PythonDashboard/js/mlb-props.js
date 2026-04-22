@@ -542,6 +542,8 @@
             ['Cover%', 'cover', false],
             ['Pick',   null, false],
             ['Price',  null, false],
+            ['Confirmed', null, false],
+            ['Status', null, false],
           ];
           cols.forEach(([label, key, leftAlign], i) => {
             const th = document.createElement('th');
@@ -558,6 +560,8 @@
           });
 
           const tbody = tbl.createTBody();
+          const _LOCK_STATES_TBL = new Set(['lineup_confirmed','game_started','final']);
+          const _gameTimes = data.gameTimes || {};
           for (const p of pageRows) {
             const row = tbody.insertRow();
             row.style.borderBottom = '1px solid rgba(255,255,255,0.04)';
@@ -577,11 +581,18 @@
               if (p.proj > p.line && p.over_price != null) priceStr = fmtOdds(p.over_price);
               else if (p.proj < p.line && p.under_price != null) priceStr = fmtOdds(p.under_price);
             }
+            const isConfirmed = _LOCK_STATES_TBL.has(p.lockState);
+            const confText = isConfirmed ? 'Confirmed' : 'Unconfirmed';
+            const gt = _gameTimes[p.team] || _gameTimes[p.opp] || '';
+            const started = gt ? (new Date(gt).getTime() <= Date.now()) : false;
+            const statusStr = started ? '\u{1F552}' : '';
             [displayName(p), p.team||'', marketLabels[p.market]||p.market,
              p.proj!=null?String(p.proj):'\u2014', p.line!=null?String(p.line):'\u2014',
              edgeStr, coverStr,
              isPick?(p.pick==='OVER'?'O':'U'):'\u2014',
-             priceStr
+             priceStr,
+             confText,
+             statusStr
             ].forEach((v,i) => {
               const td = row.insertCell();
               td.textContent = v;
@@ -593,6 +604,12 @@
               if (i===6 && p.pCover!=null) td.style.color = p.pCover >= 0.65 ? 'var(--green)' : p.pCover <= 0.45 ? 'var(--red)' : '#ccc';
               if (i===7 && isPick) { td.style.fontWeight='700'; td.style.color = p.pick==='OVER'?'var(--green)':'var(--red)'; }
               if (i===8) td.style.color = '#999';
+              if (i===9) {
+                td.title = p.lockState || 'pending';
+                td.style.fontSize = '11px';
+                td.style.fontWeight = '600';
+                td.style.color = isConfirmed ? 'var(--green)' : '#999';
+              }
             });
           }
           tableWrap.appendChild(tbl);
