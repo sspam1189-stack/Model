@@ -4,7 +4,7 @@
   "season": "2026",
   "mode": "live",
   "model": "kalman_blend",
-  "generated": "2026-04-22T17:11:04.926501",
+  "generated": "2026-04-22T18:27:11.611921",
   "totalProjections": 26,
   "totalPicks": 91,
   "props": [
@@ -1927,7 +1927,7 @@
       "pCover": 0.572,
       "conf": "low",
       "date": "2026-04-22",
-      "lockState": "lineup_confirmed",
+      "lockState": "game_started",
       "lockedAt": "2026-04-22T19:19:55.360794Z"
     },
     {
@@ -1945,7 +1945,7 @@
       "pCover": 0.646,
       "conf": "low",
       "date": "2026-04-22",
-      "lockState": "lineup_confirmed",
+      "lockState": "game_started",
       "lockedAt": "2026-04-22T19:19:55.360794Z"
     },
     {
@@ -1963,7 +1963,7 @@
       "pCover": 0.511,
       "conf": "low",
       "date": "2026-04-22",
-      "lockState": "lineup_confirmed",
+      "lockState": "game_started",
       "lockedAt": "2026-04-22T19:19:55.360794Z"
     },
     {
@@ -1981,7 +1981,7 @@
       "pCover": 0.692,
       "conf": "low",
       "date": "2026-04-22",
-      "lockState": "lineup_confirmed",
+      "lockState": "game_started",
       "lockedAt": "2026-04-22T19:44:32.595594Z"
     },
     {
@@ -1999,7 +1999,7 @@
       "pCover": 0.673,
       "conf": "low",
       "date": "2026-04-22",
-      "lockState": "lineup_confirmed",
+      "lockState": "game_started",
       "lockedAt": "2026-04-22T20:35:18.112228Z"
     },
     {
@@ -2115,24 +2115,6 @@
       "lockedAt": "2026-04-22T22:11:04.927688Z"
     },
     {
-      "player": "Tyler Mahle",
-      "team": "SF",
-      "opp": "LAD",
-      "market": "strikeouts",
-      "proj": 5.5,
-      "std": 2.1,
-      "line": 4.5,
-      "over_price": -106,
-      "under_price": -125,
-      "pick": "PASS",
-      "edge": 1.0,
-      "pCover": 0.676,
-      "conf": "low",
-      "date": "2026-04-22",
-      "lockState": "pending",
-      "lockedAt": null
-    },
-    {
       "player": "Jack Leiter",
       "team": "TEX",
       "opp": "PIT",
@@ -2149,6 +2131,24 @@
       "date": "2026-04-22",
       "lockState": "lineup_confirmed",
       "lockedAt": "2026-04-22T22:11:04.927688Z"
+    },
+    {
+      "player": "Tyler Mahle",
+      "team": "SF",
+      "opp": "LAD",
+      "market": "strikeouts",
+      "proj": 5.3,
+      "std": 2.1,
+      "line": 4.5,
+      "over_price": -104,
+      "under_price": -128,
+      "pick": "PASS",
+      "edge": 0.8,
+      "pCover": 0.646,
+      "conf": "low",
+      "date": "2026-04-22",
+      "lockState": "lineup_confirmed",
+      "lockedAt": "2026-04-22T23:27:11.613397Z"
     }
   ],
   "game_hits": [],
