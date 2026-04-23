@@ -2,136 +2,126 @@
   "teams": {
     "Atlanta Hawks": {
       "adj_mean": -0.700928371759064,
-      "adj_var": 7.562049270629217
+      "adj_var": 7.712049270629217
     },
     "Boston Celtics": {
       "adj_mean": 1.2762675141024593,
-      "adj_var": 7.321777399420002
+      "adj_var": 7.471777399420002
     },
     "Brooklyn Nets": {
       "adj_mean": -2.575313404146148,
-      "adj_var": 8.040406421120922
+      "adj_var": 8.190406421120922
     },
     "Charlotte Hornets": {
       "adj_mean": -0.6816392167045888,
-      "adj_var": 7.616455958538058
+      "adj_var": 7.766455958538058
     },
     "Chicago Bulls": {
       "adj_mean": -1.8318150469188117,
-      "adj_var": 8.103143198962993
+      "adj_var": 8.253143198962993
     },
     "Cleveland Cavaliers": {
       "adj_mean": -0.2045094028450951,
-      "adj_var": 7.50724675047653
+      "adj_var": 7.6572467504765305
     },
     "Dallas Mavericks": {
       "adj_mean": 0.6543072393967355,
-      "adj_var": 8.138698489315836
+      "adj_var": 8.288698489315836
     },
     "Denver Nuggets": {
       "adj_mean": 1.6281546635313155,
-      "adj_var": 7.561621008280983
+      "adj_var": 7.711621008280983
     },
     "Detroit Pistons": {
-      "adj_mean": -0.3497788634220761,
-      "adj_var": 7.651492284938363
+      "adj_mean": 0.04381721591533505,
+      "adj_var": 7.432645559719332
     },
     "Golden State Warriors": {
       "adj_mean": -1.2745764153895238,
-      "adj_var": 7.502117054229051
+      "adj_var": 7.652117054229051
     },
     "Houston Rockets": {
       "adj_mean": -0.8144606384513235,
-      "adj_var": 7.2379600926943715
+      "adj_var": 7.387960092694372
     },
     "Indiana Pacers": {
       "adj_mean": 2.9835801307838072,
-      "adj_var": 8.169040006374845
+      "adj_var": 8.319040006374845
     },
     "LA Clippers": {
       "adj_mean": -1.2433061917396508,
-      "adj_var": 7.77660156998946
+      "adj_var": 7.926601569989461
     },
     "Los Angeles Lakers": {
       "adj_mean": 1.6615421321229116,
-      "adj_var": 7.35728218685164
+      "adj_var": 7.50728218685164
     },
     "Memphis Grizzlies": {
       "adj_mean": -3.9236338880579296,
-      "adj_var": 7.961695616262713
+      "adj_var": 8.111695616262713
     },
     "Miami Heat": {
       "adj_mean": 0.7997425642572858,
-      "adj_var": 7.941025390876895
+      "adj_var": 8.091025390876895
     },
     "Milwaukee Bucks": {
       "adj_mean": -0.22013054094719248,
-      "adj_var": 7.9481112860458545
+      "adj_var": 8.098111286045855
     },
     "Minnesota Timberwolves": {
       "adj_mean": 0.8313623259759804,
-      "adj_var": 7.478921049908192
+      "adj_var": 7.628921049908192
     },
     "New Orleans Pelicans": {
       "adj_mean": -0.43226453717839364,
-      "adj_var": 8.420142510059437
+      "adj_var": 8.570142510059437
     },
     "New York Knicks": {
       "adj_mean": 0.3193652939053187,
-      "adj_var": 7.5459897978702655
+      "adj_var": 7.695989797870266
     },
     "Oklahoma City Thunder": {
-      "adj_mean": -0.6319373078578157,
-      "adj_var": 7.881439393354626
+      "adj_mean": -0.6415014192241159,
+      "adj_var": 7.641031644797084
     },
     "Orlando Magic": {
-      "adj_mean": 2.615123136572148,
-      "adj_var": 7.073881111573346
+      "adj_mean": 2.251239626332594,
+      "adj_var": 6.908620905155877
     },
     "Philadelphia 76ers": {
       "adj_mean": 2.563021884157691,
-      "adj_var": 7.104821341899
+      "adj_var": 7.254821341899
     },
     "Phoenix Suns": {
-      "adj_mean": -1.4250148386273582,
-      "adj_var": 7.2267933213625675
+      "adj_mean": -1.416245138995458,
+      "adj_var": 7.048547945126547
     },
     "Portland Trail Blazers": {
       "adj_mean": 1.428575823043391,
-      "adj_var": 7.316015449468627
+      "adj_var": 7.466015449468627
     },
     "Sacramento Kings": {
       "adj_mean": 1.1978714095043332,
-      "adj_var": 8.389999843393285
+      "adj_var": 8.539999843393286
     },
     "San Antonio Spurs": {
       "adj_mean": -0.5142440149022023,
-      "adj_var": 7.395136167637507
+      "adj_var": 7.545136167637508
     },
     "Toronto Raptors": {
       "adj_mean": -1.014349206820743,
-      "adj_var": 7.3524467866483345
+      "adj_var": 7.502446786648335
     },
     "Utah Jazz": {
       "adj_mean": 0.0889501449610624,
-      "adj_var": 8.261347558873235
+      "adj_var": 8.411347558873235
     },
     "Washington Wizards": {
       "adj_mean": -1.1083864559713377,
-      "adj_var": 7.952158922596005
+      "adj_var": 8.102158922596004
     }
   },
   "processedGames": {
-    "20260323:Los Angeles Lakers@Detroit Pistons": true,
-    "20260323:Indiana Pacers@Orlando Magic": true,
-    "20260323:Oklahoma City Thunder@Philadelphia 76ers": true,
-    "20260323:San Antonio Spurs@Miami Heat": true,
-    "20260323:Memphis Grizzlies@Atlanta Hawks": true,
-    "20260323:Houston Rockets@Chicago Bulls": true,
-    "20260323:Toronto Raptors@Utah Jazz": true,
-    "20260323:Golden State Warriors@Dallas Mavericks": true,
-    "20260323:Brooklyn Nets@Portland Trail Blazers": true,
-    "20260323:Milwaukee Bucks@LA Clippers": true,
     "20260324:Sacramento Kings@Charlotte Hornets": true,
     "20260324:New Orleans Pelicans@New York Knicks": true,
     "20260324:Orlando Magic@Cleveland Cavaliers": true,
@@ -306,9 +296,11 @@
     "20260420:Minnesota Timberwolves@Denver Nuggets": true,
     "20260421:Philadelphia 76ers@Boston Celtics": true,
     "20260421:Portland Trail Blazers@San Antonio Spurs": true,
-    "20260421:Houston Rockets@Los Angeles Lakers": true
+    "20260421:Houston Rockets@Los Angeles Lakers": true,
+    "20260422:Orlando Magic@Detroit Pistons": true,
+    "20260422:Phoenix Suns@Oklahoma City Thunder": true
   },
-  "lastDriftDate": "20260422",
+  "lastDriftDate": "20260423",
   "meta": {
     "season": "2025-26",
     "created": "2026-04-03T17:31:03.337125"
