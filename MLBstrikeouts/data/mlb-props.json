@@ -4,7 +4,7 @@
   "season": "2026",
   "mode": "live",
   "model": "kalman_blend",
-  "generated": "2026-04-23T13:03:52.093672",
+  "generated": "2026-04-23T16:50:51.568358",
   "totalProjections": 14,
   "totalPicks": 96,
   "props": [
@@ -1731,7 +1731,7 @@
       "odds": -106,
       "to_win_1u": 1.06,
       "date": "2026-04-23",
-      "lockState": "lineup_confirmed",
+      "lockState": "game_started",
       "lockedAt": "2026-04-23T15:20:16.055822Z"
     },
     {
@@ -1751,7 +1751,7 @@
       "odds": -158,
       "to_win_1u": 1.58,
       "date": "2026-04-23",
-      "lockState": "lineup_confirmed",
+      "lockState": "game_started",
       "lockedAt": "2026-04-23T17:07:40.638507Z"
     },
     {
@@ -1771,7 +1771,7 @@
       "odds": -130,
       "to_win_1u": 1.3,
       "date": "2026-04-23",
-      "lockState": "lineup_confirmed",
+      "lockState": "game_started",
       "lockedAt": "2026-04-23T17:25:18.393783Z"
     },
     {
@@ -1791,7 +1791,7 @@
       "odds": -122,
       "to_win_1u": 1.22,
       "date": "2026-04-23",
-      "lockState": "lineup_confirmed",
+      "lockState": "game_started",
       "lockedAt": "2026-04-23T17:25:18.393783Z"
     },
     {
@@ -1889,7 +1889,7 @@
       "odds": -106,
       "to_win_1u": 1.06,
       "date": "2026-04-23",
-      "lockState": "lineup_confirmed",
+      "lockState": "game_started",
       "lockedAt": "2026-04-23T15:20:16.055822Z"
     },
     {
@@ -1907,7 +1907,7 @@
       "pCover": 0.652,
       "conf": "low",
       "date": "2026-04-23",
-      "lockState": "lineup_confirmed",
+      "lockState": "game_started",
       "lockedAt": "2026-04-23T15:34:42.289255Z"
     },
     {
@@ -1925,7 +1925,7 @@
       "pCover": 0.606,
       "conf": "low",
       "date": "2026-04-23",
-      "lockState": "lineup_confirmed",
+      "lockState": "game_started",
       "lockedAt": "2026-04-23T17:07:40.638507Z"
     },
     {
@@ -1945,7 +1945,7 @@
       "odds": -158,
       "to_win_1u": 1.58,
       "date": "2026-04-23",
-      "lockState": "lineup_confirmed",
+      "lockState": "game_started",
       "lockedAt": "2026-04-23T17:07:40.638507Z"
     },
     {
@@ -1963,7 +1963,7 @@
       "pCover": 0.518,
       "conf": "low",
       "date": "2026-04-23",
-      "lockState": "lineup_confirmed",
+      "lockState": "game_started",
       "lockedAt": "2026-04-23T17:07:40.638507Z"
     },
     {
@@ -1983,7 +1983,7 @@
       "odds": -130,
       "to_win_1u": 1.3,
       "date": "2026-04-23",
-      "lockState": "lineup_confirmed",
+      "lockState": "game_started",
       "lockedAt": "2026-04-23T17:25:18.393783Z"
     },
     {
@@ -2003,26 +2003,8 @@
       "odds": -122,
       "to_win_1u": 1.22,
       "date": "2026-04-23",
-      "lockState": "lineup_confirmed",
+      "lockState": "game_started",
       "lockedAt": "2026-04-23T17:25:18.393783Z"
-    },
-    {
-      "player": "Joe Ryan",
-      "team": "MIN",
-      "opp": "NYM",
-      "market": "strikeouts",
-      "proj": 5.7,
-      "std": 2.3,
-      "line": 6.5,
-      "over_price": 130,
-      "under_price": -174,
-      "pick": "PASS",
-      "edge": -0.8,
-      "pCover": 0.624,
-      "conf": "low",
-      "date": "2026-04-23",
-      "lockState": "pending",
-      "lockedAt": null
     },
     {
       "player": "Cam Schlittler",
@@ -2045,22 +2027,40 @@
       "lockedAt": "2026-04-23T18:03:52.094874Z"
     },
     {
+      "player": "Joe Ryan",
+      "team": "MIN",
+      "opp": "NYM",
+      "market": "strikeouts",
+      "proj": 5.8,
+      "std": 2.3,
+      "line": 6.5,
+      "over_price": 134,
+      "under_price": -180,
+      "pick": "PASS",
+      "edge": -0.7,
+      "pCover": 0.615,
+      "conf": "low",
+      "date": "2026-04-23",
+      "lockState": "lineup_confirmed",
+      "lockedAt": "2026-04-23T21:50:51.570617Z"
+    },
+    {
       "player": "Bubba Chandler",
       "team": "PIT",
       "opp": "TEX",
       "market": "strikeouts",
-      "proj": 4.3,
+      "proj": 4.2,
       "std": 2.3,
       "line": 4.5,
-      "over_price": -138,
-      "under_price": 104,
+      "over_price": -140,
+      "under_price": 106,
       "pick": "PASS",
-      "edge": -0.2,
-      "pCover": 0.526,
+      "edge": -0.3,
+      "pCover": 0.549,
       "conf": "low",
       "date": "2026-04-23",
-      "lockState": "pending",
-      "lockedAt": null
+      "lockState": "lineup_confirmed",
+      "lockedAt": "2026-04-23T21:50:51.570617Z"
     },
     {
       "player": "Jacob deGrom",
@@ -2074,7 +2074,7 @@
       "under_price": 102,
       "pick": "PASS",
       "edge": 0.7,
-      "pCover": 0.597,
+      "pCover": 0.596,
       "conf": "low",
       "date": "2026-04-23",
       "lockState": "pending",
