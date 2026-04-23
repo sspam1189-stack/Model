@@ -18,13 +18,6 @@
     ],
     "Toronto Raptors": [
       {
-        "player": "Ja'Kobe Walter",
-        "status": "questionable",
-        "reason": "Day-To-Day",
-        "tier": "bench",
-        "mpg": 20.5
-      },
-      {
         "player": "Immanuel Quickley",
         "status": "out",
         "reason": "Out",
@@ -50,6 +43,20 @@
     ],
     "Minnesota Timberwolves": [
       {
+        "player": "Terrence Shannon Jr.",
+        "status": "out",
+        "reason": "Out",
+        "tier": "deep_bench",
+        "mpg": 12.5
+      },
+      {
+        "player": "Jaylen Clark",
+        "status": "out",
+        "reason": "Out",
+        "tier": "deep_bench",
+        "mpg": 13.1
+      },
+      {
         "player": "Anthony Edwards",
         "status": "questionable",
         "reason": "Day-To-Day",
@@ -59,18 +66,18 @@
     ],
     "Denver Nuggets": [
       {
+        "player": "Aaron Gordon",
+        "status": "out",
+        "reason": "Out",
+        "tier": "bench",
+        "mpg": 27.9
+      },
+      {
         "player": "Peyton Watson",
         "status": "out",
         "reason": "Out",
         "tier": "starter",
         "mpg": 29.6
-      },
-      {
-        "player": "Aaron Gordon",
-        "status": "questionable",
-        "reason": "Day-To-Day",
-        "tier": "bench",
-        "mpg": 27.9
       }
     ]
   },
