@@ -295,11 +295,22 @@ def backfill(season=None, start_game=10, start_date=None):
 
         weather_data = fetch_game_weather(game_date)
 
-        # Build lineup_data for this date (player IDs from batting orders)
+        # Build lineup_data for this date.
+        # Priority: live cache (lineups_YYYYMMDD.json — what run_daily actually saw
+        # at projection time) → fall back to batting_orders_{season}.json
+        # (post-game actual lineups). This makes backfill replay live's experience
+        # rather than getting hindsight on late scratches/lineup card changes.
         date_lineup_data = {}
+        live_cache_path = CACHE_DIR / f"lineups_{game_date.replace('-', '')}.json"
+        live_lineup = _lc(live_cache_path, max_age_hours=None) or {}
         date_bo = batting_orders_all.get(game_date, {})
-        for abbr, order in date_bo.items():
-            date_lineup_data[abbr] = {"player_ids": order}
+        for abbr in set(live_lineup) | set(date_bo):
+            live = live_lineup.get(abbr) or {}
+            live_ids = live.get("player_ids") if isinstance(live, dict) else None
+            if live_ids:
+                date_lineup_data[abbr] = {"player_ids": live_ids}
+            elif date_bo.get(abbr):
+                date_lineup_data[abbr] = {"player_ids": date_bo[abbr]}
 
         # Build probable_pitchers from today's actual game logs
         # (who actually started — mirrors what run_daily gets from schedule)
