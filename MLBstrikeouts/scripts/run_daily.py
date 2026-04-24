@@ -323,14 +323,14 @@ def run_daily(date_key=None):
                 pitcher_ids.add(pid)
     splits = {}
     for pid in pitcher_ids:
-        s = fetch_pitcher_handedness_splits(pid, season=season)
+        s = fetch_pitcher_handedness_splits(pid, season=season, through_date=date_iso)
         if s:
             splits[str(pid)] = s
     print(f"  {len(splits)} pitchers with handedness splits")
 
     # Stage 8: Fetch team batting stats
     print(f"\n  [8/19] Fetching team batting stats...")
-    team_batting = fetch_team_batting_stats(season=season)
+    team_batting = fetch_team_batting_stats(season=season, through_date=date_iso)
     print(f"  {len(team_batting)} teams with batting stats")
 
     # Stage 9: Fetch lineup handedness (actual starting lineups, not roster avg)
@@ -454,7 +454,7 @@ def run_daily(date_key=None):
 
     # Fetch batter K rates (bulk, 2 API calls)
     print(f"\n  [9b/19] Fetching batter K rates + Savant pitcher rates...")
-    batter_k_rates = fetch_batter_k_rates(season=season)
+    batter_k_rates = fetch_batter_k_rates(season=season, through_date=date_iso)
     pitch_hands = load_pitch_hands(season=season)
     savant_rates = fetch_savant_pitcher_rates(season=season)
     print(f"  {len(batter_k_rates)} batters, {len(savant_rates)} pitchers with Savant K%/whiff%")
