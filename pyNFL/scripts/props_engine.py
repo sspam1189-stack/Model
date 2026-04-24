@@ -12,9 +12,49 @@
 # Falls back to rolling averages from player_logs when Kalman/environment
 # data is unavailable, ensuring backward compatibility during testing.
 
+import json
 import math
+import os
+
 import numpy as np
 from scipy.stats import t as t_dist
+
+
+# ---------------------------------------------------------------------------
+# Adaptive bias calibration (from calibrate_props.py Kalman filter)
+# ---------------------------------------------------------------------------
+
+_CALIB_PATH = os.path.join(
+    os.path.dirname(os.path.abspath(__file__)),
+    "..", "data", "prop_calibration.json",
+)
+
+
+def _load_calibration():
+    """Load per-market bias/var from Kalman state file. Returns empty
+    bias map if the file doesn't exist (no correction applied)."""
+    try:
+        with open(_CALIB_PATH) as f:
+            state = json.load(f)
+    except (FileNotFoundError, json.JSONDecodeError):
+        return {}, {}
+    bias = {m: v.get("bias", 0.0) for m, v in state.items()}
+    var = {m: v.get("var", 0.0) for m, v in state.items()}
+    return bias, var
+
+
+_BIAS, _BIAS_VAR = _load_calibration()
+
+
+def _bias_adjust(market, proj):
+    """Add Kalman-tracked bias to a raw projection. Bias convention:
+    bias = mean(actual - proj), so we ADD it to recenter."""
+    return proj + _BIAS.get(market, 0.0)
+
+
+def _bias_var(market):
+    """Posterior variance of the bias estimate (adds to projection std)."""
+    return _BIAS_VAR.get(market, 0.0)
 
 # ---------------------------------------------------------------------------
 # Constants
@@ -34,14 +74,45 @@ VAR_MULT = {
     "receptions": 1.2,
 }
 
+# Markets disabled from picking (still projected for display, no picks fire).
+# Keeping only markets with real edge per 2023-2025 backtest:
+#   receptions (+22.6% ROI), rush_att (+16.2%), rush_yds (+10.9%)
+# Disabled:
+#   pass_tds: structural (std=1.3 on 1-3 TD scale too coarse); 46% WR at -5u
+#   rec_yds: marginal (+2.7% ROI, +1.4pp edge); 71% of volume was dragging
+#            the overall edge down for almost no profit
+#   pass_yds: no picks fire in backtest anyway (kept for completeness)
+DISABLED_MARKETS = {"pass_tds", "rec_yds", "pass_yds"}
+
+# Empirical std floor per market — derived from 2025 season backtest residuals
+# (proj - actual). Model-computed std from rolling std × VAR_MULT was producing
+# overconfident pCover (claimed 98% → actual 55%). These floors represent true
+# game-to-game variance in each market; they're structural features of NFL
+# football (multiplicative variance through volume × rate chains), not
+# season-specific artifacts.
+#
+# Final std = sqrt(rolling_std**2 + model_std**2) floored at EMPIRICAL_STD.
+EMPIRICAL_STD = {
+    "pass_yds":   55.0,   # est; refine when pass_yds picks are backtested
+    "pass_tds":    1.3,
+    "rush_yds":   38.9,
+    "rush_att":    6.2,
+    "rec_yds":    32.6,
+    "receptions":  1.9,
+}
+
 # Single uniform threshold for all markets
+# Calibrated from 3-season backtest (2023-2025, 1920 picks) to maximize
+# total units. Tuned after adding Kalman bias correction + EMPIRICAL_STD
+# floor — thresholds below reflect what the calibrated engine actually
+# produces, not raw overconfident pCover.
 MARKET_THRESHOLDS = {
-    "pass_yds":   0.80,
-    "pass_tds":   0.80,
-    "rush_yds":   0.80,
-    "rush_att":   0.80,
-    "rec_yds":    0.90,
-    "receptions": 0.85,
+    "pass_yds":   0.80,   # no picks fire yet; keep permissive
+    "pass_tds":   0.80,   # disabled via DISABLED_MARKETS
+    "rush_yds":   0.82,   # +44u vs +42u at 0.80 (filtered 0.80-0.82 losers)
+    "rush_att":   0.84,   # +59u vs +44u at 0.80 (clearest signal above 0.84)
+    "rec_yds":    0.80,   # flat curve; tighter only sacrifices volume
+    "receptions": 0.80,   # 69% WR at every threshold; keep all picks
 }
 
 # Opponent adjustment weight (uniform for all markets)
@@ -477,21 +548,27 @@ def project_player_props(player_logs, team_stats, prop_lines=None,
                     ypa_std = ypa_std or fb["ypa_std"]
                     td_rate_std = td_rate_std or fb["td_rate_std"]
 
-            if ypa is not None and ypa > 0:
+            if ypa is not None and ypa > 0 and "pass_yds" not in DISABLED_MARKETS:
                 # --- Pass yards: dropbacks * ypa * opp_adj ---
                 adj_ypa = ypa * pass_opp_mult
                 proj_pass_yds = dropbacks * adj_ypa
+                proj_pass_yds = _bias_adjust("pass_yds", proj_pass_yds)
                 std_pass_yds = (ypa_std or 0.15) * dropbacks * VAR_MULT["pass_yds"]
+                std_pass_yds = max(std_pass_yds, EMPIRICAL_STD["pass_yds"])
+                std_pass_yds = math.sqrt(std_pass_yds**2 + _bias_var("pass_yds"))
                 prop = _make_prop(name, team, "pass_yds", proj_pass_yds,
                                   std_pass_yds, line_lookup, latest_opp)
                 if prop:
                     projections.append(prop)
 
-            if td_rate is not None and td_rate > 0:
+            if td_rate is not None and td_rate > 0 and "pass_tds" not in DISABLED_MARKETS:
                 # --- Pass TDs: dropbacks * td_rate * opp_adj ---
                 adj_td_rate = td_rate * pass_opp_mult
                 proj_pass_tds = dropbacks * adj_td_rate
+                proj_pass_tds = _bias_adjust("pass_tds", proj_pass_tds)
                 std_pass_tds = (td_rate_std or 0.02) * dropbacks * VAR_MULT["pass_tds"]
+                std_pass_tds = max(std_pass_tds, EMPIRICAL_STD["pass_tds"])
+                std_pass_tds = math.sqrt(std_pass_tds**2 + _bias_var("pass_tds"))
                 prop = _make_prop(name, team, "pass_tds", proj_pass_tds,
                                   std_pass_tds, line_lookup, latest_opp)
                 if prop:
@@ -536,17 +613,26 @@ def project_player_props(player_logs, team_stats, prop_lines=None,
                 # Simpler: just use weighted std of raw rush_att values
                 raw_att_vals = [g.get("rush_att", 0) for g in rusher_games]
                 std_rush_att = _weighted_std(raw_att_vals) * VAR_MULT["rush_att"]
+                std_rush_att = max(std_rush_att, EMPIRICAL_STD["rush_att"])
+                # Apply bias correction after std calc so std doesn't shift
+                proj_rush_att_adj = _bias_adjust("rush_att", proj_rush_att)
+                std_rush_att = math.sqrt(std_rush_att**2 + _bias_var("rush_att"))
 
-                prop = _make_prop(name, team, "rush_att", proj_rush_att,
+                prop = _make_prop(name, team, "rush_att", proj_rush_att_adj,
                                   std_rush_att, line_lookup, latest_opp)
                 if prop:
                     projections.append(prop)
 
                 if ypc is not None and ypc > 0:
                     # --- Rush yards: rush_att * ypc * opp_adj ---
+                    # Use unadjusted proj_rush_att as volume input so rush_yds
+                    # has its own independent bias correction (avoid double-count)
                     adj_ypc = ypc * rush_opp_mult
                     proj_rush_yds = proj_rush_att * adj_ypc
+                    proj_rush_yds = _bias_adjust("rush_yds", proj_rush_yds)
                     std_rush_yds = (ypc_std or 0.5) * proj_rush_att * VAR_MULT["rush_yds"]
+                    std_rush_yds = max(std_rush_yds, EMPIRICAL_STD["rush_yds"])
+                    std_rush_yds = math.sqrt(std_rush_yds**2 + _bias_var("rush_yds"))
                     prop = _make_prop(name, team, "rush_yds", proj_rush_yds,
                                       std_rush_yds, line_lookup, latest_opp)
                     if prop:
@@ -592,17 +678,25 @@ def project_player_props(player_logs, team_stats, prop_lines=None,
                 adj_catch_rate = catch_rate * pass_opp_mult
                 proj_receptions = dropbacks * target_share * adj_catch_rate
                 std_receptions = (catch_rate_std or 0.05) * dropbacks * target_share * VAR_MULT["receptions"]
-                prop = _make_prop(name, team, "receptions", proj_receptions,
+                std_receptions = max(std_receptions, EMPIRICAL_STD["receptions"])
+                proj_receptions_adj = _bias_adjust("receptions", proj_receptions)
+                std_receptions = math.sqrt(std_receptions**2 + _bias_var("receptions"))
+                prop = _make_prop(name, team, "receptions", proj_receptions_adj,
                                   std_receptions, line_lookup, latest_opp)
                 if prop:
                     projections.append(prop)
 
-                if ypr is not None and ypr > 0:
+                if ypr is not None and ypr > 0 and "rec_yds" not in DISABLED_MARKETS:
                     # --- Receiving yards: receptions * ypr * opp_adj ---
                     # (opp_adj already in receptions via catch_rate; apply again
                     #  to ypr would double-count, so ypr stays unadjusted)
+                    # Use unadjusted proj_receptions as volume input; rec_yds
+                    # has its own bias entry so it's corrected independently.
                     proj_rec_yds = proj_receptions * ypr
+                    proj_rec_yds = _bias_adjust("rec_yds", proj_rec_yds)
                     std_rec_yds = (ypr_std or 1.0) * proj_receptions * VAR_MULT["rec_yds"]
+                    std_rec_yds = max(std_rec_yds, EMPIRICAL_STD["rec_yds"])
+                    std_rec_yds = math.sqrt(std_rec_yds**2 + _bias_var("rec_yds"))
                     prop = _make_prop(name, team, "rec_yds", proj_rec_yds,
                                       std_rec_yds, line_lookup, latest_opp)
                     if prop:

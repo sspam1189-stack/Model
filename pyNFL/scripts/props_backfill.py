@@ -605,6 +605,12 @@ def backtest_props(seasons, start_week=4):
                     results[market]["actuals"].append(actual_val)
                     total_projected += 1
 
+                    # Respect DISABLED_MARKETS — skip pick generation for
+                    # markets that are tracked for calibration but don't fire.
+                    from props_engine import DISABLED_MARKETS as _DISABLED
+                    if market in _DISABLED:
+                        continue
+
                     # Look up real prop line
                     nk = _name_key(name)
                     line_key = (nk[0], nk[1], market)
@@ -874,7 +880,23 @@ if __name__ == "__main__":
     parser.add_argument("--seasons", nargs="+", type=int, default=[2023, 2024, 2025])
     parser.add_argument("--start-week", type=int, default=4,
                         help="First week to start projecting (need prior data)")
+    parser.add_argument("--skip-calibrate", action="store_true",
+                        help="Skip auto-calibration update (debug only)")
     args = parser.parse_args()
 
     results = backtest_props(args.seasons, args.start_week)
     write_dashboard_json(results, args.seasons)
+
+    # Auto-update prop calibration from newly-graded picks.
+    # Detects new season in data and widens variance 3x before folding
+    # residuals in. Safe to run every time — no-op on 2nd call same data.
+    if not args.skip_calibrate:
+        try:
+            from calibrate_props import update_from_graded
+            here = os.path.dirname(os.path.abspath(__file__))
+            props_path = os.path.join(here, "..", "data", "nfl-props.json")
+            calib_path = os.path.join(here, "..", "data", "prop_calibration.json")
+            print("\n[calibrate] Updating prop_calibration.json from graded picks...")
+            update_from_graded(props_path, calib_path)
+        except Exception as e:
+            print(f"  [calibrate] WARNING: calibration update failed: {e}")

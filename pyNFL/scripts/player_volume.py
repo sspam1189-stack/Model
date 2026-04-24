@@ -51,9 +51,18 @@ def compute_shares_from_pbp(pbp_df, decay=DEFAULT_DECAY):
     pass_plays = pbp_df[pbp_df["pass"] == 1]
     rush_plays = pbp_df[pbp_df["rush"] == 1]
 
-    # Team dropbacks per game (total pass plays by posteam)
+    # Team pass ATTEMPTS per game (excluding sacks) — used as denominator
+    # for target_share. Must match team_environment.compute_team_pass_rate,
+    # which also excludes sacks. Mismatched conventions caused receptions
+    # and rec_yds to be systematically under-projected (target_share
+    # computed on a larger denominator than the dropbacks value used at
+    # projection time).
+    if "sack" in pass_plays.columns:
+        pass_att_plays = pass_plays[pass_plays["sack"] != 1]
+    else:
+        pass_att_plays = pass_plays
     team_dropbacks = (
-        pass_plays.groupby(["game_id", "posteam"])["pass"]
+        pass_att_plays.groupby(["game_id", "posteam"])["pass"]
         .sum()
         .rename("team_dropbacks")
         .reset_index()

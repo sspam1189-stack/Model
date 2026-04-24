@@ -273,15 +273,18 @@ def project_game_environment(
         team_spread = -vegas_spread         # Flip for away perspective
 
     # -- Expected plays --
-    # Average of both teams' pace, scaled by game total vs league average
+    # Average of both teams' pace. NFL plays-per-game is driven by pace
+    # (successful plays per drive, first-down conversion, clock strategy)
+    # NOT by game total — a 48-point game and a 38-point game both average
+    # ~63 plays per team. Totals reflect EFFICIENCY per play, not volume.
+    #
+    # Previous version scaled by total_scale = vegas_total / league_avg_total,
+    # which inflated projected volume by ~9% in a 48-pt game. Backtest
+    # diagnosis: rush_att was over-projected by +24%, largely from this
+    # volume inflation getting split across rushers. Removed.
     team_pace = team_pace_dict.get(team, LEAGUE_AVG_PLAYS)
     opp_pace = team_pace_dict.get(opp, LEAGUE_AVG_PLAYS)
-    raw_plays = (team_pace + opp_pace) / 2
-
-    # Scale plays by how much this game's total deviates from league avg.
-    # A 50-point total game should have more plays than a 38-point game.
-    total_scale = vegas_total / league_avg_total if league_avg_total > 0 else 1.0
-    expected_plays = raw_plays * total_scale
+    expected_plays = (team_pace + opp_pace) / 2
 
     # -- Game-script adjusted pass rate --
     # Underdogs pass more, favorites run more.
