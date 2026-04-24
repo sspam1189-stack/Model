@@ -4,7 +4,7 @@
   "season": "2026",
   "mode": "live",
   "model": "kalman_blend",
-  "generated": "2026-04-24T16:39:54.449071",
+  "generated": "2026-04-24T17:57:35.933796",
   "totalProjections": 25,
   "totalPicks": 101,
   "props": [
@@ -1841,7 +1841,7 @@
       "odds": -108,
       "to_win_1u": 1.08,
       "date": "2026-04-24",
-      "lockState": "lineup_confirmed",
+      "lockState": "game_started",
       "lockedAt": "2026-04-24T19:42:52.728811Z"
     },
     {
@@ -1901,7 +1901,7 @@
       "odds": -125,
       "to_win_1u": 1.25,
       "date": "2026-04-24",
-      "lockState": "lineup_confirmed",
+      "lockState": "game_started",
       "lockedAt": "2026-04-24T19:42:52.728811Z"
     },
     {
@@ -1925,7 +1925,7 @@
       "lockedAt": "2026-04-24T21:39:54.451218Z"
     }
   ],
-  "summary": "5 picks from 25 projections",
+  "summary": "4 picks from 25 projections",
   "date": "2026-04-24",
   "todayProjections": [
     {
@@ -1965,7 +1965,7 @@
       "odds": -125,
       "to_win_1u": 1.25,
       "date": "2026-04-24",
-      "lockState": "lineup_confirmed",
+      "lockState": "game_started",
       "lockedAt": "2026-04-24T19:42:52.728811Z"
     },
     {
@@ -2023,7 +2023,7 @@
       "odds": -108,
       "to_win_1u": 1.08,
       "date": "2026-04-24",
-      "lockState": "lineup_confirmed",
+      "lockState": "game_started",
       "lockedAt": "2026-04-24T19:42:52.728811Z"
     },
     {
@@ -2261,24 +2261,6 @@
       "lockedAt": "2026-04-24T20:33:12.236238Z"
     },
     {
-      "player": "Jameson Taillon",
-      "team": "CHC",
-      "opp": "LAD",
-      "market": "strikeouts",
-      "proj": 5.7,
-      "std": 2.7,
-      "line": 4.5,
-      "over_price": 106,
-      "under_price": -140,
-      "pick": "PASS",
-      "edge": 1.2,
-      "pCover": 0.661,
-      "conf": "low",
-      "date": "2026-04-24",
-      "lockState": "pending",
-      "lockedAt": null
-    },
-    {
       "player": "Lance McCullers Jr.",
       "team": "HOU",
       "opp": "NYY",
@@ -2295,42 +2277,6 @@
       "date": "2026-04-24",
       "lockState": "lineup_confirmed",
       "lockedAt": "2026-04-24T21:39:54.451218Z"
-    },
-    {
-      "player": "Emmet Sheehan",
-      "team": "LAD",
-      "opp": "CHC",
-      "market": "strikeouts",
-      "proj": 4.8,
-      "std": 2.4,
-      "line": 4.5,
-      "over_price": -158,
-      "under_price": 118,
-      "pick": "PASS",
-      "edge": 0.3,
-      "pCover": 0.551,
-      "conf": "low",
-      "date": "2026-04-24",
-      "lockState": "pending",
-      "lockedAt": null
-    },
-    {
-      "player": "Sandy Alcantara",
-      "team": "MIA",
-      "opp": "SF",
-      "market": "strikeouts",
-      "proj": 4.6,
-      "std": 2.7,
-      "line": 4.5,
-      "over_price": 136,
-      "under_price": -182,
-      "pick": "PASS",
-      "edge": 0.1,
-      "pCover": 0.507,
-      "conf": "low",
-      "date": "2026-04-24",
-      "lockState": "pending",
-      "lockedAt": null
     },
     {
       "player": "Brandon Woodruff",
@@ -2371,24 +2317,6 @@
       "lockedAt": "2026-04-24T21:39:54.451218Z"
     },
     {
-      "player": "Adrian Houser",
-      "team": "SF",
-      "opp": "MIA",
-      "market": "strikeouts",
-      "proj": 3.2,
-      "std": 2.3,
-      "line": 3.5,
-      "over_price": -106,
-      "under_price": -125,
-      "pick": "PASS",
-      "edge": -0.3,
-      "pCover": 0.542,
-      "conf": "low",
-      "date": "2026-04-24",
-      "lockState": "pending",
-      "lockedAt": null
-    },
-    {
       "player": "Nathan Eovaldi",
       "team": "TEX",
       "opp": "OAK",
@@ -2405,6 +2333,78 @@
       "date": "2026-04-24",
       "lockState": "lineup_confirmed",
       "lockedAt": "2026-04-24T21:39:54.451218Z"
+    },
+    {
+      "player": "Jameson Taillon",
+      "team": "CHC",
+      "opp": "LAD",
+      "market": "strikeouts",
+      "proj": 5.5,
+      "std": 2.7,
+      "line": 4.5,
+      "over_price": 104,
+      "under_price": -138,
+      "pick": "PASS",
+      "edge": 1.0,
+      "pCover": 0.642,
+      "conf": "low",
+      "date": "2026-04-24",
+      "lockState": "lineup_confirmed",
+      "lockedAt": "2026-04-24T22:57:35.935466Z"
+    },
+    {
+      "player": "Emmet Sheehan",
+      "team": "LAD",
+      "opp": "CHC",
+      "market": "strikeouts",
+      "proj": 4.6,
+      "std": 2.4,
+      "line": 4.5,
+      "over_price": -158,
+      "under_price": 118,
+      "pick": "PASS",
+      "edge": 0.1,
+      "pCover": 0.512,
+      "conf": "low",
+      "date": "2026-04-24",
+      "lockState": "pending",
+      "lockedAt": null
+    },
+    {
+      "player": "Sandy Alcantara",
+      "team": "MIA",
+      "opp": "SF",
+      "market": "strikeouts",
+      "proj": 4.3,
+      "std": 2.7,
+      "line": 4.5,
+      "over_price": 136,
+      "under_price": -182,
+      "pick": "PASS",
+      "edge": -0.2,
+      "pCover": 0.53,
+      "conf": "low",
+      "date": "2026-04-24",
+      "lockState": "lineup_confirmed",
+      "lockedAt": "2026-04-24T22:57:35.935466Z"
+    },
+    {
+      "player": "Adrian Houser",
+      "team": "SF",
+      "opp": "MIA",
+      "market": "strikeouts",
+      "proj": 2.9,
+      "std": 2.3,
+      "line": 3.5,
+      "over_price": -104,
+      "under_price": -128,
+      "pick": "PASS",
+      "edge": -0.6,
+      "pCover": 0.603,
+      "conf": "low",
+      "date": "2026-04-24",
+      "lockState": "pending",
+      "lockedAt": null
     }
   ],
   "game_hits": [],
