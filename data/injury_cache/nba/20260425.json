@@ -1,5 +1,21 @@
 {
   "report": {
+    "Atlanta Hawks": [
+      {
+        "player": "Keshon Gilbert",
+        "status": "out",
+        "reason": "Out",
+        "tier": "deep_bench",
+        "mpg": 0
+      },
+      {
+        "player": "Jock Landale",
+        "status": "out",
+        "reason": "Out",
+        "tier": "bench",
+        "mpg": 22.1
+      }
+    ],
     "Orlando Magic": [
       {
         "player": "Jonathan Isaac",
@@ -9,6 +25,15 @@
         "mpg": 10.0
       }
     ],
+    "Detroit Pistons": [
+      {
+        "player": "Kevin Huerter",
+        "status": "questionable",
+        "reason": "Day-To-Day",
+        "tier": "bench",
+        "mpg": 22.5
+      }
+    ],
     "Phoenix Suns": [
       {
         "player": "Jordan Goodwin",
@@ -16,13 +41,6 @@
         "reason": "Day-To-Day",
         "tier": "bench",
         "mpg": 22.5
-      },
-      {
-        "player": "Grayson Allen",
-        "status": "out",
-        "reason": "Out",
-        "tier": "starter",
-        "mpg": 28.8
       },
       {
         "player": "Mark Williams",
@@ -35,7 +53,7 @@
     "Oklahoma City Thunder": [
       {
         "player": "Isaiah Joe",
-        "status": "doubtful",
+        "status": "out",
         "reason": "Day-To-Day",
         "tier": "bench",
         "mpg": 21.2
@@ -53,22 +71,6 @@
         "reason": "Out",
         "tier": "deep_bench",
         "mpg": 0
-      }
-    ],
-    "Atlanta Hawks": [
-      {
-        "player": "Keshon Gilbert",
-        "status": "out",
-        "reason": "Out",
-        "tier": "deep_bench",
-        "mpg": 0
-      },
-      {
-        "player": "Jock Landale",
-        "status": "out",
-        "reason": "Out",
-        "tier": "bench",
-        "mpg": 22.1
       }
     ],
     "Denver Nuggets": [
