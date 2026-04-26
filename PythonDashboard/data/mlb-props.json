@@ -4,7 +4,7 @@
   "season": "2026",
   "mode": "live",
   "model": "kalman_blend",
-  "generated": "2026-04-26T11:43:54.429937",
+  "generated": "2026-04-26T16:49:17.020787",
   "totalProjections": 29,
   "totalPicks": 107,
   "props": [
@@ -2017,7 +2017,7 @@
       "odds": -166,
       "to_win_1u": 1.66,
       "date": "2026-04-26",
-      "lockState": "lineup_confirmed",
+      "lockState": "game_started",
       "lockedAt": "2026-04-26T16:43:54.431136Z"
     },
     {
@@ -2037,7 +2037,7 @@
       "odds": -172,
       "to_win_1u": 1.72,
       "date": "2026-04-26",
-      "lockState": "lineup_confirmed",
+      "lockState": "game_started",
       "lockedAt": "2026-04-26T16:43:54.431136Z"
     },
     {
@@ -2057,11 +2057,11 @@
       "odds": 106,
       "to_win_1u": 0.94,
       "date": "2026-04-26",
-      "lockState": "lineup_confirmed",
+      "lockState": "game_started",
       "lockedAt": "2026-04-26T16:43:54.431136Z"
     }
   ],
-  "summary": "3 picks from 29 projections",
+  "summary": "4 picks from 29 projections",
   "date": "2026-04-26",
   "todayProjections": [
     {
@@ -2079,7 +2079,7 @@
       "pCover": 0.58,
       "conf": "low",
       "date": "2026-04-26",
-      "lockState": "lineup_confirmed",
+      "lockState": "game_started",
       "lockedAt": "2026-04-26T16:36:26.423740Z"
     },
     {
@@ -2097,26 +2097,8 @@
       "pCover": 0.654,
       "conf": "low",
       "date": "2026-04-26",
-      "lockState": "lineup_confirmed",
+      "lockState": "game_started",
       "lockedAt": "2026-04-26T16:36:26.423740Z"
-    },
-    {
-      "player": "Ryne Nelson",
-      "team": "ARI",
-      "opp": "SD",
-      "market": "strikeouts",
-      "proj": 4.4,
-      "std": 2.5,
-      "line": 3.5,
-      "over_price": 140,
-      "under_price": -188,
-      "pick": "PASS",
-      "edge": 0.9,
-      "pCover": 0.636,
-      "conf": "low",
-      "date": "2026-04-26",
-      "lockState": "pending",
-      "lockedAt": null
     },
     {
       "player": "Chris Sale",
@@ -2133,7 +2115,7 @@
       "pCover": 0.568,
       "conf": "low",
       "date": "2026-04-26",
-      "lockState": "lineup_confirmed",
+      "lockState": "game_started",
       "lockedAt": "2026-04-26T16:43:54.431136Z"
     },
     {
@@ -2151,26 +2133,8 @@
       "pCover": 0.653,
       "conf": "low",
       "date": "2026-04-26",
-      "lockState": "lineup_confirmed",
+      "lockState": "game_started",
       "lockedAt": "2026-04-26T16:43:54.431136Z"
-    },
-    {
-      "player": "Shota Imanaga",
-      "team": "CHC",
-      "opp": "LAD",
-      "market": "strikeouts",
-      "proj": 6.8,
-      "std": 4.0,
-      "line": 5.5,
-      "over_price": 114,
-      "under_price": -152,
-      "pick": "PASS",
-      "edge": 1.3,
-      "pCover": 0.62,
-      "conf": "low",
-      "date": "2026-04-26",
-      "lockState": "pending",
-      "lockedAt": null
     },
     {
       "player": "Rhett Lowder",
@@ -2187,7 +2151,7 @@
       "pCover": 0.658,
       "conf": "low",
       "date": "2026-04-26",
-      "lockState": "lineup_confirmed",
+      "lockState": "game_started",
       "lockedAt": "2026-04-26T16:43:54.431136Z"
     },
     {
@@ -2205,7 +2169,7 @@
       "pCover": 0.529,
       "conf": "low",
       "date": "2026-04-26",
-      "lockState": "lineup_confirmed",
+      "lockState": "game_started",
       "lockedAt": "2026-04-26T16:43:54.431136Z"
     },
     {
@@ -2225,7 +2189,7 @@
       "odds": -172,
       "to_win_1u": 1.72,
       "date": "2026-04-26",
-      "lockState": "lineup_confirmed",
+      "lockState": "game_started",
       "lockedAt": "2026-04-26T16:43:54.431136Z"
     },
     {
@@ -2243,7 +2207,7 @@
       "pCover": 0.54,
       "conf": "low",
       "date": "2026-04-26",
-      "lockState": "lineup_confirmed",
+      "lockState": "game_started",
       "lockedAt": "2026-04-26T16:43:54.431136Z"
     },
     {
@@ -2261,62 +2225,8 @@
       "pCover": 0.683,
       "conf": "low",
       "date": "2026-04-26",
-      "lockState": "lineup_confirmed",
+      "lockState": "game_started",
       "lockedAt": "2026-04-26T16:43:54.431136Z"
-    },
-    {
-      "player": "Seth Lugo",
-      "team": "KC",
-      "opp": "LAA",
-      "market": "strikeouts",
-      "proj": 5.9,
-      "std": 2.5,
-      "line": 5.5,
-      "over_price": -104,
-      "under_price": -128,
-      "pick": "PASS",
-      "edge": 0.4,
-      "pCover": 0.567,
-      "conf": "low",
-      "date": "2026-04-26",
-      "lockState": "pending",
-      "lockedAt": null
-    },
-    {
-      "player": "Justin Wrobleski",
-      "team": "LAD",
-      "opp": "CHC",
-      "market": "strikeouts",
-      "proj": 2.2,
-      "std": 2.6,
-      "line": 3.5,
-      "over_price": -138,
-      "under_price": 104,
-      "pick": "PASS",
-      "edge": -1.3,
-      "pCover": 0.683,
-      "conf": "low",
-      "date": "2026-04-26",
-      "lockState": "pending",
-      "lockedAt": null
-    },
-    {
-      "player": "Max Meyer",
-      "team": "MIA",
-      "opp": "SF",
-      "market": "strikeouts",
-      "proj": 5.2,
-      "std": 2.4,
-      "line": 4.5,
-      "over_price": -106,
-      "under_price": -125,
-      "pick": "PASS",
-      "edge": 0.7,
-      "pCover": 0.606,
-      "conf": "low",
-      "date": "2026-04-26",
-      "lockState": "pending",
-      "lockedAt": null
     },
     {
       "player": "Kyle Harrison",
@@ -2335,7 +2245,7 @@
       "odds": 106,
       "to_win_1u": 0.94,
       "date": "2026-04-26",
-      "lockState": "lineup_confirmed",
+      "lockState": "game_started",
       "lockedAt": "2026-04-26T16:43:54.431136Z"
     },
     {
@@ -2353,7 +2263,7 @@
       "pCover": 0.623,
       "conf": "low",
       "date": "2026-04-26",
-      "lockState": "lineup_confirmed",
+      "lockState": "game_started",
       "lockedAt": "2026-04-26T16:43:54.431136Z"
     },
     {
@@ -2371,7 +2281,7 @@
       "pCover": 0.569,
       "conf": "low",
       "date": "2026-04-26",
-      "lockState": "lineup_confirmed",
+      "lockState": "game_started",
       "lockedAt": "2026-04-26T16:43:54.431136Z"
     },
     {
@@ -2389,7 +2299,7 @@
       "pCover": 0.556,
       "conf": "low",
       "date": "2026-04-26",
-      "lockState": "lineup_confirmed",
+      "lockState": "game_started",
       "lockedAt": "2026-04-26T16:43:54.431136Z"
     },
     {
@@ -2409,7 +2319,7 @@
       "odds": -166,
       "to_win_1u": 1.66,
       "date": "2026-04-26",
-      "lockState": "lineup_confirmed",
+      "lockState": "game_started",
       "lockedAt": "2026-04-26T16:43:54.431136Z"
     },
     {
@@ -2427,7 +2337,7 @@
       "pCover": 0.577,
       "conf": "low",
       "date": "2026-04-26",
-      "lockState": "lineup_confirmed",
+      "lockState": "game_started",
       "lockedAt": "2026-04-26T16:43:54.431136Z"
     },
     {
@@ -2445,7 +2355,7 @@
       "pCover": 0.541,
       "conf": "low",
       "date": "2026-04-26",
-      "lockState": "lineup_confirmed",
+      "lockState": "game_started",
       "lockedAt": "2026-04-26T16:43:54.431136Z"
     },
     {
@@ -2463,26 +2373,8 @@
       "pCover": 0.534,
       "conf": "low",
       "date": "2026-04-26",
-      "lockState": "lineup_confirmed",
+      "lockState": "game_started",
       "lockedAt": "2026-04-26T16:43:54.431136Z"
-    },
-    {
-      "player": "Michael King",
-      "team": "SD",
-      "opp": "ARI",
-      "market": "strikeouts",
-      "proj": 4.5,
-      "std": 2.1,
-      "line": 3.5,
-      "over_price": -106,
-      "under_price": -125,
-      "pick": "PASS",
-      "edge": 1.0,
-      "pCover": 0.674,
-      "conf": "low",
-      "date": "2026-04-26",
-      "lockState": "pending",
-      "lockedAt": null
     },
     {
       "player": "Emerson Hancock",
@@ -2499,26 +2391,8 @@
       "pCover": 0.671,
       "conf": "low",
       "date": "2026-04-26",
-      "lockState": "lineup_confirmed",
+      "lockState": "game_started",
       "lockedAt": "2026-04-26T16:43:54.431136Z"
-    },
-    {
-      "player": "Landen Roupp",
-      "team": "SF",
-      "opp": "MIA",
-      "market": "strikeouts",
-      "proj": 5.8,
-      "std": 2.3,
-      "line": 5.5,
-      "over_price": 116,
-      "under_price": -154,
-      "pick": "PASS",
-      "edge": 0.3,
-      "pCover": 0.555,
-      "conf": "low",
-      "date": "2026-04-26",
-      "lockState": "pending",
-      "lockedAt": null
     },
     {
       "player": "Michael McGreevy",
@@ -2535,7 +2409,7 @@
       "pCover": 0.55,
       "conf": "low",
       "date": "2026-04-26",
-      "lockState": "lineup_confirmed",
+      "lockState": "game_started",
       "lockedAt": "2026-04-26T16:43:54.431136Z"
     },
     {
@@ -2553,7 +2427,7 @@
       "pCover": 0.507,
       "conf": "low",
       "date": "2026-04-26",
-      "lockState": "lineup_confirmed",
+      "lockState": "game_started",
       "lockedAt": "2026-04-26T16:43:54.431136Z"
     },
     {
@@ -2571,7 +2445,7 @@
       "pCover": 0.514,
       "conf": "low",
       "date": "2026-04-26",
-      "lockState": "lineup_confirmed",
+      "lockState": "game_started",
       "lockedAt": "2026-04-26T16:43:54.431136Z"
     },
     {
@@ -2589,8 +2463,134 @@
       "pCover": 0.522,
       "conf": "low",
       "date": "2026-04-26",
-      "lockState": "lineup_confirmed",
+      "lockState": "game_started",
       "lockedAt": "2026-04-26T16:43:54.431136Z"
+    },
+    {
+      "player": "Ryne Nelson",
+      "team": "ARI",
+      "opp": "SD",
+      "market": "strikeouts",
+      "proj": 4.3,
+      "std": 2.5,
+      "line": 3.5,
+      "over_price": 140,
+      "under_price": -188,
+      "pick": "PASS",
+      "edge": 0.8,
+      "pCover": 0.623,
+      "conf": "low",
+      "date": "2026-04-26",
+      "lockState": "game_started",
+      "lockedAt": "2026-04-26T21:49:17.022097Z"
+    },
+    {
+      "player": "Shota Imanaga",
+      "team": "CHC",
+      "opp": "LAD",
+      "market": "strikeouts",
+      "proj": 6.1,
+      "std": 4.0,
+      "line": 5.5,
+      "over_price": 114,
+      "under_price": -152,
+      "pick": "PASS",
+      "edge": 0.6,
+      "pCover": 0.558,
+      "conf": "low",
+      "date": "2026-04-26",
+      "lockState": "game_started",
+      "lockedAt": "2026-04-26T21:49:17.022097Z"
+    },
+    {
+      "player": "Seth Lugo",
+      "team": "KC",
+      "opp": "LAA",
+      "market": "strikeouts",
+      "proj": 6.2,
+      "std": 2.5,
+      "line": 5.5,
+      "over_price": -104,
+      "under_price": -128,
+      "pick": "PASS",
+      "edge": 0.7,
+      "pCover": 0.606,
+      "conf": "low",
+      "date": "2026-04-26",
+      "lockState": "game_started",
+      "lockedAt": "2026-04-26T21:49:17.022097Z"
+    },
+    {
+      "player": "Justin Wrobleski",
+      "team": "LAD",
+      "opp": "CHC",
+      "market": "strikeouts",
+      "proj": 2.3,
+      "std": 2.6,
+      "line": 3.5,
+      "over_price": -138,
+      "under_price": 104,
+      "pick": "PASS",
+      "edge": -1.2,
+      "pCover": 0.664,
+      "conf": "low",
+      "date": "2026-04-26",
+      "lockState": "game_started",
+      "lockedAt": "2026-04-26T21:49:17.022097Z"
+    },
+    {
+      "player": "Max Meyer",
+      "team": "MIA",
+      "opp": "SF",
+      "market": "strikeouts",
+      "proj": 5.0,
+      "std": 2.4,
+      "line": 4.5,
+      "over_price": -106,
+      "under_price": -125,
+      "pick": "PASS",
+      "edge": 0.5,
+      "pCover": 0.572,
+      "conf": "low",
+      "date": "2026-04-26",
+      "lockState": "game_started",
+      "lockedAt": "2026-04-26T21:49:17.022097Z"
+    },
+    {
+      "player": "Michael King",
+      "team": "SD",
+      "opp": "ARI",
+      "market": "strikeouts",
+      "proj": 4.6,
+      "std": 2.1,
+      "line": 3.5,
+      "over_price": -106,
+      "under_price": -125,
+      "pick": "PASS",
+      "edge": 1.1,
+      "pCover": 0.692,
+      "conf": "low",
+      "date": "2026-04-26",
+      "lockState": "game_started",
+      "lockedAt": "2026-04-26T21:49:17.022097Z"
+    },
+    {
+      "player": "Landen Roupp",
+      "team": "SF",
+      "opp": "MIA",
+      "market": "strikeouts",
+      "proj": 5.8,
+      "std": 2.3,
+      "line": 5.5,
+      "over_price": 116,
+      "under_price": -154,
+      "pick": "PASS",
+      "edge": 0.3,
+      "pCover": 0.551,
+      "conf": "low",
+      "date": "2026-04-26",
+      "lockState": "game_started",
+      "lockedAt": "2026-04-26T21:49:17.022097Z"
     }
   ],
   "game_hits": [],
