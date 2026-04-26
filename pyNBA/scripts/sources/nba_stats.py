@@ -196,6 +196,37 @@ def _blend_playoff_stats(reg_season, playoff_stats):
 
 # -- Public: enhanced stats (season + last10 + home + away) --
 
+def _load_cached_enhanced(date_to=None):
+    """Load enhanced stats from data/stats_cache/nba/<date>.json (or latest)."""
+    import os
+    import json as _json
+    here = os.path.dirname(os.path.abspath(__file__))
+    cache_dir = os.path.normpath(os.path.join(here, "..", "..", "..", "data", "stats_cache", "nba"))
+    if not os.path.isdir(cache_dir):
+        return None
+    target = None
+    if date_to:
+        candidate = os.path.join(cache_dir, str(date_to).replace("-", "") + ".json")
+        if os.path.isfile(candidate):
+            target = candidate
+    if not target:
+        # Fall back to most recent cache file
+        files = sorted(f for f in os.listdir(cache_dir) if f.endswith(".json"))
+        if not files:
+            return None
+        target = os.path.join(cache_dir, files[-1])
+    try:
+        with open(target, "r", encoding="utf-8") as f:
+            data = _json.load(f)
+        season = data.get("season") or {}
+        if len(season) >= 20:
+            print(f"  [nba_stats] Using cached stats from {os.path.basename(target)} ({len(season)} teams)")
+            return data
+    except Exception as e:
+        print(f"  [nba_stats] Cache load failed ({e})")
+    return None
+
+
 def fetch_nba_stats_enhanced(date_to=None, season_type="Regular Season"):
     """
     Returns { "season": ..., "last10": ..., "home": ..., "away": ... }
@@ -205,6 +236,19 @@ def fetch_nba_stats_enhanced(date_to=None, season_type="Regular Season"):
     in_playoffs = season_type == "Playoffs"
 
     print(f"  [nba_stats] Fetching enhanced stats (season + last10 + home + away) [{season_type}]...")
+
+    # Check shared stats cache first -- stats.nba.com is often blocked from runners
+    cached = _load_cached_enhanced(date_to)
+    if cached is not None:
+        season = cached.get("season") or {}
+        season = {k: v for k, v in season.items() if v.get("GP", 0) >= 10}
+        if len(season) >= 20:
+            return {
+                "season": season,
+                "last10": cached.get("last10"),
+                "home": cached.get("home"),
+                "away": cached.get("away"),
+            }
 
     # In playoffs: fetch regular season as base, then overlay playoff stats
     reg_season = None
