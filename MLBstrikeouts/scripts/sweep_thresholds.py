@@ -55,11 +55,9 @@ def run_sweep(season=None):
         if 'opp' not in g and 'opponent' in g: g['opp'] = g['opponent']
 
     pitcher_logs_all = organize_pitcher_logs(all_logs)
-    team_batting = fetch_team_batting_stats(season=season)
     adv_stats = fetch_pitcher_advanced_stats(season=season)
     saber_stats = fetch_pitcher_sabermetrics(season=season)
     bat_sides = fetch_player_bat_sides(season=season)
-    batter_k_rates = fetch_batter_k_rates(season=season)
     pitch_hands = load_pitch_hands(season=season)
     for pid_str, adv in adv_stats.items():
         try: adv['pitch_hand'] = pitch_hands.get(int(pid_str), 'R')
@@ -100,6 +98,10 @@ def run_sweep(season=None):
             real_lines = _lc2(cp, max_age_hours=None)
         except: pass
 
+        # Walk-forward inputs (matches run_daily.py post-b2213627 + props_backfill)
+        team_batting = fetch_team_batting_stats(season=season, through_date=game_date)
+        batter_k_rates = fetch_batter_k_rates(season=season, through_date=game_date)
+
         # Lineup handedness
         lineup_hand = fetch_lineup_handedness(game_date, bat_sides=bat_sides, season=season)
         date_tb = dict(team_batting)
@@ -136,7 +138,7 @@ def run_sweep(season=None):
         for g in today_logs:
             pid = g.get('pitcher_id') or g.get('player_id')
             if pid and str(pid) not in date_splits:
-                s = fetch_pitcher_handedness_splits(pid, season=season)
+                s = fetch_pitcher_handedness_splits(pid, season=season, through_date=game_date)
                 if s: date_splits[str(pid)] = s
 
         projs = project_pitcher_props(
