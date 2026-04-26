@@ -370,31 +370,10 @@ def run_daily(date_key=None):
             resp = requests.get(url, timeout=15)
             sched = resp.json()
             from sources.mlb_stats import MLB_TEAM_ID_TO_ABBR
-            _now_utc = datetime.datetime.now(datetime.timezone.utc)
             for date_entry in sched.get("dates", []):
                 for game in date_entry.get("games", []):
                     lineups = game.get("lineups", {})
                     teams = game.get("teams", {})
-                    # Only treat lineups as confirmed close to first pitch — MLB
-                    # statsapi populates `lineups.homePlayers/awayPlayers` with
-                    # projected/prior-game lineups well before games start.
-                    # Without a time gate, every team gets flagged "confirmed"
-                    # in early-morning runs and the merge logic drops fresh
-                    # picks as "first-time entry on a locked game".
-                    game_status = (game.get("status") or {}).get("abstractGameState", "")
-                    game_dt_str = game.get("gameDate", "")
-                    game_started_or_soon = False
-                    if game_status in ("Live", "Final"):
-                        game_started_or_soon = True
-                    elif game_dt_str:
-                        try:
-                            gdt = datetime.datetime.fromisoformat(
-                                game_dt_str.replace("Z", "+00:00")
-                            )
-                            if (gdt - _now_utc).total_seconds() <= 3 * 3600:
-                                game_started_or_soon = True
-                        except Exception:
-                            pass
                     for side, lineup_key in [("home", "homePlayers"), ("away", "awayPlayers")]:
                         team_id = teams.get(side, {}).get("team", {}).get("id")
                         abbr = MLB_TEAM_ID_TO_ABBR.get(team_id, "")
@@ -411,9 +390,7 @@ def run_daily(date_key=None):
                                 "name": p.get("fullName", ""),
                                 "slot": slot_idx + 1,
                             })
-                        confirmed = (
-                            len(lineup_entries) >= 9 and game_started_or_soon
-                        )
+                        confirmed = len(lineup_entries) >= 9
                         pids = [p.get("id") for p in players]
                         # Fallback chain when today's lineup isn't posted:
                         #   1. Rotowire "Default vs RHP/LHP" (matches opposing
