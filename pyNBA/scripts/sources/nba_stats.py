@@ -44,21 +44,30 @@ def _fetch_team_stats(date_to=None, date_from=None, last_n_games=0, location="",
     # Map location param: "" -> None, "Home" -> "Home", "Road" -> "Road"
     location_param = location if location else None
 
-    try:
-        endpoint = leaguedashteamstats.LeagueDashTeamStats(
-            season=season,
-            season_type_all_star=season_type,
-            measure_type_detailed_defense="Advanced",
-            per_mode_detailed="PerGame",
-            date_to_nullable=date_to_param,
-            date_from_nullable=date_from_param,
-            last_n_games=last_n_games,
-            location_nullable=location_param,
-            timeout=120,
-        )
-        df = endpoint.get_data_frames()[0]
-    except Exception as e:
-        raise Exception(f"nba_api team stats fetch failed: {e}")
+    last_err = None
+    df = None
+    for attempt in range(5):
+        try:
+            endpoint = leaguedashteamstats.LeagueDashTeamStats(
+                season=season,
+                season_type_all_star=season_type,
+                measure_type_detailed_defense="Advanced",
+                per_mode_detailed="PerGame",
+                date_to_nullable=date_to_param,
+                date_from_nullable=date_from_param,
+                last_n_games=last_n_games,
+                location_nullable=location_param,
+                timeout=120,
+            )
+            df = endpoint.get_data_frames()[0]
+            break
+        except Exception as e:
+            last_err = e
+            wait = 3 * (2 ** attempt)
+            print(f"  [nba_stats] fetch attempt {attempt + 1}/5 failed ({e}); retrying in {wait}s...")
+            time.sleep(wait)
+    if df is None:
+        raise Exception(f"nba_api team stats fetch failed after 5 attempts: {last_err}")
 
     if df.empty:
         raise Exception("nba_api: no data returned")
