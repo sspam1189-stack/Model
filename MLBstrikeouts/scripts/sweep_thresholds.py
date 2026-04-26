@@ -181,6 +181,20 @@ def run_sweep(season=None):
     graded = [p for p in all_projections if p.get('won') is not None]
     print(f"\n  Total graded projections: {len(graded)}")
 
+    # Dump per-projection data for downstream analysis
+    import os as _os
+    _dump_path = _os.path.join(_os.path.dirname(__file__), '..', 'data', '_sweep_projections.json')
+    with open(_dump_path, 'w') as _f:
+        _slim = [{
+            'date': p.get('date'), 'player': p.get('player'), 'team': p.get('team'),
+            'opp': p.get('opp'), 'market': p.get('market'), 'line': p.get('line'),
+            'proj': p.get('proj'), 'std': p.get('std'), 'edge': p.get('edge'),
+            'pCover': p.get('pCover'), 'pick': p.get('pick'),
+            'actual': p.get('actual'), 'won': p.get('won'),
+        } for p in graded]
+        json.dump(_slim, _f)
+    print(f"  Dumped {len(_slim)} graded projections -> {_dump_path}")
+
     for market in ['strikeouts', 'outs', 'hits_allowed']:
         mkt = [p for p in graded if p['market'] == market]
         print(f"\n{'='*65}")
