@@ -184,7 +184,7 @@ def run_sweep(season=None):
         print(f"\n{'='*65}")
         print(f"  {market.upper()} — {len(mkt)} graded projections")
         print(f"{'='*65}")
-        print(f"  {'pCov':>5s} {'Edge':>5s} {'Dir':>6s} {'N':>4s} {'W':>3s} {'L':>3s} {'Win%':>6s} {'Units':>7s}")
+        print(f"  {'pCov':>5s} {'Edge':>5s} {'Dir':>6s} {'N':>4s} {'W':>3s} {'L':>3s} {'Win%':>6s} {'Units':>7s} {'ROI':>7s}")
         print(f"  {'-'*50}")
 
         best = {'pct': 0, 'line': ''}
@@ -206,10 +206,20 @@ def run_sweep(season=None):
                     w = sum(1 for p in filtered if p['won'])
                     l = len(filtered) - w
                     pct = w / (w + l) * 100
-                    units = w * 1.0 - l * 1.1
+                    def _u(p):
+                        o = p.get('odds')
+                        if o is None: return 0.0
+                        o = int(o)
+                        won = p['won']
+                        if o > 0:
+                            return o/100.0 if won else -1.0
+                        return 1.0 if won else -abs(o)/100.0
+                    units = sum(_u(p) for p in filtered)
+                    risked = sum((1.0 if (p.get('odds') or 0) > 0 else abs(int(p.get('odds') or -110))/100.0) for p in filtered)
+                    roi = (units / risked * 100) if risked else 0
                     flag = ' ***' if pct >= 65 else (' **' if pct >= 60 else (' *' if pct >= 55 else ''))
                     if units > 0:
-                        print(f"  {thresh:5.2f} {min_edge:5.1f} {direction:>6s} {len(filtered):4d} {w:3d} {l:3d} {pct:5.1f}% {units:+6.1f}u{flag}")
+                        print(f"  {thresh:5.2f} {min_edge:5.1f} {direction:>6s} {len(filtered):4d} {w:3d} {l:3d} {pct:5.1f}% {units:+6.1f}u {roi:+6.1f}%{flag}")
                     if pct > best['pct'] and len(filtered) >= 5:
                         best = {'pct': pct, 'line': f"{thresh}/{min_edge}/{direction}", 'n': len(filtered), 'units': units}
 
