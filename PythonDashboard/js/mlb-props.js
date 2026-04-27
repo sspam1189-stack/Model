@@ -777,8 +777,8 @@
       el.appendChild(allPicksCard);
 
       const headers = isBacktest
-        ? ['Date','Pitcher','Team','Opp','Proj','Line','Edge','pC','Actual','Pick','Price','Result']
-        : ['Pitcher','Team','vs','Proj','Line','Edge','pC','Pick','Price'];
+        ? ['Date','Pitcher','Team','Opp','Proj','Line','Edge','Cover%','Actual','Pick','Price','Result']
+        : ['Pitcher','Team','vs','Proj','Line','Edge','Cover%','Pick','Price'];
       const colClasses = isBacktest
         ? ['col-date','col-player','col-team','col-opp','col-proj','col-line','col-edge','col-pcov','col-actual','col-pick','col-price','col-result']
         : ['col-player','col-team','col-opp','col-proj','col-line','col-edge','col-pcov','col-pick','col-price'];
@@ -1004,8 +1004,8 @@
         const tbl = document.createElement('table');
         tbl.style.cssText = 'width:100%;border-collapse:collapse';
         const hdrs = isBacktest
-          ? ['Date','Pitcher','Team','Opp','Cat','Proj','Line','Actual','Pick','Price','Result']
-          : ['Pitcher','Team','vs','Cat','Proj','Line','Pick','Price'];
+          ? ['Date','Pitcher','Team','Opp','Cat','Proj','Line','Edge','Cover%','Actual','Pick','Price','Result']
+          : ['Pitcher','Team','vs','Cat','Proj','Line','Edge','Cover%','Pick','Price'];
         const hRow = tbl.createTHead().insertRow();
         hdrs.forEach(h => {
           const th = document.createElement('th');
@@ -1020,9 +1020,14 @@
           row.style.borderBottom = '1px solid rgba(255,255,255,0.05)';
           const ml = marketLabels[p.market] || p.market;
           const priceStr = p.odds != null ? (p.odds > 0 ? '+' + p.odds : String(p.odds)) : '\u2014';
+          const edgeVal = (p.proj != null && p.line != null) ? (p.proj - p.line) : null;
+          const edgeStr = edgeVal != null ? (edgeVal > 0 ? '+' : '') + edgeVal.toFixed(1) : '\u2014';
+          const pcStr = p.pCover != null ? Math.round(p.pCover * 100) + '%' : '\u2014';
           const cells = isBacktest ? [
             p.date?(parseInt(p.date.slice(5,7))+'/'+parseInt(p.date.slice(8))):'', displayName(p), p.team||'', p.opp||'', ml,
             String(p.proj), p.line!=null?String(p.line):'\u2014',
+            edgeStr,
+            pcStr,
             p.actual!=null?String(p.actual):'\u2014',
             p.pick==='OVER'?'O':'U',
             priceStr,
@@ -1030,6 +1035,8 @@
           ] : [
             displayName(p), p.team, p.opp||'', ml, String(p.proj),
             p.line!=null?String(p.line):'\u2014',
+            edgeStr,
+            pcStr,
             p.pick==='OVER'?'O':'U',
             priceStr
           ];
@@ -1043,16 +1050,20 @@
               if (i===2||i===3) td.style.color='#999';
               if (i===4) { td.style.color='#aaa'; td.style.fontSize='11px'; }
               if (i===5) td.style.color=p.proj>p.line?'var(--green)':p.proj<p.line?'var(--red)':'';
-              if (i===8) { td.style.fontWeight='700'; td.style.color=p.pick==='OVER'?'var(--green)':'var(--red)'; }
-              if (i===9) td.style.color='#999';
-              if (i===10) { td.style.fontWeight='700'; td.style.color=p.result==='WIN'?'var(--green)':'var(--red)'; }
+              if (i===7) td.style.color = edgeVal > 0 ? 'var(--green)' : edgeVal < 0 ? 'var(--red)' : '#999';
+              if (i===8) td.style.color='#aaa';
+              if (i===10) { td.style.fontWeight='700'; td.style.color=p.pick==='OVER'?'var(--green)':'var(--red)'; }
+              if (i===11) td.style.color='#999';
+              if (i===12) { td.style.fontWeight='700'; td.style.color=p.result==='WIN'?'var(--green)':'var(--red)'; }
             } else {
               if (i===0) { td.style.textAlign='left'; td.style.fontWeight='600'; }
               if (i===1||i===2) td.style.color='#999';
               if (i===3) { td.style.color='#aaa'; td.style.fontSize='11px'; }
               if (i===4) td.style.color=p.proj>p.line?'var(--green)':p.proj<p.line?'var(--red)':'';
-              if (i===6) { td.style.fontWeight='700'; td.style.color=p.pick==='OVER'?'var(--green)':'var(--red)'; }
-              if (i===7) td.style.color='#999';
+              if (i===6) td.style.color = edgeVal > 0 ? 'var(--green)' : edgeVal < 0 ? 'var(--red)' : '#999';
+              if (i===7) td.style.color='#aaa';
+              if (i===8) { td.style.fontWeight='700'; td.style.color=p.pick==='OVER'?'var(--green)':'var(--red)'; }
+              if (i===9) td.style.color='#999';
             }
           });
         }
