@@ -4,7 +4,7 @@
   "season": "2026",
   "mode": "live",
   "model": "kalman_blend",
-  "generated": "2026-04-27T16:36:05.938605",
+  "generated": "2026-04-27T18:46:45.745349",
   "totalProjections": 14,
   "totalPicks": 109,
   "props": [
@@ -1933,7 +1933,7 @@
       "odds": -168,
       "to_win_1u": 1.68,
       "date": "2026-04-27",
-      "lockState": "lineup_confirmed",
+      "lockState": "game_started",
       "lockedAt": "2026-04-27T20:43:13.988866Z"
     },
     {
@@ -1953,7 +1953,7 @@
       "odds": -112,
       "to_win_1u": 1.12,
       "date": "2026-04-27",
-      "lockState": "lineup_confirmed",
+      "lockState": "game_started",
       "lockedAt": "2026-04-27T20:43:13.988866Z"
     },
     {
@@ -1961,20 +1961,20 @@
       "team": "SD",
       "opp": "CHC",
       "market": "strikeouts",
-      "proj": 5.8,
+      "proj": 6.3,
       "std": 2.3,
       "line": 4.5,
       "over_price": 132,
       "under_price": -178,
       "pick": "OVER",
-      "edge": 1.3,
-      "pCover": 0.703,
+      "edge": 1.8,
+      "pCover": 0.77,
       "conf": "high",
       "odds": 132,
       "to_win_1u": 0.76,
       "date": "2026-04-27",
-      "lockState": "pending",
-      "lockedAt": null
+      "lockState": "lineup_confirmed",
+      "lockedAt": "2026-04-27T23:46:45.746656Z"
     }
   ],
   "summary": "3 picks from 14 projections",
@@ -1997,7 +1997,7 @@
       "odds": -168,
       "to_win_1u": 1.68,
       "date": "2026-04-27",
-      "lockState": "lineup_confirmed",
+      "lockState": "game_started",
       "lockedAt": "2026-04-27T20:43:13.988866Z"
     },
     {
@@ -2015,7 +2015,7 @@
       "pCover": 0.592,
       "conf": "low",
       "date": "2026-04-27",
-      "lockState": "lineup_confirmed",
+      "lockState": "game_started",
       "lockedAt": "2026-04-27T20:43:13.988866Z"
     },
     {
@@ -2033,7 +2033,7 @@
       "pCover": 0.691,
       "conf": "low",
       "date": "2026-04-27",
-      "lockState": "lineup_confirmed",
+      "lockState": "game_started",
       "lockedAt": "2026-04-27T20:43:13.988866Z"
     },
     {
@@ -2051,7 +2051,7 @@
       "pCover": 0.591,
       "conf": "low",
       "date": "2026-04-27",
-      "lockState": "lineup_confirmed",
+      "lockState": "game_started",
       "lockedAt": "2026-04-27T20:43:13.988866Z"
     },
     {
@@ -2087,7 +2087,7 @@
       "pCover": 0.558,
       "conf": "low",
       "date": "2026-04-27",
-      "lockState": "lineup_confirmed",
+      "lockState": "game_started",
       "lockedAt": "2026-04-27T20:43:13.988866Z"
     },
     {
@@ -2105,7 +2105,7 @@
       "pCover": 0.577,
       "conf": "low",
       "date": "2026-04-27",
-      "lockState": "lineup_confirmed",
+      "lockState": "game_started",
       "lockedAt": "2026-04-27T20:43:13.988866Z"
     },
     {
@@ -2123,7 +2123,7 @@
       "pCover": 0.628,
       "conf": "low",
       "date": "2026-04-27",
-      "lockState": "lineup_confirmed",
+      "lockState": "game_started",
       "lockedAt": "2026-04-27T20:43:13.988866Z"
     },
     {
@@ -2143,7 +2143,7 @@
       "odds": -112,
       "to_win_1u": 1.12,
       "date": "2026-04-27",
-      "lockState": "lineup_confirmed",
+      "lockState": "game_started",
       "lockedAt": "2026-04-27T20:43:13.988866Z"
     },
     {
@@ -2169,18 +2169,18 @@
       "team": "LAD",
       "opp": "MIA",
       "market": "strikeouts",
-      "proj": 5.6,
+      "proj": 5.3,
       "std": 2.3,
       "line": 6.5,
       "over_price": 118,
       "under_price": -158,
       "pick": "PASS",
-      "edge": -0.9,
-      "pCover": 0.644,
+      "edge": -1.2,
+      "pCover": 0.685,
       "conf": "low",
       "date": "2026-04-27",
-      "lockState": "pending",
-      "lockedAt": null
+      "lockState": "lineup_confirmed",
+      "lockedAt": "2026-04-27T23:46:45.746656Z"
     },
     {
       "player": "Chris Paddack",
@@ -2190,35 +2190,35 @@
       "proj": 5.0,
       "std": 2.1,
       "line": 4.5,
-      "over_price": 122,
-      "under_price": -162,
+      "over_price": 120,
+      "under_price": -160,
       "pick": "PASS",
       "edge": 0.5,
-      "pCover": 0.591,
+      "pCover": 0.59,
       "conf": "low",
       "date": "2026-04-27",
-      "lockState": "pending",
-      "lockedAt": null
+      "lockState": "lineup_confirmed",
+      "lockedAt": "2026-04-27T23:46:45.746656Z"
     },
     {
       "player": "Randy V\u00e1squez",
       "team": "SD",
       "opp": "CHC",
       "market": "strikeouts",
-      "proj": 5.8,
+      "proj": 6.3,
       "std": 2.3,
       "line": 4.5,
       "over_price": 132,
       "under_price": -178,
       "pick": "OVER",
-      "edge": 1.3,
-      "pCover": 0.703,
+      "edge": 1.8,
+      "pCover": 0.77,
       "conf": "high",
       "odds": 132,
       "to_win_1u": 0.76,
       "date": "2026-04-27",
-      "lockState": "pending",
-      "lockedAt": null
+      "lockState": "lineup_confirmed",
+      "lockedAt": "2026-04-27T23:46:45.746656Z"
     }
   ],
   "gameTimes": {
