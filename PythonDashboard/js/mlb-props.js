@@ -163,7 +163,7 @@
 
         // Recent Record (since model overhaul: walk-forward leak fix + Kalman
         // std augmentation + calibrated 0.70 threshold all landed 2026-04-20).
-        const recentCutoff = '2026-04-20';
+        const recentCutoff = '2026-04-27';
         const recentPicks = gradedPicks.filter(p => p.date && p.date >= recentCutoff);
         if (recentPicks.length > 0) {
           const rW = recentPicks.filter(p => p.result === 'WIN').length;
