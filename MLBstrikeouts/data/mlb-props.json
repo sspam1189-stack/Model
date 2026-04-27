@@ -4,7 +4,7 @@
   "season": "2026",
   "mode": "live",
   "model": "kalman_blend",
-  "generated": "2026-04-27T16:19:11.346094",
+  "generated": "2026-04-27T16:36:05.938605",
   "totalProjections": 14,
   "totalPicks": 109,
   "props": [
@@ -2147,6 +2147,24 @@
       "lockedAt": "2026-04-27T20:43:13.988866Z"
     },
     {
+      "player": "Jack Leiter",
+      "team": "TEX",
+      "opp": "NYY",
+      "market": "strikeouts",
+      "proj": 6.0,
+      "std": 2.5,
+      "line": 5.5,
+      "over_price": -146,
+      "under_price": 110,
+      "pick": "PASS",
+      "edge": 0.5,
+      "pCover": 0.581,
+      "conf": "low",
+      "date": "2026-04-27",
+      "lockState": "lineup_confirmed",
+      "lockedAt": "2026-04-27T21:19:11.347415Z"
+    },
+    {
       "player": "Yoshinobu Yamamoto",
       "team": "LAD",
       "opp": "MIA",
@@ -2201,24 +2219,6 @@
       "date": "2026-04-27",
       "lockState": "pending",
       "lockedAt": null
-    },
-    {
-      "player": "Jack Leiter",
-      "team": "TEX",
-      "opp": "NYY",
-      "market": "strikeouts",
-      "proj": 6.0,
-      "std": 2.5,
-      "line": 5.5,
-      "over_price": -146,
-      "under_price": 110,
-      "pick": "PASS",
-      "edge": 0.5,
-      "pCover": 0.581,
-      "conf": "low",
-      "date": "2026-04-27",
-      "lockState": "lineup_confirmed",
-      "lockedAt": "2026-04-27T21:19:11.347415Z"
     }
   ],
   "gameTimes": {
