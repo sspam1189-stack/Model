@@ -204,9 +204,7 @@ def backfill(season=None, start_game=10, start_date=None):
         print(f"  [kalman] Reset: deleted {kalman_state_path}")
     kalman_state = new_pitcher_kalman_state()
 
-    # All markets to track
-    all_markets = list(STAT_KEYS.keys())
-    results = {m: {"projections": [], "actuals": [], "picks": []} for m in all_markets}
+    results = {"strikeouts": {"projections": [], "actuals": [], "picks": []}}
     total_projected = 0
 
     # --- Walk-forward loop ---
@@ -387,6 +385,9 @@ def backfill(season=None, start_game=10, start_date=None):
             player = proj["player"]
             market = proj["market"]
 
+            if market != "strikeouts":
+                continue
+
             actual_val = _find_actual(player, market, actual_games, pitcher_logs)
             if actual_val is None:
                 continue
@@ -472,7 +473,7 @@ def _find_actual(pitcher_name, market, actual_games, pitcher_logs):
     pitcher_name : str
         Pitcher display name from the projection.
     market : str
-        Market name (strikeouts, outs, hits_allowed, walks).
+        Market name (strikeouts).
     actual_games : dict
         {pitcher_id: game_log_dict} for today's games.
     pitcher_logs : dict

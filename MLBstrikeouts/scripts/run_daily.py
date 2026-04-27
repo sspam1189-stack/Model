@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
 MLBstrikeouts/scripts/run_daily.py
-Daily MLB pitcher prop + game hits + batter TB projection pipeline with Kalman filtering.
+Daily MLB pitcher strikeouts projection pipeline with Kalman filtering.
 
 Stages:
   0. Grade previous picks
@@ -17,13 +17,9 @@ Stages:
   10. Fetch team pitching stats
   11. Fetch game weather
   12. Fetch prop lines (FanDuel primary, Odds API fallback)
-  13. Project all pitcher props (K, outs, hits, walks)
-  14. Project total game hits
-  15. Fetch batter data (game logs, Savant rates, splits, park factors)
-  16. Batter Kalman update
-  17. Project batter total bases
-  18. Generate picks, write output
-  19. Save updated Kalman state
+  13. Project pitcher strikeouts
+  14. Generate picks, write output
+  15. Save updated Kalman state
 
 Usage:
     cd MLBstrikeouts
@@ -48,36 +44,25 @@ from sources.mlb_stats import (
     fetch_player_bat_sides, fetch_lineup_handedness,
     fetch_batter_k_rates, load_pitch_hands,
     fetch_savant_pitcher_rates,
-    fetch_batter_game_logs, fetch_savant_batter_rates, fetch_batter_splits,
 )
 from sources.weather import fetch_game_weather
-from sources.park_factors import compute_park_factors
-from sources.odds_fanduel import fetch_fanduel_mlb_props, fetch_fanduel_mlb_batter_props
-from sources.odds_bovada import fetch_bovada_mlb_batter_props
-from sources.odds_theoddsapi import fetch_mlb_pitcher_props, fetch_mlb_batter_props
+from sources.odds_fanduel import fetch_fanduel_mlb_props
+from sources.odds_theoddsapi import fetch_mlb_pitcher_props
 from sources.rotowire_lineups import (
     fetch_default_lineup as fetch_rotowire_default_lineup,
     fetch_team_roster_name_to_id as fetch_rotowire_team_roster,
 )
 from props_engine import organize_pitcher_logs, project_pitcher_props, format_props_for_dashboard, STAT_KEYS
-from game_hits_engine import project_game_hits, format_game_hits_for_dashboard
-from batter_props_engine import project_batter_tb, format_batter_props_for_dashboard
 from pitcher_kalman import (
     load_pitcher_kalman_state, save_pitcher_kalman_state,
     new_pitcher_kalman_state, batch_update_from_game_logs,
     apply_drift, kalman_summary, prune_inactive_pitchers,
-)
-from batter_kalman import (
-    load_batter_kalman_state, save_batter_kalman_state,
-    new_batter_kalman_state, batch_update_from_game_logs as batter_batch_update,
-    apply_drift as batter_apply_drift, prune_inactive_batters,
 )
 from defaults import current_season
 
 # Path to persistent Kalman state
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 KALMAN_STATE_PATH = os.path.join(SCRIPT_DIR, "..", "data", "kalman_state.json")
-BATTER_KALMAN_STATE_PATH = os.path.join(SCRIPT_DIR, "..", "data", "batter_kalman_state.json")
 
 
 def grade_previous_picks(season=None):
@@ -187,24 +172,21 @@ def grade_previous_picks(season=None):
 
     total = wins + losses
     pct = wins / max(1, total) * 100
-    # Staking: plus odds risk 1u to win payout, negative odds risk X to win 1u
-    # +120: risk 1u, win +1.2u, loss -1u
-    # -150: risk 1.5u, win +1u, loss -1.5u
     units = 0.0
     for pick in props:
         r = pick.get("result")
         price = pick.get("odds")
         if r == "WIN":
             if price is not None and int(price) > 0:
-                units += int(price) / 100.0  # +120 -> win 1.2u
+                units += int(price) / 100.0
             else:
-                units += 1.0  # negative odds -> win 1u
+                units += 1.0
         elif r == "LOSS":
             if price is not None and int(price) > 0:
-                units -= 1.0  # plus odds -> risk 1u
+                units -= 1.0
             else:
                 w1u = pick.get("to_win_1u")
-                units -= float(w1u) if w1u is not None else 1.1  # -150 -> risk 1.5u
+                units -= float(w1u) if w1u is not None else 1.1
     print(f"  [grade] Graded {graded} picks: {wins}W-{losses}L ({pct:.1f}%) {'+'if units >= 0 else ''}{units:.1f}u"
           + (f" + {pushes} pushes" if pushes else ""))
 
@@ -222,7 +204,7 @@ def grade_previous_picks(season=None):
 
 
 def run_daily(date_key=None):
-    """Run the daily MLB pitcher prop + game hits projection pipeline."""
+    """Run the daily MLB pitcher strikeouts projection pipeline."""
     from zoneinfo import ZoneInfo
 
     if date_key is None:
@@ -235,22 +217,22 @@ def run_daily(date_key=None):
     season = current_season()
 
     print(f"\n{'='*60}")
-    print(f"  MLB PITCHER PROPS + GAME HITS + BATTER TB — {date_iso}")
+    print(f"  MLB PITCHER STRIKEOUTS — {date_iso}")
     print(f"  Season: {season}")
     print(f"{'='*60}")
 
     # Stage 0: Grade previous picks
-    print(f"\n  [0/19] Grading previous picks...")
+    print(f"\n  [0/15] Grading previous picks...")
     grade_previous_picks(season)
 
     # Stage 1: Load Kalman state
-    print(f"\n  [1/19] Loading Kalman state...")
+    print(f"\n  [1/15] Loading Kalman state...")
     kalman_state = load_pitcher_kalman_state(KALMAN_STATE_PATH)
     n_pitchers = len(kalman_state.get("pitchers", {}))
     print(f"  Kalman state: {n_pitchers} pitchers tracked")
 
     # Stage 2: Fetch pitcher game logs
-    print(f"\n  [2/19] Fetching pitcher game logs...")
+    print(f"\n  [2/15] Fetching pitcher game logs...")
     pitcher_game_logs = fetch_pitcher_game_logs(season=season)
     if not pitcher_game_logs:
         print("  ERROR: No pitcher game logs fetched. Exiting.")
@@ -259,27 +241,25 @@ def run_daily(date_key=None):
     print(f"  {len(pitcher_logs)} pitchers with game logs")
 
     # Stage 3: Update Kalman with new games
-    print(f"\n  [3/19] Updating Kalman state with new games...")
+    print(f"\n  [3/15] Updating Kalman state with new games...")
     n_updated = batch_update_from_game_logs(kalman_state, pitcher_game_logs)
     print(f"  Processed {n_updated} pitcher-games")
     apply_drift(kalman_state)
 
     # Stage 4: Fetch advanced stats
-    print(f"\n  [4/19] Fetching pitcher advanced stats...")
+    print(f"\n  [4/15] Fetching pitcher advanced stats...")
     adv_stats = fetch_pitcher_advanced_stats(season=season)
     print(f"  {len(adv_stats)} pitchers with advanced stats")
 
     # Stage 5: Fetch sabermetrics
-    print(f"\n  [5/19] Fetching pitcher sabermetrics (FIP, xFIP)...")
+    print(f"\n  [5/15] Fetching pitcher sabermetrics (FIP, xFIP)...")
     saber_stats = fetch_pitcher_sabermetrics(season=season)
     print(f"  {len(saber_stats)} pitchers with sabermetrics")
 
     # Stage 6: Fetch probable pitchers
-    print(f"\n  [6/19] Fetching today's probable pitchers...")
+    print(f"\n  [6/15] Fetching today's probable pitchers...")
     all_probable = fetch_today_probable_pitchers(date_str=date_iso)
 
-    # Track which teams have started so we can preserve their PICKS
-    # (we still project all games — only picks are protected from changes).
     import datetime as _dt
     _now_utc = _dt.datetime.now(_dt.timezone.utc)
     started_teams = set()
@@ -293,14 +273,11 @@ def run_daily(date_key=None):
         except (ValueError, AttributeError, TypeError):
             pass
 
-    # Project ALL games — picks for started games are preserved at output merge
     probable = list(all_probable)
     if started_teams:
         print(f"  {len(all_probable)} total games, {len(started_teams)//2} already started (picks preserved, projecting all)")
     print(f"  {len(probable)} games to project")
 
-    # Map team_abbr → opposing probable pitcher id, for Rotowire vs-hand
-    # fallback when the official lineup isn't posted yet.
     opposing_pitcher_by_team = {}
     for _g in all_probable:
         if _g.get("home_team") and _g.get("away_pitcher_id"):
@@ -308,13 +285,10 @@ def run_daily(date_key=None):
         if _g.get("away_team") and _g.get("home_pitcher_id"):
             opposing_pitcher_by_team[_g["away_team"]] = _g["home_pitcher_id"]
 
-    # Load pitcher throw-hands now (needed for Rotowire vs-hand fallback in
-    # the lineup block below; load_pitch_hands is cached so the later call
-    # at stage 9b reuses the result).
     _pitch_hands_early = load_pitch_hands(season=season)
 
     # Stage 7: Fetch handedness splits for probable starters only
-    print(f"\n  [7/19] Fetching handedness splits for probable starters...")
+    print(f"\n  [7/15] Fetching handedness splits for probable starters...")
     pitcher_ids = set()
     for game in probable:
         for key in ("home_pitcher_id", "away_pitcher_id"):
@@ -329,27 +303,22 @@ def run_daily(date_key=None):
     print(f"  {len(splits)} pitchers with handedness splits")
 
     # Stage 8: Fetch team batting stats
-    print(f"\n  [8/19] Fetching team batting stats...")
+    print(f"\n  [8/15] Fetching team batting stats...")
     team_batting = fetch_team_batting_stats(season=season, through_date=date_iso)
     print(f"  {len(team_batting)} teams with batting stats")
 
     # Stage 9: Fetch lineup handedness (actual starting lineups, not roster avg)
-    print(f"\n  [9/19] Fetching lineup handedness (actual batting orders)...")
+    print(f"\n  [9/15] Fetching lineup handedness (actual batting orders)...")
     bat_sides = fetch_player_bat_sides(season=season)
     lineup_hand = fetch_lineup_handedness(date_iso, bat_sides=bat_sides, season=season)
     print(f"  {len(lineup_hand)} teams with lineup handedness data")
 
-    # Merge PCT_LHB into team_batting so props_engine sees it
     for abbr, hand_data in lineup_hand.items():
         if abbr in team_batting:
             team_batting[abbr]["PCT_LHB"] = hand_data["PCT_LHB"]
         else:
             team_batting[abbr] = {"PCT_LHB": hand_data["PCT_LHB"]}
 
-    # Build lineup_data with player_ids for K% lookup.
-    # Cache confirmed lineups per-day so intra-day runs don't disagree:
-    # once a team's lineup is confirmed, freeze it. Only refetch teams
-    # still unconfirmed in the cache.
     from sources.mlb_stats import CACHE_DIR as _MLB_CACHE_DIR
     _lineup_cache_path = _MLB_CACHE_DIR / f"lineups_{date_iso.replace('-','')}.json"
     lineup_data = {}
@@ -379,7 +348,6 @@ def run_daily(date_key=None):
                         abbr = MLB_TEAM_ID_TO_ABBR.get(team_id, "")
                         if not abbr:
                             continue
-                        # Skip teams already confirmed in cache — freeze their lineup
                         if lineup_data.get(abbr, {}).get("confirmed"):
                             continue
                         players = lineups.get(lineup_key, [])
@@ -392,12 +360,6 @@ def run_daily(date_key=None):
                             })
                         confirmed = len(lineup_entries) >= 9
                         pids = [p.get("id") for p in players]
-                        # Fallback chain when today's lineup isn't posted:
-                        #   1. Rotowire "Default vs RHP/LHP" (matches opposing
-                        #      starter's hand — closest to the real lineup).
-                        #   2. Team's most recent batting order (from prior
-                        #      game log; shaped by the PREVIOUS opponent's
-                        #      starter hand, so less accurate).
                         _lineup_source = None
                         if not pids:
                             opp_pid = opposing_pitcher_by_team.get(abbr)
@@ -437,7 +399,7 @@ def run_daily(date_key=None):
                             "confirmed": confirmed,
                             "source": ("lineup" if confirmed else
                                        (_lineup_source or "none")),
-                            "implied_runs": None,  # could be filled from totals odds later
+                            "implied_runs": None,
                         }
         except Exception:
             pass
@@ -453,13 +415,12 @@ def run_daily(date_key=None):
     print(f"  {len(lineup_data)} teams in lineup_data ({_n_conf} confirmed, frozen)")
 
     # Fetch batter K rates (bulk, 2 API calls)
-    print(f"\n  [9b/19] Fetching batter K rates + Savant pitcher rates...")
+    print(f"\n  [9b/15] Fetching batter K rates + Savant pitcher rates...")
     batter_k_rates = fetch_batter_k_rates(season=season, through_date=date_iso)
     pitch_hands = load_pitch_hands(season=season)
     savant_rates = fetch_savant_pitcher_rates(season=season)
     print(f"  {len(batter_k_rates)} batters, {len(savant_rates)} pitchers with Savant K%/whiff%")
 
-    # Inject pitcher hand into adv_stats for props_engine K% lookup
     for pid_str, adv in adv_stats.items():
         try:
             adv["pitch_hand"] = pitch_hands.get(int(pid_str), "R")
@@ -467,31 +428,26 @@ def run_daily(date_key=None):
             pass
 
     # Stage 10: Fetch team pitching stats
-    print(f"\n  [10/19] Fetching team pitching stats...")
+    print(f"\n  [10/15] Fetching team pitching stats...")
     team_pitching = fetch_team_pitching_stats(season=season)
     print(f"  {len(team_pitching)} teams with pitching stats")
 
     # Stage 11: Fetch game weather
-    print(f"\n  [11/19] Fetching game weather...")
+    print(f"\n  [11/15] Fetching game weather...")
     weather_data = fetch_game_weather(date_iso)
     n_weather = len(weather_data)
     print(f"  Weather data for {n_weather} games")
 
     # Stage 12: Fetch prop lines (FanDuel + Odds API combined)
-    # FanDuel has K + outs only. Odds API has K + outs + hits allowed + walks.
-    # Use FanDuel as primary for K/outs, Odds API fills in HA/walks.
-    print(f"\n  [12/19] Fetching prop lines (FanDuel + Odds API)...")
+    print(f"\n  [12/15] Fetching prop lines (FanDuel + Odds API)...")
     fd_result = fetch_fanduel_mlb_props(date_key=date_key)
     if isinstance(fd_result, tuple):
-        fd_props, game_hit_lines = fd_result
+        fd_props, _ = fd_result
     else:
         fd_props = fd_result
-        game_hit_lines = []
 
-    # Always fetch Odds API for hits_allowed + walks (FanDuel doesn't have these)
     odds_api_props = fetch_mlb_pitcher_props(date_key=date_key)
 
-    # Merge: FanDuel lines take priority for K/outs, Odds API fills in HA/walks
     fd_markets = {(p.get("player",""), p.get("market","")) for p in fd_props}
     merged_props = list(fd_props)
     for p in odds_api_props:
@@ -502,15 +458,10 @@ def run_daily(date_key=None):
     prop_lines = merged_props
     n_fd = len(fd_props)
     n_api = len(prop_lines) - n_fd
-    print(f"  {n_fd} from FanDuel + {n_api} from Odds API = {len(prop_lines)} total prop lines, {len(game_hit_lines)} game hit lines")
-
-    # NOTE: We DO NOT drop started-game prop lines here. We project all games
-    # so the Games Explorer always has fresh projections for every game.
-    # Started-game PICKS (in the props array) are still protected by the
-    # output merge logic below — picks made before lock are preserved.
+    print(f"  {n_fd} from FanDuel + {n_api} from Odds API = {len(prop_lines)} total prop lines")
 
     # Stage 13: Project pitcher props
-    print(f"\n  [13/19] Projecting pitcher props (Kalman + advanced stats)...")
+    print(f"\n  [13/15] Projecting pitcher strikeouts (Kalman + advanced stats)...")
     projections = project_pitcher_props(
         pitcher_logs,
         team_batting_stats=team_batting,
@@ -529,50 +480,12 @@ def run_daily(date_key=None):
     picks = [p for p in projections if p["pick"] != "PASS"]
     print(f"  {len(projections)} projections, {len(picks)} actionable picks")
 
-    # Stage 14: Project total game hits — DISABLED (market is in DISABLED_MARKETS).
-    # Stage numbering preserved ([15/19]..[18/19]) for consistency with logs/tooling.
-    # Re-enable by removing "game_hits" from DISABLED_MARKETS in defaults.py and
-    # restoring the project_game_hits(...) call below.
-    game_hit_projections = []
-    game_hit_picks = []
-
-    # Print Kalman summary
     print(kalman_summary(kalman_state, top_n=5, stat_key="k"))
 
-    # Stage 15: Fetch batter data
-    print(f"\n  [15/19] Fetching batter data (game logs, Savant, splits, park factors)...")
-    batter_game_logs = fetch_batter_game_logs(season=season)
-    n_batters_logs = len(batter_game_logs) if batter_game_logs else 0
-    print(f"  {n_batters_logs} batters with game logs")
-    savant_batter_rates = fetch_savant_batter_rates(season=season)
-    print(f"  {len(savant_batter_rates)} batters with Savant rates")
-    batter_splits_data = fetch_batter_splits(season=season)
-    print(f"  {len(batter_splits_data)} batters with splits")
-    park_factors = compute_park_factors(batter_game_logs)
-    print(f"  {len(park_factors)} parks with factors")
-
-    # Stage 16: Batter Kalman update
-    print(f"\n  [16/19] Updating batter Kalman state...")
-    batter_kalman = load_batter_kalman_state(BATTER_KALMAN_STATE_PATH)
-    if not batter_kalman:
-        batter_kalman = new_batter_kalman_state()
-    n_batter_updated = batter_batch_update(batter_kalman, batter_game_logs)
-    batter_apply_drift(batter_kalman, date_iso)
-    n_batter_tracked = len(batter_kalman.get("players", {}))
-    print(f"  Processed {n_batter_updated} batter-games, {n_batter_tracked} batters tracked")
-
-    # Stage 17: Project batter total bases — DISABLED
-    print(f"\n  [17/19] Skipping batter total bases (disabled)")
-    batter_projections = []
-    batter_dashboard = format_batter_props_for_dashboard([], date_iso)
-    batter_picks = []
-
-    # Stage 18: Output
-    print(f"\n  [18/19] Writing output...")
+    # Stage 14: Output
+    print(f"\n  [14/15] Writing output...")
     dashboard = format_props_for_dashboard(projections, date_str=date_iso)
-    game_hits_dash = format_game_hits_for_dashboard(game_hit_projections, date_str=date_iso)
 
-    # Build {team_abbr: game_time_iso} map so dashboard can sort games by start time
     game_times = {}
     for g in all_probable:
         gt = g.get("game_time", "")
@@ -583,23 +496,16 @@ def run_daily(date_key=None):
         if g.get("away_team"):
             game_times[g["away_team"]] = gt
 
-    # Merge pitcher props, game hits, and batter props into single output
     combined = {
         **dashboard,
-        "game_hits": game_hits_dash.get("game_hits", []),
-        "game_hits_picks": game_hit_picks,
-        "batterProps": batter_dashboard.get("batterProps", []),
-        "batterProjections": batter_dashboard.get("batterProjections", []),
         "gameTimes": game_times,
     }
 
-    # Output paths
     output_paths = [
         os.path.join(SCRIPT_DIR, "..", "data", "mlb-props.json"),
         os.path.join(SCRIPT_DIR, "..", "..", "PythonDashboard", "data", "mlb-props.json"),
     ]
 
-    # Same merge logic as NBA: keep historical picks, replace today's
     import numpy as np
 
     class _NumpyEncoder(json.JSONEncoder):
@@ -610,25 +516,16 @@ def run_daily(date_key=None):
                 return float(obj)
             return super().default(obj)
 
-    # Build confirmed-teams set (teams whose starting lineup is posted).
-    # Once confirmed, a team's pick is locked the same way started teams are —
-    # later runs can't overwrite, erase, or reshuffle those picks.
     confirmed_teams = {
         abbr for abbr, v in (lineup_data or {}).items()
         if v.get("confirmed")
     }
-    # Any team in either set is "locked" for today.
     locked_teams = set(started_teams) | confirmed_teams
 
-    # Lock-state priority ladder (only ever move UP, never down).
     _LOCK_RANK = {"pending": 0, "lineup_confirmed": 1, "game_started": 2, "final": 3}
     _now_iso = __import__("datetime").datetime.utcnow().isoformat() + "Z"
 
     def _lock_key(pick):
-        """For pitcher K props, the OPPONENT'S lineup drives projection
-        accuracy (the pitcher doesn't bat). So we key locks on `opp`, not
-        `team`. Game-started flag includes both teams of any live game, so
-        either field works there — we use opp for consistency."""
         return pick.get("opp", "") or pick.get("team", "")
 
     def _current_lock_state(pick):
@@ -640,12 +537,9 @@ def run_daily(date_key=None):
         return "pending"
 
     def _is_locked(pick):
-        """True if this pick's projection was computed with real confirmed
-        lineup data, or game has started."""
         return _current_lock_state(pick) != "pending"
 
     def _stamp(pick, existing_pick=None):
-        """Attach lockState + lockedAt to a pick, preserving existing stronger locks."""
         new_state = _current_lock_state(pick)
         prev_state = (existing_pick or {}).get("lockState", "pending")
         if existing_pick and _LOCK_RANK.get(prev_state, 0) >= _LOCK_RANK.get(new_state, 0):
@@ -676,36 +570,19 @@ def run_daily(date_key=None):
             existing_props = []
             existing_today_proj = []
 
-        # Keep picks from OTHER dates (already graded / historical)
         kept = [p for p in existing_props if p.get("date") != date_iso]
 
-        # Index existing today picks by (team, player, market) for lock lookup
         def _pkey(p):
             return (p.get("team", ""), p.get("player", ""), p.get("market", ""))
         existing_today_by_key = {
             _pkey(p): p for p in existing_props if p.get("date") == date_iso
         }
-        # Also index existing todayProjections so we can see locked PASS
-        # decisions (which don't appear in props). Projections also carry
-        # lockState, so "opp confirmed at time X, projection was PASS" is
-        # stored here and must block later runs from flipping to a pick.
         existing_proj_by_key = {_pkey(p): p for p in existing_today_proj}
-        # A key is "already locked via projections" if its prior projection
-        # had lockState in _LOCK_STATES (set at or after opp confirmation).
         proj_locked_keys = {
             k for k, p in existing_proj_by_key.items()
             if p.get("lockState") in ("lineup_confirmed", "game_started", "final")
         }
 
-        # LOCK: the rule is "lock at lineup confirmation OR first pitch, based
-        # on the CURRENT projection at that moment." So we split existing
-        # locked picks into two groups:
-        #   - already-locked: entry's prior lockState was already a lock
-        #     state (lineup_confirmed / game_started / final). Preserve as-is.
-        #   - just-transitioning: entry was pending before, team is now locked
-        #     this run. Re-validate against the fresh projection — if the
-        #     fresh run no longer produces it as a pick, DROP it rather than
-        #     lock a stale projection.
         _LOCK_STATES = ("lineup_confirmed", "game_started", "final")
         already_locked_entries = [
             p for p in existing_props
@@ -721,13 +598,6 @@ def run_daily(date_key=None):
         }
         locked_keys = {_pkey(p) for p in already_locked_entries}
 
-        # Fresh picks:
-        #   - Unlocked: always add (normal case).
-        #   - Just-transitioning (opp was pending, opp is locked this run):
-        #     add if the fresh projection still qualifies.
-        #   - Already-locked (opp was locked in a prior run): never add a new
-        #     pick — the projection was frozen at confirmation time. This
-        #     applies whether the prior state was a PICK or a PASS.
         today_fresh = []
         existing_today_keys = set(existing_today_by_key.keys())
         for p in combined.get("props", []):
@@ -735,38 +605,23 @@ def run_daily(date_key=None):
                 continue
             k = _pkey(p)
             if k in locked_keys:
-                continue  # defensive dedup against already-locked picks
+                continue
             if k in proj_locked_keys and k not in transitioning_keys:
-                # Projection was already locked in a prior run (PASS or pick).
-                # Drift in later runs must not flip the decision.
                 continue
             if _is_locked(p) and k in existing_today_keys and k not in transitioning_keys:
-                # Opponent was already locked before this run AND had a prior
-                # pick in props. Don't overwrite.
                 continue
             if (_current_lock_state(p) == "game_started"
                 and k not in existing_today_keys
                 and k not in existing_proj_by_key):
-                # First-time entry for an already-STARTED game: refuse to
-                # lock in a post-first-pitch pick out of thin air. We allow
-                # first-time entries when only `lineup_confirmed` so the
-                # pre-game daily run can seed picks even after lineups post.
                 continue
             today_fresh.append(_stamp(p, existing_today_by_key.get(k)))
 
-        # Re-stamp already-locked picks so their lockState ladder is current
-        # (lineup_confirmed → game_started as games start).
         today_existing_locked = [
             _stamp(dict(p), p) for p in already_locked_entries
         ]
 
         merged_props = kept + today_existing_locked + today_fresh
 
-        # FRESHNESS LOGGING: report picks dropped during this merge.
-        #   - stale_pending: team still pending, new projection no longer a pick.
-        #   - stale_at_lock: team just transitioned to locked this run, but
-        #     the fresh projection no longer qualifies → pick dropped at the
-        #     moment of lock rather than getting a stale pick frozen in.
         today_fresh_keys = {_pkey(p) for p in today_fresh}
         stale_pending, stale_at_lock = [], []
         for p in existing_props:
@@ -776,11 +631,11 @@ def run_daily(date_key=None):
             if k in today_fresh_keys:
                 continue
             if k in {_pkey(x) for x in already_locked_entries}:
-                continue  # survived via already-locked preservation
+                continue
             if _is_locked(p):
-                stale_at_lock.append(p)   # transitioning & not re-validated
+                stale_at_lock.append(p)
             else:
-                stale_pending.append(p)   # pending & projection dropped
+                stale_pending.append(p)
         if stale_pending:
             names = ", ".join(f"{p.get('player','?')}({p.get('team','?')})"
                               for p in stale_pending[:5])
@@ -795,8 +650,6 @@ def run_daily(date_key=None):
                   f"(lineup confirmed, fresh projection no longer a pick): "
                   f"{names}{extra}")
 
-        # NEVER-SHRINK GUARD: refuse to drop any previously locked today pick.
-        # Compare today's locked picks before/after; crash loudly if any vanish.
         prev_locked_keys = {
             _pkey(p) for p in existing_props
             if p.get("date") == date_iso
@@ -810,15 +663,6 @@ def run_daily(date_key=None):
                 f"{sorted(dropped)[:5]}{'...' if len(dropped) > 5 else ''}"
             )
 
-        # Merge todayProjections + batterProjections with the SAME
-        # re-validate-at-lock rule as picks:
-        #   - already-locked (prior lockState was a lock state): preserve
-        #     unchanged (the projection was made when lineup was confirmed,
-        #     so it's the real thing).
-        #   - transitioning (prior was pending, team is locked this run):
-        #     use the FRESH projection, because this is the first projection
-        #     that actually used the confirmed lineup. Lock that fresh result.
-        #   - pending: use fresh.
         def _merge_projections(existing_list, fresh_list):
             _LS = ("lineup_confirmed", "game_started", "final")
             existing_today = [p for p in existing_list if p.get("date") == date_iso]
@@ -826,7 +670,6 @@ def run_daily(date_key=None):
                 (p.get("team",""), p.get("player",""), p.get("market",""))
                 for p in existing_today
             }
-            # Only entries that were ALREADY locked before this run carry forward
             already_locked_proj = {
                 (p.get("team",""), p.get("player",""), p.get("market","")): p
                 for p in existing_today
@@ -843,14 +686,7 @@ def run_daily(date_key=None):
                 if k in seen:
                     continue
                 if _current_lock_state(p) == "game_started" and k not in existing_today_keys:
-                    # First-time projection for an already-STARTED game: no
-                    # pre-lock projection to anchor to. We allow first-time
-                    # entries when only `lineup_confirmed` so the pre-game
-                    # daily run can seed projections even after lineups post.
                     continue
-                # Fresh entry (used current lineup data). Stamp lock if team
-                # is locked this run — this captures the "transitioning" case
-                # where the fresh projection is the first to use the real lineup.
                 merged.append(_stamp(p))
                 seen.add(k)
             return merged
@@ -859,16 +695,11 @@ def run_daily(date_key=None):
             existing.get("todayProjections", []) or [],
             combined.get("todayProjections", []) or [],
         )
-        merged_batter_proj = _merge_projections(
-            existing.get("batterProjections", []) or [],
-            combined.get("batterProjections", []) or [],
-        )
 
         combined_merged = {
             **existing, **combined,
             "props": merged_props,
             "todayProjections": merged_today_proj,
-            "batterProjections": merged_batter_proj,
         }
         combined_merged["totalPicks"] = len(merged_props)
 
@@ -885,27 +716,19 @@ def run_daily(date_key=None):
             json.dump(combined_merged, f, indent=2, cls=_NumpyEncoder)
         print(f"  Wrote to {path}")
 
-    # Stage 19: Save Kalman state
+    # Stage 15: Save Kalman state
     prune_inactive_pitchers(kalman_state)
     save_pitcher_kalman_state(kalman_state, KALMAN_STATE_PATH)
     print(f"  Saved pitcher Kalman state ({len(kalman_state.get('pitchers', {}))} pitchers)")
 
-    # Save batter Kalman state
-    save_batter_kalman_state(batter_kalman, BATTER_KALMAN_STATE_PATH)
-    prune_inactive_batters(batter_kalman, active_ids=[], max_inactive_days=30)
-    print(f"  Saved batter Kalman state ({len(batter_kalman.get('players', {}))} batters)")
-
-    # Print picks
-    _print_picks(picks, game_hit_picks, batter_picks)
+    _print_picks(picks)
 
     return combined
 
 
-def _print_picks(pitcher_picks, game_hit_picks, batter_picks=None):
+def _print_picks(pitcher_picks):
     """Print formatted picks summary."""
-    if batter_picks is None:
-        batter_picks = []
-    total = len(pitcher_picks) + len(game_hit_picks) + len(batter_picks)
+    total = len(pitcher_picks)
     if total == 0:
         print("\n  No actionable picks today.")
         return
@@ -914,63 +737,26 @@ def _print_picks(pitcher_picks, game_hit_picks, batter_picks=None):
     print(f"  TODAY'S PICKS ({total} total)")
     print(f"{'='*60}")
 
-    # Pitcher props by market
-    if pitcher_picks:
-        by_market = {}
-        for p in pitcher_picks:
-            m = p["market"]
-            if m not in by_market:
-                by_market[m] = []
-            by_market[m].append(p)
+    by_market = {}
+    for p in pitcher_picks:
+        m = p["market"]
+        if m not in by_market:
+            by_market[m] = []
+        by_market[m].append(p)
 
-        for market, market_picks in sorted(by_market.items()):
-            print(f"\n  --- {market.upper()} ({len(market_picks)} picks) ---")
-            for p in sorted(market_picks, key=lambda x: -(x.get("pCover") or 0)):
-                edge_sign = "+" if (p.get("edge") or 0) > 0 else ""
-                odds_str = _format_odds(p.get("odds"))
-                w1u = p.get("to_win_1u")
-                w1u_str = f"  w1u={w1u:.2f}u" if w1u is not None else ""
-                import unicodedata
-                safe_name = unicodedata.normalize('NFKD', p['player']).encode('ascii', 'ignore').decode('ascii')
-                print(
-                    f"    {safe_name:25s} {p.get('team', ''):3s} "
-                    f"{p['pick']:5s} {p['line']:6.1f}  "
-                    f"proj={p['proj']:6.1f}  edge={edge_sign}{p.get('edge', 0):5.1f}  "
-                    f"p={p.get('pCover', 0):.3f}  "
-                    f"{odds_str}{w1u_str}"
-                )
-
-    # Game hits
-    if game_hit_picks:
-        print(f"\n  --- GAME HITS ({len(game_hit_picks)} picks) ---")
-        for p in sorted(game_hit_picks, key=lambda x: -(x.get("pCover") or 0)):
-            matchup = p.get("matchup", "???")
+    for market, market_picks in sorted(by_market.items()):
+        print(f"\n  --- {market.upper()} ({len(market_picks)} picks) ---")
+        for p in sorted(market_picks, key=lambda x: -(x.get("pCover") or 0)):
             edge_sign = "+" if (p.get("edge") or 0) > 0 else ""
             odds_str = _format_odds(p.get("odds"))
             w1u = p.get("to_win_1u")
             w1u_str = f"  w1u={w1u:.2f}u" if w1u is not None else ""
-            print(
-                f"    {matchup:30s} "
-                f"{p.get('pick', ''):5s} {p.get('line', 0):6.1f}  "
-                f"proj={p.get('proj', 0):6.1f}  edge={edge_sign}{p.get('edge', 0):5.1f}  "
-                f"p={p.get('pCover', 0):.3f}  "
-                f"{odds_str}{w1u_str}"
-            )
-
-    # Batter total bases
-    if batter_picks:
-        print(f"\n  --- BATTER TOTAL BASES ({len(batter_picks)} picks) ---")
-        for p in sorted(batter_picks, key=lambda x: -(x.get("pCover") or 0)):
             import unicodedata
-            safe_name = unicodedata.normalize('NFKD', p.get('player', '')).encode('ascii', 'ignore').decode('ascii')
-            edge_sign = "+" if (p.get("edge") or 0) > 0 else ""
-            odds_str = _format_odds(p.get("odds"))
-            w1u = p.get("to_win_1u")
-            w1u_str = f"  w1u={w1u:.2f}u" if w1u is not None else ""
+            safe_name = unicodedata.normalize('NFKD', p['player']).encode('ascii', 'ignore').decode('ascii')
             print(
                 f"    {safe_name:25s} {p.get('team', ''):3s} "
-                f"{p.get('pick', ''):5s} {p.get('line', 0):6.1f}  "
-                f"proj={p.get('proj', 0):6.2f}  edge={edge_sign}{p.get('edge', 0):5.2f}  "
+                f"{p['pick']:5s} {p['line']:6.1f}  "
+                f"proj={p['proj']:6.1f}  edge={edge_sign}{p.get('edge', 0):5.1f}  "
                 f"p={p.get('pCover', 0):.3f}  "
                 f"{odds_str}{w1u_str}"
             )
@@ -987,7 +773,7 @@ def _format_odds(price):
 
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description="Daily MLB pitcher prop + game hits + batter TB projections (Kalman)")
+    parser = argparse.ArgumentParser(description="Daily MLB pitcher strikeouts projections (Kalman)")
     parser.add_argument("--date", type=str, default=None,
                         help="Date in YYYYMMDD format (default: today)")
     args = parser.parse_args()

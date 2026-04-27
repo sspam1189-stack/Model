@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
-Sweep pCover thresholds, min edge, and direction to find optimal pick criteria.
-Runs backfill with no filters, captures ALL projections, then sweeps.
+Sweep pCover thresholds, min edge, and direction to find optimal K pick criteria.
+Runs backfill with no filters, captures ALL strikeouts projections, then sweeps.
 
 Usage:
     cd MLBstrikeouts
@@ -18,15 +18,11 @@ sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..'))
 import defaults
 defaults.MARKET_THRESHOLDS = {
     'strikeouts':   {'high': 0.50},
-    'outs':         {'high': 0.50, 'high_under': 0.50},
-    'hits_allowed': {'high': 0.50, 'high_under': 0.50},
-    'walks':        {'high': 0.50},
-    'game_hits':    {'high': 0.50},
 }
 defaults.MIN_EDGE = {k: 0.0 for k in defaults.MIN_EDGE}
 defaults.MIN_LINE = {k: 0.0 for k in defaults.MIN_LINE}
 defaults.UNDER_ONLY_MARKETS = set()
-defaults.DISABLED_MARKETS = {"walks"}
+defaults.DISABLED_MARKETS = set()
 
 from sources.mlb_stats import (
     fetch_pitcher_game_logs, fetch_pitcher_advanced_stats,
@@ -179,7 +175,7 @@ def run_sweep(season=None):
     graded = [p for p in all_projections if p.get('won') is not None]
     print(f"\n  Total graded projections: {len(graded)}")
 
-    for market in ['strikeouts', 'outs', 'hits_allowed']:
+    for market in ['strikeouts']:
         mkt = [p for p in graded if p['market'] == market]
         print(f"\n{'='*65}")
         print(f"  {market.upper()} — {len(mkt)} graded projections")

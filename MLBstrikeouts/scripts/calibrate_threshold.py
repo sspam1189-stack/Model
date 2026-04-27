@@ -1,18 +1,17 @@
 """
-calibrate_threshold.py — Empirical calibration of pCover thresholds for MLB props.
+calibrate_threshold.py — Empirical calibration of pCover thresholds for the
+MLB pitcher strikeouts model.
 
-Reads every graded historical pick from mlb-props.json and reports:
+Reads every graded historical strikeouts pick from mlb-props.json and reports:
   1. Actual win rate by pCover bucket (is the model well-calibrated?)
   2. Actual win rate by absolute edge bucket
-  3. Actual win rate by market
-  4. Recommended minimum pCover threshold for each market at a target WR
+  3. Recommended minimum pCover threshold at a target WR
 
 This is how you set MARKET_THRESHOLDS in defaults.py — not by guessing.
 
 Usage:
     python -m scripts.calibrate_threshold
     python -m scripts.calibrate_threshold --target-wr 0.55
-    python -m scripts.calibrate_threshold --market strikeouts
 """
 
 import argparse
@@ -74,6 +73,8 @@ def load_graded_picks(path):
     picks = data.get("props", [])
     graded = []
     for p in picks:
+        if p.get("market") != "strikeouts":
+            continue
         if p.get("pick") in (None, "PASS"):
             continue
         r = _normalize_result(p)
@@ -140,10 +141,6 @@ def edge_bucket_key(p):
     return "3.0+"
 
 
-def market_key(p):
-    return p.get("market")
-
-
 def recommend_threshold(picks, market, target_wr=0.55, min_n=15):
     """Find lowest pCover threshold where actual WR >= target_wr (with min sample)."""
     market_picks = [p for p in picks if p.get("market") == market]
@@ -199,15 +196,11 @@ def main():
     ap.add_argument("--target-wr", type=float, default=None,
                     help="Target win rate for threshold recommendation. "
                          "Defaults to breakeven WR at average pick odds.")
-    ap.add_argument("--market", default=None,
-                    help="Filter to a single market (strikeouts, total_bases, etc.)")
     args = ap.parse_args()
 
     path = os.path.normpath(args.path)
     print(f"\n  Reading picks from {path}")
     picks = load_graded_picks(path)
-    if args.market:
-        picks = [p for p in picks if p.get("market") == args.market]
     print(f"  {len(picks)} graded picks "
           f"({sum(1 for p in picks if p['_result']=='W')} W, "
           f"{sum(1 for p in picks if p['_result']=='L')} L) "
@@ -226,28 +219,23 @@ def main():
                 calibration_table(picks, edge_bucket_key),
                 key_label="|edge| bucket")
 
-    print_table("Performance by market",
-                calibration_table(picks, market_key),
-                key_label="market")
-
     # Threshold recommendation
     print(f"\n{'='*72}")
-    print(f"  Recommended minimum pCover thresholds")
+    print(f"  Recommended minimum pCover threshold")
     print(f"{'='*72}")
-    markets = sorted({p.get("market") for p in picks if p.get("market")})
-    for m in markets:
-        m_picks = [p for p in picks if p.get("market") == m]
-        avg_odds = _avg_odds(m_picks)
-        target = args.target_wr or _breakeven_wr(avg_odds)
-        thresh, n, wr = recommend_threshold(picks, m, target_wr=target)
-        odds_str = f"{avg_odds:+.0f}" if avg_odds else "n/a"
-        if thresh is None:
-            print(f"  {m:<14} target WR {target:.3f} (avg odds {odds_str}): "
-                  f"NO threshold hits target with min sample")
-        else:
-            print(f"  {m:<14} target WR {target:.3f} (avg odds {odds_str}): "
-                  f"use pCover >= {thresh:.3f} "
-                  f"(n={n}, actual WR={wr:.3f})")
+    m = "strikeouts"
+    m_picks = [p for p in picks if p.get("market") == m]
+    avg_odds = _avg_odds(m_picks)
+    target = args.target_wr or _breakeven_wr(avg_odds)
+    thresh, n, wr = recommend_threshold(picks, m, target_wr=target)
+    odds_str = f"{avg_odds:+.0f}" if avg_odds else "n/a"
+    if thresh is None:
+        print(f"  {m:<14} target WR {target:.3f} (avg odds {odds_str}): "
+              f"NO threshold hits target with min sample")
+    else:
+        print(f"  {m:<14} target WR {target:.3f} (avg odds {odds_str}): "
+              f"use pCover >= {thresh:.3f} "
+              f"(n={n}, actual WR={wr:.3f})")
 
     # Miscalibration flag: if any pCover bucket's actual WR is far below claimed
     print(f"\n{'='*72}")

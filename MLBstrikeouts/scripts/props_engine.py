@@ -1,21 +1,5 @@
 # MLBstrikeouts/scripts/props_engine.py
-# MLB pitcher prop projection engine with Kalman filtering + advanced stats.
-#
-# Projection pipeline:
-#   1. Organize per-pitcher game logs from MLB data
-#   2. Compute rolling weighted averages (exponential decay)
-#   3. Query Kalman filter for smoothed pitcher baseline + uncertainty
-#   4. Blend Kalman baseline with rolling average (configurable ratio)
-#   5. Anchor strikeouts to xFIP-derived K/9 (stabilize volatile K rates)
-#   6. Anchor to season per-9 rates (stabilize early-season projections)
-#   7. Adjust for opponent batting (K%, BA, BB% vs league average)
-#   8. Adjust for handedness splits (vs LHB/RHB composition)
-#   9. Adjust for rest days (extra rest bonus / short rest penalty)
-#  10. Apply home/away split
-#  11. Compare blended projection to market prop line
-#  12. Use Student's t-distribution (with Kalman variance) for cover probability
-#  13. Apply market-specific confidence thresholds and edge filters
-#  14. Project game-level total hits (sum of both starters + bullpen allowance)
+# MLB pitcher strikeouts prop projection engine with Kalman filtering.
 
 import math
 import unicodedata
@@ -26,17 +10,12 @@ from defaults import (
     PROP_T_DF, ROLLING_WINDOW, DECAY_FACTOR, MIN_GAMES, MIN_INNINGS,
     MARKET_THRESHOLDS, VAR_MULT, MIN_EDGE, MAX_EDGE, MIN_LINE,
     UNDER_ONLY_MARKETS, DISABLED_MARKETS, EDGE_DEAD_ZONE,
-    OPP_STAT_KEY, OPP_ADJ_WEIGHT, HANDEDNESS_ADJ_WEIGHT,
-    XFIP_ANCHOR_WEIGHT, SEASON_ANCHOR_WEIGHT,
     STAT_KEYS, KALMAN_STAT_KEYS,
 )
-from pitcher_kalman import get_pitcher_projection, PITCHER_KALMAN_DEFAULTS
+from pitcher_kalman import get_pitcher_projection
 from sources.game_context import (
-    REST_ADJUSTMENTS, detect_rest_days,
-    compute_home_away_split, compute_per_inning_rates,
-    project_innings, rate_based_projection,
+    REST_ADJUSTMENTS, detect_rest_days, project_innings,
 )
-from sources.weather import compute_weather_multiplier
 
 
 # ---------------------------------------------------------------------------
@@ -46,17 +25,10 @@ from sources.weather import compute_weather_multiplier
 def _name_key(name):
     """
     Normalize a pitcher name for cross-source matching.
-
-    Strips diacritics so 'Shohei Ohtani' matches across sources.
-
-    'Gerrit Cole'       -> ('gerrit', 'cole')
-    'Yoshinobu Yamamoto' -> ('yoshinobu', 'yamamoto')
-    'Chris Sale Jr.'    -> ('chris', 'sale')
     """
     name = name.strip()
     if not name:
         return ('', '')
-    # Strip diacritics (e.g. accented characters -> ASCII)
     name = unicodedata.normalize('NFKD', name).encode('ascii', 'ignore').decode('ascii')
 
     parts = name.split()
@@ -79,27 +51,13 @@ def _name_key(name):
 def organize_pitcher_logs(raw_logs):
     """
     Organize raw game logs into per-pitcher lists sorted by date.
-
-    Filters to starts only (IP >= 3.0 or is_start flag) to exclude
-    relief appearances.
-
-    Parameters
-    ----------
-    raw_logs : list[dict]
-        Raw pitcher game logs with fields like pitcher_id, game_date, IP,
-        strikeouts, hits_allowed, walks, etc.
-
-    Returns
-    -------
-    dict
-        {pitcher_id: [game_log, ...]} sorted oldest-first, starts only.
+    Filters to starts only (IP >= 3.0 or is_start flag).
     """
     by_pitcher = {}
     for g in raw_logs:
         pid = g.get("pitcher_id")
         if pid is None:
             continue
-        # Filter to starts only: IP >= 3.0 or explicit is_start flag
         ip = g.get("IP", 0)
         is_start = g.get("is_start", False)
         if ip < 3.0 and not is_start:
@@ -119,7 +77,6 @@ def organize_pitcher_logs(raw_logs):
 # ---------------------------------------------------------------------------
 
 def _weighted_avg(values, decay=DECAY_FACTOR):
-    """Exponentially weighted average (most recent = highest weight)."""
     if not values:
         return 0.0
     n = len(values)
@@ -128,7 +85,6 @@ def _weighted_avg(values, decay=DECAY_FACTOR):
 
 
 def _weighted_std(values, decay=DECAY_FACTOR):
-    """Weighted standard deviation."""
     if len(values) < 2:
         return 10.0
     avg = _weighted_avg(values, decay)
@@ -144,23 +100,6 @@ def _weighted_std(values, decay=DECAY_FACTOR):
 # ---------------------------------------------------------------------------
 
 def _is_pitcher_out(name, team, injury_report):
-    """
-    Check if a pitcher is listed as OUT or on the IL in the injury report.
-
-    Parameters
-    ----------
-    name : str
-        Pitcher's display name.
-    team : str
-        Pitcher's team abbreviation.
-    injury_report : list[dict]
-        [{name, team, status, ...}] from injury data source.
-
-    Returns
-    -------
-    bool
-        True if pitcher should be excluded from projections.
-    """
     if not injury_report:
         return False
 
@@ -193,40 +132,15 @@ def project_pitcher_props(pitcher_logs, team_batting_stats=None,
                           batter_k_rates=None, lineup_data=None,
                           savant_rates=None):
     """
-    Project pitcher props for all pitchers with sufficient game logs.
-
-    Parameters
-    ----------
-    pitcher_logs : dict
-        {pitcher_id: [game_log, ...]} from organize_pitcher_logs.
-    team_batting_stats : dict or None
-        {team_abbr: {"K_PCT": float, "BA": float, "OPS": float, "BB_PCT": float,
-                     "PCT_LHB": float (optional)}}
-    prop_lines : list[dict] or None
-        Market prop lines from FanDuel / Odds API.
-    kalman_state : dict or None
-        Per-pitcher Kalman state from pitcher_kalman.
-    pitcher_adv_stats : dict or None
-        {pitcher_id_str: {"K_PER_9": float, "BB_PER_9": float, "H_PER_9": float,
-                          "WHIP": float, ...}}
-    pitcher_sabermetrics : dict or None
-        {pitcher_id_str: {"fip": float, "xfip": float}}
-    pitcher_splits : dict or None
-        {pitcher_id_str: {"vs_right": {"k_per_9": float, "ba": float, ...},
-                          "vs_left": {"k_per_9": float, "ba": float, ...}}}
-    probable_pitchers : list[dict] or None
-        [{"game_id": str, "home_team": str, "away_team": str,
-          "home_pitcher": str, "away_pitcher": str,
-          "home_pitcher_id": int, "away_pitcher_id": int}]
-    injury_report : list[dict] or None
-        [{name, team, status, ...}] from injury data source.
-
-    Returns
-    -------
-    list[dict]
-        Projections with picks where applicable.
+    Project pitcher strikeouts props for all pitchers with sufficient game logs.
     """
     projections = []
+    market = "strikeouts"
+
+    if market in DISABLED_MARKETS:
+        return projections
+
+    stat_key = STAT_KEYS[market]
 
     # Compute league averages for opponent batting adjustment
     league_avg = {}
@@ -237,16 +151,13 @@ def project_pitcher_props(pitcher_logs, team_batting_stats=None,
 
     # Index prop lines by (first_name, last_name, market)
     line_lookup = {}
-    # Build pitcher -> game context from prop lines or probable pitchers
-    pitcher_game_ctx = {}  # pitcher_name_key -> {opp, is_home, team}
+    pitcher_game_ctx = {}
     if prop_lines:
         for pl in prop_lines:
             nk = _name_key(pl.get("player", ""))
             key = (nk[0], nk[1], pl.get("market", ""))
             line_lookup[key] = pl
 
-    # Build pitcher game context from probable pitchers
-    # Also build pitcher_id -> game context for ID-based lookup
     pitcher_id_ctx = {}
     if probable_pitchers:
         for gm in probable_pitchers:
@@ -279,19 +190,14 @@ def project_pitcher_props(pitcher_logs, team_batting_stats=None,
         name = games[-1].get("pitcher_name", "Unknown")
         team = games[-1].get("team", "")
 
-        # Skip injured pitchers
         if injury_report and _is_pitcher_out(name, team, injury_report):
             continue
 
-        # Resolve game context: check if this pitcher is a probable starter today
-        # Try by pitcher_id first, then by name key
         ctx = pitcher_id_ctx.get(pid, {})
         if not ctx:
             nk = _name_key(name)
             ctx = pitcher_game_ctx.get(nk, {})
 
-        # If we have probable pitchers data but this pitcher isn't in it,
-        # they're not starting today — skip
         if probable_pitchers and not ctx:
             continue
 
@@ -299,18 +205,12 @@ def project_pitcher_props(pitcher_logs, team_batting_stats=None,
         is_home = ctx.get("is_home", games[-1].get("is_home", True))
         game_date = games[-1].get("game_date", "")
 
-        # Filter to starts with enough innings
         qualified = [g for g in recent if g.get("IP", 0) >= MIN_INNINGS]
 
-        # Get this pitcher's advanced stats and sabermetrics
         adv = (pitcher_adv_stats or {}).get(str(pid), {})
         saber = (pitcher_sabermetrics or {}).get(str(pid), {})
         splits = (pitcher_splits or {}).get(str(pid), {})
 
-        # --- Per-inning rates ---
-        rates = compute_per_inning_rates(qualified)
-
-        # --- Projected innings ---
         rest_days = detect_rest_days(games, game_date)
         pitcher_bb9 = adv.get("BB_PER_9") or adv.get("bb_per_9")
         opp_batting = (team_batting_stats or {}).get(latest_opp, {})
@@ -323,476 +223,160 @@ def project_pitcher_props(pitcher_logs, team_batting_stats=None,
         )
 
         if proj_ip < 3.0:
-            continue  # Skip pitchers projected for very few innings
+            continue
 
-        # --- Project each individual market ---
-        for market, stat_key in STAT_KEYS.items():
-            # Skip disabled markets
-            if market in DISABLED_MARKETS:
-                continue
+        min_g = MIN_GAMES.get(market, 3)
+        vals = [g.get(stat_key, 0) for g in qualified]
 
-            min_g = MIN_GAMES.get(market, 3)
-            vals = [g.get(stat_key, 0) for g in qualified]
+        if len(vals) < min_g:
+            continue
 
-            if len(vals) < min_g:
-                continue
+        n_games = len(vals)
+        rolling_std = _weighted_std(vals) * VAR_MULT.get(market, 1.2)
 
-            n_games = len(vals)
-            rolling_std = _weighted_std(vals) * VAR_MULT.get(market, 1.2)
+        # --- Pitcher K rate by handedness ---
+        vl = splits.get("vs_left", {})
+        vr = splits.get("vs_right", {})
+        vl_k, vl_pa = vl.get("k", 0), vl.get("pa", 0)
+        vr_k, vr_pa = vr.get("k", 0), vr.get("pa", 0)
 
-            # =============================================================
-            # STRIKEOUTS: Rate × Batters Faced projection
-            #
-            # K = pitcher_k_rate_vs_lineup × projected_batters_faced
-            #
-            # Pitcher K rate comes from:
-            #   1. Splits: K% vs LHB and K% vs RHB (most granular)
-            #   2. Savant: overall K% and whiff% (supplementary)
-            #   3. MLB API: season K% = k / bf (fallback)
-            #   4. Kalman-tracked K rate (adaptive baseline)
-            #
-            # Lineup K tendency from:
-            #   1. Individual batter K% vs pitcher hand
-            #
-            # Combined via log5: (pitcher_rate × lineup_rate) / league_rate
-            # =============================================================
-            if market == "strikeouts":
-                # --- Pitcher K rate by handedness ---
-                vl = splits.get("vs_left", {})
-                vr = splits.get("vs_right", {})
-                vl_k, vl_pa = vl.get("k", 0), vl.get("pa", 0)
-                vr_k, vr_pa = vr.get("k", 0), vr.get("pa", 0)
+        k_rate_vs_lhb = vl_k / vl_pa if vl_pa > 0 else 0.0
+        k_rate_vs_rhb = vr_k / vr_pa if vr_pa > 0 else 0.0
 
-                k_rate_vs_lhb = vl_k / vl_pa if vl_pa > 0 else 0.0
-                k_rate_vs_rhb = vr_k / vr_pa if vr_pa > 0 else 0.0
+        overall_k_pct = adv.get("k_pct", 0) or 0.0
+        savant = (savant_rates or {}).get(str(pid), {})
+        savant_k_pct = savant.get("k_pct", 0) or 0.0
 
-                # Fallback: overall K% from advanced stats or Savant
-                overall_k_pct = adv.get("k_pct", 0) or 0.0
-                savant = (savant_rates or {}).get(str(pid), {})
-                savant_k_pct = savant.get("k_pct", 0) or 0.0
+        if overall_k_pct == 0 and savant_k_pct > 0:
+            overall_k_pct = savant_k_pct
+        elif overall_k_pct == 0:
+            total_k = sum(g.get("k", 0) for g in qualified)
+            est_bf = sum(
+                int(g.get("IP", g.get("ip", 0)) * 3) + g.get("h", 0) + g.get("bb", 0)
+                for g in qualified
+            )
+            overall_k_pct = total_k / est_bf if est_bf > 0 else 0.20
 
-                if overall_k_pct == 0 and savant_k_pct > 0:
-                    overall_k_pct = savant_k_pct
-                elif overall_k_pct == 0:
-                    # Compute from game logs
-                    total_k = sum(g.get("k", 0) for g in qualified)
-                    total_ip = sum(g.get("IP", g.get("ip", 0)) for g in qualified)
-                    est_bf = sum(
-                        int(g.get("IP", g.get("ip", 0)) * 3) + g.get("h", 0) + g.get("bb", 0)
-                        for g in qualified
-                    )
-                    overall_k_pct = total_k / est_bf if est_bf > 0 else 0.20
+        if k_rate_vs_lhb == 0:
+            k_rate_vs_lhb = overall_k_pct
+        if k_rate_vs_rhb == 0:
+            k_rate_vs_rhb = overall_k_pct
 
-                # If no split data, use overall for both sides
-                if k_rate_vs_lhb == 0:
-                    k_rate_vs_lhb = overall_k_pct
-                if k_rate_vs_rhb == 0:
-                    k_rate_vs_rhb = overall_k_pct
+        opp_stats = (team_batting_stats or {}).get(latest_opp, {})
+        pct_lhb = opp_stats.get("PCT_LHB", 0.40)
 
-                # Weight by tonight's lineup handedness
-                opp_stats = (team_batting_stats or {}).get(latest_opp, {})
-                pct_lhb = opp_stats.get("PCT_LHB", 0.40)
+        pitcher_k_rate = k_rate_vs_lhb * pct_lhb + k_rate_vs_rhb * (1.0 - pct_lhb)
 
-                pitcher_k_rate = k_rate_vs_lhb * pct_lhb + k_rate_vs_rhb * (1.0 - pct_lhb)
+        # --- Lineup K tendency ---
+        lineup_k_rate = league_avg.get("K_PCT", 0.22)
+        if batter_k_rates and lineup_data:
+            opp_lineup = lineup_data.get(latest_opp, {})
+            opp_player_ids = opp_lineup.get("player_ids", [])
+            if opp_player_ids:
+                _pitch_hand = adv.get("pitch_hand", "R")
+                from sources.mlb_stats import compute_lineup_k_pct
+                lk = compute_lineup_k_pct(opp_player_ids, batter_k_rates, _pitch_hand)
+                if lk.get("lineup_k_pct_vs_hand", 0) > 0:
+                    lineup_k_rate = lk["lineup_k_pct_vs_hand"]
 
-                # --- Lineup K tendency ---
-                lineup_k_rate = league_avg.get("K_PCT", 0.22)  # default
-                if batter_k_rates and lineup_data:
-                    opp_lineup = lineup_data.get(latest_opp, {})
-                    opp_player_ids = opp_lineup.get("player_ids", [])
-                    if opp_player_ids:
-                        _pitch_hand = adv.get("pitch_hand", "R")
-                        from sources.mlb_stats import compute_lineup_k_pct
-                        lk = compute_lineup_k_pct(opp_player_ids, batter_k_rates, _pitch_hand)
-                        if lk.get("lineup_k_pct_vs_hand", 0) > 0:
-                            lineup_k_rate = lk["lineup_k_pct_vs_hand"]
+        lg_k_rate = league_avg.get("K_PCT", 0.22) or 0.22
+        expected_k_rate = (pitcher_k_rate * lineup_k_rate) / lg_k_rate
+        expected_k_rate = max(0.05, min(0.50, expected_k_rate))
 
-                # --- Log5 combination ---
-                # expected_rate = (pitcher × lineup) / league
-                lg_k_rate = league_avg.get("K_PCT", 0.22) or 0.22
-                expected_k_rate = (pitcher_k_rate * lineup_k_rate) / lg_k_rate
-                expected_k_rate = max(0.05, min(0.50, expected_k_rate))  # sanity bounds
+        # --- Projected batters faced ---
+        game_bfs = []
+        game_pcs = []
+        game_ppbfs = []
+        for g in qualified:
+            _outs = g.get("outs", 0)
+            _h = g.get("h", 0)
+            _bb = g.get("bb", 0)
+            _pc = g.get("pitches", 0)
+            _bf = _outs + _h + _bb + 1
+            if _bf > 0 and _pc > 0:
+                game_bfs.append(_bf)
+                game_pcs.append(_pc)
+                game_ppbfs.append(_pc / _bf)
 
-                # --- Projected batters faced (from rolling efficiency) ---
-                # Use game-log efficiency instead of season WHIP:
-                # pitches_per_bf and avg pitch count → expected BF
-                game_bfs = []
-                game_pcs = []
-                game_ppbfs = []
-                for g in qualified:
-                    _outs = g.get("outs", 0)
-                    _h = g.get("h", 0)
-                    _bb = g.get("bb", 0)
-                    _pc = g.get("pitches", 0)
-                    _bf = _outs + _h + _bb + 1  # +1 approx HBP
-                    if _bf > 0 and _pc > 0:
-                        game_bfs.append(_bf)
-                        game_pcs.append(_pc)
-                        game_ppbfs.append(_pc / _bf)
+        if game_ppbfs:
+            avg_ppbf = _weighted_avg(game_ppbfs)
+            avg_pc = _weighted_avg(game_pcs)
+            projected_bf = avg_pc / avg_ppbf if avg_ppbf > 0 else 24.0
+        else:
+            whip = adv.get("WHIP", 0) or 1.20
+            projected_bf = proj_ip * (3.0 + whip * 0.7)
 
-                if game_ppbfs:
-                    # Rolling weighted efficiency
-                    avg_ppbf = _weighted_avg(game_ppbfs)
-                    avg_pc = _weighted_avg(game_pcs)
-                    # BF = pitch count ceiling / pitches per batter
-                    projected_bf = avg_pc / avg_ppbf if avg_ppbf > 0 else 24.0
-                else:
-                    whip = adv.get("WHIP", 0) or 1.20
-                    projected_bf = proj_ip * (3.0 + whip * 0.7)
+        projected_bf = min(projected_bf * 0.91, 23.0)
 
-                # Modern MLB reality: starters rarely exceed 23 BF and next-start
-                # BF is systematically below rolling average due to:
-                #  1. Survivorship bias — prior outings only include games where
-                #     the starter stayed in long enough to accumulate data
-                #  2. Bullpen-first game scripts (hooks at 2nd run scored, etc.)
-                #  3. Third-time-through-order penalty truncating long outings
-                # Apply 7% shrinkage + hard cap at 23.
-                projected_bf = min(projected_bf * 0.91, 23.0)
+        # --- Weather effect on K ---
+        k_weather_mult = 1.0
+        if weather_by_game:
+            _game_id = ctx.get("game_id")
+            if _game_id:
+                w_data = (weather_by_game.get(_game_id)
+                          or weather_by_game.get(str(_game_id)))
+                if w_data:
+                    import re as _re
+                    _temp_m = _re.search(r"(\d+)", str(w_data.get("temp", "")))
+                    if _temp_m:
+                        _temp = int(_temp_m.group(1))
+                        if _temp <= 50:
+                            k_weather_mult += 0.02
+                        elif _temp >= 90:
+                            k_weather_mult -= 0.01
 
-                # --- Weather effect on K ---
-                # Cold + wind in = slightly more K (worse contact, less carry)
-                k_weather_mult = 1.0
-                if weather_by_game:
-                    _game_id = ctx.get("game_id")
-                    if _game_id:
-                        w_data = (weather_by_game.get(_game_id)
-                                  or weather_by_game.get(str(_game_id)))
-                        if w_data:
-                            import re as _re
-                            _temp_m = _re.search(r"(\d+)", str(w_data.get("temp", "")))
-                            if _temp_m:
-                                _temp = int(_temp_m.group(1))
-                                if _temp <= 50:
-                                    k_weather_mult += 0.02  # cold = more K
-                                elif _temp >= 90:
-                                    k_weather_mult -= 0.01  # hot = less K (better bat speed)
+        model_proj = expected_k_rate * projected_bf * k_weather_mult
 
-                # --- K projection ---
-                model_proj = expected_k_rate * projected_bf * k_weather_mult
-
-                # --- Kalman blend (tracks pitcher's K trend) ---
-                kalman_key = KALMAN_STAT_KEYS.get(market)
-                kalman_proj, _ = _blend_with_kalman(
-                    kalman_state, str(pid), kalman_key,
-                    model_proj, rolling_std,
-                )
-                # 50% rate-based, 50% Kalman (swept 0.40-0.60 in 0.01 steps on
-                # 2026 backtest: 0.50 produced the best win rate (81.1%) and
-                # ROI (+59.4%) with cleanest picks 60-14 at threshold 0.70.
-                # Rate model alone has best MAE/corr but picks too aggressively;
-                # 50/50 lets Kalman regularize extreme rate-model projections.)
-                model_proj = 0.5 * model_proj + 0.5 * kalman_proj
-
-                # Capture Kalman posterior variance as projection-uncertainty
-                # proxy. This adds to total std below (observation noise +
-                # model uncertainty) — tighter for well-sampled pitchers,
-                # wider for noisy/new ones. Addresses calibration gap in
-                # 0.70-0.75 bucket where projection uncertainty dominates.
-                from pitcher_kalman import get_pitcher_projection
-                _kp = get_pitcher_projection(kalman_state, str(pid),
-                                             kalman_key, rolling_avg=model_proj)
-                k_kalman_var = _kp.get("var", 0.0)
-
-                # Rest adjustment
-                model_proj = _apply_rest_adjustment(model_proj, market, rest_days)
-
-            # =============================================================
-            # HITS ALLOWED: Decomposition model
-            #
-            # E[H] = E[HR] + (E[BF] - E[K] - E[BB] - E[HBP] - E[HR]) × BABIP_adj
-            #
-            # Each component projected separately. Park + weather adjust
-            # HR rate and BABIP directly.
-            # =============================================================
-            elif market == "hits_allowed":
-                # --- Projected BF (same as K model) ---
-                game_bfs_ha = []
-                game_pcs_ha = []
-                game_ppbfs_ha = []
-                for g in qualified:
-                    _bf = g.get("bf", 0) or (g.get("outs", 0) + g.get("h", 0) + g.get("bb", 0) + 1)
-                    _pc = g.get("pitches", 0)
-                    if _bf > 0 and _pc > 0:
-                        game_bfs_ha.append(_bf)
-                        game_pcs_ha.append(_pc)
-                        game_ppbfs_ha.append(_pc / _bf)
-
-                if game_ppbfs_ha:
-                    avg_ppbf = _weighted_avg(game_ppbfs_ha)
-                    avg_pc = _weighted_avg(game_pcs_ha)
-                    proj_bf = avg_pc / avg_ppbf if avg_ppbf > 0 else 24.0
-                else:
-                    whip = adv.get("WHIP", 0) or 1.20
-                    proj_bf = proj_ip * (3.0 + whip * 0.7)
-
-                # --- E[K] from our K model (reuse rate × BF) ---
-                vl = splits.get("vs_left", {})
-                vr = splits.get("vs_right", {})
-                vl_k, vl_pa = vl.get("k", 0), vl.get("pa", 0)
-                vr_k, vr_pa = vr.get("k", 0), vr.get("pa", 0)
-                k_rate_l = vl_k / vl_pa if vl_pa > 0 else (adv.get("k_pct", 0) or 0.20)
-                k_rate_r = vr_k / vr_pa if vr_pa > 0 else (adv.get("k_pct", 0) or 0.20)
-                opp_stats = (team_batting_stats or {}).get(latest_opp, {})
-                pct_lhb = opp_stats.get("PCT_LHB", 0.40)
-                proj_k_rate = k_rate_l * pct_lhb + k_rate_r * (1.0 - pct_lhb)
-                proj_k = proj_k_rate * proj_bf
-
-                # --- E[BB] from rolling BB rate ---
-                total_bb = sum(g.get("bb", 0) for g in qualified)
-                total_bf_q = sum(g.get("bf", 0) or (g.get("outs", 0) + g.get("h", 0) + g.get("bb", 0) + 1) for g in qualified)
-                bb_rate = total_bb / total_bf_q if total_bf_q > 0 else 0.08
-                proj_bb = bb_rate * proj_bf
-
-                # --- E[HBP] (small, use average ~0.3 per game) ---
-                total_hbp = sum(g.get("hbp", 0) for g in qualified)
-                hbp_rate = total_hbp / len(qualified) if qualified else 0.3
-                proj_hbp = max(hbp_rate, 0.2)
-
-                # --- E[HR] from rolling HR rate ---
-                total_hr = sum(g.get("hr", 0) for g in qualified)
-                hr_rate = total_hr / total_bf_q if total_bf_q > 0 else 0.03
-                proj_hr = hr_rate * proj_bf
-
-                # --- BIP (balls in play) ---
-                proj_bip = max(0, proj_bf - proj_k - proj_bb - proj_hbp - proj_hr)
-
-                # --- BABIP ---
-                # Compute from game logs
-                total_h = sum(g.get("h", 0) for g in qualified)
-                total_hr_q = sum(g.get("hr", 0) for g in qualified)
-                total_k_q = sum(g.get("k", 0) for g in qualified)
-                bip_actual = total_bf_q - total_k_q - total_bb - total_hr_q
-                pitcher_babip = (total_h - total_hr_q) / bip_actual if bip_actual > 0 else 0.300
-
-                # Shrink toward league average (.300) — BABIP is very noisy
-                lg_babip = 0.300
-                babip_shrink = 0.5  # 50% league, 50% pitcher
-                babip_adj = babip_shrink * lg_babip + (1 - babip_shrink) * pitcher_babip
-
-                # Savant xBA as better BABIP estimate if available
-                savant = (savant_rates or {}).get(str(pid), {})
-                if savant.get("xba", 0) > 0:
-                    # xBA is expected BA against — includes HR, so adjust
-                    # BABIP ≈ (xBA × BF - HR) / BIP, but simpler: use as anchor
-                    babip_adj = 0.4 * savant["xba"] + 0.3 * pitcher_babip + 0.3 * lg_babip
-
-                # --- Park + weather adjustments ---
-                hr_mult = 1.0
-                babip_mult = 1.0
-                if weather_by_game:
-                    _game_id = ctx.get("game_id")
-                    if _game_id:
-                        w_data = (weather_by_game.get(_game_id)
-                                  or weather_by_game.get(str(_game_id)))
-                        if w_data:
-                            _home_team = ctx.get("team") if is_home else ctx.get("opp", "")
-                            w_mult = compute_weather_multiplier(w_data, _home_team)
-                            # Weather affects HR more than BABIP
-                            hr_mult = 1.0 + (w_mult - 1.0) * 1.5   # amplify for HR
-                            babip_mult = 1.0 + (w_mult - 1.0) * 0.5  # dampen for BABIP
-
-                proj_hr *= hr_mult
-                babip_adj *= babip_mult
-
-                # --- Opponent batting adjustment ---
-                # Contact-heavy lineups with low K% = more BIP = more hits
-                opp_ba = opp_stats.get("BA", 0)
-                lg_ba = league_avg.get("BA", 0.250) or 0.250
-                if opp_ba > 0 and lg_ba > 0:
-                    ba_ratio = opp_ba / lg_ba
-                    babip_adj *= (1.0 + (ba_ratio - 1.0) * 0.3)
-
-                # --- Handedness adjustment on BABIP ---
-                # Use pitcher's BA against splits
-                vl_ba = vl.get("ba", 0)
-                vr_ba = vr.get("ba", 0)
-                try:
-                    vl_ba = float(vl_ba) if vl_ba else 0
-                    vr_ba = float(vr_ba) if vr_ba else 0
-                except (ValueError, TypeError):
-                    vl_ba, vr_ba = 0, 0
-                if vl_ba > 0 and vr_ba > 0:
-                    weighted_ba = vl_ba * pct_lhb + vr_ba * (1.0 - pct_lhb)
-                    overall_ba = (vl_ba + vr_ba) / 2.0
-                    if overall_ba > 0:
-                        hand_adj = (weighted_ba / overall_ba)
-                        babip_adj *= (1.0 + (hand_adj - 1.0) * 0.15)
-
-                # --- Final HA projection ---
-                model_proj = proj_hr + (proj_bip * babip_adj)
-
-                # Kalman blend (tracks raw H trend)
-                kalman_key = KALMAN_STAT_KEYS.get(market)
-                kalman_proj, _ = _blend_with_kalman(
-                    kalman_state, str(pid), kalman_key,
-                    model_proj, rolling_std,
-                )
-                # 60% decomposition, 40% Kalman
-                model_proj = 0.6 * model_proj + 0.4 * kalman_proj
-
-                # Rest adjustment
-                model_proj = _apply_rest_adjustment(model_proj, market, rest_days)
-
-            # =============================================================
-            # OUTS: Efficiency-based projection with run environment
-            #
-            # Outs = f(pitch count ceiling, efficiency, run environment)
-            #
-            # High-run environment (hot, wind out, hitter park) = more
-            # baserunners = higher pitch counts = earlier hook = fewer outs.
-            # =============================================================
-            else:
-                # --- Rolling efficiency from game logs ---
-                game_pcs = []     # pitch counts
-                game_ppbfs = []   # pitches per batter faced
-                game_bfs = []     # batters faced
-                for g in qualified:
-                    _outs = g.get("outs", 0)
-                    _h = g.get("h", 0)
-                    _bb = g.get("bb", 0)
-                    _pc = g.get("pitches", 0)
-                    _bf = _outs + _h + _bb + 1
-                    if _bf > 0 and _pc > 0:
-                        game_pcs.append(_pc)
-                        game_ppbfs.append(_pc / _bf)
-                        game_bfs.append(_bf)
-
-                rolling_avg = _weighted_avg(vals)
-
-                if game_ppbfs and game_pcs:
-                    # Efficiency-based: BF from pitch count / pitches per BF
-                    avg_ppbf = _weighted_avg(game_ppbfs)
-                    avg_pc = _weighted_avg(game_pcs)
-                    efficiency_bf = avg_pc / avg_ppbf if avg_ppbf > 0 else 24.0
-
-                    # Opponent patience adjustment
-                    # High-OBP teams see more pitches → fewer BF in same pitch count
-                    opp_obp = (team_batting_stats or {}).get(latest_opp, {}).get("OPS", 0.700)
-                    lg_ops = league_avg.get("OPS", 0.700) or 0.700
-                    if opp_obp > 0 and lg_ops > 0:
-                        patience_adj = 1.0 - (opp_obp - lg_ops) * 0.5
-                        efficiency_bf *= patience_adj
-
-                    # Convert BF to outs: not all BF are outs
-                    # out_rate = outs / BF from recent games
-                    total_outs = sum(g.get("outs", 0) for g in qualified)
-                    total_bf = sum(game_bfs) if game_bfs else 1
-                    out_rate = total_outs / total_bf if total_bf > 0 else 0.70
-                    outs_from_efficiency = efficiency_bf * out_rate
-
-                    # Blend with rolling avg (efficiency is better but rolling is stable)
-                    model_proj = 0.5 * outs_from_efficiency + 0.5 * rolling_avg
-                else:
-                    model_proj = rolling_avg
-
-                # Season anchor (scaled by sample)
-                sample_scale = max(0.0, min(1.0, (n_games - 2) / 8.0))
-                anchor_w = SEASON_ANCHOR_WEIGHT.get(market, 0.0) * sample_scale
-                if anchor_w > 0 and adv:
-                    season_rate = _get_season_rate(adv, market)
-                    if season_rate and season_rate > 0:
-                        season_proj = season_rate * proj_ip / 9.0
-                        model_proj = (1 - anchor_w) * model_proj + anchor_w * season_proj
-
-                # Kalman blending
-                kalman_key = KALMAN_STAT_KEYS.get(market)
-                model_proj, _ = _blend_with_kalman(
-                    kalman_state, str(pid), kalman_key,
-                    model_proj, rolling_std,
-                )
-
-                # Opponent adjustment
-                model_proj = _apply_opp_adjustment(model_proj, market, latest_opp,
-                                                   team_batting_stats, league_avg)
-
-                # Rest adjustment
-                model_proj = _apply_rest_adjustment(model_proj, market, rest_days)
-
-                # Home/away split
-                split = compute_home_away_split(games, stat_key)
-                if is_home and split.get("home_split_adj"):
-                    model_proj += split["home_split_adj"]
-                elif not is_home and split.get("away_split_adj"):
-                    model_proj += split["away_split_adj"]
-
-                # --- Run environment adjustment (outs are very sensitive) ---
-                # High-run env = shorter outings = fewer outs
-                if weather_by_game:
-                    _game_id = ctx.get("game_id")
-                    if _game_id:
-                        w_data = (weather_by_game.get(_game_id)
-                                  or weather_by_game.get(str(_game_id)))
-                        if w_data:
-                            _home_team = ctx.get("team") if is_home else ctx.get("opp", "")
-                            # Reuse weather multiplier — but for outs, INVERT it
-                            # and amplify: outs are 0.8x as sensitive as hits
-                            w_mult = compute_weather_multiplier(w_data, _home_team)
-                            # w_mult > 1.0 means more hits expected → fewer outs
-                            # w_mult < 1.0 means fewer hits → more outs
-                            outs_mult = 1.0 - (w_mult - 1.0) * 0.8
-                            model_proj *= outs_mult
-
-            # --- Final projection ---
-            proj = model_proj
-
-            # --- Empirical std ---
-            # Calibration (scripts.calibrate_threshold) confirmed current
-            # floors produce pCover that matches observed WR in 0.75-0.90
-            # buckets. Re-run calibration before changing these numbers.
-            EMPIRICAL_STD = {
-                "strikeouts": 1.9,
-                "outs": 2.4,
-                "hits_allowed": 1.9,
-            }
-            emp_std = EMPIRICAL_STD.get(market, 2.0)
-
-            if n_games <= 3:
-                std = emp_std
-            elif n_games <= 7:
-                blend = (n_games - 3) / 4.0
-                std = emp_std * (1 - blend) + rolling_std * blend
-                std = max(std, emp_std * 0.7)
-            else:
-                std = max(rolling_std, emp_std * 0.5)
-
-            # --- Model-uncertainty augmentation (strikeouts only for now) ---
-            # Combines observation noise (std above) with projection uncertainty
-            # via sum-of-variances. Kalman posterior var is the model's own
-            # confidence estimate — high for pitchers with few/noisy starts,
-            # low for established ones. Scaled by 0.5 so the contribution is
-            # capped (Kalman variance on K ~4-10 for new pitchers would
-            # otherwise dominate and inflate std to non-useful levels).
-            if market == "strikeouts":
-                k_model_var = locals().get("k_kalman_var", 0.0) * 0.5
-                std = math.sqrt(std**2 + k_model_var)
-
-            # --- 8. Make pick ---
-            prop = _make_prop(name, team, market, proj, std, line_lookup, latest_opp)
-            if prop:
-                projections.append(prop)
-
-    # --- Game hits (game-level market) ---
-    if "game_hits" not in DISABLED_MARKETS and probable_pitchers:
-        game_hits_props = _project_game_hits(
-            probable_pitchers, projections, team_batting_stats, line_lookup,
+        # --- Kalman blend ---
+        kalman_key = KALMAN_STAT_KEYS.get(market)
+        kalman_proj, _ = _blend_with_kalman(
+            kalman_state, str(pid), kalman_key,
+            model_proj, rolling_std,
         )
-        projections.extend(game_hits_props)
+        model_proj = 0.5 * model_proj + 0.5 * kalman_proj
+
+        _kp = get_pitcher_projection(kalman_state, str(pid),
+                                     kalman_key, rolling_avg=model_proj)
+        k_kalman_var = _kp.get("var", 0.0)
+
+        # Rest adjustment
+        model_proj = _apply_rest_adjustment(model_proj, market, rest_days)
+
+        proj = model_proj
+
+        # --- Empirical std ---
+        EMPIRICAL_STD = {"strikeouts": 1.9}
+        emp_std = EMPIRICAL_STD.get(market, 2.0)
+
+        if n_games <= 3:
+            std = emp_std
+        elif n_games <= 7:
+            blend = (n_games - 3) / 4.0
+            std = emp_std * (1 - blend) + rolling_std * blend
+            std = max(std, emp_std * 0.7)
+        else:
+            std = max(rolling_std, emp_std * 0.5)
+
+        k_model_var = k_kalman_var * 0.5
+        std = math.sqrt(std**2 + k_model_var)
+
+        prop = _make_prop(name, team, market, proj, std, line_lookup, latest_opp)
+        if prop:
+            projections.append(prop)
 
     # --- Paired teammate filter ---
-    # When 2+ pitchers from the same game both pick the same direction,
-    # correlation between them drags down win rate. Keep best pCover only.
     from collections import defaultdict
 
     paired_keep_best = [
         ("strikeouts", "UNDER"),
         ("strikeouts", "OVER"),
     ]
-    for market, direction in paired_keep_best:
+    for mkt, direction in paired_keep_best:
         by_team = defaultdict(list)
         for p in projections:
-            if p.get("market") == market and p.get("pick") == direction:
+            if p.get("market") == mkt and p.get("pick") == direction:
                 by_team[p.get("team", "")].append(p)
-        for team, picks in by_team.items():
+        for tm, picks in by_team.items():
             if len(picks) >= 2:
                 picks.sort(key=lambda x: -(x.get("pCover") or 0))
                 for p in picks[1:]:
@@ -808,11 +392,6 @@ def project_pitcher_props(pitcher_logs, team_batting_stats=None,
 
 def _blend_with_kalman(kalman_state, pitcher_id, stat_key,
                        rolling_avg, rolling_std):
-    """
-    Blend Kalman projection with rolling average.
-
-    Returns (blended_proj, blended_std).
-    """
     if kalman_state is None or stat_key is None:
         return rolling_avg, rolling_std
 
@@ -822,7 +401,6 @@ def _blend_with_kalman(kalman_state, pitcher_id, stat_key,
     proj = kp["proj"]
     kalman_var = kp["var"]
 
-    # Use Kalman variance to inform std if source includes Kalman
     if kp["source"] in ("kalman_blend", "kalman_only"):
         kalman_std = math.sqrt(kalman_var)
         std = max(rolling_std, kalman_std)
@@ -833,230 +411,16 @@ def _blend_with_kalman(kalman_state, pitcher_id, stat_key,
 
 
 # ---------------------------------------------------------------------------
-# Adjustments: xFIP anchor, season anchor, opponent, handedness, rest
+# Rest adjustment
 # ---------------------------------------------------------------------------
-
-def _xfip_to_k9(xfip, actual_k9):
-    """
-    Convert xFIP to an implied K/9 rate.
-
-    xFIP normalizes HR/FB rate to league average. The relationship between
-    xFIP and K/9 is approximately:
-        implied_K9 ~ actual_K9 * (league_avg_FIP / xFIP)
-
-    When xFIP < actual FIP, the pitcher is "unlucky" on HR and their
-    true talent K/9 is likely higher than observed.
-
-    If actual_k9 is available, blend xFIP signal with it.
-    If not, estimate from xFIP using league-average relationship.
-
-    Parameters
-    ----------
-    xfip : float
-        Expected Fielding Independent Pitching.
-    actual_k9 : float
-        Pitcher's actual K/9 rate this season.
-
-    Returns
-    -------
-    float
-        Implied K/9 rate anchored to xFIP.
-    """
-    if not xfip or xfip <= 0:
-        return actual_k9 if actual_k9 > 0 else 0.0
-
-    # League-average constants (approximate)
-    LEAGUE_AVG_FIP = 4.00
-    LEAGUE_AVG_K9 = 8.5
-
-    if actual_k9 > 0:
-        # xFIP-implied adjustment: if xFIP is lower than league avg FIP,
-        # the pitcher's true talent K rate is likely higher
-        # Blend: 70% actual K/9 + 30% xFIP-derived estimate
-        xfip_ratio = LEAGUE_AVG_FIP / xfip if xfip > 0 else 1.0
-        xfip_implied_k9 = LEAGUE_AVG_K9 * xfip_ratio
-        return 0.7 * actual_k9 + 0.3 * xfip_implied_k9
-    else:
-        # No actual K/9 — estimate entirely from xFIP
-        xfip_ratio = LEAGUE_AVG_FIP / xfip if xfip > 0 else 1.0
-        return LEAGUE_AVG_K9 * xfip_ratio
-
-
-def _get_season_rate(adv_stats, market):
-    """
-    Get the season per-9 rate for a given market from advanced stats.
-
-    Used for season anchoring to stabilize projections early in the season
-    when rolling windows are noisy.
-
-    Parameters
-    ----------
-    adv_stats : dict
-        Pitcher advanced stats: {"K_PER_9", "BB_PER_9", "H_PER_9", "HR_PER_9", ...}
-    market : str
-        Market name.
-
-    Returns
-    -------
-    float or None
-        Per-9 rate for the market, or None if not available.
-    """
-    _RATE_MAP = {
-        "strikeouts": ("K_PER_9", "k_per_9"),
-        "walks": ("BB_PER_9", "bb_per_9"),
-        "hits_allowed": ("H_PER_9", "h_per_9"),
-        "outs": None,  # derived, no direct per-9 rate
-    }
-
-    keys = _RATE_MAP.get(market)
-    if keys is None:
-        return None
-
-    for k in keys if isinstance(keys, tuple) else [keys]:
-        val = adv_stats.get(k, 0)
-        if val and val > 0:
-            return val
-
-    return None
-
-
-def _apply_opp_adjustment(proj, market, opp_team, team_batting_stats, league_avg):
-    """
-    Adjust projection based on opponent batting stats.
-
-    For strikeouts: teams with high K% face more strikeouts.
-    For hits_allowed: teams with high BA produce more hits.
-    For walks: teams with high BB% draw more walks.
-
-    Uses multiplicative adjustment: scales projection by how far the opponent
-    deviates from league average in the relevant stat.
-    """
-    if not team_batting_stats or not opp_team:
-        return proj
-
-    opp_key = OPP_STAT_KEY.get(market)
-    weight = OPP_ADJ_WEIGHT.get(market, 0.0)
-    if not opp_key or weight == 0.0:
-        return proj
-
-    opp_stats = team_batting_stats.get(opp_team, {})
-    opp_val = opp_stats.get(opp_key, 0.0)
-    avg_val = league_avg.get(opp_key, 0.0)
-
-    if opp_val > 0 and avg_val > 0:
-        # Multiplicative: scale by projection size (relative to league avg)
-        diff = (opp_val - avg_val) / avg_val
-
-        # Invert for outs: high OPS = shorter outings = FEWER outs
-        # (all other markets: higher opponent stat = more of that stat)
-        if market == "outs":
-            diff = -diff
-
-        proj += diff * weight * proj
-
-    return proj
-
-
-def _apply_handedness_adjustment(proj, market, pitcher_splits,
-                                 opp_team, team_batting_stats):
-    """
-    Adjust based on pitcher's splits vs LHB/RHB and opposing lineup composition.
-
-    Uses the pitcher's per-9 rates against left-handed and right-handed batters,
-    weighted by the opposing team's lineup handedness composition.
-
-    Parameters
-    ----------
-    proj : float
-        Current projection.
-    market : str
-        Market name (strikeouts, hits_allowed, walks, outs).
-    pitcher_splits : dict
-        {"vs_right": {"k_per_9": float, "ba": float, ...},
-         "vs_left": {"k_per_9": float, "ba": float, ...}}
-    opp_team : str
-        Opposing team abbreviation.
-    team_batting_stats : dict or None
-        {team_abbr: {..., "PCT_LHB": float (optional)}}
-    """
-    weight = HANDEDNESS_ADJ_WEIGHT.get(market, 0.0)
-    if weight == 0.0 or not pitcher_splits:
-        return proj
-
-    vs_left = pitcher_splits.get("vs_left", {})
-    vs_right = pitcher_splits.get("vs_right", {})
-
-    # Get opposing team's lineup composition (approximate: use team roster handedness)
-    # Default to 60% RHB, 40% LHB if unknown
-    opp_stats = (team_batting_stats or {}).get(opp_team, {})
-    pct_lhb = opp_stats.get("PCT_LHB", 0.40)
-    pct_rhb = 1.0 - pct_lhb
-
-    # Get pitcher's rate vs each handedness
-    # Use rate stats that actually exist in the splits data:
-    #   - "ba" (batting avg against) for hits_allowed
-    #   - "k_rate" or fall back to k/pa for strikeouts
-    #   - "bb_rate" or fall back to bb/pa for walks
-    stat_rate_key = {
-        "strikeouts": "k_per_9",
-        "hits_allowed": "ba",       # BA against is in the splits data
-        "walks": "bb_per_9",
-    }.get(market)
-
-    if not stat_rate_key:
-        return proj
-
-    try:
-        rate_vs_l = float(vs_left.get(stat_rate_key, 0) or 0)
-        rate_vs_r = float(vs_right.get(stat_rate_key, 0) or 0)
-    except (ValueError, TypeError):
-        rate_vs_l, rate_vs_r = 0.0, 0.0
-
-    # Fallback: compute rate from counting stats if per-9 not available
-    if rate_vs_l == 0 and rate_vs_r == 0:
-        count_key, denom_key = {
-            "strikeouts": ("k", "pa"),
-            "hits_allowed": ("h", "ab"),
-            "walks": ("bb", "pa"),
-        }.get(market, (None, None))
-        if count_key and denom_key:
-            l_count = vs_left.get(count_key, 0)
-            l_denom = vs_left.get(denom_key, 0)
-            r_count = vs_right.get(count_key, 0)
-            r_denom = vs_right.get(denom_key, 0)
-            if l_denom > 0:
-                rate_vs_l = l_count / l_denom
-            if r_denom > 0:
-                rate_vs_r = r_count / r_denom
-
-    if rate_vs_l > 0 and rate_vs_r > 0:
-        weighted_rate = rate_vs_l * pct_lhb + rate_vs_r * pct_rhb
-        overall_rate = (rate_vs_l + rate_vs_r) / 2  # approximate
-        if overall_rate > 0:
-            adj = (weighted_rate - overall_rate) / overall_rate * proj * weight
-            proj += adj
-
-    return proj
-
 
 def _apply_rest_adjustment(proj, market, rest_days):
     """
     Adjust projection based on days of rest between starts.
-
-    Short rest (4 days or fewer) = penalty.
-    Extra rest (6-9 days) = bonus.
-    Extended rest (10+ days) = rust penalty.
-    Normal rest (5 days) = no adjustment.
-
-    REST_ADJUSTMENTS from game_context is keyed by rest category
-    ("short_rest", "extra_rest", "extended_rest"), with values keyed
-    by stat key ("k", "outs", "h", "bb"). We map market -> stat_key
-    to look up the correct adjustment.
     """
     if rest_days is None or rest_days == 99:
         return proj
 
-    # Map market name to the stat key used in REST_ADJUSTMENTS
     stat_key = STAT_KEYS.get(market)
     if not stat_key:
         return proj
@@ -1068,110 +432,10 @@ def _apply_rest_adjustment(proj, market, rest_days):
     elif rest_days >= 6:
         adj = REST_ADJUSTMENTS.get("extra_rest", {}).get(stat_key, 0.0)
     else:
-        adj = 0.0  # normal rest (5 days)
+        adj = 0.0
 
     proj += adj
     return proj
-
-
-# ---------------------------------------------------------------------------
-# Game hits projection
-# ---------------------------------------------------------------------------
-
-def _project_game_hits(games, pitcher_projections, team_batting_stats, line_lookup):
-    """
-    Project total game hits by summing both pitchers' projected hits allowed
-    plus a bullpen hit allowance.
-
-    Parameters
-    ----------
-    games : list[dict]
-        Probable pitcher matchups: [{game_id, home_team, away_team,
-        home_pitcher, away_pitcher}]
-    pitcher_projections : list[dict]
-        Already-computed pitcher projections (from project_pitcher_props).
-    team_batting_stats : dict or None
-        {team_abbr: {K_PCT, BA, OPS, BB_PCT}}
-    line_lookup : dict
-        Prop line lookup by (first, last, market).
-
-    Returns
-    -------
-    list[dict]
-        Game-level hit projections.
-    """
-    # League average bullpen hits per 9 innings (~9.0 H/9 historical average)
-    BULLPEN_H_PER_9 = 9.0
-    AVG_STARTER_IP = 5.5  # league avg innings per start
-
-    results = []
-
-    # Index pitcher projections by name key for lookup
-    pitcher_ha_by_nk = {}
-    pitcher_ip_by_nk = {}
-    for p in pitcher_projections:
-        if p.get("market") == "hits_allowed":
-            nk = _name_key(p.get("player", ""))
-            pitcher_ha_by_nk[nk] = p.get("proj", 0)
-        # Estimate projected IP from outs market if available
-        if p.get("market") == "outs":
-            nk = _name_key(p.get("player", ""))
-            pitcher_ip_by_nk[nk] = p.get("proj", 0) / 3.0  # outs -> IP
-
-    for gm in games:
-        home_team = gm.get("home_team", "")
-        away_team = gm.get("away_team", "")
-        home_pitcher = gm.get("home_pitcher", "")
-        away_pitcher = gm.get("away_pitcher", "")
-
-        if not home_pitcher or not away_pitcher:
-            continue
-
-        home_nk = _name_key(home_pitcher)
-        away_nk = _name_key(away_pitcher)
-
-        # Get hits allowed projections for each starter
-        home_ha = pitcher_ha_by_nk.get(home_nk)
-        away_ha = pitcher_ha_by_nk.get(away_nk)
-
-        if home_ha is None or away_ha is None:
-            continue
-
-        # Get projected IP for each starter (default to league avg)
-        home_ip = pitcher_ip_by_nk.get(home_nk, AVG_STARTER_IP)
-        away_ip = pitcher_ip_by_nk.get(away_nk, AVG_STARTER_IP)
-
-        # Bullpen allowance: (9 - starter_IP) x league_avg_bullpen_H/9 / 9
-        home_bullpen_ip = max(0, 9.0 - home_ip)
-        away_bullpen_ip = max(0, 9.0 - away_ip)
-        bullpen_hits = (home_bullpen_ip + away_bullpen_ip) * BULLPEN_H_PER_9 / 9.0
-
-        # Total game hits: both starters' hits allowed + bullpen allowance
-        total_hits = home_ha + away_ha + bullpen_hits
-
-        # Std: rough estimate based on game-level volatility
-        # Game hits typically vary with std ~2.5
-        std = 2.5
-
-        # Build game hits prop
-        game_label = f"{away_team} @ {home_team}"
-        prop = _make_prop(
-            name=game_label,
-            team=f"{away_team}@{home_team}",
-            market="game_hits",
-            proj=total_hits,
-            std=std,
-            line_lookup=line_lookup,
-            opp="",
-        )
-        if prop:
-            prop["home_team"] = home_team
-            prop["away_team"] = away_team
-            prop["home_pitcher"] = home_pitcher
-            prop["away_pitcher"] = away_pitcher
-            results.append(prop)
-
-    return results
 
 
 # ---------------------------------------------------------------------------
@@ -1179,7 +443,6 @@ def _project_game_hits(games, pitcher_projections, team_batting_stats, line_look
 # ---------------------------------------------------------------------------
 
 def _american_to_decimal(price):
-    """Convert American odds to decimal odds (e.g. -110 -> 1.909, +150 -> 2.5)."""
     if price is None:
         return None
     price = int(price)
@@ -1191,7 +454,6 @@ def _american_to_decimal(price):
 
 
 def _to_win_1u(price):
-    """Calculate wager needed to win 1 unit at given American odds."""
     if price is None:
         return None
     price = int(price)
@@ -1203,7 +465,6 @@ def _to_win_1u(price):
 
 
 def _make_prop(name, team, market, proj, std, line_lookup, opp):
-    """Build a single prop projection + pick."""
     nk = _name_key(name)
     line_key = (nk[0], nk[1], market)
     line_data = line_lookup.get(line_key)
@@ -1245,7 +506,6 @@ def _make_prop(name, team, market, proj, std, line_lookup, opp):
         mkt_thresh = MARKET_THRESHOLDS.get(market, {"high": 0.58})
         direction = "OVER" if p_over > p_under else "UNDER"
 
-        # Directional threshold: use high_under for UNDER if available
         thresh = mkt_thresh.get("high_under" if direction == "UNDER" else "high",
                                 mkt_thresh["high"])
         if best_p >= thresh:
@@ -1260,7 +520,6 @@ def _make_prop(name, team, market, proj, std, line_lookup, opp):
             if abs_edge < min_e or abs_edge > max_e:
                 return result
 
-            # Edge dead zone: skip edges in the uncertain middle range
             dead = EDGE_DEAD_ZONE.get(market)
             if dead and dead[0] <= abs_edge < dead[1]:
                 return result
@@ -1269,7 +528,6 @@ def _make_prop(name, team, market, proj, std, line_lookup, opp):
             if line < min_l:
                 return result
 
-            # Attach the relevant odds for the picked direction
             pick_price = over_price if direction == "OVER" else under_price
 
             result["pick"] = direction
@@ -1291,16 +549,12 @@ def format_props_for_dashboard(projections, date_str="today"):
     picks = [p for p in projections if p["pick"] != "PASS"]
     picks.sort(key=lambda p: p.get("pCover", 0) or 0, reverse=True)
 
-    # All projections (including PASS) with a prop line — these are today's starters
     all_with_lines = [p for p in projections if p.get("line") is not None]
 
-    # Ensure every projection has a date field
     for p in projections:
         if not p.get("date"):
             p["date"] = date_str
 
-    # Props = picks (graded/actionable) for season record tracking
-    # todayProjections = all starters with lines for Games Explorer
     all_with_lines.sort(key=lambda p: (
         p.get("team") or "",
         p.get("market") or "",
