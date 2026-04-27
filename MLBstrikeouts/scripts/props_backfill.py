@@ -40,6 +40,9 @@ from sources.mlb_stats import (
     fetch_player_bat_sides, fetch_lineup_handedness,
     fetch_batter_k_rates, load_pitch_hands,
     fetch_savant_pitcher_rates,
+    fetch_savant_pitch_chunks,
+    compute_pitch_level_rates_from_chunks,
+    merge_pitch_level_into_savant,
     CACHE_DIR,
 )
 
@@ -169,8 +172,31 @@ def backfill(season=None, start_game=10, start_date=None):
     print(f"  Batter K rates will be fetched per-date (walk-forward mode)...")
     batter_k_rates_by_date = {}
     pitch_hands = load_pitch_hands(season=season)
-    savant_rates = fetch_savant_pitcher_rates(season=season)
-    print(f"  {len(savant_rates)} pitchers with Savant K%/whiff%")
+    savant_rates_base = fetch_savant_pitcher_rates(season=season)
+    print(f"  {len(savant_rates_base)} pitchers with Savant K%/whiff%")
+
+    # Walk-forward stuff_score: fetch chunks once, compose per game_date.
+    season_start = f"{season}-03-20"
+    latest_log_date = max((g.get("game_date", "") for g in all_logs), default=None)
+    pitch_chunks = fetch_savant_pitch_chunks(
+        season=season,
+        start_date=season_start,
+        end_date=latest_log_date,
+    )
+    _asof_savant_cache = {}
+
+    def _savant_rates_asof(asof_date):
+        if asof_date in _asof_savant_cache:
+            return _asof_savant_cache[asof_date]
+        if asof_date <= season_start:
+            _asof_savant_cache[asof_date] = savant_rates_base
+            return savant_rates_base
+        date_pitch_level = compute_pitch_level_rates_from_chunks(
+            pitch_chunks, asof_date=asof_date
+        )
+        merged = merge_pitch_level_into_savant(savant_rates_base, date_pitch_level)
+        _asof_savant_cache[asof_date] = merged
+        return merged
 
     # Inject pitcher hand into adv_stats
     for pid_str, adv in adv_stats.items():
@@ -368,7 +394,8 @@ def backfill(season=None, start_game=10, start_date=None):
             weather_by_game=weather_data,
             batter_k_rates=batter_k_rates,
             lineup_data=date_lineup_data,
-            savant_rates=savant_rates,
+            savant_rates=_savant_rates_asof(game_date),
+            k_skill_config={"weights": {"stuff_score": 0.060}, "cap": 0.12},
         )
 
         # Save ALL projections for this date (for Games Explorer)
