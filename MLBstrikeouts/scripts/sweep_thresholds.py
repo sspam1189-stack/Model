@@ -30,6 +30,10 @@ from sources.mlb_stats import (
     fetch_player_bat_sides, fetch_lineup_handedness,
     fetch_batter_k_rates, load_pitch_hands,
     fetch_pitcher_handedness_splits, CACHE_DIR, _load_cache,
+    fetch_savant_pitcher_rates,
+    fetch_savant_pitch_chunks,
+    compute_pitch_level_rates_from_chunks,
+    merge_pitch_level_into_savant,
 )
 from sources.weather import fetch_game_weather
 from props_engine import organize_pitcher_logs, project_pitcher_props, STAT_KEYS
@@ -64,6 +68,25 @@ def run_sweep(season=None):
     bo_cache = _load_cache(CACHE_DIR / f'batting_orders_{season}.json', max_age_hours=None) or {}
     all_dates = sorted(set(g.get('game_date', '') for g in all_logs if g.get('game_date')))
     kalman_state = new_pitcher_kalman_state()
+
+    # Walk-forward stuff_score (matches production)
+    season_start = f"{season}-03-20"
+    latest_log_date = max(all_dates) if all_dates else None
+    savant_rates_base = fetch_savant_pitcher_rates(season=season)
+    pitch_chunks = fetch_savant_pitch_chunks(
+        season=season, start_date=season_start, end_date=latest_log_date,
+    )
+    _asof_savant_cache = {}
+    def _savant_rates_asof(asof_date):
+        if asof_date in _asof_savant_cache:
+            return _asof_savant_cache[asof_date]
+        if asof_date <= season_start:
+            _asof_savant_cache[asof_date] = savant_rates_base
+            return savant_rates_base
+        plr = compute_pitch_level_rates_from_chunks(pitch_chunks, asof_date=asof_date)
+        merged = merge_pitch_level_into_savant(savant_rates_base, plr)
+        _asof_savant_cache[asof_date] = merged
+        return merged
 
     all_projections = []
 
@@ -141,6 +164,8 @@ def run_sweep(season=None):
             pitcher_sabermetrics=saber_stats, pitcher_splits=date_splits,
             probable_pitchers=date_probable, weather_by_game=weather_data,
             batter_k_rates=batter_k_rates, lineup_data=date_lineup_data,
+            savant_rates=_savant_rates_asof(game_date),
+            k_skill_config={"weights": {"stuff_score": 0.060}, "cap": 0.12},
         )
 
         # Grade
