@@ -102,6 +102,40 @@
 
         const gradedPicks = picks.filter(p => p.result);
 
+        // Watchlist leans: UNDER picks at pCover 0.60-0.70 (saved with pick=PASS).
+        // Tracked separately from actionable picks for calibration / tier study.
+        const leanAll = (data.props || []).filter(p =>
+          p.pick === 'PASS'
+          && p.would_be_pick === 'UNDER'
+          && (p.pCover || 0) >= 0.60
+          && (p.pCover || 0) < 0.70
+        );
+        const leanGraded = leanAll.filter(p => p.result === 'WIN' || p.result === 'LOSS');
+        function leanRowFor(filteredLeans) {
+          const w = filteredLeans.filter(p => p.result === 'WIN').length;
+          const l = filteredLeans.filter(p => p.result === 'LOSS').length;
+          const u = calcMLBPropsUnits(filteredLeans);
+          const pct = (w + l) > 0 ? (w / (w + l) * 100).toFixed(1) : 'n/a';
+          const roi = (w + l) > 0 ? (u / (w + l) * 100).toFixed(1) : 'n/a';
+          return { w, l, n: filteredLeans.length, u, pct, roi };
+        }
+        function appendLeanRow(tbody, leans, label) {
+          const r = leanRowFor(leans);
+          if (r.n === 0) return;
+          const tr = tbody.insertRow();
+          tr.style.borderTop = '1px dashed rgba(244,180,0,0.4)';
+          tr.style.color = '#f4b400';
+          [label, String(r.n), String(r.w), String(r.l), r.pct+'%',
+           (r.u>=0?'+':'')+r.u.toFixed(2)+'u',
+           (r.roi==='n/a'?'n/a':(parseFloat(r.roi)>=0?'+':'')+r.roi+'%')].forEach((v,i) => {
+            const td = tr.insertCell();
+            td.textContent = v;
+            td.style.padding = '6px 10px';
+            td.style.textAlign = i === 0 ? 'left' : 'right';
+            td.style.fontStyle = 'italic';
+          });
+        }
+
         // Market Breakdown (season-long, graded picks only)
         if (gradedPicks.length > 0) {
           const { fGrouped, sortedMarkets } = buildMLBMarketBreakdown(gradedPicks);
@@ -384,6 +418,75 @@
           todayCard.appendChild(tbl);
           el.appendChild(todayCard);
         }
+
+        // Today's Leans (watchlist UNDERs at pCover 0.60-0.70)
+        const todayLeans = (data.props || []).filter(p =>
+          p.date === todayStr
+          && p.pick === 'PASS'
+          && (p.pCover || 0) >= 0.60
+          && (p.pCover || 0) < 0.70
+          && p.would_be_pick === 'UNDER'
+        );
+        if (todayLeans.length > 0) {
+          const leanCard = document.createElement('div');
+          leanCard.className = 'card card-picks';
+          leanCard.style.marginBottom = '16px';
+          leanCard.style.borderLeft = '3px solid #f4b400';
+          leanCard.appendChild(Object.assign(document.createElement('div'), {
+            className: 'card-title',
+            textContent: `Today’s Leans — UNDER 0.60–0.70 (${todayLeans.length})`
+          }));
+          const subtitle = document.createElement('div');
+          subtitle.style.cssText = 'font-size:11px;color:#999;margin-top:2px';
+          subtitle.textContent = 'Watchlist tier — not actionable picks, tracked for calibration';
+          leanCard.appendChild(subtitle);
+          const lTbl = document.createElement('table');
+          lTbl.className = 'props-data-table';
+          lTbl.style.cssText = 'width:100%;border-collapse:collapse;margin-top:8px';
+          const lHeaders = ['Pitcher','Team','Opp','Cat','Proj','Line','Edge','Cover%','Price','Lean'];
+          const lhRow = lTbl.createTHead().insertRow();
+          lHeaders.forEach((h) => {
+            const th = document.createElement('th');
+            th.textContent = h;
+            th.style.cssText = 'padding:4px 4px;text-align:center;border-bottom:1px solid rgba(255,255,255,0.1)';
+            if (h === 'Pitcher') th.style.textAlign = 'left';
+            lhRow.appendChild(th);
+          });
+          const lTbody = lTbl.createTBody();
+          todayLeans.sort((a, b) => (b.pCover || 0) - (a.pCover || 0));
+          for (const p of todayLeans) {
+            const row = lTbody.insertRow();
+            row.style.borderBottom = '1px solid rgba(255,255,255,0.05)';
+            const tEdge = (p.proj != null && p.line != null) ? +(p.proj - p.line).toFixed(1) : null;
+            const tEdgeStr = tEdge != null ? (tEdge > 0 ? '+'+tEdge : String(tEdge)) : '—';
+            const tPrice = p.odds != null ? (p.odds > 0 ? '+'+p.odds : String(p.odds)) : '—';
+            const pcStr = p.pCover != null ? Math.round(p.pCover * 100) + '%' : '—';
+            const cells = [
+              displayName(p), p.team || '', p.opp || '',
+              marketLabels[p.market] || p.market,
+              String(p.proj),
+              p.line != null ? String(p.line) : '—',
+              tEdgeStr,
+              pcStr,
+              tPrice,
+              'U'
+            ];
+            cells.forEach((val, i) => {
+              const td = row.insertCell();
+              td.textContent = val;
+              td.style.cssText = 'padding:4px 4px;text-align:center';
+              if (i === 0) { td.style.textAlign = 'left'; td.style.fontWeight = '600'; }
+              if (i === 1 || i === 2) td.style.color = '#999';
+              if (i === 4) td.style.color = p.proj > p.line ? 'var(--green)' : p.proj < p.line ? 'var(--red)' : '';
+              if (i === 6 && tEdge != null) td.style.color = tEdge > 0 ? 'var(--green)' : tEdge < 0 ? 'var(--red)' : '#999';
+              if (i === 7) td.style.color = '#aaa';
+              if (i === 8) td.style.color = '#999';
+              if (i === 9) { td.style.fontWeight = '700'; td.style.color = 'var(--red)'; }
+            });
+          }
+          leanCard.appendChild(lTbl);
+          el.appendChild(leanCard);
+        }
       })();
 
       // ── Today's Games Explorer ──
@@ -658,25 +761,13 @@
             btn.onclick = () => { activeGame = key; activePlayer = 'all'; currentPage = 0; refreshPills(); refreshPlayerDropdown(); renderGameTable(); };
             gamePills.appendChild(btn);
           }
-          // Market pills
-          mktPills.textContent = '';
-          for (const m of mktFilters) {
-            const label = m === 'all' ? 'All' : (marketLabels[m] || m);
-            const btn = document.createElement('button');
-            btn.textContent = label;
-            btn.style.cssText = m === activeMkt
-              ? 'padding:5px 14px;border-radius:16px;border:1px solid #7c6cf0;background:#7c6cf0;color:#fff;font-size:12px;cursor:pointer'
-              : 'padding:5px 14px;border-radius:16px;border:1px solid rgba(255,255,255,0.12);background:transparent;color:#999;font-size:12px;cursor:pointer';
-            btn.onclick = () => { activeMkt = m; currentPage = 0; refreshPills(); renderGameTable(); };
-            mktPills.appendChild(btn);
-          }
+          // Market pills removed — strikeouts is the only market.
         }
 
         refreshPills();
         refreshPlayerDropdown();
         renderGameTable();
         gCard.appendChild(gamePills);
-        gCard.appendChild(mktPills);
         gCard.appendChild(playerRow);
         gCard.appendChild(tableWrap);
         el.appendChild(gCard);
@@ -689,7 +780,15 @@
       const tabStyle = 'padding:6px 16px;border:none;background:transparent;color:#999;font-size:13px;cursor:pointer;border-bottom:2px solid transparent;transition:all 0.15s';
       const tabActiveStyle = 'padding:6px 16px;border:none;background:transparent;color:#fff;font-size:13px;cursor:pointer;border-bottom:2px solid #7c6cf0;transition:all 0.15s';
 
-      let mlbView = 'all'; // 'all' | 'weekly'
+      let mlbView = 'all'; // 'all' | 'weekly' | 'all-lean' | 'weekly-lean'
+
+      // Watchlist UNDER 0.60-0.70 picks (saved with pick=PASS, would_be_pick=UNDER)
+      const leanPicks = (data.props || []).filter(p =>
+        p.pick === 'PASS'
+        && p.would_be_pick === 'UNDER'
+        && (p.pCover || 0) >= 0.60
+        && (p.pCover || 0) < 0.70
+      );
 
       const allPicksCard = document.createElement('div');
       allPicksCard.className = 'card';
@@ -705,38 +804,20 @@
       const viewAllBtn = document.createElement('button');
       viewAllBtn.textContent = 'All Picks';
       const viewWeeklyBtn = document.createElement('button');
-      viewWeeklyBtn.textContent = 'Weekly';
+      viewWeeklyBtn.textContent = 'Weekly Picks';
+      const viewAllLeanBtn = document.createElement('button');
+      viewAllLeanBtn.textContent = 'All Lean';
+      const viewWeeklyLeanBtn = document.createElement('button');
+      viewWeeklyLeanBtn.textContent = 'Weekly Lean';
       tabRow.appendChild(viewAllBtn);
       tabRow.appendChild(viewWeeklyBtn);
+      tabRow.appendChild(viewAllLeanBtn);
+      tabRow.appendChild(viewWeeklyLeanBtn);
       toolbar.appendChild(tabRow);
 
-      // Row 2: Market filter pills
-      const mlbButtonOrder = ['strikeouts','outs','hits_allowed','game_hits'];
-      const allMarketKeys = [...new Set(picks.map(p => p.market))].sort((a, b) => {
-        const ia = mlbButtonOrder.indexOf(a); const ib = mlbButtonOrder.indexOf(b);
-        return (ia === -1 ? 99 : ia) - (ib === -1 ? 99 : ib);
-      });
-      const mlbMarketBtnBar = document.createElement('div');
-      mlbMarketBtnBar.className = 'props-toolbar-pills';
-      mlbMarketBtnBar.style.cssText = 'display:flex;gap:6px;flex-wrap:wrap;padding:12px 16px;border-bottom:1px solid rgba(255,255,255,0.08)';
+      // Market filter row removed — strikeouts is the only active market.
       let mlbActiveMarket = 'all';
-
-      function renderMLBMarketBtns() {
-        mlbMarketBtnBar.textContent = '';
-        const allBtn = document.createElement('button');
-        allBtn.textContent = 'All';
-        allBtn.style.cssText = mlbActiveMarket === 'all' ? pillActiveStyle : pillStyle;
-        allBtn.onclick = () => { mlbActiveMarket = 'all'; allPicksPage = 0; weeklyPage = 0; renderMLBMarketBtns(); refreshView(); };
-        mlbMarketBtnBar.appendChild(allBtn);
-        for (const m of allMarketKeys) {
-          const btn = document.createElement('button');
-          btn.textContent = marketLabels[m] || m;
-          btn.style.cssText = mlbActiveMarket === m ? pillActiveStyle : pillStyle;
-          btn.onclick = () => { mlbActiveMarket = m; allPicksPage = 0; weeklyPage = 0; renderMLBMarketBtns(); refreshView(); };
-          mlbMarketBtnBar.appendChild(btn);
-        }
-      }
-      toolbar.appendChild(mlbMarketBtnBar);
+      function renderMLBMarketBtns() { /* no-op: single-market mode */ }
 
       // Row 3: Contextual filters
       const filterRow = document.createElement('div');
@@ -764,6 +845,23 @@
         const we = getWeekEnd(ws);
         return `<option value="${ws}">${ws} \u2013 ${we}</option>`;
       }).join('');
+      // Day-of-week sub-filter for Weekly views (populated when a week is selected)
+      const daySel = document.createElement('select');
+      daySel.style.cssText = selStyle;
+      daySel.innerHTML = '<option value="all">All Days</option>';
+      function refreshDayOptions() {
+        const src = (mlbView === 'weekly-lean') ? leanPicks : picks;
+        let dates;
+        if (weekSel.value === 'all') {
+          dates = [...new Set(src.filter(p => p.date).map(p => p.date))].sort();
+        } else {
+          dates = [...new Set(src.filter(p => p.date && getWeekStart(p.date) === weekSel.value).map(p => p.date))].sort();
+        }
+        const prev = daySel.value;
+        daySel.innerHTML = '<option value="all">All Days</option>'
+          + dates.map(d => `<option value="${d}">${d}</option>`).join('');
+        if (dates.includes(prev)) daySel.value = prev; else daySel.value = 'all';
+      }
       const weekFilterLabel = document.createElement('span');
       weekFilterLabel.style.cssText = 'color:#666;font-size:12px;margin-left:auto';
 
@@ -783,10 +881,13 @@
         ? ['col-date','col-player','col-team','col-opp','col-proj','col-line','col-edge','col-pcov','col-actual','col-pick','col-price','col-result']
         : ['col-player','col-team','col-opp','col-proj','col-line','col-edge','col-pcov','col-pick','col-price'];
 
+      function activeSource() {
+        return (mlbView === 'all-lean' || mlbView === 'weekly-lean') ? leanPicks : picks;
+      }
+
       function getFilteredPicks() {
-        let fp = picks.slice();
+        let fp = activeSource().slice();
         if (dateSel.value !== 'all') fp = fp.filter(p => p.date === dateSel.value);
-        if (mlbActiveMarket !== 'all') fp = fp.filter(p => p.market === mlbActiveMarket);
         if (teamSel.value !== 'all') fp = fp.filter(p => p.team === teamSel.value);
         if (dateSel.value !== 'all') {
           const catOrder = {strikeouts:0, outs:1, hits_allowed:2, game_hits:3};
@@ -1080,9 +1181,9 @@
 
       function renderWeeklyView() {
         contentArea.textContent = '';
-        let fp = picks.slice();
-        if (mlbActiveMarket !== 'all') fp = fp.filter(p => p.market === mlbActiveMarket);
+        let fp = activeSource().slice();
         if (weekSel.value !== 'all') fp = fp.filter(p => p.date && getWeekStart(p.date) === weekSel.value);
+        if (daySel.value !== 'all') fp = fp.filter(p => p.date === daySel.value);
 
         // Group by week start
         const weekMap = {};
@@ -1229,7 +1330,7 @@
       }
 
       function refreshView() {
-        if (mlbView === 'weekly') renderWeeklyView();
+        if (mlbView === 'weekly' || mlbView === 'weekly-lean') renderWeeklyView();
         else renderAllPicksView();
       }
 
@@ -1237,14 +1338,19 @@
         mlbView = v;
         viewAllBtn.style.cssText = v === 'all' ? tabActiveStyle : tabStyle;
         viewWeeklyBtn.style.cssText = v === 'weekly' ? tabActiveStyle : tabStyle;
+        viewAllLeanBtn.style.cssText = v === 'all-lean' ? tabActiveStyle : tabStyle;
+        viewWeeklyLeanBtn.style.cssText = v === 'weekly-lean' ? tabActiveStyle : tabStyle;
         // Swap filter row contents
         filterRow.textContent = '';
-        if (v === 'all') {
+        const isWeekly = (v === 'weekly' || v === 'weekly-lean');
+        if (!isWeekly) {
           filterRow.appendChild(dateSel);
           filterRow.appendChild(teamSel);
           filterRow.appendChild(filterLabel);
         } else {
+          refreshDayOptions();
           filterRow.appendChild(weekSel);
+          filterRow.appendChild(daySel);
           filterRow.appendChild(weekFilterLabel);
         }
         refreshView();
@@ -1252,9 +1358,12 @@
 
       viewAllBtn.onclick = () => setView('all');
       viewWeeklyBtn.onclick = () => setView('weekly');
+      viewAllLeanBtn.onclick = () => setView('all-lean');
+      viewWeeklyLeanBtn.onclick = () => setView('weekly-lean');
       dateSel.addEventListener('change', renderAllPicksView);
       teamSel.addEventListener('change', renderAllPicksView);
-      weekSel.addEventListener('change', renderWeeklyView);
+      weekSel.addEventListener('change', () => { refreshDayOptions(); renderWeeklyView(); });
+      daySel.addEventListener('change', renderWeeklyView);
 
       renderMLBMarketBtns();
       setView('all');
