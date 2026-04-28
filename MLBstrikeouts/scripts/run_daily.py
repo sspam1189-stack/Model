@@ -44,9 +44,6 @@ from sources.mlb_stats import (
     fetch_player_bat_sides, fetch_lineup_handedness,
     fetch_batter_k_rates, load_pitch_hands,
     fetch_savant_pitcher_rates,
-    fetch_savant_pitch_chunks,
-    compute_pitch_level_rates_from_chunks,
-    merge_pitch_level_into_savant,
 )
 from sources.weather import fetch_game_weather
 from sources.odds_fanduel import fetch_fanduel_mlb_props
@@ -422,25 +419,7 @@ def run_daily(date_key=None):
     batter_k_rates = fetch_batter_k_rates(season=season, through_date=date_iso)
     pitch_hands = load_pitch_hands(season=season)
     savant_rates = fetch_savant_pitcher_rates(season=season)
-    pitch_chunks = fetch_savant_pitch_chunks(
-        season=season,
-        start_date=f"{season}-03-20",
-        end_date=date_iso,
-    )
-    # 30-day rolling stuff: catches velocity drift / fatigue / injury that a
-    # season-to-date aggregate would miss. In April this is identical to
-    # season-to-date since the season is <30 days old; from June onward the
-    # rolling window will diverge as drift accumulates.
-    stuff_min_date = (
-        datetime.datetime.strptime(date_iso, "%Y-%m-%d").date()
-        - datetime.timedelta(days=30)
-    ).strftime("%Y-%m-%d")
-    pitch_level_rates = compute_pitch_level_rates_from_chunks(
-        pitch_chunks, asof_date=date_iso, min_date=stuff_min_date
-    )
-    savant_rates = merge_pitch_level_into_savant(savant_rates, pitch_level_rates)
-    n_stuff = sum(1 for v in savant_rates.values() if v.get("stuff_score", 0) > 0)
-    print(f"  {len(batter_k_rates)} batters, {len(savant_rates)} pitchers with Savant K%/whiff% ({n_stuff} with stuff_score)")
+    print(f"  {len(batter_k_rates)} batters, {len(savant_rates)} pitchers with Savant K%/whiff%")
 
     for pid_str, adv in adv_stats.items():
         try:
@@ -497,7 +476,6 @@ def run_daily(date_key=None):
         batter_k_rates=batter_k_rates,
         lineup_data=lineup_data,
         savant_rates=savant_rates,
-        k_skill_config={"weights": {"stuff_score": 0.060}, "cap": 0.12},
     )
     picks = [p for p in projections if p["pick"] != "PASS"]
     print(f"  {len(projections)} projections, {len(picks)} actionable picks")
