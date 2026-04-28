@@ -24,8 +24,8 @@
     }
 
     function buildMLBMarketBreakdown(filteredPicks) {
-      const mlbMarketLabels = {strikeouts:'K', outs:'OUTS', hits_allowed:'HA', game_hits:'HITS'};
-      const mlbMarketOrder = ['K','OUTS','HA','HITS'];
+      const mlbMarketLabels = {strikeouts:'.7+', outs:'OUTS', hits_allowed:'HA', game_hits:'HITS'};
+      const mlbMarketOrder = ['.7+','OUTS','HA','HITS'];
       const fGrouped = {};
       for (const p of filteredPicks) {
         const ml = mlbMarketLabels[p.market] || p.market;
@@ -46,7 +46,7 @@
         el.textContent = '';
         const card = document.createElement('div');
         card.className = 'card-games';
-        card.appendChild(Object.assign(document.createElement('div'), {className:'card-title', textContent:'MLB Pitcher Props'}));
+        card.appendChild(Object.assign(document.createElement('div'), {className:'card-title', textContent:'MLB Strikeouts'}));
         card.appendChild(Object.assign(document.createElement('div'), {className:'no-picks', textContent:'No prop projections available yet. Run the props pipeline to generate projections.'}));
         el.appendChild(card);
         return;
@@ -57,10 +57,10 @@
       if (runEl && data.generated) {
         const d = new Date(data.generated);
         const ct = d.toLocaleString('en-US', { timeZone: 'America/Chicago', month: '2-digit', day: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: true });
-        runEl.textContent = `Last run (CT) \u2014 MLB Pitcher Props: ${ct}`;
+        runEl.textContent = `Last run (CT) \u2014 MLB Strikeouts: ${ct}`;
       }
 
-      const marketLabels = {strikeouts:'K', outs:'OUTS', hits_allowed:'HA', game_hits:'HITS'};
+      const marketLabels = {strikeouts:'.7+', outs:'OUTS', hits_allowed:'HA', game_hits:'HITS'};
       const picks = data.props.filter(p => p.pick !== 'PASS');
       const isBacktest = picks.some(p => p.result != null);
 
@@ -175,21 +175,6 @@
               if (i === 6) td.style.color = parseFloat(roi) >= 0 ? 'var(--green)' : 'var(--red)';
             });
           }
-          const gU = calcMLBPropsUnits(gradedPicks);
-          const gROI = (gW+gL) > 0 ? (gU / (gW+gL) * 100).toFixed(1) : '0';
-          const tr = mb.insertRow();
-          tr.style.borderTop = '2px solid rgba(255,255,255,0.2)';
-          tr.style.fontWeight = '700';
-          ['TOTAL', String(gradedPicks.length), String(gW), String(gL),
-           (gW+gL>0?(gW/(gW+gL)*100).toFixed(1):'0')+'%',
-           (gU>=0?'+':'')+gU.toFixed(2)+'u', (gROI>=0?'+':'')+gROI+'%'].forEach((v,i) => {
-            const td = tr.insertCell();
-            td.textContent = v;
-            td.style.padding = '6px 10px';
-            td.style.textAlign = i === 0 ? 'left' : 'right';
-            if (i === 5) td.style.color = gU >= 0 ? 'var(--green)' : 'var(--red)';
-            if (i === 6) td.style.color = parseFloat(gROI) >= 0 ? 'var(--green)' : 'var(--red)';
-          });
           appendLeanRow(mb, leanGraded, 'Lean U .60–.70');
           mbWrap.appendChild(mbTbl);
           mbCard.appendChild(mbWrap);
@@ -243,17 +228,6 @@
               if (i === 6) td.style.color = parseFloat(roi) >= 0 ? 'var(--green)' : 'var(--red)';
             });
           }
-          const rtr = rb.insertRow();
-          rtr.style.borderTop = '2px solid rgba(255,255,255,0.2)';
-          rtr.style.fontWeight = '700';
-          ['TOTAL', String(recentPicks.length), String(rW), String(rL), rPct+'%', (rU>=0?'+':'')+rU.toFixed(2)+'u', (rROI>=0?'+':'')+rROI+'%'].forEach((v,i) => {
-            const td = rtr.insertCell();
-            td.textContent = v;
-            td.style.padding = '6px 10px';
-            td.style.textAlign = i === 0 ? 'left' : 'right';
-            if (i === 5) td.style.color = rU >= 0 ? 'var(--green)' : 'var(--red)';
-            if (i === 6) td.style.color = parseFloat(rROI) >= 0 ? 'var(--green)' : 'var(--red)';
-          });
           const recentLeans = leanGraded.filter(p => p.date && p.date >= recentCutoff);
           appendLeanRow(rb, recentLeans, 'Lean U .60–.70');
           rWrap.appendChild(rTbl);

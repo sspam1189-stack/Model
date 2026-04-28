@@ -942,7 +942,7 @@ function updateLastRunInfo() {
   const labels = {
     nba: 'NBA', fullseason: 'Full Season', ncaa: 'NCAA', nfl: 'NFL',
     'nba-props': 'NBA Props', 'nfl-props': 'NFL Props',
-    'mlb-props': 'MLB Pitcher Props', 'mlb-batter-props': 'MLB Batter Props',
+    'mlb-props': 'MLB Strikeouts', 'mlb-batter-props': 'MLB Batter Props',
   };
   const data = cache[activeTab];
   const el = document.getElementById('last-run-info');
