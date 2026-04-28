@@ -136,6 +136,12 @@ def grade_previous_picks(season=None):
         line = pick.get("line")
         direction = pick.get("pick", "")
 
+        # Watchlist (pick=PASS) entries are graded against would_be_pick
+        # so 0.60-0.70 bucket performance can be tracked.
+        is_watch = direction == "PASS"
+        if is_watch:
+            direction = pick.get("would_be_pick", "")
+
         if line is None or direction not in ("OVER", "UNDER"):
             continue
 
@@ -157,14 +163,18 @@ def grade_previous_picks(season=None):
 
         if actual == line:
             pick["result"] = "PUSH"
-            pushes += 1
+            if not is_watch:
+                pushes += 1
         elif (direction == "OVER" and actual > line) or (direction == "UNDER" and actual < line):
             pick["result"] = "WIN"
-            wins += 1
+            if not is_watch:
+                wins += 1
         else:
             pick["result"] = "LOSS"
-            losses += 1
-        graded += 1
+            if not is_watch:
+                losses += 1
+        if not is_watch:
+            graded += 1
 
     if graded == 0:
         print("  [grade] No picks could be matched to actual stats")

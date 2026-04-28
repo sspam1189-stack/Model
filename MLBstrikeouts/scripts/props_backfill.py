@@ -398,13 +398,43 @@ def backfill(season=None, start_game=10, start_date=None):
             results[market]["projections"].append(proj_val)
             results[market]["actuals"].append(actual_val)
 
-            # Skip if no active pick from the engine
             pick = proj.get("pick")
+            pick_line = proj.get("line")
+            pcover = proj.get("pCover") or 0
+
+            # Watchlist: capture sub-threshold projections (0.60-0.70) so we
+            # can analyze how those buckets perform without polluting picks.
+            # Dashboard filters out pick=PASS so these don't display.
             if pick in ("PASS", None):
+                if pick_line is None or pcover < 0.60:
+                    total_projected += 1
+                    continue
+                # Derive direction from edge sign
+                derived_dir = "OVER" if proj_val > pick_line else "UNDER"
+                if actual_val == pick_line:
+                    total_projected += 1
+                    continue
+                would_be_won = (derived_dir == "OVER" and actual_val > pick_line) or \
+                               (derived_dir == "UNDER" and actual_val < pick_line)
+                results[market]["picks"].append({
+                    "date": game_date,
+                    "player": player,
+                    "team": proj.get("team", ""),
+                    "opp": proj.get("opp", ""),
+                    "proj": proj_val,
+                    "std": std,
+                    "line": pick_line,
+                    "actual": actual_val,
+                    "pick": "PASS",  # dashboard hides
+                    "would_be_pick": derived_dir,
+                    "pCover": pcover,
+                    "conf": "watch",
+                    "odds": proj.get("odds"),
+                    "won": would_be_won,
+                })
                 total_projected += 1
                 continue
 
-            pick_line = proj.get("line")
             if pick_line is None:
                 total_projected += 1
                 continue
@@ -426,7 +456,7 @@ def backfill(season=None, start_game=10, start_date=None):
                 "line": pick_line,
                 "actual": actual_val,
                 "pick": pick,
-                "pCover": proj.get("pCover"),
+                "pCover": pcover,
                 "conf": proj.get("conf"),
                 "odds": proj.get("odds"),
                 "won": won,
@@ -514,7 +544,10 @@ def _print_summary(results, total_projected, season):
         data = results[market]
         projs = np.array(data["projections"])
         acts = np.array(data["actuals"])
-        picks = data["picks"]
+        all_picks = data["picks"]
+        # Actionable picks only — exclude watchlist (pick=PASS) from W-L/units.
+        picks = [p for p in all_picks if p.get("pick") in ("OVER", "UNDER")]
+        watch = [p for p in all_picks if p.get("pick") == "PASS"]
 
         if len(projs) == 0:
             continue
@@ -527,13 +560,18 @@ def _print_summary(results, total_projected, season):
         units = _calc_units(picks)
         pct = wins / max(1, wins + losses) * 100
 
+        watch_w = sum(1 for p in watch if p["won"])
+        watch_l = len(watch) - watch_w
+        watch_pct = watch_w / max(1, watch_w + watch_l) * 100
+
         grand_w += wins
         grand_l += losses
         grand_units += units
 
         print(f"  {market:14s}: MAE={mae:6.1f}  corr={corr:.3f}  "
               f"picks={wins}W-{losses}L ({pct:.1f}%) "
-              f"{'+'if units >= 0 else ''}{units:.1f}u")
+              f"{'+'if units >= 0 else ''}{units:.1f}u  "
+              f"watch={watch_w}W-{watch_l}L ({watch_pct:.1f}%)")
 
     print(f"\n  TOTAL: {grand_w}W-{grand_l}L "
           f"({grand_w / max(1, grand_w + grand_l) * 100:.1f}%) "
@@ -570,7 +608,7 @@ def write_dashboard_json(results, season):
     all_picks = []
     for market, data in results.items():
         for p in data["picks"]:
-            all_picks.append({
+            entry = {
                 "player": p["player"],
                 "team": p.get("team", ""),
                 "opp": p.get("opp", ""),
@@ -587,13 +625,19 @@ def write_dashboard_json(results, season):
                 "actual": p["actual"],
                 "result": "WIN" if p["won"] else "LOSS",
                 "date": p.get("date", ""),
-            })
+            }
+            if p.get("would_be_pick"):
+                entry["would_be_pick"] = p["would_be_pick"]
+            all_picks.append(entry)
 
     all_picks.sort(key=lambda x: (-(x.get("pCover") or 0), x.get("date", "")))
 
-    total_w = sum(1 for p in all_picks if p["result"] == "WIN")
-    total_l = sum(1 for p in all_picks if p["result"] == "LOSS")
-    units = _calc_units_from_dashboard(all_picks)
+    # Summary excludes watchlist entries (pick=PASS) so units/W-L only
+    # reflect actionable picks that would have actually been bet.
+    actionable = [p for p in all_picks if p.get("pick") in ("OVER", "UNDER")]
+    total_w = sum(1 for p in actionable if p["result"] == "WIN")
+    total_l = sum(1 for p in actionable if p["result"] == "LOSS")
+    units = _calc_units_from_dashboard(actionable)
 
     dashboard = {
         "sport": "mlb",
@@ -603,13 +647,15 @@ def write_dashboard_json(results, season):
         "model": "kalman_blend",
         "generated": datetime.now().isoformat(),
         "totalProjections": sum(len(d["projections"]) for d in results.values()),
-        "totalPicks": len(all_picks),
+        "totalPicks": len(actionable),
+        "totalWatchlist": len(all_picks) - len(actionable),
         "props": all_picks,
         "summary": (
-            f"{len(all_picks)} graded picks for {season}: "
+            f"{len(actionable)} actionable picks for {season}: "
             f"{total_w}W-{total_l}L "
             f"({total_w / max(1, total_w + total_l) * 100:.1f}%) "
-            f"{'+'if units >= 0 else ''}{units:.1f}u"
+            f"{'+'if units >= 0 else ''}{units:.1f}u "
+            f"(+{len(all_picks) - len(actionable)} watchlist)"
         ),
     }
 
@@ -641,16 +687,21 @@ def write_dashboard_json(results, season):
 
         merged_props = all_picks + existing_live_picks
         dashboard["props"] = merged_props
-        dashboard["totalPicks"] = len(merged_props)
+        # totalPicks reflects only actionable (non-PASS) entries; watchlist
+        # is tracked separately so it doesn't inflate the headline pick count.
+        merged_actionable = [p for p in merged_props if p.get("pick") in ("OVER", "UNDER")]
+        merged_watch = [p for p in merged_props if p.get("pick") == "PASS"]
+        dashboard["totalPicks"] = len(merged_actionable)
+        dashboard["totalWatchlist"] = len(merged_watch)
 
         n_bt = len(all_picks)
         n_live = len(existing_live_picks)
         if n_live > 0:
-            print(f"  Merged: {n_bt} backfill picks + {n_live} live picks preserved")
+            print(f"  Merged: {n_bt} backfill entries + {n_live} live preserved")
 
         with open(path, "w") as f:
             json.dump(dashboard, f, indent=2, cls=_NumpyEncoder)
-        print(f"  Wrote {len(merged_props)} picks to {path}")
+        print(f"  Wrote {len(merged_actionable)} picks (+{len(merged_watch)} watch) to {path}")
 
 
 # ---------------------------------------------------------------------------

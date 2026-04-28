@@ -598,15 +598,46 @@ def _make_prop(name, team, market, proj, std, line_lookup, opp):
 # ---------------------------------------------------------------------------
 
 def format_props_for_dashboard(projections, date_str="today"):
-    """Format prop projections into dashboard-compatible JSON."""
+    """Format prop projections into dashboard-compatible JSON.
+
+    `props` contains:
+      - actionable picks (pick=OVER/UNDER, pCover >= MARKET_THRESHOLDS[market]['high'])
+      - watchlist entries (pick=PASS, pCover >= 0.60) tagged with would_be_pick
+        so the dashboard hides them but they're persisted for backend analysis.
+    """
     import datetime as dt
 
-    picks = [p for p in projections if p["pick"] != "PASS"]
-    picks.sort(key=lambda p: p.get("pCover", 0) or 0, reverse=True)
+    actionable = [p for p in projections if p["pick"] != "PASS"]
+    actionable.sort(key=lambda p: p.get("pCover", 0) or 0, reverse=True)
+
+    # Watchlist: PASS projections at pCover >= 0.60 with a real line.
+    # Add `would_be_pick` (direction inferred from edge) so future grading
+    # can score them. Dashboard filters out pick=PASS so they don't display.
+    watchlist = []
+    for p in projections:
+        if p.get("pick") != "PASS":
+            continue
+        if p.get("line") is None:
+            continue
+        if (p.get("pCover") or 0) < 0.60:
+            continue
+        proj_v = p.get("proj")
+        line_v = p.get("line")
+        if proj_v is None or line_v is None:
+            continue
+        p_copy = dict(p)
+        p_copy["would_be_pick"] = "OVER" if proj_v > line_v else "UNDER"
+        p_copy["conf"] = "watch"
+        watchlist.append(p_copy)
+
+    combined = actionable + watchlist
 
     all_with_lines = [p for p in projections if p.get("line") is not None]
 
     for p in projections:
+        if not p.get("date"):
+            p["date"] = date_str
+    for p in combined:
         if not p.get("date"):
             p["date"] = date_str
 
@@ -625,8 +656,9 @@ def format_props_for_dashboard(projections, date_str="today"):
         "date": date_str,
         "generated": dt.datetime.now().isoformat(),
         "totalProjections": len(projections),
-        "totalPicks": len(picks),
-        "props": picks,
+        "totalPicks": len(actionable),
+        "totalWatchlist": len(watchlist),
+        "props": combined,
         "todayProjections": all_with_lines,
-        "summary": f"{len(picks)} picks from {len(projections)} projections",
+        "summary": f"{len(actionable)} picks (+{len(watchlist)} watch) from {len(projections)} projections",
     }
