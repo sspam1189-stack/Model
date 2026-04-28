@@ -315,17 +315,53 @@
           tally.innerHTML = `Props: <b>${yW}W-${yL}L</b> &middot; <span style="color:${uColor}">${yU >= 0 ? '+' : ''}${yU.toFixed(2)}u</span>`;
           recapCard.appendChild(tally);
 
-          // Yesterday's Leans (UNDER 0.60-0.70 watchlist) appended below picks
+          // Yesterday's Leans (UNDER 0.60-0.70 watchlist) — full table beneath picks
           const yLeans = leanGraded.filter(p => p.date === yesterdayStr);
           if (yLeans.length > 0) {
             const yLW = yLeans.filter(p => p.result === 'WIN').length;
             const yLL = yLeans.filter(p => p.result === 'LOSS').length;
             const yLU = calcMLBPropsUnits(yLeans);
             const yLColor = yLU >= 0 ? 'var(--green)' : 'var(--red)';
-            const leanTally = document.createElement('div');
-            leanTally.style.cssText = 'margin-top:6px;padding-top:6px;border-top:1px dashed rgba(244,180,0,0.4);font-size:12px;color:#f4b400;font-style:italic';
-            leanTally.innerHTML = `Lean U .60–.70: <b>${yLW}W-${yLL}L</b> &middot; <span style="color:${yLColor}">${yLU >= 0 ? '+' : ''}${yLU.toFixed(2)}u</span>`;
-            recapCard.appendChild(leanTally);
+            const leanHeader = document.createElement('div');
+            leanHeader.style.cssText = 'margin-top:14px;padding-top:8px;border-top:1px dashed rgba(244,180,0,0.4);font-size:12px;color:#f4b400;font-weight:600';
+            leanHeader.innerHTML = `Leans — UNDER .60–.70: <b>${yLW}W-${yLL}L</b> &middot; <span style="color:${yLColor}">${yLU >= 0 ? '+' : ''}${yLU.toFixed(2)}u</span>`;
+            recapCard.appendChild(leanHeader);
+            const lTbl = document.createElement('table');
+            lTbl.className = 'data';
+            lTbl.style.cssText = 'width:100%;border-collapse:collapse;margin-top:8px';
+            const lhRow = lTbl.createTHead().insertRow();
+            ['Pitcher','Team','Opp','Cat','Proj','Line','Edge','Cover%','Price','Actual','Lean','Result'].forEach((h, i) => {
+              const th = document.createElement('th');
+              th.textContent = h;
+              th.style.cssText = 'padding:6px 10px;border-bottom:1px solid rgba(255,255,255,0.1);' + (i === 0 ? 'text-align:left' : 'text-align:center');
+              lhRow.appendChild(th);
+            });
+            const lTbody = lTbl.createTBody();
+            for (const p of yLeans.sort((a, b) => (b.pCover || 0) - (a.pCover || 0))) {
+              const row = lTbody.insertRow();
+              row.style.borderBottom = '1px solid rgba(255,255,255,0.05)';
+              const yEdge = (p.proj != null && p.line != null) ? +(p.proj - p.line).toFixed(1) : null;
+              const yEdgeStr = yEdge != null ? (yEdge > 0 ? '+'+yEdge : String(yEdge)) : '—';
+              const yPrice = p.odds != null ? (p.odds > 0 ? '+'+p.odds : String(p.odds)) : '—';
+              const pcStr = p.pCover != null ? (p.pCover * 100).toFixed(2) + '%' : '—';
+              [displayName(p), p.team||'', p.opp||'', marketLabels[p.market]||p.market,
+               String(p.proj), p.line!=null?String(p.line):'—', yEdgeStr, pcStr, yPrice,
+               p.actual!=null?String(p.actual):'—', 'U',
+               p.result==='WIN'?'W':'L'].forEach((v, i) => {
+                const td = row.insertCell();
+                td.textContent = v;
+                td.style.cssText = 'padding:4px 4px;text-align:center';
+                if (i === 0) { td.style.textAlign = 'left'; td.style.fontWeight = '600'; }
+                if (i === 1 || i === 2) td.style.color = '#999';
+                if (i === 4) td.style.color = p.proj > p.line ? 'var(--green)' : p.proj < p.line ? 'var(--red)' : '';
+                if (i === 6 && yEdge != null) td.style.color = yEdge > 0 ? 'var(--green)' : yEdge < 0 ? 'var(--red)' : '#999';
+                if (i === 7) td.style.color = '#aaa';
+                if (i === 8) td.style.color = '#999';
+                if (i === 10) { td.style.fontWeight = '700'; td.style.color = 'var(--red)'; }
+                if (i === 11) { td.style.fontWeight = '700'; td.style.color = p.result === 'WIN' ? 'var(--green)' : 'var(--red)'; }
+              });
+            }
+            recapCard.appendChild(lTbl);
           }
           el.appendChild(recapCard);
         }
