@@ -190,6 +190,7 @@
             if (i === 5) td.style.color = gU >= 0 ? 'var(--green)' : 'var(--red)';
             if (i === 6) td.style.color = parseFloat(gROI) >= 0 ? 'var(--green)' : 'var(--red)';
           });
+          appendLeanRow(mb, leanGraded, 'Lean U .60–.70');
           mbWrap.appendChild(mbTbl);
           mbCard.appendChild(mbWrap);
           el.appendChild(mbCard);
@@ -253,6 +254,8 @@
             if (i === 5) td.style.color = rU >= 0 ? 'var(--green)' : 'var(--red)';
             if (i === 6) td.style.color = parseFloat(rROI) >= 0 ? 'var(--green)' : 'var(--red)';
           });
+          const recentLeans = leanGraded.filter(p => p.date && p.date >= recentCutoff);
+          appendLeanRow(rb, recentLeans, 'Lean U .60–.70');
           rWrap.appendChild(rTbl);
           rCard.appendChild(rWrap);
           el.appendChild(rCard);
@@ -311,6 +314,19 @@
           tally.className = 'l10-tally';
           tally.innerHTML = `Props: <b>${yW}W-${yL}L</b> &middot; <span style="color:${uColor}">${yU >= 0 ? '+' : ''}${yU.toFixed(2)}u</span>`;
           recapCard.appendChild(tally);
+
+          // Yesterday's Leans (UNDER 0.60-0.70 watchlist) appended below picks
+          const yLeans = leanGraded.filter(p => p.date === yesterdayStr);
+          if (yLeans.length > 0) {
+            const yLW = yLeans.filter(p => p.result === 'WIN').length;
+            const yLL = yLeans.filter(p => p.result === 'LOSS').length;
+            const yLU = calcMLBPropsUnits(yLeans);
+            const yLColor = yLU >= 0 ? 'var(--green)' : 'var(--red)';
+            const leanTally = document.createElement('div');
+            leanTally.style.cssText = 'margin-top:6px;padding-top:6px;border-top:1px dashed rgba(244,180,0,0.4);font-size:12px;color:#f4b400;font-style:italic';
+            leanTally.innerHTML = `Lean U .60–.70: <b>${yLW}W-${yLL}L</b> &middot; <span style="color:${yLColor}">${yLU >= 0 ? '+' : ''}${yLU.toFixed(2)}u</span>`;
+            recapCard.appendChild(leanTally);
+          }
           el.appendChild(recapCard);
         }
 
@@ -460,7 +476,7 @@
             const tEdge = (p.proj != null && p.line != null) ? +(p.proj - p.line).toFixed(1) : null;
             const tEdgeStr = tEdge != null ? (tEdge > 0 ? '+'+tEdge : String(tEdge)) : '—';
             const tPrice = p.odds != null ? (p.odds > 0 ? '+'+p.odds : String(p.odds)) : '—';
-            const pcStr = p.pCover != null ? Math.round(p.pCover * 100) + '%' : '—';
+            const pcStr = p.pCover != null ? (p.pCover * 100).toFixed(2) + '%' : '—';
             const cells = [
               displayName(p), p.team || '', p.opp || '',
               marketLabels[p.market] || p.market,
@@ -672,7 +688,7 @@
             if (isPick) row.style.background = 'rgba(124,108,240,0.06)';
             const edge = (p.proj != null && p.line != null) ? +(p.proj - p.line).toFixed(1) : null;
             const edgeStr = edge != null ? (edge > 0 ? '+'+edge : String(edge)) : '\u2014';
-            const coverStr = p.pCover != null ? (p.pCover * 100).toFixed(1) + '%' : '\u2014';
+            const coverStr = p.pCover != null ? (p.pCover * 100).toFixed(2) + '%' : '\u2014';
             // Price column: for picks use the pick's odds; for non-picks show
             // the price of the direction the projection leans (OVER if proj>line,
             // UNDER if proj<line). This lets users see every available line's price.
@@ -920,7 +936,7 @@
           const priceStr = p.odds != null ? (p.odds > 0 ? '+' + p.odds : String(p.odds)) : '\u2014';
           const edgeVal = (p.proj != null && p.line != null) ? (p.proj - p.line) : null;
           const edgeStr = edgeVal != null ? (edgeVal > 0 ? '+' : '') + edgeVal.toFixed(1) : '\u2014';
-          const pcStr = p.pCover != null ? Math.round(p.pCover * 100) + '%' : '\u2014';
+          const pcStr = p.pCover != null ? (p.pCover * 100).toFixed(2) + '%' : '\u2014';
           const cells = isBacktest ? [
             p.date ? (parseInt(p.date.slice(5,7))+'/'+parseInt(p.date.slice(8))) : '', displayName(p), p.team || '', p.opp || '',
             String(p.proj),
@@ -1123,7 +1139,7 @@
           const priceStr = p.odds != null ? (p.odds > 0 ? '+' + p.odds : String(p.odds)) : '\u2014';
           const edgeVal = (p.proj != null && p.line != null) ? (p.proj - p.line) : null;
           const edgeStr = edgeVal != null ? (edgeVal > 0 ? '+' : '') + edgeVal.toFixed(1) : '\u2014';
-          const pcStr = p.pCover != null ? Math.round(p.pCover * 100) + '%' : '\u2014';
+          const pcStr = p.pCover != null ? (p.pCover * 100).toFixed(2) + '%' : '\u2014';
           const cells = isBacktest ? [
             p.date?(parseInt(p.date.slice(5,7))+'/'+parseInt(p.date.slice(8))):'', displayName(p), p.team||'', p.opp||'', ml,
             String(p.proj), p.line!=null?String(p.line):'\u2014',
@@ -1742,7 +1758,7 @@
             if (isPick) row.style.background = 'rgba(124,108,240,0.06)';
             const edge = (p.proj != null && p.line != null) ? +(p.proj - p.line).toFixed(2) : null;
             const edgeStr = edge != null ? (edge > 0 ? '+'+edge : String(edge)) : '\u2014';
-            const coverStr = p.pCover != null ? (p.pCover * 100).toFixed(1) + '%' : '\u2014';
+            const coverStr = p.pCover != null ? (p.pCover * 100).toFixed(2) + '%' : '\u2014';
             const oppSP = p.opp_pitcher ? mlbShortName(p.opp_pitcher) : '\u2014';
             [displayName(p), p.team||'', oppSP,
              p.proj!=null?p.proj.toFixed(2):'\u2014', p.line!=null?String(p.line):'\u2014',
