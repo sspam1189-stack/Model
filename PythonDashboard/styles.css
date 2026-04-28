@@ -565,6 +565,18 @@ select option { background-color: #1a1a2e; color: #fff; padding: 4px 8px; }
 /* ─── Props mobile responsive ─── */
 .props-table-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; }
 
+/* Cards with dynamically-built tables (today/yesterday picks, recap, leans)
+   may have wide column layouts that overflow on phones. Allow them to
+   scroll horizontally as a unit and clamp inner table widths. */
+.card-picks, .card-recap, .card-games {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+.card-picks table, .card-recap table, .card-games table {
+  min-width: 0;
+  width: 100%;
+}
+
 @media (max-width: 700px) {
   .props-toolbar-tabs { font-size: 12px !important; }
   .props-toolbar-tabs button { padding: 6px 12px !important; font-size: 12px !important; }
@@ -595,4 +607,23 @@ select option { background-color: #1a1a2e; color: #fff; padding: 4px 8px; }
   .card table td { font-size: 9px !important; padding: 3px 1px !important; }
   /* Also hide Market column on very small screens */
   .card table .col-market { display: none; }
+  /* Hide Status column (clock emoji) on tiny screens to save horizontal space */
+  .card table th:last-child, .card table td:last-child { white-space: nowrap; }
+  /* Reduce card padding on small screens */
+  .card { padding: 10px 8px !important; margin-bottom: 12px !important; }
+  .card-title { font-size: 13px !important; }
+  /* Tighten game-pill rows */
+  .games-grid { gap: 6px; }
+}
+
+/* Tables in dynamic cards: small base padding so columns fit better. */
+@media (max-width: 700px) {
+  .card-picks table th, .card-picks table td,
+  .card-recap table th, .card-recap table td,
+  .card-games table th, .card-games table td {
+    padding: 4px 3px !important;
+    font-size: 10px !important;
+  }
+  /* Tabs, sort toggle, and other in-card controls */
+  .card-picks button { font-size: 11px !important; padding: 4px 8px !important; }
 }

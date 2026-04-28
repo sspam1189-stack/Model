@@ -393,20 +393,6 @@
           titleRow.appendChild(sortToggle);
           todayCard.appendChild(titleRow);
 
-          // Tab row (Picks / Leans)
-          const tTabRow = document.createElement('div');
-          tTabRow.style.cssText = 'display:flex;gap:8px;border-bottom:1px solid rgba(255,255,255,0.08);margin-top:8px';
-          const tTabStyle = 'padding:6px 14px;border:none;background:transparent;color:#999;font-size:13px;cursor:pointer;border-bottom:2px solid transparent;transition:all 0.15s';
-          const tTabActive = 'padding:6px 14px;border:none;background:transparent;color:#fff;font-size:13px;cursor:pointer;border-bottom:2px solid #7c6cf0;transition:all 0.15s';
-          const picksTabBtn = document.createElement('button');
-          picksTabBtn.textContent = `Picks (${todayPicks.length})`;
-          const leansTabBtn = document.createElement('button');
-          leansTabBtn.textContent = `Leans (${todayLeans.length})`;
-          tTabRow.appendChild(picksTabBtn);
-          if (todayLeans.length > 0) tTabRow.appendChild(leansTabBtn);
-          todayCard.appendChild(tTabRow);
-          const bodyWrap = document.createElement('div');
-          todayCard.appendChild(bodyWrap);
           const tbl = document.createElement('table');
           tbl.className = 'props-data-table';
           tbl.style.cssText = 'width:100%;border-collapse:collapse;margin-top:8px';
@@ -547,19 +533,16 @@
             }
           }
 
-          // Tab switcher
-          let activeTab = todayPicks.length > 0 ? 'picks' : 'leans';
-          function syncTabs() {
-            picksTabBtn.style.cssText = (activeTab === 'picks') ? tTabActive : tTabStyle;
-            leansTabBtn.style.cssText = (activeTab === 'leans') ? tTabActive : tTabStyle;
-            sortToggle.style.display = (activeTab === 'picks') ? '' : 'none';
-            bodyWrap.textContent = '';
-            if (activeTab === 'picks' && todayPicks.length > 0) bodyWrap.appendChild(tbl);
-            else if (activeTab === 'leans' && lTbl) bodyWrap.appendChild(lTbl);
+          // Sequential layout (matches Yesterday's Recap structure): picks
+          // table on top, then a Leans header line + leans table below.
+          if (todayPicks.length > 0) todayCard.appendChild(tbl);
+          if (lTbl) {
+            const leanHeader = document.createElement('div');
+            leanHeader.style.cssText = 'margin-top:14px;padding-top:8px;border-top:1px dashed rgba(244,180,0,0.4);font-size:12px;color:#f4b400;font-weight:600';
+            leanHeader.textContent = `Leans — UNDER .60–.70 (${todayLeans.length})`;
+            todayCard.appendChild(leanHeader);
+            todayCard.appendChild(lTbl);
           }
-          picksTabBtn.onclick = () => { if (todayPicks.length > 0) { activeTab = 'picks'; syncTabs(); } };
-          leansTabBtn.onclick = () => { if (lTbl) { activeTab = 'leans'; syncTabs(); } };
-          syncTabs();
           el.appendChild(todayCard);
         }
       })();
