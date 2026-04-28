@@ -330,9 +330,16 @@
           el.appendChild(recapCard);
         }
 
-        // Today's Picks (table format matching All Picks)
+        // Today's Picks + Leans (unified card with tabs)
         const todayPicks = picks.filter(p => p.date === todayStr);
-        if (todayPicks.length > 0) {
+        const todayLeans = (data.props || []).filter(p =>
+          p.date === todayStr
+          && p.pick === 'PASS'
+          && (p.pCover || 0) >= 0.60
+          && (p.pCover || 0) < 0.70
+          && p.would_be_pick === 'UNDER'
+        );
+        if (todayPicks.length > 0 || todayLeans.length > 0) {
           const todayCard = document.createElement('div');
           todayCard.className = 'card card-picks';
           todayCard.style.marginBottom = '16px';
@@ -349,6 +356,21 @@
           sortToggle.textContent = 'Sort: pCover';
           titleRow.appendChild(sortToggle);
           todayCard.appendChild(titleRow);
+
+          // Tab row (Picks / Leans)
+          const tTabRow = document.createElement('div');
+          tTabRow.style.cssText = 'display:flex;gap:8px;border-bottom:1px solid rgba(255,255,255,0.08);margin-top:8px';
+          const tTabStyle = 'padding:6px 14px;border:none;background:transparent;color:#999;font-size:13px;cursor:pointer;border-bottom:2px solid transparent;transition:all 0.15s';
+          const tTabActive = 'padding:6px 14px;border:none;background:transparent;color:#fff;font-size:13px;cursor:pointer;border-bottom:2px solid #7c6cf0;transition:all 0.15s';
+          const picksTabBtn = document.createElement('button');
+          picksTabBtn.textContent = `Picks (${todayPicks.length})`;
+          const leansTabBtn = document.createElement('button');
+          leansTabBtn.textContent = `Leans (${todayLeans.length})`;
+          tTabRow.appendChild(picksTabBtn);
+          if (todayLeans.length > 0) tTabRow.appendChild(leansTabBtn);
+          todayCard.appendChild(tTabRow);
+          const bodyWrap = document.createElement('div');
+          todayCard.appendChild(bodyWrap);
           const tbl = document.createElement('table');
           tbl.className = 'props-data-table';
           tbl.style.cssText = 'width:100%;border-collapse:collapse;margin-top:8px';
@@ -431,77 +453,67 @@
             applySort();
             renderRows();
           });
-          todayCard.appendChild(tbl);
-          el.appendChild(todayCard);
-        }
 
-        // Today's Leans (watchlist UNDERs at pCover 0.60-0.70)
-        const todayLeans = (data.props || []).filter(p =>
-          p.date === todayStr
-          && p.pick === 'PASS'
-          && (p.pCover || 0) >= 0.60
-          && (p.pCover || 0) < 0.70
-          && p.would_be_pick === 'UNDER'
-        );
-        if (todayLeans.length > 0) {
-          const leanCard = document.createElement('div');
-          leanCard.className = 'card card-picks';
-          leanCard.style.marginBottom = '16px';
-          leanCard.style.borderLeft = '3px solid #f4b400';
-          leanCard.appendChild(Object.assign(document.createElement('div'), {
-            className: 'card-title',
-            textContent: `Today’s Leans — UNDER 0.60–0.70 (${todayLeans.length})`
-          }));
-          const subtitle = document.createElement('div');
-          subtitle.style.cssText = 'font-size:11px;color:#999;margin-top:2px';
-          subtitle.textContent = 'Watchlist tier — not actionable picks, tracked for calibration';
-          leanCard.appendChild(subtitle);
-          const lTbl = document.createElement('table');
-          lTbl.className = 'props-data-table';
-          lTbl.style.cssText = 'width:100%;border-collapse:collapse;margin-top:8px';
-          const lHeaders = ['Pitcher','Team','Opp','Cat','Proj','Line','Edge','Cover%','Price','Lean'];
-          const lhRow = lTbl.createTHead().insertRow();
-          lHeaders.forEach((h) => {
-            const th = document.createElement('th');
-            th.textContent = h;
-            th.style.cssText = 'padding:4px 4px;text-align:center;border-bottom:1px solid rgba(255,255,255,0.1)';
-            if (h === 'Pitcher') th.style.textAlign = 'left';
-            lhRow.appendChild(th);
-          });
-          const lTbody = lTbl.createTBody();
-          todayLeans.sort((a, b) => (b.pCover || 0) - (a.pCover || 0));
-          for (const p of todayLeans) {
-            const row = lTbody.insertRow();
-            row.style.borderBottom = '1px solid rgba(255,255,255,0.05)';
-            const tEdge = (p.proj != null && p.line != null) ? +(p.proj - p.line).toFixed(1) : null;
-            const tEdgeStr = tEdge != null ? (tEdge > 0 ? '+'+tEdge : String(tEdge)) : '—';
-            const tPrice = p.odds != null ? (p.odds > 0 ? '+'+p.odds : String(p.odds)) : '—';
-            const pcStr = p.pCover != null ? (p.pCover * 100).toFixed(2) + '%' : '—';
-            const cells = [
-              displayName(p), p.team || '', p.opp || '',
-              marketLabels[p.market] || p.market,
-              String(p.proj),
-              p.line != null ? String(p.line) : '—',
-              tEdgeStr,
-              pcStr,
-              tPrice,
-              'U'
-            ];
-            cells.forEach((val, i) => {
-              const td = row.insertCell();
-              td.textContent = val;
-              td.style.cssText = 'padding:4px 4px;text-align:center';
-              if (i === 0) { td.style.textAlign = 'left'; td.style.fontWeight = '600'; }
-              if (i === 1 || i === 2) td.style.color = '#999';
-              if (i === 4) td.style.color = p.proj > p.line ? 'var(--green)' : p.proj < p.line ? 'var(--red)' : '';
-              if (i === 6 && tEdge != null) td.style.color = tEdge > 0 ? 'var(--green)' : tEdge < 0 ? 'var(--red)' : '#999';
-              if (i === 7) td.style.color = '#aaa';
-              if (i === 8) td.style.color = '#999';
-              if (i === 9) { td.style.fontWeight = '700'; td.style.color = 'var(--red)'; }
+          // Build leans table
+          let lTbl = null;
+          if (todayLeans.length > 0) {
+            lTbl = document.createElement('table');
+            lTbl.className = 'props-data-table';
+            lTbl.style.cssText = 'width:100%;border-collapse:collapse;margin-top:8px';
+            const lHeaders = ['Pitcher','Team','Opp','Cat','Proj','Line','Edge','Cover%','Price','Lean'];
+            const lhRow = lTbl.createTHead().insertRow();
+            lHeaders.forEach((h) => {
+              const th = document.createElement('th');
+              th.textContent = h;
+              th.style.cssText = 'padding:4px 4px;text-align:center;border-bottom:1px solid rgba(255,255,255,0.1)';
+              if (h === 'Pitcher') th.style.textAlign = 'left';
+              lhRow.appendChild(th);
             });
+            const lTbody = lTbl.createTBody();
+            todayLeans.sort((a, b) => (b.pCover || 0) - (a.pCover || 0));
+            for (const p of todayLeans) {
+              const row = lTbody.insertRow();
+              row.style.borderBottom = '1px solid rgba(255,255,255,0.05)';
+              const tEdge = (p.proj != null && p.line != null) ? +(p.proj - p.line).toFixed(1) : null;
+              const tEdgeStr = tEdge != null ? (tEdge > 0 ? '+'+tEdge : String(tEdge)) : '—';
+              const tPrice = p.odds != null ? (p.odds > 0 ? '+'+p.odds : String(p.odds)) : '—';
+              const pcStr = p.pCover != null ? (p.pCover * 100).toFixed(2) + '%' : '—';
+              const cells = [
+                displayName(p), p.team || '', p.opp || '',
+                marketLabels[p.market] || p.market,
+                String(p.proj),
+                p.line != null ? String(p.line) : '—',
+                tEdgeStr, pcStr, tPrice, 'U'
+              ];
+              cells.forEach((val, i) => {
+                const td = row.insertCell();
+                td.textContent = val;
+                td.style.cssText = 'padding:4px 4px;text-align:center';
+                if (i === 0) { td.style.textAlign = 'left'; td.style.fontWeight = '600'; }
+                if (i === 1 || i === 2) td.style.color = '#999';
+                if (i === 4) td.style.color = p.proj > p.line ? 'var(--green)' : p.proj < p.line ? 'var(--red)' : '';
+                if (i === 6 && tEdge != null) td.style.color = tEdge > 0 ? 'var(--green)' : tEdge < 0 ? 'var(--red)' : '#999';
+                if (i === 7) td.style.color = '#aaa';
+                if (i === 8) td.style.color = '#999';
+                if (i === 9) { td.style.fontWeight = '700'; td.style.color = 'var(--red)'; }
+              });
+            }
           }
-          leanCard.appendChild(lTbl);
-          el.appendChild(leanCard);
+
+          // Tab switcher
+          let activeTab = todayPicks.length > 0 ? 'picks' : 'leans';
+          function syncTabs() {
+            picksTabBtn.style.cssText = (activeTab === 'picks') ? tTabActive : tTabStyle;
+            leansTabBtn.style.cssText = (activeTab === 'leans') ? tTabActive : tTabStyle;
+            sortToggle.style.display = (activeTab === 'picks') ? '' : 'none';
+            bodyWrap.textContent = '';
+            if (activeTab === 'picks' && todayPicks.length > 0) bodyWrap.appendChild(tbl);
+            else if (activeTab === 'leans' && lTbl) bodyWrap.appendChild(lTbl);
+          }
+          picksTabBtn.onclick = () => { if (todayPicks.length > 0) { activeTab = 'picks'; syncTabs(); } };
+          leansTabBtn.onclick = () => { if (lTbl) { activeTab = 'leans'; syncTabs(); } };
+          syncTabs();
+          el.appendChild(todayCard);
         }
       })();
 
