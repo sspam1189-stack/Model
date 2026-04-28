@@ -490,15 +490,14 @@
             renderRows();
           });
 
-          // Build leans table
+          // Build leans table — same column structure as Picks for consistency
           let lTbl = null;
           if (todayLeans.length > 0) {
             lTbl = document.createElement('table');
             lTbl.className = 'props-data-table';
             lTbl.style.cssText = 'width:100%;border-collapse:collapse;margin-top:8px';
-            const lHeaders = ['Pitcher','Team','Opp','Cat','Proj','Line','Edge','Cover%','Price','Lean'];
             const lhRow = lTbl.createTHead().insertRow();
-            lHeaders.forEach((h) => {
+            todayHeaders.forEach((h) => {
               const th = document.createElement('th');
               th.textContent = h;
               th.style.cssText = 'padding:4px 4px;text-align:center;border-bottom:1px solid rgba(255,255,255,0.1)';
@@ -507,19 +506,26 @@
             });
             const lTbody = lTbl.createTBody();
             todayLeans.sort((a, b) => (b.pCover || 0) - (a.pCover || 0));
+            const _LOCK_STATES = new Set(['lineup_confirmed','game_started','final']);
             for (const p of todayLeans) {
               const row = lTbody.insertRow();
               row.style.borderBottom = '1px solid rgba(255,255,255,0.05)';
               const tEdge = (p.proj != null && p.line != null) ? +(p.proj - p.line).toFixed(1) : null;
               const tEdgeStr = tEdge != null ? (tEdge > 0 ? '+'+tEdge : String(tEdge)) : '—';
               const tPrice = p.odds != null ? (p.odds > 0 ? '+'+p.odds : String(p.odds)) : '—';
-              const pcStr = p.pCover != null ? (p.pCover * 100).toFixed(2) + '%' : '—';
+              const gt = gameTimesToday[p.team] || gameTimesToday[p.opp] || '';
+              const started = gt ? (new Date(gt).getTime() <= Date.now()) : false;
+              const isConfirmed = _LOCK_STATES.has(p.lockState);
+              const confText = isConfirmed ? 'Confirmed' : 'Unconfirmed';
               const cells = [
                 displayName(p), p.team || '', p.opp || '',
                 marketLabels[p.market] || p.market,
                 String(p.proj),
                 p.line != null ? String(p.line) : '—',
-                tEdgeStr, pcStr, tPrice, 'U'
+                tEdgeStr, tPrice,
+                'U',
+                confText,
+                started ? '\u{1F552}' : ''
               ];
               cells.forEach((val, i) => {
                 const td = row.insertCell();
@@ -529,9 +535,14 @@
                 if (i === 1 || i === 2) td.style.color = '#999';
                 if (i === 4) td.style.color = p.proj > p.line ? 'var(--green)' : p.proj < p.line ? 'var(--red)' : '';
                 if (i === 6 && tEdge != null) td.style.color = tEdge > 0 ? 'var(--green)' : tEdge < 0 ? 'var(--red)' : '#999';
-                if (i === 7) td.style.color = '#aaa';
-                if (i === 8) td.style.color = '#999';
-                if (i === 9) { td.style.fontWeight = '700'; td.style.color = 'var(--red)'; }
+                if (i === 7) td.style.color = '#999';
+                if (i === 8) { td.style.fontWeight = '700'; td.style.color = 'var(--red)'; }
+                if (i === 9) {
+                  td.title = p.lockState || 'pending';
+                  td.style.fontSize = '11px';
+                  td.style.fontWeight = '600';
+                  td.style.color = isConfirmed ? 'var(--green)' : '#999';
+                }
               });
             }
           }

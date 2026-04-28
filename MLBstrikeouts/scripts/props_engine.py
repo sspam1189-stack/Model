@@ -630,8 +630,16 @@ def format_props_for_dashboard(projections, date_str="today"):
         if proj_v is None or line_v is None:
             continue
         p_copy = dict(p)
-        p_copy["would_be_pick"] = "OVER" if proj_v > line_v else "UNDER"
+        wbp = "OVER" if proj_v > line_v else "UNDER"
+        p_copy["would_be_pick"] = wbp
         p_copy["conf"] = "watch"
+        # Backfill odds + to_win_1u from over/under price if missing — leans
+        # need real prices to compute units / display correctly.
+        if p_copy.get("odds") is None:
+            fallback_price = p_copy.get("over_price") if wbp == "OVER" else p_copy.get("under_price")
+            if fallback_price is not None:
+                p_copy["odds"] = fallback_price
+                p_copy["to_win_1u"] = _to_win_1u(fallback_price)
         watchlist.append(p_copy)
 
     combined = actionable + watchlist
