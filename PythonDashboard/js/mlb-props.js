@@ -322,9 +322,10 @@
             const yLL = yLeans.filter(p => p.result === 'LOSS').length;
             const yLU = calcMLBPropsUnits(yLeans);
             const yLColor = yLU >= 0 ? 'var(--green)' : 'var(--red)';
+            // Header: just the title + count (matches Today's Picks lean header style)
             const leanHeader = document.createElement('div');
             leanHeader.style.cssText = 'margin-top:14px;padding-top:8px;border-top:1px dashed rgba(244,180,0,0.4);font-size:12px;color:#f4b400;font-weight:600';
-            leanHeader.innerHTML = `Leans — UNDER .60–.70: <b>${yLW}W-${yLL}L</b> &middot; <span style="color:${yLColor}">${yLU >= 0 ? '+' : ''}${yLU.toFixed(2)}u</span>`;
+            leanHeader.textContent = `Leans — UNDER .60–.70 (${yLeans.length})`;
             recapCard.appendChild(leanHeader);
             const lTbl = document.createElement('table');
             lTbl.className = 'data';
@@ -362,6 +363,11 @@
               });
             }
             recapCard.appendChild(lTbl);
+            // Tally below the lean table — mirrors the Props tally below picks
+            const leanTally = document.createElement('div');
+            leanTally.style.cssText = 'margin-top:6px;font-size:12px;color:#f4b400;font-style:italic';
+            leanTally.innerHTML = `Leans: <b>${yLW}W-${yLL}L</b> &middot; <span style="color:${yLColor}">${yLU >= 0 ? '+' : ''}${yLU.toFixed(2)}u</span>`;
+            recapCard.appendChild(leanTally);
           }
           el.appendChild(recapCard);
         }
