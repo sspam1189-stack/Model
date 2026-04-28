@@ -561,6 +561,14 @@ def _make_prop(name, team, market, proj, std, line_lookup, opp):
         mkt_thresh = MARKET_THRESHOLDS.get(market, {"high": 0.58})
         direction = "OVER" if p_over > p_under else "UNDER"
 
+        # Always populate odds for the would-be direction (matters for watchlist
+        # PASS picks at 0.60-0.70 so units can be computed). Actual pick=
+        # OVER/UNDER assignment still gated by the pCover threshold below.
+        pick_price = over_price if direction == "OVER" else under_price
+        if pick_price is not None:
+            result["odds"] = pick_price
+            result["to_win_1u"] = _to_win_1u(pick_price)
+
         thresh = mkt_thresh.get("high_under" if direction == "UNDER" else "high",
                                 mkt_thresh["high"])
         if best_p >= thresh:
@@ -583,12 +591,8 @@ def _make_prop(name, team, market, proj, std, line_lookup, opp):
             if line < min_l:
                 return result
 
-            pick_price = over_price if direction == "OVER" else under_price
-
             result["pick"] = direction
             result["conf"] = "high"
-            result["odds"] = pick_price
-            result["to_win_1u"] = _to_win_1u(pick_price)
 
     return result
 
