@@ -63,17 +63,21 @@ MARKET_THRESHOLDS = {
     "turnovers":     {"high": 0.65},
 }
 
-# Variance multipliers — applied to rate_std × proj_min
-# Calibrated so avg pCover ≈ actual win rate per market.
+# Per-market variance multipliers — applied to total rate+minutes variance.
+# 2026-04-28: after props_engine adopted proper Var(rate × min) formula,
+# residual miscalibration was per-market (assists -10pp, rebounds -14pp,
+# threes -14pp gap from claim). Per-market VAR_MULTs tuned from
+# calibrate_threshold output to bring claimed pCover into line with
+# actual realized win rate per market.
 VAR_MULT = {
-    "points":        2.5,
-    "rebounds":      2.5,
-    "assists":       2.5,
-    "threes":        2.5,
-    "pts_rebs_asts": 2.5,
-    "steals":        2.5,   # keep higher relative to base (rare events)
-    "blocks":        2.5,
-    "turnovers":     2.5,
+    "points":        2.0,
+    "rebounds":      2.5,   # ~2pp gap at 0.65-0.70 — calibrated
+    "assists":       2.0,   # ~5pp gap at 0.65-0.70 (volume bucket) — calibrated
+    "threes":        2.5,   # ~5pp gap at 0.65-0.70 — calibrated
+    "pts_rebs_asts": 2.0,
+    "steals":        2.0,
+    "blocks":        2.0,
+    "turnovers":     2.0,
 }
 
 # ---------------------------------------------------------------------------

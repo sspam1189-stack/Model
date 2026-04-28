@@ -166,6 +166,30 @@ def _weighted_rate_std(games, stat_key, decay=DECAY_FACTOR, min_minutes=MIN_MINU
     return math.sqrt(max(var, 0.001))  # floor appropriate for per-min rates
 
 
+def _weighted_minutes_std(games, decay=DECAY_FACTOR, min_minutes=MIN_MINUTES):
+    """
+    Weighted std of actual minutes played.
+
+    Captures how variable a player's playing time is game-to-game (rest
+    days, foul trouble, blowouts, role changes). This is separate from
+    rate variance and combines with it to give the true total variance
+    of (rate × min) — without this, the model is systematically
+    overconfident on high-projection picks where min × rate is large.
+
+    Returns std in MINUTES.
+    """
+    qualified = [g for g in games if g.get("min", 0) >= min_minutes]
+    if len(qualified) < 2:
+        return 4.0  # safe default — typical NBA minutes std is ~3-5
+    mins = [g["min"] for g in qualified]
+    n = len(mins)
+    weights = [decay ** (n - 1 - i) for i in range(n)]
+    w_sum = sum(weights)
+    avg = sum(m * w for m, w in zip(mins, weights)) / w_sum
+    var = sum(w * (m - avg) ** 2 for m, w in zip(mins, weights)) / w_sum
+    return math.sqrt(max(var, 1.0))  # floor at 1 minute std
+
+
 # ---------------------------------------------------------------------------
 # Main projection engine
 # ---------------------------------------------------------------------------
@@ -343,11 +367,15 @@ def project_player_props(player_logs, team_def_stats=None, prop_lines=None,
             # Base projection: rate × projected minutes
             base_proj = per_min_rate * proj_min
 
-            # --- Rate-based variance ---
-            # Std of per-minute rates × projected minutes = honest stat-level std.
-            # This scales with minutes: more minutes = more total variance.
+            # --- Total variance: rate uncertainty + minutes uncertainty ---
+            # Var(rate × min) = E[min]² · Var(rate) + E[rate]² · Var(min)
+            # The minutes-variance term is what was missing — it scales with
+            # projection size and explains why high-projection picks were
+            # systematically overconfident at the previous calibration.
             rate_std = _weighted_rate_std(qualified, stat_key)
-            proj_std = rate_std * proj_min * VAR_MULT.get(market, 1.2)
+            min_std = _weighted_minutes_std(qualified)
+            base_var = (proj_min * rate_std) ** 2 + (per_min_rate * min_std) ** 2
+            proj_std = math.sqrt(base_var) * VAR_MULT.get(market, 1.0)
 
             # --- Kalman blending ---
             kalman_key = KALMAN_STAT_KEYS.get(market)
