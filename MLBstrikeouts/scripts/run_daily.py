@@ -427,8 +427,16 @@ def run_daily(date_key=None):
         start_date=f"{season}-03-20",
         end_date=date_iso,
     )
+    # 30-day rolling stuff: catches velocity drift / fatigue / injury that a
+    # season-to-date aggregate would miss. In April this is identical to
+    # season-to-date since the season is <30 days old; from June onward the
+    # rolling window will diverge as drift accumulates.
+    stuff_min_date = (
+        datetime.datetime.strptime(date_iso, "%Y-%m-%d").date()
+        - datetime.timedelta(days=30)
+    ).strftime("%Y-%m-%d")
     pitch_level_rates = compute_pitch_level_rates_from_chunks(
-        pitch_chunks, asof_date=date_iso
+        pitch_chunks, asof_date=date_iso, min_date=stuff_min_date
     )
     savant_rates = merge_pitch_level_into_savant(savant_rates, pitch_level_rates)
     n_stuff = sum(1 for v in savant_rates.values() if v.get("stuff_score", 0) > 0)

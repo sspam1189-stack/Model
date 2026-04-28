@@ -191,8 +191,13 @@ def backfill(season=None, start_game=10, start_date=None):
         if asof_date <= season_start:
             _asof_savant_cache[asof_date] = savant_rates_base
             return savant_rates_base
+        # 30-day rolling stuff window protects against velocity drift / fatigue
+        from datetime import datetime as _dt, timedelta as _td
+        min_date = (
+            _dt.strptime(asof_date, "%Y-%m-%d").date() - _td(days=30)
+        ).strftime("%Y-%m-%d")
         date_pitch_level = compute_pitch_level_rates_from_chunks(
-            pitch_chunks, asof_date=asof_date
+            pitch_chunks, asof_date=asof_date, min_date=min_date
         )
         merged = merge_pitch_level_into_savant(savant_rates_base, date_pitch_level)
         _asof_savant_cache[asof_date] = merged

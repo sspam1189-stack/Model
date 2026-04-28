@@ -683,11 +683,16 @@ def fetch_savant_pitch_chunks(season=None, start_date=None, end_date=None,
     return chunks
 
 
-def compute_pitch_level_rates_from_chunks(chunks, asof_date, min_pitches=100):
+def compute_pitch_level_rates_from_chunks(chunks, asof_date, min_pitches=100,
+                                          min_date=None):
     """
     Compose cached chunks into per-pitcher rates and stuff_score, including
     only chunks whose end date is strictly before asof_date (walk-forward
     safe).
+
+    If min_date is provided, only chunks with end >= min_date are included.
+    This implements a rolling-window stuff signal that catches velocity drift,
+    fatigue, or injury that a season-to-date aggregate would miss.
 
     Same output shape as fetch_savant_pitch_level_rates().
     """
@@ -711,6 +716,8 @@ def compute_pitch_level_rates_from_chunks(chunks, asof_date, min_pitches=100):
 
     for ch in chunks:
         if ch["end"] >= asof_date:
+            continue
+        if min_date is not None and ch["end"] < min_date:
             continue
         for pid, rec in (ch.get("data") or {}).items():
             tgt = agg[pid]
