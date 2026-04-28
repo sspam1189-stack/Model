@@ -523,7 +523,7 @@ def run_daily(date_key=None):
     locked_teams = set(started_teams) | confirmed_teams
 
     _LOCK_RANK = {"pending": 0, "lineup_confirmed": 1, "game_started": 2, "final": 3}
-    _now_iso = __import__("datetime").datetime.utcnow().isoformat() + "Z"
+    _now_iso = datetime.datetime.now(datetime.timezone.utc).strftime("%Y-%m-%dT%H:%M:%S.%f") + "Z"
 
     def _lock_key(pick):
         return pick.get("opp", "") or pick.get("team", "")
