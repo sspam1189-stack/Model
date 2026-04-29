@@ -697,8 +697,8 @@
             ['Pitcher', null, true],
             ['Team',   null, false],
             ['Cat',    'cat', false],
-            ['IP',     null, false],
-            ['Pit',    null, false],
+            ['Outs',   null, false],
+            ['Pitch#', null, false],
             ['Proj',   'proj', false],
             ['Line',   null, false],
             ['Edge',   'edge', false],
@@ -760,20 +760,12 @@
             const gt = _gameTimes[p.team] || _gameTimes[p.opp] || '';
             const started = gt ? (new Date(gt).getTime() <= Date.now()) : false;
             const statusStr = started ? '\u{1F552}' : '';
-            // MLB notation: each pitched inning = 3 outs.  Engine emits decimal
-            // IP; convert to outs-based notation for display (5.67 dec = 17
-            // outs = "5.2" = 5 IP + 2 outs).
-            const fmtIPmlb = (ip) => {
-              if (ip == null) return '\u2014';
-              const totalOuts = Math.round(ip * 3);
-              const whole = Math.floor(totalOuts / 3);
-              const outs  = totalOuts % 3;
-              return `${whole}.${outs}`;
-            };
-            const ipStr = fmtIPmlb(p.proj_ip);
-            const pcStr = p.proj_pc != null ? String(Math.round(p.proj_pc)) : '\u2014';
+            // Engine emits decimal IP; display as total outs (decimal \u00d7 3).
+            // 1 IP = 3 outs, so 5.67 decimal = ~17 outs.
+            const outsStr  = p.proj_ip != null ? String(Math.round(p.proj_ip * 3)) : '\u2014';
+            const pitchStr = p.proj_pc != null ? String(Math.round(p.proj_pc)) : '\u2014';
             [displayName(p), p.team||'', marketLabels[p.market]||p.market,
-             ipStr, pcStr,
+             outsStr, pitchStr,
              p.proj!=null?String(p.proj):'\u2014', p.line!=null?String(p.line):'\u2014',
              edgeStr, coverStr,
              isPick?(p.pick==='OVER'?'O':'U'):'\u2014',
