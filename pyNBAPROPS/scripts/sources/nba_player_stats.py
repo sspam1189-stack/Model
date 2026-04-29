@@ -18,9 +18,27 @@
 import os
 import json
 import time
+import datetime
 
 _dir = os.path.dirname(os.path.abspath(__file__))
 PLAYER_CACHE_DIR = os.path.join(_dir, "..", "..", "..", "data", "player_cache", "nba")
+
+
+def _cache_is_same_stat_day(cache_path):
+    """
+    Cache is considered fresh if it was written today (local CT).
+
+    Stats only change meaningfully at the stat-day boundary:
+      - yesterday's games finalize within ~2h of their final
+      - any 8am+ run on a given day reads stable inputs the rest of the day
+    Refetching mid-day adds noise (API row ordering, transient corrections)
+    without delivering new information. We refetch exactly once per calendar
+    day, when crossing midnight CT.
+    """
+    if not os.path.exists(cache_path):
+        return False
+    cache_dt = datetime.datetime.fromtimestamp(os.path.getmtime(cache_path))
+    return cache_dt.date() == datetime.datetime.now().date()
 
 import sys
 sys.path.insert(0, os.path.join(_dir, ".."))
@@ -46,13 +64,11 @@ def fetch_player_game_logs(season=None, season_type="Regular Season", date_to=No
         cache_key += f"_{str(date_to).replace('-', '')}"
     cache_path = os.path.join(PLAYER_CACHE_DIR, f"{cache_key}.json")
 
-    if os.path.exists(cache_path):
-        age_h = (time.time() - os.path.getmtime(cache_path)) / 3600
-        if age_h < 2:
-            with open(cache_path, "r") as f:
-                data = json.load(f)
-            print(f"  [player_stats] Using cache: {os.path.basename(cache_path)} ({len(data)} logs)")
-            return data
+    if _cache_is_same_stat_day(cache_path):
+        with open(cache_path, "r") as f:
+            data = json.load(f)
+        print(f"  [player_stats] Using cache: {os.path.basename(cache_path)} ({len(data)} logs)")
+        return data
 
     date_to_fmt = _fmt_date_nba_api(date_to)
 
@@ -127,11 +143,9 @@ def fetch_player_advanced_stats(season=None, date_to=None):
         cache_key += f"_{str(date_to).replace('-', '')}"
     cache_path = os.path.join(PLAYER_CACHE_DIR, f"{cache_key}.json")
 
-    if os.path.exists(cache_path):
-        age_h = (time.time() - os.path.getmtime(cache_path)) / 3600
-        if age_h < 2:
-            with open(cache_path, "r") as f:
-                return json.load(f)
+    if _cache_is_same_stat_day(cache_path):
+        with open(cache_path, "r") as f:
+            return json.load(f)
 
     date_to_fmt = _fmt_date_nba_api(date_to)
 
@@ -196,11 +210,9 @@ def fetch_player_per36_stats(season=None, date_to=None):
         cache_key += f"_{str(date_to).replace('-', '')}"
     cache_path = os.path.join(PLAYER_CACHE_DIR, f"{cache_key}.json")
 
-    if os.path.exists(cache_path):
-        age_h = (time.time() - os.path.getmtime(cache_path)) / 3600
-        if age_h < 2:
-            with open(cache_path, "r") as f:
-                cached = json.load(f)
+    if _cache_is_same_stat_day(cache_path):
+        with open(cache_path, "r") as f:
+            cached = json.load(f)
             print(f"  [per36] Using cache: {os.path.basename(cache_path)} ({len(cached)} players)")
             return cached
 
@@ -263,11 +275,9 @@ def fetch_team_def_stats(season=None, date_to=None):
         cache_key += f"_{str(date_to).replace('-', '')}"
     cache_path = os.path.join(PLAYER_CACHE_DIR, f"{cache_key}.json")
 
-    if os.path.exists(cache_path):
-        age_h = (time.time() - os.path.getmtime(cache_path)) / 3600
-        if age_h < 2:
-            with open(cache_path, "r") as f:
-                cached = json.load(f)
+    if _cache_is_same_stat_day(cache_path):
+        with open(cache_path, "r") as f:
+            cached = json.load(f)
             print(f"  [team_def] Using cache: {os.path.basename(cache_path)} ({len(cached)} teams)")
             return cached
 
@@ -356,11 +366,9 @@ def fetch_player_positions(season=None):
     season = season or current_season()
     cache_path = os.path.join(PLAYER_CACHE_DIR, f"positions_{season}.json")
 
-    if os.path.exists(cache_path):
-        age_h = (time.time() - os.path.getmtime(cache_path)) / 3600
-        if age_h < 24:
-            with open(cache_path, "r") as f:
-                cached = json.load(f)
+    if _cache_is_same_stat_day(cache_path):
+        with open(cache_path, "r") as f:
+            cached = json.load(f)
             print(f"  [positions] Using cache: {os.path.basename(cache_path)} ({len(cached)} players)")
             return {int(k): v for k, v in cached.items()}
 
@@ -417,11 +425,9 @@ def fetch_team_def_by_position(season=None, date_to=None):
         cache_key += f"_{str(date_to).replace('-', '')}"
     cache_path = os.path.join(PLAYER_CACHE_DIR, f"{cache_key}.json")
 
-    if os.path.exists(cache_path):
-        age_h = (time.time() - os.path.getmtime(cache_path)) / 3600
-        if age_h < 2:
-            with open(cache_path, "r") as f:
-                cached = json.load(f)
+    if _cache_is_same_stat_day(cache_path):
+        with open(cache_path, "r") as f:
+            cached = json.load(f)
             print(f"  [team_def_pos] Using cache: {os.path.basename(cache_path)} ({len(cached)} teams)")
             return cached
 

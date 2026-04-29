@@ -67,12 +67,14 @@
 
       // ── Yesterday's Recap + Today's Picks ──
       (function renderNBADailyCards() {
-        // Show the most recent run's picks as "today" until the next run,
-        // rather than using the current CT date (which would hide picks after midnight).
+        // Use the engine's reported run date (data.date) as the real "today".
+        // Fall back to the most recent date with picks if data.date is missing.
+        // This avoids labelling stale picks as "today" on no-pick days.
         const allDates = [...new Set(picks.map(p => p.date))].sort();
         const latestPickDate = allDates[allDates.length - 1] || '';
-        const todayStr = latestPickDate;
-        const yest = new Date(latestPickDate + 'T12:00:00');
+        const todayStr = data.date || latestPickDate;
+        const noPicksToday = todayStr !== latestPickDate;
+        const yest = new Date(todayStr + 'T12:00:00');
         yest.setDate(yest.getDate() - 1);
         const yesterdayStr = yest.toISOString().slice(0, 10);
 
@@ -257,6 +259,22 @@
 
         // Today's Picks (table format matching All Picks)
         const todayPicks = picks.filter(p => p.date === todayStr);
+        if (noPicksToday) {
+          // Latest run produced 0 picks for the actual today — render an honest
+          // empty state so users don't mistake older picks for tonight's slate.
+          const emptyCard = document.createElement('div');
+          emptyCard.className = 'card card-picks';
+          emptyCard.style.marginBottom = '16px';
+          emptyCard.appendChild(Object.assign(document.createElement('div'), {
+            className: 'card-title',
+            textContent: `Today’s Picks (${todayStr})`
+          }));
+          const msg = document.createElement('div');
+          msg.style.cssText = 'padding:14px 4px;color:var(--text-secondary,#9aa3b2);font-size:0.9rem';
+          msg.textContent = `No high-confidence picks for ${todayStr}. Most recent picks: ${latestPickDate}.`;
+          emptyCard.appendChild(msg);
+          el.appendChild(emptyCard);
+        }
         if (todayPicks.length > 0) {
           const todayCard = document.createElement('div');
           todayCard.className = 'card card-picks';

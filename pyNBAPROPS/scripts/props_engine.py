@@ -156,7 +156,11 @@ def _weighted_rate_std(games, stat_key, decay=DECAY_FACTOR, min_minutes=MIN_MINU
     """
     qualified = [g for g in games if g.get("min", 0) >= min_minutes and g.get("min", 0) > 0]
     if len(qualified) < 2:
-        return 0.15  # safe default per-min std (~5 pts in 33 min)
+        # Insufficient data — return sentinel so the engine can mark this
+        # projection as low-confidence. Previously this returned 0.15 which
+        # silently masqueraded as a real std and let the prop earn conf=high
+        # despite being computed from defaults.
+        return None
     rates = [g.get(stat_key, 0) / g["min"] for g in qualified]
     n = len(rates)
     weights = [decay ** (n - 1 - i) for i in range(n)]
@@ -180,7 +184,9 @@ def _weighted_minutes_std(games, decay=DECAY_FACTOR, min_minutes=MIN_MINUTES):
     """
     qualified = [g for g in games if g.get("min", 0) >= min_minutes]
     if len(qualified) < 2:
-        return 4.0  # safe default — typical NBA minutes std is ~3-5
+        # Insufficient data — return sentinel so the engine can mark this
+        # projection as low-confidence. See _weighted_rate_std for context.
+        return None
     mins = [g["min"] for g in qualified]
     n = len(mins)
     weights = [decay ** (n - 1 - i) for i in range(n)]
@@ -311,6 +317,18 @@ def project_player_props(player_logs, team_def_stats=None, prop_lines=None,
         # Filter to games with meaningful minutes
         qualified = [g for g in recent if g.get("min", 0) >= MIN_MINUTES]
 
+        # --- Adaptive window: extend backward when recent is thin ---
+        # Playoff schedules + role changes can leave the last ROLLING_WINDOW
+        # games sparsely qualified. When that happens, fall back to the most
+        # recent ROLLING_WINDOW *qualified* games from the player's full log.
+        # This preserves rolling-recency intent without relying on fragile
+        # default std values when the window happens to be thin.
+        MIN_QUALIFIED = 5
+        if len(qualified) < MIN_QUALIFIED and len(games) > len(recent):
+            all_qualified = [g for g in games if g.get("min", 0) >= MIN_MINUTES]
+            if len(all_qualified) >= MIN_QUALIFIED:
+                qualified = all_qualified[-ROLLING_WINDOW:]
+
         # Get this player's advanced stats (if available)
         adv = (player_adv_stats or {}).get(str(pid), {})
 
@@ -374,6 +392,14 @@ def project_player_props(player_logs, team_def_stats=None, prop_lines=None,
             # systematically overconfident at the previous calibration.
             rate_std = _weighted_rate_std(qualified, stat_key)
             min_std = _weighted_minutes_std(qualified)
+            # If either component fell back to insufficient-data, we cannot
+            # trust the resulting std. Substitute conservative defaults for
+            # math but flag the projection so it can't reach conf=high.
+            low_data_std = rate_std is None or min_std is None
+            if rate_std is None:
+                rate_std = 0.15
+            if min_std is None:
+                min_std = 4.0
             base_var = (proj_min * rate_std) ** 2 + (per_min_rate * min_std) ** 2
             proj_std = math.sqrt(base_var) * VAR_MULT.get(market, 1.0)
 
@@ -410,7 +436,8 @@ def project_player_props(player_logs, team_def_stats=None, prop_lines=None,
             elif not is_home and split.get("away_split_adj"):
                 proj += split["away_split_adj"]
 
-            prop = _make_prop(name, team, market, proj, std, line_lookup, latest_opp)
+            prop = _make_prop(name, team, market, proj, std, line_lookup, latest_opp,
+                              low_data_std=low_data_std)
             if prop:
                 projections.append(prop)
 
@@ -701,8 +728,13 @@ def _to_win_1u(price):
     return None
 
 
-def _make_prop(name, team, market, proj, std, line_lookup, opp):
-    """Build a single prop projection + pick."""
+def _make_prop(name, team, market, proj, std, line_lookup, opp, low_data_std=False):
+    """Build a single prop projection + pick.
+
+    low_data_std: if True, the std was computed from a fallback default because
+    the player's recent game logs were too thin (< 2 qualified games). Such
+    projections are blocked from earning conf=high since the std is unreliable.
+    """
     nk = _name_key(name)
     line_key = (nk[0], nk[1], market)
     line_data = line_lookup.get(line_key)
@@ -747,6 +779,12 @@ def _make_prop(name, team, market, proj, std, line_lookup, opp):
         # Single uniform threshold — no directional hacks
         thresh = mkt_thresh["high"]
         if best_p >= thresh:
+
+            # Don't promote to high-conf if the std was computed from
+            # insufficient-data fallbacks. The pCover would be artificially
+            # tight against an unreliable distribution.
+            if low_data_std:
+                return result
 
             if market in UNDER_ONLY_MARKETS and direction == "OVER":
                 return result
