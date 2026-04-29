@@ -24,8 +24,8 @@
     }
 
     function buildMLBMarketBreakdown(filteredPicks) {
-      const mlbMarketLabels = {strikeouts:'.7+', outs:'OUTS', hits_allowed:'HA', game_hits:'HITS'};
-      const mlbMarketOrder = ['.7+','OUTS','HA','HITS'];
+      const mlbMarketLabels = {strikeouts:'K', outs:'OUTS', hits_allowed:'HA', game_hits:'HITS'};
+      const mlbMarketOrder = ['K','OUTS','HA','HITS'];
       const fGrouped = {};
       for (const p of filteredPicks) {
         const ml = mlbMarketLabels[p.market] || p.market;
@@ -60,7 +60,7 @@
         runEl.textContent = `Last run (CT) \u2014 MLB Strikeouts: ${ct}`;
       }
 
-      const marketLabels = {strikeouts:'.7+', outs:'OUTS', hits_allowed:'HA', game_hits:'HITS'};
+      const marketLabels = {strikeouts:'K', outs:'OUTS', hits_allowed:'HA', game_hits:'HITS'};
       const picks = data.props.filter(p => p.pick !== 'PASS');
       const isBacktest = picks.some(p => p.result != null);
 
