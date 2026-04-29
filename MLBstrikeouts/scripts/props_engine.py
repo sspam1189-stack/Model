@@ -364,7 +364,8 @@ def project_pitcher_props(pitcher_logs, team_batting_stats=None,
         k_model_var = k_kalman_var * 0.5
         std = math.sqrt(std**2 + k_model_var)
 
-        prop = _make_prop(name, team, market, proj, std, line_lookup, latest_opp)
+        prop = _make_prop(name, team, market, proj, std, line_lookup, latest_opp,
+                          proj_ip=proj_ip, proj_bf=projected_bf)
         if prop:
             projections.append(prop)
 
@@ -519,7 +520,8 @@ def _to_win_1u(price):
     return None
 
 
-def _make_prop(name, team, market, proj, std, line_lookup, opp):
+def _make_prop(name, team, market, proj, std, line_lookup, opp,
+               proj_ip=None, proj_bf=None):
     nk = _name_key(name)
     line_key = (nk[0], nk[1], market)
     line_data = line_lookup.get(line_key)
@@ -546,6 +548,8 @@ def _make_prop(name, team, market, proj, std, line_lookup, opp):
         "edge": None,
         "pCover": None,
         "conf": "low",
+        "proj_ip": round(proj_ip, 1) if proj_ip is not None else None,
+        "proj_bf": round(proj_bf, 1) if proj_bf is not None else None,
     }
 
     if line is not None and std > 0:

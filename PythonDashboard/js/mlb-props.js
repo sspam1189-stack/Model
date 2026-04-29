@@ -624,8 +624,8 @@
 
         const PAGE_SIZE = 30;
         let currentPage = 0;
-        // sortCol: 'cat'|'edge'|'cover'|'proj'  sortDir: 1=asc -1=desc
-        let sortCol = 'cat';
+        // sortCol: 'cat'|'edge'|'cover'|'proj'  sortDir: 1=desc -1=asc (legacy convention)
+        let sortCol = 'edge';   // default: highest edge first, pCover as tiebreaker
         let sortDir = 1;
 
         const catOrd = {strikeouts:0, outs:1, hits_allowed:2, game_hits:3};
@@ -637,7 +637,9 @@
               v = ((catOrd[a.market]??99) - (catOrd[b.market]??99)) ||
                   (((a.proj??0)-(a.line??0)) < ((b.proj??0)-(b.line??0)) ? 1 : ((a.proj??0)-(a.line??0)) > ((b.proj??0)-(b.line??0)) ? -1 : 0);
             } else if (sortCol === 'edge') {
-              v = ((b.proj??0)-(b.line??0)) - ((a.proj??0)-(a.line??0));
+              // Edge desc, with pCover desc as tiebreaker
+              const ea = (a.proj??0)-(a.line??0), eb = (b.proj??0)-(b.line??0);
+              v = (eb - ea) || ((b.pCover??0) - (a.pCover??0));
             } else if (sortCol === 'cover') {
               v = (b.pCover??0) - (a.pCover??0);
             } else if (sortCol === 'proj') {
@@ -677,6 +679,7 @@
             ['Pitcher', null, true],
             ['Team',   null, false],
             ['Cat',    'cat', false],
+            ['IP',     null, false],
             ['Proj',   'proj', false],
             ['Line',   null, false],
             ['Edge',   'edge', false],
@@ -727,7 +730,9 @@
             const gt = _gameTimes[p.team] || _gameTimes[p.opp] || '';
             const started = gt ? (new Date(gt).getTime() <= Date.now()) : false;
             const statusStr = started ? '\u{1F552}' : '';
+            const ipStr = p.proj_ip != null ? String(p.proj_ip) : '\u2014';
             [displayName(p), p.team||'', marketLabels[p.market]||p.market,
+             ipStr,
              p.proj!=null?String(p.proj):'\u2014', p.line!=null?String(p.line):'\u2014',
              edgeStr, coverStr,
              isPick?(p.pick==='OVER'?'O':'U'):'\u2014',
@@ -740,12 +745,13 @@
               td.style.cssText = 'padding:5px 8px;text-align:'+(i===0?'left':'center')+';font-size:12px';
               if (i===0) td.style.fontWeight = '600';
               if (i===1) td.style.color = '#999';
-              if (i===3 && p.line!=null) td.style.color = p.proj > p.line ? 'var(--green)' : p.proj < p.line ? 'var(--red)' : '';
-              if (i===5 && edge!=null) td.style.color = edge > 0 ? 'var(--green)' : edge < 0 ? 'var(--red)' : '#999';
-              if (i===6 && p.pCover!=null) td.style.color = p.pCover >= 0.70 ? 'var(--green)' : p.pCover >= 0.65 ? 'var(--yellow)' : p.pCover <= 0.45 ? 'var(--red)' : '#ccc';
-              if (i===7 && isPick) { td.style.fontWeight='700'; td.style.color = p.pick==='OVER'?'var(--green)':'var(--red)'; }
-              if (i===8) td.style.color = '#999';
-              if (i===9) {
+              if (i===3) td.style.color = '#bbb'; // IP
+              if (i===4 && p.line!=null) td.style.color = p.proj > p.line ? 'var(--green)' : p.proj < p.line ? 'var(--red)' : '';
+              if (i===6 && edge!=null) td.style.color = edge > 0 ? 'var(--green)' : edge < 0 ? 'var(--red)' : '#999';
+              if (i===7 && p.pCover!=null) td.style.color = p.pCover >= 0.70 ? 'var(--green)' : p.pCover >= 0.65 ? 'var(--yellow)' : p.pCover <= 0.45 ? 'var(--red)' : '#ccc';
+              if (i===8 && isPick) { td.style.fontWeight='700'; td.style.color = p.pick==='OVER'?'var(--green)':'var(--red)'; }
+              if (i===9) td.style.color = '#999';
+              if (i===10) {
                 td.title = p.lockState || 'pending';
                 td.style.fontSize = '11px';
                 td.style.fontWeight = '600';
