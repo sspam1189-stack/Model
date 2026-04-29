@@ -4,8 +4,8 @@
   "season": "2026",
   "mode": "live",
   "model": "kalman_blend",
-  "generated": "2026-04-28T19:20:05.859673",
-  "totalProjections": 27,
+  "generated": "2026-04-28T23:37:11.415237",
+  "totalProjections": 28,
   "totalPicks": 275,
   "totalWatchlist": 8,
   "props": [
@@ -5065,7 +5065,7 @@
       "odds": -120,
       "to_win_1u": 1.2,
       "date": "2026-04-28",
-      "lockState": "lineup_confirmed",
+      "lockState": "game_started",
       "lockedAt": "2026-04-28T21:46:31.783277Z"
     },
     {
@@ -5127,7 +5127,7 @@
       "to_win_1u": 1.14,
       "would_be_pick": "OVER",
       "date": "2026-04-28",
-      "lockState": "lineup_confirmed",
+      "lockState": "game_started",
       "lockedAt": "2026-04-28T21:46:31.783277Z"
     },
     {
@@ -5148,11 +5148,11 @@
       "to_win_1u": 1.36,
       "would_be_pick": "OVER",
       "date": "2026-04-28",
-      "lockState": "lineup_confirmed",
+      "lockState": "game_started",
       "lockedAt": "2026-04-29T00:20:05.859914Z"
     }
   ],
-  "summary": "5 picks (+8 watch) from 27 projections",
+  "summary": "6 picks (+8 watch) from 28 projections",
   "date": "2026-04-28",
   "todayProjections": [
     {
@@ -5532,7 +5532,7 @@
       "odds": -114,
       "to_win_1u": 1.14,
       "date": "2026-04-28",
-      "lockState": "lineup_confirmed",
+      "lockState": "game_started",
       "lockedAt": "2026-04-28T21:46:31.783277Z"
     },
     {
@@ -5572,7 +5572,7 @@
       "odds": -120,
       "to_win_1u": 1.2,
       "date": "2026-04-28",
-      "lockState": "lineup_confirmed",
+      "lockState": "game_started",
       "lockedAt": "2026-04-28T21:46:31.783277Z"
     },
     {
@@ -5612,7 +5612,7 @@
       "odds": -162,
       "to_win_1u": 1.62,
       "date": "2026-04-28",
-      "lockState": "lineup_confirmed",
+      "lockState": "game_started",
       "lockedAt": "2026-04-28T21:46:31.783277Z"
     },
     {
@@ -5636,26 +5636,6 @@
       "lockedAt": "2026-04-28T21:46:31.783277Z"
     },
     {
-      "player": "Shohei Ohtani",
-      "team": "LAD",
-      "opp": "MIA",
-      "market": "strikeouts",
-      "proj": 6.8,
-      "std": 2.5,
-      "line": 6.5,
-      "over_price": -108,
-      "under_price": -122,
-      "pick": "PASS",
-      "edge": 0.3,
-      "pCover": 0.542,
-      "conf": "low",
-      "odds": -108,
-      "to_win_1u": 1.08,
-      "date": "2026-04-28",
-      "lockState": "pending",
-      "lockedAt": null
-    },
-    {
       "player": "Janson Junk",
       "team": "MIA",
       "opp": "LAD",
@@ -5672,7 +5652,7 @@
       "odds": -114,
       "to_win_1u": 1.14,
       "date": "2026-04-28",
-      "lockState": "lineup_confirmed",
+      "lockState": "game_started",
       "lockedAt": "2026-04-29T00:20:05.859914Z"
     },
     {
@@ -5692,8 +5672,28 @@
       "odds": -136,
       "to_win_1u": 1.36,
       "date": "2026-04-28",
-      "lockState": "lineup_confirmed",
+      "lockState": "game_started",
       "lockedAt": "2026-04-29T00:20:05.859914Z"
+    },
+    {
+      "player": "Shohei Ohtani",
+      "team": "LAD",
+      "opp": "MIA",
+      "market": "strikeouts",
+      "proj": 6.8,
+      "std": 2.5,
+      "line": 6.5,
+      "over_price": -108,
+      "under_price": -122,
+      "pick": "PASS",
+      "edge": 0.3,
+      "pCover": 0.547,
+      "conf": "low",
+      "odds": -108,
+      "to_win_1u": 1.08,
+      "date": "2026-04-28",
+      "lockState": "game_started",
+      "lockedAt": "2026-04-29T04:37:11.415390Z"
     }
   ],
   "gameTimes": {
