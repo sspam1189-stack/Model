@@ -64,6 +64,42 @@ from defaults import current_season
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 KALMAN_STATE_PATH = os.path.join(SCRIPT_DIR, "..", "data", "kalman_state.json")
 
+# Game statuses that mean the game never produced final stats — picks attached
+# to these resolve as VOID (sportsbook-standard handling: bet refunded, no
+# unit impact, no W/L count).
+_VOID_STATUSES = {
+    "Postponed", "Cancelled", "Canceled", "Suspended",
+    "Postponed Inclement Weather", "Postponed Rain",
+    "Suspended: Inclement Weather", "Suspended: Rain",
+}
+
+
+def _is_game_postponed(team_abbr, game_date):
+    """Check the cached MLB schedule for a postponed/suspended/cancelled game
+    involving ``team_abbr`` on ``game_date`` (YYYY-MM-DD).  Returns True iff
+    the team's scheduled game on that date has a void-class status.
+    """
+    if not team_abbr or not game_date:
+        return False
+    cache_path = os.path.join(SCRIPT_DIR, "..", "..", "data",
+                              "pitcher_cache", "mlb",
+                              f"probable_pitchers_{game_date}.json")
+    cache_path = os.path.normpath(cache_path)
+    if not os.path.exists(cache_path):
+        return False
+    try:
+        with open(cache_path, "r") as f:
+            games = json.load(f)
+    except Exception:
+        return False
+    team = team_abbr.upper()
+    for g in games:
+        if g.get("home_team", "").upper() != team and g.get("away_team", "").upper() != team:
+            continue
+        if g.get("status", "") in _VOID_STATUSES:
+            return True
+    return False
+
 
 def grade_previous_picks(season=None):
     """Grade ungraded picks from previous dates using actual game logs."""
@@ -148,6 +184,15 @@ def grade_previous_picks(season=None):
         # Find actual stat from game log
         games = logs_by_pitcher_date.get((player, pick["date"]), [])
         if not games:
+            # No game log for this pitcher/date.  Could be:
+            #   (a) game postponed / suspended / cancelled — mark VOID
+            #   (b) data hasn't propagated yet (recent date) — leave ungraded
+            # Check the schedule cache for the pitcher's team on that date.
+            if _is_game_postponed(pick.get("team", ""), pick["date"]):
+                pick["result"] = "VOID"
+                pick["actual"] = None
+                if not is_watch:
+                    graded += 1  # count as resolved (so we stop reprocessing)
             continue
         game = games[0]
 

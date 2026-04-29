@@ -100,7 +100,7 @@
         yest.setDate(yest.getDate() - 1);
         const yesterdayStr = yest.toISOString().slice(0, 10);
 
-        const gradedPicks = picks.filter(p => p.result);
+        const gradedPicks = picks.filter(p => p.result && p.result !== 'VOID');
 
         // Watchlist leans: UNDER picks at pCover 0.60-0.70 (saved with pick=PASS).
         // Tracked separately from actionable picks for calibration / tier study.
@@ -1470,7 +1470,7 @@
         yest.setDate(yest.getDate() - 1);
         const yesterdayStr = yest.toISOString().slice(0, 10);
 
-        const gradedPicks = picks.filter(p => p.result);
+        const gradedPicks = picks.filter(p => p.result && p.result !== 'VOID');
 
         // Season Market Breakdown
         if (gradedPicks.length > 0) {
