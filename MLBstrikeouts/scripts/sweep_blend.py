@@ -1,25 +1,15 @@
 """
-Sweep the EFFECTIVE Kalman-mean weight in the K projection.
+Sweep the outer Kalman blend weight (currently 0.5/0.5 in props_engine.py:341).
 
-Because the projection composes two blends — inner (cfg.kalmanBlend, default 0.6
-in pitcher_kalman.py:65) and outer (0.5 in props_engine.py:340) — the only thing
-that matters mathematically is their product. So we sweep that one knob:
+Reads MLBstrikeouts/data/blend_trace.json (produced by an instrumented backfill
+run) and re-grades every projection across w in [0.0, 0.05, ..., 1.0]:
 
-    proj = (1 - k) * model_pure + k * kalman_mean + rest_delta
+    proj_w = w * model_pure + (1 - w) * kalman_proj + rest_delta
 
-Currently k = 0.6 * 0.5 = 0.30 (70% model, 30% Kalman mean — see chat).
-
-We back out kalman_mean from the existing trace (which captured kalman_proj =
-0.6*kalman_mean + 0.4*model_pure, the inner blend's output) using:
-
-    kalman_mean = (kalman_proj - 0.4 * model_pure) / 0.6
-
-For cold-start pitchers where source != "kalman_blend", kalman_proj == model_pure
-and the formula returns kalman_mean = model_pure (i.e. no Kalman influence at any
-weight). That's correct.
-
-Pick rules and paired-teammate filter mirror props_engine exactly: pCover>=0.70
-on Student-t df=5, then keep best pCover per (date, team, direction).
+Pick rules match props_engine: pCover >= 0.70 (Student-t df=5), then per-team
+paired filter that keeps only the highest-pCover OVER and the highest-pCover
+UNDER per (team, date). Pushes (actual == line) skipped, mirroring the live
+grading path.
 """
 import json
 import os
@@ -28,9 +18,6 @@ from scipy.stats import t as t_dist
 
 PROP_T_DF = 5
 PCOVER_THRESH = 0.70
-INNER_B = 0.6     # current cfg.kalmanBlend used during the trace run
-OUTER_W = 0.5     # current outer blend used during the trace run
-CURRENT_K = INNER_B * OUTER_W   # effective Kalman weight under current code
 
 TRACE = os.path.normpath(
     os.path.join(os.path.dirname(__file__), "..", "data", "blend_trace.json")
@@ -46,13 +33,7 @@ def american_to_units(price):
     return 100.0 / abs(price)
 
 
-def back_out_kalman_mean(model_pure, kalman_proj, b=INNER_B):
-    """kalman_proj = b * kalman_mean + (1-b) * model_pure  =>  solve for kalman_mean."""
-    return (kalman_proj - (1 - b) * model_pure) / b
-
-
-def grade_at_k(rows, k):
-    """Re-grade every projection at effective Kalman-mean weight k."""
+def grade_at_weight(rows, w):
     candidates = []
     for r in rows:
         line = r.get("line")
@@ -62,10 +43,7 @@ def grade_at_k(rows, k):
         if std <= 0:
             continue
 
-        model_pure = r["model_pure"]
-        kalman_mean = back_out_kalman_mean(model_pure, r["kalman_proj"])
-        proj = (1 - k) * model_pure + k * kalman_mean + r["rest_delta"]
-
+        proj = w * r["model_pure"] + (1 - w) * r["kalman_proj"] + r["rest_delta"]
         diff = proj - line
         z = diff / std
         p_over = float(t_dist.cdf(z, df=PROP_T_DF))
@@ -88,6 +66,7 @@ def grade_at_k(rows, k):
             "line": line,
         })
 
+    # Paired-teammate filter: per (date, team, direction), keep best pCover.
     by_key = defaultdict(list)
     for c in candidates:
         by_key[(c["date"], c["team"], c["direction"])].append(c)
@@ -96,7 +75,7 @@ def grade_at_k(rows, k):
         picks.sort(key=lambda x: -x["pCover"])
         final.append(picks[0])
 
-    wins = losses = pushes = 0
+    wins = losses = pushes = no_price = 0
     units = 0.0
     for p in final:
         actual = p["actual"]
@@ -107,6 +86,8 @@ def grade_at_k(rows, k):
         won = (p["direction"] == "OVER" and actual > line) or \
               (p["direction"] == "UNDER" and actual < line)
         if p["price"] is None:
+            no_price += 1
+            # treat as 1u flat with no payout info
             if won:
                 wins += 1
             else:
@@ -121,14 +102,16 @@ def grade_at_k(rows, k):
             units -= 1.0
 
     n = wins + losses
+    win_pct = wins / n if n else 0.0
     return {
-        "k": k,
+        "w": w,
         "picks": n + pushes,
         "wins": wins,
         "losses": losses,
         "pushes": pushes,
-        "win_pct": wins / n if n else 0.0,
+        "win_pct": win_pct,
         "units": units,
+        "no_price": no_price,
     }
 
 
@@ -136,41 +119,25 @@ def main():
     with open(TRACE) as f:
         rows = json.load(f)
     print(f"Loaded {len(rows)} trace rows")
-    print(f"Current production: outer={OUTER_W}  inner={INNER_B}  "
-          f"=> effective k={CURRENT_K:.2f} (model={1-CURRENT_K:.2f}/Kalman={CURRENT_K:.2f})\n")
 
-    weights = [round(0.025 * i, 4) for i in range(0, 41)]   # 0.0 to 1.0 in 0.025 steps
-    results = [grade_at_k(rows, k) for k in weights]
+    weights = [round(0.05 * i, 2) for i in range(0, 21)]
+    results = [grade_at_weight(rows, w) for w in weights]
 
-    print(f"{'k(km)':>6}  {'model%':>6}  {'picks':>5}  {'W-L':>9}  {'win%':>6}  {'units':>7}")
-    print("-" * 52)
+    print(f"\n{'w':>5}  {'picks':>5}  {'W-L':>9}  {'win%':>6}  {'units':>7}  {'noprc':>5}")
+    print("-" * 50)
     for r in results:
-        marker = "  <-- current" if abs(r["k"] - CURRENT_K) < 1e-6 else ""
-        print(f"{r['k']:>6.3f}  {1-r['k']:>6.3f}  {r['picks']:>5d}  "
+        print(f"{r['w']:>5.2f}  {r['picks']:>5d}  "
               f"{r['wins']:>3d}-{r['losses']:<3d}  "
-              f"{r['win_pct']:>6.1%}  {r['units']:>+7.2f}{marker}")
+              f"{r['win_pct']:>6.1%}  {r['units']:>+7.2f}  {r['no_price']:>5d}")
 
-    # Robust optimum: the largest contiguous plateau within 1u of the peak,
-    # report its center. Avoids picking a single noisy spike.
     best_units = max(results, key=lambda r: r["units"])
     best_winpct = max(results, key=lambda r: (r["win_pct"], r["wins"]))
-    print(f"\nBest by units : k={best_units['k']:.3f} "
-          f"(model={1-best_units['k']:.3f}/Kalman={best_units['k']:.3f}) "
-          f"=> {best_units['wins']}-{best_units['losses']} "
-          f"({best_units['win_pct']:.1%}), {best_units['units']:+.2f}u "
-          f"on {best_units['picks']} picks")
-    print(f"Best by win%  : k={best_winpct['k']:.3f} "
-          f"(model={1-best_winpct['k']:.3f}/Kalman={best_winpct['k']:.3f}) "
-          f"=> {best_winpct['wins']}-{best_winpct['losses']} "
-          f"({best_winpct['win_pct']:.1%}), {best_winpct['units']:+.2f}u "
-          f"on {best_winpct['picks']} picks")
-
-    # Plateau report: which weights are within 1u of best?
-    near_best = [r for r in results if best_units["units"] - r["units"] <= 1.0]
-    if near_best:
-        ks = [r["k"] for r in near_best]
-        print(f"\nPlateau within 1u of best: k in [{min(ks):.3f}, {max(ks):.3f}] "
-              f"({len(near_best)} grid points)")
+    print(f"\nBest by units : w={best_units['w']:.2f} "
+          f"({best_units['wins']}-{best_units['losses']}, {best_units['win_pct']:.1%}, "
+          f"{best_units['units']:+.2f}u)")
+    print(f"Best by win%  : w={best_winpct['w']:.2f} "
+          f"({best_winpct['wins']}-{best_winpct['losses']}, {best_winpct['win_pct']:.1%}, "
+          f"{best_winpct['units']:+.2f}u)")
 
 
 if __name__ == "__main__":
