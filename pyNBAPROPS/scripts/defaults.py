@@ -54,9 +54,9 @@ MIN_MINUTES = 15
 
 MARKET_THRESHOLDS = {
     "points":        {"high": 0.65},
-    "rebounds":      {"high": 0.65},
-    "assists":       {"high": 0.65},
-    "threes":        {"high": 0.65},
+    "rebounds":      {"high": 0.600},
+    "assists":       {"high": 0.575},
+    "threes":        {"high": 0.600},
     "pts_rebs_asts": {"high": 0.65},
     "steals":        {"high": 0.65},
     "blocks":        {"high": 0.65},
@@ -71,9 +71,9 @@ MARKET_THRESHOLDS = {
 # actual realized win rate per market.
 VAR_MULT = {
     "points":        2.0,
-    "rebounds":      2.5,   # ~2pp gap at 0.65-0.70 — calibrated
-    "assists":       2.0,   # ~5pp gap at 0.65-0.70 (volume bucket) — calibrated
-    "threes":        2.5,   # ~5pp gap at 0.65-0.70 — calibrated
+    "rebounds":      4.03,  # 2026-04-29 final — recal #3, balanced WR + volume
+    "assists":       4.32,
+    "threes":        3.16,
     "pts_rebs_asts": 2.0,
     "steals":        2.0,
     "blocks":        2.0,
