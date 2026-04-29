@@ -203,11 +203,31 @@ def _get_todays_teams(date_key):
     """
     Return set of team abbreviations that actually play today per ESPN schedule.
     Filters out tomorrow's games that FanDuel may have cached early.
+
+    If the cache is missing, actively fetch from ESPN. If that also fails,
+    return None and the caller will refuse to project (fail closed) rather
+    than silently let FanDuel's view of the slate through (fail open).
     """
     espn_path = os.path.join(SCRIPT_DIR, "..", "..", "data", "espn_cache", "nba", f"{date_key}.json")
     espn_path = os.path.normpath(espn_path)
+
     if not os.path.exists(espn_path):
-        return None  # None = don't filter (no ESPN data)
+        # Cache missing — try active fetch from ESPN scoreboard endpoint.
+        try:
+            import requests
+            url = f"https://site.api.espn.com/apis/site/v2/sports/basketball/nba/scoreboard?dates={date_key}"
+            r = requests.get(url, headers={"user-agent": "nba-picks-bot/1.0"}, timeout=10)
+            if r.status_code == 200:
+                os.makedirs(os.path.dirname(espn_path), exist_ok=True)
+                with open(espn_path, "w") as f:
+                    f.write(r.text)
+                print(f"  [_get_todays_teams] ESPN cache was missing — fetched fresh for {date_key}")
+            else:
+                print(f"  WARNING: ESPN scoreboard fetch HTTP {r.status_code} for {date_key}")
+                return None
+        except Exception as e:
+            print(f"  WARNING: ESPN scoreboard fetch failed: {e}")
+            return None
 
     try:
         with open(espn_path, "r") as f:
@@ -385,7 +405,15 @@ def run_daily(date_key=None):
     # FanDuel sometimes caches tomorrow's lines early. Cross-reference ESPN
     # schedule to only keep prop lines for games actually on today's date.
     todays_teams = _get_todays_teams(date_key)
-    if todays_teams is not None:
+    if todays_teams is None:
+        # Fail closed: without an authoritative schedule we cannot validate
+        # which props are for tonight's games. Drop everything rather than
+        # silently letting FanDuel's view (which may include early-posted
+        # future-game props) flow into projections.
+        print(f"  ERROR: No ESPN schedule available for {date_key}. "
+              f"Refusing to project to avoid bogus picks for non-scheduled teams.")
+        prop_lines = []
+    else:
         before = len(prop_lines)
         prop_lines = [
             p for p in prop_lines
