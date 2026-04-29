@@ -347,13 +347,26 @@
         }
 
         // Today's Picks + Leans (unified card with tabs)
-        const todayPicks = picks.filter(p => p.date === todayStr);
+        // Filter out picks where the underlying game has been postponed/etc.
+        // — those bets are voided, no actionable edge to display.
+        const _gameStatusesPicks = data.gameStatuses || {};
+        const _VOID_GS = new Set([
+          'Postponed','Cancelled','Canceled','Suspended',
+          'Postponed Inclement Weather','Postponed Rain',
+          'Suspended: Inclement Weather','Suspended: Rain',
+        ]);
+        const _isVoidGame = (p) => {
+          const gs = _gameStatusesPicks[p.team] || _gameStatusesPicks[p.opp] || '';
+          return _VOID_GS.has(gs);
+        };
+        const todayPicks = picks.filter(p => p.date === todayStr && !_isVoidGame(p));
         const todayLeans = (data.props || []).filter(p =>
           p.date === todayStr
           && p.pick === 'PASS'
           && (p.pCover || 0) >= 0.60
           && (p.pCover || 0) < 0.70
           && p.would_be_pick === 'UNDER'
+          && !_isVoidGame(p)
         );
         if (todayPicks.length > 0 || todayLeans.length > 0) {
           const todayCard = document.createElement('div');
