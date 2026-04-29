@@ -370,7 +370,10 @@
       // ── Today's Games Explorer ──
       (function renderGamesSection() {
         const allDates = [...new Set(data.props.map(p => p.date))].sort();
-        const todayStr = allDates[allDates.length - 1] || '';
+        // Prefer the engine's reported run date so projections still render
+        // on no-pick days (otherwise this filters to "latest pick date" which
+        // can be yesterday and the today-projections drop off completely).
+        const todayStr = data.date || allDates[allDates.length - 1] || '';
         // Use todayProjections (all projections incl. PASS) if available, else fall back to picks only
         const todayAllProj = (data.todayProjections || data.props)
           .filter(p => p.date === todayStr && p.market !== 'pts_rebs_asts' && p.proj != null && p.line != null);
