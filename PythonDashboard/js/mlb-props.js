@@ -698,6 +698,7 @@
             ['Team',   null, false],
             ['Cat',    'cat', false],
             ['IP',     null, false],
+            ['Pit',    null, false],
             ['Proj',   'proj', false],
             ['Line',   null, false],
             ['Edge',   'edge', false],
@@ -759,9 +760,20 @@
             const gt = _gameTimes[p.team] || _gameTimes[p.opp] || '';
             const started = gt ? (new Date(gt).getTime() <= Date.now()) : false;
             const statusStr = started ? '\u{1F552}' : '';
-            const ipStr = p.proj_ip != null ? String(p.proj_ip) : '\u2014';
+            // MLB notation: each pitched inning = 3 outs.  Engine emits decimal
+            // IP; convert to outs-based notation for display (5.67 dec = 17
+            // outs = "5.2" = 5 IP + 2 outs).
+            const fmtIPmlb = (ip) => {
+              if (ip == null) return '\u2014';
+              const totalOuts = Math.round(ip * 3);
+              const whole = Math.floor(totalOuts / 3);
+              const outs  = totalOuts % 3;
+              return `${whole}.${outs}`;
+            };
+            const ipStr = fmtIPmlb(p.proj_ip);
+            const pcStr = p.proj_pc != null ? String(Math.round(p.proj_pc)) : '\u2014';
             [displayName(p), p.team||'', marketLabels[p.market]||p.market,
-             ipStr,
+             ipStr, pcStr,
              p.proj!=null?String(p.proj):'\u2014', p.line!=null?String(p.line):'\u2014',
              edgeStr, coverStr,
              isPick?(p.pick==='OVER'?'O':'U'):'\u2014',
@@ -775,12 +787,13 @@
               if (i===0) td.style.fontWeight = '600';
               if (i===1) td.style.color = '#999';
               if (i===3) td.style.color = '#bbb'; // IP
-              if (i===4 && p.line!=null) td.style.color = p.proj > p.line ? 'var(--green)' : p.proj < p.line ? 'var(--red)' : '';
-              if (i===6 && edge!=null) td.style.color = edge > 0 ? 'var(--green)' : edge < 0 ? 'var(--red)' : '#999';
-              if (i===7 && p.pCover!=null) td.style.color = p.pCover >= 0.70 ? 'var(--green)' : p.pCover >= 0.65 ? 'var(--yellow)' : p.pCover <= 0.45 ? 'var(--red)' : '#ccc';
-              if (i===8 && isPick) { td.style.fontWeight='700'; td.style.color = p.pick==='OVER'?'var(--green)':'var(--red)'; }
-              if (i===9) td.style.color = '#999';
-              if (i===10) {
+              if (i===4) td.style.color = '#bbb'; // Pit
+              if (i===5 && p.line!=null) td.style.color = p.proj > p.line ? 'var(--green)' : p.proj < p.line ? 'var(--red)' : '';
+              if (i===7 && edge!=null) td.style.color = edge > 0 ? 'var(--green)' : edge < 0 ? 'var(--red)' : '#999';
+              if (i===8 && p.pCover!=null) td.style.color = p.pCover >= 0.70 ? 'var(--green)' : p.pCover >= 0.65 ? 'var(--yellow)' : p.pCover <= 0.45 ? 'var(--red)' : '#ccc';
+              if (i===9 && isPick) { td.style.fontWeight='700'; td.style.color = p.pick==='OVER'?'var(--green)':'var(--red)'; }
+              if (i===10) td.style.color = '#999';
+              if (i===11) {
                 td.title = isPostponed ? _gs : (p.lockState || 'pending');
                 td.style.fontSize = '11px';
                 td.style.fontWeight = '600';

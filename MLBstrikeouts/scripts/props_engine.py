@@ -307,10 +307,15 @@ def project_pitcher_props(pitcher_logs, team_batting_stats=None,
             avg_pc = _weighted_avg(game_pcs)
             projected_bf = avg_pc / avg_ppbf if avg_ppbf > 0 else 24.0
         else:
+            avg_ppbf = 3.9  # MLB league avg pitches/BF — fallback only
+            avg_pc = None   # no recent data
             whip = adv.get("WHIP", 0) or 1.20
             projected_bf = proj_ip * (3.0 + whip * 0.7)
 
         projected_bf = min(projected_bf * 0.91, 23.0)
+        # Projected pitch count: prefer recent avg if we have it; otherwise
+        # derive from final projected_bf × league-avg pitches/BF.
+        proj_pc = avg_pc if avg_pc is not None else projected_bf * avg_ppbf
 
         # --- Weather effect on K ---
         k_weather_mult = 1.0
@@ -365,7 +370,7 @@ def project_pitcher_props(pitcher_logs, team_batting_stats=None,
         std = math.sqrt(std**2 + k_model_var)
 
         prop = _make_prop(name, team, market, proj, std, line_lookup, latest_opp,
-                          proj_ip=proj_ip, proj_bf=projected_bf)
+                          proj_ip=proj_ip, proj_bf=projected_bf, proj_pc=proj_pc)
         if prop:
             projections.append(prop)
 
@@ -521,7 +526,7 @@ def _to_win_1u(price):
 
 
 def _make_prop(name, team, market, proj, std, line_lookup, opp,
-               proj_ip=None, proj_bf=None):
+               proj_ip=None, proj_bf=None, proj_pc=None):
     nk = _name_key(name)
     line_key = (nk[0], nk[1], market)
     line_data = line_lookup.get(line_key)
@@ -550,6 +555,7 @@ def _make_prop(name, team, market, proj, std, line_lookup, opp,
         "conf": "low",
         "proj_ip": round(proj_ip, 1) if proj_ip is not None else None,
         "proj_bf": round(proj_bf, 1) if proj_bf is not None else None,
+        "proj_pc": round(proj_pc, 0) if proj_pc is not None else None,
     }
 
     if line is not None and std > 0:
