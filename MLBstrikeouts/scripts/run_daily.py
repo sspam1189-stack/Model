@@ -542,18 +542,23 @@ def run_daily(date_key=None):
     dashboard = format_props_for_dashboard(projections, date_str=date_iso)
 
     game_times = {}
+    game_statuses = {}
     for g in all_probable:
         gt = g.get("game_time", "")
-        if not gt:
-            continue
-        if g.get("home_team"):
-            game_times[g["home_team"]] = gt
-        if g.get("away_team"):
-            game_times[g["away_team"]] = gt
+        status = g.get("status", "") or ""
+        for t_key in ("home_team", "away_team"):
+            team = g.get(t_key)
+            if not team:
+                continue
+            if gt:
+                game_times[team] = gt
+            if status:
+                game_statuses[team] = status
 
     combined = {
         **dashboard,
         "gameTimes": game_times,
+        "gameStatuses": game_statuses,
     }
 
     output_paths = [

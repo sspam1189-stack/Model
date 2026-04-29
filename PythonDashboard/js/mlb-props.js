@@ -414,9 +414,18 @@
               const started = gt ? (new Date(gt).getTime() <= Date.now()) : false;
               // Confirmed = lineup_confirmed / game_started / final (projection locked
               // using real confirmed lineup). Otherwise unconfirmed (pending).
+              // If the scheduled game is postponed/suspended/cancelled, surface
+              // that status instead of the lineup-lock state.
               const _LOCK_STATES = new Set(['lineup_confirmed','game_started','final']);
+              const _VOID_GAME_STATUSES_TP = new Set([
+                'Postponed','Cancelled','Canceled','Suspended',
+                'Postponed Inclement Weather','Postponed Rain',
+                'Suspended: Inclement Weather','Suspended: Rain',
+              ]);
+              const _gsTP = (data.gameStatuses || {})[p.team] || (data.gameStatuses || {})[p.opp] || '';
+              const isPostponed = _VOID_GAME_STATUSES_TP.has(_gsTP);
               const isConfirmed = _LOCK_STATES.has(p.lockState);
-              const confText = isConfirmed ? 'Confirmed' : 'Unconfirmed';
+              const confText = isPostponed ? _gsTP : (isConfirmed ? 'Confirmed' : 'Unconfirmed');
               const cells = [
                 displayName(p), p.team || '', p.opp || '',
                 marketLabels[p.market] || p.market,
@@ -438,10 +447,11 @@
                 if (i === 7) td.style.color = '#999';
                 if (i === 8) { td.style.fontWeight = '700'; td.style.color = p.pick === 'OVER' ? 'var(--green)' : 'var(--red)'; }
                 if (i === 9) {
-                  td.title = p.lockState || 'pending';
+                  td.title = isPostponed ? _gsTP : (p.lockState || 'pending');
                   td.style.fontSize = '11px';
                   td.style.fontWeight = '600';
-                  td.style.color = isConfirmed ? 'var(--green)' : '#999';
+                  td.style.color = isPostponed ? 'var(--yellow)'
+                                  : isConfirmed ? 'var(--green)' : '#999';
                 }
               });
             }
@@ -481,8 +491,15 @@
               const tPrice = p.odds != null ? (p.odds > 0 ? '+'+p.odds : String(p.odds)) : '—';
               const gt = gameTimesToday[p.team] || gameTimesToday[p.opp] || '';
               const started = gt ? (new Date(gt).getTime() <= Date.now()) : false;
+              const _VOID_STATUSES_LEAN = new Set([
+                'Postponed','Cancelled','Canceled','Suspended',
+                'Postponed Inclement Weather','Postponed Rain',
+                'Suspended: Inclement Weather','Suspended: Rain',
+              ]);
+              const _gsLean = (data.gameStatuses || {})[p.team] || (data.gameStatuses || {})[p.opp] || '';
+              const isPostponed = _VOID_STATUSES_LEAN.has(_gsLean);
               const isConfirmed = _LOCK_STATES.has(p.lockState);
-              const confText = isConfirmed ? 'Confirmed' : 'Unconfirmed';
+              const confText = isPostponed ? _gsLean : (isConfirmed ? 'Confirmed' : 'Unconfirmed');
               const cells = [
                 displayName(p), p.team || '', p.opp || '',
                 marketLabels[p.market] || p.market,
@@ -504,10 +521,11 @@
                 if (i === 7) td.style.color = '#999';
                 if (i === 8) { td.style.fontWeight = '700'; td.style.color = 'var(--red)'; }
                 if (i === 9) {
-                  td.title = p.lockState || 'pending';
+                  td.title = isPostponed ? _gsLean : (p.lockState || 'pending');
                   td.style.fontSize = '11px';
                   td.style.fontWeight = '600';
-                  td.style.color = isConfirmed ? 'var(--green)' : '#999';
+                  td.style.color = isPostponed ? 'var(--yellow)'
+                                  : isConfirmed ? 'var(--green)' : '#999';
                 }
               });
             }
@@ -706,6 +724,13 @@
           const tbody = tbl.createTBody();
           const _LOCK_STATES_TBL = new Set(['lineup_confirmed','game_started','final']);
           const _gameTimes = data.gameTimes || {};
+          const _gameStatuses = data.gameStatuses || {};
+          // Schedule statuses that mean the game won't (or didn't) play tonight.
+          const _VOID_GAME_STATUSES = new Set([
+            'Postponed', 'Cancelled', 'Canceled', 'Suspended',
+            'Postponed Inclement Weather', 'Postponed Rain',
+            'Suspended: Inclement Weather', 'Suspended: Rain',
+          ]);
           for (const p of pageRows) {
             const row = tbody.insertRow();
             row.style.borderBottom = '1px solid rgba(255,255,255,0.04)';
@@ -725,8 +750,12 @@
               if (p.proj > p.line && p.over_price != null) priceStr = fmtOdds(p.over_price);
               else if (p.proj < p.line && p.under_price != null) priceStr = fmtOdds(p.under_price);
             }
+            // If the team's scheduled game has a void-class status (Postponed,
+            // Suspended, Cancelled), surface that instead of the lineup-lock state.
+            const _gs = _gameStatuses[p.team] || _gameStatuses[p.opp] || '';
+            const isPostponed = _VOID_GAME_STATUSES.has(_gs);
             const isConfirmed = _LOCK_STATES_TBL.has(p.lockState);
-            const confText = isConfirmed ? 'Confirmed' : 'Unconfirmed';
+            const confText = isPostponed ? _gs : (isConfirmed ? 'Confirmed' : 'Unconfirmed');
             const gt = _gameTimes[p.team] || _gameTimes[p.opp] || '';
             const started = gt ? (new Date(gt).getTime() <= Date.now()) : false;
             const statusStr = started ? '\u{1F552}' : '';
@@ -752,10 +781,11 @@
               if (i===8 && isPick) { td.style.fontWeight='700'; td.style.color = p.pick==='OVER'?'var(--green)':'var(--red)'; }
               if (i===9) td.style.color = '#999';
               if (i===10) {
-                td.title = p.lockState || 'pending';
+                td.title = isPostponed ? _gs : (p.lockState || 'pending');
                 td.style.fontSize = '11px';
                 td.style.fontWeight = '600';
-                td.style.color = isConfirmed ? 'var(--green)' : '#999';
+                td.style.color = isPostponed ? 'var(--yellow)'
+                                : isConfirmed ? 'var(--green)' : '#999';
               }
             });
           }
