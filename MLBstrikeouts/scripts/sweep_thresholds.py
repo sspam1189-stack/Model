@@ -165,7 +165,6 @@ def run_sweep(season=None):
             probable_pitchers=date_probable, weather_by_game=weather_data,
             batter_k_rates=batter_k_rates, lineup_data=date_lineup_data,
             savant_rates=_savant_rates_asof(game_date),
-            k_skill_config={"weights": {"stuff_score": 0.060}, "cap": 0.12},
         )
 
         # Grade

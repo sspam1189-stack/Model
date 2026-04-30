@@ -130,7 +130,7 @@ def project_pitcher_props(pitcher_logs, team_batting_stats=None,
                           pitcher_splits=None, probable_pitchers=None,
                           injury_report=None, weather_by_game=None,
                           batter_k_rates=None, lineup_data=None,
-                          savant_rates=None, k_skill_config=None):
+                          savant_rates=None):
     """
     Project pitcher strikeouts props for all pitchers with sufficient game logs.
     """
@@ -148,7 +148,6 @@ def project_pitcher_props(pitcher_logs, team_batting_stats=None,
         for k in ("K_PCT", "BA", "OPS", "BB_PCT"):
             vals = [s.get(k, 0) for s in team_batting_stats.values() if s.get(k)]
             league_avg[k] = np.mean(vals) if vals else 0.0
-    skill_baselines = _skill_baselines(savant_rates or {})
 
     # Index prop lines by (first_name, last_name, market)
     line_lookup = {}
@@ -282,9 +281,6 @@ def project_pitcher_props(pitcher_logs, team_batting_stats=None,
 
         lg_k_rate = league_avg.get("K_PCT", 0.22) or 0.22
         expected_k_rate = (pitcher_k_rate * lineup_k_rate) / lg_k_rate
-        expected_k_rate = _apply_k_skill_adjustment(
-            expected_k_rate, savant, skill_baselines, k_skill_config
-        )
         expected_k_rate = max(0.05, min(0.50, expected_k_rate))
 
         # --- Projected batters faced ---
@@ -394,57 +390,6 @@ def project_pitcher_props(pitcher_logs, team_batting_stats=None,
                     p["conf"] = "low"
 
     return projections
-
-
-# ---------------------------------------------------------------------------
-# Experimental K-skill adjustments
-# ---------------------------------------------------------------------------
-
-def _skill_baselines(savant_rates):
-    fields = ("whiff_pct", "zone_contact_pct", "chase_pct", "csw_pct", "stuff_score")
-    baselines = {}
-    for field in fields:
-        vals = [float(v.get(field, 0) or 0) for v in savant_rates.values()]
-        vals = [v for v in vals if v > 0]
-        if len(vals) >= 10:
-            avg = float(np.mean(vals))
-            sd = float(np.std(vals))
-            baselines[field] = {"avg": avg, "sd": max(sd, 0.001), "n": len(vals)}
-    return baselines
-
-
-def _apply_k_skill_adjustment(expected_k_rate, savant, baselines, config):
-    """
-    Apply optional experimental process-skill modifiers.
-
-    Config shape:
-      {
-        "weights": {"whiff_pct": 0.02, "zone_contact_pct": -0.02},
-        "cap": 0.05
-      }
-
-    Weights are multiplier deltas per one standard deviation from league average.
-    A 0.02 weight means +1 SD raises expected K rate by 2%.
-    """
-    if not config:
-        return expected_k_rate
-
-    weights = config.get("weights", {})
-    if not weights:
-        return expected_k_rate
-
-    total = 0.0
-    for field, weight in weights.items():
-        val = float(savant.get(field, 0) or 0)
-        base = baselines.get(field)
-        if val <= 0 or not base:
-            continue
-        z = (val - base["avg"]) / base["sd"]
-        total += float(weight) * max(-2.0, min(2.0, z))
-
-    cap = float(config.get("cap", 0.05))
-    total = max(-cap, min(cap, total))
-    return expected_k_rate * (1.0 + total)
 
 
 # ---------------------------------------------------------------------------
