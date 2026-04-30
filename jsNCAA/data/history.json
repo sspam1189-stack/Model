@@ -143391,7 +143391,7 @@
           "awayScore": 80,
           "_kalmanDate": "20260315",
           "sResult": "WIN",
-          "_recencyWeight": 0.5
+          "_recencyWeight": 0.25
         },
         {
           "away": "Vanderbilt",
@@ -143437,7 +143437,7 @@
           "homeScore": 86,
           "awayScore": 75,
           "_kalmanDate": "20260315",
-          "_recencyWeight": 0.5
+          "_recencyWeight": 0.25
         },
         {
           "away": "Penn",
@@ -143483,7 +143483,7 @@
           "homeScore": 84,
           "awayScore": 88,
           "_kalmanDate": "20260315",
-          "_recencyWeight": 0.5
+          "_recencyWeight": 0.25
         },
         {
           "away": "Dayton",
@@ -143529,7 +143529,7 @@
           "homeScore": 70,
           "awayScore": 62,
           "_kalmanDate": "20260315",
-          "_recencyWeight": 0.5
+          "_recencyWeight": 0.25
         },
         {
           "away": "Wichita St.",
@@ -143575,7 +143575,7 @@
           "homeScore": 70,
           "awayScore": 55,
           "_kalmanDate": "20260315",
-          "_recencyWeight": 0.5
+          "_recencyWeight": 0.25
         }
       ],
       "ranAt": "3/30/2026, 2:06:16 PM"
@@ -149675,6 +149675,58 @@
       "games": [],
       "summaryText": "RECORD (graded picks only)\n\nSPREAD (ATS)\n  All:         582-414-0   (58.4%)   [graded 996]\n  Elite:       582-414-0   (58.4%)   [graded 996]\n\nFAV/DOG (Spread)\n  Favorites:   146-118-0   (55.3%)   [graded 264]\n  Underdogs:   436-296-0   (59.6%)   [graded 732]\n",
       "ranAt": "4/29/2026, 9:31:06 AM"
+    },
+    {
+      "date": "20260430",
+      "dateDisplay": "2026-04-30",
+      "burnIn": false,
+      "weightsUsed": {
+        "wOFF": 1,
+        "wTS": 5,
+        "wTO": 0,
+        "wORR": 0,
+        "wDEF": 0.806,
+        "constant": -0.007,
+        "paceAdj": 1.014,
+        "hca": 2,
+        "sprHigh": 4,
+        "ouHigh": 5,
+        "sprEliteBump": 3,
+        "ouEliteBump": 3,
+        "probHigh": 0.65,
+        "probHighFav": 0.65,
+        "probElite": 0.67,
+        "probOUHigh": 0.58,
+        "probOUElite": 0.64,
+        "recentWeight": 0.3,
+        "locationWeight": 0.2,
+        "wNET": 1.134
+      },
+      "weightsNext": {
+        "wOFF": 1,
+        "wTS": 5,
+        "wTO": 0,
+        "wORR": 0,
+        "wDEF": 0.806,
+        "constant": -0.007,
+        "paceAdj": 1.014,
+        "hca": 2,
+        "sprHigh": 4,
+        "ouHigh": 5,
+        "sprEliteBump": 3,
+        "ouEliteBump": 3,
+        "probHigh": 0.65,
+        "probHighFav": 0.65,
+        "probElite": 0.67,
+        "probOUHigh": 0.58,
+        "probOUElite": 0.64,
+        "recentWeight": 0.3,
+        "locationWeight": 0.2,
+        "wNET": 1.134
+      },
+      "games": [],
+      "summaryText": "RECORD (graded picks only)\n\nSPREAD (ATS)\n  All:         582-414-0   (58.4%)   [graded 996]\n  Elite:       582-414-0   (58.4%)   [graded 996]\n\nFAV/DOG (Spread)\n  Favorites:   146-118-0   (55.3%)   [graded 264]\n  Underdogs:   436-296-0   (59.6%)   [graded 732]\n",
+      "ranAt": "4/30/2026, 9:31:10 AM"
     }
   ],
   "weights": {
@@ -149682,9 +149734,9 @@
     "wTS": 5,
     "wTO": 0,
     "wORR": 0,
-    "wDEF": 0.783,
-    "constant": -0.008,
-    "paceAdj": 1.013,
+    "wDEF": 0.806,
+    "constant": -0.007,
+    "paceAdj": 1.014,
     "hca": 2,
     "sprHigh": 4,
     "ouHigh": 5,
@@ -149700,14 +149752,14 @@
     "wNET": 1.134
   },
   "weightsVar": {
-    "wTS": 3.2728,
-    "wTO": 2.2292,
-    "wORR": 3.8114,
+    "wTS": 3.2715,
+    "wTO": 2.2259,
+    "wORR": 3.8113,
     "wDEF": 0.05,
     "hca": 0.3,
     "constant": 4,
     "wNET": 0.05
   },
-  "lastTuneDate": "20260429",
+  "lastTuneDate": "20260430",
   "residualVar": 129
 }
