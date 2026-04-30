@@ -39,6 +39,33 @@
       return { fGrouped, sortedMarkets };
     }
 
+    // Append a market row (Overs / Unders / Total / etc).
+    // isTotal=true draws a top-border separator and bolds the row.
+    function appendMarketRow(tbody, label, picks, isTotal) {
+      const w = picks.filter(p => p.result === 'WIN').length;
+      const l = picks.filter(p => p.result === 'LOSS').length;
+      const u = calcMLBPropsUnits(picks);
+      const pct = (w + l) > 0 ? (w / (w + l) * 100).toFixed(1) : 'n/a';
+      const roi = (w + l) > 0 ? (u / (w + l) * 100).toFixed(1) : 'n/a';
+      const sr = tbody.insertRow();
+      if (isTotal) {
+        sr.style.borderTop = '1px solid rgba(255,255,255,0.15)';
+        sr.style.fontWeight = '600';
+      }
+      [label, String(picks.length), String(w), String(l),
+       (w + l) > 0 ? pct + '%' : 'n/a',
+       (u >= 0 ? '+' : '') + u.toFixed(2) + 'u',
+       (w + l) > 0 ? (roi >= 0 ? '+' : '') + roi + '%' : 'n/a'
+      ].forEach((v, i) => {
+        const td = sr.insertCell();
+        td.textContent = v;
+        td.style.padding = '6px 10px';
+        td.style.textAlign = i === 0 ? 'left' : 'right';
+        if (i === 5) td.style.color = u >= 0 ? 'var(--green)' : 'var(--red)';
+        if (i === 6 && (w + l) > 0) td.style.color = parseFloat(roi) >= 0 ? 'var(--green)' : 'var(--red)';
+      });
+    }
+
     async function renderMLBProps() {
       const el = document.getElementById('content');
       const data = await fetchData('mlb-props');
@@ -156,25 +183,12 @@
             mh.appendChild(th);
           });
           const mb = mbTbl.createTBody();
-          let gW = 0, gL = 0;
-          for (const market of sortedMarkets) {
-            const mPicks = fGrouped[market];
-            const w = mPicks.filter(p => p.result === 'WIN').length;
-            const l = mPicks.filter(p => p.result === 'LOSS').length;
-            const u = calcMLBPropsUnits(mPicks);
-            const pct = (w + l) > 0 ? (w / (w + l) * 100).toFixed(1) : 'n/a';
-            const roi = (w + l) > 0 ? (u / (w + l) * 100).toFixed(1) : 'n/a';
-            gW += w; gL += l;
-            const sr = mb.insertRow();
-            [market, String(mPicks.length), String(w), String(l), pct+'%', (u>=0?'+':'')+u.toFixed(2)+'u', (roi>=0?'+':'')+roi+'%'].forEach((v,i) => {
-              const td = sr.insertCell();
-              td.textContent = v;
-              td.style.padding = '6px 10px';
-              td.style.textAlign = i === 0 ? 'left' : 'right';
-              if (i === 5) td.style.color = u >= 0 ? 'var(--green)' : 'var(--red)';
-              if (i === 6) td.style.color = parseFloat(roi) >= 0 ? 'var(--green)' : 'var(--red)';
-            });
-          }
+          // Order: Overs → Unders → Total (per-market). Single market for now (K).
+          const allOvers  = gradedPicks.filter(p => p.pick === 'OVER');
+          const allUnders = gradedPicks.filter(p => p.pick === 'UNDER');
+          if (allOvers.length)  appendMarketRow(mb, 'Overs',  allOvers,  false);
+          if (allUnders.length) appendMarketRow(mb, 'Unders', allUnders, false);
+          appendMarketRow(mb, 'Total', gradedPicks, true);
           appendLeanRow(mb, leanGraded, 'Lean U .60–.70');
           mbWrap.appendChild(mbTbl);
           mbCard.appendChild(mbWrap);
@@ -208,26 +222,11 @@
             rh.appendChild(th);
           });
           const rb = rTbl.createTBody();
-          const { fGrouped: rGrouped, sortedMarkets: rMarkets } = buildMLBMarketBreakdown(recentPicks);
-          let rTotW = 0, rTotL = 0;
-          for (const market of rMarkets) {
-            const mPicks = rGrouped[market];
-            const w = mPicks.filter(p => p.result === 'WIN').length;
-            const l = mPicks.filter(p => p.result === 'LOSS').length;
-            const u = calcMLBPropsUnits(mPicks);
-            const pct = (w + l) > 0 ? (w / (w + l) * 100).toFixed(1) : 'n/a';
-            const roi = (w + l) > 0 ? (u / (w + l) * 100).toFixed(1) : 'n/a';
-            rTotW += w; rTotL += l;
-            const sr = rb.insertRow();
-            [market, String(mPicks.length), String(w), String(l), pct+'%', (u>=0?'+':'')+u.toFixed(2)+'u', (roi>=0?'+':'')+roi+'%'].forEach((v,i) => {
-              const td = sr.insertCell();
-              td.textContent = v;
-              td.style.padding = '6px 10px';
-              td.style.textAlign = i === 0 ? 'left' : 'right';
-              if (i === 5) td.style.color = u >= 0 ? 'var(--green)' : 'var(--red)';
-              if (i === 6) td.style.color = parseFloat(roi) >= 0 ? 'var(--green)' : 'var(--red)';
-            });
-          }
+          const recentOvers  = recentPicks.filter(p => p.pick === 'OVER');
+          const recentUnders = recentPicks.filter(p => p.pick === 'UNDER');
+          if (recentOvers.length)  appendMarketRow(rb, 'Overs',  recentOvers,  false);
+          if (recentUnders.length) appendMarketRow(rb, 'Unders', recentUnders, false);
+          appendMarketRow(rb, 'Total', recentPicks, true);
           const recentLeans = leanGraded.filter(p => p.date && p.date >= recentCutoff);
           appendLeanRow(rb, recentLeans, 'Lean U .60–.70');
           rWrap.appendChild(rTbl);
