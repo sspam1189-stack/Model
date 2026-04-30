@@ -236,7 +236,9 @@
         }
 
         // Yesterday's Recap
-        const yesterdayPicks = picks.filter(p => p.date === yesterdayStr && p.result);
+        const yesterdayPicks = picks.filter(p =>
+          p.date === yesterdayStr && p.result && p.result !== 'VOID'
+        );
         if (yesterdayPicks.length > 0) {
           const yW = yesterdayPicks.filter(p => p.result === 'WIN').length;
           const yL = yesterdayPicks.filter(p => p.result === 'LOSS').length;
@@ -1586,7 +1588,9 @@
         }
 
         // Yesterday's Recap
-        const yesterdayPicks = picks.filter(p => p.date === yesterdayStr && p.result);
+        const yesterdayPicks = picks.filter(p =>
+          p.date === yesterdayStr && p.result && p.result !== 'VOID'
+        );
         if (yesterdayPicks.length > 0) {
           const yW = yesterdayPicks.filter(p => p.result === 'WIN').length;
           const yL = yesterdayPicks.filter(p => p.result === 'LOSS').length;
