@@ -145484,6 +145484,56 @@
       "games": [],
       "summaryText": "RECORD (graded picks only)\n\nSPREAD (ATS)\n  All:         620-348-0   (64.0%)   [graded 968]\n  Elite:       620-348-0   (64.0%)   [graded 968]\n\nFAV/DOG (Spread)\n  Favorites:   165-118-0   (58.3%)   [graded 283]\n  Underdogs:   455-230-0   (66.4%)   [graded 685]\n",
       "ranAt": "04/30/2026, 10:05:40 AM"
+    },
+    {
+      "date": "20260501",
+      "dateDisplay": "2026-05-01",
+      "burnIn": false,
+      "weightsUsed": {
+        "wOFF": 1,
+        "wTS": 5,
+        "wTO": 0,
+        "wORR": 0,
+        "wDEF": 0.627,
+        "constant": -0.006,
+        "paceAdj": 1.002,
+        "hca": 2.0,
+        "sprHigh": 4,
+        "ouHigh": 5,
+        "sprEliteBump": 3,
+        "ouEliteBump": 3,
+        "probHigh": 0.65,
+        "probHighFav": 0.65,
+        "probElite": 0.67,
+        "probOUHigh": 0.58,
+        "probOUElite": 0.64,
+        "recentWeight": 0.3,
+        "locationWeight": 0.2
+      },
+      "weightsNext": {
+        "wOFF": 1,
+        "wTS": 5,
+        "wTO": 0,
+        "wORR": 0,
+        "wDEF": 0.627,
+        "constant": -0.006,
+        "paceAdj": 1.002,
+        "hca": 2.0,
+        "sprHigh": 4,
+        "ouHigh": 5,
+        "sprEliteBump": 3,
+        "ouEliteBump": 3,
+        "probHigh": 0.65,
+        "probHighFav": 0.65,
+        "probElite": 0.67,
+        "probOUHigh": 0.58,
+        "probOUElite": 0.64,
+        "recentWeight": 0.3,
+        "locationWeight": 0.2
+      },
+      "games": [],
+      "summaryText": "RECORD (graded picks only)\n\nSPREAD (ATS)\n  All:         620-348-0   (64.0%)   [graded 968]\n  Elite:       620-348-0   (64.0%)   [graded 968]\n\nFAV/DOG (Spread)\n  Favorites:   165-118-0   (58.3%)   [graded 283]\n  Underdogs:   455-230-0   (66.4%)   [graded 685]\n",
+      "ranAt": "05/01/2026, 10:05:42 AM"
     }
   ],
   "weights": {
@@ -145491,9 +145541,9 @@
     "wTS": 5,
     "wTO": 0,
     "wORR": 0,
-    "wDEF": 0.631,
-    "constant": -0.007,
-    "paceAdj": 1.001,
+    "wDEF": 0.627,
+    "constant": -0.006,
+    "paceAdj": 1.002,
     "hca": 2.0,
     "sprHigh": 4,
     "ouHigh": 5,
@@ -145508,13 +145558,13 @@
     "locationWeight": 0.2
   },
   "weightsVar": {
-    "wTS": 3.5423,
-    "wTO": 2.6284,
-    "wORR": 3.8959,
+    "wTS": 3.5407,
+    "wTO": 2.6228,
+    "wORR": 3.8958,
     "wDEF": 0.05,
     "hca": 0.3,
     "constant": 4.0
   },
-  "lastTuneDate": "20260430",
+  "lastTuneDate": "20260501",
   "residualVar": 112.1
 }
