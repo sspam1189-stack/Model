@@ -300,7 +300,16 @@ def project_pitcher_props(pitcher_logs, team_batting_stats=None,
 
         if game_ppbfs:
             avg_ppbf = _weighted_avg(game_ppbfs)
-            avg_pc = _weighted_avg(game_pcs)
+            # Pitch count: bias up toward the most recent start when it's
+            # higher than the rolling avg, to capture the upward pitch-count
+            # trend as pitchers stretch out. Skip the bump if the last start
+            # was abnormally short (pulled early).
+            wavg_pc = _weighted_avg(game_pcs)
+            last_pc = game_pcs[-1] if game_pcs else wavg_pc
+            if last_pc >= 70:
+                avg_pc = max(wavg_pc, last_pc)
+            else:
+                avg_pc = wavg_pc
             projected_bf = avg_pc / avg_ppbf if avg_ppbf > 0 else 24.0
         else:
             avg_ppbf = 3.9  # MLB league avg pitches/BF — fallback only
