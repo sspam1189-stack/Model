@@ -933,6 +933,9 @@ def fetch_batter_k_rates(season=None, through_date=None):
     return result
 
 
+LINEUP_HAND_PA_GATE = 75
+
+
 def compute_lineup_k_pct(lineup_player_ids, batter_k_rates, pitcher_hand="R"):
     """
     Compute lineup-specific K% from the actual batting order.
@@ -957,22 +960,25 @@ def compute_lineup_k_pct(lineup_player_ids, batter_k_rates, pitcher_hand="R"):
     k_pcts_vs_hand = []
 
     hand_key = "k_pct_vs_lhp" if pitcher_hand == "L" else "k_pct_vs_rhp"
+    pa_key = "pa_vs_lhp" if pitcher_hand == "L" else "pa_vs_rhp"
 
     for pid in lineup_player_ids:
         batter = batter_k_rates.get(pid) or batter_k_rates.get(str(pid))
         if not batter:
             continue
 
-        if batter.get("k_pct", 0) > 0:
-            k_pcts.append(batter["k_pct"])
+        overall = batter.get("k_pct", 0)
+        if overall > 0:
+            k_pcts.append(overall)
 
-        # Handedness-specific K%
+        # Use the vs-hand split only when its PA sample is large enough; otherwise
+        # fall back to the batter's overall K% to avoid small-sample bias.
         vs_hand = batter.get(hand_key, 0)
-        if vs_hand > 0:
+        pa_vs = batter.get(pa_key, 0) or 0
+        if pa_vs >= LINEUP_HAND_PA_GATE and vs_hand > 0:
             k_pcts_vs_hand.append(vs_hand)
-        elif batter.get("k_pct", 0) > 0:
-            # Fallback to overall if no split data
-            k_pcts_vs_hand.append(batter["k_pct"])
+        elif overall > 0:
+            k_pcts_vs_hand.append(overall)
 
     return {
         "lineup_k_pct": round(sum(k_pcts) / len(k_pcts), 4) if k_pcts else 0.0,
