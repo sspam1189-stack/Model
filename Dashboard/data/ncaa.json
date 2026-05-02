@@ -143651,7 +143651,7 @@
           "awayScore": 83,
           "_kalmanDate": "20260317",
           "sResult": "WIN",
-          "_recencyWeight": 0.5
+          "_recencyWeight": 0.25
         },
         {
           "away": "Liberty",
@@ -143698,7 +143698,7 @@
           "awayScore": 77,
           "_kalmanDate": "20260317",
           "sResult": "WIN",
-          "_recencyWeight": 0.5
+          "_recencyWeight": 0.25
         },
         {
           "away": "UNC Wilmington",
@@ -143745,7 +143745,7 @@
           "awayScore": 68,
           "_kalmanDate": "20260317",
           "sResult": "WIN",
-          "_recencyWeight": 0.5
+          "_recencyWeight": 0.25
         },
         {
           "away": "Wyoming",
@@ -143792,7 +143792,7 @@
           "awayScore": 70,
           "_kalmanDate": "20260317",
           "sResult": "WIN",
-          "_recencyWeight": 0.5
+          "_recencyWeight": 0.25
         },
         {
           "away": "Davidson",
@@ -143839,7 +143839,7 @@
           "awayScore": 80,
           "_kalmanDate": "20260317",
           "sResult": "WIN",
-          "_recencyWeight": 0.5
+          "_recencyWeight": 0.25
         },
         {
           "away": "Stephen F. Austin",
@@ -143886,7 +143886,7 @@
           "awayScore": 84,
           "_kalmanDate": "20260317",
           "sResult": "WIN",
-          "_recencyWeight": 0.5
+          "_recencyWeight": 0.25
         },
         {
           "away": "St. Thomas",
@@ -143933,7 +143933,7 @@
           "awayScore": 52,
           "_kalmanDate": "20260317",
           "sResult": "LOSS",
-          "_recencyWeight": 0.5
+          "_recencyWeight": 0.25
         },
         {
           "away": "South Alabama",
@@ -143980,7 +143980,7 @@
           "awayScore": 67,
           "_kalmanDate": "20260317",
           "sResult": "WIN",
-          "_recencyWeight": 0.5
+          "_recencyWeight": 0.25
         },
         {
           "away": "UNLV",
@@ -144026,7 +144026,7 @@
           "homeScore": 72,
           "awayScore": 75,
           "_kalmanDate": "20260317",
-          "_recencyWeight": 0.5
+          "_recencyWeight": 0.25
         }
       ],
       "ranAt": "3/30/2026, 2:06:17 PM"
@@ -147974,7 +147974,7 @@
           "homeScore": 86,
           "sResult": "WIN",
           "_kalmanDate": "20260401",
-          "_recencyWeight": 0.75
+          "_recencyWeight": 0.5
         },
         {
           "away": "Baylor",
@@ -148026,7 +148026,7 @@
           "homeScore": 48,
           "sResult": "LOSS",
           "_kalmanDate": "20260401",
-          "_recencyWeight": 0.75
+          "_recencyWeight": 0.5
         }
       ],
       "summaryText": "RECORD (graded picks only)\n\nSPREAD (ATS)\n  All:         581-410-0   (58.6%)   [graded 991]\n  Elite:       581-410-0   (58.6%)   [graded 991]\n\nFAV/DOG (Spread)\n  Favorites:   146-117-0   (55.5%)   [graded 263]\n  Underdogs:   435-293-0   (59.8%)   [graded 728]\n",
@@ -149779,6 +149779,58 @@
       "games": [],
       "summaryText": "RECORD (graded picks only)\n\nSPREAD (ATS)\n  All:         582-414-0   (58.4%)   [graded 996]\n  Elite:       582-414-0   (58.4%)   [graded 996]\n\nFAV/DOG (Spread)\n  Favorites:   146-118-0   (55.3%)   [graded 264]\n  Underdogs:   436-296-0   (59.6%)   [graded 732]\n",
       "ranAt": "5/1/2026, 9:31:03 AM"
+    },
+    {
+      "date": "20260502",
+      "dateDisplay": "2026-05-02",
+      "burnIn": false,
+      "weightsUsed": {
+        "wOFF": 1,
+        "wTS": 5,
+        "wTO": 0,
+        "wORR": 0,
+        "wDEF": 0.813,
+        "constant": -0.003,
+        "paceAdj": 1.016,
+        "hca": 2,
+        "sprHigh": 4,
+        "ouHigh": 5,
+        "sprEliteBump": 3,
+        "ouEliteBump": 3,
+        "probHigh": 0.65,
+        "probHighFav": 0.65,
+        "probElite": 0.67,
+        "probOUHigh": 0.58,
+        "probOUElite": 0.64,
+        "recentWeight": 0.3,
+        "locationWeight": 0.2,
+        "wNET": 1.134
+      },
+      "weightsNext": {
+        "wOFF": 1,
+        "wTS": 5,
+        "wTO": 0,
+        "wORR": 0,
+        "wDEF": 0.813,
+        "constant": -0.003,
+        "paceAdj": 1.016,
+        "hca": 2,
+        "sprHigh": 4,
+        "ouHigh": 5,
+        "sprEliteBump": 3,
+        "ouEliteBump": 3,
+        "probHigh": 0.65,
+        "probHighFav": 0.65,
+        "probElite": 0.67,
+        "probOUHigh": 0.58,
+        "probOUElite": 0.64,
+        "recentWeight": 0.3,
+        "locationWeight": 0.2,
+        "wNET": 1.134
+      },
+      "games": [],
+      "summaryText": "RECORD (graded picks only)\n\nSPREAD (ATS)\n  All:         582-414-0   (58.4%)   [graded 996]\n  Elite:       582-414-0   (58.4%)   [graded 996]\n\nFAV/DOG (Spread)\n  Favorites:   146-118-0   (55.3%)   [graded 264]\n  Underdogs:   436-296-0   (59.6%)   [graded 732]\n",
+      "ranAt": "5/2/2026, 9:31:05 AM"
     }
   ],
   "weights": {
@@ -149786,9 +149838,9 @@
     "wTS": 5,
     "wTO": 0,
     "wORR": 0,
-    "wDEF": 0.807,
-    "constant": -0.005,
-    "paceAdj": 1.015,
+    "wDEF": 0.813,
+    "constant": -0.003,
+    "paceAdj": 1.016,
     "hca": 2,
     "sprHigh": 4,
     "ouHigh": 5,
@@ -149804,14 +149856,14 @@
     "wNET": 1.134
   },
   "weightsVar": {
-    "wTS": 3.2702,
-    "wTO": 2.2226,
+    "wTS": 3.2689,
+    "wTO": 2.2196,
     "wORR": 3.8112,
     "wDEF": 0.05,
     "hca": 0.3,
     "constant": 4,
     "wNET": 0.05
   },
-  "lastTuneDate": "20260501",
+  "lastTuneDate": "20260502",
   "residualVar": 129
 }
