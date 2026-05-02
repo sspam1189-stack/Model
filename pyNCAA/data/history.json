@@ -140508,7 +140508,7 @@
           "homeScore": 86.0,
           "awayScore": 83.0,
           "_kalmanDate": "20260317",
-          "_recencyWeight": 0.5
+          "_recencyWeight": 0.25
         },
         {
           "away": "Liberty",
@@ -140555,7 +140555,7 @@
           "awayScore": 77.0,
           "_kalmanDate": "20260317",
           "sResult": "WIN",
-          "_recencyWeight": 0.5
+          "_recencyWeight": 0.25
         },
         {
           "away": "UNC Wilmington",
@@ -140602,7 +140602,7 @@
           "awayScore": 68.0,
           "_kalmanDate": "20260317",
           "sResult": "WIN",
-          "_recencyWeight": 0.5
+          "_recencyWeight": 0.25
         },
         {
           "away": "Wyoming",
@@ -140649,7 +140649,7 @@
           "awayScore": 70.0,
           "_kalmanDate": "20260317",
           "sResult": "WIN",
-          "_recencyWeight": 0.5
+          "_recencyWeight": 0.25
         },
         {
           "away": "Davidson",
@@ -140696,7 +140696,7 @@
           "awayScore": 80.0,
           "_kalmanDate": "20260317",
           "sResult": "WIN",
-          "_recencyWeight": 0.5
+          "_recencyWeight": 0.25
         },
         {
           "away": "Stephen F. Austin",
@@ -140743,7 +140743,7 @@
           "awayScore": 84.0,
           "_kalmanDate": "20260317",
           "sResult": "WIN",
-          "_recencyWeight": 0.5
+          "_recencyWeight": 0.25
         },
         {
           "away": "St. Thomas",
@@ -140790,7 +140790,7 @@
           "awayScore": 52.0,
           "_kalmanDate": "20260317",
           "sResult": "LOSS",
-          "_recencyWeight": 0.5
+          "_recencyWeight": 0.25
         },
         {
           "away": "South Alabama",
@@ -140837,7 +140837,7 @@
           "awayScore": 67.0,
           "_kalmanDate": "20260317",
           "sResult": "WIN",
-          "_recencyWeight": 0.5
+          "_recencyWeight": 0.25
         },
         {
           "away": "UNLV",
@@ -140883,7 +140883,7 @@
           "homeScore": 72.0,
           "awayScore": 75.0,
           "_kalmanDate": "20260317",
-          "_recencyWeight": 0.5
+          "_recencyWeight": 0.25
         }
       ],
       "ranAt": "03/30/2026, 02:05:47 PM"
@@ -145534,6 +145534,56 @@
       "games": [],
       "summaryText": "RECORD (graded picks only)\n\nSPREAD (ATS)\n  All:         620-348-0   (64.0%)   [graded 968]\n  Elite:       620-348-0   (64.0%)   [graded 968]\n\nFAV/DOG (Spread)\n  Favorites:   165-118-0   (58.3%)   [graded 283]\n  Underdogs:   455-230-0   (66.4%)   [graded 685]\n",
       "ranAt": "05/01/2026, 10:05:42 AM"
+    },
+    {
+      "date": "20260502",
+      "dateDisplay": "2026-05-02",
+      "burnIn": false,
+      "weightsUsed": {
+        "wOFF": 1,
+        "wTS": 5,
+        "wTO": 0,
+        "wORR": 0,
+        "wDEF": 0.624,
+        "constant": -0.005,
+        "paceAdj": 1.003,
+        "hca": 2.0,
+        "sprHigh": 4,
+        "ouHigh": 5,
+        "sprEliteBump": 3,
+        "ouEliteBump": 3,
+        "probHigh": 0.65,
+        "probHighFav": 0.65,
+        "probElite": 0.67,
+        "probOUHigh": 0.58,
+        "probOUElite": 0.64,
+        "recentWeight": 0.3,
+        "locationWeight": 0.2
+      },
+      "weightsNext": {
+        "wOFF": 1,
+        "wTS": 5,
+        "wTO": 0,
+        "wORR": 0,
+        "wDEF": 0.624,
+        "constant": -0.005,
+        "paceAdj": 1.003,
+        "hca": 2.0,
+        "sprHigh": 4,
+        "ouHigh": 5,
+        "sprEliteBump": 3,
+        "ouEliteBump": 3,
+        "probHigh": 0.65,
+        "probHighFav": 0.65,
+        "probElite": 0.67,
+        "probOUHigh": 0.58,
+        "probOUElite": 0.64,
+        "recentWeight": 0.3,
+        "locationWeight": 0.2
+      },
+      "games": [],
+      "summaryText": "RECORD (graded picks only)\n\nSPREAD (ATS)\n  All:         620-348-0   (64.0%)   [graded 968]\n  Elite:       620-348-0   (64.0%)   [graded 968]\n\nFAV/DOG (Spread)\n  Favorites:   165-118-0   (58.3%)   [graded 283]\n  Underdogs:   455-230-0   (66.4%)   [graded 685]\n",
+      "ranAt": "05/02/2026, 10:05:33 AM"
     }
   ],
   "weights": {
@@ -145541,9 +145591,9 @@
     "wTS": 5,
     "wTO": 0,
     "wORR": 0,
-    "wDEF": 0.627,
-    "constant": -0.006,
-    "paceAdj": 1.002,
+    "wDEF": 0.624,
+    "constant": -0.005,
+    "paceAdj": 1.003,
     "hca": 2.0,
     "sprHigh": 4,
     "ouHigh": 5,
@@ -145558,13 +145608,13 @@
     "locationWeight": 0.2
   },
   "weightsVar": {
-    "wTS": 3.5407,
-    "wTO": 2.6228,
+    "wTS": 3.5392,
+    "wTO": 2.6175,
     "wORR": 3.8958,
     "wDEF": 0.05,
     "hca": 0.3,
     "constant": 4.0
   },
-  "lastTuneDate": "20260501",
+  "lastTuneDate": "20260502",
   "residualVar": 112.1
 }
