@@ -99,9 +99,13 @@ HANDEDNESS_ADJ_WEIGHT = {
 # xFIP anchor weight (regress toward true-talent)
 XFIP_ANCHOR_WEIGHT = 0.20
 
-# Season anchor (like NBA per-36 anchor — use K/9 season rate)
+# Season anchor: weight on season-to-date K% (vs. rolling-window K%) when
+# computing pitcher_k_rate.  Sweep (scripts.sweep_season_anchor) on 2026
+# walk-forward backfill picked W=1.00 monotonically — recent K% is already
+# captured by the 50/50 Kalman blend, so re-injecting it here just doubles
+# the recent-form weight and adds noise.
 SEASON_ANCHOR_WEIGHT = {
-    "strikeouts":   0.20,
+    "strikeouts":   1.00,
 }
 
 # ---------------------------------------------------------------------------

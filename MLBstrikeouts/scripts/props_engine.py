@@ -10,7 +10,7 @@ from defaults import (
     PROP_T_DF, ROLLING_WINDOW, DECAY_FACTOR, MIN_GAMES, MIN_INNINGS,
     MARKET_THRESHOLDS, VAR_MULT, MIN_EDGE, MAX_EDGE, MIN_LINE,
     UNDER_ONLY_MARKETS, DISABLED_MARKETS, EDGE_DEAD_ZONE,
-    STAT_KEYS, KALMAN_STAT_KEYS,
+    STAT_KEYS, KALMAN_STAT_KEYS, SEASON_ANCHOR_WEIGHT,
 )
 from pitcher_kalman import get_pitcher_projection
 from sources.game_context import (
@@ -265,7 +265,20 @@ def project_pitcher_props(pitcher_logs, team_batting_stats=None,
         opp_stats = (team_batting_stats or {}).get(latest_opp, {})
         pct_lhb = opp_stats.get("PCT_LHB", 0.40)
 
-        pitcher_k_rate = k_rate_vs_lhb * pct_lhb + k_rate_vs_rhb * (1.0 - pct_lhb)
+        season_k_rate = k_rate_vs_lhb * pct_lhb + k_rate_vs_rhb * (1.0 - pct_lhb)
+
+        # Blend rolling-window K% (from `qualified` recent starts) with
+        # season-to-date K%. SEASON_ANCHOR_WEIGHT controls how strongly the
+        # projection regresses to season true-talent vs. follows recent form.
+        recent_k = sum(g.get("k", 0) for g in qualified)
+        recent_bf = sum(g.get("bf", 0) for g in qualified)
+        recent_k_rate = recent_k / recent_bf if recent_bf > 0 else 0.0
+
+        anchor_w = SEASON_ANCHOR_WEIGHT.get(market, 0.20)
+        if recent_k_rate > 0 and season_k_rate > 0:
+            pitcher_k_rate = (1 - anchor_w) * recent_k_rate + anchor_w * season_k_rate
+        else:
+            pitcher_k_rate = season_k_rate or recent_k_rate
 
         # --- Lineup K tendency ---
         lineup_k_rate = league_avg.get("K_PCT", 0.22)
