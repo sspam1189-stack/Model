@@ -23,7 +23,6 @@ sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..'))
 
 from sources.mlb_stats import (
     fetch_pitcher_game_logs, fetch_team_batting_stats,
-    fetch_pitcher_advanced_stats, fetch_pitcher_sabermetrics,
 )
 from props_engine import (
     organize_pitcher_logs, project_pitcher_props, STAT_KEYS,
@@ -39,7 +38,6 @@ from sources.mlb_stats import (
     fetch_pitcher_handedness_splits,
     fetch_player_bat_sides, fetch_lineup_handedness,
     fetch_batter_k_rates, load_pitch_hands,
-    fetch_savant_pitcher_rates,
     CACHE_DIR,
 )
 
@@ -47,6 +45,45 @@ from sources.mlb_stats import (
 # ---------------------------------------------------------------------------
 # Field normalization
 # ---------------------------------------------------------------------------
+
+def _adv_stats_through(prior_logs, pitch_hands):
+    """
+    Build adv_stats from prior game logs only (no future leakage).
+
+    Reproduces the fields props_engine actually reads: K_PER_9, BB_PER_9,
+    WHIP, k_pct, avg_ip, plus pitch_hand (from the static lookup).
+    """
+    adv = {}
+    for pid, games in prior_logs.items():
+        if not games:
+            continue
+        ip = sum(g.get("IP", g.get("ip", 0)) for g in games)
+        bf = sum(g.get("bf", 0) for g in games)
+        k  = sum(g.get("k", 0)  for g in games)
+        bb = sum(g.get("bb", 0) for g in games)
+        h  = sum(g.get("h", 0)  for g in games)
+        hr = sum(g.get("hr", 0) for g in games)
+        er = sum(g.get("er", 0) for g in games)
+        gs = len(games)
+        try:
+            hand = pitch_hands.get(int(pid), "R")
+        except (ValueError, TypeError):
+            hand = "R"
+        adv[str(pid)] = {
+            "K_PER_9":  k * 9.0 / ip if ip > 0 else 0.0,
+            "BB_PER_9": bb * 9.0 / ip if ip > 0 else 0.0,
+            "H_PER_9":  h * 9.0 / ip if ip > 0 else 0.0,
+            "WHIP":     (bb + h) / ip if ip > 0 else 0.0,
+            "ERA":      er * 9.0 / ip if ip > 0 else 0.0,
+            "ip": ip,
+            "avg_ip": ip / gs if gs > 0 else 0.0,
+            "k": k, "k_pct": k / bf if bf > 0 else 0.0,
+            "bf": bf, "bb": bb, "h": h, "hr": hr,
+            "games": gs, "games_started": gs,
+            "pitch_hand": hand,
+        }
+    return adv
+
 
 def _normalize_game_log(g):
     """
@@ -151,33 +188,20 @@ def backfill(season=None, start_game=10, start_date=None):
     # (see Phase 2b) to avoid season-to-today leakage.
     team_batting_by_date = {}
 
-    # Load advanced pitcher stats
-    print(f"  Loading pitcher advanced stats...")
-    adv_stats = fetch_pitcher_advanced_stats(season=season)
-
-    # Load sabermetrics (FIP, xFIP)
-    print(f"  Loading pitcher sabermetrics...")
-    saber_stats = fetch_pitcher_sabermetrics(season=season)
+    # adv_stats / sabermetrics / savant_rates are NOT loaded as season-to-today
+    # snapshots — that leaks future stats into early-season projections.  Instead
+    # adv_stats is built per-date from prior game logs inside the walk-forward
+    # loop (see _adv_stats_through).  saber_stats isn't read by props_engine and
+    # savant_rates is only a fallback that the derived adv_stats supersedes.
 
     # Load player bat-side lookup (for per-game lineup handedness)
     print(f"  Loading player bat sides...")
     bat_sides = fetch_player_bat_sides(season=season)
     print(f"  {len(bat_sides)} players with bat-side data")
 
-    # Batter K rates are now fetched per-date inside the walk-forward loop
-    # to avoid season-to-today leakage.
     print(f"  Batter K rates will be fetched per-date (walk-forward mode)...")
     batter_k_rates_by_date = {}
     pitch_hands = load_pitch_hands(season=season)
-    savant_rates = fetch_savant_pitcher_rates(season=season)
-    print(f"  {len(savant_rates)} pitchers with Savant K%/whiff%")
-
-    # Inject pitcher hand into adv_stats
-    for pid_str, adv in adv_stats.items():
-        try:
-            adv["pitch_hand"] = pitch_hands.get(int(pid_str), "R")
-        except (ValueError, TypeError):
-            pass
 
     # Load batting orders for lineup K% lookup
     from sources.mlb_stats import _load_cache as _lc
@@ -355,20 +379,23 @@ def backfill(season=None, start_game=10, start_date=None):
                 if s:
                     date_splits[str(pid)] = s
 
+        # Build per-date adv_stats from prior logs only (no future leakage).
+        date_adv = _adv_stats_through(prior_logs, pitch_hands)
+
         # Phase 3: Project props using prior data + current Kalman state
         projections = project_pitcher_props(
             prior_logs,
             team_batting_stats=date_team_batting,
             prop_lines=real_lines,
             kalman_state=kalman_state,
-            pitcher_adv_stats=adv_stats,
-            pitcher_sabermetrics=saber_stats,
+            pitcher_adv_stats=date_adv,
+            pitcher_sabermetrics={},
             pitcher_splits=date_splits,
             probable_pitchers=date_probable,
             weather_by_game=weather_data,
             batter_k_rates=batter_k_rates,
             lineup_data=date_lineup_data,
-            savant_rates=savant_rates,
+            savant_rates={},
         )
 
         # Save ALL projections for this date (for Games Explorer)
