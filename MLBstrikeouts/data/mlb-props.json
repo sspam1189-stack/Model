@@ -2,12 +2,12 @@
   "sport": "mlb",
   "type": "pitcher_props",
   "season": "2026",
-  "mode": "live",
+  "mode": "backfill",
   "model": "kalman_blend",
-  "generated": "2026-05-04T14:11:59.128961",
-  "totalProjections": 18,
-  "totalPicks": 348,
-  "totalWatchlist": 5,
+  "generated": "2026-05-04T15:07:55.088775",
+  "totalProjections": 595,
+  "totalPicks": 134,
+  "totalWatchlist": 214,
   "props": [
     {
       "player": "Sonny Gray",
@@ -25,7 +25,12 @@
       "to_win_1u": null,
       "actual": 2.0,
       "result": "WIN",
-      "date": "2026-04-08"
+      "date": "2026-04-08",
+      "proj_ip": 5.5,
+      "proj_bf": 20.4,
+      "proj_pc": 87,
+      "actual_outs": 19,
+      "actual_pitches": 90
     },
     {
       "player": "Dylan Cease",
@@ -43,7 +48,12 @@
       "to_win_1u": null,
       "actual": 12.0,
       "result": "WIN",
-      "date": "2026-04-20"
+      "date": "2026-04-20",
+      "proj_ip": 4.9,
+      "proj_bf": 23.0,
+      "proj_pc": 106,
+      "actual_outs": 15,
+      "actual_pitches": 110
     },
     {
       "player": "Shota Imanaga",
@@ -61,7 +71,12 @@
       "to_win_1u": null,
       "actual": 9.0,
       "result": "WIN",
-      "date": "2026-04-10"
+      "date": "2026-04-10",
+      "proj_ip": 5.3,
+      "proj_bf": 19.7,
+      "proj_pc": 92,
+      "actual_outs": 18,
+      "actual_pitches": 100
     },
     {
       "player": "Chris Bassitt",
@@ -79,7 +94,12 @@
       "to_win_1u": null,
       "actual": 7.0,
       "result": "LOSS",
-      "date": "2026-04-30"
+      "date": "2026-04-30",
+      "proj_ip": 4.3,
+      "proj_bf": 22.3,
+      "proj_pc": 94.0,
+      "actual_outs": 20,
+      "actual_pitches": 94
     },
     {
       "player": "Shota Imanaga",
@@ -97,7 +117,12 @@
       "to_win_1u": null,
       "actual": 11.0,
       "result": "WIN",
-      "date": "2026-04-15"
+      "date": "2026-04-15",
+      "proj_ip": 5.4,
+      "proj_bf": 20.4,
+      "proj_pc": 100,
+      "actual_outs": 18,
+      "actual_pitches": 97
     },
     {
       "player": "Cam Schlittler",
@@ -115,7 +140,12 @@
       "to_win_1u": null,
       "actual": 6.0,
       "result": "WIN",
-      "date": "2026-04-17"
+      "date": "2026-04-17",
+      "proj_ip": 5.9,
+      "proj_bf": 20.8,
+      "proj_pc": 85,
+      "actual_outs": 18,
+      "actual_pitches": 93
     },
     {
       "player": "Taj Bradley",
@@ -133,7 +163,12 @@
       "to_win_1u": null,
       "actual": 7.0,
       "result": "WIN",
-      "date": "2026-04-12"
+      "date": "2026-04-12",
+      "proj_ip": 5.7,
+      "proj_bf": 22.6,
+      "proj_pc": 104,
+      "actual_outs": 15,
+      "actual_pitches": 106
     },
     {
       "player": "Gavin Williams",
@@ -151,7 +186,12 @@
       "to_win_1u": null,
       "actual": 8.0,
       "result": "WIN",
-      "date": "2026-04-07"
+      "date": "2026-04-07",
+      "proj_ip": 5.5,
+      "proj_bf": 23.0,
+      "proj_pc": 87.0,
+      "actual_outs": 17,
+      "actual_pitches": 102
     },
     {
       "player": "Chad Patrick",
@@ -169,7 +209,12 @@
       "to_win_1u": null,
       "actual": 5.0,
       "result": "LOSS",
-      "date": "2026-04-28"
+      "date": "2026-04-28",
+      "proj_ip": 4.6,
+      "proj_bf": 21.1,
+      "proj_pc": 81,
+      "actual_outs": 15,
+      "actual_pitches": 98
     },
     {
       "player": "Peter Lambert",
@@ -187,7 +232,12 @@
       "to_win_1u": null,
       "actual": 3.0,
       "result": "LOSS",
-      "date": "2026-04-30"
+      "date": "2026-04-30",
+      "proj_ip": 5.5,
+      "proj_bf": 23.0,
+      "proj_pc": 96,
+      "actual_outs": 13,
+      "actual_pitches": 91
     },
     {
       "player": "Sonny Gray",
@@ -205,7 +255,12 @@
       "to_win_1u": null,
       "actual": 1.0,
       "result": "WIN",
-      "date": "2026-04-14"
+      "date": "2026-04-14",
+      "proj_ip": 5.7,
+      "proj_bf": 21.7,
+      "proj_pc": 90,
+      "actual_outs": 12,
+      "actual_pitches": 93
     },
     {
       "player": "Simeon Woods Richardson",
@@ -223,7 +278,12 @@
       "to_win_1u": null,
       "actual": 2.0,
       "result": "WIN",
-      "date": "2026-04-21"
+      "date": "2026-04-21",
+      "proj_ip": 5.3,
+      "proj_bf": 23.0,
+      "proj_pc": 92,
+      "actual_outs": 15,
+      "actual_pitches": 95
     },
     {
       "player": "Jake Irvin",
@@ -241,7 +301,12 @@
       "to_win_1u": null,
       "actual": 5.0,
       "result": "WIN",
-      "date": "2026-04-15"
+      "date": "2026-04-15",
+      "proj_ip": 4.6,
+      "proj_bf": 21.6,
+      "proj_pc": 100,
+      "actual_outs": 15,
+      "actual_pitches": 85
     },
     {
       "player": "Max Fried",
@@ -259,7 +324,12 @@
       "to_win_1u": null,
       "actual": 3.0,
       "result": "WIN",
-      "date": "2026-04-16"
+      "date": "2026-04-16",
+      "proj_ip": 7.4,
+      "proj_bf": 23.0,
+      "proj_pc": 94,
+      "actual_outs": 16,
+      "actual_pitches": 93
     },
     {
       "player": "Jos\u00e9 Soriano",
@@ -277,7 +347,12 @@
       "to_win_1u": null,
       "actual": 8.0,
       "result": "WIN",
-      "date": "2026-04-17"
+      "date": "2026-04-17",
+      "proj_ip": 7.0,
+      "proj_bf": 23.0,
+      "proj_pc": 106,
+      "actual_outs": 17,
+      "actual_pitches": 99
     },
     {
       "player": "Davis Martin",
@@ -295,7 +370,12 @@
       "to_win_1u": null,
       "actual": 7.0,
       "result": "WIN",
-      "date": "2026-04-23"
+      "date": "2026-04-23",
+      "proj_ip": 6.6,
+      "proj_bf": 23.0,
+      "proj_pc": 89,
+      "actual_outs": 19,
+      "actual_pitches": 97
     },
     {
       "player": "Jos\u00e9 Soriano",
@@ -313,7 +393,12 @@
       "to_win_1u": null,
       "actual": 10.0,
       "result": "WIN",
-      "date": "2026-04-12"
+      "date": "2026-04-12",
+      "proj_ip": 7.0,
+      "proj_bf": 23.0,
+      "proj_pc": 97,
+      "actual_outs": 21,
+      "actual_pitches": 106
     },
     {
       "player": "Connor Prielipp",
@@ -331,7 +416,12 @@
       "to_win_1u": null,
       "actual": 4.0,
       "result": "WIN",
-      "date": "2026-05-02"
+      "date": "2026-05-02",
+      "proj_ip": 4.6,
+      "proj_bf": 17.0,
+      "proj_pc": 84,
+      "actual_outs": 15,
+      "actual_pitches": 91
     },
     {
       "player": "Zac Gallen",
@@ -349,7 +439,12 @@
       "to_win_1u": null,
       "actual": 3.0,
       "result": "WIN",
-      "date": "2026-05-01"
+      "date": "2026-05-01",
+      "proj_ip": 5.1,
+      "proj_bf": 19.0,
+      "proj_pc": 79.0,
+      "actual_outs": 11,
+      "actual_pitches": 95
     },
     {
       "player": "Zac Gallen",
@@ -367,7 +462,12 @@
       "to_win_1u": null,
       "actual": 3.0,
       "result": "WIN",
-      "date": "2026-04-18"
+      "date": "2026-04-18",
+      "proj_ip": 5.0,
+      "proj_bf": 21.3,
+      "proj_pc": 86.0,
+      "actual_outs": 17,
+      "actual_pitches": 88
     },
     {
       "player": "Paul Skenes",
@@ -385,7 +485,12 @@
       "to_win_1u": null,
       "actual": 7.0,
       "result": "LOSS",
-      "date": "2026-04-24"
+      "date": "2026-04-24",
+      "proj_ip": 5.1,
+      "proj_bf": 18.3,
+      "proj_pc": 78.0,
+      "actual_outs": 21,
+      "actual_pitches": 93
     },
     {
       "player": "Luis Gil",
@@ -403,7 +508,12 @@
       "to_win_1u": null,
       "actual": 0.0,
       "result": "WIN",
-      "date": "2026-04-26"
+      "date": "2026-04-26",
+      "proj_ip": 5.1,
+      "proj_bf": 20.2,
+      "proj_pc": 84.0,
+      "actual_outs": 12,
+      "actual_pitches": 83
     },
     {
       "player": "Ryan Weathers",
@@ -421,7 +531,12 @@
       "to_win_1u": null,
       "actual": 8.0,
       "result": "WIN",
-      "date": "2026-04-19"
+      "date": "2026-04-19",
+      "proj_ip": 5.3,
+      "proj_bf": 22.4,
+      "proj_pc": 94,
+      "actual_outs": 22,
+      "actual_pitches": 95
     },
     {
       "player": "MacKenzie Gore",
@@ -439,7 +554,12 @@
       "to_win_1u": null,
       "actual": 5.0,
       "result": "LOSS",
-      "date": "2026-04-19"
+      "date": "2026-04-19",
+      "proj_ip": 5.3,
+      "proj_bf": 21.6,
+      "proj_pc": 94,
+      "actual_outs": 15,
+      "actual_pitches": 90
     },
     {
       "player": "Tarik Skubal",
@@ -457,7 +577,12 @@
       "to_win_1u": null,
       "actual": 7.0,
       "result": "WIN",
-      "date": "2026-04-12"
+      "date": "2026-04-12",
+      "proj_ip": 6.4,
+      "proj_bf": 23.0,
+      "proj_pc": 95,
+      "actual_outs": 20,
+      "actual_pitches": 96
     },
     {
       "player": "Tyler Glasnow",
@@ -475,7 +600,12 @@
       "to_win_1u": null,
       "actual": 9.0,
       "result": "WIN",
-      "date": "2026-04-23"
+      "date": "2026-04-23",
+      "proj_ip": 6.7,
+      "proj_bf": 22.8,
+      "proj_pc": 96.0,
+      "actual_outs": 24,
+      "actual_pitches": 105
     },
     {
       "player": "Luis Gil",
@@ -493,7 +623,12 @@
       "to_win_1u": null,
       "actual": 2.0,
       "result": "WIN",
-      "date": "2026-04-21"
+      "date": "2026-04-21",
+      "proj_ip": 4.3,
+      "proj_bf": 19.0,
+      "proj_pc": 85.0,
+      "actual_outs": 19,
+      "actual_pitches": 83
     },
     {
       "player": "Michael Wacha",
@@ -511,7 +646,12 @@
       "to_win_1u": null,
       "actual": 6.0,
       "result": "WIN",
-      "date": "2026-04-17"
+      "date": "2026-04-17",
+      "proj_ip": 7.2,
+      "proj_bf": 23.0,
+      "proj_pc": 90.0,
+      "actual_outs": 18,
+      "actual_pitches": 97
     },
     {
       "player": "Kevin Gausman",
@@ -529,7 +669,12 @@
       "to_win_1u": null,
       "actual": 4.0,
       "result": "LOSS",
-      "date": "2026-04-19"
+      "date": "2026-04-19",
+      "proj_ip": 6.0,
+      "proj_bf": 22.5,
+      "proj_pc": 97,
+      "actual_outs": 18,
+      "actual_pitches": 86
     },
     {
       "player": "Jack Leiter",
@@ -547,7 +692,12 @@
       "to_win_1u": null,
       "actual": 3.0,
       "result": "LOSS",
-      "date": "2026-04-16"
+      "date": "2026-04-16",
+      "proj_ip": 5.1,
+      "proj_bf": 20.8,
+      "proj_pc": 93,
+      "actual_outs": 17,
+      "actual_pitches": 105
     },
     {
       "player": "Jacob Lopez",
@@ -565,7 +715,12 @@
       "to_win_1u": null,
       "actual": 5.0,
       "result": "WIN",
-      "date": "2026-04-11"
+      "date": "2026-04-11",
+      "proj_ip": 3.2,
+      "proj_bf": 20.9,
+      "proj_pc": 92,
+      "actual_outs": 15,
+      "actual_pitches": 96
     },
     {
       "player": "Ryan Weathers",
@@ -583,7 +738,12 @@
       "to_win_1u": null,
       "actual": 7.0,
       "result": "WIN",
-      "date": "2026-04-09"
+      "date": "2026-04-09",
+      "proj_ip": 3.7,
+      "proj_bf": 19.9,
+      "proj_pc": 88,
+      "actual_outs": 24,
+      "actual_pitches": 101
     },
     {
       "player": "Jake Irvin",
@@ -601,7 +761,12 @@
       "to_win_1u": null,
       "actual": 4.0,
       "result": "WIN",
-      "date": "2026-04-20"
+      "date": "2026-04-20",
+      "proj_ip": 4.4,
+      "proj_bf": 20.3,
+      "proj_pc": 91.0,
+      "actual_outs": 15,
+      "actual_pitches": 68
     },
     {
       "player": "Casey Mize",
@@ -619,7 +784,12 @@
       "to_win_1u": null,
       "actual": 7.0,
       "result": "WIN",
-      "date": "2026-04-22"
+      "date": "2026-04-22",
+      "proj_ip": 5.9,
+      "proj_bf": 23.0,
+      "proj_pc": 94,
+      "actual_outs": 18,
+      "actual_pitches": 88
     },
     {
       "player": "Gavin Williams",
@@ -637,7 +807,12 @@
       "to_win_1u": null,
       "actual": 11.0,
       "result": "WIN",
-      "date": "2026-04-18"
+      "date": "2026-04-18",
+      "proj_ip": 5.4,
+      "proj_bf": 22.2,
+      "proj_pc": 93,
+      "actual_outs": 21,
+      "actual_pitches": 100
     },
     {
       "player": "Braxton Ashcraft",
@@ -655,7 +830,12 @@
       "to_win_1u": null,
       "actual": 9.0,
       "result": "WIN",
-      "date": "2026-04-11"
+      "date": "2026-04-11",
+      "proj_ip": 6.3,
+      "proj_bf": 22.5,
+      "proj_pc": 87.0,
+      "actual_outs": 15,
+      "actual_pitches": 77
     },
     {
       "player": "Tomoyuki Sugano",
@@ -673,7 +853,12 @@
       "to_win_1u": null,
       "actual": 4.0,
       "result": "WIN",
-      "date": "2026-04-22"
+      "date": "2026-04-22",
+      "proj_ip": 5.6,
+      "proj_bf": 23.0,
+      "proj_pc": 91,
+      "actual_outs": 17,
+      "actual_pitches": 101
     },
     {
       "player": "MacKenzie Gore",
@@ -691,7 +876,12 @@
       "to_win_1u": null,
       "actual": 9.0,
       "result": "WIN",
-      "date": "2026-04-08"
+      "date": "2026-04-08",
+      "proj_ip": 5.9,
+      "proj_bf": 21.4,
+      "proj_pc": 89.0,
+      "actual_outs": 15,
+      "actual_pitches": 82
     },
     {
       "player": "MacKenzie Gore",
@@ -709,7 +899,12 @@
       "to_win_1u": null,
       "actual": 3.0,
       "result": "LOSS",
-      "date": "2026-05-01"
+      "date": "2026-05-01",
+      "proj_ip": 5.2,
+      "proj_bf": 23.0,
+      "proj_pc": 106,
+      "actual_outs": 11,
+      "actual_pitches": 94
     },
     {
       "player": "Paul Skenes",
@@ -727,7 +922,12 @@
       "to_win_1u": null,
       "actual": 5.0,
       "result": "WIN",
-      "date": "2026-04-18"
+      "date": "2026-04-18",
+      "proj_ip": 5.6,
+      "proj_bf": 20.8,
+      "proj_pc": 88,
+      "actual_outs": 12,
+      "actual_pitches": 64
     },
     {
       "player": "Randy V\u00e1squez",
@@ -745,7 +945,12 @@
       "to_win_1u": null,
       "actual": 5.0,
       "result": "WIN",
-      "date": "2026-04-21"
+      "date": "2026-04-21",
+      "proj_ip": 5.6,
+      "proj_bf": 21.9,
+      "proj_pc": 88.0,
+      "actual_outs": 21,
+      "actual_pitches": 84
     },
     {
       "player": "Max Fried",
@@ -763,7 +968,12 @@
       "to_win_1u": null,
       "actual": 6.0,
       "result": "LOSS",
-      "date": "2026-04-11"
+      "date": "2026-04-11",
+      "proj_ip": 6.8,
+      "proj_bf": 23.0,
+      "proj_pc": 103,
+      "actual_outs": 24,
+      "actual_pitches": 94
     },
     {
       "player": "Michael Wacha",
@@ -781,7 +991,12 @@
       "to_win_1u": null,
       "actual": 7.0,
       "result": "WIN",
-      "date": "2026-04-11"
+      "date": "2026-04-11",
+      "proj_ip": 6.9,
+      "proj_bf": 23.0,
+      "proj_pc": 102,
+      "actual_outs": 24,
+      "actual_pitches": 88
     },
     {
       "player": "Landen Roupp",
@@ -799,7 +1014,12 @@
       "to_win_1u": null,
       "actual": 7.0,
       "result": "WIN",
-      "date": "2026-04-21"
+      "date": "2026-04-21",
+      "proj_ip": 5.8,
+      "proj_bf": 21.3,
+      "proj_pc": 91.0,
+      "actual_outs": 15,
+      "actual_pitches": 106
     },
     {
       "player": "Davis Martin",
@@ -817,7 +1037,12 @@
       "to_win_1u": null,
       "actual": 4.0,
       "result": "LOSS",
-      "date": "2026-04-17"
+      "date": "2026-04-17",
+      "proj_ip": 6.2,
+      "proj_bf": 23.0,
+      "proj_pc": 86.0,
+      "actual_outs": 21,
+      "actual_pitches": 89
     },
     {
       "player": "Jacob Lopez",
@@ -835,7 +1060,12 @@
       "to_win_1u": null,
       "actual": 1.0,
       "result": "WIN",
-      "date": "2026-04-21"
+      "date": "2026-04-21",
+      "proj_ip": 3.8,
+      "proj_bf": 21.6,
+      "proj_pc": 91.0,
+      "actual_outs": 16,
+      "actual_pitches": 86
     },
     {
       "player": "Nolan McLean",
@@ -853,7 +1083,12 @@
       "to_win_1u": null,
       "actual": 8.0,
       "result": "WIN",
-      "date": "2026-04-14"
+      "date": "2026-04-14",
+      "proj_ip": 5.7,
+      "proj_bf": 21.9,
+      "proj_pc": 100,
+      "actual_outs": 21,
+      "actual_pitches": 95
     },
     {
       "player": "Steven Matz",
@@ -871,7 +1106,12 @@
       "to_win_1u": null,
       "actual": 4.0,
       "result": "LOSS",
-      "date": "2026-04-16"
+      "date": "2026-04-16",
+      "proj_ip": 5.7,
+      "proj_bf": 19.8,
+      "proj_pc": 89.0,
+      "actual_outs": 16,
+      "actual_pitches": 74
     },
     {
       "player": "Simeon Woods Richardson",
@@ -889,7 +1129,12 @@
       "to_win_1u": null,
       "actual": 2.0,
       "result": "WIN",
-      "date": "2026-05-01"
+      "date": "2026-05-01",
+      "proj_ip": 4.9,
+      "proj_bf": 22.2,
+      "proj_pc": 84.0,
+      "actual_outs": 14,
+      "actual_pitches": 88
     },
     {
       "player": "Nolan McLean",
@@ -907,7 +1152,12 @@
       "to_win_1u": null,
       "actual": 10.0,
       "result": "WIN",
-      "date": "2026-04-21"
+      "date": "2026-04-21",
+      "proj_ip": 6.0,
+      "proj_bf": 21.5,
+      "proj_pc": 95,
+      "actual_outs": 20,
+      "actual_pitches": 99
     },
     {
       "player": "Jose Quintana",
@@ -925,7 +1175,12 @@
       "to_win_1u": null,
       "actual": 5.0,
       "result": "LOSS",
-      "date": "2026-04-26"
+      "date": "2026-04-26",
+      "proj_ip": 3.9,
+      "proj_bf": 22.1,
+      "proj_pc": 90,
+      "actual_outs": 16,
+      "actual_pitches": 85
     },
     {
       "player": "Zac Gallen",
@@ -943,7 +1198,12 @@
       "to_win_1u": null,
       "actual": 5.0,
       "result": "LOSS",
-      "date": "2026-04-07"
+      "date": "2026-04-07",
+      "proj_ip": 5.4,
+      "proj_bf": 21.0,
+      "proj_pc": 88,
+      "actual_outs": 15,
+      "actual_pitches": 95
     },
     {
       "player": "Michael Soroka",
@@ -961,7 +1221,12 @@
       "to_win_1u": null,
       "actual": 6.0,
       "result": "WIN",
-      "date": "2026-04-23"
+      "date": "2026-04-23",
+      "proj_ip": 6.0,
+      "proj_bf": 22.4,
+      "proj_pc": 94,
+      "actual_outs": 15,
+      "actual_pitches": 101
     },
     {
       "player": "Randy V\u00e1squez",
@@ -979,7 +1244,12 @@
       "to_win_1u": null,
       "actual": 8.0,
       "result": "WIN",
-      "date": "2026-04-09"
+      "date": "2026-04-09",
+      "proj_ip": 6.2,
+      "proj_bf": 22.7,
+      "proj_pc": 87.0,
+      "actual_outs": 17,
+      "actual_pitches": 92
     },
     {
       "player": "Dylan Cease",
@@ -997,7 +1267,12 @@
       "to_win_1u": null,
       "actual": 8.0,
       "result": "WIN",
-      "date": "2026-04-08"
+      "date": "2026-04-08",
+      "proj_ip": 4.5,
+      "proj_bf": 20.2,
+      "proj_pc": 93,
+      "actual_outs": 15,
+      "actual_pitches": 96
     },
     {
       "player": "Dylan Cease",
@@ -1015,7 +1290,12 @@
       "to_win_1u": null,
       "actual": 5.0,
       "result": "LOSS",
-      "date": "2026-04-27"
+      "date": "2026-04-27",
+      "proj_ip": 4.8,
+      "proj_bf": 23.0,
+      "proj_pc": 110,
+      "actual_outs": 17,
+      "actual_pitches": 107
     },
     {
       "player": "Andrew Abbott",
@@ -1033,7 +1313,12 @@
       "to_win_1u": null,
       "actual": 1.0,
       "result": "WIN",
-      "date": "2026-04-12"
+      "date": "2026-04-12",
+      "proj_ip": 5.9,
+      "proj_bf": 23.0,
+      "proj_pc": 91,
+      "actual_outs": 9,
+      "actual_pitches": 71
     },
     {
       "player": "Michael King",
@@ -1051,7 +1336,12 @@
       "to_win_1u": null,
       "actual": 8.0,
       "result": "WIN",
-      "date": "2026-04-26"
+      "date": "2026-04-26",
+      "proj_ip": 5.3,
+      "proj_bf": 23.0,
+      "proj_pc": 105,
+      "actual_outs": 18,
+      "actual_pitches": 106
     },
     {
       "player": "Steven Matz",
@@ -1069,7 +1359,12 @@
       "to_win_1u": null,
       "actual": 7.0,
       "result": "WIN",
-      "date": "2026-04-10"
+      "date": "2026-04-10",
+      "proj_ip": 5.9,
+      "proj_bf": 22.7,
+      "proj_pc": 97,
+      "actual_outs": 15,
+      "actual_pitches": 88
     },
     {
       "player": "Edward Cabrera",
@@ -1087,7 +1382,12 @@
       "to_win_1u": null,
       "actual": 5.0,
       "result": "WIN",
-      "date": "2026-04-23"
+      "date": "2026-04-23",
+      "proj_ip": 5.7,
+      "proj_bf": 23.0,
+      "proj_pc": 92.0,
+      "actual_outs": 21,
+      "actual_pitches": 83
     },
     {
       "player": "Zac Gallen",
@@ -1105,7 +1405,12 @@
       "to_win_1u": null,
       "actual": 2.0,
       "result": "WIN",
-      "date": "2026-04-12"
+      "date": "2026-04-12",
+      "proj_ip": 5.2,
+      "proj_bf": 22.7,
+      "proj_pc": 95,
+      "actual_outs": 15,
+      "actual_pitches": 84
     },
     {
       "player": "Framber Valdez",
@@ -1123,7 +1428,12 @@
       "to_win_1u": null,
       "actual": 7.0,
       "result": "LOSS",
-      "date": "2026-04-19"
+      "date": "2026-04-19",
+      "proj_ip": 6.3,
+      "proj_bf": 23.0,
+      "proj_pc": 87.0,
+      "actual_outs": 18,
+      "actual_pitches": 98
     },
     {
       "player": "Paul Skenes",
@@ -1141,7 +1451,12 @@
       "to_win_1u": null,
       "actual": 6.0,
       "result": "WIN",
-      "date": "2026-04-13"
+      "date": "2026-04-13",
+      "proj_ip": 5.1,
+      "proj_bf": 21.7,
+      "proj_pc": 87,
+      "actual_outs": 18,
+      "actual_pitches": 88
     },
     {
       "player": "Matthew Boyd",
@@ -1159,7 +1474,12 @@
       "to_win_1u": null,
       "actual": 5.0,
       "result": "WIN",
-      "date": "2026-05-03"
+      "date": "2026-05-03",
+      "proj_ip": 4.6,
+      "proj_bf": 20.7,
+      "proj_pc": 91,
+      "actual_outs": 18,
+      "actual_pitches": 94
     },
     {
       "player": "Will Warren",
@@ -1177,7 +1497,12 @@
       "to_win_1u": null,
       "actual": 11.0,
       "result": "WIN",
-      "date": "2026-04-18"
+      "date": "2026-04-18",
+      "proj_ip": 4.7,
+      "proj_bf": 19.1,
+      "proj_pc": 89,
+      "actual_outs": 21,
+      "actual_pitches": 93
     },
     {
       "player": "Jack Flaherty",
@@ -1195,7 +1520,12 @@
       "to_win_1u": null,
       "actual": 6.0,
       "result": "WIN",
-      "date": "2026-04-09"
+      "date": "2026-04-09",
+      "proj_ip": 3.6,
+      "proj_bf": 19.0,
+      "proj_pc": 87.0,
+      "actual_outs": 17,
+      "actual_pitches": 89
     },
     {
       "player": "Walker Buehler",
@@ -1213,7 +1543,12 @@
       "to_win_1u": null,
       "actual": 7.0,
       "result": "WIN",
-      "date": "2026-04-16"
+      "date": "2026-04-16",
+      "proj_ip": 4.8,
+      "proj_bf": 19.1,
+      "proj_pc": 70.0,
+      "actual_outs": 15,
+      "actual_pitches": 88
     },
     {
       "player": "Grant Holmes",
@@ -1231,7 +1566,12 @@
       "to_win_1u": null,
       "actual": 4.0,
       "result": "WIN",
-      "date": "2026-04-19"
+      "date": "2026-04-19",
+      "proj_ip": 5.3,
+      "proj_bf": 21.1,
+      "proj_pc": 79.0,
+      "actual_outs": 14,
+      "actual_pitches": 81
     },
     {
       "player": "Randy V\u00e1squez",
@@ -1249,7 +1589,12 @@
       "to_win_1u": null,
       "actual": 4.0,
       "result": "LOSS",
-      "date": "2026-04-27"
+      "date": "2026-04-27",
+      "proj_ip": 6.0,
+      "proj_bf": 22.1,
+      "proj_pc": 87.0,
+      "actual_outs": 15,
+      "actual_pitches": 106
     },
     {
       "player": "Michael Lorenzen",
@@ -1267,7 +1612,12 @@
       "to_win_1u": null,
       "actual": 5.0,
       "result": "LOSS",
-      "date": "2026-04-30"
+      "date": "2026-04-30",
+      "proj_ip": 5.1,
+      "proj_bf": 22.9,
+      "proj_pc": 90,
+      "actual_outs": 16,
+      "actual_pitches": 85
     },
     {
       "player": "Cristopher S\u00e1nchez",
@@ -1285,7 +1635,12 @@
       "to_win_1u": null,
       "actual": 8.0,
       "result": "WIN",
-      "date": "2026-04-13"
+      "date": "2026-04-13",
+      "proj_ip": 5.8,
+      "proj_bf": 22.5,
+      "proj_pc": 92.0,
+      "actual_outs": 18,
+      "actual_pitches": 96
     },
     {
       "player": "Davis Martin",
@@ -1303,7 +1658,12 @@
       "to_win_1u": null,
       "actual": 3.0,
       "result": "LOSS",
-      "date": "2026-04-10"
+      "date": "2026-04-10",
+      "proj_ip": 5.7,
+      "proj_bf": 21.8,
+      "proj_pc": 88.0,
+      "actual_outs": 21,
+      "actual_pitches": 82
     },
     {
       "player": "Grant Holmes",
@@ -1321,7 +1681,12 @@
       "to_win_1u": null,
       "actual": 6.0,
       "result": "WIN",
-      "date": "2026-04-08"
+      "date": "2026-04-08",
+      "proj_ip": 5.4,
+      "proj_bf": 22.0,
+      "proj_pc": 85,
+      "actual_outs": 20,
+      "actual_pitches": 99
     },
     {
       "player": "Kris Bubic",
@@ -1339,7 +1704,12 @@
       "to_win_1u": null,
       "actual": 11.0,
       "result": "WIN",
-      "date": "2026-04-10"
+      "date": "2026-04-10",
+      "proj_ip": 5.5,
+      "proj_bf": 23.0,
+      "proj_pc": 96,
+      "actual_outs": 21,
+      "actual_pitches": 88
     },
     {
       "player": "Tyler Glasnow",
@@ -1357,7 +1727,12 @@
       "to_win_1u": null,
       "actual": 7.0,
       "result": "WIN",
-      "date": "2026-04-10"
+      "date": "2026-04-10",
+      "proj_ip": 6.4,
+      "proj_bf": 23.0,
+      "proj_pc": 101,
+      "actual_outs": 18,
+      "actual_pitches": 100
     },
     {
       "player": "Dylan Cease",
@@ -1375,7 +1750,12 @@
       "to_win_1u": null,
       "actual": 7.0,
       "result": "WIN",
-      "date": "2026-05-02"
+      "date": "2026-05-02",
+      "proj_ip": 5.0,
+      "proj_bf": 23.0,
+      "proj_pc": 107,
+      "actual_outs": 21,
+      "actual_pitches": 106
     },
     {
       "player": "Kyle Harrison",
@@ -1393,7 +1773,12 @@
       "to_win_1u": null,
       "actual": 3.0,
       "result": "LOSS",
-      "date": "2026-04-21"
+      "date": "2026-04-21",
+      "proj_ip": 5.2,
+      "proj_bf": 19.1,
+      "proj_pc": 84.0,
+      "actual_outs": 9,
+      "actual_pitches": 72
     },
     {
       "player": "Cristopher S\u00e1nchez",
@@ -1411,7 +1796,12 @@
       "to_win_1u": null,
       "actual": 4.0,
       "result": "LOSS",
-      "date": "2026-04-23"
+      "date": "2026-04-23",
+      "proj_ip": 5.7,
+      "proj_bf": 23.0,
+      "proj_pc": 93.0,
+      "actual_outs": 16,
+      "actual_pitches": 99
     },
     {
       "player": "Mike Burrows",
@@ -1429,7 +1819,12 @@
       "to_win_1u": null,
       "actual": 3.0,
       "result": "LOSS",
-      "date": "2026-05-01"
+      "date": "2026-05-01",
+      "proj_ip": 5.5,
+      "proj_bf": 23.0,
+      "proj_pc": 92,
+      "actual_outs": 18,
+      "actual_pitches": 94
     },
     {
       "player": "Michael Soroka",
@@ -1447,7 +1842,12 @@
       "to_win_1u": null,
       "actual": 5.0,
       "result": "WIN",
-      "date": "2026-04-17"
+      "date": "2026-04-17",
+      "proj_ip": 5.4,
+      "proj_bf": 21.4,
+      "proj_pc": 93,
+      "actual_outs": 21,
+      "actual_pitches": 94
     },
     {
       "player": "Walker Buehler",
@@ -1465,7 +1865,12 @@
       "to_win_1u": null,
       "actual": 4.0,
       "result": "WIN",
-      "date": "2026-04-28"
+      "date": "2026-04-28",
+      "proj_ip": 4.8,
+      "proj_bf": 22.4,
+      "proj_pc": 88,
+      "actual_outs": 14,
+      "actual_pitches": 92
     },
     {
       "player": "Aaron Nola",
@@ -1483,7 +1888,12 @@
       "to_win_1u": null,
       "actual": 5.0,
       "result": "LOSS",
-      "date": "2026-04-14"
+      "date": "2026-04-14",
+      "proj_ip": 6.0,
+      "proj_bf": 22.5,
+      "proj_pc": 90.0,
+      "actual_outs": 15,
+      "actual_pitches": 87
     },
     {
       "player": "Casey Mize",
@@ -1501,7 +1911,12 @@
       "to_win_1u": null,
       "actual": 7.0,
       "result": "WIN",
-      "date": "2026-04-17"
+      "date": "2026-04-17",
+      "proj_ip": 5.4,
+      "proj_bf": 22.4,
+      "proj_pc": 85.0,
+      "actual_outs": 20,
+      "actual_pitches": 94
     },
     {
       "player": "Cristopher S\u00e1nchez",
@@ -1519,7 +1934,12 @@
       "to_win_1u": null,
       "actual": 6.0,
       "result": "LOSS",
-      "date": "2026-04-07"
+      "date": "2026-04-07",
+      "proj_ip": 6.0,
+      "proj_bf": 22.5,
+      "proj_pc": 97,
+      "actual_outs": 15,
+      "actual_pitches": 92
     },
     {
       "player": "Brady Singer",
@@ -1537,7 +1957,12 @@
       "to_win_1u": null,
       "actual": 3.0,
       "result": "WIN",
-      "date": "2026-04-25"
+      "date": "2026-04-25",
+      "proj_ip": 5.2,
+      "proj_bf": 23.0,
+      "proj_pc": 104,
+      "actual_outs": 16,
+      "actual_pitches": 94
     },
     {
       "player": "Logan Webb",
@@ -1555,7 +1980,12 @@
       "to_win_1u": null,
       "actual": 3.0,
       "result": "WIN",
-      "date": "2026-04-05"
+      "date": "2026-04-05",
+      "proj_ip": 5.6,
+      "proj_bf": 23.0,
+      "proj_pc": 104,
+      "actual_outs": 21,
+      "actual_pitches": 92
     },
     {
       "player": "Chad Patrick",
@@ -1573,7 +2003,12 @@
       "to_win_1u": null,
       "actual": 2.0,
       "result": "WIN",
-      "date": "2026-04-15"
+      "date": "2026-04-15",
+      "proj_ip": 4.8,
+      "proj_bf": 21.0,
+      "proj_pc": 86,
+      "actual_outs": 20,
+      "actual_pitches": 81
     },
     {
       "player": "Bailey Ober",
@@ -1591,7 +2026,12 @@
       "to_win_1u": null,
       "actual": 10.0,
       "result": "WIN",
-      "date": "2026-04-19"
+      "date": "2026-04-19",
+      "proj_ip": 5.1,
+      "proj_bf": 22.9,
+      "proj_pc": 95,
+      "actual_outs": 19,
+      "actual_pitches": 102
     },
     {
       "player": "Luis Severino",
@@ -1609,7 +2049,12 @@
       "to_win_1u": null,
       "actual": 7.0,
       "result": "WIN",
-      "date": "2026-04-13"
+      "date": "2026-04-13",
+      "proj_ip": 3.8,
+      "proj_bf": 22.0,
+      "proj_pc": 100,
+      "actual_outs": 18,
+      "actual_pitches": 94
     },
     {
       "player": "Max Fried",
@@ -1627,7 +2072,12 @@
       "to_win_1u": null,
       "actual": 4.0,
       "result": "WIN",
-      "date": "2026-04-05"
+      "date": "2026-04-05",
+      "proj_ip": 7.1,
+      "proj_bf": 22.8,
+      "proj_pc": 90,
+      "actual_outs": 20,
+      "actual_pitches": 103
     },
     {
       "player": "Jacob Lopez",
@@ -1645,7 +2095,12 @@
       "to_win_1u": null,
       "actual": 5.0,
       "result": "WIN",
-      "date": "2026-04-16"
+      "date": "2026-04-16",
+      "proj_ip": 3.8,
+      "proj_bf": 22.5,
+      "proj_pc": 96,
+      "actual_outs": 15,
+      "actual_pitches": 85
     },
     {
       "player": "Landen Roupp",
@@ -1663,7 +2118,12 @@
       "to_win_1u": null,
       "actual": 6.0,
       "result": "WIN",
-      "date": "2026-04-16"
+      "date": "2026-04-16",
+      "proj_ip": 5.9,
+      "proj_bf": 22.1,
+      "proj_pc": 93,
+      "actual_outs": 18,
+      "actual_pitches": 87
     },
     {
       "player": "Brandon Pfaadt",
@@ -1681,7 +2141,12 @@
       "to_win_1u": null,
       "actual": 6.0,
       "result": "LOSS",
-      "date": "2026-04-11"
+      "date": "2026-04-11",
+      "proj_ip": 5.5,
+      "proj_bf": 22.2,
+      "proj_pc": 82.0,
+      "actual_outs": 18,
+      "actual_pitches": 101
     },
     {
       "player": "Ryne Nelson",
@@ -1699,7 +2164,12 @@
       "to_win_1u": null,
       "actual": 4.0,
       "result": "WIN",
-      "date": "2026-04-26"
+      "date": "2026-04-26",
+      "proj_ip": 4.9,
+      "proj_bf": 21.1,
+      "proj_pc": 92,
+      "actual_outs": 15,
+      "actual_pitches": 93
     },
     {
       "player": "Jos\u00e9 Soriano",
@@ -1717,7 +2187,12 @@
       "to_win_1u": null,
       "actual": 10.0,
       "result": "WIN",
-      "date": "2026-04-06"
+      "date": "2026-04-06",
+      "proj_ip": 5.8,
+      "proj_bf": 21.8,
+      "proj_pc": 90.0,
+      "actual_outs": 24,
+      "actual_pitches": 97
     },
     {
       "player": "Justin Wrobleski",
@@ -1735,7 +2210,12 @@
       "to_win_1u": null,
       "actual": 3.0,
       "result": "WIN",
-      "date": "2026-04-20"
+      "date": "2026-04-20",
+      "proj_ip": 6.8,
+      "proj_bf": 23.0,
+      "proj_pc": 90,
+      "actual_outs": 21,
+      "actual_pitches": 97
     },
     {
       "player": "Nolan McLean",
@@ -1753,7 +2233,12 @@
       "to_win_1u": null,
       "actual": 6.0,
       "result": "LOSS",
-      "date": "2026-05-02"
+      "date": "2026-05-02",
+      "proj_ip": 6.0,
+      "proj_bf": 21.6,
+      "proj_pc": 94.0,
+      "actual_outs": 12,
+      "actual_pitches": 78
     },
     {
       "player": "Will Warren",
@@ -1771,7 +2256,12 @@
       "to_win_1u": null,
       "actual": 5.0,
       "result": "LOSS",
-      "date": "2026-04-08"
+      "date": "2026-04-08",
+      "proj_ip": 5.5,
+      "proj_bf": 19.6,
+      "proj_pc": 80.0,
+      "actual_outs": 14,
+      "actual_pitches": 85
     },
     {
       "player": "Brady Singer",
@@ -1789,7 +2279,12 @@
       "to_win_1u": null,
       "actual": 1.0,
       "result": "WIN",
-      "date": "2026-04-14"
+      "date": "2026-04-14",
+      "proj_ip": 4.5,
+      "proj_bf": 21.1,
+      "proj_pc": 87,
+      "actual_outs": 18,
+      "actual_pitches": 75
     },
     {
       "player": "Ranger Suarez",
@@ -1807,7 +2302,12 @@
       "to_win_1u": null,
       "actual": 10.0,
       "result": "LOSS",
-      "date": "2026-04-27"
+      "date": "2026-04-27",
+      "proj_ip": 5.5,
+      "proj_bf": 21.4,
+      "proj_pc": 80.0,
+      "actual_outs": 24,
+      "actual_pitches": 105
     },
     {
       "player": "Kyle Bradish",
@@ -1825,7 +2325,12 @@
       "to_win_1u": null,
       "actual": 7.0,
       "result": "WIN",
-      "date": "2026-04-20"
+      "date": "2026-04-20",
+      "proj_ip": 5.0,
+      "proj_bf": 23.0,
+      "proj_pc": 97,
+      "actual_outs": 16,
+      "actual_pitches": 104
     },
     {
       "player": "Andrew Abbott",
@@ -1843,7 +2348,12 @@
       "to_win_1u": null,
       "actual": 4.0,
       "result": "WIN",
-      "date": "2026-04-24"
+      "date": "2026-04-24",
+      "proj_ip": 5.0,
+      "proj_bf": 23.0,
+      "proj_pc": 97,
+      "actual_outs": 12,
+      "actual_pitches": 89
     },
     {
       "player": "Chase Burns",
@@ -1861,7 +2371,12 @@
       "to_win_1u": null,
       "actual": 2.0,
       "result": "WIN",
-      "date": "2026-04-10"
+      "date": "2026-04-10",
+      "proj_ip": 5.7,
+      "proj_bf": 21.5,
+      "proj_pc": 87,
+      "actual_outs": 16,
+      "actual_pitches": 92
     },
     {
       "player": "Trevor Rogers",
@@ -1879,7 +2394,12 @@
       "to_win_1u": null,
       "actual": 6.0,
       "result": "WIN",
-      "date": "2026-04-14"
+      "date": "2026-04-14",
+      "proj_ip": 6.7,
+      "proj_bf": 23.0,
+      "proj_pc": 101,
+      "actual_outs": 14,
+      "actual_pitches": 99
     },
     {
       "player": "Jack Kochanowicz",
@@ -1897,7 +2417,12 @@
       "to_win_1u": null,
       "actual": 6.0,
       "result": "WIN",
-      "date": "2026-04-15"
+      "date": "2026-04-15",
+      "proj_ip": 5.4,
+      "proj_bf": 23.0,
+      "proj_pc": 95,
+      "actual_outs": 20,
+      "actual_pitches": 97
     },
     {
       "player": "Emerson Hancock",
@@ -1915,7 +2440,12 @@
       "to_win_1u": null,
       "actual": 14.0,
       "result": "WIN",
-      "date": "2026-05-02"
+      "date": "2026-05-02",
+      "proj_ip": 6.2,
+      "proj_bf": 22.6,
+      "proj_pc": 94,
+      "actual_outs": 21,
+      "actual_pitches": 103
     },
     {
       "player": "Cole Ragans",
@@ -1933,7 +2463,12 @@
       "to_win_1u": null,
       "actual": 6.0,
       "result": "WIN",
-      "date": "2026-04-19"
+      "date": "2026-04-19",
+      "proj_ip": 4.8,
+      "proj_bf": 22.1,
+      "proj_pc": 93,
+      "actual_outs": 13,
+      "actual_pitches": 97
     },
     {
       "player": "Drew Rasmussen",
@@ -1951,7 +2486,12 @@
       "to_win_1u": null,
       "actual": 7.0,
       "result": "WIN",
-      "date": "2026-04-12"
+      "date": "2026-04-12",
+      "proj_ip": 5.6,
+      "proj_bf": 19.9,
+      "proj_pc": 89,
+      "actual_outs": 18,
+      "actual_pitches": 76
     },
     {
       "player": "Michael Lorenzen",
@@ -1969,7 +2509,12 @@
       "to_win_1u": null,
       "actual": 3.0,
       "result": "WIN",
-      "date": "2026-04-24"
+      "date": "2026-04-24",
+      "proj_ip": 4.5,
+      "proj_bf": 21.9,
+      "proj_pc": 90.0,
+      "actual_outs": 21,
+      "actual_pitches": 90
     },
     {
       "player": "Jacob Lopez",
@@ -1987,7 +2532,12 @@
       "to_win_1u": null,
       "actual": 5.0,
       "result": "LOSS",
-      "date": "2026-05-02"
+      "date": "2026-05-02",
+      "proj_ip": 4.2,
+      "proj_bf": 22.0,
+      "proj_pc": 90.0,
+      "actual_outs": 16,
+      "actual_pitches": 96
     },
     {
       "player": "Yoshinobu Yamamoto",
@@ -2005,7 +2555,12 @@
       "to_win_1u": null,
       "actual": 4.0,
       "result": "WIN",
-      "date": "2026-04-27"
+      "date": "2026-04-27",
+      "proj_ip": 7.0,
+      "proj_bf": 23.0,
+      "proj_pc": 101,
+      "actual_outs": 15,
+      "actual_pitches": 87
     },
     {
       "player": "Jacob Misiorowski",
@@ -2023,7 +2578,12 @@
       "to_win_1u": null,
       "actual": 10.0,
       "result": "WIN",
-      "date": "2026-04-07"
+      "date": "2026-04-07",
+      "proj_ip": 5.6,
+      "proj_bf": 20.9,
+      "proj_pc": 94.0,
+      "actual_outs": 16,
+      "actual_pitches": 101
     },
     {
       "player": "Brandon Woodruff",
@@ -2041,7 +2601,12 @@
       "to_win_1u": null,
       "actual": 3.0,
       "result": "WIN",
-      "date": "2026-04-24"
+      "date": "2026-04-24",
+      "proj_ip": 6.4,
+      "proj_bf": 23.0,
+      "proj_pc": 92,
+      "actual_outs": 15,
+      "actual_pitches": 71
     },
     {
       "player": "Rhett Lowder",
@@ -2059,7 +2624,12 @@
       "to_win_1u": null,
       "actual": 7.0,
       "result": "LOSS",
-      "date": "2026-04-26"
+      "date": "2026-04-26",
+      "proj_ip": 5.8,
+      "proj_bf": 23.0,
+      "proj_pc": 93,
+      "actual_outs": 15,
+      "actual_pitches": 94
     },
     {
       "player": "Jacob Misiorowski",
@@ -2077,7 +2647,12 @@
       "to_win_1u": null,
       "actual": 8.0,
       "result": "WIN",
-      "date": "2026-05-01"
+      "date": "2026-05-01",
+      "proj_ip": 5.6,
+      "proj_bf": 21.3,
+      "proj_pc": 92.0,
+      "actual_outs": 16,
+      "actual_pitches": 85
     },
     {
       "player": "Tarik Skubal",
@@ -2095,7 +2670,12 @@
       "to_win_1u": null,
       "actual": 10.0,
       "result": "LOSS",
-      "date": "2026-04-18"
+      "date": "2026-04-18",
+      "proj_ip": 6.4,
+      "proj_bf": 23.0,
+      "proj_pc": 96,
+      "actual_outs": 18,
+      "actual_pitches": 89
     },
     {
       "player": "Michael King",
@@ -2113,7 +2693,12 @@
       "to_win_1u": null,
       "actual": 5.0,
       "result": "LOSS",
-      "date": "2026-04-14"
+      "date": "2026-04-14",
+      "proj_ip": 5.4,
+      "proj_bf": 23.0,
+      "proj_pc": 95,
+      "actual_outs": 18,
+      "actual_pitches": 85
     },
     {
       "player": "Clay Holmes",
@@ -2131,7 +2716,12 @@
       "to_win_1u": null,
       "actual": 6.0,
       "result": "LOSS",
-      "date": "2026-04-28"
+      "date": "2026-04-28",
+      "proj_ip": 6.2,
+      "proj_bf": 22.9,
+      "proj_pc": 88,
+      "actual_outs": 18,
+      "actual_pitches": 94
     },
     {
       "player": "Jos\u00e9 Soriano",
@@ -2149,7 +2739,12 @@
       "to_win_1u": null,
       "actual": 6.0,
       "result": "WIN",
-      "date": "2026-04-28"
+      "date": "2026-04-28",
+      "proj_ip": 6.3,
+      "proj_bf": 22.6,
+      "proj_pc": 94.0,
+      "actual_outs": 15,
+      "actual_pitches": 97
     },
     {
       "player": "Chris Sale",
@@ -2167,7 +2762,12 @@
       "to_win_1u": null,
       "actual": 7.0,
       "result": "WIN",
-      "date": "2026-04-06"
+      "date": "2026-04-06",
+      "proj_ip": 6.2,
+      "proj_bf": 20.2,
+      "proj_pc": 83.0,
+      "actual_outs": 12,
+      "actual_pitches": 77
     },
     {
       "player": "Garrett Crochet",
@@ -2185,7 +2785,12 @@
       "to_win_1u": null,
       "actual": 7.0,
       "result": "WIN",
-      "date": "2026-04-07"
+      "date": "2026-04-07",
+      "proj_ip": 5.9,
+      "proj_bf": 22.2,
+      "proj_pc": 93,
+      "actual_outs": 19,
+      "actual_pitches": 107
     },
     {
       "player": "Luis Castillo",
@@ -2203,7 +2808,12 @@
       "to_win_1u": null,
       "actual": 3.0,
       "result": "WIN",
-      "date": "2026-04-11"
+      "date": "2026-04-11",
+      "proj_ip": 5.0,
+      "proj_bf": 19.3,
+      "proj_pc": 89.0,
+      "actual_outs": 10,
+      "actual_pitches": 91
     },
     {
       "player": "Cole Ragans",
@@ -2221,7 +2831,12 @@
       "to_win_1u": null,
       "actual": 1.0,
       "result": "WIN",
-      "date": "2026-04-14"
+      "date": "2026-04-14",
+      "proj_ip": 4.5,
+      "proj_bf": 21.4,
+      "proj_pc": 89.0,
+      "actual_outs": 18,
+      "actual_pitches": 93
     },
     {
       "player": "Framber Valdez",
@@ -2239,7 +2854,12 @@
       "to_win_1u": null,
       "actual": 4.0,
       "result": "WIN",
-      "date": "2026-04-24"
+      "date": "2026-04-24",
+      "proj_ip": 6.1,
+      "proj_bf": 23.0,
+      "proj_pc": 98,
+      "actual_outs": 13,
+      "actual_pitches": 89
     },
     {
       "player": "Chris Bassitt",
@@ -2257,7 +2877,12 @@
       "to_win_1u": null,
       "actual": 2.0,
       "result": "WIN",
-      "date": "2026-04-17"
+      "date": "2026-04-17",
+      "proj_ip": 4.1,
+      "proj_bf": 21.4,
+      "proj_pc": 94.0,
+      "actual_outs": 15,
+      "actual_pitches": 100
     },
     {
       "player": "Brayan Bello",
@@ -2275,7 +2900,12 @@
       "to_win_1u": null,
       "actual": 2.0,
       "result": "WIN",
-      "date": "2026-04-12"
+      "date": "2026-04-12",
+      "proj_ip": 3.5,
+      "proj_bf": 20.5,
+      "proj_pc": 89.0,
+      "actual_outs": 20,
+      "actual_pitches": 94
     },
     {
       "player": "Grant Holmes",
@@ -2293,7 +2923,12 @@
       "to_win_1u": null,
       "actual": 3.0,
       "result": "WIN",
-      "date": "2026-04-13"
+      "date": "2026-04-13",
+      "proj_ip": 5.7,
+      "proj_bf": 23.0,
+      "proj_pc": 99,
+      "actual_outs": 12,
+      "actual_pitches": 59
     },
     {
       "player": "Reid Detmers",
@@ -2311,7 +2946,12 @@
       "to_win_1u": null,
       "actual": 9.0,
       "result": "WIN",
-      "date": "2026-04-14"
+      "date": "2026-04-14",
+      "proj_ip": 5.2,
+      "proj_bf": 21.0,
+      "proj_pc": 97.0,
+      "actual_outs": 21,
+      "actual_pitches": 99
     },
     {
       "player": "Jes\u00fas Luzardo",
@@ -2329,7 +2969,12 @@
       "to_win_1u": null,
       "actual": 8.0,
       "result": "WIN",
-      "date": "2026-04-10"
+      "date": "2026-04-10",
+      "proj_ip": 7.0,
+      "proj_bf": 23.0,
+      "proj_pc": 99.0,
+      "actual_outs": 14,
+      "actual_pitches": 86
     },
     {
       "player": "Casey Mize",
@@ -2347,7 +2992,12 @@
       "to_win_1u": null,
       "actual": 5.0,
       "result": "WIN",
-      "date": "2026-04-11"
+      "date": "2026-04-11",
+      "proj_ip": 5.2,
+      "proj_bf": 22.3,
+      "proj_pc": 91.0,
+      "actual_outs": 17,
+      "actual_pitches": 74
     },
     {
       "player": "Spencer Arrighetti",
@@ -2366,6 +3016,11 @@
       "actual": 8.0,
       "result": "WIN",
       "date": "2026-04-26",
+      "proj_ip": 5.0,
+      "proj_bf": 22.8,
+      "proj_pc": 98.0,
+      "actual_outs": 21,
+      "actual_pitches": 96,
       "would_be_pick": "OVER"
     },
     {
@@ -2385,6 +3040,11 @@
       "actual": 9.0,
       "result": "WIN",
       "date": "2026-04-29",
+      "proj_ip": 7.0,
+      "proj_bf": 23.0,
+      "proj_pc": 105,
+      "actual_outs": 17,
+      "actual_pitches": 92,
       "would_be_pick": "OVER"
     },
     {
@@ -2404,6 +3064,11 @@
       "actual": 7.0,
       "result": "WIN",
       "date": "2026-04-25",
+      "proj_ip": 5.5,
+      "proj_bf": 22.4,
+      "proj_pc": 94.0,
+      "actual_outs": 18,
+      "actual_pitches": 90,
       "would_be_pick": "UNDER"
     },
     {
@@ -2423,6 +3088,11 @@
       "actual": 3.0,
       "result": "WIN",
       "date": "2026-04-22",
+      "proj_ip": 6.1,
+      "proj_bf": 23.0,
+      "proj_pc": 99,
+      "actual_outs": 12,
+      "actual_pitches": 89,
       "would_be_pick": "UNDER"
     },
     {
@@ -2442,6 +3112,11 @@
       "actual": 4.0,
       "result": "LOSS",
       "date": "2026-05-02",
+      "proj_ip": 6.1,
+      "proj_bf": 23.0,
+      "proj_pc": 97.0,
+      "actual_outs": 15,
+      "actual_pitches": 87,
       "would_be_pick": "OVER"
     },
     {
@@ -2461,6 +3136,11 @@
       "actual": 12.0,
       "result": "LOSS",
       "date": "2026-04-26",
+      "proj_ip": 3.7,
+      "proj_bf": 18.0,
+      "proj_pc": 80.0,
+      "actual_outs": 18,
+      "actual_pitches": 101,
       "would_be_pick": "UNDER"
     },
     {
@@ -2480,6 +3160,11 @@
       "actual": 4.0,
       "result": "LOSS",
       "date": "2026-04-18",
+      "proj_ip": 5.8,
+      "proj_bf": 23.0,
+      "proj_pc": 102,
+      "actual_outs": 18,
+      "actual_pitches": 100,
       "would_be_pick": "OVER"
     },
     {
@@ -2499,6 +3184,11 @@
       "actual": 5.0,
       "result": "LOSS",
       "date": "2026-04-19",
+      "proj_ip": 5.6,
+      "proj_bf": 23.0,
+      "proj_pc": 90,
+      "actual_outs": 21,
+      "actual_pitches": 89,
       "would_be_pick": "UNDER"
     },
     {
@@ -2518,6 +3208,11 @@
       "actual": 3.0,
       "result": "WIN",
       "date": "2026-04-12",
+      "proj_ip": 5.8,
+      "proj_bf": 23.0,
+      "proj_pc": 89,
+      "actual_outs": 14,
+      "actual_pitches": 88,
       "would_be_pick": "UNDER"
     },
     {
@@ -2537,6 +3232,11 @@
       "actual": 4.0,
       "result": "WIN",
       "date": "2026-04-18",
+      "proj_ip": 4.8,
+      "proj_bf": 23.0,
+      "proj_pc": 94,
+      "actual_outs": 12,
+      "actual_pitches": 84,
       "would_be_pick": "UNDER"
     },
     {
@@ -2556,6 +3256,11 @@
       "actual": 6.0,
       "result": "LOSS",
       "date": "2026-04-26",
+      "proj_ip": 7.0,
+      "proj_bf": 23.0,
+      "proj_pc": 97,
+      "actual_outs": 18,
+      "actual_pitches": 109,
       "would_be_pick": "UNDER"
     },
     {
@@ -2575,6 +3280,11 @@
       "actual": 2.0,
       "result": "WIN",
       "date": "2026-04-27",
+      "proj_ip": 3.6,
+      "proj_bf": 20.7,
+      "proj_pc": 95.0,
+      "actual_outs": 12,
+      "actual_pitches": 90,
       "would_be_pick": "UNDER"
     },
     {
@@ -2594,6 +3304,11 @@
       "actual": 3.0,
       "result": "LOSS",
       "date": "2026-04-07",
+      "proj_ip": 5.2,
+      "proj_bf": 23.0,
+      "proj_pc": 89.0,
+      "actual_outs": 16,
+      "actual_pitches": 87,
       "would_be_pick": "OVER"
     },
     {
@@ -2613,6 +3328,11 @@
       "actual": 2.0,
       "result": "WIN",
       "date": "2026-04-15",
+      "proj_ip": 3.8,
+      "proj_bf": 18.7,
+      "proj_pc": 92,
+      "actual_outs": 16,
+      "actual_pitches": 92,
       "would_be_pick": "UNDER"
     },
     {
@@ -2632,6 +3352,11 @@
       "actual": 6.0,
       "result": "LOSS",
       "date": "2026-04-19",
+      "proj_ip": 5.3,
+      "proj_bf": 20.6,
+      "proj_pc": 85.0,
+      "actual_outs": 14,
+      "actual_pitches": 89,
       "would_be_pick": "OVER"
     },
     {
@@ -2651,6 +3376,11 @@
       "actual": 2.0,
       "result": "LOSS",
       "date": "2026-04-19",
+      "proj_ip": 4.0,
+      "proj_bf": 21.5,
+      "proj_pc": 94,
+      "actual_outs": 14,
+      "actual_pitches": 78,
       "would_be_pick": "OVER"
     },
     {
@@ -2670,6 +3400,11 @@
       "actual": 9.0,
       "result": "WIN",
       "date": "2026-04-29",
+      "proj_ip": 5.9,
+      "proj_bf": 23.0,
+      "proj_pc": 96,
+      "actual_outs": 23,
+      "actual_pitches": 95,
       "would_be_pick": "OVER"
     },
     {
@@ -2689,6 +3424,11 @@
       "actual": 9.0,
       "result": "WIN",
       "date": "2026-04-19",
+      "proj_ip": 5.5,
+      "proj_bf": 20.7,
+      "proj_pc": 91.0,
+      "actual_outs": 15,
+      "actual_pitches": 97,
       "would_be_pick": "OVER"
     },
     {
@@ -2708,6 +3448,11 @@
       "actual": 2.0,
       "result": "WIN",
       "date": "2026-04-24",
+      "proj_ip": 4.5,
+      "proj_bf": 21.4,
+      "proj_pc": 89.0,
+      "actual_outs": 10,
+      "actual_pitches": 85,
       "would_be_pick": "UNDER"
     },
     {
@@ -2727,6 +3472,11 @@
       "actual": 10.0,
       "result": "WIN",
       "date": "2026-04-23",
+      "proj_ip": 5.0,
+      "proj_bf": 19.5,
+      "proj_pc": 88,
+      "actual_outs": 17,
+      "actual_pitches": 89,
       "would_be_pick": "OVER"
     },
     {
@@ -2746,6 +3496,11 @@
       "actual": 6.0,
       "result": "WIN",
       "date": "2026-04-15",
+      "proj_ip": 4.8,
+      "proj_bf": 22.5,
+      "proj_pc": 94,
+      "actual_outs": 12,
+      "actual_pitches": 89,
       "would_be_pick": "OVER"
     },
     {
@@ -2765,6 +3520,11 @@
       "actual": 3.0,
       "result": "LOSS",
       "date": "2026-04-21",
+      "proj_ip": 6.0,
+      "proj_bf": 22.0,
+      "proj_pc": 83,
+      "actual_outs": 17,
+      "actual_pitches": 88,
       "would_be_pick": "OVER"
     },
     {
@@ -2784,6 +3544,11 @@
       "actual": 5.0,
       "result": "WIN",
       "date": "2026-04-16",
+      "proj_ip": 5.4,
+      "proj_bf": 20.4,
+      "proj_pc": 80,
+      "actual_outs": 18,
+      "actual_pitches": 83,
       "would_be_pick": "OVER"
     },
     {
@@ -2803,6 +3568,11 @@
       "actual": 4.0,
       "result": "LOSS",
       "date": "2026-04-13",
+      "proj_ip": 5.5,
+      "proj_bf": 23.0,
+      "proj_pc": 102,
+      "actual_outs": 15,
+      "actual_pitches": 93,
       "would_be_pick": "OVER"
     },
     {
@@ -2822,6 +3592,11 @@
       "actual": 7.0,
       "result": "LOSS",
       "date": "2026-04-14",
+      "proj_ip": 6.6,
+      "proj_bf": 23.0,
+      "proj_pc": 97,
+      "actual_outs": 23,
+      "actual_pitches": 104,
       "would_be_pick": "UNDER"
     },
     {
@@ -2841,6 +3616,11 @@
       "actual": 8.0,
       "result": "LOSS",
       "date": "2026-04-24",
+      "proj_ip": 5.5,
+      "proj_bf": 20.8,
+      "proj_pc": 94.0,
+      "actual_outs": 17,
+      "actual_pitches": 95,
       "would_be_pick": "UNDER"
     },
     {
@@ -2860,6 +3640,11 @@
       "actual": 4.0,
       "result": "LOSS",
       "date": "2026-04-09",
+      "proj_ip": 5.9,
+      "proj_bf": 22.3,
+      "proj_pc": 103,
+      "actual_outs": 19,
+      "actual_pitches": 92,
       "would_be_pick": "OVER"
     },
     {
@@ -2879,6 +3664,11 @@
       "actual": 3.0,
       "result": "WIN",
       "date": "2026-04-14",
+      "proj_ip": 6.1,
+      "proj_bf": 22.3,
+      "proj_pc": 80.0,
+      "actual_outs": 12,
+      "actual_pitches": 90,
       "would_be_pick": "UNDER"
     },
     {
@@ -2898,6 +3688,11 @@
       "actual": 4.0,
       "result": "LOSS",
       "date": "2026-04-24",
+      "proj_ip": 5.7,
+      "proj_bf": 23.0,
+      "proj_pc": 100,
+      "actual_outs": 18,
+      "actual_pitches": 96,
       "would_be_pick": "OVER"
     },
     {
@@ -2917,6 +3712,11 @@
       "actual": 2.0,
       "result": "LOSS",
       "date": "2026-04-25",
+      "proj_ip": 6.1,
+      "proj_bf": 23.0,
+      "proj_pc": 98,
+      "actual_outs": 21,
+      "actual_pitches": 92,
       "would_be_pick": "OVER"
     },
     {
@@ -2936,6 +3736,11 @@
       "actual": 3.0,
       "result": "LOSS",
       "date": "2026-04-28",
+      "proj_ip": 5.1,
+      "proj_bf": 22.9,
+      "proj_pc": 91,
+      "actual_outs": 15,
+      "actual_pitches": 82,
       "would_be_pick": "OVER"
     },
     {
@@ -2955,6 +3760,11 @@
       "actual": 2.0,
       "result": "LOSS",
       "date": "2026-05-01",
+      "proj_ip": 5.0,
+      "proj_bf": 20.1,
+      "proj_pc": 85,
+      "actual_outs": 18,
+      "actual_pitches": 87,
       "would_be_pick": "OVER"
     },
     {
@@ -2974,6 +3784,11 @@
       "actual": 6.0,
       "result": "WIN",
       "date": "2026-04-28",
+      "proj_ip": 5.6,
+      "proj_bf": 23.0,
+      "proj_pc": 100,
+      "actual_outs": 15,
+      "actual_pitches": 96,
       "would_be_pick": "OVER"
     },
     {
@@ -2993,6 +3808,11 @@
       "actual": 6.0,
       "result": "LOSS",
       "date": "2026-04-07",
+      "proj_ip": 5.7,
+      "proj_bf": 21.8,
+      "proj_pc": 77.0,
+      "actual_outs": 15,
+      "actual_pitches": 92,
       "would_be_pick": "UNDER"
     },
     {
@@ -3012,6 +3832,11 @@
       "actual": 7.0,
       "result": "WIN",
       "date": "2026-04-15",
+      "proj_ip": 6.2,
+      "proj_bf": 22.3,
+      "proj_pc": 82.0,
+      "actual_outs": 17,
+      "actual_pitches": 79,
       "would_be_pick": "OVER"
     },
     {
@@ -3031,6 +3856,11 @@
       "actual": 2.0,
       "result": "LOSS",
       "date": "2026-04-25",
+      "proj_ip": 4.9,
+      "proj_bf": 20.8,
+      "proj_pc": 88,
+      "actual_outs": 18,
+      "actual_pitches": 75,
       "would_be_pick": "OVER"
     },
     {
@@ -3050,6 +3880,11 @@
       "actual": 1.0,
       "result": "WIN",
       "date": "2026-05-01",
+      "proj_ip": 5.5,
+      "proj_bf": 23.0,
+      "proj_pc": 94,
+      "actual_outs": 10,
+      "actual_pitches": 56,
       "would_be_pick": "UNDER"
     },
     {
@@ -3069,6 +3904,11 @@
       "actual": 3.0,
       "result": "WIN",
       "date": "2026-04-22",
+      "proj_ip": 4.3,
+      "proj_bf": 22.4,
+      "proj_pc": 100,
+      "actual_outs": 16,
+      "actual_pitches": 88,
       "would_be_pick": "UNDER"
     },
     {
@@ -3088,6 +3928,11 @@
       "actual": 3.0,
       "result": "LOSS",
       "date": "2026-04-08",
+      "proj_ip": 6.1,
+      "proj_bf": 22.8,
+      "proj_pc": 95,
+      "actual_outs": 18,
+      "actual_pitches": 84,
       "would_be_pick": "OVER"
     },
     {
@@ -3107,6 +3952,11 @@
       "actual": 6.0,
       "result": "LOSS",
       "date": "2026-04-12",
+      "proj_ip": 5.7,
+      "proj_bf": 23.0,
+      "proj_pc": 94,
+      "actual_outs": 18,
+      "actual_pitches": 70,
       "would_be_pick": "UNDER"
     },
     {
@@ -3126,6 +3976,11 @@
       "actual": 9.0,
       "result": "WIN",
       "date": "2026-04-30",
+      "proj_ip": 5.1,
+      "proj_bf": 22.5,
+      "proj_pc": 92,
+      "actual_outs": 18,
+      "actual_pitches": 99,
       "would_be_pick": "OVER"
     },
     {
@@ -3145,6 +4000,11 @@
       "actual": 4.0,
       "result": "WIN",
       "date": "2026-04-11",
+      "proj_ip": 5.8,
+      "proj_bf": 22.5,
+      "proj_pc": 97,
+      "actual_outs": 15,
+      "actual_pitches": 98,
       "would_be_pick": "UNDER"
     },
     {
@@ -3164,6 +4024,11 @@
       "actual": 7.0,
       "result": "WIN",
       "date": "2026-04-07",
+      "proj_ip": 5.9,
+      "proj_bf": 19.5,
+      "proj_pc": 79,
+      "actual_outs": 15,
+      "actual_pitches": 84,
       "would_be_pick": "OVER"
     },
     {
@@ -3183,6 +4048,11 @@
       "actual": 4.0,
       "result": "LOSS",
       "date": "2026-04-10",
+      "proj_ip": 5.4,
+      "proj_bf": 21.7,
+      "proj_pc": 95,
+      "actual_outs": 18,
+      "actual_pitches": 93,
       "would_be_pick": "OVER"
     },
     {
@@ -3202,6 +4072,11 @@
       "actual": 6.0,
       "result": "WIN",
       "date": "2026-04-19",
+      "proj_ip": 6.7,
+      "proj_bf": 23.0,
+      "proj_pc": 92,
+      "actual_outs": 21,
+      "actual_pitches": 85,
       "would_be_pick": "UNDER"
     },
     {
@@ -3221,6 +4096,11 @@
       "actual": 3.0,
       "result": "WIN",
       "date": "2026-04-21",
+      "proj_ip": 4.9,
+      "proj_bf": 20.5,
+      "proj_pc": 92,
+      "actual_outs": 18,
+      "actual_pitches": 101,
       "would_be_pick": "UNDER"
     },
     {
@@ -3240,6 +4120,11 @@
       "actual": 5.0,
       "result": "WIN",
       "date": "2026-04-23",
+      "proj_ip": 6.5,
+      "proj_bf": 22.8,
+      "proj_pc": 89,
+      "actual_outs": 18,
+      "actual_pitches": 94,
       "would_be_pick": "UNDER"
     },
     {
@@ -3259,6 +4144,11 @@
       "actual": 10.0,
       "result": "WIN",
       "date": "2026-04-14",
+      "proj_ip": 5.4,
+      "proj_bf": 23.0,
+      "proj_pc": 101,
+      "actual_outs": 15,
+      "actual_pitches": 94,
       "would_be_pick": "OVER"
     },
     {
@@ -3278,6 +4168,11 @@
       "actual": 4.0,
       "result": "LOSS",
       "date": "2026-04-26",
+      "proj_ip": 6.0,
+      "proj_bf": 20.9,
+      "proj_pc": 90.0,
+      "actual_outs": 18,
+      "actual_pitches": 94,
       "would_be_pick": "OVER"
     },
     {
@@ -3297,6 +4192,11 @@
       "actual": 4.0,
       "result": "WIN",
       "date": "2026-05-01",
+      "proj_ip": 4.9,
+      "proj_bf": 21.1,
+      "proj_pc": 84,
+      "actual_outs": 16,
+      "actual_pitches": 79,
       "would_be_pick": "OVER"
     },
     {
@@ -3316,6 +4216,11 @@
       "actual": 10.0,
       "result": "WIN",
       "date": "2026-04-12",
+      "proj_ip": 5.5,
+      "proj_bf": 21.2,
+      "proj_pc": 84.0,
+      "actual_outs": 18,
+      "actual_pitches": 102,
       "would_be_pick": "OVER"
     },
     {
@@ -3335,6 +4240,11 @@
       "actual": 8.0,
       "result": "WIN",
       "date": "2026-04-29",
+      "proj_ip": 5.0,
+      "proj_bf": 23.0,
+      "proj_pc": 98,
+      "actual_outs": 21,
+      "actual_pitches": 103,
       "would_be_pick": "OVER"
     },
     {
@@ -3354,6 +4264,11 @@
       "actual": 6.0,
       "result": "WIN",
       "date": "2026-04-29",
+      "proj_ip": 5.6,
+      "proj_bf": 22.5,
+      "proj_pc": 98,
+      "actual_outs": 15,
+      "actual_pitches": 91,
       "would_be_pick": "OVER"
     },
     {
@@ -3373,6 +4288,11 @@
       "actual": 2.0,
       "result": "LOSS",
       "date": "2026-04-30",
+      "proj_ip": 5.9,
+      "proj_bf": 23.0,
+      "proj_pc": 101,
+      "actual_outs": 9,
+      "actual_pitches": 79,
       "would_be_pick": "OVER"
     },
     {
@@ -3392,6 +4312,11 @@
       "actual": 5.0,
       "result": "WIN",
       "date": "2026-04-10",
+      "proj_ip": 6.8,
+      "proj_bf": 20.8,
+      "proj_pc": 89.0,
+      "actual_outs": 15,
+      "actual_pitches": 88,
       "would_be_pick": "OVER"
     },
     {
@@ -3411,6 +4336,11 @@
       "actual": 7.0,
       "result": "LOSS",
       "date": "2026-04-25",
+      "proj_ip": 4.2,
+      "proj_bf": 20.9,
+      "proj_pc": 90,
+      "actual_outs": 15,
+      "actual_pitches": 86,
       "would_be_pick": "UNDER"
     },
     {
@@ -3430,6 +4360,11 @@
       "actual": 3.0,
       "result": "WIN",
       "date": "2026-04-18",
+      "proj_ip": 4.9,
+      "proj_bf": 21.9,
+      "proj_pc": 83.0,
+      "actual_outs": 14,
+      "actual_pitches": 97,
       "would_be_pick": "UNDER"
     },
     {
@@ -3449,6 +4384,11 @@
       "actual": 6.0,
       "result": "LOSS",
       "date": "2026-04-21",
+      "proj_ip": 4.6,
+      "proj_bf": 22.2,
+      "proj_pc": 98,
+      "actual_outs": 15,
+      "actual_pitches": 95,
       "would_be_pick": "UNDER"
     },
     {
@@ -3468,6 +4408,11 @@
       "actual": 5.0,
       "result": "WIN",
       "date": "2026-04-19",
+      "proj_ip": 6.3,
+      "proj_bf": 23.0,
+      "proj_pc": 99,
+      "actual_outs": 15,
+      "actual_pitches": 95,
       "would_be_pick": "OVER"
     },
     {
@@ -3487,6 +4432,11 @@
       "actual": 3.0,
       "result": "WIN",
       "date": "2026-04-14",
+      "proj_ip": 6.2,
+      "proj_bf": 21.5,
+      "proj_pc": 84.0,
+      "actual_outs": 21,
+      "actual_pitches": 92,
       "would_be_pick": "UNDER"
     },
     {
@@ -3506,6 +4456,11 @@
       "actual": 3.0,
       "result": "LOSS",
       "date": "2026-04-18",
+      "proj_ip": 5.7,
+      "proj_bf": 23.0,
+      "proj_pc": 86.0,
+      "actual_outs": 15,
+      "actual_pitches": 95,
       "would_be_pick": "OVER"
     },
     {
@@ -3525,6 +4480,11 @@
       "actual": 2.0,
       "result": "WIN",
       "date": "2026-04-19",
+      "proj_ip": 5.3,
+      "proj_bf": 20.6,
+      "proj_pc": 79.0,
+      "actual_outs": 18,
+      "actual_pitches": 104,
       "would_be_pick": "UNDER"
     },
     {
@@ -3544,6 +4504,11 @@
       "actual": 4.0,
       "result": "LOSS",
       "date": "2026-04-24",
+      "proj_ip": 5.7,
+      "proj_bf": 23.0,
+      "proj_pc": 100,
+      "actual_outs": 15,
+      "actual_pitches": 85,
       "would_be_pick": "OVER"
     },
     {
@@ -3563,6 +4528,11 @@
       "actual": 4.0,
       "result": "WIN",
       "date": "2026-04-12",
+      "proj_ip": 8.6,
+      "proj_bf": 23.0,
+      "proj_pc": 95,
+      "actual_outs": 18,
+      "actual_pitches": 100,
       "would_be_pick": "UNDER"
     },
     {
@@ -3582,6 +4552,11 @@
       "actual": 7.0,
       "result": "LOSS",
       "date": "2026-04-29",
+      "proj_ip": 6.3,
+      "proj_bf": 23.0,
+      "proj_pc": 94,
+      "actual_outs": 21,
+      "actual_pitches": 91,
       "would_be_pick": "UNDER"
     },
     {
@@ -3601,6 +4576,11 @@
       "actual": 5.0,
       "result": "LOSS",
       "date": "2026-05-02",
+      "proj_ip": 5.7,
+      "proj_bf": 23.0,
+      "proj_pc": 106,
+      "actual_outs": 18,
+      "actual_pitches": 92,
       "would_be_pick": "OVER"
     },
     {
@@ -3620,6 +4600,11 @@
       "actual": 7.0,
       "result": "LOSS",
       "date": "2026-04-08",
+      "proj_ip": 4.1,
+      "proj_bf": 19.1,
+      "proj_pc": 82.0,
+      "actual_outs": 15,
+      "actual_pitches": 96,
       "would_be_pick": "UNDER"
     },
     {
@@ -3639,6 +4624,11 @@
       "actual": 3.0,
       "result": "WIN",
       "date": "2026-04-09",
+      "proj_ip": 6.4,
+      "proj_bf": 23.0,
+      "proj_pc": 90,
+      "actual_outs": 18,
+      "actual_pitches": 102,
       "would_be_pick": "UNDER"
     },
     {
@@ -3658,6 +4648,11 @@
       "actual": 3.0,
       "result": "WIN",
       "date": "2026-04-17",
+      "proj_ip": 5.9,
+      "proj_bf": 21.2,
+      "proj_pc": 87,
+      "actual_outs": 16,
+      "actual_pitches": 88,
       "would_be_pick": "UNDER"
     },
     {
@@ -3677,6 +4672,11 @@
       "actual": 4.0,
       "result": "LOSS",
       "date": "2026-04-18",
+      "proj_ip": 5.3,
+      "proj_bf": 20.7,
+      "proj_pc": 84.0,
+      "actual_outs": 15,
+      "actual_pitches": 91,
       "would_be_pick": "OVER"
     },
     {
@@ -3696,6 +4696,11 @@
       "actual": 6.0,
       "result": "LOSS",
       "date": "2026-04-25",
+      "proj_ip": 5.9,
+      "proj_bf": 23.0,
+      "proj_pc": 89,
+      "actual_outs": 15,
+      "actual_pitches": 93,
       "would_be_pick": "UNDER"
     },
     {
@@ -3715,6 +4720,11 @@
       "actual": 3.0,
       "result": "LOSS",
       "date": "2026-04-10",
+      "proj_ip": 6.8,
+      "proj_bf": 23.0,
+      "proj_pc": 89,
+      "actual_outs": 14,
+      "actual_pitches": 76,
       "would_be_pick": "OVER"
     },
     {
@@ -3734,6 +4744,11 @@
       "actual": 6.0,
       "result": "WIN",
       "date": "2026-04-17",
+      "proj_ip": 5.5,
+      "proj_bf": 20.8,
+      "proj_pc": 91,
+      "actual_outs": 18,
+      "actual_pitches": 94,
       "would_be_pick": "UNDER"
     },
     {
@@ -3753,6 +4768,11 @@
       "actual": 3.0,
       "result": "LOSS",
       "date": "2026-04-17",
+      "proj_ip": 5.6,
+      "proj_bf": 21.8,
+      "proj_pc": 93,
+      "actual_outs": 12,
+      "actual_pitches": 88,
       "would_be_pick": "OVER"
     },
     {
@@ -3772,6 +4792,11 @@
       "actual": 4.0,
       "result": "WIN",
       "date": "2026-04-22",
+      "proj_ip": 5.9,
+      "proj_bf": 23.0,
+      "proj_pc": 93,
+      "actual_outs": 14,
+      "actual_pitches": 71,
       "would_be_pick": "UNDER"
     },
     {
@@ -3791,6 +4816,11 @@
       "actual": 8.0,
       "result": "WIN",
       "date": "2026-04-28",
+      "proj_ip": 6.5,
+      "proj_bf": 23.0,
+      "proj_pc": 96,
+      "actual_outs": 18,
+      "actual_pitches": 92,
       "would_be_pick": "OVER"
     },
     {
@@ -3810,6 +4840,11 @@
       "actual": 0.0,
       "result": "WIN",
       "date": "2026-05-03",
+      "proj_ip": 6.8,
+      "proj_bf": 23.0,
+      "proj_pc": 109,
+      "actual_outs": 18,
+      "actual_pitches": 83,
       "would_be_pick": "UNDER"
     },
     {
@@ -3829,6 +4864,11 @@
       "actual": 4.0,
       "result": "LOSS",
       "date": "2026-04-11",
+      "proj_ip": 5.8,
+      "proj_bf": 20.7,
+      "proj_pc": 88.0,
+      "actual_outs": 11,
+      "actual_pitches": 93,
       "would_be_pick": "OVER"
     },
     {
@@ -3848,6 +4888,11 @@
       "actual": 6.0,
       "result": "WIN",
       "date": "2026-04-08",
+      "proj_ip": 4.8,
+      "proj_bf": 21.6,
+      "proj_pc": 91,
+      "actual_outs": 17,
+      "actual_pitches": 94,
       "would_be_pick": "OVER"
     },
     {
@@ -3867,6 +4912,11 @@
       "actual": 7.0,
       "result": "WIN",
       "date": "2026-04-08",
+      "proj_ip": 3.4,
+      "proj_bf": 19.7,
+      "proj_pc": 91,
+      "actual_outs": 15,
+      "actual_pitches": 100,
       "would_be_pick": "OVER"
     },
     {
@@ -3886,6 +4936,11 @@
       "actual": 2.0,
       "result": "WIN",
       "date": "2026-04-10",
+      "proj_ip": 6.2,
+      "proj_bf": 23.0,
+      "proj_pc": 88,
+      "actual_outs": 12,
+      "actual_pitches": 68,
       "would_be_pick": "UNDER"
     },
     {
@@ -3905,6 +4960,11 @@
       "actual": 3.0,
       "result": "WIN",
       "date": "2026-04-19",
+      "proj_ip": 5.2,
+      "proj_bf": 21.9,
+      "proj_pc": 82,
+      "actual_outs": 17,
+      "actual_pitches": 82,
       "would_be_pick": "UNDER"
     },
     {
@@ -3924,6 +4984,11 @@
       "actual": 6.0,
       "result": "WIN",
       "date": "2026-04-12",
+      "proj_ip": 5.4,
+      "proj_bf": 19.5,
+      "proj_pc": 81.0,
+      "actual_outs": 18,
+      "actual_pitches": 97,
       "would_be_pick": "UNDER"
     },
     {
@@ -3943,6 +5008,11 @@
       "actual": 5.0,
       "result": "WIN",
       "date": "2026-05-02",
+      "proj_ip": 5.8,
+      "proj_bf": 22.1,
+      "proj_pc": 100,
+      "actual_outs": 21,
+      "actual_pitches": 87,
       "would_be_pick": "OVER"
     },
     {
@@ -3962,6 +5032,11 @@
       "actual": 9.0,
       "result": "WIN",
       "date": "2026-04-08",
+      "proj_ip": 4.4,
+      "proj_bf": 18.9,
+      "proj_pc": 86.0,
+      "actual_outs": 17,
+      "actual_pitches": 88,
       "would_be_pick": "OVER"
     },
     {
@@ -3981,6 +5056,11 @@
       "actual": 5.0,
       "result": "LOSS",
       "date": "2026-04-23",
+      "proj_ip": 5.9,
+      "proj_bf": 22.5,
+      "proj_pc": 93,
+      "actual_outs": 24,
+      "actual_pitches": 96,
       "would_be_pick": "OVER"
     },
     {
@@ -4000,6 +5080,11 @@
       "actual": 9.0,
       "result": "WIN",
       "date": "2026-05-01",
+      "proj_ip": 5.6,
+      "proj_bf": 22.0,
+      "proj_pc": 95,
+      "actual_outs": 19,
+      "actual_pitches": 94,
       "would_be_pick": "OVER"
     },
     {
@@ -4019,6 +5104,11 @@
       "actual": 6.0,
       "result": "LOSS",
       "date": "2026-04-07",
+      "proj_ip": 6.6,
+      "proj_bf": 21.8,
+      "proj_pc": 91.0,
+      "actual_outs": 18,
+      "actual_pitches": 97,
       "would_be_pick": "UNDER"
     },
     {
@@ -4038,6 +5128,11 @@
       "actual": 10.0,
       "result": "WIN",
       "date": "2026-04-23",
+      "proj_ip": 4.0,
+      "proj_bf": 20.7,
+      "proj_pc": 92,
+      "actual_outs": 15,
+      "actual_pitches": 85,
       "would_be_pick": "OVER"
     },
     {
@@ -4057,6 +5152,11 @@
       "actual": 5.0,
       "result": "WIN",
       "date": "2026-04-24",
+      "proj_ip": 4.3,
+      "proj_bf": 22.7,
+      "proj_pc": 96,
+      "actual_outs": 20,
+      "actual_pitches": 98,
       "would_be_pick": "OVER"
     },
     {
@@ -4076,6 +5176,11 @@
       "actual": 10.0,
       "result": "WIN",
       "date": "2026-04-14",
+      "proj_ip": 4.7,
+      "proj_bf": 23.0,
+      "proj_pc": 102,
+      "actual_outs": 21,
+      "actual_pitches": 90,
       "would_be_pick": "OVER"
     },
     {
@@ -4095,6 +5200,11 @@
       "actual": 4.0,
       "result": "WIN",
       "date": "2026-04-21",
+      "proj_ip": 4.7,
+      "proj_bf": 19.9,
+      "proj_pc": 88.0,
+      "actual_outs": 16,
+      "actual_pitches": 92,
       "would_be_pick": "UNDER"
     },
     {
@@ -4114,6 +5224,11 @@
       "actual": 7.0,
       "result": "WIN",
       "date": "2026-04-07",
+      "proj_ip": 6.7,
+      "proj_bf": 23.0,
+      "proj_pc": 87,
+      "actual_outs": 14,
+      "actual_pitches": 95,
       "would_be_pick": "UNDER"
     },
     {
@@ -4133,6 +5248,11 @@
       "actual": 2.0,
       "result": "WIN",
       "date": "2026-04-11",
+      "proj_ip": 5.0,
+      "proj_bf": 23.0,
+      "proj_pc": 97,
+      "actual_outs": 12,
+      "actual_pitches": 71,
       "would_be_pick": "UNDER"
     },
     {
@@ -4152,6 +5272,11 @@
       "actual": 4.0,
       "result": "LOSS",
       "date": "2026-04-11",
+      "proj_ip": 5.8,
+      "proj_bf": 21.6,
+      "proj_pc": 87.0,
+      "actual_outs": 13,
+      "actual_pitches": 79,
       "would_be_pick": "OVER"
     },
     {
@@ -4171,6 +5296,11 @@
       "actual": 4.0,
       "result": "WIN",
       "date": "2026-04-23",
+      "proj_ip": 3.9,
+      "proj_bf": 20.5,
+      "proj_pc": 80.0,
+      "actual_outs": 16,
+      "actual_pitches": 76,
       "would_be_pick": "UNDER"
     },
     {
@@ -4190,6 +5320,11 @@
       "actual": 7.0,
       "result": "WIN",
       "date": "2026-04-18",
+      "proj_ip": 5.9,
+      "proj_bf": 23.0,
+      "proj_pc": 97,
+      "actual_outs": 21,
+      "actual_pitches": 101,
       "would_be_pick": "UNDER"
     },
     {
@@ -4209,6 +5344,11 @@
       "actual": 7.0,
       "result": "WIN",
       "date": "2026-04-29",
+      "proj_ip": 5.8,
+      "proj_bf": 23.0,
+      "proj_pc": 99.0,
+      "actual_outs": 21,
+      "actual_pitches": 114,
       "would_be_pick": "OVER"
     },
     {
@@ -4228,6 +5368,11 @@
       "actual": 4.0,
       "result": "LOSS",
       "date": "2026-05-01",
+      "proj_ip": 4.6,
+      "proj_bf": 21.8,
+      "proj_pc": 86.0,
+      "actual_outs": 15,
+      "actual_pitches": 68,
       "would_be_pick": "OVER"
     },
     {
@@ -4247,6 +5392,11 @@
       "actual": 6.0,
       "result": "WIN",
       "date": "2026-05-02",
+      "proj_ip": 5.9,
+      "proj_bf": 23.0,
+      "proj_pc": 103,
+      "actual_outs": 13,
+      "actual_pitches": 88,
       "would_be_pick": "OVER"
     },
     {
@@ -4266,6 +5416,11 @@
       "actual": 7.0,
       "result": "WIN",
       "date": "2026-04-28",
+      "proj_ip": 6.1,
+      "proj_bf": 23.0,
+      "proj_pc": 90.0,
+      "actual_outs": 17,
+      "actual_pitches": 99,
       "would_be_pick": "OVER"
     },
     {
@@ -4285,6 +5440,11 @@
       "actual": 2.0,
       "result": "LOSS",
       "date": "2026-04-10",
+      "proj_ip": 4.8,
+      "proj_bf": 19.5,
+      "proj_pc": 84.0,
+      "actual_outs": 16,
+      "actual_pitches": 81,
       "would_be_pick": "OVER"
     },
     {
@@ -4304,6 +5464,11 @@
       "actual": 6.0,
       "result": "LOSS",
       "date": "2026-04-08",
+      "proj_ip": 4.8,
+      "proj_bf": 22.8,
+      "proj_pc": 72.0,
+      "actual_outs": 15,
+      "actual_pitches": 85,
       "would_be_pick": "UNDER"
     },
     {
@@ -4323,6 +5488,11 @@
       "actual": 3.0,
       "result": "LOSS",
       "date": "2026-04-13",
+      "proj_ip": 5.0,
+      "proj_bf": 23.0,
+      "proj_pc": 97,
+      "actual_outs": 10,
+      "actual_pitches": 82,
       "would_be_pick": "OVER"
     },
     {
@@ -4342,6 +5512,11 @@
       "actual": 7.0,
       "result": "WIN",
       "date": "2026-04-28",
+      "proj_ip": 6.6,
+      "proj_bf": 23.0,
+      "proj_pc": 97,
+      "actual_outs": 17,
+      "actual_pitches": 98,
       "would_be_pick": "OVER"
     },
     {
@@ -4361,6 +5536,11 @@
       "actual": 4.0,
       "result": "LOSS",
       "date": "2026-04-08",
+      "proj_ip": 5.4,
+      "proj_bf": 21.2,
+      "proj_pc": 81.0,
+      "actual_outs": 18,
+      "actual_pitches": 95,
       "would_be_pick": "OVER"
     },
     {
@@ -4380,6 +5560,11 @@
       "actual": 5.0,
       "result": "WIN",
       "date": "2026-04-10",
+      "proj_ip": 4.5,
+      "proj_bf": 19.8,
+      "proj_pc": 92.0,
+      "actual_outs": 13,
+      "actual_pitches": 86,
       "would_be_pick": "UNDER"
     },
     {
@@ -4399,6 +5584,11 @@
       "actual": 4.0,
       "result": "WIN",
       "date": "2026-04-16",
+      "proj_ip": 5.3,
+      "proj_bf": 23.0,
+      "proj_pc": 92,
+      "actual_outs": 18,
+      "actual_pitches": 87,
       "would_be_pick": "UNDER"
     },
     {
@@ -4418,6 +5608,11 @@
       "actual": 1.0,
       "result": "LOSS",
       "date": "2026-04-11",
+      "proj_ip": 5.3,
+      "proj_bf": 21.5,
+      "proj_pc": 95,
+      "actual_outs": 16,
+      "actual_pitches": 80,
       "would_be_pick": "OVER"
     },
     {
@@ -4437,6 +5632,11 @@
       "actual": 4.0,
       "result": "WIN",
       "date": "2026-04-29",
+      "proj_ip": 5.7,
+      "proj_bf": 23.0,
+      "proj_pc": 96,
+      "actual_outs": 14,
+      "actual_pitches": 87,
       "would_be_pick": "UNDER"
     },
     {
@@ -4456,6 +5656,11 @@
       "actual": 5.0,
       "result": "LOSS",
       "date": "2026-04-18",
+      "proj_ip": 5.5,
+      "proj_bf": 23.0,
+      "proj_pc": 106,
+      "actual_outs": 18,
+      "actual_pitches": 99,
       "would_be_pick": "OVER"
     },
     {
@@ -4475,6 +5680,11 @@
       "actual": 7.0,
       "result": "WIN",
       "date": "2026-04-28",
+      "proj_ip": 6.2,
+      "proj_bf": 23.0,
+      "proj_pc": 94,
+      "actual_outs": 13,
+      "actual_pitches": 87,
       "would_be_pick": "OVER"
     },
     {
@@ -4494,6 +5704,11 @@
       "actual": 5.0,
       "result": "WIN",
       "date": "2026-04-29",
+      "proj_ip": 6.6,
+      "proj_bf": 23.0,
+      "proj_pc": 91.0,
+      "actual_outs": 15,
+      "actual_pitches": 105,
       "would_be_pick": "OVER"
     },
     {
@@ -4513,6 +5728,11 @@
       "actual": 8.0,
       "result": "LOSS",
       "date": "2026-04-07",
+      "proj_ip": 4.6,
+      "proj_bf": 23.0,
+      "proj_pc": 91,
+      "actual_outs": 15,
+      "actual_pitches": 97,
       "would_be_pick": "UNDER"
     },
     {
@@ -4532,6 +5752,11 @@
       "actual": 6.0,
       "result": "WIN",
       "date": "2026-04-07",
+      "proj_ip": 6.8,
+      "proj_bf": 23.0,
+      "proj_pc": 91,
+      "actual_outs": 18,
+      "actual_pitches": 101,
       "would_be_pick": "OVER"
     },
     {
@@ -4551,6 +5776,11 @@
       "actual": 3.0,
       "result": "WIN",
       "date": "2026-05-03",
+      "proj_ip": 5.4,
+      "proj_bf": 23.0,
+      "proj_pc": 95,
+      "actual_outs": 18,
+      "actual_pitches": 95,
       "would_be_pick": "UNDER"
     },
     {
@@ -4570,6 +5800,11 @@
       "actual": 3.0,
       "result": "LOSS",
       "date": "2026-04-16",
+      "proj_ip": 6.0,
+      "proj_bf": 22.1,
+      "proj_pc": 88,
+      "actual_outs": 14,
+      "actual_pitches": 82,
       "would_be_pick": "OVER"
     },
     {
@@ -4589,6 +5824,11 @@
       "actual": 4.0,
       "result": "WIN",
       "date": "2026-04-18",
+      "proj_ip": 6.0,
+      "proj_bf": 21.7,
+      "proj_pc": 77.0,
+      "actual_outs": 21,
+      "actual_pitches": 92,
       "would_be_pick": "UNDER"
     },
     {
@@ -4608,6 +5848,11 @@
       "actual": 1.0,
       "result": "WIN",
       "date": "2026-04-18",
+      "proj_ip": 5.6,
+      "proj_bf": 22.7,
+      "proj_pc": 88,
+      "actual_outs": 17,
+      "actual_pitches": 88,
       "would_be_pick": "UNDER"
     },
     {
@@ -4627,6 +5872,11 @@
       "actual": 3.0,
       "result": "WIN",
       "date": "2026-04-25",
+      "proj_ip": 5.6,
+      "proj_bf": 22.6,
+      "proj_pc": 87.0,
+      "actual_outs": 10,
+      "actual_pitches": 64,
       "would_be_pick": "UNDER"
     },
     {
@@ -4646,6 +5896,11 @@
       "actual": 2.0,
       "result": "WIN",
       "date": "2026-04-26",
+      "proj_ip": 5.3,
+      "proj_bf": 23.0,
+      "proj_pc": 95,
+      "actual_outs": 13,
+      "actual_pitches": 78,
       "would_be_pick": "UNDER"
     },
     {
@@ -4665,6 +5920,11 @@
       "actual": 4.0,
       "result": "LOSS",
       "date": "2026-04-26",
+      "proj_ip": 5.0,
+      "proj_bf": 19.1,
+      "proj_pc": 76.0,
+      "actual_outs": 14,
+      "actual_pitches": 84,
       "would_be_pick": "OVER"
     },
     {
@@ -4684,6 +5944,11 @@
       "actual": 6.0,
       "result": "WIN",
       "date": "2026-04-11",
+      "proj_ip": 4.5,
+      "proj_bf": 22.1,
+      "proj_pc": 98,
+      "actual_outs": 18,
+      "actual_pitches": 77,
       "would_be_pick": "OVER"
     },
     {
@@ -4703,6 +5968,11 @@
       "actual": 6.0,
       "result": "LOSS",
       "date": "2026-04-11",
+      "proj_ip": 4.4,
+      "proj_bf": 19.5,
+      "proj_pc": 75.0,
+      "actual_outs": 18,
+      "actual_pitches": 84,
       "would_be_pick": "UNDER"
     },
     {
@@ -4722,6 +5992,11 @@
       "actual": 5.0,
       "result": "LOSS",
       "date": "2026-04-30",
+      "proj_ip": 4.9,
+      "proj_bf": 21.8,
+      "proj_pc": 89,
+      "actual_outs": 18,
+      "actual_pitches": 86,
       "would_be_pick": "UNDER"
     },
     {
@@ -4741,6 +6016,11 @@
       "actual": 4.0,
       "result": "WIN",
       "date": "2026-04-28",
+      "proj_ip": 5.0,
+      "proj_bf": 20.3,
+      "proj_pc": 83.0,
+      "actual_outs": 15,
+      "actual_pitches": 79,
       "would_be_pick": "OVER"
     },
     {
@@ -4760,6 +6040,11 @@
       "actual": 8.0,
       "result": "WIN",
       "date": "2026-05-02",
+      "proj_ip": 5.3,
+      "proj_bf": 22.6,
+      "proj_pc": 101,
+      "actual_outs": 18,
+      "actual_pitches": 88,
       "would_be_pick": "OVER"
     },
     {
@@ -4779,6 +6064,11 @@
       "actual": 7.0,
       "result": "LOSS",
       "date": "2026-04-06",
+      "proj_ip": 5.1,
+      "proj_bf": 19.1,
+      "proj_pc": 81.0,
+      "actual_outs": 15,
+      "actual_pitches": 101,
       "would_be_pick": "UNDER"
     },
     {
@@ -4798,6 +6088,11 @@
       "actual": 3.0,
       "result": "WIN",
       "date": "2026-04-11",
+      "proj_ip": 6.0,
+      "proj_bf": 21.8,
+      "proj_pc": 93.0,
+      "actual_outs": 12,
+      "actual_pitches": 93,
       "would_be_pick": "UNDER"
     },
     {
@@ -4817,6 +6112,11 @@
       "actual": 7.0,
       "result": "WIN",
       "date": "2026-04-13",
+      "proj_ip": 5.2,
+      "proj_bf": 23.0,
+      "proj_pc": 93,
+      "actual_outs": 21,
+      "actual_pitches": 84,
       "would_be_pick": "OVER"
     },
     {
@@ -4836,6 +6136,11 @@
       "actual": 6.0,
       "result": "WIN",
       "date": "2026-04-29",
+      "proj_ip": 5.0,
+      "proj_bf": 21.4,
+      "proj_pc": 90,
+      "actual_outs": 18,
+      "actual_pitches": 91,
       "would_be_pick": "OVER"
     },
     {
@@ -4855,6 +6160,11 @@
       "actual": 4.0,
       "result": "LOSS",
       "date": "2026-04-22",
+      "proj_ip": 6.5,
+      "proj_bf": 23.0,
+      "proj_pc": 99,
+      "actual_outs": 15,
+      "actual_pitches": 84,
       "would_be_pick": "OVER"
     },
     {
@@ -4874,6 +6184,11 @@
       "actual": 3.0,
       "result": "WIN",
       "date": "2026-04-24",
+      "proj_ip": 5.7,
+      "proj_bf": 23.0,
+      "proj_pc": 88,
+      "actual_outs": 12,
+      "actual_pitches": 77,
       "would_be_pick": "UNDER"
     },
     {
@@ -4893,6 +6208,11 @@
       "actual": 6.0,
       "result": "WIN",
       "date": "2026-04-21",
+      "proj_ip": 4.9,
+      "proj_bf": 20.8,
+      "proj_pc": 83.0,
+      "actual_outs": 13,
+      "actual_pitches": 93,
       "would_be_pick": "OVER"
     },
     {
@@ -4912,6 +6232,11 @@
       "actual": 4.0,
       "result": "LOSS",
       "date": "2026-04-25",
+      "proj_ip": 5.7,
+      "proj_bf": 23.0,
+      "proj_pc": 95,
+      "actual_outs": 16,
+      "actual_pitches": 86,
       "would_be_pick": "OVER"
     },
     {
@@ -4931,6 +6256,11 @@
       "actual": 3.0,
       "result": "LOSS",
       "date": "2026-04-25",
+      "proj_ip": 5.9,
+      "proj_bf": 21.4,
+      "proj_pc": 88.0,
+      "actual_outs": 20,
+      "actual_pitches": 91,
       "would_be_pick": "OVER"
     },
     {
@@ -4950,6 +6280,11 @@
       "actual": 2.0,
       "result": "LOSS",
       "date": "2026-04-30",
+      "proj_ip": 6.3,
+      "proj_bf": 22.6,
+      "proj_pc": 91,
+      "actual_outs": 17,
+      "actual_pitches": 94,
       "would_be_pick": "OVER"
     },
     {
@@ -4969,6 +6304,11 @@
       "actual": 4.0,
       "result": "LOSS",
       "date": "2026-04-17",
+      "proj_ip": 5.2,
+      "proj_bf": 20.8,
+      "proj_pc": 86,
+      "actual_outs": 18,
+      "actual_pitches": 94,
       "would_be_pick": "UNDER"
     },
     {
@@ -4988,6 +6328,11 @@
       "actual": 5.0,
       "result": "WIN",
       "date": "2026-04-30",
+      "proj_ip": 6.3,
+      "proj_bf": 23.0,
+      "proj_pc": 92,
+      "actual_outs": 18,
+      "actual_pitches": 90,
       "would_be_pick": "OVER"
     },
     {
@@ -5007,6 +6352,11 @@
       "actual": 7.0,
       "result": "WIN",
       "date": "2026-05-03",
+      "proj_ip": 5.6,
+      "proj_bf": 23.0,
+      "proj_pc": 96,
+      "actual_outs": 21,
+      "actual_pitches": 94,
       "would_be_pick": "OVER"
     },
     {
@@ -5026,6 +6376,11 @@
       "actual": 2.0,
       "result": "WIN",
       "date": "2026-04-08",
+      "proj_ip": 4.0,
+      "proj_bf": 19.9,
+      "proj_pc": 82,
+      "actual_outs": 17,
+      "actual_pitches": 99,
       "would_be_pick": "UNDER"
     },
     {
@@ -5045,6 +6400,11 @@
       "actual": 6.0,
       "result": "LOSS",
       "date": "2026-04-17",
+      "proj_ip": 6.1,
+      "proj_bf": 23.0,
+      "proj_pc": 98,
+      "actual_outs": 18,
+      "actual_pitches": 99,
       "would_be_pick": "UNDER"
     },
     {
@@ -5064,6 +6424,11 @@
       "actual": 8.0,
       "result": "LOSS",
       "date": "2026-04-30",
+      "proj_ip": 5.6,
+      "proj_bf": 22.8,
+      "proj_pc": 90.0,
+      "actual_outs": 18,
+      "actual_pitches": 99,
       "would_be_pick": "UNDER"
     },
     {
@@ -5083,6 +6448,11 @@
       "actual": 3.0,
       "result": "WIN",
       "date": "2026-04-22",
+      "proj_ip": 5.0,
+      "proj_bf": 21.3,
+      "proj_pc": 93.0,
+      "actual_outs": 13,
+      "actual_pitches": 87,
       "would_be_pick": "UNDER"
     },
     {
@@ -5102,6 +6472,11 @@
       "actual": 6.0,
       "result": "WIN",
       "date": "2026-04-24",
+      "proj_ip": 5.4,
+      "proj_bf": 17.1,
+      "proj_pc": 75.0,
+      "actual_outs": 18,
+      "actual_pitches": 98,
       "would_be_pick": "OVER"
     },
     {
@@ -5121,6 +6496,11 @@
       "actual": 6.0,
       "result": "LOSS",
       "date": "2026-04-28",
+      "proj_ip": 5.1,
+      "proj_bf": 23.0,
+      "proj_pc": 95,
+      "actual_outs": 15,
+      "actual_pitches": 93,
       "would_be_pick": "UNDER"
     },
     {
@@ -5140,6 +6520,11 @@
       "actual": 3.0,
       "result": "LOSS",
       "date": "2026-04-24",
+      "proj_ip": 5.2,
+      "proj_bf": 21.9,
+      "proj_pc": 91,
+      "actual_outs": 15,
+      "actual_pitches": 92,
       "would_be_pick": "OVER"
     },
     {
@@ -5159,6 +6544,11 @@
       "actual": 7.0,
       "result": "WIN",
       "date": "2026-04-25",
+      "proj_ip": 5.1,
+      "proj_bf": 20.9,
+      "proj_pc": 90,
+      "actual_outs": 15,
+      "actual_pitches": 106,
       "would_be_pick": "OVER"
     },
     {
@@ -5178,6 +6568,11 @@
       "actual": 4.0,
       "result": "WIN",
       "date": "2026-05-01",
+      "proj_ip": 3.9,
+      "proj_bf": 20.3,
+      "proj_pc": 86.0,
+      "actual_outs": 11,
+      "actual_pitches": 91,
       "would_be_pick": "UNDER"
     },
     {
@@ -5197,6 +6592,11 @@
       "actual": 3.0,
       "result": "WIN",
       "date": "2026-05-03",
+      "proj_ip": 5.9,
+      "proj_bf": 23.0,
+      "proj_pc": 105,
+      "actual_outs": 12,
+      "actual_pitches": 70,
       "would_be_pick": "UNDER"
     },
     {
@@ -5216,6 +6616,11 @@
       "actual": 3.0,
       "result": "LOSS",
       "date": "2026-04-13",
+      "proj_ip": 5.6,
+      "proj_bf": 23.0,
+      "proj_pc": 88.0,
+      "actual_outs": 18,
+      "actual_pitches": 98,
       "would_be_pick": "OVER"
     },
     {
@@ -5235,6 +6640,11 @@
       "actual": 6.0,
       "result": "WIN",
       "date": "2026-04-26",
+      "proj_ip": 5.5,
+      "proj_bf": 22.6,
+      "proj_pc": 89.0,
+      "actual_outs": 14,
+      "actual_pitches": 101,
       "would_be_pick": "OVER"
     },
     {
@@ -5254,6 +6664,11 @@
       "actual": 5.0,
       "result": "LOSS",
       "date": "2026-04-07",
+      "proj_ip": 5.9,
+      "proj_bf": 19.3,
+      "proj_pc": 89,
+      "actual_outs": 16,
+      "actual_pitches": 84,
       "would_be_pick": "OVER"
     },
     {
@@ -5273,6 +6688,11 @@
       "actual": 8.0,
       "result": "WIN",
       "date": "2026-04-18",
+      "proj_ip": 4.5,
+      "proj_bf": 20.5,
+      "proj_pc": 89.0,
+      "actual_outs": 18,
+      "actual_pitches": 86,
       "would_be_pick": "OVER"
     },
     {
@@ -5292,6 +6712,11 @@
       "actual": 5.0,
       "result": "WIN",
       "date": "2026-04-22",
+      "proj_ip": 4.4,
+      "proj_bf": 21.9,
+      "proj_pc": 89,
+      "actual_outs": 21,
+      "actual_pitches": 91,
       "would_be_pick": "OVER"
     },
     {
@@ -5311,6 +6736,11 @@
       "actual": 5.0,
       "result": "WIN",
       "date": "2026-04-18",
+      "proj_ip": 3.9,
+      "proj_bf": 22.1,
+      "proj_pc": 82,
+      "actual_outs": 17,
+      "actual_pitches": 87,
       "would_be_pick": "OVER"
     },
     {
@@ -5330,6 +6760,11 @@
       "actual": 5.0,
       "result": "LOSS",
       "date": "2026-04-22",
+      "proj_ip": 5.7,
+      "proj_bf": 22.9,
+      "proj_pc": 90,
+      "actual_outs": 21,
+      "actual_pitches": 94,
       "would_be_pick": "OVER"
     },
     {
@@ -5349,6 +6784,11 @@
       "actual": 4.0,
       "result": "WIN",
       "date": "2026-04-26",
+      "proj_ip": 5.0,
+      "proj_bf": 21.2,
+      "proj_pc": 92,
+      "actual_outs": 20,
+      "actual_pitches": 92,
       "would_be_pick": "UNDER"
     },
     {
@@ -5368,6 +6808,11 @@
       "actual": 1.0,
       "result": "LOSS",
       "date": "2026-04-27",
+      "proj_ip": 5.3,
+      "proj_bf": 20.8,
+      "proj_pc": 90,
+      "actual_outs": 12,
+      "actual_pitches": 67,
       "would_be_pick": "OVER"
     },
     {
@@ -5387,6 +6832,11 @@
       "actual": 3.0,
       "result": "LOSS",
       "date": "2026-04-28",
+      "proj_ip": 5.3,
+      "proj_bf": 21.3,
+      "proj_pc": 88.0,
+      "actual_outs": 15,
+      "actual_pitches": 87,
       "would_be_pick": "OVER"
     },
     {
@@ -5406,6 +6856,11 @@
       "actual": 4.0,
       "result": "WIN",
       "date": "2026-04-29",
+      "proj_ip": 4.6,
+      "proj_bf": 21.5,
+      "proj_pc": 92.0,
+      "actual_outs": 9,
+      "actual_pitches": 58,
       "would_be_pick": "UNDER"
     },
     {
@@ -5425,6 +6880,11 @@
       "actual": 6.0,
       "result": "WIN",
       "date": "2026-04-12",
+      "proj_ip": 4.5,
+      "proj_bf": 20.9,
+      "proj_pc": 90,
+      "actual_outs": 12,
+      "actual_pitches": 94,
       "would_be_pick": "OVER"
     },
     {
@@ -5444,6 +6904,11 @@
       "actual": 5.0,
       "result": "LOSS",
       "date": "2026-04-22",
+      "proj_ip": 5.0,
+      "proj_bf": 23.0,
+      "proj_pc": 105,
+      "actual_outs": 15,
+      "actual_pitches": 84,
       "would_be_pick": "OVER"
     },
     {
@@ -5463,6 +6928,11 @@
       "actual": 2.0,
       "result": "WIN",
       "date": "2026-04-08",
+      "proj_ip": 6.4,
+      "proj_bf": 23.0,
+      "proj_pc": 91,
+      "actual_outs": 15,
+      "actual_pitches": 87,
       "would_be_pick": "UNDER"
     },
     {
@@ -5482,6 +6952,11 @@
       "actual": 8.0,
       "result": "LOSS",
       "date": "2026-04-19",
+      "proj_ip": 5.7,
+      "proj_bf": 23.0,
+      "proj_pc": 107,
+      "actual_outs": 15,
+      "actual_pitches": 93,
       "would_be_pick": "UNDER"
     },
     {
@@ -5501,6 +6976,11 @@
       "actual": 4.0,
       "result": "WIN",
       "date": "2026-04-22",
+      "proj_ip": 5.9,
+      "proj_bf": 23.0,
+      "proj_pc": 98,
+      "actual_outs": 15,
+      "actual_pitches": 96,
       "would_be_pick": "UNDER"
     },
     {
@@ -5520,6 +7000,11 @@
       "actual": 3.0,
       "result": "WIN",
       "date": "2026-04-22",
+      "proj_ip": 5.7,
+      "proj_bf": 22.2,
+      "proj_pc": 88,
+      "actual_outs": 21,
+      "actual_pitches": 88,
       "would_be_pick": "UNDER"
     },
     {
@@ -5539,6 +7024,11 @@
       "actual": 6.0,
       "result": "WIN",
       "date": "2026-05-03",
+      "proj_ip": 6.2,
+      "proj_bf": 22.6,
+      "proj_pc": 95,
+      "actual_outs": 15,
+      "actual_pitches": 78,
       "would_be_pick": "OVER"
     },
     {
@@ -5558,6 +7048,11 @@
       "actual": 9.0,
       "result": "WIN",
       "date": "2026-04-16",
+      "proj_ip": 5.9,
+      "proj_bf": 20.9,
+      "proj_pc": 86.0,
+      "actual_outs": 24,
+      "actual_pitches": 112,
       "would_be_pick": "OVER"
     },
     {
@@ -5577,6 +7072,11 @@
       "actual": 4.0,
       "result": "LOSS",
       "date": "2026-04-25",
+      "proj_ip": 4.9,
+      "proj_bf": 21.3,
+      "proj_pc": 89,
+      "actual_outs": 15,
+      "actual_pitches": 89,
       "would_be_pick": "OVER"
     },
     {
@@ -5596,6 +7096,11 @@
       "actual": 10.0,
       "result": "WIN",
       "date": "2026-04-10",
+      "proj_ip": 5.0,
+      "proj_bf": 20.2,
+      "proj_pc": 91,
+      "actual_outs": 17,
+      "actual_pitches": 93,
       "would_be_pick": "OVER"
     },
     {
@@ -5615,6 +7120,11 @@
       "actual": 9.0,
       "result": "WIN",
       "date": "2026-04-25",
+      "proj_ip": 5.2,
+      "proj_bf": 21.8,
+      "proj_pc": 97,
+      "actual_outs": 18,
+      "actual_pitches": 91,
       "would_be_pick": "OVER"
     },
     {
@@ -5634,6 +7144,11 @@
       "actual": 6.0,
       "result": "WIN",
       "date": "2026-04-26",
+      "proj_ip": 5.4,
+      "proj_bf": 23.0,
+      "proj_pc": 106,
+      "actual_outs": 23,
+      "actual_pitches": 103,
       "would_be_pick": "OVER"
     },
     {
@@ -5653,6 +7168,11 @@
       "actual": 4.0,
       "result": "WIN",
       "date": "2026-04-11",
+      "proj_ip": 6.3,
+      "proj_bf": 23.0,
+      "proj_pc": 87,
+      "actual_outs": 15,
+      "actual_pitches": 99,
       "would_be_pick": "OVER"
     },
     {
@@ -5672,6 +7192,11 @@
       "actual": 2.0,
       "result": "WIN",
       "date": "2026-04-07",
+      "proj_ip": 6.0,
+      "proj_bf": 23.0,
+      "proj_pc": 88,
+      "actual_outs": 16,
+      "actual_pitches": 91,
       "would_be_pick": "UNDER"
     },
     {
@@ -5691,6 +7216,11 @@
       "actual": 5.0,
       "result": "LOSS",
       "date": "2026-04-20",
+      "proj_ip": 5.9,
+      "proj_bf": 22.8,
+      "proj_pc": 89.0,
+      "actual_outs": 13,
+      "actual_pitches": 88,
       "would_be_pick": "OVER"
     },
     {
@@ -5710,6 +7240,11 @@
       "actual": 3.0,
       "result": "LOSS",
       "date": "2026-05-02",
+      "proj_ip": 6.0,
+      "proj_bf": 23.0,
+      "proj_pc": 98,
+      "actual_outs": 18,
+      "actual_pitches": 88,
       "would_be_pick": "OVER"
     },
     {
@@ -5729,6 +7264,11 @@
       "actual": 5.0,
       "result": "WIN",
       "date": "2026-04-11",
+      "proj_ip": 4.8,
+      "proj_bf": 22.3,
+      "proj_pc": 101,
+      "actual_outs": 21,
+      "actual_pitches": 91,
       "would_be_pick": "UNDER"
     },
     {
@@ -5748,6 +7288,11 @@
       "actual": 6.0,
       "result": "LOSS",
       "date": "2026-04-20",
+      "proj_ip": 4.5,
+      "proj_bf": 18.1,
+      "proj_pc": 78,
+      "actual_outs": 16,
+      "actual_pitches": 92,
       "would_be_pick": "UNDER"
     },
     {
@@ -5767,6 +7312,11 @@
       "actual": 3.0,
       "result": "LOSS",
       "date": "2026-04-21",
+      "proj_ip": 5.8,
+      "proj_bf": 23.0,
+      "proj_pc": 98,
+      "actual_outs": 14,
+      "actual_pitches": 100,
       "would_be_pick": "OVER"
     },
     {
@@ -5786,6 +7336,11 @@
       "actual": 9.0,
       "result": "LOSS",
       "date": "2026-04-22",
+      "proj_ip": 6.9,
+      "proj_bf": 23.0,
+      "proj_pc": 94.0,
+      "actual_outs": 24,
+      "actual_pitches": 100,
       "would_be_pick": "UNDER"
     },
     {
@@ -5805,6 +7360,11 @@
       "actual": 6.0,
       "result": "WIN",
       "date": "2026-04-25",
+      "proj_ip": 5.3,
+      "proj_bf": 21.2,
+      "proj_pc": 86.0,
+      "actual_outs": 16,
+      "actual_pitches": 94,
       "would_be_pick": "OVER"
     },
     {
@@ -5824,6 +7384,11 @@
       "actual": 6.0,
       "result": "WIN",
       "date": "2026-04-11",
+      "proj_ip": 4.9,
+      "proj_bf": 23.0,
+      "proj_pc": 93.0,
+      "actual_outs": 15,
+      "actual_pitches": 85,
       "would_be_pick": "OVER"
     },
     {
@@ -5843,6 +7408,11 @@
       "actual": 3.0,
       "result": "LOSS",
       "date": "2026-04-22",
+      "proj_ip": 4.7,
+      "proj_bf": 22.7,
+      "proj_pc": 95,
+      "actual_outs": 15,
+      "actual_pitches": 79,
       "would_be_pick": "OVER"
     },
     {
@@ -5862,6 +7432,11 @@
       "actual": 2.0,
       "result": "WIN",
       "date": "2026-04-24",
+      "proj_ip": 6.9,
+      "proj_bf": 23.0,
+      "proj_pc": 96,
+      "actual_outs": 18,
+      "actual_pitches": 81,
       "would_be_pick": "UNDER"
     },
     {
@@ -5881,6 +7456,11 @@
       "actual": 5.0,
       "result": "WIN",
       "date": "2026-04-26",
+      "proj_ip": 5.1,
+      "proj_bf": 21.3,
+      "proj_pc": 91,
+      "actual_outs": 15,
+      "actual_pitches": 77,
       "would_be_pick": "OVER"
     },
     {
@@ -5900,6 +7480,11 @@
       "actual": 2.0,
       "result": "LOSS",
       "date": "2026-04-10",
+      "proj_ip": 4.6,
+      "proj_bf": 20.9,
+      "proj_pc": 90.0,
+      "actual_outs": 21,
+      "actual_pitches": 95,
       "would_be_pick": "OVER"
     },
     {
@@ -5919,6 +7504,11 @@
       "actual": 1.0,
       "result": "WIN",
       "date": "2026-04-14",
+      "proj_ip": 5.8,
+      "proj_bf": 23.0,
+      "proj_pc": 87.0,
+      "actual_outs": 21,
+      "actual_pitches": 87,
       "would_be_pick": "UNDER"
     },
     {
@@ -5938,6 +7528,11 @@
       "actual": 5.0,
       "result": "WIN",
       "date": "2026-04-14",
+      "proj_ip": 6.4,
+      "proj_bf": 21.7,
+      "proj_pc": 93.0,
+      "actual_outs": 19,
+      "actual_pitches": 90,
       "would_be_pick": "UNDER"
     },
     {
@@ -5957,6 +7552,11 @@
       "actual": 2.0,
       "result": "WIN",
       "date": "2026-04-22",
+      "proj_ip": 4.9,
+      "proj_bf": 20.3,
+      "proj_pc": 83,
+      "actual_outs": 15,
+      "actual_pitches": 89,
       "would_be_pick": "UNDER"
     },
     {
@@ -5976,6 +7576,11 @@
       "actual": 5.0,
       "result": "WIN",
       "date": "2026-04-24",
+      "proj_ip": 4.7,
+      "proj_bf": 20.8,
+      "proj_pc": 88.0,
+      "actual_outs": 15,
+      "actual_pitches": 90,
       "would_be_pick": "OVER"
     },
     {
@@ -5995,6 +7600,11 @@
       "actual": 2.0,
       "result": "LOSS",
       "date": "2026-04-30",
+      "proj_ip": 5.6,
+      "proj_bf": 21.5,
+      "proj_pc": 88.0,
+      "actual_outs": 18,
+      "actual_pitches": 88,
       "would_be_pick": "OVER"
     },
     {
@@ -6014,6 +7624,11 @@
       "actual": 6.0,
       "result": "WIN",
       "date": "2026-05-03",
+      "proj_ip": 5.9,
+      "proj_bf": 22.2,
+      "proj_pc": 87.0,
+      "actual_outs": 23,
+      "actual_pitches": 82,
       "would_be_pick": "OVER"
     },
     {
@@ -6033,6 +7648,11 @@
       "actual": 5.0,
       "result": "LOSS",
       "date": "2026-04-14",
+      "proj_ip": 6.3,
+      "proj_bf": 19.7,
+      "proj_pc": 85.0,
+      "actual_outs": 15,
+      "actual_pitches": 97,
       "would_be_pick": "OVER"
     },
     {
@@ -6052,6 +7672,11 @@
       "actual": 4.0,
       "result": "WIN",
       "date": "2026-04-15",
+      "proj_ip": 4.6,
+      "proj_bf": 23.0,
+      "proj_pc": 96,
+      "actual_outs": 14,
+      "actual_pitches": 92,
       "would_be_pick": "OVER"
     },
     {
@@ -6071,6 +7696,11 @@
       "actual": 5.0,
       "result": "LOSS",
       "date": "2026-04-22",
+      "proj_ip": 7.1,
+      "proj_bf": 23.0,
+      "proj_pc": 97,
+      "actual_outs": 16,
+      "actual_pitches": 89,
       "would_be_pick": "OVER"
     },
     {
@@ -6090,6 +7720,11 @@
       "actual": 5.0,
       "result": "WIN",
       "date": "2026-04-26",
+      "proj_ip": 5.8,
+      "proj_bf": 22.9,
+      "proj_pc": 88,
+      "actual_outs": 15,
+      "actual_pitches": 86,
       "would_be_pick": "OVER"
     },
     {
@@ -6109,6 +7744,11 @@
       "actual": 7.0,
       "result": "WIN",
       "date": "2026-04-17",
+      "proj_ip": 6.4,
+      "proj_bf": 23.0,
+      "proj_pc": 90.0,
+      "actual_outs": 16,
+      "actual_pitches": 99,
       "would_be_pick": "UNDER"
     },
     {
@@ -6128,6 +7768,11 @@
       "actual": 4.0,
       "result": "WIN",
       "date": "2026-04-11",
+      "proj_ip": 6.6,
+      "proj_bf": 20.8,
+      "proj_pc": 84.0,
+      "actual_outs": 14,
+      "actual_pitches": 87,
       "would_be_pick": "UNDER"
     },
     {
@@ -6147,6 +7792,11 @@
       "actual": 5.0,
       "result": "LOSS",
       "date": "2026-04-26",
+      "proj_ip": 6.1,
+      "proj_bf": 22.1,
+      "proj_pc": 96.0,
+      "actual_outs": 15,
+      "actual_pitches": 93,
       "would_be_pick": "OVER"
     },
     {
@@ -6166,6 +7816,11 @@
       "actual": 2.0,
       "result": "WIN",
       "date": "2026-04-29",
+      "proj_ip": 4.3,
+      "proj_bf": 21.7,
+      "proj_pc": 88.0,
+      "actual_outs": 11,
+      "actual_pitches": 63,
       "would_be_pick": "UNDER"
     },
     {
@@ -6185,6 +7840,11 @@
       "actual": 10.0,
       "result": "WIN",
       "date": "2026-04-07",
+      "proj_ip": 5.1,
+      "proj_bf": 21.2,
+      "proj_pc": 100,
+      "actual_outs": 19,
+      "actual_pitches": 104,
       "would_be_pick": "OVER"
     },
     {
@@ -6204,6 +7864,11 @@
       "actual": 5.0,
       "result": "WIN",
       "date": "2026-04-29",
+      "proj_ip": 6.9,
+      "proj_bf": 23.0,
+      "proj_pc": 91.0,
+      "actual_outs": 17,
+      "actual_pitches": 97,
       "would_be_pick": "UNDER"
     },
     {
@@ -6223,6 +7888,11 @@
       "actual": 2.0,
       "result": "LOSS",
       "date": "2026-04-29",
+      "proj_ip": 5.5,
+      "proj_bf": 23.0,
+      "proj_pc": 101,
+      "actual_outs": 16,
+      "actual_pitches": 91,
       "would_be_pick": "OVER"
     },
     {
@@ -6242,6 +7912,11 @@
       "actual": 7.0,
       "result": "LOSS",
       "date": "2026-05-02",
+      "proj_ip": 4.9,
+      "proj_bf": 22.7,
+      "proj_pc": 96,
+      "actual_outs": 15,
+      "actual_pitches": 99,
       "would_be_pick": "UNDER"
     },
     {
@@ -6261,6 +7936,11 @@
       "actual": 6.0,
       "result": "WIN",
       "date": "2026-04-26",
+      "proj_ip": 6.0,
+      "proj_bf": 20.0,
+      "proj_pc": 92.0,
+      "actual_outs": 16,
+      "actual_pitches": 100,
       "would_be_pick": "OVER"
     },
     {
@@ -6280,6 +7960,11 @@
       "actual": 4.0,
       "result": "LOSS",
       "date": "2026-04-30",
+      "proj_ip": 6.2,
+      "proj_bf": 22.7,
+      "proj_pc": 91,
+      "actual_outs": 9,
+      "actual_pitches": 67,
       "would_be_pick": "OVER"
     },
     {
@@ -6299,6 +7984,11 @@
       "actual": 5.0,
       "result": "WIN",
       "date": "2026-04-25",
+      "proj_ip": 4.2,
+      "proj_bf": 20.5,
+      "proj_pc": 85.0,
+      "actual_outs": 15,
+      "actual_pitches": 99,
       "would_be_pick": "OVER"
     },
     {
@@ -6318,6 +8008,11 @@
       "actual": 2.0,
       "result": "WIN",
       "date": "2026-04-30",
+      "proj_ip": 4.7,
+      "proj_bf": 23.0,
+      "proj_pc": 93,
+      "actual_outs": 12,
+      "actual_pitches": 82,
       "would_be_pick": "UNDER"
     },
     {
@@ -6533,474 +8228,5 @@
       "lockedAt": null
     }
   ],
-  "summary": "4 picks (+5 watch) from 18 projections",
-  "date": "2026-05-04",
-  "todayProjections": [
-    {
-      "player": "Tomoyuki Sugano",
-      "team": "COL",
-      "opp": "NYM",
-      "market": "strikeouts",
-      "proj": 3.6,
-      "std": 1.7,
-      "line": 3.5,
-      "over_price": 104,
-      "under_price": -138,
-      "pick": "PASS",
-      "edge": 0.1,
-      "pCover": 0.521,
-      "conf": "low",
-      "proj_ip": 5.7,
-      "proj_bf": 22.1,
-      "proj_pc": 91,
-      "odds": 104,
-      "to_win_1u": 0.96,
-      "date": "2026-05-04",
-      "lockState": "lineup_confirmed",
-      "lockedAt": "2026-05-04T17:37:25.685540Z"
-    },
-    {
-      "player": "JR Ritchie",
-      "team": "ATL",
-      "opp": "SEA",
-      "market": "strikeouts",
-      "proj": 5.9,
-      "std": 2.4,
-      "line": 4.5,
-      "over_price": -136,
-      "under_price": 102,
-      "pick": "OVER",
-      "edge": 1.4,
-      "pCover": 0.707,
-      "conf": "high",
-      "proj_ip": 6.2,
-      "proj_bf": 23.0,
-      "proj_pc": 97,
-      "odds": -136,
-      "to_win_1u": 1.36,
-      "date": "2026-05-04",
-      "lockState": "pending",
-      "lockedAt": null
-    },
-    {
-      "player": "Shane Baz",
-      "team": "BAL",
-      "opp": "NYY",
-      "market": "strikeouts",
-      "proj": 4.6,
-      "std": 1.7,
-      "line": 5.5,
-      "over_price": -106,
-      "under_price": -125,
-      "pick": "PASS",
-      "edge": -0.9,
-      "pCover": 0.69,
-      "conf": "low",
-      "proj_ip": 5.9,
-      "proj_bf": 23.0,
-      "proj_pc": 98,
-      "odds": -125,
-      "to_win_1u": 1.25,
-      "date": "2026-05-04",
-      "lockState": "lineup_confirmed",
-      "lockedAt": "2026-05-04T19:11:59.129221Z"
-    },
-    {
-      "player": "Payton Tolle",
-      "team": "BOS",
-      "opp": "DET",
-      "market": "strikeouts",
-      "proj": 7.8,
-      "std": 2.4,
-      "line": 5.5,
-      "over_price": 122,
-      "under_price": -162,
-      "pick": "OVER",
-      "edge": 2.3,
-      "pCover": 0.813,
-      "conf": "high",
-      "proj_ip": 5.2,
-      "proj_bf": 20.5,
-      "proj_pc": 80.0,
-      "odds": 122,
-      "to_win_1u": 0.82,
-      "date": "2026-05-04",
-      "lockState": "lineup_confirmed",
-      "lockedAt": "2026-05-04T19:11:59.129221Z"
-    },
-    {
-      "player": "Edward Cabrera",
-      "team": "CHC",
-      "opp": "CIN",
-      "market": "strikeouts",
-      "proj": 5.3,
-      "std": 1.8,
-      "line": 5.5,
-      "over_price": -112,
-      "under_price": -118,
-      "pick": "PASS",
-      "edge": -0.2,
-      "pCover": 0.547,
-      "conf": "low",
-      "proj_ip": 5.9,
-      "proj_bf": 23.0,
-      "proj_pc": 99,
-      "odds": -118,
-      "to_win_1u": 1.18,
-      "date": "2026-05-04",
-      "lockState": "pending",
-      "lockedAt": null
-    },
-    {
-      "player": "Tanner Bibee",
-      "team": "CLE",
-      "opp": "KC",
-      "market": "strikeouts",
-      "proj": 5.2,
-      "std": 1.9,
-      "line": 4.5,
-      "over_price": 116,
-      "under_price": -154,
-      "pick": "PASS",
-      "edge": 0.7,
-      "pCover": 0.637,
-      "conf": "low",
-      "proj_ip": 5.2,
-      "proj_bf": 22.4,
-      "proj_pc": 93,
-      "odds": 116,
-      "to_win_1u": 0.86,
-      "date": "2026-05-04",
-      "lockState": "pending",
-      "lockedAt": null
-    },
-    {
-      "player": "Davis Martin",
-      "team": "CWS",
-      "opp": "LAA",
-      "market": "strikeouts",
-      "proj": 6.1,
-      "std": 2.1,
-      "line": 5.5,
-      "over_price": 112,
-      "under_price": -148,
-      "pick": "PASS",
-      "edge": 0.6,
-      "pCover": 0.608,
-      "conf": "low",
-      "proj_ip": 6.4,
-      "proj_bf": 23.0,
-      "proj_pc": 98,
-      "odds": 112,
-      "to_win_1u": 0.89,
-      "date": "2026-05-04",
-      "lockState": "pending",
-      "lockedAt": null
-    },
-    {
-      "player": "Michael Wacha",
-      "team": "KC",
-      "opp": "CLE",
-      "market": "strikeouts",
-      "proj": 5.0,
-      "std": 1.9,
-      "line": 4.5,
-      "over_price": 118,
-      "under_price": -158,
-      "pick": "PASS",
-      "edge": 0.5,
-      "pCover": 0.596,
-      "conf": "low",
-      "proj_ip": 6.4,
-      "proj_bf": 23.0,
-      "proj_pc": 105,
-      "odds": 118,
-      "to_win_1u": 0.85,
-      "date": "2026-05-04",
-      "lockState": "pending",
-      "lockedAt": null
-    },
-    {
-      "player": "Jos\u00e9 Soriano",
-      "team": "LAA",
-      "opp": "CWS",
-      "market": "strikeouts",
-      "proj": 7.5,
-      "std": 2.9,
-      "line": 6.5,
-      "over_price": -110,
-      "under_price": -120,
-      "pick": "PASS",
-      "edge": 1.0,
-      "pCover": 0.629,
-      "conf": "low",
-      "proj_ip": 6.3,
-      "proj_bf": 23.0,
-      "proj_pc": 97,
-      "odds": -110,
-      "to_win_1u": 1.1,
-      "date": "2026-05-04",
-      "lockState": "pending",
-      "lockedAt": null
-    },
-    {
-      "player": "Yoshinobu Yamamoto",
-      "team": "LAD",
-      "opp": "HOU",
-      "market": "strikeouts",
-      "proj": 5.1,
-      "std": 2.3,
-      "line": 5.5,
-      "over_price": -158,
-      "under_price": 118,
-      "pick": "PASS",
-      "edge": -0.4,
-      "pCover": 0.568,
-      "conf": "low",
-      "proj_ip": 6.6,
-      "proj_bf": 23.0,
-      "proj_pc": 95.0,
-      "odds": 118,
-      "to_win_1u": 0.85,
-      "date": "2026-05-04",
-      "lockState": "pending",
-      "lockedAt": null
-    },
-    {
-      "player": "Janson Junk",
-      "team": "MIA",
-      "opp": "PHI",
-      "market": "strikeouts",
-      "proj": 3.4,
-      "std": 1.7,
-      "line": 3.5,
-      "over_price": -130,
-      "under_price": -102,
-      "pick": "PASS",
-      "edge": -0.1,
-      "pCover": 0.522,
-      "conf": "low",
-      "proj_ip": 5.9,
-      "proj_bf": 20.9,
-      "proj_pc": 81.0,
-      "odds": -102,
-      "to_win_1u": 1.02,
-      "date": "2026-05-04",
-      "lockState": "pending",
-      "lockedAt": null
-    },
-    {
-      "player": "Chad Patrick",
-      "team": "MIL",
-      "opp": "STL",
-      "market": "strikeouts",
-      "proj": 2.8,
-      "std": 2.1,
-      "line": 3.5,
-      "over_price": -160,
-      "under_price": 120,
-      "pick": "PASS",
-      "edge": -0.7,
-      "pCover": 0.617,
-      "conf": "low",
-      "proj_ip": 4.9,
-      "proj_bf": 23.0,
-      "proj_pc": 98,
-      "odds": 120,
-      "to_win_1u": 0.83,
-      "date": "2026-05-04",
-      "lockState": "lineup_confirmed",
-      "lockedAt": "2026-05-04T19:11:59.129221Z"
-    },
-    {
-      "player": "Cam Schlittler",
-      "team": "NYY",
-      "opp": "BAL",
-      "market": "strikeouts",
-      "proj": 7.4,
-      "std": 1.6,
-      "line": 6.5,
-      "over_price": -148,
-      "under_price": 112,
-      "pick": "OVER",
-      "edge": 0.9,
-      "pCover": 0.702,
-      "conf": "high",
-      "proj_ip": 6.3,
-      "proj_bf": 22.8,
-      "proj_pc": 92,
-      "odds": -148,
-      "to_win_1u": 1.48,
-      "date": "2026-05-04",
-      "lockState": "pending",
-      "lockedAt": null
-    },
-    {
-      "player": "Aaron Nola",
-      "team": "PHI",
-      "opp": "MIA",
-      "market": "strikeouts",
-      "proj": 6.1,
-      "std": 2.3,
-      "line": 5.5,
-      "over_price": 106,
-      "under_price": -140,
-      "pick": "PASS",
-      "edge": 0.6,
-      "pCover": 0.599,
-      "conf": "low",
-      "proj_ip": 5.4,
-      "proj_bf": 23.0,
-      "proj_pc": 101,
-      "odds": 106,
-      "to_win_1u": 0.94,
-      "date": "2026-05-04",
-      "lockState": "lineup_confirmed",
-      "lockedAt": "2026-05-04T19:11:59.129221Z"
-    },
-    {
-      "player": "Randy V\u00e1squez",
-      "team": "SD",
-      "opp": "SF",
-      "market": "strikeouts",
-      "proj": 5.5,
-      "std": 2.3,
-      "line": 3.5,
-      "over_price": -136,
-      "under_price": 102,
-      "pick": "OVER",
-      "edge": 2.0,
-      "pCover": 0.79,
-      "conf": "high",
-      "proj_ip": 5.9,
-      "proj_bf": 23.0,
-      "proj_pc": 106,
-      "odds": -136,
-      "to_win_1u": 1.36,
-      "date": "2026-05-04",
-      "lockState": "pending",
-      "lockedAt": null
-    },
-    {
-      "player": "Logan Gilbert",
-      "team": "SEA",
-      "opp": "ATL",
-      "market": "strikeouts",
-      "proj": 5.1,
-      "std": 2.1,
-      "line": 5.5,
-      "over_price": -172,
-      "under_price": 128,
-      "pick": "PASS",
-      "edge": -0.4,
-      "pCover": 0.572,
-      "conf": "low",
-      "proj_ip": 5.8,
-      "proj_bf": 22.0,
-      "proj_pc": 93,
-      "odds": 128,
-      "to_win_1u": 0.78,
-      "date": "2026-05-04",
-      "lockState": "pending",
-      "lockedAt": null
-    },
-    {
-      "player": "Kyle Leahy",
-      "team": "STL",
-      "opp": "MIL",
-      "market": "strikeouts",
-      "proj": 3.4,
-      "std": 2.7,
-      "line": 3.5,
-      "over_price": -140,
-      "under_price": 106,
-      "pick": "PASS",
-      "edge": -0.1,
-      "pCover": 0.509,
-      "conf": "low",
-      "proj_ip": 5.1,
-      "proj_bf": 21.6,
-      "proj_pc": 84.0,
-      "odds": 106,
-      "to_win_1u": 0.94,
-      "date": "2026-05-04",
-      "lockState": "pending",
-      "lockedAt": null
-    },
-    {
-      "player": "Nick Martinez",
-      "team": "TB",
-      "opp": "TOR",
-      "market": "strikeouts",
-      "proj": 3.5,
-      "std": 1.7,
-      "line": 3.5,
-      "over_price": -146,
-      "under_price": 110,
-      "pick": "PASS",
-      "edge": 0.0,
-      "pCover": 0.51,
-      "conf": "low",
-      "proj_ip": 6.5,
-      "proj_bf": 23.0,
-      "proj_pc": 86.0,
-      "odds": -146,
-      "to_win_1u": 1.46,
-      "date": "2026-05-04",
-      "lockState": "pending",
-      "lockedAt": null
-    }
-  ],
-  "gameTimes": {
-    "COL": "2026-05-04T21:40:00Z",
-    "NYM": "2026-05-04T21:40:00Z",
-    "DET": "2026-05-04T22:10:00Z",
-    "BOS": "2026-05-04T22:10:00Z",
-    "TB": "2026-05-04T22:40:00Z",
-    "TOR": "2026-05-04T22:40:00Z",
-    "MIA": "2026-05-04T22:40:00Z",
-    "PHI": "2026-05-04T22:40:00Z",
-    "NYY": "2026-05-04T23:05:00Z",
-    "BAL": "2026-05-04T23:05:00Z",
-    "CHC": "2026-05-04T23:10:00Z",
-    "CIN": "2026-05-04T23:10:00Z",
-    "KC": "2026-05-04T23:40:00Z",
-    "CLE": "2026-05-04T23:40:00Z",
-    "STL": "2026-05-04T23:45:00Z",
-    "MIL": "2026-05-04T23:45:00Z",
-    "HOU": "2026-05-05T00:10:00Z",
-    "LAD": "2026-05-05T00:10:00Z",
-    "LAA": "2026-05-05T01:38:00Z",
-    "CWS": "2026-05-05T01:38:00Z",
-    "SEA": "2026-05-05T01:40:00Z",
-    "ATL": "2026-05-05T01:40:00Z",
-    "SF": "2026-05-05T01:45:00Z",
-    "SD": "2026-05-05T01:45:00Z"
-  },
-  "gameStatuses": {
-    "COL": "Pre-Game",
-    "NYM": "Pre-Game",
-    "DET": "Pre-Game",
-    "BOS": "Pre-Game",
-    "TB": "Pre-Game",
-    "TOR": "Pre-Game",
-    "MIA": "Pre-Game",
-    "PHI": "Pre-Game",
-    "NYY": "Pre-Game",
-    "BAL": "Pre-Game",
-    "CHC": "Scheduled",
-    "CIN": "Scheduled",
-    "KC": "Scheduled",
-    "CLE": "Scheduled",
-    "STL": "Pre-Game",
-    "MIL": "Pre-Game",
-    "HOU": "Scheduled",
-    "LAD": "Scheduled",
-    "LAA": "Scheduled",
-    "CWS": "Scheduled",
-    "SEA": "Scheduled",
-    "ATL": "Scheduled",
-    "SF": "Scheduled",
-    "SD": "Scheduled"
-  }
+  "summary": "130 actionable picks for 2026: 98W-32L (75.4%) +59.4u (+209 watchlist)"
 }
