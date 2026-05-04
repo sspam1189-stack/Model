@@ -712,6 +712,7 @@
             ['Team',   null, false],
             ['Cat',    'cat', false],
             ['Outs',   null, false],
+            ['BF',     null, false],
             ['Pitch#', null, false],
             ['Proj',   'proj', false],
             ['Line',   null, false],
@@ -777,9 +778,10 @@
             // Engine emits decimal IP; display as total outs (decimal \u00d7 3).
             // 1 IP = 3 outs, so 5.67 decimal = ~17 outs.
             const outsStr  = p.proj_ip != null ? String(Math.round(p.proj_ip * 3)) : '\u2014';
+            const bfStr    = p.proj_bf != null ? String(Math.round(p.proj_bf)) : '\u2014';
             const pitchStr = p.proj_pc != null ? String(Math.round(p.proj_pc)) : '\u2014';
             [displayName(p), p.team||'', marketLabels[p.market]||p.market,
-             outsStr, pitchStr,
+             outsStr, bfStr, pitchStr,
              p.proj!=null?String(p.proj):'\u2014', p.line!=null?String(p.line):'\u2014',
              edgeStr, coverStr,
              isPick?(p.pick==='OVER'?'O':'U'):'\u2014',
@@ -792,14 +794,15 @@
               td.style.cssText = 'padding:5px 8px;text-align:'+(i===0?'left':'center')+';font-size:12px';
               if (i===0) td.style.fontWeight = '600';
               if (i===1) td.style.color = '#999';
-              if (i===3) td.style.color = '#bbb'; // IP
-              if (i===4) td.style.color = '#bbb'; // Pit
-              if (i===5 && p.line!=null) td.style.color = p.proj > p.line ? 'var(--green)' : p.proj < p.line ? 'var(--red)' : '';
-              if (i===7 && edge!=null) td.style.color = edge > 0 ? 'var(--green)' : edge < 0 ? 'var(--red)' : '#999';
-              if (i===8 && p.pCover!=null) td.style.color = p.pCover >= 0.70 ? 'var(--green)' : p.pCover >= 0.65 ? 'var(--yellow)' : p.pCover <= 0.45 ? 'var(--red)' : '#ccc';
-              if (i===9 && isPick) { td.style.fontWeight='700'; td.style.color = p.pick==='OVER'?'var(--green)':'var(--red)'; }
-              if (i===10) td.style.color = '#999';
-              if (i===11) {
+              if (i===3) td.style.color = '#bbb'; // Outs
+              if (i===4) td.style.color = '#bbb'; // BF
+              if (i===5) td.style.color = '#bbb'; // Pit
+              if (i===6 && p.line!=null) td.style.color = p.proj > p.line ? 'var(--green)' : p.proj < p.line ? 'var(--red)' : '';
+              if (i===8 && edge!=null) td.style.color = edge > 0 ? 'var(--green)' : edge < 0 ? 'var(--red)' : '#999';
+              if (i===9 && p.pCover!=null) td.style.color = p.pCover >= 0.70 ? 'var(--green)' : p.pCover >= 0.65 ? 'var(--yellow)' : p.pCover <= 0.45 ? 'var(--red)' : '#ccc';
+              if (i===10 && isPick) { td.style.fontWeight='700'; td.style.color = p.pick==='OVER'?'var(--green)':'var(--red)'; }
+              if (i===11) td.style.color = '#999';
+              if (i===12) {
                 td.title = isPostponed ? _gs : (p.lockState || 'pending');
                 td.style.fontSize = '11px';
                 td.style.fontWeight = '600';
