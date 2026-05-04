@@ -85168,7 +85168,10 @@
           "trends": {
             "away": "ATS +/- -2.1 · Over 49.4% · Under 50.6% · O/U +/- 0.5",
             "home": "ATS +/- 1.4 · Over 40.2% · Under 59.8% · O/U +/- -1.9"
-          }
+          },
+          "awayScore": 110,
+          "homeScore": 112,
+          "sResult": "WIN"
         },
         {
           "away": "Detroit Pistons",
@@ -85229,7 +85232,9 @@
           "trends": {
             "away": "ATS +/- 2.1 · Over 46.5% · Under 53.5% · O/U +/- -0.9",
             "home": "ATS +/- -0.9 · Over 51.7% · Under 48.3% · O/U +/- 1.1"
-          }
+          },
+          "awayScore": 93,
+          "homeScore": 79
         },
         {
           "away": "Los Angeles Lakers",
@@ -85286,22 +85291,326 @@
           "trends": {
             "away": "ATS +/- -0.2 · Over 49.4% · Under 50.6% · O/U +/- -0.6",
             "home": "ATS +/- -1.2 · Over 47.7% · Under 52.3% · O/U +/- 0.1"
-          }
+          },
+          "awayScore": 98,
+          "homeScore": 78,
+          "sResult": "LOSS"
         }
       ],
       "summaryText": "RECORD (graded picks only)\n\nSPREAD (ATS)\n  All:         397-225-1   (63.8%)   [graded 623]\n  Elite:       397-225-1   (63.8%)   [graded 623]\n\nFAV/DOG (Spread)\n  Favorites:   182-103-1   (63.9%)   [graded 286]\n  Underdogs:   215-122-0   (63.8%)   [graded 337]\n\nTOTAL (O/U)\n  All:         0-0-0   (n/a%)   [graded 0]\n  Elite:       0-0-0   (n/a%)   [graded 0]\n\nOVER/UNDER\n  Over:        0-0-0   (n/a%)   [graded 0]\n  Under:       0-0-0   (n/a%)   [graded 0]",
       "ranAt": "5/1/2026, 5:47:43 PM"
+    },
+    {
+      "date": "20260502",
+      "dateDisplay": "2026-05-02",
+      "burnIn": false,
+      "weightsUsed": {
+        "wOFF": 1,
+        "wTS": 1.57,
+        "wTO": 0,
+        "wORR": 0,
+        "wDEF": 0.944,
+        "constant": -0.048,
+        "paceAdj": 0.961,
+        "hca": 1.609,
+        "sprHigh": 4,
+        "ouHigh": 5,
+        "sprEliteBump": 3,
+        "ouEliteBump": 3,
+        "probHigh": 0.58,
+        "probElite": 0.63,
+        "probOUHigh": 0.58,
+        "probOUElite": 0.64,
+        "recentWeight": 0.87,
+        "locationWeight": 0.25,
+        "h2hWeight": 0
+      },
+      "weightsNext": {
+        "wOFF": 1,
+        "wTS": 1.57,
+        "wTO": 0,
+        "wORR": 0,
+        "wDEF": 0.944,
+        "constant": -0.048,
+        "paceAdj": 0.961,
+        "hca": 1.609,
+        "sprHigh": 4,
+        "ouHigh": 5,
+        "sprEliteBump": 3,
+        "ouEliteBump": 3,
+        "probHigh": 0.58,
+        "probElite": 0.63,
+        "probOUHigh": 0.58,
+        "probOUElite": 0.64,
+        "recentWeight": 0.87,
+        "locationWeight": 0.25,
+        "h2hWeight": 0
+      },
+      "games": [
+        {
+          "away": "Philadelphia 76ers",
+          "home": "Boston Celtics",
+          "line": -4.5,
+          "total": 204.5,
+          "_book": "DraftKings",
+          "startTimeUTC": "2026-05-02T23:30Z",
+          "aS": 108.9,
+          "hS": 115.5,
+          "pT": 224.4,
+          "margin": 2.1,
+          "sDiff": 2.1,
+          "tDiff": 12.3,
+          "sPick": "PASS",
+          "sConf": "low",
+          "oPick": "PASS",
+          "oConf": "low",
+          "injuryNote": null,
+          "pHomeCover": 0.558,
+          "pAwayCover": 0.442,
+          "pOver": 0.792,
+          "pUnder": 0.208,
+          "pCover": null,
+          "pOU": null,
+          "marginVar": 207.6,
+          "marginStd": 14.4,
+          "_features": {
+            "dTS": 0.037741500000000094,
+            "dTO": 0.00027425000000000366,
+            "dORR": 0.039255250000000075,
+            "dDEF": -0.26887499999998,
+            "avgPace": 98.48131750000002
+          },
+          "_marginFeatures": {
+            "dTS": 0.0357,
+            "dTO": -0.0003,
+            "dORR": 0.0372,
+            "dDEF": -0.2545,
+            "hca": 1,
+            "_baseline": 9.6535,
+            "_pace": 0.9464
+          },
+          "h2hAdj": 0,
+          "h2hGames": 0,
+          "h2hRecord": null,
+          "h2hNote": null,
+          "awayScore": 109,
+          "homeScore": 100,
+          "trends": {
+            "away": {
+              "atsPct": null,
+              "atsPlusMinus": null,
+              "overPct": null,
+              "underPct": null,
+              "totalPlusMinus": null
+            },
+            "home": {
+              "atsPct": null,
+              "atsPlusMinus": null,
+              "overPct": null,
+              "underPct": null,
+              "totalPlusMinus": null
+            }
+          },
+          "_kalmanDate": "20260502"
+        }
+      ],
+      "summaryText": "",
+      "ranAt": "5/4/2026, 2:38:46 PM"
+    },
+    {
+      "date": "20260503",
+      "dateDisplay": "2026-05-03",
+      "burnIn": false,
+      "weightsUsed": {
+        "wOFF": 1,
+        "wTS": 1.57,
+        "wTO": 0,
+        "wORR": 0,
+        "wDEF": 0.944,
+        "constant": -0.048,
+        "paceAdj": 0.961,
+        "hca": 1.609,
+        "sprHigh": 4,
+        "ouHigh": 5,
+        "sprEliteBump": 3,
+        "ouEliteBump": 3,
+        "probHigh": 0.58,
+        "probElite": 0.63,
+        "probOUHigh": 0.58,
+        "probOUElite": 0.64,
+        "recentWeight": 0.87,
+        "locationWeight": 0.25,
+        "h2hWeight": 0
+      },
+      "weightsNext": {
+        "wOFF": 1,
+        "wTS": 1.57,
+        "wTO": 0,
+        "wORR": 0,
+        "wDEF": 0.944,
+        "constant": -0.048,
+        "paceAdj": 0.961,
+        "hca": 1.609,
+        "sprHigh": 4,
+        "ouHigh": 5,
+        "sprEliteBump": 3,
+        "ouEliteBump": 3,
+        "probHigh": 0.58,
+        "probElite": 0.63,
+        "probOUHigh": 0.58,
+        "probOUElite": 0.64,
+        "recentWeight": 0.87,
+        "locationWeight": 0.25,
+        "h2hWeight": 0
+      },
+      "games": [
+        {
+          "away": "Orlando Magic",
+          "home": "Detroit Pistons",
+          "line": -8.5,
+          "total": 201.5,
+          "_book": "DraftKings",
+          "startTimeUTC": "2026-05-03T19:30Z",
+          "aS": 107.4,
+          "hS": 114.8,
+          "pT": 222.2,
+          "margin": -1.1,
+          "sDiff": 1.1,
+          "tDiff": 17.6,
+          "sPick": "PASS",
+          "sConf": "low",
+          "oPick": "PASS",
+          "oConf": "low",
+          "injuryNote": null,
+          "pHomeCover": 0.47,
+          "pAwayCover": 0.53,
+          "pOver": 0.876,
+          "pUnder": 0.124,
+          "pCover": null,
+          "pOU": null,
+          "marginVar": 211,
+          "marginStd": 14.5,
+          "_features": {
+            "dTS": 0.029933500000000057,
+            "dTO": 0.006072499999999981,
+            "dORR": 0.04009449999999998,
+            "dDEF": 1.4807500000000147,
+            "avgPace": 101.42296
+          },
+          "_marginFeatures": {
+            "dTS": 0.0292,
+            "dTO": -0.0059,
+            "dORR": 0.0391,
+            "dDEF": 1.4433,
+            "hca": 1,
+            "_baseline": 6.2502,
+            "_pace": 0.9747
+          },
+          "h2hAdj": 0,
+          "h2hGames": 0,
+          "h2hRecord": null,
+          "h2hNote": null,
+          "awayScore": 94,
+          "homeScore": 116,
+          "trends": {
+            "away": {
+              "atsPct": null,
+              "atsPlusMinus": null,
+              "overPct": null,
+              "underPct": null,
+              "totalPlusMinus": null
+            },
+            "home": {
+              "atsPct": null,
+              "atsPlusMinus": null,
+              "overPct": null,
+              "underPct": null,
+              "totalPlusMinus": null
+            }
+          },
+          "_kalmanDate": "20260503"
+        },
+        {
+          "away": "Toronto Raptors",
+          "home": "Cleveland Cavaliers",
+          "line": -8.5,
+          "total": 209.5,
+          "_book": "DraftKings",
+          "startTimeUTC": "2026-05-03T23:30Z",
+          "aS": 111.3,
+          "hS": 112.1,
+          "pT": 223.4,
+          "margin": -7.7,
+          "sDiff": 7.7,
+          "tDiff": 10.9,
+          "sPick": "Toronto Raptors +8.5",
+          "sConf": "elite",
+          "oPick": "PASS",
+          "oConf": "low",
+          "injuryNote": null,
+          "pHomeCover": 0.297,
+          "pAwayCover": 0.703,
+          "pOver": 0.764,
+          "pUnder": 0.236,
+          "pCover": 0.703,
+          "pOU": null,
+          "marginVar": 208.3,
+          "marginStd": 14.4,
+          "_features": {
+            "dTS": 0.00585475000000002,
+            "dTO": 0.005894500000000025,
+            "dORR": 0.012285250000000025,
+            "dDEF": -2.836449999999985,
+            "avgPace": 99.76007874999999
+          },
+          "_marginFeatures": {
+            "dTS": 0.0056,
+            "dTO": -0.0057,
+            "dORR": 0.0118,
+            "dDEF": -2.7193,
+            "hca": 1,
+            "_baseline": 1.5633,
+            "_pace": 0.9587
+          },
+          "h2hAdj": 0,
+          "h2hGames": 0,
+          "h2hRecord": null,
+          "h2hNote": null,
+          "awayScore": 102,
+          "homeScore": 114,
+          "trends": {
+            "away": {
+              "atsPct": null,
+              "atsPlusMinus": null,
+              "overPct": null,
+              "underPct": null,
+              "totalPlusMinus": null
+            },
+            "home": {
+              "atsPct": null,
+              "atsPlusMinus": null,
+              "overPct": null,
+              "underPct": null,
+              "totalPlusMinus": null
+            }
+          },
+          "sResult": "LOSS",
+          "_kalmanDate": "20260503"
+        }
+      ],
+      "summaryText": "",
+      "ranAt": "5/4/2026, 2:38:46 PM"
     }
   ],
   "weights": {
     "wOFF": 1,
-    "wTS": 1.559,
+    "wTS": 1.57,
     "wTO": 0,
     "wORR": 0,
-    "wDEF": 1.032,
-    "constant": -0.024,
-    "paceAdj": 0.988,
-    "hca": 1.658,
+    "wDEF": 0.944,
+    "constant": -0.048,
+    "paceAdj": 0.961,
+    "hca": 1.609,
     "sprHigh": 4,
     "ouHigh": 5,
     "sprEliteBump": 3,
@@ -85314,11 +85623,11 @@
     "locationWeight": 0.25,
     "h2hWeight": 0
   },
-  "residualVar": 190.6,
+  "residualVar": 191,
   "weightsVar": {
     "wTS": 3.7341,
     "wTO": 3.61,
-    "wORR": 3.0472,
+    "wORR": 3.0467,
     "wDEF": 0.05,
     "hca": 0.2,
     "constant": 4
