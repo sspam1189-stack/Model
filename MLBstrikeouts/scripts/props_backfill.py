@@ -419,6 +419,10 @@ def backfill(season=None, start_game=10, start_date=None):
             if actual_val is None:
                 continue
 
+            actual_game = _find_actual_game(player, actual_games) or {}
+            actual_outs = actual_game.get("outs")
+            actual_pitches = actual_game.get("pitches")
+
             proj_val = proj["proj"]
             std = proj["std"]
 
@@ -458,6 +462,11 @@ def backfill(season=None, start_game=10, start_date=None):
                     "conf": "watch",
                     "odds": proj.get("odds"),
                     "won": would_be_won,
+                    "proj_ip": proj.get("proj_ip"),
+                    "proj_bf": proj.get("proj_bf"),
+                    "proj_pc": proj.get("proj_pc"),
+                    "actual_outs": actual_outs,
+                    "actual_pitches": actual_pitches,
                 })
                 total_projected += 1
                 continue
@@ -487,6 +496,11 @@ def backfill(season=None, start_game=10, start_date=None):
                 "conf": proj.get("conf"),
                 "odds": proj.get("odds"),
                 "won": won,
+                "proj_ip": proj.get("proj_ip"),
+                "proj_bf": proj.get("proj_bf"),
+                "proj_pc": proj.get("proj_pc"),
+                "actual_outs": actual_outs,
+                "actual_pitches": actual_pitches,
             })
             date_picks += 1
             total_projected += 1
@@ -554,6 +568,17 @@ def _find_actual(pitcher_name, market, actual_games, pitcher_logs):
             val = g.get(stat_key)
             if val is not None:
                 return float(val)
+    return None
+
+
+def _find_actual_game(pitcher_name, actual_games):
+    """Return today's full game-log dict for a pitcher (for actual outs/pitches)."""
+    from props_engine import _name_key
+    target_nk = _name_key(pitcher_name)
+    for pid, g in actual_games.items():
+        name = g.get("pitcher_name") or g.get("player_name", "")
+        if _name_key(name) == target_nk:
+            return g
     return None
 
 
@@ -652,6 +677,11 @@ def write_dashboard_json(results, season):
                 "actual": p["actual"],
                 "result": "WIN" if p["won"] else "LOSS",
                 "date": p.get("date", ""),
+                "proj_ip": p.get("proj_ip"),
+                "proj_bf": p.get("proj_bf"),
+                "proj_pc": p.get("proj_pc"),
+                "actual_outs": p.get("actual_outs"),
+                "actual_pitches": p.get("actual_pitches"),
             }
             if p.get("would_be_pick"):
                 entry["would_be_pick"] = p["would_be_pick"]
