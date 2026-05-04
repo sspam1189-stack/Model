@@ -907,11 +907,11 @@
       viewWeeklyLeanBtn.textContent = 'Weekly Lean';
       const viewAllCombinedBtn = document.createElement('button');
       viewAllCombinedBtn.textContent = 'All';
+      tabRow.appendChild(viewAllCombinedBtn);
       tabRow.appendChild(viewAllBtn);
       tabRow.appendChild(viewWeeklyBtn);
       tabRow.appendChild(viewAllLeanBtn);
       tabRow.appendChild(viewWeeklyLeanBtn);
-      tabRow.appendChild(viewAllCombinedBtn);
       toolbar.appendChild(tabRow);
 
       // Market filter row removed — strikeouts is the only active market.
