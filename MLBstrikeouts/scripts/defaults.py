@@ -45,15 +45,12 @@ MARKET_THRESHOLDS = {
 # Variance multipliers (how noisy each stat is game-to-game)
 # ---------------------------------------------------------------------------
 VAR_MULT = {
-    # Calibration check (run scripts.calibrate_threshold) confirmed 1.2 for K
-    # produces pCover estimates that match observed win rates in every bucket
-    # from 0.75 to 0.90. Do not raise without re-running calibration — higher
-    # values will starve picks without improving accuracy.
-    #
-    # Tested 2026-05-04 engine-side at 1.4: produced +59.17u (vs baseline
-    # +59.43u) — statistical noise. Last week was actually -7.37u vs baseline
-    # -6.33u (worse). Reverted to 1.2 — system is at local optimum.
-    "strikeouts":   1.2,
+    # Tuned 2026-05-04 with BF=0.92 via 16-config sweep. VAR=1.6 produces
+    # cleanest calibration (0.70-0.75 bucket +0.047 conservative, 0.75-0.85
+    # within 2%). Beats prior baseline (BF=0.91 V=1.2) on WR (+2.5%) and
+    # ROI (+6.6%). Higher VAR than baseline because BF=0.92 is less suppressive,
+    # so wider std needed to maintain calibration.
+    "strikeouts":   1.6,
 }
 
 # ---------------------------------------------------------------------------
