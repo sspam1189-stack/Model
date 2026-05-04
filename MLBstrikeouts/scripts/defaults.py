@@ -45,12 +45,12 @@ MARKET_THRESHOLDS = {
 # Variance multipliers (how noisy each stat is game-to-game)
 # ---------------------------------------------------------------------------
 VAR_MULT = {
-    # Tuned 2026-05-04 with BF=0.92 via 16-config sweep. VAR=1.6 produces
-    # cleanest calibration (0.70-0.75 bucket +0.047 conservative, 0.75-0.85
-    # within 2%). Beats prior baseline (BF=0.91 V=1.2) on WR (+2.5%) and
-    # ROI (+6.6%). Higher VAR than baseline because BF=0.92 is less suppressive,
-    # so wider std needed to maintain calibration.
-    "strikeouts":   1.6,
+    # Tuned 2026-05-04 with BF=0.92 via coarse + fine VAR sweep. VAR=1.55 sits
+    # at the calibration-best edge of the 1.55-1.60 plateau (cal +0.043 vs
+    # 1.60's +0.047 — same picks, identical units/WR). 113 picks, 77.9% WR,
+    # +52.3% ROI, +59.15u/season. Beats prior baseline (BF=0.91 V=1.2) on
+    # WR (+2.5 pts) and ROI (+6.6 pts).
+    "strikeouts":   1.55,
 }
 
 # ---------------------------------------------------------------------------
