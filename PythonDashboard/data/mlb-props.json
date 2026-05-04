@@ -4,7 +4,7 @@
   "season": "2026",
   "mode": "live",
   "model": "kalman_blend",
-  "generated": "2026-05-04T17:25:35.502375",
+  "generated": "2026-05-04T18:03:06.297116",
   "totalProjections": 19,
   "totalPicks": 348,
   "totalWatchlist": 5,
@@ -8157,29 +8157,6 @@
       "lockedAt": "2026-05-04T21:03:11.666790Z"
     },
     {
-      "player": "Randy V\u00e1squez",
-      "team": "SD",
-      "opp": "SF",
-      "market": "strikeouts",
-      "proj": 5.5,
-      "std": 2.6,
-      "line": 3.5,
-      "over_price": -136,
-      "under_price": 102,
-      "pick": "OVER",
-      "edge": 2.0,
-      "pCover": 0.769,
-      "conf": "high",
-      "proj_ip": 5.9,
-      "proj_bf": 23.0,
-      "proj_pc": 106,
-      "odds": -136,
-      "to_win_1u": 1.36,
-      "date": "2026-05-04",
-      "lockState": "pending",
-      "lockedAt": null
-    },
-    {
       "player": "Logan Gilbert",
       "team": "SEA",
       "opp": "ATL",
@@ -8226,6 +8203,29 @@
       "date": "2026-05-04",
       "lockState": "lineup_confirmed",
       "lockedAt": "2026-05-04T22:25:35.502618Z"
+    },
+    {
+      "player": "Randy V\u00e1squez",
+      "team": "SD",
+      "opp": "SF",
+      "market": "strikeouts",
+      "proj": 5.4,
+      "std": 2.7,
+      "line": 3.5,
+      "over_price": -132,
+      "under_price": 100,
+      "pick": "OVER",
+      "edge": 1.9,
+      "pCover": 0.743,
+      "conf": "high",
+      "proj_ip": 5.9,
+      "proj_bf": 23.0,
+      "proj_pc": 106,
+      "odds": -132,
+      "to_win_1u": 1.32,
+      "date": "2026-05-04",
+      "lockState": "lineup_confirmed",
+      "lockedAt": "2026-05-04T23:03:06.297290Z"
     }
   ],
   "summary": "4 picks (+5 watch) from 19 projections",
@@ -8389,7 +8389,7 @@
       "odds": 108,
       "to_win_1u": 0.93,
       "date": "2026-05-04",
-      "lockState": "lineup_confirmed",
+      "lockState": "game_started",
       "lockedAt": "2026-05-04T20:12:10.575201Z"
     },
     {
@@ -8412,7 +8412,7 @@
       "odds": 102,
       "to_win_1u": 0.98,
       "date": "2026-05-04",
-      "lockState": "lineup_confirmed",
+      "lockState": "game_started",
       "lockedAt": "2026-05-04T20:12:10.575201Z"
     },
     {
@@ -8435,7 +8435,7 @@
       "odds": -136,
       "to_win_1u": 1.36,
       "date": "2026-05-04",
-      "lockState": "lineup_confirmed",
+      "lockState": "game_started",
       "lockedAt": "2026-05-04T20:12:10.575201Z"
     },
     {
@@ -8504,7 +8504,7 @@
       "odds": 102,
       "to_win_1u": 0.98,
       "date": "2026-05-04",
-      "lockState": "lineup_confirmed",
+      "lockState": "game_started",
       "lockedAt": "2026-05-04T20:33:04.796188Z"
     },
     {
@@ -8623,29 +8623,6 @@
       "lockedAt": "2026-05-04T22:25:35.502618Z"
     },
     {
-      "player": "Randy V\u00e1squez",
-      "team": "SD",
-      "opp": "SF",
-      "market": "strikeouts",
-      "proj": 5.5,
-      "std": 2.6,
-      "line": 3.5,
-      "over_price": -136,
-      "under_price": 102,
-      "pick": "OVER",
-      "edge": 2.0,
-      "pCover": 0.769,
-      "conf": "high",
-      "proj_ip": 5.9,
-      "proj_bf": 23.0,
-      "proj_pc": 106,
-      "odds": -136,
-      "to_win_1u": 1.36,
-      "date": "2026-05-04",
-      "lockState": "pending",
-      "lockedAt": null
-    },
-    {
       "player": "Logan Gilbert",
       "team": "SEA",
       "opp": "ATL",
@@ -8667,6 +8644,29 @@
       "date": "2026-05-04",
       "lockState": "lineup_confirmed",
       "lockedAt": "2026-05-04T22:25:35.502618Z"
+    },
+    {
+      "player": "Randy V\u00e1squez",
+      "team": "SD",
+      "opp": "SF",
+      "market": "strikeouts",
+      "proj": 5.4,
+      "std": 2.7,
+      "line": 3.5,
+      "over_price": -132,
+      "under_price": 100,
+      "pick": "OVER",
+      "edge": 1.9,
+      "pCover": 0.743,
+      "conf": "high",
+      "proj_ip": 5.9,
+      "proj_bf": 23.0,
+      "proj_pc": 106,
+      "odds": -132,
+      "to_win_1u": 1.32,
+      "date": "2026-05-04",
+      "lockState": "lineup_confirmed",
+      "lockedAt": "2026-05-04T23:03:06.297290Z"
     }
   ],
   "gameTimes": {
@@ -8700,14 +8700,14 @@
     "NYM": "In Progress",
     "DET": "In Progress",
     "BOS": "In Progress",
-    "TB": "Warmup",
-    "TOR": "Warmup",
-    "MIA": "Warmup",
-    "PHI": "Warmup",
-    "NYY": "Pre-Game",
-    "BAL": "Pre-Game",
-    "CHC": "Pre-Game",
-    "CIN": "Pre-Game",
+    "TB": "In Progress",
+    "TOR": "In Progress",
+    "MIA": "In Progress",
+    "PHI": "In Progress",
+    "NYY": "Warmup",
+    "BAL": "Warmup",
+    "CHC": "Delayed Start",
+    "CIN": "Delayed Start",
     "KC": "Pre-Game",
     "CLE": "Pre-Game",
     "STL": "Pre-Game",
@@ -8718,7 +8718,7 @@
     "CWS": "Pre-Game",
     "SEA": "Pre-Game",
     "ATL": "Pre-Game",
-    "SF": "Scheduled",
-    "SD": "Scheduled"
+    "SF": "Pre-Game",
+    "SD": "Pre-Game"
   }
 }
