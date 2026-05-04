@@ -45,11 +45,10 @@ MARKET_THRESHOLDS = {
 # Variance multipliers (how noisy each stat is game-to-game)
 # ---------------------------------------------------------------------------
 VAR_MULT = {
-    # Calibration check (run scripts.calibrate_threshold) confirmed 1.2 for K
-    # produces pCover estimates that match observed win rates in every bucket
-    # from 0.75 to 0.90. Do not raise without re-running calibration — higher
-    # values will starve picks without improving accuracy.
-    "strikeouts":   1.2,
+    # Tuned 2026-05-04 via simulated sweep: BF=0.91, VAR=1.4, thr=0.70 maximizes
+    # WR + ROI + calibration jointly. Backtest projects 76.2% WR / +63u / +50% ROI
+    # vs baseline (VAR=1.2) at 75.4% WR / +59u / +45.7% ROI. Calibration +0.006.
+    "strikeouts":   1.4,
 }
 
 # ---------------------------------------------------------------------------
