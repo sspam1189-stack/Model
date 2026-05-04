@@ -4,10 +4,10 @@
   "season": "2026",
   "mode": "backfill",
   "model": "kalman_blend",
-  "generated": "2026-05-04T14:04:28.072021",
-  "totalProjections": 594,
-  "totalPicks": 129,
-  "totalWatchlist": 203,
+  "generated": "2026-05-04T09:17:29.923914",
+  "totalProjections": 595,
+  "totalPicks": 130,
+  "totalWatchlist": 209,
   "props": [
     {
       "player": "Sonny Gray",
@@ -1142,6 +1142,24 @@
       "actual": 6.0,
       "result": "WIN",
       "date": "2026-04-13"
+    },
+    {
+      "player": "Matthew Boyd",
+      "team": "CHC",
+      "opp": "ARI",
+      "market": "strikeouts",
+      "proj": 6.2,
+      "std": 2.3,
+      "line": 4.5,
+      "pick": "OVER",
+      "edge": 1.7,
+      "pCover": 0.749,
+      "conf": "high",
+      "odds": 111,
+      "to_win_1u": null,
+      "actual": 5.0,
+      "result": "WIN",
+      "date": "2026-05-03"
     },
     {
       "player": "Will Warren",
@@ -3776,6 +3794,25 @@
       "would_be_pick": "OVER"
     },
     {
+      "player": "Justin Wrobleski",
+      "team": "LAD",
+      "opp": "STL",
+      "market": "strikeouts",
+      "proj": 2.5,
+      "std": 2.2,
+      "line": 3.5,
+      "pick": "PASS",
+      "edge": -1.0,
+      "pCover": 0.66,
+      "conf": "watch",
+      "odds": 116,
+      "to_win_1u": null,
+      "actual": 0.0,
+      "result": "WIN",
+      "date": "2026-05-03",
+      "would_be_pick": "UNDER"
+    },
+    {
       "player": "Jack Leiter",
       "team": "TEX",
       "opp": "LAD",
@@ -4498,6 +4535,25 @@
       "would_be_pick": "OVER"
     },
     {
+      "player": "Dustin May",
+      "team": "STL",
+      "opp": "LAD",
+      "market": "strikeouts",
+      "proj": 3.9,
+      "std": 1.6,
+      "line": 4.5,
+      "pick": "PASS",
+      "edge": -0.6,
+      "pCover": 0.64,
+      "conf": "watch",
+      "odds": -132,
+      "to_win_1u": null,
+      "actual": 3.0,
+      "result": "WIN",
+      "date": "2026-05-03",
+      "would_be_pick": "UNDER"
+    },
+    {
       "player": "Kris Bubic",
       "team": "KC",
       "opp": "DET",
@@ -4935,6 +4991,25 @@
       "would_be_pick": "OVER"
     },
     {
+      "player": "Kris Bubic",
+      "team": "KC",
+      "opp": "SEA",
+      "market": "strikeouts",
+      "proj": 6.6,
+      "std": 3.2,
+      "line": 5.5,
+      "pick": "PASS",
+      "edge": 1.1,
+      "pCover": 0.627,
+      "conf": "watch",
+      "odds": -117,
+      "to_win_1u": null,
+      "actual": 7.0,
+      "result": "WIN",
+      "date": "2026-05-03",
+      "would_be_pick": "OVER"
+    },
+    {
       "player": "Bailey Ober",
       "team": "MIN",
       "opp": "DET",
@@ -5103,6 +5178,25 @@
       "actual": 4.0,
       "result": "WIN",
       "date": "2026-05-01",
+      "would_be_pick": "UNDER"
+    },
+    {
+      "player": "Ranger Suarez",
+      "team": "BOS",
+      "opp": "HOU",
+      "market": "strikeouts",
+      "proj": 4.5,
+      "std": 3.1,
+      "line": 5.5,
+      "pick": "PASS",
+      "edge": -1.0,
+      "pCover": 0.622,
+      "conf": "watch",
+      "odds": -154,
+      "to_win_1u": null,
+      "actual": 3.0,
+      "result": "WIN",
+      "date": "2026-05-03",
       "would_be_pick": "UNDER"
     },
     {
@@ -5427,6 +5521,25 @@
       "result": "WIN",
       "date": "2026-04-22",
       "would_be_pick": "UNDER"
+    },
+    {
+      "player": "Parker Messick",
+      "team": "CLE",
+      "opp": "OAK",
+      "market": "strikeouts",
+      "proj": 6.3,
+      "std": 2.5,
+      "line": 5.5,
+      "pick": "PASS",
+      "edge": 0.8,
+      "pCover": 0.616,
+      "conf": "watch",
+      "odds": -111,
+      "to_win_1u": null,
+      "actual": 6.0,
+      "result": "WIN",
+      "date": "2026-05-03",
+      "would_be_pick": "OVER"
     },
     {
       "player": "Parker Messick",
@@ -5885,6 +5998,25 @@
       "would_be_pick": "OVER"
     },
     {
+      "player": "Braxton Ashcraft",
+      "team": "PIT",
+      "opp": "CIN",
+      "market": "strikeouts",
+      "proj": 6.2,
+      "std": 2.3,
+      "line": 5.5,
+      "pick": "PASS",
+      "edge": 0.7,
+      "pCover": 0.607,
+      "conf": "watch",
+      "odds": -134,
+      "to_win_1u": null,
+      "actual": 6.0,
+      "result": "WIN",
+      "date": "2026-05-03",
+      "would_be_pick": "OVER"
+    },
+    {
       "player": "Kevin Gausman",
       "team": "TOR",
       "opp": "MIL",
@@ -6189,5 +6321,5 @@
       "would_be_pick": "UNDER"
     }
   ],
-  "summary": "129 actionable picks for 2026: 97W-32L (75.2%) +58.3u (+203 watchlist)"
+  "summary": "130 actionable picks for 2026: 98W-32L (75.4%) +59.4u (+209 watchlist)"
 }
