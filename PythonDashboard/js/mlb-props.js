@@ -873,7 +873,7 @@
       const tabStyle = 'padding:6px 16px;border:none;background:transparent;color:#999;font-size:13px;cursor:pointer;border-bottom:2px solid transparent;transition:all 0.15s';
       const tabActiveStyle = 'padding:6px 16px;border:none;background:transparent;color:#fff;font-size:13px;cursor:pointer;border-bottom:2px solid #7c6cf0;transition:all 0.15s';
 
-      let mlbView = 'all'; // 'all' | 'weekly' | 'all-lean' | 'weekly-lean'
+      let mlbView = 'all'; // 'all' | 'weekly' | 'all-lean' | 'weekly-lean' | 'all-combined'
 
       // Watchlist UNDER 0.60-0.70 picks (saved with pick=PASS, would_be_pick=UNDER)
       const leanPicks = (data.props || []).filter(p =>
@@ -882,6 +882,9 @@
         && (p.pCover || 0) >= 0.60
         && (p.pCover || 0) < 0.70
       );
+
+      // Effective direction: actionable picks use p.pick, leans use p.would_be_pick
+      const effectiveDir = (p) => p.pick === 'PASS' ? p.would_be_pick : p.pick;
 
       const allPicksCard = document.createElement('div');
       allPicksCard.className = 'card';
@@ -902,10 +905,13 @@
       viewAllLeanBtn.textContent = 'All Lean';
       const viewWeeklyLeanBtn = document.createElement('button');
       viewWeeklyLeanBtn.textContent = 'Weekly Lean';
+      const viewAllCombinedBtn = document.createElement('button');
+      viewAllCombinedBtn.textContent = 'All';
       tabRow.appendChild(viewAllBtn);
       tabRow.appendChild(viewWeeklyBtn);
       tabRow.appendChild(viewAllLeanBtn);
       tabRow.appendChild(viewWeeklyLeanBtn);
+      tabRow.appendChild(viewAllCombinedBtn);
       toolbar.appendChild(tabRow);
 
       // Market filter row removed — strikeouts is the only active market.
@@ -918,10 +924,13 @@
       filterRow.style.cssText = 'display:flex;gap:12px;align-items:center;padding:12px 16px;flex-wrap:wrap';
 
       // All Picks filters
-      const allDates = [...new Set(picks.map(p => p.date))].sort().reverse();
+      const allDates = [...new Set(picks.concat(leanPicks).map(p => p.date))].sort().reverse();
       const dateSel = document.createElement('select');
       dateSel.style.cssText = selStyle;
       dateSel.innerHTML = '<option value="all">All Dates</option>' + allDates.map(d => `<option value="${d}">${d}</option>`).join('');
+      const dirSel = document.createElement('select');
+      dirSel.style.cssText = selStyle;
+      dirSel.innerHTML = '<option value="all">All O/U</option><option value="OVER">OVER</option><option value="UNDER">UNDER</option>';
       const teamSel = document.createElement('select');
       teamSel.style.cssText = selStyle;
       const allTeams = [...new Set(picks.map(p => p.team))].filter(Boolean).sort();
@@ -975,13 +984,16 @@
         : ['col-player','col-team','col-opp','col-proj','col-line','col-edge','col-pcov','col-pick','col-price'];
 
       function activeSource() {
-        return (mlbView === 'all-lean' || mlbView === 'weekly-lean') ? leanPicks : picks;
+        if (mlbView === 'all-lean' || mlbView === 'weekly-lean') return leanPicks;
+        if (mlbView === 'all-combined') return picks.concat(leanPicks);
+        return picks;
       }
 
       function getFilteredPicks() {
         let fp = activeSource().slice();
         if (dateSel.value !== 'all') fp = fp.filter(p => p.date === dateSel.value);
         if (teamSel.value !== 'all') fp = fp.filter(p => p.team === teamSel.value);
+        if (dirSel.value !== 'all') fp = fp.filter(p => effectiveDir(p) === dirSel.value);
         if (dateSel.value !== 'all') {
           const catOrder = {strikeouts:0, outs:1, hits_allowed:2, game_hits:3};
           fp.sort((a, b) => (catOrder[a.market]??99) - (catOrder[b.market]??99) || (b.pCover||0) - (a.pCover||0));
@@ -1021,7 +1033,7 @@
             edgeStr,
             pcStr,
             p.actual != null ? String(p.actual) : '\u2014',
-            p.pick === 'OVER' ? 'O' : 'U',
+            effectiveDir(p) === 'OVER' ? 'O' : 'U',
             priceStr,
             p.result === 'WIN' ? 'W' : p.result === 'LOSS' ? 'L' : '\u2014'
           ] : [
@@ -1029,7 +1041,7 @@
             p.line != null ? String(p.line) : '\u2014',
             edgeStr,
             pcStr,
-            p.pick === 'OVER' ? 'O' : 'U',
+            effectiveDir(p) === 'OVER' ? 'O' : 'U',
             priceStr
           ];
           cells.forEach((val, i) => {
@@ -1044,7 +1056,7 @@
               if (i === 4) td.style.color = p.proj > p.line ? 'var(--green)' : p.proj < p.line ? 'var(--red)' : '';
               if (i === 6) td.style.color = edgeVal > 0 ? 'var(--green)' : edgeVal < 0 ? 'var(--red)' : '#999';
               if (i === 7) td.style.color = '#aaa';
-              if (i === 9) { td.style.fontWeight = '700'; td.style.color = p.pick === 'OVER' ? 'var(--green)' : 'var(--red)'; }
+              if (i === 9) { td.style.fontWeight = '700'; td.style.color = effectiveDir(p) === 'OVER' ? 'var(--green)' : 'var(--red)'; }
               if (i === 10) td.style.color = '#999';
               if (i === 11) { td.style.fontWeight = '700'; td.style.color = p.result === 'WIN' ? 'var(--green)' : 'var(--red)'; }
             } else {
@@ -1053,7 +1065,7 @@
               if (i === 3) td.style.color = p.proj > p.line ? 'var(--green)' : p.proj < p.line ? 'var(--red)' : '';
               if (i === 5) td.style.color = edgeVal > 0 ? 'var(--green)' : edgeVal < 0 ? 'var(--red)' : '#999';
               if (i === 6) td.style.color = '#aaa';
-              if (i === 7) { td.style.fontWeight = '700'; td.style.color = p.pick === 'OVER' ? 'var(--green)' : 'var(--red)'; }
+              if (i === 7) { td.style.fontWeight = '700'; td.style.color = effectiveDir(p) === 'OVER' ? 'var(--green)' : 'var(--red)'; }
               if (i === 8) td.style.color = '#999';
             }
           });
@@ -1223,7 +1235,7 @@
             edgeStr,
             pcStr,
             p.actual!=null?String(p.actual):'\u2014',
-            p.pick==='OVER'?'O':'U',
+            effectiveDir(p)==='OVER'?'O':'U',
             priceStr,
             p.result==='WIN'?'W':p.result==='LOSS'?'L':'\u2014'
           ] : [
@@ -1231,7 +1243,7 @@
             p.line!=null?String(p.line):'\u2014',
             edgeStr,
             pcStr,
-            p.pick==='OVER'?'O':'U',
+            effectiveDir(p)==='OVER'?'O':'U',
             priceStr
           ];
           cells.forEach((val, i) => {
@@ -1246,7 +1258,7 @@
               if (i===5) td.style.color=p.proj>p.line?'var(--green)':p.proj<p.line?'var(--red)':'';
               if (i===7) td.style.color = edgeVal > 0 ? 'var(--green)' : edgeVal < 0 ? 'var(--red)' : '#999';
               if (i===8) td.style.color='#aaa';
-              if (i===10) { td.style.fontWeight='700'; td.style.color=p.pick==='OVER'?'var(--green)':'var(--red)'; }
+              if (i===10) { td.style.fontWeight='700'; td.style.color=effectiveDir(p)==='OVER'?'var(--green)':'var(--red)'; }
               if (i===11) td.style.color='#999';
               if (i===12) { td.style.fontWeight='700'; td.style.color=p.result==='WIN'?'var(--green)':'var(--red)'; }
             } else {
@@ -1256,7 +1268,7 @@
               if (i===4) td.style.color=p.proj>p.line?'var(--green)':p.proj<p.line?'var(--red)':'';
               if (i===6) td.style.color = edgeVal > 0 ? 'var(--green)' : edgeVal < 0 ? 'var(--red)' : '#999';
               if (i===7) td.style.color='#aaa';
-              if (i===8) { td.style.fontWeight='700'; td.style.color=p.pick==='OVER'?'var(--green)':'var(--red)'; }
+              if (i===8) { td.style.fontWeight='700'; td.style.color=effectiveDir(p)==='OVER'?'var(--green)':'var(--red)'; }
               if (i===9) td.style.color='#999';
             }
           });
@@ -1277,6 +1289,7 @@
         let fp = activeSource().slice();
         if (weekSel.value !== 'all') fp = fp.filter(p => p.date && getWeekStart(p.date) === weekSel.value);
         if (daySel.value !== 'all') fp = fp.filter(p => p.date === daySel.value);
+        if (dirSel.value !== 'all') fp = fp.filter(p => effectiveDir(p) === dirSel.value);
 
         // Group by week start
         const weekMap = {};
@@ -1433,17 +1446,20 @@
         viewWeeklyBtn.style.cssText = v === 'weekly' ? tabActiveStyle : tabStyle;
         viewAllLeanBtn.style.cssText = v === 'all-lean' ? tabActiveStyle : tabStyle;
         viewWeeklyLeanBtn.style.cssText = v === 'weekly-lean' ? tabActiveStyle : tabStyle;
+        viewAllCombinedBtn.style.cssText = v === 'all-combined' ? tabActiveStyle : tabStyle;
         // Swap filter row contents
         filterRow.textContent = '';
         const isWeekly = (v === 'weekly' || v === 'weekly-lean');
         if (!isWeekly) {
           filterRow.appendChild(dateSel);
           filterRow.appendChild(teamSel);
+          filterRow.appendChild(dirSel);
           filterRow.appendChild(filterLabel);
         } else {
           refreshDayOptions();
           filterRow.appendChild(weekSel);
           filterRow.appendChild(daySel);
+          filterRow.appendChild(dirSel);
           filterRow.appendChild(weekFilterLabel);
         }
         refreshView();
@@ -1453,8 +1469,10 @@
       viewWeeklyBtn.onclick = () => setView('weekly');
       viewAllLeanBtn.onclick = () => setView('all-lean');
       viewWeeklyLeanBtn.onclick = () => setView('weekly-lean');
+      viewAllCombinedBtn.onclick = () => setView('all-combined');
       dateSel.addEventListener('change', renderAllPicksView);
       teamSel.addEventListener('change', renderAllPicksView);
+      dirSel.addEventListener('change', refreshView);
       weekSel.addEventListener('change', () => { refreshDayOptions(); renderWeeklyView(); });
       daySel.addEventListener('change', renderWeeklyView);
 
