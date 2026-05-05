@@ -142,6 +142,8 @@
         }
         const leanAll = (data.props || []).filter(isLean);
         const leanGraded = leanAll.filter(p => p.result === 'WIN' || p.result === 'LOSS');
+        const leanUnderGraded = leanGraded.filter(p => p.would_be_pick === 'UNDER');
+        const leanOverGraded = leanGraded.filter(p => p.would_be_pick === 'OVER');
         function leanRowFor(filteredLeans) {
           const w = filteredLeans.filter(p => p.result === 'WIN').length;
           const l = filteredLeans.filter(p => p.result === 'LOSS').length;
@@ -193,7 +195,8 @@
           if (allOvers.length)  appendMarketRow(mb, 'Overs',  allOvers,  false);
           if (allUnders.length) appendMarketRow(mb, 'Unders', allUnders, false);
           appendMarketRow(mb, 'Total', gradedPicks, true);
-          appendLeanRow(mb, leanGraded, 'Lean U .60-.70 + O .65-.70');
+          appendLeanRow(mb, leanUnderGraded, 'Lean U .60-.70');
+          appendLeanRow(mb, leanOverGraded, 'Lean O .65-.70');
           mbWrap.appendChild(mbTbl);
           mbCard.appendChild(mbWrap);
           el.appendChild(mbCard);
