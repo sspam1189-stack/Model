@@ -195,8 +195,8 @@
           if (allOvers.length)  appendMarketRow(mb, 'Overs',  allOvers,  false);
           if (allUnders.length) appendMarketRow(mb, 'Unders', allUnders, false);
           appendMarketRow(mb, 'Total', gradedPicks, true);
-          appendLeanRow(mb, leanUnderGraded, 'Lean U .60-.70');
           appendLeanRow(mb, leanOverGraded, 'Lean O .65-.70');
+          appendLeanRow(mb, leanUnderGraded, 'Lean U .60-.70');
           mbWrap.appendChild(mbTbl);
           mbCard.appendChild(mbWrap);
           el.appendChild(mbCard);
