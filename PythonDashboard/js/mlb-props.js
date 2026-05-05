@@ -673,7 +673,16 @@
               const ea = (a.proj??0)-(a.line??0), eb = (b.proj??0)-(b.line??0);
               v = (eb - ea) || ((b.pCover??0) - (a.pCover??0));
             } else if (sortCol === 'cover') {
-              v = (b.pCover??0) - (a.pCover??0);
+              // Directional spectrum: OVERs sorted by pCover desc at top,
+              // UNDERs sorted by pCover asc at bottom (so order reads
+              // OVER 70 → OVER 65 → ~50 → UNDER 65 → UNDER 70).
+              // Implemented via "implied OVER probability": OVER picks use
+              // their pCover, UNDER picks use (1 - pCover).
+              const aOver = (a.proj??0) >= (a.line??0);
+              const bOver = (b.proj??0) >= (b.line??0);
+              const aScore = aOver ? (a.pCover??0.5) : (1 - (a.pCover??0.5));
+              const bScore = bOver ? (b.pCover??0.5) : (1 - (b.pCover??0.5));
+              v = bScore - aScore;
             } else if (sortCol === 'proj') {
               v = (b.proj??0) - (a.proj??0);
             } else {
