@@ -4,10 +4,10 @@
   "season": "2026",
   "mode": "live",
   "model": "kalman_blend",
-  "generated": "2026-05-04T18:03:06.297116",
+  "generated": "2026-05-04T19:32:33.034817",
   "totalProjections": 19,
   "totalPicks": 348,
-  "totalWatchlist": 5,
+  "totalWatchlist": 6,
   "props": [
     {
       "player": "Sonny Gray",
@@ -8059,7 +8059,7 @@
       "to_win_1u": 0.83,
       "would_be_pick": "UNDER",
       "date": "2026-05-04",
-      "lockState": "lineup_confirmed",
+      "lockState": "game_started",
       "lockedAt": "2026-05-04T19:11:59.129221Z"
     },
     {
@@ -8083,7 +8083,7 @@
       "to_win_1u": 1.25,
       "would_be_pick": "UNDER",
       "date": "2026-05-04",
-      "lockState": "lineup_confirmed",
+      "lockState": "game_started",
       "lockedAt": "2026-05-04T19:11:59.129221Z"
     },
     {
@@ -8106,7 +8106,7 @@
       "odds": -148,
       "to_win_1u": 1.48,
       "date": "2026-05-04",
-      "lockState": "lineup_confirmed",
+      "lockState": "game_started",
       "lockedAt": "2026-05-04T20:12:10.575201Z"
     },
     {
@@ -8130,7 +8130,7 @@
       "to_win_1u": 0.83,
       "would_be_pick": "OVER",
       "date": "2026-05-04",
-      "lockState": "lineup_confirmed",
+      "lockState": "game_started",
       "lockedAt": "2026-05-04T20:33:04.796188Z"
     },
     {
@@ -8228,7 +8228,7 @@
       "lockedAt": "2026-05-04T23:03:06.297290Z"
     }
   ],
-  "summary": "4 picks (+5 watch) from 19 projections",
+  "summary": "3 picks (+6 watch) from 19 projections",
   "date": "2026-05-04",
   "todayProjections": [
     {
@@ -8251,7 +8251,7 @@
       "odds": -125,
       "to_win_1u": 1.25,
       "date": "2026-05-04",
-      "lockState": "lineup_confirmed",
+      "lockState": "game_started",
       "lockedAt": "2026-05-04T20:12:10.575201Z"
     },
     {
@@ -8297,7 +8297,7 @@
       "odds": -118,
       "to_win_1u": 1.18,
       "date": "2026-05-04",
-      "lockState": "lineup_confirmed",
+      "lockState": "game_started",
       "lockedAt": "2026-05-04T20:12:10.575201Z"
     },
     {
@@ -8343,7 +8343,7 @@
       "odds": 122,
       "to_win_1u": 0.82,
       "date": "2026-05-04",
-      "lockState": "lineup_confirmed",
+      "lockState": "game_started",
       "lockedAt": "2026-05-04T20:12:10.575201Z"
     },
     {
@@ -8366,7 +8366,7 @@
       "odds": -148,
       "to_win_1u": 1.48,
       "date": "2026-05-04",
-      "lockState": "lineup_confirmed",
+      "lockState": "game_started",
       "lockedAt": "2026-05-04T20:12:10.575201Z"
     },
     {
@@ -8458,7 +8458,7 @@
       "odds": 120,
       "to_win_1u": 0.83,
       "date": "2026-05-04",
-      "lockState": "lineup_confirmed",
+      "lockState": "game_started",
       "lockedAt": "2026-05-04T20:33:04.796188Z"
     },
     {
@@ -8481,7 +8481,7 @@
       "odds": 118,
       "to_win_1u": 0.85,
       "date": "2026-05-04",
-      "lockState": "lineup_confirmed",
+      "lockState": "game_started",
       "lockedAt": "2026-05-04T20:33:04.796188Z"
     },
     {
@@ -8550,7 +8550,7 @@
       "odds": 116,
       "to_win_1u": 0.86,
       "date": "2026-05-04",
-      "lockState": "lineup_confirmed",
+      "lockState": "game_started",
       "lockedAt": "2026-05-04T21:03:11.666790Z"
     },
     {
@@ -8573,7 +8573,7 @@
       "odds": 106,
       "to_win_1u": 0.94,
       "date": "2026-05-04",
-      "lockState": "lineup_confirmed",
+      "lockState": "game_started",
       "lockedAt": "2026-05-04T21:03:11.666790Z"
     },
     {
@@ -8696,24 +8696,24 @@
     "SD": "2026-05-05T01:45:00Z"
   },
   "gameStatuses": {
-    "COL": "In Progress",
-    "NYM": "In Progress",
-    "DET": "In Progress",
-    "BOS": "In Progress",
+    "COL": "Final",
+    "NYM": "Final",
+    "DET": "Delayed",
+    "BOS": "Delayed",
     "TB": "In Progress",
     "TOR": "In Progress",
     "MIA": "In Progress",
     "PHI": "In Progress",
-    "NYY": "Warmup",
-    "BAL": "Warmup",
-    "CHC": "Delayed Start",
-    "CIN": "Delayed Start",
-    "KC": "Pre-Game",
-    "CLE": "Pre-Game",
-    "STL": "Pre-Game",
-    "MIL": "Pre-Game",
-    "HOU": "Pre-Game",
-    "LAD": "Pre-Game",
+    "NYY": "In Progress",
+    "BAL": "In Progress",
+    "CHC": "Warmup",
+    "CIN": "Warmup",
+    "KC": "In Progress",
+    "CLE": "In Progress",
+    "STL": "In Progress",
+    "MIL": "In Progress",
+    "HOU": "In Progress",
+    "LAD": "In Progress",
     "LAA": "Pre-Game",
     "CWS": "Pre-Game",
     "SEA": "Pre-Game",
