@@ -657,7 +657,7 @@
         const PAGE_SIZE = 30;
         let currentPage = 0;
         // sortCol: 'cat'|'edge'|'cover'|'proj'  sortDir: 1=desc -1=asc (legacy convention)
-        let sortCol = 'edge';   // default: highest edge first, pCover as tiebreaker
+        let sortCol = 'cover'; // default: directional spectrum (OVER 70% top, UNDER 70% bottom)
         let sortDir = 1;
 
         const catOrd = {strikeouts:0, outs:1, hits_allowed:2, game_hits:3};
