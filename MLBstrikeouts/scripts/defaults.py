@@ -45,12 +45,14 @@ MARKET_THRESHOLDS = {
 # Variance multipliers (how noisy each stat is game-to-game)
 # ---------------------------------------------------------------------------
 VAR_MULT = {
-    # Tuned 2026-05-05 with BF=0.91 + Yamamoto 5/4 line correction (5.5 from
-    # incorrect 6.5). VAR=1.4 produces 126 actionable picks (74.6% WR, +56.17u,
-    # +44.6% ROI) + 90 UNDER leans (+29.77u, +33.1% ROI) = +85.94u/season.
-    # Statistically tied with V=1.2 (+0.25u difference) but V=1.4 has higher
-    # per-pick ROI (+44.6% vs +42.1%) and slightly tighter calibration.
-    "strikeouts":   1.4,
+    # Tuned 2026-05-05 with pitch-count ceiling cap + splits-blend 0.3.
+    # BF=0.88, VAR=1.0 chosen from BF x VAR sweep:
+    #   BF=0.88, VAR=1.0: 119 picks, 94-25, 79.0% WR, +64.16u, +41.1% ROI
+    # Beats BF=0.92/VAR=1.4 (+62.32u) on volume + ROI; equal WR (~79%).
+    # Trends positive in recent weeks (04/27 +7.23u, 05/04 +2.85u vs
+    # 0.92/1.4's +4.07u, -1.81u). Higher volume captures more winning
+    # UNDERs that the tighter VAR=1.4 filters out.
+    "strikeouts":   1.0,
 }
 
 # ---------------------------------------------------------------------------
@@ -105,6 +107,10 @@ HANDEDNESS_ADJ_WEIGHT = {
 # weight 0.3 produced highest WR (78.8% on backfill picks) and best per-pick
 # ROI (+49% vs +40% at weight 1.0) while preserving same unit total.
 SPLITS_BLEND_WEIGHT = 0.3
+
+# Projected batters-faced multiplier — calibrates the rate × min/IP-derived
+# BF estimate. <1 trims for blowouts/short outings/pulled starts; >1 inflates.
+BF_MULT = 0.88
 
 # xFIP anchor weight (regress toward true-talent)
 XFIP_ANCHOR_WEIGHT = 0.20

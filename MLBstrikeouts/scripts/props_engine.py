@@ -343,6 +343,15 @@ def project_pitcher_props(pitcher_logs, team_batting_stats=None,
                 avg_pc = max(wavg_pc, last_pc)
             else:
                 avg_pc = wavg_pc
+            # --- Pitch-count ceiling ---
+            # Cap projected pitches at the recent ceiling (max of last 5
+            # starts). Pitchers have hard pitch-count caps from coaching
+            # staff that the rolling-avg pitch count ignores. Without this,
+            # picks that look like "100-pitch outing → 25 BF" project K's
+            # the pitcher cannot physically achieve.
+            recent_pcs = game_pcs[-5:] if game_pcs else []
+            if recent_pcs:
+                avg_pc = min(avg_pc, max(recent_pcs))
             projected_bf = avg_pc / avg_ppbf if avg_ppbf > 0 else 24.0
         else:
             avg_ppbf = 3.9  # MLB league avg pitches/BF — fallback only
@@ -350,7 +359,8 @@ def project_pitcher_props(pitcher_logs, team_batting_stats=None,
             whip = adv.get("WHIP", 0) or 1.20
             projected_bf = proj_ip * (3.0 + whip * 0.7)
 
-        projected_bf = min(projected_bf * 0.91, 23.0)
+        from defaults import BF_MULT as _BF_MULT
+        projected_bf = min(projected_bf * _BF_MULT, 23.0)
         # Projected pitch count: prefer recent avg if we have it; otherwise
         # derive from final projected_bf × league-avg pitches/BF.
         proj_pc = avg_pc if avg_pc is not None else projected_bf * avg_ppbf
