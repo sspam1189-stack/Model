@@ -739,7 +739,7 @@
             th.textContent = label + arrow;
             th.style.cssText = `padding:5px 8px;text-align:${leftAlign?'left':'center'};border-bottom:1px solid rgba(255,255,255,0.1);font-size:12px;color:${isActive?'#fff':'#999'};${key?'cursor:pointer;user-select:none':''}`;
             if (key) th.onclick = () => {
-              if (sortCol === key) { sortDir *= -1; } else { sortCol = key; sortDir = key === 'cat' ? 1 : -1; }
+              if (sortCol === key) { sortDir *= -1; } else { sortCol = key; sortDir = (key === 'cat' || key === 'cover') ? 1 : -1; }
               currentPage = 0;
               renderGameTable();
             };
