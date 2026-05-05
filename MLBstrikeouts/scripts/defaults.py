@@ -45,12 +45,12 @@ MARKET_THRESHOLDS = {
 # Variance multipliers (how noisy each stat is game-to-game)
 # ---------------------------------------------------------------------------
 VAR_MULT = {
-    # Calibration check (run scripts.calibrate_threshold) confirmed 1.2 for K
-    # produces pCover estimates that match observed win rates in every bucket
-    # from 0.75 to 0.90. Tested 30+ alternatives 2026-05-04/05 (BF=0.89-0.95
-    # x VAR=1.0-2.0); under flat-bet sizing baseline (BF=0.91/V=1.2) wins on
-    # combined book: actionable +59.43u + UNDER leans +29.76u = +89.19u/season.
-    "strikeouts":   1.2,
+    # Tuned 2026-05-05 with BF=0.91 + Yamamoto 5/4 line correction (5.5 from
+    # incorrect 6.5). VAR=1.4 produces 126 actionable picks (74.6% WR, +56.17u,
+    # +44.6% ROI) + 90 UNDER leans (+29.77u, +33.1% ROI) = +85.94u/season.
+    # Statistically tied with V=1.2 (+0.25u difference) but V=1.4 has higher
+    # per-pick ROI (+44.6% vs +42.1%) and slightly tighter calibration.
+    "strikeouts":   1.4,
 }
 
 # ---------------------------------------------------------------------------
