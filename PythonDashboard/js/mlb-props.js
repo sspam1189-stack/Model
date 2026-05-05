@@ -195,9 +195,10 @@
           el.appendChild(mbCard);
         }
 
-        // Recent Record (since model overhaul: walk-forward leak fix + Kalman
-        // std augmentation + calibrated 0.70 threshold all landed 2026-04-20).
-        const recentCutoff = '2026-05-04';
+        // Recent Record cutoff = the date the latest model tuning shipped.
+        // Last tuning: 2026-05-05 — pitch-count ceiling cap + BF=0.88,
+        // VAR=1.0, splits-blend 0.3.
+        const recentCutoff = '2026-05-05';
         const recentPicks = gradedPicks.filter(p => p.date && p.date >= recentCutoff);
         if (recentPicks.length > 0) {
           const rW = recentPicks.filter(p => p.result === 'WIN').length;
