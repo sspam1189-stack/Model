@@ -129,14 +129,18 @@
 
         const gradedPicks = picks.filter(p => p.result && p.result !== 'VOID');
 
-        // Watchlist leans: UNDER picks at pCover 0.60-0.70 (saved with pick=PASS).
+        // Watchlist leans (saved with pick=PASS):
+        //   UNDER 0.60-0.70 — calibrated profitable tier (~70% WR)
+        //   OVER  0.65-0.70 — also profitable under new model (~64% WR)
         // Tracked separately from actionable picks for calibration / tier study.
-        const leanAll = (data.props || []).filter(p =>
-          p.pick === 'PASS'
-          && p.would_be_pick === 'UNDER'
-          && (p.pCover || 0) >= 0.60
-          && (p.pCover || 0) < 0.70
-        );
+        function isLean(p) {
+          if (p.pick !== 'PASS') return false;
+          const pc = p.pCover || 0;
+          if (p.would_be_pick === 'UNDER') return pc >= 0.60 && pc < 0.70;
+          if (p.would_be_pick === 'OVER')  return pc >= 0.65 && pc < 0.70;
+          return false;
+        }
+        const leanAll = (data.props || []).filter(isLean);
         const leanGraded = leanAll.filter(p => p.result === 'WIN' || p.result === 'LOSS');
         function leanRowFor(filteredLeans) {
           const w = filteredLeans.filter(p => p.result === 'WIN').length;
@@ -189,7 +193,7 @@
           if (allOvers.length)  appendMarketRow(mb, 'Overs',  allOvers,  false);
           if (allUnders.length) appendMarketRow(mb, 'Unders', allUnders, false);
           appendMarketRow(mb, 'Total', gradedPicks, true);
-          appendLeanRow(mb, leanGraded, 'Lean U .60–.70');
+          appendLeanRow(mb, leanGraded, 'Lean U .60-.70 + O .65-.70');
           mbWrap.appendChild(mbTbl);
           mbCard.appendChild(mbWrap);
           el.appendChild(mbCard);
@@ -229,7 +233,7 @@
           if (recentUnders.length) appendMarketRow(rb, 'Unders', recentUnders, false);
           appendMarketRow(rb, 'Total', recentPicks, true);
           const recentLeans = leanGraded.filter(p => p.date && p.date >= recentCutoff);
-          appendLeanRow(rb, recentLeans, 'Lean U .60–.70');
+          appendLeanRow(rb, recentLeans, 'Lean U .60-.70 + O .65-.70');
           rWrap.appendChild(rTbl);
           rCard.appendChild(rWrap);
           el.appendChild(rCard);
@@ -301,7 +305,7 @@
             // Header: just the title + count (matches Today's Picks lean header style)
             const leanHeader = document.createElement('div');
             leanHeader.style.cssText = 'margin-top:14px;padding-top:8px;border-top:1px dashed rgba(244,180,0,0.4);font-size:12px;color:#f4b400;font-weight:600';
-            leanHeader.textContent = `Leans — UNDER .60–.70 (${yLeans.length})`;
+            leanHeader.textContent = `Leans — U .60-.70 + O .65-.70 (${yLeans.length})`;
             recapCard.appendChild(leanHeader);
             const lTbl = document.createElement('table');
             lTbl.className = 'data';
@@ -363,12 +367,7 @@
         };
         const todayPicks = picks.filter(p => p.date === todayStr && !_isVoidGame(p));
         const todayLeans = (data.props || []).filter(p =>
-          p.date === todayStr
-          && p.pick === 'PASS'
-          && (p.pCover || 0) >= 0.60
-          && (p.pCover || 0) < 0.70
-          && p.would_be_pick === 'UNDER'
-          && !_isVoidGame(p)
+          p.date === todayStr && isLean(p) && !_isVoidGame(p)
         );
         if (todayPicks.length > 0 || todayLeans.length > 0) {
           const todayCard = document.createElement('div');
@@ -552,7 +551,7 @@
           if (lTbl) {
             const leanHeader = document.createElement('div');
             leanHeader.style.cssText = 'margin-top:14px;padding-top:8px;border-top:1px dashed rgba(244,180,0,0.4);font-size:12px;color:#f4b400;font-weight:600';
-            leanHeader.textContent = `Leans — UNDER .60–.70 (${todayLeans.length})`;
+            leanHeader.textContent = `Leans — U .60-.70 + O .65-.70 (${todayLeans.length})`;
             todayCard.appendChild(leanHeader);
             todayCard.appendChild(lTbl);
           }
@@ -888,13 +887,16 @@
 
       let mlbView = 'all'; // 'all' | 'weekly' | 'all-lean' | 'weekly-lean' | 'all-combined'
 
-      // Watchlist UNDER 0.60-0.70 picks (saved with pick=PASS, would_be_pick=UNDER)
-      const leanPicks = (data.props || []).filter(p =>
-        p.pick === 'PASS'
-        && p.would_be_pick === 'UNDER'
-        && (p.pCover || 0) >= 0.60
-        && (p.pCover || 0) < 0.70
-      );
+      // Watchlist leans (pick=PASS):
+      //   UNDER pCover 0.60-0.70  — calibrated profitable (~70% WR)
+      //   OVER  pCover 0.65-0.70  — profitable under current model (~64% WR)
+      const leanPicks = (data.props || []).filter(p => {
+        if (p.pick !== 'PASS') return false;
+        const pc = p.pCover || 0;
+        if (p.would_be_pick === 'UNDER') return pc >= 0.60 && pc < 0.70;
+        if (p.would_be_pick === 'OVER')  return pc >= 0.65 && pc < 0.70;
+        return false;
+      });
 
       // Effective direction: actionable picks use p.pick, leans use p.would_be_pick
       const effectiveDir = (p) => p.pick === 'PASS' ? p.would_be_pick : p.pick;
