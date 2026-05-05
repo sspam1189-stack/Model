@@ -696,6 +696,42 @@ def fetch_pitcher_handedness_splits(pitcher_id, season=None, through_date=None):
     return result
 
 
+def fetch_pitcher_handedness_splits_season(pitcher_id, season=None, through_date=None):
+    """
+    Season-to-through_date version (no rolling window) of pitcher
+    handedness splits. Used alongside the rolling-45d version to enable
+    blended recent+stable estimates in props_engine.
+
+    Returns dict with vs_left and vs_right keys (same shape as the
+    rolling fetcher).
+    """
+    season = season or _current_season()
+    if through_date is None:
+        # Live mode — same as the unrestricted fetch
+        return fetch_pitcher_handedness_splits(pitcher_id, season=season)
+
+    thru_key = through_date.replace("-", "")
+    cache_path = CACHE_DIR / f"handedness_{pitcher_id}_{season}_season_thru_{thru_key}.json"
+    cached = _load_cache(cache_path, max_age_hours=None)
+    if cached is not None:
+        return cached
+
+    season_start = f"{season}-03-20"
+    url = (
+        f"{BASE_URL}/people/{pitcher_id}/stats"
+        f"?stats=statSplits&group=pitching&sitCodes=vl,vr"
+        f"&startDate={season_start}&endDate={through_date}"
+    )
+    try:
+        raw = _fetch_json(url)
+    except Exception:
+        raw = {}
+    time.sleep(0.3)
+    result = _parse_pitcher_splits_response(raw)
+    _save_cache(cache_path, result)
+    return result
+
+
 # ---------------------------------------------------------------------------
 # 4b. Batter Strikeout Rates (season + vs LHP/RHP splits)
 # ---------------------------------------------------------------------------

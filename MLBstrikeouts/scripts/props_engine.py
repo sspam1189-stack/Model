@@ -235,13 +235,33 @@ def project_pitcher_props(pitcher_logs, team_batting_stats=None,
         rolling_std = _weighted_std(vals) * VAR_MULT.get(market, 1.2)
 
         # --- Pitcher K rate by handedness ---
+        # Blend rolling-45d (recent form) with full season-to-date (stable).
+        # SPLITS_BLEND_WEIGHT controls weight on recent: 1.0 = pure recent
+        # (legacy behavior), 0.0 = pure season, 0.5 = even blend.
+        from defaults import SPLITS_BLEND_WEIGHT
         vl = splits.get("vs_left", {})
         vr = splits.get("vs_right", {})
-        vl_k, vl_pa = vl.get("k", 0), vl.get("pa", 0)
-        vr_k, vr_pa = vr.get("k", 0), vr.get("pa", 0)
+        vl_season = splits.get("vs_left_season", {})
+        vr_season = splits.get("vs_right_season", {})
 
-        k_rate_vs_lhb = vl_k / vl_pa if vl_pa > 0 else 0.0
-        k_rate_vs_rhb = vr_k / vr_pa if vr_pa > 0 else 0.0
+        def _blended_rate(recent, season_dict, w):
+            r_k, r_pa = recent.get("k", 0), recent.get("pa", 0)
+            s_k, s_pa = season_dict.get("k", 0), season_dict.get("pa", 0)
+            r_rate = r_k / r_pa if r_pa > 0 else None
+            s_rate = s_k / s_pa if s_pa > 0 else None
+            if r_rate is not None and s_rate is not None:
+                return w * r_rate + (1.0 - w) * s_rate
+            if s_rate is not None:
+                return s_rate
+            if r_rate is not None:
+                return r_rate
+            return 0.0
+
+        k_rate_vs_lhb = _blended_rate(vl, vl_season, SPLITS_BLEND_WEIGHT)
+        k_rate_vs_rhb = _blended_rate(vr, vr_season, SPLITS_BLEND_WEIGHT)
+        # Combined PA across windows for the "no data" check below
+        vl_pa = (vl.get("pa", 0) or 0) + (vl_season.get("pa", 0) or 0)
+        vr_pa = (vr.get("pa", 0) or 0) + (vr_season.get("pa", 0) or 0)
 
         overall_k_pct = adv.get("k_pct", 0) or 0.0
         savant = (savant_rates or {}).get(str(pid), {})

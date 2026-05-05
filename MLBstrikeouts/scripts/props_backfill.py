@@ -36,6 +36,7 @@ from defaults import ROLLING_WINDOW, MIN_GAMES, current_season
 from sources.weather import fetch_game_weather
 from sources.mlb_stats import (
     fetch_pitcher_handedness_splits,
+    fetch_pitcher_handedness_splits_season,
     fetch_player_bat_sides, fetch_lineup_handedness,
     fetch_batter_k_rates, load_pitch_hands,
     CACHE_DIR,
@@ -376,6 +377,14 @@ def backfill(season=None, start_game=10, start_date=None):
                 s = fetch_pitcher_handedness_splits(
                     pid, season=season, through_date=game_date
                 )
+                # Also fetch season-to-game_date splits and stash in the
+                # same dict under _season suffix so props_engine can blend.
+                s_season = fetch_pitcher_handedness_splits_season(
+                    pid, season=season, through_date=game_date
+                )
+                if s and s_season:
+                    s["vs_left_season"] = s_season.get("vs_left", {})
+                    s["vs_right_season"] = s_season.get("vs_right", {})
                 if s:
                     date_splits[str(pid)] = s
 

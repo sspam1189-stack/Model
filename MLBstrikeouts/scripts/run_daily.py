@@ -39,6 +39,7 @@ sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..'))
 from sources.mlb_stats import (
     fetch_pitcher_game_logs, fetch_pitcher_advanced_stats,
     fetch_pitcher_sabermetrics, fetch_pitcher_handedness_splits,
+    fetch_pitcher_handedness_splits_season,
     fetch_team_batting_stats, fetch_team_pitching_stats,
     fetch_today_probable_pitchers,
     fetch_player_bat_sides, fetch_lineup_handedness,
@@ -358,9 +359,13 @@ def run_daily(date_key=None):
     splits = {}
     for pid in pitcher_ids:
         s = fetch_pitcher_handedness_splits(pid, season=season, through_date=date_iso)
+        s_season = fetch_pitcher_handedness_splits_season(pid, season=season, through_date=date_iso)
+        if s and s_season:
+            s["vs_left_season"] = s_season.get("vs_left", {})
+            s["vs_right_season"] = s_season.get("vs_right", {})
         if s:
             splits[str(pid)] = s
-    print(f"  {len(splits)} pitchers with handedness splits")
+    print(f"  {len(splits)} pitchers with handedness splits (recent + season)")
 
     # Stage 8: Fetch team batting stats
     print(f"\n  [8/15] Fetching team batting stats...")

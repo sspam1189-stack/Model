@@ -97,6 +97,15 @@ HANDEDNESS_ADJ_WEIGHT = {
     "strikeouts":   0.15,
 }
 
+# Pitcher handedness splits: blend weight between rolling-45d (recent form)
+# and season-to-date (stable, larger sample).
+# 1.0 = 100% recent (legacy, ~90 BF/side mid-season — borderline noisy)
+# 0.0 = 100% season (stable but stale late season)
+# 0.3 chosen by 2026-04-28 backfill sweep across [1.0, 0.7, 0.5, 0.3, 0.0]:
+# weight 0.3 produced highest WR (78.8% on backfill picks) and best per-pick
+# ROI (+49% vs +40% at weight 1.0) while preserving same unit total.
+SPLITS_BLEND_WEIGHT = 0.3
+
 # xFIP anchor weight (regress toward true-talent)
 XFIP_ANCHOR_WEIGHT = 0.20
 
