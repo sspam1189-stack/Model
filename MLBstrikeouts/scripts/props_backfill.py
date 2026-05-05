@@ -273,16 +273,28 @@ def backfill(season=None, start_game=10, start_date=None):
                 batch_update_from_game_logs(kalman_state, today_date_logs)
             continue
 
-        # Phase 2: Load real prop lines from cache (pre-fetched by fetch_odds.py)
+        # Phase 2: Load real prop lines — FanDuel-first, OddsAPI fallback.
+        # Mirrors run_daily.py merge (FanDuel primary; OddsAPI fills gaps only).
+        # OddsAPI is emergency fallback for dates where FanDuel cache is missing
+        # or when FD didn't capture a particular (player, market) pair.
         real_lines = None
         try:
-            from sources.odds_theoddsapi import _props_cache_path, _load_cache
+            from sources.odds_fanduel    import _props_cache_path as _fd_cp,  _load_cache as _fd_load
+            from sources.odds_theoddsapi import _props_cache_path as _oa_cp,  _load_cache as _oa_load
             date_key = game_date.replace("-", "")
-            cp = _props_cache_path(date_key)
-            cached = _load_cache(cp, max_age_hours=None)
-            if cached is not None:
-                real_lines = cached
-        except Exception as e:
+
+            fd_cached = _fd_load(_fd_cp(date_key), max_age_hours=None) or []
+            oa_cached = _oa_load(_oa_cp(date_key), max_age_hours=None) or []
+
+            fd_markets = {(p.get("player",""), p.get("market","")) for p in fd_cached}
+            merged = list(fd_cached)
+            for p in oa_cached:
+                if (p.get("player",""), p.get("market","")) not in fd_markets:
+                    merged.append(p)
+
+            if merged:
+                real_lines = merged
+        except Exception:
             pass  # No props available for this date — project without lines
 
         # Phase 2b: Fetch lineup handedness + weather for this date

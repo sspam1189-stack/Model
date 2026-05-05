@@ -505,7 +505,17 @@ def run_daily(date_key=None):
 
     # Stage 12: Fetch prop lines (FanDuel + Odds API combined)
     print(f"\n  [12/15] Fetching prop lines (FanDuel + Odds API)...")
-    fd_result = fetch_fanduel_mlb_props(date_key=date_key)
+    # Pass confirmed-lineup teams to FanDuel so its cache freezes those games
+    # at lineup-confirmation time. Without this, lines for confirmed games
+    # could continue drifting in the cache after run_daily locked the bet,
+    # causing backfill to replay against a different price than locked.
+    fd_confirmed_keys = {
+        abbr for abbr, v in (lineup_data or {}).items()
+        if v.get("confirmed")
+    }
+    fd_result = fetch_fanduel_mlb_props(
+        date_key=date_key, confirmed_team_keys=fd_confirmed_keys
+    )
     if isinstance(fd_result, tuple):
         fd_props, _ = fd_result
     else:
