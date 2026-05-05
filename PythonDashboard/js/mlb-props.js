@@ -330,7 +330,8 @@
               const pcStr = p.pCover != null ? (p.pCover * 100).toFixed(2) + '%' : '—';
               [displayName(p), p.team||'', p.opp||'', marketLabels[p.market]||p.market,
                String(p.proj), p.line!=null?String(p.line):'—', yEdgeStr, pcStr, yPrice,
-               p.actual!=null?String(p.actual):'—', 'U',
+               p.actual!=null?String(p.actual):'—',
+               p.would_be_pick === 'OVER' ? 'O' : 'U',
                p.result==='WIN'?'W':'L'].forEach((v, i) => {
                 const td = row.insertCell();
                 td.textContent = v;
@@ -341,7 +342,7 @@
                 if (i === 6 && yEdge != null) td.style.color = yEdge > 0 ? 'var(--green)' : yEdge < 0 ? 'var(--red)' : '#999';
                 if (i === 7) td.style.color = '#aaa';
                 if (i === 8) td.style.color = '#999';
-                if (i === 10) { td.style.fontWeight = '700'; td.style.color = 'var(--red)'; }
+                if (i === 10) { td.style.fontWeight = '700'; td.style.color = p.would_be_pick === 'OVER' ? 'var(--green)' : 'var(--red)'; }
                 if (i === 11) { td.style.fontWeight = '700'; td.style.color = p.result === 'WIN' ? 'var(--green)' : 'var(--red)'; }
               });
             }
@@ -523,7 +524,7 @@
                 String(p.proj),
                 p.line != null ? String(p.line) : '—',
                 tEdgeStr, tPrice,
-                'U',
+                p.would_be_pick === 'OVER' ? 'O' : 'U',
                 confText,
                 started ? '\u{1F552}' : ''
               ];
@@ -536,7 +537,7 @@
                 if (i === 4) td.style.color = p.proj > p.line ? 'var(--green)' : p.proj < p.line ? 'var(--red)' : '';
                 if (i === 6 && tEdge != null) td.style.color = tEdge > 0 ? 'var(--green)' : tEdge < 0 ? 'var(--red)' : '#999';
                 if (i === 7) td.style.color = '#999';
-                if (i === 8) { td.style.fontWeight = '700'; td.style.color = 'var(--red)'; }
+                if (i === 8) { td.style.fontWeight = '700'; td.style.color = p.would_be_pick === 'OVER' ? 'var(--green)' : 'var(--red)'; }
                 if (i === 9) {
                   td.title = isPostponed ? _gsLean : (p.lockState || 'pending');
                   td.style.fontSize = '11px';
