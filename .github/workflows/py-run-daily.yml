@@ -137,6 +137,24 @@ jobs:
       - name: Install dependencies
         run: pip install -r pyNBAPROPS/requirements.txt
 
+      - uses: actions/download-artifact@v8
+        with:
+          name: shared-injury-cache
+          path: artifacts/injury-cache
+
+      - uses: actions/download-artifact@v8
+        with:
+          name: shared-espn-cache
+          path: artifacts/espn-cache
+
+      - name: Overlay fresh shared caches
+        shell: bash
+        run: |
+          mkdir -p data/injury_cache/nba
+          cp -a artifacts/injury-cache/. data/injury_cache/nba/
+          mkdir -p data/espn_cache/nba
+          cp -a artifacts/espn-cache/. data/espn_cache/nba/
+
       - name: Run daily NBA props
         working-directory: pyNBAPROPS
         env:
