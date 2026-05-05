@@ -330,12 +330,7 @@ def project_pitcher_props(pitcher_logs, team_batting_stats=None,
             whip = adv.get("WHIP", 0) or 1.20
             projected_bf = proj_ip * (3.0 + whip * 0.7)
 
-        # BF suppression factor — calibrated 2026-05-04 via 16-config sweep.
-        # 0.92 + VAR=1.6 produces 77.9% WR, +52.3% ROI, +59.15u (vs baseline
-        # 0.91/V=1.2 at 75.4%/+45.7%/+59.43u). Pareto improvement on WR+ROI+
-        # last-week protection (-4.35u vs -6.33u). Calibration: 0.70-0.75 bucket
-        # +0.047 (slightly conservative — picks beat their claimed pCover).
-        projected_bf = min(projected_bf * 0.92, 23.0)
+        projected_bf = min(projected_bf * 0.91, 23.0)
         # Projected pitch count: prefer recent avg if we have it; otherwise
         # derive from final projected_bf × league-avg pitches/BF.
         proj_pc = avg_pc if avg_pc is not None else projected_bf * avg_ppbf
