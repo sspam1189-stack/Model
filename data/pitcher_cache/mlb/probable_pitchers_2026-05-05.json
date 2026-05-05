@@ -112,20 +112,6 @@
     "away_pitcher_name": "Gavin Williams"
   },
   {
-    "game_id": 823062,
-    "game_date": "2026-05-05",
-    "game_time": "2026-05-05T23:45:00Z",
-    "status": "Pre-Game",
-    "home_team": "STL",
-    "home_team_id": 138,
-    "away_team": "MIL",
-    "away_team_id": 158,
-    "home_pitcher_id": 669467,
-    "home_pitcher_name": "Andre Pallante",
-    "away_pitcher_id": 687075,
-    "away_pitcher_name": "Brandon Sproat"
-  },
-  {
     "game_id": 824200,
     "game_date": "2026-05-05",
     "game_time": "2026-05-06T00:10:00Z",
@@ -157,7 +143,7 @@
     "game_id": 825092,
     "game_date": "2026-05-05",
     "game_time": "2026-05-06T01:40:00Z",
-    "status": "Scheduled",
+    "status": "Pre-Game",
     "home_team": "ARI",
     "home_team_id": 109,
     "away_team": "PIT",
@@ -185,7 +171,7 @@
     "game_id": 823227,
     "game_date": "2026-05-05",
     "game_time": "2026-05-06T01:45:00Z",
-    "status": "Scheduled",
+    "status": "Pre-Game",
     "home_team": "SF",
     "home_team_id": 137,
     "away_team": "SD",
@@ -194,6 +180,20 @@
     "home_pitcher_name": "Logan Webb",
     "away_pitcher_id": 621111,
     "away_pitcher_name": "Walker Buehler"
+  },
+  {
+    "game_id": 823062,
+    "game_date": "2026-05-05",
+    "game_time": "2026-05-05T23:45:00Z",
+    "status": "Postponed",
+    "home_team": "STL",
+    "home_team_id": 138,
+    "away_team": "MIL",
+    "away_team_id": 158,
+    "home_pitcher_id": 669467,
+    "home_pitcher_name": "Andre Pallante",
+    "away_pitcher_id": 687075,
+    "away_pitcher_name": "Brandon Sproat"
   },
   {
     "game_id": 824362,
