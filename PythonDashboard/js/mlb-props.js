@@ -943,6 +943,25 @@
       const dirSel = document.createElement('select');
       dirSel.style.cssText = selStyle;
       dirSel.innerHTML = '<option value="all">All O/U</option><option value="OVER">OVER</option><option value="UNDER">UNDER</option>';
+      const bucketSel = document.createElement('select');
+      bucketSel.style.cssText = selStyle;
+      bucketSel.innerHTML = [
+        '<option value="all">All Cover%</option>',
+        '<option value="0.55-0.60">55–60%</option>',
+        '<option value="0.60-0.65">60–65%</option>',
+        '<option value="0.65-0.70">65–70%</option>',
+        '<option value="0.70-0.75">70–75%</option>',
+        '<option value="0.75-0.80">75–80%</option>',
+        '<option value="0.80-0.85">80–85%</option>',
+        '<option value="0.85-0.90">85–90%</option>',
+        '<option value="0.90-1.01">90%+</option>',
+      ].join('');
+      function inBucket(p, val) {
+        if (val === 'all') return true;
+        const [lo, hi] = val.split('-').map(parseFloat);
+        const pc = p.pCover || 0;
+        return pc >= lo && pc < hi;
+      }
       const teamSel = document.createElement('select');
       teamSel.style.cssText = selStyle;
       const allTeams = [...new Set(picks.map(p => p.team))].filter(Boolean).sort();
@@ -1006,6 +1025,7 @@
         if (dateSel.value !== 'all') fp = fp.filter(p => p.date === dateSel.value);
         if (teamSel.value !== 'all') fp = fp.filter(p => p.team === teamSel.value);
         if (dirSel.value !== 'all') fp = fp.filter(p => effectiveDir(p) === dirSel.value);
+        if (bucketSel.value !== 'all') fp = fp.filter(p => inBucket(p, bucketSel.value));
         if (dateSel.value !== 'all') {
           const catOrder = {strikeouts:0, outs:1, hits_allowed:2, game_hits:3};
           fp.sort((a, b) => (catOrder[a.market]??99) - (catOrder[b.market]??99) || (b.pCover||0) - (a.pCover||0));
@@ -1302,6 +1322,7 @@
         if (weekSel.value !== 'all') fp = fp.filter(p => p.date && getWeekStart(p.date) === weekSel.value);
         if (daySel.value !== 'all') fp = fp.filter(p => p.date === daySel.value);
         if (dirSel.value !== 'all') fp = fp.filter(p => effectiveDir(p) === dirSel.value);
+        if (bucketSel.value !== 'all') fp = fp.filter(p => inBucket(p, bucketSel.value));
 
         // Group by week start
         const weekMap = {};
@@ -1466,12 +1487,14 @@
           filterRow.appendChild(dateSel);
           filterRow.appendChild(teamSel);
           filterRow.appendChild(dirSel);
+          filterRow.appendChild(bucketSel);
           filterRow.appendChild(filterLabel);
         } else {
           refreshDayOptions();
           filterRow.appendChild(weekSel);
           filterRow.appendChild(daySel);
           filterRow.appendChild(dirSel);
+          filterRow.appendChild(bucketSel);
           filterRow.appendChild(weekFilterLabel);
         }
         refreshView();
@@ -1485,6 +1508,7 @@
       dateSel.addEventListener('change', renderAllPicksView);
       teamSel.addEventListener('change', renderAllPicksView);
       dirSel.addEventListener('change', refreshView);
+      bucketSel.addEventListener('change', refreshView);
       weekSel.addEventListener('change', () => { refreshDayOptions(); renderWeeklyView(); });
       daySel.addEventListener('change', renderWeeklyView);
 
