@@ -738,20 +738,43 @@ def write_dashboard_json(results, season):
         path = os.path.normpath(path)
         os.makedirs(os.path.dirname(path), exist_ok=True)
 
-        # Merge: preserve any live/today's picks that aren't in backfill date range
+        # Merge:
+        #   1. Preserve any live picks on dates outside the backfill range.
+        #   2. Preserve LOCKED picks (lineup_confirmed/game_started/final) even
+        #      within the backfill range — those represent actual bets and
+        #      their line/odds were captured live (FanDuel via run_daily).
+        #      Backfill uses OddsAPI cache which can disagree (different book,
+        #      different snapshot time), so we'd otherwise clobber the bet of
+        #      record. Drop the corresponding fresh backfill entry to avoid
+        #      duplicates.
+        _LOCK_STATES_BF = {"lineup_confirmed", "game_started", "final"}
         existing_live_picks = []
+        existing_locked_in_range = []
         try:
             if os.path.exists(path):
                 with open(path, "r") as f:
                     existing = json.load(f)
+                existing_props = existing.get("props", [])
                 existing_live_picks = [
-                    p for p in existing.get("props", [])
+                    p for p in existing_props
                     if p.get("date") not in backfill_dates
+                ]
+                existing_locked_in_range = [
+                    p for p in existing_props
+                    if p.get("date") in backfill_dates
+                    and p.get("lockState") in _LOCK_STATES_BF
                 ]
         except Exception:
             existing_live_picks = []
+            existing_locked_in_range = []
 
-        merged_props = all_picks + existing_live_picks
+        # Drop fresh backfill entries that collide with preserved locked ones.
+        def _key(p):
+            return (p.get("date", ""), p.get("team", ""), p.get("player", ""), p.get("market", ""))
+        locked_keys = {_key(p) for p in existing_locked_in_range}
+        all_picks_filtered = [p for p in all_picks if _key(p) not in locked_keys]
+
+        merged_props = all_picks_filtered + existing_locked_in_range + existing_live_picks
         dashboard["props"] = merged_props
         # totalPicks reflects only actionable (non-PASS) entries; watchlist
         # is tracked separately so it doesn't inflate the headline pick count.
@@ -760,10 +783,12 @@ def write_dashboard_json(results, season):
         dashboard["totalPicks"] = len(merged_actionable)
         dashboard["totalWatchlist"] = len(merged_watch)
 
-        n_bt = len(all_picks)
+        n_bt = len(all_picks_filtered)
         n_live = len(existing_live_picks)
-        if n_live > 0:
-            print(f"  Merged: {n_bt} backfill entries + {n_live} live preserved")
+        n_locked = len(existing_locked_in_range)
+        if n_live > 0 or n_locked > 0:
+            print(f"  Merged: {n_bt} backfill entries + {n_locked} locked preserved "
+                  f"+ {n_live} live preserved")
 
         with open(path, "w") as f:
             json.dump(dashboard, f, indent=2, cls=_NumpyEncoder)
