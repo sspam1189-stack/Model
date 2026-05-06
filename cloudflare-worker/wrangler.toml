@@ -1,0 +1,7 @@
+name = "pydashboard-workflow-proxy"
+main = "workflow-proxy.js"
+compatibility_date = "2025-01-01"
+
+# Secrets (set via `wrangler secret put`):
+#   GH_TOKEN    - GitHub fine-grained PAT, repo sspam1189-stack/Model, Actions: R/W
+#   ACCESS_KEY  - shared passphrase users paste into the dashboard once

@@ -42,35 +42,19 @@ jobs:
           TO_EMAIL: ${{ secrets.TO_EMAIL }}
         run: python run_daily.py
 
-      - name: Upload pyNBA data
-        uses: actions/upload-artifact@v7
-        with:
-          name: pyNBA-data
-          path: pyNBA/data
+      - name: Copy dashboard data
+        shell: bash
+        run: cp pyNBA/data/history.json PythonDashboard/data/nba.json
 
-      - name: Upload shared injury cache
-        uses: actions/upload-artifact@v7
-        with:
-          name: shared-injury-cache
-          path: data/injury_cache/nba
-
-      - name: Upload shared odds cache
-        uses: actions/upload-artifact@v7
-        with:
-          name: shared-odds-cache
-          path: data/odds_cache/nba
-
-      - name: Upload shared stats cache
-        uses: actions/upload-artifact@v7
-        with:
-          name: shared-stats-cache
-          path: data/stats_cache/nba
-
-      - name: Upload shared ESPN cache
-        uses: actions/upload-artifact@v7
-        with:
-          name: shared-espn-cache
-          path: data/espn_cache/nba
+      - name: Commit & push NBA data
+        shell: bash
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add pyNBA/data/ data/injury_cache/nba/ data/odds_cache/nba/ data/stats_cache/nba/ data/espn_cache/nba/ PythonDashboard/data/nba.json
+          git diff --cached --quiet || git commit -m "Run daily Python NBA [skip ci]"
+          git pull --rebase origin main
+          git push
 
   nba-fullseason:
     runs-on: self-hosted
@@ -107,15 +91,23 @@ jobs:
           TO_EMAIL: ${{ secrets.TO_EMAIL }}
         run: python run_daily.py
 
-      - name: Upload pyFull data
-        uses: actions/upload-artifact@v7
-        with:
-          name: pyFull-data
-          path: pyFull/data
+      - name: Copy dashboard data
+        shell: bash
+        run: cp pyFull/data/history.json PythonDashboard/data/fullseason.json
+
+      - name: Commit & push Fullseason data
+        shell: bash
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add pyFull/data/ PythonDashboard/data/fullseason.json
+          git diff --cached --quiet || git commit -m "Run daily Python Fullseason [skip ci]"
+          git pull --rebase origin main
+          git push
 
   nba-props:
     runs-on: self-hosted
-    needs: nba
+    needs: nba-fullseason
     defaults:
       run:
         shell: powershell
@@ -137,24 +129,6 @@ jobs:
       - name: Install dependencies
         run: pip install -r pyNBAPROPS/requirements.txt
 
-      - uses: actions/download-artifact@v8
-        with:
-          name: shared-injury-cache
-          path: artifacts/injury-cache
-
-      - uses: actions/download-artifact@v8
-        with:
-          name: shared-espn-cache
-          path: artifacts/espn-cache
-
-      - name: Overlay fresh shared caches
-        shell: bash
-        run: |
-          mkdir -p data/injury_cache/nba
-          cp -a artifacts/injury-cache/. data/injury_cache/nba/
-          mkdir -p data/espn_cache/nba
-          cp -a artifacts/espn-cache/. data/espn_cache/nba/
-
       - name: Run daily NBA props
         working-directory: pyNBAPROPS
         env:
@@ -163,93 +137,16 @@ jobs:
           PYTHONIOENCODING: "utf-8"
         run: python -m scripts.run_daily
 
-      - name: Upload pyNBAPROPS data
-        uses: actions/upload-artifact@v7
-        with:
-          name: pyNBAPROPS-data
-          path: pyNBAPROPS/data
-
-      - name: Upload shared props cache
-        uses: actions/upload-artifact@v7
-        with:
-          name: shared-props-cache
-          path: data/props_cache/nba
-
-  commit-and-push:
-    runs-on: ubuntu-latest
-    needs: [nba, nba-fullseason, nba-props]
-    steps:
-      - uses: actions/checkout@v6
-        with:
-          ref: main
-          fetch-depth: 0
-
-      - uses: actions/download-artifact@v8
-        with:
-          name: pyNBA-data
-          path: artifacts/pyNBA
-
-      - uses: actions/download-artifact@v8
-        with:
-          name: pyFull-data
-          path: artifacts/pyFull
-
-      - uses: actions/download-artifact@v8
-        with:
-          name: pyNBAPROPS-data
-          path: artifacts/pyNBAPROPS
-
-      - uses: actions/download-artifact@v8
-        with:
-          name: shared-injury-cache
-          path: artifacts/injury-cache
-
-      - uses: actions/download-artifact@v8
-        with:
-          name: shared-odds-cache
-          path: artifacts/odds-cache
-
-      - uses: actions/download-artifact@v8
-        with:
-          name: shared-stats-cache
-          path: artifacts/stats-cache
-
-      - uses: actions/download-artifact@v8
-        with:
-          name: shared-espn-cache
-          path: artifacts/espn-cache
-
-      - uses: actions/download-artifact@v8
-        with:
-          name: shared-props-cache
-          path: artifacts/props-cache
-
-      - name: Copy artifacts
+      - name: Copy dashboard data
         shell: bash
-        run: |
-          cp -a artifacts/pyNBA/. pyNBA/data/
-          cp -a artifacts/pyFull/. pyFull/data/
-          cp -a artifacts/pyNBAPROPS/. pyNBAPROPS/data/
-          mkdir -p data/injury_cache/nba
-          cp -a artifacts/injury-cache/. data/injury_cache/nba/
-          mkdir -p data/odds_cache/nba
-          cp -a artifacts/odds-cache/. data/odds_cache/nba/
-          mkdir -p data/stats_cache/nba
-          cp -a artifacts/stats-cache/. data/stats_cache/nba/
-          mkdir -p data/espn_cache/nba
-          cp -a artifacts/espn-cache/. data/espn_cache/nba/
-          mkdir -p data/props_cache/nba
-          cp -a artifacts/props-cache/. data/props_cache/nba/
-          cp pyNBA/data/history.json PythonDashboard/data/nba.json
-          cp pyFull/data/history.json PythonDashboard/data/fullseason.json
-          cp -f artifacts/pyNBAPROPS/nba-props.json PythonDashboard/data/nba-props.json 2>/dev/null || true
+        run: cp -f pyNBAPROPS/data/nba-props.json PythonDashboard/data/nba-props.json 2>/dev/null || true
 
-      - name: Commit & push data changes
+      - name: Commit & push NBA Props data
         shell: bash
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add pyNBA/data/ pyFull/data/ pyNBAPROPS/data/ data/injury_cache/nba/ data/odds_cache/nba/ data/stats_cache/nba/ data/espn_cache/nba/ data/props_cache/nba/ PythonDashboard/data/nba.json PythonDashboard/data/fullseason.json PythonDashboard/data/nba-props.json
-          git diff --cached --quiet || git commit -m "Run daily Python NBA + Fullseason + NBA Props"
+          git add pyNBAPROPS/data/ data/props_cache/nba/ PythonDashboard/data/nba-props.json
+          git diff --cached --quiet || git commit -m "Run daily Python NBA Props [skip ci]"
           git pull --rebase origin main
           git push
