@@ -394,7 +394,7 @@
           const tbl = document.createElement('table');
           tbl.className = 'props-data-table';
           tbl.style.cssText = 'width:100%;border-collapse:collapse;margin-top:8px';
-          const todayHeaders = ['Pitcher','Team','Opp','Cat','Proj','Line','Edge','Price','Pick','Confirmed','Status'];
+          const todayHeaders = ['Pitcher','Team','Opp','Cat','Proj','Line','Edge','Cover%','Price','Pick','Confirmed','Status'];
           const hRow = tbl.createTHead().insertRow();
           todayHeaders.forEach((h, i) => {
             const th = document.createElement('th');
@@ -444,12 +444,13 @@
               const isPostponed = _VOID_GAME_STATUSES_TP.has(_gsTP);
               const isConfirmed = _LOCK_STATES.has(p.lockState);
               const confText = isPostponed ? _gsTP : (isConfirmed ? 'Confirmed' : 'Unconfirmed');
+              const tPcStr = p.pCover != null ? (p.pCover * 100).toFixed(2) + '%' : '\u2014';
               const cells = [
                 displayName(p), p.team || '', p.opp || '',
                 marketLabels[p.market] || p.market,
                 String(p.proj),
                 p.line != null ? String(p.line) : '\u2014',
-                tEdgeStr, tPrice,
+                tEdgeStr, tPcStr, tPrice,
                 p.pick === 'OVER' ? 'O' : 'U',
                 confText,
                 started ? '\u{1F552}' : ''
@@ -462,9 +463,10 @@
                 if (i === 1 || i === 2) td.style.color = '#999';
                 if (i === 4) td.style.color = p.proj > p.line ? 'var(--green)' : p.proj < p.line ? 'var(--red)' : '';
                 if (i === 6 && tEdge != null) td.style.color = tEdge > 0 ? 'var(--green)' : tEdge < 0 ? 'var(--red)' : '#999';
-                if (i === 7) td.style.color = '#999';
-                if (i === 8) { td.style.fontWeight = '700'; td.style.color = p.pick === 'OVER' ? 'var(--green)' : 'var(--red)'; }
-                if (i === 9) {
+                if (i === 7) td.style.color = '#aaa';
+                if (i === 8) td.style.color = '#999';
+                if (i === 9) { td.style.fontWeight = '700'; td.style.color = p.pick === 'OVER' ? 'var(--green)' : 'var(--red)'; }
+                if (i === 10) {
                   td.title = isPostponed ? _gsTP : (p.lockState || 'pending');
                   td.style.fontSize = '11px';
                   td.style.fontWeight = '600';
@@ -518,12 +520,13 @@
               const isPostponed = _VOID_STATUSES_LEAN.has(_gsLean);
               const isConfirmed = _LOCK_STATES.has(p.lockState);
               const confText = isPostponed ? _gsLean : (isConfirmed ? 'Confirmed' : 'Unconfirmed');
+              const lPcStr = p.pCover != null ? (p.pCover * 100).toFixed(2) + '%' : '—';
               const cells = [
                 displayName(p), p.team || '', p.opp || '',
                 marketLabels[p.market] || p.market,
                 String(p.proj),
                 p.line != null ? String(p.line) : '—',
-                tEdgeStr, tPrice,
+                tEdgeStr, lPcStr, tPrice,
                 p.would_be_pick === 'OVER' ? 'O' : 'U',
                 confText,
                 started ? '\u{1F552}' : ''
@@ -536,9 +539,10 @@
                 if (i === 1 || i === 2) td.style.color = '#999';
                 if (i === 4) td.style.color = p.proj > p.line ? 'var(--green)' : p.proj < p.line ? 'var(--red)' : '';
                 if (i === 6 && tEdge != null) td.style.color = tEdge > 0 ? 'var(--green)' : tEdge < 0 ? 'var(--red)' : '#999';
-                if (i === 7) td.style.color = '#999';
-                if (i === 8) { td.style.fontWeight = '700'; td.style.color = p.would_be_pick === 'OVER' ? 'var(--green)' : 'var(--red)'; }
-                if (i === 9) {
+                if (i === 7) td.style.color = '#aaa';
+                if (i === 8) td.style.color = '#999';
+                if (i === 9) { td.style.fontWeight = '700'; td.style.color = p.would_be_pick === 'OVER' ? 'var(--green)' : 'var(--red)'; }
+                if (i === 10) {
                   td.title = isPostponed ? _gsLean : (p.lockState || 'pending');
                   td.style.fontSize = '11px';
                   td.style.fontWeight = '600';
