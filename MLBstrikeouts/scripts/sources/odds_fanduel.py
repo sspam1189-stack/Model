@@ -238,11 +238,14 @@ def fetch_fanduel_mlb_props(date_key=None, confirmed_team_keys=None):
     date_key : str or None
         Date in YYYYMMDD format. Auto-detected if None.
     confirmed_team_keys : iterable[str] or None
-        Set of team abbreviations whose lineups are confirmed. Games
-        involving any confirmed team are treated like started games:
+        Set of team abbreviations whose pick is ALREADY locked from a
+        prior run (lockState ∈ {lineup_confirmed, game_started, final}).
+        Games involving any such team are treated like started games:
         fresh fetches are skipped and the cached lines are preserved
-        verbatim. This locks the FanDuel snapshot at lineup-confirmation
-        time so re-fetches later in the day can't move the recorded line.
+        verbatim. The caller must NOT include teams whose lineup just
+        confirmed this run — those need a fresh fetch so the lock price
+        reflects the live market at confirmation time, not a stale value
+        cached before the lineup was posted.
 
     Returns
     -------
@@ -339,13 +342,13 @@ def fetch_fanduel_mlb_props(date_key=None, confirmed_team_keys=None):
         home_abbr = MLB_TEAM_NAME_TO_ABBR.get(home_team, home_team)
         away_abbr = MLB_TEAM_NAME_TO_ABBR.get(away_team, away_team)
 
-        # Lineup-confirmation lock: if either side has confirmed lineups, the
+        # Locked-pick freeze: if either side belongs to a pick that was
+        # already locked in a prior run (caller passes those team keys), the
         # FanDuel snapshot for this game is frozen at the cached state. This
-        # prevents the line from drifting between lineup_confirmed (when the
-        # bet was locked in run_daily) and game_started (when the cache freezes
-        # via openDate). Without this, the cache would update with newer lines
-        # in that window and backfill would replay against a different price
-        # than the one that was actually locked.
+        # prevents the line from drifting between lock and game_started. We
+        # deliberately do NOT freeze on first-confirmation runs — the caller
+        # passes only previously-locked teams, so newly-confirmed games still
+        # get a fresh fetch and lock at the live market price.
         if home_abbr in confirmed_team_keys or away_abbr in confirmed_team_keys:
             started_games.add(game_key)
             continue

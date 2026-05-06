@@ -505,16 +505,28 @@ def run_daily(date_key=None):
 
     # Stage 12: Fetch prop lines (FanDuel + Odds API combined)
     print(f"\n  [12/15] Fetching prop lines (FanDuel + Odds API)...")
-    # Pass confirmed-lineup teams to FanDuel so its cache freezes those games
-    # at lineup-confirmation time. Without this, lines for confirmed games
-    # could continue drifting in the cache after run_daily locked the bet,
-    # causing backfill to replay against a different price than locked.
-    fd_confirmed_keys = {
-        abbr for abbr, v in (lineup_data or {}).items()
-        if v.get("confirmed")
-    }
+    # Freeze the FanDuel cache only for games whose pick was ALREADY locked in
+    # a prior run (lockState ∈ {lineup_confirmed, game_started, final}). On the
+    # very first run that sees a confirmation, we still fetch fresh odds so the
+    # lock price reflects the live market at the moment of confirmation, not a
+    # stale price cached before the lineup was posted.
+    fd_frozen_keys = set()
+    try:
+        prior_path = os.path.join(SCRIPT_DIR, "..", "data", "mlb-props.json")
+        if os.path.exists(prior_path):
+            with open(prior_path, "r") as _f:
+                _prior = json.load(_f)
+            _LOCKED = {"lineup_confirmed", "game_started", "final"}
+            for _p in (_prior.get("props", []) or []):
+                if _p.get("date") == date_iso and _p.get("lockState") in _LOCKED:
+                    if _p.get("team"):
+                        fd_frozen_keys.add(_p["team"])
+                    if _p.get("opp"):
+                        fd_frozen_keys.add(_p["opp"])
+    except Exception:
+        fd_frozen_keys = set()
     fd_result = fetch_fanduel_mlb_props(
-        date_key=date_key, confirmed_team_keys=fd_confirmed_keys
+        date_key=date_key, confirmed_team_keys=fd_frozen_keys
     )
     if isinstance(fd_result, tuple):
         fd_props, _ = fd_result
