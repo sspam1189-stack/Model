@@ -49,7 +49,7 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add pyNBA/data/ data/injury_cache/nba/ data/odds_cache/nba/ data/stats_cache/nba/ data/espn_cache/nba/ PythonDashboard/data/nba.json
+          git add -A
           git diff --cached --quiet
           if ($LASTEXITCODE -ne 0) { git commit -m "Run daily Python NBA [skip ci]" }
           git pull --rebase --autostash origin main
@@ -98,7 +98,7 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add pyFull/data/ PythonDashboard/data/fullseason.json
+          git add -A
           git diff --cached --quiet
           if ($LASTEXITCODE -ne 0) { git commit -m "Run daily Python Fullseason [skip ci]" }
           git pull --rebase --autostash origin main
@@ -144,7 +144,7 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add pyNBAPROPS/data/ data/props_cache/nba/ PythonDashboard/data/nba-props.json
+          git add -A
           git diff --cached --quiet
           if ($LASTEXITCODE -ne 0) { git commit -m "Run daily Python NBA Props [skip ci]" }
           git pull --rebase --autostash origin main
