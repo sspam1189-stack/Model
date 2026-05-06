@@ -85863,49 +85863,58 @@
         {
           "away": "Philadelphia 76ers",
           "home": "New York Knicks",
-          "line": -7.5,
-          "total": 216.5,
+          "line": -10.5,
+          "total": 214.5,
           "startTimeUTC": "2026-05-06T23:10:00.000+00:00",
           "_book": "FanDuel",
-          "aS": 106.0,
+          "aS": 105.4,
           "hS": 116.4,
-          "pT": 222.4,
-          "margin": 2.9,
-          "sDiff": 2.9,
-          "tDiff": -5.2,
+          "pT": 221.8,
+          "margin": 0.5,
+          "sDiff": 0.5,
+          "tDiff": -3.5,
           "sPick": "PASS",
           "sConf": "low",
           "oPick": "PASS",
           "oConf": "low",
-          "injuryNote": null,
-          "pHomeCover": 0.58,
-          "pAwayCover": 0.42,
-          "pOver": 0.366,
-          "pUnder": 0.634,
+          "injuryNote": "Away: Joel Embiid (out/starter)",
+          "pHomeCover": 0.514,
+          "pAwayCover": 0.486,
+          "pOver": 0.409,
+          "pUnder": 0.591,
           "pCover": null,
           "pOU": null,
           "marginVar": 208.7,
           "marginStd": 14.4,
           "_features": {
-            "dTS": 0.025851250000000103,
-            "dTO": 0.001923000000000008,
-            "dORR": 0.03047150000000004,
-            "dDEF": -0.26549999999997453,
+            "dTS": 0.02967625000000007,
+            "dTO": 0.027321000000000026,
+            "dORR": 0.03198650000000003,
+            "dDEF": -0.24262500000000387,
             "avgPace": 98.20708
           },
           "_marginFeatures": {
-            "dTS": 0.024,
-            "dTO": -0.0018,
-            "dORR": 0.0283,
-            "dDEF": -0.2469,
+            "dTS": 0.0276,
+            "dTO": -0.0254,
+            "dORR": 0.0297,
+            "dDEF": -0.2256,
             "hca": 1.0,
-            "_baseline": 5.9892,
+            "_baseline": 6.5422,
             "_pace": 0.93
           },
           "h2hAdj": 0,
           "h2hGames": 0,
           "h2hRecord": null,
           "h2hNote": null,
+          "_adjDeltas": {
+            "away": {
+              "OFF": -0.7929,
+              "DEF": 0.0305,
+              "TS": -0.0051,
+              "TO": -0.0339,
+              "ORR": -0.002
+            }
+          },
           "trends": {
             "away": "ATS +/- -0.4 \u00b7 Over 47.3% \u00b7 Under 52.8% \u00b7 O/U +/- 1.1",
             "home": "ATS +/- 2.5 \u00b7 Over 46.7% \u00b7 Under 53.3% \u00b7 O/U +/- -1.4"
@@ -85980,7 +85989,7 @@
         }
       ],
       "summaryText": "RECORD (graded picks only)\n\nSPREAD (ATS)\n  All:         407-234-1   (63.5%)   [graded 642]\n  Elite:       407-234-1   (63.5%)   [graded 642]\n\nFAV/DOG (Spread)\n  Favorites:   189-104-1   (64.5%)   [graded 294]\n  Underdogs:   218-130-0   (62.6%)   [graded 348]\n\nTOTAL (O/U)\n  All:         0-0-0   (n/a%)   [graded 0]\n  Elite:       0-0-0   (n/a%)   [graded 0]\n\nOVER/UNDER\n  Over:        0-0-0   (n/a%)   [graded 0]\n  Under:       0-0-0   (n/a%)   [graded 0]",
-      "ranAt": "05/06/2026, 11:43:35 AM"
+      "ranAt": "05/06/2026, 02:33:00 PM"
     }
   ],
   "weights": {
