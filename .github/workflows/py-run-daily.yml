@@ -43,18 +43,18 @@ jobs:
         run: python run_daily.py
 
       - name: Copy dashboard data
-        shell: bash
-        run: cp pyNBA/data/history.json PythonDashboard/data/nba.json
+        run: Copy-Item pyNBA/data/history.json PythonDashboard/data/nba.json -Force
 
       - name: Commit & push NBA data
-        shell: bash
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git add pyNBA/data/ data/injury_cache/nba/ data/odds_cache/nba/ data/stats_cache/nba/ data/espn_cache/nba/ PythonDashboard/data/nba.json
-          git diff --cached --quiet || git commit -m "Run daily Python NBA [skip ci]"
+          git diff --cached --quiet
+          if ($LASTEXITCODE -ne 0) { git commit -m "Run daily Python NBA [skip ci]" }
           git pull --rebase origin main
           git push
+          exit $LASTEXITCODE
 
   nba-fullseason:
     runs-on: self-hosted
@@ -92,18 +92,18 @@ jobs:
         run: python run_daily.py
 
       - name: Copy dashboard data
-        shell: bash
-        run: cp pyFull/data/history.json PythonDashboard/data/fullseason.json
+        run: Copy-Item pyFull/data/history.json PythonDashboard/data/fullseason.json -Force
 
       - name: Commit & push Fullseason data
-        shell: bash
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git add pyFull/data/ PythonDashboard/data/fullseason.json
-          git diff --cached --quiet || git commit -m "Run daily Python Fullseason [skip ci]"
+          git diff --cached --quiet
+          if ($LASTEXITCODE -ne 0) { git commit -m "Run daily Python Fullseason [skip ci]" }
           git pull --rebase origin main
           git push
+          exit $LASTEXITCODE
 
   nba-props:
     runs-on: self-hosted
@@ -138,15 +138,15 @@ jobs:
         run: python -m scripts.run_daily
 
       - name: Copy dashboard data
-        shell: bash
-        run: cp -f pyNBAPROPS/data/nba-props.json PythonDashboard/data/nba-props.json 2>/dev/null || true
+        run: Copy-Item pyNBAPROPS/data/nba-props.json PythonDashboard/data/nba-props.json -Force -ErrorAction SilentlyContinue
 
       - name: Commit & push NBA Props data
-        shell: bash
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git add pyNBAPROPS/data/ data/props_cache/nba/ PythonDashboard/data/nba-props.json
-          git diff --cached --quiet || git commit -m "Run daily Python NBA Props [skip ci]"
+          git diff --cached --quiet
+          if ($LASTEXITCODE -ne 0) { git commit -m "Run daily Python NBA Props [skip ci]" }
           git pull --rebase origin main
           git push
+          exit $LASTEXITCODE
