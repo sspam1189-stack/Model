@@ -4,7 +4,7 @@
   "season": "2026",
   "mode": "live",
   "model": "kalman_blend",
-  "generated": "2026-05-05T18:01:07.539002",
+  "generated": "2026-05-05T19:31:13.355376",
   "totalProjections": 26,
   "totalPicks": 340,
   "totalWatchlist": 8,
@@ -7709,7 +7709,7 @@
       "odds": -136,
       "to_win_1u": 1.36,
       "date": "2026-05-05",
-      "lockState": "lineup_confirmed",
+      "lockState": "game_started",
       "lockedAt": "2026-05-05T20:05:46.162030Z"
     },
     {
@@ -7828,7 +7828,7 @@
       "to_win_1u": 1.66,
       "would_be_pick": "OVER",
       "date": "2026-05-05",
-      "lockState": "lineup_confirmed",
+      "lockState": "game_started",
       "lockedAt": "2026-05-05T20:05:46.162030Z"
     },
     {
@@ -7875,7 +7875,7 @@
       "to_win_1u": 0.97,
       "would_be_pick": "OVER",
       "date": "2026-05-05",
-      "lockState": "lineup_confirmed",
+      "lockState": "game_started",
       "lockedAt": "2026-05-05T20:39:56.703957Z"
     },
     {
@@ -7899,7 +7899,7 @@
       "to_win_1u": 1.44,
       "would_be_pick": "OVER",
       "date": "2026-05-05",
-      "lockState": "lineup_confirmed",
+      "lockState": "game_started",
       "lockedAt": "2026-05-05T20:51:41.222168Z"
     },
     {
@@ -8090,7 +8090,7 @@
       "odds": -156,
       "to_win_1u": 1.56,
       "date": "2026-05-05",
-      "lockState": "lineup_confirmed",
+      "lockState": "game_started",
       "lockedAt": "2026-05-05T20:39:56.703957Z"
     },
     {
@@ -8113,7 +8113,7 @@
       "odds": -118,
       "to_win_1u": 1.18,
       "date": "2026-05-05",
-      "lockState": "lineup_confirmed",
+      "lockState": "game_started",
       "lockedAt": "2026-05-05T20:39:56.703957Z"
     },
     {
@@ -8159,7 +8159,7 @@
       "odds": 103,
       "to_win_1u": 0.97,
       "date": "2026-05-05",
-      "lockState": "lineup_confirmed",
+      "lockState": "game_started",
       "lockedAt": "2026-05-05T20:39:56.703957Z"
     },
     {
@@ -8297,7 +8297,7 @@
       "odds": -149,
       "to_win_1u": 1.49,
       "date": "2026-05-05",
-      "lockState": "lineup_confirmed",
+      "lockState": "game_started",
       "lockedAt": "2026-05-05T20:39:56.703957Z"
     },
     {
@@ -8366,7 +8366,7 @@
       "odds": -144,
       "to_win_1u": 1.44,
       "date": "2026-05-05",
-      "lockState": "lineup_confirmed",
+      "lockState": "game_started",
       "lockedAt": "2026-05-05T20:51:41.222168Z"
     },
     {
@@ -8389,7 +8389,7 @@
       "odds": 118,
       "to_win_1u": 0.85,
       "date": "2026-05-05",
-      "lockState": "lineup_confirmed",
+      "lockState": "game_started",
       "lockedAt": "2026-05-05T20:51:41.222168Z"
     },
     {
@@ -8458,7 +8458,7 @@
       "odds": 122,
       "to_win_1u": 0.82,
       "date": "2026-05-05",
-      "lockState": "lineup_confirmed",
+      "lockState": "game_started",
       "lockedAt": "2026-05-05T22:04:33.779419Z"
     },
     {
@@ -8554,6 +8554,29 @@
       "lockedAt": "2026-05-05T22:24:51.242620Z"
     },
     {
+      "player": "Logan Webb",
+      "team": "SF",
+      "opp": "SD",
+      "market": "strikeouts",
+      "proj": 5.5,
+      "std": 1.6,
+      "line": 5.5,
+      "over_price": -105,
+      "under_price": -121,
+      "pick": "PASS",
+      "edge": 0.0,
+      "pCover": 0.503,
+      "conf": "low",
+      "proj_ip": 6.6,
+      "proj_bf": 23.0,
+      "proj_pc": 96.0,
+      "odds": -105,
+      "to_win_1u": 1.05,
+      "date": "2026-05-05",
+      "lockState": "lineup_confirmed",
+      "lockedAt": "2026-05-05T23:01:07.539158Z"
+    },
+    {
       "player": "Michael Lorenzen",
       "team": "COL",
       "opp": "NYM",
@@ -8588,7 +8611,7 @@
       "under_price": -163,
       "pick": "PASS",
       "edge": -0.4,
-      "pCover": 0.577,
+      "pCover": 0.576,
       "conf": "low",
       "proj_ip": 5.6,
       "proj_bf": 21.3,
@@ -8598,29 +8621,6 @@
       "date": "2026-05-05",
       "lockState": "pending",
       "lockedAt": null
-    },
-    {
-      "player": "Logan Webb",
-      "team": "SF",
-      "opp": "SD",
-      "market": "strikeouts",
-      "proj": 5.5,
-      "std": 1.6,
-      "line": 5.5,
-      "over_price": -105,
-      "under_price": -121,
-      "pick": "PASS",
-      "edge": 0.0,
-      "pCover": 0.503,
-      "conf": "low",
-      "proj_ip": 6.6,
-      "proj_bf": 23.0,
-      "proj_pc": 96.0,
-      "odds": -105,
-      "to_win_1u": 1.05,
-      "date": "2026-05-05",
-      "lockState": "lineup_confirmed",
-      "lockedAt": "2026-05-05T23:01:07.539158Z"
     },
     {
       "player": "Andre Pallante",
@@ -8634,7 +8634,7 @@
       "under_price": 116,
       "pick": "PASS",
       "edge": -0.1,
-      "pCover": 0.51,
+      "pCover": 0.509,
       "conf": "low",
       "proj_ip": 5.1,
       "proj_bf": 21.0,
@@ -8642,8 +8642,8 @@
       "odds": 116,
       "to_win_1u": 0.86,
       "date": "2026-05-05",
-      "lockState": "pending",
-      "lockedAt": null
+      "lockState": "game_started",
+      "lockedAt": "2026-05-06T00:31:13.355601Z"
     }
   ],
   "gameTimes": {
@@ -8689,14 +8689,14 @@
     "BAL": "In Progress",
     "WSH": "In Progress",
     "MIN": "In Progress",
-    "NYY": "Warmup",
-    "TEX": "Warmup",
-    "CHC": "Pre-Game",
-    "CIN": "Pre-Game",
-    "KC": "Pre-Game",
-    "CLE": "Pre-Game",
-    "HOU": "Pre-Game",
-    "LAD": "Pre-Game",
+    "NYY": "In Progress",
+    "TEX": "In Progress",
+    "CHC": "In Progress",
+    "CIN": "In Progress",
+    "KC": "In Progress",
+    "CLE": "In Progress",
+    "HOU": "In Progress",
+    "LAD": "In Progress",
     "LAA": "Pre-Game",
     "CWS": "Pre-Game",
     "ARI": "Pre-Game",
