@@ -206,9 +206,11 @@ def grade_previous_picks(season=None):
         actual = float(val)
 
         pick["actual"] = round(actual, 1)
-        # Capture actual outs/pitches alongside K for historical analysis
+        # Capture actual outs/BF/pitches alongside K for historical analysis
         if game.get("outs") is not None:
             pick["actual_outs"] = game.get("outs")
+        if game.get("bf") is not None:
+            pick["actual_bf"] = game.get("bf")
         if game.get("pitches") is not None:
             pick["actual_pitches"] = game.get("pitches")
 

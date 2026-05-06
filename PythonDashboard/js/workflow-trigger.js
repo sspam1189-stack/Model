@@ -6,9 +6,46 @@
   const POLL_INTERVAL_MS = 10_000;
   const ACTIVE_RUN_LS = "pydash.activeRun"; // {workflow, since, accessKey}
 
+  // Last data file each workflow updates (the one written last in the serial
+  // commit chain). Polled after the workflow completes to wait until Pages
+  // actually deploys the new content before reloading.
+  const TARGET_FILE_BY_WORKFLOW = {
+    python: "data/nba-props.json",
+    mlb: "data/mlb-props.json",
+  };
+  const PAGES_DEPLOY_TIMEOUT_MS = 90_000;
+  const PAGES_POLL_INTERVAL_MS = 4_000;
+
   // In-memory access key for the current run only (cleared on reload unless
   // resumed from ACTIVE_RUN_LS). Never written to plain localStorage on its own.
   let sessionAccessKey = null;
+
+  // Baseline Last-Modified per data file, captured at page load. Used after a
+  // workflow completes to detect when Pages has actually deployed new content.
+  const baselineLastModified = {};
+  async function captureBaseline(file) {
+    try {
+      const res = await fetch(`${file}?probe=${Date.now()}`, { method: "HEAD", cache: "no-store" });
+      baselineLastModified[file] = res.headers.get("last-modified") || null;
+    } catch {
+      baselineLastModified[file] = null;
+    }
+  }
+
+  async function isFileDeployed(file, since) {
+    try {
+      const res = await fetch(`${file}?probe=${Date.now()}`, { method: "HEAD", cache: "no-store" });
+      const lm = res.headers.get("last-modified");
+      if (!lm) return false;
+      const fileMs = new Date(lm).getTime();
+      const sinceMs = new Date(since).getTime();
+      // Deployed if Last-Modified moved forward beyond when we triggered the
+      // run AND differs from what we saw at page load.
+      return fileMs > sinceMs && lm !== baselineLastModified[file];
+    } catch {
+      return false;
+    }
+  }
 
   async function api(path, opts = {}) {
     if (!sessionAccessKey) throw new Error("no access key");
@@ -63,18 +100,30 @@
       const label = conclusion ? `${status} (${conclusion})` : status;
       statusEl.textContent = label;
     }
-    if (elapsedEl) elapsedEl.textContent = `${elapsedSec}s elapsed`;
+    if (elapsedEl && elapsedSec !== undefined) elapsedEl.textContent = `${elapsedSec}s elapsed`;
   }
 
   // ---- Run loop ----
+  let dispatchInFlight = false;
   async function dispatch(workflow) {
+    // Gate first: prompt() doesn't block queued click events, so a fast
+    // double-click would otherwise reach a second prompt and trigger b2b runs.
+    if (dispatchInFlight) return;
+    dispatchInFlight = true;
+    setButtonsDisabled(true);
+
     const titleByKey = {
       python: "NBA Run Daily (NBA + Fullseason + Props)",
       mlb: "MLB Run Daily",
     };
+    const release = () => {
+      dispatchInFlight = false;
+      setButtonsDisabled(false);
+    };
+
     // Always require password before dispatching — never auto-saved.
     const pw = prompt("Enter password to run this workflow:");
-    if (!pw || !pw.trim()) return;
+    if (!pw || !pw.trim()) { release(); return; }
     sessionAccessKey = pw.trim();
 
     // Block if any workflow is already running.
@@ -84,15 +133,17 @@
         const list = ac.active.map(r => `• ${r.workflow} (${r.status}, run #${r.runNumber})`).join("\n");
         alert(`A workflow is already running. Wait for it to finish first:\n\n${list}`);
         sessionAccessKey = null;
+        release();
         return;
       }
     } catch (err) {
-      alert(`Could not check active runs: ${err.message}`);
       sessionAccessKey = null;
+      release();
+      if (err.message === "Wrong password") alert("Wrong password.");
+      else alert(`Could not check active runs: ${err.message}`);
       return;
     }
 
-    setButtonsDisabled(true);
     openModal(titleByKey[workflow] || workflow);
     let dispatched;
     try {
@@ -100,15 +151,17 @@
     } catch (err) {
       document.getElementById("wf-status").textContent = `Dispatch failed: ${err.message}`;
       sessionAccessKey = null;
-      // Re-enable + close modal after a brief delay so user can retry.
+      // Close modal + re-enable buttons after a brief delay so user can retry.
       setTimeout(() => {
         document.getElementById("wf-modal")?.classList.remove("open");
-        setButtonsDisabled(false);
+        release();
       }, 3000);
       return;
     }
     const since = dispatched.dispatchedAt;
     // Stash key alongside run so polling survives a reload without re-prompting.
+    // Buttons stay disabled (and dispatchInFlight stays true) until the page
+    // reloads on completion.
     localStorage.setItem(ACTIVE_RUN_LS, JSON.stringify({ workflow, since, accessKey: sessionAccessKey }));
     pollUntilDone(workflow, since);
   }
@@ -140,15 +193,43 @@
       });
       if (st.status === "completed") {
         localStorage.removeItem(ACTIVE_RUN_LS);
-        // Hard-reload with cache-buster so fresh data files load.
-        const u = new URL(window.location.href);
-        u.searchParams.set("v", Date.now().toString());
-        setTimeout(() => { window.location.href = u.toString(); }, 1500);
+        waitForPagesDeploy(workflow, since);
         return;
       }
       setTimeout(tick, POLL_INTERVAL_MS);
     };
     tick();
+  }
+
+  function waitForPagesDeploy(workflow, since) {
+    const file = TARGET_FILE_BY_WORKFLOW[workflow];
+    if (!file) {
+      reloadWithCacheBuster();
+      return;
+    }
+    const startMs = Date.now();
+    const tick = async () => {
+      const waitedSec = Math.round((Date.now() - startMs) / 1000);
+      if (Date.now() - startMs > PAGES_DEPLOY_TIMEOUT_MS) {
+        // Fallback: reload anyway after timeout — Pages may already be live.
+        reloadWithCacheBuster();
+        return;
+      }
+      const deployed = await isFileDeployed(file, since);
+      if (deployed) {
+        reloadWithCacheBuster();
+        return;
+      }
+      updateModal({ status: `deploying to Pages (${waitedSec}s)`, elapsedSec: undefined });
+      setTimeout(tick, PAGES_POLL_INTERVAL_MS);
+    };
+    tick();
+  }
+
+  function reloadWithCacheBuster() {
+    const u = new URL(window.location.href);
+    u.searchParams.set("v", Date.now().toString());
+    setTimeout(() => { window.location.href = u.toString(); }, 800);
   }
 
   // ---- Resume in-flight run on page load ----
@@ -163,6 +244,7 @@
         python: "NBA Run Daily (NBA + Fullseason + Props)",
         mlb: "MLB Run Daily",
       };
+      dispatchInFlight = true;
       setButtonsDisabled(true);
       openModal(titleByKey[workflow] || workflow);
       pollUntilDone(workflow, since);
@@ -187,5 +269,8 @@
   document.addEventListener("DOMContentLoaded", () => {
     injectButtons();
     resumeIfActive();
+    // Capture baseline Last-Modified for each tracked data file so we can
+    // detect when Pages serves an updated version after a workflow run.
+    Object.values(TARGET_FILE_BY_WORKFLOW).forEach(captureBaseline);
   });
 })();
