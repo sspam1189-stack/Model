@@ -18,6 +18,12 @@
     <div class="lr-badge">Python &nbsp;|&nbsp; Bayesian + LR Confirmation</div>
     <div id="last-run-info" class="subtitle" style="margin-top:4px;font-size:0.75rem;color:var(--muted)"></div>
     <div id="last-sync-info" class="subtitle" style="margin-top:2px;font-size:0.75rem;color:var(--muted)"></div>
+    <div id="run-controls" style="margin-top:10px;display:flex;flex-wrap:wrap;justify-content:center;align-items:center;gap:8px">
+      <button type="button" class="run-btn" data-workflow="mlb-run-daily.yml" data-label="MLB">Run MLB</button>
+      <button type="button" class="run-btn" data-workflow="py-run-daily.yml" data-label="NBA Full + Props">Run NBA Full + Props</button>
+      <button type="button" id="run-reset-token" title="Clear stored GitHub token" style="background:transparent;border:none;color:var(--muted);font-size:0.7rem;cursor:pointer;text-decoration:underline">reset token</button>
+    </div>
+    <div id="run-status" class="subtitle" style="margin-top:6px;font-size:0.75rem;color:var(--muted);min-height:1em"></div>
   </header>
 
   <nav class="tabs" aria-label="Model selection">
@@ -35,6 +41,7 @@
     <div class="loading"><div class="spinner"></div><br>Loading picks...</div>
   </main>
 
+  <script src="js/run-workflow.js"></script>
   <script src="js/main.js"></script>
   <script src="js/nba-props.js"></script>
   <script src="js/nfl-props.js"></script>
