@@ -4,32 +4,21 @@
 (function () {
   const WORKER_URL = "https://pydashboard-workflow-proxy.sspam1189.workers.dev";
   const POLL_INTERVAL_MS = 10_000;
-  const ACCESS_KEY_LS = "pydash.workflowAccessKey";
-  const ACTIVE_RUN_LS = "pydash.activeRun"; // {workflow, since, hidden}
+  const ACTIVE_RUN_LS = "pydash.activeRun"; // {workflow, since, accessKey}
 
-  function getAccessKey() {
-    let key = localStorage.getItem(ACCESS_KEY_LS);
-    if (!key) {
-      key = prompt("Enter dashboard access key (one-time):");
-      if (key) localStorage.setItem(ACCESS_KEY_LS, key.trim());
-    }
-    return key ? key.trim() : null;
-  }
-
-  function clearAccessKey() {
-    localStorage.removeItem(ACCESS_KEY_LS);
-  }
+  // In-memory access key for the current run only (cleared on reload unless
+  // resumed from ACTIVE_RUN_LS). Never written to plain localStorage on its own.
+  let sessionAccessKey = null;
 
   async function api(path, opts = {}) {
-    const key = getAccessKey();
-    if (!key) throw new Error("no access key");
+    if (!sessionAccessKey) throw new Error("no access key");
     const res = await fetch(`${WORKER_URL}${path}`, {
       ...opts,
-      headers: { "X-Access-Key": key, ...(opts.headers || {}) },
+      headers: { "X-Access-Key": sessionAccessKey, ...(opts.headers || {}) },
     });
     if (res.status === 401) {
-      clearAccessKey();
-      throw new Error("Bad access key — cleared, click again to re-enter");
+      sessionAccessKey = null;
+      throw new Error("Wrong password");
     }
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
     return res.json();
@@ -49,7 +38,6 @@
         <div class="wf-modal-status" id="wf-status">Dispatching…</div>
         <div class="wf-modal-elapsed" id="wf-elapsed">0s elapsed</div>
         <div class="wf-modal-actions">
-          <a id="wf-link" href="#" target="_blank" rel="noopener" style="display:none">Open in Actions ↗</a>
           <button type="button" id="wf-hide">Hide (keep running)</button>
         </div>
       </div>`;
@@ -65,44 +53,68 @@
     document.getElementById("wf-title").textContent = title;
     document.getElementById("wf-status").textContent = "Dispatching…";
     document.getElementById("wf-elapsed").textContent = "0s elapsed";
-    const link = document.getElementById("wf-link");
-    link.style.display = "none";
-    link.href = "#";
     modal.classList.add("open");
   }
 
-  function updateModal({ status, conclusion, htmlUrl, elapsedSec }) {
+  function updateModal({ status, conclusion, elapsedSec }) {
     const statusEl = document.getElementById("wf-status");
     const elapsedEl = document.getElementById("wf-elapsed");
-    const link = document.getElementById("wf-link");
     if (statusEl) {
       const label = conclusion ? `${status} (${conclusion})` : status;
       statusEl.textContent = label;
     }
     if (elapsedEl) elapsedEl.textContent = `${elapsedSec}s elapsed`;
-    if (link && htmlUrl) {
-      link.href = htmlUrl;
-      link.style.display = "inline-block";
-    }
   }
 
   // ---- Run loop ----
   async function dispatch(workflow) {
     const titleByKey = {
-      python: "Python Run Daily (NBA + Fullseason + Props)",
+      python: "NBA Run Daily (NBA + Fullseason + Props)",
       mlb: "MLB Run Daily",
     };
+    // Always require password before dispatching — never auto-saved.
+    const pw = prompt("Enter password to run this workflow:");
+    if (!pw || !pw.trim()) return;
+    sessionAccessKey = pw.trim();
+
+    // Block if any workflow is already running.
+    try {
+      const ac = await api(`/active`);
+      if (ac.active && ac.active.length > 0) {
+        const list = ac.active.map(r => `• ${r.workflow} (${r.status}, run #${r.runNumber})`).join("\n");
+        alert(`A workflow is already running. Wait for it to finish first:\n\n${list}`);
+        sessionAccessKey = null;
+        return;
+      }
+    } catch (err) {
+      alert(`Could not check active runs: ${err.message}`);
+      sessionAccessKey = null;
+      return;
+    }
+
+    setButtonsDisabled(true);
     openModal(titleByKey[workflow] || workflow);
     let dispatched;
     try {
       dispatched = await api(`/dispatch/${workflow}`, { method: "POST" });
     } catch (err) {
       document.getElementById("wf-status").textContent = `Dispatch failed: ${err.message}`;
+      sessionAccessKey = null;
+      // Re-enable + close modal after a brief delay so user can retry.
+      setTimeout(() => {
+        document.getElementById("wf-modal")?.classList.remove("open");
+        setButtonsDisabled(false);
+      }, 3000);
       return;
     }
     const since = dispatched.dispatchedAt;
-    localStorage.setItem(ACTIVE_RUN_LS, JSON.stringify({ workflow, since }));
+    // Stash key alongside run so polling survives a reload without re-prompting.
+    localStorage.setItem(ACTIVE_RUN_LS, JSON.stringify({ workflow, since, accessKey: sessionAccessKey }));
     pollUntilDone(workflow, since);
+  }
+
+  function setButtonsDisabled(disabled) {
+    document.querySelectorAll(".wf-btn").forEach(b => { b.disabled = disabled; });
   }
 
   function pollUntilDone(workflow, since) {
@@ -144,12 +156,14 @@
     const raw = localStorage.getItem(ACTIVE_RUN_LS);
     if (!raw) return;
     try {
-      const { workflow, since } = JSON.parse(raw);
-      if (!workflow || !since) return;
+      const { workflow, since, accessKey } = JSON.parse(raw);
+      if (!workflow || !since || !accessKey) return;
+      sessionAccessKey = accessKey;
       const titleByKey = {
-        python: "Python Run Daily (NBA + Fullseason + Props)",
+        python: "NBA Run Daily (NBA + Fullseason + Props)",
         mlb: "MLB Run Daily",
       };
+      setButtonsDisabled(true);
       openModal(titleByKey[workflow] || workflow);
       pollUntilDone(workflow, since);
     } catch {}
@@ -162,7 +176,7 @@
     const bar = document.createElement("div");
     bar.className = "wf-trigger-bar";
     bar.innerHTML = `
-      <button type="button" class="wf-btn" data-wf="python">Run Python Daily</button>
+      <button type="button" class="wf-btn" data-wf="python">Run NBA Daily</button>
       <button type="button" class="wf-btn" data-wf="mlb">Run MLB Daily</button>`;
     subtitle.insertAdjacentElement("afterend", bar);
     bar.querySelectorAll(".wf-btn").forEach(btn => {

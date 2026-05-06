@@ -54,6 +54,7 @@ async function dispatchWorkflow(env, key) {
   const dispatchedAt = new Date().toISOString();
   const res = await gh(env, `/repos/${REPO}/actions/workflows/${file}/dispatches`, {
     method: "POST",
+    headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ ref: "main" }),
   });
   if (!res.ok) {
@@ -61,6 +62,22 @@ async function dispatchWorkflow(env, key) {
     return json({ error: "dispatch failed", status: res.status, detail: text }, 502);
   }
   return json({ ok: true, workflow: key, file, dispatchedAt });
+}
+
+async function getActive(env) {
+  // Returns any non-completed runs across both workflows.
+  const results = [];
+  for (const [name, file] of Object.entries(WORKFLOWS)) {
+    const res = await gh(env, `/repos/${REPO}/actions/workflows/${file}/runs?per_page=5`);
+    if (!res.ok) continue;
+    const data = await res.json();
+    for (const run of data.workflow_runs || []) {
+      if (run.status === "queued" || run.status === "in_progress" || run.status === "waiting") {
+        results.push({ workflow: name, status: run.status, htmlUrl: run.html_url, runNumber: run.run_number });
+      }
+    }
+  }
+  return json({ active: results });
 }
 
 async function getStatus(env, key, sinceISO) {
@@ -118,6 +135,13 @@ export default {
       const auth = checkAuth(request, env);
       if (auth) return auth;
       return getStatus(env, parts[1], url.searchParams.get("since"));
+    }
+
+    // /active — list any non-completed runs across all workflows
+    if (parts[0] === "active" && request.method === "GET") {
+      const auth = checkAuth(request, env);
+      if (auth) return auth;
+      return getActive(env);
     }
 
     return json({ error: "not found" }, 404);
