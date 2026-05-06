@@ -7,6 +7,13 @@ on:
 permissions:
   contents: write
 
+# Serialize runs: a second dispatch queues behind any in-progress run instead
+# of executing in parallel. Prevents two runs writing the same data files and
+# conflicting on push.
+concurrency:
+  group: py-run-daily
+  cancel-in-progress: false
+
 jobs:
   nba:
     runs-on: self-hosted
