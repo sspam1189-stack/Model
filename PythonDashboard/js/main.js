@@ -19,6 +19,17 @@
     if (available <= 0) return;
     const cells = tbl.querySelectorAll('th, td');
     if (!cells.length) return;
+    // Measure with natural sizing: a `width:100%` inline style hides
+    // overflow because the browser shrinks columns to fit, leaving cell
+    // content overflowing visually but scrollWidth == clientWidth. We
+    // temporarily switch to max-content to capture the true demanded width.
+    const origWidth = tbl.style.width;
+    const origMaxWidth = tbl.style.maxWidth;
+    const origTableLayout = tbl.style.tableLayout;
+    tbl.style.width = 'max-content';
+    tbl.style.maxWidth = 'none';
+    tbl.style.tableLayout = 'auto';
+
     const setSize = (px) => cells.forEach(c => c.style.setProperty('font-size', px + 'px', 'important'));
     let fontSize = startFont;
     setSize(fontSize);
@@ -28,6 +39,10 @@
       setSize(fontSize);
       guard++;
     }
+
+    tbl.style.width = origWidth;
+    tbl.style.maxWidth = origMaxWidth;
+    tbl.style.tableLayout = origTableLayout;
   }
 
   function track(tbl) {
