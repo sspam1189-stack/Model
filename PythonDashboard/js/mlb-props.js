@@ -304,7 +304,7 @@
           tbl.className = 'data';
           tbl.style.cssText = 'width:100%;border-collapse:collapse;margin-top:8px';
           const hRow = tbl.createTHead().insertRow();
-          ['Name','Team','Opp','Proj','Line','Edge','Odds','Actual','OU','W/L'].forEach((h, i) => {
+          ['Name','Team','Opp','Proj','Line','Edge','Odds','Actual','O/U','W/L'].forEach((h, i) => {
             const th = document.createElement('th');
             th.textContent = h;
             th.style.cssText = 'padding:6px 10px;border-bottom:1px solid rgba(255,255,255,0.1);' + (i === 0 ? 'text-align:left' : 'text-align:center');
@@ -357,7 +357,7 @@
             lTbl.className = 'data';
             lTbl.style.cssText = 'width:100%;border-collapse:collapse;margin-top:8px';
             const lhRow = lTbl.createTHead().insertRow();
-            ['Name','Team','Opp','Proj','Line','Edge','%','Odds','Actual','OU','W/L'].forEach((h, i) => {
+            ['Name','Team','Opp','Proj','Line','Edge','%','Odds','Actual','O/U','W/L'].forEach((h, i) => {
               const th = document.createElement('th');
               th.textContent = h;
               th.style.cssText = 'padding:6px 10px;border-bottom:1px solid rgba(255,255,255,0.1);' + (i === 0 ? 'text-align:left' : 'text-align:center');
@@ -438,7 +438,7 @@
           const tbl = document.createElement('table');
           tbl.className = 'props-data-table';
           tbl.style.cssText = 'width:100%;border-collapse:collapse;margin-top:8px';
-          const todayHeaders = ['Name','Team','Opp','Proj','Line','Edge','%','Odds','OU','C/U','Status'];
+          const todayHeaders = ['Name','Team','Opp','Proj','Line','Edge','%','Odds','O/U','C/U','Status'];
           const hRow = tbl.createTHead().insertRow();
           todayHeaders.forEach((h, i) => {
             const th = document.createElement('th');
@@ -775,7 +775,7 @@
             ['Line',   null, false],
             ['Edge',   'edge', false],
             ['%',      'cover', false],
-            ['OU',     null, false],
+            ['O/U',     null, false],
             ['Odds',   null, false],
             ['C/U',    null, false],
             ['Status', null, false],
@@ -1059,8 +1059,8 @@
       el.appendChild(allPicksCard);
 
       const headers = isBacktest
-        ? ['Date','Name','Team','Opp','Proj','Line','Edge','%','Actual','OU','Odds','W/L']
-        : ['Name','Team','vs','Proj','Line','Edge','%','OU','Odds'];
+        ? ['Date','Name','Team','Opp','Proj','Line','Edge','%','Actual','O/U','Odds','W/L']
+        : ['Name','Team','vs','Proj','Line','Edge','%','O/U','Odds'];
       const colClasses = isBacktest
         ? ['col-date','col-player','col-team','col-opp','col-proj','col-line','col-edge','col-pcov','col-actual','col-pick','col-price','col-result']
         : ['col-player','col-team','col-opp','col-proj','col-line','col-edge','col-pcov','col-pick','col-price'];
@@ -1294,8 +1294,8 @@
         const tbl = document.createElement('table');
         tbl.style.cssText = 'width:100%;border-collapse:collapse';
         const hdrs = isBacktest
-          ? ['Date','Name','Team','Opp','pOuts','aOuts','pBF','aBF','pPC','aPC','Proj','Line','Edge','%','Actual','OU','Odds','W/L']
-          : ['Name','Team','vs','pOuts','pBF','pPC','Proj','Line','Edge','%','OU','Odds'];
+          ? ['Date','Name','Team','Opp','pOuts','aOuts','pBF','aBF','pPC','aPC','Proj','Line','Edge','%','Actual','O/U','Odds','W/L']
+          : ['Name','Team','vs','pOuts','pBF','pPC','Proj','Line','Edge','%','O/U','Odds'];
         const hRow = tbl.createTHead().insertRow();
         hdrs.forEach(h => {
           const th = document.createElement('th');
