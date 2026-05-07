@@ -1,4 +1,46 @@
 // MLB Pitcher Props rendering
+
+    // Tables on this tab have many columns (pitcher workload + projections +
+    // results). Rather than hide columns or scroll horizontally, shrink the
+    // font until the table fits its container width. Tracked tables are
+    // re-fit on viewport resize / orientation change.
+    const __mlbFitTables = new Set();
+    function fitMLBTableToContainer(tbl) {
+      if (!tbl) return;
+      __mlbFitTables.add(tbl);
+      requestAnimationFrame(() => {
+        const parent = tbl.parentElement;
+        if (!parent || !document.body.contains(tbl)) return;
+        const available = parent.clientWidth;
+        if (available <= 0) return;
+        const cells = tbl.querySelectorAll('th, td');
+        if (!cells.length) return;
+        const setSize = (px) => cells.forEach(c => c.style.setProperty('font-size', px + 'px', 'important'));
+        let fontSize = 13;
+        const minFont = 6;
+        setSize(fontSize);
+        let guard = 0;
+        while (tbl.scrollWidth > available + 1 && fontSize > minFont && guard < 60) {
+          fontSize -= 0.5;
+          setSize(fontSize);
+          guard++;
+        }
+      });
+    }
+    if (typeof window !== 'undefined' && !window.__mlbFitListenerAdded) {
+      window.__mlbFitListenerAdded = true;
+      let __mlbFitTimer;
+      window.addEventListener('resize', () => {
+        clearTimeout(__mlbFitTimer);
+        __mlbFitTimer = setTimeout(() => {
+          for (const t of [...__mlbFitTables]) {
+            if (!document.body.contains(t)) { __mlbFitTables.delete(t); continue; }
+            fitMLBTableToContainer(t);
+          }
+        }, 150);
+      });
+    }
+
     // Staking: plus odds risk 1u to win payout, negative odds risk X to win 1u
     function calcMLBPropsUnits(picks) {
       let u = 0;
@@ -262,7 +304,7 @@
           tbl.className = 'data';
           tbl.style.cssText = 'width:100%;border-collapse:collapse;margin-top:8px';
           const hRow = tbl.createTHead().insertRow();
-          ['Pitcher','Team','Opp','Cat','Proj','Line','Edge','Price','Actual','Pick','Result'].forEach((h, i) => {
+          ['Name','Team','Opp','Proj','Line','Edge','Odds','Actual','OU','W/L'].forEach((h, i) => {
             const th = document.createElement('th');
             th.textContent = h;
             th.style.cssText = 'padding:6px 10px;border-bottom:1px solid rgba(255,255,255,0.1);' + (i === 0 ? 'text-align:left' : 'text-align:center');
@@ -276,7 +318,7 @@
             const yEdge = (p.proj != null && p.line != null) ? +(p.proj - p.line).toFixed(1) : null;
             const yEdgeStr = yEdge != null ? (yEdge > 0 ? '+'+yEdge : String(yEdge)) : '\u2014';
             const yPrice = p.odds != null ? (p.odds > 0 ? '+'+p.odds : String(p.odds)) : '\u2014';
-            [displayName(p), p.team||'', p.opp||'', marketLabels[p.market]||p.market,
+            [displayName(p), p.team||'', p.opp||'',
              String(p.proj), p.line!=null?String(p.line):'\u2014', yEdgeStr, yPrice,
              p.actual!=null?String(p.actual):'\u2014',
              p.pick==='OVER'?'O':'U', p.result==='WIN'?'W':'L'].forEach((v, i) => {
@@ -285,14 +327,15 @@
               td.style.cssText = 'padding:4px 4px;text-align:center';
               if (i === 0) { td.style.textAlign = 'left'; td.style.fontWeight = '600'; }
               if (i === 1 || i === 2) td.style.color = '#999';
-              if (i === 4) td.style.color = p.proj > p.line ? 'var(--green)' : p.proj < p.line ? 'var(--red)' : '';
-              if (i === 6 && yEdge != null) td.style.color = yEdge > 0 ? 'var(--green)' : yEdge < 0 ? 'var(--red)' : '#999';
-              if (i === 7) td.style.color = '#999';
-              if (i === 9) { td.style.fontWeight = '700'; td.style.color = p.pick === 'OVER' ? 'var(--green)' : 'var(--red)'; }
-              if (i === 10) { td.style.fontWeight = '700'; td.style.color = p.result === 'WIN' ? 'var(--green)' : 'var(--red)'; }
+              if (i === 3) td.style.color = p.proj > p.line ? 'var(--green)' : p.proj < p.line ? 'var(--red)' : '';
+              if (i === 5 && yEdge != null) td.style.color = yEdge > 0 ? 'var(--green)' : yEdge < 0 ? 'var(--red)' : '#999';
+              if (i === 6) td.style.color = '#999';
+              if (i === 8) { td.style.fontWeight = '700'; td.style.color = p.pick === 'OVER' ? 'var(--green)' : 'var(--red)'; }
+              if (i === 9) { td.style.fontWeight = '700'; td.style.color = p.result === 'WIN' ? 'var(--green)' : 'var(--red)'; }
             });
           }
           recapCard.appendChild(tbl);
+          fitMLBTableToContainer(tbl);
           const tally = document.createElement('div');
           tally.className = 'l10-tally';
           tally.innerHTML = `Props: <b>${yW}W-${yL}L</b> &middot; <span style="color:${uColor}">${yU >= 0 ? '+' : ''}${yU.toFixed(2)}u</span>`;
@@ -314,7 +357,7 @@
             lTbl.className = 'data';
             lTbl.style.cssText = 'width:100%;border-collapse:collapse;margin-top:8px';
             const lhRow = lTbl.createTHead().insertRow();
-            ['Pitcher','Team','Opp','Cat','Proj','Line','Edge','Cover%','Price','Actual','Lean','Result'].forEach((h, i) => {
+            ['Name','Team','Opp','Proj','Line','Edge','%','Odds','Actual','OU','W/L'].forEach((h, i) => {
               const th = document.createElement('th');
               th.textContent = h;
               th.style.cssText = 'padding:6px 10px;border-bottom:1px solid rgba(255,255,255,0.1);' + (i === 0 ? 'text-align:left' : 'text-align:center');
@@ -327,8 +370,8 @@
               const yEdge = (p.proj != null && p.line != null) ? +(p.proj - p.line).toFixed(1) : null;
               const yEdgeStr = yEdge != null ? (yEdge > 0 ? '+'+yEdge : String(yEdge)) : '—';
               const yPrice = p.odds != null ? (p.odds > 0 ? '+'+p.odds : String(p.odds)) : '—';
-              const pcStr = p.pCover != null ? (p.pCover * 100).toFixed(2) + '%' : '—';
-              [displayName(p), p.team||'', p.opp||'', marketLabels[p.market]||p.market,
+              const pcStr = p.pCover != null ? (p.pCover * 100).toFixed(1) + '%' : '—';
+              [displayName(p), p.team||'', p.opp||'',
                String(p.proj), p.line!=null?String(p.line):'—', yEdgeStr, pcStr, yPrice,
                p.actual!=null?String(p.actual):'—',
                p.would_be_pick === 'OVER' ? 'O' : 'U',
@@ -338,15 +381,16 @@
                 td.style.cssText = 'padding:4px 4px;text-align:center';
                 if (i === 0) { td.style.textAlign = 'left'; td.style.fontWeight = '600'; }
                 if (i === 1 || i === 2) td.style.color = '#999';
-                if (i === 4) td.style.color = p.proj > p.line ? 'var(--green)' : p.proj < p.line ? 'var(--red)' : '';
-                if (i === 6 && yEdge != null) td.style.color = yEdge > 0 ? 'var(--green)' : yEdge < 0 ? 'var(--red)' : '#999';
-                if (i === 7) td.style.color = '#aaa';
-                if (i === 8) td.style.color = '#999';
-                if (i === 10) { td.style.fontWeight = '700'; td.style.color = p.would_be_pick === 'OVER' ? 'var(--green)' : 'var(--red)'; }
-                if (i === 11) { td.style.fontWeight = '700'; td.style.color = p.result === 'WIN' ? 'var(--green)' : 'var(--red)'; }
+                if (i === 3) td.style.color = p.proj > p.line ? 'var(--green)' : p.proj < p.line ? 'var(--red)' : '';
+                if (i === 5 && yEdge != null) td.style.color = yEdge > 0 ? 'var(--green)' : yEdge < 0 ? 'var(--red)' : '#999';
+                if (i === 6) td.style.color = '#aaa';
+                if (i === 7) td.style.color = '#999';
+                if (i === 9) { td.style.fontWeight = '700'; td.style.color = p.would_be_pick === 'OVER' ? 'var(--green)' : 'var(--red)'; }
+                if (i === 10) { td.style.fontWeight = '700'; td.style.color = p.result === 'WIN' ? 'var(--green)' : 'var(--red)'; }
               });
             }
             recapCard.appendChild(lTbl);
+            fitMLBTableToContainer(lTbl);
             // Tally below the lean table — mirrors the Props tally below picks
             const leanTally = document.createElement('div');
             leanTally.style.cssText = 'margin-top:6px;font-size:12px;color:#f4b400;font-style:italic';
@@ -394,13 +438,13 @@
           const tbl = document.createElement('table');
           tbl.className = 'props-data-table';
           tbl.style.cssText = 'width:100%;border-collapse:collapse;margin-top:8px';
-          const todayHeaders = ['Pitcher','Team','Opp','Cat','Proj','Line','Edge','Cover%','Price','Pick','Confirmed','Status'];
+          const todayHeaders = ['Name','Team','Opp','Proj','Line','Edge','%','Odds','OU','Confirmed','Status'];
           const hRow = tbl.createTHead().insertRow();
           todayHeaders.forEach((h, i) => {
             const th = document.createElement('th');
             th.textContent = h;
             th.style.cssText = 'padding:4px 4px;text-align:center;border-bottom:1px solid rgba(255,255,255,0.1)';
-            if (h === 'Pitcher') th.style.textAlign = 'left';
+            if (h === 'Name') th.style.textAlign = 'left';
             hRow.appendChild(th);
           });
           let tbody = tbl.createTBody();
@@ -443,11 +487,10 @@
               const _gsTP = (data.gameStatuses || {})[p.team] || (data.gameStatuses || {})[p.opp] || '';
               const isPostponed = _VOID_GAME_STATUSES_TP.has(_gsTP);
               const isConfirmed = _LOCK_STATES.has(p.lockState);
-              const confText = isPostponed ? _gsTP : (isConfirmed ? 'Confirmed' : 'Unconfirmed');
-              const tPcStr = p.pCover != null ? (p.pCover * 100).toFixed(2) + '%' : '\u2014';
+              const confText = isPostponed ? '🔴' : (isConfirmed ? '🟢' : '🟡');
+              const tPcStr = p.pCover != null ? (p.pCover * 100).toFixed(1) + '%' : '\u2014';
               const cells = [
                 displayName(p), p.team || '', p.opp || '',
-                marketLabels[p.market] || p.market,
                 String(p.proj),
                 p.line != null ? String(p.line) : '\u2014',
                 tEdgeStr, tPcStr, tPrice,
@@ -461,12 +504,12 @@
                 td.style.cssText = 'padding:4px 4px;text-align:center';
                 if (i === 0) { td.style.textAlign = 'left'; td.style.fontWeight = '600'; }
                 if (i === 1 || i === 2) td.style.color = '#999';
-                if (i === 4) td.style.color = p.proj > p.line ? 'var(--green)' : p.proj < p.line ? 'var(--red)' : '';
-                if (i === 6 && tEdge != null) td.style.color = tEdge > 0 ? 'var(--green)' : tEdge < 0 ? 'var(--red)' : '#999';
-                if (i === 7) td.style.color = '#aaa';
-                if (i === 8) td.style.color = '#999';
-                if (i === 9) { td.style.fontWeight = '700'; td.style.color = p.pick === 'OVER' ? 'var(--green)' : 'var(--red)'; }
-                if (i === 10) {
+                if (i === 3) td.style.color = p.proj > p.line ? 'var(--green)' : p.proj < p.line ? 'var(--red)' : '';
+                if (i === 5 && tEdge != null) td.style.color = tEdge > 0 ? 'var(--green)' : tEdge < 0 ? 'var(--red)' : '#999';
+                if (i === 6) td.style.color = '#aaa';
+                if (i === 7) td.style.color = '#999';
+                if (i === 8) { td.style.fontWeight = '700'; td.style.color = p.pick === 'OVER' ? 'var(--green)' : 'var(--red)'; }
+                if (i === 9) {
                   td.title = isPostponed ? _gsTP : (p.lockState || 'pending');
                   td.style.fontSize = '11px';
                   td.style.fontWeight = '600';
@@ -497,7 +540,7 @@
               const th = document.createElement('th');
               th.textContent = h;
               th.style.cssText = 'padding:4px 4px;text-align:center;border-bottom:1px solid rgba(255,255,255,0.1)';
-              if (h === 'Pitcher') th.style.textAlign = 'left';
+              if (h === 'Name') th.style.textAlign = 'left';
               lhRow.appendChild(th);
             });
             const lTbody = lTbl.createTBody();
@@ -519,11 +562,10 @@
               const _gsLean = (data.gameStatuses || {})[p.team] || (data.gameStatuses || {})[p.opp] || '';
               const isPostponed = _VOID_STATUSES_LEAN.has(_gsLean);
               const isConfirmed = _LOCK_STATES.has(p.lockState);
-              const confText = isPostponed ? _gsLean : (isConfirmed ? 'Confirmed' : 'Unconfirmed');
-              const lPcStr = p.pCover != null ? (p.pCover * 100).toFixed(2) + '%' : '—';
+              const confText = isPostponed ? '🔴' : (isConfirmed ? '🟢' : '🟡');
+              const lPcStr = p.pCover != null ? (p.pCover * 100).toFixed(1) + '%' : '—';
               const cells = [
                 displayName(p), p.team || '', p.opp || '',
-                marketLabels[p.market] || p.market,
                 String(p.proj),
                 p.line != null ? String(p.line) : '—',
                 tEdgeStr, lPcStr, tPrice,
@@ -537,12 +579,12 @@
                 td.style.cssText = 'padding:4px 4px;text-align:center';
                 if (i === 0) { td.style.textAlign = 'left'; td.style.fontWeight = '600'; }
                 if (i === 1 || i === 2) td.style.color = '#999';
-                if (i === 4) td.style.color = p.proj > p.line ? 'var(--green)' : p.proj < p.line ? 'var(--red)' : '';
-                if (i === 6 && tEdge != null) td.style.color = tEdge > 0 ? 'var(--green)' : tEdge < 0 ? 'var(--red)' : '#999';
-                if (i === 7) td.style.color = '#aaa';
-                if (i === 8) td.style.color = '#999';
-                if (i === 9) { td.style.fontWeight = '700'; td.style.color = p.would_be_pick === 'OVER' ? 'var(--green)' : 'var(--red)'; }
-                if (i === 10) {
+                if (i === 3) td.style.color = p.proj > p.line ? 'var(--green)' : p.proj < p.line ? 'var(--red)' : '';
+                if (i === 5 && tEdge != null) td.style.color = tEdge > 0 ? 'var(--green)' : tEdge < 0 ? 'var(--red)' : '#999';
+                if (i === 6) td.style.color = '#aaa';
+                if (i === 7) td.style.color = '#999';
+                if (i === 8) { td.style.fontWeight = '700'; td.style.color = p.would_be_pick === 'OVER' ? 'var(--green)' : 'var(--red)'; }
+                if (i === 9) {
                   td.title = isPostponed ? _gsLean : (p.lockState || 'pending');
                   td.style.fontSize = '11px';
                   td.style.fontWeight = '600';
@@ -555,13 +597,14 @@
 
           // Sequential layout (matches Yesterday's Recap structure): picks
           // table on top, then a Leans header line + leans table below.
-          if (todayPicks.length > 0) todayCard.appendChild(tbl);
+          if (todayPicks.length > 0) { todayCard.appendChild(tbl); fitMLBTableToContainer(tbl); }
           if (lTbl) {
             const leanHeader = document.createElement('div');
             leanHeader.style.cssText = 'margin-top:14px;padding-top:8px;border-top:1px dashed rgba(244,180,0,0.4);font-size:12px;color:#f4b400;font-weight:600';
             leanHeader.textContent = `Leans — U .60-.70 + O .65-.70 (${todayLeans.length})`;
             todayCard.appendChild(leanHeader);
             todayCard.appendChild(lTbl);
+            fitMLBTableToContainer(lTbl);
           }
           el.appendChild(todayCard);
         }
@@ -725,18 +768,17 @@
 
           // col def: [label, sortKey, align-left?]
           const cols = [
-            ['Pitcher', null, true],
+            ['Name',   null, true],
             ['Team',   null, false],
-            ['Cat',    'cat', false],
             ['Outs',   null, false],
             ['BF',     null, false],
-            ['Pitch#', null, false],
+            ['PC',     null, false],
             ['Proj',   'proj', false],
             ['Line',   null, false],
             ['Edge',   'edge', false],
-            ['Cover%', 'cover', false],
-            ['Pick',   null, false],
-            ['Price',  null, false],
+            ['%',      'cover', false],
+            ['OU',     null, false],
+            ['Odds',   null, false],
             ['Confirmed', null, false],
             ['Status', null, false],
           ];
@@ -771,7 +813,7 @@
             if (isPick) row.style.background = 'rgba(124,108,240,0.06)';
             const edge = (p.proj != null && p.line != null) ? +(p.proj - p.line).toFixed(1) : null;
             const edgeStr = edge != null ? (edge > 0 ? '+'+edge : String(edge)) : '\u2014';
-            const coverStr = p.pCover != null ? (p.pCover * 100).toFixed(2) + '%' : '\u2014';
+            const coverStr = p.pCover != null ? (p.pCover * 100).toFixed(1) + '%' : '\u2014';
             // Price column: for picks use the pick's odds; for non-picks show
             // the price of the direction the projection leans (OVER if proj>line,
             // UNDER if proj<line). This lets users see every available line's price.
@@ -788,7 +830,7 @@
             const _gs = _gameStatuses[p.team] || _gameStatuses[p.opp] || '';
             const isPostponed = _VOID_GAME_STATUSES.has(_gs);
             const isConfirmed = _LOCK_STATES_TBL.has(p.lockState);
-            const confText = isPostponed ? _gs : (isConfirmed ? 'Confirmed' : 'Unconfirmed');
+            const confText = isPostponed ? '🔴' : (isConfirmed ? '🟢' : '🟡');
             const gt = _gameTimes[p.team] || _gameTimes[p.opp] || '';
             const started = gt ? (new Date(gt).getTime() <= Date.now()) : false;
             const statusStr = started ? '\u{1F552}' : '';
@@ -797,7 +839,7 @@
             const outsStr  = p.proj_ip != null ? String(Math.round(p.proj_ip * 3)) : '\u2014';
             const bfStr    = p.proj_bf != null ? String(Math.round(p.proj_bf)) : '\u2014';
             const pitchStr = p.proj_pc != null ? String(Math.round(p.proj_pc)) : '\u2014';
-            [displayName(p), p.team||'', marketLabels[p.market]||p.market,
+            [displayName(p), p.team||'',
              outsStr, bfStr, pitchStr,
              p.proj!=null?String(p.proj):'\u2014', p.line!=null?String(p.line):'\u2014',
              edgeStr, coverStr,
@@ -811,15 +853,15 @@
               td.style.cssText = 'padding:5px 8px;text-align:'+(i===0?'left':'center')+';font-size:12px';
               if (i===0) td.style.fontWeight = '600';
               if (i===1) td.style.color = '#999';
-              if (i===3) td.style.color = '#bbb'; // Outs
-              if (i===4) td.style.color = '#bbb'; // BF
-              if (i===5) td.style.color = '#bbb'; // Pit
-              if (i===6 && p.line!=null) td.style.color = p.proj > p.line ? 'var(--green)' : p.proj < p.line ? 'var(--red)' : '';
-              if (i===8 && edge!=null) td.style.color = edge > 0 ? 'var(--green)' : edge < 0 ? 'var(--red)' : '#999';
-              if (i===9 && p.pCover!=null) td.style.color = p.pCover >= 0.70 ? 'var(--green)' : p.pCover >= 0.65 ? 'var(--yellow)' : p.pCover <= 0.45 ? 'var(--red)' : '#ccc';
-              if (i===10 && isPick) { td.style.fontWeight='700'; td.style.color = p.pick==='OVER'?'var(--green)':'var(--red)'; }
-              if (i===11) td.style.color = '#999';
-              if (i===12) {
+              if (i===2) td.style.color = '#bbb'; // Outs
+              if (i===3) td.style.color = '#bbb'; // BF
+              if (i===4) td.style.color = '#bbb'; // PC
+              if (i===5 && p.line!=null) td.style.color = p.proj > p.line ? 'var(--green)' : p.proj < p.line ? 'var(--red)' : '';
+              if (i===7 && edge!=null) td.style.color = edge > 0 ? 'var(--green)' : edge < 0 ? 'var(--red)' : '#999';
+              if (i===8 && p.pCover!=null) td.style.color = p.pCover >= 0.70 ? 'var(--green)' : p.pCover >= 0.65 ? 'var(--yellow)' : p.pCover <= 0.45 ? 'var(--red)' : '#ccc';
+              if (i===9 && isPick) { td.style.fontWeight='700'; td.style.color = p.pick==='OVER'?'var(--green)':'var(--red)'; }
+              if (i===10) td.style.color = '#999';
+              if (i===11) {
                 td.title = isPostponed ? _gs : (p.lockState || 'pending');
                 td.style.fontSize = '11px';
                 td.style.fontWeight = '600';
@@ -829,6 +871,7 @@
             });
           }
           tableWrap.appendChild(tbl);
+          fitMLBTableToContainer(tbl);
 
           // Pagination controls (only show when more than one page)
           if (totalPages > 1) {
@@ -1019,8 +1062,8 @@
       el.appendChild(allPicksCard);
 
       const headers = isBacktest
-        ? ['Date','Pitcher','Team','Opp','Proj','Line','Edge','Cover%','Actual','Pick','Price','Result']
-        : ['Pitcher','Team','vs','Proj','Line','Edge','Cover%','Pick','Price'];
+        ? ['Date','Name','Team','Opp','Proj','Line','Edge','%','Actual','OU','Odds','W/L']
+        : ['Name','Team','vs','Proj','Line','Edge','%','OU','Odds'];
       const colClasses = isBacktest
         ? ['col-date','col-player','col-team','col-opp','col-proj','col-line','col-edge','col-pcov','col-actual','col-pick','col-price','col-result']
         : ['col-player','col-team','col-opp','col-proj','col-line','col-edge','col-pcov','col-pick','col-price'];
@@ -1058,7 +1101,7 @@
           th.textContent = h;
           th.className = colClasses[i] || 'col-' + i;
           th.style.cssText = 'padding:4px 4px;text-align:center;border-bottom:1px solid rgba(255,255,255,0.1)';
-          if (h === 'Pitcher') th.style.textAlign = 'left';
+          if (h === 'Name') th.style.textAlign = 'left';
           hRow.appendChild(th);
         });
         const tbody = tbl.createTBody();
@@ -1068,7 +1111,7 @@
           const priceStr = p.odds != null ? (p.odds > 0 ? '+' + p.odds : String(p.odds)) : '\u2014';
           const edgeVal = (p.proj != null && p.line != null) ? (p.proj - p.line) : null;
           const edgeStr = edgeVal != null ? (edgeVal > 0 ? '+' : '') + edgeVal.toFixed(1) : '\u2014';
-          const pcStr = p.pCover != null ? (p.pCover * 100).toFixed(2) + '%' : '\u2014';
+          const pcStr = p.pCover != null ? (p.pCover * 100).toFixed(1) + '%' : '\u2014';
           const cells = isBacktest ? [
             p.date ? (parseInt(p.date.slice(5,7))+'/'+parseInt(p.date.slice(8))) : '', displayName(p), p.team || '', p.opp || '',
             String(p.proj),
@@ -1114,6 +1157,7 @@
           });
         }
         wrap.appendChild(tbl);
+        fitMLBTableToContainer(tbl);
         return wrap;
       }
 
@@ -1253,14 +1297,14 @@
         const tbl = document.createElement('table');
         tbl.style.cssText = 'width:100%;border-collapse:collapse';
         const hdrs = isBacktest
-          ? ['Date','Pitcher','Team','Opp','Cat','pOuts','pBF','pPitch#','Proj','Line','Edge','Cover%','aOuts','aBF','aPitch#','Actual','Pick','Price','Result']
-          : ['Pitcher','Team','vs','Cat','pOuts','pBF','pPitch#','Proj','Line','Edge','Cover%','Pick','Price'];
+          ? ['Date','Name','Team','Opp','pOuts','pBF','pPC','Proj','Line','Edge','%','aOuts','aBF','aPC','Actual','OU','Odds','W/L']
+          : ['Name','Team','vs','pOuts','pBF','pPC','Proj','Line','Edge','%','OU','Odds'];
         const hRow = tbl.createTHead().insertRow();
         hdrs.forEach(h => {
           const th = document.createElement('th');
           th.textContent = h;
           th.style.cssText = 'padding:4px 4px;text-align:center;border-bottom:1px solid rgba(255,255,255,0.1);font-size:12px';
-          if (h === 'Pitcher') th.style.textAlign = 'left';
+          if (h === 'Name') th.style.textAlign = 'left';
           hRow.appendChild(th);
         });
         const tbody = tbl.createTBody();
@@ -1271,7 +1315,7 @@
           const priceStr = p.odds != null ? (p.odds > 0 ? '+' + p.odds : String(p.odds)) : '\u2014';
           const edgeVal = (p.proj != null && p.line != null) ? (p.proj - p.line) : null;
           const edgeStr = edgeVal != null ? (edgeVal > 0 ? '+' : '') + edgeVal.toFixed(1) : '\u2014';
-          const pcStr = p.pCover != null ? (p.pCover * 100).toFixed(2) + '%' : '\u2014';
+          const pcStr = p.pCover != null ? (p.pCover * 100).toFixed(1) + '%' : '\u2014';
           // Projected pitcher workload (matches the top "Today's Games" table).
           const pOutsStr  = p.proj_ip != null ? String(Math.round(p.proj_ip * 3)) : '\u2014';
           const pBfStr    = p.proj_bf != null ? String(Math.round(p.proj_bf)) : '\u2014';
@@ -1282,7 +1326,7 @@
           const aBfStr    = p.actual_bf != null ? String(p.actual_bf) : '\u2014';
           const aPitchStr = p.actual_pitches != null ? String(p.actual_pitches) : '\u2014';
           const cells = isBacktest ? [
-            p.date?(parseInt(p.date.slice(5,7))+'/'+parseInt(p.date.slice(8))):'', displayName(p), p.team||'', p.opp||'', ml,
+            p.date?(parseInt(p.date.slice(5,7))+'/'+parseInt(p.date.slice(8))):'', displayName(p), p.team||'', p.opp||'',
             pOutsStr, pBfStr, pPitchStr,
             String(p.proj), p.line!=null?String(p.line):'\u2014',
             edgeStr,
@@ -1293,7 +1337,7 @@
             priceStr,
             p.result==='WIN'?'W':p.result==='LOSS'?'L':'\u2014'
           ] : [
-            displayName(p), p.team, p.opp||'', ml,
+            displayName(p), p.team, p.opp||'',
             pOutsStr, pBfStr, pPitchStr,
             String(p.proj),
             p.line!=null?String(p.line):'\u2014',
@@ -1307,37 +1351,36 @@
             td.textContent = val;
             td.style.cssText = 'padding:4px 4px;text-align:center;font-size:13px';
             if (isBacktest) {
-              // 0:Date 1:Pitcher 2:Team 3:Opp 4:Cat 5:pOuts 6:pBF 7:pPitch#
-              // 8:Proj 9:Line 10:Edge 11:Cover% 12:aOuts 13:aBF 14:aPitch#
-              // 15:Actual 16:Pick 17:Price 18:Result
+              // 0:Date 1:Name 2:Team 3:Opp 4:pOuts 5:pBF 6:pPC
+              // 7:Proj 8:Line 9:Edge 10:% 11:aOuts 12:aBF 13:aPC
+              // 14:Actual 15:OU 16:Odds 17:W/L
               if (i===1) { td.style.textAlign='left'; td.style.fontWeight='600'; }
               if (i===0) { td.style.color='#999'; td.style.fontSize='11px'; }
               if (i===2||i===3) td.style.color='#999';
-              if (i===4) { td.style.color='#aaa'; td.style.fontSize='11px'; }
-              if (i===5||i===6||i===7) td.style.color='#bbb';
-              if (i===8) td.style.color=p.proj>p.line?'var(--green)':p.proj<p.line?'var(--red)':'';
-              if (i===10) td.style.color = edgeVal > 0 ? 'var(--green)' : edgeVal < 0 ? 'var(--red)' : '#999';
-              if (i===11) td.style.color='#aaa';
-              if (i===12||i===13||i===14) td.style.color='#bbb';
-              if (i===16) { td.style.fontWeight='700'; td.style.color=effectiveDir(p)==='OVER'?'var(--green)':'var(--red)'; }
-              if (i===17) td.style.color='#999';
-              if (i===18) { td.style.fontWeight='700'; td.style.color=p.result==='WIN'?'var(--green)':'var(--red)'; }
-            } else {
-              // 0:Pitcher 1:Team 2:vs 3:Cat 4:pOuts 5:pBF 6:pPitch#
-              // 7:Proj 8:Line 9:Edge 10:Cover% 11:Pick 12:Price
-              if (i===0) { td.style.textAlign='left'; td.style.fontWeight='600'; }
-              if (i===1||i===2) td.style.color='#999';
-              if (i===3) { td.style.color='#aaa'; td.style.fontSize='11px'; }
               if (i===4||i===5||i===6) td.style.color='#bbb';
               if (i===7) td.style.color=p.proj>p.line?'var(--green)':p.proj<p.line?'var(--red)':'';
               if (i===9) td.style.color = edgeVal > 0 ? 'var(--green)' : edgeVal < 0 ? 'var(--red)' : '#999';
               if (i===10) td.style.color='#aaa';
-              if (i===11) { td.style.fontWeight='700'; td.style.color=effectiveDir(p)==='OVER'?'var(--green)':'var(--red)'; }
-              if (i===12) td.style.color='#999';
+              if (i===11||i===12||i===13) td.style.color='#bbb';
+              if (i===15) { td.style.fontWeight='700'; td.style.color=effectiveDir(p)==='OVER'?'var(--green)':'var(--red)'; }
+              if (i===16) td.style.color='#999';
+              if (i===17) { td.style.fontWeight='700'; td.style.color=p.result==='WIN'?'var(--green)':'var(--red)'; }
+            } else {
+              // 0:Name 1:Team 2:vs 3:pOuts 4:pBF 5:pPC
+              // 6:Proj 7:Line 8:Edge 9:% 10:OU 11:Odds
+              if (i===0) { td.style.textAlign='left'; td.style.fontWeight='600'; }
+              if (i===1||i===2) td.style.color='#999';
+              if (i===3||i===4||i===5) td.style.color='#bbb';
+              if (i===6) td.style.color=p.proj>p.line?'var(--green)':p.proj<p.line?'var(--red)':'';
+              if (i===8) td.style.color = edgeVal > 0 ? 'var(--green)' : edgeVal < 0 ? 'var(--red)' : '#999';
+              if (i===9) td.style.color='#aaa';
+              if (i===10) { td.style.fontWeight='700'; td.style.color=effectiveDir(p)==='OVER'?'var(--green)':'var(--red)'; }
+              if (i===11) td.style.color='#999';
             }
           });
         }
         card.appendChild(tbl);
+        fitMLBTableToContainer(tbl);
         // Bottom pagination
         const pgBar2 = pgBar.cloneNode(true);
         pgBar2.style.marginTop = '12px';
@@ -1722,6 +1765,7 @@
             });
           }
           recapCard.appendChild(tbl);
+          fitMLBTableToContainer(tbl);
           const tally = document.createElement('div');
           tally.className = 'l10-tally';
           tally.innerHTML = `Props: <b>${yW}W-${yL}L</b> &middot; <span style="color:${uColor}">${yU >= 0 ? '+' : ''}${yU.toFixed(2)}u</span>`;
@@ -1923,7 +1967,7 @@
             if (isPick) row.style.background = 'rgba(124,108,240,0.06)';
             const edge = (p.proj != null && p.line != null) ? +(p.proj - p.line).toFixed(2) : null;
             const edgeStr = edge != null ? (edge > 0 ? '+'+edge : String(edge)) : '\u2014';
-            const coverStr = p.pCover != null ? (p.pCover * 100).toFixed(2) + '%' : '\u2014';
+            const coverStr = p.pCover != null ? (p.pCover * 100).toFixed(1) + '%' : '\u2014';
             const oppSP = p.opp_pitcher ? mlbShortName(p.opp_pitcher) : '\u2014';
             [displayName(p), p.team||'', oppSP,
              p.proj!=null?p.proj.toFixed(2):'\u2014', p.line!=null?String(p.line):'\u2014',
