@@ -349,11 +349,20 @@ def backfill(season=None, start_game=10, start_date=None):
 
         # Build probable_pitchers from today's actual game logs
         # (who actually started — mirrors what run_daily gets from schedule)
+        # Use is_start flag when present; fall back to IP>=3.0 only for legacy
+        # rows missing the flag. The previous IP>=3.0 gate dropped pitchers
+        # who got chased early (e.g. Glasnow 5/6: 1.0 IP), silently excluding
+        # them from the backfill even though they were scheduled to start.
         date_probable = []
-        today_starters = [
-            g for g in all_logs
-            if g.get("game_date", "") == game_date and g.get("IP", g.get("ip", 0)) >= 3.0
-        ]
+        def _is_starter_row(g):
+            if g.get("game_date", "") != game_date:
+                return False
+            if g.get("is_start") is True:
+                return True
+            if "is_start" in g:
+                return False
+            return g.get("IP", g.get("ip", 0)) >= 3.0
+        today_starters = [g for g in all_logs if _is_starter_row(g)]
         # Group by game_id to pair home/away
         from collections import defaultdict
         games_by_id = defaultdict(list)
