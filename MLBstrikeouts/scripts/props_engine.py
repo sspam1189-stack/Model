@@ -373,6 +373,14 @@ def project_pitcher_props(pitcher_logs, team_batting_stats=None,
         proj_pc = avg_pc if avg_pc is not None else projected_bf * avg_ppbf
 
         # --- Weather effect on K ---
+        # Temperature only. Wind is intentionally NOT used for K projections:
+        # the published research (Statcast Weather Applied Metrics, MLB.com
+        # 2024) ties wind effects to batted-ball outcomes (HR/FB, BABIP) at
+        # ~7 parks, not to whiff rate. Routed through opp_ops the path-2 BF
+        # effect tops out at ~0.04 K even at Wrigley with 20mph wind out —
+        # below the model's 1.6 K MAE noise floor. Wind data is still
+        # captured in the weather cache for future hits/HR markets; see
+        # weather.py:WIND_PARK_FACTOR for the per-park multipliers.
         k_weather_mult = 1.0
         if weather_by_game:
             _game_id = ctx.get("game_id")
