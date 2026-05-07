@@ -750,20 +750,12 @@ def write_dashboard_json(results, season):
         path = os.path.normpath(path)
         os.makedirs(os.path.dirname(path), exist_ok=True)
 
-        # Merge: preserve any live/today's picks that aren't in backfill date range
-        existing_live_picks = []
-        try:
-            if os.path.exists(path):
-                with open(path, "r") as f:
-                    existing = json.load(f)
-                existing_live_picks = [
-                    p for p in existing.get("props", [])
-                    if p.get("date") not in backfill_dates
-                ]
-        except Exception:
-            existing_live_picks = []
-
-        merged_props = all_picks + existing_live_picks
+        # Backfill fully overwrites — no preservation of live/today entries.
+        # Previously we preserved out-of-range dates (e.g. tonight's projections),
+        # but that risks carrying over corrupted entries from a poisoned daily run
+        # (e.g. a stub-row contamination). The daily pipeline (run_daily) will
+        # rewrite today's picks on the next run.
+        merged_props = list(all_picks)
         dashboard["props"] = merged_props
         # totalPicks reflects only actionable (non-PASS) entries; watchlist
         # is tracked separately so it doesn't inflate the headline pick count.
@@ -771,11 +763,6 @@ def write_dashboard_json(results, season):
         merged_watch = [p for p in merged_props if p.get("pick") == "PASS"]
         dashboard["totalPicks"] = len(merged_actionable)
         dashboard["totalWatchlist"] = len(merged_watch)
-
-        n_bt = len(all_picks)
-        n_live = len(existing_live_picks)
-        if n_live > 0:
-            print(f"  Merged: {n_bt} backfill entries + {n_live} live preserved")
 
         with open(path, "w") as f:
             json.dump(dashboard, f, indent=2, cls=_NumpyEncoder)

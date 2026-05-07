@@ -1037,9 +1037,9 @@
         const src = (mlbView === 'weekly-lean') ? leanPicks : picks;
         let dates;
         if (weekSel.value === 'all') {
-          dates = [...new Set(src.filter(p => p.date).map(p => p.date))].sort();
+          dates = [...new Set(src.filter(p => p.date).map(p => p.date))].sort().reverse();
         } else {
-          dates = [...new Set(src.filter(p => p.date && getWeekStart(p.date) === weekSel.value).map(p => p.date))].sort();
+          dates = [...new Set(src.filter(p => p.date && getWeekStart(p.date) === weekSel.value).map(p => p.date))].sort().reverse();
         }
         const prev = daySel.value;
         daySel.innerHTML = '<option value="all">All Days</option>'

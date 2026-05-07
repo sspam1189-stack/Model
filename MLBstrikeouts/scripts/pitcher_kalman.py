@@ -396,6 +396,15 @@ def batch_update_from_game_logs(state, game_logs, cfg=None):
         elif not is_start:
             continue
 
+        # Skip scheduled-but-unplayed placeholder rows. The fetcher writes a
+        # stub {k:0, outs:0, h:0, bb:0, is_start:true} for tonight's game
+        # before it starts; absorbing that as a real "0-K start" both biases
+        # the Kalman mean toward zero and marks the game_id as processed,
+        # silently dropping the real result when it lands.
+        if (g.get("outs", 0) == 0 and g.get("k", 0) == 0
+                and g.get("h", 0) == 0 and g.get("bb", 0) == 0):
+            continue
+
         game_stats = {
             "k":    g.get("k", 0),
             "outs": g.get("outs", 0),

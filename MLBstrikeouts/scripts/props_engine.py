@@ -62,6 +62,13 @@ def organize_pitcher_logs(raw_logs):
         is_start = g.get("is_start", False)
         if ip < 3.0 and not is_start:
             continue
+        # Drop scheduled-but-unplayed stubs (ip=0, no recorded outs/K/H/BB).
+        # The fetcher pre-populates a placeholder row for tonight's game; if
+        # left in, it shifts games[-1]/games[-ROLLING_WINDOW:] and quietly
+        # corrupts proj_ip, rolling_std, and rest_days.
+        if ip == 0 and g.get("outs", 0) == 0 and g.get("k", 0) == 0 \
+                and g.get("h", 0) == 0 and g.get("bb", 0) == 0:
+            continue
         if pid not in by_pitcher:
             by_pitcher[pid] = []
         by_pitcher[pid].append(g)
