@@ -565,13 +565,9 @@ select option { background-color: #1a1a2e; color: #fff; padding: 4px 8px; }
 /* ─── Props mobile responsive ─── */
 .props-table-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; }
 
-/* Cards with dynamically-built tables (today/yesterday picks, recap, leans)
-   may have wide column layouts that overflow on phones. Allow them to
-   scroll horizontally as a unit and clamp inner table widths. */
-.card-picks, .card-recap, .card-games {
-  overflow-x: auto;
-  -webkit-overflow-scrolling: touch;
-}
+/* Cards with dynamically-built tables (today/yesterday picks, recap, leans).
+   Tables are constrained to card width and use dynamic font sizing on
+   mobile so all columns remain visible without horizontal scrolling. */
 .card-picks table, .card-recap table, .card-games table {
   min-width: 0;
   width: 100%;
@@ -589,11 +585,18 @@ select option { background-color: #1a1a2e; color: #fff; padding: 4px 8px; }
   .props-pg-bar span { font-size: 11px !important; }
   .props-recap table { min-width: 0; }
   .props-mini-breakdown { font-size: 11px !important; gap: 8px !important; }
-  .card table { width: 100% !important; table-layout: auto; }
+  .card table { width: 100% !important; table-layout: fixed; }
+  /* Dynamic font sizing: scales with viewport so dense tables fit without
+     header words wrapping mid-character ("Tea m", "Pic k", "Confirm ed").
+     Combined with table-layout: fixed, columns share width evenly so the
+     whole table stays inside the card without horizontal scrolling. */
   .card table th,
-  .card table td { font-size: 10px !important; padding: 4px 2px !important; word-break: break-word; }
-  /* Hide Opp column on mobile */
-  .card table .col-opp { display: none; }
+  .card table td {
+    font-size: clamp(7px, 2.2vw, 12px) !important;
+    padding: clamp(1px, 0.5vw, 5px) clamp(1px, 0.3vw, 6px) !important;
+    white-space: nowrap;
+    overflow: visible;
+  }
   .card { padding: 12px !important; }
 }
 
@@ -603,12 +606,6 @@ select option { background-color: #1a1a2e; color: #fff; padding: 4px 8px; }
   .props-toolbar-filters { flex-direction: column; align-items: stretch !important; }
   .props-toolbar-filters select { width: 100%; }
   .props-toolbar-filters span { margin-left: 0 !important; text-align: right; }
-  .card table th,
-  .card table td { font-size: 9px !important; padding: 3px 1px !important; }
-  /* Also hide Market column on very small screens */
-  .card table .col-market { display: none; }
-  /* Hide Status column (clock emoji) on tiny screens to save horizontal space */
-  .card table th:last-child, .card table td:last-child { white-space: nowrap; }
   /* Reduce card padding on small screens */
   .card { padding: 10px 8px !important; margin-bottom: 12px !important; }
   .card-title { font-size: 13px !important; }
@@ -616,13 +613,14 @@ select option { background-color: #1a1a2e; color: #fff; padding: 4px 8px; }
   .games-grid { gap: 6px; }
 }
 
-/* Tables in dynamic cards: small base padding so columns fit better. */
+/* Tables in dynamic cards: dynamic font sizing so columns fit in one row. */
 @media (max-width: 700px) {
   .card-picks table th, .card-picks table td,
   .card-recap table th, .card-recap table td,
   .card-games table th, .card-games table td {
-    padding: 4px 3px !important;
-    font-size: 10px !important;
+    font-size: clamp(7px, 2.2vw, 12px) !important;
+    padding: clamp(2px, 0.6vw, 5px) clamp(1px, 0.4vw, 6px) !important;
+    white-space: nowrap;
   }
   /* Tabs, sort toggle, and other in-card controls */
   .card-picks button { font-size: 11px !important; padding: 4px 8px !important; }
