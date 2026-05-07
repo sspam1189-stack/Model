@@ -1317,8 +1317,8 @@
           const pOutsStr  = p.proj_ip != null ? String(Math.round(p.proj_ip * 3)) : '\u2014';
           const pBfStr    = p.proj_bf != null ? String(Math.round(p.proj_bf)) : '\u2014';
           const pPitchStr = p.proj_pc != null ? String(Math.round(p.proj_pc)) : '\u2014';
-          // Actuals \u2014 backend currently captures actual_outs and actual_pitches
-          // but not actual_bf, so aBF shows '\u2014' until that's wired up.
+          // Actuals \u2014 actual_outs, actual_bf, actual_pitches all captured
+          // by run_daily and props_backfill from the bf/outs/pitches game-log fields.
           const aOutsStr  = p.actual_outs != null ? String(p.actual_outs) : '\u2014';
           const aBfStr    = p.actual_bf != null ? String(p.actual_bf) : '\u2014';
           const aPitchStr = p.actual_pitches != null ? String(p.actual_pitches) : '\u2014';

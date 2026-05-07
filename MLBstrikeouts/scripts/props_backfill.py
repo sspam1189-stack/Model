@@ -451,6 +451,7 @@ def backfill(season=None, start_game=10, start_date=None):
 
             actual_game = _find_actual_game(player, actual_games) or {}
             actual_outs = actual_game.get("outs")
+            actual_bf = actual_game.get("bf")
             actual_pitches = actual_game.get("pitches")
 
             proj_val = proj["proj"]
@@ -496,6 +497,7 @@ def backfill(season=None, start_game=10, start_date=None):
                     "proj_bf": proj.get("proj_bf"),
                     "proj_pc": proj.get("proj_pc"),
                     "actual_outs": actual_outs,
+                    "actual_bf": actual_bf,
                     "actual_pitches": actual_pitches,
                 })
                 total_projected += 1
@@ -530,6 +532,7 @@ def backfill(season=None, start_game=10, start_date=None):
                 "proj_bf": proj.get("proj_bf"),
                 "proj_pc": proj.get("proj_pc"),
                 "actual_outs": actual_outs,
+                "actual_bf": actual_bf,
                 "actual_pitches": actual_pitches,
             })
             date_picks += 1
@@ -711,6 +714,7 @@ def write_dashboard_json(results, season):
                 "proj_bf": p.get("proj_bf"),
                 "proj_pc": p.get("proj_pc"),
                 "actual_outs": p.get("actual_outs"),
+                "actual_bf": p.get("actual_bf"),
                 "actual_pitches": p.get("actual_pitches"),
             }
             if p.get("would_be_pick"):
