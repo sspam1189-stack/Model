@@ -187,6 +187,38 @@ let seasonFilter = 'all';
 let nflWeekFilter = 'latest';
 let nflHistoryWeekFilter = 'all';
 
+// 3-letter team aliases keep matchup columns from blowing out card width.
+// Apply to NBA + common NCAA names; unknown teams fall through unchanged.
+const TEAM_ALIASES = {
+  // NBA
+  'Atlanta Hawks':'ATL','Boston Celtics':'BOS','Brooklyn Nets':'BKN',
+  'Charlotte Hornets':'CHA','Chicago Bulls':'CHI','Cleveland Cavaliers':'CLE',
+  'Dallas Mavericks':'DAL','Denver Nuggets':'DEN','Detroit Pistons':'DET',
+  'Golden State Warriors':'GSW','Houston Rockets':'HOU','Indiana Pacers':'IND',
+  'LA Clippers':'LAC','Los Angeles Clippers':'LAC','Los Angeles Lakers':'LAL',
+  'Memphis Grizzlies':'MEM','Miami Heat':'MIA','Milwaukee Bucks':'MIL',
+  'Minnesota Timberwolves':'MIN','New Orleans Pelicans':'NOP',
+  'New York Knicks':'NYK','Oklahoma City Thunder':'OKC','Orlando Magic':'ORL',
+  'Philadelphia 76ers':'PHI','Phoenix Suns':'PHX','Portland Trail Blazers':'POR',
+  'Sacramento Kings':'SAC','San Antonio Spurs':'SAS','Toronto Raptors':'TOR',
+  'Utah Jazz':'UTA','Washington Wizards':'WAS',
+};
+function teamAlias(name) {
+  if (!name) return '';
+  return TEAM_ALIASES[name] || name;
+}
+// Replace any known team name occurrences inside a free-form string
+// (e.g. spread picks like "Philadelphia 76ers -10.5" → "PHI -10.5").
+function aliasInText(text) {
+  if (!text) return text;
+  let out = String(text);
+  for (const full in TEAM_ALIASES) {
+    if (out.indexOf(full) === -1) continue;
+    out = out.split(full).join(TEAM_ALIASES[full]);
+  }
+  return out;
+}
+
 function setSeasonFilter(val) {
   seasonFilter = val;
   nflWeekFilter = 'latest';
@@ -523,7 +555,7 @@ function getActionablePicks(runs) {
       if (!result) continue;
       results.push({
         date: r.date, dateDisplay: r.dateDisplay,
-        matchup: `${g.away} @ ${g.home}`,
+        matchup: `${teamAlias(g.away)} @ ${teamAlias(g.home)}`,
         pick: g.sPick, conf: g.sConf, result,
         final: `${g.awayScore}-${g.homeScore}`,
         sDiff: g.sDiff, pCover: g.pCover,
@@ -617,7 +649,7 @@ function getYesterdayRecap(runs) {
       const result = g.sResult || gradeSpread(g);
       if (!result) continue;
       picks.push({
-        matchup: `${g.away} @ ${g.home}`,
+        matchup: `${teamAlias(g.away)} @ ${teamAlias(g.home)}`,
         pick: g.sPick, conf: g.sConf, result,
         final: `${g.awayScore}-${g.homeScore}`,
         sDiff: g.sDiff,
@@ -723,7 +755,7 @@ function renderRecap(runs) {
   const rows = recap.picks.map(p => `
     <tr>
       <td>${esc(p.matchup)}</td>
-      <td><span class="pick-team">${esc(p.pick)}</span> ${confBadge(p.conf)}</td>
+      <td><span class="pick-team">${esc(aliasInText(p.pick))}</span> ${confBadge(p.conf)}</td>
       <td class="center">${resultBadge(p.result)}</td>
       <td class="center">${esc(p.final)}</td>
     </tr>`).join('');
@@ -821,7 +853,7 @@ function renderProbTable(run) {
   if (!games.length) return '';
   const rows = games.map(g => {
     const sPick = g.sPick && g.sPick !== 'PASS'
-      ? `<span class="pick-team">${esc(g.sPick)}</span> ${confBadge(g.sConf)}`
+      ? `<span class="pick-team">${esc(aliasInText(g.sPick))}</span> ${confBadge(g.sConf)}`
       : `<span style="color:var(--muted)">PASS</span>`;
     const pCover = g.pCover != null ? `<b>${fmtProb(g.pCover)}</b>` : '<span style="color:var(--muted)">\u2014</span>';
     // Show pCover_bayes as secondary when it differs from pCover
@@ -831,7 +863,7 @@ function renderProbTable(run) {
     const pAway = g.pAwayCover != null ? fmtProb(g.pAwayCover) : '\u2014';
     const margin = Number.isFinite(g.margin) ? (g.margin >= 0 ? '+' : '') + fmtNum(g.margin, 1) : '\u2014';
     return `<tr>
-      <td style="font-weight:700">${esc(g.away)} @ ${esc(g.home)}</td>
+      <td style="font-weight:700">${esc(teamAlias(g.away))} @ ${esc(teamAlias(g.home))}</td>
       <td>${sPick}<div class="card-subtitle" style="margin:2px 0 0">Line ${fmtNum(g.line,1)} \u00b7 proj ${margin} \u00b7 sDiff ${fmtNum(g.sDiff,1)}</div></td>
       <td class="center">${pCover}${bayesSecondary}<div class="card-subtitle">${pAway} away / ${pHome} home</div></td>
     </tr>`;
@@ -916,7 +948,7 @@ function renderLast10(runs) {
   const rows = picks.map(p => `<tr>
     <td>${esc(p.dateDisplay || p.date)}</td>
     <td>${esc(p.matchup)}</td>
-    <td><span class="pick-team">${esc(p.pick)}</span></td>
+    <td><span class="pick-team">${esc(aliasInText(p.pick))}</span></td>
     <td class="center">${confBadge(p.conf)}</td>
     <td class="center">${resultBadge(p.result)}</td>
     <td class="center">${esc(p.final)}</td>
@@ -1130,7 +1162,7 @@ function nflGetActionablePicks(runs) {
       if (!result) continue;
       results.push({
         week: r.week, date: r.date, dateDisplay: r.dateDisplay,
-        matchup: `${g.away} @ ${g.home}`,
+        matchup: `${teamAlias(g.away)} @ ${teamAlias(g.home)}`,
         pick: g.sPick, conf: g.sConf, result,
         final: `${g.awayScore}-${g.homeScore}`,
         sDiff: g.sDiff, pCover: g.pCover,
