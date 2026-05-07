@@ -438,7 +438,7 @@
           const tbl = document.createElement('table');
           tbl.className = 'props-data-table';
           tbl.style.cssText = 'width:100%;border-collapse:collapse;margin-top:8px';
-          const todayHeaders = ['Name','Team','Opp','Proj','Line','Edge','%','Odds','OU','Lock','Status'];
+          const todayHeaders = ['Name','Team','Opp','Proj','Line','Edge','%','Odds','OU','C/U','Status'];
           const hRow = tbl.createTHead().insertRow();
           todayHeaders.forEach((h, i) => {
             const th = document.createElement('th');
@@ -487,7 +487,7 @@
               const _gsTP = (data.gameStatuses || {})[p.team] || (data.gameStatuses || {})[p.opp] || '';
               const isPostponed = _VOID_GAME_STATUSES_TP.has(_gsTP);
               const isConfirmed = _LOCK_STATES.has(p.lockState);
-              const confText = isPostponed ? '🔴' : (isConfirmed ? '✅' : '🟡');
+              const confText = isConfirmed ? 'C' : 'U';
               const tPcStr = p.pCover != null ? (p.pCover * 100).toFixed(1) + '%' : '\u2014';
               const cells = [
                 displayName(p), p.team || '', p.opp || '',
@@ -513,8 +513,7 @@
                   td.title = isPostponed ? _gsTP : (p.lockState || 'pending');
                   td.style.fontSize = '11px';
                   td.style.fontWeight = '600';
-                  td.style.color = isPostponed ? 'var(--yellow)'
-                                  : isConfirmed ? 'var(--green)' : '#999';
+                  td.style.color = isConfirmed ? 'var(--green)' : '#999';
                 }
               });
             }
@@ -562,7 +561,7 @@
               const _gsLean = (data.gameStatuses || {})[p.team] || (data.gameStatuses || {})[p.opp] || '';
               const isPostponed = _VOID_STATUSES_LEAN.has(_gsLean);
               const isConfirmed = _LOCK_STATES.has(p.lockState);
-              const confText = isPostponed ? '🔴' : (isConfirmed ? '✅' : '🟡');
+              const confText = isConfirmed ? 'C' : 'U';
               const lPcStr = p.pCover != null ? (p.pCover * 100).toFixed(1) + '%' : '—';
               const cells = [
                 displayName(p), p.team || '', p.opp || '',
@@ -588,8 +587,7 @@
                   td.title = isPostponed ? _gsLean : (p.lockState || 'pending');
                   td.style.fontSize = '11px';
                   td.style.fontWeight = '600';
-                  td.style.color = isPostponed ? 'var(--yellow)'
-                                  : isConfirmed ? 'var(--green)' : '#999';
+                  td.style.color = isConfirmed ? 'var(--green)' : '#999';
                 }
               });
             }
@@ -779,7 +777,7 @@
             ['%',      'cover', false],
             ['OU',     null, false],
             ['Odds',   null, false],
-            ['Lock',   null, false],
+            ['C/U',    null, false],
             ['Status', null, false],
           ];
           cols.forEach(([label, key, leftAlign], i) => {
@@ -830,7 +828,7 @@
             const _gs = _gameStatuses[p.team] || _gameStatuses[p.opp] || '';
             const isPostponed = _VOID_GAME_STATUSES.has(_gs);
             const isConfirmed = _LOCK_STATES_TBL.has(p.lockState);
-            const confText = isPostponed ? '🔴' : (isConfirmed ? '✅' : '🟡');
+            const confText = isConfirmed ? 'C' : 'U';
             const gt = _gameTimes[p.team] || _gameTimes[p.opp] || '';
             const started = gt ? (new Date(gt).getTime() <= Date.now()) : false;
             const statusStr = started ? '\u{1F552}' : '';
@@ -865,8 +863,7 @@
                 td.title = isPostponed ? _gs : (p.lockState || 'pending');
                 td.style.fontSize = '11px';
                 td.style.fontWeight = '600';
-                td.style.color = isPostponed ? 'var(--yellow)'
-                                : isConfirmed ? 'var(--green)' : '#999';
+                td.style.color = isConfirmed ? 'var(--green)' : '#999';
               }
             });
           }
