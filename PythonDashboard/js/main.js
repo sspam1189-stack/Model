@@ -20,7 +20,13 @@
   function measureFontFor(tbl) {
     if (!tbl || !tbl.parentElement || !document.body.contains(tbl)) return startFont;
     const parent = tbl.parentElement;
-    const available = parent.clientWidth;
+    // clientWidth includes the parent's own padding, so a `padding:12px 16px`
+    // wrapper would over-report the space actually available to a child with
+    // width:100%. Subtract the padding to get true content-area width.
+    const ps = getComputedStyle(parent);
+    const padLeft = parseFloat(ps.paddingLeft) || 0;
+    const padRight = parseFloat(ps.paddingRight) || 0;
+    const available = parent.clientWidth - padLeft - padRight;
     if (available <= 0) return startFont;
     const cells = tbl.querySelectorAll('th, td');
     if (!cells.length) return startFont;
