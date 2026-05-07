@@ -589,14 +589,22 @@ select option { background-color: #1a1a2e; color: #fff; padding: 4px 8px; }
   /* Dynamic font sizing: scales with viewport so dense tables fit without
      header words wrapping mid-character ("Tea m", "Pic k", "Confirm ed").
      Combined with table-layout: fixed, columns share width evenly so the
-     whole table stays inside the card without horizontal scrolling. */
+     whole table stays inside the card without horizontal scrolling.
+     Per-cell ellipsis prevents content from one column visually bleeding
+     into the next (e.g. "T.Glasnow" + "LAD" rendering as "T.GlasnowAD"). */
   .card table th,
   .card table td {
     font-size: clamp(7px, 2.2vw, 12px) !important;
     padding: clamp(1px, 0.5vw, 5px) clamp(1px, 0.3vw, 6px) !important;
     white-space: nowrap;
-    overflow: visible;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
+  /* Give the pitcher (first) column ~2x the share so names like
+     "S.McClanahan" / "T.Glasnow" stay readable while numeric columns
+     remain compact. */
+  .card table th:first-child,
+  .card table td:first-child { width: 18%; }
   .card { padding: 12px !important; }
 }
 
