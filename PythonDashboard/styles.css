@@ -585,17 +585,15 @@ select option { background-color: #1a1a2e; color: #fff; padding: 4px 8px; }
   .props-pg-bar span { font-size: 11px !important; }
   .props-recap table { min-width: 0; }
   .props-mini-breakdown { font-size: 11px !important; gap: 8px !important; }
-  .card table { width: 100% !important; table-layout: fixed; }
-  /* Dynamic font sizing: scales with viewport so dense tables fit without
-     header words wrapping mid-character ("Tea m", "Pic k", "Confirm ed").
-     Combined with table-layout: fixed, columns share width evenly so the
-     whole table stays inside the card without horizontal scrolling. */
+  .card table { width: 100% !important; table-layout: auto; }
+  /* Compact mobile defaults; the actual font size is shrunk further by the
+     JS fitter (fitMLBTableToContainer in mlb-props.js) so every column fits
+     within the card without horizontal scrolling or hidden columns. */
   .card table th,
   .card table td {
-    font-size: clamp(7px, 2.2vw, 12px) !important;
-    padding: clamp(1px, 0.5vw, 5px) clamp(1px, 0.3vw, 6px) !important;
+    font-size: clamp(8px, 2.2vw, 12px);
+    padding: 3px 4px !important;
     white-space: nowrap;
-    overflow: visible;
   }
   .card { padding: 12px !important; }
 }
