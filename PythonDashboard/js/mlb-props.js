@@ -1297,7 +1297,7 @@
         const tbl = document.createElement('table');
         tbl.style.cssText = 'width:100%;border-collapse:collapse';
         const hdrs = isBacktest
-          ? ['Date','Name','Team','Opp','pOuts','pBF','pPC','Proj','Line','Edge','%','aOuts','aBF','aPC','Actual','OU','Odds','W/L']
+          ? ['Date','Name','Team','Opp','pOuts','aOuts','pBF','aBF','pPC','aPC','Proj','Line','Edge','%','Actual','OU','Odds','W/L']
           : ['Name','Team','vs','pOuts','pBF','pPC','Proj','Line','Edge','%','OU','Odds'];
         const hRow = tbl.createTHead().insertRow();
         hdrs.forEach(h => {
@@ -1327,11 +1327,12 @@
           const aPitchStr = p.actual_pitches != null ? String(p.actual_pitches) : '\u2014';
           const cells = isBacktest ? [
             p.date?(parseInt(p.date.slice(5,7))+'/'+parseInt(p.date.slice(8))):'', displayName(p), p.team||'', p.opp||'',
-            pOutsStr, pBfStr, pPitchStr,
+            pOutsStr, aOutsStr,
+            pBfStr, aBfStr,
+            pPitchStr, aPitchStr,
             String(p.proj), p.line!=null?String(p.line):'\u2014',
             edgeStr,
             pcStr,
-            aOutsStr, aBfStr, aPitchStr,
             p.actual!=null?String(p.actual):'\u2014',
             effectiveDir(p)==='OVER'?'O':'U',
             priceStr,
@@ -1351,17 +1352,18 @@
             td.textContent = val;
             td.style.cssText = 'padding:4px 4px;text-align:center;font-size:13px';
             if (isBacktest) {
-              // 0:Date 1:Name 2:Team 3:Opp 4:pOuts 5:pBF 6:pPC
-              // 7:Proj 8:Line 9:Edge 10:% 11:aOuts 12:aBF 13:aPC
+              // 0:Date 1:Name 2:Team 3:Opp
+              // 4:pOuts 5:aOuts 6:pBF 7:aBF 8:pPC 9:aPC
+              // 10:Proj 11:Line 12:Edge 13:%
               // 14:Actual 15:OU 16:Odds 17:W/L
               if (i===1) { td.style.textAlign='left'; td.style.fontWeight='600'; }
               if (i===0) { td.style.color='#999'; td.style.fontSize='11px'; }
               if (i===2||i===3) td.style.color='#999';
-              if (i===4||i===5||i===6) td.style.color='#bbb';
-              if (i===7) td.style.color=p.proj>p.line?'var(--green)':p.proj<p.line?'var(--red)':'';
-              if (i===9) td.style.color = edgeVal > 0 ? 'var(--green)' : edgeVal < 0 ? 'var(--red)' : '#999';
-              if (i===10) td.style.color='#aaa';
-              if (i===11||i===12||i===13) td.style.color='#bbb';
+              if (i>=4 && i<=9) td.style.color='#bbb';
+              if (i===10) td.style.color=p.proj>p.line?'var(--green)':p.proj<p.line?'var(--red)':'';
+              if (i===12) td.style.color = edgeVal > 0 ? 'var(--green)' : edgeVal < 0 ? 'var(--red)' : '#999';
+              if (i===13) td.style.color='#aaa';
+              if (i===14) td.style.color='#bbb';
               if (i===15) { td.style.fontWeight='700'; td.style.color=effectiveDir(p)==='OVER'?'var(--green)':'var(--red)'; }
               if (i===16) td.style.color='#999';
               if (i===17) { td.style.fontWeight='700'; td.style.color=p.result==='WIN'?'var(--green)':'var(--red)'; }

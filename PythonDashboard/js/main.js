@@ -1,4 +1,85 @@
 // Shared utilities, data fetching, NBA/NFL game rendering
+
+// ─── Dense-table auto-fitter ──────────────────────────────────────────────
+// Many of our cards render tables with 10–18 columns; on phone widths the
+// natural minimum width exceeds the card width and content gets cut off
+// (see e.g. NBA Player Props "Result" column). This module shrinks the
+// table's font until it fits its container — no horizontal scroll, no
+// hidden columns. Fits on insert (via MutationObserver) and re-fits on
+// viewport resize / orientation change.
+(function() {
+  const tracked = new Set();
+  const minFont = 6;
+  const startFont = 13;
+
+  function fitTable(tbl) {
+    if (!tbl || !tbl.parentElement || !document.body.contains(tbl)) return;
+    const parent = tbl.parentElement;
+    const available = parent.clientWidth;
+    if (available <= 0) return;
+    const cells = tbl.querySelectorAll('th, td');
+    if (!cells.length) return;
+    const setSize = (px) => cells.forEach(c => c.style.setProperty('font-size', px + 'px', 'important'));
+    let fontSize = startFont;
+    setSize(fontSize);
+    let guard = 0;
+    while (tbl.scrollWidth > available + 1 && fontSize > minFont && guard < 60) {
+      fontSize -= 0.5;
+      setSize(fontSize);
+      guard++;
+    }
+  }
+
+  function track(tbl) {
+    if (!tbl || tracked.has(tbl)) return;
+    tracked.add(tbl);
+    requestAnimationFrame(() => fitTable(tbl));
+  }
+
+  function inDenseCard(node) {
+    return node && node.closest && node.closest('.card, .card-games, .card-picks, .card-recap');
+  }
+
+  function sweep(root) {
+    (root || document).querySelectorAll('.card table, .card-games table, .card-picks table, .card-recap table').forEach(track);
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', () => sweep());
+  } else {
+    sweep();
+  }
+
+  const observer = new MutationObserver(records => {
+    for (const r of records) {
+      for (const node of r.addedNodes) {
+        if (node.nodeType !== 1) continue;
+        if (node.tagName === 'TABLE' && inDenseCard(node)) {
+          track(node);
+        } else if (node.querySelectorAll) {
+          node.querySelectorAll('table').forEach(t => {
+            if (inDenseCard(t)) track(t);
+          });
+        }
+      }
+    }
+  });
+  observer.observe(document.body, { childList: true, subtree: true });
+
+  let resizeTimer;
+  window.addEventListener('resize', () => {
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(() => {
+      for (const t of [...tracked]) {
+        if (!document.body.contains(t)) { tracked.delete(t); continue; }
+        fitTable(t);
+      }
+    }, 150);
+  });
+
+  window.fitTableToContainer = fitTable;
+})();
+
 const SOURCES = {
   nba: {
     name: 'pyNBA',
