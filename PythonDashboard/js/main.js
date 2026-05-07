@@ -12,17 +12,19 @@
   const minFont = 6;
   const startFont = 13;
 
-  function fitTable(tbl) {
-    if (!tbl || !tbl.parentElement || !document.body.contains(tbl)) return;
+  // Fit one table in isolation: returns the font size at which it fits
+  // its container. Temporarily switches the table to natural sizing for
+  // measurement (a width:100% inline style hides true overflow because
+  // the browser shrinks columns to fit and lets cell content overflow
+  // visually instead).
+  function measureFontFor(tbl) {
+    if (!tbl || !tbl.parentElement || !document.body.contains(tbl)) return startFont;
     const parent = tbl.parentElement;
     const available = parent.clientWidth;
-    if (available <= 0) return;
+    if (available <= 0) return startFont;
     const cells = tbl.querySelectorAll('th, td');
-    if (!cells.length) return;
-    // Measure with natural sizing: a `width:100%` inline style hides
-    // overflow because the browser shrinks columns to fit, leaving cell
-    // content overflowing visually but scrollWidth == clientWidth. We
-    // temporarily switch to max-content to capture the true demanded width.
+    if (!cells.length) return startFont;
+
     const origWidth = tbl.style.width;
     const origMaxWidth = tbl.style.maxWidth;
     const origTableLayout = tbl.style.tableLayout;
@@ -43,6 +45,29 @@
     tbl.style.width = origWidth;
     tbl.style.maxWidth = origMaxWidth;
     tbl.style.tableLayout = origTableLayout;
+    return fontSize;
+  }
+
+  // Apply a font size to every cell in a table.
+  function applyFont(tbl, px) {
+    if (!tbl) return;
+    tbl.querySelectorAll('th, td').forEach(c => c.style.setProperty('font-size', px + 'px', 'important'));
+  }
+
+  // Fit a table AND all of its sibling tables in the same card to a
+  // single font size — the smallest needed across the group. Two tables
+  // sharing the same headers should render with identical typography even
+  // if their column data differs in width.
+  function fitTable(tbl) {
+    if (!tbl || !tbl.parentElement || !document.body.contains(tbl)) return;
+    const card = tbl.closest('.card, .card-games, .card-picks, .card-recap') || tbl.parentElement;
+    const group = Array.from(card.querySelectorAll('table'));
+    let minNeeded = startFont;
+    for (const t of group) {
+      const fs = measureFontFor(t);
+      if (fs < minNeeded) minNeeded = fs;
+    }
+    for (const t of group) applyFont(t, minNeeded);
   }
 
   function track(tbl) {
