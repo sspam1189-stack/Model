@@ -4,10 +4,10 @@
   "season": "2026",
   "mode": "live",
   "model": "kalman_blend",
-  "generated": "2026-05-08T17:10:29.966757",
+  "generated": "2026-05-08T17:24:39.814311",
   "totalProjections": 23,
   "totalPicks": 386,
-  "totalWatchlist": 11,
+  "totalWatchlist": 10,
   "props": [
     {
       "player": "Tyler Glasnow",
@@ -9156,27 +9156,26 @@
       "team": "NYY",
       "opp": "MIL",
       "market": "strikeouts",
-      "proj": 4.6,
+      "proj": 4.2,
       "std": 2.0,
       "line": 5.5,
       "over_price": -122,
       "under_price": -110,
-      "pick": "PASS",
-      "edge": -0.9,
-      "pCover": 0.655,
-      "conf": "watch",
+      "pick": "UNDER",
+      "edge": -1.3,
+      "pCover": 0.721,
+      "conf": "high",
       "proj_ip": 6.9,
       "proj_bf": 23.0,
       "proj_pc": 107,
       "odds": -110,
       "to_win_1u": 1.1,
-      "would_be_pick": "UNDER",
       "date": "2026-05-08",
-      "lockState": "pending",
-      "lockedAt": null
+      "lockState": "lineup_confirmed",
+      "lockedAt": "2026-05-08T22:24:39.814433Z"
     }
   ],
-  "summary": "4 picks (+11 watch) from 23 projections",
+  "summary": "5 picks (+10 watch) from 23 projections",
   "date": "2026-05-08",
   "todayProjections": [
     {
@@ -9199,7 +9198,7 @@
       "odds": 130,
       "to_win_1u": 0.77,
       "date": "2026-05-08",
-      "lockState": "lineup_confirmed",
+      "lockState": "game_started",
       "lockedAt": "2026-05-08T18:32:38.524661Z"
     },
     {
@@ -9663,29 +9662,6 @@
       "lockedAt": "2026-05-08T22:03:01.491885Z"
     },
     {
-      "player": "Max Fried",
-      "team": "NYY",
-      "opp": "MIL",
-      "market": "strikeouts",
-      "proj": 4.6,
-      "std": 2.0,
-      "line": 5.5,
-      "over_price": -122,
-      "under_price": -110,
-      "pick": "PASS",
-      "edge": -0.9,
-      "pCover": 0.655,
-      "conf": "low",
-      "proj_ip": 6.9,
-      "proj_bf": 23.0,
-      "proj_pc": 107,
-      "odds": -110,
-      "to_win_1u": 1.1,
-      "date": "2026-05-08",
-      "lockState": "pending",
-      "lockedAt": null
-    },
-    {
       "player": "Carmen Mlodzinski",
       "team": "PIT",
       "opp": "SF",
@@ -9707,6 +9683,29 @@
       "date": "2026-05-08",
       "lockState": "lineup_confirmed",
       "lockedAt": "2026-05-08T22:10:29.966960Z"
+    },
+    {
+      "player": "Max Fried",
+      "team": "NYY",
+      "opp": "MIL",
+      "market": "strikeouts",
+      "proj": 4.2,
+      "std": 2.0,
+      "line": 5.5,
+      "over_price": -122,
+      "under_price": -110,
+      "pick": "UNDER",
+      "edge": -1.3,
+      "pCover": 0.721,
+      "conf": "high",
+      "proj_ip": 6.9,
+      "proj_bf": 23.0,
+      "proj_pc": 107,
+      "odds": -110,
+      "to_win_1u": 1.1,
+      "date": "2026-05-08",
+      "lockState": "lineup_confirmed",
+      "lockedAt": "2026-05-08T22:24:39.814433Z"
     }
   ],
   "gameTimes": {
@@ -9742,10 +9741,10 @@
     "PIT": "2026-05-09T02:15:00Z"
   },
   "gameStatuses": {
-    "CIN": "Warmup",
-    "HOU": "Warmup",
-    "PHI": "Pre-Game",
-    "COL": "Pre-Game",
+    "CIN": "In Progress",
+    "HOU": "In Progress",
+    "PHI": "Warmup",
+    "COL": "Warmup",
     "BAL": "Pre-Game",
     "OAK": "Pre-Game",
     "TOR": "Pre-Game",
