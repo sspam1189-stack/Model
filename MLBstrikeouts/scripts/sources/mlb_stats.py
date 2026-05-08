@@ -173,7 +173,30 @@ def fetch_pitcher_game_logs(season=None):
     existing_rows = _load_cache(cache_path) or []
     existing_batter_logs = _load_cache(batter_cache_path) or {}
 
-    # Build set of already-cached game PKs to skip
+    # Identify gamePks whose cached rows are all degenerate (bf=0, outs=0,
+    # pitches=0) — typically stale captures of makeup/postponed games where
+    # the API briefly flagged Final with empty stats. Re-fetch these so the
+    # cache picks up the real line.
+    def _is_degenerate(r):
+        return (int(r.get("bf", 0) or 0) == 0
+                and int(r.get("outs", 0) or 0) == 0
+                and int(r.get("pitches", 0) or 0) == 0)
+
+    from collections import defaultdict as _dd
+    _by_pk = _dd(list)
+    for r in existing_rows:
+        gid = r.get("game_id")
+        if gid:
+            _by_pk[gid].append(r)
+    degenerate_game_pks = {pk for pk, group in _by_pk.items()
+                           if group and all(_is_degenerate(r) for r in group)}
+    if degenerate_game_pks:
+        print(f"  [mlb_stats] Re-fetching {len(degenerate_game_pks)} game(s) with degenerate cached rows")
+        # Drop degenerate rows so the re-fetch replaces them rather than duplicating
+        existing_rows = [r for r in existing_rows
+                         if r.get("game_id") not in degenerate_game_pks]
+
+    # Build set of already-cached game PKs to skip (excluding degenerate ones)
     cached_game_ids = set()
     for r in existing_rows:
         gid = r.get("game_id")
@@ -326,7 +349,16 @@ def fetch_pitcher_game_logs(season=None):
             if not p_stats:
                 continue
 
+            # Guard against half-populated boxscores (bf=0, outs=0, pitches=0)
+            # — the API sometimes flips a makeup game to Final before stats
+            # propagate, returning a stats dict full of zeros. Skip so we
+            # try again on the next run instead of locking in a bad row.
+            _bf = int(p_stats.get("battersFaced", 0) or 0)
+            _pc = int(p_stats.get("numberOfPitches", 0) or 0)
             ip_str = p_stats.get("inningsPitched", "0")
+            if _bf == 0 and _pc == 0 and _ip_to_outs(ip_str) == 0:
+                continue
+
 
             rows.append({
                 "pitcher_id": person.get("id", sp_id),
