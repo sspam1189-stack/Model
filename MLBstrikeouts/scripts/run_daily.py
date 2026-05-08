@@ -163,6 +163,7 @@ def grade_previous_picks(season=None):
     wins = 0
     losses = 0
     pushes = 0
+    watch_graded = 0  # watchlist (lean) picks resolved this pass
 
     for pick in props:
         if pick.get("result") or not pick.get("date") or pick["date"] >= today:
@@ -184,6 +185,15 @@ def grade_previous_picks(season=None):
 
         # Find actual stat from game log
         games = logs_by_pitcher_date.get((player, pick["date"]), [])
+        # Drop degenerate rows (bf=0, outs=0, pitches=0) — these are stale
+        # captures of postponed/makeup games where stats hadn't propagated.
+        # Treat as missing so we either VOID (postponement) or leave ungraded
+        # (data not yet propagated) rather than crediting a fake k=0.
+        games = [g for g in games if not (
+            int(g.get("bf", 0) or 0) == 0
+            and int(g.get("outs", 0) or 0) == 0
+            and int(g.get("pitches", 0) or 0) == 0
+        )]
         if not games:
             # No game log for this pitcher/date.  Could be:
             #   (a) game postponed / suspended / cancelled — mark VOID
@@ -194,6 +204,8 @@ def grade_previous_picks(season=None):
                 pick["actual"] = None
                 if not is_watch:
                     graded += 1  # count as resolved (so we stop reprocessing)
+                else:
+                    watch_graded += 1
             continue
         game = games[0]
 
@@ -228,8 +240,10 @@ def grade_previous_picks(season=None):
                 losses += 1
         if not is_watch:
             graded += 1
+        else:
+            watch_graded += 1
 
-    if graded == 0:
+    if graded == 0 and watch_graded == 0:
         print("  [grade] No picks could be matched to actual stats")
         return
 
