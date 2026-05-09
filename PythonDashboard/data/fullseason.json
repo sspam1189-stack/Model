@@ -86476,35 +86476,38 @@
           "h2hRecord": null,
           "h2hNote": null,
           "trends": {
-            "away": "ATS +/- 2.4 \u00b7 Over 45.6% \u00b7 Under 54.4% \u00b7 O/U +/- -1.4",
-            "home": "ATS +/- -2.2 \u00b7 Over 49.5% \u00b7 Under 50.6% \u00b7 O/U +/- 0.4"
-          }
+            "away": "ATS +/- 2.4 \u00b7 Over 46.2% \u00b7 Under 53.9% \u00b7 O/U +/- -1.2",
+            "home": "ATS +/- -2.1 \u00b7 Over 50.0% \u00b7 Under 50.0% \u00b7 O/U +/- 0.5"
+          },
+          "awayScore": 109.0,
+          "homeScore": 116.0,
+          "sResult": "LOSS"
         },
         {
           "away": "Oklahoma City Thunder",
           "home": "Los Angeles Lakers",
-          "line": 8.5,
-          "total": 211.5,
+          "line": 9.5,
+          "total": 210.5,
           "startTimeUTC": "2026-05-10T00:40:00.000+00:00",
           "_book": "FanDuel",
           "aS": 111.0,
           "hS": 104.5,
           "pT": 215.5,
-          "margin": 2.0,
-          "sDiff": 2.0,
-          "tDiff": -1.4,
-          "sPick": "PASS",
-          "sConf": "low",
+          "margin": 3.0,
+          "sDiff": 3.0,
+          "tDiff": -0.4,
+          "sPick": "Los Angeles Lakers +9.5",
+          "sConf": "elite",
           "oPick": "PASS",
           "oConf": "low",
           "injuryNote": "Away: Jalen Williams (out/starter)",
-          "pHomeCover": 0.555,
-          "pAwayCover": 0.445,
-          "pOver": 0.463,
-          "pUnder": 0.537,
-          "pCover": null,
+          "pHomeCover": 0.582,
+          "pAwayCover": 0.418,
+          "pOver": 0.49,
+          "pUnder": 0.51,
+          "pCover": 0.582,
           "pOU": null,
-          "marginVar": 211.6,
+          "marginVar": 211.5,
           "marginStd": 14.5,
           "_features": {
             "dTS": 0.0014020000000000143,
@@ -86541,8 +86544,8 @@
           }
         }
       ],
-      "summaryText": "RECORD (graded picks only)\n\nSPREAD (ATS)\n  All:         409-236-1   (63.4%)   [graded 646]\n  Elite:       409-236-1   (63.4%)   [graded 646]\n\nFAV/DOG (Spread)\n  Favorites:   190-104-1   (64.6%)   [graded 295]\n  Underdogs:   219-132-0   (62.4%)   [graded 351]\n\nTOTAL (O/U)\n  All:         0-0-0   (n/a%)   [graded 0]\n  Elite:       0-0-0   (n/a%)   [graded 0]\n\nOVER/UNDER\n  Over:        0-0-0   (n/a%)   [graded 0]\n  Under:       0-0-0   (n/a%)   [graded 0]",
-      "ranAt": "05/09/2026, 11:34:12 AM"
+      "summaryText": "RECORD (graded picks only)\n\nSPREAD (ATS)\n  All:         409-237-1   (63.3%)   [graded 647]\n  Elite:       409-237-1   (63.3%)   [graded 647]\n\nFAV/DOG (Spread)\n  Favorites:   190-104-1   (64.6%)   [graded 295]\n  Underdogs:   219-133-0   (62.2%)   [graded 352]\n\nTOTAL (O/U)\n  All:         0-0-0   (n/a%)   [graded 0]\n  Elite:       0-0-0   (n/a%)   [graded 0]\n\nOVER/UNDER\n  Over:        0-0-0   (n/a%)   [graded 0]\n  Under:       0-0-0   (n/a%)   [graded 0]",
+      "ranAt": "05/09/2026, 06:01:41 PM"
     }
   ],
   "weights": {
@@ -86574,6 +86577,6 @@
     "hca": 0.2,
     "constant": 4.0
   },
-  "residualVar": 192.7,
+  "residualVar": 192.6,
   "lastTuneDate": "20260509"
 }
