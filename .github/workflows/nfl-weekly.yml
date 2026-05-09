@@ -139,7 +139,9 @@ jobs:
           clean: true
 
       - name: Pull latest
-        run: git pull origin main
+        run: |
+          git config --global --add safe.directory '*'
+          git pull origin main
 
       - name: Install dependencies
         run: pip install -r pyNFL/requirements.txt

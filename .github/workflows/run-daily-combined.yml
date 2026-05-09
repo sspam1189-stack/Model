@@ -91,7 +91,9 @@ jobs:
           node-version: 22
 
       - name: Pull latest
-        run: git pull origin main
+        run: |
+          git config --global --add safe.directory '*'
+          git pull origin main
 
       - name: Install dependencies
         run: |
@@ -129,7 +131,9 @@ jobs:
           clean: true
 
       - name: Pull latest
-        run: git pull origin main
+        run: |
+          git config --global --add safe.directory '*'
+          git pull origin main
 
       - name: Download jsNBA cache
         uses: actions/download-artifact@v8
@@ -173,7 +177,9 @@ jobs:
           clean: true
 
       - name: Pull latest
-        run: git pull origin main
+        run: |
+          git config --global --add safe.directory '*'
+          git pull origin main
 
       - name: Download jsFull cache
         uses: actions/download-artifact@v8

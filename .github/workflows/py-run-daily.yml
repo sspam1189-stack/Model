@@ -30,7 +30,9 @@ jobs:
           clean: true
 
       - name: Pull latest
-        run: git pull origin main
+        run: |
+          git config --global --add safe.directory '*'
+          git pull origin main
 
       - name: Clear bytecode cache
         run: Get-ChildItem -Path pyNBA/scripts -Filter __pycache__ -Recurse -Directory -ErrorAction SilentlyContinue | Remove-Item -Recurse -Force
@@ -79,7 +81,9 @@ jobs:
           clean: true
 
       - name: Pull latest
-        run: git pull origin main
+        run: |
+          git config --global --add safe.directory '*'
+          git pull origin main
 
       - name: Clear bytecode cache
         run: Get-ChildItem -Path pyFull/scripts -Filter __pycache__ -Recurse -Directory -ErrorAction SilentlyContinue | Remove-Item -Recurse -Force
@@ -128,7 +132,9 @@ jobs:
           clean: true
 
       - name: Pull latest
-        run: git pull origin main
+        run: |
+          git config --global --add safe.directory '*'
+          git pull origin main
 
       - name: Clear bytecode cache
         run: Get-ChildItem -Path pyNBAPROPS -Filter __pycache__ -Recurse -Directory -ErrorAction SilentlyContinue | Remove-Item -Recurse -Force

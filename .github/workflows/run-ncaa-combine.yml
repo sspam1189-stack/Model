@@ -80,7 +80,9 @@ jobs:
           clean: true
 
       - name: Pull latest changes
-        run: git pull origin main
+        run: |
+          git config --global --add safe.directory '*'
+          git pull origin main
 
       - name: Resolve Python
         id: py
