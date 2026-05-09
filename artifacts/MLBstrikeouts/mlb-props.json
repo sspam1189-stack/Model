@@ -4,10 +4,10 @@
   "season": "2026",
   "mode": "live",
   "model": "kalman_blend",
-  "generated": "2026-05-08T19:32:00.923408",
-  "totalProjections": 24,
+  "generated": "2026-05-08T22:44:16.278922",
+  "totalProjections": 25,
   "totalPicks": 386,
-  "totalWatchlist": 11,
+  "totalWatchlist": 9,
   "props": [
     {
       "player": "Tyler Glasnow",
@@ -9029,7 +9029,7 @@
       "odds": -122,
       "to_win_1u": 1.22,
       "date": "2026-05-08",
-      "lockState": "lineup_confirmed",
+      "lockState": "game_started",
       "lockedAt": "2026-05-08T21:02:24.879293Z"
     },
     {
@@ -9077,7 +9077,7 @@
       "to_win_1u": 1.1,
       "would_be_pick": "OVER",
       "date": "2026-05-08",
-      "lockState": "lineup_confirmed",
+      "lockState": "game_started",
       "lockedAt": "2026-05-08T21:28:46.104955Z"
     },
     {
@@ -9101,7 +9101,7 @@
       "to_win_1u": 1.58,
       "would_be_pick": "OVER",
       "date": "2026-05-08",
-      "lockState": "lineup_confirmed",
+      "lockState": "game_started",
       "lockedAt": "2026-05-08T22:03:01.491885Z"
     },
     {
@@ -9148,7 +9148,7 @@
       "odds": 106,
       "to_win_1u": 0.94,
       "date": "2026-05-08",
-      "lockState": "lineup_confirmed",
+      "lockState": "game_started",
       "lockedAt": "2026-05-08T22:10:29.966960Z"
     },
     {
@@ -9175,7 +9175,7 @@
       "lockedAt": "2026-05-08T22:24:39.814433Z"
     }
   ],
-  "summary": "5 picks (+11 watch) from 24 projections",
+  "summary": "4 picks (+9 watch) from 25 projections",
   "date": "2026-05-08",
   "todayProjections": [
     {
@@ -9497,7 +9497,7 @@
       "odds": -138,
       "to_win_1u": 1.38,
       "date": "2026-05-08",
-      "lockState": "lineup_confirmed",
+      "lockState": "game_started",
       "lockedAt": "2026-05-08T21:02:24.879293Z"
     },
     {
@@ -9543,7 +9543,7 @@
       "odds": -122,
       "to_win_1u": 1.22,
       "date": "2026-05-08",
-      "lockState": "lineup_confirmed",
+      "lockState": "game_started",
       "lockedAt": "2026-05-08T21:02:24.879293Z"
     },
     {
@@ -9566,7 +9566,7 @@
       "odds": -110,
       "to_win_1u": 1.1,
       "date": "2026-05-08",
-      "lockState": "lineup_confirmed",
+      "lockState": "game_started",
       "lockedAt": "2026-05-08T21:28:46.104955Z"
     },
     {
@@ -9612,7 +9612,7 @@
       "odds": -146,
       "to_win_1u": 1.46,
       "date": "2026-05-08",
-      "lockState": "lineup_confirmed",
+      "lockState": "game_started",
       "lockedAt": "2026-05-08T22:03:01.491885Z"
     },
     {
@@ -9658,7 +9658,7 @@
       "odds": -158,
       "to_win_1u": 1.58,
       "date": "2026-05-08",
-      "lockState": "lineup_confirmed",
+      "lockState": "game_started",
       "lockedAt": "2026-05-08T22:03:01.491885Z"
     },
     {
@@ -9681,7 +9681,7 @@
       "odds": 106,
       "to_win_1u": 0.94,
       "date": "2026-05-08",
-      "lockState": "lineup_confirmed",
+      "lockState": "game_started",
       "lockedAt": "2026-05-08T22:10:29.966960Z"
     },
     {
@@ -9741,35 +9741,35 @@
     "PIT": "2026-05-09T02:15:00Z"
   },
   "gameStatuses": {
-    "CIN": "In Progress",
-    "HOU": "In Progress",
-    "PHI": "In Progress",
-    "COL": "In Progress",
-    "BAL": "In Progress",
-    "OAK": "In Progress",
-    "TOR": "In Progress",
-    "LAA": "In Progress",
-    "BOS": "In Progress",
-    "TB": "In Progress",
-    "MIA": "In Progress",
-    "WSH": "In Progress",
-    "CLE": "In Progress",
-    "MIN": "In Progress",
-    "KC": "In Progress",
-    "DET": "In Progress",
-    "CWS": "In Progress",
-    "SEA": "In Progress",
-    "MIL": "In Progress",
-    "NYY": "In Progress",
-    "TEX": "In Progress",
-    "CHC": "In Progress",
-    "ARI": "Pre-Game",
-    "NYM": "Pre-Game",
-    "SD": "Pre-Game",
-    "STL": "Pre-Game",
-    "LAD": "Pre-Game",
-    "ATL": "Pre-Game",
-    "SF": "Pre-Game",
-    "PIT": "Pre-Game"
+    "CIN": "Final",
+    "HOU": "Final",
+    "PHI": "Final",
+    "COL": "Final",
+    "BAL": "Final",
+    "OAK": "Final",
+    "TOR": "Final",
+    "LAA": "Final",
+    "BOS": "Final",
+    "TB": "Final",
+    "MIA": "Final",
+    "WSH": "Final",
+    "CLE": "Final",
+    "MIN": "Final",
+    "KC": "Final",
+    "DET": "Final",
+    "CWS": "Final",
+    "SEA": "Final",
+    "MIL": "Final",
+    "NYY": "Final",
+    "TEX": "Final",
+    "CHC": "Final",
+    "ARI": "In Progress",
+    "NYM": "In Progress",
+    "SD": "In Progress",
+    "STL": "In Progress",
+    "LAD": "In Progress",
+    "ATL": "In Progress",
+    "SF": "In Progress",
+    "PIT": "In Progress"
   }
 }
