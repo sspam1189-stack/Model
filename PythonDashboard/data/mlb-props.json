@@ -4,10 +4,10 @@
   "season": "2026",
   "mode": "live",
   "model": "kalman_blend",
-  "generated": "2026-05-09T16:52:25.818310",
+  "generated": "2026-05-09T18:01:37.741409",
   "totalProjections": 26,
   "totalPicks": 401,
-  "totalWatchlist": 13,
+  "totalWatchlist": 11,
   "props": [
     {
       "player": "Tyler Glasnow",
@@ -9342,7 +9342,7 @@
       "to_win_1u": 1.74,
       "would_be_pick": "UNDER",
       "date": "2026-05-09",
-      "lockState": "lineup_confirmed",
+      "lockState": "game_started",
       "lockedAt": "2026-05-09T18:13:07.295760Z"
     },
     {
@@ -9390,7 +9390,7 @@
       "to_win_1u": 1.36,
       "would_be_pick": "UNDER",
       "date": "2026-05-09",
-      "lockState": "lineup_confirmed",
+      "lockState": "game_started",
       "lockedAt": "2026-05-09T18:32:24.400644Z"
     },
     {
@@ -9508,7 +9508,7 @@
       "to_win_1u": 1.66,
       "would_be_pick": "UNDER",
       "date": "2026-05-09",
-      "lockState": "lineup_confirmed",
+      "lockState": "game_started",
       "lockedAt": "2026-05-09T21:02:43.002649Z"
     },
     {
@@ -9608,7 +9608,7 @@
       "lockedAt": null
     }
   ],
-  "summary": "2 picks (+13 watch) from 26 projections",
+  "summary": "3 picks (+11 watch) from 26 projections",
   "date": "2026-05-09",
   "todayProjections": [
     {
@@ -9861,7 +9861,7 @@
       "odds": -102,
       "to_win_1u": 1.02,
       "date": "2026-05-09",
-      "lockState": "lineup_confirmed",
+      "lockState": "game_started",
       "lockedAt": "2026-05-09T18:13:07.295760Z"
     },
     {
@@ -9884,7 +9884,7 @@
       "odds": -174,
       "to_win_1u": 1.74,
       "date": "2026-05-09",
-      "lockState": "lineup_confirmed",
+      "lockState": "game_started",
       "lockedAt": "2026-05-09T18:13:07.295760Z"
     },
     {
@@ -9907,7 +9907,7 @@
       "odds": -136,
       "to_win_1u": 1.36,
       "date": "2026-05-09",
-      "lockState": "lineup_confirmed",
+      "lockState": "game_started",
       "lockedAt": "2026-05-09T18:32:24.400644Z"
     },
     {
@@ -10114,7 +10114,7 @@
       "odds": -166,
       "to_win_1u": 1.66,
       "date": "2026-05-09",
-      "lockState": "lineup_confirmed",
+      "lockState": "game_started",
       "lockedAt": "2026-05-09T21:02:43.002649Z"
     },
     {
@@ -10266,30 +10266,30 @@
     "TB": "2026-05-09T20:10:00Z"
   },
   "gameStatuses": {
-    "TOR": "In Progress",
-    "LAA": "In Progress",
-    "BAL": "In Progress",
-    "OAK": "In Progress",
-    "CIN": "In Progress",
-    "HOU": "In Progress",
+    "TOR": "Final",
+    "LAA": "Final",
+    "BAL": "Game Over",
+    "OAK": "Game Over",
+    "CIN": "Final",
+    "HOU": "Final",
     "MIA": "In Progress",
     "WSH": "In Progress",
-    "PHI": "Pre-Game",
-    "COL": "Pre-Game",
+    "PHI": "In Progress",
+    "COL": "In Progress",
     "CLE": "Delayed Start",
     "MIN": "Delayed Start",
-    "TEX": "Pre-Game",
-    "CHC": "Pre-Game",
-    "KC": "Pre-Game",
-    "DET": "Pre-Game",
-    "CWS": "Pre-Game",
-    "SEA": "Pre-Game",
-    "MIL": "Pre-Game",
-    "NYY": "Pre-Game",
-    "ARI": "Pre-Game",
-    "NYM": "Pre-Game",
-    "SD": "Pre-Game",
-    "STL": "Pre-Game",
+    "TEX": "Warmup",
+    "CHC": "Warmup",
+    "KC": "Warmup",
+    "DET": "Warmup",
+    "CWS": "Warmup",
+    "SEA": "Warmup",
+    "MIL": "Warmup",
+    "NYY": "Warmup",
+    "ARI": "Warmup",
+    "NYM": "Warmup",
+    "SD": "Warmup",
+    "STL": "Warmup",
     "SF": "Pre-Game",
     "PIT": "Pre-Game",
     "LAD": "Pre-Game",
