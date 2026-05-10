@@ -72,7 +72,7 @@ MARKET_THRESHOLDS = {
 VAR_MULT = {
     "points":        2.0,
     "rebounds":      4.03,  # 2026-04-29 final — recal #3, balanced WR + volume
-    "assists":       4.32,
+    "assists":       3.55,  # 2026-05-10 resweep — scale 0.82 from 4.32 (n=237, +2pp gap)
     "threes":        3.16,
     "pts_rebs_asts": 2.0,
     "steals":        2.0,
