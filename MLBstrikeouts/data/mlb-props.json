@@ -4,7 +4,7 @@
   "season": "2026",
   "mode": "live",
   "model": "kalman_blend",
-  "generated": "2026-05-09T18:30:42.879388",
+  "generated": "2026-05-09T19:04:51.313445",
   "totalProjections": 26,
   "totalPicks": 401,
   "totalWatchlist": 11,
@@ -9595,7 +9595,7 @@
       "under_price": -102,
       "pick": "PASS",
       "edge": 0.8,
-      "pCover": 0.674,
+      "pCover": 0.673,
       "conf": "watch",
       "proj_ip": 5.8,
       "proj_bf": 21.1,
@@ -9604,8 +9604,8 @@
       "to_win_1u": 1.3,
       "would_be_pick": "OVER",
       "date": "2026-05-09",
-      "lockState": "pending",
-      "lockedAt": null
+      "lockState": "lineup_confirmed",
+      "lockedAt": "2026-05-10T00:04:51.313686Z"
     }
   ],
   "summary": "3 picks (+11 watch) from 26 projections",
@@ -10221,7 +10221,7 @@
       "under_price": -102,
       "pick": "PASS",
       "edge": 0.8,
-      "pCover": 0.674,
+      "pCover": 0.673,
       "conf": "low",
       "proj_ip": 5.8,
       "proj_bf": 21.1,
@@ -10229,8 +10229,8 @@
       "odds": -130,
       "to_win_1u": 1.3,
       "date": "2026-05-09",
-      "lockState": "pending",
-      "lockedAt": null
+      "lockState": "lineup_confirmed",
+      "lockedAt": "2026-05-10T00:04:51.313686Z"
     }
   ],
   "gameTimes": {
@@ -10276,8 +10276,8 @@
     "WSH": "Final",
     "PHI": "In Progress",
     "COL": "In Progress",
-    "CLE": "Delayed Start",
-    "MIN": "Delayed Start",
+    "CLE": "Warmup",
+    "MIN": "Warmup",
     "TEX": "In Progress",
     "CHC": "In Progress",
     "KC": "In Progress",
