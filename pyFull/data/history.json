@@ -86648,9 +86648,12 @@
           "h2hRecord": null,
           "h2hNote": null,
           "trends": {
-            "away": "ATS +/- 2.6 \u00b7 Over 45.7% \u00b7 Under 54.4% \u00b7 O/U +/- -1.5",
-            "home": "ATS +/- -0.5 \u00b7 Over 46.2% \u00b7 Under 53.8% \u00b7 O/U +/- 0.9"
-          }
+            "away": "ATS +/- 2.8 \u00b7 Over 46.2% \u00b7 Under 53.8% \u00b7 O/U +/- -1.0",
+            "home": "ATS +/- -0.8 \u00b7 Over 46.8% \u00b7 Under 53.2% \u00b7 O/U +/- 1.4"
+          },
+          "awayScore": 144.0,
+          "homeScore": 114.0,
+          "sResult": "WIN"
         },
         {
           "away": "San Antonio Spurs",
@@ -86676,7 +86679,7 @@
           "pUnder": 0.668,
           "pCover": null,
           "pOU": null,
-          "marginVar": 209.1,
+          "marginVar": 209.5,
           "marginStd": 14.5,
           "_features": {
             "dTS": -0.0061365000000001,
@@ -86713,8 +86716,8 @@
           }
         }
       ],
-      "summaryText": "RECORD (graded picks only)\n\nSPREAD (ATS)\n  All:         409-238-1   (63.2%)   [graded 648]\n  Elite:       409-238-1   (63.2%)   [graded 648]\n\nFAV/DOG (Spread)\n  Favorites:   190-104-1   (64.6%)   [graded 295]\n  Underdogs:   219-134-0   (62.0%)   [graded 353]\n\nTOTAL (O/U)\n  All:         0-0-0   (n/a%)   [graded 0]\n  Elite:       0-0-0   (n/a%)   [graded 0]\n\nOVER/UNDER\n  Over:        0-0-0   (n/a%)   [graded 0]\n  Under:       0-0-0   (n/a%)   [graded 0]",
-      "ranAt": "05/10/2026, 11:01:56 AM"
+      "summaryText": "RECORD (graded picks only)\n\nSPREAD (ATS)\n  All:         410-238-1   (63.3%)   [graded 649]\n  Elite:       410-238-1   (63.3%)   [graded 649]\n\nFAV/DOG (Spread)\n  Favorites:   191-104-1   (64.7%)   [graded 296]\n  Underdogs:   219-134-0   (62.0%)   [graded 353]\n\nTOTAL (O/U)\n  All:         0-0-0   (n/a%)   [graded 0]\n  Elite:       0-0-0   (n/a%)   [graded 0]\n\nOVER/UNDER\n  Over:        0-0-0   (n/a%)   [graded 0]\n  Under:       0-0-0   (n/a%)   [graded 0]",
+      "ranAt": "05/10/2026, 06:01:47 PM"
     }
   ],
   "weights": {
@@ -86746,6 +86749,6 @@
     "hca": 0.2,
     "constant": 4.0
   },
-  "residualVar": 192.7,
+  "residualVar": 193.1,
   "lastTuneDate": "20260510"
 }
