@@ -4,10 +4,10 @@
   "season": "2026",
   "mode": "live",
   "model": "kalman_blend",
-  "generated": "2026-05-10T13:38:20.979253",
+  "generated": "2026-05-10T14:48:13.524273",
   "totalProjections": 22,
   "totalPicks": 410,
-  "totalWatchlist": 6,
+  "totalWatchlist": 7,
   "props": [
     {
       "player": "Tyler Glasnow",
@@ -9893,7 +9893,7 @@
       "lockedAt": "2026-05-10T18:38:20.979455Z"
     }
   ],
-  "summary": "3 picks (+6 watch) from 22 projections",
+  "summary": "3 picks (+7 watch) from 22 projections",
   "date": "2026-05-10",
   "todayProjections": [
     {
@@ -10357,29 +10357,6 @@
       "lockedAt": "2026-05-10T18:31:45.620288Z"
     },
     {
-      "player": "Noah Cameron",
-      "team": "KC",
-      "opp": "DET",
-      "market": "strikeouts",
-      "proj": 4.9,
-      "std": 1.9,
-      "line": 4.5,
-      "over_price": -144,
-      "under_price": 108,
-      "pick": "PASS",
-      "edge": 0.4,
-      "pCover": 0.578,
-      "conf": "low",
-      "proj_ip": 5.5,
-      "proj_bf": 23.0,
-      "proj_pc": 93,
-      "odds": -144,
-      "to_win_1u": 1.44,
-      "date": "2026-05-10",
-      "lockState": "pending",
-      "lockedAt": null
-    },
-    {
       "player": "Walker Buehler",
       "team": "SD",
       "opp": "STL",
@@ -10401,6 +10378,29 @@
       "date": "2026-05-10",
       "lockState": "lineup_confirmed",
       "lockedAt": "2026-05-10T18:38:20.979455Z"
+    },
+    {
+      "player": "Noah Cameron",
+      "team": "KC",
+      "opp": "DET",
+      "market": "strikeouts",
+      "proj": 4.9,
+      "std": 1.9,
+      "line": 4.5,
+      "over_price": -138,
+      "under_price": 104,
+      "pick": "PASS",
+      "edge": 0.4,
+      "pCover": 0.577,
+      "conf": "low",
+      "proj_ip": 5.5,
+      "proj_bf": 23.0,
+      "proj_pc": 93,
+      "odds": -138,
+      "to_win_1u": 1.38,
+      "date": "2026-05-10",
+      "lockState": "pending",
+      "lockedAt": null
     }
   ],
   "gameTimes": {
@@ -10436,8 +10436,8 @@
     "DET": "2026-05-10T23:20:00Z"
   },
   "gameStatuses": {
-    "MIA": "In Progress",
-    "WSH": "In Progress",
+    "MIA": "Final",
+    "WSH": "Final",
     "BAL": "In Progress",
     "OAK": "In Progress",
     "BOS": "In Progress",
@@ -10454,17 +10454,17 @@
     "SEA": "In Progress",
     "MIL": "In Progress",
     "NYY": "In Progress",
-    "TEX": "Warmup",
-    "CHC": "Warmup",
-    "SF": "Pre-Game",
-    "PIT": "Pre-Game",
+    "TEX": "In Progress",
+    "CHC": "In Progress",
+    "SF": "Warmup",
+    "PIT": "Warmup",
     "ARI": "Pre-Game",
     "NYM": "Pre-Game",
-    "SD": "Pre-Game",
-    "STL": "Pre-Game",
-    "LAD": "Pre-Game",
-    "ATL": "Pre-Game",
-    "KC": "Scheduled",
-    "DET": "Scheduled"
+    "SD": "Warmup",
+    "STL": "Warmup",
+    "LAD": "Warmup",
+    "ATL": "Warmup",
+    "KC": "Pre-Game",
+    "DET": "Pre-Game"
   }
 }
