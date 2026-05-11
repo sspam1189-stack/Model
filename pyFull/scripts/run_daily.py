@@ -684,7 +684,17 @@ def main(subject_label="[PY]"):
     except Exception:
         pass
 
-    lineup_stats = adjust_team_stats(stats, injury_data.get("report",{}), injury_data.get("playerMPG",{}), player_advanced, odds, recent_injury_dates=recent_injury_dates, ofs_players=ofs_players)
+    # In playoffs, inflate star/starter minutes (mirrors jsFull behavior).
+    # season_type.is_playoffs() is currently hardcoded to False — flip the
+    # season_type.py override (or pass playoff_mode=True manually) to turn on.
+    from sources.season_type import is_playoffs as _is_playoffs
+    _playoff_mode = _is_playoffs(date)
+    lineup_stats = adjust_team_stats(
+        stats, injury_data.get("report",{}), injury_data.get("playerMPG",{}),
+        player_advanced, odds,
+        recent_injury_dates=recent_injury_dates, ofs_players=ofs_players,
+        playoff_mode=_playoff_mode,
+    )
     result = apply_b2b_adjustment(lineup_stats, b2b_teams, odds)
     adjusted_stats, b2b_notes = result["adjusted"], result["b2bNotes"]
     a = get_avgs(adjusted_stats)

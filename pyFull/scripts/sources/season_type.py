@@ -15,7 +15,8 @@ def get_season_type(date_str=None):
     """
     NBA.com API value: "Regular Season" or "Playoffs"
     """
-    return "Regular Season"
+    d = (date_str or _today_yyyymmdd()).replace("-", "")
+    return "Playoffs" if int(d) >= int(PLAYOFF_START) else "Regular Season"
 
 
 def get_espn_season_type(date_str=None):

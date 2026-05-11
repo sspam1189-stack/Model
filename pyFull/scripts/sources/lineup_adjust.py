@@ -168,7 +168,7 @@ def _resolve_team_name(team_name, known_keys):
 
 # -- Core: Compute lineup-adjusted team stats --
 
-def adjust_team_stats(team_stats, injury_report, player_mpg, player_adv, todays_games, recent_injury_dates=None, ofs_players=None):
+def adjust_team_stats(team_stats, injury_report, player_mpg, player_adv, todays_games, recent_injury_dates=None, ofs_players=None, playoff_mode=False):
     """
     Compute lineup-adjusted team stats based on who's actually playing tonight.
     Returns: adjusted copy of team_stats (same shape).
@@ -276,6 +276,23 @@ def adjust_team_stats(team_stats, injury_report, player_mpg, player_adv, todays_
 
         if len(available) < 5:
             continue
+
+        # Playoff minutes inflation — stars/starters play more, bench less.
+        # Mirrors jsFull/scripts/sources/lineup_adjust.mjs:429.
+        if playoff_mode:
+            def _inflate(p):
+                m = p["min"]
+                if m >= 32:
+                    new_m = min(m * 1.15, 42)        # star
+                elif m >= 28:
+                    new_m = min(m * 1.10, 38)        # starter
+                elif m >= 18:
+                    new_m = m * 0.85                  # bench
+                else:
+                    new_m = m * 0.50                  # deep bench
+                return {**p, "min": new_m}
+            available = [_inflate(p) for p in available]
+            out_list = [_inflate(p) for p in out_list]
 
         # Compute full-roster weighted averages (weighted by minutes)
         full_total_min = sum(r["min"] for r in roster)
