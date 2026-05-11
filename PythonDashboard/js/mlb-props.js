@@ -516,12 +516,12 @@
           const yMD = fmtMD(yesterdayStr);
 
           const redditText =
-            `Picks:\n` +
+            `Picks:\n\n` +
             `* Total: ${fmt(totalPicks)}\n` +
             `* ${weekLabel} (${weekRange}): ${fmt(wPicksTally)}\n` +
             `* Yesterday (${yMD}): ${fmt(yPicksTally)}\n` +
             `\n` +
-            `Leans:\n` +
+            `Leans:\n\n` +
             `* Total: ${fmt(totalLeans)}\n` +
             `* ${weekLabel} (${weekRange}): ${fmt(wLeansTally)}\n` +
             `* Yesterday (${yMD}): ${fmt(yLeansTally)}\n`;
