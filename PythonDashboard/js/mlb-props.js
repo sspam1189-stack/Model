@@ -400,6 +400,114 @@
           el.appendChild(recapCard);
         }
 
+        // --- Reddit-format summary card ---
+        // Auto-generated copy-pasteable tally of season / weekly / yesterday
+        // performance — formatted for posting on Reddit.
+        (function renderRedditCard() {
+          const allGradedPicks = picks.filter(p =>
+            p.result === 'WIN' || p.result === 'LOSS'
+          );
+          const allGradedLeans = (data.props || []).filter(p =>
+            isLean(p) && (p.result === 'WIN' || p.result === 'LOSS')
+          );
+          if (allGradedPicks.length === 0 && allGradedLeans.length === 0) return;
+
+          // Weekly window logic:
+          //   - On Monday: previous Mon-Sun (a fully-completed week),
+          //     labeled "last Weekly".
+          //   - Tue-Sun: current week's Mon through yesterday, labeled "Weekly".
+          // `yesterdayStr` is the most recent graded date; we derive everything
+          // from "today" = day after yesterday for label/window selection.
+          const _today = new Date(yesterdayStr + 'T12:00:00');
+          _today.setDate(_today.getDate() + 1);
+          const _todayDow = _today.getDay();   // 0=Sun,1=Mon,..6=Sat
+          const isMonday = _todayDow === 1;
+          let wStart;
+          let wEnd;
+          let weekLabel;
+          if (isMonday) {
+            // Last full Mon-Sun week (yesterday IS Sunday).
+            wEnd = new Date(yesterdayStr + 'T12:00:00');           // Sun
+            wStart = new Date(yesterdayStr + 'T12:00:00');
+            wStart.setDate(wStart.getDate() - 6);                  // Mon of last wk
+            weekLabel = 'last Weekly';
+          } else {
+            // Current week (Monday) through yesterday.
+            wEnd = new Date(yesterdayStr + 'T12:00:00');
+            const daysSinceMon = (_todayDow + 6) % 7;              // 0..6, Mon-based
+            wStart = new Date(_today);
+            wStart.setDate(_today.getDate() - daysSinceMon);       // this Mon
+            weekLabel = 'Weekly';
+          }
+          const weeklyStartStr = wStart.toISOString().slice(0, 10);
+          const weeklyEndStr = wEnd.toISOString().slice(0, 10);
+          const inWeek = (d) => d && d >= weeklyStartStr && d <= weeklyEndStr;
+
+          const fmtMD = (dStr) => {
+            if (!dStr) return '';
+            const parts = dStr.split('-');
+            return `${parseInt(parts[1], 10)}/${parseInt(parts[2], 10)}`;
+          };
+
+          const wPicks = allGradedPicks.filter(p => inWeek(p.date));
+          const yPicksG = allGradedPicks.filter(p => p.date === yesterdayStr);
+          const wLeans = allGradedLeans.filter(p => inWeek(p.date));
+          const yLeansG = allGradedLeans.filter(p => p.date === yesterdayStr);
+
+          function tally(arr) {
+            const w = arr.filter(p => p.result === 'WIN').length;
+            const l = arr.filter(p => p.result === 'LOSS').length;
+            const u = calcMLBPropsUnits(arr);
+            return `${w}-${l} ${u >= 0 ? '+' : ''}${u.toFixed(2)}u`;
+          }
+
+          const weekRange = `${fmtMD(weeklyStartStr)}–${fmtMD(weeklyEndStr)}`;
+          const yMD = fmtMD(yesterdayStr);
+
+          const redditText =
+            `Picks:\n\n` +
+            `* Total: ${tally(allGradedPicks)}\n` +
+            `* ${weekLabel} (${weekRange}): ${tally(wPicks)}\n` +
+            `* Yesterday (${yMD}): ${tally(yPicksG)}\n` +
+            `\n\n\n` +
+            `Leans:\n\n` +
+            `* Total: ${tally(allGradedLeans)}\n` +
+            `* ${weekLabel} (${weekRange}): ${tally(wLeans)}\n` +
+            `* Yesterday (${yMD}): ${tally(yLeansG)}\n`;
+
+          const redditCard = document.createElement('div');
+          redditCard.className = 'card card-reddit';
+          redditCard.style.marginBottom = '16px';
+
+          const titleRow = document.createElement('div');
+          titleRow.style.cssText = 'display:flex;align-items:center;justify-content:space-between;gap:12px';
+          titleRow.appendChild(Object.assign(document.createElement('div'), {
+            className: 'card-title',
+            textContent: 'Reddit'
+          }));
+          const copyBtn = document.createElement('button');
+          copyBtn.textContent = 'Copy';
+          copyBtn.style.cssText = 'padding:6px 14px;background:#ff4500;color:#fff;border:none;border-radius:4px;cursor:pointer;font-size:12px;font-weight:600';
+          copyBtn.addEventListener('click', () => {
+            navigator.clipboard.writeText(redditText).then(() => {
+              copyBtn.textContent = 'Copied!';
+              setTimeout(() => { copyBtn.textContent = 'Copy'; }, 1500);
+            }).catch(() => {
+              copyBtn.textContent = 'Failed';
+              setTimeout(() => { copyBtn.textContent = 'Copy'; }, 1500);
+            });
+          });
+          titleRow.appendChild(copyBtn);
+          redditCard.appendChild(titleRow);
+
+          const pre = document.createElement('pre');
+          pre.style.cssText = 'font-family:ui-monospace,Menlo,Consolas,monospace;font-size:12px;background:rgba(255,255,255,0.04);padding:10px;border-radius:4px;margin-top:10px;white-space:pre-wrap;color:#ddd;line-height:1.5';
+          pre.textContent = redditText;
+          redditCard.appendChild(pre);
+
+          el.appendChild(redditCard);
+        })();
+
         // Today's Picks + Leans (unified card with tabs)
         // Filter out picks where the underlying game has been postponed/etc.
         // — those bets are voided, no actionable edge to display.
