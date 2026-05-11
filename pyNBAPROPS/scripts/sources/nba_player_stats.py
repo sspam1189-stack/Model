@@ -128,7 +128,7 @@ def fetch_player_game_logs(season=None, season_type="Regular Season", date_to=No
 # 2. Advanced player stats (season-to-date)
 # ---------------------------------------------------------------------------
 
-def fetch_player_advanced_stats(season=None, date_to=None):
+def fetch_player_advanced_stats(season=None, date_to=None, season_type="Regular Season"):
     """
     Fetch advanced per-player stats (season-to-date averages) via nba_api.
 
@@ -138,7 +138,7 @@ def fetch_player_advanced_stats(season=None, date_to=None):
 
     season = season or current_season()
 
-    cache_key = f"adv_{season}"
+    cache_key = f"adv_{season}_{season_type.replace(' ', '_')}"
     if date_to:
         cache_key += f"_{str(date_to).replace('-', '')}"
     cache_path = os.path.join(PLAYER_CACHE_DIR, f"{cache_key}.json")
@@ -152,7 +152,7 @@ def fetch_player_advanced_stats(season=None, date_to=None):
     try:
         stats = leaguedashplayerstats.LeagueDashPlayerStats(
             season=season,
-            season_type_all_star="Regular Season",
+            season_type_all_star=season_type,
             measure_type_detailed_defense="Advanced",
             per_mode_detailed="PerGame",
             date_to_nullable=date_to_fmt if date_to_fmt else None,
@@ -195,7 +195,7 @@ def fetch_player_advanced_stats(season=None, date_to=None):
     return result
 
 
-def fetch_player_per36_stats(season=None, date_to=None):
+def fetch_player_per36_stats(season=None, date_to=None, season_type="Regular Season"):
     """
     Fetch per-36-minute stats for all players via nba_api.
     Returns: {player_id_str: {"PTS": float, "REB": float, "AST": float, ...}}
@@ -205,7 +205,7 @@ def fetch_player_per36_stats(season=None, date_to=None):
 
     season = season or current_season()
 
-    cache_key = f"per36_{season}"
+    cache_key = f"per36_{season}_{season_type.replace(' ', '_')}"
     if date_to:
         cache_key += f"_{str(date_to).replace('-', '')}"
     cache_path = os.path.join(PLAYER_CACHE_DIR, f"{cache_key}.json")
@@ -221,7 +221,7 @@ def fetch_player_per36_stats(season=None, date_to=None):
     try:
         stats = leaguedashplayerstats.LeagueDashPlayerStats(
             season=season,
-            season_type_all_star="Regular Season",
+            season_type_all_star=season_type,
             per_mode_detailed="Per36",
             date_to_nullable=date_to_fmt if date_to_fmt else None,
             timeout=120,
@@ -257,7 +257,7 @@ def fetch_player_per36_stats(season=None, date_to=None):
 # 3. Team defensive stats (for opponent adjustment)
 # ---------------------------------------------------------------------------
 
-def fetch_team_def_stats(season=None, date_to=None):
+def fetch_team_def_stats(season=None, date_to=None, season_type="Regular Season"):
     """
     Fetch team defensive stats for opponent adjustment via nba_api.
 
@@ -270,7 +270,7 @@ def fetch_team_def_stats(season=None, date_to=None):
     date_to_fmt = _fmt_date_nba_api(date_to)
 
     # --- Cache: team defense stats (6-hour TTL) ---
-    cache_key = f"teamdef_{season}"
+    cache_key = f"teamdef_{season}_{season_type.replace(' ', '_')}"
     if date_to:
         cache_key += f"_{str(date_to).replace('-', '')}"
     cache_path = os.path.join(PLAYER_CACHE_DIR, f"{cache_key}.json")
@@ -290,7 +290,7 @@ def fetch_team_def_stats(season=None, date_to=None):
     try:
         adv = leaguedashteamstats.LeagueDashTeamStats(
             season=season,
-            season_type_all_star="Regular Season",
+            season_type_all_star=season_type,
             measure_type_detailed_defense="Advanced",
             per_mode_detailed="PerGame",
             date_to_nullable=date_to_fmt if date_to_fmt else None,
@@ -317,7 +317,7 @@ def fetch_team_def_stats(season=None, date_to=None):
     try:
         opp = leaguedashteamstats.LeagueDashTeamStats(
             season=season,
-            season_type_all_star="Regular Season",
+            season_type_all_star=season_type,
             measure_type_detailed_defense="Opponent",
             per_mode_detailed="PerGame",
             date_to_nullable=date_to_fmt if date_to_fmt else None,
@@ -409,7 +409,7 @@ def fetch_player_positions(season=None):
 # 5. Team defense stats by position (G/F/C)
 # ---------------------------------------------------------------------------
 
-def fetch_team_def_by_position(season=None, date_to=None):
+def fetch_team_def_by_position(season=None, date_to=None, season_type="Regular Season"):
     """
     Fetch opponent stats allowed broken down by position (G/F/C).
     Returns: {team_abbr: {"G": {OPP_PTS, OPP_AST, ...}, "F": {...}, "C": {...}}}
@@ -420,7 +420,7 @@ def fetch_team_def_by_position(season=None, date_to=None):
     season = season or current_season()
     date_to_fmt = _fmt_date_nba_api(date_to)
 
-    cache_key = f"teamdef_bypos_{season}"
+    cache_key = f"teamdef_bypos_{season}_{season_type.replace(' ', '_')}"
     if date_to:
         cache_key += f"_{str(date_to).replace('-', '')}"
     cache_path = os.path.join(PLAYER_CACHE_DIR, f"{cache_key}.json")
@@ -439,7 +439,7 @@ def fetch_team_def_by_position(season=None, date_to=None):
         try:
             ep = leaguedashteamstats.LeagueDashTeamStats(
                 season=season,
-                season_type_all_star="Regular Season",
+                season_type_all_star=season_type,
                 measure_type_detailed_defense="Opponent",
                 per_mode_detailed="PerGame",
                 player_position_abbreviation_nullable=pos,

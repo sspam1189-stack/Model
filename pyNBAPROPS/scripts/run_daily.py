@@ -376,21 +376,26 @@ def run_daily(date_key=None):
     # Apply drift (uncertainty grows for players who haven't played recently)
     apply_drift(kalman_state)
 
+    # --- Season type detection (playoffs vs regular season) ---
+    from sources.season_type import get_season_type
+    _season_type = get_season_type(date_key)
+    print(f"\n  Season type: {_season_type}")
+
     # --- Stage 4: Fetch team defensive stats ---
     print(f"\n  [4/7] Fetching team defensive stats...")
-    team_def = fetch_team_def_stats(season=season)
+    team_def = fetch_team_def_stats(season=season, season_type=_season_type)
     print(f"  {len(team_def)} teams with defensive stats")
 
     # --- Stage 5: Fetch advanced player stats ---
     print(f"\n  [5/8] Fetching advanced player stats (USG%, TS%, PACE)...")
-    adv_stats = fetch_player_advanced_stats(season=season)
+    adv_stats = fetch_player_advanced_stats(season=season, season_type=_season_type)
     print(f"  {len(adv_stats)} players with advanced stats")
 
     # --- Stage 5b: Fetch player positions, positional defense, per-36 ---
     print(f"\n  [5b/8] Fetching player positions, positional defense, per-36 stats...")
     player_positions = fetch_player_positions(season=season)
-    team_def_by_pos = fetch_team_def_by_position(season=season)
-    player_per36 = fetch_player_per36_stats(season=season)
+    team_def_by_pos = fetch_team_def_by_position(season=season, season_type=_season_type)
+    player_per36 = fetch_player_per36_stats(season=season, season_type=_season_type)
     print(f"  {len(player_positions)} positions, {len(team_def_by_pos)} teams pos-def, {len(player_per36)} per-36")
 
     # --- Stage 6: Fetch prop lines (FanDuel primary, Odds API fallback) ---

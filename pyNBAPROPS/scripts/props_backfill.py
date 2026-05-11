@@ -73,19 +73,26 @@ def backfill(season="2025-26", start_game=15, start_date=None, use_real_lines=Tr
         print("  No player game logs found. Run: python -m scripts.fetch_stats --season " + season)
         return None
 
+    # Season type: backfill uses today's mode for stats fetches. The Kalman
+    # state itself is built walk-forward and crosses the playoff boundary
+    # naturally, but team/opponent context comes from "now" stats.
+    from sources.season_type import get_season_type
+    _bf_season_type = get_season_type()
+    print(f"  Season type: {_bf_season_type}")
+
     # Load team defensive stats (from cache if available)
     print(f"  Loading team defensive stats...")
-    team_def = fetch_team_def_stats(season=season)
+    team_def = fetch_team_def_stats(season=season, season_type=_bf_season_type)
 
     # Load advanced player stats (from cache if available)
     print(f"  Loading advanced player stats...")
-    adv_stats = fetch_player_advanced_stats(season=season)
+    adv_stats = fetch_player_advanced_stats(season=season, season_type=_bf_season_type)
 
     # Load player positions, positional defense, per-36
     print(f"  Loading player positions, positional defense, per-36 stats...")
     player_positions = fetch_player_positions(season=season)
-    team_def_by_pos = fetch_team_def_by_position(season=season)
-    player_per36 = fetch_player_per36_stats(season=season)
+    team_def_by_pos = fetch_team_def_by_position(season=season, season_type=_bf_season_type)
+    player_per36 = fetch_player_per36_stats(season=season, season_type=_bf_season_type)
 
     # Organize by player
     player_logs = organize_player_logs(all_logs)
