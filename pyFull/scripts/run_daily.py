@@ -781,7 +781,7 @@ def main(subject_label="[PY]"):
     elif store.get("lastTuneDate") == date:
         print("[3b] Weights already tuned today - skipping")
 
-    # Playoff HCA override: empirical playoff HCA is higher than regular-season self-tune
+    # --- Playoff overrides (HCA from empirical history, probHigh threshold floor) ---
     if is_playoffs(date):
         emp_hca = compute_empirical_playoff_hca()
         if emp_hca is not None:
@@ -803,6 +803,12 @@ def main(subject_label="[PY]"):
             except Exception:
                 _n_games = 0
             print(f"[playoff] HCA override: {old_hca} -> {new_hca} (from {_n_games} playoff games)")
+
+        _old_ph = base_w.get("probHigh", 0.58)
+        _new_ph = max(_old_ph, 0.65)
+        if _new_ph != _old_ph:
+            base_w["probHigh"] = _new_ph
+            print(f"[playoff] probHigh raised to {_new_ph} (was {_old_ph}) - filters out 0.60-0.65 picks")
 
     apply_daily_drift(kalman_state, date)
     dynamic_residual_var = compute_residual_var(store.get("runs", []))
