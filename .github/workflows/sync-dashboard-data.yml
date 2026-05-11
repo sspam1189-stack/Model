@@ -18,12 +18,6 @@ jobs:
           ref: main
           clean: true
 
-      - name: Sync JS Dashboard data
-        run: |
-          cp jsNBA/data/history.json Dashboard/data/nba.json
-          cp jsFull/data/history.json Dashboard/data/fullseason.json
-          cp jsNCAA/data/history.json Dashboard/data/ncaa.json
-
       - name: Sync Python Dashboard data
         run: |
           cp pyNBA/data/history.json PythonDashboard/data/nba.json
@@ -39,5 +33,5 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add Dashboard/data/ PythonDashboard/data/
+          git add PythonDashboard/data/
           git diff --staged --quiet || (git commit -m "Sync dashboard data snapshots [skip ci]" && git push)

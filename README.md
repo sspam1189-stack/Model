@@ -17,14 +17,12 @@ A Bayesian sports prediction platform that generates daily against-the-spread (A
 
 ```
 core/              Python shared engine (model, Kalman, self-tune, calibration)
-core-js/           JavaScript shared engine (ES modules, mirrors core/)
 pyNBA/             Python NBA daily picks
 pyNCAA/            Python NCAA daily picks
 pyFull/            Python NBA full-season tracking (spreads + totals)
-jsNBA/             JavaScript NBA daily picks
-jsNCAA/            JavaScript NCAA daily picks
-jsFull/            JavaScript NBA full-season tracking
-Dashboard/         JavaScript-based web dashboard
+pyNBAPROPS/        Python NBA player props
+pyNFL/             Python NFL weekly picks and props
+MLBstrikeouts/     Python MLB pitcher strikeouts and props
 PythonDashboard/   Python-based web dashboard with LR confirmations
 scripts/           Global utilities and QA tests
 .github/workflows/ Automated daily run pipelines
@@ -43,13 +41,11 @@ scripts/           Global utilities and QA tests
 
 **Python:** NumPy, SciPy, scikit-learn, XGBoost, BeautifulSoup, Requests
 
-**JavaScript:** Node.js 18+, node-fetch, Cheerio, Nodemailer (ES Modules)
-
 **Infrastructure:** GitHub Actions, self-hosted runners, JSON persistence
 
 ## Getting Started
 
-Each implementation directory (`pyNBA/`, `jsNBA/`, etc.) contains its own README with setup instructions, environment variables, and usage details.
+Each implementation directory (`pyNBA/`, `pyFull/`, etc.) contains its own README with setup instructions, environment variables, and usage details.
 
 **Quick start (Python NBA):**
 ```bash
@@ -59,14 +55,6 @@ cp .env.example .env  # configure API keys
 python scripts/run_daily.py
 ```
 
-**Quick start (JavaScript NBA):**
-```bash
-cd jsNBA
-npm install
-cp .env.example .env  # configure API keys
-node scripts/run_daily.mjs
-```
+## Dashboard
 
-## Dashboards
-
-The web dashboards provide a dark-themed UI with tabbed views for NBA, NCAA, and Full-Season picks. They display daily predictions, performance tracking, and model diagnostics from the JSON output files.
+The PythonDashboard provides a dark-themed UI with tabbed views for NBA, NCAA, Full-Season picks, and props. It displays daily predictions, performance tracking, and model diagnostics from the JSON output files.

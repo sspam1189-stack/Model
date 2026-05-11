@@ -29,7 +29,6 @@ from nba_stats import fetch_nba_stats_enhanced
 CACHE_DIRS = [
     ROOT / "NBA" / "data" / "stats_cache",
     ROOT / "pyNBA" / "data" / "stats_cache",
-    ROOT / "jsFull" / "data" / "stats_cache",
     ROOT / "pyFull" / "data" / "stats_cache",
 ]
 

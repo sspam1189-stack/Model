@@ -1,9 +1,0 @@
-{
-  "permissions": {
-    "allow": [
-      "Bash(node scripts/backfill.mjs 20260315 20260315)",
-      "Bash(node scripts/run_daily.mjs)",
-      "Bash(node -e \":*)"
-    ]
-  }
-}
