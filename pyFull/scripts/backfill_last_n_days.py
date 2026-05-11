@@ -141,11 +141,27 @@ def main():
     store = load_store()
     defaults = load_defaults()
 
-    # Reset weights to defaults for clean backfill (avoid data leakage)
-    store["weights"] = {**defaults["DEFAULT_W"]}
-    store["weightsVar"] = {**defaults["DEFAULT_W_VAR"]}
-    store["runs"] = []
-    print(f"  [backfill] Reset weights to defaults and cleared history")
+    # Detect whether the backfill window is entirely within playoffs (start
+    # date >= PLAYOFF_START). If so, preserve the existing self-tuned weights
+    # and existing Kalman state — we don't want to rebuild a thin state from
+    # scratch over the short playoff window when the live state already has
+    # full regular-season accumulation. Only the runs for the backfill window
+    # get cleared.
+    target_start = datetime.now(timezone.utc) - timedelta(days=days)
+    target_start_yyyymmdd = target_start.strftime("%Y%m%d")
+    playoff_only_window = target_start_yyyymmdd >= PLAYOFF_START
+
+    if playoff_only_window:
+        # Keep weights, keep kalman, clear ONLY the runs within the backfill window
+        cutoff = target_start_yyyymmdd
+        store["runs"] = [r for r in store.get("runs", []) if (r.get("date") or "") < cutoff]
+        print(f"  [backfill] Playoff-only window — preserving weights + kalman state, cleared {len([r for r in store.get('runs', [])])} run(s) in window")
+    else:
+        # Full backfill — reset everything for a clean rebuild
+        store["weights"] = {**defaults["DEFAULT_W"]}
+        store["weightsVar"] = {**defaults["DEFAULT_W_VAR"]}
+        store["runs"] = []
+        print(f"  [backfill] Full backfill — reset weights and cleared history")
 
     ats = fetch_ats_trends()
     ou = fetch_ou_trends()
@@ -192,8 +208,16 @@ def main():
     # H2H disabled (h2hWeight=0) — skip entirely
     h2h_matchups = None
 
-    # Kalman state — initialized on first date with stats, evolves forward
-    kalman_state = None
+    # Kalman state — for playoff-only window, load the live (full-season-built)
+    # state. For full backfill, leave None so it initializes fresh from stats.
+    if playoff_only_window:
+        kalman_state = load_kalman_state()
+        if kalman_state and kalman_state.get("teams"):
+            print(f"  [backfill] Loaded existing Kalman state ({len(kalman_state['teams'])} teams) — preserving full-season accumulation")
+        else:
+            kalman_state = None
+    else:
+        kalman_state = None
     prev_date = None
     prev_graded = []       # games with projections -> Kalman + self-tune
     prev_all_scored = []   # all games with scores -> H2H (includes SKIPPED)
