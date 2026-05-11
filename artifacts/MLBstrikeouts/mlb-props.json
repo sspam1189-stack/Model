@@ -4,10 +4,10 @@
   "season": "2026",
   "mode": "live",
   "model": "kalman_blend",
-  "generated": "2026-05-10T18:00:59.359733",
+  "generated": "2026-05-10T19:09:26.088781",
   "totalProjections": 24,
   "totalPicks": 410,
-  "totalWatchlist": 4,
+  "totalWatchlist": 5,
   "props": [
     {
       "player": "Tyler Glasnow",
@@ -9893,7 +9893,7 @@
       "lockedAt": "2026-05-10T18:38:20.979455Z"
     }
   ],
-  "summary": "4 picks (+4 watch) from 24 projections",
+  "summary": "4 picks (+5 watch) from 24 projections",
   "date": "2026-05-10",
   "todayProjections": [
     {
@@ -10399,7 +10399,7 @@
       "odds": -136,
       "to_win_1u": 1.36,
       "date": "2026-05-10",
-      "lockState": "lineup_confirmed",
+      "lockState": "game_started",
       "lockedAt": "2026-05-10T21:00:57.263269Z"
     }
   ],
@@ -10456,15 +10456,15 @@
     "NYY": "Final",
     "TEX": "Final",
     "CHC": "Final",
-    "SF": "In Progress",
-    "PIT": "In Progress",
+    "SF": "Game Over",
+    "PIT": "Game Over",
     "ARI": "Final",
     "NYM": "Final",
-    "SD": "In Progress",
-    "STL": "In Progress",
+    "SD": "Final",
+    "STL": "Final",
     "LAD": "Final",
     "ATL": "Final",
-    "KC": "Pre-Game",
-    "DET": "Pre-Game"
+    "KC": "In Progress",
+    "DET": "In Progress"
   }
 }
