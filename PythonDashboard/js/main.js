@@ -193,6 +193,18 @@ let seasonFilter = 'all';
 let nflWeekFilter = 'latest';
 let nflHistoryWeekFilter = 'all';
 
+// NBA playoff cutoff (includes play-in 4/14-4/17 + playoffs proper 4/18+).
+// Shared between the record banner segment buttons and downstream widgets.
+const PLAYOFF_CUTOFF = '20260414';
+
+function filterRunsBySegment(runs) {
+  const seg = (typeof window !== 'undefined' && window.__recordFilter) || 'total';
+  if (seg === 'total') return runs;
+  if (seg === 'regular') return runs.filter(r => (r.date || '') < PLAYOFF_CUTOFF);
+  if (seg === 'playoffs') return runs.filter(r => (r.date || '') >= PLAYOFF_CUTOFF);
+  return runs;
+}
+
 // 3-letter team aliases keep matchup columns from blowing out card width.
 // Apply to NBA + common NCAA names; unknown teams fall through unchanged.
 const TEAM_ALIASES = {
@@ -694,9 +706,7 @@ function getModelBucket(modelSummary) {
 
 function renderRecordBanner(runs, modelSummary = null) {
   // --- Top banner: filterable by season segment (Total / Regular / Playoffs) ---
-  // Picks store run.date in YYYYMMDD form. Includes play-in tournament
-  // (4/14-4/17) + playoffs proper (4/18+).
-  const PLAYOFF_CUTOFF = '20260414';
+  // Picks store run.date in YYYYMMDD form. Uses shared PLAYOFF_CUTOFF.
   const allPicks = getGradedPicks(runs);
   const segments = {
     total:    allPicks,
@@ -1688,9 +1698,11 @@ async function render() {
     </div>`;
 
   if (viewMode === 'today' && latestRun) {
+    // Apply Total/Regular/Playoffs segment filter to ATS widgets.
+    const segRuns = filterRunsBySegment(runs);
     html += renderRecap(runs);
     html += renderTodayPicks(latestRun, runs);
-    html += renderSpreadRecord(runs, modelSummary);
+    html += renderSpreadRecord(segRuns, modelSummary);
     html += '<div class="section-label">Cover Probabilities</div>';
     html += renderProbTable(latestRun);
     html += renderVetoTable(runs);
@@ -1700,12 +1712,12 @@ async function render() {
     html += renderGameCards(latestRun);
 
     html += '<div class="section-label">Spread Trends</div>';
-    html += renderLast10(runs);
-    html += renderWeekly(runs);
-    html += renderRolling(runs);
+    html += renderLast10(segRuns);
+    html += renderWeekly(segRuns);
+    html += renderRolling(segRuns);
 
     html += '<div class="section-label">Team Records</div>';
-    html += renderTeamRecords(runs);
+    html += renderTeamRecords(segRuns);
 
   } else if (viewMode === 'history') {
     html += `
