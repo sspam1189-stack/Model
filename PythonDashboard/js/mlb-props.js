@@ -1199,73 +1199,142 @@
         return fp;
       }
 
+      // Per-column sort accessors. Each returns a comparable value for the
+      // row's underlying pick object \u2014 backtest tables share these keys.
+      function _colSortKey(colName, p) {
+        switch (colName) {
+          case 'Date':   return p.date || '';
+          case 'Name':   return (displayName(p) || '').toLowerCase();
+          case 'Team':   return (p.team || '').toLowerCase();
+          case 'Opp':
+          case 'vs':     return (p.opp || '').toLowerCase();
+          case 'Proj':   return p.proj != null ? +p.proj : -Infinity;
+          case 'Line':   return p.line != null ? +p.line : -Infinity;
+          case 'Edge':   return (p.proj != null && p.line != null) ? (p.proj - p.line) : -Infinity;
+          case '%':      return p.pCover != null ? +p.pCover : -Infinity;
+          case 'Actual': return p.actual != null ? +p.actual : -Infinity;
+          case 'O/U':    return effectiveDir(p) === 'OVER' ? 1 : 0;
+          case 'Odds':   return p.odds != null ? +p.odds : -Infinity;
+          case 'W/L':    return p.result === 'WIN' ? 1 : p.result === 'LOSS' ? 0 : -1;
+          default:       return 0;
+        }
+      }
+
       function buildPropsTable(mProps) {
         const wrap = document.createElement('div');
         wrap.className = 'props-table-wrap';
         const tbl = document.createElement('table');
         tbl.className = 'props-data-table';
         tbl.style.cssText = 'width:100%;border-collapse:collapse;margin-top:8px';
+
+        // Sort state for this table instance.
+        let sortColIdx = null;   // null = no manual sort (use original order)
+        let sortDir = 1;         // 1 = ascending, -1 = descending
+        const data = mProps.slice();
+
+        function getSorted() {
+          if (sortColIdx === null) return data;
+          const colName = headers[sortColIdx];
+          const dir = sortDir;
+          return data.slice().sort((a, b) => {
+            const av = _colSortKey(colName, a);
+            const bv = _colSortKey(colName, b);
+            if (av < bv) return -1 * dir;
+            if (av > bv) return  1 * dir;
+            return 0;
+          });
+        }
+
         const hRow = tbl.createTHead().insertRow();
+        const ths = [];
         headers.forEach((h, i) => {
           const th = document.createElement('th');
-          th.textContent = h;
+          th.dataset.label = h;
           th.className = colClasses[i] || 'col-' + i;
-          th.style.cssText = 'padding:4px 4px;text-align:center;border-bottom:1px solid rgba(255,255,255,0.1)';
+          th.style.cssText = 'padding:4px 4px;text-align:center;border-bottom:1px solid rgba(255,255,255,0.1);cursor:pointer;user-select:none';
           if (h === 'Name') th.style.textAlign = 'left';
+          th.addEventListener('click', () => {
+            if (sortColIdx === i) sortDir *= -1;
+            else { sortColIdx = i; sortDir = -1; }   // first click defaults desc
+            updateHeaderLabels();
+            rebuildBody();
+          });
           hRow.appendChild(th);
+          ths.push(th);
         });
-        const tbody = tbl.createTBody();
-        for (const p of mProps) {
-          const row = tbody.insertRow();
-          row.style.borderBottom = '1px solid rgba(255,255,255,0.05)';
-          const priceStr = p.odds != null ? (p.odds > 0 ? '+' + p.odds : String(p.odds)) : '\u2014';
-          const edgeVal = (p.proj != null && p.line != null) ? (p.proj - p.line) : null;
-          const edgeStr = edgeVal != null ? (edgeVal > 0 ? '+' : '') + edgeVal.toFixed(1) : '\u2014';
-          const pcStr = p.pCover != null ? (p.pCover * 100).toFixed(1) + '%' : '\u2014';
-          const cells = isBacktest ? [
-            p.date ? (parseInt(p.date.slice(5,7))+'/'+parseInt(p.date.slice(8))) : '', displayName(p), p.team || '', p.opp || '',
-            String(p.proj),
-            p.line != null ? String(p.line) : '\u2014',
-            edgeStr,
-            pcStr,
-            p.actual != null ? String(p.actual) : '\u2014',
-            effectiveDir(p) === 'OVER' ? 'O' : 'U',
-            priceStr,
-            p.result === 'WIN' ? 'W' : p.result === 'LOSS' ? 'L' : '\u2014'
-          ] : [
-            displayName(p), p.team, p.opp || '', String(p.proj),
-            p.line != null ? String(p.line) : '\u2014',
-            edgeStr,
-            pcStr,
-            effectiveDir(p) === 'OVER' ? 'O' : 'U',
-            priceStr
-          ];
-          cells.forEach((val, i) => {
-            const td = row.insertCell();
-            td.textContent = val;
-            td.className = colClasses[i] || 'col-' + i;
-            td.style.cssText = 'padding:4px 4px;text-align:center';
-            if (isBacktest) {
-              if (i === 1) { td.style.textAlign = 'left'; td.style.fontWeight = '600'; }
-              if (i === 0) { td.style.color = '#999'; td.style.fontSize = '12px'; }
-              if (i === 2 || i === 3) td.style.color = '#999';
-              if (i === 4) td.style.color = p.proj > p.line ? 'var(--green)' : p.proj < p.line ? 'var(--red)' : '';
-              if (i === 6) td.style.color = edgeVal > 0 ? 'var(--green)' : edgeVal < 0 ? 'var(--red)' : '#999';
-              if (i === 7) td.style.color = '#aaa';
-              if (i === 9) { td.style.fontWeight = '700'; td.style.color = effectiveDir(p) === 'OVER' ? 'var(--green)' : 'var(--red)'; }
-              if (i === 10) td.style.color = '#999';
-              if (i === 11) { td.style.fontWeight = '700'; td.style.color = p.result === 'WIN' ? 'var(--green)' : 'var(--red)'; }
+
+        function updateHeaderLabels() {
+          ths.forEach((th, i) => {
+            const base = th.dataset.label;
+            if (i === sortColIdx) {
+              th.textContent = base + (sortDir === 1 ? ' \u25b2' : ' \u25bc');
+              th.style.color = '#fff';
             } else {
-              if (i === 0) { td.style.textAlign = 'left'; td.style.fontWeight = '600'; }
-              if (i === 1 || i === 2) td.style.color = '#999';
-              if (i === 3) td.style.color = p.proj > p.line ? 'var(--green)' : p.proj < p.line ? 'var(--red)' : '';
-              if (i === 5) td.style.color = edgeVal > 0 ? 'var(--green)' : edgeVal < 0 ? 'var(--red)' : '#999';
-              if (i === 6) td.style.color = '#aaa';
-              if (i === 7) { td.style.fontWeight = '700'; td.style.color = effectiveDir(p) === 'OVER' ? 'var(--green)' : 'var(--red)'; }
-              if (i === 8) td.style.color = '#999';
+              th.textContent = base;
+              th.style.color = '';
             }
           });
         }
+        updateHeaderLabels();
+
+        const tbody = tbl.createTBody();
+
+        function rebuildBody() {
+          tbody.textContent = '';
+          for (const p of getSorted()) {
+            const row = tbody.insertRow();
+            row.style.borderBottom = '1px solid rgba(255,255,255,0.05)';
+            const priceStr = p.odds != null ? (p.odds > 0 ? '+' + p.odds : String(p.odds)) : '\u2014';
+            const edgeVal = (p.proj != null && p.line != null) ? (p.proj - p.line) : null;
+            const edgeStr = edgeVal != null ? (edgeVal > 0 ? '+' : '') + edgeVal.toFixed(1) : '\u2014';
+            const pcStr = p.pCover != null ? (p.pCover * 100).toFixed(1) + '%' : '\u2014';
+            const cells = isBacktest ? [
+              p.date ? (parseInt(p.date.slice(5,7))+'/'+parseInt(p.date.slice(8))) : '', displayName(p), p.team || '', p.opp || '',
+              String(p.proj),
+              p.line != null ? String(p.line) : '\u2014',
+              edgeStr,
+              pcStr,
+              p.actual != null ? String(p.actual) : '\u2014',
+              effectiveDir(p) === 'OVER' ? 'O' : 'U',
+              priceStr,
+              p.result === 'WIN' ? 'W' : p.result === 'LOSS' ? 'L' : '\u2014'
+            ] : [
+              displayName(p), p.team, p.opp || '', String(p.proj),
+              p.line != null ? String(p.line) : '\u2014',
+              edgeStr,
+              pcStr,
+              effectiveDir(p) === 'OVER' ? 'O' : 'U',
+              priceStr
+            ];
+            cells.forEach((val, i) => {
+              const td = row.insertCell();
+              td.textContent = val;
+              td.className = colClasses[i] || 'col-' + i;
+              td.style.cssText = 'padding:4px 4px;text-align:center';
+              if (isBacktest) {
+                if (i === 1) { td.style.textAlign = 'left'; td.style.fontWeight = '600'; }
+                if (i === 0) { td.style.color = '#999'; td.style.fontSize = '12px'; }
+                if (i === 2 || i === 3) td.style.color = '#999';
+                if (i === 4) td.style.color = p.proj > p.line ? 'var(--green)' : p.proj < p.line ? 'var(--red)' : '';
+                if (i === 6) td.style.color = edgeVal > 0 ? 'var(--green)' : edgeVal < 0 ? 'var(--red)' : '#999';
+                if (i === 7) td.style.color = '#aaa';
+                if (i === 9) { td.style.fontWeight = '700'; td.style.color = effectiveDir(p) === 'OVER' ? 'var(--green)' : 'var(--red)'; }
+                if (i === 10) td.style.color = '#999';
+                if (i === 11) { td.style.fontWeight = '700'; td.style.color = p.result === 'WIN' ? 'var(--green)' : 'var(--red)'; }
+              } else {
+                if (i === 0) { td.style.textAlign = 'left'; td.style.fontWeight = '600'; }
+                if (i === 1 || i === 2) td.style.color = '#999';
+                if (i === 3) td.style.color = p.proj > p.line ? 'var(--green)' : p.proj < p.line ? 'var(--red)' : '';
+                if (i === 5) td.style.color = edgeVal > 0 ? 'var(--green)' : edgeVal < 0 ? 'var(--red)' : '#999';
+                if (i === 6) td.style.color = '#aaa';
+                if (i === 7) { td.style.fontWeight = '700'; td.style.color = effectiveDir(p) === 'OVER' ? 'var(--green)' : 'var(--red)'; }
+                if (i === 8) td.style.color = '#999';
+              }
+            });
+          }
+        }
+        rebuildBody();
+
         wrap.appendChild(tbl);
         fitMLBTableToContainer(tbl);
         return wrap;
