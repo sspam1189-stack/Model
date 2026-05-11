@@ -409,6 +409,24 @@
         // performance — formatted for posting on Reddit. Assigned to the
         // outer scope so it can be invoked after All Picks tables render.
         _renderRedditCard = function renderRedditCard() {
+          // --- Baseline anchor (manually-tracked Reddit history through cutoff) ---
+          // Anything dated AT OR BEFORE cutoff is collapsed into these hardcoded
+          // tallies — matches what's been posted on Reddit. Dates AFTER cutoff
+          // come from the live mlb-props.json and accumulate automatically.
+          const BASELINE = {
+            cutoff: '2026-05-10',
+            picks: {
+              total:    { w: 77, l: 66, u: -1.48 },
+              weekly:   { w: 16, l: 12, u:  0.22 },  // 5/4–5/10
+              yesterday:{ w:  1, l:  2, u: -2.12 },  // 5/10
+            },
+            leans: {
+              total:    { w: 24, l: 13, u:  7.52 },
+              weekly:   { w: 24, l: 13, u:  7.52 },  // 5/4–5/10
+              yesterday:{ w:  2, l:  2, u: -0.66 },  // 5/10
+            },
+          };
+
           const allGradedPicks = picks.filter(p =>
             p.result === 'WIN' || p.result === 'LOSS'
           );
@@ -417,12 +435,14 @@
           );
           if (allGradedPicks.length === 0 && allGradedLeans.length === 0) return;
 
+          // Anything after the baseline cutoff date — the actually-new picks.
+          const newPicks = allGradedPicks.filter(p => p.date && p.date > BASELINE.cutoff);
+          const newLeans = allGradedLeans.filter(p => p.date && p.date > BASELINE.cutoff);
+
           // Weekly window logic:
           //   - On Monday: previous Mon-Sun (a fully-completed week),
           //     labeled "last Weekly".
           //   - Tue-Sun: current week's Mon through yesterday, labeled "Weekly".
-          // `yesterdayStr` is the most recent graded date; we derive everything
-          // from "today" = day after yesterday for label/window selection.
           const _today = new Date(yesterdayStr + 'T12:00:00');
           _today.setDate(_today.getDate() + 1);
           const _todayDow = _today.getDay();   // 0=Sun,1=Mon,..6=Sat
@@ -431,22 +451,19 @@
           let wEnd;
           let weekLabel;
           if (isMonday) {
-            // Last full Mon-Sun week (yesterday IS Sunday).
-            wEnd = new Date(yesterdayStr + 'T12:00:00');           // Sun
+            wEnd = new Date(yesterdayStr + 'T12:00:00');
             wStart = new Date(yesterdayStr + 'T12:00:00');
-            wStart.setDate(wStart.getDate() - 6);                  // Mon of last wk
+            wStart.setDate(wStart.getDate() - 6);
             weekLabel = 'last Weekly';
           } else {
-            // Current week (Monday) through yesterday.
             wEnd = new Date(yesterdayStr + 'T12:00:00');
-            const daysSinceMon = (_todayDow + 6) % 7;              // 0..6, Mon-based
+            const daysSinceMon = (_todayDow + 6) % 7;
             wStart = new Date(_today);
-            wStart.setDate(_today.getDate() - daysSinceMon);       // this Mon
+            wStart.setDate(_today.getDate() - daysSinceMon);
             weekLabel = 'Weekly';
           }
           const weeklyStartStr = wStart.toISOString().slice(0, 10);
           const weeklyEndStr = wEnd.toISOString().slice(0, 10);
-          const inWeek = (d) => d && d >= weeklyStartStr && d <= weeklyEndStr;
 
           const fmtMD = (dStr) => {
             if (!dStr) return '';
@@ -454,16 +471,45 @@
             return `${parseInt(parts[1], 10)}/${parseInt(parts[2], 10)}`;
           };
 
-          const wPicks = allGradedPicks.filter(p => inWeek(p.date));
-          const yPicksG = allGradedPicks.filter(p => p.date === yesterdayStr);
-          const wLeans = allGradedLeans.filter(p => inWeek(p.date));
-          const yLeansG = allGradedLeans.filter(p => p.date === yesterdayStr);
+          // Helper: combine baseline tally with array of new picks
+          function combine(base, arr) {
+            const w = base.w + arr.filter(p => p.result === 'WIN').length;
+            const l = base.l + arr.filter(p => p.result === 'LOSS').length;
+            const u = base.u + calcMLBPropsUnits(arr);
+            return { w, l, u };
+          }
+          function fmt(tally) {
+            return `${tally.w}-${tally.l} ${tally.u >= 0 ? '+' : ''}${tally.u.toFixed(2)}u`;
+          }
 
-          function tally(arr) {
-            const w = arr.filter(p => p.result === 'WIN').length;
-            const l = arr.filter(p => p.result === 'LOSS').length;
-            const u = calcMLBPropsUnits(arr);
-            return `${w}-${l} ${u >= 0 ? '+' : ''}${u.toFixed(2)}u`;
+          // TOTAL = baseline + everything post-cutoff
+          const totalPicks = combine(BASELINE.picks.total, newPicks);
+          const totalLeans = combine(BASELINE.leans.total, newLeans);
+
+          // WEEKLY: if the weekly window is entirely at-or-before cutoff,
+          // show baseline weekly. Otherwise compute from new (post-cutoff) data.
+          let wPicksTally, wLeansTally;
+          if (weeklyEndStr <= BASELINE.cutoff) {
+            wPicksTally = BASELINE.picks.weekly;
+            wLeansTally = BASELINE.leans.weekly;
+          } else {
+            const inWeek = (d) => d && d >= weeklyStartStr && d <= weeklyEndStr;
+            // Only count post-cutoff entries; pre-cutoff weekly contribution
+            // is implicit in baseline (but baseline weekly only covers ONE
+            // specific past week — if weeklyEnd > cutoff, that's a new
+            // window and baseline-weekly doesn't apply).
+            wPicksTally = combine({w:0,l:0,u:0}, newPicks.filter(p => inWeek(p.date)));
+            wLeansTally = combine({w:0,l:0,u:0}, newLeans.filter(p => inWeek(p.date)));
+          }
+
+          // YESTERDAY: use baseline if yesterday == cutoff, else compute fresh
+          let yPicksTally, yLeansTally;
+          if (yesterdayStr === BASELINE.cutoff) {
+            yPicksTally = BASELINE.picks.yesterday;
+            yLeansTally = BASELINE.leans.yesterday;
+          } else {
+            yPicksTally = combine({w:0,l:0,u:0}, newPicks.filter(p => p.date === yesterdayStr));
+            yLeansTally = combine({w:0,l:0,u:0}, newLeans.filter(p => p.date === yesterdayStr));
           }
 
           const weekRange = `${fmtMD(weeklyStartStr)}–${fmtMD(weeklyEndStr)}`;
@@ -471,14 +517,14 @@
 
           const redditText =
             `Picks:\n` +
-            `* Total: ${tally(allGradedPicks)}\n` +
-            `* ${weekLabel} (${weekRange}): ${tally(wPicks)}\n` +
-            `* Yesterday (${yMD}): ${tally(yPicksG)}\n` +
+            `* Total: ${fmt(totalPicks)}\n` +
+            `* ${weekLabel} (${weekRange}): ${fmt(wPicksTally)}\n` +
+            `* Yesterday (${yMD}): ${fmt(yPicksTally)}\n` +
             `\n` +
             `Leans:\n` +
-            `* Total: ${tally(allGradedLeans)}\n` +
-            `* ${weekLabel} (${weekRange}): ${tally(wLeans)}\n` +
-            `* Yesterday (${yMD}): ${tally(yLeansG)}\n`;
+            `* Total: ${fmt(totalLeans)}\n` +
+            `* ${weekLabel} (${weekRange}): ${fmt(wLeansTally)}\n` +
+            `* Yesterday (${yMD}): ${fmt(yLeansTally)}\n`;
 
           const redditCard = document.createElement('div');
           redditCard.className = 'card card-reddit';
