@@ -20,7 +20,6 @@ jobs:
 
       - name: Sync Python Dashboard data
         run: |
-          cp pyNBA/data/history.json PythonDashboard/data/nba.json
           cp pyFull/data/history.json PythonDashboard/data/fullseason.json
           cp pyNCAA/data/history.json PythonDashboard/data/ncaa.json
           cp -f pyNFL/data/nfl.json PythonDashboard/data/nfl.json 2>/dev/null || true

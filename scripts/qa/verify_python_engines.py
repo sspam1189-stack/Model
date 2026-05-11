@@ -70,15 +70,10 @@ def _build_inputs():
 
 
 def test_python_engines():
-    nba = _load_module("py_nba_engine", os.path.join("pyNBA", "scripts", "model_engine.py"))
     full = _load_module("py_full_engine", os.path.join("pyFull", "scripts", "model_engine.py"))
     ncaa = _load_module("py_ncaa_engine", os.path.join("pyNCAA", "scripts", "model_engine.py"))
 
     H, g, kalman, h2h = _build_inputs()
-
-    avgs_nba = nba.get_avgs(H)
-    W_nba = nba.load_defaults()["DEFAULT_W"]
-    W_var_nba = nba.load_defaults()["DEFAULT_W_VAR"]
 
     avgs_full = full.get_avgs(H)
     W_full = full.load_defaults()["DEFAULT_W"]
@@ -88,19 +83,15 @@ def test_python_engines():
     W_ncaa = ncaa.load_defaults()["DEFAULT_W"]
     W_var_ncaa = ncaa.load_defaults()["DEFAULT_W_VAR"]
 
-    res_nba = nba.analyze_game(g, H, avgs_nba, W_nba, None, kalman, W_var_nba, 100)
     res_full = full.analyze_game(g, H, avgs_full, W_full, None, kalman, W_var_full, 100, h2h)
     res_ncaa = ncaa.analyze_game(g, H, avgs_ncaa, W_ncaa, None, kalman, W_var_ncaa, 130)
 
-    assert res_nba is not None, "NBA analyze_game returned None"
     assert res_full is not None, "Fullseason analyze_game returned None"
     assert res_ncaa is not None, "NCAA analyze_game returned None"
 
-    assert res_nba.get("oPick") == "OVER", "NBA should emit total pick"
     assert res_full.get("oPick") == "OVER", "Fullseason should emit total pick"
     assert res_ncaa.get("oPick") == "PASS", "NCAA totals should be disabled"
 
-    assert "h2hAdj" not in res_nba, "NBA should not include H2H fields"
     assert res_full.get("h2hAdj", 0) != 0, "Fullseason should include H2H adjustment"
 
     print("Python engine QA OK")

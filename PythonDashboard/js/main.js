@@ -127,12 +127,6 @@
 })();
 
 const SOURCES = {
-  nba: {
-    name: 'pyNBA',
-    local: 'data/nba.json',
-    remote: 'https://raw.githubusercontent.com/sspam1189-stack/Model/main/pyNBA/data/history.json',
-    repo: 'https://github.com/sspam1189-stack/Model'
-  },
   fullseason: {
     name: 'pyFull',
     local: 'data/fullseason.json',
@@ -1130,7 +1124,7 @@ function renderHistoryDay(run) {
 
 function updateLastRunInfo() {
   const labels = {
-    nba: 'NBA', fullseason: 'Full Season', ncaa: 'NCAA', nfl: 'NFL',
+    fullseason: 'Full Season', ncaa: 'NCAA', nfl: 'NFL',
     'nba-props': 'NBA Props', 'nfl-props': 'NFL Props',
     'mlb-props': 'MLB Strikeouts', 'mlb-batter-props': 'MLB Batter Props',
   };
