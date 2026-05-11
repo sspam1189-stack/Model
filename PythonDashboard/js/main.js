@@ -694,8 +694,9 @@ function getModelBucket(modelSummary) {
 
 function renderRecordBanner(runs, modelSummary = null) {
   // --- Top banner: filterable by season segment (Total / Regular / Playoffs) ---
-  // Picks store run.date in YYYYMMDD form, so 20260418 is the playoff cutoff.
-  const PLAYOFF_CUTOFF = '20260418';
+  // Picks store run.date in YYYYMMDD form. Includes play-in tournament
+  // (4/14-4/17) + playoffs proper (4/18+).
+  const PLAYOFF_CUTOFF = '20260414';
   const allPicks = getGradedPicks(runs);
   const segments = {
     total:    allPicks,

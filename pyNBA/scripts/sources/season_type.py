@@ -9,7 +9,7 @@
 import datetime
 from zoneinfo import ZoneInfo
 
-PLAYOFF_START = "20260418"  # first round game 1
+PLAYOFF_START = "20260414"  # play-in tournament day 1 (4/14-4/17), playoffs proper 4/18+
 
 
 def _today_yyyymmdd():
@@ -22,7 +22,8 @@ def get_season_type(date_str=None):
     Returns "Regular Season" or "Playoffs".
     date_str can be "YYYYMMDD" or "YYYY-MM-DD".
     """
-    return "Regular Season"
+    d = (date_str or _today_yyyymmdd()).replace("-", "")
+    return "Playoffs" if int(d) >= int(PLAYOFF_START) else "Regular Season"
 
 
 def get_espn_season_type(date_str=None):

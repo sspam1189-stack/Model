@@ -2,7 +2,7 @@ from datetime import datetime
 import pytz
 
 
-PLAYOFF_START = "20260418"  # first round game 1
+PLAYOFF_START = "20260414"  # play-in tournament day 1 (4/14-4/17), playoffs proper 4/18+
 
 
 def _today_yyyymmdd():

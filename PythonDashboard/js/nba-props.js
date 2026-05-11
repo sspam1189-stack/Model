@@ -139,8 +139,8 @@
           el.appendChild(mbCard);
         }
 
-        // Recent Record (playoff start — 4/18 - present)
-        const recentCutoff = '2026-04-18';
+        // Playoffs (includes play-in tournament 4/14-4/17 + playoffs 4/18+)
+        const recentCutoff = '2026-04-14';
         const recentPicks = gradedPicks.filter(p => p.date && p.date >= recentCutoff);
         if (recentPicks.length > 0) {
           const rW = recentPicks.filter(p => p.result === 'WIN').length;

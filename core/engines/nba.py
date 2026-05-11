@@ -9,6 +9,7 @@ def create_nba_engine(DEFAULT_STATS, DEFAULT_W, DEFAULT_W_VAR, BAYES_HYPER, ENGI
         DEFAULT_W_VAR,
         BAYES_HYPER,
         engine_config=ENGINE_CONFIG,
+        enable_team_hca=True,   # team-specific HCA — engine only applies it when caller passes a team_hca dict (run_daily wires it in playoffs only)
         bayes={
             "spread": {
                 "s_diff_cap": None,

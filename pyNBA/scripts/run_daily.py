@@ -24,7 +24,7 @@ from sources.teamrankings_trends import fetch_ats_trends, fetch_ou_trends
 from sources.injuries import fetch_injury_data, get_key_injuries, fetch_out_for_season
 from sources.lineup_adjust import fetch_player_advanced, adjust_team_stats
 from sources.rest_detect import detect_b2b, apply_b2b_adjustment
-from sources.season_type import get_season_type, get_espn_season_type
+from sources.season_type import get_season_type, get_espn_season_type, is_playoffs, PLAYOFF_START
 from model_engine import load_defaults, get_avgs, analyze_game
 from store import load_store, save_store, upsert_run
 from self_tune import tune_weights, compute_residual_var
@@ -56,6 +56,33 @@ def fmt_num(x, digits=1):
 
 def calc_units(w, l):
     return w + l * UNIT_LOSS
+
+
+def compute_empirical_playoff_hca(history_path=None):
+    """Compute avg home margin from playoff games in pyNBA's history.json.
+    Returns float or None if <10 games available."""
+    import math as _math
+    try:
+        if history_path is None:
+            history_path = os.path.join(os.path.dirname(__file__), "..", "data", "history.json")
+        with open(history_path, "r", encoding="utf-8") as f:
+            data = json.load(f)
+        runs = data.get("runs", []) if isinstance(data, dict) else []
+        total, n = 0.0, 0
+        for r in runs:
+            if (r.get("date") or "") < PLAYOFF_START:
+                continue
+            for g in r.get("games", []):
+                hs, as_ = g.get("homeScore"), g.get("awayScore")
+                if (isinstance(hs, (int, float)) and isinstance(as_, (int, float))
+                        and _math.isfinite(hs) and _math.isfinite(as_)):
+                    total += hs - as_
+                    n += 1
+        if n < 10:
+            return None
+        return total / n
+    except Exception:
+        return None
 
 
 def total_pick_unit(date, result):
@@ -1231,6 +1258,33 @@ def main(subject_label="[PY]"):
     elif store.get("lastTuneDate") == date:
         print("[3b] Weights already tuned today -- skipping")
 
+    # --- Playoff overrides (HCA from empirical, probHigh >= 0.65) ---
+    if is_playoffs(date):
+        emp_hca = compute_empirical_playoff_hca()
+        if emp_hca is not None:
+            new_hca = max(emp_hca, 2.5)
+            old_hca = base_w.get("hca")
+            base_w["hca"] = new_hca
+            print(f"[playoff] HCA override: {old_hca} -> {new_hca}")
+        _old_ph = base_w.get("probHigh", 0.58)
+        _new_ph = max(_old_ph, 0.65)
+        if _new_ph != _old_ph:
+            base_w["probHigh"] = _new_ph
+            print(f"[playoff] probHigh raised to {_new_ph} (was {_old_ph}) - filters out 0.60-0.65 picks")
+
+    # --- Per-team HCA in playoffs only ---
+    team_hca = None
+    if is_playoffs(date):
+        from core.model_engine import compute_team_hca
+        team_hca = compute_team_hca(
+            enhanced_stats.get("home"),
+            enhanced_stats.get("away"),
+            league_hca=base_w.get("hca", 1.8),
+        )
+        if team_hca:
+            print(f"[playoff] Per-team HCA computed for {len(team_hca)} teams "
+                  f"(league_hca={base_w.get('hca', 1.8):.2f})")
+
     # Apply drift AFTER learning + tuning (matches backfill order)
     apply_daily_drift(kalman_state, date)
 
@@ -1286,7 +1340,7 @@ def main(subject_label="[PY]"):
         )
         game_avgs = get_avgs(game_stats)
 
-        r = analyze_game(g, game_stats, game_avgs, base_w, injury_adj, kalman_state, base_w_var, dynamic_residual_var)
+        r = analyze_game(g, game_stats, game_avgs, base_w, injury_adj, kalman_state, base_w_var, dynamic_residual_var, team_hca=team_hca)
 
         if not r:
             games.append(dict(g, status="SKIPPED"))
