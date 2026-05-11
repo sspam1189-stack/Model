@@ -139,8 +139,8 @@
           el.appendChild(mbCard);
         }
 
-        // Recent Record (4/14 - present)
-        const recentCutoff = '2026-04-14';
+        // Recent Record (playoff start — 4/18 - present)
+        const recentCutoff = '2026-04-18';
         const recentPicks = gradedPicks.filter(p => p.date && p.date >= recentCutoff);
         if (recentPicks.length > 0) {
           const rW = recentPicks.filter(p => p.result === 'WIN').length;
@@ -151,7 +151,7 @@
           const rCard = document.createElement('div');
           rCard.className = 'card card-games';
           rCard.style.marginBottom = '16px';
-          rCard.appendChild(Object.assign(document.createElement('div'), {className:'card-title', textContent:`Recent Record (${recentCutoff} \u2013 present)`}));
+          rCard.appendChild(Object.assign(document.createElement('div'), {className:'card-title', textContent:`Playoffs (${recentCutoff} \u2013 present)`}));
           const rWrap = document.createElement('div');
           rWrap.className = 'props-table-wrap';
           const rTbl = document.createElement('table');

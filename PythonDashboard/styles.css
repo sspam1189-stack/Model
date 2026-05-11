@@ -477,6 +477,28 @@ table.data td.right, table.data th.right { text-align: right; }
   box-shadow: 0 0 12px var(--accent-glow);
 }
 
+.record-seg-btn {
+  padding: 5px 14px;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: transparent;
+  color: var(--muted);
+  cursor: pointer;
+  font-size: 0.72rem;
+  font-weight: 600;
+  font-family: inherit;
+  transition: all 0.15s;
+}
+.record-seg-btn:hover {
+  border-color: var(--accent);
+  color: var(--text);
+}
+.record-seg-btn.active {
+  background: var(--card);
+  border-color: var(--accent);
+  color: var(--text);
+}
+
 /* ─── Date Nav ─── */
 .date-nav {
   display: flex;

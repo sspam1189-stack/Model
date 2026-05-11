@@ -693,15 +693,35 @@ function getModelBucket(modelSummary) {
 }
 
 function renderRecordBanner(runs, modelSummary = null) {
-  const s = computeSummary(runs);
-  let e = s.all;
-  let label = 'Elite Record';
+  // --- Top banner: filterable by season segment (Total / Regular / Playoffs) ---
+  // Picks store run.date in YYYYMMDD form, so 20260418 is the playoff cutoff.
+  const PLAYOFF_CUTOFF = '20260418';
+  const allPicks = getGradedPicks(runs);
+  const segments = {
+    total:    allPicks,
+    regular:  allPicks.filter(g => (g.date || '') < PLAYOFF_CUTOFF),
+    playoffs: allPicks.filter(g => (g.date || '') >= PLAYOFF_CUTOFF),
+  };
+  const activeSeg = (typeof window !== 'undefined' && window.__recordFilter) || 'total';
+  const segLabels = { total: 'Elite Record', regular: 'Regular Season', playoffs: 'Playoffs' };
+
+  const e = tallyPicks(segments[activeSeg]);
+  const label = segLabels[activeSeg];
   const total = e.w + e.l;
   const pct = total > 0 ? (e.w / total * 100) : 0;
   const uClass = e.units > 0 ? 'positive' : e.units < 0 ? 'negative' : 'neutral';
   const pClass = pct > 52.4 ? 'positive' : pct < 50 ? 'negative' : 'neutral';
+
+  const segBtn = (key, text) =>
+    `<button class="record-seg-btn ${key === activeSeg ? 'active' : ''}" onclick="setRecordFilter('${key}')">${text}</button>`;
+
   let html = `
-    <div class="record-banner">
+    <div class="record-seg-row" style="display:flex;gap:8px;justify-content:center;margin-bottom:8px">
+      ${segBtn('total','Total')}
+      ${segBtn('regular','Regular Season')}
+      ${segBtn('playoffs','Playoffs')}
+    </div>
+    <div class="record-banner" id="record-banner-top">
       <div class="record-item">
         <div class="label">${label}</div>
         <div class="value">${e.w}-${e.l}${e.p > 0 ? `-${e.p}` : ''}</div>
@@ -1709,6 +1729,11 @@ async function render() {
 }
 
 function setView(mode) { viewMode = mode; historyPage = 0; render(); }
+
+function setRecordFilter(filter) {
+  window.__recordFilter = filter;
+  render();
+}
 function prevPage() { if (historyPage > 0) { historyPage--; render(); } }
 function nextPage() { historyPage++; render(); }
 
