@@ -44,7 +44,8 @@
       }
 
       const marketLabels = {points:'PTS', rebounds:'REB', assists:'AST', threes:"3's", steals:'STL', blocks:'BLK', turnovers:'TO'};
-      const picks = data.props.filter(p => p.pick !== 'PASS' && p.market !== 'pts_rebs_asts');
+      // Points market is retired — drop it everywhere in the dashboard.
+      const picks = data.props.filter(p => p.pick !== 'PASS' && p.market !== 'pts_rebs_asts' && p.market !== 'points');
       const isBacktest = picks.some(p => p.result != null);
 
       // Helper: get ISO week start (Monday) for a date string
