@@ -82,22 +82,8 @@ DISABLED_MARKETS = set()
 UNDER_ONLY_MARKETS = set()
 
 # ---------------------------------------------------------------------------
-# Opponent adjustment config
+# Projection blend weights
 # ---------------------------------------------------------------------------
-
-# Which team batting stat to use for each market
-OPP_STAT_KEY = {
-    "strikeouts":   "K_PCT",    # team K% (K/PA)
-}
-
-OPP_ADJ_WEIGHT = {
-    "strikeouts":   0.25,
-}
-
-# Handedness adjustment weight (pitcher splits vs LHB/RHB)
-HANDEDNESS_ADJ_WEIGHT = {
-    "strikeouts":   0.15,
-}
 
 # Pitcher handedness splits: blend weight between rolling-45d (recent form)
 # and season-to-date (stable, larger sample).
@@ -112,9 +98,6 @@ SPLITS_BLEND_WEIGHT = 0.3
 # BF estimate. <1 trims for blowouts/short outings/pulled starts; >1 inflates.
 BF_MULT = 0.88
 
-# xFIP anchor weight (regress toward true-talent)
-XFIP_ANCHOR_WEIGHT = 0.20
-
 # Season anchor: weight on season-to-date K% (vs. rolling-window K%) when
 # computing pitcher_k_rate.  Sweep (scripts.sweep_season_anchor) on 2026
 # walk-forward backfill picked W=1.00 monotonically — recent K% is already
@@ -122,18 +105,6 @@ XFIP_ANCHOR_WEIGHT = 0.20
 # the recent-form weight and adds noise.
 SEASON_ANCHOR_WEIGHT = {
     "strikeouts":   1.00,
-}
-
-# ---------------------------------------------------------------------------
-# Rest adjustments
-# ---------------------------------------------------------------------------
-REST_PENALTIES = {
-    "short_rest": {          # 4 days or less between starts
-        "strikeouts":   -0.3,
-    },
-    "extra_rest": {          # 6+ days between starts
-        "strikeouts":   +0.2,
-    },
 }
 
 # ---------------------------------------------------------------------------
