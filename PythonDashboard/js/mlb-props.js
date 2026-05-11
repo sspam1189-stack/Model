@@ -515,6 +515,84 @@
           const weekRange = `${fmtMD(weeklyStartStr)}–${fmtMD(weeklyEndStr)}`;
           const yMD = fmtMD(yesterdayStr);
 
+          // --- Today's picks + leans for copy-paste ---
+          // Mirrors the void/confirmed logic used by the Today's Picks card.
+          const _gameStatusesR = data.gameStatuses || {};
+          const _VOID_GS_R = new Set([
+            'Postponed','Cancelled','Canceled','Suspended',
+            'Postponed Inclement Weather','Postponed Rain',
+            'Suspended: Inclement Weather','Suspended: Rain',
+          ]);
+          const _isVoid = (p) => {
+            const gs = _gameStatusesR[p.team] || _gameStatusesR[p.opp] || '';
+            return _VOID_GS_R.has(gs);
+          };
+          const _LOCK_R = new Set(['lineup_confirmed','game_started','final']);
+          const _MARKET_SUFFIX = {
+            strikeouts: 'k', outs: 'outs', hits_allowed: 'h', game_hits: 'h',
+          };
+          const _todayPicks = picks.filter(p => p.date === todayStr && !_isVoid(p));
+          const _todayLeans = (data.props || []).filter(p =>
+            p.date === todayStr && isLean(p) && !_isVoid(p)
+          );
+
+          // --- Upgrade/downgrade detection vs previously-displayed state ---
+          // On each render we snapshot every entry's current bucket
+          // ('pick' | 'lean') keyed by player+market+direction in
+          // localStorage. The next render compares against that snapshot
+          // (only if same date) so intra-day lineup confirmations that
+          // flip a row's bucket can be called out in the Reddit copy.
+          const _keyOf = (p) => `${displayName(p)}|${p.market}|${p.pick}`;
+          const _STORE_KEY = 'mlb-reddit-state-v1';
+          let _prev = {};
+          try {
+            const raw = localStorage.getItem(_STORE_KEY);
+            if (raw) {
+              const parsed = JSON.parse(raw);
+              if (parsed && parsed.date === todayStr) _prev = parsed.state || {};
+            }
+          } catch (_) {}
+
+          const _currentState = {};
+          _todayPicks.forEach(p => { _currentState[_keyOf(p)] = 'pick'; });
+          _todayLeans.forEach(p => { _currentState[_keyOf(p)] = 'lean'; });
+
+          function _stateAnnotation(p, bucket) {
+            const prev = _prev[_keyOf(p)];
+            if (prev === bucket) return '';
+            if (bucket === 'pick') {
+              if (prev === 'lean') return ' (upgraded from lean)';
+              if (!prev) return ' (upgraded from non-pick)';
+            }
+            if (bucket === 'lean') {
+              if (prev === 'pick') return ' (downgraded from pick)';
+            }
+            return '';
+          }
+
+          function _fmtRow(p, bucket) {
+            const name = displayName(p);
+            const dir = p.pick === 'OVER' ? 'o' : 'u';
+            const suffix = _MARKET_SUFFIX[p.market] || '';
+            const conf = _LOCK_R.has(p.lockState) ? 'confirmed' : 'unconfirmed';
+            return `* ${name} ${dir}${p.line}${suffix} ${conf}${_stateAnnotation(p, bucket)}`;
+          }
+          const _picksBlock = _todayPicks.length
+            ? `\nToday’s Picks (${todayStr})\n\n` +
+              _todayPicks.map(p => _fmtRow(p, 'pick')).join('\n') + '\n'
+            : '';
+          const _leansBlock = _todayLeans.length
+            ? `\nToday’s Leans (${todayStr})\n\n` +
+              _todayLeans.map(p => _fmtRow(p, 'lean')).join('\n') + '\n'
+            : '';
+
+          // Persist current state for the next render's diff.
+          try {
+            localStorage.setItem(_STORE_KEY, JSON.stringify({
+              date: todayStr, state: _currentState,
+            }));
+          } catch (_) {}
+
           const redditText =
             `Picks:\n\n` +
             `* Total: ${fmt(totalPicks)}\n` +
@@ -524,7 +602,9 @@
             `Leans:\n\n` +
             `* Total: ${fmt(totalLeans)}\n` +
             `* ${weekLabel} (${weekRange}): ${fmt(wLeansTally)}\n` +
-            `* Yesterday (${yMD}): ${fmt(yLeansTally)}\n`;
+            `* Yesterday (${yMD}): ${fmt(yLeansTally)}\n` +
+            _picksBlock +
+            _leansBlock;
 
           const redditCard = document.createElement('div');
           redditCard.className = 'card card-reddit';
