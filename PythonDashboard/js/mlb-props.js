@@ -160,6 +160,10 @@
         return mlbShortName(p.player);
       }
 
+      // Hoisted slot for the Reddit summary card so it can be invoked
+      // at the very bottom of the page (after the All Picks tables).
+      let _renderRedditCard = null;
+
       // ── Yesterday's Recap + Today's Picks ──
       (function renderMLBDailyCards() {
         const allDates = [...new Set(picks.map(p => p.date))].sort();
@@ -400,10 +404,11 @@
           el.appendChild(recapCard);
         }
 
-        // --- Reddit-format summary card ---
+        // --- Reddit-format summary card (defined here, rendered at bottom) ---
         // Auto-generated copy-pasteable tally of season / weekly / yesterday
-        // performance — formatted for posting on Reddit.
-        (function renderRedditCard() {
+        // performance — formatted for posting on Reddit. Assigned to the
+        // outer scope so it can be invoked after All Picks tables render.
+        _renderRedditCard = function renderRedditCard() {
           const allGradedPicks = picks.filter(p =>
             p.result === 'WIN' || p.result === 'LOSS'
           );
@@ -465,12 +470,12 @@
           const yMD = fmtMD(yesterdayStr);
 
           const redditText =
-            `Picks:\n\n` +
+            `Picks:\n` +
             `* Total: ${tally(allGradedPicks)}\n` +
             `* ${weekLabel} (${weekRange}): ${tally(wPicks)}\n` +
             `* Yesterday (${yMD}): ${tally(yPicksG)}\n` +
-            `\n\n\n` +
-            `Leans:\n\n` +
+            `\n` +
+            `Leans:\n` +
             `* Total: ${tally(allGradedLeans)}\n` +
             `* ${weekLabel} (${weekRange}): ${tally(wLeans)}\n` +
             `* Yesterday (${yMD}): ${tally(yLeansG)}\n`;
@@ -506,7 +511,7 @@
           redditCard.appendChild(pre);
 
           el.appendChild(redditCard);
-        })();
+        };
 
         // Today's Picks + Leans (unified card with tabs)
         // Filter out picks where the underlying game has been postponed/etc.
@@ -1696,6 +1701,9 @@
 
       renderMLBMarketBtns();
       setView('all');
+
+      // Reddit summary card — always rendered at the very bottom.
+      if (_renderRedditCard) _renderRedditCard();
     }
 
     // =====================================================================
