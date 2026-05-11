@@ -252,15 +252,16 @@ def fetch_nba_stats_enhanced(date_to=None, season_type="Regular Season"):
 
     # Stats source by mode:
     #   Regular season → fetch Regular Season only.
-    #   Playoffs       → fetch Playoffs only (no blending). Keep a regular-season
-    #                    fallback for the day-1 case where playoff stats are
-    #                    still empty.
+    #   Playoffs       → blend Regular Season base with Playoff overlay using
+    #                    the per-team playoff GP / PLAYOFF_RAMP_GAMES weight.
+    #                    Pure playoff was tried 2026-05-11 but over-stated
+    #                    middle-band confidence (28pp miss in 0.65-0.70) on
+    #                    small (4-12 game) playoff samples — blend is more
+    #                    stable while still capturing playoff intensity.
     reg_season = None
     if in_playoffs:
-        # Pre-fetch regular season for fallback only; not used unless playoff
-        # stats come back empty/sparse.
         reg_season = _fetch_team_stats(date_to, None, season_type="Regular Season")
-        print(f"  [nba_stats] Regular season fallback base: {len(reg_season)} teams")
+        print(f"  [nba_stats] Regular season base: {len(reg_season)} teams")
         time.sleep(2)
 
     try:
@@ -272,17 +273,7 @@ def fetch_nba_stats_enhanced(date_to=None, season_type="Regular Season"):
         else:
             raise
 
-    if in_playoffs:
-        # Pure playoff stats. Fall back to regular season only if the playoff
-        # fetch returned nothing (round 1 day 1).
-        if raw_season and len(raw_season) >= 10:
-            season = raw_season
-            print(f"  [nba_stats] Using pure Playoffs stats ({len(raw_season)} teams)")
-        else:
-            season = reg_season
-            print(f"  [nba_stats] Playoff stats too sparse — falling back to Regular Season")
-    else:
-        season = raw_season
+    season = _blend_playoff_stats(reg_season, raw_season) if in_playoffs else raw_season
     time.sleep(2)
 
     last10 = None
@@ -290,9 +281,9 @@ def fetch_nba_stats_enhanced(date_to=None, season_type="Regular Season"):
     away = None
 
     try:
-        # In playoffs, L10 uses Playoff data too (most teams won't have 10
-        # playoff games yet — _fetch_team_stats returns whatever's available).
-        l10_type = season_type
+        # In playoffs, L10 uses regular-season data (more stable than 4-12
+        # playoff games per team).
+        l10_type = "Regular Season" if in_playoffs else season_type
         # LastNGames counts from TODAY, not DateTo -- useless for historical dates.
         # Fix: when date_to is provided, use a DateFrom window (~25 days back) instead.
         if date_to:
@@ -310,7 +301,10 @@ def fetch_nba_stats_enhanced(date_to=None, season_type="Regular Season"):
         last10 = None
 
     try:
-        home = _fetch_team_stats(date_to, None, location="Home", season_type=season_type)
+        # Home/away splits also use regular-season data in playoffs (1-3
+        # playoff home games per team is too few to be reliable).
+        split_type = "Regular Season" if in_playoffs else season_type
+        home = _fetch_team_stats(date_to, None, location="Home", season_type=split_type)
         print(f"  [nba_stats] Home splits: {len(home)} teams")
         time.sleep(2)
     except Exception as e:
@@ -318,16 +312,15 @@ def fetch_nba_stats_enhanced(date_to=None, season_type="Regular Season"):
         home = None
 
     try:
-        away = _fetch_team_stats(date_to, None, location="Road", season_type=season_type)
+        split_type = "Regular Season" if in_playoffs else season_type
+        away = _fetch_team_stats(date_to, None, location="Road", season_type=split_type)
         print(f"  [nba_stats] Away splits: {len(away)} teams")
     except Exception as e:
         print(f"  [nba_stats] Away fetch failed ({e}) -- skipping")
         away = None
 
-    # Filter season stats for min games. Threshold relaxes in playoffs since
-    # teams typically have only 4-12 playoff games.
-    min_gp = 2 if in_playoffs else 10
-    season = {k: v for k, v in season.items() if v.get("GP", 0) >= min_gp}
+    # Filter season stats for min games (10 — blended stats use regular GP).
+    season = {k: v for k, v in season.items() if v.get("GP", 0) >= 10}
     count = len(season)
     print(f"  [nba_stats] Enhanced: {count} teams (season), {len(last10) if last10 else 0} (L10), {len(home) if home else 0} (home), {len(away) if away else 0} (away)")
 

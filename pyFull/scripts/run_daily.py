@@ -810,6 +810,24 @@ def main(subject_label="[PY]"):
             base_w["probHigh"] = _new_ph
             print(f"[playoff] probHigh raised to {_new_ph} (was {_old_ph}) - filters out 0.60-0.65 picks")
 
+    # --- Per-team HCA in playoffs only ---
+    # Some teams (CLE, BOS) have near-zero personal home advantage; others (NYK)
+    # have well above league average. League-average HCA (~3.0 in playoffs)
+    # mis-prices both. Compute per-team HCA from regular-season home/away splits
+    # and pass to analyze_game ONLY in playoffs — regular-season behavior
+    # unchanged because team_hca stays None there.
+    team_hca = None
+    if is_playoffs(date):
+        from core.model_engine import compute_team_hca
+        team_hca = compute_team_hca(
+            enhanced_stats.get("home"),
+            enhanced_stats.get("away"),
+            league_hca=base_w.get("hca", 1.8),
+        )
+        if team_hca:
+            print(f"[playoff] Per-team HCA computed for {len(team_hca)} teams "
+                  f"(league_hca={base_w.get('hca', 1.8):.2f})")
+
     apply_daily_drift(kalman_state, date)
     dynamic_residual_var = compute_residual_var(store.get("runs", []))
     store["residualVar"] = dynamic_residual_var
@@ -852,7 +870,7 @@ def main(subject_label="[PY]"):
         except Exception: injury_adj = None
         game_stats = blend_for_game(adjusted_stats, enhanced_stats.get("home"), enhanced_stats.get("away"), g["home"], g["away"], base_w.get("locationWeight", 0.25))
         game_avgs = get_avgs(game_stats)
-        r = analyze_game(g, game_stats, game_avgs, base_w, injury_adj, kalman_state, base_w_var, dynamic_residual_var, h2h_matchups)
+        r = analyze_game(g, game_stats, game_avgs, base_w, injury_adj, kalman_state, base_w_var, dynamic_residual_var, h2h_matchups, team_hca=team_hca)
         if not r: games.append({**g, "status": "SKIPPED"}); continue
 
         ad = compute_team_delta(g["away"]); hd = compute_team_delta(g["home"])

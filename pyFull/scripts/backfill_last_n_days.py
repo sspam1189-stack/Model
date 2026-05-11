@@ -18,6 +18,8 @@ from sources.rest_detect import apply_b2b_adjustment
 from model_engine import load_defaults, get_avgs, analyze_game
 from store import load_store, save_store, upsert_run
 from self_tune import tune_weights, compute_residual_var
+from sources.season_type import is_playoffs, PLAYOFF_START
+from run_daily import compute_empirical_playoff_hca
 from kalman_state import (
     load_kalman_state, save_kalman_state, initialize_kalman,
     apply_daily_drift, batch_update, prune_processed_games,
@@ -242,6 +244,25 @@ def main():
                 store["weights"] = result["W"]
                 store["weightsVar"] = result["W_var"]
 
+            # --- Playoff overrides (HCA from empirical, probHigh ≥ 0.65) ---
+            if is_playoffs(date):
+                emp_hca = compute_empirical_playoff_hca()
+                if emp_hca is not None:
+                    new_hca = max(emp_hca, 2.5)
+                    base_w["hca"] = new_hca
+                _old_ph = base_w.get("probHigh", 0.58)
+                base_w["probHigh"] = max(_old_ph, 0.65)
+
+        # --- Per-team HCA in playoffs only (computed from regular-season splits) ---
+        team_hca = None
+        if is_playoffs(date):
+            from core.model_engine import compute_team_hca
+            team_hca = compute_team_hca(
+                enhanced.get("home"),
+                enhanced.get("away"),
+                league_hca=base_w.get("hca", 1.8),
+            )
+
             # 3. H2H disabled — skip
 
             # 5. Build B2B set for TODAY
@@ -335,7 +356,7 @@ def main():
             )
             game_avgs = get_avgs(game_stats)
 
-            r = analyze_game(g, game_stats, game_avgs, base_w, None, kalman_state, base_w_var, dynamic_residual_var, h2h_matchups)
+            r = analyze_game(g, game_stats, game_avgs, base_w, None, kalman_state, base_w_var, dynamic_residual_var, h2h_matchups, team_hca=team_hca)
             if not r:
                 games.append({
                     **g,
