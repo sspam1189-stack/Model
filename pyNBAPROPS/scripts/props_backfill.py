@@ -36,6 +36,7 @@ from props_engine import (
 from player_kalman import (
     new_player_kalman_state, batch_update_from_game_logs,
     apply_drift, kalman_summary, PLAYER_KALMAN_DEFAULTS,
+    save_player_kalman_state,
 )
 from defaults import (
     ROLLING_WINDOW, MIN_GAMES, MIN_MINUTES,
@@ -66,12 +67,20 @@ def backfill(season="2025-26", start_game=15, start_date=None, use_real_lines=Tr
     print(f"  Season: {season}  |  Start {date_label}")
     print(f"{'='*60}")
 
-    # Load player game logs (from cache if available — run fetch_stats.py first)
+    # Load player game logs (Regular + PlayIn + Playoffs) for full-season walk-forward.
     print(f"\n  Loading player game logs...")
     all_logs = fetch_player_game_logs(season=season)
     if not all_logs:
         print("  No player game logs found. Run: python -m scripts.fetch_stats --season " + season)
         return None
+    for extra_type in ("PlayIn", "Playoffs"):
+        try:
+            extra = fetch_player_game_logs(season=season, season_type=extra_type)
+            if extra:
+                all_logs.extend(extra)
+                print(f"  +{len(extra)} {extra_type} logs")
+        except Exception as e:
+            print(f"  Skipping {extra_type} logs: {e}")
 
     # Season type: backfill uses today's mode for stats fetches. The Kalman
     # state itself is built walk-forward and crosses the playoff boundary
@@ -122,8 +131,23 @@ def backfill(season="2025-26", start_game=15, start_date=None, use_real_lines=Tr
     results = {m: {"projections": [], "actuals": [], "picks": []} for m in all_markets}
     total_projected = 0
 
+    # Snapshot path for regular-season-only Kalman state — saved exactly once
+    # the first time we cross into the play-in / playoffs window. Lets us
+    # restore the regular-season baseline later (e.g. resetting playoff effects).
+    from sources.season_type import PLAYOFF_START
+    _playoff_start_iso = f"{PLAYOFF_START[:4]}-{PLAYOFF_START[4:6]}-{PLAYOFF_START[6:8]}"
+    _regseason_snapshot_path = kalman_state_path.replace(".json", "_regseason.json")
+    _snapshot_saved = False
+
     # --- Walk-forward loop ---
     for date_idx, game_date in enumerate(all_dates):
+
+        # Once we hit the first playoff/play-in date, snapshot the Kalman state
+        # BEFORE absorbing today's logs — that's the pure regular-season state.
+        if not _snapshot_saved and game_date >= _playoff_start_iso:
+            save_player_kalman_state(kalman_state, _regseason_snapshot_path)
+            print(f"  [kalman] Saved regular-season snapshot to {_regseason_snapshot_path}")
+            _snapshot_saved = True
 
         # Phase 1: Train Kalman on all games BEFORE this date
         # (first pass: batch-update on prior dates not yet processed)
@@ -262,7 +286,7 @@ def backfill(season="2025-26", start_game=15, start_date=None, use_real_lines=Tr
             print(f"  {game_date}: {date_picks} picks")
 
     # --- Save Kalman state so run_daily can pick up from here ---
-    from player_kalman import save_player_kalman_state, prune_inactive_players
+    from player_kalman import prune_inactive_players
     prune_inactive_players(kalman_state)
     save_player_kalman_state(kalman_state, kalman_state_path)
     print(f"  Saved Kalman state ({len(kalman_state['players'])} players) to {kalman_state_path}")
