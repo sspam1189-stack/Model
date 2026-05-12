@@ -4,7 +4,7 @@
   "season": "2026",
   "mode": "live",
   "model": "kalman_blend",
-  "generated": "2026-05-12T16:01:35.785525",
+  "generated": "2026-05-12T18:02:50.158346",
   "totalProjections": 26,
   "totalPicks": 424,
   "totalWatchlist": 8,
@@ -10101,7 +10101,7 @@
       "to_win_1u": 1.18,
       "would_be_pick": "UNDER",
       "date": "2026-05-12",
-      "lockState": "lineup_confirmed",
+      "lockState": "game_started",
       "lockedAt": "2026-05-12T18:55:49.758774Z"
     },
     {
@@ -10125,7 +10125,7 @@
       "to_win_1u": 1.14,
       "would_be_pick": "UNDER",
       "date": "2026-05-12",
-      "lockState": "lineup_confirmed",
+      "lockState": "game_started",
       "lockedAt": "2026-05-12T18:55:49.758774Z"
     },
     {
@@ -10149,7 +10149,7 @@
       "to_win_1u": 1.22,
       "would_be_pick": "OVER",
       "date": "2026-05-12",
-      "lockState": "lineup_confirmed",
+      "lockState": "game_started",
       "lockedAt": "2026-05-12T18:55:49.758774Z"
     },
     {
@@ -10173,7 +10173,7 @@
       "to_win_1u": 0.93,
       "would_be_pick": "UNDER",
       "date": "2026-05-12",
-      "lockState": "lineup_confirmed",
+      "lockState": "game_started",
       "lockedAt": "2026-05-12T19:25:03.967848Z"
     },
     {
@@ -10220,7 +10220,7 @@
       "to_win_1u": 1.36,
       "would_be_pick": "OVER",
       "date": "2026-05-12",
-      "lockState": "lineup_confirmed",
+      "lockState": "game_started",
       "lockedAt": "2026-05-12T20:07:40.931501Z"
     },
     {
@@ -10268,7 +10268,7 @@
       "to_win_1u": 1.52,
       "would_be_pick": "OVER",
       "date": "2026-05-12",
-      "lockState": "lineup_confirmed",
+      "lockState": "game_started",
       "lockedAt": "2026-05-12T20:07:40.931501Z"
     },
     {
@@ -10292,8 +10292,8 @@
       "to_win_1u": 1.54,
       "would_be_pick": "UNDER",
       "date": "2026-05-12",
-      "lockState": "pending",
-      "lockedAt": null
+      "lockState": "lineup_confirmed",
+      "lockedAt": "2026-05-12T23:02:50.158537Z"
     }
   ],
   "summary": "1 picks (+8 watch) from 26 projections",
@@ -10319,7 +10319,7 @@
       "odds": -114,
       "to_win_1u": 1.14,
       "date": "2026-05-12",
-      "lockState": "lineup_confirmed",
+      "lockState": "game_started",
       "lockedAt": "2026-05-12T18:55:49.758774Z"
     },
     {
@@ -10365,7 +10365,7 @@
       "odds": -122,
       "to_win_1u": 1.22,
       "date": "2026-05-12",
-      "lockState": "lineup_confirmed",
+      "lockState": "game_started",
       "lockedAt": "2026-05-12T18:55:49.758774Z"
     },
     {
@@ -10411,7 +10411,7 @@
       "odds": -122,
       "to_win_1u": 1.22,
       "date": "2026-05-12",
-      "lockState": "lineup_confirmed",
+      "lockState": "game_started",
       "lockedAt": "2026-05-12T18:55:49.758774Z"
     },
     {
@@ -10434,7 +10434,7 @@
       "odds": -118,
       "to_win_1u": 1.18,
       "date": "2026-05-12",
-      "lockState": "lineup_confirmed",
+      "lockState": "game_started",
       "lockedAt": "2026-05-12T18:55:49.758774Z"
     },
     {
@@ -10457,7 +10457,7 @@
       "odds": -132,
       "to_win_1u": 1.32,
       "date": "2026-05-12",
-      "lockState": "lineup_confirmed",
+      "lockState": "game_started",
       "lockedAt": "2026-05-12T18:55:49.758774Z"
     },
     {
@@ -10503,7 +10503,7 @@
       "odds": 108,
       "to_win_1u": 0.93,
       "date": "2026-05-12",
-      "lockState": "lineup_confirmed",
+      "lockState": "game_started",
       "lockedAt": "2026-05-12T19:25:03.967848Z"
     },
     {
@@ -10572,7 +10572,7 @@
       "odds": -136,
       "to_win_1u": 1.36,
       "date": "2026-05-12",
-      "lockState": "lineup_confirmed",
+      "lockState": "game_started",
       "lockedAt": "2026-05-12T20:07:40.931501Z"
     },
     {
@@ -10595,7 +10595,7 @@
       "odds": 104,
       "to_win_1u": 0.96,
       "date": "2026-05-12",
-      "lockState": "lineup_confirmed",
+      "lockState": "game_started",
       "lockedAt": "2026-05-12T20:07:40.931501Z"
     },
     {
@@ -10664,7 +10664,7 @@
       "odds": -152,
       "to_win_1u": 1.52,
       "date": "2026-05-12",
-      "lockState": "lineup_confirmed",
+      "lockState": "game_started",
       "lockedAt": "2026-05-12T20:07:40.931501Z"
     },
     {
@@ -10760,29 +10760,6 @@
       "lockedAt": "2026-05-12T21:01:35.785584Z"
     },
     {
-      "player": "Yoshinobu Yamamoto",
-      "team": "LAD",
-      "opp": "SF",
-      "market": "strikeouts",
-      "proj": 5.7,
-      "std": 2.4,
-      "line": 5.5,
-      "over_price": -174,
-      "under_price": 130,
-      "pick": "PASS",
-      "edge": 0.2,
-      "pCover": 0.526,
-      "conf": "low",
-      "proj_ip": 6.7,
-      "proj_bf": 22.9,
-      "proj_pc": 95.0,
-      "odds": -174,
-      "to_win_1u": 1.74,
-      "date": "2026-05-12",
-      "lockState": "pending",
-      "lockedAt": null
-    },
-    {
       "player": "Brandon Sproat",
       "team": "MIL",
       "opp": "SD",
@@ -10829,27 +10806,50 @@
       "lockedAt": "2026-05-12T21:01:35.785584Z"
     },
     {
+      "player": "Yoshinobu Yamamoto",
+      "team": "LAD",
+      "opp": "SF",
+      "market": "strikeouts",
+      "proj": 6.0,
+      "std": 2.4,
+      "line": 6.5,
+      "over_price": 106,
+      "under_price": -140,
+      "pick": "PASS",
+      "edge": -0.5,
+      "pCover": 0.58,
+      "conf": "low",
+      "proj_ip": 6.7,
+      "proj_bf": 22.9,
+      "proj_pc": 95.0,
+      "odds": -140,
+      "to_win_1u": 1.4,
+      "date": "2026-05-12",
+      "lockState": "lineup_confirmed",
+      "lockedAt": "2026-05-12T23:02:50.158537Z"
+    },
+    {
       "player": "Jeffrey Springs",
       "team": "OAK",
       "opp": "STL",
       "market": "strikeouts",
-      "proj": 4.6,
+      "proj": 4.4,
       "std": 2.0,
       "line": 4.5,
       "over_price": -102,
       "under_price": -130,
       "pick": "PASS",
-      "edge": 0.1,
-      "pCover": 0.513,
+      "edge": -0.1,
+      "pCover": 0.527,
       "conf": "low",
       "proj_ip": 5.9,
       "proj_bf": 20.3,
       "proj_pc": 84.0,
-      "odds": -102,
-      "to_win_1u": 1.02,
+      "odds": -130,
+      "to_win_1u": 1.3,
       "date": "2026-05-12",
-      "lockState": "pending",
-      "lockedAt": null
+      "lockState": "lineup_confirmed",
+      "lockedAt": "2026-05-12T23:02:50.158537Z"
     },
     {
       "player": "Adrian Houser",
@@ -10871,31 +10871,31 @@
       "odds": -154,
       "to_win_1u": 1.54,
       "date": "2026-05-12",
-      "lockState": "pending",
-      "lockedAt": null
+      "lockState": "lineup_confirmed",
+      "lockedAt": "2026-05-12T23:02:50.158537Z"
     },
     {
       "player": "Andre Pallante",
       "team": "STL",
       "opp": "OAK",
       "market": "strikeouts",
-      "proj": 4.0,
+      "proj": 4.1,
       "std": 2.6,
       "line": 3.5,
-      "over_price": -118,
-      "under_price": -112,
+      "over_price": -130,
+      "under_price": -102,
       "pick": "PASS",
-      "edge": 0.5,
-      "pCover": 0.569,
+      "edge": 0.6,
+      "pCover": 0.584,
       "conf": "low",
       "proj_ip": 5.4,
       "proj_bf": 23.0,
       "proj_pc": 104,
-      "odds": -118,
-      "to_win_1u": 1.18,
+      "odds": -130,
+      "to_win_1u": 1.3,
       "date": "2026-05-12",
-      "lockState": "pending",
-      "lockedAt": null
+      "lockState": "lineup_confirmed",
+      "lockedAt": "2026-05-12T23:02:50.158537Z"
     }
   ],
   "gameTimes": {
@@ -10931,22 +10931,22 @@
     "SF": "2026-05-13T02:10:00Z"
   },
   "gameStatuses": {
-    "CLE": "Pre-Game",
-    "LAA": "Pre-Game",
-    "BAL": "Pre-Game",
-    "NYY": "Pre-Game",
-    "CIN": "Pre-Game",
-    "WSH": "Pre-Game",
-    "PIT": "Pre-Game",
-    "COL": "Pre-Game",
-    "BOS": "Pre-Game",
-    "PHI": "Pre-Game",
-    "TOR": "Pre-Game",
-    "TB": "Pre-Game",
-    "NYM": "Pre-Game",
-    "DET": "Pre-Game",
-    "ATL": "Pre-Game",
-    "CHC": "Pre-Game",
+    "CLE": "In Progress",
+    "LAA": "In Progress",
+    "BAL": "In Progress",
+    "NYY": "In Progress",
+    "CIN": "In Progress",
+    "WSH": "In Progress",
+    "PIT": "In Progress",
+    "COL": "In Progress",
+    "BOS": "In Progress",
+    "PHI": "In Progress",
+    "TOR": "Warmup",
+    "TB": "Warmup",
+    "NYM": "Warmup",
+    "DET": "Warmup",
+    "ATL": "Warmup",
+    "CHC": "Warmup",
     "CWS": "Pre-Game",
     "KC": "Pre-Game",
     "MIN": "Pre-Game",
@@ -10957,9 +10957,9 @@
     "ARI": "Pre-Game",
     "HOU": "Pre-Game",
     "SEA": "Pre-Game",
-    "OAK": "Scheduled",
-    "STL": "Scheduled",
-    "LAD": "Scheduled",
-    "SF": "Scheduled"
+    "OAK": "Pre-Game",
+    "STL": "Pre-Game",
+    "LAD": "Pre-Game",
+    "SF": "Pre-Game"
   }
 }
