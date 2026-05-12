@@ -199,38 +199,14 @@ def grade_previous_picks(season=None):
                 print(f"  [grade] Failed to write {path}: {e}")
 
 
-def _get_team_dates(date_key):
+def _get_todays_teams(date_key):
     """
-    Return {team_abbr: 'YYYY-MM-DD'} for games on date_key and date_key+1.
-
-    The map is used to tag each prop projection with the actual game date,
-    so look-ahead lines (FanDuel often posts tomorrow's lines early) get
-    routed to the dashboard's Tomorrow's Potential Picks card instead of
-    being silently dropped or mislabeled as today.
-
-    Returns None if neither day's schedule can be fetched.
-    """
-    out = {}
-    for delta in (0, 1):
-        d = datetime.datetime.strptime(date_key, "%Y%m%d").date() + datetime.timedelta(days=delta)
-        dk = d.strftime("%Y%m%d")
-        d_iso = d.strftime("%Y-%m-%d")
-        teams = _get_teams_for_date(dk)
-        if teams is None:
-            continue
-        for t in teams:
-            # If a team appears in both today and tomorrow (shouldn't, but be safe),
-            # the EARLIER date wins.
-            out.setdefault(t, d_iso)
-    return out or None
-
-
-def _get_teams_for_date(date_key):
-    """
-    Return set of team abbreviations that play on `date_key` per ESPN.
+    Return set of team abbreviations that actually play today per ESPN schedule.
+    Filters out tomorrow's games that FanDuel may have cached early.
 
     If the cache is missing, actively fetch from ESPN. If that also fails,
-    return None.
+    return None and the caller will refuse to project (fail closed) rather
+    than silently let FanDuel's view of the slate through (fail open).
     """
     espn_path = os.path.join(SCRIPT_DIR, "..", "..", "data", "espn_cache", "nba", f"{date_key}.json")
     espn_path = os.path.normpath(espn_path)
@@ -245,7 +221,7 @@ def _get_teams_for_date(date_key):
                 os.makedirs(os.path.dirname(espn_path), exist_ok=True)
                 with open(espn_path, "w") as f:
                     f.write(r.text)
-                print(f"  [_get_teams_for_date] ESPN cache was missing — fetched fresh for {date_key}")
+                print(f"  [_get_todays_teams] ESPN cache was missing — fetched fresh for {date_key}")
             else:
                 print(f"  WARNING: ESPN scoreboard fetch HTTP {r.status_code} for {date_key}")
                 return None
@@ -430,30 +406,29 @@ def run_daily(date_key=None):
         prop_lines = fetch_nba_player_props(date_key=date_key)
     print(f"  {len(prop_lines)} prop lines fetched")
 
-    # --- Stage 6b: Tag each prop with its actual game date ---
-    # Pull both today's and tomorrow's ESPN schedule so look-ahead props
-    # (FanDuel often posts tomorrow's lines early) get routed to the
-    # Tomorrow card on the dashboard instead of mis-tagged as today.
-    team_dates = _get_team_dates(date_key) or {}
-    if not team_dates:
-        print(f"  WARNING: No ESPN schedule available for {date_key} or {date_key}+1. "
-              f"All projections will be tagged with today's date as fallback.")
+    # --- Stage 6b: Filter to today's games only ---
+    # FanDuel sometimes caches tomorrow's lines early. Cross-reference ESPN
+    # schedule to only keep prop lines for games actually on today's date.
+    todays_teams = _get_todays_teams(date_key)
+    if todays_teams is None:
+        # Fail closed: without an authoritative schedule we cannot validate
+        # which props are for tonight's games. Drop everything rather than
+        # silently letting FanDuel's view (which may include early-posted
+        # future-game props) flow into projections.
+        print(f"  ERROR: No ESPN schedule available for {date_key}. "
+              f"Refusing to project to avoid bogus picks for non-scheduled teams.")
+        prop_lines = []
     else:
-        # Drop only prop lines whose teams aren't on the 2-day schedule at all
-        # (stale FanDuel cache for games further out). Keep anything with a
-        # known game_date (today or tomorrow) so the dashboard can route it.
         before = len(prop_lines)
         prop_lines = [
             p for p in prop_lines
-            if p.get("event_home") in team_dates or p.get("event_away") in team_dates
+            if p.get("event_home") in todays_teams
+               or p.get("event_away") in todays_teams
         ]
         dropped = before - len(prop_lines)
         if dropped:
-            print(f"  Dropped {dropped} prop lines for teams not on next 2 days' schedule")
-        n_today = sum(1 for p in prop_lines
-                      if team_dates.get(p.get("event_home")) == date_iso
-                      or team_dates.get(p.get("event_away")) == date_iso)
-        print(f"  {len(prop_lines)} prop lines kept ({n_today} for today, {len(prop_lines)-n_today} for tomorrow)")
+            print(f"  Dropped {dropped} prop lines for non-today games (FanDuel early cache)")
+        print(f"  {len(prop_lines)} prop lines for today's games")
 
     # Filter out started games
     started_teams = _get_started_teams(date_key)
@@ -509,15 +484,18 @@ def run_daily(date_key=None):
     print(kalman_summary(kalman_state, top_n=5, stat_key="pts"))
 
     # --- Stage 8: Output (merge with existing — preserve started/finished games) ---
-    # Tag each projection with its actual game date from team_dates so
-    # tomorrow's look-ahead picks land in Tomorrow's Potential Picks rather
-    # than Today's Picks. Anything not found in the map falls back to today.
-    if team_dates:
-        for p in projections:
-            d = team_dates.get(p.get("team")) or team_dates.get(p.get("opp"))
-            if d:
-                p["date"] = d
     dashboard = format_props_for_dashboard(projections, date_str=date_iso)
+
+    # Filter todayProjections to ESPN teams (FanDuel may include tomorrow's games)
+    if todays_teams is not None:
+        before_tp = len(dashboard.get("todayProjections", []))
+        dashboard["todayProjections"] = [
+            p for p in dashboard.get("todayProjections", [])
+            if p.get("team") in todays_teams or p.get("opp") in todays_teams
+        ]
+        dropped_tp = before_tp - len(dashboard["todayProjections"])
+        if dropped_tp:
+            print(f"  Dropped {dropped_tp} todayProjections for non-today games")
 
     import numpy as np
 
@@ -552,12 +530,8 @@ def run_daily(date_key=None):
             existing = {}
             existing_props = []
 
-        # Compute the set of dates this run is regenerating (today + any
-        # look-ahead tomorrow date present in team_dates).
-        fresh_dates = {date_iso} | set(team_dates.values()) if team_dates else {date_iso}
-
         # Keep picks from OTHER dates (already graded / historical)
-        kept = [p for p in existing_props if p.get("date") not in fresh_dates]
+        kept = [p for p in existing_props if p.get("date") != date_iso]
 
         # For TODAY's picks: preserve existing picks for started games
         # (they were made pre-game and are still valid), only replace
@@ -565,12 +539,10 @@ def run_daily(date_key=None):
         today_existing = [p for p in existing_props if p.get("date") == date_iso]
         today_started = [p for p in today_existing
                          if p.get("team") in started_teams]
+        today_fresh = [p for p in dashboard.get("props", [])
+                       if p.get("date") == date_iso or not p.get("date")]
 
-        # Fresh picks from this run cover today AND tomorrow (look-ahead).
-        fresh_picks = [p for p in dashboard.get("props", [])
-                       if p.get("date") in fresh_dates or not p.get("date")]
-
-        merged_props = kept + today_started + fresh_picks
+        merged_props = kept + today_started + today_fresh
 
         # Preserve todayProjections for started games too — they were
         # generated pre-game and are valid. Only replace projections
