@@ -14,7 +14,7 @@ from defaults import (
 )
 from pitcher_kalman import get_pitcher_projection
 from sources.game_context import (
-    REST_ADJUSTMENTS, detect_rest_days, project_innings,
+    REST_ADJUSTMENTS, detect_rest_days, project_outs,
 )
 
 
@@ -65,7 +65,7 @@ def organize_pitcher_logs(raw_logs):
         # Drop scheduled-but-unplayed stubs (ip=0, no recorded outs/K/H/BB).
         # The fetcher pre-populates a placeholder row for tonight's game; if
         # left in, it shifts games[-1]/games[-ROLLING_WINDOW:] and quietly
-        # corrupts proj_ip, rolling_std, and rest_days.
+        # corrupts proj_outs, rolling_std, and rest_days.
         if ip == 0 and g.get("outs", 0) == 0 and g.get("k", 0) == 0 \
                 and g.get("h", 0) == 0 and g.get("bb", 0) == 0:
             continue
@@ -222,14 +222,14 @@ def project_pitcher_props(pitcher_logs, team_batting_stats=None,
         pitcher_bb9 = adv.get("BB_PER_9") or adv.get("bb_per_9")
         opp_batting = (team_batting_stats or {}).get(latest_opp, {})
         opp_ops = opp_batting.get("OPS") or opp_batting.get("ops")
-        proj_ip = project_innings(
+        proj_outs = project_outs(
             qualified, adv_stats=adv, rest_days=rest_days,
             pitcher_bb_per_9=pitcher_bb9,
             opp_ops=opp_ops,
             league_avg_ops=league_avg.get("OPS"),
         )
 
-        if proj_ip < 3.0:
+        if proj_outs < 9.0:
             continue
 
         min_g = MIN_GAMES.get(market, 3)
@@ -364,7 +364,9 @@ def project_pitcher_props(pitcher_logs, team_batting_stats=None,
             avg_ppbf = 3.9  # MLB league avg pitches/BF — fallback only
             avg_pc = None   # no recent data
             whip = adv.get("WHIP", 0) or 1.20
-            projected_bf = proj_ip * (3.0 + whip * 0.7)
+            # BF = outs + H + BB; with WHIP = (H+BB)/IP and IP = outs/3:
+            #   BF = outs * (1 + WHIP/3) = outs * (3 + WHIP) / 3
+            projected_bf = proj_outs * (3.0 + whip) / 3.0
 
         from defaults import BF_MULT as _BF_MULT
         projected_bf = min(projected_bf * _BF_MULT, 23.0)
@@ -433,7 +435,7 @@ def project_pitcher_props(pitcher_logs, team_batting_stats=None,
         std = math.sqrt(std**2 + k_model_var)
 
         prop = _make_prop(name, team, market, proj, std, line_lookup, latest_opp,
-                          proj_ip=proj_ip, proj_bf=projected_bf, proj_pc=proj_pc)
+                          proj_outs=proj_outs, proj_bf=projected_bf, proj_pc=proj_pc)
         if prop:
             projections.append(prop)
 
@@ -538,7 +540,7 @@ def _to_win_1u(price):
 
 
 def _make_prop(name, team, market, proj, std, line_lookup, opp,
-               proj_ip=None, proj_bf=None, proj_pc=None):
+               proj_outs=None, proj_bf=None, proj_pc=None):
     nk = _name_key(name)
     line_key = (nk[0], nk[1], market)
     line_data = line_lookup.get(line_key)
@@ -565,7 +567,7 @@ def _make_prop(name, team, market, proj, std, line_lookup, opp,
         "edge": None,
         "pCover": None,
         "conf": "low",
-        "proj_ip": round(proj_ip, 1) if proj_ip is not None else None,
+        "proj_outs": round(proj_outs, 1) if proj_outs is not None else None,
         "proj_bf": round(proj_bf, 1) if proj_bf is not None else None,
         "proj_pc": round(proj_pc, 0) if proj_pc is not None else None,
     }
