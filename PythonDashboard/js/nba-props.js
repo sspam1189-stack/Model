@@ -366,67 +366,6 @@
           todayCard.appendChild(tbl);
           el.appendChild(todayCard);
         }
-
-        // Tomorrow's Potential Picks — only renders if look-ahead lines exist
-        const tomorrow = new Date(todayStr + 'T12:00:00');
-        tomorrow.setDate(tomorrow.getDate() + 1);
-        const tomorrowStr = tomorrow.toISOString().slice(0, 10);
-        const tomorrowPicks = picks.filter(p => p.date === tomorrowStr);
-        if (tomorrowPicks.length > 0) {
-          const tomCard = document.createElement('div');
-          tomCard.className = 'card card-picks';
-          tomCard.style.marginBottom = '16px';
-          tomCard.appendChild(Object.assign(document.createElement('div'), {
-            className: 'card-title',
-            textContent: `Tomorrow’s Potential Picks (${tomorrowStr})`,
-          }));
-          const tomTbl = document.createElement('table');
-          tomTbl.className = 'props-data-table';
-          tomTbl.style.cssText = 'width:100%;border-collapse:collapse;margin-top:8px';
-          const tomHeaders = ['Name','Team','Opp','Cat','Proj','Line','Edge','Odds','O/U'];
-          const tomHRow = tomTbl.createTHead().insertRow();
-          tomHeaders.forEach((h, i) => {
-            const th = document.createElement('th');
-            th.textContent = h;
-            th.style.cssText = 'padding:4px 4px;text-align:center;border-bottom:1px solid rgba(255,255,255,0.1)';
-            if (h === 'Name') th.style.textAlign = 'left';
-            tomHRow.appendChild(th);
-          });
-          const tomBody = tomTbl.createTBody();
-          const tomCatOrder = {points:0, rebounds:1, assists:2, threes:3, steals:4, blocks:5, turnovers:6};
-          tomorrowPicks.sort((a,b) =>
-            (tomCatOrder[a.market]??99) - (tomCatOrder[b.market]??99)
-            || (b.pCover||0) - (a.pCover||0)
-          );
-          for (const p of tomorrowPicks) {
-            const row = tomBody.insertRow();
-            row.style.borderBottom = '1px solid rgba(255,255,255,0.05)';
-            const tEdge = (p.proj != null && p.line != null) ? +(p.proj - p.line).toFixed(1) : null;
-            const tEdgeStr = tEdge != null ? (tEdge > 0 ? '+'+tEdge : String(tEdge)) : '—';
-            const tPrice = p.odds != null ? (p.odds > 0 ? '+'+p.odds : String(p.odds)) : '—';
-            const cells = [
-              shortName(p.player), p.team || '', p.opp || '',
-              marketLabels[p.market] || p.market,
-              String(p.proj),
-              p.line != null ? String(p.line) : '—',
-              tEdgeStr, tPrice,
-              p.pick === 'OVER' ? 'O' : 'U',
-            ];
-            cells.forEach((val, i) => {
-              const td = row.insertCell();
-              td.textContent = val;
-              td.style.cssText = 'padding:4px 4px;text-align:center';
-              if (i === 0) { td.style.textAlign = 'left'; td.style.fontWeight = '600'; }
-              if (i === 1 || i === 2) td.style.color = '#999';
-              if (i === 4) td.style.color = p.proj > p.line ? 'var(--green)' : p.proj < p.line ? 'var(--red)' : '';
-              if (i === 6 && tEdge != null) td.style.color = tEdge > 0 ? 'var(--green)' : tEdge < 0 ? 'var(--red)' : '#999';
-              if (i === 7) td.style.color = '#999';
-              if (i === 8) { td.style.fontWeight = '700'; td.style.color = p.pick === 'OVER' ? 'var(--green)' : 'var(--red)'; }
-            });
-          }
-          tomCard.appendChild(tomTbl);
-          el.appendChild(tomCard);
-        }
       })();
 
       // ── Today's Games Explorer ──
