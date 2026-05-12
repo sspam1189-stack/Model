@@ -40,6 +40,40 @@ def _cache_is_same_stat_day(cache_path):
     cache_dt = datetime.datetime.fromtimestamp(os.path.getmtime(cache_path))
     return cache_dt.date() == datetime.datetime.now().date()
 
+
+def _game_logs_cache_is_fresh(cache_path):
+    """
+    Game-log cache is fresh iff its content includes yesterday's games (CT).
+
+    Why not use _cache_is_same_stat_day for game logs: the daily workflow
+    runs `git pull origin main` before invoking the engine, which resets
+    cached files' mtime to checkout time. mtime-based freshness then
+    returns True even though the cache content is stale (capped at the
+    LAST run's data). Switching to a content-based check (max game_date)
+    survives the pull and guarantees we refetch whenever yesterday's
+    games aren't yet in cache.
+    """
+    if not os.path.exists(cache_path):
+        return False
+    try:
+        with open(cache_path, "r") as f:
+            data = json.load(f)
+        if not data:
+            return False
+        latest = max((g.get("game_date", "") for g in data if isinstance(g, dict)),
+                     default="")
+        if not latest:
+            return False
+        from zoneinfo import ZoneInfo
+        # Yesterday CT — by morning every team's games from CT-yesterday
+        # are in NBA Stats API. If the cache already has yesterday's
+        # game_date, no point refetching today.
+        yesterday = (datetime.datetime.now(ZoneInfo("America/Chicago"))
+                     - datetime.timedelta(days=1)).strftime("%Y-%m-%d")
+        return latest >= yesterday
+    except Exception:
+        return False
+
 import sys
 sys.path.insert(0, os.path.join(_dir, ".."))
 from defaults import current_season
@@ -64,7 +98,7 @@ def fetch_player_game_logs(season=None, season_type="Regular Season", date_to=No
         cache_key += f"_{str(date_to).replace('-', '')}"
     cache_path = os.path.join(PLAYER_CACHE_DIR, f"{cache_key}.json")
 
-    if _cache_is_same_stat_day(cache_path):
+    if _game_logs_cache_is_fresh(cache_path):
         with open(cache_path, "r") as f:
             data = json.load(f)
         print(f"  [player_stats] Using cache: {os.path.basename(cache_path)} ({len(data)} logs)")
