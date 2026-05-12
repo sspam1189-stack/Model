@@ -531,9 +531,18 @@
           const _MARKET_SUFFIX = {
             strikeouts: 'k', outs: 'outs', hits_allowed: 'h', game_hits: 'h',
           };
-          const _todayPicks = picks.filter(p => p.date === todayStr && !_isVoid(p));
-          const _todayLeans = (data.props || []).filter(p =>
-            p.date === todayStr && isLean(p) && !_isVoid(p)
+          // Sort each bucket by pCover descending — matches the dashboard
+          // tables' default order so the Reddit copy mirrors what's onscreen.
+          const _sortByPCover = (arr) => arr.slice().sort(
+            (a, b) => (b.pCover || 0) - (a.pCover || 0)
+          );
+          const _todayPicks = _sortByPCover(
+            picks.filter(p => p.date === todayStr && !_isVoid(p))
+          );
+          const _todayLeans = _sortByPCover(
+            (data.props || []).filter(p =>
+              p.date === todayStr && isLean(p) && !_isVoid(p)
+            )
           );
 
           // --- Upgrade/downgrade detection vs previously-displayed state ---
@@ -578,8 +587,14 @@
             const name = displayName(p);
             const dir = _dirOf(p) === 'OVER' ? 'o' : 'u';
             const suffix = _MARKET_SUFFIX[p.market] || '';
-            const conf = _LOCK_R.has(p.lockState) ? 'confirmed' : 'unconfirmed';
-            return `* ${name} ${dir}${p.line}${suffix} ${conf}${_stateAnnotation(p, bucket)}`;
+            const isConfirmed = _LOCK_R.has(p.lockState);
+            // Bold markdown for confirmed (clearer visual on Reddit).
+            const conf = isConfirmed ? '**confirmed**' : 'unconfirmed';
+            // Confirmed picks freeze — don't show upgrade/downgrade tags
+            // once the lineup is locked. State change tracking only applies
+            // to still-unconfirmed entries.
+            const annotation = isConfirmed ? '' : _stateAnnotation(p, bucket);
+            return `* ${name} ${dir}${p.line}${suffix} ${conf}${annotation}`;
           }
           const _picksBlock = _todayPicks.length
             ? `\nToday’s Picks (${todayStr})\n\n` +
