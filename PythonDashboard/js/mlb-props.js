@@ -284,10 +284,12 @@
           if (recentOvers.length)  appendMarketRow(rb, 'Overs',  recentOvers,  false);
           if (recentUnders.length) appendMarketRow(rb, 'Unders', recentUnders, false);
           appendMarketRow(rb, 'Total', recentPicks, true);
-          const recentOverLeans  = leanOverGraded.filter(p => p.date && p.date >= recentCutoff);
-          const recentUnderLeans = leanUnderGraded.filter(p => p.date && p.date >= recentCutoff);
-          appendLeanRow(rb, recentOverLeans,  'Lean O .65-.70');
-          appendLeanRow(rb, recentUnderLeans, 'Lean U .60-.70');
+          const recentOverLeans      = leanOverGraded.filter(p => p.date && p.date >= recentCutoff);
+          const recentUnderLeansLow  = leanUnderGradedLow.filter(p => p.date && p.date >= recentCutoff);
+          const recentUnderLeansHigh = leanUnderGradedHigh.filter(p => p.date && p.date >= recentCutoff);
+          appendLeanRow(rb, recentOverLeans,      'Lean O .65-.70');
+          appendLeanRow(rb, recentUnderLeansLow,  'Lean U .60-.65');
+          appendLeanRow(rb, recentUnderLeansHigh, 'Lean U .65-.70');
           rWrap.appendChild(rTbl);
           rCard.appendChild(rWrap);
           el.appendChild(rCard);
