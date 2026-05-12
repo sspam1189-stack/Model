@@ -556,7 +556,10 @@
           // is the actual betting direction.
           const _dirOf = (p) => p.pick === 'PASS' ? (p.would_be_pick || 'OVER') : p.pick;
           const _keyOf = (p) => `${displayName(p)}|${p.market}|${_dirOf(p)}`;
-          const _STORE_KEY = 'mlb-reddit-state-v1';
+          // Bumped to v2: snapshot format changed from string bucket to
+          // { bucket, status, annotation } so confirmations + annotations
+          // stick once set, instead of recomputing each render.
+          const _STORE_KEY = 'mlb-reddit-state-v2';
           let _prev = {};
           try {
             const raw = localStorage.getItem(_STORE_KEY);
@@ -566,34 +569,51 @@
             }
           } catch (_) {}
 
-          const _currentState = {};
-          _todayPicks.forEach(p => { _currentState[_keyOf(p)] = 'pick'; });
-          _todayLeans.forEach(p => { _currentState[_keyOf(p)] = 'lean'; });
-
-          function _stateAnnotation(p, bucket) {
-            const prev = _prev[_keyOf(p)];
-            if (prev === bucket) return '';
-            if (bucket === 'pick') {
-              if (prev === 'lean') return ' (upgraded from lean)';
-              if (!prev) return ' (upgraded from non-pick)';
+          function _annotationForDiff(prevBucket, bucket) {
+            if (!prevBucket || prevBucket === bucket) {
+              if (!prevBucket && bucket === 'pick') return ' (upgraded from non-pick)';
+              return '';
             }
-            if (bucket === 'lean') {
-              if (prev === 'pick') return ' (downgraded from pick)';
-            }
+            if (bucket === 'pick' && prevBucket === 'lean') return ' (upgraded from lean)';
+            if (bucket === 'lean' && prevBucket === 'pick') return ' (downgraded from pick)';
             return '';
+          }
+
+          const _currentState = {};
+          function _resolveEntry(p, bucket) {
+            const key = _keyOf(p);
+            const prev = _prev[key] || {};
+            const isConfirmed = _LOCK_R.has(p.lockState);
+
+            // Status (confirmed/unconfirmed) is sticky: once confirmed, stays
+            // confirmed for the rest of the day — even if a later run somehow
+            // reverts the lockState.
+            const statusConfirmed = prev.status === 'confirmed' || isConfirmed;
+
+            // Annotation: compute fresh from bucket diff only while UNCONFIRMED.
+            // Once confirmed, freeze whatever annotation was already attached.
+            // Any annotation that's ever been shown sticks (so an "(upgraded
+            // from lean)" tag from a 9am render is still on the row at 11pm).
+            let annotation = prev.annotation || '';
+            if (!statusConfirmed) {
+              const fresh = _annotationForDiff(prev.bucket, bucket);
+              if (fresh) annotation = fresh;
+            }
+
+            _currentState[key] = {
+              bucket,
+              status: statusConfirmed ? 'confirmed' : 'unconfirmed',
+              annotation,
+            };
+            return { statusConfirmed, annotation };
           }
 
           function _fmtRow(p, bucket) {
             const name = displayName(p);
             const dir = _dirOf(p) === 'OVER' ? 'o' : 'u';
             const suffix = _MARKET_SUFFIX[p.market] || '';
-            const isConfirmed = _LOCK_R.has(p.lockState);
-            // Bold markdown for confirmed (clearer visual on Reddit).
-            const conf = isConfirmed ? '**confirmed**' : 'unconfirmed';
-            // Confirmed picks freeze — don't show upgrade/downgrade tags
-            // once the lineup is locked. State change tracking only applies
-            // to still-unconfirmed entries.
-            const annotation = isConfirmed ? '' : _stateAnnotation(p, bucket);
+            const { statusConfirmed, annotation } = _resolveEntry(p, bucket);
+            const conf = statusConfirmed ? '**confirmed**' : 'unconfirmed';
             return `* ${name} ${dir}${p.line}${suffix} ${conf}${annotation}`;
           }
           const _picksBlock = _todayPicks.length
@@ -605,7 +625,9 @@
               _todayLeans.map(p => _fmtRow(p, 'lean')).join('\n') + '\n'
             : '';
 
-          // Persist current state for the next render's diff.
+          // Persist current state for the next render. Stores bucket +
+          // sticky status + sticky annotation per entry, resetting only
+          // when the date rolls over.
           try {
             localStorage.setItem(_STORE_KEY, JSON.stringify({
               date: todayStr, state: _currentState,
