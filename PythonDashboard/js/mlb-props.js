@@ -542,7 +542,11 @@
           // localStorage. The next render compares against that snapshot
           // (only if same date) so intra-day lineup confirmations that
           // flip a row's bucket can be called out in the Reddit copy.
-          const _keyOf = (p) => `${displayName(p)}|${p.market}|${p.pick}`;
+          // Direction for a pick is `pick` (OVER/UNDER); for a lean it's
+          // stored in `would_be_pick` since `pick === 'PASS'`. Use whichever
+          // is the actual betting direction.
+          const _dirOf = (p) => p.pick === 'PASS' ? (p.would_be_pick || 'OVER') : p.pick;
+          const _keyOf = (p) => `${displayName(p)}|${p.market}|${_dirOf(p)}`;
           const _STORE_KEY = 'mlb-reddit-state-v1';
           let _prev = {};
           try {
@@ -572,7 +576,7 @@
 
           function _fmtRow(p, bucket) {
             const name = displayName(p);
-            const dir = p.pick === 'OVER' ? 'o' : 'u';
+            const dir = _dirOf(p) === 'OVER' ? 'o' : 'u';
             const suffix = _MARKET_SUFFIX[p.market] || '';
             const conf = _LOCK_R.has(p.lockState) ? 'confirmed' : 'unconfirmed';
             return `* ${name} ${dir}${p.line}${suffix} ${conf}${_stateAnnotation(p, bucket)}`;
