@@ -134,7 +134,7 @@ def run():
                     n = len([g for g in pitcher_logs_all.get(pid, [])
                              if g.get('game_date', '') < game_date])
                     proj['n_starts'] = n
-                    proj['actual_outs'] = ag.get('IP', ag.get('ip', 0)) * 3.0
+                    proj['proj_ip'] = ag.get('IP', ag.get('ip', 0))
                     all_projs.append(proj)
                     break
 

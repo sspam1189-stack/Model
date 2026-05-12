@@ -185,72 +185,90 @@ def compute_home_away_split(pitcher_games, stat_key, min_games=3):
 # 3. Innings projection
 # ---------------------------------------------------------------------------
 
-def project_outs(pitcher_games, adv_stats=None, rest_days=5,
-                 pitcher_bb_per_9=None, opp_ops=None, league_avg_ops=None):
+def project_innings(pitcher_games, adv_stats=None, rest_days=5,
+                    pitcher_bb_per_9=None, opp_ops=None, league_avg_ops=None):
     """
-    Project total outs the pitcher will record tonight.
-
-    Outs is the atomic workload unit (each PA either is or isn't an out),
-    which avoids the IP-notation ambiguity entirely. All BF / pitch-count
-    math downstream is cleaner in outs.
+    Project how many innings the pitcher will throw tonight.
 
     Uses:
-    - Recent average outs (from qualified starts with >= 9 outs)
-    - Season average outs from advanced stats (blended 70/30)
+    - Recent average IP (from qualified starts with >= 3.0 IP)
+    - Season average IP from advanced stats (blended 70/30)
     - Rest day adjustment
-    - Pitch count trend (high recent counts -> fewer outs)
+    - Pitch count trend (high recent counts -> lower IP)
     - Pitcher BB/9 (r=-0.129 with IP: wild pitchers get shorter leashes)
     - Opponent OPS (r=-0.103 with IP: tough lineups shorten outings)
+
+    Parameters
+    ----------
+    pitcher_games : list[dict]
+        Recent game logs (rolling window).  Each entry should have
+        ``"ip"`` (float or MLB IP string like ``"6.2"``).
+    adv_stats : dict or None
+        Pitcher's season-level stats.  Looks for ``"avg_ip"`` key.
+    rest_days : int
+        Days since last start (from :func:`detect_rest_days`).
+    pitcher_bb_per_9 : float or None
+        Pitcher's BB/9 rate (from advanced stats).
+    opp_ops : float or None
+        Opposing team's OPS.
+    league_avg_ops : float or None
+        League average OPS (for relative opponent adjustment).
 
     Returns
     -------
     float
-        Expected outs (e.g. 17.1). Round to int at the display boundary.
+        Projected innings pitched (e.g. 5.7).
     """
-    qualified_outs = []
+    qualified = []
     for g in pitcher_games:
         ip = g.get("ip", 0)
         if isinstance(ip, str):
             ip = ip_to_float(ip)
-        outs = ip * 3.0
-        if outs >= 9.0:
-            qualified_outs.append(outs)
+        if ip >= 3.0:
+            qualified.append(ip)
 
-    if not qualified_outs:
+    if not qualified:
         return 0.0
 
-    recent_outs = sum(qualified_outs) / len(qualified_outs)
+    recent_ip = sum(qualified) / len(qualified)
 
+    # Blend with season average if available (70% recent, 30% season)
     if adv_stats and adv_stats.get("avg_ip", 0) > 0:
-        season_outs = adv_stats["avg_ip"] * 3.0
-        proj_outs = 0.7 * recent_outs + 0.3 * season_outs
+        season_ip = adv_stats["avg_ip"]
+        proj_ip = 0.7 * recent_ip + 0.3 * season_ip
     else:
-        proj_outs = recent_outs
+        proj_ip = recent_ip
 
-    # Rest adjustment (outs = IP * 3)
+    # Rest adjustment
     if rest_days <= 4:
-        proj_outs -= 1.5
+        proj_ip -= 0.5       # Short rest -> shorter outing
     elif rest_days >= 10:
-        proj_outs -= 2.1
+        proj_ip -= 0.7       # Extended rest -> pitch count limited
     elif rest_days >= 6:
-        proj_outs += 0.6
+        proj_ip += 0.2       # Extra rest -> slight boost
 
+    # Pitch count drag: if recent avg pitch count > 100, reduce projection
     recent_pc = _avg_pitch_count(pitcher_games, window=5)
     if recent_pc > 100:
-        proj_outs -= 0.9 * ((recent_pc - 100) / 10)
+        proj_ip -= 0.3 * ((recent_pc - 100) / 10)   # -0.3 IP per 10 pitches over 100
 
+    # BB/9 drag: wild pitchers (BB/9 > league avg ~3.3) get shorter leashes
+    # r=-0.129 with IP at game level. Every 1 BB/9 above avg -> ~0.15 fewer IP
     LEAGUE_AVG_BB9 = 3.3
     if pitcher_bb_per_9 is not None and pitcher_bb_per_9 > 0:
         bb9_diff = pitcher_bb_per_9 - LEAGUE_AVG_BB9
-        proj_outs -= bb9_diff * 0.45
+        proj_ip -= bb9_diff * 0.15  # +1 BB/9 above avg -> -0.15 IP
 
+    # Opponent OPS adjustment: tough lineups shorten outings
+    # r=-0.103 with IP. OPS above league avg -> fewer innings.
+    # Data shows -0.21 IP split between above/below median OPS.
     if opp_ops is not None and opp_ops > 0:
-        avg_ops = league_avg_ops or 0.710
+        avg_ops = league_avg_ops or 0.710  # fallback league avg
         if avg_ops > 0:
             ops_diff = (opp_ops - avg_ops) / avg_ops
-            proj_outs -= ops_diff * proj_outs * 0.10
+            proj_ip -= ops_diff * proj_ip * 0.10  # 10% weight, inverted
 
-    return max(0.0, round(proj_outs, 1))
+    return max(0.0, round(proj_ip, 1))
 
 
 # ---------------------------------------------------------------------------
@@ -320,7 +338,7 @@ def rate_based_projection(per_ip_rate, projected_innings):
     per_ip_rate : float
         Stat per inning (e.g. 1.2 K/IP).
     projected_innings : float
-        Expected innings tonight (e.g. ``project_outs(...) / 3``).
+        Expected innings tonight (from :func:`project_innings`).
 
     Returns
     -------
@@ -624,13 +642,13 @@ def build_game_context(pitcher_games, game_date, adv_stats=None, is_home=None):
     dict
         Full context dictionary with keys:
         ``rest_days``, ``rest_label``, ``rest_adj``,
-        ``proj_outs``, ``per_ip_rates``, ``pitch_count_trend``,
+        ``proj_ip``, ``per_ip_rates``, ``pitch_count_trend``,
         ``home_away_k_split``.
     """
     rest_days = detect_rest_days(pitcher_games, game_date)
     rest_label, rest_adj = classify_rest(rest_days)
 
-    proj_outs_ = project_outs(pitcher_games, adv_stats=adv_stats, rest_days=rest_days)
+    proj_ip = project_innings(pitcher_games, adv_stats=adv_stats, rest_days=rest_days)
     per_ip = compute_per_inning_rates(pitcher_games)
     pc_trend = compute_pitch_count_trend(pitcher_games)
 
@@ -641,7 +659,7 @@ def build_game_context(pitcher_games, game_date, adv_stats=None, is_home=None):
         "rest_days":         rest_days,
         "rest_label":        rest_label,
         "rest_adj":          rest_adj,
-        "proj_outs":         proj_outs_,
+        "proj_ip":           proj_ip,
         "per_ip_rates":      per_ip,
         "pitch_count_trend": pc_trend,
         "home_away_k_split": k_split,
