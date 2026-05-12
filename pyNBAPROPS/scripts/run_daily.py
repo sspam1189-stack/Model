@@ -568,7 +568,7 @@ def run_daily(date_key=None):
 
         n_kept = len(kept)
         n_started = len(today_started)
-        n_new = len(fresh_picks)
+        n_new = len(today_fresh)
         n_locked_projs = len(locked_projs)
         n_fresh_projs = len(fresh_projs)
         if n_kept > 0 or n_started > 0:
