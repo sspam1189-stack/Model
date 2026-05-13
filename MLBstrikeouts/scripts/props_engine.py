@@ -321,7 +321,14 @@ def project_pitcher_props(pitcher_logs, team_batting_stats=None,
 
         lg_k_rate = league_avg.get("K_PCT", 0.22) or 0.22
         expected_k_rate = (pitcher_k_rate * lineup_k_rate) / lg_k_rate
-        expected_k_rate = max(0.05, min(0.50, expected_k_rate))
+        # Cap at 0.36 — 2026-05-13 sweep (scripts.sweep_krate_cap): the
+        # multiplicative pitcher_k × lineup_k / lg_k stack overshoots at the
+        # top of the distribution (proj>=8 K/BF +0.047 vs actual). Cap at 0.36
+        # cut that bias in half (+0.023) and lifted overall WR 76.9% -> 78.5%
+        # (+0.9u season) without touching the well-calibrated proj<6 bucket.
+        # Above 0.40 the cap never binds; below 0.32 starts clipping legit
+        # elite matchups.
+        expected_k_rate = max(0.05, min(0.36, expected_k_rate))
 
         # --- Projected batters faced ---
         game_bfs = []

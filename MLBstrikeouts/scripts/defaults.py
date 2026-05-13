@@ -91,12 +91,18 @@ UNDER_ONLY_MARKETS = set()
 
 # Pitcher handedness splits: blend weight between rolling-45d (recent form)
 # and season-to-date (stable, larger sample).
-# 1.0 = 100% recent (legacy, ~90 BF/side mid-season — borderline noisy)
-# 0.0 = 100% season (stable but stale late season)
-# 0.3 chosen by 2026-04-28 backfill sweep across [1.0, 0.7, 0.5, 0.3, 0.0]:
-# weight 0.3 produced highest WR (78.8% on backfill picks) and best per-pick
-# ROI (+49% vs +40% at weight 1.0) while preserving same unit total.
-SPLITS_BLEND_WEIGHT = 0.3
+# 1.0 = 100% recent  |  0.0 = 100% season
+#
+# 2026-05-13 deep analysis (scripts.analyze_splits_value): the recent signal
+# is doing almost nothing under the current config (cap=0.36, kalmanBlend=0).
+#   * Mean abs change in projected K between w=0.0 and w=0.3: only 0.09 K
+#   * Only 0.5% of projections shift by >0.5K; 0% shift by >1K
+#   * Recent panel (5/05+): IDENTICAL picks/leans across all weights — rolling
+#     45d window ≈ season-to-date by mid-May, so recent ≈ season
+#   * Past 2 weeks: w=0.0 actually beats w=0.3 by +4.4u
+#   * Season-wide w=0.3 wins by +9u (+0.06u/pick — below 0.20u/pick bar)
+# Going with 0.0 for simplicity; recent-split machinery is mostly noise.
+SPLITS_BLEND_WEIGHT = 0.0
 
 # Projected batters-faced multiplier — calibrates the rate × min/IP-derived
 # BF estimate. <1 trims for blowouts/short outings/pulled starts; >1 inflates.
