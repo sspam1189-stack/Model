@@ -675,15 +675,43 @@
             const suffix = _MARKET_SUFFIX[p.market] || '';
             const { statusConfirmed, annotation } = _resolveEntry(p, bucket);
             const conf = statusConfirmed ? '**confirmed**' : 'unconfirmed';
-            return `* ${name} ${dir}${p.line}${suffix} ${conf}${annotation}`;
+            // Body of the line WITHOUT the leading "* " or trailing annotation.
+            // We stash this in state so that if this entry later disappears
+            // from picks/leans entirely we can render it struck-through using
+            // the same body text we showed today.
+            const body = `${name} ${dir}${p.line}${suffix} ${conf}`;
+            _currentState[_keyOf(p)].lineText = body;
+            return `* ${body}${annotation}`;
           }
-          const _picksBlock = _todayPicks.length
-            ? `\nToday’s Picks (${todayStr})\n\n` +
-              _todayPicks.map(p => _fmtRow(p, 'pick')).join('\n') + '\n'
+
+          // Render current picks/leans first (this populates _currentState).
+          const _pickLines = _todayPicks.map(p => _fmtRow(p, 'pick'));
+          const _leanLines = _todayLeans.map(p => _fmtRow(p, 'lean'));
+
+          // Dropped entries: previously confirmed picks/leans that no longer
+          // appear in today's slate at all. Collected into a separate
+          // "Today's Downgraded" section so they don't clutter the active
+          // Picks/Leans blocks. Only fires for entries that were CONFIRMED
+          // before disappearing — unconfirmed drops just vanish silently.
+          const _droppedLines = [];
+          for (const [key, prev] of Object.entries(_prev)) {
+            if (_currentState[key]) continue;          // still present today
+            if (prev.status !== 'confirmed') continue;  // never confirmed → no call-out
+            if (!prev.lineText) continue;               // legacy entry without saved text
+            _droppedLines.push(`* ~~${prev.lineText}~~ downgraded to nonpick`);
+            // Persist so the strikethrough sticks on subsequent renders even
+            // though the underlying entry is gone.
+            _currentState[key] = { ...prev, droppedToNonPick: true };
+          }
+
+          const _picksBlock = _pickLines.length
+            ? `\nToday’s Picks (${todayStr})\n\n` + _pickLines.join('\n') + '\n'
             : '';
-          const _leansBlock = _todayLeans.length
-            ? `\nToday’s Leans (${todayStr})\n\n` +
-              _todayLeans.map(p => _fmtRow(p, 'lean')).join('\n') + '\n'
+          const _leansBlock = _leanLines.length
+            ? `\nToday’s Leans (${todayStr})\n\n` + _leanLines.join('\n') + '\n'
+            : '';
+          const _droppedBlock = _droppedLines.length
+            ? `\nToday's Downgraded\n\n` + _droppedLines.join('\n') + '\n'
             : '';
 
           // Persist current state for the next render. Stores bucket +
@@ -706,7 +734,8 @@
             `* ${weekLabel} (${weekRange}): ${fmt(wLeansTally)}\n` +
             `* Yesterday (${yMD}): ${fmt(yLeansTally)}\n` +
             _picksBlock +
-            _leansBlock;
+            _leansBlock +
+            _droppedBlock;
 
           const redditCard = document.createElement('div');
           redditCard.className = 'card card-reddit';
