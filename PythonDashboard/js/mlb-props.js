@@ -190,8 +190,6 @@
         const leanAll = (data.props || []).filter(isLean);
         const leanGraded = leanAll.filter(p => p.result === 'WIN' || p.result === 'LOSS');
         const leanUnderGraded = leanGraded.filter(p => p.would_be_pick === 'UNDER');
-        const leanUnderGradedLow  = leanUnderGraded.filter(p => (p.pCover || 0) < 0.685);
-        const leanUnderGradedHigh = leanUnderGraded.filter(p => (p.pCover || 0) >= 0.685);
         const leanOverGraded = leanGraded.filter(p => p.would_be_pick === 'OVER');
         function leanRowFor(filteredLeans) {
           const w = filteredLeans.filter(p => p.result === 'WIN').length;
@@ -244,9 +242,9 @@
           if (allOvers.length)  appendMarketRow(mb, 'Overs',  allOvers,  false);
           if (allUnders.length) appendMarketRow(mb, 'Unders', allUnders, false);
           appendMarketRow(mb, 'Total', gradedPicks, true);
-          appendLeanRow(mb, leanOverGraded, 'Lean O .65-.70');
-          appendLeanRow(mb, leanUnderGradedLow,  'Lean U .60-.65');
-          appendLeanRow(mb, leanUnderGradedHigh, 'Lean U .65-.70');
+          appendLeanRow(mb, leanOverGraded, 'Lean O .65-.72');
+          appendLeanRow(mb, leanUnderGraded, 'Lean U .65-.72');
+          appendLeanRow(mb, leanGraded,      'Lean Total .65-.72');
           mbWrap.appendChild(mbTbl);
           mbCard.appendChild(mbWrap);
           el.appendChild(mbCard);
@@ -288,12 +286,12 @@
           if (recentOvers.length)  appendMarketRow(rb, 'Overs',  recentOvers,  false);
           if (recentUnders.length) appendMarketRow(rb, 'Unders', recentUnders, false);
           appendMarketRow(rb, 'Total', recentPicks, true);
-          const recentOverLeans      = leanOverGraded.filter(p => p.date && p.date >= recentCutoff);
-          const recentUnderLeansLow  = leanUnderGradedLow.filter(p => p.date && p.date >= recentCutoff);
-          const recentUnderLeansHigh = leanUnderGradedHigh.filter(p => p.date && p.date >= recentCutoff);
-          appendLeanRow(rb, recentOverLeans,      'Lean O .65-.70');
-          appendLeanRow(rb, recentUnderLeansLow,  'Lean U .60-.65');
-          appendLeanRow(rb, recentUnderLeansHigh, 'Lean U .65-.70');
+          const recentOverLeans   = leanOverGraded.filter(p => p.date && p.date >= recentCutoff);
+          const recentUnderLeans  = leanUnderGraded.filter(p => p.date && p.date >= recentCutoff);
+          const recentLeansAll    = leanGraded.filter(p => p.date && p.date >= recentCutoff);
+          appendLeanRow(rb, recentOverLeans,  'Lean O .65-.72');
+          appendLeanRow(rb, recentUnderLeans, 'Lean U .65-.72');
+          appendLeanRow(rb, recentLeansAll,   'Lean Total .65-.72');
           rWrap.appendChild(rTbl);
           rCard.appendChild(rWrap);
           el.appendChild(rCard);
@@ -356,7 +354,7 @@
           tally.innerHTML = `Props: <b>${yW}W-${yL}L</b> &middot; <span style="color:${uColor}">${yU >= 0 ? '+' : ''}${yU.toFixed(2)}u</span>`;
           recapCard.appendChild(tally);
 
-          // Yesterday's Leans (UNDER 0.60-0.70 watchlist) — full table beneath picks
+          // Yesterday's Leans (0.65-0.72 watchlist, both sides) — full table beneath picks
           const yLeans = leanGraded.filter(p => p.date === yesterdayStr);
           if (yLeans.length > 0) {
             const yLW = yLeans.filter(p => p.result === 'WIN').length;
@@ -366,7 +364,7 @@
             // Header: just the title + count (matches Today's Picks lean header style)
             const leanHeader = document.createElement('div');
             leanHeader.style.cssText = 'margin-top:14px;padding-top:8px;border-top:1px dashed rgba(244,180,0,0.4);font-size:12px;color:#f4b400;font-weight:600';
-            leanHeader.textContent = `Leans — U .60-.70 + O .65-.70 (${yLeans.length})`;
+            leanHeader.textContent = `Leans — .65-.72 (${yLeans.length})`;
             recapCard.appendChild(leanHeader);
             const lTbl = document.createElement('table');
             lTbl.className = 'data';
@@ -890,7 +888,7 @@
           if (lTbl) {
             const leanHeader = document.createElement('div');
             leanHeader.style.cssText = 'margin-top:14px;padding-top:8px;border-top:1px dashed rgba(244,180,0,0.4);font-size:12px;color:#f4b400;font-weight:600';
-            leanHeader.textContent = `Leans — U .60-.70 + O .65-.70 (${todayLeans.length})`;
+            leanHeader.textContent = `Leans — .65-.72 (${todayLeans.length})`;
             todayCard.appendChild(leanHeader);
             todayCard.appendChild(lTbl);
             fitMLBTableToContainer(lTbl);
