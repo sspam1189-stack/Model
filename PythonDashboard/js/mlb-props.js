@@ -250,24 +250,65 @@
           el.appendChild(mbCard);
         }
 
-        // Recent Record cutoff = the date the latest model tuning shipped.
-        // Last tuning: 2026-05-13 — BF=0.95, VAR=1.15, kalmanBlend=0.0,
-        // BF_CAP=23, pick threshold=0.72 (was 0.70), lean band 0.65-0.72.
-        // Consolidated Kalman blend into a single knob (was compounded
-        // 0.6×0.5 ≈ 0.3 effective). 4D walk-forward sweep: 375 picks/season,
-        // 72.8% WR, +30.5% ROI / +15.2% recent.
-        const recentCutoff = '2026-05-13';
-        const recentPicks = gradedPicks.filter(p => p.date && p.date >= recentCutoff);
-        if (recentPicks.length > 0) {
-          const rW = recentPicks.filter(p => p.result === 'WIN').length;
-          const rL = recentPicks.filter(p => p.result === 'LOSS').length;
-          const rU = calcMLBPropsUnits(recentPicks);
-          const rPct = (rW + rL) > 0 ? (rW / (rW + rL) * 100).toFixed(1) : '0';
-          const rROI = (rW + rL) > 0 ? (rU / (rW + rL) * 100).toFixed(1) : '0';
+        // Recent Record — toggleable cutoff. Defaults to 2026-05-05 (prior
+        // model-tuning ship date) so historical recent performance stays
+        // visible. The 2026-05-13 option isolates new-config-only picks
+        // (BF=0.95, VAR=1.15, kalmanBlend=0.0, BF_CAP=23, threshold=0.72,
+        // lean band 0.65-0.72; 4D walk-forward sweep: 72.8% WR, +30.5% ROI).
+        const recentCutoffOptions = [
+          { label: 'Since 5/05', value: '2026-05-05' },
+          { label: 'Since 5/13 (new config)', value: '2026-05-13' },
+        ];
+        let recentCutoff = recentCutoffOptions[0].value;
+
+        const rCardContainer = document.createElement('div');
+        el.appendChild(rCardContainer);
+
+        function buildRecentToggle() {
+          const wrap = document.createElement('div');
+          wrap.style.cssText = 'display:inline-flex;gap:4px;background:rgba(255,255,255,0.05);padding:3px;border-radius:6px';
+          recentCutoffOptions.forEach(opt => {
+            const b = document.createElement('button');
+            b.textContent = opt.label;
+            const active = opt.value === recentCutoff;
+            b.style.cssText = 'font-size:11px;padding:4px 10px;border:0;border-radius:4px;cursor:pointer;'
+              + (active
+                  ? 'background:rgba(168,85,247,0.35);color:#fff;font-weight:600'
+                  : 'background:transparent;color:#aaa');
+            b.addEventListener('click', () => {
+              if (recentCutoff !== opt.value) {
+                recentCutoff = opt.value;
+                renderRecentRecord();
+              }
+            });
+            wrap.appendChild(b);
+          });
+          return wrap;
+        }
+
+        function renderRecentRecord() {
+          rCardContainer.innerHTML = '';
+          const recentPicks = gradedPicks.filter(p => p.date && p.date >= recentCutoff);
           const rCard = document.createElement('div');
           rCard.className = 'card card-games';
           rCard.style.marginBottom = '16px';
-          rCard.appendChild(Object.assign(document.createElement('div'), {className:'card-title', textContent:`Recent Record (${recentCutoff} \u2013 present)`}));
+          const titleRow = document.createElement('div');
+          titleRow.className = 'card-title';
+          titleRow.style.cssText = 'display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap';
+          const titleSpan = document.createElement('span');
+          titleSpan.textContent = `Recent Record (${recentCutoff} - present)`;
+          titleRow.appendChild(titleSpan);
+          titleRow.appendChild(buildRecentToggle());
+          rCard.appendChild(titleRow);
+
+          if (recentPicks.length === 0) {
+            const note = document.createElement('div');
+            note.style.cssText = 'padding:12px;color:#888;font-style:italic;font-size:13px';
+            note.textContent = 'No graded picks in this window yet.';
+            rCard.appendChild(note);
+            rCardContainer.appendChild(rCard);
+            return;
+          }
           const rWrap = document.createElement('div');
           rWrap.className = 'props-table-wrap';
           const rTbl = document.createElement('table');
@@ -294,8 +335,10 @@
           appendLeanRow(rb, recentLeansAll,   'Lean Total .65-.72');
           rWrap.appendChild(rTbl);
           rCard.appendChild(rWrap);
-          el.appendChild(rCard);
+          rCardContainer.appendChild(rCard);
         }
+
+        renderRecentRecord();
 
         // Yesterday's Recap
         const yesterdayPicks = picks.filter(p =>
