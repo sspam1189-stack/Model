@@ -176,21 +176,22 @@
         const gradedPicks = picks.filter(p => p.result && p.result !== 'VOID');
 
         // Watchlist leans (saved with pick=PASS):
-        //   UNDER 0.60-0.70 — calibrated profitable tier (~70% WR)
-        //   OVER  0.65-0.70 — also profitable under new model (~64% WR)
-        // Tracked separately from actionable picks for calibration / tier study.
+        //   Both sides, 0.65 <= pCover < 0.72 — calibrated under the 2026-05-12
+        //   config (BF=0.95, VAR=1.15, BLEND=0.0, CAP=23, pick threshold=0.72).
+        //   Walk-forward backfill: 149 leans/season, 71.8% WR, +29.9% ROI.
+        //   The 0.60-0.65 band was dropped — sub-marginal (~56% WR, ~+1% ROI)
+        //   and -32% ROI in the slump period. Tracked separately from picks
+        //   (>= 0.72) so the higher-conviction tier can be sized differently.
         function isLean(p) {
           if (p.pick !== 'PASS') return false;
           const pc = p.pCover || 0;
-          if (p.would_be_pick === 'UNDER') return pc >= 0.60 && pc < 0.70;
-          if (p.would_be_pick === 'OVER')  return pc >= 0.65 && pc < 0.70;
-          return false;
+          return pc >= 0.65 && pc < 0.72;
         }
         const leanAll = (data.props || []).filter(isLean);
         const leanGraded = leanAll.filter(p => p.result === 'WIN' || p.result === 'LOSS');
         const leanUnderGraded = leanGraded.filter(p => p.would_be_pick === 'UNDER');
-        const leanUnderGradedLow  = leanUnderGraded.filter(p => (p.pCover || 0) < 0.65);
-        const leanUnderGradedHigh = leanUnderGraded.filter(p => (p.pCover || 0) >= 0.65);
+        const leanUnderGradedLow  = leanUnderGraded.filter(p => (p.pCover || 0) < 0.685);
+        const leanUnderGradedHigh = leanUnderGraded.filter(p => (p.pCover || 0) >= 0.685);
         const leanOverGraded = leanGraded.filter(p => p.would_be_pick === 'OVER');
         function leanRowFor(filteredLeans) {
           const w = filteredLeans.filter(p => p.result === 'WIN').length;
@@ -252,9 +253,12 @@
         }
 
         // Recent Record cutoff = the date the latest model tuning shipped.
-        // Last tuning: 2026-05-05 — pitch-count ceiling cap + BF=0.88,
-        // VAR=1.0, splits-blend 0.3.
-        const recentCutoff = '2026-05-05';
+        // Last tuning: 2026-05-13 — BF=0.95, VAR=1.15, kalmanBlend=0.0,
+        // BF_CAP=23, pick threshold=0.72 (was 0.70), lean band 0.65-0.72.
+        // Consolidated Kalman blend into a single knob (was compounded
+        // 0.6×0.5 ≈ 0.3 effective). 4D walk-forward sweep: 375 picks/season,
+        // 72.8% WR, +30.5% ROI / +15.2% recent.
+        const recentCutoff = '2026-05-13';
         const recentPicks = gradedPicks.filter(p => p.date && p.date >= recentCutoff);
         if (recentPicks.length > 0) {
           const rW = recentPicks.filter(p => p.result === 'WIN').length;

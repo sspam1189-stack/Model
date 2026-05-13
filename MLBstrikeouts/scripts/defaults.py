@@ -38,21 +38,25 @@ MIN_INNINGS = 3.0
 # so thresholds are set to minimum viable (just above coin flip).
 # ---------------------------------------------------------------------------
 MARKET_THRESHOLDS = {
-    "strikeouts":   {"high": 0.70},
+    # 2026-05-12 4D sweep at BF=0.95 / VAR=1.15 / kalmanBlend=0.0 / cap=23
+    # picked threshold 0.72 as optimal: 157 picks, 77.1% WR, +38.1% ROI (was
+    # 0.70 → 196 picks, 74.0% WR, +32.4% ROI under same config). The new
+    # config compresses the pCover distribution; 0.70 leaves quality picks
+    # in the lean tier. 0.65-0.72 becomes the lean band (both sides).
+    "strikeouts":   {"high": 0.72},
 }
 
 # ---------------------------------------------------------------------------
 # Variance multipliers (how noisy each stat is game-to-game)
 # ---------------------------------------------------------------------------
 VAR_MULT = {
-    # Tuned 2026-05-05 with pitch-count ceiling cap + splits-blend 0.3.
-    # BF=0.88, VAR=1.0 chosen from BF x VAR sweep:
-    #   BF=0.88, VAR=1.0: 119 picks, 94-25, 79.0% WR, +64.16u, +41.1% ROI
-    # Beats BF=0.92/VAR=1.4 (+62.32u) on volume + ROI; equal WR (~79%).
-    # Trends positive in recent weeks (04/27 +7.23u, 05/04 +2.85u vs
-    # 0.92/1.4's +4.07u, -1.81u). Higher volume captures more winning
-    # UNDERs that the tighter VAR=1.4 filters out.
-    "strikeouts":   1.0,
+    # 2026-05-12 4D sweep at kalmanBlend=0.0 / cap=23 / threshold=0.72:
+    # VAR=1.15 marginally best across the BF=0.95 row (Lean U 70.0% / +24.3%
+    # ROI; combined +30.5% season ROI). Wider variance tightens pCover so
+    # the threshold filters more aggressively. Earlier tuning (2026-05-05)
+    # picked VAR=1.0 under the old blended Kalman; with BLEND=0 the rate
+    # model carries the full projection and benefits from slightly wider std.
+    "strikeouts":   1.15,
 }
 
 # ---------------------------------------------------------------------------
@@ -96,7 +100,16 @@ SPLITS_BLEND_WEIGHT = 0.3
 
 # Projected batters-faced multiplier — calibrates the rate × min/IP-derived
 # BF estimate. <1 trims for blowouts/short outings/pulled starts; >1 inflates.
-BF_MULT = 0.88
+# 2026-05-12 4D sweep: 0.95 optimal (was 0.88 — tighter setting compensated
+# for the old 30% Kalman pull that's now removed). 1.00 nearly tied; 0.95
+# wins narrowly on both season ROI (+30.5%) and recent ROI (+15.2%).
+BF_MULT = 0.95
+
+# Hard ceiling on projected batters faced after BF_MULT. Acts as a league-wide
+# safety net on top of the per-pitcher pitch-count ceiling (see props_engine.py
+# avg_pc = min(avg_pc, max(recent_pcs))). Set high (e.g. 100.0) to effectively
+# disable.
+BF_CAP = 23.0
 
 # Season anchor: weight on season-to-date K% (vs. rolling-window K%) when
 # computing pitcher_k_rate.  Sweep (scripts.sweep_season_anchor) on 2026

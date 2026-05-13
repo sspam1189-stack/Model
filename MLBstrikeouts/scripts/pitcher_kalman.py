@@ -58,11 +58,17 @@ PITCHER_KALMAN_DEFAULTS = {
     # Minimum starts before Kalman state is used (cold start protection)
     "minGamesForKalman": 2,
 
-    # Blending: how much to trust Kalman mean vs. rolling average
-    # 0.0 = pure rolling average, 1.0 = pure Kalman
-    # We blend because Kalman is better for regime changes but rolling avg
-    # is more robust when sample size is small.
-    "kalmanBlend": 0.6,    # 60% Kalman, 40% rolling avg
+    # Blending: how much to trust Kalman mean vs. rolling average rate model.
+    # 0.0 = pure rolling average, 1.0 = pure Kalman.
+    # This is the single blend point. 4D sweep on 2026-05-12 walk-forward
+    # backfill (96 combos of BF x VAR x BLEND x CAP) found BLEND=0.0
+    # dominates every cohort — pure rate model outperforms any Kalman
+    # weight. With ~5-9 starts per pitcher in the 2026 window, the Kalman
+    # mean is too noisy and pulls projections away from the well-calibrated
+    # rate model. Kalman state continues updating (the `var` term still
+    # feeds projection std for spread), so re-enabling later by raising
+    # this knob requires no other changes.
+    "kalmanBlend": 0.0,
 }
 
 # ---------------------------------------------------------------------------

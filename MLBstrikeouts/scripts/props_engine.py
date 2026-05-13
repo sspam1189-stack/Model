@@ -366,8 +366,8 @@ def project_pitcher_props(pitcher_logs, team_batting_stats=None,
             whip = adv.get("WHIP", 0) or 1.20
             projected_bf = proj_ip * (3.0 + whip * 0.7)
 
-        from defaults import BF_MULT as _BF_MULT
-        projected_bf = min(projected_bf * _BF_MULT, 23.0)
+        from defaults import BF_MULT as _BF_MULT, BF_CAP as _BF_CAP
+        projected_bf = min(projected_bf * _BF_MULT, _BF_CAP)
         # Projected pitch count: prefer recent avg if we have it; otherwise
         # derive from final projected_bf × league-avg pitches/BF.
         proj_pc = avg_pc if avg_pc is not None else projected_bf * avg_ppbf
@@ -400,16 +400,17 @@ def project_pitcher_props(pitcher_logs, team_batting_stats=None,
         model_proj = expected_k_rate * projected_bf * k_weather_mult
 
         # --- Kalman blend ---
+        # One blend, one call. get_pitcher_projection returns the blended proj
+        # and the pitcher's Kalman variance in a single shot. The single knob
+        # is PITCHER_KALMAN_DEFAULTS["kalmanBlend"].
         kalman_key = KALMAN_STAT_KEYS.get(market)
-        kalman_proj, _ = _blend_with_kalman(
-            kalman_state, str(pid), kalman_key,
-            model_proj, rolling_std,
-        )
-        model_proj = 0.5 * model_proj + 0.5 * kalman_proj
-
-        _kp = get_pitcher_projection(kalman_state, str(pid),
-                                     kalman_key, rolling_avg=model_proj)
-        k_kalman_var = _kp.get("var", 0.0)
+        if kalman_state is not None and kalman_key is not None:
+            _kp = get_pitcher_projection(kalman_state, str(pid), kalman_key,
+                                         rolling_avg=model_proj)
+            model_proj = _kp["proj"]
+            k_kalman_var = _kp.get("var", 0.0)
+        else:
+            k_kalman_var = 0.0
 
         # Rest adjustment
         model_proj = _apply_rest_adjustment(model_proj, market, rest_days)
@@ -458,29 +459,6 @@ def project_pitcher_props(pitcher_logs, team_batting_stats=None,
 
     return projections
 
-
-# ---------------------------------------------------------------------------
-# Kalman blending
-# ---------------------------------------------------------------------------
-
-def _blend_with_kalman(kalman_state, pitcher_id, stat_key,
-                       rolling_avg, rolling_std):
-    if kalman_state is None or stat_key is None:
-        return rolling_avg, rolling_std
-
-    kp = get_pitcher_projection(kalman_state, pitcher_id, stat_key,
-                                rolling_avg=rolling_avg)
-
-    proj = kp["proj"]
-    kalman_var = kp["var"]
-
-    if kp["source"] in ("kalman_blend", "kalman_only"):
-        kalman_std = math.sqrt(kalman_var)
-        std = max(rolling_std, kalman_std)
-    else:
-        std = rolling_std
-
-    return proj, std
 
 
 # ---------------------------------------------------------------------------
