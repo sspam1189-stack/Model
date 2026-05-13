@@ -644,18 +644,25 @@
             // reverts the lockState.
             const statusConfirmed = prev.status === 'confirmed' || isConfirmed;
 
-            // Annotation: compute fresh from bucket diff only while UNCONFIRMED.
-            // Once confirmed, freeze whatever annotation was already attached.
-            // Any annotation that's ever been shown sticks (so an "(upgraded
-            // from lean)" tag from a 9am render is still on the row at 11pm).
+            // Track the bucket at first sight (when the row was unconfirmed)
+            // so we can detect upgrade/downgrade vs that initial bucket when
+            // confirmation eventually lands. Once an initialBucket is set, it
+            // stays put.
+            const initialBucket = prev.initialBucket || bucket;
+
+            // Annotation is shown ONLY after confirmation. Once the row
+            // confirms, we compute the annotation once (initial bucket vs
+            // current confirmed bucket) and freeze it. Unconfirmed rows show
+            // no annotation regardless of bucket changes during the day.
             let annotation = prev.annotation || '';
-            if (!statusConfirmed) {
-              const fresh = _annotationForDiff(prev.bucket, bucket);
+            if (statusConfirmed && !annotation) {
+              const fresh = _annotationForDiff(initialBucket, bucket);
               if (fresh) annotation = fresh;
             }
 
             _currentState[key] = {
               bucket,
+              initialBucket,
               status: statusConfirmed ? 'confirmed' : 'unconfirmed',
               annotation,
             };
