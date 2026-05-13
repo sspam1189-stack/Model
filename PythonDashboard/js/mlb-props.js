@@ -539,19 +539,21 @@
           const totalLeans = combine(BASELINE.leans.total, newLeans);
 
           // WEEKLY: if the weekly window is entirely at-or-before cutoff,
-          // show baseline weekly. Otherwise compute from new (post-cutoff) data.
+          // show baseline weekly. Otherwise compute from new (post-cutoff) data,
+          // and if the window straddles the cutoff date itself, fold in
+          // BASELINE.yesterday so the cutoff-day contribution isn't dropped.
           let wPicksTally, wLeansTally;
           if (weeklyEndStr <= BASELINE.cutoff) {
             wPicksTally = BASELINE.picks.weekly;
             wLeansTally = BASELINE.leans.weekly;
           } else {
             const inWeek = (d) => d && d >= weeklyStartStr && d <= weeklyEndStr;
-            // Only count post-cutoff entries; pre-cutoff weekly contribution
-            // is implicit in baseline (but baseline weekly only covers ONE
-            // specific past week — if weeklyEnd > cutoff, that's a new
-            // window and baseline-weekly doesn't apply).
-            wPicksTally = combine({w:0,l:0,u:0}, newPicks.filter(p => inWeek(p.date)));
-            wLeansTally = combine({w:0,l:0,u:0}, newLeans.filter(p => inWeek(p.date)));
+            const cutoffInWeek = BASELINE.cutoff >= weeklyStartStr
+                                 && BASELINE.cutoff <= weeklyEndStr;
+            const pBase = cutoffInWeek ? BASELINE.picks.yesterday : {w:0,l:0,u:0};
+            const lBase = cutoffInWeek ? BASELINE.leans.yesterday : {w:0,l:0,u:0};
+            wPicksTally = combine(pBase, newPicks.filter(p => inWeek(p.date)));
+            wLeansTally = combine(lBase, newLeans.filter(p => inWeek(p.date)));
           }
 
           // YESTERDAY: use baseline if yesterday == cutoff, else compute fresh
