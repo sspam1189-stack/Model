@@ -466,16 +466,16 @@
           // tallies — matches what's been posted on Reddit. Dates AFTER cutoff
           // come from the live mlb-props.json and accumulate automatically.
           const BASELINE = {
-            cutoff: '2026-05-10',
+            cutoff: '2026-05-11',
             picks: {
-              total:    { w: 77, l: 66, u: -1.48 },
-              weekly:   { w: 16, l: 12, u:  0.22 },  // 5/4–5/10
-              yesterday:{ w:  1, l:  2, u: -2.12 },  // 5/10
+              total:    { w: 79, l: 66, u:  0.52 },
+              weekly:   { w:  2, l:  0, u:  2.00 },  // 5/11–5/11
+              yesterday:{ w:  2, l:  0, u:  2.00 },  // 5/11
             },
             leans: {
-              total:    { w: 24, l: 13, u:  7.52 },
-              weekly:   { w: 24, l: 13, u:  7.52 },  // 5/4–5/10
-              yesterday:{ w:  2, l:  2, u: -0.66 },  // 5/10
+              total:    { w: 25, l: 15, u:  5.48 },
+              weekly:   { w:  1, l:  2, u: -2.04 },  // 5/11–5/11
+              yesterday:{ w:  1, l:  2, u: -2.04 },  // 5/11
             },
           };
 
