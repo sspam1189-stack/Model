@@ -1226,7 +1226,7 @@
               if (i===4) td.style.color = '#bbb'; // PC
               if (i===5 && p.line!=null) td.style.color = p.proj > p.line ? 'var(--green)' : p.proj < p.line ? 'var(--red)' : '';
               if (i===7 && edge!=null) td.style.color = edge > 0 ? 'var(--green)' : edge < 0 ? 'var(--red)' : '#999';
-              if (i===8 && p.pCover!=null) td.style.color = p.pCover >= 0.70 ? 'var(--green)' : p.pCover >= 0.65 ? 'var(--yellow)' : p.pCover <= 0.45 ? 'var(--red)' : '#ccc';
+              if (i===8 && p.pCover!=null) td.style.color = p.pCover >= 0.72 ? 'var(--green)' : p.pCover >= 0.65 ? 'var(--yellow)' : p.pCover <= 0.45 ? 'var(--red)' : '#ccc';
               if (i===9 && isPick) { td.style.fontWeight='700'; td.style.color = p.pick==='OVER'?'var(--green)':'var(--red)'; }
               if (i===10) td.style.color = '#999';
               if (i===11) {
@@ -1305,12 +1305,29 @@
 
       let mlbView = 'all'; // 'all' | 'weekly' | 'all-lean' | 'weekly-lean' | 'all-combined'
 
-      // Watchlist leans (pick=PASS):
-      //   UNDER pCover 0.60-0.70  — calibrated profitable (~70% WR)
-      //   OVER  pCover 0.65-0.70  — profitable under current model (~64% WR)
+      // Watchlist leans (pick=PASS) — DATE-AWARE filter so historical entries
+      // keep the lean classification they had when originally posted, and new
+      // entries use the current unified band.
+      //
+      //   Before 2026-05-13 (old config — threshold 0.70, asymmetric lean):
+      //     UNDER  0.60 <= pCover < 0.70
+      //     OVER   0.65 <= pCover < 0.70
+      //   2026-05-13 and after (new config — threshold 0.72, unified lean):
+      //     both   0.65 <= pCover < 0.72
+      //
+      // This preserves the visual history of past lean performance while
+      // applying the new band going forward. The Reddit widget's isLean()
+      // (line 185) uses 0.65-0.72 for all dates because the user's Reddit
+      // posts have always tracked that band — those tallies don't change.
+      const LEAN_CONFIG_CUTOFF = '2026-05-13';
       const leanPicks = (data.props || []).filter(p => {
         if (p.pick !== 'PASS') return false;
         const pc = p.pCover || 0;
+        const isNewConfig = (p.date || '') >= LEAN_CONFIG_CUTOFF;
+        if (isNewConfig) {
+          return pc >= 0.65 && pc < 0.72;
+        }
+        // Pre-cutoff: old asymmetric band
         if (p.would_be_pick === 'UNDER') return pc >= 0.60 && pc < 0.70;
         if (p.would_be_pick === 'OVER')  return pc >= 0.65 && pc < 0.70;
         return false;
