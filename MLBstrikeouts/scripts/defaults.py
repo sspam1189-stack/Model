@@ -106,10 +106,13 @@ SPLITS_BLEND_WEIGHT = 0.0
 
 # Projected batters-faced multiplier — calibrates the rate × min/IP-derived
 # BF estimate. <1 trims for blowouts/short outings/pulled starts; >1 inflates.
-# 2026-05-12 4D sweep: 0.95 optimal (was 0.88 — tighter setting compensated
-# for the old 30% Kalman pull that's now removed). 1.00 nearly tied; 0.95
-# wins narrowly on both season ROI (+30.5%) and recent ROI (+15.2%).
-BF_MULT = 0.95
+# 2026-05-13 retune (props_engine BF formula now uses real `bf` field instead
+# of outs+h+bb+1 reconstruction). Under clean formula + per-pitcher K cap,
+# MULT=1.05 optimal: 128-34 (79.0%) +173.56u, elite +58.14u vs current +40.24u.
+# Old formula under-counted ppbf (3.71 vs real 3.92), and MULT=0.95 was
+# empirically compensating. With clean inputs, MULT needs to come up to 1.05
+# to restore the optimal effective BF projection.
+BF_MULT = 1.05
 
 # Hard ceiling on projected batters faced after BF_MULT. Acts as a league-wide
 # safety net on top of the per-pitcher pitch-count ceiling (see props_engine.py

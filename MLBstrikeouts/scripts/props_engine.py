@@ -321,16 +321,23 @@ def project_pitcher_props(pitcher_logs, team_batting_stats=None,
 
         lg_k_rate = league_avg.get("K_PCT", 0.22) or 0.22
         expected_k_rate = (pitcher_k_rate * lineup_k_rate) / lg_k_rate
-        # Cap at 0.36 — 2026-05-13 sweep (scripts.sweep_krate_cap): the
-        # multiplicative pitcher_k × lineup_k / lg_k stack overshoots at the
-        # top of the distribution (proj>=8 K/BF +0.047 vs actual). Cap at 0.36
-        # cut that bias in half (+0.023) and lifted overall WR 76.9% -> 78.5%
-        # (+0.9u season) without touching the well-calibrated proj<6 bucket.
-        # Above 0.40 the cap never binds; below 0.32 starts clipping legit
-        # elite matchups.
-        expected_k_rate = max(0.05, min(0.36, expected_k_rate))
+        # Per-pitcher K-rate cap — uses the higher of a fixed 0.36 floor or
+        # the pitcher's season K rate. The floor protects matchup-driven
+        # K rate boosts (lineup × weather adjustments) for mid-tier pitchers;
+        # the per-pitcher arm lets elite K guys project up to their proven
+        # ceiling. 2026-05-13 2D sweep (floor × headroom): floor=0.36 +
+        # headroom=1.00 optimal — 161 picks, 79.5% WR, +41.5% ROI, +175.56u
+        # (vs flat 0.36 cap which was 162 picks 79.0% WR +40.8% ROI).
+        _k_cap_used = max(0.36, overall_k_pct)
+        expected_k_rate = max(0.05, min(_k_cap_used, expected_k_rate))
 
         # --- Projected batters faced ---
+        # Use the real `bf` field from game logs when available (true MLB
+        # battersFaced count). Fall back to reconstruction (outs + h + bb + 1)
+        # only when bf is missing. The old reconstruction over-counted by
+        # ~1.2 BF per game (the +1 always fires, HBP/SF/SH/ROE missed), which
+        # pulled avg_ppbf down to 3.71 vs the real 3.92 — and BF_MULT=0.95
+        # was empirically compensating for that bias.
         game_bfs = []
         game_pcs = []
         game_ppbfs = []
@@ -339,7 +346,7 @@ def project_pitcher_props(pitcher_logs, team_batting_stats=None,
             _h = g.get("h", 0)
             _bb = g.get("bb", 0)
             _pc = g.get("pitches", 0)
-            _bf = _outs + _h + _bb + 1
+            _bf = g.get("bf", 0) or (_outs + _h + _bb + 1)
             if _bf > 0 and _pc > 0:
                 game_bfs.append(_bf)
                 game_pcs.append(_pc)
