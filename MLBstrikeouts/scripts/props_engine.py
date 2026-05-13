@@ -381,7 +381,18 @@ def project_pitcher_props(pitcher_logs, team_batting_stats=None,
             projected_bf = proj_ip * (3.0 + whip * 0.7)
 
         from defaults import BF_MULT as _BF_MULT, BF_CAP as _BF_CAP
-        projected_bf = min(projected_bf * _BF_MULT, _BF_CAP)
+        # Display vs model BF — two values are tracked here:
+        #   projected_bf_display = natural projection after BF_MULT only
+        #     (uncapped). This is what we show on the dashboard so users see
+        #     each pitcher's true expected depth (e.g. Cease 25, Imanaga 26).
+        #   projected_bf       = capped at BF_CAP=23, used as input to the K
+        #     projection K = expected_k_rate × projected_bf. The cap is kept
+        #     because empirical sweeps (2026-05-13, scripts.sweep_combined_caps)
+        #     showed loosening it adds borderline picks that degrade WR and
+        #     trashes the lean band (cap=25 dropped lean WR 67% -> 60%, combined
+        #     ROI -8.7pp). So we cap the K math but show real depth in UI.
+        projected_bf_display = projected_bf * _BF_MULT
+        projected_bf = min(projected_bf_display, _BF_CAP)
         # Projected pitch count: prefer recent avg if we have it; otherwise
         # derive from final projected_bf × league-avg pitches/BF.
         proj_pc = avg_pc if avg_pc is not None else projected_bf * avg_ppbf
@@ -448,7 +459,8 @@ def project_pitcher_props(pitcher_logs, team_batting_stats=None,
         std = math.sqrt(std**2 + k_model_var)
 
         prop = _make_prop(name, team, market, proj, std, line_lookup, latest_opp,
-                          proj_ip=proj_ip, proj_bf=projected_bf, proj_pc=proj_pc)
+                          proj_ip=proj_ip, proj_bf=projected_bf_display, proj_pc=proj_pc,
+                          proj_bf_capped=projected_bf)
         if prop:
             projections.append(prop)
 
@@ -530,7 +542,7 @@ def _to_win_1u(price):
 
 
 def _make_prop(name, team, market, proj, std, line_lookup, opp,
-               proj_ip=None, proj_bf=None, proj_pc=None):
+               proj_ip=None, proj_bf=None, proj_pc=None, proj_bf_capped=None):
     nk = _name_key(name)
     line_key = (nk[0], nk[1], market)
     line_data = line_lookup.get(line_key)
@@ -558,7 +570,12 @@ def _make_prop(name, team, market, proj, std, line_lookup, opp,
         "pCover": None,
         "conf": "low",
         "proj_ip": round(proj_ip, 1) if proj_ip is not None else None,
+        # proj_bf is the DISPLAY value (uncapped natural projection) — what
+        # users see on the dashboard. proj_bf_capped is the value that
+        # actually drove the K projection (BF_CAP=23 enforced). They differ
+        # only for elite-K starters whose natural BF exceeds 23.
         "proj_bf": round(proj_bf, 1) if proj_bf is not None else None,
+        "proj_bf_capped": round(proj_bf_capped, 1) if proj_bf_capped is not None else None,
         "proj_pc": round(proj_pc, 0) if proj_pc is not None else None,
     }
 
