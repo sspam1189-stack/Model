@@ -381,16 +381,16 @@ def project_pitcher_props(pitcher_logs, team_batting_stats=None,
             projected_bf = proj_ip * (3.0 + whip * 0.7)
 
         from defaults import BF_MULT as _BF_MULT, BF_CAP as _BF_CAP
-        # Display vs model BF — two values are tracked here:
-        #   projected_bf_display = natural projection after BF_MULT only
-        #     (uncapped). This is what we show on the dashboard so users see
-        #     each pitcher's true expected depth (e.g. Cease 25, Imanaga 26).
-        #   projected_bf       = capped at BF_CAP=23, used as input to the K
-        #     projection K = expected_k_rate × projected_bf. The cap is kept
-        #     because empirical sweeps (2026-05-13, scripts.sweep_combined_caps)
-        #     showed loosening it adds borderline picks that degrade WR and
-        #     trashes the lean band (cap=25 dropped lean WR 67% -> 60%, combined
-        #     ROI -8.7pp). So we cap the K math but show real depth in UI.
+        # SHOW REAL PROJECTED BF, BUT CAP IT FOR THE K MATH.
+        # We display each pitcher's natural BF projection (after BF_MULT only)
+        # so the dashboard shows real expected depth — Cease 25.6, Ohtani 27.4,
+        # Skenes 25.8, etc. — instead of clamping every elite starter to 23.
+        # The K projection itself still uses the capped value because BF_CAP=23
+        # is the empirical optimum: every sweep (2026-05-13, sweep_combined_caps)
+        # confirmed that loosening it adds borderline picks that drag WR down
+        # and break the lean band. So:
+        #     projected_bf_display = real expected BF (what users see)
+        #     projected_bf         = min(real, 23) used in K = rate × BF
         projected_bf_display = projected_bf * _BF_MULT
         projected_bf = min(projected_bf_display, _BF_CAP)
         # Projected pitch count: prefer recent avg if we have it; otherwise
@@ -570,10 +570,11 @@ def _make_prop(name, team, market, proj, std, line_lookup, opp,
         "pCover": None,
         "conf": "low",
         "proj_ip": round(proj_ip, 1) if proj_ip is not None else None,
-        # proj_bf is the DISPLAY value (uncapped natural projection) — what
-        # users see on the dashboard. proj_bf_capped is the value that
-        # actually drove the K projection (BF_CAP=23 enforced). They differ
-        # only for elite-K starters whose natural BF exceeds 23.
+        # proj_bf shows the REAL natural BF projection on the dashboard, but
+        # the K math behind the projection uses proj_bf_capped (min with
+        # BF_CAP=23). Cap=23 was the ideal config from the unit/ROI sweeps;
+        # display gets the uncapped number so elite-K starters' true depth
+        # (Cease 25-26, Ohtani 27+, Skenes 26) is visible to users.
         "proj_bf": round(proj_bf, 1) if proj_bf is not None else None,
         "proj_bf_capped": round(proj_bf_capped, 1) if proj_bf_capped is not None else None,
         "proj_pc": round(proj_pc, 0) if proj_pc is not None else None,
