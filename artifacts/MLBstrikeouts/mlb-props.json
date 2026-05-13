@@ -4,7 +4,7 @@
   "season": "2026",
   "mode": "live",
   "model": "kalman_blend",
-  "generated": "2026-05-13T17:38:08.248696",
+  "generated": "2026-05-13T18:00:51.633582",
   "totalProjections": 27,
   "totalPicks": 441,
   "totalWatchlist": 13,
@@ -11071,7 +11071,7 @@
       "to_win_1u": 1.2,
       "would_be_pick": "OVER",
       "date": "2026-05-13",
-      "lockState": "lineup_confirmed",
+      "lockState": "game_started",
       "lockedAt": "2026-05-13T19:04:39.036973Z"
     },
     {
@@ -11119,7 +11119,7 @@
       "odds": -124,
       "to_win_1u": 1.24,
       "date": "2026-05-13",
-      "lockState": "lineup_confirmed",
+      "lockState": "game_started",
       "lockedAt": "2026-05-13T19:57:24.746372Z"
     },
     {
@@ -11536,7 +11536,7 @@
       "odds": -128,
       "to_win_1u": 1.28,
       "date": "2026-05-13",
-      "lockState": "lineup_confirmed",
+      "lockState": "game_started",
       "lockedAt": "2026-05-13T19:04:39.036973Z"
     },
     {
@@ -11582,7 +11582,7 @@
       "odds": -158,
       "to_win_1u": 1.58,
       "date": "2026-05-13",
-      "lockState": "lineup_confirmed",
+      "lockState": "game_started",
       "lockedAt": "2026-05-13T19:04:39.036973Z"
     },
     {
@@ -11605,7 +11605,7 @@
       "odds": 106,
       "to_win_1u": 0.94,
       "date": "2026-05-13",
-      "lockState": "lineup_confirmed",
+      "lockState": "game_started",
       "lockedAt": "2026-05-13T19:04:39.036973Z"
     },
     {
@@ -11651,7 +11651,7 @@
       "odds": -120,
       "to_win_1u": 1.2,
       "date": "2026-05-13",
-      "lockState": "lineup_confirmed",
+      "lockState": "game_started",
       "lockedAt": "2026-05-13T19:04:39.036973Z"
     },
     {
@@ -11675,7 +11675,7 @@
       "odds": -124,
       "to_win_1u": 1.24,
       "date": "2026-05-13",
-      "lockState": "lineup_confirmed",
+      "lockState": "game_started",
       "lockedAt": "2026-05-13T19:57:24.746372Z"
     },
     {
@@ -12100,18 +12100,18 @@
     "NYY": "Final",
     "CLE": "Final",
     "LAA": "Final",
-    "CIN": "Warmup",
-    "WSH": "Warmup",
-    "PIT": "Warmup",
-    "COL": "Warmup",
-    "BOS": "Warmup",
-    "PHI": "Warmup",
-    "TOR": "Pre-Game",
-    "TB": "Pre-Game",
-    "NYM": "Pre-Game",
-    "DET": "Pre-Game",
-    "ATL": "Pre-Game",
-    "CHC": "Pre-Game",
+    "CIN": "In Progress",
+    "WSH": "In Progress",
+    "PIT": "Delayed Start",
+    "COL": "Delayed Start",
+    "BOS": "In Progress",
+    "PHI": "In Progress",
+    "TOR": "Warmup",
+    "TB": "Warmup",
+    "NYM": "Warmup",
+    "DET": "Warmup",
+    "ATL": "Warmup",
+    "CHC": "Warmup",
     "CWS": "Pre-Game",
     "KC": "Pre-Game",
     "MIN": "Pre-Game",
