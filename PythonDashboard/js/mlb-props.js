@@ -168,8 +168,11 @@
       (function renderMLBDailyCards() {
         const allDates = [...new Set(picks.map(p => p.date))].sort();
         const latestPickDate = allDates[allDates.length - 1] || '';
-        const todayStr = latestPickDate;
-        const yest = new Date(latestPickDate + 'T12:00:00');
+        // Anchor on data.date (today's slate) so zero-pick days still advance
+        // the card — falling back to the most recent non-PASS date only if
+        // the payload omits it.
+        const todayStr = data.date || latestPickDate;
+        const yest = new Date(todayStr + 'T12:00:00');
         yest.setDate(yest.getDate() - 1);
         const yesterdayStr = yest.toISOString().slice(0, 10);
 
@@ -974,6 +977,20 @@
             todayCard.appendChild(lTbl);
             fitMLBTableToContainer(lTbl);
           }
+          el.appendChild(todayCard);
+        } else {
+          const todayCard = document.createElement('div');
+          todayCard.className = 'card card-picks';
+          todayCard.style.marginBottom = '16px';
+          todayCard.appendChild(Object.assign(document.createElement('div'), {
+            className: 'card-title',
+            textContent: `Today’s Picks (${todayStr})`
+          }));
+          const empty = document.createElement('div');
+          empty.className = 'no-picks';
+          empty.style.cssText = 'padding:12px;color:#888;font-style:italic;font-size:13px';
+          empty.textContent = 'No picks or leans for today.';
+          todayCard.appendChild(empty);
           el.appendChild(todayCard);
         }
       })();
@@ -2107,8 +2124,9 @@
       (function renderBatterDailyCards() {
         const allDates = [...new Set(picks.map(p => p.date))].sort();
         const latestPickDate = allDates[allDates.length - 1] || '';
-        const todayStr = latestPickDate;
-        const yest = new Date(latestPickDate + 'T12:00:00');
+        // Anchor on data.date so zero-pick days still advance the card.
+        const todayStr = data.date || latestPickDate;
+        const yest = new Date(todayStr + 'T12:00:00');
         yest.setDate(yest.getDate() - 1);
         const yesterdayStr = yest.toISOString().slice(0, 10);
 
@@ -2283,6 +2301,20 @@
             });
           }
           todayCard.appendChild(tbl);
+          el.appendChild(todayCard);
+        } else {
+          const todayCard = document.createElement('div');
+          todayCard.className = 'card card-picks';
+          todayCard.style.marginBottom = '16px';
+          todayCard.appendChild(Object.assign(document.createElement('div'), {
+            className: 'card-title',
+            textContent: `Today’s Picks (${todayStr})`
+          }));
+          const empty = document.createElement('div');
+          empty.className = 'no-picks';
+          empty.style.cssText = 'padding:12px;color:#888;font-style:italic;font-size:13px';
+          empty.textContent = 'No picks for today.';
+          todayCard.appendChild(empty);
           el.appendChild(todayCard);
         }
       })();
