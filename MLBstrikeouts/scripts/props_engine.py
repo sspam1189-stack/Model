@@ -464,8 +464,10 @@ def project_pitcher_props(pitcher_logs, team_batting_stats=None,
         else:
             std = max(rolling_std, emp_std * 0.5)
 
-        k_model_var = k_kalman_var * 0.5
-        std = math.sqrt(std**2 + k_model_var)
+        # Kalman variance contribution dropped 2026-05-14 (5D sweep showed
+        # VAR_MULT=1.40 with no Kalman var beats VAR_MULT=1.15 with Kalman
+        # var on by ~2.4pp ROI / +1pp WR season). kalmanBlend is also 0.0,
+        # so the Kalman state is now unused for strikeouts projections.
 
         prop = _make_prop(name, team, market, proj, std, line_lookup, latest_opp,
                           proj_ip=proj_ip, proj_bf=projected_bf_display, proj_pc=proj_pc,
