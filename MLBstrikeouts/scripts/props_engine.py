@@ -137,7 +137,7 @@ def project_pitcher_props(pitcher_logs, team_batting_stats=None,
                           pitcher_splits=None, probable_pitchers=None,
                           injury_report=None, weather_by_game=None,
                           batter_k_rates=None, lineup_data=None,
-                          savant_rates=None):
+                          savant_rates=None, empirical_std=None):
     """
     Project pitcher strikeouts props for all pitchers with sufficient game logs.
     """
@@ -321,15 +321,13 @@ def project_pitcher_props(pitcher_logs, team_batting_stats=None,
 
         lg_k_rate = league_avg.get("K_PCT", 0.22) or 0.22
         expected_k_rate = (pitcher_k_rate * lineup_k_rate) / lg_k_rate
-        # Per-pitcher K-rate cap — uses the higher of a fixed 0.36 floor or
-        # the pitcher's season K rate. The floor protects matchup-driven
-        # K rate boosts (lineup × weather adjustments) for mid-tier pitchers;
-        # the per-pitcher arm lets elite K guys project up to their proven
-        # ceiling. 2026-05-13 2D sweep (floor × headroom): floor=0.36 +
-        # headroom=1.00 optimal — 161 picks, 79.5% WR, +41.5% ROI, +175.56u
-        # (vs flat 0.36 cap which was 162 picks 79.0% WR +40.8% ROI).
-        _k_cap_used = max(0.36, overall_k_pct)
-        expected_k_rate = max(0.05, min(_k_cap_used, expected_k_rate))
+        # Per-pitcher K-rate cap — see defaults.K_RATE_CAP_FLOOR for sweep
+        # rationale. cap = max(floor, season K%): mid-tier pitchers can't
+        # exceed the floor on matchup boosts; elite K arms get their own
+        # proven ceiling.
+        from defaults import K_RATE_CAP_FLOOR, K_RATE_FLOOR
+        _k_cap_used = max(K_RATE_CAP_FLOOR, overall_k_pct)
+        expected_k_rate = max(K_RATE_FLOOR, min(_k_cap_used, expected_k_rate))
 
         # --- Projected batters faced ---
         # Use the real `bf` field from game logs when available (true MLB
@@ -406,8 +404,12 @@ def project_pitcher_props(pitcher_logs, team_batting_stats=None,
         # below the model's 1.6 K MAE noise floor. Wind data is still
         # captured in the weather cache for future hits/HR markets; see
         # weather.py:WIND_PARK_FACTOR for the per-park multipliers.
+        from defaults import (
+            WEATHER_K_COLD_TEMP_F, WEATHER_K_HOT_TEMP_F,
+            WEATHER_K_COLD_BONUS, WEATHER_K_HOT_PENALTY,
+        )
         k_weather_mult = 1.0
-        if weather_by_game:
+        if weather_by_game and (WEATHER_K_COLD_BONUS or WEATHER_K_HOT_PENALTY):
             _game_id = ctx.get("game_id")
             if _game_id:
                 w_data = (weather_by_game.get(_game_id)
@@ -417,10 +419,10 @@ def project_pitcher_props(pitcher_logs, team_batting_stats=None,
                     _temp_m = _re.search(r"(\d+)", str(w_data.get("temp", "")))
                     if _temp_m:
                         _temp = int(_temp_m.group(1))
-                        if _temp <= 50:
-                            k_weather_mult += 0.02
-                        elif _temp >= 90:
-                            k_weather_mult -= 0.01
+                        if _temp <= WEATHER_K_COLD_TEMP_F:
+                            k_weather_mult += WEATHER_K_COLD_BONUS
+                        elif _temp >= WEATHER_K_HOT_TEMP_F:
+                            k_weather_mult -= WEATHER_K_HOT_PENALTY
 
         model_proj = expected_k_rate * projected_bf * k_weather_mult
 
@@ -443,8 +445,12 @@ def project_pitcher_props(pitcher_logs, team_batting_stats=None,
         proj = model_proj
 
         # --- Empirical std ---
-        EMPIRICAL_STD = {"strikeouts": 1.9}
-        emp_std = EMPIRICAL_STD.get(market, 2.0)
+        # Prefer runtime-calibrated empirical_std (computed from graded
+        # population in run_daily.py); fall back to DEFAULT_EMPIRICAL_STD
+        # when the caller didn't supply one or the market isn't in it.
+        from defaults import DEFAULT_EMPIRICAL_STD
+        _emp_src = empirical_std if (empirical_std and market in empirical_std) else DEFAULT_EMPIRICAL_STD
+        emp_std = _emp_src.get(market, 2.0)
 
         if n_games <= 3:
             std = emp_std

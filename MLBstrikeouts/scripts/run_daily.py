@@ -102,6 +102,61 @@ def _is_game_postponed(team_abbr, game_date):
     return False
 
 
+def compute_empirical_std_from_graded():
+    """
+    Compute league-level residual std (actual - proj) per market from
+    graded entries in the most recent mlb-props.json. Uses both `props`
+    (picks) and `todayProjections` (which can include graded PASS/watch
+    after grading), giving a less selection-biased sample than picks-only.
+
+    Returns dict like {"strikeouts": 2.23} or {} when sample is too small
+    (caller falls back to DEFAULT_EMPIRICAL_STD).
+    """
+    import math
+    from defaults import EMPIRICAL_STD_MIN_SAMPLE
+
+    candidate_paths = [
+        os.path.join(SCRIPT_DIR, "..", "data", "mlb-props.json"),
+        os.path.join(SCRIPT_DIR, "..", "..", "PythonDashboard", "data", "mlb-props.json"),
+    ]
+    data = None
+    for path in candidate_paths:
+        path = os.path.normpath(path)
+        if not os.path.exists(path):
+            continue
+        try:
+            with open(path, "r") as f:
+                data = json.load(f)
+            break
+        except Exception:
+            continue
+    if not data:
+        return {}
+
+    sources = list(data.get("props") or []) + list(data.get("todayProjections") or [])
+    by_market = {}
+    for p in sources:
+        mkt = p.get("market")
+        actual = p.get("actual")
+        proj = p.get("proj")
+        if mkt is None or actual is None or proj is None:
+            continue
+        try:
+            resid = float(actual) - float(proj)
+        except (TypeError, ValueError):
+            continue
+        by_market.setdefault(mkt, []).append(resid)
+
+    out = {}
+    for mkt, residuals in by_market.items():
+        if len(residuals) < EMPIRICAL_STD_MIN_SAMPLE:
+            continue
+        mean = sum(residuals) / len(residuals)
+        var = sum((r - mean) ** 2 for r in residuals) / len(residuals)
+        out[mkt] = math.sqrt(var)
+    return out
+
+
 def grade_previous_picks(season=None):
     """Grade ungraded picks from previous dates using actual game logs."""
     from collections import defaultdict
@@ -565,6 +620,18 @@ def run_daily(date_key=None):
 
     # Stage 13: Project pitcher props
     print(f"\n  [13/15] Projecting pitcher strikeouts (Kalman + advanced stats)...")
+    # Runtime-calibrate empirical std from the previous mlb-props.json's
+    # graded entries. Falls back to DEFAULT_EMPIRICAL_STD inside the
+    # engine when a market has <50 graded samples (cold-start safety).
+    runtime_emp_std = compute_empirical_std_from_graded()
+    if runtime_emp_std:
+        from defaults import DEFAULT_EMPIRICAL_STD
+        for mkt, val in runtime_emp_std.items():
+            default_val = DEFAULT_EMPIRICAL_STD.get(mkt, "n/a")
+            print(f"  [empirical_std] {mkt}: calibrated={val:.3f} "
+                  f"(default {default_val})")
+    else:
+        print(f"  [empirical_std] insufficient graded sample — using defaults")
     projections = project_pitcher_props(
         pitcher_logs,
         team_batting_stats=team_batting,
@@ -579,6 +646,7 @@ def run_daily(date_key=None):
         batter_k_rates=batter_k_rates,
         lineup_data=lineup_data,
         savant_rates=savant_rates,
+        empirical_std=runtime_emp_std or None,
     )
     picks = [p for p in projections if p["pick"] != "PASS"]
     print(f"  {len(projections)} projections, {len(picks)} actionable picks")

@@ -94,7 +94,8 @@ UNDER_ONLY_MARKETS = set()
 # 1.0 = 100% recent  |  0.0 = 100% season
 #
 # 2026-05-13 deep analysis (scripts.analyze_splits_value): the recent signal
-# is doing almost nothing under the current config (cap=0.36, kalmanBlend=0).
+# is doing almost nothing under the current config (K_RATE_CAP_FLOOR=0.36,
+# kalmanBlend=0).
 #   * Mean abs change in projected K between w=0.0 and w=0.3: only 0.09 K
 #   * Only 0.5% of projections shift by >0.5K; 0% shift by >1K
 #   * Recent panel (5/05+): IDENTICAL picks/leans across all weights — rolling
@@ -119,6 +120,57 @@ BF_MULT = 1.05
 # avg_pc = min(avg_pc, max(recent_pcs))). Set high (e.g. 100.0) to effectively
 # disable.
 BF_CAP = 23.0
+
+# Per-pitcher K-rate cap floor — applied as max(K_RATE_CAP_FLOOR, season K%)
+# in props_engine.py. The matchup-driven expected_k_rate
+# (pitcher_k × lineup_k / lg_k) is then clamped to that per-pitcher cap, so:
+#   * Mid-tier pitchers (season K% < floor) can project up to the floor
+#     but no further, even with elite matchups.
+#   * Elite K pitchers (season K% > floor) get their proven ceiling.
+# 2026-05-13 2D sweep (floor × headroom): floor=0.36 + headroom=1.00 optimal —
+# 161 picks, 79.5% WR, +41.5% ROI, +175.56u (vs flat 0.36 cap which was
+# 162 picks 79.0% WR +40.8% ROI).
+K_RATE_CAP_FLOOR = 0.36
+
+# Hard floor on expected_k_rate after the per-pitcher cap. Prevents
+# nonsensical near-zero K-rate projections from degenerate inputs (e.g.
+# missing recent starts blended into a 0% rate).
+K_RATE_FLOOR = 0.05
+
+# Weather K-rate multiplier — applied as `k_weather_mult = 1.0 + bonus/penalty`
+# when game temperature crosses the cold/hot thresholds. Original 4/15 ship
+# (commit 20a55c6f) used +0.02 cold / -0.01 hot on the "bat speed vs grip"
+# thesis, but never had an isolated sweep. Magnitude (max ±0.12 K on a 6 K
+# proj) is ~13× smaller than the model's 1.6 K MAE noise floor, so the
+# effect can't be detected in WR. Set to 0 by 2026-05-14 to neutralize a
+# probably-noise adjustment. Knobs remain so a future sweep can re-enable.
+WEATHER_K_COLD_TEMP_F = 50      # °F threshold — at or below = "cold"
+WEATHER_K_HOT_TEMP_F = 90       # °F threshold — at or above = "hot"
+WEATHER_K_COLD_BONUS = 0.0      # was +0.02
+WEATHER_K_HOT_PENALTY = 0.0     # was -0.01
+
+# Empirical residual std per market — league-level "before I know this
+# pitcher" anchor used when a pitcher has <= 3 starts (rolling_std unstable).
+# These defaults are cold-start fallbacks; runtime calibration in
+# run_daily.py overrides them when the graded sample is large enough.
+#
+# History:
+#   * 2026-04-15 (71dde197): shipped K=1.9 from first ~14 K picks of 2026.
+#   * 2026-05-14: 440 graded K picks → selection-biased residual std 2.225.
+#     True population std estimate ~1.95-2.10 (picks are conviction-skewed
+#     so picks-only std runs hot). Bumped K to 2.1 as a midpoint estimate;
+#     runtime calibration in run_daily.py refines further once 50+ graded
+#     entries land per market.
+DEFAULT_EMPIRICAL_STD = {
+    "strikeouts":   2.1,
+    "outs":         2.4,
+    "hits_allowed": 1.9,
+}
+
+# Minimum graded sample required before runtime-calibrated empirical std
+# overrides DEFAULT_EMPIRICAL_STD. Below this, use the default (avoid
+# noisy std estimates from sub-50 graded entries).
+EMPIRICAL_STD_MIN_SAMPLE = 50
 
 # Season anchor: weight on season-to-date K% (vs. rolling-window K%) when
 # computing pitcher_k_rate.  Sweep (scripts.sweep_season_anchor) on 2026
