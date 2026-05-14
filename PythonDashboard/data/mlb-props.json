@@ -4,7 +4,7 @@
   "season": "2026",
   "mode": "live",
   "model": "kalman_blend",
-  "generated": "2026-05-14T11:40:25.209349",
+  "generated": "2026-05-14T13:31:19.443496",
   "totalProjections": 17,
   "totalPicks": 449,
   "totalWatchlist": 7,
@@ -11526,7 +11526,7 @@
       "odds": -146,
       "to_win_1u": 1.46,
       "date": "2026-05-14",
-      "lockState": "lineup_confirmed",
+      "lockState": "game_started",
       "lockedAt": "2026-05-14T14:51:46.213907Z"
     },
     {
@@ -11551,7 +11551,7 @@
       "to_win_1u": 1.2,
       "would_be_pick": "OVER",
       "date": "2026-05-14",
-      "lockState": "lineup_confirmed",
+      "lockState": "game_started",
       "lockedAt": "2026-05-14T14:51:46.213907Z"
     },
     {
@@ -11576,7 +11576,7 @@
       "to_win_1u": 1.4,
       "would_be_pick": "OVER",
       "date": "2026-05-14",
-      "lockState": "lineup_confirmed",
+      "lockState": "game_started",
       "lockedAt": "2026-05-14T15:29:36.103413Z"
     },
     {
@@ -11601,7 +11601,7 @@
       "to_win_1u": 1.78,
       "would_be_pick": "OVER",
       "date": "2026-05-14",
-      "lockState": "lineup_confirmed",
+      "lockState": "game_started",
       "lockedAt": "2026-05-14T15:29:36.103413Z"
     },
     {
@@ -11626,7 +11626,7 @@
       "to_win_1u": 1.02,
       "would_be_pick": "OVER",
       "date": "2026-05-14",
-      "lockState": "lineup_confirmed",
+      "lockState": "game_started",
       "lockedAt": "2026-05-14T15:29:36.103413Z"
     },
     {
@@ -11641,7 +11641,7 @@
       "under_price": 106,
       "pick": "PASS",
       "edge": 0.8,
-      "pCover": 0.606,
+      "pCover": 0.607,
       "conf": "watch",
       "proj_ip": 5.4,
       "proj_bf": 22.6,
@@ -11691,7 +11691,7 @@
       "under_price": -140,
       "pick": "PASS",
       "edge": 1.0,
-      "pCover": 0.705,
+      "pCover": 0.706,
       "conf": "watch",
       "proj_ip": 5.5,
       "proj_bf": 22.8,
@@ -11729,7 +11729,7 @@
       "odds": 104,
       "to_win_1u": 0.96,
       "date": "2026-05-14",
-      "lockState": "lineup_confirmed",
+      "lockState": "game_started",
       "lockedAt": "2026-05-14T14:51:46.213907Z"
     },
     {
@@ -11753,7 +11753,7 @@
       "odds": -146,
       "to_win_1u": 1.46,
       "date": "2026-05-14",
-      "lockState": "lineup_confirmed",
+      "lockState": "game_started",
       "lockedAt": "2026-05-14T14:51:46.213907Z"
     },
     {
@@ -11777,7 +11777,7 @@
       "odds": -128,
       "to_win_1u": 1.28,
       "date": "2026-05-14",
-      "lockState": "lineup_confirmed",
+      "lockState": "game_started",
       "lockedAt": "2026-05-14T14:51:46.213907Z"
     },
     {
@@ -11801,7 +11801,7 @@
       "odds": -120,
       "to_win_1u": 1.2,
       "date": "2026-05-14",
-      "lockState": "lineup_confirmed",
+      "lockState": "game_started",
       "lockedAt": "2026-05-14T14:51:46.213907Z"
     },
     {
@@ -11825,7 +11825,7 @@
       "odds": -158,
       "to_win_1u": 1.58,
       "date": "2026-05-14",
-      "lockState": "lineup_confirmed",
+      "lockState": "game_started",
       "lockedAt": "2026-05-14T14:51:46.213907Z"
     },
     {
@@ -11849,7 +11849,7 @@
       "odds": -140,
       "to_win_1u": 1.4,
       "date": "2026-05-14",
-      "lockState": "lineup_confirmed",
+      "lockState": "game_started",
       "lockedAt": "2026-05-14T15:29:36.103413Z"
     },
     {
@@ -11873,7 +11873,7 @@
       "odds": -102,
       "to_win_1u": 1.02,
       "date": "2026-05-14",
-      "lockState": "lineup_confirmed",
+      "lockState": "game_started",
       "lockedAt": "2026-05-14T15:29:36.103413Z"
     },
     {
@@ -11897,7 +11897,7 @@
       "odds": -178,
       "to_win_1u": 1.78,
       "date": "2026-05-14",
-      "lockState": "lineup_confirmed",
+      "lockState": "game_started",
       "lockedAt": "2026-05-14T15:29:36.103413Z"
     },
     {
@@ -11925,6 +11925,30 @@
       "lockedAt": "2026-05-14T16:01:19.816763Z"
     },
     {
+      "player": "Michael McGreevy",
+      "team": "STL",
+      "opp": "OAK",
+      "market": "strikeouts",
+      "proj": 4.8,
+      "std": 3.2,
+      "line": 4.5,
+      "over_price": 122,
+      "under_price": -162,
+      "pick": "PASS",
+      "edge": 0.3,
+      "pCover": 0.53,
+      "conf": "low",
+      "proj_ip": 6.0,
+      "proj_bf": 23.4,
+      "proj_bf_capped": 23.0,
+      "proj_pc": 94,
+      "odds": 122,
+      "to_win_1u": 0.82,
+      "date": "2026-05-14",
+      "lockState": "lineup_confirmed",
+      "lockedAt": "2026-05-14T16:40:25.209413Z"
+    },
+    {
       "player": "Chris Sale",
       "team": "ATL",
       "opp": "CHC",
@@ -11932,8 +11956,8 @@
       "proj": 6.5,
       "std": 2.7,
       "line": 6.5,
-      "over_price": -144,
-      "under_price": 118,
+      "over_price": -154,
+      "under_price": 126,
       "pick": "PASS",
       "edge": -0.0,
       "pCover": 0.501,
@@ -11942,8 +11966,8 @@
       "proj_bf": 27.2,
       "proj_bf_capped": 23.0,
       "proj_pc": 102,
-      "odds": 118,
-      "to_win_1u": 0.85,
+      "odds": 126,
+      "to_win_1u": 0.79,
       "date": "2026-05-14",
       "lockState": "pending",
       "lockedAt": null
@@ -11984,7 +12008,7 @@
       "under_price": -128,
       "pick": "PASS",
       "edge": 0.5,
-      "pCover": 0.586,
+      "pCover": 0.587,
       "conf": "low",
       "proj_ip": 5.0,
       "proj_bf": 22.6,
@@ -12032,7 +12056,7 @@
       "under_price": 106,
       "pick": "PASS",
       "edge": 0.8,
-      "pCover": 0.606,
+      "pCover": 0.607,
       "conf": "low",
       "proj_ip": 5.4,
       "proj_bf": 22.6,
@@ -12080,7 +12104,7 @@
       "under_price": -140,
       "pick": "PASS",
       "edge": 1.0,
-      "pCover": 0.705,
+      "pCover": 0.706,
       "conf": "low",
       "proj_ip": 5.5,
       "proj_bf": 22.8,
@@ -12091,30 +12115,6 @@
       "date": "2026-05-14",
       "lockState": "pending",
       "lockedAt": null
-    },
-    {
-      "player": "Michael McGreevy",
-      "team": "STL",
-      "opp": "OAK",
-      "market": "strikeouts",
-      "proj": 4.8,
-      "std": 3.2,
-      "line": 4.5,
-      "over_price": 122,
-      "under_price": -162,
-      "pick": "PASS",
-      "edge": 0.3,
-      "pCover": 0.53,
-      "conf": "low",
-      "proj_ip": 6.0,
-      "proj_bf": 23.4,
-      "proj_bf_capped": 23.0,
-      "proj_pc": 94,
-      "odds": 122,
-      "to_win_1u": 0.82,
-      "date": "2026-05-14",
-      "lockState": "lineup_confirmed",
-      "lockedAt": "2026-05-14T16:40:25.209413Z"
     }
   ],
   "gameTimes": {
@@ -12144,16 +12144,16 @@
   "gameStatuses": {
     "PIT": "In Progress",
     "COL": "In Progress",
-    "CIN": "Warmup",
-    "WSH": "Warmup",
-    "NYM": "Pre-Game",
-    "DET": "Pre-Game",
-    "MIN": "Pre-Game",
-    "MIA": "Pre-Game",
-    "MIL": "Pre-Game",
-    "SD": "Pre-Game",
-    "HOU": "Pre-Game",
-    "SEA": "Pre-Game",
+    "CIN": "In Progress",
+    "WSH": "In Progress",
+    "NYM": "In Progress",
+    "DET": "In Progress",
+    "MIN": "In Progress",
+    "MIA": "In Progress",
+    "MIL": "In Progress",
+    "SD": "In Progress",
+    "HOU": "In Progress",
+    "SEA": "In Progress",
     "OAK": "Pre-Game",
     "STL": "Pre-Game",
     "BOS": "Scheduled",
