@@ -32,7 +32,61 @@ from pitcher_kalman import (
     apply_drift, kalman_summary, PITCHER_KALMAN_DEFAULTS,
     save_pitcher_kalman_state, prune_inactive_pitchers,
 )
-from defaults import ROLLING_WINDOW, MIN_GAMES, current_season
+from defaults import (
+    ROLLING_WINDOW, MIN_GAMES, current_season,
+    EMPIRICAL_STD_MIN_SAMPLE, DEFAULT_EMPIRICAL_STD,
+)
+
+_EMP_STD_CACHE_DIR = os.path.normpath(
+    os.path.join(os.path.dirname(os.path.abspath(__file__)),
+                 "..", "..", "data", "emp_std_cache", "mlb")
+)
+
+
+def _compute_and_cache_emp_std(date_key, date_iso, results_so_far):
+    """
+    Walk-forward emp_std for the backfill loop. results_so_far is the
+    accumulating `results` dict from the backfill — its `projections`
+    and `actuals` lists already only contain data from earlier dates
+    (we append AFTER projecting each date). Writes the per-day cache
+    file at data/emp_std_cache/mlb/emp_std_<date_key>.json so live
+    daily runs can later read the same value.
+
+    Returns dict like {"strikeouts": 2.23} or {} when sample is too
+    small (engine then falls back to DEFAULT_EMPIRICAL_STD).
+    """
+    out = {}
+    for market, bundle in results_so_far.items():
+        projs = bundle.get("projections") or []
+        actuals = bundle.get("actuals") or []
+        n = min(len(projs), len(actuals))
+        if n < EMPIRICAL_STD_MIN_SAMPLE:
+            continue
+        residuals = []
+        for p, a in zip(projs[:n], actuals[:n]):
+            try:
+                residuals.append(float(a) - float(p))
+            except (TypeError, ValueError):
+                continue
+        if len(residuals) < EMPIRICAL_STD_MIN_SAMPLE:
+            continue
+        mean = sum(residuals) / len(residuals)
+        var = sum((r - mean) ** 2 for r in residuals) / len(residuals)
+        out[market] = math.sqrt(var)
+        out[f"n_{market}"] = len(residuals)
+
+    payload = dict(out)
+    payload["source"] = "backfill"
+    payload["computed_at"] = datetime.now().isoformat(timespec="seconds")
+    payload["date_iso"] = date_iso
+    try:
+        os.makedirs(_EMP_STD_CACHE_DIR, exist_ok=True)
+        cache_path = os.path.join(_EMP_STD_CACHE_DIR, f"emp_std_{date_key}.json")
+        with open(cache_path, "w") as f:
+            json.dump(payload, f, indent=2)
+    except Exception as e:
+        print(f"  [empirical_std] cache write failed: {e}")
+    return out
 from sources.weather import fetch_game_weather
 from sources.mlb_stats import (
     fetch_pitcher_handedness_splits,
@@ -412,6 +466,22 @@ def backfill(season=None, start_game=10, start_date=None):
         # Build per-date adv_stats from prior logs only (no future leakage).
         date_adv = _adv_stats_through(prior_logs, pitch_hands)
 
+        # Phase 3a: walk-forward empirical_std for this date (uses only
+        # graded residuals from prior dates — results_so_far has not yet
+        # been appended for the current game_date). Always rewrites the
+        # per-day cache file so subsequent live runs see the backfill's
+        # walk-forward value (vs whatever live run had at the time).
+        date_key = game_date.replace("-", "")
+        runtime_emp_std = _compute_and_cache_emp_std(date_key, game_date, results)
+        # Mirror run_daily's log line so backfill output is comparable.
+        if runtime_emp_std:
+            for _mkt in sorted(k for k in runtime_emp_std if not k.startswith("n_")):
+                _val = runtime_emp_std[_mkt]
+                _n = runtime_emp_std.get(f"n_{_mkt}", "?")
+                _dflt = DEFAULT_EMPIRICAL_STD.get(_mkt, "n/a")
+                print(f"  [empirical_std {game_date}] {_mkt}: {_val:.3f} "
+                      f"(backfill, n={_n}, default {_dflt})")
+
         # Phase 3: Project props using prior data + current Kalman state
         projections = project_pitcher_props(
             prior_logs,
@@ -426,6 +496,7 @@ def backfill(season=None, start_game=10, start_date=None):
             batter_k_rates=batter_k_rates,
             lineup_data=date_lineup_data,
             savant_rates={},
+            empirical_std=runtime_emp_std or None,
         )
 
         # Save ALL projections for this date (for Games Explorer)
