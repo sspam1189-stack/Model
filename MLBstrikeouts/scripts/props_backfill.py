@@ -48,13 +48,24 @@ def _compute_and_cache_emp_std(date_key, date_iso, results_so_far):
     Walk-forward emp_std for the backfill loop. results_so_far is the
     accumulating `results` dict from the backfill — its `projections`
     and `actuals` lists already only contain data from earlier dates
-    (we append AFTER projecting each date). Writes the per-day cache
-    file at data/emp_std_cache/mlb/emp_std_<date_key>.json so live
-    daily runs can later read the same value.
+    (we append AFTER projecting each date).
 
-    Returns dict like {"strikeouts": 2.23} or {} when sample is too
-    small (engine then falls back to DEFAULT_EMPIRICAL_STD).
+    If data/emp_std_cache/mlb/emp_std_<date_key>.json already exists,
+    reuse it so walk-forward stays consistent across reruns. Otherwise
+    compute, write, and return. Returns dict like {"strikeouts": 2.23}
+    or {} when sample is too small (engine then falls back to
+    DEFAULT_EMPIRICAL_STD).
     """
+    cache_path = os.path.join(_EMP_STD_CACHE_DIR, f"emp_std_{date_key}.json")
+    if os.path.exists(cache_path):
+        try:
+            with open(cache_path, "r") as f:
+                payload = json.load(f)
+            return {k: v for k, v in payload.items()
+                    if k not in ("source", "computed_at", "date_iso")}
+        except Exception as e:
+            print(f"  [empirical_std] cache read failed ({e}), recomputing")
+
     out = {}
     for market, bundle in results_so_far.items():
         projs = bundle.get("projections") or []
@@ -81,7 +92,6 @@ def _compute_and_cache_emp_std(date_key, date_iso, results_so_far):
     payload["date_iso"] = date_iso
     try:
         os.makedirs(_EMP_STD_CACHE_DIR, exist_ok=True)
-        cache_path = os.path.join(_EMP_STD_CACHE_DIR, f"emp_std_{date_key}.json")
         with open(cache_path, "w") as f:
             json.dump(payload, f, indent=2)
     except Exception as e:
