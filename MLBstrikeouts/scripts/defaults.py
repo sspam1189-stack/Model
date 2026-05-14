@@ -50,13 +50,11 @@ MARKET_THRESHOLDS = {
 # Variance multipliers (how noisy each stat is game-to-game)
 # ---------------------------------------------------------------------------
 VAR_MULT = {
-    # 2026-05-12 4D sweep at kalmanBlend=0.0 / cap=23 / threshold=0.72:
-    # VAR=1.15 marginally best across the BF=0.95 row (Lean U 70.0% / +24.3%
-    # ROI; combined +30.5% season ROI). Wider variance tightens pCover so
-    # the threshold filters more aggressively. Earlier tuning (2026-05-05)
-    # picked VAR=1.0 under the old blended Kalman; with BLEND=0 the rate
-    # model carries the full projection and benefits from slightly wider std.
-    "strikeouts":   1.15,
+    # 2026-05-14 sweep with Kalman variance dropped (kalmanBlend was already 0,
+    # so the Kalman state is now fully unused for strikeouts). At 2u picks /
+    # 1u leans sizing, VAR=1.10 is the season peak: +246u total (vs +216u
+    # at the old VAR=1.15 / Kalman var on config), tied on recent units.
+    "strikeouts":   1.10,
 }
 
 # ---------------------------------------------------------------------------
