@@ -162,7 +162,7 @@ WEATHER_K_HOT_PENALTY = 0.0     # was -0.01
 #     runtime calibration in run_daily.py refines further once 50+ graded
 #     entries land per market.
 DEFAULT_EMPIRICAL_STD = {
-    "strikeouts":   2.1,
+    "strikeouts":   2.0,
     "outs":         2.4,
     "hits_allowed": 1.9,
 }
