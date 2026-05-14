@@ -4,7 +4,7 @@
   "season": "2025-26",
   "mode": "backfill",
   "model": "kalman_blend",
-  "generated": "2026-05-14T11:11:41.284098",
+  "generated": "2026-05-14T11:38:51.183392",
   "totalProjections": 1378,
   "totalPicks": 607,
   "props": [
@@ -9752,5 +9752,26 @@
   "summary": "0 picks from 1378 projections",
   "date": "2026-05-14",
   "todayProjections": [],
-  "gameTimes": {}
+  "gameTimes": {},
+  "tomorrowPicks": [
+    {
+      "player": "Donovan Mitchell",
+      "team": "CLE",
+      "opp": "DET",
+      "market": "assists",
+      "proj": 2.4,
+      "std": 4.2,
+      "line": 3.5,
+      "over_price": 100,
+      "under_price": -132,
+      "pick": "UNDER",
+      "edge": -1.1,
+      "pCover": 0.597,
+      "conf": "high",
+      "odds": -132,
+      "to_win_1u": 1.32,
+      "date": "2026-05-15"
+    }
+  ],
+  "tomorrowDate": "2026-05-15"
 }
