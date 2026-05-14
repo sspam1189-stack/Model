@@ -102,15 +102,22 @@ def _is_game_postponed(team_abbr, game_date):
     return False
 
 
-def compute_empirical_std_from_graded():
+_EMP_STD_CACHE_DIR = os.path.normpath(
+    os.path.join(SCRIPT_DIR, "..", "..", "data", "emp_std_cache", "mlb")
+)
+
+
+def compute_empirical_std_from_graded(date_iso=None):
     """
     Compute league-level residual std (actual - proj) per market from
-    graded entries in the most recent mlb-props.json. Uses both `props`
-    (picks) and `todayProjections` (which can include graded PASS/watch
-    after grading), giving a less selection-biased sample than picks-only.
+    graded entries in the most recent mlb-props.json.
 
-    Returns dict like {"strikeouts": 2.23} or {} when sample is too small
-    (caller falls back to DEFAULT_EMPIRICAL_STD).
+    When date_iso is provided, only counts graded picks whose `date` is
+    strictly before date_iso — preserves walk-forward integrity for
+    backfill runs (no future data leak into past projections).
+
+    Returns dict like {"strikeouts": 2.23, "n_strikeouts": 440} or {} when
+    no market meets the EMPIRICAL_STD_MIN_SAMPLE threshold.
     """
     import math
     from defaults import EMPIRICAL_STD_MIN_SAMPLE
@@ -141,6 +148,12 @@ def compute_empirical_std_from_graded():
         proj = p.get("proj")
         if mkt is None or actual is None or proj is None:
             continue
+        # Walk-forward filter: only graded picks strictly before date_iso
+        # count toward today's calibration. Backfill safety.
+        if date_iso:
+            pdate = p.get("date") or ""
+            if not pdate or pdate >= date_iso:
+                continue
         try:
             resid = float(actual) - float(proj)
         except (TypeError, ValueError):
@@ -154,7 +167,45 @@ def compute_empirical_std_from_graded():
         mean = sum(residuals) / len(residuals)
         var = sum((r - mean) ** 2 for r in residuals) / len(residuals)
         out[mkt] = math.sqrt(var)
+        out[f"n_{mkt}"] = len(residuals)
     return out
+
+
+def load_or_compute_empirical_std(date_key, date_iso):
+    """
+    Cached, run-stable empirical std for `date_key` (YYYYMMDD).
+
+    First call of the day computes from graded picks dated strictly before
+    date_iso, writes the result to
+        data/emp_std_cache/mlb/emp_std_<date_key>.json
+    All subsequent runs that day read from the cache, so multiple runs in
+    one day project under the SAME emp_std (reproducible picks, no drift
+    from picks newly graded mid-day).
+
+    Returns the loaded/computed dict (may be empty) plus a `source` field:
+    "cache" or "computed".
+    """
+    cache_path = os.path.join(_EMP_STD_CACHE_DIR, f"emp_std_{date_key}.json")
+    if os.path.exists(cache_path):
+        try:
+            with open(cache_path, "r") as f:
+                cached = json.load(f)
+            cached["source"] = "cache"
+            return cached
+        except Exception as e:
+            print(f"  [empirical_std] cache read failed ({e}), recomputing")
+
+    computed = compute_empirical_std_from_graded(date_iso=date_iso)
+    computed["source"] = "computed"
+    computed["computed_at"] = datetime.datetime.now().isoformat(timespec="seconds")
+    computed["date_iso"] = date_iso
+    try:
+        os.makedirs(_EMP_STD_CACHE_DIR, exist_ok=True)
+        with open(cache_path, "w") as f:
+            json.dump(computed, f, indent=2)
+    except Exception as e:
+        print(f"  [empirical_std] cache write failed: {e}")
+    return computed
 
 
 def grade_previous_picks(season=None):
@@ -620,16 +671,25 @@ def run_daily(date_key=None):
 
     # Stage 13: Project pitcher props
     print(f"\n  [13/15] Projecting pitcher strikeouts (Kalman + advanced stats)...")
-    # Runtime-calibrate empirical std from the previous mlb-props.json's
-    # graded entries. Falls back to DEFAULT_EMPIRICAL_STD inside the
-    # engine when a market has <50 graded samples (cold-start safety).
-    runtime_emp_std = compute_empirical_std_from_graded()
+    # Runtime-calibrated empirical std — cached per date_key so multiple
+    # runs in one day project under the SAME emp_std. Walk-forward safe:
+    # only graded picks dated strictly before date_iso count toward today's
+    # calibration. Falls back to DEFAULT_EMPIRICAL_STD inside the engine
+    # when a market has <EMPIRICAL_STD_MIN_SAMPLE graded entries.
+    emp_std_cache = load_or_compute_empirical_std(date_key, date_iso)
+    runtime_emp_std = {
+        k: v for k, v in emp_std_cache.items()
+        if not k.startswith(("n_", "source", "computed_at", "date_iso"))
+        and isinstance(v, (int, float))
+    }
     if runtime_emp_std:
         from defaults import DEFAULT_EMPIRICAL_STD
+        src = emp_std_cache.get("source", "?")
         for mkt, val in runtime_emp_std.items():
+            n = emp_std_cache.get(f"n_{mkt}", "?")
             default_val = DEFAULT_EMPIRICAL_STD.get(mkt, "n/a")
-            print(f"  [empirical_std] {mkt}: calibrated={val:.3f} "
-                  f"(default {default_val})")
+            print(f"  [empirical_std] {mkt}: {val:.3f} ({src}, n={n}, "
+                  f"default {default_val})")
     else:
         print(f"  [empirical_std] insufficient graded sample — using defaults")
     projections = project_pitcher_props(
