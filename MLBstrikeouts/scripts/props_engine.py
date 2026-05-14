@@ -2,9 +2,12 @@
 # MLB pitcher strikeouts prop projection engine with Kalman filtering.
 
 import math
+import os
 import unicodedata
 import numpy as np
 from scipy.stats import t as t_dist
+
+_BLEND_FLOOR_MULT = float(os.environ.get("BLEND_FLOOR_MULT", "0.8"))
 
 from defaults import (
     PROP_T_DF, ROLLING_WINDOW, DECAY_FACTOR, MIN_GAMES, MIN_INNINGS,
@@ -457,7 +460,7 @@ def project_pitcher_props(pitcher_logs, team_batting_stats=None,
         elif n_games <= 7:
             blend = (n_games - 3) / 4.0
             std = emp_std * (1 - blend) + rolling_std * blend
-            std = max(std, emp_std * 0.7)
+            std = max(std, emp_std * _BLEND_FLOOR_MULT)
         else:
             std = max(rolling_std, emp_std * 0.5)
 
