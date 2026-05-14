@@ -38,24 +38,25 @@ MIN_INNINGS = 3.0
 # so thresholds are set to minimum viable (just above coin flip).
 # ---------------------------------------------------------------------------
 MARKET_THRESHOLDS = {
-    # 2026-05-14 5D sweep with Kalman variance dropped (VAR=1.40 / BF=1.05 /
-    # BL=0.80 / cap=23): threshold 0.74 is the ROI peak — 142 picks, 81.7% WR,
-    # +85.2u, +45.6% ROI. Prior optimum (0.72 with Kalman var on, VAR=1.15)
-    # delivered 80.7% / +43.2% on the same season. The recent 2-week cooling
-    # at 0.70-0.74 (~53% WR) is filtered out by this threshold.
-    "strikeouts":   {"high": 0.74},
+    # 2026-05-12 4D sweep at BF=0.95 / VAR=1.15 / kalmanBlend=0.0 / cap=23
+    # picked threshold 0.72 as optimal: 157 picks, 77.1% WR, +38.1% ROI (was
+    # 0.70 → 196 picks, 74.0% WR, +32.4% ROI under same config). The new
+    # config compresses the pCover distribution; 0.70 leaves quality picks
+    # in the lean tier. 0.65-0.72 becomes the lean band (both sides).
+    "strikeouts":   {"high": 0.72},
 }
 
 # ---------------------------------------------------------------------------
 # Variance multipliers (how noisy each stat is game-to-game)
 # ---------------------------------------------------------------------------
 VAR_MULT = {
-    # 2026-05-14 5D sweep (BF x BLEND_FLOOR x VAR x CAP x THR) with Kalman
-    # variance dropped: VAR=1.40 is the ROI peak. The bump from 1.15 -> 1.40
-    # replaces the uncertainty padding previously contributed by k_kalman_var
-    # in props_engine (now removed since kalmanBlend=0 made the Kalman state
-    # purely a variance signal, redundant with this uniform std inflation).
-    "strikeouts":   1.40,
+    # 2026-05-12 4D sweep at kalmanBlend=0.0 / cap=23 / threshold=0.72:
+    # VAR=1.15 marginally best across the BF=0.95 row (Lean U 70.0% / +24.3%
+    # ROI; combined +30.5% season ROI). Wider variance tightens pCover so
+    # the threshold filters more aggressively. Earlier tuning (2026-05-05)
+    # picked VAR=1.0 under the old blended Kalman; with BLEND=0 the rate
+    # model carries the full projection and benefits from slightly wider std.
+    "strikeouts":   1.15,
 }
 
 # ---------------------------------------------------------------------------
