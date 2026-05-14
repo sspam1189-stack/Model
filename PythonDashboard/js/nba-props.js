@@ -445,28 +445,86 @@
         // Prefer the engine's reported run date so projections still render
         // on no-pick days (otherwise this filters to "latest pick date" which
         // can be yesterday and the today-projections drop off completely).
-        const todayStr = data.date || allDates[allDates.length - 1] || '';
-        // Use todayProjections (all projections incl. PASS) if available, else fall back to picks only
-        const todayAllProj = (data.todayProjections || data.props)
-          .filter(p => p.date === todayStr && p.market !== 'pts_rebs_asts' && p.proj != null && p.line != null);
-        if (todayAllProj.length === 0) return;
+        const todayDateStr = data.date || allDates[allDates.length - 1] || '';
+        const tomorrowDateStr = data.tomorrowDate || '';
 
-        // Build unique games from today's projections
-        const gameSet = new Map();
-        for (const p of todayAllProj) {
-          const key = [p.team, p.opp].sort().join('@');
-          if (!gameSet.has(key)) gameSet.set(key, `${p.team} vs ${p.opp}`);
+        function loadProj(mode) {
+          if (mode === 'tomorrow') {
+            return (data.tomorrowProjections || data.tomorrowPicks || [])
+              .filter(p => p.market !== 'pts_rebs_asts' && p.proj != null && p.line != null);
+          }
+          return (data.todayProjections || data.props)
+            .filter(p => p.date === todayDateStr && p.market !== 'pts_rebs_asts' && p.proj != null && p.line != null);
         }
-        const games = [...gameSet.entries()]; // [[key, label], ...]
+        const todayProj = loadProj('today');
+        const tomorrowProj = loadProj('tomorrow');
+        const hasTomorrow = tomorrowProj.length > 0;
+        if (todayProj.length === 0 && !hasTomorrow) return;
+
+        let dayMode = todayProj.length === 0 ? 'tomorrow' : 'today';
+        let todayAllProj = dayMode === 'today' ? todayProj : tomorrowProj;
+        let activeDateStr = dayMode === 'today' ? todayDateStr : tomorrowDateStr;
+
+        function buildGames(arr) {
+          const set = new Map();
+          for (const p of arr) {
+            const key = [p.team, p.opp].sort().join('@');
+            if (!set.has(key)) set.set(key, `${p.team} vs ${p.opp}`);
+          }
+          return [...set.entries()];
+        }
+        let games = buildGames(todayAllProj);
 
         const gCard = document.createElement('div');
         gCard.className = 'card';
         gCard.style.cssText = 'padding:0;margin-bottom:16px;overflow:hidden';
 
-        // Title row
+        // Title row with inline Day toggle (small segmented, top-right)
         const titleRow = document.createElement('div');
-        titleRow.style.cssText = 'padding:12px 16px 8px;border-bottom:1px solid rgba(255,255,255,0.08)';
-        titleRow.appendChild(Object.assign(document.createElement('div'), {className:'card-title', textContent:`Today\u2019s Games (${todayStr})`}));
+        titleRow.style.cssText = 'display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 16px 8px;border-bottom:1px solid rgba(255,255,255,0.08)';
+        const titleEl = Object.assign(document.createElement('div'), {className:'card-title'});
+        function updateTitle() {
+          const label = dayMode === 'tomorrow' ? 'Tomorrow\u2019s Games' : 'Today\u2019s Games';
+          titleEl.textContent = `${label} (${activeDateStr})`;
+        }
+        updateTitle();
+        titleRow.appendChild(titleEl);
+
+        // Inline day toggle \u2014 only rendered when tomorrow data exists
+        const dayToggleWrap = document.createElement('div');
+        dayToggleWrap.style.cssText = 'display:inline-flex;gap:4px;background:rgba(255,255,255,0.05);padding:3px;border-radius:6px';
+        function refreshDayToggle() {
+          dayToggleWrap.textContent = '';
+          if (!hasTomorrow) { dayToggleWrap.style.display = 'none'; return; }
+          dayToggleWrap.style.display = 'inline-flex';
+          for (const mode of ['today', 'tomorrow']) {
+            const b = document.createElement('button');
+            b.textContent = mode === 'today' ? 'Today' : 'Tomorrow';
+            const isActive = mode === dayMode;
+            const dayHasData = mode === 'today' ? todayProj.length > 0 : tomorrowProj.length > 0;
+            b.style.cssText = 'font-size:11px;padding:4px 10px;border:0;border-radius:4px;cursor:'
+              + (dayHasData ? 'pointer;' : 'not-allowed;')
+              + (isActive
+                  ? 'background:rgba(249,115,22,0.35);color:#fff;font-weight:600;'
+                  : 'background:transparent;color:' + (dayHasData ? '#aaa;' : '#555;'));
+            if (!dayHasData) b.disabled = true;
+            else b.onclick = () => {
+              if (dayMode === mode) return;
+              dayMode = mode;
+              todayAllProj = mode === 'today' ? todayProj : tomorrowProj;
+              activeDateStr = mode === 'today' ? todayDateStr : tomorrowDateStr;
+              games = buildGames(todayAllProj);
+              activeGame = 'all'; activePlayer = 'all'; activeMkt = 'all'; currentPage = 0;
+              updateTitle();
+              refreshDayToggle();
+              refreshPills();
+              refreshPlayerDropdown();
+              renderGameTable();
+            };
+            dayToggleWrap.appendChild(b);
+          }
+        }
+        titleRow.appendChild(dayToggleWrap);
         gCard.appendChild(titleRow);
 
         // Game selector pills
@@ -673,6 +731,7 @@
           }
         }
 
+        refreshDayToggle();
         refreshPills();
         refreshPlayerDropdown();
         renderGameTable();

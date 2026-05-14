@@ -163,12 +163,15 @@ def _save_cache(data, path):
 
 def fetch_fanduel_nba_props(date_key=None):
     """
-    Fetch NBA player prop lines from FanDuel for today's games.
+    Fetch NBA player prop lines from FanDuel for a given ET game date.
 
     Parameters
     ----------
     date_key : str or None
-        Date in YYYYMMDD format. Auto-detected if None.
+        ET game date in YYYYMMDD format (the date the games tip off in
+        America/New_York). Auto-detected from America/Chicago "now" when
+        None — callers wanting tomorrow's slate must pass tomorrow's key
+        explicitly. Each ET date gets its own cache file.
 
     Returns
     -------
@@ -202,25 +205,35 @@ def fetch_fanduel_nba_props(date_key=None):
 
     events = data.get("attachments", {}).get("events", {})
 
-    # Filter to actual games (have " @ " in name) on the requested date
-    # FanDuel openDate is UTC (e.g. "2026-03-27T23:40:00.000Z")
-    # NBA games tip between ~7pm-10pm ET = next day UTC for evening games
-    # So a "March 27" game in ET could be "March 27" or "March 28" in UTC
+    # Filter to actual games (have " @ " in name) whose ET tip-off date
+    # matches the requested ET date. FanDuel `openDate` is UTC
+    # (e.g. "2026-05-16T01:40:00.000Z"). NBA games tip in the evening ET,
+    # which can fall on the same UTC day (afternoon ET games) or the
+    # next UTC day (late-evening ET games like 9:40pm ET = 01:40 UTC).
+    # Earlier versions matched openDate[:10] against {target, target+1day}
+    # as a UTC heuristic, but that silently dropped late-night ET tip-offs
+    # that crossed two UTC days. Convert UTC → ET explicitly instead.
     target_date = f"{date_key[:4]}-{date_key[4:6]}-{date_key[6:8]}"
-    # Also accept next day UTC (evening ET games show as next day in UTC)
-    from datetime import timedelta
-    target_dt = datetime.datetime.strptime(target_date, "%Y-%m-%d")
-    next_day = (target_dt + timedelta(days=1)).strftime("%Y-%m-%d")
+    et_tz = ZoneInfo("America/New_York")
 
     game_events = {}
     for eid, ev in events.items():
         if " @ " not in ev.get("name", ""):
             continue
-        open_date = ev.get("openDate", "")[:10]  # "2026-03-27"
-        if open_date == target_date or open_date == next_day:
+        open_date_str = ev.get("openDate", "")
+        if not open_date_str:
+            continue
+        try:
+            open_dt_utc = datetime.datetime.fromisoformat(
+                open_date_str.replace("Z", "+00:00")
+            )
+            et_date = open_dt_utc.astimezone(et_tz).strftime("%Y-%m-%d")
+        except (ValueError, AttributeError):
+            continue
+        if et_date == target_date:
             game_events[eid] = ev
 
-    print(f"  [fanduel] Found {len(game_events)} NBA games for {target_date}")
+    print(f"  [fanduel] Found {len(game_events)} NBA games for {target_date} (ET)")
 
     if not game_events:
         return []

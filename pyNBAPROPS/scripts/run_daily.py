@@ -399,14 +399,13 @@ def run_daily(date_key=None):
     print(f"  {len(player_positions)} positions, {len(team_def_by_pos)} teams pos-def, {len(player_per36)} per-36")
 
     # --- Stage 6: Fetch prop lines (FanDuel primary, Odds API fallback) ---
+    # date_key is the ET game date; fetcher returns only games tipping on
+    # that ET date (UTC→ET conversion handled inside the FanDuel fetcher).
     print(f"\n  [6/8] Fetching prop lines (FanDuel primary)...")
     prop_lines = fetch_fanduel_nba_props(date_key=date_key)
     if not prop_lines:
         print(f"  FanDuel returned 0 lines, falling back to The Odds API...")
         prop_lines = fetch_nba_player_props(date_key=date_key)
-    # Preserve the unfiltered batch — FanDuel may include tomorrow's lines,
-    # which Stage 8b uses for the look-ahead pass.
-    all_prop_lines = list(prop_lines)
     print(f"  {len(prop_lines)} prop lines fetched")
 
     # --- Stage 6b: Filter to today's games only ---
@@ -501,24 +500,29 @@ def run_daily(date_key=None):
             print(f"  Dropped {dropped_tp} todayProjections for non-today games")
 
     # --- Stage 8b: Tomorrow look-ahead (optional) ---
-    # If FanDuel has posted lines for tomorrow's games AND ESPN has the
-    # schedule, run a second projection pass and emit picks under a separate
-    # `tomorrowPicks` field. Kept out of `props` so historical pick tracking
-    # and graded-stat aggregations stay clean.
+    # Fetches FanDuel lines explicitly for tomorrow's ET game date (saved
+    # to its own cache file by date_key). If ESPN also has tomorrow's
+    # schedule, project and emit picks under `tomorrowPicks` — kept out of
+    # `props` so historical pick tracking and graded-stat aggregations stay
+    # clean. Regenerated each run.
     tomorrow_picks_out = []
+    tomorrow_projections_out = []
     tomorrow_iso_out = None
     try:
         _tom_dt = datetime.datetime.strptime(date_iso, "%Y-%m-%d") + datetime.timedelta(days=1)
         _tom_key = _tom_dt.strftime("%Y%m%d")
         _tom_iso = _tom_dt.strftime("%Y-%m-%d")
         _tom_teams = _get_todays_teams(_tom_key)
-        if _tom_teams and all_prop_lines:
+        _tom_fanduel = fetch_fanduel_nba_props(date_key=_tom_key) if _tom_teams else []
+        if _tom_teams and _tom_fanduel:
             _tom_lines = [
-                p for p in all_prop_lines
+                p for p in _tom_fanduel
                 if p.get("event_home") in _tom_teams
                    or p.get("event_away") in _tom_teams
             ]
-            print(f"\n  [8b/8] Tomorrow look-ahead ({_tom_iso}): {len(_tom_lines)} prop lines")
+            print(f"\n  [8b/8] Tomorrow look-ahead ({_tom_iso}): "
+                  f"{len(_tom_fanduel)} FanDuel lines, "
+                  f"{len(_tom_lines)} match ESPN schedule")
             if _tom_lines:
                 _tom_injury = load_injury_report(_tom_key) or {}
                 _tom_projections = project_player_props(
@@ -536,16 +540,19 @@ def run_daily(date_key=None):
                 )
                 _tom_dash = format_props_for_dashboard(_tom_projections, date_str=_tom_iso)
                 tomorrow_picks_out = _tom_dash.get("props", [])
+                tomorrow_projections_out = _tom_dash.get("todayProjections", [])
                 tomorrow_iso_out = _tom_iso
                 print(f"  Tomorrow: {len(tomorrow_picks_out)} potential picks "
-                      f"from {len(_tom_projections)} projections")
+                      f"from {len(_tom_projections)} projections "
+                      f"({len(tomorrow_projections_out)} with lines)")
         else:
-            reason = "no ESPN schedule" if not _tom_teams else "no FanDuel lines"
+            reason = "no ESPN schedule" if not _tom_teams else "no FanDuel lines posted yet"
             print(f"\n  [8b/8] Tomorrow look-ahead skipped — {reason} for {_tom_iso}")
     except Exception as e:
         print(f"  [8b/8] Tomorrow look-ahead failed: {e}")
 
     dashboard["tomorrowPicks"] = tomorrow_picks_out
+    dashboard["tomorrowProjections"] = tomorrow_projections_out
     dashboard["tomorrowDate"] = tomorrow_iso_out
 
     import numpy as np
