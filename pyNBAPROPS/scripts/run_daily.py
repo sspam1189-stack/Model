@@ -404,6 +404,9 @@ def run_daily(date_key=None):
     if not prop_lines:
         print(f"  FanDuel returned 0 lines, falling back to The Odds API...")
         prop_lines = fetch_nba_player_props(date_key=date_key)
+    # Preserve the unfiltered batch — FanDuel may include tomorrow's lines,
+    # which Stage 8b uses for the look-ahead pass.
+    all_prop_lines = list(prop_lines)
     print(f"  {len(prop_lines)} prop lines fetched")
 
     # --- Stage 6b: Filter to today's games only ---
@@ -496,6 +499,54 @@ def run_daily(date_key=None):
         dropped_tp = before_tp - len(dashboard["todayProjections"])
         if dropped_tp:
             print(f"  Dropped {dropped_tp} todayProjections for non-today games")
+
+    # --- Stage 8b: Tomorrow look-ahead (optional) ---
+    # If FanDuel has posted lines for tomorrow's games AND ESPN has the
+    # schedule, run a second projection pass and emit picks under a separate
+    # `tomorrowPicks` field. Kept out of `props` so historical pick tracking
+    # and graded-stat aggregations stay clean.
+    tomorrow_picks_out = []
+    tomorrow_iso_out = None
+    try:
+        _tom_dt = datetime.datetime.strptime(date_iso, "%Y-%m-%d") + datetime.timedelta(days=1)
+        _tom_key = _tom_dt.strftime("%Y%m%d")
+        _tom_iso = _tom_dt.strftime("%Y-%m-%d")
+        _tom_teams = _get_todays_teams(_tom_key)
+        if _tom_teams and all_prop_lines:
+            _tom_lines = [
+                p for p in all_prop_lines
+                if p.get("event_home") in _tom_teams
+                   or p.get("event_away") in _tom_teams
+            ]
+            print(f"\n  [8b/8] Tomorrow look-ahead ({_tom_iso}): {len(_tom_lines)} prop lines")
+            if _tom_lines:
+                _tom_injury = load_injury_report(_tom_key) or {}
+                _tom_projections = project_player_props(
+                    player_logs,
+                    team_def_stats=team_def,
+                    prop_lines=_tom_lines,
+                    kalman_state=kalman_state,
+                    player_adv_stats=adv_stats,
+                    player_positions=player_positions,
+                    team_def_by_pos=team_def_by_pos,
+                    player_per36=player_per36,
+                    injury_report=_tom_injury,
+                    team_date_roster=team_date_roster,
+                    team_name_to_pid=team_name_to_pid,
+                )
+                _tom_dash = format_props_for_dashboard(_tom_projections, date_str=_tom_iso)
+                tomorrow_picks_out = _tom_dash.get("props", [])
+                tomorrow_iso_out = _tom_iso
+                print(f"  Tomorrow: {len(tomorrow_picks_out)} potential picks "
+                      f"from {len(_tom_projections)} projections")
+        else:
+            reason = "no ESPN schedule" if not _tom_teams else "no FanDuel lines"
+            print(f"\n  [8b/8] Tomorrow look-ahead skipped — {reason} for {_tom_iso}")
+    except Exception as e:
+        print(f"  [8b/8] Tomorrow look-ahead failed: {e}")
+
+    dashboard["tomorrowPicks"] = tomorrow_picks_out
+    dashboard["tomorrowDate"] = tomorrow_iso_out
 
     import numpy as np
 

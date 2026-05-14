@@ -366,6 +366,77 @@
           todayCard.appendChild(tbl);
           el.appendChild(todayCard);
         }
+
+        // ── Tomorrow's Potential Picks (look-ahead) ──
+        // Driven by data.tomorrowPicks emitted by run_daily.py Stage 8b.
+        // Hidden when the field is absent or empty (default state).
+        try {
+          const tomPicks = Array.isArray(data.tomorrowPicks) ? data.tomorrowPicks.slice() : [];
+          const tomDate = data.tomorrowDate || (tomPicks[0] && tomPicks[0].date) || '';
+          if (tomPicks.length > 0) {
+            const tomCard = document.createElement('div');
+            tomCard.className = 'card card-picks';
+            tomCard.style.marginBottom = '16px';
+            tomCard.appendChild(Object.assign(document.createElement('div'), {
+              className: 'card-title',
+              textContent: `Tomorrow’s Potential Picks${tomDate ? ' (' + tomDate + ')' : ''}`,
+            }));
+            const note = document.createElement('div');
+            note.style.cssText = 'padding:4px 4px 8px;color:var(--text-secondary,#9aa3b2);font-size:0.75rem;font-style:italic';
+            note.textContent = 'Look-ahead based on lines posted early. Injury news, lineups, and final lines may shift these.';
+            tomCard.appendChild(note);
+            const tomTbl = document.createElement('table');
+            tomTbl.className = 'props-data-table';
+            tomTbl.style.cssText = 'width:100%;border-collapse:collapse;margin-top:8px';
+            const tomHeaders = ['Name','Team','Opp','Cat','Proj','Line','Edge','Odds','O/U'];
+            const tomHRow = tomTbl.createTHead().insertRow();
+            tomHeaders.forEach((h) => {
+              const th = document.createElement('th');
+              th.textContent = h;
+              th.style.cssText = 'padding:4px 4px;text-align:center;border-bottom:1px solid rgba(255,255,255,0.1)';
+              if (h === 'Name') th.style.textAlign = 'left';
+              tomHRow.appendChild(th);
+            });
+            const tomBody = tomTbl.createTBody();
+            const tomCatOrder = {points:0, rebounds:1, assists:2, threes:3, steals:4, blocks:5, turnovers:6};
+            tomPicks.sort((a,b) =>
+              (tomCatOrder[a.market]??99) - (tomCatOrder[b.market]??99)
+              || (b.pCover||0) - (a.pCover||0)
+            );
+            for (const p of tomPicks) {
+              const row = tomBody.insertRow();
+              row.style.borderBottom = '1px solid rgba(255,255,255,0.05)';
+              const tEdge = (p.proj != null && p.line != null) ? +(p.proj - p.line).toFixed(1) : null;
+              const tEdgeStr = tEdge != null ? (tEdge > 0 ? '+'+tEdge : String(tEdge)) : '—';
+              const tPrice = p.odds != null ? (p.odds > 0 ? '+'+p.odds : String(p.odds)) : '—';
+              const cells = [
+                shortName(p.player), p.team || '', p.opp || '',
+                marketLabels[p.market] || p.market,
+                p.proj != null ? String(p.proj) : '—',
+                p.line != null ? String(p.line) : '—',
+                tEdgeStr, tPrice,
+                p.pick === 'OVER' ? 'O' : 'U',
+              ];
+              cells.forEach((val, i) => {
+                const td = row.insertCell();
+                td.textContent = val;
+                td.style.cssText = 'padding:4px 4px;text-align:center';
+                if (i === 0) { td.style.textAlign = 'left'; td.style.fontWeight = '600'; }
+                if (i === 1 || i === 2) td.style.color = '#999';
+                if (i === 4 && p.proj != null && p.line != null) {
+                  td.style.color = p.proj > p.line ? 'var(--green)' : p.proj < p.line ? 'var(--red)' : '';
+                }
+                if (i === 6 && tEdge != null) td.style.color = tEdge > 0 ? 'var(--green)' : tEdge < 0 ? 'var(--red)' : '#999';
+                if (i === 7) td.style.color = '#999';
+                if (i === 8) { td.style.fontWeight = '700'; td.style.color = p.pick === 'OVER' ? 'var(--green)' : 'var(--red)'; }
+              });
+            }
+            tomCard.appendChild(tomTbl);
+            el.appendChild(tomCard);
+          }
+        } catch (e) {
+          console.warn('[nba-props] tomorrow look-ahead render failed', e);
+        }
       })();
 
       // ── Today's Games Explorer ──
