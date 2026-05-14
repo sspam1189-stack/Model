@@ -50,11 +50,12 @@ MARKET_THRESHOLDS = {
 # Variance multipliers (how noisy each stat is game-to-game)
 # ---------------------------------------------------------------------------
 VAR_MULT = {
-    # 2026-05-14 sweep with Kalman variance dropped (kalmanBlend was already 0,
-    # so the Kalman state is now fully unused for strikeouts). At 2u picks /
-    # 1u leans sizing, VAR=1.10 is the season peak: +246u total (vs +216u
-    # at the old VAR=1.15 / Kalman var on config), tied on recent units.
-    "strikeouts":   1.10,
+    # 2026-05-14 6D sweep (BF x BLEND_FLOOR x VAR x CAP x EMP_STD x THR) at
+    # 2u picks / 1u leans sizing, Kalman variance dropped: optimal cell is
+    # BF=1.00 / BL=0.90 / VAR=1.20 / EMP=1.9 / THR=0.72 with +251u season
+    # +34.3% ROI and +52.7u recent +24.6% ROI (vs old VAR=1.10 / BL=0.80
+    # which delivered +240u / 30.8% / +50u / 20.6%).
+    "strikeouts":   1.20,
 }
 
 # ---------------------------------------------------------------------------
@@ -111,7 +112,12 @@ SPLITS_BLEND_WEIGHT = 0.0
 # Old formula under-counted ppbf (3.71 vs real 3.92), and MULT=0.95 was
 # empirically compensating. With clean inputs, MULT needs to come up to 1.05
 # to restore the optimal effective BF projection.
-BF_MULT = 1.05
+#
+# 2026-05-14 6D sweep at 2u picks / 1u leans sizing post-Kalman-drop:
+# BF=1.00 narrowly beats 1.05 (+10.7u season / +3.4pp season ROI) in the
+# new VAR=1.20 / BL=0.90 regime. Trimmed back to 1.00 since the cleaner-
+# inputs argument is captured by the BL/VAR/EMP knobs now.
+BF_MULT = 1.00
 
 # Hard ceiling on projected batters faced after BF_MULT. Acts as a league-wide
 # safety net on top of the per-pitcher pitch-count ceiling (see props_engine.py
@@ -156,11 +162,13 @@ WEATHER_K_HOT_PENALTY = 0.0     # was -0.01
 #   * 2026-04-15 (71dde197): shipped K=1.9 from first ~14 K picks of 2026.
 #   * 2026-05-14: 440 graded K picks → selection-biased residual std 2.225.
 #     True population std estimate ~1.95-2.10 (picks are conviction-skewed
-#     so picks-only std runs hot). Bumped K to 2.1 as a midpoint estimate;
-#     runtime calibration in run_daily.py refines further once 50+ graded
-#     entries land per market.
+#     so picks-only std runs hot). Bumped K to 2.1 as a midpoint estimate.
+#   * 2026-05-14 (later): 6D sweep at 2u/1u sizing picked K=1.9 over 2.1 by
+#     +8u season units (recent unchanged). Reverting to 1.9 — matches the
+#     original 71dde197 ship value and the residual std under the
+#     no-Kalman-var / VAR=1.20 regime.
 DEFAULT_EMPIRICAL_STD = {
-    "strikeouts":   2.0,
+    "strikeouts":   1.9,
     "outs":         2.4,
     "hits_allowed": 1.9,
 }

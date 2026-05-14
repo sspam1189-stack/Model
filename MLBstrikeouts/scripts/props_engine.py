@@ -7,7 +7,7 @@ import unicodedata
 import numpy as np
 from scipy.stats import t as t_dist
 
-_BLEND_FLOOR_MULT = float(os.environ.get("BLEND_FLOOR_MULT", "0.8"))
+_BLEND_FLOOR_MULT = float(os.environ.get("BLEND_FLOOR_MULT", "0.9"))
 
 from defaults import (
     PROP_T_DF, ROLLING_WINDOW, DECAY_FACTOR, MIN_GAMES, MIN_INNINGS,
