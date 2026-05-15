@@ -50,12 +50,13 @@ MARKET_THRESHOLDS = {
 # Variance multipliers (how noisy each stat is game-to-game)
 # ---------------------------------------------------------------------------
 VAR_MULT = {
-    # 2026-05-14 6D sweep (BF x BLEND_FLOOR x VAR x CAP x EMP_STD x THR) at
-    # 2u picks / 1u leans sizing, Kalman variance dropped: optimal cell is
-    # BF=1.00 / BL=0.90 / VAR=1.20 / EMP=1.9 / THR=0.72 with +251u season
-    # +34.3% ROI and +52.7u recent +24.6% ROI (vs old VAR=1.10 / BL=0.80
-    # which delivered +240u / 30.8% / +50u / 20.6%).
-    "strikeouts":   1.20,
+    # 2026-05-14 3D sweep (BF x VAR x CAP, scripts.sweep_3d_sized) at 2.5u
+    # picks / 1u leans sizing with Kalman var off and engine producing
+    # pCover>=0.50 (picks at >=0.72, leans 0.65-0.72): optimal cell BF=1.00
+    # VAR=1.15 CAP=23 delivers +300.48u season (354 plays, 36.4% ROI) with
+    # +42.43u from leans alone (66.3% WR). Beats VAR=1.20 by +5u season
+    # (below 0.20u/pick bar but lean WR cleaner: 66.3% vs 65.4%).
+    "strikeouts":   1.15,
 }
 
 # ---------------------------------------------------------------------------
