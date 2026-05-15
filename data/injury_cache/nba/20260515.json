@@ -1,29 +1,13 @@
 {
   "report": {
-    "Detroit Pistons": [
-      {
-        "player": "Duncan Robinson",
-        "status": "questionable",
-        "reason": "Day-To-Day",
-        "tier": "bench",
-        "mpg": 27.4
-      },
-      {
-        "player": "Kevin Huerter",
-        "status": "questionable",
-        "reason": "Day-To-Day",
-        "tier": "bench",
-        "mpg": 22.5
-      },
-      {
-        "player": "Caris LeVert",
-        "status": "questionable",
-        "reason": "Day-To-Day",
-        "tier": "bench",
-        "mpg": 19.2
-      }
-    ],
     "Minnesota Timberwolves": [
+      {
+        "player": "Terrence Shannon Jr.",
+        "status": "questionable",
+        "reason": "Day-To-Day",
+        "tier": "deep_bench",
+        "mpg": 12.5
+      },
       {
         "player": "Donte DiVincenzo",
         "status": "out",
@@ -39,6 +23,15 @@
         "reason": "Out",
         "tier": "deep_bench",
         "mpg": 6.2
+      }
+    ],
+    "Cleveland Cavaliers": [
+      {
+        "player": "Larry Nance Jr.",
+        "status": "questionable",
+        "reason": "Nance (illness) is listed as questionable for Friday's Game 6 of the Eastern Conference Semifinals against the Pistons.",
+        "tier": "deep_bench",
+        "mpg": 12.8
       }
     ]
   },
