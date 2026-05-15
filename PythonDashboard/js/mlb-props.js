@@ -678,11 +678,18 @@
             const suffix = _MARKET_SUFFIX[p.market] || '';
             const { statusConfirmed, annotation } = _resolveEntry(p, bucket);
             const conf = statusConfirmed ? '**confirmed**' : 'unconfirmed';
+            // Projection is appended ONLY when the row is confirmed —
+            // unconfirmed projections can shift once the real lineup locks,
+            // so withholding the number until confirmation avoids posting a
+            // figure we'll have to walk back.
+            const projTag = (statusConfirmed && p.proj != null)
+              ? ` proj: ${Number(p.proj).toFixed(1)}`
+              : '';
             // Body of the line WITHOUT the leading "* " or trailing annotation.
             // We stash this in state so that if this entry later disappears
             // from picks/leans entirely we can render it struck-through using
             // the same body text we showed today.
-            const body = `${name} ${dir}${p.line}${suffix} ${conf}`;
+            const body = `${name} ${dir}${p.line}${suffix} ${conf}${projTag}`;
             _currentState[_keyOf(p)].lineText = body;
             return `* ${body}${annotation}`;
           }
