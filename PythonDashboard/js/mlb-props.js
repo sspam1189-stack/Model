@@ -253,16 +253,37 @@
           el.appendChild(mbCard);
         }
 
-        // Recent Record — toggleable cutoff. Defaults to 2026-05-05 (prior
-        // model-tuning ship date) so historical recent performance stays
-        // visible. The 2026-05-13 option isolates new-config-only picks
-        // (BF=0.95, VAR=1.15, kalmanBlend=0.0, BF_CAP=23, threshold=0.72,
-        // lean band 0.65-0.72; 4D walk-forward sweep: 72.8% WR, +30.5% ROI).
+        // Recent Record — toggleable window.
+        // "This week" = current Mon-Sun calendar week (recomputed at render).
+        // "Last 2 weeks" = the two most-recently completed Mon-Sun weeks.
+        function _isoDate(d) {
+          return d.toISOString().slice(0, 10);
+        }
+        function _weekWindows() {
+          const today = new Date();
+          today.setUTCHours(0, 0, 0, 0);
+          const daysSinceMon = (today.getUTCDay() + 6) % 7;
+          const thisMon = new Date(today);
+          thisMon.setUTCDate(today.getUTCDate() - daysSinceMon);
+          const thisSun = new Date(thisMon);
+          thisSun.setUTCDate(thisMon.getUTCDate() + 6);
+          const lastMon = new Date(thisMon);
+          lastMon.setUTCDate(thisMon.getUTCDate() - 7);
+          const twoMon = new Date(thisMon);
+          twoMon.setUTCDate(thisMon.getUTCDate() - 14);
+          const lastSun = new Date(thisMon);
+          lastSun.setUTCDate(thisMon.getUTCDate() - 1);
+          return {
+            thisWeek:    { start: _isoDate(thisMon), end: _isoDate(thisSun) },
+            lastTwoWeek: { start: _isoDate(twoMon),  end: _isoDate(lastSun) },
+          };
+        }
+        const _ww = _weekWindows();
         const recentCutoffOptions = [
-          { label: 'Since 5/05', value: '2026-05-05' },
-          { label: 'Since 5/13 (new config)', value: '2026-05-13' },
+          { label: 'This week',     start: _ww.thisWeek.start,    end: _ww.thisWeek.end },
+          { label: 'Last 2 weeks',  start: _ww.lastTwoWeek.start, end: _ww.lastTwoWeek.end },
         ];
-        let recentCutoff = recentCutoffOptions[0].value;
+        let recentCutoffIdx = 0;
 
         const rCardContainer = document.createElement('div');
         el.appendChild(rCardContainer);
@@ -270,17 +291,17 @@
         function buildRecentToggle() {
           const wrap = document.createElement('div');
           wrap.style.cssText = 'display:inline-flex;gap:4px;background:rgba(255,255,255,0.05);padding:3px;border-radius:6px';
-          recentCutoffOptions.forEach(opt => {
+          recentCutoffOptions.forEach((opt, idx) => {
             const b = document.createElement('button');
             b.textContent = opt.label;
-            const active = opt.value === recentCutoff;
+            const active = idx === recentCutoffIdx;
             b.style.cssText = 'font-size:11px;padding:4px 10px;border:0;border-radius:4px;cursor:pointer;'
               + (active
                   ? 'background:rgba(168,85,247,0.35);color:#fff;font-weight:600'
                   : 'background:transparent;color:#aaa');
             b.addEventListener('click', () => {
-              if (recentCutoff !== opt.value) {
-                recentCutoff = opt.value;
+              if (recentCutoffIdx !== idx) {
+                recentCutoffIdx = idx;
                 renderRecentRecord();
               }
             });
@@ -291,7 +312,10 @@
 
         function renderRecentRecord() {
           rCardContainer.innerHTML = '';
-          const recentPicks = gradedPicks.filter(p => p.date && p.date >= recentCutoff);
+          const opt = recentCutoffOptions[recentCutoffIdx];
+          const recentPicks = gradedPicks.filter(p =>
+            p.date && p.date >= opt.start && (!opt.end || p.date <= opt.end)
+          );
           const rCard = document.createElement('div');
           rCard.className = 'card card-games';
           rCard.style.marginBottom = '16px';
@@ -299,7 +323,9 @@
           titleRow.className = 'card-title';
           titleRow.style.cssText = 'display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap';
           const titleSpan = document.createElement('span');
-          titleSpan.textContent = `Recent Record (${recentCutoff} - present)`;
+          titleSpan.textContent = opt.end
+            ? `Recent Record (${opt.start} to ${opt.end})`
+            : `Recent Record (${opt.start} - present)`;
           titleRow.appendChild(titleSpan);
           titleRow.appendChild(buildRecentToggle());
           rCard.appendChild(titleRow);
@@ -330,9 +356,10 @@
           if (recentOvers.length)  appendMarketRow(rb, 'Overs',  recentOvers,  false);
           if (recentUnders.length) appendMarketRow(rb, 'Unders', recentUnders, false);
           appendMarketRow(rb, 'Total', recentPicks, true);
-          const recentOverLeans   = leanOverGraded.filter(p => p.date && p.date >= recentCutoff);
-          const recentUnderLeans  = leanUnderGraded.filter(p => p.date && p.date >= recentCutoff);
-          const recentLeansAll    = leanGraded.filter(p => p.date && p.date >= recentCutoff);
+          const _inWin = p => p.date && p.date >= opt.start && (!opt.end || p.date <= opt.end);
+          const recentOverLeans   = leanOverGraded.filter(_inWin);
+          const recentUnderLeans  = leanUnderGraded.filter(_inWin);
+          const recentLeansAll    = leanGraded.filter(_inWin);
           appendLeanRow(rb, recentOverLeans,  'Lean O .65-.72');
           appendLeanRow(rb, recentUnderLeans, 'Lean U .65-.72');
           appendLeanRow(rb, recentLeansAll,   'Lean Total .65-.72');
@@ -1162,6 +1189,7 @@
           const cols = [
             ['Name',   null, true],
             ['Team',   null, false],
+            ['Opp',    null, false],
             ['Outs',   null, false],
             ['BF',     null, false],
             ['PC',     null, false],
@@ -1231,7 +1259,7 @@
             const outsStr  = p.proj_ip != null ? String(Math.round(p.proj_ip * 3)) : '\u2014';
             const bfStr    = p.proj_bf != null ? String(Math.round(p.proj_bf)) : '\u2014';
             const pitchStr = p.proj_pc != null ? String(Math.round(p.proj_pc)) : '\u2014';
-            [displayName(p), p.team||'',
+            [displayName(p), p.team||'', p.opp||'',
              outsStr, bfStr, pitchStr,
              p.proj!=null?String(p.proj):'\u2014', p.line!=null?String(p.line):'\u2014',
              edgeStr, coverStr,
@@ -1245,15 +1273,16 @@
               td.style.cssText = 'padding:5px 8px;text-align:'+(i===0?'left':'center')+';font-size:12px';
               if (i===0) td.style.fontWeight = '600';
               if (i===1) td.style.color = '#999';
-              if (i===2) td.style.color = '#bbb'; // Outs
-              if (i===3) td.style.color = '#bbb'; // BF
-              if (i===4) td.style.color = '#bbb'; // PC
-              if (i===5 && p.line!=null) td.style.color = p.proj > p.line ? 'var(--green)' : p.proj < p.line ? 'var(--red)' : '';
-              if (i===7 && edge!=null) td.style.color = edge > 0 ? 'var(--green)' : edge < 0 ? 'var(--red)' : '#999';
-              if (i===8 && p.pCover!=null) td.style.color = p.pCover >= 0.72 ? 'var(--green)' : p.pCover >= 0.65 ? 'var(--yellow)' : p.pCover <= 0.45 ? 'var(--red)' : '#ccc';
-              if (i===9 && isPick) { td.style.fontWeight='700'; td.style.color = p.pick==='OVER'?'var(--green)':'var(--red)'; }
-              if (i===10) td.style.color = '#999';
-              if (i===11) {
+              if (i===2) td.style.color = '#999'; // Opp
+              if (i===3) td.style.color = '#bbb'; // Outs
+              if (i===4) td.style.color = '#bbb'; // BF
+              if (i===5) td.style.color = '#bbb'; // PC
+              if (i===6 && p.line!=null) td.style.color = p.proj > p.line ? 'var(--green)' : p.proj < p.line ? 'var(--red)' : '';
+              if (i===8 && edge!=null) td.style.color = edge > 0 ? 'var(--green)' : edge < 0 ? 'var(--red)' : '#999';
+              if (i===9 && p.pCover!=null) td.style.color = p.pCover >= 0.72 ? 'var(--green)' : p.pCover >= 0.65 ? 'var(--yellow)' : p.pCover <= 0.45 ? 'var(--red)' : '#ccc';
+              if (i===10 && isPick) { td.style.fontWeight='700'; td.style.color = p.pick==='OVER'?'var(--green)':'var(--red)'; }
+              if (i===11) td.style.color = '#999';
+              if (i===12) {
                 td.title = isPostponed ? _gs : (p.lockState || 'pending');
                 td.style.fontSize = '11px';
                 td.style.fontWeight = '600';
