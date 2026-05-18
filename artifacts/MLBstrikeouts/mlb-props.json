@@ -4,10 +4,10 @@
   "season": "2026",
   "mode": "live",
   "model": "kalman_blend",
-  "generated": "2026-05-18T17:35:57.144877",
+  "generated": "2026-05-18T18:02:02.206587",
   "totalProjections": 27,
   "totalPicks": 554,
-  "totalWatchlist": 10,
+  "totalWatchlist": 9,
   "props": [
     {
       "player": "Davis Martin",
@@ -13927,7 +13927,7 @@
       "odds": -102,
       "to_win_1u": 1.02,
       "date": "2026-05-18",
-      "lockState": "lineup_confirmed",
+      "lockState": "game_started",
       "lockedAt": "2026-05-18T21:15:40.668367Z"
     },
     {
@@ -13976,7 +13976,7 @@
       "to_win_1u": 1.44,
       "would_be_pick": "UNDER",
       "date": "2026-05-18",
-      "lockState": "lineup_confirmed",
+      "lockState": "game_started",
       "lockedAt": "2026-05-18T21:15:40.668367Z"
     },
     {
@@ -14001,7 +14001,7 @@
       "to_win_1u": 0.89,
       "would_be_pick": "OVER",
       "date": "2026-05-18",
-      "lockState": "lineup_confirmed",
+      "lockState": "game_started",
       "lockedAt": "2026-05-18T21:15:40.668367Z"
     },
     {
@@ -14051,7 +14051,7 @@
       "to_win_1u": 1.34,
       "would_be_pick": "OVER",
       "date": "2026-05-18",
-      "lockState": "lineup_confirmed",
+      "lockState": "game_started",
       "lockedAt": "2026-05-18T21:15:40.668367Z"
     },
     {
@@ -14076,7 +14076,7 @@
       "to_win_1u": 1.36,
       "would_be_pick": "UNDER",
       "date": "2026-05-18",
-      "lockState": "lineup_confirmed",
+      "lockState": "game_started",
       "lockedAt": "2026-05-18T21:15:40.668367Z"
     },
     {
@@ -14155,31 +14155,6 @@
       "lockedAt": "2026-05-18T22:35:57.144932Z"
     },
     {
-      "player": "MacKenzie Gore",
-      "team": "TEX",
-      "opp": "COL",
-      "market": "strikeouts",
-      "proj": 6.5,
-      "std": 2.2,
-      "line": 5.5,
-      "over_price": -166,
-      "under_price": 124,
-      "pick": "PASS",
-      "edge": 1.0,
-      "pCover": 0.676,
-      "conf": "watch",
-      "proj_ip": 5.1,
-      "proj_bf": 22.7,
-      "proj_bf_capped": 22.7,
-      "proj_pc": 95,
-      "odds": -166,
-      "to_win_1u": 1.66,
-      "would_be_pick": "OVER",
-      "date": "2026-05-18",
-      "lockState": "pending",
-      "lockedAt": null
-    },
-    {
       "player": "Noah Schultz",
       "team": "CWS",
       "opp": "SEA",
@@ -14203,9 +14178,33 @@
       "date": "2026-05-18",
       "lockState": "lineup_confirmed",
       "lockedAt": "2026-05-18T22:35:57.144932Z"
+    },
+    {
+      "player": "MacKenzie Gore",
+      "team": "TEX",
+      "opp": "COL",
+      "market": "strikeouts",
+      "proj": 7.5,
+      "std": 2.2,
+      "line": 5.5,
+      "over_price": -166,
+      "under_price": 124,
+      "pick": "OVER",
+      "edge": 2.0,
+      "pCover": 0.801,
+      "conf": "high",
+      "proj_ip": 5.1,
+      "proj_bf": 22.7,
+      "proj_bf_capped": 22.7,
+      "proj_pc": 95,
+      "odds": -166,
+      "to_win_1u": 1.66,
+      "date": "2026-05-18",
+      "lockState": "lineup_confirmed",
+      "lockedAt": "2026-05-18T23:02:02.206738Z"
     }
   ],
-  "summary": "2 picks (+10 watch) from 27 projections",
+  "summary": "3 picks (+9 watch) from 27 projections",
   "date": "2026-05-18",
   "todayProjections": [
     {
@@ -14229,7 +14228,7 @@
       "odds": -166,
       "to_win_1u": 1.66,
       "date": "2026-05-18",
-      "lockState": "lineup_confirmed",
+      "lockState": "game_started",
       "lockedAt": "2026-05-18T21:15:40.668367Z"
     },
     {
@@ -14253,7 +14252,7 @@
       "odds": -144,
       "to_win_1u": 1.44,
       "date": "2026-05-18",
-      "lockState": "lineup_confirmed",
+      "lockState": "game_started",
       "lockedAt": "2026-05-18T21:15:40.668367Z"
     },
     {
@@ -14325,7 +14324,7 @@
       "odds": -136,
       "to_win_1u": 1.36,
       "date": "2026-05-18",
-      "lockState": "lineup_confirmed",
+      "lockState": "game_started",
       "lockedAt": "2026-05-18T21:15:40.668367Z"
     },
     {
@@ -14349,7 +14348,7 @@
       "odds": -166,
       "to_win_1u": 1.66,
       "date": "2026-05-18",
-      "lockState": "lineup_confirmed",
+      "lockState": "game_started",
       "lockedAt": "2026-05-18T21:15:40.668367Z"
     },
     {
@@ -14373,7 +14372,7 @@
       "odds": -105,
       "to_win_1u": 1.05,
       "date": "2026-05-18",
-      "lockState": "lineup_confirmed",
+      "lockState": "game_started",
       "lockedAt": "2026-05-18T21:15:40.668367Z"
     },
     {
@@ -14445,7 +14444,7 @@
       "odds": 112,
       "to_win_1u": 0.89,
       "date": "2026-05-18",
-      "lockState": "lineup_confirmed",
+      "lockState": "game_started",
       "lockedAt": "2026-05-18T21:15:40.668367Z"
     },
     {
@@ -14493,7 +14492,7 @@
       "odds": -102,
       "to_win_1u": 1.02,
       "date": "2026-05-18",
-      "lockState": "lineup_confirmed",
+      "lockState": "game_started",
       "lockedAt": "2026-05-18T21:15:40.668367Z"
     },
     {
@@ -14541,7 +14540,7 @@
       "odds": -122,
       "to_win_1u": 1.22,
       "date": "2026-05-18",
-      "lockState": "lineup_confirmed",
+      "lockState": "game_started",
       "lockedAt": "2026-05-18T21:15:40.668367Z"
     },
     {
@@ -14565,7 +14564,7 @@
       "odds": -134,
       "to_win_1u": 1.34,
       "date": "2026-05-18",
-      "lockState": "lineup_confirmed",
+      "lockState": "game_started",
       "lockedAt": "2026-05-18T21:15:40.668367Z"
     },
     {
@@ -14613,7 +14612,7 @@
       "odds": -152,
       "to_win_1u": 1.52,
       "date": "2026-05-18",
-      "lockState": "lineup_confirmed",
+      "lockState": "game_started",
       "lockedAt": "2026-05-18T21:15:40.668367Z"
     },
     {
@@ -14687,30 +14686,6 @@
       "date": "2026-05-18",
       "lockState": "lineup_confirmed",
       "lockedAt": "2026-05-18T22:35:57.144932Z"
-    },
-    {
-      "player": "Jose Quintana",
-      "team": "COL",
-      "opp": "TEX",
-      "market": "strikeouts",
-      "proj": 2.7,
-      "std": 1.9,
-      "line": 2.5,
-      "over_price": -162,
-      "under_price": 132,
-      "pick": "PASS",
-      "edge": 0.2,
-      "pCover": 0.546,
-      "conf": "low",
-      "proj_ip": 5.0,
-      "proj_bf": 20.8,
-      "proj_bf_capped": 20.8,
-      "proj_pc": 80.0,
-      "odds": -162,
-      "to_win_1u": 1.62,
-      "date": "2026-05-18",
-      "lockState": "pending",
-      "lockedAt": null
     },
     {
       "player": "Noah Schultz",
@@ -14833,19 +14808,43 @@
       "lockedAt": "2026-05-18T22:35:57.144932Z"
     },
     {
+      "player": "Jose Quintana",
+      "team": "COL",
+      "opp": "TEX",
+      "market": "strikeouts",
+      "proj": 2.7,
+      "std": 1.9,
+      "line": 2.5,
+      "over_price": -162,
+      "under_price": 132,
+      "pick": "PASS",
+      "edge": 0.2,
+      "pCover": 0.547,
+      "conf": "low",
+      "proj_ip": 5.0,
+      "proj_bf": 20.8,
+      "proj_bf_capped": 20.8,
+      "proj_pc": 80.0,
+      "odds": -162,
+      "to_win_1u": 1.62,
+      "date": "2026-05-18",
+      "lockState": "pending",
+      "lockedAt": null
+    },
+    {
       "player": "MacKenzie Gore",
       "team": "TEX",
       "opp": "COL",
       "market": "strikeouts",
-      "proj": 6.5,
+      "proj": 7.5,
       "std": 2.2,
       "line": 5.5,
       "over_price": -166,
       "under_price": 124,
-      "pick": "PASS",
-      "edge": 1.0,
-      "pCover": 0.676,
-      "conf": "low",
+      "pick": "OVER",
+      "edge": 2.0,
+      "pCover": 0.801,
+      "conf": "high",
       "proj_ip": 5.1,
       "proj_bf": 22.7,
       "proj_bf_capped": 22.7,
@@ -14853,8 +14852,8 @@
       "odds": -166,
       "to_win_1u": 1.66,
       "date": "2026-05-18",
-      "lockState": "pending",
-      "lockedAt": null
+      "lockState": "lineup_confirmed",
+      "lockedAt": "2026-05-18T23:02:02.206738Z"
     }
   ],
   "gameTimes": {
@@ -14890,24 +14889,24 @@
   "gameStatuses": {
     "DET": "Delayed Start",
     "CLE": "Delayed Start",
-    "TB": "Warmup",
-    "BAL": "Warmup",
-    "PHI": "Warmup",
-    "CIN": "Warmup",
-    "MIA": "Warmup",
-    "ATL": "Warmup",
-    "WSH": "Warmup",
-    "NYM": "Warmup",
-    "NYY": "Pre-Game",
-    "TOR": "Pre-Game",
-    "KC": "Pre-Game",
-    "BOS": "Pre-Game",
+    "TB": "In Progress",
+    "BAL": "In Progress",
+    "PHI": "In Progress",
+    "CIN": "In Progress",
+    "MIA": "In Progress",
+    "ATL": "In Progress",
+    "WSH": "In Progress",
+    "NYM": "In Progress",
+    "NYY": "Warmup",
+    "TOR": "Warmup",
+    "KC": "Warmup",
+    "BOS": "Warmup",
     "MIN": "Pre-Game",
     "HOU": "Pre-Game",
     "CHC": "Pre-Game",
     "MIL": "Pre-Game",
-    "COL": "Scheduled",
-    "TEX": "Scheduled",
+    "COL": "Pre-Game",
+    "TEX": "Pre-Game",
     "LAA": "Pre-Game",
     "OAK": "Pre-Game",
     "SD": "Pre-Game",
