@@ -1738,6 +1738,12 @@
         el.appendChild(gCard);
       })();
 
+      // Matchup History card sits directly under Today's Games so the read
+      // appears alongside the slate it describes, instead of at the page
+      // bottom. (Definition lives inside renderMLBDailyCards; invoking here
+      // appends to `el` at this insertion point.)
+      if (_renderMatchupCard) _renderMatchupCard();
+
       // ── Unified Toolbar ──
       const selStyle = 'padding:6px 12px;border-radius:6px;background:rgba(255,255,255,0.06);color:#fff;border:1px solid rgba(255,255,255,0.1);font-size:13px;outline:none';
       const pillStyle = 'padding:5px 14px;border-radius:16px;border:1px solid rgba(255,255,255,0.12);background:transparent;color:#999;font-size:12px;cursor:pointer;transition:all 0.15s';
@@ -2489,7 +2495,7 @@
 
       // Reddit summary card — always rendered at the very bottom.
       if (_renderRedditCard) _renderRedditCard();
-      if (_renderMatchupCard) _renderMatchupCard();
+      // Matchup History is appended above directly under Today's Games.
     }
 
     // =====================================================================
