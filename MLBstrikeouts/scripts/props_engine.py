@@ -54,7 +54,13 @@ def _name_key(name):
 def organize_pitcher_logs(raw_logs):
     """
     Organize raw game logs into per-pitcher lists sorted by date.
-    Filters to starts only (IP >= 3.0 or is_start flag).
+
+    Keeps only outings flagged as starts (or 3+ IP relief outings — a
+    bullpen-day arm who covered multiple innings). Trusts the upstream
+    `is_start` flag so this matches `sitCodes=sp` (Starter) used by
+    `fetch_pitcher_advanced_stats`. Kalman state, adv-stats aggregates,
+    and per-game projections all draw from the same "what is a start"
+    answer.
     """
     by_pitcher = {}
     for g in raw_logs:

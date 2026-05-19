@@ -15,7 +15,7 @@ Usage:
 
 import sys, os, math, argparse, json
 import numpy as np
-from datetime import datetime
+from datetime import datetime, timedelta
 from collections import defaultdict
 
 sys.path.insert(0, os.path.dirname(__file__))
@@ -23,6 +23,7 @@ sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..'))
 
 from sources.mlb_stats import (
     fetch_pitcher_game_logs, fetch_team_batting_stats,
+    fetch_pitcher_advanced_stats_through,
 )
 from props_engine import (
     organize_pitcher_logs, project_pitcher_props, STAT_KEYS,
@@ -111,42 +112,22 @@ from sources.mlb_stats import (
 # Field normalization
 # ---------------------------------------------------------------------------
 
-def _adv_stats_through(prior_logs, pitch_hands):
+def _adv_stats_through(date_iso, season, pitch_hands):
     """
-    Build adv_stats from prior game logs only (no future leakage).
+    Walk-forward starter-only adv stats AS OF a specific date.
 
-    Reproduces the fields props_engine actually reads: K_PER_9, BB_PER_9,
-    WHIP, k_pct, avg_ip, plus pitch_hand (from the static lookup).
+    Hits the MLB Stats API `byDateRange` endpoint with `sitCodes=sp` so
+    we get exactly what the daily pipeline pulls — just bounded by the
+    end_date. Results cache per-date, so historical days never refetch.
+    Pitch-hand is merged in from the static lookup since the API split
+    response doesn't carry it.
     """
-    adv = {}
-    for pid, games in prior_logs.items():
-        if not games:
-            continue
-        ip = sum(g.get("IP", g.get("ip", 0)) for g in games)
-        bf = sum(g.get("bf", 0) for g in games)
-        k  = sum(g.get("k", 0)  for g in games)
-        bb = sum(g.get("bb", 0) for g in games)
-        h  = sum(g.get("h", 0)  for g in games)
-        hr = sum(g.get("hr", 0) for g in games)
-        er = sum(g.get("er", 0) for g in games)
-        gs = len(games)
+    adv = fetch_pitcher_advanced_stats_through(season, date_iso)
+    for pid_str, row in adv.items():
         try:
-            hand = pitch_hands.get(int(pid), "R")
+            row["pitch_hand"] = pitch_hands.get(int(pid_str), "R")
         except (ValueError, TypeError):
-            hand = "R"
-        adv[str(pid)] = {
-            "K_PER_9":  k * 9.0 / ip if ip > 0 else 0.0,
-            "BB_PER_9": bb * 9.0 / ip if ip > 0 else 0.0,
-            "H_PER_9":  h * 9.0 / ip if ip > 0 else 0.0,
-            "WHIP":     (bb + h) / ip if ip > 0 else 0.0,
-            "ERA":      er * 9.0 / ip if ip > 0 else 0.0,
-            "ip": ip,
-            "avg_ip": ip / gs if gs > 0 else 0.0,
-            "k": k, "k_pct": k / bf if bf > 0 else 0.0,
-            "bf": bf, "bb": bb, "h": h, "hr": hr,
-            "games": gs, "games_started": gs,
-            "pitch_hand": hand,
-        }
+            row["pitch_hand"] = "R"
     return adv
 
 
@@ -473,8 +454,13 @@ def backfill(season=None, start_game=10, start_date=None):
                 if s:
                     date_splits[str(pid)] = s
 
-        # Build per-date adv_stats from prior logs only (no future leakage).
-        date_adv = _adv_stats_through(prior_logs, pitch_hands)
+        # Pull starter-only adv_stats through the prior date from the
+        # MLB API (cached per-date, so historical days hit network once).
+        # Backfill uses the same upstream the daily pipeline does — just
+        # bounded by `prior_date` so no future leakage.
+        prior_date = (datetime.strptime(game_date, "%Y-%m-%d")
+                      - timedelta(days=1)).strftime("%Y-%m-%d")
+        date_adv = _adv_stats_through(prior_date, season, pitch_hands)
 
         # Phase 3a: walk-forward empirical_std for this date (uses only
         # graded residuals from prior dates — results_so_far has not yet

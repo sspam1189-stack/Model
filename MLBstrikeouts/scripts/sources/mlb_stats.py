@@ -413,8 +413,18 @@ def fetch_pitcher_game_logs(season=None):
 
 def fetch_pitcher_advanced_stats(season=None):
     """
-    Fetch season-level pitching stats (K/9, BB/9, WHIP, etc.).
-    Returns dict keyed by str(player_id).
+    Fetch season-level pitching stats restricted to STARTER outings only.
+
+    Uses the MLB Stats API split endpoint with `sitCodes=sp` (Starter) so
+    every aggregate value (K/9, K%, WHIP, ERA, IP, BF, GS, etc.) reflects
+    starts only. The plain `stats=season` aggregate mixed relief and
+    starter appearances together, which biased K-rate inputs high for
+    dual-role pitchers (Tyler Alexander, Martín Pérez post-demotion,
+    openers, swingmen). The split endpoint is the same single bulk call
+    — no per-player fanout — so cost is identical.
+
+    Returns dict keyed by str(player_id). Pitchers who haven't started a
+    game this season are absent from the response.
     """
     season = season or _current_season()
     today_str = date.today().strftime("%Y%m%d")
@@ -425,8 +435,76 @@ def fetch_pitcher_advanced_stats(season=None):
         return cached
 
     url = (
-        f"{BASE_URL}/stats?stats=season&group=pitching&season={season}"
-        f"&sportId=1&playerPool=all&limit=500"
+        f"{BASE_URL}/stats?stats=statSplits&group=pitching&season={season}"
+        f"&sportId=1&playerPool=all&sitCodes=sp&limit=500"
+    )
+    raw = _fetch_json(url)
+    time.sleep(0.5)
+
+    result = {}
+    for stat_group in raw.get("stats", []):
+        for split in stat_group.get("splits", []):
+            stat = split.get("stat", {})
+            player_info = split.get("player", {})
+            pid = str(player_info.get("id", ""))
+            if not pid:
+                continue
+
+            ip = _ip_to_float(stat.get("inningsPitched", "0"))
+            gs = stat.get("gamesStarted", 0)
+            bf = stat.get("battersFaced", 0) or 0
+            k = stat.get("strikeOuts", 0) or 0
+            k_pct = round(k / bf, 4) if bf > 0 else 0.0
+
+            result[pid] = {
+                "player_name": player_info.get("fullName", ""),
+                "team": split.get("team", {}).get("abbreviation", ""),
+                "K_PER_9": _safe_float(stat.get("strikeoutsPer9Inn", 0) or 0),
+                "BB_PER_9": _safe_float(stat.get("walksPer9Inn", 0) or 0),
+                "H_PER_9": _safe_float(stat.get("hitsPer9Inn", 0) or 0),
+                "WHIP": _safe_float(stat.get("whip", 0) or 0),
+                "ERA": _safe_float(stat.get("era", 0) or 0),
+                "ip": ip,
+                "avg_ip": ip / gs if gs > 0 else 0,
+                "k": k,
+                "k_pct": k_pct,
+                "bf": bf,
+                "bb": stat.get("baseOnBalls", 0),
+                "h": stat.get("hits", 0),
+                "hr": stat.get("homeRuns", 0),
+                "games": stat.get("gamesPlayed", 0),
+                "games_started": gs,
+            }
+
+    _save_cache(cache_path, result)
+    return result
+
+
+def fetch_pitcher_advanced_stats_through(season, end_date):
+    """
+    Walk-forward through-date version of `fetch_pitcher_advanced_stats`.
+
+    Returns starter-only aggregate pitching stats spanning the season
+    from spring training through `end_date` (YYYY-MM-DD). Used by the
+    walk-forward backfill so each game-date sees only the stats that
+    would have been available before that date. Same fields, same
+    dict shape as `fetch_pitcher_advanced_stats`.
+
+    Caches per end_date — historical days never need to refetch, only
+    the current/forward edge gets a fresh API call.
+    """
+    season = season or _current_season()
+    end_key = end_date.replace("-", "")
+    cache_path = CACHE_DIR / f"pitcher_advanced_starter_{season}_thru_{end_key}.json"
+
+    cached = _load_cache(cache_path)
+    if cached is not None:
+        return cached
+
+    url = (
+        f"{BASE_URL}/stats?stats=byDateRange&group=pitching&season={season}"
+        f"&sportId=1&playerPool=all&sitCodes=sp"
+        f"&startDate={season}-03-01&endDate={end_date}&limit=500"
     )
     raw = _fetch_json(url)
     time.sleep(0.5)

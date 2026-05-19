@@ -53,7 +53,10 @@ from sources.rotowire_lineups import (
     fetch_default_lineup as fetch_rotowire_default_lineup,
     fetch_team_roster_name_to_id as fetch_rotowire_team_roster,
 )
-from props_engine import organize_pitcher_logs, project_pitcher_props, format_props_for_dashboard, STAT_KEYS
+from props_engine import (
+    organize_pitcher_logs, project_pitcher_props,
+    format_props_for_dashboard, STAT_KEYS,
+)
 from pitcher_kalman import (
     load_pitcher_kalman_state, save_pitcher_kalman_state,
     new_pitcher_kalman_state, batch_update_from_game_logs,
