@@ -911,7 +911,7 @@
           card.style.marginBottom = '16px';
           card.appendChild(Object.assign(document.createElement('div'), {
             className:'card-title',
-            textContent:`Matchup History — Today’s Picks & Leans (${todayStr})`,
+            textContent:`Matchup History VS OPP — Today’s Picks & Leans (${todayStr})`,
           }));
 
           const wrap = document.createElement('div');
@@ -1183,9 +1183,9 @@
           note.style.cssText = 'padding:12px 4px 4px;color:#999;font-size:11px;line-height:1.7';
           const defStyle = 'color:#bbb;font-weight:600;font-family:ui-monospace,Menlo,Consolas,monospace';
           note.innerHTML = `
-            <div style="margin-bottom:6px"><span style="${defStyle}">O//U</span> &nbsp;&nbsp; Picks/Leans + direction (narrowest cohort)</div>
-            <div style="margin-bottom:6px"><span style="${defStyle}">O&amp;&amp;U</span> &nbsp; Picks/Leans, both directions combined</div>
-            <div style="margin-bottom:6px"><span style="${defStyle}">P+L O//U</span> Picks + Leans combined, this direction only</div>
+            <div style="margin-bottom:6px"><span style="${defStyle}">O//U</span> &nbsp;&nbsp; Picks/Leans + direction VS OPP (narrowest cohort)</div>
+            <div style="margin-bottom:6px"><span style="${defStyle}">O&amp;&amp;U</span> &nbsp; Picks/Leans, both directions combined VS OPP</div>
+            <div style="margin-bottom:6px"><span style="${defStyle}">P+L O//U</span> Picks + Leans combined, this direction only VS OPP</div>
             <div style="margin-top:8px;padding-top:6px;border-top:1px solid rgba(255,255,255,0.05);color:#888;font-style:italic">
               Pick rows count picks-only history · Lean rows count leans-only · Watchlist (&lt;0.65) excluded<br>
               Tiers: <span style="color:var(--green)">Elite ≥80%</span> · <span style="color:#9ee493">Solid ≥65%</span> · <span style="color:#ccc">Neutral ≥50%</span> · <span style="color:var(--red)">Caution &lt;50%</span> · <span style="color:#aaa">Small &lt;4 samples</span>
