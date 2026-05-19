@@ -163,6 +163,10 @@
       // Hoisted slot for the Reddit summary card so it can be invoked
       // at the very bottom of the page (after the All Picks tables).
       let _renderRedditCard = null;
+      // Hoisted slot for the Matchup History card — rendered just under
+      // the Reddit card. Shows each of today's picks/leans alongside the
+      // model's historical record vs that opponent in that direction.
+      let _renderMatchupCard = null;
 
       // ── Yesterday's Recap + Today's Picks ──
       (function renderMLBDailyCards() {
@@ -805,6 +809,387 @@
           redditCard.appendChild(pre);
 
           el.appendChild(redditCard);
+        };
+
+        // --- Matchup History card ---
+        // For each of today's actionable picks and leans, look up the
+        // model's historical record vs that opponent in that direction
+        // (within the Picks+Leans universe — excluding watchlist plays).
+        _renderMatchupCard = function renderMatchupCard() {
+          // Resolve the betting direction for any row: picks use `pick`,
+          // leans store the intended side in `would_be_pick`.
+          const _dirOf = (p) => p.pick === 'PASS' ? (p.would_be_pick || null) : p.pick;
+
+          // Build TWO maps so the Dir record can be bucket-specific:
+          //   byOppDirPicks[opp][OVER|UNDER] — graded actionable picks only
+          //   byOppDirLeans[opp][OVER|UNDER] — graded leans only
+          //   byOppAll[opp]                  — picks+leans, both directions
+          const graded = (data.props || []).filter(p =>
+            p.market === 'strikeouts'
+            && (p.result === 'WIN' || p.result === 'LOSS')
+            && p.opp
+            && (p.pick === 'OVER' || p.pick === 'UNDER' || isLean(p))
+          );
+
+          // Four maps so each column can be bucket-scoped exactly:
+          //   byOppDirPicks[opp][O|U] — picks, this direction       (O/U Hist on Pick rows)
+          //   byOppDirLeans[opp][O|U] — leans, this direction       (O/U Hist on Lean rows)
+          //   byOppPicks[opp]         — picks, both directions      (O&U Hist on Pick rows)
+          //   byOppLeans[opp]         — leans, both directions      (O&U Hist on Lean rows)
+          const byOppDirPicks = {};
+          const byOppDirLeans = {};
+          const byOppPicks = {};
+          const byOppLeans = {};
+          for (const p of graded) {
+            const opp = p.opp;
+            const dir = _dirOf(p);
+            if (!dir) continue;
+            const isPickRow = (p.pick === 'OVER' || p.pick === 'UNDER');
+            const won = p.result === 'WIN';
+            const u = (() => {
+              const od = p.odds;
+              if (od == null) return 0;
+              const o = Number(od);
+              if (o > 0) return won ? o / 100 : -1;
+              return won ? 1 : -Math.abs(o) / 100;
+            })();
+            const dirMap = isPickRow ? byOppDirPicks : byOppDirLeans;
+            if (!dirMap[opp]) dirMap[opp] = {OVER:{w:0,l:0,u:0}, UNDER:{w:0,l:0,u:0}};
+            const bd = dirMap[opp][dir];
+            if (won) bd.w++; else bd.l++;
+            bd.u += u;
+            const bucketMap = isPickRow ? byOppPicks : byOppLeans;
+            if (!bucketMap[opp]) bucketMap[opp] = {w:0,l:0,u:0};
+            if (won) bucketMap[opp].w++; else bucketMap[opp].l++;
+            bucketMap[opp].u += u;
+          }
+          function bucketDirRec(opp, dir, bucket) {
+            const m = bucket === 'Pick' ? byOppDirPicks : byOppDirLeans;
+            return (m[opp] && dir) ? m[opp][dir] : null;
+          }
+          // Same bucket, BOTH directions vs this opponent.
+          function bucketBothDirsRec(opp, bucket) {
+            const m = bucket === 'Pick' ? byOppPicks : byOppLeans;
+            return m[opp] || null;
+          }
+          // Both buckets (P+L), SAME direction vs this opponent.
+          function allBucketsDirRec(opp, dir) {
+            if (!dir) return null;
+            const pk = byOppDirPicks[opp] ? byOppDirPicks[opp][dir] : null;
+            const ln = byOppDirLeans[opp] ? byOppDirLeans[opp][dir] : null;
+            if (!pk && !ln) return null;
+            return {
+              w: (pk ? pk.w : 0) + (ln ? ln.w : 0),
+              l: (pk ? pk.l : 0) + (ln ? ln.l : 0),
+              u: (pk ? pk.u : 0) + (ln ? ln.u : 0),
+            };
+          }
+
+          // Today's actionable picks + leans (excluding void games),
+          // sorted picks first (by pCover desc), then leans (by pCover desc).
+          const _gameStatusesM = data.gameStatuses || {};
+          const _VOID_M = new Set([
+            'Postponed','Cancelled','Canceled','Suspended',
+            'Postponed Inclement Weather','Postponed Rain',
+            'Suspended: Inclement Weather','Suspended: Rain',
+          ]);
+          const _voidRow = (p) => _VOID_M.has(
+            _gameStatusesM[p.team] || _gameStatusesM[p.opp] || ''
+          );
+          const todayPicks = picks
+            .filter(p => p.date === todayStr && !_voidRow(p))
+            .sort((a, b) => (b.pCover || 0) - (a.pCover || 0));
+          const todayLeans = (data.props || [])
+            .filter(p => p.date === todayStr && isLean(p) && !_voidRow(p))
+            .sort((a, b) => (b.pCover || 0) - (a.pCover || 0));
+          const rows = [...todayPicks.map(p => ({p, bucket:'Pick'})),
+                        ...todayLeans.map(p => ({p, bucket:'Lean'}))];
+          if (rows.length === 0) return;
+
+          const card = document.createElement('div');
+          card.className = 'card card-games';
+          card.style.marginBottom = '16px';
+          card.appendChild(Object.assign(document.createElement('div'), {
+            className:'card-title',
+            textContent:`Matchup History — Today’s Picks & Leans (${todayStr})`,
+          }));
+
+          const wrap = document.createElement('div');
+          wrap.className = 'props-table-wrap';
+          const tbl = document.createElement('table');
+          tbl.style.cssText = 'width:100%;border-collapse:collapse;margin-top:8px';
+          const cols = [
+            ['Player', 'left'],
+            ['Tm',     'center'],
+            ['Opp',    'center'],
+            ['O/U',    'center'],
+            ['Line',   'center'],
+            ['O//U',    'center'],
+            ['WR%',     'right'],
+            ['Units',   'right'],
+            ['O&&U',    'center'],
+            ['WR%',     'right'],
+            ['Units',   'right'],
+            ['P+L O//U','center'],
+            ['WR%',     'right'],
+            ['Units',   'right'],
+          ];
+          const hr = tbl.createTHead().insertRow();
+          cols.forEach(([label, align]) => {
+            const th = document.createElement('th');
+            th.textContent = label;
+            th.style.cssText = `padding:6px 8px;text-align:${align};border-bottom:1px solid rgba(255,255,255,0.1);font-size:11px;color:#999`;
+            hr.appendChild(th);
+          });
+
+          const tb = tbl.createTBody();
+          const fmtRec = (r) => r ? `${r.w}-${r.l}` : '—';
+          const fmtWR  = (r) => (r && (r.w + r.l) > 0)
+            ? (r.w / (r.w + r.l) * 100).toFixed(1) + '%' : '—';
+          const fmtU   = (r) => r
+            ? (r.u >= 0 ? '+' : '') + r.u.toFixed(2) + 'u' : '—';
+          const wrColor = (r) => {
+            if (!r || (r.w + r.l) === 0) return '#888';
+            const w = r.w / (r.w + r.l);
+            if (w >= 0.70) return 'var(--green)';
+            if (w >= 0.55) return '#ccc';
+            return 'var(--red)';
+          };
+          const uColor = (r) => {
+            if (!r) return '#888';
+            if (r.u > 0) return 'var(--green)';
+            if (r.u < 0) return 'var(--red)';
+            return '#ccc';
+          };
+          function appendSectionHeader(label, color) {
+            const tr = tb.insertRow();
+            const td = tr.insertCell();
+            td.colSpan = cols.length;
+            td.textContent = label;
+            td.style.cssText = `padding:8px 8px 4px;font-size:11px;color:${color};font-weight:700;letter-spacing:0.08em;text-transform:uppercase;background:rgba(255,255,255,0.02);border-top:1px solid rgba(255,255,255,0.08)`;
+          }
+          function appendDataRow(p, bucket) {
+            const tr = tb.insertRow();
+            const dir = _dirOf(p);
+            const opp = p.opp || '';
+            const recBktDir   = bucketDirRec(opp, dir, bucket);
+            const recBktBoth  = bucketBothDirsRec(opp, bucket);
+            const recAllDir   = allBucketsDirRec(opp, dir);
+            const cells = [
+              {v: displayName(p), color: '#fff', weight:'600', align:'left'},
+              {v: p.team || '', color:'#999'},
+              {v: opp,           color:'#999'},
+              {v: dir === 'OVER' ? 'O' : dir === 'UNDER' ? 'U' : '—', color: dir === 'OVER' ? 'var(--green)' : dir === 'UNDER' ? 'var(--red)' : '#999', weight:'600'},
+              {v: p.line != null ? String(p.line) : '—'},
+              {v: fmtRec(recBktDir)},
+              {v: fmtWR(recBktDir),  color: wrColor(recBktDir),  align:'right'},
+              {v: fmtU(recBktDir),   color: uColor(recBktDir),   align:'right'},
+              {v: fmtRec(recBktBoth)},
+              {v: fmtWR(recBktBoth), color: wrColor(recBktBoth), align:'right'},
+              {v: fmtU(recBktBoth),  color: uColor(recBktBoth),  align:'right'},
+              {v: fmtRec(recAllDir)},
+              {v: fmtWR(recAllDir),  color: wrColor(recAllDir),  align:'right'},
+              {v: fmtU(recAllDir),   color: uColor(recAllDir),   align:'right'},
+            ];
+            cells.forEach((c, i) => {
+              const td = tr.insertCell();
+              td.textContent = c.v;
+              td.style.padding = '5px 8px';
+              td.style.fontSize = '12px';
+              td.style.textAlign = c.align || cols[i][1];
+              if (c.color)  td.style.color = c.color;
+              if (c.weight) td.style.fontWeight = c.weight;
+            });
+          }
+          if (todayPicks.length) {
+            appendSectionHeader(`Picks (${todayPicks.length})`, '#a78bfa');
+            for (const p of todayPicks) appendDataRow(p, 'Pick');
+          }
+          if (todayLeans.length) {
+            appendSectionHeader(`Leans (${todayLeans.length})`, 'var(--yellow)');
+            for (const p of todayLeans) appendDataRow(p, 'Lean');
+          }
+          wrap.appendChild(tbl);
+          card.appendChild(wrap);
+
+          // --- Read / take section ---
+          // Auto-generated one-liner per row reading the historical record.
+          // Tiers (by Dir vs Opp record), with sample-size guard:
+          //   n >= 4 AND WR >= 0.80 -> Elite (green)
+          //   n >= 4 AND WR >= 0.65 -> Solid (green-dim)
+          //   n >= 4 AND WR <= 0.45 -> Caution (red)
+          //   n >= 4 AND 0.45<WR<0.65 -> Neutral (gray)
+          //   n < 4 -> Small sample (gray, hedge language)
+          // Extra callouts:
+          //   - Lean whose all-opp WR >= 0.85 on n>=8 -> "matchup arguably elevates to a pick"
+          //   - 100% record (any sample) -> "perfect cohort"
+          //   - 0 units or negative units in cohort -> warn
+          const readBlock = document.createElement('div');
+          readBlock.style.cssText = 'padding:14px 6px 4px;border-top:1px solid rgba(255,255,255,0.06);margin-top:10px';
+          const readTitle = document.createElement('div');
+          readTitle.style.cssText = 'font-size:12px;color:#bbb;font-weight:600;margin-bottom:8px;letter-spacing:0.05em;text-transform:uppercase';
+          readTitle.textContent = 'Read';
+          readBlock.appendChild(readTitle);
+
+          function classify(rec) {
+            const n = rec ? rec.w + rec.l : 0;
+            if (n === 0) return {tier:'none',  label:'no history', color:'#888'};
+            if (n < 4)   return {tier:'small', label:'small sample', color:'#aaa'};
+            const wr = rec.w / n;
+            if (wr >= 0.80) return {tier:'elite',   label:'elite', color:'var(--green)'};
+            if (wr >= 0.65) return {tier:'solid',   label:'solid', color:'#9ee493'};
+            if (wr >= 0.50) return {tier:'neutral', label:'neutral', color:'#ccc'};
+            return                {tier:'caution', label:'caution', color:'var(--red)'};
+          }
+
+          // Build ranked sets per bucket so picks/leans render separately,
+          // each sorted by direction-record tier then units.
+          function annotate(arr) {
+            return arr.map(r => {
+              const dir = _dirOf(r.p);
+              const rec = bucketDirRec(r.p.opp, dir, r.bucket);
+              // For the Lean upgrade flag we deliberately widen the lens to
+              // P+L same-direction — the flag's job is to surface matchups
+              // strong enough that a Lean deserves play, and the broadest
+              // direction-matched cohort is the right signal for that.
+              // Main take text remains bucket-locked (uses r.rec).
+              const allRec = allBucketsDirRec(r.p.opp, dir);
+              return {...r, dir, rec, allRec, cls: classify(rec)};
+            });
+          }
+          // Order reads by model confidence (pCover) descending so the
+          // highest-confidence play floats to the top of each section.
+          function rankByPCover(arr) {
+            return arr.sort((a, b) => (b.p.pCover || 0) - (a.p.pCover || 0));
+          }
+          const pickEntries = rankByPCover(annotate(todayPicks.map(p => ({p, bucket:'Pick'}))));
+          const leanEntries = rankByPCover(annotate(todayLeans.map(p => ({p, bucket:'Lean'}))));
+
+          function renderReadRow(r) {
+            const dirRec = r.rec;
+            const allRec = r.allRec;
+            const n = dirRec ? dirRec.w + dirRec.l : 0;
+            const wr = (n > 0) ? (dirRec.w / n * 100).toFixed(1) : null;
+            const allN = allRec ? allRec.w + allRec.l : 0;
+            const allWR = (allN > 0) ? (allRec.w / allN * 100).toFixed(1) : null;
+            const allU = allRec ? allRec.u : 0;
+            const line = document.createElement('div');
+            line.style.cssText = 'padding:6px 8px;margin-bottom:4px;font-size:12px;border-left:3px solid '+r.cls.color+';background:rgba(255,255,255,0.025);border-radius:0 4px 4px 0;line-height:1.45';
+            const nameSpan = `<strong style="color:#fff">${displayName(r.p)}</strong>`;
+            const dirSpan = `<span style="color:${r.dir==='OVER'?'var(--green)':'var(--red)'};font-weight:600">${r.dir} ${r.p.line}</span>`;
+            const oppSpan = `<span style="color:#ccc">vs ${r.p.opp}</span>`;
+            const pCover = r.p.pCover || 0;
+            const pcPct = (pCover * 100).toFixed(1);
+            const bktN = n;
+            const bktWR = bktN > 0 ? dirRec.w / bktN : null;
+            const broadN = allN;
+            const broadWR = broadN > 0 ? allRec.w / broadN : null;
+            const broadU = allU;
+            const sg = (t) => `<strong style="color:var(--green)">${t}</strong>`;
+            const sy = (t) => `<strong style="color:var(--yellow)">${t}</strong>`;
+            const sr = (t) => `<strong style="color:var(--red)">${t}</strong>`;
+            const recOf = (rec) => rec ? `${rec.w}-${rec.l}` : '—';
+            const uOf   = (rec) => rec ? ((rec.u>=0?'+':'')+rec.u.toFixed(2)+'u') : '—';
+            const bktPretty   = (rec) => rec ? `${recOf(rec)} ${uOf(rec)}` : '—';
+
+            // Tier booleans for narrative branching.
+            const elite     = bktWR != null && bktN >= 4 && bktWR >= 0.80;
+            const solid     = bktWR != null && bktN >= 4 && bktWR >= 0.65 && bktWR < 0.80;
+            const coin      = bktWR != null && bktN >= 4 && bktWR >= 0.45 && bktWR < 0.65;
+            const caution   = bktWR != null && bktN >= 4 && bktWR < 0.45;
+            const small     = bktN > 0 && bktN < 4;
+            const empty     = bktN === 0;
+            const bElite    = broadWR != null && broadN >= 6 && broadWR >= 0.80 && broadU >= 4;
+            const bSolid    = broadWR != null && broadN >= 6 && broadWR >= 0.65 && broadU > 0;
+            const bCaution  = broadWR != null && broadN >= 6 && broadWR <= 0.45 && broadU <= -2;
+            const widerThanBkt = broadN > bktN;
+            const dirWord = r.dir.toLowerCase() + 's';
+            const oppStr = r.p.opp;
+
+            // Build narrative — written like a quick read I'd give over the shoulder.
+            let take = '';
+            if (r.bucket === 'Pick') {
+              if (elite && (bElite || (broadWR && broadWR >= 0.80))) {
+                take = `${sg('Cleanest spot of the night.')} Picks-only is ${sg(recOf(dirRec))} and the broader matchup widens to ${sg(recOf(allRec))} (${(broadWR*100).toFixed(1)}%, ${uOf(allRec)}). Model fires at ${pcPct}% — size up.`;
+              } else if (elite && widerThanBkt && bSolid) {
+                take = `${sg(recOf(dirRec))} picks-only, ${sg(recOf(allRec))} once you widen the lens (${(broadWR*100).toFixed(1)}%, ${uOf(allRec)}). ${pcPct}% model — play with conviction.`;
+              } else if (elite) {
+                take = `Picks-only is ${sg(recOf(dirRec))} (${(bktWR*100).toFixed(1)}%, ${uOf(dirRec)}) at ${pcPct}% model confidence. Comfortable play.`;
+              } else if (solid && bSolid) {
+                take = `Picks-only is ${recOf(dirRec)} (${(bktWR*100).toFixed(1)}%, ${uOf(dirRec)}) and the broader cohort backs it (${recOf(allRec)}, ${(broadWR*100).toFixed(1)}%, ${uOf(allRec)}). ${pcPct}% model — solid play.`;
+              } else if (coin && bCaution) {
+                take = `${sr('Hardest read on the slate.')} Picks-only is ${recOf(dirRec)} and the broader matchup makes it worse (${sr(recOf(allRec))}, ${(broadWR*100).toFixed(1)}%, ${uOf(allRec)}). Model fires at ${pcPct}% but I'd skip or token.`;
+              } else if (coin && bSolid) {
+                take = `Picks-only is a flip (${recOf(dirRec)}, ${(bktWR*100).toFixed(1)}%), but the broader matchup widens to ${sy(recOf(allRec))} (${(broadWR*100).toFixed(1)}%, ${uOf(allRec)}). ${pcPct}% model — smaller play than the elite spots, but I'm in.`;
+              } else if (coin) {
+                take = `Picks-only is mixed (${recOf(dirRec)}, ${(bktWR*100).toFixed(1)}%, ${uOf(dirRec)}) and the broader cohort doesn't move the needle (${recOf(allRec)}). ${pcPct}% — lowest-conviction pick of the slate, small if at all.`;
+              } else if (caution) {
+                take = `${sr('Picks-only has bled here')} (${sr(recOf(dirRec))}, ${(bktWR*100).toFixed(1)}%, ${uOf(dirRec)}) and broader isn't a rescue (${recOf(allRec)}). ${pcPct}% model — pass.`;
+              } else if (small && (bElite || (broadWR && broadWR >= 0.80))) {
+                take = `Picks sample is thin (${recOf(dirRec)}) but ${sg(`P+L ${dirWord} vs ${oppStr} are ${recOf(allRec)} (${(broadWR*100).toFixed(1)}%, ${uOf(allRec)})`)}. ${pcPct}% model — I'm in.`;
+              } else if (small && bSolid) {
+                take = `Bucket sample is small (${recOf(dirRec)}) but the broader matchup hasn't burned anyone (${recOf(allRec)}, ${(broadWR*100).toFixed(1)}%, ${uOf(allRec)}). Play at ${pcPct}% confidence.`;
+              } else if (small) {
+                take = `Tiny sample both ways (${recOf(dirRec)} picks, ${recOf(allRec)} broader). ${pcPct}% — model is the only thing saying yes. Standard size.`;
+              } else if (empty) {
+                take = `No prior picks vs ${oppStr} ${r.dir.toLowerCase()} — flying on ${pcPct}% model alone. Half-unit play.`;
+              } else {
+                take = `Picks-only ${recOf(dirRec)} (${(bktWR*100).toFixed(1)}%, ${uOf(dirRec)}). Broader ${recOf(allRec)}. Model at ${pcPct}%.`;
+              }
+            } else {
+              // Lean rows
+              if (bElite && (small || empty)) {
+                take = `${sy('Classified as a Lean but the matchup says play.')} Bucket alone is thin (${recOf(dirRec)}) but ${sg(`P+L ${dirWord} vs ${oppStr} are ${recOf(allRec)} (${(broadWR*100).toFixed(1)}%, ${uOf(allRec)})`)}. ${pcPct}% model — treat this like a pick.`;
+              } else if (bElite) {
+                take = `${sy('Lean by the book')}, but the broader matchup is dominant (${sg(recOf(allRec))}, ${(broadWR*100).toFixed(1)}%, ${uOf(allRec)}). Bucket alone is ${recOf(dirRec)} (${(bktWR*100).toFixed(1)}%). ${pcPct}% model — full play.`;
+              } else if (elite && bSolid) {
+                take = `Lean band, but leans-only history is ${sg(recOf(dirRec))} (${(bktWR*100).toFixed(1)}%, ${uOf(dirRec)}) and the broader cohort holds (${recOf(allRec)}, ${(broadWR*100).toFixed(1)}%). ${pcPct}% model — spot play.`;
+              } else if (elite) {
+                take = `${recOf(dirRec)} leans-only vs ${oppStr} (${(bktWR*100).toFixed(1)}%, ${uOf(dirRec)}). Bottom of the lean band at ${pcPct}% but the numbers are clean.`;
+              } else if (bSolid && (small || empty)) {
+                take = `Sample's thin (${recOf(dirRec)}) but the broader matchup nudges toward play (${recOf(allRec)}, ${(broadWR*100).toFixed(1)}%, ${uOf(allRec)}). Small play at ${pcPct}%.`;
+              } else if (bCaution) {
+                take = `${sr('Skip.')} Leans-only is ${recOf(dirRec)} and the broader cohort is actively bad (${sr(recOf(allRec))}, ${(broadWR*100).toFixed(1)}%, ${uOf(allRec)}). ${pcPct}% model but history disagrees hard.`;
+              } else if (small || empty) {
+                take = `Thinnest sample of the night — ${recOf(dirRec)} bucket, ${recOf(allRec)} broader. ${pcPct}% isn't enough by itself. Pass or token.`;
+              } else if (coin || caution) {
+                take = `Leans-only has not been kind here (${recOf(dirRec)}, ${(bktWR*100).toFixed(1)}%, ${uOf(dirRec)}). Broader ${recOf(allRec)}. ${pcPct}% — I'd pass unless broader looks much better.`;
+              } else {
+                take = `Leans-only ${recOf(dirRec)} (${(bktWR*100).toFixed(1)}%, ${uOf(dirRec)}). Broader ${recOf(allRec)}. Model ${pcPct}%.`;
+              }
+            }
+            if (dirRec && dirRec.l === 0 && dirRec.w >= 4) {
+              take += ` ${sg(`Perfect ${dirRec.w}-0 cohort in-bucket.`)}`;
+            }
+            line.innerHTML = `${nameSpan} ${dirSpan} ${oppSpan} <span style="color:#888">@ ${pcPct}%</span> — ${take}`;
+            return line;
+          }
+
+          function appendReadSection(label, color, entries) {
+            if (!entries.length) return;
+            const sub = document.createElement('div');
+            sub.style.cssText = `font-size:11px;color:${color};font-weight:700;letter-spacing:0.08em;text-transform:uppercase;margin:10px 0 6px;padding-left:2px`;
+            sub.textContent = `${label} (${entries.length})`;
+            readBlock.appendChild(sub);
+            for (const r of entries) readBlock.appendChild(renderReadRow(r));
+          }
+          appendReadSection('Picks', '#a78bfa', pickEntries);
+          appendReadSection('Leans', 'var(--yellow)', leanEntries);
+
+          card.appendChild(readBlock);
+
+          // Footer caption explaining the methodology.
+          const note = document.createElement('div');
+          note.style.cssText = 'padding:8px 4px 0;color:#888;font-size:11px;font-style:italic';
+          note.textContent =
+            'O//U = this bucket + this direction (narrowest). ' +
+            'O&&U = this bucket, both directions combined. ' +
+            'P+L O//U = picks + leans combined, this direction only. ' +
+            'Pick rows count picks-only history; Lean rows count leans-only. Watchlist (<0.65) excluded. ' +
+            'Tiers: Elite ≥80%, Solid ≥65%, Neutral ≥50%, Caution <50% (min 4-game sample).';
+          card.appendChild(note);
+
+          el.appendChild(card);
         };
 
         // Today's Picks + Leans (unified card with tabs)
@@ -2100,6 +2485,7 @@
 
       // Reddit summary card — always rendered at the very bottom.
       if (_renderRedditCard) _renderRedditCard();
+      if (_renderMatchupCard) _renderMatchupCard();
     }
 
     // =====================================================================
