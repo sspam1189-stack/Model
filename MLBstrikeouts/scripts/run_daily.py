@@ -766,7 +766,6 @@ def run_daily(date_key=None):
         lineup_data=lineup_data,
         savant_rates=savant_rates,
         empirical_std=runtime_emp_std or None,
-        bat_sides=bat_sides,
     )
     picks = [p for p in projections if p["pick"] != "PASS"]
     print(f"  {len(projections)} projections, {len(picks)} actionable picks")

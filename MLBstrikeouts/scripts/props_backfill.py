@@ -525,7 +525,6 @@ def backfill(season=None, start_game=10, start_date=None):
             lineup_data=date_lineup_data,
             savant_rates=_savant_for_backfill,
             empirical_std=runtime_emp_std or None,
-            bat_sides=bat_sides,
         )
 
         # Save ALL projections for this date (for Games Explorer)

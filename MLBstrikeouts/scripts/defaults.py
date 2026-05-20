@@ -154,13 +154,8 @@ SPLITS_BLEND_WEIGHT = 0.0
 #                   falls back to league if team missing). Captures per-team
 #                   offensive pace differences.
 #
-# Pairwise-hand modes were swept 2026-05-20 and discarded:
-#   pairwise_hand:        -7.9u / -2.6pp WR (204 picks vs 196 baseline)
-#   pairwise_pa_weighted: -9.9u / -2.6pp WR (200 picks)
-# Mechanism: re-applying platoon adjustment per-batter when pitcher_K is
-# already hand-weighted via PCT_LHB widens projection variance and pushes
-# borderline edges over the 0.72 confidence threshold — extra picks at lower
-# edge quality, not extra accuracy.
+# Pairwise-hand modes (pairwise_hand, pairwise_pa_weighted) were swept
+# 2026-05-20 — both lost (-7.9u to -9.9u). Removed from harness.
 LINEUP_K_METHOD = "simple_mean"
 
 # Per-slot share of plate appearances WITHIN A STARTER'S OUTING. Computed

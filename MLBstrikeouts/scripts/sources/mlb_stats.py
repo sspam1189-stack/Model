@@ -1094,39 +1094,24 @@ LINEUP_HAND_PA_GATE = 75
 
 
 def compute_lineup_k_pct(lineup_player_ids, batter_k_rates, pitcher_hand="R",
-                          slot_weights=None, bat_sides=None,
-                          pitcher_k_vs_lhb=None, pitcher_k_vs_rhb=None,
-                          league_k_pct=None):
+                          slot_weights=None):
     """
     Compute lineup-specific K% from the actual batting order.
 
-    Returns simple-mean, PA-weighted, pairwise, and pairwise-PA-weighted
-    variants side-by-side so the caller can A/B them via LINEUP_K_METHOD.
-
-    Pairwise modes require bat_sides, pitcher_k_vs_lhb, pitcher_k_vs_rhb,
-    and league_k_pct. Without those, pairwise fields return 0.0.
+    Returns simple-mean and PA-weighted variants. (Pairwise-hand modes were
+    swept 2026-05-20 and discarded; removed from harness.)
     """
     hand_key = "k_pct_vs_lhp" if pitcher_hand == "L" else "k_pct_vs_rhp"
     pa_key = "pa_vs_lhp" if pitcher_hand == "L" else "pa_vs_rhp"
 
-    have_pairwise = (
-        bat_sides is not None
-        and pitcher_k_vs_lhb is not None
-        and pitcher_k_vs_rhb is not None
-        and league_k_pct is not None
-        and league_k_pct > 0
-    )
-
     per_slot_overall = []
     per_slot_vs_hand = []
-    per_slot_pairwise = []
 
     for pid in lineup_player_ids:
         batter = batter_k_rates.get(pid) or batter_k_rates.get(str(pid))
         if not batter:
             per_slot_overall.append(None)
             per_slot_vs_hand.append(None)
-            per_slot_pairwise.append(None)
             continue
 
         overall = batter.get("k_pct", 0) or 0
@@ -1136,22 +1121,6 @@ def compute_lineup_k_pct(lineup_player_ids, batter_k_rates, pitcher_hand="R",
         pa_vs = batter.get(pa_key, 0) or 0
         batter_vs_ph = vs_hand if (pa_vs >= LINEUP_HAND_PA_GATE and vs_hand > 0) else overall
         per_slot_vs_hand.append(batter_vs_ph if batter_vs_ph > 0 else None)
-
-        if have_pairwise and batter_vs_ph > 0:
-            try:
-                pid_int = int(pid)
-            except (TypeError, ValueError):
-                pid_int = pid
-            b_hand = (bat_sides.get(pid_int) or bat_sides.get(str(pid)) or "R")
-            if b_hand == "S":
-                b_hand = "R" if pitcher_hand == "L" else "L"
-            pitcher_vs_b = pitcher_k_vs_lhb if b_hand == "L" else pitcher_k_vs_rhb
-            if pitcher_vs_b and pitcher_vs_b > 0:
-                per_slot_pairwise.append((pitcher_vs_b * batter_vs_ph) / league_k_pct)
-            else:
-                per_slot_pairwise.append(None)
-        else:
-            per_slot_pairwise.append(None)
 
     def _mean(vals):
         clean = [v for v in vals if v is not None and v > 0]
@@ -1175,9 +1144,6 @@ def compute_lineup_k_pct(lineup_player_ids, batter_k_rates, pitcher_hand="R",
         "lineup_k_pct_vs_hand": round(_mean(per_slot_vs_hand), 4),
         "lineup_k_pct_vs_hand_pa_weighted":
             round(_weighted_mean(per_slot_vs_hand, slot_weights), 4),
-        "lineup_k_pct_pairwise_hand": round(_mean(per_slot_pairwise), 4),
-        "lineup_k_pct_pairwise_pa_weighted":
-            round(_weighted_mean(per_slot_pairwise, slot_weights), 4),
         "n_batters": n_batters,
     }
 
