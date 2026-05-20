@@ -56,7 +56,14 @@ VAR_MULT = {
     # VAR=1.15 CAP=23 delivers +300.48u season (354 plays, 36.4% ROI) with
     # +42.43u from leans alone (66.3% WR). Beats VAR=1.20 by +5u season
     # (below 0.20u/pick bar but lean WR cleaner: 66.3% vs 65.4%).
-    "strikeouts":   1.15,
+    #
+    # 2026-05-20 multi-D re-sweep at ZC_CHASE=0.7 (new ZC/chase regression
+    # blend, see line ~197). New optimum: BF=0.95, VAR=1.10. Total at 2.5u
+    # picks / 1.5u leans sizing: +381.4u (vs +336.6u baseline = +44.8u).
+    # Pick WR rises from 80.1% to 76.6% with picks 196 -> 244 — more action
+    # at slightly lower per-pick edge, but at 2.5/1.5 sizing the lean tier
+    # (215 at 67.9%, +59.7u) makes up the difference.
+    "strikeouts":   1.10,
 }
 
 # ---------------------------------------------------------------------------
@@ -206,7 +213,15 @@ XBA_LEAGUE_AVG = 0.245
 # Then pitcher_k_rate += k_adj * ZC_CHASE_BLEND_WEIGHT.
 #
 # League averages from 2026 savant cache (412 pitchers).
-ZC_CHASE_BLEND_WEIGHT = 0.0
+# 2026-05-20 sweep across 19 weights (0.0 to 1.2 at 0.05-0.10 grid): peak
+# at 0.65-0.70 (+180.4u to +180.9u 1u/1u, +370u at 2.5/1.5 sizing). Ships
+# at 0.7. Multi-D follow-up confirmed BF=0.95 VAR=1.10 is the new full
+# optimum at 2.5/1.5 sizing: +381.4u season.
+#
+# CAVEAT: backfill loads season-end savant_rates (mild leakage on historical
+# dates — whiff/ZC/chase are stable mid-late season, ~88% accurate). Live
+# forward expectation should be ~80-90% of backfill numbers.
+ZC_CHASE_BLEND_WEIGHT = 0.7
 ZC_LEAGUE_AVG = 0.838     # mean zone_contact across pitchers
 CHASE_LEAGUE_AVG = 0.288  # mean chase rate
 ZC_K_SLOPE = -0.45        # 1pp ZC up → 0.45pp K down (from corr -0.418, scaled)
@@ -262,7 +277,12 @@ def get_team_slot_weights(team_abbr=None):
 # BF=1.00 narrowly beats 1.05 (+10.7u season / +3.4pp season ROI) in the
 # new VAR=1.20 / BL=0.90 regime. Trimmed back to 1.00 since the cleaner-
 # inputs argument is captured by the BL/VAR/EMP knobs now.
-BF_MULT = 1.00
+#
+# 2026-05-20 multi-D re-sweep at ZC_CHASE=0.7: BF=0.95 narrowly beats 1.00
+# at user's 2.5u/1.5u sizing (+381.4u vs +370.1u, +11.3u edge). BF=0.95
+# tightens the BF projection slightly → higher pick WR (76.6% vs 73.0%
+# at BF=1.00) which compounds favorably at higher pick sizing.
+BF_MULT = 0.95
 
 # Hard ceiling on projected batters faced after BF_MULT. Acts as a league-wide
 # safety net on top of the per-pitcher pitch-count ceiling (see props_engine.py
