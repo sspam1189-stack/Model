@@ -114,9 +114,11 @@ SPLITS_BLEND_WEIGHT = 0.0
 #   "simple_mean":  unweighted mean of batter_K% vs pitcher's hand. Multiplied
 #                   by pitcher's hand-weighted K%, divided by league K%.
 #                   Current production behavior.
-#   "pa_weighted":  slot-PA-weighted mean of batter_K% vs pitcher's hand
-#                   (SLOT_PA_WEIGHTS). Otherwise same formula. Slot 1 weighted
-#                   ~1.47x slot 9 within a starter's outing.
+#   "pa_weighted":  league-wide slot-PA-weighted mean (SLOT_PA_WEIGHTS).
+#   "pa_weighted_team": per-opponent-team slot-PA-weighted (TEAM_SLOT_PA_WEIGHTS,
+#                   loaded from data/pitcher_cache/mlb/slot_pa_weights_2026.json,
+#                   falls back to league if team missing). Captures per-team
+#                   offensive pace differences.
 #
 # Pairwise-hand modes were swept 2026-05-20 and discarded:
 #   pairwise_hand:        -7.9u / -2.6pp WR (204 picks vs 196 baseline)
@@ -145,6 +147,33 @@ SLOT_PA_WEIGHTS = [
     0.09405,  # slot 8: 2.03
     0.08973,  # slot 9: 1.94
 ]
+
+
+def get_team_slot_weights(team_abbr=None):
+    """
+    Return per-team slot PA weights from the cached JSON. Falls back to the
+    league-wide SLOT_PA_WEIGHTS when:
+      * team_abbr is None
+      * team is not in the cache (e.g. relocation/abbr mismatch)
+      * cache file is missing or unreadable
+    Used by the "pa_weighted_team" LINEUP_K_METHOD.
+    """
+    import os, json
+    if team_abbr is None:
+        return SLOT_PA_WEIGHTS
+    _path = os.path.join(
+        os.path.dirname(__file__), "..", "..", "data",
+        "pitcher_cache", "mlb", "slot_pa_weights_2026.json",
+    )
+    try:
+        with open(_path, "r") as _f:
+            _cache = json.load(_f)
+        entry = _cache.get(team_abbr)
+        if entry and entry.get("weights"):
+            return entry["weights"]
+    except Exception:
+        pass
+    return SLOT_PA_WEIGHTS
 
 # Projected batters-faced multiplier — calibrates the rate × min/IP-derived
 # BF estimate. <1 trims for blowouts/short outings/pulled starts; >1 inflates.

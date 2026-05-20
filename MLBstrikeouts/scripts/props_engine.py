@@ -333,14 +333,21 @@ def project_pitcher_props(pitcher_logs, team_batting_stats=None,
             if opp_player_ids:
                 _pitch_hand = adv.get("pitch_hand", "R")
                 from sources.mlb_stats import compute_lineup_k_pct
-                from defaults import LINEUP_K_METHOD, SLOT_PA_WEIGHTS
-                _slot_w = SLOT_PA_WEIGHTS if LINEUP_K_METHOD == "pa_weighted" else None
+                from defaults import (LINEUP_K_METHOD, SLOT_PA_WEIGHTS,
+                                       get_team_slot_weights)
+                if LINEUP_K_METHOD == "pa_weighted":
+                    _slot_w = SLOT_PA_WEIGHTS
+                elif LINEUP_K_METHOD == "pa_weighted_team":
+                    _slot_w = get_team_slot_weights(latest_opp)
+                else:
+                    _slot_w = None
                 lk = compute_lineup_k_pct(
                     opp_player_ids, batter_k_rates, _pitch_hand,
                     slot_weights=_slot_w,
                 )
                 _key = ("lineup_k_pct_vs_hand_pa_weighted"
-                        if LINEUP_K_METHOD == "pa_weighted"
+                        if LINEUP_K_METHOD in ("pa_weighted",
+                                                "pa_weighted_team")
                         else "lineup_k_pct_vs_hand")
                 _val = lk.get(_key, 0) or 0
                 if _val > 0:
