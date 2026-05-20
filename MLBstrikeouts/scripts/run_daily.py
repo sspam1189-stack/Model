@@ -38,6 +38,7 @@ sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..'))
 
 from sources.mlb_stats import (
     fetch_pitcher_game_logs, fetch_pitcher_advanced_stats,
+    fetch_pitcher_advanced_stats_through,
     fetch_pitcher_sabermetrics, fetch_pitcher_handedness_splits,
     fetch_pitcher_handedness_splits_season,
     fetch_team_batting_stats, fetch_team_pitching_stats,
@@ -436,6 +437,24 @@ def run_daily(date_key=None):
     print(f"\n  [4/15] Fetching pitcher advanced stats...")
     adv_stats = fetch_pitcher_advanced_stats(season=season)
     print(f"  {len(adv_stats)} pitchers with advanced stats")
+
+    # Pre-warm the backfill walk-forward cache for yesterday's snapshot.
+    # The live fetch above writes pitcher_advanced_2026_<YYYYMMDD>.json
+    # (season-to-today), but `props_backfill.py` needs the byDateRange
+    # variant — pitcher_advanced_starter_2026_thru_<YYYYMMDD>.json — for
+    # walk-forward purity (no future leakage). Without this, the cache
+    # only accumulates when someone manually runs the backfill, leading
+    # to stubbing when re-backfilling from a cold environment.
+    # Single bulk API call, no per-pitcher fanout.
+    try:
+        yesterday_iso = (
+            datetime.datetime.strptime(date_iso, "%Y-%m-%d").date()
+            - datetime.timedelta(days=1)
+        ).strftime("%Y-%m-%d")
+        fetch_pitcher_advanced_stats_through(season, yesterday_iso)
+        print(f"  Pre-warmed backfill cache thru {yesterday_iso}")
+    except Exception as e:
+        print(f"  Backfill cache pre-warm failed (non-fatal): {e}")
 
     # Stage 5: Fetch sabermetrics
     print(f"\n  [5/15] Fetching pitcher sabermetrics (FIP, xFIP)...")
