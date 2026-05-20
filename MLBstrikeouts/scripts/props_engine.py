@@ -379,6 +379,23 @@ def project_pitcher_props(pitcher_logs, team_batting_stats=None,
                 avg_pc = max(wavg_pc, last_pc)
             else:
                 avg_pc = wavg_pc
+            # --- Slope projection (exploratory) ---
+            from defaults import PC_SLOPE_WEIGHT, PC_SLOPE_N, PC_SLOPE_DECAY
+            if PC_SLOPE_WEIGHT > 0 and len(game_pcs) >= 3:
+                pcs = game_pcs[-PC_SLOPE_N:] if PC_SLOPE_N else game_pcs
+                n_pc = len(pcs)
+                ws = [PC_SLOPE_DECAY ** (n_pc - 1 - i) for i in range(n_pc)]
+                xs = list(range(n_pc))
+                sw = sum(ws)
+                mean_x = sum(w*x for w, x in zip(ws, xs)) / sw
+                mean_y = sum(w*y for w, y in zip(ws, pcs)) / sw
+                num = sum(w*(x-mean_x)*(y-mean_y) for w, x, y in zip(ws, xs, pcs))
+                den = sum(w*(x-mean_x)**2 for w, x in zip(ws, xs))
+                if den > 0:
+                    slope = num / den
+                    intercept = mean_y - slope * mean_x
+                    trend_pc = slope * n_pc + intercept
+                    avg_pc = (1 - PC_SLOPE_WEIGHT) * avg_pc + PC_SLOPE_WEIGHT * trend_pc
             # --- Pitch-count ceiling ---
             # Cap projected pitches at the recent ceiling (max of last 5
             # starts). Pitchers have hard pitch-count caps from coaching

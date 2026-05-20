@@ -179,6 +179,29 @@ DEFAULT_EMPIRICAL_STD = {
 # noisy std estimates from sub-50 graded entries).
 EMPIRICAL_STD_MIN_SAMPLE = 50
 
+# Pitch-count slope projection — weighted linear regression on recent pitch
+# counts, blended with the existing weighted-avg PC. Catches "regime change"
+# patterns (e.g., a starter on a downward leash trend) that the symmetric
+# weighted-avg + last_pc-bump rule misses.
+#
+#     wavg_pc  = existing weighted avg of game_pcs
+#     pcs      = game_pcs[-PC_SLOPE_N:]  (or all starts if PC_SLOPE_N==0)
+#     ws[i]    = PC_SLOPE_DECAY ** (n - 1 - i)            (older = lighter)
+#     slope, intercept = weighted-LSQR fit on (xs, pcs)
+#     trend_pc = slope * n + intercept                    (project 1 step fwd)
+#     avg_pc   = (1 - PC_SLOPE_WEIGHT) * wavg_pc + PC_SLOPE_WEIGHT * trend_pc
+#
+# 2026-05-20 4×4 (N × DECAY) + WEIGHT sweep on 2026 walk-forward backfill:
+#   Baseline (WEIGHT=0):       158-41 (79.4%) +107.1u  (199 picks)
+#   Best (N=7, DECAY=0.7, W=0.5): 157-37 (80.9%) +112.2u  (194 picks)
+#     → +5.1u season, +1.5pp WR, -1 win / -4 losses (filtering loss-prone picks).
+# WEIGHT U-shape confirmed: 0.25 underperforms baseline; 0.5 peaks; 0.75/1.0
+# back off slightly. N≥7 ties with N=all under DECAY=0.7 (older starts get
+# weight <0.1, contribute nothing). DECAY=0.7 beats 0.5/0.9/1.0.
+PC_SLOPE_WEIGHT = 0.5
+PC_SLOPE_N = 7
+PC_SLOPE_DECAY = 0.7
+
 # ---------------------------------------------------------------------------
 # API market maps
 # ---------------------------------------------------------------------------
