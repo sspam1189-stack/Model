@@ -232,11 +232,13 @@ def project_pitcher_props(pitcher_logs, team_batting_stats=None,
         pitcher_bb9 = adv.get("BB_PER_9") or adv.get("bb_per_9")
         opp_batting = (team_batting_stats or {}).get(latest_opp, {})
         opp_ops = opp_batting.get("OPS") or opp_batting.get("ops")
+        _pitcher_xba = ((savant_rates or {}).get(str(pid), {}) or {}).get("xba")
         proj_ip = project_innings(
             qualified, adv_stats=adv, rest_days=rest_days,
             pitcher_bb_per_9=pitcher_bb9,
             opp_ops=opp_ops,
             league_avg_ops=league_avg.get("OPS"),
+            pitcher_xba=_pitcher_xba,
         )
 
         if proj_ip < 3.0:
@@ -318,13 +320,28 @@ def project_pitcher_props(pitcher_logs, team_batting_stats=None,
         # by ~14%. Mechanism: whiff% is per-pitch (huge sample, stable);
         # K% is per-outcome (smaller sample). Whiff% catches hot/cold pitchers
         # earlier than K% can drift.
-        from defaults import WHIFF_BLEND_WEIGHT, WHIFF_TO_K_RATIO
+        from defaults import (WHIFF_BLEND_WEIGHT, WHIFF_TO_K_RATIO,
+                               ZC_CHASE_BLEND_WEIGHT, ZC_LEAGUE_AVG,
+                               CHASE_LEAGUE_AVG, ZC_K_SLOPE, CHASE_K_SLOPE)
         if WHIFF_BLEND_WEIGHT > 0 and savant.get("whiff_pct", 0) > 0:
             whiff_implied_k = savant["whiff_pct"] * WHIFF_TO_K_RATIO
             pitcher_k_rate = (
                 (1.0 - WHIFF_BLEND_WEIGHT) * pitcher_k_rate
                 + WHIFF_BLEND_WEIGHT * whiff_implied_k
             )
+
+        # Zone-contact + chase regression K adjustment (sweep candidate).
+        # Properly scaled this time: additive shift in pitcher_k_rate based
+        # on how far this pitcher's ZC/chase deviates from league avg.
+        if ZC_CHASE_BLEND_WEIGHT > 0:
+            zc = savant.get("zone_contact_pct", 0)
+            chase = savant.get("chase_pct", 0)
+            if zc > 0 or chase > 0:
+                k_adj = (
+                    ZC_K_SLOPE * (zc - ZC_LEAGUE_AVG)
+                    + CHASE_K_SLOPE * (chase - CHASE_LEAGUE_AVG)
+                )
+                pitcher_k_rate += k_adj * ZC_CHASE_BLEND_WEIGHT
 
         # --- Lineup K tendency ---
         # Three-tier fallback (best → worst):

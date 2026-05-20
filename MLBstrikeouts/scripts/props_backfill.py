@@ -245,12 +245,13 @@ def backfill(season=None, start_game=10, start_date=None):
     # passes season-to-today savant_rates in that case (mild leakage — whiff%
     # is stable mid-late season). When the flag is 0, an empty dict is passed
     # (matches the no-leakage baseline behavior).
-    from defaults import WHIFF_BLEND_WEIGHT
+    from defaults import (WHIFF_BLEND_WEIGHT, XBA_IP_ADJUSTMENT_WEIGHT,
+                           ZC_CHASE_BLEND_WEIGHT)
     _savant_for_backfill = {}
-    if WHIFF_BLEND_WEIGHT > 0:
+    if WHIFF_BLEND_WEIGHT > 0 or XBA_IP_ADJUSTMENT_WEIGHT > 0 or ZC_CHASE_BLEND_WEIGHT > 0:
         from sources.mlb_stats import fetch_savant_pitcher_rates
         _savant_for_backfill = fetch_savant_pitcher_rates(season=season) or {}
-        print(f"  [backfill] WHIFF_BLEND_WEIGHT={WHIFF_BLEND_WEIGHT} → loaded "
+        print(f"  [backfill] savant-dependent flag enabled → loaded "
               f"{len(_savant_for_backfill)} savant entries (season-to-today leakage)")
 
     # Load player bat-side lookup (for per-game lineup handedness)

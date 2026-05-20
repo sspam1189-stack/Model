@@ -178,6 +178,39 @@ WHIFF_BLEND_WEIGHT = 0.0
 # Empirical 2026 K/whiff median across 412 pitchers (savant_rates_2026_20260519).
 # Used to scale whiff% to K%-equivalent before blending into pitcher_k_rate.
 WHIFF_TO_K_RATIO = 0.886
+
+# ---------------------------------------------------------------------------
+# xBA → IP adjustment (sweep candidate, default off)
+# ---------------------------------------------------------------------------
+# 2026-05-20 analysis: Savant xBA correlates 0.732 with hits/BF and -0.359
+# with outs/start. Currently IP projection penalizes only tough opp_ops; it
+# doesn't penalize pitchers who allow soft contact poorly. Adding pitcher
+# xBA as a symmetric input balances the IP calc.
+#
+# Mechanism: high xBA pitcher → more hits allowed → pulled earlier → less BF
+# → fewer K opportunities. Affects projection volume, not K rate.
+#
+# Sweep candidates: 0.05, 0.10, 0.15 (% IP delta per unit xBA delta).
+XBA_IP_ADJUSTMENT_WEIGHT = 0.0
+XBA_LEAGUE_AVG = 0.245
+
+# ---------------------------------------------------------------------------
+# Zone-contact + chase → K adjustment (sweep candidate, default off)
+# ---------------------------------------------------------------------------
+# 2026-05-20: zone_contact_pct correlates -0.418 with future K%; chase_pct
+# correlates +0.327. Regression-style additive K-rate adjustment (properly
+# scaled this time — earlier naive blend failed due to feature scale).
+#
+# Per-pitcher k_adj = ZC_K_SLOPE * (zone_contact - league_zc)
+#                   + CHASE_K_SLOPE * (chase - league_chase)
+# Then pitcher_k_rate += k_adj * ZC_CHASE_BLEND_WEIGHT.
+#
+# League averages from 2026 savant cache (412 pitchers).
+ZC_CHASE_BLEND_WEIGHT = 0.0
+ZC_LEAGUE_AVG = 0.838     # mean zone_contact across pitchers
+CHASE_LEAGUE_AVG = 0.288  # mean chase rate
+ZC_K_SLOPE = -0.45        # 1pp ZC up → 0.45pp K down (from corr -0.418, scaled)
+CHASE_K_SLOPE = 0.35      # 1pp chase up → 0.35pp K up (from corr +0.327, scaled)
 PARK_K_FACTORS = {
     'ARI': 0.984, 'ATL': 0.979, 'BAL': 1.027, 'BOS': 0.981,
     'CHC': 0.995, 'CIN': 0.997, 'CLE': 1.003, 'COL': 0.954,
