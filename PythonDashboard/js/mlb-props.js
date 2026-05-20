@@ -499,17 +499,25 @@
           // Anything dated AT OR BEFORE cutoff is collapsed into these hardcoded
           // tallies — matches what's been posted on Reddit. Dates AFTER cutoff
           // come from the live mlb-props.json and accumulate automatically.
+          // 5/19 cutoff bump: backfill re-scored 5/19 with a slightly tighter
+          // emp_std (full walk-forward regen), nudging Griffin Canning's
+          // pCover from 0.648 (live) to 0.651 (post-backfill) — crossing the
+          // 0.65 lean threshold and adding a phantom 1W to the lean tally.
+          // Live 5/19 (risk-to-win-1u sizing): picks 3W-2L +0.64u
+          // (Roupp -136 L = -1.36u, Warren +124 L = -1.00u), leans 0W-4L
+          // -4.98u (McLean -158, Sheehan -132, Nelson -102, Detmers -106).
+          // Pin via cutoff so the widget matches what was posted on Reddit.
           const BASELINE = {
-            cutoff: '2026-05-18',
+            cutoff: '2026-05-19',
             picks: {
-              total:    { w: 90, l: 73, u:  1.14 },
-              weekly:   { w:  1, l:  2, u: -2.24 },  // 5/18–5/18
-              yesterday:{ w:  1, l:  2, u: -2.24 },  // 5/18
+              total:    { w: 93, l: 75, u:  1.78 },
+              weekly:   { w:  4, l:  4, u: -1.60 },  // 5/18–5/19
+              yesterday:{ w:  3, l:  2, u:  0.64 },  // 5/19
             },
             leans: {
-              total:    { w: 46, l: 26, u: 13.10 },
-              weekly:   { w:  3, l:  0, u:  3.00 },  // 5/18–5/18
-              yesterday:{ w:  3, l:  0, u:  3.00 },  // 5/18
+              total:    { w: 46, l: 30, u:  8.12 },
+              weekly:   { w:  3, l:  4, u: -1.98 },  // 5/18–5/19
+              yesterday:{ w:  0, l:  4, u: -4.98 },  // 5/19
             },
           };
 
