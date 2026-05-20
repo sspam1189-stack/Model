@@ -105,6 +105,42 @@ UNDER_ONLY_MARKETS = set()
 # Going with 0.0 for simplicity; recent-split machinery is mostly noise.
 SPLITS_BLEND_WEIGHT = 0.0
 
+# ---------------------------------------------------------------------------
+# Lineup K% aggregation method
+# ---------------------------------------------------------------------------
+# How to compute the opponent lineup's K rate from the 9 confirmed batters.
+# Default "simple_mean" is the baseline (proven +109.8u backfill). Other modes
+# are sweep candidates; flip via this flag for A/B testing.
+#
+#   "simple_mean":         unweighted mean of batter_K% vs pitcher's hand.
+#                          Multiplied by pitcher's hand-weighted K%, divided
+#                          by league K%. Current production behavior.
+#   "pa_weighted":         slot-weighted mean of batter_K% vs pitcher's hand
+#                          (SLOT_PA_WEIGHTS). Otherwise same formula.
+#   "pairwise_hand":       per-batter (pitcher_K_vs_h_i × batter_K_vs_PH) /
+#                          lg_K, then unweighted mean. Captures cov between
+#                          pitcher platoon splits and batter hand distribution.
+#   "pairwise_pa_weighted": same as pairwise_hand but PA-weighted across
+#                          slots. Combined effect.
+LINEUP_K_METHOD = "simple_mean"
+
+# League-average plate-appearance share by batting-order slot (1-indexed).
+# Hardcoded from MLB-wide multi-season averages — slot PA distribution is one
+# of the most stable things in baseball (slot 1 ≈ 4.62 PA/G, slot 9 ≈ 3.79).
+# Used by the pa_weighted / pairwise_pa_weighted lineup K methods. Normalized.
+# Switch to computed per-season averages only if hardcoded sweep shows signal.
+SLOT_PA_WEIGHTS = [
+    0.1221,  # slot 1: 4.62 PA/G
+    0.1192,  # slot 2: 4.51
+    0.1165,  # slot 3: 4.41
+    0.1139,  # slot 4: 4.31
+    0.1112,  # slot 5: 4.21
+    0.1083,  # slot 6: 4.10
+    0.1057,  # slot 7: 4.00
+    0.1030,  # slot 8: 3.90
+    0.1001,  # slot 9: 3.79
+]
+
 # Projected batters-faced multiplier — calibrates the rate × min/IP-derived
 # BF estimate. <1 trims for blowouts/short outings/pulled starts; >1 inflates.
 # 2026-05-13 retune (props_engine BF formula now uses real `bf` field instead

@@ -146,7 +146,8 @@ def project_pitcher_props(pitcher_logs, team_batting_stats=None,
                           pitcher_splits=None, probable_pitchers=None,
                           injury_report=None, weather_by_game=None,
                           batter_k_rates=None, lineup_data=None,
-                          savant_rates=None, empirical_std=None):
+                          savant_rates=None, empirical_std=None,
+                          bat_sides=None):
     """
     Project pitcher strikeouts props for all pitchers with sufficient game logs.
     """
@@ -326,18 +327,52 @@ def project_pitcher_props(pitcher_logs, team_batting_stats=None,
             lineup_k_rate = opp_team_k_pct
         else:
             lineup_k_rate = league_avg.get("K_PCT", 0.22)
+        lg_k_rate = league_avg.get("K_PCT", 0.22) or 0.22
+        # `pairwise_used` short-circuits the (pitcher × lineup / lg) formula
+        # below for pairwise modes, where the per-batter pitcher rate is
+        # already baked into lineup_k_rate.
+        pairwise_used = False
         if batter_k_rates and lineup_data:
             opp_lineup = lineup_data.get(latest_opp, {})
             opp_player_ids = opp_lineup.get("player_ids", [])
             if opp_player_ids:
                 _pitch_hand = adv.get("pitch_hand", "R")
                 from sources.mlb_stats import compute_lineup_k_pct
-                lk = compute_lineup_k_pct(opp_player_ids, batter_k_rates, _pitch_hand)
-                if lk.get("lineup_k_pct_vs_hand", 0) > 0:
-                    lineup_k_rate = lk["lineup_k_pct_vs_hand"]
+                from defaults import LINEUP_K_METHOD, SLOT_PA_WEIGHTS
+                _slot_w = SLOT_PA_WEIGHTS if LINEUP_K_METHOD in (
+                    "pa_weighted", "pairwise_pa_weighted"
+                ) else None
+                lk = compute_lineup_k_pct(
+                    opp_player_ids, batter_k_rates, _pitch_hand,
+                    bat_sides=bat_sides,
+                    pitcher_k_vs_lhb=k_rate_vs_lhb,
+                    pitcher_k_vs_rhb=k_rate_vs_rhb,
+                    league_k_pct=lg_k_rate,
+                    slot_weights=_slot_w,
+                )
+                # Pick the field that matches the selected aggregation mode.
+                # Pairwise fields already encode pitcher_K × batter_K / lg_K
+                # per batter, so they substitute directly for expected_k_rate.
+                if LINEUP_K_METHOD == "pa_weighted":
+                    _key = "lineup_k_pct_vs_hand_pa_weighted"
+                elif LINEUP_K_METHOD == "pairwise_hand":
+                    _key = "lineup_k_pct_pairwise_hand"
+                elif LINEUP_K_METHOD == "pairwise_pa_weighted":
+                    _key = "lineup_k_pct_pairwise_pa_weighted"
+                else:  # "simple_mean" or unknown -> baseline behavior
+                    _key = "lineup_k_pct_vs_hand"
+                _val = lk.get(_key, 0) or 0
+                if _val > 0:
+                    lineup_k_rate = _val
+                    if LINEUP_K_METHOD in ("pairwise_hand",
+                                            "pairwise_pa_weighted"):
+                        pairwise_used = True
 
-        lg_k_rate = league_avg.get("K_PCT", 0.22) or 0.22
-        expected_k_rate = (pitcher_k_rate * lineup_k_rate) / lg_k_rate
+        if pairwise_used:
+            # Already includes pitcher rate × lg_K normalization per batter.
+            expected_k_rate = lineup_k_rate
+        else:
+            expected_k_rate = (pitcher_k_rate * lineup_k_rate) / lg_k_rate
         # Per-pitcher K-rate cap — see defaults.K_RATE_CAP_FLOOR for sweep
         # rationale. cap = max(floor, season K%): mid-tier pitchers can't
         # exceed the floor on matchup boosts; elite K arms get their own
