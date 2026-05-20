@@ -312,6 +312,20 @@ def project_pitcher_props(pitcher_logs, team_batting_stats=None,
         season_k_rate = k_rate_vs_lhb * pct_lhb + k_rate_vs_rhb * (1.0 - pct_lhb)
         pitcher_k_rate = season_k_rate or overall_k_pct
 
+        # Whiff% regression-to-mean blend (sweep candidate, default off).
+        # 2026-05-20 analysis: Savant whiff% correlates 0.602 with future K%
+        # (next 3 starts) vs 0.410 for current K%. 50/50 blend reduces MAE
+        # by ~14%. Mechanism: whiff% is per-pitch (huge sample, stable);
+        # K% is per-outcome (smaller sample). Whiff% catches hot/cold pitchers
+        # earlier than K% can drift.
+        from defaults import WHIFF_BLEND_WEIGHT, WHIFF_TO_K_RATIO
+        if WHIFF_BLEND_WEIGHT > 0 and savant.get("whiff_pct", 0) > 0:
+            whiff_implied_k = savant["whiff_pct"] * WHIFF_TO_K_RATIO
+            pitcher_k_rate = (
+                (1.0 - WHIFF_BLEND_WEIGHT) * pitcher_k_rate
+                + WHIFF_BLEND_WEIGHT * whiff_implied_k
+            )
+
         # --- Lineup K tendency ---
         # Three-tier fallback (best → worst):
         #   1. Hand-aware lineup K% from the posted lineup's 9 hitters

@@ -163,6 +163,21 @@ SLOT_PA_WEIGHTS = [
 # Flip via PARK_K_ADJUSTMENT_ENABLED for A/B sweeping. Default off until
 # sweep confirms backfill signal.
 PARK_K_ADJUSTMENT_ENABLED = False
+
+# ---------------------------------------------------------------------------
+# Whiff% regression-to-mean blend
+# ---------------------------------------------------------------------------
+# Savant whiff% is per-pitch (huge sample, stable) and correlates 0.602 with
+# FUTURE K% (next 3 starts) vs 0.410 for current K%. Blending pulls pitcher_k
+# toward underlying whiff-implied skill — catches hot/cold pitchers before
+# their K rate regresses.
+#
+# Default 0.0 (off). Sweep candidates: 0.3, 0.5, 0.7.
+# WHIFF_TO_K_RATIO: scales whiff% to expected K% (league avg ~0.78 K per whiff).
+WHIFF_BLEND_WEIGHT = 0.0
+# Empirical 2026 K/whiff median across 412 pitchers (savant_rates_2026_20260519).
+# Used to scale whiff% to K%-equivalent before blending into pitcher_k_rate.
+WHIFF_TO_K_RATIO = 0.886
 PARK_K_FACTORS = {
     'ARI': 0.984, 'ATL': 0.979, 'BAL': 1.027, 'BOS': 0.981,
     'CHC': 0.995, 'CIN': 0.997, 'CLE': 1.003, 'COL': 0.954,
