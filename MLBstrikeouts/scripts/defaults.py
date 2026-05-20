@@ -67,12 +67,15 @@ VAR_MULT = {
     # (below 0.20u/pick bar but lean WR cleaner: 66.3% vs 65.4%).
     #
     # 2026-05-20 multi-D re-sweep at ZC_CHASE=0.7 (new ZC/chase regression
-    # blend, see line ~197). New optimum: BF=0.95, VAR=1.10. Total at 2.5u
-    # picks / 1.5u leans sizing: +381.4u (vs +336.6u baseline = +44.8u).
-    # Pick WR rises from 80.1% to 76.6% with picks 196 -> 244 — more action
-    # at slightly lower per-pick edge, but at 2.5/1.5 sizing the lean tier
-    # (215 at 67.9%, +59.7u) makes up the difference.
-    "strikeouts":   1.10,
+    # blend, see line ~197). First pass: BF=0.95, VAR=1.10. +381.4u at 2.5/1.5.
+    #
+    # 2026-05-20 4D extension (BF x VAR x BF_CAP x K_CAP) after pitches>=30
+    # filter shipped: full optimum shifted to VAR=1.05 (was 1.10). At
+    # BF=0.95, BF_CAP=23, K_CAP=0.38, VAR=1.05: +388.7u season at 2.5/1.5
+    # (+52.1u over original baseline / +15.5%). Recent 5/4+ window:
+    # +83.9u (vs +51u baseline). VAR=1.05 slightly wider distribution lets
+    # more borderline plays into the lean tier where they convert at +0.31u/lean.
+    "strikeouts":   1.05,
 }
 
 # ---------------------------------------------------------------------------
@@ -308,7 +311,10 @@ BF_CAP = 23.0
 # 2026-05-13 2D sweep (floor × headroom): floor=0.36 + headroom=1.00 optimal —
 # 161 picks, 79.5% WR, +41.5% ROI, +175.56u (vs flat 0.36 cap which was
 # 162 picks 79.0% WR +40.8% ROI).
-K_RATE_CAP_FLOOR = 0.36
+# 2026-05-20 K_CAP sweep at ZC=0.7 BF=0.95 VAR=1.10: peak shifted from 0.36
+# to 0.38 (+5.5u at 2.5/1.5). ZC/chase blend boosts elite-pitch-quality
+# pitchers' K rate, and 0.36 was clipping too aggressively.
+K_RATE_CAP_FLOOR = 0.38
 
 # Hard floor on expected_k_rate after the per-pitcher cap. Prevents
 # nonsensical near-zero K-rate projections from degenerate inputs (e.g.
