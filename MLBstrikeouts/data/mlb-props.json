@@ -4,7 +4,7 @@
   "season": "2026",
   "mode": "live",
   "model": "kalman_blend",
-  "generated": "2026-05-19T18:02:16.613833",
+  "generated": "2026-05-19T19:31:06.783075",
   "totalProjections": 23,
   "totalPicks": 567,
   "totalWatchlist": 8,
@@ -14259,7 +14259,7 @@
       "to_win_1u": 0.98,
       "would_be_pick": "OVER",
       "date": "2026-05-19",
-      "lockState": "lineup_confirmed",
+      "lockState": "game_started",
       "lockedAt": "2026-05-19T20:02:46.574235Z"
     },
     {
@@ -14333,7 +14333,7 @@
       "odds": 124,
       "to_win_1u": 0.81,
       "date": "2026-05-19",
-      "lockState": "lineup_confirmed",
+      "lockState": "game_started",
       "lockedAt": "2026-05-19T20:48:41.898355Z"
     },
     {
@@ -14358,7 +14358,7 @@
       "to_win_1u": 0.96,
       "would_be_pick": "OVER",
       "date": "2026-05-19",
-      "lockState": "lineup_confirmed",
+      "lockState": "game_started",
       "lockedAt": "2026-05-19T20:48:41.898355Z"
     },
     {
@@ -14535,7 +14535,7 @@
       "lockedAt": "2026-05-19T22:17:01.790428Z"
     }
   ],
-  "summary": "5 picks (+8 watch) from 23 projections",
+  "summary": "4 picks (+8 watch) from 23 projections",
   "date": "2026-05-19",
   "todayProjections": [
     {
@@ -14583,7 +14583,7 @@
       "odds": 108,
       "to_win_1u": 0.93,
       "date": "2026-05-19",
-      "lockState": "lineup_confirmed",
+      "lockState": "game_started",
       "lockedAt": "2026-05-19T20:02:46.574235Z"
     },
     {
@@ -14727,7 +14727,7 @@
       "odds": 102,
       "to_win_1u": 0.98,
       "date": "2026-05-19",
-      "lockState": "lineup_confirmed",
+      "lockState": "game_started",
       "lockedAt": "2026-05-19T20:02:46.574235Z"
     },
     {
@@ -14775,7 +14775,7 @@
       "odds": 104,
       "to_win_1u": 0.96,
       "date": "2026-05-19",
-      "lockState": "lineup_confirmed",
+      "lockState": "game_started",
       "lockedAt": "2026-05-19T20:48:41.898355Z"
     },
     {
@@ -14799,7 +14799,7 @@
       "odds": 124,
       "to_win_1u": 0.81,
       "date": "2026-05-19",
-      "lockState": "lineup_confirmed",
+      "lockState": "game_started",
       "lockedAt": "2026-05-19T20:48:41.898355Z"
     },
     {
@@ -14823,7 +14823,7 @@
       "odds": 108,
       "to_win_1u": 0.93,
       "date": "2026-05-19",
-      "lockState": "lineup_confirmed",
+      "lockState": "game_started",
       "lockedAt": "2026-05-19T20:48:41.898355Z"
     },
     {
@@ -14847,7 +14847,7 @@
       "odds": 100,
       "to_win_1u": 1.0,
       "date": "2026-05-19",
-      "lockState": "lineup_confirmed",
+      "lockState": "game_started",
       "lockedAt": "2026-05-19T20:48:41.898355Z"
     },
     {
@@ -14943,7 +14943,7 @@
       "odds": -110,
       "to_win_1u": 1.1,
       "date": "2026-05-19",
-      "lockState": "lineup_confirmed",
+      "lockState": "game_started",
       "lockedAt": "2026-05-19T21:29:03.087151Z"
     },
     {
@@ -15124,28 +15124,28 @@
     "CWS": "2026-05-20T01:40:00Z"
   },
   "gameStatuses": {
-    "MIA": "In Progress",
-    "ATL": "In Progress",
+    "MIA": "Final",
+    "ATL": "Final",
     "DET": "In Progress",
     "CLE": "In Progress",
     "TB": "In Progress",
     "BAL": "In Progress",
     "PHI": "In Progress",
     "CIN": "In Progress",
-    "WSH": "Delayed Start",
-    "NYM": "Delayed Start",
-    "NYY": "Warmup",
-    "TOR": "Warmup",
-    "KC": "Pre-Game",
-    "BOS": "Pre-Game",
-    "MIN": "Pre-Game",
-    "HOU": "Pre-Game",
-    "CHC": "Pre-Game",
-    "MIL": "Pre-Game",
-    "STL": "Pre-Game",
-    "PIT": "Pre-Game",
-    "COL": "Pre-Game",
-    "TEX": "Pre-Game",
+    "WSH": "In Progress",
+    "NYM": "In Progress",
+    "NYY": "In Progress",
+    "TOR": "In Progress",
+    "KC": "In Progress",
+    "BOS": "In Progress",
+    "MIN": "In Progress",
+    "HOU": "In Progress",
+    "CHC": "In Progress",
+    "MIL": "In Progress",
+    "STL": "In Progress",
+    "PIT": "In Progress",
+    "COL": "Warmup",
+    "TEX": "Warmup",
     "LAA": "Pre-Game",
     "OAK": "Pre-Game",
     "SD": "Pre-Game",
