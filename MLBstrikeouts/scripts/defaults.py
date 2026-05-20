@@ -29,8 +29,17 @@ MIN_GAMES = {
     "strikeouts":   2,
 }
 
-# Minimum IP per start to count in rolling window
+# Minimum sample to count a start in the rolling window.
+# 2026-05-20: switched from IP-based (was MIN_INNINGS=3.0) to pitch-count-based.
+# Rationale: a pitcher who gets shelled and pulled after 2 IP is still REAL
+# data about that pitcher's current form — excluding short outings only
+# filters out his floor and biases rolling K-rate upward. The only outings
+# that genuinely shouldn't count are bullpen-day/opener cameos where the
+# pitcher's role was reliever, not starter. Natural threshold gap at ~25-30
+# pitches: below 25 = planned opener cameo, 30+ = real start (even if brief).
+# Keep MIN_INNINGS=3.0 as legacy fallback if pitches data is missing.
 MIN_INNINGS = 3.0
+MIN_PITCHES = 30
 
 # ---------------------------------------------------------------------------
 # Market thresholds — minimum pCover to make a pick

@@ -10,7 +10,7 @@ from scipy.stats import t as t_dist
 _BLEND_FLOOR_MULT = float(os.environ.get("BLEND_FLOOR_MULT", "0.9"))
 
 from defaults import (
-    PROP_T_DF, ROLLING_WINDOW, DECAY_FACTOR, MIN_GAMES, MIN_INNINGS,
+    PROP_T_DF, ROLLING_WINDOW, DECAY_FACTOR, MIN_GAMES, MIN_INNINGS, MIN_PITCHES,
     MARKET_THRESHOLDS, VAR_MULT, MIN_EDGE, MAX_EDGE, MIN_LINE,
     UNDER_ONLY_MARKETS, DISABLED_MARKETS, EDGE_DEAD_ZONE,
     STAT_KEYS, KALMAN_STAT_KEYS,
@@ -222,7 +222,16 @@ def project_pitcher_props(pitcher_logs, team_batting_stats=None,
         is_home = ctx.get("is_home", games[-1].get("is_home", True))
         game_date = games[-1].get("game_date", "")
 
-        qualified = [g for g in recent if g.get("IP", 0) >= MIN_INNINGS]
+        # Qualified-game filter — pitches-based (was IP >= MIN_INNINGS=3.0).
+        # Includes short shellings (2 IP with 30+ pitches) as real data about
+        # pitcher's current form. Excludes bullpen-day opener cameos (<30
+        # pitches). Falls back to IP filter when pitches data is unavailable.
+        def _qualifies(g):
+            pc = g.get("pitches", 0) or 0
+            if pc > 0:
+                return pc >= MIN_PITCHES
+            return g.get("IP", 0) >= MIN_INNINGS
+        qualified = [g for g in recent if _qualifies(g)]
 
         adv = (pitcher_adv_stats or {}).get(str(pid), {})
         saber = (pitcher_sabermetrics or {}).get(str(pid), {})
