@@ -27,6 +27,17 @@ BASE_URL = "https://statsapi.mlb.com/api/v1"
 # ---------------------------------------------------------------------------
 # Walk-forward leak-fix config (used when through_date is passed)
 # ---------------------------------------------------------------------------
+# Pitcher vs batter window asymmetry — deliberate, do not "unify":
+#   * Pitcher-side inputs effectively use SEASON-to-date. Hand-split blend is
+#     SPLITS_BLEND_WEIGHT=0.0 (defaults.py) so the rolling fetch here is dead
+#     weight; hand-weighted K% in props_engine is season; Kalman uses every
+#     start. Pitcher rates are stable — season wins on sample size.
+#   * Batter/team-side inputs USE the rolling-45d window below
+#     (fetch_team_batting_stats, fetch_batter_k_rates), with season fallback
+#     when sample too small. Team K% drifts (roster churn, hot/cold), so 45d
+#     captures current identity instead of being anchored by April data.
+# Empirical: switching team_batting to season-to-date cost -27u / -8pp WR on
+# backfill (196@80.1%/+109.8u → 222@72.1%/+82.5u). Reverted at db7a4216.
 RECENT_WINDOW_DAYS = 45
 RECENT_MIN_BF_PER_SPLIT = 40    # for pitcher splits fallback
 RECENT_MIN_TEAM_PA = 150        # for team batting fallback
