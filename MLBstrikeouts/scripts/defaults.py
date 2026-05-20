@@ -178,49 +178,6 @@ SLOT_PA_WEIGHTS = [
 # ---------------------------------------------------------------------------
 # Park K factor adjustment
 # ---------------------------------------------------------------------------
-# Multiplier applied to expected_k_rate based on the HOME team's park.
-# Values are 3-year Statcast prior × 2026 season-to-date observed (Bayesian
-# blend; prior_n=5000 BF, obs_n=actual park BF this season).
-#
-# Mechanisms: altitude, climate (cold dense air helps breaking balls), foul
-# territory, backdrop visibility, outfield dimensions, dome/glare effects.
-# Magnitude: ±4% at extremes (COL/STL low, SEA/LAA/MIA high).
-#
-# Flip via PARK_K_ADJUSTMENT_ENABLED for A/B sweeping. Default off until
-# sweep confirms backfill signal.
-PARK_K_ADJUSTMENT_ENABLED = False
-
-# ---------------------------------------------------------------------------
-# Whiff% regression-to-mean blend
-# ---------------------------------------------------------------------------
-# Savant whiff% is per-pitch (huge sample, stable) and correlates 0.602 with
-# FUTURE K% (next 3 starts) vs 0.410 for current K%. Blending pulls pitcher_k
-# toward underlying whiff-implied skill — catches hot/cold pitchers before
-# their K rate regresses.
-#
-# Default 0.0 (off). Sweep candidates: 0.3, 0.5, 0.7.
-# WHIFF_TO_K_RATIO: scales whiff% to expected K% (league avg ~0.78 K per whiff).
-WHIFF_BLEND_WEIGHT = 0.0
-# Empirical 2026 K/whiff median across 412 pitchers (savant_rates_2026_20260519).
-# Used to scale whiff% to K%-equivalent before blending into pitcher_k_rate.
-WHIFF_TO_K_RATIO = 0.886
-
-# ---------------------------------------------------------------------------
-# xBA → IP adjustment (sweep candidate, default off)
-# ---------------------------------------------------------------------------
-# 2026-05-20 analysis: Savant xBA correlates 0.732 with hits/BF and -0.359
-# with outs/start. Currently IP projection penalizes only tough opp_ops; it
-# doesn't penalize pitchers who allow soft contact poorly. Adding pitcher
-# xBA as a symmetric input balances the IP calc.
-#
-# Mechanism: high xBA pitcher → more hits allowed → pulled earlier → less BF
-# → fewer K opportunities. Affects projection volume, not K rate.
-#
-# Sweep candidates: 0.05, 0.10, 0.15 (% IP delta per unit xBA delta).
-XBA_IP_ADJUSTMENT_WEIGHT = 0.0
-XBA_LEAGUE_AVG = 0.245
-
-# ---------------------------------------------------------------------------
 # Zone-contact + chase → K adjustment (sweep candidate, default off)
 # ---------------------------------------------------------------------------
 # 2026-05-20: zone_contact_pct correlates -0.418 with future K%; chase_pct
@@ -245,16 +202,6 @@ ZC_LEAGUE_AVG = 0.838     # mean zone_contact across pitchers
 CHASE_LEAGUE_AVG = 0.288  # mean chase rate
 ZC_K_SLOPE = -0.45        # 1pp ZC up → 0.45pp K down (from corr -0.418, scaled)
 CHASE_K_SLOPE = 0.35      # 1pp chase up → 0.35pp K up (from corr +0.327, scaled)
-PARK_K_FACTORS = {
-    'ARI': 0.984, 'ATL': 0.979, 'BAL': 1.027, 'BOS': 0.981,
-    'CHC': 0.995, 'CIN': 0.997, 'CLE': 1.003, 'COL': 0.954,
-    'CWS': 0.996, 'DET': 1.009, 'HOU': 1.007, 'KC':  0.980,
-    'LAA': 1.032, 'LAD': 1.028, 'MIA': 1.032, 'MIL': 1.007,
-    'MIN': 0.987, 'NYM': 1.007, 'NYY': 1.010, 'OAK': 1.018,
-    'PHI': 1.015, 'PIT': 1.000, 'SD':  1.025, 'SEA': 1.041,
-    'SF':  1.003, 'STL': 0.955, 'TB':  1.027, 'TEX': 0.997,
-    'TOR': 1.008, 'WSH': 0.970,
-}
 
 
 def get_team_slot_weights(team_abbr=None):

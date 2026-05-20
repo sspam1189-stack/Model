@@ -186,8 +186,7 @@ def compute_home_away_split(pitcher_games, stat_key, min_games=3):
 # ---------------------------------------------------------------------------
 
 def project_innings(pitcher_games, adv_stats=None, rest_days=5,
-                    pitcher_bb_per_9=None, opp_ops=None, league_avg_ops=None,
-                    pitcher_xba=None):
+                    pitcher_bb_per_9=None, opp_ops=None, league_avg_ops=None):
     """
     Project how many innings the pitcher will throw tonight.
 
@@ -268,18 +267,6 @@ def project_innings(pitcher_games, adv_stats=None, rest_days=5,
         if avg_ops > 0:
             ops_diff = (opp_ops - avg_ops) / avg_ops
             proj_ip -= ops_diff * proj_ip * 0.10  # 10% weight, inverted
-
-    # Pitcher xBA adjustment (sweep candidate, default off via weight=0).
-    # High pitcher xBA → allows soft contact poorly → more hits → shorter
-    # outing. Symmetric counterpart to opp_ops adjustment above.
-    try:
-        from defaults import XBA_IP_ADJUSTMENT_WEIGHT, XBA_LEAGUE_AVG
-    except ImportError:
-        XBA_IP_ADJUSTMENT_WEIGHT = 0.0
-        XBA_LEAGUE_AVG = 0.245
-    if pitcher_xba is not None and pitcher_xba > 0 and XBA_IP_ADJUSTMENT_WEIGHT > 0:
-        xba_diff = (pitcher_xba - XBA_LEAGUE_AVG) / XBA_LEAGUE_AVG
-        proj_ip -= xba_diff * proj_ip * XBA_IP_ADJUSTMENT_WEIGHT
 
     return max(0.0, round(proj_ip, 1))
 

@@ -240,18 +240,17 @@ def backfill(season=None, start_game=10, start_date=None):
     # loop (see _adv_stats_through).  saber_stats isn't read by props_engine and
     # savant_rates is only a fallback that the derived adv_stats supersedes.
     #
-    # EXCEPTION: when WHIFF_BLEND_WEIGHT > 0, props_engine reads savant
-    # whiff_pct to regress pitcher_k_rate toward underlying skill. Backfill
-    # passes season-to-today savant_rates in that case (mild leakage — whiff%
-    # is stable mid-late season). When the flag is 0, an empty dict is passed
-    # (matches the no-leakage baseline behavior).
-    from defaults import (WHIFF_BLEND_WEIGHT, XBA_IP_ADJUSTMENT_WEIGHT,
-                           ZC_CHASE_BLEND_WEIGHT)
+    # EXCEPTION: when ZC_CHASE_BLEND_WEIGHT > 0, props_engine reads savant
+    # zone_contact_pct and chase_pct to regress pitcher_k_rate toward
+    # underlying pitch quality. Backfill passes season-to-today savant_rates
+    # in that case (mild leakage — ZC/chase are stable mid-late season).
+    # When the flag is 0, an empty dict is passed (no-leakage baseline).
+    from defaults import ZC_CHASE_BLEND_WEIGHT
     _savant_for_backfill = {}
-    if WHIFF_BLEND_WEIGHT > 0 or XBA_IP_ADJUSTMENT_WEIGHT > 0 or ZC_CHASE_BLEND_WEIGHT > 0:
+    if ZC_CHASE_BLEND_WEIGHT > 0:
         from sources.mlb_stats import fetch_savant_pitcher_rates
         _savant_for_backfill = fetch_savant_pitcher_rates(season=season) or {}
-        print(f"  [backfill] savant-dependent flag enabled → loaded "
+        print(f"  [backfill] ZC/chase blend enabled → loaded "
               f"{len(_savant_for_backfill)} savant entries (season-to-today leakage)")
 
     # Load player bat-side lookup (for per-game lineup handedness)
