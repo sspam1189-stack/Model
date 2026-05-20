@@ -13,7 +13,7 @@ from defaults import (
     PROP_T_DF, ROLLING_WINDOW, DECAY_FACTOR, MIN_GAMES, MIN_INNINGS,
     MARKET_THRESHOLDS, VAR_MULT, MIN_EDGE, MAX_EDGE, MIN_LINE,
     UNDER_ONLY_MARKETS, DISABLED_MARKETS, EDGE_DEAD_ZONE,
-    STAT_KEYS, KALMAN_STAT_KEYS, SEASON_ANCHOR_WEIGHT,
+    STAT_KEYS, KALMAN_STAT_KEYS,
 )
 from pitcher_kalman import get_pitcher_projection
 from sources.game_context import (
@@ -301,23 +301,31 @@ def project_pitcher_props(pitcher_logs, team_batting_stats=None,
         opp_stats = (team_batting_stats or {}).get(latest_opp, {})
         pct_lhb = opp_stats.get("PCT_LHB", 0.40)
 
+        # Hand-weighted season K% is the pitcher rate. A rolling-window
+        # recent-K% blend used to live here, but every sweep
+        # (sweep_season_anchor across multiple regimes, most recently
+        # post-Kalman-drop) picked W=1.00 monotonically — the recent signal
+        # is noise relative to season-to-date once Kalman is off the mean.
+        # Fallback to overall_k_pct (starter-split season K%) only when
+        # both hand splits are missing and the weighted rate collapses to 0.
         season_k_rate = k_rate_vs_lhb * pct_lhb + k_rate_vs_rhb * (1.0 - pct_lhb)
-
-        # Blend rolling-window K% (from `qualified` recent starts) with
-        # season-to-date K%. SEASON_ANCHOR_WEIGHT controls how strongly the
-        # projection regresses to season true-talent vs. follows recent form.
-        recent_k = sum(g.get("k", 0) for g in qualified)
-        recent_bf = sum(g.get("bf", 0) for g in qualified)
-        recent_k_rate = recent_k / recent_bf if recent_bf > 0 else 0.0
-
-        anchor_w = SEASON_ANCHOR_WEIGHT.get(market, 0.20)
-        if recent_k_rate > 0 and season_k_rate > 0:
-            pitcher_k_rate = (1 - anchor_w) * recent_k_rate + anchor_w * season_k_rate
-        else:
-            pitcher_k_rate = season_k_rate or recent_k_rate
+        pitcher_k_rate = season_k_rate or overall_k_pct
 
         # --- Lineup K tendency ---
-        lineup_k_rate = league_avg.get("K_PCT", 0.22)
+        # Three-tier fallback (best → worst):
+        #   1. Hand-aware lineup K% from the posted lineup's 9 hitters
+        #   2. Opponent team season K% (hand-agnostic, but team-specific)
+        #   3. League-average K%
+        # Prior behavior collapsed straight from tier 1 to tier 3, treating
+        # all 30 teams as 21.7% K when lineups hadn't posted yet. Team K%
+        # spread is ~7pp (TOR 18.0% to LAA 25.2%), so the league-avg
+        # fallback systematically over-projected K's against low-K offenses
+        # like TOR/TB/CLE and under-projected vs LAA/BAL/COL.
+        opp_team_k_pct = opp_stats.get("K_PCT") or 0.0
+        if opp_team_k_pct > 0:
+            lineup_k_rate = opp_team_k_pct
+        else:
+            lineup_k_rate = league_avg.get("K_PCT", 0.22)
         if batter_k_rates and lineup_data:
             opp_lineup = lineup_data.get(latest_opp, {})
             opp_player_ids = opp_lineup.get("player_ids", [])

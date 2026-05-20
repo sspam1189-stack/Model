@@ -179,15 +179,6 @@ DEFAULT_EMPIRICAL_STD = {
 # noisy std estimates from sub-50 graded entries).
 EMPIRICAL_STD_MIN_SAMPLE = 50
 
-# Season anchor: weight on season-to-date K% (vs. rolling-window K%) when
-# computing pitcher_k_rate.  Sweep (scripts.sweep_season_anchor) on 2026
-# walk-forward backfill picked W=1.00 monotonically — recent K% is already
-# captured by the 50/50 Kalman blend, so re-injecting it here just doubles
-# the recent-form weight and adds noise.
-SEASON_ANCHOR_WEIGHT = {
-    "strikeouts":   1.00,
-}
-
 # ---------------------------------------------------------------------------
 # API market maps
 # ---------------------------------------------------------------------------
