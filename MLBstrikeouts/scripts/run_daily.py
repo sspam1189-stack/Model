@@ -604,6 +604,27 @@ def run_daily(date_key=None):
     _n_conf = sum(1 for v in lineup_data.values() if v.get("confirmed"))
     print(f"  {len(lineup_data)} teams in lineup_data ({_n_conf} confirmed, frozen)")
 
+    # Recompute PCT_LHB from the final lineup_data player IDs so the pitcher
+    # vs-L/vs-R weighting uses the same 9 batters that drive lineup K%.
+    # Rotowire / recent-batting-order fallbacks already populated lineup_data
+    # above; this propagates that into team_batting's PCT_LHB. Without this
+    # step, teams whose MLB-API lineup hadn't posted yet (but whose
+    # Rotowire/recent fallback DID resolve) were getting the 0.40 default for
+    # the pitcher's hand-platoon math.
+    from sources.mlb_stats import _compute_pct_lhb as _pct_lhb_fn
+    _recomputed = 0
+    for abbr, ldata in lineup_data.items():
+        pids = ldata.get("player_ids") or []
+        if len(pids) < 5:
+            continue
+        pct = _pct_lhb_fn(pids, bat_sides)
+        if abbr in team_batting:
+            team_batting[abbr]["PCT_LHB"] = pct
+        else:
+            team_batting[abbr] = {"PCT_LHB": pct}
+        _recomputed += 1
+    print(f"  PCT_LHB recomputed from lineup_data for {_recomputed} teams")
+
     # Fetch batter K rates (bulk, 2 API calls)
     print(f"\n  [9b/15] Fetching batter K rates + Savant pitcher rates...")
     batter_k_rates = fetch_batter_k_rates(season=season, through_date=date_iso)

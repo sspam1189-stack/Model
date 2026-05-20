@@ -392,6 +392,25 @@ def backfill(season=None, start_game=10, start_date=None):
             elif date_bo.get(abbr):
                 date_lineup_data[abbr] = {"player_ids": date_bo[abbr]}
 
+        # Recompute PCT_LHB from final lineup_data so the pitcher vs-L/vs-R
+        # weighting uses the same 9 batters that drive lineup K%. Mirrors
+        # run_daily.py — propagates Rotowire/recent fallback lineups into the
+        # PCT_LHB the pitcher hand-platoon math uses (instead of letting it
+        # collapse to fetch_lineup_handedness's MLB-only result or the 0.40
+        # default downstream).
+        from sources.mlb_stats import _compute_pct_lhb as _pct_lhb_fn
+        for abbr, ldata in date_lineup_data.items():
+            pids = ldata.get("player_ids") or []
+            if len(pids) < 5:
+                continue
+            pct = _pct_lhb_fn(pids, bat_sides)
+            if abbr in date_team_batting:
+                date_team_batting[abbr] = {
+                    **date_team_batting[abbr], "PCT_LHB": pct,
+                }
+            else:
+                date_team_batting[abbr] = {"PCT_LHB": pct}
+
         # Build probable_pitchers from today's actual game logs
         # (who actually started — mirrors what run_daily gets from schedule)
         # Use is_start flag when present; fall back to IP>=3.0 only for legacy
