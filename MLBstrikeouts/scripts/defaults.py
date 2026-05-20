@@ -109,36 +109,41 @@ SPLITS_BLEND_WEIGHT = 0.0
 # Lineup K% aggregation method
 # ---------------------------------------------------------------------------
 # How to compute the opponent lineup's K rate from the 9 confirmed batters.
-# Default "simple_mean" is the baseline (proven +109.8u backfill). Other modes
-# are sweep candidates; flip via this flag for A/B testing.
+# Default "simple_mean" is the baseline (proven +109.8u backfill).
 #
-#   "simple_mean":         unweighted mean of batter_K% vs pitcher's hand.
-#                          Multiplied by pitcher's hand-weighted K%, divided
-#                          by league K%. Current production behavior.
-#   "pa_weighted":         slot-weighted mean of batter_K% vs pitcher's hand
-#                          (SLOT_PA_WEIGHTS). Otherwise same formula.
-#   "pairwise_hand":       per-batter (pitcher_K_vs_h_i × batter_K_vs_PH) /
-#                          lg_K, then unweighted mean. Captures cov between
-#                          pitcher platoon splits and batter hand distribution.
-#   "pairwise_pa_weighted": same as pairwise_hand but PA-weighted across
-#                          slots. Combined effect.
+#   "simple_mean":  unweighted mean of batter_K% vs pitcher's hand. Multiplied
+#                   by pitcher's hand-weighted K%, divided by league K%.
+#                   Current production behavior.
+#   "pa_weighted":  slot-PA-weighted mean of batter_K% vs pitcher's hand
+#                   (SLOT_PA_WEIGHTS). Otherwise same formula. Slot 1 weighted
+#                   ~1.47x slot 9 within a starter's outing.
+#
+# Pairwise-hand modes were swept 2026-05-20 and discarded:
+#   pairwise_hand:        -7.9u / -2.6pp WR (204 picks vs 196 baseline)
+#   pairwise_pa_weighted: -9.9u / -2.6pp WR (200 picks)
+# Mechanism: re-applying platoon adjustment per-batter when pitcher_K is
+# already hand-weighted via PCT_LHB widens projection variance and pushes
+# borderline edges over the 0.72 confidence threshold — extra picks at lower
+# edge quality, not extra accuracy.
 LINEUP_K_METHOD = "simple_mean"
 
-# League-average plate-appearance share by batting-order slot (1-indexed).
-# Hardcoded from MLB-wide multi-season averages — slot PA distribution is one
-# of the most stable things in baseball (slot 1 ≈ 4.62 PA/G, slot 9 ≈ 3.79).
-# Used by the pa_weighted / pairwise_pa_weighted lineup K methods. Normalized.
-# Switch to computed per-season averages only if hardcoded sweep shows signal.
+# Per-slot share of plate appearances WITHIN A STARTER'S OUTING. Computed
+# 2026-05-20 from game_logs_2026.json (1455 starter outings season-to-date):
+# total team PA per starter outing ≈ 21.6, distributed by cycling 1-9 through
+# the lineup. Slot 1 gets ~13.2% of starter-outing PA; slot 9 gets ~9.0%.
+# Re-derive periodically: see analyze_slot_pa.py or
+#   `python -c "import json; from collections import defaultdict; ..."`.
+# Used by the pa_weighted lineup K method. Normalized to sum to 1.
 SLOT_PA_WEIGHTS = [
-    0.1221,  # slot 1: 4.62 PA/G
-    0.1192,  # slot 2: 4.51
-    0.1165,  # slot 3: 4.41
-    0.1139,  # slot 4: 4.31
-    0.1112,  # slot 5: 4.21
-    0.1083,  # slot 6: 4.10
-    0.1057,  # slot 7: 4.00
-    0.1030,  # slot 8: 3.90
-    0.1001,  # slot 9: 3.79
+    0.13177,  # slot 1: 2.85 PA/starter outing
+    0.12783,  # slot 2: 2.76
+    0.12341,  # slot 3: 2.67
+    0.11782,  # slot 4: 2.55
+    0.11115,  # slot 5: 2.40
+    0.10501,  # slot 6: 2.27
+    0.09923,  # slot 7: 2.15
+    0.09405,  # slot 8: 2.03
+    0.08973,  # slot 9: 1.94
 ]
 
 # Projected batters-faced multiplier — calibrates the rate × min/IP-derived
