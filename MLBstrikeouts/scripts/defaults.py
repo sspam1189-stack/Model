@@ -52,7 +52,15 @@ MARKET_THRESHOLDS = {
     # 0.70 → 196 picks, 74.0% WR, +32.4% ROI under same config). The new
     # config compresses the pCover distribution; 0.70 leaves quality picks
     # in the lean tier. 0.65-0.72 becomes the lean band (both sides).
-    "strikeouts":   {"high": 0.72},
+    #
+    # 2026-05-20 threshold re-sweep at full new config (BF=1.00, VAR=1.15,
+    # K_CAP=0.38, ZC=0.7, pitches>=30): lowering to 0.70 gains +21.6u
+    # season at IDENTICAL combined ROI (29.56%). Picks WR essentially same
+    # (73.8% vs 73.9% at 0.72) — 0.70-0.72 plays just promoted from lean
+    # tier to pick tier where they're sized 2.5u instead of 1.5u.
+    # Volume increase: 305 picks vs 249 (+22%).
+    # Lean band now 0.65-0.70 (still 5pp wide, still usable for display).
+    "strikeouts":   {"high": 0.70},
 }
 
 # ---------------------------------------------------------------------------
