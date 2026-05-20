@@ -156,7 +156,12 @@ SPLITS_BLEND_WEIGHT = 0.0
 #
 # Pairwise-hand modes (pairwise_hand, pairwise_pa_weighted) were swept
 # 2026-05-20 — both lost (-7.9u to -9.9u). Removed from harness.
-LINEUP_K_METHOD = "simple_mean"
+#
+# 2026-05-20 head-to-head at threshold=0.70 ship config: simple_mean wins
+# season units (+8.9u) but pa_weighted wins recent (+1.9u) and dominates
+# lean tier (ROI 28.4% vs 22.4% season, 31.2% vs 22.1% recent). Shipping
+# pa_weighted to bias toward recent-window performance and lean quality.
+LINEUP_K_METHOD = "pa_weighted"
 
 # Per-slot share of plate appearances WITHIN A STARTER'S OUTING. Computed
 # 2026-05-20 from game_logs_2026.json (1455 starter outings season-to-date):
