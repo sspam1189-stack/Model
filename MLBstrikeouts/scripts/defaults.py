@@ -72,10 +72,17 @@ VAR_MULT = {
     # 2026-05-20 4D extension (BF x VAR x BF_CAP x K_CAP) after pitches>=30
     # filter shipped: full optimum shifted to VAR=1.05 (was 1.10). At
     # BF=0.95, BF_CAP=23, K_CAP=0.38, VAR=1.05: +388.7u season at 2.5/1.5
-    # (+52.1u over original baseline / +15.5%). Recent 5/4+ window:
-    # +83.9u (vs +51u baseline). VAR=1.05 slightly wider distribution lets
-    # more borderline plays into the lean tier where they convert at +0.31u/lean.
-    "strikeouts":   1.05,
+    # (+52.1u over original baseline / +15.5%).
+    #
+    # 2026-05-20 5D extension (BF x VAR sweep at fixed K_CAP=0.38, BF_CAP=23,
+    # ZC=0.7, pitches>=30): season ROI nearly flat across the BF=0.95 row,
+    # but RECENT (5/4+) window shows BF=1.00 VAR=1.15 leads on combined
+    # ROI (22.07%) and total recent WR (68.6%). Shipping this config to
+    # bias toward recent-window performance (model edge compression makes
+    # recent signal more predictive of forward returns than season-wide).
+    # Season at this config: +363.6u (vs +388.7u VAR=1.05 = -25u).
+    # Recent at this config: +82.8u (vs +83.9u VAR=1.05 = -1.1u, ROI +0.5pp).
+    "strikeouts":   1.15,
 }
 
 # ---------------------------------------------------------------------------
@@ -294,7 +301,12 @@ def get_team_slot_weights(team_abbr=None):
 # at user's 2.5u/1.5u sizing (+381.4u vs +370.1u, +11.3u edge). BF=0.95
 # tightens the BF projection slightly → higher pick WR (76.6% vs 73.0%
 # at BF=1.00) which compounds favorably at higher pick sizing.
-BF_MULT = 0.95
+#
+# 2026-05-20 BF x VAR sweep (pitches>=30 + K_CAP=0.38): season ROI flat
+# across BF=0.95-1.00, but RECENT (5/4+) combined WR best at BF=1.00
+# (68.6% with VAR=1.15) vs BF=0.95 (68.5%). Bumping to 1.00 to bias
+# toward recent-window performance amid market edge compression.
+BF_MULT = 1.00
 
 # Hard ceiling on projected batters faced after BF_MULT. Acts as a league-wide
 # safety net on top of the per-pitcher pitch-count ceiling (see props_engine.py
