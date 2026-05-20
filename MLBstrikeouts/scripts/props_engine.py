@@ -374,11 +374,21 @@ def project_pitcher_props(pitcher_logs, team_batting_stats=None,
             expected_k_rate = lineup_k_rate
         else:
             expected_k_rate = (pitcher_k_rate * lineup_k_rate) / lg_k_rate
+
+        # Park K adjustment (off by default — sweep candidate). Applies a
+        # multiplier from defaults.PARK_K_FACTORS (3-yr Statcast prior blended
+        # with 2026 season-to-date observed deltas) keyed on the HOME team.
+        from defaults import (PARK_K_ADJUSTMENT_ENABLED, PARK_K_FACTORS,
+                               K_RATE_CAP_FLOOR, K_RATE_FLOOR)
+        if PARK_K_ADJUSTMENT_ENABLED:
+            home_park = team if is_home else latest_opp
+            park_mult = PARK_K_FACTORS.get(home_park, 1.0)
+            expected_k_rate = expected_k_rate * park_mult
+
         # Per-pitcher K-rate cap — see defaults.K_RATE_CAP_FLOOR for sweep
         # rationale. cap = max(floor, season K%): mid-tier pitchers can't
         # exceed the floor on matchup boosts; elite K arms get their own
         # proven ceiling.
-        from defaults import K_RATE_CAP_FLOOR, K_RATE_FLOOR
         _k_cap_used = max(K_RATE_CAP_FLOOR, overall_k_pct)
         expected_k_rate = max(K_RATE_FLOOR, min(_k_cap_used, expected_k_rate))
 

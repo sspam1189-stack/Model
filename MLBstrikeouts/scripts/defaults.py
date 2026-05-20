@@ -149,6 +149,32 @@ SLOT_PA_WEIGHTS = [
 ]
 
 
+# ---------------------------------------------------------------------------
+# Park K factor adjustment
+# ---------------------------------------------------------------------------
+# Multiplier applied to expected_k_rate based on the HOME team's park.
+# Values are 3-year Statcast prior × 2026 season-to-date observed (Bayesian
+# blend; prior_n=5000 BF, obs_n=actual park BF this season).
+#
+# Mechanisms: altitude, climate (cold dense air helps breaking balls), foul
+# territory, backdrop visibility, outfield dimensions, dome/glare effects.
+# Magnitude: ±4% at extremes (COL/STL low, SEA/LAA/MIA high).
+#
+# Flip via PARK_K_ADJUSTMENT_ENABLED for A/B sweeping. Default off until
+# sweep confirms backfill signal.
+PARK_K_ADJUSTMENT_ENABLED = False
+PARK_K_FACTORS = {
+    'ARI': 0.984, 'ATL': 0.979, 'BAL': 1.027, 'BOS': 0.981,
+    'CHC': 0.995, 'CIN': 0.997, 'CLE': 1.003, 'COL': 0.954,
+    'CWS': 0.996, 'DET': 1.009, 'HOU': 1.007, 'KC':  0.980,
+    'LAA': 1.032, 'LAD': 1.028, 'MIA': 1.032, 'MIL': 1.007,
+    'MIN': 0.987, 'NYM': 1.007, 'NYY': 1.010, 'OAK': 1.018,
+    'PHI': 1.015, 'PIT': 1.000, 'SD':  1.025, 'SEA': 1.041,
+    'SF':  1.003, 'STL': 0.955, 'TB':  1.027, 'TEX': 0.997,
+    'TOR': 1.008, 'WSH': 0.970,
+}
+
+
 def get_team_slot_weights(team_abbr=None):
     """
     Return per-team slot PA weights from the cached JSON. Falls back to the
