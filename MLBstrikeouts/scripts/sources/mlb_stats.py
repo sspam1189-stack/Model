@@ -1387,10 +1387,57 @@ def fetch_player_bat_sides(season=None):
     return result
 
 
-def get_recent_batting_order(team_abbr, season=None, before_date=None, max_lookback_days=14):
+def build_team_opp_hand_by_date(pitcher_logs, pitch_hands):
+    """
+    Build a {date_str: {team_abbr: 'L'|'R'}} lookup of which-handed starter
+    each team FACED on each date this season. Used by
+    get_recent_batting_order to prefer same-hand lineups when projecting
+    tonight's batting order against a same-hand starter.
+
+    Parameters
+    ----------
+    pitcher_logs : dict
+        Output of organize_pitcher_logs — {pitcher_id: [game_log, ...]}.
+        Each game log needs `game_date`, `opp`, `is_start`.
+    pitch_hands : dict
+        {pitcher_id: 'L'|'R'} from load_pitch_hands.
+
+    Returns
+    -------
+    dict
+        {date_str: {team_abbr: hand}}  — the team's opposing starter's hand.
+    """
+    result = {}
+    for pid, games in (pitcher_logs or {}).items():
+        try:
+            hand = pitch_hands.get(int(pid))
+        except (TypeError, ValueError):
+            hand = pitch_hands.get(pid)
+        if hand not in ("L", "R"):
+            continue
+        for g in games:
+            if not g.get("is_start"):
+                continue
+            d = g.get("game_date", "")
+            opp = (g.get("opp", "") or "").upper()
+            if d and opp:
+                result.setdefault(d, {})[opp] = hand
+    return result
+
+
+def get_recent_batting_order(team_abbr, season=None, before_date=None,
+                             max_lookback_days=14,
+                             vs_hand=None, opp_starter_hand_by_date=None):
     """
     Return the most recent batting order (list of player IDs) for a team prior
     to `before_date`. Used as a fallback when today's lineup hasn't been posted.
+
+    When ``vs_hand`` and ``opp_starter_hand_by_date`` are both provided, makes
+    a first pass preferring batting orders from games where the team faced a
+    same-handed starter as tonight's pitcher (teams platoon, so vs-LHP and
+    vs-RHP lineups can differ by 2-3 spots). Falls back to any-hand match if
+    no same-hand lineup exists within the lookback window — preserves the
+    original behavior as a safety net.
 
     Parameters
     ----------
@@ -1401,6 +1448,11 @@ def get_recent_batting_order(team_abbr, season=None, before_date=None, max_lookb
         ISO date "YYYY-MM-DD". Looks for batting orders before this date.
     max_lookback_days : int
         Max days back to search.
+    vs_hand : str or None
+        Tonight's starter's throwing hand ("L" or "R"). When set with
+        ``opp_starter_hand_by_date``, enables same-hand preferential matching.
+    opp_starter_hand_by_date : dict or None
+        Output of ``build_team_opp_hand_by_date``.
 
     Returns
     -------
@@ -1417,11 +1469,24 @@ def get_recent_batting_order(team_abbr, season=None, before_date=None, max_lookb
         ref = dt_dt.strptime(before_date, "%Y-%m-%d").date()
     else:
         ref = dt_date.today()
-    # Walk backwards
+
+    can_filter = vs_hand in ("L", "R") and bool(opp_starter_hand_by_date)
+
+    # Pass 1: prefer same-hand match
+    if can_filter:
+        for i in range(1, max_lookback_days + 1):
+            d = (ref - timedelta(days=i)).strftime("%Y-%m-%d")
+            order = bo_data.get(d, {}).get(team_abbr)
+            if not order:
+                continue
+            faced_hand = (opp_starter_hand_by_date.get(d, {}) or {}).get(team_abbr)
+            if faced_hand == vs_hand:
+                return order
+
+    # Pass 2: any-hand fallback (original behavior)
     for i in range(1, max_lookback_days + 1):
         d = (ref - timedelta(days=i)).strftime("%Y-%m-%d")
-        day_data = bo_data.get(d, {})
-        order = day_data.get(team_abbr)
+        order = bo_data.get(d, {}).get(team_abbr)
         if order:
             return order
     return None

@@ -509,7 +509,7 @@ def run_daily(date_key=None):
         else:
             team_batting[abbr] = {"PCT_LHB": hand_data["PCT_LHB"]}
 
-    from sources.mlb_stats import CACHE_DIR as _MLB_CACHE_DIR
+    from sources.mlb_stats import CACHE_DIR as _MLB_CACHE_DIR, build_team_opp_hand_by_date
     _lineup_cache_path = _MLB_CACHE_DIR / f"lineups_{date_iso.replace('-','')}.json"
     lineup_data = {}
     try:
@@ -518,6 +518,13 @@ def run_daily(date_key=None):
                 lineup_data = json.load(_f) or {}
     except Exception:
         lineup_data = {}
+
+    # Build {date: {team: hand}} of opposing-starter handedness so the recent-
+    # lineup fallback can prefer same-hand games. Teams platoon — vs-LHP and
+    # vs-RHP lineups can swap 2-3 spots.
+    _opp_starter_hand_by_date = build_team_opp_hand_by_date(
+        pitcher_logs, _pitch_hands_early
+    )
 
     _all_confirmed = (lineup_data
                       and all(v.get("confirmed") for v in lineup_data.values()))
@@ -575,14 +582,23 @@ def run_daily(date_key=None):
                                         _lineup_source = f"rotowire_default_vs_{vs_hand}HP"
                         if not pids:
                             from sources.mlb_stats import get_recent_batting_order
-                            recent = get_recent_batting_order(abbr, season=season, before_date=date_iso)
+                            # vs_hand was computed above for the Rotowire path; if
+                            # that branch was skipped (no opp_pid), it falls back to
+                            # None which disables the same-hand filter inside.
+                            _vs_hand = locals().get("vs_hand")
+                            recent = get_recent_batting_order(
+                                abbr, season=season, before_date=date_iso,
+                                vs_hand=_vs_hand,
+                                opp_starter_hand_by_date=_opp_starter_hand_by_date,
+                            )
                             if recent:
                                 pids = recent
                                 lineup_entries = [
                                     {"batter_id": pid, "name": "", "slot": i + 1}
                                     for i, pid in enumerate(recent)
                                 ]
-                                _lineup_source = "recent_lineup_fallback"
+                                _src_suffix = f"_vs_{_vs_hand}HP" if _vs_hand in ("L", "R") else ""
+                                _lineup_source = f"recent_lineup_fallback{_src_suffix}"
                         lineup_data[abbr] = {
                             "player_ids": pids,
                             "lineup": lineup_entries,
