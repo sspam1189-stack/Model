@@ -662,6 +662,8 @@ def _make_prop(name, team, market, proj, std, line_lookup, opp,
         "proj_bf": round(proj_bf, 1) if proj_bf is not None else None,
         "proj_bf_capped": round(proj_bf_capped, 1) if proj_bf_capped is not None else None,
         "proj_pc": round(proj_pc, 0) if proj_pc is not None else None,
+        "opp_team_k_pct": round(opp_team_k_pct * 100, 1) if opp_team_k_pct else None,
+        "lineup_k_pct": round(lineup_k_rate * 100, 1) if lineup_k_rate else None,
     }
 
     if line is not None and std > 0:

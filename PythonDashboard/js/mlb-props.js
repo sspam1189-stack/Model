@@ -930,6 +930,8 @@
             ['Player', 'left'],
             ['Tm',     'center'],
             ['Opp',    'center'],
+            ['LU K%',  'right'],
+            ['Tm K%',  'right'],
             ['O/U',    'center'],
             ['Line',   'center'],
             ['O//U',    'center'],
@@ -983,10 +985,14 @@
             const recBktDir   = bucketDirRec(opp, dir, bucket);
             const recBktBoth  = bucketBothDirsRec(opp, bucket);
             const recAllDir   = allBucketsDirRec(opp, dir);
+            const _tmK = (p.opp_team_k_pct != null) ? p.opp_team_k_pct.toFixed(1) + '%' : '—';
+            const _luK = (p.lineup_k_pct   != null) ? p.lineup_k_pct.toFixed(1)   + '%' : '—';
             const cells = [
               {v: displayName(p), color: '#fff', weight:'600', align:'left'},
               {v: p.team || '', color:'#999'},
               {v: opp,           color:'#999'},
+              {v: _luK, color:'#ccc', align:'right'},
+              {v: _tmK, color:'#ccc', align:'right'},
               {v: dir === 'OVER' ? 'O' : dir === 'UNDER' ? 'U' : '—', color: dir === 'OVER' ? 'var(--green)' : dir === 'UNDER' ? 'var(--red)' : '#999', weight:'600'},
               {v: p.line != null ? String(p.line) : '—'},
               {v: fmtRec(recBktDir)},
