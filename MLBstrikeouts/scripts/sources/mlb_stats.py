@@ -565,10 +565,12 @@ def fetch_pitcher_advanced_stats_through(season, end_date):
 
 def fetch_savant_pitcher_rates(season=None, min_pa=10):
     """
-    Fetch K%, whiff%, BB% from Baseball Savant custom leaderboard.
+    Fetch K%, whiff%, xBA from Baseball Savant custom leaderboard.
 
-    Single CSV download — no per-player calls needed.
-    Returns {player_id_str: {"k_pct": float, "whiff_pct": float, "bb_pct": float}}
+    Single CSV download — no per-player calls needed. Returns
+    {player_id_str: {"k_pct": float, "whiff_pct": float, "xba": float}}.
+    whiff_pct and xba feed the K-rate regression in props_engine
+    (gated by WHIFF_XBA_BLEND_WEIGHT > 0).
     """
     import csv
     import io
@@ -585,9 +587,7 @@ def fetch_savant_pitcher_rates(season=None, min_pa=10):
     url = (
         f"https://baseballsavant.mlb.com/leaderboard/custom"
         f"?year={season}&type=pitcher&filter=&min={min_pa}"
-        f"&selections=k_percent,whiff_percent,bb_percent,iz_contact_percent,"
-        f"oz_swing_percent,called_strike_plus_whiff_percent,xba,"
-        f"barrel_batted_rate,hard_hit_percent"
+        f"&selections=k_percent,whiff_percent,xba"
         f"&chart=false&csv=true"
     )
 
@@ -609,40 +609,156 @@ def fetch_savant_pitcher_rates(season=None, min_pa=10):
         try:
             k_pct = float(row.get("k_percent", 0) or 0) / 100.0  # Savant gives as %
             whiff_pct = float(row.get("whiff_percent", 0) or 0) / 100.0
-            bb_pct = float(row.get("bb_percent", 0) or 0) / 100.0
+            xba = float(row.get("xba", 0) or 0)
         except (ValueError, TypeError):
             continue
 
-        try:
-            zone_contact = float(row.get("iz_contact_percent", 0) or 0) / 100.0
-            chase = float(row.get("oz_swing_percent", 0) or 0) / 100.0
-            csw = float(row.get("called_strike_plus_whiff_percent", 0) or 0) / 100.0
-        except (ValueError, TypeError):
-            zone_contact, chase, csw = 0, 0, 0
-
-        try:
-            xba = float(row.get("xba", 0) or 0)
-            barrel = float(row.get("barrel_batted_rate", 0) or 0) / 100.0
-            hard_hit = float(row.get("hard_hit_percent", 0) or 0) / 100.0
-        except (ValueError, TypeError):
-            xba, barrel, hard_hit = 0, 0, 0
-
         result[pid] = {
-            "k_pct": round(k_pct, 4),
+            "k_pct":     round(k_pct, 4),
             "whiff_pct": round(whiff_pct, 4),
-            "bb_pct": round(bb_pct, 4),
-            "zone_contact_pct": round(zone_contact, 4),
-            "chase_pct": round(chase, 4),
-            "csw_pct": round(csw, 4),
-            "xba": round(xba, 4),
-            "barrel_pct": round(barrel, 4),
-            "hard_hit_pct": round(hard_hit, 4),
+            "xba":       round(xba, 4),
         }
 
     print(f"  [savant] Fetched rates for {len(result)} pitchers")
     _save_cache(cache_path, result)
     return result
 
+
+def compute_whiff_xba_regression(savant_data, min_pitchers=50):
+    """
+    Fit bivariate OLS of K% on (whiff_pct, xba) from the current savant
+    snapshot. Returns slopes + league means used by props_engine to
+    regress pitcher_k_rate.
+
+    Returns {'whiff_slope', 'xba_slope', 'whiff_mean', 'xba_mean', 'n', 'r2'}
+    or None if fewer than min_pitchers qualify (caller should fall back
+    to defaults.py hardcoded values).
+    """
+    pairs = []
+    for pid, r in (savant_data or {}).items():
+        w = r.get("whiff_pct"); x = r.get("xba"); k = r.get("k_pct")
+        if w and x and k and w > 0 and x > 0 and k > 0:
+            pairs.append((w, x, k))
+    n = len(pairs)
+    if n < min_pitchers:
+        return None
+
+    ws = [p[0] for p in pairs]
+    xs = [p[1] for p in pairs]
+    ks = [p[2] for p in pairs]
+    mw = sum(ws) / n
+    mx = sum(xs) / n
+    mk = sum(ks) / n
+    vww = sum((a - mw) ** 2 for a in ws)
+    vxx = sum((a - mx) ** 2 for a in xs)
+    vwx = sum((a - mw) * (b - mx) for a, b in zip(ws, xs))
+    cwk = sum((a - mw) * (k - mk) for a, k in zip(ws, ks))
+    cxk = sum((b - mx) * (k - mk) for b, k in zip(xs, ks))
+    det = vww * vxx - vwx ** 2
+    if det == 0:
+        return None
+    bw = (cwk * vxx - cxk * vwx) / det
+    bx = (cxk * vww - cwk * vwx) / det
+    ssr = sum((bw * (w - mw) + bx * (x - mx) - (k - mk)) ** 2
+              for w, x, k in pairs)
+    sst = sum((k - mk) ** 2 for k in ks)
+    r2 = 1 - ssr / sst if sst else 0
+
+    return {
+        "whiff_slope": bw,
+        "xba_slope":   bx,
+        "whiff_mean":  mw,
+        "xba_mean":    mx,
+        "n":           n,
+        "r2":          r2,
+    }
+
+
+def save_whiff_xba_regression(reg, season=None, date_iso=None):
+    """
+    Persist a regression result to data/pitcher_cache/mlb/
+    whiff_xba_regression_<YYYYMMDD>.json so slope drift can be audited
+    historically. Idempotent — overwrites if the same date is re-run.
+    """
+    if not reg:
+        return None
+    season = season or _current_season()
+    if date_iso:
+        date_str = date_iso.replace("-", "")
+    else:
+        date_str = date.today().strftime("%Y%m%d")
+    out = {
+        "date_iso":    date_iso or date.today().isoformat(),
+        "season":      season,
+        "n":           reg["n"],
+        "whiff_slope": reg["whiff_slope"],
+        "xba_slope":   reg["xba_slope"],
+        "whiff_mean":  reg["whiff_mean"],
+        "xba_mean":    reg["xba_mean"],
+        "r2":          reg["r2"],
+        "saved_at":    datetime.now().isoformat(timespec="seconds"),
+    }
+    cache_path = CACHE_DIR / f"whiff_xba_regression_{season}_{date_str}.json"
+    try:
+        cache_path.parent.mkdir(parents=True, exist_ok=True)
+        with open(cache_path, "w") as f:
+            json.dump(out, f, indent=2)
+    except Exception as e:
+        print(f"  [whiff/xBA cache] write failed: {e}")
+        return None
+    return cache_path
+
+
+def load_whiff_xba_regression_as_of(date_iso, season=None):
+    """
+    Walk-forward slope loader.
+
+    Returns the most recent cached regression on or before date_iso, or
+    None if no cache covers that range. Used by props_backfill to set
+    each game-date's slopes from a snapshot fit only on prior data.
+    """
+    import glob, re
+    season = season or _current_season()
+    target = date_iso.replace("-", "")
+    pattern = str(CACHE_DIR / f"whiff_xba_regression_{season}_*.json")
+    files = sorted(glob.glob(pattern))
+    candidates = []
+    for f in files:
+        m = re.search(rf"whiff_xba_regression_{season}_(\d{{8}})\.json$", f)
+        if m and m.group(1) <= target:
+            candidates.append((m.group(1), f))
+    if not candidates:
+        return None
+    candidates.sort()
+    _, path = candidates[-1]
+    try:
+        with open(path) as f:
+            return json.load(f)
+    except Exception:
+        return None
+
+
+def load_whiff_xba_regression_for_date(date_iso, season=None):
+    """
+    Load the regression cache for an EXACT date (not "as of").
+
+    Used by run_daily so slopes get locked once per day — re-runs later
+    in the same day reuse the morning's slope instead of refitting on
+    updated mid-day savant data (which would leak today's completed
+    games into projections of today's later games).
+
+    Returns the dict or None if no file exists for that exact date.
+    """
+    season = season or _current_season()
+    date_str = date_iso.replace("-", "")
+    cache_path = CACHE_DIR / f"whiff_xba_regression_{season}_{date_str}.json"
+    if not cache_path.exists():
+        return None
+    try:
+        with open(cache_path) as f:
+            return json.load(f)
+    except Exception:
+        return None
 
 
 # ---------------------------------------------------------------------------

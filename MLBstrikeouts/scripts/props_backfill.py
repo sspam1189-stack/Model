@@ -240,18 +240,30 @@ def backfill(season=None, start_game=10, start_date=None):
     # loop (see _adv_stats_through).  saber_stats isn't read by props_engine and
     # savant_rates is only a fallback that the derived adv_stats supersedes.
     #
-    # EXCEPTION: when ZC_CHASE_BLEND_WEIGHT > 0, props_engine reads savant
-    # zone_contact_pct and chase_pct to regress pitcher_k_rate toward
-    # underlying pitch quality. Backfill passes season-to-today savant_rates
-    # in that case (mild leakage — ZC/chase are stable mid-late season).
-    # When the flag is 0, an empty dict is passed (no-leakage baseline).
-    from defaults import ZC_CHASE_BLEND_WEIGHT
+    # EXCEPTION: when WHIFF_XBA_BLEND_WEIGHT > 0, props_engine reads savant
+    # whiff_pct and xba to regress pitcher_k_rate toward underlying pitch
+    # quality. Backfill passes season-to-today savant_rates in that case
+    # (mild leakage — whiff/xBA are stable mid-late season). When the flag
+    # is 0, an empty dict is passed (no-leakage baseline).
+    from defaults import WHIFF_XBA_BLEND_WEIGHT
     _savant_for_backfill = {}
-    if ZC_CHASE_BLEND_WEIGHT > 0:
-        from sources.mlb_stats import fetch_savant_pitcher_rates
+    if WHIFF_XBA_BLEND_WEIGHT > 0:
+        from sources.mlb_stats import (fetch_savant_pitcher_rates,
+                                       compute_whiff_xba_regression,
+                                       save_whiff_xba_regression,
+                                       load_whiff_xba_regression_as_of)
         _savant_for_backfill = fetch_savant_pitcher_rates(season=season) or {}
-        print(f"  [backfill] ZC/chase blend enabled → loaded "
-              f"{len(_savant_for_backfill)} savant entries (season-to-today leakage)")
+        print(f"  [backfill] whiff/xBA blend enabled -> loaded "
+              f"{len(_savant_for_backfill)} savant entries (today's snapshot)")
+        # Slope refit is WALK-FORWARD — applied inside the date loop using
+        # per-date cached regression files. Today's regression file is still
+        # written below for tomorrow.
+        _reg_today = compute_whiff_xba_regression(_savant_for_backfill)
+        if _reg_today:
+            save_whiff_xba_regression(_reg_today, season=season)
+            print(f"  [backfill] today's slopes cached "
+                  f"(whiff={_reg_today['whiff_slope']:+.4f} "
+                  f"xBA={_reg_today['xba_slope']:+.4f}  R^2={_reg_today['r2']:.3f})")
 
     # Load player bat-side lookup (for per-game lineup handedness)
     print(f"  Loading player bat sides...")
@@ -290,6 +302,14 @@ def backfill(season=None, start_game=10, start_date=None):
     results = {"strikeouts": {"projections": [], "actuals": [], "picks": []}}
     total_projected = 0
 
+    # Save baseline whiff/xBA slopes so we can restore at function end.
+    import defaults as _d
+    _baseline_slopes = (
+        _d.WHIFF_K_SLOPE, _d.XBA_K_SLOPE,
+        _d.WHIFF_LEAGUE_AVG, _d.XBA_LEAGUE_AVG,
+    )
+    _last_logged_slopes = None
+
     # --- Walk-forward loop ---
     for date_idx, game_date in enumerate(all_dates):
 
@@ -311,6 +331,31 @@ def backfill(season=None, start_game=10, start_date=None):
             if today_date_logs:
                 batch_update_from_game_logs(kalman_state, today_date_logs)
             continue
+
+        # Walk-forward whiff/xBA slope loading: pull the most recent
+        # regression file fit on data on-or-before `game_date - 1 day`.
+        # Falls back to baseline (defaults.py) if no cache covers that range.
+        if WHIFF_XBA_BLEND_WEIGHT > 0:
+            import datetime as _dt
+            _prior_iso = (_dt.date.fromisoformat(game_date)
+                          - _dt.timedelta(days=1)).isoformat()
+            _wfr = load_whiff_xba_regression_as_of(_prior_iso, season=season)
+            if _wfr:
+                _d.WHIFF_K_SLOPE    = _wfr["whiff_slope"]
+                _d.XBA_K_SLOPE      = _wfr["xba_slope"]
+                _d.WHIFF_LEAGUE_AVG = _wfr["whiff_mean"]
+                _d.XBA_LEAGUE_AVG   = _wfr["xba_mean"]
+                _key = (round(_wfr['whiff_slope'], 4),
+                        round(_wfr['xba_slope'], 4))
+                if _key != _last_logged_slopes:
+                    print(f"  [walk-forward {game_date}] using slopes from "
+                          f"{_wfr['date_iso']}: whiff={_wfr['whiff_slope']:+.4f} "
+                          f"xBA={_wfr['xba_slope']:+.4f} (n={_wfr['n']})")
+                    _last_logged_slopes = _key
+            else:
+                # No cache yet — fall back to baseline
+                (_d.WHIFF_K_SLOPE, _d.XBA_K_SLOPE,
+                 _d.WHIFF_LEAGUE_AVG, _d.XBA_LEAGUE_AVG) = _baseline_slopes
 
         # Phase 1: Build prior-only pitcher logs for projection
         prior_logs = {}
@@ -654,6 +699,12 @@ def backfill(season=None, start_game=10, start_date=None):
     print(f"  Saved Kalman state ({len(kalman_state['pitchers'])} pitchers) "
           f"to {kalman_state_path}")
 
+
+    # Restore baseline slopes so subsequent calls in the same process
+    # don't see the last-iterated date's mutated defaults.
+    if WHIFF_XBA_BLEND_WEIGHT > 0:
+        (_d.WHIFF_K_SLOPE, _d.XBA_K_SLOPE,
+         _d.WHIFF_LEAGUE_AVG, _d.XBA_LEAGUE_AVG) = _baseline_slopes
 
     # --- Summary ---
     print(kalman_summary(kalman_state, top_n=10, stat_key="k"))

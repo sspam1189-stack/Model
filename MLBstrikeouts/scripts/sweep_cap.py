@@ -47,18 +47,17 @@ def _stats(picks):
     return {'n': n, 'w': w, 'l': l, 'pct': pct, 'u': u, 'roi': roi}
 
 
-def _is_lu(p):
-    return (p.get('pick') == 'PASS' and p.get('would_be_pick') == 'UNDER'
-            and 0.60 <= (p.get('pCover') or 0) < 0.70)
-
-
-def _is_lo(p):
-    return (p.get('pick') == 'PASS' and p.get('would_be_pick') == 'OVER'
-            and 0.65 <= (p.get('pCover') or 0) < 0.70)
+def _is_lean(p):
+    """Unified lean band: pCov in [0.65, current pick threshold), both directions."""
+    if p.get('pick') != 'PASS':
+        return False
+    pc = p.get('pCover') or 0
+    thresh = defaults.MARKET_THRESHOLDS.get('strikeouts', {}).get('high', 0.72)
+    return 0.65 <= pc < thresh
 
 
 def _actionable(p):
-    return p.get('pick') in ('OVER', 'UNDER') or _is_lu(p) or _is_lo(p)
+    return p.get('pick') in ('OVER', 'UNDER') or _is_lean(p)
 
 
 def run_sweep(season=None, cap_grid=None, recent_cutoff='2026-05-05'):
@@ -93,13 +92,12 @@ def run_sweep(season=None, cap_grid=None, recent_cutoff='2026-05-05'):
             picks = (r or {}).get('strikeouts', {}).get('picks', []) or []
             aa = [p for p in picks if _actionable(p)]
             pa = [p for p in picks if p.get('pick') in ('OVER','UNDER')]
-            lu = [p for p in picks if _is_lu(p)]
-            lo = [p for p in picks if _is_lo(p)]
+            ln = [p for p in picks if _is_lean(p)]
             rec_aa = [p for p in aa if p.get('date','') >= recent_cutoff]
             entry = {'cap': cap,
                      'all_season': _stats(aa), 'all_recent': _stats(rec_aa),
                      'picks_season': _stats(pa),
-                     'lu_season': _stats(lu), 'lo_season': _stats(lo)}
+                     'lean_season': _stats(ln)}
             rows.append(entry)
             s = entry['all_season']; rr = entry['all_recent']
             print(f"  ALL season: {s['n']} {s['w']}-{s['l']} {s['pct']:.1f}% {s['u']:+.1f}u {s['roi']:+.1f}% | "
@@ -124,8 +122,7 @@ def run_sweep(season=None, cap_grid=None, recent_cutoff='2026-05-05'):
     _table("ALL-ACTIONABLE season (by CAP)", 'all_season')
     _table("ALL-ACTIONABLE since-5/05", 'all_recent')
     _table("PICKS only", 'picks_season')
-    _table("LEAN U season", 'lu_season')
-    _table("LEAN O season", 'lo_season')
+    _table("LEAN season", 'lean_season')
 
 
 if __name__ == "__main__":

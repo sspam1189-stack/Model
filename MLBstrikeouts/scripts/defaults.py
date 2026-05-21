@@ -60,7 +60,7 @@ MARKET_THRESHOLDS = {
     # tier to pick tier where they're sized 2.5u instead of 1.5u.
     # Volume increase: 305 picks vs 249 (+22%).
     # Lean band now 0.65-0.70 (still 5pp wide, still usable for display).
-    "strikeouts":   {"high": 0.70},
+    "strikeouts":   {"high": 0.72},
 }
 
 # ---------------------------------------------------------------------------
@@ -90,7 +90,7 @@ VAR_MULT = {
     # recent signal more predictive of forward returns than season-wide).
     # Season at this config: +363.6u (vs +388.7u VAR=1.05 = -25u).
     # Recent at this config: +82.8u (vs +83.9u VAR=1.05 = -1.1u, ROI +0.5pp).
-    "strikeouts":   1.15,
+    "strikeouts":   1.30,
 }
 
 # ---------------------------------------------------------------------------
@@ -184,32 +184,32 @@ SLOT_PA_WEIGHTS = [
 
 
 # ---------------------------------------------------------------------------
-# Park K factor adjustment
+# Whiff% + xBA → pitcher_k_rate regression adjustment
 # ---------------------------------------------------------------------------
-# Zone-contact + chase → K adjustment (sweep candidate, default off)
-# ---------------------------------------------------------------------------
-# 2026-05-20: zone_contact_pct correlates -0.418 with future K%; chase_pct
-# correlates +0.327. Regression-style additive K-rate adjustment (properly
-# scaled this time — earlier naive blend failed due to feature scale).
+# Per-pitcher additive K-rate shift based on how far whiff_pct and xBA
+# deviate from league averages:
 #
-# Per-pitcher k_adj = ZC_K_SLOPE * (zone_contact - league_zc)
-#                   + CHASE_K_SLOPE * (chase - league_chase)
-# Then pitcher_k_rate += k_adj * ZC_CHASE_BLEND_WEIGHT.
+#   k_adj = WHIFF_K_SLOPE * (whiff_pct - WHIFF_LEAGUE_AVG)
+#         + XBA_K_SLOPE   * (xba       - XBA_LEAGUE_AVG)
+#   pitcher_k_rate += k_adj * WHIFF_XBA_BLEND_WEIGHT
 #
-# League averages from 2026 savant cache (412 pitchers).
-# 2026-05-20 sweep across 19 weights (0.0 to 1.2 at 0.05-0.10 grid): peak
-# at 0.65-0.70 (+180.4u to +180.9u 1u/1u, +370u at 2.5/1.5 sizing). Ships
-# at 0.7. Multi-D follow-up confirmed BF=0.95 VAR=1.10 is the new full
-# optimum at 2.5/1.5 sizing: +381.4u season.
+# Slopes and league averages are computed dynamically at the start of each
+# backfill / run_daily from the current Baseball Savant snapshot (see
+# compute_whiff_xba_regression() in sources/mlb_stats.py). The values
+# below are FALLBACKS used only if the snapshot has <50 qualified pitchers.
+#
+# Empirical 2026 season-to-5/21 (n=415): bivariate OLS R^2 = 0.65.
+# Both whiff (+0.62) and xBA (-0.58) survive controlling for the other.
+# Weight=1.2 chosen from 2026-05-21 sweep (best season+recent units).
 #
 # CAVEAT: backfill loads season-end savant_rates (mild leakage on historical
-# dates — whiff/ZC/chase are stable mid-late season, ~88% accurate). Live
-# forward expectation should be ~80-90% of backfill numbers.
-ZC_CHASE_BLEND_WEIGHT = 0.7
-ZC_LEAGUE_AVG = 0.838     # mean zone_contact across pitchers
-CHASE_LEAGUE_AVG = 0.288  # mean chase rate
-ZC_K_SLOPE = -0.45        # 1pp ZC up → 0.45pp K down (from corr -0.418, scaled)
-CHASE_K_SLOPE = 0.35      # 1pp chase up → 0.35pp K up (from corr +0.327, scaled)
+# dates — whiff/xBA are stable mid-late season, ~88% accurate). Live forward
+# expectation should be ~80-90% of backfill numbers.
+WHIFF_XBA_BLEND_WEIGHT = 1.2
+WHIFF_LEAGUE_AVG = 0.2557   # fallback (mean whiff_pct)
+XBA_LEAGUE_AVG   = 0.2405   # fallback (mean xBA against)
+WHIFF_K_SLOPE    = 0.6279   # fallback (bivariate whiff partial slope)
+XBA_K_SLOPE      = -0.5777  # fallback (bivariate xBA partial slope)
 
 
 def get_team_slot_weights(team_abbr=None):
@@ -261,13 +261,13 @@ def get_team_slot_weights(team_abbr=None):
 # across BF=0.95-1.00, but RECENT (5/4+) combined WR best at BF=1.00
 # (68.6% with VAR=1.15) vs BF=0.95 (68.5%). Bumping to 1.00 to bias
 # toward recent-window performance amid market edge compression.
-BF_MULT = 1.00
+BF_MULT = 1.30
 
 # Hard ceiling on projected batters faced after BF_MULT. Acts as a league-wide
 # safety net on top of the per-pitcher pitch-count ceiling (see props_engine.py
 # avg_pc = min(avg_pc, max(recent_pcs))). Set high (e.g. 100.0) to effectively
 # disable.
-BF_CAP = 23.0
+BF_CAP = 26.0
 
 # Per-pitcher K-rate cap floor — applied as max(K_RATE_CAP_FLOOR, season K%)
 # in props_engine.py. The matchup-driven expected_k_rate
@@ -281,7 +281,7 @@ BF_CAP = 23.0
 # 2026-05-20 K_CAP sweep at ZC=0.7 BF=0.95 VAR=1.10: peak shifted from 0.36
 # to 0.38 (+5.5u at 2.5/1.5). ZC/chase blend boosts elite-pitch-quality
 # pitchers' K rate, and 0.36 was clipping too aggressively.
-K_RATE_CAP_FLOOR = 0.38
+K_RATE_CAP_FLOOR = 0.36
 
 # Hard floor on expected_k_rate after the per-pitcher cap. Prevents
 # nonsensical near-zero K-rate projections from degenerate inputs (e.g.

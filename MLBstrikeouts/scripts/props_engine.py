@@ -320,20 +320,21 @@ def project_pitcher_props(pitcher_logs, team_batting_stats=None,
         season_k_rate = k_rate_vs_lhb * pct_lhb + k_rate_vs_rhb * (1.0 - pct_lhb)
         pitcher_k_rate = season_k_rate or overall_k_pct
 
-        # Zone-contact + chase regression K adjustment (sweep candidate).
-        from defaults import (ZC_CHASE_BLEND_WEIGHT, ZC_LEAGUE_AVG,
-                               CHASE_LEAGUE_AVG, ZC_K_SLOPE, CHASE_K_SLOPE)
-        # Properly scaled this time: additive shift in pitcher_k_rate based
-        # on how far this pitcher's ZC/chase deviates from league avg.
-        if ZC_CHASE_BLEND_WEIGHT > 0:
-            zc = savant.get("zone_contact_pct", 0)
-            chase = savant.get("chase_pct", 0)
-            if zc > 0 or chase > 0:
+        # Whiff% + xBA regression K-rate adjustment.
+        # Additive shift in pitcher_k_rate based on how far this pitcher's
+        # whiff and xBA deviate from league averages (slopes computed
+        # dynamically at backfill / run_daily start; see defaults.py).
+        from defaults import (WHIFF_XBA_BLEND_WEIGHT, WHIFF_LEAGUE_AVG,
+                               XBA_LEAGUE_AVG, WHIFF_K_SLOPE, XBA_K_SLOPE)
+        if WHIFF_XBA_BLEND_WEIGHT > 0:
+            whiff = savant.get("whiff_pct", 0)
+            xba   = savant.get("xba", 0)
+            if whiff > 0 or xba > 0:
                 k_adj = (
-                    ZC_K_SLOPE * (zc - ZC_LEAGUE_AVG)
-                    + CHASE_K_SLOPE * (chase - CHASE_LEAGUE_AVG)
+                    WHIFF_K_SLOPE * (whiff - WHIFF_LEAGUE_AVG)
+                    + XBA_K_SLOPE * (xba   - XBA_LEAGUE_AVG)
                 )
-                pitcher_k_rate += k_adj * ZC_CHASE_BLEND_WEIGHT
+                pitcher_k_rate += k_adj * WHIFF_XBA_BLEND_WEIGHT
 
         # --- Lineup K tendency ---
         # Three-tier fallback (best → worst):
@@ -544,7 +545,8 @@ def project_pitcher_props(pitcher_logs, team_batting_stats=None,
 
         prop = _make_prop(name, team, market, proj, std, line_lookup, latest_opp,
                           proj_ip=proj_ip, proj_bf=projected_bf_display, proj_pc=proj_pc,
-                          proj_bf_capped=projected_bf)
+                          proj_bf_capped=projected_bf,
+                          opp_team_k_pct=opp_team_k_pct, lineup_k_pct=lineup_k_rate)
         if prop:
             projections.append(prop)
 
@@ -626,7 +628,8 @@ def _to_win_1u(price):
 
 
 def _make_prop(name, team, market, proj, std, line_lookup, opp,
-               proj_ip=None, proj_bf=None, proj_pc=None, proj_bf_capped=None):
+               proj_ip=None, proj_bf=None, proj_pc=None, proj_bf_capped=None,
+               opp_team_k_pct=None, lineup_k_pct=None):
     nk = _name_key(name)
     line_key = (nk[0], nk[1], market)
     line_data = line_lookup.get(line_key)
@@ -663,7 +666,7 @@ def _make_prop(name, team, market, proj, std, line_lookup, opp,
         "proj_bf_capped": round(proj_bf_capped, 1) if proj_bf_capped is not None else None,
         "proj_pc": round(proj_pc, 0) if proj_pc is not None else None,
         "opp_team_k_pct": round(opp_team_k_pct * 100, 1) if opp_team_k_pct else None,
-        "lineup_k_pct": round(lineup_k_rate * 100, 1) if lineup_k_rate else None,
+        "lineup_k_pct": round(lineup_k_pct * 100, 1) if lineup_k_pct else None,
     }
 
     if line is not None and std > 0:

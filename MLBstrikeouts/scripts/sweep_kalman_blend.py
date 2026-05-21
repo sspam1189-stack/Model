@@ -57,22 +57,13 @@ def _row(label, picks):
     return (label, n, w, l, pct, u, roi)
 
 
-def _is_lean_under(p):
+def _is_lean(p):
+    """Unified lean band: pCov in [0.65, current pick threshold), both directions."""
     if p.get('pick') != 'PASS':
         return False
     pc = p.get('pCover') or 0
-    if not (0.60 <= pc < 0.70):
-        return False
-    return p.get('would_be_pick') == 'UNDER'
-
-
-def _is_lean_over(p):
-    if p.get('pick') != 'PASS':
-        return False
-    pc = p.get('pCover') or 0
-    if not (0.65 <= pc < 0.70):
-        return False
-    return p.get('would_be_pick') == 'OVER'
+    thresh = defaults.MARKET_THRESHOLDS.get('strikeouts', {}).get('high', 0.72)
+    return 0.65 <= pc < thresh
 
 
 def run_sweep(season=None, blend_weights=None, recent_cutoff='2026-05-05',
@@ -106,7 +97,7 @@ def run_sweep(season=None, blend_weights=None, recent_cutoff='2026-05-05',
             picks = (results or {}).get('strikeouts', {}).get('picks', []) or []
             results_by_blend[b] = picks
             n_picks = sum(1 for p in picks if p.get('pick') in ('OVER','UNDER'))
-            n_leans = sum(1 for p in picks if _is_lean_under(p) or _is_lean_over(p))
+            n_leans = sum(1 for p in picks if _is_lean(p))
             print(f"  picks={n_picks}  leans={n_leans}  total rows={len(picks)}")
 
     finally:
@@ -137,16 +128,13 @@ def run_sweep(season=None, blend_weights=None, recent_cutoff='2026-05-05',
                  lambda picks: [p for p in picks
                                 if p.get('pick') in ('OVER', 'UNDER')])
 
-    _print_table("LEAN U (PASS, would_be_pick=UNDER, .60-.70 pCover)",
-                 lambda picks: [p for p in picks if _is_lean_under(p)])
-
-    _print_table("LEAN O (PASS, would_be_pick=OVER, .65-.70 pCover)",
-                 lambda picks: [p for p in picks if _is_lean_over(p)])
+    _print_table("LEAN (PASS, pCover 0.65-threshold, both directions)",
+                 lambda picks: [p for p in picks if _is_lean(p)])
 
     _print_table("ALL ACTIONABLE (picks + leans, combined)",
                  lambda picks: [p for p in picks
                                 if p.get('pick') in ('OVER', 'UNDER')
-                                or _is_lean_under(p) or _is_lean_over(p)])
+                                or _is_lean(p)])
 
 
 if __name__ == "__main__":

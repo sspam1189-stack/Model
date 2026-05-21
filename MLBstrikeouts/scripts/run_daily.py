@@ -667,6 +667,40 @@ def run_daily(date_key=None):
     savant_rates = fetch_savant_pitcher_rates(season=season)
     print(f"  {len(batter_k_rates)} batters, {len(savant_rates)} pitchers with Savant K%/whiff%")
 
+    # Whiff/xBA slope handling.
+    # Slopes are LOCKED ONCE PER DAY: if today's regression cache exists,
+    # we reuse it (preserves walk-forward semantics — re-runs later in the
+    # same day don't recompute slopes from mid-day savant data, which would
+    # leak today's completed games into projections of today's later games).
+    # First run of the day fits fresh slopes and caches them.
+    from defaults import WHIFF_XBA_BLEND_WEIGHT
+    if WHIFF_XBA_BLEND_WEIGHT > 0:
+        from sources.mlb_stats import (compute_whiff_xba_regression,
+                                       save_whiff_xba_regression,
+                                       load_whiff_xba_regression_for_date)
+        import defaults as _d
+
+        _reg = load_whiff_xba_regression_for_date(date_iso, season=season)
+        if _reg:
+            print(f"  [whiff/xBA] using cached slopes for {date_iso} "
+                  f"(saved {_reg.get('saved_at','?')})")
+        else:
+            _reg = compute_whiff_xba_regression(savant_rates)
+            if _reg:
+                save_whiff_xba_regression(_reg, season=season, date_iso=date_iso)
+                print(f"  [whiff/xBA refit] first run today — fit and cached "
+                      f"(n={_reg['n']} R^2={_reg['r2']:.3f})")
+        if _reg:
+            _d.WHIFF_K_SLOPE    = _reg["whiff_slope"]
+            _d.XBA_K_SLOPE      = _reg["xba_slope"]
+            _d.WHIFF_LEAGUE_AVG = _reg["whiff_mean"]
+            _d.XBA_LEAGUE_AVG   = _reg["xba_mean"]
+            print(f"  [whiff/xBA] slopes: whiff={_reg['whiff_slope']:+.4f} "
+                  f"xBA={_reg['xba_slope']:+.4f}  "
+                  f"means whiff={_reg['whiff_mean']:.4f} xBA={_reg['xba_mean']:.4f}")
+        else:
+            print(f"  [whiff/xBA] no cache and refit failed — using defaults.py")
+
     for pid_str, adv in adv_stats.items():
         try:
             adv["pitch_hand"] = pitch_hands.get(int(pid_str), "R")

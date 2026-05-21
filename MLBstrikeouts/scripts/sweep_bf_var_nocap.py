@@ -58,20 +58,17 @@ def _stats(picks):
     return {'n': n, 'w': w, 'l': l, 'pct': pct, 'u': u, 'roi': roi}
 
 
-def _is_lean_under(p):
-    return (p.get('pick') == 'PASS'
-            and p.get('would_be_pick') == 'UNDER'
-            and 0.60 <= (p.get('pCover') or 0) < 0.70)
-
-
-def _is_lean_over(p):
-    return (p.get('pick') == 'PASS'
-            and p.get('would_be_pick') == 'OVER'
-            and 0.65 <= (p.get('pCover') or 0) < 0.70)
+def _is_lean(p):
+    """Unified lean band: pCov in [0.65, current pick threshold), both directions."""
+    if p.get('pick') != 'PASS':
+        return False
+    pc = p.get('pCover') or 0
+    thresh = defaults.MARKET_THRESHOLDS.get('strikeouts', {}).get('high', 0.72)
+    return 0.65 <= pc < thresh
 
 
 def _all_actionable(p):
-    return p.get('pick') in ('OVER', 'UNDER') or _is_lean_under(p) or _is_lean_over(p)
+    return p.get('pick') in ('OVER', 'UNDER') or _is_lean(p)
 
 
 def run_sweep(season=None, bf_grid=None, var_grid=None,
@@ -120,8 +117,7 @@ def run_sweep(season=None, bf_grid=None, var_grid=None,
                 picks = (r or {}).get('strikeouts', {}).get('picks', []) or []
 
                 pa = [p for p in picks if p.get('pick') in ('OVER', 'UNDER')]
-                lu = [p for p in picks if _is_lean_under(p)]
-                lo = [p for p in picks if _is_lean_over(p)]
+                ln = [p for p in picks if _is_lean(p)]
                 aa = [p for p in picks if _all_actionable(p)]
                 rec_aa = [p for p in aa if p.get('date', '') >= recent_cutoff]
                 rec_pa = [p for p in pa if p.get('date', '') >= recent_cutoff]
@@ -130,8 +126,7 @@ def run_sweep(season=None, bf_grid=None, var_grid=None,
                     'bf': bf, 'var': var, 'blend': 0.0, 'bf_cap': 100.0,
                     'picks_season': _stats(pa),
                     'picks_recent': _stats(rec_pa),
-                    'lu_season': _stats(lu),
-                    'lo_season': _stats(lo),
+                    'lean_season': _stats(ln),
                     'all_season': _stats(aa),
                     'all_recent': _stats(rec_aa),
                 }

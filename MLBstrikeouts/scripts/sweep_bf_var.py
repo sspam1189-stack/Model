@@ -55,18 +55,13 @@ def _row(picks):
     return n, w, l, pct, u, roi
 
 
-def _is_lean_under(p):
+def _is_lean(p):
+    """Unified lean band: pCov in [0.65, current pick threshold), both directions."""
     if p.get('pick') != 'PASS':
         return False
     pc = p.get('pCover') or 0
-    return 0.60 <= pc < 0.70 and p.get('would_be_pick') == 'UNDER'
-
-
-def _is_lean_over(p):
-    if p.get('pick') != 'PASS':
-        return False
-    pc = p.get('pCover') or 0
-    return 0.65 <= pc < 0.70 and p.get('would_be_pick') == 'OVER'
+    thresh = defaults.MARKET_THRESHOLDS.get('strikeouts', {}).get('high', 0.72)
+    return 0.65 <= pc < thresh
 
 
 def run_sweep(season=None, bf_grid=None, var_grid=None,
@@ -114,9 +109,8 @@ def run_sweep(season=None, bf_grid=None, var_grid=None,
 
                 n_picks = sum(1 for p in picks
                               if p.get('pick') in ('OVER', 'UNDER'))
-                n_lu = sum(1 for p in picks if _is_lean_under(p))
-                n_lo = sum(1 for p in picks if _is_lean_over(p))
-                print(f"  picks={n_picks}  lean_U={n_lu}  lean_O={n_lo}")
+                n_lean = sum(1 for p in picks if _is_lean(p))
+                print(f"  picks={n_picks}  leans={n_lean}")
 
     finally:
         defaults.BF_MULT = baseline_bf
@@ -147,15 +141,13 @@ def run_sweep(season=None, bf_grid=None, var_grid=None,
             print(f"  {row[0]:>10s}  " + "  ".join(f"{c:>16s}" for c in row[1:]))
 
     pred_picks = lambda p: p.get('pick') in ('OVER', 'UNDER')
-    pred_lu = _is_lean_under
-    pred_lo = _is_lean_over
-    pred_all = lambda p: pred_picks(p) or pred_lu(p) or pred_lo(p)
+    pred_lean = _is_lean
+    pred_all = lambda p: pred_picks(p) or pred_lean(p)
 
     _table("PICKS", pred_picks)
     _table("PICKS", pred_picks, cutoff=recent_cutoff)
-    _table("LEAN U", pred_lu)
-    _table("LEAN U", pred_lu, cutoff=recent_cutoff)
-    _table("LEAN O", pred_lo)
+    _table("LEAN (0.65-thresh)", pred_lean)
+    _table("LEAN (0.65-thresh)", pred_lean, cutoff=recent_cutoff)
     _table("ALL ACTIONABLE", pred_all)
     _table("ALL ACTIONABLE", pred_all, cutoff=recent_cutoff)
 
