@@ -205,7 +205,7 @@ SLOT_PA_WEIGHTS = [
 # CAVEAT: backfill loads season-end savant_rates (mild leakage on historical
 # dates — whiff/xBA are stable mid-late season, ~88% accurate). Live forward
 # expectation should be ~80-90% of backfill numbers.
-WHIFF_XBA_BLEND_WEIGHT = 1.2
+WHIFF_XBA_BLEND_WEIGHT = 0.8
 WHIFF_LEAGUE_AVG = 0.2557   # fallback (mean whiff_pct)
 XBA_LEAGUE_AVG   = 0.2405   # fallback (mean xBA against)
 WHIFF_K_SLOPE    = 0.6279   # fallback (bivariate whiff partial slope)
@@ -261,13 +261,13 @@ def get_team_slot_weights(team_abbr=None):
 # across BF=0.95-1.00, but RECENT (5/4+) combined WR best at BF=1.00
 # (68.6% with VAR=1.15) vs BF=0.95 (68.5%). Bumping to 1.00 to bias
 # toward recent-window performance amid market edge compression.
-BF_MULT = 1.30
+BF_MULT = 1.00
 
 # Hard ceiling on projected batters faced after BF_MULT. Acts as a league-wide
 # safety net on top of the per-pitcher pitch-count ceiling (see props_engine.py
 # avg_pc = min(avg_pc, max(recent_pcs))). Set high (e.g. 100.0) to effectively
 # disable.
-BF_CAP = 23.0
+BF_CAP = 25.0
 
 # Per-pitcher K-rate cap floor — applied as max(K_RATE_CAP_FLOOR, season K%)
 # in props_engine.py. The matchup-driven expected_k_rate
