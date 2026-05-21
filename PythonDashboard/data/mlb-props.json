@@ -4,7 +4,7 @@
   "season": "2026",
   "mode": "live",
   "model": "kalman_blend",
-  "generated": "2026-05-20T18:01:23.481213",
+  "generated": "2026-05-20T19:30:46.313173",
   "totalProjections": 28,
   "totalPicks": 594,
   "totalWatchlist": 12,
@@ -15038,7 +15038,7 @@
       "to_win_1u": 1.32,
       "would_be_pick": "OVER",
       "date": "2026-05-20",
-      "lockState": "lineup_confirmed",
+      "lockState": "game_started",
       "lockedAt": "2026-05-20T19:59:58.516753Z"
     },
     {
@@ -15088,7 +15088,7 @@
       "to_win_1u": 1.36,
       "would_be_pick": "OVER",
       "date": "2026-05-20",
-      "lockState": "lineup_confirmed",
+      "lockState": "game_started",
       "lockedAt": "2026-05-20T19:59:58.516753Z"
     },
     {
@@ -15112,7 +15112,7 @@
       "odds": -140,
       "to_win_1u": 1.4,
       "date": "2026-05-20",
-      "lockState": "lineup_confirmed",
+      "lockState": "game_started",
       "lockedAt": "2026-05-20T21:01:11.853263Z"
     },
     {
@@ -15162,7 +15162,7 @@
       "to_win_1u": 1.64,
       "would_be_pick": "UNDER",
       "date": "2026-05-20",
-      "lockState": "lineup_confirmed",
+      "lockState": "game_started",
       "lockedAt": "2026-05-20T21:01:11.853263Z"
     },
     {
@@ -15187,7 +15187,7 @@
       "to_win_1u": 0.91,
       "would_be_pick": "OVER",
       "date": "2026-05-20",
-      "lockState": "lineup_confirmed",
+      "lockState": "game_started",
       "lockedAt": "2026-05-20T21:01:11.853263Z"
     },
     {
@@ -15577,7 +15577,7 @@
       "odds": -132,
       "to_win_1u": 1.32,
       "date": "2026-05-20",
-      "lockState": "lineup_confirmed",
+      "lockState": "game_started",
       "lockedAt": "2026-05-20T19:59:58.516753Z"
     },
     {
@@ -15649,7 +15649,7 @@
       "odds": 102,
       "to_win_1u": 0.98,
       "date": "2026-05-20",
-      "lockState": "lineup_confirmed",
+      "lockState": "game_started",
       "lockedAt": "2026-05-20T19:59:58.516753Z"
     },
     {
@@ -15673,7 +15673,7 @@
       "odds": -158,
       "to_win_1u": 1.58,
       "date": "2026-05-20",
-      "lockState": "lineup_confirmed",
+      "lockState": "game_started",
       "lockedAt": "2026-05-20T19:59:58.516753Z"
     },
     {
@@ -15697,7 +15697,7 @@
       "odds": -136,
       "to_win_1u": 1.36,
       "date": "2026-05-20",
-      "lockState": "lineup_confirmed",
+      "lockState": "game_started",
       "lockedAt": "2026-05-20T19:59:58.516753Z"
     },
     {
@@ -15721,7 +15721,7 @@
       "odds": -164,
       "to_win_1u": 1.64,
       "date": "2026-05-20",
-      "lockState": "lineup_confirmed",
+      "lockState": "game_started",
       "lockedAt": "2026-05-20T21:01:11.853263Z"
     },
     {
@@ -15745,7 +15745,7 @@
       "odds": -106,
       "to_win_1u": 1.06,
       "date": "2026-05-20",
-      "lockState": "lineup_confirmed",
+      "lockState": "game_started",
       "lockedAt": "2026-05-20T21:01:11.853263Z"
     },
     {
@@ -15793,7 +15793,7 @@
       "odds": 110,
       "to_win_1u": 0.91,
       "date": "2026-05-20",
-      "lockState": "lineup_confirmed",
+      "lockState": "game_started",
       "lockedAt": "2026-05-20T21:01:11.853263Z"
     },
     {
@@ -15817,7 +15817,7 @@
       "odds": -140,
       "to_win_1u": 1.4,
       "date": "2026-05-20",
-      "lockState": "lineup_confirmed",
+      "lockState": "game_started",
       "lockedAt": "2026-05-20T21:01:11.853263Z"
     },
     {
@@ -15960,8 +15960,8 @@
     "TEX": "Final",
     "ARI": "Final",
     "SF": "Final",
-    "SEA": "Game Over",
-    "CWS": "Game Over",
+    "SEA": "Final",
+    "CWS": "Final",
     "DET": "In Progress",
     "CLE": "In Progress",
     "MIA": "In Progress",
@@ -15970,14 +15970,14 @@
     "NYM": "In Progress",
     "NYY": "Delayed Start",
     "TOR": "Delayed Start",
-    "KC": "Pre-Game",
-    "BOS": "Pre-Game",
-    "CHC": "Pre-Game",
-    "MIL": "Pre-Game",
-    "STL": "Pre-Game",
-    "PIT": "Pre-Game",
-    "SD": "Pre-Game",
-    "LAD": "Pre-Game",
+    "KC": "In Progress",
+    "BOS": "In Progress",
+    "CHC": "In Progress",
+    "MIL": "In Progress",
+    "STL": "In Progress",
+    "PIT": "In Progress",
+    "SD": "Warmup",
+    "LAD": "Warmup",
     "LAA": "Pre-Game",
     "OAK": "Pre-Game"
   }
