@@ -1593,7 +1593,8 @@
             ['Name',   null, true],
             ['Team',   null, false],
             ['Opp',    null, false],
-            ['Outs',   null, false],
+            ['LU K%',  null, false],
+            ['Tm K%',  null, false],
             ['BF',     null, false],
             ['PC',     null, false],
             ['Proj',   'proj', false],
@@ -1657,13 +1658,14 @@
             const gt = _gameTimes[p.team] || _gameTimes[p.opp] || '';
             const started = gt ? (new Date(gt).getTime() <= Date.now()) : false;
             const statusStr = started ? '\u{1F552}' : '';
-            // Engine emits decimal IP; display as total outs (decimal \u00d7 3).
-            // 1 IP = 3 outs, so 5.67 decimal = ~17 outs.
-            const outsStr  = p.proj_ip != null ? String(Math.round(p.proj_ip * 3)) : '\u2014';
             const bfStr    = p.proj_bf != null ? String(Math.round(p.proj_bf)) : '\u2014';
             const pitchStr = p.proj_pc != null ? String(Math.round(p.proj_pc)) : '\u2014';
+            // Engine emits lineup_k_pct and opp_team_k_pct already scaled to percent values
+            // (e.g. 22.4 means 22.4%). Show one decimal place.
+            const luKStr   = p.lineup_k_pct   != null ? p.lineup_k_pct.toFixed(1)   + '%' : '\u2014';
+            const tmKStr   = p.opp_team_k_pct != null ? p.opp_team_k_pct.toFixed(1) + '%' : '\u2014';
             [displayName(p), p.team||'', p.opp||'',
-             outsStr, bfStr, pitchStr,
+             luKStr, tmKStr, bfStr, pitchStr,
              p.proj!=null?String(p.proj):'\u2014', p.line!=null?String(p.line):'\u2014',
              edgeStr, coverStr,
              isPick?(p.pick==='OVER'?'O':'U'):'\u2014',
@@ -1677,15 +1679,16 @@
               if (i===0) td.style.fontWeight = '600';
               if (i===1) td.style.color = '#999';
               if (i===2) td.style.color = '#999'; // Opp
-              if (i===3) td.style.color = '#bbb'; // Outs
-              if (i===4) td.style.color = '#bbb'; // BF
-              if (i===5) td.style.color = '#bbb'; // PC
-              if (i===6 && p.line!=null) td.style.color = p.proj > p.line ? 'var(--green)' : p.proj < p.line ? 'var(--red)' : '';
-              if (i===8 && edge!=null) td.style.color = edge > 0 ? 'var(--green)' : edge < 0 ? 'var(--red)' : '#999';
-              if (i===9 && p.pCover!=null) td.style.color = p.pCover >= 0.72 ? 'var(--green)' : p.pCover >= 0.65 ? 'var(--yellow)' : p.pCover <= 0.45 ? 'var(--red)' : '#ccc';
-              if (i===10 && isPick) { td.style.fontWeight='700'; td.style.color = p.pick==='OVER'?'var(--green)':'var(--red)'; }
-              if (i===11) td.style.color = '#999';
-              if (i===12) {
+              if (i===3) td.style.color = '#bbb'; // LU K%
+              if (i===4) td.style.color = '#bbb'; // Tm K%
+              if (i===5) td.style.color = '#bbb'; // BF
+              if (i===6) td.style.color = '#bbb'; // PC
+              if (i===7 && p.line!=null) td.style.color = p.proj > p.line ? 'var(--green)' : p.proj < p.line ? 'var(--red)' : '';
+              if (i===9 && edge!=null) td.style.color = edge > 0 ? 'var(--green)' : edge < 0 ? 'var(--red)' : '#999';
+              if (i===10 && p.pCover!=null) td.style.color = p.pCover >= 0.72 ? 'var(--green)' : p.pCover >= 0.65 ? 'var(--yellow)' : p.pCover <= 0.45 ? 'var(--red)' : '#ccc';
+              if (i===11 && isPick) { td.style.fontWeight='700'; td.style.color = p.pick==='OVER'?'var(--green)':'var(--red)'; }
+              if (i===12) td.style.color = '#999';
+              if (i===13) {
                 td.title = isPostponed ? _gs : (p.lockState || 'pending');
                 td.style.fontSize = '11px';
                 td.style.fontWeight = '600';
