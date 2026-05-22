@@ -508,16 +508,16 @@
           // -4.98u (McLean -158, Sheehan -132, Nelson -102, Detmers -106).
           // Pin via cutoff so the widget matches what was posted on Reddit.
           const BASELINE = {
-            cutoff: '2026-05-20',
+            cutoff: '2026-05-21',
             picks: {
-              total:    { w: 94, l: 76, u:  1.78 },
-              weekly:   { w:  5, l:  5, u: -1.60 },  // 5/18–5/20
-              yesterday:{ w:  1, l:  1, u:  0.00 },  // 5/20
+              total:    { w: 97, l: 76, u:  4.96 },
+              weekly:   { w:  8, l:  5, u:  1.58 },  // 5/18–5/21
+              yesterday:{ w:  3, l:  0, u:  3.18 },  // 5/21
             },
             leans: {
               total:    { w: 48, l: 35, u:  3.88 },
-              weekly:   { w:  5, l:  9, u: -6.22 },  // 5/18–5/20
-              yesterday:{ w:  2, l:  5, u: -4.24 },  // 5/20
+              weekly:   { w:  5, l:  9, u: -6.22 },  // 5/18–5/21
+              yesterday:{ w:  0, l:  0, u:  0.00 },  // 5/21
             },
           };
 
