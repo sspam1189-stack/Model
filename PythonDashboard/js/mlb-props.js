@@ -1208,6 +1208,314 @@
           card.appendChild(note);
 
           el.appendChild(card);
+
+          // ── Pitcher History — drill into one pitcher's full season log ──
+          // Sits under Matchup History. Dropdown of TODAY's projected pitchers;
+          // table shows every projection ever made for the selected pitcher.
+          // Useful when a Soriano/Sugano-style pattern shows up — see at-a-glance
+          // every prior pick/lean/pass and how the model has graded them.
+          const phCard = document.createElement('div');
+          phCard.className = 'card card-games';
+          phCard.style.marginBottom = '16px';
+          phCard.appendChild(Object.assign(document.createElement('div'), {
+            className:'card-title',
+            textContent:`Pitcher History — Today's Probables (${todayStr})`,
+          }));
+
+          // Build list of today's projected pitchers (any market entry for today).
+          const _todayPropsAll = (data.props || []).filter(p => p.date === todayStr);
+          // Group by displayName + team so duplicates collapse (one entry per
+          // probable). Each entry tracks { name, team, opp, pickType, pCover, pid }
+          // so we can sort by conviction.
+          const _pitcherKey = (p) => `${displayName(p)}|${p.team || ''}`;
+          const _byPitcher = new Map();
+          for (const p of _todayPropsAll) {
+            const k = _pitcherKey(p);
+            const prev = _byPitcher.get(k);
+            const score = (p.pCover || 0);
+            if (!prev || score > prev.pCover) {
+              _byPitcher.set(k, {
+                key: k,
+                name: displayName(p),
+                team: p.team || '',
+                opp:  p.opp  || '',
+                pCover: score,
+                pick: p.pick,
+                isLean: isLean(p),
+              });
+            }
+          }
+          const _probables = [...(_byPitcher.values() || [])].sort((a, b) => {
+            // Picks first (by pCover desc), then leans (by pCover desc),
+            // then everything else (by pCover desc).
+            const rank = (x) => {
+              if (x.pick === 'OVER' || x.pick === 'UNDER') return 0;
+              if (x.isLean) return 1;
+              return 2;
+            };
+            const ra = rank(a), rb = rank(b);
+            if (ra !== rb) return ra - rb;
+            return (b.pCover || 0) - (a.pCover || 0);
+          });
+
+          if (_probables.length === 0) {
+            const empty = document.createElement('div');
+            empty.style.cssText = 'padding:12px;color:#888;font-size:12px;font-style:italic';
+            empty.textContent = 'No probable pitchers projected today.';
+            phCard.appendChild(empty);
+            el.appendChild(phCard);
+          } else {
+            // Row 1: dropdown + summary on the right
+            const ctrlRow = document.createElement('div');
+            ctrlRow.style.cssText = 'display:flex;align-items:center;gap:10px;padding:8px 4px 6px;flex-wrap:wrap';
+            const selLabel = document.createElement('label');
+            selLabel.textContent = 'Pitcher:';
+            selLabel.style.cssText = 'font-size:12px;color:#bbb;font-weight:600';
+            const sel = document.createElement('select');
+            sel.style.cssText = 'background:rgba(255,255,255,0.05);color:#fff;border:1px solid rgba(255,255,255,0.15);border-radius:4px;padding:6px 10px;font-size:12px;min-width:260px;cursor:pointer';
+            _probables.forEach((pr, i) => {
+              const opt = document.createElement('option');
+              opt.value = pr.key;
+              const tag = (pr.pick === 'OVER' || pr.pick === 'UNDER')
+                ? ` [PICK ${pr.pCover ? (pr.pCover*100).toFixed(1)+'%' : ''}]`
+                : (pr.isLean ? ` [LEAN ${pr.pCover ? (pr.pCover*100).toFixed(1)+'%' : ''}]` : '');
+              opt.textContent = `${pr.name} (${pr.team} vs ${pr.opp})${tag}`;
+              sel.appendChild(opt);
+            });
+            ctrlRow.appendChild(selLabel);
+            ctrlRow.appendChild(sel);
+
+            const summarySpan = document.createElement('div');
+            summarySpan.style.cssText = 'margin-left:auto;font-size:12px;color:#999;display:flex;flex-direction:column;align-items:flex-end;gap:2px;line-height:1.4';
+            ctrlRow.appendChild(summarySpan);
+
+            // Filter toggles row — flush left, sits ABOVE the dropdown row.
+            const filterRow = document.createElement('div');
+            filterRow.style.cssText = 'display:flex;gap:4px;padding:8px 4px 4px';
+            const FILTERS = [
+              { key: 'ALL',  label: 'All',    color: '#ccc'           },
+              { key: 'PICK', label: 'Picks',  color: '#a78bfa'        },
+              { key: 'LEAN', label: 'Leans',  color: 'var(--yellow)'  },
+              { key: 'PASS', label: 'Passes', color: '#888'           },
+            ];
+            let _activeFilter = 'ALL';
+            const _filterBtns = {};
+            FILTERS.forEach(f => {
+              const b = document.createElement('button');
+              b.textContent = f.label;
+              b.dataset.key = f.key;
+              b.style.cssText = `padding:5px 12px;font-size:11px;font-weight:600;border:1px solid rgba(255,255,255,0.15);background:transparent;color:${f.color};border-radius:4px;cursor:pointer;transition:all 0.15s`;
+              b.addEventListener('click', () => {
+                _activeFilter = f.key;
+                _styleFilterBtns();
+                renderPitcherHistory(sel.value);
+              });
+              _filterBtns[f.key] = b;
+              filterRow.appendChild(b);
+            });
+            function _styleFilterBtns() {
+              FILTERS.forEach(f => {
+                const b = _filterBtns[f.key];
+                const active = f.key === _activeFilter;
+                b.style.background = active ? f.color : 'transparent';
+                b.style.color = active ? '#0a0a0a' : f.color;
+                b.style.borderColor = active ? f.color : 'rgba(255,255,255,0.15)';
+              });
+            }
+            _styleFilterBtns();
+            // Filter toggles go FIRST (above the dropdown), then the dropdown
+            // row with the summary chip stack on the right.
+            phCard.appendChild(filterRow);
+            phCard.appendChild(ctrlRow);
+
+            // Table mount
+            const phTblWrap = document.createElement('div');
+            phTblWrap.className = 'props-table-wrap';
+            phCard.appendChild(phTblWrap);
+
+            // Stake helpers (matches risk-to-win-1u convention used elsewhere)
+            const _phUnits = (o, won, sz) => {
+              if (o == null || won == null) return 0;
+              if (o > 0) return won ? sz * (o / 100) : -sz;
+              return won ? sz : sz * (-Math.abs(o) / 100);
+            };
+            const _phGrade = (p) => {
+              if (p.actual == null || p.line == null) return null;
+              const dir = p.pick === 'OVER' || p.pick === 'UNDER'
+                ? p.pick
+                : (p.would_be_pick || ((p.proj || 0) > (p.line || 0) ? 'OVER' : 'UNDER'));
+              if (dir === 'OVER')  return p.actual > p.line ? 'W' : 'L';
+              return p.actual < p.line ? 'W' : 'L';
+            };
+            const _phBucket = (p) => {
+              if (p.pick === 'OVER' || p.pick === 'UNDER') return 'PICK';
+              if (isLean(p)) return 'LEAN';
+              return 'PASS';
+            };
+            const _phOdds = (p) => {
+              if (p.odds != null) return p.odds;
+              const dir = p.would_be_pick || ((p.proj || 0) > (p.line || 0) ? 'OVER' : 'UNDER');
+              return dir === 'OVER' ? (p.over_price ?? null) : (p.under_price ?? null);
+            };
+
+            // Render function — pulls all rows for the selected pitcher key
+            // from data.props (every market entry that matches the displayName+team).
+            function renderPitcherHistory(key) {
+              const allEver = (data.props || []).filter(p => {
+                if (p.market !== 'strikeouts') return false;
+                return _pitcherKey(p) === key;
+              }).sort((a, b) => (a.date || '').localeCompare(b.date || ''));
+
+              // Apply active filter — summary totals always use the full set
+              // (allEver) so they reflect the pitcher's true record regardless
+              // of which view is showing. Table itself is filtered.
+              const all = allEver.filter(p => {
+                if (_activeFilter === 'ALL') return true;
+                return _phBucket(p) === _activeFilter;
+              });
+
+              // Build table
+              phTblWrap.innerHTML = '';
+              if (all.length === 0) {
+                const e = document.createElement('div');
+                e.style.cssText = 'padding:14px;color:#888;font-size:12px;font-style:italic';
+                e.textContent = allEver.length === 0
+                  ? 'No projections found for this pitcher.'
+                  : `No ${_activeFilter.toLowerCase()}s for this pitcher.`;
+                phTblWrap.appendChild(e);
+                // Summary still reflects ALL plays so user keeps career context
+                // even when current filter view is empty.
+                _renderSummary(allEver);
+                return;
+              }
+
+              const tbl = document.createElement('table');
+              tbl.style.cssText = 'width:100%;border-collapse:collapse';
+              const head = tbl.createTHead().insertRow();
+              const headCols = [
+                ['Date', 'left'], ['Opp', 'center'], ['Bkt', 'center'],
+                ['Dir', 'center'], ['Line', 'right'], ['Proj', 'right'],
+                ['Edge', 'right'], ['pC%', 'right'], ['Actual', 'right'],
+                ['Odds', 'right'], ['Result', 'center'], ['Units', 'right'],
+              ];
+              headCols.forEach(([lbl, al]) => {
+                const th = document.createElement('th');
+                th.textContent = lbl;
+                th.style.cssText = `padding:6px 8px;text-align:${al};border-bottom:1px solid rgba(255,255,255,0.1);font-size:11px;color:#999`;
+                head.appendChild(th);
+              });
+              const body = tbl.createTBody();
+
+              // Tally totals (picks vs leans separate)
+              let pw=0, pl=0, lw=0, ll=0, p_u=0, l_u=0;
+
+              for (const p of all) {
+                const tr = body.insertRow();
+                tr.style.borderBottom = '1px solid rgba(255,255,255,0.04)';
+                const bkt = _phBucket(p);
+                const dir = (p.pick === 'OVER' || p.pick === 'UNDER')
+                  ? p.pick
+                  : (p.would_be_pick || ((p.proj || 0) > (p.line || 0) ? 'OVER' : 'UNDER'));
+                const grade = _phGrade(p);
+                const odds = _phOdds(p);
+                const sz = bkt === 'PICK' ? 1.0 : (bkt === 'LEAN' ? 1.0 : 0);
+                const u = (bkt !== 'PASS' && grade != null)
+                  ? _phUnits(odds, grade === 'W', sz)
+                  : null;
+
+                if (bkt === 'PICK' && grade) {
+                  if (grade === 'W') { pw++; p_u += u; }
+                  else { pl++; p_u += u; }
+                } else if (bkt === 'LEAN' && grade) {
+                  if (grade === 'W') { lw++; l_u += u; }
+                  else { ll++; l_u += u; }
+                }
+
+                const edge = (p.proj != null && p.line != null) ? (p.proj - p.line).toFixed(1) : '—';
+                const edgeStr = edge !== '—' ? (parseFloat(edge) > 0 ? '+' + edge : edge) : '—';
+                const bktColor = bkt === 'PICK' ? '#a78bfa' : bkt === 'LEAN' ? 'var(--yellow)' : '#888';
+                const dirColor = dir === 'OVER' ? 'var(--green)' : 'var(--red)';
+                const resColor = grade === 'W' ? 'var(--green)' : grade === 'L' ? 'var(--red)' : '#888';
+                const uColor = u == null ? '#888' : (u > 0 ? 'var(--green)' : u < 0 ? 'var(--red)' : '#ccc');
+                const fmtOdds = (o) => o == null ? '—' : (o > 0 ? '+' + o : String(o));
+
+                const cells = [
+                  {v: p.date || '—', align:'left', color:'#ccc'},
+                  {v: p.opp || '—', align:'center', color:'#ccc'},
+                  {v: bkt, align:'center', color:bktColor, weight:'600'},
+                  {v: dir === 'OVER' ? 'O' : 'U', align:'center', color:dirColor, weight:'600'},
+                  {v: p.line != null ? String(p.line) : '—', align:'right'},
+                  {v: p.proj != null ? p.proj.toFixed(1) : '—', align:'right'},
+                  {v: edgeStr, align:'right', color: edge !== '—' && parseFloat(edge) > 0 ? 'var(--green)' : edge !== '—' && parseFloat(edge) < 0 ? 'var(--red)' : '#999'},
+                  {v: p.pCover != null ? (p.pCover * 100).toFixed(1) + '%' : '—', align:'right'},
+                  {v: p.actual != null ? String(p.actual) : '—', align:'right'},
+                  {v: fmtOdds(odds), align:'right', color:'#ccc'},
+                  {v: grade || '—', align:'center', color:resColor, weight:'700'},
+                  {v: u == null ? '—' : (u >= 0 ? '+' : '') + u.toFixed(2) + 'u', align:'right', color:uColor, weight:'600'},
+                ];
+                cells.forEach((c, i) => {
+                  const td = tr.insertCell();
+                  td.textContent = c.v;
+                  td.style.cssText = `padding:5px 8px;text-align:${c.align};font-size:12px`;
+                  if (c.color) td.style.color = c.color;
+                  if (c.weight) td.style.fontWeight = c.weight;
+                });
+              }
+              phTblWrap.appendChild(tbl);
+              fitMLBTableToContainer(tbl);
+
+              // Summary always reflects the full historical set, not the
+              // current filter — so users see lifetime totals regardless
+              // of which tab they're on.
+              _renderSummary(allEver);
+            }
+
+            // Reusable summary renderer keyed off the full play set.
+            function _renderSummary(allEver) {
+              let pw=0, pl=0, lw=0, ll=0, p_u=0, l_u=0;
+              for (const p of allEver) {
+                const bkt = _phBucket(p);
+                const grade = _phGrade(p);
+                if (!grade) continue;
+                const dir = (p.pick === 'OVER' || p.pick === 'UNDER')
+                  ? p.pick
+                  : (p.would_be_pick || ((p.proj || 0) > (p.line || 0) ? 'OVER' : 'UNDER'));
+                const odds = _phOdds(p);
+                if (bkt === 'PICK') {
+                  if (grade === 'W') pw++; else pl++;
+                  p_u += _phUnits(odds, grade === 'W', 1.0);
+                } else if (bkt === 'LEAN') {
+                  if (grade === 'W') lw++; else ll++;
+                  l_u += _phUnits(odds, grade === 'W', 1.0);
+                }
+              }
+              const pickTotal = pw + pl, leanTotal = lw + ll;
+              const parts = [];
+              // Color-match the Bkt column (Picks=purple, Leans=yellow) so the
+              // career-summary chips read as the same tier-language as the table.
+              const pickColor = '#a78bfa';
+              const leanColor = 'var(--yellow)';
+              if (pickTotal > 0) {
+                const wr = (pw/pickTotal*100).toFixed(1);
+                const u  = (p_u >= 0 ? '+' : '') + p_u.toFixed(2) + 'u';
+                parts.push(`<span style="color:${pickColor};font-weight:600">Picks ${pw}-${pl} (${wr}%) ${u}</span>`);
+              }
+              if (leanTotal > 0) {
+                const wr = (lw/leanTotal*100).toFixed(1);
+                const u  = (l_u >= 0 ? '+' : '') + l_u.toFixed(2) + 'u';
+                parts.push(`<span style="color:${leanColor};font-weight:600">Leans ${lw}-${ll} (${wr}%) ${u}</span>`);
+              }
+              if (parts.length === 0) parts.push('<span style="color:#888">No graded plays yet</span>');
+              // Stack each record on its own line so picks/leans don't compete
+              // for the same horizontal slot when both have long unit values.
+              summarySpan.innerHTML = parts.map(p => `<div>${p}</div>`).join('');
+            }
+
+            sel.addEventListener('change', () => renderPitcherHistory(sel.value));
+            // Initial render = first probable (highest conviction)
+            renderPitcherHistory(_probables[0].key);
+            el.appendChild(phCard);
+          }
         };
 
         // Today's Picks + Leans (unified card with tabs)
