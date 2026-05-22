@@ -9,16 +9,6 @@
     "n_batters": 9,
     "source": "lineup"
   },
-  "CIN": {
-    "PCT_LHB": 0.0556,
-    "n_batters": 9,
-    "source": "recent_lineup_fallback"
-  },
-  "STL": {
-    "PCT_LHB": 0.3333,
-    "n_batters": 9,
-    "source": "recent_lineup_fallback"
-  },
   "PHI": {
     "PCT_LHB": 0.5556,
     "n_batters": 9,
@@ -146,6 +136,16 @@
   },
   "CWS": {
     "PCT_LHB": 0.3889,
+    "n_batters": 9,
+    "source": "recent_lineup_fallback"
+  },
+  "CIN": {
+    "PCT_LHB": 0.0556,
+    "n_batters": 9,
+    "source": "recent_lineup_fallback"
+  },
+  "STL": {
+    "PCT_LHB": 0.3333,
     "n_batters": 9,
     "source": "recent_lineup_fallback"
   }

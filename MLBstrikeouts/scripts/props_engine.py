@@ -692,7 +692,12 @@ def _make_prop(name, team, market, proj, std, line_lookup, opp,
 
         thresh = mkt_thresh.get("high_under" if direction == "UNDER" else "high",
                                 mkt_thresh["high"])
-        if best_p >= thresh:
+        # Round to 3 decimals before threshold comparison so the displayed
+        # pCover (also rounded to 3) and the pick/pass decision agree.
+        # Without this, a true pCover of 0.7197 displays as 0.720 but fails
+        # the >=0.72 check on its unrounded value — confusing edge cases like
+        # Wrobleski 5/22 where users see "0.72 pCover" but pick=PASS.
+        if round(best_p, 3) >= thresh:
 
             if market in UNDER_ONLY_MARKETS and direction == "OVER":
                 return result
