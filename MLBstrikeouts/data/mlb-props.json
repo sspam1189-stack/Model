@@ -4,7 +4,7 @@
   "season": "2026",
   "mode": "live",
   "model": "kalman_blend",
-  "generated": "2026-05-22T12:45:53.476736",
+  "generated": "2026-05-22T13:32:03.312589",
   "totalProjections": 26,
   "totalPicks": 728,
   "totalWatchlist": 13,
@@ -18334,7 +18334,7 @@
       "under_price": -132,
       "pick": "PASS",
       "edge": 1.6,
-      "pCover": 0.703,
+      "pCover": 0.702,
       "conf": "watch",
       "proj_ip": 6.4,
       "proj_bf": 26.0,
@@ -18550,7 +18550,7 @@
       "under_price": -138,
       "pick": "PASS",
       "edge": -0.8,
-      "pCover": 0.633,
+      "pCover": 0.634,
       "conf": "watch",
       "proj_ip": 5.3,
       "proj_bf": 24.4,
@@ -18673,7 +18673,7 @@
       "odds": -110,
       "to_win_1u": 1.1,
       "date": "2026-05-22",
-      "lockState": "lineup_confirmed",
+      "lockState": "game_started",
       "lockedAt": "2026-05-22T16:01:48.067838Z"
     },
     {
@@ -18699,7 +18699,7 @@
       "odds": 120,
       "to_win_1u": 0.83,
       "date": "2026-05-22",
-      "lockState": "lineup_confirmed",
+      "lockState": "game_started",
       "lockedAt": "2026-05-22T16:01:48.067838Z"
     },
     {
@@ -18818,7 +18818,7 @@
       "under_price": -132,
       "pick": "PASS",
       "edge": 1.6,
-      "pCover": 0.703,
+      "pCover": 0.702,
       "conf": "low",
       "proj_ip": 6.4,
       "proj_bf": 26.0,
@@ -19130,7 +19130,7 @@
       "under_price": -138,
       "pick": "PASS",
       "edge": -0.8,
-      "pCover": 0.633,
+      "pCover": 0.634,
       "conf": "low",
       "proj_ip": 5.3,
       "proj_bf": 24.4,
@@ -19330,8 +19330,6 @@
   "gameTimes": {
     "CHC": "2026-05-22T18:20:00Z",
     "HOU": "2026-05-22T18:20:00Z",
-    "CIN": "2026-05-22T22:40:00Z",
-    "STL": "2026-05-22T22:40:00Z",
     "PHI": "2026-05-22T22:40:00Z",
     "CLE": "2026-05-22T22:40:00Z",
     "NYY": "2026-05-22T23:05:00Z",
@@ -19357,13 +19355,13 @@
     "SD": "2026-05-23T01:40:00Z",
     "OAK": "2026-05-23T01:40:00Z",
     "SF": "2026-05-23T02:15:00Z",
-    "CWS": "2026-05-23T02:15:00Z"
+    "CWS": "2026-05-23T02:15:00Z",
+    "CIN": "2026-05-22T22:40:00Z",
+    "STL": "2026-05-22T22:40:00Z"
   },
   "gameStatuses": {
-    "CHC": "Pre-Game",
-    "HOU": "Pre-Game",
-    "CIN": "Scheduled",
-    "STL": "Scheduled",
+    "CHC": "In Progress",
+    "HOU": "In Progress",
     "PHI": "Scheduled",
     "CLE": "Scheduled",
     "NYY": "Scheduled",
@@ -19389,6 +19387,8 @@
     "SD": "Scheduled",
     "OAK": "Scheduled",
     "SF": "Scheduled",
-    "CWS": "Scheduled"
+    "CWS": "Scheduled",
+    "CIN": "Postponed",
+    "STL": "Postponed"
   }
 }

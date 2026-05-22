@@ -3,7 +3,7 @@
     "game_id": 824679,
     "game_date": "2026-05-22",
     "game_time": "2026-05-22T18:20:00Z",
-    "status": "Pre-Game",
+    "status": "In Progress",
     "home_team": "CHC",
     "home_team_id": 112,
     "away_team": "HOU",
@@ -12,20 +12,6 @@
     "home_pitcher_name": "Jameson Taillon",
     "away_pitcher_id": 681293,
     "away_pitcher_name": "Spencer Arrighetti"
-  },
-  {
-    "game_id": 824518,
-    "game_date": "2026-05-22",
-    "game_time": "2026-05-22T22:40:00Z",
-    "status": "Scheduled",
-    "home_team": "CIN",
-    "home_team_id": 113,
-    "away_team": "STL",
-    "away_team_id": 138,
-    "home_pitcher_id": 663978,
-    "home_pitcher_name": "Chris Paddack",
-    "away_pitcher_id": 681517,
-    "away_pitcher_name": "Kyle Leahy"
   },
   {
     "game_id": 823461,
@@ -208,5 +194,19 @@
     "home_pitcher_name": "Trevor McDonald",
     "away_pitcher_id": 663436,
     "away_pitcher_name": "Davis Martin"
+  },
+  {
+    "game_id": 824518,
+    "game_date": "2026-05-22",
+    "game_time": "2026-05-22T22:40:00Z",
+    "status": "Postponed",
+    "home_team": "CIN",
+    "home_team_id": 113,
+    "away_team": "STL",
+    "away_team_id": 138,
+    "home_pitcher_id": 663978,
+    "home_pitcher_name": "Chris Paddack",
+    "away_pitcher_id": 681517,
+    "away_pitcher_name": "Kyle Leahy"
   }
 ]
