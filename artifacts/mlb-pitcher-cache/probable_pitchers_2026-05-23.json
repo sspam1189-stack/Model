@@ -3,7 +3,7 @@
     "game_id": 824518,
     "game_date": "2026-05-23",
     "game_time": "2026-05-23T17:10:00Z",
-    "status": "Pre-Game",
+    "status": "In Progress",
     "home_team": "CIN",
     "home_team_id": 113,
     "away_team": "STL",
@@ -56,24 +56,10 @@
     "away_pitcher_name": "Paul Skenes"
   },
   {
-    "game_id": 824840,
-    "game_date": "2026-05-23",
-    "game_time": "2026-05-23T20:05:00Z",
-    "status": "Scheduled",
-    "home_team": "BAL",
-    "home_team_id": 110,
-    "away_team": "DET",
-    "away_team_id": 116,
-    "home_pitcher_id": 687064,
-    "home_pitcher_name": "Brandon Young",
-    "away_pitcher_id": 664285,
-    "away_pitcher_name": "Framber Valdez"
-  },
-  {
     "game_id": 823458,
     "game_date": "2026-05-23",
     "game_time": "2026-05-23T20:05:00Z",
-    "status": "Scheduled",
+    "status": "Pre-Game",
     "home_team": "PHI",
     "home_team_id": 143,
     "away_team": "CLE",
@@ -87,7 +73,7 @@
     "game_id": 823222,
     "game_date": "2026-05-23",
     "game_time": "2026-05-23T20:05:00Z",
-    "status": "Scheduled",
+    "status": "Pre-Game",
     "home_team": "SF",
     "home_team_id": 137,
     "away_team": "CWS",
@@ -129,7 +115,7 @@
     "game_id": 824920,
     "game_date": "2026-05-23",
     "game_time": "2026-05-23T20:10:00Z",
-    "status": "Scheduled",
+    "status": "Pre-Game",
     "home_team": "ATL",
     "home_team_id": 144,
     "away_team": "WSH",
@@ -222,5 +208,19 @@
     "home_pitcher_name": "Ryan Weathers",
     "away_pitcher_id": 656876,
     "away_pitcher_name": "Drew Rasmussen"
+  },
+  {
+    "game_id": 824840,
+    "game_date": "2026-05-23",
+    "game_time": "2026-05-23T20:05:00Z",
+    "status": "Postponed",
+    "home_team": "BAL",
+    "home_team_id": 110,
+    "away_team": "DET",
+    "away_team_id": 116,
+    "home_pitcher_id": 687064,
+    "home_pitcher_name": "Brandon Young",
+    "away_pitcher_id": 664285,
+    "away_pitcher_name": "Framber Valdez"
   }
 ]
