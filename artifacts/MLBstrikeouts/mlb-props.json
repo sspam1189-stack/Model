@@ -4,10 +4,10 @@
   "season": "2026",
   "mode": "live",
   "model": "kalman_blend",
-  "generated": "2026-05-22T19:31:25.215267",
+  "generated": "2026-05-22T19:53:35.625235",
   "totalProjections": 25,
   "totalPicks": 727,
-  "totalWatchlist": 11,
+  "totalWatchlist": 12,
   "props": [
     {
       "player": "Sonny Gray",
@@ -18570,26 +18570,26 @@
       "team": "CWS",
       "opp": "SF",
       "market": "strikeouts",
-      "proj": 7.0,
+      "proj": 7.4,
       "std": 2.8,
       "line": 4.5,
       "over_price": -158,
       "under_price": 118,
       "pick": "OVER",
-      "edge": 2.5,
-      "pCover": 0.788,
+      "edge": 2.9,
+      "pCover": 0.827,
       "conf": "high",
       "proj_ip": 6.8,
       "proj_bf": 24.6,
       "proj_bf_capped": 24.6,
       "proj_pc": 95.0,
       "opp_team_k_pct": 20.7,
-      "lineup_k_pct": 20.2,
+      "lineup_k_pct": 21.6,
       "odds": -158,
       "to_win_1u": 1.58,
       "date": "2026-05-22",
-      "lockState": "pending",
-      "lockedAt": null
+      "lockState": "lineup_confirmed",
+      "lockedAt": "2026-05-23T00:53:35.625448Z"
     },
     {
       "player": "Michael Soroka",
@@ -18619,7 +18619,7 @@
       "lockedAt": null
     }
   ],
-  "summary": "7 picks (+11 watch) from 25 projections",
+  "summary": "7 picks (+12 watch) from 25 projections",
   "date": "2026-05-22",
   "todayProjections": [
     {
@@ -19251,26 +19251,26 @@
       "team": "CWS",
       "opp": "SF",
       "market": "strikeouts",
-      "proj": 7.0,
+      "proj": 7.4,
       "std": 2.8,
       "line": 4.5,
       "over_price": -158,
       "under_price": 118,
       "pick": "OVER",
-      "edge": 2.5,
-      "pCover": 0.788,
+      "edge": 2.9,
+      "pCover": 0.827,
       "conf": "high",
       "proj_ip": 6.8,
       "proj_bf": 24.6,
       "proj_bf_capped": 24.6,
       "proj_pc": 95.0,
       "opp_team_k_pct": 20.7,
-      "lineup_k_pct": 20.2,
+      "lineup_k_pct": 21.6,
       "odds": -158,
       "to_win_1u": 1.58,
       "date": "2026-05-22",
-      "lockState": "pending",
-      "lockedAt": null
+      "lockState": "lineup_confirmed",
+      "lockedAt": "2026-05-23T00:53:35.625448Z"
     }
   ],
   "gameTimes": {
@@ -19308,8 +19308,8 @@
   "gameStatuses": {
     "CHC": "Final",
     "HOU": "Final",
-    "PHI": "In Progress",
-    "CLE": "In Progress",
+    "PHI": "Final",
+    "CLE": "Final",
     "NYY": "In Progress",
     "TB": "In Progress",
     "TOR": "In Progress",
