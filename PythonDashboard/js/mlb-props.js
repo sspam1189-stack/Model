@@ -583,7 +583,8 @@
           // WEEKLY: if the weekly window is entirely at-or-before cutoff,
           // show baseline weekly. Otherwise compute from new (post-cutoff) data,
           // and if the window straddles the cutoff date itself, fold in
-          // BASELINE.yesterday so the cutoff-day contribution isn't dropped.
+          // BASELINE.weekly so the pre-cutoff portion of the week isn't dropped
+          // (BASELINE.weekly already covers everything up through the cutoff day).
           let wPicksTally, wLeansTally;
           if (weeklyEndStr <= BASELINE.cutoff) {
             wPicksTally = BASELINE.picks.weekly;
@@ -592,8 +593,8 @@
             const inWeek = (d) => d && d >= weeklyStartStr && d <= weeklyEndStr;
             const cutoffInWeek = BASELINE.cutoff >= weeklyStartStr
                                  && BASELINE.cutoff <= weeklyEndStr;
-            const pBase = cutoffInWeek ? BASELINE.picks.yesterday : {w:0,l:0,u:0};
-            const lBase = cutoffInWeek ? BASELINE.leans.yesterday : {w:0,l:0,u:0};
+            const pBase = cutoffInWeek ? BASELINE.picks.weekly : {w:0,l:0,u:0};
+            const lBase = cutoffInWeek ? BASELINE.leans.weekly : {w:0,l:0,u:0};
             wPicksTally = combine(pBase, newPicks.filter(p => inWeek(p.date)));
             wLeansTally = combine(lBase, newLeans.filter(p => inWeek(p.date)));
           }
@@ -1207,10 +1208,12 @@
           `;
           card.appendChild(note);
 
-          el.appendChild(card);
+          // Matchup card append deferred — see end of this function so the
+          // Pitcher History card renders directly under Today's Games, with
+          // Matchup History below it.
 
           // ── Pitcher History — drill into one pitcher's full season log ──
-          // Sits under Matchup History. Dropdown of TODAY's projected pitchers;
+          // Sits directly under Today's Games. Dropdown of TODAY's projected pitchers;
           // table shows every projection ever made for the selected pitcher.
           // Useful when a Soriano/Sugano-style pattern shows up — see at-a-glance
           // every prior pick/lean/pass and how the model has graded them.
@@ -1516,6 +1519,9 @@
             renderPitcherHistory(_probables[0].key);
             el.appendChild(phCard);
           }
+
+          // Matchup History appended last so it lands below Pitcher History.
+          el.appendChild(card);
         };
 
         // Today's Picks + Leans (unified card with tabs)
