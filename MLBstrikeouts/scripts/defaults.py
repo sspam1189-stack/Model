@@ -267,7 +267,7 @@ BF_MULT = 1.00
 # safety net on top of the per-pitcher pitch-count ceiling (see props_engine.py
 # avg_pc = min(avg_pc, max(recent_pcs))). Set high (e.g. 100.0) to effectively
 # disable.
-BF_CAP = 25.0
+BF_CAP = 24.0
 
 # Per-pitcher K-rate cap floor — applied as max(K_RATE_CAP_FLOOR, season K%)
 # in props_engine.py. The matchup-driven expected_k_rate
