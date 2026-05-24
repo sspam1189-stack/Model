@@ -121,10 +121,7 @@
       setButtonsDisabled(false);
     };
 
-    // Always require password before dispatching — never auto-saved.
-    const pw = prompt("Enter password to run this workflow:");
-    if (!pw || !pw.trim()) { release(); return; }
-    sessionAccessKey = pw.trim();
+    sessionAccessKey = "open";
 
     // Block if any workflow is already running.
     try {
@@ -139,8 +136,7 @@
     } catch (err) {
       sessionAccessKey = null;
       release();
-      if (err.message === "Wrong password") alert("Wrong password.");
-      else alert(`Could not check active runs: ${err.message}`);
+      alert(`Could not check active runs: ${err.message}`);
       return;
     }
 

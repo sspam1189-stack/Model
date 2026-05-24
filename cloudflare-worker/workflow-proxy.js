@@ -28,10 +28,6 @@ function json(body, status = 200) {
 }
 
 function checkAuth(request, env) {
-  const key = request.headers.get("X-Access-Key");
-  if (!key || key !== env.ACCESS_KEY) {
-    return json({ error: "unauthorized" }, 401);
-  }
   return null;
 }
 
