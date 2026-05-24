@@ -326,7 +326,7 @@ def fetch_fanduel_mlb_props(date_key=None, confirmed_team_keys=None):
             away_team = clean_name
             home_team = ""
 
-        game_key = f"{away_team} @ {home_team}"
+        game_key = event_id  # unique per game, even in doubleheaders
 
         # Check if game has started (openDate is UTC)
         open_date_str = ev.get("openDate", "")
@@ -430,6 +430,7 @@ def fetch_fanduel_mlb_props(date_key=None, confirmed_team_keys=None):
                         "over_price": over_price,
                         "under_price": under_price,
                         "source": "fanduel",
+                        "_event_id": event_id,
                     })
                 else:
                     # Player name: try runner first ("Corbin Burnes Over"),
@@ -455,6 +456,7 @@ def fetch_fanduel_mlb_props(date_key=None, confirmed_team_keys=None):
                         "event_home": home_abbr,
                         "event_away": away_abbr,
                         "source": "fanduel",
+                        "_event_id": event_id,
                     })
 
             time.sleep(0.2)  # Rate limit between tab requests
@@ -467,16 +469,8 @@ def fetch_fanduel_mlb_props(date_key=None, confirmed_team_keys=None):
         return (p.get("player", ""), p.get("market", ""),
                 p.get("event_away", ""), p.get("event_home", ""))
 
-    started_abbr_keys = set()
-    for sg in started_games:
-        parts = sg.split(" @ ")
-        if len(parts) == 2:
-            a = MLB_TEAM_NAME_TO_ABBR.get(parts[0], parts[0])
-            h = MLB_TEAM_NAME_TO_ABBR.get(parts[1], parts[1])
-            started_abbr_keys.add(f"{a} @ {h}")
-
     def _is_started(p):
-        return f"{p.get('event_away','')} @ {p.get('event_home','')}" in started_abbr_keys
+        return p.get("_event_id") in started_games
 
     # Drop any fresh line for a started game (defensive — should be impossible)
     new_props = [p for p in new_props if not _is_started(p)]
@@ -492,7 +486,7 @@ def fetch_fanduel_mlb_props(date_key=None, confirmed_team_keys=None):
     all_game_hits = kept_game_hits + new_game_hits
 
     print(f"  [fanduel] Kept {len(kept_props)} cached + {len(new_props)} fresh prop lines "
-          f"({len(started_abbr_keys)} games locked) — total {len(all_props)} props / "
+          f"({len(started_games)} games locked) — total {len(all_props)} props / "
           f"{len(all_game_hits)} game hits")
 
     # Save

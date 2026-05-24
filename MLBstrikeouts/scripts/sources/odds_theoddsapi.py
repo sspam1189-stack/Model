@@ -209,7 +209,7 @@ def fetch_mlb_pitcher_props(date_key=None):
             try:
                 commence = datetime.datetime.fromisoformat(commence_str.replace("Z", "+00:00"))
                 if commence <= now_utc:
-                    started_games.add(f"{away} @ {home}")
+                    started_games.add(event_id)
                     continue
             except (ValueError, AttributeError):
                 pass
@@ -266,6 +266,7 @@ def fetch_mlb_pitcher_props(date_key=None):
                     "market": internal_market,
                     "event_home": home,
                     "event_away": away,
+                    "_event_id": event_id,
                 })
 
         time.sleep(0.3)  # Rate limit
@@ -276,7 +277,7 @@ def fetch_mlb_pitcher_props(date_key=None):
                 p.get("event_away", ""), p.get("event_home", ""))
 
     def _is_started(p):
-        return f"{p.get('event_away','')} @ {p.get('event_home','')}" in started_games
+        return p.get("_event_id") in started_games
 
     new_props = [p for p in new_props if not _is_started(p)]
     fresh_keys = {_line_key(p) for p in new_props}
@@ -594,7 +595,7 @@ def fetch_mlb_batter_props(date_str=None, api_key=None):
             try:
                 commence = datetime.datetime.fromisoformat(commence_str.replace("Z", "+00:00"))
                 if commence <= now_utc:
-                    started_games.add(f"{away} @ {home}")
+                    started_games.add(event_id)
                     continue
             except (ValueError, AttributeError):
                 pass
@@ -652,6 +653,7 @@ def fetch_mlb_batter_props(date_str=None, api_key=None):
                     "team": None,
                     "event_home": home,
                     "event_away": away,
+                    "_event_id": event_id,
                 })
 
         time.sleep(0.3)  # Rate limit
@@ -662,7 +664,7 @@ def fetch_mlb_batter_props(date_str=None, api_key=None):
                 p.get("event_away", ""), p.get("event_home", ""))
 
     def _is_started(p):
-        return f"{p.get('event_away','')} @ {p.get('event_home','')}" in started_games
+        return p.get("_event_id") in started_games
 
     new_props = [p for p in new_props if not _is_started(p)]
     fresh_keys = {_line_key(p) for p in new_props}
