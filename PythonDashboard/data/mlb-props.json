@@ -4,10 +4,10 @@
   "season": "2026",
   "mode": "live",
   "model": "kalman_blend",
-  "generated": "2026-05-24T13:31:04.168423",
+  "generated": "2026-05-24T15:13:22.603299",
   "totalProjections": 28,
   "totalPicks": 764,
-  "totalWatchlist": 14,
+  "totalWatchlist": 12,
   "props": [
     {
       "player": "Sonny Gray",
@@ -19699,7 +19699,7 @@
       "to_win_1u": 1.4,
       "would_be_pick": "UNDER",
       "date": "2026-05-24",
-      "lockState": "lineup_confirmed",
+      "lockState": "game_started",
       "lockedAt": "2026-05-24T17:38:37.870791Z"
     },
     {
@@ -19726,7 +19726,7 @@
       "to_win_1u": 1.18,
       "would_be_pick": "OVER",
       "date": "2026-05-24",
-      "lockState": "lineup_confirmed",
+      "lockState": "game_started",
       "lockedAt": "2026-05-24T17:38:37.870791Z"
     },
     {
@@ -19734,26 +19734,26 @@
       "team": "TEX",
       "opp": "LAA",
       "market": "strikeouts",
-      "proj": 7.1,
+      "proj": 7.4,
       "std": 2.0,
       "line": 5.5,
       "over_price": -146,
       "under_price": 110,
       "pick": "OVER",
-      "edge": 1.6,
-      "pCover": 0.777,
+      "edge": 1.9,
+      "pCover": 0.814,
       "conf": "high",
       "proj_ip": 5.2,
       "proj_bf": 23.3,
       "proj_bf_capped": 23.3,
       "proj_pc": 96.0,
       "opp_team_k_pct": 23.9,
-      "lineup_k_pct": 24.5,
+      "lineup_k_pct": 25.6,
       "odds": -146,
       "to_win_1u": 1.46,
       "date": "2026-05-24",
-      "lockState": "pending",
-      "lockedAt": null
+      "lockState": "lineup_confirmed",
+      "lockedAt": "2026-05-24T20:13:22.603532Z"
     },
     {
       "player": "Reid Detmers",
@@ -19767,7 +19767,7 @@
       "under_price": -108,
       "pick": "PASS",
       "edge": 0.7,
-      "pCover": 0.605,
+      "pCover": 0.606,
       "conf": "watch",
       "proj_ip": 5.8,
       "proj_bf": 24.1,
@@ -19783,7 +19783,7 @@
       "lockedAt": null
     }
   ],
-  "summary": "4 picks (+14 watch) from 28 projections",
+  "summary": "4 picks (+12 watch) from 28 projections",
   "date": "2026-05-24",
   "todayProjections": [
     {
@@ -20251,7 +20251,7 @@
       "odds": 124,
       "to_win_1u": 0.81,
       "date": "2026-05-24",
-      "lockState": "lineup_confirmed",
+      "lockState": "game_started",
       "lockedAt": "2026-05-24T17:38:37.870791Z"
     },
     {
@@ -20277,7 +20277,7 @@
       "odds": -140,
       "to_win_1u": 1.4,
       "date": "2026-05-24",
-      "lockState": "lineup_confirmed",
+      "lockState": "game_started",
       "lockedAt": "2026-05-24T17:38:37.870791Z"
     },
     {
@@ -20303,7 +20303,7 @@
       "odds": -118,
       "to_win_1u": 1.18,
       "date": "2026-05-24",
-      "lockState": "lineup_confirmed",
+      "lockState": "game_started",
       "lockedAt": "2026-05-24T17:38:37.870791Z"
     },
     {
@@ -20355,7 +20355,7 @@
       "odds": -150,
       "to_win_1u": 1.5,
       "date": "2026-05-24",
-      "lockState": "lineup_confirmed",
+      "lockState": "game_started",
       "lockedAt": "2026-05-24T17:38:37.870791Z"
     },
     {
@@ -20381,7 +20381,7 @@
       "odds": 122,
       "to_win_1u": 0.82,
       "date": "2026-05-24",
-      "lockState": "lineup_confirmed",
+      "lockState": "game_started",
       "lockedAt": "2026-05-24T17:38:37.870791Z"
     },
     {
@@ -20407,7 +20407,7 @@
       "odds": -104,
       "to_win_1u": 1.04,
       "date": "2026-05-24",
-      "lockState": "lineup_confirmed",
+      "lockState": "game_started",
       "lockedAt": "2026-05-24T17:38:37.870791Z"
     },
     {
@@ -20433,7 +20433,7 @@
       "odds": -150,
       "to_win_1u": 1.5,
       "date": "2026-05-24",
-      "lockState": "lineup_confirmed",
+      "lockState": "game_started",
       "lockedAt": "2026-05-24T18:31:04.168680Z"
     },
     {
@@ -20448,7 +20448,7 @@
       "under_price": -108,
       "pick": "PASS",
       "edge": 0.7,
-      "pCover": 0.605,
+      "pCover": 0.606,
       "conf": "low",
       "proj_ip": 5.8,
       "proj_bf": 24.1,
@@ -20467,26 +20467,26 @@
       "team": "TEX",
       "opp": "LAA",
       "market": "strikeouts",
-      "proj": 7.1,
+      "proj": 7.4,
       "std": 2.0,
       "line": 5.5,
       "over_price": -146,
       "under_price": 110,
       "pick": "OVER",
-      "edge": 1.6,
-      "pCover": 0.777,
+      "edge": 1.9,
+      "pCover": 0.814,
       "conf": "high",
       "proj_ip": 5.2,
       "proj_bf": 23.3,
       "proj_bf_capped": 23.3,
       "proj_pc": 96.0,
       "opp_team_k_pct": 23.9,
-      "lineup_k_pct": 24.5,
+      "lineup_k_pct": 25.6,
       "odds": -146,
       "to_win_1u": 1.46,
       "date": "2026-05-24",
-      "lockState": "pending",
-      "lockedAt": null
+      "lockState": "lineup_confirmed",
+      "lockedAt": "2026-05-24T20:13:22.603532Z"
     }
   ],
   "gameTimes": {
@@ -20522,16 +20522,16 @@
     "STL": "2026-05-24T17:40:00Z"
   },
   "gameStatuses": {
-    "TOR": "In Progress",
-    "PIT": "In Progress",
-    "BAL": "Scheduled",
-    "DET": "Scheduled",
+    "TOR": "Final",
+    "PIT": "Final",
+    "BAL": "Pre-Game",
+    "DET": "Pre-Game",
     "BOS": "In Progress",
     "MIN": "In Progress",
-    "PHI": "In Progress",
-    "CLE": "In Progress",
-    "NYY": "In Progress",
-    "TB": "In Progress",
+    "PHI": "Game Over",
+    "CLE": "Game Over",
+    "NYY": "Final",
+    "TB": "Final",
     "MIA": "In Progress",
     "NYM": "In Progress",
     "KC": "In Progress",
@@ -20540,16 +20540,16 @@
     "LAD": "In Progress",
     "CHC": "In Progress",
     "HOU": "In Progress",
-    "SF": "Pre-Game",
-    "CWS": "Pre-Game",
-    "ARI": "Pre-Game",
-    "COL": "Pre-Game",
-    "SD": "Pre-Game",
-    "OAK": "Pre-Game",
-    "ATL": "Pre-Game",
-    "WSH": "Pre-Game",
-    "LAA": "Scheduled",
-    "TEX": "Scheduled",
+    "SF": "In Progress",
+    "CWS": "In Progress",
+    "ARI": "In Progress",
+    "COL": "In Progress",
+    "SD": "In Progress",
+    "OAK": "In Progress",
+    "ATL": "Delayed Start",
+    "WSH": "Delayed Start",
+    "LAA": "Pre-Game",
+    "TEX": "Pre-Game",
     "CIN": "Postponed",
     "STL": "Postponed"
   }
