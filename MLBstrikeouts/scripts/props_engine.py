@@ -353,7 +353,8 @@ def project_pitcher_props(pitcher_logs, team_batting_stats=None,
             lineup_k_rate = league_avg.get("K_PCT", 0.22)
         lg_k_rate = league_avg.get("K_PCT", 0.22) or 0.22
         if batter_k_rates and lineup_data:
-            opp_lineup = lineup_data.get(latest_opp, {})
+            _game_id_lu = ctx.get("game_id")
+            opp_lineup = (lineup_data.get(f"{latest_opp}|{_game_id_lu}") if _game_id_lu else None) or lineup_data.get(latest_opp, {})
             opp_player_ids = opp_lineup.get("player_ids", [])
             if opp_player_ids:
                 _pitch_hand = adv.get("pitch_hand", "R")
@@ -546,7 +547,8 @@ def project_pitcher_props(pitcher_logs, team_batting_stats=None,
         prop = _make_prop(name, team, market, proj, std, line_lookup, latest_opp,
                           proj_ip=proj_ip, proj_bf=projected_bf_display, proj_pc=proj_pc,
                           proj_bf_capped=projected_bf,
-                          opp_team_k_pct=opp_team_k_pct, lineup_k_pct=lineup_k_rate)
+                          opp_team_k_pct=opp_team_k_pct, lineup_k_pct=lineup_k_rate,
+                          game_id=ctx.get("game_id"))
         if prop:
             projections.append(prop)
 
@@ -561,7 +563,7 @@ def project_pitcher_props(pitcher_logs, team_batting_stats=None,
         by_team = defaultdict(list)
         for p in projections:
             if p.get("market") == mkt and p.get("pick") == direction:
-                by_team[p.get("team", "")].append(p)
+                by_team[(p.get("team", ""), p.get("game_id"))].append(p)
         for tm, picks in by_team.items():
             if len(picks) >= 2:
                 picks.sort(key=lambda x: -(x.get("pCover") or 0))
@@ -629,7 +631,7 @@ def _to_win_1u(price):
 
 def _make_prop(name, team, market, proj, std, line_lookup, opp,
                proj_ip=None, proj_bf=None, proj_pc=None, proj_bf_capped=None,
-               opp_team_k_pct=None, lineup_k_pct=None):
+               opp_team_k_pct=None, lineup_k_pct=None, game_id=None):
     nk = _name_key(name)
     line_key = (nk[0], nk[1], market)
     line_data = line_lookup.get(line_key)
@@ -647,6 +649,7 @@ def _make_prop(name, team, market, proj, std, line_lookup, opp,
         "team": team,
         "opp": opp,
         "market": market,
+        "game_id": game_id,
         "proj": round(proj, 1),
         "std": round(std, 1),
         "line": line,

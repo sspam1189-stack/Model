@@ -467,28 +467,34 @@ def run_daily(date_key=None):
 
     import datetime as _dt
     _now_utc = _dt.datetime.now(_dt.timezone.utc)
-    started_teams = set()
+    started_game_ids = set()
     for g in all_probable:
         game_time_str = g.get("game_time", "")
         try:
             game_time = _dt.datetime.fromisoformat(game_time_str.replace("Z", "+00:00"))
             if game_time <= _now_utc:
-                if g.get("home_team"): started_teams.add(g["home_team"])
-                if g.get("away_team"): started_teams.add(g["away_team"])
+                gid = g.get("game_id")
+                if gid:
+                    started_game_ids.add(gid)
         except (ValueError, AttributeError, TypeError):
             pass
 
     probable = list(all_probable)
-    if started_teams:
-        print(f"  {len(all_probable)} total games, {len(started_teams)//2} already started (picks preserved, projecting all)")
+    if started_game_ids:
+        print(f"  {len(all_probable)} total games, {len(started_game_ids)} already started (picks preserved, projecting all)")
     print(f"  {len(probable)} games to project")
 
     opposing_pitcher_by_team = {}
     for _g in all_probable:
+        _gid = _g.get("game_id")
         if _g.get("home_team") and _g.get("away_pitcher_id"):
             opposing_pitcher_by_team[_g["home_team"]] = _g["away_pitcher_id"]
+            if _gid:
+                opposing_pitcher_by_team[f"{_g['home_team']}|{_gid}"] = _g["away_pitcher_id"]
         if _g.get("away_team") and _g.get("home_pitcher_id"):
             opposing_pitcher_by_team[_g["away_team"]] = _g["home_pitcher_id"]
+            if _gid:
+                opposing_pitcher_by_team[f"{_g['away_team']}|{_gid}"] = _g["home_pitcher_id"]
 
     _pitch_hands_early = load_pitch_hands(season=season)
 
@@ -557,6 +563,7 @@ def run_daily(date_key=None):
             from sources.mlb_stats import MLB_TEAM_ID_TO_ABBR
             for date_entry in sched.get("dates", []):
                 for game in date_entry.get("games", []):
+                    _sched_game_id = game.get("gamePk")
                     lineups = game.get("lineups", {})
                     teams = game.get("teams", {})
                     for side, lineup_key in [("home", "homePlayers"), ("away", "awayPlayers")]:
@@ -618,7 +625,7 @@ def run_daily(date_key=None):
                                 ]
                                 _src_suffix = f"_vs_{_vs_hand}HP" if _vs_hand in ("L", "R") else ""
                                 _lineup_source = f"recent_lineup_fallback{_src_suffix}"
-                        lineup_data[abbr] = {
+                        _lu_entry = {
                             "player_ids": pids,
                             "lineup": lineup_entries,
                             "confirmed": confirmed,
@@ -626,17 +633,22 @@ def run_daily(date_key=None):
                                        (_lineup_source or "none")),
                             "implied_runs": None,
                         }
+                        lineup_data[abbr] = _lu_entry
+                        if _sched_game_id:
+                            lineup_data[f"{abbr}|{_sched_game_id}"] = _lu_entry
         except Exception:
             pass
 
         try:
             os.makedirs(os.path.dirname(str(_lineup_cache_path)), exist_ok=True)
+            _cache_only = {k: v for k, v in lineup_data.items() if "|" not in k}
             with open(_lineup_cache_path, "w") as _f:
-                json.dump(lineup_data, _f)
+                json.dump(_cache_only, _f)
         except Exception:
             pass
 
-    _n_conf = sum(1 for v in lineup_data.values() if v.get("confirmed"))
+    _n_conf = sum(1 for k, v in lineup_data.items()
+                  if "|" not in k and v.get("confirmed"))
     print(f"  {len(lineup_data)} teams in lineup_data ({_n_conf} confirmed, frozen)")
 
     # Recompute PCT_LHB from the final lineup_data player IDs so the pitcher
@@ -649,6 +661,8 @@ def run_daily(date_key=None):
     from sources.mlb_stats import _compute_pct_lhb as _pct_lhb_fn
     _recomputed = 0
     for abbr, ldata in lineup_data.items():
+        if "|" in abbr:
+            continue
         pids = ldata.get("player_ids") or []
         if len(pids) < 5:
             continue
@@ -720,28 +734,27 @@ def run_daily(date_key=None):
 
     # Stage 12: Fetch prop lines (FanDuel + Odds API combined)
     print(f"\n  [12/15] Fetching prop lines (FanDuel + Odds API)...")
-    # Freeze the FanDuel cache only for games whose pick was ALREADY locked in
-    # a prior run (lockState ∈ {lineup_confirmed, game_started, final}). On the
-    # very first run that sees a confirmation, we still fetch fresh odds so the
-    # lock price reflects the live market at the moment of confirmation, not a
-    # stale price cached before the lineup was posted.
-    fd_frozen_keys = set()
+    # Freeze the FanDuel cache for started games only (handled inside the
+    # fetcher via _is_started on per-event event_id). Team-level freezing
+    # was removed because it blocked Game 2 of doubleheaders when Game 1
+    # was already locked. The run_daily merge logic preserves locked picks
+    # regardless of what FanDuel returns.
+    fd_frozen_game_ids = set()
     try:
         prior_path = os.path.join(SCRIPT_DIR, "..", "data", "mlb-props.json")
         if os.path.exists(prior_path):
             with open(prior_path, "r") as _f:
                 _prior = json.load(_f)
-            _LOCKED = {"lineup_confirmed", "game_started", "final"}
+            _LOCKED = {"game_started", "final"}
             for _p in (_prior.get("props", []) or []):
                 if _p.get("date") == date_iso and _p.get("lockState") in _LOCKED:
-                    if _p.get("team"):
-                        fd_frozen_keys.add(_p["team"])
-                    if _p.get("opp"):
-                        fd_frozen_keys.add(_p["opp"])
+                    gid = _p.get("game_id")
+                    if gid:
+                        fd_frozen_game_ids.add(gid)
     except Exception:
-        fd_frozen_keys = set()
+        fd_frozen_game_ids = set()
     fd_result = fetch_fanduel_mlb_props(
-        date_key=date_key, confirmed_team_keys=fd_frozen_keys
+        date_key=date_key, confirmed_team_keys=set()
     )
     if isinstance(fd_result, tuple):
         fd_props, _ = fd_result
@@ -812,9 +825,12 @@ def run_daily(date_key=None):
 
     game_times = {}
     game_statuses = {}
+    game_times_by_id = {}
+    game_statuses_by_id = {}
     for g in all_probable:
         gt = g.get("game_time", "")
         status = g.get("status", "") or ""
+        gid = g.get("game_id")
         for t_key in ("home_team", "away_team"):
             team = g.get(t_key)
             if not team:
@@ -823,11 +839,18 @@ def run_daily(date_key=None):
                 game_times[team] = gt
             if status:
                 game_statuses[team] = status
+        if gid:
+            if gt:
+                game_times_by_id[gid] = gt
+            if status:
+                game_statuses_by_id[gid] = status
 
     combined = {
         **dashboard,
         "gameTimes": game_times,
         "gameStatuses": game_statuses,
+        "gameTimesById": game_times_by_id,
+        "gameStatusesById": game_statuses_by_id,
     }
 
     output_paths = [
@@ -847,21 +870,37 @@ def run_daily(date_key=None):
 
     confirmed_teams = {
         abbr for abbr, v in (lineup_data or {}).items()
-        if v.get("confirmed")
+        if "|" not in abbr and v.get("confirmed")
     }
-    locked_teams = set(started_teams) | confirmed_teams
+
+    # Backward compat: old picks without game_id fall back to team-based
+    # started check. Only teams whose ALL games have started are included
+    # so doubleheader Game 2 isn't prematurely locked.
+    _team_game_ids = {}
+    for g in all_probable:
+        for t_key in ("home_team", "away_team"):
+            t = g.get(t_key)
+            gid = g.get("game_id")
+            if t and gid:
+                _team_game_ids.setdefault(t, []).append(gid)
+    _started_teams_compat = {
+        t for t, gids in _team_game_ids.items()
+        if all(gid in started_game_ids for gid in gids)
+    }
 
     _LOCK_RANK = {"pending": 0, "lineup_confirmed": 1, "game_started": 2, "final": 3}
     _now_iso = datetime.datetime.now(datetime.timezone.utc).strftime("%Y-%m-%dT%H:%M:%S.%f") + "Z"
 
-    def _lock_key(pick):
-        return pick.get("opp", "") or pick.get("team", "")
-
     def _current_lock_state(pick):
-        key = _lock_key(pick)
-        if key in started_teams:
+        gid = pick.get("game_id")
+        if gid and gid in started_game_ids:
             return "game_started"
-        if key in confirmed_teams:
+        if not gid:
+            opp = pick.get("opp", "") or pick.get("team", "")
+            if opp in _started_teams_compat:
+                return "game_started"
+        opp = pick.get("opp", "") or pick.get("team", "")
+        if opp in confirmed_teams:
             return "lineup_confirmed"
         return "pending"
 

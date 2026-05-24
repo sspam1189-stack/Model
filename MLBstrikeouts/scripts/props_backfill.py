@@ -512,6 +512,16 @@ def backfill(season=None, start_game=10, start_date=None):
                     gm["away_pitcher_name"] = pname
             date_probable.append(gm)
 
+        # Add game-specific lineup entries for doubleheader support
+        for _gm in date_probable:
+            _gid = _gm.get("game_id")
+            if not _gid:
+                continue
+            for _tk in ("home_team", "away_team"):
+                _t = _gm.get(_tk)
+                if _t and _t in date_lineup_data:
+                    date_lineup_data[f"{_t}|{_gid}"] = date_lineup_data[_t]
+
         # Build pitcher_splits for today's starters
         date_splits = {}
         for g in today_starters:
