@@ -4,10 +4,10 @@
   "season": "2026",
   "mode": "live",
   "model": "kalman_blend",
-  "generated": "2026-05-24T16:27:12.535425",
+  "generated": "2026-05-24T18:02:14.714288",
   "totalProjections": 28,
   "totalPicks": 765,
-  "totalWatchlist": 10,
+  "totalWatchlist": 11,
   "props": [
     {
       "player": "Sonny Gray",
@@ -19779,7 +19779,7 @@
       "odds": -142,
       "to_win_1u": 1.42,
       "date": "2026-05-24",
-      "lockState": "lineup_confirmed",
+      "lockState": "game_started",
       "lockedAt": "2026-05-24T21:27:12.535670Z"
     },
     {
@@ -19811,7 +19811,7 @@
       "lockedAt": "2026-05-24T21:27:12.535670Z"
     }
   ],
-  "summary": "6 picks (+10 watch) from 28 projections",
+  "summary": "6 picks (+11 watch) from 28 projections",
   "date": "2026-05-24",
   "todayProjections": [
     {
@@ -20514,7 +20514,7 @@
       "odds": -142,
       "to_win_1u": 1.42,
       "date": "2026-05-24",
-      "lockState": "lineup_confirmed",
+      "lockState": "game_started",
       "lockedAt": "2026-05-24T21:27:12.535670Z"
     },
     {
@@ -20580,8 +20580,8 @@
   "gameStatuses": {
     "TOR": "Final",
     "PIT": "Final",
-    "BAL": "Pre-Game",
-    "DET": "Pre-Game",
+    "BAL": "In Progress",
+    "DET": "In Progress",
     "BOS": "Final",
     "MIN": "Final",
     "PHI": "Final",
@@ -20598,14 +20598,14 @@
     "HOU": "Final",
     "SF": "In Progress",
     "CWS": "In Progress",
-    "ARI": "In Progress",
-    "COL": "In Progress",
+    "ARI": "Final",
+    "COL": "Final",
     "SD": "In Progress",
     "OAK": "In Progress",
-    "ATL": "In Progress",
-    "WSH": "In Progress",
-    "LAA": "Pre-Game",
-    "TEX": "Pre-Game",
+    "ATL": "Delayed",
+    "WSH": "Delayed",
+    "LAA": "Warmup",
+    "TEX": "Warmup",
     "CIN": "Postponed",
     "STL": "Postponed"
   },
@@ -20630,7 +20630,7 @@
   "gameStatusesById": {
     "822813": "Final",
     "824839": "Final",
-    "824840": "Pre-Game",
+    "824840": "In Progress",
     "824759": "Final",
     "823459": "Final",
     "823544": "Final",
@@ -20639,10 +20639,10 @@
     "823786": "Final",
     "824676": "Final",
     "823220": "In Progress",
-    "825081": "In Progress",
+    "825081": "Final",
     "823297": "In Progress",
-    "824921": "In Progress",
-    "824028": "Pre-Game",
+    "824921": "Delayed",
+    "824028": "Warmup",
     "824514": "Postponed"
   }
 }
