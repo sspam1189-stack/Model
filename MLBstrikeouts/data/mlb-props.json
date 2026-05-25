@@ -4,7 +4,7 @@
   "season": "2026",
   "mode": "live",
   "model": "kalman_blend",
-  "generated": "2026-05-25T16:57:55.024423",
+  "generated": "2026-05-25T18:01:31.367740",
   "totalProjections": 24,
   "totalPicks": 1102,
   "totalWatchlist": 12,
@@ -30014,8 +30014,11 @@
       "odds": 110,
       "to_win_1u": 0.91,
       "date": "2026-05-25",
-      "lockState": "lineup_confirmed",
-      "lockedAt": "2026-05-25T17:51:36.591824Z"
+      "lockState": "game_started",
+      "lockedAt": "2026-05-25T17:51:36.591824Z",
+      "result": "VOID",
+      "voidReason": "pitcher_swapped",
+      "voidNote": "announced starter: PJ Poulin"
     },
     {
       "player": "Nolan McLean",
@@ -30152,7 +30155,7 @@
       "odds": 106,
       "to_win_1u": 0.94,
       "date": "2026-05-25",
-      "lockState": "lineup_confirmed",
+      "lockState": "game_started",
       "lockedAt": "2026-05-25T18:32:13.218490Z"
     },
     {
@@ -30207,7 +30210,7 @@
       "to_win_1u": 1.44,
       "would_be_pick": "UNDER",
       "date": "2026-05-25",
-      "lockState": "lineup_confirmed",
+      "lockState": "game_started",
       "lockedAt": "2026-05-25T20:11:07.460997Z"
     },
     {
@@ -30782,7 +30785,7 @@
       "odds": 110,
       "to_win_1u": 0.91,
       "date": "2026-05-25",
-      "lockState": "lineup_confirmed",
+      "lockState": "game_started",
       "lockedAt": "2026-05-25T17:51:36.591824Z"
     },
     {
@@ -30809,7 +30812,7 @@
       "odds": 106,
       "to_win_1u": 0.94,
       "date": "2026-05-25",
-      "lockState": "lineup_confirmed",
+      "lockState": "game_started",
       "lockedAt": "2026-05-25T18:32:13.218490Z"
     },
     {
@@ -30836,7 +30839,7 @@
       "odds": -144,
       "to_win_1u": 1.44,
       "date": "2026-05-25",
-      "lockState": "lineup_confirmed",
+      "lockState": "game_started",
       "lockedAt": "2026-05-25T20:11:07.460997Z"
     },
     {
@@ -30917,7 +30920,7 @@
       "odds": 130,
       "to_win_1u": 0.77,
       "date": "2026-05-25",
-      "lockState": "lineup_confirmed",
+      "lockState": "game_started",
       "lockedAt": "2026-05-25T20:11:07.460997Z"
     },
     {
@@ -31087,26 +31090,26 @@
   "gameStatuses": {
     "PIT": "Final",
     "CHC": "Final",
-    "BAL": "Game Over",
-    "TB": "Game Over",
+    "BAL": "Final",
+    "TB": "Final",
     "CWS": "Final",
     "MIN": "Final",
     "MIL": "Final",
     "STL": "Final",
-    "KC": "In Progress",
-    "NYY": "In Progress",
+    "KC": "Final",
+    "NYY": "Final",
     "NYM": "In Progress",
     "CIN": "In Progress",
     "SF": "In Progress",
     "ARI": "In Progress",
-    "CLE": "Warmup",
-    "WSH": "Warmup",
-    "SD": "Pre-Game",
-    "PHI": "Pre-Game",
-    "TEX": "Pre-Game",
-    "HOU": "Pre-Game",
-    "TOR": "Pre-Game",
-    "MIA": "Pre-Game",
+    "CLE": "In Progress",
+    "WSH": "In Progress",
+    "SD": "In Progress",
+    "PHI": "In Progress",
+    "TEX": "Warmup",
+    "HOU": "Warmup",
+    "TOR": "Warmup",
+    "MIA": "Warmup",
     "LAD": "Pre-Game",
     "COL": "Pre-Game",
     "OAK": "Pre-Game",
@@ -31129,16 +31132,16 @@
   },
   "gameStatusesById": {
     "823380": "Final",
-    "824838": "Game Over",
+    "824838": "Final",
     "824598": "Final",
     "823784": "Final",
-    "824107": "In Progress",
+    "824107": "Final",
     "823625": "In Progress",
     "823219": "In Progress",
-    "824437": "Warmup",
-    "823296": "Pre-Game",
-    "822899": "Pre-Game",
-    "822812": "Pre-Game",
+    "824437": "In Progress",
+    "823296": "In Progress",
+    "822899": "Warmup",
+    "822812": "Warmup",
     "823948": "Pre-Game",
     "825005": "Pre-Game"
   }
