@@ -43,16 +43,11 @@
     }
   }
 
-  let sessionAccessKey = null;
-
   async function api(path, opts = {}) {
-    const headers = { ...(opts.headers || {}) };
-    if (sessionAccessKey) headers["X-Access-Key"] = sessionAccessKey;
-    const res = await fetch(`${WORKER_URL}${path}`, { ...opts, headers });
-    if (res.status === 401) {
-      sessionAccessKey = null;
-      throw new Error("Wrong password");
-    }
+    const res = await fetch(`${WORKER_URL}${path}`, {
+      ...opts,
+      headers: { "X-Access-Key": "", ...(opts.headers || {}) },
+    });
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
     return res.json();
   }
@@ -117,10 +112,6 @@
       setButtonsDisabled(false);
     };
 
-    const pw = prompt("Enter password to run this workflow:");
-    if (!pw || !pw.trim()) { release(); return; }
-    sessionAccessKey = pw.trim();
-
     // Block if any workflow is already running.
     try {
       const ac = await api(`/active`);
@@ -131,10 +122,8 @@
         return;
       }
     } catch (err) {
-      sessionAccessKey = null;
       release();
-      if (err.message === "Wrong password") alert("Wrong password.");
-      else alert(`Could not check active runs: ${err.message}`);
+      alert(`Could not check active runs: ${err.message}`);
       return;
     }
 
@@ -144,7 +133,6 @@
       dispatched = await api(`/dispatch/${workflow}`, { method: "POST" });
     } catch (err) {
       document.getElementById("wf-status").textContent = `Dispatch failed: ${err.message}`;
-      sessionAccessKey = null;
       setTimeout(() => {
         document.getElementById("wf-modal")?.classList.remove("open");
         release();
@@ -152,7 +140,7 @@
       return;
     }
     const since = dispatched.dispatchedAt;
-    localStorage.setItem(ACTIVE_RUN_LS, JSON.stringify({ workflow, since, accessKey: sessionAccessKey }));
+    localStorage.setItem(ACTIVE_RUN_LS, JSON.stringify({ workflow, since }));
     pollUntilDone(workflow, since);
   }
 
@@ -227,9 +215,8 @@
     const raw = localStorage.getItem(ACTIVE_RUN_LS);
     if (!raw) return;
     try {
-      const { workflow, since, accessKey } = JSON.parse(raw);
-      if (!workflow || !since || !accessKey) return;
-      sessionAccessKey = accessKey;
+      const { workflow, since } = JSON.parse(raw);
+      if (!workflow || !since) return;
       const titleByKey = {
         python: "NBA Run Daily (NBA + Fullseason + Props)",
         mlb: "MLB Run Daily",
