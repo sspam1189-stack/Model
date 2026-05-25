@@ -4,7 +4,7 @@
 (function () {
   const WORKER_URL = "https://pydashboard-workflow-proxy.sspam1189.workers.dev";
   const POLL_INTERVAL_MS = 10_000;
-  const ACTIVE_RUN_LS = "pydash.activeRun"; // {workflow, since, accessKey}
+  const ACTIVE_RUN_LS = "pydash.activeRun";
 
   // Last data file each workflow updates (the one written last in the serial
   // commit chain). Polled after the workflow completes to wait until Pages
@@ -15,10 +15,6 @@
   };
   const PAGES_DEPLOY_TIMEOUT_MS = 90_000;
   const PAGES_POLL_INTERVAL_MS = 4_000;
-
-  // In-memory access key for the current run only (cleared on reload unless
-  // resumed from ACTIVE_RUN_LS). Never written to plain localStorage on its own.
-  let sessionAccessKey = null;
 
   // Baseline Last-Modified per data file, captured at page load. Used after a
   // workflow completes to detect when Pages has actually deployed new content.
@@ -48,15 +44,10 @@
   }
 
   async function api(path, opts = {}) {
-    if (!sessionAccessKey) throw new Error("no access key");
     const res = await fetch(`${WORKER_URL}${path}`, {
       ...opts,
-      headers: { "X-Access-Key": sessionAccessKey, ...(opts.headers || {}) },
+      headers: { ...(opts.headers || {}) },
     });
-    if (res.status === 401) {
-      sessionAccessKey = null;
-      throw new Error("Wrong password");
-    }
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
     return res.json();
   }
@@ -121,20 +112,16 @@
       setButtonsDisabled(false);
     };
 
-    sessionAccessKey = "open";
-
     // Block if any workflow is already running.
     try {
       const ac = await api(`/active`);
       if (ac.active && ac.active.length > 0) {
         const list = ac.active.map(r => `• ${r.workflow} (${r.status}, run #${r.runNumber})`).join("\n");
         alert(`A workflow is already running. Wait for it to finish first:\n\n${list}`);
-        sessionAccessKey = null;
         release();
         return;
       }
     } catch (err) {
-      sessionAccessKey = null;
       release();
       alert(`Could not check active runs: ${err.message}`);
       return;
@@ -146,8 +133,6 @@
       dispatched = await api(`/dispatch/${workflow}`, { method: "POST" });
     } catch (err) {
       document.getElementById("wf-status").textContent = `Dispatch failed: ${err.message}`;
-      sessionAccessKey = null;
-      // Close modal + re-enable buttons after a brief delay so user can retry.
       setTimeout(() => {
         document.getElementById("wf-modal")?.classList.remove("open");
         release();
@@ -155,10 +140,7 @@
       return;
     }
     const since = dispatched.dispatchedAt;
-    // Stash key alongside run so polling survives a reload without re-prompting.
-    // Buttons stay disabled (and dispatchInFlight stays true) until the page
-    // reloads on completion.
-    localStorage.setItem(ACTIVE_RUN_LS, JSON.stringify({ workflow, since, accessKey: sessionAccessKey }));
+    localStorage.setItem(ACTIVE_RUN_LS, JSON.stringify({ workflow, since }));
     pollUntilDone(workflow, since);
   }
 
@@ -233,9 +215,8 @@
     const raw = localStorage.getItem(ACTIVE_RUN_LS);
     if (!raw) return;
     try {
-      const { workflow, since, accessKey } = JSON.parse(raw);
-      if (!workflow || !since || !accessKey) return;
-      sessionAccessKey = accessKey;
+      const { workflow, since } = JSON.parse(raw);
+      if (!workflow || !since) return;
       const titleByKey = {
         python: "NBA Run Daily (NBA + Fullseason + Props)",
         mlb: "MLB Run Daily",
