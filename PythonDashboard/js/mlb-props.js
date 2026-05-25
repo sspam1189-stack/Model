@@ -1482,7 +1482,14 @@
                 const bktColor = bkt === 'PICK' ? '#a78bfa' : bkt === 'WATCH' ? 'var(--yellow)' : '#888';
                 const dirColor = dir === 'OVER' ? 'var(--green)' : 'var(--red)';
                 const resColor = grade === 'W' ? 'var(--green)' : grade === 'L' ? 'var(--red)' : '#888';
-                const uColor = u == null ? '#888' : (u > 0 ? 'var(--green)' : u < 0 ? 'var(--red)' : '#ccc');
+                // Watch units render yellow regardless of sign (W/L color
+                // already lives in the Result column); Picks keep the
+                // green/red positive/negative convention.
+                const uColor = u == null
+                  ? '#888'
+                  : (bkt === 'WATCH'
+                      ? 'var(--yellow)'
+                      : (u > 0 ? 'var(--green)' : u < 0 ? 'var(--red)' : '#ccc'));
                 const fmtOdds = (o) => o == null ? '—' : (o > 0 ? '+' + o : String(o));
 
                 const cells = [
