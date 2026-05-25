@@ -2125,16 +2125,26 @@
 
       let mlbView = 'all'; // 'all' | 'weekly' | 'all-lean' | 'weekly-lean' | 'all-combined'
 
-      // Watch passes (pick=PASS) — unified 0.60-0.68 band for ALL dates.
-      // Sub-0.60 passes (backfill floor now 0.50) are kept in JSON for
-      // analysis but stay out of the All Pass tab. The historical lean
-      // tally is preserved separately via the Reddit widget BASELINE so
-      // collapsing past lean ranges into the unified band here is harmless.
-      const leanPicks = (data.props || []).filter(p => {
+      // Two sub-pick tiers (both pick=PASS, neither bet):
+      //   Watch: 0.60 <= pCover < 0.68 — near the 0.68 pick threshold,
+      //          worth monitoring (former lean band, conceptually similar).
+      //   Pass:  0.50 <= pCover < 0.60 — sub-watch, kept in JSON for
+      //          analysis only.
+      // Picks (>= 0.68) are flat-2u and live in `picks`.
+      const watchPicks = (data.props || []).filter(p => {
         if (p.pick !== 'PASS') return false;
         const pc = p.pCover || 0;
         return pc >= 0.60 && pc < 0.68;
       });
+      const passPicks = (data.props || []).filter(p => {
+        if (p.pick !== 'PASS') return false;
+        const pc = p.pCover || 0;
+        return pc >= 0.50 && pc < 0.60;
+      });
+      // Backcompat alias — older references (Reddit widget, history card)
+      // still use the `leanPicks` name to mean "sub-pick rows worth showing".
+      // Map to the watch tier so existing logic keeps working unchanged.
+      const leanPicks = watchPicks;
 
       // Effective direction: actionable picks use p.pick, leans use p.would_be_pick
       const effectiveDir = (p) => p.pick === 'PASS' ? p.would_be_pick : p.pick;
@@ -2155,9 +2165,13 @@
       const viewWeeklyBtn = document.createElement('button');
       viewWeeklyBtn.textContent = 'Weekly Picks';
       const viewAllLeanBtn = document.createElement('button');
-      viewAllLeanBtn.textContent = 'All Pass';
+      viewAllLeanBtn.textContent = 'All Watch';
       const viewWeeklyLeanBtn = document.createElement('button');
-      viewWeeklyLeanBtn.textContent = 'Weekly Pass';
+      viewWeeklyLeanBtn.textContent = 'Weekly Watch';
+      const viewAllPassBtn = document.createElement('button');
+      viewAllPassBtn.textContent = 'All Pass';
+      const viewWeeklyPassBtn = document.createElement('button');
+      viewWeeklyPassBtn.textContent = 'Weekly Pass';
       const viewAllCombinedBtn = document.createElement('button');
       viewAllCombinedBtn.textContent = 'All';
       tabRow.appendChild(viewAllCombinedBtn);
@@ -2165,6 +2179,8 @@
       tabRow.appendChild(viewWeeklyBtn);
       tabRow.appendChild(viewAllLeanBtn);
       tabRow.appendChild(viewWeeklyLeanBtn);
+      tabRow.appendChild(viewAllPassBtn);
+      tabRow.appendChild(viewWeeklyPassBtn);
       toolbar.appendChild(tabRow);
 
       // Market filter row removed — strikeouts is the only active market.
@@ -2177,7 +2193,7 @@
       filterRow.style.cssText = 'display:flex;gap:12px;align-items:center;padding:12px 16px;flex-wrap:wrap';
 
       // All Picks filters
-      const allDates = [...new Set(picks.concat(leanPicks).map(p => p.date))].sort().reverse();
+      const allDates = [...new Set(picks.concat(watchPicks, passPicks).map(p => p.date))].sort().reverse();
       const dateSel = document.createElement('select');
       dateSel.style.cssText = selStyle;
       dateSel.innerHTML = '<option value="all">All Dates</option>' + allDates.map(d => `<option value="${d}">${d}</option>`).join('');
@@ -2224,7 +2240,9 @@
       daySel.style.cssText = selStyle;
       daySel.innerHTML = '<option value="all">All Days</option>';
       function refreshDayOptions() {
-        const src = (mlbView === 'weekly-lean') ? leanPicks : picks;
+        const src = (mlbView === 'weekly-lean') ? watchPicks
+                  : (mlbView === 'weekly-pass') ? passPicks
+                  : picks;
         let dates;
         if (weekSel.value === 'all') {
           dates = [...new Set(src.filter(p => p.date).map(p => p.date))].sort().reverse();
@@ -2256,8 +2274,9 @@
         : ['col-player','col-team','col-opp','col-proj','col-line','col-edge','col-pcov','col-pick','col-price'];
 
       function activeSource() {
-        if (mlbView === 'all-lean' || mlbView === 'weekly-lean') return leanPicks;
-        if (mlbView === 'all-combined') return picks.concat(leanPicks);
+        if (mlbView === 'all-lean'  || mlbView === 'weekly-lean')  return watchPicks;
+        if (mlbView === 'all-pass'  || mlbView === 'weekly-pass')  return passPicks;
+        if (mlbView === 'all-combined') return picks.concat(watchPicks, passPicks);
         return picks;
       }
 
@@ -2812,10 +2831,12 @@
         viewWeeklyBtn.style.cssText = v === 'weekly' ? tabActiveStyle : tabStyle;
         viewAllLeanBtn.style.cssText = v === 'all-lean' ? tabActiveStyle : tabStyle;
         viewWeeklyLeanBtn.style.cssText = v === 'weekly-lean' ? tabActiveStyle : tabStyle;
+        viewAllPassBtn.style.cssText = v === 'all-pass' ? tabActiveStyle : tabStyle;
+        viewWeeklyPassBtn.style.cssText = v === 'weekly-pass' ? tabActiveStyle : tabStyle;
         viewAllCombinedBtn.style.cssText = v === 'all-combined' ? tabActiveStyle : tabStyle;
         // Swap filter row contents
         filterRow.textContent = '';
-        const isWeekly = (v === 'weekly' || v === 'weekly-lean');
+        const isWeekly = (v === 'weekly' || v === 'weekly-lean' || v === 'weekly-pass');
         if (!isWeekly) {
           filterRow.appendChild(dateSel);
           filterRow.appendChild(teamSel);
@@ -2837,6 +2858,8 @@
       viewWeeklyBtn.onclick = () => setView('weekly');
       viewAllLeanBtn.onclick = () => setView('all-lean');
       viewWeeklyLeanBtn.onclick = () => setView('weekly-lean');
+      viewAllPassBtn.onclick = () => setView('all-pass');
+      viewWeeklyPassBtn.onclick = () => setView('weekly-pass');
       viewAllCombinedBtn.onclick = () => setView('all-combined');
       dateSel.addEventListener('change', renderAllPicksView);
       teamSel.addEventListener('change', renderAllPicksView);
