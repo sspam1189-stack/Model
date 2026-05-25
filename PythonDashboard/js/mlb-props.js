@@ -514,21 +514,24 @@
           // -4.98u (McLean -158, Sheehan -132, Nelson -102, Detmers -106).
           // Pin via cutoff so the widget matches what was posted on Reddit.
           const BASELINE = {
-            // 2026-05-25 cutover: lean tier retired, threshold lowered to
-            // 0.68 flat-2u picks. Baseline frozen at 5/24 (last day of
-            // old pick/lean split actually posted to Reddit). 5/24 grades
-            // added on top of the 5/23 Reddit-posted totals using actual
-            // odds: picks 3W-1L +1.260u, leans 6W-1L +5.040u.
-            cutoff: '2026-05-24',
+            // Baseline anchored to the LAST tally actually posted to Reddit
+            // (5/24 morning, covering games through 5/23). Numbers below
+            // must match that post exactly. 5/24 grades come from the
+            // live mlb-props.json post-cutoff; the widget combines them
+            // when it next renders. (5/24 is the new last full backfill
+            // day → widget infers "today" = 5/24, yesterday = 5/23 = cutoff
+            // → uses the values below; tomorrow "today" rolls to 5/25,
+            // yesterday becomes 5/24, and 5/24 grades from JSON kick in.)
+            cutoff: '2026-05-23',
             picks: {
-              total:    { w: 106, l: 85, u:  3.22 },
-              weekly:   { w:  17, l: 14, u: -0.16 },  // 5/18–5/24
-              yesterday:{ w:   3, l:  1, u:  1.26 },  // 5/24
+              total:    { w: 103, l: 84, u:  1.96 },
+              weekly:   { w:  14, l: 13, u: -1.42 },  // 5/18–5/23
+              yesterday:{ w:   3, l:  4, u: -1.00 },  // 5/23
             },
             leans: {
-              total:    { w:  60, l: 39, u: 11.30 },
-              weekly:   { w:  17, l: 13, u:  1.20 },  // 5/18–5/24
-              yesterday:{ w:   6, l:  1, u:  5.04 },  // 5/24
+              total:    { w:  54, l: 38, u:  6.26 },
+              weekly:   { w:  11, l: 12, u: -3.84 },  // 5/18–5/23
+              yesterday:{ w:   3, l:  1, u:  1.98 },  // 5/23
             },
           };
 
