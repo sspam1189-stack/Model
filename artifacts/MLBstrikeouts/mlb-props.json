@@ -4,7 +4,7 @@
   "season": "2026",
   "mode": "live",
   "model": "kalman_blend",
-  "generated": "2026-05-24T18:02:14.714288",
+  "generated": "2026-05-24T19:32:01.193985",
   "totalProjections": 28,
   "totalPicks": 765,
   "totalWatchlist": 11,
@@ -19752,7 +19752,7 @@
       "odds": -146,
       "to_win_1u": 1.46,
       "date": "2026-05-24",
-      "lockState": "lineup_confirmed",
+      "lockState": "game_started",
       "lockedAt": "2026-05-24T20:13:22.603532Z"
     },
     {
@@ -19807,7 +19807,7 @@
       "to_win_1u": 1.12,
       "would_be_pick": "OVER",
       "date": "2026-05-24",
-      "lockState": "lineup_confirmed",
+      "lockState": "game_started",
       "lockedAt": "2026-05-24T21:27:12.535670Z"
     }
   ],
@@ -20487,7 +20487,7 @@
       "odds": -146,
       "to_win_1u": 1.46,
       "date": "2026-05-24",
-      "lockState": "lineup_confirmed",
+      "lockState": "game_started",
       "lockedAt": "2026-05-24T20:13:22.603532Z"
     },
     {
@@ -20541,7 +20541,7 @@
       "odds": -112,
       "to_win_1u": 1.12,
       "date": "2026-05-24",
-      "lockState": "lineup_confirmed",
+      "lockState": "game_started",
       "lockedAt": "2026-05-24T21:27:12.535670Z"
     }
   ],
@@ -20596,16 +20596,16 @@
     "LAD": "Final",
     "CHC": "Final",
     "HOU": "Final",
-    "SF": "In Progress",
-    "CWS": "In Progress",
+    "SF": "Final",
+    "CWS": "Final",
     "ARI": "Final",
     "COL": "Final",
-    "SD": "In Progress",
-    "OAK": "In Progress",
-    "ATL": "Delayed",
-    "WSH": "Delayed",
-    "LAA": "Warmup",
-    "TEX": "Warmup",
+    "SD": "Final",
+    "OAK": "Final",
+    "ATL": "In Progress",
+    "WSH": "In Progress",
+    "LAA": "In Progress",
+    "TEX": "In Progress",
     "CIN": "Postponed",
     "STL": "Postponed"
   },
@@ -20638,11 +20638,11 @@
     "824108": "Final",
     "823786": "Final",
     "824676": "Final",
-    "823220": "In Progress",
+    "823220": "Final",
     "825081": "Final",
-    "823297": "In Progress",
-    "824921": "Delayed",
-    "824028": "Warmup",
+    "823297": "Final",
+    "824921": "In Progress",
+    "824028": "In Progress",
     "824514": "Postponed"
   }
 }
