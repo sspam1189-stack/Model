@@ -1340,7 +1340,6 @@
             const FILTERS = [
               { key: 'ALL',  label: 'All',    color: '#ccc'           },
               { key: 'PICK', label: 'Picks',  color: '#a78bfa'        },
-              { key: 'LEAN', label: 'Leans',  color: 'var(--yellow)'  },
               { key: 'PASS', label: 'Passes', color: '#888'           },
             ];
             let _activeFilter = 'ALL';
