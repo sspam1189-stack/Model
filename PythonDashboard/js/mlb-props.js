@@ -2125,33 +2125,15 @@
 
       let mlbView = 'all'; // 'all' | 'weekly' | 'all-lean' | 'weekly-lean' | 'all-combined'
 
-      // Watch passes (pick=PASS) — DATE-AWARE filter:
-      //
-      //   Before 2026-05-13 (old config — threshold 0.70, asymmetric lean):
-      //     UNDER  0.60 <= pCover < 0.70
-      //     OVER   0.65 <= pCover < 0.70
-      //   2026-05-13 to 2026-05-24 (mid config — threshold 0.72, unified lean):
-      //     both   0.65 <= pCover < 0.72
-      //   2026-05-25 onward (flat-2u config — threshold 0.68, no leans):
-      //     both   0.60 <= pCover < 0.68  (watch band — still a PASS, not bet)
-      //
+      // Watch passes (pick=PASS) — unified 0.60-0.68 band for ALL dates.
       // Sub-0.60 passes (backfill floor now 0.50) are kept in JSON for
-      // analysis but stay out of the All Pass tab.
-      const LEAN_CONFIG_CUTOFF  = '2026-05-13';
-      const PASS_FLAT_CUTOVER   = '2026-05-25';
+      // analysis but stay out of the All Pass tab. The historical lean
+      // tally is preserved separately via the Reddit widget BASELINE so
+      // collapsing past lean ranges into the unified band here is harmless.
       const leanPicks = (data.props || []).filter(p => {
         if (p.pick !== 'PASS') return false;
         const pc = p.pCover || 0;
-        const d  = p.date || '';
-        if (d >= PASS_FLAT_CUTOVER) {
-          return pc >= 0.60 && pc < 0.68;
-        }
-        if (d >= LEAN_CONFIG_CUTOFF) {
-          return pc >= 0.65 && pc < 0.72;
-        }
-        if (p.would_be_pick === 'UNDER') return pc >= 0.60 && pc < 0.70;
-        if (p.would_be_pick === 'OVER')  return pc >= 0.65 && pc < 0.70;
-        return false;
+        return pc >= 0.60 && pc < 0.68;
       });
 
       // Effective direction: actionable picks use p.pick, leans use p.would_be_pick
