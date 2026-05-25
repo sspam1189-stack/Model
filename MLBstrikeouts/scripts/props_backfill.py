@@ -618,11 +618,13 @@ def backfill(season=None, start_game=10, start_date=None):
             pick_line = proj.get("line")
             pcover = proj.get("pCover") or 0
 
-            # Watchlist: capture sub-threshold projections (0.60-0.70) so we
-            # can analyze how those buckets perform without polluting picks.
-            # Dashboard filters out pick=PASS so these don't display.
+            # Watchlist: capture sub-threshold projections (>= 0.50) so we
+            # have a projection on essentially every probable start. Picks
+            # remain >= 0.68 (set via MARKET_THRESHOLDS); 0.60-0.68 is the
+            # "watch" band the dashboard surfaces in the All Pass tab;
+            # 0.50-0.60 stays in JSON for analysis but is sub-watch noise.
             if pick in ("PASS", None):
-                if pick_line is None or pcover < 0.60:
+                if pick_line is None or pcover < 0.50:
                     total_projected += 1
                     continue
                 # Derive direction from edge sign

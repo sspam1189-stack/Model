@@ -2125,29 +2125,30 @@
 
       let mlbView = 'all'; // 'all' | 'weekly' | 'all-lean' | 'weekly-lean' | 'all-combined'
 
-      // Watchlist leans (pick=PASS) — DATE-AWARE filter so historical entries
-      // keep the lean classification they had when originally posted, and new
-      // entries use the current unified band.
+      // Watch passes (pick=PASS) — DATE-AWARE filter:
       //
       //   Before 2026-05-13 (old config — threshold 0.70, asymmetric lean):
       //     UNDER  0.60 <= pCover < 0.70
       //     OVER   0.65 <= pCover < 0.70
-      //   2026-05-13 and after (new config — threshold 0.72, unified lean):
+      //   2026-05-13 to 2026-05-24 (mid config — threshold 0.72, unified lean):
       //     both   0.65 <= pCover < 0.72
+      //   2026-05-25 onward (flat-2u config — threshold 0.68, no leans):
+      //     both   0.60 <= pCover < 0.68  (watch band — still a PASS, not bet)
       //
-      // This preserves the visual history of past lean performance while
-      // applying the new band going forward. The Reddit widget's isLean()
-      // (line 185) uses 0.65-0.72 for all dates because the user's Reddit
-      // posts have always tracked that band — those tallies don't change.
-      const LEAN_CONFIG_CUTOFF = '2026-05-13';
+      // Sub-0.60 passes (backfill floor now 0.50) are kept in JSON for
+      // analysis but stay out of the All Pass tab.
+      const LEAN_CONFIG_CUTOFF  = '2026-05-13';
+      const PASS_FLAT_CUTOVER   = '2026-05-25';
       const leanPicks = (data.props || []).filter(p => {
         if (p.pick !== 'PASS') return false;
         const pc = p.pCover || 0;
-        const isNewConfig = (p.date || '') >= LEAN_CONFIG_CUTOFF;
-        if (isNewConfig) {
+        const d  = p.date || '';
+        if (d >= PASS_FLAT_CUTOVER) {
+          return pc >= 0.60 && pc < 0.68;
+        }
+        if (d >= LEAN_CONFIG_CUTOFF) {
           return pc >= 0.65 && pc < 0.72;
         }
-        // Pre-cutoff: old asymmetric band
         if (p.would_be_pick === 'UNDER') return pc >= 0.60 && pc < 0.70;
         if (p.would_be_pick === 'OVER')  return pc >= 0.65 && pc < 0.70;
         return false;
@@ -2172,9 +2173,9 @@
       const viewWeeklyBtn = document.createElement('button');
       viewWeeklyBtn.textContent = 'Weekly Picks';
       const viewAllLeanBtn = document.createElement('button');
-      viewAllLeanBtn.textContent = 'All Lean';
+      viewAllLeanBtn.textContent = 'All Pass';
       const viewWeeklyLeanBtn = document.createElement('button');
-      viewWeeklyLeanBtn.textContent = 'Weekly Lean';
+      viewWeeklyLeanBtn.textContent = 'Weekly Pass';
       const viewAllCombinedBtn = document.createElement('button');
       viewAllCombinedBtn.textContent = 'All';
       tabRow.appendChild(viewAllCombinedBtn);
