@@ -2044,7 +2044,7 @@
               if (i===6) td.style.color = '#bbb'; // PC
               if (i===7 && p.line!=null) td.style.color = p.proj > p.line ? 'var(--green)' : p.proj < p.line ? 'var(--red)' : '';
               if (i===9 && edge!=null) td.style.color = edge > 0 ? 'var(--green)' : edge < 0 ? 'var(--red)' : '#999';
-              if (i===10 && p.pCover!=null) td.style.color = p.pCover >= 0.72 ? 'var(--green)' : p.pCover >= 0.65 ? 'var(--yellow)' : p.pCover <= 0.45 ? 'var(--red)' : '#ccc';
+              if (i===10 && p.pCover!=null) td.style.color = p.pCover >= 0.68 ? 'var(--green)' : p.pCover >= 0.60 ? 'var(--yellow)' : p.pCover <= 0.45 ? 'var(--red)' : '#ccc';
               if (i===11 && isPick) { td.style.fontWeight='700'; td.style.color = p.pick==='OVER'?'var(--green)':'var(--red)'; }
               if (i===12) td.style.color = '#999';
               if (i===13) {
@@ -3289,7 +3289,7 @@
               if (i===2) td.style.color = '#aaa';
               if (i===3 && p.line!=null) td.style.color = p.proj > p.line ? 'var(--green)' : p.proj < p.line ? 'var(--red)' : '';
               if (i===5 && edge!=null) td.style.color = edge > 0 ? 'var(--green)' : edge < 0 ? 'var(--red)' : '#999';
-              if (i===6 && p.pCover!=null) td.style.color = p.pCover >= 0.70 ? 'var(--green)' : p.pCover >= 0.65 ? 'var(--yellow)' : p.pCover <= 0.45 ? 'var(--red)' : '#ccc';
+              if (i===6 && p.pCover!=null) td.style.color = p.pCover >= 0.68 ? 'var(--green)' : p.pCover >= 0.60 ? 'var(--yellow)' : p.pCover <= 0.45 ? 'var(--red)' : '#ccc';
               if (i===7 && isPick) { td.style.fontWeight='700'; td.style.color = p.pick==='OVER'?'var(--green)':'var(--red)'; }
             });
           }
