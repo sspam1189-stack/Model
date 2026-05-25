@@ -1464,7 +1464,7 @@
                   : (p.would_be_pick || ((p.proj || 0) > (p.line || 0) ? 'OVER' : 'UNDER'));
                 const grade = _phGrade(p);
                 const odds = _phOdds(p);
-                const sz = bkt === 'PICK' ? 1.0 : (bkt === 'LEAN' ? 1.0 : 0);
+                const sz = bkt === 'PICK' ? 1.0 : (bkt === 'WATCH' ? 1.0 : 0);
                 const u = (bkt !== 'PASS' && grade != null)
                   ? _phUnits(odds, grade === 'W', sz)
                   : null;
@@ -1472,14 +1472,14 @@
                 if (bkt === 'PICK' && grade) {
                   if (grade === 'W') { pw++; p_u += u; }
                   else { pl++; p_u += u; }
-                } else if (bkt === 'LEAN' && grade) {
+                } else if (bkt === 'WATCH' && grade) {
                   if (grade === 'W') { lw++; l_u += u; }
                   else { ll++; l_u += u; }
                 }
 
                 const edge = (p.proj != null && p.line != null) ? (p.proj - p.line).toFixed(1) : '—';
                 const edgeStr = edge !== '—' ? (parseFloat(edge) > 0 ? '+' + edge : edge) : '—';
-                const bktColor = bkt === 'PICK' ? '#a78bfa' : bkt === 'LEAN' ? 'var(--yellow)' : '#888';
+                const bktColor = bkt === 'PICK' ? '#a78bfa' : bkt === 'WATCH' ? 'var(--yellow)' : '#888';
                 const dirColor = dir === 'OVER' ? 'var(--green)' : 'var(--red)';
                 const resColor = grade === 'W' ? 'var(--green)' : grade === 'L' ? 'var(--red)' : '#888';
                 const uColor = u == null ? '#888' : (u > 0 ? 'var(--green)' : u < 0 ? 'var(--red)' : '#ccc');
@@ -1530,26 +1530,25 @@
                 if (bkt === 'PICK') {
                   if (grade === 'W') pw++; else pl++;
                   p_u += _phUnits(odds, grade === 'W', 1.0);
-                } else if (bkt === 'LEAN') {
+                } else if (bkt === 'WATCH') {
                   if (grade === 'W') lw++; else ll++;
                   l_u += _phUnits(odds, grade === 'W', 1.0);
                 }
               }
-              const pickTotal = pw + pl, leanTotal = lw + ll;
+              const pickTotal = pw + pl, watchTotal = lw + ll;
               const parts = [];
-              // Color-match the Bkt column (Picks=purple, Leans=yellow) so the
-              // career-summary chips read as the same tier-language as the table.
-              const pickColor = '#a78bfa';
-              const leanColor = 'var(--yellow)';
+              // Color-match the Bkt column (Picks=purple, Watch=yellow).
+              const pickColor  = '#a78bfa';
+              const watchColor = 'var(--yellow)';
               if (pickTotal > 0) {
                 const wr = (pw/pickTotal*100).toFixed(1);
                 const u  = (p_u >= 0 ? '+' : '') + p_u.toFixed(2) + 'u';
                 parts.push(`<span style="color:${pickColor};font-weight:600">Picks ${pw}-${pl} (${wr}%) ${u}</span>`);
               }
-              if (leanTotal > 0) {
-                const wr = (lw/leanTotal*100).toFixed(1);
+              if (watchTotal > 0) {
+                const wr = (lw/watchTotal*100).toFixed(1);
                 const u  = (l_u >= 0 ? '+' : '') + l_u.toFixed(2) + 'u';
-                parts.push(`<span style="color:${leanColor};font-weight:600">Leans ${lw}-${ll} (${wr}%) ${u}</span>`);
+                parts.push(`<span style="color:${watchColor};font-weight:600">Watch ${lw}-${ll} (${wr}%) ${u}</span>`);
               }
               if (parts.length === 0) parts.push('<span style="color:#888">No graded plays yet</span>');
               // Stack each record on its own line so picks/leans don't compete
