@@ -189,10 +189,16 @@
         //   The 0.60-0.65 band was dropped — sub-marginal (~56% WR, ~+1% ROI)
         //   and -32% ROI in the slump period. Tracked separately from picks
         //   (>= 0.72) so the higher-conviction tier can be sized differently.
+        //
+        // 2026-05-25 cutover: pick threshold lowered to 0.68 and the lean
+        // tier was retired. Everything 0.68+ is now a flat-2u pick; the
+        // 0.60-0.68 band lives in the watch tier (not bet). Lean cards,
+        // tables, and Reddit blocks are hidden globally — isLean returns
+        // false unconditionally. Historical lean tallies (through
+        // BASELINE.cutoff = 2026-05-24) are preserved in the baseline
+        // constant so the Reddit total still reflects what was posted.
         function isLean(p) {
-          if (p.pick !== 'PASS') return false;
-          const pc = p.pCover || 0;
-          return pc >= 0.65 && pc < 0.72;
+          return false;
         }
         const leanAll = (data.props || []).filter(isLean);
         const leanGraded = leanAll.filter(p => p.result === 'WIN' || p.result === 'LOSS');
@@ -508,16 +514,21 @@
           // -4.98u (McLean -158, Sheehan -132, Nelson -102, Detmers -106).
           // Pin via cutoff so the widget matches what was posted on Reddit.
           const BASELINE = {
-            cutoff: '2026-05-21',
+            // 2026-05-25 cutover: lean tier retired, threshold lowered to
+            // 0.68 flat-2u picks. Baseline frozen at 5/24 (last day of
+            // old pick/lean split actually posted to Reddit). 5/24 grades
+            // added on top of the 5/23 Reddit-posted totals using actual
+            // odds: picks 3W-1L +1.260u, leans 6W-1L +5.040u.
+            cutoff: '2026-05-24',
             picks: {
-              total:    { w: 97, l: 76, u:  4.96 },
-              weekly:   { w:  8, l:  5, u:  1.58 },  // 5/18–5/21
-              yesterday:{ w:  3, l:  0, u:  3.18 },  // 5/21
+              total:    { w: 106, l: 85, u:  3.22 },
+              weekly:   { w:  17, l: 14, u: -0.16 },  // 5/18–5/24
+              yesterday:{ w:   3, l:  1, u:  1.26 },  // 5/24
             },
             leans: {
-              total:    { w: 48, l: 35, u:  3.88 },
-              weekly:   { w:  5, l:  9, u: -6.22 },  // 5/18–5/21
-              yesterday:{ w:  0, l:  0, u:  0.00 },  // 5/21
+              total:    { w:  60, l: 39, u: 11.30 },
+              weekly:   { w:  17, l: 13, u:  1.20 },  // 5/18–5/24
+              yesterday:{ w:   6, l:  1, u:  5.04 },  // 5/24
             },
           };
 

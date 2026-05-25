@@ -60,7 +60,16 @@ MARKET_THRESHOLDS = {
     # tier to pick tier where they're sized 2.5u instead of 1.5u.
     # Volume increase: 305 picks vs 249 (+22%).
     # Lean band now 0.65-0.70 (still 5pp wide, still usable for display).
-    "strikeouts":   {"high": 0.72},
+    #
+    # 2026-05-25 sweep on clean backfill (n=741 graded, pCover>=0.60): WR
+    # plateaus at ~72% from 0.68 to 0.73 — the model can't distinguish
+    # quality inside that band, so the lean/pick split was artificial.
+    # Flat 2u @ 0.68 beats current 2u-pick/1u-lean @ 0.72 by +43u season
+    # (+372.80u vs +329.51u), +31.75u over last 3 weeks (+161.40u vs
+    # +129.65u, 73.7% WR vs 69.5%), 19% fewer bets. Dropping the 0.65-0.68
+    # band (lean-only previously, ~56% WR there) eliminates the noisiest
+    # tier. New convention: flat 2u for every pick, no leans.
+    "strikeouts":   {"high": 0.68},
 }
 
 # ---------------------------------------------------------------------------
