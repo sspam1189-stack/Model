@@ -1338,9 +1338,10 @@
             const filterRow = document.createElement('div');
             filterRow.style.cssText = 'display:flex;gap:4px;padding:8px 4px 4px';
             const FILTERS = [
-              { key: 'ALL',  label: 'All',    color: '#ccc'           },
-              { key: 'PICK', label: 'Picks',  color: '#a78bfa'        },
-              { key: 'PASS', label: 'Passes', color: '#888'           },
+              { key: 'ALL',   label: 'All',     color: '#ccc'           },
+              { key: 'PICK',  label: 'Picks',   color: '#a78bfa'        },
+              { key: 'WATCH', label: 'Watch',   color: 'var(--yellow)'  },
+              { key: 'PASS',  label: 'Passes',  color: '#888'           },
             ];
             let _activeFilter = 'ALL';
             const _filterBtns = {};
@@ -1393,7 +1394,8 @@
             };
             const _phBucket = (p) => {
               if (p.pick === 'OVER' || p.pick === 'UNDER') return 'PICK';
-              if (isLean(p)) return 'LEAN';
+              const pc = p.pCover || 0;
+              if (pc >= 0.60 && pc < 0.68) return 'WATCH';
               return 'PASS';
             };
             const _phOdds = (p) => {
