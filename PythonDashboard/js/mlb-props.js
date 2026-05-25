@@ -639,9 +639,18 @@
             'Suspended: Inclement Weather','Suspended: Rain',
           ]);
           const _isVoid = (p) => {
+            if (p.result === 'VOID') return true;  // pitcher swap, postponement, etc.
             const gs = _gameStatusesR[p.team] || _gameStatusesR[p.opp] || '';
             return _VOID_GS_R.has(gs);
           };
+          // Look up the current today's-prop by key so the dropped-line
+          // call-out below can read voidReason from the live row.
+          const _todayByKey = {};
+          (data.props || []).forEach(p => {
+            if (p.date !== todayStr) return;
+            const dir = p.pick === 'PASS' ? (p.would_be_pick || 'OVER') : p.pick;
+            _todayByKey[`${displayName(p)}|${p.market}|${dir}`] = p;
+          });
           const _LOCK_R = new Set(['lineup_confirmed','game_started','final']);
           const _MARKET_SUFFIX = {
             strikeouts: 'k', outs: 'outs', hits_allowed: 'h', game_hits: 'h',
@@ -715,11 +724,17 @@
             // reverts the lockState.
             const statusConfirmed = prev.status === 'confirmed' || isConfirmed;
 
-            // Timestamp the moment confirmation first lands and freeze it,
-            // so the Reddit copy can show "@ 12:45 PM" next to the proj.
+            // Prefer the backend-supplied lockedAt (when the lineup actually
+            // locked) over a client-side "first seen confirmed" stamp.
+            // Falling back to local time + sticky prev keeps backward-compat
+            // for entries the backend didn't tag.
             let confirmedAt = prev.confirmedAt || '';
-            if (statusConfirmed && !confirmedAt) {
-              confirmedAt = _fmtConfirmTime(new Date());
+            if (statusConfirmed) {
+              if (p.lockedAt) {
+                const d = new Date(p.lockedAt);
+                if (!isNaN(d)) confirmedAt = _fmtConfirmTime(d);
+              }
+              if (!confirmedAt) confirmedAt = _fmtConfirmTime(new Date());
             }
 
             // Track the bucket at first sight (when the row was unconfirmed)
@@ -793,9 +808,21 @@
               || (prev.opp && _gameStatusesR[prev.opp])
               || '';
             const wasPostponed = _VOID_GS_R.has(_gs);
-            const reason = wasPostponed
-              ? `downgraded — game ${_gs.toLowerCase()}`
-              : 'downgraded to nonpick';
+            // If the live row is still in today's slate but voided (pitcher
+            // swap, late scratch), surface that reason explicitly instead
+            // of the generic "downgraded to nonpick".
+            const _liveRow = _todayByKey[key];
+            const _voidReason = _liveRow && _liveRow.result === 'VOID'
+              ? (_liveRow.voidReason || '') : '';
+            let reason;
+            if (wasPostponed) {
+              reason = `downgraded — game ${_gs.toLowerCase()}`;
+            } else if (_voidReason === 'pitcher_swapped') {
+              const note = _liveRow && _liveRow.voidNote ? ` (${_liveRow.voidNote})` : '';
+              reason = `voided — pitcher swap${note}`;
+            } else {
+              reason = 'downgraded to nonpick';
+            }
             _droppedLines.push(`* ~~${prev.lineText}~~ ${reason}`);
             // Persist so the strikethrough sticks on subsequent renders even
             // though the underlying entry is gone.

@@ -56,7 +56,7 @@ from sources.rotowire_lineups import (
 )
 from props_engine import (
     organize_pitcher_logs, project_pitcher_props,
-    format_props_for_dashboard, STAT_KEYS,
+    format_props_for_dashboard, STAT_KEYS, _name_key,
 )
 from pitcher_kalman import (
     load_pitcher_kalman_state, save_pitcher_kalman_state,
@@ -952,12 +952,57 @@ def run_daily(date_key=None):
         }
 
         _LOCK_STATES = ("lineup_confirmed", "game_started", "final")
+        # Build current probable-pitcher map keyed by (game_id, team) and
+        # (team,) for fallback. Used to detect opener/bulk swaps where the
+        # announced starter changes after a pick has already locked — the
+        # safety guard below would otherwise refuse to drop the stale row.
+        # We void those instead of deleting them so the no-erase guard is
+        # satisfied and grading skips them (result=VOID).
+        _probable_by_team = {}
+        for _g in all_probable:
+            _gid = _g.get("game_id")
+            for _side in ("home", "away"):
+                _t = _g.get(f"{_side}_team")
+                _name = _g.get(f"{_side}_pitcher_name") or ""
+                if not _t or not _name:
+                    continue
+                if _gid:
+                    _probable_by_team[(_t, _gid)] = _name
+                _probable_by_team[(_t, None)] = _name
+
+        def _name_matches_probable(pick):
+            t = pick.get("team", "")
+            gid = pick.get("game_id")
+            cur = _probable_by_team.get((t, gid)) or _probable_by_team.get((t, None))
+            if not cur:
+                # No probable known for this team → don't void (data gap, not a swap)
+                return True
+            cur_n = _name_key(cur)
+            pick_n = _name_key(pick.get("player", "") or "")
+            return cur_n == pick_n
+
         already_locked_entries = [
             p for p in existing_props
             if p.get("date") == date_iso
             and _is_locked(p)
             and p.get("lockState") in _LOCK_STATES
         ]
+        # Tag locked picks whose announced starter has been swapped out
+        # (opener/bulk reshuffle, late scratch). They stay in merged_props
+        # so the no-erase guard is happy, but carry result=VOID and a
+        # voidReason so the dashboard + widget can call them out.
+        for _p in already_locked_entries:
+            if _p.get("result") == "VOID":
+                continue  # already voided (e.g., postponement) — leave alone
+            if not _name_matches_probable(_p):
+                _cur = (
+                    _probable_by_team.get((_p.get("team", ""), _p.get("game_id")))
+                    or _probable_by_team.get((_p.get("team", ""), None))
+                    or ""
+                )
+                _p["result"] = "VOID"
+                _p["voidReason"] = "pitcher_swapped"
+                _p["voidNote"] = f"announced starter: {_cur}" if _cur else "starter changed"
         transitioning_keys = {
             _pkey(p) for p in existing_props
             if p.get("date") == date_iso
