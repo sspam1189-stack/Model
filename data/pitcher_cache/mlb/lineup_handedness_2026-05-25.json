@@ -95,9 +95,9 @@
     "source": "lineup"
   },
   "HOU": {
-    "PCT_LHB": 0.0,
+    "PCT_LHB": 0.1111,
     "n_batters": 9,
-    "source": "recent_lineup_fallback"
+    "source": "lineup"
   },
   "TOR": {
     "PCT_LHB": 0.3889,
@@ -110,14 +110,14 @@
     "source": "lineup"
   },
   "LAD": {
-    "PCT_LHB": 0.5556,
-    "n_batters": 9,
-    "source": "recent_lineup_fallback"
-  },
-  "COL": {
     "PCT_LHB": 0.4444,
     "n_batters": 9,
-    "source": "recent_lineup_fallback"
+    "source": "lineup"
+  },
+  "COL": {
+    "PCT_LHB": 0.3889,
+    "n_batters": 9,
+    "source": "lineup"
   },
   "OAK": {
     "PCT_LHB": 0.5,
