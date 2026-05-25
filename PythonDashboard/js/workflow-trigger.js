@@ -46,7 +46,7 @@
   async function api(path, opts = {}) {
     const res = await fetch(`${WORKER_URL}${path}`, {
       ...opts,
-      headers: { "X-Access-Key": "", ...(opts.headers || {}) },
+      headers: { "X-Access-Key": "nfl", ...(opts.headers || {}) },
     });
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
     return res.json();
