@@ -677,6 +677,16 @@
           }
 
           const _currentState = {};
+          // Format a Date as e.g. "12:45 PM" in the user's local timezone.
+          const _fmtConfirmTime = (d) => {
+            try {
+              return d.toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' });
+            } catch (_) {
+              const h = d.getHours(), m = d.getMinutes();
+              const hh = ((h + 11) % 12) + 1;
+              return `${hh}:${String(m).padStart(2,'0')} ${h < 12 ? 'AM' : 'PM'}`;
+            }
+          };
           function _resolveEntry(p, bucket) {
             const key = _keyOf(p);
             const prev = _prev[key] || {};
@@ -686,6 +696,13 @@
             // confirmed for the rest of the day — even if a later run somehow
             // reverts the lockState.
             const statusConfirmed = prev.status === 'confirmed' || isConfirmed;
+
+            // Timestamp the moment confirmation first lands and freeze it,
+            // so the Reddit copy can show "@ 12:45 PM" next to the proj.
+            let confirmedAt = prev.confirmedAt || '';
+            if (statusConfirmed && !confirmedAt) {
+              confirmedAt = _fmtConfirmTime(new Date());
+            }
 
             // Track the bucket at first sight (when the row was unconfirmed)
             // so we can detect upgrade/downgrade vs that initial bucket when
@@ -708,22 +725,25 @@
               initialBucket,
               status: statusConfirmed ? 'confirmed' : 'unconfirmed',
               annotation,
+              confirmedAt,
+              team: p.team || prev.team || '',
+              opp: p.opp || prev.opp || '',
             };
-            return { statusConfirmed, annotation };
+            return { statusConfirmed, annotation, confirmedAt };
           }
 
           function _fmtRow(p, bucket) {
             const name = displayName(p);
             const dir = _dirOf(p) === 'OVER' ? 'o' : 'u';
             const suffix = _MARKET_SUFFIX[p.market] || '';
-            const { statusConfirmed, annotation } = _resolveEntry(p, bucket);
+            const { statusConfirmed, annotation, confirmedAt } = _resolveEntry(p, bucket);
             const conf = statusConfirmed ? '**confirmed**' : 'unconfirmed';
             // Projection is appended ONLY when the row is confirmed —
             // unconfirmed projections can shift once the real lineup locks,
             // so withholding the number until confirmation avoids posting a
             // figure we'll have to walk back.
             const projTag = (statusConfirmed && p.proj != null)
-              ? ` proj: ${Number(p.proj).toFixed(1)}`
+              ? ` proj: ${Number(p.proj).toFixed(1)}${confirmedAt ? ` @ ${confirmedAt}` : ''}`
               : '';
             // Body of the line WITHOUT the leading "* " or trailing annotation.
             // We stash this in state so that if this entry later disappears
@@ -748,10 +768,20 @@
             if (_currentState[key]) continue;          // still present today
             if (prev.status !== 'confirmed') continue;  // never confirmed → no call-out
             if (!prev.lineText) continue;               // legacy entry without saved text
-            _droppedLines.push(`* ~~${prev.lineText}~~ downgraded to nonpick`);
+            // If the underlying game was postponed/suspended/cancelled, the
+            // entry didn't drop on merit — call it out as a postponement
+            // instead of a model-driven nonpick downgrade.
+            const _gs = (prev.team && _gameStatusesR[prev.team])
+              || (prev.opp && _gameStatusesR[prev.opp])
+              || '';
+            const wasPostponed = _VOID_GS_R.has(_gs);
+            const reason = wasPostponed
+              ? `downgraded — game ${_gs.toLowerCase()}`
+              : 'downgraded to nonpick';
+            _droppedLines.push(`* ~~${prev.lineText}~~ ${reason}`);
             // Persist so the strikethrough sticks on subsequent renders even
             // though the underlying entry is gone.
-            _currentState[key] = { ...prev, droppedToNonPick: true };
+            _currentState[key] = { ...prev, droppedToNonPick: !wasPostponed, droppedPostponed: wasPostponed };
           }
 
           const _picksBlock = _pickLines.length
@@ -774,6 +804,7 @@
           } catch (_) {}
 
           const redditText =
+            `Picks and leans will be updated throughout the day as lineups come in.\n\n` +
             `Picks:\n\n` +
             `* Total: ${fmt(totalPicks)}\n` +
             `* ${weekLabel} (${weekRange}): ${fmt(wPicksTally)}\n` +
