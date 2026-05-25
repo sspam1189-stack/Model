@@ -1264,22 +1264,25 @@
           phCard.style.marginBottom = '16px';
           phCard.appendChild(Object.assign(document.createElement('div'), {
             className:'card-title',
-            textContent:`Pitcher History — Today's Probables (${todayStr})`,
+            textContent:`Pitcher History (${todayStr})`,
           }));
 
-          // Build list of today's projected pitchers (any market entry for today).
-          const _todayPropsAll = (data.props || []).filter(p => p.date === todayStr);
-          // Group by displayName + team so duplicates collapse (one entry per
-          // probable). Each entry tracks { name, team, opp, pickType, pCover, pid }
-          // so we can sort by conviction.
+          // Build list of pitchers for the dropdown.
+          // Today's probables come from todayProjections (ALL projected
+          // pitchers, not just picks/leans in data.props). Then all other
+          // pitchers with any historical entry follow so you can look up
+          // anyone on their off day.
           const _pitcherKey = (p) => `${displayName(p)}|${p.team || ''}`;
-          const _byPitcher = new Map();
+
+          // --- Today's probables from todayProjections (includes PASS) ---
+          const _todayPropsAll = (data.todayProjections || []).filter(p => p.market === 'strikeouts');
+          const _byTodayPitcher = new Map();
           for (const p of _todayPropsAll) {
             const k = _pitcherKey(p);
-            const prev = _byPitcher.get(k);
+            const prev = _byTodayPitcher.get(k);
             const score = (p.pCover || 0);
             if (!prev || score > prev.pCover) {
-              _byPitcher.set(k, {
+              _byTodayPitcher.set(k, {
                 key: k,
                 name: displayName(p),
                 team: p.team || '',
@@ -1287,12 +1290,11 @@
                 pCover: score,
                 pick: p.pick,
                 isLean: isLean(p),
+                isToday: true,
               });
             }
           }
-          const _probables = [...(_byPitcher.values() || [])].sort((a, b) => {
-            // Picks first (by pCover desc), then leans (by pCover desc),
-            // then everything else (by pCover desc).
+          const _todayProbables = [...(_byTodayPitcher.values())].sort((a, b) => {
             const rank = (x) => {
               if (x.pick === 'OVER' || x.pick === 'UNDER') return 0;
               if (x.isLean) return 1;
@@ -1302,6 +1304,31 @@
             if (ra !== rb) return ra - rb;
             return (b.pCover || 0) - (a.pCover || 0);
           });
+
+          // --- All pitchers with any historical strikeouts entry ---
+          const _allProps = (data.props || []).filter(p => p.market === 'strikeouts');
+          const _byAllPitcher = new Map();
+          for (const p of _allProps) {
+            const k = _pitcherKey(p);
+            if (!_byAllPitcher.has(k)) {
+              _byAllPitcher.set(k, {
+                key: k,
+                name: displayName(p),
+                team: p.team || '',
+                opp:  p.opp  || '',
+                pCover: 0,
+                pick: 'PASS',
+                isLean: false,
+                isToday: false,
+              });
+            }
+          }
+          for (const k of _byTodayPitcher.keys()) _byAllPitcher.delete(k);
+          const _restPitchers = [...(_byAllPitcher.values())].sort((a, b) =>
+            a.name.localeCompare(b.name)
+          );
+
+          const _probables = [..._todayProbables, ..._restPitchers];
 
           if (_probables.length === 0) {
             const empty = document.createElement('div');
@@ -1318,13 +1345,25 @@
             selLabel.style.cssText = 'font-size:12px;color:#bbb;font-weight:600';
             const sel = document.createElement('select');
             sel.style.cssText = 'background:rgba(255,255,255,0.05);color:#fff;border:1px solid rgba(255,255,255,0.15);border-radius:4px;padding:6px 10px;font-size:12px;min-width:260px;cursor:pointer';
+            let _addedSeparator = false;
             _probables.forEach((pr, i) => {
+              if (!pr.isToday && !_addedSeparator && _todayProbables.length > 0) {
+                const sep = document.createElement('option');
+                sep.disabled = true;
+                sep.textContent = '── All Pitchers ──';
+                sel.appendChild(sep);
+                _addedSeparator = true;
+              }
               const opt = document.createElement('option');
               opt.value = pr.key;
-              const tag = (pr.pick === 'OVER' || pr.pick === 'UNDER')
-                ? ` [PICK ${pr.pCover ? (pr.pCover*100).toFixed(1)+'%' : ''}]`
-                : (pr.isLean ? ` [LEAN ${pr.pCover ? (pr.pCover*100).toFixed(1)+'%' : ''}]` : '');
-              opt.textContent = `${pr.name} (${pr.team} vs ${pr.opp})${tag}`;
+              if (pr.isToday) {
+                const tag = (pr.pick === 'OVER' || pr.pick === 'UNDER')
+                  ? ` [PICK ${pr.pCover ? (pr.pCover*100).toFixed(1)+'%' : ''}]`
+                  : (pr.isLean ? ` [LEAN ${pr.pCover ? (pr.pCover*100).toFixed(1)+'%' : ''}]` : '');
+                opt.textContent = `${pr.name} (${pr.team} vs ${pr.opp})${tag}`;
+              } else {
+                opt.textContent = `${pr.name} (${pr.team})`;
+              }
               sel.appendChild(opt);
             });
             ctrlRow.appendChild(selLabel);
@@ -1404,13 +1443,26 @@
               return dir === 'OVER' ? (p.over_price ?? null) : (p.under_price ?? null);
             };
 
-            // Render function — pulls all rows for the selected pitcher key
-            // from data.props (every market entry that matches the displayName+team).
+            // Render function — pulls all rows for the selected pitcher key.
+            // Merges data.props (picks/leans/watchlist from all dates) with
+            // todayProjections (all pitchers including low-pCover PASSes)
+            // so today's projection always appears even when it's a PASS.
             function renderPitcherHistory(key) {
-              const allEver = (data.props || []).filter(p => {
-                if (p.market !== 'strikeouts') return false;
-                return _pitcherKey(p) === key;
-              }).sort((a, b) => (a.date || '').localeCompare(b.date || ''));
+              const fromProps = (data.props || []).filter(p =>
+                p.market === 'strikeouts' && _pitcherKey(p) === key
+              );
+              const fromToday = (data.todayProjections || []).filter(p =>
+                p.market === 'strikeouts' && _pitcherKey(p) === key
+              );
+              const seen = new Set(fromProps.map(p => p.date));
+              const merged = [...fromProps];
+              for (const p of fromToday) {
+                if (!seen.has(p.date)) {
+                  merged.push(p);
+                  seen.add(p.date);
+                }
+              }
+              const allEver = merged.sort((a, b) => (a.date || '').localeCompare(b.date || ''));
 
               // Apply active filter — summary totals always use the full set
               // (allEver) so they reflect the pitcher's true record regardless
