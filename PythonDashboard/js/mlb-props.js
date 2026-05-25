@@ -2231,8 +2231,11 @@
       filterLabel.style.cssText = 'color:#666;font-size:12px;margin-left:auto';
       filterLabel.textContent = `${picks.length} picks`;
 
-      // Weekly filters
-      const allWeekStarts = [...new Set(picks.filter(p => p.date).map(p => getWeekStart(p.date)))].sort().reverse();
+      // Weekly filters — include picks + watch + pass so the week dropdown
+      // populates even when a tier has activity on a week the others miss.
+      const allWeekStarts = [...new Set(
+        picks.concat(watchPicks, passPicks).filter(p => p.date).map(p => getWeekStart(p.date))
+      )].sort().reverse();
       const weekSel = document.createElement('select');
       weekSel.style.cssText = selStyle;
       weekSel.innerHTML = '<option value="all">All Weeks</option>' + allWeekStarts.map(ws => {
@@ -2825,7 +2828,7 @@
       }
 
       function refreshView() {
-        if (mlbView === 'weekly' || mlbView === 'weekly-lean') renderWeeklyView();
+        if (mlbView === 'weekly' || mlbView === 'weekly-lean' || mlbView === 'weekly-pass') renderWeeklyView();
         else renderAllPicksView();
       }
 
