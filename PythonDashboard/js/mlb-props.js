@@ -296,9 +296,8 @@
           if (allOvers.length)  appendMarketRow(mb, 'Overs',  allOvers,  false);
           if (allUnders.length) appendMarketRow(mb, 'Unders', allUnders, false);
           appendMarketRow(mb, 'Total', gradedPicks, true);
-          appendLeanRow(mb, leanOverGraded, 'Lean O .65-.72');
-          appendLeanRow(mb, leanUnderGraded, 'Lean U .65-.72');
-          appendLeanRow(mb, leanGraded,      'Lean Total .65-.72');
+          // Leans (watch tier) removed from Season Market Breakdown — we
+          // don't bet them by default at the 0.68+ threshold.
           mbWrap.appendChild(mbTbl);
           mbCard.appendChild(mbWrap);
           // Deferred: append after Matchup History at the end of render so
@@ -1268,7 +1267,7 @@
             for (const p of todayPicks) appendDataRow(p, 'Pick');
           }
           if (todayLeans.length) {
-            appendSectionHeader(`Leans (${todayLeans.length})`, 'var(--yellow)');
+            appendSectionHeader(`Watch — bumped (${todayLeans.length})`, 'var(--yellow)');
             for (const p of todayLeans) appendDataRow(p, 'Lean');
           }
           wrap.appendChild(tbl);
@@ -1451,12 +1450,16 @@
             }
             // --- Sizing recommendation ---
             // Delegate to the shared readVerdictFor() — keeps the live read
-            // and the historical backtest in lockstep.
+            // and the historical backtest in lockstep. Watch (Lean) rows
+            // don't get a sizing badge: even bumped ones are surfaced as
+            // info, not as a "bet 1u" call.
             const _verdict = readVerdictFor({ dirRec, allRec, pitRec, pitAllRec });
-            const size = _verdict === 'PASS' ? 0 : 1;
-            const sizeStr = _verdict === 'PASS' ? 'PASS' : '1u';
-            const sizeColor = _verdict === 'PASS' ? 'var(--red)' : 'var(--green)';
-            const sizeBadge = `<strong style="color:${sizeColor};margin-right:6px">${sizeStr}</strong>`;
+            let sizeBadge = '';
+            if (r.bucket === 'Pick') {
+              const sizeStr = _verdict === 'PASS' ? 'PASS' : '1u';
+              const sizeColor = _verdict === 'PASS' ? 'var(--red)' : 'var(--green)';
+              sizeBadge = `<strong style="color:${sizeColor};margin-right:6px">${sizeStr}</strong>`;
+            }
             line.innerHTML = `${sizeBadge}${nameSpan} ${dirSpan} ${oppSpan} <span style="color:#888">@ ${pcPct}%</span> — ${take}`;
             return line;
           }
@@ -1470,7 +1473,7 @@
             for (const r of entries) readBlock.appendChild(renderReadRow(r));
           }
           appendReadSection('Picks', '#a78bfa', pickEntries);
-          appendReadSection('Leans', 'var(--yellow)', leanEntries);
+          appendReadSection('Watch — bumped', 'var(--yellow)', leanEntries);
 
           card.appendChild(readBlock);
 
