@@ -167,6 +167,27 @@
       // the Reddit card. Shows each of today's picks/leans alongside the
       // model's historical record vs that opponent in that direction.
       let _renderMatchupCard = null;
+      // Subscribers for "user picked a game" events fired by Today's Games.
+      // Pitcher History and Team History both register here so a single click
+      // on a game pill drives both cards. Each subscriber gets {teams:[a,b]}.
+      const _gameClickSubs = [];
+      // Subscribers for "user toggled the active pitcher within the current
+      // matchup" — fired by Pitcher History's per-game pitcher toggle. Team
+      // History uses this to flip its View-as side to that pitcher's team.
+      const _pitcherToggleSubs = [];
+      // Season Market Breakdown card is built early (it needs gradedPicks)
+      // but rendered LATE — after Matchup History — so the page flows:
+      // top cards → Today's Picks → Today's Games → Pitcher/Team History →
+      // Matchup History → Season Market Breakdown (all-history summary).
+      let _seasonBreakdownCard = null;
+      // Yesterday's Recap is built in the early IIFE but folded into the
+      // Today's Picks card (as a Today/Yesterday toggle) instead of rendering
+      // separately. The flag lets the Today's Picks IIFE know it exists.
+      let _yesterdayRecapCard = null;
+      let _yesterdayStrCached = '';
+      // Recent Record container is built early but appended late, between
+      // Season Market Breakdown and the All-history paginated table.
+      let _recentRecordContainer = null;
 
       // ── Yesterday's Recap + Today's Picks ──
       (function renderMLBDailyCards() {
@@ -260,7 +281,10 @@
           appendLeanRow(mb, leanGraded,      'Lean Total .65-.72');
           mbWrap.appendChild(mbTbl);
           mbCard.appendChild(mbWrap);
-          el.appendChild(mbCard);
+          // Deferred: append after Matchup History at the end of render so
+          // Season Market Breakdown lives below the per-game cards instead
+          // of at the top of the slate.
+          _seasonBreakdownCard = mbCard;
         }
 
         // Recent Record — toggleable window.
@@ -296,7 +320,10 @@
         let recentCutoffIdx = 0;
 
         const rCardContainer = document.createElement('div');
-        el.appendChild(rCardContainer);
+        // Deferred — appended after Season Market Breakdown so the page
+        // flows: per-game cards → Season Market Breakdown → Recent Record
+        // → All-history table.
+        _recentRecordContainer = rCardContainer;
 
         function buildRecentToggle() {
           const wrap = document.createElement('div');
@@ -493,7 +520,10 @@
             leanTally.innerHTML = `Leans: <b>${yLW}W-${yLL}L</b> &middot; <span style="color:${yLColor}">${yLU >= 0 ? '+' : ''}${yLU.toFixed(2)}u</span>`;
             recapCard.appendChild(leanTally);
           }
-          el.appendChild(recapCard);
+          // Deferred: Today's Picks IIFE pulls this card's body into a
+          // shared wrapper with a Today/Yesterday toggle.
+          _yesterdayRecapCard = recapCard;
+          _yesterdayStrCached = yesterdayStr;
         }
 
         // --- Reddit-format summary card (defined here, rendered at bottom) ---
@@ -925,6 +955,18 @@
           const byOppDirLeans = {};
           const byOppPicks = {};
           const byOppLeans = {};
+          // Same shape, keyed by pitcher (displayName|team) instead of opp.
+          // Powers the "P O//U" columns and the pitcher-history Read accent.
+          const byPitDirPicks = {};
+          const byPitDirLeans = {};
+          // Bucket-only (both directions) pitcher rollup — pitcher's "O&&U"
+          // record across the season, for the Read narrative.
+          const byPitPicks = {};
+          const byPitLeans = {};
+          // Key helper — must match the dedupe key used by Pitcher History
+          // (displayName + team) so a pitcher with a name-format quirk lines
+          // up across the two cards.
+          const _pitKey = (p) => `${displayName(p)}|${p.team || ''}`;
           for (const p of graded) {
             const opp = p.opp;
             const dir = _dirOf(p);
@@ -947,10 +989,34 @@
             if (!bucketMap[opp]) bucketMap[opp] = {w:0,l:0,u:0};
             if (won) bucketMap[opp].w++; else bucketMap[opp].l++;
             bucketMap[opp].u += u;
+            // Pitcher-direction roll-up across all opponents.
+            const pitKey = _pitKey(p);
+            const pitMap = isPickRow ? byPitDirPicks : byPitDirLeans;
+            if (!pitMap[pitKey]) pitMap[pitKey] = {OVER:{w:0,l:0,u:0}, UNDER:{w:0,l:0,u:0}};
+            const pd = pitMap[pitKey][dir];
+            if (won) pd.w++; else pd.l++;
+            pd.u += u;
+            // Pitcher bucket-only (both dirs) — "O&&U" for this pitcher.
+            const pitBktMap = isPickRow ? byPitPicks : byPitLeans;
+            if (!pitBktMap[pitKey]) pitBktMap[pitKey] = {w:0,l:0,u:0};
+            if (won) pitBktMap[pitKey].w++; else pitBktMap[pitKey].l++;
+            pitBktMap[pitKey].u += u;
           }
           function bucketDirRec(opp, dir, bucket) {
             const m = bucket === 'Pick' ? byOppDirPicks : byOppDirLeans;
             return (m[opp] && dir) ? m[opp][dir] : null;
+          }
+          // Pitcher's own bucket+direction record across all opponents.
+          function pitcherDirRec(player, team, dir, bucket) {
+            const m = bucket === 'Pick' ? byPitDirPicks : byPitDirLeans;
+            const k = `${player}|${team || ''}`;
+            return (m[k] && dir) ? m[k][dir] : null;
+          }
+          // Pitcher's bucket-only record (both directions, all opps).
+          function pitcherBothDirsRec(player, team, bucket) {
+            const m = bucket === 'Pick' ? byPitPicks : byPitLeans;
+            const k = `${player}|${team || ''}`;
+            return m[k] || null;
           }
           // Same bucket, BOTH directions vs this opponent.
           function bucketBothDirsRec(opp, bucket) {
@@ -981,11 +1047,13 @@
           const _voidRow = (p) => _VOID_M.has(
             _gameStatusesM[p.team] || _gameStatusesM[p.opp] || ''
           );
+          // Drop per-pick voids (pitcher_scratched / pitcher_swapped) too.
+          const _voidPick = (p) => p.result === 'VOID';
           const todayPicks = picks
-            .filter(p => p.date === todayStr && !_voidRow(p))
+            .filter(p => p.date === todayStr && !_voidRow(p) && !_voidPick(p))
             .sort((a, b) => (b.pCover || 0) - (a.pCover || 0));
           const todayLeans = (data.props || [])
-            .filter(p => p.date === todayStr && isLean(p) && !_voidRow(p))
+            .filter(p => p.date === todayStr && isLean(p) && !_voidRow(p) && !_voidPick(p))
             .sort((a, b) => (b.pCover || 0) - (a.pCover || 0));
           const rows = [...todayPicks.map(p => ({p, bucket:'Pick'})),
                         ...todayLeans.map(p => ({p, bucket:'Lean'}))];
@@ -1015,6 +1083,9 @@
             ['WR%',     'right'],
             ['Units',   'right'],
             ['O&&U',    'center'],
+            ['WR%',     'right'],
+            ['Units',   'right'],
+            ['P O//U',  'center'],
             ['WR%',     'right'],
             ['Units',   'right'],
           ];
@@ -1059,6 +1130,7 @@
             const recBktDir   = bucketDirRec(opp, dir, bucket);
             const recBktBoth  = bucketBothDirsRec(opp, bucket);
             const recAllDir   = allBucketsDirRec(opp, dir);
+            const recPitDir   = pitcherDirRec(displayName(p), p.team, dir, bucket);
             const _tmK = (p.opp_team_k_pct != null) ? p.opp_team_k_pct.toFixed(1) + '%' : '—';
             const _luK = (p.lineup_k_pct   != null) ? p.lineup_k_pct.toFixed(1)   + '%' : '—';
             const cells = [
@@ -1075,6 +1147,9 @@
               {v: fmtRec(recBktBoth)},
               {v: fmtWR(recBktBoth), color: wrColor(recBktBoth), align:'right'},
               {v: fmtU(recBktBoth),  color: uColor(recBktBoth),  align:'right'},
+              {v: fmtRec(recPitDir)},
+              {v: fmtWR(recPitDir),  color: wrColor(recPitDir),  align:'right'},
+              {v: fmtU(recPitDir),   color: uColor(recPitDir),   align:'right'},
             ];
             cells.forEach((c, i) => {
               const td = tr.insertCell();
@@ -1139,7 +1214,13 @@
               // direction-matched cohort is the right signal for that.
               // Main take text remains bucket-locked (uses r.rec).
               const allRec = allBucketsDirRec(r.p.opp, dir);
-              return {...r, dir, rec, allRec, cls: classify(rec)};
+              // Pitcher's own bucket+direction record (across all opponents).
+              // Surfaces "the model is X-Y on Lopez Unders historically" alongside
+              // the opponent cohort so a strong pitcher track-record (or red flag)
+              // factors into the read.
+              const pitRec = pitcherDirRec(displayName(r.p), r.p.team, dir, r.bucket);
+              const pitAllRec = pitcherBothDirsRec(displayName(r.p), r.p.team, r.bucket);
+              return {...r, dir, rec, allRec, pitRec, pitAllRec, cls: classify(rec)};
             });
           }
           // Order reads by model confidence (pCover) descending so the
@@ -1195,21 +1276,21 @@
             let take = '';
             if (r.bucket === 'Pick') {
               if (elite && (bElite || (broadWR && broadWR >= 0.80))) {
-                take = `${sg('Cleanest spot of the night.')} Picks-only is ${sg(recOf(dirRec))} and the broader matchup widens to ${sg(recOf(allRec))} (${(broadWR*100).toFixed(1)}%, ${uOf(allRec)}). Model fires at ${pcPct}% — size up.`;
+                take = `${sg('Cleanest spot of the night.')} Picks are ${sg(recOf(dirRec))} and the broader matchup widens to ${sg(recOf(allRec))} (${(broadWR*100).toFixed(1)}%, ${uOf(allRec)}). Model fires at ${pcPct}% — size up.`;
               } else if (elite && widerThanBkt && bSolid) {
-                take = `${sg(recOf(dirRec))} picks-only, ${sg(recOf(allRec))} once you widen the lens (${(broadWR*100).toFixed(1)}%, ${uOf(allRec)}). ${pcPct}% model — play with conviction.`;
+                take = `${sg(recOf(dirRec))} picks, ${sg(recOf(allRec))} once you widen the lens (${(broadWR*100).toFixed(1)}%, ${uOf(allRec)}). ${pcPct}% model — play with conviction.`;
               } else if (elite) {
-                take = `Picks-only is ${sg(recOf(dirRec))} (${(bktWR*100).toFixed(1)}%, ${uOf(dirRec)}) at ${pcPct}% model confidence. Comfortable play.`;
+                take = `Picks are ${sg(recOf(dirRec))} (${(bktWR*100).toFixed(1)}%, ${uOf(dirRec)}) at ${pcPct}% model confidence. Comfortable play.`;
               } else if (solid && bSolid) {
-                take = `Picks-only is ${recOf(dirRec)} (${(bktWR*100).toFixed(1)}%, ${uOf(dirRec)}) and the broader cohort backs it (${recOf(allRec)}, ${(broadWR*100).toFixed(1)}%, ${uOf(allRec)}). ${pcPct}% model — solid play.`;
+                take = `Picks are ${recOf(dirRec)} (${(bktWR*100).toFixed(1)}%, ${uOf(dirRec)}) and the broader cohort backs it (${recOf(allRec)}, ${(broadWR*100).toFixed(1)}%, ${uOf(allRec)}). ${pcPct}% model — solid play.`;
               } else if (coin && bCaution) {
-                take = `${sr('Hardest read on the slate.')} Picks-only is ${recOf(dirRec)} and the broader matchup makes it worse (${sr(recOf(allRec))}, ${(broadWR*100).toFixed(1)}%, ${uOf(allRec)}). Model fires at ${pcPct}% but I'd skip or token.`;
+                take = `${sr('Hardest read on the slate.')} Picks are ${recOf(dirRec)} and the broader matchup makes it worse (${sr(recOf(allRec))}, ${(broadWR*100).toFixed(1)}%, ${uOf(allRec)}). Model fires at ${pcPct}% but I'd skip or token.`;
               } else if (coin && bSolid) {
-                take = `Picks-only is a flip (${recOf(dirRec)}, ${(bktWR*100).toFixed(1)}%), but the broader matchup widens to ${sy(recOf(allRec))} (${(broadWR*100).toFixed(1)}%, ${uOf(allRec)}). ${pcPct}% model — smaller play than the elite spots, but I'm in.`;
+                take = `Picks are a flip (${recOf(dirRec)}, ${(bktWR*100).toFixed(1)}%), but the broader matchup widens to ${sy(recOf(allRec))} (${(broadWR*100).toFixed(1)}%, ${uOf(allRec)}). ${pcPct}% model — smaller play than the elite spots, but I'm in.`;
               } else if (coin) {
-                take = `Picks-only is mixed (${recOf(dirRec)}, ${(bktWR*100).toFixed(1)}%, ${uOf(dirRec)}) and the broader cohort doesn't move the needle (${recOf(allRec)}). ${pcPct}% — lowest-conviction pick of the slate, small if at all.`;
+                take = `Picks are mixed (${recOf(dirRec)}, ${(bktWR*100).toFixed(1)}%, ${uOf(dirRec)}) and the broader cohort doesn't move the needle (${recOf(allRec)}). ${pcPct}% — lowest-conviction pick of the slate, small if at all.`;
               } else if (caution) {
-                take = `${sr('Picks-only has bled here')} (${sr(recOf(dirRec))}, ${(bktWR*100).toFixed(1)}%, ${uOf(dirRec)}) and broader isn't a rescue (${recOf(allRec)}). ${pcPct}% model — pass.`;
+                take = `${sr('Picks have bled here')} (${sr(recOf(dirRec))}, ${(bktWR*100).toFixed(1)}%, ${uOf(dirRec)}) and broader isn't a rescue (${recOf(allRec)}). ${pcPct}% model — pass.`;
               } else if (small && (bElite || (broadWR && broadWR >= 0.80))) {
                 take = `Picks sample is thin (${recOf(dirRec)}) but ${sg(`P+L ${dirWord} vs ${oppStr} are ${recOf(allRec)} (${(broadWR*100).toFixed(1)}%, ${uOf(allRec)})`)}. ${pcPct}% model — I'm in.`;
               } else if (small && bSolid) {
@@ -1219,7 +1300,7 @@
               } else if (empty) {
                 take = `No prior picks vs ${oppStr} ${r.dir.toLowerCase()} — flying on ${pcPct}% model alone. Half-unit play.`;
               } else {
-                take = `Picks-only ${recOf(dirRec)} (${(bktWR*100).toFixed(1)}%, ${uOf(dirRec)}). Broader ${recOf(allRec)}. Model at ${pcPct}%.`;
+                take = `Picks ${recOf(dirRec)} (${(bktWR*100).toFixed(1)}%, ${uOf(dirRec)}). Broader ${recOf(allRec)}. Model at ${pcPct}%.`;
               }
             } else {
               // Lean rows
@@ -1246,7 +1327,102 @@
             if (dirRec && dirRec.l === 0 && dirRec.w >= 4) {
               take += ` ${sg(`Perfect ${dirRec.w}-0 cohort in-bucket.`)}`;
             }
-            line.innerHTML = `${nameSpan} ${dirSpan} ${oppSpan} <span style="color:#888">@ ${pcPct}%</span> — ${take}`;
+            // --- Pitcher-history accent ---
+            // Surface how the model has done on THIS pitcher (same bucket).
+            // Two lenses: direction-matched ("P O//U") and both-directions
+            // ("P O&&U") — the broader lens catches "model is good on this
+            // pitcher regardless of side" or "model bleeds on this pitcher
+            // either way".
+            const pitRec = r.pitRec;
+            const pitAllRec = r.pitAllRec;
+            const pitN = pitRec ? pitRec.w + pitRec.l : 0;
+            const pitAllN = pitAllRec ? pitAllRec.w + pitAllRec.l : 0;
+            const pitNameTxt = `${displayName(r.p)} ${r.dir.toLowerCase()}s`;
+            if (pitN >= 4) {
+              const pitWR = pitRec.w / pitN;
+              const pitTxt = `${recOf(pitRec)} (${(pitWR*100).toFixed(1)}%, ${uOf(pitRec)})`;
+              if (pitWR >= 0.80 && pitRec.u >= 2) {
+                take += ` ${sg(`${pitNameTxt} ${pitTxt} — pitcher track co-signs.`)}`;
+              } else if (pitWR >= 0.65) {
+                take += ` ${sg(`${pitNameTxt} ${pitTxt}`)} — supportive pitcher track.`;
+              } else if (pitWR <= 0.40 && pitRec.u <= -1) {
+                take += ` ${sr(`${pitNameTxt} have been ${pitTxt} — pitcher track is a red flag.`)}`;
+              } else if (pitWR < 0.50) {
+                take += ` ${sy(`${pitNameTxt} ${pitTxt}`)} — pitcher track leans against.`;
+              } else {
+                take += ` ${pitNameTxt} ${pitTxt} — pitcher track neutral.`;
+              }
+            } else if (pitN > 0) {
+              const pitWR = pitRec.w / pitN;
+              const pitTxt = `${recOf(pitRec)} (${(pitWR*100).toFixed(1)}%, ${uOf(pitRec)})`;
+              take += ` Pitcher track ${pitTxt} <span style="color:#888">(thin sample)</span>.`;
+            } else {
+              take += ` <span style="color:#888">No prior dir-matched history on this pitcher.</span>`;
+            }
+            // Broader: both directions on this pitcher. Always rendered when
+            // any history exists so the reader sees the pitcher's full book
+            // even when it matches the dir-only record (one-sided pitcher).
+            // At n>=6 we hand out colored tier verdicts; below that just show
+            // the raw record.
+            if (pitAllRec && pitAllN > 0) {
+              const allWR = pitAllRec.w / pitAllN;
+              const allTxt = `${recOf(pitAllRec)} (${(allWR*100).toFixed(1)}%, ${uOf(pitAllRec)})`;
+              const broadName = `${displayName(r.p)} both ways`;
+              if (pitAllN >= 6 && allWR >= 0.70 && pitAllRec.u >= 2) {
+                take += ` ${sg(`Broader: ${broadName} ${allTxt} — pitcher's whole book is profitable.`)}`;
+              } else if (pitAllN >= 6 && allWR <= 0.45 && pitAllRec.u <= -2) {
+                take += ` ${sr(`Broader: ${broadName} ${allTxt} — model has bled on this pitcher overall.`)}`;
+              } else if (pitAllN >= 6) {
+                take += ` Broader: ${broadName} ${allTxt}.`;
+              } else {
+                take += ` <span style="color:#999">Broader: ${broadName} ${allTxt}.</span>`;
+              }
+            }
+            // --- Sizing recommendation ---
+            // Distill the matchup + pitcher signals into a concrete stake:
+            // 0u / 1u / 1.5u / 2u. Start from a base derived from the
+            // matchup tier and adjust on pitcher-track strength.
+            let size;
+            if (caution) {
+              size = 0;                                            // matchup is a confirmed leak
+            } else if (coin && bCaution) {
+              size = 0;                                            // matchup mixed + broader bad
+            } else if ((elite && (bElite || (broadWR && broadWR >= 0.80)))
+                       || (elite && widerThanBkt && bSolid)) {
+              size = 2;                                            // cleanest tier
+            } else if (elite || (solid && bSolid)) {
+              size = 1.5;                                          // solid green-light
+            } else if (small && (bElite || (broadWR && broadWR >= 0.80))) {
+              size = 1.5;                                          // thin bucket but matchup elite
+            } else if (coin && bSolid) {
+              size = 1;
+            } else if (coin || small || empty) {
+              size = 1;
+            } else {
+              size = 1;
+            }
+            // Pitcher-track adjustments. Co-sign bumps size; red flag drops.
+            if (pitN >= 4) {
+              const pitWR = pitRec.w / pitN;
+              if (pitWR >= 0.80 && pitRec.u >= 2 && size < 2) size += 0.5;
+              else if (pitWR <= 0.40 && pitRec.u <= -1) size = Math.max(0, size - 1);
+            }
+            // Broader pitcher cohort can override if extreme.
+            if (pitAllN >= 6) {
+              const allWR = pitAllRec.w / pitAllN;
+              if (allWR <= 0.45 && pitAllRec.u <= -2) size = Math.max(0, size - 0.5);
+            }
+            // Clamp to {0, 1, 1.5, 2}.
+            if (size > 2) size = 2;
+            if (size > 0 && size < 1) size = 1;
+            if (size > 1.5 && size < 2) size = 1.5;
+            const sizeStr = size === 0 ? 'PASS' : size + 'u';
+            const sizeColor = size === 0 ? 'var(--red)'
+                             : size >= 2  ? 'var(--green)'
+                             : size >= 1.5 ? '#9ee493'
+                             : '#ccc';
+            const sizeBadge = `<strong style="color:${sizeColor};margin-right:6px">${sizeStr}</strong>`;
+            line.innerHTML = `${sizeBadge}${nameSpan} ${dirSpan} ${oppSpan} <span style="color:#888">@ ${pcPct}%</span> — ${take}`;
             return line;
           }
 
@@ -1270,8 +1446,9 @@
           note.innerHTML = `
             <div style="margin-bottom:6px"><span style="${defStyle}">O//U</span> &nbsp;&nbsp; Picks + direction VS OPP (narrowest cohort)</div>
             <div style="margin-bottom:6px"><span style="${defStyle}">O&amp;&amp;U</span> &nbsp; Picks, both directions combined VS OPP</div>
+            <div style="margin-bottom:6px"><span style="${defStyle}">P O//U</span> &nbsp; Picks + direction for THIS pitcher (all opps)</div>
             <div style="margin-top:8px;padding-top:6px;border-top:1px solid rgba(255,255,255,0.05);color:#888;font-style:italic">
-              Pick rows count picks-only history (&gt;= 0.68 pCover) · Watch and Pass tiers excluded<br>
+              Pick rows count picks history (&gt;= 0.68 pCover) · Watch and Pass tiers excluded<br>
               Tiers: <span style="color:var(--green)">Elite ≥80%</span> · <span style="color:#9ee493">Solid ≥65%</span> · <span style="color:#ccc">Neutral ≥50%</span> · <span style="color:var(--red)">Caution &lt;50%</span> · <span style="color:#aaa">Small &lt;4 samples</span>
             </div>
           `;
@@ -1280,6 +1457,35 @@
           // Matchup card append deferred — see end of this function so the
           // Pitcher History card renders directly under Today's Games, with
           // Matchup History below it.
+
+          // Grading + units helpers shared by Pitcher History and Team History.
+          // Hoisted here so the Team History block below can call them without
+          // each card re-declaring its own copy.
+          const _phUnits = (o, won, sz) => {
+            if (o == null || won == null) return 0;
+            if (o > 0) return won ? sz * (o / 100) : -sz;
+            return won ? sz : sz * (-Math.abs(o) / 100);
+          };
+          const _phGrade = (p) => {
+            if (p.result === 'VOID') return 'V';
+            if (p.actual == null || p.line == null) return null;
+            const dir = p.pick === 'OVER' || p.pick === 'UNDER'
+              ? p.pick
+              : (p.would_be_pick || ((p.proj || 0) > (p.line || 0) ? 'OVER' : 'UNDER'));
+            if (dir === 'OVER')  return p.actual > p.line ? 'W' : 'L';
+            return p.actual < p.line ? 'W' : 'L';
+          };
+          const _phBucket = (p) => {
+            if (p.pick === 'OVER' || p.pick === 'UNDER') return 'PICK';
+            const pc = p.pCover || 0;
+            if (pc >= 0.60 && pc < 0.68) return 'WATCH';
+            return 'PASS';
+          };
+          const _phOdds = (p) => {
+            if (p.odds != null) return p.odds;
+            const dir = p.would_be_pick || ((p.proj || 0) > (p.line || 0) ? 'OVER' : 'UNDER');
+            return dir === 'OVER' ? (p.over_price ?? null) : (p.under_price ?? null);
+          };
 
           // ── Pitcher History — drill into one pitcher's full season log ──
           // Sits directly under Today's Games. Dropdown of TODAY's projected pitchers;
@@ -1444,31 +1650,8 @@
             phTblWrap.className = 'props-table-wrap';
             phCard.appendChild(phTblWrap);
 
-            // Stake helpers (matches risk-to-win-1u convention used elsewhere)
-            const _phUnits = (o, won, sz) => {
-              if (o == null || won == null) return 0;
-              if (o > 0) return won ? sz * (o / 100) : -sz;
-              return won ? sz : sz * (-Math.abs(o) / 100);
-            };
-            const _phGrade = (p) => {
-              if (p.actual == null || p.line == null) return null;
-              const dir = p.pick === 'OVER' || p.pick === 'UNDER'
-                ? p.pick
-                : (p.would_be_pick || ((p.proj || 0) > (p.line || 0) ? 'OVER' : 'UNDER'));
-              if (dir === 'OVER')  return p.actual > p.line ? 'W' : 'L';
-              return p.actual < p.line ? 'W' : 'L';
-            };
-            const _phBucket = (p) => {
-              if (p.pick === 'OVER' || p.pick === 'UNDER') return 'PICK';
-              const pc = p.pCover || 0;
-              if (pc >= 0.60 && pc < 0.68) return 'WATCH';
-              return 'PASS';
-            };
-            const _phOdds = (p) => {
-              if (p.odds != null) return p.odds;
-              const dir = p.would_be_pick || ((p.proj || 0) > (p.line || 0) ? 'OVER' : 'UNDER');
-              return dir === 'OVER' ? (p.over_price ?? null) : (p.under_price ?? null);
-            };
+            // Stake/grade helpers are hoisted above so Team History can reuse
+            // them without re-declaring.
 
             // Render function — pulls all rows for the selected pitcher key.
             // Merges data.props (picks/leans/watchlist from all dates) with
@@ -1531,9 +1714,8 @@
               });
               const body = tbl.createTBody();
 
-              // Tally totals (picks vs leans separate)
-              let pw=0, pl=0, lw=0, ll=0, p_u=0, l_u=0;
-
+              // Summary tally is owned by _renderSummary(allEver) below — no
+              // need for an in-table accumulator. Loop is purely for rendering.
               for (const p of all) {
                 const tr = body.insertRow();
                 tr.style.borderBottom = '1px solid rgba(255,255,255,0.04)';
@@ -1544,31 +1726,28 @@
                 const grade = _phGrade(p);
                 const odds = _phOdds(p);
                 const sz = bkt === 'PICK' ? 1.0 : (bkt === 'WATCH' ? 1.0 : 0);
-                const u = (bkt !== 'PASS' && grade != null)
-                  ? _phUnits(odds, grade === 'W', sz)
-                  : null;
-
-                if (bkt === 'PICK' && grade) {
-                  if (grade === 'W') { pw++; p_u += u; }
-                  else { pl++; p_u += u; }
-                } else if (bkt === 'WATCH' && grade) {
-                  if (grade === 'W') { lw++; l_u += u; }
-                  else { ll++; l_u += u; }
-                }
+                const u = (grade === 'V')
+                  ? 0
+                  : ((bkt !== 'PASS' && grade != null)
+                      ? _phUnits(odds, grade === 'W', sz)
+                      : null);
 
                 const edge = (p.proj != null && p.line != null) ? (p.proj - p.line).toFixed(1) : '—';
                 const edgeStr = edge !== '—' ? (parseFloat(edge) > 0 ? '+' + edge : edge) : '—';
                 const bktColor = bkt === 'PICK' ? '#a78bfa' : bkt === 'WATCH' ? 'var(--yellow)' : '#888';
                 const dirColor = dir === 'OVER' ? 'var(--green)' : 'var(--red)';
-                const resColor = grade === 'W' ? 'var(--green)' : grade === 'L' ? 'var(--red)' : '#888';
+                const resColor = grade === 'W' ? 'var(--green)' : grade === 'L' ? 'var(--red)' : grade === 'V' ? '#888' : '#888';
+                const resLabel = grade === 'V' ? 'VOID' : (grade || '—');
                 // Watch units render yellow regardless of sign (W/L color
                 // already lives in the Result column); Picks keep the
                 // green/red positive/negative convention.
                 const uColor = u == null
                   ? '#888'
-                  : (bkt === 'WATCH'
-                      ? 'var(--yellow)'
-                      : (u > 0 ? 'var(--green)' : u < 0 ? 'var(--red)' : '#ccc'));
+                  : (grade === 'V'
+                      ? '#888'
+                      : (bkt === 'WATCH'
+                          ? 'var(--yellow)'
+                          : (u > 0 ? 'var(--green)' : u < 0 ? 'var(--red)' : '#ccc')));
                 const fmtOdds = (o) => o == null ? '—' : (o > 0 ? '+' + o : String(o));
 
                 const cells = [
@@ -1582,8 +1761,8 @@
                   {v: p.pCover != null ? (p.pCover * 100).toFixed(1) + '%' : '—', align:'right'},
                   {v: p.actual != null ? String(p.actual) : '—', align:'right'},
                   {v: fmtOdds(odds), align:'right', color:'#ccc'},
-                  {v: grade || '—', align:'center', color:resColor, weight:'700'},
-                  {v: u == null ? '—' : (u >= 0 ? '+' : '') + u.toFixed(2) + 'u', align:'right', color:uColor, weight:'600'},
+                  {v: resLabel, align:'center', color:resColor, weight:'700'},
+                  {v: grade === 'V' ? 'void' : (u == null ? '—' : (u >= 0 ? '+' : '') + u.toFixed(2) + 'u'), align:'right', color:uColor, weight:'600'},
                 ];
                 cells.forEach((c, i) => {
                   const td = tr.insertCell();
@@ -1608,7 +1787,7 @@
               for (const p of allEver) {
                 const bkt = _phBucket(p);
                 const grade = _phGrade(p);
-                if (!grade) continue;
+                if (!grade || grade === 'V') continue;
                 const dir = (p.pick === 'OVER' || p.pick === 'UNDER')
                   ? p.pick
                   : (p.would_be_pick || ((p.proj || 0) > (p.line || 0) ? 'OVER' : 'UNDER'));
@@ -1642,13 +1821,735 @@
               summarySpan.innerHTML = parts.map(p => `<div>${p}</div>`).join('');
             }
 
-            sel.addEventListener('change', () => renderPitcherHistory(sel.value));
+            // Picking a pitcher from the dropdown also drives Team History:
+            //   - pitcher IS in today's slate → jump to that matchup +
+            //     view-as the pitcher's team (dropdown shows opp).
+            //   - pitcher is NOT in today's slate → hide the per-game
+            //     pitcher toggle (it's no longer meaningful) and reset Team
+            //     History to its "All" view.
+            // The free-text dropdown in Team History still works either way.
+            sel.addEventListener('change', () => {
+              renderPitcherHistory(sel.value);
+              const parts = (sel.value || '').split('|');
+              const name = parts[0] || '';
+              const team = parts[1] || '';
+              const todayRow = _todayPropsAll.find(p =>
+                displayName(p) === name && p.team === team
+              );
+              if (todayRow && todayRow.team && todayRow.opp) {
+                // Today-slate pitcher: repaint the per-game toggle to THIS
+                // pitcher's matchup (so we don't keep showing the previous
+                // game's pair), then activate the just-picked pitcher.
+                _populatePitcherToggle([todayRow.team, todayRow.opp]);
+                _stylePhPitBtns(sel.value);
+                _pitcherToggleSubs.forEach(fn => {
+                  try { fn({ team: todayRow.team, opp: todayRow.opp, fromToday: true }); } catch (e) {}
+                });
+              } else {
+                // Free-search pick — drop the per-game toggle row so the
+                // dropdown is the only context.
+                phPitToggleRow.style.display = 'none';
+                _pitcherToggleSubs.forEach(fn => {
+                  try { fn({ reset: true }); } catch (e) {}
+                });
+              }
+            });
             // Initial render = first probable (highest conviction)
             renderPitcherHistory(_probables[0].key);
+
+            // --- Per-game pitcher toggle ---
+            // Hidden until Today's Games fires a "game picked" event. When
+            // it does, both starters in that game render as toggle buttons
+            // so the user can flip between the two pitchers in the matchup.
+            const phPitToggleRow = document.createElement('div');
+            phPitToggleRow.style.cssText = 'display:none;align-items:center;gap:8px;padding:4px 4px 8px;flex-wrap:wrap';
+            const phPitToggleLabel = document.createElement('span');
+            phPitToggleLabel.style.cssText = 'font-size:11px;color:#bbb;font-weight:600';
+            phPitToggleLabel.textContent = 'Pitchers:';
+            phPitToggleRow.appendChild(phPitToggleLabel);
+            const phPitBtns = [document.createElement('button'), document.createElement('button')];
+            phPitBtns.forEach(b => {
+              b.style.cssText = 'padding:4px 12px;font-size:11px;font-weight:600;border:1px solid rgba(255,255,255,0.2);background:transparent;color:#ccc;border-radius:4px;cursor:pointer;transition:all 0.15s';
+              b.addEventListener('click', () => {
+                _stylePhPitBtns(b.dataset.key);
+                sel.value = b.dataset.key;
+                renderPitcherHistory(b.dataset.key);
+                // Tell Team History to mirror — flip View-as to this
+                // pitcher's team so its dropdown shows the OPP.
+                const team = b.dataset.team || '';
+                _pitcherToggleSubs.forEach(fn => { try { fn({ team }); } catch (e) {} });
+              });
+              phPitToggleRow.appendChild(b);
+            });
+            function _stylePhPitBtns(activeKey) {
+              phPitBtns.forEach(b => {
+                const isActive = b.dataset.key === activeKey;
+                b.style.background = isActive ? '#a78bfa' : 'transparent';
+                b.style.color = isActive ? '#0a0a0a' : '#ccc';
+                b.style.borderColor = isActive ? '#a78bfa' : 'rgba(255,255,255,0.2)';
+              });
+            }
+            // Inject the toggle row just below the dropdown row.
+            ctrlRow.parentNode.insertBefore(phPitToggleRow, ctrlRow.nextSibling);
+
+            // Populate the per-game pitcher toggle row for a matchup. Shared
+            // between the Today's-Games game-click sub and the dropdown
+            // change handler (so dropdown-jumping to a today-slate pitcher
+            // in another matchup updates the toggle to that matchup's pair).
+            const _findPitcherForTeam = (tm) => {
+              const fromToday = _todayProbables.find(pr => pr.team === tm);
+              if (fromToday) return { key: fromToday.key, name: fromToday.name, team: tm };
+              const proj = (data.todayProjections || []).find(p =>
+                p.market === 'strikeouts' && p.team === tm
+              );
+              if (proj) return { key: _pitcherKey(proj), name: displayName(proj), team: tm };
+              return null;
+            };
+            // Repaint the toggle row for the given teams. Returns the two
+            // pitcher records found, in slot order.
+            function _populatePitcherToggle(teams) {
+              const pa = _findPitcherForTeam(teams[0]);
+              const pb = _findPitcherForTeam(teams[1]);
+              if (!pa && !pb) return [null, null];
+              phPitToggleRow.style.display = 'flex';
+              [pa, pb].forEach((s, i) => {
+                const btn = phPitBtns[i];
+                if (s) {
+                  btn.dataset.key = s.key;
+                  btn.dataset.team = s.team;
+                  btn.textContent = s.name;
+                  btn.style.display = '';
+                } else {
+                  btn.style.display = 'none';
+                }
+              });
+              return [pa, pb];
+            }
+
+            _gameClickSubs.push(({ teams, reset }) => {
+              if (reset) {
+                phPitToggleRow.style.display = 'none';
+                return;
+              }
+              if (!teams) return;
+              const [pa, pb] = _populatePitcherToggle(teams);
+              if (!pa && !pb) return;
+              // Activate whichever side has the higher-conviction projection.
+              const order = [pa, pb].filter(Boolean).sort((x, y) => {
+                const xp = _todayProbables.find(p => p.key === x.key);
+                const yp = _todayProbables.find(p => p.key === y.key);
+                return (yp?.pCover || 0) - (xp?.pCover || 0);
+              });
+              const top = order[0];
+              if (top) {
+                _stylePhPitBtns(top.key);
+                sel.value = top.key;
+                renderPitcherHistory(top.key);
+                // Sync Team History to this pitcher (deferred so Team
+                // History's own game-click sub finishes first).
+                setTimeout(() => {
+                  _pitcherToggleSubs.forEach(fn => { try { fn({ team: top.team }); } catch (e) {} });
+                }, 0);
+              }
+            });
+
             el.appendChild(phCard);
           }
 
-          // Matchup History appended last so it lands below Pitcher History.
+          // ── Team History — how the model has done VS a specific opponent ──
+          // Sits between Pitcher History and Matchup History. Dropdown lists
+          // today's opponent teams first (the lineups our picks are facing),
+          // then every other team with any historical entry. Useful for
+          // "how have we done picking strikeouts against CLE this year".
+          const thCard = document.createElement('div');
+          thCard.className = 'card card-games';
+          thCard.style.marginBottom = '16px';
+          thCard.appendChild(Object.assign(document.createElement('div'), {
+            className:'card-title',
+            textContent:`Team History (${todayStr})`,
+          }));
+
+          // Key by opponent team — that's the lineup being faced.
+          const _teamKey = (p) => p.opp || '';
+
+          // Today's opponent teams (any pitcher projected against them today).
+          const _todayPropsAllT = (data.todayProjections || []).filter(p => p.market === 'strikeouts');
+          const _byTodayTeam = new Map();
+          for (const p of _todayPropsAllT) {
+            const k = _teamKey(p);
+            if (!k) continue;
+            if (!_byTodayTeam.has(k)) {
+              _byTodayTeam.set(k, { key: k, isToday: true });
+            }
+          }
+          const _todayTeams = [..._byTodayTeam.keys()].sort();
+
+          // Today's matchups — paired teams sorted by game time. Mirrors
+          // the Today's Games card so the user gets the same slate view here.
+          const _gameTimesT = data.gameTimes || {};
+          const _matchupSet = new Map();
+          // Pair teams by matching scheduled time.
+          const _teamsByTimeT = {};
+          for (const [tm, t] of Object.entries(_gameTimesT)) {
+            if (!_teamsByTimeT[t]) _teamsByTimeT[t] = [];
+            _teamsByTimeT[t].push(tm);
+          }
+          // Preserve insertion order for the display label (matches Today's
+          // Games — e.g. "PIT vs CHC", not the alphabetical "CHC vs PIT") so
+          // the two cards read identically. The matchup key stays alphabetical
+          // so de-dupe still works across cards.
+          for (const [t, teams] of Object.entries(_teamsByTimeT)) {
+            if (teams.length === 2) {
+              const k = [...teams].sort().join('@');
+              _matchupSet.set(k, { teams: [...teams], time: t });
+            }
+          }
+          // Fallback for games where multiple games share a start time
+          // (so the pair-by-time pass above can't isolate them as 2-team
+          // buckets). Look up the actual time per team — same as Today's
+          // Games — so these still slot into the correct chronological
+          // position instead of getting pinned to the end.
+          for (const p of _todayPropsAllT) {
+            if (!p.team || !p.opp) continue;
+            const k = [p.team, p.opp].sort().join('@');
+            if (!_matchupSet.has(k)) {
+              const t = _gameTimesT[p.team] || _gameTimesT[p.opp] || '9999';
+              _matchupSet.set(k, { teams: [p.team, p.opp], time: t });
+            }
+          }
+          const _todayMatchups = [..._matchupSet.values()]
+            .sort((a, b) => (a.time || '').localeCompare(b.time || ''));
+
+          // Every other team appearing in history (any side).
+          const _allPropsT = (data.props || []).filter(p => p.market === 'strikeouts');
+          const _allTeamsSet = new Set();
+          for (const p of _allPropsT) {
+            const k = _teamKey(p);
+            if (k) _allTeamsSet.add(k);
+          }
+          for (const k of _byTodayTeam.keys()) _allTeamsSet.delete(k);
+          const _restTeams = [..._allTeamsSet].sort();
+
+          const _teamList = [
+            ..._todayTeams.map(k => ({ key: k, isToday: true })),
+            ..._restTeams.map(k => ({ key: k, isToday: false })),
+          ];
+
+          if (_teamList.length === 0) {
+            const empty = document.createElement('div');
+            empty.style.cssText = 'padding:12px;color:#888;font-size:12px;font-style:italic';
+            empty.textContent = 'No opponent teams found in history.';
+            thCard.appendChild(empty);
+            el.appendChild(thCard);
+          } else {
+            // --- Today's matchups row + per-matchup team toggle ---
+            // Renders the slate as clickable chips. Clicking a matchup chip
+            // selects it and reveals two team-toggle buttons below; each
+            // toggle updates the dropdown and re-renders the table for that
+            // team. The dropdown stays available for searching/jumping to
+            // any team in history.
+            const _matchKey = (m) => m.teams.join('@');
+            let _activeMatchKey = null;
+            if (_todayMatchups.length > 0) {
+              const matchTitle = document.createElement('div');
+              matchTitle.style.cssText = 'font-size:11px;color:#bbb;font-weight:600;letter-spacing:0.06em;text-transform:uppercase;padding:4px 4px 6px';
+              matchTitle.textContent = `Today's Matchups (${_todayMatchups.length})`;
+              thCard.appendChild(matchTitle);
+
+              const matchRow = document.createElement('div');
+              matchRow.style.cssText = 'display:flex;flex-wrap:wrap;gap:6px;padding:0 4px 6px';
+              const matchBtns = {};
+              const teamToggleRow = document.createElement('div');
+              teamToggleRow.style.cssText = 'display:none;align-items:center;gap:8px;padding:4px 4px 8px;flex-wrap:wrap';
+              const teamToggleLabel = document.createElement('span');
+              teamToggleLabel.style.cssText = 'font-size:11px;color:#bbb;font-weight:600';
+              teamToggleLabel.textContent = 'View as:';
+              teamToggleRow.appendChild(teamToggleLabel);
+              const teamBtns = [
+                document.createElement('button'),
+                document.createElement('button'),
+              ];
+
+              function _styleMatchupBtns() {
+                for (const k in matchBtns) {
+                  const b = matchBtns[k];
+                  const active = (k === _activeMatchKey);
+                  b.style.background = active ? '#a78bfa' : 'rgba(255,255,255,0.04)';
+                  b.style.color = active ? '#0a0a0a' : '#ccc';
+                  b.style.borderColor = active ? '#a78bfa' : 'rgba(255,255,255,0.15)';
+                  b.style.fontWeight = active ? '700' : '500';
+                }
+              }
+              function _styleTeamBtns(activeTeam) {
+                teamBtns.forEach(b => {
+                  const isActive = b.dataset.team === activeTeam;
+                  b.style.background = isActive ? '#a78bfa' : 'transparent';
+                  b.style.color = isActive ? '#0a0a0a' : '#ccc';
+                  b.style.borderColor = isActive ? '#a78bfa' : 'rgba(255,255,255,0.2)';
+                });
+              }
+              // _matchKey expects alphabetical pair; m.teams may be unsorted
+              // for display, so derive the key off a sorted copy.
+              const _kFromTeams = (teams) => [...teams].sort().join('@');
+              function _showMatchup(m) {
+                _activeMatchKey = _kFromTeams(m.teams);
+                _styleMatchupBtns();
+                teamToggleRow.style.display = 'flex';
+                teamBtns.forEach((b, i) => {
+                  const tm = m.teams[i];
+                  b.dataset.team = tm;     // also the dropdown filter value
+                  b.textContent = tm;
+                });
+                // Default View-as: pick whichever team has a today projection
+                // targeting it (i.e., model is firing AGAINST this lineup).
+                // The actual final selection is finalized by Pitcher History's
+                // toggle event right after, so this is just a sane fallback.
+                const viewAs = _byTodayTeam.has(m.teams[0]) ? m.teams[0]
+                             : _byTodayTeam.has(m.teams[1]) ? m.teams[1]
+                             : m.teams[0];
+                _styleTeamBtns(viewAs);
+                thSel.value = viewAs;
+                renderTeamHistory(viewAs);
+              }
+
+              // "All" chip — clears the matchup selection so the user can
+              // browse the full Team History without committing to a game.
+              // Hides the per-matchup team toggle row and returns the
+              // dropdown to its first option (alphabetical first team).
+              const allMatchBtn = document.createElement('button');
+              allMatchBtn.textContent = 'All';
+              allMatchBtn.style.cssText = 'padding:5px 10px;font-size:11px;font-weight:500;border:1px solid rgba(255,255,255,0.15);background:rgba(255,255,255,0.04);color:#ccc;border-radius:4px;cursor:pointer;transition:all 0.15s';
+              allMatchBtn.addEventListener('click', () => {
+                _activeMatchKey = 'ALL';
+                _styleMatchupBtns();
+                teamToggleRow.style.display = 'none';
+                thSel.value = _teamList[0].key;
+                renderTeamHistory(thSel.value);
+              });
+              matchBtns['ALL'] = allMatchBtn;
+              matchRow.appendChild(allMatchBtn);
+
+              _todayMatchups.forEach(m => {
+                const b = document.createElement('button');
+                b.textContent = m.teams.join(' vs ');
+                b.style.cssText = 'padding:5px 10px;font-size:11px;font-weight:500;border:1px solid rgba(255,255,255,0.15);background:rgba(255,255,255,0.04);color:#ccc;border-radius:4px;cursor:pointer;transition:all 0.15s';
+                b.addEventListener('click', () => _showMatchup(m));
+                matchBtns[_matchKey(m)] = b;
+                matchRow.appendChild(b);
+              });
+              thCard.appendChild(matchRow);
+
+              // Subscribe to Today's Games pill clicks so picking a game
+              // there also activates the corresponding matchup here.
+              _gameClickSubs.push(({ teams, reset }) => {
+                if (reset) {
+                  if (matchBtns['ALL']) matchBtns['ALL'].click();
+                  return;
+                }
+                if (!teams) return;
+                const sorted = [...teams].sort().join('@');
+                const target = _todayMatchups.find(m => _kFromTeams(m.teams) === sorted);
+                if (target) _showMatchup(target);
+              });
+
+              // Pitcher History → Team History sync.
+              // The View-as label = the team being faced. So when a pitcher
+              // is picked we click the button labeled with the pitcher's
+              // OPPONENT (not their own team).
+              //   { reset: true }            → click "All" chip; clear matchup
+              //   { team, opp, fromToday }   → navigate to matchup + click
+              //                                the opp's button
+              //   { team }                   → within current matchup, click
+              //                                the OTHER button (the opp)
+              _pitcherToggleSubs.push((evt) => {
+                if (!evt) return;
+                if (evt.reset) {
+                  if (matchBtns['ALL']) matchBtns['ALL'].click();
+                  return;
+                }
+                const { team, opp, fromToday } = evt;
+                if (!team) return;
+                // Fast path: current matchup contains this pitcher's team.
+                // The button to highlight is the OTHER team in the toggle.
+                if (teamToggleRow.style.display !== 'none') {
+                  const oppBtn = teamBtns.find(b =>
+                    b.dataset.team && b.dataset.team !== team && b.style.display !== 'none'
+                  );
+                  const sameBtn = teamBtns.find(b => b.dataset.team === team);
+                  if (oppBtn && sameBtn) { oppBtn.click(); return; }
+                }
+                // Navigate to a different matchup and flip view-as to opp.
+                if (fromToday && opp) {
+                  const sorted = [team, opp].sort().join('@');
+                  const target = _todayMatchups.find(m => _kFromTeams(m.teams) === sorted);
+                  if (target) {
+                    _showMatchup(target);
+                    const oppBtn = teamBtns.find(b => b.dataset.team === opp);
+                    if (oppBtn) oppBtn.click();
+                  }
+                }
+              });
+
+              teamBtns.forEach(b => {
+                b.style.cssText = 'padding:4px 12px;font-size:11px;font-weight:600;border:1px solid rgba(255,255,255,0.2);background:transparent;color:#ccc;border-radius:4px;cursor:pointer;transition:all 0.15s';
+                b.addEventListener('click', () => {
+                  // Button label = the team whose lineup we filter by. So
+                  // clicking "MIN" shows plays vs MIN. The pitcher selected
+                  // in Pitcher History is the one facing MIN (not from MIN).
+                  _styleTeamBtns(b.dataset.team);
+                  thSel.value = b.dataset.team;
+                  renderTeamHistory(b.dataset.team);
+                });
+                teamToggleRow.appendChild(b);
+              });
+              thCard.appendChild(teamToggleRow);
+            }
+
+            const thCtrlRow = document.createElement('div');
+            thCtrlRow.style.cssText = 'display:flex;align-items:center;gap:10px;padding:8px 4px 6px;flex-wrap:wrap';
+            const thSelLabel = document.createElement('label');
+            thSelLabel.textContent = 'Team:';
+            thSelLabel.style.cssText = 'font-size:12px;color:#bbb;font-weight:600';
+            const thSel = document.createElement('select');
+            thSel.style.cssText = 'background:rgba(255,255,255,0.05);color:#fff;border:1px solid rgba(255,255,255,0.15);border-radius:4px;padding:6px 10px;font-size:12px;min-width:220px;cursor:pointer';
+            let _thAddedSep = false;
+            _teamList.forEach((t) => {
+              if (!t.isToday && !_thAddedSep && _todayTeams.length > 0) {
+                const sep = document.createElement('option');
+                sep.disabled = true;
+                sep.textContent = '── All Teams ──';
+                thSel.appendChild(sep);
+                _thAddedSep = true;
+              }
+              const opt = document.createElement('option');
+              opt.value = t.key;
+              opt.textContent = t.isToday ? `${t.key} (today)` : t.key;
+              thSel.appendChild(opt);
+            });
+            thCtrlRow.appendChild(thSelLabel);
+            thCtrlRow.appendChild(thSel);
+
+            const thSummary = document.createElement('div');
+            thSummary.style.cssText = 'margin-left:auto;font-size:12px;color:#999;display:flex;flex-direction:column;align-items:flex-end;gap:2px;line-height:1.4';
+            thCtrlRow.appendChild(thSummary);
+
+            const thFilterRow = document.createElement('div');
+            thFilterRow.style.cssText = 'display:flex;gap:4px;padding:8px 4px 4px;flex-wrap:wrap;align-items:center';
+            const TH_FILTERS = [
+              { key: 'ALL',   label: 'All',     color: '#ccc'           },
+              { key: 'PICK',  label: 'Picks',   color: '#a78bfa'        },
+              { key: 'WATCH', label: 'Watch',   color: 'var(--yellow)'  },
+              { key: 'PASS',  label: 'Passes',  color: '#888'           },
+            ];
+            let _thActiveFilter = 'ALL';
+            const _thFilterBtns = {};
+            TH_FILTERS.forEach(f => {
+              const b = document.createElement('button');
+              b.textContent = f.label;
+              b.dataset.key = f.key;
+              b.style.cssText = `padding:5px 12px;font-size:11px;font-weight:600;border:1px solid rgba(255,255,255,0.15);background:transparent;color:${f.color};border-radius:4px;cursor:pointer;transition:all 0.15s`;
+              b.addEventListener('click', () => {
+                _thActiveFilter = f.key;
+                _thStyleBtns();
+                renderTeamHistory(thSel.value);
+              });
+              _thFilterBtns[f.key] = b;
+              thFilterRow.appendChild(b);
+            });
+            function _thStyleBtns() {
+              TH_FILTERS.forEach(f => {
+                const b = _thFilterBtns[f.key];
+                const active = f.key === _thActiveFilter;
+                b.style.background = active ? f.color : 'transparent';
+                b.style.color = active ? '#0a0a0a' : f.color;
+                b.style.borderColor = active ? f.color : 'rgba(255,255,255,0.15)';
+              });
+            }
+            _thStyleBtns();
+
+            // Direction filter — All / Overs / Unders. Sits in the same row
+            // as the bucket filters, separated by a small gap. Defaults to
+            // "All"; selecting a side narrows the table and summary tally
+            // to that direction.
+            const thDirDivider = document.createElement('div');
+            thDirDivider.style.cssText = 'width:1px;height:18px;background:rgba(255,255,255,0.15);margin:0 6px';
+            thFilterRow.appendChild(thDirDivider);
+            const TH_DIRS = [
+              { key: 'ALL',   label: 'All',    color: '#ccc'         },
+              { key: 'OVER',  label: 'Overs',  color: 'var(--green)' },
+              { key: 'UNDER', label: 'Unders', color: 'var(--red)'   },
+            ];
+            let _thActiveDir = 'ALL';
+            const _thDirBtns = {};
+            TH_DIRS.forEach(f => {
+              const b = document.createElement('button');
+              b.textContent = f.label;
+              b.dataset.key = f.key;
+              b.style.cssText = `padding:5px 12px;font-size:11px;font-weight:600;border:1px solid rgba(255,255,255,0.15);background:transparent;color:${f.color};border-radius:4px;cursor:pointer;transition:all 0.15s`;
+              b.addEventListener('click', () => {
+                _thActiveDir = f.key;
+                _thStyleDirBtns();
+                renderTeamHistory(thSel.value);
+              });
+              _thDirBtns[f.key] = b;
+              thFilterRow.appendChild(b);
+            });
+            function _thStyleDirBtns() {
+              TH_DIRS.forEach(f => {
+                const b = _thDirBtns[f.key];
+                const active = f.key === _thActiveDir;
+                b.style.background = active ? f.color : 'transparent';
+                b.style.color = active ? '#0a0a0a' : f.color;
+                b.style.borderColor = active ? f.color : 'rgba(255,255,255,0.15)';
+              });
+            }
+            _thStyleDirBtns();
+            thCard.appendChild(thFilterRow);
+            thCard.appendChild(thCtrlRow);
+
+            // --- Month filter row ---
+            // Buttons for "All" + every month present in the data, derived
+            // from p.date (YYYY-MM-DD). Sorted chronologically so the chip
+            // strip reads left-to-right April → today's month.
+            const _monthsSet = new Set();
+            for (const p of (data.props || [])) {
+              if (p.market !== 'strikeouts') continue;
+              const d = p.date || '';
+              if (d.length >= 7) _monthsSet.add(d.slice(0, 7));   // "YYYY-MM"
+            }
+            const _months = [..._monthsSet].sort();
+            let _thActiveMonth = 'ALL';
+            const _monthLabel = (ym) => {
+              const m = parseInt(ym.slice(5, 7), 10);
+              const names = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+              return names[m - 1] || ym;
+            };
+            // Month buttons live inline with the Team dropdown (compact row).
+            const thMonthRow = document.createElement('div');
+            thMonthRow.style.cssText = 'display:inline-flex;gap:4px;flex-wrap:wrap;align-items:center';
+            const thMonthLabel = document.createElement('span');
+            thMonthLabel.style.cssText = 'font-size:12px;color:#bbb;font-weight:600;margin-left:8px;margin-right:2px';
+            thMonthLabel.textContent = 'Month:';
+            thMonthRow.appendChild(thMonthLabel);
+            const _thMonthBtns = {};
+            const _MTH_ACTIVE = 'padding:4px 10px;font-size:11px;font-weight:700;border:1px solid #a78bfa;background:#a78bfa;color:#0a0a0a;border-radius:4px;cursor:pointer;transition:all 0.15s';
+            const _MTH_IDLE   = 'padding:4px 10px;font-size:11px;font-weight:500;border:1px solid rgba(255,255,255,0.15);background:rgba(255,255,255,0.04);color:#ccc;border-radius:4px;cursor:pointer;transition:all 0.15s';
+            function _styleMonths() {
+              for (const k in _thMonthBtns) {
+                const b = _thMonthBtns[k];
+                b.style.cssText = (k === _thActiveMonth) ? _MTH_ACTIVE : _MTH_IDLE;
+              }
+            }
+            const allMth = document.createElement('button');
+            allMth.textContent = 'All';
+            allMth.addEventListener('click', () => {
+              _thActiveMonth = 'ALL';
+              _styleMonths();
+              renderTeamHistory(thSel.value);
+            });
+            _thMonthBtns['ALL'] = allMth;
+            thMonthRow.appendChild(allMth);
+            for (const ym of _months) {
+              const b = document.createElement('button');
+              b.textContent = _monthLabel(ym);
+              b.title = ym;
+              b.addEventListener('click', () => {
+                _thActiveMonth = ym;
+                _styleMonths();
+                renderTeamHistory(thSel.value);
+              });
+              _thMonthBtns[ym] = b;
+              thMonthRow.appendChild(b);
+            }
+            _styleMonths();
+            // Mount month row inside the Team dropdown row, before the
+            // summary chip — keeps the controls in one compact line.
+            thCtrlRow.insertBefore(thMonthRow, thSummary);
+
+            const thTblWrap = document.createElement('div');
+            thTblWrap.className = 'props-table-wrap';
+            thCard.appendChild(thTblWrap);
+
+            // Grading helpers are shared with Pitcher History above — no need
+            // to redeclare. Aliases below keep call sites readable.
+            const _thUnits = _phUnits;
+            const _thGrade = _phGrade;
+            const _thBucket = _phBucket;
+            const _thOdds = _phOdds;
+
+            function renderTeamHistory(team) {
+              const fromProps = (data.props || []).filter(p =>
+                p.market === 'strikeouts' && _teamKey(p) === team
+              );
+              const fromToday = (data.todayProjections || []).filter(p =>
+                p.market === 'strikeouts' && _teamKey(p) === team
+              );
+              // Dedupe on (pitcher, date) so a today projection doesn't double
+              // up with a historical row for the same start.
+              // Use displayName (same key Pitcher History uses) so a today
+              // projection and a historical row for the same start can't
+              // diverge on raw vs formatted player name.
+              const _rowKey = (p) => `${displayName(p)}|${p.date}`;
+              const seen = new Set(fromProps.map(_rowKey));
+              const merged = [...fromProps];
+              for (const p of fromToday) {
+                const k = _rowKey(p);
+                if (!seen.has(k)) { merged.push(p); seen.add(k); }
+              }
+              const _mergedSorted = merged.sort((a, b) =>
+                (b.date || '').localeCompare(a.date || '')   // newest first
+                || (a.player || '').localeCompare(b.player || '')
+              );
+              // Apply month filter — affects both the visible table and the
+              // summary tally so the chip narrows scope consistently.
+              const monthFiltered = (_thActiveMonth === 'ALL')
+                ? _mergedSorted
+                : _mergedSorted.filter(p => (p.date || '').slice(0, 7) === _thActiveMonth);
+              // Direction filter: a row's direction is its picked side, or
+              // for Watch/Pass rows the would_be_pick (intended side). Falls
+              // back to comparing proj vs line if neither field is set.
+              const _dirRow = (p) => {
+                if (p.pick === 'OVER' || p.pick === 'UNDER') return p.pick;
+                if (p.would_be_pick) return p.would_be_pick;
+                return ((p.proj || 0) > (p.line || 0)) ? 'OVER' : 'UNDER';
+              };
+              const allEver = (_thActiveDir === 'ALL')
+                ? monthFiltered
+                : monthFiltered.filter(p => _dirRow(p) === _thActiveDir);
+
+              const all = allEver.filter(p => {
+                if (_thActiveFilter === 'ALL') return true;
+                return _thBucket(p) === _thActiveFilter;
+              });
+
+              thTblWrap.innerHTML = '';
+              if (all.length === 0) {
+                const e = document.createElement('div');
+                e.style.cssText = 'padding:14px;color:#888;font-size:12px;font-style:italic';
+                e.textContent = allEver.length === 0
+                  ? 'No projections found vs this team.'
+                  : `No ${_thActiveFilter.toLowerCase()}s vs this team.`;
+                thTblWrap.appendChild(e);
+                _thRenderSummary(allEver);
+                return;
+              }
+
+              const tbl = document.createElement('table');
+              tbl.style.cssText = 'width:100%;border-collapse:collapse';
+              const head = tbl.createTHead().insertRow();
+              const headCols = [
+                ['Date', 'left'], ['Pitcher', 'left'], ['Tm', 'center'],
+                ['Bkt', 'center'], ['Dir', 'center'], ['Line', 'right'],
+                ['Proj', 'right'], ['Edge', 'right'], ['pC%', 'right'],
+                ['Actual', 'right'], ['Odds', 'right'],
+                ['Result', 'center'], ['Units', 'right'],
+              ];
+              headCols.forEach(([lbl, al]) => {
+                const th = document.createElement('th');
+                th.textContent = lbl;
+                th.style.cssText = `padding:6px 8px;text-align:${al};border-bottom:1px solid rgba(255,255,255,0.1);font-size:11px;color:#999`;
+                head.appendChild(th);
+              });
+              const body = tbl.createTBody();
+
+              for (const p of all) {
+                const tr = body.insertRow();
+                tr.style.borderBottom = '1px solid rgba(255,255,255,0.04)';
+                const bkt = _thBucket(p);
+                const dir = (p.pick === 'OVER' || p.pick === 'UNDER')
+                  ? p.pick
+                  : (p.would_be_pick || ((p.proj || 0) > (p.line || 0) ? 'OVER' : 'UNDER'));
+                const grade = _thGrade(p);
+                const odds = _thOdds(p);
+                const sz = bkt === 'PICK' ? 1.0 : (bkt === 'WATCH' ? 1.0 : 0);
+                const u = (grade === 'V')
+                  ? 0
+                  : ((bkt !== 'PASS' && grade != null)
+                      ? _thUnits(odds, grade === 'W', sz)
+                      : null);
+                const edge = (p.proj != null && p.line != null) ? (p.proj - p.line).toFixed(1) : '—';
+                const edgeStr = edge !== '—' ? (parseFloat(edge) > 0 ? '+' + edge : edge) : '—';
+                const bktColor = bkt === 'PICK' ? '#a78bfa' : bkt === 'WATCH' ? 'var(--yellow)' : '#888';
+                const dirColor = dir === 'OVER' ? 'var(--green)' : 'var(--red)';
+                const resColor = grade === 'W' ? 'var(--green)' : grade === 'L' ? 'var(--red)' : '#888';
+                const resLabel = grade === 'V' ? 'VOID' : (grade || '—');
+                const uColor = u == null
+                  ? '#888'
+                  : (grade === 'V'
+                      ? '#888'
+                      : (bkt === 'WATCH'
+                          ? 'var(--yellow)'
+                          : (u > 0 ? 'var(--green)' : u < 0 ? 'var(--red)' : '#ccc')));
+                const fmtOdds = (o) => o == null ? '—' : (o > 0 ? '+' + o : String(o));
+
+                const cells = [
+                  {v: p.date || '—', align:'left', color:'#ccc'},
+                  {v: displayName(p), align:'left', color:'#fff', weight:'600'},
+                  {v: p.team || '—', align:'center', color:'#999'},
+                  {v: bkt, align:'center', color:bktColor, weight:'600'},
+                  {v: dir === 'OVER' ? 'O' : 'U', align:'center', color:dirColor, weight:'600'},
+                  {v: p.line != null ? String(p.line) : '—', align:'right'},
+                  {v: p.proj != null ? p.proj.toFixed(1) : '—', align:'right'},
+                  {v: edgeStr, align:'right', color: edge !== '—' && parseFloat(edge) > 0 ? 'var(--green)' : edge !== '—' && parseFloat(edge) < 0 ? 'var(--red)' : '#999'},
+                  {v: p.pCover != null ? (p.pCover * 100).toFixed(1) + '%' : '—', align:'right'},
+                  {v: p.actual != null ? String(p.actual) : '—', align:'right'},
+                  {v: fmtOdds(odds), align:'right', color:'#ccc'},
+                  {v: resLabel, align:'center', color:resColor, weight:'700'},
+                  {v: grade === 'V' ? 'void' : (u == null ? '—' : (u >= 0 ? '+' : '') + u.toFixed(2) + 'u'), align:'right', color:uColor, weight:'600'},
+                ];
+                cells.forEach((c) => {
+                  const td = tr.insertCell();
+                  td.textContent = c.v;
+                  td.style.cssText = `padding:5px 8px;text-align:${c.align};font-size:12px`;
+                  if (c.color) td.style.color = c.color;
+                  if (c.weight) td.style.fontWeight = c.weight;
+                });
+              }
+              thTblWrap.appendChild(tbl);
+              fitMLBTableToContainer(tbl);
+
+              _thRenderSummary(allEver);
+            }
+
+            function _thRenderSummary(allEver) {
+              let pw=0, pl=0, lw=0, ll=0, p_u=0, l_u=0;
+              for (const p of allEver) {
+                const bkt = _thBucket(p);
+                const grade = _thGrade(p);
+                if (!grade || grade === 'V') continue;
+                const odds = _thOdds(p);
+                if (bkt === 'PICK') {
+                  if (grade === 'W') pw++; else pl++;
+                  p_u += _thUnits(odds, grade === 'W', 1.0);
+                } else if (bkt === 'WATCH') {
+                  if (grade === 'W') lw++; else ll++;
+                  l_u += _thUnits(odds, grade === 'W', 1.0);
+                }
+              }
+              const pickTotal = pw + pl, watchTotal = lw + ll;
+              const parts = [];
+              const pickColor  = '#a78bfa';
+              const watchColor = 'var(--yellow)';
+              if (pickTotal > 0) {
+                const wr = (pw/pickTotal*100).toFixed(1);
+                const u  = (p_u >= 0 ? '+' : '') + p_u.toFixed(2) + 'u';
+                parts.push(`<span style="color:${pickColor};font-weight:600">Picks ${pw}-${pl} (${wr}%) ${u}</span>`);
+              }
+              if (watchTotal > 0) {
+                const wr = (lw/watchTotal*100).toFixed(1);
+                const u  = (l_u >= 0 ? '+' : '') + l_u.toFixed(2) + 'u';
+                parts.push(`<span style="color:${watchColor};font-weight:600">Watch ${lw}-${ll} (${wr}%) ${u}</span>`);
+              }
+              if (parts.length === 0) parts.push('<span style="color:#888">No graded plays yet</span>');
+              thSummary.innerHTML = parts.map(p => `<div>${p}</div>`).join('');
+            }
+
+            thSel.addEventListener('change', () => renderTeamHistory(thSel.value));
+            renderTeamHistory(_teamList[0].key);
+            el.appendChild(thCard);
+          }
+
+          // Matchup History appended last so it lands below Team History.
           el.appendChild(card);
         };
 
@@ -1665,20 +2566,60 @@
           const gs = _gameStatusesPicks[p.team] || _gameStatusesPicks[p.opp] || '';
           return _VOID_GS.has(gs);
         };
-        const todayPicks = picks.filter(p => p.date === todayStr && !_isVoidGame(p));
+        // Per-pick void (pitcher_scratched / pitcher_swapped) also drops the
+        // row from today's table — the bet is refunded, no actionable edge.
+        const _isVoidPick = (p) => p.result === 'VOID';
+        const todayPicks = picks.filter(p =>
+          p.date === todayStr && !_isVoidGame(p) && !_isVoidPick(p)
+        );
         const todayLeans = (data.props || []).filter(p =>
-          p.date === todayStr && isLean(p) && !_isVoidGame(p)
+          p.date === todayStr && isLean(p) && !_isVoidGame(p) && !_isVoidPick(p)
         );
         if (todayPicks.length > 0 || todayLeans.length > 0) {
           const todayCard = document.createElement('div');
           todayCard.className = 'card card-picks';
           todayCard.style.marginBottom = '16px';
+          // Today / Yesterday toggle lives in the title row when a recap
+          // exists. Selecting Yesterday swaps the Today-only body for the
+          // Yesterday Recap body that was built earlier and held back.
           const titleRow = document.createElement('div');
           titleRow.style.cssText = 'display:flex;align-items:center;justify-content:space-between;gap:12px';
-          titleRow.appendChild(Object.assign(document.createElement('div'), {
+          const titleLeft = document.createElement('div');
+          titleLeft.style.cssText = 'display:flex;align-items:center;gap:10px;flex-wrap:wrap';
+          const titleEl = Object.assign(document.createElement('div'), {
             className: 'card-title',
-            textContent: `Today\u2019s Picks (${todayStr})`
-          }));
+            textContent: `Picks (${todayStr})`,
+          });
+          titleLeft.appendChild(titleEl);
+          const dayToggleWrap = document.createElement('div');
+          if (_yesterdayRecapCard) {
+            dayToggleWrap.style.cssText = 'display:inline-flex;gap:4px';
+            const _DAY_ACTIVE = 'padding:4px 12px;font-size:11px;font-weight:700;border:1px solid #a78bfa;background:#a78bfa;color:#0a0a0a;border-radius:4px;cursor:pointer;transition:all 0.15s';
+            const _DAY_IDLE   = 'padding:4px 12px;font-size:11px;font-weight:500;border:1px solid rgba(255,255,255,0.15);background:rgba(255,255,255,0.04);color:#ccc;border-radius:4px;cursor:pointer;transition:all 0.15s';
+            const todayBtn = document.createElement('button');
+            todayBtn.textContent = `Today (${todayStr.slice(5)})`;
+            const yBtn = document.createElement('button');
+            yBtn.textContent = `Yesterday (${(_yesterdayStrCached || '').slice(5)})`;
+            function _setDay(which) {
+              const isToday = which === 'today';
+              todayBtn.style.cssText = isToday ? _DAY_ACTIVE : _DAY_IDLE;
+              yBtn.style.cssText = isToday ? _DAY_IDLE : _DAY_ACTIVE;
+              if (todayBody) todayBody.style.display = isToday ? '' : 'none';
+              if (recapBody) recapBody.style.display = isToday ? 'none' : '';
+              titleEl.textContent = isToday
+                ? `Picks (${todayStr})`
+                : `Yesterday\u2019s Recap (${_yesterdayStrCached})`;
+              if (sortToggle) sortToggle.style.display = isToday ? '' : 'none';
+            }
+            todayBtn.addEventListener('click', () => _setDay('today'));
+            yBtn.addEventListener('click', () => _setDay('yesterday'));
+            // Stash the setter so we can call it after bodies are wired up.
+            dayToggleWrap._setDay = _setDay;
+            dayToggleWrap.appendChild(todayBtn);
+            dayToggleWrap.appendChild(yBtn);
+            titleLeft.appendChild(dayToggleWrap);
+          }
+          titleRow.appendChild(titleLeft);
           const sortToggle = document.createElement('button');
           sortToggle.type = 'button';
           sortToggle.style.cssText = 'background:var(--accent,#5a6cff);color:#fff;border:none;border-radius:6px;padding:4px 10px;font-size:0.75rem;cursor:pointer';
@@ -1686,6 +2627,9 @@
           sortToggle.textContent = 'Sort: pCover';
           titleRow.appendChild(sortToggle);
           todayCard.appendChild(titleRow);
+          // Wrap today's body so the Today/Yesterday toggle can swap it in/out.
+          const todayBody = document.createElement('div');
+          let recapBody = null;
 
           const tbl = document.createElement('table');
           tbl.className = 'props-data-table';
@@ -1847,14 +2791,33 @@
 
           // Sequential layout (matches Yesterday's Recap structure): picks
           // table on top, then a Leans header line + leans table below.
-          if (todayPicks.length > 0) { todayCard.appendChild(tbl); fitMLBTableToContainer(tbl); }
+          // Bodies go into todayBody so the Today/Yesterday toggle can swap.
+          if (todayPicks.length > 0) { todayBody.appendChild(tbl); fitMLBTableToContainer(tbl); }
           if (lTbl) {
             const leanHeader = document.createElement('div');
             leanHeader.style.cssText = 'margin-top:14px;padding-top:8px;border-top:1px dashed rgba(244,180,0,0.4);font-size:12px;color:#f4b400;font-weight:600';
             leanHeader.textContent = `Leans — .65-.72 (${todayLeans.length})`;
-            todayCard.appendChild(leanHeader);
-            todayCard.appendChild(lTbl);
+            todayBody.appendChild(leanHeader);
+            todayBody.appendChild(lTbl);
             fitMLBTableToContainer(lTbl);
+          }
+          todayCard.appendChild(todayBody);
+          // Yesterday Recap body: pull children off the deferred recap card
+          // (skipping its own card-title since we render a unified one).
+          if (_yesterdayRecapCard) {
+            recapBody = document.createElement('div');
+            recapBody.style.display = 'none';
+            while (_yesterdayRecapCard.firstChild) {
+              const child = _yesterdayRecapCard.firstChild;
+              if (child.classList && child.classList.contains('card-title')) {
+                _yesterdayRecapCard.removeChild(child);
+                continue;
+              }
+              recapBody.appendChild(child);
+            }
+            todayCard.appendChild(recapBody);
+            // Now that both bodies exist, set the initial active day.
+            if (dayToggleWrap._setDay) dayToggleWrap._setDay('today');
           }
           el.appendChild(todayCard);
         } else {
@@ -1878,9 +2841,20 @@
       (function renderGamesSection() {
         const allDates = [...new Set(data.props.map(p => p.date))].sort();
         const todayStr = allDates[allDates.length - 1] || '';
-        // Use todayProjections (all projections incl. PASS) if available, else fall back to picks only
+        // Use todayProjections (all projections incl. PASS) if available, else fall back to picks only.
+        // VOIDed rows (pitcher_scratched / pitcher_swapped) are dropped so a
+        // scratched starter doesn't keep projecting in Today's Games. Cross-
+        // reference against data.props for the void marker since
+        // todayProjections may not carry result/voidReason fields.
+        const _voidedKey = new Set(
+          (data.props || [])
+            .filter(p => p.result === 'VOID' && p.date === todayStr)
+            .map(p => `${p.player}|${p.team}|${p.market}`)
+        );
         const todayAllProj = (data.todayProjections || data.props)
-          .filter(p => p.date === todayStr && p.proj != null && p.line != null);
+          .filter(p => p.date === todayStr && p.proj != null && p.line != null)
+          .filter(p => p.result !== 'VOID'
+                       && !_voidedKey.has(`${p.player}|${p.team}|${p.market}`));
         if (todayAllProj.length === 0) return;
 
         // Build unique games from gameTimes (all scheduled games, not just ones
@@ -2170,19 +3144,47 @@
           // Game pills — "All" first, then each game
           gamePills.textContent = '';
           const allGamesBtn = document.createElement('button');
+          // Same chip style as Team History → Today's Matchups for visual
+          // consistency across the page (rounded 4px, purple-on-dark when
+          // active, soft border + faint fill when inactive).
+          const _ACTIVE_PILL = 'padding:5px 10px;font-size:11px;font-weight:700;border:1px solid #a78bfa;background:#a78bfa;color:#0a0a0a;border-radius:4px;cursor:pointer;transition:all 0.15s';
+          const _IDLE_PILL   = 'padding:5px 10px;font-size:11px;font-weight:500;border:1px solid rgba(255,255,255,0.15);background:rgba(255,255,255,0.04);color:#ccc;border-radius:4px;cursor:pointer;transition:all 0.15s';
           allGamesBtn.textContent = 'All';
-          allGamesBtn.style.cssText = activeGame === 'all'
-            ? 'padding:5px 14px;border-radius:16px;border:1px solid #7c6cf0;background:#7c6cf0;color:#fff;font-size:12px;cursor:pointer'
-            : 'padding:5px 14px;border-radius:16px;border:1px solid rgba(255,255,255,0.12);background:transparent;color:#999;font-size:12px;cursor:pointer';
-          allGamesBtn.onclick = () => { activeGame = 'all'; activePlayer = 'all'; currentPage = 0; refreshPills(); refreshPlayerDropdown(); renderGameTable(); };
+          allGamesBtn.style.cssText = activeGame === 'all' ? _ACTIVE_PILL : _IDLE_PILL;
+          allGamesBtn.onclick = () => {
+            activeGame = 'all';
+            activePlayer = 'all';
+            currentPage = 0;
+            refreshPills();
+            refreshPlayerDropdown();
+            renderGameTable();
+            // Tell Pitcher History + Team History to clear their per-game
+            // state (hide the pitcher toggle, clear the matchup chip).
+            _gameClickSubs.forEach(fn => { try { fn({ reset: true }); } catch (e) {} });
+          };
           gamePills.appendChild(allGamesBtn);
           for (const [key, label] of games) {
             const btn = document.createElement('button');
             btn.textContent = label;
-            btn.style.cssText = key === activeGame
-              ? 'padding:5px 14px;border-radius:16px;border:1px solid #7c6cf0;background:#7c6cf0;color:#fff;font-size:12px;cursor:pointer'
-              : 'padding:5px 14px;border-radius:16px;border:1px solid rgba(255,255,255,0.12);background:transparent;color:#999;font-size:12px;cursor:pointer';
-            btn.onclick = () => { activeGame = key; activePlayer = 'all'; currentPage = 0; refreshPills(); refreshPlayerDropdown(); renderGameTable(); };
+            btn.style.cssText = key === activeGame ? _ACTIVE_PILL : _IDLE_PILL;
+            btn.onclick = () => {
+              activeGame = key;
+              activePlayer = 'all';
+              currentPage = 0;
+              refreshPills();
+              refreshPlayerDropdown();
+              renderGameTable();
+              // Fan out to Pitcher History + Team History so they jump to
+              // the same matchup. Use the LABEL's team order (matches what
+              // the user sees on the chip) so both downstream cards render
+              // their toggles in the same left/right order. The key is
+              // alphabetical and would invert pairs like "MIN vs CWS".
+              const labelTeams = (label || '').split(' vs ');
+              const teams = labelTeams.length === 2 ? labelTeams : key.split('@');
+              if (teams.length === 2) {
+                _gameClickSubs.forEach(fn => { try { fn({ teams }); } catch (e) {} });
+              }
+            };
             gamePills.appendChild(btn);
           }
           // Market pills removed — strikeouts is the only market.
@@ -2202,6 +3204,12 @@
       // bottom. (Definition lives inside renderMLBDailyCards; invoking here
       // appends to `el` at this insertion point.)
       if (_renderMatchupCard) _renderMatchupCard();
+      // Season Market Breakdown sits below Matchup History — it summarizes
+      // all history, so it's a natural footer to the per-game cards.
+      if (_seasonBreakdownCard) el.appendChild(_seasonBreakdownCard);
+      // Recent Record sits between Season Market Breakdown and the All-
+      // history paginated table.
+      if (_recentRecordContainer) el.appendChild(_recentRecordContainer);
 
       // ── Unified Toolbar ──
       const selStyle = 'padding:6px 12px;border-radius:6px;background:rgba(255,255,255,0.06);color:#fff;border:1px solid rgba(255,255,255,0.1);font-size:13px;outline:none';
@@ -3405,18 +4413,18 @@
         function refreshPills() {
           gamePills.textContent = '';
           const allGamesBtn = document.createElement('button');
+          // Same chip style as Team History → Today's Matchups (see pitcher
+          // card above) — consistent visual language across slate selectors.
+          const _ACTIVE_PILL = 'padding:5px 10px;font-size:11px;font-weight:700;border:1px solid #a78bfa;background:#a78bfa;color:#0a0a0a;border-radius:4px;cursor:pointer;transition:all 0.15s';
+          const _IDLE_PILL   = 'padding:5px 10px;font-size:11px;font-weight:500;border:1px solid rgba(255,255,255,0.15);background:rgba(255,255,255,0.04);color:#ccc;border-radius:4px;cursor:pointer;transition:all 0.15s';
           allGamesBtn.textContent = 'All';
-          allGamesBtn.style.cssText = activeGame === 'all'
-            ? 'padding:5px 14px;border-radius:16px;border:1px solid #7c6cf0;background:#7c6cf0;color:#fff;font-size:12px;cursor:pointer'
-            : 'padding:5px 14px;border-radius:16px;border:1px solid rgba(255,255,255,0.12);background:transparent;color:#999;font-size:12px;cursor:pointer';
+          allGamesBtn.style.cssText = activeGame === 'all' ? _ACTIVE_PILL : _IDLE_PILL;
           allGamesBtn.onclick = () => { activeGame = 'all'; activePlayer = 'all'; bCurrentPage = 0; refreshPills(); refreshPlayerDropdown(); renderBatterTable(); };
           gamePills.appendChild(allGamesBtn);
           for (const [key, label] of games) {
             const btn = document.createElement('button');
             btn.textContent = label;
-            btn.style.cssText = key === activeGame
-              ? 'padding:5px 14px;border-radius:16px;border:1px solid #7c6cf0;background:#7c6cf0;color:#fff;font-size:12px;cursor:pointer'
-              : 'padding:5px 14px;border-radius:16px;border:1px solid rgba(255,255,255,0.12);background:transparent;color:#999;font-size:12px;cursor:pointer';
+            btn.style.cssText = key === activeGame ? _ACTIVE_PILL : _IDLE_PILL;
             btn.onclick = () => { activeGame = key; activePlayer = 'all'; bCurrentPage = 0; refreshPills(); refreshPlayerDropdown(); renderBatterTable(); };
             gamePills.appendChild(btn);
           }

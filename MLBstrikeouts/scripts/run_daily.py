@@ -264,9 +264,19 @@ def grade_previous_picks(season=None):
 
     # Index logs by (pitcher_name, game_date) for fast lookup
     logs_by_pitcher_date = defaultdict(list)
+    # Also track which (team, date) pairs have ANY pitcher game log — used
+    # to distinguish "game played but this pitcher was scratched" from
+    # "game data hasn't propagated yet" when grading.
+    teams_played_on_date = set()
+    other_pitchers_by_team_date = defaultdict(list)
     for g in all_logs:
         key = (g.get("pitcher_name", ""), g.get("game_date", ""))
         logs_by_pitcher_date[key].append(g)
+        _t, _d, _pn = g.get("team", ""), g.get("game_date", ""), g.get("pitcher_name", "")
+        if _t and _d:
+            teams_played_on_date.add((_t, _d))
+            if _pn:
+                other_pitchers_by_team_date[(_t, _d)].append(_pn)
 
     # Grade each pick
     graded = 0
@@ -307,13 +317,33 @@ def grade_previous_picks(season=None):
         if not games:
             # No game log for this pitcher/date.  Could be:
             #   (a) game postponed / suspended / cancelled — mark VOID
-            #   (b) data hasn't propagated yet (recent date) — leave ungraded
+            #   (b) game happened but this pitcher was scratched (someone
+            #       else on the team has a game log that date) — VOID
+            #   (c) data hasn't propagated yet (recent date) — leave ungraded
             # Check the schedule cache for the pitcher's team on that date.
-            if _is_game_postponed(pick.get("team", ""), pick["date"]):
+            team = pick.get("team", "")
+            date_iso = pick["date"]
+            if _is_game_postponed(team, date_iso):
                 pick["result"] = "VOID"
                 pick["actual"] = None
+                pick["voidReason"] = "postponed"
                 if not is_watch:
-                    graded += 1  # count as resolved (so we stop reprocessing)
+                    graded += 1
+                else:
+                    watch_graded += 1
+            elif (team, date_iso) in teams_played_on_date:
+                # Game happened, somebody pitched for this team — but not
+                # the announced starter we picked. Treat as a scratch/swap.
+                pick["result"] = "VOID"
+                pick["actual"] = None
+                pick["voidReason"] = "pitcher_scratched"
+                others = other_pitchers_by_team_date.get((team, date_iso), [])
+                if others:
+                    pick["voidNote"] = f"did not start (team threw: {', '.join(others[:3])})"
+                else:
+                    pick["voidNote"] = "did not start"
+                if not is_watch:
+                    graded += 1
                 else:
                     watch_graded += 1
             continue
