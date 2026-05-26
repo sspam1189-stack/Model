@@ -1393,9 +1393,14 @@
             const caution   = bktWR != null && bktN >= 4 && bktWR < 0.45;
             const small     = bktN > 0 && bktN < 4;
             const empty     = bktN === 0;
-            const bElite    = broadWR != null && broadN >= 6 && broadWR >= 0.80 && broadU >= 4;
-            const bSolid    = broadWR != null && broadN >= 6 && broadWR >= 0.65 && broadU > 0;
-            const bCaution  = broadWR != null && broadN >= 6 && broadWR <= 0.45 && broadU <= -2;
+            const bElite    = broadWR != null && broadN >= 8 && broadWR >= 0.80 && broadU >= 4;
+            const bSolid    = broadWR != null && broadN >= 8 && broadWR >= 0.65 && broadU > 0;
+            const bCaution  = broadWR != null && broadN >= 8 && broadWR <= 0.45 && broadU <= -2;
+            // bWeak matches readVerdictFor() — mediocre broader cohort
+            // (sub-50% WR OR negative units) at n>=8. Used to route the
+            // narrative into PASS-flavored prose when coin + bWeak triggers
+            // the verdict gate.
+            const bWeak     = broadWR != null && broadN >= 8 && (broadWR < 0.50 || broadU < 0);
             const widerThanBkt = broadN > bktN;
             const dirWord = r.dir.toLowerCase() + 's';
             const oppStr = r.p.opp;
@@ -1406,8 +1411,10 @@
             let take = '';
             if (caution) {
               take = `Picks have bled here (${sr(recOf(dirRec))}, ${(bktWR*100).toFixed(1)}%, ${uOf(dirRec)}) and broader isn't a rescue (${recOf(allRec)}). ${pcPct}% model can't outrun history.`;
-            } else if (coin && bCaution) {
-              take = `Picks are ${recOf(dirRec)} and the broader matchup makes it worse (${sr(recOf(allRec))}, ${(broadWR*100).toFixed(1)}%, ${uOf(allRec)}). ${pcPct}% model — history disagrees too hard.`;
+            } else if (coin && bWeak) {
+              take = `Picks ${recOf(dirRec)} (${(bktWR*100).toFixed(1)}%, ${uOf(dirRec)}) and the broader cohort isn't carrying it either (${sr(recOf(allRec))}, ${(broadWR*100).toFixed(1)}%, ${uOf(allRec)}). ${pcPct}% model — flagged PASS.`;
+            } else if ((small || empty) && bWeak) {
+              take = `Bucket thin (${recOf(dirRec)}) and the broader cohort is weak (${sr(recOf(allRec))}, ${(broadWR*100).toFixed(1)}%, ${uOf(allRec)}). ${pcPct}% model can't override — flagged PASS.`;
             } else if (elite && (bElite || (broadWR && broadWR >= 0.80))) {
               take = `Cleanest spot of the night — picks ${sg(recOf(dirRec))}, broader matchup ${sg(recOf(allRec))} (${(broadWR*100).toFixed(1)}%, ${uOf(allRec)}). ${pcPct}% model.`;
             } else if (elite) {
