@@ -595,8 +595,18 @@
           if (allGradedPicks.length === 0 && allGradedLeans.length === 0) return;
 
           // Anything after the baseline cutoff date — the actually-new picks.
-          const newPicks = allGradedPicks.filter(p => p.date && p.date > BASELINE.cutoff);
-          const newLeans = allGradedLeans.filter(p => p.date && p.date > BASELINE.cutoff);
+          // TAKE-only cutoff: dates AFTER this only count rows the Read
+          // verdict marked TAKE (PASS picks excluded). 5/25 was the last
+          // day posted with TAKE+PASS combined; the new TAKE-only policy
+          // starts 5/26.
+          const TAKE_ONLY_CUTOFF = '2026-05-25';
+          const _postCutoff = (p) => {
+            if (!p.date || p.date <= BASELINE.cutoff) return false;
+            if (p.date > TAKE_ONLY_CUTOFF) return p.readVerdict !== 'PASS';
+            return true;
+          };
+          const newPicks = allGradedPicks.filter(_postCutoff);
+          const newLeans = allGradedLeans.filter(_postCutoff);
 
           // Weekly window logic:
           //   - On Monday: previous Mon-Sun (a fully-completed week),
