@@ -204,10 +204,7 @@ def project_pitcher_props(pitcher_logs, team_batting_stats=None,
 
         recent = games[-ROLLING_WINDOW:]
         name = games[-1].get("pitcher_name", "Unknown")
-        team = games[-1].get("team", "")
-
-        if injury_report and _is_pitcher_out(name, team, injury_report):
-            continue
+        log_team = games[-1].get("team", "")
 
         ctx = pitcher_id_ctx.get(pid, {})
         if not ctx:
@@ -215,6 +212,13 @@ def project_pitcher_props(pitcher_logs, team_batting_stats=None,
             ctx = pitcher_game_ctx.get(nk, {})
 
         if probable_pitchers and not ctx:
+            continue
+
+        # Prefer today's probable-pitcher team over the last game-log team —
+        # the log can be stale after a mid-season trade (e.g. Lauer TOR→LAD).
+        team = ctx.get("team") or log_team
+
+        if injury_report and _is_pitcher_out(name, team, injury_report):
             continue
 
         latest_opp = ctx.get("opp", games[-1].get("opp", ""))
