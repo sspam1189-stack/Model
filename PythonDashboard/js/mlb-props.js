@@ -903,19 +903,16 @@
             }));
           } catch (_) {}
 
+          // Reddit copy is picks-only at the 0.68+ threshold — Leans
+          // section removed entirely (totals, weekly, yesterday, and the
+          // per-row leans block).
           const redditText =
-            `Picks and leans will be updated throughout the day as lineups come in.\n\n` +
+            `Picks will be updated throughout the day as lineups come in.\n\n` +
             `Picks:\n\n` +
             `* Total: ${fmt(totalPicks)}\n` +
             `* ${weekLabel} (${weekRange}): ${fmt(wPicksTally)}\n` +
             `* Yesterday (${yMD}): ${fmt(yPicksTally)}\n` +
-            `\n` +
-            `Leans:\n\n` +
-            `* Total: ${fmt(totalLeans)}\n` +
-            `* ${weekLabel} (${weekRange}): ${fmt(wLeansTally)}\n` +
-            `* Yesterday (${yMD}): ${fmt(yLeansTally)}\n` +
             _picksBlock +
-            _leansBlock +
             _droppedBlock;
 
           const redditCard = document.createElement('div');
