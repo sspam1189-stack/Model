@@ -1154,14 +1154,11 @@
             if (paN >= 6 && paW >= 0.70 && pall.u >= 2) return true;
             return false;
           };
-          // Two pools of watch-tier rows:
-          //   bumpedLeans → flagged by the read as bumpable (Read narrative).
-          //   allLeans    → every watchlist row for context — shown in the
-          //                 table under "Watch — history (N)" so the user
-          //                 sees what was projected without us claiming we
-          //                 took it. Leans were never bet.
+          // Watch rows shown in BOTH table and Read are bumped-only —
+          // the rest are noise. Section header makes clear they weren't
+          // bet.
           const bumpedLeans = leansToShow.filter(_isBumpedLean);
-          const todayLeans = leansToShow;  // all, for the table
+          const todayLeans = bumpedLeans;
           const rows = [...todayPicks.map(p => ({p, bucket:'Pick'})),
                         ...todayLeans.map(p => ({p, bucket:'Lean'}))];
           if (rows.length === 0) return null;
@@ -1296,10 +1293,8 @@
             td.colSpan = cols.length;
             td.style.cssText = `padding:8px 8px 4px;font-size:11px;color:var(--yellow);font-weight:700;letter-spacing:0.08em;text-transform:uppercase;background:rgba(255,255,255,0.02);border-top:1px solid rgba(255,255,255,0.08);cursor:pointer;user-select:none`;
             let _watchOpen = false;
-            const bumpedN = bumpedLeans.length;
-            const bumpedSuffix = bumpedN > 0 ? ` · ${bumpedN} bumped` : '';
             const _setTxt = () => {
-              td.textContent = (_watchOpen ? '▼ ' : '▶ ') + `Watch — history (${todayLeans.length})${bumpedSuffix} — not bet`;
+              td.textContent = (_watchOpen ? '▼ ' : '▶ ') + `Watch — bumped (${todayLeans.length}) — not bet`;
             };
             _setTxt();
             const watchTRs = [];
