@@ -235,8 +235,8 @@ def _stamp_read_verdicts(merged_props):
     # matching the JS allBucketsDirRec() lens (excludes PASS).
     by_opp_dir = defaultdict(lambda: {"w": 0, "l": 0, "u": 0.0})  # picks only
     by_opp_dir_widened = defaultdict(lambda: {"w": 0, "l": 0, "u": 0.0})  # picks + watch, same dir
-    by_pit_dir = defaultdict(lambda: {"w": 0, "l": 0, "u": 0.0})  # picks only, by pitcher
-    by_pit = defaultdict(lambda: {"w": 0, "l": 0, "u": 0.0})       # picks both dirs, by pitcher
+    by_pit_dir = defaultdict(lambda: {"w": 0, "l": 0, "u": 0.0})  # picks + watch, by pitcher
+    by_pit = defaultdict(lambda: {"w": 0, "l": 0, "u": 0.0})       # picks + watch both dirs, by pitcher
 
     def _is_watch(p):
         # Watch tier: pick=PASS with a would_be_pick AND pCover in [0.60, 0.68).
@@ -363,10 +363,11 @@ def _stamp_read_verdicts(merged_props):
             if row_dir in ("OVER", "UNDER"):
                 # Widened broader map: picks AND watch, same direction.
                 _tally(by_opp_dir_widened[(opp, row_dir)])
+                if is_pick or is_watch:
+                    _tally(by_pit_dir[(pit_key, row_dir)])
+                    _tally(by_pit[pit_key])
             if is_pick:
                 _tally(by_opp_dir[(opp, row_dir)])
-                _tally(by_pit_dir[(pit_key, row_dir)])
-                _tally(by_pit[pit_key])
 
 
 def grade_previous_picks(season=None):
