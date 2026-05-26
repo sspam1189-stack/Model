@@ -337,6 +337,14 @@
           { label: 'Last 2 weeks',  start: _ww.lastTwoWeek.start, end: _ww.lastTwoWeek.end },
         ];
         let recentCutoffIdx = 0;
+        // Second toggle: all graded picks vs. only read-widget TAKEs.
+        // Mirrors the Reddit-widget tally so users can A/B the model-only
+        // record against the read-filtered subset within the same window.
+        const recentModeOptions = [
+          { label: 'All',  filter: () => true,                       title: 'Recent Record' },
+          { label: 'Read', filter: p => p.readVerdict === 'TAKE',    title: 'Recent Read Record' },
+        ];
+        let recentModeIdx = 0;
 
         const rCardContainer = document.createElement('div');
         // Deferred — appended after Season Market Breakdown so the page
@@ -344,20 +352,20 @@
         // → All-history table.
         _recentRecordContainer = rCardContainer;
 
-        function buildRecentToggle() {
+        function _buildToggleGroup(options, getIdx, setIdx) {
           const wrap = document.createElement('div');
           wrap.style.cssText = 'display:inline-flex;gap:4px;background:rgba(255,255,255,0.05);padding:3px;border-radius:6px';
-          recentCutoffOptions.forEach((opt, idx) => {
+          options.forEach((opt, idx) => {
             const b = document.createElement('button');
             b.textContent = opt.label;
-            const active = idx === recentCutoffIdx;
+            const active = idx === getIdx();
             b.style.cssText = 'font-size:11px;padding:4px 10px;border:0;border-radius:4px;cursor:pointer;'
               + (active
                   ? 'background:rgba(168,85,247,0.35);color:#fff;font-weight:600'
                   : 'background:transparent;color:#aaa');
             b.addEventListener('click', () => {
-              if (recentCutoffIdx !== idx) {
-                recentCutoffIdx = idx;
+              if (getIdx() !== idx) {
+                setIdx(idx);
                 renderRecentRecord();
               }
             });
@@ -365,12 +373,17 @@
           });
           return wrap;
         }
+        const buildRecentToggle = () =>
+          _buildToggleGroup(recentCutoffOptions, () => recentCutoffIdx, i => { recentCutoffIdx = i; });
+        const buildRecentModeToggle = () =>
+          _buildToggleGroup(recentModeOptions, () => recentModeIdx, i => { recentModeIdx = i; });
 
         function renderRecentRecord() {
           rCardContainer.innerHTML = '';
           const opt = recentCutoffOptions[recentCutoffIdx];
+          const mode = recentModeOptions[recentModeIdx];
           const recentPicks = gradedPicks.filter(p =>
-            p.date && p.date >= opt.start && (!opt.end || p.date <= opt.end)
+            p.date && p.date >= opt.start && (!opt.end || p.date <= opt.end) && mode.filter(p)
           );
           const rCard = document.createElement('div');
           rCard.className = 'card card-games';
@@ -380,16 +393,22 @@
           titleRow.style.cssText = 'display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap';
           const titleSpan = document.createElement('span');
           titleSpan.textContent = opt.end
-            ? `Recent Record (${opt.start} to ${opt.end})`
-            : `Recent Record (${opt.start} - present)`;
+            ? `${mode.title} (${opt.start} to ${opt.end})`
+            : `${mode.title} (${opt.start} - present)`;
           titleRow.appendChild(titleSpan);
-          titleRow.appendChild(buildRecentToggle());
+          const togglesWrap = document.createElement('div');
+          togglesWrap.style.cssText = 'display:inline-flex;gap:8px;flex-wrap:wrap';
+          togglesWrap.appendChild(buildRecentToggle());
+          togglesWrap.appendChild(buildRecentModeToggle());
+          titleRow.appendChild(togglesWrap);
           rCard.appendChild(titleRow);
 
           if (recentPicks.length === 0) {
             const note = document.createElement('div');
             note.style.cssText = 'padding:12px;color:#888;font-style:italic;font-size:13px';
-            note.textContent = 'No graded picks in this window yet.';
+            note.textContent = recentModeIdx === 1
+              ? 'No graded Read TAKEs in this window yet.'
+              : 'No graded picks in this window yet.';
             rCard.appendChild(note);
             rCardContainer.appendChild(rCard);
             return;
@@ -912,6 +931,24 @@
               date: todayStr, state: _currentState,
             }));
           } catch (_) {}
+
+          // Manual override for 5/25: clean-backfill computes -1.70u but
+          // the actually-posted Reddit total was -2.70u (live odds at bet
+          // time). Pin the widget to what was published so it matches the
+          // existing Reddit post.
+          if (yesterdayStr === '2026-05-25') {
+            yPicksTally = { w: 2, l: 3, u: -2.70 };
+          }
+          if (weeklyStartStr <= '2026-05-25' && weeklyEndStr >= '2026-05-25') {
+            // Replace the 5/25 contribution inside the weekly window:
+            // strip the computed 5/25 piece, then add the pinned values.
+            const _y25 = combine({w:0,l:0,u:0}, newPicks.filter(p => p.date === '2026-05-25'));
+            wPicksTally = {
+              w: wPicksTally.w - _y25.w + 2,
+              l: wPicksTally.l - _y25.l + 3,
+              u: wPicksTally.u - _y25.u + (-2.70),
+            };
+          }
 
           // Reddit copy is picks-only at the 0.68+ threshold — Leans
           // section removed entirely (totals, weekly, yesterday, and the
