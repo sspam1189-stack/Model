@@ -483,8 +483,9 @@
           tally.innerHTML = `Props: <b>${yW}W-${yL}L</b> &middot; <span style="color:${uColor}">${yU >= 0 ? '+' : ''}${yU.toFixed(2)}u</span>`;
           recapCard.appendChild(tally);
 
-          // Yesterday's Leans (0.65-0.72 watchlist, both sides) — full table beneath picks
-          const yLeans = leanGraded.filter(p => p.date === yesterdayStr);
+          // Yesterday's Leans section removed — we don't bet leans at the
+          // 0.68+ threshold, so the recap stays picks-only.
+          const yLeans = [];
           if (yLeans.length > 0) {
             const yLW = yLeans.filter(p => p.result === 'WIN').length;
             const yLL = yLeans.filter(p => p.result === 'LOSS').length;
@@ -3347,14 +3348,9 @@
           // table on top, then a Leans header line + leans table below.
           // Bodies go into todayBody so the Today/Yesterday toggle can swap.
           if (todayPicks.length > 0) { todayBody.appendChild(tbl); fitMLBTableToContainer(tbl); }
-          if (lTbl) {
-            const leanHeader = document.createElement('div');
-            leanHeader.style.cssText = 'margin-top:14px;padding-top:8px;border-top:1px dashed rgba(244,180,0,0.4);font-size:12px;color:#f4b400;font-weight:600';
-            leanHeader.textContent = `Leans — .65-.72 (${todayLeans.length})`;
-            todayBody.appendChild(leanHeader);
-            todayBody.appendChild(lTbl);
-            fitMLBTableToContainer(lTbl);
-          }
+          // Today's Leans table removed — we don't bet leans. The Watch —
+          // bumped section inside the matchup history below still surfaces
+          // watchlist plays the read has elevated.
           // Placeholder for Matchup History (table + Read). Filled later by
           // _renderMatchupCard via the hoisted slot reference.
           _todayMatchupSlot = document.createElement('div');
