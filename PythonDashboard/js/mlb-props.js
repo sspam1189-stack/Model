@@ -1267,8 +1267,33 @@
             for (const p of todayPicks) appendDataRow(p, 'Pick');
           }
           if (todayLeans.length) {
-            appendSectionHeader(`Watch — bumped (${todayLeans.length})`, 'var(--yellow)');
-            for (const p of todayLeans) appendDataRow(p, 'Lean');
+            // Collapsible watch-bumped section. Header acts as a toggle;
+            // rows hidden by default so the table doesn't bloat with
+            // watch tier info that isn't actionable.
+            const tr = tb.insertRow();
+            const td = tr.insertCell();
+            td.colSpan = cols.length;
+            td.style.cssText = `padding:8px 8px 4px;font-size:11px;color:var(--yellow);font-weight:700;letter-spacing:0.08em;text-transform:uppercase;background:rgba(255,255,255,0.02);border-top:1px solid rgba(255,255,255,0.08);cursor:pointer;user-select:none`;
+            let _watchOpen = false;
+            const _setTxt = () => {
+              td.textContent = (_watchOpen ? '▼ ' : '▶ ') + `Watch — bumped (${todayLeans.length})`;
+            };
+            _setTxt();
+            const watchTRs = [];
+            for (const p of todayLeans) {
+              const before = tb.rows.length;
+              appendDataRow(p, 'Lean');
+              const newRow = tb.rows[before];  // index-safe vs lastChild text nodes
+              if (newRow) {
+                newRow.style.display = 'none';
+                watchTRs.push(newRow);
+              }
+            }
+            tr.addEventListener('click', () => {
+              _watchOpen = !_watchOpen;
+              _setTxt();
+              watchTRs.forEach(r => { r.style.display = _watchOpen ? '' : 'none'; });
+            });
           }
           wrap.appendChild(tbl);
           card.appendChild(wrap);
@@ -1464,16 +1489,34 @@
             return line;
           }
 
-          function appendReadSection(label, color, entries) {
+          function appendReadSection(label, color, entries, opts) {
             if (!entries.length) return;
+            const collapsible = opts && opts.collapsible;
             const sub = document.createElement('div');
-            sub.style.cssText = `font-size:11px;color:${color};font-weight:700;letter-spacing:0.08em;text-transform:uppercase;margin:10px 0 6px;padding-left:2px`;
-            sub.textContent = `${label} (${entries.length})`;
+            sub.style.cssText = `font-size:11px;color:${color};font-weight:700;letter-spacing:0.08em;text-transform:uppercase;margin:10px 0 6px;padding-left:2px${collapsible ? ';cursor:pointer;user-select:none' : ''}`;
+            const updateLabel = (open) => {
+              sub.textContent = collapsible
+                ? (open ? '▼ ' : '▶ ') + `${label} (${entries.length})`
+                : `${label} (${entries.length})`;
+            };
+            updateLabel(false);
             readBlock.appendChild(sub);
-            for (const r of entries) readBlock.appendChild(renderReadRow(r));
+            const rowDivs = entries.map(r => renderReadRow(r));
+            for (const d of rowDivs) {
+              if (collapsible) d.style.display = 'none';
+              readBlock.appendChild(d);
+            }
+            if (collapsible) {
+              let open = false;
+              sub.addEventListener('click', () => {
+                open = !open;
+                updateLabel(open);
+                rowDivs.forEach(d => { d.style.display = open ? '' : 'none'; });
+              });
+            }
           }
           appendReadSection('Picks', '#a78bfa', pickEntries);
-          appendReadSection('Watch — bumped', 'var(--yellow)', leanEntries);
+          appendReadSection('Watch — bumped', 'var(--yellow)', leanEntries, { collapsible: true });
 
           card.appendChild(readBlock);
 
