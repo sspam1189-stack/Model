@@ -413,12 +413,9 @@
           if (recentUnders.length) appendMarketRow(rb, 'Unders', recentUnders, false);
           appendMarketRow(rb, 'Total', recentPicks, true);
           const _inWin = p => p.date && p.date >= opt.start && (!opt.end || p.date <= opt.end);
-          const recentOverLeans   = leanOverGraded.filter(_inWin);
-          const recentUnderLeans  = leanUnderGraded.filter(_inWin);
-          const recentLeansAll    = leanGraded.filter(_inWin);
-          appendLeanRow(rb, recentOverLeans,  'Lean O .65-.72');
-          appendLeanRow(rb, recentUnderLeans, 'Lean U .65-.72');
-          appendLeanRow(rb, recentLeansAll,   'Lean Total .65-.72');
+          // Lean rows removed from Recent Record — we don't bet leans at
+          // the 0.68+ threshold so the recent-window summary stays
+          // picks-only (matches Season Market Breakdown).
           rWrap.appendChild(rTbl);
           rCard.appendChild(rWrap);
           rCardContainer.appendChild(rCard);
