@@ -412,17 +412,16 @@ def project_pitcher_props(pitcher_logs, team_batting_stats=None,
 
         if game_ppbfs:
             avg_ppbf = _weighted_avg(game_ppbfs)
-            # Pitch count: bias up toward the most recent start when it's
-            # higher than the rolling avg, to capture the upward pitch-count
-            # trend as pitchers stretch out. Skip the bump if the last start
-            # was abnormally short (pulled early).
-            wavg_pc = _weighted_avg(game_pcs)
-            last_pc = game_pcs[-1] if game_pcs else wavg_pc
-            if last_pc >= 70:
-                avg_pc = max(wavg_pc, last_pc)
+            recent_pcs = game_pcs[-5:] if game_pcs else []
+            # avg_pc = median of last 5 pitch counts, blended with a slope
+            # projection over the last PC_SLOPE_N starts. Median sits at the
+            # typical outing (vs the peak); slope captures legitimate stretch-out.
+            if recent_pcs:
+                _s = sorted(recent_pcs)
+                _n = len(_s)
+                avg_pc = _s[_n // 2] if _n % 2 == 1 else 0.5 * (_s[_n//2 - 1] + _s[_n//2])
             else:
-                avg_pc = wavg_pc
-            # --- Slope projection (exploratory) ---
+                avg_pc = _weighted_avg(game_pcs)
             from defaults import PC_SLOPE_WEIGHT, PC_SLOPE_N, PC_SLOPE_DECAY
             if PC_SLOPE_WEIGHT > 0 and len(game_pcs) >= 3:
                 pcs = game_pcs[-PC_SLOPE_N:] if PC_SLOPE_N else game_pcs
@@ -439,15 +438,6 @@ def project_pitcher_props(pitcher_logs, team_batting_stats=None,
                     intercept = mean_y - slope * mean_x
                     trend_pc = slope * n_pc + intercept
                     avg_pc = (1 - PC_SLOPE_WEIGHT) * avg_pc + PC_SLOPE_WEIGHT * trend_pc
-            # --- Pitch-count ceiling ---
-            # Cap projected pitches at the recent ceiling (max of last 5
-            # starts). Pitchers have hard pitch-count caps from coaching
-            # staff that the rolling-avg pitch count ignores. Without this,
-            # picks that look like "100-pitch outing → 25 BF" project K's
-            # the pitcher cannot physically achieve.
-            recent_pcs = game_pcs[-5:] if game_pcs else []
-            if recent_pcs:
-                avg_pc = min(avg_pc, max(recent_pcs))
             projected_bf = avg_pc / avg_ppbf if avg_ppbf > 0 else 24.0
         else:
             avg_ppbf = 3.9  # MLB league avg pitches/BF — fallback only
@@ -456,16 +446,6 @@ def project_pitcher_props(pitcher_logs, team_batting_stats=None,
             projected_bf = proj_ip * (3.0 + whip * 0.7)
 
         from defaults import BF_MULT as _BF_MULT, BF_CAP as _BF_CAP
-        # SHOW REAL PROJECTED BF, BUT CAP IT FOR THE K MATH.
-        # We display each pitcher's natural BF projection (after BF_MULT only)
-        # so the dashboard shows real expected depth — Cease 25.6, Ohtani 27.4,
-        # Skenes 25.8, etc. — instead of clamping every elite starter to 23.
-        # The K projection itself still uses the capped value because BF_CAP=23
-        # is the empirical optimum: every sweep (2026-05-13, sweep_combined_caps)
-        # confirmed that loosening it adds borderline picks that drag WR down
-        # and break the lean band. So:
-        #     projected_bf_display = real expected BF (what users see)
-        #     projected_bf         = min(real, 23) used in K = rate × BF
         projected_bf_display = projected_bf * _BF_MULT
         projected_bf = min(projected_bf_display, _BF_CAP)
         # Projected pitch count: prefer recent avg if we have it; otherwise
