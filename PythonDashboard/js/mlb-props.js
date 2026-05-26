@@ -703,12 +703,16 @@
           const _sortByPCover = (arr) => arr.slice().sort(
             (a, b) => (b.pCover || 0) - (a.pCover || 0)
           );
+          // Read-verdict gate: drop model picks the Read flagged PASS so the
+          // Reddit copy only lists picks we'd actually bet. Picks without a
+          // verdict (older rows missing the stamp) default to included.
+          const _isRedditTake = (p) => p.readVerdict !== 'PASS';
           const _todayPicks = _sortByPCover(
-            picks.filter(p => p.date === todayStr && !_isVoid(p))
+            picks.filter(p => p.date === todayStr && !_isVoid(p) && _isRedditTake(p))
           );
           const _todayLeans = _sortByPCover(
             (data.props || []).filter(p =>
-              p.date === todayStr && isLean(p) && !_isVoid(p)
+              p.date === todayStr && isLean(p) && !_isVoid(p) && _isRedditTake(p)
             )
           );
 
@@ -959,8 +963,15 @@
             const broadWR = broadN > 0 ? allRec.w / broadN : null;
             const broadU = allRec ? allRec.u : 0;
             const caution = bktWR != null && bktN >= 4 && bktWR < 0.45;
-            const coin    = bktWR != null && bktN >= 4 && bktWR >= 0.45 && bktWR < 0.65;
-            const bCaution = broadWR != null && broadN >= 6 && broadWR <= 0.45 && broadU <= -2;
+            // Tightened from 0.65 → 0.60: anything sub-60% in-bucket counts
+            // as a "coin" candidate so the bWeak gate below can drag it down
+            // to PASS when the broader cohort agrees the spot's bad.
+            const coin    = bktWR != null && bktN >= 4 && bktWR >= 0.45 && bktWR < 0.60;
+            // Loosened from "wr ≤ 0.45 AND units ≤ -2" to "wr < 0.55 OR
+            // units < 0". The original gate almost never fired (needed both
+            // bad WR and deep negative units); the new one catches matchups
+            // where the team cohort is meh-to-bad on either axis.
+            const bWeak    = broadWR != null && broadN >= 6 && (broadWR < 0.55 || broadU < 0);
             const small   = bktN > 0 && bktN < 4;
             const empty   = bktN === 0;
 
@@ -976,8 +987,8 @@
 
             // --- Negative gates (PASS) ---
             if (caution) return 'PASS';
-            if (coin && bCaution) return 'PASS';
-            if ((small || empty) && bCaution) return 'PASS';
+            if (coin && bWeak) return 'PASS';
+            if ((small || empty) && bWeak) return 'PASS';
             if (pitN >= 4 && pitWR <= 0.40 && pitRec.u <= -1) return 'PASS';
             if (pitAllN >= 6 && pitAllWR <= 0.45 && pitAllRec.u <= -2) return 'PASS';
             return 'TAKE';
@@ -1256,7 +1267,12 @@
               // strong enough that a Lean deserves play, and the broadest
               // direction-matched cohort is the right signal for that.
               // Main take text remains bucket-locked (uses r.rec).
-              const allRec = allBucketsDirRec(r.p.opp, dir);
+              // Broader lens: team O&&U (picks, BOTH directions) vs this opp.
+              // Was "picks + leans, same direction" — but leans are retired
+              // so that collapsed to picks-only. Switching to both-dirs picks
+              // gives a genuinely wider sample about how the model reads
+              // this team overall, regardless of side.
+              const allRec = bucketBothDirsRec(r.p.opp, r.bucket);
               // Pitcher's own bucket+direction record (across all opponents).
               // Surfaces "the model is X-Y on Lopez Unders historically" alongside
               // the opponent cohort so a strong pitcher track-record (or red flag)
@@ -1334,7 +1350,7 @@
             } else if (coin && bSolid) {
               take = `Picks are ${recOf(dirRec)} (${(bktWR*100).toFixed(1)}%) but the broader matchup widens to ${sg(recOf(allRec))} (${(broadWR*100).toFixed(1)}%, ${uOf(allRec)}). ${pcPct}% model.`;
             } else if (coin) {
-              take = `Picks ${recOf(dirRec)} (${(bktWR*100).toFixed(1)}%, ${uOf(dirRec)}), broader ${recOf(allRec)} — ${pcPct}% model is the deciding vote.`;
+              take = `Picks ${recOf(dirRec)} (${(bktWR*100).toFixed(1)}%, ${uOf(dirRec)}), team O&&U ${recOf(allRec)} — baseline TAKE at ${pcPct}% model.`;
             } else if ((small || empty) && (bElite || (broadWR && broadWR >= 0.80))) {
               take = `Bucket sample thin (${recOf(dirRec)}) but ${sg(`P+L ${dirWord} vs ${oppStr} are ${recOf(allRec)} (${(broadWR*100).toFixed(1)}%, ${uOf(allRec)})`)}. ${pcPct}% model.`;
             } else if ((small || empty) && bCaution) {
@@ -2058,14 +2074,21 @@
             if (!_teamsByTimeT[t]) _teamsByTimeT[t] = [];
             _teamsByTimeT[t].push(tm);
           }
-          // Preserve insertion order for the display label (matches Today's
-          // Games — e.g. "PIT vs CHC", not the alphabetical "CHC vs PIT") so
-          // the two cards read identically. The matchup key stays alphabetical
-          // so de-dupe still works across cards.
+          // Display order: home team on the RIGHT (matches Today's Games
+          // and standard baseball-scoreboard convention).
+          const _homeAwayT = (data.homeAway || {})[todayStr] || {};
+          const _orderTeamPair = (a, b) => {
+            const aHome = _homeAwayT[a] === 'home';
+            const bHome = _homeAwayT[b] === 'home';
+            if (aHome && !bHome) return [b, a];
+            if (bHome && !aHome) return [a, b];
+            return [a, b];
+          };
           for (const [t, teams] of Object.entries(_teamsByTimeT)) {
             if (teams.length === 2) {
               const k = [...teams].sort().join('@');
-              _matchupSet.set(k, { teams: [...teams], time: t });
+              const ordered = _orderTeamPair(teams[0], teams[1]);
+              _matchupSet.set(k, { teams: ordered, time: t });
             }
           }
           // Fallback for games where multiple games share a start time
@@ -2078,7 +2101,8 @@
             const k = [p.team, p.opp].sort().join('@');
             if (!_matchupSet.has(k)) {
               const t = _gameTimesT[p.team] || _gameTimesT[p.opp] || '9999';
-              _matchupSet.set(k, { teams: [p.team, p.opp], time: t });
+              const ordered = _orderTeamPair(p.team, p.opp);
+              _matchupSet.set(k, { teams: ordered, time: t });
             }
           }
           const _todayMatchups = [..._matchupSet.values()]
@@ -2778,10 +2802,30 @@
               rrCard.appendChild(wrap);
             }
             // --- Drill-down: search by verdict + month ---
-            // Lets the user inspect the individual picks behind the
-            // TAKE/PASS tallies and narrow to a specific month.
+            // Collapsed by default — the historical table is hundreds of
+            // rows. User clicks the disclosure to expand.
+            const drillToggleRow = document.createElement('div');
+            drillToggleRow.style.cssText = 'border-top:1px solid rgba(255,255,255,0.06);margin-top:12px;padding:10px 4px 0';
+            const drillToggleBtn = document.createElement('button');
+            let _drillOpen = false;
+            drillToggleBtn.style.cssText = 'background:none;border:none;color:#a78bfa;font-size:12px;font-weight:600;cursor:pointer;padding:4px 0;display:flex;align-items:center;gap:6px';
+            const _setDrillTxt = () => {
+              drillToggleBtn.textContent = (_drillOpen ? '▼ ' : '▶ ') + 'Drill into individual picks';
+            };
+            _setDrillTxt();
+            drillToggleRow.appendChild(drillToggleBtn);
+            rrCard.appendChild(drillToggleRow);
+
+            const drillBody = document.createElement('div');
+            drillBody.style.display = 'none';
+            drillToggleBtn.addEventListener('click', () => {
+              _drillOpen = !_drillOpen;
+              _setDrillTxt();
+              drillBody.style.display = _drillOpen ? '' : 'none';
+            });
+
             const drillRow = document.createElement('div');
-            drillRow.style.cssText = 'display:flex;gap:6px;padding:12px 4px 6px;flex-wrap:wrap;align-items:center;border-top:1px solid rgba(255,255,255,0.06);margin-top:12px';
+            drillRow.style.cssText = 'display:flex;gap:6px;padding:8px 4px 6px;flex-wrap:wrap;align-items:center';
             const drillLabel = document.createElement('span');
             drillLabel.style.cssText = 'font-size:11px;color:#bbb;font-weight:600;letter-spacing:0.06em;text-transform:uppercase;margin-right:6px';
             drillLabel.textContent = 'Drill:';
@@ -2841,15 +2885,16 @@
               for (const k in _rrMonthBtns) _rrMonthBtns[k].style.cssText = (k === _rrMonth) ? _RR_ACTIVE : _RR_IDLE;
             }
 
-            rrCard.appendChild(drillRow);
+            drillBody.appendChild(drillRow);
 
-            // Tally line + drill-down table mount.
+            // Tally line + drill-down table mount — inside collapsible body.
             const drillSummary = document.createElement('div');
             drillSummary.style.cssText = 'padding:4px 4px 8px;font-size:12px;color:#999';
-            rrCard.appendChild(drillSummary);
+            drillBody.appendChild(drillSummary);
             const drillWrap = document.createElement('div');
             drillWrap.className = 'props-table-wrap';
-            rrCard.appendChild(drillWrap);
+            drillBody.appendChild(drillWrap);
+            rrCard.appendChild(drillBody);
 
             function _renderDrill() {
               const filtered = rows.filter(r => {
@@ -3260,7 +3305,17 @@
         const gameSet = new Map();
 
         // First add games from gameTimes (covers games with no prop lines yet)
-        // gameTimes is {team_abbr: ISO_time} — pair up teams by matching times
+        // gameTimes is {team_abbr: ISO_time} — pair up teams by matching times.
+        // Order each pair so home team renders on the RIGHT ("AWAY vs HOME"),
+        // consistent with how baseball scoreboards read.
+        const homeAwayToday = (data.homeAway || {})[todayStr] || {};
+        const _orderPair = (a, b) => {
+          const aHome = homeAwayToday[a] === 'home';
+          const bHome = homeAwayToday[b] === 'home';
+          if (aHome && !bHome) return [b, a];   // a is home → put it on right
+          if (bHome && !aHome) return [a, b];   // b is home → already right
+          return [a, b];                        // unknown → leave as is
+        };
         const teamsByTime = {};
         for (const [team, t] of Object.entries(gameTimes)) {
           if (!teamsByTime[t]) teamsByTime[t] = [];
@@ -3269,7 +3324,8 @@
         for (const [t, teams] of Object.entries(teamsByTime)) {
           if (teams.length === 2) {
             const key = [...teams].sort().join('@');
-            gameSet.set(key, { label: `${teams[0]} vs ${teams[1]}`, time: t });
+            const [left, right] = _orderPair(teams[0], teams[1]);
+            gameSet.set(key, { label: `${left} vs ${right}`, time: t });
           }
         }
 
@@ -3278,7 +3334,8 @@
           const key = [p.team, p.opp].sort().join('@');
           if (!gameSet.has(key)) {
             const t = gameTimes[p.team] || gameTimes[p.opp] || '9999';
-            gameSet.set(key, { label: `${p.team} vs ${p.opp}`, time: t });
+            const [left, right] = _orderPair(p.team, p.opp);
+            gameSet.set(key, { label: `${left} vs ${right}`, time: t });
           }
         }
         const games = [...gameSet.entries()]
@@ -4640,11 +4697,20 @@
         // Build unique games, sorted by start time
         const gameTimes = data.gameTimes || {};
         const gameSet = new Map();
+        const _homeAwayToday = (data.homeAway || {})[todayStr] || {};
+        const _orderBatPair = (a, b) => {
+          const aHome = _homeAwayToday[a] === 'home';
+          const bHome = _homeAwayToday[b] === 'home';
+          if (aHome && !bHome) return [b, a];
+          if (bHome && !aHome) return [a, b];
+          return [a, b];
+        };
         for (const p of todayAllProj) {
           const key = [p.team, p.opp].sort().join('@');
           if (!gameSet.has(key)) {
             const t = gameTimes[p.team] || gameTimes[p.opp] || '9999';
-            gameSet.set(key, { label: `${p.team} vs ${p.opp}`, time: t });
+            const [left, right] = _orderBatPair(p.team, p.opp);
+            gameSet.set(key, { label: `${left} vs ${right}`, time: t });
           }
         }
         const games = [...gameSet.entries()]

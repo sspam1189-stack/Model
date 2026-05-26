@@ -254,16 +254,21 @@ def _stamp_read_verdicts(merged_props):
         return 1.0 if won else -abs(o) / 100.0
 
     def _verdict(dir_rec, all_rec, pit_rec, pit_all_rec):
-        # Replicates readVerdictFor() in the JS exactly.
+        # Replicates readVerdictFor() in the JS exactly. allRec here is the
+        # team O&&U record (both dirs, picks-only) — broader than picks-dir.
         bkt_n = dir_rec["w"] + dir_rec["l"] if dir_rec else 0
         bkt_wr = dir_rec["w"] / bkt_n if bkt_n > 0 else None
         broad_n = all_rec["w"] + all_rec["l"] if all_rec else 0
         broad_wr = all_rec["w"] / broad_n if broad_n > 0 else None
         broad_u = all_rec["u"] if all_rec else 0
         caution = bkt_wr is not None and bkt_n >= 4 and bkt_wr < 0.45
-        coin = bkt_wr is not None and bkt_n >= 4 and 0.45 <= bkt_wr < 0.65
-        b_caution = (broad_wr is not None and broad_n >= 6
-                     and broad_wr <= 0.45 and broad_u <= -2)
+        # Tightened: 0.45-0.60 (was 0.45-0.65) so the bWeak gate can catch
+        # high-coin spots when broader is also mediocre.
+        coin = bkt_wr is not None and bkt_n >= 4 and 0.45 <= bkt_wr < 0.60
+        # Loosened: WR<0.55 OR units<0 (was WR<=0.45 AND units<=-2). Catches
+        # matchups where the team cohort is bad on EITHER axis.
+        b_weak = (broad_wr is not None and broad_n >= 6
+                  and (broad_wr < 0.55 or broad_u < 0))
         small = 0 < bkt_n < 4
         empty = bkt_n == 0
 
@@ -291,9 +296,9 @@ def _stamp_read_verdicts(merged_props):
         # --- Negative gates (PASS) ---
         if caution:
             return "PASS"
-        if coin and b_caution:
+        if coin and b_weak:
             return "PASS"
-        if (small or empty) and b_caution:
+        if (small or empty) and b_weak:
             return "PASS"
         if pit_n >= 4 and pit_wr is not None and pit_wr <= 0.40 and pit_rec["u"] <= -1:
             return "PASS"
@@ -1267,10 +1272,33 @@ def run_daily(date_key=None):
         # in PythonDashboard/js/mlb-props.js — if you change one, change both.
         _stamp_read_verdicts(merged_props)
 
+        # Build home/away map from the probable_pitchers cache so the
+        # dashboard can render home team on the right side of every matchup
+        # chip ("AWAY vs HOME"). Keyed by date so today + yesterday slots
+        # both pick up correct orientation.
+        home_away_map = {}
+        import glob as _glob
+        _pp_dir = os.path.join(SCRIPT_DIR, "..", "..", "data", "pitcher_cache", "mlb")
+        for _f in _glob.glob(os.path.join(_pp_dir, "probable_pitchers_*.json")):
+            _d = os.path.basename(_f).replace("probable_pitchers_", "").replace(".json", "")
+            try:
+                with open(_f, "r") as _fh:
+                    _games = json.load(_fh)
+                _m = {}
+                for _g in _games:
+                    _h, _a = _g.get("home_team"), _g.get("away_team")
+                    if _h: _m[_h] = "home"
+                    if _a: _m[_a] = "away"
+                if _m:
+                    home_away_map[_d] = _m
+            except Exception:
+                continue
+
         combined_merged = {
             **existing, **combined,
             "props": merged_props,
             "todayProjections": merged_today_proj,
+            "homeAway": home_away_map,
         }
         combined_merged["totalPicks"] = len(merged_props)
 
