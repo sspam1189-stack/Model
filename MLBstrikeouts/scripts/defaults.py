@@ -272,11 +272,11 @@ def get_team_slot_weights(team_abbr=None):
 # toward recent-window performance amid market edge compression.
 BF_MULT = 1.00
 
-# Hard ceiling on projected batters faced after BF_MULT. Acts as a league-wide
-# safety net on top of the per-pitcher pitch-count ceiling (see props_engine.py
-# avg_pc = min(avg_pc, max(recent_pcs))). Set high (e.g. 100.0) to effectively
-# disable.
-BF_CAP = 24.0
+# Hard ceiling on projected batters faced after BF_MULT. League-wide safety
+# net on top of the avg_pc = median(last 5 PCs) projection (see props_engine).
+# 2026-05-26 sweep: 23 wins recent 2wk by +7.84u / +5.96pp ROI over 24 under
+# the new median_slope avg_pc formula; ties season.
+BF_CAP = 23.0
 
 # Per-pitcher K-rate cap floor — applied as max(K_RATE_CAP_FLOOR, season K%)
 # in props_engine.py. The matchup-driven expected_k_rate
