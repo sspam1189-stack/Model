@@ -1154,7 +1154,14 @@
             if (paN >= 6 && paW >= 0.70 && pall.u >= 2) return true;
             return false;
           };
-          const todayLeans = leansToShow.filter(_isBumpedLean);
+          // Two pools of watch-tier rows:
+          //   bumpedLeans → flagged by the read as bumpable (Read narrative).
+          //   allLeans    → every watchlist row for context — shown in the
+          //                 table under "Watch — history (N)" so the user
+          //                 sees what was projected without us claiming we
+          //                 took it. Leans were never bet.
+          const bumpedLeans = leansToShow.filter(_isBumpedLean);
+          const todayLeans = leansToShow;  // all, for the table
           const rows = [...todayPicks.map(p => ({p, bucket:'Pick'})),
                         ...todayLeans.map(p => ({p, bucket:'Lean'}))];
           if (rows.length === 0) return null;
@@ -1257,28 +1264,49 @@
               if (c.weight) td.style.fontWeight = c.weight;
             });
           }
-          if (todayPicks.length) {
-            appendSectionHeader(`Picks (${todayPicks.length})`, '#a78bfa');
-            for (const p of todayPicks) appendDataRow(p, 'Pick');
+          // Split picks into TAKE / PASS sub-sections using the shared
+          // verdict — matches the Read narrative grouping so the table
+          // reads consistently with the prose.
+          const _pickVerdict = (p) => {
+            const dir = _dirOf(p);
+            return readVerdictFor({
+              dirRec: bucketDirRec(p.opp, dir, 'Pick'),
+              allRec: allBucketsDirRec(p.opp, dir),
+              pitRec: pitcherDirRec(displayName(p), p.team, dir, 'Pick'),
+              pitAllRec: pitcherBothDirsRec(displayName(p), p.team, 'Pick'),
+            });
+          };
+          const takePicksT = todayPicks.filter(p => _pickVerdict(p) === 'TAKE');
+          const passPicksT = todayPicks.filter(p => _pickVerdict(p) === 'PASS');
+          if (takePicksT.length) {
+            appendSectionHeader(`Picks — TAKE (${takePicksT.length})`, 'var(--green)');
+            for (const p of takePicksT) appendDataRow(p, 'Pick');
+          }
+          if (passPicksT.length) {
+            appendSectionHeader(`Picks — PASS (${passPicksT.length})`, 'var(--red)');
+            for (const p of passPicksT) appendDataRow(p, 'Pick');
           }
           if (todayLeans.length) {
-            // Collapsible watch-bumped section. Header acts as a toggle;
-            // rows hidden by default so the table doesn't bloat with
-            // watch tier info that isn't actionable.
+            // Collapsible "Watch — history" section: shows every watch-tier
+            // row for context (these are projections that didn't clear the
+            // 0.68+ pick threshold). Never bet, but visible for awareness.
+            // Bumped ones are surfaced in the Read narrative below.
             const tr = tb.insertRow();
             const td = tr.insertCell();
             td.colSpan = cols.length;
             td.style.cssText = `padding:8px 8px 4px;font-size:11px;color:var(--yellow);font-weight:700;letter-spacing:0.08em;text-transform:uppercase;background:rgba(255,255,255,0.02);border-top:1px solid rgba(255,255,255,0.08);cursor:pointer;user-select:none`;
             let _watchOpen = false;
+            const bumpedN = bumpedLeans.length;
+            const bumpedSuffix = bumpedN > 0 ? ` · ${bumpedN} bumped` : '';
             const _setTxt = () => {
-              td.textContent = (_watchOpen ? '▼ ' : '▶ ') + `Watch — bumped (${todayLeans.length})`;
+              td.textContent = (_watchOpen ? '▼ ' : '▶ ') + `Watch — history (${todayLeans.length})${bumpedSuffix} — not bet`;
             };
             _setTxt();
             const watchTRs = [];
             for (const p of todayLeans) {
               const before = tb.rows.length;
               appendDataRow(p, 'Lean');
-              const newRow = tb.rows[before];  // index-safe vs lastChild text nodes
+              const newRow = tb.rows[before];
               if (newRow) {
                 newRow.style.display = 'none';
                 watchTRs.push(newRow);
@@ -1354,7 +1382,10 @@
             return arr.sort((a, b) => (b.p.pCover || 0) - (a.p.pCover || 0));
           }
           const pickEntries = rankByPCover(annotate(todayPicks.map(p => ({p, bucket:'Pick'}))));
-          const leanEntries = rankByPCover(annotate(todayLeans.map(p => ({p, bucket:'Lean'}))));
+          // Read narrative only narrates bumped leans (matches user
+          // intent — leans aren't bet; only highlight ones the read
+          // would elevate).
+          const leanEntries = rankByPCover(annotate(bumpedLeans.map(p => ({p, bucket:'Lean'}))));
 
           function renderReadRow(r) {
             const dirRec = r.rec;
