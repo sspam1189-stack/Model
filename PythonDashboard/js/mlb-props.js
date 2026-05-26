@@ -1515,6 +1515,12 @@
             const prev = _byTodayPitcher.get(k);
             const score = (p.pCover || 0);
             if (!prev || score > prev.pCover) {
+              // Direction shown in the dropdown tag — picks/leans use their
+              // committed side, watch/pass fall back to would_be_pick.
+              const _dir = (p.pick === 'OVER' || p.pick === 'UNDER')
+                ? p.pick
+                : (p.would_be_pick
+                    || ((p.proj || 0) > (p.line || 0) ? 'OVER' : 'UNDER'));
               _byTodayPitcher.set(k, {
                 key: k,
                 name: displayName(p),
@@ -1522,6 +1528,7 @@
                 opp:  p.opp  || '',
                 pCover: score,
                 pick: p.pick,
+                dir: _dir,
                 isLean: isLean(p),
                 isToday: true,
               });
@@ -1590,9 +1597,14 @@
               const opt = document.createElement('option');
               opt.value = pr.key;
               if (pr.isToday) {
-                const tag = (pr.pick === 'OVER' || pr.pick === 'UNDER')
-                  ? ` [PICK ${pr.pCover ? (pr.pCover*100).toFixed(1)+'%' : ''}]`
-                  : (pr.isLean ? ` [LEAN ${pr.pCover ? (pr.pCover*100).toFixed(1)+'%' : ''}]` : '');
+                // Show direction (Over/Under) + pCover instead of bucket
+                // label so the dropdown communicates the projected side.
+                const pct = pr.pCover ? (pr.pCover * 100).toFixed(1) + '%' : '';
+                const side = pr.dir === 'OVER' ? 'Over'
+                           : pr.dir === 'UNDER' ? 'Under'
+                           : '';
+                const tag = (side && pct) ? ` [${side} ${pct}]`
+                          : (pct ? ` [${pct}]` : '');
                 opt.textContent = `${pr.name} (${pr.team} vs ${pr.opp})${tag}`;
               } else {
                 opt.textContent = `${pr.name} (${pr.team})`;
@@ -1854,8 +1866,29 @@
                 });
               }
             });
-            // Initial render = first probable (highest conviction)
-            renderPitcherHistory(_probables[0].key);
+            // Initial render = first probable (highest conviction). Also
+            // sync Team History to this pitcher's matchup so the two cards
+            // agree on first page load (without it, Team History defaults
+            // to its own alphabetical first team and the user has to
+            // re-click to align them).
+            const _initialKey = _probables[0].key;
+            renderPitcherHistory(_initialKey);
+            (function _syncTeamHistoryInitial() {
+              const initial = _todayPropsAll.find(p =>
+                _pitcherKey(p) === _initialKey
+              );
+              if (initial && initial.team && initial.opp) {
+                // Defer to give Team History a tick to finish wiring up its
+                // own subscribers (built later in the render sequence).
+                setTimeout(() => {
+                  _pitcherToggleSubs.forEach(fn => {
+                    try {
+                      fn({ team: initial.team, opp: initial.opp, fromToday: true });
+                    } catch (e) {}
+                  });
+                }, 0);
+              }
+            })();
 
             // --- Per-game pitcher toggle ---
             // Hidden until Today's Games fires a "game picked" event. When
@@ -2048,7 +2081,12 @@
             // toggle updates the dropdown and re-renders the table for that
             // team. The dropdown stays available for searching/jumping to
             // any team in history.
-            const _matchKey = (m) => m.teams.join('@');
+            // Sort the pair so the key matches _activeMatchKey (which is
+            // computed via _kFromTeams below). Without this, matchups built
+            // from display-ordered teams index under a different key than
+            // _showMatchup sets — _styleMatchupBtns then can't find the
+            // matching chip and no purple highlight shows.
+            const _matchKey = (m) => [...m.teams].sort().join('@');
             let _activeMatchKey = null;
             if (_todayMatchups.length > 0) {
               const matchTitle = document.createElement('div');
