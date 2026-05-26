@@ -1515,7 +1515,16 @@
               });
             }
           }
-          appendReadSection('Picks', '#a78bfa', pickEntries);
+          // Split Picks into TAKE / PASS sub-sections so the verdict is
+          // visible at a glance. TAKE group stays expanded (it's what we
+          // bet); PASS group collapses so the list stays focused.
+          const _verdictFor = (e) => readVerdictFor({
+            dirRec: e.rec, allRec: e.allRec, pitRec: e.pitRec, pitAllRec: e.pitAllRec,
+          });
+          const takePicks = pickEntries.filter(e => _verdictFor(e) === 'TAKE');
+          const passPicks = pickEntries.filter(e => _verdictFor(e) === 'PASS');
+          appendReadSection('Picks — TAKE', 'var(--green)', takePicks);
+          appendReadSection('Picks — PASS', 'var(--red)', passPicks, { collapsible: true });
           appendReadSection('Watch — bumped', 'var(--yellow)', leanEntries, { collapsible: true });
 
           card.appendChild(readBlock);
