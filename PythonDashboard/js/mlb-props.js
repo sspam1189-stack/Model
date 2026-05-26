@@ -231,8 +231,15 @@
         // false unconditionally. Historical lean tallies (through
         // BASELINE.cutoff = 2026-05-24) are preserved in the baseline
         // constant so the Reddit total still reflects what was posted.
+        // Watch tier = pick=PASS row with a would_be_pick (intended side)
+        // and pCover in the watch band (0.60-0.68). Used by the matchup
+        // history cohort builder so the broader lens picks up watchlist
+        // plays in the same direction as today's pick.
         function isLean(p) {
-          return false;
+          if (p.pick !== 'PASS') return false;
+          if (!p.would_be_pick) return false;
+          const pc = p.pCover || 0;
+          return pc >= 0.60 && pc < 0.68;
         }
         const leanAll = (data.props || []).filter(isLean);
         const leanGraded = leanAll.filter(p => p.result === 'WIN' || p.result === 'LOSS');
@@ -1267,12 +1274,11 @@
               // strong enough that a Lean deserves play, and the broadest
               // direction-matched cohort is the right signal for that.
               // Main take text remains bucket-locked (uses r.rec).
-              // Broader lens: team O&&U (picks, BOTH directions) vs this opp.
-              // Was "picks + leans, same direction" — but leans are retired
-              // so that collapsed to picks-only. Switching to both-dirs picks
-              // gives a genuinely wider sample about how the model reads
-              // this team overall, regardless of side.
-              const allRec = bucketBothDirsRec(r.p.opp, r.bucket);
+              // Broader lens: same direction, picks + Watch tier (any pCover
+              // ≥ 0.60). Direction stays locked because side matters; the
+              // sample widens by including watch-tier graded plays that
+              // share the projected direction. Excludes PASS (pCover < 0.60).
+              const allRec = allBucketsDirRec(r.p.opp, dir);
               // Pitcher's own bucket+direction record (across all opponents).
               // Surfaces "the model is X-Y on Lopez Unders historically" alongside
               // the opponent cohort so a strong pitcher track-record (or red flag)
@@ -1350,7 +1356,7 @@
             } else if (coin && bSolid) {
               take = `Picks are ${recOf(dirRec)} (${(bktWR*100).toFixed(1)}%) but the broader matchup widens to ${sg(recOf(allRec))} (${(broadWR*100).toFixed(1)}%, ${uOf(allRec)}). ${pcPct}% model.`;
             } else if (coin) {
-              take = `Picks ${recOf(dirRec)} (${(bktWR*100).toFixed(1)}%, ${uOf(dirRec)}), team O&&U ${recOf(allRec)} — baseline TAKE at ${pcPct}% model.`;
+              take = `Picks ${recOf(dirRec)} (${(bktWR*100).toFixed(1)}%, ${uOf(dirRec)}), broader (picks+watch same dir) ${recOf(allRec)} — baseline TAKE at ${pcPct}% model.`;
             } else if ((small || empty) && (bElite || (broadWR && broadWR >= 0.80))) {
               take = `Bucket sample thin (${recOf(dirRec)}) but ${sg(`P+L ${dirWord} vs ${oppStr} are ${recOf(allRec)} (${(broadWR*100).toFixed(1)}%, ${uOf(allRec)})`)}. ${pcPct}% model.`;
             } else if ((small || empty) && bCaution) {
@@ -2651,21 +2657,26 @@
           // compare to the actual result. This shows how the TAKE/PASS read
           // would have performed historically.
           (function buildReadRecord() {
+            // ALL rows that can contribute to the broader lens — picks AND
+            // watch-tier — in date order. Picks gate the verdict; watch
+            // expands the broader same-dir cohort.
             const allGraded = (data.props || []).filter(p =>
               p.market === 'strikeouts'
-              && (p.pick === 'OVER' || p.pick === 'UNDER')
               && (p.result === 'WIN' || p.result === 'LOSS')
               && p.opp
+              && ((p.pick === 'OVER' || p.pick === 'UNDER') || isLean(p))
             ).sort((a, b) => (a.date || '').localeCompare(b.date || ''));
             if (allGraded.length === 0) return;
 
             // Running aggregates — updated as we walk forward.
-            const _byOppDirP = {};   // opp → dir → {w,l,u}
-            const _byOppP    = {};   // opp → {w,l,u}
-            const _byPitDirP = {};   // pitKey → dir → {w,l,u}
-            const _byPitP    = {};   // pitKey → {w,l,u}
+            const _byOppDirP = {};       // opp → dir → {w,l,u}  (picks-only)
+            const _byOppDirWide = {};    // opp → dir → {w,l,u}  (picks + watch, same dir)
+            const _byPitDirP = {};       // pitKey → dir → {w,l,u}  (picks-only)
+            const _byPitP    = {};       // pitKey → {w,l,u}        (picks both dirs)
             const _pkeyFor = (p) => `${displayName(p)}|${p.team || ''}`;
-            const _dirOfRow = (p) => p.pick;
+            const _dirOfRow = (p) => p.pick === 'OVER' || p.pick === 'UNDER'
+              ? p.pick
+              : p.would_be_pick;
 
             // Tally containers per verdict / per month.
             let takeW = 0, takeL = 0, takeU = 0;
@@ -2686,16 +2697,23 @@
               const opp = p.opp;
               const dir = _dirOfRow(p);
               const pitKey = _pkeyFor(p);
+              const isPickRow = p.pick === 'OVER' || p.pick === 'UNDER';
               const dirRec  = (_byOppDirP[opp]   && dir) ? _byOppDirP[opp][dir]   : null;
               const dirRecP = dirRec ? { w:dirRec.w, l:dirRec.l, u:dirRec.u } : null;
-              const allRec  = _byOppP[opp] ? { w:_byOppP[opp].w, l:_byOppP[opp].l, u:_byOppP[opp].u } : null;
+              const allRec  = (_byOppDirWide[opp] && dir) ? _byOppDirWide[opp][dir] : null;
+              const allRecP = allRec ? { w:allRec.w, l:allRec.l, u:allRec.u } : null;
               const pitRec  = (_byPitDirP[pitKey] && dir) ? _byPitDirP[pitKey][dir] : null;
               const pitRecP = pitRec ? { w:pitRec.w, l:pitRec.l, u:pitRec.u } : null;
               const pitAll  = _byPitP[pitKey] ? { w:_byPitP[pitKey].w, l:_byPitP[pitKey].l, u:_byPitP[pitKey].u } : null;
 
-              const verdict = readVerdictFor({
-                dirRec: dirRecP, allRec, pitRec: pitRecP, pitAllRec: pitAll,
-              });
+              // Only PICK rows get a verdict assigned to the tally; watch
+              // rows just contribute their result to the broader cohort.
+              let verdict = null;
+              if (isPickRow) {
+                verdict = readVerdictFor({
+                  dirRec: dirRecP, allRec: allRecP, pitRec: pitRecP, pitAllRec: pitAll,
+                });
+              }
               const u = _unitsOf(p);
               const won = p.result === 'WIN';
               const ym = (p.date || '').slice(0, 7);
@@ -2703,25 +2721,33 @@
               if (verdict === 'TAKE') {
                 if (won) { takeW++; byMonth[ym].takeW++; } else { takeL++; byMonth[ym].takeL++; }
                 takeU += u; byMonth[ym].takeU += u;
-              } else {
+                rows.push({ p, verdict, u, won });
+              } else if (verdict === 'PASS') {
                 if (won) { passW++; byMonth[ym].passW++; } else { passL++; byMonth[ym].passL++; }
                 passU += u; byMonth[ym].passU += u;
+                rows.push({ p, verdict, u, won });
               }
-              rows.push({ p, verdict, u, won });
+              // watch rows (no verdict) only contribute to aggregates below.
 
-              // Now update aggregates so the NEXT pick sees this one's result.
-              if (!_byOppDirP[opp]) _byOppDirP[opp] = { OVER:{w:0,l:0,u:0}, UNDER:{w:0,l:0,u:0} };
-              const bd = _byOppDirP[opp][dir];
-              if (won) bd.w++; else bd.l++; bd.u += u;
-              if (!_byOppP[opp]) _byOppP[opp] = { w:0, l:0, u:0 };
-              const ob = _byOppP[opp];
-              if (won) ob.w++; else ob.l++; ob.u += u;
-              if (!_byPitDirP[pitKey]) _byPitDirP[pitKey] = { OVER:{w:0,l:0,u:0}, UNDER:{w:0,l:0,u:0} };
-              const pd = _byPitDirP[pitKey][dir];
-              if (won) pd.w++; else pd.l++; pd.u += u;
-              if (!_byPitP[pitKey]) _byPitP[pitKey] = { w:0, l:0, u:0 };
-              const pb = _byPitP[pitKey];
-              if (won) pb.w++; else pb.l++; pb.u += u;
+              // Update aggregates so the NEXT row sees this one's result.
+              // Widened same-dir map gets BOTH picks and watch.
+              if (dir) {
+                if (!_byOppDirWide[opp]) _byOppDirWide[opp] = { OVER:{w:0,l:0,u:0}, UNDER:{w:0,l:0,u:0} };
+                const bw = _byOppDirWide[opp][dir];
+                if (won) bw.w++; else bw.l++; bw.u += u;
+              }
+              // Picks-only maps stay narrow.
+              if (isPickRow) {
+                if (!_byOppDirP[opp]) _byOppDirP[opp] = { OVER:{w:0,l:0,u:0}, UNDER:{w:0,l:0,u:0} };
+                const bd = _byOppDirP[opp][dir];
+                if (won) bd.w++; else bd.l++; bd.u += u;
+                if (!_byPitDirP[pitKey]) _byPitDirP[pitKey] = { OVER:{w:0,l:0,u:0}, UNDER:{w:0,l:0,u:0} };
+                const pd = _byPitDirP[pitKey][dir];
+                if (won) pd.w++; else pd.l++; pd.u += u;
+                if (!_byPitP[pitKey]) _byPitP[pitKey] = { w:0, l:0, u:0 };
+                const pb = _byPitP[pitKey];
+                if (won) pb.w++; else pb.l++; pb.u += u;
+              }
             }
 
             const rrCard = document.createElement('div');

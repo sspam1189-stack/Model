@@ -230,12 +230,31 @@ def _stamp_read_verdicts(merged_props):
         key=lambda x: x.get("date") or "",
     )
 
-    # Aggregates keyed by (opp, dir), opp, (pitcher_key, dir), pitcher_key.
-    # Each value is {w, l, u}. Only WIN/LOSS rows update the maps.
-    by_opp_dir = defaultdict(lambda: {"w": 0, "l": 0, "u": 0.0})
-    by_opp = defaultdict(lambda: {"w": 0, "l": 0, "u": 0.0})
-    by_pit_dir = defaultdict(lambda: {"w": 0, "l": 0, "u": 0.0})
-    by_pit = defaultdict(lambda: {"w": 0, "l": 0, "u": 0.0})
+    # Aggregates. Picks-only maps stay narrow (used as dir_rec); a separate
+    # "broader" map combines picks + watch-tier rows in the same direction,
+    # matching the JS allBucketsDirRec() lens (excludes PASS).
+    by_opp_dir = defaultdict(lambda: {"w": 0, "l": 0, "u": 0.0})  # picks only
+    by_opp_dir_widened = defaultdict(lambda: {"w": 0, "l": 0, "u": 0.0})  # picks + watch, same dir
+    by_pit_dir = defaultdict(lambda: {"w": 0, "l": 0, "u": 0.0})  # picks only, by pitcher
+    by_pit = defaultdict(lambda: {"w": 0, "l": 0, "u": 0.0})       # picks both dirs, by pitcher
+
+    def _is_watch(p):
+        # Watch tier: pick=PASS with a would_be_pick AND pCover in [0.60, 0.68).
+        if p.get("pick") != "PASS":
+            return False
+        if not p.get("would_be_pick"):
+            return False
+        pc = p.get("pCover")
+        try:
+            pc = float(pc) if pc is not None else 0
+        except (TypeError, ValueError):
+            return False
+        return 0.60 <= pc < 0.68
+
+    def _row_dir(p):
+        if p.get("pick") in ("OVER", "UNDER"):
+            return p["pick"]
+        return p.get("would_be_pick")  # watch rows store intended side here
 
     def _pkey(p):
         return f"{p.get('player', '')}|{p.get('team', '')}"
@@ -255,7 +274,8 @@ def _stamp_read_verdicts(merged_props):
 
     def _verdict(dir_rec, all_rec, pit_rec, pit_all_rec):
         # Replicates readVerdictFor() in the JS exactly. allRec here is the
-        # team O&&U record (both dirs, picks-only) — broader than picks-dir.
+        # widened picks+watch SAME-direction record (was team O&&U; reverted
+        # because direction matters more than tier-mixing across sides).
         bkt_n = dir_rec["w"] + dir_rec["l"] if dir_rec else 0
         bkt_wr = dir_rec["w"] / bkt_n if bkt_n > 0 else None
         broad_n = all_rec["w"] + all_rec["l"] if all_rec else 0
@@ -311,16 +331,23 @@ def _stamp_read_verdicts(merged_props):
         return {"w": d["w"], "l": d["l"], "u": d["u"]}
 
     for p in rows:
-        direction = p.get("pick")
-        if direction not in ("OVER", "UNDER"):
-            continue  # PASS/WATCH rows skip the verdict
+        row_dir = _row_dir(p)
+        is_pick = p.get("pick") in ("OVER", "UNDER")
+        is_watch = _is_watch(p)
+        if not (is_pick or is_watch):
+            continue
         opp = p.get("opp", "")
         pit_key = _pkey(p)
-        dir_rec = _snap(by_opp_dir[(opp, direction)]) if (opp, direction) in by_opp_dir else None
-        all_rec = _snap(by_opp[opp]) if opp in by_opp else None
-        pit_rec = _snap(by_pit_dir[(pit_key, direction)]) if (pit_key, direction) in by_pit_dir else None
-        pit_all_rec = _snap(by_pit[pit_key]) if pit_key in by_pit else None
-        p["readVerdict"] = _verdict(dir_rec, all_rec, pit_rec, pit_all_rec)
+
+        if is_pick:
+            direction = p["pick"]
+            # Snapshot record-at-time-of-pick from picks-only narrow map and
+            # widened picks+watch same-dir map. Pitcher track stays picks-only.
+            dir_rec = _snap(by_opp_dir[(opp, direction)]) if (opp, direction) in by_opp_dir else None
+            all_rec = _snap(by_opp_dir_widened[(opp, direction)]) if (opp, direction) in by_opp_dir_widened else None
+            pit_rec = _snap(by_pit_dir[(pit_key, direction)]) if (pit_key, direction) in by_pit_dir else None
+            pit_all_rec = _snap(by_pit[pit_key]) if pit_key in by_pit else None
+            p["readVerdict"] = _verdict(dir_rec, all_rec, pit_rec, pit_all_rec)
 
         # Update aggregates so the NEXT pick sees this one's result.
         if p.get("result") in ("WIN", "LOSS"):
@@ -334,10 +361,13 @@ def _stamp_read_verdicts(merged_props):
                     d["l"] += 1
                 d["u"] += u
 
-            _tally(by_opp_dir[(opp, direction)])
-            _tally(by_opp[opp])
-            _tally(by_pit_dir[(pit_key, direction)])
-            _tally(by_pit[pit_key])
+            if row_dir in ("OVER", "UNDER"):
+                # Widened broader map: picks AND watch, same direction.
+                _tally(by_opp_dir_widened[(opp, row_dir)])
+            if is_pick:
+                _tally(by_opp_dir[(opp, row_dir)])
+                _tally(by_pit_dir[(pit_key, row_dir)])
+                _tally(by_pit[pit_key])
 
 
 def grade_previous_picks(season=None):
