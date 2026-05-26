@@ -978,11 +978,12 @@
             // as a "coin" candidate so the bWeak gate below can drag it down
             // to PASS when the broader cohort agrees the spot's bad.
             const coin    = bktWR != null && bktN >= 4 && bktWR >= 0.45 && bktWR < 0.60;
-            // Tightened bWeak threshold: broader WR below 0.60 (was 0.55)
-            // OR negative units. Anything sub-60% in the widened cohort is
-            // a weak signal — even if the units haven't bled yet, the WR
-            // gap to a 71%+ TAKE benchmark is meaningful.
-            const bWeak    = broadWR != null && broadN >= 6 && (broadWR < 0.60 || broadU < 0);
+            // bWeak threshold: broader WR below 0.50 OR negative units.
+            // Loosened from 0.60 — only flag when the widened cohort is
+            // actually losing money or majority-bleeding (≥half losses),
+            // not just sub-60%. Avoids killing TAKEs on mildly mediocre
+            // broader records.
+            const bWeak    = broadWR != null && broadN >= 6 && (broadWR < 0.50 || broadU < 0);
             const small   = bktN > 0 && bktN < 4;
             const empty   = bktN === 0;
 

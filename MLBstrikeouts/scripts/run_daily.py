@@ -285,11 +285,10 @@ def _stamp_read_verdicts(merged_props):
         # Tightened: 0.45-0.60 (was 0.45-0.65) so the bWeak gate can catch
         # high-coin spots when broader is also mediocre.
         coin = bkt_wr is not None and bkt_n >= 4 and 0.45 <= bkt_wr < 0.60
-        # Tightened: WR<0.60 OR units<0 (was 0.55 OR units<0). Anything
-        # sub-60% in the widened cohort is a weak signal vs the 71%+ TAKE
-        # benchmark, even before units go negative.
+        # Loosened: WR<0.50 OR units<0 (was 0.60). Only flag when broader
+        # is actually a coin flip or worse, not just mildly mediocre.
         b_weak = (broad_wr is not None and broad_n >= 6
-                  and (broad_wr < 0.60 or broad_u < 0))
+                  and (broad_wr < 0.50 or broad_u < 0))
         small = 0 < bkt_n < 4
         empty = bkt_n == 0
 
