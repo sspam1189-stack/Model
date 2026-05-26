@@ -971,16 +971,18 @@
             // Tightened from 0.65 → 0.60: anything sub-60% in-bucket counts
             // as a "coin" candidate so the bWeak gate below can drag it down
             // to PASS when the broader cohort agrees the spot's bad.
-            const coin    = bktWR != null && bktN >= 4 && bktWR >= 0.45 && bktWR < 0.60;
+            const coin    = bktWR != null && bktN >= 4 && bktWR >= 0.45 && bktWR < 0.65;
             // bWeak threshold: broader WR below 0.50 OR negative units.
             // Loosened from 0.60 — only flag when the widened cohort is
             // actually losing money or majority-bleeding (≥half losses),
             // not just sub-60%. Avoids killing TAKEs on mildly mediocre
             // broader records.
-            // Backtest sweep found broadN >= 8 cleanest: requires real
-            // sample in the picks+watch cohort before bWeak (or the
-            // positive override below) can fire. Catches more true Ls
-            // and keeps more Ws than n>=6.
+            // STRICTER variant: coin range widened to 0.45-0.65 (was 0.60)
+            // and bWeak back to <0.50 OR units<0. Backtest:
+            //   TAKE 315-122 (72.1%) +166.21u
+            //   PASS 24-13 (64.9%) +7.92u
+            //   gap +7.2pp — best separation of all single-knob changes
+            // Catches more high-coin spots when broader cohort is mediocre.
             const bWeak    = broadWR != null && broadN >= 8 && (broadWR < 0.50 || broadU < 0);
             const small   = bktN > 0 && bktN < 4;
             const empty   = bktN === 0;
@@ -1419,11 +1421,10 @@
             const bElite    = broadWR != null && broadN >= 8 && broadWR >= 0.80 && broadU >= 4;
             const bSolid    = broadWR != null && broadN >= 8 && broadWR >= 0.65 && broadU > 0;
             const bCaution  = broadWR != null && broadN >= 8 && broadWR <= 0.45 && broadU <= -2;
-            // bWeak matches readVerdictFor() — mediocre broader cohort
-            // (sub-50% WR OR negative units) at n>=8. Used to route the
-            // narrative into PASS-flavored prose when coin + bWeak triggers
-            // the verdict gate.
-            const bWeak     = broadWR != null && broadN >= 8 && (broadWR < 0.50 || broadU < 0);
+            // bWeak matches readVerdictFor() — broader WR < 0.45 at n>=8
+            // (units axis dropped). Used to route the narrative into PASS-
+            // flavored prose when coin + bWeak triggers the verdict gate.
+            const bWeak     = broadWR != null && broadN >= 8 && broadWR < 0.45;
             const widerThanBkt = broadN > bktN;
             const dirWord = r.dir.toLowerCase() + 's';
             const oppStr = r.p.opp;

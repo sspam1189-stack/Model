@@ -282,11 +282,10 @@ def _stamp_read_verdicts(merged_props):
         broad_wr = all_rec["w"] / broad_n if broad_n > 0 else None
         broad_u = all_rec["u"] if all_rec else 0
         caution = bkt_wr is not None and bkt_n >= 4 and bkt_wr < 0.45
-        # Tightened: 0.45-0.60 (was 0.45-0.65) so the bWeak gate can catch
-        # high-coin spots when broader is also mediocre.
-        coin = bkt_wr is not None and bkt_n >= 4 and 0.45 <= bkt_wr < 0.60
-        # Sample floor bumped to 8 (was 6) — backtest showed broadN >= 8
-        # gives cleanest TAKE/PASS separation (gap +8.7pp).
+        # STRICTER: coin widened to 0.45-0.65 (was 0.60); bWeak back to
+        # <0.50 OR units<0. Backtest: TAKE 315-122 (72.1%) +166.21u /
+        # PASS 24-13 (64.9%) +7.92u, gap +7.2pp.
+        coin = bkt_wr is not None and bkt_n >= 4 and 0.45 <= bkt_wr < 0.65
         b_weak = (broad_wr is not None and broad_n >= 8
                   and (broad_wr < 0.50 or broad_u < 0))
         small = 0 < bkt_n < 4
