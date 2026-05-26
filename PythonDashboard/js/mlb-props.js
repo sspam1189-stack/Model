@@ -188,6 +188,19 @@
       // Recent Record container is built early but appended late, between
       // Season Market Breakdown and the All-history paginated table.
       let _recentRecordContainer = null;
+      // Slots inside the Picks card where _renderMatchupCard injects its
+      // matchup-history table + Read narrative — one for Today, one for
+      // Yesterday (walk-forward). Lets the matchup content live INSIDE the
+      // Picks card body while still being built later in the render flow
+      // (matchup builder needs access to graded history that hasn't been
+      // assembled when Picks first renders).
+      let _todayMatchupSlot = null;
+      let _yesterdayMatchupSlot = null;
+      // Read Record card: backtest of the TAKE/PASS verdict against actual
+      // results. Built late so it has access to renderReadRow's helpers via
+      // the shared scope. Hoisted slot lets us append it between Season
+      // Market Breakdown and Recent Record.
+      let _readRecordCard = null;
 
       // ── Yesterday's Recap + Today's Picks ──
       (function renderMLBDailyCards() {
@@ -935,6 +948,52 @@
           // leans store the intended side in `would_be_pick`.
           const _dirOf = (p) => p.pick === 'PASS' ? (p.would_be_pick || null) : p.pick;
 
+          // Pure verdict function — TAKE/PASS decision. Hoisted ABOVE
+          // buildMatchupSection so both the matchup builder (live reads)
+          // and the backtest below (Read Record card) can share one rule
+          // set. Returns 'TAKE' or 'PASS'.
+          function readVerdictFor({ dirRec, allRec, pitRec, pitAllRec }) {
+            const bktN = dirRec ? dirRec.w + dirRec.l : 0;
+            const bktWR = bktN > 0 ? dirRec.w / bktN : null;
+            const broadN = allRec ? allRec.w + allRec.l : 0;
+            const broadWR = broadN > 0 ? allRec.w / broadN : null;
+            const broadU = allRec ? allRec.u : 0;
+            const caution = bktWR != null && bktN >= 4 && bktWR < 0.45;
+            const coin    = bktWR != null && bktN >= 4 && bktWR >= 0.45 && bktWR < 0.65;
+            const bCaution = broadWR != null && broadN >= 6 && broadWR <= 0.45 && broadU <= -2;
+            const small   = bktN > 0 && bktN < 4;
+            const empty   = bktN === 0;
+
+            // --- Positive overrides --- (opp OR pitcher dominant)
+            const pitN = pitRec ? pitRec.w + pitRec.l : 0;
+            const pitWR = pitN > 0 ? pitRec.w / pitN : null;
+            const pitAllN = pitAllRec ? pitAllRec.w + pitAllRec.l : 0;
+            const pitAllWR = pitAllN > 0 ? pitAllRec.w / pitAllN : null;
+            if (bktN >= 4 && bktWR >= 0.75 && dirRec.u >= 2) return 'TAKE';
+            if (broadN >= 6 && broadWR >= 0.70 && broadU >= 2) return 'TAKE';
+            if (pitN >= 4 && pitWR >= 0.75 && pitRec.u >= 2) return 'TAKE';
+            if (pitAllN >= 6 && pitAllWR >= 0.70 && pitAllRec.u >= 2) return 'TAKE';
+
+            // --- Negative gates (PASS) ---
+            if (caution) return 'PASS';
+            if (coin && bCaution) return 'PASS';
+            if ((small || empty) && bCaution) return 'PASS';
+            if (pitN >= 4 && pitWR <= 0.40 && pitRec.u <= -1) return 'PASS';
+            if (pitAllN >= 6 && pitAllWR <= 0.45 && pitAllRec.u <= -2) return 'PASS';
+            return 'TAKE';
+          }
+
+          // Builder for the matchup-history section (table + Read narrative).
+          // Called twice from this function — once for today's picks and
+          // once for yesterday's — with `gradedCutoff` set to each day's
+          // date so the cohort it draws from is walk-forward safe (only
+          // picks resolved BEFORE that day count).
+          //
+          // Returns a body div (no card-title) or null when there are no
+          // rows to show. The Picks card injects the body into its
+          // today/yesterday slots so the matchup history lives inside the
+          // unified Picks card instead of as a separate card.
+          function buildMatchupSection({ picksToShow, leansToShow, gradedCutoff }) {
           // Build TWO maps so the Dir record can be bucket-specific:
           //   byOppDirPicks[opp][OVER|UNDER] — graded actionable picks only
           //   byOppDirLeans[opp][OVER|UNDER] — graded leans only
@@ -944,6 +1003,7 @@
             && (p.result === 'WIN' || p.result === 'LOSS')
             && p.opp
             && (p.pick === 'OVER' || p.pick === 'UNDER' || isLean(p))
+            && (!gradedCutoff || (p.date || '') < gradedCutoff)
           );
 
           // Four maps so each column can be bucket-scoped exactly:
@@ -1036,36 +1096,19 @@
             };
           }
 
-          // Today's actionable picks + leans (excluding void games),
-          // sorted picks first (by pCover desc), then leans (by pCover desc).
-          const _gameStatusesM = data.gameStatuses || {};
-          const _VOID_M = new Set([
-            'Postponed','Cancelled','Canceled','Suspended',
-            'Postponed Inclement Weather','Postponed Rain',
-            'Suspended: Inclement Weather','Suspended: Rain',
-          ]);
-          const _voidRow = (p) => _VOID_M.has(
-            _gameStatusesM[p.team] || _gameStatusesM[p.opp] || ''
-          );
-          // Drop per-pick voids (pitcher_scratched / pitcher_swapped) too.
-          const _voidPick = (p) => p.result === 'VOID';
-          const todayPicks = picks
-            .filter(p => p.date === todayStr && !_voidRow(p) && !_voidPick(p))
-            .sort((a, b) => (b.pCover || 0) - (a.pCover || 0));
-          const todayLeans = (data.props || [])
-            .filter(p => p.date === todayStr && isLean(p) && !_voidRow(p) && !_voidPick(p))
-            .sort((a, b) => (b.pCover || 0) - (a.pCover || 0));
+          // picksToShow / leansToShow are passed in; they're already filtered
+          // and sorted by the caller. Local aliases below match the old
+          // variable names used through the build code without renaming
+          // every site.
+          const todayPicks = picksToShow;
+          const todayLeans = leansToShow;
           const rows = [...todayPicks.map(p => ({p, bucket:'Pick'})),
                         ...todayLeans.map(p => ({p, bucket:'Lean'}))];
-          if (rows.length === 0) return;
+          if (rows.length === 0) return null;
 
+          // body collects table + read + footer; no card-title (the unified
+          // Picks card supplies the heading).
           const card = document.createElement('div');
-          card.className = 'card card-games';
-          card.style.marginBottom = '16px';
-          card.appendChild(Object.assign(document.createElement('div'), {
-            className:'card-title',
-            textContent:`Matchup History VS OPP — Today’s Picks (${todayStr})`,
-          }));
 
           const wrap = document.createElement('div');
           wrap.className = 'props-table-wrap';
@@ -1272,57 +1315,34 @@
             const dirWord = r.dir.toLowerCase() + 's';
             const oppStr = r.p.opp;
 
-            // Build narrative — written like a quick read I'd give over the shoulder.
+            // Build narrative — the 1u / PASS badge at the start of the row
+            // already signals the verdict, so the prose just delivers the
+            // why without a redundant "TAKE." / "PASS." prefix.
             let take = '';
-            if (r.bucket === 'Pick') {
-              if (elite && (bElite || (broadWR && broadWR >= 0.80))) {
-                take = `${sg('Cleanest spot of the night.')} Picks are ${sg(recOf(dirRec))} and the broader matchup widens to ${sg(recOf(allRec))} (${(broadWR*100).toFixed(1)}%, ${uOf(allRec)}). Model fires at ${pcPct}% — size up.`;
-              } else if (elite && widerThanBkt && bSolid) {
-                take = `${sg(recOf(dirRec))} picks, ${sg(recOf(allRec))} once you widen the lens (${(broadWR*100).toFixed(1)}%, ${uOf(allRec)}). ${pcPct}% model — play with conviction.`;
-              } else if (elite) {
-                take = `Picks are ${sg(recOf(dirRec))} (${(bktWR*100).toFixed(1)}%, ${uOf(dirRec)}) at ${pcPct}% model confidence. Comfortable play.`;
-              } else if (solid && bSolid) {
-                take = `Picks are ${recOf(dirRec)} (${(bktWR*100).toFixed(1)}%, ${uOf(dirRec)}) and the broader cohort backs it (${recOf(allRec)}, ${(broadWR*100).toFixed(1)}%, ${uOf(allRec)}). ${pcPct}% model — solid play.`;
-              } else if (coin && bCaution) {
-                take = `${sr('Hardest read on the slate.')} Picks are ${recOf(dirRec)} and the broader matchup makes it worse (${sr(recOf(allRec))}, ${(broadWR*100).toFixed(1)}%, ${uOf(allRec)}). Model fires at ${pcPct}% but I'd skip or token.`;
-              } else if (coin && bSolid) {
-                take = `Picks are a flip (${recOf(dirRec)}, ${(bktWR*100).toFixed(1)}%), but the broader matchup widens to ${sy(recOf(allRec))} (${(broadWR*100).toFixed(1)}%, ${uOf(allRec)}). ${pcPct}% model — smaller play than the elite spots, but I'm in.`;
-              } else if (coin) {
-                take = `Picks are mixed (${recOf(dirRec)}, ${(bktWR*100).toFixed(1)}%, ${uOf(dirRec)}) and the broader cohort doesn't move the needle (${recOf(allRec)}). ${pcPct}% — lowest-conviction pick of the slate, small if at all.`;
-              } else if (caution) {
-                take = `${sr('Picks have bled here')} (${sr(recOf(dirRec))}, ${(bktWR*100).toFixed(1)}%, ${uOf(dirRec)}) and broader isn't a rescue (${recOf(allRec)}). ${pcPct}% model — pass.`;
-              } else if (small && (bElite || (broadWR && broadWR >= 0.80))) {
-                take = `Picks sample is thin (${recOf(dirRec)}) but ${sg(`P+L ${dirWord} vs ${oppStr} are ${recOf(allRec)} (${(broadWR*100).toFixed(1)}%, ${uOf(allRec)})`)}. ${pcPct}% model — I'm in.`;
-              } else if (small && bSolid) {
-                take = `Bucket sample is small (${recOf(dirRec)}) but the broader matchup hasn't burned anyone (${recOf(allRec)}, ${(broadWR*100).toFixed(1)}%, ${uOf(allRec)}). Play at ${pcPct}% confidence.`;
-              } else if (small) {
-                take = `Tiny sample both ways (${recOf(dirRec)} picks, ${recOf(allRec)} broader). ${pcPct}% — model is the only thing saying yes. Standard size.`;
-              } else if (empty) {
-                take = `No prior picks vs ${oppStr} ${r.dir.toLowerCase()} — flying on ${pcPct}% model alone. Half-unit play.`;
-              } else {
-                take = `Picks ${recOf(dirRec)} (${(bktWR*100).toFixed(1)}%, ${uOf(dirRec)}). Broader ${recOf(allRec)}. Model at ${pcPct}%.`;
-              }
+            if (caution) {
+              take = `Picks have bled here (${sr(recOf(dirRec))}, ${(bktWR*100).toFixed(1)}%, ${uOf(dirRec)}) and broader isn't a rescue (${recOf(allRec)}). ${pcPct}% model can't outrun history.`;
+            } else if (coin && bCaution) {
+              take = `Picks are ${recOf(dirRec)} and the broader matchup makes it worse (${sr(recOf(allRec))}, ${(broadWR*100).toFixed(1)}%, ${uOf(allRec)}). ${pcPct}% model — history disagrees too hard.`;
+            } else if (elite && (bElite || (broadWR && broadWR >= 0.80))) {
+              take = `Cleanest spot of the night — picks ${sg(recOf(dirRec))}, broader matchup ${sg(recOf(allRec))} (${(broadWR*100).toFixed(1)}%, ${uOf(allRec)}). ${pcPct}% model.`;
+            } else if (elite) {
+              take = `Picks are ${sg(recOf(dirRec))} (${(bktWR*100).toFixed(1)}%, ${uOf(dirRec)}) at ${pcPct}% model confidence.`;
+            } else if (solid && bSolid) {
+              take = `Picks ${recOf(dirRec)} (${(bktWR*100).toFixed(1)}%, ${uOf(dirRec)}) and the broader cohort backs it (${recOf(allRec)}, ${(broadWR*100).toFixed(1)}%, ${uOf(allRec)}). ${pcPct}% model.`;
+            } else if (solid) {
+              take = `Picks ${recOf(dirRec)} (${(bktWR*100).toFixed(1)}%, ${uOf(dirRec)}). Broader ${recOf(allRec)}. ${pcPct}% model.`;
+            } else if (coin && bSolid) {
+              take = `Picks are ${recOf(dirRec)} (${(bktWR*100).toFixed(1)}%) but the broader matchup widens to ${sg(recOf(allRec))} (${(broadWR*100).toFixed(1)}%, ${uOf(allRec)}). ${pcPct}% model.`;
+            } else if (coin) {
+              take = `Picks ${recOf(dirRec)} (${(bktWR*100).toFixed(1)}%, ${uOf(dirRec)}), broader ${recOf(allRec)} — ${pcPct}% model is the deciding vote.`;
+            } else if ((small || empty) && (bElite || (broadWR && broadWR >= 0.80))) {
+              take = `Bucket sample thin (${recOf(dirRec)}) but ${sg(`P+L ${dirWord} vs ${oppStr} are ${recOf(allRec)} (${(broadWR*100).toFixed(1)}%, ${uOf(allRec)})`)}. ${pcPct}% model.`;
+            } else if ((small || empty) && bCaution) {
+              take = `Bucket thin (${recOf(dirRec)}) and the broader matchup is bad (${sr(recOf(allRec))}, ${(broadWR*100).toFixed(1)}%, ${uOf(allRec)}). ${pcPct}% can't override.`;
+            } else if (small || empty) {
+              take = `Bucket thin (${recOf(dirRec)}), broader ${recOf(allRec)} — riding the ${pcPct}% model.`;
             } else {
-              // Lean rows
-              if (bElite && (small || empty)) {
-                take = `${sy('Classified as a Lean but the matchup says play.')} Bucket alone is thin (${recOf(dirRec)}) but ${sg(`P+L ${dirWord} vs ${oppStr} are ${recOf(allRec)} (${(broadWR*100).toFixed(1)}%, ${uOf(allRec)})`)}. ${pcPct}% model — treat this like a pick.`;
-              } else if (bElite) {
-                take = `${sy('Lean by the book')}, but the broader matchup is dominant (${sg(recOf(allRec))}, ${(broadWR*100).toFixed(1)}%, ${uOf(allRec)}). Bucket alone is ${recOf(dirRec)} (${(bktWR*100).toFixed(1)}%). ${pcPct}% model — full play.`;
-              } else if (elite && bSolid) {
-                take = `Lean band, but leans-only history is ${sg(recOf(dirRec))} (${(bktWR*100).toFixed(1)}%, ${uOf(dirRec)}) and the broader cohort holds (${recOf(allRec)}, ${(broadWR*100).toFixed(1)}%). ${pcPct}% model — spot play.`;
-              } else if (elite) {
-                take = `${recOf(dirRec)} leans-only vs ${oppStr} (${(bktWR*100).toFixed(1)}%, ${uOf(dirRec)}). Bottom of the lean band at ${pcPct}% but the numbers are clean.`;
-              } else if (bSolid && (small || empty)) {
-                take = `Sample's thin (${recOf(dirRec)}) but the broader matchup nudges toward play (${recOf(allRec)}, ${(broadWR*100).toFixed(1)}%, ${uOf(allRec)}). Small play at ${pcPct}%.`;
-              } else if (bCaution) {
-                take = `${sr('Skip.')} Leans-only is ${recOf(dirRec)} and the broader cohort is actively bad (${sr(recOf(allRec))}, ${(broadWR*100).toFixed(1)}%, ${uOf(allRec)}). ${pcPct}% model but history disagrees hard.`;
-              } else if (small || empty) {
-                take = `Thinnest sample of the night — ${recOf(dirRec)} bucket, ${recOf(allRec)} broader. ${pcPct}% isn't enough by itself. Pass or token.`;
-              } else if (coin || caution) {
-                take = `Leans-only has not been kind here (${recOf(dirRec)}, ${(bktWR*100).toFixed(1)}%, ${uOf(dirRec)}). Broader ${recOf(allRec)}. ${pcPct}% — I'd pass unless broader looks much better.`;
-              } else {
-                take = `Leans-only ${recOf(dirRec)} (${(bktWR*100).toFixed(1)}%, ${uOf(dirRec)}). Broader ${recOf(allRec)}. Model ${pcPct}%.`;
-              }
+              take = `Picks ${recOf(dirRec)} (${(bktWR*100).toFixed(1)}%, ${uOf(dirRec)}). Broader ${recOf(allRec)}. ${pcPct}% model.`;
             }
             if (dirRec && dirRec.l === 0 && dirRec.w >= 4) {
               take += ` ${sg(`Perfect ${dirRec.w}-0 cohort in-bucket.`)}`;
@@ -1338,6 +1358,10 @@
             const pitN = pitRec ? pitRec.w + pitRec.l : 0;
             const pitAllN = pitAllRec ? pitAllRec.w + pitAllRec.l : 0;
             const pitNameTxt = `${displayName(r.p)} ${r.dir.toLowerCase()}s`;
+            // Pitcher-track accent: only chime in when the signal is
+            // decisive. Co-sign reinforces TAKE; red flag reinforces PASS.
+            // Anything in between is left silent so the read stays a clean
+            // take-or-pass call instead of a chorus of "neutral" notes.
             if (pitN >= 4) {
               const pitWR = pitRec.w / pitN;
               const pitTxt = `${recOf(pitRec)} (${(pitWR*100).toFixed(1)}%, ${uOf(pitRec)})`;
@@ -1347,80 +1371,28 @@
                 take += ` ${sg(`${pitNameTxt} ${pitTxt}`)} — supportive pitcher track.`;
               } else if (pitWR <= 0.40 && pitRec.u <= -1) {
                 take += ` ${sr(`${pitNameTxt} have been ${pitTxt} — pitcher track is a red flag.`)}`;
-              } else if (pitWR < 0.50) {
-                take += ` ${sy(`${pitNameTxt} ${pitTxt}`)} — pitcher track leans against.`;
-              } else {
-                take += ` ${pitNameTxt} ${pitTxt} — pitcher track neutral.`;
               }
-            } else if (pitN > 0) {
-              const pitWR = pitRec.w / pitN;
-              const pitTxt = `${recOf(pitRec)} (${(pitWR*100).toFixed(1)}%, ${uOf(pitRec)})`;
-              take += ` Pitcher track ${pitTxt} <span style="color:#888">(thin sample)</span>.`;
-            } else {
-              take += ` <span style="color:#888">No prior dir-matched history on this pitcher.</span>`;
+              // pitWR between 0.40 and 0.65 → no sentence (avoids "neutral").
             }
-            // Broader: both directions on this pitcher. Always rendered when
-            // any history exists so the reader sees the pitcher's full book
-            // even when it matches the dir-only record (one-sided pitcher).
-            // At n>=6 we hand out colored tier verdicts; below that just show
-            // the raw record.
-            if (pitAllRec && pitAllN > 0) {
+            // Broader (both-directions) pitcher cohort — only mention when
+            // it pushes the decision one way or the other.
+            if (pitAllRec && pitAllN >= 6) {
               const allWR = pitAllRec.w / pitAllN;
               const allTxt = `${recOf(pitAllRec)} (${(allWR*100).toFixed(1)}%, ${uOf(pitAllRec)})`;
               const broadName = `${displayName(r.p)} both ways`;
-              if (pitAllN >= 6 && allWR >= 0.70 && pitAllRec.u >= 2) {
-                take += ` ${sg(`Broader: ${broadName} ${allTxt} — pitcher's whole book is profitable.`)}`;
-              } else if (pitAllN >= 6 && allWR <= 0.45 && pitAllRec.u <= -2) {
-                take += ` ${sr(`Broader: ${broadName} ${allTxt} — model has bled on this pitcher overall.`)}`;
-              } else if (pitAllN >= 6) {
-                take += ` Broader: ${broadName} ${allTxt}.`;
-              } else {
-                take += ` <span style="color:#999">Broader: ${broadName} ${allTxt}.</span>`;
+              if (allWR >= 0.70 && pitAllRec.u >= 2) {
+                take += ` ${sg(`Broader: ${broadName} ${allTxt} — whole book profitable.`)}`;
+              } else if (allWR <= 0.45 && pitAllRec.u <= -2) {
+                take += ` ${sr(`Broader: ${broadName} ${allTxt} — model bleeds on this pitcher.`)}`;
               }
             }
             // --- Sizing recommendation ---
-            // Distill the matchup + pitcher signals into a concrete stake:
-            // 0u / 1u / 1.5u / 2u. Start from a base derived from the
-            // matchup tier and adjust on pitcher-track strength.
-            let size;
-            if (caution) {
-              size = 0;                                            // matchup is a confirmed leak
-            } else if (coin && bCaution) {
-              size = 0;                                            // matchup mixed + broader bad
-            } else if ((elite && (bElite || (broadWR && broadWR >= 0.80)))
-                       || (elite && widerThanBkt && bSolid)) {
-              size = 2;                                            // cleanest tier
-            } else if (elite || (solid && bSolid)) {
-              size = 1.5;                                          // solid green-light
-            } else if (small && (bElite || (broadWR && broadWR >= 0.80))) {
-              size = 1.5;                                          // thin bucket but matchup elite
-            } else if (coin && bSolid) {
-              size = 1;
-            } else if (coin || small || empty) {
-              size = 1;
-            } else {
-              size = 1;
-            }
-            // Pitcher-track adjustments. Co-sign bumps size; red flag drops.
-            if (pitN >= 4) {
-              const pitWR = pitRec.w / pitN;
-              if (pitWR >= 0.80 && pitRec.u >= 2 && size < 2) size += 0.5;
-              else if (pitWR <= 0.40 && pitRec.u <= -1) size = Math.max(0, size - 1);
-            }
-            // Broader pitcher cohort can override if extreme.
-            if (pitAllN >= 6) {
-              const allWR = pitAllRec.w / pitAllN;
-              if (allWR <= 0.45 && pitAllRec.u <= -2) size = Math.max(0, size - 0.5);
-            }
-            // Clamp to {0, 1, 1.5, 2}.
-            if (size > 2) size = 2;
-            if (size > 0 && size < 1) size = 1;
-            if (size > 1.5 && size < 2) size = 1.5;
-            const sizeStr = size === 0 ? 'PASS' : size + 'u';
-            const sizeColor = size === 0 ? 'var(--red)'
-                             : size >= 2  ? 'var(--green)'
-                             : size >= 1.5 ? '#9ee493'
-                             : '#ccc';
+            // Delegate to the shared readVerdictFor() — keeps the live read
+            // and the historical backtest in lockstep.
+            const _verdict = readVerdictFor({ dirRec, allRec, pitRec, pitAllRec });
+            const size = _verdict === 'PASS' ? 0 : 1;
+            const sizeStr = _verdict === 'PASS' ? 'PASS' : '1u';
+            const sizeColor = _verdict === 'PASS' ? 'var(--red)' : 'var(--green)';
             const sizeBadge = `<strong style="color:${sizeColor};margin-right:6px">${sizeStr}</strong>`;
             line.innerHTML = `${sizeBadge}${nameSpan} ${dirSpan} ${oppSpan} <span style="color:#888">@ ${pcPct}%</span> — ${take}`;
             return line;
@@ -1453,10 +1425,67 @@
             </div>
           `;
           card.appendChild(note);
+          return card;
+          } // ← end buildMatchupSection
 
-          // Matchup card append deferred — see end of this function so the
-          // Pitcher History card renders directly under Today's Games, with
-          // Matchup History below it.
+          // === Build today + yesterday matchup sections and inject into
+          // the Picks card's slots ===
+          const _gameStatusesM = data.gameStatuses || {};
+          const _VOID_M = new Set([
+            'Postponed','Cancelled','Canceled','Suspended',
+            'Postponed Inclement Weather','Postponed Rain',
+            'Suspended: Inclement Weather','Suspended: Rain',
+          ]);
+          const _voidRowM = (p) => _VOID_M.has(
+            _gameStatusesM[p.team] || _gameStatusesM[p.opp] || ''
+          );
+          const _voidPickM = (p) => p.result === 'VOID';
+
+          const _todayPicksM = picks
+            .filter(p => p.date === todayStr && !_voidRowM(p) && !_voidPickM(p))
+            .sort((a, b) => (b.pCover || 0) - (a.pCover || 0));
+          const _todayLeansM = (data.props || [])
+            .filter(p => p.date === todayStr && isLean(p) && !_voidRowM(p) && !_voidPickM(p))
+            .sort((a, b) => (b.pCover || 0) - (a.pCover || 0));
+          const _todayMatchupBody = buildMatchupSection({
+            picksToShow: _todayPicksM,
+            leansToShow: _todayLeansM,
+            gradedCutoff: todayStr,
+          });
+          if (_todayMatchupBody && _todayMatchupSlot) {
+            while (_todayMatchupBody.firstChild) {
+              _todayMatchupSlot.appendChild(_todayMatchupBody.firstChild);
+            }
+          }
+
+          // Yesterday section — gradedCutoff = the latest prior date in the
+          // dataset, so the cohort maps reflect only what was known BEFORE
+          // yesterday's picks were locked.
+          const _datesM = [...new Set((data.props || []).map(p => p.date))].sort();
+          const _yesterdayStrM = (() => {
+            for (let i = _datesM.length - 1; i >= 0; i--) {
+              if (_datesM[i] && _datesM[i] < todayStr) return _datesM[i];
+            }
+            return null;
+          })();
+          if (_yesterdayStrM) {
+            const _yPicks = picks
+              .filter(p => p.date === _yesterdayStrM && !_voidRowM(p) && !_voidPickM(p))
+              .sort((a, b) => (b.pCover || 0) - (a.pCover || 0));
+            const _yLeans = (data.props || [])
+              .filter(p => p.date === _yesterdayStrM && isLean(p) && !_voidRowM(p) && !_voidPickM(p))
+              .sort((a, b) => (b.pCover || 0) - (a.pCover || 0));
+            const _yesterdayMatchupBody = buildMatchupSection({
+              picksToShow: _yPicks,
+              leansToShow: _yLeans,
+              gradedCutoff: _yesterdayStrM,
+            });
+            if (_yesterdayMatchupBody && _yesterdayMatchupSlot) {
+              while (_yesterdayMatchupBody.firstChild) {
+                _yesterdayMatchupSlot.appendChild(_yesterdayMatchupBody.firstChild);
+              }
+            }
+          }
 
           // Grading + units helpers shared by Pitcher History and Team History.
           // Hoisted here so the Team History block below can call them without
@@ -1684,7 +1713,9 @@
                   seen.add(p.date);
                 }
               }
-              const allEver = merged.sort((a, b) => (a.date || '').localeCompare(b.date || ''));
+              // Newest first — matches Team History's sort order so the two
+              // cards read top-to-bottom the same way.
+              const allEver = merged.sort((a, b) => (b.date || '').localeCompare(a.date || ''));
 
               // Apply active filter — summary totals always use the full set
               // (allEver) so they reflect the pitcher's true record regardless
@@ -2587,8 +2618,326 @@
             el.appendChild(thCard);
           }
 
-          // Matchup History appended last so it lands below Team History.
-          el.appendChild(card);
+          // Matchup History no longer rendered as a standalone card — its
+          // body lives inside the Picks card's Today/Yesterday slots above.
+
+          // ── Read Record (backtest) ──
+          // Walk every graded pick chronologically. For each one, compute
+          // the verdict using ONLY history available before that date, then
+          // compare to the actual result. This shows how the TAKE/PASS read
+          // would have performed historically.
+          (function buildReadRecord() {
+            const allGraded = (data.props || []).filter(p =>
+              p.market === 'strikeouts'
+              && (p.pick === 'OVER' || p.pick === 'UNDER')
+              && (p.result === 'WIN' || p.result === 'LOSS')
+              && p.opp
+            ).sort((a, b) => (a.date || '').localeCompare(b.date || ''));
+            if (allGraded.length === 0) return;
+
+            // Running aggregates — updated as we walk forward.
+            const _byOppDirP = {};   // opp → dir → {w,l,u}
+            const _byOppP    = {};   // opp → {w,l,u}
+            const _byPitDirP = {};   // pitKey → dir → {w,l,u}
+            const _byPitP    = {};   // pitKey → {w,l,u}
+            const _pkeyFor = (p) => `${displayName(p)}|${p.team || ''}`;
+            const _dirOfRow = (p) => p.pick;
+
+            // Tally containers per verdict / per month.
+            let takeW = 0, takeL = 0, takeU = 0;
+            let passW = 0, passL = 0, passU = 0; // what PASS WOULD have done
+            const byMonth = {}; // "YYYY-MM" → {takeW, takeL, takeU, passW, passL, passU}
+            const rows = [];    // detail rows for the table
+
+            function _unitsOf(p) {
+              const won = p.result === 'WIN';
+              const od = p.odds;
+              if (od == null) return won ? 1 : -1;
+              const o = Number(od);
+              if (o > 0) return won ? o / 100 : -1;
+              return won ? 1 : -Math.abs(o) / 100;
+            }
+
+            for (const p of allGraded) {
+              const opp = p.opp;
+              const dir = _dirOfRow(p);
+              const pitKey = _pkeyFor(p);
+              const dirRec  = (_byOppDirP[opp]   && dir) ? _byOppDirP[opp][dir]   : null;
+              const dirRecP = dirRec ? { w:dirRec.w, l:dirRec.l, u:dirRec.u } : null;
+              const allRec  = _byOppP[opp] ? { w:_byOppP[opp].w, l:_byOppP[opp].l, u:_byOppP[opp].u } : null;
+              const pitRec  = (_byPitDirP[pitKey] && dir) ? _byPitDirP[pitKey][dir] : null;
+              const pitRecP = pitRec ? { w:pitRec.w, l:pitRec.l, u:pitRec.u } : null;
+              const pitAll  = _byPitP[pitKey] ? { w:_byPitP[pitKey].w, l:_byPitP[pitKey].l, u:_byPitP[pitKey].u } : null;
+
+              const verdict = readVerdictFor({
+                dirRec: dirRecP, allRec, pitRec: pitRecP, pitAllRec: pitAll,
+              });
+              const u = _unitsOf(p);
+              const won = p.result === 'WIN';
+              const ym = (p.date || '').slice(0, 7);
+              if (!byMonth[ym]) byMonth[ym] = { takeW:0, takeL:0, takeU:0, passW:0, passL:0, passU:0 };
+              if (verdict === 'TAKE') {
+                if (won) { takeW++; byMonth[ym].takeW++; } else { takeL++; byMonth[ym].takeL++; }
+                takeU += u; byMonth[ym].takeU += u;
+              } else {
+                if (won) { passW++; byMonth[ym].passW++; } else { passL++; byMonth[ym].passL++; }
+                passU += u; byMonth[ym].passU += u;
+              }
+              rows.push({ p, verdict, u, won });
+
+              // Now update aggregates so the NEXT pick sees this one's result.
+              if (!_byOppDirP[opp]) _byOppDirP[opp] = { OVER:{w:0,l:0,u:0}, UNDER:{w:0,l:0,u:0} };
+              const bd = _byOppDirP[opp][dir];
+              if (won) bd.w++; else bd.l++; bd.u += u;
+              if (!_byOppP[opp]) _byOppP[opp] = { w:0, l:0, u:0 };
+              const ob = _byOppP[opp];
+              if (won) ob.w++; else ob.l++; ob.u += u;
+              if (!_byPitDirP[pitKey]) _byPitDirP[pitKey] = { OVER:{w:0,l:0,u:0}, UNDER:{w:0,l:0,u:0} };
+              const pd = _byPitDirP[pitKey][dir];
+              if (won) pd.w++; else pd.l++; pd.u += u;
+              if (!_byPitP[pitKey]) _byPitP[pitKey] = { w:0, l:0, u:0 };
+              const pb = _byPitP[pitKey];
+              if (won) pb.w++; else pb.l++; pb.u += u;
+            }
+
+            const rrCard = document.createElement('div');
+            rrCard.className = 'card card-games';
+            rrCard.style.marginBottom = '16px';
+            rrCard.appendChild(Object.assign(document.createElement('div'), {
+              className: 'card-title',
+              textContent: `Read Record (backtest)`,
+            }));
+
+            // Summary row: TAKE / PASS totals.
+            const sumRow = document.createElement('div');
+            sumRow.style.cssText = 'display:flex;gap:18px;padding:10px 4px 6px;flex-wrap:wrap;font-size:13px';
+            const takeN = takeW + takeL;
+            const passN = passW + passL;
+            const fmt = (w, l, u) => {
+              const n = w + l;
+              const wr = n > 0 ? (w/n*100).toFixed(1) + '%' : '—';
+              const uS = (u >= 0 ? '+' : '') + u.toFixed(2) + 'u';
+              return `${w}-${l} (${wr}) ${uS}`;
+            };
+            sumRow.innerHTML = `
+              <div><span style="color:#bbb;font-weight:600">TAKE:</span>
+                <span style="color:${takeU>=0?'var(--green)':'var(--red)'};font-weight:600">${fmt(takeW, takeL, takeU)}</span></div>
+              <div><span style="color:#bbb;font-weight:600">PASS would-be:</span>
+                <span style="color:${passU>=0?'var(--green)':'var(--red)'};font-weight:600">${fmt(passW, passL, passU)}</span></div>
+              <div style="color:#888;font-size:12px;align-self:center">backtested across ${rows.length} graded picks</div>
+            `;
+            rrCard.appendChild(sumRow);
+
+            // Month breakdown table.
+            const months = Object.keys(byMonth).sort();
+            if (months.length > 0) {
+              const wrap = document.createElement('div');
+              wrap.className = 'props-table-wrap';
+              const tbl = document.createElement('table');
+              tbl.style.cssText = 'width:100%;border-collapse:collapse;margin-top:6px';
+              const hr = tbl.createTHead().insertRow();
+              ['Month','TAKE Record','TAKE WR%','TAKE Units','PASS Record','PASS WR%','PASS Units'].forEach((h, i) => {
+                const th = document.createElement('th');
+                th.textContent = h;
+                th.style.cssText = `padding:6px 8px;border-bottom:1px solid rgba(255,255,255,0.1);font-size:11px;color:#999;text-align:${i===0?'left':'right'}`;
+                hr.appendChild(th);
+              });
+              const tb = tbl.createTBody();
+              const monthName = (ym) => {
+                const m = parseInt(ym.slice(5, 7), 10);
+                const names = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+                return names[m - 1] + ' ' + ym.slice(0, 4);
+              };
+              for (const ym of months) {
+                const r = byMonth[ym];
+                const tN = r.takeW + r.takeL;
+                const pN = r.passW + r.passL;
+                const tWR = tN > 0 ? (r.takeW/tN*100).toFixed(1) + '%' : '—';
+                const pWR = pN > 0 ? (r.passW/pN*100).toFixed(1) + '%' : '—';
+                const tUStr = (r.takeU >= 0 ? '+' : '') + r.takeU.toFixed(2) + 'u';
+                const pUStr = (r.passU >= 0 ? '+' : '') + r.passU.toFixed(2) + 'u';
+                const tr = tb.insertRow();
+                tr.style.borderBottom = '1px solid rgba(255,255,255,0.04)';
+                const cells = [
+                  { v: monthName(ym), align: 'left', color: '#ccc' },
+                  { v: `${r.takeW}-${r.takeL}`, align: 'right' },
+                  { v: tWR, align: 'right', color: tN > 0 ? (r.takeW/tN >= 0.55 ? 'var(--green)' : r.takeW/tN < 0.50 ? 'var(--red)' : '#ccc') : '#888' },
+                  { v: tUStr, align: 'right', color: r.takeU >= 0 ? 'var(--green)' : 'var(--red)' },
+                  { v: `${r.passW}-${r.passL}`, align: 'right' },
+                  { v: pWR, align: 'right', color: pN > 0 ? (r.passW/pN >= 0.55 ? 'var(--green)' : r.passW/pN < 0.50 ? 'var(--red)' : '#ccc') : '#888' },
+                  { v: pUStr, align: 'right', color: r.passU >= 0 ? 'var(--green)' : 'var(--red)' },
+                ];
+                cells.forEach(c => {
+                  const td = tr.insertCell();
+                  td.textContent = c.v;
+                  td.style.cssText = `padding:5px 8px;font-size:12px;text-align:${c.align}`;
+                  if (c.color) td.style.color = c.color;
+                });
+              }
+              wrap.appendChild(tbl);
+              rrCard.appendChild(wrap);
+            }
+            // --- Drill-down: search by verdict + month ---
+            // Lets the user inspect the individual picks behind the
+            // TAKE/PASS tallies and narrow to a specific month.
+            const drillRow = document.createElement('div');
+            drillRow.style.cssText = 'display:flex;gap:6px;padding:12px 4px 6px;flex-wrap:wrap;align-items:center;border-top:1px solid rgba(255,255,255,0.06);margin-top:12px';
+            const drillLabel = document.createElement('span');
+            drillLabel.style.cssText = 'font-size:11px;color:#bbb;font-weight:600;letter-spacing:0.06em;text-transform:uppercase;margin-right:6px';
+            drillLabel.textContent = 'Drill:';
+            drillRow.appendChild(drillLabel);
+
+            const _RR_ACTIVE = 'padding:4px 12px;font-size:11px;font-weight:700;border:1px solid #a78bfa;background:#a78bfa;color:#0a0a0a;border-radius:4px;cursor:pointer';
+            const _RR_IDLE = 'padding:4px 12px;font-size:11px;font-weight:500;border:1px solid rgba(255,255,255,0.15);background:rgba(255,255,255,0.04);color:#ccc;border-radius:4px;cursor:pointer';
+            let _rrFilter = 'ALL';
+            let _rrMonth = 'ALL';
+            const RR_FILTERS = [
+              { key: 'ALL',  label: 'All' },
+              { key: 'TAKE', label: 'TAKE' },
+              { key: 'PASS', label: 'PASS' },
+            ];
+            const _rrFilterBtns = {};
+            RR_FILTERS.forEach(f => {
+              const b = document.createElement('button');
+              b.textContent = f.label;
+              b.style.cssText = _rrFilter === f.key ? _RR_ACTIVE : _RR_IDLE;
+              b.addEventListener('click', () => { _rrFilter = f.key; _styleRR(); _renderDrill(); });
+              _rrFilterBtns[f.key] = b;
+              drillRow.appendChild(b);
+            });
+
+            // Month chips — derived from the same `byMonth` keys already
+            // computed above. "All" first, then chronological months.
+            const monthDivider = document.createElement('div');
+            monthDivider.style.cssText = 'width:1px;height:18px;background:rgba(255,255,255,0.15);margin:0 4px';
+            drillRow.appendChild(monthDivider);
+            const monthLabel = document.createElement('span');
+            monthLabel.style.cssText = 'font-size:11px;color:#bbb;font-weight:600';
+            monthLabel.textContent = 'Month:';
+            drillRow.appendChild(monthLabel);
+            const _rrMonthBtns = {};
+            const _rrMonthName = (ym) => {
+              const m = parseInt(ym.slice(5, 7), 10);
+              return ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'][m - 1] || ym;
+            };
+            const allMonths = Object.keys(byMonth).sort();
+            const allMonthBtn = document.createElement('button');
+            allMonthBtn.textContent = 'All';
+            allMonthBtn.style.cssText = _RR_ACTIVE;
+            allMonthBtn.addEventListener('click', () => { _rrMonth = 'ALL'; _styleRR(); _renderDrill(); });
+            _rrMonthBtns['ALL'] = allMonthBtn;
+            drillRow.appendChild(allMonthBtn);
+            for (const ym of allMonths) {
+              const b = document.createElement('button');
+              b.textContent = _rrMonthName(ym);
+              b.title = ym;
+              b.style.cssText = _RR_IDLE;
+              b.addEventListener('click', () => { _rrMonth = ym; _styleRR(); _renderDrill(); });
+              _rrMonthBtns[ym] = b;
+              drillRow.appendChild(b);
+            }
+            function _styleRR() {
+              for (const k in _rrFilterBtns) _rrFilterBtns[k].style.cssText = (k === _rrFilter) ? _RR_ACTIVE : _RR_IDLE;
+              for (const k in _rrMonthBtns) _rrMonthBtns[k].style.cssText = (k === _rrMonth) ? _RR_ACTIVE : _RR_IDLE;
+            }
+
+            rrCard.appendChild(drillRow);
+
+            // Tally line + drill-down table mount.
+            const drillSummary = document.createElement('div');
+            drillSummary.style.cssText = 'padding:4px 4px 8px;font-size:12px;color:#999';
+            rrCard.appendChild(drillSummary);
+            const drillWrap = document.createElement('div');
+            drillWrap.className = 'props-table-wrap';
+            rrCard.appendChild(drillWrap);
+
+            function _renderDrill() {
+              const filtered = rows.filter(r => {
+                if (_rrFilter !== 'ALL' && r.verdict !== _rrFilter) return false;
+                if (_rrMonth !== 'ALL' && (r.p.date || '').slice(0, 7) !== _rrMonth) return false;
+                return true;
+              });
+              // Mini summary
+              let w = 0, l = 0, uTotal = 0;
+              for (const r of filtered) {
+                if (r.won) w++; else l++;
+                uTotal += r.u;
+              }
+              const wr = (w + l) > 0 ? (w / (w + l) * 100).toFixed(1) + '%' : '—';
+              const uStr = (uTotal >= 0 ? '+' : '') + uTotal.toFixed(2) + 'u';
+              const uColor = uTotal >= 0 ? 'var(--green)' : 'var(--red)';
+              drillSummary.innerHTML = `Showing <strong style="color:#ccc">${filtered.length}</strong> picks · <strong>${w}-${l}</strong> (${wr}) <span style="color:${uColor};font-weight:600">${uStr}</span>`;
+
+              drillWrap.innerHTML = '';
+              if (filtered.length === 0) {
+                const empty = document.createElement('div');
+                empty.style.cssText = 'padding:14px;color:#888;font-size:12px;font-style:italic';
+                empty.textContent = 'No picks match the current filters.';
+                drillWrap.appendChild(empty);
+                return;
+              }
+              const tbl = document.createElement('table');
+              tbl.style.cssText = 'width:100%;border-collapse:collapse;margin-top:4px';
+              const hr = tbl.createTHead().insertRow();
+              ['Date','Pitcher','Tm','Opp','Dir','Line','Proj','pC%','Actual','Odds','Verdict','Result','Units'].forEach((h, i) => {
+                const th = document.createElement('th');
+                th.textContent = h;
+                th.style.cssText = `padding:6px 8px;border-bottom:1px solid rgba(255,255,255,0.1);font-size:11px;color:#999;text-align:${i < 4 ? 'left' : (i >= 10 ? 'center' : 'right')}`;
+                hr.appendChild(th);
+              });
+              const tb = tbl.createTBody();
+              // Newest first so the latest result is up top.
+              const sortedRows = [...filtered].sort((a, b) =>
+                (b.p.date || '').localeCompare(a.p.date || '')
+              );
+              for (const r of sortedRows) {
+                const p = r.p;
+                const tr = tb.insertRow();
+                tr.style.borderBottom = '1px solid rgba(255,255,255,0.04)';
+                const fmtOdds = (o) => o == null ? '—' : (o > 0 ? '+' + o : String(o));
+                const verdictColor = r.verdict === 'TAKE' ? 'var(--green)' : 'var(--red)';
+                const dirColor = p.pick === 'OVER' ? 'var(--green)' : 'var(--red)';
+                const resColor = p.result === 'WIN' ? 'var(--green)' : 'var(--red)';
+                const uColorRow = r.u >= 0 ? 'var(--green)' : 'var(--red)';
+                const cells = [
+                  { v: p.date || '—', align: 'left', color: '#ccc' },
+                  { v: displayName(p), align: 'left', color: '#fff', weight: '600' },
+                  { v: p.team || '—', align: 'left', color: '#999' },
+                  { v: p.opp || '—', align: 'left', color: '#999' },
+                  { v: p.pick === 'OVER' ? 'O' : 'U', align: 'right', color: dirColor, weight: '600' },
+                  { v: p.line != null ? String(p.line) : '—', align: 'right' },
+                  { v: p.proj != null ? p.proj.toFixed(1) : '—', align: 'right' },
+                  { v: p.pCover != null ? (p.pCover * 100).toFixed(1) + '%' : '—', align: 'right' },
+                  { v: p.actual != null ? String(p.actual) : '—', align: 'right' },
+                  { v: fmtOdds(p.odds), align: 'right', color: '#ccc' },
+                  { v: r.verdict, align: 'center', color: verdictColor, weight: '700' },
+                  { v: p.result === 'WIN' ? 'W' : 'L', align: 'center', color: resColor, weight: '700' },
+                  { v: (r.u >= 0 ? '+' : '') + r.u.toFixed(2) + 'u', align: 'right', color: uColorRow, weight: '600' },
+                ];
+                cells.forEach(c => {
+                  const td = tr.insertCell();
+                  td.textContent = c.v;
+                  td.style.cssText = `padding:5px 8px;font-size:12px;text-align:${c.align}`;
+                  if (c.color) td.style.color = c.color;
+                  if (c.weight) td.style.fontWeight = c.weight;
+                });
+              }
+              drillWrap.appendChild(tbl);
+            }
+            _renderDrill();
+
+            // Caption.
+            const cap = document.createElement('div');
+            cap.style.cssText = 'padding:8px 4px;color:#888;font-size:11px;font-style:italic;line-height:1.5';
+            cap.innerHTML = `
+              Each pick's verdict is computed using only history before that date.<br>
+              <strong style="color:var(--green)">TAKE</strong> = actually betting these picks (1u each).<br>
+              <strong style="color:var(--red)">PASS would-be</strong> = picks the read flagged to skip — what they would have done if bet anyway.
+            `;
+            rrCard.appendChild(cap);
+
+            _readRecordCard = rrCard;
+          })();
         };
 
         // Today's Picks + Leans (unified card with tabs)
@@ -2839,6 +3188,11 @@
             todayBody.appendChild(lTbl);
             fitMLBTableToContainer(lTbl);
           }
+          // Placeholder for Matchup History (table + Read). Filled later by
+          // _renderMatchupCard via the hoisted slot reference.
+          _todayMatchupSlot = document.createElement('div');
+          _todayMatchupSlot.style.cssText = 'margin-top:16px;padding-top:12px;border-top:1px solid rgba(255,255,255,0.08)';
+          todayBody.appendChild(_todayMatchupSlot);
           todayCard.appendChild(todayBody);
           // Yesterday Recap body: pull children off the deferred recap card
           // (skipping its own card-title since we render a unified one).
@@ -2853,6 +3207,11 @@
               }
               recapBody.appendChild(child);
             }
+            // Same matchup-history placeholder for yesterday — filled later
+            // with walk-forward records (cohort excludes yesterday's picks).
+            _yesterdayMatchupSlot = document.createElement('div');
+            _yesterdayMatchupSlot.style.cssText = 'margin-top:16px;padding-top:12px;border-top:1px solid rgba(255,255,255,0.08)';
+            recapBody.appendChild(_yesterdayMatchupSlot);
             todayCard.appendChild(recapBody);
             // Now that both bodies exist, set the initial active day.
             if (dayToggleWrap._setDay) dayToggleWrap._setDay('today');
@@ -3241,12 +3600,17 @@
       // appears alongside the slate it describes, instead of at the page
       // bottom. (Definition lives inside renderMLBDailyCards; invoking here
       // appends to `el` at this insertion point.)
-      if (_renderMatchupCard) _renderMatchupCard();
+      if (_renderMatchupCard) {
+        try { _renderMatchupCard(); }
+        catch (e) { console.error('_renderMatchupCard failed:', e); }
+      }
       // Season Market Breakdown sits below Matchup History — it summarizes
       // all history, so it's a natural footer to the per-game cards.
       if (_seasonBreakdownCard) el.appendChild(_seasonBreakdownCard);
-      // Recent Record sits between Season Market Breakdown and the All-
-      // history paginated table.
+      // Read Record (backtest) — how the TAKE/PASS verdict would have
+      // performed historically. Sits below Season Market Breakdown.
+      if (_readRecordCard) el.appendChild(_readRecordCard);
+      // Recent Record sits between Read Record and the All-history table.
       if (_recentRecordContainer) el.appendChild(_recentRecordContainer);
 
       // ── Unified Toolbar ──

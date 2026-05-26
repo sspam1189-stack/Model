@@ -212,6 +212,129 @@ def load_or_compute_empirical_std(date_key, date_iso):
     return computed
 
 
+def _stamp_read_verdicts(merged_props):
+    """Stamp readVerdict ("TAKE" / "PASS") on each actionable pick.
+
+    Mirrors readVerdictFor() in PythonDashboard/js/mlb-props.js. The verdict
+    uses ONLY graded picks strictly before each pick's date, so the call is
+    walk-forward safe (no future-data leak into past projections).
+
+    Only OVER/UNDER picks get a verdict — PASS/WATCH rows skip.
+    """
+    from collections import defaultdict
+
+    # Sort picks chronologically. Walking forward in time lets us accumulate
+    # the historical record maps incrementally — O(n) overall.
+    rows = sorted(
+        (p for p in merged_props if p.get("market") == "strikeouts"),
+        key=lambda x: x.get("date") or "",
+    )
+
+    # Aggregates keyed by (opp, dir), opp, (pitcher_key, dir), pitcher_key.
+    # Each value is {w, l, u}. Only WIN/LOSS rows update the maps.
+    by_opp_dir = defaultdict(lambda: {"w": 0, "l": 0, "u": 0.0})
+    by_opp = defaultdict(lambda: {"w": 0, "l": 0, "u": 0.0})
+    by_pit_dir = defaultdict(lambda: {"w": 0, "l": 0, "u": 0.0})
+    by_pit = defaultdict(lambda: {"w": 0, "l": 0, "u": 0.0})
+
+    def _pkey(p):
+        return f"{p.get('player', '')}|{p.get('team', '')}"
+
+    def _units(p):
+        won = p.get("result") == "WIN"
+        odds = p.get("odds")
+        if odds is None:
+            return 1.0 if won else -1.0
+        try:
+            o = float(odds)
+        except (TypeError, ValueError):
+            return 1.0 if won else -1.0
+        if o > 0:
+            return o / 100.0 if won else -1.0
+        return 1.0 if won else -abs(o) / 100.0
+
+    def _verdict(dir_rec, all_rec, pit_rec, pit_all_rec):
+        # Replicates readVerdictFor() in the JS exactly.
+        bkt_n = dir_rec["w"] + dir_rec["l"] if dir_rec else 0
+        bkt_wr = dir_rec["w"] / bkt_n if bkt_n > 0 else None
+        broad_n = all_rec["w"] + all_rec["l"] if all_rec else 0
+        broad_wr = all_rec["w"] / broad_n if broad_n > 0 else None
+        broad_u = all_rec["u"] if all_rec else 0
+        caution = bkt_wr is not None and bkt_n >= 4 and bkt_wr < 0.45
+        coin = bkt_wr is not None and bkt_n >= 4 and 0.45 <= bkt_wr < 0.65
+        b_caution = (broad_wr is not None and broad_n >= 6
+                     and broad_wr <= 0.45 and broad_u <= -2)
+        small = 0 < bkt_n < 4
+        empty = bkt_n == 0
+
+        # --- Positive overrides ---
+        # Symmetric to the negative gates below: a strong record on either
+        # lens (opp matchup OR pitcher track) outweighs a marginal-cohort
+        # PASS. Both records work bidirectionally.
+        pit_n = pit_rec["w"] + pit_rec["l"] if pit_rec else 0
+        pit_wr = pit_rec["w"] / pit_n if pit_n > 0 else None
+        pit_all_n = pit_all_rec["w"] + pit_all_rec["l"] if pit_all_rec else 0
+        pit_all_wr = pit_all_rec["w"] / pit_all_n if pit_all_n > 0 else None
+        # Opp dir cohort dominant
+        if bkt_wr is not None and bkt_n >= 4 and bkt_wr >= 0.75 and dir_rec["u"] >= 2:
+            return "TAKE"
+        # Opp broader same-dir dominant
+        if broad_wr is not None and broad_n >= 6 and broad_wr >= 0.70 and broad_u >= 2:
+            return "TAKE"
+        # Pitcher dir track dominant
+        if pit_n >= 4 and pit_wr is not None and pit_wr >= 0.75 and pit_rec["u"] >= 2:
+            return "TAKE"
+        # Pitcher broader (both dirs) dominant
+        if pit_all_n >= 6 and pit_all_wr is not None and pit_all_wr >= 0.70 and pit_all_rec["u"] >= 2:
+            return "TAKE"
+
+        # --- Negative gates (PASS) ---
+        if caution:
+            return "PASS"
+        if coin and b_caution:
+            return "PASS"
+        if (small or empty) and b_caution:
+            return "PASS"
+        if pit_n >= 4 and pit_wr is not None and pit_wr <= 0.40 and pit_rec["u"] <= -1:
+            return "PASS"
+        if pit_all_n >= 6 and pit_all_wr is not None and pit_all_wr <= 0.45 and pit_all_rec["u"] <= -2:
+            return "PASS"
+        return "TAKE"
+
+    def _snap(d):
+        # Defensive copy so the verdict sees record-at-time-of-pick.
+        return {"w": d["w"], "l": d["l"], "u": d["u"]}
+
+    for p in rows:
+        direction = p.get("pick")
+        if direction not in ("OVER", "UNDER"):
+            continue  # PASS/WATCH rows skip the verdict
+        opp = p.get("opp", "")
+        pit_key = _pkey(p)
+        dir_rec = _snap(by_opp_dir[(opp, direction)]) if (opp, direction) in by_opp_dir else None
+        all_rec = _snap(by_opp[opp]) if opp in by_opp else None
+        pit_rec = _snap(by_pit_dir[(pit_key, direction)]) if (pit_key, direction) in by_pit_dir else None
+        pit_all_rec = _snap(by_pit[pit_key]) if pit_key in by_pit else None
+        p["readVerdict"] = _verdict(dir_rec, all_rec, pit_rec, pit_all_rec)
+
+        # Update aggregates so the NEXT pick sees this one's result.
+        if p.get("result") in ("WIN", "LOSS"):
+            u = _units(p)
+            won = p["result"] == "WIN"
+
+            def _tally(d):
+                if won:
+                    d["w"] += 1
+                else:
+                    d["l"] += 1
+                d["u"] += u
+
+            _tally(by_opp_dir[(opp, direction)])
+            _tally(by_opp[opp])
+            _tally(by_pit_dir[(pit_key, direction)])
+            _tally(by_pit[pit_key])
+
+
 def grade_previous_picks(season=None):
     """Grade ungraded picks from previous dates using actual game logs."""
     from collections import defaultdict
@@ -1138,6 +1261,11 @@ def run_daily(date_key=None):
             existing.get("todayProjections", []) or [],
             combined.get("todayProjections", []) or [],
         )
+
+        # Stamp readVerdict ("TAKE" / "PASS") on every actionable pick using
+        # the same logic the dashboard's Read uses. Mirrors readVerdictFor
+        # in PythonDashboard/js/mlb-props.js — if you change one, change both.
+        _stamp_read_verdicts(merged_props)
 
         combined_merged = {
             **existing, **combined,
