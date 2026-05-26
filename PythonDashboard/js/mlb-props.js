@@ -1522,7 +1522,7 @@
           const takePicks = pickEntries.filter(e => _verdictFor(e) === 'TAKE');
           const passPicks = pickEntries.filter(e => _verdictFor(e) === 'PASS');
           appendReadSection('Picks — TAKE', 'var(--green)', takePicks);
-          appendReadSection('Picks — PASS', 'var(--red)', passPicks, { collapsible: true });
+          appendReadSection('Picks — PASS', 'var(--red)', passPicks);
           appendReadSection('Watch — bumped', 'var(--yellow)', leanEntries, { collapsible: true });
 
           card.appendChild(readBlock);
