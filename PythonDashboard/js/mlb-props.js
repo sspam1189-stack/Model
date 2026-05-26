@@ -717,10 +717,14 @@
           const _todayPicks = _sortByPCover(
             picks.filter(p => p.date === todayStr && !_isVoid(p) && _isRedditTake(p))
           );
+          // Watch-tier rows are never bet at our 0.68+ threshold, so the
+          // Reddit copy doesn't include them. Empty array kept for any
+          // downstream code expecting the variable.
           const _todayLeans = _sortByPCover(
-            (data.props || []).filter(p =>
-              p.date === todayStr && isLean(p) && !_isVoid(p) && _isRedditTake(p)
-            )
+            []
+              .filter(p =>
+                p.date === todayStr && isLean(p) && !_isVoid(p) && _isRedditTake(p)
+              )
           );
 
           // --- Upgrade/downgrade detection vs previously-displayed state ---
@@ -1119,7 +1123,39 @@
           // variable names used through the build code without renaming
           // every site.
           const todayPicks = picksToShow;
-          const todayLeans = leansToShow;
+          // Leans (watch tier, pCover 0.60-0.68) are NOT bet by default —
+          // our picks line is 0.68+. So we only surface a lean when at
+          // least one positive override fires for it: a cohort or pitcher
+          // track strong enough to "bump" it into a take. Everything else
+          // gets hidden.
+          // A lean is "bumped" when treating it as a pick would trigger a
+          // positive override. Cohorts are looked up against the PICK
+          // bucket (the relevant question is: do picks vs this opp/pitcher
+          // in this direction win enough to upgrade a watchlist play into
+          // a play we'd actually bet?).
+          const _isBumpedLean = (p) => {
+            const dir = _dirOf(p);
+            if (!dir) return false;
+            const dr = bucketDirRec(p.opp, dir, 'Pick');
+            const ar = allBucketsDirRec(p.opp, dir);
+            const prc = pitcherDirRec(displayName(p), p.team, dir, 'Pick');
+            const pall = pitcherBothDirsRec(displayName(p), p.team, 'Pick');
+            const drN = dr ? dr.w + dr.l : 0;
+            const drW = drN > 0 ? dr.w / drN : 0;
+            const arN = ar ? ar.w + ar.l : 0;
+            const arW = arN > 0 ? ar.w / arN : 0;
+            const arU = ar ? ar.u : 0;
+            const prN = prc ? prc.w + prc.l : 0;
+            const prW = prN > 0 ? prc.w / prN : 0;
+            const paN = pall ? pall.w + pall.l : 0;
+            const paW = paN > 0 ? pall.w / paN : 0;
+            if (drN >= 4 && drW >= 0.75 && dr.u >= 2) return true;
+            if (arN >= 6 && arW >= 0.70 && arU >= 2) return true;
+            if (prN >= 4 && prW >= 0.75 && prc.u >= 2) return true;
+            if (paN >= 6 && paW >= 0.70 && pall.u >= 2) return true;
+            return false;
+          };
+          const todayLeans = leansToShow.filter(_isBumpedLean);
           const rows = [...todayPicks.map(p => ({p, bucket:'Pick'})),
                         ...todayLeans.map(p => ({p, bucket:'Lean'}))];
           if (rows.length === 0) return null;
