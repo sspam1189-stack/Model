@@ -983,7 +983,11 @@
             // actually losing money or majority-bleeding (≥half losses),
             // not just sub-60%. Avoids killing TAKEs on mildly mediocre
             // broader records.
-            const bWeak    = broadWR != null && broadN >= 6 && (broadWR < 0.50 || broadU < 0);
+            // Backtest sweep found broadN >= 8 cleanest: requires real
+            // sample in the picks+watch cohort before bWeak (or the
+            // positive override below) can fire. Catches more true Ls
+            // and keeps more Ws than n>=6.
+            const bWeak    = broadWR != null && broadN >= 8 && (broadWR < 0.50 || broadU < 0);
             const small   = bktN > 0 && bktN < 4;
             const empty   = bktN === 0;
 
@@ -993,7 +997,7 @@
             const pitAllN = pitAllRec ? pitAllRec.w + pitAllRec.l : 0;
             const pitAllWR = pitAllN > 0 ? pitAllRec.w / pitAllN : null;
             if (bktN >= 4 && bktWR >= 0.75 && dirRec.u >= 2) return 'TAKE';
-            if (broadN >= 6 && broadWR >= 0.70 && broadU >= 2) return 'TAKE';
+            if (broadN >= 8 && broadWR >= 0.70 && broadU >= 2) return 'TAKE';
             if (pitN >= 4 && pitWR >= 0.75 && pitRec.u >= 2) return 'TAKE';
             if (pitAllN >= 6 && pitAllWR >= 0.70 && pitAllRec.u >= 2) return 'TAKE';
 
