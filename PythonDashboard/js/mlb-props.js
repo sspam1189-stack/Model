@@ -978,11 +978,11 @@
             // as a "coin" candidate so the bWeak gate below can drag it down
             // to PASS when the broader cohort agrees the spot's bad.
             const coin    = bktWR != null && bktN >= 4 && bktWR >= 0.45 && bktWR < 0.60;
-            // Loosened from "wr ≤ 0.45 AND units ≤ -2" to "wr < 0.55 OR
-            // units < 0". The original gate almost never fired (needed both
-            // bad WR and deep negative units); the new one catches matchups
-            // where the team cohort is meh-to-bad on either axis.
-            const bWeak    = broadWR != null && broadN >= 6 && (broadWR < 0.55 || broadU < 0);
+            // Tightened bWeak threshold: broader WR below 0.60 (was 0.55)
+            // OR negative units. Anything sub-60% in the widened cohort is
+            // a weak signal — even if the units haven't bled yet, the WR
+            // gap to a 71%+ TAKE benchmark is meaningful.
+            const bWeak    = broadWR != null && broadN >= 6 && (broadWR < 0.60 || broadU < 0);
             const small   = bktN > 0 && bktN < 4;
             const empty   = bktN === 0;
 
