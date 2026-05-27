@@ -324,21 +324,23 @@ def project_pitcher_props(pitcher_logs, team_batting_stats=None,
         season_k_rate = k_rate_vs_lhb * pct_lhb + k_rate_vs_rhb * (1.0 - pct_lhb)
         pitcher_k_rate = season_k_rate or overall_k_pct
 
-        # Whiff% + xBA regression K-rate adjustment.
-        # Additive shift in pitcher_k_rate based on how far this pitcher's
-        # whiff and xBA deviate from league averages (slopes computed
-        # dynamically at backfill / run_daily start; see defaults.py).
-        from defaults import (WHIFF_XBA_BLEND_WEIGHT, WHIFF_LEAGUE_AVG,
-                               XBA_LEAGUE_AVG, WHIFF_K_SLOPE, XBA_K_SLOPE)
-        if WHIFF_XBA_BLEND_WEIGHT > 0:
-            whiff = savant.get("whiff_pct", 0)
-            xba   = savant.get("xba", 0)
-            if whiff > 0 or xba > 0:
-                k_adj = (
-                    WHIFF_K_SLOPE * (whiff - WHIFF_LEAGUE_AVG)
-                    + XBA_K_SLOPE * (xba   - XBA_LEAGUE_AVG)
-                )
-                pitcher_k_rate += k_adj * WHIFF_XBA_BLEND_WEIGHT
+        # Whiff% + xBA regression K-rate adjustment — disabled.
+        # Log-odds matchup formula (beta=0.3) compresses the lineup signal
+        # enough that whiff/xBA shifts don't move any picks across the
+        # pCover threshold. Sweep confirmed identical results at weight
+        # 0.0 through 1.2. Kept for future re-evaluation if matchup
+        # formula changes.
+        # from defaults import (WHIFF_XBA_BLEND_WEIGHT, WHIFF_LEAGUE_AVG,
+        #                        XBA_LEAGUE_AVG, WHIFF_K_SLOPE, XBA_K_SLOPE)
+        # if WHIFF_XBA_BLEND_WEIGHT > 0:
+        #     whiff = savant.get("whiff_pct", 0)
+        #     xba   = savant.get("xba", 0)
+        #     if whiff > 0 or xba > 0:
+        #         k_adj = (
+        #             WHIFF_K_SLOPE * (whiff - WHIFF_LEAGUE_AVG)
+        #             + XBA_K_SLOPE * (xba   - XBA_LEAGUE_AVG)
+        #         )
+        #         pitcher_k_rate += k_adj * WHIFF_XBA_BLEND_WEIGHT
 
         # --- Lineup K tendency ---
         # Three-tier fallback (best → worst):
@@ -382,16 +384,30 @@ def project_pitcher_props(pitcher_logs, team_batting_stats=None,
                 if _val > 0:
                     lineup_k_rate = _val
 
-        expected_k_rate = (pitcher_k_rate * lineup_k_rate) / lg_k_rate
+        from defaults import MATCHUP_METHOD, LINEUP_K_BETA, K_RATE_FLOOR
+        if MATCHUP_METHOD == "additive":
+            expected_k_rate = pitcher_k_rate + LINEUP_K_BETA * (lineup_k_rate - lg_k_rate)
+        elif MATCHUP_METHOD == "log_odds":
+            import math
+            def _logit(p):
+                p = max(0.01, min(0.99, p))
+                return math.log(p / (1 - p))
+            def _inv_logit(x):
+                return 1 / (1 + math.exp(-x))
+            expected_k_rate = _inv_logit(
+                _logit(pitcher_k_rate) + LINEUP_K_BETA * (_logit(lineup_k_rate) - _logit(lg_k_rate))
+            )
+        else:
+            expected_k_rate = (pitcher_k_rate * lineup_k_rate) / lg_k_rate
+        expected_k_rate = max(K_RATE_FLOOR, expected_k_rate)
 
-        from defaults import K_RATE_CAP_FLOOR, K_RATE_FLOOR
-
-        # Per-pitcher K-rate cap — see defaults.K_RATE_CAP_FLOOR for sweep
-        # rationale. cap = max(floor, season K%): mid-tier pitchers can't
-        # exceed the floor on matchup boosts; elite K arms get their own
-        # proven ceiling.
-        _k_cap_used = max(K_RATE_CAP_FLOOR, overall_k_pct)
-        expected_k_rate = max(K_RATE_FLOOR, min(_k_cap_used, expected_k_rate))
+        # Per-pitcher K-rate cap — disabled.
+        # Log-odds formula (beta=0.3) naturally compresses extreme matchups,
+        # making the cap redundant. Sweep showed KCAP 0.36-1.00 all produce
+        # identical results. Kept for reference.
+        # from defaults import K_RATE_CAP_FLOOR
+        # _k_cap_used = max(K_RATE_CAP_FLOOR, overall_k_pct)
+        # expected_k_rate = max(K_RATE_FLOOR, min(_k_cap_used, expected_k_rate))
 
         # --- Projected batters faced ---
         # Use the real `bf` field from game logs when available (true MLB
@@ -449,16 +465,9 @@ def project_pitcher_props(pitcher_logs, team_batting_stats=None,
             whip = adv.get("WHIP", 0) or 1.20
             projected_bf = proj_ip * (3.0 + whip * 0.7)
 
-        from defaults import BF_MULT as _BF_MULT, BF_CAP as _BF_CAP, BF_CAP_PCTILE
+        from defaults import BF_MULT as _BF_MULT, BF_CAP as _BF_CAP
         projected_bf_display = projected_bf * _BF_MULT
-        if BF_CAP_PCTILE > 0 and len(game_bfs) >= 3:
-            _sorted_bfs = sorted(game_bfs)
-            _pctile_idx = min(int(len(_sorted_bfs) * BF_CAP_PCTILE),
-                              len(_sorted_bfs) - 1)
-            _pitcher_bf_ceil = _sorted_bfs[_pctile_idx]
-            projected_bf = min(projected_bf_display, _pitcher_bf_ceil, _BF_CAP)
-        else:
-            projected_bf = min(projected_bf_display, _BF_CAP)
+        projected_bf = min(projected_bf_display, _BF_CAP)
         # Projected pitch count: prefer recent avg if we have it; otherwise
         # derive from final projected_bf × league-avg pitches/BF.
         proj_pc = avg_pc if avg_pc is not None else projected_bf * avg_ppbf

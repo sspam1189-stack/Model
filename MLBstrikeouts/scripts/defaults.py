@@ -99,7 +99,10 @@ VAR_MULT = {
     # recent signal more predictive of forward returns than season-wide).
     # Season at this config: +363.6u (vs +388.7u VAR=1.05 = -25u).
     # Recent at this config: +82.8u (vs +83.9u VAR=1.05 = -1.1u, ROI +0.5pp).
-    "strikeouts":   1.30,
+    # 2026-05-27 re-sweep after log-odds matchup formula (beta=0.3):
+    # VAR=1.15 optimal at +140.2u, 78% WR, +50.4% ROI.
+    # Formula compresses projection spread, so std bands need less inflation.
+    "strikeouts":   1.15,
 }
 
 # ---------------------------------------------------------------------------
@@ -299,6 +302,25 @@ BF_CAP_PCTILE = 0.0
 # to 0.38 (+5.5u at 2.5/1.5). ZC/chase blend boosts elite-pitch-quality
 # pitchers' K rate, and 0.36 was clipping too aggressively.
 K_RATE_CAP_FLOOR = 0.36
+
+# Lineup K% regression toward league average. 1.0 = full signal (current),
+# 0.0 = ignore matchup entirely. Compresses extreme lineup K% values
+# toward lg_k_rate before the matchup multiplication.
+# DAMPEN_HIGH applies when lineup K% > lg average (high-K lineups).
+# DAMPEN_LOW applies when lineup K% < lg average (low-K lineups).
+LINEUP_K_DAMPEN = 0.30
+LINEUP_K_DAMPEN_HIGH = 0.30
+LINEUP_K_DAMPEN_LOW = 1.0
+
+# Matchup formula method: "multiplicative", "additive", or "log_odds"
+# multiplicative: pitcher_k × lineup_k / lg_k  (current)
+# additive:       pitcher_k + LINEUP_K_BETA × (lineup_k - lg_k)
+# log_odds:       logit(pitcher_k) + LINEUP_K_BETA × (logit(lineup_k) - logit(lg_k)), then inverse logit
+# 2026-05-27 sweep: log-odds at beta=0.3 fixes +0.77 K bias on high-K
+# lineups (26%+), gains +24u over multiplicative. Naturally compresses
+# extreme matchups without needing K-rate cap or dampening hacks.
+MATCHUP_METHOD = "log_odds"
+LINEUP_K_BETA = 0.3
 
 # Hard floor on expected_k_rate after the per-pitcher cap. Prevents
 # nonsensical near-zero K-rate projections from degenerate inputs (e.g.
