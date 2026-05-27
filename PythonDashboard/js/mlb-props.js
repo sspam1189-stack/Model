@@ -1004,7 +1004,7 @@
           // per-row leans block).
           const redditText =
             `Picks will be updated throughout the day as lineups come in.\n\n` +
-            `Lines are based on FD prices.\n\n` +
+            `Lines are based on draftkingsORfanduel\n\n` +
             `Picks:\n\n` +
             `* Total: ${fmt(totalPicks)}\n` +
             `* ${weekLabel} (${weekRange}): ${fmt(wPicksTally)}\n` +
