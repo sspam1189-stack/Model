@@ -2,12 +2,12 @@
   "sport": "mlb",
   "type": "pitcher_props",
   "season": "2026",
-  "mode": "live",
+  "mode": "backfill",
   "model": "kalman_blend",
-  "generated": "2026-05-26T19:32:34.668951",
-  "totalProjections": 25,
-  "totalPicks": 1122,
-  "totalWatchlist": 7,
+  "generated": "2026-05-26T19:47:30.938357",
+  "totalProjections": 1130,
+  "totalPicks": 485,
+  "totalWatchlist": 637,
   "props": [
     {
       "player": "Sonny Gray",
@@ -34,8 +34,7 @@
       "lineup_k_pct": 28.1,
       "actual_outs": 19,
       "actual_bf": 24,
-      "actual_pitches": 90,
-      "readVerdict": "TAKE"
+      "actual_pitches": 90
     },
     {
       "player": "Sonny Gray",
@@ -62,8 +61,7 @@
       "lineup_k_pct": 19.3,
       "actual_outs": 18,
       "actual_bf": 20,
-      "actual_pitches": 78,
-      "readVerdict": "TAKE"
+      "actual_pitches": 78
     },
     {
       "player": "Simeon Woods Richardson",
@@ -90,8 +88,7 @@
       "lineup_k_pct": 24.1,
       "actual_outs": 15,
       "actual_bf": 22,
-      "actual_pitches": 95,
-      "readVerdict": "TAKE"
+      "actual_pitches": 95
     },
     {
       "player": "Sonny Gray",
@@ -118,8 +115,7 @@
       "lineup_k_pct": 22.3,
       "actual_outs": 8,
       "actual_bf": 11,
-      "actual_pitches": 40,
-      "readVerdict": "TAKE"
+      "actual_pitches": 40
     },
     {
       "player": "Max Scherzer",
@@ -146,8 +142,7 @@
       "lineup_k_pct": 27.4,
       "actual_outs": 7,
       "actual_bf": 15,
-      "actual_pitches": 68,
-      "readVerdict": "TAKE"
+      "actual_pitches": 68
     },
     {
       "player": "Brady Singer",
@@ -174,8 +169,7 @@
       "lineup_k_pct": 19.6,
       "actual_outs": 18,
       "actual_bf": 25,
-      "actual_pitches": 75,
-      "readVerdict": "TAKE"
+      "actual_pitches": 75
     },
     {
       "player": "Luis Gil",
@@ -202,8 +196,7 @@
       "lineup_k_pct": 16.4,
       "actual_outs": 12,
       "actual_bf": 20,
-      "actual_pitches": 83,
-      "readVerdict": "PASS"
+      "actual_pitches": 83
     },
     {
       "player": "Tyler Glasnow",
@@ -230,8 +223,7 @@
       "lineup_k_pct": 20.4,
       "actual_outs": 24,
       "actual_bf": 25,
-      "actual_pitches": 105,
-      "readVerdict": "TAKE"
+      "actual_pitches": 105
     },
     {
       "player": "Davis Martin",
@@ -258,8 +250,7 @@
       "lineup_k_pct": 23.4,
       "actual_outs": 19,
       "actual_bf": 24,
-      "actual_pitches": 97,
-      "readVerdict": "TAKE"
+      "actual_pitches": 97
     },
     {
       "player": "Davis Martin",
@@ -286,8 +277,7 @@
       "lineup_k_pct": 29.8,
       "actual_outs": 21,
       "actual_bf": 24,
-      "actual_pitches": 89,
-      "readVerdict": "PASS"
+      "actual_pitches": 89
     },
     {
       "player": "Luis Gil",
@@ -314,8 +304,7 @@
       "lineup_k_pct": 22.6,
       "actual_outs": 19,
       "actual_bf": 24,
-      "actual_pitches": 83,
-      "readVerdict": "TAKE"
+      "actual_pitches": 83
     },
     {
       "player": "Jake Irvin",
@@ -342,8 +331,7 @@
       "lineup_k_pct": 26.8,
       "actual_outs": 15,
       "actual_bf": 23,
-      "actual_pitches": 85,
-      "readVerdict": "TAKE"
+      "actual_pitches": 85
     },
     {
       "player": "Logan Webb",
@@ -370,8 +358,7 @@
       "lineup_k_pct": 19.5,
       "actual_outs": 21,
       "actual_bf": 28,
-      "actual_pitches": 92,
-      "readVerdict": "TAKE"
+      "actual_pitches": 92
     },
     {
       "player": "Javier Assad",
@@ -398,8 +385,7 @@
       "lineup_k_pct": 26.2,
       "actual_outs": 17,
       "actual_bf": 20,
-      "actual_pitches": 82,
-      "readVerdict": "TAKE"
+      "actual_pitches": 82
     },
     {
       "player": "Zac Gallen",
@@ -426,8 +412,7 @@
       "lineup_k_pct": 19.5,
       "actual_outs": 11,
       "actual_bf": 21,
-      "actual_pitches": 95,
-      "readVerdict": "TAKE"
+      "actual_pitches": 95
     },
     {
       "player": "Justin Wrobleski",
@@ -454,8 +439,7 @@
       "lineup_k_pct": 26.2,
       "actual_outs": 21,
       "actual_bf": 29,
-      "actual_pitches": 97,
-      "readVerdict": "TAKE"
+      "actual_pitches": 97
     },
     {
       "player": "Sonny Gray",
@@ -482,8 +466,7 @@
       "lineup_k_pct": 21.6,
       "actual_outs": 15,
       "actual_bf": 20,
-      "actual_pitches": 70,
-      "readVerdict": "TAKE"
+      "actual_pitches": 70
     },
     {
       "player": "Adrian Houser",
@@ -510,8 +493,7 @@
       "lineup_k_pct": 26.7,
       "actual_outs": 14,
       "actual_bf": 21,
-      "actual_pitches": 88,
-      "readVerdict": "TAKE"
+      "actual_pitches": 88
     },
     {
       "player": "Sonny Gray",
@@ -538,8 +520,7 @@
       "lineup_k_pct": 24.2,
       "actual_outs": 12,
       "actual_bf": 22,
-      "actual_pitches": 93,
-      "readVerdict": "TAKE"
+      "actual_pitches": 93
     },
     {
       "player": "Landen Roupp",
@@ -566,8 +547,7 @@
       "lineup_k_pct": 26.6,
       "actual_outs": 18,
       "actual_bf": 21,
-      "actual_pitches": 87,
-      "readVerdict": "TAKE"
+      "actual_pitches": 87
     },
     {
       "player": "Cade Cavalli",
@@ -594,8 +574,7 @@
       "lineup_k_pct": 28.0,
       "actual_outs": 4,
       "actual_bf": 12,
-      "actual_pitches": 48,
-      "readVerdict": "TAKE"
+      "actual_pitches": 48
     },
     {
       "player": "Will Warren",
@@ -622,8 +601,7 @@
       "lineup_k_pct": 25.5,
       "actual_outs": 21,
       "actual_bf": 25,
-      "actual_pitches": 93,
-      "readVerdict": "TAKE"
+      "actual_pitches": 93
     },
     {
       "player": "Nolan McLean",
@@ -650,8 +628,7 @@
       "lineup_k_pct": 22.6,
       "actual_outs": 21,
       "actual_bf": 25,
-      "actual_pitches": 95,
-      "readVerdict": "TAKE"
+      "actual_pitches": 95
     },
     {
       "player": "Dylan Cease",
@@ -678,8 +655,7 @@
       "lineup_k_pct": 23.4,
       "actual_outs": 15,
       "actual_bf": 23,
-      "actual_pitches": 96,
-      "readVerdict": "TAKE"
+      "actual_pitches": 96
     },
     {
       "player": "Brady Singer",
@@ -706,8 +682,7 @@
       "lineup_k_pct": 20.3,
       "actual_outs": 16,
       "actual_bf": 24,
-      "actual_pitches": 94,
-      "readVerdict": "TAKE"
+      "actual_pitches": 94
     },
     {
       "player": "Zac Gallen",
@@ -734,8 +709,7 @@
       "lineup_k_pct": 21.7,
       "actual_outs": 15,
       "actual_bf": 23,
-      "actual_pitches": 95,
-      "readVerdict": "TAKE"
+      "actual_pitches": 95
     },
     {
       "player": "Brady Singer",
@@ -762,8 +736,7 @@
       "lineup_k_pct": 21.8,
       "actual_outs": 18,
       "actual_bf": 26,
-      "actual_pitches": 104,
-      "readVerdict": "TAKE"
+      "actual_pitches": 104
     },
     {
       "player": "Zac Gallen",
@@ -790,8 +763,7 @@
       "lineup_k_pct": 17.8,
       "actual_outs": 17,
       "actual_bf": 25,
-      "actual_pitches": 88,
-      "readVerdict": "TAKE"
+      "actual_pitches": 88
     },
     {
       "player": "Chris Bassitt",
@@ -818,8 +790,7 @@
       "lineup_k_pct": 18.1,
       "actual_outs": 20,
       "actual_bf": 27,
-      "actual_pitches": 94,
-      "readVerdict": "PASS"
+      "actual_pitches": 94
     },
     {
       "player": "Michael Lorenzen",
@@ -846,8 +817,7 @@
       "lineup_k_pct": 24.1,
       "actual_outs": 21,
       "actual_bf": 26,
-      "actual_pitches": 90,
-      "readVerdict": "TAKE"
+      "actual_pitches": 90
     },
     {
       "player": "Zac Gallen",
@@ -874,8 +844,7 @@
       "lineup_k_pct": 23.0,
       "actual_outs": 18,
       "actual_bf": 28,
-      "actual_pitches": 100,
-      "readVerdict": "TAKE"
+      "actual_pitches": 100
     },
     {
       "player": "Davis Martin",
@@ -902,8 +871,7 @@
       "lineup_k_pct": 23.1,
       "actual_outs": 21,
       "actual_bf": 26,
-      "actual_pitches": 82,
-      "readVerdict": "TAKE"
+      "actual_pitches": 82
     },
     {
       "player": "Jos\u00e9 Soriano",
@@ -930,8 +898,7 @@
       "lineup_k_pct": 23.9,
       "actual_outs": 21,
       "actual_bf": 26,
-      "actual_pitches": 106,
-      "readVerdict": "TAKE"
+      "actual_pitches": 106
     },
     {
       "player": "Michael King",
@@ -958,8 +925,7 @@
       "lineup_k_pct": 30.7,
       "actual_outs": 18,
       "actual_bf": 25,
-      "actual_pitches": 85,
-      "readVerdict": "TAKE"
+      "actual_pitches": 85
     },
     {
       "player": "Justin Wrobleski",
@@ -986,8 +952,7 @@
       "lineup_k_pct": 24.2,
       "actual_outs": 26,
       "actual_bf": 34,
-      "actual_pitches": 100,
-      "readVerdict": "TAKE"
+      "actual_pitches": 100
     },
     {
       "player": "Logan Henderson",
@@ -1014,8 +979,7 @@
       "lineup_k_pct": 23.7,
       "actual_outs": 15,
       "actual_bf": 22,
-      "actual_pitches": 84,
-      "readVerdict": "TAKE"
+      "actual_pitches": 84
     },
     {
       "player": "Tomoyuki Sugano",
@@ -1042,8 +1006,7 @@
       "lineup_k_pct": 20.5,
       "actual_outs": 18,
       "actual_bf": 22,
-      "actual_pitches": 81,
-      "readVerdict": "TAKE"
+      "actual_pitches": 81
     },
     {
       "player": "Michael Lorenzen",
@@ -1070,8 +1033,7 @@
       "lineup_k_pct": 23.8,
       "actual_outs": 16,
       "actual_bf": 23,
-      "actual_pitches": 85,
-      "readVerdict": "TAKE"
+      "actual_pitches": 85
     },
     {
       "player": "Justin Wrobleski",
@@ -1098,8 +1060,7 @@
       "lineup_k_pct": 23.5,
       "actual_outs": 18,
       "actual_bf": 26,
-      "actual_pitches": 103,
-      "readVerdict": "TAKE"
+      "actual_pitches": 103
     },
     {
       "player": "Simeon Woods Richardson",
@@ -1126,8 +1087,7 @@
       "lineup_k_pct": 21.1,
       "actual_outs": 14,
       "actual_bf": 25,
-      "actual_pitches": 88,
-      "readVerdict": "TAKE"
+      "actual_pitches": 88
     },
     {
       "player": "Jacob Lopez",
@@ -1154,8 +1114,7 @@
       "lineup_k_pct": 21.6,
       "actual_outs": 15,
       "actual_bf": 25,
-      "actual_pitches": 96,
-      "readVerdict": "TAKE"
+      "actual_pitches": 96
     },
     {
       "player": "Max Scherzer",
@@ -1182,8 +1141,7 @@
       "lineup_k_pct": 20.9,
       "actual_outs": 7,
       "actual_bf": 16,
-      "actual_pitches": 82,
-      "readVerdict": "TAKE"
+      "actual_pitches": 82
     },
     {
       "player": "Brady Singer",
@@ -1210,8 +1168,7 @@
       "lineup_k_pct": 22.9,
       "actual_outs": 10,
       "actual_bf": 19,
-      "actual_pitches": 56,
-      "readVerdict": "TAKE"
+      "actual_pitches": 56
     },
     {
       "player": "Simeon Woods Richardson",
@@ -1238,8 +1195,7 @@
       "lineup_k_pct": 21.5,
       "actual_outs": 13,
       "actual_bf": 18,
-      "actual_pitches": 61,
-      "readVerdict": "TAKE"
+      "actual_pitches": 61
     },
     {
       "player": "Brady Singer",
@@ -1266,8 +1222,7 @@
       "lineup_k_pct": 20.5,
       "actual_outs": 8,
       "actual_bf": 17,
-      "actual_pitches": 73,
-      "readVerdict": "TAKE"
+      "actual_pitches": 73
     },
     {
       "player": "Paul Skenes",
@@ -1294,8 +1249,7 @@
       "lineup_k_pct": 20.9,
       "actual_outs": 19,
       "actual_bf": 23,
-      "actual_pitches": 87,
-      "readVerdict": "TAKE"
+      "actual_pitches": 87
     },
     {
       "player": "Simeon Woods Richardson",
@@ -1322,8 +1276,7 @@
       "lineup_k_pct": 19.5,
       "actual_outs": 12,
       "actual_bf": 19,
-      "actual_pitches": 68,
-      "readVerdict": "TAKE"
+      "actual_pitches": 68
     },
     {
       "player": "Zac Gallen",
@@ -1350,8 +1303,7 @@
       "lineup_k_pct": 22.0,
       "actual_outs": 15,
       "actual_bf": 22,
-      "actual_pitches": 84,
-      "readVerdict": "TAKE"
+      "actual_pitches": 84
     },
     {
       "player": "Tomoyuki Sugano",
@@ -1378,8 +1330,7 @@
       "lineup_k_pct": 23.3,
       "actual_outs": 16,
       "actual_bf": 22,
-      "actual_pitches": 91,
-      "readVerdict": "PASS"
+      "actual_pitches": 91
     },
     {
       "player": "Eduardo Rodriguez",
@@ -1406,8 +1357,7 @@
       "lineup_k_pct": 25.5,
       "actual_outs": 21,
       "actual_bf": 26,
-      "actual_pitches": 103,
-      "readVerdict": "TAKE"
+      "actual_pitches": 103
     },
     {
       "player": "Davis Martin",
@@ -1434,8 +1384,7 @@
       "lineup_k_pct": 26.4,
       "actual_outs": 17,
       "actual_bf": 26,
-      "actual_pitches": 98,
-      "readVerdict": "TAKE"
+      "actual_pitches": 98
     },
     {
       "player": "Payton Tolle",
@@ -1462,8 +1411,7 @@
       "lineup_k_pct": 22.4,
       "actual_outs": 24,
       "actual_bf": 28,
-      "actual_pitches": 85,
-      "readVerdict": "TAKE"
+      "actual_pitches": 85
     },
     {
       "player": "Simeon Woods Richardson",
@@ -1490,8 +1438,7 @@
       "lineup_k_pct": 20.3,
       "actual_outs": 13,
       "actual_bf": 22,
-      "actual_pitches": 78,
-      "readVerdict": "TAKE"
+      "actual_pitches": 78
     },
     {
       "player": "Eduardo Rodriguez",
@@ -1518,8 +1465,7 @@
       "lineup_k_pct": 19.6,
       "actual_outs": 18,
       "actual_bf": 25,
-      "actual_pitches": 102,
-      "readVerdict": "TAKE"
+      "actual_pitches": 102
     },
     {
       "player": "Simeon Woods Richardson",
@@ -1546,8 +1492,7 @@
       "lineup_k_pct": 21.1,
       "actual_outs": 9,
       "actual_bf": 19,
-      "actual_pitches": 88,
-      "readVerdict": "TAKE"
+      "actual_pitches": 88
     },
     {
       "player": "Jos\u00e9 Soriano",
@@ -1574,8 +1519,7 @@
       "lineup_k_pct": 23.6,
       "actual_outs": 17,
       "actual_bf": 23,
-      "actual_pitches": 99,
-      "readVerdict": "TAKE"
+      "actual_pitches": 99
     },
     {
       "player": "Nathan Eovaldi",
@@ -1602,8 +1546,7 @@
       "lineup_k_pct": 25.3,
       "actual_outs": 21,
       "actual_bf": 27,
-      "actual_pitches": 94,
-      "readVerdict": "TAKE"
+      "actual_pitches": 94
     },
     {
       "player": "Adrian Houser",
@@ -1630,8 +1573,7 @@
       "lineup_k_pct": 19.8,
       "actual_outs": 17,
       "actual_bf": 23,
-      "actual_pitches": 91,
-      "readVerdict": "TAKE"
+      "actual_pitches": 91
     },
     {
       "player": "Reid Detmers",
@@ -1658,8 +1600,7 @@
       "lineup_k_pct": 27.5,
       "actual_outs": 21,
       "actual_bf": 25,
-      "actual_pitches": 99,
-      "readVerdict": "TAKE"
+      "actual_pitches": 99
     },
     {
       "player": "Miles Mikolas",
@@ -1686,8 +1627,7 @@
       "lineup_k_pct": 22.6,
       "actual_outs": 16,
       "actual_bf": 19,
-      "actual_pitches": 74,
-      "readVerdict": "TAKE"
+      "actual_pitches": 74
     },
     {
       "player": "Max Scherzer",
@@ -1714,8 +1654,7 @@
       "lineup_k_pct": 22.3,
       "actual_outs": 18,
       "actual_bf": 22,
-      "actual_pitches": 74,
-      "readVerdict": "TAKE"
+      "actual_pitches": 74
     },
     {
       "player": "Zack Littell",
@@ -1742,8 +1681,7 @@
       "lineup_k_pct": 20.0,
       "actual_outs": 18,
       "actual_bf": 28,
-      "actual_pitches": 96,
-      "readVerdict": "TAKE"
+      "actual_pitches": 96
     },
     {
       "player": "Adrian Houser",
@@ -1770,8 +1708,7 @@
       "lineup_k_pct": 20.6,
       "actual_outs": 12,
       "actual_bf": 23,
-      "actual_pitches": 77,
-      "readVerdict": "TAKE"
+      "actual_pitches": 77
     },
     {
       "player": "Anthony Kay",
@@ -1798,8 +1735,7 @@
       "lineup_k_pct": 23.1,
       "actual_outs": 12,
       "actual_bf": 22,
-      "actual_pitches": 90,
-      "readVerdict": "TAKE"
+      "actual_pitches": 90
     },
     {
       "player": "Logan Henderson",
@@ -1826,8 +1762,7 @@
       "lineup_k_pct": 21.0,
       "actual_outs": 15,
       "actual_bf": 19,
-      "actual_pitches": 85,
-      "readVerdict": "TAKE"
+      "actual_pitches": 85
     },
     {
       "player": "Cam Schlittler",
@@ -1854,8 +1789,7 @@
       "lineup_k_pct": 23.5,
       "actual_outs": 18,
       "actual_bf": 24,
-      "actual_pitches": 93,
-      "readVerdict": "TAKE"
+      "actual_pitches": 93
     },
     {
       "player": "Tyler Glasnow",
@@ -1882,8 +1816,7 @@
       "lineup_k_pct": 26.4,
       "actual_outs": 18,
       "actual_bf": 24,
-      "actual_pitches": 100,
-      "readVerdict": "TAKE"
+      "actual_pitches": 100
     },
     {
       "player": "Eric Lauer",
@@ -1910,8 +1843,7 @@
       "lineup_k_pct": 23.4,
       "actual_outs": 16,
       "actual_bf": 25,
-      "actual_pitches": 95,
-      "readVerdict": "TAKE"
+      "actual_pitches": 95
     },
     {
       "player": "Jack Leiter",
@@ -1938,8 +1870,7 @@
       "lineup_k_pct": 32.0,
       "actual_outs": 17,
       "actual_bf": 27,
-      "actual_pitches": 105,
-      "readVerdict": "TAKE"
+      "actual_pitches": 105
     },
     {
       "player": "Brady Singer",
@@ -1966,8 +1897,7 @@
       "lineup_k_pct": 18.2,
       "actual_outs": 18,
       "actual_bf": 25,
-      "actual_pitches": 96,
-      "readVerdict": "TAKE"
+      "actual_pitches": 96
     },
     {
       "player": "Adrian Houser",
@@ -1994,8 +1924,7 @@
       "lineup_k_pct": 23.2,
       "actual_outs": 18,
       "actual_bf": 23,
-      "actual_pitches": 74,
-      "readVerdict": "TAKE"
+      "actual_pitches": 74
     },
     {
       "player": "Andrew Abbott",
@@ -2022,8 +1951,7 @@
       "lineup_k_pct": 21.4,
       "actual_outs": 18,
       "actual_bf": 21,
-      "actual_pitches": 85,
-      "readVerdict": "TAKE"
+      "actual_pitches": 85
     },
     {
       "player": "Casey Mize",
@@ -2050,8 +1978,7 @@
       "lineup_k_pct": 21.6,
       "actual_outs": 18,
       "actual_bf": 23,
-      "actual_pitches": 88,
-      "readVerdict": "TAKE"
+      "actual_pitches": 88
     },
     {
       "player": "Zack Littell",
@@ -2078,8 +2005,7 @@
       "lineup_k_pct": 25.6,
       "actual_outs": 11,
       "actual_bf": 20,
-      "actual_pitches": 84,
-      "readVerdict": "TAKE"
+      "actual_pitches": 84
     },
     {
       "player": "Rhett Lowder",
@@ -2106,8 +2032,7 @@
       "lineup_k_pct": 20.4,
       "actual_outs": 15,
       "actual_bf": 22,
-      "actual_pitches": 94,
-      "readVerdict": "TAKE"
+      "actual_pitches": 94
     },
     {
       "player": "Brayan Bello",
@@ -2134,8 +2059,7 @@
       "lineup_k_pct": 21.4,
       "actual_outs": 20,
       "actual_bf": 27,
-      "actual_pitches": 94,
-      "readVerdict": "TAKE"
+      "actual_pitches": 94
     },
     {
       "player": "Shane Baz",
@@ -2162,8 +2086,7 @@
       "lineup_k_pct": 21.0,
       "actual_outs": 17,
       "actual_bf": 26,
-      "actual_pitches": 96,
-      "readVerdict": "TAKE"
+      "actual_pitches": 96
     },
     {
       "player": "Tomoyuki Sugano",
@@ -2190,8 +2113,7 @@
       "lineup_k_pct": 22.1,
       "actual_outs": 16,
       "actual_bf": 20,
-      "actual_pitches": 61,
-      "readVerdict": "TAKE"
+      "actual_pitches": 61
     },
     {
       "player": "Tomoyuki Sugano",
@@ -2218,8 +2140,7 @@
       "lineup_k_pct": 20.7,
       "actual_outs": 15,
       "actual_bf": 22,
-      "actual_pitches": 81,
-      "readVerdict": "TAKE"
+      "actual_pitches": 81
     },
     {
       "player": "Zac Gallen",
@@ -2246,8 +2167,7 @@
       "lineup_k_pct": 21.9,
       "actual_outs": 14,
       "actual_bf": 24,
-      "actual_pitches": 95,
-      "readVerdict": "TAKE"
+      "actual_pitches": 95
     },
     {
       "player": "Trevor Rogers",
@@ -2274,8 +2194,7 @@
       "lineup_k_pct": 18.6,
       "actual_outs": 11,
       "actual_bf": 22,
-      "actual_pitches": 88,
-      "readVerdict": "TAKE"
+      "actual_pitches": 88
     },
     {
       "player": "Tyler Glasnow",
@@ -2302,8 +2221,7 @@
       "lineup_k_pct": 20.7,
       "actual_outs": 17,
       "actual_bf": 24,
-      "actual_pitches": 92,
-      "readVerdict": "TAKE"
+      "actual_pitches": 92
     },
     {
       "player": "Sandy Alcantara",
@@ -2330,8 +2248,7 @@
       "lineup_k_pct": 21.8,
       "actual_outs": 18,
       "actual_bf": 30,
-      "actual_pitches": 100,
-      "readVerdict": "TAKE"
+      "actual_pitches": 100
     },
     {
       "player": "Erick Fedde",
@@ -2358,8 +2275,7 @@
       "lineup_k_pct": 23.9,
       "actual_outs": 14,
       "actual_bf": 21,
-      "actual_pitches": 75,
-      "readVerdict": "TAKE"
+      "actual_pitches": 75
     },
     {
       "player": "Seth Lugo",
@@ -2386,8 +2302,7 @@
       "lineup_k_pct": 23.7,
       "actual_outs": 15,
       "actual_bf": 25,
-      "actual_pitches": 92,
-      "readVerdict": "PASS"
+      "actual_pitches": 92
     },
     {
       "player": "MacKenzie Gore",
@@ -2414,8 +2329,7 @@
       "lineup_k_pct": 25.6,
       "actual_outs": 18,
       "actual_bf": 21,
-      "actual_pitches": 99,
-      "readVerdict": "TAKE"
+      "actual_pitches": 99
     },
     {
       "player": "Justin Wrobleski",
@@ -2442,8 +2356,7 @@
       "lineup_k_pct": 20.6,
       "actual_outs": 18,
       "actual_bf": 27,
-      "actual_pitches": 109,
-      "readVerdict": "TAKE"
+      "actual_pitches": 109
     },
     {
       "player": "Adrian Houser",
@@ -2470,8 +2383,7 @@
       "lineup_k_pct": 19.6,
       "actual_outs": 18,
       "actual_bf": 25,
-      "actual_pitches": 93,
-      "readVerdict": "TAKE"
+      "actual_pitches": 93
     },
     {
       "player": "Andrew Abbott",
@@ -2498,8 +2410,7 @@
       "lineup_k_pct": 26.6,
       "actual_outs": 9,
       "actual_bf": 18,
-      "actual_pitches": 71,
-      "readVerdict": "TAKE"
+      "actual_pitches": 71
     },
     {
       "player": "Luis Castillo",
@@ -2526,8 +2437,7 @@
       "lineup_k_pct": 19.0,
       "actual_outs": 10,
       "actual_bf": 21,
-      "actual_pitches": 91,
-      "readVerdict": "TAKE"
+      "actual_pitches": 91
     },
     {
       "player": "Zack Littell",
@@ -2554,8 +2464,7 @@
       "lineup_k_pct": 20.2,
       "actual_outs": 12,
       "actual_bf": 23,
-      "actual_pitches": 77,
-      "readVerdict": "TAKE"
+      "actual_pitches": 77
     },
     {
       "player": "Germ\u00e1n M\u00e1rquez",
@@ -2582,8 +2491,7 @@
       "lineup_k_pct": 24.6,
       "actual_outs": 15,
       "actual_bf": 20,
-      "actual_pitches": 86,
-      "readVerdict": "TAKE"
+      "actual_pitches": 86
     },
     {
       "player": "Casey Mize",
@@ -2610,8 +2518,7 @@
       "lineup_k_pct": 23.4,
       "actual_outs": 20,
       "actual_bf": 23,
-      "actual_pitches": 94,
-      "readVerdict": "TAKE"
+      "actual_pitches": 94
     },
     {
       "player": "Payton Tolle",
@@ -2638,8 +2545,7 @@
       "lineup_k_pct": 23.6,
       "actual_outs": 21,
       "actual_bf": 25,
-      "actual_pitches": 83,
-      "readVerdict": "TAKE"
+      "actual_pitches": 83
     },
     {
       "player": "Emmet Sheehan",
@@ -2666,8 +2572,7 @@
       "lineup_k_pct": 30.3,
       "actual_outs": 18,
       "actual_bf": 22,
-      "actual_pitches": 77,
-      "readVerdict": "TAKE"
+      "actual_pitches": 77
     },
     {
       "player": "George Kirby",
@@ -2694,8 +2599,7 @@
       "lineup_k_pct": 21.3,
       "actual_outs": 21,
       "actual_bf": 26,
-      "actual_pitches": 88,
-      "readVerdict": "TAKE"
+      "actual_pitches": 88
     },
     {
       "player": "Justin Wrobleski",
@@ -2722,8 +2626,7 @@
       "lineup_k_pct": 20.1,
       "actual_outs": 18,
       "actual_bf": 24,
-      "actual_pitches": 83,
-      "readVerdict": "TAKE"
+      "actual_pitches": 83
     },
     {
       "player": "Brayan Bello",
@@ -2750,8 +2653,7 @@
       "lineup_k_pct": 23.3,
       "actual_outs": 10,
       "actual_bf": 23,
-      "actual_pitches": 85,
-      "readVerdict": "TAKE"
+      "actual_pitches": 85
     },
     {
       "player": "Brayan Bello",
@@ -2778,8 +2680,7 @@
       "lineup_k_pct": 21.0,
       "actual_outs": 12,
       "actual_bf": 20,
-      "actual_pitches": 84,
-      "readVerdict": "TAKE"
+      "actual_pitches": 84
     },
     {
       "player": "Eduardo Rodriguez",
@@ -2806,8 +2707,7 @@
       "lineup_k_pct": 27.5,
       "actual_outs": 16,
       "actual_bf": 23,
-      "actual_pitches": 91,
-      "readVerdict": "TAKE"
+      "actual_pitches": 91
     },
     {
       "player": "Trey Yesavage",
@@ -2834,8 +2734,7 @@
       "lineup_k_pct": 21.2,
       "actual_outs": 20,
       "actual_bf": 27,
-      "actual_pitches": 98,
-      "readVerdict": "TAKE"
+      "actual_pitches": 98
     },
     {
       "player": "Bryan Woo",
@@ -2862,8 +2761,7 @@
       "lineup_k_pct": 18.8,
       "actual_outs": 21,
       "actual_bf": 29,
-      "actual_pitches": 92,
-      "readVerdict": "TAKE"
+      "actual_pitches": 92
     },
     {
       "player": "Shota Imanaga",
@@ -2890,8 +2788,7 @@
       "lineup_k_pct": 23.9,
       "actual_outs": 18,
       "actual_bf": 22,
-      "actual_pitches": 97,
-      "readVerdict": "TAKE"
+      "actual_pitches": 97
     },
     {
       "player": "Jacob Lopez",
@@ -2918,8 +2815,7 @@
       "lineup_k_pct": 24.0,
       "actual_outs": 16,
       "actual_bf": 24,
-      "actual_pitches": 86,
-      "readVerdict": "TAKE"
+      "actual_pitches": 86
     },
     {
       "player": "Chad Patrick",
@@ -2946,8 +2842,7 @@
       "lineup_k_pct": 19.8,
       "actual_outs": 15,
       "actual_bf": 20,
-      "actual_pitches": 98,
-      "readVerdict": "TAKE"
+      "actual_pitches": 98
     },
     {
       "player": "Will Warren",
@@ -2974,8 +2869,7 @@
       "lineup_k_pct": 31.3,
       "actual_outs": 14,
       "actual_bf": 23,
-      "actual_pitches": 85,
-      "readVerdict": "TAKE"
+      "actual_pitches": 85
     },
     {
       "player": "Davis Martin",
@@ -3002,8 +2896,7 @@
       "lineup_k_pct": 25.7,
       "actual_outs": 21,
       "actual_bf": 25,
-      "actual_pitches": 85,
-      "readVerdict": "TAKE"
+      "actual_pitches": 85
     },
     {
       "player": "Slade Cecconi",
@@ -3030,8 +2923,7 @@
       "lineup_k_pct": 24.8,
       "actual_outs": 12,
       "actual_bf": 18,
-      "actual_pitches": 89,
-      "readVerdict": "TAKE"
+      "actual_pitches": 89
     },
     {
       "player": "Landen Roupp",
@@ -3058,8 +2950,7 @@
       "lineup_k_pct": 20.1,
       "actual_outs": 18,
       "actual_bf": 23,
-      "actual_pitches": 91,
-      "readVerdict": "TAKE"
+      "actual_pitches": 91
     },
     {
       "player": "Patrick Corbin",
@@ -3086,8 +2977,7 @@
       "lineup_k_pct": 24.7,
       "actual_outs": 18,
       "actual_bf": 23,
-      "actual_pitches": 84,
-      "readVerdict": "TAKE"
+      "actual_pitches": 84
     },
     {
       "player": "Adrian Houser",
@@ -3114,8 +3004,7 @@
       "lineup_k_pct": 23.7,
       "actual_outs": 14,
       "actual_bf": 21,
-      "actual_pitches": 79,
-      "readVerdict": "TAKE"
+      "actual_pitches": 79
     },
     {
       "player": "Adrian Houser",
@@ -3142,8 +3031,7 @@
       "lineup_k_pct": 19.9,
       "actual_outs": 17,
       "actual_bf": 27,
-      "actual_pitches": 88,
-      "readVerdict": "PASS"
+      "actual_pitches": 88
     },
     {
       "player": "Gavin Williams",
@@ -3170,8 +3058,7 @@
       "lineup_k_pct": 23.2,
       "actual_outs": 17,
       "actual_bf": 22,
-      "actual_pitches": 102,
-      "readVerdict": "TAKE"
+      "actual_pitches": 102
     },
     {
       "player": "Parker Messick",
@@ -3198,8 +3085,7 @@
       "lineup_k_pct": 25.1,
       "actual_outs": 24,
       "actual_bf": 27,
-      "actual_pitches": 112,
-      "readVerdict": "TAKE"
+      "actual_pitches": 112
     },
     {
       "player": "Max Meyer",
@@ -3226,8 +3112,7 @@
       "lineup_k_pct": 25.5,
       "actual_outs": 15,
       "actual_bf": 22,
-      "actual_pitches": 94,
-      "readVerdict": "PASS"
+      "actual_pitches": 94
     },
     {
       "player": "Michael King",
@@ -3254,8 +3139,7 @@
       "lineup_k_pct": 18.3,
       "actual_outs": 18,
       "actual_bf": 22,
-      "actual_pitches": 106,
-      "readVerdict": "TAKE"
+      "actual_pitches": 106
     },
     {
       "player": "Cristopher S\u00e1nchez",
@@ -3282,8 +3166,7 @@
       "lineup_k_pct": 24.6,
       "actual_outs": 18,
       "actual_bf": 26,
-      "actual_pitches": 96,
-      "readVerdict": "TAKE"
+      "actual_pitches": 96
     },
     {
       "player": "Chris Bassitt",
@@ -3310,8 +3193,7 @@
       "lineup_k_pct": 19.4,
       "actual_outs": 15,
       "actual_bf": 22,
-      "actual_pitches": 100,
-      "readVerdict": "TAKE"
+      "actual_pitches": 100
     },
     {
       "player": "George Kirby",
@@ -3338,8 +3220,7 @@
       "lineup_k_pct": 21.7,
       "actual_outs": 18,
       "actual_bf": 24,
-      "actual_pitches": 81,
-      "readVerdict": "TAKE"
+      "actual_pitches": 81
     },
     {
       "player": "Cam Schlittler",
@@ -3366,8 +3247,7 @@
       "lineup_k_pct": 24.7,
       "actual_outs": 17,
       "actual_bf": 25,
-      "actual_pitches": 95,
-      "readVerdict": "TAKE"
+      "actual_pitches": 95
     },
     {
       "player": "Chris Bassitt",
@@ -3394,8 +3274,7 @@
       "lineup_k_pct": 19.5,
       "actual_outs": 15,
       "actual_bf": 23,
-      "actual_pitches": 82,
-      "readVerdict": "TAKE"
+      "actual_pitches": 82
     },
     {
       "player": "Shane Baz",
@@ -3422,8 +3301,7 @@
       "lineup_k_pct": 22.7,
       "actual_outs": 15,
       "actual_bf": 25,
-      "actual_pitches": 99,
-      "readVerdict": "TAKE"
+      "actual_pitches": 99
     },
     {
       "player": "Shota Imanaga",
@@ -3450,8 +3328,7 @@
       "lineup_k_pct": 27.1,
       "actual_outs": 18,
       "actual_bf": 19,
-      "actual_pitches": 100,
-      "readVerdict": "TAKE"
+      "actual_pitches": 100
     },
     {
       "player": "Jameson Taillon",
@@ -3478,8 +3355,7 @@
       "lineup_k_pct": 29.9,
       "actual_outs": 18,
       "actual_bf": 26,
-      "actual_pitches": 102,
-      "readVerdict": "TAKE"
+      "actual_pitches": 102
     },
     {
       "player": "Landen Roupp",
@@ -3506,8 +3382,7 @@
       "lineup_k_pct": 22.9,
       "actual_outs": 15,
       "actual_bf": 20,
-      "actual_pitches": 106,
-      "readVerdict": "TAKE"
+      "actual_pitches": 106
     },
     {
       "player": "Zack Littell",
@@ -3534,8 +3409,7 @@
       "lineup_k_pct": 24.7,
       "actual_outs": 15,
       "actual_bf": 20,
-      "actual_pitches": 87,
-      "readVerdict": "TAKE"
+      "actual_pitches": 87
     },
     {
       "player": "Eric Lauer",
@@ -3562,8 +3436,7 @@
       "lineup_k_pct": 22.1,
       "actual_outs": 13,
       "actual_bf": 19,
-      "actual_pitches": 68,
-      "readVerdict": "TAKE"
+      "actual_pitches": 68
     },
     {
       "player": "Logan Webb",
@@ -3590,8 +3463,7 @@
       "lineup_k_pct": 21.5,
       "actual_outs": 21,
       "actual_bf": 27,
-      "actual_pitches": 92,
-      "readVerdict": "TAKE"
+      "actual_pitches": 92
     },
     {
       "player": "Jacob Misiorowski",
@@ -3618,8 +3490,7 @@
       "lineup_k_pct": 19.9,
       "actual_outs": 16,
       "actual_bf": 18,
-      "actual_pitches": 85,
-      "readVerdict": "TAKE"
+      "actual_pitches": 85
     },
     {
       "player": "Jacob Lopez",
@@ -3646,8 +3517,7 @@
       "lineup_k_pct": 24.4,
       "actual_outs": 11,
       "actual_bf": 21,
-      "actual_pitches": 83,
-      "readVerdict": "TAKE"
+      "actual_pitches": 83
     },
     {
       "player": "MacKenzie Gore",
@@ -3674,8 +3544,7 @@
       "lineup_k_pct": 31.0,
       "actual_outs": 15,
       "actual_bf": 17,
-      "actual_pitches": 82,
-      "readVerdict": "TAKE"
+      "actual_pitches": 82
     },
     {
       "player": "Logan Webb",
@@ -3702,8 +3571,7 @@
       "lineup_k_pct": 20.1,
       "actual_outs": 18,
       "actual_bf": 27,
-      "actual_pitches": 99,
-      "readVerdict": "TAKE"
+      "actual_pitches": 99
     },
     {
       "player": "Michael Lorenzen",
@@ -3730,8 +3598,7 @@
       "lineup_k_pct": 19.3,
       "actual_outs": 15,
       "actual_bf": 24,
-      "actual_pitches": 94,
-      "readVerdict": "PASS"
+      "actual_pitches": 94
     },
     {
       "player": "Connelly Early",
@@ -3758,8 +3625,7 @@
       "lineup_k_pct": 22.6,
       "actual_outs": 13,
       "actual_bf": 21,
-      "actual_pitches": 86,
-      "readVerdict": "TAKE"
+      "actual_pitches": 86
     },
     {
       "player": "Nolan McLean",
@@ -3786,8 +3652,7 @@
       "lineup_k_pct": 21.6,
       "actual_outs": 18,
       "actual_bf": 22,
-      "actual_pitches": 100,
-      "readVerdict": "TAKE"
+      "actual_pitches": 100
     },
     {
       "player": "Peter Lambert",
@@ -3814,8 +3679,7 @@
       "lineup_k_pct": 23.2,
       "actual_outs": 21,
       "actual_bf": 27,
-      "actual_pitches": 96,
-      "readVerdict": "TAKE"
+      "actual_pitches": 96
     },
     {
       "player": "Jacob Lopez",
@@ -3842,8 +3706,7 @@
       "lineup_k_pct": 23.3,
       "actual_outs": 15,
       "actual_bf": 22,
-      "actual_pitches": 85,
-      "readVerdict": "TAKE"
+      "actual_pitches": 85
     },
     {
       "player": "Tomoyuki Sugano",
@@ -3870,8 +3733,7 @@
       "lineup_k_pct": 22.0,
       "actual_outs": 12,
       "actual_bf": 23,
-      "actual_pitches": 91,
-      "readVerdict": "TAKE"
+      "actual_pitches": 91
     },
     {
       "player": "Cristopher S\u00e1nchez",
@@ -3898,8 +3760,7 @@
       "lineup_k_pct": 20.8,
       "actual_outs": 16,
       "actual_bf": 30,
-      "actual_pitches": 99,
-      "readVerdict": "TAKE"
+      "actual_pitches": 99
     },
     {
       "player": "Matthew Boyd",
@@ -3926,8 +3787,7 @@
       "lineup_k_pct": 19.9,
       "actual_outs": 18,
       "actual_bf": 22,
-      "actual_pitches": 94,
-      "readVerdict": "TAKE"
+      "actual_pitches": 94
     },
     {
       "player": "MacKenzie Gore",
@@ -3954,8 +3814,7 @@
       "lineup_k_pct": 27.7,
       "actual_outs": 3,
       "actual_bf": 8,
-      "actual_pitches": 28,
-      "readVerdict": "PASS"
+      "actual_pitches": 28
     },
     {
       "player": "Davis Martin",
@@ -3982,8 +3841,7 @@
       "lineup_k_pct": 21.6,
       "actual_outs": 17,
       "actual_bf": 26,
-      "actual_pitches": 98,
-      "readVerdict": "TAKE"
+      "actual_pitches": 98
     },
     {
       "player": "Slade Cecconi",
@@ -4010,8 +3868,7 @@
       "lineup_k_pct": 19.5,
       "actual_outs": 16,
       "actual_bf": 23,
-      "actual_pitches": 85,
-      "readVerdict": "TAKE"
+      "actual_pitches": 85
     },
     {
       "player": "Emerson Hancock",
@@ -4038,8 +3895,7 @@
       "lineup_k_pct": 22.5,
       "actual_outs": 21,
       "actual_bf": 27,
-      "actual_pitches": 103,
-      "readVerdict": "TAKE"
+      "actual_pitches": 103
     },
     {
       "player": "Kyle Harrison",
@@ -4066,8 +3922,7 @@
       "lineup_k_pct": 21.9,
       "actual_outs": 9,
       "actual_bf": 17,
-      "actual_pitches": 72,
-      "readVerdict": "TAKE"
+      "actual_pitches": 72
     },
     {
       "player": "Michael King",
@@ -4094,8 +3949,7 @@
       "lineup_k_pct": 23.0,
       "actual_outs": 18,
       "actual_bf": 24,
-      "actual_pitches": 95,
-      "readVerdict": "TAKE"
+      "actual_pitches": 95
     },
     {
       "player": "Connor Prielipp",
@@ -4122,8 +3976,7 @@
       "lineup_k_pct": 19.9,
       "actual_outs": 15,
       "actual_bf": 20,
-      "actual_pitches": 91,
-      "readVerdict": "TAKE"
+      "actual_pitches": 91
     },
     {
       "player": "Eduardo Rodriguez",
@@ -4150,8 +4003,7 @@
       "lineup_k_pct": 25.6,
       "actual_outs": 21,
       "actual_bf": 24,
-      "actual_pitches": 99,
-      "readVerdict": "TAKE"
+      "actual_pitches": 99
     },
     {
       "player": "Trevor Rogers",
@@ -4178,8 +4030,7 @@
       "lineup_k_pct": 20.6,
       "actual_outs": 12,
       "actual_bf": 14,
-      "actual_pitches": 57,
-      "readVerdict": "TAKE"
+      "actual_pitches": 57
     },
     {
       "player": "Sean Burke",
@@ -4206,8 +4057,7 @@
       "lineup_k_pct": 20.4,
       "actual_outs": 16,
       "actual_bf": 25,
-      "actual_pitches": 92,
-      "readVerdict": "TAKE"
+      "actual_pitches": 92
     },
     {
       "player": "Jose Quintana",
@@ -4234,8 +4084,7 @@
       "lineup_k_pct": 23.1,
       "actual_outs": 16,
       "actual_bf": 20,
-      "actual_pitches": 85,
-      "readVerdict": "TAKE"
+      "actual_pitches": 85
     },
     {
       "player": "Sandy Alcantara",
@@ -4262,8 +4111,7 @@
       "lineup_k_pct": 19.6,
       "actual_outs": 18,
       "actual_bf": 25,
-      "actual_pitches": 101,
-      "readVerdict": "TAKE"
+      "actual_pitches": 101
     },
     {
       "player": "Braxton Ashcraft",
@@ -4290,8 +4138,7 @@
       "lineup_k_pct": 23.6,
       "actual_outs": 15,
       "actual_bf": 20,
-      "actual_pitches": 77,
-      "readVerdict": "TAKE"
+      "actual_pitches": 77
     },
     {
       "player": "Chris Bassitt",
@@ -4318,8 +4165,7 @@
       "lineup_k_pct": 26.0,
       "actual_outs": 14,
       "actual_bf": 21,
-      "actual_pitches": 89,
-      "readVerdict": "TAKE"
+      "actual_pitches": 89
     },
     {
       "player": "Tarik Skubal",
@@ -4346,8 +4192,7 @@
       "lineup_k_pct": 19.3,
       "actual_outs": 20,
       "actual_bf": 24,
-      "actual_pitches": 96,
-      "readVerdict": "TAKE"
+      "actual_pitches": 96
     },
     {
       "player": "Miles Mikolas",
@@ -4374,8 +4219,7 @@
       "lineup_k_pct": 24.3,
       "actual_outs": 12,
       "actual_bf": 16,
-      "actual_pitches": 79,
-      "readVerdict": "TAKE"
+      "actual_pitches": 79
     },
     {
       "player": "Braxton Ashcraft",
@@ -4402,8 +4246,7 @@
       "lineup_k_pct": 22.8,
       "actual_outs": 21,
       "actual_bf": 26,
-      "actual_pitches": 80,
-      "readVerdict": "TAKE"
+      "actual_pitches": 80
     },
     {
       "player": "Eduardo Rodriguez",
@@ -4430,8 +4273,7 @@
       "lineup_k_pct": 19.9,
       "actual_outs": 25,
       "actual_bf": 31,
-      "actual_pitches": 100,
-      "readVerdict": "TAKE"
+      "actual_pitches": 100
     },
     {
       "player": "Andrew Abbott",
@@ -4458,8 +4300,7 @@
       "lineup_k_pct": 16.6,
       "actual_outs": 15,
       "actual_bf": 22,
-      "actual_pitches": 90,
-      "readVerdict": "PASS"
+      "actual_pitches": 90
     },
     {
       "player": "Andrew Abbott",
@@ -4486,8 +4327,7 @@
       "lineup_k_pct": 21.9,
       "actual_outs": 12,
       "actual_bf": 19,
-      "actual_pitches": 89,
-      "readVerdict": "TAKE"
+      "actual_pitches": 89
     },
     {
       "player": "Eduardo Rodriguez",
@@ -4514,8 +4354,7 @@
       "lineup_k_pct": 21.6,
       "actual_outs": 14,
       "actual_bf": 23,
-      "actual_pitches": 87,
-      "readVerdict": "TAKE"
+      "actual_pitches": 87
     },
     {
       "player": "Michael King",
@@ -4542,8 +4381,7 @@
       "lineup_k_pct": 24.0,
       "actual_outs": 18,
       "actual_bf": 25,
-      "actual_pitches": 92,
-      "readVerdict": "TAKE"
+      "actual_pitches": 92
     },
     {
       "player": "Andrew Abbott",
@@ -4570,8 +4408,7 @@
       "lineup_k_pct": 19.8,
       "actual_outs": 16,
       "actual_bf": 24,
-      "actual_pitches": 91,
-      "readVerdict": "TAKE"
+      "actual_pitches": 91
     },
     {
       "player": "Eduardo Rodriguez",
@@ -4598,8 +4435,7 @@
       "lineup_k_pct": 23.6,
       "actual_outs": 15,
       "actual_bf": 24,
-      "actual_pitches": 96,
-      "readVerdict": "TAKE"
+      "actual_pitches": 96
     },
     {
       "player": "Jos\u00e9 Soriano",
@@ -4626,8 +4462,7 @@
       "lineup_k_pct": 19.3,
       "actual_outs": 24,
       "actual_bf": 26,
-      "actual_pitches": 97,
-      "readVerdict": "TAKE"
+      "actual_pitches": 97
     },
     {
       "player": "Taijuan Walker",
@@ -4654,8 +4489,7 @@
       "lineup_k_pct": 17.9,
       "actual_outs": 12,
       "actual_bf": 23,
-      "actual_pitches": 89,
-      "readVerdict": "TAKE"
+      "actual_pitches": 89
     },
     {
       "player": "Jos\u00e9 Soriano",
@@ -4682,8 +4516,7 @@
       "lineup_k_pct": 23.4,
       "actual_outs": 15,
       "actual_bf": 23,
-      "actual_pitches": 97,
-      "readVerdict": "TAKE"
+      "actual_pitches": 97
     },
     {
       "player": "Edward Cabrera",
@@ -4710,8 +4543,7 @@
       "lineup_k_pct": 22.7,
       "actual_outs": 17,
       "actual_bf": 25,
-      "actual_pitches": 99,
-      "readVerdict": "TAKE"
+      "actual_pitches": 99
     },
     {
       "player": "Kumar Rocker",
@@ -4738,8 +4570,7 @@
       "lineup_k_pct": 20.8,
       "actual_outs": 15,
       "actual_bf": 22,
-      "actual_pitches": 85,
-      "readVerdict": "PASS"
+      "actual_pitches": 85
     },
     {
       "player": "Kevin Gausman",
@@ -4766,8 +4597,7 @@
       "lineup_k_pct": 22.7,
       "actual_outs": 16,
       "actual_bf": 24,
-      "actual_pitches": 84,
-      "readVerdict": "TAKE"
+      "actual_pitches": 84
     },
     {
       "player": "George Kirby",
@@ -4794,8 +4624,7 @@
       "lineup_k_pct": 24.1,
       "actual_outs": 24,
       "actual_bf": 28,
-      "actual_pitches": 90,
-      "readVerdict": "TAKE"
+      "actual_pitches": 90
     },
     {
       "player": "Michael Lorenzen",
@@ -4822,8 +4651,7 @@
       "lineup_k_pct": 20.8,
       "actual_outs": 17,
       "actual_bf": 26,
-      "actual_pitches": 100,
-      "readVerdict": "TAKE"
+      "actual_pitches": 100
     },
     {
       "player": "Ryan Feltner",
@@ -4850,8 +4678,7 @@
       "lineup_k_pct": 23.8,
       "actual_outs": 17,
       "actual_bf": 23,
-      "actual_pitches": 87,
-      "readVerdict": "TAKE"
+      "actual_pitches": 87
     },
     {
       "player": "Zack Littell",
@@ -4878,8 +4705,7 @@
       "lineup_k_pct": 21.7,
       "actual_outs": 15,
       "actual_bf": 20,
-      "actual_pitches": 60,
-      "readVerdict": "TAKE"
+      "actual_pitches": 60
     },
     {
       "player": "Jacob Misiorowski",
@@ -4906,8 +4732,7 @@
       "lineup_k_pct": 27.1,
       "actual_outs": 16,
       "actual_bf": 22,
-      "actual_pitches": 101,
-      "readVerdict": "TAKE"
+      "actual_pitches": 101
     },
     {
       "player": "Bryan Woo",
@@ -4934,8 +4759,7 @@
       "lineup_k_pct": 23.4,
       "actual_outs": 21,
       "actual_bf": 26,
-      "actual_pitches": 85,
-      "readVerdict": "TAKE"
+      "actual_pitches": 85
     },
     {
       "player": "Ryan Weathers",
@@ -4962,8 +4786,7 @@
       "lineup_k_pct": 23.8,
       "actual_outs": 22,
       "actual_bf": 26,
-      "actual_pitches": 95,
-      "readVerdict": "TAKE"
+      "actual_pitches": 95
     },
     {
       "player": "Shohei Ohtani",
@@ -4990,8 +4813,7 @@
       "lineup_k_pct": 21.5,
       "actual_outs": 18,
       "actual_bf": 23,
-      "actual_pitches": 91,
-      "readVerdict": "TAKE"
+      "actual_pitches": 91
     },
     {
       "player": "Dustin May",
@@ -5018,8 +4840,7 @@
       "lineup_k_pct": 23.7,
       "actual_outs": 18,
       "actual_bf": 23,
-      "actual_pitches": 75,
-      "readVerdict": "TAKE"
+      "actual_pitches": 75
     },
     {
       "player": "Grant Holmes",
@@ -5046,8 +4867,7 @@
       "lineup_k_pct": 22.0,
       "actual_outs": 14,
       "actual_bf": 19,
-      "actual_pitches": 81,
-      "readVerdict": "TAKE"
+      "actual_pitches": 81
     },
     {
       "player": "Will Warren",
@@ -5074,8 +4894,7 @@
       "lineup_k_pct": 24.1,
       "actual_outs": 17,
       "actual_bf": 24,
-      "actual_pitches": 96,
-      "readVerdict": "PASS"
+      "actual_pitches": 96
     },
     {
       "player": "Michael McGreevy",
@@ -5102,8 +4921,7 @@
       "lineup_k_pct": 19.6,
       "actual_outs": 18,
       "actual_bf": 21,
-      "actual_pitches": 91,
-      "readVerdict": "TAKE"
+      "actual_pitches": 91
     },
     {
       "player": "Max Meyer",
@@ -5130,8 +4948,7 @@
       "lineup_k_pct": 21.4,
       "actual_outs": 15,
       "actual_bf": 21,
-      "actual_pitches": 82,
-      "readVerdict": "TAKE"
+      "actual_pitches": 82
     },
     {
       "player": "Jake Irvin",
@@ -5158,8 +4975,7 @@
       "lineup_k_pct": 21.5,
       "actual_outs": 15,
       "actual_bf": 19,
-      "actual_pitches": 68,
-      "readVerdict": "TAKE"
+      "actual_pitches": 68
     },
     {
       "player": "Nolan McLean",
@@ -5186,8 +5002,7 @@
       "lineup_k_pct": 24.3,
       "actual_outs": 20,
       "actual_bf": 25,
-      "actual_pitches": 99,
-      "readVerdict": "TAKE"
+      "actual_pitches": 99
     },
     {
       "player": "Brandon Young",
@@ -5214,8 +5029,7 @@
       "lineup_k_pct": 18.1,
       "actual_outs": 12,
       "actual_bf": 25,
-      "actual_pitches": 82,
-      "readVerdict": "PASS"
+      "actual_pitches": 82
     },
     {
       "player": "Nick Martinez",
@@ -5242,8 +5056,7 @@
       "lineup_k_pct": 23.1,
       "actual_outs": 18,
       "actual_bf": 26,
-      "actual_pitches": 94,
-      "readVerdict": "TAKE"
+      "actual_pitches": 94
     },
     {
       "player": "Matthew Liberatore",
@@ -5270,8 +5083,7 @@
       "lineup_k_pct": 21.1,
       "actual_outs": 15,
       "actual_bf": 25,
-      "actual_pitches": 92,
-      "readVerdict": "TAKE"
+      "actual_pitches": 92
     },
     {
       "player": "Chris Sale",
@@ -5298,8 +5110,7 @@
       "lineup_k_pct": 23.2,
       "actual_outs": 18,
       "actual_bf": 22,
-      "actual_pitches": 100,
-      "readVerdict": "TAKE"
+      "actual_pitches": 100
     },
     {
       "player": "Miles Mikolas",
@@ -5326,8 +5137,7 @@
       "lineup_k_pct": 23.3,
       "actual_outs": 10,
       "actual_bf": 16,
-      "actual_pitches": 71,
-      "readVerdict": "PASS"
+      "actual_pitches": 71
     },
     {
       "player": "Parker Messick",
@@ -5354,8 +5164,7 @@
       "lineup_k_pct": 23.2,
       "actual_outs": 15,
       "actual_bf": 21,
-      "actual_pitches": 81,
-      "readVerdict": "TAKE"
+      "actual_pitches": 81
     },
     {
       "player": "Dustin May",
@@ -5382,8 +5191,7 @@
       "lineup_k_pct": 21.2,
       "actual_outs": 16,
       "actual_bf": 22,
-      "actual_pitches": 97,
-      "readVerdict": "TAKE"
+      "actual_pitches": 97
     },
     {
       "player": "Logan Webb",
@@ -5410,8 +5218,7 @@
       "lineup_k_pct": 23.8,
       "actual_outs": 21,
       "actual_bf": 29,
-      "actual_pitches": 98,
-      "readVerdict": "TAKE"
+      "actual_pitches": 98
     },
     {
       "player": "Brady Singer",
@@ -5438,8 +5245,7 @@
       "lineup_k_pct": 20.8,
       "actual_outs": 11,
       "actual_bf": 18,
-      "actual_pitches": 75,
-      "readVerdict": "TAKE"
+      "actual_pitches": 75
     },
     {
       "player": "Logan Gilbert",
@@ -5466,8 +5272,7 @@
       "lineup_k_pct": 19.6,
       "actual_outs": 12,
       "actual_bf": 21,
-      "actual_pitches": 89,
-      "readVerdict": "TAKE"
+      "actual_pitches": 89
     },
     {
       "player": "Zac Gallen",
@@ -5494,8 +5299,7 @@
       "lineup_k_pct": 22.6,
       "actual_outs": 16,
       "actual_bf": 24,
-      "actual_pitches": 82,
-      "readVerdict": "TAKE"
+      "actual_pitches": 82
     },
     {
       "player": "Bailey Ober",
@@ -5522,8 +5326,7 @@
       "lineup_k_pct": 23.9,
       "actual_outs": 17,
       "actual_bf": 24,
-      "actual_pitches": 99,
-      "readVerdict": "TAKE"
+      "actual_pitches": 99
     },
     {
       "player": "Eric Lauer",
@@ -5550,8 +5353,7 @@
       "lineup_k_pct": 23.5,
       "actual_outs": 15,
       "actual_bf": 24,
-      "actual_pitches": 79,
-      "readVerdict": "TAKE"
+      "actual_pitches": 79
     },
     {
       "player": "Erick Fedde",
@@ -5578,8 +5380,7 @@
       "lineup_k_pct": 19.7,
       "actual_outs": 9,
       "actual_bf": 19,
-      "actual_pitches": 92,
-      "readVerdict": "TAKE"
+      "actual_pitches": 92
     },
     {
       "player": "Landen Roupp",
@@ -5606,8 +5407,7 @@
       "lineup_k_pct": 25.7,
       "actual_outs": 18,
       "actual_bf": 25,
-      "actual_pitches": 93,
-      "readVerdict": "TAKE"
+      "actual_pitches": 93
     },
     {
       "player": "Aaron Civale",
@@ -5634,8 +5434,7 @@
       "lineup_k_pct": 19.8,
       "actual_outs": 17,
       "actual_bf": 20,
-      "actual_pitches": 75,
-      "readVerdict": "TAKE"
+      "actual_pitches": 75
     },
     {
       "player": "Trey Yesavage",
@@ -5662,8 +5461,7 @@
       "lineup_k_pct": 22.8,
       "actual_outs": 18,
       "actual_bf": 20,
-      "actual_pitches": 95,
-      "readVerdict": "TAKE"
+      "actual_pitches": 95
     },
     {
       "player": "Max Fried",
@@ -5690,8 +5488,7 @@
       "lineup_k_pct": 21.0,
       "actual_outs": 16,
       "actual_bf": 22,
-      "actual_pitches": 93,
-      "readVerdict": "TAKE"
+      "actual_pitches": 93
     },
     {
       "player": "Dustin May",
@@ -5718,8 +5515,7 @@
       "lineup_k_pct": 22.6,
       "actual_outs": 18,
       "actual_bf": 25,
-      "actual_pitches": 95,
-      "readVerdict": "TAKE"
+      "actual_pitches": 95
     },
     {
       "player": "Brandon Woodruff",
@@ -5746,8 +5542,7 @@
       "lineup_k_pct": 17.7,
       "actual_outs": 18,
       "actual_bf": 23,
-      "actual_pitches": 70,
-      "readVerdict": "TAKE"
+      "actual_pitches": 70
     },
     {
       "player": "Gavin Williams",
@@ -5774,8 +5569,7 @@
       "lineup_k_pct": 25.7,
       "actual_outs": 21,
       "actual_bf": 26,
-      "actual_pitches": 100,
-      "readVerdict": "TAKE"
+      "actual_pitches": 100
     },
     {
       "player": "Seth Lugo",
@@ -5802,8 +5596,7 @@
       "lineup_k_pct": 26.8,
       "actual_outs": 19,
       "actual_bf": 33,
-      "actual_pitches": 97,
-      "readVerdict": "TAKE"
+      "actual_pitches": 97
     },
     {
       "player": "Ryan Weathers",
@@ -5830,8 +5623,7 @@
       "lineup_k_pct": 23.0,
       "actual_outs": 19,
       "actual_bf": 23,
-      "actual_pitches": 101,
-      "readVerdict": "PASS"
+      "actual_pitches": 101
     },
     {
       "player": "Sandy Alcantara",
@@ -5858,8 +5650,7 @@
       "lineup_k_pct": 26.9,
       "actual_outs": 25,
       "actual_bf": 30,
-      "actual_pitches": 95,
-      "readVerdict": "TAKE"
+      "actual_pitches": 95
     },
     {
       "player": "Shohei Ohtani",
@@ -5886,8 +5677,7 @@
       "lineup_k_pct": 22.3,
       "actual_outs": 18,
       "actual_bf": 27,
-      "actual_pitches": 104,
-      "readVerdict": "TAKE"
+      "actual_pitches": 104
     },
     {
       "player": "Aaron Civale",
@@ -5914,8 +5704,7 @@
       "lineup_k_pct": 24.8,
       "actual_outs": 16,
       "actual_bf": 23,
-      "actual_pitches": 85,
-      "readVerdict": "TAKE"
+      "actual_pitches": 85
     },
     {
       "player": "Chris Bassitt",
@@ -5942,8 +5731,7 @@
       "lineup_k_pct": 22.9,
       "actual_outs": 12,
       "actual_bf": 21,
-      "actual_pitches": 76,
-      "readVerdict": "TAKE"
+      "actual_pitches": 76
     },
     {
       "player": "Max Fried",
@@ -5970,8 +5758,7 @@
       "lineup_k_pct": 15.3,
       "actual_outs": 18,
       "actual_bf": 26,
-      "actual_pitches": 94,
-      "readVerdict": "TAKE"
+      "actual_pitches": 94
     },
     {
       "player": "Michael Lorenzen",
@@ -5998,8 +5785,7 @@
       "lineup_k_pct": 21.7,
       "actual_outs": 15,
       "actual_bf": 21,
-      "actual_pitches": 85,
-      "readVerdict": "TAKE"
+      "actual_pitches": 85
     },
     {
       "player": "Matthew Liberatore",
@@ -6026,8 +5812,7 @@
       "lineup_k_pct": 22.6,
       "actual_outs": 15,
       "actual_bf": 24,
-      "actual_pitches": 89,
-      "readVerdict": "PASS"
+      "actual_pitches": 89
     },
     {
       "player": "Garrett Crochet",
@@ -6054,8 +5839,7 @@
       "lineup_k_pct": 23.4,
       "actual_outs": 15,
       "actual_bf": 24,
-      "actual_pitches": 93,
-      "readVerdict": "TAKE"
+      "actual_pitches": 93
     },
     {
       "player": "Anthony Kay",
@@ -6082,8 +5866,7 @@
       "lineup_k_pct": 24.6,
       "actual_outs": 18,
       "actual_bf": 24,
-      "actual_pitches": 94,
-      "readVerdict": "TAKE"
+      "actual_pitches": 94
     },
     {
       "player": "Connelly Early",
@@ -6110,8 +5893,7 @@
       "lineup_k_pct": 24.3,
       "actual_outs": 16,
       "actual_bf": 23,
-      "actual_pitches": 92,
-      "readVerdict": "TAKE"
+      "actual_pitches": 92
     },
     {
       "player": "Brandon Woodruff",
@@ -6138,8 +5920,7 @@
       "lineup_k_pct": 20.0,
       "actual_outs": 4,
       "actual_bf": 6,
-      "actual_pitches": 21,
-      "readVerdict": "TAKE"
+      "actual_pitches": 21
     },
     {
       "player": "Emmet Sheehan",
@@ -6166,8 +5947,7 @@
       "lineup_k_pct": 26.5,
       "actual_outs": 15,
       "actual_bf": 21,
-      "actual_pitches": 77,
-      "readVerdict": "TAKE"
+      "actual_pitches": 77
     },
     {
       "player": "Lance McCullers Jr.",
@@ -6194,8 +5974,7 @@
       "lineup_k_pct": 23.9,
       "actual_outs": 18,
       "actual_bf": 24,
-      "actual_pitches": 99,
-      "readVerdict": "TAKE"
+      "actual_pitches": 99
     },
     {
       "player": "Seth Lugo",
@@ -6222,8 +6001,7 @@
       "lineup_k_pct": 20.4,
       "actual_outs": 18,
       "actual_bf": 25,
-      "actual_pitches": 93,
-      "readVerdict": "TAKE"
+      "actual_pitches": 93
     },
     {
       "player": "Michael King",
@@ -6250,8 +6028,7 @@
       "lineup_k_pct": 22.7,
       "actual_outs": 15,
       "actual_bf": 19,
-      "actual_pitches": 105,
-      "readVerdict": "TAKE"
+      "actual_pitches": 105
     },
     {
       "player": "Nick Lodolo",
@@ -6278,8 +6055,7 @@
       "lineup_k_pct": 22.0,
       "actual_outs": 17,
       "actual_bf": 24,
-      "actual_pitches": 97,
-      "readVerdict": "TAKE"
+      "actual_pitches": 97
     },
     {
       "player": "Joe Ryan",
@@ -6306,8 +6082,7 @@
       "lineup_k_pct": 24.3,
       "actual_outs": 18,
       "actual_bf": 23,
-      "actual_pitches": 88,
-      "readVerdict": "PASS"
+      "actual_pitches": 88
     },
     {
       "player": "Merrill Kelly",
@@ -6334,8 +6109,7 @@
       "lineup_k_pct": 23.8,
       "actual_outs": 15,
       "actual_bf": 24,
-      "actual_pitches": 104,
-      "readVerdict": "TAKE"
+      "actual_pitches": 104
     },
     {
       "player": "Gavin Williams",
@@ -6362,8 +6136,7 @@
       "lineup_k_pct": 23.1,
       "actual_outs": 18,
       "actual_bf": 27,
-      "actual_pitches": 97,
-      "readVerdict": "TAKE"
+      "actual_pitches": 97
     },
     {
       "player": "Slade Cecconi",
@@ -6390,8 +6163,7 @@
       "lineup_k_pct": 18.6,
       "actual_outs": 15,
       "actual_bf": 27,
-      "actual_pitches": 94,
-      "readVerdict": "PASS"
+      "actual_pitches": 94
     },
     {
       "player": "Patrick Corbin",
@@ -6418,8 +6190,7 @@
       "lineup_k_pct": 23.6,
       "actual_outs": 15,
       "actual_bf": 18,
-      "actual_pitches": 65,
-      "readVerdict": "TAKE"
+      "actual_pitches": 65
     },
     {
       "player": "Brandon Woodruff",
@@ -6446,8 +6217,7 @@
       "lineup_k_pct": 23.8,
       "actual_outs": 15,
       "actual_bf": 21,
-      "actual_pitches": 71,
-      "readVerdict": "TAKE"
+      "actual_pitches": 71
     },
     {
       "player": "Casey Mize",
@@ -6474,8 +6244,7 @@
       "lineup_k_pct": 19.6,
       "actual_outs": 7,
       "actual_bf": 11,
-      "actual_pitches": 34,
-      "readVerdict": "TAKE"
+      "actual_pitches": 34
     },
     {
       "player": "Matt Waldron",
@@ -6502,8 +6271,7 @@
       "lineup_k_pct": 20.9,
       "actual_outs": 15,
       "actual_bf": 22,
-      "actual_pitches": 83,
-      "readVerdict": "TAKE"
+      "actual_pitches": 83
     },
     {
       "player": "Jacob Lopez",
@@ -6530,8 +6298,7 @@
       "lineup_k_pct": 18.9,
       "actual_outs": 16,
       "actual_bf": 25,
-      "actual_pitches": 96,
-      "readVerdict": "TAKE"
+      "actual_pitches": 96
     },
     {
       "player": "Michael Lorenzen",
@@ -6558,8 +6325,7 @@
       "lineup_k_pct": 21.0,
       "actual_outs": 14,
       "actual_bf": 26,
-      "actual_pitches": 101,
-      "readVerdict": "TAKE"
+      "actual_pitches": 101
     },
     {
       "player": "Andrew Abbott",
@@ -6586,8 +6352,7 @@
       "lineup_k_pct": 22.5,
       "actual_outs": 16,
       "actual_bf": 22,
-      "actual_pitches": 96,
-      "readVerdict": "TAKE"
+      "actual_pitches": 96
     },
     {
       "player": "Miles Mikolas",
@@ -6614,8 +6379,7 @@
       "lineup_k_pct": 21.0,
       "actual_outs": 9,
       "actual_bf": 17,
-      "actual_pitches": 55,
-      "readVerdict": "TAKE"
+      "actual_pitches": 55
     },
     {
       "player": "Luis Severino",
@@ -6642,8 +6406,7 @@
       "lineup_k_pct": 26.8,
       "actual_outs": 18,
       "actual_bf": 26,
-      "actual_pitches": 94,
-      "readVerdict": "TAKE"
+      "actual_pitches": 94
     },
     {
       "player": "Shane Baz",
@@ -6670,8 +6433,7 @@
       "lineup_k_pct": 18.1,
       "actual_outs": 18,
       "actual_bf": 26,
-      "actual_pitches": 99,
-      "readVerdict": "TAKE"
+      "actual_pitches": 99
     },
     {
       "player": "Sandy Alcantara",
@@ -6698,8 +6460,7 @@
       "lineup_k_pct": 25.8,
       "actual_outs": 13,
       "actual_bf": 25,
-      "actual_pitches": 106,
-      "readVerdict": "TAKE"
+      "actual_pitches": 106
     },
     {
       "player": "Jacob Lopez",
@@ -6726,8 +6487,7 @@
       "lineup_k_pct": 22.7,
       "actual_outs": 16,
       "actual_bf": 21,
-      "actual_pitches": 91,
-      "readVerdict": "TAKE"
+      "actual_pitches": 91
     },
     {
       "player": "Mitch Keller",
@@ -6754,8 +6514,7 @@
       "lineup_k_pct": 18.3,
       "actual_outs": 21,
       "actual_bf": 25,
-      "actual_pitches": 89,
-      "readVerdict": "TAKE"
+      "actual_pitches": 89
     },
     {
       "player": "Connelly Early",
@@ -6782,8 +6541,7 @@
       "lineup_k_pct": 16.8,
       "actual_outs": 21,
       "actual_bf": 26,
-      "actual_pitches": 96,
-      "readVerdict": "TAKE"
+      "actual_pitches": 96
     },
     {
       "player": "JR Ritchie",
@@ -6810,8 +6568,7 @@
       "lineup_k_pct": 19.2,
       "actual_outs": 13,
       "actual_bf": 18,
-      "actual_pitches": 87,
-      "readVerdict": "TAKE"
+      "actual_pitches": 87
     },
     {
       "player": "Emmet Sheehan",
@@ -6838,8 +6595,7 @@
       "lineup_k_pct": 21.9,
       "actual_outs": 12,
       "actual_bf": 18,
-      "actual_pitches": 67,
-      "readVerdict": "TAKE"
+      "actual_pitches": 67
     },
     {
       "player": "Chase Dollander",
@@ -6866,8 +6622,7 @@
       "lineup_k_pct": 22.8,
       "actual_outs": 3,
       "actual_bf": 9,
-      "actual_pitches": 28,
-      "readVerdict": "TAKE"
+      "actual_pitches": 28
     },
     {
       "player": "Connelly Early",
@@ -6894,8 +6649,7 @@
       "lineup_k_pct": 22.3,
       "actual_outs": 20,
       "actual_bf": 24,
-      "actual_pitches": 92,
-      "readVerdict": "TAKE"
+      "actual_pitches": 92
     },
     {
       "player": "Kris Bubic",
@@ -6922,8 +6676,7 @@
       "lineup_k_pct": 28.5,
       "actual_outs": 15,
       "actual_bf": 24,
-      "actual_pitches": 96,
-      "readVerdict": "PASS"
+      "actual_pitches": 96
     },
     {
       "player": "Peter Lambert",
@@ -6950,8 +6703,7 @@
       "lineup_k_pct": 23.9,
       "actual_outs": 13,
       "actual_bf": 18,
-      "actual_pitches": 91,
-      "readVerdict": "TAKE"
+      "actual_pitches": 91
     },
     {
       "player": "Logan Henderson",
@@ -6978,8 +6730,7 @@
       "lineup_k_pct": 26.8,
       "actual_outs": 15,
       "actual_bf": 19,
-      "actual_pitches": 74,
-      "readVerdict": "TAKE"
+      "actual_pitches": 74
     },
     {
       "player": "Nolan McLean",
@@ -7006,8 +6757,7 @@
       "lineup_k_pct": 20.7,
       "actual_outs": 17,
       "actual_bf": 31,
-      "actual_pitches": 100,
-      "readVerdict": "TAKE"
+      "actual_pitches": 100
     },
     {
       "player": "Casey Mize",
@@ -7034,8 +6784,7 @@
       "lineup_k_pct": 19.9,
       "actual_outs": 17,
       "actual_bf": 25,
-      "actual_pitches": 74,
-      "readVerdict": "TAKE"
+      "actual_pitches": 74
     },
     {
       "player": "Chris Bassitt",
@@ -7062,8 +6811,7 @@
       "lineup_k_pct": 21.8,
       "actual_outs": 16,
       "actual_bf": 25,
-      "actual_pitches": 88,
-      "readVerdict": "TAKE"
+      "actual_pitches": 88
     },
     {
       "player": "Lance McCullers Jr.",
@@ -7090,8 +6838,7 @@
       "lineup_k_pct": 26.5,
       "actual_outs": 15,
       "actual_bf": 23,
-      "actual_pitches": 92,
-      "readVerdict": "TAKE"
+      "actual_pitches": 92
     },
     {
       "player": "Cristian Javier",
@@ -7118,8 +6865,7 @@
       "lineup_k_pct": 24.7,
       "actual_outs": 3,
       "actual_bf": 6,
-      "actual_pitches": 20,
-      "readVerdict": "TAKE"
+      "actual_pitches": 20
     },
     {
       "player": "Tatsuya Imai",
@@ -7146,8 +6892,7 @@
       "lineup_k_pct": 27.5,
       "actual_outs": 1,
       "actual_bf": 7,
-      "actual_pitches": 37,
-      "readVerdict": "TAKE"
+      "actual_pitches": 37
     },
     {
       "player": "Luis Castillo",
@@ -7174,8 +6919,7 @@
       "lineup_k_pct": 21.2,
       "actual_outs": 15,
       "actual_bf": 21,
-      "actual_pitches": 95,
-      "readVerdict": "TAKE"
+      "actual_pitches": 95
     },
     {
       "player": "Ryan Weathers",
@@ -7202,8 +6946,7 @@
       "lineup_k_pct": 26.5,
       "actual_outs": 24,
       "actual_bf": 30,
-      "actual_pitches": 101,
-      "readVerdict": "TAKE"
+      "actual_pitches": 101
     },
     {
       "player": "Shane Baz",
@@ -7230,8 +6973,7 @@
       "lineup_k_pct": 18.0,
       "actual_outs": 17,
       "actual_bf": 24,
-      "actual_pitches": 98,
-      "readVerdict": "PASS"
+      "actual_pitches": 98
     },
     {
       "player": "Jack Leiter",
@@ -7258,8 +7000,7 @@
       "lineup_k_pct": 23.9,
       "actual_outs": 21,
       "actual_bf": 27,
-      "actual_pitches": 98,
-      "readVerdict": "TAKE"
+      "actual_pitches": 98
     },
     {
       "player": "Merrill Kelly",
@@ -7286,8 +7027,7 @@
       "lineup_k_pct": 21.5,
       "actual_outs": 21,
       "actual_bf": 26,
-      "actual_pitches": 96,
-      "readVerdict": "TAKE"
+      "actual_pitches": 96
     },
     {
       "player": "Cristopher S\u00e1nchez",
@@ -7314,8 +7054,7 @@
       "lineup_k_pct": 24.3,
       "actual_outs": 15,
       "actual_bf": 24,
-      "actual_pitches": 92,
-      "readVerdict": "TAKE"
+      "actual_pitches": 92
     },
     {
       "player": "Landen Roupp",
@@ -7342,8 +7081,7 @@
       "lineup_k_pct": 23.2,
       "actual_outs": 12,
       "actual_bf": 18,
-      "actual_pitches": 94,
-      "readVerdict": "TAKE"
+      "actual_pitches": 94
     },
     {
       "player": "Jes\u00fas Luzardo",
@@ -7370,8 +7108,7 @@
       "lineup_k_pct": 20.2,
       "actual_outs": 14,
       "actual_bf": 22,
-      "actual_pitches": 86,
-      "readVerdict": "TAKE"
+      "actual_pitches": 86
     },
     {
       "player": "Anthony Kay",
@@ -7398,8 +7135,7 @@
       "lineup_k_pct": 19.7,
       "actual_outs": 11,
       "actual_bf": 22,
-      "actual_pitches": 92,
-      "readVerdict": "TAKE"
+      "actual_pitches": 92
     },
     {
       "player": "Parker Messick",
@@ -7426,8 +7162,7 @@
       "lineup_k_pct": 25.0,
       "actual_outs": 20,
       "actual_bf": 25,
-      "actual_pitches": 104,
-      "readVerdict": "TAKE"
+      "actual_pitches": 104
     },
     {
       "player": "Shohei Ohtani",
@@ -7454,8 +7189,7 @@
       "lineup_k_pct": 21.8,
       "actual_outs": 21,
       "actual_bf": 26,
-      "actual_pitches": 89,
-      "readVerdict": "TAKE"
+      "actual_pitches": 89
     },
     {
       "player": "Mitch Keller",
@@ -7482,8 +7216,7 @@
       "lineup_k_pct": 18.4,
       "actual_outs": 12,
       "actual_bf": 21,
-      "actual_pitches": 90,
-      "readVerdict": "TAKE"
+      "actual_pitches": 90
     },
     {
       "player": "Chad Patrick",
@@ -7510,8 +7243,7 @@
       "lineup_k_pct": 20.1,
       "actual_outs": 20,
       "actual_bf": 24,
-      "actual_pitches": 81,
-      "readVerdict": "TAKE"
+      "actual_pitches": 81
     },
     {
       "player": "Matthew Liberatore",
@@ -7538,8 +7270,7 @@
       "lineup_k_pct": 23.3,
       "actual_outs": 10,
       "actual_bf": 18,
-      "actual_pitches": 64,
-      "readVerdict": "TAKE"
+      "actual_pitches": 64
     },
     {
       "player": "Steven Matz",
@@ -7566,8 +7297,7 @@
       "lineup_k_pct": 20.0,
       "actual_outs": 21,
       "actual_bf": 25,
-      "actual_pitches": 95,
-      "readVerdict": "TAKE"
+      "actual_pitches": 95
     },
     {
       "player": "Ranger Suarez",
@@ -7594,8 +7324,7 @@
       "lineup_k_pct": 17.9,
       "actual_outs": 24,
       "actual_bf": 25,
-      "actual_pitches": 105,
-      "readVerdict": "TAKE"
+      "actual_pitches": 105
     },
     {
       "player": "Jack Flaherty",
@@ -7622,8 +7351,7 @@
       "lineup_k_pct": 21.2,
       "actual_outs": 11,
       "actual_bf": 19,
-      "actual_pitches": 91,
-      "readVerdict": "TAKE"
+      "actual_pitches": 91
     },
     {
       "player": "Jose Quintana",
@@ -7650,8 +7378,7 @@
       "lineup_k_pct": 23.5,
       "actual_outs": 12,
       "actual_bf": 19,
-      "actual_pitches": 73,
-      "readVerdict": "TAKE"
+      "actual_pitches": 73
     },
     {
       "player": "Jack Flaherty",
@@ -7678,8 +7405,7 @@
       "lineup_k_pct": 24.4,
       "actual_outs": 17,
       "actual_bf": 23,
-      "actual_pitches": 89,
-      "readVerdict": "TAKE"
+      "actual_pitches": 89
     },
     {
       "player": "Andrew Abbott",
@@ -7706,8 +7432,7 @@
       "lineup_k_pct": 24.6,
       "actual_outs": 14,
       "actual_bf": 24,
-      "actual_pitches": 97,
-      "readVerdict": "TAKE"
+      "actual_pitches": 97
     },
     {
       "player": "Kyle Bradish",
@@ -7734,8 +7459,7 @@
       "lineup_k_pct": 24.3,
       "actual_outs": 16,
       "actual_bf": 27,
-      "actual_pitches": 104,
-      "readVerdict": "TAKE"
+      "actual_pitches": 104
     },
     {
       "player": "Brayan Bello",
@@ -7762,8 +7486,7 @@
       "lineup_k_pct": 19.8,
       "actual_outs": 11,
       "actual_bf": 18,
-      "actual_pitches": 63,
-      "readVerdict": "TAKE"
+      "actual_pitches": 63
     },
     {
       "player": "Sandy Alcantara",
@@ -7790,8 +7513,7 @@
       "lineup_k_pct": 20.9,
       "actual_outs": 15,
       "actual_bf": 24,
-      "actual_pitches": 97,
-      "readVerdict": "TAKE"
+      "actual_pitches": 97
     },
     {
       "player": "Brandon Woodruff",
@@ -7818,8 +7540,7 @@
       "lineup_k_pct": 19.7,
       "actual_outs": 21,
       "actual_bf": 25,
-      "actual_pitches": 92,
-      "readVerdict": "TAKE"
+      "actual_pitches": 92
     },
     {
       "player": "Rhett Lowder",
@@ -7846,8 +7567,7 @@
       "lineup_k_pct": 22.2,
       "actual_outs": 4,
       "actual_bf": 13,
-      "actual_pitches": 52,
-      "readVerdict": "TAKE"
+      "actual_pitches": 52
     },
     {
       "player": "Logan Gilbert",
@@ -7874,8 +7594,7 @@
       "lineup_k_pct": 25.7,
       "actual_outs": 16,
       "actual_bf": 24,
-      "actual_pitches": 99,
-      "readVerdict": "TAKE"
+      "actual_pitches": 99
     },
     {
       "player": "Nick Martinez",
@@ -7902,8 +7621,7 @@
       "lineup_k_pct": 25.3,
       "actual_outs": 24,
       "actual_bf": 30,
-      "actual_pitches": 95,
-      "readVerdict": "TAKE"
+      "actual_pitches": 95
     },
     {
       "player": "Max Meyer",
@@ -7930,8 +7648,7 @@
       "lineup_k_pct": 23.6,
       "actual_outs": 17,
       "actual_bf": 27,
-      "actual_pitches": 96,
-      "readVerdict": "TAKE"
+      "actual_pitches": 96
     },
     {
       "player": "Christian Scott",
@@ -7958,8 +7675,7 @@
       "lineup_k_pct": 20.3,
       "actual_outs": 14,
       "actual_bf": 22,
-      "actual_pitches": 89,
-      "readVerdict": "TAKE"
+      "actual_pitches": 89
     },
     {
       "player": "Shane McClanahan",
@@ -7986,8 +7702,7 @@
       "lineup_k_pct": 25.0,
       "actual_outs": 15,
       "actual_bf": 23,
-      "actual_pitches": 83,
-      "readVerdict": "TAKE"
+      "actual_pitches": 83
     },
     {
       "player": "Michael Lorenzen",
@@ -8014,8 +7729,7 @@
       "lineup_k_pct": 22.5,
       "actual_outs": 15,
       "actual_bf": 26,
-      "actual_pitches": 87,
-      "readVerdict": "TAKE"
+      "actual_pitches": 87
     },
     {
       "player": "Jacob Misiorowski",
@@ -8042,8 +7756,7 @@
       "lineup_k_pct": 20.2,
       "actual_outs": 18,
       "actual_bf": 22,
-      "actual_pitches": 74,
-      "readVerdict": "TAKE"
+      "actual_pitches": 74
     },
     {
       "player": "Davis Martin",
@@ -8070,8 +7783,7 @@
       "lineup_k_pct": 20.3,
       "actual_outs": 18,
       "actual_bf": 23,
-      "actual_pitches": 91,
-      "readVerdict": "PASS"
+      "actual_pitches": 91
     },
     {
       "player": "Spencer Strider",
@@ -8098,8 +7810,7 @@
       "lineup_k_pct": 21.7,
       "actual_outs": 19,
       "actual_bf": 24,
-      "actual_pitches": 100,
-      "readVerdict": "TAKE"
+      "actual_pitches": 100
     },
     {
       "player": "Sonny Gray",
@@ -8126,8 +7837,7 @@
       "lineup_k_pct": 21.3,
       "actual_outs": 12,
       "actual_bf": 19,
-      "actual_pitches": 75,
-      "readVerdict": "TAKE"
+      "actual_pitches": 75
     },
     {
       "player": "Mitch Keller",
@@ -8154,8 +7864,7 @@
       "lineup_k_pct": 19.4,
       "actual_outs": 18,
       "actual_bf": 25,
-      "actual_pitches": 101,
-      "readVerdict": "TAKE"
+      "actual_pitches": 101
     },
     {
       "player": "Taj Bradley",
@@ -8182,8 +7891,7 @@
       "lineup_k_pct": 22.1,
       "actual_outs": 15,
       "actual_bf": 23,
-      "actual_pitches": 106,
-      "readVerdict": "TAKE"
+      "actual_pitches": 106
     },
     {
       "player": "Chase Burns",
@@ -8210,8 +7918,7 @@
       "lineup_k_pct": 19.7,
       "actual_outs": 17,
       "actual_bf": 23,
-      "actual_pitches": 97,
-      "readVerdict": "TAKE"
+      "actual_pitches": 97
     },
     {
       "player": "Cam Schlittler",
@@ -8238,8 +7945,7 @@
       "lineup_k_pct": 22.9,
       "actual_outs": 24,
       "actual_bf": 28,
-      "actual_pitches": 96,
-      "readVerdict": "TAKE"
+      "actual_pitches": 96
     },
     {
       "player": "Walbert Urena",
@@ -8266,8 +7972,7 @@
       "lineup_k_pct": 23.0,
       "actual_outs": 15,
       "actual_bf": 19,
-      "actual_pitches": 68,
-      "readVerdict": "TAKE"
+      "actual_pitches": 68
     },
     {
       "player": "Logan Gilbert",
@@ -8294,8 +7999,7 @@
       "lineup_k_pct": 21.6,
       "actual_outs": 21,
       "actual_bf": 24,
-      "actual_pitches": 85,
-      "readVerdict": "TAKE"
+      "actual_pitches": 85
     },
     {
       "player": "Grant Holmes",
@@ -8322,8 +8026,7 @@
       "lineup_k_pct": 20.2,
       "actual_outs": 12,
       "actual_bf": 17,
-      "actual_pitches": 59,
-      "readVerdict": "TAKE"
+      "actual_pitches": 59
     },
     {
       "player": "Cole Ragans",
@@ -8350,8 +8053,7 @@
       "lineup_k_pct": 23.2,
       "actual_outs": 18,
       "actual_bf": 23,
-      "actual_pitches": 99,
-      "readVerdict": "TAKE"
+      "actual_pitches": 99
     },
     {
       "player": "Grant Holmes",
@@ -8378,8 +8080,7 @@
       "lineup_k_pct": 27.6,
       "actual_outs": 20,
       "actual_bf": 28,
-      "actual_pitches": 99,
-      "readVerdict": "TAKE"
+      "actual_pitches": 99
     },
     {
       "player": "Nick Martinez",
@@ -8406,8 +8107,7 @@
       "lineup_k_pct": 24.0,
       "actual_outs": 16,
       "actual_bf": 26,
-      "actual_pitches": 88,
-      "readVerdict": "TAKE"
+      "actual_pitches": 88
     },
     {
       "player": "George Kirby",
@@ -8434,8 +8134,7 @@
       "lineup_k_pct": 22.7,
       "actual_outs": 17,
       "actual_bf": 26,
-      "actual_pitches": 96,
-      "readVerdict": "TAKE"
+      "actual_pitches": 96
     },
     {
       "player": "Max Meyer",
@@ -8462,8 +8161,7 @@
       "lineup_k_pct": 19.1,
       "actual_outs": 15,
       "actual_bf": 21,
-      "actual_pitches": 77,
-      "readVerdict": "TAKE"
+      "actual_pitches": 77
     },
     {
       "player": "Taijuan Walker",
@@ -8490,8 +8188,7 @@
       "lineup_k_pct": 22.9,
       "actual_outs": 15,
       "actual_bf": 19,
-      "actual_pitches": 85,
-      "readVerdict": "TAKE"
+      "actual_pitches": 85
     },
     {
       "player": "Mick Abel",
@@ -8518,8 +8215,7 @@
       "lineup_k_pct": 23.4,
       "actual_outs": 21,
       "actual_bf": 26,
-      "actual_pitches": 90,
-      "readVerdict": "TAKE"
+      "actual_pitches": 90
     },
     {
       "player": "Michael Lorenzen",
@@ -8546,8 +8242,7 @@
       "lineup_k_pct": 24.6,
       "actual_outs": 15,
       "actual_bf": 22,
-      "actual_pitches": 88,
-      "readVerdict": "TAKE"
+      "actual_pitches": 88
     },
     {
       "player": "Will Warren",
@@ -8574,8 +8269,7 @@
       "lineup_k_pct": 23.4,
       "actual_outs": 19,
       "actual_bf": 23,
-      "actual_pitches": 94,
-      "readVerdict": "TAKE"
+      "actual_pitches": 94
     },
     {
       "player": "Nick Martinez",
@@ -8602,8 +8296,7 @@
       "lineup_k_pct": 16.7,
       "actual_outs": 15,
       "actual_bf": 21,
-      "actual_pitches": 71,
-      "readVerdict": "TAKE"
+      "actual_pitches": 71
     },
     {
       "player": "Brandon Sproat",
@@ -8630,8 +8323,7 @@
       "lineup_k_pct": 22.3,
       "actual_outs": 12,
       "actual_bf": 16,
-      "actual_pitches": 76,
-      "readVerdict": "TAKE"
+      "actual_pitches": 76
     },
     {
       "player": "Colin Rea",
@@ -8658,8 +8350,7 @@
       "lineup_k_pct": 21.7,
       "actual_outs": 21,
       "actual_bf": 27,
-      "actual_pitches": 98,
-      "readVerdict": "PASS"
+      "actual_pitches": 98
     },
     {
       "player": "Freddy Peralta",
@@ -8686,8 +8377,7 @@
       "lineup_k_pct": 28.4,
       "actual_outs": 18,
       "actual_bf": 25,
-      "actual_pitches": 100,
-      "readVerdict": "TAKE"
+      "actual_pitches": 100
     },
     {
       "player": "MacKenzie Gore",
@@ -8714,8 +8404,7 @@
       "lineup_k_pct": 28.6,
       "actual_outs": 15,
       "actual_bf": 23,
-      "actual_pitches": 90,
-      "readVerdict": "PASS"
+      "actual_pitches": 90
     },
     {
       "player": "Shane Baz",
@@ -8742,8 +8431,7 @@
       "lineup_k_pct": 20.6,
       "actual_outs": 21,
       "actual_bf": 30,
-      "actual_pitches": 108,
-      "readVerdict": "PASS"
+      "actual_pitches": 108
     },
     {
       "player": "Justin Wrobleski",
@@ -8770,8 +8458,7 @@
       "lineup_k_pct": 17.4,
       "actual_outs": 15,
       "actual_bf": 24,
-      "actual_pitches": 100,
-      "readVerdict": "TAKE"
+      "actual_pitches": 100
     },
     {
       "player": "George Kirby",
@@ -8798,8 +8485,7 @@
       "lineup_k_pct": 22.2,
       "actual_outs": 15,
       "actual_bf": 23,
-      "actual_pitches": 99,
-      "readVerdict": "TAKE"
+      "actual_pitches": 99
     },
     {
       "player": "Shane Baz",
@@ -8826,8 +8512,7 @@
       "lineup_k_pct": 19.9,
       "actual_outs": 18,
       "actual_bf": 22,
-      "actual_pitches": 94,
-      "readVerdict": "TAKE"
+      "actual_pitches": 94
     },
     {
       "player": "Jes\u00fas Luzardo",
@@ -8854,8 +8539,7 @@
       "lineup_k_pct": 20.6,
       "actual_outs": 14,
       "actual_bf": 24,
-      "actual_pitches": 100,
-      "readVerdict": "TAKE"
+      "actual_pitches": 100
     },
     {
       "player": "Bryan Woo",
@@ -8882,8 +8566,7 @@
       "lineup_k_pct": 21.6,
       "actual_outs": 9,
       "actual_bf": 18,
-      "actual_pitches": 53,
-      "readVerdict": "TAKE"
+      "actual_pitches": 53
     },
     {
       "player": "Emmet Sheehan",
@@ -8910,8 +8593,7 @@
       "lineup_k_pct": 23.1,
       "actual_outs": 14,
       "actual_bf": 20,
-      "actual_pitches": 88,
-      "readVerdict": "TAKE"
+      "actual_pitches": 88
     },
     {
       "player": "Dylan Cease",
@@ -8938,8 +8620,7 @@
       "lineup_k_pct": 19.4,
       "actual_outs": 21,
       "actual_bf": 26,
-      "actual_pitches": 99,
-      "readVerdict": "TAKE"
+      "actual_pitches": 99
     },
     {
       "player": "MacKenzie Gore",
@@ -8966,8 +8647,7 @@
       "lineup_k_pct": 21.1,
       "actual_outs": 11,
       "actual_bf": 18,
-      "actual_pitches": 94,
-      "readVerdict": "TAKE"
+      "actual_pitches": 94
     },
     {
       "player": "Max Meyer",
@@ -8994,8 +8674,7 @@
       "lineup_k_pct": 21.9,
       "actual_outs": 21,
       "actual_bf": 25,
-      "actual_pitches": 95,
-      "readVerdict": "TAKE"
+      "actual_pitches": 95
     },
     {
       "player": "Chase Burns",
@@ -9022,8 +8701,7 @@
       "lineup_k_pct": 23.7,
       "actual_outs": 21,
       "actual_bf": 24,
-      "actual_pitches": 94,
-      "readVerdict": "TAKE"
+      "actual_pitches": 94
     },
     {
       "player": "Slade Cecconi",
@@ -9050,8 +8728,7 @@
       "lineup_k_pct": 20.7,
       "actual_outs": 22,
       "actual_bf": 26,
-      "actual_pitches": 96,
-      "readVerdict": "TAKE"
+      "actual_pitches": 96
     },
     {
       "player": "Max Meyer",
@@ -9078,8 +8755,7 @@
       "lineup_k_pct": 19.8,
       "actual_outs": 21,
       "actual_bf": 22,
-      "actual_pitches": 83,
-      "readVerdict": "TAKE"
+      "actual_pitches": 83
     },
     {
       "player": "Anthony Kay",
@@ -9106,8 +8782,7 @@
       "lineup_k_pct": 20.7,
       "actual_outs": 15,
       "actual_bf": 21,
-      "actual_pitches": 86,
-      "readVerdict": "TAKE"
+      "actual_pitches": 86
     },
     {
       "player": "Jake Irvin",
@@ -9134,8 +8809,7 @@
       "lineup_k_pct": 22.2,
       "actual_outs": 15,
       "actual_bf": 22,
-      "actual_pitches": 92,
-      "readVerdict": "TAKE"
+      "actual_pitches": 92
     },
     {
       "player": "Cade Povich",
@@ -9162,8 +8836,7 @@
       "lineup_k_pct": 23.2,
       "actual_outs": 9,
       "actual_bf": 14,
-      "actual_pitches": 43,
-      "readVerdict": "TAKE"
+      "actual_pitches": 43
     },
     {
       "player": "Sean Burke",
@@ -9190,8 +8863,7 @@
       "lineup_k_pct": 23.0,
       "actual_outs": 13,
       "actual_bf": 23,
-      "actual_pitches": 74,
-      "readVerdict": "TAKE"
+      "actual_pitches": 74
     },
     {
       "player": "Michael Wacha",
@@ -9218,8 +8890,7 @@
       "lineup_k_pct": 28.2,
       "actual_outs": 24,
       "actual_bf": 28,
-      "actual_pitches": 88,
-      "readVerdict": "TAKE"
+      "actual_pitches": 88
     },
     {
       "player": "Framber Valdez",
@@ -9246,8 +8917,7 @@
       "lineup_k_pct": 24.9,
       "actual_outs": 13,
       "actual_bf": 21,
-      "actual_pitches": 89,
-      "readVerdict": "TAKE"
+      "actual_pitches": 89
     },
     {
       "player": "Seth Lugo",
@@ -9274,8 +8944,7 @@
       "lineup_k_pct": 25.6,
       "actual_outs": 21,
       "actual_bf": 24,
-      "actual_pitches": 93,
-      "readVerdict": "TAKE"
+      "actual_pitches": 93
     },
     {
       "player": "Jes\u00fas Luzardo",
@@ -9302,8 +8971,7 @@
       "lineup_k_pct": 23.0,
       "actual_outs": 19,
       "actual_bf": 27,
-      "actual_pitches": 102,
-      "readVerdict": "TAKE"
+      "actual_pitches": 102
     },
     {
       "player": "Tomoyuki Sugano",
@@ -9330,8 +8998,7 @@
       "lineup_k_pct": 20.1,
       "actual_outs": 15,
       "actual_bf": 22,
-      "actual_pitches": 88,
-      "readVerdict": "TAKE"
+      "actual_pitches": 88
     },
     {
       "player": "Walker Buehler",
@@ -9358,8 +9025,7 @@
       "lineup_k_pct": 25.6,
       "actual_outs": 18,
       "actual_bf": 20,
-      "actual_pitches": 68,
-      "readVerdict": "TAKE"
+      "actual_pitches": 68
     },
     {
       "player": "Rhett Lowder",
@@ -9386,8 +9052,7 @@
       "lineup_k_pct": 16.9,
       "actual_outs": 18,
       "actual_bf": 24,
-      "actual_pitches": 93,
-      "readVerdict": "TAKE"
+      "actual_pitches": 93
     },
     {
       "player": "Spencer Arrighetti",
@@ -9414,8 +9079,7 @@
       "lineup_k_pct": 25.0,
       "actual_outs": 21,
       "actual_bf": 26,
-      "actual_pitches": 96,
-      "readVerdict": "TAKE"
+      "actual_pitches": 96
     },
     {
       "player": "George Kirby",
@@ -9442,8 +9106,7 @@
       "lineup_k_pct": 23.0,
       "actual_outs": 17,
       "actual_bf": 25,
-      "actual_pitches": 97,
-      "readVerdict": "TAKE"
+      "actual_pitches": 97
     },
     {
       "player": "Stephen Kolek",
@@ -9470,8 +9133,7 @@
       "lineup_k_pct": 23.6,
       "actual_outs": 19,
       "actual_bf": 24,
-      "actual_pitches": 82,
-      "readVerdict": "TAKE"
+      "actual_pitches": 82
     },
     {
       "player": "Nick Martinez",
@@ -9498,8 +9160,7 @@
       "lineup_k_pct": 19.6,
       "actual_outs": 21,
       "actual_bf": 25,
-      "actual_pitches": 78,
-      "readVerdict": "TAKE"
+      "actual_pitches": 78
     },
     {
       "player": "Freddy Peralta",
@@ -9526,8 +9187,7 @@
       "lineup_k_pct": 17.4,
       "actual_outs": 14,
       "actual_bf": 22,
-      "actual_pitches": 101,
-      "readVerdict": "TAKE"
+      "actual_pitches": 101
     },
     {
       "player": "David Peterson",
@@ -9554,8 +9214,7 @@
       "lineup_k_pct": 17.2,
       "actual_outs": 15,
       "actual_bf": 23,
-      "actual_pitches": 85,
-      "readVerdict": "TAKE"
+      "actual_pitches": 85
     },
     {
       "player": "Max Meyer",
@@ -9582,8 +9241,7 @@
       "lineup_k_pct": 24.1,
       "actual_outs": 15,
       "actual_bf": 23,
-      "actual_pitches": 87,
-      "readVerdict": "TAKE"
+      "actual_pitches": 87
     },
     {
       "player": "Seth Lugo",
@@ -9610,8 +9268,7 @@
       "lineup_k_pct": 22.6,
       "actual_outs": 20,
       "actual_bf": 23,
-      "actual_pitches": 92,
-      "readVerdict": "TAKE"
+      "actual_pitches": 92
     },
     {
       "player": "Andrew Abbott",
@@ -9638,8 +9295,7 @@
       "lineup_k_pct": 25.6,
       "actual_outs": 18,
       "actual_bf": 25,
-      "actual_pitches": 86,
-      "readVerdict": "TAKE"
+      "actual_pitches": 86
     },
     {
       "player": "Roki Sasaki",
@@ -9666,8 +9322,7 @@
       "lineup_k_pct": 27.1,
       "actual_outs": 14,
       "actual_bf": 22,
-      "actual_pitches": 78,
-      "readVerdict": "TAKE"
+      "actual_pitches": 78
     },
     {
       "player": "Aaron Nola",
@@ -9694,8 +9349,7 @@
       "lineup_k_pct": 23.7,
       "actual_outs": 14,
       "actual_bf": 22,
-      "actual_pitches": 94,
-      "readVerdict": "TAKE"
+      "actual_pitches": 94
     },
     {
       "player": "Tomoyuki Sugano",
@@ -9722,8 +9376,7 @@
       "lineup_k_pct": 20.0,
       "actual_outs": 20,
       "actual_bf": 27,
-      "actual_pitches": 97,
-      "readVerdict": "TAKE"
+      "actual_pitches": 97
     },
     {
       "player": "Jose Quintana",
@@ -9750,8 +9403,7 @@
       "lineup_k_pct": 19.9,
       "actual_outs": 17,
       "actual_bf": 22,
-      "actual_pitches": 74,
-      "readVerdict": "TAKE"
+      "actual_pitches": 74
     },
     {
       "player": "Brandon Young",
@@ -9778,8 +9430,7 @@
       "lineup_k_pct": 25.4,
       "actual_outs": 16,
       "actual_bf": 22,
-      "actual_pitches": 97,
-      "readVerdict": "TAKE"
+      "actual_pitches": 97
     },
     {
       "player": "Cam Schlittler",
@@ -9806,8 +9457,7 @@
       "lineup_k_pct": 22.0,
       "actual_outs": 18,
       "actual_bf": 23,
-      "actual_pitches": 92,
-      "readVerdict": "TAKE"
+      "actual_pitches": 92
     },
     {
       "player": "Erick Fedde",
@@ -9834,8 +9484,7 @@
       "lineup_k_pct": 22.8,
       "actual_outs": 15,
       "actual_bf": 22,
-      "actual_pitches": 80,
-      "readVerdict": "TAKE"
+      "actual_pitches": 80
     },
     {
       "player": "Jacob Misiorowski",
@@ -9862,8 +9511,7 @@
       "lineup_k_pct": 22.8,
       "actual_outs": 21,
       "actual_bf": 25,
-      "actual_pitches": 93,
-      "readVerdict": "TAKE"
+      "actual_pitches": 93
     },
     {
       "player": "Will Warren",
@@ -9890,8 +9538,7 @@
       "lineup_k_pct": 21.2,
       "actual_outs": 15,
       "actual_bf": 22,
-      "actual_pitches": 86,
-      "readVerdict": "TAKE"
+      "actual_pitches": 86
     },
     {
       "player": "Drew Rasmussen",
@@ -9918,8 +9565,7 @@
       "lineup_k_pct": 25.7,
       "actual_outs": 18,
       "actual_bf": 19,
-      "actual_pitches": 76,
-      "readVerdict": "TAKE"
+      "actual_pitches": 76
     },
     {
       "player": "Tanner Bibee",
@@ -9946,8 +9592,7 @@
       "lineup_k_pct": 23.7,
       "actual_outs": 20,
       "actual_bf": 28,
-      "actual_pitches": 96,
-      "readVerdict": "PASS"
+      "actual_pitches": 96
     },
     {
       "player": "Lance McCullers Jr.",
@@ -9974,8 +9619,7 @@
       "lineup_k_pct": 26.9,
       "actual_outs": 13,
       "actual_bf": 19,
-      "actual_pitches": 79,
-      "readVerdict": "TAKE"
+      "actual_pitches": 79
     },
     {
       "player": "Reid Detmers",
@@ -10002,8 +9646,7 @@
       "lineup_k_pct": 22.0,
       "actual_outs": 15,
       "actual_bf": 21,
-      "actual_pitches": 93,
-      "readVerdict": "TAKE"
+      "actual_pitches": 93
     },
     {
       "player": "Clay Holmes",
@@ -10030,8 +9673,7 @@
       "lineup_k_pct": 19.7,
       "actual_outs": 18,
       "actual_bf": 22,
-      "actual_pitches": 94,
-      "readVerdict": "TAKE"
+      "actual_pitches": 94
     },
     {
       "player": "Logan Webb",
@@ -10058,8 +9700,7 @@
       "lineup_k_pct": 22.5,
       "actual_outs": 12,
       "actual_bf": 20,
-      "actual_pitches": 62,
-      "readVerdict": "PASS"
+      "actual_pitches": 62
     },
     {
       "player": "Michael King",
@@ -10086,8 +9727,7 @@
       "lineup_k_pct": 22.5,
       "actual_outs": 18,
       "actual_bf": 21,
-      "actual_pitches": 86,
-      "readVerdict": "PASS"
+      "actual_pitches": 86
     },
     {
       "player": "Max Meyer",
@@ -10114,8 +9754,7 @@
       "lineup_k_pct": 21.1,
       "actual_outs": 18,
       "actual_bf": 22,
-      "actual_pitches": 97,
-      "readVerdict": "TAKE"
+      "actual_pitches": 97
     },
     {
       "player": "Christian Scott",
@@ -10142,8 +9781,7 @@
       "lineup_k_pct": 21.9,
       "actual_outs": 12,
       "actual_bf": 20,
-      "actual_pitches": 81,
-      "readVerdict": "TAKE"
+      "actual_pitches": 81
     },
     {
       "player": "George Kirby",
@@ -10170,8 +9808,7 @@
       "lineup_k_pct": 22.3,
       "actual_outs": 18,
       "actual_bf": 27,
-      "actual_pitches": 92,
-      "readVerdict": "TAKE"
+      "actual_pitches": 92
     },
     {
       "player": "Matthew Liberatore",
@@ -10198,8 +9835,7 @@
       "lineup_k_pct": 19.2,
       "actual_outs": 17,
       "actual_bf": 23,
-      "actual_pitches": 96,
-      "readVerdict": "TAKE"
+      "actual_pitches": 96
     },
     {
       "player": "Dylan Cease",
@@ -10226,8 +9862,7 @@
       "lineup_k_pct": 23.5,
       "actual_outs": 21,
       "actual_bf": 28,
-      "actual_pitches": 106,
-      "readVerdict": "TAKE"
+      "actual_pitches": 106
     },
     {
       "player": "Kyle Harrison",
@@ -10254,8 +9889,7 @@
       "lineup_k_pct": 26.3,
       "actual_outs": 12,
       "actual_bf": 20,
-      "actual_pitches": 77,
-      "readVerdict": "TAKE"
+      "actual_pitches": 77
     },
     {
       "player": "Aaron Civale",
@@ -10282,8 +9916,7 @@
       "lineup_k_pct": 21.9,
       "actual_outs": 12,
       "actual_bf": 22,
-      "actual_pitches": 73,
-      "readVerdict": "TAKE"
+      "actual_pitches": 73
     },
     {
       "player": "Nick Martinez",
@@ -10310,8 +9943,7 @@
       "lineup_k_pct": 27.6,
       "actual_outs": 14,
       "actual_bf": 22,
-      "actual_pitches": 87,
-      "readVerdict": "TAKE"
+      "actual_pitches": 87
     },
     {
       "player": "Slade Cecconi",
@@ -10338,8 +9970,7 @@
       "lineup_k_pct": 21.8,
       "actual_outs": 17,
       "actual_bf": 24,
-      "actual_pitches": 90,
-      "readVerdict": "TAKE"
+      "actual_pitches": 90
     },
     {
       "player": "Parker Messick",
@@ -10366,8 +9997,7 @@
       "lineup_k_pct": 22.0,
       "actual_outs": 17,
       "actual_bf": 24,
-      "actual_pitches": 91,
-      "readVerdict": "TAKE"
+      "actual_pitches": 91
     },
     {
       "player": "Garrett Crochet",
@@ -10394,8 +10024,7 @@
       "lineup_k_pct": 24.5,
       "actual_outs": 5,
       "actual_bf": 18,
-      "actual_pitches": 55,
-      "readVerdict": "TAKE"
+      "actual_pitches": 55
     },
     {
       "player": "Zac Gallen",
@@ -10422,8 +10051,7 @@
       "lineup_k_pct": 21.3,
       "actual_outs": 9,
       "actual_bf": 10,
-      "actual_pitches": 49,
-      "readVerdict": "TAKE"
+      "actual_pitches": 49
     },
     {
       "player": "Merrill Kelly",
@@ -10450,8 +10078,7 @@
       "lineup_k_pct": 21.1,
       "actual_outs": 18,
       "actual_bf": 26,
-      "actual_pitches": 85,
-      "readVerdict": "TAKE"
+      "actual_pitches": 85
     },
     {
       "player": "Stephen Kolek",
@@ -10478,8 +10105,7 @@
       "lineup_k_pct": 23.2,
       "actual_outs": 27,
       "actual_bf": 29,
-      "actual_pitches": 108,
-      "readVerdict": "TAKE"
+      "actual_pitches": 108
     },
     {
       "player": "Will Warren",
@@ -10506,8 +10132,7 @@
       "lineup_k_pct": 24.4,
       "actual_outs": 11,
       "actual_bf": 17,
-      "actual_pitches": 89,
-      "readVerdict": "TAKE"
+      "actual_pitches": 89
     },
     {
       "player": "Sean Burke",
@@ -10534,8 +10159,7 @@
       "lineup_k_pct": 18.5,
       "actual_outs": 18,
       "actual_bf": 22,
-      "actual_pitches": 101,
-      "readVerdict": "TAKE"
+      "actual_pitches": 101
     },
     {
       "player": "Trevor Rogers",
@@ -10562,8 +10186,7 @@
       "lineup_k_pct": 23.1,
       "actual_outs": 5,
       "actual_bf": 11,
-      "actual_pitches": 62,
-      "readVerdict": "TAKE"
+      "actual_pitches": 62
     },
     {
       "player": "Sandy Alcantara",
@@ -10590,8 +10213,7 @@
       "lineup_k_pct": 21.2,
       "actual_outs": 18,
       "actual_bf": 27,
-      "actual_pitches": 104,
-      "readVerdict": "TAKE"
+      "actual_pitches": 104
     },
     {
       "player": "Bubba Chandler",
@@ -10618,8 +10240,7 @@
       "lineup_k_pct": 21.4,
       "actual_outs": 15,
       "actual_bf": 22,
-      "actual_pitches": 92,
-      "readVerdict": "TAKE"
+      "actual_pitches": 92
     },
     {
       "player": "Seth Lugo",
@@ -10646,8 +10267,7 @@
       "lineup_k_pct": 18.3,
       "actual_outs": 12,
       "actual_bf": 22,
-      "actual_pitches": 102,
-      "readVerdict": "PASS"
+      "actual_pitches": 102
     },
     {
       "player": "Paul Skenes",
@@ -10674,8 +10294,7 @@
       "lineup_k_pct": 20.0,
       "actual_outs": 21,
       "actual_bf": 22,
-      "actual_pitches": 93,
-      "readVerdict": "TAKE"
+      "actual_pitches": 93
     },
     {
       "player": "Merrill Kelly",
@@ -10702,8 +10321,7 @@
       "lineup_k_pct": 24.1,
       "actual_outs": 27,
       "actual_bf": 31,
-      "actual_pitches": 100,
-      "readVerdict": "TAKE"
+      "actual_pitches": 100
     },
     {
       "player": "Kai-Wei Teng",
@@ -10730,8 +10348,7 @@
       "lineup_k_pct": 19.5,
       "actual_outs": 18,
       "actual_bf": 20,
-      "actual_pitches": 89,
-      "readVerdict": "TAKE"
+      "actual_pitches": 89
     },
     {
       "player": "Jameson Taillon",
@@ -10758,8 +10375,7 @@
       "lineup_k_pct": 24.2,
       "actual_outs": 18,
       "actual_bf": 24,
-      "actual_pitches": 100,
-      "readVerdict": "TAKE"
+      "actual_pitches": 100
     },
     {
       "player": "Tomoyuki Sugano",
@@ -10786,8 +10402,7 @@
       "lineup_k_pct": 23.1,
       "actual_outs": 17,
       "actual_bf": 23,
-      "actual_pitches": 101,
-      "readVerdict": "TAKE"
+      "actual_pitches": 101
     },
     {
       "player": "Matthew Liberatore",
@@ -10814,8 +10429,7 @@
       "lineup_k_pct": 23.6,
       "actual_outs": 14,
       "actual_bf": 23,
-      "actual_pitches": 77,
-      "readVerdict": "PASS"
+      "actual_pitches": 77
     },
     {
       "player": "Garrett Crochet",
@@ -10842,8 +10456,7 @@
       "lineup_k_pct": 26.0,
       "actual_outs": 19,
       "actual_bf": 27,
-      "actual_pitches": 107,
-      "readVerdict": "TAKE"
+      "actual_pitches": 107
     },
     {
       "player": "Jacob Misiorowski",
@@ -10870,8 +10483,7 @@
       "lineup_k_pct": 20.7,
       "actual_outs": 15,
       "actual_bf": 23,
-      "actual_pitches": 97,
-      "readVerdict": "TAKE"
+      "actual_pitches": 97
     },
     {
       "player": "Dylan Cease",
@@ -10898,8 +10510,7 @@
       "lineup_k_pct": 24.6,
       "actual_outs": 17,
       "actual_bf": 27,
-      "actual_pitches": 107,
-      "readVerdict": "TAKE"
+      "actual_pitches": 107
     },
     {
       "player": "Seth Lugo",
@@ -10926,8 +10537,7 @@
       "lineup_k_pct": 24.3,
       "actual_outs": 18,
       "actual_bf": 25,
-      "actual_pitches": 103,
-      "readVerdict": "TAKE"
+      "actual_pitches": 103
     },
     {
       "player": "Nathan Eovaldi",
@@ -10954,8 +10564,7 @@
       "lineup_k_pct": 28.1,
       "actual_outs": 21,
       "actual_bf": 26,
-      "actual_pitches": 84,
-      "readVerdict": "TAKE"
+      "actual_pitches": 84
     },
     {
       "player": "Nathan Eovaldi",
@@ -10982,8 +10591,7 @@
       "lineup_k_pct": 24.9,
       "actual_outs": 15,
       "actual_bf": 25,
-      "actual_pitches": 95,
-      "readVerdict": "PASS"
+      "actual_pitches": 95
     },
     {
       "player": "Chase Burns",
@@ -11010,8 +10618,7 @@
       "lineup_k_pct": 22.3,
       "actual_outs": 18,
       "actual_bf": 26,
-      "actual_pitches": 97,
-      "readVerdict": "TAKE"
+      "actual_pitches": 97
     },
     {
       "player": "Framber Valdez",
@@ -11038,8 +10645,7 @@
       "lineup_k_pct": 23.3,
       "actual_outs": 18,
       "actual_bf": 22,
-      "actual_pitches": 92,
-      "readVerdict": "TAKE"
+      "actual_pitches": 92
     },
     {
       "player": "Jes\u00fas Luzardo",
@@ -11066,8 +10672,7 @@
       "lineup_k_pct": 24.3,
       "actual_outs": 18,
       "actual_bf": 24,
-      "actual_pitches": 104,
-      "readVerdict": "TAKE"
+      "actual_pitches": 104
     },
     {
       "player": "Logan Webb",
@@ -11094,8 +10699,7 @@
       "lineup_k_pct": 26.2,
       "actual_outs": 18,
       "actual_bf": 26,
-      "actual_pitches": 98,
-      "readVerdict": "TAKE"
+      "actual_pitches": 98
     },
     {
       "player": "Luis Severino",
@@ -11122,8 +10726,7 @@
       "lineup_k_pct": 23.3,
       "actual_outs": 21,
       "actual_bf": 25,
-      "actual_pitches": 103,
-      "readVerdict": "TAKE"
+      "actual_pitches": 103
     },
     {
       "player": "Shota Imanaga",
@@ -11150,8 +10753,7 @@
       "lineup_k_pct": 20.8,
       "actual_outs": 21,
       "actual_bf": 26,
-      "actual_pitches": 87,
-      "readVerdict": "TAKE"
+      "actual_pitches": 87
     },
     {
       "player": "Shane Baz",
@@ -11178,8 +10780,7 @@
       "lineup_k_pct": 20.3,
       "actual_outs": 14,
       "actual_bf": 22,
-      "actual_pitches": 100,
-      "readVerdict": "TAKE"
+      "actual_pitches": 100
     },
     {
       "player": "Keider Montero",
@@ -11206,8 +10807,7 @@
       "lineup_k_pct": 21.8,
       "actual_outs": 20,
       "actual_bf": 26,
-      "actual_pitches": 85,
-      "readVerdict": "TAKE"
+      "actual_pitches": 85
     },
     {
       "player": "Mitch Keller",
@@ -11234,8 +10834,7 @@
       "lineup_k_pct": 21.2,
       "actual_outs": 17,
       "actual_bf": 24,
-      "actual_pitches": 80,
-      "readVerdict": "TAKE"
+      "actual_pitches": 80
     },
     {
       "player": "Robbie Ray",
@@ -11262,8 +10861,7 @@
       "lineup_k_pct": 18.1,
       "actual_outs": 15,
       "actual_bf": 21,
-      "actual_pitches": 97,
-      "readVerdict": "TAKE"
+      "actual_pitches": 97
     },
     {
       "player": "Yoshinobu Yamamoto",
@@ -11290,8 +10888,7 @@
       "lineup_k_pct": 18.9,
       "actual_outs": 15,
       "actual_bf": 24,
-      "actual_pitches": 87,
-      "readVerdict": "TAKE"
+      "actual_pitches": 87
     },
     {
       "player": "Sandy Alcantara",
@@ -11318,8 +10915,7 @@
       "lineup_k_pct": 21.3,
       "actual_outs": 18,
       "actual_bf": 24,
-      "actual_pitches": 89,
-      "readVerdict": "TAKE"
+      "actual_pitches": 89
     },
     {
       "player": "George Kirby",
@@ -11346,8 +10942,7 @@
       "lineup_k_pct": 21.9,
       "actual_outs": 17,
       "actual_bf": 24,
-      "actual_pitches": 98,
-      "readVerdict": "TAKE"
+      "actual_pitches": 98
     },
     {
       "player": "Seth Lugo",
@@ -11374,8 +10969,7 @@
       "lineup_k_pct": 23.2,
       "actual_outs": 19,
       "actual_bf": 27,
-      "actual_pitches": 86,
-      "readVerdict": "PASS"
+      "actual_pitches": 86
     },
     {
       "player": "Connelly Early",
@@ -11402,8 +10996,7 @@
       "lineup_k_pct": 18.8,
       "actual_outs": 12,
       "actual_bf": 20,
-      "actual_pitches": 77,
-      "readVerdict": "PASS"
+      "actual_pitches": 77
     },
     {
       "player": "Framber Valdez",
@@ -11430,8 +11023,7 @@
       "lineup_k_pct": 21.5,
       "actual_outs": 9,
       "actual_bf": 22,
-      "actual_pitches": 60,
-      "readVerdict": "TAKE"
+      "actual_pitches": 60
     },
     {
       "player": "Davis Martin",
@@ -11458,8 +11050,7 @@
       "lineup_k_pct": 22.8,
       "actual_outs": 18,
       "actual_bf": 23,
-      "actual_pitches": 105,
-      "readVerdict": "PASS"
+      "actual_pitches": 105
     },
     {
       "player": "Andrew Painter",
@@ -11486,8 +11077,7 @@
       "lineup_k_pct": 18.4,
       "actual_outs": 12,
       "actual_bf": 19,
-      "actual_pitches": 84,
-      "readVerdict": "TAKE"
+      "actual_pitches": 84
     },
     {
       "player": "Tanner Bibee",
@@ -11514,8 +11104,7 @@
       "lineup_k_pct": 19.2,
       "actual_outs": 18,
       "actual_bf": 24,
-      "actual_pitches": 95,
-      "readVerdict": "PASS"
+      "actual_pitches": 95
     },
     {
       "player": "Andre Pallante",
@@ -11542,8 +11131,7 @@
       "lineup_k_pct": 23.9,
       "actual_outs": 16,
       "actual_bf": 23,
-      "actual_pitches": 90,
-      "readVerdict": "PASS"
+      "actual_pitches": 90
     },
     {
       "player": "Sandy Alcantara",
@@ -11570,8 +11158,7 @@
       "lineup_k_pct": 20.4,
       "actual_outs": 18,
       "actual_bf": 25,
-      "actual_pitches": 94,
-      "readVerdict": "TAKE"
+      "actual_pitches": 94
     },
     {
       "player": "Reid Detmers",
@@ -11598,8 +11185,7 @@
       "lineup_k_pct": 25.2,
       "actual_outs": 24,
       "actual_bf": 25,
-      "actual_pitches": 96,
-      "readVerdict": "TAKE"
+      "actual_pitches": 96
     },
     {
       "player": "Matthew Liberatore",
@@ -11626,8 +11212,7 @@
       "lineup_k_pct": 20.4,
       "actual_outs": 18,
       "actual_bf": 21,
-      "actual_pitches": 81,
-      "readVerdict": "TAKE"
+      "actual_pitches": 81
     },
     {
       "player": "Andre Pallante",
@@ -11654,8 +11239,7 @@
       "lineup_k_pct": 23.1,
       "actual_outs": 15,
       "actual_bf": 21,
-      "actual_pitches": 87,
-      "readVerdict": "TAKE"
+      "actual_pitches": 87
     },
     {
       "player": "Framber Valdez",
@@ -11682,8 +11266,7 @@
       "lineup_k_pct": 23.8,
       "actual_outs": 18,
       "actual_bf": 23,
-      "actual_pitches": 98,
-      "readVerdict": "TAKE"
+      "actual_pitches": 98
     },
     {
       "player": "Mitch Keller",
@@ -11710,8 +11293,7 @@
       "lineup_k_pct": 22.4,
       "actual_outs": 15,
       "actual_bf": 22,
-      "actual_pitches": 93,
-      "readVerdict": "TAKE"
+      "actual_pitches": 93
     },
     {
       "player": "Andre Pallante",
@@ -11738,8 +11320,7 @@
       "lineup_k_pct": 25.3,
       "actual_outs": 18,
       "actual_bf": 24,
-      "actual_pitches": 91,
-      "readVerdict": "PASS"
+      "actual_pitches": 91
     },
     {
       "player": "Mike Burrows",
@@ -11766,8 +11347,7 @@
       "lineup_k_pct": 27.6,
       "actual_outs": 16,
       "actual_bf": 23,
-      "actual_pitches": 87,
-      "readVerdict": "TAKE"
+      "actual_pitches": 87
     },
     {
       "player": "Edward Cabrera",
@@ -11794,8 +11374,7 @@
       "lineup_k_pct": 19.1,
       "actual_outs": 21,
       "actual_bf": 28,
-      "actual_pitches": 83,
-      "readVerdict": "TAKE"
+      "actual_pitches": 83
     },
     {
       "player": "Patrick Corbin",
@@ -11822,8 +11401,7 @@
       "lineup_k_pct": 18.9,
       "actual_outs": 13,
       "actual_bf": 23,
-      "actual_pitches": 86,
-      "readVerdict": "TAKE"
+      "actual_pitches": 86
     },
     {
       "player": "Carlos Rod\u00f3n",
@@ -11850,8 +11428,7 @@
       "lineup_k_pct": 21.0,
       "actual_outs": 15,
       "actual_bf": 21,
-      "actual_pitches": 95,
-      "readVerdict": "TAKE"
+      "actual_pitches": 95
     },
     {
       "player": "Kyle Bradish",
@@ -11878,8 +11455,7 @@
       "lineup_k_pct": 29.1,
       "actual_outs": 15,
       "actual_bf": 23,
-      "actual_pitches": 96,
-      "readVerdict": "TAKE"
+      "actual_pitches": 96
     },
     {
       "player": "Max Fried",
@@ -11906,8 +11482,7 @@
       "lineup_k_pct": 20.1,
       "actual_outs": 24,
       "actual_bf": 30,
-      "actual_pitches": 94,
-      "readVerdict": "TAKE"
+      "actual_pitches": 94
     },
     {
       "player": "George Kirby",
@@ -11934,8 +11509,7 @@
       "lineup_k_pct": 23.3,
       "actual_outs": 23,
       "actual_bf": 29,
-      "actual_pitches": 99,
-      "readVerdict": "TAKE"
+      "actual_pitches": 99
     },
     {
       "player": "Steven Matz",
@@ -11962,8 +11536,7 @@
       "lineup_k_pct": 24.9,
       "actual_outs": 9,
       "actual_bf": 17,
-      "actual_pitches": 77,
-      "readVerdict": "TAKE"
+      "actual_pitches": 77
     },
     {
       "player": "Kodai Senga",
@@ -11990,8 +11563,7 @@
       "lineup_k_pct": 21.2,
       "actual_outs": 8,
       "actual_bf": 15,
-      "actual_pitches": 50,
-      "readVerdict": "TAKE"
+      "actual_pitches": 50
     },
     {
       "player": "Sean Burke",
@@ -12018,8 +11590,7 @@
       "lineup_k_pct": 22.4,
       "actual_outs": 18,
       "actual_bf": 23,
-      "actual_pitches": 88,
-      "readVerdict": "TAKE"
+      "actual_pitches": 88
     },
     {
       "player": "Yusei Kikuchi",
@@ -12046,8 +11617,7 @@
       "lineup_k_pct": 19.9,
       "actual_outs": 15,
       "actual_bf": 22,
-      "actual_pitches": 97,
-      "readVerdict": "TAKE"
+      "actual_pitches": 97
     },
     {
       "player": "Bryan Woo",
@@ -12074,8 +11644,7 @@
       "lineup_k_pct": 24.6,
       "actual_outs": 15,
       "actual_bf": 22,
-      "actual_pitches": 83,
-      "readVerdict": "TAKE"
+      "actual_pitches": 83
     },
     {
       "player": "Luis Castillo",
@@ -12102,8 +11671,7 @@
       "lineup_k_pct": 18.9,
       "actual_outs": 16,
       "actual_bf": 26,
-      "actual_pitches": 98,
-      "readVerdict": "TAKE"
+      "actual_pitches": 98
     },
     {
       "player": "Walbert Ure\u00f1a",
@@ -12130,8 +11698,7 @@
       "lineup_k_pct": 21.8,
       "actual_outs": 15,
       "actual_bf": 23,
-      "actual_pitches": 93,
-      "readVerdict": "TAKE"
+      "actual_pitches": 93
     },
     {
       "player": "Walker Buehler",
@@ -12158,8 +11725,7 @@
       "lineup_k_pct": 24.9,
       "actual_outs": 16,
       "actual_bf": 23,
-      "actual_pitches": 82,
-      "readVerdict": "TAKE"
+      "actual_pitches": 82
     },
     {
       "player": "Kris Bubic",
@@ -12186,8 +11752,7 @@
       "lineup_k_pct": 25.2,
       "actual_outs": 21,
       "actual_bf": 24,
-      "actual_pitches": 88,
-      "readVerdict": "TAKE"
+      "actual_pitches": 88
     },
     {
       "player": "Aaron Civale",
@@ -12214,8 +11779,7 @@
       "lineup_k_pct": 27.6,
       "actual_outs": 14,
       "actual_bf": 27,
-      "actual_pitches": 103,
-      "readVerdict": "TAKE"
+      "actual_pitches": 103
     },
     {
       "player": "Tarik Skubal",
@@ -12242,8 +11806,7 @@
       "lineup_k_pct": 17.9,
       "actual_outs": 21,
       "actual_bf": 24,
-      "actual_pitches": 91,
-      "readVerdict": "TAKE"
+      "actual_pitches": 91
     },
     {
       "player": "Kyle Freeland",
@@ -12270,8 +11833,7 @@
       "lineup_k_pct": 24.5,
       "actual_outs": 15,
       "actual_bf": 20,
-      "actual_pitches": 79,
-      "readVerdict": "TAKE"
+      "actual_pitches": 79
     },
     {
       "player": "Tyler Glasnow",
@@ -12298,8 +11860,7 @@
       "lineup_k_pct": 26.4,
       "actual_outs": 3,
       "actual_bf": 4,
-      "actual_pitches": 19,
-      "readVerdict": "TAKE"
+      "actual_pitches": 19
     },
     {
       "player": "Robbie Ray",
@@ -12326,8 +11887,7 @@
       "lineup_k_pct": 16.8,
       "actual_outs": 14,
       "actual_bf": 23,
-      "actual_pitches": 95,
-      "readVerdict": "TAKE"
+      "actual_pitches": 95
     },
     {
       "player": "Cam Schlittler",
@@ -12354,8 +11914,7 @@
       "lineup_k_pct": 19.0,
       "actual_outs": 18,
       "actual_bf": 27,
-      "actual_pitches": 106,
-      "readVerdict": "TAKE"
+      "actual_pitches": 106
     },
     {
       "player": "Braxton Ashcraft",
@@ -12382,8 +11941,7 @@
       "lineup_k_pct": 21.7,
       "actual_outs": 21,
       "actual_bf": 25,
-      "actual_pitches": 94,
-      "readVerdict": "TAKE"
+      "actual_pitches": 94
     },
     {
       "player": "Cade Cavalli",
@@ -12410,8 +11968,7 @@
       "lineup_k_pct": 19.8,
       "actual_outs": 15,
       "actual_bf": 23,
-      "actual_pitches": 85,
-      "readVerdict": "TAKE"
+      "actual_pitches": 85
     },
     {
       "player": "Emmet Sheehan",
@@ -12438,8 +11995,7 @@
       "lineup_k_pct": 22.2,
       "actual_outs": 14,
       "actual_bf": 22,
-      "actual_pitches": 97,
-      "readVerdict": "TAKE"
+      "actual_pitches": 97
     },
     {
       "player": "Bryan Woo",
@@ -12466,8 +12022,7 @@
       "lineup_k_pct": 22.8,
       "actual_outs": 18,
       "actual_bf": 25,
-      "actual_pitches": 84,
-      "readVerdict": "TAKE"
+      "actual_pitches": 84
     },
     {
       "player": "Parker Messick",
@@ -12494,8 +12049,7 @@
       "lineup_k_pct": 21.5,
       "actual_outs": 15,
       "actual_bf": 21,
-      "actual_pitches": 78,
-      "readVerdict": "PASS"
+      "actual_pitches": 78
     },
     {
       "player": "Brady Singer",
@@ -12522,8 +12076,7 @@
       "lineup_k_pct": 19.0,
       "actual_outs": 12,
       "actual_bf": 20,
-      "actual_pitches": 86,
-      "readVerdict": "TAKE"
+      "actual_pitches": 86
     },
     {
       "player": "Tanner Bibee",
@@ -12550,8 +12103,7 @@
       "lineup_k_pct": 20.9,
       "actual_outs": 14,
       "actual_bf": 20,
-      "actual_pitches": 87,
-      "readVerdict": "TAKE"
+      "actual_pitches": 87
     },
     {
       "player": "Walbert Ure\u00f1a",
@@ -12578,8 +12130,7 @@
       "lineup_k_pct": 18.5,
       "actual_outs": 15,
       "actual_bf": 18,
-      "actual_pitches": 91,
-      "readVerdict": "TAKE"
+      "actual_pitches": 91
     },
     {
       "player": "Gavin Williams",
@@ -12606,8 +12157,7 @@
       "lineup_k_pct": 19.7,
       "actual_outs": 23,
       "actual_bf": 29,
-      "actual_pitches": 95,
-      "readVerdict": "TAKE"
+      "actual_pitches": 95
     },
     {
       "player": "Cole Ragans",
@@ -12634,8 +12184,7 @@
       "lineup_k_pct": 23.7,
       "actual_outs": 16,
       "actual_bf": 23,
-      "actual_pitches": 95,
-      "readVerdict": "PASS"
+      "actual_pitches": 95
     },
     {
       "player": "Jes\u00fas Luzardo",
@@ -12662,8 +12211,7 @@
       "lineup_k_pct": 23.6,
       "actual_outs": 18,
       "actual_bf": 23,
-      "actual_pitches": 92,
-      "readVerdict": "PASS"
+      "actual_pitches": 92
     },
     {
       "player": "Jacob deGrom",
@@ -12690,8 +12238,7 @@
       "lineup_k_pct": 21.4,
       "actual_outs": 18,
       "actual_bf": 24,
-      "actual_pitches": 93,
-      "readVerdict": "TAKE"
+      "actual_pitches": 93
     },
     {
       "player": "Keider Montero",
@@ -12718,8 +12265,7 @@
       "lineup_k_pct": 22.6,
       "actual_outs": 15,
       "actual_bf": 22,
-      "actual_pitches": 86,
-      "readVerdict": "TAKE"
+      "actual_pitches": 86
     },
     {
       "player": "Braxton Ashcraft",
@@ -12746,8 +12292,7 @@
       "lineup_k_pct": 21.2,
       "actual_outs": 13,
       "actual_bf": 22,
-      "actual_pitches": 87,
-      "readVerdict": "TAKE"
+      "actual_pitches": 87
     },
     {
       "player": "Cam Schlittler",
@@ -12774,8 +12319,7 @@
       "lineup_k_pct": 18.6,
       "actual_outs": 18,
       "actual_bf": 21,
-      "actual_pitches": 97,
-      "readVerdict": "TAKE"
+      "actual_pitches": 97
     },
     {
       "player": "Trey Yesavage",
@@ -12802,8 +12346,7 @@
       "lineup_k_pct": 21.2,
       "actual_outs": 18,
       "actual_bf": 24,
-      "actual_pitches": 88,
-      "readVerdict": "TAKE"
+      "actual_pitches": 88
     },
     {
       "player": "Sonny Gray",
@@ -12830,8 +12373,7 @@
       "lineup_k_pct": 21.5,
       "actual_outs": 18,
       "actual_bf": 24,
-      "actual_pitches": 80,
-      "readVerdict": "TAKE"
+      "actual_pitches": 80
     },
     {
       "player": "Peter Lambert",
@@ -12858,8 +12400,7 @@
       "lineup_k_pct": 21.0,
       "actual_outs": 21,
       "actual_bf": 27,
-      "actual_pitches": 104,
-      "readVerdict": "TAKE"
+      "actual_pitches": 104
     },
     {
       "player": "Ranger Suarez",
@@ -12886,8 +12427,7 @@
       "lineup_k_pct": 18.8,
       "actual_outs": 12,
       "actual_bf": 16,
-      "actual_pitches": 70,
-      "readVerdict": "PASS"
+      "actual_pitches": 70
     },
     {
       "player": "Connor Prielipp",
@@ -12914,8 +12454,7 @@
       "lineup_k_pct": 19.9,
       "actual_outs": 15,
       "actual_bf": 23,
-      "actual_pitches": 93,
-      "readVerdict": "TAKE"
+      "actual_pitches": 93
     },
     {
       "player": "Zac Gallen",
@@ -12942,8 +12481,7 @@
       "lineup_k_pct": 22.2,
       "actual_outs": 18,
       "actual_bf": 23,
-      "actual_pitches": 81,
-      "readVerdict": "TAKE"
+      "actual_pitches": 81
     },
     {
       "player": "Brandon Williamson",
@@ -12970,8 +12508,7 @@
       "lineup_k_pct": 17.3,
       "actual_outs": 13,
       "actual_bf": 22,
-      "actual_pitches": 87,
-      "readVerdict": "TAKE"
+      "actual_pitches": 87
     },
     {
       "player": "Janson Junk",
@@ -12998,8 +12535,7 @@
       "lineup_k_pct": 22.6,
       "actual_outs": 18,
       "actual_bf": 23,
-      "actual_pitches": 76,
-      "readVerdict": "TAKE"
+      "actual_pitches": 76
     },
     {
       "player": "Kyle Freeland",
@@ -13026,8 +12562,7 @@
       "lineup_k_pct": 20.5,
       "actual_outs": 15,
       "actual_bf": 25,
-      "actual_pitches": 87,
-      "readVerdict": "TAKE"
+      "actual_pitches": 87
     },
     {
       "player": "Shohei Ohtani",
@@ -13054,8 +12589,7 @@
       "lineup_k_pct": 20.8,
       "actual_outs": 21,
       "actual_bf": 26,
-      "actual_pitches": 105,
-      "readVerdict": "TAKE"
+      "actual_pitches": 105
     },
     {
       "player": "Brandon Young",
@@ -13082,8 +12616,7 @@
       "lineup_k_pct": 20.6,
       "actual_outs": 20,
       "actual_bf": 28,
-      "actual_pitches": 105,
-      "readVerdict": "TAKE"
+      "actual_pitches": 105
     },
     {
       "player": "Reynaldo L\u00f3pez",
@@ -13110,8 +12643,7 @@
       "lineup_k_pct": 20.2,
       "actual_outs": 15,
       "actual_bf": 21,
-      "actual_pitches": 96,
-      "readVerdict": "TAKE"
+      "actual_pitches": 96
     },
     {
       "player": "Brayan Bello",
@@ -13138,8 +12670,7 @@
       "lineup_k_pct": 22.6,
       "actual_outs": 15,
       "actual_bf": 26,
-      "actual_pitches": 98,
-      "readVerdict": "TAKE"
+      "actual_pitches": 98
     },
     {
       "player": "Braxton Ashcraft",
@@ -13166,8 +12697,7 @@
       "lineup_k_pct": 22.0,
       "actual_outs": 21,
       "actual_bf": 27,
-      "actual_pitches": 98,
-      "readVerdict": "TAKE"
+      "actual_pitches": 98
     },
     {
       "player": "Edward Cabrera",
@@ -13194,8 +12724,7 @@
       "lineup_k_pct": 23.5,
       "actual_outs": 15,
       "actual_bf": 25,
-      "actual_pitches": 98,
-      "readVerdict": "TAKE"
+      "actual_pitches": 98
     },
     {
       "player": "Jes\u00fas Luzardo",
@@ -13222,8 +12751,7 @@
       "lineup_k_pct": 22.5,
       "actual_outs": 16,
       "actual_bf": 27,
-      "actual_pitches": 98,
-      "readVerdict": "TAKE"
+      "actual_pitches": 98
     },
     {
       "player": "Jack Leiter",
@@ -13250,8 +12778,7 @@
       "lineup_k_pct": 23.8,
       "actual_outs": 15,
       "actual_bf": 22,
-      "actual_pitches": 84,
-      "readVerdict": "TAKE"
+      "actual_pitches": 84
     },
     {
       "player": "Bailey Ober",
@@ -13278,8 +12805,7 @@
       "lineup_k_pct": 16.9,
       "actual_outs": 18,
       "actual_bf": 22,
-      "actual_pitches": 83,
-      "readVerdict": "TAKE"
+      "actual_pitches": 83
     },
     {
       "player": "Dustin May",
@@ -13306,8 +12832,7 @@
       "lineup_k_pct": 24.1,
       "actual_outs": 18,
       "actual_bf": 24,
-      "actual_pitches": 95,
-      "readVerdict": "TAKE"
+      "actual_pitches": 95
     },
     {
       "player": "Randy V\u00e1squez",
@@ -13334,8 +12859,7 @@
       "lineup_k_pct": 23.4,
       "actual_outs": 15,
       "actual_bf": 20,
-      "actual_pitches": 94,
-      "readVerdict": "TAKE"
+      "actual_pitches": 94
     },
     {
       "player": "Trey Yesavage",
@@ -13362,8 +12886,7 @@
       "lineup_k_pct": 23.3,
       "actual_outs": 12,
       "actual_bf": 17,
-      "actual_pitches": 87,
-      "readVerdict": "TAKE"
+      "actual_pitches": 87
     },
     {
       "player": "Joe Ryan",
@@ -31426,2043 +30949,5 @@
       "readVerdict": "TAKE"
     }
   ],
-  "summary": "8 picks (+7 watch) from 25 projections",
-  "date": "2026-05-26",
-  "todayProjections": [
-    {
-      "player": "Spencer Strider",
-      "team": "ATL",
-      "opp": "BOS",
-      "market": "strikeouts",
-      "game_id": 824758,
-      "proj": 7.9,
-      "std": 2.3,
-      "line": 5.5,
-      "over_price": -154,
-      "under_price": 116,
-      "pick": "OVER",
-      "edge": 2.4,
-      "pCover": 0.831,
-      "conf": "high",
-      "proj_ip": 5.2,
-      "proj_bf": 21.4,
-      "proj_bf_capped": 21.4,
-      "proj_pc": 95.0,
-      "opp_team_k_pct": 21.4,
-      "lineup_k_pct": 20.2,
-      "odds": -154,
-      "to_win_1u": 1.54,
-      "date": "2026-05-26",
-      "lockState": "game_started",
-      "lockedAt": "2026-05-26T20:59:58.703934Z",
-      "readVerdict": "PASS"
-    },
-    {
-      "player": "Shane Baz",
-      "team": "BAL",
-      "opp": "TB",
-      "market": "strikeouts",
-      "game_id": 824837,
-      "proj": 3.0,
-      "std": 2.0,
-      "line": 4.5,
-      "over_price": -118,
-      "under_price": -104,
-      "pick": "UNDER",
-      "edge": -1.5,
-      "pCover": 0.758,
-      "conf": "high",
-      "proj_ip": 5.7,
-      "proj_bf": 24.9,
-      "proj_bf_capped": 23.0,
-      "proj_pc": 98.0,
-      "opp_team_k_pct": 18.9,
-      "lineup_k_pct": 18.8,
-      "odds": -104,
-      "to_win_1u": 1.04,
-      "date": "2026-05-26",
-      "lockState": "game_started",
-      "lockedAt": "2026-05-26T20:59:58.703934Z",
-      "readVerdict": "TAKE"
-    },
-    {
-      "player": "Ranger Suarez",
-      "team": "BOS",
-      "opp": "ATL",
-      "market": "strikeouts",
-      "game_id": 824758,
-      "proj": 4.0,
-      "std": 3.3,
-      "line": 4.5,
-      "over_price": -108,
-      "under_price": -114,
-      "pick": "PASS",
-      "edge": -0.5,
-      "pCover": 0.561,
-      "conf": "low",
-      "proj_ip": 5.7,
-      "proj_bf": 19.4,
-      "proj_bf_capped": 19.4,
-      "proj_pc": 76.0,
-      "opp_team_k_pct": 21.4,
-      "lineup_k_pct": 20.9,
-      "odds": -114,
-      "to_win_1u": 1.14,
-      "date": "2026-05-26",
-      "lockState": "game_started",
-      "lockedAt": "2026-05-26T20:59:58.703934Z"
-    },
-    {
-      "player": "Chase Burns",
-      "team": "CIN",
-      "opp": "NYM",
-      "market": "strikeouts",
-      "game_id": 823624,
-      "proj": 7.5,
-      "std": 3.2,
-      "line": 6.5,
-      "over_price": -118,
-      "under_price": -112,
-      "pick": "PASS",
-      "edge": 1.0,
-      "pCover": 0.612,
-      "conf": "low",
-      "proj_ip": 6.2,
-      "proj_bf": 22.0,
-      "proj_bf_capped": 22.0,
-      "proj_pc": 91.0,
-      "opp_team_k_pct": 21.9,
-      "lineup_k_pct": 21.7,
-      "odds": -118,
-      "to_win_1u": 1.18,
-      "date": "2026-05-26",
-      "lockState": "game_started",
-      "lockedAt": "2026-05-26T20:59:58.703934Z"
-    },
-    {
-      "player": "Joey Cantillo",
-      "team": "CLE",
-      "opp": "WSH",
-      "market": "strikeouts",
-      "game_id": 824434,
-      "proj": 5.0,
-      "std": 2.2,
-      "line": 4.5,
-      "over_price": -162,
-      "under_price": 132,
-      "pick": "PASS",
-      "edge": 0.5,
-      "pCover": 0.592,
-      "conf": "low",
-      "proj_ip": 4.9,
-      "proj_bf": 23.6,
-      "proj_bf_capped": 23.0,
-      "proj_pc": 93.0,
-      "opp_team_k_pct": 22.1,
-      "lineup_k_pct": 20.3,
-      "odds": -162,
-      "to_win_1u": 1.62,
-      "date": "2026-05-26",
-      "lockState": "game_started",
-      "lockedAt": "2026-05-26T20:59:58.703934Z"
-    },
-    {
-      "player": "Sean Burke",
-      "team": "CWS",
-      "opp": "MIN",
-      "market": "strikeouts",
-      "game_id": 824597,
-      "proj": 3.7,
-      "std": 2.3,
-      "line": 4.5,
-      "over_price": -110,
-      "under_price": -110,
-      "pick": "PASS",
-      "edge": -0.8,
-      "pCover": 0.628,
-      "conf": "low",
-      "proj_ip": 5.1,
-      "proj_bf": 21.7,
-      "proj_bf_capped": 21.7,
-      "proj_pc": 85.0,
-      "opp_team_k_pct": 21.8,
-      "lineup_k_pct": 22.6,
-      "odds": -110,
-      "to_win_1u": 1.1,
-      "date": "2026-05-26",
-      "lockState": "game_started",
-      "lockedAt": "2026-05-26T20:59:58.703934Z"
-    },
-    {
-      "player": "Keider Montero",
-      "team": "DET",
-      "opp": "LAA",
-      "market": "strikeouts",
-      "game_id": 824275,
-      "proj": 3.4,
-      "std": 2.0,
-      "line": 4.5,
-      "over_price": 120,
-      "under_price": -148,
-      "pick": "UNDER",
-      "edge": -1.1,
-      "pCover": 0.704,
-      "conf": "high",
-      "proj_ip": 5.7,
-      "proj_bf": 22.4,
-      "proj_bf_capped": 22.4,
-      "proj_pc": 81.0,
-      "opp_team_k_pct": 24.4,
-      "lineup_k_pct": 23.4,
-      "odds": -148,
-      "to_win_1u": 1.48,
-      "date": "2026-05-26",
-      "lockState": "game_started",
-      "lockedAt": "2026-05-26T20:59:58.703934Z",
-      "readVerdict": "TAKE"
-    },
-    {
-      "player": "Jack Kochanowicz",
-      "team": "LAA",
-      "opp": "DET",
-      "market": "strikeouts",
-      "game_id": 824275,
-      "proj": 3.4,
-      "std": 3.3,
-      "line": 3.5,
-      "over_price": -118,
-      "under_price": -112,
-      "pick": "PASS",
-      "edge": -0.1,
-      "pCover": 0.508,
-      "conf": "low",
-      "proj_ip": 5.6,
-      "proj_bf": 25.7,
-      "proj_bf_capped": 23.0,
-      "proj_pc": 94.0,
-      "opp_team_k_pct": 22.3,
-      "lineup_k_pct": 23.4,
-      "odds": -112,
-      "to_win_1u": 1.12,
-      "date": "2026-05-26",
-      "lockState": "game_started",
-      "lockedAt": "2026-05-26T20:59:58.703934Z"
-    },
-    {
-      "player": "Sandy Alcantara",
-      "team": "MIA",
-      "opp": "TOR",
-      "market": "strikeouts",
-      "game_id": 822811,
-      "proj": 3.3,
-      "std": 2.0,
-      "line": 4.5,
-      "over_price": 122,
-      "under_price": -162,
-      "pick": "UNDER",
-      "edge": -1.2,
-      "pCover": 0.718,
-      "conf": "high",
-      "proj_ip": 6.0,
-      "proj_bf": 24.6,
-      "proj_bf_capped": 23.0,
-      "proj_pc": 97.0,
-      "opp_team_k_pct": 19.6,
-      "lineup_k_pct": 20.9,
-      "odds": -162,
-      "to_win_1u": 1.62,
-      "date": "2026-05-26",
-      "lockState": "game_started",
-      "lockedAt": "2026-05-26T20:59:58.703934Z",
-      "readVerdict": "TAKE"
-    },
-    {
-      "player": "Kyle Harrison",
-      "team": "MIL",
-      "opp": "STL",
-      "market": "strikeouts",
-      "game_id": 823785,
-      "proj": 6.8,
-      "std": 4.6,
-      "line": 6.5,
-      "over_price": -105,
-      "under_price": -114,
-      "pick": "PASS",
-      "edge": 0.3,
-      "pCover": 0.527,
-      "conf": "low",
-      "proj_ip": 5.3,
-      "proj_bf": 22.1,
-      "proj_bf_capped": 22.1,
-      "proj_pc": 96.0,
-      "opp_team_k_pct": 21.2,
-      "lineup_k_pct": 18.5,
-      "odds": -105,
-      "to_win_1u": 1.05,
-      "date": "2026-05-26",
-      "lockState": "game_started",
-      "lockedAt": "2026-05-26T20:59:58.703934Z"
-    },
-    {
-      "player": "Joe Ryan",
-      "team": "MIN",
-      "opp": "CWS",
-      "market": "strikeouts",
-      "game_id": 824597,
-      "proj": 7.3,
-      "std": 2.0,
-      "line": 6.5,
-      "over_price": 138,
-      "under_price": -186,
-      "pick": "PASS",
-      "edge": 0.8,
-      "pCover": 0.656,
-      "conf": "low",
-      "proj_ip": 5.7,
-      "proj_bf": 22.9,
-      "proj_bf_capped": 22.9,
-      "proj_pc": 95.0,
-      "opp_team_k_pct": 23.2,
-      "lineup_k_pct": 23.7,
-      "odds": 138,
-      "to_win_1u": 0.72,
-      "date": "2026-05-26",
-      "lockState": "game_started",
-      "lockedAt": "2026-05-26T20:59:58.703934Z"
-    },
-    {
-      "player": "David Peterson",
-      "team": "NYM",
-      "opp": "CIN",
-      "market": "strikeouts",
-      "game_id": 823624,
-      "proj": 3.3,
-      "std": 2.0,
-      "line": 4.5,
-      "over_price": -144,
-      "under_price": 118,
-      "pick": "UNDER",
-      "edge": -1.2,
-      "pCover": 0.709,
-      "conf": "high",
-      "proj_ip": 3.7,
-      "proj_bf": 23.3,
-      "proj_bf_capped": 23.0,
-      "proj_pc": 83.0,
-      "opp_team_k_pct": 24.4,
-      "lineup_k_pct": 24.1,
-      "odds": 118,
-      "to_win_1u": 0.85,
-      "date": "2026-05-26",
-      "lockState": "game_started",
-      "lockedAt": "2026-05-26T20:59:58.703934Z",
-      "readVerdict": "PASS"
-    },
-    {
-      "player": "Cam Schlittler",
-      "team": "NYY",
-      "opp": "KC",
-      "market": "strikeouts",
-      "game_id": 824106,
-      "proj": 6.8,
-      "std": 2.1,
-      "line": 5.5,
-      "over_price": -154,
-      "under_price": 116,
-      "pick": "OVER",
-      "edge": 1.3,
-      "pCover": 0.723,
-      "conf": "high",
-      "proj_ip": 6.5,
-      "proj_bf": 25.4,
-      "proj_bf_capped": 23.0,
-      "proj_pc": 103.0,
-      "opp_team_k_pct": 20.6,
-      "lineup_k_pct": 20.2,
-      "odds": -154,
-      "to_win_1u": 1.54,
-      "date": "2026-05-26",
-      "lockState": "game_started",
-      "lockedAt": "2026-05-26T20:59:58.703934Z",
-      "readVerdict": "TAKE"
-    },
-    {
-      "player": "Braxton Ashcraft",
-      "team": "PIT",
-      "opp": "CHC",
-      "market": "strikeouts",
-      "game_id": 823379,
-      "proj": 5.9,
-      "std": 2.0,
-      "line": 5.5,
-      "over_price": -112,
-      "under_price": -108,
-      "pick": "PASS",
-      "edge": 0.4,
-      "pCover": 0.584,
-      "conf": "low",
-      "proj_ip": 6.7,
-      "proj_bf": 26.6,
-      "proj_bf_capped": 23.0,
-      "proj_pc": 93.0,
-      "opp_team_k_pct": 20.8,
-      "lineup_k_pct": 20.2,
-      "odds": -112,
-      "to_win_1u": 1.12,
-      "date": "2026-05-26",
-      "lockState": "game_started",
-      "lockedAt": "2026-05-26T20:59:58.703934Z"
-    },
-    {
-      "player": "Tyler Mahle",
-      "team": "SF",
-      "opp": "ARI",
-      "market": "strikeouts",
-      "game_id": 823216,
-      "proj": 4.2,
-      "std": 2.0,
-      "line": 4.5,
-      "over_price": 110,
-      "under_price": -134,
-      "pick": "PASS",
-      "edge": -0.3,
-      "pCover": 0.558,
-      "conf": "low",
-      "proj_ip": 5.2,
-      "proj_bf": 22.9,
-      "proj_bf_capped": 22.9,
-      "proj_pc": 86.0,
-      "opp_team_k_pct": 20.1,
-      "lineup_k_pct": 20.1,
-      "odds": -134,
-      "to_win_1u": 1.34,
-      "date": "2026-05-26",
-      "lockState": "lineup_confirmed",
-      "lockedAt": "2026-05-26T20:59:58.703934Z"
-    },
-    {
-      "player": "Michael McGreevy",
-      "team": "STL",
-      "opp": "MIL",
-      "market": "strikeouts",
-      "game_id": 823785,
-      "proj": 2.5,
-      "std": 3.4,
-      "line": 3.5,
-      "over_price": -122,
-      "under_price": -108,
-      "pick": "PASS",
-      "edge": -1.0,
-      "pCover": 0.606,
-      "conf": "low",
-      "proj_ip": 6.1,
-      "proj_bf": 22.5,
-      "proj_bf_capped": 22.5,
-      "proj_pc": 89.0,
-      "opp_team_k_pct": 19.8,
-      "lineup_k_pct": 20.9,
-      "odds": -108,
-      "to_win_1u": 1.08,
-      "date": "2026-05-26",
-      "lockState": "game_started",
-      "lockedAt": "2026-05-26T20:59:58.703934Z"
-    },
-    {
-      "player": "Griffin Jax",
-      "team": "TB",
-      "opp": "BAL",
-      "market": "strikeouts",
-      "game_id": 824837,
-      "proj": 4.8,
-      "std": 2.3,
-      "line": 5.5,
-      "over_price": 124,
-      "under_price": -166,
-      "pick": "PASS",
-      "edge": -0.7,
-      "pCover": 0.621,
-      "conf": "low",
-      "proj_ip": 4.5,
-      "proj_bf": 18.0,
-      "proj_bf_capped": 18.0,
-      "proj_pc": 66.0,
-      "opp_team_k_pct": 24.2,
-      "lineup_k_pct": 25.2,
-      "odds": -166,
-      "to_win_1u": 1.66,
-      "date": "2026-05-26",
-      "lockState": "game_started",
-      "lockedAt": "2026-05-26T20:59:58.703934Z"
-    },
-    {
-      "player": "Cade Cavalli",
-      "team": "WSH",
-      "opp": "CLE",
-      "market": "strikeouts",
-      "game_id": 824434,
-      "proj": 5.1,
-      "std": 3.8,
-      "line": 4.5,
-      "over_price": -146,
-      "under_price": 110,
-      "pick": "PASS",
-      "edge": 0.6,
-      "pCover": 0.564,
-      "conf": "low",
-      "proj_ip": 5.3,
-      "proj_bf": 24.8,
-      "proj_bf_capped": 23.0,
-      "proj_pc": 91.0,
-      "opp_team_k_pct": 19.3,
-      "lineup_k_pct": 19.4,
-      "odds": -146,
-      "to_win_1u": 1.46,
-      "date": "2026-05-26",
-      "lockState": "game_started",
-      "lockedAt": "2026-05-26T20:59:58.703934Z"
-    },
-    {
-      "player": "Aaron Nola",
-      "team": "PHI",
-      "opp": "SD",
-      "market": "strikeouts",
-      "game_id": 823294,
-      "proj": 5.0,
-      "std": 2.0,
-      "line": 5.5,
-      "over_price": 124,
-      "under_price": -166,
-      "pick": "PASS",
-      "edge": -0.5,
-      "pCover": 0.587,
-      "conf": "low",
-      "proj_ip": 4.9,
-      "proj_bf": 21.0,
-      "proj_bf_capped": 21.0,
-      "proj_pc": 85.0,
-      "opp_team_k_pct": 23.7,
-      "lineup_k_pct": 22.5,
-      "odds": -166,
-      "to_win_1u": 1.66,
-      "date": "2026-05-26",
-      "lockState": "lineup_confirmed",
-      "lockedAt": "2026-05-26T21:24:11.209004Z"
-    },
-    {
-      "player": "Jack Leiter",
-      "team": "TEX",
-      "opp": "HOU",
-      "market": "strikeouts",
-      "game_id": 822898,
-      "proj": 6.2,
-      "std": 2.6,
-      "line": 5.5,
-      "over_price": -104,
-      "under_price": -118,
-      "pick": "PASS",
-      "edge": 0.7,
-      "pCover": 0.609,
-      "conf": "low",
-      "proj_ip": 5.6,
-      "proj_bf": 24.4,
-      "proj_bf_capped": 23.0,
-      "proj_pc": 92.0,
-      "opp_team_k_pct": 22.0,
-      "lineup_k_pct": 20.6,
-      "odds": -104,
-      "to_win_1u": 1.04,
-      "date": "2026-05-26",
-      "lockState": "game_started",
-      "lockedAt": "2026-05-26T21:24:11.209004Z"
-    },
-    {
-      "player": "Eduardo Rodriguez",
-      "team": "ARI",
-      "opp": "SF",
-      "market": "strikeouts",
-      "game_id": 823216,
-      "proj": 3.5,
-      "std": 2.0,
-      "line": 4.5,
-      "over_price": -122,
-      "under_price": -108,
-      "pick": "UNDER",
-      "edge": -1.0,
-      "pCover": 0.684,
-      "conf": "high",
-      "proj_ip": 6.0,
-      "proj_bf": 25.5,
-      "proj_bf_capped": 23.0,
-      "proj_pc": 98.0,
-      "opp_team_k_pct": 20.8,
-      "lineup_k_pct": 25.6,
-      "odds": -108,
-      "to_win_1u": 1.08,
-      "date": "2026-05-26",
-      "lockState": "lineup_confirmed",
-      "lockedAt": "2026-05-26T22:32:24.006186Z",
-      "readVerdict": "TAKE"
-    },
-    {
-      "player": "Kyle Freeland",
-      "team": "COL",
-      "opp": "LAD",
-      "market": "strikeouts",
-      "game_id": 823949,
-      "proj": 2.8,
-      "std": 2.0,
-      "line": 3.5,
-      "over_price": -140,
-      "under_price": 106,
-      "pick": "PASS",
-      "edge": -0.7,
-      "pCover": 0.635,
-      "conf": "low",
-      "proj_ip": 4.8,
-      "proj_bf": 22.9,
-      "proj_bf_capped": 22.9,
-      "proj_pc": 87.0,
-      "opp_team_k_pct": 20.2,
-      "lineup_k_pct": 17.2,
-      "odds": 106,
-      "to_win_1u": 0.94,
-      "date": "2026-05-26",
-      "lockState": "lineup_confirmed",
-      "lockedAt": "2026-05-26T22:32:24.006186Z"
-    },
-    {
-      "player": "Randy V\u00e1squez",
-      "team": "SD",
-      "opp": "PHI",
-      "market": "strikeouts",
-      "game_id": 823294,
-      "proj": 3.5,
-      "std": 2.8,
-      "line": 3.5,
-      "over_price": -150,
-      "under_price": 122,
-      "pick": "PASS",
-      "edge": 0.0,
-      "pCover": 0.503,
-      "conf": "low",
-      "proj_ip": 5.5,
-      "proj_bf": 20.5,
-      "proj_bf_capped": 20.5,
-      "proj_pc": 80.0,
-      "opp_team_k_pct": 22.0,
-      "lineup_k_pct": 21.5,
-      "odds": -150,
-      "to_win_1u": 1.5,
-      "date": "2026-05-26",
-      "lockState": "lineup_confirmed",
-      "lockedAt": "2026-05-26T22:32:24.006186Z"
-    },
-    {
-      "player": "Emerson Hancock",
-      "team": "SEA",
-      "opp": "OAK",
-      "market": "strikeouts",
-      "game_id": 825004,
-      "proj": 5.5,
-      "std": 4.5,
-      "line": 4.5,
-      "over_price": -110,
-      "under_price": -120,
-      "pick": "PASS",
-      "edge": 1.0,
-      "pCover": 0.58,
-      "conf": "low",
-      "proj_ip": 6.0,
-      "proj_bf": 23.1,
-      "proj_bf_capped": 23.0,
-      "proj_pc": 90.0,
-      "opp_team_k_pct": 20.9,
-      "lineup_k_pct": 20.4,
-      "odds": -110,
-      "to_win_1u": 1.1,
-      "date": "2026-05-26",
-      "lockState": "lineup_confirmed",
-      "lockedAt": "2026-05-26T22:32:24.006186Z"
-    },
-    {
-      "player": "Eric Lauer",
-      "team": "LAD",
-      "opp": "COL",
-      "market": "strikeouts",
-      "game_id": 823949,
-      "proj": 2.5,
-      "std": 3.1,
-      "line": 4.5,
-      "over_price": 114,
-      "under_price": -140,
-      "pick": "UNDER",
-      "edge": -2.0,
-      "pCover": 0.729,
-      "conf": "high",
-      "proj_ip": 4.6,
-      "proj_bf": 17.6,
-      "proj_bf_capped": 17.6,
-      "proj_pc": 64.0,
-      "opp_team_k_pct": 23.5,
-      "lineup_k_pct": 25.5,
-      "odds": -140,
-      "to_win_1u": 1.4,
-      "date": "2026-05-26",
-      "lockState": "lineup_confirmed",
-      "lockedAt": "2026-05-26T23:02:26.732624Z",
-      "readVerdict": "TAKE"
-    }
-  ],
-  "gameTimes": {
-    "CLE": "2026-05-26T22:10:00Z",
-    "WSH": "2026-05-26T22:10:00Z",
-    "BAL": "2026-05-26T22:35:00Z",
-    "TB": "2026-05-26T22:35:00Z",
-    "DET": "2026-05-26T22:40:00Z",
-    "LAA": "2026-05-26T22:40:00Z",
-    "PIT": "2026-05-26T22:40:00Z",
-    "CHC": "2026-05-26T22:40:00Z",
-    "BOS": "2026-05-26T22:45:00Z",
-    "ATL": "2026-05-26T22:45:00Z",
-    "TOR": "2026-05-26T23:07:00Z",
-    "MIA": "2026-05-26T23:07:00Z",
-    "NYM": "2026-05-26T23:10:00Z",
-    "CIN": "2026-05-26T23:10:00Z",
-    "CWS": "2026-05-26T23:40:00Z",
-    "MIN": "2026-05-26T23:40:00Z",
-    "KC": "2026-05-26T23:40:00Z",
-    "NYY": "2026-05-26T23:40:00Z",
-    "MIL": "2026-05-26T23:40:00Z",
-    "STL": "2026-05-26T23:40:00Z",
-    "TEX": "2026-05-27T00:05:00Z",
-    "HOU": "2026-05-27T00:05:00Z",
-    "OAK": "2026-05-27T01:40:00Z",
-    "SEA": "2026-05-27T01:40:00Z",
-    "SD": "2026-05-27T01:40:00Z",
-    "PHI": "2026-05-27T01:40:00Z",
-    "SF": "2026-05-27T01:45:00Z",
-    "ARI": "2026-05-27T01:45:00Z",
-    "LAD": "2026-05-27T02:10:00Z",
-    "COL": "2026-05-27T02:10:00Z"
-  },
-  "gameStatuses": {
-    "CLE": "In Progress",
-    "WSH": "In Progress",
-    "BAL": "In Progress",
-    "TB": "In Progress",
-    "DET": "In Progress",
-    "LAA": "In Progress",
-    "PIT": "In Progress",
-    "CHC": "In Progress",
-    "BOS": "In Progress",
-    "ATL": "In Progress",
-    "TOR": "In Progress",
-    "MIA": "In Progress",
-    "NYM": "In Progress",
-    "CIN": "In Progress",
-    "CWS": "In Progress",
-    "MIN": "In Progress",
-    "KC": "In Progress",
-    "NYY": "In Progress",
-    "MIL": "In Progress",
-    "STL": "In Progress",
-    "TEX": "In Progress",
-    "HOU": "In Progress",
-    "OAK": "Pre-Game",
-    "SEA": "Pre-Game",
-    "SD": "Pre-Game",
-    "PHI": "Pre-Game",
-    "SF": "Pre-Game",
-    "ARI": "Pre-Game",
-    "LAD": "Pre-Game",
-    "COL": "Pre-Game"
-  },
-  "gameTimesById": {
-    "824434": "2026-05-26T22:10:00Z",
-    "824837": "2026-05-26T22:35:00Z",
-    "824275": "2026-05-26T22:40:00Z",
-    "823379": "2026-05-26T22:40:00Z",
-    "824758": "2026-05-26T22:45:00Z",
-    "822811": "2026-05-26T23:07:00Z",
-    "823624": "2026-05-26T23:10:00Z",
-    "824597": "2026-05-26T23:40:00Z",
-    "824106": "2026-05-26T23:40:00Z",
-    "823785": "2026-05-26T23:40:00Z",
-    "822898": "2026-05-27T00:05:00Z",
-    "825004": "2026-05-27T01:40:00Z",
-    "823294": "2026-05-27T01:40:00Z",
-    "823216": "2026-05-27T01:45:00Z",
-    "823949": "2026-05-27T02:10:00Z"
-  },
-  "gameStatusesById": {
-    "824434": "In Progress",
-    "824837": "In Progress",
-    "824275": "In Progress",
-    "823379": "In Progress",
-    "824758": "In Progress",
-    "822811": "In Progress",
-    "823624": "In Progress",
-    "824597": "In Progress",
-    "824106": "In Progress",
-    "823785": "In Progress",
-    "822898": "In Progress",
-    "825004": "Pre-Game",
-    "823294": "Pre-Game",
-    "823216": "Pre-Game",
-    "823949": "Pre-Game"
-  },
-  "homeAway": {
-    "2026-04-14": {
-      "BAL": "home",
-      "ARI": "away",
-      "DET": "home",
-      "KC": "away",
-      "PIT": "home",
-      "WSH": "away",
-      "CIN": "home",
-      "SF": "away",
-      "PHI": "home",
-      "CHC": "away",
-      "NYY": "home",
-      "LAA": "away",
-      "ATL": "home",
-      "MIA": "away",
-      "MIN": "home",
-      "BOS": "away",
-      "CWS": "home",
-      "TB": "away",
-      "MIL": "home",
-      "TOR": "away",
-      "STL": "home",
-      "CLE": "away",
-      "HOU": "home",
-      "COL": "away",
-      "SD": "home",
-      "SEA": "away",
-      "OAK": "home",
-      "TEX": "away",
-      "LAD": "home",
-      "NYM": "away"
-    },
-    "2026-04-15": {
-      "BAL": "home",
-      "ARI": "away",
-      "STL": "home",
-      "CLE": "away",
-      "MIN": "home",
-      "BOS": "away",
-      "DET": "home",
-      "KC": "away",
-      "PIT": "home",
-      "WSH": "away",
-      "CIN": "home",
-      "SF": "away",
-      "PHI": "home",
-      "CHC": "away",
-      "NYY": "home",
-      "LAA": "away",
-      "ATL": "home",
-      "MIA": "away",
-      "CWS": "home",
-      "TB": "away",
-      "MIL": "home",
-      "TOR": "away",
-      "HOU": "home",
-      "COL": "away",
-      "SD": "home",
-      "SEA": "away",
-      "OAK": "home",
-      "TEX": "away",
-      "LAD": "home",
-      "NYM": "away"
-    },
-    "2026-04-16": {
-      "PIT": "home",
-      "WSH": "away",
-      "CIN": "home",
-      "SF": "away",
-      "DET": "home",
-      "KC": "away",
-      "NYY": "home",
-      "LAA": "away",
-      "MIL": "home",
-      "TOR": "away",
-      "CWS": "home",
-      "TB": "away",
-      "OAK": "home",
-      "TEX": "away",
-      "CLE": "home",
-      "BAL": "away",
-      "HOU": "home",
-      "COL": "away",
-      "SD": "home",
-      "SEA": "away"
-    },
-    "2026-04-17": {
-      "CHC": "home",
-      "NYM": "away",
-      "CLE": "home",
-      "BAL": "away",
-      "PHI": "home",
-      "ATL": "away",
-      "WSH": "home",
-      "SF": "away",
-      "PIT": "home",
-      "TB": "away",
-      "NYY": "home",
-      "KC": "away",
-      "MIA": "home",
-      "MIL": "away",
-      "BOS": "home",
-      "DET": "away",
-      "HOU": "home",
-      "STL": "away",
-      "MIN": "home",
-      "CIN": "away",
-      "COL": "home",
-      "LAD": "away",
-      "LAA": "home",
-      "SD": "away",
-      "SEA": "home",
-      "TEX": "away",
-      "ARI": "home",
-      "TOR": "away",
-      "OAK": "home",
-      "CWS": "away"
-    },
-    "2026-04-18": {
-      "NYY": "home",
-      "KC": "away",
-      "MIN": "home",
-      "CIN": "away",
-      "CHC": "home",
-      "NYM": "away",
-      "PIT": "home",
-      "TB": "away",
-      "WSH": "home",
-      "SF": "away",
-      "OAK": "home",
-      "CWS": "away",
-      "BOS": "home",
-      "DET": "away",
-      "MIA": "home",
-      "MIL": "away",
-      "CLE": "home",
-      "BAL": "away",
-      "HOU": "home",
-      "STL": "away",
-      "SEA": "home",
-      "TEX": "away",
-      "PHI": "home",
-      "ATL": "away",
-      "COL": "home",
-      "LAD": "away",
-      "ARI": "home",
-      "TOR": "away",
-      "LAA": "home",
-      "SD": "away"
-    },
-    "2026-04-19": {
-      "WSH": "home",
-      "SF": "away",
-      "PIT": "home",
-      "TB": "away",
-      "NYY": "home",
-      "KC": "away",
-      "CLE": "home",
-      "BAL": "away",
-      "MIA": "home",
-      "MIL": "away",
-      "HOU": "home",
-      "STL": "away",
-      "MIN": "home",
-      "CIN": "away",
-      "CHC": "home",
-      "NYM": "away",
-      "COL": "home",
-      "LAD": "away",
-      "OAK": "home",
-      "CWS": "away",
-      "LAA": "home",
-      "SD": "away",
-      "SEA": "home",
-      "TEX": "away",
-      "ARI": "home",
-      "TOR": "away",
-      "BOS": "home",
-      "DET": "away",
-      "PHI": "home",
-      "ATL": "away"
-    },
-    "2026-04-20": {
-      "BOS": "home",
-      "DET": "away",
-      "CLE": "home",
-      "HOU": "away",
-      "TB": "home",
-      "CIN": "away",
-      "MIA": "home",
-      "STL": "away",
-      "WSH": "home",
-      "ATL": "away",
-      "KC": "home",
-      "BAL": "away",
-      "CHC": "home",
-      "PHI": "away",
-      "COL": "home",
-      "LAD": "away",
-      "LAA": "home",
-      "TOR": "away",
-      "SEA": "home",
-      "OAK": "away"
-    },
-    "2026-04-21": {
-      "CLE": "home",
-      "HOU": "away",
-      "TB": "home",
-      "CIN": "away",
-      "MIA": "home",
-      "STL": "away",
-      "DET": "home",
-      "MIL": "away",
-      "WSH": "home",
-      "ATL": "away",
-      "BOS": "home",
-      "NYY": "away",
-      "NYM": "home",
-      "MIN": "away",
-      "KC": "home",
-      "BAL": "away",
-      "CHC": "home",
-      "PHI": "away",
-      "TEX": "home",
-      "PIT": "away",
-      "COL": "home",
-      "SD": "away",
-      "LAA": "home",
-      "TOR": "away",
-      "SEA": "home",
-      "OAK": "away",
-      "ARI": "home",
-      "CWS": "away",
-      "SF": "home",
-      "LAD": "away"
-    },
-    "2026-04-22": {
-      "MIA": "home",
-      "STL": "away",
-      "CLE": "home",
-      "HOU": "away",
-      "TB": "home",
-      "CIN": "away",
-      "KC": "home",
-      "BAL": "away",
-      "LAA": "home",
-      "TOR": "away",
-      "SEA": "home",
-      "OAK": "away",
-      "DET": "home",
-      "MIL": "away",
-      "WSH": "home",
-      "ATL": "away",
-      "BOS": "home",
-      "NYY": "away",
-      "NYM": "home",
-      "MIN": "away",
-      "CHC": "home",
-      "PHI": "away",
-      "TEX": "home",
-      "PIT": "away",
-      "COL": "home",
-      "SD": "away",
-      "ARI": "home",
-      "CWS": "away",
-      "SF": "home",
-      "LAD": "away"
-    },
-    "2026-04-23": {
-      "WSH": "home",
-      "ATL": "away",
-      "DET": "home",
-      "MIL": "away",
-      "CHC": "home",
-      "PHI": "away",
-      "COL": "home",
-      "SD": "away",
-      "ARI": "home",
-      "CWS": "away",
-      "SF": "home",
-      "LAD": "away",
-      "BOS": "home",
-      "NYY": "away",
-      "NYM": "home",
-      "MIN": "away",
-      "TEX": "home",
-      "PIT": "away"
-    },
-    "2026-04-24": {
-      "CIN": "home",
-      "DET": "away",
-      "BAL": "home",
-      "BOS": "away",
-      "TOR": "home",
-      "CLE": "away",
-      "NYM": "home",
-      "COL": "away",
-      "TB": "home",
-      "MIN": "away",
-      "ATL": "home",
-      "PHI": "away",
-      "KC": "home",
-      "LAA": "away",
-      "CWS": "home",
-      "WSH": "away",
-      "MIL": "home",
-      "PIT": "away",
-      "TEX": "home",
-      "OAK": "away",
-      "HOU": "home",
-      "NYY": "away",
-      "STL": "home",
-      "SEA": "away",
-      "LAD": "home",
-      "CHC": "away",
-      "SF": "home",
-      "MIA": "away"
-    },
-    "2026-04-25": {
-      "BAL": "home",
-      "BOS": "away",
-      "STL": "home",
-      "SEA": "away",
-      "TOR": "home",
-      "CLE": "away",
-      "SF": "home",
-      "MIA": "away",
-      "TB": "home",
-      "MIN": "away",
-      "CWS": "home",
-      "WSH": "away",
-      "ARI": "home",
-      "SD": "away",
-      "TEX": "home",
-      "OAK": "away",
-      "KC": "home",
-      "LAA": "away",
-      "HOU": "home",
-      "NYY": "away",
-      "MIL": "home",
-      "PIT": "away",
-      "CIN": "home",
-      "DET": "away",
-      "LAD": "home",
-      "CHC": "away",
-      "ATL": "home",
-      "PHI": "away",
-      "NYM": "home",
-      "COL": "away"
-    },
-    "2026-04-26": {
-      "BAL": "home",
-      "BOS": "away",
-      "ATL": "home",
-      "PHI": "away",
-      "TOR": "home",
-      "CLE": "away",
-      "CIN": "home",
-      "DET": "away",
-      "NYM": "home",
-      "COL": "away",
-      "TB": "home",
-      "MIN": "away",
-      "CWS": "home",
-      "WSH": "away",
-      "HOU": "home",
-      "NYY": "away",
-      "MIL": "home",
-      "PIT": "away",
-      "STL": "home",
-      "SEA": "away",
-      "TEX": "home",
-      "OAK": "away",
-      "ARI": "home",
-      "SD": "away",
-      "SF": "home",
-      "MIA": "away",
-      "KC": "home",
-      "LAA": "away",
-      "LAD": "home",
-      "CHC": "away"
-    },
-    "2026-04-27": {
-      "CLE": "home",
-      "TB": "away",
-      "PIT": "home",
-      "STL": "away",
-      "TOR": "home",
-      "BOS": "away",
-      "MIN": "home",
-      "SEA": "away",
-      "CWS": "home",
-      "LAA": "away",
-      "TEX": "home",
-      "NYY": "away",
-      "SD": "home",
-      "CHC": "away",
-      "LAD": "home",
-      "MIA": "away"
-    },
-    "2026-04-28": {
-      "CLE": "home",
-      "TB": "away",
-      "BAL": "home",
-      "HOU": "away",
-      "CIN": "home",
-      "COL": "away",
-      "PIT": "home",
-      "STL": "away",
-      "PHI": "home",
-      "SF": "away",
-      "TOR": "home",
-      "BOS": "away",
-      "NYM": "home",
-      "WSH": "away",
-      "ATL": "home",
-      "DET": "away",
-      "MIN": "home",
-      "SEA": "away",
-      "CWS": "home",
-      "LAA": "away",
-      "MIL": "home",
-      "ARI": "away",
-      "TEX": "home",
-      "NYY": "away",
-      "OAK": "home",
-      "KC": "away",
-      "SD": "home",
-      "CHC": "away",
-      "LAD": "home",
-      "MIA": "away"
-    },
-    "2026-04-29": {
-      "CLE": "home",
-      "TB": "away",
-      "CWS": "home",
-      "LAA": "away",
-      "MIN": "home",
-      "SEA": "away",
-      "TEX": "home",
-      "NYY": "away",
-      "TOR": "home",
-      "BOS": "away",
-      "LAD": "home",
-      "MIA": "away",
-      "SD": "home",
-      "CHC": "away",
-      "CIN": "home",
-      "COL": "away",
-      "PIT": "home",
-      "STL": "away",
-      "NYM": "home",
-      "WSH": "away",
-      "ATL": "home",
-      "DET": "away",
-      "MIL": "home",
-      "ARI": "away",
-      "OAK": "home",
-      "KC": "away",
-      "PHI": "home",
-      "SF": "away",
-      "BAL": "home",
-      "HOU": "away"
-    },
-    "2026-04-30": {
-      "ATL": "home",
-      "DET": "away",
-      "BAL": "home",
-      "HOU": "away",
-      "PIT": "home",
-      "STL": "away",
-      "PHI": "home",
-      "SF": "away",
-      "CIN": "home",
-      "COL": "away",
-      "NYM": "home",
-      "WSH": "away",
-      "MIL": "home",
-      "ARI": "away",
-      "OAK": "home",
-      "KC": "away",
-      "MIN": "home",
-      "TOR": "away"
-    },
-    "2026-05-01": {
-      "CHC": "home",
-      "ARI": "away",
-      "DET": "home",
-      "TEX": "away",
-      "PIT": "home",
-      "CIN": "away",
-      "WSH": "home",
-      "MIL": "away",
-      "NYY": "home",
-      "BAL": "away",
-      "BOS": "home",
-      "HOU": "away",
-      "TB": "home",
-      "SF": "away",
-      "MIA": "home",
-      "PHI": "away",
-      "MIN": "home",
-      "TOR": "away",
-      "STL": "home",
-      "LAD": "away",
-      "COL": "home",
-      "ATL": "away",
-      "LAA": "home",
-      "NYM": "away",
-      "OAK": "home",
-      "CLE": "away",
-      "SD": "home",
-      "CWS": "away",
-      "SEA": "home",
-      "KC": "away"
-    },
-    "2026-05-02": {
-      "NYY": "home",
-      "BAL": "away",
-      "MIN": "home",
-      "TOR": "away",
-      "CHC": "home",
-      "ARI": "away",
-      "OAK": "home",
-      "CLE": "away",
-      "PIT": "home",
-      "CIN": "away",
-      "WSH": "home",
-      "MIL": "away",
-      "BOS": "home",
-      "HOU": "away",
-      "MIA": "home",
-      "PHI": "away",
-      "TB": "home",
-      "SF": "away",
-      "STL": "home",
-      "LAD": "away",
-      "DET": "home",
-      "TEX": "away",
-      "COL": "home",
-      "ATL": "away",
-      "SD": "home",
-      "CWS": "away",
-      "LAA": "home",
-      "NYM": "away",
-      "SEA": "home",
-      "KC": "away"
-    },
-    "2026-05-03": {
-      "MIN": "home",
-      "TOR": "away",
-      "BOS": "home",
-      "HOU": "away",
-      "PIT": "home",
-      "CIN": "away",
-      "NYY": "home",
-      "BAL": "away",
-      "WSH": "home",
-      "MIL": "away",
-      "TB": "home",
-      "SF": "away",
-      "MIA": "home",
-      "PHI": "away",
-      "STL": "home",
-      "LAD": "away",
-      "CHC": "home",
-      "ARI": "away",
-      "COL": "home",
-      "ATL": "away",
-      "OAK": "home",
-      "CLE": "away",
-      "LAA": "home",
-      "NYM": "away",
-      "SEA": "home",
-      "KC": "away",
-      "SD": "home",
-      "CWS": "away",
-      "DET": "home",
-      "TEX": "away"
-    },
-    "2026-05-04": {
-      "COL": "home",
-      "NYM": "away",
-      "DET": "home",
-      "BOS": "away",
-      "TB": "home",
-      "TOR": "away",
-      "MIA": "home",
-      "PHI": "away",
-      "NYY": "home",
-      "BAL": "away",
-      "CHC": "home",
-      "CIN": "away",
-      "KC": "home",
-      "CLE": "away",
-      "STL": "home",
-      "MIL": "away",
-      "HOU": "home",
-      "LAD": "away",
-      "LAA": "home",
-      "CWS": "away",
-      "SEA": "home",
-      "ATL": "away",
-      "SF": "home",
-      "SD": "away"
-    },
-    "2026-05-05": {
-      "DET": "home",
-      "BOS": "away",
-      "TB": "home",
-      "TOR": "away",
-      "PHI": "home",
-      "OAK": "away",
-      "MIA": "home",
-      "BAL": "away",
-      "WSH": "home",
-      "MIN": "away",
-      "NYY": "home",
-      "TEX": "away",
-      "CHC": "home",
-      "CIN": "away",
-      "KC": "home",
-      "CLE": "away",
-      "HOU": "home",
-      "LAD": "away",
-      "LAA": "home",
-      "CWS": "away",
-      "ARI": "home",
-      "PIT": "away",
-      "SEA": "home",
-      "ATL": "away",
-      "SF": "home",
-      "SD": "away",
-      "STL": "home",
-      "MIL": "away",
-      "COL": "home",
-      "NYM": "away"
-    },
-    "2026-05-06": {
-      "TB": "home",
-      "TOR": "away",
-      "STL": "home",
-      "MIL": "away",
-      "HOU": "home",
-      "LAD": "away",
-      "SF": "home",
-      "SD": "away",
-      "LAA": "home",
-      "CWS": "away",
-      "SEA": "home",
-      "ATL": "away",
-      "DET": "home",
-      "BOS": "away",
-      "PHI": "home",
-      "OAK": "away",
-      "MIA": "home",
-      "BAL": "away",
-      "WSH": "home",
-      "MIN": "away",
-      "NYY": "home",
-      "TEX": "away",
-      "CHC": "home",
-      "CIN": "away",
-      "KC": "home",
-      "CLE": "away",
-      "COL": "home",
-      "NYM": "away",
-      "ARI": "home",
-      "PIT": "away"
-    },
-    "2026-05-07": {
-      "NYY": "home",
-      "TEX": "away",
-      "WSH": "home",
-      "MIN": "away",
-      "KC": "home",
-      "CLE": "away",
-      "CHC": "home",
-      "CIN": "away",
-      "COL": "home",
-      "NYM": "away",
-      "ARI": "home",
-      "PIT": "away",
-      "PHI": "home",
-      "OAK": "away",
-      "MIA": "home",
-      "BAL": "away",
-      "BOS": "home",
-      "TB": "away",
-      "SD": "home",
-      "STL": "away"
-    },
-    "2026-05-08": {
-      "CIN": "home",
-      "HOU": "away",
-      "PHI": "home",
-      "COL": "away",
-      "BAL": "home",
-      "OAK": "away",
-      "TOR": "home",
-      "LAA": "away",
-      "BOS": "home",
-      "TB": "away",
-      "MIA": "home",
-      "WSH": "away",
-      "CLE": "home",
-      "MIN": "away",
-      "KC": "home",
-      "DET": "away",
-      "CWS": "home",
-      "SEA": "away",
-      "MIL": "home",
-      "NYY": "away",
-      "TEX": "home",
-      "CHC": "away",
-      "ARI": "home",
-      "NYM": "away",
-      "SD": "home",
-      "STL": "away",
-      "LAD": "home",
-      "ATL": "away",
-      "SF": "home",
-      "PIT": "away"
-    },
-    "2026-05-09": {
-      "TOR": "home",
-      "LAA": "away",
-      "BAL": "home",
-      "OAK": "away",
-      "CIN": "home",
-      "HOU": "away",
-      "MIA": "home",
-      "WSH": "away",
-      "PHI": "home",
-      "COL": "away",
-      "CLE": "home",
-      "MIN": "away",
-      "TEX": "home",
-      "CHC": "away",
-      "KC": "home",
-      "DET": "away",
-      "CWS": "home",
-      "SEA": "away",
-      "MIL": "home",
-      "NYY": "away",
-      "ARI": "home",
-      "NYM": "away",
-      "SD": "home",
-      "STL": "away",
-      "SF": "home",
-      "PIT": "away",
-      "LAD": "home",
-      "ATL": "away",
-      "BOS": "home",
-      "TB": "away"
-    },
-    "2026-05-10": {
-      "MIA": "home",
-      "WSH": "away",
-      "BAL": "home",
-      "OAK": "away",
-      "BOS": "home",
-      "TB": "away",
-      "PHI": "home",
-      "COL": "away",
-      "TOR": "home",
-      "LAA": "away",
-      "CIN": "home",
-      "HOU": "away",
-      "CLE": "home",
-      "MIN": "away",
-      "CWS": "home",
-      "SEA": "away",
-      "MIL": "home",
-      "NYY": "away",
-      "TEX": "home",
-      "CHC": "away",
-      "SF": "home",
-      "PIT": "away",
-      "ARI": "home",
-      "NYM": "away",
-      "SD": "home",
-      "STL": "away",
-      "LAD": "home",
-      "ATL": "away",
-      "KC": "home",
-      "DET": "away"
-    },
-    "2026-05-11": {
-      "CLE": "home",
-      "LAA": "away",
-      "BAL": "home",
-      "NYY": "away",
-      "TOR": "home",
-      "TB": "away",
-      "TEX": "home",
-      "ARI": "away",
-      "HOU": "home",
-      "SEA": "away",
-      "LAD": "home",
-      "SF": "away"
-    },
-    "2026-05-12": {
-      "CLE": "home",
-      "LAA": "away",
-      "BAL": "home",
-      "NYY": "away",
-      "CIN": "home",
-      "WSH": "away",
-      "PIT": "home",
-      "COL": "away",
-      "BOS": "home",
-      "PHI": "away",
-      "TOR": "home",
-      "TB": "away",
-      "NYM": "home",
-      "DET": "away",
-      "ATL": "home",
-      "CHC": "away",
-      "CWS": "home",
-      "KC": "away",
-      "MIN": "home",
-      "MIA": "away",
-      "MIL": "home",
-      "SD": "away",
-      "TEX": "home",
-      "ARI": "away",
-      "HOU": "home",
-      "SEA": "away",
-      "OAK": "home",
-      "STL": "away",
-      "LAD": "home",
-      "SF": "away"
-    },
-    "2026-05-13": {
-      "BAL": "home",
-      "NYY": "away",
-      "CLE": "home",
-      "LAA": "away",
-      "CIN": "home",
-      "WSH": "away",
-      "PIT": "home",
-      "COL": "away",
-      "BOS": "home",
-      "PHI": "away",
-      "TOR": "home",
-      "TB": "away",
-      "NYM": "home",
-      "DET": "away",
-      "ATL": "home",
-      "CHC": "away",
-      "CWS": "home",
-      "KC": "away",
-      "MIN": "home",
-      "MIA": "away",
-      "MIL": "home",
-      "SD": "away",
-      "TEX": "home",
-      "ARI": "away",
-      "HOU": "home",
-      "SEA": "away",
-      "OAK": "home",
-      "STL": "away",
-      "LAD": "home",
-      "SF": "away"
-    },
-    "2026-05-14": {
-      "PIT": "home",
-      "COL": "away",
-      "CIN": "home",
-      "WSH": "away",
-      "NYM": "home",
-      "DET": "away",
-      "MIN": "home",
-      "MIA": "away",
-      "MIL": "home",
-      "SD": "away",
-      "HOU": "home",
-      "SEA": "away",
-      "OAK": "home",
-      "STL": "away",
-      "BOS": "home",
-      "PHI": "away",
-      "ATL": "home",
-      "CHC": "away",
-      "CWS": "home",
-      "KC": "away",
-      "LAD": "home",
-      "SF": "away"
-    },
-    "2026-05-15": {
-      "PIT": "home",
-      "PHI": "away",
-      "WSH": "home",
-      "BAL": "away",
-      "DET": "home",
-      "TOR": "away",
-      "CLE": "home",
-      "CIN": "away",
-      "TB": "home",
-      "MIA": "away",
-      "MIN": "home",
-      "MIL": "away",
-      "ATL": "home",
-      "BOS": "away",
-      "NYM": "home",
-      "NYY": "away",
-      "CWS": "home",
-      "CHC": "away",
-      "HOU": "home",
-      "TEX": "away",
-      "STL": "home",
-      "KC": "away",
-      "COL": "home",
-      "ARI": "away",
-      "LAA": "home",
-      "LAD": "away",
-      "SEA": "home",
-      "SD": "away",
-      "OAK": "home",
-      "SF": "away"
-    },
-    "2026-05-16": {
-      "DET": "home",
-      "TOR": "away",
-      "STL": "home",
-      "KC": "away",
-      "COL": "home",
-      "ARI": "away",
-      "WSH": "home",
-      "BAL": "away",
-      "PIT": "home",
-      "PHI": "away",
-      "TB": "home",
-      "MIA": "away",
-      "CLE": "home",
-      "CIN": "away",
-      "HOU": "home",
-      "TEX": "away",
-      "CWS": "home",
-      "CHC": "away",
-      "MIN": "home",
-      "MIL": "away",
-      "SEA": "home",
-      "SD": "away",
-      "ATL": "home",
-      "BOS": "away",
-      "NYM": "home",
-      "NYY": "away",
-      "LAA": "home",
-      "LAD": "away",
-      "OAK": "home",
-      "SF": "away"
-    },
-    "2026-05-17": {
-      "TB": "home",
-      "MIA": "away",
-      "WSH": "home",
-      "BAL": "away",
-      "PIT": "home",
-      "PHI": "away",
-      "ATL": "home",
-      "BOS": "away",
-      "CLE": "home",
-      "CIN": "away",
-      "DET": "home",
-      "TOR": "away",
-      "NYM": "home",
-      "NYY": "away",
-      "HOU": "home",
-      "TEX": "away",
-      "CWS": "home",
-      "CHC": "away",
-      "MIN": "home",
-      "MIL": "away",
-      "STL": "home",
-      "KC": "away",
-      "COL": "home",
-      "ARI": "away",
-      "OAK": "home",
-      "SF": "away",
-      "LAA": "home",
-      "LAD": "away",
-      "SEA": "home",
-      "SD": "away"
-    },
-    "2026-05-18": {
-      "DET": "home",
-      "CLE": "away",
-      "TB": "home",
-      "BAL": "away",
-      "PHI": "home",
-      "CIN": "away",
-      "MIA": "home",
-      "ATL": "away",
-      "WSH": "home",
-      "NYM": "away",
-      "NYY": "home",
-      "TOR": "away",
-      "KC": "home",
-      "BOS": "away",
-      "MIN": "home",
-      "HOU": "away",
-      "CHC": "home",
-      "MIL": "away",
-      "COL": "home",
-      "TEX": "away",
-      "LAA": "home",
-      "OAK": "away",
-      "SD": "home",
-      "LAD": "away",
-      "ARI": "home",
-      "SF": "away",
-      "SEA": "home",
-      "CWS": "away"
-    },
-    "2026-05-19": {
-      "MIA": "home",
-      "ATL": "away",
-      "DET": "home",
-      "CLE": "away",
-      "TB": "home",
-      "BAL": "away",
-      "PHI": "home",
-      "CIN": "away",
-      "WSH": "home",
-      "NYM": "away",
-      "NYY": "home",
-      "TOR": "away",
-      "KC": "home",
-      "BOS": "away",
-      "MIN": "home",
-      "HOU": "away",
-      "CHC": "home",
-      "MIL": "away",
-      "STL": "home",
-      "PIT": "away",
-      "COL": "home",
-      "TEX": "away",
-      "LAA": "home",
-      "OAK": "away",
-      "SD": "home",
-      "LAD": "away",
-      "ARI": "home",
-      "SF": "away",
-      "SEA": "home",
-      "CWS": "away"
-    },
-    "2026-05-20": {
-      "PHI": "home",
-      "CIN": "away",
-      "TB": "home",
-      "BAL": "away",
-      "MIN": "home",
-      "HOU": "away",
-      "COL": "home",
-      "TEX": "away",
-      "ARI": "home",
-      "SF": "away",
-      "SEA": "home",
-      "CWS": "away",
-      "DET": "home",
-      "CLE": "away",
-      "MIA": "home",
-      "ATL": "away",
-      "WSH": "home",
-      "NYM": "away",
-      "NYY": "home",
-      "TOR": "away",
-      "KC": "home",
-      "BOS": "away",
-      "CHC": "home",
-      "MIL": "away",
-      "STL": "home",
-      "PIT": "away",
-      "SD": "home",
-      "LAD": "away",
-      "LAA": "home",
-      "OAK": "away"
-    },
-    "2026-05-21": {
-      "DET": "home",
-      "CLE": "away",
-      "STL": "home",
-      "PIT": "away",
-      "WSH": "home",
-      "NYM": "away",
-      "MIA": "home",
-      "ATL": "away",
-      "NYY": "home",
-      "TOR": "away",
-      "LAA": "home",
-      "OAK": "away",
-      "ARI": "home",
-      "COL": "away"
-    },
-    "2026-05-22": {
-      "CHC": "home",
-      "HOU": "away",
-      "PHI": "home",
-      "CLE": "away",
-      "NYY": "home",
-      "TB": "away",
-      "TOR": "home",
-      "PIT": "away",
-      "BOS": "home",
-      "MIN": "away",
-      "MIA": "home",
-      "NYM": "away",
-      "BAL": "home",
-      "DET": "away",
-      "ATL": "home",
-      "WSH": "away",
-      "KC": "home",
-      "SEA": "away",
-      "MIL": "home",
-      "LAD": "away",
-      "LAA": "home",
-      "TEX": "away",
-      "ARI": "home",
-      "COL": "away",
-      "SD": "home",
-      "OAK": "away",
-      "SF": "home",
-      "CWS": "away",
-      "CIN": "home",
-      "STL": "away"
-    },
-    "2026-05-23": {
-      "CIN": "home",
-      "STL": "away",
-      "CHC": "home",
-      "HOU": "away",
-      "TOR": "home",
-      "PIT": "away",
-      "PHI": "home",
-      "CLE": "away",
-      "SF": "home",
-      "CWS": "away",
-      "KC": "home",
-      "SEA": "away",
-      "BOS": "home",
-      "MIN": "away",
-      "ATL": "home",
-      "WSH": "away",
-      "MIA": "home",
-      "NYM": "away",
-      "MIL": "home",
-      "LAD": "away",
-      "SD": "home",
-      "OAK": "away",
-      "LAA": "home",
-      "TEX": "away",
-      "ARI": "home",
-      "COL": "away",
-      "NYY": "home",
-      "TB": "away",
-      "BAL": "home",
-      "DET": "away"
-    },
-    "2026-05-24": {
-      "TOR": "home",
-      "PIT": "away",
-      "BAL": "home",
-      "DET": "away",
-      "BOS": "home",
-      "MIN": "away",
-      "PHI": "home",
-      "CLE": "away",
-      "NYY": "home",
-      "TB": "away",
-      "MIA": "home",
-      "NYM": "away",
-      "KC": "home",
-      "SEA": "away",
-      "MIL": "home",
-      "LAD": "away",
-      "CHC": "home",
-      "HOU": "away",
-      "SF": "home",
-      "CWS": "away",
-      "ARI": "home",
-      "COL": "away",
-      "SD": "home",
-      "OAK": "away",
-      "ATL": "home",
-      "WSH": "away",
-      "LAA": "home",
-      "TEX": "away",
-      "CIN": "home",
-      "STL": "away"
-    },
-    "2026-05-25": {
-      "PIT": "home",
-      "CHC": "away",
-      "BAL": "home",
-      "TB": "away",
-      "CWS": "home",
-      "MIN": "away",
-      "MIL": "home",
-      "STL": "away",
-      "KC": "home",
-      "NYY": "away",
-      "NYM": "home",
-      "CIN": "away",
-      "SF": "home",
-      "ARI": "away",
-      "CLE": "home",
-      "WSH": "away",
-      "SD": "home",
-      "PHI": "away",
-      "TEX": "home",
-      "HOU": "away",
-      "TOR": "home",
-      "MIA": "away",
-      "LAD": "home",
-      "COL": "away",
-      "OAK": "home",
-      "SEA": "away"
-    },
-    "2026-05-26": {
-      "CLE": "home",
-      "WSH": "away",
-      "BAL": "home",
-      "TB": "away",
-      "DET": "home",
-      "LAA": "away",
-      "PIT": "home",
-      "CHC": "away",
-      "BOS": "home",
-      "ATL": "away",
-      "TOR": "home",
-      "MIA": "away",
-      "NYM": "home",
-      "CIN": "away",
-      "CWS": "home",
-      "MIN": "away",
-      "KC": "home",
-      "NYY": "away",
-      "MIL": "home",
-      "STL": "away",
-      "TEX": "home",
-      "HOU": "away",
-      "OAK": "home",
-      "SEA": "away",
-      "SD": "home",
-      "PHI": "away",
-      "SF": "home",
-      "ARI": "away",
-      "LAD": "home",
-      "COL": "away"
-    }
-  }
+  "summary": "477 actionable picks for 2026: 339W-138L (71.1%) +170.5u (+630 watchlist)"
 }
