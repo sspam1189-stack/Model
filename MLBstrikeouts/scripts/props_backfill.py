@@ -940,6 +940,12 @@ def write_dashboard_json(results, season):
         # (e.g. a stub-row contamination). The daily pipeline (run_daily) will
         # rewrite today's picks on the next run.
         merged_props = list(all_picks)
+        # Stamp readVerdict ("TAKE" / "PASS") using the same walk-forward
+        # logic as run_daily so the dashboard's Read filter has data after
+        # a clean backfill. Without this, all picks lack readVerdict and the
+        # "Recent Read Record" card shows empty until the next daily run.
+        from run_daily import _stamp_read_verdicts
+        _stamp_read_verdicts(merged_props)
         dashboard["props"] = merged_props
         # totalPicks reflects only actionable (non-PASS) entries; watchlist
         # is tracked separately so it doesn't inflate the headline pick count.
@@ -950,7 +956,8 @@ def write_dashboard_json(results, season):
 
         with open(path, "w") as f:
             json.dump(dashboard, f, indent=2, cls=_NumpyEncoder)
-        print(f"  Wrote {len(merged_actionable)} picks (+{len(merged_watch)} watch) to {path}")
+        takes = sum(1 for p in merged_props if p.get("readVerdict") == "TAKE")
+        print(f"  Wrote {len(merged_actionable)} picks (+{len(merged_watch)} watch, {takes} Read TAKE) to {path}")
 
 
 # ---------------------------------------------------------------------------
