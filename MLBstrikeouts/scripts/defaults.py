@@ -279,6 +279,13 @@ BF_MULT = 1.00
 # (+15.4pp vs +5.7pp). Filters out marginal UNDERs that tend to lose.
 BF_CAP = 24.0
 
+# Per-pitcher BF ceiling percentile. When > 0, each pitcher's projected BF
+# is capped at the Nth percentile of their own recent game BFs (from the
+# qualified rolling window) instead of the global BF_CAP. BF_CAP remains
+# as the hard safety net above the per-pitcher ceiling.
+# Set to 0.0 to disable (use global BF_CAP only).
+BF_CAP_PCTILE = 0.0
+
 # Per-pitcher K-rate cap floor — applied as max(K_RATE_CAP_FLOOR, season K%)
 # in props_engine.py. The matchup-driven expected_k_rate
 # (pitcher_k × lineup_k / lg_k) is then clamped to that per-pitcher cap, so:
