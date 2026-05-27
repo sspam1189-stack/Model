@@ -133,6 +133,64 @@ def _save_cache(data, path):
         json.dump(data, f, indent=2)
 
 
+# Ordered list of Odds API keys. Each call tries them in order: if a key
+# is exhausted (HTTP 401/429 or returns 0 events when games are expected),
+# we fall through to the next. Override with env var ODDS_API_KEYS (comma
+# separated) or single ODDS_API_KEY.
+_DEFAULT_ODDS_API_KEYS = [
+    "00a735b809911c5a994857dd5af3d0f2",
+    "6c5699682d30fc8664737160274f8d12",
+    "02a0a1d695d50185aac07fd84b965f9d",
+]
+
+
+def _get_odds_api_keys():
+    multi = os.environ.get("ODDS_API_KEYS", "").strip()
+    if multi:
+        keys = [k.strip() for k in multi.split(",") if k.strip()]
+        if keys:
+            return keys
+    single = os.environ.get("ODDS_API_KEY", "").strip()
+    if single:
+        return [single]
+    return list(_DEFAULT_ODDS_API_KEYS)
+
+
+def _fetch_events_with_key_rotation(events_url_fmt):
+    """Try each API key until one returns a non-empty events list.
+
+    events_url_fmt: a format string with a single {key} placeholder.
+    Returns (events_list, working_api_key) or ([], None) if all keys
+    are exhausted or fail.
+    """
+    keys = _get_odds_api_keys()
+    for idx, key in enumerate(keys):
+        url = events_url_fmt.format(key=quote(key))
+        try:
+            res = _fetch_with_retry(url)
+        except Exception as e:
+            print(f"  [mlb_props] Events fetch error with key {idx+1}/{len(keys)}: {e}")
+            continue
+        if res is None:
+            print(f"  [mlb_props] Events fetch failed (no response) with key {idx+1}/{len(keys)}")
+            continue
+        if res.status_code in (401, 429):
+            print(f"  [mlb_props] Key {idx+1}/{len(keys)} returned HTTP {res.status_code} — rotating to next key")
+            continue
+        if res.status_code != 200:
+            print(f"  [mlb_props] Events fetch HTTP {res.status_code} with key {idx+1}/{len(keys)} — rotating")
+            continue
+        try:
+            events = res.json()
+        except Exception:
+            continue
+        if not events:
+            print(f"  [mlb_props] Key {idx+1}/{len(keys)} returned 0 events — rotating to next key")
+            continue
+        return events, key
+    return [], None
+
+
 def _pick_best_bookmaker(bookmakers):
     """Select preferred bookmaker from list."""
     preferred = ["DraftKings", "FanDuel", "BetMGM", "Caesars", "PointsBet", "BetRivers"]
@@ -169,24 +227,11 @@ def fetch_mlb_pitcher_props(date_key=None):
     cp = _props_cache_path(date_key)
     existing_props = _load_cache(cp, max_age_hours=None) or []
 
-    api_key = os.environ.get("ODDS_API_KEY", "6c5699682d30fc8664737160274f8d12")
-    if not api_key:
-        print("  [mlb_props] Missing ODDS_API_KEY -- skipping prop odds fetch")
-        return []
-
-    # Step 1: Get MLB event IDs
-    events_url = f"{BASE}/sports/{SPORT_KEY}/events?apiKey={quote(api_key)}"
-    try:
-        res = _fetch_with_retry(events_url)
-        if res is None:
-            print(f"  [mlb_props] Events fetch failed (no response)")
-            return []
-        if res.status_code != 200:
-            print(f"  [mlb_props] Events fetch failed: HTTP {res.status_code} — {res.text[:200]}")
-            return []
-        events = res.json()
-    except Exception as e:
-        print(f"  [mlb_props] Events fetch error: {e}")
+    # Step 1: Get MLB event IDs — rotates through keys if first is exhausted
+    events_url_fmt = f"{BASE}/sports/{SPORT_KEY}/events?apiKey={{key}}"
+    events, api_key = _fetch_events_with_key_rotation(events_url_fmt)
+    if not events or api_key is None:
+        print("  [mlb_props] No events from any key — skipping prop odds fetch")
         return []
 
     print(f"  [mlb_props] Found {len(events)} MLB events")
@@ -280,12 +325,26 @@ def fetch_mlb_pitcher_props(date_key=None):
         return p.get("_event_id") in started_games
 
     new_props = [p for p in new_props if not _is_started(p)]
+
+    # Rotowire is the primary source. Drop any fresh Odds-API entry whose
+    # (player, market, game) line_key already exists in the cache tagged
+    # as a Rotowire row — Odds API only fills gaps Rotowire didn't cover.
+    rotowire_keys = {
+        _line_key(p) for p in existing_props
+        if str(p.get("source", "")).startswith("rotowire")
+    }
+    rotowire_skipped = sum(
+        1 for p in new_props if _line_key(p) in rotowire_keys
+    )
+    new_props = [p for p in new_props if _line_key(p) not in rotowire_keys]
+
     fresh_keys = {_line_key(p) for p in new_props}
     kept_props = [p for p in existing_props if _line_key(p) not in fresh_keys]
     all_props = kept_props + new_props
 
     print(f"  [mlb_props] Kept {len(kept_props)} cached + {len(new_props)} fresh "
-          f"({len(started_games)} games locked) — total {len(all_props)}")
+          f"({len(started_games)} games locked, "
+          f"{rotowire_skipped} skipped as rotowire-covered) — total {len(all_props)}")
 
     # Save
     if all_props:
@@ -330,28 +389,57 @@ def fetch_historical_mlb_props(date_str, api_key=None):
     if cached is not None:
         return cached  # Silent — backfill calls this hundreds of times
 
-    api_key = api_key or os.environ.get("ODDS_API_KEY", "6c5699682d30fc8664737160274f8d12")
-    if not api_key:
-        return []
-
     # Historical endpoint requires ISO timestamp
     ts_utc = f"{date_str}T17:00:00Z"  # ~1pm ET, before most MLB games
 
-    # Step 1: ONE call to get all events for this date (1 API credit)
-    events_url = (
-        f"{BASE}/historical/sports/{SPORT_KEY}/events?"
-        f"apiKey={quote(api_key)}"
-        f"&date={quote(ts_utc)}"
-    )
-    try:
-        res = _fetch_with_retry(events_url)
-        if res is None or res.status_code != 200:
-            print(f"  [mlb_props] Historical events failed for {date_str}")
+    # Step 1: ONE call to get all events for this date (1 API credit).
+    # If api_key was passed explicitly use it; otherwise rotate through
+    # the configured keys so an exhausted key falls through to the next.
+    if api_key:
+        events_url = (
+            f"{BASE}/historical/sports/{SPORT_KEY}/events?"
+            f"apiKey={quote(api_key)}"
+            f"&date={quote(ts_utc)}"
+        )
+        try:
+            res = _fetch_with_retry(events_url)
+            if res is None or res.status_code != 200:
+                print(f"  [mlb_props] Historical events failed for {date_str}")
+                return []
+            events_data = res.json().get("data", [])
+        except Exception as e:
+            print(f"  [mlb_props] Historical events error: {e}")
             return []
-        events_data = res.json().get("data", [])
-    except Exception as e:
-        print(f"  [mlb_props] Historical events error: {e}")
-        return []
+    else:
+        events_url_fmt = (
+            f"{BASE}/historical/sports/{SPORT_KEY}/events?"
+            f"apiKey={{key}}"
+            f"&date={quote(ts_utc)}"
+        )
+        keys = _get_odds_api_keys()
+        events_data = []
+        for idx, k in enumerate(keys):
+            url = events_url_fmt.format(key=quote(k))
+            try:
+                res = _fetch_with_retry(url)
+            except Exception:
+                continue
+            if res is None or res.status_code in (401, 429):
+                print(f"  [mlb_props] Historical key {idx+1}/{len(keys)} exhausted — rotating")
+                continue
+            if res.status_code != 200:
+                continue
+            try:
+                events_data = res.json().get("data", [])
+            except Exception:
+                continue
+            if events_data:
+                api_key = k
+                break
+            print(f"  [mlb_props] Historical key {idx+1}/{len(keys)} returned 0 events — rotating")
+        if not api_key or not events_data:
+            print(f"  [mlb_props] Historical events failed for {date_str} (all keys)")
+            return []
 
     if not events_data:
         # No games this date — cache empty list to avoid re-fetching
@@ -556,25 +644,24 @@ def fetch_mlb_batter_props(date_str=None, api_key=None):
     cp = _batter_props_cache_path(date_str)
     existing_props = _load_cache(cp, max_age_hours=None) or []
 
-    api_key = api_key or os.environ.get("ODDS_API_KEY", "6c5699682d30fc8664737160274f8d12")
-    if not api_key:
-        print("  [mlb_batter_props] Missing ODDS_API_KEY -- skipping batter prop odds fetch")
-        return []
-
-    # Step 1: Get MLB event IDs
-    events_url = f"{BASE}/sports/{SPORT_KEY}/events?apiKey={quote(api_key)}"
-    try:
-        res = _fetch_with_retry(events_url)
-        if res is None:
-            print(f"  [mlb_batter_props] Events fetch failed (no response)")
+    # Step 1: Get MLB event IDs — rotates through keys if first is exhausted
+    if api_key:
+        events_url = f"{BASE}/sports/{SPORT_KEY}/events?apiKey={quote(api_key)}"
+        try:
+            res = _fetch_with_retry(events_url)
+            if res is None or res.status_code != 200:
+                print(f"  [mlb_batter_props] Events fetch failed")
+                return []
+            events = res.json()
+        except Exception as e:
+            print(f"  [mlb_batter_props] Events fetch error: {e}")
             return []
-        if res.status_code != 200:
-            print(f"  [mlb_batter_props] Events fetch failed: HTTP {res.status_code} — {res.text[:200]}")
+    else:
+        events_url_fmt = f"{BASE}/sports/{SPORT_KEY}/events?apiKey={{key}}"
+        events, api_key = _fetch_events_with_key_rotation(events_url_fmt)
+        if not events or api_key is None:
+            print("  [mlb_batter_props] No events from any key — skipping batter prop odds fetch")
             return []
-        events = res.json()
-    except Exception as e:
-        print(f"  [mlb_batter_props] Events fetch error: {e}")
-        return []
 
     print(f"  [mlb_batter_props] Found {len(events)} MLB events")
 

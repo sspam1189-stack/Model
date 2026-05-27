@@ -117,6 +117,67 @@ def _save_cache(data, path):
         json.dump(data, f, indent=2)
 
 
+# Ordered list of Odds API keys. Each call tries them in order: if a key
+# is exhausted (HTTP 401/429 or returns 0 events when games are expected),
+# we fall through to the next. Override with env var ODDS_API_KEYS (comma
+# separated) or single ODDS_API_KEY.
+_DEFAULT_ODDS_API_KEYS = [
+    "00a735b809911c5a994857dd5af3d0f2",
+    "6c5699682d30fc8664737160274f8d12",
+    "02a0a1d695d50185aac07fd84b965f9d",
+]
+
+
+def _get_odds_api_keys():
+    multi = os.environ.get("ODDS_API_KEYS", "").strip()
+    if multi:
+        keys = [k.strip() for k in multi.split(",") if k.strip()]
+        if keys:
+            return keys
+    single = os.environ.get("ODDS_API_KEY", "").strip()
+    if single:
+        return [single]
+    return list(_DEFAULT_ODDS_API_KEYS)
+
+
+def _fetch_events_with_key_rotation(events_url_fmt, tag="nba_props"):
+    """Try each API key until one returns a non-empty events list.
+
+    events_url_fmt: a format string with a single {key} placeholder.
+    Returns (events_list, working_api_key) or ([], None) if all keys
+    are exhausted or fail.
+    """
+    keys = _get_odds_api_keys()
+    for idx, key in enumerate(keys):
+        url = events_url_fmt.format(key=quote(key))
+        try:
+            res = _fetch_with_retry(url)
+        except Exception as e:
+            print(f"  [{tag}] Events fetch error with key {idx+1}/{len(keys)}: {e}")
+            continue
+        if res is None:
+            print(f"  [{tag}] Events fetch failed (no response) with key {idx+1}/{len(keys)}")
+            continue
+        if res.status_code in (401, 429):
+            print(f"  [{tag}] Key {idx+1}/{len(keys)} returned HTTP {res.status_code} — rotating to next key")
+            continue
+        if res.status_code != 200:
+            print(f"  [{tag}] Events fetch HTTP {res.status_code} with key {idx+1}/{len(keys)} — rotating")
+            continue
+        try:
+            events = res.json()
+            # Historical endpoint wraps events in {"data": [...]}; live is bare list
+            if isinstance(events, dict):
+                events = events.get("data", [])
+        except Exception:
+            continue
+        if not events:
+            print(f"  [{tag}] Key {idx+1}/{len(keys)} returned 0 events — rotating to next key")
+            continue
+        return events, key
+    return [], None
+
+
 def _pick_best_bookmaker(bookmakers):
     """Select preferred bookmaker from list."""
     preferred = ["DraftKings", "FanDuel", "BetMGM", "Caesars", "PointsBet", "BetRivers"]
@@ -153,21 +214,11 @@ def fetch_nba_player_props(date_key=None):
     cp = _props_cache_path(date_key)
     existing_props = _load_cache(cp, max_age_hours=None) or []
 
-    api_key = os.environ.get("ODDS_API_KEY", "6c5699682d30fc8664737160274f8d12")
-    if not api_key:
-        print("  [nba_props] Missing ODDS_API_KEY — skipping prop odds fetch")
-        return []
-
-    # Step 1: Get NBA event IDs
-    events_url = f"{BASE}/sports/{SPORT_KEY}/events?apiKey={quote(api_key)}"
-    try:
-        res = _fetch_with_retry(events_url)
-        if res is None or res.status_code != 200:
-            print(f"  [nba_props] Events fetch failed")
-            return []
-        events = res.json()
-    except Exception as e:
-        print(f"  [nba_props] Events fetch error: {e}")
+    # Step 1: Get NBA event IDs — rotates through keys if first is exhausted
+    events_url_fmt = f"{BASE}/sports/{SPORT_KEY}/events?apiKey={{key}}"
+    events, api_key = _fetch_events_with_key_rotation(events_url_fmt, tag="nba_props")
+    if not events or api_key is None:
+        print("  [nba_props] No events from any key — skipping prop odds fetch")
         return []
 
     print(f"  [nba_props] Found {len(events)} NBA events")
@@ -292,28 +343,36 @@ def fetch_historical_nba_props(date_str, api_key=None):
         print(f"  [nba_props] Using cached historical props: {cp.name}")
         return cached
 
-    api_key = api_key or os.environ.get("ODDS_API_KEY", "6c5699682d30fc8664737160274f8d12")
-    if not api_key:
-        return []
-
     # Historical endpoint requires ISO timestamp
     ts_utc = f"{date_str}T17:00:00Z"  # ~12pm ET, before most NBA games
 
-    # Step 1: Historical events
-    events_url = (
-        f"{BASE}/historical/sports/{SPORT_KEY}/events?"
-        f"apiKey={quote(api_key)}"
-        f"&date={quote(ts_utc)}"
-    )
-    try:
-        res = _fetch_with_retry(events_url)
-        if res is None or res.status_code != 200:
-            print(f"  [nba_props] Historical events failed")
+    # Step 1: Historical events. Explicit api_key arg short-circuits rotation;
+    # otherwise rotate through configured keys so exhausted keys fall through.
+    if api_key:
+        events_url = (
+            f"{BASE}/historical/sports/{SPORT_KEY}/events?"
+            f"apiKey={quote(api_key)}"
+            f"&date={quote(ts_utc)}"
+        )
+        try:
+            res = _fetch_with_retry(events_url)
+            if res is None or res.status_code != 200:
+                print(f"  [nba_props] Historical events failed")
+                return []
+            events_data = res.json().get("data", [])
+        except Exception as e:
+            print(f"  [nba_props] Historical events error: {e}")
             return []
-        events_data = res.json().get("data", [])
-    except Exception as e:
-        print(f"  [nba_props] Historical events error: {e}")
-        return []
+    else:
+        events_url_fmt = (
+            f"{BASE}/historical/sports/{SPORT_KEY}/events?"
+            f"apiKey={{key}}"
+            f"&date={quote(ts_utc)}"
+        )
+        events_data, api_key = _fetch_events_with_key_rotation(events_url_fmt, tag="nba_props")
+        if not events_data or api_key is None:
+            print(f"  [nba_props] Historical events failed for {date_str} (all keys)")
+            return []
 
     if not events_data:
         return []

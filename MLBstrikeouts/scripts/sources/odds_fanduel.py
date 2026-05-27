@@ -229,7 +229,8 @@ def _save_cache(data, path):
         json.dump(data, f, indent=2)
 
 
-def fetch_fanduel_mlb_props(date_key=None, confirmed_team_keys=None):
+def fetch_fanduel_mlb_props(date_key=None, confirmed_team_keys=None,
+                            write_cache=True):
     """
     Fetch MLB pitcher prop lines + total game hits from FanDuel.
 
@@ -265,11 +266,10 @@ def fetch_fanduel_mlb_props(date_key=None, confirmed_team_keys=None):
 
     confirmed_team_keys = set(confirmed_team_keys or [])
 
-    # Load existing caches for started-game preservation
+    # Load existing cache for started-game preservation. Game-hits cache
+    # was retired with the game_hits market; we only persist pitcher props.
     cp = _props_cache_path(date_key)
-    gh_cp = _game_hits_cache_path(date_key)
     existing_props = _load_cache(cp, max_age_hours=None) or []
-    existing_game_hits = _load_cache(gh_cp, max_age_hours=None) or []
 
     # Step 1: Get MLB events from FanDuel
     mlb_url = f"{FD_BASE}/content-managed-page?page=CUSTOM&customPageId=mlb&_ak={FD_API_KEY}"
@@ -304,12 +304,11 @@ def fetch_fanduel_mlb_props(date_key=None, confirmed_team_keys=None):
     print(f"  [fanduel] Found {len(game_events)} MLB games for {target_date}")
 
     if not game_events:
-        return (existing_props, existing_game_hits)
+        return (existing_props, [])
 
     # Step 2: For each game, fetch prop tabs
     now_utc = datetime.datetime.now(datetime.timezone.utc)
     new_props = []
-    new_game_hits = []
     started_games = set()  # track which games have started (preserve from cache)
 
     for event_id, ev in game_events.items():
@@ -420,18 +419,11 @@ def fetch_fanduel_mlb_props(date_key=None, confirmed_team_keys=None):
                     over_price = None
                     under_price = None
 
-                # Game-level market (total game hits) vs player prop
+                # Game hits market dropped — Rotowire is the primary source
+                # now and FD's game_hits added bandwidth + cache clutter for
+                # zero downstream consumers in this pipeline.
                 if internal_market == "game_hits":
-                    new_game_hits.append({
-                        "event_home": home_abbr,
-                        "event_away": away_abbr,
-                        "market": "game_hits",
-                        "line": float(line),
-                        "over_price": over_price,
-                        "under_price": under_price,
-                        "source": "fanduel",
-                        "_event_id": event_id,
-                    })
+                    continue
                 else:
                     # Player name: try runner first ("Corbin Burnes Over"),
                     # fall back to marketName ("Aaron Nola Outs Recorded")
@@ -474,28 +466,38 @@ def fetch_fanduel_mlb_props(date_key=None, confirmed_team_keys=None):
 
     # Drop any fresh line for a started game (defensive — should be impossible)
     new_props = [p for p in new_props if not _is_started(p)]
-    new_game_hits = [g for g in new_game_hits if not _is_started(g)]
 
-    # Merge: cached always kept; fresh overwrites only matching upcoming-game lines
+    # Rotowire is the primary source. Drop any fresh FD entry whose
+    # (player, market, game) line_key already exists in the cache tagged
+    # as a Rotowire row — FD only fills gaps Rotowire didn't cover.
+    rotowire_keys = {
+        _line_key(p) for p in existing_props
+        if str(p.get("source", "")).startswith("rotowire")
+    }
+    rotowire_skipped = sum(
+        1 for p in new_props if _line_key(p) in rotowire_keys
+    )
+    new_props = [p for p in new_props if _line_key(p) not in rotowire_keys]
+
+    # Merge: cached always kept; fresh overwrites only matching
+    # non-rotowire lines (since rotowire-covered keys were filtered above).
     fresh_keys = {_line_key(p) for p in new_props}
-    fresh_gh_keys = {_line_key(g) for g in new_game_hits}
     kept_props = [p for p in existing_props if _line_key(p) not in fresh_keys]
-    kept_game_hits = [g for g in existing_game_hits if _line_key(g) not in fresh_gh_keys]
 
     all_props = kept_props + new_props
-    all_game_hits = kept_game_hits + new_game_hits
 
     print(f"  [fanduel] Kept {len(kept_props)} cached + {len(new_props)} fresh prop lines "
-          f"({len(started_games)} games locked) — total {len(all_props)} props / "
-          f"{len(all_game_hits)} game hits")
+          f"({len(started_games)} games locked, "
+          f"{rotowire_skipped} skipped as rotowire-covered) — total {len(all_props)}"
+          f"{'' if write_cache else ' (cache write disabled)'}")
 
-    # Save
-    if all_props:
+    # Save only when caller opts in. The daily pipeline passes write_cache=True
+    # so FD's gap-fill entries persist; rotowire-covered keys were filtered
+    # above so the shared cache stays canonically rotowire-first.
+    if write_cache and all_props:
         _save_cache(all_props, cp)
-    if all_game_hits:
-        _save_cache(all_game_hits, gh_cp)
 
-    return (all_props, all_game_hits)
+    return (all_props, [])
 
 
 # Batter prop fetch was removed — batter prop strategy is no longer in scope.

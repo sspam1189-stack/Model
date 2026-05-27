@@ -87,24 +87,57 @@ def fetch_with_retry(url, tries=5):
 
 # -- Fetch one snapshot from the API -------------------------------------------
 
+_DEFAULT_ODDS_API_KEYS = [
+    "00a735b809911c5a994857dd5af3d0f2",
+    "6c5699682d30fc8664737160274f8d12",
+    "02a0a1d695d50185aac07fd84b965f9d",
+]
+
+
+def _get_odds_api_keys():
+    multi = os.environ.get("ODDS_API_KEYS", "").strip()
+    if multi:
+        keys = [k.strip() for k in multi.split(",") if k.strip()]
+        if keys:
+            return keys
+    single = os.environ.get("ODDS_API_KEY", "").strip()
+    if single:
+        return [single]
+    return list(_DEFAULT_ODDS_API_KEYS)
+
+
 def fetch_snapshot(api_key, ts):
-    url = (
-        f"{BASE}/historical/sports/basketball_nba/odds?"
-        f"apiKey={quote(api_key)}"
-        f"&regions=us"
-        f"&markets=spreads,totals"
-        f"&oddsFormat=american"
-        f"&date={quote(ts)}"
-    )
+    # api_key="ROTATE" (or empty/None) triggers rotation through configured
+    # keys. Explicit key skips rotation and preserves the original behavior.
+    if api_key and api_key != "ROTATE":
+        keys = [api_key]
+    else:
+        keys = _get_odds_api_keys()
 
-    res = fetch_with_retry(url)
-    if res.status_code != 200:
-        txt = res.text
-        raise Exception(f"Historical odds fetch failed: {res.status_code} {txt}")
-
-    json_data = res.json()
-    data = json_data.get("data")
-    return data if isinstance(data, list) else []
+    last_err = None
+    for idx, k in enumerate(keys):
+        url = (
+            f"{BASE}/historical/sports/basketball_nba/odds?"
+            f"apiKey={quote(k)}"
+            f"&regions=us"
+            f"&markets=spreads,totals"
+            f"&oddsFormat=american"
+            f"&date={quote(ts)}"
+        )
+        res = fetch_with_retry(url)
+        if res.status_code in (401, 429):
+            print(f"  [odds_batch] Key {idx+1}/{len(keys)} HTTP {res.status_code} — rotating")
+            last_err = f"HTTP {res.status_code}"
+            continue
+        if res.status_code != 200:
+            last_err = f"HTTP {res.status_code} {res.text[:200]}"
+            if len(keys) == 1:
+                raise Exception(f"Historical odds fetch failed: {last_err}")
+            continue
+        json_data = res.json()
+        data = json_data.get("data")
+        return data if isinstance(data, list) else []
+    raise Exception(f"Historical odds fetch failed (all {len(keys)} keys): {last_err}")
 
 
 # -- Extract odds for one game from a snapshot ---------------------------------
@@ -161,7 +194,9 @@ def fetch_odds_for_day(date_yyyymmdd, games_list):
     Uses disk cache so re-runs don't hit the API at all.
     Returns: dict of "away@home" -> { line, total, _book, _note }
     """
-    api_key = os.environ.get("ODDS_API_KEY", "6c5699682d30fc8664737160274f8d12")
+    # Trigger key rotation inside fetch_snapshot (it uses _get_odds_api_keys
+    # when given the sentinel "ROTATE" or an empty/None key).
+    api_key = "ROTATE"
 
     # Check disk cache first
     if not os.path.exists(ODDS_CACHE_DIR):

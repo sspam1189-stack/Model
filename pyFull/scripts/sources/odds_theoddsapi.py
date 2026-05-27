@@ -98,23 +98,52 @@ def _find_market(bookmaker, key):
     return next((m for m in bookmaker["markets"] if m and m.get("key") == key), None)
 
 
+_DEFAULT_ODDS_API_KEYS = [
+    "00a735b809911c5a994857dd5af3d0f2",
+    "6c5699682d30fc8664737160274f8d12",
+    "02a0a1d695d50185aac07fd84b965f9d",
+]
+
+
+def _get_odds_api_keys():
+    multi = os.environ.get("ODDS_API_KEYS", "").strip()
+    if multi:
+        keys = [k.strip() for k in multi.split(",") if k.strip()]
+        if keys:
+            return keys
+    single = os.environ.get("ODDS_API_KEY", "").strip()
+    if single:
+        return [single]
+    return list(_DEFAULT_ODDS_API_KEYS)
+
+
 def fetch_todays_odds():
-    api_key = os.environ.get("ODDS_API_KEY", "6c5699682d30fc8664737160274f8d12")
-
-    url = (
-        f"{BASE}/sports/basketball_nba/odds?"
-        f"apiKey={quote(api_key)}"
-        f"&regions=us"
-        f"&markets=spreads,totals"
-        f"&oddsFormat=american"
-    )
-
-    res = requests.get(url, timeout=30)
-    if res.status_code != 200:
-        txt = res.text
-        raise Exception(f"TheOddsAPI failed: {res.status_code} {res.reason} {txt}")
-
-    data = res.json()
+    keys = _get_odds_api_keys()
+    last_err = None
+    for idx, api_key in enumerate(keys):
+        url = (
+            f"{BASE}/sports/basketball_nba/odds?"
+            f"apiKey={quote(api_key)}"
+            f"&regions=us"
+            f"&markets=spreads,totals"
+            f"&oddsFormat=american"
+        )
+        res = requests.get(url, timeout=30)
+        if res.status_code in (401, 429):
+            print(f"  [nba_odds] Key {idx+1}/{len(keys)} HTTP {res.status_code} — rotating")
+            last_err = f"HTTP {res.status_code}"
+            continue
+        if res.status_code != 200:
+            last_err = f"HTTP {res.status_code} {res.reason} {res.text[:200]}"
+            continue
+        data = res.json()
+        if not data:
+            print(f"  [nba_odds] Key {idx+1}/{len(keys)} returned empty — rotating")
+            last_err = "empty response"
+            continue
+        break
+    else:
+        raise Exception(f"TheOddsAPI failed (all {len(keys)} keys): {last_err}")
     today = _today_iso_chicago()
 
     games = []
