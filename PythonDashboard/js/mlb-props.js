@@ -859,8 +859,16 @@
             // unconfirmed projections can shift once the real lineup locks,
             // so withholding the number until confirmation avoids posting a
             // figure we'll have to walk back.
+            // Locked-in price for the side we picked. Shows only on
+            // confirmed rows alongside the projection (unconfirmed odds can
+            // drift before lineup lock — withhold until lock for the same
+            // reason proj is withheld).
+            const pickedOdds = _dirOf(p) === 'OVER' ? p.over_price : p.under_price;
+            const oddsStr = (statusConfirmed && pickedOdds != null)
+              ? ` ${pickedOdds > 0 ? '+' : ''}${pickedOdds}`
+              : '';
             const projTag = (statusConfirmed && p.proj != null)
-              ? ` proj: ${Number(p.proj).toFixed(1)}${confirmedAt ? ` @ ${confirmedAt}` : ''}`
+              ? ` proj: ${Number(p.proj).toFixed(1)}${oddsStr}${confirmedAt ? ` @ ${confirmedAt}` : ''}`
               : '';
             // Body of the line WITHOUT the leading "* " or trailing annotation.
             // We stash this in state so that if this entry later disappears
@@ -955,6 +963,7 @@
           // per-row leans block).
           const redditText =
             `Picks will be updated throughout the day as lineups come in.\n\n` +
+            `Lines are based on FD prices.\n\n` +
             `Picks:\n\n` +
             `* Total: ${fmt(totalPicks)}\n` +
             `* ${weekLabel} (${weekRange}): ${fmt(wPicksTally)}\n` +
