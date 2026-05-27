@@ -1148,6 +1148,28 @@
             const k = `${player}|${team || ''}`;
             return m[k] || null;
           }
+          // Pitcher picks+watch combined (same direction).
+          function pitcherAllBucketsDirRec(player, team, dir) {
+            const pk = pitcherDirRec(player, team, dir, 'Pick');
+            const ln = pitcherDirRec(player, team, dir, 'Lean');
+            if (!pk && !ln) return null;
+            return {
+              w: (pk ? pk.w : 0) + (ln ? ln.w : 0),
+              l: (pk ? pk.l : 0) + (ln ? ln.l : 0),
+              u: (pk ? pk.u : 0) + (ln ? ln.u : 0),
+            };
+          }
+          // Pitcher picks+watch combined (both directions).
+          function pitcherAllBucketsBothDirsRec(player, team) {
+            const pk = pitcherBothDirsRec(player, team, 'Pick');
+            const ln = pitcherBothDirsRec(player, team, 'Lean');
+            if (!pk && !ln) return null;
+            return {
+              w: (pk ? pk.w : 0) + (ln ? ln.w : 0),
+              l: (pk ? pk.l : 0) + (ln ? ln.l : 0),
+              u: (pk ? pk.u : 0) + (ln ? ln.u : 0),
+            };
+          }
           // Same bucket, BOTH directions vs this opponent.
           function bucketBothDirsRec(opp, bucket) {
             const m = bucket === 'Pick' ? byOppPicks : byOppLeans;
@@ -1186,8 +1208,8 @@
             if (!dir) return false;
             const dr = bucketDirRec(p.opp, dir, 'Pick');
             const ar = allBucketsDirRec(p.opp, dir);
-            const prc = pitcherDirRec(displayName(p), p.team, dir, 'Pick');
-            const pall = pitcherBothDirsRec(displayName(p), p.team, 'Pick');
+            const prc = pitcherAllBucketsDirRec(displayName(p), p.team, dir);
+            const pall = pitcherAllBucketsBothDirsRec(displayName(p), p.team);
             const drN = dr ? dr.w + dr.l : 0;
             const drW = drN > 0 ? dr.w / drN : 0;
             const arN = ar ? ar.w + ar.l : 0;
@@ -1318,8 +1340,8 @@
             return readVerdictFor({
               dirRec: bucketDirRec(p.opp, dir, 'Pick'),
               allRec: allBucketsDirRec(p.opp, dir),
-              pitRec: pitcherDirRec(displayName(p), p.team, dir, 'Pick'),
-              pitAllRec: pitcherBothDirsRec(displayName(p), p.team, 'Pick'),
+              pitRec: pitcherAllBucketsDirRec(displayName(p), p.team, dir),
+              pitAllRec: pitcherAllBucketsBothDirsRec(displayName(p), p.team),
             });
           };
           const takePicksT = todayPicks.filter(p => _pickVerdict(p) === 'TAKE');
@@ -1415,8 +1437,8 @@
               // Surfaces "the model is X-Y on Lopez Unders historically" alongside
               // the opponent cohort so a strong pitcher track-record (or red flag)
               // factors into the read.
-              const pitRec = pitcherDirRec(displayName(r.p), r.p.team, dir, r.bucket);
-              const pitAllRec = pitcherBothDirsRec(displayName(r.p), r.p.team, r.bucket);
+              const pitRec = pitcherAllBucketsDirRec(displayName(r.p), r.p.team, dir);
+              const pitAllRec = pitcherAllBucketsBothDirsRec(displayName(r.p), r.p.team);
               return {...r, dir, rec, allRec, pitRec, pitAllRec, cls: classify(rec)};
             });
           }

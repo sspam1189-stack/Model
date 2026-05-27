@@ -274,9 +274,10 @@ BF_MULT = 1.00
 
 # Hard ceiling on projected batters faced after BF_MULT. League-wide safety
 # net on top of the avg_pc = median(last 5 PCs) projection (see props_engine).
-# 2026-05-26 sweep: 23 wins recent 2wk by +7.84u / +5.96pp ROI over 24 under
-# the new median_slope avg_pc formula; ties season.
-BF_CAP = 23.0
+# 2026-05-27 sweep: 24 beats 23 on season ROI (+39.5% vs +36.8%), units
+# (+175.8u vs +161.7u), win rate (72.6% vs 71.5%), and TAKE/PASS gap
+# (+15.4pp vs +5.7pp). Filters out marginal UNDERs that tend to lose.
+BF_CAP = 24.0
 
 # Per-pitcher K-rate cap floor — applied as max(K_RATE_CAP_FLOOR, season K%)
 # in props_engine.py. The matchup-driven expected_k_rate
