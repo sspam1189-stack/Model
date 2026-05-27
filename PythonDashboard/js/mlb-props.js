@@ -671,7 +671,7 @@
           }
 
           // TOTAL = baseline + everything post-cutoff
-          const totalPicks = combine(BASELINE.picks.total, newPicks);
+          let totalPicks = combine(BASELINE.picks.total, newPicks);
           const totalLeans = combine(BASELINE.leans.total, newLeans);
 
           // WEEKLY: if the weekly window is entirely at-or-before cutoff,
@@ -947,14 +947,55 @@
           if (yesterdayStr === '2026-05-25') {
             yPicksTally = { w: 2, l: 3, u: -2.70 };
           }
+          const _PIN_25 = { w: 2, l: 3, u: -2.70 };
           if (weeklyStartStr <= '2026-05-25' && weeklyEndStr >= '2026-05-25') {
             // Replace the 5/25 contribution inside the weekly window:
             // strip the computed 5/25 piece, then add the pinned values.
             const _y25 = combine({w:0,l:0,u:0}, newPicks.filter(p => p.date === '2026-05-25'));
             wPicksTally = {
-              w: wPicksTally.w - _y25.w + 2,
-              l: wPicksTally.l - _y25.l + 3,
-              u: wPicksTally.u - _y25.u + (-2.70),
+              w: wPicksTally.w - _y25.w + _PIN_25.w,
+              l: wPicksTally.l - _y25.l + _PIN_25.l,
+              u: wPicksTally.u - _y25.u + _PIN_25.u,
+            };
+          }
+          // Total: also honor the 5/25 pin so the running total matches what
+          // was actually posted on Reddit (2-3 -2.70u) instead of the
+          // clean-backfill recomputed 5/25 (3-4 -1.70u).
+          {
+            const _t25 = combine({w:0,l:0,u:0}, newPicks.filter(p => p.date === '2026-05-25'));
+            totalPicks = {
+              w: totalPicks.w - _t25.w + _PIN_25.w,
+              l: totalPicks.l - _t25.l + _PIN_25.l,
+              u: totalPicks.u - _t25.u + _PIN_25.u,
+            };
+          }
+
+          // Manual override for 5/26: pin to all-6-plays-graded (3-3 -0.44u)
+          // instead of TAKE-only (3-2 +0.56u). The 5/26 Reddit post included
+          // Rodriguez (became watch after clean-backfill rerun, pCover=0.659)
+          // and excluded Strider/Peterson (PASS-verdict from rerun). Pin to
+          // honor what was actually posted.
+          const _PIN_26 = { w: 3, l: 3, u: -0.44 };
+          if (yesterdayStr === '2026-05-26') {
+            yPicksTally = { ..._PIN_26 };
+          }
+          if (weeklyStartStr <= '2026-05-26' && weeklyEndStr >= '2026-05-26') {
+            const _y26 = combine({w:0,l:0,u:0}, newPicks.filter(p => p.date === '2026-05-26'));
+            wPicksTally = {
+              w: wPicksTally.w - _y26.w + _PIN_26.w,
+              l: wPicksTally.l - _y26.l + _PIN_26.l,
+              u: wPicksTally.u - _y26.u + _PIN_26.u,
+            };
+          }
+          // Total: replace 5/26 data-computed contribution with the pin so
+          // the 3 non-TAKE plays (Rodriguez WIN→LOSS, Strider, Peterson)
+          // roll up correctly. 5/25 total is left at data-computed -1.70u.
+          {
+            const _t26 = combine({w:0,l:0,u:0}, newPicks.filter(p => p.date === '2026-05-26'));
+            totalPicks = {
+              w: totalPicks.w - _t26.w + _PIN_26.w,
+              l: totalPicks.l - _t26.l + _PIN_26.l,
+              u: totalPicks.u - _t26.u + _PIN_26.u,
             };
           }
 
