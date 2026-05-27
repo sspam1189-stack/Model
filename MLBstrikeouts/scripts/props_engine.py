@@ -719,24 +719,27 @@ def format_props_for_dashboard(projections, date_str="today"):
 
     `props` contains:
       - actionable picks (pick=OVER/UNDER, pCover >= MARKET_THRESHOLDS[market]['high'])
-      - watchlist entries (pick=PASS, pCover >= 0.60) tagged with would_be_pick
+      - watchlist entries (pick=PASS, pCover >= 0.50) tagged with would_be_pick
         so the dashboard hides them but they're persisted for backend analysis.
+        The 0.60-0.68 band is the "watch" tier; the 0.50-0.60 band is kept
+        for visibility in Today's Games and as low-confidence projections.
     """
     import datetime as dt
 
     actionable = [p for p in projections if p["pick"] != "PASS"]
     actionable.sort(key=lambda p: p.get("pCover", 0) or 0, reverse=True)
 
-    # Watchlist: PASS projections at pCover >= 0.60 with a real line.
-    # Add `would_be_pick` (direction inferred from edge) so future grading
-    # can score them. Dashboard filters out pick=PASS so they don't display.
+    # Watchlist: PASS projections at pCover >= 0.50 with a real line. The
+    # 0.60-0.68 band is the watch tier; 0.50-0.60 is kept for projection
+    # visibility (Today's Games table) but never bet. Backfill keeps the
+    # same 0.50 floor — daily-run was the outlier.
     watchlist = []
     for p in projections:
         if p.get("pick") != "PASS":
             continue
         if p.get("line") is None:
             continue
-        if (p.get("pCover") or 0) < 0.60:
+        if (p.get("pCover") or 0) < 0.50:
             continue
         proj_v = p.get("proj")
         line_v = p.get("line")
