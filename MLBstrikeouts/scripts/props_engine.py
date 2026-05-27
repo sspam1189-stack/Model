@@ -449,9 +449,16 @@ def project_pitcher_props(pitcher_logs, team_batting_stats=None,
             whip = adv.get("WHIP", 0) or 1.20
             projected_bf = proj_ip * (3.0 + whip * 0.7)
 
-        from defaults import BF_MULT as _BF_MULT, BF_CAP as _BF_CAP
+        from defaults import BF_MULT as _BF_MULT, BF_CAP as _BF_CAP, BF_CAP_PCTILE
         projected_bf_display = projected_bf * _BF_MULT
-        projected_bf = min(projected_bf_display, _BF_CAP)
+        if BF_CAP_PCTILE > 0 and len(game_bfs) >= 3:
+            _sorted_bfs = sorted(game_bfs)
+            _pctile_idx = min(int(len(_sorted_bfs) * BF_CAP_PCTILE),
+                              len(_sorted_bfs) - 1)
+            _pitcher_bf_ceil = _sorted_bfs[_pctile_idx]
+            projected_bf = min(projected_bf_display, _pitcher_bf_ceil, _BF_CAP)
+        else:
+            projected_bf = min(projected_bf_display, _BF_CAP)
         # Projected pitch count: prefer recent avg if we have it; otherwise
         # derive from final projected_bf × league-avg pitches/BF.
         proj_pc = avg_pc if avg_pc is not None else projected_bf * avg_ppbf
