@@ -270,7 +270,15 @@ def get_team_slot_weights(team_abbr=None):
 # across BF=0.95-1.00, but RECENT (5/4+) combined WR best at BF=1.00
 # (68.6% with VAR=1.15) vs BF=0.95 (68.5%). Bumping to 1.00 to bias
 # toward recent-window performance amid market edge compression.
-BF_MULT = 1.00
+#
+# 2026-05-28 4D sweep (BF x VAR x CAP x whiff) + BF-projection calibration:
+# raw BF projection is unbiased (actual/proj=1.004 season), so 1.10 is NOT a
+# bias fix — it inflates an accurate projection. It LOSES ~9u season vs 1.00
+# (+172u vs +181u) but WINS the recent window (+44.4u vs +37.7u last-3wk,
+# +3.4u vs -1.9u this week). Shipping 1.10 as a deliberate recent-regime bet.
+# See memory project-bf-mult-overfit. VAR=1.30/CAP=24/whiff=0.8 unchanged
+# (all three best in BOTH windows; cap=24 robust at 1.10 too).
+BF_MULT = 1.10
 
 # Hard ceiling on projected batters faced after BF_MULT. League-wide safety
 # net on top of the avg_pc = median(last 5 PCs) projection (see props_engine).
