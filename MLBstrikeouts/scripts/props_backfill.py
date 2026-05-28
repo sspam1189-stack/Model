@@ -242,23 +242,29 @@ def backfill(season=None, start_game=10, start_date=None):
     #
     # EXCEPTION: when WHIFF_XBA_BLEND_WEIGHT > 0, props_engine reads savant
     # whiff_pct and xba to regress pitcher_k_rate toward underlying pitch
-    # quality. Backfill passes season-to-today savant_rates in that case
-    # (mild leakage — whiff/xBA are stable mid-late season). When the flag
-    # is 0, an empty dict is passed (no-leakage baseline).
+    # quality. Savant's leaderboard can't be date-bounded at fetch, so backfill
+    # replays the per-date daily snapshots run_daily cached (as-of prior_date,
+    # via load_savant_rates_as_of inside the loop). Dates before daily caching
+    # began get {} -> no whiff/xBA blend. No future-data leakage either way.
     from defaults import WHIFF_XBA_BLEND_WEIGHT
-    _savant_for_backfill = {}
     if WHIFF_XBA_BLEND_WEIGHT > 0:
         from sources.mlb_stats import (fetch_savant_pitcher_rates,
                                        compute_whiff_xba_regression,
                                        save_whiff_xba_regression,
-                                       load_whiff_xba_regression_as_of)
-        _savant_for_backfill = fetch_savant_pitcher_rates(season=season) or {}
+                                       load_whiff_xba_regression_as_of,
+                                       load_savant_rates_as_of)
+        # Today's snapshot is used ONLY to prime today's slope cache (for the
+        # next live run). It is NOT passed to historical projections — each
+        # backfill date loads its own as-of snapshot inside the loop
+        # (load_savant_rates_as_of) so no future whiff/xBA leaks in.
+        _savant_today = fetch_savant_pitcher_rates(season=season) or {}
         print(f"  [backfill] whiff/xBA blend enabled -> loaded "
-              f"{len(_savant_for_backfill)} savant entries (today's snapshot)")
+              f"{len(_savant_today)} savant entries (today's snapshot, "
+              f"slope-priming only)")
         # Slope refit is WALK-FORWARD — applied inside the date loop using
         # per-date cached regression files. Today's regression file is still
         # written below for tomorrow.
-        _reg_today = compute_whiff_xba_regression(_savant_for_backfill)
+        _reg_today = compute_whiff_xba_regression(_savant_today)
         if _reg_today:
             save_whiff_xba_regression(_reg_today, season=season)
             print(f"  [backfill] today's slopes cached "
@@ -331,6 +337,16 @@ def backfill(season=None, start_game=10, start_date=None):
             if today_date_logs:
                 batch_update_from_game_logs(kalman_state, today_date_logs)
             continue
+
+        # Walk-forward cutoff for ALL "as-of" external stats. Games played ON
+        # game_date are already complete in the historical API, and the MLB
+        # Stats API `byDateRange`/`statSplits` endDate is INCLUSIVE — so any
+        # fetch bounded at game_date would pull the very outcome we're trying
+        # to project (the pitcher's own start, the opponent's K's tonight).
+        # Bounding at game_date - 1 mirrors the adv_stats treatment below and
+        # keeps backfill faithful to what run_daily sees pre-game.
+        prior_date = (datetime.strptime(game_date, "%Y-%m-%d")
+                      - timedelta(days=1)).strftime("%Y-%m-%d")
 
         # Walk-forward whiff/xBA slope loading: pull the most recent
         # regression file fit on data on-or-before `game_date - 1 day`.
@@ -406,17 +422,18 @@ def backfill(season=None, start_game=10, start_date=None):
         )
 
         # Fetch per-date team batting (walk-forward: 45-day window ending at
-        # game_date, with season-to-game_date fallback for small samples).
+        # prior_date, with season-to-prior_date fallback for small samples).
+        # Bounded at prior_date (not game_date) so tonight's games don't leak.
         if game_date not in team_batting_by_date:
             team_batting_by_date[game_date] = fetch_team_batting_stats(
-                season=season, through_date=game_date
+                season=season, through_date=prior_date
             )
         team_batting = team_batting_by_date[game_date]
 
-        # Fetch per-date batter K rates the same way.
+        # Fetch per-date batter K rates the same way (bounded at prior_date).
         if game_date not in batter_k_rates_by_date:
             batter_k_rates_by_date[game_date] = fetch_batter_k_rates(
-                season=season, through_date=game_date
+                season=season, through_date=prior_date
             )
         batter_k_rates = batter_k_rates_by_date[game_date]
 
@@ -528,12 +545,14 @@ def backfill(season=None, start_game=10, start_date=None):
             pid = g.get("pitcher_id") or g.get("player_id")
             if pid and str(pid) not in date_splits:
                 s = fetch_pitcher_handedness_splits(
-                    pid, season=season, through_date=game_date
+                    pid, season=season, through_date=prior_date
                 )
-                # Also fetch season-to-game_date splits and stash in the
+                # Also fetch season-to-prior_date splits and stash in the
                 # same dict under _season suffix so props_engine can blend.
+                # Bounded at prior_date so the pitcher's own start tonight
+                # doesn't leak into their vs-L/vs-R K rate (same-game leak).
                 s_season = fetch_pitcher_handedness_splits_season(
-                    pid, season=season, through_date=game_date
+                    pid, season=season, through_date=prior_date
                 )
                 if s and s_season:
                     s["vs_left_season"] = s_season.get("vs_left", {})
@@ -544,9 +563,7 @@ def backfill(season=None, start_game=10, start_date=None):
         # Pull starter-only adv_stats through the prior date from the
         # MLB API (cached per-date, so historical days hit network once).
         # Backfill uses the same upstream the daily pipeline does — just
-        # bounded by `prior_date` so no future leakage.
-        prior_date = (datetime.strptime(game_date, "%Y-%m-%d")
-                      - timedelta(days=1)).strftime("%Y-%m-%d")
+        # bounded by `prior_date` (computed at loop top) so no future leakage.
         date_adv = _adv_stats_through(prior_date, season, pitch_hands)
 
         # Phase 3a: walk-forward empirical_std for this date (uses only
@@ -565,6 +582,14 @@ def backfill(season=None, start_game=10, start_date=None):
                 print(f"  [empirical_std {game_date}] {_mkt}: {_val:.3f} "
                       f"(backfill, n={_n}, default {_dflt})")
 
+        # Walk-forward savant: replay the season-to-date snapshot that was
+        # cached on/before prior_date. {} when none exists (pre-caching early
+        # dates) -> props_engine skips the whiff/xBA adjustment. Never uses a
+        # future snapshot, so no whiff/xBA leakage.
+        _savant_asof = ({}
+                        if WHIFF_XBA_BLEND_WEIGHT <= 0
+                        else load_savant_rates_as_of(prior_date, season))
+
         # Phase 3: Project props using prior data + current Kalman state
         projections = project_pitcher_props(
             prior_logs,
@@ -578,7 +603,7 @@ def backfill(season=None, start_game=10, start_date=None):
             weather_by_game=weather_data,
             batter_k_rates=batter_k_rates,
             lineup_data=date_lineup_data,
-            savant_rates=_savant_for_backfill,
+            savant_rates=_savant_asof,
             empirical_std=runtime_emp_std or None,
         )
 

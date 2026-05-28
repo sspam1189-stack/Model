@@ -624,6 +624,44 @@ def fetch_savant_pitcher_rates(season=None, min_pa=10):
     return result
 
 
+def load_savant_rates_as_of(through_date, season=None):
+    """
+    Load the most recent daily savant snapshot captured on or before
+    `through_date` (YYYY-MM-DD), for walk-forward backfill.
+
+    Baseball Savant's custom leaderboard does NOT honor date-range params
+    (verified against the API), so its whiff%/xBA can only be pulled as a
+    season-to-date snapshot. To stay leak-free in backfill we replay the
+    dated snapshots run_daily cached each day it ran
+    (savant_rates_{season}_{YYYYMMDD}.json) — i.e. exactly the season-to-date
+    figures that were known on/before the projection date.
+
+    Returns {} when no snapshot on/before `through_date` exists (e.g. dates
+    before daily caching began). An empty dict makes props_engine skip the
+    whiff/xBA adjustment entirely (the `if whiff>0 or xba>0` guard), so early
+    dates degrade to the no-blend baseline rather than leaking future data.
+    """
+    import glob
+    season = season or _current_season()
+    thru_key = through_date.replace("-", "")
+    prefix = f"savant_rates_{season}_"
+    best_key = None
+    best_path = None
+    for p in glob.glob(str(CACHE_DIR / f"{prefix}*.json")):
+        stamp = os.path.basename(p)[len(prefix):-len(".json")]
+        if len(stamp) != 8 or not stamp.isdigit():
+            continue  # skips the undated savant_rates_{season}.json
+        if stamp <= thru_key and (best_key is None or stamp > best_key):
+            best_key, best_path = stamp, p
+    if best_path is None:
+        return {}
+    try:
+        with open(best_path, "r") as f:
+            return json.load(f)
+    except Exception:
+        return {}
+
+
 def compute_whiff_xba_regression(savant_data, min_pitchers=50):
     """
     Fit bivariate OLS of K% on (whiff_pct, xba) from the current savant
@@ -1022,12 +1060,17 @@ def _fetch_batter_k_rates_window(season, start_date, end_date):
                 "pa_vs_rhp": 0,
             }
 
-    # vs LHP/RHP splits are only available via stats=statSplits (season-scoped).
-    # For walk-forward we still use season-to-through_date splits; the splits
-    # endpoint doesn't support byDateRange. Fetch with endDate bound via season.
+    # vs LHP/RHP splits via stats=statSplits. The league-wide statSplits
+    # endpoint DOES honor startDate/endDate (verified against the API), so we
+    # bound the splits to season-start..end_date (season-to-as-of-date) to
+    # match the walk-forward window's end. Using `season=` instead pulled
+    # FULL-season splits including games after end_date, which leaked future
+    # batter performance into historical projections.
+    _split_season_start = f"{season}-03-20"
     url2 = (
-        f"{BASE_URL}/stats?stats=statSplits&group=hitting&season={season}"
+        f"{BASE_URL}/stats?stats=statSplits&group=hitting"
         f"&sportId=1&sitCodes=vl,vr&playerPool=all&limit=1000"
+        f"&startDate={_split_season_start}&endDate={end_date}"
     )
     try:
         raw2 = _fetch_json(url2)
