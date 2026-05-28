@@ -114,16 +114,6 @@
     "source": "rotowire:draftkings"
   },
   {
-    "player": "Paul Skenes",
-    "market": "strikeouts",
-    "line": 6.5,
-    "over_price": -105,
-    "under_price": -121,
-    "event_home": "PIT",
-    "event_away": "CHC",
-    "source": "rotowire:draftkings"
-  },
-  {
     "player": "Spencer Arrighetti",
     "market": "strikeouts",
     "line": 5.5,
@@ -152,38 +142,6 @@
     "event_home": "BAL",
     "event_away": "TOR",
     "source": "rotowire:draftkings"
-  },
-  {
-    "player": "Colin Rea",
-    "market": "strikeouts",
-    "line": 4.5,
-    "over_price": 105,
-    "under_price": -134,
-    "event_home": "PIT",
-    "event_away": "CHC",
-    "source": "rotowire:draftkings"
-  },
-  {
-    "player": "Colin Rea 16.5",
-    "market": "outs",
-    "line": 16.5,
-    "over_price": -132,
-    "under_price": 100,
-    "event_home": "PIT",
-    "event_away": "CHC",
-    "source": "fanduel",
-    "_event_id": "35656298"
-  },
-  {
-    "player": "Paul Skenes 18.5",
-    "market": "outs",
-    "line": 18.5,
-    "over_price": 140,
-    "under_price": -188,
-    "event_home": "PIT",
-    "event_away": "CHC",
-    "source": "fanduel",
-    "_event_id": "35656298"
   },
   {
     "player": "Patrick Corbin 15.5",
@@ -228,5 +186,47 @@
     "event_away": "HOU",
     "source": "fanduel",
     "_event_id": "35656303"
+  },
+  {
+    "player": "Paul Skenes",
+    "market": "strikeouts",
+    "line": 6.5,
+    "over_price": -105,
+    "under_price": -121,
+    "event_home": "PIT",
+    "event_away": "CHC",
+    "source": "rotowire:draftkings"
+  },
+  {
+    "player": "Colin Rea",
+    "market": "strikeouts",
+    "line": 4.5,
+    "over_price": 105,
+    "under_price": -134,
+    "event_home": "PIT",
+    "event_away": "CHC",
+    "source": "rotowire:draftkings"
+  },
+  {
+    "player": "Colin Rea 16.5",
+    "market": "outs",
+    "line": 16.5,
+    "over_price": -132,
+    "under_price": 100,
+    "event_home": "PIT",
+    "event_away": "CHC",
+    "source": "fanduel",
+    "_event_id": "35656298"
+  },
+  {
+    "player": "Paul Skenes 18.5",
+    "market": "outs",
+    "line": 18.5,
+    "over_price": 140,
+    "under_price": -188,
+    "event_home": "PIT",
+    "event_away": "CHC",
+    "source": "fanduel",
+    "_event_id": "35656298"
   }
 ]
