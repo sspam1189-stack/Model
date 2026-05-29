@@ -1349,8 +1349,8 @@
               dataTRs.forEach(r => { r.style.display = open ? '' : 'none'; });
             });
           };
-          _appendCollapsibleSection(`Picks — TAKE (${takePicksT.length})`, 'var(--green)', takePicksT, true);
-          _appendCollapsibleSection(`Picks — PASS (${passPicksT.length})`, 'var(--red)', passPicksT, true);
+          _appendCollapsibleSection(`Picks — TAKE (${takePicksT.length})`, 'var(--green)', takePicksT, false);
+          _appendCollapsibleSection(`Picks — PASS (${passPicksT.length})`, 'var(--red)', passPicksT, false);
           if (todayLeans.length) {
             // Collapsible "Watch — history" section: shows every watch-tier
             // row for context (these are projections that didn't clear the
