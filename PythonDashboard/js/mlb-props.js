@@ -2667,6 +2667,7 @@
             const _thBucket = _phBucket;
             const _thOdds = _phOdds;
 
+            let _thPage = 0, _thAllRows = [], _thAllEver = [];
             function renderTeamHistory(team) {
               const fromProps = (data.props || []).filter(p =>
                 p.market === 'strikeouts' && _teamKey(p) === team
@@ -2712,6 +2713,17 @@
                 return _thBucket(p) === _thActiveFilter;
               });
 
+              _thAllRows = all;
+              _thAllEver = allEver;
+              _thPage = 0;          // reset to first page on any filter/team change
+              _thDraw();
+            }
+
+            // Render one 25-row page of the stashed Team History rows plus
+            // Prev/Next controls. renderTeamHistory() resets to page 0 on any
+            // filter/team change; the pager buttons bump _thPage and redraw.
+            function _thDraw() {
+              const all = _thAllRows, allEver = _thAllEver;
               thTblWrap.innerHTML = '';
               if (all.length === 0) {
                 const e = document.createElement('div');
@@ -2723,6 +2735,13 @@
                 _thRenderSummary(allEver);
                 return;
               }
+
+              const TH_PAGE_SIZE = 25;
+              const _thPages = Math.max(1, Math.ceil(all.length / TH_PAGE_SIZE));
+              if (_thPage >= _thPages) _thPage = _thPages - 1;
+              if (_thPage < 0) _thPage = 0;
+              const _thStart = _thPage * TH_PAGE_SIZE;
+              const _pageRows = all.slice(_thStart, _thStart + TH_PAGE_SIZE);
 
               const tbl = document.createElement('table');
               tbl.style.cssText = 'width:100%;border-collapse:collapse';
@@ -2742,7 +2761,7 @@
               });
               const body = tbl.createTBody();
 
-              for (const p of all) {
+              for (const p of _pageRows) {
                 const tr = body.insertRow();
                 tr.style.borderBottom = '1px solid rgba(255,255,255,0.04)';
                 const bkt = _thBucket(p);
@@ -2797,6 +2816,25 @@
               }
               thTblWrap.appendChild(tbl);
               fitMLBTableToContainer(tbl);
+
+              if (_thPages > 1) {
+                const pager = document.createElement('div');
+                pager.style.cssText = 'display:flex;align-items:center;justify-content:center;gap:12px;padding:8px;font-size:12px;color:#bbb';
+                const mkBtn = (label, disabled, onClick) => {
+                  const b = document.createElement('button');
+                  b.textContent = label;
+                  b.disabled = disabled;
+                  b.style.cssText = `padding:4px 12px;border-radius:4px;border:1px solid rgba(255,255,255,0.15);background:${disabled ? 'rgba(255,255,255,0.03)' : 'rgba(255,255,255,0.08)'};color:${disabled ? '#555' : '#ddd'};cursor:${disabled ? 'default' : 'pointer'};font-size:12px`;
+                  if (!disabled) b.addEventListener('click', onClick);
+                  return b;
+                };
+                pager.appendChild(mkBtn('‹ Prev', _thPage <= 0, () => { _thPage--; _thDraw(); }));
+                const info = document.createElement('span');
+                info.textContent = `Page ${_thPage + 1} of ${_thPages} · ${all.length} rows`;
+                pager.appendChild(info);
+                pager.appendChild(mkBtn('Next ›', _thPage >= _thPages - 1, () => { _thPage++; _thDraw(); }));
+                thTblWrap.appendChild(pager);
+              }
 
               _thRenderSummary(allEver);
             }
