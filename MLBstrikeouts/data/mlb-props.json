@@ -4,7 +4,7 @@
   "season": "2026",
   "mode": "live",
   "model": "kalman_blend",
-  "generated": "2026-05-28T18:01:03.298056",
+  "generated": "2026-05-28T19:31:13.214066",
   "totalProjections": 12,
   "totalPicks": 1168,
   "totalWatchlist": 7,
@@ -32668,7 +32668,7 @@
       "odds": -157,
       "to_win_1u": 1.57,
       "date": "2026-05-28",
-      "lockState": "lineup_confirmed",
+      "lockState": "game_started",
       "lockedAt": "2026-05-28T21:25:32.000666Z",
       "readVerdict": "TAKE"
     },
@@ -32809,7 +32809,7 @@
       "to_win_1u": 0.87,
       "would_be_pick": "OVER",
       "date": "2026-05-28",
-      "lockState": "lineup_confirmed",
+      "lockState": "game_started",
       "lockedAt": "2026-05-28T21:25:32.000666Z"
     },
     {
@@ -33033,7 +33033,7 @@
       "odds": 115,
       "to_win_1u": 0.87,
       "date": "2026-05-28",
-      "lockState": "lineup_confirmed",
+      "lockState": "game_started",
       "lockedAt": "2026-05-28T21:25:32.000666Z"
     },
     {
@@ -33087,7 +33087,7 @@
       "odds": -157,
       "to_win_1u": 1.57,
       "date": "2026-05-28",
-      "lockState": "lineup_confirmed",
+      "lockState": "game_started",
       "lockedAt": "2026-05-28T21:25:32.000666Z",
       "readVerdict": "TAKE"
     },
@@ -33165,14 +33165,14 @@
     "LAA": "Final",
     "CWS": "Final",
     "MIN": "Final",
-    "BOS": "In Progress",
-    "ATL": "In Progress",
+    "BOS": "Final",
+    "ATL": "Final",
     "BAL": "In Progress",
     "TOR": "In Progress",
     "PIT": "In Progress",
     "CHC": "In Progress",
-    "TEX": "Pre-Game",
-    "HOU": "Pre-Game"
+    "TEX": "In Progress",
+    "HOU": "In Progress"
   },
   "gameTimesById": {
     "824272": "2026-05-28T17:10:00Z",
@@ -33185,10 +33185,10 @@
   "gameStatusesById": {
     "824272": "Final",
     "824595": "Final",
-    "824757": "In Progress",
+    "824757": "Final",
     "824834": "In Progress",
     "823378": "In Progress",
-    "822896": "Pre-Game"
+    "822896": "In Progress"
   },
   "homeAway": {
     "2026-04-14": {
