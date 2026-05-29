@@ -11,6 +11,96 @@
     "_event_id": "35659780"
   },
   {
+    "player": "Lucas Giolito",
+    "line": 3.5,
+    "over_price": -124,
+    "under_price": -103,
+    "market": "strikeouts",
+    "event_home": "WSN",
+    "event_away": "SDP",
+    "_event_id": "8c92a04b11da0a1f6f84d1dfd48fbf9d"
+  },
+  {
+    "player": "Nick Martinez",
+    "line": 4.5,
+    "over_price": 111,
+    "under_price": -142,
+    "market": "strikeouts",
+    "event_home": "TBR",
+    "event_away": "LAA",
+    "_event_id": "95952a4215c0c1d281c4dcbed7471d28"
+  },
+  {
+    "player": "Walbert Urena",
+    "line": 3.5,
+    "over_price": -162,
+    "under_price": 127,
+    "market": "strikeouts",
+    "event_home": "TBR",
+    "event_away": "LAA",
+    "_event_id": "95952a4215c0c1d281c4dcbed7471d28"
+  },
+  {
+    "player": "MacKenzie Gore",
+    "line": 5.5,
+    "over_price": -115,
+    "under_price": -111,
+    "market": "strikeouts",
+    "event_home": "TEX",
+    "event_away": "KCR",
+    "_event_id": "57848c1e5cf12fb46c9c6e5c89c1022e"
+  },
+  {
+    "player": "Stephen Kolek",
+    "line": 3.5,
+    "over_price": -131,
+    "under_price": 102,
+    "market": "strikeouts",
+    "event_home": "TEX",
+    "event_away": "KCR",
+    "_event_id": "57848c1e5cf12fb46c9c6e5c89c1022e"
+  },
+  {
+    "player": "Logan Webb",
+    "line": 4.5,
+    "over_price": 113,
+    "under_price": -144,
+    "market": "strikeouts",
+    "event_home": "COL",
+    "event_away": "SFG",
+    "_event_id": "2106f4fc8ef576eac2a39262d02f66e7"
+  },
+  {
+    "player": "Michael Lorenzen",
+    "line": 3.5,
+    "over_price": -131,
+    "under_price": 103,
+    "market": "strikeouts",
+    "event_home": "COL",
+    "event_away": "SFG",
+    "_event_id": "2106f4fc8ef576eac2a39262d02f66e7"
+  },
+  {
+    "player": "Carlos Rodon",
+    "line": 6.5,
+    "over_price": 120,
+    "under_price": -154,
+    "market": "strikeouts",
+    "event_home": "Athletics",
+    "event_away": "NYY",
+    "_event_id": "26c7991c125b7365c82472e2468e59a6"
+  },
+  {
+    "player": "Luis Severino",
+    "line": 5.5,
+    "over_price": -104,
+    "under_price": -123,
+    "market": "strikeouts",
+    "event_home": "Athletics",
+    "event_away": "NYY",
+    "_event_id": "26c7991c125b7365c82472e2468e59a6"
+  },
+  {
     "player": "Kyle Leahy",
     "market": "strikeouts",
     "line": 3.5,
@@ -21,10 +111,187 @@
     "source": "rotowire:hardrock"
   },
   {
+    "player": "Grant Holmes",
+    "market": "strikeouts",
+    "line": 5.5,
+    "over_price": -105,
+    "under_price": -122,
+    "event_home": "CIN",
+    "event_away": "ATL",
+    "source": "rotowire:draftkings"
+  },
+  {
+    "player": "Chris Paddack",
+    "market": "strikeouts",
+    "line": 3.5,
+    "over_price": -129,
+    "under_price": 101,
+    "event_home": "CIN",
+    "event_away": "ATL",
+    "source": "rotowire:draftkings"
+  },
+  {
+    "player": "Lucas Giolito",
+    "market": "strikeouts",
+    "line": 3.5,
+    "over_price": -160,
+    "under_price": 125,
+    "event_home": "WAS",
+    "event_away": "SD",
+    "source": "rotowire:draftkings"
+  },
+  {
+    "player": "Paxton Schultz",
+    "market": "strikeouts",
+    "line": 1.5,
+    "over_price": 149,
+    "under_price": null,
+    "event_home": "WAS",
+    "event_away": "SD",
+    "source": "rotowire:caesars"
+  },
+  {
+    "player": "Chris Paddack 14.5",
+    "market": "outs",
+    "line": 14.5,
+    "over_price": -200,
+    "under_price": 148,
+    "event_home": "CIN",
+    "event_away": "ATL",
+    "source": "fanduel",
+    "_event_id": "35659781"
+  },
+  {
+    "player": "Lucas Giolito 15.5",
+    "market": "outs",
+    "line": 15.5,
+    "over_price": -125,
+    "under_price": -106,
+    "event_home": "WAS",
+    "event_away": "SD",
+    "source": "fanduel",
+    "_event_id": "35659783"
+  },
+  {
+    "player": "Shota Imanaga",
+    "market": "strikeouts",
+    "line": 5.5,
+    "over_price": 127,
+    "under_price": -162,
+    "event_home": "STL",
+    "event_away": "CHC",
+    "source": "rotowire:draftkings"
+  },
+  {
+    "player": "Slade Cecconi",
+    "market": "strikeouts",
+    "line": 4.5,
+    "over_price": 112,
+    "under_price": -143,
+    "event_home": "CLE",
+    "event_away": "BOS",
+    "source": "rotowire:draftkings"
+  },
+  {
+    "player": "Nick Martinez",
+    "market": "strikeouts",
+    "line": 4.5,
+    "over_price": 112,
+    "under_price": -142,
+    "event_home": "TB",
+    "event_away": "LAA",
+    "source": "rotowire:draftkings"
+  },
+  {
+    "player": "Andre Pallante",
+    "market": "strikeouts",
+    "line": 3.5,
+    "over_price": -138,
+    "under_price": 111,
+    "event_home": "STL",
+    "event_away": "CHC",
+    "source": "rotowire:draftkings"
+  },
+  {
+    "player": "Walbert Urena",
+    "market": "strikeouts",
+    "line": 3.5,
+    "over_price": -132,
+    "under_price": 103,
+    "event_home": "TB",
+    "event_away": "LAA",
+    "source": "rotowire:draftkings"
+  },
+  {
+    "player": "Tyler Samaniego",
+    "market": "strikeouts",
+    "line": 0.5,
+    "over_price": -155,
+    "under_price": 120,
+    "event_home": "CLE",
+    "event_away": "BOS",
+    "source": "rotowire:hardrock"
+  },
+  {
+    "player": "Nick Martinez 17.5",
+    "market": "outs",
+    "line": 17.5,
+    "over_price": -125,
+    "under_price": -108,
+    "event_home": "TB",
+    "event_away": "LAA",
+    "source": "fanduel",
+    "_event_id": "35659779"
+  },
+  {
+    "player": "Walbert Urena 15.5",
+    "market": "outs",
+    "line": 15.5,
+    "over_price": 110,
+    "under_price": -146,
+    "event_home": "TB",
+    "event_away": "LAA",
+    "source": "fanduel",
+    "_event_id": "35659779"
+  },
+  {
+    "player": "Slade Cecconi 15.5",
+    "market": "outs",
+    "line": 15.5,
+    "over_price": -146,
+    "under_price": 108,
+    "event_home": "CLE",
+    "event_away": "BOS",
+    "source": "fanduel",
+    "_event_id": "35659788"
+  },
+  {
+    "player": "Andre Pallante 17.5",
+    "market": "outs",
+    "line": 17.5,
+    "over_price": -110,
+    "under_price": -120,
+    "event_home": "STL",
+    "event_away": "CHC",
+    "source": "fanduel",
+    "_event_id": "35659796"
+  },
+  {
+    "player": "Shota Imanaga 17.5",
+    "market": "outs",
+    "line": 17.5,
+    "over_price": -178,
+    "under_price": 130,
+    "event_home": "STL",
+    "event_away": "CHC",
+    "source": "fanduel",
+    "_event_id": "35659796"
+  },
+  {
     "player": "Max Meyer",
     "market": "strikeouts",
     "line": 5.5,
-    "over_price": -154,
+    "over_price": -156,
     "under_price": 122,
     "event_home": "NYM",
     "event_away": "MIA",
@@ -61,6 +328,16 @@
     "source": "rotowire:draftkings"
   },
   {
+    "player": "Zac Gallen",
+    "market": "strikeouts",
+    "line": 4.5,
+    "over_price": -126,
+    "under_price": -101,
+    "event_home": "SEA",
+    "event_away": "ARI",
+    "source": "rotowire:draftkings"
+  },
+  {
     "player": "MacKenzie Gore",
     "market": "strikeouts",
     "line": 5.5,
@@ -68,26 +345,6 @@
     "under_price": -152,
     "event_home": "TEX",
     "event_away": "KC",
-    "source": "rotowire:draftkings"
-  },
-  {
-    "player": "Grant Holmes",
-    "market": "strikeouts",
-    "line": 5.5,
-    "over_price": -111,
-    "under_price": -115,
-    "event_home": "CIN",
-    "event_away": "ATL",
-    "source": "rotowire:draftkings"
-  },
-  {
-    "player": "Shota Imanaga",
-    "market": "strikeouts",
-    "line": 4.5,
-    "over_price": -161,
-    "under_price": 126,
-    "event_home": "STL",
-    "event_away": "CHC",
     "source": "rotowire:draftkings"
   },
   {
@@ -121,26 +378,6 @@
     "source": "rotowire:draftkings"
   },
   {
-    "player": "Slade Cecconi",
-    "market": "strikeouts",
-    "line": 4.5,
-    "over_price": 112,
-    "under_price": -143,
-    "event_home": "CLE",
-    "event_away": "BOS",
-    "source": "rotowire:draftkings"
-  },
-  {
-    "player": "Zac Gallen",
-    "market": "strikeouts",
-    "line": 4.5,
-    "over_price": -126,
-    "under_price": -101,
-    "event_home": "SEA",
-    "event_away": "ARI",
-    "source": "rotowire:draftkings"
-  },
-  {
     "player": "Jared Jones",
     "market": "strikeouts",
     "line": 4.5,
@@ -148,16 +385,6 @@
     "under_price": 117,
     "event_home": "PIT",
     "event_away": "MIN",
-    "source": "rotowire:draftkings"
-  },
-  {
-    "player": "Nick Martinez",
-    "market": "strikeouts",
-    "line": 4.5,
-    "over_price": 115,
-    "under_price": -147,
-    "event_home": "TB",
-    "event_away": "LAA",
     "source": "rotowire:draftkings"
   },
   {
@@ -174,7 +401,7 @@
     "player": "Trevor Rogers",
     "market": "strikeouts",
     "line": 4.5,
-    "over_price": 116,
+    "over_price": 119,
     "under_price": -148,
     "event_home": "BAL",
     "event_away": "TOR",
@@ -194,7 +421,7 @@
     "player": "Logan Webb",
     "market": "strikeouts",
     "line": 4.5,
-    "over_price": 119,
+    "over_price": 121,
     "under_price": -152,
     "event_home": "COL",
     "event_away": "SF",
@@ -221,20 +448,10 @@
     "source": "rotowire:draftkings"
   },
   {
-    "player": "Lucas Giolito",
-    "market": "strikeouts",
-    "line": 3.5,
-    "over_price": -160,
-    "under_price": 125,
-    "event_home": "WAS",
-    "event_away": "SD",
-    "source": "rotowire:draftkings"
-  },
-  {
     "player": "Stephen Kolek",
     "market": "strikeouts",
     "line": 3.5,
-    "over_price": -117,
+    "over_price": -119,
     "under_price": -107,
     "event_home": "TEX",
     "event_away": "KC",
@@ -251,54 +468,14 @@
     "source": "rotowire:draftkings"
   },
   {
-    "player": "Chris Paddack",
-    "market": "strikeouts",
-    "line": 3.5,
-    "over_price": -129,
-    "under_price": 101,
-    "event_home": "CIN",
-    "event_away": "ATL",
-    "source": "rotowire:draftkings"
-  },
-  {
-    "player": "Andre Pallante",
-    "market": "strikeouts",
-    "line": 3.5,
-    "over_price": -140,
-    "under_price": 111,
-    "event_home": "STL",
-    "event_away": "CHC",
-    "source": "rotowire:draftkings"
-  },
-  {
-    "player": "Walbert Urena",
-    "market": "strikeouts",
-    "line": 3.5,
-    "over_price": -145,
-    "under_price": 114,
-    "event_home": "TB",
-    "event_away": "LAA",
-    "source": "rotowire:draftkings"
-  },
-  {
     "player": "Adam Macko",
     "market": "strikeouts",
     "line": 1.5,
     "over_price": 140,
-    "under_price": -185,
+    "under_price": -190,
     "event_home": "BAL",
     "event_away": "TOR",
     "source": "rotowire:hardrock"
-  },
-  {
-    "player": "Paxton Schultz",
-    "market": "strikeouts",
-    "line": 1.5,
-    "over_price": 149,
-    "under_price": -190,
-    "event_home": "WAS",
-    "event_away": "SD",
-    "source": "rotowire:caesars"
   },
   {
     "player": "Brandon Eisert",
@@ -311,38 +488,6 @@
     "source": "rotowire:hardrock"
   },
   {
-    "player": "Tyler Samaniego",
-    "market": "strikeouts",
-    "line": 0.5,
-    "over_price": -155,
-    "under_price": 121,
-    "event_home": "CLE",
-    "event_away": "BOS",
-    "source": "rotowire:caesars"
-  },
-  {
-    "player": "Nick Martinez 17.5",
-    "market": "outs",
-    "line": 17.5,
-    "over_price": -125,
-    "under_price": -108,
-    "event_home": "TB",
-    "event_away": "LAA",
-    "source": "fanduel",
-    "_event_id": "35659779"
-  },
-  {
-    "player": "Walbert Urena 15.5",
-    "market": "outs",
-    "line": 15.5,
-    "over_price": 110,
-    "under_price": -146,
-    "event_home": "TB",
-    "event_away": "LAA",
-    "source": "fanduel",
-    "_event_id": "35659779"
-  },
-  {
     "player": "Taj Bradley 16.5",
     "market": "outs",
     "line": 16.5,
@@ -352,17 +497,6 @@
     "event_away": "MIN",
     "source": "fanduel",
     "_event_id": "35659780"
-  },
-  {
-    "player": "Chris Paddack 14.5",
-    "market": "outs",
-    "line": 14.5,
-    "over_price": -200,
-    "under_price": 148,
-    "event_home": "CIN",
-    "event_away": "ATL",
-    "source": "fanduel",
-    "_event_id": "35659781"
   },
   {
     "player": "Justin Wrobleski 17.5",
@@ -385,17 +519,6 @@
     "event_away": "PHI",
     "source": "fanduel",
     "_event_id": "35659782"
-  },
-  {
-    "player": "Lucas Giolito 15.5",
-    "market": "outs",
-    "line": 15.5,
-    "over_price": -125,
-    "under_price": -106,
-    "event_home": "WAS",
-    "event_away": "SD",
-    "source": "fanduel",
-    "_event_id": "35659783"
   },
   {
     "player": "Luis Severino 15.5",
@@ -451,17 +574,6 @@
     "event_away": "KC",
     "source": "fanduel",
     "_event_id": "35659787"
-  },
-  {
-    "player": "Slade Cecconi 15.5",
-    "market": "outs",
-    "line": 15.5,
-    "over_price": -146,
-    "under_price": 108,
-    "event_home": "CLE",
-    "event_away": "BOS",
-    "source": "fanduel",
-    "_event_id": "35659788"
   },
   {
     "player": "Kai-Wei Teng 14.5",
@@ -539,117 +651,5 @@
     "event_away": "TOR",
     "source": "fanduel",
     "_event_id": "35659795"
-  },
-  {
-    "player": "Andre Pallante 17.5",
-    "market": "outs",
-    "line": 17.5,
-    "over_price": -110,
-    "under_price": -120,
-    "event_home": "STL",
-    "event_away": "CHC",
-    "source": "fanduel",
-    "_event_id": "35659796"
-  },
-  {
-    "player": "Shota Imanaga 17.5",
-    "market": "outs",
-    "line": 17.5,
-    "over_price": -178,
-    "under_price": 130,
-    "event_home": "STL",
-    "event_away": "CHC",
-    "source": "fanduel",
-    "_event_id": "35659796"
-  },
-  {
-    "player": "Lucas Giolito",
-    "line": 3.5,
-    "over_price": -160,
-    "under_price": 125,
-    "market": "strikeouts",
-    "event_home": "WSN",
-    "event_away": "SDP",
-    "_event_id": "8c92a04b11da0a1f6f84d1dfd48fbf9d"
-  },
-  {
-    "player": "Nick Martinez",
-    "line": 4.5,
-    "over_price": 112,
-    "under_price": -142,
-    "market": "strikeouts",
-    "event_home": "TBR",
-    "event_away": "LAA",
-    "_event_id": "95952a4215c0c1d281c4dcbed7471d28"
-  },
-  {
-    "player": "Walbert Urena",
-    "line": 3.5,
-    "over_price": -132,
-    "under_price": 103,
-    "market": "strikeouts",
-    "event_home": "TBR",
-    "event_away": "LAA",
-    "_event_id": "95952a4215c0c1d281c4dcbed7471d28"
-  },
-  {
-    "player": "MacKenzie Gore",
-    "line": 5.5,
-    "over_price": 119,
-    "under_price": -152,
-    "market": "strikeouts",
-    "event_home": "TEX",
-    "event_away": "KCR",
-    "_event_id": "57848c1e5cf12fb46c9c6e5c89c1022e"
-  },
-  {
-    "player": "Stephen Kolek",
-    "line": 3.5,
-    "over_price": -119,
-    "under_price": -107,
-    "market": "strikeouts",
-    "event_home": "TEX",
-    "event_away": "KCR",
-    "_event_id": "57848c1e5cf12fb46c9c6e5c89c1022e"
-  },
-  {
-    "player": "Logan Webb",
-    "line": 4.5,
-    "over_price": 119,
-    "under_price": -152,
-    "market": "strikeouts",
-    "event_home": "COL",
-    "event_away": "SFG",
-    "_event_id": "2106f4fc8ef576eac2a39262d02f66e7"
-  },
-  {
-    "player": "Michael Lorenzen",
-    "line": 3.5,
-    "over_price": -124,
-    "under_price": -103,
-    "market": "strikeouts",
-    "event_home": "COL",
-    "event_away": "SFG",
-    "_event_id": "2106f4fc8ef576eac2a39262d02f66e7"
-  },
-  {
-    "player": "Carlos Rodon",
-    "line": 6.5,
-    "over_price": 120,
-    "under_price": -154,
-    "market": "strikeouts",
-    "event_home": "Athletics",
-    "event_away": "NYY",
-    "_event_id": "26c7991c125b7365c82472e2468e59a6"
-  },
-  {
-    "player": "Luis Severino",
-    "line": 5.5,
-    "over_price": 105,
-    "under_price": -134,
-    "market": "strikeouts",
-    "event_home": "Athletics",
-    "event_away": "NYY",
-    "_event_id": "26c7991c125b7365c82472e2468e59a6"
   }
 ]
