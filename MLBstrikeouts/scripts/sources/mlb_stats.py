@@ -7,7 +7,7 @@ import requests
 import json
 import os
 import time
-from datetime import datetime, date
+from datetime import datetime, date, timedelta
 from pathlib import Path
 
 CACHE_DIR = Path(__file__).resolve().parents[3] / "data" / "pitcher_cache" / "mlb"
@@ -600,7 +600,7 @@ def fetch_savant_pitcher_rates(season=None, min_pa=10):
     Single CSV download — no per-player calls needed. Returns
     {player_id_str: {"k_pct": float, "whiff_pct": float, "xba": float}}.
     whiff_pct and xba feed the K-rate regression in props_engine
-    (gated by WHIFF_XBA_BLEND_WEIGHT > 0).
+    (gated by CSW_XBA_BLEND_WEIGHT > 0).
     """
     import csv
     import io
@@ -692,11 +692,18 @@ def load_savant_rates_as_of(through_date, season=None):
         return {}
 
 
-def compute_whiff_xba_regression(savant_data, min_pitchers=50):
+def compute_whiff_xba_regression(savant_data, min_pitchers=50, x1_key="whiff_pct"):
     """
-    Fit bivariate OLS of K% on (whiff_pct, xba) from the current savant
+    Fit bivariate OLS of K% on (x1_key, xba) from the current savant
     snapshot. Returns slopes + league means used by props_engine to
     regress pitcher_k_rate.
+
+    x1_key selects the first regressor: "whiff_pct" (default) or "csw"
+    (Called-Strikes+Whiffs%, merged in from load_csw_as_of). The return
+    keys stay whiff_slope/whiff_mean regardless of x1_key — they denote
+    "the metric-1 slope/mean" and feed CSW_K_SLOPE/CSW_LEAGUE_AVG in
+    props_engine, which multiplies them by whichever metric K_QUALITY_METRIC
+    selects. Keeping the keys generic avoids a parallel wiring path.
 
     Returns {'whiff_slope', 'xba_slope', 'whiff_mean', 'xba_mean', 'n', 'r2'}
     or None if fewer than min_pitchers qualify (caller should fall back
@@ -704,7 +711,7 @@ def compute_whiff_xba_regression(savant_data, min_pitchers=50):
     """
     pairs = []
     for pid, r in (savant_data or {}).items():
-        w = r.get("whiff_pct"); x = r.get("xba"); k = r.get("k_pct")
+        w = r.get(x1_key); x = r.get("xba"); k = r.get("k_pct")
         if w and x and k and w > 0 and x > 0 and k > 0:
             pairs.append((w, x, k))
     n = len(pairs)
@@ -742,11 +749,169 @@ def compute_whiff_xba_regression(savant_data, min_pitchers=50):
     }
 
 
-def save_whiff_xba_regression(reg, season=None, date_iso=None):
+# ---------------------------------------------------------------------------
+# 2c. Called-Strikes+Whiffs% (CSW) from Statcast pitch-level data
+# ---------------------------------------------------------------------------
+# CSW is NOT exposed by the custom leaderboard (those columns export empty),
+# so we reconstruct it from the pitch-level Statcast search, which — unlike
+# the leaderboard — honors date ranges. We download one game-date at a time
+# and cache an IMMUTABLE daily tally (past days never change), then sum those
+# tallies up to prior_date to get a leak-free season-to-date CSW for backfill.
+# This mirrors load_savant_rates_as_of's walk-forward contract but rebuilds
+# the metric instead of replaying snapshots that were never captured for CSW.
+
+# CSW numerator = strikes the batter did not put in play. foul_tip and
+# swinging_strike_blocked are whiffs (caught/uncaught); called_strike is the
+# command/zone half. Matches the standard Pitcher List CSW convention.
+_CSW_NUMERATOR_DESCRIPTIONS = frozenset({
+    "called_strike",
+    "swinging_strike",
+    "swinging_strike_blocked",
+    "foul_tip",
+})
+
+
+def _fetch_statcast_day(day_iso):
+    """Download one game-date of pitch-level Statcast rows. Returns the list
+    of {pitcher, description} dicts, or None on persistent failure."""
+    import csv as _csv
+    import io as _io
+    url = (
+        "https://baseballsavant.mlb.com/statcast_search/csv?all=true"
+        f"&player_type=pitcher&game_date_gt={day_iso}&game_date_lt={day_iso}"
+        "&type=details"
+    )
+    for attempt in range(4):
+        try:
+            resp = requests.get(url, headers={"User-Agent": "Mozilla/5.0"},
+                                timeout=90)
+            resp.raise_for_status()
+            reader = _csv.DictReader(_io.StringIO(resp.text.lstrip("﻿")))
+            return [{"pitcher": r.get("pitcher", "").strip(),
+                     "description": (r.get("description") or "").strip()}
+                    for r in reader]
+        except Exception as e:
+            if attempt == 3:
+                print(f"  [csw] {day_iso} fetch failed after retries: {e}")
+                return None
+            time.sleep(3)
+    return None
+
+
+def fetch_statcast_pitch_csw(season=None, start_date=None, end_date=None):
+    """
+    Build per-game-date CSW tallies per pitcher from Statcast pitch data.
+
+    Iterates calendar days from start_date..end_date and, for each day with no
+    immutable cache yet, downloads that day's pitches and writes
+    csw_daily_{season}_{YYYYMMDD}.json = {pid: {"csw": int, "pitches": int}}.
+    Only days strictly before today are cached (today's games are incomplete
+    and, being same-day, would leak into a same-day live projection anyway).
+
+    Returns the count of daily files now present in range. load_csw_as_of()
+    consumes these; this fn just ensures they exist (idempotent / cheap on
+    re-run since past days are skipped once cached).
+    """
+    season = season or _current_season()
+    today = date.today()
+    if start_date is None:
+        # Cover late-March openers; missing early off-days just cache empty.
+        start = date(int(season), 3, 15)
+    else:
+        start = date.fromisoformat(start_date)
+    if end_date is None:
+        end = today - timedelta(days=1)   # never cache today (incomplete)
+    else:
+        end = min(date.fromisoformat(end_date), today - timedelta(days=1))
+
+    present = 0
+    fetched = 0
+    d = start
+    while d <= end:
+        day_iso = d.isoformat()
+        cache_path = CACHE_DIR / f"csw_daily_{season}_{d.strftime('%Y%m%d')}.json"
+        if cache_path.exists():
+            present += 1
+            d += timedelta(days=1)
+            continue
+        rows = _fetch_statcast_day(day_iso)
+        if rows is None:
+            # Transient failure: don't cache, leave gap for a later run to fill.
+            d += timedelta(days=1)
+            continue
+        tally = {}
+        for r in rows:
+            pid = r["pitcher"]
+            if not pid:
+                continue
+            t = tally.setdefault(pid, {"csw": 0, "pitches": 0})
+            t["pitches"] += 1
+            if r["description"] in _CSW_NUMERATOR_DESCRIPTIONS:
+                t["csw"] += 1
+        _save_cache(cache_path, tally)
+        present += 1
+        fetched += 1
+        d += timedelta(days=1)
+    if fetched:
+        print(f"  [csw] cached {fetched} new daily tally files "
+              f"({present} total in {start}..{end})")
+    else:
+        print(f"  [csw] {present} daily tally files present ({start}..{end})")
+    return present
+
+
+def load_csw_as_of(through_date, season=None, min_pitches=100):
+    """
+    Walk-forward CSW loader: sum the immutable daily tallies on/before
+    through_date (YYYY-MM-DD) into a per-pitcher season-to-date CSW%.
+
+    Returns {pid_str: {"csw": float}} for pitchers with >= min_pitches seen
+    by through_date. Pitchers below the pitch floor are dropped (noisy rate),
+    which makes props_engine skip the adjustment for them — same degradation
+    as a missing savant entry. Returns {} when no daily files cover the range
+    (pre-caching dates) so early backfill dates fall back to the no-blend
+    baseline, exactly like the whiff path.
+    """
+    import glob, re
+    season = season or _current_season()
+    target = through_date.replace("-", "")
+    pattern = str(CACHE_DIR / f"csw_daily_{season}_*.json")
+    agg = {}
+    for f in sorted(glob.glob(pattern)):
+        m = re.search(rf"csw_daily_{season}_(\d{{8}})\.json$", f)
+        if not m or m.group(1) > target:
+            continue
+        try:
+            with open(f, "r", encoding="utf-8") as fh:
+                day = json.load(fh)
+        except (json.JSONDecodeError, OSError):
+            continue
+        for pid, t in day.items():
+            a = agg.setdefault(pid, {"csw": 0, "pitches": 0})
+            a["csw"] += t.get("csw", 0)
+            a["pitches"] += t.get("pitches", 0)
+    out = {}
+    for pid, a in agg.items():
+        if a["pitches"] >= min_pitches:
+            out[pid] = {"csw": round(a["csw"] / a["pitches"], 4)}
+    return out
+
+
+def _regression_cache_prefix(metric):
+    """Cache-file prefix per K-quality metric. CSW fits are stored separately
+    from whiff fits so a whiff-era cached file is never mistaken for a CSW fit
+    (and vice versa) after a K_QUALITY_METRIC switch."""
+    return "csw_xba_regression" if metric == "csw" else "whiff_xba_regression"
+
+
+def save_whiff_xba_regression(reg, season=None, date_iso=None, metric="whiff"):
     """
     Persist a regression result to data/pitcher_cache/mlb/
-    whiff_xba_regression_<YYYYMMDD>.json so slope drift can be audited
+    <metric>_xba_regression_<YYYYMMDD>.json so slope drift can be audited
     historically. Idempotent — overwrites if the same date is re-run.
+    The `metric` arg selects the cache file ("whiff" default, or "csw") so
+    the two metrics' daily fits never collide. The dict keys stay
+    whiff_slope/whiff_mean (generic "metric-1") regardless of metric.
     """
     if not reg:
         return None
@@ -758,6 +923,7 @@ def save_whiff_xba_regression(reg, season=None, date_iso=None):
     out = {
         "date_iso":    date_iso or date.today().isoformat(),
         "season":      season,
+        "metric":      metric,
         "n":           reg["n"],
         "whiff_slope": reg["whiff_slope"],
         "xba_slope":   reg["xba_slope"],
@@ -766,7 +932,7 @@ def save_whiff_xba_regression(reg, season=None, date_iso=None):
         "r2":          reg["r2"],
         "saved_at":    datetime.now().isoformat(timespec="seconds"),
     }
-    cache_path = CACHE_DIR / f"whiff_xba_regression_{season}_{date_str}.json"
+    cache_path = CACHE_DIR / f"{_regression_cache_prefix(metric)}_{season}_{date_str}.json"
     try:
         cache_path.parent.mkdir(parents=True, exist_ok=True)
         with open(cache_path, "w") as f:
@@ -777,22 +943,24 @@ def save_whiff_xba_regression(reg, season=None, date_iso=None):
     return cache_path
 
 
-def load_whiff_xba_regression_as_of(date_iso, season=None):
+def load_whiff_xba_regression_as_of(date_iso, season=None, metric="whiff"):
     """
     Walk-forward slope loader.
 
     Returns the most recent cached regression on or before date_iso, or
     None if no cache covers that range. Used by props_backfill to set
     each game-date's slopes from a snapshot fit only on prior data.
+    `metric` selects the cache family ("whiff" default, or "csw").
     """
     import glob, re
     season = season or _current_season()
     target = date_iso.replace("-", "")
-    pattern = str(CACHE_DIR / f"whiff_xba_regression_{season}_*.json")
+    prefix = _regression_cache_prefix(metric)
+    pattern = str(CACHE_DIR / f"{prefix}_{season}_*.json")
     files = sorted(glob.glob(pattern))
     candidates = []
     for f in files:
-        m = re.search(rf"whiff_xba_regression_{season}_(\d{{8}})\.json$", f)
+        m = re.search(rf"{prefix}_{season}_(\d{{8}})\.json$", f)
         if m and m.group(1) <= target:
             candidates.append((m.group(1), f))
     if not candidates:
@@ -806,7 +974,7 @@ def load_whiff_xba_regression_as_of(date_iso, season=None):
         return None
 
 
-def load_whiff_xba_regression_for_date(date_iso, season=None):
+def load_whiff_xba_regression_for_date(date_iso, season=None, metric="whiff"):
     """
     Load the regression cache for an EXACT date (not "as of").
 
@@ -814,12 +982,13 @@ def load_whiff_xba_regression_for_date(date_iso, season=None):
     in the same day reuse the morning's slope instead of refitting on
     updated mid-day savant data (which would leak today's completed
     games into projections of today's later games).
+    `metric` selects the cache family ("whiff" default, or "csw").
 
     Returns the dict or None if no file exists for that exact date.
     """
     season = season or _current_season()
     date_str = date_iso.replace("-", "")
-    cache_path = CACHE_DIR / f"whiff_xba_regression_{season}_{date_str}.json"
+    cache_path = CACHE_DIR / f"{_regression_cache_prefix(metric)}_{season}_{date_str}.json"
     if not cache_path.exists():
         return None
     try:

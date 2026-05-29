@@ -201,9 +201,9 @@ SLOT_PA_WEIGHTS = [
 # Per-pitcher additive K-rate shift based on how far whiff_pct and xBA
 # deviate from league averages:
 #
-#   k_adj = WHIFF_K_SLOPE * (whiff_pct - WHIFF_LEAGUE_AVG)
+#   k_adj = CSW_K_SLOPE * (whiff_pct - CSW_LEAGUE_AVG)
 #         + XBA_K_SLOPE   * (xba       - XBA_LEAGUE_AVG)
-#   pitcher_k_rate += k_adj * WHIFF_XBA_BLEND_WEIGHT
+#   pitcher_k_rate += k_adj * CSW_XBA_BLEND_WEIGHT
 #
 # Slopes and league averages are computed dynamically at the start of each
 # backfill / run_daily from the current Baseball Savant snapshot (see
@@ -224,11 +224,31 @@ SLOT_PA_WEIGHTS = [
 # picks-only ROI ~23%->~29% / +11.6u (BF=1.0,CAP=24,VAR=1.3).
 # NOTE: absolute backfill ROI (~28%) is still implausibly high — likely
 # line-quality (non-closing lines); trust the relative tuning, not the level.
-WHIFF_XBA_BLEND_WEIGHT = 0.5
-WHIFF_LEAGUE_AVG = 0.2557   # fallback (mean whiff_pct)
-XBA_LEAGUE_AVG   = 0.2405   # fallback (mean xBA against)
-WHIFF_K_SLOPE    = 0.6279   # fallback (bivariate whiff partial slope)
-XBA_K_SLOPE      = -0.5777  # fallback (bivariate xBA partial slope)
+# Which pitch-quality metric is the regression's first regressor (paired with
+# xBA). "whiff" = Savant whiff_pct from the custom leaderboard (default).
+# "csw" = Called-Strikes+Whiffs%, reconstructed leak-free as-of each date from
+# Statcast pitch logs (fetch_statcast_pitch_csw / load_csw_as_of). Slopes refit
+# dynamically either way, so this just swaps which column feeds the fit. A/B
+# this against "whiff" via compare_configs_AB before shipping (ROI, not fit).
+#
+# 2026-05-29: shipped "csw" after full 4-knob sweep (weight/BF_CAP/VAR/kcap).
+# Optimal CSW config = weight0.3 / BF_CAP25 / VAR1.2 / kcap0.40. Picks-only:
+# season +339.75u vs whiff@0.5/c24/k0.36 +316.25u (+23.5u), recent within-noise
+# (-1.57u), more accurate on MAE/RMSE. Recent still narrowly whiff's and season
+# edge is +0.073u/pick (under the 0.20 bar) — shipped on user call, near-tie.
+K_QUALITY_METRIC = "csw"
+
+CSW_XBA_BLEND_WEIGHT = 0.3   # 2026-05-29: 0.5->0.3, CSW's tuned optimum (was whiff's)
+# Fallbacks used only when the dynamic refit has <50 qualified pitchers.
+# 2026-05-29: re-derived from the CSW regression (x1_key="csw") on the
+# leak-free as-of-2026-05-28 snapshot (n=433, R^2=0.648). The prior values
+# were whiff-scale (slope 0.6279 / mean 0.2557) — wrong for CSW, whose %
+# runs higher (mean ~0.284) and steeper (slope ~1.15). xBA partial slope
+# also shifts slightly when paired with CSW instead of whiff.
+CSW_LEAGUE_AVG = 0.2844   # fallback (mean CSW%)
+XBA_LEAGUE_AVG   = 0.2394   # fallback (mean xBA against)
+CSW_K_SLOPE    = 1.1540   # fallback (bivariate CSW partial slope)
+XBA_K_SLOPE      = -0.6208  # fallback (bivariate xBA partial slope, paired w/ CSW)
 
 
 def get_team_slot_weights(team_abbr=None):
@@ -298,7 +318,10 @@ BF_MULT = 1.00
 # 2026-05-27 sweep: 24 beats 23 on season ROI (+39.5% vs +36.8%), units
 # (+175.8u vs +161.7u), win rate (72.6% vs 71.5%), and TAKE/PASS gap
 # (+15.4pp vs +5.7pp). Filters out marginal UNDERs that tend to lose.
-BF_CAP = 24.0
+# 2026-05-29: 24 -> 25 with K_QUALITY_METRIC=csw. CSW's projection distribution
+# wants a higher cap than whiff (whiff peaks at 24, CSW season peaks at 26 but
+# 25 is the recent-units + accuracy optimum). See K_QUALITY_METRIC note.
+BF_CAP = 25.0
 
 # Per-pitcher BF ceiling percentile. When > 0, each pitcher's projected BF
 # is capped at the Nth percentile of their own recent game BFs (from the
@@ -319,7 +342,10 @@ BF_CAP_PCTILE = 0.0
 # 2026-05-20 K_CAP sweep at ZC=0.7 BF=0.95 VAR=1.10: peak shifted from 0.36
 # to 0.38 (+5.5u at 2.5/1.5). ZC/chase blend boosts elite-pitch-quality
 # pitchers' K rate, and 0.36 was clipping too aggressively.
-K_RATE_CAP_FLOOR = 0.36
+# 2026-05-29: 0.36 -> 0.40 with K_QUALITY_METRIC=csw. kcap is the lever that
+# closes CSW's recent-window gap: recent picks-only -6.58u at k0.36 -> -1.57u
+# at k0.40 (peak; saturates k0.42+). Season also peaks here (+339.75u).
+K_RATE_CAP_FLOOR = 0.40
 
 # Hard floor on expected_k_rate after the per-pitcher cap. Prevents
 # nonsensical near-zero K-rate projections from degenerate inputs (e.g.

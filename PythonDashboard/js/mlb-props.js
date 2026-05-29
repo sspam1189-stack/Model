@@ -580,28 +580,29 @@
           // -4.98u (McLean -158, Sheehan -132, Nelson -102, Detmers -106).
           // Pin via cutoff so the widget matches what was posted on Reddit.
           const BASELINE = {
-            // Baseline frozen at 5/24 because we need to honor what was
-            // ACTUALLY bet that day (4 picks 3W-1L +1.26u, 7 leans 6W-1L
-            // +5.04u — the old pick/lean split). With cutoff < 5/24 the
-            // widget re-grades 5/24 under the new 0.68 threshold (which
-            // promotes the old leans to picks, yielding 7-2 instead of
-            // 3-1 for picks). Cutoff = 5/24 means the widget reads 5/24
-            // from these baked values; 5/25 and later compute fresh from
-            // mlb-props.json under the new flat-2u model.
-            //
-            // Math: 5/23 Reddit totals + 5/24 actually-bet grades.
-            //   picks  103-84 +1.96u  +  3-1 +1.26u  = 106-85 +3.22u
-            //   leans   54-38 +6.26u  +  6-1 +5.04u  =  60-39 +11.30u
-            cutoff: '2026-05-24',
+            // 2026-05-29 CSW cutover: the model switched whiff -> CSW and the
+            // backfill REWROTE mlb-props.json, so 5/25-5/28 in the json now
+            // reflect CSW backfill grades, NOT what was actually posted live.
+            // To keep the widget showing the REAL posted record, the cutoff is
+            // advanced to 5/28 and the actually-posted tallies through 5/28 are
+            // baked here. Only 5/29+ (the new CSW era) computes fresh from the
+            // json. (Supersedes the old 5/24 cutoff + the 5/25 / 5/26 pins,
+            // which are now folded into these totals.)
+            //   Posted record through 5/28:  picks 118-94 +3.71u
+            //   Weekly 5/25-5/28: 12-9 +0.49u   |   Yesterday 5/28: 3-1 +2.16u
+            cutoff: '2026-05-28',
             picks: {
-              total:    { w: 106, l: 85, u:  3.22 },
-              weekly:   { w:  17, l: 14, u: -0.16 },  // 5/18–5/24
-              yesterday:{ w:   3, l:  1, u:  1.26 },  // 5/24
+              total:    { w: 118, l: 94, u:  3.71 },
+              weekly:   { w:  12, l:  9, u:  0.49 },  // 5/25–5/28
+              yesterday:{ w:   3, l:  1, u:  2.16 },  // 5/28
             },
             leans: {
+              // Leans retired at the 5/25 cutover (none after 5/24), so the
+              // post-cutoff weekly/yesterday lean tallies are zero. total kept
+              // for vestigial references; leans are hidden from the Reddit copy.
               total:    { w:  60, l: 39, u: 11.30 },
-              weekly:   { w:  17, l: 13, u:  1.20 },  // 5/18–5/24
-              yesterday:{ w:   6, l:  1, u:  5.04 },  // 5/24
+              weekly:   { w:   0, l:  0, u:  0.00 },
+              yesterday:{ w:   0, l:  0, u:  0.00 },
             },
           };
 
@@ -940,64 +941,10 @@
             }));
           } catch (_) {}
 
-          // Manual override for 5/25: clean-backfill computes -1.70u but
-          // the actually-posted Reddit total was -2.70u (live odds at bet
-          // time). Pin the widget to what was published so it matches the
-          // existing Reddit post.
-          if (yesterdayStr === '2026-05-25') {
-            yPicksTally = { w: 2, l: 3, u: -2.70 };
-          }
-          const _PIN_25 = { w: 2, l: 3, u: -2.70 };
-          if (weeklyStartStr <= '2026-05-25' && weeklyEndStr >= '2026-05-25') {
-            // Replace the 5/25 contribution inside the weekly window:
-            // strip the computed 5/25 piece, then add the pinned values.
-            const _y25 = combine({w:0,l:0,u:0}, newPicks.filter(p => p.date === '2026-05-25'));
-            wPicksTally = {
-              w: wPicksTally.w - _y25.w + _PIN_25.w,
-              l: wPicksTally.l - _y25.l + _PIN_25.l,
-              u: wPicksTally.u - _y25.u + _PIN_25.u,
-            };
-          }
-          // Total: also honor the 5/25 pin so the running total matches what
-          // was actually posted on Reddit (2-3 -2.70u) instead of the
-          // clean-backfill recomputed 5/25 (3-4 -1.70u).
-          {
-            const _t25 = combine({w:0,l:0,u:0}, newPicks.filter(p => p.date === '2026-05-25'));
-            totalPicks = {
-              w: totalPicks.w - _t25.w + _PIN_25.w,
-              l: totalPicks.l - _t25.l + _PIN_25.l,
-              u: totalPicks.u - _t25.u + _PIN_25.u,
-            };
-          }
-
-          // Manual override for 5/26: pin to all-6-plays-graded (3-3 -0.44u)
-          // instead of TAKE-only (3-2 +0.56u). The 5/26 Reddit post included
-          // Rodriguez (became watch after clean-backfill rerun, pCover=0.659)
-          // and excluded Strider/Peterson (PASS-verdict from rerun). Pin to
-          // honor what was actually posted.
-          const _PIN_26 = { w: 3, l: 3, u: -0.44 };
-          if (yesterdayStr === '2026-05-26') {
-            yPicksTally = { ..._PIN_26 };
-          }
-          if (weeklyStartStr <= '2026-05-26' && weeklyEndStr >= '2026-05-26') {
-            const _y26 = combine({w:0,l:0,u:0}, newPicks.filter(p => p.date === '2026-05-26'));
-            wPicksTally = {
-              w: wPicksTally.w - _y26.w + _PIN_26.w,
-              l: wPicksTally.l - _y26.l + _PIN_26.l,
-              u: wPicksTally.u - _y26.u + _PIN_26.u,
-            };
-          }
-          // Total: replace 5/26 data-computed contribution with the pin so
-          // the 3 non-TAKE plays (Rodriguez WIN→LOSS, Strider, Peterson)
-          // roll up correctly. 5/25 total is left at data-computed -1.70u.
-          {
-            const _t26 = combine({w:0,l:0,u:0}, newPicks.filter(p => p.date === '2026-05-26'));
-            totalPicks = {
-              w: totalPicks.w - _t26.w + _PIN_26.w,
-              l: totalPicks.l - _t26.l + _PIN_26.l,
-              u: totalPicks.u - _t26.u + _PIN_26.u,
-            };
-          }
+          // (The former 5/25 and 5/26 manual pins were removed at the 2026-05-29
+          // CSW cutover — those dates are now <= BASELINE.cutoff (5/28) and are
+          // baked into BASELINE.picks.* with their actually-posted values. Re-
+          // applying the pins here would double-count them.)
 
           // Reddit copy is picks-only at the 0.68+ threshold — Leans
           // section removed entirely (totals, weekly, yesterday, and the
@@ -1064,25 +1011,10 @@
             const broadN = allRec ? allRec.w + allRec.l : 0;
             const broadWR = broadN > 0 ? allRec.w / broadN : null;
             const broadU = allRec ? allRec.u : 0;
+            // 2026-05-29: loosened to caution-only (see negative gate below).
+            // Only the caution cohort carries real loss signal; coin/small/
+            // empty/pitcher gates were dropping profitable picks, so removed.
             const caution = bktWR != null && bktN >= 4 && bktWR < 0.45;
-            // Tightened from 0.65 → 0.60: anything sub-60% in-bucket counts
-            // as a "coin" candidate so the bWeak gate below can drag it down
-            // to PASS when the broader cohort agrees the spot's bad.
-            const coin    = bktWR != null && bktN >= 4 && bktWR >= 0.45 && bktWR < 0.65;
-            // bWeak threshold: broader WR below 0.50 OR negative units.
-            // Loosened from 0.60 — only flag when the widened cohort is
-            // actually losing money or majority-bleeding (≥half losses),
-            // not just sub-60%. Avoids killing TAKEs on mildly mediocre
-            // broader records.
-            // STRICTER variant: coin range widened to 0.45-0.65 (was 0.60)
-            // and bWeak back to <0.50 OR units<0. Backtest:
-            //   TAKE 315-122 (72.1%) +166.21u
-            //   PASS 24-13 (64.9%) +7.92u
-            //   gap +7.2pp — best separation of all single-knob changes
-            // Catches more high-coin spots when broader cohort is mediocre.
-            const bWeak    = broadWR != null && broadN >= 8 && (broadWR < 0.50 || broadU < 0);
-            const small   = bktN > 0 && bktN < 4;
-            const empty   = bktN === 0;
 
             // --- Positive overrides --- (opp OR pitcher dominant)
             const pitN = pitRec ? pitRec.w + pitRec.l : 0;
@@ -1094,12 +1026,13 @@
             if (pitN >= 4 && pitWR >= 0.75 && pitRec.u >= 2) return 'TAKE';
             if (pitAllN >= 6 && pitAllWR >= 0.70 && pitAllRec.u >= 2) return 'TAKE';
 
-            // --- Negative gates (PASS) ---
+            // --- Negative gate (PASS) — loosened to caution-only 2026-05-29 ---
+            // CSW backfill rule breakdown: caution 6p 3-3 -0.55u (KEEP, net -EV);
+            // coin+bWeak 12p 7-5 -0.06u, small/empty+bWeak 5p 5-0 +5.00u,
+            // pit_weak 1p 1-0 +1.00u (all dropped profitable/neutral picks).
+            // caution-only => 315 TAKE +136.45u vs old 297 +130.51u. Mirrors
+            // _verdict() in run_daily.py — keep both in sync.
             if (caution) return 'PASS';
-            if (coin && bWeak) return 'PASS';
-            if ((small || empty) && bWeak) return 'PASS';
-            if (pitN >= 4 && pitWR <= 0.40 && pitRec.u <= -1) return 'PASS';
-            if (pitAllN >= 6 && pitAllWR <= 0.45 && pitAllRec.u <= -2) return 'PASS';
             return 'TAKE';
           }
 

@@ -1,5 +1,9 @@
 #!/usr/bin/env python3
-"""Quick side-by-side: A=W0.4/V1.40/C25 vs B=W0.8/V1.30/C25."""
+"""Quick side-by-side A/B for the K-rate regression metric:
+A = whiff_pct + xBA (shipped)  vs  B = CSW + xBA (candidate).
+All other config (BF/VAR/CAP/KCAP/W) held at the shipped values so only the
+first regressor differs. CSW is reconstructed leak-free as-of each date from
+Statcast pitch tallies (see fetch_statcast_pitch_csw / load_csw_as_of)."""
 import sys, os, glob, shutil, io, contextlib
 
 sys.path.insert(0, os.path.dirname(__file__))
@@ -48,12 +52,13 @@ def units(p, sz):
     return (sz if r=='WIN' else sz*(-abs(o)/100.0)), sz*(abs(o)/100.0)
 
 
-def run_config(bf, var, cap, kcap, w):
+def run_config(bf, var, cap, kcap, w, metric="whiff"):
     defaults.BF_MULT = bf
     defaults.BF_CAP = float(cap)
     defaults.VAR_MULT['strikeouts'] = var
     defaults.K_RATE_CAP_FLOOR = kcap
-    defaults.WHIFF_XBA_BLEND_WEIGHT = w
+    defaults.CSW_XBA_BLEND_WEIGHT = w
+    defaults.K_QUALITY_METRIC = metric
     _wipe_emp_std()
     buf = io.StringIO()
     with contextlib.redirect_stdout(buf):
@@ -83,45 +88,55 @@ def report(pp, label, start, end):
 
 def main():
     b_bf=defaults.BF_MULT; b_var=dict(defaults.VAR_MULT); b_cap=defaults.BF_CAP
-    b_kcap=defaults.K_RATE_CAP_FLOOR; b_w=defaults.WHIFF_XBA_BLEND_WEIGHT
+    b_kcap=defaults.K_RATE_CAP_FLOOR; b_w=defaults.CSW_XBA_BLEND_WEIGHT
+    b_metric=getattr(defaults, 'K_QUALITY_METRIC', 'whiff')
 
-    print('Running X: BF=1.00 VAR=1.10 CAP=24 KCAP=0.36 W=0.6...')
-    A = run_config(1.00, 1.10, 24, 0.36, 0.6)
-    print('Running B: BF=1.00 VAR=1.30 CAP=25 KCAP=0.36 W=0.8...')
-    B = run_config(1.00, 1.30, 25, 0.36, 0.8)
-    print('Running C: BF=1.00 VAR=1.15 CAP=23 KCAP=0.36 W=0.0...')
-    C = run_config(1.00, 1.15, 23, 0.36, 0.0)
+    # Shipped config, held fixed; only the K-rate metric differs A vs B.
+    BF, VAR, CAP, KCAP, W = b_bf, b_var.get('strikeouts'), b_cap, b_kcap, b_w
+    print(f'Running A (whiff): BF={BF} VAR={VAR} CAP={CAP} KCAP={KCAP} W={W}...')
+    A = run_config(BF, VAR, CAP, KCAP, W, metric="whiff")
+    print(f'Running B (csw):   BF={BF} VAR={VAR} CAP={CAP} KCAP={KCAP} W={W}...')
+    B = run_config(BF, VAR, CAP, KCAP, W, metric="csw")
 
     defaults.BF_MULT = b_bf
     defaults.VAR_MULT.clear(); defaults.VAR_MULT.update(b_var)
     defaults.BF_CAP = b_cap
     defaults.K_RATE_CAP_FLOOR = b_kcap
-    defaults.WHIFF_XBA_BLEND_WEIGHT = b_w
+    defaults.CSW_XBA_BLEND_WEIGHT = b_w
+    defaults.K_QUALITY_METRIC = b_metric
 
     windows = [
-        ('RECENT 5/4-5/20', '2026-05-04', '2026-05-20'),
-        ('THIS WEEK 5/18-5/20', '2026-05-18', '2026-05-20'),
+        ('SEASON', '2026-01-01', '2026-12-31'),
+        ('RECENT 5/4-5/28', '2026-05-04', '2026-05-28'),
+        ('THIS WEEK 5/22-5/28', '2026-05-22', '2026-05-28'),
     ]
 
     for label, start, end in windows:
         a = report(A, 'A', start, end)
         b = report(B, 'B', start, end)
-        c = report(C, 'C', start, end)
+        d_cu = b['cu'] - a['cu']
+        d_pp = (b['pn'] - a['pn'])
         print()
         print(f'=== {label} ===')
-        print(f'  {"":<22s} {"X: W=.6 V=1.10 C=24":>20s}  {"B: W=.8 V=1.30 C=25":>20s}  {"C: W=0 V=1.15 C=23":>20s}')
-        print(f'  {"Picks n":<22s} {a["pn"]:>20d}  {b["pn"]:>20d}  {c["pn"]:>20d}')
-        print(f'  {"Picks W-L":<22s} {(str(a["pw"])+"-"+str(a["pl"])):>20s}  {(str(b["pw"])+"-"+str(b["pl"])):>20s}  {(str(c["pw"])+"-"+str(c["pl"])):>20s}')
-        print(f'  {"Picks WR":<22s} {a["pwr"]:>19.1f}%  {b["pwr"]:>19.1f}%  {c["pwr"]:>19.1f}%')
-        print(f'  {"Picks units @ 2.5u":<22s} {a["pu"]:>+18.2f}u  {b["pu"]:>+18.2f}u  {c["pu"]:>+18.2f}u')
-        print(f'  {"Picks ROI":<22s} {a["p_roi"]:>+18.2f}%  {b["p_roi"]:>+18.2f}%  {c["p_roi"]:>+18.2f}%')
-        print(f'  {"Leans n":<22s} {a["ln"]:>20d}  {b["ln"]:>20d}  {c["ln"]:>20d}')
-        print(f'  {"Leans W-L":<22s} {(str(a["lw"])+"-"+str(a["ll"])):>20s}  {(str(b["lw"])+"-"+str(b["ll"])):>20s}  {(str(c["lw"])+"-"+str(c["ll"])):>20s}')
-        print(f'  {"Leans WR":<22s} {a["lwr"]:>19.1f}%  {b["lwr"]:>19.1f}%  {c["lwr"]:>19.1f}%')
-        print(f'  {"Leans units @ 1.5u":<22s} {a["lu"]:>+18.2f}u  {b["lu"]:>+18.2f}u  {c["lu"]:>+18.2f}u')
-        print(f'  {"Leans ROI":<22s} {a["l_roi"]:>+18.2f}%  {b["l_roi"]:>+18.2f}%  {c["l_roi"]:>+18.2f}%')
-        print(f'  {"Combined units":<22s} {a["cu"]:>+18.2f}u  {b["cu"]:>+18.2f}u  {c["cu"]:>+18.2f}u')
-        print(f'  {"Combined ROI":<22s} {a["c_roi"]:>+18.2f}%  {b["c_roi"]:>+18.2f}%  {c["c_roi"]:>+18.2f}%')
+        print(f'  {"":<22s} {"A: whiff+xBA":>16s}  {"B: CSW+xBA":>16s}  {"B-A":>10s}')
+        print(f'  {"Picks n":<22s} {a["pn"]:>16d}  {b["pn"]:>16d}  {d_pp:>+10d}')
+        print(f'  {"Picks W-L":<22s} {(str(a["pw"])+"-"+str(a["pl"])):>16s}  {(str(b["pw"])+"-"+str(b["pl"])):>16s}')
+        print(f'  {"Picks WR":<22s} {a["pwr"]:>15.1f}%  {b["pwr"]:>15.1f}%  {b["pwr"]-a["pwr"]:>+9.1f}p')
+        print(f'  {"Picks units @ 2.5u":<22s} {a["pu"]:>+14.2f}u  {b["pu"]:>+14.2f}u  {b["pu"]-a["pu"]:>+9.2f}u')
+        print(f'  {"Picks ROI":<22s} {a["p_roi"]:>+14.2f}%  {b["p_roi"]:>+14.2f}%  {b["p_roi"]-a["p_roi"]:>+9.2f}p')
+        print(f'  {"Leans n":<22s} {a["ln"]:>16d}  {b["ln"]:>16d}')
+        print(f'  {"Leans W-L":<22s} {(str(a["lw"])+"-"+str(a["ll"])):>16s}  {(str(b["lw"])+"-"+str(b["ll"])):>16s}')
+        print(f'  {"Leans WR":<22s} {a["lwr"]:>15.1f}%  {b["lwr"]:>15.1f}%')
+        print(f'  {"Leans units @ 1.5u":<22s} {a["lu"]:>+14.2f}u  {b["lu"]:>+14.2f}u  {b["lu"]-a["lu"]:>+9.2f}u')
+        print(f'  {"Combined units":<22s} {a["cu"]:>+14.2f}u  {b["cu"]:>+14.2f}u  {d_cu:>+9.2f}u')
+        print(f'  {"Combined ROI":<22s} {a["c_roi"]:>+14.2f}%  {b["c_roi"]:>+14.2f}%  {b["c_roi"]-a["c_roi"]:>+9.2f}p')
+
+    # Decision bar reminder: marginal metric swaps need >0.20u/pick to ship.
+    sa = report(A, 'A', '2026-01-01', '2026-12-31')
+    sb = report(B, 'B', '2026-01-01', '2026-12-31')
+    n = max(sb['pn'], 1)
+    print(f'\n  [bar] season B-A = {sb["cu"]-sa["cu"]:+.2f}u over {sb["pn"]} picks '
+          f'= {(sb["cu"]-sa["cu"])/n:+.3f}u/pick (ship if >+0.20)')
 
 
 if __name__ == '__main__':

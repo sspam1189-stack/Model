@@ -240,19 +240,28 @@ def backfill(season=None, start_game=10, start_date=None):
     # loop (see _adv_stats_through).  saber_stats isn't read by props_engine and
     # savant_rates is only a fallback that the derived adv_stats supersedes.
     #
-    # EXCEPTION: when WHIFF_XBA_BLEND_WEIGHT > 0, props_engine reads savant
+    # EXCEPTION: when CSW_XBA_BLEND_WEIGHT > 0, props_engine reads savant
     # whiff_pct and xba to regress pitcher_k_rate toward underlying pitch
     # quality. Savant's leaderboard can't be date-bounded at fetch, so backfill
     # replays the per-date daily snapshots run_daily cached (as-of prior_date,
     # via load_savant_rates_as_of inside the loop). Dates before daily caching
     # began get {} -> no whiff/xBA blend. No future-data leakage either way.
-    from defaults import WHIFF_XBA_BLEND_WEIGHT
-    if WHIFF_XBA_BLEND_WEIGHT > 0:
+    from defaults import CSW_XBA_BLEND_WEIGHT, K_QUALITY_METRIC
+    if CSW_XBA_BLEND_WEIGHT > 0:
         from sources.mlb_stats import (fetch_savant_pitcher_rates,
                                        compute_whiff_xba_regression,
                                        save_whiff_xba_regression,
                                        load_whiff_xba_regression_as_of,
-                                       load_savant_rates_as_of)
+                                       load_savant_rates_as_of,
+                                       fetch_statcast_pitch_csw,
+                                       load_csw_as_of)
+        if K_QUALITY_METRIC == "csw":
+            # Build immutable per-date CSW tallies up to yesterday so the
+            # walk-forward loop can reconstruct leak-free season-to-date CSW.
+            # Default start (season-03-15) covers openers; one-time cost,
+            # cached days are skipped on re-run.
+            fetch_statcast_pitch_csw(season=season)
+            print(f"  [backfill] K_QUALITY_METRIC=csw -> CSW tallies primed")
         # Today's snapshot is used ONLY to prime today's slope cache (for the
         # next live run). It is NOT passed to historical projections — each
         # backfill date loads its own as-of snapshot inside the loop
@@ -311,8 +320,8 @@ def backfill(season=None, start_game=10, start_date=None):
     # Save baseline whiff/xBA slopes so we can restore at function end.
     import defaults as _d
     _baseline_slopes = (
-        _d.WHIFF_K_SLOPE, _d.XBA_K_SLOPE,
-        _d.WHIFF_LEAGUE_AVG, _d.XBA_LEAGUE_AVG,
+        _d.CSW_K_SLOPE, _d.XBA_K_SLOPE,
+        _d.CSW_LEAGUE_AVG, _d.XBA_LEAGUE_AVG,
     )
     _last_logged_slopes = None
 
@@ -348,18 +357,55 @@ def backfill(season=None, start_game=10, start_date=None):
         prior_date = (datetime.strptime(game_date, "%Y-%m-%d")
                       - timedelta(days=1)).strftime("%Y-%m-%d")
 
-        # Walk-forward whiff/xBA slope loading: pull the most recent
-        # regression file fit on data on-or-before `game_date - 1 day`.
-        # Falls back to baseline (defaults.py) if no cache covers that range.
-        if WHIFF_XBA_BLEND_WEIGHT > 0:
+        # Walk-forward slope loading. Both metrics use the SAME contract:
+        # replay the most recent run_daily regression cached on-or-before
+        # game_date-1 (so backfill reproduces the exact slopes live locked).
+        # csw additionally rebuilds the leak-free as-of merged dict for the
+        # per-pitcher csw values, and inline-refits as a fallback for dates
+        # before CSW daily caching began (no cache yet). Both fall back to
+        # baseline (defaults.py) if data is too thin.
+        _csw_merged_asof = None
+        if CSW_XBA_BLEND_WEIGHT > 0 and K_QUALITY_METRIC == "csw":
+            _xba_asof = load_savant_rates_as_of(prior_date, season) or {}
+            _csw_asof = load_csw_as_of(prior_date, season) or {}
+            _merged = {}
+            for _pid, _csw in _csw_asof.items():
+                _base = _xba_asof.get(_pid)
+                if not _base:
+                    continue
+                _merged[_pid] = {**_base, "csw": _csw["csw"]}
+            _csw_merged_asof = _merged
+            # Slopes: replay run_daily's cached CSW regression (faithful match
+            # to live); else inline-refit on the as-of merged snapshot.
+            _wfr = load_whiff_xba_regression_as_of(prior_date, season=season,
+                                                   metric="csw")
+            _reg = _wfr or compute_whiff_xba_regression(_merged, x1_key="csw")
+            if _reg:
+                _d.CSW_K_SLOPE    = _reg["whiff_slope"]
+                _d.XBA_K_SLOPE      = _reg["xba_slope"]
+                _d.CSW_LEAGUE_AVG = _reg["whiff_mean"]
+                _d.XBA_LEAGUE_AVG   = _reg["xba_mean"]
+                _key = (round(_reg['whiff_slope'], 4),
+                        round(_reg['xba_slope'], 4))
+                if _key != _last_logged_slopes:
+                    _src = (f"cached {_wfr['date_iso']}" if _wfr
+                            else f"refit n={_reg['n']} R^2={_reg['r2']:.3f}")
+                    print(f"  [walk-forward {game_date}] CSW slopes ({_src}): "
+                          f"csw={_reg['whiff_slope']:+.4f} "
+                          f"xBA={_reg['xba_slope']:+.4f}")
+                    _last_logged_slopes = _key
+            else:
+                (_d.CSW_K_SLOPE, _d.XBA_K_SLOPE,
+                 _d.CSW_LEAGUE_AVG, _d.XBA_LEAGUE_AVG) = _baseline_slopes
+        elif CSW_XBA_BLEND_WEIGHT > 0:
             import datetime as _dt
             _prior_iso = (_dt.date.fromisoformat(game_date)
                           - _dt.timedelta(days=1)).isoformat()
             _wfr = load_whiff_xba_regression_as_of(_prior_iso, season=season)
             if _wfr:
-                _d.WHIFF_K_SLOPE    = _wfr["whiff_slope"]
+                _d.CSW_K_SLOPE    = _wfr["whiff_slope"]
                 _d.XBA_K_SLOPE      = _wfr["xba_slope"]
-                _d.WHIFF_LEAGUE_AVG = _wfr["whiff_mean"]
+                _d.CSW_LEAGUE_AVG = _wfr["whiff_mean"]
                 _d.XBA_LEAGUE_AVG   = _wfr["xba_mean"]
                 _key = (round(_wfr['whiff_slope'], 4),
                         round(_wfr['xba_slope'], 4))
@@ -370,8 +416,8 @@ def backfill(season=None, start_game=10, start_date=None):
                     _last_logged_slopes = _key
             else:
                 # No cache yet — fall back to baseline
-                (_d.WHIFF_K_SLOPE, _d.XBA_K_SLOPE,
-                 _d.WHIFF_LEAGUE_AVG, _d.XBA_LEAGUE_AVG) = _baseline_slopes
+                (_d.CSW_K_SLOPE, _d.XBA_K_SLOPE,
+                 _d.CSW_LEAGUE_AVG, _d.XBA_LEAGUE_AVG) = _baseline_slopes
 
         # Phase 1: Build prior-only pitcher logs for projection
         prior_logs = {}
@@ -586,9 +632,14 @@ def backfill(season=None, start_game=10, start_date=None):
         # cached on/before prior_date. {} when none exists (pre-caching early
         # dates) -> props_engine skips the whiff/xBA adjustment. Never uses a
         # future snapshot, so no whiff/xBA leakage.
-        _savant_asof = ({}
-                        if WHIFF_XBA_BLEND_WEIGHT <= 0
-                        else load_savant_rates_as_of(prior_date, season))
+        if CSW_XBA_BLEND_WEIGHT <= 0:
+            _savant_asof = {}
+        elif K_QUALITY_METRIC == "csw":
+            # Merged xBA+CSW snapshot built above for the inline slope fit;
+            # props_engine reads "csw" + "xba" from it (leak-free as-of).
+            _savant_asof = _csw_merged_asof or {}
+        else:
+            _savant_asof = load_savant_rates_as_of(prior_date, season)
 
         # Phase 3: Project props using prior data + current Kalman state
         projections = project_pitcher_props(
@@ -743,9 +794,9 @@ def backfill(season=None, start_game=10, start_date=None):
 
     # Restore baseline slopes so subsequent calls in the same process
     # don't see the last-iterated date's mutated defaults.
-    if WHIFF_XBA_BLEND_WEIGHT > 0:
-        (_d.WHIFF_K_SLOPE, _d.XBA_K_SLOPE,
-         _d.WHIFF_LEAGUE_AVG, _d.XBA_LEAGUE_AVG) = _baseline_slopes
+    if CSW_XBA_BLEND_WEIGHT > 0:
+        (_d.CSW_K_SLOPE, _d.XBA_K_SLOPE,
+         _d.CSW_LEAGUE_AVG, _d.XBA_LEAGUE_AVG) = _baseline_slopes
 
     # --- Summary ---
     print(kalman_summary(kalman_state, top_n=10, stat_key="k"))

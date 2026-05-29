@@ -282,15 +282,11 @@ def _stamp_read_verdicts(merged_props):
         broad_n = all_rec["w"] + all_rec["l"] if all_rec else 0
         broad_wr = all_rec["w"] / broad_n if broad_n > 0 else None
         broad_u = all_rec["u"] if all_rec else 0
+        # 2026-05-29: loosened to caution-only (see negative-gate note below).
+        # Only the caution cohort (opp-dir WR<0.45, n>=4) carries real loss
+        # signal; the coin/small/empty/pitcher gates were dropping profitable
+        # picks, so their variables were removed.
         caution = bkt_wr is not None and bkt_n >= 4 and bkt_wr < 0.45
-        # STRICTER: coin widened to 0.45-0.65 (was 0.60); bWeak back to
-        # <0.50 OR units<0. Backtest: TAKE 315-122 (72.1%) +166.21u /
-        # PASS 24-13 (64.9%) +7.92u, gap +7.2pp.
-        coin = bkt_wr is not None and bkt_n >= 4 and 0.45 <= bkt_wr < 0.65
-        b_weak = (broad_wr is not None and broad_n >= 8
-                  and (broad_wr < 0.50 or broad_u < 0))
-        small = 0 < bkt_n < 4
-        empty = bkt_n == 0
 
         # --- Positive overrides ---
         # Symmetric to the negative gates below: a strong record on either
@@ -313,16 +309,17 @@ def _stamp_read_verdicts(merged_props):
         if pit_all_n >= 6 and pit_all_wr is not None and pit_all_wr >= 0.70 and pit_all_rec["u"] >= 2:
             return "TAKE"
 
-        # --- Negative gates (PASS) ---
+        # --- Negative gate (PASS) — loosened to caution-only 2026-05-29 ---
+        # Rule-level backtest on the CSW backfill showed the other gates threw
+        # away PROFITABLE picks; only `caution` carries real loss signal:
+        #   caution (opp-dir WR<0.45)   6 picks  3-3  -0.55u   KEEP (net -EV)
+        #   coin+b_weak               12 picks  7-5  -0.06u   drop (~break-even)
+        #   small/empty+b_weak         5 picks  5-0  +5.00u   drop (pure profit)
+        #   pit_weak / pit_all_weak    1 pick   1-0  +1.00u   drop (profit)
+        # caution-only => 315 TAKE +136.45u vs old gate 297 +130.51u (+5.94u),
+        # and edges no-gate (+135.90u) by filtering the -0.55u caution cohort.
+        # Positive overrides above are retained.
         if caution:
-            return "PASS"
-        if coin and b_weak:
-            return "PASS"
-        if (small or empty) and b_weak:
-            return "PASS"
-        if pit_n >= 4 and pit_wr is not None and pit_wr <= 0.40 and pit_rec["u"] <= -1:
-            return "PASS"
-        if pit_all_n >= 6 and pit_all_wr is not None and pit_all_wr <= 0.45 and pit_all_rec["u"] <= -2:
             return "PASS"
         return "TAKE"
 
@@ -876,33 +873,75 @@ def run_daily(date_key=None):
     # same day don't recompute slopes from mid-day savant data, which would
     # leak today's completed games into projections of today's later games).
     # First run of the day fits fresh slopes and caches them.
-    from defaults import WHIFF_XBA_BLEND_WEIGHT
-    if WHIFF_XBA_BLEND_WEIGHT > 0:
+    from defaults import CSW_XBA_BLEND_WEIGHT, K_QUALITY_METRIC
+    if CSW_XBA_BLEND_WEIGHT > 0:
         from sources.mlb_stats import (compute_whiff_xba_regression,
                                        save_whiff_xba_regression,
                                        load_whiff_xba_regression_for_date)
         import defaults as _d
 
-        _reg = load_whiff_xba_regression_for_date(date_iso, season=season)
-        if _reg:
-            print(f"  [whiff/xBA] using cached slopes for {date_iso} "
-                  f"(saved {_reg.get('saved_at','?')})")
-        else:
-            _reg = compute_whiff_xba_regression(savant_rates)
+        if K_QUALITY_METRIC == "csw":
+            # CSW mode: the leaderboard snapshot has no csw column, so
+            # reconstruct leak-free season-to-date CSW as-of YESTERDAY from
+            # the Statcast tallies and merge it into the savant snapshot.
+            # We REPLACE savant_rates with the merged dict (only pitchers with
+            # BOTH csw and xba) so props_engine never sees an xba-only entry —
+            # that would read csw=0 and apply a spurious shift. This mirrors
+            # props_backfill's _csw_merged_asof exactly. load_csw_as_of excludes
+            # today, so CSW can't leak today's games regardless of run time.
+            from sources.mlb_stats import (fetch_statcast_pitch_csw,
+                                           load_csw_as_of)
+            import datetime as _dt
+            fetch_statcast_pitch_csw(season=season)  # ensure tallies thru yesterday
+            _prior = (_dt.date.fromisoformat(date_iso)
+                      - _dt.timedelta(days=1)).isoformat()
+            _csw_asof = load_csw_as_of(_prior, season) or {}
+            _merged = {}
+            for _pid, _c in _csw_asof.items():
+                _b = savant_rates.get(_pid)
+                if not _b:
+                    continue
+                _merged[_pid] = {**_b, "csw": _c["csw"]}
+            savant_rates = _merged
+            print(f"  [csw/xBA] merged {len(savant_rates)} pitchers "
+                  f"(csw as-of {_prior})")
+
+            _reg = load_whiff_xba_regression_for_date(date_iso, season=season,
+                                                      metric="csw")
             if _reg:
-                save_whiff_xba_regression(_reg, season=season, date_iso=date_iso)
-                print(f"  [whiff/xBA refit] first run today — fit and cached "
-                      f"(n={_reg['n']} R^2={_reg['r2']:.3f})")
-        if _reg:
-            _d.WHIFF_K_SLOPE    = _reg["whiff_slope"]
-            _d.XBA_K_SLOPE      = _reg["xba_slope"]
-            _d.WHIFF_LEAGUE_AVG = _reg["whiff_mean"]
-            _d.XBA_LEAGUE_AVG   = _reg["xba_mean"]
-            print(f"  [whiff/xBA] slopes: whiff={_reg['whiff_slope']:+.4f} "
-                  f"xBA={_reg['xba_slope']:+.4f}  "
-                  f"means whiff={_reg['whiff_mean']:.4f} xBA={_reg['xba_mean']:.4f}")
+                print(f"  [csw/xBA] using cached slopes for {date_iso} "
+                      f"(saved {_reg.get('saved_at','?')})")
+            else:
+                _reg = compute_whiff_xba_regression(savant_rates, x1_key="csw")
+                if _reg:
+                    save_whiff_xba_regression(_reg, season=season,
+                                              date_iso=date_iso, metric="csw")
+                    print(f"  [csw/xBA refit] first run today — fit and cached "
+                          f"(n={_reg['n']} R^2={_reg['r2']:.3f})")
+            _label = "csw"
         else:
-            print(f"  [whiff/xBA] no cache and refit failed — using defaults.py")
+            _reg = load_whiff_xba_regression_for_date(date_iso, season=season)
+            if _reg:
+                print(f"  [whiff/xBA] using cached slopes for {date_iso} "
+                      f"(saved {_reg.get('saved_at','?')})")
+            else:
+                _reg = compute_whiff_xba_regression(savant_rates)
+                if _reg:
+                    save_whiff_xba_regression(_reg, season=season, date_iso=date_iso)
+                    print(f"  [whiff/xBA refit] first run today — fit and cached "
+                          f"(n={_reg['n']} R^2={_reg['r2']:.3f})")
+            _label = "whiff"
+
+        if _reg:
+            _d.CSW_K_SLOPE    = _reg["whiff_slope"]
+            _d.XBA_K_SLOPE      = _reg["xba_slope"]
+            _d.CSW_LEAGUE_AVG = _reg["whiff_mean"]
+            _d.XBA_LEAGUE_AVG   = _reg["xba_mean"]
+            print(f"  [{_label}/xBA] slopes: {_label}={_reg['whiff_slope']:+.4f} "
+                  f"xBA={_reg['xba_slope']:+.4f}  "
+                  f"means {_label}={_reg['whiff_mean']:.4f} xBA={_reg['xba_mean']:.4f}")
+        else:
+            print(f"  [{_label}/xBA] no cache and refit failed — using defaults.py")
 
     for pid_str, adv in adv_stats.items():
         try:
