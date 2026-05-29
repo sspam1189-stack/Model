@@ -615,16 +615,11 @@
           if (allGradedPicks.length === 0 && allGradedLeans.length === 0) return;
 
           // Anything after the baseline cutoff date — the actually-new picks.
-          // TAKE-only cutoff: dates AFTER this only count rows the Read
-          // verdict marked TAKE (PASS picks excluded). 5/25 was the last
-          // day posted with TAKE+PASS combined; the new TAKE-only policy
-          // starts 5/26.
-          const TAKE_ONLY_CUTOFF = '2026-05-25';
-          const _postCutoff = (p) => {
-            if (!p.date || p.date <= BASELINE.cutoff) return false;
-            if (p.date > TAKE_ONLY_CUTOFF) return p.readVerdict !== 'PASS';
-            return true;
-          };
+          // 2026-05-29: the Read gate no longer filters bets, so EVERY graded
+          // pick after the cutoff counts regardless of readVerdict. The verdict
+          // is still stamped and shown as information (see readVerdictFor); it
+          // just never excludes a play from the tally or the copy anymore.
+          const _postCutoff = (p) => !!p.date && p.date > BASELINE.cutoff;
           const newPicks = allGradedPicks.filter(_postCutoff);
           const newLeans = allGradedLeans.filter(_postCutoff);
 
@@ -737,10 +732,11 @@
           const _sortByPCover = (arr) => arr.slice().sort(
             (a, b) => (b.pCover || 0) - (a.pCover || 0)
           );
-          // Read-verdict gate: drop model picks the Read flagged PASS so the
-          // Reddit copy only lists picks we'd actually bet. Picks without a
-          // verdict (older rows missing the stamp) default to included.
-          const _isRedditTake = (p) => p.readVerdict !== 'PASS';
+          // 2026-05-29: Read gate no longer filters bets — the Reddit copy
+          // lists every pick regardless of readVerdict. Kept as a function so
+          // the call sites below are unchanged; the verdict is still shown as
+          // information elsewhere, it just never drops a play here.
+          const _isRedditTake = (p) => true;
           const _todayPicks = _sortByPCover(
             picks.filter(p => p.date === todayStr && !_isVoid(p) && _isRedditTake(p))
           );
