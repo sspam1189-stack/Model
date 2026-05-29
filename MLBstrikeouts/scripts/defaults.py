@@ -69,7 +69,14 @@ MARKET_THRESHOLDS = {
     # +129.65u, 73.7% WR vs 69.5%), 19% fewer bets. Dropping the 0.65-0.68
     # band (lean-only previously, ~56% WR there) eliminates the noisiest
     # tier. New convention: flat 2u for every pick, no leans.
-    "strikeouts":   {"high": 0.68},
+    #
+    # 2026-05-29 (CSW era): lowered 0.68 -> 0.65. The 0.65-0.68 band that was
+    # the "noisy ~56% tier" under whiff is 64.4% season / 70.4% recent under
+    # CSW — the more accurate metric sharpened the margin. The added band
+    # clears the >0.20 u/pick bar in both windows (+0.224 season / +0.367
+    # recent). Below 0.65 the marginal value drops under the bar (0.60-0.65 =
+    # +0.10 / +0.16 u/pick), so 0.65 is the floor. Watch tier is now 0.60-0.65.
+    "strikeouts":   {"high": 0.65},
 }
 
 # ---------------------------------------------------------------------------

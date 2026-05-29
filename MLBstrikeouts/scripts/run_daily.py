@@ -240,7 +240,8 @@ def _stamp_read_verdicts(merged_props):
     by_pit = defaultdict(lambda: {"w": 0, "l": 0, "u": 0.0})       # picks + watch both dirs, by pitcher
 
     def _is_watch(p):
-        # Watch tier: pick=PASS with a would_be_pick AND pCover in [0.60, 0.68).
+        # Watch tier: pick=PASS with a would_be_pick AND pCover in [0.60, 0.65).
+        # (Pick threshold dropped to 0.65 on 2026-05-29, so watch tops out there.)
         if p.get("pick") != "PASS":
             return False
         if not p.get("would_be_pick"):
@@ -250,7 +251,7 @@ def _stamp_read_verdicts(merged_props):
             pc = float(pc) if pc is not None else 0
         except (TypeError, ValueError):
             return False
-        return 0.60 <= pc < 0.68
+        return 0.60 <= pc < 0.65
 
     def _row_dir(p):
         if p.get("pick") in ("OVER", "UNDER"):

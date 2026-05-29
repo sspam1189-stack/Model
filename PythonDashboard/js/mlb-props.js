@@ -239,7 +239,7 @@
           if (p.pick !== 'PASS') return false;
           if (!p.would_be_pick) return false;
           const pc = p.pCover || 0;
-          return pc >= 0.60 && pc < 0.68;
+          return pc >= 0.60 && pc < 0.65;  // watch tier; pick threshold -> 0.65 (2026-05-29)
         }
         const leanAll = (data.props || []).filter(isLean);
         const leanGraded = leanAll.filter(p => p.result === 'WIN' || p.result === 'LOSS');
@@ -1325,14 +1325,32 @@
           };
           const takePicksT = todayPicks.filter(p => _pickVerdict(p) === 'TAKE');
           const passPicksT = todayPicks.filter(p => _pickVerdict(p) === 'PASS');
-          if (takePicksT.length) {
-            appendSectionHeader(`Picks — TAKE (${takePicksT.length})`, 'var(--green)');
-            for (const p of takePicksT) appendDataRow(p, 'Pick');
-          }
-          if (passPicksT.length) {
-            appendSectionHeader(`Picks — PASS (${passPicksT.length})`, 'var(--red)');
-            for (const p of passPicksT) appendDataRow(p, 'Pick');
-          }
+          // Collapsible TAKE / PASS sections (mirrors the Watch toggle below).
+          // Default open so picks stay visible; click the header to collapse.
+          const _appendCollapsibleSection = (label, color, rows, defaultOpen) => {
+            if (!rows.length) return;
+            const tr = tb.insertRow();
+            const td = tr.insertCell();
+            td.colSpan = cols.length;
+            td.style.cssText = `padding:8px 8px 4px;font-size:11px;color:${color};font-weight:700;letter-spacing:0.08em;text-transform:uppercase;background:rgba(255,255,255,0.02);border-top:1px solid rgba(255,255,255,0.08);cursor:pointer;user-select:none`;
+            let open = defaultOpen;
+            const setTxt = () => { td.textContent = (open ? '▼ ' : '▶ ') + label; };
+            setTxt();
+            const dataTRs = [];
+            for (const p of rows) {
+              const before = tb.rows.length;
+              appendDataRow(p, 'Pick');
+              const nr = tb.rows[before];
+              if (nr) { nr.style.display = open ? '' : 'none'; dataTRs.push(nr); }
+            }
+            tr.addEventListener('click', () => {
+              open = !open;
+              setTxt();
+              dataTRs.forEach(r => { r.style.display = open ? '' : 'none'; });
+            });
+          };
+          _appendCollapsibleSection(`Picks — TAKE (${takePicksT.length})`, 'var(--green)', takePicksT, true);
+          _appendCollapsibleSection(`Picks — PASS (${passPicksT.length})`, 'var(--red)', passPicksT, true);
           if (todayLeans.length) {
             // Collapsible "Watch — history" section: shows every watch-tier
             // row for context (these are projections that didn't clear the
@@ -1615,7 +1633,7 @@
             <div style="margin-bottom:6px"><span style="${defStyle}">O&amp;&amp;U</span> &nbsp; Picks, both directions combined VS OPP</div>
             <div style="margin-bottom:6px"><span style="${defStyle}">P O//U</span> &nbsp; Picks + direction for THIS pitcher (all opps)</div>
             <div style="margin-top:8px;padding-top:6px;border-top:1px solid rgba(255,255,255,0.05);color:#888;font-style:italic">
-              Pick rows count picks history (&gt;= 0.68 pCover) · Watch and Pass tiers excluded<br>
+              Pick rows count picks history (&gt;= 0.65 pCover) · Watch and Pass tiers excluded<br>
               Tiers: <span style="color:var(--green)">Elite ≥80%</span> · <span style="color:#9ee493">Solid ≥65%</span> · <span style="color:#ccc">Neutral ≥50%</span> · <span style="color:var(--red)">Caution &lt;50%</span> · <span style="color:#aaa">Small &lt;4 samples</span>
             </div>
           `;
@@ -1702,7 +1720,7 @@
           const _phBucket = (p) => {
             if (p.pick === 'OVER' || p.pick === 'UNDER') return 'PICK';
             const pc = p.pCover || 0;
-            if (pc >= 0.60 && pc < 0.68) return 'WATCH';
+            if (pc >= 0.60 && pc < 0.65) return 'WATCH';
             return 'PASS';
           };
           const _phOdds = (p) => {
@@ -3749,7 +3767,7 @@
               if (i===6) td.style.color = '#bbb'; // PC
               if (i===7 && p.line!=null) td.style.color = p.proj > p.line ? 'var(--green)' : p.proj < p.line ? 'var(--red)' : '';
               if (i===9 && edge!=null) td.style.color = edge > 0 ? 'var(--green)' : edge < 0 ? 'var(--red)' : '#999';
-              if (i===10 && p.pCover!=null) td.style.color = p.pCover >= 0.68 ? 'var(--green)' : p.pCover >= 0.60 ? 'var(--yellow)' : p.pCover <= 0.45 ? 'var(--red)' : '#ccc';
+              if (i===10 && p.pCover!=null) td.style.color = p.pCover >= 0.65 ? 'var(--green)' : p.pCover >= 0.60 ? 'var(--yellow)' : p.pCover <= 0.45 ? 'var(--red)' : '#ccc';
               if (i===11 && isPick) { td.style.fontWeight='700'; td.style.color = p.pick==='OVER'?'var(--green)':'var(--red)'; }
               if (i===12) td.style.color = '#999';
               if (i===13) {
@@ -3874,15 +3892,15 @@
       let mlbView = 'all'; // 'all' | 'weekly' | 'all-lean' | 'weekly-lean' | 'all-combined'
 
       // Two sub-pick tiers (both pick=PASS, neither bet):
-      //   Watch: 0.60 <= pCover < 0.68 — near the 0.68 pick threshold,
+      //   Watch: 0.60 <= pCover < 0.65 — near the 0.65 pick threshold,
       //          worth monitoring (former lean band, conceptually similar).
       //   Pass:  0.50 <= pCover < 0.60 — sub-watch, kept in JSON for
       //          analysis only.
-      // Picks (>= 0.68) are flat-2u and live in `picks`.
+      // Picks (>= 0.65) are flat-2u and live in `picks`.
       const watchPicks = (data.props || []).filter(p => {
         if (p.pick !== 'PASS') return false;
         const pc = p.pCover || 0;
-        return pc >= 0.60 && pc < 0.68;
+        return pc >= 0.60 && pc < 0.65;
       });
       const passPicks = (data.props || []).filter(p => {
         if (p.pick !== 'PASS') return false;
@@ -5042,7 +5060,7 @@
               if (i===2) td.style.color = '#aaa';
               if (i===3 && p.line!=null) td.style.color = p.proj > p.line ? 'var(--green)' : p.proj < p.line ? 'var(--red)' : '';
               if (i===5 && edge!=null) td.style.color = edge > 0 ? 'var(--green)' : edge < 0 ? 'var(--red)' : '#999';
-              if (i===6 && p.pCover!=null) td.style.color = p.pCover >= 0.68 ? 'var(--green)' : p.pCover >= 0.60 ? 'var(--yellow)' : p.pCover <= 0.45 ? 'var(--red)' : '#ccc';
+              if (i===6 && p.pCover!=null) td.style.color = p.pCover >= 0.65 ? 'var(--green)' : p.pCover >= 0.60 ? 'var(--yellow)' : p.pCover <= 0.45 ? 'var(--red)' : '#ccc';
               if (i===7 && isPick) { td.style.fontWeight='700'; td.style.color = p.pick==='OVER'?'var(--green)':'var(--red)'; }
             });
           }
