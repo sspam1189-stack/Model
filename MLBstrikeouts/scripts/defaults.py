@@ -99,7 +99,10 @@ VAR_MULT = {
     # recent signal more predictive of forward returns than season-wide).
     # Season at this config: +363.6u (vs +388.7u VAR=1.05 = -25u).
     # Recent at this config: +82.8u (vs +83.9u VAR=1.05 = -1.1u, ROI +0.5pp).
-    "strikeouts":   1.30,
+    #
+    # 2026-05-28 (post leakage-fix): 1.30 -> 1.20, paired with BF_MULT 1.00
+    # (see BF_MULT note). 1.0/1.2 wins the leak-free season on ROI + units.
+    "strikeouts":   1.20,
 }
 
 # ---------------------------------------------------------------------------
@@ -280,12 +283,15 @@ def get_team_slot_weights(team_abbr=None):
 #
 # 2026-05-28 4D sweep (BF x VAR x CAP x whiff) + BF-projection calibration:
 # raw BF projection is unbiased (actual/proj=1.004 season), so 1.10 is NOT a
-# bias fix — it inflates an accurate projection. It LOSES ~9u season vs 1.00
-# (+172u vs +181u) but WINS the recent window (+44.4u vs +37.7u last-3wk,
-# +3.4u vs -1.9u this week). Shipping 1.10 as a deliberate recent-regime bet.
-# See memory project-bf-mult-overfit. VAR=1.30/CAP=24/whiff=0.8 unchanged
-# (all three best in BOTH windows; cap=24 robust at 1.10 too).
-BF_MULT = 1.10
+# 2026-05-28 (post leakage-fix): reverted 1.10 -> 1.00 and VAR 1.30 -> 1.20.
+# On the LEAK-FREE backfill, BF=1.00 is the calibrated value (projection bias
+# +0.02, MAE 1.68) whereas 1.10 over-projects (+0.32 bias, worse MAE) and its
+# gains are OVER-skewed soft-line harvesting, not real edge. Head-to-head at
+# CAP=24/WHIFF=0.5: BF=1.0/VAR=1.2 wins the SEASON on both ROI and units
+# (28.6% / +136.1u vs 1.1/1.3's 27.0% / +133.4u); recent is ~tied (32.6% vs
+# 34.3%). Choosing the season-calibrated config over the recent-regime bet.
+# (The earlier 1.10 "recent-regime bet" was set pre-leakage-fix.)
+BF_MULT = 1.00
 
 # Hard ceiling on projected batters faced after BF_MULT. League-wide safety
 # net on top of the avg_pc = median(last 5 PCs) projection (see props_engine).
