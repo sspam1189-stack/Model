@@ -127,10 +127,40 @@ def _load_cache(cache_path, max_age_hours=None, same_day=False):
 
 
 def _save_cache(cache_path, data):
-    """Save data to cache file."""
+    """Save data to cache file.
+
+    Atomic write (temp file + os.replace) with a short retry. The repo often
+    lives under a synced folder (OneDrive/Desktop) that intermittently locks
+    files mid-sync, surfacing as transient OSError [Errno 22]/[Errno 13] on
+    write. A single such hiccup used to abort long multi-cell sweeps; retrying
+    a few times rides over the lock, and the temp+replace avoids leaving a
+    half-written cache behind.
+    """
+    import time as _time
     cache_path.parent.mkdir(parents=True, exist_ok=True)
-    with open(cache_path, "w", encoding="utf-8") as f:
-        json.dump(data, f, indent=2)
+    tmp_path = cache_path.with_suffix(cache_path.suffix + ".tmp")
+    last_err = None
+    for attempt in range(5):
+        try:
+            with open(tmp_path, "w", encoding="utf-8") as f:
+                json.dump(data, f, indent=2)
+            os.replace(tmp_path, cache_path)
+            return
+        except OSError as e:
+            last_err = e
+            _time.sleep(0.3 * (attempt + 1))
+    # Final fallback: best-effort direct write; swallow if it still fails so a
+    # cache-write blip never crashes a backfill/sweep mid-run.
+    try:
+        with open(cache_path, "w", encoding="utf-8") as f:
+            json.dump(data, f, indent=2)
+    except OSError:
+        print(f"  [cache] WARN: could not write {cache_path} ({last_err})")
+        try:
+            if tmp_path.exists():
+                tmp_path.unlink()
+        except OSError:
+            pass
 
 
 def _current_season():

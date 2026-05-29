@@ -209,12 +209,19 @@ SLOT_PA_WEIGHTS = [
 #
 # Empirical 2026 season-to-5/21 (n=415): bivariate OLS R^2 = 0.65.
 # Both whiff (+0.62) and xBA (-0.58) survive controlling for the other.
-# Weight=1.2 chosen from 2026-05-21 sweep (best season+recent units).
 #
-# CAVEAT: backfill loads season-end savant_rates (mild leakage on historical
-# dates — whiff/xBA are stable mid-late season, ~88% accurate). Live forward
-# expectation should be ~80-90% of backfill numbers.
-WHIFF_XBA_BLEND_WEIGHT = 0.8
+# Weight=0.5 chosen from the 2026-05-28 post-leakage-fix sweeps
+# (sweep_4d_whiff over 0.6/0.8/1.0, then sweep_whiff_floor over 0.4/0.5/0.6).
+# The earlier 0.8 was tuned on a LEAKY backfill that fed historical
+# projections season-end savant whiff/xBA, which inflated the whiff signal.
+# Once backfill replays as-of-date savant snapshots (load_savant_rates_as_of),
+# ROI is monotonically WORSE as weight rises 0.6->0.8->1.0, and the floor
+# sweep finds an interior optimum at 0.5 (3 of 4 BF/VAR cells; 0.4 stops
+# helping). Moving 0.8->0.5 dropped ~68 net-losing picks and lifted season
+# picks-only ROI ~23%->~29% / +11.6u (BF=1.0,CAP=24,VAR=1.3).
+# NOTE: absolute backfill ROI (~28%) is still implausibly high — likely
+# line-quality (non-closing lines); trust the relative tuning, not the level.
+WHIFF_XBA_BLEND_WEIGHT = 0.5
 WHIFF_LEAGUE_AVG = 0.2557   # fallback (mean whiff_pct)
 XBA_LEAGUE_AVG   = 0.2405   # fallback (mean xBA against)
 WHIFF_K_SLOPE    = 0.6279   # fallback (bivariate whiff partial slope)
