@@ -13,8 +13,8 @@
     "player": "Carlos Rodon",
     "market": "strikeouts",
     "line": 6.5,
-    "over_price": 125,
-    "under_price": -159,
+    "over_price": 121,
+    "under_price": -154,
     "event_home": "OAK",
     "event_away": "NYY",
     "source": "rotowire:draftkings"
@@ -72,9 +72,9 @@
   {
     "player": "Jared Jones",
     "market": "strikeouts",
-    "line": 4.5,
-    "over_price": -164,
-    "under_price": 128,
+    "line": 5.5,
+    "over_price": 126,
+    "under_price": -161,
     "event_home": "PIT",
     "event_away": "MIN",
     "source": "rotowire:draftkings"
@@ -83,7 +83,7 @@
     "player": "George Kirby",
     "market": "strikeouts",
     "line": 5.5,
-    "over_price": -109,
+    "over_price": -107,
     "under_price": -117,
     "event_home": "SEA",
     "event_away": "ARI",
@@ -113,8 +113,8 @@
     "player": "Luis Severino",
     "market": "strikeouts",
     "line": 5.5,
-    "over_price": 100,
-    "under_price": -128,
+    "over_price": -102,
+    "under_price": -123,
     "event_home": "OAK",
     "event_away": "NYY",
     "source": "rotowire:draftkings"
@@ -143,8 +143,8 @@
     "player": "Nick Martinez",
     "market": "strikeouts",
     "line": 4.5,
-    "over_price": 103,
-    "under_price": -131,
+    "over_price": 111,
+    "under_price": -142,
     "event_home": "TB",
     "event_away": "LAA",
     "source": "rotowire:draftkings"
@@ -163,8 +163,8 @@
     "player": "Trevor Rogers",
     "market": "strikeouts",
     "line": 4.5,
-    "over_price": 115,
-    "under_price": -143,
+    "over_price": 116,
+    "under_price": -149,
     "event_home": "BAL",
     "event_away": "TOR",
     "source": "rotowire:draftkings"
@@ -183,8 +183,8 @@
     "player": "Logan Webb",
     "market": "strikeouts",
     "line": 4.5,
-    "over_price": 101,
-    "under_price": -129,
+    "over_price": 113,
+    "under_price": -144,
     "event_home": "COL",
     "event_away": "SF",
     "source": "rotowire:draftkings"
@@ -223,8 +223,8 @@
     "player": "Lucas Giolito",
     "market": "strikeouts",
     "line": 3.5,
-    "over_price": -124,
-    "under_price": -103,
+    "over_price": -131,
+    "under_price": 103,
     "event_home": "WAS",
     "event_away": "SD",
     "source": "rotowire:draftkings"
@@ -258,6 +258,16 @@
     "event_home": "CIN",
     "event_away": "ATL",
     "source": "rotowire:draftkings"
+  },
+  {
+    "player": "Andre Pallante",
+    "market": "strikeouts",
+    "line": 3.5,
+    "over_price": -122,
+    "under_price": 100,
+    "event_home": "STL",
+    "event_away": "CHC",
+    "source": "rotowire:fanduel"
   },
   {
     "player": "Walbert Urena",
@@ -455,16 +465,5 @@
     "event_away": "MIA",
     "source": "fanduel",
     "_event_id": "35659792"
-  },
-  {
-    "player": "Andre Pallante",
-    "market": "strikeouts",
-    "line": 3.5,
-    "over_price": -122,
-    "under_price": 100,
-    "event_home": "STL",
-    "event_away": "CHC",
-    "source": "fanduel",
-    "_event_id": "35659796"
   }
 ]
