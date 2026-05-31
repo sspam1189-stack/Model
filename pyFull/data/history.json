@@ -81465,7 +81465,7 @@
           "h2hNote": null,
           "awayScore": 97.0,
           "homeScore": 109.0,
-          "_recencyWeight": 0.5,
+          "_recencyWeight": 0.25,
           "trends": {
             "away": {
               "atsPct": null,
@@ -81531,7 +81531,7 @@
           "h2hNote": null,
           "awayScore": 126.0,
           "homeScore": 121.0,
-          "_recencyWeight": 0.5,
+          "_recencyWeight": 0.25,
           "trends": {
             "away": {
               "atsPct": null,
@@ -85079,7 +85079,7 @@
           "h2hNote": null,
           "awayScore": 140.0,
           "homeScore": 89.0,
-          "_recencyWeight": 0.75,
+          "_recencyWeight": 0.5,
           "trends": {
             "away": {
               "atsPct": null,
@@ -85146,7 +85146,7 @@
           "h2hNote": null,
           "awayScore": 93.0,
           "homeScore": 106.0,
-          "_recencyWeight": 0.75,
+          "_recencyWeight": 0.5,
           "trends": {
             "away": {
               "atsPct": null,
@@ -85212,7 +85212,7 @@
           "h2hNote": null,
           "awayScore": 98.0,
           "homeScore": 110.0,
-          "_recencyWeight": 0.75,
+          "_recencyWeight": 0.5,
           "trends": {
             "away": {
               "atsPct": null,
@@ -87608,7 +87608,7 @@
           "awayScore": 115.0,
           "homeScore": 94.0,
           "_kalmanDate": "20260515",
-          "_recencyWeight": 1.0
+          "_recencyWeight": 0.75
         },
         {
           "away": "San Antonio Spurs",
@@ -87663,7 +87663,7 @@
           "awayScore": 139.0,
           "homeScore": 109.0,
           "_kalmanDate": "20260515",
-          "_recencyWeight": 1.0
+          "_recencyWeight": 0.75
         }
       ],
       "summaryText": "RECORD (graded picks only)\n\nSPREAD (ATS)\n  All:         410-226-1   (64.5%)   [graded 637]\n  Elite:       410-226-1   (64.5%)   [graded 637]\n\nFAV/DOG (Spread)\n  Favorites:   194-101-1   (65.8%)   [graded 296]\n  Underdogs:   216-125-0   (63.3%)   [graded 341]\n\nTOTAL (O/U)\n  All:         0-0-0   (n/a%)   [graded 0]\n  Elite:       0-0-0   (n/a%)   [graded 0]\n\nOVER/UNDER\n  Over:        0-0-0   (n/a%)   [graded 0]\n  Under:       0-0-0   (n/a%)   [graded 0]",
@@ -89128,11 +89128,65 @@
           "trends": {
             "away": "ATS +/- 3.5 \u00b7 Over 47.0% \u00b7 Under 53.0% \u00b7 O/U +/- -0.6",
             "home": "ATS +/- 0.5 \u00b7 Over 55.2% \u00b7 Under 44.8% \u00b7 O/U +/- 0.8"
-          }
+          },
+          "awayScore": 111.0,
+          "homeScore": 103.0,
+          "_kalmanDate": "20260530",
+          "_recencyWeight": 1.0
         }
       ],
       "summaryText": "RECORD (graded picks only)\n\nSPREAD (ATS)\n  All:         411-227-1   (64.4%)   [graded 639]\n  Elite:       411-227-1   (64.4%)   [graded 639]\n\nFAV/DOG (Spread)\n  Favorites:   194-101-1   (65.8%)   [graded 296]\n  Underdogs:   217-126-0   (63.3%)   [graded 343]\n\nTOTAL (O/U)\n  All:         0-0-0   (n/a%)   [graded 0]\n  Elite:       0-0-0   (n/a%)   [graded 0]\n\nOVER/UNDER\n  Over:        0-0-0   (n/a%)   [graded 0]\n  Under:       0-0-0   (n/a%)   [graded 0]",
       "ranAt": "05/30/2026, 06:00:53 PM"
+    },
+    {
+      "date": "20260531",
+      "dateDisplay": "2026-05-31",
+      "burnIn": false,
+      "weightsUsed": {
+        "wOFF": 1,
+        "wTS": 5,
+        "wTO": 0,
+        "wORR": 0,
+        "wDEF": 0.795,
+        "constant": -0.073,
+        "paceAdj": 0.923,
+        "hca": 2.558139534883721,
+        "sprHigh": 4,
+        "ouHigh": 5,
+        "sprEliteBump": 3,
+        "ouEliteBump": 3,
+        "probHigh": 0.65,
+        "probElite": 0.63,
+        "probOUHigh": 0.58,
+        "probOUElite": 0.64,
+        "recentWeight": 0.87,
+        "locationWeight": 0.25,
+        "h2hWeight": 0.0
+      },
+      "weightsNext": {
+        "wOFF": 1,
+        "wTS": 5,
+        "wTO": 0,
+        "wORR": 0,
+        "wDEF": 0.795,
+        "constant": -0.073,
+        "paceAdj": 0.923,
+        "hca": 2.558139534883721,
+        "sprHigh": 4,
+        "ouHigh": 5,
+        "sprEliteBump": 3,
+        "ouEliteBump": 3,
+        "probHigh": 0.65,
+        "probElite": 0.63,
+        "probOUHigh": 0.58,
+        "probOUElite": 0.64,
+        "recentWeight": 0.87,
+        "locationWeight": 0.25,
+        "h2hWeight": 0.0
+      },
+      "games": [],
+      "summaryText": "RECORD (graded picks only)\n\nSPREAD (ATS)\n  All:         411-227-1   (64.4%)   [graded 639]\n  Elite:       411-227-1   (64.4%)   [graded 639]\n\nFAV/DOG (Spread)\n  Favorites:   194-101-1   (65.8%)   [graded 296]\n  Underdogs:   217-126-0   (63.3%)   [graded 343]\n\nTOTAL (O/U)\n  All:         0-0-0   (n/a%)   [graded 0]\n  Elite:       0-0-0   (n/a%)   [graded 0]\n\nOVER/UNDER\n  Over:        0-0-0   (n/a%)   [graded 0]\n  Under:       0-0-0   (n/a%)   [graded 0]",
+      "ranAt": "05/31/2026, 09:16:18 AM"
     }
   ],
   "weights": {
@@ -89140,10 +89194,10 @@
     "wTS": 5,
     "wTO": 0,
     "wORR": 0,
-    "wDEF": 0.842,
+    "wDEF": 0.795,
     "constant": -0.073,
     "paceAdj": 0.923,
-    "hca": 2.6823529411764704,
+    "hca": 2.558139534883721,
     "sprHigh": 4,
     "ouHigh": 5,
     "sprEliteBump": 3,
@@ -89157,13 +89211,13 @@
     "h2hWeight": 0.0
   },
   "weightsVar": {
-    "wTS": 3.5097,
-    "wTO": 0.4063,
-    "wORR": 2.5243,
+    "wTS": 3.5084,
+    "wTO": 0.4042,
+    "wORR": 2.5201,
     "wDEF": 0.05,
     "hca": 0.2,
     "constant": 4.0
   },
-  "residualVar": 193.4,
-  "lastTuneDate": "20260530"
+  "residualVar": 193.2,
+  "lastTuneDate": "20260531"
 }
