@@ -1252,12 +1252,35 @@ def run_daily(date_key=None):
             _pkey(p): p for p in existing_props if p.get("date") == date_iso
         }
         existing_proj_by_key = {_pkey(p): p for p in existing_today_proj}
+        _LOCK_STATES = ("lineup_confirmed", "game_started", "final")
+
+        # Forward lineup re-lock: a pick that locked on a *projected* opponent
+        # lineup (lineupConfirmed explicitly False) gets re-projected once the
+        # opponent's official lineup posts, then frozen on it — so the frozen
+        # projection always reflects the real 9 hitters. Picks predating this
+        # field (lineupConfirmed absent) are treated as already frozen: no
+        # retroactive change to historical records. The line/odds stay frozen
+        # via the existing line-freeze, so only the lineup-derived projection
+        # is refreshed.
+        _fresh_today_keys = {
+            _pkey(p) for p in combined.get("props", [])
+            if (p.get("date") == date_iso or not p.get("date"))
+        }
+        relineup_keys = {
+            _pkey(p) for p in existing_props
+            if p.get("date") == date_iso
+            and p.get("lockState") in _LOCK_STATES
+            and p.get("lineupConfirmed") is False
+            and (p.get("opp", "") or p.get("team", "")) in confirmed_teams
+            and p.get("actual") is None
+            and _pkey(p) in _fresh_today_keys
+        }
+
         proj_locked_keys = {
             k for k, p in existing_proj_by_key.items()
             if p.get("lockState") in ("lineup_confirmed", "game_started", "final")
+            and k not in relineup_keys
         }
-
-        _LOCK_STATES = ("lineup_confirmed", "game_started", "final")
         # Build current probable-pitcher map keyed by (game_id, team) and
         # (team,) for fallback. Used to detect opener/bulk swaps where the
         # announced starter changes after a pick has already locked — the
@@ -1292,6 +1315,7 @@ def run_daily(date_key=None):
             if p.get("date") == date_iso
             and _is_locked(p)
             and p.get("lockState") in _LOCK_STATES
+            and _pkey(p) not in relineup_keys
         ]
         # Tag locked picks whose announced starter has been swapped out
         # (opener/bulk reshuffle, late scratch). They stay in merged_props
@@ -1319,21 +1343,32 @@ def run_daily(date_key=None):
 
         today_fresh = []
         existing_today_keys = set(existing_today_by_key.keys())
+        # Keys eligible for one more projection refresh: picks transitioning
+        # into a lock this run, plus picks that locked on a projected lineup and
+        # whose official lineup has now posted (relineup_keys).
+        _reproject_keys = transitioning_keys | relineup_keys
         for p in combined.get("props", []):
             if not (p.get("date") == date_iso or not p.get("date")):
                 continue
             k = _pkey(p)
             if k in locked_keys:
                 continue
-            if k in proj_locked_keys and k not in transitioning_keys:
+            if k in proj_locked_keys and k not in _reproject_keys:
                 continue
-            if _is_locked(p) and k in existing_today_keys and k not in transitioning_keys:
+            if _is_locked(p) and k in existing_today_keys and k not in _reproject_keys:
                 continue
             if (_current_lock_state(p) == "game_started"
                 and k not in existing_today_keys
                 and k not in existing_proj_by_key):
                 continue
-            today_fresh.append(_stamp(p, existing_today_by_key.get(k)))
+            sp = _stamp(p, existing_today_by_key.get(k))
+            # Record whether this projection used the opponent's official MLB
+            # lineup (confirmed feed) vs a Rotowire/recent-order fallback, so a
+            # later run can re-project once the official lineup posts.
+            sp["lineupConfirmed"] = bool(
+                (sp.get("opp", "") or sp.get("team", "")) in confirmed_teams
+            )
+            today_fresh.append(sp)
 
         today_existing_locked = [
             _stamp(dict(p), p) for p in already_locked_entries
@@ -1394,6 +1429,7 @@ def run_daily(date_key=None):
                 for p in existing_today
                 if _is_locked(p)
                 and p.get("lockState") in _LS
+                and (p.get("team",""), p.get("player",""), p.get("market","")) not in relineup_keys
             }
             merged = []
             seen = set()
@@ -1406,7 +1442,11 @@ def run_daily(date_key=None):
                     continue
                 if _current_lock_state(p) == "game_started" and k not in existing_today_keys:
                     continue
-                merged.append(_stamp(p))
+                sp = _stamp(p)
+                sp["lineupConfirmed"] = bool(
+                    (sp.get("opp", "") or sp.get("team", "")) in confirmed_teams
+                )
+                merged.append(sp)
                 seen.add(k)
             return merged
 
