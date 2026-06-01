@@ -1466,6 +1466,36 @@ def run_daily(date_key=None):
         # in PythonDashboard/js/mlb-props.js — if you change one, change both.
         _stamp_read_verdicts(merged_props)
 
+        # Scratched/voided pitchers never threw — their projection, line, and
+        # odds must NOT persist in the data. This is the source-of-truth mirror
+        # of the dashboard's client-side VOID strip in
+        # PythonDashboard/js/mlb-props.js (if you change one, change both).
+        # The props row itself is kept as a bare tombstone (player/team/market/
+        # date + result=VOID + voidReason) so the no-erase guard above stays
+        # satisfied and grading keeps skipping it — but every projection/line/
+        # odds field is blanked. The pitcher's forward projection is dropped
+        # from todayProjections (not guard-protected), keyed by player|date so
+        # all of that pitcher's markets disappear for the day.
+        _VOID_STRIP_FIELDS = (
+            "proj", "std", "line", "over_price", "under_price", "odds",
+            "edge", "pCover", "conf", "to_win_1u", "readVerdict",
+            "proj_ip", "proj_bf", "proj_bf_capped", "proj_pc",
+            "opp_team_k_pct", "lineup_k_pct",
+        )
+        _voided_day_keys = set()
+        for _p in merged_props:
+            if _p.get("result") != "VOID":
+                continue
+            _voided_day_keys.add((_p.get("player", ""), _p.get("date", "")))
+            for _f in _VOID_STRIP_FIELDS:
+                if _f in _p:
+                    _p[_f] = None
+        if _voided_day_keys:
+            merged_today_proj = [
+                _p for _p in merged_today_proj
+                if (_p.get("player", ""), _p.get("date", "")) not in _voided_day_keys
+            ]
+
         # Build home/away map from the probable_pitchers cache so the
         # dashboard can render home team on the right side of every matchup
         # chip ("AWAY vs HOME"). Keyed by date so today + yesterday slots

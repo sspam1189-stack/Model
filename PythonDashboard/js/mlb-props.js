@@ -130,6 +130,26 @@
       }
 
       const marketLabels = {strikeouts:'K', outs:'OUTS', hits_allowed:'HA', game_hits:'HITS'};
+
+      // Scratched/voided pitchers (late scratch, pitcher swap) are treated as
+      // if they were never projected — strip them from data.props and
+      // data.todayProjections so they vanish from EVERY downstream table, card,
+      // record, and stat. The voided rows are stashed in _voidedPicks solely so
+      // the Reddit "Downgraded" call-out can still explain a same-day scratch
+      // (rather than mislabeling it a model downgrade).
+      const _voidedPicks = (data.props || []).filter(p => p.result === 'VOID');
+      // todayProjections rows are forward projections and carry NO `result`
+      // field, so they can't be filtered on result === 'VOID'. Key the voided
+      // pitchers by player|date and strip every matching projection (all
+      // markets) so a scratched starter disappears from the today views too.
+      const _voidedDayKeys = new Set(_voidedPicks.map(p => `${p.player}|${p.date}`));
+      data.props = (data.props || []).filter(p => p.result !== 'VOID');
+      if (Array.isArray(data.todayProjections)) {
+        data.todayProjections = data.todayProjections.filter(
+          p => !_voidedDayKeys.has(`${p.player}|${p.date}`)
+        );
+      }
+
       const picks = data.props.filter(p => p.pick !== 'PASS');
       const isBacktest = picks.some(p => p.result != null);
 
@@ -717,7 +737,10 @@
           // Look up the current today's-prop by key so the dropped-line
           // call-out below can read voidReason from the live row.
           const _todayByKey = {};
-          (data.props || []).forEach(p => {
+          // Include the stashed voided rows here (and only here) so a same-day
+          // scratch can still be labeled "voided — pitcher swap" below, even
+          // though it's been stripped from data.props everywhere else.
+          [...(data.props || []), ..._voidedPicks].forEach(p => {
             if (p.date !== todayStr) return;
             const dir = p.pick === 'PASS' ? (p.would_be_pick || 'OVER') : p.pick;
             _todayByKey[`${displayName(p)}|${p.market}|${dir}`] = p;
