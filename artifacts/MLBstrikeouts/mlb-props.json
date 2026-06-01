@@ -4,7 +4,7 @@
   "season": "2026",
   "mode": "live",
   "model": "kalman_blend",
-  "generated": "2026-06-01T16:14:17.119135",
+  "generated": "2026-06-01T16:36:11.094269",
   "totalProjections": 12,
   "totalPicks": 1259,
   "totalWatchlist": 10,
@@ -35157,9 +35157,9 @@
       "to_win_1u": 1.52,
       "would_be_pick": "OVER",
       "date": "2026-06-01",
-      "lockState": "pending",
-      "lockedAt": null,
-      "lineupConfirmed": false
+      "lockState": "lineup_confirmed",
+      "lockedAt": "2026-06-01T21:36:11.094366Z",
+      "lineupConfirmed": true
     },
     {
       "player": "Emmet Sheehan",
@@ -35531,9 +35531,9 @@
       "odds": -152,
       "to_win_1u": 1.52,
       "date": "2026-06-01",
-      "lockState": "pending",
-      "lockedAt": null,
-      "lineupConfirmed": false
+      "lockState": "lineup_confirmed",
+      "lockedAt": "2026-06-01T21:36:11.094366Z",
+      "lineupConfirmed": true
     },
     {
       "player": "Jos\u00e9 Soriano",
@@ -35681,8 +35681,8 @@
     "SF": "Pre-Game",
     "STL": "Pre-Game",
     "TEX": "Pre-Game",
-    "LAA": "Scheduled",
-    "COL": "Scheduled",
+    "LAA": "Pre-Game",
+    "COL": "Pre-Game",
     "ARI": "Scheduled",
     "LAD": "Scheduled",
     "SEA": "Pre-Game",
@@ -35706,7 +35706,7 @@
     "823702": "Pre-Game",
     "823781": "Pre-Game",
     "823050": "Pre-Game",
-    "824027": "Scheduled",
+    "824027": "Pre-Game",
     "825078": "Scheduled",
     "823131": "Pre-Game"
   },
