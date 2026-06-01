@@ -863,8 +863,14 @@
             const oddsStr = (statusConfirmed && pickedOdds != null)
               ? ` ${pickedOdds > 0 ? '+' : ''}${pickedOdds}`
               : '';
+            // pCover shown as a percentage on confirmed rows only — same
+            // withhold-until-lock rationale as proj/odds (pCover shifts with
+            // the lineup until it confirms).
+            const pcStr = (statusConfirmed && p.pCover != null)
+              ? ` ${(Number(p.pCover) * 100).toFixed(1)}%`
+              : '';
             const projTag = (statusConfirmed && p.proj != null)
-              ? ` proj: ${Number(p.proj).toFixed(1)}${oddsStr}${confirmedAt ? ` @ ${confirmedAt}` : ''}`
+              ? ` proj: ${Number(p.proj).toFixed(1)}${oddsStr}${pcStr}${confirmedAt ? ` @ ${confirmedAt}` : ''}`
               : '';
             // Body of the line WITHOUT the leading "* " or trailing annotation.
             // We stash this in state so that if this entry later disappears
