@@ -4051,6 +4051,19 @@
         const pc = p.pCover || 0;
         return pc >= lo && pc < hi;
       }
+      // Line filter — every distinct betting line present in the data
+      // (e.g. 3.5, 4.5, 5.5, 6.5, 7.5 for strikeouts), sorted ascending.
+      // Populated from picks+watch+pass so the option list stays stable as
+      // the user switches view tabs.
+      const allLines = [...new Set(
+        picks.concat(watchPicks, passPicks)
+          .map(p => p.line)
+          .filter(v => v != null)
+      )].sort((a, b) => a - b);
+      const lineSel = document.createElement('select');
+      lineSel.style.cssText = selStyle;
+      lineSel.innerHTML = '<option value="all">All Lines</option>'
+        + allLines.map(v => `<option value="${v}">${v}</option>`).join('');
       const teamSel = document.createElement('select');
       teamSel.style.cssText = selStyle;
       const allTeams = [...new Set(picks.map(p => p.team))].filter(Boolean).sort();
@@ -4119,6 +4132,7 @@
         let fp = activeSource().slice();
         if (dateSel.value !== 'all') fp = fp.filter(p => p.date === dateSel.value);
         if (teamSel.value !== 'all') fp = fp.filter(p => p.team === teamSel.value);
+        if (lineSel.value !== 'all') fp = fp.filter(p => p.line != null && +p.line === +lineSel.value);
         if (dirSel.value !== 'all') fp = fp.filter(p => effectiveDir(p) === dirSel.value);
         if (bucketSel.value !== 'all') fp = fp.filter(p => inBucket(p, bucketSel.value));
         if (dateSel.value !== 'all') {
@@ -4675,6 +4689,7 @@
         if (!isWeekly) {
           filterRow.appendChild(dateSel);
           filterRow.appendChild(teamSel);
+          filterRow.appendChild(lineSel);
           filterRow.appendChild(dirSel);
           filterRow.appendChild(bucketSel);
           filterRow.appendChild(filterLabel);
@@ -4682,6 +4697,7 @@
           refreshDayOptions();
           filterRow.appendChild(weekSel);
           filterRow.appendChild(daySel);
+          filterRow.appendChild(lineSel);
           filterRow.appendChild(dirSel);
           filterRow.appendChild(bucketSel);
           filterRow.appendChild(weekFilterLabel);
@@ -4698,6 +4714,7 @@
       viewAllCombinedBtn.onclick = () => setView('all-combined');
       dateSel.addEventListener('change', renderAllPicksView);
       teamSel.addEventListener('change', renderAllPicksView);
+      lineSel.addEventListener('change', refreshView);
       dirSel.addEventListener('change', refreshView);
       bucketSel.addEventListener('change', refreshView);
       weekSel.addEventListener('change', () => { refreshDayOptions(); renderWeeklyView(); });
