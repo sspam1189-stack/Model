@@ -2,7 +2,7 @@
 """Compare PRODUCTION config vs the 'whiff .50 1.3 24 1' config.
 
 PROD  (shipped):  K_QUALITY_METRIC=csw   W=0.3  BF=1.00  VAR=1.20  CAP=25  KCAP=0.40
-WHIFF (candidate):K_QUALITY_METRIC=whiff W=0.50 BF=1.00  VAR=1.30  CAP=24  KCAP=0.40
+WHIFF (candidate):K_QUALITY_METRIC=whiff W=0.50 BF=1.00  VAR=1.30  CAP=24  KCAP=0.36
 
 Both are run through the same leak-free walk-forward backfill; records are then
 reported for the post-leakage-fix window (fix shipped 2026-05-28, commit
@@ -127,8 +127,8 @@ def main():
 
     print('Running PROD  (csw   W=0.3  BF=1.00 VAR=1.20 CAP=25 KCAP=0.40) ...')
     PROD = run_config('csw', 0.3, 1.00, 1.20, 25, 0.40)
-    print('Running WHIFF (whiff W=0.50 BF=1.00 VAR=1.30 CAP=24 KCAP=0.40) ...')
-    WHIFF = run_config('whiff', 0.50, 1.00, 1.30, 24, 0.40)
+    print('Running WHIFF (whiff W=0.50 BF=1.00 VAR=1.30 CAP=24 KCAP=0.36) ...')
+    WHIFF = run_config('whiff', 0.50, 1.00, 1.30, 24, 0.36)
 
     # Restore production defaults.
     (defaults.K_QUALITY_METRIC, defaults.CSW_XBA_BLEND_WEIGHT,
