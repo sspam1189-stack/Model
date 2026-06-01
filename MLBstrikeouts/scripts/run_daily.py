@@ -588,6 +588,12 @@ def run_daily(date_key=None):
     else:
         date_iso = f"{date_key[:4]}-{date_key[4:6]}-{date_key[6:8]}"
 
+    # Bound opponent rolling-window stats at game_date - 1 (same as backfill's
+    # prior_date) so the 45-day window is fully settled and identical across
+    # intraday reruns AND reproducible by the walk-forward backfill.
+    prior_date = (datetime.datetime.strptime(date_iso, "%Y-%m-%d")
+                  - datetime.timedelta(days=1)).strftime("%Y-%m-%d")
+
     season = current_season()
 
     print(f"\n{'='*60}")
@@ -695,8 +701,8 @@ def run_daily(date_key=None):
                 pitcher_ids.add(pid)
     splits = {}
     for pid in pitcher_ids:
-        s = fetch_pitcher_handedness_splits(pid, season=season, through_date=date_iso)
-        s_season = fetch_pitcher_handedness_splits_season(pid, season=season, through_date=date_iso)
+        s = fetch_pitcher_handedness_splits(pid, season=season, through_date=prior_date)
+        s_season = fetch_pitcher_handedness_splits_season(pid, season=season, through_date=prior_date)
         if s and s_season:
             s["vs_left_season"] = s_season.get("vs_left", {})
             s["vs_right_season"] = s_season.get("vs_right", {})
@@ -706,7 +712,7 @@ def run_daily(date_key=None):
 
     # Stage 8: Fetch team batting stats
     print(f"\n  [8/15] Fetching team batting stats...")
-    team_batting = fetch_team_batting_stats(season=season, through_date=date_iso)
+    team_batting = fetch_team_batting_stats(season=season, through_date=prior_date)
     print(f"  {len(team_batting)} teams with batting stats")
 
     # Stage 9: Fetch lineup handedness (actual starting lineups, not roster avg)
@@ -863,7 +869,7 @@ def run_daily(date_key=None):
 
     # Fetch batter K rates (bulk, 2 API calls)
     print(f"\n  [9b/15] Fetching batter K rates + Savant pitcher rates...")
-    batter_k_rates = fetch_batter_k_rates(season=season, through_date=date_iso)
+    batter_k_rates = fetch_batter_k_rates(season=season, through_date=prior_date)
     pitch_hands = load_pitch_hands(season=season)
     savant_rates = fetch_savant_pitcher_rates(season=season)
     print(f"  {len(batter_k_rates)} batters, {len(savant_rates)} pitchers with Savant K%/whiff%")
