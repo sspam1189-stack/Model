@@ -981,7 +981,8 @@
             `* ${weekLabel} (${weekRange}): ${fmt(wPicksTally)}\n` +
             `* Yesterday (${yMD}): ${fmt(yPicksTally)}\n` +
             _picksBlock +
-            _droppedBlock;
+            _droppedBlock +
+            `\n\nNot needed but appreaciated : https://buymeacoffee.com/henitals`;
 
           const redditCard = document.createElement('div');
           redditCard.className = 'card card-reddit';
