@@ -908,15 +908,15 @@
           const _pickLines = _todayPicks.map(p => _fmtRow(p, 'pick'));
           const _leanLines = _todayLeans.map(p => _fmtRow(p, 'lean'));
 
-          // Dropped entries: previously confirmed picks/leans that no longer
+          // Dropped entries: previously-shown picks/leans that no longer
           // appear in today's slate at all. Collected into a separate
           // "Today's Downgraded" section so they don't clutter the active
-          // Picks/Leans blocks. Only fires for entries that were CONFIRMED
-          // before disappearing — unconfirmed drops just vanish silently.
+          // Picks/Leans blocks. Fires for both confirmed and unconfirmed
+          // entries — an unconfirmed pick that falls off the slate is still
+          // called out as a downgrade rather than vanishing silently.
           const _droppedLines = [];
           for (const [key, prev] of Object.entries(_prev)) {
             if (_currentState[key]) continue;          // still present today
-            if (prev.status !== 'confirmed') continue;  // never confirmed → no call-out
             if (!prev.lineText) continue;               // legacy entry without saved text
             // If the underlying game was postponed/suspended/cancelled, the
             // entry didn't drop on merit — call it out as a postponement
