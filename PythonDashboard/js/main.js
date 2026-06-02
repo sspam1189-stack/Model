@@ -745,8 +745,8 @@ function renderRecordBanner(runs, modelSummary = null) {
       </div>
     </div>`;
 
-  // Since 3/2 recent record (filter by pick date, not run date)
-  const recentPicks = getActionablePicks(runs).filter(p => (p.date || '') >= '20260302');
+  // Playoffs record (filter by pick date, not run date)
+  const recentPicks = getActionablePicks(runs).filter(p => (p.date || '') >= '20260414');
   if (recentPicks.length > 0) {
     const rw = recentPicks.filter(p => p.result === 'WIN').length;
     const rl = recentPicks.filter(p => p.result === 'LOSS').length;
@@ -759,7 +759,7 @@ function renderRecordBanner(runs, modelSummary = null) {
     html += `
     <div class="record-banner" style="margin-top:8px;opacity:0.85">
       <div class="record-item">
-        <div class="label">Since 3/2</div>
+        <div class="label">Playoffs</div>
         <div class="value">${re.w}-${re.l}${re.p > 0 ? `-${re.p}` : ''}</div>
       </div>
       <div class="record-item">
