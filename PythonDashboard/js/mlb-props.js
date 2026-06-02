@@ -953,7 +953,7 @@
             ? `\nToday’s Leans (${todayStr})\n\n` + _leanLines.join('\n') + '\n'
             : '';
           const _droppedBlock = _droppedLines.length
-            ? `\nToday's Downgraded\n\n` + _droppedLines.join('\n') + '\n'
+            ? `\nToday's Downgraded (non-picks)\n\n` + _droppedLines.join('\n') + '\n'
             : '';
 
           // Persist current state for the next render. Stores bucket +
