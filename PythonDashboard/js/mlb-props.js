@@ -1523,37 +1523,43 @@
             const widerThanBkt = broadN > bktN;
             const dirWord = r.dir.toLowerCase() + 's';
             const oppStr = r.p.opp;
+            // "Over" / "Under" — capitalized direction for the read narrative's
+            // lead record phrase, which is prefixed with the side + opponent
+            // so the in-bucket record is self-describing (e.g.
+            // "Over Picks vs LAD 6-4 (60.0%, +1.67u)").
+            const dirCap = r.dir.charAt(0) + r.dir.slice(1).toLowerCase();
+            const leadLabel = `${dirCap} Picks vs ${oppStr}`;
 
             // Build narrative — the 1u / PASS badge at the start of the row
             // already signals the verdict, so the prose just delivers the
             // why without a redundant "TAKE." / "PASS." prefix.
             let take = '';
             if (caution) {
-              take = `Picks have bled here (${sr(recOf(dirRec))}, ${(bktWR*100).toFixed(1)}%, ${uOf(dirRec)}) and broader isn't a rescue (${recOf(allRec)}). ${pcPct}% model can't outrun history.`;
+              take = `${leadLabel} have bled here (${sr(recOf(dirRec))}, ${(bktWR*100).toFixed(1)}%, ${uOf(dirRec)}) and broader isn't a rescue (${recOf(allRec)}). ${pcPct}% model can't outrun history.`;
             } else if (coin && bWeak) {
-              take = `Picks ${recOf(dirRec)} (${(bktWR*100).toFixed(1)}%, ${uOf(dirRec)}) and the broader cohort isn't carrying it either (${sr(recOf(allRec))}, ${(broadWR*100).toFixed(1)}%, ${uOf(allRec)}). ${pcPct}% model — flagged PASS.`;
+              take = `${leadLabel} ${recOf(dirRec)} (${(bktWR*100).toFixed(1)}%, ${uOf(dirRec)}) and the broader cohort isn't carrying it either (${sr(recOf(allRec))}, ${(broadWR*100).toFixed(1)}%, ${uOf(allRec)}). ${pcPct}% model — flagged PASS.`;
             } else if ((small || empty) && bWeak) {
-              take = `Bucket thin (${recOf(dirRec)}) and the broader cohort is weak (${sr(recOf(allRec))}, ${(broadWR*100).toFixed(1)}%, ${uOf(allRec)}). ${pcPct}% model can't override — flagged PASS.`;
+              take = `${leadLabel}: bucket thin (${recOf(dirRec)}) and the broader cohort is weak (${sr(recOf(allRec))}, ${(broadWR*100).toFixed(1)}%, ${uOf(allRec)}). ${pcPct}% model can't override — flagged PASS.`;
             } else if (elite && (bElite || (broadWR && broadWR >= 0.80))) {
-              take = `Cleanest spot of the night — picks ${sg(recOf(dirRec))}, broader matchup ${sg(recOf(allRec))} (${(broadWR*100).toFixed(1)}%, ${uOf(allRec)}). ${pcPct}% model.`;
+              take = `Cleanest spot of the night — ${leadLabel} ${sg(recOf(dirRec))}, broader matchup ${sg(recOf(allRec))} (${(broadWR*100).toFixed(1)}%, ${uOf(allRec)}). ${pcPct}% model.`;
             } else if (elite) {
-              take = `Picks are ${sg(recOf(dirRec))} (${(bktWR*100).toFixed(1)}%, ${uOf(dirRec)}) at ${pcPct}% model confidence.`;
+              take = `${leadLabel} ${sg(recOf(dirRec))} (${(bktWR*100).toFixed(1)}%, ${uOf(dirRec)}) at ${pcPct}% model confidence.`;
             } else if (solid && bSolid) {
-              take = `Picks ${recOf(dirRec)} (${(bktWR*100).toFixed(1)}%, ${uOf(dirRec)}) and the broader cohort backs it (${recOf(allRec)}, ${(broadWR*100).toFixed(1)}%, ${uOf(allRec)}). ${pcPct}% model.`;
+              take = `${leadLabel} ${recOf(dirRec)} (${(bktWR*100).toFixed(1)}%, ${uOf(dirRec)}) and the broader cohort backs it (${recOf(allRec)}, ${(broadWR*100).toFixed(1)}%, ${uOf(allRec)}). ${pcPct}% model.`;
             } else if (solid) {
-              take = `Picks ${recOf(dirRec)} (${(bktWR*100).toFixed(1)}%, ${uOf(dirRec)}). Broader ${recOf(allRec)}. ${pcPct}% model.`;
+              take = `${leadLabel} ${recOf(dirRec)} (${(bktWR*100).toFixed(1)}%, ${uOf(dirRec)}). Broader ${recOf(allRec)}. ${pcPct}% model.`;
             } else if (coin && bSolid) {
-              take = `Picks are ${recOf(dirRec)} (${(bktWR*100).toFixed(1)}%) but the broader matchup widens to ${sg(recOf(allRec))} (${(broadWR*100).toFixed(1)}%, ${uOf(allRec)}). ${pcPct}% model.`;
+              take = `${leadLabel} ${recOf(dirRec)} (${(bktWR*100).toFixed(1)}%) but the broader matchup widens to ${sg(recOf(allRec))} (${(broadWR*100).toFixed(1)}%, ${uOf(allRec)}). ${pcPct}% model.`;
             } else if (coin) {
-              take = `Picks ${recOf(dirRec)} (${(bktWR*100).toFixed(1)}%, ${uOf(dirRec)}), broader (picks+watch same dir) ${recOf(allRec)} — baseline TAKE at ${pcPct}% model.`;
+              take = `${leadLabel} ${recOf(dirRec)} (${(bktWR*100).toFixed(1)}%, ${uOf(dirRec)}), broader (picks+watch ${dirCap}) ${recOf(allRec)} — baseline TAKE at ${pcPct}% model.`;
             } else if ((small || empty) && (bElite || (broadWR && broadWR >= 0.80))) {
-              take = `Bucket sample thin (${recOf(dirRec)}) but ${sg(`P+L ${dirWord} vs ${oppStr} are ${recOf(allRec)} (${(broadWR*100).toFixed(1)}%, ${uOf(allRec)})`)}. ${pcPct}% model.`;
+              take = `${leadLabel}: bucket sample thin (${recOf(dirRec)}) but ${sg(`P+L ${dirWord} vs ${oppStr} are ${recOf(allRec)} (${(broadWR*100).toFixed(1)}%, ${uOf(allRec)})`)}. ${pcPct}% model.`;
             } else if ((small || empty) && bCaution) {
-              take = `Bucket thin (${recOf(dirRec)}) and the broader matchup is bad (${sr(recOf(allRec))}, ${(broadWR*100).toFixed(1)}%, ${uOf(allRec)}). ${pcPct}% can't override.`;
+              take = `${leadLabel}: bucket thin (${recOf(dirRec)}) and the broader matchup is bad (${sr(recOf(allRec))}, ${(broadWR*100).toFixed(1)}%, ${uOf(allRec)}). ${pcPct}% can't override.`;
             } else if (small || empty) {
-              take = `Bucket thin (${recOf(dirRec)}), broader ${recOf(allRec)} — riding the ${pcPct}% model.`;
+              take = `${leadLabel}: bucket thin (${recOf(dirRec)}), broader ${recOf(allRec)} — riding the ${pcPct}% model.`;
             } else {
-              take = `Picks ${recOf(dirRec)} (${(bktWR*100).toFixed(1)}%, ${uOf(dirRec)}). Broader ${recOf(allRec)}. ${pcPct}% model.`;
+              take = `${leadLabel} ${recOf(dirRec)} (${(bktWR*100).toFixed(1)}%, ${uOf(dirRec)}). Broader ${recOf(allRec)}. ${pcPct}% model.`;
             }
             if (dirRec && dirRec.l === 0 && dirRec.w >= 4) {
               take += ` ${sg(`Perfect ${dirRec.w}-0 cohort in-bucket.`)}`;
@@ -4007,7 +4013,10 @@
       viewWeeklyPassBtn.textContent = 'Weekly Pass';
       const viewAllCombinedBtn = document.createElement('button');
       viewAllCombinedBtn.textContent = 'All';
+      const viewWeeklyCombinedBtn = document.createElement('button');
+      viewWeeklyCombinedBtn.textContent = 'Weekly All';
       tabRow.appendChild(viewAllCombinedBtn);
+      tabRow.appendChild(viewWeeklyCombinedBtn);
       tabRow.appendChild(viewAllBtn);
       tabRow.appendChild(viewWeeklyBtn);
       tabRow.appendChild(viewAllLeanBtn);
@@ -4091,6 +4100,7 @@
       function refreshDayOptions() {
         const src = (mlbView === 'weekly-lean') ? watchPicks
                   : (mlbView === 'weekly-pass') ? passPicks
+                  : (mlbView === 'weekly-combined') ? picks.concat(watchPicks, passPicks)
                   : picks;
         let dates;
         if (weekSel.value === 'all') {
@@ -4125,7 +4135,7 @@
       function activeSource() {
         if (mlbView === 'all-lean'  || mlbView === 'weekly-lean')  return watchPicks;
         if (mlbView === 'all-pass'  || mlbView === 'weekly-pass')  return passPicks;
-        if (mlbView === 'all-combined') return picks.concat(watchPicks, passPicks);
+        if (mlbView === 'all-combined' || mlbView === 'weekly-combined') return picks.concat(watchPicks, passPicks);
         return picks;
       }
 
@@ -4291,9 +4301,49 @@
       let allPicksPage = 0;
       let weeklyPage = 0;
 
+      // Column sort for the All Picks table. `label` matches a header string;
+      // `dir` is 1 (asc) / -1 (desc). Click a header to toggle.
+      let allPicksSort = { label: null, dir: 1 };
+      const allPicksSortKey = {
+        'Date':  p => p.date || '',
+        'Name':  p => displayName(p).toLowerCase(),
+        'Team':  p => p.team || '',
+        'Opp':   p => p.opp || '',
+        'vs':    p => p.opp || '',
+        'pOuts': p => p.proj_ip != null ? p.proj_ip * 3 : null,
+        'aOuts': p => p.actual_outs,
+        'pBF':   p => p.proj_bf,
+        'aBF':   p => p.actual_bf,
+        'pPC':   p => p.proj_pc,
+        'aPC':   p => p.actual_pitches,
+        'Proj':  p => p.proj,
+        'Line':  p => p.line,
+        'Edge':  p => (p.proj != null && p.line != null) ? p.proj - p.line : null,
+        '%':     p => p.pCover,
+        'Actual':p => p.actual,
+        'O/U':   p => effectiveDir(p) || '',
+        'Odds':  p => p.odds,
+        'W/L':   p => p.result || ''
+      };
+      function sortAllPicks(arr) {
+        const fn = allPicksSortKey[allPicksSort.label];
+        if (!fn) return arr;
+        const dir = allPicksSort.dir;
+        return arr.slice().sort((a, b) => {
+          let va = fn(a), vb = fn(b);
+          // Nulls/undefined always sort to the bottom regardless of direction.
+          const na = va == null || va === '', nb = vb == null || vb === '';
+          if (na && nb) return 0;
+          if (na) return 1;
+          if (nb) return -1;
+          if (typeof va === 'number' && typeof vb === 'number') return (va - vb) * dir;
+          return String(va).localeCompare(String(vb)) * dir;
+        });
+      }
+
       function renderAllPicksView() {
         contentArea.textContent = '';
-        const filteredPicks = getFilteredPicks();
+        const filteredPicks = sortAllPicks(getFilteredPicks());
         filterLabel.textContent = `Showing ${filteredPicks.length} picks`;
 
         if (filteredPicks.length === 0) {
@@ -4427,9 +4477,21 @@
         const hRow = tbl.createTHead().insertRow();
         hdrs.forEach(h => {
           const th = document.createElement('th');
-          th.textContent = h;
-          th.style.cssText = 'padding:4px 4px;text-align:center;border-bottom:1px solid rgba(255,255,255,0.1);font-size:12px';
+          const sortable = !!allPicksSortKey[h];
+          const arrow = (allPicksSort.label === h) ? (allPicksSort.dir === 1 ? ' ▲' : ' ▼') : '';
+          th.textContent = h + arrow;
+          th.style.cssText = 'padding:4px 4px;text-align:center;border-bottom:1px solid rgba(255,255,255,0.1);font-size:12px'
+            + (sortable ? ';cursor:pointer;user-select:none' : '');
           if (h === 'Name') th.style.textAlign = 'left';
+          if (allPicksSort.label === h) th.style.color = '#fff';
+          if (sortable) {
+            th.onclick = () => {
+              if (allPicksSort.label === h) allPicksSort.dir *= -1;
+              else { allPicksSort.label = h; allPicksSort.dir = 1; }
+              allPicksPage = 0;
+              renderAllPicksView();
+            };
+          }
           hRow.appendChild(th);
         });
         const tbody = tbl.createTBody();
@@ -4671,7 +4733,7 @@
       }
 
       function refreshView() {
-        if (mlbView === 'weekly' || mlbView === 'weekly-lean' || mlbView === 'weekly-pass') renderWeeklyView();
+        if (mlbView === 'weekly' || mlbView === 'weekly-lean' || mlbView === 'weekly-pass' || mlbView === 'weekly-combined') renderWeeklyView();
         else renderAllPicksView();
       }
 
@@ -4684,9 +4746,10 @@
         viewAllPassBtn.style.cssText = v === 'all-pass' ? tabActiveStyle : tabStyle;
         viewWeeklyPassBtn.style.cssText = v === 'weekly-pass' ? tabActiveStyle : tabStyle;
         viewAllCombinedBtn.style.cssText = v === 'all-combined' ? tabActiveStyle : tabStyle;
+        viewWeeklyCombinedBtn.style.cssText = v === 'weekly-combined' ? tabActiveStyle : tabStyle;
         // Swap filter row contents
         filterRow.textContent = '';
-        const isWeekly = (v === 'weekly' || v === 'weekly-lean' || v === 'weekly-pass');
+        const isWeekly = (v === 'weekly' || v === 'weekly-lean' || v === 'weekly-pass' || v === 'weekly-combined');
         if (!isWeekly) {
           filterRow.appendChild(dateSel);
           filterRow.appendChild(teamSel);
@@ -4713,6 +4776,7 @@
       viewAllPassBtn.onclick = () => setView('all-pass');
       viewWeeklyPassBtn.onclick = () => setView('weekly-pass');
       viewAllCombinedBtn.onclick = () => setView('all-combined');
+      viewWeeklyCombinedBtn.onclick = () => setView('weekly-combined');
       dateSel.addEventListener('change', renderAllPicksView);
       teamSel.addEventListener('change', renderAllPicksView);
       lineSel.addEventListener('change', refreshView);
