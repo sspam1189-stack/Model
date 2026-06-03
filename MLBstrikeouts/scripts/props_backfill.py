@@ -444,17 +444,46 @@ def backfill(season=None, start_game=10, start_date=None):
         # or when FD didn't capture a particular (player, market) pair.
         real_lines = None
         try:
-            from sources.odds_fanduel    import _props_cache_path as _fd_cp,  _load_cache as _fd_load
-            from sources.odds_theoddsapi import _props_cache_path as _oa_cp,  _load_cache as _oa_load
+            from sources.odds_fanduel     import _props_cache_path as _fd_cp,  _load_cache as _fd_load
+            from sources.rotowire_lineups import _norm_name
             date_key = game_date.replace("-", "")
 
-            fd_cached = _fd_load(_fd_cp(date_key), max_age_hours=None) or []
-            oa_cached = _oa_load(_oa_cp(date_key), max_age_hours=None) or []
+            # Both _props_cache_path's resolve to the same mlb_props_<date>.json,
+            # which co-mingles rows from every source (rotowire / fanduel /
+            # oddsapi). Split them back out by source tag and merge in the EXACT
+            # same order run_daily.py uses, so backfill picks the same line live
+            # locked (otherwise the engine's last-write-wins can land on a stray
+            # OddsAPI row, e.g. a 4.5 overwriting the Rotowire 5.5 live used).
+            cached = _fd_load(_fd_cp(date_key), max_age_hours=None) or []
 
-            fd_markets = {(p.get("player",""), p.get("market","")) for p in fd_cached}
-            merged = list(fd_cached)
-            for p in oa_cached:
-                if (p.get("player",""), p.get("market","")) not in fd_markets:
+            def _src(p):
+                return str(p.get("source", "")).lower()
+
+            rw_props = [p for p in cached if _src(p).startswith("rotowire")]
+            fd_props = [p for p in cached if "fanduel" in _src(p)]
+            oa_props = [p for p in cached
+                        if not _src(p).startswith("rotowire")
+                        and "fanduel" not in _src(p)]
+
+            # 1. Rotowire (priority) + 2. FanDuel (fallback; Rotowire wins for
+            #    strikeouts by normalized pitcher name) — mirrors run_daily.
+            rw_strikeout_names = {
+                _norm_name(p.get("player")) for p in rw_props
+                if p.get("market") == "strikeouts"
+            }
+            combined = list(rw_props)
+            for p in fd_props:
+                if p.get("market") == "strikeouts":
+                    if _norm_name(p.get("player")) in rw_strikeout_names:
+                        continue  # Rotowire wins
+                combined.append(p)
+
+            # 3. OddsAPI last-resort fallback — only (player, market) pairs not
+            #    already covered by Rotowire + FanDuel.
+            combined_keys = {(p.get("player", ""), p.get("market", "")) for p in combined}
+            merged = list(combined)
+            for p in oa_props:
+                if (p.get("player", ""), p.get("market", "")) not in combined_keys:
                     merged.append(p)
 
             if merged:
