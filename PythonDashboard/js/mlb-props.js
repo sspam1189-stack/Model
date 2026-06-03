@@ -914,6 +914,32 @@
           // Picks/Leans blocks. Fires for both confirmed and unconfirmed
           // entries — an unconfirmed pick that falls off the slate is still
           // called out as a downgrade rather than vanishing silently.
+          // Build the confirmed body text for a live row that dropped to a
+          // nonpick *on confirmation*. Mirrors the confirmed branch of
+          // _fmtRow so the struck-through line shows the real locked-lineup
+          // projection/odds/pCover that caused the downgrade, rather than the
+          // stale "unconfirmed" body we last rendered while it was still a pick.
+          const _confirmedBodyFor = (p) => {
+            const name = displayName(p);
+            const dir = _dirOf(p) === 'OVER' ? 'o' : 'u';
+            const suffix = _MARKET_SUFFIX[p.market] || '';
+            const pickedOdds = _dirOf(p) === 'OVER' ? p.over_price : p.under_price;
+            const oddsStr = pickedOdds != null
+              ? ` ${pickedOdds > 0 ? '+' : ''}${pickedOdds}` : '';
+            const pcStr = p.pCover != null
+              ? ` ${(Number(p.pCover) * 100).toFixed(1)}%` : '';
+            let confirmedAt = '';
+            if (p.lockedAt) {
+              const d = new Date(p.lockedAt);
+              if (!isNaN(d)) confirmedAt = _fmtConfirmTime(d);
+            }
+            if (!confirmedAt) confirmedAt = _fmtConfirmTime(new Date());
+            const projTag = p.proj != null
+              ? ` proj: ${Number(p.proj).toFixed(1)}${oddsStr}${pcStr} @ ${confirmedAt}`
+              : '';
+            return `${name} ${dir}${p.line}${suffix} **confirmed**${projTag}`;
+          };
+
           const _droppedLines = [];
           for (const [key, prev] of Object.entries(_prev)) {
             if (_currentState[key]) continue;          // still present today
@@ -931,19 +957,40 @@
             const _liveRow = _todayByKey[key];
             const _voidReason = _liveRow && _liveRow.result === 'VOID'
               ? (_liveRow.voidReason || '') : '';
+            // A previously-unconfirmed pick that fell off the slate once the
+            // real lineup locked dropped *because of* confirmation — show the
+            // confirmed projection that caused it, not the stale unconfirmed
+            // body + generic "downgraded to nonpick".
+            const _droppedOnConfirm = _liveRow && _liveRow.result !== 'VOID'
+              && _LOCK_R.has(_liveRow.lockState) && prev.status !== 'confirmed';
             let reason;
+            let bodyText = prev.lineText;
             if (wasPostponed) {
               reason = `downgraded — game ${_gs.toLowerCase()}`;
             } else if (_voidReason === 'pitcher_swapped') {
               const note = _liveRow && _liveRow.voidNote ? ` (${_liveRow.voidNote})` : '';
               reason = `voided — pitcher swap${note}`;
+            } else if (_droppedOnConfirm) {
+              // Show the confirmed projection that caused the drop, but keep
+              // the "downgraded to nonpick" reason so the section stays
+              // consistent with the other dropped lines.
+              bodyText = _confirmedBodyFor(_liveRow);
+              reason = 'downgraded to nonpick';
             } else {
               reason = 'downgraded to nonpick';
             }
-            _droppedLines.push(`* ~~${prev.lineText}~~ ${reason}`);
+            _droppedLines.push(reason ? `* ~~${bodyText}~~ ${reason}` : `* ~~${bodyText}~~`);
             // Persist so the strikethrough sticks on subsequent renders even
-            // though the underlying entry is gone.
-            _currentState[key] = { ...prev, droppedToNonPick: !wasPostponed, droppedPostponed: wasPostponed };
+            // though the underlying entry is gone. Freeze the confirmed body +
+            // status when the drop was confirmation-driven so it stays correct
+            // even after the live row leaves the slate entirely.
+            _currentState[key] = {
+              ...prev,
+              lineText: bodyText,
+              status: _droppedOnConfirm ? 'confirmed' : prev.status,
+              droppedToNonPick: !wasPostponed,
+              droppedPostponed: wasPostponed,
+            };
           }
 
           const _picksBlock = _pickLines.length
