@@ -810,11 +810,13 @@
           // Format a Date as e.g. "12:45 PM" in the user's local timezone.
           const _fmtConfirmTime = (d) => {
             try {
-              return d.toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' });
+              return d.toLocaleTimeString([], {
+                hour: 'numeric', minute: '2-digit', timeZone: 'America/Chicago',
+              }) + ' CT';
             } catch (_) {
               const h = d.getHours(), m = d.getMinutes();
               const hh = ((h + 11) % 12) + 1;
-              return `${hh}:${String(m).padStart(2,'0')} ${h < 12 ? 'AM' : 'PM'}`;
+              return `${hh}:${String(m).padStart(2,'0')} ${h < 12 ? 'AM' : 'PM'} CT`;
             }
           };
           function _resolveEntry(p, bucket) {
