@@ -1579,36 +1579,38 @@
             const dirCap = r.dir.charAt(0) + r.dir.slice(1).toLowerCase();
             const leadLabel = `${dirCap} Picks vs ${oppStr}`;
 
-            // Build narrative — the 1u / PASS badge at the start of the row
-            // already signals the verdict, so the prose just delivers the
+            // Build narrative — the section header (TAKE / PASS) and the PASS
+            // badge already signal the verdict, so the prose just delivers the
             // why without a redundant "TAKE." / "PASS." prefix.
+            // Confidence (pcPct) is shown once in the header (@ X%), so the
+            // narratives below intentionally omit it — no "86.7% model" echo.
             let take = '';
             if (caution) {
-              take = `${leadLabel} have bled here (${sr(recOf(dirRec))}, ${(bktWR*100).toFixed(1)}%, ${uOf(dirRec)}) and broader isn't a rescue (${recOf(allRec)}). ${pcPct}% model can't outrun history.`;
+              take = `${leadLabel} have bled here (${sr(recOf(dirRec))}, ${(bktWR*100).toFixed(1)}%, ${uOf(dirRec)}) and broader isn't a rescue (${recOf(allRec)}). Model can't outrun history.`;
             } else if (coin && bWeak) {
-              take = `${leadLabel} ${recOf(dirRec)} (${(bktWR*100).toFixed(1)}%, ${uOf(dirRec)}) and the broader cohort isn't carrying it either (${sr(recOf(allRec))}, ${(broadWR*100).toFixed(1)}%, ${uOf(allRec)}). ${pcPct}% model — flagged PASS.`;
+              take = `${leadLabel} ${recOf(dirRec)} (${(bktWR*100).toFixed(1)}%, ${uOf(dirRec)}) and the broader cohort isn't carrying it either (${sr(recOf(allRec))}, ${(broadWR*100).toFixed(1)}%, ${uOf(allRec)}) — flagged PASS.`;
             } else if ((small || empty) && bWeak) {
-              take = `${leadLabel}: bucket thin (${recOf(dirRec)}) and the broader cohort is weak (${sr(recOf(allRec))}, ${(broadWR*100).toFixed(1)}%, ${uOf(allRec)}). ${pcPct}% model can't override — flagged PASS.`;
+              take = `${leadLabel}: bucket thin (${recOf(dirRec)}) and the broader cohort is weak (${sr(recOf(allRec))}, ${(broadWR*100).toFixed(1)}%, ${uOf(allRec)}) — flagged PASS.`;
             } else if (elite && (bElite || (broadWR && broadWR >= 0.80))) {
-              take = `Cleanest spot of the night — ${leadLabel} ${sg(recOf(dirRec))}, broader matchup ${sg(recOf(allRec))} (${(broadWR*100).toFixed(1)}%, ${uOf(allRec)}). ${pcPct}% model.`;
+              take = `Cleanest spot of the night — ${leadLabel} ${sg(recOf(dirRec))}, broader matchup ${sg(recOf(allRec))} (${(broadWR*100).toFixed(1)}%, ${uOf(allRec)}).`;
             } else if (elite) {
-              take = `${leadLabel} ${sg(recOf(dirRec))} (${(bktWR*100).toFixed(1)}%, ${uOf(dirRec)}) at ${pcPct}% model confidence.`;
+              take = `${leadLabel} ${sg(recOf(dirRec))} (${(bktWR*100).toFixed(1)}%, ${uOf(dirRec)}).`;
             } else if (solid && bSolid) {
-              take = `${leadLabel} ${recOf(dirRec)} (${(bktWR*100).toFixed(1)}%, ${uOf(dirRec)}) and the broader cohort backs it (${recOf(allRec)}, ${(broadWR*100).toFixed(1)}%, ${uOf(allRec)}). ${pcPct}% model.`;
+              take = `${leadLabel} ${recOf(dirRec)} (${(bktWR*100).toFixed(1)}%, ${uOf(dirRec)}) and the broader cohort backs it (${recOf(allRec)}, ${(broadWR*100).toFixed(1)}%, ${uOf(allRec)}).`;
             } else if (solid) {
-              take = `${leadLabel} ${recOf(dirRec)} (${(bktWR*100).toFixed(1)}%, ${uOf(dirRec)}). Broader ${recOf(allRec)}. ${pcPct}% model.`;
+              take = `${leadLabel} ${recOf(dirRec)} (${(bktWR*100).toFixed(1)}%, ${uOf(dirRec)}). Broader ${recOf(allRec)}.`;
             } else if (coin && bSolid) {
-              take = `${leadLabel} ${recOf(dirRec)} (${(bktWR*100).toFixed(1)}%) but the broader matchup widens to ${sg(recOf(allRec))} (${(broadWR*100).toFixed(1)}%, ${uOf(allRec)}). ${pcPct}% model.`;
+              take = `${leadLabel} ${recOf(dirRec)} (${(bktWR*100).toFixed(1)}%) but the broader matchup widens to ${sg(recOf(allRec))} (${(broadWR*100).toFixed(1)}%, ${uOf(allRec)}).`;
             } else if (coin) {
-              take = `${leadLabel} ${recOf(dirRec)} (${(bktWR*100).toFixed(1)}%, ${uOf(dirRec)}), broader (picks+watch ${dirCap}) ${recOf(allRec)} — baseline TAKE at ${pcPct}% model.`;
+              take = `${leadLabel} ${recOf(dirRec)} (${(bktWR*100).toFixed(1)}%, ${uOf(dirRec)}), broader (picks+watch ${dirCap}) ${recOf(allRec)} — baseline TAKE.`;
             } else if ((small || empty) && (bElite || (broadWR && broadWR >= 0.80))) {
-              take = `${leadLabel}: bucket sample thin (${recOf(dirRec)}) but ${sg(`P+L ${dirWord} vs ${oppStr} are ${recOf(allRec)} (${(broadWR*100).toFixed(1)}%, ${uOf(allRec)})`)}. ${pcPct}% model.`;
+              take = `${leadLabel}: bucket sample thin (${recOf(dirRec)}) but ${sg(`P+L ${dirWord} vs ${oppStr} are ${recOf(allRec)} (${(broadWR*100).toFixed(1)}%, ${uOf(allRec)})`)}.`;
             } else if ((small || empty) && bCaution) {
-              take = `${leadLabel}: bucket thin (${recOf(dirRec)}) and the broader matchup is bad (${sr(recOf(allRec))}, ${(broadWR*100).toFixed(1)}%, ${uOf(allRec)}). ${pcPct}% can't override.`;
+              take = `${leadLabel}: bucket thin (${recOf(dirRec)}) and the broader matchup is bad (${sr(recOf(allRec))}, ${(broadWR*100).toFixed(1)}%, ${uOf(allRec)}) — model can't override.`;
             } else if (small || empty) {
-              take = `${leadLabel}: bucket thin (${recOf(dirRec)}), broader ${recOf(allRec)} — riding the ${pcPct}% model.`;
+              take = `${leadLabel}: bucket thin (${recOf(dirRec)}), broader ${recOf(allRec)} — riding the model.`;
             } else {
-              take = `${leadLabel} ${recOf(dirRec)} (${(bktWR*100).toFixed(1)}%, ${uOf(dirRec)}). Broader ${recOf(allRec)}. ${pcPct}% model.`;
+              take = `${leadLabel} ${recOf(dirRec)} (${(bktWR*100).toFixed(1)}%, ${uOf(dirRec)}). Broader ${recOf(allRec)}.`;
             }
             if (dirRec && dirRec.l === 0 && dirRec.w >= 4) {
               take += ` ${sg(`Perfect ${dirRec.w}-0 cohort in-bucket.`)}`;
@@ -1624,19 +1626,20 @@
             const pitN = pitRec ? pitRec.w + pitRec.l : 0;
             const pitAllN = pitAllRec ? pitAllRec.w + pitAllRec.l : 0;
             const pitNameTxt = `${displayName(r.p)} ${r.dir.toLowerCase()}s`;
-            // Pitcher-track accent: only chime in when the signal is
-            // decisive. Co-sign reinforces TAKE; red flag reinforces PASS.
-            // Anything in between is left silent so the read stays a clean
-            // take-or-pass call instead of a chorus of "neutral" notes.
+            // Pitcher-history accents render on their OWN line below the
+            // vs-opponent record. Only chime in when the signal is decisive —
+            // co-sign reinforces TAKE, red flag reinforces PASS; anything in
+            // between stays silent so the line doesn't fill with "neutral" notes.
+            let pitTake = '';
             if (pitN >= 4) {
               const pitWR = pitRec.w / pitN;
               const pitTxt = `${recOf(pitRec)} (${(pitWR*100).toFixed(1)}%, ${uOf(pitRec)})`;
               if (pitWR >= 0.80 && pitRec.u >= 2) {
-                take += ` ${sg(`${pitNameTxt} ${pitTxt} — pitcher track co-signs.`)}`;
+                pitTake = `${sg(`${pitNameTxt} ${pitTxt} — pitcher track co-signs.`)}`;
               } else if (pitWR >= 0.65) {
-                take += ` ${sg(`${pitNameTxt} ${pitTxt}`)} — supportive pitcher track.`;
+                pitTake = `${sg(`${pitNameTxt} ${pitTxt}`)} — supportive pitcher track.`;
               } else if (pitWR <= 0.40 && pitRec.u <= -1) {
-                take += ` ${sr(`${pitNameTxt} have been ${pitTxt} — pitcher track is a red flag.`)}`;
+                pitTake = `${sr(`${pitNameTxt} have been ${pitTxt} — pitcher track is a red flag.`)}`;
               }
               // pitWR between 0.40 and 0.65 → no sentence (avoids "neutral").
             }
@@ -1646,10 +1649,11 @@
               const allWR = pitAllRec.w / pitAllN;
               const allTxt = `${recOf(pitAllRec)} (${(allWR*100).toFixed(1)}%, ${uOf(pitAllRec)})`;
               const broadName = `${displayName(r.p)} both ways`;
+              const sep = pitTake ? ' ' : '';
               if (allWR >= 0.70 && pitAllRec.u >= 2) {
-                take += ` ${sg(`Broader: ${broadName} ${allTxt} — whole book profitable.`)}`;
+                pitTake += `${sep}${sg(`Broader: ${broadName} ${allTxt} — whole book profitable.`)}`;
               } else if (allWR <= 0.45 && pitAllRec.u <= -2) {
-                take += ` ${sr(`Broader: ${broadName} ${allTxt} — model bleeds on this pitcher.`)}`;
+                pitTake += `${sep}${sr(`Broader: ${broadName} ${allTxt} — model bleeds on this pitcher.`)}`;
               }
             }
             // --- Sizing recommendation ---
@@ -1658,13 +1662,20 @@
             // don't get a sizing badge: even bumped ones are surfaced as
             // info, not as a "bet 1u" call.
             const _verdict = readVerdictFor({ dirRec, allRec, pitRec, pitAllRec });
+            // No "1u" badge — every TAKE is a flat 1u, so the label carries no
+            // information and just clutters the row (and ran into the name as
+            // "1uC.Bassitt" when copied). Only surface the PASS flag, which is
+            // meaningful: it marks a model pick the read is overriding.
             let sizeBadge = '';
-            if (r.bucket === 'Pick') {
-              const sizeStr = _verdict === 'PASS' ? 'PASS' : '1u';
-              const sizeColor = _verdict === 'PASS' ? 'var(--red)' : 'var(--green)';
-              sizeBadge = `<strong style="color:${sizeColor};margin-right:6px">${sizeStr}</strong>`;
+            if (r.bucket === 'Pick' && _verdict === 'PASS') {
+              sizeBadge = `<strong style="color:var(--red);margin-right:6px">PASS</strong>`;
             }
-            line.innerHTML = `${sizeBadge}${nameSpan} ${dirSpan} ${oppSpan} <span style="color:#888">@ ${pcPct}%</span> — ${take}`;
+            // Three lines for readability: the bet up top, the vs-opponent
+            // record next, and any pitcher-history note on its own line.
+            line.innerHTML =
+              `<div>${sizeBadge}${nameSpan} ${dirSpan} ${oppSpan} <span style="color:#888">@ ${pcPct}%</span></div>`
+              + `<div style="margin-top:3px;color:#bbb">${take}</div>`
+              + (pitTake ? `<div style="margin-top:2px;color:#bbb">${pitTake}</div>` : '');
             return line;
           }
 
