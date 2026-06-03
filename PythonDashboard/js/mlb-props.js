@@ -1577,7 +1577,11 @@
             // so the in-bucket record is self-describing (e.g.
             // "Over Picks vs LAD 6-4 (60.0%, +1.67u)").
             const dirCap = r.dir.charAt(0) + r.dir.slice(1).toLowerCase();
-            const leadLabel = `${dirCap} Picks vs ${oppStr}`;
+            // Lead label reflects the row's own bucket: Pick-tier rows read
+            // "… Picks vs LAD", watch-tier (Lean) rows read "… Watch vs LAD"
+            // so the in-bucket record isn't mislabeled as a pick record.
+            const bucketLabel = r.bucket === 'Lean' ? 'Watch' : 'Picks';
+            const leadLabel = `${dirCap} ${bucketLabel} vs ${oppStr}`;
 
             // Build narrative — the section header (TAKE / PASS) and the PASS
             // badge already signal the verdict, so the prose just delivers the
