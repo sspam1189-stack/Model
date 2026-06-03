@@ -81881,7 +81881,7 @@
           "h2hNote": null,
           "awayScore": 113.0,
           "homeScore": 126.0,
-          "_recencyWeight": 0.5,
+          "_recencyWeight": 0.25,
           "trends": {
             "away": {
               "atsPct": null,
@@ -81948,7 +81948,7 @@
           "h2hNote": null,
           "awayScore": 105.0,
           "homeScore": 116.0,
-          "_recencyWeight": 0.5,
+          "_recencyWeight": 0.25,
           "trends": {
             "away": {
               "atsPct": null,
@@ -82014,7 +82014,7 @@
           "h2hNote": null,
           "awayScore": 102.0,
           "homeScore": 113.0,
-          "_recencyWeight": 0.5,
+          "_recencyWeight": 0.25,
           "trends": {
             "away": {
               "atsPct": null,
@@ -82081,7 +82081,7 @@
           "h2hNote": null,
           "awayScore": 98.0,
           "homeScore": 107.0,
-          "_recencyWeight": 0.5,
+          "_recencyWeight": 0.25,
           "trends": {
             "away": {
               "atsPct": null,
@@ -85698,7 +85698,7 @@
           "h2hNote": null,
           "awayScore": 94.0,
           "homeScore": 116.0,
-          "_recencyWeight": 0.75,
+          "_recencyWeight": 0.5,
           "trends": {
             "away": {
               "atsPct": null,
@@ -85764,7 +85764,7 @@
           "h2hNote": null,
           "awayScore": 102.0,
           "homeScore": 114.0,
-          "_recencyWeight": 0.75,
+          "_recencyWeight": 0.5,
           "trends": {
             "away": {
               "atsPct": null,
@@ -87925,7 +87925,7 @@
           "awayScore": 122.0,
           "homeScore": 115.0,
           "_kalmanDate": "20260518",
-          "_recencyWeight": 1.0
+          "_recencyWeight": 0.75
         }
       ],
       "summaryText": "RECORD (graded picks only)\n\nSPREAD (ATS)\n  All:         410-226-1   (64.5%)   [graded 637]\n  Elite:       410-226-1   (64.5%)   [graded 637]\n\nFAV/DOG (Spread)\n  Favorites:   194-101-1   (65.8%)   [graded 296]\n  Underdogs:   216-125-0   (63.3%)   [graded 341]\n\nTOTAL (O/U)\n  All:         0-0-0   (n/a%)   [graded 0]\n  Elite:       0-0-0   (n/a%)   [graded 0]\n\nOVER/UNDER\n  Over:        0-0-0   (n/a%)   [graded 0]\n  Under:       0-0-0   (n/a%)   [graded 0]",
@@ -89287,14 +89287,116 @@
       "games": [],
       "summaryText": "RECORD (graded picks only)\n\nSPREAD (ATS)\n  All:         411-227-1   (64.4%)   [graded 639]\n  Elite:       411-227-1   (64.4%)   [graded 639]\n\nFAV/DOG (Spread)\n  Favorites:   194-101-1   (65.8%)   [graded 296]\n  Underdogs:   217-126-0   (63.3%)   [graded 343]\n\nTOTAL (O/U)\n  All:         0-0-0   (n/a%)   [graded 0]\n  Elite:       0-0-0   (n/a%)   [graded 0]\n\nOVER/UNDER\n  Over:        0-0-0   (n/a%)   [graded 0]\n  Under:       0-0-0   (n/a%)   [graded 0]",
       "ranAt": "06/02/2026, 06:00:49 PM"
+    },
+    {
+      "date": "20260603",
+      "dateDisplay": "2026-06-03",
+      "burnIn": false,
+      "weightsUsed": {
+        "wOFF": 1,
+        "wTS": 5,
+        "wTO": 0,
+        "wORR": 0.007,
+        "wDEF": 0.753,
+        "constant": -0.073,
+        "paceAdj": 0.923,
+        "hca": 2.558139534883721,
+        "sprHigh": 4,
+        "ouHigh": 5,
+        "sprEliteBump": 3,
+        "ouEliteBump": 3,
+        "probHigh": 0.65,
+        "probElite": 0.63,
+        "probOUHigh": 0.58,
+        "probOUElite": 0.64,
+        "recentWeight": 0.87,
+        "locationWeight": 0.25,
+        "h2hWeight": 0.0
+      },
+      "weightsNext": {
+        "wOFF": 1,
+        "wTS": 5,
+        "wTO": 0,
+        "wORR": 0.007,
+        "wDEF": 0.753,
+        "constant": -0.073,
+        "paceAdj": 0.923,
+        "hca": 2.558139534883721,
+        "sprHigh": 4,
+        "ouHigh": 5,
+        "sprEliteBump": 3,
+        "ouEliteBump": 3,
+        "probHigh": 0.65,
+        "probElite": 0.63,
+        "probOUHigh": 0.58,
+        "probOUElite": 0.64,
+        "recentWeight": 0.87,
+        "locationWeight": 0.25,
+        "h2hWeight": 0.0
+      },
+      "games": [
+        {
+          "away": "New York Knicks",
+          "home": "San Antonio Spurs",
+          "line": -4.5,
+          "total": 218.5,
+          "startTimeUTC": "2026-06-04T00:40:00.000+00:00",
+          "_book": "FanDuel",
+          "aS": 113.8,
+          "hS": 114.1,
+          "pT": 227.9,
+          "margin": -4.2,
+          "sDiff": 4.2,
+          "tDiff": -10.5,
+          "sPick": "PASS",
+          "sConf": "low",
+          "oPick": "PASS",
+          "oConf": "low",
+          "injuryNote": null,
+          "pHomeCover": 0.387,
+          "pAwayCover": 0.613,
+          "pOver": 0.247,
+          "pUnder": 0.753,
+          "pCover": null,
+          "pOU": null,
+          "marginVar": 215.1,
+          "marginStd": 14.7,
+          "_features": {
+            "dTS": 0.005182499999999979,
+            "dTO": -0.006836500000000023,
+            "dORR": -0.013028499999999998,
+            "dDEF": 1.385549999999995,
+            "avgPace": 97.83679624999999
+          },
+          "_marginFeatures": {
+            "dTS": 0.0047,
+            "dTO": 0.0062,
+            "dORR": -0.0118,
+            "dDEF": 1.2512,
+            "hca": 1.0,
+            "_baseline": 1.3901,
+            "_pace": 0.903
+          },
+          "h2hAdj": 0,
+          "h2hGames": 0,
+          "h2hRecord": null,
+          "h2hNote": null,
+          "trends": {
+            "away": "ATS +/- 3.4 \u00b7 Over 47.4% \u00b7 Under 52.6% \u00b7 O/U +/- -0.9",
+            "home": "ATS +/- 3.6 \u00b7 Over 47.5% \u00b7 Under 52.5% \u00b7 O/U +/- -0.6"
+          }
+        }
+      ],
+      "summaryText": "RECORD (graded picks only)\n\nSPREAD (ATS)\n  All:         411-227-1   (64.4%)   [graded 639]\n  Elite:       411-227-1   (64.4%)   [graded 639]\n\nFAV/DOG (Spread)\n  Favorites:   194-101-1   (65.8%)   [graded 296]\n  Underdogs:   217-126-0   (63.3%)   [graded 343]\n\nTOTAL (O/U)\n  All:         0-0-0   (n/a%)   [graded 0]\n  Elite:       0-0-0   (n/a%)   [graded 0]\n\nOVER/UNDER\n  Over:        0-0-0   (n/a%)   [graded 0]\n  Under:       0-0-0   (n/a%)   [graded 0]",
+      "ranAt": "06/03/2026, 11:00:55 AM"
     }
   ],
   "weights": {
     "wOFF": 1,
     "wTS": 5,
     "wTO": 0,
-    "wORR": 0.016,
-    "wDEF": 0.783,
+    "wORR": 0.007,
+    "wDEF": 0.753,
     "constant": -0.073,
     "paceAdj": 0.923,
     "hca": 2.558139534883721,
@@ -89311,13 +89413,13 @@
     "h2hWeight": 0.0
   },
   "weightsVar": {
-    "wTS": 3.5061,
-    "wTO": 0.4002,
-    "wORR": 2.5125,
+    "wTS": 3.5051,
+    "wTO": 0.3982,
+    "wORR": 2.5094,
     "wDEF": 0.05,
     "hca": 0.2,
     "constant": 4.0
   },
   "residualVar": 193.2,
-  "lastTuneDate": "20260602"
+  "lastTuneDate": "20260603"
 }
