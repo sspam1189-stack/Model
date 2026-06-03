@@ -76,6 +76,12 @@ jobs:
           name: shared-mlb-pitcher-cache
           path: data/pitcher_cache/mlb
 
+      - name: Upload MLB empirical-std cache
+        uses: actions/upload-artifact@v7
+        with:
+          name: shared-mlb-emp-std-cache
+          path: data/emp_std_cache/mlb
+
   commit-and-push:
     runs-on: ubuntu-latest
     needs: [mlb-props]
@@ -100,6 +106,11 @@ jobs:
           name: shared-mlb-pitcher-cache
           path: artifacts/mlb-pitcher-cache
 
+      - uses: actions/download-artifact@v8
+        with:
+          name: shared-mlb-emp-std-cache
+          path: artifacts/mlb-emp-std-cache
+
       - name: Copy artifacts
         shell: bash
         run: |
@@ -108,6 +119,8 @@ jobs:
           cp -a artifacts/mlb-props-cache/. data/props_cache/mlb/
           mkdir -p data/pitcher_cache/mlb
           cp -a artifacts/mlb-pitcher-cache/. data/pitcher_cache/mlb/
+          mkdir -p data/emp_std_cache/mlb
+          cp -a artifacts/mlb-emp-std-cache/. data/emp_std_cache/mlb/
           cp -f artifacts/MLBstrikeouts/mlb-props.json PythonDashboard/data/mlb-props.json 2>/dev/null || true
 
       - name: Commit & push data changes
