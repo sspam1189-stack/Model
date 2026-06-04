@@ -44,7 +44,7 @@ from sources.mlb_stats import (
     fetch_team_batting_stats, fetch_team_pitching_stats,
     fetch_today_probable_pitchers,
     fetch_player_bat_sides, fetch_lineup_handedness,
-    fetch_batter_k_rates, load_pitch_hands,
+    fetch_batter_k_rates, fetch_batter_career_k_rates, load_pitch_hands,
     fetch_savant_pitcher_rates,
 )
 from sources.weather import fetch_game_weather
@@ -870,6 +870,7 @@ def run_daily(date_key=None):
     # Fetch batter K rates (bulk, 2 API calls)
     print(f"\n  [9b/15] Fetching batter K rates + Savant pitcher rates...")
     batter_k_rates = fetch_batter_k_rates(season=season, through_date=prior_date)
+    batter_career_k_rates = fetch_batter_career_k_rates(season=season)
     pitch_hands = load_pitch_hands(season=season)
     savant_rates = fetch_savant_pitcher_rates(season=season)
     print(f"  {len(batter_k_rates)} batters, {len(savant_rates)} pitchers with Savant K%/whiff%")
@@ -1125,6 +1126,7 @@ def run_daily(date_key=None):
         lineup_data=lineup_data,
         savant_rates=savant_rates,
         empirical_std=runtime_emp_std or None,
+        career_k_rates=batter_career_k_rates,
     )
     picks = [p for p in projections if p["pick"] != "PASS"]
     print(f"  {len(projections)} projections, {len(picks)} actionable picks")

@@ -103,7 +103,7 @@ from sources.mlb_stats import (
     fetch_pitcher_handedness_splits,
     fetch_pitcher_handedness_splits_season,
     fetch_player_bat_sides, fetch_lineup_handedness,
-    fetch_batter_k_rates, load_pitch_hands,
+    fetch_batter_k_rates, fetch_batter_career_k_rates, load_pitch_hands,
     CACHE_DIR,
 )
 
@@ -287,6 +287,9 @@ def backfill(season=None, start_game=10, start_date=None):
 
     print(f"  Batter K rates will be fetched per-date (walk-forward mode)...")
     batter_k_rates_by_date = {}
+    # Career handed K% (prior completed seasons, leak-free) — fetched once,
+    # used as the tier-3 thin-sample fallback in compute_lineup_k_pct.
+    batter_career_k_rates = fetch_batter_career_k_rates(season=season)
     pitch_hands = load_pitch_hands(season=season)
 
     # Load batting orders for lineup K% lookup
@@ -685,6 +688,7 @@ def backfill(season=None, start_game=10, start_date=None):
             lineup_data=date_lineup_data,
             savant_rates=_savant_asof,
             empirical_std=runtime_emp_std or None,
+            career_k_rates=batter_career_k_rates,
         )
 
         # Save ALL projections for this date (for Games Explorer)

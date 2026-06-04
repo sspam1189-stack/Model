@@ -201,6 +201,31 @@ SLOT_PA_WEIGHTS = [
     0.08973,  # slot 9: 1.94
 ]
 
+# Career handed-K% fallback for thin in-season samples (tier-3 in
+# compute_lineup_k_pct). When a batter's in-season overall PA is below this
+# cutoff, use their career vs-hand K% (prior completed seasons, leak-free)
+# instead of a noisy small-sample rate — e.g. a call-up reading 5 K / 5 PA =
+# 100%. 0 = OFF. Swept 2026-06-04: a PA cutoff alone (broad replacement) churns
+# the play set and loses recent units; the EXTREME gate below is the lever.
+CAREER_KRATE_MAX_SEASON_PA = 0
+# Career fallback fires when a batter's in-season K% is an implausible outlier
+# (>= this) — almost always a tiny-sample blip (e.g. a call-up reading 5 K /
+# 5 PA = 100%). Replaces it with that batter's career handed K% (prior seasons,
+# leak-free). SHIPPED 0.45 (2026-06-04): with no PA cutoff this fires only on
+# the genuine artifacts, leaving normal thin samples alone — recent +1.3u
+# (+263.7 vs +262.4 @2.5u) / season +8.5u (+472.4 vs +463.9), un-flips the
+# 6/04 Rodon OVER<-UNDER artifact. 0 = OFF. Continuous shrink (sweep) lost
+# recent units; broad cutoffs churned; surgical outlier-only correction won.
+CAREER_KRATE_EXTREME = 0.45
+# If > 0, tier-3 empirical-Bayes shrinks the thin in-season rate toward the
+# career handed rate — k_est = (k_season + career*C)/(pa_season + C) — instead
+# of a hard swap. C is the prior strength in pseudo-PA. 0 = hard replace.
+CAREER_KRATE_SHRINK_C = 0.0
+# Empirical-Bayes prior strength (pseudo-PA) for tier-3: when > 0, shrink the
+# thin in-season rate toward the career handed rate instead of hard-swapping:
+#   k_est = (k_season + career_rate * C) / (pa_season + C). 0 = hard replace.
+CAREER_KRATE_SHRINK_C = 0.0
+
 
 # ---------------------------------------------------------------------------
 # Whiff% + xBA → pitcher_k_rate regression adjustment

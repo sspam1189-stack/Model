@@ -1448,19 +1448,126 @@ def fetch_batter_k_rates(season=None, through_date=None):
     return result
 
 
+def fetch_batter_career_k_rates(season=None, n_prior_seasons=2):
+    """
+    Per-batter CAREER handed K% built from the `n_prior_seasons` COMPLETED
+    seasons before `season` (default: 2025+2024 for a 2026 run).
+
+    Leak-free by construction: only prior, finished seasons are aggregated, so
+    the same dict is valid for every date in the current-season backtest and is
+    never contaminated by in-season games. Used as the tier-3 fallback in
+    compute_lineup_k_pct — when a batter's in-season sample is too thin to
+    trust, fall back to their career handed rate rather than a noisy 5-PA blip.
+
+    Returns {player_id (int): {
+        "name", "k_pct_vs_lhp", "pa_vs_lhp", "k_pct_vs_rhp", "pa_vs_rhp"}}.
+    Batters with no prior-season MLB data (true rookies) are simply absent.
+    """
+    season = season or _current_season()
+    years = [season - 1 - i for i in range(max(1, n_prior_seasons))]
+    cache_path = CACHE_DIR / f"batter_career_k_rates_thru_{years[0]}.json"
+    cached = _load_cache(cache_path, max_age_hours=None)
+    if cached is not None:
+        return {int(k): v for k, v in cached.items()}
+
+    agg = {}  # pid -> {name, k_l, pa_l, k_r, pa_r}
+    for yr in years:
+        url = (
+            f"{BASE_URL}/stats?stats=statSplits&group=hitting&sportId=1"
+            f"&season={yr}&sitCodes=vl,vr&playerPool=all&limit=2000"
+        )
+        try:
+            raw = _fetch_json(url)
+            time.sleep(0.3)
+        except Exception as e:
+            print(f"  [mlb_stats] career splits {yr} fetch failed: {e}")
+            continue
+        for stat_group in raw.get("stats", []):
+            for split in stat_group.get("splits", []):
+                stat = split.get("stat", {})
+                player = split.get("player", {})
+                pid = player.get("id")
+                code = split.get("split", {}).get("code", "")
+                if not pid or code not in ("vl", "vr"):
+                    continue
+                pa = stat.get("plateAppearances", 0) or 0
+                if pa == 0:
+                    pa = ((stat.get("atBats", 0) or 0)
+                          + (stat.get("baseOnBalls", 0) or 0)
+                          + (stat.get("hitByPitch", 0) or 0)
+                          + (stat.get("sacFlies", 0) or 0)
+                          + (stat.get("sacBunts", 0) or 0))
+                k = stat.get("strikeOuts", 0) or 0
+                e = agg.setdefault(pid, {
+                    "name": player.get("fullName", ""),
+                    "k_l": 0, "pa_l": 0, "k_r": 0, "pa_r": 0})
+                if code == "vl":
+                    e["k_l"] += k
+                    e["pa_l"] += pa
+                else:
+                    e["k_r"] += k
+                    e["pa_r"] += pa
+
+    result = {}
+    for pid, e in agg.items():
+        result[pid] = {
+            "name": e["name"],
+            "k_pct_vs_lhp": round(e["k_l"] / e["pa_l"], 4) if e["pa_l"] else 0.0,
+            "pa_vs_lhp": e["pa_l"],
+            "k_pct_vs_rhp": round(e["k_r"] / e["pa_r"], 4) if e["pa_r"] else 0.0,
+            "pa_vs_rhp": e["pa_r"],
+        }
+
+    print(f"  [mlb_stats] Fetched career K rates ({'+'.join(map(str, years))}) "
+          f"for {len(result)} batters")
+    _save_cache(cache_path, result)
+    return result
+
+
 LINEUP_HAND_PA_GATE = 75
+# Min career PA vs a hand to trust the career tier-3 fallback.
+CAREER_HAND_PA_MIN = 50
 
 
 def compute_lineup_k_pct(lineup_player_ids, batter_k_rates, pitcher_hand="R",
-                          slot_weights=None):
+                          slot_weights=None, career_k_rates=None,
+                          career_min_season_pa=0, career_extreme_kpct=0.0,
+                          career_shrink_c=0.0):
     """
     Compute lineup-specific K% from the actual batting order.
 
     Returns simple-mean and PA-weighted variants. (Pairwise-hand modes were
     swept 2026-05-20 and discarded; removed from harness.)
+
+    Per-batter K% fallback chain (best -> worst):
+      1. in-season vs-hand K%   — if season PA vs that hand >= LINEUP_HAND_PA_GATE
+      2. in-season overall K%   — if season overall PA >= career_min_season_pa
+      3. career vs-hand K%       — when in-season sample is too thin (tier-2 PA
+                                   below career_min_season_pa) AND career has a
+                                   trustworthy handed sample (>= CAREER_HAND_PA_MIN)
+      4. in-season overall K%   — anything left (e.g. true rookies w/ no career)
+
+    career_extreme_kpct: if > 0, tier-3 fires ONLY when the thin in-season rate
+    is also an implausible outlier (overall >= this, e.g. 0.45). This targets
+    pathological small-sample blips (5 K / 5 PA = 100%) without churning normal
+    thin samples — those stay on tier 2.
+
+    career_shrink_c: if > 0, tier-3 does empirical-Bayes shrinkage of the thin
+    in-season rate TOWARD the career handed rate instead of a hard swap:
+        k_est = (k_season + career_rate * C) / (pa_season + C)
+    C is the prior strength in pseudo-PA. 0 = hard replace with career rate.
+
+    Tier 3 is OFF when career_min_season_pa <= 0 or career_k_rates is None, so
+    the legacy 2-tier behavior is preserved exactly.
     """
     hand_key = "k_pct_vs_lhp" if pitcher_hand == "L" else "k_pct_vs_rhp"
     pa_key = "pa_vs_lhp" if pitcher_hand == "L" else "pa_vs_rhp"
+    use_career = bool(career_k_rates) and (career_min_season_pa > 0
+                                           or career_extreme_kpct > 0)
+    # Ungated continuous empirical-Bayes mode: when C>0 with no PA/extreme gate,
+    # shrink EVERY batter toward career, weighted by in-season sample size.
+    continuous = (career_shrink_c > 0 and bool(career_k_rates)
+                  and career_min_season_pa <= 0 and career_extreme_kpct <= 0)
 
     per_slot_overall = []
     per_slot_vs_hand = []
@@ -1473,11 +1580,57 @@ def compute_lineup_k_pct(lineup_player_ids, batter_k_rates, pitcher_hand="R",
             continue
 
         overall = batter.get("k_pct", 0) or 0
+        overall_pa = batter.get("pa", 0) or 0
         per_slot_overall.append(overall if overall > 0 else None)
 
         vs_hand = batter.get(hand_key, 0) or 0
         pa_vs = batter.get(pa_key, 0) or 0
-        batter_vs_ph = vs_hand if (pa_vs >= LINEUP_HAND_PA_GATE and vs_hand > 0) else overall
+
+        if continuous:
+            # Best in-season signal + its PA (vs-hand if trustworthy, else overall)
+            if pa_vs >= LINEUP_HAND_PA_GATE and vs_hand > 0:
+                rate_in, pa_in = vs_hand, pa_vs
+            else:
+                rate_in, pa_in = overall, overall_pa
+            cb = career_k_rates.get(pid) or career_k_rates.get(str(pid))
+            c_rate = (cb.get(hand_key, 0) or 0) if cb else 0
+            c_pa = (cb.get(pa_key, 0) or 0) if cb else 0
+            if cb and c_pa >= CAREER_HAND_PA_MIN and c_rate > 0:
+                # k_est = (k_season + career*C) / (pa_season + C)
+                batter_vs_ph = ((rate_in * pa_in + c_rate * career_shrink_c)
+                                / (pa_in + career_shrink_c))
+            else:
+                batter_vs_ph = rate_in                  # no usable career prior
+            per_slot_vs_hand.append(batter_vs_ph if batter_vs_ph > 0 else None)
+            continue
+
+        # --- legacy gated tier logic (C handling inside tier 3) ---
+        # tier-3 fires when the in-season sample is thin (PA cutoff, if set) AND
+        # the rate is an implausible outlier (extreme gate, if set). With no PA
+        # cutoff, the extreme gate alone decides; with no extreme gate, the PA
+        # cutoff alone decides. Both default-off => legacy 2-tier behavior.
+        pa_ok = (career_min_season_pa <= 0) or (overall_pa < career_min_season_pa)
+        extreme_ok = (career_extreme_kpct <= 0) or (overall >= career_extreme_kpct)
+        fire = use_career and pa_ok and extreme_ok
+        if pa_vs >= LINEUP_HAND_PA_GATE and vs_hand > 0:
+            batter_vs_ph = vs_hand                      # tier 1
+        elif not fire:
+            batter_vs_ph = overall                      # tier 2
+        else:
+            # tier 3: in-season sample too thin (and extreme) — career handed
+            cb = career_k_rates.get(pid) or career_k_rates.get(str(pid))
+            c_rate = (cb.get(hand_key, 0) or 0) if cb else 0
+            c_pa = (cb.get(pa_key, 0) or 0) if cb else 0
+            if cb and c_pa >= CAREER_HAND_PA_MIN and c_rate > 0:
+                if career_shrink_c > 0:
+                    # empirical Bayes: blend thin in-season toward career prior
+                    k_season = overall * overall_pa
+                    batter_vs_ph = ((k_season + c_rate * career_shrink_c)
+                                    / (overall_pa + career_shrink_c))
+                else:
+                    batter_vs_ph = c_rate               # hard replace
+            else:
+                batter_vs_ph = overall                  # tier 4 (rookies, etc.)
         per_slot_vs_hand.append(batter_vs_ph if batter_vs_ph > 0 else None)
 
     def _mean(vals):

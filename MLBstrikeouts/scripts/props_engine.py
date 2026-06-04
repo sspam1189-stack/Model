@@ -146,7 +146,8 @@ def project_pitcher_props(pitcher_logs, team_batting_stats=None,
                           pitcher_splits=None, probable_pitchers=None,
                           injury_report=None, weather_by_game=None,
                           batter_k_rates=None, lineup_data=None,
-                          savant_rates=None, empirical_std=None):
+                          savant_rates=None, empirical_std=None,
+                          career_k_rates=None):
     """
     Project pitcher strikeouts props for all pitchers with sufficient game logs.
     """
@@ -369,7 +370,10 @@ def project_pitcher_props(pitcher_logs, team_batting_stats=None,
                 _pitch_hand = adv.get("pitch_hand", "R")
                 from sources.mlb_stats import compute_lineup_k_pct
                 from defaults import (LINEUP_K_METHOD, SLOT_PA_WEIGHTS,
-                                       get_team_slot_weights)
+                                       get_team_slot_weights,
+                                       CAREER_KRATE_MAX_SEASON_PA,
+                                       CAREER_KRATE_EXTREME,
+                                       CAREER_KRATE_SHRINK_C)
                 if LINEUP_K_METHOD == "pa_weighted":
                     _slot_w = SLOT_PA_WEIGHTS
                 elif LINEUP_K_METHOD == "pa_weighted_team":
@@ -378,7 +382,10 @@ def project_pitcher_props(pitcher_logs, team_batting_stats=None,
                     _slot_w = None
                 lk = compute_lineup_k_pct(
                     opp_player_ids, batter_k_rates, _pitch_hand,
-                    slot_weights=_slot_w,
+                    slot_weights=_slot_w, career_k_rates=career_k_rates,
+                    career_min_season_pa=CAREER_KRATE_MAX_SEASON_PA,
+                    career_extreme_kpct=CAREER_KRATE_EXTREME,
+                    career_shrink_c=CAREER_KRATE_SHRINK_C,
                 )
                 _key = ("lineup_k_pct_vs_hand_pa_weighted"
                         if LINEUP_K_METHOD in ("pa_weighted", "pa_weighted_team")

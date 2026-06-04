@@ -600,20 +600,21 @@
           // -4.98u (McLean -158, Sheehan -132, Nelson -102, Detmers -106).
           // Pin via cutoff so the widget matches what was posted on Reddit.
           const BASELINE = {
-            // 2026-06-01 clean-backfill resync: the walk-forward backfill
-            // REWROTE mlb-props.json, so 5/29-5/31 in the json now reflect
-            // post-backfill grades, NOT what was actually posted live. To keep
-            // the widget showing the REAL posted record, the cutoff is advanced
-            // to 5/31 and the actually-posted tallies through 5/31 are baked
-            // here. Only 6/1+ computes fresh from the json. (Supersedes the
-            // prior 5/28 cutoff, now folded into these totals.)
-            //   Posted record through 5/31:  picks 134-100 +13.12u
-            //   Weekly 5/25-5/31: 28-15 +9.90u  |  Yesterday 5/31: 3-1 +2.25u
-            cutoff: '2026-05-31',
+            // 2026-06-04 ext .45 career-fallback resync: the clean walk-forward
+            // backfill (career handed-K outlier fix shipped) REWROTE
+            // mlb-props.json, so 6/1-6/3 in the json now reflect post-backfill
+            // grades, NOT what was actually posted live. To keep the widget
+            // showing the REAL posted record, the cutoff is advanced to 6/3 and
+            // the actually-posted tallies through 6/3 are baked here. Only 6/4+
+            // computes fresh from the json. (Supersedes the prior 5/31 cutoff,
+            // now folded into these totals.)
+            //   Posted record through 6/3:  picks 149-109 +17.15u
+            //   Weekly 6/1-6/3: 15-9 +4.03u  |  Yesterday 6/3: 5-5 -1.48u
+            cutoff: '2026-06-03',
             picks: {
-              total:    { w: 134, l: 100, u: 13.12 },
-              weekly:   { w:  28, l:  15, u:  9.90 },  // 5/25–5/31
-              yesterday:{ w:   3, l:   1, u:  2.25 },  // 5/31
+              total:    { w: 149, l: 109, u: 17.15 },
+              weekly:   { w:  15, l:   9, u:  4.03 },  // 6/1–6/3
+              yesterday:{ w:   5, l:   5, u: -1.48 },  // 6/3
             },
             leans: {
               // Leans retired at the 5/25 cutover (none after 5/24), so the
