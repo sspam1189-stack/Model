@@ -947,6 +947,20 @@
           for (const [key, prev] of Object.entries(_prev)) {
             if (_currentState[key]) continue;          // still present today
             if (!prev.lineText) continue;               // legacy entry without saved text
+            // Direction-flip guard: if no live row matches this exact key but
+            // the SAME player+market is live today under a different direction,
+            // this snapshot is a stale artifact from an earlier run that bet
+            // the other side (e.g. an early run confirmed C.Rodón OVER that a
+            // later run corrected to UNDER). The current-direction row already
+            // represents this player, so skip the phantom — and by not adding
+            // it to _currentState below, it's purged from storage next render.
+            if (!_todayByKey[key]) {
+              const _pm = key.slice(0, key.lastIndexOf('|'));   // "name|market"
+              const _flipped = Object.keys(_todayByKey).some(
+                k => k.slice(0, k.lastIndexOf('|')) === _pm
+              );
+              if (_flipped) continue;
+            }
             // If the underlying game was postponed/suspended/cancelled, the
             // entry didn't drop on merit — call it out as a postponement
             // instead of a model-driven nonpick downgrade.
