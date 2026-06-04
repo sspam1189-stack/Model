@@ -1548,11 +1548,14 @@
             const broadN = allN;
             const broadWR = broadN > 0 ? allRec.w / broadN : null;
             const broadU = allU;
-            const sg = (t) => `<strong style="color:var(--green)">${t}</strong>`;
-            const sy = (t) => `<strong style="color:var(--yellow)">${t}</strong>`;
-            const sr = (t) => `<strong style="color:var(--red)">${t}</strong>`;
             const recOf = (rec) => rec ? `${rec.w}-${rec.l}` : '—';
             const uOf   = (rec) => rec ? ((rec.u>=0?'+':'')+rec.u.toFixed(2)+'u') : '—';
+            // Quality color for a record line: green if it's a good spot,
+            // red if it's a bad one, gray if neutral or sample too thin.
+            // Win-rate thresholds mirror the elite/solid/coin/caution buckets.
+            const qualColor = (wr, n) => (n >= 4 && wr != null)
+              ? (wr >= 0.65 ? 'var(--green)' : (wr < 0.45 ? 'var(--red)' : '#bbb'))
+              : '#bbb';
             const bktPretty   = (rec) => rec ? `${recOf(rec)} ${uOf(rec)}` : '—';
 
             // Tier booleans for narrative branching.
@@ -1588,37 +1591,42 @@
             // why without a redundant "TAKE." / "PASS." prefix.
             // Confidence (pcPct) is shown once in the header (@ X%), so the
             // narratives below intentionally omit it — no "86.7% model" echo.
+            // The whole vs-team line is colored by its record quality below
+            // (qualColor), so the branches stay plain text — no inline sg/sr.
             let take = '';
             if (caution) {
-              take = `${leadLabel} have bled here (${sr(recOf(dirRec))}, ${(bktWR*100).toFixed(1)}%, ${uOf(dirRec)}) and broader isn't a rescue (${recOf(allRec)}). Model can't outrun history.`;
+              take = `${leadLabel} have bled here (${recOf(dirRec)}, ${(bktWR*100).toFixed(1)}%, ${uOf(dirRec)}) and broader isn't a rescue (${recOf(allRec)}). Model can't outrun history.`;
             } else if (coin && bWeak) {
-              take = `${leadLabel} ${recOf(dirRec)} (${(bktWR*100).toFixed(1)}%, ${uOf(dirRec)}) and the broader cohort isn't carrying it either (${sr(recOf(allRec))}, ${(broadWR*100).toFixed(1)}%, ${uOf(allRec)}) — flagged PASS.`;
+              take = `${leadLabel} ${recOf(dirRec)} (${(bktWR*100).toFixed(1)}%, ${uOf(dirRec)}) and the broader cohort isn't carrying it either (${recOf(allRec)}, ${(broadWR*100).toFixed(1)}%, ${uOf(allRec)}) — flagged PASS.`;
             } else if ((small || empty) && bWeak) {
-              take = `${leadLabel}: bucket thin (${recOf(dirRec)}) and the broader cohort is weak (${sr(recOf(allRec))}, ${(broadWR*100).toFixed(1)}%, ${uOf(allRec)}) — flagged PASS.`;
+              take = `${leadLabel}: bucket thin (${recOf(dirRec)}) and the broader cohort is weak (${recOf(allRec)}, ${(broadWR*100).toFixed(1)}%, ${uOf(allRec)}) — flagged PASS.`;
             } else if (elite && (bElite || (broadWR && broadWR >= 0.80))) {
-              take = `Cleanest spot of the night — ${leadLabel} ${sg(recOf(dirRec))}, broader matchup ${sg(recOf(allRec))} (${(broadWR*100).toFixed(1)}%, ${uOf(allRec)}).`;
+              take = `Cleanest spot of the night — ${leadLabel} ${recOf(dirRec)}, broader matchup ${recOf(allRec)} (${(broadWR*100).toFixed(1)}%, ${uOf(allRec)}).`;
             } else if (elite) {
-              take = `${leadLabel} ${sg(recOf(dirRec))} (${(bktWR*100).toFixed(1)}%, ${uOf(dirRec)}).`;
+              take = `${leadLabel} ${recOf(dirRec)} (${(bktWR*100).toFixed(1)}%, ${uOf(dirRec)}).`;
             } else if (solid && bSolid) {
               take = `${leadLabel} ${recOf(dirRec)} (${(bktWR*100).toFixed(1)}%, ${uOf(dirRec)}) and the broader cohort backs it (${recOf(allRec)}, ${(broadWR*100).toFixed(1)}%, ${uOf(allRec)}).`;
             } else if (solid) {
               take = `${leadLabel} ${recOf(dirRec)} (${(bktWR*100).toFixed(1)}%, ${uOf(dirRec)}). Broader ${recOf(allRec)}.`;
             } else if (coin && bSolid) {
-              take = `${leadLabel} ${recOf(dirRec)} (${(bktWR*100).toFixed(1)}%) but the broader matchup widens to ${sg(recOf(allRec))} (${(broadWR*100).toFixed(1)}%, ${uOf(allRec)}).`;
+              take = `${leadLabel} ${recOf(dirRec)} (${(bktWR*100).toFixed(1)}%) but the broader matchup widens to ${recOf(allRec)} (${(broadWR*100).toFixed(1)}%, ${uOf(allRec)}).`;
             } else if (coin) {
               take = `${leadLabel} ${recOf(dirRec)} (${(bktWR*100).toFixed(1)}%, ${uOf(dirRec)}), broader (picks+watch ${dirCap}) ${recOf(allRec)} — baseline TAKE.`;
             } else if ((small || empty) && (bElite || (broadWR && broadWR >= 0.80))) {
-              take = `${leadLabel}: bucket sample thin (${recOf(dirRec)}) but ${sg(`P+L ${dirWord} vs ${oppStr} are ${recOf(allRec)} (${(broadWR*100).toFixed(1)}%, ${uOf(allRec)})`)}.`;
+              take = `${leadLabel}: bucket sample thin (${recOf(dirRec)}) but P+L ${dirWord} vs ${oppStr} are ${recOf(allRec)} (${(broadWR*100).toFixed(1)}%, ${uOf(allRec)}).`;
             } else if ((small || empty) && bCaution) {
-              take = `${leadLabel}: bucket thin (${recOf(dirRec)}) and the broader matchup is bad (${sr(recOf(allRec))}, ${(broadWR*100).toFixed(1)}%, ${uOf(allRec)}) — model can't override.`;
+              take = `${leadLabel}: bucket thin (${recOf(dirRec)}) and the broader matchup is bad (${recOf(allRec)}, ${(broadWR*100).toFixed(1)}%, ${uOf(allRec)}) — model can't override.`;
             } else if (small || empty) {
               take = `${leadLabel}: bucket thin (${recOf(dirRec)}), broader ${recOf(allRec)} — riding the model.`;
             } else {
               take = `${leadLabel} ${recOf(dirRec)} (${(bktWR*100).toFixed(1)}%, ${uOf(dirRec)}). Broader ${recOf(allRec)}.`;
             }
             if (dirRec && dirRec.l === 0 && dirRec.w >= 4) {
-              take += ` ${sg(`Perfect ${dirRec.w}-0 cohort in-bucket.`)}`;
+              take += ` Perfect ${dirRec.w}-0 cohort in-bucket.`;
             }
+            // vs-team line color: green good / red bad / gray neutral, by the
+            // in-bucket (vs-opponent) record — same rule as the pitcher line.
+            const takeColor = qualColor(bktWR, bktN);
             // --- Pitcher-history accent ---
             // Surface how the model has done on THIS pitcher (same bucket).
             // Two lenses: direction-matched ("P O//U") and both-directions
@@ -1635,15 +1643,19 @@
             // co-sign reinforces TAKE, red flag reinforces PASS; anything in
             // between stays silent so the line doesn't fill with "neutral" notes.
             let pitTake = '';
+            let pitColor = '#bbb';   // green good / red bad / gray neutral
             if (pitN >= 4) {
               const pitWR = pitRec.w / pitN;
               const pitTxt = `${recOf(pitRec)} (${(pitWR*100).toFixed(1)}%, ${uOf(pitRec)})`;
               if (pitWR >= 0.80 && pitRec.u >= 2) {
-                pitTake = `${sg(`${pitNameTxt} ${pitTxt} — pitcher track co-signs.`)}`;
+                pitTake = `${pitNameTxt} ${pitTxt} — pitcher track co-signs.`;
+                pitColor = 'var(--green)';
               } else if (pitWR >= 0.65) {
-                pitTake = `${sg(`${pitNameTxt} ${pitTxt}`)} — supportive pitcher track.`;
+                pitTake = `${pitNameTxt} ${pitTxt} — supportive pitcher track.`;
+                pitColor = 'var(--green)';
               } else if (pitWR <= 0.40 && pitRec.u <= -1) {
-                pitTake = `${sr(`${pitNameTxt} have been ${pitTxt} — pitcher track is a red flag.`)}`;
+                pitTake = `${pitNameTxt} have been ${pitTxt} — pitcher track is a red flag.`;
+                pitColor = 'var(--red)';
               }
               // pitWR between 0.40 and 0.65 → no sentence (avoids "neutral").
             }
@@ -1655,9 +1667,11 @@
               const broadName = `${displayName(r.p)} both ways`;
               const sep = pitTake ? ' ' : '';
               if (allWR >= 0.70 && pitAllRec.u >= 2) {
-                pitTake += `${sep}${sg(`Broader: ${broadName} ${allTxt} — whole book profitable.`)}`;
+                pitTake += `${sep}Broader: ${broadName} ${allTxt} — whole book profitable.`;
+                if (pitColor === '#bbb') pitColor = 'var(--green)';
               } else if (allWR <= 0.45 && pitAllRec.u <= -2) {
-                pitTake += `${sep}${sr(`Broader: ${broadName} ${allTxt} — model bleeds on this pitcher.`)}`;
+                pitTake += `${sep}Broader: ${broadName} ${allTxt} — model bleeds on this pitcher.`;
+                if (pitColor === '#bbb') pitColor = 'var(--red)';
               }
             }
             // --- Sizing recommendation ---
@@ -1678,8 +1692,8 @@
             // record next, and any pitcher-history note on its own line.
             line.innerHTML =
               `<div>${sizeBadge}${nameSpan} ${dirSpan} ${oppSpan} <span style="color:#888">@ ${pcPct}%</span></div>`
-              + `<div style="margin-top:3px;color:#bbb">${take}</div>`
-              + (pitTake ? `<div style="margin-top:2px;color:#bbb">${pitTake}</div>` : '');
+              + `<div style="margin-top:3px;color:${takeColor}">${take}</div>`
+              + (pitTake ? `<div style="margin-top:2px;color:${pitColor}">${pitTake}</div>` : '');
             return line;
           }
 
