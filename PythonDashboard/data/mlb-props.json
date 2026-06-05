@@ -4,7 +4,7 @@
   "season": "2026",
   "mode": "live",
   "model": "kalman_blend",
-  "generated": "2026-06-04T18:01:25.212149",
+  "generated": "2026-06-04T19:31:24.935630",
   "totalProjections": 15,
   "totalPicks": 1328,
   "totalWatchlist": 11,
@@ -37029,7 +37029,7 @@
       "odds": -147,
       "to_win_1u": 1.47,
       "date": "2026-06-04",
-      "lockState": "lineup_confirmed",
+      "lockState": "game_started",
       "lockedAt": "2026-06-04T19:56:30.679455Z",
       "lineupConfirmed": true,
       "readVerdict": "TAKE"
@@ -37059,7 +37059,7 @@
       "to_win_1u": 1.15,
       "would_be_pick": "OVER",
       "date": "2026-06-04",
-      "lockState": "lineup_confirmed",
+      "lockState": "game_started",
       "lockedAt": "2026-06-04T20:44:18.114655Z",
       "lineupConfirmed": true
     },
@@ -37088,7 +37088,7 @@
       "to_win_1u": 0.98,
       "would_be_pick": "OVER",
       "date": "2026-06-04",
-      "lockState": "lineup_confirmed",
+      "lockState": "game_started",
       "lockedAt": "2026-06-04T21:01:00.705126Z",
       "lineupConfirmed": true
     },
@@ -37146,7 +37146,7 @@
       "to_win_1u": 0.79,
       "would_be_pick": "OVER",
       "date": "2026-06-04",
-      "lockState": "lineup_confirmed",
+      "lockState": "game_started",
       "lockedAt": "2026-06-04T21:01:00.705126Z",
       "lineupConfirmed": true
     },
@@ -37204,7 +37204,7 @@
       "to_win_1u": 0.88,
       "would_be_pick": "OVER",
       "date": "2026-06-04",
-      "lockState": "lineup_confirmed",
+      "lockState": "game_started",
       "lockedAt": "2026-06-04T21:41:29.833685Z",
       "lineupConfirmed": true
     }
@@ -37463,7 +37463,7 @@
       "odds": -147,
       "to_win_1u": 1.47,
       "date": "2026-06-04",
-      "lockState": "lineup_confirmed",
+      "lockState": "game_started",
       "lockedAt": "2026-06-04T19:56:30.679455Z",
       "lineupConfirmed": true,
       "readVerdict": "TAKE"
@@ -37492,7 +37492,7 @@
       "odds": -115,
       "to_win_1u": 1.15,
       "date": "2026-06-04",
-      "lockState": "lineup_confirmed",
+      "lockState": "game_started",
       "lockedAt": "2026-06-04T20:44:18.114655Z",
       "lineupConfirmed": true
     },
@@ -37520,7 +37520,7 @@
       "odds": 102,
       "to_win_1u": 0.98,
       "date": "2026-06-04",
-      "lockState": "lineup_confirmed",
+      "lockState": "game_started",
       "lockedAt": "2026-06-04T21:01:00.705126Z",
       "lineupConfirmed": true
     },
@@ -37576,7 +37576,7 @@
       "odds": 126,
       "to_win_1u": 0.79,
       "date": "2026-06-04",
-      "lockState": "lineup_confirmed",
+      "lockState": "game_started",
       "lockedAt": "2026-06-04T21:01:00.705126Z",
       "lineupConfirmed": true
     },
@@ -37632,7 +37632,7 @@
       "odds": 113,
       "to_win_1u": 0.88,
       "date": "2026-06-04",
-      "lockState": "lineup_confirmed",
+      "lockState": "game_started",
       "lockedAt": "2026-06-04T21:41:29.833685Z",
       "lineupConfirmed": true
     }
@@ -37666,14 +37666,14 @@
     "CLE": "Final",
     "MIL": "Final",
     "SF": "Final",
-    "ATL": "Warmup",
-    "TOR": "Warmup",
-    "MIN": "Pre-Game",
-    "KC": "Pre-Game",
-    "CHC": "Pre-Game",
-    "OAK": "Pre-Game",
-    "HOU": "Pre-Game",
-    "PIT": "Pre-Game",
+    "ATL": "In Progress",
+    "TOR": "In Progress",
+    "MIN": "In Progress",
+    "KC": "In Progress",
+    "CHC": "In Progress",
+    "OAK": "In Progress",
+    "HOU": "In Progress",
+    "PIT": "In Progress",
     "ARI": "Pre-Game",
     "LAD": "Pre-Game"
   },
@@ -37693,10 +37693,10 @@
     "824753": "Final",
     "823542": "Final",
     "823779": "Final",
-    "824919": "Warmup",
-    "823698": "Pre-Game",
-    "824672": "Pre-Game",
-    "824185": "Pre-Game",
+    "824919": "In Progress",
+    "823698": "In Progress",
+    "824672": "In Progress",
+    "824185": "In Progress",
     "825076": "Pre-Game"
   },
   "homeAway": {
