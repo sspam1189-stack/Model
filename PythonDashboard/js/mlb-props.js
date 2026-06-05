@@ -600,21 +600,23 @@
           // -4.98u (McLean -158, Sheehan -132, Nelson -102, Detmers -106).
           // Pin via cutoff so the widget matches what was posted on Reddit.
           const BASELINE = {
-            // 2026-06-04 ext .45 career-fallback resync: the clean walk-forward
-            // backfill (career handed-K outlier fix shipped) REWROTE
-            // mlb-props.json, so 6/1-6/3 in the json now reflect post-backfill
-            // grades, NOT what was actually posted live. To keep the widget
-            // showing the REAL posted record, the cutoff is advanced to 6/3 and
-            // the actually-posted tallies through 6/3 are baked here. Only 6/4+
-            // computes fresh from the json. (Supersedes the prior 5/31 cutoff,
-            // now folded into these totals.)
-            //   Posted record through 6/3:  picks 149-109 +17.15u
-            //   Weekly 6/1-6/3: 15-9 +4.03u  |  Yesterday 6/3: 5-5 -1.48u
-            cutoff: '2026-06-03',
+            // 2026-06-05 cutoff roll to 6/4: 6/4's posted results (3-1 +2.19u)
+            // are now baked into the totals and the cutoff advanced to 6/4, so
+            // only 6/5+ computes fresh from the json. (Supersedes the prior 6/3
+            // cutoff, now folded into these totals.)
+            //   Posted record through 6/4:  picks 152-110 +19.34u
+            //   Before codefix: 111-91 +0.08u  |  After codefix through 6/4: 41-19 +19.26u
+            //   Weekly 6/1-6/4: 18-10 +6.22u  |  Yesterday 6/4: 3-1 +2.19u
+            // `before_codefix` is fixed history (every new pick is post-codefix,
+            // so it never changes). `codefix` (= "after codefix") is a baked
+            // tally that grows with every post-cutoff pick like `total`.
+            cutoff: '2026-06-04',
             picks: {
-              total:    { w: 149, l: 109, u: 17.15 },
-              weekly:   { w:  15, l:   9, u:  4.03 },  // 6/1–6/3
-              yesterday:{ w:   5, l:   5, u: -1.48 },  // 6/3
+              total:        { w: 152, l: 110, u: 19.34 },
+              before_codefix:{ w: 111, l:  91, u:  0.08 },  // static, pre-codefix
+              codefix:      { w:  41, l:  19, u: 19.26 },  // after codefix, through 6/4
+              weekly:       { w:  18, l:  10, u:  6.22 },  // 6/1–6/4
+              yesterday:    { w:   3, l:   1, u:  2.19 },  // 6/4
             },
             leans: {
               // Leans retired at the 5/25 cutover (none after 5/24), so the
@@ -689,6 +691,9 @@
           // TOTAL = baseline + everything post-cutoff
           let totalPicks = combine(BASELINE.picks.total, newPicks);
           const totalLeans = combine(BASELINE.leans.total, newLeans);
+          // CODEFIX = baked since-codefix baseline + everything post-cutoff
+          // (grows identically to total).
+          const codefixPicks = combine(BASELINE.picks.codefix, newPicks);
 
           // WEEKLY: if the weekly window is entirely at-or-before cutoff,
           // show baseline weekly. Otherwise compute from new (post-cutoff) data,
@@ -1042,6 +1047,8 @@
             `Lines are based on draftkingsORfanduel\n\n` +
             `Picks:\n\n` +
             `* Total: ${fmt(totalPicks)}\n` +
+            `* Before codefix: ${fmt(BASELINE.picks.before_codefix)}\n` +
+            `* After codefix: ${fmt(codefixPicks)}\n` +
             `* ${weekLabel} (${weekRange}): ${fmt(wPicksTally)}\n` +
             `* Yesterday (${yMD}): ${fmt(yPicksTally)}\n` +
             _picksBlock +
