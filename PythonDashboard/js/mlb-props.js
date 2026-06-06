@@ -4694,6 +4694,7 @@
         let fp = activeSource().slice();
         if (weekSel.value !== 'all') fp = fp.filter(p => p.date && getWeekStart(p.date) === weekSel.value);
         if (daySel.value !== 'all') fp = fp.filter(p => p.date === daySel.value);
+        if (lineSel.value !== 'all') fp = fp.filter(p => p.line != null && +p.line === +lineSel.value);
         if (dirSel.value !== 'all') fp = fp.filter(p => effectiveDir(p) === dirSel.value);
         if (bucketSel.value !== 'all') fp = fp.filter(p => inBucket(p, bucketSel.value));
 
