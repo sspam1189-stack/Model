@@ -2174,7 +2174,7 @@
 
             // Reusable summary renderer keyed off the full play set.
             function _renderSummary(allEver) {
-              let pw=0, pl=0, lw=0, ll=0, p_u=0, l_u=0;
+              let pw=0, pl=0, lw=0, ll=0, p_u=0, l_u=0, aw=0, al=0, a_u=0;
               for (const p of allEver) {
                 const bkt = _phBucket(p);
                 const grade = _phGrade(p);
@@ -2183,6 +2183,10 @@
                   ? p.pick
                   : (p.would_be_pick || ((p.proj || 0) > (p.line || 0) ? 'OVER' : 'UNDER'));
                 const odds = _phOdds(p);
+                // All tier = every graded play (Picks + Watch + Pass) —
+                // mirrors Team History's "All" combined record.
+                if (grade === 'W') aw++; else al++;
+                a_u += _phUnits(odds, grade === 'W', 1.0);
                 if (bkt === 'PICK') {
                   if (grade === 'W') pw++; else pl++;
                   p_u += _phUnits(odds, grade === 'W', 1.0);
@@ -2191,11 +2195,17 @@
                   l_u += _phUnits(odds, grade === 'W', 1.0);
                 }
               }
-              const pickTotal = pw + pl, watchTotal = lw + ll;
+              const pickTotal = pw + pl, watchTotal = lw + ll, allTotal = aw + al;
               const parts = [];
               // Color-match the Bkt column (Picks=purple, Watch=yellow).
               const pickColor  = '#a78bfa';
               const watchColor = 'var(--yellow)';
+              const allColor   = '#ccc';
+              if (allTotal > 0) {
+                const wr = (aw/allTotal*100).toFixed(1);
+                const u  = (a_u >= 0 ? '+' : '') + a_u.toFixed(2) + 'u';
+                parts.push(`<span style="color:${allColor};font-weight:600">All ${aw}-${al} (${wr}%) ${u}</span>`);
+              }
               if (pickTotal > 0) {
                 const wr = (pw/pickTotal*100).toFixed(1);
                 const u  = (p_u >= 0 ? '+' : '') + p_u.toFixed(2) + 'u';
