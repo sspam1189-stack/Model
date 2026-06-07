@@ -439,16 +439,6 @@
     "source": "rotowire:draftkings"
   },
   {
-    "player": "Trevor McDonald",
-    "market": "strikeouts",
-    "line": 4.5,
-    "over_price": 105,
-    "under_price": -135,
-    "event_home": "CHC",
-    "event_away": "SF",
-    "source": "rotowire:draftkings"
-  },
-  {
     "player": "Michael Soroka",
     "market": "strikeouts",
     "line": 4.5,
@@ -456,16 +446,6 @@
     "under_price": 115,
     "event_home": "ARI",
     "event_away": "WAS",
-    "source": "rotowire:draftkings"
-  },
-  {
-    "player": "Jameson Taillon",
-    "market": "strikeouts",
-    "line": 4.5,
-    "over_price": -102,
-    "under_price": -125,
-    "event_home": "CHC",
-    "event_away": "SF",
     "source": "rotowire:draftkings"
   },
   {
@@ -522,28 +502,6 @@
     "_event_id": "35691301"
   },
   {
-    "player": "Trevor McDonald 15.5",
-    "market": "outs",
-    "line": 15.5,
-    "over_price": -132,
-    "under_price": 100,
-    "event_home": "CHC",
-    "event_away": "SF",
-    "source": "fanduel",
-    "_event_id": "35691304"
-  },
-  {
-    "player": "Jameson Taillon 17.5",
-    "market": "outs",
-    "line": 17.5,
-    "over_price": -132,
-    "under_price": 100,
-    "event_home": "CHC",
-    "event_away": "SF",
-    "source": "fanduel",
-    "_event_id": "35691304"
-  },
-  {
     "player": "Michael Soroka 16.5",
     "market": "outs",
     "line": 16.5,
@@ -575,5 +533,47 @@
     "event_away": "NYM",
     "source": "fanduel",
     "_event_id": "35691312"
+  },
+  {
+    "player": "Trevor McDonald",
+    "market": "strikeouts",
+    "line": 4.5,
+    "over_price": 106,
+    "under_price": -135,
+    "event_home": "CHC",
+    "event_away": "SF",
+    "source": "rotowire:draftkings"
+  },
+  {
+    "player": "Jameson Taillon",
+    "market": "strikeouts",
+    "line": 4.5,
+    "over_price": -108,
+    "under_price": -118,
+    "event_home": "CHC",
+    "event_away": "SF",
+    "source": "rotowire:draftkings"
+  },
+  {
+    "player": "Trevor McDonald 15.5",
+    "market": "outs",
+    "line": 15.5,
+    "over_price": -132,
+    "under_price": 100,
+    "event_home": "CHC",
+    "event_away": "SF",
+    "source": "fanduel",
+    "_event_id": "35691304"
+  },
+  {
+    "player": "Jameson Taillon 17.5",
+    "market": "outs",
+    "line": 17.5,
+    "over_price": -132,
+    "under_price": 100,
+    "event_home": "CHC",
+    "event_away": "SF",
+    "source": "fanduel",
+    "_event_id": "35691304"
   }
 ]
