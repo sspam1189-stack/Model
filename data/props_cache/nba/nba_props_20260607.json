@@ -11,8 +11,8 @@
   {
     "player": "Jalen Brunson",
     "line": 5.5,
-    "over_price": -145,
-    "under_price": 110,
+    "over_price": -151,
+    "under_price": 114,
     "market": "assists",
     "event_home": "NYK",
     "event_away": "SAS"
@@ -20,8 +20,8 @@
   {
     "player": "De'Aaron Fox",
     "line": 5.5,
-    "over_price": -120,
-    "under_price": -110,
+    "over_price": -108,
+    "under_price": -122,
     "market": "assists",
     "event_home": "NYK",
     "event_away": "SAS"
@@ -47,8 +47,8 @@
   {
     "player": "Dylan Harper",
     "line": 3.5,
-    "over_price": 105,
-    "under_price": -139,
+    "over_price": 109,
+    "under_price": -144,
     "market": "assists",
     "event_home": "NYK",
     "event_away": "SAS"
@@ -56,8 +56,8 @@
   {
     "player": "Victor Wembanyama",
     "line": 3.5,
-    "over_price": 127,
-    "under_price": -167,
+    "over_price": 126,
+    "under_price": -166,
     "market": "assists",
     "event_home": "NYK",
     "event_away": "SAS"
@@ -74,24 +74,6 @@
   {
     "player": "Devin Vassell",
     "line": 2.5,
-    "over_price": 102,
-    "under_price": -134,
-    "market": "assists",
-    "event_home": "NYK",
-    "event_away": "SAS"
-  },
-  {
-    "player": "OG Anunoby",
-    "line": 1.5,
-    "over_price": -107,
-    "under_price": -122,
-    "market": "assists",
-    "event_home": "NYK",
-    "event_away": "SAS"
-  },
-  {
-    "player": "Julian Champagnie",
-    "line": 1.5,
     "over_price": 105,
     "under_price": -139,
     "market": "assists",
@@ -99,10 +81,28 @@
     "event_away": "SAS"
   },
   {
+    "player": "OG Anunoby",
+    "line": 1.5,
+    "over_price": -104,
+    "under_price": -127,
+    "market": "assists",
+    "event_home": "NYK",
+    "event_away": "SAS"
+  },
+  {
+    "player": "Julian Champagnie",
+    "line": 1.5,
+    "over_price": 111,
+    "under_price": -147,
+    "market": "assists",
+    "event_home": "NYK",
+    "event_away": "SAS"
+  },
+  {
     "player": "Jose Alvarado",
     "line": 1.5,
-    "over_price": 119,
-    "under_price": -157,
+    "over_price": 122,
+    "under_price": -161,
     "market": "assists",
     "event_home": "NYK",
     "event_away": "SAS"
@@ -110,8 +110,8 @@
   {
     "player": "Miles McBride",
     "line": 1.5,
-    "over_price": 134,
-    "under_price": -178,
+    "over_price": 137,
+    "under_price": -182,
     "market": "assists",
     "event_home": "NYK",
     "event_away": "SAS"
@@ -128,8 +128,8 @@
   {
     "player": "Keldon Johnson",
     "line": 0.5,
-    "over_price": -109,
-    "under_price": -120,
+    "over_price": -108,
+    "under_price": -122,
     "market": "assists",
     "event_home": "NYK",
     "event_away": "SAS"
@@ -137,8 +137,8 @@
   {
     "player": "Luke Kornet",
     "line": 0.5,
-    "over_price": 112,
-    "under_price": -148,
+    "over_price": 115,
+    "under_price": -151,
     "market": "assists",
     "event_home": "NYK",
     "event_away": "SAS"
@@ -155,8 +155,8 @@
   {
     "player": "Victor Wembanyama",
     "line": 26.5,
-    "over_price": -121,
-    "under_price": -105,
+    "over_price": -112,
+    "under_price": -114,
     "market": "points",
     "event_home": "NYK",
     "event_away": "SAS"
@@ -165,7 +165,7 @@
     "player": "Jalen Brunson",
     "line": 26.5,
     "over_price": -105,
-    "under_price": -122,
+    "under_price": -121,
     "market": "points",
     "event_home": "NYK",
     "event_away": "SAS"
@@ -173,17 +173,17 @@
   {
     "player": "Karl-Anthony Towns",
     "line": 18.5,
-    "over_price": -110,
-    "under_price": -116,
+    "over_price": -102,
+    "under_price": -125,
     "market": "points",
     "event_home": "NYK",
     "event_away": "SAS"
   },
   {
     "player": "Stephon Castle",
-    "line": 15.5,
-    "over_price": -119,
-    "under_price": -107,
+    "line": 16.5,
+    "over_price": -102,
+    "under_price": -125,
     "market": "points",
     "event_home": "NYK",
     "event_away": "SAS"
@@ -191,8 +191,8 @@
   {
     "player": "OG Anunoby",
     "line": 15.5,
-    "over_price": -112,
-    "under_price": -114,
+    "over_price": -104,
+    "under_price": -122,
     "market": "points",
     "event_home": "NYK",
     "event_away": "SAS"
@@ -200,6 +200,15 @@
   {
     "player": "De'Aaron Fox",
     "line": 14.5,
+    "over_price": -113,
+    "under_price": -113,
+    "market": "points",
+    "event_home": "NYK",
+    "event_away": "SAS"
+  },
+  {
+    "player": "Dylan Harper",
+    "line": 13.5,
     "over_price": -117,
     "under_price": -109,
     "market": "points",
@@ -209,17 +218,8 @@
   {
     "player": "Mikal Bridges",
     "line": 12.5,
-    "over_price": -128,
-    "under_price": 100,
-    "market": "points",
-    "event_home": "NYK",
-    "event_away": "SAS"
-  },
-  {
-    "player": "Dylan Harper",
-    "line": 12.5,
-    "over_price": -127,
-    "under_price": 100,
+    "over_price": -129,
+    "under_price": 102,
     "market": "points",
     "event_home": "NYK",
     "event_away": "SAS"
@@ -236,17 +236,17 @@
   {
     "player": "Julian Champagnie",
     "line": 10.5,
-    "over_price": -105,
-    "under_price": -121,
+    "over_price": -101,
+    "under_price": -126,
     "market": "points",
     "event_home": "NYK",
     "event_away": "SAS"
   },
   {
     "player": "Josh Hart",
-    "line": 8.5,
-    "over_price": -128,
-    "under_price": 100,
+    "line": 9.5,
+    "over_price": 101,
+    "under_price": -129,
     "market": "points",
     "event_home": "NYK",
     "event_away": "SAS"
@@ -254,8 +254,8 @@
   {
     "player": "Landry Shamet",
     "line": 8.5,
-    "over_price": -110,
-    "under_price": -115,
+    "over_price": -107,
+    "under_price": -119,
     "market": "points",
     "event_home": "NYK",
     "event_away": "SAS"
@@ -263,8 +263,8 @@
   {
     "player": "Miles McBride",
     "line": 5.5,
-    "over_price": -127,
-    "under_price": 100,
+    "over_price": -126,
+    "under_price": -102,
     "market": "points",
     "event_home": "NYK",
     "event_away": "SAS"
@@ -272,8 +272,8 @@
   {
     "player": "Keldon Johnson",
     "line": 5.5,
-    "over_price": -103,
-    "under_price": -124,
+    "over_price": -102,
+    "under_price": -125,
     "market": "points",
     "event_home": "NYK",
     "event_away": "SAS"
@@ -281,8 +281,8 @@
   {
     "player": "Mitchell Robinson",
     "line": 3.5,
-    "over_price": -136,
-    "under_price": 107,
+    "over_price": -141,
+    "under_price": 110,
     "market": "points",
     "event_home": "NYK",
     "event_away": "SAS"
@@ -290,8 +290,8 @@
   {
     "player": "Jose Alvarado",
     "line": 2.5,
-    "over_price": -136,
-    "under_price": 106,
+    "over_price": -131,
+    "under_price": 103,
     "market": "points",
     "event_home": "NYK",
     "event_away": "SAS"
@@ -299,8 +299,8 @@
   {
     "player": "Luke Kornet",
     "line": 2.5,
-    "over_price": 140,
-    "under_price": -180,
+    "over_price": 148,
+    "under_price": -190,
     "market": "points",
     "event_home": "NYK",
     "event_away": "SAS"
@@ -308,8 +308,8 @@
   {
     "player": "Victor Wembanyama",
     "line": 41.5,
-    "over_price": -124,
-    "under_price": -106,
+    "over_price": -119,
+    "under_price": -110,
     "market": "pts_rebs_asts",
     "event_home": "NYK",
     "event_away": "SAS"
@@ -326,8 +326,8 @@
   {
     "player": "Karl-Anthony Towns",
     "line": 33.5,
-    "over_price": -125,
-    "under_price": -105,
+    "over_price": -121,
+    "under_price": -109,
     "market": "pts_rebs_asts",
     "event_home": "NYK",
     "event_away": "SAS"
@@ -335,8 +335,8 @@
   {
     "player": "Stephon Castle",
     "line": 27.5,
-    "over_price": -116,
-    "under_price": -113,
+    "over_price": -126,
+    "under_price": -104,
     "market": "pts_rebs_asts",
     "event_home": "NYK",
     "event_away": "SAS"
@@ -344,17 +344,8 @@
   {
     "player": "De'Aaron Fox",
     "line": 23.5,
-    "over_price": -124,
-    "under_price": -106,
-    "market": "pts_rebs_asts",
-    "event_home": "NYK",
-    "event_away": "SAS"
-  },
-  {
-    "player": "OG Anunoby",
-    "line": 22.5,
-    "over_price": -112,
-    "under_price": -118,
+    "over_price": -121,
+    "under_price": -109,
     "market": "pts_rebs_asts",
     "event_home": "NYK",
     "event_away": "SAS"
@@ -362,8 +353,17 @@
   {
     "player": "Dylan Harper",
     "line": 22.5,
-    "over_price": -103,
-    "under_price": -127,
+    "over_price": -119,
+    "under_price": -110,
+    "market": "pts_rebs_asts",
+    "event_home": "NYK",
+    "event_away": "SAS"
+  },
+  {
+    "player": "OG Anunoby",
+    "line": 22.5,
+    "over_price": -104,
+    "under_price": -126,
     "market": "pts_rebs_asts",
     "event_home": "NYK",
     "event_away": "SAS"
@@ -371,8 +371,8 @@
   {
     "player": "Josh Hart",
     "line": 21.5,
-    "over_price": -123,
-    "under_price": -107,
+    "over_price": -129,
+    "under_price": -102,
     "market": "pts_rebs_asts",
     "event_home": "NYK",
     "event_away": "SAS"
@@ -380,8 +380,8 @@
   {
     "player": "Devin Vassell",
     "line": 19.5,
-    "over_price": -125,
-    "under_price": -105,
+    "over_price": -127,
+    "under_price": -103,
     "market": "pts_rebs_asts",
     "event_home": "NYK",
     "event_away": "SAS"
@@ -390,7 +390,7 @@
     "player": "Mikal Bridges",
     "line": 19.5,
     "over_price": -117,
-    "under_price": -113,
+    "under_price": -112,
     "market": "pts_rebs_asts",
     "event_home": "NYK",
     "event_away": "SAS"
@@ -398,8 +398,8 @@
   {
     "player": "Julian Champagnie",
     "line": 17.5,
-    "over_price": -114,
-    "under_price": -115,
+    "over_price": -109,
+    "under_price": -121,
     "market": "pts_rebs_asts",
     "event_home": "NYK",
     "event_away": "SAS"
@@ -416,7 +416,7 @@
   {
     "player": "Mitchell Robinson",
     "line": 9.5,
-    "over_price": -114,
+    "over_price": -115,
     "under_price": -115,
     "market": "pts_rebs_asts",
     "event_home": "NYK",
@@ -425,15 +425,6 @@
   {
     "player": "Miles McBride",
     "line": 8.5,
-    "over_price": -120,
-    "under_price": -109,
-    "market": "pts_rebs_asts",
-    "event_home": "NYK",
-    "event_away": "SAS"
-  },
-  {
-    "player": "Keldon Johnson",
-    "line": 8.5,
     "over_price": -118,
     "under_price": -112,
     "market": "pts_rebs_asts",
@@ -441,10 +432,19 @@
     "event_away": "SAS"
   },
   {
+    "player": "Keldon Johnson",
+    "line": 8.5,
+    "over_price": -115,
+    "under_price": -115,
+    "market": "pts_rebs_asts",
+    "event_home": "NYK",
+    "event_away": "SAS"
+  },
+  {
     "player": "Jose Alvarado",
     "line": 5.5,
-    "over_price": -117,
-    "under_price": -113,
+    "over_price": -114,
+    "under_price": -115,
     "market": "pts_rebs_asts",
     "event_home": "NYK",
     "event_away": "SAS"
@@ -452,8 +452,8 @@
   {
     "player": "Luke Kornet",
     "line": 5.5,
-    "over_price": -104,
-    "under_price": -126,
+    "over_price": 103,
+    "under_price": -136,
     "market": "pts_rebs_asts",
     "event_home": "NYK",
     "event_away": "SAS"
@@ -470,8 +470,8 @@
   {
     "player": "Karl-Anthony Towns",
     "line": 11.5,
-    "over_price": 101,
-    "under_price": -133,
+    "over_price": 102,
+    "under_price": -134,
     "market": "rebounds",
     "event_home": "NYK",
     "event_away": "SAS"
@@ -479,8 +479,8 @@
   {
     "player": "Josh Hart",
     "line": 8.5,
-    "over_price": 109,
-    "under_price": -144,
+    "over_price": 110,
+    "under_price": -145,
     "market": "rebounds",
     "event_home": "NYK",
     "event_away": "SAS"
@@ -497,8 +497,8 @@
   {
     "player": "Dylan Harper",
     "line": 5.5,
-    "over_price": -106,
-    "under_price": -124,
+    "over_price": -103,
+    "under_price": -128,
     "market": "rebounds",
     "event_home": "NYK",
     "event_away": "SAS"
@@ -515,8 +515,8 @@
   {
     "player": "OG Anunoby",
     "line": 5.5,
-    "over_price": 117,
-    "under_price": -154,
+    "over_price": 121,
+    "under_price": -160,
     "market": "rebounds",
     "event_home": "NYK",
     "event_away": "SAS"
@@ -569,8 +569,8 @@
   {
     "player": "Keldon Johnson",
     "line": 2.5,
-    "over_price": -102,
-    "under_price": -129,
+    "over_price": 101,
+    "under_price": -132,
     "market": "rebounds",
     "event_home": "NYK",
     "event_away": "SAS"
@@ -578,8 +578,8 @@
   {
     "player": "Luke Kornet",
     "line": 2.5,
-    "over_price": 107,
-    "under_price": -140,
+    "over_price": 111,
+    "under_price": -147,
     "market": "rebounds",
     "event_home": "NYK",
     "event_away": "SAS"
@@ -596,8 +596,8 @@
   {
     "player": "Miles McBride",
     "line": 1.5,
-    "over_price": 121,
-    "under_price": -160,
+    "over_price": 123,
+    "under_price": -163,
     "market": "rebounds",
     "event_home": "NYK",
     "event_away": "SAS"
@@ -612,15 +612,6 @@
     "event_away": "SAS"
   },
   {
-    "player": "Julian Champagnie",
-    "line": 2.5,
-    "over_price": 105,
-    "under_price": -138,
-    "market": "threes",
-    "event_home": "NYK",
-    "event_away": "SAS"
-  },
-  {
     "player": "Devin Vassell",
     "line": 2.5,
     "over_price": 107,
@@ -630,10 +621,19 @@
     "event_away": "SAS"
   },
   {
+    "player": "Julian Champagnie",
+    "line": 2.5,
+    "over_price": 109,
+    "under_price": -143,
+    "market": "threes",
+    "event_home": "NYK",
+    "event_away": "SAS"
+  },
+  {
     "player": "Jalen Brunson",
     "line": 2.5,
-    "over_price": 112,
-    "under_price": -148,
+    "over_price": 117,
+    "under_price": -155,
     "market": "threes",
     "event_home": "NYK",
     "event_away": "SAS"
@@ -650,8 +650,8 @@
   {
     "player": "OG Anunoby",
     "line": 1.5,
-    "over_price": -192,
-    "under_price": 145,
+    "over_price": -179,
+    "under_price": 135,
     "market": "threes",
     "event_home": "NYK",
     "event_away": "SAS"
@@ -659,8 +659,8 @@
   {
     "player": "Landry Shamet",
     "line": 1.5,
-    "over_price": -144,
-    "under_price": 109,
+    "over_price": -139,
+    "under_price": 105,
     "market": "threes",
     "event_home": "NYK",
     "event_away": "SAS"
@@ -668,14 +668,14 @@
   {
     "player": "Mikal Bridges",
     "line": 1.5,
-    "over_price": 107,
-    "under_price": -141,
+    "over_price": 103,
+    "under_price": -136,
     "market": "threes",
     "event_home": "NYK",
     "event_away": "SAS"
   },
   {
-    "player": "De'Aaron Fox",
+    "player": "Stephon Castle",
     "line": 1.5,
     "over_price": 109,
     "under_price": -144,
@@ -684,28 +684,19 @@
     "event_away": "SAS"
   },
   {
+    "player": "De'Aaron Fox",
+    "line": 1.5,
+    "over_price": 114,
+    "under_price": -151,
+    "market": "threes",
+    "event_home": "NYK",
+    "event_away": "SAS"
+  },
+  {
     "player": "Karl-Anthony Towns",
     "line": 1.5,
-    "over_price": 117,
-    "under_price": -155,
-    "market": "threes",
-    "event_home": "NYK",
-    "event_away": "SAS"
-  },
-  {
-    "player": "Stephon Castle",
-    "line": 1.5,
-    "over_price": 121,
-    "under_price": -160,
-    "market": "threes",
-    "event_home": "NYK",
-    "event_away": "SAS"
-  },
-  {
-    "player": "Miles McBride",
-    "line": 1.5,
-    "over_price": 137,
-    "under_price": -181,
+    "over_price": 120,
+    "under_price": -158,
     "market": "threes",
     "event_home": "NYK",
     "event_away": "SAS"
@@ -713,8 +704,17 @@
   {
     "player": "Josh Hart",
     "line": 1.5,
-    "over_price": 160,
-    "under_price": -213,
+    "over_price": 133,
+    "under_price": -176,
+    "market": "threes",
+    "event_home": "NYK",
+    "event_away": "SAS"
+  },
+  {
+    "player": "Miles McBride",
+    "line": 1.5,
+    "over_price": 142,
+    "under_price": -189,
     "market": "threes",
     "event_home": "NYK",
     "event_away": "SAS"
@@ -731,8 +731,8 @@
   {
     "player": "Keldon Johnson",
     "line": 0.5,
-    "over_price": -103,
-    "under_price": -128,
+    "over_price": -102,
+    "under_price": -129,
     "market": "threes",
     "event_home": "NYK",
     "event_away": "SAS"
@@ -740,8 +740,8 @@
   {
     "player": "Jose Alvarado",
     "line": 0.5,
-    "over_price": 122,
-    "under_price": -162,
+    "over_price": 125,
+    "under_price": -165,
     "market": "threes",
     "event_home": "NYK",
     "event_away": "SAS"
