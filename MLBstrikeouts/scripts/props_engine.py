@@ -341,10 +341,17 @@ def project_pitcher_props(pitcher_logs, team_batting_stats=None,
             whiff = savant.get(_metric_key, 0)
             xba   = savant.get(CONTACT_QUALITY_METRIC, 0)
             if whiff > 0 or xba > 0:
-                k_adj = (
-                    CSW_K_SLOPE * (whiff - CSW_LEAGUE_AVG)
-                    + XBA_K_SLOPE * (xba   - XBA_LEAGUE_AVG)
-                )
+                # Include each regressor's term only when that column is present
+                # (>0). A missing second metric (e.g. xwobacon on snapshots
+                # predating its collection) must drop its term, not be read as a
+                # literal 0.0 — that would inject a spurious constant
+                # XBA_K_SLOPE*(0-XBA_LEAGUE_AVG) shift on every pitcher. xBA is
+                # always present in shipped snapshots, so this is a no-op there.
+                k_adj = 0.0
+                if whiff > 0:
+                    k_adj += CSW_K_SLOPE * (whiff - CSW_LEAGUE_AVG)
+                if xba > 0:
+                    k_adj += XBA_K_SLOPE * (xba - XBA_LEAGUE_AVG)
                 pitcher_k_rate += k_adj * CSW_XBA_BLEND_WEIGHT
 
         # --- Lineup K tendency ---
