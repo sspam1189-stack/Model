@@ -270,6 +270,23 @@ CAREER_KRATE_SHRINK_C = 0.0
 # edge is +0.073u/pick (under the 0.20 bar) — shipped on user call, near-tie.
 K_QUALITY_METRIC = "csw"
 
+# Second regressor (the contact-quality axis paired with the K_QUALITY_METRIC
+# stuff axis). "xba" (default) = Savant xBA-against. Note xBA carries strikeouts
+# in its own AB denominator, so part of its negative K-slope is mechanical
+# overlap with K% rather than fresh contact-quality signal. "xwobacon" =
+# expected wOBA on contact only, which strips the K component and isolates pure
+# quality of contact — a cleaner, more orthogonal complement to CSW. Slopes
+# refit dynamically either way (compute_whiff_xba_regression x2_key), so this
+# just swaps which column feeds the second regressor. A/B via compare_configs_AB
+# before shipping (ROI, not fit).
+# NOTE: leak-free backfill of "xwobacon" needs daily savant snapshots that
+# include the xwobacon column. fetch_savant_pitcher_rates began collecting it
+# 2026-06-07, so only snapshots from that date forward carry it; earlier dates
+# lack the column and degrade to no-blend for the xwobacon variant. Regression
+# cache files are namespaced per second-metric so xba and xwobacon fits never
+# collide.
+CONTACT_QUALITY_METRIC = "xba"
+
 CSW_XBA_BLEND_WEIGHT = 0.3   # 2026-05-29: 0.5->0.3, CSW's tuned optimum (was whiff's)
 # Fallbacks used only when the dynamic refit has <50 qualified pitchers.
 # 2026-05-29: re-derived from the CSW regression (x1_key="csw") on the

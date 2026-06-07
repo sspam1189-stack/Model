@@ -881,7 +881,8 @@ def run_daily(date_key=None):
     # same day don't recompute slopes from mid-day savant data, which would
     # leak today's completed games into projections of today's later games).
     # First run of the day fits fresh slopes and caches them.
-    from defaults import CSW_XBA_BLEND_WEIGHT, K_QUALITY_METRIC
+    from defaults import (CSW_XBA_BLEND_WEIGHT, K_QUALITY_METRIC,
+                          CONTACT_QUALITY_METRIC)
     if CSW_XBA_BLEND_WEIGHT > 0:
         from sources.mlb_stats import (compute_whiff_xba_regression,
                                        save_whiff_xba_regression,
@@ -914,28 +915,35 @@ def run_daily(date_key=None):
             print(f"  [csw/xBA] merged {len(savant_rates)} pitchers "
                   f"(csw as-of {_prior})")
 
-            _reg = load_whiff_xba_regression_for_date(date_iso, season=season,
-                                                      metric="csw")
+            _reg = load_whiff_xba_regression_for_date(
+                date_iso, season=season, metric="csw",
+                metric2=CONTACT_QUALITY_METRIC)
             if _reg:
                 print(f"  [csw/xBA] using cached slopes for {date_iso} "
                       f"(saved {_reg.get('saved_at','?')})")
             else:
-                _reg = compute_whiff_xba_regression(savant_rates, x1_key="csw")
+                _reg = compute_whiff_xba_regression(
+                    savant_rates, x1_key="csw", x2_key=CONTACT_QUALITY_METRIC)
                 if _reg:
                     save_whiff_xba_regression(_reg, season=season,
-                                              date_iso=date_iso, metric="csw")
+                                              date_iso=date_iso, metric="csw",
+                                              metric2=CONTACT_QUALITY_METRIC)
                     print(f"  [csw/xBA refit] first run today — fit and cached "
                           f"(n={_reg['n']} R^2={_reg['r2']:.3f})")
             _label = "csw"
         else:
-            _reg = load_whiff_xba_regression_for_date(date_iso, season=season)
+            _reg = load_whiff_xba_regression_for_date(
+                date_iso, season=season, metric2=CONTACT_QUALITY_METRIC)
             if _reg:
                 print(f"  [whiff/xBA] using cached slopes for {date_iso} "
                       f"(saved {_reg.get('saved_at','?')})")
             else:
-                _reg = compute_whiff_xba_regression(savant_rates)
+                _reg = compute_whiff_xba_regression(
+                    savant_rates, x2_key=CONTACT_QUALITY_METRIC)
                 if _reg:
-                    save_whiff_xba_regression(_reg, season=season, date_iso=date_iso)
+                    save_whiff_xba_regression(_reg, season=season,
+                                              date_iso=date_iso,
+                                              metric2=CONTACT_QUALITY_METRIC)
                     print(f"  [whiff/xBA refit] first run today — fit and cached "
                           f"(n={_reg['n']} R^2={_reg['r2']:.3f})")
             _label = "whiff"

@@ -246,7 +246,8 @@ def backfill(season=None, start_game=10, start_date=None):
     # replays the per-date daily snapshots run_daily cached (as-of prior_date,
     # via load_savant_rates_as_of inside the loop). Dates before daily caching
     # began get {} -> no whiff/xBA blend. No future-data leakage either way.
-    from defaults import CSW_XBA_BLEND_WEIGHT, K_QUALITY_METRIC
+    from defaults import (CSW_XBA_BLEND_WEIGHT, K_QUALITY_METRIC,
+                          CONTACT_QUALITY_METRIC)
     if CSW_XBA_BLEND_WEIGHT > 0:
         from sources.mlb_stats import (fetch_savant_pitcher_rates,
                                        compute_whiff_xba_regression,
@@ -273,9 +274,11 @@ def backfill(season=None, start_game=10, start_date=None):
         # Slope refit is WALK-FORWARD — applied inside the date loop using
         # per-date cached regression files. Today's regression file is still
         # written below for tomorrow.
-        _reg_today = compute_whiff_xba_regression(_savant_today)
+        _reg_today = compute_whiff_xba_regression(_savant_today,
+                                                  x2_key=CONTACT_QUALITY_METRIC)
         if _reg_today:
-            save_whiff_xba_regression(_reg_today, season=season)
+            save_whiff_xba_regression(_reg_today, season=season,
+                                      metric2=CONTACT_QUALITY_METRIC)
             print(f"  [backfill] today's slopes cached "
                   f"(whiff={_reg_today['whiff_slope']:+.4f} "
                   f"xBA={_reg_today['xba_slope']:+.4f}  R^2={_reg_today['r2']:.3f})")
@@ -381,8 +384,10 @@ def backfill(season=None, start_game=10, start_date=None):
             # Slopes: replay run_daily's cached CSW regression (faithful match
             # to live); else inline-refit on the as-of merged snapshot.
             _wfr = load_whiff_xba_regression_as_of(prior_date, season=season,
-                                                   metric="csw")
-            _reg = _wfr or compute_whiff_xba_regression(_merged, x1_key="csw")
+                                                   metric="csw",
+                                                   metric2=CONTACT_QUALITY_METRIC)
+            _reg = _wfr or compute_whiff_xba_regression(
+                _merged, x1_key="csw", x2_key=CONTACT_QUALITY_METRIC)
             if _reg:
                 _d.CSW_K_SLOPE    = _reg["whiff_slope"]
                 _d.XBA_K_SLOPE      = _reg["xba_slope"]
@@ -404,7 +409,8 @@ def backfill(season=None, start_game=10, start_date=None):
             import datetime as _dt
             _prior_iso = (_dt.date.fromisoformat(game_date)
                           - _dt.timedelta(days=1)).isoformat()
-            _wfr = load_whiff_xba_regression_as_of(_prior_iso, season=season)
+            _wfr = load_whiff_xba_regression_as_of(
+                _prior_iso, season=season, metric2=CONTACT_QUALITY_METRIC)
             if _wfr:
                 _d.CSW_K_SLOPE    = _wfr["whiff_slope"]
                 _d.XBA_K_SLOPE      = _wfr["xba_slope"]

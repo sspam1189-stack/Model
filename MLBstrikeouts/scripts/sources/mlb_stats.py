@@ -598,9 +598,13 @@ def fetch_savant_pitcher_rates(season=None, min_pa=10):
     Fetch K%, whiff%, xBA from Baseball Savant custom leaderboard.
 
     Single CSV download — no per-player calls needed. Returns
-    {player_id_str: {"k_pct": float, "whiff_pct": float, "xba": float}}.
-    whiff_pct and xba feed the K-rate regression in props_engine
-    (gated by CSW_XBA_BLEND_WEIGHT > 0).
+    {player_id_str: {"k_pct": float, "whiff_pct": float, "xba": float,
+    "xwobacon": float}}. whiff_pct and xba (or xwobacon, per
+    CONTACT_QUALITY_METRIC) feed the K-rate regression in props_engine
+    (gated by CSW_XBA_BLEND_WEIGHT > 0). xwobacon (expected wOBA on contact)
+    is collected alongside xba so the contact-quality axis can be A/B'd
+    without a re-fetch; older cached snapshots predating this column simply
+    lack the key and degrade to no-blend for the xwobacon variant.
     """
     import csv
     import io
@@ -617,7 +621,7 @@ def fetch_savant_pitcher_rates(season=None, min_pa=10):
     url = (
         f"https://baseballsavant.mlb.com/leaderboard/custom"
         f"?year={season}&type=pitcher&filter=&min={min_pa}"
-        f"&selections=k_percent,whiff_percent,xba"
+        f"&selections=k_percent,whiff_percent,xba,xwobacon"
         f"&chart=false&csv=true"
     )
 
@@ -640,6 +644,10 @@ def fetch_savant_pitcher_rates(season=None, min_pa=10):
             k_pct = float(row.get("k_percent", 0) or 0) / 100.0  # Savant gives as %
             whiff_pct = float(row.get("whiff_percent", 0) or 0) / 100.0
             xba = float(row.get("xba", 0) or 0)
+            # xwobacon (expected wOBA on contact). Column may be absent on older
+            # leaderboard responses — default 0.0, which the regression/apply
+            # guards treat as "no signal" rather than a real low value.
+            xwobacon = float(row.get("xwobacon", 0) or 0)
         except (ValueError, TypeError):
             continue
 
@@ -647,6 +655,7 @@ def fetch_savant_pitcher_rates(season=None, min_pa=10):
             "k_pct":     round(k_pct, 4),
             "whiff_pct": round(whiff_pct, 4),
             "xba":       round(xba, 4),
+            "xwobacon":  round(xwobacon, 4),
         }
 
     print(f"  [savant] Fetched rates for {len(result)} pitchers")
@@ -692,18 +701,22 @@ def load_savant_rates_as_of(through_date, season=None):
         return {}
 
 
-def compute_whiff_xba_regression(savant_data, min_pitchers=50, x1_key="whiff_pct"):
+def compute_whiff_xba_regression(savant_data, min_pitchers=50, x1_key="whiff_pct",
+                                 x2_key="xba"):
     """
-    Fit bivariate OLS of K% on (x1_key, xba) from the current savant
+    Fit bivariate OLS of K% on (x1_key, x2_key) from the current savant
     snapshot. Returns slopes + league means used by props_engine to
     regress pitcher_k_rate.
 
     x1_key selects the first regressor: "whiff_pct" (default) or "csw"
-    (Called-Strikes+Whiffs%, merged in from load_csw_as_of). The return
-    keys stay whiff_slope/whiff_mean regardless of x1_key — they denote
-    "the metric-1 slope/mean" and feed CSW_K_SLOPE/CSW_LEAGUE_AVG in
-    props_engine, which multiplies them by whichever metric K_QUALITY_METRIC
-    selects. Keeping the keys generic avoids a parallel wiring path.
+    (Called-Strikes+Whiffs%, merged in from load_csw_as_of). x2_key selects
+    the second (contact-quality) regressor: "xba" (default) or "xwobacon"
+    (expected wOBA on contact), per CONTACT_QUALITY_METRIC. The return keys
+    stay whiff_slope/whiff_mean (metric-1) and xba_slope/xba_mean (metric-2)
+    regardless of which columns x1_key/x2_key select — they feed
+    CSW_K_SLOPE/CSW_LEAGUE_AVG and XBA_K_SLOPE/XBA_LEAGUE_AVG in props_engine,
+    which multiply them by whichever metrics are active. Keeping the keys
+    generic avoids a parallel wiring path.
 
     Returns {'whiff_slope', 'xba_slope', 'whiff_mean', 'xba_mean', 'n', 'r2'}
     or None if fewer than min_pitchers qualify (caller should fall back
@@ -711,7 +724,7 @@ def compute_whiff_xba_regression(savant_data, min_pitchers=50, x1_key="whiff_pct
     """
     pairs = []
     for pid, r in (savant_data or {}).items():
-        w = r.get(x1_key); x = r.get("xba"); k = r.get("k_pct")
+        w = r.get(x1_key); x = r.get(x2_key); k = r.get("k_pct")
         if w and x and k and w > 0 and x > 0 and k > 0:
             pairs.append((w, x, k))
     n = len(pairs)
@@ -897,21 +910,28 @@ def load_csw_as_of(through_date, season=None, min_pitches=100):
     return out
 
 
-def _regression_cache_prefix(metric):
-    """Cache-file prefix per K-quality metric. CSW fits are stored separately
-    from whiff fits so a whiff-era cached file is never mistaken for a CSW fit
-    (and vice versa) after a K_QUALITY_METRIC switch."""
-    return "csw_xba_regression" if metric == "csw" else "whiff_xba_regression"
+def _regression_cache_prefix(metric, metric2="xba"):
+    """Cache-file prefix per (K-quality, contact-quality) metric pair. Fits are
+    stored separately per metric so a whiff-era file is never mistaken for a CSW
+    fit (and vice versa) after a K_QUALITY_METRIC switch, and an xba fit is never
+    mistaken for an xwobacon fit after a CONTACT_QUALITY_METRIC switch."""
+    base = "csw_xba_regression" if metric == "csw" else "whiff_xba_regression"
+    if metric2 and metric2 != "xba":
+        # e.g. csw_xwobacon_regression / whiff_xwobacon_regression
+        base = base.replace("_xba_", f"_{metric2}_")
+    return base
 
 
-def save_whiff_xba_regression(reg, season=None, date_iso=None, metric="whiff"):
+def save_whiff_xba_regression(reg, season=None, date_iso=None, metric="whiff",
+                              metric2="xba"):
     """
     Persist a regression result to data/pitcher_cache/mlb/
-    <metric>_xba_regression_<YYYYMMDD>.json so slope drift can be audited
-    historically. Idempotent — overwrites if the same date is re-run.
-    The `metric` arg selects the cache file ("whiff" default, or "csw") so
-    the two metrics' daily fits never collide. The dict keys stay
-    whiff_slope/whiff_mean (generic "metric-1") regardless of metric.
+    <prefix>_<YYYYMMDD>.json so slope drift can be audited historically.
+    Idempotent — overwrites if the same date is re-run. The `metric`
+    ("whiff"/"csw") and `metric2` ("xba"/"xwobacon") args select the cache
+    file so different metric pairs' daily fits never collide. The dict keys
+    stay whiff_slope/whiff_mean (metric-1) and xba_slope/xba_mean (metric-2)
+    regardless of which columns were fit.
     """
     if not reg:
         return None
@@ -924,6 +944,7 @@ def save_whiff_xba_regression(reg, season=None, date_iso=None, metric="whiff"):
         "date_iso":    date_iso or date.today().isoformat(),
         "season":      season,
         "metric":      metric,
+        "metric2":     metric2,
         "n":           reg["n"],
         "whiff_slope": reg["whiff_slope"],
         "xba_slope":   reg["xba_slope"],
@@ -932,7 +953,7 @@ def save_whiff_xba_regression(reg, season=None, date_iso=None, metric="whiff"):
         "r2":          reg["r2"],
         "saved_at":    datetime.now().isoformat(timespec="seconds"),
     }
-    cache_path = CACHE_DIR / f"{_regression_cache_prefix(metric)}_{season}_{date_str}.json"
+    cache_path = CACHE_DIR / f"{_regression_cache_prefix(metric, metric2)}_{season}_{date_str}.json"
     try:
         cache_path.parent.mkdir(parents=True, exist_ok=True)
         with open(cache_path, "w") as f:
@@ -943,19 +964,21 @@ def save_whiff_xba_regression(reg, season=None, date_iso=None, metric="whiff"):
     return cache_path
 
 
-def load_whiff_xba_regression_as_of(date_iso, season=None, metric="whiff"):
+def load_whiff_xba_regression_as_of(date_iso, season=None, metric="whiff",
+                                    metric2="xba"):
     """
     Walk-forward slope loader.
 
     Returns the most recent cached regression on or before date_iso, or
     None if no cache covers that range. Used by props_backfill to set
     each game-date's slopes from a snapshot fit only on prior data.
-    `metric` selects the cache family ("whiff" default, or "csw").
+    `metric` ("whiff"/"csw") and `metric2` ("xba"/"xwobacon") select the
+    cache family.
     """
     import glob, re
     season = season or _current_season()
     target = date_iso.replace("-", "")
-    prefix = _regression_cache_prefix(metric)
+    prefix = _regression_cache_prefix(metric, metric2)
     pattern = str(CACHE_DIR / f"{prefix}_{season}_*.json")
     files = sorted(glob.glob(pattern))
     candidates = []
@@ -974,7 +997,8 @@ def load_whiff_xba_regression_as_of(date_iso, season=None, metric="whiff"):
         return None
 
 
-def load_whiff_xba_regression_for_date(date_iso, season=None, metric="whiff"):
+def load_whiff_xba_regression_for_date(date_iso, season=None, metric="whiff",
+                                       metric2="xba"):
     """
     Load the regression cache for an EXACT date (not "as of").
 
@@ -982,13 +1006,14 @@ def load_whiff_xba_regression_for_date(date_iso, season=None, metric="whiff"):
     in the same day reuse the morning's slope instead of refitting on
     updated mid-day savant data (which would leak today's completed
     games into projections of today's later games).
-    `metric` selects the cache family ("whiff" default, or "csw").
+    `metric` ("whiff"/"csw") and `metric2` ("xba"/"xwobacon") select the
+    cache family.
 
     Returns the dict or None if no file exists for that exact date.
     """
     season = season or _current_season()
     date_str = date_iso.replace("-", "")
-    cache_path = CACHE_DIR / f"{_regression_cache_prefix(metric)}_{season}_{date_str}.json"
+    cache_path = CACHE_DIR / f"{_regression_cache_prefix(metric, metric2)}_{season}_{date_str}.json"
     if not cache_path.exists():
         return None
     try:

@@ -331,14 +331,15 @@ def project_pitcher_props(pitcher_logs, team_batting_stats=None,
         # dynamically at backfill / run_daily start; see defaults.py).
         from defaults import (CSW_XBA_BLEND_WEIGHT, CSW_LEAGUE_AVG,
                                XBA_LEAGUE_AVG, CSW_K_SLOPE, XBA_K_SLOPE,
-                               K_QUALITY_METRIC)
+                               K_QUALITY_METRIC, CONTACT_QUALITY_METRIC)
         if CSW_XBA_BLEND_WEIGHT > 0:
-            # First regressor is whiff_pct or CSW per K_QUALITY_METRIC. The
-            # slope/mean (CSW_K_SLOPE/CSW_LEAGUE_AVG) are refit to whichever
-            # metric is active, so the same arithmetic applies to both.
+            # First regressor is whiff_pct or CSW per K_QUALITY_METRIC; second is
+            # xba or xwobacon per CONTACT_QUALITY_METRIC. The slopes/means
+            # (CSW_*/XBA_*) are refit to whichever pair is active, so the same
+            # arithmetic applies regardless of which columns feed the fit.
             _metric_key = "csw" if K_QUALITY_METRIC == "csw" else "whiff_pct"
             whiff = savant.get(_metric_key, 0)
-            xba   = savant.get("xba", 0)
+            xba   = savant.get(CONTACT_QUALITY_METRIC, 0)
             if whiff > 0 or xba > 0:
                 k_adj = (
                     CSW_K_SLOPE * (whiff - CSW_LEAGUE_AVG)

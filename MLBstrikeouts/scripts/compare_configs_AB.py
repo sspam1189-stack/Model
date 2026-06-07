@@ -1,9 +1,18 @@
 #!/usr/bin/env python3
-"""Quick side-by-side A/B for the K-rate regression metric:
-A = whiff_pct + xBA (shipped)  vs  B = CSW + xBA (candidate).
-All other config (BF/VAR/CAP/KCAP/W) held at the shipped values so only the
-first regressor differs. CSW is reconstructed leak-free as-of each date from
-Statcast pitch tallies (see fetch_statcast_pitch_csw / load_csw_as_of)."""
+"""Quick side-by-side A/B for the K-rate regression's CONTACT-quality regressor:
+A = CSW + xBA (shipped)  vs  B = CSW + xwOBACON (candidate).
+All other config (BF/VAR/CAP/KCAP/W and the CSW stuff-axis) held at the shipped
+values so only the SECOND regressor differs. xBA carries strikeouts in its own
+AB denominator; xwOBACON (expected wOBA on contact) strips that K component and
+isolates pure contact quality — a cleaner complement to CSW. Slopes refit
+dynamically for whichever column is active (compute_whiff_xba_regression
+x2_key).
+
+NOTE: a leak-free walk-forward A/B needs daily savant snapshots carrying the
+xwobacon column. Those began on 2026-06-07 (fetch_savant_pitcher_rates), so on
+earlier dates the xwobacon variant has no as-of snapshot and degrades to
+no-blend there — the B column will only diverge from A once enough xwobacon
+snapshots have accumulated. Run on a networked runner after that data exists."""
 import sys, os, glob, shutil, io, contextlib
 
 sys.path.insert(0, os.path.dirname(__file__))
@@ -52,13 +61,14 @@ def units(p, sz):
     return (sz if r=='WIN' else sz*(-abs(o)/100.0)), sz*(abs(o)/100.0)
 
 
-def run_config(bf, var, cap, kcap, w, metric="whiff"):
+def run_config(bf, var, cap, kcap, w, metric="whiff", metric2="xba"):
     defaults.BF_MULT = bf
     defaults.BF_CAP = float(cap)
     defaults.VAR_MULT['strikeouts'] = var
     defaults.K_RATE_CAP_FLOOR = kcap
     defaults.CSW_XBA_BLEND_WEIGHT = w
     defaults.K_QUALITY_METRIC = metric
+    defaults.CONTACT_QUALITY_METRIC = metric2
     _wipe_emp_std()
     buf = io.StringIO()
     with contextlib.redirect_stdout(buf):
@@ -90,13 +100,15 @@ def main():
     b_bf=defaults.BF_MULT; b_var=dict(defaults.VAR_MULT); b_cap=defaults.BF_CAP
     b_kcap=defaults.K_RATE_CAP_FLOOR; b_w=defaults.CSW_XBA_BLEND_WEIGHT
     b_metric=getattr(defaults, 'K_QUALITY_METRIC', 'whiff')
+    b_metric2=getattr(defaults, 'CONTACT_QUALITY_METRIC', 'xba')
 
-    # Shipped config, held fixed; only the K-rate metric differs A vs B.
+    # Shipped config, held fixed; only the contact-quality (2nd) regressor
+    # differs A vs B. The CSW stuff-axis is the shipped first regressor in both.
     BF, VAR, CAP, KCAP, W = b_bf, b_var.get('strikeouts'), b_cap, b_kcap, b_w
-    print(f'Running A (whiff): BF={BF} VAR={VAR} CAP={CAP} KCAP={KCAP} W={W}...')
-    A = run_config(BF, VAR, CAP, KCAP, W, metric="whiff")
-    print(f'Running B (csw):   BF={BF} VAR={VAR} CAP={CAP} KCAP={KCAP} W={W}...')
-    B = run_config(BF, VAR, CAP, KCAP, W, metric="csw")
+    print(f'Running A (CSW+xBA):      BF={BF} VAR={VAR} CAP={CAP} KCAP={KCAP} W={W}...')
+    A = run_config(BF, VAR, CAP, KCAP, W, metric="csw", metric2="xba")
+    print(f'Running B (CSW+xwOBACON): BF={BF} VAR={VAR} CAP={CAP} KCAP={KCAP} W={W}...')
+    B = run_config(BF, VAR, CAP, KCAP, W, metric="csw", metric2="xwobacon")
 
     defaults.BF_MULT = b_bf
     defaults.VAR_MULT.clear(); defaults.VAR_MULT.update(b_var)
@@ -104,6 +116,7 @@ def main():
     defaults.K_RATE_CAP_FLOOR = b_kcap
     defaults.CSW_XBA_BLEND_WEIGHT = b_w
     defaults.K_QUALITY_METRIC = b_metric
+    defaults.CONTACT_QUALITY_METRIC = b_metric2
 
     windows = [
         ('SEASON', '2026-01-01', '2026-12-31'),
@@ -118,7 +131,7 @@ def main():
         d_pp = (b['pn'] - a['pn'])
         print()
         print(f'=== {label} ===')
-        print(f'  {"":<22s} {"A: whiff+xBA":>16s}  {"B: CSW+xBA":>16s}  {"B-A":>10s}')
+        print(f'  {"":<22s} {"A: CSW+xBA":>16s}  {"B: CSW+xwOBACON":>16s}  {"B-A":>10s}')
         print(f'  {"Picks n":<22s} {a["pn"]:>16d}  {b["pn"]:>16d}  {d_pp:>+10d}')
         print(f'  {"Picks W-L":<22s} {(str(a["pw"])+"-"+str(a["pl"])):>16s}  {(str(b["pw"])+"-"+str(b["pl"])):>16s}')
         print(f'  {"Picks WR":<22s} {a["pwr"]:>15.1f}%  {b["pwr"]:>15.1f}%  {b["pwr"]-a["pwr"]:>+9.1f}p')
