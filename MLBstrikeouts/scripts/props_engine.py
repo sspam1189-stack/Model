@@ -22,6 +22,39 @@ from sources.game_context import (
 
 
 # ---------------------------------------------------------------------------
+# High-tier calibration fit (de-bias elite-arm over-projection)
+# ---------------------------------------------------------------------------
+
+def compute_calib_coefs(raw_projs, actuals, knot=None, min_pairs=None):
+    """
+    Least-squares line  actual ~ a + b*raw_proj  over pairs with
+    raw_proj > knot. Returns (a, b) or None if too few pairs.
+
+    Caller is responsible for leak-free inputs (prior-date / graded pairs
+    only). Used by both the walk-forward backfill and run_daily.
+    """
+    from defaults import PROJ_CALIB_KNOT, PROJ_CALIB_MIN_PAIRS
+    if knot is None:
+        knot = PROJ_CALIB_KNOT
+    if min_pairs is None:
+        min_pairs = PROJ_CALIB_MIN_PAIRS
+    xs, ys = [], []
+    for r, a in zip(raw_projs, actuals):
+        if r is None or a is None:
+            continue
+        try:
+            r = float(r); a = float(a)
+        except (TypeError, ValueError):
+            continue
+        if r > knot:
+            xs.append(r); ys.append(a)
+    if len(xs) < min_pairs:
+        return None
+    b, a = np.polyfit(np.array(xs), np.array(ys), 1)  # slope, intercept
+    return (float(a), float(b))
+
+
+# ---------------------------------------------------------------------------
 # Name matching
 # ---------------------------------------------------------------------------
 
@@ -147,9 +180,14 @@ def project_pitcher_props(pitcher_logs, team_batting_stats=None,
                           injury_report=None, weather_by_game=None,
                           batter_k_rates=None, lineup_data=None,
                           savant_rates=None, empirical_std=None,
-                          career_k_rates=None):
+                          career_k_rates=None, calib_coefs=None):
     """
     Project pitcher strikeouts props for all pitchers with sufficient game logs.
+
+    calib_coefs: optional (a, b) high-tier calibration line. When provided and
+    PROJ_CALIB_ENABLED, projections above PROJ_CALIB_KNOT are mapped
+    proj -> a + b*proj (de-biases the elite-arm over-projection). Fit
+    walk-forward by the caller from graded (proj_raw, actual) pairs.
     """
     projections = []
     market = "strikeouts"
@@ -394,7 +432,14 @@ def project_pitcher_props(pitcher_logs, team_batting_stats=None,
                 if _val > 0:
                     lineup_k_rate = _val
 
-        expected_k_rate = (pitcher_k_rate * lineup_k_rate) / lg_k_rate
+        # Lineup-weight regression: regress the (noisy) opponent lineup K-rate
+        # toward league before the matchup multiply. See defaults.PROJ_LINEUP_WEIGHT.
+        from defaults import PROJ_LINEUP_WEIGHT as _LW
+        if _LW != 1.0 and lg_k_rate > 0:
+            _bk = lg_k_rate + _LW * (lineup_k_rate - lg_k_rate)
+            expected_k_rate = (pitcher_k_rate * _bk) / lg_k_rate
+        else:
+            expected_k_rate = (pitcher_k_rate * lineup_k_rate) / lg_k_rate
 
         from defaults import K_RATE_CAP_FLOOR, K_RATE_FLOOR
 
@@ -524,6 +569,13 @@ def project_pitcher_props(pitcher_logs, team_batting_stats=None,
 
         proj = model_proj
 
+        # High-tier calibration: de-bias elite-arm over-projection above the
+        # knot. coefs are fit walk-forward / from graded history by the caller.
+        from defaults import PROJ_CALIB_ENABLED as _CAL_ON, PROJ_CALIB_KNOT as _CAL_KNOT
+        if _CAL_ON and calib_coefs is not None and model_proj > _CAL_KNOT:
+            _a, _b = calib_coefs
+            proj = _a + _b * model_proj
+
         # --- Empirical std ---
         # Prefer runtime-calibrated empirical_std (computed from graded
         # population in run_daily.py); fall back to DEFAULT_EMPIRICAL_STD
@@ -553,6 +605,7 @@ def project_pitcher_props(pitcher_logs, team_batting_stats=None,
                           opp_team_k_pct=opp_team_k_pct, lineup_k_pct=lineup_k_rate,
                           game_id=ctx.get("game_id"))
         if prop:
+            prop["proj_raw"] = round(model_proj, 3)  # pre-calibration, for walk-forward calib fit
             projections.append(prop)
 
     # --- Paired teammate filter ---

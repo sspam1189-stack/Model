@@ -213,6 +213,49 @@ def load_or_compute_empirical_std(date_key, date_iso):
     return computed
 
 
+def compute_calib_coefs_from_graded(date_iso=None):
+    """
+    Fit the high-tier projection calibration line from graded
+    (proj_raw, actual) strikeout pairs in the live mlb-props.json.
+
+    Walk-forward safe: when date_iso is given, only counts picks dated
+    strictly before it. Naturally stable within a day (graded picks are from
+    prior dates, which don't change), so no caching needed. Returns (a, b)
+    or None when too few tail pairs (engine then skips calibration).
+    """
+    from props_engine import compute_calib_coefs as _fit
+    candidate_paths = [
+        os.path.join(SCRIPT_DIR, "..", "data", "mlb-props.json"),
+        os.path.join(SCRIPT_DIR, "..", "..", "PythonDashboard", "data", "mlb-props.json"),
+    ]
+    data = None
+    for path in candidate_paths:
+        path = os.path.normpath(path)
+        if not os.path.exists(path):
+            continue
+        try:
+            with open(path, "r") as f:
+                data = json.load(f)
+            break
+        except Exception:
+            continue
+    if not data:
+        return None
+    sources = list(data.get("props") or []) + list(data.get("todayProjections") or [])
+    raws, acts = [], []
+    for p in sources:
+        if p.get("market") != "strikeouts":
+            continue
+        if p.get("actual") is None or p.get("proj_raw") is None:
+            continue
+        if date_iso:
+            pdate = p.get("date") or ""
+            if not pdate or pdate >= date_iso:
+                continue
+        raws.append(p.get("proj_raw")); acts.append(p.get("actual"))
+    return _fit(raws, acts)
+
+
 def _stamp_read_verdicts(merged_props):
     """Stamp readVerdict ("TAKE" / "PASS") on each actionable pick.
 
@@ -1111,6 +1154,16 @@ def run_daily(date_key=None):
                   f"default {default_val})")
     else:
         print(f"  [empirical_std] insufficient graded sample — using defaults")
+
+    # High-tier calibration: fit the de-bias line from graded (proj_raw,
+    # actual) pairs strictly before today (walk-forward; stable within a day).
+    calib_coefs = compute_calib_coefs_from_graded(date_iso=date_iso)
+    if calib_coefs:
+        print(f"  [calib] high-tier line: proj -> {calib_coefs[0]:.3f} + "
+              f"{calib_coefs[1]:.3f}*proj (above knot)")
+    else:
+        print(f"  [calib] insufficient graded sample — calibration off")
+
     projections = project_pitcher_props(
         pitcher_logs,
         team_batting_stats=team_batting,
@@ -1127,6 +1180,7 @@ def run_daily(date_key=None):
         savant_rates=savant_rates,
         empirical_std=runtime_emp_std or None,
         career_k_rates=batter_career_k_rates,
+        calib_coefs=calib_coefs,
     )
     picks = [p for p in projections if p["pick"] != "PASS"]
     print(f"  {len(projections)} projections, {len(picks)} actionable picks")
@@ -1479,7 +1533,7 @@ def run_daily(date_key=None):
         # from todayProjections (not guard-protected), keyed by player|date so
         # all of that pitcher's markets disappear for the day.
         _VOID_STRIP_FIELDS = (
-            "proj", "std", "line", "over_price", "under_price", "odds",
+            "proj", "proj_raw", "std", "line", "over_price", "under_price", "odds",
             "edge", "pCover", "conf", "to_win_1u", "readVerdict",
             "proj_ip", "proj_bf", "proj_bf_capped", "proj_pc",
             "opp_team_k_pct", "lineup_k_pct",

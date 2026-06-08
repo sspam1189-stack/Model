@@ -27,6 +27,7 @@ from sources.mlb_stats import (
 )
 from props_engine import (
     organize_pitcher_logs, project_pitcher_props, STAT_KEYS,
+    compute_calib_coefs,
 )
 from pitcher_kalman import (
     new_pitcher_kalman_state, batch_update_from_game_logs,
@@ -319,6 +320,9 @@ def backfill(season=None, start_game=10, start_date=None):
 
     results = {"strikeouts": {"projections": [], "actuals": [], "picks": []}}
     total_projected = 0
+    # Walk-forward high-tier calibration: accumulate graded (raw_proj, actual)
+    # pairs from PRIOR dates only; re-fit before each date (leak-free).
+    _calib_pairs = []
 
     # Save baseline whiff/xBA slopes so we can restore at function end.
     import defaults as _d
@@ -673,6 +677,11 @@ def backfill(season=None, start_game=10, start_date=None):
         else:
             _savant_asof = load_savant_rates_as_of(prior_date, season)
 
+        # Walk-forward calibration fit: prior graded pairs only (no lookahead).
+        _calib_coefs = compute_calib_coefs(
+            [r for r, _ in _calib_pairs], [a for _, a in _calib_pairs]
+        )
+
         # Phase 3: Project props using prior data + current Kalman state
         projections = project_pitcher_props(
             prior_logs,
@@ -689,6 +698,7 @@ def backfill(season=None, start_game=10, start_date=None):
             savant_rates=_savant_asof,
             empirical_std=runtime_emp_std or None,
             career_k_rates=batter_career_k_rates,
+            calib_coefs=_calib_coefs,
         )
 
         # Save ALL projections for this date (for Games Explorer)
@@ -722,6 +732,9 @@ def backfill(season=None, start_game=10, start_date=None):
 
             results[market]["projections"].append(proj_val)
             results[market]["actuals"].append(actual_val)
+            # Accumulate raw (pre-calib) projection vs actual for walk-forward
+            # calibration on subsequent dates.
+            _calib_pairs.append((proj.get("proj_raw", proj_val), actual_val))
 
             pick = proj.get("pick")
             pick_line = proj.get("line")
@@ -749,6 +762,7 @@ def backfill(season=None, start_game=10, start_date=None):
                     "team": proj.get("team", ""),
                     "opp": proj.get("opp", ""),
                     "proj": proj_val,
+                    "proj_raw": proj.get("proj_raw"),
                     "std": std,
                     "line": pick_line,
                     "actual": actual_val,
@@ -788,6 +802,7 @@ def backfill(season=None, start_game=10, start_date=None):
                 "team": proj.get("team", ""),
                 "opp": proj.get("opp", ""),
                 "proj": proj_val,
+                "proj_raw": proj.get("proj_raw"),
                 "std": std,
                 "line": pick_line,
                 "actual": actual_val,
@@ -976,6 +991,7 @@ def write_dashboard_json(results, season):
                 "opp": p.get("opp", ""),
                 "market": market,
                 "proj": p["proj"],
+                "proj_raw": p.get("proj_raw"),
                 "std": p.get("std", 0),
                 "line": p["line"],
                 "pick": p["pick"],

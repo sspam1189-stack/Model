@@ -226,6 +226,38 @@ CAREER_KRATE_SHRINK_C = 0.0
 #   k_est = (k_season + career_rate * C) / (pa_season + C). 0 = hard replace.
 CAREER_KRATE_SHRINK_C = 0.0
 
+# ---------------------------------------------------------------------------
+# Lineup-weight regression  +  high-tier projection calibration
+# ---------------------------------------------------------------------------
+# Two independent, principled corrections shipped 2026-06-08:
+#
+# 1) LINEUP WEIGHT (PROJ_LINEUP_WEIGHT): the opponent lineup K-rate is the
+#    NOISY input (thin per-batter vs-hand samples), so we regress it toward
+#    league before the matchup multiply:
+#        bk = lg_k + W * (lineup_k - lg_k)
+#        expected_k_rate = pitcher_k * bk / lg_k
+#    W = 1.0 disables. 0.75 = trust the lineup 75%, regress 25% to league.
+#    Mechanism-backed + monotonic ROI/MAE improvement on a broad 0.70-0.80
+#    plateau; independently confirmed by an empirical-Bayes per-batter test.
+#
+# 2) HIGH-TIER CALIBRATION (PROJ_CALIB_*): the model over-projects elite
+#    arms (measured +0.6-0.9 K at proj>=6 — the rate input over-extrapolates).
+#    Fix = a walk-forward least-squares line fit on graded (raw_proj, actual)
+#    pairs with raw_proj > KNOT, applied as  proj = a + b*raw_proj  above the
+#    knot. Coefficients are re-fit from prior/graded data every run (leak-free,
+#    mirrors the empirical_std cache) — NOT hardcoded. Flattens the 6-8 tier
+#    bias to ~0, raises ROI, cuts bad-week exposure to elite-OVER blowups.
+#
+# These address different errors (lineup noise vs pitcher over-projection) and
+# stack. Trade vs no-calib live: fewer total units (calibration trims inflated
+# overs -> book tilts under-heavy) for higher ROI, lower MAE, honest pCover,
+# and smaller drawdowns. Set PROJ_LINEUP_WEIGHT=1.0 and PROJ_CALIB_ENABLED=
+# False to revert to the raw model.
+PROJ_LINEUP_WEIGHT = 0.75
+PROJ_CALIB_ENABLED = True
+PROJ_CALIB_KNOT = 6.0          # only correct projections above this
+PROJ_CALIB_MIN_PAIRS = 40      # need >= this many tail pairs to fit; else raw
+
 
 # ---------------------------------------------------------------------------
 # Whiff% + xBA → pitcher_k_rate regression adjustment
