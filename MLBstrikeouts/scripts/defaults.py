@@ -266,6 +266,21 @@ PROJ_CALIB_ENABLED = True
 PROJ_CALIB_KNOT = 6.0          # only correct projections above this
 PROJ_CALIB_MIN_PAIRS = 40      # need >= this many tail pairs to fit; else raw
 
+# --- PRIOR SPEC / REVERT RECIPE (for future variance A/B) -------------------
+# Changed 2026-06-08: w_b=0.75 + calib (this block) AND pick threshold 0.65->0.64
+# (see MARKET_THRESHOLDS["strikeouts"] below). To rebackfill the OLD spec and
+# check whether the improvement was real signal or just a lucky ~2.5-month
+# sample, set ALL of these to the pre-6/8 values, wipe the emp_std cache, and
+# run a clean walk-forward backfill, then diff overs W% / MAE / units:
+#     PROJ_LINEUP_WEIGHT   = 1.0      # was: no lineup-weight regression
+#     PROJ_CALIB_ENABLED   = False    # was: no high-tier calibration
+#     CAREER_KRATE_SHRINK_C = 0.0     # (unchanged; EB stayed off)
+#     MARKET_THRESHOLDS["strikeouts"]["high"] = 0.65   # revert: now 0.64
+# Baseline measured at ship time (full season, overs-only): old/raw model
+# 198-92 (68.3%) +87u over 290 overs; shipped w_b+calib 133-60 (68.9%) +56u
+# over 193 overs -- near-tie W% (0.6pp = noise), calib trades units for lower
+# MAE/variance. Re-run later with more games to see if the gap holds.
+
 
 # ---------------------------------------------------------------------------
 # Whiff% + xBA → pitcher_k_rate regression adjustment
