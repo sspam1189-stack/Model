@@ -4,10 +4,10 @@
   "season": "2026",
   "mode": "live",
   "model": "kalman_blend",
-  "generated": "2026-06-07T18:01:02.742930",
+  "generated": "2026-06-07T19:31:06.490539",
   "totalProjections": 27,
   "totalPicks": 1407,
-  "totalWatchlist": 23,
+  "totalWatchlist": 22,
   "props": [
     {
       "player": "Tyler Glasnow",
@@ -39800,7 +39800,7 @@
       "to_win_1u": 1.26,
       "would_be_pick": "UNDER",
       "date": "2026-06-07",
-      "lockState": "lineup_confirmed",
+      "lockState": "game_started",
       "lockedAt": "2026-06-07T21:01:05.395491Z",
       "lineupConfirmed": true
     },
@@ -39829,12 +39829,12 @@
       "to_win_1u": 0.91,
       "would_be_pick": "OVER",
       "date": "2026-06-07",
-      "lockState": "lineup_confirmed",
+      "lockState": "game_started",
       "lockedAt": "2026-06-07T21:01:05.395491Z",
       "lineupConfirmed": true
     }
   ],
-  "summary": "4 picks (+23 watch) from 27 projections",
+  "summary": "5 picks (+22 watch) from 27 projections",
   "date": "2026-06-07",
   "todayProjections": [
     {
@@ -40538,7 +40538,7 @@
       "odds": -126,
       "to_win_1u": 1.26,
       "date": "2026-06-07",
-      "lockState": "lineup_confirmed",
+      "lockState": "game_started",
       "lockedAt": "2026-06-07T21:01:05.395491Z",
       "lineupConfirmed": true
     },
@@ -40566,7 +40566,7 @@
       "odds": 110,
       "to_win_1u": 0.91,
       "date": "2026-06-07",
-      "lockState": "lineup_confirmed",
+      "lockState": "game_started",
       "lockedAt": "2026-06-07T21:01:05.395491Z",
       "lineupConfirmed": true
     }
@@ -40628,12 +40628,12 @@
     "MIL": "Final",
     "ARI": "Final",
     "WSH": "Final",
-    "LAD": "In Progress",
-    "LAA": "In Progress",
-    "SD": "In Progress",
-    "NYM": "In Progress",
-    "CHC": "Pre-Game",
-    "SF": "Pre-Game"
+    "LAD": "Final",
+    "LAA": "Final",
+    "SD": "Final",
+    "NYM": "Final",
+    "CHC": "In Progress",
+    "SF": "In Progress"
   },
   "gameTimesById": {
     "824916": "2026-06-07T17:35:00Z",
@@ -40665,9 +40665,9 @@
     "822890": "Final",
     "824349": "Final",
     "825074": "Final",
-    "823941": "In Progress",
-    "823291": "In Progress",
-    "824670": "Pre-Game"
+    "823941": "Final",
+    "823291": "Final",
+    "824670": "In Progress"
   },
   "homeAway": {
     "2026-04-14": {
