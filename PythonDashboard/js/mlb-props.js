@@ -600,23 +600,24 @@
           // -4.98u (McLean -158, Sheehan -132, Nelson -102, Detmers -106).
           // Pin via cutoff so the widget matches what was posted on Reddit.
           const BASELINE = {
-            // 2026-06-05 cutoff roll to 6/4: 6/4's posted results (3-1 +2.19u)
-            // are now baked into the totals and the cutoff advanced to 6/4, so
-            // only 6/5+ computes fresh from the json. (Supersedes the prior 6/3
-            // cutoff, now folded into these totals.)
-            //   Posted record through 6/4:  picks 152-110 +19.34u
-            //   Before codefix: 111-91 +0.08u  |  After codefix through 6/4: 41-19 +19.26u
-            //   Weekly 6/1-6/4: 18-10 +6.22u  |  Yesterday 6/4: 3-1 +2.19u
+            // 2026-06-08 cutoff roll to 6/7: after the config change
+            // (w_b=0.75 lineup weight + walk-forward high-tier calibration)
+            // and full history regen, the baseline is re-anchored to the
+            // as-posted record through 6/7. Only 6/8+ computes fresh from the
+            // json. (Supersedes the prior 6/4 cutoff.)
+            //   Posted record through 6/7:  picks 155-124 +5.67u
+            //   Before codefix: 111-91 +0.08u  |  After codefix through 6/7: 44-33 +5.59u
+            //   Weekly 6/1-6/7: 21-24 -7.45u  |  Yesterday 6/7: 1-4 -3.98u
             // `before_codefix` is fixed history (every new pick is post-codefix,
             // so it never changes). `codefix` (= "after codefix") is a baked
             // tally that grows with every post-cutoff pick like `total`.
-            cutoff: '2026-06-04',
+            cutoff: '2026-06-07',
             picks: {
-              total:        { w: 152, l: 110, u: 19.34 },
+              total:        { w: 155, l: 124, u:  5.67 },
               before_codefix:{ w: 111, l:  91, u:  0.08 },  // static, pre-codefix
-              codefix:      { w:  41, l:  19, u: 19.26 },  // after codefix, through 6/4
-              weekly:       { w:  18, l:  10, u:  6.22 },  // 6/1–6/4
-              yesterday:    { w:   3, l:   1, u:  2.19 },  // 6/4
+              codefix:      { w:  44, l:  33, u:  5.59 },  // after codefix, through 6/7
+              weekly:       { w:  21, l:  24, u: -7.45 },  // 6/1–6/7
+              yesterday:    { w:   1, l:   4, u:  -3.98 },  // 6/7
             },
             leans: {
               // Leans retired at the 5/25 cutover (none after 5/24), so the
