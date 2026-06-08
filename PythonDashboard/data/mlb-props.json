@@ -4,10 +4,10 @@
   "season": "2026",
   "mode": "live",
   "model": "kalman_blend",
-  "generated": "2026-06-08T15:06:40.661940",
+  "generated": "2026-06-08T15:41:31.106446",
   "totalProjections": 15,
   "totalPicks": 1419,
-  "totalWatchlist": 10,
+  "totalWatchlist": 9,
   "props": [
     {
       "player": "Simeon Woods Richardson",
@@ -5749,7 +5749,7 @@
       "actual_outs": 21,
       "actual_bf": 27,
       "actual_pitches": 102,
-      "readVerdict": "TAKE"
+      "readVerdict": "PASS"
     },
     {
       "player": "Davis Martin",
@@ -7605,7 +7605,7 @@
       "actual_outs": 18,
       "actual_bf": 22,
       "actual_pitches": 80,
-      "readVerdict": "PASS"
+      "readVerdict": "TAKE"
     },
     {
       "player": "Andre Pallante",
@@ -11433,7 +11433,7 @@
       "actual_outs": 18,
       "actual_bf": 20,
       "actual_pitches": 65,
-      "readVerdict": "PASS"
+      "readVerdict": "TAKE"
     },
     {
       "player": "Logan Gilbert",
@@ -11850,10 +11850,10 @@
       "proj_raw": 4.592,
       "std": 2.2,
       "line": 5.5,
-      "pick": "PASS",
+      "pick": "UNDER",
       "edge": -0.9,
       "pCover": 0.649,
-      "conf": "watch",
+      "conf": "high",
       "odds": 110,
       "to_win_1u": null,
       "actual": 1.0,
@@ -11868,7 +11868,7 @@
       "actual_outs": 12,
       "actual_bf": 22,
       "actual_pitches": 93,
-      "would_be_pick": "UNDER"
+      "readVerdict": "TAKE"
     },
     {
       "player": "Robbie Ray",
@@ -11879,10 +11879,10 @@
       "proj_raw": 4.715,
       "std": 1.9,
       "line": 5.5,
-      "pick": "PASS",
+      "pick": "UNDER",
       "edge": -0.8,
       "pCover": 0.649,
-      "conf": "watch",
+      "conf": "high",
       "odds": 110,
       "to_win_1u": null,
       "actual": 7.0,
@@ -11897,7 +11897,7 @@
       "actual_outs": 18,
       "actual_bf": 26,
       "actual_pitches": 93,
-      "would_be_pick": "UNDER"
+      "readVerdict": "TAKE"
     },
     {
       "player": "Bryan Woo",
@@ -11908,10 +11908,10 @@
       "proj_raw": 6.263,
       "std": 2.4,
       "line": 6.5,
-      "pick": "PASS",
+      "pick": "UNDER",
       "edge": -1.0,
       "pCover": 0.649,
-      "conf": "watch",
+      "conf": "high",
       "odds": -166,
       "to_win_1u": null,
       "actual": 6.0,
@@ -11926,7 +11926,7 @@
       "actual_outs": 21,
       "actual_bf": 26,
       "actual_pitches": 85,
-      "would_be_pick": "UNDER"
+      "readVerdict": "TAKE"
     },
     {
       "player": "Nolan McLean",
@@ -11937,10 +11937,10 @@
       "proj_raw": 8.142,
       "std": 2.1,
       "line": 6.5,
-      "pick": "PASS",
+      "pick": "OVER",
       "edge": 0.8,
       "pCover": 0.649,
-      "conf": "watch",
+      "conf": "high",
       "odds": 100,
       "to_win_1u": null,
       "actual": 10.0,
@@ -11955,7 +11955,7 @@
       "actual_outs": 20,
       "actual_bf": 25,
       "actual_pitches": 99,
-      "would_be_pick": "OVER"
+      "readVerdict": "TAKE"
     },
     {
       "player": "Patrick Corbin",
@@ -11966,10 +11966,10 @@
       "proj_raw": 3.653,
       "std": 2.1,
       "line": 4.5,
-      "pick": "PASS",
+      "pick": "UNDER",
       "edge": -0.8,
       "pCover": 0.649,
-      "conf": "watch",
+      "conf": "high",
       "odds": -122,
       "to_win_1u": null,
       "actual": 3.0,
@@ -11984,7 +11984,7 @@
       "actual_outs": 15,
       "actual_bf": 18,
       "actual_pitches": 65,
-      "would_be_pick": "UNDER"
+      "readVerdict": "TAKE"
     },
     {
       "player": "George Kirby",
@@ -11995,10 +11995,10 @@
       "proj_raw": 4.751,
       "std": 1.9,
       "line": 5.5,
-      "pick": "PASS",
+      "pick": "UNDER",
       "edge": -0.7,
       "pCover": 0.649,
-      "conf": "watch",
+      "conf": "high",
       "odds": -154,
       "to_win_1u": null,
       "actual": 2.0,
@@ -12013,7 +12013,7 @@
       "actual_outs": 18,
       "actual_bf": 24,
       "actual_pitches": 81,
-      "would_be_pick": "UNDER"
+      "readVerdict": "TAKE"
     },
     {
       "player": "Tyler Glasnow",
@@ -12024,10 +12024,10 @@
       "proj_raw": 9.708,
       "std": 2.2,
       "line": 7.5,
-      "pick": "PASS",
+      "pick": "OVER",
       "edge": 0.9,
       "pCover": 0.648,
-      "conf": "watch",
+      "conf": "high",
       "odds": -108,
       "to_win_1u": null,
       "actual": 7.0,
@@ -12042,7 +12042,7 @@
       "actual_outs": 21,
       "actual_bf": 24,
       "actual_pitches": 92,
-      "would_be_pick": "OVER"
+      "readVerdict": "TAKE"
     },
     {
       "player": "Foster Griffin",
@@ -12053,10 +12053,10 @@
       "proj_raw": 5.542,
       "std": 2.6,
       "line": 4.5,
-      "pick": "PASS",
+      "pick": "OVER",
       "edge": 1.0,
       "pCover": 0.648,
-      "conf": "watch",
+      "conf": "high",
       "odds": -102,
       "to_win_1u": null,
       "actual": 6.0,
@@ -12071,7 +12071,7 @@
       "actual_outs": 18,
       "actual_bf": 22,
       "actual_pitches": 90,
-      "would_be_pick": "OVER"
+      "readVerdict": "TAKE"
     },
     {
       "player": "Eric Lauer",
@@ -12082,10 +12082,10 @@
       "proj_raw": 2.349,
       "std": 2.9,
       "line": 3.5,
-      "pick": "PASS",
+      "pick": "UNDER",
       "edge": -1.2,
       "pCover": 0.648,
-      "conf": "watch",
+      "conf": "high",
       "odds": -148,
       "to_win_1u": null,
       "actual": 1.0,
@@ -12100,7 +12100,7 @@
       "actual_outs": 14,
       "actual_bf": 20,
       "actual_pitches": 70,
-      "would_be_pick": "UNDER"
+      "readVerdict": "TAKE"
     },
     {
       "player": "Cole Ragans",
@@ -12111,10 +12111,10 @@
       "proj_raw": 5.604,
       "std": 2.2,
       "line": 6.5,
-      "pick": "PASS",
+      "pick": "UNDER",
       "edge": -0.9,
       "pCover": 0.647,
-      "conf": "watch",
+      "conf": "high",
       "odds": 102,
       "to_win_1u": null,
       "actual": 1.0,
@@ -12129,7 +12129,7 @@
       "actual_outs": 18,
       "actual_bf": 21,
       "actual_pitches": 93,
-      "would_be_pick": "UNDER"
+      "readVerdict": "TAKE"
     },
     {
       "player": "Brandon Young",
@@ -12140,10 +12140,10 @@
       "proj_raw": 4.334,
       "std": 2.1,
       "line": 3.5,
-      "pick": "PASS",
+      "pick": "OVER",
       "edge": 0.8,
       "pCover": 0.646,
-      "conf": "watch",
+      "conf": "high",
       "odds": -125,
       "to_win_1u": null,
       "actual": 5.0,
@@ -12158,7 +12158,7 @@
       "actual_outs": 18,
       "actual_bf": 25,
       "actual_pitches": 93,
-      "would_be_pick": "OVER"
+      "readVerdict": "TAKE"
     },
     {
       "player": "Spencer Strider",
@@ -12169,10 +12169,10 @@
       "proj_raw": 5.671,
       "std": 2.1,
       "line": 6.5,
-      "pick": "PASS",
+      "pick": "UNDER",
       "edge": -0.8,
       "pCover": 0.646,
-      "conf": "watch",
+      "conf": "high",
       "odds": -134,
       "to_win_1u": null,
       "actual": 4.0,
@@ -12187,7 +12187,7 @@
       "actual_outs": 16,
       "actual_bf": 18,
       "actual_pitches": 84,
-      "would_be_pick": "UNDER"
+      "readVerdict": "TAKE"
     },
     {
       "player": "Jeffrey Springs",
@@ -12198,10 +12198,10 @@
       "proj_raw": 5.239,
       "std": 1.9,
       "line": 4.5,
-      "pick": "PASS",
+      "pick": "OVER",
       "edge": 0.7,
       "pCover": 0.646,
-      "conf": "watch",
+      "conf": "high",
       "odds": -134,
       "to_win_1u": null,
       "actual": 3.0,
@@ -12216,7 +12216,7 @@
       "actual_outs": 18,
       "actual_bf": 24,
       "actual_pitches": 92,
-      "would_be_pick": "OVER"
+      "readVerdict": "TAKE"
     },
     {
       "player": "Andre Pallante",
@@ -12227,10 +12227,10 @@
       "proj_raw": 4.434,
       "std": 2.4,
       "line": 3.5,
-      "pick": "PASS",
+      "pick": "OVER",
       "edge": 0.9,
       "pCover": 0.646,
-      "conf": "watch",
+      "conf": "high",
       "odds": -118,
       "to_win_1u": null,
       "actual": 7.0,
@@ -12245,7 +12245,7 @@
       "actual_outs": 20,
       "actual_bf": 27,
       "actual_pitches": 99,
-      "would_be_pick": "OVER"
+      "readVerdict": "TAKE"
     },
     {
       "player": "Payton Tolle",
@@ -12256,10 +12256,10 @@
       "proj_raw": 7.236,
       "std": 2.8,
       "line": 5.5,
-      "pick": "PASS",
+      "pick": "OVER",
       "edge": 1.1,
       "pCover": 0.646,
-      "conf": "watch",
+      "conf": "high",
       "odds": -115,
       "to_win_1u": null,
       "actual": 9.0,
@@ -12274,7 +12274,7 @@
       "actual_outs": 18,
       "actual_bf": 25,
       "actual_pitches": 85,
-      "would_be_pick": "OVER"
+      "readVerdict": "TAKE"
     },
     {
       "player": "Kevin Gausman",
@@ -12285,10 +12285,10 @@
       "proj_raw": 6.076,
       "std": 2.3,
       "line": 6.5,
-      "pick": "PASS",
+      "pick": "UNDER",
       "edge": -0.9,
       "pCover": 0.646,
-      "conf": "watch",
+      "conf": "high",
       "odds": -125,
       "to_win_1u": null,
       "actual": 5.0,
@@ -12303,7 +12303,7 @@
       "actual_outs": 15,
       "actual_bf": 22,
       "actual_pitches": 95,
-      "would_be_pick": "UNDER"
+      "readVerdict": "TAKE"
     },
     {
       "player": "Brandon Williamson",
@@ -12314,10 +12314,10 @@
       "proj_raw": 3.761,
       "std": 1.9,
       "line": 4.5,
-      "pick": "PASS",
+      "pick": "UNDER",
       "edge": -0.7,
       "pCover": 0.645,
-      "conf": "watch",
+      "conf": "high",
       "odds": -154,
       "to_win_1u": null,
       "actual": 4.0,
@@ -12332,7 +12332,7 @@
       "actual_outs": 9,
       "actual_bf": 16,
       "actual_pitches": 58,
-      "would_be_pick": "UNDER"
+      "readVerdict": "TAKE"
     },
     {
       "player": "Foster Griffin",
@@ -12343,10 +12343,10 @@
       "proj_raw": 5.573,
       "std": 2.7,
       "line": 4.5,
-      "pick": "PASS",
+      "pick": "OVER",
       "edge": 1.1,
       "pCover": 0.645,
-      "conf": "watch",
+      "conf": "high",
       "odds": -168,
       "to_win_1u": null,
       "actual": 3.0,
@@ -12361,7 +12361,7 @@
       "actual_outs": 18,
       "actual_bf": 26,
       "actual_pitches": 97,
-      "would_be_pick": "OVER"
+      "readVerdict": "TAKE"
     },
     {
       "player": "Roki Sasaki",
@@ -12372,10 +12372,10 @@
       "proj_raw": 5.251,
       "std": 1.9,
       "line": 4.5,
-      "pick": "PASS",
+      "pick": "OVER",
       "edge": 0.8,
       "pCover": 0.645,
-      "conf": "watch",
+      "conf": "high",
       "odds": 116,
       "to_win_1u": null,
       "actual": 5.0,
@@ -12390,7 +12390,7 @@
       "actual_outs": 15,
       "actual_bf": 23,
       "actual_pitches": 91,
-      "would_be_pick": "OVER"
+      "readVerdict": "TAKE"
     },
     {
       "player": "Jack Kochanowicz",
@@ -12401,10 +12401,10 @@
       "proj_raw": 4.273,
       "std": 2.0,
       "line": 3.5,
-      "pick": "PASS",
+      "pick": "OVER",
       "edge": 0.8,
       "pCover": 0.644,
-      "conf": "watch",
+      "conf": "high",
       "odds": -121,
       "to_win_1u": null,
       "actual": 2.0,
@@ -12419,7 +12419,7 @@
       "actual_outs": 21,
       "actual_bf": 27,
       "actual_pitches": 95,
-      "would_be_pick": "OVER"
+      "readVerdict": "TAKE"
     },
     {
       "player": "Dylan Cease",
@@ -12430,10 +12430,10 @@
       "proj_raw": 8.496,
       "std": 2.8,
       "line": 6.5,
-      "pick": "PASS",
+      "pick": "OVER",
       "edge": 1.1,
       "pCover": 0.644,
-      "conf": "watch",
+      "conf": "high",
       "odds": 106,
       "to_win_1u": null,
       "actual": 9.0,
@@ -12448,7 +12448,7 @@
       "actual_outs": 21,
       "actual_bf": 26,
       "actual_pitches": 99,
-      "would_be_pick": "OVER"
+      "readVerdict": "TAKE"
     },
     {
       "player": "Nick Lodolo",
@@ -12459,10 +12459,10 @@
       "proj_raw": 4.646,
       "std": 2.2,
       "line": 5.5,
-      "pick": "PASS",
+      "pick": "UNDER",
       "edge": -0.9,
       "pCover": 0.644,
-      "conf": "watch",
+      "conf": "high",
       "odds": -110,
       "to_win_1u": null,
       "actual": 4.0,
@@ -12477,7 +12477,7 @@
       "actual_outs": 20,
       "actual_bf": 28,
       "actual_pitches": 100,
-      "would_be_pick": "UNDER"
+      "readVerdict": "TAKE"
     },
     {
       "player": "Cade Cavalli",
@@ -12488,10 +12488,10 @@
       "proj_raw": 6.198,
       "std": 2.9,
       "line": 4.5,
-      "pick": "PASS",
+      "pick": "OVER",
       "edge": 1.1,
       "pCover": 0.644,
-      "conf": "watch",
+      "conf": "high",
       "odds": -130,
       "to_win_1u": null,
       "actual": 2.0,
@@ -12506,7 +12506,7 @@
       "actual_outs": 15,
       "actual_bf": 22,
       "actual_pitches": 88,
-      "would_be_pick": "OVER"
+      "readVerdict": "TAKE"
     },
     {
       "player": "Dylan Cease",
@@ -12517,10 +12517,10 @@
       "proj_raw": 10.0,
       "std": 3.1,
       "line": 7.5,
-      "pick": "PASS",
+      "pick": "OVER",
       "edge": 1.2,
       "pCover": 0.643,
-      "conf": "watch",
+      "conf": "high",
       "odds": -138,
       "to_win_1u": null,
       "actual": 10.0,
@@ -12535,7 +12535,7 @@
       "actual_outs": 21,
       "actual_bf": 25,
       "actual_pitches": 97,
-      "would_be_pick": "OVER"
+      "readVerdict": "TAKE"
     },
     {
       "player": "Chad Patrick",
@@ -12546,10 +12546,10 @@
       "proj_raw": 3.648,
       "std": 2.2,
       "line": 4.5,
-      "pick": "PASS",
+      "pick": "UNDER",
       "edge": -0.9,
       "pCover": 0.642,
-      "conf": "watch",
+      "conf": "high",
       "odds": -156,
       "to_win_1u": null,
       "actual": 2.0,
@@ -12564,7 +12564,7 @@
       "actual_outs": 20,
       "actual_bf": 24,
       "actual_pitches": 81,
-      "would_be_pick": "UNDER"
+      "readVerdict": "TAKE"
     },
     {
       "player": "Brandon Williamson",
@@ -12575,10 +12575,10 @@
       "proj_raw": 2.775,
       "std": 1.9,
       "line": 3.5,
-      "pick": "PASS",
+      "pick": "UNDER",
       "edge": -0.7,
       "pCover": 0.642,
-      "conf": "watch",
+      "conf": "high",
       "odds": -136,
       "to_win_1u": null,
       "actual": 3.0,
@@ -12593,7 +12593,7 @@
       "actual_outs": 13,
       "actual_bf": 22,
       "actual_pitches": 87,
-      "would_be_pick": "UNDER"
+      "readVerdict": "TAKE"
     },
     {
       "player": "Logan Gilbert",
@@ -12604,10 +12604,10 @@
       "proj_raw": 5.776,
       "std": 1.9,
       "line": 6.5,
-      "pick": "PASS",
+      "pick": "UNDER",
       "edge": -0.7,
       "pCover": 0.641,
-      "conf": "watch",
+      "conf": "high",
       "odds": -139,
       "to_win_1u": null,
       "actual": 5.0,
@@ -12622,7 +12622,7 @@
       "actual_outs": 18,
       "actual_bf": 23,
       "actual_pitches": 96,
-      "would_be_pick": "UNDER"
+      "readVerdict": "TAKE"
     },
     {
       "player": "Jes\u00fas Luzardo",
@@ -12633,10 +12633,10 @@
       "proj_raw": 6.423,
       "std": 2.2,
       "line": 6.5,
-      "pick": "PASS",
+      "pick": "UNDER",
       "edge": -0.8,
       "pCover": 0.641,
-      "conf": "watch",
+      "conf": "high",
       "odds": 100,
       "to_win_1u": null,
       "actual": 4.0,
@@ -12651,7 +12651,7 @@
       "actual_outs": 16,
       "actual_bf": 27,
       "actual_pitches": 98,
-      "would_be_pick": "UNDER"
+      "readVerdict": "TAKE"
     },
     {
       "player": "Mart\u00edn P\u00e9rez",
@@ -12662,10 +12662,10 @@
       "proj_raw": 4.332,
       "std": 2.2,
       "line": 3.5,
-      "pick": "PASS",
+      "pick": "OVER",
       "edge": 0.8,
       "pCover": 0.641,
-      "conf": "watch",
+      "conf": "high",
       "odds": 114,
       "to_win_1u": null,
       "actual": 4.0,
@@ -12680,7 +12680,7 @@
       "actual_outs": 18,
       "actual_bf": 26,
       "actual_pitches": 94,
-      "would_be_pick": "OVER"
+      "readVerdict": "TAKE"
     },
     {
       "player": "Foster Griffin",
@@ -12691,10 +12691,10 @@
       "proj_raw": 5.395,
       "std": 2.3,
       "line": 4.5,
-      "pick": "PASS",
+      "pick": "OVER",
       "edge": 0.9,
       "pCover": 0.641,
-      "conf": "watch",
+      "conf": "high",
       "odds": -152,
       "to_win_1u": null,
       "actual": 8.0,
@@ -12709,7 +12709,7 @@
       "actual_outs": 21,
       "actual_bf": 26,
       "actual_pitches": 95,
-      "would_be_pick": "OVER"
+      "readVerdict": "TAKE"
     },
     {
       "player": "Bryce Elder",
@@ -12720,10 +12720,10 @@
       "proj_raw": 5.446,
       "std": 2.5,
       "line": 4.5,
-      "pick": "PASS",
+      "pick": "OVER",
       "edge": 0.9,
       "pCover": 0.641,
-      "conf": "watch",
+      "conf": "high",
       "odds": -136,
       "to_win_1u": null,
       "actual": 5.0,
@@ -12738,7 +12738,7 @@
       "actual_outs": 18,
       "actual_bf": 26,
       "actual_pitches": 90,
-      "would_be_pick": "OVER"
+      "readVerdict": "TAKE"
     },
     {
       "player": "Grant Holmes",
@@ -12749,10 +12749,10 @@
       "proj_raw": 5.222,
       "std": 1.9,
       "line": 4.5,
-      "pick": "PASS",
+      "pick": "OVER",
       "edge": 0.7,
       "pCover": 0.641,
-      "conf": "watch",
+      "conf": "high",
       "odds": -144,
       "to_win_1u": null,
       "actual": 4.0,
@@ -12767,7 +12767,7 @@
       "actual_outs": 15,
       "actual_bf": 25,
       "actual_pitches": 87,
-      "would_be_pick": "OVER"
+      "readVerdict": "PASS"
     },
     {
       "player": "Tomoyuki Sugano",
@@ -12778,10 +12778,10 @@
       "proj_raw": 2.77,
       "std": 1.9,
       "line": 3.5,
-      "pick": "PASS",
+      "pick": "UNDER",
       "edge": -0.7,
       "pCover": 0.641,
-      "conf": "watch",
+      "conf": "high",
       "odds": -131,
       "to_win_1u": null,
       "actual": 1.0,
@@ -12796,7 +12796,7 @@
       "actual_outs": 16,
       "actual_bf": 20,
       "actual_pitches": 61,
-      "would_be_pick": "UNDER"
+      "readVerdict": "TAKE"
     },
     {
       "player": "Nolan McLean",
@@ -12807,10 +12807,10 @@
       "proj_raw": 6.995,
       "std": 2.0,
       "line": 5.5,
-      "pick": "PASS",
+      "pick": "OVER",
       "edge": 0.8,
       "pCover": 0.641,
-      "conf": "watch",
+      "conf": "high",
       "odds": -122,
       "to_win_1u": null,
       "actual": 6.0,
@@ -12825,7 +12825,7 @@
       "actual_outs": 18,
       "actual_bf": 22,
       "actual_pitches": 100,
-      "would_be_pick": "OVER"
+      "readVerdict": "TAKE"
     },
     {
       "player": "Max Fried",
@@ -12836,10 +12836,10 @@
       "proj_raw": 4.777,
       "std": 1.9,
       "line": 5.5,
-      "pick": "PASS",
+      "pick": "UNDER",
       "edge": -0.7,
       "pCover": 0.64,
-      "conf": "watch",
+      "conf": "high",
       "odds": -105,
       "to_win_1u": null,
       "actual": 4.0,
@@ -12854,7 +12854,7 @@
       "actual_outs": 20,
       "actual_bf": 27,
       "actual_pitches": 103,
-      "would_be_pick": "UNDER"
+      "readVerdict": "TAKE"
     },
     {
       "player": "Drew Rasmussen",
@@ -12865,10 +12865,10 @@
       "proj_raw": 5.323,
       "std": 2.2,
       "line": 4.5,
-      "pick": "PASS",
+      "pick": "OVER",
       "edge": 0.8,
       "pCover": 0.64,
-      "conf": "watch",
+      "conf": "high",
       "odds": -165,
       "to_win_1u": null,
       "actual": 7.0,
@@ -12883,7 +12883,7 @@
       "actual_outs": 18,
       "actual_bf": 19,
       "actual_pitches": 76,
-      "would_be_pick": "OVER"
+      "readVerdict": "TAKE"
     },
     {
       "player": "Brandon Woodruff",
@@ -12894,10 +12894,10 @@
       "proj_raw": 5.795,
       "std": 1.9,
       "line": 6.5,
-      "pick": "PASS",
+      "pick": "UNDER",
       "edge": -0.7,
       "pCover": 0.64,
-      "conf": "watch",
+      "conf": "high",
       "odds": -144,
       "to_win_1u": null,
       "actual": 3.0,
@@ -12912,7 +12912,7 @@
       "actual_outs": 15,
       "actual_bf": 21,
       "actual_pitches": 71,
-      "would_be_pick": "UNDER"
+      "readVerdict": "TAKE"
     },
     {
       "player": "Mike Burrows",
@@ -12923,10 +12923,10 @@
       "proj_raw": 5.368,
       "std": 2.3,
       "line": 4.5,
-      "pick": "PASS",
+      "pick": "OVER",
       "edge": 0.9,
       "pCover": 0.64,
-      "conf": "watch",
+      "conf": "high",
       "odds": -151,
       "to_win_1u": null,
       "actual": 3.0,
@@ -12941,7 +12941,7 @@
       "actual_outs": 18,
       "actual_bf": 26,
       "actual_pitches": 94,
-      "would_be_pick": "OVER"
+      "readVerdict": "TAKE"
     },
     {
       "player": "Anthony Kay",
@@ -12952,10 +12952,10 @@
       "proj_raw": 4.339,
       "std": 2.2,
       "line": 3.5,
-      "pick": "PASS",
+      "pick": "OVER",
       "edge": 0.8,
       "pCover": 0.64,
-      "conf": "watch",
+      "conf": "high",
       "odds": -146,
       "to_win_1u": null,
       "actual": 5.0,
@@ -12970,7 +12970,7 @@
       "actual_outs": 15,
       "actual_bf": 20,
       "actual_pitches": 88,
-      "would_be_pick": "OVER"
+      "readVerdict": "TAKE"
     },
     {
       "player": "Connelly Early",
@@ -12981,10 +12981,10 @@
       "proj_raw": 5.258,
       "std": 2.0,
       "line": 4.5,
-      "pick": "PASS",
+      "pick": "OVER",
       "edge": 0.8,
       "pCover": 0.64,
-      "conf": "watch",
+      "conf": "high",
       "odds": -114,
       "to_win_1u": null,
       "actual": 6.0,
@@ -12999,7 +12999,7 @@
       "actual_outs": 15,
       "actual_bf": 22,
       "actual_pitches": 86,
-      "would_be_pick": "OVER"
+      "readVerdict": "TAKE"
     },
     {
       "player": "Cade Cavalli",
@@ -13010,10 +13010,10 @@
       "proj_raw": 5.97,
       "std": 3.9,
       "line": 4.5,
-      "pick": "PASS",
+      "pick": "OVER",
       "edge": 1.5,
       "pCover": 0.64,
-      "conf": "watch",
+      "conf": "high",
       "odds": -140,
       "to_win_1u": null,
       "actual": 8.0,
@@ -13028,7 +13028,7 @@
       "actual_outs": 19,
       "actual_bf": 26,
       "actual_pitches": 94,
-      "would_be_pick": "OVER"
+      "readVerdict": "PASS"
     },
     {
       "player": "Cam Schlittler",
@@ -13039,10 +13039,10 @@
       "proj_raw": 6.164,
       "std": 2.4,
       "line": 6.5,
-      "pick": "PASS",
+      "pick": "UNDER",
       "edge": -0.9,
       "pCover": 0.64,
-      "conf": "watch",
+      "conf": "high",
       "odds": -162,
       "to_win_1u": null,
       "actual": 5.0,
@@ -13057,7 +13057,7 @@
       "actual_outs": 17,
       "actual_bf": 22,
       "actual_pitches": 92,
-      "would_be_pick": "UNDER"
+      "readVerdict": "TAKE"
     },
     {
       "player": "Michael Soroka",
@@ -13068,10 +13068,10 @@
       "proj_raw": 5.455,
       "std": 2.5,
       "line": 4.5,
-      "pick": "PASS",
+      "pick": "OVER",
       "edge": 1.0,
       "pCover": 0.64,
-      "conf": "watch",
+      "conf": "high",
       "odds": -147,
       "to_win_1u": null,
       "actual": 6.0,
@@ -13086,7 +13086,7 @@
       "actual_outs": 21,
       "actual_bf": 26,
       "actual_pitches": 100,
-      "would_be_pick": "OVER"
+      "readVerdict": "TAKE"
     },
     {
       "player": "Walker Buehler",
@@ -40734,8 +40734,8 @@
       "proj": 0.9,
       "std": 2.1,
       "line": 3.5,
-      "over_price": -117,
-      "under_price": -109,
+      "over_price": -121,
+      "under_price": -105,
       "pick": "UNDER",
       "edge": -2.6,
       "pCover": 0.861,
@@ -40746,12 +40746,12 @@
       "proj_pc": 94.0,
       "opp_team_k_pct": 22.6,
       "lineup_k_pct": 23.7,
-      "odds": -109,
-      "to_win_1u": 1.09,
+      "odds": -105,
+      "to_win_1u": 1.05,
       "proj_raw": 0.945,
       "date": "2026-06-08",
       "lockState": "lineup_confirmed",
-      "lockedAt": "2026-06-08T20:06:40.662012Z",
+      "lockedAt": "2026-06-08T20:41:31.106516Z",
       "lineupConfirmed": true,
       "readVerdict": "TAKE"
     },
@@ -40871,9 +40871,39 @@
       "proj_raw": 5.44,
       "date": "2026-06-08",
       "lockState": "lineup_confirmed",
-      "lockedAt": "2026-06-08T20:06:40.662012Z",
+      "lockedAt": "2026-06-08T20:41:31.106516Z",
       "lineupConfirmed": true,
       "readVerdict": "TAKE"
+    },
+    {
+      "player": "Emerson Hancock",
+      "team": "SEA",
+      "opp": "BAL",
+      "market": "strikeouts",
+      "game_id": 824829,
+      "proj": 6.0,
+      "std": 3.9,
+      "line": 4.5,
+      "over_price": -158,
+      "under_price": 125,
+      "pick": "OVER",
+      "edge": 1.5,
+      "pCover": 0.644,
+      "conf": "high",
+      "proj_ip": 6.4,
+      "proj_bf": 22.4,
+      "proj_bf_capped": 22.4,
+      "proj_pc": 89.0,
+      "opp_team_k_pct": 23.0,
+      "lineup_k_pct": 28.1,
+      "odds": -158,
+      "to_win_1u": 1.58,
+      "proj_raw": 6.687,
+      "date": "2026-06-08",
+      "lockState": "lineup_confirmed",
+      "lockedAt": "2026-06-08T20:41:31.106516Z",
+      "lineupConfirmed": true,
+      "readVerdict": "PASS"
     },
     {
       "player": "Andrew Abbott",
@@ -40932,7 +40962,7 @@
       "would_be_pick": "UNDER",
       "date": "2026-06-08",
       "lockState": "lineup_confirmed",
-      "lockedAt": "2026-06-08T20:06:40.662012Z",
+      "lockedAt": "2026-06-08T20:41:31.106516Z",
       "lineupConfirmed": true
     },
     {
@@ -40944,8 +40974,8 @@
       "proj": 7.4,
       "std": 2.6,
       "line": 6.5,
-      "over_price": -140,
-      "under_price": 109,
+      "over_price": -144,
+      "under_price": 113,
       "pick": "PASS",
       "edge": 0.9,
       "pCover": 0.626,
@@ -40956,13 +40986,13 @@
       "proj_pc": 96.0,
       "opp_team_k_pct": 22.2,
       "lineup_k_pct": 23.1,
-      "odds": -140,
-      "to_win_1u": 1.4,
+      "odds": -144,
+      "to_win_1u": 1.44,
       "proj_raw": 8.17,
       "would_be_pick": "OVER",
       "date": "2026-06-08",
       "lockState": "lineup_confirmed",
-      "lockedAt": "2026-06-08T20:06:40.662012Z",
+      "lockedAt": "2026-06-08T20:41:31.106516Z",
       "lineupConfirmed": true
     },
     {
@@ -41022,37 +41052,7 @@
       "would_be_pick": "OVER",
       "date": "2026-06-08",
       "lockState": "lineup_confirmed",
-      "lockedAt": "2026-06-08T20:06:40.662012Z",
-      "lineupConfirmed": true
-    },
-    {
-      "player": "Emerson Hancock",
-      "team": "SEA",
-      "opp": "BAL",
-      "market": "strikeouts",
-      "game_id": 824829,
-      "proj": 6.0,
-      "std": 3.9,
-      "line": 4.5,
-      "over_price": -160,
-      "under_price": 125,
-      "pick": "PASS",
-      "edge": 1.5,
-      "pCover": 0.644,
-      "conf": "watch",
-      "proj_ip": 6.4,
-      "proj_bf": 22.4,
-      "proj_bf_capped": 22.4,
-      "proj_pc": 89.0,
-      "opp_team_k_pct": 23.0,
-      "lineup_k_pct": 28.1,
-      "odds": -160,
-      "to_win_1u": 1.6,
-      "proj_raw": 6.687,
-      "would_be_pick": "OVER",
-      "date": "2026-06-08",
-      "lockState": "lineup_confirmed",
-      "lockedAt": "2026-06-08T20:06:40.662012Z",
+      "lockedAt": "2026-06-08T20:41:31.106516Z",
       "lineupConfirmed": true
     },
     {
@@ -41142,7 +41142,7 @@
       "would_be_pick": "UNDER",
       "date": "2026-06-08",
       "lockState": "lineup_confirmed",
-      "lockedAt": "2026-06-08T20:06:40.662012Z",
+      "lockedAt": "2026-06-08T20:41:31.106516Z",
       "lineupConfirmed": true
     },
     {
@@ -41176,7 +41176,7 @@
       "lineupConfirmed": false
     }
   ],
-  "summary": "5 picks (+10 watch) from 15 projections",
+  "summary": "6 picks (+9 watch) from 15 projections",
   "date": "2026-06-08",
   "todayProjections": [
     {
@@ -41188,8 +41188,8 @@
       "proj": 0.9,
       "std": 2.1,
       "line": 3.5,
-      "over_price": -117,
-      "under_price": -109,
+      "over_price": -121,
+      "under_price": -105,
       "pick": "UNDER",
       "edge": -2.6,
       "pCover": 0.861,
@@ -41200,12 +41200,12 @@
       "proj_pc": 94.0,
       "opp_team_k_pct": 22.6,
       "lineup_k_pct": 23.7,
-      "odds": -109,
-      "to_win_1u": 1.09,
+      "odds": -105,
+      "to_win_1u": 1.05,
       "proj_raw": 0.945,
       "date": "2026-06-08",
       "lockState": "lineup_confirmed",
-      "lockedAt": "2026-06-08T20:06:40.662012Z",
+      "lockedAt": "2026-06-08T20:41:31.106516Z",
       "lineupConfirmed": true,
       "readVerdict": "TAKE"
     },
@@ -41235,7 +41235,7 @@
       "proj_raw": 5.44,
       "date": "2026-06-08",
       "lockState": "lineup_confirmed",
-      "lockedAt": "2026-06-08T20:06:40.662012Z",
+      "lockedAt": "2026-06-08T20:41:31.106516Z",
       "lineupConfirmed": true,
       "readVerdict": "TAKE"
     },
@@ -41277,8 +41277,8 @@
       "proj": 7.4,
       "std": 2.6,
       "line": 6.5,
-      "over_price": -140,
-      "under_price": 109,
+      "over_price": -144,
+      "under_price": 113,
       "pick": "PASS",
       "edge": 0.9,
       "pCover": 0.626,
@@ -41289,12 +41289,12 @@
       "proj_pc": 96.0,
       "opp_team_k_pct": 22.2,
       "lineup_k_pct": 23.1,
-      "odds": -140,
-      "to_win_1u": 1.4,
+      "odds": -144,
+      "to_win_1u": 1.44,
       "proj_raw": 8.17,
       "date": "2026-06-08",
       "lockState": "lineup_confirmed",
-      "lockedAt": "2026-06-08T20:06:40.662012Z",
+      "lockedAt": "2026-06-08T20:41:31.106516Z",
       "lineupConfirmed": true
     },
     {
@@ -41411,7 +41411,7 @@
       "proj_raw": 5.22,
       "date": "2026-06-08",
       "lockState": "lineup_confirmed",
-      "lockedAt": "2026-06-08T20:06:40.662012Z",
+      "lockedAt": "2026-06-08T20:41:31.106516Z",
       "lineupConfirmed": true
     },
     {
@@ -41469,7 +41469,7 @@
       "proj_raw": 7.203,
       "date": "2026-06-08",
       "lockState": "lineup_confirmed",
-      "lockedAt": "2026-06-08T20:06:40.662012Z",
+      "lockedAt": "2026-06-08T20:41:31.106516Z",
       "lineupConfirmed": true
     },
     {
@@ -41510,25 +41510,26 @@
       "proj": 6.0,
       "std": 3.9,
       "line": 4.5,
-      "over_price": -160,
+      "over_price": -158,
       "under_price": 125,
-      "pick": "PASS",
+      "pick": "OVER",
       "edge": 1.5,
       "pCover": 0.644,
-      "conf": "low",
+      "conf": "high",
       "proj_ip": 6.4,
       "proj_bf": 22.4,
       "proj_bf_capped": 22.4,
       "proj_pc": 89.0,
       "opp_team_k_pct": 23.0,
       "lineup_k_pct": 28.1,
-      "odds": -160,
-      "to_win_1u": 1.6,
+      "odds": -158,
+      "to_win_1u": 1.58,
       "proj_raw": 6.687,
       "date": "2026-06-08",
       "lockState": "lineup_confirmed",
-      "lockedAt": "2026-06-08T20:06:40.662012Z",
-      "lineupConfirmed": true
+      "lockedAt": "2026-06-08T20:41:31.106516Z",
+      "lineupConfirmed": true,
+      "readVerdict": "PASS"
     },
     {
       "player": "Logan Webb",
@@ -41586,7 +41587,7 @@
       "proj_raw": 3.712,
       "date": "2026-06-08",
       "lockState": "lineup_confirmed",
-      "lockedAt": "2026-06-08T20:06:40.662012Z",
+      "lockedAt": "2026-06-08T20:41:31.106516Z",
       "lineupConfirmed": true
     },
     {

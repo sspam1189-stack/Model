@@ -76,7 +76,15 @@ MARKET_THRESHOLDS = {
     # clears the >0.20 u/pick bar in both windows (+0.224 season / +0.367
     # recent). Below 0.65 the marginal value drops under the bar (0.60-0.65 =
     # +0.10 / +0.16 u/pick), so 0.65 is the floor. Watch tier is now 0.60-0.65.
-    "strikeouts":   {"high": 0.65},
+    #
+    # 2026-06-08 (post w_b=0.75 + calibration ship): lowered 0.65 -> 0.64.
+    # After the config change the pCover distribution shifted; a threshold
+    # sweep showed the 0.63-0.64 band is well-calibrated (65% WR = pCover) and
+    # the 0.64-0.65 band positive (clears the bar). Threshold is volume-only —
+    # confirmed it does NOT move pick MAE (1.5592 @0.64 vs 1.5618 @0.65) or
+    # accuracy; only which picks qualify. 0.64 adds calibrated volume at neutral
+    # MAE/ROI. Floor stays 0.63 (0.62-0.63 band degrades MAE to 1.684).
+    "strikeouts":   {"high": 0.64},
 }
 
 # ---------------------------------------------------------------------------
