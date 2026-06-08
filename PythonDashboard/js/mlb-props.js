@@ -1,5 +1,11 @@
 // MLB Pitcher Props rendering
 
+    // Pick threshold — mirrors MARKET_THRESHOLDS["strikeouts"]["high"] in
+    // MLBstrikeouts/scripts/defaults.py. pCover >= this => bet (green).
+    // 0.60 <= pCover < this => watch tier (yellow). Keep in sync with defaults.py.
+    const MLB_PICK_THRESHOLD = 0.64;   // 2026-06-08: lowered 0.65 -> 0.64
+    const MLB_WATCH_FLOOR    = 0.60;
+
     // Tables on this tab have many columns (pitcher workload + projections +
     // results). Rather than hide columns or scroll horizontally, shrink the
     // font until the table fits its container width. Tracked tables are
@@ -259,7 +265,7 @@
           if (p.pick !== 'PASS') return false;
           if (!p.would_be_pick) return false;
           const pc = p.pCover || 0;
-          return pc >= 0.60 && pc < 0.65;  // watch tier; pick threshold -> 0.65 (2026-05-29)
+          return pc >= MLB_WATCH_FLOOR && pc < MLB_PICK_THRESHOLD;  // watch tier; pick threshold -> 0.64 (2026-06-08)
         }
         const leanAll = (data.props || []).filter(isLean);
         const leanGraded = leanAll.filter(p => p.result === 'WIN' || p.result === 'LOSS');
@@ -1856,7 +1862,7 @@
           const _phBucket = (p) => {
             if (p.pick === 'OVER' || p.pick === 'UNDER') return 'PICK';
             const pc = p.pCover || 0;
-            if (pc >= 0.60 && pc < 0.65) return 'WATCH';
+            if (pc >= MLB_WATCH_FLOOR && pc < MLB_PICK_THRESHOLD) return 'WATCH';
             return 'PASS';
           };
           const _phOdds = (p) => {
@@ -3960,7 +3966,7 @@
               if (i===6) td.style.color = '#bbb'; // PC
               if (i===7 && p.line!=null) td.style.color = p.proj > p.line ? 'var(--green)' : p.proj < p.line ? 'var(--red)' : '';
               if (i===9 && edge!=null) td.style.color = edge > 0 ? 'var(--green)' : edge < 0 ? 'var(--red)' : '#999';
-              if (i===10 && p.pCover!=null) td.style.color = p.pCover >= 0.65 ? 'var(--green)' : p.pCover >= 0.60 ? 'var(--yellow)' : p.pCover <= 0.45 ? 'var(--red)' : '#ccc';
+              if (i===10 && p.pCover!=null) td.style.color = p.pCover >= MLB_PICK_THRESHOLD ? 'var(--green)' : p.pCover >= MLB_WATCH_FLOOR ? 'var(--yellow)' : p.pCover <= 0.45 ? 'var(--red)' : '#ccc';
               if (i===11 && isPick) { td.style.fontWeight='700'; td.style.color = p.pick==='OVER'?'var(--green)':'var(--red)'; }
               if (i===12) td.style.color = '#999';
               if (i===13) {
@@ -5329,7 +5335,7 @@
               if (i===2) td.style.color = '#aaa';
               if (i===3 && p.line!=null) td.style.color = p.proj > p.line ? 'var(--green)' : p.proj < p.line ? 'var(--red)' : '';
               if (i===5 && edge!=null) td.style.color = edge > 0 ? 'var(--green)' : edge < 0 ? 'var(--red)' : '#999';
-              if (i===6 && p.pCover!=null) td.style.color = p.pCover >= 0.65 ? 'var(--green)' : p.pCover >= 0.60 ? 'var(--yellow)' : p.pCover <= 0.45 ? 'var(--red)' : '#ccc';
+              if (i===6 && p.pCover!=null) td.style.color = p.pCover >= MLB_PICK_THRESHOLD ? 'var(--green)' : p.pCover >= MLB_WATCH_FLOOR ? 'var(--yellow)' : p.pCover <= 0.45 ? 'var(--red)' : '#ccc';
               if (i===7 && isPick) { td.style.fontWeight='700'; td.style.color = p.pick==='OVER'?'var(--green)':'var(--red)'; }
             });
           }
