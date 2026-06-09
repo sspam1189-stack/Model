@@ -692,20 +692,20 @@ def load_savant_rates_as_of(through_date, season=None):
         return {}
 
 
-def compute_whiff_xba_regression(savant_data, min_pitchers=50, x1_key="whiff_pct"):
+def compute_csw_xba_regression(savant_data, min_pitchers=50, x1_key="whiff_pct"):
     """
     Fit bivariate OLS of K% on (x1_key, xba) from the current savant
     snapshot. Returns slopes + league means used by props_engine to
     regress pitcher_k_rate.
 
-    x1_key selects the first regressor: "whiff_pct" (default) or "csw"
-    (Called-Strikes+Whiffs%, merged in from load_csw_as_of). The return
-    keys stay whiff_slope/whiff_mean regardless of x1_key — they denote
-    "the metric-1 slope/mean" and feed CSW_K_SLOPE/CSW_LEAGUE_AVG in
-    props_engine, which multiplies them by whichever metric K_QUALITY_METRIC
-    selects. Keeping the keys generic avoids a parallel wiring path.
+    x1_key selects the first regressor: "csw" (Called-Strikes+Whiffs%,
+    merged in from load_csw_as_of — the shipped K-quality metric) or
+    "whiff_pct" (the deprecated fallback). The return keys are
+    csw_slope/csw_mean regardless of x1_key — they denote "the metric-1
+    slope/mean" and feed CSW_K_SLOPE/CSW_LEAGUE_AVG in props_engine, which
+    multiplies them by whichever metric K_QUALITY_METRIC selects.
 
-    Returns {'whiff_slope', 'xba_slope', 'whiff_mean', 'xba_mean', 'n', 'r2'}
+    Returns {'csw_slope', 'xba_slope', 'csw_mean', 'xba_mean', 'n', 'r2'}
     or None if fewer than min_pitchers qualify (caller should fall back
     to defaults.py hardcoded values).
     """
@@ -740,9 +740,9 @@ def compute_whiff_xba_regression(savant_data, min_pitchers=50, x1_key="whiff_pct
     r2 = 1 - ssr / sst if sst else 0
 
     return {
-        "whiff_slope": bw,
+        "csw_slope":   bw,
         "xba_slope":   bx,
-        "whiff_mean":  mw,
+        "csw_mean":    mw,
         "xba_mean":    mx,
         "n":           n,
         "r2":          r2,
@@ -904,14 +904,28 @@ def _regression_cache_prefix(metric):
     return "csw_xba_regression" if metric == "csw" else "whiff_xba_regression"
 
 
-def save_whiff_xba_regression(reg, season=None, date_iso=None, metric="whiff"):
+def _normalize_reg_keys(d):
+    """Back-compat: pre-rename cached regression files (and run_daily files
+    written before the whiff->csw rename) stored the generic metric-1 slope
+    as whiff_slope/whiff_mean. Map them to csw_slope/csw_mean on load so old
+    caches keep working without a refetch."""
+    if not d:
+        return d
+    if "csw_slope" not in d and "whiff_slope" in d:
+        d["csw_slope"] = d["whiff_slope"]
+    if "csw_mean" not in d and "whiff_mean" in d:
+        d["csw_mean"] = d["whiff_mean"]
+    return d
+
+
+def save_csw_xba_regression(reg, season=None, date_iso=None, metric="whiff"):
     """
     Persist a regression result to data/pitcher_cache/mlb/
     <metric>_xba_regression_<YYYYMMDD>.json so slope drift can be audited
     historically. Idempotent — overwrites if the same date is re-run.
     The `metric` arg selects the cache file ("whiff" default, or "csw") so
-    the two metrics' daily fits never collide. The dict keys stay
-    whiff_slope/whiff_mean (generic "metric-1") regardless of metric.
+    the two metrics' daily fits never collide. The dict keys are
+    csw_slope/csw_mean (generic "metric-1") regardless of metric.
     """
     if not reg:
         return None
@@ -925,9 +939,9 @@ def save_whiff_xba_regression(reg, season=None, date_iso=None, metric="whiff"):
         "season":      season,
         "metric":      metric,
         "n":           reg["n"],
-        "whiff_slope": reg["whiff_slope"],
+        "csw_slope":   reg["csw_slope"],
         "xba_slope":   reg["xba_slope"],
-        "whiff_mean":  reg["whiff_mean"],
+        "csw_mean":    reg["csw_mean"],
         "xba_mean":    reg["xba_mean"],
         "r2":          reg["r2"],
         "saved_at":    datetime.now().isoformat(timespec="seconds"),
@@ -938,12 +952,12 @@ def save_whiff_xba_regression(reg, season=None, date_iso=None, metric="whiff"):
         with open(cache_path, "w") as f:
             json.dump(out, f, indent=2)
     except Exception as e:
-        print(f"  [whiff/xBA cache] write failed: {e}")
+        print(f"  [CSW/xBA cache] write failed: {e}")
         return None
     return cache_path
 
 
-def load_whiff_xba_regression_as_of(date_iso, season=None, metric="whiff"):
+def load_csw_xba_regression_as_of(date_iso, season=None, metric="whiff"):
     """
     Walk-forward slope loader.
 
@@ -969,12 +983,12 @@ def load_whiff_xba_regression_as_of(date_iso, season=None, metric="whiff"):
     _, path = candidates[-1]
     try:
         with open(path) as f:
-            return json.load(f)
+            return _normalize_reg_keys(json.load(f))
     except Exception:
         return None
 
 
-def load_whiff_xba_regression_for_date(date_iso, season=None, metric="whiff"):
+def load_csw_xba_regression_for_date(date_iso, season=None, metric="whiff"):
     """
     Load the regression cache for an EXACT date (not "as of").
 
@@ -993,7 +1007,7 @@ def load_whiff_xba_regression_for_date(date_iso, season=None, metric="whiff"):
         return None
     try:
         with open(cache_path) as f:
-            return json.load(f)
+            return _normalize_reg_keys(json.load(f))
     except Exception:
         return None
 

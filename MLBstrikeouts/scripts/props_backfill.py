@@ -250,9 +250,9 @@ def backfill(season=None, start_game=10, start_date=None):
     from defaults import CSW_XBA_BLEND_WEIGHT, K_QUALITY_METRIC
     if CSW_XBA_BLEND_WEIGHT > 0:
         from sources.mlb_stats import (fetch_savant_pitcher_rates,
-                                       compute_whiff_xba_regression,
-                                       save_whiff_xba_regression,
-                                       load_whiff_xba_regression_as_of,
+                                       compute_csw_xba_regression,
+                                       save_csw_xba_regression,
+                                       load_csw_xba_regression_as_of,
                                        load_savant_rates_as_of,
                                        fetch_statcast_pitch_csw,
                                        load_csw_as_of)
@@ -268,17 +268,17 @@ def backfill(season=None, start_game=10, start_date=None):
         # backfill date loads its own as-of snapshot inside the loop
         # (load_savant_rates_as_of) so no future whiff/xBA leaks in.
         _savant_today = fetch_savant_pitcher_rates(season=season) or {}
-        print(f"  [backfill] whiff/xBA blend enabled -> loaded "
+        print(f"  [backfill] CSW/xBA blend enabled -> loaded "
               f"{len(_savant_today)} savant entries (today's snapshot, "
               f"slope-priming only)")
         # Slope refit is WALK-FORWARD — applied inside the date loop using
         # per-date cached regression files. Today's regression file is still
         # written below for tomorrow.
-        _reg_today = compute_whiff_xba_regression(_savant_today)
+        _reg_today = compute_csw_xba_regression(_savant_today)
         if _reg_today:
-            save_whiff_xba_regression(_reg_today, season=season)
+            save_csw_xba_regression(_reg_today, season=season)
             print(f"  [backfill] today's slopes cached "
-                  f"(whiff={_reg_today['whiff_slope']:+.4f} "
+                  f"(whiff={_reg_today['csw_slope']:+.4f} "
                   f"xBA={_reg_today['xba_slope']:+.4f}  R^2={_reg_today['r2']:.3f})")
 
     # Load player bat-side lookup (for per-game lineup handedness)
@@ -384,21 +384,21 @@ def backfill(season=None, start_game=10, start_date=None):
             _csw_merged_asof = _merged
             # Slopes: replay run_daily's cached CSW regression (faithful match
             # to live); else inline-refit on the as-of merged snapshot.
-            _wfr = load_whiff_xba_regression_as_of(prior_date, season=season,
+            _wfr = load_csw_xba_regression_as_of(prior_date, season=season,
                                                    metric="csw")
-            _reg = _wfr or compute_whiff_xba_regression(_merged, x1_key="csw")
+            _reg = _wfr or compute_csw_xba_regression(_merged, x1_key="csw")
             if _reg:
-                _d.CSW_K_SLOPE    = _reg["whiff_slope"]
+                _d.CSW_K_SLOPE    = _reg["csw_slope"]
                 _d.XBA_K_SLOPE      = _reg["xba_slope"]
-                _d.CSW_LEAGUE_AVG = _reg["whiff_mean"]
+                _d.CSW_LEAGUE_AVG = _reg["csw_mean"]
                 _d.XBA_LEAGUE_AVG   = _reg["xba_mean"]
-                _key = (round(_reg['whiff_slope'], 4),
+                _key = (round(_reg['csw_slope'], 4),
                         round(_reg['xba_slope'], 4))
                 if _key != _last_logged_slopes:
                     _src = (f"cached {_wfr['date_iso']}" if _wfr
                             else f"refit n={_reg['n']} R^2={_reg['r2']:.3f}")
                     print(f"  [walk-forward {game_date}] CSW slopes ({_src}): "
-                          f"csw={_reg['whiff_slope']:+.4f} "
+                          f"csw={_reg['csw_slope']:+.4f} "
                           f"xBA={_reg['xba_slope']:+.4f}")
                     _last_logged_slopes = _key
             else:
@@ -408,17 +408,17 @@ def backfill(season=None, start_game=10, start_date=None):
             import datetime as _dt
             _prior_iso = (_dt.date.fromisoformat(game_date)
                           - _dt.timedelta(days=1)).isoformat()
-            _wfr = load_whiff_xba_regression_as_of(_prior_iso, season=season)
+            _wfr = load_csw_xba_regression_as_of(_prior_iso, season=season)
             if _wfr:
-                _d.CSW_K_SLOPE    = _wfr["whiff_slope"]
+                _d.CSW_K_SLOPE    = _wfr["csw_slope"]
                 _d.XBA_K_SLOPE      = _wfr["xba_slope"]
-                _d.CSW_LEAGUE_AVG = _wfr["whiff_mean"]
+                _d.CSW_LEAGUE_AVG = _wfr["csw_mean"]
                 _d.XBA_LEAGUE_AVG   = _wfr["xba_mean"]
-                _key = (round(_wfr['whiff_slope'], 4),
+                _key = (round(_wfr['csw_slope'], 4),
                         round(_wfr['xba_slope'], 4))
                 if _key != _last_logged_slopes:
                     print(f"  [walk-forward {game_date}] using slopes from "
-                          f"{_wfr['date_iso']}: whiff={_wfr['whiff_slope']:+.4f} "
+                          f"{_wfr['date_iso']}: whiff={_wfr['csw_slope']:+.4f} "
                           f"xBA={_wfr['xba_slope']:+.4f} (n={_wfr['n']})")
                     _last_logged_slopes = _key
             else:

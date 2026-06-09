@@ -687,10 +687,20 @@ def run_daily(date_key=None):
             datetime.datetime.strptime(date_iso, "%Y-%m-%d").date()
             - datetime.timedelta(days=1)
         ).strftime("%Y-%m-%d")
-        fetch_pitcher_advanced_stats_through(season, yesterday_iso)
-        print(f"  Pre-warmed backfill cache thru {yesterday_iso}")
+        # Bind adv_stats at prior_date (byDateRange, immutable for completed
+        # games) so the projection is leak-safe regardless of run time AND
+        # reproduces the backfill, which uses this same _through(prior_date)
+        # value. Completes 52cb63fb (which bound the other opponent inputs).
+        # The current-season fetch above still cached today's snapshot; we
+        # just prefer the bounded one for the projection.
+        _adv_asof = fetch_pitcher_advanced_stats_through(season, yesterday_iso)
+        if _adv_asof:
+            adv_stats = _adv_asof
+            print(f"  Bound adv_stats to thru {yesterday_iso} ({len(adv_stats)} pitchers)")
+        else:
+            print(f"  Pre-warmed backfill cache thru {yesterday_iso} (kept current adv_stats)")
     except Exception as e:
-        print(f"  Backfill cache pre-warm failed (non-fatal): {e}")
+        print(f"  adv_stats prior-date bind failed (non-fatal, using current): {e}")
 
     # Stage 5: Fetch sabermetrics
     print(f"\n  [5/15] Fetching pitcher sabermetrics (FIP, xFIP)...")
@@ -915,8 +925,14 @@ def run_daily(date_key=None):
     batter_k_rates = fetch_batter_k_rates(season=season, through_date=prior_date)
     batter_career_k_rates = fetch_batter_career_k_rates(season=season)
     pitch_hands = load_pitch_hands(season=season)
-    savant_rates = fetch_savant_pitcher_rates(season=season)
-    print(f"  {len(batter_k_rates)} batters, {len(savant_rates)} pitchers with Savant K%/whiff%")
+    # Bind whiff/xBA at prior_date too (matches backfill's load_savant_rates_as_of
+    # and the 52cb63fb prior_date binding of the other opponent inputs). Fetch
+    # today's snapshot first so tomorrow's as-of has it cached, then replay the
+    # prior-date snapshot for this projection — leak-safe across same-day reruns.
+    from sources.mlb_stats import load_savant_rates_as_of
+    fetch_savant_pitcher_rates(season=season)
+    savant_rates = load_savant_rates_as_of(prior_date, season) or fetch_savant_pitcher_rates(season=season)
+    print(f"  {len(batter_k_rates)} batters, {len(savant_rates)} pitchers with Savant K%/whiff% (as-of {prior_date})")
 
     # Whiff/xBA slope handling.
     # Slopes are LOCKED ONCE PER DAY: if today's regression cache exists,
@@ -926,9 +942,9 @@ def run_daily(date_key=None):
     # First run of the day fits fresh slopes and caches them.
     from defaults import CSW_XBA_BLEND_WEIGHT, K_QUALITY_METRIC
     if CSW_XBA_BLEND_WEIGHT > 0:
-        from sources.mlb_stats import (compute_whiff_xba_regression,
-                                       save_whiff_xba_regression,
-                                       load_whiff_xba_regression_for_date)
+        from sources.mlb_stats import (compute_csw_xba_regression,
+                                       save_csw_xba_regression,
+                                       load_csw_xba_regression_for_date)
         import defaults as _d
 
         if K_QUALITY_METRIC == "csw":
@@ -957,40 +973,40 @@ def run_daily(date_key=None):
             print(f"  [csw/xBA] merged {len(savant_rates)} pitchers "
                   f"(csw as-of {_prior})")
 
-            _reg = load_whiff_xba_regression_for_date(date_iso, season=season,
+            _reg = load_csw_xba_regression_for_date(date_iso, season=season,
                                                       metric="csw")
             if _reg:
                 print(f"  [csw/xBA] using cached slopes for {date_iso} "
                       f"(saved {_reg.get('saved_at','?')})")
             else:
-                _reg = compute_whiff_xba_regression(savant_rates, x1_key="csw")
+                _reg = compute_csw_xba_regression(savant_rates, x1_key="csw")
                 if _reg:
-                    save_whiff_xba_regression(_reg, season=season,
+                    save_csw_xba_regression(_reg, season=season,
                                               date_iso=date_iso, metric="csw")
                     print(f"  [csw/xBA refit] first run today — fit and cached "
                           f"(n={_reg['n']} R^2={_reg['r2']:.3f})")
             _label = "csw"
         else:
-            _reg = load_whiff_xba_regression_for_date(date_iso, season=season)
+            _reg = load_csw_xba_regression_for_date(date_iso, season=season)
             if _reg:
                 print(f"  [whiff/xBA] using cached slopes for {date_iso} "
                       f"(saved {_reg.get('saved_at','?')})")
             else:
-                _reg = compute_whiff_xba_regression(savant_rates)
+                _reg = compute_csw_xba_regression(savant_rates)
                 if _reg:
-                    save_whiff_xba_regression(_reg, season=season, date_iso=date_iso)
+                    save_csw_xba_regression(_reg, season=season, date_iso=date_iso)
                     print(f"  [whiff/xBA refit] first run today — fit and cached "
                           f"(n={_reg['n']} R^2={_reg['r2']:.3f})")
             _label = "whiff"
 
         if _reg:
-            _d.CSW_K_SLOPE    = _reg["whiff_slope"]
+            _d.CSW_K_SLOPE    = _reg["csw_slope"]
             _d.XBA_K_SLOPE      = _reg["xba_slope"]
-            _d.CSW_LEAGUE_AVG = _reg["whiff_mean"]
+            _d.CSW_LEAGUE_AVG = _reg["csw_mean"]
             _d.XBA_LEAGUE_AVG   = _reg["xba_mean"]
-            print(f"  [{_label}/xBA] slopes: {_label}={_reg['whiff_slope']:+.4f} "
+            print(f"  [{_label}/xBA] slopes: {_label}={_reg['csw_slope']:+.4f} "
                   f"xBA={_reg['xba_slope']:+.4f}  "
-                  f"means {_label}={_reg['whiff_mean']:.4f} xBA={_reg['xba_mean']:.4f}")
+                  f"means {_label}={_reg['csw_mean']:.4f} xBA={_reg['xba_mean']:.4f}")
         else:
             print(f"  [{_label}/xBA] no cache and refit failed — using defaults.py")
 
