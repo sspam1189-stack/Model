@@ -644,12 +644,16 @@
           if (allGradedPicks.length === 0 && allGradedLeans.length === 0) return;
 
           // Anything after the baseline cutoff date — the actually-new picks.
-          // 2026-05-29: the Read gate no longer filters bets, so EVERY graded
-          // pick after the cutoff counts regardless of readVerdict. The verdict
-          // is still stamped and shown as information (see readVerdictFor); it
-          // just never excludes a play from the tally or the copy anymore.
+          // 2026-06-09: the Reddit widget filters to the Read verdict again —
+          // only readVerdict==='TAKE' picks count toward the copy + tallies.
+          // Full-season backtest: TAKE 329-120 (73.3%) +175.6u vs ALL 332-125
+          // (72.6%) +171.5u — the 8 PASS picks went 3-5 (-4.2u), so gating to
+          // TAKE gains +4.1u / +0.7pp WR. (Reverses the 2026-05-29 all-picks
+          // copy.) The pre-cutoff BASELINE stays as-posted (all-picks era);
+          // only post-cutoff picks are TAKE-gated going forward.
+          const _readTake = (p) => p.readVerdict === 'TAKE';
           const _postCutoff = (p) => !!p.date && p.date > BASELINE.cutoff;
-          const newPicks = allGradedPicks.filter(_postCutoff);
+          const newPicks = allGradedPicks.filter(p => _postCutoff(p) && _readTake(p));
           const newLeans = allGradedLeans.filter(_postCutoff);
 
           // Weekly window logic:
@@ -767,11 +771,10 @@
           const _sortByPCover = (arr) => arr.slice().sort(
             (a, b) => (b.pCover || 0) - (a.pCover || 0)
           );
-          // 2026-05-29: Read gate no longer filters bets — the Reddit copy
-          // lists every pick regardless of readVerdict. Kept as a function so
-          // the call sites below are unchanged; the verdict is still shown as
-          // information elsewhere, it just never drops a play here.
-          const _isRedditTake = (p) => true;
+          // 2026-06-09: Read gate restored — today's Reddit copy lists only
+          // readVerdict==='TAKE' picks (see _readTake above; TAKE-only backtests
+          // +4.1u / +0.7pp WR vs all-picks over the full season).
+          const _isRedditTake = (p) => _readTake(p);
           const _todayPicks = _sortByPCover(
             picks.filter(p => p.date === todayStr && !_isVoid(p) && _isRedditTake(p))
           );
