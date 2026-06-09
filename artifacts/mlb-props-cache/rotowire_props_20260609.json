@@ -1,15 +1,5 @@
 [
   {
-    "player": "Chase Burns",
-    "market": "strikeouts",
-    "line": 6.5,
-    "over_price": -150,
-    "under_price": 117,
-    "event_home": "SD",
-    "event_away": "CIN",
-    "source": "rotowire:draftkings"
-  },
-  {
     "player": "Dylan Cease",
     "market": "strikeouts",
     "line": 6.5,
@@ -47,16 +37,6 @@
     "under_price": -113,
     "event_home": "DET",
     "event_away": "MIN",
-    "source": "rotowire:draftkings"
-  },
-  {
-    "player": "Nathan Eovaldi",
-    "market": "strikeouts",
-    "line": 5.5,
-    "over_price": 124,
-    "under_price": -159,
-    "event_home": "KC",
-    "event_away": "TEX",
     "source": "rotowire:draftkings"
   },
   {
@@ -100,16 +80,6 @@
     "source": "rotowire:draftkings"
   },
   {
-    "player": "Kai-Wei Teng",
-    "market": "strikeouts",
-    "line": 5.5,
-    "over_price": 124,
-    "under_price": null,
-    "event_home": "LAA",
-    "event_away": "HOU",
-    "source": "rotowire:draftkings"
-  },
-  {
     "player": "Payton Tolle",
     "market": "strikeouts",
     "line": 5.5,
@@ -127,16 +97,6 @@
     "under_price": -107,
     "event_home": "TOR",
     "event_away": "PHI",
-    "source": "rotowire:draftkings"
-  },
-  {
-    "player": "Andrew Alvarez",
-    "market": "strikeouts",
-    "line": 4.5,
-    "over_price": 120,
-    "under_price": -151,
-    "event_home": "SF",
-    "event_away": "WAS",
     "source": "rotowire:draftkings"
   },
   {
@@ -170,36 +130,6 @@
     "source": "rotowire:draftkings"
   },
   {
-    "player": "Robert Gasser",
-    "market": "strikeouts",
-    "line": 4.5,
-    "over_price": -108,
-    "under_price": -118,
-    "event_home": "OAK",
-    "event_away": "MIL",
-    "source": "rotowire:draftkings"
-  },
-  {
-    "player": "J.T. Ginn",
-    "market": "strikeouts",
-    "line": 4.5,
-    "over_price": 105,
-    "under_price": -133,
-    "event_home": "OAK",
-    "event_away": "MIL",
-    "source": "rotowire:draftkings"
-  },
-  {
-    "player": "Lucas Giolito",
-    "market": "strikeouts",
-    "line": 4.5,
-    "over_price": -108,
-    "under_price": -118,
-    "event_home": "SD",
-    "event_away": "CIN",
-    "source": "rotowire:draftkings"
-  },
-  {
     "player": "Grant Holmes",
     "market": "strikeouts",
     "line": 4.5,
@@ -230,11 +160,91 @@
     "source": "rotowire:draftkings"
   },
   {
+    "player": "Nick Martinez",
+    "market": "strikeouts",
+    "line": 3.5,
+    "over_price": 105,
+    "under_price": -133,
+    "event_home": "TB",
+    "event_away": "BOS",
+    "source": "rotowire:draftkings"
+  },
+  {
+    "player": "Chase Burns",
+    "market": "strikeouts",
+    "line": 6.5,
+    "over_price": -150,
+    "under_price": 117,
+    "event_home": "SD",
+    "event_away": "CIN",
+    "source": "rotowire:draftkings"
+  },
+  {
+    "player": "Nathan Eovaldi",
+    "market": "strikeouts",
+    "line": 4.5,
+    "over_price": -155,
+    "under_price": 121,
+    "event_home": "KC",
+    "event_away": "TEX",
+    "source": "rotowire:draftkings"
+  },
+  {
+    "player": "Kai-Wei Teng",
+    "market": "strikeouts",
+    "line": 5.5,
+    "over_price": 124,
+    "under_price": null,
+    "event_home": "LAA",
+    "event_away": "HOU",
+    "source": "rotowire:draftkings"
+  },
+  {
+    "player": "Andrew Alvarez",
+    "market": "strikeouts",
+    "line": 4.5,
+    "over_price": 117,
+    "under_price": -150,
+    "event_home": "SF",
+    "event_away": "WAS",
+    "source": "rotowire:draftkings"
+  },
+  {
+    "player": "Robert Gasser",
+    "market": "strikeouts",
+    "line": 4.5,
+    "over_price": -108,
+    "under_price": -118,
+    "event_home": "OAK",
+    "event_away": "MIL",
+    "source": "rotowire:draftkings"
+  },
+  {
+    "player": "J.T. Ginn",
+    "market": "strikeouts",
+    "line": 4.5,
+    "over_price": 105,
+    "under_price": -133,
+    "event_home": "OAK",
+    "event_away": "MIL",
+    "source": "rotowire:draftkings"
+  },
+  {
+    "player": "Lucas Giolito",
+    "market": "strikeouts",
+    "line": 4.5,
+    "over_price": -108,
+    "under_price": -118,
+    "event_home": "SD",
+    "event_away": "CIN",
+    "source": "rotowire:draftkings"
+  },
+  {
     "player": "Colin Rea",
     "market": "strikeouts",
     "line": 3.5,
-    "over_price": -135,
-    "under_price": 106,
+    "over_price": -145,
+    "under_price": 113,
     "event_home": "COL",
     "event_away": "CHC",
     "source": "rotowire:draftkings"
@@ -253,8 +263,8 @@
     "player": "Adrian Houser",
     "market": "strikeouts",
     "line": 3.5,
-    "over_price": -118,
-    "under_price": -108,
+    "over_price": -125,
+    "under_price": -102,
     "event_home": "SF",
     "event_away": "WAS",
     "source": "rotowire:draftkings"
@@ -270,21 +280,11 @@
     "source": "rotowire:draftkings"
   },
   {
-    "player": "Nick Martinez",
-    "market": "strikeouts",
-    "line": 3.5,
-    "over_price": 105,
-    "under_price": -133,
-    "event_home": "TB",
-    "event_away": "BOS",
-    "source": "rotowire:draftkings"
-  },
-  {
     "player": "Tomoyuki Sugano",
     "market": "strikeouts",
     "line": 2.5,
-    "over_price": -146,
-    "under_price": 114,
+    "over_price": -137,
+    "under_price": 108,
     "event_home": "COL",
     "event_away": "CHC",
     "source": "rotowire:draftkings"
