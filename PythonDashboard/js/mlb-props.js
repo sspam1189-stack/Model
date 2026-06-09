@@ -606,24 +606,24 @@
           // -4.98u (McLean -158, Sheehan -132, Nelson -102, Detmers -106).
           // Pin via cutoff so the widget matches what was posted on Reddit.
           const BASELINE = {
-            // 2026-06-08 cutoff roll to 6/7: after the config change
-            // (w_b=0.75 lineup weight + walk-forward high-tier calibration)
-            // and full history regen, the baseline is re-anchored to the
-            // as-posted record through 6/7. Only 6/8+ computes fresh from the
-            // json. (Supersedes the prior 6/4 cutoff.)
-            //   Posted record through 6/7:  picks 155-124 +5.67u
-            //   Before codefix: 111-91 +0.08u  |  After codefix through 6/7: 44-33 +5.59u
-            //   Weekly 6/1-6/7: 21-24 -7.45u  |  Yesterday 6/7: 1-4 -3.98u
-            // `before_codefix` is fixed history (every new pick is post-codefix,
-            // so it never changes). `codefix` (= "after codefix") is a baked
-            // tally that grows with every post-cutoff pick like `total`.
-            cutoff: '2026-06-07',
+            // 2026-06-09 cutoff roll to 6/8: 6/8 baked in as the AS-POSTED /
+            // as-bet record — the 5 model picks (2-3, -2.38u) PLUS the
+            // discretionary Hancock OVER 4.5 (-158, L, -1.58u) that was
+            // actually taken = 2-4 -3.96u. Only 6/9+ computes fresh from json.
+            //   Posted record through 6/8:  picks 157-128 +1.71u
+            //   Before codefix: 111-91 +0.08u  |  After codefix through 6/8: 46-37 +1.63u
+            //   Weekly (last complete wk 6/1-6/7): 21-24 -7.45u  |  Yesterday 6/8: 2-4 -3.96u
+            // Weekly = last COMPLETE Mon-Sun week; the in-progress week (6/8+)
+            // is excluded until it finishes, so 6/8 shows only under Yesterday/Total.
+            // `before_codefix` is fixed history (never changes). `codefix`
+            // (= "after codefix") grows with each post-cutoff pick like `total`.
+            cutoff: '2026-06-08',
             picks: {
-              total:        { w: 155, l: 124, u:  5.67 },
+              total:        { w: 157, l: 128, u:  1.71 },
               before_codefix:{ w: 111, l:  91, u:  0.08 },  // static, pre-codefix
-              codefix:      { w:  44, l:  33, u:  5.59 },  // after codefix, through 6/7
-              weekly:       { w:  21, l:  24, u: -7.45 },  // 6/1–6/7
-              yesterday:    { w:   1, l:   4, u:  -3.98 },  // 6/7
+              codefix:      { w:  46, l:  37, u:  1.63 },  // after codefix, through 6/8
+              weekly:       { w:  21, l:  24, u: -7.45 },  // last complete wk 6/1–6/7
+              yesterday:    { w:   2, l:   4, u:  -3.96 },  // 6/8 (incl Hancock take)
             },
             leans: {
               // Leans retired at the 5/25 cutover (none after 5/24), so the
@@ -653,32 +653,27 @@
           // only post-cutoff picks are TAKE-gated going forward.
           const _readTake = (p) => p.readVerdict === 'TAKE';
           const _postCutoff = (p) => !!p.date && p.date > BASELINE.cutoff;
-          const newPicks = allGradedPicks.filter(p => _postCutoff(p) && _readTake(p));
+          // 2026-06-09: reverted the readVerdict==='TAKE' gate — count ALL
+          // post-cutoff graded picks again, not just TAKE (matches the
+          // as-posted all-picks Reddit record).
+          const newPicks = allGradedPicks.filter(p => _postCutoff(p));
           const newLeans = allGradedLeans.filter(_postCutoff);
 
-          // Weekly window logic:
-          //   - On Monday: previous Mon-Sun (a fully-completed week),
-          //     labeled "last Weekly".
-          //   - Tue-Sun: current week's Mon through yesterday, labeled "Weekly".
+          // Weekly window logic: the last COMPLETE Mon-Sun week. The
+          // in-progress current week is excluded until it finishes, so a fresh
+          // week's early days (e.g. a Monday's results viewed on Tuesday) don't
+          // show as a 1-day "weekly". curMon = this in-progress week's Monday;
+          // the last complete week is the 7 days ending the Sunday before it.
           const _today = new Date(yesterdayStr + 'T12:00:00');
           _today.setDate(_today.getDate() + 1);
           const _todayDow = _today.getDay();   // 0=Sun,1=Mon,..6=Sat
-          const isMonday = _todayDow === 1;
-          let wStart;
-          let wEnd;
-          let weekLabel;
-          if (isMonday) {
-            wEnd = new Date(yesterdayStr + 'T12:00:00');
-            wStart = new Date(yesterdayStr + 'T12:00:00');
-            wStart.setDate(wStart.getDate() - 6);
-            weekLabel = 'last Weekly';
-          } else {
-            wEnd = new Date(yesterdayStr + 'T12:00:00');
-            const daysSinceMon = (_todayDow + 6) % 7;
-            wStart = new Date(_today);
-            wStart.setDate(_today.getDate() - daysSinceMon);
-            weekLabel = 'Weekly';
-          }
+          const _curMon = new Date(_today);
+          _curMon.setDate(_today.getDate() - ((_todayDow + 6) % 7));  // current week's Monday
+          let wEnd = new Date(_curMon);
+          wEnd.setDate(_curMon.getDate() - 1);   // Sunday of last complete week
+          let wStart = new Date(wEnd);
+          wStart.setDate(wEnd.getDate() - 6);    // Monday of last complete week
+          const weekLabel = 'Weekly';
           const weeklyStartStr = wStart.toISOString().slice(0, 10);
           const weeklyEndStr = wEnd.toISOString().slice(0, 10);
 
@@ -771,10 +766,9 @@
           const _sortByPCover = (arr) => arr.slice().sort(
             (a, b) => (b.pCover || 0) - (a.pCover || 0)
           );
-          // 2026-06-09: Read gate restored — today's Reddit copy lists only
-          // readVerdict==='TAKE' picks (see _readTake above; TAKE-only backtests
-          // +4.1u / +0.7pp WR vs all-picks over the full season).
-          const _isRedditTake = (p) => _readTake(p);
+          // 2026-06-09: Read gate reverted — today's Reddit copy lists ALL
+          // picks again (not just readVerdict==='TAKE').
+          const _isRedditTake = (p) => true;
           const _todayPicks = _sortByPCover(
             picks.filter(p => p.date === todayStr && !_isVoid(p) && _isRedditTake(p))
           );
