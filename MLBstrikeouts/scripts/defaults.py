@@ -261,7 +261,15 @@ CAREER_KRATE_SHRINK_C = 0.0
 # overs -> book tilts under-heavy) for higher ROI, lower MAE, honest pCover,
 # and smaller drawdowns. Set PROJ_LINEUP_WEIGHT=1.0 and PROJ_CALIB_ENABLED=
 # False to revert to the raw model.
-PROJ_LINEUP_WEIGHT = 0.75
+#
+# 2026-06-09: 0.75 -> 0.70 on clean refetched data. w0.70 k0.40 BF25 calib was
+# the best config across every comparison this session: season +202.3u / 33.5%
+# ROI / +0.441 u-pick / season pMAE 1.563 (vs 0.75: +198.9u / 32.9% / +0.432 /
+# 1.573). The edge is marginal (+3.4u, +0.009 u-pick, below the 0.20 bar) but
+# w0.70 wins or ties on every metric in both season and recent windows, so it's
+# the strictly-dominant pick. kcap/BF/calib unchanged. (Recency-aware levers
+# tested and rejected same session: stacking on calibration over-corrects June.)
+PROJ_LINEUP_WEIGHT = 0.70
 PROJ_CALIB_ENABLED = True
 PROJ_CALIB_KNOT = 6.0          # only correct projections above this
 PROJ_CALIB_MIN_PAIRS = 40      # need >= this many tail pairs to fit; else raw
