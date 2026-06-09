@@ -100,16 +100,6 @@
     "source": "rotowire:draftkings"
   },
   {
-    "player": "Kai-Wei Teng",
-    "market": "strikeouts",
-    "line": 5.5,
-    "over_price": 124,
-    "under_price": null,
-    "event_home": "LAA",
-    "event_away": "HOU",
-    "source": "rotowire:draftkings"
-  },
-  {
     "player": "Payton Tolle",
     "market": "strikeouts",
     "line": 5.5,
@@ -127,16 +117,6 @@
     "under_price": 120,
     "event_home": "TOR",
     "event_away": "PHI",
-    "source": "rotowire:draftkings"
-  },
-  {
-    "player": "Andrew Alvarez",
-    "market": "strikeouts",
-    "line": 4.5,
-    "over_price": 122,
-    "under_price": -156,
-    "event_home": "SF",
-    "event_away": "WAS",
     "source": "rotowire:draftkings"
   },
   {
@@ -167,26 +147,6 @@
     "under_price": -160,
     "event_home": "MIA",
     "event_away": "ARI",
-    "source": "rotowire:draftkings"
-  },
-  {
-    "player": "Robert Gasser",
-    "market": "strikeouts",
-    "line": 4.5,
-    "over_price": -108,
-    "under_price": -118,
-    "event_home": "OAK",
-    "event_away": "MIL",
-    "source": "rotowire:draftkings"
-  },
-  {
-    "player": "J.T. Ginn",
-    "market": "strikeouts",
-    "line": 4.5,
-    "over_price": 105,
-    "under_price": -133,
-    "event_home": "OAK",
-    "event_away": "MIL",
     "source": "rotowire:draftkings"
   },
   {
@@ -237,26 +197,6 @@
     "under_price": 103,
     "event_home": "COL",
     "event_away": "CHC",
-    "source": "rotowire:draftkings"
-  },
-  {
-    "player": "Walbert Urena",
-    "market": "strikeouts",
-    "line": 4.5,
-    "over_price": -122,
-    "under_price": -105,
-    "event_home": "LAA",
-    "event_away": "HOU",
-    "source": "rotowire:draftkings"
-  },
-  {
-    "player": "Adrian Houser",
-    "market": "strikeouts",
-    "line": 3.5,
-    "over_price": -120,
-    "under_price": -106,
-    "event_home": "SF",
-    "event_away": "WAS",
     "source": "rotowire:draftkings"
   },
   {
@@ -400,17 +340,6 @@
     "_event_id": "35698095"
   },
   {
-    "player": "Adrian Houser 15.5",
-    "market": "outs",
-    "line": 15.5,
-    "over_price": -114,
-    "under_price": -114,
-    "event_home": "SF",
-    "event_away": "WAS",
-    "source": "fanduel",
-    "_event_id": "35698096"
-  },
-  {
     "player": "Logan Gilbert 17.5",
     "market": "outs",
     "line": 17.5,
@@ -455,28 +384,6 @@
     "_event_id": "35698099"
   },
   {
-    "player": "Walbert Urena 15.5",
-    "market": "outs",
-    "line": 15.5,
-    "over_price": -125,
-    "under_price": -108,
-    "event_home": "LAA",
-    "event_away": "HOU",
-    "source": "fanduel",
-    "_event_id": "35698100"
-  },
-  {
-    "player": "Kai-Wei Teng 15.5",
-    "market": "outs",
-    "line": 15.5,
-    "over_price": 114,
-    "under_price": -154,
-    "event_home": "LAA",
-    "event_away": "HOU",
-    "source": "fanduel",
-    "_event_id": "35698100"
-  },
-  {
     "player": "Freddy Peralta 17.5",
     "market": "outs",
     "line": 17.5,
@@ -497,5 +404,98 @@
     "event_away": "STL",
     "source": "fanduel",
     "_event_id": "35698101"
+  },
+  {
+    "player": "Kai-Wei Teng",
+    "market": "strikeouts",
+    "line": 5.5,
+    "over_price": 116,
+    "under_price": -149,
+    "event_home": "LAA",
+    "event_away": "HOU",
+    "source": "rotowire:draftkings"
+  },
+  {
+    "player": "Andrew Alvarez",
+    "market": "strikeouts",
+    "line": 4.5,
+    "over_price": 122,
+    "under_price": -156,
+    "event_home": "SF",
+    "event_away": "WAS",
+    "source": "rotowire:draftkings"
+  },
+  {
+    "player": "Robert Gasser",
+    "market": "strikeouts",
+    "line": 4.5,
+    "over_price": -108,
+    "under_price": -118,
+    "event_home": "OAK",
+    "event_away": "MIL",
+    "source": "rotowire:draftkings"
+  },
+  {
+    "player": "J.T. Ginn",
+    "market": "strikeouts",
+    "line": 4.5,
+    "over_price": 107,
+    "under_price": -137,
+    "event_home": "OAK",
+    "event_away": "MIL",
+    "source": "rotowire:draftkings"
+  },
+  {
+    "player": "Walbert Urena",
+    "market": "strikeouts",
+    "line": 4.5,
+    "over_price": -118,
+    "under_price": -108,
+    "event_home": "LAA",
+    "event_away": "HOU",
+    "source": "rotowire:draftkings"
+  },
+  {
+    "player": "Adrian Houser",
+    "market": "strikeouts",
+    "line": 3.5,
+    "over_price": -127,
+    "under_price": 100,
+    "event_home": "SF",
+    "event_away": "WAS",
+    "source": "rotowire:draftkings"
+  },
+  {
+    "player": "Adrian Houser 15.5",
+    "market": "outs",
+    "line": 15.5,
+    "over_price": -114,
+    "under_price": -114,
+    "event_home": "SF",
+    "event_away": "WAS",
+    "source": "fanduel",
+    "_event_id": "35698096"
+  },
+  {
+    "player": "Walbert Urena 15.5",
+    "market": "outs",
+    "line": 15.5,
+    "over_price": -125,
+    "under_price": -108,
+    "event_home": "LAA",
+    "event_away": "HOU",
+    "source": "fanduel",
+    "_event_id": "35698100"
+  },
+  {
+    "player": "Kai-Wei Teng 15.5",
+    "market": "outs",
+    "line": 15.5,
+    "over_price": 114,
+    "under_price": -154,
+    "event_home": "LAA",
+    "event_away": "HOU",
+    "source": "fanduel",
+    "_event_id": "35698100"
   }
 ]
