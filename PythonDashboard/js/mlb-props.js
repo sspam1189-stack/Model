@@ -612,9 +612,10 @@
             // actually taken = 2-4 -3.96u. Only 6/9+ computes fresh from json.
             //   Posted record through 6/8:  picks 157-128 +1.71u
             //   Before codefix: 111-91 +0.08u  |  After codefix through 6/8: 46-37 +1.63u
-            //   Weekly (last complete wk 6/1-6/7): 21-24 -7.45u  |  Yesterday 6/8: 2-4 -3.96u
-            // Weekly = last COMPLETE Mon-Sun week; the in-progress week (6/8+)
-            // is excluded until it finishes, so 6/8 shows only under Yesterday/Total.
+            //   Weekly (current wk, through cutoff 6/8): 2-4 -3.96u  |  Yesterday 6/8: 2-4 -3.96u
+            // Weekly = the CURRENT in-progress Mon-Sun week (resets each Monday).
+            // The baseline holds the current week's record through the cutoff day;
+            // with cutoff 6/8 == this week's Monday that is just 6/8 (== Yesterday).
             // `before_codefix` is fixed history (never changes). `codefix`
             // (= "after codefix") grows with each post-cutoff pick like `total`.
             cutoff: '2026-06-08',
@@ -622,7 +623,7 @@
               total:        { w: 157, l: 128, u:  1.71 },
               before_codefix:{ w: 111, l:  91, u:  0.08 },  // static, pre-codefix
               codefix:      { w:  46, l:  37, u:  1.63 },  // after codefix, through 6/8
-              weekly:       { w:  21, l:  24, u: -7.45 },  // last complete wk 6/1–6/7
+              weekly:       { w:   2, l:   4, u:  -3.96 },  // current wk through cutoff (6/8)
               yesterday:    { w:   2, l:   4, u:  -3.96 },  // 6/8 (incl Hancock take)
             },
             leans: {
@@ -659,20 +660,18 @@
           const newPicks = allGradedPicks.filter(p => _postCutoff(p));
           const newLeans = allGradedLeans.filter(_postCutoff);
 
-          // Weekly window logic: the last COMPLETE Mon-Sun week. The
-          // in-progress current week is excluded until it finishes, so a fresh
-          // week's early days (e.g. a Monday's results viewed on Tuesday) don't
-          // show as a 1-day "weekly". curMon = this in-progress week's Monday;
-          // the last complete week is the 7 days ending the Sunday before it.
+          // Weekly window logic: the CURRENT in-progress Mon-Sun week, which
+          // resets every Monday. curMon = this week's Monday (the window start);
+          // the window runs through "today" so a fresh week shows its results
+          // from day one (e.g. on a Tuesday the weekly covers Mon-Tue) instead
+          // of lagging a full week behind on the last complete week.
           const _today = new Date(yesterdayStr + 'T12:00:00');
           _today.setDate(_today.getDate() + 1);
           const _todayDow = _today.getDay();   // 0=Sun,1=Mon,..6=Sat
           const _curMon = new Date(_today);
           _curMon.setDate(_today.getDate() - ((_todayDow + 6) % 7));  // current week's Monday
-          let wEnd = new Date(_curMon);
-          wEnd.setDate(_curMon.getDate() - 1);   // Sunday of last complete week
-          let wStart = new Date(wEnd);
-          wStart.setDate(wEnd.getDate() - 6);    // Monday of last complete week
+          let wStart = new Date(_curMon);        // Monday of the current week
+          let wEnd = new Date(_today);           // through today (in-progress)
           const weekLabel = 'Weekly';
           const weeklyStartStr = wStart.toISOString().slice(0, 10);
           const weeklyEndStr = wEnd.toISOString().slice(0, 10);
