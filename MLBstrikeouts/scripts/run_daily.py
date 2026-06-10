@@ -1049,8 +1049,8 @@ def run_daily(date_key=None):
     except Exception:
         fd_frozen_game_ids = set()
     # Source priority for STRIKEOUTS market:
-    #   1. Rotowire scrape (per-pitcher: DK > Caesars > Hard Rock > FD)
-    #   2. FanDuel direct scrape (only for pitchers Rotowire missed)
+    #   1. FanDuel direct scrape (primary)
+    #   2. Rotowire scrape (only for pitchers FanDuel missed)
     #   3. Odds API (last resort, only if probable starter still missing)
     #
     # Freeze the Rotowire scrape for any team whose pick is already locked
@@ -1082,13 +1082,10 @@ def run_daily(date_key=None):
                             frozen_team_keys.add(_t)
     except Exception:
         pass
-    # Rotowire writes first (primary). FD runs after and writes ONLY for
-    # pitchers Rotowire didn't cover — its internal merge filters out any
-    # fresh entry whose line_key already has a rotowire-tagged row in the
+    # FanDuel writes first (primary). Rotowire runs after and writes ONLY for
+    # pitchers FanDuel didn't cover — its internal merge filters out any
+    # fresh entry whose line_key already has a fanduel-tagged row in the
     # shared cache.
-    rw_props = fetch_rotowire_strikeouts_props(
-        date_key=date_key, started_team_keys=frozen_team_keys,
-    )
     fd_result = fetch_fanduel_mlb_props(
         date_key=date_key, confirmed_team_keys=frozen_team_keys,
     )
@@ -1096,18 +1093,23 @@ def run_daily(date_key=None):
         fd_props, _ = fd_result
     else:
         fd_props = fd_result
+    rw_props = fetch_rotowire_strikeouts_props(
+        date_key=date_key, started_team_keys=frozen_team_keys,
+    )
 
     def _norm_name(s):
         return (s or "").strip().lower()
 
-    # Combine Rotowire strikeouts (priority) + FD strikeouts (fallback for
-    # pitchers Rotowire missed) + FD non-strikeout markets (always kept).
-    rw_strikeout_names = {_norm_name(p.get("player")) for p in rw_props}
-    combined = list(rw_props)
-    for p in fd_props:
-        if p.get("market") == "strikeouts":
-            if _norm_name(p.get("player")) in rw_strikeout_names:
-                continue  # Rotowire wins
+    # Combine FanDuel (priority — all markets) + Rotowire strikeouts (fallback
+    # for pitchers FanDuel missed).
+    fd_strikeout_names = {
+        _norm_name(p.get("player")) for p in fd_props
+        if p.get("market") == "strikeouts"
+    }
+    combined = list(fd_props)
+    for p in rw_props:
+        if _norm_name(p.get("player")) in fd_strikeout_names:
+            continue  # FanDuel wins
         combined.append(p)
 
     # Odds API is last-resort fallback. Only call when a probable starter
@@ -1127,10 +1129,10 @@ def run_daily(date_key=None):
     odds_api_props = []
     if missing_pitchers:
         print(f"  Strikeouts missing for {len(missing_pitchers)} probable pitchers "
-              f"after Rotowire+FD — calling Odds API fallback")
+              f"after FanDuel+Rotowire — calling Odds API fallback")
         odds_api_props = fetch_mlb_pitcher_props(date_key=date_key)
     elif probable_names:
-        print(f"  Rotowire+FD covers all {len(probable_names)} probable pitchers "
+        print(f"  FanDuel+Rotowire covers all {len(probable_names)} probable pitchers "
               f"— skipping Odds API")
 
     combined_keys = {(p.get("player",""), p.get("market","")) for p in combined}
@@ -1144,7 +1146,7 @@ def run_daily(date_key=None):
     n_rw = sum(1 for p in prop_lines if str(p.get("source","")).startswith("rotowire"))
     n_fd = len(combined) - n_rw
     n_api = len(prop_lines) - len(combined)
-    print(f"  {n_rw} from Rotowire + {n_fd} from FanDuel + "
+    print(f"  {n_fd} from FanDuel + {n_rw} from Rotowire + "
           f"{n_api} from Odds API = {len(prop_lines)} total prop lines")
 
     # Stage 13: Project pitcher props

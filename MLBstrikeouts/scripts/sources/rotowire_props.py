@@ -6,10 +6,13 @@ https://www.rotowire.com/betting/mlb/player-props.php — each row carries
 per-book columns for line + over/under prices across DraftKings,
 FanDuel, BetMGM, Caesars, BetRivers, Hard Rock, theScore.
 
-Per-pitcher book priority: DraftKings -> Caesars -> Hard Rock -> FanDuel.
-The first book with both a non-empty line and at least one priced side
-wins. Pitchers absent from Rotowire entirely fall through to the FD
-direct scrape and finally the Odds API at the run_daily merge step.
+Per-pitcher book priority within Rotowire: DraftKings -> Caesars ->
+Hard Rock -> FanDuel. The first book with both a non-empty line and at
+least one priced side wins.
+
+Rotowire is a FALLBACK source: the FanDuel direct scrape is primary, and
+Rotowire only fills pitchers FanDuel missed (Odds API is the last resort),
+resolved at the run_daily merge step.
 
 Strikeouts market only. Uses the same cache file + line_key dedup as
 odds_fanduel.py / odds_theoddsapi.py so all three sources read/write a
@@ -238,17 +241,27 @@ def fetch_rotowire_strikeouts_props(
         })
         book_counts[book] = book_counts.get(book, 0) + 1
 
+    # FanDuel is the primary source. For the unified cache, drop any fresh
+    # Rotowire entry whose (player, market, game) line_key already exists
+    # tagged as a FanDuel row — Rotowire only fills gaps FanDuel didn't cover.
+    fanduel_keys = {
+        _line_key(p) for p in existing_props
+        if str(p.get("source", "")).startswith("fanduel")
+    }
+    gapfill_props = [p for p in new_props if _line_key(p) not in fanduel_keys]
+    fanduel_skipped = len(new_props) - len(gapfill_props)
+
     # Merge into unified mlb_props_{date_key}.json: cached entries kept;
-    # fresh entries with matching line_key overwrite. Started-game rows
-    # were dropped above, so cached pre-start lines stay frozen.
-    fresh_keys = {_line_key(p) for p in new_props}
+    # fresh gap-fill entries with matching line_key overwrite. Started-game
+    # rows were dropped above, so cached pre-start lines stay frozen.
+    fresh_keys = {_line_key(p) for p in gapfill_props}
     kept_props = [p for p in existing_props if _line_key(p) not in fresh_keys]
-    all_props = kept_props + new_props
+    all_props = kept_props + gapfill_props
     if all_props:
         _save_cache(all_props, cp)
 
-    # Separate rotowire_props_{date_key}.json cache: rotowire-only entries,
-    # merged the same way against the prior rotowire snapshot.
+    # Separate rotowire_props_{date_key}.json cache keeps the FULL Rotowire
+    # scrape (independent of FanDuel coverage) for daily tracking.
     rw_fresh_keys = {_line_key(p) for p in new_props}
     kept_rw = [p for p in existing_rw if _line_key(p) not in rw_fresh_keys]
     all_rw = kept_rw + new_props
@@ -257,8 +270,9 @@ def fetch_rotowire_strikeouts_props(
 
     parts = ", ".join(f"{c} {b.upper()}" for b, c in book_counts.items())
     started_note = f", skipped {started_skipped} started" if started_skipped else ""
-    print(f"  [rotowire_props] Kept {len(kept_props)} cached + {len(new_props)} fresh "
-          f"({parts}{started_note}) — unified total {len(all_props)} / rotowire {len(all_rw)}")
+    fd_note = f", {fanduel_skipped} fanduel-covered" if fanduel_skipped else ""
+    print(f"  [rotowire_props] Kept {len(kept_props)} cached + {len(gapfill_props)} fresh "
+          f"({parts}{started_note}{fd_note}) — unified total {len(all_props)} / rotowire {len(all_rw)}")
     return new_props
 
 

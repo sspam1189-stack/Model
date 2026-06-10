@@ -467,33 +467,20 @@ def fetch_fanduel_mlb_props(date_key=None, confirmed_team_keys=None,
     # Drop any fresh line for a started game (defensive — should be impossible)
     new_props = [p for p in new_props if not _is_started(p)]
 
-    # Rotowire is the primary source. Drop any fresh FD entry whose
-    # (player, market, game) line_key already exists in the cache tagged
-    # as a Rotowire row — FD only fills gaps Rotowire didn't cover.
-    rotowire_keys = {
-        _line_key(p) for p in existing_props
-        if str(p.get("source", "")).startswith("rotowire")
-    }
-    rotowire_skipped = sum(
-        1 for p in new_props if _line_key(p) in rotowire_keys
-    )
-    new_props = [p for p in new_props if _line_key(p) not in rotowire_keys]
-
-    # Merge: cached always kept; fresh overwrites only matching
-    # non-rotowire lines (since rotowire-covered keys were filtered above).
+    # FanDuel is the primary source — fresh FD lines overwrite any matching
+    # cached line_key (including ones a prior run tagged as rotowire), so the
+    # shared cache stays canonically FanDuel-first.
     fresh_keys = {_line_key(p) for p in new_props}
     kept_props = [p for p in existing_props if _line_key(p) not in fresh_keys]
 
     all_props = kept_props + new_props
 
     print(f"  [fanduel] Kept {len(kept_props)} cached + {len(new_props)} fresh prop lines "
-          f"({len(started_games)} games locked, "
-          f"{rotowire_skipped} skipped as rotowire-covered) — total {len(all_props)}"
+          f"({len(started_games)} games locked) — total {len(all_props)}"
           f"{'' if write_cache else ' (cache write disabled)'}")
 
     # Save only when caller opts in. The daily pipeline passes write_cache=True
-    # so FD's gap-fill entries persist; rotowire-covered keys were filtered
-    # above so the shared cache stays canonically rotowire-first.
+    # so FD lines persist as the primary source.
     if write_cache and all_props:
         _save_cache(all_props, cp)
 
