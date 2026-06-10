@@ -120,36 +120,6 @@
     "source": "rotowire:draftkings"
   },
   {
-    "player": "Chris Sale",
-    "market": "strikeouts",
-    "line": 7.5,
-    "over_price": -104,
-    "under_price": -122,
-    "event_home": "CWS",
-    "event_away": "ATL",
-    "source": "rotowire:draftkings"
-  },
-  {
-    "player": "Reid Detmers",
-    "market": "strikeouts",
-    "line": 6.5,
-    "over_price": 104,
-    "under_price": -133,
-    "event_home": "LAA",
-    "event_away": "HOU",
-    "source": "rotowire:draftkings"
-  },
-  {
-    "player": "MacKenzie Gore",
-    "market": "strikeouts",
-    "line": 4.5,
-    "over_price": -139,
-    "under_price": 109,
-    "event_home": "KC",
-    "event_away": "TEX",
-    "source": "rotowire:draftkings"
-  },
-  {
     "player": "Shota Imanaga",
     "market": "strikeouts",
     "line": 5.5,
@@ -170,16 +140,6 @@
     "source": "rotowire:draftkings"
   },
   {
-    "player": "Jesus Luzardo",
-    "market": "strikeouts",
-    "line": 5.5,
-    "over_price": -106,
-    "under_price": -121,
-    "event_home": "TOR",
-    "event_away": "PHI",
-    "source": "rotowire:draftkings"
-  },
-  {
     "player": "Framber Valdez",
     "market": "strikeouts",
     "line": 5.5,
@@ -187,56 +147,6 @@
     "under_price": -163,
     "event_home": "DET",
     "event_away": "MIN",
-    "source": "rotowire:draftkings"
-  },
-  {
-    "player": "Peter Lambert",
-    "market": "strikeouts",
-    "line": 4.5,
-    "over_price": -137,
-    "under_price": 107,
-    "event_home": "LAA",
-    "event_away": "HOU",
-    "source": "rotowire:draftkings"
-  },
-  {
-    "player": "Seth Lugo",
-    "market": "strikeouts",
-    "line": 4.5,
-    "over_price": -105,
-    "under_price": -121,
-    "event_home": "KC",
-    "event_away": "TEX",
-    "source": "rotowire:draftkings"
-  },
-  {
-    "player": "Davis Martin",
-    "market": "strikeouts",
-    "line": 4.5,
-    "over_price": -132,
-    "under_price": 101,
-    "event_home": "CWS",
-    "event_away": "ATL",
-    "source": "rotowire:caesars"
-  },
-  {
-    "player": "Jack Perkins",
-    "market": "strikeouts",
-    "line": 4.5,
-    "over_price": -129,
-    "under_price": 101,
-    "event_home": "OAK",
-    "event_away": "MIL",
-    "source": "rotowire:draftkings"
-  },
-  {
-    "player": "Brandon Sproat",
-    "market": "strikeouts",
-    "line": 4.5,
-    "over_price": 106,
-    "under_price": -136,
-    "event_home": "OAK",
-    "event_away": "MIL",
     "source": "rotowire:draftkings"
   },
   {
@@ -257,6 +167,96 @@
     "under_price": -106,
     "event_home": "COL",
     "event_away": "CHC",
+    "source": "rotowire:draftkings"
+  },
+  {
+    "player": "Chris Sale",
+    "market": "strikeouts",
+    "line": 7.5,
+    "over_price": -115,
+    "under_price": -111,
+    "event_home": "CWS",
+    "event_away": "ATL",
+    "source": "rotowire:draftkings"
+  },
+  {
+    "player": "Reid Detmers",
+    "market": "strikeouts",
+    "line": 6.5,
+    "over_price": -101,
+    "under_price": -127,
+    "event_home": "LAA",
+    "event_away": "HOU",
+    "source": "rotowire:draftkings"
+  },
+  {
+    "player": "MacKenzie Gore",
+    "market": "strikeouts",
+    "line": 4.5,
+    "over_price": -124,
+    "under_price": -102,
+    "event_home": "KC",
+    "event_away": "TEX",
+    "source": "rotowire:draftkings"
+  },
+  {
+    "player": "Jesus Luzardo",
+    "market": "strikeouts",
+    "line": 5.5,
+    "over_price": -110,
+    "under_price": -115,
+    "event_home": "TOR",
+    "event_away": "PHI",
+    "source": "rotowire:draftkings"
+  },
+  {
+    "player": "Peter Lambert",
+    "market": "strikeouts",
+    "line": 4.5,
+    "over_price": -137,
+    "under_price": 107,
+    "event_home": "LAA",
+    "event_away": "HOU",
+    "source": "rotowire:draftkings"
+  },
+  {
+    "player": "Seth Lugo",
+    "market": "strikeouts",
+    "line": 4.5,
+    "over_price": 104,
+    "under_price": -132,
+    "event_home": "KC",
+    "event_away": "TEX",
+    "source": "rotowire:draftkings"
+  },
+  {
+    "player": "Davis Martin",
+    "market": "strikeouts",
+    "line": 4.5,
+    "over_price": -127,
+    "under_price": -104,
+    "event_home": "CWS",
+    "event_away": "ATL",
+    "source": "rotowire:caesars"
+  },
+  {
+    "player": "Jack Perkins",
+    "market": "strikeouts",
+    "line": 4.5,
+    "over_price": -128,
+    "under_price": 100,
+    "event_home": "OAK",
+    "event_away": "MIL",
+    "source": "rotowire:draftkings"
+  },
+  {
+    "player": "Brandon Sproat",
+    "market": "strikeouts",
+    "line": 4.5,
+    "over_price": 111,
+    "under_price": -141,
+    "event_home": "OAK",
+    "event_away": "MIL",
     "source": "rotowire:draftkings"
   },
   {
