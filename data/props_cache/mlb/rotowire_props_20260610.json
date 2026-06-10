@@ -63,7 +63,7 @@
     "player": "Chris Sale",
     "market": "strikeouts",
     "line": 7.5,
-    "over_price": -108,
+    "over_price": -106,
     "under_price": -118,
     "event_home": "CWS",
     "event_away": "ATL",
@@ -83,8 +83,8 @@
     "player": "Shohei Ohtani",
     "market": "strikeouts",
     "line": 6.5,
-    "over_price": -106,
-    "under_price": -120,
+    "over_price": -120,
+    "under_price": -106,
     "event_home": "PIT",
     "event_away": "LAD",
     "source": "rotowire:draftkings"
@@ -102,9 +102,9 @@
   {
     "player": "Foster Griffin",
     "market": "strikeouts",
-    "line": 5.5,
-    "over_price": 126,
-    "under_price": -161,
+    "line": 4.5,
+    "over_price": -153,
+    "under_price": 121,
     "event_home": "SF",
     "event_away": "WAS",
     "source": "rotowire:draftkings"
@@ -113,8 +113,8 @@
     "player": "Shota Imanaga",
     "market": "strikeouts",
     "line": 5.5,
-    "over_price": 112,
-    "under_price": -143,
+    "over_price": 120,
+    "under_price": -154,
     "event_home": "COL",
     "event_away": "CHC",
     "source": "rotowire:draftkings"
@@ -123,8 +123,8 @@
     "player": "George Kirby",
     "market": "strikeouts",
     "line": 5.5,
-    "over_price": 120,
-    "under_price": -153,
+    "over_price": 118,
+    "under_price": -147,
     "event_home": "BAL",
     "event_away": "SEA",
     "source": "rotowire:draftkings"
@@ -133,8 +133,8 @@
     "player": "Jesus Luzardo",
     "market": "strikeouts",
     "line": 5.5,
-    "over_price": -113,
-    "under_price": -113,
+    "over_price": -101,
+    "under_price": -126,
     "event_home": "TOR",
     "event_away": "PHI",
     "source": "rotowire:draftkings"
@@ -143,8 +143,8 @@
     "player": "Robbie Ray",
     "market": "strikeouts",
     "line": 5.5,
-    "over_price": 122,
-    "under_price": -151,
+    "over_price": 129,
+    "under_price": -165,
     "event_home": "SF",
     "event_away": "WAS",
     "source": "rotowire:draftkings"
@@ -152,9 +152,9 @@
   {
     "player": "Framber Valdez",
     "market": "strikeouts",
-    "line": 5.5,
-    "over_price": 122,
-    "under_price": -156,
+    "line": 4.5,
+    "over_price": -159,
+    "under_price": 124,
     "event_home": "DET",
     "event_away": "MIN",
     "source": "rotowire:draftkings"
@@ -163,8 +163,8 @@
     "player": "Jared Jones",
     "market": "strikeouts",
     "line": 4.5,
-    "over_price": -161,
-    "under_price": 126,
+    "over_price": -152,
+    "under_price": 119,
     "event_home": "PIT",
     "event_away": "LAD",
     "source": "rotowire:draftkings"
@@ -173,8 +173,8 @@
     "player": "Peter Lambert",
     "market": "strikeouts",
     "line": 4.5,
-    "over_price": -143,
-    "under_price": 112,
+    "over_price": -137,
+    "under_price": 107,
     "event_home": "LAA",
     "event_away": "HOU",
     "source": "rotowire:draftkings"
@@ -183,7 +183,7 @@
     "player": "Seth Lugo",
     "market": "strikeouts",
     "line": 4.5,
-    "over_price": -106,
+    "over_price": -105,
     "under_price": -121,
     "event_home": "KC",
     "event_away": "TEX",
@@ -203,8 +203,8 @@
     "player": "Ryne Nelson",
     "market": "strikeouts",
     "line": 4.5,
-    "over_price": 113,
-    "under_price": -145,
+    "over_price": 104,
+    "under_price": -133,
     "event_home": "MIA",
     "event_away": "ARI",
     "source": "rotowire:draftkings"
@@ -220,11 +220,21 @@
     "source": "rotowire:draftkings"
   },
   {
+    "player": "Max Scherzer",
+    "market": "strikeouts",
+    "line": 4.5,
+    "over_price": 132,
+    "under_price": -169,
+    "event_home": "TOR",
+    "event_away": "PHI",
+    "source": "rotowire:draftkings"
+  },
+  {
     "player": "Brandon Sproat",
     "market": "strikeouts",
     "line": 4.5,
-    "over_price": 103,
-    "under_price": -131,
+    "over_price": 113,
+    "under_price": -144,
     "event_home": "OAK",
     "event_away": "MIL",
     "source": "rotowire:draftkings"
@@ -233,8 +243,8 @@
     "player": "Brandon Young",
     "market": "strikeouts",
     "line": 4.5,
-    "over_price": -119,
-    "under_price": -107,
+    "over_price": -122,
+    "under_price": -102,
     "event_home": "BAL",
     "event_away": "SEA",
     "source": "rotowire:draftkings"
@@ -257,16 +267,6 @@
     "under_price": 130,
     "event_home": "NYM",
     "event_away": "STL",
-    "source": "rotowire:draftkings"
-  },
-  {
-    "player": "Max Scherzer",
-    "market": "strikeouts",
-    "line": 3.5,
-    "over_price": -171,
-    "under_price": 133,
-    "event_home": "TOR",
-    "event_away": "PHI",
     "source": "rotowire:draftkings"
   }
 ]
