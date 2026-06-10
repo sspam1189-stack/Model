@@ -4,7 +4,7 @@
   "season": "2026",
   "mode": "live",
   "model": "kalman_blend",
-  "generated": "2026-06-10T16:06:59.995427",
+  "generated": "2026-06-10T16:39:42.548441",
   "totalProjections": 26,
   "totalPicks": 1472,
   "totalWatchlist": 19,
@@ -42874,7 +42874,7 @@
       "under_price": -102,
       "pick": "PASS",
       "edge": -0.6,
-      "pCover": 0.612,
+      "pCover": 0.61,
       "conf": "watch",
       "proj_ip": 5.7,
       "proj_bf": 23.0,
@@ -42884,12 +42884,12 @@
       "lineup_k_pct": 22.0,
       "odds": -102,
       "to_win_1u": 1.02,
-      "proj_raw": 3.941,
+      "proj_raw": 3.947,
       "would_be_pick": "UNDER",
       "date": "2026-06-10",
-      "lockState": "pending",
-      "lockedAt": null,
-      "lineupConfirmed": false
+      "lockState": "lineup_confirmed",
+      "lockedAt": "2026-06-10T21:39:42.548521Z",
+      "lineupConfirmed": true
     }
   ],
   "summary": "7 picks (+19 watch) from 26 projections",
@@ -43582,7 +43582,7 @@
       "under_price": -102,
       "pick": "PASS",
       "edge": -0.6,
-      "pCover": 0.612,
+      "pCover": 0.61,
       "conf": "low",
       "proj_ip": 5.7,
       "proj_bf": 23.0,
@@ -43592,11 +43592,11 @@
       "lineup_k_pct": 22.0,
       "odds": -102,
       "to_win_1u": 1.02,
-      "proj_raw": 3.941,
+      "proj_raw": 3.947,
       "date": "2026-06-10",
-      "lockState": "pending",
-      "lockedAt": null,
-      "lineupConfirmed": false
+      "lockState": "lineup_confirmed",
+      "lockedAt": "2026-06-10T21:39:42.548521Z",
+      "lineupConfirmed": true
     },
     {
       "player": "Reid Detmers",
@@ -43718,8 +43718,8 @@
     "CHC": "Pre-Game",
     "OAK": "Scheduled",
     "MIL": "Scheduled",
-    "LAA": "Scheduled",
-    "HOU": "Scheduled"
+    "LAA": "Pre-Game",
+    "HOU": "Pre-Game"
   },
   "gameTimesById": {
     "822970": "2026-06-10T17:10:00Z",
@@ -43753,7 +43753,7 @@
     "824590": "Pre-Game",
     "824348": "Pre-Game",
     "824996": "Scheduled",
-    "824022": "Scheduled"
+    "824022": "Pre-Game"
   },
   "homeAway": {
     "2026-04-14": {
