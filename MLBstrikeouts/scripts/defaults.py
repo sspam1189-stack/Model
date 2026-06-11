@@ -466,7 +466,22 @@ K_RATE_CAP_FLOOR = 0.40
 # Hard floor on expected_k_rate after the per-pitcher cap. Prevents
 # nonsensical near-zero K-rate projections from degenerate inputs (e.g.
 # missing recent starts blended into a 0% rate).
-K_RATE_FLOOR = 0.05
+#
+# 2026-06-11: raised 0.05 -> 0.14. The old 0.05 let the multiplicative matchup
+# adjust (pitcher_k% x lineup_k% / lg) compound a low-K starter vs a high-contact
+# lineup down to ~9% K/batter — an impossible rate for a real MLB starter — which
+# is what cratered the June u3.5 unders (projected ~9%, actual ~17.5%; the miss
+# was 100% K-rate, 0% depth). 0.14 floors those implausible projections.
+#
+# IMPORTANT — this is insurance, not edge. Walk-forward backtest (per-month):
+# raising the floor HELPS June (+3.0u) but HURTS Apr (-9u) + May (-7u) because
+# those low projections were *accurate* there (the starters genuinely K'd few);
+# net -9.4u/season vs floor=0.05 (+193.9u vs +203.3u), ROI 32.9% vs 32.3% on
+# lower volume. Chosen over 0.15 (which buys +2.5u more June for -10u more season)
+# and over a lower cap (0.36/0.38 only sheds profitable elite-arm overs). Shipped
+# deliberately as a guard against future June-like low-K stretches; revert to
+# 0.05 if the cost outweighs the protection. See the K-rate-floor sweep analysis.
+K_RATE_FLOOR = 0.14
 
 # Weather K-rate multiplier — applied as `k_weather_mult = 1.0 + bonus/penalty`
 # when game temperature crosses the cold/hot thresholds. Original 4/15 ship
