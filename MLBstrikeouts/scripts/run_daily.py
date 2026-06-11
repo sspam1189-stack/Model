@@ -412,6 +412,61 @@ def _stamp_read_verdicts(merged_props):
                 _tally(by_opp_dir[(opp, row_dir)])
 
 
+def _breakeven_prob(odds):
+    """Breakeven (implied) probability of an integer American price.
+
+    Sign-aware, computed from `odds` directly — do NOT derive this from
+    `to_win_1u`, which is *stake-to-win-1u* (the reciprocal of the net payout),
+    not the payout multiplier.
+    """
+    if odds is None:
+        return None
+    try:
+        o = float(odds)
+    except (TypeError, ValueError):
+        return None
+    if o < 0:
+        return abs(o) / (abs(o) + 100.0)
+    if o > 0:
+        return 100.0 / (o + 100.0)
+    return None  # odds of 0 is meaningless
+
+
+def _stamp_ev_verdicts(merged_props):
+    """Stamp evVerdict ("TAKE" / "PASS") on each actionable pick.
+
+    Shadow-only second gate layered on the pCover threshold. Mirrors
+    evVerdictFor() in PythonDashboard/js/mlb-props.js (if you change one, change
+    both). The verdict is SELF-CONTAINED per pick — it depends only on that
+    pick's own `odds` and `pCover`, so there is no walk-forward accumulation and
+    no leak risk. It NEVER changes the live pick/conf/lock.
+
+      PASS  if pCover < breakeven - EV_GATE_MARGIN   (pick is -EV at the price)
+      TAKE  otherwise (incl. picks with no odds to gate on)
+
+    Only OVER/UNDER strikeouts picks get a verdict; PASS/WATCH rows skip.
+    """
+    from defaults import EV_GATE_MARGIN
+
+    for p in merged_props:
+        if p.get("market") != "strikeouts":
+            continue
+        if p.get("pick") not in ("OVER", "UNDER"):
+            continue
+        pc = p.get("pCover")
+        be = _breakeven_prob(p.get("odds"))
+        try:
+            pc = float(pc) if pc is not None else None
+        except (TypeError, ValueError):
+            pc = None
+        if pc is None or be is None:
+            # No price (or no pCover) to gate on — default TAKE, same spirit as
+            # Read defaulting TAKE when the signal is thin.
+            p["evVerdict"] = "TAKE"
+            continue
+        p["evVerdict"] = "PASS" if pc < be - EV_GATE_MARGIN else "TAKE"
+
+
 def grade_previous_picks(season=None):
     """Grade ungraded picks from previous dates using actual game logs."""
     from collections import defaultdict
@@ -1540,6 +1595,11 @@ def run_daily(date_key=None):
         # in PythonDashboard/js/mlb-props.js — if you change one, change both.
         _stamp_read_verdicts(merged_props)
 
+        # Stamp evVerdict ("TAKE" / "PASS") — the EV Gate shadow monitor. Layers
+        # a price-aware second gate on top of the pCover threshold; shadow only,
+        # never alters the live pick. Mirrors evVerdictFor in mlb-props.js.
+        _stamp_ev_verdicts(merged_props)
+
         # Scratched/voided pitchers never threw — their projection, line, and
         # odds must NOT persist in the data. This is the source-of-truth mirror
         # of the dashboard's client-side VOID strip in
@@ -1552,7 +1612,7 @@ def run_daily(date_key=None):
         # all of that pitcher's markets disappear for the day.
         _VOID_STRIP_FIELDS = (
             "proj", "proj_raw", "std", "line", "over_price", "under_price", "odds",
-            "edge", "pCover", "conf", "to_win_1u", "readVerdict",
+            "edge", "pCover", "conf", "to_win_1u", "readVerdict", "evVerdict",
             "proj_ip", "proj_bf", "proj_bf_capped", "proj_pc",
             "opp_team_k_pct", "lineup_k_pct",
         )

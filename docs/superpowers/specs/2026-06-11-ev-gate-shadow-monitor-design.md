@@ -86,22 +86,27 @@ leak risk. The backtest card simply re-applies the same per-pick rule to each gr
 
 ## Dashboard layout change
 
-Group the two shadow gates together at the bottom of the page (where Read Record currently sits,
-appended around line 4213). New order within the group:
+There are now **three** shadow-monitor gates. They are grouped together at the very bottom of the
+page (appended after `_renderRedditCard()` runs, ~line 5214), in order:
 
 1. **Read Model History Gate — shadow monitor (not live)** — the existing `_readRecordCard`,
-   renamed (card title/header text updated from "Read Record (backtest)") and relocated into the
-   group.
-2. **EV Gate — shadow monitor (not live)** — the new `_evRecordCard`.
+   renamed from "Read Record (backtest)".
+2. **MAE Gate — shadow monitor (not live)** — the existing "Edge Gate" card (`renderEdgeGate` →
+   `renderMaeGate`), **renamed** because its signal is literally model MAE (`|proj-actual|`) vs
+   Vegas-line MAE (`|line-actual|`); the rename also disambiguates it from the EV Gate. Hoisted to
+   a new `_maeGateCard` slot (was appended inline inside `_renderRedditCard`).
+3. **EV Gate — shadow monitor (not live)** — the new `_evRecordCard`.
 
-The "Recent Record" container and All-history table stay below the group, preserving the rest of
-the page flow.
+To group them, the mid-page `_readRecordCard`/`_evRecordCard` appends (formerly after Season Market
+Breakdown) are removed; all three are appended together at the bottom. The "Recent Record" container
+and All-history table stay above the group.
 
 ## Decisions locked
 
 - `EV_GATE_MARGIN` default **0.0**.
 - Field name **`evVerdict`**.
-- Card order: **Read Model History Gate first, EV Gate second.**
+- Card order at the bottom: **Read → MAE → EV.**
+- "Edge Gate" renamed to **"MAE Gate"**.
 - Raw offered price for breakeven (no de-vig).
 
 ## Testing / verification

@@ -227,6 +227,14 @@
       // the shared scope. Hoisted slot lets us append it between Season
       // Market Breakdown and Recent Record.
       let _readRecordCard = null;
+      // EV Gate card: backtest of the price-aware EV verdict (evVerdict) vs
+      // actual results. Built late (after Read Record) and appended right below
+      // it so the two shadow-monitor gates sit together.
+      let _evRecordCard = null;
+      // MAE Gate card (formerly "Edge Gate") — built inside _renderRedditCard but
+      // hoisted here so all three shadow-monitor gates can be appended together
+      // at the very bottom in order Read -> MAE -> EV.
+      let _maeGateCard = null;
 
       // ── Yesterday's Recap + Today's Picks ──
       (function renderMLBDailyCards() {
@@ -369,6 +377,7 @@
         const recentModeOptions = [
           { label: 'All',  filter: () => true,                       title: 'Recent Record' },
           { label: 'Read', filter: p => p.readVerdict === 'TAKE',    title: 'Recent Read Record' },
+          { label: 'EV',   filter: p => p.evVerdict === 'TAKE',      title: 'Recent EV Record' },
         ];
         let recentModeIdx = 0;
 
@@ -1090,8 +1099,11 @@
 
           el.appendChild(redditCard);
 
-          // --- Edge Gate (shadow monitor — NOT live) ---------------------------
+          // --- MAE Gate (shadow monitor — NOT live) ---------------------------
           // Watches whether your recent picks are out-predicting the closing line.
+          // Named for its signal: trailing model MAE |proj-actual| vs Vegas line
+          // MAE |line-actual|. (Formerly "Edge Gate" — renamed to name the
+          // mechanism and to disambiguate from the EV Gate.)
           // Signal = trailing 3-day (model |proj-actual| MAE) minus (line MAE) over
           // graded picks (pCover>=0.64). gap<0 => you're sharper than Vegas => bet
           // full card (>=0.64). gap>=0 => your recent picks are TRAILING the line
@@ -1100,7 +1112,7 @@
           // whether to adopt it once enough flip events accumulate. It does not
           // change any picks. Window=3d chosen to ~match a series; leak-free
           // (each date's gap uses only strictly-prior graded picks).
-          (function renderEdgeGate(){
+          (function renderMaeGate(){
             const LOWT=0.64, HIGHT=0.68, GWIN=3, GMIN=8;
             const g=(data.props||[]).filter(p =>
               (p.pick==='OVER'||p.pick==='UNDER') &&
@@ -1141,7 +1153,7 @@
             card.style.marginBottom='16px';
             const title=document.createElement('div');
             title.className='card-title';
-            title.textContent='Edge Gate — shadow monitor (not live)';
+            title.textContent='MAE Gate — shadow monitor (not live)';
             card.appendChild(title);
 
             // status banner
@@ -1226,7 +1238,9 @@
             note.textContent='Monitor only — your actual picks are unchanged. The "Saved u" is the counterfactual P/L of skipping the 0.64–0.68 tier on days the gate flipped. Watch whether the cumulative stays positive across more flip days before adopting — it is currently fit to one regime event.';
             card.appendChild(note);
 
-            el.appendChild(card);
+            // Hoisted — appended at the very bottom with the other two shadow
+            // gates (Read -> MAE -> EV) rather than inline here.
+            _maeGateCard = card;
           })();
         };
 
@@ -3280,7 +3294,7 @@
             rrCard.style.marginBottom = '16px';
             rrCard.appendChild(Object.assign(document.createElement('div'), {
               className: 'card-title',
-              textContent: `Read Record (backtest)`,
+              textContent: `Read Model History Gate — shadow monitor (not live)`,
             }));
 
             // Summary row: TAKE / PASS totals.
@@ -3533,6 +3547,429 @@
             rrCard.appendChild(cap);
 
             _readRecordCard = rrCard;
+          })();
+
+          // ── EV Gate (backtest) — shadow monitor (not live) ──
+          // Price-aware second gate layered on the pCover threshold. For each
+          // graded pick, convert the offered American price to a breakeven
+          // probability and compare to pCover. Verdict is SELF-CONTAINED per
+          // pick (no walk-forward cohort needed). Mirrors _stamp_ev_verdicts in
+          // run_daily.py (if you change one, change both). Shadow only — never
+          // alters which picks are bet.
+          (function buildEvRecord() {
+            // EV_GATE_MARGIN mirrors defaults.py (default 0.0). Kept inline so
+            // the dashboard needs no extra data plumbing; if the Python default
+            // changes, update here too.
+            const EV_GATE_MARGIN = 0.0;
+            // Breakeven prob of an integer American price — sign-aware, from
+            // odds directly (NOT from to_win_1u, which is stake-to-win-1u).
+            const _breakeven = (odds) => {
+              if (odds == null) return null;
+              const o = Number(odds);
+              if (!isFinite(o) || o === 0) return null;
+              return o < 0 ? Math.abs(o) / (Math.abs(o) + 100) : 100 / (o + 100);
+            };
+            // Per-pick verdict: default TAKE, PASS only when clearly -EV.
+            const evVerdictFor = (p) => {
+              const be = _breakeven(p.odds);
+              const pc = p.pCover;
+              if (be == null || pc == null) return 'TAKE';
+              return (Number(pc) < be - EV_GATE_MARGIN) ? 'PASS' : 'TAKE';
+            };
+
+            // Only actionable OVER/UNDER strikeouts picks, graded, in date order.
+            const graded = (data.props || []).filter(p =>
+              p.market === 'strikeouts'
+              && (p.result === 'WIN' || p.result === 'LOSS')
+              && (p.pick === 'OVER' || p.pick === 'UNDER')
+            ).sort((a, b) => (a.date || '').localeCompare(b.date || ''));
+            if (graded.length === 0) return;
+
+            const _unitsOf = (p) => {
+              const won = p.result === 'WIN';
+              const od = p.odds;
+              if (od == null) return won ? 1 : -1;
+              const o = Number(od);
+              if (o > 0) return won ? o / 100 : -1;
+              return won ? 1 : -Math.abs(o) / 100;
+            };
+
+            let takeW = 0, takeL = 0, takeU = 0;
+            let passW = 0, passL = 0, passU = 0; // what PASS WOULD have done
+            const byMonth = {};
+            const rows = [];
+            for (const p of graded) {
+              const verdict = evVerdictFor(p);
+              const u = _unitsOf(p);
+              const won = p.result === 'WIN';
+              const ym = (p.date || '').slice(0, 7);
+              if (!byMonth[ym]) byMonth[ym] = { takeW:0, takeL:0, takeU:0, passW:0, passL:0, passU:0 };
+              if (verdict === 'TAKE') {
+                if (won) { takeW++; byMonth[ym].takeW++; } else { takeL++; byMonth[ym].takeL++; }
+                takeU += u; byMonth[ym].takeU += u;
+              } else {
+                if (won) { passW++; byMonth[ym].passW++; } else { passL++; byMonth[ym].passL++; }
+                passU += u; byMonth[ym].passU += u;
+              }
+              rows.push({ p, verdict, u, won, be: _breakeven(p.odds) });
+            }
+
+            const evCard = document.createElement('div');
+            evCard.className = 'card card-games';
+            evCard.style.marginBottom = '16px';
+            evCard.appendChild(Object.assign(document.createElement('div'), {
+              className: 'card-title',
+              textContent: `EV Gate — shadow monitor (not live)`,
+            }));
+
+            const sumRow = document.createElement('div');
+            sumRow.style.cssText = 'display:flex;gap:18px;padding:10px 4px 6px;flex-wrap:wrap;font-size:13px';
+            const fmt = (w, l, u) => {
+              const n = w + l;
+              const wr = n > 0 ? (w/n*100).toFixed(1) + '%' : '—';
+              const uS = (u >= 0 ? '+' : '') + u.toFixed(2) + 'u';
+              return `${w}-${l} (${wr}) ${uS}`;
+            };
+            sumRow.innerHTML = `
+              <div><span style="color:#bbb;font-weight:600">TAKE (+EV):</span>
+                <span style="color:${takeU>=0?'var(--green)':'var(--red)'};font-weight:600">${fmt(takeW, takeL, takeU)}</span></div>
+              <div><span style="color:#bbb;font-weight:600">PASS would-be (−EV):</span>
+                <span style="color:${passU>=0?'var(--green)':'var(--red)'};font-weight:600">${fmt(passW, passL, passU)}</span></div>
+              <div style="color:#888;font-size:12px;align-self:center">backtested across ${rows.length} graded picks</div>
+            `;
+            evCard.appendChild(sumRow);
+
+            const months = Object.keys(byMonth).sort();
+            if (months.length > 0) {
+              const wrap = document.createElement('div');
+              wrap.className = 'props-table-wrap';
+              const tbl = document.createElement('table');
+              tbl.style.cssText = 'width:100%;border-collapse:collapse;margin-top:6px';
+              const hr = tbl.createTHead().insertRow();
+              ['Month','TAKE Record','TAKE WR%','TAKE Units','PASS Record','PASS WR%','PASS Units'].forEach((h, i) => {
+                const th = document.createElement('th');
+                th.textContent = h;
+                th.style.cssText = `padding:6px 8px;border-bottom:1px solid rgba(255,255,255,0.1);font-size:11px;color:#999;text-align:${i===0?'left':'right'}`;
+                hr.appendChild(th);
+              });
+              const tb = tbl.createTBody();
+              const monthName = (ym) => {
+                const m = parseInt(ym.slice(5, 7), 10);
+                const names = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+                return names[m - 1] + ' ' + ym.slice(0, 4);
+              };
+              for (const ym of months) {
+                const r = byMonth[ym];
+                const tN = r.takeW + r.takeL;
+                const pN = r.passW + r.passL;
+                const tWR = tN > 0 ? (r.takeW/tN*100).toFixed(1) + '%' : '—';
+                const pWR = pN > 0 ? (r.passW/pN*100).toFixed(1) + '%' : '—';
+                const tUStr = (r.takeU >= 0 ? '+' : '') + r.takeU.toFixed(2) + 'u';
+                const pUStr = (r.passU >= 0 ? '+' : '') + r.passU.toFixed(2) + 'u';
+                const tr = tb.insertRow();
+                tr.style.borderBottom = '1px solid rgba(255,255,255,0.04)';
+                const cells = [
+                  { v: monthName(ym), align: 'left', color: '#ccc' },
+                  { v: `${r.takeW}-${r.takeL}`, align: 'right' },
+                  { v: tWR, align: 'right', color: tN > 0 ? (r.takeW/tN >= 0.55 ? 'var(--green)' : r.takeW/tN < 0.50 ? 'var(--red)' : '#ccc') : '#888' },
+                  { v: tUStr, align: 'right', color: r.takeU >= 0 ? 'var(--green)' : 'var(--red)' },
+                  { v: `${r.passW}-${r.passL}`, align: 'right' },
+                  { v: pWR, align: 'right', color: pN > 0 ? (r.passW/pN >= 0.55 ? 'var(--green)' : r.passW/pN < 0.50 ? 'var(--red)' : '#ccc') : '#888' },
+                  { v: pUStr, align: 'right', color: r.passU >= 0 ? 'var(--green)' : 'var(--red)' },
+                ];
+                cells.forEach(c => {
+                  const td = tr.insertCell();
+                  td.textContent = c.v;
+                  td.style.cssText = `padding:5px 8px;font-size:12px;text-align:${c.align}`;
+                  if (c.color) td.style.color = c.color;
+                });
+              }
+              wrap.appendChild(tbl);
+              evCard.appendChild(wrap);
+            }
+
+            // --- All picks: our pCover / our line vs Vegas line / Vegas pCover ---
+            // Collapsed by default. Lists every actionable pick (graded AND
+            // pending today) with the model side-by-side against the market:
+            //   our pCover  = model P(cover)
+            //   our line    = fair American odds implied by our pCover (no vig)
+            //   Vegas line  = the offered American price
+            //   Vegas pCover= breakeven prob of that price (vig included)
+            //   Δ           = our pCover − Vegas pCover (positive => +EV edge)
+            const _probToAmerican = (p) => {
+              if (p == null || p <= 0 || p >= 1) return null;
+              return p >= 0.5 ? Math.round(-100 * p / (1 - p)) : Math.round(100 * (1 - p) / p);
+            };
+            const _fmtOdds = (o) => o == null ? '—' : (o > 0 ? '+' : '') + o;
+            const _fmtPct = (x) => x == null ? '—' : (x * 100).toFixed(1) + '%';
+
+            const allPicks = (data.props || []).filter(p =>
+              p.market === 'strikeouts'
+              && (p.pick === 'OVER' || p.pick === 'UNDER')
+              && p.pCover != null && p.odds != null
+            ).sort((a, b) => (b.date || '').localeCompare(a.date || '')
+                          || (a.player || '').localeCompare(b.player || ''));
+
+            if (allPicks.length) {
+              // Precompute one record per pick with both display strings and raw
+              // sort values, so filtering/sorting is cheap and re-render is just
+              // a tbody rebuild.
+              const apData = allPicks.map(p => {
+                const pc = Number(p.pCover);
+                const be = _breakeven(p.odds);
+                const ourLine = _probToAmerican(pc);
+                const vegasLine = Number(p.odds);
+                const edgePP = (be != null) ? (pc - be) * 100 : null;
+                const verdict = evVerdictFor(p);
+                const dir = p.pick === 'OVER' ? 'o' : 'u';
+                const res = (p.result === 'WIN' || p.result === 'LOSS') ? p.result[0] : '·';
+                const won = p.result === 'WIN' ? true : p.result === 'LOSS' ? false : null;
+                return { date: p.date || '', player: p.player || '', pickStr: `${dir}${p.line}`,
+                         lineNum: Number(p.line), proj: p.proj == null ? null : Number(p.proj),
+                         actual: p.actual == null ? null : Number(p.actual),
+                         pc, ourLine, vegasLine, be, edgePP, verdict, res,
+                         dirFull: p.pick, won, u: won === null ? 0 : _unitsOf(p),
+                         week: p.date ? getWeekStart(p.date) : '' };
+              });
+
+              // Column definitions: label, alignment, sort type/accessor, and a
+              // cell renderer returning {v, color}.
+              const AP_COLS = [
+                { key:'date',      label:'Date',         align:'left',  type:'str', val:r=>r.date,      cell:r=>({v:r.date,    color:'#bbb'}) },
+                { key:'player',    label:'Player',       align:'left',  type:'str', val:r=>r.player,    cell:r=>({v:r.player,  color:'#ddd'}) },
+                { key:'pick',      label:'Pick',         align:'left',  type:'num', val:r=>r.lineNum,   cell:r=>({v:r.pickStr, color:'#bbb'}) },
+                { key:'proj',      label:'Proj',         align:'right', type:'num', val:r=>r.proj,      cell:r=>({v:r.proj==null?'—':r.proj.toFixed(1), color:'#9ad'}) },
+                { key:'actual',    label:'Actual',       align:'right', type:'num', val:r=>r.actual,    cell:r=>({v:r.actual==null?'·':String(r.actual), color:r.actual==null?'#888':'#ddd'}) },
+                { key:'pc',        label:'Our pCover',   align:'right', type:'num', val:r=>r.pc,        cell:r=>({v:_fmtPct(r.pc),       color:'#ddd'}) },
+                { key:'ourLine',   label:'Our line',     align:'right', type:'num', val:r=>r.ourLine,   cell:r=>({v:_fmtOdds(r.ourLine), color:'#9ad'}) },
+                { key:'vegasLine', label:'Vegas line',   align:'right', type:'num', val:r=>r.vegasLine, cell:r=>({v:_fmtOdds(r.vegasLine),color:'#ddd'}) },
+                { key:'be',        label:'Vegas pCover', align:'right', type:'num', val:r=>r.be,        cell:r=>({v:_fmtPct(r.be),       color:'#caa'}) },
+                { key:'edge',      label:'Δ',            align:'right', type:'num', val:r=>r.edgePP,    cell:r=>({v:r.edgePP==null?'—':(r.edgePP>=0?'+':'')+r.edgePP.toFixed(1)+'pp', color:r.edgePP==null?'#888':(r.edgePP>=0?'var(--green)':'var(--red)')}) },
+                { key:'verdict',   label:'Verdict',      align:'right', type:'str', val:r=>r.verdict,   cell:r=>({v:r.verdict, color:r.verdict==='TAKE'?'var(--green)':'var(--red)'}) },
+                { key:'result',    label:'Result',       align:'right', type:'str', val:r=>r.res,       cell:r=>({v:r.res, color:r.res==='W'?'var(--green)':r.res==='L'?'var(--red)':'#888'}) },
+              ];
+
+              // Sort + filter state. Default: date descending (most recent first).
+              let _apSortKey = 'date', _apSortDir = -1; // 1 asc, -1 desc
+              let _fVerdict = 'ALL', _fResult = 'ALL', _fEdge = 'ALL', _fSearch = '';
+              let _fDir = 'ALL', _fWeek = 'ALL', _fDay = 'ALL';
+
+              // Distinct weeks (Mon-start) and days present, most-recent first.
+              const _fmtWeekLabel = (mon) => {
+                if (!mon) return mon;
+                const end = getWeekEnd(mon);
+                const mn = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+                const a = new Date(mon + 'T00:00:00Z'), b = new Date(end + 'T00:00:00Z');
+                const aM = mn[a.getUTCMonth()], bM = mn[b.getUTCMonth()];
+                return aM === bM ? `${aM} ${a.getUTCDate()}–${b.getUTCDate()}`
+                                 : `${aM} ${a.getUTCDate()}–${bM} ${b.getUTCDate()}`;
+              };
+              const _allWeeks = [...new Set(apData.map(r => r.week).filter(Boolean))].sort().reverse();
+              const _daysForWeek = (wk) => [...new Set(apData
+                .filter(r => wk === 'ALL' || r.week === wk)
+                .map(r => r.date).filter(Boolean))].sort().reverse();
+
+              const apToggleRow = document.createElement('div');
+              apToggleRow.style.cssText = 'border-top:1px solid rgba(255,255,255,0.06);margin-top:12px;padding:10px 4px 0';
+              const apBtn = document.createElement('button');
+              let _apOpen = false;
+              apBtn.style.cssText = 'background:none;border:none;color:#a78bfa;font-size:12px;font-weight:600;cursor:pointer;padding:4px 0;display:flex;align-items:center;gap:6px';
+              const _setApTxt = () => { apBtn.textContent = (_apOpen ? '▼ ' : '▶ ') + `All picks — our vs Vegas (${allPicks.length})`; };
+              _setApTxt();
+              apToggleRow.appendChild(apBtn);
+              evCard.appendChild(apToggleRow);
+
+              const apBody = document.createElement('div');
+              apBody.style.display = 'none';
+              apBtn.addEventListener('click', () => { _apOpen = !_apOpen; _setApTxt(); apBody.style.display = _apOpen ? '' : 'none'; });
+
+              // --- Filter bar: chip groups + player search ---
+              const _AP_ACTIVE = 'padding:3px 9px;font-size:11px;font-weight:700;border:1px solid #a78bfa;background:#a78bfa;color:#0a0a0a;border-radius:4px;cursor:pointer';
+              const _AP_IDLE   = 'padding:3px 9px;font-size:11px;font-weight:500;border:1px solid rgba(255,255,255,0.15);background:rgba(255,255,255,0.04);color:#ccc;border-radius:4px;cursor:pointer';
+              const _chipGroup = (label, opts, getVal, setVal) => {
+                const wrap = document.createElement('div');
+                wrap.style.cssText = 'display:flex;gap:4px;align-items:center';
+                const lab = document.createElement('span');
+                lab.textContent = label; lab.style.cssText = 'font-size:11px;color:#bbb;font-weight:600;margin-right:2px';
+                wrap.appendChild(lab);
+                const btns = {};
+                opts.forEach(o => {
+                  const b = document.createElement('button');
+                  b.textContent = o.label;
+                  b.style.cssText = getVal() === o.key ? _AP_ACTIVE : _AP_IDLE;
+                  b.addEventListener('click', () => {
+                    setVal(o.key);
+                    for (const k in btns) btns[k].style.cssText = (k === o.key) ? _AP_ACTIVE : _AP_IDLE;
+                    _renderApRows();
+                  });
+                  btns[o.key] = b; wrap.appendChild(b);
+                });
+                return wrap;
+              };
+
+              const apFilterBar = document.createElement('div');
+              apFilterBar.style.cssText = 'display:flex;gap:14px;flex-wrap:wrap;align-items:center;padding:10px 4px 4px';
+              apFilterBar.appendChild(_chipGroup('Verdict', [{key:'ALL',label:'All'},{key:'TAKE',label:'TAKE'},{key:'PASS',label:'PASS'}], () => _fVerdict, v => _fVerdict = v));
+              apFilterBar.appendChild(_chipGroup('Result',  [{key:'ALL',label:'All'},{key:'W',label:'Win'},{key:'L',label:'Loss'},{key:'P',label:'Pending'}], () => _fResult, v => _fResult = v));
+              apFilterBar.appendChild(_chipGroup('Edge',    [{key:'ALL',label:'All'},{key:'POS',label:'+EV'},{key:'NEG',label:'−EV'}], () => _fEdge, v => _fEdge = v));
+              apFilterBar.appendChild(_chipGroup('Side',    [{key:'ALL',label:'All'},{key:'OVER',label:'Over'},{key:'UNDER',label:'Under'}], () => _fDir, v => _fDir = v));
+
+              // Week + Day dropdowns. Selecting a week narrows the Day options to
+              // that week (and resets Day to All).
+              const _selStyle = 'padding:3px 8px;font-size:11px;border-radius:4px;border:1px solid rgba(255,255,255,0.15);background:rgba(255,255,255,0.04);color:#fff;outline:none;cursor:pointer';
+              const _mkSelWrap = (label, sel) => {
+                const w = document.createElement('div');
+                w.style.cssText = 'display:flex;gap:4px;align-items:center';
+                const lab = document.createElement('span');
+                lab.textContent = label; lab.style.cssText = 'font-size:11px;color:#bbb;font-weight:600;margin-right:2px';
+                w.appendChild(lab); w.appendChild(sel); return w;
+              };
+              const weekSel = document.createElement('select');
+              weekSel.style.cssText = _selStyle;
+              const _fillWeekOpts = () => {
+                weekSel.innerHTML = '';
+                weekSel.appendChild(new Option('All weeks', 'ALL'));
+                _allWeeks.forEach(wk => weekSel.appendChild(new Option(_fmtWeekLabel(wk), wk)));
+              };
+              _fillWeekOpts();
+              const daySel = document.createElement('select');
+              daySel.style.cssText = _selStyle;
+              const _fillDayOpts = () => {
+                daySel.innerHTML = '';
+                daySel.appendChild(new Option('All days', 'ALL'));
+                _daysForWeek(_fWeek).forEach(d => daySel.appendChild(new Option(d, d)));
+                daySel.value = _fDay;
+              };
+              _fillDayOpts();
+              weekSel.addEventListener('change', () => {
+                _fWeek = weekSel.value; _fDay = 'ALL'; _fillDayOpts(); _renderApRows();
+              });
+              daySel.addEventListener('change', () => { _fDay = daySel.value; _renderApRows(); });
+              apFilterBar.appendChild(_mkSelWrap('Week', weekSel));
+              apFilterBar.appendChild(_mkSelWrap('Day', daySel));
+
+              const srch = document.createElement('input');
+              srch.type = 'text'; srch.placeholder = 'player…';
+              srch.style.cssText = 'padding:3px 8px;font-size:11px;border-radius:4px;border:1px solid rgba(255,255,255,0.15);background:rgba(255,255,255,0.04);color:#fff;outline:none;width:120px';
+              srch.addEventListener('input', () => { _fSearch = srch.value; _renderApRows(); });
+              apFilterBar.appendChild(srch);
+              const apCount = document.createElement('span');
+              apCount.style.cssText = 'font-size:11px;color:#888;margin-left:auto';
+              apFilterBar.appendChild(apCount);
+              apBody.appendChild(apFilterBar);
+
+              // Over vs Under W-L summary for the CURRENT filtered set (graded
+              // rows only). Updated by _renderApRows.
+              const apOuSummary = document.createElement('div');
+              apOuSummary.style.cssText = 'display:flex;gap:20px;flex-wrap:wrap;padding:4px 4px 8px;font-size:12px';
+              apBody.appendChild(apOuSummary);
+
+              // --- Table ---
+              const apWrap = document.createElement('div');
+              apWrap.className = 'props-table-wrap';
+              apWrap.style.cssText = 'max-height:420px;overflow:auto;margin-top:4px';
+              const apTbl = document.createElement('table');
+              apTbl.style.cssText = 'width:100%;border-collapse:collapse';
+              const apHead = apTbl.createTHead().insertRow();
+              AP_COLS.forEach(c => {
+                const th = document.createElement('th');
+                th.dataset.key = c.key;
+                th.style.cssText = `position:sticky;top:0;background:#15151c;padding:6px 8px;border-bottom:1px solid rgba(255,255,255,0.1);font-size:11px;color:#999;text-align:${c.align};white-space:nowrap;cursor:pointer;user-select:none`;
+                th.addEventListener('click', () => {
+                  if (_apSortKey === c.key) { _apSortDir = -_apSortDir; }
+                  else { _apSortKey = c.key; _apSortDir = (c.type === 'num') ? -1 : 1; }
+                  _updateApHeaders(); _renderApRows();
+                });
+                apHead.appendChild(th);
+              });
+              const apTb = apTbl.createTBody();
+              apWrap.appendChild(apTbl);
+              apBody.appendChild(apWrap);
+              evCard.appendChild(apBody);
+
+              function _updateApHeaders() {
+                [...apHead.children].forEach(th => {
+                  const c = AP_COLS.find(x => x.key === th.dataset.key);
+                  const active = th.dataset.key === _apSortKey;
+                  th.textContent = c.label + (active ? (_apSortDir === 1 ? ' ▲' : ' ▼') : '');
+                  th.style.color = active ? '#a78bfa' : '#999';
+                });
+              }
+
+              function _renderApRows() {
+                const sLower = _fSearch.trim().toLowerCase();
+                let rows = apData.filter(r => {
+                  if (_fVerdict !== 'ALL' && r.verdict !== _fVerdict) return false;
+                  if (_fResult === 'W' && r.res !== 'W') return false;
+                  if (_fResult === 'L' && r.res !== 'L') return false;
+                  if (_fResult === 'P' && r.res !== '·') return false;
+                  if (_fEdge === 'POS' && !(r.edgePP != null && r.edgePP >= 0)) return false;
+                  if (_fEdge === 'NEG' && !(r.edgePP != null && r.edgePP < 0)) return false;
+                  if (_fDir !== 'ALL' && r.dirFull !== _fDir) return false;
+                  if (_fWeek !== 'ALL' && r.week !== _fWeek) return false;
+                  if (_fDay !== 'ALL' && r.date !== _fDay) return false;
+                  if (sLower && !r.player.toLowerCase().includes(sLower)) return false;
+                  return true;
+                });
+                const col = AP_COLS.find(c => c.key === _apSortKey);
+                rows.sort((a, b) => {
+                  let va = col.val(a), vb = col.val(b);
+                  if (col.type === 'num') {
+                    va = (va == null || isNaN(va)) ? -Infinity : va;
+                    vb = (vb == null || isNaN(vb)) ? -Infinity : vb;
+                    return (va - vb) * _apSortDir;
+                  }
+                  return String(va).localeCompare(String(vb)) * _apSortDir;
+                });
+                apTb.textContent = '';
+                for (const r of rows) {
+                  const tr = apTb.insertRow();
+                  tr.style.borderBottom = '1px solid rgba(255,255,255,0.04)';
+                  AP_COLS.forEach(c => {
+                    const cd = c.cell(r);
+                    const td = tr.insertCell();
+                    td.textContent = cd.v;
+                    td.style.cssText = `padding:4px 8px;font-size:12px;text-align:${c.align};white-space:nowrap`;
+                    if (cd.color) td.style.color = cd.color;
+                  });
+                }
+                apCount.textContent = `${rows.length} of ${apData.length}`;
+
+                // Over vs Under W-L (+units) for the graded rows in this view.
+                const acc = { OVER: { w:0, l:0, u:0 }, UNDER: { w:0, l:0, u:0 } };
+                rows.forEach(r => {
+                  if (r.won === null) return; // skip pending
+                  const a = acc[r.dirFull]; if (!a) return;
+                  if (r.won) a.w++; else a.l++;
+                  a.u += r.u;
+                });
+                const _ouChip = (label, a) => {
+                  const n = a.w + a.l;
+                  const wr = n > 0 ? (a.w / n * 100).toFixed(1) + '%' : '—';
+                  const uS = (a.u >= 0 ? '+' : '') + a.u.toFixed(2) + 'u';
+                  return `<div><span style="color:#bbb;font-weight:600">${label}:</span> `
+                       + `<span style="color:#ddd;font-weight:600">${a.w}-${a.l}</span> `
+                       + `<span style="color:#999">(${wr})</span> `
+                       + `<span style="color:${a.u >= 0 ? 'var(--green)' : 'var(--red)'};font-weight:600">${uS}</span></div>`;
+                };
+                apOuSummary.innerHTML = _ouChip('Overs', acc.OVER) + _ouChip('Unders', acc.UNDER);
+              }
+
+              _updateApHeaders();
+              _renderApRows();
+            }
+
+            const cap = document.createElement('div');
+            cap.style.cssText = 'padding:8px 4px;color:#888;font-size:11px;font-style:italic;line-height:1.5';
+            cap.innerHTML = `
+              Converts each pick's offered price to a breakeven probability and compares it to the model's pCover.<br>
+              <strong style="color:var(--green)">TAKE</strong> = +EV at the price (pCover ≥ breakeven − margin).<br>
+              <strong style="color:var(--red)">PASS would-be</strong> = −EV picks the EV Gate flags to skip — what they would have done if bet anyway.<br>
+              Shadow monitor: this does <strong>not</strong> change which picks are bet. Margin ${EV_GATE_MARGIN.toFixed(2)} (pure EV&gt;0).
+            `;
+            evCard.appendChild(cap);
+
+            _evRecordCard = evCard;
           })();
         };
 
@@ -4210,10 +4647,10 @@
       // Season Market Breakdown sits below Matchup History — it summarizes
       // all history, so it's a natural footer to the per-game cards.
       if (_seasonBreakdownCard) el.appendChild(_seasonBreakdownCard);
-      // Read Record (backtest) — how the TAKE/PASS verdict would have
-      // performed historically. Sits below Season Market Breakdown.
-      if (_readRecordCard) el.appendChild(_readRecordCard);
-      // Recent Record sits between Read Record and the All-history table.
+      // The three shadow-monitor gates (Read -> MAE -> EV) are NOT appended
+      // here — they are grouped together at the very bottom, after the Reddit
+      // card / all-history table (see the append block after _renderRedditCard).
+      // Recent Record sits above that group.
       if (_recentRecordContainer) el.appendChild(_recentRecordContainer);
 
       // ── Unified Toolbar ──
@@ -5050,8 +5487,16 @@
       renderMLBMarketBtns();
       setView('all');
 
-      // Reddit summary card — always rendered at the very bottom.
+      // Reddit summary card — always rendered at the very bottom. Also builds
+      // the MAE Gate card and assigns it to _maeGateCard (hoisted, not appended).
       if (_renderRedditCard) _renderRedditCard();
+
+      // Shadow-monitor gates (not live), grouped together at the very bottom in
+      // order Read -> MAE -> EV. None of them change which picks are bet; each
+      // backtests a TAKE/PASS verdict against actual results.
+      if (_readRecordCard) el.appendChild(_readRecordCard);
+      if (_maeGateCard) el.appendChild(_maeGateCard);
+      if (_evRecordCard) el.appendChild(_evRecordCard);
       // Matchup History is appended above directly under Today's Games.
     }
 

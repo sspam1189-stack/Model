@@ -88,6 +88,27 @@ MARKET_THRESHOLDS = {
 }
 
 # ---------------------------------------------------------------------------
+# EV Gate — shadow monitor (not live)
+# ---------------------------------------------------------------------------
+# Second, SHADOW-ONLY gate layered on top of the pCover threshold above. The
+# pCover gate ignores price entirely, so a -200 favorite at pCover 0.64 (needs
+# 0.667 to break even, badly -EV) is treated identically to a +100 dog at 0.64
+# (needs 0.500, strongly +EV). The EV Gate converts the offered American price
+# to a breakeven probability and stamps a TAKE/PASS verdict (evVerdict) per pick
+# WITHOUT changing the live pick/conf/lock — purely for monitoring, mirroring
+# the existing "Read" verdict.
+#
+# Verdict rule (default-TAKE, PASS only on a clear negative signal):
+#   PASS  if pCover < breakeven - EV_GATE_MARGIN   (pick is -EV at the price)
+#   TAKE  otherwise
+# breakeven is computed sign-aware from the integer odds:
+#   odds < 0 -> |odds| / (|odds| + 100)
+#   odds > 0 -> 100 / (odds + 100)
+# Margin 0.0 => pure EV>0. A small buffer (e.g. 0.01-0.02) could absorb model
+# calibration noise; left at 0.0 pending a future sweep.
+EV_GATE_MARGIN = 0.0
+
+# ---------------------------------------------------------------------------
 # Variance multipliers (how noisy each stat is game-to-game)
 # ---------------------------------------------------------------------------
 VAR_MULT = {

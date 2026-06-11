@@ -1069,8 +1069,11 @@ def write_dashboard_json(results, season):
         # logic as run_daily so the dashboard's Read filter has data after
         # a clean backfill. Without this, all picks lack readVerdict and the
         # "Recent Read Record" card shows empty until the next daily run.
-        from run_daily import _stamp_read_verdicts
+        from run_daily import _stamp_read_verdicts, _stamp_ev_verdicts
         _stamp_read_verdicts(merged_props)
+        # Stamp evVerdict (EV Gate shadow monitor) too, so the dashboard's EV
+        # filter / EV Gate card have data after a clean backfill.
+        _stamp_ev_verdicts(merged_props)
         dashboard["props"] = merged_props
         # totalPicks reflects only actionable (non-PASS) entries; watchlist
         # is tracked separately so it doesn't inflate the headline pick count.
@@ -1082,7 +1085,9 @@ def write_dashboard_json(results, season):
         with open(path, "w") as f:
             json.dump(dashboard, f, indent=2, cls=_NumpyEncoder)
         takes = sum(1 for p in merged_props if p.get("readVerdict") == "TAKE")
-        print(f"  Wrote {len(merged_actionable)} picks (+{len(merged_watch)} watch, {takes} Read TAKE) to {path}")
+        ev_takes = sum(1 for p in merged_props if p.get("evVerdict") == "TAKE")
+        print(f"  Wrote {len(merged_actionable)} picks (+{len(merged_watch)} watch, "
+              f"{takes} Read TAKE, {ev_takes} EV TAKE) to {path}")
 
 
 # ---------------------------------------------------------------------------
