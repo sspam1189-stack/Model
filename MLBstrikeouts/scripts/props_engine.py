@@ -448,7 +448,14 @@ def project_pitcher_props(pitcher_logs, team_batting_stats=None,
         # exceed the floor on matchup boosts; elite K arms get their own
         # proven ceiling.
         _k_cap_used = max(K_RATE_CAP_FLOOR, overall_k_pct)
-        expected_k_rate = max(K_RATE_FLOOR, min(_k_cap_used, expected_k_rate))
+        from defaults import K_RATE_FLOOR_MIN_GAMES
+        _capped = min(_k_cap_used, expected_k_rate)
+        if K_RATE_FLOOR_MIN_GAMES and n_games >= K_RATE_FLOOR_MIN_GAMES:
+            # Enough sample to trust a genuinely sub-floor rate (real
+            # contact pitcher, not a degenerate small-sample blend).
+            expected_k_rate = _capped
+        else:
+            expected_k_rate = max(K_RATE_FLOOR, _capped)
 
         # --- Projected batters faced ---
         # Use the real `bf` field from game logs when available (true MLB

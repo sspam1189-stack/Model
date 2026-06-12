@@ -483,6 +483,24 @@ K_RATE_CAP_FLOOR = 0.40
 # 0.05 if the cost outweighs the protection. See the K-rate-floor sweep analysis.
 K_RATE_FLOOR = 0.14
 
+# Sample-size gate for K_RATE_FLOOR. When a pitcher has >= this many qualified
+# games, the hard floor is NOT applied — we trust a genuinely sub-floor rate
+# (an established contact pitcher) instead of forcing it up to K_RATE_FLOOR.
+# Below this many games, the floor still fires (guards degenerate small-sample
+# blends and the June matchup-compounded craters). 0 = disabled (legacy: always
+# floor).
+#
+# 2026-06-12 sweep (walk-forward, per-month, vs flat floor=0.14):
+#   flat 0.14   : +193.9u season | Jun +3.0u
+#   gate <5g    : +197.9u season | Jun +2.0u   (more season, sheds 1u Jun)
+#   gate <6g    : +196.3u season | Jun +3.0u   <- ships
+#   gate <8g    : +193.9u season | Jun +3.0u   (== flat; gate never triggers)
+# The <6g gate keeps the FULL June insurance the floor was added for (Jun +3.0u,
+# identical to flat) while recovering +2.4u/season — established low-K starters
+# (6+ games) get their accurate sub-floor rate back in May instead of being
+# forced up. Strict Pareto win over the flat floor. Set to 0 to revert.
+K_RATE_FLOOR_MIN_GAMES = 6
+
 # Weather K-rate multiplier — applied as `k_weather_mult = 1.0 + bonus/penalty`
 # when game temperature crosses the cold/hot thresholds. Original 4/15 ship
 # (commit 20a55c6f) used +0.02 cold / -0.01 hot on the "bat speed vs grip"
