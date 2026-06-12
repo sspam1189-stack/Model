@@ -487,19 +487,17 @@ K_RATE_FLOOR = 0.14
 # games, the hard floor is NOT applied — we trust a genuinely sub-floor rate
 # (an established contact pitcher) instead of forcing it up to K_RATE_FLOOR.
 # Below this many games, the floor still fires (guards degenerate small-sample
-# blends and the June matchup-compounded craters). 0 = disabled (legacy: always
-# floor).
+# blends and the June matchup-compounded craters). 0 = disabled (flat floor:
+# always applied, legacy behavior).
 #
-# 2026-06-12 sweep (walk-forward, per-month, vs flat floor=0.14):
-#   flat 0.14   : +193.9u season | Jun +3.0u
-#   gate <5g    : +197.9u season | Jun +2.0u   (more season, sheds 1u Jun)
-#   gate <6g    : +196.3u season | Jun +3.0u   <- ships
-#   gate <8g    : +193.9u season | Jun +3.0u   (== flat; gate never triggers)
-# The <6g gate keeps the FULL June insurance the floor was added for (Jun +3.0u,
-# identical to flat) while recovering +2.4u/season — established low-K starters
-# (6+ games) get their accurate sub-floor rate back in May instead of being
-# forced up. Strict Pareto win over the flat floor. Set to 0 to revert.
-K_RATE_FLOOR_MIN_GAMES = 6
+# 2026-06-12: set to 0 (flat, no gate). The gate (<6g) recovered +2.4u/season
+# from May low-K starters, but a per-month MAE sweep showed the flat floor is
+# the most ACCURATE in June (June MAE 1.6800 vs 1.6902 gated) — forcing low-K
+# projections up to the floor is exactly right in the low-K stretch the floor
+# guards. June units are identical (+3.0u) either way, so flat keeps the best
+# June accuracy at no June-units cost. Set >0 to re-enable the season-recovery
+# gate (sweep: <6g = +196.3u season / June MAE 1.6902; <4g = +200.1u / 1.6945).
+K_RATE_FLOOR_MIN_GAMES = 0
 
 # Weather K-rate multiplier — applied as `k_weather_mult = 1.0 + bonus/penalty`
 # when game temperature crosses the cold/hot thresholds. Original 4/15 ship
