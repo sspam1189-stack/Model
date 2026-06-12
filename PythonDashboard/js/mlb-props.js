@@ -1105,13 +1105,13 @@
           // Signal = trailing 3-day (model |proj-actual| MAE) minus (line MAE) over
           // graded picks (pCover>=0.64). gap<0 => you're sharper than Vegas => bet
           // full card (>=0.64). gap>=0 => your recent picks are TRAILING the line
-          // => the gate would tighten to >=0.68 and skip the 0.64-0.68 marginal
+          // => the gate would tighten to >=0.67 and skip the 0.64-0.67 marginal
           // tier. This card ONLY tracks the counterfactual so you can decide
           // whether to adopt it once enough flip events accumulate. It does not
           // change any picks. Window=3d chosen to ~match a series; leak-free
           // (each date's gap uses only strictly-prior graded picks).
           (function renderMaeGate(){
-            const LOWT=0.64, HIGHT=0.68, GWIN=3, GMIN=8;
+            const LOWT=0.64, HIGHT=0.67, GWIN=3, GMIN=8;
             const g=(data.props||[]).filter(p =>
               (p.pick==='OVER'||p.pick==='UNDER') &&
               (p.result==='WIN'||p.result==='LOSS') &&
@@ -1161,7 +1161,7 @@
               (tighten?'background:rgba(255,160,0,0.12);color:#ffb000;border:1px solid rgba(255,160,0,0.35)'
                      :'background:rgba(0,200,120,0.10);color:#19c37d;border:1px solid rgba(0,200,120,0.30)');
             banner.textContent = tighten
-              ? `⚠ TIGHTEN — recent picks trailing the line (3d gap ${gapTxt}). Gate would bet only ≥0.68 and skip the 0.64–0.68 tier today.`
+              ? `⚠ TIGHTEN — recent picks trailing the line (3d gap ${gapTxt}). Gate would bet only ≥0.67 and skip the 0.64–0.67 tier today.`
               : `✓ NORMAL — beating the line (3d gap ${gapTxt}). Gate would bet the full card (≥0.64).`;
             card.appendChild(banner);
 
@@ -1176,7 +1176,7 @@
               th.style.cssText='font-weight:600;color:#ffb000;margin-bottom:'+(todMarg.length?'5px':'0');
               th.textContent = todMarg.length
                 ? `Today (${todayStr}) — gate would SKIP these ${todMarg.length} marginal pick${todMarg.length===1?'':'s'} (pending):`
-                : `Today (${todayStr}) — TIGHTEN, but no 0.64–0.68 picks to skip.`;
+                : `Today (${todayStr}) — TIGHTEN, but no 0.64–0.67 picks to skip.`;
               tw.appendChild(th);
               for (const p of todMarg){
                 const dir=p.pick==='OVER'?'o':'u';
@@ -1212,7 +1212,7 @@
                 const body=document.createElement('div');
                 body.style.cssText='margin-top:6px';
                 if (!f.dropped.length){
-                  body.innerHTML='<div style="color:#888">(no 0.64–0.68 picks that day — flip had no effect)</div>';
+                  body.innerHTML='<div style="color:#888">(no 0.64–0.67 picks that day — flip had no effect)</div>';
                 } else {
                   for (const p of f.dropped){
                     const win=p.result==='WIN';
@@ -1233,7 +1233,7 @@
 
             const note=document.createElement('div');
             note.style.cssText='margin-top:10px;font-size:11px;color:#888;line-height:1.5';
-            note.textContent='Monitor only — your actual picks are unchanged. The "Saved u" is the counterfactual P/L of skipping the 0.64–0.68 tier on days the gate flipped. Watch whether the cumulative stays positive across more flip days before adopting — it is currently fit to one regime event.';
+            note.textContent='Monitor only — your actual picks are unchanged. The "Saved u" is the counterfactual P/L of skipping the 0.64–0.67 tier on days the gate flipped. Watch whether the cumulative stays positive across more flip days before adopting — it is currently fit to one regime event.';
             card.appendChild(note);
 
             // Hoisted — appended at the very bottom with the other two shadow
