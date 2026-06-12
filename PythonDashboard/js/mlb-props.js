@@ -615,25 +615,23 @@
           // -4.98u (McLean -158, Sheehan -132, Nelson -102, Detmers -106).
           // Pin via cutoff so the widget matches what was posted on Reddit.
           const BASELINE = {
-            // 2026-06-09 cutoff roll to 6/8: 6/8 baked in as the AS-POSTED /
-            // as-bet record — the 5 model picks (2-3, -2.38u) PLUS the
-            // discretionary Hancock OVER 4.5 (-158, L, -1.58u) that was
-            // actually taken = 2-4 -3.96u. Only 6/9+ computes fresh from json.
-            //   Posted record through 6/8:  picks 157-128 +1.71u
-            //   Before codefix: 111-91 +0.08u  |  After codefix through 6/8: 46-37 +1.63u
-            //   Weekly (current wk, through cutoff 6/8): 2-4 -3.96u  |  Yesterday 6/8: 2-4 -3.96u
-            // Weekly = the CURRENT in-progress Mon-Sun week (resets each Monday).
-            // The baseline holds the current week's record through the cutoff day;
-            // with cutoff 6/8 == this week's Monday that is just 6/8 (== Yesterday).
+            // 2026-06-12 cutoff roll to 6/10: 6/9 and 6/10 baked into the
+            // AS-POSTED record from the 6/11 Reddit post (graded through 6/10).
+            //   Posted record through 6/10:  picks 166-133 +3.92u
+            //   Before codefix: 111-91 +0.08u  |  After codefix through 6/10: 55-42 +3.84u
+            //   Weekly (current wk 6/8-, through cutoff 6/10): 11-9 -1.75u
+            //   Yesterday 6/10: 4-3 -0.24u
+            // Weekly = the CURRENT in-progress Mon-Sun week (resets each Monday);
+            // this week's Monday is 6/8, so the baseline weekly covers 6/8-6/10.
             // `before_codefix` is fixed history (never changes). `codefix`
             // (= "after codefix") grows with each post-cutoff pick like `total`.
-            cutoff: '2026-06-08',
+            cutoff: '2026-06-10',
             picks: {
-              total:        { w: 157, l: 128, u:  1.71 },
+              total:        { w: 166, l: 133, u:  3.92 },
               before_codefix:{ w: 111, l:  91, u:  0.08 },  // static, pre-codefix
-              codefix:      { w:  46, l:  37, u:  1.63 },  // after codefix, through 6/8
-              weekly:       { w:   2, l:   4, u:  -3.96 },  // current wk through cutoff (6/8)
-              yesterday:    { w:   2, l:   4, u:  -3.96 },  // 6/8 (incl Hancock take)
+              codefix:      { w:  55, l:  42, u:  3.84 },  // after codefix, through 6/10
+              weekly:       { w:  11, l:   9, u:  -1.75 },  // current wk through cutoff (6/10)
+              yesterday:    { w:   4, l:   3, u:  -0.24 },  // 6/10
             },
             leans: {
               // Leans retired at the 5/25 cutover (none after 5/24), so the
@@ -1107,13 +1105,13 @@
           // Signal = trailing 3-day (model |proj-actual| MAE) minus (line MAE) over
           // graded picks (pCover>=0.64). gap<0 => you're sharper than Vegas => bet
           // full card (>=0.64). gap>=0 => your recent picks are TRAILING the line
-          // => the gate would tighten to >=0.68 and skip the 0.64-0.68 marginal
+          // => the gate would tighten to >=0.67 and skip the 0.64-0.67 marginal
           // tier. This card ONLY tracks the counterfactual so you can decide
           // whether to adopt it once enough flip events accumulate. It does not
           // change any picks. Window=3d chosen to ~match a series; leak-free
           // (each date's gap uses only strictly-prior graded picks).
           (function renderMaeGate(){
-            const LOWT=0.64, HIGHT=0.68, GWIN=3, GMIN=8;
+            const LOWT=0.64, HIGHT=0.67, GWIN=3, GMIN=8;
             const g=(data.props||[]).filter(p =>
               (p.pick==='OVER'||p.pick==='UNDER') &&
               (p.result==='WIN'||p.result==='LOSS') &&
@@ -1163,7 +1161,7 @@
               (tighten?'background:rgba(255,160,0,0.12);color:#ffb000;border:1px solid rgba(255,160,0,0.35)'
                      :'background:rgba(0,200,120,0.10);color:#19c37d;border:1px solid rgba(0,200,120,0.30)');
             banner.textContent = tighten
-              ? `⚠ TIGHTEN — recent picks trailing the line (3d gap ${gapTxt}). Gate would bet only ≥0.68 and skip the 0.64–0.68 tier today.`
+              ? `⚠ TIGHTEN — recent picks trailing the line (3d gap ${gapTxt}). Gate would bet only ≥0.67 and skip the 0.64–0.67 tier today.`
               : `✓ NORMAL — beating the line (3d gap ${gapTxt}). Gate would bet the full card (≥0.64).`;
             card.appendChild(banner);
 
@@ -1178,7 +1176,7 @@
               th.style.cssText='font-weight:600;color:#ffb000;margin-bottom:'+(todMarg.length?'5px':'0');
               th.textContent = todMarg.length
                 ? `Today (${todayStr}) — gate would SKIP these ${todMarg.length} marginal pick${todMarg.length===1?'':'s'} (pending):`
-                : `Today (${todayStr}) — TIGHTEN, but no 0.64–0.68 picks to skip.`;
+                : `Today (${todayStr}) — TIGHTEN, but no 0.64–0.67 picks to skip.`;
               tw.appendChild(th);
               for (const p of todMarg){
                 const dir=p.pick==='OVER'?'o':'u';
@@ -1214,7 +1212,7 @@
                 const body=document.createElement('div');
                 body.style.cssText='margin-top:6px';
                 if (!f.dropped.length){
-                  body.innerHTML='<div style="color:#888">(no 0.64–0.68 picks that day — flip had no effect)</div>';
+                  body.innerHTML='<div style="color:#888">(no 0.64–0.67 picks that day — flip had no effect)</div>';
                 } else {
                   for (const p of f.dropped){
                     const win=p.result==='WIN';
@@ -1235,7 +1233,7 @@
 
             const note=document.createElement('div');
             note.style.cssText='margin-top:10px;font-size:11px;color:#888;line-height:1.5';
-            note.textContent='Monitor only — your actual picks are unchanged. The "Saved u" is the counterfactual P/L of skipping the 0.64–0.68 tier on days the gate flipped. Watch whether the cumulative stays positive across more flip days before adopting — it is currently fit to one regime event.';
+            note.textContent='Monitor only — your actual picks are unchanged. The "Saved u" is the counterfactual P/L of skipping the 0.64–0.67 tier on days the gate flipped. Watch whether the cumulative stays positive across more flip days before adopting — it is currently fit to one regime event.';
             card.appendChild(note);
 
             // Hoisted — appended at the very bottom with the other two shadow
