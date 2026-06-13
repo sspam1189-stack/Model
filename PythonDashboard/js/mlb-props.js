@@ -371,13 +371,43 @@
           { label: 'Last 2 weeks',  start: _ww.lastTwoWeek.start, end: _ww.lastTwoWeek.end },
         ];
         let recentCutoffIdx = 0;
-        // Second toggle: all graded picks vs. only read-widget TAKEs.
-        // Mirrors the Reddit-widget tally so users can A/B the model-only
-        // record against the read-filtered subset within the same window.
+        // MAE-gate filter for the Recent Record toggle (see renderMaeGate ~L1113
+        // for the live card / source of truth). The MAE gate is per-DATE, not
+        // per-pick: on a "tighten" day — when the 3-day trailing model-vs-line
+        // MAE gap (computed from strictly-prior graded picks) is >= 0 — the gate
+        // would skip the marginal 0.64-0.67 tier. So a pick is gated OUT only if
+        // it is in [0.64, 0.67) AND its date was a tighten day; every >=0.67 pick
+        // and every pick on a NORMAL day is kept. Constants mirror the card.
+        const _maeTightenDates = (() => {
+          const LOWT = 0.64, GWIN = 3, GMIN = 8;
+          const g = (data.props || []).filter(p =>
+            (p.pick === 'OVER' || p.pick === 'UNDER') &&
+            (p.result === 'WIN' || p.result === 'LOSS') &&
+            p.pCover != null && p.line != null && p.proj != null && p.actual != null &&
+            p.pCover >= LOWT);
+          const dts = [...new Set(g.map(p => p.date))].sort();
+          const dadd = (s, n) => { const x = new Date(s + 'T12:00:00'); x.setDate(x.getDate() + n); return x.toISOString().slice(0, 10); };
+          const tighten = new Set();
+          for (const D of dts) {
+            const lo = dadd(D, -GWIN);
+            const w = g.filter(p => p.date >= lo && p.date < D);
+            if (w.length < GMIN) continue;
+            const mm = w.reduce((s, p) => s + Math.abs(p.proj - p.actual), 0) / w.length;
+            const lm = w.reduce((s, p) => s + Math.abs(p.line - p.actual), 0) / w.length;
+            if (mm - lm >= 0) tighten.add(D);
+          }
+          return tighten;
+        })();
+        const _maeGateKeep = p =>
+          !(p.pCover != null && p.pCover >= 0.64 && p.pCover < 0.67 && _maeTightenDates.has(p.date));
+        // Second toggle: all graded picks vs. only read-widget TAKEs / EV TAKEs /
+        // MAE-gated. Mirrors the shadow-monitor cards so users can A/B the
+        // model-only record against each gate's subset within the same window.
         const recentModeOptions = [
           { label: 'All',  filter: () => true,                       title: 'Recent Record' },
           { label: 'Read', filter: p => p.readVerdict === 'TAKE',    title: 'Recent Read Record' },
           { label: 'EV',   filter: p => p.evVerdict === 'TAKE',      title: 'Recent EV Record' },
+          { label: 'MAE',  filter: _maeGateKeep,                     title: 'Recent MAE-Gated Record' },
         ];
         let recentModeIdx = 0;
 
@@ -443,6 +473,10 @@
             note.style.cssText = 'padding:12px;color:#888;font-style:italic;font-size:13px';
             note.textContent = recentModeIdx === 1
               ? 'No graded Read TAKEs in this window yet.'
+              : recentModeIdx === 2
+              ? 'No graded EV TAKEs in this window yet.'
+              : recentModeIdx === 3
+              ? 'No graded MAE-gated picks in this window yet.'
               : 'No graded picks in this window yet.';
             rCard.appendChild(note);
             rCardContainer.appendChild(rCard);
