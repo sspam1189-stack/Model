@@ -3,8 +3,8 @@
     // Pick threshold — mirrors MARKET_THRESHOLDS["strikeouts"]["high"] in
     // MLBstrikeouts/scripts/defaults.py. pCover >= this => bet (green).
     // 0.60 <= pCover < this => watch tier (yellow). Keep in sync with defaults.py.
-    const MLB_PICK_THRESHOLD = 0.67;   // 2026-06-13: raised 0.64 -> 0.67 (green = bet)
-    const MLB_WATCH_FLOOR    = 0.60;   // 2026-06-13: watch/yellow band 0.60-0.67
+    const MLB_PICK_THRESHOLD = 0.64;   // 2026-06-13: raised 0.64 -> 0.67 then reverted same day
+    const MLB_WATCH_FLOOR    = 0.60;   // 2026-06-13: watch/yellow band 0.60-0.64
 
     // Tables on this tab have many columns (pitcher workload + projections +
     // results). Rather than hide columns or scroll horizontally, shrink the

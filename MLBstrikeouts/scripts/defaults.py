@@ -85,18 +85,16 @@ MARKET_THRESHOLDS = {
     # accuracy; only which picks qualify. 0.64 adds calibrated volume at neutral
     # MAE/ROI. Floor stays 0.63 (0.62-0.63 band degrades MAE to 1.684).
     #
-    # 2026-06-13: raised 0.64 -> 0.67 (quality-over-volume / variance trim).
-    # Threshold is pure post-hoc volume — it does NOT touch projections, the
-    # emp_std cache (computed league-wide over ALL graded residuals, not picks),
-    # or the calibration fit, so NO re-backfill is required; it takes effect on
-    # the next daily run. Effect from graded history: ~27% fewer picks, pick-MAE
-    # ticks down (1.580 @0.64 -> 1.551 @0.67) as the noisier 0.64-0.67 tail is
-    # dropped. Season the dropped band was still +EV (71% WR, +0.35u/pick), but
-    # in the June low-K regime it turned negative (since 6/1: 0.64-0.67 band
-    # 12-10, -1.22u, -4.1% ROI) while 0.67+ held +11.9% ROI. Shipped to bias
-    # toward higher-conviction picks during the soft stretch. The 0.60-0.67 band
-    # now renders as the watch/lean (yellow) tier on the dashboard, not a bet.
-    "strikeouts":   {"high": 0.67},
+    # 2026-06-13: briefly raised 0.64 -> 0.67 (variance trim) then REVERTED to
+    # 0.64 the same day. The 0.64-0.67 June bleed was front-loaded in early June
+    # and concentrated in the 0.65-0.67 sub-band; 0.64-0.65 stayed flat (+0.02u
+    # June) and the tier recovered to 5-3 / +0.80u since 6/10. Season the band is
+    # +EV (71% WR, +0.35u/pick), so permanently cutting it was judged an
+    # overreaction to a thin (~n25) June sample. Threshold is pure post-hoc
+    # volume — does NOT touch projections, the emp_std cache, or calibration, so
+    # no re-backfill needed. Watch/lean (yellow) band is 0.60-0.64 (floor widened
+    # to 0.60 on 2026-06-13); 0.64+ bets.
+    "strikeouts":   {"high": 0.64},
 }
 
 # ---------------------------------------------------------------------------
