@@ -84,7 +84,19 @@ MARKET_THRESHOLDS = {
     # confirmed it does NOT move pick MAE (1.5592 @0.64 vs 1.5618 @0.65) or
     # accuracy; only which picks qualify. 0.64 adds calibrated volume at neutral
     # MAE/ROI. Floor stays 0.63 (0.62-0.63 band degrades MAE to 1.684).
-    "strikeouts":   {"high": 0.64},
+    #
+    # 2026-06-13: raised 0.64 -> 0.67 (quality-over-volume / variance trim).
+    # Threshold is pure post-hoc volume — it does NOT touch projections, the
+    # emp_std cache (computed league-wide over ALL graded residuals, not picks),
+    # or the calibration fit, so NO re-backfill is required; it takes effect on
+    # the next daily run. Effect from graded history: ~27% fewer picks, pick-MAE
+    # ticks down (1.580 @0.64 -> 1.551 @0.67) as the noisier 0.64-0.67 tail is
+    # dropped. Season the dropped band was still +EV (71% WR, +0.35u/pick), but
+    # in the June low-K regime it turned negative (since 6/1: 0.64-0.67 band
+    # 12-10, -1.22u, -4.1% ROI) while 0.67+ held +11.9% ROI. Shipped to bias
+    # toward higher-conviction picks during the soft stretch. The 0.64-0.67 band
+    # now renders as the watch/lean (yellow) tier on the dashboard, not a bet.
+    "strikeouts":   {"high": 0.67},
 }
 
 # ---------------------------------------------------------------------------
