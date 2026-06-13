@@ -94,7 +94,7 @@ MARKET_THRESHOLDS = {
     # dropped. Season the dropped band was still +EV (71% WR, +0.35u/pick), but
     # in the June low-K regime it turned negative (since 6/1: 0.64-0.67 band
     # 12-10, -1.22u, -4.1% ROI) while 0.67+ held +11.9% ROI. Shipped to bias
-    # toward higher-conviction picks during the soft stretch. The 0.64-0.67 band
+    # toward higher-conviction picks during the soft stretch. The 0.60-0.67 band
     # now renders as the watch/lean (yellow) tier on the dashboard, not a bet.
     "strikeouts":   {"high": 0.67},
 }
