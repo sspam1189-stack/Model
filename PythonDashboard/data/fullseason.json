@@ -84829,7 +84829,7 @@
           "h2hNote": null,
           "awayScore": 109.0,
           "homeScore": 116.0,
-          "_recencyWeight": 0.5,
+          "_recencyWeight": 0.25,
           "trends": {
             "away": {
               "atsPct": null,
@@ -84895,7 +84895,7 @@
           "h2hNote": null,
           "awayScore": 120.0,
           "homeScore": 125.0,
-          "_recencyWeight": 0.5,
+          "_recencyWeight": 0.25,
           "trends": {
             "away": {
               "atsPct": null,
@@ -84962,7 +84962,7 @@
           "h2hNote": null,
           "awayScore": 99.0,
           "homeScore": 93.0,
-          "_recencyWeight": 0.5,
+          "_recencyWeight": 0.25,
           "trends": {
             "away": {
               "atsPct": null,
@@ -90109,21 +90109,75 @@
           "trends": {
             "away": "ATS +/- 3.4 \u00b7 Over 46.5% \u00b7 Under 53.5% \u00b7 O/U +/- -1.1",
             "home": "ATS +/- 3.3 \u00b7 Over 46.7% \u00b7 Under 53.3% \u00b7 O/U +/- -0.8"
-          }
+          },
+          "awayScore": 94.0,
+          "homeScore": 90.0,
+          "_kalmanDate": "20260613",
+          "_recencyWeight": 1.0
         }
       ],
       "summaryText": "RECORD (graded picks only)\n\nSPREAD (ATS)\n  All:         412-227-1   (64.5%)   [graded 640]\n  Elite:       412-227-1   (64.5%)   [graded 640]\n\nFAV/DOG (Spread)\n  Favorites:   194-101-1   (65.8%)   [graded 296]\n  Underdogs:   218-126-0   (63.4%)   [graded 344]\n\nTOTAL (O/U)\n  All:         0-0-0   (n/a%)   [graded 0]\n  Elite:       0-0-0   (n/a%)   [graded 0]\n\nOVER/UNDER\n  Over:        0-0-0   (n/a%)   [graded 0]\n  Under:       0-0-0   (n/a%)   [graded 0]",
       "ranAt": "06/13/2026, 06:01:00 PM"
+    },
+    {
+      "date": "20260614",
+      "dateDisplay": "2026-06-14",
+      "burnIn": false,
+      "weightsUsed": {
+        "wOFF": 1,
+        "wTS": 4.922,
+        "wTO": 0,
+        "wORR": 0.069,
+        "wDEF": 0.376,
+        "constant": -0.085,
+        "paceAdj": 0.907,
+        "hca": 2.5,
+        "sprHigh": 4,
+        "ouHigh": 5,
+        "sprEliteBump": 3,
+        "ouEliteBump": 3,
+        "probHigh": 0.65,
+        "probElite": 0.63,
+        "probOUHigh": 0.58,
+        "probOUElite": 0.64,
+        "recentWeight": 0.87,
+        "locationWeight": 0.25,
+        "h2hWeight": 0.0
+      },
+      "weightsNext": {
+        "wOFF": 1,
+        "wTS": 4.922,
+        "wTO": 0,
+        "wORR": 0.069,
+        "wDEF": 0.376,
+        "constant": -0.085,
+        "paceAdj": 0.907,
+        "hca": 2.5,
+        "sprHigh": 4,
+        "ouHigh": 5,
+        "sprEliteBump": 3,
+        "ouEliteBump": 3,
+        "probHigh": 0.65,
+        "probElite": 0.63,
+        "probOUHigh": 0.58,
+        "probOUElite": 0.64,
+        "recentWeight": 0.87,
+        "locationWeight": 0.25,
+        "h2hWeight": 0.0
+      },
+      "games": [],
+      "summaryText": "RECORD (graded picks only)\n\nSPREAD (ATS)\n  All:         412-227-1   (64.5%)   [graded 640]\n  Elite:       412-227-1   (64.5%)   [graded 640]\n\nFAV/DOG (Spread)\n  Favorites:   194-101-1   (65.8%)   [graded 296]\n  Underdogs:   218-126-0   (63.4%)   [graded 344]\n\nTOTAL (O/U)\n  All:         0-0-0   (n/a%)   [graded 0]\n  Elite:       0-0-0   (n/a%)   [graded 0]\n\nOVER/UNDER\n  Over:        0-0-0   (n/a%)   [graded 0]\n  Under:       0-0-0   (n/a%)   [graded 0]",
+      "ranAt": "06/14/2026, 11:01:01 AM"
     }
   ],
   "weights": {
     "wOFF": 1,
-    "wTS": 4.937,
+    "wTS": 4.922,
     "wTO": 0,
-    "wORR": 0.081,
-    "wDEF": 0.383,
-    "constant": -0.082,
-    "paceAdj": 0.911,
+    "wORR": 0.069,
+    "wDEF": 0.376,
+    "constant": -0.085,
+    "paceAdj": 0.907,
     "hca": 2.5,
     "sprHigh": 4,
     "ouHigh": 5,
@@ -90139,12 +90193,12 @@
   },
   "weightsVar": {
     "wTS": 3.5011,
-    "wTO": 0.3888,
-    "wORR": 2.4842,
+    "wTO": 0.3886,
+    "wORR": 2.4827,
     "wDEF": 0.05,
     "hca": 0.2,
     "constant": 4.0
   },
-  "residualVar": 192.7,
-  "lastTuneDate": "20260613"
+  "residualVar": 192.6,
+  "lastTuneDate": "20260614"
 }
