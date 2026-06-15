@@ -342,6 +342,7 @@
 
         // Recent Record — toggleable window.
         // "This week" = current Mon-Sun calendar week (recomputed at render).
+        // "Last week" = the most-recently completed Mon-Sun week.
         // "Last 2 weeks" = the two most-recently completed Mon-Sun weeks.
         function _isoDate(d) {
           return d.toISOString().slice(0, 10);
@@ -362,12 +363,14 @@
           lastSun.setUTCDate(thisMon.getUTCDate() - 1);
           return {
             thisWeek:    { start: _isoDate(thisMon), end: _isoDate(thisSun) },
+            lastWeek:    { start: _isoDate(lastMon), end: _isoDate(lastSun) },
             lastTwoWeek: { start: _isoDate(twoMon),  end: _isoDate(lastSun) },
           };
         }
         const _ww = _weekWindows();
         const recentCutoffOptions = [
           { label: 'This week',     start: _ww.thisWeek.start,    end: _ww.thisWeek.end },
+          { label: 'Last week',     start: _ww.lastWeek.start,    end: _ww.lastWeek.end },
           { label: 'Last 2 weeks',  start: _ww.lastTwoWeek.start, end: _ww.lastTwoWeek.end },
         ];
         let recentCutoffIdx = 0;
