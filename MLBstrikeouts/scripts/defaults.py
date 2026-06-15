@@ -300,7 +300,7 @@ CAREER_KRATE_SHRINK_C = 0.0
 # w0.70 wins or ties on every metric in both season and recent windows, so it's
 # the strictly-dominant pick. kcap/BF/calib unchanged. (Recency-aware levers
 # tested and rejected same session: stacking on calibration over-corrects June.)
-PROJ_LINEUP_WEIGHT = 0.70
+PROJ_LINEUP_WEIGHT = 1.0
 PROJ_CALIB_ENABLED = True
 PROJ_CALIB_KNOT = 6.0          # only correct projections above this
 PROJ_CALIB_MIN_PAIRS = 40      # need >= this many tail pairs to fit; else raw
