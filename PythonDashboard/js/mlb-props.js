@@ -716,6 +716,18 @@
           _curMon.setDate(_today.getDate() - ((_todayDow + 6) % 7));  // current week's Monday
           let wStart = new Date(_curMon);        // Monday of the current week
           let wEnd = new Date(_today);           // through today (in-progress)
+          // On Monday the in-progress week has no graded games yet — today's
+          // games play tonight and yesterday was last week's Sunday — so the
+          // Mon-through-today window collapses to an empty single day. Roll it
+          // back to the just-completed Mon–Sun week so "Weekly" shows a real
+          // record. From Tuesday on, Monday's games are graded and the
+          // current-week window (Mon–today) takes over as before.
+          if (_todayDow === 1) {
+            wStart = new Date(_curMon);
+            wStart.setDate(_curMon.getDate() - 7);  // last week's Monday
+            wEnd = new Date(_curMon);
+            wEnd.setDate(_curMon.getDate() - 1);    // last week's Sunday
+          }
           const weekLabel = 'Weekly';
           const weeklyStartStr = wStart.toISOString().slice(0, 10);
           const weeklyEndStr = wEnd.toISOString().slice(0, 10);
