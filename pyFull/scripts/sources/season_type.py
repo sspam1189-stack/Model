@@ -2,7 +2,7 @@ from datetime import datetime
 import pytz
 
 
-PLAYOFF_START = "20260414"  # play-in tournament day 1 (4/14-4/17), playoffs proper 4/18+
+PLAYOFF_START = "20270414"  # 2026-27 play-in day 1 — PROVISIONAL estimate; confirm exact date when the NBA releases the 2026-27 schedule (Aug 2026). Any mid-Apr-2027 value keeps the whole 2026-27 regular season classified correctly.
 
 
 def _today_yyyymmdd():
