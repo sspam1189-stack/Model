@@ -1962,6 +1962,12 @@
                 pitColor = 'var(--red)';
               }
               // pitWR between 0.40 and 0.65 → no sentence (avoids "neutral").
+            } else if (pitN >= 1) {
+              // Thin record (n=1-3): show the picks number for transparency, but
+              // NO verdict verb — 3 games can't support a co-sign / red-flag claim
+              // (a 50% pitcher goes 0-3 ~1 in 8). Grey, neutral, record only.
+              pitTake = `${pitNameTxt} ${recOf(pitRec)} — small sample.`;
+              pitColor = '#bbb';
             }
             // Broader (both-directions) pitcher cohort — only mention when
             // it pushes the decision one way or the other.
