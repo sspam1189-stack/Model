@@ -5375,14 +5375,18 @@
           const pOutsStr  = p.proj_ip != null ? String(Math.round(p.proj_ip * 3)) : '\u2014';
           const pBfStr    = p.proj_bf != null ? String(Math.round(p.proj_bf)) : '\u2014';
           const pPitchStr = p.proj_pc != null ? String(Math.round(p.proj_pc)) : '\u2014';
-          // Deltas (actual \u2212 projected) for the graded view: positive = the
-          // pitcher exceeded the projected workload. Dash until both sides exist.
-          const fmtDelta = (a, projV) => (a != null && projV != null)
-            ? ((a - Math.round(projV) > 0 ? '+' : '') + (a - Math.round(projV)))
-            : '\u2014';
-          const dOutsStr  = fmtDelta(p.actual_outs,    p.proj_ip != null ? p.proj_ip * 3 : null);
-          const dBfStr    = fmtDelta(p.actual_bf,      p.proj_bf);
-          const dPitchStr = fmtDelta(p.actual_pitches, p.proj_pc);
+          // Deltas (actual \u2212 projected) for the graded view: positive (green) =
+          // pitcher exceeded the projected workload, negative (red) = under it.
+          // Dash until both sides exist.
+          const _delta   = (a, projV) => (a != null && projV != null) ? (a - Math.round(projV)) : null;
+          const dOutsNum = _delta(p.actual_outs,    p.proj_ip != null ? p.proj_ip * 3 : null);
+          const dBfNum   = _delta(p.actual_bf,      p.proj_bf);
+          const dPcNum   = _delta(p.actual_pitches, p.proj_pc);
+          const fmtDelta = (d) => d == null ? '\u2014' : (d > 0 ? '+' + d : String(d));
+          const dColor   = (d) => d == null ? '#bbb' : (d > 0 ? 'var(--green)' : d < 0 ? 'var(--red)' : '#bbb');
+          const dOutsStr  = fmtDelta(dOutsNum);
+          const dBfStr    = fmtDelta(dBfNum);
+          const dPitchStr = fmtDelta(dPcNum);
           const cells = isBacktest ? [
             p.date?(parseInt(p.date.slice(5,7))+'/'+parseInt(p.date.slice(8))):'', displayName(p), p.team||'', p.opp||'',
             dOutsStr, dBfStr, dPitchStr,
@@ -5415,7 +5419,9 @@
               if (i===1) { td.style.textAlign='left'; td.style.fontWeight='600'; }
               if (i===0) { td.style.color='#999'; td.style.fontSize='11px'; }
               if (i===2||i===3) td.style.color='#999';
-              if (i>=4 && i<=6) td.style.color='#bbb';
+              if (i===4) td.style.color=dColor(dOutsNum);
+              if (i===5) td.style.color=dColor(dBfNum);
+              if (i===6) td.style.color=dColor(dPcNum);
               if (i===7) td.style.color=p.proj>p.line?'var(--green)':p.proj<p.line?'var(--red)':'';
               if (i===9) td.style.color = edgeVal > 0 ? 'var(--green)' : edgeVal < 0 ? 'var(--red)' : '#999';
               if (i===10) td.style.color='#aaa';
