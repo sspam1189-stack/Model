@@ -5179,11 +5179,11 @@
         'Opp':   p => p.opp || '',
         'vs':    p => p.opp || '',
         'pOuts': p => p.proj_ip != null ? p.proj_ip * 3 : null,
-        'aOuts': p => p.actual_outs,
         'pBF':   p => p.proj_bf,
-        'aBF':   p => p.actual_bf,
         'pPC':   p => p.proj_pc,
-        'aPC':   p => p.actual_pitches,
+        'ΔOuts': p => (p.actual_outs != null && p.proj_ip != null) ? p.actual_outs - Math.round(p.proj_ip * 3) : null,
+        'ΔBF':   p => (p.actual_bf != null && p.proj_bf != null) ? p.actual_bf - Math.round(p.proj_bf) : null,
+        'ΔPC':   p => (p.actual_pitches != null && p.proj_pc != null) ? p.actual_pitches - Math.round(p.proj_pc) : null,
         'Proj':  p => p.proj,
         'Line':  p => p.line,
         'Edge':  p => (p.proj != null && p.line != null) ? p.proj - p.line : null,
@@ -5340,7 +5340,7 @@
         const tbl = document.createElement('table');
         tbl.style.cssText = 'width:100%;border-collapse:collapse';
         const hdrs = isBacktest
-          ? ['Date','Name','Team','Opp','pOuts','aOuts','pBF','aBF','pPC','aPC','Proj','Line','Edge','%','Actual','O/U','Odds','W/L']
+          ? ['Date','Name','Team','Opp','ΔOuts','ΔBF','ΔPC','Proj','Line','Edge','%','Actual','O/U','Odds','W/L']
           : ['Name','Team','vs','pOuts','pBF','pPC','Proj','Line','Edge','%','O/U','Odds'];
         const hRow = tbl.createTHead().insertRow();
         hdrs.forEach(h => {
@@ -5375,16 +5375,17 @@
           const pOutsStr  = p.proj_ip != null ? String(Math.round(p.proj_ip * 3)) : '\u2014';
           const pBfStr    = p.proj_bf != null ? String(Math.round(p.proj_bf)) : '\u2014';
           const pPitchStr = p.proj_pc != null ? String(Math.round(p.proj_pc)) : '\u2014';
-          // Actuals \u2014 actual_outs, actual_bf, actual_pitches all captured
-          // by run_daily and props_backfill from the bf/outs/pitches game-log fields.
-          const aOutsStr  = p.actual_outs != null ? String(p.actual_outs) : '\u2014';
-          const aBfStr    = p.actual_bf != null ? String(p.actual_bf) : '\u2014';
-          const aPitchStr = p.actual_pitches != null ? String(p.actual_pitches) : '\u2014';
+          // Deltas (actual \u2212 projected) for the graded view: positive = the
+          // pitcher exceeded the projected workload. Dash until both sides exist.
+          const fmtDelta = (a, projV) => (a != null && projV != null)
+            ? ((a - Math.round(projV) > 0 ? '+' : '') + (a - Math.round(projV)))
+            : '\u2014';
+          const dOutsStr  = fmtDelta(p.actual_outs,    p.proj_ip != null ? p.proj_ip * 3 : null);
+          const dBfStr    = fmtDelta(p.actual_bf,      p.proj_bf);
+          const dPitchStr = fmtDelta(p.actual_pitches, p.proj_pc);
           const cells = isBacktest ? [
             p.date?(parseInt(p.date.slice(5,7))+'/'+parseInt(p.date.slice(8))):'', displayName(p), p.team||'', p.opp||'',
-            pOutsStr, aOutsStr,
-            pBfStr, aBfStr,
-            pPitchStr, aPitchStr,
+            dOutsStr, dBfStr, dPitchStr,
             String(p.proj), p.line!=null?String(p.line):'\u2014',
             edgeStr,
             pcStr,
@@ -5408,20 +5409,20 @@
             td.style.cssText = 'padding:4px 4px;text-align:center;font-size:13px';
             if (isBacktest) {
               // 0:Date 1:Name 2:Team 3:Opp
-              // 4:pOuts 5:aOuts 6:pBF 7:aBF 8:pPC 9:aPC
-              // 10:Proj 11:Line 12:Edge 13:%
-              // 14:Actual 15:OU 16:Odds 17:W/L
+              // 4:ΔOuts 5:ΔBF 6:ΔPC
+              // 7:Proj 8:Line 9:Edge 10:%
+              // 11:Actual 12:OU 13:Odds 14:W/L
               if (i===1) { td.style.textAlign='left'; td.style.fontWeight='600'; }
               if (i===0) { td.style.color='#999'; td.style.fontSize='11px'; }
               if (i===2||i===3) td.style.color='#999';
-              if (i>=4 && i<=9) td.style.color='#bbb';
-              if (i===10) td.style.color=p.proj>p.line?'var(--green)':p.proj<p.line?'var(--red)':'';
-              if (i===12) td.style.color = edgeVal > 0 ? 'var(--green)' : edgeVal < 0 ? 'var(--red)' : '#999';
-              if (i===13) td.style.color='#aaa';
-              if (i===14) td.style.color='#bbb';
-              if (i===15) { td.style.fontWeight='700'; td.style.color=effectiveDir(p)==='OVER'?'var(--green)':'var(--red)'; }
-              if (i===16) td.style.color='#999';
-              if (i===17) { td.style.fontWeight='700'; td.style.color=p.result==='WIN'?'var(--green)':'var(--red)'; }
+              if (i>=4 && i<=6) td.style.color='#bbb';
+              if (i===7) td.style.color=p.proj>p.line?'var(--green)':p.proj<p.line?'var(--red)':'';
+              if (i===9) td.style.color = edgeVal > 0 ? 'var(--green)' : edgeVal < 0 ? 'var(--red)' : '#999';
+              if (i===10) td.style.color='#aaa';
+              if (i===11) td.style.color='#bbb';
+              if (i===12) { td.style.fontWeight='700'; td.style.color=effectiveDir(p)==='OVER'?'var(--green)':'var(--red)'; }
+              if (i===13) td.style.color='#999';
+              if (i===14) { td.style.fontWeight='700'; td.style.color=p.result==='WIN'?'var(--green)':'var(--red)'; }
             } else {
               // 0:Name 1:Team 2:vs 3:pOuts 4:pBF 5:pPC
               // 6:Proj 7:Line 8:Edge 9:% 10:OU 11:Odds
