@@ -300,7 +300,13 @@ CAREER_KRATE_SHRINK_C = 0.0
 # w0.70 wins or ties on every metric in both season and recent windows, so it's
 # the strictly-dominant pick. kcap/BF/calib unchanged. (Recency-aware levers
 # tested and rejected same session: stacking on calibration over-corrects June.)
-PROJ_LINEUP_WEIGHT = 0.70
+PROJ_LINEUP_WEIGHT = 1.0   # 2026-06-15: 0.70 -> 1.0 for a PICKS-ONLY (>=.67)
+# strategy. The 0.70 regression protected the .64-.67 lean tier (which 1.0
+# wrecks), but we no longer bet leans. For the >=.67 tail, removing the
+# regression sharpens picks: vs lineup0.7+csw0.4 flat, lineup1.0+csw0.4
+# picks-only @3u wins ROI in every window (full +30.0% vs +28.8%, June +10.2%
+# vs +8.3%, last wk +17.3% vs +17.2%) and is consistent week-by-week (not a
+# one-week artifact). Tradeoff is variance (fewer plays, 3u). Calib stays ON.
 PROJ_CALIB_ENABLED = True
 PROJ_CALIB_KNOT = 6.0          # only correct projections above this
 PROJ_CALIB_MIN_PAIRS = 40      # need >= this many tail pairs to fit; else raw
