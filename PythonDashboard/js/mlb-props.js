@@ -1,10 +1,23 @@
 // MLB Pitcher Props rendering
 
     // Pick threshold — mirrors MARKET_THRESHOLDS["strikeouts"]["high"] in
-    // MLBstrikeouts/scripts/defaults.py. pCover >= this => bet (green).
-    // 0.60 <= pCover < this => watch tier (yellow). Keep in sync with defaults.py.
+    // MLBstrikeouts/scripts/defaults.py. pCover >= this => bet. Keep in sync
+    // with defaults.py. Table pCover colors: >=0.67 green (strong bet),
+    // 0.64-0.67 yellow (leans), 0.60-0.64 orange (watch), <=0.45 red.
     const MLB_PICK_THRESHOLD = 0.64;   // 2026-06-13: raised 0.64 -> 0.67 then reverted same day
     const MLB_WATCH_FLOOR    = 0.60;   // 2026-06-13: watch/yellow band 0.60-0.64
+    // Reddit staking tiers (2026-06-15): 3/1 sizing — a graded model bet is a
+    // 3u PICK at pCover >= 0.67 and a 1u LEAN at 0.64-0.67. The 0.60-0.64 watch
+    // tier is not bet. 3/1 chosen for best blended ROI: full-season picks
+    // (+44% ROI) out-earn leans (+35%), so money tilts toward picks. Applied to
+    // post-cutover plays only (baseline left as-posted).
+    const MLB_PICK_STRONG = 0.67;      // >= this => full pick
+    const MLB_LEAN_FLOOR  = 0.64;      // [LEAN_FLOOR, PICK_STRONG) => lean
+    const MLB_PICK_STAKE  = 3;         // pick stake multiplier (3u)
+    const MLB_LEAN_STAKE  = 1;         // lean stake multiplier (1u)
+    // Tiered staking begins this date. Plays before it (incl. today 6/15) stay
+    // flat 1u picks with no lean split; 6/16+ uses the 3u/1u tiers above.
+    const MLB_STAKING_START = '2026-06-16';
 
     // Tables on this tab have many columns (pitcher workload + projections +
     // results). Rather than hide columns or scroll horizontally, shrink the
@@ -48,18 +61,24 @@
     }
 
     // Staking: plus odds risk 1u to win payout, negative odds risk X to win 1u
-    function calcMLBPropsUnits(picks) {
+    // `stake` scales every play's risk/win. It may be a flat number or a
+    // per-play function (p => units) — used so picks staked 3u and leans 1u
+    // (and pre-cutover flat-1u plays) can share one array. Sizing convention
+    // is unchanged: risk-to-win-1u on negative odds, risk-1u on positive.
+    function calcMLBPropsUnits(picks, stake = 1) {
+      const sf = typeof stake === 'function' ? stake : () => stake;
       let u = 0;
       for (const p of picks) {
+        const s = sf(p);
         const price = p.odds != null ? Number(p.odds) : null;
         if (p.result === 'WIN') {
-          if (price != null && price > 0) u += price / 100;        // +120 → risk 1u, win 1.2u
-          else if (price != null && price < 0) u += 1.0;           // -130 → risk 1.3u, win 1u
-          else u += 1.0;
+          if (price != null && price > 0) u += s * (price / 100);   // +120 → risk 1u, win 1.2u
+          else if (price != null && price < 0) u += s * 1.0;        // -130 → risk 1.3u, win 1u
+          else u += s * 1.0;
         } else if (p.result === 'LOSS') {
-          if (price != null && price > 0) u -= 1.0;                // +120 → risk 1u
-          else if (price != null && price < 0) u -= Math.abs(price) / 100;  // -130 → risk 1.3u
-          else u -= 1.1;
+          if (price != null && price > 0) u -= s * 1.0;             // +120 → risk 1u
+          else if (price != null && price < 0) u -= s * (Math.abs(price) / 100);  // -130 → risk 1.3u
+          else u -= s * 1.1;
         }
       }
       return u;
@@ -671,9 +690,10 @@
               yesterday:    { w:   4, l:   3, u:  -0.24 },  // 6/10
             },
             leans: {
-              // Leans retired at the 5/25 cutover (none after 5/24), so the
-              // post-cutoff weekly/yesterday lean tallies are zero. total kept
-              // for vestigial references; leans are hidden from the Reddit copy.
+              // As-posted lean record through the cutoff. Leans were revived
+              // 2026-06-15 as the 0.64-0.67 tier (1u under 3/1 staking, from
+              // 6/16); this baseline is the anchor (left untouched per the
+              // going-forward-only decision) and new leans accrue on top.
               total:    { w:  60, l: 39, u: 11.30 },
               weekly:   { w:   0, l:  0, u:  0.00 },
               yesterday:{ w:   0, l:  0, u:  0.00 },
@@ -701,8 +721,22 @@
           // 2026-06-09: reverted the readVerdict==='TAKE' gate — count ALL
           // post-cutoff graded picks again, not just TAKE (matches the
           // as-posted all-picks Reddit record).
-          const newPicks = allGradedPicks.filter(p => _postCutoff(p));
-          const newLeans = allGradedLeans.filter(_postCutoff);
+          // Post-cutoff plays, split by the staking tiers: picks (>=0.67) and
+          // leans (0.64-0.67). Both come from the model's graded bets (pick !=
+          // PASS, pCover >= 0.64); the 0.60-0.64 watch tier is unbet and
+          // excluded. Baseline (<= cutoff) is left as-posted per the
+          // going-forward-only sizing decision.
+          const newPicks = allGradedPicks.filter(p =>
+            _postCutoff(p) && (p.date < MLB_STAKING_START
+              || (p.pCover != null && p.pCover >= MLB_PICK_STRONG)));
+          const newLeans = allGradedPicks.filter(p =>
+            _postCutoff(p) && p.date >= MLB_STAKING_START && p.pCover != null
+            && p.pCover >= MLB_LEAN_FLOOR && p.pCover < MLB_PICK_STRONG);
+          // Pick stake is date-dependent: plays before the staking-start date
+          // are flat 1u; from the start date on, picks are MLB_PICK_STAKE (3u).
+          // Leans (post-start only by construction) are always MLB_LEAN_STAKE.
+          const _pickStake = (p) =>
+            p.date < MLB_STAKING_START ? 1 : MLB_PICK_STAKE;
 
           // Weekly window logic: the CURRENT in-progress Mon-Sun week, which
           // resets every Monday. curMon = this week's Monday (the window start);
@@ -738,11 +772,13 @@
             return `${parseInt(parts[1], 10)}/${parseInt(parts[2], 10)}`;
           };
 
-          // Helper: combine baseline tally with array of new picks
-          function combine(base, arr) {
+          // Helper: combine baseline tally with array of new picks. `stake`
+          // scales the post-cutoff units only (3u picks, 1u leans); the
+          // baseline `base.u` is already as-posted and kept verbatim.
+          function combine(base, arr, stake = 1) {
             const w = base.w + arr.filter(p => p.result === 'WIN').length;
             const l = base.l + arr.filter(p => p.result === 'LOSS').length;
-            const u = base.u + calcMLBPropsUnits(arr);
+            const u = base.u + calcMLBPropsUnits(arr, stake);
             return { w, l, u };
           }
           function fmt(tally) {
@@ -750,11 +786,11 @@
           }
 
           // TOTAL = baseline + everything post-cutoff
-          let totalPicks = combine(BASELINE.picks.total, newPicks);
-          const totalLeans = combine(BASELINE.leans.total, newLeans);
+          let totalPicks = combine(BASELINE.picks.total, newPicks, _pickStake);
+          const totalLeans = combine(BASELINE.leans.total, newLeans, MLB_LEAN_STAKE);
           // CODEFIX = baked since-codefix baseline + everything post-cutoff
           // (grows identically to total).
-          const codefixPicks = combine(BASELINE.picks.codefix, newPicks);
+          const codefixPicks = combine(BASELINE.picks.codefix, newPicks, _pickStake);
 
           // WEEKLY: if the weekly window is entirely at-or-before cutoff,
           // show baseline weekly. Otherwise compute from new (post-cutoff) data,
@@ -771,8 +807,8 @@
                                  && BASELINE.cutoff <= weeklyEndStr;
             const pBase = cutoffInWeek ? BASELINE.picks.weekly : {w:0,l:0,u:0};
             const lBase = cutoffInWeek ? BASELINE.leans.weekly : {w:0,l:0,u:0};
-            wPicksTally = combine(pBase, newPicks.filter(p => inWeek(p.date)));
-            wLeansTally = combine(lBase, newLeans.filter(p => inWeek(p.date)));
+            wPicksTally = combine(pBase, newPicks.filter(p => inWeek(p.date)), _pickStake);
+            wLeansTally = combine(lBase, newLeans.filter(p => inWeek(p.date)), MLB_LEAN_STAKE);
           }
 
           // YESTERDAY: use baseline if yesterday == cutoff, else compute fresh
@@ -781,8 +817,8 @@
             yPicksTally = BASELINE.picks.yesterday;
             yLeansTally = BASELINE.leans.yesterday;
           } else {
-            yPicksTally = combine({w:0,l:0,u:0}, newPicks.filter(p => p.date === yesterdayStr));
-            yLeansTally = combine({w:0,l:0,u:0}, newLeans.filter(p => p.date === yesterdayStr));
+            yPicksTally = combine({w:0,l:0,u:0}, newPicks.filter(p => p.date === yesterdayStr), _pickStake);
+            yLeansTally = combine({w:0,l:0,u:0}, newLeans.filter(p => p.date === yesterdayStr), MLB_LEAN_STAKE);
           }
 
           const weekRange = `${fmtMD(weeklyStartStr)}–${fmtMD(weeklyEndStr)}`;
@@ -824,17 +860,18 @@
           // 2026-06-09: Read gate reverted — today's Reddit copy lists ALL
           // picks again (not just readVerdict==='TAKE').
           const _isRedditTake = (p) => true;
+          // Before the staking-start date every bet is a flat 1u pick (no lean
+          // split). From the start date on, picks = today's 3u plays (>=0.67)
+          // and leans = today's 1u plays (0.64-0.67); the 0.60-0.64 watch
+          // tier is never posted.
+          const _tieredToday = todayStr >= MLB_STAKING_START;
           const _todayPicks = _sortByPCover(
-            picks.filter(p => p.date === todayStr && !_isVoid(p) && _isRedditTake(p))
+            picks.filter(p => p.date === todayStr && !_isVoid(p) && _isRedditTake(p)
+              && (!_tieredToday || (p.pCover != null && p.pCover >= MLB_PICK_STRONG)))
           );
-          // Watch-tier rows are never bet at our 0.68+ threshold, so the
-          // Reddit copy doesn't include them. Empty array kept for any
-          // downstream code expecting the variable.
           const _todayLeans = _sortByPCover(
-            []
-              .filter(p =>
-                p.date === todayStr && isLean(p) && !_isVoid(p) && _isRedditTake(p)
-              )
+            !_tieredToday ? [] : picks.filter(p => p.date === todayStr && !_isVoid(p) && _isRedditTake(p)
+              && p.pCover != null && p.pCover >= MLB_LEAN_FLOOR && p.pCover < MLB_PICK_STRONG)
           );
 
           // --- Upgrade/downgrade detection vs previously-displayed state ---
@@ -1098,19 +1135,27 @@
           // baked into BASELINE.picks.* with their actually-posted values. Re-
           // applying the pins here would double-count them.)
 
-          // Reddit copy is picks-only at the 0.68+ threshold — Leans
-          // section removed entirely (totals, weekly, yesterday, and the
-          // per-row leans block).
+          // Picks staked 3u (pCover >= 0.67), leans 1u (0.64-0.67) — 3/1 from
+          // 6/16. Leans tallies anchor on the as-posted BASELINE.leans and
+          // accrue new post-cutoff leans; the baseline is left untouched per
+          // the going-forward-only sizing decision.
           const redditText =
             `Picks will be updated throughout the day as lineups come in.\n\n` +
             `Lines are based on draftkingsORfanduel\n\n` +
-            `Picks:\n\n` +
+            (_tieredToday ? `Picks (3u):\n\n` : `Picks:\n\n`) +
             `* Total: ${fmt(totalPicks)}\n` +
             `* Before codefix: ${fmt(BASELINE.picks.before_codefix)}\n` +
             `* After codefix: ${fmt(codefixPicks)}\n` +
             `* ${weekLabel} (${weekRange}): ${fmt(wPicksTally)}\n` +
             `* Yesterday (${yMD}): ${fmt(yPicksTally)}\n` +
+            (_tieredToday
+              ? `\nLeans (1u):\n\n` +
+                `* Total: ${fmt(totalLeans)}\n` +
+                `* ${weekLabel} (${weekRange}): ${fmt(wLeansTally)}\n` +
+                `* Yesterday (${yMD}): ${fmt(yLeansTally)}\n`
+              : '') +
             _picksBlock +
+            _leansBlock +
             _droppedBlock +
             `\n\nNot needed but appreaciated : https://buymeacoffee.com/henitals`;
 
@@ -4585,7 +4630,7 @@
               if (i===6) td.style.color = '#bbb'; // PC
               if (i===7 && p.line!=null) td.style.color = p.proj > p.line ? 'var(--green)' : p.proj < p.line ? 'var(--red)' : '';
               if (i===9 && edge!=null) td.style.color = edge > 0 ? 'var(--green)' : edge < 0 ? 'var(--red)' : '#999';
-              if (i===10 && p.pCover!=null) td.style.color = p.pCover >= MLB_PICK_THRESHOLD ? 'var(--green)' : p.pCover >= MLB_WATCH_FLOOR ? 'var(--yellow)' : p.pCover <= 0.45 ? 'var(--red)' : '#ccc';
+              if (i===10 && p.pCover!=null) td.style.color = p.pCover >= 0.67 ? 'var(--green)' : p.pCover >= MLB_PICK_THRESHOLD ? 'var(--yellow)' : p.pCover >= MLB_WATCH_FLOOR ? 'var(--orange)' : p.pCover <= 0.45 ? 'var(--red)' : '#ccc';
               if (i===11 && isPick) { td.style.fontWeight='700'; td.style.color = p.pick==='OVER'?'var(--green)':'var(--red)'; }
               if (i===12) td.style.color = '#999';
               if (i===13) {
@@ -5962,7 +6007,7 @@
               if (i===2) td.style.color = '#aaa';
               if (i===3 && p.line!=null) td.style.color = p.proj > p.line ? 'var(--green)' : p.proj < p.line ? 'var(--red)' : '';
               if (i===5 && edge!=null) td.style.color = edge > 0 ? 'var(--green)' : edge < 0 ? 'var(--red)' : '#999';
-              if (i===6 && p.pCover!=null) td.style.color = p.pCover >= MLB_PICK_THRESHOLD ? 'var(--green)' : p.pCover >= MLB_WATCH_FLOOR ? 'var(--yellow)' : p.pCover <= 0.45 ? 'var(--red)' : '#ccc';
+              if (i===6 && p.pCover!=null) td.style.color = p.pCover >= 0.67 ? 'var(--green)' : p.pCover >= MLB_PICK_THRESHOLD ? 'var(--yellow)' : p.pCover >= MLB_WATCH_FLOOR ? 'var(--orange)' : p.pCover <= 0.45 ? 'var(--red)' : '#ccc';
               if (i===7 && isPick) { td.style.fontWeight='700'; td.style.color = p.pick==='OVER'?'var(--green)':'var(--red)'; }
             });
           }
