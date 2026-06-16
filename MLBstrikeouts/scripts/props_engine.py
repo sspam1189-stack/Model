@@ -610,6 +610,7 @@ def project_pitcher_props(pitcher_logs, team_batting_stats=None,
                           proj_ip=proj_ip, proj_bf=projected_bf_display, proj_pc=proj_pc,
                           proj_bf_capped=projected_bf,
                           opp_team_k_pct=opp_team_k_pct, lineup_k_pct=lineup_k_rate,
+                          pitcher_k_pct=pitcher_k_rate,
                           game_id=ctx.get("game_id"))
         if prop:
             prop["proj_raw"] = round(model_proj, 3)  # pre-calibration, for walk-forward calib fit
@@ -694,7 +695,8 @@ def _to_win_1u(price):
 
 def _make_prop(name, team, market, proj, std, line_lookup, opp,
                proj_ip=None, proj_bf=None, proj_pc=None, proj_bf_capped=None,
-               opp_team_k_pct=None, lineup_k_pct=None, game_id=None):
+               opp_team_k_pct=None, lineup_k_pct=None, pitcher_k_pct=None,
+               game_id=None):
     nk = _name_key(name)
     line_key = (nk[0], nk[1], market)
     line_data = line_lookup.get(line_key)
@@ -733,6 +735,9 @@ def _make_prop(name, team, market, proj, std, line_lookup, opp,
         "proj_pc": round(proj_pc, 0) if proj_pc is not None else None,
         "opp_team_k_pct": round(opp_team_k_pct * 100, 1) if opp_team_k_pct else None,
         "lineup_k_pct": round(lineup_k_pct * 100, 1) if lineup_k_pct else None,
+        # Pitcher's own hand-weighted K% (post whiff/xBA adjustment) — the
+        # actual pitcher K-rate fed into the projection.
+        "pitcher_k_pct": round(pitcher_k_pct * 100, 1) if pitcher_k_pct else None,
     }
 
     if line is not None and std > 0:

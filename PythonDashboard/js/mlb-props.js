@@ -4538,6 +4538,7 @@
             ['Name',   null, true],
             ['Team',   null, false],
             ['Opp',    null, false],
+            ['P K%',   null, false],
             ['LU K%',  null, false],
             ['Tm K%',  null, false],
             ['BF',     null, false],
@@ -4609,8 +4610,11 @@
             // (e.g. 22.4 means 22.4%). Show one decimal place.
             const luKStr   = p.lineup_k_pct   != null ? p.lineup_k_pct.toFixed(1)   + '%' : '\u2014';
             const tmKStr   = p.opp_team_k_pct != null ? p.opp_team_k_pct.toFixed(1) + '%' : '\u2014';
+            // Pitcher's own K% fed into the projection (engine emits as a percent,
+            // e.g. 24.6). Dash until the next pipeline run populates pitcher_k_pct.
+            const pKStr    = p.pitcher_k_pct  != null ? p.pitcher_k_pct.toFixed(1)  + '%' : '\u2014';
             [displayName(p), p.team||'', p.opp||'',
-             luKStr, tmKStr, bfStr, pitchStr,
+             pKStr, luKStr, tmKStr, bfStr, pitchStr,
              p.proj!=null?String(p.proj):'\u2014', p.line!=null?String(p.line):'\u2014',
              edgeStr, coverStr,
              isPick?(p.pick==='OVER'?'O':'U'):'\u2014',
@@ -4624,16 +4628,17 @@
               if (i===0) td.style.fontWeight = '600';
               if (i===1) td.style.color = '#999';
               if (i===2) td.style.color = '#999'; // Opp
-              if (i===3) td.style.color = '#bbb'; // LU K%
-              if (i===4) td.style.color = '#bbb'; // Tm K%
-              if (i===5) td.style.color = '#bbb'; // BF
-              if (i===6) td.style.color = '#bbb'; // PC
-              if (i===7 && p.line!=null) td.style.color = p.proj > p.line ? 'var(--green)' : p.proj < p.line ? 'var(--red)' : '';
-              if (i===9 && edge!=null) td.style.color = edge > 0 ? 'var(--green)' : edge < 0 ? 'var(--red)' : '#999';
-              if (i===10 && p.pCover!=null) td.style.color = p.pCover >= 0.67 ? 'var(--green)' : p.pCover >= MLB_PICK_THRESHOLD ? 'var(--yellow)' : p.pCover >= MLB_WATCH_FLOOR ? 'var(--orange)' : p.pCover <= 0.45 ? 'var(--red)' : '#ccc';
-              if (i===11 && isPick) { td.style.fontWeight='700'; td.style.color = p.pick==='OVER'?'var(--green)':'var(--red)'; }
-              if (i===12) td.style.color = '#999';
-              if (i===13) {
+              if (i===3) td.style.color = '#bbb'; // P K%
+              if (i===4) td.style.color = '#bbb'; // LU K%
+              if (i===5) td.style.color = '#bbb'; // Tm K%
+              if (i===6) td.style.color = '#bbb'; // BF
+              if (i===7) td.style.color = '#bbb'; // PC
+              if (i===8 && p.line!=null) td.style.color = p.proj > p.line ? 'var(--green)' : p.proj < p.line ? 'var(--red)' : '';
+              if (i===10 && edge!=null) td.style.color = edge > 0 ? 'var(--green)' : edge < 0 ? 'var(--red)' : '#999';
+              if (i===11 && p.pCover!=null) td.style.color = p.pCover >= 0.67 ? 'var(--green)' : p.pCover >= MLB_PICK_THRESHOLD ? 'var(--yellow)' : p.pCover >= MLB_WATCH_FLOOR ? 'var(--orange)' : p.pCover <= 0.45 ? 'var(--red)' : '#ccc';
+              if (i===12 && isPick) { td.style.fontWeight='700'; td.style.color = p.pick==='OVER'?'var(--green)':'var(--red)'; }
+              if (i===13) td.style.color = '#999';
+              if (i===14) {
                 td.title = isPostponed ? _gs : (p.lockState || 'pending');
                 td.style.fontSize = '11px';
                 td.style.fontWeight = '600';
