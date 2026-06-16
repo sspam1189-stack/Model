@@ -364,7 +364,12 @@ PROJ_CALIB_MIN_PAIRS = 40      # need >= this many tail pairs to fit; else raw
 # edge is +0.073u/pick (under the 0.20 bar) — shipped on user call, near-tie.
 K_QUALITY_METRIC = "csw"
 
-CSW_XBA_BLEND_WEIGHT = 0.3   # 2026-05-29: 0.5->0.3, CSW's tuned optimum (was whiff's)
+CSW_XBA_BLEND_WEIGHT = 0.4   # 2026-06-15: 0.3->0.4 for recency. Walk-forward
+# sweep (0.0/0.2/0.4/0.5/0.6) peaks at 0.4: full-season units ~tied with 0.3
+# (flat .64+ 1u: +194.99u vs +196.48u; tiered combined +338.7u vs +346.1u) but
+# RECENT lifts clearly — June +9.94u vs +5.23u, last week +10.65u vs +5.63u (flat
+# .64+); both pick (>=.67) and lean (.64-.67) tiers improve. 0.5+ overshoots
+# (June craters). lineup1.0 tested alongside and rejected (wrecks lean tier).
 # Fallbacks used only when the dynamic refit has <50 qualified pitchers.
 # 2026-05-29: re-derived from the CSW regression (x1_key="csw") on the
 # leak-free as-of-2026-05-28 snapshot (n=433, R^2=0.648). The prior values
