@@ -1,10 +1,13 @@
 // MLB Pitcher Props rendering
 
     // Pick threshold — mirrors MARKET_THRESHOLDS["strikeouts"]["high"] in
-    // MLBstrikeouts/scripts/defaults.py. pCover >= this => bet. Keep in sync
-    // with defaults.py. Table pCover colors: >=0.67 green (strong bet),
-    // 0.64-0.67 yellow (leans), 0.60-0.64 orange (watch), <=0.45 red.
-    const MLB_PICK_THRESHOLD = 0.64;   // 2026-06-13: raised 0.64 -> 0.67 then reverted same day
+    // MLBstrikeouts/scripts/defaults.py. pCover >= this => pick. Keep in sync
+    // with defaults.py. Table pCover colors: >=0.68 green (bet), 0.60-0.68
+    // orange (watch), <=0.45 red.
+    // 2026-06-16: 0.64 -> 0.68 to match defaults.py — the engine now only tags
+    // a pick at the bet cutoff, so the 0.64-0.68 band is no longer shown as a
+    // pick (it surfaces as a would_be_pick watchlist row instead).
+    const MLB_PICK_THRESHOLD = 0.68;   // 2026-06-16: 0.64 -> 0.68 (== bet cutoff)
     const MLB_WATCH_FLOOR    = 0.60;   // 2026-06-13: watch/yellow band 0.60-0.64
     // Reddit staking (2026-06-15, picks-only strategy): bet ONLY >=0.68 picks
     // at FLAT 1u (no 3/1 ratio — there are no leans to weight against). The
