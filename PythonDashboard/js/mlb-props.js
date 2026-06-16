@@ -1962,13 +1962,22 @@
               } else if (pitWR <= 0.40 && pitRec.u <= -1) {
                 pitTake = `${pitNameTxt} ${pitTxt} — pitcher track is a red flag.`;
                 pitColor = 'var(--red)';
+              } else {
+                // Neutral band (0.40-0.65): show the number, no verdict verb.
+                pitTake = `${pitNameTxt} ${pitTxt}.`;
+                pitColor = '#bbb';
               }
-              // pitWR between 0.40 and 0.65 → no sentence (avoids "neutral").
             } else if (pitN >= 1) {
-              // Thin record (n=1-3): show the picks number for transparency, but
-              // NO verdict verb — 3 games can't support a co-sign / red-flag claim
-              // (a 50% pitcher goes 0-3 ~1 in 8). Grey, neutral, record only.
+              // Thin record (n=1-3): number tagged small sample, no verdict verb —
+              // 3 games can't support a co-sign / red-flag claim (a 50% pitcher
+              // goes 0-3 ~1 in 8). Grey, neutral.
               pitTake = `${pitNameTxt} ${recOf(pitRec)} — small sample.`;
+              pitColor = '#bbb';
+            } else if (pitBroadN >= 1) {
+              // No graded picks this direction (e.g. all watch/lean history) —
+              // anchor on the broader record appended below so the pitcher
+              // history still shows instead of vanishing.
+              pitTake = `${pitNameTxt} 0-0 (no picks).`;
               pitColor = '#bbb';
             }
             // Append the broader picks+leans SAME-direction record, EXPLAINED,
