@@ -1933,9 +1933,11 @@
             // ("P O&&U") — the broader lens catches "model is good on this
             // pitcher regardless of side" or "model bleeds on this pitcher
             // either way".
-            // DISPLAY uses the broader (picks+watch) pitcher record so the read
-            // still shows the fuller sample; the VERDICT below uses picks-only.
-            const pitRec = r.pitRecBroad;
+            // Direction-matched line shows PICKS-ONLY — what we actually bet
+            // (e.g. "M.Kelly unders 4-1", not the watch-padded 6-1). The
+            // "Broader: both ways" line below still shows the broader picks+watch
+            // record, so the fuller sample stays visible. Verdict = picks-only.
+            const pitRec = r.pitRec;
             const pitAllRec = r.pitAllRecBroad;
             const pitN = pitRec ? pitRec.w + pitRec.l : 0;
             const pitAllN = pitAllRec ? pitAllRec.w + pitAllRec.l : 0;
