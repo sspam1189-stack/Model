@@ -2404,7 +2404,9 @@
               tbl.style.cssText = 'width:100%;border-collapse:collapse';
               const head = tbl.createTHead().insertRow();
               const headCols = [
-                ['Date', 'left'], ['Opp', 'center'], ['Bkt', 'center'],
+                ['Date', 'left'], ['Opp', 'center'],
+                ['P K%', 'right'], ['LU K%', 'right'], ['Tm K%', 'right'],
+                ['Bkt', 'center'],
                 ['Dir', 'center'], ['Line', 'right'], ['Proj', 'right'],
                 ['Edge', 'right'], ['pC%', 'right'], ['Actual', 'right'],
                 ['Odds', 'right'], ['Result', 'center'], ['Units', 'right'],
@@ -2456,6 +2458,9 @@
                 const cells = [
                   {v: p.date || '—', align:'left', color:'#ccc'},
                   {v: p.opp || '—', align:'center', color:'#ccc'},
+                  {v: p.pitcher_k_pct  != null ? p.pitcher_k_pct.toFixed(1)  + '%' : '—', align:'right', color:'#bbb'},
+                  {v: p.lineup_k_pct   != null ? p.lineup_k_pct.toFixed(1)   + '%' : '—', align:'right', color:'#bbb'},
+                  {v: p.opp_team_k_pct != null ? p.opp_team_k_pct.toFixed(1) + '%' : '—', align:'right', color:'#bbb'},
                   {v: bkt, align:'center', color:bktColor, weight:'600'},
                   {v: dir === 'OVER' ? 'O' : 'U', align:'center', color:dirColor, weight:'600'},
                   {v: p.line != null ? String(p.line) : '—', align:'right'},
@@ -3205,6 +3210,7 @@
               const head = tbl.createTHead().insertRow();
               const headCols = [
                 ['Date', 'left'], ['Pitcher', 'left'], ['Tm', 'center'],
+                ['P K%', 'right'], ['LU K%', 'right'], ['Tm K%', 'right'],
                 ['Bkt', 'center'], ['Dir', 'center'], ['Line', 'right'],
                 ['Proj', 'right'], ['Edge', 'right'], ['pC%', 'right'],
                 ['Actual', 'right'], ['Odds', 'right'],
@@ -3252,6 +3258,9 @@
                   {v: p.date || '—', align:'left', color:'#ccc'},
                   {v: displayName(p), align:'left', color:'#fff', weight:'600'},
                   {v: p.team || '—', align:'center', color:'#999'},
+                  {v: p.pitcher_k_pct  != null ? p.pitcher_k_pct.toFixed(1)  + '%' : '—', align:'right', color:'#bbb'},
+                  {v: p.lineup_k_pct   != null ? p.lineup_k_pct.toFixed(1)   + '%' : '—', align:'right', color:'#bbb'},
+                  {v: p.opp_team_k_pct != null ? p.opp_team_k_pct.toFixed(1) + '%' : '—', align:'right', color:'#bbb'},
                   {v: bkt, align:'center', color:bktColor, weight:'600'},
                   {v: dir === 'OVER' ? 'O' : 'U', align:'center', color:dirColor, weight:'600'},
                   {v: p.line != null ? String(p.line) : '—', align:'right'},
