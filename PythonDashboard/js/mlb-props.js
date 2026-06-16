@@ -296,11 +296,22 @@
         // and pCover in the watch band (0.60-0.68). Used by the matchup
         // history cohort builder so the broader lens picks up watchlist
         // plays in the same direction as today's pick.
+        // LEAN tier: [0.64, 0.68) — the demoted band that was bet pre-0.68 move.
+        // Considered by the Read (cohorts + verdict) alongside picks. (2026-06-16:
+        // narrowed from the old 0.60-0.68 "watch" band so Watch and Lean are
+        // distinct tiers model-wide.)
         function isLean(p) {
           if (p.pick !== 'PASS') return false;
           if (!p.would_be_pick) return false;
           const pc = p.pCover || 0;
-          return pc >= MLB_WATCH_FLOOR && pc < MLB_PICK_THRESHOLD;  // watch tier; pick threshold -> 0.64 (2026-06-08)
+          return pc >= MLB_LEAN_FLOOR && pc < MLB_PICK_STRONG;
+        }
+        // WATCH tier: [0.60, 0.64) — deeper, display-only, NOT in the Read.
+        function isWatch(p) {
+          if (p.pick !== 'PASS') return false;
+          if (!p.would_be_pick) return false;
+          const pc = p.pCover || 0;
+          return pc >= MLB_WATCH_FLOOR && pc < MLB_LEAN_FLOOR;
         }
         const leanAll = (data.props || []).filter(isLean);
         const leanGraded = leanAll.filter(p => p.result === 'WIN' || p.result === 'LOSS');
@@ -1735,7 +1746,7 @@
             td.style.cssText = `padding:8px 8px 4px;font-size:11px;color:var(--yellow);font-weight:700;letter-spacing:0.08em;text-transform:uppercase;background:rgba(255,255,255,0.02);border-top:1px solid rgba(255,255,255,0.08);cursor:pointer;user-select:none`;
             let _watchOpen = false;
             const _setTxt = () => {
-              td.textContent = (_watchOpen ? '▼ ' : '▶ ') + `Watch — bumped (${todayLeans.length}) — not bet`;
+              td.textContent = (_watchOpen ? '▼ ' : '▶ ') + `Leans — bumped (${todayLeans.length}) — not bet`;
             };
             _setTxt();
             const watchTRs = [];
@@ -1946,7 +1957,7 @@
             // picks+watch (r.pitRecBroad) — NOT the both-ways cohort.
             // DISPLAY record = this row's own tier (Picks for Pick rows, Watch
             // for Watch/Lean rows), labeled to match. Verdict still uses picks-only.
-            const tierLabel = r.bucket === 'Lean' ? 'Watch' : 'Picks';
+            const tierLabel = r.bucket === 'Lean' ? 'Leans' : 'Picks';
             const pitRec = r.pitOwn;
             const broadRec = r.pitRecBroad;
             const pitN = pitRec ? pitRec.w + pitRec.l : 0;
@@ -2067,7 +2078,7 @@
           const passPicks = pickEntries.filter(e => _verdictFor(e) === 'PASS');
           appendReadSection('Picks — TAKE', 'var(--green)', takePicks);
           appendReadSection('Picks — PASS', 'var(--red)', passPicks);
-          appendReadSection('Watch — bumped', 'var(--yellow)', leanEntries, { collapsible: true });
+          appendReadSection('Leans — bumped', 'var(--yellow)', leanEntries, { collapsible: true });
 
           card.appendChild(readBlock);
 
@@ -2167,7 +2178,8 @@
           const _phBucket = (p) => {
             if (p.pick === 'OVER' || p.pick === 'UNDER') return 'PICK';
             const pc = p.pCover || 0;
-            if (pc >= MLB_WATCH_FLOOR && pc < MLB_PICK_THRESHOLD) return 'WATCH';
+            if (pc >= MLB_LEAN_FLOOR && pc < MLB_PICK_STRONG) return 'LEAN';
+            if (pc >= MLB_WATCH_FLOOR && pc < MLB_LEAN_FLOOR) return 'WATCH';
             return 'PASS';
           };
           const _phOdds = (p) => {
@@ -2313,7 +2325,8 @@
             const FILTERS = [
               { key: 'ALL',   label: 'All',     color: '#ccc'           },
               { key: 'PICK',  label: 'Picks',   color: '#a78bfa'        },
-              { key: 'WATCH', label: 'Watch',   color: 'var(--yellow)'  },
+              { key: 'LEAN',  label: 'Leans',   color: 'var(--yellow)'  },
+              { key: 'WATCH', label: 'Watch',   color: 'var(--orange)'  },
               { key: 'PASS',  label: 'Passes',  color: '#888'           },
             ];
             let _activeFilter = 'ALL';
@@ -2430,7 +2443,7 @@
                   : (p.would_be_pick || ((p.proj || 0) > (p.line || 0) ? 'OVER' : 'UNDER'));
                 const grade = _phGrade(p);
                 const odds = _phOdds(p);
-                const sz = bkt === 'PICK' ? 1.0 : (bkt === 'WATCH' ? 1.0 : 0);
+                const sz = bkt === 'PASS' ? 0 : 1.0;
                 const u = (grade === 'V')
                   ? 0
                   : ((bkt !== 'PASS' && grade != null)
@@ -2439,7 +2452,7 @@
 
                 const edge = (p.proj != null && p.line != null) ? (p.proj - p.line).toFixed(1) : '—';
                 const edgeStr = edge !== '—' ? (parseFloat(edge) > 0 ? '+' + edge : edge) : '—';
-                const bktColor = bkt === 'PICK' ? '#a78bfa' : bkt === 'WATCH' ? 'var(--yellow)' : '#888';
+                const bktColor = bkt === 'PICK' ? '#a78bfa' : bkt === 'LEAN' ? 'var(--yellow)' : bkt === 'WATCH' ? 'var(--orange)' : '#888';
                 const dirColor = dir === 'OVER' ? 'var(--green)' : 'var(--red)';
                 const resColor = grade === 'W' ? 'var(--green)' : grade === 'L' ? 'var(--red)' : grade === 'V' ? '#888' : '#888';
                 const resLabel = grade === 'V' ? 'VOID' : (grade || '—');
@@ -2450,7 +2463,7 @@
                   ? '#888'
                   : (grade === 'V'
                       ? '#888'
-                      : (bkt === 'WATCH'
+                      : ((bkt === 'WATCH' || bkt === 'LEAN')
                           ? 'var(--yellow)'
                           : (u > 0 ? 'var(--green)' : u < 0 ? 'var(--red)' : '#ccc')));
                 const fmtOdds = (o) => o == null ? '—' : (o > 0 ? '+' + o : String(o));
@@ -2507,7 +2520,7 @@
                 if (bkt === 'PICK') {
                   if (grade === 'W') pw++; else pl++;
                   p_u += _phUnits(odds, grade === 'W', 1.0);
-                } else if (bkt === 'WATCH') {
+                } else if (bkt === 'LEAN') {
                   if (grade === 'W') lw++; else ll++;
                   l_u += _phUnits(odds, grade === 'W', 1.0);
                 }
@@ -2531,7 +2544,7 @@
               if (watchTotal > 0) {
                 const wr = (lw/watchTotal*100).toFixed(1);
                 const u  = (l_u >= 0 ? '+' : '') + l_u.toFixed(2) + 'u';
-                parts.push(`<span style="color:${watchColor};font-weight:600">Watch ${lw}-${ll} (${wr}%) ${u}</span>`);
+                parts.push(`<span style="color:${watchColor};font-weight:600">Leans ${lw}-${ll} (${wr}%) ${u}</span>`);
               }
               if (parts.length === 0) parts.push('<span style="color:#888">No graded plays yet</span>');
               // Stack each record on its own line so picks/leans don't compete
@@ -2990,7 +3003,8 @@
             const TH_FILTERS = [
               { key: 'ALL',   label: 'All',     color: '#ccc'           },
               { key: 'PICK',  label: 'Picks',   color: '#a78bfa'        },
-              { key: 'WATCH', label: 'Watch',   color: 'var(--yellow)'  },
+              { key: 'LEAN',  label: 'Leans',   color: 'var(--yellow)'  },
+              { key: 'WATCH', label: 'Watch',   color: 'var(--orange)'  },
               { key: 'PASS',  label: 'Passes',  color: '#888'           },
             ];
             let _thActiveFilter = 'ALL';
@@ -3233,7 +3247,7 @@
                   : (p.would_be_pick || ((p.proj || 0) > (p.line || 0) ? 'OVER' : 'UNDER'));
                 const grade = _thGrade(p);
                 const odds = _thOdds(p);
-                const sz = bkt === 'PICK' ? 1.0 : (bkt === 'WATCH' ? 1.0 : 0);
+                const sz = bkt === 'PASS' ? 0 : 1.0;
                 const u = (grade === 'V')
                   ? 0
                   : ((bkt !== 'PASS' && grade != null)
@@ -3241,7 +3255,7 @@
                       : null);
                 const edge = (p.proj != null && p.line != null) ? (p.proj - p.line).toFixed(1) : '—';
                 const edgeStr = edge !== '—' ? (parseFloat(edge) > 0 ? '+' + edge : edge) : '—';
-                const bktColor = bkt === 'PICK' ? '#a78bfa' : bkt === 'WATCH' ? 'var(--yellow)' : '#888';
+                const bktColor = bkt === 'PICK' ? '#a78bfa' : bkt === 'LEAN' ? 'var(--yellow)' : bkt === 'WATCH' ? 'var(--orange)' : '#888';
                 const dirColor = dir === 'OVER' ? 'var(--green)' : 'var(--red)';
                 const resColor = grade === 'W' ? 'var(--green)' : grade === 'L' ? 'var(--red)' : '#888';
                 const resLabel = grade === 'V' ? 'VOID' : (grade || '—');
@@ -3249,7 +3263,7 @@
                   ? '#888'
                   : (grade === 'V'
                       ? '#888'
-                      : (bkt === 'WATCH'
+                      : ((bkt === 'WATCH' || bkt === 'LEAN')
                           ? 'var(--yellow)'
                           : (u > 0 ? 'var(--green)' : u < 0 ? 'var(--red)' : '#ccc')));
                 const fmtOdds = (o) => o == null ? '—' : (o > 0 ? '+' + o : String(o));
@@ -3318,7 +3332,7 @@
                 if (bkt === 'PICK') {
                   if (grade === 'W') pw++; else pl++;
                   p_u += _thUnits(odds, grade === 'W', 1.0);
-                } else if (bkt === 'WATCH') {
+                } else if (bkt === 'LEAN') {
                   if (grade === 'W') lw++; else ll++;
                   l_u += _thUnits(odds, grade === 'W', 1.0);
                 }
@@ -3341,7 +3355,7 @@
               if (watchTotal > 0) {
                 const wr = (lw/watchTotal*100).toFixed(1);
                 const u  = (l_u >= 0 ? '+' : '') + l_u.toFixed(2) + 'u';
-                parts.push(`<span style="color:${watchColor};font-weight:600">Watch ${lw}-${ll} (${wr}%) ${u}</span>`);
+                parts.push(`<span style="color:${watchColor};font-weight:600">Leans ${lw}-${ll} (${wr}%) ${u}</span>`);
               }
               if (parts.length === 0) parts.push('<span style="color:#888">No graded plays yet</span>');
               thSummary.innerHTML = parts.map(p => `<div>${p}</div>`).join('');
