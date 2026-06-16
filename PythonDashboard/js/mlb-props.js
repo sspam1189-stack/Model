@@ -2,8 +2,11 @@
 
     // Pick threshold — mirrors MARKET_THRESHOLDS["strikeouts"]["high"] in
     // MLBstrikeouts/scripts/defaults.py. pCover >= this => pick. Keep in sync
-    // with defaults.py. Table pCover colors: >=0.68 green (bet), 0.60-0.68
-    // orange (watch), <=0.45 red.
+    // with defaults.py. Table pCover colors: >=0.68 green (bet), 0.64-0.68
+    // yellow (demoted band — was bet pre-0.68 move), 0.60-0.64 orange (deeper
+    // watch), <=0.45 red. Yellow boundary uses MLB_LEAN_FLOOR (0.64), NOT
+    // MLB_PICK_THRESHOLD — the latter now == MLB_PICK_STRONG (0.68) so using it
+    // collapsed the whole 0.60-0.68 band to orange (fixed 2026-06-16).
     // 2026-06-16: 0.64 -> 0.68 to match defaults.py — the engine now only tags
     // a pick at the bet cutoff, so the 0.64-0.68 band is no longer shown as a
     // pick (it surfaces as a would_be_pick watchlist row instead).
@@ -402,8 +405,9 @@
         // for the live card / source of truth). The MAE gate is per-DATE, not
         // per-pick: on a "tighten" day — when the 3-day trailing model-vs-line
         // MAE gap (computed from strictly-prior graded picks) is >= 0 — the gate
-        // would skip the marginal 0.64-0.67 tier. So a pick is gated OUT only if
-        // it is in [0.64, 0.67) AND its date was a tighten day; every >=0.67 pick
+        // would skip the marginal 0.64-0.68 tier (the band we no longer bet after
+        // the 2026-06-16 threshold move to 0.68). So a pick is gated OUT only if
+        // it is in [0.64, 0.68) AND its date was a tighten day; every >=0.68 pick
         // and every pick on a NORMAL day is kept. Constants mirror the card.
         const _maeTightenDates = (() => {
           const LOWT = 0.64, GWIN = 3, GMIN = 8;
@@ -426,7 +430,7 @@
           return tighten;
         })();
         const _maeGateKeep = p =>
-          !(p.pCover != null && p.pCover >= 0.64 && p.pCover < 0.67 && _maeTightenDates.has(p.date));
+          !(p.pCover != null && p.pCover >= 0.64 && p.pCover < 0.68 && _maeTightenDates.has(p.date));
         // Second toggle: all graded picks vs. only read-widget TAKEs / EV TAKEs /
         // MAE-gated. Mirrors the shadow-monitor cards so users can A/B the
         // model-only record against each gate's subset within the same window.
@@ -1199,16 +1203,25 @@
           // Named for its signal: trailing model MAE |proj-actual| vs Vegas line
           // MAE |line-actual|. (Formerly "Edge Gate" — renamed to name the
           // mechanism and to disambiguate from the EV Gate.)
-          // Signal = trailing 3-day (model |proj-actual| MAE) minus (line MAE) over
-          // graded picks (pCover>=0.64). gap<0 => you're sharper than Vegas => bet
-          // full card (>=0.64). gap>=0 => your recent picks are TRAILING the line
-          // => the gate would tighten to >=0.67 and skip the 0.64-0.67 marginal
-          // tier. This card ONLY tracks the counterfactual so you can decide
-          // whether to adopt it once enough flip events accumulate. It does not
-          // change any picks. Window=3d chosen to ~match a series; leak-free
-          // (each date's gap uses only strictly-prior graded picks).
+          //
+          // 2026-06-16 REPOINT: after the pick threshold moved 0.64 -> 0.68, the
+          // 0.64-0.68 band is no longer bet (it's now conf="watch"/would_be_pick).
+          // This monitor is repointed onto exactly that band: it asks "on days my
+          // recent form trails the line, how did the 0.64-0.68 tier I stopped
+          // betting actually do?" So the "skipped" tier is now genuinely unbet,
+          // and "saved u" is the real P/L the 0.68 cut avoids on tighten days.
+          // Signal (gap) = trailing 3-day (model MAE) minus (line MAE) over graded
+          // BET picks (pCover>=0.64; regime-agnostic recent form). gap>=0 =>
+          // TIGHTEN day (form trailing). The skipped/counterfactual population is
+          // the 0.64-0.68 band, taken from BOTH eras: pre-move it lived in
+          // pick=OVER/UNDER, post-move in would_be_pick (conf=watch) — unioned so
+          // the ledger is continuous across the threshold move. Monitor-only;
+          // changes no picks. Window=3d; leak-free (gap uses strictly-prior picks).
           (function renderMaeGate(){
-            const LOWT=0.64, HIGHT=0.67, GWIN=3, GMIN=8;
+            const LOWT=0.64, HIGHT=0.68, GWIN=3, GMIN=8;
+            // Direction of any row: bet picks use `pick`, watch rows `would_be_pick`.
+            const _dirOf=p=>(p.pick==='OVER'||p.pick==='UNDER')?p.pick:p.would_be_pick;
+            // Signal population: graded BET picks (recent form vs the line).
             const g=(data.props||[]).filter(p =>
               (p.pick==='OVER'||p.pick==='UNDER') &&
               (p.result==='WIN'||p.result==='LOSS') &&
@@ -1216,6 +1229,12 @@
               p.pCover>=LOWT);
             if (!g.length) return;
             g.sort((a,b)=>(a.date||'').localeCompare(b.date||''));
+            // Band population: the 0.64-0.68 tier we no longer bet, unioned across
+            // eras (pre-move pick=OVER/UNDER, post-move would_be_pick watch rows).
+            const band=(data.props||[]).filter(p =>
+              (p.result==='WIN'||p.result==='LOSS') &&
+              p.pCover!=null && p.pCover>=LOWT && p.pCover<HIGHT &&
+              (p.pick==='OVER'||p.pick==='UNDER'||p.would_be_pick==='OVER'||p.would_be_pick==='UNDER'));
             const dts=[...new Set(g.map(p=>p.date))].sort();
             const dadd=(s,n)=>{const x=new Date(s+'T12:00:00');x.setDate(x.getDate()+n);return x.toISOString().slice(0,10);};
             function gap(D){
@@ -1226,12 +1245,12 @@
               const lm=w.reduce((s,p)=>s+Math.abs(p.line-p.actual),0)/w.length;
               return mm-lm;
             }
-            // historical flips + the marginal picks the gate would have skipped
+            // historical flips + the 0.64-0.68 band picks the gate would have skipped
             const flips=[]; let cumU=0, cumW=0, cumL=0;
             for (const D of dts){
               const ga=gap(D);
               if (ga!=null && ga>=0){
-                const dropped=g.filter(p=>p.date===D && p.pCover>=LOWT && p.pCover<HIGHT);
+                const dropped=band.filter(p=>p.date===D);
                 const u=calcMLBPropsUnits(dropped);
                 const w=dropped.filter(p=>p.result==='WIN').length;
                 const l=dropped.filter(p=>p.result==='LOSS').length;
@@ -1258,25 +1277,25 @@
               (tighten?'background:rgba(255,160,0,0.12);color:#ffb000;border:1px solid rgba(255,160,0,0.35)'
                      :'background:rgba(0,200,120,0.10);color:#19c37d;border:1px solid rgba(0,200,120,0.30)');
             banner.textContent = tighten
-              ? `⚠ TIGHTEN — recent picks trailing the line (3d gap ${gapTxt}). Gate would bet only ≥0.67 and skip the 0.64–0.67 tier today.`
-              : `✓ NORMAL — beating the line (3d gap ${gapTxt}). Gate would bet the full card (≥0.64).`;
+              ? `⚠ TIGHTEN — recent picks trailing the line (3d gap ${gapTxt}). The 0.64–0.68 band you no longer bet looks extra-risky today — the 0.68 cut is working for you.`
+              : `✓ NORMAL — beating the line (3d gap ${gapTxt}). Form is sharp; the 0.64–0.68 band you cut may be leaving value on the table today.`;
             card.appendChild(banner);
 
             // today's actionable picks the gate would skip (pending — not gradeable yet)
             if (tighten && typeof todayStr!=='undefined' && todayStr){
               const todMarg=(data.props||[]).filter(p=>p.date===todayStr &&
-                (p.pick==='OVER'||p.pick==='UNDER') && p.pCover!=null &&
-                p.pCover>=LOWT && p.pCover<HIGHT).sort((a,b)=>b.pCover-a.pCover);
+                (p.pick==='OVER'||p.pick==='UNDER'||p.would_be_pick==='OVER'||p.would_be_pick==='UNDER') &&
+                p.pCover!=null && p.pCover>=LOWT && p.pCover<HIGHT).sort((a,b)=>b.pCover-a.pCover);
               const tw=document.createElement('div');
               tw.style.cssText='margin-top:10px;padding:8px 10px;background:rgba(255,160,0,0.07);border:1px solid rgba(255,160,0,0.25);border-radius:4px;font-size:12px';
               const th=document.createElement('div');
               th.style.cssText='font-weight:600;color:#ffb000;margin-bottom:'+(todMarg.length?'5px':'0');
               th.textContent = todMarg.length
-                ? `Today (${todayStr}) — gate would SKIP these ${todMarg.length} marginal pick${todMarg.length===1?'':'s'} (pending):`
-                : `Today (${todayStr}) — TIGHTEN, but no 0.64–0.67 picks to skip.`;
+                ? `Today (${todayStr}) — the 0.64–0.68 band already cut (would_be) has these ${todMarg.length} play${todMarg.length===1?'':'s'} (pending); tighten signal says good to skip:`
+                : `Today (${todayStr}) — TIGHTEN, but no 0.64–0.68 band plays today.`;
               tw.appendChild(th);
               for (const p of todMarg){
-                const dir=p.pick==='OVER'?'o':'u';
+                const dir=_dirOf(p)==='OVER'?'o':'u';
                 const row=document.createElement('div');
                 row.style.cssText='color:#ddd;padding:1px 0';
                 row.innerHTML=`${p.player} ${dir}${p.line} <span style="color:#888">(pC ${Number(p.pCover).toFixed(2)})</span>`;
@@ -1286,13 +1305,13 @@
             }
 
             // cumulative shadow result
-            const saved = -cumU;  // skipping net-negative dropped picks = saved units
+            const saved = -cumU;  // skipping a net-negative band on tighten days = saved units
             const summary=document.createElement('div');
             summary.style.cssText='margin-top:10px;font-size:13px;color:#ddd;line-height:1.6';
             summary.innerHTML =
-              `<b>Shadow ledger</b> (counterfactual, ${flips.length} flip day${flips.length===1?'':'s'} so far):<br>`+
-              `Marginal picks the gate would've skipped went <b>${cumW}-${cumL}</b> (${cumU>=0?'+':''}${cumU.toFixed(2)}u).<br>`+
-              `Adopting it would have changed your P/L by <b style="color:${saved>=0?'#19c37d':'#ff5c5c'}">${saved>=0?'+':''}${saved.toFixed(2)}u</b>.`;
+              `<b>Shadow ledger</b> (${flips.length} tighten day${flips.length===1?'':'s'} so far):<br>`+
+              `On tighten days the 0.64–0.68 band went <b>${cumW}-${cumL}</b> (${cumU>=0?'+':''}${cumU.toFixed(2)}u).<br>`+
+              `Skipping it on those days — which the 0.68 cut now does automatically — is worth <b style="color:${saved>=0?'#19c37d':'#ff5c5c'}">${saved>=0?'+':''}${saved.toFixed(2)}u</b>.`;
             card.appendChild(summary);
 
             // per-flip-day detail — collapsible: click a date to expand its dropped picks
@@ -1304,17 +1323,17 @@
                 det.style.cssText='margin-bottom:6px;padding:6px 10px;background:rgba(255,255,255,0.03);border-radius:4px;font-size:12px';
                 const sum=document.createElement('summary');
                 sum.style.cssText='cursor:pointer;font-weight:600;color:#cdd;list-style:revert';
-                sum.textContent=`${f.date}  ·  3d gap +${f.gap.toFixed(2)}  ·  skipped ${f.w}-${f.l}  ·  saved ${((-f.u)>=0?'+':'')}${(-f.u).toFixed(2)}u`;
+                sum.textContent=`${f.date}  ·  3d gap +${f.gap.toFixed(2)}  ·  band ${f.w}-${f.l}  ·  saved ${((-f.u)>=0?'+':'')}${(-f.u).toFixed(2)}u`;
                 det.appendChild(sum);
                 const body=document.createElement('div');
                 body.style.cssText='margin-top:6px';
                 if (!f.dropped.length){
-                  body.innerHTML='<div style="color:#888">(no 0.64–0.67 picks that day — flip had no effect)</div>';
+                  body.innerHTML='<div style="color:#888">(no 0.64–0.68 band plays that day — tighten had no effect)</div>';
                 } else {
                   for (const p of f.dropped){
                     const win=p.result==='WIN';
                     const u=calcMLBPropsUnits([p]);
-                    const dir=p.pick==='OVER'?'o':'u';
+                    const dir=_dirOf(p)==='OVER'?'o':'u';
                     const row=document.createElement('div');
                     row.style.cssText='display:flex;justify-content:space-between;gap:10px;padding:1px 0;color:'+(win?'#19c37d':'#ff5c5c');
                     row.innerHTML=`<span>${p.player} ${dir}${p.line} <span style="color:#888">(pC ${Number(p.pCover).toFixed(2)})</span></span>`+
@@ -1330,7 +1349,7 @@
 
             const note=document.createElement('div');
             note.style.cssText='margin-top:10px;font-size:11px;color:#888;line-height:1.5';
-            note.textContent='Monitor only — your actual picks are unchanged. The "Saved u" is the counterfactual P/L of skipping the 0.64–0.67 tier on days the gate flipped. Watch whether the cumulative stays positive across more flip days before adopting — it is currently fit to one regime event.';
+            note.textContent='Monitor only — your actual picks are unchanged. Repointed 2026-06-16 onto the 0.64–0.68 band that the 0.68 threshold now cuts. "Saved u" is the realized P/L of that band on tighten days (positive = the cut helps when form is poor). Pre-move the band was bet (pick), post-move it is watch (would_be_pick); both are unioned so the ledger is continuous. Signal is fit to one regime event — watch it accumulate.';
             card.appendChild(note);
 
             // Hoisted — appended at the very bottom with the other two shadow
@@ -4638,7 +4657,7 @@
               if (i===7) td.style.color = '#bbb'; // PC
               if (i===8 && p.line!=null) td.style.color = p.proj > p.line ? 'var(--green)' : p.proj < p.line ? 'var(--red)' : '';
               if (i===10 && edge!=null) td.style.color = edge > 0 ? 'var(--green)' : edge < 0 ? 'var(--red)' : '#999';
-              if (i===11 && p.pCover!=null) td.style.color = p.pCover >= MLB_PICK_STRONG ? 'var(--green)' : p.pCover >= MLB_PICK_THRESHOLD ? 'var(--yellow)' : p.pCover >= MLB_WATCH_FLOOR ? 'var(--orange)' : p.pCover <= 0.45 ? 'var(--red)' : '#ccc';
+              if (i===11 && p.pCover!=null) td.style.color = p.pCover >= MLB_PICK_STRONG ? 'var(--green)' : p.pCover >= MLB_LEAN_FLOOR ? 'var(--yellow)' : p.pCover >= MLB_WATCH_FLOOR ? 'var(--orange)' : p.pCover <= 0.45 ? 'var(--red)' : '#ccc';
               if (i===12 && isPick) { td.style.fontWeight='700'; td.style.color = p.pick==='OVER'?'var(--green)':'var(--red)'; }
               if (i===13) td.style.color = '#999';
               if (i===14) {
@@ -6015,7 +6034,7 @@
               if (i===2) td.style.color = '#aaa';
               if (i===3 && p.line!=null) td.style.color = p.proj > p.line ? 'var(--green)' : p.proj < p.line ? 'var(--red)' : '';
               if (i===5 && edge!=null) td.style.color = edge > 0 ? 'var(--green)' : edge < 0 ? 'var(--red)' : '#999';
-              if (i===6 && p.pCover!=null) td.style.color = p.pCover >= MLB_PICK_STRONG ? 'var(--green)' : p.pCover >= MLB_PICK_THRESHOLD ? 'var(--yellow)' : p.pCover >= MLB_WATCH_FLOOR ? 'var(--orange)' : p.pCover <= 0.45 ? 'var(--red)' : '#ccc';
+              if (i===6 && p.pCover!=null) td.style.color = p.pCover >= MLB_PICK_STRONG ? 'var(--green)' : p.pCover >= MLB_LEAN_FLOOR ? 'var(--yellow)' : p.pCover >= MLB_WATCH_FLOOR ? 'var(--orange)' : p.pCover <= 0.45 ? 'var(--red)' : '#ccc';
               if (i===7 && isPick) { td.style.fontWeight='700'; td.style.color = p.pick==='OVER'?'var(--green)':'var(--red)'; }
             });
           }

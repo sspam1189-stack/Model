@@ -124,17 +124,20 @@ def main():
         bar = 0.20
         upp = s_band["upp"]
         if upp >= bar:
-            verdict = (f"band is +{upp:.3f} u/pick >= +{bar:.2f} bar over n={s_band['n']} — "
+            verdict = (f"band is +{upp:.3f} u/pick >= +{bar:.2f} bar over n={s_band['n']} - "
                        f"cutting it is COSTING units; revisit the 0.68 move.")
         elif upp <= 0:
-            verdict = (f"band is {upp:+.3f} u/pick (<= 0) over n={s_band['n']} — "
+            verdict = (f"band is {upp:+.3f} u/pick (<= 0) over n={s_band['n']} - "
                        f"the cut is +EV; 0.68 looks correct.")
         else:
-            verdict = (f"band is +{upp:.3f} u/pick, under the +{bar:.2f} bar over n={s_band['n']} — "
+            verdict = (f"band is +{upp:.3f} u/pick, under the +{bar:.2f} bar over n={s_band['n']} - "
                        f"marginal; 0.68 holds unless the band sample grows and clears the bar.")
         print(f"  Verdict: {verdict}")
-        print(f"  (n={s_band['n']} is {'still thin; ' if s_band['n'] < 50 else ''}"
-              f"don't re-tune on <50-pick samples.)")
+        if s_band["n"] < 50:
+            print(f"  (n={s_band['n']} is still thin - don't re-tune on <50-pick samples.)")
+        else:
+            print(f"  (n={s_band['n']} is full-season; the 0.68 move was a RECENT-form call - "
+                  f"use --since 2026-06-16 for the window that actually decides it.)")
     print()
 
 

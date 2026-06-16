@@ -283,9 +283,13 @@ def _stamp_read_verdicts(merged_props):
     by_pit = defaultdict(lambda: {"w": 0, "l": 0, "u": 0.0})       # picks + watch both dirs, by pitcher
 
     def _is_watch(p):
-        # Watch tier: pick=PASS with a would_be_pick AND pCover in [0.60, 0.64).
-        # (Pick threshold is 0.64 — raised to 0.67 on 2026-06-13 then reverted
-        # same day; watch floor widened to 0.60 — so watch is the 0.60-0.64 band.)
+        # Watch tier: pick=PASS with a would_be_pick AND pCover in [0.60, pick_thresh).
+        # Upper bound is read from MARKET_THRESHOLDS so it follows threshold moves
+        # (0.64 -> 0.68 on 2026-06-16) instead of orphaning the demoted band: the
+        # 0.64-0.68 plays are now PASS/would_be_pick and belong in watch, not nowhere.
+        # Floor was widened to 0.60 on 2026-06-13.
+        from defaults import MARKET_THRESHOLDS
+        hi = MARKET_THRESHOLDS.get("strikeouts", {}).get("high", 0.68)
         if p.get("pick") != "PASS":
             return False
         if not p.get("would_be_pick"):
@@ -295,7 +299,7 @@ def _stamp_read_verdicts(merged_props):
             pc = float(pc) if pc is not None else 0
         except (TypeError, ValueError):
             return False
-        return 0.60 <= pc < 0.64
+        return 0.60 <= pc < hi
 
     def _row_dir(p):
         if p.get("pick") in ("OVER", "UNDER"):
