@@ -1971,10 +1971,24 @@
               pitTake = `${pitNameTxt} ${recOf(pitRec)} — small sample.`;
               pitColor = '#bbb';
             }
-            // Append the broader picks+watch SAME-direction record when it adds
-            // sample beyond the picks (i.e. there were watch-tier plays too).
+            // Append the broader picks+leans SAME-direction record, EXPLAINED,
+            // when lean/watch plays add sample beyond the picks. Labeled
+            // "both Picks and Leans" (the two tiers in this direction — NOT both
+            // directions, NOT the picks-only O//U). e.g.
+            //   "Broader: M.Kelly both Picks and Leans 6-1 (85.7%, +5.06u) — whole book profitable."
             if (pitTake && broadRec && pitBroadN > pitN) {
-              pitTake += ` Broader ${recOf(broadRec)}.`;
+              const bWR = broadRec.w / pitBroadN;
+              const bTxt = `${recOf(broadRec)} (${(bWR*100).toFixed(1)}%, ${uOf(broadRec)})`;
+              const bName = `${displayName(r.p)} both Picks and Leans`;
+              let bTail = '.';
+              if (bWR >= 0.70 && broadRec.u >= 2) {
+                bTail = ' — whole book profitable.';
+                if (pitColor === '#bbb') pitColor = 'var(--green)';
+              } else if (bWR <= 0.45 && broadRec.u <= -2) {
+                bTail = ' — model bleeds on this pitcher.';
+                if (pitColor === '#bbb') pitColor = 'var(--red)';
+              }
+              pitTake += ` Broader: ${bName} ${bTxt}${bTail}`;
             }
             // --- Sizing recommendation ---
             // Delegate to the shared readVerdictFor() — keeps the live read
