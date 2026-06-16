@@ -6,15 +6,15 @@
     // 0.64-0.67 yellow (leans), 0.60-0.64 orange (watch), <=0.45 red.
     const MLB_PICK_THRESHOLD = 0.64;   // 2026-06-13: raised 0.64 -> 0.67 then reverted same day
     const MLB_WATCH_FLOOR    = 0.60;   // 2026-06-13: watch/yellow band 0.60-0.64
-    // Reddit staking tiers (2026-06-15): 3/1 sizing — a graded model bet is a
-    // 3u PICK at pCover >= 0.67 and a 1u LEAN at 0.64-0.67. The 0.60-0.64 watch
-    // tier is not bet. 3/1 chosen for best blended ROI: full-season picks
-    // (+44% ROI) out-earn leans (+35%), so money tilts toward picks. Applied to
-    // post-cutover plays only (baseline left as-posted).
-    const MLB_PICK_STRONG = 0.67;      // >= this => full pick
-    const MLB_LEAN_FLOOR  = 0.64;      // [LEAN_FLOOR, PICK_STRONG) => lean
+    // Reddit staking (2026-06-15, picks-only strategy): bet ONLY >=0.67 picks
+    // at 3u. The 0.64-0.67 tier (formerly 1u leans) is now WATCH — shown for
+    // info but NOT bet and NOT in the record. Under the shipped lineup1.0+csw0.4
+    // model that tier is -EV; the >=.67 picks-only @3u play wins ROI in every
+    // window. 0.60-0.64 stays deeper watch (not shown). Post-cutover only.
+    const MLB_PICK_STRONG = 0.67;      // >= this => bet pick (3u)
+    const MLB_LEAN_FLOOR  = 0.64;      // [LEAN_FLOOR, PICK_STRONG) => watch, not bet
     const MLB_PICK_STAKE  = 3;         // pick stake multiplier (3u)
-    const MLB_LEAN_STAKE  = 1;         // lean stake multiplier (1u)
+    const MLB_LEAN_STAKE  = 0;         // watch tier — not bet (0u, excluded from record)
     // Tiered staking begins this date. Plays before it (incl. today 6/15) stay
     // flat 1u picks with no lean split; 6/16+ uses the 3u/1u tiers above.
     const MLB_STAKING_START = '2026-06-16';
@@ -1114,8 +1114,10 @@
           const _picksBlock = _pickLines.length
             ? `\nToday’s Picks (${todayStr})\n\n` + _pickLines.join('\n') + '\n'
             : '';
+          // 0.64-0.67 tier shown as WATCH (info only, not bet) under the
+          // picks-only strategy.
           const _leansBlock = _leanLines.length
-            ? `\nToday’s Leans (${todayStr})\n\n` + _leanLines.join('\n') + '\n'
+            ? `\nToday’s Watch — not bet (0.64–0.67) (${todayStr})\n\n` + _leanLines.join('\n') + '\n'
             : '';
           const _droppedBlock = _droppedLines.length
             ? `\nToday's Downgraded (non-picks)\n\n` + _droppedLines.join('\n') + '\n'
@@ -1148,12 +1150,8 @@
             `* After codefix: ${fmt(codefixPicks)}\n` +
             `* ${weekLabel} (${weekRange}): ${fmt(wPicksTally)}\n` +
             `* Yesterday (${yMD}): ${fmt(yPicksTally)}\n` +
-            (_tieredToday
-              ? `\nLeans (1u):\n\n` +
-                `* Total: ${fmt(totalLeans)}\n` +
-                `* ${weekLabel} (${weekRange}): ${fmt(wLeansTally)}\n` +
-                `* Yesterday (${yMD}): ${fmt(yLeansTally)}\n`
-              : '') +
+            // Leans (0.64-0.67) are WATCH only under the picks-only strategy —
+            // no record line; today's watch plays still listed below for info.
             _picksBlock +
             _leansBlock +
             _droppedBlock +
