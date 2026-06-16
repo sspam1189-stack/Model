@@ -1691,8 +1691,9 @@
             return readVerdictFor({
               dirRec: bucketDirRec(p.opp, dir, 'Pick'),
               allRec: allBucketsDirRec(p.opp, dir),
-              pitRec: pitcherAllBucketsDirRec(displayName(p), p.team, dir),
-              pitAllRec: pitcherAllBucketsBothDirsRec(displayName(p), p.team),
+              // Pitcher track VERDICT lens is PICKS-ONLY (display stays broader).
+              pitRec: pitcherDirRec(displayName(p), p.team, dir, 'Pick'),
+              pitAllRec: pitcherBothDirsRec(displayName(p), p.team, 'Pick'),
             });
           };
           const takePicksT = todayPicks.filter(p => _pickVerdict(p) === 'TAKE');
@@ -1806,9 +1807,14 @@
               // Surfaces "the model is X-Y on Lopez Unders historically" alongside
               // the opponent cohort so a strong pitcher track-record (or red flag)
               // factors into the read.
-              const pitRec = pitcherAllBucketsDirRec(displayName(r.p), r.p.team, dir);
-              const pitAllRec = pitcherAllBucketsBothDirsRec(displayName(r.p), r.p.team);
-              return {...r, dir, rec, allRec, pitRec, pitAllRec, cls: classify(rec)};
+              // VERDICT lens = picks-only; DISPLAY lens = broader (picks+watch).
+              // Kept separate so the TAKE/PASS decision uses only what we bet
+              // while the read still SHOWS the fuller pitcher record.
+              const pitRec = pitcherDirRec(displayName(r.p), r.p.team, dir, 'Pick');
+              const pitAllRec = pitcherBothDirsRec(displayName(r.p), r.p.team, 'Pick');
+              const pitRecBroad = pitcherAllBucketsDirRec(displayName(r.p), r.p.team, dir);
+              const pitAllRecBroad = pitcherAllBucketsBothDirsRec(displayName(r.p), r.p.team);
+              return {...r, dir, rec, allRec, pitRec, pitAllRec, pitRecBroad, pitAllRecBroad, cls: classify(rec)};
             });
           }
           // Order reads by model confidence (pCover) descending so the
@@ -1927,8 +1933,10 @@
             // ("P O&&U") — the broader lens catches "model is good on this
             // pitcher regardless of side" or "model bleeds on this pitcher
             // either way".
-            const pitRec = r.pitRec;
-            const pitAllRec = r.pitAllRec;
+            // DISPLAY uses the broader (picks+watch) pitcher record so the read
+            // still shows the fuller sample; the VERDICT below uses picks-only.
+            const pitRec = r.pitRecBroad;
+            const pitAllRec = r.pitAllRecBroad;
             const pitN = pitRec ? pitRec.w + pitRec.l : 0;
             const pitAllN = pitAllRec ? pitAllRec.w + pitAllRec.l : 0;
             const pitNameTxt = `${displayName(r.p)} ${r.dir.toLowerCase()}s`;
@@ -1973,7 +1981,9 @@
             // and the historical backtest in lockstep. Watch (Lean) rows
             // don't get a sizing badge: even bumped ones are surfaced as
             // info, not as a "bet 1u" call.
-            const _verdict = readVerdictFor({ dirRec, allRec, pitRec, pitAllRec });
+            // Verdict uses the PICKS-ONLY pitcher lens (r.pitRec/r.pitAllRec),
+            // not the broader display records above.
+            const _verdict = readVerdictFor({ dirRec, allRec, pitRec: r.pitRec, pitAllRec: r.pitAllRec });
             // No "1u" badge — every TAKE is a flat 1u, so the label carries no
             // information and just clutters the row (and ran into the name as
             // "1uC.Bassitt" when copied). Only surface the PASS flag, which is

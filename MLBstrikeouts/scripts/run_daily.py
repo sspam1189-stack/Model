@@ -279,8 +279,8 @@ def _stamp_read_verdicts(merged_props):
     # matching the JS allBucketsDirRec() lens (excludes PASS).
     by_opp_dir = defaultdict(lambda: {"w": 0, "l": 0, "u": 0.0})  # picks only
     by_opp_dir_widened = defaultdict(lambda: {"w": 0, "l": 0, "u": 0.0})  # picks + watch, same dir
-    by_pit_dir = defaultdict(lambda: {"w": 0, "l": 0, "u": 0.0})  # picks + watch, by pitcher
-    by_pit = defaultdict(lambda: {"w": 0, "l": 0, "u": 0.0})       # picks + watch both dirs, by pitcher
+    by_pit_dir = defaultdict(lambda: {"w": 0, "l": 0, "u": 0.0})  # picks-only, by pitcher+dir (verdict lens)
+    by_pit = defaultdict(lambda: {"w": 0, "l": 0, "u": 0.0})       # picks-only both dirs, by pitcher (verdict lens)
 
     def _is_watch(p):
         # Watch tier: pick=PASS with a would_be_pick AND pCover in [0.60, pick_thresh).
@@ -408,9 +408,13 @@ def _stamp_read_verdicts(merged_props):
                 d["u"] += u
 
             if row_dir in ("OVER", "UNDER"):
-                # Widened broader map: picks AND watch, same direction.
+                # Widened broader map (OPP lens): picks AND watch, same direction.
                 _tally(by_opp_dir_widened[(opp, row_dir)])
-                if is_pick or is_watch:
+                # Pitcher track VERDICT lens is PICKS-ONLY (the dashboard still
+                # DISPLAYS the broader picks+watch record, but the TAKE/PASS
+                # decision uses picks only). Matches the Read Record backtest card,
+                # which already tallies the pitcher map on picks only.
+                if is_pick:
                     _tally(by_pit_dir[(pit_key, row_dir)])
                     _tally(by_pit[pit_key])
             if is_pick:
