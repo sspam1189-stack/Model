@@ -6,17 +6,19 @@
     // 0.64-0.67 yellow (leans), 0.60-0.64 orange (watch), <=0.45 red.
     const MLB_PICK_THRESHOLD = 0.64;   // 2026-06-13: raised 0.64 -> 0.67 then reverted same day
     const MLB_WATCH_FLOOR    = 0.60;   // 2026-06-13: watch/yellow band 0.60-0.64
-    // Reddit staking (2026-06-15, picks-only strategy): bet ONLY >=0.67 picks
-    // at 3u. The 0.64-0.67 tier (formerly 1u leans) is now WATCH — shown for
-    // info but NOT bet and NOT in the record. Under the shipped lineup1.0+csw0.4
-    // model that tier is -EV; the >=.67 picks-only @3u play wins ROI in every
-    // window. 0.60-0.64 stays deeper watch (not shown). Post-cutover only.
-    const MLB_PICK_STRONG = 0.67;      // >= this => bet pick (3u)
+    // Reddit staking (2026-06-15, picks-only strategy): bet ONLY >=0.68 picks
+    // at FLAT 1u (no 3/1 ratio — there are no leans to weight against). The
+    // 0.64-0.68 tier is WATCH — shown for info but NOT bet and NOT in the
+    // record. Under the shipped lineup1.0+csw0.4 model the 0.68 cutoff wins ROI
+    // in every window (full 32.6% vs 30.0% at 0.67, last-3wk 25.5% vs 17.3%,
+    // June 15.4% vs 10.2%); 0.69+ overshoots (recent collapses). 0.60-0.64 stays
+    // deeper watch (not shown). Post-cutover only.
+    const MLB_PICK_STRONG = 0.68;      // >= this => bet pick (flat 1u)
     const MLB_LEAN_FLOOR  = 0.64;      // [LEAN_FLOOR, PICK_STRONG) => watch, not bet
-    const MLB_PICK_STAKE  = 3;         // pick stake multiplier (3u)
+    const MLB_PICK_STAKE  = 1;         // pick stake multiplier (flat 1u)
     const MLB_LEAN_STAKE  = 0;         // watch tier — not bet (0u, excluded from record)
-    // Tiered staking begins this date. Plays before it (incl. today 6/15) stay
-    // flat 1u picks with no lean split; 6/16+ uses the 3u/1u tiers above.
+    // Picks-only watch tiering begins this date. Plays before it (incl. today
+    // 6/15) stay flat 1u over all >=0.64 bets; 6/16+ bets >=0.68 only, rest watch.
     const MLB_STAKING_START = '2026-06-16';
 
     // Tables on this tab have many columns (pitcher workload + projections +
@@ -1117,7 +1119,7 @@
           // 0.64-0.67 tier shown as WATCH (info only, not bet) under the
           // picks-only strategy.
           const _leansBlock = _leanLines.length
-            ? `\nToday’s Watch — not bet (0.64–0.67) (${todayStr})\n\n` + _leanLines.join('\n') + '\n'
+            ? `\nToday’s Watch — not bet (0.64–0.68) (${todayStr})\n\n` + _leanLines.join('\n') + '\n'
             : '';
           const _droppedBlock = _droppedLines.length
             ? `\nToday's Downgraded (non-picks)\n\n` + _droppedLines.join('\n') + '\n'
@@ -1144,7 +1146,7 @@
           const redditText =
             `Picks will be updated throughout the day as lineups come in.\n\n` +
             `Lines are based on draftkingsORfanduel\n\n` +
-            (_tieredToday ? `Picks (3u):\n\n` : `Picks:\n\n`) +
+            `Picks:\n\n` +
             `* Total: ${fmt(totalPicks)}\n` +
             `* Before codefix: ${fmt(BASELINE.picks.before_codefix)}\n` +
             `* After codefix: ${fmt(codefixPicks)}\n` +
@@ -4633,7 +4635,7 @@
               if (i===7) td.style.color = '#bbb'; // PC
               if (i===8 && p.line!=null) td.style.color = p.proj > p.line ? 'var(--green)' : p.proj < p.line ? 'var(--red)' : '';
               if (i===10 && edge!=null) td.style.color = edge > 0 ? 'var(--green)' : edge < 0 ? 'var(--red)' : '#999';
-              if (i===11 && p.pCover!=null) td.style.color = p.pCover >= 0.67 ? 'var(--green)' : p.pCover >= MLB_PICK_THRESHOLD ? 'var(--yellow)' : p.pCover >= MLB_WATCH_FLOOR ? 'var(--orange)' : p.pCover <= 0.45 ? 'var(--red)' : '#ccc';
+              if (i===11 && p.pCover!=null) td.style.color = p.pCover >= MLB_PICK_STRONG ? 'var(--green)' : p.pCover >= MLB_PICK_THRESHOLD ? 'var(--yellow)' : p.pCover >= MLB_WATCH_FLOOR ? 'var(--orange)' : p.pCover <= 0.45 ? 'var(--red)' : '#ccc';
               if (i===12 && isPick) { td.style.fontWeight='700'; td.style.color = p.pick==='OVER'?'var(--green)':'var(--red)'; }
               if (i===13) td.style.color = '#999';
               if (i===14) {
@@ -6010,7 +6012,7 @@
               if (i===2) td.style.color = '#aaa';
               if (i===3 && p.line!=null) td.style.color = p.proj > p.line ? 'var(--green)' : p.proj < p.line ? 'var(--red)' : '';
               if (i===5 && edge!=null) td.style.color = edge > 0 ? 'var(--green)' : edge < 0 ? 'var(--red)' : '#999';
-              if (i===6 && p.pCover!=null) td.style.color = p.pCover >= 0.67 ? 'var(--green)' : p.pCover >= MLB_PICK_THRESHOLD ? 'var(--yellow)' : p.pCover >= MLB_WATCH_FLOOR ? 'var(--orange)' : p.pCover <= 0.45 ? 'var(--red)' : '#ccc';
+              if (i===6 && p.pCover!=null) td.style.color = p.pCover >= MLB_PICK_STRONG ? 'var(--green)' : p.pCover >= MLB_PICK_THRESHOLD ? 'var(--yellow)' : p.pCover >= MLB_WATCH_FLOOR ? 'var(--orange)' : p.pCover <= 0.45 ? 'var(--red)' : '#ccc';
               if (i===7 && isPick) { td.style.fontWeight='700'; td.style.color = p.pick==='OVER'?'var(--green)':'var(--red)'; }
             });
           }
