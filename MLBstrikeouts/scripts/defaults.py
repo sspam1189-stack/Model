@@ -94,7 +94,16 @@ MARKET_THRESHOLDS = {
     # volume — does NOT touch projections, the emp_std cache, or calibration, so
     # no re-backfill needed. Watch/lean (yellow) band is 0.60-0.64 (floor widened
     # to 0.60 on 2026-06-13); 0.64+ bets.
-    "strikeouts":   {"high": 0.64},
+    #
+    # 2026-06-16: raised 0.64 -> 0.68 to align the pick threshold with the
+    # picks-only bet cutoff (MLB_PICK_STRONG=0.68 in mlb-props.js). The 0.64-0.68
+    # band had been kept as a displayed "watch" tier (staked 0u from 6/16 on), but
+    # we no longer want it surfaced as a pick at all — at 0.68 the engine only tags
+    # OVER/UNDER for plays we actually bet. Demoted 0.64-0.68 plays still appear as
+    # would_be_pick watchlist entries (pCover >= 0.50 PASS rows), not picks.
+    # Threshold is pure post-hoc volume (does NOT touch projections, emp_std, or
+    # calibration) so no re-backfill is needed; only which plays qualify as picks.
+    "strikeouts":   {"high": 0.68},
 }
 
 # ---------------------------------------------------------------------------
