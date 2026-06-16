@@ -1933,19 +1933,21 @@
             // ("P O&&U") — the broader lens catches "model is good on this
             // pitcher regardless of side" or "model bleeds on this pitcher
             // either way".
-            // Direction-matched line shows PICKS-ONLY — what we actually bet
-            // (e.g. "M.Kelly unders 4-1", not the watch-padded 6-1). The
-            // "Broader: both ways" line below still shows the broader picks+watch
-            // record, so the fuller sample stays visible. Verdict = picks-only.
+            // Pitcher line shows BOTH records in the SAME direction, each
+            // labeled: the picks-only record (what we bet) and the broader
+            // picks+watch record. Nothing hidden or mislabeled. e.g.:
+            //   "M.Kelly Picks unders 4-1 (80.0%, +3.06u) — pitcher track co-signs. Broader 6-1"
+            //   "A.Pallante Picks overs 0-3 — small sample. Broader 7-4"
+            // Verdict (below) uses picks-only. "Broader" is same-direction
+            // picks+watch (r.pitRecBroad) — NOT the both-ways cohort.
             const pitRec = r.pitRec;
-            const pitAllRec = r.pitAllRecBroad;
+            const broadRec = r.pitRecBroad;
             const pitN = pitRec ? pitRec.w + pitRec.l : 0;
-            const pitAllN = pitAllRec ? pitAllRec.w + pitAllRec.l : 0;
-            const pitNameTxt = `${displayName(r.p)} ${r.dir.toLowerCase()}s`;
-            // Pitcher-history accents render on their OWN line below the
-            // vs-opponent record. Only chime in when the signal is decisive —
-            // co-sign reinforces TAKE, red flag reinforces PASS; anything in
-            // between stays silent so the line doesn't fill with "neutral" notes.
+            const pitBroadN = broadRec ? broadRec.w + broadRec.l : 0;
+            const pitNameTxt = `${displayName(r.p)} Picks ${r.dir.toLowerCase()}s`;
+            // Decisive picks records get a verdict verb; thin (n=1-3) records
+            // show the number tagged "small sample"; the 0.40-0.65 neutral band
+            // stays silent (no verb) to avoid clutter.
             let pitTake = '';
             let pitColor = '#bbb';   // green good / red bad / gray neutral
             if (pitN >= 4) {
@@ -1958,7 +1960,7 @@
                 pitTake = `${pitNameTxt} ${pitTxt} — supportive pitcher track.`;
                 pitColor = 'var(--green)';
               } else if (pitWR <= 0.40 && pitRec.u <= -1) {
-                pitTake = `${pitNameTxt} have been ${pitTxt} — pitcher track is a red flag.`;
+                pitTake = `${pitNameTxt} ${pitTxt} — pitcher track is a red flag.`;
                 pitColor = 'var(--red)';
               }
               // pitWR between 0.40 and 0.65 → no sentence (avoids "neutral").
@@ -1969,20 +1971,10 @@
               pitTake = `${pitNameTxt} ${recOf(pitRec)} — small sample.`;
               pitColor = '#bbb';
             }
-            // Broader (both-directions) pitcher cohort — only mention when
-            // it pushes the decision one way or the other.
-            if (pitAllRec && pitAllN >= 6) {
-              const allWR = pitAllRec.w / pitAllN;
-              const allTxt = `${recOf(pitAllRec)} (${(allWR*100).toFixed(1)}%, ${uOf(pitAllRec)})`;
-              const broadName = `${displayName(r.p)} both ways`;
-              const sep = pitTake ? ' ' : '';
-              if (allWR >= 0.70 && pitAllRec.u >= 2) {
-                pitTake += `${sep}Broader: ${broadName} ${allTxt} — whole book profitable.`;
-                if (pitColor === '#bbb') pitColor = 'var(--green)';
-              } else if (allWR <= 0.45 && pitAllRec.u <= -2) {
-                pitTake += `${sep}Broader: ${broadName} ${allTxt} — model bleeds on this pitcher.`;
-                if (pitColor === '#bbb') pitColor = 'var(--red)';
-              }
+            // Append the broader picks+watch SAME-direction record when it adds
+            // sample beyond the picks (i.e. there were watch-tier plays too).
+            if (pitTake && broadRec && pitBroadN > pitN) {
+              pitTake += ` Broader ${recOf(broadRec)}.`;
             }
             // --- Sizing recommendation ---
             // Delegate to the shared readVerdictFor() — keeps the live read
