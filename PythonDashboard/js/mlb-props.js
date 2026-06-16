@@ -5181,6 +5181,9 @@
         'pOuts': p => p.proj_ip != null ? p.proj_ip * 3 : null,
         'pBF':   p => p.proj_bf,
         'pPC':   p => p.proj_pc,
+        'P K%':  p => p.pitcher_k_pct,
+        'LU K%': p => p.lineup_k_pct,
+        'Tm K%': p => p.opp_team_k_pct,
         'ΔOuts': p => (p.actual_outs != null && p.proj_ip != null) ? p.actual_outs - Math.round(p.proj_ip * 3) : null,
         'ΔBF':   p => (p.actual_bf != null && p.proj_bf != null) ? p.actual_bf - Math.round(p.proj_bf) : null,
         'ΔPC':   p => (p.actual_pitches != null && p.proj_pc != null) ? p.actual_pitches - Math.round(p.proj_pc) : null,
@@ -5340,7 +5343,7 @@
         const tbl = document.createElement('table');
         tbl.style.cssText = 'width:100%;border-collapse:collapse';
         const hdrs = isBacktest
-          ? ['Date','Name','Team','Opp','ΔOuts','ΔBF','ΔPC','Proj','Line','Edge','%','Actual','O/U','Odds','W/L']
+          ? ['Date','Name','Team','Opp','P K%','LU K%','Tm K%','ΔOuts','ΔBF','ΔPC','Proj','Line','Edge','%','Actual','O/U','Odds','W/L']
           : ['Name','Team','vs','pOuts','pBF','pPC','Proj','Line','Edge','%','O/U','Odds'];
         const hRow = tbl.createTHead().insertRow();
         hdrs.forEach(h => {
@@ -5387,8 +5390,12 @@
           const dOutsStr  = fmtDelta(dOutsNum);
           const dBfStr    = fmtDelta(dBfNum);
           const dPitchStr = fmtDelta(dPcNum);
+          const pKStr  = p.pitcher_k_pct  != null ? p.pitcher_k_pct.toFixed(1)  + '%' : '\u2014';
+          const luKStr = p.lineup_k_pct   != null ? p.lineup_k_pct.toFixed(1)   + '%' : '\u2014';
+          const tmKStr = p.opp_team_k_pct != null ? p.opp_team_k_pct.toFixed(1) + '%' : '\u2014';
           const cells = isBacktest ? [
             p.date?(parseInt(p.date.slice(5,7))+'/'+parseInt(p.date.slice(8))):'', displayName(p), p.team||'', p.opp||'',
+            pKStr, luKStr, tmKStr,
             dOutsStr, dBfStr, dPitchStr,
             String(p.proj), p.line!=null?String(p.line):'\u2014',
             edgeStr,
@@ -5413,22 +5420,24 @@
             td.style.cssText = 'padding:4px 4px;text-align:center;font-size:13px';
             if (isBacktest) {
               // 0:Date 1:Name 2:Team 3:Opp
-              // 4:ΔOuts 5:ΔBF 6:ΔPC
-              // 7:Proj 8:Line 9:Edge 10:%
-              // 11:Actual 12:OU 13:Odds 14:W/L
+              // 4:P K% 5:LU K% 6:Tm K%
+              // 7:ΔOuts 8:ΔBF 9:ΔPC
+              // 10:Proj 11:Line 12:Edge 13:%
+              // 14:Actual 15:OU 16:Odds 17:W/L
               if (i===1) { td.style.textAlign='left'; td.style.fontWeight='600'; }
               if (i===0) { td.style.color='#999'; td.style.fontSize='11px'; }
               if (i===2||i===3) td.style.color='#999';
-              if (i===4) td.style.color=dColor(dOutsNum);
-              if (i===5) td.style.color=dColor(dBfNum);
-              if (i===6) td.style.color=dColor(dPcNum);
-              if (i===7) td.style.color=p.proj>p.line?'var(--green)':p.proj<p.line?'var(--red)':'';
-              if (i===9) td.style.color = edgeVal > 0 ? 'var(--green)' : edgeVal < 0 ? 'var(--red)' : '#999';
-              if (i===10) td.style.color='#aaa';
-              if (i===11) td.style.color='#bbb';
-              if (i===12) { td.style.fontWeight='700'; td.style.color=effectiveDir(p)==='OVER'?'var(--green)':'var(--red)'; }
-              if (i===13) td.style.color='#999';
-              if (i===14) { td.style.fontWeight='700'; td.style.color=p.result==='WIN'?'var(--green)':'var(--red)'; }
+              if (i>=4 && i<=6) td.style.color='#bbb';
+              if (i===7) td.style.color=dColor(dOutsNum);
+              if (i===8) td.style.color=dColor(dBfNum);
+              if (i===9) td.style.color=dColor(dPcNum);
+              if (i===10) td.style.color=p.proj>p.line?'var(--green)':p.proj<p.line?'var(--red)':'';
+              if (i===12) td.style.color = edgeVal > 0 ? 'var(--green)' : edgeVal < 0 ? 'var(--red)' : '#999';
+              if (i===13) td.style.color='#aaa';
+              if (i===14) td.style.color='#bbb';
+              if (i===15) { td.style.fontWeight='700'; td.style.color=effectiveDir(p)==='OVER'?'var(--green)':'var(--red)'; }
+              if (i===16) td.style.color='#999';
+              if (i===17) { td.style.fontWeight='700'; td.style.color=p.result==='WIN'?'var(--green)':'var(--red)'; }
             } else {
               // 0:Name 1:Team 2:vs 3:pOuts 4:pBF 5:pPC
               // 6:Proj 7:Line 8:Edge 9:% 10:OU 11:Odds
@@ -5445,6 +5454,15 @@
         }
         card.appendChild(tbl);
         fitMLBTableToContainer(tbl);
+        if (isBacktest) {
+          const note = document.createElement('div');
+          note.style.cssText = 'margin-top:8px;font-size:11px;color:#888;line-height:1.5';
+          note.innerHTML = '<b>Δ columns</b> = actual − projected workload (ΔOuts, ΔBF batters faced, ΔPC pitch count). '
+            + '<span style="color:var(--green)">Green</span> = pitcher exceeded the projection, '
+            + '<span style="color:var(--red)">red</span> = fell short, grey = on the number. '
+            + 'P K% / LU K% / Tm K% = pitcher, projected-lineup, and opponent-team strikeout rates fed into the projection.';
+          card.appendChild(note);
+        }
         // Bottom pagination
         const pgBar2 = pgBar.cloneNode(true);
         pgBar2.style.marginTop = '12px';
