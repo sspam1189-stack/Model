@@ -1814,7 +1814,11 @@
               const pitAllRec = pitcherBothDirsRec(displayName(r.p), r.p.team, 'Pick');
               const pitRecBroad = pitcherAllBucketsDirRec(displayName(r.p), r.p.team, dir);
               const pitAllRecBroad = pitcherAllBucketsBothDirsRec(displayName(r.p), r.p.team);
-              return {...r, dir, rec, allRec, pitRec, pitAllRec, pitRecBroad, pitAllRecBroad, cls: classify(rec)};
+              // DISPLAY record for THIS row's own tier: Pick rows show the picks
+              // record (labeled "Picks"); Watch/Lean rows show the watch record
+              // (labeled "Watch"). The verdict above still uses picks-only pitRec.
+              const pitOwn = pitcherDirRec(displayName(r.p), r.p.team, dir, r.bucket);
+              return {...r, dir, rec, allRec, pitRec, pitAllRec, pitRecBroad, pitAllRecBroad, pitOwn, cls: classify(rec)};
             });
           }
           // Order reads by model confidence (pCover) descending so the
@@ -1940,11 +1944,14 @@
             //   "A.Pallante Picks overs 0-3 — small sample. Broader 7-4"
             // Verdict (below) uses picks-only. "Broader" is same-direction
             // picks+watch (r.pitRecBroad) — NOT the both-ways cohort.
-            const pitRec = r.pitRec;
+            // DISPLAY record = this row's own tier (Picks for Pick rows, Watch
+            // for Watch/Lean rows), labeled to match. Verdict still uses picks-only.
+            const tierLabel = r.bucket === 'Lean' ? 'Watch' : 'Picks';
+            const pitRec = r.pitOwn;
             const broadRec = r.pitRecBroad;
             const pitN = pitRec ? pitRec.w + pitRec.l : 0;
             const pitBroadN = broadRec ? broadRec.w + broadRec.l : 0;
-            const pitNameTxt = `${displayName(r.p)} Picks ${r.dir.toLowerCase()}s`;
+            const pitNameTxt = `${displayName(r.p)} ${tierLabel} ${r.dir.toLowerCase()}s`;
             // Decisive picks records get a verdict verb; thin (n=1-3) records
             // show the number tagged "small sample"; the 0.40-0.65 neutral band
             // stays silent (no verb) to avoid clutter.
