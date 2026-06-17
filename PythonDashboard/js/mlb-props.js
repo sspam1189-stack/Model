@@ -29,12 +29,13 @@
     const MLB_STAKING_START = '2026-06-16';
 
     // --- Fade-list gate (shadow / highlight-only) -------------------------
-    // Manually-maintained watchlist of pitchers to fade / keep an eye on.
-    // FLAG-ONLY: this gate never changes a pick, conf, lock, or the record —
-    // it only renders a "starting today" callout at the top of the page and
-    // (optionally) highlights matching rows. Names are matched
-    // case/accent-insensitively against the pitcher's full name. Add names to
-    // MLB_FADE_LIST below; leave it empty to disable the gate entirely.
+    // Manually-maintained watchlist of pitchers to FADE. When one starts, the
+    // play is to take the OPPONENT team's moneyline (bet against the fade
+    // pitcher's team). FLAG-ONLY w.r.t. the K model: this gate never changes a
+    // strikeout pick, conf, lock, or the record — it only renders a "starting
+    // today" callout at the top of the page telling you which opp ML to take.
+    // Names are matched case/accent-insensitively; add to MLB_FADE_LIST below;
+    // leave it empty to disable the gate entirely.
     // Entries may be a surname ('Littell') or a full name ('Jared Jones').
     // A pitcher matches when ALL tokens of an entry are present in their name,
     // so 'Littell' -> "Zack Littell" matches, and 'Jared Jones' stays specific
@@ -251,15 +252,14 @@
         card.style.cssText = 'margin-bottom:16px;border:1px solid var(--orange,#e8a33d);background:rgba(232,163,61,0.08);padding:12px 16px';
         const title = document.createElement('div');
         title.style.cssText = 'font-weight:600;color:var(--orange,#e8a33d);margin-bottom:6px';
-        title.textContent = `⚠ Fade list — ${hits.length} starting today (${today})`;
+        title.textContent = `⚠ Fade list — ${hits.length} starting today (${today}) · take opp ML`;
         card.appendChild(title);
         hits.forEach((p) => {
-          const side = (p.pick && p.pick !== 'PASS') ? p.pick : (p.would_be_pick || '');
-          const pc = (p.pCover != null) ? ` · pCov ${Math.round(p.pCover * 100)}%` : '';
-          const sideTxt = side ? ` — ${side} ${p.line != null ? p.line : ''}` : '';
+          const team = p.team || '?';
+          const opp = p.opp || '?';
           const row = document.createElement('div');
           row.style.cssText = 'font-size:13px;color:#ddd';
-          row.textContent = `• ${mlbShortName(p.player)} (${p.team || '?'} vs ${p.opp || '?'})${sideTxt}${pc}`;
+          row.textContent = `• Fade ${mlbShortName(p.player)} (${team}) → take ${opp} ML`;
           card.appendChild(row);
         });
         el.appendChild(card);
