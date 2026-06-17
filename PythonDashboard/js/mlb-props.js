@@ -1141,7 +1141,7 @@
           // 0.64-0.67 tier shown as WATCH (info only, not bet) under the
           // picks-only strategy.
           const _leansBlock = _leanLines.length
-            ? `\nToday’s Watch — not bet (0.65–0.70) (${todayStr})\n\n` + _leanLines.join('\n') + '\n'
+            ? `\nToday’s Leans — not bet (0.65–0.70) (${todayStr})\n\n` + _leanLines.join('\n') + '\n'
             : '';
           const _droppedBlock = _droppedLines.length
             ? `\nToday's Downgraded (non-picks)\n\n` + _droppedLines.join('\n') + '\n'
@@ -1900,7 +1900,7 @@
             // Lead label reflects the row's own bucket: Pick-tier rows read
             // "… Picks vs LAD", watch-tier (Lean) rows read "… Watch vs LAD"
             // so the in-bucket record isn't mislabeled as a pick record.
-            const bucketLabel = r.bucket === 'Lean' ? 'Watch' : 'Picks';
+            const bucketLabel = r.bucket === 'Lean' ? 'Leans' : 'Picks';
             const leadLabel = `${dirCap} ${bucketLabel} vs ${oppStr}`;
 
             // Build narrative — the section header (TAKE / PASS) and the PASS
@@ -2093,7 +2093,7 @@
             <div style="margin-bottom:6px"><span style="${defStyle}">O&amp;&amp;U</span> &nbsp; Picks, both directions combined VS OPP</div>
             <div style="margin-bottom:6px"><span style="${defStyle}">P O//U</span> &nbsp; Picks + direction for THIS pitcher (all opps)</div>
             <div style="margin-top:8px;padding-top:6px;border-top:1px solid rgba(255,255,255,0.05);color:#888;font-style:italic">
-              Pick rows count picks history (&gt;= 0.65 pCover) · Watch and Pass tiers excluded<br>
+              Pick rows count picks history (&gt;= 0.70 pCover) · Leans and Pass tiers excluded<br>
               Tiers: <span style="color:var(--green)">Elite ≥80%</span> · <span style="color:#9ee493">Solid ≥65%</span> · <span style="color:#ccc">Neutral ≥50%</span> · <span style="color:var(--red)">Caution &lt;50%</span> · <span style="color:#aaa">Small &lt;4 samples</span>
             </div>
           `;
@@ -2181,7 +2181,7 @@
             if (p.pick === 'OVER' || p.pick === 'UNDER') return 'PICK';
             const pc = p.pCover || 0;
             if (pc >= MLB_LEAN_FLOOR && pc < MLB_PICK_STRONG) return 'LEAN';
-            if (pc >= MLB_WATCH_FLOOR && pc < MLB_LEAN_FLOOR) return 'WATCH';
+            // 0.60-0.65 (former Watch band) now folds into PASS.
             return 'PASS';
           };
           const _phOdds = (p) => {
@@ -2328,7 +2328,6 @@
               { key: 'ALL',   label: 'All',     color: '#ccc'           },
               { key: 'PICK',  label: 'Picks',   color: '#a78bfa'        },
               { key: 'LEAN',  label: 'Leans',   color: 'var(--yellow)'  },
-              { key: 'WATCH', label: 'Watch',   color: 'var(--orange)'  },
               { key: 'PASS',  label: 'Passes',  color: '#888'           },
             ];
             let _activeFilter = 'ALL';
@@ -3006,7 +3005,6 @@
               { key: 'ALL',   label: 'All',     color: '#ccc'           },
               { key: 'PICK',  label: 'Picks',   color: '#a78bfa'        },
               { key: 'LEAN',  label: 'Leans',   color: 'var(--yellow)'  },
-              { key: 'WATCH', label: 'Watch',   color: 'var(--orange)'  },
               { key: 'PASS',  label: 'Passes',  color: '#888'           },
             ];
             let _thActiveFilter = 'ALL';
@@ -4849,20 +4847,20 @@
       let mlbView = 'all'; // 'all' | 'weekly' | 'all-lean' | 'weekly-lean' | 'all-combined'
 
       // Two sub-pick tiers (both pick=PASS, neither bet):
-      //   Watch: 0.60 <= pCover < 0.65 — near the 0.65 pick threshold,
-      //          worth monitoring (former lean band, conceptually similar).
-      //   Pass:  0.50 <= pCover < 0.60 — sub-watch, kept in JSON for
-      //          analysis only.
-      // Picks (>= 0.65) are flat-2u and live in `picks`.
+      //   Leans: 0.65 <= pCover < 0.70 — just under the 0.70 pick threshold,
+      //          worth monitoring. Surfaced in the "Leans" view tabs.
+      //   Pass:  0.50 <= pCover < 0.65 — sub-lean, includes the former
+      //          0.60-0.65 "watch" band (now folded into Pass). JSON only.
+      // Picks (>= 0.70) are flat-1u and live in `picks`.
       const watchPicks = (data.props || []).filter(p => {
         if (p.pick !== 'PASS') return false;
         const pc = p.pCover || 0;
-        return pc >= 0.60 && pc < 0.65;
+        return pc >= MLB_LEAN_FLOOR && pc < MLB_PICK_STRONG;
       });
       const passPicks = (data.props || []).filter(p => {
         if (p.pick !== 'PASS') return false;
         const pc = p.pCover || 0;
-        return pc >= 0.50 && pc < 0.60;
+        return pc >= 0.50 && pc < MLB_LEAN_FLOOR;
       });
       // Backcompat alias — older references (Reddit widget, history card)
       // still use the `leanPicks` name to mean "sub-pick rows worth showing".
@@ -4888,9 +4886,9 @@
       const viewWeeklyBtn = document.createElement('button');
       viewWeeklyBtn.textContent = 'Weekly Picks';
       const viewAllLeanBtn = document.createElement('button');
-      viewAllLeanBtn.textContent = 'All Watch';
+      viewAllLeanBtn.textContent = 'All Leans';
       const viewWeeklyLeanBtn = document.createElement('button');
-      viewWeeklyLeanBtn.textContent = 'Weekly Watch';
+      viewWeeklyLeanBtn.textContent = 'Weekly Leans';
       const viewAllPassBtn = document.createElement('button');
       viewAllPassBtn.textContent = 'All Pass';
       const viewWeeklyPassBtn = document.createElement('button');
