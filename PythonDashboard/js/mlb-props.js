@@ -5231,6 +5231,19 @@
                 if (i === 8) td.style.color = '#999';
               }
             });
+            // Fade-list gate: tint the row + badge the name cell (shadow only).
+            if (isMLBFade(p)) {
+              row.style.background = 'rgba(232,163,61,0.10)';
+              const _ni = isBacktest ? 1 : 0;
+              const _nc = row.cells[_ni];
+              if (_nc) {
+                const _b = document.createElement('span');
+                _b.textContent = ' FADE';
+                _b.title = `Fade ${displayName(p)} — take ${p.opp || 'opp'} ML`;
+                _b.style.cssText = 'color:var(--orange,#e8a33d);font-size:9px;font-weight:700;margin-left:4px;vertical-align:middle';
+                _nc.appendChild(_b);
+              }
+            }
           }
         }
         rebuildBody();
@@ -5527,6 +5540,18 @@
               if (i===11) td.style.color='#999';
             }
           });
+          // Fade-list gate: tint row + badge name cell (shadow only).
+          if (isMLBFade(p)) {
+            row.style.background = 'rgba(232,163,61,0.10)';
+            const _nc = row.cells[isBacktest ? 1 : 0];
+            if (_nc) {
+              const _b = document.createElement('span');
+              _b.textContent = ' FADE';
+              _b.title = `Fade ${displayName(p)} — take ${p.opp || 'opp'} ML`;
+              _b.style.cssText = 'color:var(--orange,#e8a33d);font-size:9px;font-weight:700;margin-left:4px;vertical-align:middle';
+              _nc.appendChild(_b);
+            }
+          }
         }
         card.appendChild(tbl);
         fitMLBTableToContainer(tbl);
