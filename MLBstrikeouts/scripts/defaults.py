@@ -315,16 +315,14 @@ CAREER_KRATE_SHRINK_C = 0.0
 # w0.70 wins or ties on every metric in both season and recent windows, so it's
 # the strictly-dominant pick. kcap/BF/calib unchanged. (Recency-aware levers
 # tested and rejected same session: stacking on calibration over-corrects June.)
-PROJ_LINEUP_WEIGHT = 0.7   # 2026-06-17: 1.0 -> 0.7 (csw 0.4, threshold 0.70).
-# Re-adopting the lineup-K regression after a head-to-head backfill at thr 0.70:
-# lineup0.7 beats lineup1.0 on the PICK tier in every window — season picks
-# +246.6u/77.3% vs +224.6u/75.9% (+22u), recent +96.6u vs +88.0u, last-3wk
-# +33.5u vs +27.5u. Monday-week breakdown shows the 0.7 edge WIDENING into the
-# most recent full weeks (06/08: 66.7% vs 58.3%, +6u). Net both tiers: season
-# +301u vs +275u, last-3wk +36u vs +29u. lineup1.0's only edge was a marginally
-# better lean tier concentrated in one hot week. Regressing the noisy opponent
-# lineup K-rate toward league sharpens the pick tier where the units are.
-# Calib stays ON.
+PROJ_LINEUP_WEIGHT = 0.8   # 2026-06-17: 0.7 -> 0.8 (csw 0.4, var 1.20, thr 0.70).
+# Recency tilt. Lineup-weight sweep (csw0.4/var1.20/thr0.70) — season pick units
+# peak at 0.70 (+248u) but the LAST 4 WEEKS favor 0.8: 39-16 / 70.9% / +37.7u vs
+# 0.7's 40-18 / 69.0% / +35.3u, with June +16.0% ROI vs +12.7% and last-3wk
+# +27.4% vs +24.5%. Trusting confirmed lineups more (less regression) has been
+# the better recent read; 0.85 rolls the recent edge back over, so 0.8 is the
+# recent peak. Tradeoff: ~11u of season units given up vs 0.70 — shipping the
+# recency lean per the going-forward decision. Calib stays ON.
 PROJ_CALIB_ENABLED = True
 PROJ_CALIB_KNOT = 6.0          # only correct projections above this
 PROJ_CALIB_MIN_PAIRS = 40      # need >= this many tail pairs to fit; else raw
