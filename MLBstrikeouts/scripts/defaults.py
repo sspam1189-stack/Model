@@ -103,7 +103,13 @@ MARKET_THRESHOLDS = {
     # would_be_pick watchlist entries (pCover >= 0.50 PASS rows), not picks.
     # Threshold is pure post-hoc volume (does NOT touch projections, emp_std, or
     # calibration) so no re-backfill is needed; only which plays qualify as picks.
-    "strikeouts":   {"high": 0.68},
+    #
+    # 2026-06-17: 0.68 -> 0.70, shipped alongside PROJ_LINEUP_WEIGHT 1.0 -> 0.7
+    # (csw stays 0.4). The lineup0.7 / csw0.4 / thr0.70 config was the head-to-head
+    # winner on the pick tier (season +246.6u/77.3% WR, last-3wk +33.5u/70.8%).
+    # Threshold is pure post-hoc volume (does NOT touch projections, emp_std, or
+    # calibration). Lean band is now 0.65-0.70; watch band 0.60-0.65.
+    "strikeouts":   {"high": 0.70},
 }
 
 # ---------------------------------------------------------------------------
@@ -309,13 +315,16 @@ CAREER_KRATE_SHRINK_C = 0.0
 # w0.70 wins or ties on every metric in both season and recent windows, so it's
 # the strictly-dominant pick. kcap/BF/calib unchanged. (Recency-aware levers
 # tested and rejected same session: stacking on calibration over-corrects June.)
-PROJ_LINEUP_WEIGHT = 1.0   # 2026-06-15: 0.70 -> 1.0 for a PICKS-ONLY (>=.67)
-# strategy. The 0.70 regression protected the .64-.67 lean tier (which 1.0
-# wrecks), but we no longer bet leans. For the >=.67 tail, removing the
-# regression sharpens picks: vs lineup0.7+csw0.4 flat, lineup1.0+csw0.4
-# picks-only @3u wins ROI in every window (full +30.0% vs +28.8%, June +10.2%
-# vs +8.3%, last wk +17.3% vs +17.2%) and is consistent week-by-week (not a
-# one-week artifact). Tradeoff is variance (fewer plays, 3u). Calib stays ON.
+PROJ_LINEUP_WEIGHT = 0.7   # 2026-06-17: 1.0 -> 0.7 (csw 0.4, threshold 0.70).
+# Re-adopting the lineup-K regression after a head-to-head backfill at thr 0.70:
+# lineup0.7 beats lineup1.0 on the PICK tier in every window — season picks
+# +246.6u/77.3% vs +224.6u/75.9% (+22u), recent +96.6u vs +88.0u, last-3wk
+# +33.5u vs +27.5u. Monday-week breakdown shows the 0.7 edge WIDENING into the
+# most recent full weeks (06/08: 66.7% vs 58.3%, +6u). Net both tiers: season
+# +301u vs +275u, last-3wk +36u vs +29u. lineup1.0's only edge was a marginally
+# better lean tier concentrated in one hot week. Regressing the noisy opponent
+# lineup K-rate toward league sharpens the pick tier where the units are.
+# Calib stays ON.
 PROJ_CALIB_ENABLED = True
 PROJ_CALIB_KNOT = 6.0          # only correct projections above this
 PROJ_CALIB_MIN_PAIRS = 40      # need >= this many tail pairs to fit; else raw
