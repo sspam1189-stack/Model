@@ -95,8 +95,8 @@ def main():
 
     print('=== Running two configs ===\n')
     configs = [
-        ('A: BF=1.30 CAP=23', 1.30, 23, 1.30, 0.36),
-        ('B: BF=1.30 CAP=26', 1.30, 26, 1.30, 0.36),
+        ('A: CURRENT (VAR=1.20)', 1.00, 25, 1.20, 0.40),
+        ('B: CURRENT but VAR=1.30', 1.00, 25, 1.30, 0.40),
     ]
     results = {}
     try:
