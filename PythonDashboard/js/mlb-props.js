@@ -246,22 +246,47 @@
           seen.add(k);
           hits.push(p);
         });
-        if (!hits.length) return;
         const card = document.createElement('div');
         card.className = 'card';
         card.style.cssText = 'margin-bottom:16px;border:1px solid var(--orange,#e8a33d);background:rgba(232,163,61,0.08);padding:12px 16px';
         const title = document.createElement('div');
         title.style.cssText = 'font-weight:600;color:var(--orange,#e8a33d);margin-bottom:6px';
-        title.textContent = `⚠ Fade list — ${hits.length} starting today (${today}) · take opp ML`;
+        title.textContent = `⚠ Fade list (${MLB_FADE_LIST.length}) — fade the pitcher, take opp ML`;
         card.appendChild(title);
+
+        // Starting today (the notification)
+        const startHdr = document.createElement('div');
+        startHdr.style.cssText = 'font-size:12px;color:#aaa;margin:4px 0 2px';
+        startHdr.textContent = hits.length
+          ? `Starting today (${today}):`
+          : `Starting today (${today}): none on the slate`;
+        card.appendChild(startHdr);
         hits.forEach((p) => {
-          const team = p.team || '?';
-          const opp = p.opp || '?';
           const row = document.createElement('div');
           row.style.cssText = 'font-size:13px;color:#ddd';
-          row.textContent = `• Fade ${mlbShortName(p.player)} (${team}) → take ${opp} ML`;
+          row.textContent = `• Fade ${mlbShortName(p.player)} (${p.team || '?'}) → take ${p.opp || '?'} ML`;
           card.appendChild(row);
         });
+
+        // Full roster of everyone on the fade list (⭐ = starting today)
+        const _isStarting = (entry) => {
+          const toks = _mlbFadeNorm(entry).split(' ').filter(Boolean);
+          return hits.some((p) => {
+            const nt = new Set(_mlbFadeNorm(p.player).split(' ').filter(Boolean));
+            return toks.every((x) => nt.has(x));
+          });
+        };
+        const rosterHdr = document.createElement('div');
+        rosterHdr.style.cssText = 'font-size:12px;color:#aaa;margin:8px 0 2px';
+        rosterHdr.textContent = `On the fade list (${MLB_FADE_LIST.length}):`;
+        card.appendChild(rosterHdr);
+        const roster = document.createElement('div');
+        roster.style.cssText = 'font-size:13px;color:#ddd';
+        roster.textContent = MLB_FADE_LIST
+          .map((n) => (_isStarting(n) ? `${n} ⭐` : n))
+          .join('  ·  ');
+        card.appendChild(roster);
+
         el.appendChild(card);
       })();
 
