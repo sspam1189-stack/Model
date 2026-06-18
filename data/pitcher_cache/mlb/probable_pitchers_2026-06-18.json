@@ -3,7 +3,7 @@
     "game_id": 824748,
     "game_date": "2026-06-18",
     "game_time": "2026-06-18T17:35:00Z",
-    "status": "Pre-Game",
+    "status": "In Progress",
     "home_team": "BOS",
     "home_team_id": 111,
     "away_team": "TOR",
@@ -17,7 +17,7 @@
     "game_id": 823772,
     "game_date": "2026-06-18",
     "game_time": "2026-06-18T18:10:00Z",
-    "status": "Pre-Game",
+    "status": "In Progress",
     "home_team": "MIL",
     "home_team_id": 158,
     "away_team": "CLE",
@@ -31,7 +31,7 @@
     "game_id": 822889,
     "game_date": "2026-06-18",
     "game_time": "2026-06-18T18:35:00Z",
-    "status": "Pre-Game",
+    "status": "Warmup",
     "home_team": "TEX",
     "home_team_id": 140,
     "away_team": "MIN",
@@ -45,7 +45,7 @@
     "game_id": 823125,
     "game_date": "2026-06-18",
     "game_time": "2026-06-18T20:10:00Z",
-    "status": "Scheduled",
+    "status": "Pre-Game",
     "home_team": "SEA",
     "home_team_id": 136,
     "away_team": "BAL",
@@ -84,20 +84,6 @@
     "away_pitcher_name": "Sean Burke"
   },
   {
-    "game_id": 824911,
-    "game_date": "2026-06-18",
-    "game_time": "2026-06-18T23:15:00Z",
-    "status": "Scheduled",
-    "home_team": "ATL",
-    "home_team_id": 144,
-    "away_team": "SF",
-    "away_team_id": 137,
-    "home_pitcher_id": 527048,
-    "home_pitcher_name": "Mart\u00edn P\u00e9rez",
-    "away_pitcher_id": 694738,
-    "away_pitcher_name": "Landen Roupp"
-  },
-  {
     "game_id": 824098,
     "game_date": "2026-06-18",
     "game_time": "2026-06-18T23:40:00Z",
@@ -124,5 +110,19 @@
     "home_pitcher_name": "Gage Jump",
     "away_pitcher_id": null,
     "away_pitcher_name": ""
+  },
+  {
+    "game_id": 824911,
+    "game_date": "2026-06-18",
+    "game_time": "2026-06-18T23:15:00Z",
+    "status": "Postponed",
+    "home_team": "ATL",
+    "home_team_id": 144,
+    "away_team": "SF",
+    "away_team_id": 137,
+    "home_pitcher_id": 527048,
+    "home_pitcher_name": "Mart\u00edn P\u00e9rez",
+    "away_pitcher_id": 694738,
+    "away_pitcher_name": "Landen Roupp"
   }
 ]
