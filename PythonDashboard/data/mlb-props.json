@@ -4,7 +4,7 @@
   "season": "2026",
   "mode": "live",
   "model": "kalman_blend",
-  "generated": "2026-06-20T14:02:10.024091",
+  "generated": "2026-06-20T14:15:00.398690",
   "totalProjections": 26,
   "totalPicks": 1696,
   "totalWatchlist": 25,
@@ -51389,9 +51389,9 @@
       "proj_raw": 4.651,
       "would_be_pick": "OVER",
       "date": "2026-06-20",
-      "lockState": "pending",
-      "lockedAt": null,
-      "lineupConfirmed": false
+      "lockState": "lineup_confirmed",
+      "lockedAt": "2026-06-20T19:15:00.398822Z",
+      "lineupConfirmed": true
     },
     {
       "player": "Connelly Early",
@@ -52028,9 +52028,9 @@
       "to_win_1u": 1.3,
       "proj_raw": 4.651,
       "date": "2026-06-20",
-      "lockState": "pending",
-      "lockedAt": null,
-      "lineupConfirmed": false
+      "lockState": "lineup_confirmed",
+      "lockedAt": "2026-06-20T19:15:00.398822Z",
+      "lineupConfirmed": true
     },
     {
       "player": "Tomoyuki Sugano",
@@ -52380,8 +52380,8 @@
     "SF": "Pre-Game",
     "ATL": "Pre-Game",
     "MIL": "Pre-Game",
-    "HOU": "Scheduled",
-    "CLE": "Scheduled",
+    "HOU": "Pre-Game",
+    "CLE": "Pre-Game",
     "PHI": "Scheduled",
     "NYM": "Scheduled",
     "COL": "Scheduled",
@@ -52419,7 +52419,7 @@
     "822967": "Pre-Game",
     "823854": "Pre-Game",
     "824909": "Pre-Game",
-    "824180": "Scheduled",
+    "824180": "Pre-Game",
     "823447": "Scheduled",
     "824342": "Scheduled",
     "824988": "Scheduled",
