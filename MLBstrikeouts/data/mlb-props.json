@@ -4,7 +4,7 @@
   "season": "2026",
   "mode": "live",
   "model": "kalman_blend",
-  "generated": "2026-06-21T18:01:07.255522",
+  "generated": "2026-06-21T19:31:23.619401",
   "totalProjections": 28,
   "totalPicks": 1724,
   "totalWatchlist": 24,
@@ -52516,7 +52516,7 @@
       "proj_raw": 5.196,
       "would_be_pick": "OVER",
       "date": "2026-06-21",
-      "lockState": "lineup_confirmed",
+      "lockState": "game_started",
       "lockedAt": "2026-06-21T21:01:28.992100Z",
       "lineupConfirmed": true
     },
@@ -52547,7 +52547,7 @@
       "proj_raw": 6.572,
       "would_be_pick": "UNDER",
       "date": "2026-06-21",
-      "lockState": "lineup_confirmed",
+      "lockState": "game_started",
       "lockedAt": "2026-06-21T21:01:28.992100Z",
       "lineupConfirmed": true
     }
@@ -53369,7 +53369,7 @@
       "to_win_1u": 1.38,
       "proj_raw": 5.196,
       "date": "2026-06-21",
-      "lockState": "lineup_confirmed",
+      "lockState": "game_started",
       "lockedAt": "2026-06-21T21:01:28.992100Z",
       "lineupConfirmed": true
     },
@@ -53399,7 +53399,7 @@
       "to_win_1u": 1.05,
       "proj_raw": 6.572,
       "date": "2026-06-21",
-      "lockState": "lineup_confirmed",
+      "lockState": "game_started",
       "lockedAt": "2026-06-21T21:01:28.992100Z",
       "lineupConfirmed": true
     }
@@ -53459,12 +53459,12 @@
     "MIN": "Final",
     "OAK": "Final",
     "LAA": "Final",
-    "LAD": "In Progress",
-    "BAL": "In Progress",
+    "LAD": "Final",
+    "BAL": "Final",
     "SEA": "Final",
     "BOS": "Final",
-    "PHI": "Warmup",
-    "NYM": "Warmup",
+    "PHI": "In Progress",
+    "NYM": "In Progress",
     "CHC": "Postponed",
     "TOR": "Postponed"
   },
@@ -53497,9 +53497,9 @@
     "824343": "Final",
     "825067": "Final",
     "824987": "Final",
-    "823934": "In Progress",
+    "823934": "Final",
     "823123": "Final",
-    "823449": "Warmup",
+    "823449": "In Progress",
     "824664": "Postponed"
   },
   "homeAway": {
