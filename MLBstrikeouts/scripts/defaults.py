@@ -323,6 +323,25 @@ PROJ_LINEUP_WEIGHT = 0.8   # 2026-06-17: 0.7 -> 0.8 (csw 0.4, var 1.20, thr 0.70
 # the better recent read; 0.85 rolls the recent edge back over, so 0.8 is the
 # recent peak. Tradeoff: ~11u of season units given up vs 0.70 — shipping the
 # recency lean per the going-forward decision. Calib stays ON.
+
+# Opponent-lineup K-rate cap — a hard ceiling on the (noisy, matchup-favorable)
+# opponent lineup K-rate BEFORE the matchup multiply in props_engine.py:
+#       lineup_k_rate = min(lineup_k_rate, LINEUP_K_CAP)
+# Unlike PROJ_LINEUP_WEIGHT (which regresses the whole lineup rate toward
+# league), this clamps only the upper tail — high-K offenses whose confirmed
+# vs-hand sample blips above a plausible team ceiling (a 9-batter mean rarely
+# exceeds the high-20s%). It also bounds how far (pitcher_k × lineup_k / lg_k)
+# can be inflated by a single hot-strikeout lineup. Set to 0.0 to disable
+# (no cap; pre-cap behavior). Swept via scripts/sweep_lineup_k_cap.py.
+# 2026-06-22 sweep (w0.8/k0.40): caps in the 0.25-0.30 band all beat no-cap on
+# the pick tier. 0.30 only clips the genuine outliers (lineup K% > 30%) and so
+# preserves the borderline 25-30% high-K matchups (where the model's OVERs were
+# landing) while still bounding the extreme tail. Picks-only ROI peaks here
+# (season 76.7% WR / +35.71%); 0.25 clipped a few winning OVERs in the 25-30%
+# band. Set to 0.0 to disable. Swept via scripts/sweep_lineup_k_cap.py;
+# clip-by-clip impact via scripts/diag_lineup_kcap_clips.py.
+LINEUP_K_CAP = 0.30
+
 PROJ_CALIB_ENABLED = True
 PROJ_CALIB_KNOT = 6.0          # only correct projections above this
 PROJ_CALIB_MIN_PAIRS = 40      # need >= this many tail pairs to fit; else raw

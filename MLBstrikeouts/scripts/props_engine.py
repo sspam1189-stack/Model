@@ -432,6 +432,13 @@ def project_pitcher_props(pitcher_logs, team_batting_stats=None,
                 if _val > 0:
                     lineup_k_rate = _val
 
+        # Per-lineup K-rate cap: clamp the (noisy, matchup-favorable) opponent
+        # lineup K-rate to a plausible team ceiling before the matchup multiply.
+        # See defaults.LINEUP_K_CAP (0.0 disables).
+        from defaults import LINEUP_K_CAP
+        if LINEUP_K_CAP > 0:
+            lineup_k_rate = min(lineup_k_rate, LINEUP_K_CAP)
+
         # Lineup-weight regression: regress the (noisy) opponent lineup K-rate
         # toward league before the matchup multiply. See defaults.PROJ_LINEUP_WEIGHT.
         from defaults import PROJ_LINEUP_WEIGHT as _LW
