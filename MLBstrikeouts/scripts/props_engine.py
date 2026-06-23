@@ -13,7 +13,7 @@ from defaults import (
     PROP_T_DF, ROLLING_WINDOW, DECAY_FACTOR, MIN_GAMES, MIN_INNINGS, MIN_PITCHES,
     MARKET_THRESHOLDS, VAR_MULT, MIN_EDGE, MAX_EDGE, MIN_LINE,
     UNDER_ONLY_MARKETS, DISABLED_MARKETS, EDGE_DEAD_ZONE,
-    STAT_KEYS, KALMAN_STAT_KEYS, BANNED_PITCHERS,
+    STAT_KEYS, KALMAN_STAT_KEYS,
 )
 from pitcher_kalman import get_pitcher_projection
 from sources.game_context import (
@@ -78,18 +78,6 @@ def _name_key(name):
         return (first, last)
 
     return (name[0].lower(), name.lower())
-
-
-# Banned pitchers normalized to name-keys once, so membership tests are
-# robust to case/accents/suffixes (mirrors how lines are matched).
-_BANNED_PITCHER_KEYS = {_name_key(n) for n in BANNED_PITCHERS}
-
-
-def _is_pitcher_banned(name):
-    """True when a pitcher is on the BANNED_PITCHERS list (never staked)."""
-    if not name:
-        return False
-    return _name_key(name) in _BANNED_PITCHER_KEYS
 
 
 # ---------------------------------------------------------------------------
@@ -805,13 +793,6 @@ def _make_prop(name, team, market, proj, std, line_lookup, opp,
 
             min_l = MIN_LINE.get(market, 0)
             if line < min_l:
-                return result
-
-            # Banned pitchers are never staked: keep the projection/pCover for
-            # visibility (it falls through to the watch/would_be_pick tier in
-            # format_props_for_dashboard) but leave pick=PASS so it's not bet.
-            if _is_pitcher_banned(name):
-                result["banned"] = True
                 return result
 
             result["pick"] = direction
