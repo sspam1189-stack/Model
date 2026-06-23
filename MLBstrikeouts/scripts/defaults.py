@@ -193,6 +193,19 @@ DISABLED_MARKETS = set()
 UNDER_ONLY_MARKETS = set()
 
 # ---------------------------------------------------------------------------
+# Banned pitchers
+# ---------------------------------------------------------------------------
+# Pitchers whose props should never be staked, regardless of pCover/edge. Any
+# projection for a banned pitcher is demoted to PASS in props_engine._make_prop
+# (it still appears as a watch/would_be_pick row for visibility, but is never
+# bet). Use the pitcher's full name as it appears in the data — matching is
+# first/last-name normalized (case-, accent-, and suffix-insensitive) via
+# _name_key, so "Merrill Kelly" also matches "Merrill Kelly Jr." etc.
+BANNED_PITCHERS = {
+    "Merrill Kelly",
+}
+
+# ---------------------------------------------------------------------------
 # Projection blend weights
 # ---------------------------------------------------------------------------
 
