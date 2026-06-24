@@ -511,8 +511,12 @@
         // Constants mirror the card.
         const _maeTightenDates = (() => {
           const LOWT = MLB_LEAN_FLOOR, GWIN = 3, GMIN = 8;
+          // Same 0.65+ universe as renderMaeGate's signal (2026-06-24): accept
+          // would_be_pick band rows so the toggle and the card compute identical
+          // tighten days from the same population.
           const g = (data.props || []).filter(p =>
-            (p.pick === 'OVER' || p.pick === 'UNDER') &&
+            (p.pick === 'OVER' || p.pick === 'UNDER' ||
+             p.would_be_pick === 'OVER' || p.would_be_pick === 'UNDER') &&
             (p.result === 'WIN' || p.result === 'LOSS') &&
             p.pCover != null && p.line != null && p.proj != null && p.actual != null &&
             p.pCover >= LOWT);
@@ -1323,9 +1327,14 @@
             const LOWT=MLB_LEAN_FLOOR, HIGHT=MLB_PICK_STRONG, GWIN=3, GMIN=8;
             // Direction of any row: bet picks use `pick`, watch rows `would_be_pick`.
             const _dirOf=p=>(p.pick==='OVER'||p.pick==='UNDER')?p.pick:p.would_be_pick;
-            // Signal population: graded BET picks (recent form vs the line).
+            // Signal population: all graded directional 0.65+ plays — the full
+            // 0.65+ universe the dynamic rule reasons about, not just the 0.70+
+            // bets. Post-move the 0.65-0.70 band is would_be_pick (conf=watch),
+            // so accept would_be_pick alongside pick to keep the MAE signal on
+            // 0.65+ rather than collapsing to the 0.70+ book. (2026-06-24)
             const g=(data.props||[]).filter(p =>
-              (p.pick==='OVER'||p.pick==='UNDER') &&
+              (p.pick==='OVER'||p.pick==='UNDER'||
+               p.would_be_pick==='OVER'||p.would_be_pick==='UNDER') &&
               (p.result==='WIN'||p.result==='LOSS') &&
               p.pCover!=null && p.line!=null && p.proj!=null && p.actual!=null &&
               p.pCover>=LOWT);
@@ -1408,12 +1417,24 @@
 
             // cumulative shadow result
             const saved = -cumU;  // skipping a net-negative band on tighten days = saved units
+            // Flat-0.65 baseline: the band's full graded record across ALL days
+            // (band-only — the 0.70+ picks are bet identically under every policy).
+            // dynU = band P/L of the dynamic rule (bet on normal days, cut on
+            // tighten days) = all-days minus tighten-days = f065u + saved.
+            const f065u = calcMLBPropsUnits(band);
+            const f065w = band.filter(p=>p.result==='WIN').length;
+            const f065l = band.filter(p=>p.result==='LOSS').length;
+            const dynU = f065u + saved;
             const summary=document.createElement('div');
             summary.style.cssText='margin-top:10px;font-size:13px;color:#ddd;line-height:1.6';
             summary.innerHTML =
               `<b>Shadow ledger</b> (${flips.length} tighten day${flips.length===1?'':'s'} so far):<br>`+
+              `Flat 0.65 (band always bet, all days): <b>${f065w}-${f065l}</b> (${f065u>=0?'+':''}${f065u.toFixed(2)}u).<br>`+
               `On tighten days the 0.65–0.70 band went <b>${cumW}-${cumL}</b> (${cumU>=0?'+':''}${cumU.toFixed(2)}u).<br>`+
-              `Skipping it on those days — which the 0.70 cut now does automatically — is worth <b style="color:${saved>=0?'#19c37d':'#ff5c5c'}">${saved>=0?'+':''}${saved.toFixed(2)}u</b>.`;
+              `Skipping it on those days — which the 0.70 cut now does automatically — is worth <b style="color:${saved>=0?'#19c37d':'#ff5c5c'}">${saved>=0?'+':''}${saved.toFixed(2)}u</b>.<br>`+
+              `Dynamic 0.65+ rule (band on normal days, off on tighten days) nets `+
+              `<b style="color:${dynU>=0?'#19c37d':'#ff5c5c'}">${dynU>=0?'+':''}${dynU.toFixed(2)}u</b> on the band `+
+              `vs ${f065u>=0?'+':''}${f065u.toFixed(2)}u always-on.`;
             card.appendChild(summary);
 
             // per-flip-day detail — collapsible: click a date to expand its dropped picks
