@@ -163,7 +163,19 @@ VAR_MULT = {
     #
     # 2026-05-28 (post leakage-fix): 1.30 -> 1.20, paired with BF_MULT 1.00
     # (see BF_MULT note). 1.0/1.2 wins the leak-free season on ROI + units.
-    "strikeouts":   1.20,
+    #
+    # 2026-06-25: 1.20 -> 1.30 under the now-live whiff metric (user call). The
+    # metric switch moved this lever: under whiff, VAR has a real gradient (unlike
+    # kcap/BF_CAP which are flat). Swept {1.05..1.30} at whiff@0.4/kcap0.36/BF25 —
+    # 1.30 wins season ROI (35.3% vs 1.20's 34.1%), WR (76.5%), and clearly wins
+    # JUNE (+14.43u / 18.1% / 66.7% WR / MAE 1.579 vs 1.20's +12.07u / 14.7% /
+    # 64.4% / 1.608; June improves monotonically as VAR rises). Trade: ~-2.7u
+    # season units / fewer picks (more conservative pCover) for the ROI + June
+    # gains — chosen for the June-protective + efficiency lean, same logic as the
+    # kcap 0.36 call. CAVEAT: 1.30 is the OLD pre-leakage value (moved off it under
+    # csw); the whiff distribution wants the wider std back. June sample is thin
+    # (~57 picks) so part of the June edge is a win-swing; revisit if it regresses.
+    "strikeouts":   1.30,
 }
 
 # ---------------------------------------------------------------------------
