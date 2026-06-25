@@ -569,7 +569,19 @@ K_RATE_CAP_FLOOR = 0.36
 # and over a lower cap (0.36/0.38 only sheds profitable elite-arm overs). Shipped
 # deliberately as a guard against future June-like low-K stretches; revert to
 # 0.05 if the cost outweighs the protection. See the K-rate-floor sweep analysis.
-K_RATE_FLOOR = 0.14
+#
+# 2026-06-25: 0.14 -> 0.15 under live whiff/kcap0.36/VAR1.30 (user call, June-
+# protective lean stacking on kcap0.36 + VAR1.30). Re-swept {0.12..0.16} on the
+# new config — floor is ACTIVE (51 picks differ 0.12 vs 0.16; 6-game gate verified
+# firing, trusts 6+game arms' real sub-floor rate). Same insurance tradeoff as
+# before: raising helps June (0.15: +15.43u/19.6%/MAE 1.570 vs 0.14's +14.43u/
+# 18.1%/1.579; June monotonic in floor) and costs season units (0.15: +115.27u
+# vs 0.14 +120.66u, -5.4u) while season ROI ~flat (34.5 vs 35.3) and season MAE
+# ~flat (1.558 vs 1.551). 0.15 chosen as the June step (only -5u season, +1u June,
+# better June MAE); 0.16 rejected (-10u season for thin-sample June gain). The
+# season-units cost is the deliberate -EV insurance premium, same as the 0.05->
+# 0.14 ship. Revert to 0.14 if June protection isn't needed live.
+K_RATE_FLOOR = 0.15
 
 # Sample-size gate for K_RATE_FLOOR. When a pitcher has >= this many qualified
 # games, the hard floor is NOT applied — we trust a genuinely sub-floor rate
