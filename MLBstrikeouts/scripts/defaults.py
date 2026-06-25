@@ -527,7 +527,17 @@ BF_CAP_PCTILE = 0.0
 # 2026-05-29: 0.36 -> 0.40 with K_QUALITY_METRIC=csw. kcap is the lever that
 # closes CSW's recent-window gap: recent picks-only -6.58u at k0.36 -> -1.57u
 # at k0.40 (peak; saturates k0.42+). Season also peaks here (+339.75u).
-K_RATE_CAP_FLOOR = 0.40
+#
+# 2026-06-25: 0.40 -> 0.36 under the now-live whiff metric (user call). Swept
+# {0.36..0.44} under whiff@0.4: the lever is FLAT on season (all within +-0.01
+# u/pick — whiff has no recent-window gap, so it doesn't need the 0.40 that csw
+# did). 0.36 is the season MAE optimum (1.558 vs 1.577 @0.40) and the June
+# optimum on every metric (June 64.4% / +12.07u / 14.7% ROI / MAE 1.608 vs 0.40's
+# 63.8% / +11.07u / 13.7% / 1.643; June degrades monotonically as kcap rises).
+# Season cost is negligible (-0.42u, -0.5pp ROI, within noise) and MAE improves.
+# Chosen for the June-friendly + accuracy end since the season trade is ~free.
+# The csw-era 0.40 rationale above no longer applies (that gap was csw-specific).
+K_RATE_CAP_FLOOR = 0.36
 
 # Hard floor on expected_k_rate after the per-pitcher cap. Prevents
 # nonsensical near-zero K-rate projections from degenerate inputs (e.g.
