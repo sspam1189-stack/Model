@@ -403,7 +403,17 @@ PROJ_CALIB_MIN_PAIRS = 40      # need >= this many tail pairs to fit; else raw
 # season +339.75u vs whiff@0.5/c24/k0.36 +316.25u (+23.5u), recent within-noise
 # (-1.57u), more accurate on MAE/RMSE. Recent still narrowly whiff's and season
 # edge is +0.073u/pick (under the 0.20 bar) — shipped on user call, near-tie.
-K_QUALITY_METRIC = "csw"
+#
+# 2026-06-25: switched "csw" -> "whiff" (user call). At MATCHED weight 0.4 the
+# two metrics are interchangeable — full sweep (sweep_whiff_vs_csw / metric x
+# lineup x threshold x calib-on-off x knot) showed a dead wash: season whiff
+# +124.4u/35.1% vs csw +122.0u/34.2% (+0.009 u/pick, far under the 0.20 bar),
+# June both 36-20, 89% June pick overlap, knot stays 6.0 for both. The original
+# +23.5u "csw edge" was largely a weight mismatch (csw@0.3 vs whiff@0.5). whiff
+# has a hair-better MAE (season 1.578 vs 1.585, June pick 1.652 vs 1.737). Picked
+# whiff for the marginal accuracy edge; behavior is otherwise equivalent. csw is
+# the fallback. See [[project_mlb_csw_vs_whiff]].
+K_QUALITY_METRIC = "whiff"
 
 CSW_XBA_BLEND_WEIGHT = 0.4   # 2026-06-15: 0.3->0.4 for recency. Walk-forward
 # sweep (0.0/0.2/0.4/0.5/0.6) peaks at 0.4: full-season units ~tied with 0.3
