@@ -1031,6 +1031,13 @@ def write_dashboard_json(results, season):
                 "actual": p["actual"],
                 "result": "WIN" if p["won"] else "LOSS",
                 "date": p.get("date", ""),
+                # Rest Gate shadow-monitor inputs. project_pitcher_props stamps
+                # these on the prop and the grading loop carries them into
+                # results["picks"]; without copying them here the entry whitelist
+                # silently drops them, leaving the dashboard Rest Gate card with
+                # no data (always 0 flagged). See game_context.detect_rest_days.
+                "restVerdict": p.get("restVerdict"),
+                "daysSinceLastStart": p.get("daysSinceLastStart"),
                 "proj_ip": p.get("proj_ip"),
                 "proj_bf": p.get("proj_bf"),
                 "proj_bf_capped": p.get("proj_bf_capped"),
