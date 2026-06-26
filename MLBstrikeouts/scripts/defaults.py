@@ -599,6 +599,15 @@ K_RATE_FLOOR = 0.15
 # 1u June insurance); flat(0) = +193.9u / June +3.0u. Set to 0 to revert to flat.
 K_RATE_FLOOR_MIN_GAMES = 6
 
+# Injury-return / pitch-count gate. When a pitcher hasn't made a start in this
+# many days, a long layoff almost always means he's back from the IL and on a
+# tight pitch count — the model's BF/IP projection (built from his pre-injury
+# rolling window) can't see the cap, so any OVER/UNDER it fires is untrustworthy.
+# When the gap from today back to his last completed start is >= REST_GATE_DAYS,
+# we down-grade an OVER/UNDER to PASS (the projection is still shown; only the
+# pick is suppressed). Set to 0 to disable.
+REST_GATE_DAYS = 14
+
 # Weather K-rate multiplier — applied as `k_weather_mult = 1.0 + bonus/penalty`
 # when game temperature crosses the cold/hot thresholds. Original 4/15 ship
 # (commit 20a55c6f) used +0.02 cold / -0.01 hot on the "bat speed vs grip"
