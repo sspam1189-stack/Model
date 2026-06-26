@@ -10,6 +10,7 @@ Market:
 """
 
 import datetime
+import os
 
 # ---------------------------------------------------------------------------
 # Student's t degrees of freedom (heavier tails than normal)
@@ -425,7 +426,14 @@ PROJ_CALIB_MIN_PAIRS = 40      # need >= this many tail pairs to fit; else raw
 # has a hair-better MAE (season 1.578 vs 1.585, June pick 1.652 vs 1.737). Picked
 # whiff for the marginal accuracy edge; behavior is otherwise equivalent. csw is
 # the fallback. See [[project_mlb_csw_vs_whiff]].
-K_QUALITY_METRIC = "whiff"
+#
+# 2026-06-26: parameterized via the MLB_K_METRIC env var to support running a
+# second parallel model variant ("MLB K's CSW") alongside the live whiff model.
+# Default (unset) = "whiff" = exactly the live behavior. Set MLB_K_METRIC=csw to
+# run the CSW variant, which also overrides K_RATE_CAP_FLOOR (0.36->0.40) and
+# VAR_MULT (1.30->1.20) via the variant-profile block at the end of this file.
+# See docs/superpowers/specs/2026-06-26-mlb-csw-variant-design.md.
+K_QUALITY_METRIC = os.environ.get("MLB_K_METRIC", "whiff")
 
 CSW_XBA_BLEND_WEIGHT = 0.4   # 2026-06-15: 0.3->0.4 for recency. Walk-forward
 # sweep (0.0/0.2/0.4/0.5/0.6) peaks at 0.4: full-season units ~tied with 0.3
@@ -829,3 +837,24 @@ MLB_TEAM_ABBR = {
     "San Francisco":           "SF",
     "Giants":                  "SF",
 }
+
+# ---------------------------------------------------------------------------
+# Variant profile overrides (MLB K's CSW)
+# ---------------------------------------------------------------------------
+# Runs LAST so it cleanly supersedes the base definitions of K_RATE_CAP_FLOOR
+# and VAR_MULT regardless of their order above. Selected by the MLB_K_METRIC
+# env var (read into K_QUALITY_METRIC near the top of this file).
+#
+#   MLB_K_METRIC unset / "whiff"  -> live model, base values untouched.
+#   MLB_K_METRIC = "csw"          -> CSW variant: csw metric + cap floor 0.40
+#                                    + VAR_MULT 1.20, written to *_csw outputs.
+#
+# VARIANT_SUFFIX is appended by run_daily.py / props_backfill.py to the
+# config-dependent output paths (kalman_state, mlb-props, emp_std_cache) so the
+# two models never clobber each other. CSW_XBA_BLEND_WEIGHT stays 0.4 for both.
+if K_QUALITY_METRIC == "csw":
+    K_RATE_CAP_FLOOR = 0.40
+    VAR_MULT = {"strikeouts": 1.20}
+    VARIANT_SUFFIX = "_csw"
+else:                       # whiff — base values unchanged from today
+    VARIANT_SUFFIX = ""

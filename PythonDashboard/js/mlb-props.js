@@ -168,14 +168,14 @@
       });
     }
 
-    async function renderMLBProps() {
+    async function renderMLBProps(sourceKey = 'mlb-props', title = "MLB K's Whiff") {
       const el = document.getElementById('content');
-      const data = await fetchData('mlb-props');
+      const data = await fetchData(sourceKey);
       if (!data || !data.props || !data.props.length) {
         el.textContent = '';
         const card = document.createElement('div');
         card.className = 'card-games';
-        card.appendChild(Object.assign(document.createElement('div'), {className:'card-title', textContent:'MLB Strikeouts'}));
+        card.appendChild(Object.assign(document.createElement('div'), {className:'card-title', textContent:title}));
         card.appendChild(Object.assign(document.createElement('div'), {className:'no-picks', textContent:'No prop projections available yet. Run the props pipeline to generate projections.'}));
         el.appendChild(card);
         return;
@@ -186,7 +186,7 @@
       if (runEl && data.generated) {
         const d = new Date(data.generated);
         const ct = d.toLocaleString('en-US', { timeZone: 'America/Chicago', month: '2-digit', day: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: true });
-        runEl.textContent = `Last run (CT) \u2014 MLB Strikeouts: ${ct}`;
+        runEl.textContent = `Last run (CT) \u2014 ${title}: ${ct}`;
       }
 
       const marketLabels = {strikeouts:'K', outs:'OUTS', hits_allowed:'HA', game_hits:'HITS'};

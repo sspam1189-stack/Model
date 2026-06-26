@@ -163,6 +163,12 @@ const SOURCES = {
     remote: 'https://raw.githubusercontent.com/sspam1189-stack/Model/main/MLBstrikeouts/data/mlb-props.json',
     repo: 'https://github.com/sspam1189-stack/Model'
   },
+  'mlb-props-csw': {
+    name: 'MLB Props (CSW)',
+    local: 'data/mlb-props_csw.json',
+    remote: 'https://raw.githubusercontent.com/sspam1189-stack/Model/main/MLBstrikeouts/data/mlb-props_csw.json',
+    repo: 'https://github.com/sspam1189-stack/Model'
+  },
   'mlb-batter-props': {
     name: 'MLB Batter Props',
     local: 'data/mlb-props.json',
@@ -1126,7 +1132,8 @@ function updateLastRunInfo() {
   const labels = {
     fullseason: 'Full Season', ncaa: 'NCAA', nfl: 'NFL',
     'nba-props': 'NBA Props', 'nfl-props': 'NFL Props',
-    'mlb-props': 'MLB Strikeouts', 'mlb-batter-props': 'MLB Batter Props',
+    'mlb-props': "MLB K's Whiff", 'mlb-props-csw': "MLB K's CSW",
+    'mlb-batter-props': 'MLB Batter Props',
   };
   const data = cache[activeTab];
   const el = document.getElementById('last-run-info');
@@ -1649,6 +1656,10 @@ async function render() {
   // MLB Pitcher Props
   if (activeTab === 'mlb-props') {
     return renderMLBProps();
+  }
+  // MLB Pitcher Props — CSW variant (same renderer, CSW data file)
+  if (activeTab === 'mlb-props-csw') {
+    return renderMLBProps('mlb-props-csw', "MLB K's CSW");
   }
   // MLB Batter Props
   if (activeTab === 'mlb-batter-props') {

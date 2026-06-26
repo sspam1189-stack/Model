@@ -37,11 +37,12 @@ from pitcher_kalman import (
 from defaults import (
     ROLLING_WINDOW, MIN_GAMES, current_season,
     EMPIRICAL_STD_MIN_SAMPLE, DEFAULT_EMPIRICAL_STD,
+    VARIANT_SUFFIX,
 )
 
 _EMP_STD_CACHE_DIR = os.path.normpath(
     os.path.join(os.path.dirname(os.path.abspath(__file__)),
-                 "..", "..", "data", "emp_std_cache", "mlb")
+                 "..", "..", "data", "emp_std_cache", f"mlb{VARIANT_SUFFIX}")
 )
 
 
@@ -273,13 +274,32 @@ def backfill(season=None, start_game=10, start_date=None):
               f"slope-priming only)")
         # Slope refit is WALK-FORWARD — applied inside the date loop using
         # per-date cached regression files. Today's regression file is still
-        # written below for tomorrow.
-        _reg_today = compute_csw_xba_regression(_savant_today)
-        if _reg_today:
-            save_csw_xba_regression(_reg_today, season=season)
-            print(f"  [backfill] today's slopes cached "
-                  f"(whiff={_reg_today['csw_slope']:+.4f} "
-                  f"xBA={_reg_today['xba_slope']:+.4f}  R^2={_reg_today['r2']:.3f})")
+        # written below for tomorrow. Metric-aware: the CSW variant primes (and
+        # writes) ONLY its own csw_xba_regression cache and never touches the
+        # whiff model's files, so a CSW backfill leaves the whiff variant
+        # byte-for-byte unchanged.
+        if K_QUALITY_METRIC == "csw":
+            import datetime as _dt0
+            _prior0 = (_dt0.date.today() - _dt0.timedelta(days=1)).isoformat()
+            _csw_asof0 = load_csw_as_of(_prior0, season) or {}
+            _merged0 = {}
+            for _pid, _c in _csw_asof0.items():
+                _b = _savant_today.get(_pid)
+                if _b:
+                    _merged0[_pid] = {**_b, "csw": _c["csw"]}
+            _reg_today = compute_csw_xba_regression(_merged0, x1_key="csw")
+            if _reg_today:
+                save_csw_xba_regression(_reg_today, season=season, metric="csw")
+                print(f"  [backfill] today's CSW slopes cached "
+                      f"(csw={_reg_today['csw_slope']:+.4f} "
+                      f"xBA={_reg_today['xba_slope']:+.4f}  R^2={_reg_today['r2']:.3f})")
+        else:
+            _reg_today = compute_csw_xba_regression(_savant_today)
+            if _reg_today:
+                save_csw_xba_regression(_reg_today, season=season)
+                print(f"  [backfill] today's slopes cached "
+                      f"(whiff={_reg_today['csw_slope']:+.4f} "
+                      f"xBA={_reg_today['xba_slope']:+.4f}  R^2={_reg_today['r2']:.3f})")
 
     # Load player bat-side lookup (for per-game lineup handedness)
     print(f"  Loading player bat sides...")
@@ -310,7 +330,8 @@ def backfill(season=None, start_game=10, start_date=None):
 
     # Always reset Kalman state from scratch
     kalman_state_path = os.path.join(
-        os.path.dirname(os.path.abspath(__file__)), "..", "data", "kalman_state.json"
+        os.path.dirname(os.path.abspath(__file__)), "..", "data",
+        f"kalman_state{VARIANT_SUFFIX}.json"
     )
     kalman_state_path = os.path.normpath(kalman_state_path)
     if os.path.exists(kalman_state_path):
@@ -1056,8 +1077,8 @@ def write_dashboard_json(results, season):
 
     script_dir = os.path.dirname(os.path.abspath(__file__))
     paths = [
-        os.path.join(script_dir, "..", "data", "mlb-props.json"),
-        os.path.join(script_dir, "..", "..", "PythonDashboard", "data", "mlb-props.json"),
+        os.path.join(script_dir, "..", "data", f"mlb-props{VARIANT_SUFFIX}.json"),
+        os.path.join(script_dir, "..", "..", "PythonDashboard", "data", f"mlb-props{VARIANT_SUFFIX}.json"),
     ]
 
     # Collect all backfill dates so we know which are "historical"

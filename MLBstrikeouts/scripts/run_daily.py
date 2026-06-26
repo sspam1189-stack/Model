@@ -64,11 +64,13 @@ from pitcher_kalman import (
     new_pitcher_kalman_state, batch_update_from_game_logs,
     apply_drift, kalman_summary, prune_inactive_pitchers,
 )
-from defaults import current_season
+from defaults import current_season, VARIANT_SUFFIX
 
-# Path to persistent Kalman state
+# Path to persistent Kalman state. VARIANT_SUFFIX ("" for the live whiff model,
+# "_csw" for the CSW variant) keeps the two models' state files separate.
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
-KALMAN_STATE_PATH = os.path.join(SCRIPT_DIR, "..", "data", "kalman_state.json")
+KALMAN_STATE_PATH = os.path.join(SCRIPT_DIR, "..", "data",
+                                 f"kalman_state{VARIANT_SUFFIX}.json")
 
 # Game statuses that mean the game never produced final stats — picks attached
 # to these resolve as VOID (sportsbook-standard handling: bet refunded, no
@@ -108,7 +110,8 @@ def _is_game_postponed(team_abbr, game_date):
 
 
 _EMP_STD_CACHE_DIR = os.path.normpath(
-    os.path.join(SCRIPT_DIR, "..", "..", "data", "emp_std_cache", "mlb")
+    os.path.join(SCRIPT_DIR, "..", "..", "data", "emp_std_cache",
+                 f"mlb{VARIANT_SUFFIX}")
 )
 
 
@@ -128,8 +131,8 @@ def compute_empirical_std_from_graded(date_iso=None):
     from defaults import EMPIRICAL_STD_MIN_SAMPLE
 
     candidate_paths = [
-        os.path.join(SCRIPT_DIR, "..", "data", "mlb-props.json"),
-        os.path.join(SCRIPT_DIR, "..", "..", "PythonDashboard", "data", "mlb-props.json"),
+        os.path.join(SCRIPT_DIR, "..", "data", f"mlb-props{VARIANT_SUFFIX}.json"),
+        os.path.join(SCRIPT_DIR, "..", "..", "PythonDashboard", "data", f"mlb-props{VARIANT_SUFFIX}.json"),
     ]
     data = None
     for path in candidate_paths:
@@ -225,8 +228,8 @@ def compute_calib_coefs_from_graded(date_iso=None):
     """
     from props_engine import compute_calib_coefs as _fit
     candidate_paths = [
-        os.path.join(SCRIPT_DIR, "..", "data", "mlb-props.json"),
-        os.path.join(SCRIPT_DIR, "..", "..", "PythonDashboard", "data", "mlb-props.json"),
+        os.path.join(SCRIPT_DIR, "..", "data", f"mlb-props{VARIANT_SUFFIX}.json"),
+        os.path.join(SCRIPT_DIR, "..", "..", "PythonDashboard", "data", f"mlb-props{VARIANT_SUFFIX}.json"),
     ]
     data = None
     for path in candidate_paths:
@@ -481,8 +484,8 @@ def grade_previous_picks(season=None):
     from collections import defaultdict
 
     output_paths = [
-        os.path.join(SCRIPT_DIR, "..", "data", "mlb-props.json"),
-        os.path.join(SCRIPT_DIR, "..", "..", "PythonDashboard", "data", "mlb-props.json"),
+        os.path.join(SCRIPT_DIR, "..", "data", f"mlb-props{VARIANT_SUFFIX}.json"),
+        os.path.join(SCRIPT_DIR, "..", "..", "PythonDashboard", "data", f"mlb-props{VARIANT_SUFFIX}.json"),
     ]
 
     # Load existing picks from first available path
@@ -1100,7 +1103,7 @@ def run_daily(date_key=None):
     # regardless of what FanDuel returns.
     fd_frozen_game_ids = set()
     try:
-        prior_path = os.path.join(SCRIPT_DIR, "..", "data", "mlb-props.json")
+        prior_path = os.path.join(SCRIPT_DIR, "..", "data", f"mlb-props{VARIANT_SUFFIX}.json")
         if os.path.exists(prior_path):
             with open(prior_path, "r") as _f:
                 _prior = json.load(_f)
@@ -1131,7 +1134,7 @@ def run_daily(date_key=None):
                 if _t:
                     frozen_team_keys.add(_t)
     try:
-        _prior_path = os.path.join(SCRIPT_DIR, "..", "data", "mlb-props.json")
+        _prior_path = os.path.join(SCRIPT_DIR, "..", "data", f"mlb-props{VARIANT_SUFFIX}.json")
         if os.path.exists(_prior_path):
             with open(_prior_path, "r") as _f:
                 _prior_data = json.load(_f)
@@ -1305,8 +1308,8 @@ def run_daily(date_key=None):
     }
 
     output_paths = [
-        os.path.join(SCRIPT_DIR, "..", "data", "mlb-props.json"),
-        os.path.join(SCRIPT_DIR, "..", "..", "PythonDashboard", "data", "mlb-props.json"),
+        os.path.join(SCRIPT_DIR, "..", "data", f"mlb-props{VARIANT_SUFFIX}.json"),
+        os.path.join(SCRIPT_DIR, "..", "..", "PythonDashboard", "data", f"mlb-props{VARIANT_SUFFIX}.json"),
     ]
 
     import numpy as np
