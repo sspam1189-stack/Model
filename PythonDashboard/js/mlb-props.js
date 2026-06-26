@@ -388,6 +388,9 @@
       // hoisted here so all three shadow-monitor gates can be appended together
       // at the very bottom in order Read -> MAE -> EV.
       let _maeGateCard = null;
+      // Rest Gate card — injury-return / pitch-count shadow monitor. Built
+      // alongside the EV card and appended with the other shadow gates.
+      let _restRecordCard = null;
 
       // ── Yesterday's Recap + Today's Picks ──
       (function renderMLBDailyCards() {
@@ -4300,6 +4303,153 @@
 
             _evRecordCard = evCard;
           })();
+
+          // ── Rest Gate (backtest) — shadow monitor (not live) ──
+          // Injury-return / pitch-count gate. The engine stamps restVerdict on
+          // each pick: PASS when the pitcher hadn't started in >= REST_GATE_DAYS
+          // (14) days (likely IL return on a pitch count), else TAKE. Verdict is
+          // SELF-CONTAINED per pick (from daysSinceLastStart). Shadow only — it
+          // never alters which picks are bet. NOTE: picks generated before this
+          // gate shipped carry no restVerdict and default to TAKE, so the PASS
+          // column only populates once the pipeline re-runs and re-stamps.
+          (function buildRestRecord() {
+            const restVerdictFor = (p) => (p.restVerdict === 'PASS' ? 'PASS' : 'TAKE');
+
+            const graded = (data.props || []).filter(p =>
+              p.market === 'strikeouts'
+              && (p.result === 'WIN' || p.result === 'LOSS')
+              && (p.pick === 'OVER' || p.pick === 'UNDER')
+            ).sort((a, b) => (a.date || '').localeCompare(b.date || ''));
+            if (graded.length === 0) return;
+
+            const _unitsOf = (p) => {
+              const won = p.result === 'WIN';
+              const od = p.odds;
+              if (od == null) return won ? 1 : -1;
+              const o = Number(od);
+              if (o > 0) return won ? o / 100 : -1;
+              return won ? 1 : -Math.abs(o) / 100;
+            };
+
+            let takeW = 0, takeL = 0, takeU = 0;
+            let passW = 0, passL = 0, passU = 0; // what the flagged (PASS) picks WOULD have done
+            const byMonth = {};
+            const flagged = [];
+            for (const p of graded) {
+              const verdict = restVerdictFor(p);
+              const u = _unitsOf(p);
+              const won = p.result === 'WIN';
+              const ym = (p.date || '').slice(0, 7);
+              if (!byMonth[ym]) byMonth[ym] = { takeW:0, takeL:0, takeU:0, passW:0, passL:0, passU:0 };
+              if (verdict === 'TAKE') {
+                if (won) { takeW++; byMonth[ym].takeW++; } else { takeL++; byMonth[ym].takeL++; }
+                takeU += u; byMonth[ym].takeU += u;
+              } else {
+                if (won) { passW++; byMonth[ym].passW++; } else { passL++; byMonth[ym].passL++; }
+                passU += u; byMonth[ym].passU += u;
+                flagged.push({ p, u, won });
+              }
+            }
+
+            const card = document.createElement('div');
+            card.className = 'card card-games';
+            card.style.marginBottom = '16px';
+            card.appendChild(Object.assign(document.createElement('div'), {
+              className: 'card-title',
+              textContent: `🛌 Rest Gate — shadow monitor (not live)`,
+            }));
+
+            const fmt = (w, l, u) => {
+              const n = w + l;
+              const wr = n > 0 ? (w/n*100).toFixed(1) + '%' : '—';
+              const uS = (u >= 0 ? '+' : '') + u.toFixed(2) + 'u';
+              return `${w}-${l} (${wr}) ${uS}`;
+            };
+            const sumRow = document.createElement('div');
+            sumRow.style.cssText = 'display:flex;gap:18px;padding:10px 4px 6px;flex-wrap:wrap;font-size:13px';
+            sumRow.innerHTML = `
+              <div><span style="color:#bbb;font-weight:600">TAKE (normal rest):</span>
+                <span style="color:${takeU>=0?'var(--green)':'var(--red)'};font-weight:600">${fmt(takeW, takeL, takeU)}</span></div>
+              <div><span style="color:#bbb;font-weight:600">PASS would-be (≥14d rest):</span>
+                <span style="color:${passU>=0?'var(--green)':'var(--red)'};font-weight:600">${fmt(passW, passL, passU)}</span></div>
+              <div style="color:#888;font-size:12px;align-self:center">backtested across ${graded.length} graded picks</div>
+            `;
+            card.appendChild(sumRow);
+
+            const months = Object.keys(byMonth).sort();
+            if (months.length > 0) {
+              const wrap = document.createElement('div');
+              wrap.className = 'props-table-wrap';
+              const tbl = document.createElement('table');
+              tbl.style.cssText = 'width:100%;border-collapse:collapse;margin-top:6px';
+              const hr = tbl.createTHead().insertRow();
+              ['Month','TAKE Record','TAKE WR%','TAKE Units','PASS Record','PASS WR%','PASS Units'].forEach((h, i) => {
+                const th = document.createElement('th');
+                th.textContent = h;
+                th.style.cssText = `padding:6px 8px;border-bottom:1px solid rgba(255,255,255,0.1);font-size:11px;color:#999;text-align:${i===0?'left':'right'}`;
+                hr.appendChild(th);
+              });
+              const tb = tbl.createTBody();
+              const monthName = (ym) => {
+                const m = parseInt(ym.slice(5, 7), 10);
+                const names = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+                return names[m - 1] + ' ' + ym.slice(0, 4);
+              };
+              for (const ym of months) {
+                const r = byMonth[ym];
+                const tN = r.takeW + r.takeL, pN = r.passW + r.passL;
+                const tWR = tN > 0 ? (r.takeW/tN*100).toFixed(1) + '%' : '—';
+                const pWR = pN > 0 ? (r.passW/pN*100).toFixed(1) + '%' : '—';
+                const tr = tb.insertRow();
+                tr.style.borderBottom = '1px solid rgba(255,255,255,0.04)';
+                const cells = [
+                  { v: monthName(ym), align: 'left', color: '#ccc' },
+                  { v: `${r.takeW}-${r.takeL}`, align: 'right' },
+                  { v: tWR, align: 'right', color: tN > 0 ? (r.takeW/tN >= 0.55 ? 'var(--green)' : r.takeW/tN < 0.50 ? 'var(--red)' : '#ccc') : '#888' },
+                  { v: (r.takeU >= 0 ? '+' : '') + r.takeU.toFixed(2) + 'u', align: 'right', color: r.takeU >= 0 ? 'var(--green)' : 'var(--red)' },
+                  { v: `${r.passW}-${r.passL}`, align: 'right' },
+                  { v: pWR, align: 'right', color: pN > 0 ? (r.passW/pN >= 0.55 ? 'var(--green)' : r.passW/pN < 0.50 ? 'var(--red)' : '#ccc') : '#888' },
+                  { v: (r.passU >= 0 ? '+' : '') + r.passU.toFixed(2) + 'u', align: 'right', color: r.passU >= 0 ? 'var(--green)' : 'var(--red)' },
+                ];
+                cells.forEach(c => {
+                  const td = tr.insertCell();
+                  td.textContent = c.v;
+                  td.style.cssText = `padding:5px 8px;font-size:12px;text-align:${c.align}`;
+                  if (c.color) td.style.color = c.color;
+                });
+              }
+              wrap.appendChild(tbl);
+              card.appendChild(wrap);
+            }
+
+            // Flagged picks list — every graded pick the gate flagged (≥14d rest).
+            if (flagged.length) {
+              const fWrap = document.createElement('div');
+              fWrap.style.cssText = 'margin-top:8px;font-size:12px;color:#ccc';
+              const fHdr = document.createElement('div');
+              fHdr.style.cssText = 'color:#999;font-size:11px;margin:4px 4px 2px';
+              fHdr.textContent = `Flagged picks (${flagged.length}) — ≥14d since last start:`;
+              fWrap.appendChild(fHdr);
+              flagged.sort((a, b) => (a.p.date || '').localeCompare(b.p.date || ''));
+              flagged.forEach(({ p, won }) => {
+                const days = p.daysSinceLastStart != null ? `${p.daysSinceLastStart}d` : '14+d';
+                const row = document.createElement('div');
+                row.style.cssText = 'padding:2px 4px';
+                row.innerHTML = `${p.date} · ${mlbShortName(p.player)} ${p.pick} ${p.line} · ${days} rest · `
+                  + `<span style="color:${won ? 'var(--green)' : 'var(--red)'};font-weight:600">${won ? 'WIN' : 'LOSS'}</span>`;
+                fWrap.appendChild(row);
+              });
+              card.appendChild(fWrap);
+            }
+
+            const cap = document.createElement('div');
+            cap.style.cssText = 'margin-top:8px;padding:6px 4px;font-size:11px;color:#888;line-height:1.5';
+            cap.innerHTML = `<strong style="color:#bbb">Shadow only.</strong> The live pick is never changed — `
+              + `this just tracks how picks on a long layoff (likely IL return / pitch count) would have done if faded.`;
+            card.appendChild(cap);
+
+            _restRecordCard = card;
+          })();
         };
 
         // Today's Picks + Leans (unified card with tabs)
@@ -5881,6 +6031,7 @@
       if (_readRecordCard) el.appendChild(_readRecordCard);
       if (_maeGateCard) el.appendChild(_maeGateCard);
       if (_evRecordCard) el.appendChild(_evRecordCard);
+      if (_restRecordCard) el.appendChild(_restRecordCard);
       // Matchup History is appended above directly under Today's Games.
     }
 
