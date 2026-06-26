@@ -70,9 +70,9 @@
     "source": "lineup"
   },
   "BOS": {
-    "PCT_LHB": 0.3333,
+    "PCT_LHB": 0.2222,
     "n_batters": 9,
-    "source": "recent_lineup_fallback"
+    "source": "lineup"
   },
   "NYY": {
     "PCT_LHB": 0.2222,
@@ -127,26 +127,26 @@
   "OAK": {
     "PCT_LHB": 0.5,
     "n_batters": 9,
-    "source": "recent_lineup_fallback"
+    "source": "lineup"
   },
   "SD": {
-    "PCT_LHB": 0.1111,
-    "n_batters": 9,
-    "source": "recent_lineup_fallback"
-  },
-  "LAD": {
-    "PCT_LHB": 0.5,
-    "n_batters": 9,
-    "source": "recent_lineup_fallback"
-  },
-  "SF": {
     "PCT_LHB": 0.2222,
     "n_batters": 9,
-    "source": "recent_lineup_fallback"
+    "source": "lineup"
+  },
+  "LAD": {
+    "PCT_LHB": 0.6111,
+    "n_batters": 9,
+    "source": "lineup"
+  },
+  "SF": {
+    "PCT_LHB": 0.3333,
+    "n_batters": 9,
+    "source": "lineup"
   },
   "ATL": {
-    "PCT_LHB": 0.5,
+    "PCT_LHB": 0.6111,
     "n_batters": 9,
-    "source": "recent_lineup_fallback"
+    "source": "lineup"
   }
 }
