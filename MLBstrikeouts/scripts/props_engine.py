@@ -13,7 +13,7 @@ from defaults import (
     PROP_T_DF, ROLLING_WINDOW, DECAY_FACTOR, MIN_GAMES, MIN_INNINGS, MIN_PITCHES,
     MARKET_THRESHOLDS, VAR_MULT, MIN_EDGE, MAX_EDGE, MIN_LINE,
     UNDER_ONLY_MARKETS, DISABLED_MARKETS, EDGE_DEAD_ZONE,
-    STAT_KEYS, KALMAN_STAT_KEYS,
+    STAT_KEYS, KALMAN_STAT_KEYS, REST_GATE_DAYS,
 )
 from pitcher_kalman import get_pitcher_projection
 from sources.game_context import (
@@ -180,7 +180,8 @@ def project_pitcher_props(pitcher_logs, team_batting_stats=None,
                           injury_report=None, weather_by_game=None,
                           batter_k_rates=None, lineup_data=None,
                           savant_rates=None, empirical_std=None,
-                          career_k_rates=None, calib_coefs=None):
+                          career_k_rates=None, calib_coefs=None,
+                          proj_date=None):
     """
     Project pitcher strikeouts props for all pitchers with sufficient game logs.
 
@@ -229,6 +230,7 @@ def project_pitcher_props(pitcher_logs, team_batting_stats=None,
                     "is_home": is_home,
                     "team": team,
                     "game_id": gm.get("game_id", ""),
+                    "game_date": gm.get("game_date", ""),
                     "pitcher_name": pitcher_name,
                 }
                 if pitcher_name:
@@ -621,6 +623,27 @@ def project_pitcher_props(pitcher_logs, team_batting_stats=None,
                           game_id=ctx.get("game_id"))
         if prop:
             prop["proj_raw"] = round(model_proj, 3)  # pre-calibration, for walk-forward calib fit
+
+            # Injury-return / pitch-count FLAG — a SHADOW gate like Read/EV/MAE.
+            # It NEVER changes the live pick; it only stamps a verdict the
+            # dashboard tracks as a record lens. A long layoff since the last
+            # start usually means an IL return on a pitch count the projection
+            # can't see, so the verdict flags (PASS) those picks. Reference
+            # "today" is the slate date (proj_date, passed by run_daily/backfill);
+            # the last completed start comes from this pitcher's own game-log
+            # history. detect_rest_days returns the gap (99 = no prior start
+            # found → unknown, left untagged). Only OVER/UNDER picks get a verdict.
+            if prop.get("pick") in ("OVER", "UNDER"):
+                gate_date = proj_date or ctx.get("game_date", "")
+                if gate_date:
+                    days_since_start = detect_rest_days(games, gate_date)
+                    if days_since_start != 99:
+                        prop["daysSinceLastStart"] = days_since_start
+                        prop["restVerdict"] = (
+                            "PASS" if (REST_GATE_DAYS and days_since_start >= REST_GATE_DAYS)
+                            else "TAKE"
+                        )
+
             projections.append(prop)
 
     # --- Paired teammate filter ---

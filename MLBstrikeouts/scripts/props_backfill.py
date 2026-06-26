@@ -592,7 +592,7 @@ def backfill(season=None, start_game=10, start_date=None):
             if gid:
                 games_by_id[gid].append(g)
         for gid, starters in games_by_id.items():
-            gm = {"game_id": gid}
+            gm = {"game_id": gid, "game_date": game_date}
             for g in starters:
                 pid = g.get("pitcher_id") or g.get("player_id")
                 pname = g.get("pitcher_name") or g.get("player_name", "")
@@ -699,6 +699,7 @@ def backfill(season=None, start_game=10, start_date=None):
             empirical_std=runtime_emp_std or None,
             career_k_rates=batter_career_k_rates,
             calib_coefs=_calib_coefs,
+            proj_date=game_date,
         )
 
         # Save ALL projections for this date (for Games Explorer)
@@ -772,6 +773,8 @@ def backfill(season=None, start_game=10, start_date=None):
                     "conf": "watch",
                     "odds": proj.get("odds"),
                     "won": would_be_won,
+                    "restVerdict": proj.get("restVerdict"),
+                    "daysSinceLastStart": proj.get("daysSinceLastStart"),
                     "proj_ip": proj.get("proj_ip"),
                     "proj_bf": proj.get("proj_bf"),
                     "proj_bf_capped": proj.get("proj_bf_capped"),
@@ -812,6 +815,8 @@ def backfill(season=None, start_game=10, start_date=None):
                 "conf": proj.get("conf"),
                 "odds": proj.get("odds"),
                 "won": won,
+                "restVerdict": proj.get("restVerdict"),
+                "daysSinceLastStart": proj.get("daysSinceLastStart"),
                 "proj_ip": proj.get("proj_ip"),
                 "proj_bf": proj.get("proj_bf"),
                 "proj_bf_capped": proj.get("proj_bf_capped"),

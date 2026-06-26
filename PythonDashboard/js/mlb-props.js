@@ -290,6 +290,44 @@
         el.appendChild(card);
       })();
 
+      // --- Rest-gate callout: SHADOW flag (like Read/EV/MAE) — never changes a
+      // pick. The engine stamps restVerdict='PASS' on any live OVER/UNDER pick
+      // whose pitcher hasn't started in >= REST_GATE_DAYS (14) days (likely IL
+      // return on a pitch count). The pick stays live; this just surfaces the
+      // flag so the rest risk is visible.
+      (function renderRestGateCallout() {
+        const today = data.date || '';
+        const slate = (Array.isArray(data.todayProjections) && data.todayProjections.length)
+          ? data.todayProjections
+          : (data.props || []).filter((p) => p.date === today);
+        const seen = new Set();
+        const hits = [];
+        slate.forEach((p) => {
+          if (p.restVerdict !== 'PASS') return;
+          if (p.pick !== 'OVER' && p.pick !== 'UNDER') return;
+          const k = _mlbFadeNorm(p.player);
+          if (seen.has(k)) return;
+          seen.add(k);
+          hits.push(p);
+        });
+        if (!hits.length) return;
+        const card = document.createElement('div');
+        card.className = 'card';
+        card.style.cssText = 'margin-bottom:16px;border:1px solid var(--orange,#e8a33d);background:rgba(232,163,61,0.08);padding:12px 16px';
+        const title = document.createElement('div');
+        title.style.cssText = 'font-weight:600;color:var(--orange,#e8a33d);margin-bottom:6px';
+        title.textContent = `🛌 Rest flag (${hits.length}) — live pick, but pitcher on a long layoff (likely IL return / pitch count)`;
+        card.appendChild(title);
+        hits.forEach((p) => {
+          const days = p.daysSinceLastStart != null ? `${p.daysSinceLastStart}d` : '14+d';
+          const row = document.createElement('div');
+          row.style.cssText = 'font-size:13px;color:#ddd';
+          row.textContent = `• ${mlbShortName(p.player)} (${p.team || '?'} v ${p.opp || '?'}) — ${p.pick} ${p.line != null ? p.line : ''} · ${days} since last start`;
+          card.appendChild(row);
+        });
+        el.appendChild(card);
+      })();
+
       // Helper: display name for a pick — game_hits shows game label, others show pitcher
       function displayName(p) {
         if (p.market === 'game_hits') {
@@ -543,6 +581,10 @@
           { label: 'Read', filter: p => p.readVerdict === 'TAKE',    title: 'Recent Read Record' },
           { label: 'EV',   filter: p => p.evVerdict === 'TAKE',      title: 'Recent EV Record' },
           { label: 'MAE',  filter: _maeGateKeep,                     title: 'Recent MAE-Gated Record' },
+          // Rest gate: drop picks the engine flagged restVerdict='PASS' (pitcher
+          // on a >=14-day layoff — likely IL return / pitch count). Shadow-only,
+          // same as Read/EV/MAE: it filters the record lens, never the live pick.
+          { label: 'Rest', filter: p => p.restVerdict !== 'PASS',    title: 'Recent Rest-Gated Record' },
         ];
         let recentModeIdx = 0;
 

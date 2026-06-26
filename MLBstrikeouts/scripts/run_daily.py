@@ -1263,6 +1263,7 @@ def run_daily(date_key=None):
         empirical_std=runtime_emp_std or None,
         career_k_rates=batter_career_k_rates,
         calib_coefs=calib_coefs,
+        proj_date=date_iso,
     )
     picks = [p for p in projections if p["pick"] != "PASS"]
     print(f"  {len(projections)} projections, {len(picks)} actionable picks")
