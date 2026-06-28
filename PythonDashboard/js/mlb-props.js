@@ -246,6 +246,13 @@
           seen.add(k);
           hits.push(p);
         });
+        // Order the slate notification by game start time (earliest first).
+        const _fadeGameTimes = data.gameTimes || {};
+        hits.sort((a, b) => {
+          const ta = _fadeGameTimes[a.team] || _fadeGameTimes[a.opp] || '9999';
+          const tb = _fadeGameTimes[b.team] || _fadeGameTimes[b.opp] || '9999';
+          return String(ta).localeCompare(String(tb));
+        });
         const card = document.createElement('div');
         card.className = 'card';
         card.style.cssText = 'margin-bottom:16px;border:1px solid var(--orange,#e8a33d);background:rgba(232,163,61,0.08);padding:12px 16px';
