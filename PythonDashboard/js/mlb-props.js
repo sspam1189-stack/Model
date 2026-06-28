@@ -41,7 +41,7 @@
     // so 'Littell' -> "Zack Littell" matches, and 'Jared Jones' stays specific
     // (won't catch other Joneses).
     const MLB_FADE_LIST = [
-      'Littell', 'Mikolas', 'Painter', 'Rocker', 'Sheehan', 'Jared Jones', 'Freeland', 'Merrill Kelly', 'Aldegheri', 'Gallen',
+      'Littell', 'Mikolas', 'Painter', 'Rocker', 'Sheehan', 'Jared Jones', 'Freeland', 'Merrill Kelly', 'Aldegheri', 'Gallen', 'Civale',
     ];
     const _mlbFadeNorm = (s) => (s || '').toLowerCase().normalize('NFD')
       .replace(/[̀-ͯ]/g, '').replace(/[^a-z ]/g, ' ').replace(/\s+/g, ' ').trim();
