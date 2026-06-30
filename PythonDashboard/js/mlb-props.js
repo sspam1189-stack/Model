@@ -174,13 +174,13 @@
 
     async function renderMLBProps(sourceKey = 'mlb-props', title = "MLB K's Whiff") {
       // Variant-aware pick/bet cutoff. The CSW variant (mlb-props-csw tab) bets
-      // at 0.67 (mirrors the MARKET_THRESHOLDS override in the csw block of
+      // at 0.68 (mirrors the MARKET_THRESHOLDS override in the csw block of
       // defaults.py); the live whiff model stays at 0.70. Shadows the
       // module-level MLB_PICK_THRESHOLD / MLB_PICK_STRONG (whiff defaults) for
       // this render only. MLB_LEAN_FLOOR (0.65) and other bands stay shared.
       const _isCSWVariant = sourceKey === 'mlb-props-csw';
-      const MLB_PICK_THRESHOLD = _isCSWVariant ? 0.67 : 0.70;
-      const MLB_PICK_STRONG    = _isCSWVariant ? 0.67 : 0.70;
+      const MLB_PICK_THRESHOLD = _isCSWVariant ? 0.68 : 0.70;
+      const MLB_PICK_STRONG    = _isCSWVariant ? 0.68 : 0.70;
       const el = document.getElementById('content');
       const data = await fetchData(sourceKey);
       if (!data || !data.props || !data.props.length) {
