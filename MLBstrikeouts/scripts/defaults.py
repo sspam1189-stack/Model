@@ -903,6 +903,12 @@ MLB_TEAM_ABBR = {
 if K_QUALITY_METRIC == "csw":
     K_RATE_CAP_FLOOR = 0.40
     VAR_MULT = {"strikeouts": 1.20}
+    # 2026-06-30: CSW variant pick threshold 0.70 -> 0.67 (user call). The base
+    # MARKET_THRESHOLDS above stays 0.70 for the live whiff model; only the CSW
+    # variant bets the wider 0.67 cutoff. Re-backfilled mlb-props_csw.json so the
+    # 0.67-0.70 plays are tagged conf="high"/pick (not watch). The CSW dashboard
+    # tab mirrors this with a variant-aware bet cutoff in mlb-props.js.
+    MARKET_THRESHOLDS = {"strikeouts": {"high": 0.67}}
     VARIANT_SUFFIX = "_csw"
     # Regression coefficients are NOT overridden here: both the whiff and csw
     # active sets are defined above (each init to its own fallback), and the

@@ -11,6 +11,10 @@
     // PROJ_LINEUP_WEIGHT 1.0 -> 0.7). The engine only tags a pick at the bet
     // cutoff, so the 0.65-0.70 lean band surfaces as would_be_pick watchlist
     // rows, not picks.
+    // NOTE: these are the WHIFF (base) values. The CSW variant tab
+    // (mlb-props-csw) overrides MLB_PICK_THRESHOLD / MLB_PICK_STRONG to 0.67
+    // inside renderMLBProps (mirrors the MARKET_THRESHOLDS override in the csw
+    // block of defaults.py). Lean floor (0.65) and all other bands are shared.
     const MLB_PICK_THRESHOLD = 0.70;   // 2026-06-17: 0.68 -> 0.70 (== bet cutoff)
     const MLB_WATCH_FLOOR    = 0.60;   // watch band floor: 0.60-0.65
     // Reddit staking (2026-06-15, picks-only strategy): bet ONLY >=0.68 picks
@@ -169,6 +173,14 @@
     }
 
     async function renderMLBProps(sourceKey = 'mlb-props', title = "MLB K's Whiff") {
+      // Variant-aware pick/bet cutoff. The CSW variant (mlb-props-csw tab) bets
+      // at 0.67 (mirrors the MARKET_THRESHOLDS override in the csw block of
+      // defaults.py); the live whiff model stays at 0.70. Shadows the
+      // module-level MLB_PICK_THRESHOLD / MLB_PICK_STRONG (whiff defaults) for
+      // this render only. MLB_LEAN_FLOOR (0.65) and other bands stay shared.
+      const _isCSWVariant = sourceKey === 'mlb-props-csw';
+      const MLB_PICK_THRESHOLD = _isCSWVariant ? 0.67 : 0.70;
+      const MLB_PICK_STRONG    = _isCSWVariant ? 0.67 : 0.70;
       const el = document.getElementById('content');
       const data = await fetchData(sourceKey);
       if (!data || !data.props || !data.props.length) {
@@ -1284,7 +1296,7 @@
           // 0.64-0.67 tier shown as WATCH (info only, not bet) under the
           // picks-only strategy.
           const _leansBlock = _leanLines.length
-            ? `\nToday’s Leans — not bet (0.65–0.70) (${todayStr})\n\n` + _leanLines.join('\n') + '\n'
+            ? `\nToday’s Leans — not bet (${MLB_LEAN_FLOOR.toFixed(2)}–${MLB_PICK_STRONG.toFixed(2)}) (${todayStr})\n\n` + _leanLines.join('\n') + '\n'
             : '';
           const _droppedBlock = _droppedLines.length
             ? `\nToday's Downgraded (non-picks)\n\n` + _droppedLines.join('\n') + '\n'
@@ -2253,7 +2265,7 @@
             <div style="margin-bottom:6px"><span style="${defStyle}">O&amp;&amp;U</span> &nbsp; Picks, both directions combined VS OPP</div>
             <div style="margin-bottom:6px"><span style="${defStyle}">P O//U</span> &nbsp; Picks + direction for THIS pitcher (all opps)</div>
             <div style="margin-top:8px;padding-top:6px;border-top:1px solid rgba(255,255,255,0.05);color:#888;font-style:italic">
-              Pick rows count picks history (&gt;= 0.70 pCover) · Leans and Pass tiers excluded<br>
+              Pick rows count picks history (&gt;= ${MLB_PICK_STRONG.toFixed(2)} pCover) · Leans and Pass tiers excluded<br>
               Tiers: <span style="color:var(--green)">Elite ≥80%</span> · <span style="color:#9ee493">Solid ≥65%</span> · <span style="color:#ccc">Neutral ≥50%</span> · <span style="color:var(--red)">Caution &lt;50%</span> · <span style="color:#aaa">Small &lt;4 samples</span>
             </div>
           `;
