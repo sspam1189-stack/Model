@@ -441,16 +441,37 @@ CSW_XBA_BLEND_WEIGHT = 0.4   # 2026-06-15: 0.3->0.4 for recency. Walk-forward
 # RECENT lifts clearly — June +9.94u vs +5.23u, last week +10.65u vs +5.63u (flat
 # .64+); both pick (>=.67) and lean (.64-.67) tiers improve. 0.5+ overshoots
 # (June craters). lineup1.0 tested alongside and rejected (wrecks lean tier).
-# Fallbacks used only when the dynamic refit has <50 qualified pitchers.
-# 2026-05-29: re-derived from the CSW regression (x1_key="csw") on the
-# leak-free as-of-2026-05-28 snapshot (n=433, R^2=0.648). The prior values
-# were whiff-scale (slope 0.6279 / mean 0.2557) — wrong for CSW, whose %
-# runs higher (mean ~0.284) and steeper (slope ~1.15). xBA partial slope
-# also shifts slightly when paired with CSW instead of whiff.
-CSW_LEAGUE_AVG = 0.2844   # fallback (mean CSW%)
-XBA_LEAGUE_AVG   = 0.2394   # fallback (mean xBA against)
-CSW_K_SLOPE    = 1.1540   # fallback (bivariate CSW partial slope)
-XBA_K_SLOPE      = -0.6208  # fallback (bivariate xBA partial slope, paired w/ CSW)
+# Fallback regression coefficients — used ONLY when the dynamic refit has <50
+# qualified pitchers (early season / broken snapshot). Otherwise these module
+# attributes are OVERWRITTEN at runtime by props_backfill / run_daily with the
+# per-metric dynamic fit. Kept as TWO metric-specific sets so the fallback
+# matches the LIVE metric: whiff% runs lower & shallower than CSW%, so a single
+# shared (CSW-scale) fallback would mis-shift the whiff model if it ever fired.
+#
+#   CSW set: 2026-05-29 re-derivation from the CSW regression (x1_key="csw") on
+#   the leak-free as-of-2026-05-28 snapshot (n=433, R^2=0.648); CSW% centers
+#   ~0.284, slope ~1.15.
+#   WHIFF set: documented whiff-scale fit (mean 0.2557 / slope 0.6279, xBA
+#   ~-0.58); matches the live dynamic whiff refit (~0.2528 / 0.6348).
+WHIFF_K_SLOPE_FALLBACK        = 0.6279   # whiff% -> K partial slope
+WHIFF_LEAGUE_AVG_FALLBACK     = 0.2557   # mean whiff%
+WHIFF_XBA_K_SLOPE_FALLBACK    = -0.5800  # xBA partial slope (paired w/ whiff)
+WHIFF_XBA_LEAGUE_AVG_FALLBACK = 0.2394   # mean xBA against
+
+CSW_K_SLOPE_FALLBACK          = 1.1540   # CSW% -> K partial slope
+CSW_LEAGUE_AVG_FALLBACK       = 0.2844   # mean CSW%
+CSW_XBA_K_SLOPE_FALLBACK      = -0.6208  # xBA partial slope (paired w/ CSW)
+CSW_XBA_LEAGUE_AVG_FALLBACK   = 0.2394   # mean xBA against
+
+# Active working coefficients consumed by props_engine (and OVERWRITTEN each run
+# by the dynamic refit). Initialized to the WHIFF set here — the live default
+# metric; the variant-profile block at the end of this file swaps in the CSW set
+# when MLB_K_METRIC=csw. Names stay CSW_*/XBA_* for back-compat with the
+# refit/consumer code, which treats them as the generic "first regressor".
+CSW_K_SLOPE    = WHIFF_K_SLOPE_FALLBACK
+CSW_LEAGUE_AVG = WHIFF_LEAGUE_AVG_FALLBACK
+XBA_K_SLOPE    = WHIFF_XBA_K_SLOPE_FALLBACK
+XBA_LEAGUE_AVG = WHIFF_XBA_LEAGUE_AVG_FALLBACK
 
 
 def get_team_slot_weights(team_abbr=None):
@@ -856,5 +877,10 @@ if K_QUALITY_METRIC == "csw":
     K_RATE_CAP_FLOOR = 0.40
     VAR_MULT = {"strikeouts": 1.20}
     VARIANT_SUFFIX = "_csw"
+    # CSW-scale regression fallbacks (whiff set is the base above).
+    CSW_K_SLOPE    = CSW_K_SLOPE_FALLBACK
+    CSW_LEAGUE_AVG = CSW_LEAGUE_AVG_FALLBACK
+    XBA_K_SLOPE    = CSW_XBA_K_SLOPE_FALLBACK
+    XBA_LEAGUE_AVG = CSW_XBA_LEAGUE_AVG_FALLBACK
 else:                       # whiff — base values unchanged from today
     VARIANT_SUFFIX = ""
