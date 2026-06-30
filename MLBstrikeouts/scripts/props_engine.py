@@ -369,20 +369,20 @@ def project_pitcher_props(pitcher_logs, team_batting_stats=None,
         # Additive shift in pitcher_k_rate based on how far this pitcher's
         # whiff and xBA deviate from league averages (slopes computed
         # dynamically at backfill / run_daily start; see defaults.py).
-        from defaults import (CSW_XBA_BLEND_WEIGHT, CSW_LEAGUE_AVG,
-                               XBA_LEAGUE_AVG, CSW_K_SLOPE, XBA_K_SLOPE,
-                               K_QUALITY_METRIC)
+        from defaults import (CSW_XBA_BLEND_WEIGHT, K_QUALITY_METRIC,
+                               get_active_regression)
         if CSW_XBA_BLEND_WEIGHT > 0:
-            # First regressor is whiff_pct or CSW per K_QUALITY_METRIC. The
-            # slope/mean (CSW_K_SLOPE/CSW_LEAGUE_AVG) are refit to whichever
-            # metric is active, so the same arithmetic applies to both.
+            # Each model uses ITS OWN coefficients: whiff reads the whiff_pct
+            # column + whiff slope/mean, csw reads the csw column + csw
+            # slope/mean (both refit dynamically per metric; see defaults.py).
+            _k_slope, _xba_slope, _lg_avg, _xba_avg = get_active_regression()
             _metric_key = "csw" if K_QUALITY_METRIC == "csw" else "whiff_pct"
             whiff = savant.get(_metric_key, 0)
             xba   = savant.get("xba", 0)
             if whiff > 0 or xba > 0:
                 k_adj = (
-                    CSW_K_SLOPE * (whiff - CSW_LEAGUE_AVG)
-                    + XBA_K_SLOPE * (xba   - XBA_LEAGUE_AVG)
+                    _k_slope * (whiff - _lg_avg)
+                    + _xba_slope * (xba - _xba_avg)
                 )
                 pitcher_k_rate += k_adj * CSW_XBA_BLEND_WEIGHT
 

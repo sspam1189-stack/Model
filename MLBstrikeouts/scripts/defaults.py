@@ -381,9 +381,10 @@ PROJ_CALIB_MIN_PAIRS = 40      # need >= this many tail pairs to fit; else raw
 # Per-pitcher additive K-rate shift based on how far whiff_pct and xBA
 # deviate from league averages:
 #
-#   k_adj = CSW_K_SLOPE * (whiff_pct - CSW_LEAGUE_AVG)
-#         + XBA_K_SLOPE   * (xba       - XBA_LEAGUE_AVG)
+#   k_slope, xba_slope, league_avg, xba_avg = get_active_regression()  # per metric
+#   k_adj = k_slope * (metric_pct - league_avg) + xba_slope * (xba - xba_avg)
 #   pitcher_k_rate += k_adj * CSW_XBA_BLEND_WEIGHT
+# (metric_pct = whiff_pct for the whiff model, csw% for the csw model)
 #
 # Slopes and league averages are computed dynamically at the start of each
 # backfill / run_daily from the current Baseball Savant snapshot (see
@@ -463,15 +464,41 @@ CSW_LEAGUE_AVG_FALLBACK       = 0.2844   # mean CSW%
 CSW_XBA_K_SLOPE_FALLBACK      = -0.6208  # xBA partial slope (paired w/ CSW)
 CSW_XBA_LEAGUE_AVG_FALLBACK   = 0.2394   # mean xBA against
 
-# Active working coefficients consumed by props_engine (and OVERWRITTEN each run
-# by the dynamic refit). Initialized to the WHIFF set here — the live default
-# metric; the variant-profile block at the end of this file swaps in the CSW set
-# when MLB_K_METRIC=csw. Names stay CSW_*/XBA_* for back-compat with the
-# refit/consumer code, which treats them as the generic "first regressor".
-CSW_K_SLOPE    = WHIFF_K_SLOPE_FALLBACK
-CSW_LEAGUE_AVG = WHIFF_LEAGUE_AVG_FALLBACK
-XBA_K_SLOPE    = WHIFF_XBA_K_SLOPE_FALLBACK
-XBA_LEAGUE_AVG = WHIFF_XBA_LEAGUE_AVG_FALLBACK
+# Active (live) regression coefficients, held SEPARATELY per metric so the whiff
+# and csw models never share a slope/avg variable. Each set is OVERWRITTEN at
+# runtime by that metric's dynamic refit (props_backfill / run_daily, via
+# set_active_regression); init to the metric's own fallback set. props_engine
+# reads the active metric's set via get_active_regression(), so each model uses
+# its own slope + league-avg end to end (whiff%/whiff coeffs, csw%/csw coeffs).
+WHIFF_K_SLOPE        = WHIFF_K_SLOPE_FALLBACK
+WHIFF_LEAGUE_AVG     = WHIFF_LEAGUE_AVG_FALLBACK
+WHIFF_XBA_K_SLOPE    = WHIFF_XBA_K_SLOPE_FALLBACK
+WHIFF_XBA_LEAGUE_AVG = WHIFF_XBA_LEAGUE_AVG_FALLBACK
+
+CSW_K_SLOPE        = CSW_K_SLOPE_FALLBACK
+CSW_LEAGUE_AVG     = CSW_LEAGUE_AVG_FALLBACK
+CSW_XBA_K_SLOPE    = CSW_XBA_K_SLOPE_FALLBACK
+CSW_XBA_LEAGUE_AVG = CSW_XBA_LEAGUE_AVG_FALLBACK
+
+
+def get_active_regression():
+    """(k_slope, xba_slope, league_avg, xba_avg) for the live K_QUALITY_METRIC."""
+    if K_QUALITY_METRIC == "csw":
+        return (CSW_K_SLOPE, CSW_XBA_K_SLOPE, CSW_LEAGUE_AVG, CSW_XBA_LEAGUE_AVG)
+    return (WHIFF_K_SLOPE, WHIFF_XBA_K_SLOPE, WHIFF_LEAGUE_AVG, WHIFF_XBA_LEAGUE_AVG)
+
+
+def set_active_regression(vals):
+    """Write a (k_slope, xba_slope, league_avg, xba_avg) tuple into the ACTIVE
+    metric's coefficient set only; the other metric's set is left untouched."""
+    global WHIFF_K_SLOPE, WHIFF_XBA_K_SLOPE, WHIFF_LEAGUE_AVG, WHIFF_XBA_LEAGUE_AVG
+    global CSW_K_SLOPE, CSW_XBA_K_SLOPE, CSW_LEAGUE_AVG, CSW_XBA_LEAGUE_AVG
+    if K_QUALITY_METRIC == "csw":
+        (CSW_K_SLOPE, CSW_XBA_K_SLOPE,
+         CSW_LEAGUE_AVG, CSW_XBA_LEAGUE_AVG) = vals
+    else:
+        (WHIFF_K_SLOPE, WHIFF_XBA_K_SLOPE,
+         WHIFF_LEAGUE_AVG, WHIFF_XBA_LEAGUE_AVG) = vals
 
 
 def get_team_slot_weights(team_abbr=None):
@@ -877,10 +904,8 @@ if K_QUALITY_METRIC == "csw":
     K_RATE_CAP_FLOOR = 0.40
     VAR_MULT = {"strikeouts": 1.20}
     VARIANT_SUFFIX = "_csw"
-    # CSW-scale regression fallbacks (whiff set is the base above).
-    CSW_K_SLOPE    = CSW_K_SLOPE_FALLBACK
-    CSW_LEAGUE_AVG = CSW_LEAGUE_AVG_FALLBACK
-    XBA_K_SLOPE    = CSW_XBA_K_SLOPE_FALLBACK
-    XBA_LEAGUE_AVG = CSW_XBA_LEAGUE_AVG_FALLBACK
+    # Regression coefficients are NOT overridden here: both the whiff and csw
+    # active sets are defined above (each init to its own fallback), and the
+    # engine/refit select per metric via get/set_active_regression().
 else:                       # whiff — base values unchanged from today
     VARIANT_SUFFIX = ""

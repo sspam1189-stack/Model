@@ -347,10 +347,7 @@ def backfill(season=None, start_game=10, start_date=None):
 
     # Save baseline whiff/xBA slopes so we can restore at function end.
     import defaults as _d
-    _baseline_slopes = (
-        _d.CSW_K_SLOPE, _d.XBA_K_SLOPE,
-        _d.CSW_LEAGUE_AVG, _d.XBA_LEAGUE_AVG,
-    )
+    _baseline_slopes = _d.get_active_regression()
     _last_logged_slopes = None
 
     # --- Walk-forward loop ---
@@ -409,10 +406,10 @@ def backfill(season=None, start_game=10, start_date=None):
                                                    metric="csw")
             _reg = _wfr or compute_csw_xba_regression(_merged, x1_key="csw")
             if _reg:
-                _d.CSW_K_SLOPE    = _reg["csw_slope"]
-                _d.XBA_K_SLOPE      = _reg["xba_slope"]
-                _d.CSW_LEAGUE_AVG = _reg["csw_mean"]
-                _d.XBA_LEAGUE_AVG   = _reg["xba_mean"]
+                _d.set_active_regression((
+                    _reg["csw_slope"], _reg["xba_slope"],
+                    _reg["csw_mean"], _reg["xba_mean"],
+                ))
                 _key = (round(_reg['csw_slope'], 4),
                         round(_reg['xba_slope'], 4))
                 if _key != _last_logged_slopes:
@@ -423,18 +420,17 @@ def backfill(season=None, start_game=10, start_date=None):
                           f"xBA={_reg['xba_slope']:+.4f}")
                     _last_logged_slopes = _key
             else:
-                (_d.CSW_K_SLOPE, _d.XBA_K_SLOPE,
-                 _d.CSW_LEAGUE_AVG, _d.XBA_LEAGUE_AVG) = _baseline_slopes
+                _d.set_active_regression(_baseline_slopes)
         elif CSW_XBA_BLEND_WEIGHT > 0:
             import datetime as _dt
             _prior_iso = (_dt.date.fromisoformat(game_date)
                           - _dt.timedelta(days=1)).isoformat()
             _wfr = load_csw_xba_regression_as_of(_prior_iso, season=season)
             if _wfr:
-                _d.CSW_K_SLOPE    = _wfr["csw_slope"]
-                _d.XBA_K_SLOPE      = _wfr["xba_slope"]
-                _d.CSW_LEAGUE_AVG = _wfr["csw_mean"]
-                _d.XBA_LEAGUE_AVG   = _wfr["xba_mean"]
+                _d.set_active_regression((
+                    _wfr["csw_slope"], _wfr["xba_slope"],
+                    _wfr["csw_mean"], _wfr["xba_mean"],
+                ))
                 _key = (round(_wfr['csw_slope'], 4),
                         round(_wfr['xba_slope'], 4))
                 if _key != _last_logged_slopes:
@@ -444,8 +440,7 @@ def backfill(season=None, start_game=10, start_date=None):
                     _last_logged_slopes = _key
             else:
                 # No cache yet — fall back to baseline
-                (_d.CSW_K_SLOPE, _d.XBA_K_SLOPE,
-                 _d.CSW_LEAGUE_AVG, _d.XBA_LEAGUE_AVG) = _baseline_slopes
+                _d.set_active_regression(_baseline_slopes)
 
         # Phase 1: Build prior-only pitcher logs for projection
         prior_logs = {}
@@ -871,8 +866,7 @@ def backfill(season=None, start_game=10, start_date=None):
     # Restore baseline slopes so subsequent calls in the same process
     # don't see the last-iterated date's mutated defaults.
     if CSW_XBA_BLEND_WEIGHT > 0:
-        (_d.CSW_K_SLOPE, _d.XBA_K_SLOPE,
-         _d.CSW_LEAGUE_AVG, _d.XBA_LEAGUE_AVG) = _baseline_slopes
+        _d.set_active_regression(_baseline_slopes)
 
     # --- Summary ---
     print(kalman_summary(kalman_state, top_n=10, stat_key="k"))
