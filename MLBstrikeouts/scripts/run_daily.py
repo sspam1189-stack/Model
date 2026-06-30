@@ -1067,10 +1067,10 @@ def run_daily(date_key=None):
             _label = "whiff"
 
         if _reg:
-            _d.CSW_K_SLOPE    = _reg["csw_slope"]
-            _d.XBA_K_SLOPE      = _reg["xba_slope"]
-            _d.CSW_LEAGUE_AVG = _reg["csw_mean"]
-            _d.XBA_LEAGUE_AVG   = _reg["xba_mean"]
+            _d.set_active_regression((
+                _reg["csw_slope"], _reg["xba_slope"],
+                _reg["csw_mean"], _reg["xba_mean"],
+            ))
             print(f"  [{_label}/xBA] slopes: {_label}={_reg['csw_slope']:+.4f} "
                   f"xBA={_reg['xba_slope']:+.4f}  "
                   f"means {_label}={_reg['csw_mean']:.4f} xBA={_reg['xba_mean']:.4f}")
