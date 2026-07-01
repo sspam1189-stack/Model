@@ -151,6 +151,18 @@ const SOURCES = {
     remote: 'https://raw.githubusercontent.com/sspam1189-stack/Model/main/pyNBAPROPS/data/nba-props.json',
     repo: 'https://github.com/sspam1189-stack/Model'
   },
+  'wnba-props': {
+    name: 'WNBA Props',
+    local: 'data/wnba-props.json',
+    remote: 'https://raw.githubusercontent.com/sspam1189-stack/Model/main/pyWNBAPROPS/data/wnba-props.json',
+    repo: 'https://github.com/sspam1189-stack/Model'
+  },
+  'wnba-full': {
+    name: 'WNBA Full',
+    local: 'data/wnba-full.json',
+    remote: 'https://raw.githubusercontent.com/sspam1189-stack/Model/main/pyWNBAFull/data/history.json',
+    repo: 'https://github.com/sspam1189-stack/Model'
+  },
   'nfl-props': {
     name: 'NFL Props',
     local: 'data/nfl-props.json',
@@ -197,11 +209,19 @@ let nflHistoryWeekFilter = 'all';
 // Shared between the record banner segment buttons and downstream widgets.
 const PLAYOFF_CUTOFF = '20260414';
 
+// Tab-aware playoff cutoff. The default '20260414' is the NBA play-in date;
+// WNBA's regular season runs May-Sept so every pick would fall after it and be
+// mislabeled "playoffs". Return a far-future date for WNBA so the whole season
+// counts as regular (no spurious playoff split). NBA/other tabs are unchanged.
+function playoffCutoff() {
+  return activeTab === 'wnba-full' ? '99999999' : PLAYOFF_CUTOFF;
+}
+
 function filterRunsBySegment(runs) {
   const seg = (typeof window !== 'undefined' && window.__recordFilter) || 'total';
   if (seg === 'total') return runs;
-  if (seg === 'regular') return runs.filter(r => (r.date || '') < PLAYOFF_CUTOFF);
-  if (seg === 'playoffs') return runs.filter(r => (r.date || '') >= PLAYOFF_CUTOFF);
+  if (seg === 'regular') return runs.filter(r => (r.date || '') < playoffCutoff());
+  if (seg === 'playoffs') return runs.filter(r => (r.date || '') >= playoffCutoff());
   return runs;
 }
 
@@ -710,8 +730,8 @@ function renderRecordBanner(runs, modelSummary = null) {
   const allPicks = getGradedPicks(runs);
   const segments = {
     total:    allPicks,
-    regular:  allPicks.filter(g => (g.date || '') < PLAYOFF_CUTOFF),
-    playoffs: allPicks.filter(g => (g.date || '') >= PLAYOFF_CUTOFF),
+    regular:  allPicks.filter(g => (g.date || '') < playoffCutoff()),
+    playoffs: allPicks.filter(g => (g.date || '') >= playoffCutoff()),
   };
   const activeSeg = (typeof window !== 'undefined' && window.__recordFilter) || 'total';
   const segLabels = { total: 'Elite Record', regular: 'Regular Season', playoffs: 'Playoffs' };
@@ -752,7 +772,7 @@ function renderRecordBanner(runs, modelSummary = null) {
     </div>`;
 
   // Playoffs record (filter by pick date, not run date)
-  const recentPicks = getActionablePicks(runs).filter(p => (p.date || '') >= '20260414');
+  const recentPicks = getActionablePicks(runs).filter(p => (p.date || '') >= playoffCutoff());
   if (recentPicks.length > 0) {
     const rw = recentPicks.filter(p => p.result === 'WIN').length;
     const rl = recentPicks.filter(p => p.result === 'LOSS').length;
@@ -1648,6 +1668,10 @@ async function render() {
   // NBA Player Props
   if (activeTab === 'nba-props') {
     return renderNBAProps();
+  }
+  // WNBA Player Props (same renderer; keep the points market — it ships for WNBA)
+  if (activeTab === 'wnba-props') {
+    return renderNBAProps('wnba-props', 'WNBA Player Props', { dropPoints: false });
   }
   // NFL Player Props
   if (activeTab === 'nfl-props') {

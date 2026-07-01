@@ -8,6 +8,7 @@ const ALLOWED_ORIGIN = "https://sspam1189-stack.github.io";
 const WORKFLOWS = {
   python: "py-run-daily.yml",
   mlb: "mlb-run-daily.yml",
+  wnba: "wnba-run-daily.yml",
 };
 
 function corsHeaders(extra = {}) {

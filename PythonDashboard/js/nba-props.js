@@ -22,14 +22,14 @@
       if (parts.length < 2) return name;
       return parts[0][0] + '.' + parts[parts.length - 1];
     }
-    async function renderNBAProps() {
+    async function renderNBAProps(dataKey = 'nba-props', title = 'NBA Player Props', opts = {}) {
       const el = document.getElementById('content');
-      const data = await fetchData('nba-props');
+      const data = await fetchData(dataKey);
       if (!data || !data.props || !data.props.length) {
         el.textContent = '';
         const card = document.createElement('div');
         card.className = 'card-games';
-        card.appendChild(Object.assign(document.createElement('div'), {className:'card-title', textContent:'NBA Player Props'}));
+        card.appendChild(Object.assign(document.createElement('div'), {className:'card-title', textContent:title}));
         card.appendChild(Object.assign(document.createElement('div'), {className:'no-picks', textContent:'No prop projections available yet. Run the props pipeline to generate projections.'}));
         el.appendChild(card);
         return;
@@ -40,12 +40,14 @@
       if (runEl && data.generated) {
         const d = new Date(data.generated);
         const ct = d.toLocaleString('en-US', { timeZone: 'America/Chicago', month: '2-digit', day: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: true });
-        runEl.textContent = `Last run (CT) \u2014 NBA Player Props: ${ct}`;
+        runEl.textContent = `Last run (CT) \u2014 ${title}: ${ct}`;
       }
 
       const marketLabels = {points:'PTS', rebounds:'REB', assists:'AST', threes:"3's", steals:'STL', blocks:'BLK', turnovers:'TO'};
-      // Points market is retired — drop it everywhere in the dashboard.
-      const picks = data.props.filter(p => p.pick !== 'PASS' && p.market !== 'pts_rebs_asts' && p.market !== 'points');
+      // Points market is retired for NBA — drop it. WNBA ships points (both
+      // directions), so callers can keep it via opts.dropPoints:false.
+      const dropPoints = opts.dropPoints !== false;
+      const picks = data.props.filter(p => p.pick !== 'PASS' && p.market !== 'pts_rebs_asts' && (dropPoints ? p.market !== 'points' : true));
       const isBacktest = picks.some(p => p.result != null);
 
       // Helper: get ISO week start (Monday) for a date string

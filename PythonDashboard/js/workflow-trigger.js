@@ -12,6 +12,7 @@
   const TARGET_FILE_BY_WORKFLOW = {
     python: "data/nba-props.json",
     mlb: "data/mlb-props.json",
+    wnba: "data/wnba-props.json",
   };
   const PAGES_DEPLOY_TIMEOUT_MS = 90_000;
   const PAGES_POLL_INTERVAL_MS = 4_000;
@@ -106,6 +107,7 @@
     const titleByKey = {
       python: "NBA Run Daily (NBA + Fullseason + Props)",
       mlb: "MLB Run Daily",
+      wnba: "WNBA Run Daily (Fullseason + Props)",
     };
     const release = () => {
       dispatchInFlight = false;
@@ -220,6 +222,7 @@
       const titleByKey = {
         python: "NBA Run Daily (NBA + Fullseason + Props)",
         mlb: "MLB Run Daily",
+        wnba: "WNBA Run Daily (Fullseason + Props)",
       };
       dispatchInFlight = true;
       setButtonsDisabled(true);
@@ -236,6 +239,7 @@
     bar.className = "wf-trigger-bar";
     bar.innerHTML = `
       <button type="button" class="wf-btn" data-wf="python">Run NBA Daily</button>
+      <button type="button" class="wf-btn" data-wf="wnba">Run WNBA Daily</button>
       <button type="button" class="wf-btn" data-wf="mlb">Run MLB Daily</button>`;
     subtitle.insertAdjacentElement("afterend", bar);
     bar.querySelectorAll(".wf-btn").forEach(btn => {
