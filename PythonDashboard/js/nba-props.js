@@ -803,6 +803,35 @@
         ctrlRow.appendChild(lbl); ctrlRow.appendChild(sel); ctrlRow.appendChild(summary);
         card.appendChild(ctrlRow);
 
+        // Market filter row (All + each market present in the data — so it
+        // adapts to NBA vs WNBA, which ship different market sets).
+        let phMarket = 'all';
+        const phOrder = ['points', 'rebounds', 'assists', 'threes', 'steals', 'blocks', 'turnovers'];
+        const phMarkets = [...new Set(picks.map(p => p.market))]
+          .sort((a, b) => ((phOrder.indexOf(a) + 1) || 99) - ((phOrder.indexOf(b) + 1) || 99));
+        const mktRow = document.createElement('div');
+        mktRow.style.cssText = 'display:flex;gap:4px;flex-wrap:wrap;padding:0 12px 8px';
+        const mktBtns = {};
+        function styleMktBtns() {
+          Object.entries(mktBtns).forEach(([k, b]) => {
+            const on = k === phMarket;
+            b.style.background = on ? '#7c6cf0' : 'transparent';
+            b.style.color = on ? '#fff' : '#999';
+            b.style.borderColor = on ? '#7c6cf0' : 'rgba(255,255,255,0.15)';
+          });
+        }
+        const mkMktBtn = (key, label) => {
+          const b = document.createElement('button');
+          b.textContent = label;
+          b.style.cssText = 'padding:4px 12px;font-size:11px;font-weight:600;border:1px solid rgba(255,255,255,0.15);border-radius:14px;background:transparent;color:#999;cursor:pointer;transition:all 0.15s';
+          b.addEventListener('click', () => { phMarket = key; styleMktBtns(); renderPH(sel.value); });
+          mktBtns[key] = b; mktRow.appendChild(b);
+        };
+        mkMktBtn('all', 'All');
+        phMarkets.forEach(m => mkMktBtn(m, marketLabels[m] || m));
+        styleMktBtns();
+        card.appendChild(mktRow);
+
         const tblWrap = document.createElement('div');
         tblWrap.style.cssText = 'overflow-x:auto';
         card.appendChild(tblWrap);
@@ -815,11 +844,12 @@
         }
 
         function renderPH(key) {
-          const rows = picks.filter(p => pKey(p) === key)
+          const rows = picks.filter(p => pKey(p) === key && (phMarket === 'all' || p.market === phMarket))
                             .sort((a, b) => String(b.date || '').localeCompare(String(a.date || '')));
           tblWrap.innerHTML = '';
           if (!rows.length) {
-            tblWrap.innerHTML = '<div style="padding:14px;color:#888;font-size:12px;font-style:italic">No picks for this player.</div>';
+            const mlbl = phMarket === 'all' ? '' : (marketLabels[phMarket] || phMarket) + ' ';
+            tblWrap.innerHTML = `<div style="padding:14px;color:#888;font-size:12px;font-style:italic">No ${mlbl}picks for this player.</div>`;
             summary.textContent = '';
             return;
           }
