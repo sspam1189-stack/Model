@@ -21,7 +21,7 @@ from scipy.stats import t as t_dist
 from defaults import (
     PROP_T_DF, ROLLING_WINDOW, DECAY_FACTOR, MIN_GAMES, MIN_MINUTES,
     MARKET_THRESHOLDS, VAR_MULT, MIN_EDGE, MAX_EDGE, MIN_LINE,
-    UNDER_ONLY_MARKETS, DISABLED_MARKETS,
+    UNDER_ONLY_MARKETS, OVER_ONLY_MARKETS, DISABLED_MARKETS,
     OPP_STAT_KEY, OPP_ADJ_WEIGHT, PACE_ADJ_WEIGHT,
     SEASON_ANCHOR_WEIGHT, PER36_STAT_KEY,
 )
@@ -787,6 +787,9 @@ def _make_prop(name, team, market, proj, std, line_lookup, opp, low_data_std=Fal
                 return result
 
             if market in UNDER_ONLY_MARKETS and direction == "OVER":
+                return result
+
+            if market in OVER_ONLY_MARKETS and direction == "UNDER":
                 return result
 
             abs_edge = abs(diff)

@@ -19,7 +19,7 @@
 # calibrate_threshold.py). MIN_LINE / MIN_GAMES / Kalman noise were sized from
 # the 2024+2025 WNBA volume + within-player-variance distributions.
 #
-# SHIPPED (real +EV): assists (UNDER-carried), points UNDER-only, threes,
+# SHIPPED (real +EV): assists (UNDER-carried), points OVER-only, threes,
 #   rebounds. DISABLED: pts_rebs_asts (only +0.01 u/pick UNDER-only on real
 #   lines — too thin), steals/blocks/turnovers (not offered).
 
@@ -107,7 +107,7 @@ MIN_MINUTES = 12
 # +EV. Threshold 0.60 (over 0.59) trades ~6u of volume-driven units for a
 # cleaner cutoff at identical u/pick.
 MARKET_THRESHOLDS = {
-    "points":        {"high": 0.600},   # both dirs; OVER +EV only >=0.60, UNDER edge 0.58-0.60
+    "points":        {"high": 0.600},   # OVER-ONLY (see OVER_ONLY_MARKETS); OVER +EV only >=0.60 -> 64.1% WR
     "rebounds":      {"high": 0.600},   # rebs sweep: 0.575 sits in a dip (56.7%/+0.09/pk); 0.60 = 60.0%/+2.4u/+0.160/pk high-ROI cut (0.55 peaked +0.168/pk but 0.60 chosen for the cleaner cutoff)
     "assists":       {"high": 0.575},
     "threes":        {"high": 0.575},
@@ -207,7 +207,17 @@ MIN_LINE = {
 #                  meaningful edge). Re-check as more live picks accrue.
 #   - steals / blocks / turnovers: not offered on WNBA books -> disabled.
 
-UNDER_ONLY_MARKETS = set()  # points now BOTH directions per sweep; the 0.60 pCover gate keeps OVER firing only where it is +EV
+UNDER_ONLY_MARKETS = set()
+
+# points is OVER-ONLY. Full 2026 sweep (0.53->0.64) shows the two directions
+# want OPPOSITE gates: OVER is only +EV at >=0.60 (64.1% WR, +14.3u,
+# +0.223 u/pick, n=64) and climbs to 65-69% above it, while UNDER's edge sits
+# at 0.58-0.59 (~59-61%) and DIES above 0.60 (50%/-EV at 0.62). Forcing both
+# through one 0.60 gate capped combined WR at ~61%; dropping the lower-WR UNDER
+# side lifts points to 64.1% WR and +0.223 u/pick (best ROI of any points
+# config) while keeping solid volume. Chosen over both-directions when win rate
+# / ROI is the objective (both-dirs keeps ~5u more volume at ~61% WR).
+OVER_ONLY_MARKETS = {"points"}
 
 DISABLED_MARKETS = {"steals", "blocks", "turnovers", "pts_rebs_asts"}
 
