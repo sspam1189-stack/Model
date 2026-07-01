@@ -142,9 +142,13 @@
           el.appendChild(mbCard);
         }
 
-        // Playoffs (includes play-in tournament 4/14-4/17 + playoffs 4/18+)
+        // Playoffs (includes play-in tournament 4/14-4/17 + playoffs 4/18+).
+        // NBA-only: 2026-04-14 is the NBA play-in date. WNBA's season runs
+        // May-Sept, so every WNBA pick falls after it and would be mislabeled
+        // "playoffs" — skip this card entirely for the WNBA props tab.
         const recentCutoff = '2026-04-14';
-        const recentPicks = gradedPicks.filter(p => p.date && p.date >= recentCutoff);
+        const isWNBAProps = String(dataKey).startsWith('wnba');
+        const recentPicks = isWNBAProps ? [] : gradedPicks.filter(p => p.date && p.date >= recentCutoff);
         if (recentPicks.length > 0) {
           const rW = recentPicks.filter(p => p.result === 'WIN').length;
           const rL = recentPicks.filter(p => p.result === 'LOSS').length;
@@ -742,6 +746,142 @@
         gCard.appendChild(playerRow);
         gCard.appendChild(tableWrap);
         el.appendChild(gCard);
+      })();
+
+      // ── Player History — drill into one player's full prop log ──
+      // Mirrors the MLB "Pitcher History" card: pick a player from the
+      // dropdown and see every prop pick the model has made for them (all
+      // markets, all dates) with results + a running record. Shared by the
+      // NBA and WNBA props tabs (points column included when opts allows it).
+      (function renderPlayerHistory() {
+        const phDates = [...new Set(picks.map(p => p.date))].sort();
+        const phToday = data.date || phDates[phDates.length - 1] || '';
+        const pKey = (p) => `${p.player}|${p.team || ''}`;
+
+        // Players with any shipped pick in history.
+        const histPlayers = new Map();
+        for (const p of picks) {
+          const k = pKey(p);
+          if (!histPlayers.has(k)) histPlayers.set(k, { key: k, name: p.player, team: p.team || '' });
+        }
+        if (histPlayers.size === 0) return;
+        const todayKeys = new Set(picks.filter(p => p.date === phToday).map(pKey));
+        const players = [...histPlayers.values()].sort((a, b) => {
+          const ta = todayKeys.has(a.key) ? 0 : 1, tb = todayKeys.has(b.key) ? 0 : 1;
+          if (ta !== tb) return ta - tb;
+          return String(a.name).localeCompare(String(b.name));
+        });
+
+        const card = document.createElement('div');
+        card.className = 'card card-games';
+        card.style.marginBottom = '16px';
+        card.appendChild(Object.assign(document.createElement('div'), {
+          className: 'card-title', textContent: 'Player History'
+        }));
+
+        const ctrlRow = document.createElement('div');
+        ctrlRow.style.cssText = 'display:flex;align-items:center;gap:10px;padding:8px 12px 6px;flex-wrap:wrap';
+        const lbl = document.createElement('label');
+        lbl.textContent = 'Player:';
+        lbl.style.cssText = 'font-size:12px;color:#bbb;font-weight:600';
+        const sel = document.createElement('select');
+        sel.style.cssText = 'background:rgba(255,255,255,0.05);color:#fff;border:1px solid rgba(255,255,255,0.15);border-radius:4px;padding:6px 10px;font-size:12px;min-width:240px;cursor:pointer';
+        let sepAdded = false;
+        players.forEach(pl => {
+          if (!todayKeys.has(pl.key) && !sepAdded && todayKeys.size > 0) {
+            const s = document.createElement('option');
+            s.disabled = true; s.textContent = '── All Players ──';
+            sel.appendChild(s); sepAdded = true;
+          }
+          const opt = document.createElement('option');
+          opt.value = pl.key;
+          opt.textContent = pl.team ? `${pl.name} (${pl.team})` : pl.name;
+          sel.appendChild(opt);
+        });
+        const summary = document.createElement('div');
+        summary.style.cssText = 'margin-left:auto;font-size:12px;color:#999;font-weight:600';
+        ctrlRow.appendChild(lbl); ctrlRow.appendChild(sel); ctrlRow.appendChild(summary);
+        card.appendChild(ctrlRow);
+
+        const tblWrap = document.createElement('div');
+        tblWrap.style.cssText = 'overflow-x:auto';
+        card.appendChild(tblWrap);
+
+        function rowUnits(p) {
+          if (p.result !== 'WIN' && p.result !== 'LOSS') return null;
+          const o = (p.odds != null) ? Number(p.odds) : -110;
+          if (p.result === 'WIN') return o > 0 ? o / 100 : 1;
+          return o > 0 ? -1 : -Math.abs(o) / 100;
+        }
+
+        function renderPH(key) {
+          const rows = picks.filter(p => pKey(p) === key)
+                            .sort((a, b) => String(b.date || '').localeCompare(String(a.date || '')));
+          tblWrap.innerHTML = '';
+          if (!rows.length) {
+            tblWrap.innerHTML = '<div style="padding:14px;color:#888;font-size:12px;font-style:italic">No picks for this player.</div>';
+            summary.textContent = '';
+            return;
+          }
+          const tbl = document.createElement('table');
+          tbl.style.cssText = 'width:100%;border-collapse:collapse';
+          const head = tbl.createTHead().insertRow();
+          [['Date', 'left'], ['Opp', 'center'], ['Mkt', 'center'], ['Dir', 'center'],
+           ['Line', 'right'], ['Proj', 'right'], ['Edge', 'right'], ['pC%', 'right'],
+           ['Actual', 'right'], ['Result', 'center'], ['Units', 'right']]
+            .forEach(([t, al]) => {
+              const th = document.createElement('th');
+              th.textContent = t;
+              th.style.cssText = `padding:6px 8px;text-align:${al};border-bottom:1px solid rgba(255,255,255,0.1);font-size:11px;color:#999`;
+              head.appendChild(th);
+            });
+          const body = tbl.createTBody();
+          let w = 0, l = 0, pu = 0, u = 0;
+          for (const p of rows) {
+            const ru = rowUnits(p);
+            if (p.result === 'WIN') { w++; u += ru; }
+            else if (p.result === 'LOSS') { l++; u += ru; }
+            else if (p.result === 'PUSH') pu++;
+            const dir = String(p.pick || '').toUpperCase();
+            const edge = (p.proj != null && p.line != null) ? (p.proj - p.line) : null;
+            const resColor = p.result === 'WIN' ? 'var(--green)' : p.result === 'LOSS' ? 'var(--red)' : '#888';
+            const dirColor = dir === 'OVER' ? 'var(--green)' : dir === 'UNDER' ? 'var(--red)' : '#999';
+            const uColor = ru == null ? '#888' : (ru > 0 ? 'var(--green)' : ru < 0 ? 'var(--red)' : '#ccc');
+            const cells = [
+              { v: p.date || '—', align: 'left', color: '#ccc' },
+              { v: p.opp || '—', align: 'center', color: '#ccc' },
+              { v: marketLabels[p.market] || p.market, align: 'center', color: '#bbb', weight: '600' },
+              { v: dir === 'OVER' ? 'O' : dir === 'UNDER' ? 'U' : '—', align: 'center', color: dirColor, weight: '600' },
+              { v: p.line != null ? String(p.line) : '—', align: 'right' },
+              { v: p.proj != null ? Number(p.proj).toFixed(1) : '—', align: 'right' },
+              { v: edge != null ? (edge > 0 ? '+' : '') + edge.toFixed(1) : '—', align: 'right', color: edge > 0 ? 'var(--green)' : edge < 0 ? 'var(--red)' : '#999' },
+              { v: p.pCover != null ? (p.pCover * 100).toFixed(1) + '%' : '—', align: 'right' },
+              { v: p.actual != null ? String(p.actual) : '—', align: 'right' },
+              { v: p.result || '—', align: 'center', color: resColor, weight: '700' },
+              { v: ru == null ? '—' : (ru >= 0 ? '+' : '') + ru.toFixed(2) + 'u', align: 'right', color: uColor, weight: '600' },
+            ];
+            const tr = body.insertRow();
+            tr.style.borderBottom = '1px solid rgba(255,255,255,0.04)';
+            cells.forEach(c => {
+              const td = tr.insertCell();
+              td.textContent = c.v;
+              td.style.cssText = `padding:5px 8px;text-align:${c.align};font-size:12px`;
+              if (c.color) td.style.color = c.color;
+              if (c.weight) td.style.fontWeight = c.weight;
+            });
+          }
+          tblWrap.appendChild(tbl);
+          if (window.fitTableToContainer) window.fitTableToContainer(tbl);
+          const gt = w + l;
+          const wr = gt ? (100 * w / gt).toFixed(1) : '0.0';
+          summary.innerHTML = (gt || pu)
+            ? `${w}-${l}${pu ? '-' + pu : ''} &middot; <span style="color:${gt && (w / gt) >= 0.524 ? 'var(--green)' : '#ccc'}">${wr}%</span> &middot; <span style="color:${u >= 0 ? 'var(--green)' : 'var(--red)'}">${u >= 0 ? '+' : ''}${u.toFixed(2)}u</span>`
+            : '';
+        }
+
+        sel.addEventListener('change', () => renderPH(sel.value));
+        el.appendChild(card);
+        renderPH(players[0].key);
       })();
 
       // ── Unified Toolbar ──
