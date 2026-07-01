@@ -1,0 +1,600 @@
+# pyWNBAPROPS/scripts/sources/wnba_player_stats.py
+# Fetch WNBA player game logs (basic + advanced) via nba_api package.
+#
+# nba_api 1.11.4 serves WNBA data with the SAME schema as the NBA when you
+# pass the WNBA league id. This module is a fork of pyNBAPROPS's
+# nba_player_stats.py with three swaps:
+#   1. Every nba_api endpoint call passes league_id='10' (or
+#      league_id_nullable='10') — '10' is the WNBA (NBA is '00').
+#   2. Season strings are plain calendar years ('2026'), handled by
+#      defaults.current_season().
+#   3. nba_api.stats.static.teams only knows NBA teams, so we build the
+#      WNBA name->abbr map from a hard-coded table (WNBA_TEAM_NAME_TO_ABBR).
+#
+# Three data layers:
+#   1. Basic box score: PTS, REB, AST, STL, BLK, TOV, FG3M, FGA, FTA, MIN
+#      Source: LeagueGameLog (PlayerOrTeam=P)
+#
+#   2. Advanced per-game: USG%, TS%, AST%, REB%, OFF_RATING, DEF_RATING, PACE
+#      Source: LeagueDashPlayerStats (MeasureType=Advanced)
+#
+#   3. Team defense: DEF_RATING, OPP_PTS, OPP_REB, OPP_AST, PACE, etc.
+#      Source: LeagueDashTeamStats (Advanced + Opponent)
+
+import os
+import json
+import time
+import datetime
+
+# WNBA league id for every nba_api call (NBA is '00').
+WNBA_LEAGUE_ID = "10"
+
+# nba_api.stats.static.teams is NBA-only, so keep an explicit WNBA
+# TEAM_NAME -> abbreviation table (covers 2024-2026 incl. expansion clubs).
+WNBA_TEAM_NAME_TO_ABBR = {
+    "Atlanta Dream": "ATL",
+    "Chicago Sky": "CHI",
+    "Connecticut Sun": "CON",
+    "Dallas Wings": "DAL",
+    "Golden State Valkyries": "GSV",
+    "Indiana Fever": "IND",
+    "Los Angeles Sparks": "LAS",
+    "Las Vegas Aces": "LVA",
+    "Minnesota Lynx": "MIN",
+    "New York Liberty": "NYL",
+    "Phoenix Mercury": "PHX",
+    "Seattle Storm": "SEA",
+    "Washington Mystics": "WAS",
+    # 2026 expansion
+    "Portland Fire": "PDX",
+    "Toronto Tempo": "TOR",
+}
+
+_dir = os.path.dirname(os.path.abspath(__file__))
+# Self-contained cache: keep WNBA player caches inside pyWNBAPROPS/data so this
+# model never shares a cache directory with the NBA (or any other) model.
+PLAYER_CACHE_DIR = os.path.join(_dir, "..", "..", "data", "player_cache", "wnba")
+
+
+def _cache_is_same_stat_day(cache_path):
+    """
+    Cache is considered fresh if it was written today (local CT).
+
+    Stats only change meaningfully at the stat-day boundary:
+      - yesterday's games finalize within ~2h of their final
+      - any 8am+ run on a given day reads stable inputs the rest of the day
+    Refetching mid-day adds noise (API row ordering, transient corrections)
+    without delivering new information. We refetch exactly once per calendar
+    day, when crossing midnight CT.
+    """
+    if not os.path.exists(cache_path):
+        return False
+    cache_dt = datetime.datetime.fromtimestamp(os.path.getmtime(cache_path))
+    return cache_dt.date() == datetime.datetime.now().date()
+
+
+def _game_logs_cache_is_fresh(cache_path):
+    """
+    Game-log cache is fresh iff its content includes yesterday's games (CT).
+
+    Why not use _cache_is_same_stat_day for game logs: the daily workflow
+    runs `git pull origin main` before invoking the engine, which resets
+    cached files' mtime to checkout time. mtime-based freshness then
+    returns True even though the cache content is stale (capped at the
+    LAST run's data). Switching to a content-based check (max game_date)
+    survives the pull and guarantees we refetch whenever yesterday's
+    games aren't yet in cache.
+    """
+    if not os.path.exists(cache_path):
+        return False
+    try:
+        with open(cache_path, "r") as f:
+            data = json.load(f)
+        if not data:
+            return False
+        latest = max((g.get("game_date", "") for g in data if isinstance(g, dict)),
+                     default="")
+        if not latest:
+            return False
+        from zoneinfo import ZoneInfo
+        # Yesterday CT — by morning every team's games from CT-yesterday
+        # are in NBA Stats API. If the cache already has yesterday's
+        # game_date, no point refetching today.
+        yesterday = (datetime.datetime.now(ZoneInfo("America/Chicago"))
+                     - datetime.timedelta(days=1)).strftime("%Y-%m-%d")
+        return latest >= yesterday
+    except Exception:
+        return False
+
+import sys
+sys.path.insert(0, os.path.join(_dir, ".."))
+from defaults import current_season
+
+
+# ---------------------------------------------------------------------------
+# 1. Basic player game logs
+# ---------------------------------------------------------------------------
+
+def fetch_player_game_logs(season=None, season_type="Regular Season", date_to=None):
+    """
+    Fetch all player game logs for the season via nba_api.
+
+    Returns list of dicts with basic box score + minutes for every player-game.
+    """
+    from nba_api.stats.endpoints import leaguegamelog
+
+    season = season or current_season()
+
+    cache_key = f"basic_{season}_{season_type.replace(' ', '_')}"
+    if date_to:
+        cache_key += f"_{str(date_to).replace('-', '')}"
+    cache_path = os.path.join(PLAYER_CACHE_DIR, f"{cache_key}.json")
+
+    if _game_logs_cache_is_fresh(cache_path):
+        with open(cache_path, "r") as f:
+            data = json.load(f)
+        print(f"  [player_stats] Using cache: {os.path.basename(cache_path)} ({len(data)} logs)")
+        return data
+
+    date_to_fmt = _fmt_date_nba_api(date_to)
+
+    try:
+        lg = leaguegamelog.LeagueGameLog(
+            season=season,
+            season_type_all_star=season_type,
+            player_or_team_abbreviation="P",
+            league_id=WNBA_LEAGUE_ID,
+            date_to_nullable=date_to_fmt if date_to_fmt else None,
+            timeout=120,
+        )
+        df = lg.get_data_frames()[0]
+    except Exception as e:
+        print(f"  [player_stats] ERROR fetching game logs: {e}")
+        raise
+
+    logs = []
+    for _, row in df.iterrows():
+        minutes = _parse_minutes(row.get("MIN"))
+        matchup = str(row.get("MATCHUP") or "")
+        opp = _parse_opponent(matchup)
+
+        logs.append({
+            "player_id":   int(row.get("PLAYER_ID", 0)),
+            "player_name": str(row.get("PLAYER_NAME") or ""),
+            "team":        str(row.get("TEAM_ABBREVIATION") or ""),
+            "opp":         opp,
+            "is_home":     " vs. " in matchup,
+            "game_id":     str(row.get("GAME_ID") or ""),
+            "game_date":   str(row.get("GAME_DATE") or ""),
+            "min":         minutes,
+            # --- Basic box score ---
+            "pts":   _si(row, "PTS"),
+            "reb":   _si(row, "REB"),
+            "ast":   _si(row, "AST"),
+            "stl":   _si(row, "STL"),
+            "blk":   _si(row, "BLK"),
+            "tov":   _si(row, "TOV"),
+            "fg3m":  _si(row, "FG3M"),
+            "fg3a":  _si(row, "FG3A"),
+            "fga":   _si(row, "FGA"),
+            "fgm":   _si(row, "FGM"),
+            "fta":   _si(row, "FTA"),
+            "ftm":   _si(row, "FTM"),
+            "oreb":  _si(row, "OREB"),
+            "dreb":  _si(row, "DREB"),
+            "pf":    _si(row, "PF"),
+            "plus_minus": _sf(row, "PLUS_MINUS"),
+        })
+
+    _write_cache(cache_path, logs)
+    print(f"  [player_stats] Fetched {len(logs)} player game logs for {season}")
+    return logs
+
+
+# ---------------------------------------------------------------------------
+# 2. Advanced player stats (season-to-date)
+# ---------------------------------------------------------------------------
+
+def fetch_player_advanced_stats(season=None, date_to=None, season_type="Regular Season"):
+    """
+    Fetch advanced per-player stats (season-to-date averages) via nba_api.
+
+    Returns dict: {player_id_str: {"USG_PCT", "TS_PCT", "AST_PCT", ...}}
+    """
+    from nba_api.stats.endpoints import leaguedashplayerstats
+
+    season = season or current_season()
+
+    cache_key = f"adv_{season}_{season_type.replace(' ', '_')}"
+    if date_to:
+        cache_key += f"_{str(date_to).replace('-', '')}"
+    cache_path = os.path.join(PLAYER_CACHE_DIR, f"{cache_key}.json")
+
+    if _cache_is_same_stat_day(cache_path):
+        with open(cache_path, "r") as f:
+            return json.load(f)
+
+    date_to_fmt = _fmt_date_nba_api(date_to)
+
+    try:
+        stats = leaguedashplayerstats.LeagueDashPlayerStats(
+            season=season,
+            season_type_all_star=season_type,
+            measure_type_detailed_defense="Advanced",
+            per_mode_detailed="PerGame",
+            league_id_nullable=WNBA_LEAGUE_ID,
+            date_to_nullable=date_to_fmt if date_to_fmt else None,
+            timeout=120,
+        )
+        df = stats.get_data_frames()[0]
+    except Exception as e:
+        print(f"  [adv_stats] ERROR: {e}")
+        return {}
+
+    result = {}
+    for _, row in df.iterrows():
+        pid = row.get("PLAYER_ID")
+        if pid is None:
+            continue
+        result[str(int(pid))] = {
+            "player_name": str(row.get("PLAYER_NAME") or ""),
+            "team":        str(row.get("TEAM_ABBREVIATION") or ""),
+            "GP":          _si(row, "GP"),
+            "MIN":         _sf(row, "MIN"),
+            # --- Advanced metrics ---
+            "USG_PCT":     _sf(row, "USG_PCT"),
+            "TS_PCT":      _sf(row, "TS_PCT"),
+            "AST_PCT":     _sf(row, "AST_PCT"),
+            "AST_TO":      _sf(row, "AST_TO"),
+            "AST_RATIO":   _sf(row, "AST_RATIO"),
+            "OREB_PCT":    _sf(row, "OREB_PCT"),
+            "DREB_PCT":    _sf(row, "DREB_PCT"),
+            "REB_PCT":     _sf(row, "REB_PCT"),
+            "EFG_PCT":     _sf(row, "EFG_PCT"),
+            "OFF_RATING":  _sf(row, "OFF_RATING"),
+            "DEF_RATING":  _sf(row, "DEF_RATING"),
+            "NET_RATING":  _sf(row, "NET_RATING"),
+            "PACE":        _sf(row, "PACE"),
+            "PIE":         _sf(row, "PIE"),
+        }
+
+    _write_cache(cache_path, result)
+    print(f"  [adv_stats] Fetched advanced stats for {len(result)} players")
+    return result
+
+
+def fetch_player_per36_stats(season=None, date_to=None, season_type="Regular Season"):
+    """
+    Fetch per-36-minute stats for all players via nba_api.
+    Returns: {player_id_str: {"PTS": float, "REB": float, "AST": float, ...}}
+    All values are per 36 minutes (NBA.com normalized).
+    """
+    from nba_api.stats.endpoints import leaguedashplayerstats
+
+    season = season or current_season()
+
+    cache_key = f"per36_{season}_{season_type.replace(' ', '_')}"
+    if date_to:
+        cache_key += f"_{str(date_to).replace('-', '')}"
+    cache_path = os.path.join(PLAYER_CACHE_DIR, f"{cache_key}.json")
+
+    if _cache_is_same_stat_day(cache_path):
+        with open(cache_path, "r") as f:
+            cached = json.load(f)
+            print(f"  [per36] Using cache: {os.path.basename(cache_path)} ({len(cached)} players)")
+            return cached
+
+    date_to_fmt = _fmt_date_nba_api(date_to)
+
+    try:
+        stats = leaguedashplayerstats.LeagueDashPlayerStats(
+            season=season,
+            season_type_all_star=season_type,
+            per_mode_detailed="Per36",
+            league_id_nullable=WNBA_LEAGUE_ID,
+            date_to_nullable=date_to_fmt if date_to_fmt else None,
+            timeout=120,
+        )
+        df = stats.get_data_frames()[0]
+    except Exception as e:
+        print(f"  [per36] ERROR: {e}")
+        return {}
+
+    result = {}
+    for _, row in df.iterrows():
+        pid = row.get("PLAYER_ID")
+        gp = _si(row, "GP")
+        if pid is None or gp < 5:
+            continue
+        result[str(int(pid))] = {
+            "PTS":  _sf(row, "PTS"),
+            "REB":  _sf(row, "REB"),
+            "AST":  _sf(row, "AST"),
+            "FG3M": _sf(row, "FG3M"),
+            "STL":  _sf(row, "STL"),
+            "BLK":  _sf(row, "BLK"),
+            "TOV":  _sf(row, "TOV"),
+        }
+
+    if result:
+        _write_cache(cache_path, result)
+    print(f"  [per36] Fetched per-36 stats for {len(result)} players")
+    return result
+
+
+# ---------------------------------------------------------------------------
+# 3. Team defensive stats (for opponent adjustment)
+# ---------------------------------------------------------------------------
+
+def fetch_team_def_stats(season=None, date_to=None, season_type="Regular Season"):
+    """
+    Fetch team defensive stats for opponent adjustment via nba_api.
+
+    Returns dict: {team_abbr: {"DEF_RATING", "OPP_PTS", "OPP_REB", ...}}
+    """
+    from nba_api.stats.endpoints import leaguedashteamstats
+
+    season = season or current_season()
+    date_to_fmt = _fmt_date_nba_api(date_to)
+
+    # --- Cache: team defense stats (6-hour TTL) ---
+    cache_key = f"teamdef_{season}_{season_type.replace(' ', '_')}"
+    if date_to:
+        cache_key += f"_{str(date_to).replace('-', '')}"
+    cache_path = os.path.join(PLAYER_CACHE_DIR, f"{cache_key}.json")
+
+    if _cache_is_same_stat_day(cache_path):
+        with open(cache_path, "r") as f:
+            cached = json.load(f)
+            print(f"  [team_def] Using cache: {os.path.basename(cache_path)} ({len(cached)} teams)")
+            return cached
+
+    # WNBA name -> abbreviation (nba_api static.teams is NBA-only).
+    team_name_to_abbr = WNBA_TEAM_NAME_TO_ABBR
+
+    teams = {}
+
+    # --- Advanced team stats (DEF_RATING, PACE) ---
+    try:
+        adv = leaguedashteamstats.LeagueDashTeamStats(
+            season=season,
+            season_type_all_star=season_type,
+            measure_type_detailed_defense="Advanced",
+            per_mode_detailed="PerGame",
+            league_id_nullable=WNBA_LEAGUE_ID,
+            date_to_nullable=date_to_fmt if date_to_fmt else None,
+            timeout=120,
+        )
+        df_adv = adv.get_data_frames()[0]
+        for _, row in df_adv.iterrows():
+            team_name = str(row.get("TEAM_NAME") or "")
+            abbr = team_name_to_abbr.get(team_name, team_name[:3].upper())
+            teams[abbr] = {
+                "DEF_RATING":   _sf(row, "DEF_RATING"),
+                "OFF_RATING":   _sf(row, "OFF_RATING"),
+                "NET_RATING":   _sf(row, "NET_RATING"),
+                "PACE":         _sf(row, "PACE"),
+                "OPP_REB_RATE": _sf(row, "DREB_PCT"),
+                "REB_PCT":      _sf(row, "REB_PCT"),
+            }
+    except Exception as e:
+        print(f"  [team_def] ERROR fetching advanced: {e}")
+
+    time.sleep(1)  # Rate limit between API calls
+
+    # --- Opponent per-game stats (what teams ALLOW) ---
+    try:
+        opp = leaguedashteamstats.LeagueDashTeamStats(
+            season=season,
+            season_type_all_star=season_type,
+            measure_type_detailed_defense="Opponent",
+            per_mode_detailed="PerGame",
+            league_id_nullable=WNBA_LEAGUE_ID,
+            date_to_nullable=date_to_fmt if date_to_fmt else None,
+            timeout=120,
+        )
+        df_opp = opp.get_data_frames()[0]
+        for _, row in df_opp.iterrows():
+            team_name = str(row.get("TEAM_NAME") or "")
+            abbr = team_name_to_abbr.get(team_name, team_name[:3].upper())
+            if abbr not in teams:
+                teams[abbr] = {}
+            teams[abbr].update({
+                "OPP_PTS":     _sf(row, "OPP_PTS"),
+                "OPP_REB":     _sf(row, "OPP_REB"),
+                "OPP_AST":     _sf(row, "OPP_AST"),
+                "OPP_FG3M":    _sf(row, "OPP_FG3M"),
+                "OPP_FG3_PCT": _sf(row, "OPP_FG3_PCT"),
+                "OPP_FGA":     _sf(row, "OPP_FGA"),
+                "OPP_FTA":     _sf(row, "OPP_FTA"),
+                "OPP_TOV":     _sf(row, "OPP_TOV"),
+                "OPP_STL":     _sf(row, "OPP_STL"),
+                "OPP_BLK":     _sf(row, "OPP_BLK"),
+            })
+    except Exception as e:
+        print(f"  [team_def] ERROR fetching opponent: {e}")
+
+    # Cache the result
+    if teams:
+        _write_cache(cache_path, teams)
+
+    print(f"  [team_def] Fetched defense stats for {len(teams)} teams")
+    return teams
+
+
+# ---------------------------------------------------------------------------
+# 4. Player positions (G/F/C) — one bulk call
+# ---------------------------------------------------------------------------
+
+def fetch_player_positions(season=None):
+    """
+    Fetch position for every player from PlayerIndex.
+    Returns: {player_id_int: "G"/"F"/"C"}
+    """
+    from nba_api.stats.endpoints import playerindex
+
+    season = season or current_season()
+    cache_path = os.path.join(PLAYER_CACHE_DIR, f"positions_{season}.json")
+
+    if _cache_is_same_stat_day(cache_path):
+        with open(cache_path, "r") as f:
+            cached = json.load(f)
+            print(f"  [positions] Using cache: {os.path.basename(cache_path)} ({len(cached)} players)")
+            return {int(k): v for k, v in cached.items()}
+
+    try:
+        ep = playerindex.PlayerIndex(season=season, league_id=WNBA_LEAGUE_ID, timeout=120)
+        df = ep.get_data_frames()[0]
+    except Exception as e:
+        print(f"  [positions] ERROR: {e}")
+        return {}
+
+    def _normalize_pos(raw):
+        raw = str(raw or "").upper().strip()
+        if raw in ("G", "G-F", "F-G"):
+            return "G"
+        if raw in ("F", "F-C"):
+            return "F"
+        if raw in ("C", "C-F"):
+            return "C"
+        # Fallback: first letter
+        if raw and raw[0] in ("G", "F", "C"):
+            return raw[0]
+        return "F"  # default
+
+    positions = {}
+    for _, row in df.iterrows():
+        pid = int(row.get("PERSON_ID", 0))
+        if pid:
+            positions[pid] = _normalize_pos(row.get("POSITION", ""))
+
+    if positions:
+        _write_cache(cache_path, positions)
+
+    print(f"  [positions] Fetched positions for {len(positions)} players")
+    return positions
+
+
+# ---------------------------------------------------------------------------
+# 5. Team defense stats by position (G/F/C)
+# ---------------------------------------------------------------------------
+
+def fetch_team_def_by_position(season=None, date_to=None, season_type="Regular Season"):
+    """
+    Fetch opponent stats allowed broken down by position (G/F/C).
+    Returns: {team_abbr: {"G": {OPP_PTS, OPP_AST, ...}, "F": {...}, "C": {...}}}
+    """
+    from nba_api.stats.endpoints import leaguedashteamstats
+
+    season = season or current_season()
+    date_to_fmt = _fmt_date_nba_api(date_to)
+
+    cache_key = f"teamdef_bypos_{season}_{season_type.replace(' ', '_')}"
+    if date_to:
+        cache_key += f"_{str(date_to).replace('-', '')}"
+    cache_path = os.path.join(PLAYER_CACHE_DIR, f"{cache_key}.json")
+
+    if _cache_is_same_stat_day(cache_path):
+        with open(cache_path, "r") as f:
+            cached = json.load(f)
+            print(f"  [team_def_pos] Using cache: {os.path.basename(cache_path)} ({len(cached)} teams)")
+            return cached
+
+    team_name_to_abbr = WNBA_TEAM_NAME_TO_ABBR
+    result = {}
+    stat_keys = ["OPP_PTS", "OPP_REB", "OPP_AST", "OPP_FG3M", "OPP_TOV", "OPP_STL", "OPP_BLK"]
+
+    for pos in ("G", "F", "C"):
+        try:
+            ep = leaguedashteamstats.LeagueDashTeamStats(
+                season=season,
+                season_type_all_star=season_type,
+                measure_type_detailed_defense="Opponent",
+                per_mode_detailed="PerGame",
+                player_position_abbreviation_nullable=pos,
+                league_id_nullable=WNBA_LEAGUE_ID,
+                date_to_nullable=date_to_fmt if date_to_fmt else None,
+                timeout=120,
+            )
+            df = ep.get_data_frames()[0]
+            for _, row in df.iterrows():
+                team_name = str(row.get("TEAM_NAME") or "")
+                abbr = team_name_to_abbr.get(team_name, team_name[:3].upper())
+                if abbr not in result:
+                    result[abbr] = {}
+                result[abbr][pos] = {k: _sf(row, k) for k in stat_keys}
+        except Exception as e:
+            print(f"  [team_def_pos] ERROR fetching pos={pos}: {e}")
+        time.sleep(1)
+
+    if result:
+        _write_cache(cache_path, result)
+
+    print(f"  [team_def_pos] Fetched positional defense for {len(result)} teams")
+    return result
+
+
+# ---------------------------------------------------------------------------
+# Helpers
+# ---------------------------------------------------------------------------
+
+def _fmt_date_nba_api(date_str):
+    """Convert YYYY-MM-DD or YYYYMMDD to MM/DD/YYYY for nba_api."""
+    if not date_str:
+        return ""
+    d = str(date_str).replace("-", "")
+    if len(d) == 8:
+        return f"{d[4:6]}/{d[6:8]}/{d[0:4]}"
+    return date_str
+
+
+def _write_cache(path, data):
+    """Write JSON cache file."""
+    os.makedirs(os.path.dirname(path), exist_ok=True)
+    with open(path, "w") as f:
+        json.dump(data, f)
+
+
+def _parse_minutes(raw):
+    """Parse minutes from '32:15' or '32' or float."""
+    if raw is None:
+        return 0.0
+    if isinstance(raw, (int, float)):
+        return float(raw)
+    s = str(raw)
+    if ":" in s:
+        parts = s.split(":")
+        try:
+            return float(parts[0]) + float(parts[1]) / 60
+        except (ValueError, IndexError):
+            return 0.0
+    try:
+        return float(s)
+    except ValueError:
+        return 0.0
+
+
+def _parse_opponent(matchup):
+    """Extract opponent from 'LAL vs. BOS' or 'LAL @ BOS'."""
+    for sep in [" vs. ", " @ "]:
+        if sep in matchup:
+            return matchup.split(sep)[-1].strip()
+    return ""
+
+
+def _si(row, key):
+    """Safe int from pandas row."""
+    val = row.get(key)
+    try:
+        return int(val) if val is not None else 0
+    except (ValueError, TypeError):
+        return 0
+
+
+def _sf(row, key):
+    """Safe float from pandas row."""
+    val = row.get(key)
+    try:
+        return float(val) if val is not None else 0.0
+    except (ValueError, TypeError):
+        return 0.0

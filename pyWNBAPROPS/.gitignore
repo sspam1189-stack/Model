@@ -1,0 +1,8 @@
+__pycache__/
+*.pyc
+.env
+# Raw historical Odds API snapshots (large, re-fetchable, never needed in git).
+data/props_cache/wnba/hist_raw/
+# Never commit any key material.
+*.key
+secrets.*
