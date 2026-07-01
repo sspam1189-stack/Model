@@ -66,9 +66,13 @@ DEFAULT_W = {
 
     # -- Bayesian probability thresholds --------------------------------------
     # P(cover) must exceed these to fire a pick. At -110 juice break-even ~0.524.
-    # Started from NBA-tuned 0.58; NOT ATS-backtested for WNBA (no historical
-    # lines) — validate/retune forward on live 2026 graded picks.
-    "probHigh":  0.58,   # min P(cover) for actionable (elite) spread pick
+    # Swept on the real 2026 backfill (ATS vs actual closing lines): 0.58 sat
+    # above a break-even 0.58-0.62 band, so tightening to 0.62 lifts WR
+    # 65.3%->69.1% and ROI +0.246->+0.319 u/pick at essentially flat units
+    # (+17.5 vs +17.7u). Low-conviction (n=72, one partial season, and the
+    # backtest ATS runs hot) — a safe tightening; retune forward as live picks
+    # accrue.
+    "probHigh":  0.62,   # min P(cover) for actionable spread pick
     "probElite": 0.63,
 
     "probOUHigh":  0.58, # totals engine is DISABLED for fullseason (see
