@@ -1,0 +1,23 @@
+# _config.yml — keep the GitHub Pages artifact to just the dashboard.
+# Everything below is model source / caches the site never serves; excluding it
+# drops the published artifact from ~442 MB to ~13 MB (the site is PythonDashboard/,
+# which reads its own PythonDashboard/data/*.json — not the root data/ tree).
+# Smaller artifact => faster unpack/upload/CDN-propagate, and safely under the
+# 1 GB Pages size limit and 10-min build cap. Respected by the default
+# "Deploy from a branch" Jekyll build; no workflow or source change needed.
+exclude:
+  - artifacts/          # ~98 MB duplicated cache tree
+  - data/               # ~209 MB pitcher caches — dashboard uses PythonDashboard/data instead
+  - core/
+  - scripts/
+  - cloudflare-worker/
+  - MLBstrikeouts/
+  - pyFull/
+  - pyNBAPROPS/
+  - pyNCAA/
+  - pyNFL/
+  - pyWNBAFull/
+  - pyWNBAPROPS/
+  - "*.py"
+  - "*.md"
+  - requirements.txt
