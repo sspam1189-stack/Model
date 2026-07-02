@@ -436,12 +436,25 @@ PROJ_CALIB_MIN_PAIRS = 40      # need >= this many tail pairs to fit; else raw
 # See docs/superpowers/specs/2026-06-26-mlb-csw-variant-design.md.
 K_QUALITY_METRIC = os.environ.get("MLB_K_METRIC", "whiff")
 
-CSW_XBA_BLEND_WEIGHT = 0.4   # 2026-06-15: 0.3->0.4 for recency. Walk-forward
-# sweep (0.0/0.2/0.4/0.5/0.6) peaks at 0.4: full-season units ~tied with 0.3
-# (flat .64+ 1u: +194.99u vs +196.48u; tiered combined +338.7u vs +346.1u) but
-# RECENT lifts clearly — June +9.94u vs +5.23u, last week +10.65u vs +5.63u (flat
-# .64+); both pick (>=.67) and lean (.64-.67) tiers improve. 0.5+ overshoots
-# (June craters). lineup1.0 tested alongside and rejected (wrecks lean tier).
+CSW_XBA_BLEND_WEIGHT = 0.2   # 2026-07-02: 0.4->0.2. Walk-forward 2D sweep
+# (blend {0.0,0.2,0.4,0.6} x lineup {1.0,0.8,0.7,0.6}, calib ON) shows 0.2 is
+# the whiff optimum at the shipped lineup 0.8 and it WINS EVERY WINDOW over the
+# old 0.4 (whiff, lineup 0.8, calib ON):
+#     SEASON:  0.2 +38.07% ROI / 78.5% WR / MAE 1.537 (247 picks)
+#              0.4 +32.78% ROI / 75.4% WR / MAE 1.573 (264 picks)
+#     JUNE:    0.2 +20.07% ROI / 69.5% WR / MAE 1.531 (59)
+#              0.4 +18.08% ROI / 67.6% WR / MAE 1.600 (71)
+#     LAST 3W: 0.2 +13.98% ROI / 65.9% WR / MAE 1.639 (44)
+#              0.4 +13.65% ROI / 64.7% WR / MAE 1.684 (51)
+# Not a June-only artifact — 0.2 leads on ROI, WR, and MAE in season AND recent,
+# on slightly lower (higher-quality) volume. Blend 0.0 (regression fully OFF) is
+# clearly worse (season +31% / MAE 1.68; June craters to +6-12%), so the metric
+# adjustment still carries real signal — 0.2 is a dial-DOWN, not an off switch.
+# Calibration must stay ON: 0.2 cal-OFF drops to season +31.4% / June +8.5% /
+# MAE ~1.68-1.97 (calib does the accuracy work; lower blend sharpens it). The old
+# 0.4 was tuned pre-calib-maturity on RECENT units alone; the fuller 2D sweep
+# supersedes it. Shared by both metrics: at lineup 0.8 the csw variant also
+# improves at 0.2 (June +8.2% vs 0.4's +4.6%). 0.5+ overshoots (June craters).
 # Fallback regression coefficients — used ONLY when the dynamic refit has <50
 # qualified pitchers (early season / broken snapshot). Otherwise these module
 # attributes are OVERWRITTEN at runtime by props_backfill / run_daily with the
@@ -899,7 +912,8 @@ MLB_TEAM_ABBR = {
 #
 # VARIANT_SUFFIX is appended by run_daily.py / props_backfill.py to the
 # config-dependent output paths (kalman_state, mlb-props, emp_std_cache) so the
-# two models never clobber each other. CSW_XBA_BLEND_WEIGHT stays 0.4 for both.
+# two models never clobber each other. CSW_XBA_BLEND_WEIGHT is 0.2 for both
+# (2026-07-02; see the blend-weight note above).
 if K_QUALITY_METRIC == "csw":
     K_RATE_CAP_FLOOR = 0.40
     VAR_MULT = {"strikeouts": 1.20}
