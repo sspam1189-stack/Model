@@ -542,8 +542,8 @@
   {
     "player": "Max Meyer",
     "line": 5.5,
-    "over_price": -142,
-    "under_price": 112,
+    "over_price": -147,
+    "under_price": 115,
     "market": "strikeouts",
     "event_home": "COL",
     "event_away": "MIA",
@@ -552,12 +552,22 @@
   {
     "player": "Kyle Freeland",
     "line": 3.5,
-    "over_price": -149,
-    "under_price": 117,
+    "over_price": -143,
+    "under_price": 112,
     "market": "strikeouts",
     "event_home": "COL",
     "event_away": "MIA",
     "_event_id": "8cb46e5f7992c07772b03c820bcc5a46"
+  },
+  {
+    "player": "Trevor McDonald",
+    "line": 3.5,
+    "over_price": -126,
+    "under_price": -101,
+    "market": "strikeouts",
+    "event_home": "ARI",
+    "event_away": "SFG",
+    "_event_id": "4613f606f40dfab948c795bcde2caaa2"
   },
   {
     "player": "Zac Gallen",
@@ -570,23 +580,53 @@
     "_event_id": "4613f606f40dfab948c795bcde2caaa2"
   },
   {
-    "player": "Trevor McDonald",
-    "line": 3.5,
-    "over_price": -103,
-    "under_price": -124,
-    "market": "strikeouts",
-    "event_home": "ARI",
-    "event_away": "SFG",
-    "_event_id": "4613f606f40dfab948c795bcde2caaa2"
-  },
-  {
     "player": "JT Ginn",
     "line": 4.5,
-    "over_price": -164,
-    "under_price": 128,
+    "over_price": 112,
+    "under_price": -143,
     "market": "strikeouts",
     "event_home": "Athletics",
     "event_away": "LAD",
     "_event_id": "89e2407a67afd5e02ec12a372a53fa18"
+  },
+  {
+    "player": "Jacob Misiorowski",
+    "line": 8.5,
+    "over_price": -156,
+    "under_price": 122,
+    "market": "strikeouts",
+    "event_home": "MIL",
+    "event_away": "CIN",
+    "_event_id": "2bbaa286b732c0af8947d273e164f15e"
+  },
+  {
+    "player": "Chase Burns",
+    "line": 6.5,
+    "over_price": -156,
+    "under_price": 122,
+    "market": "strikeouts",
+    "event_home": "MIL",
+    "event_away": "CIN",
+    "_event_id": "2bbaa286b732c0af8947d273e164f15e"
+  },
+  {
+    "player": "Bryce Miller",
+    "line": 6.5,
+    "over_price": 120,
+    "under_price": -154,
+    "market": "strikeouts",
+    "event_home": "SEA",
+    "event_away": "LAA",
+    "_event_id": "283444f773ee82cae9a5977e9266baac"
+  },
+  {
+    "player": "Walbert Urena",
+    "line": 5.5,
+    "over_price": 109,
+    "under_price": -138,
+    "market": "strikeouts",
+    "event_home": "SEA",
+    "event_away": "LAA",
+    "_event_id": "283444f773ee82cae9a5977e9266baac"
   }
 ]
