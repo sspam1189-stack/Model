@@ -4,7 +4,7 @@
   "season": "2026",
   "mode": "live",
   "model": "kalman_blend",
-  "generated": "2026-07-01T19:31:10.883360",
+  "generated": "2026-07-01T20:27:31.324202",
   "totalProjections": 25,
   "totalPicks": 1967,
   "totalWatchlist": 24,
@@ -63410,7 +63410,7 @@
       "proj_raw": 6.506,
       "would_be_pick": "OVER",
       "date": "2026-07-01",
-      "lockState": "lineup_confirmed",
+      "lockState": "game_started",
       "lockedAt": "2026-07-01T19:37:07.127638Z",
       "lineupConfirmed": true
     },
@@ -63692,7 +63692,7 @@
       "proj_raw": 3.882,
       "would_be_pick": "OVER",
       "date": "2026-07-01",
-      "lockState": "lineup_confirmed",
+      "lockState": "game_started",
       "lockedAt": "2026-07-01T22:54:02.211487Z",
       "lineupConfirmed": true
     },
@@ -64122,7 +64122,7 @@
       "to_win_1u": 1.48,
       "proj_raw": 6.506,
       "date": "2026-07-01",
-      "lockState": "lineup_confirmed",
+      "lockState": "game_started",
       "lockedAt": "2026-07-01T19:37:07.127638Z",
       "lineupConfirmed": true
     },
@@ -64456,7 +64456,7 @@
       "to_win_1u": 1.53,
       "proj_raw": 3.882,
       "date": "2026-07-01",
-      "lockState": "lineup_confirmed",
+      "lockState": "game_started",
       "lockedAt": "2026-07-01T22:54:02.211487Z",
       "lineupConfirmed": true
     },
@@ -64574,12 +64574,12 @@
     "MIN": "In Progress",
     "MIL": "In Progress",
     "CIN": "In Progress",
-    "COL": "Warmup",
-    "MIA": "Warmup",
-    "OAK": "Pre-Game",
-    "LAD": "Pre-Game",
-    "ARI": "Pre-Game",
-    "SF": "Pre-Game"
+    "COL": "In Progress",
+    "MIA": "In Progress",
+    "OAK": "Warmup",
+    "LAD": "Warmup",
+    "ARI": "Warmup",
+    "SF": "Warmup"
   },
   "gameTimesById": {
     "824818": "2026-07-01T16:35:00Z",
@@ -64609,9 +64609,9 @@
     "824094": "In Progress",
     "824174": "In Progress",
     "823767": "In Progress",
-    "824337": "Warmup",
-    "824985": "Pre-Game",
-    "825064": "Pre-Game"
+    "824337": "In Progress",
+    "824985": "Warmup",
+    "825064": "Warmup"
   },
   "homeAway": {
     "2026-04-14": {
