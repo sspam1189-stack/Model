@@ -2975,7 +2975,7 @@
           "h2hNote": null,
           "awayScore": 82.0,
           "homeScore": 97.0,
-          "_recencyWeight": 0.75,
+          "_recencyWeight": 0.5,
           "trends": {
             "away": {
               "atsPct": null,
@@ -3041,7 +3041,7 @@
           "h2hNote": null,
           "awayScore": 72.0,
           "homeScore": 68.0,
-          "_recencyWeight": 0.75,
+          "_recencyWeight": 0.5,
           "trends": {
             "away": {
               "atsPct": null,
@@ -6596,7 +6596,7 @@
           "h2hNote": null,
           "awayScore": 108.0,
           "homeScore": 101.0,
-          "_recencyWeight": 1.0,
+          "_recencyWeight": 0.75,
           "trends": {
             "away": {
               "atsPct": null,
@@ -9724,7 +9724,11 @@
           "trends": {
             "away": "ATS +/- 7.2 \u00b7 Over 47.4% \u00b7 Under 52.6% \u00b7 O/U +/- 0.2",
             "home": "ATS +/- -2.6 \u00b7 Over 55.0% \u00b7 Under 45.0% \u00b7 O/U +/- 1.0"
-          }
+          },
+          "awayScore": 86.0,
+          "homeScore": 99.0,
+          "_kalmanDate": "20260703",
+          "_recencyWeight": 1.0
         },
         {
           "away": "Chicago Sky",
@@ -9775,22 +9779,179 @@
           "trends": {
             "away": "ATS +/- -0.8 \u00b7 Over 63.2% \u00b7 Under 36.8% \u00b7 O/U +/- 6.1",
             "home": "ATS +/- -2.6 \u00b7 Over 52.6% \u00b7 Under 47.4% \u00b7 O/U +/- 3.6"
-          }
+          },
+          "awayScore": 90.0,
+          "homeScore": 98.0,
+          "_kalmanDate": "20260703",
+          "_recencyWeight": 1.0
         }
       ],
       "summaryText": "RECORD (graded picks only)\n\nSPREAD (ATS)\n  All:         40-17-0   (70.2%)   [graded 57]\n  Elite:       40-17-0   (70.2%)   [graded 57]\n\nFAV/DOG (Spread)\n  Favorites:   22-11-0   (66.7%)   [graded 33]\n  Underdogs:   18-6-0   (75.0%)   [graded 24]\n\nTOTAL (O/U)\n  All:         0-0-0   (n/a%)   [graded 0]\n  Elite:       0-0-0   (n/a%)   [graded 0]\n\nOVER/UNDER\n  Over:        0-0-0   (n/a%)   [graded 0]\n  Under:       0-0-0   (n/a%)   [graded 0]",
       "ranAt": "07/03/2026, 09:49:39 AM"
+    },
+    {
+      "date": "20260704",
+      "dateDisplay": "2026-07-04",
+      "burnIn": false,
+      "weightsUsed": {
+        "wOFF": 1,
+        "wTS": 1.025,
+        "wTO": 0.794,
+        "wORR": 1.038,
+        "wDEF": 0.859,
+        "constant": -0.145,
+        "paceAdj": 0.854,
+        "hca": 3.883,
+        "sprHigh": 4,
+        "ouHigh": 5,
+        "sprEliteBump": 3,
+        "ouEliteBump": 3,
+        "probHigh": 0.62,
+        "probElite": 0.63,
+        "probOUHigh": 0.58,
+        "probOUElite": 0.64,
+        "recentWeight": 0.87,
+        "locationWeight": 0.25,
+        "h2hWeight": 0.0
+      },
+      "weightsNext": {
+        "wOFF": 1,
+        "wTS": 1.025,
+        "wTO": 0.794,
+        "wORR": 1.038,
+        "wDEF": 0.859,
+        "constant": -0.145,
+        "paceAdj": 0.854,
+        "hca": 3.883,
+        "sprHigh": 4,
+        "ouHigh": 5,
+        "sprEliteBump": 3,
+        "ouEliteBump": 3,
+        "probHigh": 0.62,
+        "probElite": 0.63,
+        "probOUHigh": 0.58,
+        "probOUElite": 0.64,
+        "recentWeight": 0.87,
+        "locationWeight": 0.25,
+        "h2hWeight": 0.0
+      },
+      "games": [
+        {
+          "away": "Golden State Valkyries",
+          "home": "Atlanta Dream",
+          "line": -3.5,
+          "total": 162.5,
+          "startTimeUTC": "2026-07-04T17:00:00.000+00:00",
+          "_book": "FanDuel",
+          "aS": 84.2,
+          "hS": 85.8,
+          "pT": 170.0,
+          "margin": -1.9,
+          "sDiff": 1.9,
+          "tDiff": 5.8,
+          "sPick": "PASS",
+          "sConf": "low",
+          "oPick": "PASS",
+          "oConf": "low",
+          "injuryNote": null,
+          "pHomeCover": 0.439,
+          "pAwayCover": 0.561,
+          "pOver": 0.674,
+          "pUnder": 0.326,
+          "pCover": null,
+          "pOU": null,
+          "marginVar": 151.3,
+          "marginStd": 12.3,
+          "_features": {
+            "dTS": 0.005347000000000102,
+            "dTO": -0.004058000000000006,
+            "dORR": 0.020033000000000023,
+            "dDEF": -5.797500000000014,
+            "avgPace": 94.310135
+          },
+          "_marginFeatures": {
+            "dTS": 0.0043,
+            "dTO": 0.0033,
+            "dORR": 0.0161,
+            "dDEF": -4.6693,
+            "hca": 1.0,
+            "_baseline": 3.5135,
+            "_pace": 0.8054
+          },
+          "h2hAdj": 0,
+          "h2hGames": 0,
+          "h2hRecord": null,
+          "h2hNote": null,
+          "trends": {
+            "away": "ATS +/- 3.0 \u00b7 Over 50.0% \u00b7 Under 50.0% \u00b7 O/U +/- -4.5",
+            "home": "ATS +/- -1.4 \u00b7 Over 50.0% \u00b7 Under 50.0% \u00b7 O/U +/- 2.7"
+          }
+        },
+        {
+          "away": "Portland Fire",
+          "home": "Seattle Storm",
+          "line": -3.5,
+          "total": 169.5,
+          "startTimeUTC": "2026-07-05T01:00:00.000+00:00",
+          "_book": "FanDuel",
+          "aS": 85.9,
+          "hS": 97.5,
+          "pT": 183.4,
+          "margin": 8.1,
+          "sDiff": 8.1,
+          "tDiff": 7.9,
+          "sPick": "Seattle Storm -3.5",
+          "sConf": "elite",
+          "oPick": "PASS",
+          "oConf": "low",
+          "injuryNote": null,
+          "pHomeCover": 0.743,
+          "pAwayCover": 0.257,
+          "pOver": 0.728,
+          "pUnder": 0.272,
+          "pCover": 0.743,
+          "pOU": null,
+          "marginVar": 153.4,
+          "marginStd": 12.4,
+          "_features": {
+            "dTS": 0.0233835,
+            "dTO": -0.01004350000000001,
+            "dORR": -0.053714500000000054,
+            "dDEF": 8.099699999999999,
+            "avgPace": 94.992615
+          },
+          "_marginFeatures": {
+            "dTS": 0.019,
+            "dTO": 0.0081,
+            "dORR": -0.0436,
+            "dDEF": 6.5705,
+            "hca": 1.0,
+            "_baseline": 0.7659,
+            "_pace": 0.8112
+          },
+          "h2hAdj": 0,
+          "h2hGames": 0,
+          "h2hRecord": null,
+          "h2hNote": null,
+          "trends": {
+            "away": "ATS +/- -1.8 \u00b7 Over 60.0% \u00b7 Under 40.0% \u00b7 O/U +/- 7.6",
+            "home": "ATS +/- 0.7 \u00b7 Over 47.6% \u00b7 Under 52.4% \u00b7 O/U +/- 1.5"
+          }
+        }
+      ],
+      "summaryText": "RECORD (graded picks only)\n\nSPREAD (ATS)\n  All:         40-17-0   (70.2%)   [graded 57]\n  Elite:       40-17-0   (70.2%)   [graded 57]\n\nFAV/DOG (Spread)\n  Favorites:   22-11-0   (66.7%)   [graded 33]\n  Underdogs:   18-6-0   (75.0%)   [graded 24]\n\nTOTAL (O/U)\n  All:         0-0-0   (n/a%)   [graded 0]\n  Elite:       0-0-0   (n/a%)   [graded 0]\n\nOVER/UNDER\n  Over:        0-0-0   (n/a%)   [graded 0]\n  Under:       0-0-0   (n/a%)   [graded 0]",
+      "ranAt": "07/04/2026, 08:48:15 AM"
     }
   ],
   "weights": {
     "wOFF": 1,
-    "wTS": 1.013,
-    "wTO": 0.839,
-    "wORR": 1.039,
-    "wDEF": 0.883,
-    "constant": -0.143,
-    "paceAdj": 0.856,
-    "hca": 3.767,
+    "wTS": 1.025,
+    "wTO": 0.794,
+    "wORR": 1.038,
+    "wDEF": 0.859,
+    "constant": -0.145,
+    "paceAdj": 0.854,
+    "hca": 3.883,
     "sprHigh": 4,
     "ouHigh": 5,
     "sprEliteBump": 3,
@@ -9803,14 +9964,14 @@
     "locationWeight": 0.25,
     "h2hWeight": 0.0
   },
-  "residualVar": 124.0,
+  "residualVar": 123.7,
   "weightsVar": {
-    "wTS": 3.9766,
-    "wTO": 3.9857,
-    "wORR": 3.9671,
+    "wTS": 3.9707,
+    "wTO": 3.9823,
+    "wORR": 3.9589,
     "wDEF": 0.05,
-    "hca": 0.4923,
+    "hca": 0.4132,
     "constant": 4.0
   },
-  "lastTuneDate": "20260703"
+  "lastTuneDate": "20260704"
 }
