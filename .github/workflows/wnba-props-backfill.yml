@@ -52,6 +52,11 @@ jobs:
           PYTHONUNBUFFERED: "1"
           PYTHONIOENCODING: "utf-8"
           ODDS_API_KEY: ${{ secrets.ODDS_API_KEY }}
+          # Paid-plan key for the historical endpoint (the ODDS_API_KEY secret
+          # is a free-plan key; historical fetches 401 on it). Falls back to
+          # the inline key until an ODDS_HIST_KEY repo secret is added —
+          # PREFER adding the secret and removing the inline key (public repo).
+          ODDS_HIST_KEY: ${{ secrets.ODDS_HIST_KEY || '8223eb8c7ff8c24e6e077b9215ef711b' }}
         run: python -m scripts.props_backfill
 
       - name: Copy dashboard data
