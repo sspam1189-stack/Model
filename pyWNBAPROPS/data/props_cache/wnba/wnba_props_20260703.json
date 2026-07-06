@@ -1,142 +1,1667 @@
 [
   {
     "player": "Jonquel Jones",
-    "market": "threes",
-    "line": 1.5,
-    "over_price": -130,
-    "under_price": -102,
+    "line": 2.5,
+    "over_price": -140,
+    "under_price": 106,
+    "market": "assists",
     "event_home": "NYL",
-    "event_away": "MIN",
-    "source": "fanduel"
-  },
-  {
-    "player": "Kayla McBride",
-    "market": "threes",
-    "line": 1.5,
-    "over_price": -174,
-    "under_price": 130,
-    "event_home": "NYL",
-    "event_away": "MIN",
-    "source": "fanduel"
-  },
-  {
-    "player": "Courtney Williams",
-    "market": "threes",
-    "line": 1.5,
-    "over_price": 162,
-    "under_price": -220,
-    "event_home": "NYL",
-    "event_away": "MIN",
-    "source": "fanduel"
+    "event_away": "MIN"
   },
   {
     "player": "Breanna Stewart",
-    "market": "threes",
-    "line": 0.5,
-    "over_price": -158,
-    "under_price": 118,
+    "line": 3.5,
+    "over_price": 116,
+    "under_price": -154,
+    "market": "assists",
     "event_home": "NYL",
-    "event_away": "MIN",
-    "source": "fanduel"
-  },
-  {
-    "player": "Olivia Miles",
-    "market": "threes",
-    "line": 1.5,
-    "over_price": 162,
-    "under_price": -220,
-    "event_home": "NYL",
-    "event_away": "MIN",
-    "source": "fanduel"
-  },
-  {
-    "player": "Leonie Fiebich",
-    "market": "threes",
-    "line": 1.5,
-    "over_price": 102,
-    "under_price": -136,
-    "event_home": "NYL",
-    "event_away": "MIN",
-    "source": "fanduel"
+    "event_away": "MIN"
   },
   {
     "player": "Sabrina Ionescu",
-    "market": "threes",
-    "line": 2.5,
-    "over_price": 136,
-    "under_price": -182,
+    "line": 4.5,
+    "over_price": 102,
+    "under_price": -136,
+    "market": "assists",
     "event_home": "NYL",
-    "event_away": "MIN",
-    "source": "fanduel"
+    "event_away": "MIN"
+  },
+  {
+    "player": "Courtney Williams",
+    "line": 4.5,
+    "over_price": 112,
+    "under_price": -148,
+    "market": "assists",
+    "event_home": "NYL",
+    "event_away": "MIN"
+  },
+  {
+    "player": "Kayla McBride",
+    "line": 2.5,
+    "over_price": -128,
+    "under_price": -104,
+    "market": "assists",
+    "event_home": "NYL",
+    "event_away": "MIN"
+  },
+  {
+    "player": "Natasha Howard",
+    "line": 2.5,
+    "over_price": -104,
+    "under_price": -128,
+    "market": "assists",
+    "event_home": "NYL",
+    "event_away": "MIN"
+  },
+  {
+    "player": "Olivia Miles",
+    "line": 5.5,
+    "over_price": -125,
+    "under_price": -106,
+    "market": "assists",
+    "event_home": "NYL",
+    "event_away": "MIN"
+  },
+  {
+    "player": "Pauline Astier",
+    "line": 3.5,
+    "over_price": -138,
+    "under_price": 104,
+    "market": "assists",
+    "event_home": "NYL",
+    "event_away": "MIN"
+  },
+  {
+    "player": "Sabrina Ionescu",
+    "line": 14.5,
+    "over_price": -120,
+    "under_price": -108,
+    "market": "points",
+    "event_home": "NYL",
+    "event_away": "MIN"
+  },
+  {
+    "player": "Jonquel Jones",
+    "line": 14.5,
+    "over_price": -115,
+    "under_price": -113,
+    "market": "points",
+    "event_home": "NYL",
+    "event_away": "MIN"
+  },
+  {
+    "player": "Olivia Miles",
+    "line": 18.5,
+    "over_price": -102,
+    "under_price": -128,
+    "market": "points",
+    "event_home": "NYL",
+    "event_away": "MIN"
+  },
+  {
+    "player": "Breanna Stewart",
+    "line": 19.5,
+    "over_price": -102,
+    "under_price": -128,
+    "market": "points",
+    "event_home": "NYL",
+    "event_away": "MIN"
+  },
+  {
+    "player": "Marine Johannes",
+    "line": 6.5,
+    "over_price": -110,
+    "under_price": -120,
+    "market": "points",
+    "event_home": "NYL",
+    "event_away": "MIN"
+  },
+  {
+    "player": "Pauline Astier",
+    "line": 7.5,
+    "over_price": -130,
+    "under_price": 100,
+    "market": "points",
+    "event_home": "NYL",
+    "event_away": "MIN"
+  },
+  {
+    "player": "Courtney Williams",
+    "line": 15.5,
+    "over_price": -110,
+    "under_price": -118,
+    "market": "points",
+    "event_home": "NYL",
+    "event_away": "MIN"
+  },
+  {
+    "player": "Kayla McBride",
+    "line": 15.5,
+    "over_price": 100,
+    "under_price": -130,
+    "market": "points",
+    "event_home": "NYL",
+    "event_away": "MIN"
+  },
+  {
+    "player": "Natasha Howard",
+    "line": 15.5,
+    "over_price": -128,
+    "under_price": -102,
+    "market": "points",
+    "event_home": "NYL",
+    "event_away": "MIN"
   },
   {
     "player": "Nia Coffey",
-    "market": "threes",
-    "line": 1.5,
-    "over_price": 116,
-    "under_price": -154,
+    "line": 8.5,
+    "over_price": -128,
+    "under_price": -102,
+    "market": "points",
     "event_home": "NYL",
-    "event_away": "MIN",
-    "source": "fanduel"
+    "event_away": "MIN"
   },
   {
-    "player": "Jackie Young",
-    "market": "threes",
-    "line": 2.5,
+    "player": "Leonie Fiebich",
+    "line": 9.5,
+    "over_price": -104,
+    "under_price": -125,
+    "market": "points",
+    "event_home": "NYL",
+    "event_away": "MIN"
+  },
+  {
+    "player": "Jonquel Jones",
+    "line": 26.5,
+    "over_price": -110,
+    "under_price": -120,
+    "market": "pts_rebs_asts",
+    "event_home": "NYL",
+    "event_away": "MIN"
+  },
+  {
+    "player": "Sabrina Ionescu",
+    "line": 23.5,
+    "over_price": -114,
+    "under_price": -114,
+    "market": "pts_rebs_asts",
+    "event_home": "NYL",
+    "event_away": "MIN"
+  },
+  {
+    "player": "Breanna Stewart",
+    "line": 31.5,
+    "over_price": -102,
+    "under_price": -130,
+    "market": "pts_rebs_asts",
+    "event_home": "NYL",
+    "event_away": "MIN"
+  },
+  {
+    "player": "Courtney Williams",
+    "line": 25.5,
+    "over_price": -102,
+    "under_price": -130,
+    "market": "pts_rebs_asts",
+    "event_home": "NYL",
+    "event_away": "MIN"
+  },
+  {
+    "player": "Olivia Miles",
+    "line": 28.5,
+    "over_price": -122,
+    "under_price": -108,
+    "market": "pts_rebs_asts",
+    "event_home": "NYL",
+    "event_away": "MIN"
+  },
+  {
+    "player": "Kayla McBride",
+    "line": 21.5,
+    "over_price": -106,
+    "under_price": -125,
+    "market": "pts_rebs_asts",
+    "event_home": "NYL",
+    "event_away": "MIN"
+  },
+  {
+    "player": "Natasha Howard",
+    "line": 26.5,
+    "over_price": -130,
+    "under_price": -102,
+    "market": "pts_rebs_asts",
+    "event_home": "NYL",
+    "event_away": "MIN"
+  },
+  {
+    "player": "Leonie Fiebich",
+    "line": 13.5,
+    "over_price": -122,
+    "under_price": -108,
+    "market": "pts_rebs_asts",
+    "event_home": "NYL",
+    "event_away": "MIN"
+  },
+  {
+    "player": "Sabrina Ionescu",
+    "line": 3.5,
+    "over_price": -162,
+    "under_price": 122,
+    "market": "rebounds",
+    "event_home": "NYL",
+    "event_away": "MIN"
+  },
+  {
+    "player": "Jonquel Jones",
+    "line": 8.5,
+    "over_price": -112,
+    "under_price": -118,
+    "market": "rebounds",
+    "event_home": "NYL",
+    "event_away": "MIN"
+  },
+  {
+    "player": "Olivia Miles",
+    "line": 4.5,
+    "over_price": -120,
+    "under_price": -110,
+    "market": "rebounds",
+    "event_home": "NYL",
+    "event_away": "MIN"
+  },
+  {
+    "player": "Breanna Stewart",
+    "line": 8.5,
+    "over_price": 112,
+    "under_price": -148,
+    "market": "rebounds",
+    "event_home": "NYL",
+    "event_away": "MIN"
+  },
+  {
+    "player": "Courtney Williams",
+    "line": 5.5,
+    "over_price": 128,
+    "under_price": -172,
+    "market": "rebounds",
+    "event_home": "NYL",
+    "event_away": "MIN"
+  },
+  {
+    "player": "Kayla McBride",
+    "line": 3.5,
     "over_price": 116,
     "under_price": -154,
-    "event_home": "LVA",
-    "event_away": "CHI",
-    "source": "fanduel"
+    "market": "rebounds",
+    "event_home": "NYL",
+    "event_away": "MIN"
   },
   {
-    "player": "Skylar Diggins",
-    "market": "threes",
-    "line": 1.5,
-    "over_price": 116,
-    "under_price": -154,
-    "event_home": "LVA",
-    "event_away": "CHI",
-    "source": "fanduel"
+    "player": "Natasha Howard",
+    "line": 7.5,
+    "over_price": -154,
+    "under_price": 116,
+    "market": "rebounds",
+    "event_home": "NYL",
+    "event_away": "MIN"
   },
   {
-    "player": "Jewell Loyd",
-    "market": "threes",
-    "line": 1.5,
-    "over_price": -136,
-    "under_price": 102,
-    "event_home": "LVA",
-    "event_away": "CHI",
-    "source": "fanduel"
-  },
-  {
-    "player": "Chelsea Gray",
-    "market": "threes",
+    "player": "Leonie Fiebich",
     "line": 2.5,
-    "over_price": 132,
-    "under_price": -178,
-    "event_home": "LVA",
-    "event_away": "CHI",
-    "source": "fanduel"
+    "over_price": -128,
+    "under_price": -104,
+    "market": "rebounds",
+    "event_home": "NYL",
+    "event_away": "MIN"
   },
   {
-    "player": "Sydney Taylor",
+    "player": "Nia Coffey",
+    "line": 5.5,
+    "over_price": -132,
+    "under_price": 100,
+    "market": "rebounds",
+    "event_home": "NYL",
+    "event_away": "MIN"
+  },
+  {
+    "player": "Pauline Astier",
+    "line": 2.5,
+    "over_price": -148,
+    "under_price": 112,
+    "market": "rebounds",
+    "event_home": "NYL",
+    "event_away": "MIN"
+  },
+  {
+    "player": "Sabrina Ionescu",
+    "line": 2.5,
+    "over_price": 140,
+    "under_price": -188,
     "market": "threes",
+    "event_home": "NYL",
+    "event_away": "MIN"
+  },
+  {
+    "player": "Jonquel Jones",
     "line": 1.5,
+    "over_price": -130,
+    "under_price": -102,
+    "market": "threes",
+    "event_home": "NYL",
+    "event_away": "MIN"
+  },
+  {
+    "player": "Breanna Stewart",
+    "line": 0.5,
     "over_price": -158,
     "under_price": 118,
-    "event_home": "LVA",
-    "event_away": "CHI",
-    "source": "fanduel"
+    "market": "threes",
+    "event_home": "NYL",
+    "event_away": "MIN"
   },
   {
-    "player": "Azura Stevens",
-    "market": "threes",
+    "player": "Olivia Miles",
     "line": 1.5,
     "over_price": 162,
     "under_price": -220,
+    "market": "threes",
+    "event_home": "NYL",
+    "event_away": "MIN"
+  },
+  {
+    "player": "Courtney Williams",
+    "line": 1.5,
+    "over_price": 162,
+    "under_price": -220,
+    "market": "threes",
+    "event_home": "NYL",
+    "event_away": "MIN"
+  },
+  {
+    "player": "Kayla McBride",
+    "line": 1.5,
+    "over_price": -188,
+    "under_price": 140,
+    "market": "threes",
+    "event_home": "NYL",
+    "event_away": "MIN"
+  },
+  {
+    "player": "Leonie Fiebich",
+    "line": 1.5,
+    "over_price": -106,
+    "under_price": -125,
+    "market": "threes",
+    "event_home": "NYL",
+    "event_away": "MIN"
+  },
+  {
+    "player": "Nia Coffey",
+    "line": 1.5,
+    "over_price": 100,
+    "under_price": -132,
+    "market": "threes",
+    "event_home": "NYL",
+    "event_away": "MIN"
+  },
+  {
+    "player": "Courtney Vandersloot",
+    "line": 4.5,
+    "over_price": -106,
+    "under_price": -125,
+    "market": "assists",
     "event_home": "LVA",
-    "event_away": "CHI",
-    "source": "fanduel"
+    "event_away": "CHI"
+  },
+  {
+    "player": "Natasha Cloud",
+    "line": 3.5,
+    "over_price": -104,
+    "under_price": -128,
+    "market": "assists",
+    "event_home": "LVA",
+    "event_away": "CHI"
+  },
+  {
+    "player": "Skylar Diggins-Smith",
+    "line": 4.5,
+    "over_price": -130,
+    "under_price": -102,
+    "market": "assists",
+    "event_home": "LVA",
+    "event_away": "CHI"
+  },
+  {
+    "player": "Jackie Young",
+    "line": 6.5,
+    "over_price": -110,
+    "under_price": -120,
+    "market": "assists",
+    "event_home": "LVA",
+    "event_away": "CHI"
+  },
+  {
+    "player": "Chelsea Gray",
+    "line": 6.5,
+    "over_price": -154,
+    "under_price": 116,
+    "market": "assists",
+    "event_home": "LVA",
+    "event_away": "CHI"
+  },
+  {
+    "player": "Jackie Young",
+    "line": 20.5,
+    "over_price": -114,
+    "under_price": -114,
+    "market": "points",
+    "event_home": "LVA",
+    "event_away": "CHI"
+  },
+  {
+    "player": "Skylar Diggins-Smith",
+    "line": 14.5,
+    "over_price": -104,
+    "under_price": -125,
+    "market": "points",
+    "event_home": "LVA",
+    "event_away": "CHI"
+  },
+  {
+    "player": "Chennedy Carter",
+    "line": 15.5,
+    "over_price": -132,
+    "under_price": 102,
+    "market": "points",
+    "event_home": "LVA",
+    "event_away": "CHI"
+  },
+  {
+    "player": "Jewell Loyd",
+    "line": 9.5,
+    "over_price": -120,
+    "under_price": -108,
+    "market": "points",
+    "event_home": "LVA",
+    "event_away": "CHI"
+  },
+  {
+    "player": "NaLyssa Smith",
+    "line": 12.5,
+    "over_price": -115,
+    "under_price": -113,
+    "market": "points",
+    "event_home": "LVA",
+    "event_away": "CHI"
+  },
+  {
+    "player": "Sydney Taylor",
+    "line": 14.5,
+    "over_price": -108,
+    "under_price": -120,
+    "market": "points",
+    "event_home": "LVA",
+    "event_away": "CHI"
+  },
+  {
+    "player": "Gabriela Jaquez",
+    "line": 7.5,
+    "over_price": -114,
+    "under_price": -114,
+    "market": "points",
+    "event_home": "LVA",
+    "event_away": "CHI"
+  },
+  {
+    "player": "Azura Stevens",
+    "line": 11.5,
+    "over_price": -106,
+    "under_price": -122,
+    "market": "points",
+    "event_home": "LVA",
+    "event_away": "CHI"
+  },
+  {
+    "player": "Kamilla Cardoso",
+    "line": 14.5,
+    "over_price": -120,
+    "under_price": -108,
+    "market": "points",
+    "event_home": "LVA",
+    "event_away": "CHI"
+  },
+  {
+    "player": "Chelsea Gray",
+    "line": 14.5,
+    "over_price": -102,
+    "under_price": -128,
+    "market": "points",
+    "event_home": "LVA",
+    "event_away": "CHI"
+  },
+  {
+    "player": "Jackie Young",
+    "line": 32.5,
+    "over_price": -114,
+    "under_price": -114,
+    "market": "pts_rebs_asts",
+    "event_home": "LVA",
+    "event_away": "CHI"
+  },
+  {
+    "player": "Jewell Loyd",
+    "line": 14.5,
+    "over_price": -120,
+    "under_price": -110,
+    "market": "pts_rebs_asts",
+    "event_home": "LVA",
+    "event_away": "CHI"
+  },
+  {
+    "player": "Kamilla Cardoso",
+    "line": 25.5,
+    "over_price": -118,
+    "under_price": -112,
+    "market": "pts_rebs_asts",
+    "event_home": "LVA",
+    "event_away": "CHI"
+  },
+  {
+    "player": "Skylar Diggins-Smith",
+    "line": 22.5,
+    "over_price": -102,
+    "under_price": -130,
+    "market": "pts_rebs_asts",
+    "event_home": "LVA",
+    "event_away": "CHI"
+  },
+  {
+    "player": "Azura Stevens",
+    "line": 21.5,
+    "over_price": -102,
+    "under_price": -130,
+    "market": "pts_rebs_asts",
+    "event_home": "LVA",
+    "event_away": "CHI"
+  },
+  {
+    "player": "Chelsea Gray",
+    "line": 26.5,
+    "over_price": -102,
+    "under_price": -130,
+    "market": "pts_rebs_asts",
+    "event_home": "LVA",
+    "event_away": "CHI"
+  },
+  {
+    "player": "Natasha Cloud",
+    "line": 2.5,
+    "over_price": -160,
+    "under_price": 120,
+    "market": "rebounds",
+    "event_home": "LVA",
+    "event_away": "CHI"
+  },
+  {
+    "player": "Jackie Young",
+    "line": 5.5,
+    "over_price": 104,
+    "under_price": -138,
+    "market": "rebounds",
+    "event_home": "LVA",
+    "event_away": "CHI"
+  },
+  {
+    "player": "Skylar Diggins-Smith",
+    "line": 2.5,
+    "over_price": -148,
+    "under_price": 112,
+    "market": "rebounds",
+    "event_home": "LVA",
+    "event_away": "CHI"
+  },
+  {
+    "player": "Gabriela Jaquez",
+    "line": 3.5,
+    "over_price": -104,
+    "under_price": -128,
+    "market": "rebounds",
+    "event_home": "LVA",
+    "event_away": "CHI"
+  },
+  {
+    "player": "Azura Stevens",
+    "line": 6.5,
+    "over_price": -146,
+    "under_price": 110,
+    "market": "rebounds",
+    "event_home": "LVA",
+    "event_away": "CHI"
+  },
+  {
+    "player": "NaLyssa Smith",
+    "line": 7.5,
+    "over_price": 108,
+    "under_price": -144,
+    "market": "rebounds",
+    "event_home": "LVA",
+    "event_away": "CHI"
+  },
+  {
+    "player": "Kamilla Cardoso",
+    "line": 8.5,
+    "over_price": 112,
+    "under_price": -148,
+    "market": "rebounds",
+    "event_home": "LVA",
+    "event_away": "CHI"
+  },
+  {
+    "player": "Chelsea Gray",
+    "line": 4.5,
+    "over_price": -114,
+    "under_price": -114,
+    "market": "rebounds",
+    "event_home": "LVA",
+    "event_away": "CHI"
+  },
+  {
+    "player": "Skylar Diggins-Smith",
+    "line": 1.5,
+    "over_price": 116,
+    "under_price": -158,
+    "market": "threes",
+    "event_home": "LVA",
+    "event_away": "CHI"
+  },
+  {
+    "player": "Jewell Loyd",
+    "line": 1.5,
+    "over_price": -166,
+    "under_price": 124,
+    "market": "threes",
+    "event_home": "LVA",
+    "event_away": "CHI"
+  },
+  {
+    "player": "Sydney Taylor",
+    "line": 1.5,
+    "over_price": -158,
+    "under_price": 118,
+    "market": "threes",
+    "event_home": "LVA",
+    "event_away": "CHI"
+  },
+  {
+    "player": "Azura Stevens",
+    "line": 1.5,
+    "over_price": 162,
+    "under_price": -220,
+    "market": "threes",
+    "event_home": "LVA",
+    "event_away": "CHI"
+  },
+  {
+    "player": "Jackie Young",
+    "line": 2.5,
+    "over_price": 108,
+    "under_price": -144,
+    "market": "threes",
+    "event_home": "LVA",
+    "event_away": "CHI"
+  },
+  {
+    "player": "Chelsea Gray",
+    "line": 2.5,
+    "over_price": 130,
+    "under_price": -174,
+    "market": "threes",
+    "event_home": "LVA",
+    "event_away": "CHI"
+  },
+  {
+    "player": "Allisha Gray",
+    "line": 2.5,
+    "over_price": 124,
+    "under_price": -166,
+    "market": "assists",
+    "event_home": "ATL",
+    "event_away": "GSV"
+  },
+  {
+    "player": "Veronica Burton",
+    "line": 5.5,
+    "over_price": 110,
+    "under_price": -146,
+    "market": "assists",
+    "event_home": "ATL",
+    "event_away": "GSV"
+  },
+  {
+    "player": "Rhyne Howard",
+    "line": 3.5,
+    "over_price": 114,
+    "under_price": -152,
+    "market": "assists",
+    "event_home": "ATL",
+    "event_away": "GSV"
+  },
+  {
+    "player": "Jordin Canada",
+    "line": 6.5,
+    "over_price": 118,
+    "under_price": -158,
+    "market": "assists",
+    "event_home": "ATL",
+    "event_away": "GSV"
+  },
+  {
+    "player": "Gabby Williams",
+    "line": 2.5,
+    "over_price": -114,
+    "under_price": -114,
+    "market": "assists",
+    "event_home": "ATL",
+    "event_away": "GSV"
+  },
+  {
+    "player": "Angel Reese",
+    "line": 2.5,
+    "over_price": -108,
+    "under_price": -122,
+    "market": "assists",
+    "event_home": "ATL",
+    "event_away": "GSV"
+  },
+  {
+    "player": "Allisha Gray",
+    "line": 17.5,
+    "over_price": -110,
+    "under_price": -118,
+    "market": "points",
+    "event_home": "ATL",
+    "event_away": "GSV"
+  },
+  {
+    "player": "Veronica Burton",
+    "line": 10.5,
+    "over_price": -125,
+    "under_price": -104,
+    "market": "points",
+    "event_home": "ATL",
+    "event_away": "GSV"
+  },
+  {
+    "player": "Rhyne Howard",
+    "line": 17.5,
+    "over_price": -110,
+    "under_price": -118,
+    "market": "points",
+    "event_home": "ATL",
+    "event_away": "GSV"
+  },
+  {
+    "player": "Jordin Canada",
+    "line": 11.5,
+    "over_price": 102,
+    "under_price": -132,
+    "market": "points",
+    "event_home": "ATL",
+    "event_away": "GSV"
+  },
+  {
+    "player": "Gabby Williams",
+    "line": 14.5,
+    "over_price": -115,
+    "under_price": -113,
+    "market": "points",
+    "event_home": "ATL",
+    "event_away": "GSV"
+  },
+  {
+    "player": "Cecilia Zandalasini",
+    "line": 9.5,
+    "over_price": 102,
+    "under_price": -132,
+    "market": "points",
+    "event_home": "ATL",
+    "event_away": "GSV"
+  },
+  {
+    "player": "Kayla Thornton",
+    "line": 8.5,
+    "over_price": -118,
+    "under_price": -110,
+    "market": "points",
+    "event_home": "ATL",
+    "event_away": "GSV"
+  },
+  {
+    "player": "Janelle Salaun",
+    "line": 9.5,
+    "over_price": -108,
+    "under_price": -120,
+    "market": "points",
+    "event_home": "ATL",
+    "event_away": "GSV"
+  },
+  {
+    "player": "Angel Reese",
+    "line": 13.5,
+    "over_price": -122,
+    "under_price": -104,
+    "market": "points",
+    "event_home": "ATL",
+    "event_away": "GSV"
+  },
+  {
+    "player": "Angel Reese",
+    "line": 28.5,
+    "over_price": -114,
+    "under_price": -114,
+    "market": "pts_rebs_asts",
+    "event_home": "ATL",
+    "event_away": "GSV"
+  },
+  {
+    "player": "Veronica Burton",
+    "line": 19.5,
+    "over_price": -114,
+    "under_price": -114,
+    "market": "pts_rebs_asts",
+    "event_home": "ATL",
+    "event_away": "GSV"
+  },
+  {
+    "player": "Allisha Gray",
+    "line": 23.5,
+    "over_price": -110,
+    "under_price": -120,
+    "market": "pts_rebs_asts",
+    "event_home": "ATL",
+    "event_away": "GSV"
+  },
+  {
+    "player": "Rhyne Howard",
+    "line": 24.5,
+    "over_price": -118,
+    "under_price": -112,
+    "market": "pts_rebs_asts",
+    "event_home": "ATL",
+    "event_away": "GSV"
+  },
+  {
+    "player": "Jordin Canada",
+    "line": 20.5,
+    "over_price": -122,
+    "under_price": -106,
+    "market": "pts_rebs_asts",
+    "event_home": "ATL",
+    "event_away": "GSV"
+  },
+  {
+    "player": "Gabby Williams",
+    "line": 20.5,
+    "over_price": -130,
+    "under_price": -102,
+    "market": "pts_rebs_asts",
+    "event_home": "ATL",
+    "event_away": "GSV"
+  },
+  {
+    "player": "Allisha Gray",
+    "line": 3.5,
+    "over_price": 104,
+    "under_price": -138,
+    "market": "rebounds",
+    "event_home": "ATL",
+    "event_away": "GSV"
+  },
+  {
+    "player": "Veronica Burton",
+    "line": 3.5,
+    "over_price": 128,
+    "under_price": -172,
+    "market": "rebounds",
+    "event_home": "ATL",
+    "event_away": "GSV"
+  },
+  {
+    "player": "Rhyne Howard",
+    "line": 3.5,
+    "over_price": -128,
+    "under_price": -104,
+    "market": "rebounds",
+    "event_home": "ATL",
+    "event_away": "GSV"
+  },
+  {
+    "player": "Jordin Canada",
+    "line": 3.5,
+    "over_price": 116,
+    "under_price": -154,
+    "market": "rebounds",
+    "event_home": "ATL",
+    "event_away": "GSV"
+  },
+  {
+    "player": "Gabby Williams",
+    "line": 3.5,
+    "over_price": -114,
+    "under_price": -114,
+    "market": "rebounds",
+    "event_home": "ATL",
+    "event_away": "GSV"
+  },
+  {
+    "player": "Angel Reese",
+    "line": 11.5,
+    "over_price": -144,
+    "under_price": 108,
+    "market": "rebounds",
+    "event_home": "ATL",
+    "event_away": "GSV"
+  },
+  {
+    "player": "Kayla Thornton",
+    "line": 5.5,
+    "over_price": 110,
+    "under_price": -146,
+    "market": "rebounds",
+    "event_home": "ATL",
+    "event_away": "GSV"
+  },
+  {
+    "player": "Janelle Salaun",
+    "line": 3.5,
+    "over_price": 122,
+    "under_price": -162,
+    "market": "rebounds",
+    "event_home": "ATL",
+    "event_away": "GSV"
+  },
+  {
+    "player": "Allisha Gray",
+    "line": 1.5,
+    "over_price": -120,
+    "under_price": -110,
+    "market": "threes",
+    "event_home": "ATL",
+    "event_away": "GSV"
+  },
+  {
+    "player": "Veronica Burton",
+    "line": 1.5,
+    "over_price": 154,
+    "under_price": -210,
+    "market": "threes",
+    "event_home": "ATL",
+    "event_away": "GSV"
+  },
+  {
+    "player": "Rhyne Howard",
+    "line": 2.5,
+    "over_price": -132,
+    "under_price": 100,
+    "market": "threes",
+    "event_home": "ATL",
+    "event_away": "GSV"
+  },
+  {
+    "player": "Gabby Williams",
+    "line": 1.5,
+    "over_price": -112,
+    "under_price": -118,
+    "market": "threes",
+    "event_home": "ATL",
+    "event_away": "GSV"
+  },
+  {
+    "player": "Janelle Salaun",
+    "line": 1.5,
+    "over_price": -144,
+    "under_price": 108,
+    "market": "threes",
+    "event_home": "ATL",
+    "event_away": "GSV"
+  },
+  {
+    "player": "Cecilia Zandalasini",
+    "line": 1.5,
+    "over_price": 142,
+    "under_price": -192,
+    "market": "threes",
+    "event_home": "ATL",
+    "event_away": "GSV"
+  },
+  {
+    "player": "Kayla Thornton",
+    "line": 1.5,
+    "over_price": -102,
+    "under_price": -130,
+    "market": "threes",
+    "event_home": "ATL",
+    "event_away": "GSV"
+  },
+  {
+    "player": "Natisha Hiedeman",
+    "line": 4.5,
+    "over_price": -130,
+    "under_price": -102,
+    "market": "assists",
+    "event_home": "SEA",
+    "event_away": "PDX"
+  },
+  {
+    "player": "Carla Leite",
+    "line": 6.5,
+    "over_price": 124,
+    "under_price": -166,
+    "market": "assists",
+    "event_home": "SEA",
+    "event_away": "PDX"
+  },
+  {
+    "player": "Jade Melbourne",
+    "line": 4.5,
+    "over_price": 108,
+    "under_price": -144,
+    "market": "assists",
+    "event_home": "SEA",
+    "event_away": "PDX"
+  },
+  {
+    "player": "Bridget Carleton",
+    "line": 2.5,
+    "over_price": 154,
+    "under_price": -210,
+    "market": "assists",
+    "event_home": "SEA",
+    "event_away": "PDX"
+  },
+  {
+    "player": "Dominique Malonga",
+    "line": 17.5,
+    "over_price": -130,
+    "under_price": 100,
+    "market": "points",
+    "event_home": "SEA",
+    "event_away": "PDX"
+  },
+  {
+    "player": "Bridget Carleton",
+    "line": 13.5,
+    "over_price": -108,
+    "under_price": -120,
+    "market": "points",
+    "event_home": "SEA",
+    "event_away": "PDX"
+  },
+  {
+    "player": "Sarah Ashlee Barker",
+    "line": 11.5,
+    "over_price": 100,
+    "under_price": -130,
+    "market": "points",
+    "event_home": "SEA",
+    "event_away": "PDX"
+  },
+  {
+    "player": "Flau'jae Johnson",
+    "line": 12.5,
+    "over_price": -132,
+    "under_price": 102,
+    "market": "points",
+    "event_home": "SEA",
+    "event_away": "PDX"
+  },
+  {
+    "player": "Carla Leite",
+    "line": 14.5,
+    "over_price": -114,
+    "under_price": -114,
+    "market": "points",
+    "event_home": "SEA",
+    "event_away": "PDX"
+  },
+  {
+    "player": "Jade Melbourne",
+    "line": 8.5,
+    "over_price": -108,
+    "under_price": -120,
+    "market": "points",
+    "event_home": "SEA",
+    "event_away": "PDX"
+  },
+  {
+    "player": "Emily Engstler",
+    "line": 8.5,
+    "over_price": -110,
+    "under_price": -118,
+    "market": "points",
+    "event_home": "SEA",
+    "event_away": "PDX"
+  },
+  {
+    "player": "Natisha Hiedeman",
+    "line": 15.5,
+    "over_price": -113,
+    "under_price": -115,
+    "market": "points",
+    "event_home": "SEA",
+    "event_away": "PDX"
+  },
+  {
+    "player": "Megan Gustafson",
+    "line": 12.5,
+    "over_price": -102,
+    "under_price": -128,
+    "market": "points",
+    "event_home": "SEA",
+    "event_away": "PDX"
+  },
+  {
+    "player": "Awa Fam",
+    "line": 11.5,
+    "over_price": -132,
+    "under_price": 102,
+    "market": "points",
+    "event_home": "SEA",
+    "event_away": "PDX"
+  },
+  {
+    "player": "Awa Fam",
+    "line": 19.5,
+    "over_price": -104,
+    "under_price": -128,
+    "market": "pts_rebs_asts",
+    "event_home": "SEA",
+    "event_away": "PDX"
+  },
+  {
+    "player": "Jade Melbourne",
+    "line": 14.5,
+    "over_price": -136,
+    "under_price": 102,
+    "market": "pts_rebs_asts",
+    "event_home": "SEA",
+    "event_away": "PDX"
+  },
+  {
+    "player": "Natisha Hiedeman",
+    "line": 22.5,
+    "over_price": -122,
+    "under_price": -106,
+    "market": "pts_rebs_asts",
+    "event_home": "SEA",
+    "event_away": "PDX"
+  },
+  {
+    "player": "Flau'jae Johnson",
+    "line": 21.5,
+    "over_price": -118,
+    "under_price": -112,
+    "market": "pts_rebs_asts",
+    "event_home": "SEA",
+    "event_away": "PDX"
+  },
+  {
+    "player": "Sarah Ashlee Barker",
+    "line": 17.5,
+    "over_price": -130,
+    "under_price": -102,
+    "market": "pts_rebs_asts",
+    "event_home": "SEA",
+    "event_away": "PDX"
+  },
+  {
+    "player": "Dominique Malonga",
+    "line": 28.5,
+    "over_price": -118,
+    "under_price": -112,
+    "market": "pts_rebs_asts",
+    "event_home": "SEA",
+    "event_away": "PDX"
+  },
+  {
+    "player": "Bridget Carleton",
+    "line": 19.5,
+    "over_price": -106,
+    "under_price": -125,
+    "market": "pts_rebs_asts",
+    "event_home": "SEA",
+    "event_away": "PDX"
+  },
+  {
+    "player": "Carla Leite",
+    "line": 23.5,
+    "over_price": -114,
+    "under_price": -114,
+    "market": "pts_rebs_asts",
+    "event_home": "SEA",
+    "event_away": "PDX"
+  },
+  {
+    "player": "Awa Fam",
+    "line": 5.5,
+    "over_price": 126,
+    "under_price": -168,
+    "market": "rebounds",
+    "event_home": "SEA",
+    "event_away": "PDX"
+  },
+  {
+    "player": "Bridget Carleton",
+    "line": 3.5,
+    "over_price": -110,
+    "under_price": -120,
+    "market": "rebounds",
+    "event_home": "SEA",
+    "event_away": "PDX"
+  },
+  {
+    "player": "Flau'jae Johnson",
+    "line": 5.5,
+    "over_price": 110,
+    "under_price": -146,
+    "market": "rebounds",
+    "event_home": "SEA",
+    "event_away": "PDX"
+  },
+  {
+    "player": "Sarah Ashlee Barker",
+    "line": 4.5,
+    "over_price": 114,
+    "under_price": -152,
+    "market": "rebounds",
+    "event_home": "SEA",
+    "event_away": "PDX"
+  },
+  {
+    "player": "Jade Melbourne",
+    "line": 2.5,
+    "over_price": 158,
+    "under_price": -215,
+    "market": "rebounds",
+    "event_home": "SEA",
+    "event_away": "PDX"
+  },
+  {
+    "player": "Emily Engstler",
+    "line": 5.5,
+    "over_price": 102,
+    "under_price": -136,
+    "market": "rebounds",
+    "event_home": "SEA",
+    "event_away": "PDX"
+  },
+  {
+    "player": "Dominique Malonga",
+    "line": 8.5,
+    "over_price": -108,
+    "under_price": -122,
+    "market": "rebounds",
+    "event_home": "SEA",
+    "event_away": "PDX"
+  },
+  {
+    "player": "Megan Gustafson",
+    "line": 3.5,
+    "over_price": -136,
+    "under_price": 102,
+    "market": "rebounds",
+    "event_home": "SEA",
+    "event_away": "PDX"
+  },
+  {
+    "player": "Bridget Carleton",
+    "line": 2.5,
+    "over_price": 100,
+    "under_price": -132,
+    "market": "threes",
+    "event_home": "SEA",
+    "event_away": "PDX"
+  },
+  {
+    "player": "Awa Fam",
+    "line": 1.5,
+    "over_price": -114,
+    "under_price": -114,
+    "market": "threes",
+    "event_home": "SEA",
+    "event_away": "PDX"
+  },
+  {
+    "player": "Flau'jae Johnson",
+    "line": 1.5,
+    "over_price": 100,
+    "under_price": -132,
+    "market": "threes",
+    "event_home": "SEA",
+    "event_away": "PDX"
+  },
+  {
+    "player": "Sarah Ashlee Barker",
+    "line": 1.5,
+    "over_price": 102,
+    "under_price": -136,
+    "market": "threes",
+    "event_home": "SEA",
+    "event_away": "PDX"
+  },
+  {
+    "player": "Natisha Hiedeman",
+    "line": 2.5,
+    "over_price": 140,
+    "under_price": -188,
+    "market": "threes",
+    "event_home": "SEA",
+    "event_away": "PDX"
+  },
+  {
+    "player": "Megan Gustafson",
+    "line": 1.5,
+    "over_price": 110,
+    "under_price": -146,
+    "market": "threes",
+    "event_home": "SEA",
+    "event_away": "PDX"
+  },
+  {
+    "player": "Kelsey Mitchell",
+    "line": 2.5,
+    "over_price": -174,
+    "under_price": 130,
+    "market": "assists",
+    "event_home": "LVA",
+    "event_away": "IND"
+  },
+  {
+    "player": "Aliyah Boston",
+    "line": 3.5,
+    "over_price": 104,
+    "under_price": -138,
+    "market": "assists",
+    "event_home": "LVA",
+    "event_away": "IND"
+  },
+  {
+    "player": "Jackie Young",
+    "line": 6.5,
+    "over_price": 100,
+    "under_price": -132,
+    "market": "assists",
+    "event_home": "LVA",
+    "event_away": "IND"
+  },
+  {
+    "player": "Chelsea Gray",
+    "line": 6.5,
+    "over_price": -158,
+    "under_price": 118,
+    "market": "assists",
+    "event_home": "LVA",
+    "event_away": "IND"
+  },
+  {
+    "player": "Jewell Loyd",
+    "line": 10.5,
+    "over_price": -125,
+    "under_price": -104,
+    "market": "points",
+    "event_home": "LVA",
+    "event_away": "IND"
+  },
+  {
+    "player": "Jackie Young",
+    "line": 20.5,
+    "over_price": -104,
+    "under_price": -125,
+    "market": "points",
+    "event_home": "LVA",
+    "event_away": "IND"
+  },
+  {
+    "player": "Aliyah Boston",
+    "line": 17.5,
+    "over_price": -113,
+    "under_price": -115,
+    "market": "points",
+    "event_home": "LVA",
+    "event_away": "IND"
+  },
+  {
+    "player": "Chelsea Gray",
+    "line": 14.5,
+    "over_price": -108,
+    "under_price": -120,
+    "market": "points",
+    "event_home": "LVA",
+    "event_away": "IND"
+  },
+  {
+    "player": "Cheyenne Parker-Tyus",
+    "line": 9.5,
+    "over_price": -120,
+    "under_price": -106,
+    "market": "points",
+    "event_home": "LVA",
+    "event_away": "IND"
+  },
+  {
+    "player": "Kelsey Mitchell",
+    "line": 23.5,
+    "over_price": -106,
+    "under_price": -122,
+    "market": "points",
+    "event_home": "LVA",
+    "event_away": "IND"
+  },
+  {
+    "player": "Sophie Cunningham",
+    "line": 9.5,
+    "over_price": -114,
+    "under_price": -114,
+    "market": "points",
+    "event_home": "LVA",
+    "event_away": "IND"
+  },
+  {
+    "player": "NaLyssa Smith",
+    "line": 13.5,
+    "over_price": 102,
+    "under_price": -132,
+    "market": "points",
+    "event_home": "LVA",
+    "event_away": "IND"
+  },
+  {
+    "player": "Monique Billings",
+    "line": 8.5,
+    "over_price": -113,
+    "under_price": -115,
+    "market": "points",
+    "event_home": "LVA",
+    "event_away": "IND"
+  },
+  {
+    "player": "Aliyah Boston",
+    "line": 30.5,
+    "over_price": -114,
+    "under_price": -114,
+    "market": "pts_rebs_asts",
+    "event_home": "LVA",
+    "event_away": "IND"
+  },
+  {
+    "player": "Jackie Young",
+    "line": 31.5,
+    "over_price": -125,
+    "under_price": -106,
+    "market": "pts_rebs_asts",
+    "event_home": "LVA",
+    "event_away": "IND"
+  },
+  {
+    "player": "Chelsea Gray",
+    "line": 26.5,
+    "over_price": -108,
+    "under_price": -122,
+    "market": "pts_rebs_asts",
+    "event_home": "LVA",
+    "event_away": "IND"
+  },
+  {
+    "player": "Kelsey Mitchell",
+    "line": 28.5,
+    "over_price": -112,
+    "under_price": -118,
+    "market": "pts_rebs_asts",
+    "event_home": "LVA",
+    "event_away": "IND"
+  },
+  {
+    "player": "Jewell Loyd",
+    "line": 3.5,
+    "over_price": 134,
+    "under_price": -180,
+    "market": "rebounds",
+    "event_home": "LVA",
+    "event_away": "IND"
+  },
+  {
+    "player": "Aliyah Boston",
+    "line": 9.5,
+    "over_price": -114,
+    "under_price": -114,
+    "market": "rebounds",
+    "event_home": "LVA",
+    "event_away": "IND"
+  },
+  {
+    "player": "Jackie Young",
+    "line": 4.5,
+    "over_price": -162,
+    "under_price": 122,
+    "market": "rebounds",
+    "event_home": "LVA",
+    "event_away": "IND"
+  },
+  {
+    "player": "Lexie Hull",
+    "line": 3.5,
+    "over_price": -172,
+    "under_price": 128,
+    "market": "rebounds",
+    "event_home": "LVA",
+    "event_away": "IND"
+  },
+  {
+    "player": "Chelsea Gray",
+    "line": 4.5,
+    "over_price": -114,
+    "under_price": -114,
+    "market": "rebounds",
+    "event_home": "LVA",
+    "event_away": "IND"
+  },
+  {
+    "player": "Cheyenne Parker-Tyus",
+    "line": 5.5,
+    "over_price": 104,
+    "under_price": -138,
+    "market": "rebounds",
+    "event_home": "LVA",
+    "event_away": "IND"
+  },
+  {
+    "player": "Kelsey Mitchell",
+    "line": 1.5,
+    "over_price": -188,
+    "under_price": 140,
+    "market": "rebounds",
+    "event_home": "LVA",
+    "event_away": "IND"
+  },
+  {
+    "player": "NaLyssa Smith",
+    "line": 7.5,
+    "over_price": 120,
+    "under_price": -160,
+    "market": "rebounds",
+    "event_home": "LVA",
+    "event_away": "IND"
+  },
+  {
+    "player": "Monique Billings",
+    "line": 5.5,
+    "over_price": -110,
+    "under_price": -120,
+    "market": "rebounds",
+    "event_home": "LVA",
+    "event_away": "IND"
+  },
+  {
+    "player": "Lexie Hull",
+    "line": 1.5,
+    "over_price": 162,
+    "under_price": -220,
+    "market": "threes",
+    "event_home": "LVA",
+    "event_away": "IND"
+  },
+  {
+    "player": "Jewell Loyd",
+    "line": 2.5,
+    "over_price": 154,
+    "under_price": -210,
+    "market": "threes",
+    "event_home": "LVA",
+    "event_away": "IND"
+  },
+  {
+    "player": "Aliyah Boston",
+    "line": 1.5,
+    "over_price": 194,
+    "under_price": -270,
+    "market": "threes",
+    "event_home": "LVA",
+    "event_away": "IND"
+  },
+  {
+    "player": "Jackie Young",
+    "line": 2.5,
+    "over_price": 148,
+    "under_price": -200,
+    "market": "threes",
+    "event_home": "LVA",
+    "event_away": "IND"
+  },
+  {
+    "player": "Chelsea Gray",
+    "line": 1.5,
+    "over_price": -178,
+    "under_price": 132,
+    "market": "threes",
+    "event_home": "LVA",
+    "event_away": "IND"
+  },
+  {
+    "player": "Kelsey Mitchell",
+    "line": 2.5,
+    "over_price": -106,
+    "under_price": -125,
+    "market": "threes",
+    "event_home": "LVA",
+    "event_away": "IND"
+  },
+  {
+    "player": "Sophie Cunningham",
+    "line": 1.5,
+    "over_price": -125,
+    "under_price": -106,
+    "market": "threes",
+    "event_home": "LVA",
+    "event_away": "IND"
   }
 ]

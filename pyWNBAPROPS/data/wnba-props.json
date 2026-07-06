@@ -4,9 +4,9 @@
   "season": null,
   "mode": "backfill",
   "model": "kalman_blend",
-  "generated": "2026-07-06T11:42:19.183429",
+  "generated": "2026-07-06T12:31:40.772354",
   "totalProjections": 6875,
-  "totalPicks": 151,
+  "totalPicks": 160,
   "props": [
     {
       "player": "Sabrina Ionescu",
@@ -425,6 +425,22 @@
       "date": "2026-06-28"
     },
     {
+      "player": "Jewell Loyd",
+      "team": "LVA",
+      "opp": "IND",
+      "market": "rebounds",
+      "proj": 1.7,
+      "std": 4.6,
+      "line": 3.5,
+      "pick": "UNDER",
+      "edge": -1.8,
+      "pCover": 0.647,
+      "conf": "high",
+      "actual": 3.0,
+      "result": "WIN",
+      "date": "2026-07-05"
+    },
+    {
       "player": "Ariel Atkins",
       "team": "LAS",
       "opp": "CON",
@@ -569,6 +585,22 @@
       "date": "2026-06-11"
     },
     {
+      "player": "Chennedy Carter",
+      "team": "LVA",
+      "opp": "CHI",
+      "market": "points",
+      "proj": 18.7,
+      "std": 8.8,
+      "line": 15.5,
+      "pick": "OVER",
+      "edge": 3.2,
+      "pCover": 0.635,
+      "conf": "high",
+      "actual": 4.0,
+      "result": "LOSS",
+      "date": "2026-07-03"
+    },
+    {
       "player": "Natisha Hiedeman",
       "team": "SEA",
       "opp": "LAS",
@@ -697,6 +729,22 @@
       "date": "2026-05-29"
     },
     {
+      "player": "Kahleah Copper",
+      "team": "PHX",
+      "opp": "SEA",
+      "market": "points",
+      "proj": 23.9,
+      "std": 16.0,
+      "line": 18.5,
+      "pick": "OVER",
+      "edge": 5.4,
+      "pCover": 0.626,
+      "conf": "high",
+      "actual": 30.0,
+      "result": "WIN",
+      "date": "2026-07-02"
+    },
+    {
       "player": "Breanna Stewart",
       "team": "NYL",
       "opp": "TOR",
@@ -793,6 +841,22 @@
       "date": "2026-05-28"
     },
     {
+      "player": "Bridget Carleton",
+      "team": "PDX",
+      "opp": "SEA",
+      "market": "assists",
+      "proj": 1.3,
+      "std": 3.7,
+      "line": 2.5,
+      "pick": "UNDER",
+      "edge": -1.2,
+      "pCover": 0.621,
+      "conf": "high",
+      "actual": 2.0,
+      "result": "WIN",
+      "date": "2026-07-04"
+    },
+    {
       "player": "DeWanna Bonner",
       "team": "PHX",
       "opp": "SEA",
@@ -871,6 +935,22 @@
       "actual": 17.0,
       "result": "LOSS",
       "date": "2026-06-27"
+    },
+    {
+      "player": "Rhyne Howard",
+      "team": "ATL",
+      "opp": "GSV",
+      "market": "assists",
+      "proj": 2.1,
+      "std": 4.3,
+      "line": 3.5,
+      "pick": "UNDER",
+      "edge": -1.4,
+      "pCover": 0.62,
+      "conf": "high",
+      "actual": 3.0,
+      "result": "WIN",
+      "date": "2026-07-04"
     },
     {
       "player": "Natasha Howard",
@@ -1079,6 +1159,22 @@
       "actual": 26.0,
       "result": "WIN",
       "date": "2026-06-27"
+    },
+    {
+      "player": "Chelsea Gray",
+      "team": "LVA",
+      "opp": "IND",
+      "market": "rebounds",
+      "proj": 2.6,
+      "std": 6.2,
+      "line": 4.5,
+      "pick": "UNDER",
+      "edge": -1.9,
+      "pCover": 0.614,
+      "conf": "high",
+      "actual": 4.0,
+      "result": "WIN",
+      "date": "2026-07-05"
     },
     {
       "player": "Jordin Canada",
@@ -1481,6 +1577,22 @@
       "date": "2026-06-25"
     },
     {
+      "player": "Cheyenne Parker-Tyus",
+      "team": "LVA",
+      "opp": "IND",
+      "market": "rebounds",
+      "proj": 3.2,
+      "std": 8.0,
+      "line": 5.5,
+      "pick": "UNDER",
+      "edge": -2.3,
+      "pCover": 0.606,
+      "conf": "high",
+      "actual": 0.0,
+      "result": "WIN",
+      "date": "2026-07-05"
+    },
+    {
       "player": "NaLyssa Smith",
       "team": "LVA",
       "opp": "LAS",
@@ -1527,6 +1639,22 @@
       "actual": 0.0,
       "result": "LOSS",
       "date": "2026-06-22"
+    },
+    {
+      "player": "Awa Fam",
+      "team": "SEA",
+      "opp": "PDX",
+      "market": "points",
+      "proj": 15.2,
+      "std": 13.3,
+      "line": 11.5,
+      "pick": "OVER",
+      "edge": 3.7,
+      "pCover": 0.605,
+      "conf": "high",
+      "actual": 12.0,
+      "result": "WIN",
+      "date": "2026-07-04"
     },
     {
       "player": "Awa Fam",
@@ -2249,6 +2377,22 @@
       "date": "2026-06-04"
     },
     {
+      "player": "Chelsea Gray",
+      "team": "LVA",
+      "opp": "CHI",
+      "market": "assists",
+      "proj": 7.9,
+      "std": 6.7,
+      "line": 6.5,
+      "pick": "OVER",
+      "edge": 1.4,
+      "pCover": 0.579,
+      "conf": "high",
+      "actual": 6.0,
+      "result": "LOSS",
+      "date": "2026-07-03"
+    },
+    {
       "player": "Arike Ogunbowale",
       "team": "DAL",
       "opp": "LVA",
@@ -2429,5 +2573,5 @@
       "date": "2026-07-06"
     }
   ],
-  "summary": "149 graded picks for None: 96W-53L (64.4%) +37.7u"
+  "summary": "158 graded picks for None: 103W-55L (65.2%) +42.5u"
 }
