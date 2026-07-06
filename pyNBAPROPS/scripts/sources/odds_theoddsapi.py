@@ -202,7 +202,7 @@ def _iter_preferred_markets(bookmakers):
                 yield m
 
 
-def fetch_nba_player_props(date_key=None):
+def fetch_nba_player_props(date_key=None, save_cache=True):
     """
     Fetch NBA player prop lines for today's games.
 
@@ -322,8 +322,10 @@ def fetch_nba_player_props(date_key=None):
         print(f"  [nba_props] Preserved {len(kept_props)} cached lines for {len(started_games)} started games")
     print(f"  [nba_props] Fetched {len(new_props)} new lines, {len(all_props)} total")
 
-    # Save
-    if all_props:
+    # Save (skipped when the caller uses this fetch as a gap-filler —
+    # FanDuel is the primary source and owns the per-date cache; the
+    # caller re-saves the merged FanDuel-first board itself)
+    if all_props and save_cache:
         _save_cache(all_props, cp)
 
     return all_props
