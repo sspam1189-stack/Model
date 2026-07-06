@@ -170,14 +170,28 @@ def _fetch_events_with_key_rotation(events_url_fmt, tag="wnba_props"):
     return [], None
 
 
-def _pick_best_bookmaker(bookmakers):
-    """Select preferred bookmaker from list."""
-    preferred = ["DraftKings", "FanDuel", "BetMGM", "Caesars", "PointsBet", "BetRivers"]
-    for p in preferred:
-        b = next((x for x in bookmakers if x and x.get("title") == p), None)
-        if b:
-            return b
-    return bookmakers[0] if bookmakers else None
+# 2026-07-06: FanDuel first (it is the primary odds source for this model),
+# and selection is now PER MARKET, not per event. The old _pick_best_bookmaker
+# kept one book's entire board and discarded every other book — so a
+# DraftKings threes-only morning board silently threw away FanDuel's posted
+# points/rebounds/assists lines.
+_BOOK_PREFERENCE = ["FanDuel", "DraftKings", "BetMGM", "Caesars", "PointsBet", "BetRivers"]
+
+
+def _iter_preferred_markets(bookmakers):
+    """Yield one market dict per market key, each taken from the most
+    preferred bookmaker that offers it."""
+    def rank(b):
+        title = b.get("title", "")
+        return _BOOK_PREFERENCE.index(title) if title in _BOOK_PREFERENCE else len(_BOOK_PREFERENCE)
+
+    seen = set()
+    for b in sorted((x for x in bookmakers if x), key=rank):
+        for m in b.get("markets", []):
+            k = m.get("key", "")
+            if k and k not in seen:
+                seen.add(k)
+                yield m
 
 
 def fetch_wnba_player_props(date_key=None):
@@ -258,11 +272,7 @@ def fetch_wnba_player_props(date_key=None):
         if not bookmakers:
             continue
 
-        book = _pick_best_bookmaker(bookmakers)
-        if not book:
-            continue
-
-        for market in book.get("markets", []):
+        for market in _iter_preferred_markets(bookmakers):
             market_key = market.get("key", "")
             internal_market = MARKET_MAP.get(market_key)
             if not internal_market:
@@ -399,11 +409,7 @@ def fetch_historical_wnba_props(date_str, api_key=None):
         if not bookmakers:
             continue
 
-        book = _pick_best_bookmaker(bookmakers)
-        if not book:
-            continue
-
-        for market in book.get("markets", []):
+        for market in _iter_preferred_markets(bookmakers):
             market_key = market.get("key", "")
             internal_market = MARKET_MAP.get(market_key)
             if not internal_market:
