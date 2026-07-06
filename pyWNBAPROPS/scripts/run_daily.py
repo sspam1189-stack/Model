@@ -425,6 +425,15 @@ def run_daily(date_key=None):
             merged = [p for p in toa_lines if p.get("market") in missing]
             print(f"  merged {len(merged)} Odds API lines for missing markets")
             prop_lines = prop_lines + merged
+            # Re-save the per-date cache as the MERGED board. Each fetcher
+            # saves only its own lines to the shared cache (the Odds API call
+            # above just overwrote FanDuel's), so without this the cache
+            # would not match the board the model actually projected on —
+            # and the backfill replays these caches as closing lines.
+            if prop_lines:
+                from sources.odds_theoddsapi import _props_cache_path, _save_cache
+                _save_cache(prop_lines, _props_cache_path(date_key))
+                print(f"  cached merged board ({len(prop_lines)} lines) to props cache")
     print(f"  {len(prop_lines)} prop lines fetched")
 
     # --- Stage 6b: Filter to today's games only ---
