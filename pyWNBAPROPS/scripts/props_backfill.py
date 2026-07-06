@@ -203,13 +203,35 @@ def backfill(season=None, start_game=15, start_date=None, use_real_lines=True):
             date_key = game_date.replace("-", "")
             cp = _props_cache_path(date_key)
             cached = _load_cache(cp, max_age_hours=None)
-            if cached is not None:
+            # 2026-07-06: a cache written by the LIVE FanDuel fetch can be a
+            # partial board (since 7/2 those carried only threes). The
+            # backtest must replay full closing boards from The Odds API
+            # historical endpoint, so treat a fanduel-sourced cache missing
+            # every core market as absent and refetch it (falling back to
+            # the partial cache if the refetch fails or has no key).
+            _core = {"points", "rebounds", "assists"}
+            _partial_live = bool(
+                cached
+                and any(p.get("source") == "fanduel" for p in cached)
+                and not ({p.get("market") for p in cached} & _core)
+            )
+            if cached is not None and not _partial_live:
                 real_lines = cached
             else:
-                print(f"  [{game_date}] No cached props — fetching real closing lines...")
-                real_lines, credits, _ = backfill_date(game_date)
+                if _partial_live:
+                    print(f"  [{game_date}] Cache is a partial live-FanDuel board "
+                          f"({len(cached)} lines, no points/reb/ast) — refetching "
+                          f"historical closing lines...")
+                else:
+                    print(f"  [{game_date}] No cached props — fetching real closing lines...")
+                real_lines, credits, _ = backfill_date(game_date, force=_partial_live)
                 if not real_lines:
-                    print(f"  [{game_date}] No historical props available — skipping date")
+                    if _partial_live:
+                        real_lines = cached
+                        print(f"  [{game_date}] Historical refetch unavailable — "
+                              f"using partial cache ({len(cached)} lines)")
+                    else:
+                        print(f"  [{game_date}] No historical props available — skipping date")
                 elif credits:
                     print(f"  [{game_date}] Fetched {len(real_lines)} real lines ({credits} credits)")
         except Exception as e:

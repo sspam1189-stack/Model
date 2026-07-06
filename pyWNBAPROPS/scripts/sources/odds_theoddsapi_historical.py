@@ -184,12 +184,16 @@ def fetch_event_props(event, date_str, key):
     return lines, cost
 
 
-def backfill_date(date_str, key=None, sleep=0.25):
+def backfill_date(date_str, key=None, sleep=0.25, force=False):
     """Fetch + cache real closing prop lines for all events on a date.
 
     Writes the parsed lines to the standard per-date props cache
     (wnba_props_YYYYMMDD.json) so props_backfill reads them exactly like the
     live path. Returns (lines, credits_spent, n_events).
+
+    force=True skips the parsed-cache reuse and bills a fresh historical
+    fetch — used when the existing cache is a partial live-FanDuel board
+    (e.g. threes only) rather than a full closing board.
     """
     key = key or _hist_key()
     if not key:
@@ -200,7 +204,7 @@ def backfill_date(date_str, key=None, sleep=0.25):
     parsed_cp = _props_cache_path(date_key)
     parsed_cached = _load_cache(parsed_cp)
     # If we already parsed this date (and it's non-empty), reuse — no billing.
-    if parsed_cached:
+    if parsed_cached and not force:
         return parsed_cached, 0, None
 
     credits = 0
