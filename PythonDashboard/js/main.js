@@ -175,10 +175,10 @@ const SOURCES = {
     remote: 'https://raw.githubusercontent.com/sspam1189-stack/Model/main/MLBstrikeouts/data/mlb-props.json',
     repo: 'https://github.com/sspam1189-stack/Model'
   },
-  'mlb-props-csw': {
-    name: 'MLB Props (CSW)',
-    local: 'data/mlb-props_csw.json',
-    remote: 'https://raw.githubusercontent.com/sspam1189-stack/Model/main/MLBstrikeouts/data/mlb-props_csw.json',
+  'mlb-props-w04': {
+    name: 'MLB Props (Whiff .4)',
+    local: 'data/mlb-props_w04.json',
+    remote: 'https://raw.githubusercontent.com/sspam1189-stack/Model/main/MLBstrikeouts/data/mlb-props_w04.json',
     repo: 'https://github.com/sspam1189-stack/Model'
   },
   'mlb-batter-props': {
@@ -1152,7 +1152,7 @@ function updateLastRunInfo() {
   const labels = {
     fullseason: 'Full Season', ncaa: 'NCAA', nfl: 'NFL',
     'nba-props': 'NBA Props', 'nfl-props': 'NFL Props',
-    'mlb-props': "MLB K's Whiff", 'mlb-props-csw': "MLB K's CSW",
+    'mlb-props': "MLB K's Whiff .2", 'mlb-props-w04': "MLB K's Whiff .4",
     'mlb-batter-props': 'MLB Batter Props',
   };
   const data = cache[activeTab];
@@ -1681,9 +1681,9 @@ async function render() {
   if (activeTab === 'mlb-props') {
     return renderMLBProps();
   }
-  // MLB Pitcher Props — CSW variant (same renderer, CSW data file)
-  if (activeTab === 'mlb-props-csw') {
-    return renderMLBProps('mlb-props-csw', "MLB K's CSW");
+  // MLB Pitcher Props — Whiff .4 variant (same renderer, _w04 data file)
+  if (activeTab === 'mlb-props-w04') {
+    return renderMLBProps('mlb-props-w04', "MLB K's Whiff .4");
   }
   // MLB Batter Props
   if (activeTab === 'mlb-batter-props') {

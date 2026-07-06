@@ -11,10 +11,9 @@
     // PROJ_LINEUP_WEIGHT 1.0 -> 0.7). The engine only tags a pick at the bet
     // cutoff, so the 0.65-0.70 lean band surfaces as would_be_pick watchlist
     // rows, not picks.
-    // NOTE: these are the WHIFF (base) values. The CSW variant tab
-    // (mlb-props-csw) overrides MLB_PICK_THRESHOLD / MLB_PICK_STRONG to 0.67
-    // inside renderMLBProps (mirrors the MARKET_THRESHOLDS override in the csw
-    // block of defaults.py). Lean floor (0.65) and all other bands are shared.
+    // NOTE: these base values are shared by both tabs (live whiff .2 and the
+    // whiff .4 variant, which differs only in blend weight). The retired CSW
+    // variant used to override the pick cutoff to 0.68 inside renderMLBProps.
     const MLB_PICK_THRESHOLD = 0.70;   // 2026-06-17: 0.68 -> 0.70 (== bet cutoff)
     const MLB_WATCH_FLOOR    = 0.60;   // watch band floor: 0.60-0.65
     // Reddit staking (2026-06-15, picks-only strategy): bet ONLY >=0.68 picks
@@ -173,15 +172,13 @@
       });
     }
 
-    async function renderMLBProps(sourceKey = 'mlb-props', title = "MLB K's Whiff") {
-      // Variant-aware pick/bet cutoff. The CSW variant (mlb-props-csw tab) bets
-      // at 0.68 (mirrors the MARKET_THRESHOLDS override in the csw block of
-      // defaults.py); the live whiff model stays at 0.70. Shadows the
-      // module-level MLB_PICK_THRESHOLD / MLB_PICK_STRONG (whiff defaults) for
-      // this render only. MLB_LEAN_FLOOR (0.65) and other bands stay shared.
-      const _isCSWVariant = sourceKey === 'mlb-props-csw';
-      const MLB_PICK_THRESHOLD = _isCSWVariant ? 0.68 : 0.70;
-      const MLB_PICK_STRONG    = _isCSWVariant ? 0.68 : 0.70;
+    async function renderMLBProps(sourceKey = 'mlb-props', title = "MLB K's Whiff .2") {
+      // Both tabs (live whiff .2 and the whiff .4 variant) bet the same 0.70
+      // cutoff — the variant differs from live ONLY in blend weight, so no
+      // variant-aware threshold override is needed. (The retired CSW variant
+      // used 0.68 here.)
+      const MLB_PICK_THRESHOLD = 0.70;
+      const MLB_PICK_STRONG    = 0.70;
       const el = document.getElementById('content');
       const data = await fetchData(sourceKey);
       if (!data || !data.props || !data.props.length) {

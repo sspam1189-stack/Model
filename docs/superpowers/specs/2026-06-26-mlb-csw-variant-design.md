@@ -1,7 +1,9 @@
 # MLB K's CSW — Parallel Model Variant
 
 **Date:** 2026-06-26
-**Status:** Design approved (pending spec review)
+**Status:** Retired 2026-07-06 — the daily parallel variant is now whiff
+blend-0.4 (see [2026-07-06-mlb-whiff04-variant.md](2026-07-06-mlb-whiff04-variant.md)).
+The `MLB_K_METRIC=csw` profile remains available for manual runs.
 
 ## Goal
 
