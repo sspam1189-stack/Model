@@ -4,8 +4,8 @@
   "season": null,
   "mode": "backfill",
   "model": "kalman_blend",
-  "generated": "2026-07-06T16:22:20.475953",
-  "totalProjections": 6813,
+  "generated": "2026-07-06T11:42:19.183429",
+  "totalProjections": 6875,
   "totalPicks": 151,
   "props": [
     {
@@ -55,6 +55,38 @@
       "actual": 1.0,
       "result": "WIN",
       "date": "2026-06-25"
+    },
+    {
+      "player": "Jonquel Jones",
+      "team": "NYL",
+      "opp": "LVA",
+      "market": "assists",
+      "proj": 2.1,
+      "std": 4.7,
+      "line": 5.5,
+      "pick": "UNDER",
+      "edge": -3.4,
+      "pCover": 0.748,
+      "conf": "high",
+      "actual": 3.0,
+      "result": "WIN",
+      "date": "2026-06-30"
+    },
+    {
+      "player": "Sabrina Ionescu",
+      "team": "NYL",
+      "opp": "LVA",
+      "market": "threes",
+      "proj": 1.4,
+      "std": 3.0,
+      "line": 3.5,
+      "pick": "UNDER",
+      "edge": -2.1,
+      "pCover": 0.742,
+      "conf": "high",
+      "actual": 5.0,
+      "result": "LOSS",
+      "date": "2026-06-30"
     },
     {
       "player": "Sabrina Ionescu",
@@ -1257,6 +1289,22 @@
       "date": "2026-06-25"
     },
     {
+      "player": "Jackie Young",
+      "team": "LVA",
+      "opp": "NYL",
+      "market": "points",
+      "proj": 15.6,
+      "std": 13.8,
+      "line": 11.5,
+      "pick": "OVER",
+      "edge": 4.1,
+      "pCover": 0.61,
+      "conf": "high",
+      "actual": 31.0,
+      "result": "WIN",
+      "date": "2026-06-30"
+    },
+    {
       "player": "Chelsea Gray",
       "team": "LVA",
       "opp": "CHI",
@@ -1575,6 +1623,22 @@
       "actual": 2.0,
       "result": "WIN",
       "date": "2026-06-28"
+    },
+    {
+      "player": "Jonquel Jones",
+      "team": "NYL",
+      "opp": "LVA",
+      "market": "rebounds",
+      "proj": 9.1,
+      "std": 12.2,
+      "line": 12.5,
+      "pick": "UNDER",
+      "edge": -3.4,
+      "pCover": 0.603,
+      "conf": "high",
+      "actual": 9.0,
+      "result": "WIN",
+      "date": "2026-06-30"
     },
     {
       "player": "Monique Akoa Makani",
@@ -2329,70 +2393,6 @@
       "date": "2026-06-17"
     },
     {
-      "player": "Jonquel Jones",
-      "team": "NYL",
-      "opp": "LVA",
-      "market": "assists",
-      "proj": 2.1,
-      "std": 4.6,
-      "line": 5.5,
-      "pick": "UNDER",
-      "edge": -3.4,
-      "pCover": 0.75,
-      "conf": "high",
-      "actual": 3.0,
-      "result": "WIN",
-      "date": "2026-06-30"
-    },
-    {
-      "player": "Sabrina Ionescu",
-      "team": "NYL",
-      "opp": "LVA",
-      "market": "threes",
-      "proj": 1.4,
-      "std": 2.9,
-      "line": 3.5,
-      "pick": "UNDER",
-      "edge": -2.1,
-      "pCover": 0.744,
-      "conf": "high",
-      "actual": 5.0,
-      "result": "LOSS",
-      "date": "2026-06-30"
-    },
-    {
-      "player": "Jackie Young",
-      "team": "LVA",
-      "opp": "NYL",
-      "market": "points",
-      "proj": 15.5,
-      "std": 13.8,
-      "line": 11.5,
-      "pick": "OVER",
-      "edge": 4.0,
-      "pCover": 0.609,
-      "conf": "high",
-      "actual": 31.0,
-      "result": "WIN",
-      "date": "2026-06-30"
-    },
-    {
-      "player": "Jonquel Jones",
-      "team": "NYL",
-      "opp": "LVA",
-      "market": "rebounds",
-      "proj": 9.1,
-      "std": 12.2,
-      "line": 12.5,
-      "pick": "UNDER",
-      "edge": -3.4,
-      "pCover": 0.605,
-      "conf": "high",
-      "actual": 9.0,
-      "result": "WIN",
-      "date": "2026-06-30"
-    },
-    {
       "player": "Janelle Salaun",
       "team": "GSV",
       "opp": "WAS",
@@ -2429,5 +2429,5 @@
       "date": "2026-07-06"
     }
   ],
-  "summary": "145 graded picks for None: 93W-52L (64.1%) +35.8u"
+  "summary": "149 graded picks for None: 96W-53L (64.4%) +37.7u"
 }
