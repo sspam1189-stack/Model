@@ -300,6 +300,7 @@ def fetch_wnba_player_props(date_key=None):
                     "market": internal_market,
                     "event_home": home,
                     "event_away": away,
+                    "source": "odds_api",
                 })
 
         time.sleep(0.3)  # Rate limit
