@@ -114,6 +114,25 @@ FD_MARKET_TYPE_MAP = {
 # Substring keywords for three-pointer fallback matching
 _THREES_KEYWORDS = ("3_POINT", "3POINT", "THREE_POINT", "THREEPOINT", "3_PT", "3PT_")
 
+# Per-tab keyword fallback for when the strict FD_MARKET_TYPE_MAP misses.
+# 2026-07-06: ported from pyWNBAPROPS (kept in lockstep). In WNBA, a FanDuel
+# marketType rename silently blanked points/rebounds/assists from the model
+# because only threes had a keyword fallback. Each entry:
+# (internal_market, required_keywords_any, excluded_keywords). A marketType
+# matches if ANY required keyword is present and NO excluded keyword is
+# (guards against alt lines, team/game markets, and combo markets bleeding
+# into single-stat tabs).
+_TAB_FALLBACK = {
+    "player-points": ("points", ("POINT", "PTS"),
+                      ("REB", "AST", "QUARTER", "HALF", "TEAM") + _THREES_KEYWORDS),
+    "player-rebounds": ("rebounds", ("REBOUND", "REB"),
+                        ("POINT", "PTS", "AST", "QUARTER", "HALF", "TEAM")),
+    "player-assists": ("assists", ("ASSIST", "AST"),
+                       ("POINT", "PTS", "REB", "QUARTER", "HALF", "TEAM")),
+    "player-threes": ("threes", _THREES_KEYWORDS,
+                      ("QUARTER", "HALF", "TEAM")),
+}
+
 
 def _match_fd_market_type(market_type, tab=None):
     """Map a FanDuel marketType string to our internal market name."""
@@ -125,14 +144,21 @@ def _match_fd_market_type(market_type, tab=None):
             if suffix == fd_key:
                 return internal
 
-    # Fallback: if fetching the threes tab, match any market type containing
-    # three-pointer keywords (catches unexpected FanDuel naming variations)
-    if tab == "player-threes":
-        for kw in _THREES_KEYWORDS:
-            if kw in mt:
-                return "threes"
-        # Silently ignore known non-prop market types that bleed into player tabs
-        # (alt threes like N+_MADE_THREES, game-level markets, etc.)
+    # Keyword fallback per tab (catches FanDuel marketType renames).
+    fb = _TAB_FALLBACK.get(tab)
+    if fb:
+        internal, required, excluded = fb
+        if any(kw in mt for kw in required) and not any(kw in mt for kw in excluded):
+            return internal
+
+    # Combos tab: match a points+rebounds+assists combo regardless of exact
+    # naming (must reference all three stats; plain PTS+REB etc. stay skipped).
+    if tab == "player-combos":
+        has_pts = ("POINT" in mt) or ("PTS" in mt)
+        has_reb = "REB" in mt
+        has_ast = ("AST" in mt) or ("ASSIST" in mt)
+        if has_pts and has_reb and has_ast:
+            return "pts_rebs_asts"
 
     return None
 
@@ -243,6 +269,8 @@ def fetch_fanduel_nba_props(date_key=None):
     now_utc = datetime.datetime.now(datetime.timezone.utc)
     new_props = []
     started_games = set()  # track which games have started (preserve from cache)
+    unmatched_types = {}   # (tab, marketType) -> count, logged for diagnosis
+    tab_failures = {}      # tab -> count of non-200 / error responses
 
     for event_id, ev in game_events.items():
         event_name = ev.get("name", "")
@@ -276,9 +304,11 @@ def fetch_fanduel_nba_props(date_key=None):
             try:
                 r = requests.get(tab_url, headers=FD_HEADERS, timeout=10)
                 if r.status_code != 200:
+                    tab_failures[tab] = tab_failures.get(tab, 0) + 1
                     continue
                 tab_data = r.json()
             except Exception:
+                tab_failures[tab] = tab_failures.get(tab, 0) + 1
                 continue
 
             markets = tab_data.get("attachments", {}).get("markets", {})
@@ -287,6 +317,8 @@ def fetch_fanduel_nba_props(date_key=None):
                 market_type = mv.get("marketType", "")
                 internal_market = _match_fd_market_type(market_type, tab=tab)
                 if not internal_market:
+                    key = (tab, market_type)
+                    unmatched_types[key] = unmatched_types.get(key, 0) + 1
                     continue
 
                 runners = mv.get("runners", [])
@@ -350,7 +382,19 @@ def fetch_fanduel_nba_props(date_key=None):
 
     if started_games:
         print(f"  [fanduel] Preserved {len(kept_props)} cached lines for {len(started_games)} started games")
-    print(f"  [fanduel] Fetched {len(new_props)} new lines, {len(all_props)} total")
+    by_market = {}
+    for p in new_props:
+        by_market[p["market"]] = by_market.get(p["market"], 0) + 1
+    print(f"  [fanduel] Fetched {len(new_props)} new lines, {len(all_props)} total"
+          f" | by market: {by_market or 'none'}")
+    if tab_failures:
+        print(f"  [fanduel] Tab fetch failures: {tab_failures}")
+    if unmatched_types:
+        # Surface what FanDuel is calling markets we failed to map, so a
+        # rename shows up in the Actions log instead of silently dropping.
+        top = sorted(unmatched_types.items(), key=lambda kv: -kv[1])[:15]
+        print(f"  [fanduel] Unmatched marketTypes (tab, type, n): "
+              f"{[(t, m, n) for (t, m), n in top]}")
 
     # Save
     if all_props:

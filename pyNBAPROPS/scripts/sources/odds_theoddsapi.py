@@ -178,14 +178,28 @@ def _fetch_events_with_key_rotation(events_url_fmt, tag="nba_props"):
     return [], None
 
 
-def _pick_best_bookmaker(bookmakers):
-    """Select preferred bookmaker from list."""
-    preferred = ["DraftKings", "FanDuel", "BetMGM", "Caesars", "PointsBet", "BetRivers"]
-    for p in preferred:
-        b = next((x for x in bookmakers if x and x.get("title") == p), None)
-        if b:
-            return b
-    return bookmakers[0] if bookmakers else None
+# 2026-07-06: ported from pyWNBAPROPS (kept in lockstep). FanDuel first (it
+# is the primary odds source for this model), and selection is now PER
+# MARKET, not per event. The old _pick_best_bookmaker kept one book's entire
+# board and discarded every other book — so a DraftKings partial morning
+# board silently threw away FanDuel's posted lines for the other markets.
+_BOOK_PREFERENCE = ["FanDuel", "DraftKings", "BetMGM", "Caesars", "PointsBet", "BetRivers"]
+
+
+def _iter_preferred_markets(bookmakers):
+    """Yield one market dict per market key, each taken from the most
+    preferred bookmaker that offers it."""
+    def rank(b):
+        title = b.get("title", "")
+        return _BOOK_PREFERENCE.index(title) if title in _BOOK_PREFERENCE else len(_BOOK_PREFERENCE)
+
+    seen = set()
+    for b in sorted((x for x in bookmakers if x), key=rank):
+        for m in b.get("markets", []):
+            k = m.get("key", "")
+            if k and k not in seen:
+                seen.add(k)
+                yield m
 
 
 def fetch_nba_player_props(date_key=None):
@@ -266,11 +280,7 @@ def fetch_nba_player_props(date_key=None):
         if not bookmakers:
             continue
 
-        book = _pick_best_bookmaker(bookmakers)
-        if not book:
-            continue
-
-        for market in book.get("markets", []):
+        for market in _iter_preferred_markets(bookmakers):
             market_key = market.get("key", "")
             internal_market = MARKET_MAP.get(market_key)
             if not internal_market:
@@ -298,6 +308,7 @@ def fetch_nba_player_props(date_key=None):
                     "market": internal_market,
                     "event_home": home,
                     "event_away": away,
+                    "source": "odds_api",
                 })
 
         time.sleep(0.3)  # Rate limit
@@ -318,7 +329,7 @@ def fetch_nba_player_props(date_key=None):
     return all_props
 
 
-def fetch_historical_nba_props(date_str, api_key=None):
+def fetch_historical_nba_props(date_str, api_key=None, force=False):
     """
     Fetch historical NBA player prop lines for a specific date.
 
@@ -328,6 +339,10 @@ def fetch_historical_nba_props(date_str, api_key=None):
         Date in YYYY-MM-DD format.
     api_key : str or None
         The Odds API key. Uses env var if None.
+    force : bool
+        Skip the permanent-cache reuse and bill a fresh historical fetch —
+        used when the existing cache is a partial live-FanDuel board (e.g.
+        threes only) rather than a full closing board.
 
     Returns
     -------
@@ -339,7 +354,7 @@ def fetch_historical_nba_props(date_str, api_key=None):
     # Check permanent cache
     cp = _props_cache_path(date_key)
     cached = _load_cache(cp, max_age_hours=None)
-    if cached is not None:
+    if cached is not None and not force:
         print(f"  [nba_props] Using cached historical props: {cp.name}")
         return cached
 
@@ -407,11 +422,7 @@ def fetch_historical_nba_props(date_str, api_key=None):
         if not bookmakers:
             continue
 
-        book = _pick_best_bookmaker(bookmakers)
-        if not book:
-            continue
-
-        for market in book.get("markets", []):
+        for market in _iter_preferred_markets(bookmakers):
             market_key = market.get("key", "")
             internal_market = MARKET_MAP.get(market_key)
             if not internal_market:
@@ -438,6 +449,7 @@ def fetch_historical_nba_props(date_str, api_key=None):
                     "market": internal_market,
                     "event_home": home,
                     "event_away": away,
+                    "source": "odds_api",
                 })
 
         time.sleep(0.3)

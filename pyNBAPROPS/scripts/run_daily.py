@@ -406,6 +406,30 @@ def run_daily(date_key=None):
     if not prop_lines:
         print(f"  FanDuel returned 0 lines, falling back to The Odds API...")
         prop_lines = fetch_nba_player_props(date_key=date_key)
+    else:
+        # 2026-07-06: ported from pyWNBAPROPS (kept in lockstep). FanDuel's
+        # event pages can carry only part of the board. Backfill any core
+        # market FanDuel didn't yield from The Odds API — whose response
+        # includes FanDuel's own book, preferred per-market — instead of
+        # letting those markets vanish from the slate.
+        core_markets = {"points", "rebounds", "assists", "threes", "pts_rebs_asts"}
+        have = {p.get("market") for p in prop_lines}
+        missing = core_markets - have
+        if missing:
+            print(f"  FanDuel missing {sorted(missing)} — backfilling from The Odds API...")
+            toa_lines = fetch_nba_player_props(date_key=date_key)
+            merged = [p for p in toa_lines if p.get("market") in missing]
+            print(f"  merged {len(merged)} Odds API lines for missing markets")
+            prop_lines = prop_lines + merged
+            # Re-save the per-date cache as the MERGED board. Each fetcher
+            # saves only its own lines to the shared cache (the Odds API call
+            # above just overwrote FanDuel's), so without this the cache
+            # would not match the board the model actually projected on —
+            # and the backfill replays these caches as closing lines.
+            if prop_lines:
+                from sources.odds_theoddsapi import _props_cache_path, _save_cache
+                _save_cache(prop_lines, _props_cache_path(date_key))
+                print(f"  cached merged board ({len(prop_lines)} lines) to props cache")
     print(f"  {len(prop_lines)} prop lines fetched")
 
     # --- Stage 6b: Filter to today's games only ---
