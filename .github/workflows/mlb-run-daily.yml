@@ -58,19 +58,20 @@ jobs:
           ODDS_API_KEY: ${{ secrets.ODDS_API_KEY }}
         run: python -m scripts.run_daily
 
-      # CSW variant ("MLB K's CSW"): same pipeline, csw metric + cap floor 0.40
-      # + VAR_MULT 1.20, selected via MLB_K_METRIC. Runs AFTER the whiff run on
-      # the same runner so the shared raw-data caches are already warm. Writes
-      # only *_csw outputs (mlb-props_csw.json, kalman_state_csw.json,
-      # emp_std_cache/mlb_csw) — the whiff files are untouched.
-      - name: Run daily MLB props (CSW variant)
+      # Whiff .4 variant ("MLB K's Whiff .4"): same pipeline, identical config
+      # to the live model except CSW_XBA_BLEND_WEIGHT 0.4 (vs live 0.2) — a
+      # clean blend-weight A/B. Selected via MLB_K_VARIANT. Runs AFTER the live
+      # run on the same runner so the shared raw-data caches are already warm.
+      # Writes only *_w04 outputs (mlb-props_w04.json, kalman_state_w04.json,
+      # emp_std_cache/mlb_w04) — the live files are untouched.
+      - name: Run daily MLB props (Whiff .4 variant)
         working-directory: MLBstrikeouts
         env:
           PYTHONUTF8: "1"
           PYTHONUNBUFFERED: "1"
           PYTHONIOENCODING: "utf-8"
           ODDS_API_KEY: ${{ secrets.ODDS_API_KEY }}
-          MLB_K_METRIC: csw
+          MLB_K_VARIANT: w04
         run: python -m scripts.run_daily
 
       - name: Upload MLBstrikeouts data
@@ -97,11 +98,11 @@ jobs:
           name: shared-mlb-emp-std-cache
           path: data/emp_std_cache/mlb
 
-      - name: Upload MLB empirical-std cache (CSW)
+      - name: Upload MLB empirical-std cache (Whiff .4)
         uses: actions/upload-artifact@v7
         with:
-          name: shared-mlb-emp-std-cache-csw
-          path: data/emp_std_cache/mlb_csw
+          name: shared-mlb-emp-std-cache-w04
+          path: data/emp_std_cache/mlb_w04
 
   commit-and-push:
     runs-on: ubuntu-latest
@@ -134,8 +135,8 @@ jobs:
 
       - uses: actions/download-artifact@v8
         with:
-          name: shared-mlb-emp-std-cache-csw
-          path: artifacts/mlb-emp-std-cache-csw
+          name: shared-mlb-emp-std-cache-w04
+          path: artifacts/mlb-emp-std-cache-w04
 
       - name: Copy artifacts
         shell: bash
@@ -147,10 +148,10 @@ jobs:
           cp -a artifacts/mlb-pitcher-cache/. data/pitcher_cache/mlb/
           mkdir -p data/emp_std_cache/mlb
           cp -a artifacts/mlb-emp-std-cache/. data/emp_std_cache/mlb/
-          mkdir -p data/emp_std_cache/mlb_csw
-          cp -a artifacts/mlb-emp-std-cache-csw/. data/emp_std_cache/mlb_csw/
+          mkdir -p data/emp_std_cache/mlb_w04
+          cp -a artifacts/mlb-emp-std-cache-w04/. data/emp_std_cache/mlb_w04/
           cp -f artifacts/MLBstrikeouts/mlb-props.json PythonDashboard/data/mlb-props.json 2>/dev/null || true
-          cp -f artifacts/MLBstrikeouts/mlb-props_csw.json PythonDashboard/data/mlb-props_csw.json 2>/dev/null || true
+          cp -f artifacts/MLBstrikeouts/mlb-props_w04.json PythonDashboard/data/mlb-props_w04.json 2>/dev/null || true
 
       - name: Commit & push data changes
         shell: bash
@@ -158,6 +159,6 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git add -A
-          git diff --cached --quiet || git commit -m "Run daily MLB Pitcher Props (Whiff + CSW) + Game Hits [skip ci]"
+          git diff --cached --quiet || git commit -m "Run daily MLB Pitcher Props (Whiff .2 + .4) + Game Hits [skip ci]"
           git pull --rebase --autostash origin main
           git push
