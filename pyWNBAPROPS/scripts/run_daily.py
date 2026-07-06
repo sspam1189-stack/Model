@@ -421,15 +421,16 @@ def run_daily(date_key=None):
         missing = core_markets - have
         if missing:
             print(f"  FanDuel missing {sorted(missing)} — backfilling from The Odds API...")
-            toa_lines = fetch_wnba_player_props(date_key=date_key)
+            toa_lines = fetch_wnba_player_props(date_key=date_key, save_cache=False)
             merged = [p for p in toa_lines if p.get("market") in missing]
             print(f"  merged {len(merged)} Odds API lines for missing markets")
             prop_lines = prop_lines + merged
-            # Re-save the per-date cache as the MERGED board. Each fetcher
-            # saves only its own lines to the shared cache (the Odds API call
-            # above just overwrote FanDuel's), so without this the cache
-            # would not match the board the model actually projected on —
-            # and the backfill replays these caches as closing lines.
+            # Save the MERGED board to the per-date cache. FanDuel is the
+            # primary source and owns the cache: the gap-filler fetch above
+            # is called with save_cache=False so it never writes the shared
+            # cache itself — this save is the single writer, and the cache
+            # always matches the FanDuel-first board the model projected on
+            # (the backfill replays these caches as closing lines).
             if prop_lines:
                 from sources.odds_theoddsapi import _props_cache_path, _save_cache
                 _save_cache(prop_lines, _props_cache_path(date_key))
