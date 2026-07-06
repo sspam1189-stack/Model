@@ -1,0 +1,77 @@
+name: WNBA Props Backfill (manual)
+
+on:
+  workflow_dispatch:
+
+
+permissions:
+  contents: write
+
+# Share the daily run's concurrency group: the backfill rewrites the same
+# data files, so it must never run alongside a daily WNBA run.
+concurrency:
+  group: wnba-run-daily
+  cancel-in-progress: false
+
+jobs:
+  backfill:
+    runs-on: self-hosted
+    defaults:
+      run:
+        shell: powershell
+    steps:
+      - name: Clean up stale rebase
+        run: $ErrorActionPreference='SilentlyContinue'; git rebase --abort 2>&1 | Out-Null; exit 0
+
+      - uses: actions/checkout@v6
+        with:
+          ref: main
+          clean: true
+
+      - name: Pull latest
+        run: |
+          git config --global --add safe.directory '*'
+          git pull origin main
+
+      - name: Clear bytecode cache
+        run: Get-ChildItem -Path pyWNBAPROPS -Filter __pycache__ -Recurse -Directory -ErrorAction SilentlyContinue | Remove-Item -Recurse -Force
+
+      - name: Install dependencies
+        run: pip install -r pyWNBAPROPS/requirements.txt
+
+      # Walk-forward season backfill on real Odds API historical closing
+      # lines. Partial live-FanDuel caches (e.g. the threes-only 7/2-7/5
+      # boards) are detected and refetched from the historical endpoint,
+      # which bills credits — ODDS_API_KEY must be present for that.
+      # Writes wnba-props.json (model + dashboard copies), kalman_state.json,
+      # and the refreshed per-date props caches.
+      - name: Run WNBA props backfill
+        working-directory: pyWNBAPROPS
+        env:
+          PYTHONUTF8: "1"
+          PYTHONUNBUFFERED: "1"
+          PYTHONIOENCODING: "utf-8"
+          ODDS_API_KEY: ${{ secrets.ODDS_API_KEY }}
+        run: python -m scripts.props_backfill
+
+      - name: Copy dashboard data
+        run: Copy-Item pyWNBAPROPS/data/wnba-props.json PythonDashboard/data/wnba-props.json -Force -ErrorAction SilentlyContinue
+
+      - name: Commit & push backfilled data
+        if: ${{ !cancelled() }}
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add pyWNBAPROPS/data/ PythonDashboard/data/wnba-props.json
+          git diff --cached --quiet
+          if ($LASTEXITCODE -eq 0) { exit 0 }
+          git commit -m "WNBA props backfill (historical closing lines) [skip ci]"
+          $tries = 0
+          while ($tries -lt 5) {
+            git pull --rebase --autostash origin main
+            git push
+            if ($LASTEXITCODE -eq 0) { exit 0 }
+            $tries++
+            Start-Sleep -Seconds 5
+          }
+          exit 1
