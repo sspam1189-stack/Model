@@ -450,6 +450,28 @@
     "_event_id": "35794965"
   },
   {
+    "player": "Seth Lugo 16.5",
+    "market": "outs",
+    "line": 16.5,
+    "over_price": -118,
+    "under_price": -112,
+    "event_home": "NYM",
+    "event_away": "KC",
+    "source": "fanduel",
+    "_event_id": "35794962"
+  },
+  {
+    "player": "Seth Lugo",
+    "market": "strikeouts",
+    "line": 4.5,
+    "over_price": -104,
+    "under_price": -122,
+    "event_home": "NYM",
+    "event_away": "KC",
+    "source": "fanduel",
+    "_event_id": "35794962"
+  },
+  {
     "player": "Trevor McDonald 16.5",
     "market": "outs",
     "line": 16.5,
@@ -472,28 +494,6 @@
     "_event_id": "35794954"
   },
   {
-    "player": "Seth Lugo 16.5",
-    "market": "outs",
-    "line": 16.5,
-    "over_price": -118,
-    "under_price": -112,
-    "event_home": "NYM",
-    "event_away": "KC",
-    "source": "fanduel",
-    "_event_id": "35794962"
-  },
-  {
-    "player": "Seth Lugo",
-    "market": "strikeouts",
-    "line": 4.5,
-    "over_price": -102,
-    "under_price": -125,
-    "event_home": "NYM",
-    "event_away": "KC",
-    "source": "fanduel",
-    "_event_id": "35794962"
-  },
-  {
     "player": "Zac Gallen 16.5",
     "market": "outs",
     "line": 16.5,
@@ -509,7 +509,7 @@
     "market": "strikeouts",
     "line": 3.5,
     "over_price": -148,
-    "under_price": 118,
+    "under_price": 116,
     "event_home": "SD",
     "event_away": "ARI",
     "source": "fanduel",
@@ -519,10 +519,20 @@
     "player": "Spencer Miles",
     "market": "strikeouts",
     "line": 3.5,
-    "over_price": 115,
-    "under_price": -150,
+    "over_price": 120,
+    "under_price": -155,
     "event_home": "SF",
     "event_away": "TOR",
+    "source": "rotowire:hardrock"
+  },
+  {
+    "player": "German Marquez",
+    "market": "strikeouts",
+    "line": 2.5,
+    "over_price": 100,
+    "under_price": -130,
+    "event_home": "SD",
+    "event_away": "ARI",
     "source": "rotowire:hardrock"
   }
 ]
