@@ -50,26 +50,6 @@
     "source": "rotowire:draftkings"
   },
   {
-    "player": "Jacob deGrom",
-    "market": "strikeouts",
-    "line": 7.5,
-    "over_price": -110,
-    "under_price": -115,
-    "event_home": "TEX",
-    "event_away": "LAA",
-    "source": "rotowire:draftkings"
-  },
-  {
-    "player": "Taj Bradley",
-    "market": "strikeouts",
-    "line": 6.5,
-    "over_price": 108,
-    "under_price": -138,
-    "event_home": "MIN",
-    "event_away": "CLE",
-    "source": "rotowire:draftkings"
-  },
-  {
     "player": "Max Meyer",
     "market": "strikeouts",
     "line": 6.5,
@@ -80,46 +60,6 @@
     "source": "rotowire:draftkings"
   },
   {
-    "player": "Paul Skenes",
-    "market": "strikeouts",
-    "line": 6.5,
-    "over_price": -108,
-    "under_price": -118,
-    "event_home": "PIT",
-    "event_away": "ATL",
-    "source": "rotowire:draftkings"
-  },
-  {
-    "player": "Shane Baz",
-    "market": "strikeouts",
-    "line": 5.5,
-    "over_price": 115,
-    "under_price": -146,
-    "event_home": "BAL",
-    "event_away": "CHC",
-    "source": "rotowire:draftkings"
-  },
-  {
-    "player": "Matthew Boyd",
-    "market": "strikeouts",
-    "line": 4.5,
-    "over_price": -163,
-    "under_price": 128,
-    "event_home": "BAL",
-    "event_away": "CHC",
-    "source": "rotowire:draftkings"
-  },
-  {
-    "player": "Joey Cantillo",
-    "market": "strikeouts",
-    "line": 5.5,
-    "over_price": 111,
-    "under_price": -141,
-    "event_home": "MIN",
-    "event_away": "CLE",
-    "source": "rotowire:draftkings"
-  },
-  {
     "player": "Ian Seymour",
     "market": "strikeouts",
     "line": 5.5,
@@ -127,16 +67,6 @@
     "under_price": -110,
     "event_home": "TB",
     "event_away": "NYY",
-    "source": "rotowire:draftkings"
-  },
-  {
-    "player": "Jose Soriano",
-    "market": "strikeouts",
-    "line": 5.5,
-    "over_price": 103,
-    "under_price": -132,
-    "event_home": "TEX",
-    "event_away": "LAA",
     "source": "rotowire:draftkings"
   },
   {
@@ -160,16 +90,6 @@
     "source": "rotowire:draftkings"
   },
   {
-    "player": "Justin Wrobleski",
-    "market": "strikeouts",
-    "line": 5.5,
-    "over_price": 133,
-    "under_price": -167,
-    "event_home": "LAD",
-    "event_away": "COL",
-    "source": "rotowire:draftkings"
-  },
-  {
     "player": "Andrew Alvarez",
     "market": "strikeouts",
     "line": 4.5,
@@ -190,16 +110,6 @@
     "source": "rotowire:draftkings"
   },
   {
-    "player": "Seth Lugo",
-    "market": "strikeouts",
-    "line": 4.5,
-    "over_price": 102,
-    "under_price": -127,
-    "event_home": "NYM",
-    "event_away": "KC",
-    "source": "rotowire:draftkings"
-  },
-  {
     "player": "Noah Schultz",
     "market": "strikeouts",
     "line": 4.5,
@@ -210,16 +120,6 @@
     "source": "rotowire:draftkings"
   },
   {
-    "player": "Hurston Waldrep",
-    "market": "strikeouts",
-    "line": 4.5,
-    "over_price": -121,
-    "under_price": -106,
-    "event_home": "PIT",
-    "event_away": "ATL",
-    "source": "rotowire:draftkings"
-  },
-  {
     "player": "Will Warren",
     "market": "strikeouts",
     "line": 4.5,
@@ -227,6 +127,106 @@
     "under_price": -123,
     "event_home": "TB",
     "event_away": "NYY",
+    "source": "rotowire:draftkings"
+  },
+  {
+    "player": "Shane Baz",
+    "market": "strikeouts",
+    "line": 5.5,
+    "over_price": 118,
+    "under_price": -150,
+    "event_home": "BAL",
+    "event_away": "CHC",
+    "source": "rotowire:draftkings"
+  },
+  {
+    "player": "Matthew Boyd",
+    "market": "strikeouts",
+    "line": 4.5,
+    "over_price": -149,
+    "under_price": 117,
+    "event_home": "BAL",
+    "event_away": "CHC",
+    "source": "rotowire:draftkings"
+  },
+  {
+    "player": "Jacob deGrom",
+    "market": "strikeouts",
+    "line": 7.5,
+    "over_price": -110,
+    "under_price": -115,
+    "event_home": "TEX",
+    "event_away": "LAA",
+    "source": "rotowire:draftkings"
+  },
+  {
+    "player": "Taj Bradley",
+    "market": "strikeouts",
+    "line": 6.5,
+    "over_price": 108,
+    "under_price": -138,
+    "event_home": "MIN",
+    "event_away": "CLE",
+    "source": "rotowire:draftkings"
+  },
+  {
+    "player": "Paul Skenes",
+    "market": "strikeouts",
+    "line": 6.5,
+    "over_price": -113,
+    "under_price": -113,
+    "event_home": "PIT",
+    "event_away": "ATL",
+    "source": "rotowire:draftkings"
+  },
+  {
+    "player": "Joey Cantillo",
+    "market": "strikeouts",
+    "line": 5.5,
+    "over_price": 111,
+    "under_price": -141,
+    "event_home": "MIN",
+    "event_away": "CLE",
+    "source": "rotowire:draftkings"
+  },
+  {
+    "player": "Jose Soriano",
+    "market": "strikeouts",
+    "line": 5.5,
+    "over_price": 103,
+    "under_price": -132,
+    "event_home": "TEX",
+    "event_away": "LAA",
+    "source": "rotowire:draftkings"
+  },
+  {
+    "player": "Justin Wrobleski",
+    "market": "strikeouts",
+    "line": 5.5,
+    "over_price": 130,
+    "under_price": -167,
+    "event_home": "LAD",
+    "event_away": "COL",
+    "source": "rotowire:draftkings"
+  },
+  {
+    "player": "Seth Lugo",
+    "market": "strikeouts",
+    "line": 4.5,
+    "over_price": 102,
+    "under_price": -127,
+    "event_home": "NYM",
+    "event_away": "KC",
+    "source": "rotowire:draftkings"
+  },
+  {
+    "player": "Hurston Waldrep",
+    "market": "strikeouts",
+    "line": 4.5,
+    "over_price": -118,
+    "under_price": -108,
+    "event_home": "PIT",
+    "event_away": "ATL",
     "source": "rotowire:draftkings"
   },
   {
@@ -258,5 +258,15 @@
     "event_home": "SF",
     "event_away": "TOR",
     "source": "rotowire:draftkings"
+  },
+  {
+    "player": "Spencer Miles",
+    "market": "strikeouts",
+    "line": 3.5,
+    "over_price": 115,
+    "under_price": -150,
+    "event_home": "SF",
+    "event_away": "TOR",
+    "source": "rotowire:hardrock"
   }
 ]
