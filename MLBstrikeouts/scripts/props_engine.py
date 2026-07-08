@@ -587,8 +587,14 @@ def project_pitcher_props(pitcher_logs, team_batting_stats=None,
 
         # High-tier calibration: de-bias elite-arm over-projection above the
         # knot. coefs are fit walk-forward / from graded history by the caller.
-        from defaults import PROJ_CALIB_ENABLED as _CAL_ON, PROJ_CALIB_KNOT as _CAL_KNOT
-        if _CAL_ON and calib_coefs is not None and model_proj > _CAL_KNOT:
+        # PROJ_CALIB_ELITE_K_EXEMPT > 0 exempts proven high-K arms (season
+        # starter K% >= threshold) — their raw projection stands.
+        from defaults import (PROJ_CALIB_ENABLED as _CAL_ON,
+                              PROJ_CALIB_KNOT as _CAL_KNOT,
+                              PROJ_CALIB_ELITE_K_EXEMPT as _CAL_EXEMPT)
+        _calib_exempt = _CAL_EXEMPT > 0 and overall_k_pct >= _CAL_EXEMPT
+        if _CAL_ON and calib_coefs is not None and model_proj > _CAL_KNOT \
+                and not _calib_exempt:
             _a, _b = calib_coefs
             proj = _a + _b * model_proj
 

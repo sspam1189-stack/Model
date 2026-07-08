@@ -358,6 +358,26 @@ LINEUP_K_CAP = 0.30
 PROJ_CALIB_ENABLED = True
 PROJ_CALIB_KNOT = 6.0          # only correct projections above this
 PROJ_CALIB_MIN_PAIRS = 40      # need >= this many tail pairs to fit; else raw
+# Elite-K calibration exemption: pitchers whose season starter K% is at or
+# above this threshold SKIP the high-tier calibration map and keep their raw
+# projection; everyone else above the knot still gets a + b*proj. Mechanism:
+# the knot fires on proj > 6, which is mostly elite-K arms — but for a proven
+# 29%+ K pitcher the high projection is earned, not over-extrapolated, so the
+# calibration line was shaving real edge. 0.0 disables (calibrate everyone).
+#
+# 2026-07-08 shipped at 0.29 from a walk-forward threshold sweep (0.26-0.32,
+# both whiff models; scripts/compare_calib_krate_exempt.py). The exemption is
+# a volume-add: it promotes borderline elite-arm OVERs into picks at roughly
+# base per-pick quality. At 0.29 (flat 1u): whiff0.2 season +106.6u/39.6% ROI
+# vs base +100.7u/39.7% (269 vs 254 picks); whiff0.4 +104.5u/34.6% vs
+# +94.9u/34.8% (302 vs 273). Recent windows improve on BOTH WR and ROI:
+# whiff0.2 L4W ROI 24.0% vs 20.8%, whiff0.4 L2W 32.7% vs 26.0%. Pick-set diff
+# vs base is adds-only in direction (no flips): w02 +20/-5, w04 +32/-3, with
+# the added picks running well above breakeven. 0.26-0.27 dilute (ROI/MAE
+# degrade monotonically below 0.28); 0.29-0.32 is a plateau, 0.29 keeps the
+# most profitable volume on both models. Shared by both whiff variants (the
+# w04 profile does not override it).
+PROJ_CALIB_ELITE_K_EXEMPT = 0.29
 
 # --- PRIOR SPEC / REVERT RECIPE (for future variance A/B) -------------------
 # Changed 2026-06-08: w_b=0.75 + calib (this block) AND pick threshold 0.65->0.64
