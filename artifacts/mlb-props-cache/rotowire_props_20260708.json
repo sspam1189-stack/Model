@@ -1,10 +1,20 @@
 [
   {
+    "player": "Ryan Feltner",
+    "market": "strikeouts",
+    "line": 4.5,
+    "over_price": 110,
+    "under_price": -140,
+    "event_home": "LAD",
+    "event_away": "COL",
+    "source": "rotowire:hardrock"
+  },
+  {
     "player": "Chase Burns",
     "market": "strikeouts",
     "line": 7.5,
-    "over_price": 120,
-    "under_price": -153,
+    "over_price": 117,
+    "under_price": -149,
     "event_home": "CIN",
     "event_away": "PHI",
     "source": "rotowire:draftkings"
@@ -12,9 +22,9 @@
   {
     "player": "Dylan Cease",
     "market": "strikeouts",
-    "line": 7.5,
-    "over_price": 119,
-    "under_price": -149,
+    "line": 6.5,
+    "over_price": -153,
+    "under_price": 120,
     "event_home": "SF",
     "event_away": "TOR",
     "source": "rotowire:draftkings"
@@ -23,7 +33,7 @@
     "player": "MacKenzie Gore",
     "market": "strikeouts",
     "line": 6.5,
-    "over_price": -133,
+    "over_price": -130,
     "under_price": 104,
     "event_home": "TEX",
     "event_away": "LAA",
@@ -33,8 +43,8 @@
     "player": "Gerrit Cole",
     "market": "strikeouts",
     "line": 5.5,
-    "over_price": 106,
-    "under_price": -135,
+    "over_price": 113,
+    "under_price": -144,
     "event_home": "TB",
     "event_away": "NYY",
     "source": "rotowire:draftkings"
@@ -43,8 +53,8 @@
     "player": "Foster Griffin",
     "market": "strikeouts",
     "line": 5.5,
-    "over_price": 126,
-    "under_price": -161,
+    "over_price": 122,
+    "under_price": -156,
     "event_home": "WAS",
     "event_away": "HOU",
     "source": "rotowire:draftkings"
@@ -53,27 +63,17 @@
     "player": "Kyle Harrison",
     "market": "strikeouts",
     "line": 5.5,
-    "over_price": 104,
-    "under_price": -132,
+    "over_price": 103,
+    "under_price": -131,
     "event_home": "STL",
     "event_away": "MIL",
-    "source": "rotowire:draftkings"
-  },
-  {
-    "player": "Jared Jones",
-    "market": "strikeouts",
-    "line": 4.5,
-    "over_price": -161,
-    "under_price": 126,
-    "event_home": "PIT",
-    "event_away": "ATL",
     "source": "rotowire:draftkings"
   },
   {
     "player": "George Kirby",
     "market": "strikeouts",
     "line": 5.5,
-    "over_price": 121,
+    "over_price": 122,
     "under_price": -154,
     "event_home": "MIA",
     "event_away": "SEA",
@@ -82,9 +82,9 @@
   {
     "player": "Dean Kremer",
     "market": "strikeouts",
-    "line": 4.5,
-    "over_price": -164,
-    "under_price": null,
+    "line": 5.5,
+    "over_price": 128,
+    "under_price": -161,
     "event_home": "BAL",
     "event_away": "CHC",
     "source": "rotowire:draftkings"
@@ -113,8 +113,8 @@
     "player": "Roki Sasaki",
     "market": "strikeouts",
     "line": 5.5,
-    "over_price": -124,
-    "under_price": -103,
+    "over_price": -132,
+    "under_price": 103,
     "event_home": "LAD",
     "event_away": "COL",
     "source": "rotowire:draftkings"
@@ -123,8 +123,8 @@
     "player": "Christian Scott",
     "market": "strikeouts",
     "line": 5.5,
-    "over_price": -153,
-    "under_price": 120,
+    "over_price": -144,
+    "under_price": 113,
     "event_home": "NYM",
     "event_away": "KC",
     "source": "rotowire:draftkings"
@@ -170,16 +170,6 @@
     "source": "rotowire:draftkings"
   },
   {
-    "player": "Ryan Feltner",
-    "market": "strikeouts",
-    "line": 4.5,
-    "over_price": 110,
-    "under_price": -140,
-    "event_home": "LAD",
-    "event_away": "COL",
-    "source": "rotowire:hardrock"
-  },
-  {
     "player": "Grant Holmes",
     "market": "strikeouts",
     "line": 4.5,
@@ -190,11 +180,21 @@
     "source": "rotowire:draftkings"
   },
   {
+    "player": "Jared Jones",
+    "market": "strikeouts",
+    "line": 4.5,
+    "over_price": -161,
+    "under_price": 126,
+    "event_home": "PIT",
+    "event_away": "ATL",
+    "source": "rotowire:draftkings"
+  },
+  {
     "player": "Michael King",
     "market": "strikeouts",
     "line": 4.5,
-    "over_price": -102,
-    "under_price": -125,
+    "over_price": -112,
+    "under_price": -114,
     "event_home": "SD",
     "event_away": "ARI",
     "source": "rotowire:draftkings"
@@ -213,8 +213,8 @@
     "player": "Troy Melton",
     "market": "strikeouts",
     "line": 4.5,
-    "over_price": -141,
-    "under_price": 111,
+    "over_price": -136,
+    "under_price": 107,
     "event_home": "DET",
     "event_away": "OAK",
     "source": "rotowire:draftkings"
@@ -223,8 +223,8 @@
     "player": "Tyler Phillips",
     "market": "strikeouts",
     "line": 4.5,
-    "over_price": -103,
-    "under_price": -123,
+    "over_price": 105,
+    "under_price": -134,
     "event_home": "MIA",
     "event_away": "SEA",
     "source": "rotowire:draftkings"
@@ -243,8 +243,8 @@
     "player": "Jeffrey Springs",
     "market": "strikeouts",
     "line": 4.5,
-    "over_price": -101,
-    "under_price": -123,
+    "over_price": -105,
+    "under_price": -119,
     "event_home": "DET",
     "event_away": "OAK",
     "source": "rotowire:draftkings"
@@ -263,8 +263,8 @@
     "player": "Jose Cabrera",
     "market": "strikeouts",
     "line": 3.5,
-    "over_price": -125,
-    "under_price": 100,
+    "over_price": -138,
+    "under_price": 108,
     "event_home": "SD",
     "event_away": "ARI",
     "source": "rotowire:draftkings"
@@ -273,8 +273,8 @@
     "player": "Michael McGreevy",
     "market": "strikeouts",
     "line": 3.5,
-    "over_price": -112,
-    "under_price": -114,
+    "over_price": -117,
+    "under_price": -109,
     "event_home": "STL",
     "event_away": "MIL",
     "source": "rotowire:draftkings"
