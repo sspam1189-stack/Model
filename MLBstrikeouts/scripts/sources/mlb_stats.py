@@ -296,6 +296,17 @@ def fetch_pitcher_game_logs(season=None):
         except Exception:
             continue
 
+        # The schedule can briefly flag a live game Final (or a suspended game
+        # can look Final mid-capture), and a cached gamePk is never re-fetched
+        # — so a partial boxscore would stick forever. Trust the feed's own
+        # status: skip non-Final games; they stay un-cached and get re-fetched
+        # complete on the next run. (2026-07-08: a 1-inning snapshot of
+        # Misiorowski's 11-K start was cached this way and graded as a 1-K
+        # LOSS; three older games had the same partial-capture corruption.)
+        feed_status = live.get("gameData", {}).get("status", {}).get("abstractGameState", "")
+        if feed_status != "Final":
+            continue
+
         box = live.get("liveData", {}).get("boxscore", {}).get("teams", {})
         game_date = gm["date"]
 
