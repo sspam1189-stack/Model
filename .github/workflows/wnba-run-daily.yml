@@ -2,6 +2,12 @@ name: Python Run Daily WNBA (Fullseason + Props)
 
 on:
   workflow_dispatch:
+  schedule:
+    # 11:30 AM and 5:30 PM CT (CDT = UTC-5 during the WNBA season).
+    # GitHub cron is UTC and only fires on the default branch; actual
+    # start can drift a few minutes at busy times.
+    - cron: '30 16 * * *'
+    - cron: '30 22 * * *'
 
 
 permissions:
