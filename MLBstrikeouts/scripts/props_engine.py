@@ -630,25 +630,32 @@ def project_pitcher_props(pitcher_logs, team_batting_stats=None,
         if prop:
             prop["proj_raw"] = round(model_proj, 3)  # pre-calibration, for walk-forward calib fit
 
-            # Injury-return / pitch-count FLAG — a SHADOW gate like Read/EV/MAE.
-            # It NEVER changes the live pick; it only stamps a verdict the
-            # dashboard tracks as a record lens. A long layoff since the last
+            # Injury-return / pitch-count gate. A long layoff since the last
             # start usually means an IL return on a pitch count the projection
             # can't see, so the verdict flags (PASS) those picks. Reference
             # "today" is the slate date (proj_date, passed by run_daily/backfill);
             # the last completed start comes from this pitcher's own game-log
             # history. detect_rest_days returns the gap (99 = no prior start
             # found → unknown, left untagged). Only OVER/UNDER picks get a verdict.
+            #
+            # When REST_GATE_ENFORCE is on, a flagged play is DEMOTED to a
+            # non-pick: not bet, not faded — the projection and the flag stay
+            # visible (would_be_pick keeps the direction; it lands in the
+            # watchlist like any other PASS row with pCover >= 0.50).
             if prop.get("pick") in ("OVER", "UNDER"):
                 gate_date = proj_date or ctx.get("game_date", "")
                 if gate_date:
                     days_since_start = detect_rest_days(games, gate_date)
                     if days_since_start != 99:
                         prop["daysSinceLastStart"] = days_since_start
-                        prop["restVerdict"] = (
-                            "PASS" if (REST_GATE_DAYS and days_since_start >= REST_GATE_DAYS)
-                            else "TAKE"
-                        )
+                        flagged = bool(REST_GATE_DAYS) and days_since_start >= REST_GATE_DAYS
+                        prop["restVerdict"] = "PASS" if flagged else "TAKE"
+                        from defaults import REST_GATE_ENFORCE
+                        if flagged and REST_GATE_ENFORCE:
+                            prop["restGated"] = True
+                            prop["would_be_pick"] = prop["pick"]
+                            prop["pick"] = "PASS"
+                            prop["conf"] = "low"
 
             projections.append(prop)
 
