@@ -84,6 +84,27 @@ def _name_key(name):
 # Pitcher game log organization
 # ---------------------------------------------------------------------------
 
+# All MLB appearance dates per pitcher — INCLUDING everything the start
+# filter below drops (relief cameos, opener/bulk stints under 3 IP, short
+# shellings). Refreshed by organize_pitcher_logs. The rest gate uses this to
+# tell a true IL absence from a bullpen/rotation gap: a pitcher who threw in
+# ANY game recently isn't "returning from injury" even if his last *start*
+# was weeks ago. {pid: sorted [YYYY-MM-DD, ...]}
+ALL_APPEARANCE_DATES = {}
+
+
+def days_since_last_appearance(pid, game_date):
+    """
+    Days from game_date back to the pitcher's most recent MLB appearance of
+    any kind (per ALL_APPEARANCE_DATES). Returns 99 when unknown/none prior.
+    Only dates strictly before game_date count, so walk-forward callers that
+    organized full-season logs stay leak-free.
+    """
+    from sources.game_context import detect_rest_days
+    dates = ALL_APPEARANCE_DATES.get(pid) or []
+    return detect_rest_days([{"game_date": d} for d in dates], game_date)
+
+
 def organize_pitcher_logs(raw_logs):
     """
     Organize raw game logs into per-pitcher lists sorted by date.
@@ -93,17 +114,18 @@ def organize_pitcher_logs(raw_logs):
     `is_start` flag so this matches `sitCodes=sp` (Starter) used by
     `fetch_pitcher_advanced_stats`. Kalman state, adv-stats aggregates,
     and per-game projections all draw from the same "what is a start"
-    answer.
+    answer. Side effect: refreshes ALL_APPEARANCE_DATES with every real
+    outing (starts AND relief) so the rest gate can see appearances the
+    start filter drops.
     """
     by_pitcher = {}
+    all_dates = {}
     for g in raw_logs:
         pid = g.get("pitcher_id")
         if pid is None:
             continue
         ip = g.get("IP", 0)
         is_start = g.get("is_start", False)
-        if ip < 3.0 and not is_start:
-            continue
         # Drop scheduled-but-unplayed stubs (ip=0, no recorded outs/K/H/BB).
         # The fetcher pre-populates a placeholder row for tonight's game; if
         # left in, it shifts games[-1]/games[-ROLLING_WINDOW:] and quietly
@@ -111,12 +133,21 @@ def organize_pitcher_logs(raw_logs):
         if ip == 0 and g.get("outs", 0) == 0 and g.get("k", 0) == 0 \
                 and g.get("h", 0) == 0 and g.get("bb", 0) == 0:
             continue
+        # Any played outing — relief included — counts as an appearance.
+        gd = (g.get("game_date") or "")[:10]
+        if gd:
+            all_dates.setdefault(pid, set()).add(gd)
+        if ip < 3.0 and not is_start:
+            continue
         if pid not in by_pitcher:
             by_pitcher[pid] = []
         by_pitcher[pid].append(g)
 
     for pid in by_pitcher:
         by_pitcher[pid].sort(key=lambda g: g.get("game_date", ""))
+
+    ALL_APPEARANCE_DATES.clear()
+    ALL_APPEARANCE_DATES.update({pid: sorted(ds) for pid, ds in all_dates.items()})
 
     return by_pitcher
 
@@ -650,6 +681,17 @@ def project_pitcher_props(pitcher_logs, team_batting_stats=None,
                     if days_since_start != 99:
                         prop["daysSinceLastStart"] = days_since_start
                         flagged = bool(REST_GATE_DAYS) and days_since_start >= REST_GATE_DAYS
+                        # Confirm the absence is real before flagging: an MLB
+                        # appearance of ANY kind inside the window (relief
+                        # cameo, opener/bulk stint, short shelling — outings
+                        # the start filter drops) means he wasn't on the IL,
+                        # just used differently / on a rotation gap.
+                        if flagged:
+                            days_since_app = days_since_last_appearance(pid, gate_date)
+                            if days_since_app != 99:
+                                prop["daysSinceLastAppearance"] = days_since_app
+                                if days_since_app < REST_GATE_DAYS:
+                                    flagged = False
                         prop["restVerdict"] = "PASS" if flagged else "TAKE"
                         from defaults import REST_GATE_ENFORCE
                         if flagged and REST_GATE_ENFORCE:
