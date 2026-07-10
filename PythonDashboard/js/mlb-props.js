@@ -5015,7 +5015,12 @@
             const confText = isConfirmed ? 'C' : 'U';
             const gt = _gameTimes[p.team] || _gameTimes[p.opp] || '';
             const started = gt ? (new Date(gt).getTime() <= Date.now()) : false;
-            const statusStr = started ? '\u{1F552}' : '';
+            // Rest-gated rows (injury-return / long-layoff, restGated=true)
+            // are demoted to pick=PASS, so without a callout here they just
+            // look like any other sub-threshold pass — surface WHY. Wins over
+            // the started-game clock since it's the more useful signal.
+            const isRestGated = !!p.restGated;
+            const statusStr = isRestGated ? '\u{1F6CC} REST' : (started ? '\u{1F552}' : '');
             const bfStr    = p.proj_bf != null ? String(Math.round(p.proj_bf)) : '\u2014';
             const pitchStr = p.proj_pc != null ? String(Math.round(p.proj_pc)) : '\u2014';
             // Engine emits lineup_k_pct and opp_team_k_pct already scaled to percent values
@@ -5055,6 +5060,14 @@
                 td.style.fontSize = '11px';
                 td.style.fontWeight = '600';
                 td.style.color = isConfirmed ? 'var(--green)' : '#999';
+              }
+              if (i===15 && isRestGated) {
+                const days = p.daysSinceLastStart != null ? `${p.daysSinceLastStart}d` : '14+d';
+                td.title = `Rest-gated: ${days} since last start (likely IL return) — `
+                  + `demoted to watchlist, not bet. Would-be pick: ${p.would_be_pick || '?'} ${p.line ?? ''}`;
+                td.style.fontSize = '11px';
+                td.style.fontWeight = '600';
+                td.style.color = 'var(--orange)';
               }
             });
           }
