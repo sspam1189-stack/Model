@@ -698,6 +698,12 @@ K_RATE_FLOOR_MIN_GAMES = 6
 # When the gap from today back to his last completed start is >= REST_GATE_DAYS,
 # we down-grade an OVER/UNDER to PASS (the projection is still shown; only the
 # pick is suppressed). Set to 0 to disable.
+#
+# 2026-07-10: the flag now also confirms the absence is REAL — a pitcher with
+# an MLB appearance of any kind inside the window (relief cameo, opener/bulk
+# stint, short shelling — outings the start filter drops from the game list)
+# is NOT flagged. Only a true no-appearances gap (IL stint / minors option)
+# trips the gate. See ALL_APPEARANCE_DATES in props_engine.
 REST_GATE_DAYS = 14
 
 # Enforce the gate (True) vs shadow-only flagging (False). Shipped 2026-07-10
