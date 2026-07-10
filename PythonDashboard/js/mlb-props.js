@@ -214,6 +214,16 @@
       // markets) so a scratched starter disappears from the today views too.
       const _voidedDayKeys = new Set(_voidedPicks.map(p => `${p.player}|${p.date}`));
       data.props = (data.props || []).filter(p => p.result !== 'VOID');
+      // Rest-gated plays (injury-return pitch-count gate, restGated=true) stay
+      // on the board as picks but are record-exempt — not bet, not counted.
+      // Neutralize any graded WIN/LOSS to GATED so every W-L/units tally
+      // (season, weekly, yesterday, Reddit, lenses) skips them. Idempotent
+      // when the writer already graded them GATED.
+      (data.props || []).forEach(p => {
+        if (p.restGated && (p.result === 'WIN' || p.result === 'LOSS')) {
+          p.result = 'GATED';
+        }
+      });
       if (Array.isArray(data.todayProjections)) {
         data.todayProjections = data.todayProjections.filter(
           p => !_voidedDayKeys.has(`${p.player}|${p.date}`)

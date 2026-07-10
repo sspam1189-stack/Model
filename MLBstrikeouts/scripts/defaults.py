@@ -706,9 +706,14 @@ REST_GATE_DAYS = 14
 # projected on average, and flagged OVERs averaged -7.5 with every double-digit
 # shortfall (Boyd -19, Canning -15, Scott -12, Kremer -9) an IL returner on a
 # hidden limit. Flagged picks ran 8-4 (w02) — well under the ~78% pick WR —
-# with 3 of 4 losses directly pitch-count-driven. Gated plays are flagged and
-# demoted to the watchlist (restGated=true, would_be_pick keeps direction) —
-# never bet, never faded.
+# with 3 of 4 losses directly pitch-count-driven.
+#
+# Enforcement semantics (2026-07-10, same day): a gated play KEEPS its pick —
+# the direction stays displayed on the board with the flag — but it is
+# record-exempt: engine stamps restGated=true, the graders (run_daily
+# grade_previous_picks + props_backfill dashboard writer) record
+# result="GATED" instead of WIN/LOSS, and every record/units tally skips it.
+# Never bet, never faded, never counted.
 REST_GATE_ENFORCE = True
 
 # Weather K-rate multiplier — applied as `k_weather_mult = 1.0 + bonus/penalty`
