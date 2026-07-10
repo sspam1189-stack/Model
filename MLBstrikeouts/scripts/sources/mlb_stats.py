@@ -443,6 +443,13 @@ def fetch_pitcher_game_logs(season=None):
 
         if (i + 1) % 50 == 0:
             print(f"  [mlb_stats] Processed {i+1}/{len(new_game_pks)} new games")
+        # Checkpoint every 200 games so a large re-fetch (e.g. a full-season
+        # cache rebuild) doesn't lose all progress if interrupted partway —
+        # previously the cache was only written once at the very end.
+        if (i + 1) % 200 == 0:
+            _save_cache(bo_cache_path, batting_orders_by_date)
+            _save_cache(batter_cache_path, batter_logs)
+            _save_cache(cache_path, rows)
         time.sleep(0.15)  # light rate limiting
 
     new_pitcher_count = len(rows) - len(existing_rows)
