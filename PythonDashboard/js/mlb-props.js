@@ -214,16 +214,6 @@
       // markets) so a scratched starter disappears from the today views too.
       const _voidedDayKeys = new Set(_voidedPicks.map(p => `${p.player}|${p.date}`));
       data.props = (data.props || []).filter(p => p.result !== 'VOID');
-      // Rest-gated plays (injury-return pitch-count gate, restGated=true) stay
-      // on the board as picks but are record-exempt — not bet, not counted.
-      // Neutralize any graded WIN/LOSS to GATED so every W-L/units tally
-      // (season, weekly, yesterday, Reddit, lenses) skips them. Idempotent
-      // when the writer already graded them GATED.
-      (data.props || []).forEach(p => {
-        if (p.restGated && (p.result === 'WIN' || p.result === 'LOSS')) {
-          p.result = 'GATED';
-        }
-      });
       if (Array.isArray(data.todayProjections)) {
         data.todayProjections = data.todayProjections.filter(
           p => !_voidedDayKeys.has(`${p.player}|${p.date}`)
@@ -4331,23 +4321,31 @@
             _evRecordCard = evCard;
           })();
 
-          // ── Rest Gate (backtest) — shadow monitor (not live) ──
+          // ── Rest Gate (backtest) — LIVE (enforced) ──
           // Injury-return / pitch-count gate. The engine stamps restVerdict on
           // each pick: PASS when the pitcher hadn't started in >= REST_GATE_DAYS
-          // (14) days (likely IL return on a pitch count), else TAKE. Verdict is
-          // SELF-CONTAINED per pick (from daysSinceLastStart). Shadow only — it
-          // never alters which picks are bet. NOTE: picks generated before this
-          // gate shipped carry no restVerdict and default to TAKE, so the PASS
-          // column only populates once the pipeline re-runs and re-stamps.
+          // (14) days (likely IL return on a pitch count), else TAKE. As of
+          // 2026-07-10 the gate is enforced (REST_GATE_ENFORCE=true): a PASS
+          // verdict demotes the play to the watchlist (pick='PASS',
+          // would_be_pick keeps direction) — it's never bet. So flagged plays
+          // no longer show up as graded OVER/UNDER picks; the "GATED would-be"
+          // bucket below is sourced from the watchlist (restGated=true) instead,
+          // graded against would_be_pick, to show what those plays would have
+          // done had the gate not demoted them.
           (function buildRestRecord() {
-            const restVerdictFor = (p) => (p.restVerdict === 'PASS' ? 'PASS' : 'TAKE');
-
             const graded = (data.props || []).filter(p =>
               p.market === 'strikeouts'
               && (p.result === 'WIN' || p.result === 'LOSS')
               && (p.pick === 'OVER' || p.pick === 'UNDER')
-            ).sort((a, b) => (a.date || '').localeCompare(b.date || ''));
-            if (graded.length === 0) return;
+            );
+            const gated = (data.props || []).filter(p =>
+              p.market === 'strikeouts'
+              && p.restGated
+              && (p.result === 'WIN' || p.result === 'LOSS')
+            );
+            const combined = graded.concat(gated)
+              .sort((a, b) => (a.date || '').localeCompare(b.date || ''));
+            if (combined.length === 0) return;
 
             const _unitsOf = (p) => {
               const won = p.result === 'WIN';
@@ -4359,16 +4357,16 @@
             };
 
             let takeW = 0, takeL = 0, takeU = 0;
-            let passW = 0, passL = 0, passU = 0; // what the flagged (PASS) picks WOULD have done
+            let passW = 0, passL = 0, passU = 0; // what the gated plays WOULD have done, unbet
             const byMonth = {};
             const flagged = [];
-            for (const p of graded) {
-              const verdict = restVerdictFor(p);
+            for (const p of combined) {
+              const isGated = !!p.restGated;
               const u = _unitsOf(p);
               const won = p.result === 'WIN';
               const ym = (p.date || '').slice(0, 7);
               if (!byMonth[ym]) byMonth[ym] = { takeW:0, takeL:0, takeU:0, passW:0, passL:0, passU:0 };
-              if (verdict === 'TAKE') {
+              if (!isGated) {
                 if (won) { takeW++; byMonth[ym].takeW++; } else { takeL++; byMonth[ym].takeL++; }
                 takeU += u; byMonth[ym].takeU += u;
               } else {
@@ -4383,7 +4381,7 @@
             card.style.marginBottom = '16px';
             card.appendChild(Object.assign(document.createElement('div'), {
               className: 'card-title',
-              textContent: `🛌 Rest Gate — shadow monitor (not live)`,
+              textContent: `🛌 Rest Gate — live (enforced)`,
             }));
 
             const fmt = (w, l, u) => {
@@ -4395,11 +4393,11 @@
             const sumRow = document.createElement('div');
             sumRow.style.cssText = 'display:flex;gap:18px;padding:10px 4px 6px;flex-wrap:wrap;font-size:13px';
             sumRow.innerHTML = `
-              <div><span style="color:#bbb;font-weight:600">TAKE (normal rest):</span>
+              <div><span style="color:#bbb;font-weight:600">TAKE (normal rest, actually bet):</span>
                 <span style="color:${takeU>=0?'var(--green)':'var(--red)'};font-weight:600">${fmt(takeW, takeL, takeU)}</span></div>
-              <div><span style="color:#bbb;font-weight:600">PASS would-be (≥14d rest):</span>
+              <div><span style="color:#bbb;font-weight:600">GATED would-be (≥14d rest, not bet):</span>
                 <span style="color:${passU>=0?'var(--green)':'var(--red)'};font-weight:600">${fmt(passW, passL, passU)}</span></div>
-              <div style="color:#888;font-size:12px;align-self:center">backtested across ${graded.length} graded picks</div>
+              <div style="color:#888;font-size:12px;align-self:center">backtested across ${combined.length} graded picks</div>
             `;
             card.appendChild(sumRow);
 
@@ -4410,7 +4408,7 @@
               const tbl = document.createElement('table');
               tbl.style.cssText = 'width:100%;border-collapse:collapse;margin-top:6px';
               const hr = tbl.createTHead().insertRow();
-              ['Month','TAKE Record','TAKE WR%','TAKE Units','PASS Record','PASS WR%','PASS Units'].forEach((h, i) => {
+              ['Month','TAKE Record','TAKE WR%','TAKE Units','GATED Record','GATED WR%','GATED Units'].forEach((h, i) => {
                 const th = document.createElement('th');
                 th.textContent = h;
                 th.style.cssText = `padding:6px 8px;border-bottom:1px solid rgba(255,255,255,0.1);font-size:11px;color:#999;text-align:${i===0?'left':'right'}`;
@@ -4449,20 +4447,20 @@
               card.appendChild(wrap);
             }
 
-            // Flagged picks list — every graded pick the gate flagged (≥14d rest).
+            // Flagged picks list — every gated (demoted) play the gate flagged (≥14d rest).
             if (flagged.length) {
               const fWrap = document.createElement('div');
               fWrap.style.cssText = 'margin-top:8px;font-size:12px;color:#ccc';
               const fHdr = document.createElement('div');
               fHdr.style.cssText = 'color:#999;font-size:11px;margin:4px 4px 2px';
-              fHdr.textContent = `Flagged picks (${flagged.length}) — ≥14d since last start:`;
+              fHdr.textContent = `Gated plays (${flagged.length}) — ≥14d since last start, not bet:`;
               fWrap.appendChild(fHdr);
               flagged.sort((a, b) => (a.p.date || '').localeCompare(b.p.date || ''));
               flagged.forEach(({ p, won }) => {
                 const days = p.daysSinceLastStart != null ? `${p.daysSinceLastStart}d` : '14+d';
                 const row = document.createElement('div');
                 row.style.cssText = 'padding:2px 4px';
-                row.innerHTML = `${p.date} · ${mlbShortName(p.player)} ${p.pick} ${p.line} · ${days} rest · `
+                row.innerHTML = `${p.date} · ${mlbShortName(p.player)} ${p.would_be_pick || p.pick} ${p.line} · ${days} rest · `
                   + `<span style="color:${won ? 'var(--green)' : 'var(--red)'};font-weight:600">${won ? 'WIN' : 'LOSS'}</span>`;
                 fWrap.appendChild(row);
               });
@@ -4471,8 +4469,8 @@
 
             const cap = document.createElement('div');
             cap.style.cssText = 'margin-top:8px;padding:6px 4px;font-size:11px;color:#888;line-height:1.5';
-            cap.innerHTML = `<strong style="color:#bbb">Shadow only.</strong> The live pick is never changed — `
-              + `this just tracks how picks on a long layoff (likely IL return / pitch count) would have done if faded.`;
+            cap.innerHTML = `<strong style="color:#bbb">Live.</strong> Gated plays are demoted to the watchlist and never bet — `
+              + `this tracks what they would have done had the gate not caught them.`;
             card.appendChild(cap);
 
             _restRecordCard = card;

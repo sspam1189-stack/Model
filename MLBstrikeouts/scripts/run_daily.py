@@ -633,14 +633,6 @@ def grade_previous_picks(season=None):
         if game.get("pitches") is not None:
             pick["actual_pitches"] = game.get("pitches")
 
-        # Rest-gated plays (injury-return pitch-count gate) are record-exempt:
-        # the pick stays on the board with its direction, but it grades to
-        # GATED — never WIN/LOSS — so no record or units tally counts it.
-        if pick.get("restGated") and not is_watch:
-            pick["result"] = "GATED"
-            watch_graded += 1
-            continue
-
         if actual == line:
             pick["result"] = "PUSH"
             if not is_watch:

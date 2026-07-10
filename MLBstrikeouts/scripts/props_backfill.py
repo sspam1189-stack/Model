@@ -846,10 +846,7 @@ def backfill(season=None, start_game=10, start_date=None):
                 "actual_bf": actual_bf,
                 "actual_pitches": actual_pitches,
             })
-            # Rest-gated plays are record-exempt — kept in the rows (with
-            # direction + won, for the gate lens) but not counted as picks.
-            if not proj.get("restGated"):
-                date_picks += 1
+            date_picks += 1
             total_projected += 1
 
         # Phase 5: UPDATE Kalman with today's actual games (after projecting)
@@ -857,8 +854,8 @@ def backfill(season=None, start_game=10, start_date=None):
             batch_update_from_game_logs(kalman_state, today_date_logs)
 
         if date_picks > 0:
-            wins_today = sum(1 for m in results for p in results[m]["picks"] if p.get("date") == game_date and p.get("won") and not p.get("restGated"))
-            losses_today = sum(1 for m in results for p in results[m]["picks"] if p.get("date") == game_date and not p.get("won") and not p.get("restGated"))
+            wins_today = sum(1 for m in results for p in results[m]["picks"] if p.get("date") == game_date and p.get("won"))
+            losses_today = sum(1 for m in results for p in results[m]["picks"] if p.get("date") == game_date and not p.get("won"))
             print(f"  {game_date}: {date_picks} picks ({wins_today}W-{losses_today}L)")
 
     # --- Save Kalman state so run_daily can pick up from here ---
@@ -950,9 +947,7 @@ def _print_summary(results, total_projected, season):
         acts = np.array(data["actuals"])
         all_picks = data["picks"]
         # Actionable picks only — exclude watchlist (pick=PASS) from W-L/units.
-        # Rest-gated plays are record-exempt — excluded from the picks tally.
-        picks = [p for p in all_picks if p.get("pick") in ("OVER", "UNDER")
-                 and not p.get("restGated")]
+        picks = [p for p in all_picks if p.get("pick") in ("OVER", "UNDER")]
         watch = [p for p in all_picks if p.get("pick") == "PASS"]
 
         if len(projs) == 0:
@@ -1030,10 +1025,7 @@ def write_dashboard_json(results, season):
                 "odds": p.get("odds"),
                 "to_win_1u": p.get("to_win_1u"),
                 "actual": p["actual"],
-                # Rest-gated plays grade to GATED (record-exempt) — the pick
-                # and its would-have outcome stay in the row for the gate lens.
-                "result": ("GATED" if p.get("restGated")
-                           else ("WIN" if p["won"] else "LOSS")),
+                "result": "WIN" if p["won"] else "LOSS",
                 "date": p.get("date", ""),
                 # Rest Gate shadow-monitor inputs. project_pitcher_props stamps
                 # these on the prop and the grading loop carries them into
@@ -1060,10 +1052,9 @@ def write_dashboard_json(results, season):
 
     all_picks.sort(key=lambda x: (-(x.get("pCover") or 0), x.get("date", "")))
 
-    # Summary excludes watchlist entries (pick=PASS) and rest-gated plays
-    # (record-exempt) so units/W-L only reflect picks actually bet.
-    actionable = [p for p in all_picks if p.get("pick") in ("OVER", "UNDER")
-                  and not p.get("restGated")]
+    # Summary excludes watchlist entries (pick=PASS) so units/W-L only
+    # reflect actionable picks that would have actually been bet.
+    actionable = [p for p in all_picks if p.get("pick") in ("OVER", "UNDER")]
     total_w = sum(1 for p in actionable if p["result"] == "WIN")
     total_l = sum(1 for p in actionable if p["result"] == "LOSS")
     units = _calc_units_from_dashboard(actionable)
