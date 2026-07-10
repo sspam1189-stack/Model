@@ -790,6 +790,7 @@ def backfill(season=None, start_game=10, start_date=None):
                     "odds": proj.get("odds"),
                     "won": would_be_won,
                     "restVerdict": proj.get("restVerdict"),
+                "restGated": proj.get("restGated"),
                     "daysSinceLastStart": proj.get("daysSinceLastStart"),
                     "proj_ip": proj.get("proj_ip"),
                     "proj_bf": proj.get("proj_bf"),
@@ -832,6 +833,7 @@ def backfill(season=None, start_game=10, start_date=None):
                 "odds": proj.get("odds"),
                 "won": won,
                 "restVerdict": proj.get("restVerdict"),
+                "restGated": proj.get("restGated"),
                 "daysSinceLastStart": proj.get("daysSinceLastStart"),
                 "proj_ip": proj.get("proj_ip"),
                 "proj_bf": proj.get("proj_bf"),
@@ -1031,6 +1033,7 @@ def write_dashboard_json(results, season):
                 # silently drops them, leaving the dashboard Rest Gate card with
                 # no data (always 0 flagged). See game_context.detect_rest_days.
                 "restVerdict": p.get("restVerdict"),
+                "restGated": p.get("restGated"),
                 "daysSinceLastStart": p.get("daysSinceLastStart"),
                 "proj_ip": p.get("proj_ip"),
                 "proj_bf": p.get("proj_bf"),

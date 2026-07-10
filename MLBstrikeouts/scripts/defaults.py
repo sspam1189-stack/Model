@@ -700,6 +700,17 @@ K_RATE_FLOOR_MIN_GAMES = 6
 # pick is suppressed). Set to 0 to disable.
 REST_GATE_DAYS = 14
 
+# Enforce the gate (True) vs shadow-only flagging (False). Shipped 2026-07-10
+# after auditing the flagged picks' pitch counts: excluding two false-positive
+# layoffs (rotation gaps, not IL), true returners threw 5.3 fewer pitches than
+# projected on average, and flagged OVERs averaged -7.5 with every double-digit
+# shortfall (Boyd -19, Canning -15, Scott -12, Kremer -9) an IL returner on a
+# hidden limit. Flagged picks ran 8-4 (w02) — well under the ~78% pick WR —
+# with 3 of 4 losses directly pitch-count-driven. Gated plays are flagged and
+# demoted to the watchlist (restGated=true, would_be_pick keeps direction) —
+# never bet, never faded.
+REST_GATE_ENFORCE = True
+
 # Weather K-rate multiplier — applied as `k_weather_mult = 1.0 + bonus/penalty`
 # when game temperature crosses the cold/hot thresholds. Original 4/15 ship
 # (commit 20a55c6f) used +0.02 cold / -0.01 hot on the "bat speed vs grip"
