@@ -377,54 +377,58 @@ def fetch_pitcher_game_logs(season=None):
                     "is_home": side == "home",
                 })
 
-            # --- Extract starting pitcher stats ---
-            if not pitchers:
-                continue
+            # --- Extract pitcher stats (EVERY pitcher, not just the starter) ---
+            # pitchers[] is in order of appearance: pitchers[0] is the game's
+            # first pitcher (is_start=True — includes openers); everyone after
+            # is a relief row (is_start=False). Relief rows matter because a
+            # rotation arm can live behind an opener for weeks (e.g. Fedde,
+            # June 2026: four bulk outings of 2.2-5.0 IP, none as pitchers[0])
+            # — with starter-only logs he looks absent, which corrupts
+            # rest-gate gaps and drops 3+ IP bulk outings organize_pitcher_logs
+            # is designed to keep.
+            for p_idx, sp_id in enumerate(pitchers):
+                p_data = players.get(f"ID{sp_id}", {})
+                person = p_data.get("person", {})
+                p_stats = p_data.get("stats", {}).get("pitching", {})
 
-            # Starting pitcher = first pitcher in the list
-            sp_id = pitchers[0]
-            p_data = players.get(f"ID{sp_id}", {})
-            person = p_data.get("person", {})
-            p_stats = p_data.get("stats", {}).get("pitching", {})
+                if not p_stats:
+                    continue
 
-            if not p_stats:
-                continue
+                # Guard against half-populated boxscores (bf=0, outs=0,
+                # pitches=0) — the API sometimes flips a makeup game to Final
+                # before stats propagate, returning a stats dict full of
+                # zeros. Skip so we try again next run instead of locking in
+                # a bad row.
+                _bf = int(p_stats.get("battersFaced", 0) or 0)
+                _pc = int(p_stats.get("numberOfPitches", 0) or 0)
+                ip_str = p_stats.get("inningsPitched", "0")
+                if _bf == 0 and _pc == 0 and _ip_to_outs(ip_str) == 0:
+                    continue
 
-            # Guard against half-populated boxscores (bf=0, outs=0, pitches=0)
-            # — the API sometimes flips a makeup game to Final before stats
-            # propagate, returning a stats dict full of zeros. Skip so we
-            # try again on the next run instead of locking in a bad row.
-            _bf = int(p_stats.get("battersFaced", 0) or 0)
-            _pc = int(p_stats.get("numberOfPitches", 0) or 0)
-            ip_str = p_stats.get("inningsPitched", "0")
-            if _bf == 0 and _pc == 0 and _ip_to_outs(ip_str) == 0:
-                continue
-
-
-            rows.append({
-                "pitcher_id": person.get("id", sp_id),
-                "pitcher_name": person.get("fullName", ""),
-                "team": team_abbr,
-                "game_date": game_date,
-                "game_id": gm["pk"],
-                "k": p_stats.get("strikeOuts", 0),
-                "ip": _ip_to_float(ip_str),
-                "IP": _ip_to_float(ip_str),
-                "ip_str": ip_str,
-                "outs": _ip_to_outs(ip_str),
-                "h": p_stats.get("hits", 0),
-                "bb": p_stats.get("baseOnBalls", 0),
-                "hr": p_stats.get("homeRuns", 0),
-                "hbp": p_stats.get("hitByPitch", 0),
-                "bf": p_stats.get("battersFaced", 0),
-                "er": p_stats.get("earnedRuns", 0),
-                "pitches": p_stats.get("numberOfPitches", 0),
-                "ground_outs": p_stats.get("groundOuts", 0),
-                "fly_outs": p_stats.get("airOuts", 0),
-                "opp": opp_abbr,
-                "is_home": side == "home",
-                "is_start": True,
-            })
+                rows.append({
+                    "pitcher_id": person.get("id", sp_id),
+                    "pitcher_name": person.get("fullName", ""),
+                    "team": team_abbr,
+                    "game_date": game_date,
+                    "game_id": gm["pk"],
+                    "k": p_stats.get("strikeOuts", 0),
+                    "ip": _ip_to_float(ip_str),
+                    "IP": _ip_to_float(ip_str),
+                    "ip_str": ip_str,
+                    "outs": _ip_to_outs(ip_str),
+                    "h": p_stats.get("hits", 0),
+                    "bb": p_stats.get("baseOnBalls", 0),
+                    "hr": p_stats.get("homeRuns", 0),
+                    "hbp": p_stats.get("hitByPitch", 0),
+                    "bf": p_stats.get("battersFaced", 0),
+                    "er": p_stats.get("earnedRuns", 0),
+                    "pitches": p_stats.get("numberOfPitches", 0),
+                    "ground_outs": p_stats.get("groundOuts", 0),
+                    "fly_outs": p_stats.get("airOuts", 0),
+                    "opp": opp_abbr,
+                    "is_home": side == "home",
+                    "is_start": p_idx == 0,
+                })
 
         if (i + 1) % 50 == 0:
             print(f"  [mlb_stats] Processed {i+1}/{len(new_game_pks)} new games")
