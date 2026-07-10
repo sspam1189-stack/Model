@@ -638,10 +638,11 @@ def project_pitcher_props(pitcher_logs, team_batting_stats=None,
             # history. detect_rest_days returns the gap (99 = no prior start
             # found → unknown, left untagged). Only OVER/UNDER picks get a verdict.
             #
-            # When REST_GATE_ENFORCE is on, a flagged play is DEMOTED to a
-            # non-pick: not bet, not faded — the projection and the flag stay
-            # visible (would_be_pick keeps the direction; it lands in the
-            # watchlist like any other PASS row with pCover >= 0.50).
+            # When REST_GATE_ENFORCE is on, a flagged play KEEPS its pick
+            # (direction stays displayed on the board) but is stamped
+            # restGated=true — the graders record it as result="GATED"
+            # (not WIN/LOSS), so it is never bet and never counts toward
+            # the record. Not faded either: it's a non-pick, not a fade.
             if prop.get("pick") in ("OVER", "UNDER"):
                 gate_date = proj_date or ctx.get("game_date", "")
                 if gate_date:
@@ -653,9 +654,6 @@ def project_pitcher_props(pitcher_logs, team_batting_stats=None,
                         from defaults import REST_GATE_ENFORCE
                         if flagged and REST_GATE_ENFORCE:
                             prop["restGated"] = True
-                            prop["would_be_pick"] = prop["pick"]
-                            prop["pick"] = "PASS"
-                            prop["conf"] = "low"
 
             projections.append(prop)
 
