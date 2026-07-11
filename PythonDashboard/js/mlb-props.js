@@ -46,6 +46,7 @@
     const MLB_FADE_LIST = [
       'Littell', 'Mikolas', 'Painter', 'Rocker', 'Sheehan', 'Jared Jones', 'Merrill Kelly', 'Aldegheri', 'Gallen', 'Civale', 'David Peterson',
       'Bibee', 'Springs', 'Burrows', 'Roupp', 'Keller', 'Peralta', 'Canning', 'Jacob Lopez',
+      'Ryan Johnson', 'Poulin',
     ];
     const _mlbFadeNorm = (s) => (s || '').toLowerCase().normalize('NFD')
       .replace(/[̀-ͯ]/g, '').replace(/[^a-z ]/g, ' ').replace(/\s+/g, ' ').trim();
