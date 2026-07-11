@@ -1336,9 +1336,11 @@ def run_daily(date_key=None):
     # can't see him from todayProjections alone — this list closes that gap.
     today_probables = []
     for g in all_probable:
-        for p_key, t_key, o_key in (("home_pitcher", "home_team", "away_team"),
-                                    ("away_pitcher", "away_team", "home_team")):
-            _nm = g.get(p_key)
+        for p_key, t_key, o_key in (("home_pitcher_name", "home_team", "away_team"),
+                                    ("away_pitcher_name", "away_team", "home_team")):
+            # fetch_today_probable_pitchers emits *_pitcher_name; keep the
+            # unsuffixed key as a fallback for any alternate producer.
+            _nm = g.get(p_key) or g.get(p_key.replace("_name", ""))
             if _nm:
                 today_probables.append({
                     "player": _nm,
