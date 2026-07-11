@@ -873,7 +873,19 @@ def run_daily(date_key=None):
     _all_confirmed = (lineup_data
                       and all(v.get("confirmed") for v in lineup_data.values()))
 
-    if not _all_confirmed:
+    # Doubleheader detection: when a team plays twice, the team-keyed lineup
+    # cache is ambiguous (ONE entry, TWO different lineups), so the schedule
+    # pass below must always run to build per-game "TEAM|gamePk" entries —
+    # even if every team-keyed entry already reads confirmed.
+    _team_games_today = {}
+    for _g in all_probable:
+        for _k in ("home_team", "away_team"):
+            _t = _g.get(_k)
+            if _t:
+                _team_games_today[_t] = _team_games_today.get(_t, 0) + 1
+    _has_dh = any(n >= 2 for n in _team_games_today.values())
+
+    if not _all_confirmed or _has_dh:
         try:
             import requests
             url = f"https://statsapi.mlb.com/api/v1/schedule?sportId=1&date={date_iso}&hydrate=lineups"
@@ -890,7 +902,16 @@ def run_daily(date_key=None):
                         abbr = MLB_TEAM_ID_TO_ABBR.get(team_id, "")
                         if not abbr:
                             continue
-                        if lineup_data.get(abbr, {}).get("confirmed"):
+                        _game_key = (f"{abbr}|{_sched_game_id}"
+                                     if _sched_game_id else None)
+                        # The freeze is per GAME: a confirmed game-1 lineup
+                        # must not stop doubleheader game 2 from being
+                        # processed (the old team-key skip left DH game 2
+                        # with no lineup entry at all).
+                        if _game_key:
+                            if lineup_data.get(_game_key, {}).get("confirmed"):
+                                continue
+                        elif lineup_data.get(abbr, {}).get("confirmed"):
                             continue
                         players = lineups.get(lineup_key, [])
                         lineup_entries = []
@@ -952,9 +973,13 @@ def run_daily(date_key=None):
                                        (_lineup_source or "none")),
                             "implied_runs": None,
                         }
-                        lineup_data[abbr] = _lu_entry
-                        if _sched_game_id:
-                            lineup_data[f"{abbr}|{_sched_game_id}"] = _lu_entry
+                        if _game_key:
+                            lineup_data[_game_key] = _lu_entry
+                        # Team key: keep a confirmed entry frozen — a DH game-2
+                        # projected lineup must not clobber game 1's confirmed
+                        # nine. Otherwise take the newest.
+                        if confirmed or not lineup_data.get(abbr, {}).get("confirmed"):
+                            lineup_data[abbr] = _lu_entry
         except Exception:
             pass
 
@@ -1360,7 +1385,13 @@ def run_daily(date_key=None):
             if opp in _started_teams_compat:
                 return "game_started"
         opp = pick.get("opp", "") or pick.get("team", "")
-        if opp in confirmed_teams:
+        # Game-attributed confirmation first: on a doubleheader only the game
+        # whose lineup actually posted should read confirmed — the team-level
+        # flag can't say WHICH game it belongs to.
+        _gk = (lineup_data or {}).get(f"{opp}|{gid}") if gid else None
+        if _gk is not None:
+            return "lineup_confirmed" if _gk.get("confirmed") else "pending"
+        if opp in confirmed_teams and len(_team_game_ids.get(opp, [1])) <= 1:
             return "lineup_confirmed"
         return "pending"
 
