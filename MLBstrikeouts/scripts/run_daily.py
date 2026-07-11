@@ -529,16 +529,22 @@ def grade_previous_picks(season=None):
         print("  [grade] Could not fetch game logs — skipping grading")
         return
 
-    # Index logs by (pitcher_name, game_date) for fast lookup
+    # Index logs by (pitcher_name, game_date) for fast lookup. STARTS ONLY:
+    # books only post props for announced starters, so a picked pitcher who
+    # ended up pitching relief that day did NOT start — the bet is a void
+    # (scratch path below), not a grade against his relief line. Raw logs
+    # carry relief rows since the all-pitchers fetch (2026-07-10).
     logs_by_pitcher_date = defaultdict(list)
     # Also track which (team, date) pairs have ANY pitcher game log — used
     # to distinguish "game played but this pitcher was scratched" from
-    # "game data hasn't propagated yet" when grading.
+    # "game data hasn't propagated yet" when grading. Relief rows count
+    # here (any pitcher proves the game happened).
     teams_played_on_date = set()
     other_pitchers_by_team_date = defaultdict(list)
     for g in all_logs:
-        key = (g.get("pitcher_name", ""), g.get("game_date", ""))
-        logs_by_pitcher_date[key].append(g)
+        if g.get("is_start", True):
+            key = (g.get("pitcher_name", ""), g.get("game_date", ""))
+            logs_by_pitcher_date[key].append(g)
         _t, _d, _pn = g.get("team", ""), g.get("game_date", ""), g.get("pitcher_name", "")
         if _t and _d:
             teams_played_on_date.add((_t, _d))

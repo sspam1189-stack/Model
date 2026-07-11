@@ -109,14 +109,18 @@ def organize_pitcher_logs(raw_logs):
     """
     Organize raw game logs into per-pitcher lists sorted by date.
 
-    Keeps only outings flagged as starts (or 3+ IP relief outings — a
-    bullpen-day arm who covered multiple innings). Trusts the upstream
-    `is_start` flag so this matches `sitCodes=sp` (Starter) used by
-    `fetch_pitcher_advanced_stats`. Kalman state, adv-stats aggregates,
-    and per-game projections all draw from the same "what is a start"
-    answer. Side effect: refreshes ALL_APPEARANCE_DATES with every real
-    outing (starts AND relief) so the rest gate can see appearances the
-    start filter drops.
+    Keeps STARTS ONLY (is_start=True — the game's first pitcher, openers
+    included). Books only post K props for announced starters, so
+    projections, pick grading, and the rolling windows must all be built
+    from starter outings — relief/bulk work behind an opener is a
+    different usage pattern and has no bettable line. (The pre-2026-07-10
+    "3+ IP relief" keep rule is gone: it never fired while the fetcher was
+    starter-only, and once relief rows landed in the raw logs it polluted
+    projection windows and produced picks with no real market.)
+
+    Side effect: refreshes ALL_APPEARANCE_DATES with every real outing
+    (starts AND relief) so the rest gate can tell a true IL absence from
+    opener/bullpen usage the start filter drops.
     """
     by_pitcher = {}
     all_dates = {}
@@ -137,7 +141,7 @@ def organize_pitcher_logs(raw_logs):
         gd = (g.get("game_date") or "")[:10]
         if gd:
             all_dates.setdefault(pid, set()).add(gd)
-        if ip < 3.0 and not is_start:
+        if not is_start:
             continue
         if pid not in by_pitcher:
             by_pitcher[pid] = []
