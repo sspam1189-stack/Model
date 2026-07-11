@@ -248,9 +248,15 @@
         const slate = (Array.isArray(data.todayProjections) && data.todayProjections.length)
           ? data.todayProjections
           : (data.props || []).filter((p) => p.date === today);
+        // Also scan announced probables: a fade-list arm making a spot start
+        // (no qualifying starter history → no projection row) is invisible to
+        // the projection slate, but he's exactly who the fade list is for.
+        const probableRows = (data.todayProbables || []).map((g) => ({
+          player: g.player, team: g.team, opp: g.opp, market: 'strikeouts',
+        }));
         const hits = [];
         const seen = new Set();
-        slate.forEach((p) => {
+        slate.concat(probableRows).forEach((p) => {
           if (!isMLBFade(p)) return;
           const k = _mlbFadeNorm(p.player);
           if (seen.has(k)) return;

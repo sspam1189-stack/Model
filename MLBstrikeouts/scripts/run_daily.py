@@ -1330,12 +1330,31 @@ def run_daily(date_key=None):
             if status:
                 game_statuses_by_id[gid] = status
 
+    # Announced probable starters, projected or not. A spot starter with no
+    # qualifying starter history (e.g. a bullpen arm starting a DH game)
+    # never gets a projection row, so the dashboard's fade-list callout
+    # can't see him from todayProjections alone — this list closes that gap.
+    today_probables = []
+    for g in all_probable:
+        for p_key, t_key, o_key in (("home_pitcher", "home_team", "away_team"),
+                                    ("away_pitcher", "away_team", "home_team")):
+            _nm = g.get(p_key)
+            if _nm:
+                today_probables.append({
+                    "player": _nm,
+                    "team": g.get(t_key, ""),
+                    "opp": g.get(o_key, ""),
+                    "game_id": g.get("game_id"),
+                    "game_time": g.get("game_time", ""),
+                })
+
     combined = {
         **dashboard,
         "gameTimes": game_times,
         "gameStatuses": game_statuses,
         "gameTimesById": game_times_by_id,
         "gameStatusesById": game_statuses_by_id,
+        "todayProbables": today_probables,
     }
 
     output_paths = [
