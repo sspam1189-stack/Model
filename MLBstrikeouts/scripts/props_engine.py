@@ -250,7 +250,15 @@ def project_pitcher_props(pitcher_logs, team_batting_stats=None,
             line_lookup[key] = pl
 
     pitcher_id_ctx = {}
+    # Games per team on this slate — >= 2 means a doubleheader. Used below to
+    # refuse the team-keyed lineup fallback when it can't be attributed to a
+    # specific game (the cached lineup may belong to the OTHER game of the DH).
+    team_game_count = {}
     if probable_pitchers:
+        for gm in probable_pitchers:
+            for _t in (gm.get("home_team", ""), gm.get("away_team", "")):
+                if _t:
+                    team_game_count[_t] = team_game_count.get(_t, 0) + 1
         for gm in probable_pitchers:
             home_team = gm.get("home_team", "")
             away_team = gm.get("away_team", "")
@@ -439,7 +447,18 @@ def project_pitcher_props(pitcher_logs, team_batting_stats=None,
         lg_k_rate = league_avg.get("K_PCT", 0.22) or 0.22
         if batter_k_rates and lineup_data:
             _game_id_lu = ctx.get("game_id")
-            opp_lineup = (lineup_data.get(f"{latest_opp}|{_game_id_lu}") if _game_id_lu else None) or lineup_data.get(latest_opp, {})
+            # Prefer a game-attributed lineup ("TEAM|game_id"). The plain
+            # team-keyed fallback is only safe when the opponent plays ONE
+            # game today: on a doubleheader the single cached lineup can't be
+            # attributed (a confirmed game-1 lineup would silently project
+            # game 2's pitcher against the wrong nine — DH lineups rest
+            # regulars), so skip the batter-level tier and let the team
+            # season K% fallback below carry the matchup instead.
+            opp_lineup = (lineup_data.get(f"{latest_opp}|{_game_id_lu}")
+                          if _game_id_lu else None)
+            if opp_lineup is None and team_game_count.get(latest_opp, 1) < 2:
+                opp_lineup = lineup_data.get(latest_opp)
+            opp_lineup = opp_lineup or {}
             opp_player_ids = opp_lineup.get("player_ids", [])
             if opp_player_ids:
                 _pitch_hand = adv.get("pitch_hand", "R")
