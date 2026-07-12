@@ -11463,9 +11463,11 @@
           "h2hRecord": null,
           "h2hNote": null,
           "trends": {
-            "away": "ATS +/- 1.2 \u00b7 Over 41.7% \u00b7 Under 58.3% \u00b7 O/U +/- -1.0",
-            "home": "ATS +/- 0.7 \u00b7 Over 50.0% \u00b7 Under 50.0% \u00b7 O/U +/- 0.5"
-          }
+            "away": "ATS +/- 1.2 \u00b7 Over 44.0% \u00b7 Under 56.0% \u00b7 O/U +/- -1.0",
+            "home": "ATS +/- 0.5 \u00b7 Over 52.4% \u00b7 Under 47.6% \u00b7 O/U +/- 0.5"
+          },
+          "awayScore": 79.0,
+          "homeScore": 84.0
         },
         {
           "away": "New York Liberty",
@@ -11520,10 +11522,13 @@
             }
           },
           "trends": {
-            "away": "ATS +/- -2.2 \u00b7 Over 56.5% \u00b7 Under 43.5% \u00b7 O/U +/- 0.9",
-            "home": "ATS +/- 0.5 \u00b7 Over 63.6% \u00b7 Under 36.4% \u00b7 O/U +/- 8.8"
+            "away": "ATS +/- -2.5 \u00b7 Over 58.3% \u00b7 Under 41.7% \u00b7 O/U +/- 1.1",
+            "home": "ATS +/- 0.8 \u00b7 Over 65.2% \u00b7 Under 34.8% \u00b7 O/U +/- 8.7"
           },
-          "b2bNote": "New York Liberty: B2B: OFF -1.5, DEF +0.8"
+          "b2bNote": "New York Liberty: B2B: OFF -1.5, DEF +0.8",
+          "awayScore": 91.0,
+          "homeScore": 93.0,
+          "sResult": "WIN"
         },
         {
           "away": "Chicago Sky",
@@ -11579,29 +11584,29 @@
         {
           "away": "Indiana Fever",
           "home": "Las Vegas Aces",
-          "line": -4.5,
-          "total": 181.5,
+          "line": -5.5,
+          "total": 180.5,
           "startTimeUTC": "2026-07-13T01:00:00.000+00:00",
           "_book": "FanDuel",
-          "aS": 88.2,
-          "hS": 95.3,
-          "pT": 183.5,
-          "margin": 2.6,
-          "sDiff": 2.6,
-          "tDiff": -8.3,
+          "aS": 88.4,
+          "hS": 95.5,
+          "pT": 183.9,
+          "margin": 1.6,
+          "sDiff": 1.6,
+          "tDiff": -7.3,
           "sPick": "PASS",
           "sConf": "low",
           "oPick": "PASS",
           "oConf": "low",
           "injuryNote": null,
-          "pHomeCover": 0.578,
-          "pAwayCover": 0.422,
-          "pOver": 0.276,
-          "pUnder": 0.724,
+          "pHomeCover": 0.548,
+          "pAwayCover": 0.452,
+          "pOver": 0.299,
+          "pUnder": 0.701,
           "pCover": null,
           "pOU": null,
-          "marginVar": 176.5,
-          "marginStd": 13.3,
+          "marginVar": 174.3,
+          "marginStd": 13.2,
           "_features": {
             "dTS": 0.005054249999999927,
             "dTO": -0.02745375,
@@ -11635,8 +11640,8 @@
           "b2bNote": "Las Vegas Aces: B2B: OFF -1.5, DEF +0.8"
         }
       ],
-      "summaryText": "RECORD (graded picks only)\n\nSPREAD (ATS)\n  All:         42-25-0   (62.7%)   [graded 67]\n  Elite:       42-25-0   (62.7%)   [graded 67]\n\nFAV/DOG (Spread)\n  Favorites:   22-14-0   (61.1%)   [graded 36]\n  Underdogs:   20-11-0   (64.5%)   [graded 31]\n\nTOTAL (O/U)\n  All:         0-0-0   (n/a%)   [graded 0]\n  Elite:       0-0-0   (n/a%)   [graded 0]\n\nOVER/UNDER\n  Over:        0-0-0   (n/a%)   [graded 0]\n  Under:       0-0-0   (n/a%)   [graded 0]",
-      "ranAt": "07/12/2026, 12:34:02 PM"
+      "summaryText": "RECORD (graded picks only)\n\nSPREAD (ATS)\n  All:         43-25-0   (63.2%)   [graded 68]\n  Elite:       43-25-0   (63.2%)   [graded 68]\n\nFAV/DOG (Spread)\n  Favorites:   22-14-0   (61.1%)   [graded 36]\n  Underdogs:   21-11-0   (65.6%)   [graded 32]\n\nTOTAL (O/U)\n  All:         0-0-0   (n/a%)   [graded 0]\n  Elite:       0-0-0   (n/a%)   [graded 0]\n\nOVER/UNDER\n  Over:        0-0-0   (n/a%)   [graded 0]\n  Under:       0-0-0   (n/a%)   [graded 0]",
+      "ranAt": "07/12/2026, 06:30:09 PM"
     }
   ],
   "weights": {
@@ -11660,7 +11665,7 @@
     "locationWeight": 0.25,
     "h2hWeight": 0.0
   },
-  "residualVar": 150.8,
+  "residualVar": 148.6,
   "weightsVar": {
     "wTS": 3.9278,
     "wTO": 3.9561,
