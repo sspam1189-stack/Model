@@ -149,6 +149,14 @@ def fetch_player_game_logs(season=None, season_type="Regular Season", date_to=No
         )
         df = lg.get_data_frames()[0]
     except Exception as e:
+        # Fall back to the stale cache rather than dying: an offline
+        # backfill/analysis run is better served by yesterday's logs than a
+        # crash. The next online daily run refreshes the cache as usual.
+        if os.path.exists(cache_path):
+            print(f"  [player_stats] fetch failed ({e}); using STALE cache "
+                  f"{os.path.basename(cache_path)}")
+            with open(cache_path, "r") as f:
+                return json.load(f)
         print(f"  [player_stats] ERROR fetching game logs: {e}")
         raise
 
