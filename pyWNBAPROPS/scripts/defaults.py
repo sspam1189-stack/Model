@@ -106,11 +106,27 @@ MIN_MINUTES = 12
 # ~0.18-0.20 in its band, and the 0.60 gate keeps OVER firing only where it is
 # +EV. Threshold 0.60 (over 0.59) trades ~6u of volume-driven units for a
 # cleaner cutoff at identical u/pick.
+# 2026-07-12 recalibration — full-season walk-forward re-sweep (0.50-threshold
+# capture, 1,165 graded candidates, real cached Odds-API lines, May 25 - Jul
+# 11). Per-market/direction findings (flat 1u @ -110):
+#     points   OVER@0.60  64.7% / +0.235 u/pk (n=68); UNDER@0.60 is 50.0% ->
+#              OVER-only stays exactly right.
+#     assists  UNDER@0.575 77.8% / +0.485 (n=27); OVER@0.575 43.8% / -0.165
+#              (n=16, matches live 6-8) -> assists moved to UNDER_ONLY.
+#     threes   0.575 both = 58.7-60.4% / +0.12-0.15 (thin, live 55.9%);
+#              0.60 both = 63.0% / +0.202 (n=27) -> raised 0.575 -> 0.60.
+#     rebounds +EV at every threshold (0.575 both: 65.5% / +0.251, n=29)
+#              -> lowered 0.60 -> 0.575 for quality volume.
+# Season replay: current config 179 picks / 63.7% / +0.216 u/pk ->
+# recalibrated 151 / 66.9% / +0.277 u/pk, +3.2u total on 16% fewer bets,
+# 0 -> 1 sub-55% weeks but June-29/July-06 weeks improve (56%->67%, 56%).
+# pCover bucket calibration itself is honest (0.60 bucket -> 59.7% WR live);
+# the leaks were directional (assists OVER) and the thin threes band.
 MARKET_THRESHOLDS = {
-    "points":        {"high": 0.600},   # OVER-ONLY (see OVER_ONLY_MARKETS); OVER +EV only >=0.60 -> 64.1% WR
-    "rebounds":      {"high": 0.600},   # rebs sweep: 0.575 sits in a dip (56.7%/+0.09/pk); 0.60 = 60.0%/+2.4u/+0.160/pk high-ROI cut (0.55 peaked +0.168/pk but 0.60 chosen for the cleaner cutoff)
-    "assists":       {"high": 0.575},
-    "threes":        {"high": 0.575},
+    "points":        {"high": 0.600},   # OVER-ONLY (see OVER_ONLY_MARKETS); OVER +EV only >=0.60
+    "rebounds":      {"high": 0.575},   # 2026-07-12: 0.60 -> 0.575 (65.5% / +0.251 u/pk, n=29)
+    "assists":       {"high": 0.575},   # UNDER-ONLY (see UNDER_ONLY_MARKETS); UNDER 77.8% / +0.485 u/pk
+    "threes":        {"high": 0.600},   # 2026-07-12: 0.575 -> 0.60 (63.0% / +0.202 u/pk; 0.575 band thin)
     "pts_rebs_asts": {"high": 0.575},   # DISABLED below (kept for when re-enabled)
     "steals":        {"high": 0.65},
     "blocks":        {"high": 0.65},
@@ -207,7 +223,13 @@ MIN_LINE = {
 #                  meaningful edge). Re-check as more live picks accrue.
 #   - steals / blocks / turnovers: not offered on WNBA books -> disabled.
 
-UNDER_ONLY_MARKETS = set()
+# assists is UNDER-ONLY (2026-07-12 recalibration). Full-season walk-forward:
+# assists UNDER@0.575 = 77.8% / +0.485 u/pick (n=27) while assists OVER@0.575
+# = 43.8% / -0.165 (n=16) — and the LIVE season confirms it exactly (UNDER
+# 21-5 / 81%, OVER 6-8 / 43%). The old note ("assists is under-confident so
+# it bets at 0.575") was true only of the UNDER side; the OVER side was the
+# single biggest live leak. See MARKET_THRESHOLDS note above.
+UNDER_ONLY_MARKETS = {"assists"}
 
 # points is OVER-ONLY. Full 2026 sweep (0.53->0.64) shows the two directions
 # want OPPOSITE gates: OVER is only +EV at >=0.60 (64.1% WR, +14.3u,
