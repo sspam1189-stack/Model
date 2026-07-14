@@ -53,7 +53,7 @@ def grade(p):
     return None
 
 
-def units(p, sz=2.5):
+def units(p, sz=1.0):
     o = p.get('odds'); r = grade(p)
     if o is None or r not in ('WIN', 'LOSS'): return 0.0, 0.0
     if o > 0:
