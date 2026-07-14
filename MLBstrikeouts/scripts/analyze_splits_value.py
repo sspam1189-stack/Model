@@ -65,20 +65,20 @@ for w in [0.0, 0.1, 0.2, 0.3, 0.5, 0.7, 1.0]:
 
 # Past 2 weeks
 print("\n=========================================================================")
-print("  Past 2 weeks (4/27-5/12) only")
+print("  Past 2 weeks (6/30-7/14) only")
 print("=========================================================================")
 for w in [0.0, 0.1, 0.2, 0.3, 0.5, 1.0]:
     picks = results[w][0]
-    recent = [p for p in picks if '2026-04-27' <= p['date'] <= '2026-05-12']
+    recent = [p for p in picks if '2026-06-30' <= p['date'] <= '2026-07-14']
     metrics(recent, w)
 
-# Recent (5/05+)
+# Recent (7/7+)
 print("\n=========================================================================")
-print("  Recent panel (5/05-5/12)")
+print("  Recent panel (7/7-7/14)")
 print("=========================================================================")
 for w in [0.0, 0.1, 0.2, 0.3, 0.5, 1.0]:
     picks = results[w][0]
-    recent = [p for p in picks if p['date'] >= '2026-05-05']
+    recent = [p for p in picks if p['date'] >= '2026-07-07']
     metrics(recent, w)
 
 # How different are the picks themselves between 0.0 and 0.3?
@@ -108,5 +108,5 @@ only_30 = picks_30 - picks_00
 shared_picks = picks_00 & picks_30
 print(f"\n  Pick selection: {len(shared_picks)} shared, {len(only_00)} only-at-0.0, {len(only_30)} only-at-0.3")
 
-# Restore
-defaults.SPLITS_BLEND_WEIGHT = 0.3
+# Restore (shipped value)
+defaults.SPLITS_BLEND_WEIGHT = 0.0
