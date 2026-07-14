@@ -28,7 +28,7 @@ EMP_STD_DIR = os.path.normpath(os.path.join(
 ))
 
 LINEUP_WEIGHTS = [0.7, 0.8, 0.9]
-BLEND_WEIGHTS = [0.1, 0.2, 0.3]
+BLEND_WEIGHTS = [0.1, 0.2, 0.3, 0.5, 0.6]
 
 WINDOWS = [
     ('SEASON', '2026-01-01', '2026-12-31'),
