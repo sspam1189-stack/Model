@@ -12,8 +12,9 @@
     // cutoff, so the 0.65-0.70 lean band surfaces as would_be_pick watchlist
     // rows, not picks.
     // NOTE: these base values are shared by both tabs (live whiff .2 and the
-    // whiff .4 variant, which differs only in blend weight). The retired CSW
-    // variant used to override the pick cutoff to 0.68 inside renderMLBProps.
+    // whiff .1/cap26 variant, which differs only in blend weight + BF_CAP).
+    // The retired CSW variant used to override the pick cutoff to 0.68 inside
+    // renderMLBProps.
     const MLB_PICK_THRESHOLD = 0.70;   // 2026-06-17: 0.68 -> 0.70 (== bet cutoff)
     const MLB_WATCH_FLOOR    = 0.60;   // watch band floor: 0.60-0.65
     // Reddit staking (2026-06-15, picks-only strategy): bet ONLY >=0.68 picks
@@ -174,10 +175,10 @@
     }
 
     async function renderMLBProps(sourceKey = 'mlb-props', title = "MLB K's Whiff .2") {
-      // Both tabs (live whiff .2 and the whiff .4 variant) bet the same 0.70
-      // cutoff — the variant differs from live ONLY in blend weight, so no
-      // variant-aware threshold override is needed. (The retired CSW variant
-      // used 0.68 here.)
+      // Both tabs (live whiff .2 and the whiff .1/cap26 variant) bet the same
+      // 0.70 cutoff — the variant differs from live only in blend weight +
+      // BF_CAP, so no variant-aware threshold override is needed. (The
+      // retired CSW variant used 0.68 here.)
       const MLB_PICK_THRESHOLD = 0.70;
       const MLB_PICK_STRONG    = 0.70;
       const el = document.getElementById('content');

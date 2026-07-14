@@ -457,6 +457,13 @@ PROJ_CALIB_ELITE_K_EXEMPT = 0.29
 # runs (with its old cap-floor/VAR/threshold profile) but is not run by CI.
 # See docs/superpowers/specs/2026-06-26-mlb-csw-variant-design.md and
 # docs/superpowers/specs/2026-07-06-mlb-whiff04-variant.md.
+# 2026-07-14: the daily parallel variant is now blend 0.1 / BF_CAP 26 (was
+# blend 0.4), selected via MLB_K_VARIANT=w01c26. A narrow walk-forward sweep
+# around the shipped lineup/blend/cap/var knobs showed blend 0.4 dominated
+# everywhere (season, recent, and the 7/6+ shadow window all favored lower
+# blend), while blend 0.1 + cap 26 led on season ROI (+35.97%) and was the
+# most resilient config in the recent slump. See
+# docs/superpowers/specs/2026-07-14-mlb-whiff01cap26-variant.md.
 K_QUALITY_METRIC = os.environ.get("MLB_K_METRIC", "whiff")
 
 CSW_XBA_BLEND_WEIGHT = 0.2   # 2026-07-02: 0.4->0.2. Walk-forward 2D sweep
@@ -940,23 +947,26 @@ MLB_TEAM_ABBR = {
 }
 
 # ---------------------------------------------------------------------------
-# Variant profile overrides (MLB K's Whiff .4)
+# Variant profile overrides (MLB K's Whiff .1/Cap26)
 # ---------------------------------------------------------------------------
 # Runs LAST so it cleanly supersedes the base definitions regardless of their
 # order above.
 #
-#   MLB_K_VARIANT unset  -> live model (whiff, blend 0.2), base values
-#                           untouched, un-suffixed outputs.
-#   MLB_K_VARIANT = "w04"-> whiff blend 0.4 variant ("MLB K's Whiff .4"):
-#                           IDENTICAL to live except CSW_XBA_BLEND_WEIGHT 0.4,
-#                           written to *_w04 outputs. A clean 0.2-vs-0.4 A/B —
-#                           kcap/VAR/threshold all stay at the base whiff
-#                           values so the blend weight is the only difference.
-#                           2026-07-06: replaces the CSW variant as the daily
-#                           parallel model (user call; 0.4 led the 6/15-7/5
-#                           windows on volume while 0.2 kept better WR/ROI/MAE
-#                           — this A/B settles it on live slates). See
-#                           docs/superpowers/specs/2026-07-06-mlb-whiff04-variant.md.
+#   MLB_K_VARIANT unset      -> live model (whiff, blend 0.2, cap 25), base
+#                               values untouched, un-suffixed outputs.
+#   MLB_K_VARIANT = "w01c26" -> whiff blend 0.1 / BF_CAP 26 variant
+#                               ("MLB K's Whiff .1/Cap26"): IDENTICAL to live
+#                               except CSW_XBA_BLEND_WEIGHT 0.1 (vs 0.2) and
+#                               BF_CAP 26 (vs 25), written to *_w01c26
+#                               outputs. lineup/VAR/threshold/kcap all stay at
+#                               the base whiff values.
+#                               2026-07-14: replaces the Whiff .4 variant
+#                               (user call; a narrow walk-forward sweep of
+#                               lineup x blend x cap x var showed 0.4
+#                               dominated everywhere, while 0.1/cap26 led
+#                               season ROI and was the most resilient config
+#                               in the recent slump). See
+#                               docs/superpowers/specs/2026-07-14-mlb-whiff01cap26-variant.md.
 #
 # The old CSW profile below is kept for manual runs (MLB_K_METRIC=csw) but is
 # no longer run by CI; its dashboard tab and seeded outputs were removed.
@@ -965,10 +975,11 @@ MLB_TEAM_ABBR = {
 # config-dependent output paths (kalman_state, mlb-props, emp_std_cache) so
 # variants never clobber the live files.
 MLB_K_VARIANT = os.environ.get("MLB_K_VARIANT", "")
-if MLB_K_VARIANT == "w04":
+if MLB_K_VARIANT == "w01c26":
     K_QUALITY_METRIC = "whiff"      # force whiff even if MLB_K_METRIC is set
-    CSW_XBA_BLEND_WEIGHT = 0.4
-    VARIANT_SUFFIX = "_w04"
+    CSW_XBA_BLEND_WEIGHT = 0.1
+    BF_CAP = 26.0
+    VARIANT_SUFFIX = "_w01c26"
 elif K_QUALITY_METRIC == "csw":
     K_RATE_CAP_FLOOR = 0.40
     VAR_MULT = {"strikeouts": 1.20}
