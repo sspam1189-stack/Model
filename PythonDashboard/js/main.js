@@ -1226,6 +1226,20 @@ function renderTeamPicksSection(teamPicksMap, selectedTeam, runs) {
   </select>`;
   const filterRow = `<div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px">${teamSelect}${monthSelect}${sideSelect}${locationSelect}</div>`;
 
+  const gradedPicks = picks.filter(p => !p.pending && p.result);
+  const gw = gradedPicks.filter(p => p.result === 'WIN').length;
+  const gl = gradedPicks.filter(p => p.result === 'LOSS').length;
+  const gp = gradedPicks.filter(p => p.result === 'PUSH').length;
+  const gpct = winPct(gw, gl);
+  const gunits = calcUnits(gw, gl);
+  const recordHtml = (gw + gl + gp > 0)
+    ? `<span class="win-text">${gw}W</span>–<span class="loss-text">${gl}L</span>–${gp}P · <span class="${pctClass(gpct)}">${fmtPct(gpct)}</span> · <span class="${unitClass(gunits)}">${fmtUnits(gunits)}</span>`
+    : 'No graded picks';
+  const titleHtml = `<div class="card-title" style="display:flex;align-items:center;flex-wrap:wrap;gap:8px">
+    <span>Team Picks</span>
+    <span style="font-size:0.85rem;font-weight:700">${esc(teamAlias(activeTeam))}: ${recordHtml}</span>
+  </div>`;
+
   const rows = picks.length ? picks.map(p => {
     const resultCell = p.pending
       ? '<span class="result-badge pending">PENDING</span>'
@@ -1245,7 +1259,7 @@ function renderTeamPicksSection(teamPicksMap, selectedTeam, runs) {
 
   return `
     <div class="card card-records">
-      <div class="card-title">Team Picks</div>
+      ${titleHtml}
       ${filterRow}
       <table class="data">
         <thead><tr><th>Date</th><th>Matchup</th><th>Pick</th><th class="center">Line</th><th class="center">Proj Margin</th><th class="center">P(Cover)</th><th class="center">Result</th><th class="center">Final</th></tr></thead>
