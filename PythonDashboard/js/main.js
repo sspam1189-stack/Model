@@ -206,9 +206,9 @@ let nflWeekFilter = 'latest';
 let nflHistoryWeekFilter = 'all';
 let teamPicksFilter = null; // selected team for the Team Picks browser; null = not yet chosen
 let spreadTrendsTab = 'weekly'; // active tab for the combined Weekly/Rolling card
-let teamRecordsMonthFilter = 'all'; // month key (YYYYMM) filtering the Team Spread Record (ATS) table
-let teamRecordsSideFilter = 'all'; // 'all' | 'fav' | 'dog' filtering the Team Spread Record (ATS) table
-let teamRecordsLocationFilter = 'all'; // 'all' | 'home' | 'away' filtering the Team Spread Record (ATS) table
+let teamPicksMonthFilter = 'all'; // month key (YYYYMM) filtering the Team Picks browser
+let teamPicksSideFilter = 'all'; // 'all' | 'fav' | 'dog' filtering the Team Picks browser
+let teamPicksLocationFilter = 'all'; // 'all' | 'home' | 'away' filtering the Team Picks browser
 
 // NBA playoff cutoff (includes play-in 4/14-4/17 + playoffs proper 4/18+).
 // Shared between the record banner segment buttons and downstream widgets.
@@ -280,18 +280,18 @@ function setSpreadTrendsTab(tab) {
   render();
 }
 
-function setTeamRecordsMonthFilter(month) {
-  teamRecordsMonthFilter = month;
+function setTeamPicksMonthFilter(month) {
+  teamPicksMonthFilter = month;
   render();
 }
 
-function setTeamRecordsSideFilter(side) {
-  teamRecordsSideFilter = side;
+function setTeamPicksSideFilter(side) {
+  teamPicksSideFilter = side;
   render();
 }
 
-function setTeamRecordsLocationFilter(location) {
-  teamRecordsLocationFilter = location;
+function setTeamPicksLocationFilter(location) {
+  teamPicksLocationFilter = location;
   render();
 }
 
@@ -694,9 +694,7 @@ function monthLabel(key) {
   return `${MONTH_NAMES[m - 1]} ${y}`;
 }
 
-function computeTeamRecords(runs, opts) {
-  const side = (opts && opts.side) || 'all';       // 'all' | 'fav' | 'dog'
-  const location = (opts && opts.location) || 'all'; // 'all' | 'home' | 'away'
+function computeTeamRecords(runs) {
   const teams = {};
   for (const r of runs) {
     if (r.burnIn) continue;
@@ -708,11 +706,6 @@ function computeTeamRecords(runs, opts) {
       if (!result) continue;
       const parsed = parseSpreadPick(g.sPick);
       if (!parsed) continue;
-      if (side === 'fav' && parsed.sign !== '-') continue;
-      if (side === 'dog' && parsed.sign !== '+') continue;
-      const isHome = parsed.team === g.home;
-      if (location === 'home' && !isHome) continue;
-      if (location === 'away' && isHome) continue;
       const team = parsed.team;
       if (!teams[team]) teams[team] = { w: 0, l: 0, p: 0, picks: 0, fav: 0, dog: 0 };
       teams[team].picks++;
@@ -743,6 +736,9 @@ function computeTeamPicks(runs) {
       if (!teams[team]) teams[team] = [];
       teams[team].push({
         date: g.startTimeUTC || r.date || '',
+        monthKey: r.date ? r.date.slice(0, 6) : null,
+        side: parsed.sign === '-' ? 'fav' : 'dog',
+        location: parsed.team === g.home ? 'home' : 'away',
         matchup: `${g.away} @ ${g.home}`,
         pick: g.sPick,
         conf: g.sConf,
@@ -1158,30 +1154,7 @@ function renderWeeklyRolling(runs) {
 }
 
 function renderTeamRecords(runs) {
-  const months = computeAvailableMonths(runs);
-  if (!months.length) return '';
-  const activeMonth = months.includes(teamRecordsMonthFilter) ? teamRecordsMonthFilter : 'all';
-  const activeSide = teamRecordsSideFilter;
-  const activeLocation = teamRecordsLocationFilter;
-  const filteredRuns = activeMonth === 'all' ? runs : runs.filter(r => r.date && r.date.slice(0, 6) === activeMonth);
-
-  const selectStyle = 'background:#1e1e1e;color:#e0e0e0;border:1px solid #444;border-radius:6px;padding:4px 10px;font-size:13px;cursor:pointer';
-  const monthOpts = `<option value="all" ${activeMonth === 'all' ? 'selected' : ''}>All Months</option>` +
-    months.map(k => `<option value="${k}" ${k === activeMonth ? 'selected' : ''}>${monthLabel(k)}</option>`).join('');
-  const monthSelect = `<select onchange="setTeamRecordsMonthFilter(this.value)" style="${selectStyle}">${monthOpts}</select>`;
-  const sideSelect = `<select onchange="setTeamRecordsSideFilter(this.value)" style="${selectStyle}">
-    <option value="all" ${activeSide === 'all' ? 'selected' : ''}>All (Fav/Dog)</option>
-    <option value="fav" ${activeSide === 'fav' ? 'selected' : ''}>Favorites Only</option>
-    <option value="dog" ${activeSide === 'dog' ? 'selected' : ''}>Underdogs Only</option>
-  </select>`;
-  const locationSelect = `<select onchange="setTeamRecordsLocationFilter(this.value)" style="${selectStyle}">
-    <option value="all" ${activeLocation === 'all' ? 'selected' : ''}>All (Home/Away)</option>
-    <option value="home" ${activeLocation === 'home' ? 'selected' : ''}>Home Only</option>
-    <option value="away" ${activeLocation === 'away' ? 'selected' : ''}>Away Only</option>
-  </select>`;
-  const filterRow = `<div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px">${monthSelect}${sideSelect}${locationSelect}</div>`;
-
-  const teams = computeTeamRecords(filteredRuns, { side: activeSide, location: activeLocation });
+  const teams = computeTeamRecords(runs);
   const sorted = Object.entries(teams)
     .filter(([, t]) => t.w + t.l >= 3)
     .sort((a, b) => {
@@ -1189,16 +1162,7 @@ function renderTeamRecords(runs) {
       const uB = calcUnits(b[1].w, b[1].l);
       return uB - uA;
     });
-
-  if (!sorted.length) {
-    return `
-    <div class="card card-records">
-      <div class="card-title">Team Spread Record (ATS)</div>
-      ${filterRow}
-      <div class="no-picks">No team has 3+ graded picks matching these filters.</div>
-    </div>`;
-  }
-
+  if (!sorted.length) return '';
   const rows = sorted.map(([name, t]) => {
     const total = t.w + t.l;
     const pct = total > 0 ? (100 * t.w / total) : 0;
@@ -1216,7 +1180,6 @@ function renderTeamRecords(runs) {
   return `
     <div class="card card-records">
       <div class="card-title">Team Spread Record (ATS)</div>
-      ${filterRow}
       <table class="data">
         <thead><tr><th>Team</th><th class="center">Picks</th><th class="center">W-L-P</th><th class="center">Win%</th><th class="center">Flat</th><th class="center">Fav</th><th class="center">Dog</th></tr></thead>
         <tbody>${rows}</tbody>
@@ -1225,15 +1188,42 @@ function renderTeamRecords(runs) {
     </div>`;
 }
 
-function renderTeamPicksSection(teamPicksMap, selectedTeam) {
+function renderTeamPicksSection(teamPicksMap, selectedTeam, runs) {
   const teamNames = Object.keys(teamPicksMap).sort();
   if (!teamNames.length) return '';
   const activeTeam = teamPicksMap[selectedTeam] ? selectedTeam : teamNames[0];
-  const picks = [...teamPicksMap[activeTeam]].sort((a, b) => String(b.date).localeCompare(String(a.date)));
 
-  const opts = teamNames.map(name =>
+  const months = computeAvailableMonths(runs);
+  const activeMonth = months.includes(teamPicksMonthFilter) ? teamPicksMonthFilter : 'all';
+  const activeSide = teamPicksSideFilter;
+  const activeLocation = teamPicksLocationFilter;
+
+  const allPicks = [...teamPicksMap[activeTeam]].sort((a, b) => String(b.date).localeCompare(String(a.date)));
+  const picks = allPicks.filter(p =>
+    (activeMonth === 'all' || p.monthKey === activeMonth) &&
+    (activeSide === 'all' || p.side === activeSide) &&
+    (activeLocation === 'all' || p.location === activeLocation)
+  );
+
+  const selectStyle = 'background:#1e1e1e;color:#e0e0e0;border:1px solid #444;border-radius:6px;padding:4px 10px;font-size:13px;cursor:pointer';
+  const teamOpts = teamNames.map(name =>
     `<option value="${esc(name)}" ${name === activeTeam ? 'selected' : ''}>${esc(name)}</option>`
   ).join('');
+  const teamSelect = `<select onchange="setTeamPicksFilter(this.value)" style="${selectStyle}">${teamOpts}</select>`;
+  const monthOpts = `<option value="all" ${activeMonth === 'all' ? 'selected' : ''}>All Months</option>` +
+    months.map(k => `<option value="${k}" ${k === activeMonth ? 'selected' : ''}>${monthLabel(k)}</option>`).join('');
+  const monthSelect = `<select onchange="setTeamPicksMonthFilter(this.value)" style="${selectStyle}">${monthOpts}</select>`;
+  const sideSelect = `<select onchange="setTeamPicksSideFilter(this.value)" style="${selectStyle}">
+    <option value="all" ${activeSide === 'all' ? 'selected' : ''}>All (Fav/Dog)</option>
+    <option value="fav" ${activeSide === 'fav' ? 'selected' : ''}>Favorites Only</option>
+    <option value="dog" ${activeSide === 'dog' ? 'selected' : ''}>Underdogs Only</option>
+  </select>`;
+  const locationSelect = `<select onchange="setTeamPicksLocationFilter(this.value)" style="${selectStyle}">
+    <option value="all" ${activeLocation === 'all' ? 'selected' : ''}>All (Home/Away)</option>
+    <option value="home" ${activeLocation === 'home' ? 'selected' : ''}>Home Only</option>
+    <option value="away" ${activeLocation === 'away' ? 'selected' : ''}>Away Only</option>
+  </select>`;
+  const filterRow = `<div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px">${teamSelect}${monthSelect}${sideSelect}${locationSelect}</div>`;
 
   const rows = picks.length ? picks.map(p => {
     const resultCell = p.pending
@@ -1249,12 +1239,12 @@ function renderTeamPicksSection(teamPicksMap, selectedTeam) {
       <td class="center">${resultCell}</td>
       <td class="center">${p.final ? esc(p.final) : '—'}</td>
     </tr>`;
-  }).join('') : `<tr><td colspan="7" class="no-picks">No picks yet for this team.</td></tr>`;
+  }).join('') : `<tr><td colspan="7" class="no-picks">No picks match these filters for this team.</td></tr>`;
 
   return `
     <div class="card card-records">
       <div class="card-title">Team Picks</div>
-      <select onchange="setTeamPicksFilter(this.value)" style="background:#1e1e1e;color:#e0e0e0;border:1px solid #444;border-radius:6px;padding:4px 10px;font-size:13px;margin-bottom:10px;cursor:pointer">${opts}</select>
+      ${filterRow}
       <table class="data">
         <thead><tr><th>Matchup</th><th>Pick</th><th class="center">Line</th><th class="center">Proj Margin</th><th class="center">P(Cover)</th><th class="center">Result</th><th class="center">Final</th></tr></thead>
         <tbody>${rows}</tbody>
@@ -1910,7 +1900,7 @@ async function render() {
 
     html += '<div class="section-label">Team Records</div>';
     html += renderTeamRecords(segRuns);
-    html += renderTeamPicksSection(computeTeamPicks(segRuns), teamPicksFilter);
+    html += renderTeamPicksSection(computeTeamPicks(segRuns), teamPicksFilter, segRuns);
 
   } else if (viewMode === 'history') {
     html += `
