@@ -1199,7 +1199,7 @@ function renderTeamPicksSection(teamPicksMap, selectedTeam, runs) {
   const activeSide = teamPicksSideFilter;
   const activeLocation = teamPicksLocationFilter;
 
-  const allPicks = [...teamPicksMap[activeTeam]].sort((a, b) => String(b.date).localeCompare(String(a.date)));
+  const allPicks = [...teamPicksMap[activeTeam]].sort((a, b) => String(b.dateDisplay).localeCompare(String(a.dateDisplay)));
   const picks = allPicks.filter(p =>
     (activeMonth === 'all' || p.monthKey === activeMonth) &&
     (activeSide === 'all' || p.side === activeSide) &&
