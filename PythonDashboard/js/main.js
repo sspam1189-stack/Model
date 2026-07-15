@@ -204,6 +204,8 @@ const DAYS_PER_PAGE = 7;
 let seasonFilter = 'all';
 let nflWeekFilter = 'latest';
 let nflHistoryWeekFilter = 'all';
+let teamPicksFilter = null; // selected team for the Team Picks browser; null = not yet chosen
+let spreadTrendsTab = 'weekly'; // active tab for the combined Weekly/Rolling card
 
 // NBA playoff cutoff (includes play-in 4/14-4/17 + playoffs proper 4/18+).
 // Shared between the record banner segment buttons and downstream widgets.
@@ -262,6 +264,16 @@ function setSeasonFilter(val) {
   nflWeekFilter = 'latest';
   nflHistoryWeekFilter = 'all';
   historyPage = 0;
+  render();
+}
+
+function setTeamPicksFilter(team) {
+  teamPicksFilter = team;
+  render();
+}
+
+function setSpreadTrendsTab(tab) {
+  spreadTrendsTab = tab;
   render();
 }
 
@@ -1130,6 +1142,43 @@ function renderTeamRecords(runs) {
     </div>`;
 }
 
+function renderTeamPicksSection(teamPicksMap, selectedTeam) {
+  const teamNames = Object.keys(teamPicksMap).sort();
+  if (!teamNames.length) return '';
+  const activeTeam = teamPicksMap[selectedTeam] ? selectedTeam : teamNames[0];
+  const picks = [...teamPicksMap[activeTeam]].sort((a, b) => String(b.date).localeCompare(String(a.date)));
+
+  const opts = teamNames.map(name =>
+    `<option value="${esc(name)}" ${name === activeTeam ? 'selected' : ''}>${esc(name)}</option>`
+  ).join('');
+
+  const rows = picks.length ? picks.map(p => {
+    const resultCell = p.pending
+      ? '<span class="result-badge pending">PENDING</span>'
+      : (p.result ? resultBadge(p.result) : '—');
+    const [awayName, homeName] = p.matchup.split(' @ ');
+    return `<tr>
+      <td>${esc(teamAlias(awayName))} @ ${esc(teamAlias(homeName))}</td>
+      <td><span class="pick-team">${esc(aliasInText(p.pick))}</span> ${confBadge(p.conf)}</td>
+      <td class="center">${fmtNum(p.line, 1)}</td>
+      <td class="center">${fmtNum(p.projMargin, 1)}</td>
+      <td class="center">${fmtProb(p.pCover)}</td>
+      <td class="center">${resultCell}</td>
+      <td class="center">${p.final ? esc(p.final) : '—'}</td>
+    </tr>`;
+  }).join('') : `<tr><td colspan="7" class="no-picks">No picks yet for this team.</td></tr>`;
+
+  return `
+    <div class="card card-records">
+      <div class="card-title">Team Picks</div>
+      <select onchange="setTeamPicksFilter(this.value)" style="background:#1e1e1e;color:#e0e0e0;border:1px solid #444;border-radius:6px;padding:4px 10px;font-size:13px;margin-bottom:10px;cursor:pointer">${opts}</select>
+      <table class="data">
+        <thead><tr><th>Matchup</th><th>Pick</th><th class="center">Line</th><th class="center">Proj Margin</th><th class="center">P(Cover)</th><th class="center">Result</th><th class="center">Final</th></tr></thead>
+        <tbody>${rows}</tbody>
+      </table>
+    </div>`;
+}
+
 // ─── Qualified Under Check (Full Season) ───
 // An UNDER play is an official pick if tDiff >= 10
 // (covers all filter criteria: tDiff>=10, tDiff>=10+total<235/240, tDiff>=12, tDiff 11-13, tDiff 13-15)
@@ -1779,6 +1828,7 @@ async function render() {
 
     html += '<div class="section-label">Team Records</div>';
     html += renderTeamRecords(segRuns);
+    html += renderTeamPicksSection(computeTeamPicks(segRuns), teamPicksFilter);
 
   } else if (viewMode === 'history') {
     html += `
