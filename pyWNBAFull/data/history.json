@@ -12032,9 +12032,12 @@
           "h2hRecord": null,
           "h2hNote": null,
           "trends": {
-            "away": "ATS +/- 1.2 \u00b7 Over 44.0% \u00b7 Under 56.0% \u00b7 O/U +/- -1.0",
-            "home": "ATS +/- -0.5 \u00b7 Over 65.2% \u00b7 Under 34.8% \u00b7 O/U +/- 5.0"
-          }
+            "away": "ATS +/- 1.1 \u00b7 Over 46.2% \u00b7 Under 53.8% \u00b7 O/U +/- -0.4",
+            "home": "ATS +/- -0.4 \u00b7 Over 66.7% \u00b7 Under 33.3% \u00b7 O/U +/- 5.4"
+          },
+          "awayScore": 90.0,
+          "homeScore": 95.0,
+          "sResult": "WIN"
         },
         {
           "away": "Los Angeles Sparks",
@@ -12083,9 +12086,11 @@
           "h2hRecord": null,
           "h2hNote": null,
           "trends": {
-            "away": "ATS +/- -3.1 \u00b7 Over 72.7% \u00b7 Under 27.3% \u00b7 O/U +/- 6.5",
-            "home": "ATS +/- 4.2 \u00b7 Over 58.3% \u00b7 Under 41.7% \u00b7 O/U +/- 2.7"
-          }
+            "away": "ATS +/- -2.9 \u00b7 Over 73.9% \u00b7 Under 26.1% \u00b7 O/U +/- 6.2",
+            "home": "ATS +/- 3.9 \u00b7 Over 60.0% \u00b7 Under 40.0% \u00b7 O/U +/- 2.7"
+          },
+          "awayScore": 87.0,
+          "homeScore": 96.0
         },
         {
           "away": "Golden State Valkyries",
@@ -12094,9 +12099,9 @@
           "total": 166.5,
           "startTimeUTC": "2026-07-16T00:00:00.000+00:00",
           "_book": "FanDuel",
-          "aS": 83.2,
-          "hS": 89.5,
-          "pT": 172.7,
+          "aS": 83.1,
+          "hS": 89.4,
+          "pT": 172.5,
           "margin": 4.8,
           "sDiff": 4.8,
           "tDiff": -4.1,
@@ -12107,12 +12112,12 @@
           "injuryNote": null,
           "pHomeCover": 0.637,
           "pAwayCover": 0.363,
-          "pOver": 0.388,
-          "pUnder": 0.612,
+          "pOver": 0.387,
+          "pUnder": 0.613,
           "pCover": 0.637,
           "pOU": null,
-          "marginVar": 188.4,
-          "marginStd": 13.7,
+          "marginVar": 186.3,
+          "marginStd": 13.6,
           "_features": {
             "dTS": 0.0710234999999999,
             "dTO": 0.010726999999999987,
@@ -12139,8 +12144,8 @@
           }
         }
       ],
-      "summaryText": "RECORD (graded picks only)\n\nSPREAD (ATS)\n  All:         43-26-0   (62.3%)   [graded 69]\n  Elite:       43-26-0   (62.3%)   [graded 69]\n\nFAV/DOG (Spread)\n  Favorites:   22-14-0   (61.1%)   [graded 36]\n  Underdogs:   21-12-0   (63.6%)   [graded 33]\n\nTOTAL (O/U)\n  All:         0-0-0   (n/a%)   [graded 0]\n  Elite:       0-0-0   (n/a%)   [graded 0]\n\nOVER/UNDER\n  Over:        0-0-0   (n/a%)   [graded 0]\n  Under:       0-0-0   (n/a%)   [graded 0]",
-      "ranAt": "07/15/2026, 12:48:11 PM"
+      "summaryText": "RECORD (graded picks only)\n\nSPREAD (ATS)\n  All:         44-26-0   (62.9%)   [graded 70]\n  Elite:       44-26-0   (62.9%)   [graded 70]\n\nFAV/DOG (Spread)\n  Favorites:   23-14-0   (62.2%)   [graded 37]\n  Underdogs:   21-12-0   (63.6%)   [graded 33]\n\nTOTAL (O/U)\n  All:         0-0-0   (n/a%)   [graded 0]\n  Elite:       0-0-0   (n/a%)   [graded 0]\n\nOVER/UNDER\n  Over:        0-0-0   (n/a%)   [graded 0]\n  Under:       0-0-0   (n/a%)   [graded 0]",
+      "ranAt": "07/15/2026, 06:32:23 PM"
     }
   ],
   "weights": {
@@ -12164,7 +12169,7 @@
     "locationWeight": 0.25,
     "h2hWeight": 0.0
   },
-  "residualVar": 159.8,
+  "residualVar": 157.7,
   "weightsVar": {
     "wTS": 3.9124,
     "wTO": 3.9476,
