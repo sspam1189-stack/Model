@@ -1067,41 +1067,49 @@ function renderLast10(runs) {
     </div>`;
 }
 
-function renderWeekly(runs) {
+function renderWeeklyRolling(runs) {
   const weeks = computeWeekly(runs);
-  if (!weeks.length) return '';
-  const rows = weeks.map(r => `<tr>
-    <td>${esc(r.week)}</td>
-    <td class="center"><span class="win-text">${r.w}W</span>\u2013<span class="loss-text">${r.l}L</span>\u2013${r.p}P</td>
-    <td class="center"><span class="${pctClass(r.pct)}">${fmtPct(r.pct)}</span></td>
-    <td class="center"><span class="${unitClass(r.units)}">${fmtUnits(r.units)}</span></td>
-  </tr>`).join('');
-  return `
-    <div class="card card-trends">
-      <div class="card-title">Weekly Spread</div>
-      <table class="data">
-        <thead><tr><th>Week of</th><th class="center">W-L-P</th><th class="center">Win%</th><th class="center">Flat</th></tr></thead>
-        <tbody>${rows}</tbody>
-      </table>
-    </div>`;
-}
+  const { rows: rollingRows, window: rollingWindow } = computeRolling(runs);
+  if (!weeks.length && !rollingRows.length) return '';
+  const tab = spreadTrendsTab === 'rolling' ? 'rolling' : 'weekly';
 
-function renderRolling(runs) {
-  const { rows, window } = computeRolling(runs);
-  if (!rows.length) return '';
-  const body = rows.map(r => `<tr>
-    <td>${esc(r.label)}</td>
-    <td class="center"><span class="win-text">${r.w}W</span>\u2013<span class="loss-text">${r.l}L</span>\u2013${r.p}P</td>
-    <td class="center"><span class="${pctClass(r.pct)}">${fmtPct(r.pct)}</span></td>
-    <td class="center"><span class="${unitClass(r.units)}">${fmtUnits(r.units)}</span></td>
-    <td class="center" style="font-size:0.7rem;color:var(--muted)">${esc(r.startDate)} \u2192 ${esc(r.endDate)}</td>
-  </tr>`).join('');
+  const tabsHtml = `
+    <div style="display:flex;gap:6px;margin-bottom:12px">
+      <button class="view-btn ${tab === 'weekly' ? 'active' : ''}" onclick="setSpreadTrendsTab('weekly')">Weekly</button>
+      <button class="view-btn ${tab === 'rolling' ? 'active' : ''}" onclick="setSpreadTrendsTab('rolling')">Rolling</button>
+    </div>`;
+
+  let title, subtitle, thead, body;
+  if (tab === 'weekly') {
+    title = 'Weekly Spread';
+    subtitle = '';
+    thead = '<th>Week of</th><th class="center">W-L-P</th><th class="center">Win%</th><th class="center">Flat</th>';
+    body = weeks.map(r => `<tr>
+      <td>${esc(r.week)}</td>
+      <td class="center"><span class="win-text">${r.w}W</span>\u2013<span class="loss-text">${r.l}L</span>\u2013${r.p}P</td>
+      <td class="center"><span class="${pctClass(r.pct)}">${fmtPct(r.pct)}</span></td>
+      <td class="center"><span class="${unitClass(r.units)}">${fmtUnits(r.units)}</span></td>
+    </tr>`).join('');
+  } else {
+    title = `Rolling ${rollingWindow}-Pick Groups (Spread)`;
+    subtitle = `<div class="card-subtitle">Green = above break-even (${fmtPct(52.4)}) \u00b7 Red = below \u00b7 Units at -110</div>`;
+    thead = '<th>Window</th><th class="center">W-L-P</th><th class="center">Win%</th><th class="center">Flat</th><th class="center">Dates</th>';
+    body = rollingRows.map(r => `<tr>
+      <td>${esc(r.label)}</td>
+      <td class="center"><span class="win-text">${r.w}W</span>\u2013<span class="loss-text">${r.l}L</span>\u2013${r.p}P</td>
+      <td class="center"><span class="${pctClass(r.pct)}">${fmtPct(r.pct)}</span></td>
+      <td class="center"><span class="${unitClass(r.units)}">${fmtUnits(r.units)}</span></td>
+      <td class="center" style="font-size:0.7rem;color:var(--muted)">${esc(r.startDate)} \u2192 ${esc(r.endDate)}</td>
+    </tr>`).join('');
+  }
+
   return `
     <div class="card card-trends">
-      <div class="card-title">Rolling ${window}-Pick Groups (Spread)</div>
-      <div class="card-subtitle">Green = above break-even (${fmtPct(52.4)}) \u00b7 Red = below \u00b7 Units at -110</div>
+      <div class="card-title">${title}</div>
+      ${tabsHtml}
+      ${subtitle}
       <table class="data">
-        <thead><tr><th>Window</th><th class="center">W-L-P</th><th class="center">Win%</th><th class="center">Flat</th><th class="center">Dates</th></tr></thead>
+        <thead><tr>${thead}</tr></thead>
         <tbody>${body}</tbody>
       </table>
     </div>`;
@@ -1823,8 +1831,7 @@ async function render() {
 
     html += '<div class="section-label">Spread Trends</div>';
     html += renderLast10(segRuns);
-    html += renderWeekly(segRuns);
-    html += renderRolling(segRuns);
+    html += renderWeeklyRolling(segRuns);
 
     html += '<div class="section-label">Team Records</div>';
     html += renderTeamRecords(segRuns);
