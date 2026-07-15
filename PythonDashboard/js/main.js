@@ -207,6 +207,8 @@ let nflHistoryWeekFilter = 'all';
 let teamPicksFilter = null; // selected team for the Team Picks browser; null = not yet chosen
 let spreadTrendsTab = 'weekly'; // active tab for the combined Weekly/Rolling card
 let teamRecordsMonthFilter = 'all'; // month key (YYYYMM) filtering the Team Spread Record (ATS) table
+let teamRecordsSideFilter = 'all'; // 'all' | 'fav' | 'dog' filtering the Team Spread Record (ATS) table
+let teamRecordsLocationFilter = 'all'; // 'all' | 'home' | 'away' filtering the Team Spread Record (ATS) table
 
 // NBA playoff cutoff (includes play-in 4/14-4/17 + playoffs proper 4/18+).
 // Shared between the record banner segment buttons and downstream widgets.
@@ -280,6 +282,16 @@ function setSpreadTrendsTab(tab) {
 
 function setTeamRecordsMonthFilter(month) {
   teamRecordsMonthFilter = month;
+  render();
+}
+
+function setTeamRecordsSideFilter(side) {
+  teamRecordsSideFilter = side;
+  render();
+}
+
+function setTeamRecordsLocationFilter(location) {
+  teamRecordsLocationFilter = location;
   render();
 }
 
@@ -682,7 +694,9 @@ function monthLabel(key) {
   return `${MONTH_NAMES[m - 1]} ${y}`;
 }
 
-function computeTeamRecords(runs) {
+function computeTeamRecords(runs, opts) {
+  const side = (opts && opts.side) || 'all';       // 'all' | 'fav' | 'dog'
+  const location = (opts && opts.location) || 'all'; // 'all' | 'home' | 'away'
   const teams = {};
   for (const r of runs) {
     if (r.burnIn) continue;
@@ -694,6 +708,11 @@ function computeTeamRecords(runs) {
       if (!result) continue;
       const parsed = parseSpreadPick(g.sPick);
       if (!parsed) continue;
+      if (side === 'fav' && parsed.sign !== '-') continue;
+      if (side === 'dog' && parsed.sign !== '+') continue;
+      const isHome = parsed.team === g.home;
+      if (location === 'home' && !isHome) continue;
+      if (location === 'away' && isHome) continue;
       const team = parsed.team;
       if (!teams[team]) teams[team] = { w: 0, l: 0, p: 0, picks: 0, fav: 0, dog: 0 };
       teams[team].picks++;
@@ -1142,13 +1161,27 @@ function renderTeamRecords(runs) {
   const months = computeAvailableMonths(runs);
   if (!months.length) return '';
   const activeMonth = months.includes(teamRecordsMonthFilter) ? teamRecordsMonthFilter : 'all';
+  const activeSide = teamRecordsSideFilter;
+  const activeLocation = teamRecordsLocationFilter;
   const filteredRuns = activeMonth === 'all' ? runs : runs.filter(r => r.date && r.date.slice(0, 6) === activeMonth);
 
+  const selectStyle = 'background:#1e1e1e;color:#e0e0e0;border:1px solid #444;border-radius:6px;padding:4px 10px;font-size:13px;cursor:pointer';
   const monthOpts = `<option value="all" ${activeMonth === 'all' ? 'selected' : ''}>All Months</option>` +
     months.map(k => `<option value="${k}" ${k === activeMonth ? 'selected' : ''}>${monthLabel(k)}</option>`).join('');
-  const monthSelect = `<select onchange="setTeamRecordsMonthFilter(this.value)" style="background:#1e1e1e;color:#e0e0e0;border:1px solid #444;border-radius:6px;padding:4px 10px;font-size:13px;margin-bottom:10px;cursor:pointer">${monthOpts}</select>`;
+  const monthSelect = `<select onchange="setTeamRecordsMonthFilter(this.value)" style="${selectStyle}">${monthOpts}</select>`;
+  const sideSelect = `<select onchange="setTeamRecordsSideFilter(this.value)" style="${selectStyle}">
+    <option value="all" ${activeSide === 'all' ? 'selected' : ''}>All (Fav/Dog)</option>
+    <option value="fav" ${activeSide === 'fav' ? 'selected' : ''}>Favorites Only</option>
+    <option value="dog" ${activeSide === 'dog' ? 'selected' : ''}>Underdogs Only</option>
+  </select>`;
+  const locationSelect = `<select onchange="setTeamRecordsLocationFilter(this.value)" style="${selectStyle}">
+    <option value="all" ${activeLocation === 'all' ? 'selected' : ''}>All (Home/Away)</option>
+    <option value="home" ${activeLocation === 'home' ? 'selected' : ''}>Home Only</option>
+    <option value="away" ${activeLocation === 'away' ? 'selected' : ''}>Away Only</option>
+  </select>`;
+  const filterRow = `<div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px">${monthSelect}${sideSelect}${locationSelect}</div>`;
 
-  const teams = computeTeamRecords(filteredRuns);
+  const teams = computeTeamRecords(filteredRuns, { side: activeSide, location: activeLocation });
   const sorted = Object.entries(teams)
     .filter(([, t]) => t.w + t.l >= 3)
     .sort((a, b) => {
@@ -1161,8 +1194,8 @@ function renderTeamRecords(runs) {
     return `
     <div class="card card-records">
       <div class="card-title">Team Spread Record (ATS)</div>
-      ${monthSelect}
-      <div class="no-picks">No team has 3+ graded picks for this month.</div>
+      ${filterRow}
+      <div class="no-picks">No team has 3+ graded picks matching these filters.</div>
     </div>`;
   }
 
@@ -1183,7 +1216,7 @@ function renderTeamRecords(runs) {
   return `
     <div class="card card-records">
       <div class="card-title">Team Spread Record (ATS)</div>
-      ${monthSelect}
+      ${filterRow}
       <table class="data">
         <thead><tr><th>Team</th><th class="center">Picks</th><th class="center">W-L-P</th><th class="center">Win%</th><th class="center">Flat</th><th class="center">Fav</th><th class="center">Dog</th></tr></thead>
         <tbody>${rows}</tbody>
