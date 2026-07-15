@@ -736,6 +736,7 @@ function computeTeamPicks(runs) {
       if (!teams[team]) teams[team] = [];
       teams[team].push({
         date: g.startTimeUTC || r.date || '',
+        dateDisplay: r.dateDisplay || (r.date ? r.date.replace(/(\d{4})(\d{2})(\d{2})/, '$1-$2-$3') : ''),
         monthKey: r.date ? r.date.slice(0, 6) : null,
         side: parsed.sign === '-' ? 'fav' : 'dog',
         location: parsed.team === g.home ? 'home' : 'away',
@@ -1231,6 +1232,7 @@ function renderTeamPicksSection(teamPicksMap, selectedTeam, runs) {
       : (p.result ? resultBadge(p.result) : '—');
     const [awayName, homeName] = p.matchup.split(' @ ');
     return `<tr>
+      <td>${esc(p.dateDisplay)}</td>
       <td>${esc(teamAlias(awayName))} @ ${esc(teamAlias(homeName))}</td>
       <td><span class="pick-team">${esc(aliasInText(p.pick))}</span> ${confBadge(p.conf)}</td>
       <td class="center">${fmtNum(p.line, 1)}</td>
@@ -1239,14 +1241,14 @@ function renderTeamPicksSection(teamPicksMap, selectedTeam, runs) {
       <td class="center">${resultCell}</td>
       <td class="center">${p.final ? esc(p.final) : '—'}</td>
     </tr>`;
-  }).join('') : `<tr><td colspan="7" class="no-picks">No picks match these filters for this team.</td></tr>`;
+  }).join('') : `<tr><td colspan="8" class="no-picks">No picks match these filters for this team.</td></tr>`;
 
   return `
     <div class="card card-records">
       <div class="card-title">Team Picks</div>
       ${filterRow}
       <table class="data">
-        <thead><tr><th>Matchup</th><th>Pick</th><th class="center">Line</th><th class="center">Proj Margin</th><th class="center">P(Cover)</th><th class="center">Result</th><th class="center">Final</th></tr></thead>
+        <thead><tr><th>Date</th><th>Matchup</th><th>Pick</th><th class="center">Line</th><th class="center">Proj Margin</th><th class="center">P(Cover)</th><th class="center">Result</th><th class="center">Final</th></tr></thead>
         <tbody>${rows}</tbody>
       </table>
     </div>`;
