@@ -206,6 +206,7 @@ let nflWeekFilter = 'latest';
 let nflHistoryWeekFilter = 'all';
 let teamPicksFilter = null; // selected team for the Team Picks browser; null = not yet chosen
 let spreadTrendsTab = 'weekly'; // active tab for the combined Weekly/Rolling card
+let teamRecordsMonthFilter = 'all'; // month key (YYYYMM) filtering the Team Spread Record (ATS) table
 
 // NBA playoff cutoff (includes play-in 4/14-4/17 + playoffs proper 4/18+).
 // Shared between the record banner segment buttons and downstream widgets.
@@ -274,6 +275,11 @@ function setTeamPicksFilter(team) {
 
 function setSpreadTrendsTab(tab) {
   spreadTrendsTab = tab;
+  render();
+}
+
+function setTeamRecordsMonthFilter(month) {
+  teamRecordsMonthFilter = month;
   render();
 }
 
@@ -657,6 +663,23 @@ function computeRolling(runs) {
     });
   }
   return { rows, window };
+}
+
+// Distinct YYYYMM month keys present in runs with graded games, ascending.
+function computeAvailableMonths(runs) {
+  const keys = new Set();
+  for (const r of runs) {
+    if (r.burnIn || !r.date || !(r.games || []).length) continue;
+    keys.add(r.date.slice(0, 6));
+  }
+  return [...keys].sort();
+}
+
+const MONTH_NAMES = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+function monthLabel(key) {
+  const y = key.slice(0, 4);
+  const m = parseInt(key.slice(4, 6), 10);
+  return `${MONTH_NAMES[m - 1]} ${y}`;
 }
 
 function computeTeamRecords(runs) {
@@ -1116,7 +1139,16 @@ function renderWeeklyRolling(runs) {
 }
 
 function renderTeamRecords(runs) {
-  const teams = computeTeamRecords(runs);
+  const months = computeAvailableMonths(runs);
+  if (!months.length) return '';
+  const activeMonth = months.includes(teamRecordsMonthFilter) ? teamRecordsMonthFilter : 'all';
+  const filteredRuns = activeMonth === 'all' ? runs : runs.filter(r => r.date && r.date.slice(0, 6) === activeMonth);
+
+  const monthOpts = `<option value="all" ${activeMonth === 'all' ? 'selected' : ''}>All Months</option>` +
+    months.map(k => `<option value="${k}" ${k === activeMonth ? 'selected' : ''}>${monthLabel(k)}</option>`).join('');
+  const monthSelect = `<select onchange="setTeamRecordsMonthFilter(this.value)" style="background:#1e1e1e;color:#e0e0e0;border:1px solid #444;border-radius:6px;padding:4px 10px;font-size:13px;margin-bottom:10px;cursor:pointer">${monthOpts}</select>`;
+
+  const teams = computeTeamRecords(filteredRuns);
   const sorted = Object.entries(teams)
     .filter(([, t]) => t.w + t.l >= 3)
     .sort((a, b) => {
@@ -1124,7 +1156,16 @@ function renderTeamRecords(runs) {
       const uB = calcUnits(b[1].w, b[1].l);
       return uB - uA;
     });
-  if (!sorted.length) return '';
+
+  if (!sorted.length) {
+    return `
+    <div class="card card-records">
+      <div class="card-title">Team Spread Record (ATS)</div>
+      ${monthSelect}
+      <div class="no-picks">No team has 3+ graded picks for this month.</div>
+    </div>`;
+  }
+
   const rows = sorted.map(([name, t]) => {
     const total = t.w + t.l;
     const pct = total > 0 ? (100 * t.w / total) : 0;
@@ -1142,6 +1183,7 @@ function renderTeamRecords(runs) {
   return `
     <div class="card card-records">
       <div class="card-title">Team Spread Record (ATS)</div>
+      ${monthSelect}
       <table class="data">
         <thead><tr><th>Team</th><th class="center">Picks</th><th class="center">W-L-P</th><th class="center">Win%</th><th class="center">Flat</th><th class="center">Fav</th><th class="center">Dog</th></tr></thead>
         <tbody>${rows}</tbody>
