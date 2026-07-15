@@ -672,6 +672,38 @@ function computeTeamRecords(runs) {
   return teams;
 }
 
+// Per-team list of individual picks (graded + pending) for the Team Picks
+// browser. Unlike computeTeamRecords, does NOT require a final score.
+function computeTeamPicks(runs) {
+  const teams = {};
+  for (const r of runs) {
+    if (r.burnIn) continue;
+    for (const g of r.games || []) {
+      if (g.status === 'MISSING_ODDS' || g.status === 'SKIPPED') continue;
+      if (!g.sPick || g.sPick === 'PASS' || !isActionable(g.sConf)) continue;
+      const parsed = parseSpreadPick(g.sPick);
+      if (!parsed) continue;
+      const hasScore = Number.isFinite(g.homeScore) && Number.isFinite(g.awayScore);
+      const result = hasScore ? (g.sResult || gradeSpread(g)) : null;
+      const team = parsed.team;
+      if (!teams[team]) teams[team] = [];
+      teams[team].push({
+        date: g.startTimeUTC || r.date || '',
+        matchup: `${g.away} @ ${g.home}`,
+        pick: g.sPick,
+        conf: g.sConf,
+        line: g.line,
+        projMargin: g.margin,
+        pCover: g.pCover != null ? g.pCover : null,
+        result,
+        pending: !hasScore,
+        final: hasScore ? `${g.awayScore}-${g.homeScore}` : null,
+      });
+    }
+  }
+  return teams;
+}
+
 // ─── Yesterday's Recap ───
 function getYesterdayRecap(runs) {
   const nonBurnIn = runs.filter(r => !r.burnIn);
