@@ -56,6 +56,27 @@ DEFAULT_W = {
     "h2hWeight": 0.0,
 }
 
+# -- Stake tier ---------------------------------------------------------------
+# Tiered-staking backtest (scripts/stake_tiers.py) on the 412-227 season: the
+# pCover >= 0.65 band went 257-119 (68.4%) vs 58.9% below, and the marginal
+# upsized stake earns ~33% ROI vs the book's 25%. So a fired pick with
+# pCover >= ELITE_STAKE_CUT is a 2u play, otherwise 1u. 0.65 (not 0.63) is the
+# line because the 0.63-0.65 band is a calibration dip (41-31, 56.9% — the
+# weakest slice in the book) that should NOT be doubled. Display/staking overlay
+# only — does not change which picks fire, and the headline ATS record stays
+# flat 1u. (Note: playoffs already floor probHigh at 0.65, so every playoff pick
+# clears this cut and is 2u — intended: postseason picks are all high-conviction.)
+ELITE_STAKE_CUT = 0.65
+BASE_STAKE_UNITS = 1
+ELITE_STAKE_UNITS = 2
+
+
+def stake_units_for(p_cover):
+    """Recommended stake (units) for a fired spread pick given its P(cover)."""
+    if p_cover is not None and p_cover >= ELITE_STAKE_CUT:
+        return ELITE_STAKE_UNITS
+    return BASE_STAKE_UNITS
+
 # -- Bayesian weight variances ------------------------------------------------
 # Initial uncertainty for each weight. Large = we don't know yet.
 # As games are processed, these shrink. Self-tune maintains these.

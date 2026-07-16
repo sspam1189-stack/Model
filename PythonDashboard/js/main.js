@@ -540,22 +540,31 @@ function confBadge(conf) {
   const cls = c === 'elite' ? 'b-elite' : c === 'high' ? 'b-high' : 'b-pass';
   return `<span class="badge ${cls}">${(c || 'N/A').toUpperCase()}</span>`;
 }
-// Stake tier: the >=0.72 P(cover) band hit ~75% ATS this season vs ~58% below,
-// so those are staked 2u and the rest 1u (see pyWNBAFull defaults ELITE_STAKE_CUT).
-// WNBA full-season only — derived from pCover so historical picks mark correctly.
-const ELITE_STAKE_CUT = 0.72;
-function stakeUnits(pCover) { return (pCover != null && pCover >= ELITE_STAKE_CUT) ? 2 : 1; }
-// Recommended stake for a fired pick's units column — 1u/2u tier is WNBA-only;
-// NBA full-season is flat 1u.
+// Stake tier: a fired pick whose pCover clears the sport's elite cut is staked
+// 2u, the rest 1u. Cuts are per-model (NBA 0.65: elite band 68% vs 59% below;
+// WNBA 0.72: ~75% vs ~58%) — see each model's defaults.ELITE_STAKE_CUT. Derived
+// from pCover so historical picks mark correctly. Other tabs stay flat 1u.
+// NOTE: this is a display/staking overlay only — the headline record uses
+// calcUnits (flat, model ATS accuracy) and is NOT restated by the tier.
+function eliteStakeCut() {
+  if (activeTab === 'wnba-full') return 0.72;
+  if (activeTab === 'fullseason') return 0.65;
+  return null;
+}
+function stakeUnits(pCover) {
+  const cut = eliteStakeCut();
+  return (cut != null && pCover != null && pCover >= cut) ? 2 : 1;
+}
 function pickStake(g, pCover) {
-  if (activeTab !== 'wnba-full') return 1;
+  if (eliteStakeCut() == null) return 1;
   return (g && g.stakeUnits) ? g.stakeUnits : stakeUnits(pCover);
 }
 function stakeBadge(pCover) {
-  if (activeTab !== 'wnba-full' || pCover == null) return '';
-  const two = pCover >= ELITE_STAKE_CUT;
+  const cut = eliteStakeCut();
+  if (cut == null || pCover == null) return '';
+  const two = pCover >= cut;
   const bg = two ? '#f59e0b' : '#475569';
-  return `<span class="badge" style="background:${bg};color:#0b1220" title="Recommended stake — elite (P≥${Math.round(ELITE_STAKE_CUT*100)}%) = 2u, else 1u">${two ? '2U' : '1U'}</span>`;
+  return `<span class="badge" style="background:${bg};color:#0b1220" title="Recommended stake — elite (P≥${Math.round(cut*100)}%) = 2u, else 1u">${two ? '2U' : '1U'}</span>`;
 }
 function resultBadge(result) {
   if (!result) return '';
