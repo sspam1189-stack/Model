@@ -44,6 +44,30 @@
 # because WNBA's larger variance (above) already deflates pCover, these are
 # conservative. They are validated FORWARD on 2026 live FanDuel lines once a
 # graded sample accrues — retune probHigh from live results, not from priors.
+#
+# ── LIVE-FORWARD ATS VALIDATION (2026-07-15) ─────────────────────────────────
+# The forward FanDuel sample has now accrued and been swept against real cached
+# lines — the ATS backtest the paywall blocked earlier is now possible on the
+# live season. Two views:
+#   (a) Live graded fired picks (store, censored at the shipped probHigh=0.62):
+#       70 spread picks, 44-26 = 62.9% WR, +14.0u, +0.20 u/pick. Comfortably
+#       above the 52.4% -110 break-even — the model is performing as projected.
+#   (b) UNCENSORED walk-forward replay (scripts/calibrate_probhigh.py): the real
+#       season (May 21 - Jul 15) reproduced day-by-day from the cached
+#       stats/odds/ESPN with the same engine + Kalman + self-tune trajectory,
+#       capturing EVERY spread candidate (not just those >=0.62) so probHigh can
+#       be swept DOWN as well as up. 136 candidates. Result by threshold:
+#         sub-0.62 band is coin-flip / net-negative — 0.50-0.55 47%, 0.58-0.60
+#         40%; the whole 0.50-0.62 region pooled is 36-34 (51.4%), BELOW -110
+#         break-even. At/above 0.62 win-rate climbs monotonically: 0.62 60.6%,
+#         0.65 63.3%, 0.67 65.0%, 0.70 69.7%.
+#   CONCLUSION: probHigh=0.62 sits right at the knee where the break-even/losing
+#   sub-threshold volume gets filtered out — lowering it only adds ~coin-flip
+#   bets. Tightening to 0.65-0.67 lifts per-pick ROI (0.16->0.21-0.24) but total
+#   units stay flat (~10u) and volume drops 25-40%, and the live vs replay views
+#   DISAGREE on whether 0.65 beats 0.62 (live: 0.65 worse; replay: marginally
+#   better) — not robust on one partial season. HELD at 0.62; retune again as
+#   more forward picks accrue.
 
 DEFAULT_STATS = {}
 
@@ -72,6 +96,10 @@ DEFAULT_W = {
     # (+17.5 vs +17.7u). Low-conviction (n=72, one partial season, and the
     # backtest ATS runs hot) — a safe tightening; retune forward as live picks
     # accrue.
+    # RE-CONFIRMED 2026-07-15 (see LIVE-FORWARD ATS VALIDATION header): live 70
+    # fired picks 62.9%/+14.0u, and an uncensored walk-forward sweep shows the
+    # sub-0.62 band is net-negative (0.50-0.62 pooled 51.4%, below break-even)
+    # while >=0.62 climbs monotonically. 0.62 is the knee — held.
     "probHigh":  0.62,   # min P(cover) for actionable spread pick
     "probElite": 0.63,
 
@@ -89,6 +117,24 @@ DEFAULT_W = {
     # h2hWeight: disabled (adds noise without accuracy gain — NBA finding, kept).
     "h2hWeight": 0.0,
 }
+
+# -- Stake tier ---------------------------------------------------------------
+# Flat-vs-tiered staking backtest (scripts/stake_tiers.py) on the 46-25 season:
+# the >=0.72 P(cover) band went 21-7 (75.0%) vs 58.1% below, and staking those
+# 2u lifts ROI 23.7%->~29% with drawdown ~flat. So a fired pick with
+# pCover >= ELITE_STAKE_CUT is a 2u play, otherwise 1u. Display-only for now
+# (marked on the pick + dashboard); does not change which picks fire. In-sample
+# on one partial season — paper-track before trusting the sizing.
+ELITE_STAKE_CUT = 0.72
+BASE_STAKE_UNITS = 1
+ELITE_STAKE_UNITS = 2
+
+
+def stake_units_for(p_cover):
+    """Recommended stake (units) for a fired spread pick given its P(cover)."""
+    if p_cover is not None and p_cover >= ELITE_STAKE_CUT:
+        return ELITE_STAKE_UNITS
+    return BASE_STAKE_UNITS
 
 # -- Bayesian weight variances ------------------------------------------------
 DEFAULT_W_VAR = {
@@ -179,4 +225,28 @@ KALMAN_DEFAULTS = {
     "dailyDrift":  0.25,   # NBA 0.15 — teams change faster over a compressed season
     "minVar":      2.0,
     "maxVar":      30,
+
+    # -- Adaptive gain (see core/kalman_state.py:_effective_var) ---------------
+    # gameNoise 218 pins the per-game gain at ~5%, which is right for stable,
+    # well-modelled teams but far too slow for a team whose true strength is
+    # miles from its box score (expansion clubs — e.g. Toronto Tempo 2026, whose
+    # residual stalled at ~-3.3 pts while reality wanted ~-8, with only ~20
+    # games left to converge). When a team's innovations stay one-signed (a real
+    # bias, not scatter) we transiently inflate its variance to catch up fast
+    # (gain ~5%->~13% for a -7pt-biased team), then settle back as the bias
+    # closes. Bias within the deadband is ignored, so well-modelled teams are
+    # untouched.
+    #   A/B on the 2026 walk-forward replay (scripts/calibrate_probhigh.py),
+    #   fired picks @>=0.62:  OFF 40-26 (60.6%) +10.4u  ->  ON 42-24 (63.6%)
+    #   +14.2u. The gain is broad, not just Toronto (whose -7 bias is too large
+    #   for the gentle boost to fully close): the biggest catch was Las Vegas,
+    #   marked -0.4 -> -5.4 mid-slump. Low conviction (n=66, ~within noise) but
+    #   principled and improves across param settings; the >=0.65 bucket gives
+    #   back ~1u, immaterial at the shipped 0.62 cutoff. Params are the robust
+    #   middle — deliberately NOT the +1u aggressive corner (overfit risk).
+    "adaptiveBias":   True,
+    "biasAlpha":      0.35,  # EWMA weight on each game's innovation
+    "biasDeadband":   3.0,   # |bias| (pts) treated as normal scatter -> no boost
+    "biasVarGain":    3.0,   # var added per pt of |bias| beyond the deadband
+    "adaptiveMaxVar": 60,    # cap on boosted variance (gain ~ 60/(60+12+218)=20%)
 }

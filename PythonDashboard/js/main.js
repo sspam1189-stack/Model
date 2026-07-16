@@ -527,6 +527,17 @@ function confBadge(conf) {
   const cls = c === 'elite' ? 'b-elite' : c === 'high' ? 'b-high' : 'b-pass';
   return `<span class="badge ${cls}">${(c || 'N/A').toUpperCase()}</span>`;
 }
+// Stake tier: the >=0.72 P(cover) band hit ~75% ATS this season vs ~58% below,
+// so those are staked 2u and the rest 1u (see pyWNBAFull defaults ELITE_STAKE_CUT).
+// WNBA full-season only — derived from pCover so historical picks mark correctly.
+const ELITE_STAKE_CUT = 0.72;
+function stakeUnits(pCover) { return (pCover != null && pCover >= ELITE_STAKE_CUT) ? 2 : 1; }
+function stakeBadge(pCover) {
+  if (activeTab !== 'wnba-full' || pCover == null) return '';
+  const two = pCover >= ELITE_STAKE_CUT;
+  const bg = two ? '#f59e0b' : '#475569';
+  return `<span class="badge" style="background:${bg};color:#0b1220" title="Recommended stake — elite (P≥${Math.round(ELITE_STAKE_CUT*100)}%) = 2u, else 1u">${two ? '2U' : '1U'}</span>`;
+}
 function resultBadge(result) {
   if (!result) return '';
   const r = result.toLowerCase();
@@ -773,7 +784,7 @@ function getYesterdayRecap(runs) {
         matchup: `${teamAlias(g.away)} @ ${teamAlias(g.home)}`,
         pick: g.sPick, conf: g.sConf, result,
         final: `${g.awayScore}-${g.homeScore}`,
-        sDiff: g.sDiff,
+        sDiff: g.sDiff, pCover: g.pCover,
       });
     }
     if (!picks.length) continue;
@@ -895,7 +906,7 @@ function renderRecap(runs) {
   const rows = recap.picks.map(p => `
     <tr>
       <td>${esc(p.matchup)}</td>
-      <td><span class="pick-team">${esc(aliasInText(p.pick))}</span> ${confBadge(p.conf)}</td>
+      <td><span class="pick-team">${esc(aliasInText(p.pick))}</span> ${confBadge(p.conf)}${stakeBadge(p.pCover)}</td>
       <td class="center">${resultBadge(p.result)}</td>
       <td class="center">${esc(p.final)}</td>
     </tr>`).join('');
@@ -923,7 +934,7 @@ function renderTodayPicks(run, runs) {
     const pStr = g.pCover != null ? ` \u00b7 P=${fmtProb(g.pCover)}` : '';
     return `<div class="pick-item">
       <span class="pick-team">${esc(g.sPick)}</span>
-      ${confBadge(g.sConf)}
+      ${confBadge(g.sConf)}${stakeBadge(g.pCover)}
       <span class="pick-meta">proj ${esc(favTeam)} by ${fmtNum(Math.abs(projMargin), 1)} \u00b7 sDiff ${fmtNum(g.sDiff, 1)}${pStr}</span>
     </div>`;
   }).join('');
@@ -993,7 +1004,7 @@ function renderProbTable(run) {
   if (!games.length) return '';
   const rows = games.map(g => {
     const sPick = g.sPick && g.sPick !== 'PASS'
-      ? `<span class="pick-team">${esc(aliasInText(g.sPick))}</span> ${confBadge(g.sConf)}`
+      ? `<span class="pick-team">${esc(aliasInText(g.sPick))}</span> ${confBadge(g.sConf)}${isActionable(g.sConf) ? stakeBadge(g.pCover) : ''}`
       : `<span style="color:var(--muted)">PASS</span>`;
     const pCover = g.pCover != null ? `<b>${fmtProb(g.pCover)}</b>` : '<span style="color:var(--muted)">\u2014</span>';
     // Show pCover_bayes as secondary when it differs from pCover

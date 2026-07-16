@@ -121,6 +121,23 @@ def apply_daily_drift(state, today=None, opts=None):
     state["lastDriftDate"] = today_str
 
 
+def _effective_var(team, cfg):
+    """Effective Kalman variance for a team this game. Normally the stored
+    adj_var, but transiently inflated (raising the gain) when the team's
+    innovation-bias EWMA shows a persistent one-signed error — the model being
+    systematically, not randomly, wrong about it. |bias| within biasDeadband
+    is treated as normal scatter and ignored; beyond it the boost scales with
+    the excess, capped at adaptiveMaxVar. A no-op when adaptiveBias is unset."""
+    base = team["adj_var"]
+    if not cfg.get("adaptiveBias"):
+        return base
+    excess = abs(team.get("innov_ewma", 0.0)) - cfg.get("biasDeadband", 3.0)
+    if excess <= 0:
+        return base
+    boost = cfg.get("biasVarGain", 3.0) * excess
+    return min(cfg.get("adaptiveMaxVar", 60.0), base + boost)
+
+
 def update_from_game(state, game, proj_margin, game_date=None, opts=None):
     cfg = {**KALMAN_DEFAULTS, **(opts or {})}
 
@@ -150,16 +167,36 @@ def update_from_game(state, game, proj_margin, game_date=None, opts=None):
     predicted_margin = proj_margin + h["adj_mean"] - a["adj_mean"]
     innovation = actual_margin - predicted_margin
 
-    S = h["adj_var"] + a["adj_var"] + cfg["gameNoise"]
+    # -- Adaptive gain -------------------------------------------------------
+    # A standard Kalman update trusts each game only adj_var/(adj_var+gameNoise)
+    # (~5%/game at the WNBA gameNoise), so a team whose true strength sits far
+    # from its box-score stats — e.g. an expansion club — corrects far too
+    # slowly to catch up within a short season. When a team's innovations are
+    # PERSISTENTLY one-signed (a real bias, not scatter) we transiently inflate
+    # its effective variance, raising its gain so the filter converges fast;
+    # as the bias closes the boost fades and it settles back to the stable slow
+    # rate. Well-modelled teams (bias ~0) are untouched. Gated by adaptiveBias
+    # so sports that don't set it keep the exact prior behaviour.
+    h_eff = _effective_var(h, cfg)
+    a_eff = _effective_var(a, cfg)
 
-    K_home = h["adj_var"] / S
-    K_away = a["adj_var"] / S
+    S = h_eff + a_eff + cfg["gameNoise"]
+
+    K_home = h_eff / S
+    K_away = a_eff / S
 
     h["adj_mean"] += K_home * innovation
     a["adj_mean"] -= K_away * innovation
 
-    h["adj_var"] = max(cfg["minVar"], (1 - K_home) * h["adj_var"])
-    a["adj_var"] = max(cfg["minVar"], (1 - K_away) * a["adj_var"])
+    h["adj_var"] = max(cfg["minVar"], min(cfg["maxVar"], (1 - K_home) * h_eff))
+    a["adj_var"] = max(cfg["minVar"], min(cfg["maxVar"], (1 - K_away) * a_eff))
+
+    # Track each team's innovation bias (team-attributed: home sees +innovation,
+    # away sees -innovation) as an EWMA — it drives the boost on the NEXT game.
+    if cfg.get("adaptiveBias"):
+        alpha = cfg.get("biasAlpha", 0.35)
+        h["innov_ewma"] = (1 - alpha) * h.get("innov_ewma", 0.0) + alpha * innovation
+        a["innov_ewma"] = (1 - alpha) * a.get("innov_ewma", 0.0) + alpha * (-innovation)
 
 
 def batch_update(state, graded_games, opts=None):
