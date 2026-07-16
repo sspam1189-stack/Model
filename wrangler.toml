@@ -1,0 +1,20 @@
+# Root wrangler config for Cloudflare Workers Builds.
+#
+# The only Worker in this repo lives in cloudflare-worker/ (a tiny GitHub
+# workflow-dispatch proxy for the dashboard). Cloudflare Workers Builds runs
+# its deploy from the repo ROOT by default, where it previously found no
+# wrangler config and failed the build instantly. This root config points at
+# the Worker source so the build succeeds without needing a dashboard
+# root-directory change.
+#
+# `name` MUST stay pydashboard-workflow-proxy — the dashboard's WORKER_URL
+# (pydashboard-workflow-proxy.sspam1189.workers.dev, in
+# PythonDashboard/js/workflow-trigger.js) derives from it. Keep this in sync
+# with cloudflare-worker/wrangler.toml.
+name = "pydashboard-workflow-proxy"
+main = "cloudflare-worker/workflow-proxy.js"
+compatibility_date = "2025-01-01"
+
+# Secrets (set once via `wrangler secret put`, persist across deploys):
+#   GH_TOKEN    - GitHub fine-grained PAT, repo sspam1189-stack/Model, Actions: R/W
+#   ACCESS_KEY  - shared passphrase users paste into the dashboard once
