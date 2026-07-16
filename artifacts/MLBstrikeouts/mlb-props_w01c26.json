@@ -4,10 +4,10 @@
   "season": "2026",
   "mode": "live",
   "model": "kalman_blend",
-  "generated": "2026-07-13T21:40:54.905182",
-  "totalProjections": 219,
-  "totalPicks": 2235,
-  "totalWatchlist": 0,
+  "generated": "2026-07-16T08:54:46.168074",
+  "totalProjections": 2,
+  "totalPicks": 2237,
+  "totalWatchlist": 2,
   "props": [
     {
       "player": "Sonny Gray",
@@ -74021,16 +74021,164 @@
       "actual_bf": 21,
       "actual_pitches": 86,
       "would_be_pick": "UNDER"
+    },
+    {
+      "player": "Aaron Nola",
+      "team": "PHI",
+      "opp": "NYM",
+      "market": "strikeouts",
+      "game_id": 823440,
+      "proj": 4.9,
+      "std": 2.1,
+      "line": 5.5,
+      "over_price": 122,
+      "under_price": -156,
+      "pick": "PASS",
+      "edge": -0.6,
+      "pCover": 0.61,
+      "conf": "watch",
+      "proj_ip": 5.1,
+      "proj_bf": 21.9,
+      "proj_bf_capped": 21.9,
+      "proj_pc": 86.0,
+      "opp_team_k_pct": 22.7,
+      "lineup_k_pct": 20.1,
+      "pitcher_k_pct": 24.2,
+      "odds": -156,
+      "to_win_1u": 1.56,
+      "proj_raw": 4.885,
+      "would_be_pick": "UNDER",
+      "date": "2026-07-16",
+      "lockState": "pending",
+      "lockedAt": null,
+      "lineupConfirmed": false
+    },
+    {
+      "player": "Christian Scott",
+      "team": "NYM",
+      "opp": "PHI",
+      "market": "strikeouts",
+      "game_id": 823440,
+      "proj": 5.7,
+      "std": 2.0,
+      "line": 5.5,
+      "over_price": -102,
+      "under_price": -125,
+      "pick": "PASS",
+      "edge": 0.2,
+      "pCover": 0.532,
+      "conf": "watch",
+      "proj_ip": 4.6,
+      "proj_bf": 19.3,
+      "proj_bf_capped": 19.3,
+      "proj_pc": 86.0,
+      "opp_team_k_pct": 25.2,
+      "lineup_k_pct": 24.3,
+      "pitcher_k_pct": 27.4,
+      "odds": -102,
+      "to_win_1u": 1.02,
+      "proj_raw": 5.665,
+      "would_be_pick": "OVER",
+      "date": "2026-07-16",
+      "lockState": "pending",
+      "lockedAt": null,
+      "lineupConfirmed": false
     }
   ],
-  "summary": "0 picks (+0 watch) from 219 projections",
-  "date": "2026-07-13",
-  "todayProjections": [],
-  "gameTimes": {},
-  "gameStatuses": {},
-  "gameTimesById": {},
-  "gameStatusesById": {},
-  "todayProbables": [],
+  "summary": "0 picks (+2 watch) from 2 projections",
+  "date": "2026-07-16",
+  "todayProjections": [
+    {
+      "player": "Christian Scott",
+      "team": "NYM",
+      "opp": "PHI",
+      "market": "strikeouts",
+      "game_id": 823440,
+      "proj": 5.7,
+      "std": 2.0,
+      "line": 5.5,
+      "over_price": -102,
+      "under_price": -125,
+      "pick": "PASS",
+      "edge": 0.2,
+      "pCover": 0.532,
+      "conf": "low",
+      "proj_ip": 4.6,
+      "proj_bf": 19.3,
+      "proj_bf_capped": 19.3,
+      "proj_pc": 86.0,
+      "opp_team_k_pct": 25.2,
+      "lineup_k_pct": 24.3,
+      "pitcher_k_pct": 27.4,
+      "odds": -102,
+      "to_win_1u": 1.02,
+      "proj_raw": 5.665,
+      "date": "2026-07-16",
+      "lockState": "pending",
+      "lockedAt": null,
+      "lineupConfirmed": false
+    },
+    {
+      "player": "Aaron Nola",
+      "team": "PHI",
+      "opp": "NYM",
+      "market": "strikeouts",
+      "game_id": 823440,
+      "proj": 4.9,
+      "std": 2.1,
+      "line": 5.5,
+      "over_price": 122,
+      "under_price": -156,
+      "pick": "PASS",
+      "edge": -0.6,
+      "pCover": 0.61,
+      "conf": "low",
+      "proj_ip": 5.1,
+      "proj_bf": 21.9,
+      "proj_bf_capped": 21.9,
+      "proj_pc": 86.0,
+      "opp_team_k_pct": 22.7,
+      "lineup_k_pct": 20.1,
+      "pitcher_k_pct": 24.2,
+      "odds": -156,
+      "to_win_1u": 1.56,
+      "proj_raw": 4.885,
+      "date": "2026-07-16",
+      "lockState": "pending",
+      "lockedAt": null,
+      "lineupConfirmed": false
+    }
+  ],
+  "gameTimes": {
+    "PHI": "2026-07-16T23:10:00Z",
+    "NYM": "2026-07-16T23:10:00Z"
+  },
+  "gameStatuses": {
+    "PHI": "Scheduled",
+    "NYM": "Scheduled"
+  },
+  "gameTimesById": {
+    "823440": "2026-07-16T23:10:00Z"
+  },
+  "gameStatusesById": {
+    "823440": "Scheduled"
+  },
+  "todayProbables": [
+    {
+      "player": "Aaron Nola",
+      "team": "PHI",
+      "opp": "NYM",
+      "game_id": 823440,
+      "game_time": "2026-07-16T23:10:00Z"
+    },
+    {
+      "player": "Christian Scott",
+      "team": "NYM",
+      "opp": "PHI",
+      "game_id": 823440,
+      "game_time": "2026-07-16T23:10:00Z"
+    }
+  ],
   "homeAway": {
     "2026-04-14": {
       "BAL": "home",
@@ -76633,6 +76781,10 @@
       "ARI": "away",
       "SD": "home",
       "TOR": "away"
+    },
+    "2026-07-16": {
+      "PHI": "home",
+      "NYM": "away"
     }
   }
 }
