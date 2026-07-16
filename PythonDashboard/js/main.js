@@ -206,9 +206,11 @@ let nflWeekFilter = 'latest';
 let nflHistoryWeekFilter = 'all';
 let teamPicksFilter = null; // selected team for the Team Picks browser; null = not yet chosen
 let spreadTrendsTab = 'weekly'; // active tab for the combined Weekly/Rolling card
+let expandedTrendKey = null; // week/window row expanded to reveal its picks
 let teamPicksMonthFilter = 'all'; // month key (YYYYMM) filtering the Team Picks browser
 let teamPicksSideFilter = 'all'; // 'all' | 'fav' | 'dog' filtering the Team Picks browser
 let teamPicksLocationFilter = 'all'; // 'all' | 'home' | 'away' filtering the Team Picks browser
+let teamPicksBucketFilter = 'all'; // 'all' | 'pick' | 'lean' | 'pass' — MLB-style bucket tabs
 
 // NBA playoff cutoff (includes play-in 4/14-4/17 + playoffs proper 4/18+).
 // Shared between the record banner segment buttons and downstream widgets.
@@ -277,6 +279,12 @@ function setTeamPicksFilter(team) {
 
 function setSpreadTrendsTab(tab) {
   spreadTrendsTab = tab;
+  expandedTrendKey = null;
+  render();
+}
+
+function toggleTrendRow(key) {
+  expandedTrendKey = expandedTrendKey === key ? null : key;
   render();
 }
 
@@ -292,6 +300,11 @@ function setTeamPicksSideFilter(side) {
 
 function setTeamPicksLocationFilter(location) {
   teamPicksLocationFilter = location;
+  render();
+}
+
+function setTeamPicksBucketFilter(bucket) {
+  teamPicksBucketFilter = bucket;
   render();
 }
 
@@ -532,6 +545,15 @@ function confBadge(conf) {
 // WNBA full-season only — derived from pCover so historical picks mark correctly.
 const ELITE_STAKE_CUT = 0.72;
 function stakeUnits(pCover) { return (pCover != null && pCover >= ELITE_STAKE_CUT) ? 2 : 1; }
+// Team Picks bucketing (MLB-style): a game the model did not fire a pick on is a
+// LEAN if the model's leaned-side cover prob clears this floor, else a PASS.
+const LEAN_FLOOR = 0.55;
+// Recommended stake for a fired pick's units column — 1u/2u tier is WNBA-only;
+// NBA full-season is flat 1u.
+function pickStake(g, pCover) {
+  if (activeTab !== 'wnba-full') return 1;
+  return (g && g.stakeUnits) ? g.stakeUnits : stakeUnits(pCover);
+}
 function stakeBadge(pCover) {
   if (activeTab !== 'wnba-full' || pCover == null) return '';
   const two = pCover >= ELITE_STAKE_CUT;
@@ -570,6 +592,18 @@ function gradeSpread(g) {
   if (covered > 0) return 'WIN';
   if (covered < 0) return 'LOSS';
   return 'PUSH';
+}
+
+// Grade the model's LEANED side (higher cover prob) against the closing line —
+// the hypothetical result of a game the model did not fire a pick on. leanHome
+// = did the model lean the home side. Convention: line is the home spread, so
+// home covers iff (homeMargin + line) > 0.
+function gradeLeanSide(g, leanHome) {
+  if (!Number.isFinite(g.homeScore) || !Number.isFinite(g.awayScore) || !Number.isFinite(g.line)) return null;
+  const val = (g.homeScore - g.awayScore) + g.line;
+  if (val === 0) return 'PUSH';
+  const homeCovers = val > 0;
+  return (leanHome ? homeCovers : !homeCovers) ? 'WIN' : 'LOSS';
 }
 
 
@@ -659,7 +693,8 @@ function computeWeekly(runs) {
     const diff = day === 0 ? -6 : 1 - day;
     const mon = new Date(dt); mon.setDate(dt.getDate() + diff);
     const key = mon.getFullYear() + '-' + String(mon.getMonth() + 1).padStart(2, '0') + '-' + String(mon.getDate()).padStart(2, '0');
-    if (!weeks[key]) weeks[key] = { week: key, w: 0, l: 0, p: 0 };
+    if (!weeks[key]) weeks[key] = { week: key, w: 0, l: 0, p: 0, picks: [] };
+    weeks[key].picks.push(p);
     if (p.result === 'WIN') weeks[key].w++;
     else if (p.result === 'LOSS') weeks[key].l++;
     else weeks[key].p++;
@@ -683,6 +718,7 @@ function computeRolling(runs) {
       w, l, p, pct: winPct(w, l), units: calcUnits(w, l),
       startDate: chunk[0].dateDisplay || chunk[0].date,
       endDate: chunk[chunk.length - 1].dateDisplay || chunk[chunk.length - 1].date,
+      picks: chunk,
     });
   }
   return { rows, window };
@@ -738,29 +774,72 @@ function computeTeamPicks(runs) {
     if (r.burnIn) continue;
     for (const g of r.games || []) {
       if (g.status === 'MISSING_ODDS' || g.status === 'SKIPPED') continue;
-      if (!g.sPick || g.sPick === 'PASS' || !isActionable(g.sConf)) continue;
-      const parsed = parseSpreadPick(g.sPick);
-      if (!parsed) continue;
       const hasScore = Number.isFinite(g.homeScore) && Number.isFinite(g.awayScore);
-      const result = hasScore ? (g.sResult || gradeSpread(g)) : null;
-      const team = parsed.team;
-      if (!teams[team]) teams[team] = [];
-      teams[team].push({
+      const dateDisplay = r.dateDisplay || (r.date ? r.date.replace(/(\d{4})(\d{2})(\d{2})/, '$1-$2-$3') : '');
+      const monthKey = r.date ? r.date.slice(0, 6) : null;
+      const base = {
         date: g.startTimeUTC || r.date || '',
-        dateDisplay: r.dateDisplay || (r.date ? r.date.replace(/(\d{4})(\d{2})(\d{2})/, '$1-$2-$3') : ''),
-        monthKey: r.date ? r.date.slice(0, 6) : null,
-        side: parsed.sign === '-' ? 'fav' : 'dog',
-        location: parsed.team === g.home ? 'home' : 'away',
+        dateDisplay,
+        monthKey,
         matchup: `${g.away} @ ${g.home}`,
-        pick: g.sPick,
-        conf: g.sConf,
         line: g.line,
         projMargin: g.margin,
-        pCover: g.pCover != null ? g.pCover : null,
-        result,
-        pending: !hasScore,
         final: hasScore ? `${g.awayScore}-${g.homeScore}` : null,
-      });
+      };
+
+      const isPick = g.sPick && g.sPick !== 'PASS' && isActionable(g.sConf);
+      const parsed = isPick ? parseSpreadPick(g.sPick) : null;
+
+      if (isPick && parsed) {
+        // Fired pick — belongs to the picked team only.
+        const team = parsed.team;
+        if (!teams[team]) teams[team] = [];
+        teams[team].push({
+          ...base,
+          bucket: 'pick',
+          side: parsed.sign === '-' ? 'fav' : 'dog',
+          location: parsed.team === g.home ? 'home' : 'away',
+          pick: g.sPick,
+          conf: g.sConf,
+          pCover: g.pCover != null ? g.pCover : null,
+          stakeUnits: pickStake(g, g.pCover),
+          result: hasScore ? (g.sResult || gradeSpread(g)) : null,
+          pending: !hasScore,
+        });
+      } else {
+        // No fired pick. The model still leaned a side (pHomeCover vs pAwayCover);
+        // classify LEAN vs PASS by that lean's strength and grade it hypothetically.
+        // Recorded for BOTH teams so a team's browser is its full game log.
+        const ph = g.pHomeCover, pa = g.pAwayCover;
+        const haveLean = Number.isFinite(ph) && Number.isFinite(pa);
+        const leanHome = haveLean ? ph >= pa : null;
+        const leanP = haveLean ? Math.max(ph, pa) : null;
+        const bucket = (leanP != null && leanP >= LEAN_FLOOR) ? 'lean' : 'pass';
+        const leanResult = haveLean && hasScore ? gradeLeanSide(g, leanHome) : null;
+        for (const t of [g.away, g.home]) {
+          if (!t) continue;
+          if (!teams[t]) teams[t] = [];
+          const isHome = t === g.home;
+          const teamLine = Number.isFinite(g.line) ? (isHome ? g.line : -g.line) : null;
+          // Leaned team + its line, for a would-be-pick display.
+          const leanTeam = haveLean ? (leanHome ? g.home : g.away) : null;
+          const leanTeamLine = haveLean ? (leanHome ? g.line : -g.line) : null;
+          const leanPick = (leanTeam && Number.isFinite(leanTeamLine))
+            ? `${leanTeam} ${leanTeamLine >= 0 ? '+' : ''}${fmtNum(leanTeamLine, 1)}` : null;
+          teams[t].push({
+            ...base,
+            bucket,
+            side: teamLine == null ? null : (teamLine < 0 ? 'fav' : 'dog'),
+            location: isHome ? 'home' : 'away',
+            pick: leanPick,           // model's lean (grey), not a fired pick
+            conf: null,
+            pCover: leanP,            // leaned-side probability
+            stakeUnits: 0,            // no bet -> no units
+            result: leanResult,      // hypothetical (leaned side vs line)
+            pending: !hasScore,
+          });
+        }
+      }
     }
   }
   return teams;
@@ -1117,6 +1196,25 @@ function renderLast10(runs) {
     </div>`;
 }
 
+// Expanded detail for a week / rolling-window row: the individual picks behind
+// its record. colspan spans the summary table's columns.
+function trendPicksDetail(picks, colspan) {
+  const inner = (picks || []).map(p => `<tr>
+    <td>${esc(p.dateDisplay || p.date)}</td>
+    <td>${esc(p.matchup)}</td>
+    <td><span class="pick-team">${esc(aliasInText(p.pick))}</span> ${confBadge(p.conf)}</td>
+    <td class="center">${fmtProb(p.pCover)}</td>
+    <td class="center">${resultBadge(p.result)}</td>
+    <td class="center">${esc(p.final)}</td>
+  </tr>`).join('');
+  return `<tr><td colspan="${colspan}" style="padding:0;background:rgba(139,92,246,0.06)">
+    <table class="data" style="margin:0">
+      <thead><tr><th>Date</th><th>Matchup</th><th>Pick</th><th class="center">P(Cover)</th><th class="center">Result</th><th class="center">Final</th></tr></thead>
+      <tbody>${inner || `<tr><td colspan="6" class="no-picks">No picks.</td></tr>`}</tbody>
+    </table>
+  </td></tr>`;
+}
+
 function renderWeeklyRolling(runs) {
   const weeks = computeWeekly(runs);
   const { rows: rollingRows, window: rollingWindow } = computeRolling(runs);
@@ -1132,25 +1230,33 @@ function renderWeeklyRolling(runs) {
   let title, subtitle, thead, body;
   if (tab === 'weekly') {
     title = 'Weekly Spread';
-    subtitle = '';
+    subtitle = '<div class="card-subtitle">Click a week to see its picks.</div>';
     thead = '<th>Week of</th><th class="center">W-L-P</th><th class="center">Win%</th><th class="center">Flat</th>';
-    body = weeks.map(r => `<tr>
-      <td>${esc(r.week)}</td>
+    body = weeks.map(r => {
+      const key = 'w:' + r.week;
+      const open = expandedTrendKey === key;
+      return `<tr style="cursor:pointer" onclick="toggleTrendRow('${key}')">
+      <td>${open ? '\u25be' : '\u25b8'} ${esc(r.week)}</td>
       <td class="center"><span class="win-text">${r.w}W</span>\u2013<span class="loss-text">${r.l}L</span>\u2013${r.p}P</td>
       <td class="center"><span class="${pctClass(r.pct)}">${fmtPct(r.pct)}</span></td>
       <td class="center"><span class="${unitClass(r.units)}">${fmtUnits(r.units)}</span></td>
-    </tr>`).join('');
+    </tr>` + (open ? trendPicksDetail(r.picks, 4) : '');
+    }).join('');
   } else {
     title = `Rolling ${rollingWindow}-Pick Groups (Spread)`;
-    subtitle = `<div class="card-subtitle">Green = above break-even (${fmtPct(52.4)}) \u00b7 Red = below \u00b7 Units at -110</div>`;
+    subtitle = `<div class="card-subtitle">Green = above break-even (${fmtPct(52.4)}) \u00b7 Red = below \u00b7 Units at -110 \u00b7 Click a window to see its picks.</div>`;
     thead = '<th>Window</th><th class="center">W-L-P</th><th class="center">Win%</th><th class="center">Flat</th><th class="center">Dates</th>';
-    body = rollingRows.map(r => `<tr>
-      <td>${esc(r.label)}</td>
+    body = rollingRows.map(r => {
+      const key = 'r:' + r.label;
+      const open = expandedTrendKey === key;
+      return `<tr style="cursor:pointer" onclick="toggleTrendRow('${key}')">
+      <td>${open ? '\u25be' : '\u25b8'} ${esc(r.label)}</td>
       <td class="center"><span class="win-text">${r.w}W</span>\u2013<span class="loss-text">${r.l}L</span>\u2013${r.p}P</td>
       <td class="center"><span class="${pctClass(r.pct)}">${fmtPct(r.pct)}</span></td>
       <td class="center"><span class="${unitClass(r.units)}">${fmtUnits(r.units)}</span></td>
       <td class="center" style="font-size:0.7rem;color:var(--muted)">${esc(r.startDate)} \u2192 ${esc(r.endDate)}</td>
-    </tr>`).join('');
+    </tr>` + (open ? trendPicksDetail(r.picks, 5) : '');
+    }).join('');
   }
 
   return `
@@ -1210,12 +1316,16 @@ function renderTeamPicksSection(teamPicksMap, selectedTeam, runs) {
   const activeSide = teamPicksSideFilter;
   const activeLocation = teamPicksLocationFilter;
 
+  const activeBucket = ['all', 'pick', 'lean', 'pass'].includes(teamPicksBucketFilter) ? teamPicksBucketFilter : 'all';
+
   const allPicks = [...teamPicksMap[activeTeam]].sort((a, b) => String(b.dateDisplay).localeCompare(String(a.dateDisplay)));
-  const picks = allPicks.filter(p =>
+  // Filtered by month/side/location — the pool the bucket tabs count against.
+  const pool = allPicks.filter(p =>
     (activeMonth === 'all' || p.monthKey === activeMonth) &&
     (activeSide === 'all' || p.side === activeSide) &&
     (activeLocation === 'all' || p.location === activeLocation)
   );
+  const picks = pool.filter(p => activeBucket === 'all' || p.bucket === activeBucket);
 
   const selectStyle = 'background:#1e1e1e;color:#e0e0e0;border:1px solid #444;border-radius:6px;padding:4px 10px;font-size:13px;cursor:pointer';
   const teamOpts = teamNames.map(name =>
@@ -1235,47 +1345,87 @@ function renderTeamPicksSection(teamPicksMap, selectedTeam, runs) {
     <option value="home" ${activeLocation === 'home' ? 'selected' : ''}>Home Only</option>
     <option value="away" ${activeLocation === 'away' ? 'selected' : ''}>Away Only</option>
   </select>`;
+  // MLB-style bucket tabs (All / Picks / Leans / Passes) with live counts.
+  const bucketCount = b => b === 'all' ? pool.length : pool.filter(p => p.bucket === b).length;
+  const tabBtn = (key, label) => {
+    const on = activeBucket === key;
+    const style = `padding:4px 12px;font-size:13px;border-radius:6px;cursor:pointer;border:1px solid ${on ? '#8b5cf6' : '#444'};background:${on ? '#8b5cf6' : '#1e1e1e'};color:${on ? '#fff' : '#e0e0e0'};font-weight:${on ? '700' : '400'}`;
+    return `<button onclick="setTeamPicksBucketFilter('${key}')" style="${style}">${label} ${bucketCount(key)}</button>`;
+  };
+  const bucketTabs = `<div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px">
+    ${tabBtn('all', 'All')}${tabBtn('pick', 'Picks')}${tabBtn('lean', 'Leans')}${tabBtn('pass', 'Passes')}
+  </div>`;
   const filterRow = `<div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px">${teamSelect}${monthSelect}${sideSelect}${locationSelect}</div>`;
 
-  const gradedPicks = picks.filter(p => !p.pending && p.result);
+  // Realized units for a fired pick (WNBA staked 1u/2u, NBA flat 1u). Leans and
+  // passes are hypothetical — no stake, no units, excluded from the record.
+  const pickUnits = p => {
+    if (p.bucket !== 'pick' || p.pending || !p.result) return null;
+    const s = p.stakeUnits || 1;
+    return p.result === 'WIN' ? s : p.result === 'LOSS' ? -1.1 * s : 0;
+  };
+
+  // Record header = fired picks only (bucket === 'pick').
+  const gradedPicks = pool.filter(p => p.bucket === 'pick' && !p.pending && p.result);
   const gw = gradedPicks.filter(p => p.result === 'WIN').length;
   const gl = gradedPicks.filter(p => p.result === 'LOSS').length;
   const gp = gradedPicks.filter(p => p.result === 'PUSH').length;
   const gpct = winPct(gw, gl);
-  const gunits = calcUnits(gw, gl);
+  const gunits = gradedPicks.reduce((s, p) => s + (pickUnits(p) || 0), 0);
+  // Leans, graded hypothetically, shown as a secondary muted tally.
+  const gradedLeans = pool.filter(p => p.bucket === 'lean' && !p.pending && p.result);
+  const lw = gradedLeans.filter(p => p.result === 'WIN').length;
+  const ll = gradedLeans.filter(p => p.result === 'LOSS').length;
   const recordHtml = (gw + gl + gp > 0)
     ? `<span class="win-text">${gw}W</span>–<span class="loss-text">${gl}L</span>–${gp}P · <span class="${pctClass(gpct)}">${fmtPct(gpct)}</span> · <span class="${unitClass(gunits)}">${fmtUnits(gunits)}</span>`
     : 'No graded picks';
+  const leanHtml = (lw + ll > 0) ? ` <span style="font-size:0.72rem;color:var(--muted);font-weight:600">· leans ${lw}-${ll} (hypothetical)</span>` : '';
   const titleHtml = `<div class="card-title" style="display:flex;align-items:center;flex-wrap:wrap;gap:8px">
     <span>Team Picks</span>
-    <span style="font-size:0.85rem;font-weight:700">${esc(teamAlias(activeTeam))}: ${recordHtml}</span>
+    <span style="font-size:0.85rem;font-weight:700">${esc(teamAlias(activeTeam))}: ${recordHtml}</span>${leanHtml}
   </div>`;
 
+  const bktBadge = b => {
+    const map = { pick: ['#16a34a', '#fff', 'PICK'], lean: ['#eab308', '#0b1220', 'LEAN'], pass: ['#475569', '#cbd5e1', 'PASS'] };
+    const [bg, fg, label] = map[b] || map.pass;
+    return `<span class="badge" style="background:${bg};color:${fg}">${label}</span>`;
+  };
+
   const rows = picks.length ? picks.map(p => {
+    const hypothetical = p.bucket !== 'pick';
     const resultCell = p.pending
       ? '<span class="result-badge pending">PENDING</span>'
-      : (p.result ? resultBadge(p.result) : '—');
+      : (p.result ? `<span style="${hypothetical ? 'opacity:0.55' : ''}">${resultBadge(p.result)}</span>` : '—');
+    const u = pickUnits(p);
+    const unitsCell = (u == null) ? '—' : `<span class="${unitClass(u)}">${fmtUnits(u)}</span>`;
+    const pickCell = p.bucket === 'pick'
+      ? `<span class="pick-team">${esc(aliasInText(p.pick))}</span> ${confBadge(p.conf)}${stakeBadge(p.pCover)}`
+      : (p.pick ? `<span style="color:var(--muted)">${esc(aliasInText(p.pick))}</span>` : '<span style="color:var(--muted)">—</span>');
     const [awayName, homeName] = p.matchup.split(' @ ');
-    return `<tr>
+    return `<tr${hypothetical ? ' style="background:rgba(255,255,255,0.015)"' : ''}>
       <td>${esc(p.dateDisplay)}</td>
+      <td class="center">${bktBadge(p.bucket)}</td>
       <td>${esc(teamAlias(awayName))} @ ${esc(teamAlias(homeName))}</td>
-      <td><span class="pick-team">${esc(aliasInText(p.pick))}</span> ${confBadge(p.conf)}</td>
+      <td>${pickCell}</td>
       <td class="center">${fmtNum(p.line, 1)}</td>
       <td class="center">${fmtNum(p.projMargin, 1)}</td>
       <td class="center">${fmtProb(p.pCover)}</td>
       <td class="center">${resultCell}</td>
+      <td class="center">${unitsCell}</td>
       <td class="center">${p.final ? esc(p.final) : '—'}</td>
     </tr>`;
-  }).join('') : `<tr><td colspan="8" class="no-picks">No picks match these filters for this team.</td></tr>`;
+  }).join('') : `<tr><td colspan="10" class="no-picks">No games match these filters for this team.</td></tr>`;
 
   return `
     <div class="card card-records">
       ${titleHtml}
+      ${bucketTabs}
       ${filterRow}
       <table class="data">
-        <thead><tr><th>Date</th><th>Matchup</th><th>Pick</th><th class="center">Line</th><th class="center">Proj Margin</th><th class="center">P(Cover)</th><th class="center">Result</th><th class="center">Final</th></tr></thead>
+        <thead><tr><th>Date</th><th class="center">Bkt</th><th>Matchup</th><th>Pick / Lean</th><th class="center">Line</th><th class="center">Proj Margin</th><th class="center">P(Cover)</th><th class="center">Result</th><th class="center">Units</th><th class="center">Final</th></tr></thead>
         <tbody>${rows}</tbody>
       </table>
+      <div class="card-subtitle">Record is fired picks only. Leans/passes show the model's leaned side graded vs the closing line — hypothetical, not bet.</div>
     </div>`;
 }
 
