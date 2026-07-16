@@ -207,4 +207,28 @@ KALMAN_DEFAULTS = {
     "dailyDrift":  0.25,   # NBA 0.15 — teams change faster over a compressed season
     "minVar":      2.0,
     "maxVar":      30,
+
+    # -- Adaptive gain (see core/kalman_state.py:_effective_var) ---------------
+    # gameNoise 218 pins the per-game gain at ~5%, which is right for stable,
+    # well-modelled teams but far too slow for a team whose true strength is
+    # miles from its box score (expansion clubs — e.g. Toronto Tempo 2026, whose
+    # residual stalled at ~-3.3 pts while reality wanted ~-8, with only ~20
+    # games left to converge). When a team's innovations stay one-signed (a real
+    # bias, not scatter) we transiently inflate its variance to catch up fast
+    # (gain ~5%->~13% for a -7pt-biased team), then settle back as the bias
+    # closes. Bias within the deadband is ignored, so well-modelled teams are
+    # untouched.
+    #   A/B on the 2026 walk-forward replay (scripts/calibrate_probhigh.py),
+    #   fired picks @>=0.62:  OFF 40-26 (60.6%) +10.4u  ->  ON 42-24 (63.6%)
+    #   +14.2u. The gain is broad, not just Toronto (whose -7 bias is too large
+    #   for the gentle boost to fully close): the biggest catch was Las Vegas,
+    #   marked -0.4 -> -5.4 mid-slump. Low conviction (n=66, ~within noise) but
+    #   principled and improves across param settings; the >=0.65 bucket gives
+    #   back ~1u, immaterial at the shipped 0.62 cutoff. Params are the robust
+    #   middle — deliberately NOT the +1u aggressive corner (overfit risk).
+    "adaptiveBias":   True,
+    "biasAlpha":      0.35,  # EWMA weight on each game's innovation
+    "biasDeadband":   3.0,   # |bias| (pts) treated as normal scatter -> no boost
+    "biasVarGain":    3.0,   # var added per pt of |bias| beyond the deadband
+    "adaptiveMaxVar": 60,    # cap on boosted variance (gain ~ 60/(60+12+218)=20%)
 }

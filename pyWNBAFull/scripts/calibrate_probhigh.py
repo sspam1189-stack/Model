@@ -75,7 +75,11 @@ def grade_lean(home_s, away_s, line, side):
     return "WIN" if won else "LOSS"
 
 
-def main():
+def run_replay(kalman_opts=None):
+    """Walk the cached season forward and return every uncensored spread
+    candidate. kalman_opts overrides the Kalman config (e.g. toggling
+    adaptiveBias) so callers can A/B the filter. Returns
+    (candidates, fired_at_062, kalman_state)."""
     defs = load_defaults()
     # Fresh trajectory from seed weights — reproduces the real self-tune path.
     store = {"runs": [], "weights": {**defs["DEFAULT_W"]},
@@ -114,13 +118,13 @@ def main():
             continue
 
         if kalman_state is None:
-            kalman_state = initialize_kalman(enhanced["season"])
+            kalman_state = initialize_kalman(enhanced["season"], kalman_opts)
             kalman_state["lastDriftDate"] = date
 
         if date != prev_date:
             prev_date = date
             if prev_graded:
-                batch_update(kalman_state, prev_graded)
+                batch_update(kalman_state, prev_graded, kalman_opts)
                 res = tune_weights(base_w, base_w_var, prev_graded)
                 base_w = res["W"]; base_w_var = res["W_var"]
                 store["weights"] = res["W"]; store["weightsVar"] = res["W_var"]
@@ -129,7 +133,7 @@ def main():
                 if g.get("home"): b2b_teams.add(g["home"])
                 if g.get("away"): b2b_teams.add(g["away"])
             prev_graded = []; prev_all_scored = []
-            apply_daily_drift(kalman_state, date)
+            apply_daily_drift(kalman_state, date, kalman_opts)
 
         dyn_rv = compute_residual_var(store.get("runs", []))
         store["residualVar"] = dyn_rv
@@ -188,7 +192,11 @@ def main():
                     side = "home" if ph >= pa else "away"
                     pcov = max(ph, pa)
                     result = grade_lean(gl["homeScore"], gl["awayScore"], line, side)
-                    candidates.append((date, pcov, side, result, line))
+                    picked = g["home"] if side == "home" else g["away"]
+                    candidates.append({"date": date, "pcov": pcov, "side": side,
+                                       "result": result, "line": line,
+                                       "away": g["away"], "home": g["home"],
+                                       "picked": picked})
                     if pcov >= 0.62:
                         fired_at_062.append((pcov, result))
 
@@ -202,38 +210,39 @@ def main():
     if kalman_state:
         prune_processed_games(kalman_state, 60)
 
-    # ---- Report ----
-    JUICE = 1.10
-    be = 100 * JUICE / (1 + JUICE)
-    print(f"\nUncensored spread candidates captured: {len(candidates)}")
-    w0 = sum(1 for c in fired_at_062 if c[1] == "WIN")
-    l0 = sum(1 for c in fired_at_062 if c[1] == "LOSS")
-    print(f"Sanity — replayed fired @>=0.62: {w0}-{l0} ({100*w0/(w0+l0):.1f}%)  [live store: 44-26 (62.9%)]")
+    return candidates, fired_at_062, kalman_state
 
-    print(f"\nBreak-even WR at -110: {be:.1f}%")
-    print(f"\n{'thresh':>7} {'N':>4} {'W':>3} {'L':>3} {'P':>3} {'WR%':>6} {'units':>7} {'u/pick':>7} {'+EV?':>5}")
-    for t in [0.50, 0.53, 0.55, 0.57, 0.58, 0.59, 0.60, 0.61, 0.62, 0.63, 0.65, 0.67, 0.70, 0.72]:
-        sel = [c for c in candidates if c[1] >= t - 1e-9]
-        w = sum(1 for c in sel if c[3] == "WIN")
-        l = sum(1 for c in sel if c[3] == "LOSS")
-        pu = sum(1 for c in sel if c[3] == "PUSH")
+
+JUICE = 1.10
+BREAK_EVEN = 100 * JUICE / (1 + JUICE)
+
+
+def _wl(cands):
+    w = sum(1 for c in cands if c["result"] == "WIN")
+    l = sum(1 for c in cands if c["result"] == "LOSS")
+    units = w * (1 / JUICE) - l
+    return w, l, units
+
+
+def print_sweep(candidates, fired_at_062):
+    w0, l0, u0 = _wl([{"result": r} for _, r in fired_at_062])
+    print(f"\nUncensored spread candidates captured: {len(candidates)}")
+    print(f"Sanity — replayed fired @>=0.62: {w0}-{l0} ({100*w0/(w0+l0):.1f}%)  [live store: 44-26 (62.9%)]")
+    print(f"\nBreak-even WR at -110: {BREAK_EVEN:.1f}%")
+    print(f"\n{'thresh':>7} {'N':>4} {'W':>3} {'L':>3} {'WR%':>6} {'units':>7} {'u/pick':>7}")
+    for t in [0.50, 0.55, 0.58, 0.60, 0.62, 0.65, 0.67, 0.70, 0.72]:
+        sel = [c for c in candidates if c["pcov"] >= t - 1e-9]
+        w, l, units = _wl(sel)
         n = w + l
         if n == 0:
             continue
-        units = w * (1 / JUICE) - l
-        print(f"{t:>7.2f} {len(sel):>4} {w:>3} {l:>3} {pu:>3} {100*w/n:>6.1f} "
-              f"{units:>7.2f} {units/len(sel):>7.3f} {'YES' if 100*w/n>=be else 'no':>5}")
+        print(f"{t:>7.2f} {len(sel):>4} {w:>3} {l:>3} {100*w/n:>6.1f} {units:>7.2f} {units/len(sel):>7.3f}")
 
-    print(f"\n--- Sub-0.62 band detail (the region the live store cannot see) ---")
-    for lo, hi in [(0.50, 0.55), (0.55, 0.58), (0.58, 0.60), (0.60, 0.62)]:
-        sel = [c for c in candidates if lo <= c[1] < hi]
-        w = sum(1 for c in sel if c[3] == "WIN"); l = sum(1 for c in sel if c[3] == "LOSS")
-        n = w + l
-        if n:
-            units = w * (1 / JUICE) - l
-            print(f"  {lo:.2f}-{hi:.2f}: {w}-{l} ({100*w/n:.1f}%)  {units:+.2f}u  {units/n:+.3f}/pick  n={n}")
-        else:
-            print(f"  {lo:.2f}-{hi:.2f}: (no candidates)")
+
+def main():
+    # Single-config sweep using whatever KALMAN_DEFAULTS ships in defaults.py.
+    candidates, fired, _ = run_replay()
+    print_sweep(candidates, fired)
 
 
 if __name__ == "__main__":
