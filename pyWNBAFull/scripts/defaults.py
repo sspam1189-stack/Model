@@ -44,6 +44,30 @@
 # because WNBA's larger variance (above) already deflates pCover, these are
 # conservative. They are validated FORWARD on 2026 live FanDuel lines once a
 # graded sample accrues — retune probHigh from live results, not from priors.
+#
+# ── LIVE-FORWARD ATS VALIDATION (2026-07-15) ─────────────────────────────────
+# The forward FanDuel sample has now accrued and been swept against real cached
+# lines — the ATS backtest the paywall blocked earlier is now possible on the
+# live season. Two views:
+#   (a) Live graded fired picks (store, censored at the shipped probHigh=0.62):
+#       70 spread picks, 44-26 = 62.9% WR, +14.0u, +0.20 u/pick. Comfortably
+#       above the 52.4% -110 break-even — the model is performing as projected.
+#   (b) UNCENSORED walk-forward replay (scripts/calibrate_probhigh.py): the real
+#       season (May 21 - Jul 15) reproduced day-by-day from the cached
+#       stats/odds/ESPN with the same engine + Kalman + self-tune trajectory,
+#       capturing EVERY spread candidate (not just those >=0.62) so probHigh can
+#       be swept DOWN as well as up. 136 candidates. Result by threshold:
+#         sub-0.62 band is coin-flip / net-negative — 0.50-0.55 47%, 0.58-0.60
+#         40%; the whole 0.50-0.62 region pooled is 36-34 (51.4%), BELOW -110
+#         break-even. At/above 0.62 win-rate climbs monotonically: 0.62 60.6%,
+#         0.65 63.3%, 0.67 65.0%, 0.70 69.7%.
+#   CONCLUSION: probHigh=0.62 sits right at the knee where the break-even/losing
+#   sub-threshold volume gets filtered out — lowering it only adds ~coin-flip
+#   bets. Tightening to 0.65-0.67 lifts per-pick ROI (0.16->0.21-0.24) but total
+#   units stay flat (~10u) and volume drops 25-40%, and the live vs replay views
+#   DISAGREE on whether 0.65 beats 0.62 (live: 0.65 worse; replay: marginally
+#   better) — not robust on one partial season. HELD at 0.62; retune again as
+#   more forward picks accrue.
 
 DEFAULT_STATS = {}
 
@@ -72,6 +96,10 @@ DEFAULT_W = {
     # (+17.5 vs +17.7u). Low-conviction (n=72, one partial season, and the
     # backtest ATS runs hot) — a safe tightening; retune forward as live picks
     # accrue.
+    # RE-CONFIRMED 2026-07-15 (see LIVE-FORWARD ATS VALIDATION header): live 70
+    # fired picks 62.9%/+14.0u, and an uncensored walk-forward sweep shows the
+    # sub-0.62 band is net-negative (0.50-0.62 pooled 51.4%, below break-even)
+    # while >=0.62 climbs monotonically. 0.62 is the knee — held.
     "probHigh":  0.62,   # min P(cover) for actionable spread pick
     "probElite": 0.63,
 
