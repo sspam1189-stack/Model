@@ -118,6 +118,24 @@ DEFAULT_W = {
     "h2hWeight": 0.0,
 }
 
+# -- Stake tier ---------------------------------------------------------------
+# Flat-vs-tiered staking backtest (scripts/stake_tiers.py) on the 46-25 season:
+# the >=0.72 P(cover) band went 21-7 (75.0%) vs 58.1% below, and staking those
+# 2u lifts ROI 23.7%->~29% with drawdown ~flat. So a fired pick with
+# pCover >= ELITE_STAKE_CUT is a 2u play, otherwise 1u. Display-only for now
+# (marked on the pick + dashboard); does not change which picks fire. In-sample
+# on one partial season — paper-track before trusting the sizing.
+ELITE_STAKE_CUT = 0.72
+BASE_STAKE_UNITS = 1
+ELITE_STAKE_UNITS = 2
+
+
+def stake_units_for(p_cover):
+    """Recommended stake (units) for a fired spread pick given its P(cover)."""
+    if p_cover is not None and p_cover >= ELITE_STAKE_CUT:
+        return ELITE_STAKE_UNITS
+    return BASE_STAKE_UNITS
+
 # -- Bayesian weight variances ------------------------------------------------
 DEFAULT_W_VAR = {
     "wTS":      4.0,
