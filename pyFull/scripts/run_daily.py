@@ -27,7 +27,7 @@ from sources.lineup_adjust import fetch_player_advanced, adjust_team_stats
 from sources.rest_detect import detect_b2b, apply_b2b_adjustment
 from sources.h2h_matchup import fetch_h2h_matchups
 from sources.season_type import get_season_type, get_espn_season_type, is_playoffs, PLAYOFF_START
-import defaults
+from defaults import stake_units_for
 from model_engine import load_defaults, get_avgs, analyze_game
 from store import load_store, save_store, upsert_run
 from self_tune import tune_weights, compute_residual_var
@@ -453,7 +453,7 @@ def build_game_prob_table(games):
         s_pick_display = esc(g["sPick"]) if g.get("sPick") and g["sPick"] != "PASS" else '<span style="color:#9ca3af">PASS</span>'
         s_conf_badge = f" {conf_badge(g.get('sConf'))}" if g.get("sPick") and g["sPick"] != "PASS" else ""
         if g.get("sPick") and g["sPick"] != "PASS":
-            _su = g.get("stakeUnits") or defaults.stake_units_for(g.get("pCover"))
+            _su = g.get("stakeUnits") or stake_units_for(g.get("pCover"))
             _su_bg = "#f59e0b" if _su >= 2 else "#475569"
             s_conf_badge += f' <span style="background:{_su_bg};color:#0b1220;border-radius:4px;padding:1px 5px;font-size:11px;font-weight:700">{_su}U</span>'
 
@@ -904,7 +904,7 @@ def main(subject_label="[PY]"):
         if g.get("status") in ("MISSING_ODDS","SKIPPED"): continue
         # Stake tier: elite (pCover >= ELITE_STAKE_CUT) fired picks are 2u plays.
         if g.get("sPick") and g["sPick"] != "PASS":
-            g["stakeUnits"] = defaults.stake_units_for(g.get("pCover"))
+            g["stakeUnits"] = stake_units_for(g.get("pCover"))
         ats_ka, ats_kh = resolve_key(ats, g.get("away")), resolve_key(ats, g.get("home"))
         ou_ka, ou_kh = resolve_key(ou, g.get("away")), resolve_key(ou, g.get("home"))
         g["trends"] = {"away": join_trends(g.get("away"), ats.get(ats_ka), ou.get(ou_ka)),
