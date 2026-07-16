@@ -578,6 +578,13 @@ def main(subject_label="[PY]"):
                     return True
         return False
 
+    def _game_postponed(away, home):
+        # ESPN reports the game postponed/canceled -> not a live pick, never grades.
+        for (ea, eh), st in _espn_statuses.items():
+            if match_team(away, ea) and match_team(home, eh):
+                return st in ("STATUS_POSTPONED", "STATUS_CANCELED")
+        return False
+
     # Merge + write injury cache: preserve report entries for started/finished teams
     try:
         _locked_teams = set()
@@ -820,6 +827,9 @@ def main(subject_label="[PY]"):
     print(f"[3/7] Analyzing {len(odds)} games...")
     games = []
     for g in odds:
+        # Postponed/canceled -> mark it; never pick, preserve, or grade it.
+        if _game_postponed(g.get("away", ""), g.get("home", "")):
+            games.append({**g, "status": "POSTPONED", "sPick": "PASS", "oPick": "PASS"}); continue
         # Preserve previous picks for games already started or finished
         if _game_started_or_finished(g.get("away", ""), g.get("home", "")):
             prev = _find_prev_game(g.get("away", ""), g.get("home", ""))
@@ -854,7 +864,10 @@ def main(subject_label="[PY]"):
         for (pa, ph), pg in _prev_games.items():
             already = any(match_team(pa, sa) and match_team(ph, sh) for sa, sh in _seen)
             if not already:
-                games.append(pg)
+                if _game_postponed(pa, ph):
+                    games.append({**pg, "status": "POSTPONED", "sPick": "PASS", "oPick": "PASS"})
+                else:
+                    games.append(pg)
                 _skipped_live += 1
 
     if _skipped_live:
