@@ -797,53 +797,50 @@ function computeTeamPicks(runs) {
       const isPick = g.sPick && g.sPick !== 'PASS' && isActionable(g.sConf);
       const parsed = isPick ? parseSpreadPick(g.sPick) : null;
 
-      if (isPick && parsed) {
-        // Fired pick — belongs to the picked team only.
-        const team = parsed.team;
-        if (!teams[team]) teams[team] = [];
-        teams[team].push({
-          ...base,
-          bucket: 'pick',
-          side: parsed.sign === '-' ? 'fav' : 'dog',
-          location: parsed.team === g.home ? 'home' : 'away',
-          pick: g.sPick,
-          conf: g.sConf,
-          pCover: g.pCover != null ? g.pCover : null,
-          stakeUnits: pickStake(g, g.pCover),
-          result: hasScore ? (g.sResult || gradeSpread(g)) : null,
-          pending: !hasScore,
-        });
-      } else {
-        // No fired pick — a PASS (the model is pick-or-pass; there is no lean
-        // tier). We still surface the model's leaned side (pHomeCover vs
-        // pAwayCover) and grade it hypothetically for context. Recorded for
-        // BOTH teams so a team's browser is its full game log.
-        const ph = g.pHomeCover, pa = g.pAwayCover;
-        const haveLean = Number.isFinite(ph) && Number.isFinite(pa);
-        const leanHome = haveLean ? ph >= pa : null;
-        const leanP = haveLean ? Math.max(ph, pa) : null;
-        const bucket = 'pass';
-        const leanResult = haveLean && hasScore ? gradeLeanSide(g, leanHome) : null;
-        for (const t of [g.away, g.home]) {
-          if (!t) continue;
-          if (!teams[t]) teams[t] = [];
-          const isHome = t === g.home;
-          const teamLine = Number.isFinite(g.line) ? (isHome ? g.line : -g.line) : null;
-          // Leaned team + its line, for a would-be-pick display.
-          const leanTeam = haveLean ? (leanHome ? g.home : g.away) : null;
-          const leanTeamLine = haveLean ? (leanHome ? g.line : -g.line) : null;
-          const leanPick = (leanTeam && Number.isFinite(leanTeamLine))
-            ? `${leanTeam} ${leanTeamLine >= 0 ? '+' : ''}${fmtNum(leanTeamLine, 1)}` : null;
+      // The model's leaned side (for PASS rows and for the opponent's view of a
+      // fired pick) — hypothetical, graded vs the line, never counted.
+      const ph = g.pHomeCover, pa = g.pAwayCover;
+      const haveLean = Number.isFinite(ph) && Number.isFinite(pa);
+      const leanHome = haveLean ? ph >= pa : null;
+      const leanP = haveLean ? Math.max(ph, pa) : null;
+      const leanResult = haveLean && hasScore ? gradeLeanSide(g, leanHome) : null;
+      const leanTeam = haveLean ? (leanHome ? g.home : g.away) : null;
+      const leanTeamLine = haveLean ? (leanHome ? g.line : -g.line) : null;
+      const leanPick = (leanTeam && Number.isFinite(leanTeamLine))
+        ? `${leanTeam} ${leanTeamLine >= 0 ? '+' : ''}${fmtNum(leanTeamLine, 1)}` : null;
+
+      // Record the game for BOTH teams so a team's browser is its FULL game log.
+      // It's a 'pick' for the team the pick was fired on; from the other team's
+      // side (and on a true PASS) it's a 'pass' showing the model's leaned side.
+      for (const t of [g.away, g.home]) {
+        if (!t) continue;
+        if (!teams[t]) teams[t] = [];
+        const isHome = t === g.home;
+        if (isPick && parsed && parsed.team === t) {
           teams[t].push({
             ...base,
-            bucket,
+            bucket: 'pick',
+            side: parsed.sign === '-' ? 'fav' : 'dog',
+            location: isHome ? 'home' : 'away',
+            pick: g.sPick,
+            conf: g.sConf,
+            pCover: g.pCover != null ? g.pCover : null,
+            stakeUnits: pickStake(g, g.pCover),
+            result: hasScore ? (g.sResult || gradeSpread(g)) : null,
+            pending: !hasScore,
+          });
+        } else {
+          const teamLine = Number.isFinite(g.line) ? (isHome ? g.line : -g.line) : null;
+          teams[t].push({
+            ...base,
+            bucket: 'pass',
             side: teamLine == null ? null : (teamLine < 0 ? 'fav' : 'dog'),
             location: isHome ? 'home' : 'away',
-            pick: leanPick,           // model's lean (grey), not a fired pick
+            pick: leanPick,           // model's leaned side (grey), not a bet
             conf: null,
-            pCover: leanP,            // leaned-side probability
-            stakeUnits: 0,            // no bet -> no units
-            result: leanResult,      // hypothetical (leaned side vs line)
+            pCover: leanP,
+            stakeUnits: 0,
+            result: leanResult,       // hypothetical (leaned side vs line)
             pending: !hasScore,
           });
         }
