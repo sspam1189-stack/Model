@@ -781,6 +781,7 @@ function computeTeamPicks(runs) {
         date: g.startTimeUTC || r.date || '',
         dateDisplay,
         monthKey,
+        playoffs: (r.date || '') >= playoffCutoff(),
         matchup: `${g.away} @ ${g.home}`,
         line: g.line,
         projMargin: g.margin,
@@ -1333,7 +1334,7 @@ function renderTeamPicksSection(teamPicksMap, selectedTeam, runs) {
   ).join('');
   const teamSelect = `<select onchange="setTeamPicksFilter(this.value)" style="${selectStyle}">${teamOpts}</select>`;
   const monthOpts = `<option value="all" ${activeMonth === 'all' ? 'selected' : ''}>All Months</option>` +
-    months.map(k => `<option value="${k}" ${k === activeMonth ? 'selected' : ''}>${monthLabel(k)}</option>`).join('');
+    [...months].reverse().map(k => `<option value="${k}" ${k === activeMonth ? 'selected' : ''}>${monthLabel(k)}</option>`).join('');
   const monthSelect = `<select onchange="setTeamPicksMonthFilter(this.value)" style="${selectStyle}">${monthOpts}</select>`;
   const sideSelect = `<select onchange="setTeamPicksSideFilter(this.value)" style="${selectStyle}">
     <option value="all" ${activeSide === 'all' ? 'selected' : ''}>All (Fav/Dog)</option>
@@ -1391,6 +1392,14 @@ function renderTeamPicksSection(teamPicksMap, selectedTeam, runs) {
     return `<span class="badge" style="background:${bg};color:${fg}">${label}</span>`;
   };
 
+  // Playoffs vs regular-season flag — only meaningful when this team actually has
+  // playoff games (WNBA / regular-only teams stay unlabeled).
+  const teamHasPlayoffs = (teamPicksMap[activeTeam] || []).some(p => p.playoffs);
+  const seasonBadge = p => {
+    if (p.playoffs) return ` <span class="badge" style="background:#7c3aed;color:#fff" title="Playoffs">PO</span>`;
+    return teamHasPlayoffs ? ` <span class="badge" style="background:#334155;color:#94a3b8" title="Regular season">RS</span>` : '';
+  };
+
   const rows = picks.length ? picks.map(p => {
     const hypothetical = p.bucket !== 'pick';
     const resultCell = p.pending
@@ -1403,7 +1412,7 @@ function renderTeamPicksSection(teamPicksMap, selectedTeam, runs) {
       : (p.pick ? `<span style="color:var(--muted)">${esc(aliasInText(p.pick))}</span>` : '<span style="color:var(--muted)">—</span>');
     const [awayName, homeName] = p.matchup.split(' @ ');
     return `<tr${hypothetical ? ' style="background:rgba(255,255,255,0.015)"' : ''}>
-      <td>${esc(p.dateDisplay)}</td>
+      <td style="white-space:nowrap">${esc(p.dateDisplay)}${seasonBadge(p)}</td>
       <td class="center">${bktBadge(p.bucket)}</td>
       <td>${esc(teamAlias(awayName))} @ ${esc(teamAlias(homeName))}</td>
       <td>${pickCell}</td>
