@@ -9,14 +9,18 @@
 # day's self-tuned weights), the sweep is a genuine out-of-sample-at-pick-time
 # read of where the P(cover) cutoff belongs — swept DOWN as well as up.
 #
-# The engine only fires a spread pick when |line| < 13 (abs_line_cap), so the
-# candidate universe applies the same cap. Usage: python scripts/sweep_probhigh.py
+# The candidate universe is every graded game the model produced probabilities
+# for (NBA fires across all line sizes — no abs-line cap applied).
+# Usage: python scripts/sweep_probhigh.py
 
 import os, json, statistics
 
-JUICE = 1.10                       # -110; win pays 1/JUICE, loss -1
-BREAK_EVEN = 100 * JUICE / (1 + JUICE)
-ABS_LINE_CAP = 13                  # engine spread filter (exclusive)
+# Units convention MATCHES the dashboard/store (core: calc_units = w + l*UNIT_LOSS):
+# a win is +1.0u and a loss is -1.1u (risk 1.1 to win 1 at -110). Break-even WR is
+# 1.1/2.1 = 52.4%. Keep this in sync with UNIT_LOSS so sweep units reconcile with
+# the history record shown in the dashboard.
+UNIT_LOSS = -1.1
+BREAK_EVEN = 100 * 1.1 / (1 + 1.1)
 HERE = os.path.dirname(os.path.abspath(__file__))
 STORE = os.path.join(HERE, "..", "data", "history.json")
 
@@ -43,8 +47,6 @@ def main():
             hs, as_ = g.get("homeScore"), g.get("awayScore")
             if None in (ph, pa, line, hs, as_):
                 continue
-            if abs(line) >= ABS_LINE_CAP:
-                continue
             lean_home = ph >= pa
             leanP = max(ph, pa)
             res = grade_lean(hs, as_, line, lean_home)
@@ -55,12 +57,12 @@ def main():
     def tally(rows):
         w = sum(1 for _, r in rows if r == "WIN")
         l = sum(1 for _, r in rows if r == "LOSS")
-        return w, l, w * (1 / JUICE) - l
+        return w, l, w + l * UNIT_LOSS
 
     fw, fl, fu = tally(fired)
     print(f"Store fired picks (@ shipped probHigh): {fw}-{fl} "
-          f"({100*fw/(fw+fl):.1f}%)  {fu:+.1f}u  n={len(fired)}")
-    print(f"Uncensored candidates (|line|<13, all graded): {len(cands)}")
+          f"({100*fw/(fw+fl):.1f}%)  {fu:+.1f}u  n={len(fired)}  [matches dashboard history]")
+    print(f"Uncensored candidates (all graded): {len(cands)}")
     print(f"Break-even WR at -110: {BREAK_EVEN:.1f}%\n")
 
     print(f"{'thresh':>7} {'N':>5} {'W':>4} {'L':>4} {'WR%':>6} {'units':>8} {'u/pick':>7} {'+EV?':>5}")
