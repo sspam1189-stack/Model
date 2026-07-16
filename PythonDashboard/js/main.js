@@ -620,7 +620,7 @@ function getGradedPicks(runs) {
   for (const r of runs) {
     if (r.burnIn) continue;
     for (const g of r.games || []) {
-      if (g.status === 'MISSING_ODDS' || g.status === 'SKIPPED') continue;
+      if (g.status === 'MISSING_ODDS' || g.status === 'SKIPPED' || g.status === 'POSTPONED') continue;
       if (!Number.isFinite(g.homeScore) || !Number.isFinite(g.awayScore)) continue;
       picks.push({ date: r.date, dateDisplay: r.dateDisplay, ...g });
     }
@@ -667,7 +667,7 @@ function getActionablePicks(runs) {
   for (const r of runs) {
     if (r.burnIn) continue;
     for (const g of r.games || []) {
-      if (g.status === 'MISSING_ODDS' || g.status === 'SKIPPED') continue;
+      if (g.status === 'MISSING_ODDS' || g.status === 'SKIPPED' || g.status === 'POSTPONED') continue;
       if (!g.sPick || g.sPick === 'PASS' || !isActionable(g.sConf)) continue;
       if (!Number.isFinite(g.homeScore) || !Number.isFinite(g.awayScore)) continue;
       const result = g.sResult || gradeSpread(g);
@@ -752,7 +752,7 @@ function computeTeamRecords(runs) {
   for (const r of runs) {
     if (r.burnIn) continue;
     for (const g of r.games || []) {
-      if (g.status === 'MISSING_ODDS' || g.status === 'SKIPPED') continue;
+      if (g.status === 'MISSING_ODDS' || g.status === 'SKIPPED' || g.status === 'POSTPONED') continue;
       if (!g.sPick || g.sPick === 'PASS' || !isActionable(g.sConf)) continue;
       if (!Number.isFinite(g.homeScore) || !Number.isFinite(g.awayScore)) continue;
       const result = g.sResult || gradeSpread(g);
@@ -779,7 +779,7 @@ function computeTeamPicks(runs) {
   for (const r of runs) {
     if (r.burnIn) continue;
     for (const g of r.games || []) {
-      if (g.status === 'MISSING_ODDS' || g.status === 'SKIPPED') continue;
+      if (g.status === 'MISSING_ODDS' || g.status === 'SKIPPED' || g.status === 'POSTPONED') continue;
       const hasScore = Number.isFinite(g.homeScore) && Number.isFinite(g.awayScore);
       const dateDisplay = r.dateDisplay || (r.date ? r.date.replace(/(\d{4})(\d{2})(\d{2})/, '$1-$2-$3') : '');
       const monthKey = r.date ? r.date.slice(0, 6) : null;
@@ -859,7 +859,7 @@ function getYesterdayRecap(runs) {
     const day = nonBurnIn[i];
     const picks = [];
     for (const g of day.games || []) {
-      if (g.status === 'MISSING_ODDS' || g.status === 'SKIPPED') continue;
+      if (g.status === 'MISSING_ODDS' || g.status === 'SKIPPED' || g.status === 'POSTPONED') continue;
       if (!g.sPick || g.sPick === 'PASS' || !isActionable(g.sConf)) continue;
       if (!Number.isFinite(g.homeScore) || !Number.isFinite(g.awayScore)) continue;
       const result = g.sResult || gradeSpread(g);
@@ -1008,7 +1008,7 @@ function renderRecap(runs) {
 
 function renderTodayPicks(run, runs) {
   const games = (run.games || [])
-    .filter(g => g.status !== 'MISSING_ODDS' && g.status !== 'SKIPPED')
+    .filter(g => g.status !== 'MISSING_ODDS' && g.status !== 'SKIPPED' && g.status !== 'POSTPONED')
     .filter(g => g.sPick && g.sPick !== 'PASS' && isActionable(g.sConf))
     .sort((a, b) => (b.pCover || 0) - (a.pCover || 0));
 
@@ -1027,7 +1027,7 @@ function renderTodayPicks(run, runs) {
   let underItems = '';
   if (activeTab === 'fullseason') {
     const todayUnders = (run.games || []).filter(g => {
-      if (g.status === 'MISSING_ODDS' || g.status === 'SKIPPED') return false;
+      if (g.status === 'MISSING_ODDS' || g.status === 'SKIPPED' || g.status === 'POSTPONED') return false;
       if (!g.oPick || g.oPick !== 'UNDER') return false;
       if (!Number.isFinite(g.tDiff)) return false;
       return isQualifiedUnder(g);
@@ -1083,7 +1083,7 @@ function renderSpreadRecord(runs, modelSummary = null) {
 }
 
 function renderProbTable(run) {
-  const games = (run.games || []).filter(g => g.status !== 'MISSING_ODDS' && g.status !== 'SKIPPED')
+  const games = (run.games || []).filter(g => g.status !== 'MISSING_ODDS' && g.status !== 'SKIPPED' && g.status !== 'POSTPONED')
     .sort((a, b) => (a.startTimeUTC || '').localeCompare(b.startTimeUTC || '') || (a.home || '').localeCompare(b.home || ''));
   if (!games.length) return '';
   const rows = games.map(g => {
@@ -1122,7 +1122,7 @@ function renderGameCards(run) {
     (a.startTimeUTC || '').localeCompare(b.startTimeUTC || '') || (a.home || '').localeCompare(b.home || ''));
   if (!games.length) return '';
   const cards = games.map(g => {
-    const isSkipped = g.status === 'MISSING_ODDS' || g.status === 'SKIPPED';
+    const isSkipped = g.status === 'MISSING_ODDS' || g.status === 'SKIPPED' || g.status === 'POSTPONED';
 
     let spreadHtml;
     if (!isSkipped && g.sPick && g.sPick !== 'PASS') {
@@ -1460,7 +1460,7 @@ function renderHistoryDay(run) {
   });
 
   const cards = sorted.map(g => {
-    const isSkipped = g.status === 'MISSING_ODDS' || g.status === 'SKIPPED';
+    const isSkipped = g.status === 'MISSING_ODDS' || g.status === 'SKIPPED' || g.status === 'POSTPONED';
     const isPick = g.sPick && g.sPick !== 'PASS';
     const result = isPick ? (g.sResult || gradeSpread(g)) : null;
     const hasScore = Number.isFinite(g.homeScore) && Number.isFinite(g.awayScore);
@@ -1552,7 +1552,7 @@ function nflGetActionablePicks(runs) {
   for (const r of runs) {
     if (r.burnIn) continue;
     for (const g of r.games || []) {
-      if (g.status === 'MISSING_ODDS' || g.status === 'SKIPPED') continue;
+      if (g.status === 'MISSING_ODDS' || g.status === 'SKIPPED' || g.status === 'POSTPONED') continue;
       if (!g.sPick || g.sPick === 'PASS' || !isActionable(g.sConf)) continue;
       if (!Number.isFinite(g.homeScore) || !Number.isFinite(g.awayScore)) continue;
       const result = g.sResult || gradeSpread(g);
@@ -1610,7 +1610,7 @@ function nflRenderRecordBanner(runs) {
 
 // ─── NFL Weekly Picks Table ───
 function nflRenderWeeklyPicks(run) {
-  const games = (run.games || []).filter(g => g.status !== 'MISSING_ODDS' && g.status !== 'SKIPPED');
+  const games = (run.games || []).filter(g => g.status !== 'MISSING_ODDS' && g.status !== 'SKIPPED' && g.status !== 'POSTPONED');
   if (!games.length) return '<div class="no-picks">No games this week.</div>';
   const rows = games.map(g => {
     const projSpr = g.projSpread ?? (Number.isFinite(g.hS) && Number.isFinite(g.aS) ? Math.round((g.aS - g.hS) * 10) / 10 : null);
@@ -1718,7 +1718,7 @@ function nflRenderPnL(runs) {
 // ─── NFL Injury Adjustments ───
 function nflRenderInjuries(run) {
   const games = (run.games || []).filter(g => {
-    if (g.status === 'MISSING_ODDS' || g.status === 'SKIPPED') return false;
+    if (g.status === 'MISSING_ODDS' || g.status === 'SKIPPED' || g.status === 'POSTPONED') return false;
     // Check multiple possible injury field names
     return (g.injuries && g.injuries.length) || g.injuryNote || Number.isFinite(g.injuryDelta);
   });
@@ -1940,7 +1940,7 @@ function nflRenderCalibration(runs) {
 // ─── NFL: Today's Actionable Picks ───
 function nflRenderTodayPicks(run) {
   const games = (run.games || [])
-    .filter(g => g.status !== 'MISSING_ODDS' && g.status !== 'SKIPPED')
+    .filter(g => g.status !== 'MISSING_ODDS' && g.status !== 'SKIPPED' && g.status !== 'POSTPONED')
     .filter(g => g.sPick && g.sPick !== 'PASS' && isActionable(g.sConf))
     .sort((a, b) => (b.pCover || 0) - (a.pCover || 0));
   if (!games.length) return `<div class="card card-picks"><div class="card-title">Picks — ${nflGetWeekLabel(run)}</div><div class="no-picks">No actionable picks this week.</div></div>`;
@@ -1966,7 +1966,7 @@ function nflRenderHistoryWeek(run) {
   const hasResults = dayW + dayL + dayP > 0;
   const recordStr = hasResults ? `${dayW}-${dayL}${dayP ? `-${dayP}` : ''}` : `${picks.length} pick${picks.length !== 1 ? 's' : ''}`;
   const cards = games.map(g => {
-    const isSkipped = g.status === 'MISSING_ODDS' || g.status === 'SKIPPED';
+    const isSkipped = g.status === 'MISSING_ODDS' || g.status === 'SKIPPED' || g.status === 'POSTPONED';
     const isPick = g.sPick && g.sPick !== 'PASS';
     const result = isPick ? (g.sResult || gradeSpread(g)) : null;
     const hasScore = Number.isFinite(g.homeScore) && Number.isFinite(g.awayScore);
