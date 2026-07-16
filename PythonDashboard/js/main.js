@@ -210,7 +210,7 @@ let expandedTrendKey = null; // week/window row expanded to reveal its picks
 let teamPicksMonthFilter = 'all'; // month key (YYYYMM) filtering the Team Picks browser
 let teamPicksSideFilter = 'all'; // 'all' | 'fav' | 'dog' filtering the Team Picks browser
 let teamPicksLocationFilter = 'all'; // 'all' | 'home' | 'away' filtering the Team Picks browser
-let teamPicksBucketFilter = 'all'; // 'all' | 'pick' | 'lean' | 'pass' — MLB-style bucket tabs
+let teamPicksBucketFilter = 'all'; // 'all' | 'pick' | 'pass' — bucket tabs
 
 // NBA playoff cutoff (includes play-in 4/14-4/17 + playoffs proper 4/18+).
 // Shared between the record banner segment buttons and downstream widgets.
@@ -545,9 +545,6 @@ function confBadge(conf) {
 // WNBA full-season only — derived from pCover so historical picks mark correctly.
 const ELITE_STAKE_CUT = 0.72;
 function stakeUnits(pCover) { return (pCover != null && pCover >= ELITE_STAKE_CUT) ? 2 : 1; }
-// Team Picks bucketing (MLB-style): a game the model did not fire a pick on is a
-// LEAN if the model's leaned-side cover prob clears this floor, else a PASS.
-const LEAN_FLOOR = 0.55;
 // Recommended stake for a fired pick's units column — 1u/2u tier is WNBA-only;
 // NBA full-season is flat 1u.
 function pickStake(g, pCover) {
@@ -808,14 +805,15 @@ function computeTeamPicks(runs) {
           pending: !hasScore,
         });
       } else {
-        // No fired pick. The model still leaned a side (pHomeCover vs pAwayCover);
-        // classify LEAN vs PASS by that lean's strength and grade it hypothetically.
-        // Recorded for BOTH teams so a team's browser is its full game log.
+        // No fired pick — a PASS (the model is pick-or-pass; there is no lean
+        // tier). We still surface the model's leaned side (pHomeCover vs
+        // pAwayCover) and grade it hypothetically for context. Recorded for
+        // BOTH teams so a team's browser is its full game log.
         const ph = g.pHomeCover, pa = g.pAwayCover;
         const haveLean = Number.isFinite(ph) && Number.isFinite(pa);
         const leanHome = haveLean ? ph >= pa : null;
         const leanP = haveLean ? Math.max(ph, pa) : null;
-        const bucket = (leanP != null && leanP >= LEAN_FLOOR) ? 'lean' : 'pass';
+        const bucket = 'pass';
         const leanResult = haveLean && hasScore ? gradeLeanSide(g, leanHome) : null;
         for (const t of [g.away, g.home]) {
           if (!t) continue;
@@ -1317,7 +1315,7 @@ function renderTeamPicksSection(teamPicksMap, selectedTeam, runs) {
   const activeSide = teamPicksSideFilter;
   const activeLocation = teamPicksLocationFilter;
 
-  const activeBucket = ['all', 'pick', 'lean', 'pass'].includes(teamPicksBucketFilter) ? teamPicksBucketFilter : 'all';
+  const activeBucket = ['all', 'pick', 'pass'].includes(teamPicksBucketFilter) ? teamPicksBucketFilter : 'all';
 
   const allPicks = [...teamPicksMap[activeTeam]].sort((a, b) => String(b.dateDisplay).localeCompare(String(a.dateDisplay)));
   // Filtered by month/side/location — the pool the bucket tabs count against.
@@ -1346,7 +1344,7 @@ function renderTeamPicksSection(teamPicksMap, selectedTeam, runs) {
     <option value="home" ${activeLocation === 'home' ? 'selected' : ''}>Home Only</option>
     <option value="away" ${activeLocation === 'away' ? 'selected' : ''}>Away Only</option>
   </select>`;
-  // MLB-style bucket tabs (All / Picks / Leans / Passes) with live counts.
+  // Bucket tabs (All / Picks / Passes) with live counts.
   const bucketCount = b => b === 'all' ? pool.length : pool.filter(p => p.bucket === b).length;
   const tabBtn = (key, label) => {
     const on = activeBucket === key;
@@ -1354,12 +1352,12 @@ function renderTeamPicksSection(teamPicksMap, selectedTeam, runs) {
     return `<button onclick="setTeamPicksBucketFilter('${key}')" style="${style}">${label} ${bucketCount(key)}</button>`;
   };
   const bucketTabs = `<div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px">
-    ${tabBtn('all', 'All')}${tabBtn('pick', 'Picks')}${tabBtn('lean', 'Leans')}${tabBtn('pass', 'Passes')}
+    ${tabBtn('all', 'All')}${tabBtn('pick', 'Picks')}${tabBtn('pass', 'Passes')}
   </div>`;
   const filterRow = `<div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px">${teamSelect}${monthSelect}${sideSelect}${locationSelect}</div>`;
 
-  // Realized units for a fired pick (WNBA staked 1u/2u, NBA flat 1u). Leans and
-  // passes are hypothetical — no stake, no units, excluded from the record.
+  // Realized units for a fired pick (WNBA staked 1u/2u, NBA flat 1u). Passes are
+  // hypothetical — no stake, no units, excluded from the record.
   const pickUnits = p => {
     if (p.bucket !== 'pick' || p.pending || !p.result) return null;
     const s = p.stakeUnits || 1;
@@ -1373,21 +1371,16 @@ function renderTeamPicksSection(teamPicksMap, selectedTeam, runs) {
   const gp = gradedPicks.filter(p => p.result === 'PUSH').length;
   const gpct = winPct(gw, gl);
   const gunits = gradedPicks.reduce((s, p) => s + (pickUnits(p) || 0), 0);
-  // Leans, graded hypothetically, shown as a secondary muted tally.
-  const gradedLeans = pool.filter(p => p.bucket === 'lean' && !p.pending && p.result);
-  const lw = gradedLeans.filter(p => p.result === 'WIN').length;
-  const ll = gradedLeans.filter(p => p.result === 'LOSS').length;
   const recordHtml = (gw + gl + gp > 0)
     ? `<span class="win-text">${gw}W</span>–<span class="loss-text">${gl}L</span>–${gp}P · <span class="${pctClass(gpct)}">${fmtPct(gpct)}</span> · <span class="${unitClass(gunits)}">${fmtUnits(gunits)}</span>`
     : 'No graded picks';
-  const leanHtml = (lw + ll > 0) ? ` <span style="font-size:0.72rem;color:var(--muted);font-weight:600">· leans ${lw}-${ll} (hypothetical)</span>` : '';
   const titleHtml = `<div class="card-title" style="display:flex;align-items:center;flex-wrap:wrap;gap:8px">
     <span>Team Picks</span>
-    <span style="font-size:0.85rem;font-weight:700">${esc(teamAlias(activeTeam))}: ${recordHtml}</span>${leanHtml}
+    <span style="font-size:0.85rem;font-weight:700">${esc(teamAlias(activeTeam))}: ${recordHtml}</span>
   </div>`;
 
   const bktBadge = b => {
-    const map = { pick: ['#16a34a', '#fff', 'PICK'], lean: ['#eab308', '#0b1220', 'LEAN'], pass: ['#475569', '#cbd5e1', 'PASS'] };
+    const map = { pick: ['#16a34a', '#fff', 'PICK'], pass: ['#475569', '#cbd5e1', 'PASS'] };
     const [bg, fg, label] = map[b] || map.pass;
     return `<span class="badge" style="background:${bg};color:${fg}">${label}</span>`;
   };
@@ -1431,10 +1424,10 @@ function renderTeamPicksSection(teamPicksMap, selectedTeam, runs) {
       ${bucketTabs}
       ${filterRow}
       <table class="data">
-        <thead><tr><th>Date</th><th class="center">Bkt</th><th>Matchup</th><th>Pick / Lean</th><th class="center">Line</th><th class="center">Proj Margin</th><th class="center">P(Cover)</th><th class="center">Result</th><th class="center">Units</th><th class="center">Final</th></tr></thead>
+        <thead><tr><th>Date</th><th class="center">Bkt</th><th>Matchup</th><th>Pick</th><th class="center">Line</th><th class="center">Proj Margin</th><th class="center">P(Cover)</th><th class="center">Result</th><th class="center">Units</th><th class="center">Final</th></tr></thead>
         <tbody>${rows}</tbody>
       </table>
-      <div class="card-subtitle">Record is fired picks only. Leans/passes show the model's leaned side graded vs the closing line — hypothetical, not bet.</div>
+      <div class="card-subtitle">Record is fired picks only. Passes show the model's projected side graded vs the closing line — hypothetical, not bet.</div>
     </div>`;
 }
 
