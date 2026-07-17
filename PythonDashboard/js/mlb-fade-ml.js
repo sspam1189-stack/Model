@@ -114,13 +114,8 @@ async function renderMLBFadeML() {
   };
   const pitchers = [...new Set(bets.flatMap(b => b.pitchers || []))].sort();
 
-  // Bet-type filter groups.
-  const typeGroups = {
-    real: ['ml', 'ml_dog'], ml: ['ml'], ml_dog: ['ml_dog'],
-  };
-  const typeOpts = [
-    ['real', 'All bets'], ['ml', 'Fade ML'], ['ml_dog', 'Mutual → dog'],
-  ];
+  // Distinct pick teams (the team you bet on), alphabetical.
+  const pickTeams = [...new Set(bets.map(b => b.selection).filter(Boolean))].sort();
 
   const log = document.createElement('div');
   log.className = 'card card-games';
@@ -131,9 +126,9 @@ async function renderMLBFadeML() {
     + '<div class="card-title" style="padding:0">Season bet log</div>'
     + '<span id="fadeLogRec" style="font-size:13px;font-weight:700"></span>'
     + '<span style="flex:1"></span>'
-    + '<label style="font-size:11px;color:#888">Bet '
-    + '<select id="fadeTypeSel" style="' + selCss + '">'
-    + typeOpts.map(([v, t]) => '<option value="' + v + '">' + t + '</option>').join('')
+    + '<label style="font-size:11px;color:#888">Pick '
+    + '<select id="fadePickSel" style="' + selCss + '"><option value="">All</option>'
+    + pickTeams.map(t => '<option value="' + esc(t) + '">' + esc(t) + '</option>').join('')
     + '</select></label>'
     + '<label style="font-size:11px;color:#888">Month '
     + '<select id="fadeMonthSel" style="' + selCss + '"><option value="">All</option>'
@@ -148,16 +143,15 @@ async function renderMLBFadeML() {
   el.appendChild(log);
 
   const wrap = log.querySelector('#fadeLogWrap');
-  const typeSel = log.querySelector('#fadeTypeSel');
+  const pickSel = log.querySelector('#fadePickSel');
   const monthSel = log.querySelector('#fadeMonthSel');
   const pitcherSel = log.querySelector('#fadePitcherSel');
   const recEl = log.querySelector('#fadeLogRec');
 
   function drawRows() {
-    const tv = typeSel.value, mv = monthSel.value, pv = pitcherSel.value;
-    const allow = typeGroups[tv] || typeGroups.real;
+    const kv = pickSel.value, mv = monthSel.value, pv = pitcherSel.value;
     const view = bets.filter(b =>
-      allow.includes(b.betType) &&
+      (!kv || b.selection === kv) &&
       (!mv || (b.date || '').slice(0, 7) === mv) &&
       (!pv || (b.pitchers || []).includes(pv)));
     // W-L / units for the current filter (settled only).
@@ -199,7 +193,7 @@ async function renderMLBFadeML() {
       + '<th style="padding:4px 8px;text-align:center">Result</th><th style="padding:4px 8px;text-align:right">P/L</th>'
       + '</tr></thead><tbody>' + rows + '</tbody></table>';
   }
-  typeSel.addEventListener('change', drawRows);
+  pickSel.addEventListener('change', drawRows);
   monthSel.addEventListener('change', drawRows);
   pitcherSel.addEventListener('change', drawRows);
   drawRows();
