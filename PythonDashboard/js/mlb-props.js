@@ -32,33 +32,11 @@
     // 6/15) stay flat 1u over all >=0.64 bets; 6/16+ bets >=0.68 only, rest watch.
     const MLB_STAKING_START = '2026-06-16';
 
-    // --- Fade-list gate (shadow / highlight-only) -------------------------
-    // Manually-maintained watchlist of pitchers to FADE. When one starts, the
-    // play is to take the OPPONENT team's moneyline (bet against the fade
-    // pitcher's team). FLAG-ONLY w.r.t. the K model: this gate never changes a
-    // strikeout pick, conf, lock, or the record — it only renders a "starting
-    // today" callout at the top of the page telling you which opp ML to take.
-    // Names are matched case/accent-insensitively; add to MLB_FADE_LIST below;
-    // leave it empty to disable the gate entirely.
-    // Entries may be a surname ('Littell') or a full name ('Jared Jones').
-    // A pitcher matches when ALL tokens of an entry are present in their name,
-    // so 'Littell' -> "Zack Littell" matches, and 'Jared Jones' stays specific
-    // (won't catch other Joneses).
-    const MLB_FADE_LIST = [
-      'Littell', 'Mikolas', 'Painter', 'Rocker', 'Sheehan', 'Jared Jones', 'Merrill Kelly', 'Aldegheri', 'Gallen', 'Civale', 'David Peterson',
-      'Bibee', 'Springs', 'Burrows', 'Roupp', 'Keller', 'Peralta', 'Canning', 'Jacob Lopez',
-      'Ryan Johnson', 'Poulin',
-    ];
+    // The fade-list callout was moved to the dedicated "MLB Fade ML" tab.
+    // _mlbFadeNorm is kept only as a name-normalize helper for the Rest-gate
+    // callout below.
     const _mlbFadeNorm = (s) => (s || '').toLowerCase().normalize('NFD')
       .replace(/[̀-ͯ]/g, '').replace(/[^a-z ]/g, ' ').replace(/\s+/g, ' ').trim();
-    const _mlbFadeTokens = MLB_FADE_LIST
-      .map((e) => _mlbFadeNorm(e).split(' ').filter(Boolean))
-      .filter((t) => t.length);
-    const isMLBFade = (p) => {
-      if (!p || p.market !== 'strikeouts') return false;
-      const nt = new Set(_mlbFadeNorm(p.player).split(' ').filter(Boolean));
-      return _mlbFadeTokens.some((toks) => toks.every((t) => nt.has(t)));
-    };
 
     // Tables on this tab have many columns (pitcher workload + projections +
     // results). Rather than hide columns or scroll horizontally, shrink the
@@ -241,79 +219,8 @@
 
       el.textContent = '';
 
-      // --- Fade-list gate: notify when a fade-list pitcher is on today's slate.
-      // Shadow/highlight-only — renders a callout at the top, changes nothing else.
-      (function renderFadeListCallout() {
-        if (!_mlbFadeTokens.length) return;
-        const today = data.date || '';
-        const slate = (Array.isArray(data.todayProjections) && data.todayProjections.length)
-          ? data.todayProjections
-          : (data.props || []).filter((p) => p.date === today);
-        // Also scan announced probables: a fade-list arm making a spot start
-        // (no qualifying starter history → no projection row) is invisible to
-        // the projection slate, but he's exactly who the fade list is for.
-        const probableRows = (data.todayProbables || []).map((g) => ({
-          player: g.player, team: g.team, opp: g.opp, market: 'strikeouts',
-        }));
-        const hits = [];
-        const seen = new Set();
-        slate.concat(probableRows).forEach((p) => {
-          if (!isMLBFade(p)) return;
-          const k = _mlbFadeNorm(p.player);
-          if (seen.has(k)) return;
-          seen.add(k);
-          hits.push(p);
-        });
-        // Order the slate notification by game start time (earliest first).
-        const _fadeGameTimes = data.gameTimes || {};
-        hits.sort((a, b) => {
-          const ta = _fadeGameTimes[a.team] || _fadeGameTimes[a.opp] || '9999';
-          const tb = _fadeGameTimes[b.team] || _fadeGameTimes[b.opp] || '9999';
-          return String(ta).localeCompare(String(tb));
-        });
-        const card = document.createElement('div');
-        card.className = 'card';
-        card.style.cssText = 'margin-bottom:16px;border:1px solid var(--orange,#e8a33d);background:rgba(232,163,61,0.08);padding:12px 16px';
-        const title = document.createElement('div');
-        title.style.cssText = 'font-weight:600;color:var(--orange,#e8a33d);margin-bottom:6px';
-        title.textContent = `⚠ Fade list (${MLB_FADE_LIST.length}) — fade the pitcher, take opp ML`;
-        card.appendChild(title);
-
-        // Starting today (the notification)
-        const startHdr = document.createElement('div');
-        startHdr.style.cssText = 'font-size:12px;color:#aaa;margin:4px 0 2px';
-        startHdr.textContent = hits.length
-          ? `Starting today (${today}):`
-          : `Starting today (${today}): none on the slate`;
-        card.appendChild(startHdr);
-        hits.forEach((p) => {
-          const row = document.createElement('div');
-          row.style.cssText = 'font-size:13px;color:#ddd';
-          row.textContent = `• Fade ${mlbShortName(p.player)} (${p.team || '?'}) → take ${p.opp || '?'} ML`;
-          card.appendChild(row);
-        });
-
-        // Full roster of everyone on the fade list (⭐ = starting today)
-        const _isStarting = (entry) => {
-          const toks = _mlbFadeNorm(entry).split(' ').filter(Boolean);
-          return hits.some((p) => {
-            const nt = new Set(_mlbFadeNorm(p.player).split(' ').filter(Boolean));
-            return toks.every((x) => nt.has(x));
-          });
-        };
-        const rosterHdr = document.createElement('div');
-        rosterHdr.style.cssText = 'font-size:12px;color:#aaa;margin:8px 0 2px';
-        rosterHdr.textContent = `On the fade list (${MLB_FADE_LIST.length}):`;
-        card.appendChild(rosterHdr);
-        const roster = document.createElement('div');
-        roster.style.cssText = 'font-size:13px;color:#ddd';
-        roster.textContent = MLB_FADE_LIST
-          .map((n) => (_isStarting(n) ? `${n} ⭐` : n))
-          .join('  ·  ');
-        card.appendChild(roster);
-
-        el.appendChild(card);
-      })();
+      // (Fade-list callout removed — it now lives in the dedicated
+      // "MLB Fade ML" tab.)
 
       // --- Rest-gate callout: SHADOW flag (like Read/EV/MAE) — never changes a
       // pick. The engine stamps restVerdict='PASS' on any live OVER/UNDER pick
@@ -5515,19 +5422,6 @@
                 if (i === 8) td.style.color = '#999';
               }
             });
-            // Fade-list gate: tint the row + badge the name cell (shadow only).
-            if (isMLBFade(p)) {
-              row.style.background = 'rgba(232,163,61,0.10)';
-              const _ni = isBacktest ? 1 : 0;
-              const _nc = row.cells[_ni];
-              if (_nc) {
-                const _b = document.createElement('span');
-                _b.textContent = ' FADE';
-                _b.title = `Fade ${displayName(p)} — take ${p.opp || 'opp'} ML`;
-                _b.style.cssText = 'color:var(--orange,#e8a33d);font-size:9px;font-weight:700;margin-left:4px;vertical-align:middle';
-                _nc.appendChild(_b);
-              }
-            }
           }
         }
         rebuildBody();
@@ -5824,18 +5718,6 @@
               if (i===11) td.style.color='#999';
             }
           });
-          // Fade-list gate: tint row + badge name cell (shadow only).
-          if (isMLBFade(p)) {
-            row.style.background = 'rgba(232,163,61,0.10)';
-            const _nc = row.cells[isBacktest ? 1 : 0];
-            if (_nc) {
-              const _b = document.createElement('span');
-              _b.textContent = ' FADE';
-              _b.title = `Fade ${displayName(p)} — take ${p.opp || 'opp'} ML`;
-              _b.style.cssText = 'color:var(--orange,#e8a33d);font-size:9px;font-weight:700;margin-left:4px;vertical-align:middle';
-              _nc.appendChild(_b);
-            }
-          }
         }
         card.appendChild(tbl);
         fitMLBTableToContainer(tbl);
