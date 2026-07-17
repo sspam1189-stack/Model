@@ -21,7 +21,7 @@ FADE_LIST = [
     "Littell", "Mikolas", "Painter", "Rocker", "Sheehan", "Jared Jones",
     "Merrill Kelly", "Aldegheri", "Gallen", "Civale", "David Peterson",
     "Bibee", "Springs", "Burrows", "Roupp", "Keller", "Peralta", "Canning",
-    "Jacob Lopez", "Ryan Johnson", "Poulin",
+    "Jacob Lopez", "Ryan Johnson", "Poulin", "Singer",
 ]
 
 
