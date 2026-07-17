@@ -65,7 +65,8 @@ async function renderMLBFadeML() {
   const typeMeta = [
     ['ml', 'Fade ML (opp)', 'Single fade arm → opponent moneyline', false],
     ['ml_dog', 'Mutual → dog', 'Both starters fade → underdog ML', false],
-    ['total', 'OVER (shadow)', 'Not bet — how the OVER would’ve done', true],
+    ['over', 'OVER (shadow)', 'Not bet — how the OVER would’ve done', true],
+    ['under', 'UNDER (shadow)', 'Not bet — how the UNDER would’ve done', true],
   ];
   const chips = document.createElement('div');
   chips.style.cssText = 'display:flex;gap:10px;flex-wrap:wrap;margin-bottom:16px';
@@ -92,26 +93,26 @@ async function renderMLBFadeML() {
   tCard.className = 'card';
   tCard.style.cssText = 'margin-bottom:16px;padding:12px 16px';
   const pend = today.filter(t => t.result === 'pending');
+  const isTotal = (t) => t.betType === 'over' || t.betType === 'under';
   const label = (t) => {
     const who = (t.pitchers || []).join(' / ');
-    if (t.betType === 'total') return '• <b>OVER ' + t.line + '</b> — ' + esc(who) + ' <span style="color:' + ORANGE + '">' + fmtOdds(t.odds) + '</span>';
     if (t.betType === 'ml_dog') return '• Mutual (' + esc(who) + ') → dog <b>' + esc(t.selection || '?') + '</b> ML <span style="color:' + ORANGE + '">' + fmtOdds(t.odds) + '</span>';
     return '• Fade <b>' + esc(who) + '</b> (' + esc(t.fadeTeam || '?') + ') → <b>' + esc(t.selection || '?') + '</b> ML <span style="color:' + ORANGE + '">' + fmtOdds(t.odds) + '</span>';
   };
-  const mls = pend.filter(t => t.betType !== 'total');
-  const tots = pend.filter(t => t.betType === 'total');
+  const mls = pend.filter(t => !isTotal(t));
+  const tots = pend.filter(t => t.betType === 'over'); // one line per game (carries the total)
   let th = '<div class="card-title" style="margin-bottom:8px">Today’s plays</div>';
   if (!mls.length) th += '<div class="no-picks">No fade-list moneyline plays on today’s slate.</div>';
   else th += mls.map(t => '<div style="font-size:14px;color:#ddd;padding:2px 0">' + label(t) + '</div>').join('');
   // Totals are shadow-only (not bet) — shown greyed for reference.
-  if (tots.length) th += '<div style="font-size:12px;color:#777;margin:8px 0 2px">OVER (shadow, not bet)</div>'
-    + tots.map(t => '<div style="font-size:13px;color:#999;padding:1px 0">' + label(t) + '</div>').join('');
+  if (tots.length) th += '<div style="font-size:12px;color:#777;margin:8px 0 2px">Game totals (shadow, not bet)</div>'
+    + tots.map(t => '<div style="font-size:13px;color:#999;padding:1px 0">• ' + esc((t.pitchers || []).join(' / ')) + ' — total <b>' + t.line + '</b></div>').join('');
   tCard.innerHTML = th;
   el.appendChild(tCard);
 
-  // ---- Season bet log (real bets only; filterable by month + pitcher) ----
-  const typeTag = { ml: 'ML', ml_dog: 'DOG' };
-  const bets = (data.bets || []).filter(b => b.betType !== 'total').slice().reverse();
+  // ---- Season bet log (filterable by bet type + month + pitcher) ----
+  const typeTag = { ml: 'ML', ml_dog: 'DOG', over: 'OVER', under: 'UNDER' };
+  const bets = (data.bets || []).slice().reverse(); // all types, newest first
 
   // Distinct months (latest first) and pitchers (alphabetical).
   const months = [...new Set(bets.map(b => (b.date || '').slice(0, 7)).filter(Boolean))]
@@ -122,6 +123,16 @@ async function renderMLBFadeML() {
   };
   const pitchers = [...new Set(bets.flatMap(b => b.pitchers || []))].sort();
 
+  // Bet-type filter groups.
+  const typeGroups = {
+    real: ['ml', 'ml_dog'], ml: ['ml'], ml_dog: ['ml_dog'],
+    over: ['over'], under: ['under'],
+  };
+  const typeOpts = [
+    ['real', 'Moneyline bets (all)'], ['ml', 'Fade ML'], ['ml_dog', 'Mutual → dog'],
+    ['over', 'OVER (shadow)'], ['under', 'UNDER (shadow)'],
+  ];
+
   const log = document.createElement('div');
   log.className = 'card card-games';
   log.style.cssText = 'padding:8px 4px';
@@ -129,7 +140,12 @@ async function renderMLBFadeML() {
   log.innerHTML =
     '<div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap;padding:6px 8px">'
     + '<div class="card-title" style="padding:0">Season bet log</div>'
+    + '<span id="fadeLogRec" style="font-size:13px;font-weight:700"></span>'
     + '<span style="flex:1"></span>'
+    + '<label style="font-size:11px;color:#888">Bet '
+    + '<select id="fadeTypeSel" style="' + selCss + '">'
+    + typeOpts.map(([v, t]) => '<option value="' + v + '">' + t + '</option>').join('')
+    + '</select></label>'
     + '<label style="font-size:11px;color:#888">Month '
     + '<select id="fadeMonthSel" style="' + selCss + '"><option value="">All</option>'
     + months.map(m => '<option value="' + m + '">' + monthLabel(m) + '</option>').join('')
@@ -143,20 +159,29 @@ async function renderMLBFadeML() {
   el.appendChild(log);
 
   const wrap = log.querySelector('#fadeLogWrap');
+  const typeSel = log.querySelector('#fadeTypeSel');
   const monthSel = log.querySelector('#fadeMonthSel');
   const pitcherSel = log.querySelector('#fadePitcherSel');
+  const recEl = log.querySelector('#fadeLogRec');
 
   function drawRows() {
-    const mv = monthSel.value, pv = pitcherSel.value;
+    const tv = typeSel.value, mv = monthSel.value, pv = pitcherSel.value;
+    const allow = typeGroups[tv] || typeGroups.real;
     const view = bets.filter(b =>
+      allow.includes(b.betType) &&
       (!mv || (b.date || '').slice(0, 7) === mv) &&
       (!pv || (b.pitchers || []).includes(pv)));
-    // Sub-record for the current filter (settled only).
+    // W-L / units for the current filter (settled only).
     let w = 0, l = 0, u = 0, stk = 0;
     view.forEach(b => {
       if (b.result === 'WIN' || b.result === 'LOSS') { w += b.result === 'WIN'; l += b.result === 'LOSS'; u += b.profit; stk += (b.stake || 0); }
     });
     const roi = stk ? (u / stk * 100) : 0;
+    const shadow = tv === 'over' || tv === 'under';
+    recEl.innerHTML = w + '–' + l
+      + ' <span style="color:' + uColor(u) + '">' + (u >= 0 ? '+' : '') + u.toFixed(2) + 'u · '
+      + (roi >= 0 ? '+' : '') + roi.toFixed(1) + '%</span>'
+      + (shadow ? ' <span style="font-size:10px;color:#777;font-weight:400">shadow</span>' : '');
     let rows = '';
     view.forEach(b => {
       const settled = b.result === 'WIN' || b.result === 'LOSS';
@@ -164,7 +189,8 @@ async function renderMLBFadeML() {
       const resColor = b.result === 'WIN' ? GREEN : (b.result === 'LOSS' ? RED : '#888');
       const prof = settled ? ((b.profit >= 0 ? '+' : '') + b.profit.toFixed(2) + 'u') : '—';
       const profColor = !settled ? '#888' : (b.profit >= 0 ? GREEN : RED);
-      const pick = b.betType === 'total' ? ('OVER ' + b.line) : esc(b.selection || '?');
+      const pick = (b.betType === 'over' || b.betType === 'under')
+        ? (esc(b.selection) + ' ' + b.line) : esc(b.selection || '?');
       const note = b.result === 'VOID' ? (' <span style="color:#777;font-size:10px">' + esc(b.reason || 'void') + '</span>')
         : (b.result === 'SKIP' ? ' <span style="color:#777;font-size:10px">skip</span>' : '');
       rows += '<tr style="' + dim + '">'
@@ -178,9 +204,7 @@ async function renderMLBFadeML() {
         + '</tr>';
     });
     wrap.innerHTML =
-      '<div style="font-size:12px;color:#aaa;padding:2px 8px 8px">' + view.length + ' bets · '
-      + w + '–' + l + ' · <span style="color:' + uColor(u) + '">' + (u >= 0 ? '+' : '') + u.toFixed(2) + 'u · '
-      + (roi >= 0 ? '+' : '') + roi.toFixed(1) + '%</span></div>'
+      '<div style="font-size:12px;color:#888;padding:2px 8px 8px">' + view.length + ' bets shown</div>'
       + '<table style="width:100%;border-collapse:collapse;font-size:13px">'
       + '<thead><tr style="color:#888;text-align:left;border-bottom:1px solid #333">'
       + '<th style="padding:4px 8px">Date</th><th style="padding:4px 6px">Type</th>'
@@ -189,6 +213,7 @@ async function renderMLBFadeML() {
       + '<th style="padding:4px 8px;text-align:center">Result</th><th style="padding:4px 8px;text-align:right">P/L</th>'
       + '</tr></thead><tbody>' + rows + '</tbody></table>';
   }
+  typeSel.addEventListener('change', drawRows);
   monthSel.addEventListener('change', drawRows);
   pitcherSel.addEventListener('change', drawRows);
   drawRows();

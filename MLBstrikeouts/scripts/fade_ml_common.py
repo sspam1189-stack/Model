@@ -223,17 +223,20 @@ def build_bets_for_game(date, fg, g, odds_row):
             bets.append(_bet(date, commence, "ml", fg, "h2h", team, None,
                              odds, result, reason, source=source))
 
-    # ----- total (OVER) leg -----
+    # ----- totals legs (OVER + UNDER) -- shadow stats only, both shown -----
     if BET_TOTALS:
         line = (odds_row or {}).get("total_line")
-        over = (odds_row or {}).get("over_ml")
-        if line is None or over is None:
-            bets.append(_bet(date, commence, "total", fg, "totals", "OVER",
-                             line, over, "VOID", "no_price", source=source))
-        else:
-            result, reason = _settle_total(g, line, "OVER")
-            bets.append(_bet(date, commence, "total", fg, "totals", "OVER",
-                             line, over, result, reason, source=source))
+        for bt_key, side, price in (
+            ("over", "OVER", (odds_row or {}).get("over_ml")),
+            ("under", "UNDER", (odds_row or {}).get("under_ml")),
+        ):
+            if line is None or price is None:
+                bets.append(_bet(date, commence, bt_key, fg, "totals", side,
+                                 line, price, "VOID", "no_price", source=source))
+            else:
+                result, reason = _settle_total(g, line, side)
+                bets.append(_bet(date, commence, bt_key, fg, "totals", side,
+                                 line, price, result, reason, source=source))
     return bets
 
 
@@ -260,7 +263,7 @@ def compute_summary(bets):
     summary = _record(real)
     summary["byType"] = {
         t: _record([b for b in graded if b["betType"] == t])
-        for t in ("ml", "ml_dog", "total")
+        for t in ("ml", "ml_dog", "over", "under")
     }
     return summary
 

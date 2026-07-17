@@ -1,7 +1,7 @@
 {
   "sport": "MLB",
   "type": "fade-ml",
-  "generated": "2026-07-17T21:06:14Z",
+  "generated": "2026-07-17T21:09:23Z",
   "fadeList": [
     "Littell",
     "Mikolas",
@@ -54,7 +54,7 @@
         "units": 5.4,
         "roi": 0.4448
       },
-      "total": {
+      "over": {
         "wins": 115,
         "losses": 107,
         "voids": 3,
@@ -62,6 +62,15 @@
         "staked": 244.48,
         "units": -3.23,
         "roi": -0.0132
+      },
+      "under": {
+        "wins": 107,
+        "losses": 115,
+        "voids": 3,
+        "skips": 0,
+        "staked": 246.76,
+        "units": -20.81,
+        "roi": -0.0843
       }
     }
   },
@@ -69,11 +78,15 @@
     {
       "date": "2026-07-17",
       "commence": "2026-07-18T01:40:00Z",
-      "pitcher": "Merrill Kelly",
-      "fadeEntry": "Merrill Kelly",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Merrill Kelly"
+      ],
       "fadeTeam": "ARI",
-      "betTeam": "STL",
-      "oppPitcher": "Michael McGreevy",
+      "market": "h2h",
+      "selection": "STL",
+      "line": null,
       "odds": -102,
       "stake": 1.02,
       "result": "pending",
@@ -84,14 +97,18 @@
     },
     {
       "date": "2026-07-17",
-      "commence": "2026-07-17T23:10:00Z",
-      "pitcher": "Jared Jones",
-      "fadeEntry": "Jared Jones",
-      "fadeTeam": "PIT",
-      "betTeam": "CLE",
-      "oppPitcher": "Gavin Williams",
-      "odds": 100,
-      "stake": 1.0,
+      "commence": "2026-07-18T01:40:00Z",
+      "betType": "total",
+      "shadow": true,
+      "pitchers": [
+        "Merrill Kelly"
+      ],
+      "fadeTeam": "ARI",
+      "market": "totals",
+      "selection": "OVER",
+      "line": 9,
+      "odds": -104,
+      "stake": 1.04,
       "result": "pending",
       "profit": 0.0,
       "book": "fanduel",
@@ -101,13 +118,37 @@
     {
       "date": "2026-07-17",
       "commence": "2026-07-18T02:10:00Z",
-      "pitcher": "Landen Roupp",
-      "fadeEntry": "Roupp",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Landen Roupp"
+      ],
       "fadeTeam": "SF",
-      "betTeam": "SEA",
-      "oppPitcher": "Bryce Miller",
+      "market": "h2h",
+      "selection": "SEA",
+      "line": null,
       "odds": -184,
       "stake": 1.84,
+      "result": "pending",
+      "profit": 0.0,
+      "book": "fanduel",
+      "source": "fanduel_api",
+      "reason": null
+    },
+    {
+      "date": "2026-07-17",
+      "commence": "2026-07-18T02:10:00Z",
+      "betType": "total",
+      "shadow": true,
+      "pitchers": [
+        "Landen Roupp"
+      ],
+      "fadeTeam": "SF",
+      "market": "totals",
+      "selection": "OVER",
+      "line": 7,
+      "odds": -122,
+      "stake": 1.22,
       "result": "pending",
       "profit": 0.0,
       "book": "fanduel",
@@ -139,7 +180,7 @@
     {
       "date": "2026-04-06",
       "commence": "2026-04-06T22:10:00Z",
-      "betType": "total",
+      "betType": "over",
       "shadow": true,
       "pitchers": [
         "Tanner Bibee"
@@ -152,6 +193,26 @@
       "stake": 1.22,
       "result": "LOSS",
       "profit": -1.22,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null
+    },
+    {
+      "date": "2026-04-06",
+      "commence": "2026-04-06T22:10:00Z",
+      "betType": "under",
+      "shadow": true,
+      "pitchers": [
+        "Tanner Bibee"
+      ],
+      "fadeTeam": "CLE",
+      "market": "totals",
+      "selection": "UNDER",
+      "line": 7.0,
+      "odds": 100,
+      "stake": 1.0,
+      "result": "WIN",
+      "profit": 1.0,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
       "reason": null
@@ -180,7 +241,7 @@
     {
       "date": "2026-04-07",
       "commence": "2026-04-07T20:10:00Z",
-      "betType": "total",
+      "betType": "over",
       "shadow": true,
       "pitchers": [
         "Zac Gallen",
@@ -192,6 +253,27 @@
       "line": 7.0,
       "odds": -108,
       "stake": 1.08,
+      "result": "VOID",
+      "profit": 0.0,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": "push"
+    },
+    {
+      "date": "2026-04-07",
+      "commence": "2026-04-07T20:10:00Z",
+      "betType": "under",
+      "shadow": true,
+      "pitchers": [
+        "Zac Gallen",
+        "Freddy Peralta"
+      ],
+      "fadeTeam": null,
+      "market": "totals",
+      "selection": "UNDER",
+      "line": 7.0,
+      "odds": -112,
+      "stake": 1.12,
       "result": "VOID",
       "profit": 0.0,
       "book": "fanduel",
@@ -221,7 +303,7 @@
     {
       "date": "2026-04-07",
       "commence": "2026-04-08T00:40:00Z",
-      "betType": "total",
+      "betType": "over",
       "shadow": true,
       "pitchers": [
         "Mike Burrows"
@@ -234,6 +316,26 @@
       "stake": 1.05,
       "result": "LOSS",
       "profit": -1.05,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null
+    },
+    {
+      "date": "2026-04-07",
+      "commence": "2026-04-08T00:40:00Z",
+      "betType": "under",
+      "shadow": true,
+      "pitchers": [
+        "Mike Burrows"
+      ],
+      "fadeTeam": "HOU",
+      "market": "totals",
+      "selection": "UNDER",
+      "line": 11.0,
+      "odds": -115,
+      "stake": 1.15,
+      "result": "WIN",
+      "profit": 1.0,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
       "reason": null
@@ -261,7 +363,7 @@
     {
       "date": "2026-04-08",
       "commence": "2026-04-08T20:05:00Z",
-      "betType": "total",
+      "betType": "over",
       "shadow": true,
       "pitchers": [
         "Miles Mikolas"
@@ -274,6 +376,26 @@
       "stake": 1.18,
       "result": "LOSS",
       "profit": -1.18,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null
+    },
+    {
+      "date": "2026-04-08",
+      "commence": "2026-04-08T20:05:00Z",
+      "betType": "under",
+      "shadow": true,
+      "pitchers": [
+        "Miles Mikolas"
+      ],
+      "fadeTeam": "WSH",
+      "market": "totals",
+      "selection": "UNDER",
+      "line": 8.5,
+      "odds": -104,
+      "stake": 1.04,
+      "result": "WIN",
+      "profit": 1.0,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
       "reason": null
@@ -301,7 +423,7 @@
     {
       "date": "2026-04-08",
       "commence": "2026-04-08T20:10:00Z",
-      "betType": "total",
+      "betType": "over",
       "shadow": true,
       "pitchers": [
         "David Peterson"
@@ -314,6 +436,26 @@
       "stake": 1.08,
       "result": "WIN",
       "profit": 1.0,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null
+    },
+    {
+      "date": "2026-04-08",
+      "commence": "2026-04-08T20:10:00Z",
+      "betType": "under",
+      "shadow": true,
+      "pitchers": [
+        "David Peterson"
+      ],
+      "fadeTeam": "NYM",
+      "market": "totals",
+      "selection": "UNDER",
+      "line": 7.5,
+      "odds": -112,
+      "stake": 1.12,
+      "result": "LOSS",
+      "profit": -1.12,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
       "reason": null
@@ -341,7 +483,7 @@
     {
       "date": "2026-04-09",
       "commence": "2026-04-09T17:35:00Z",
-      "betType": "total",
+      "betType": "over",
       "shadow": true,
       "pitchers": [
         "Jeffrey Springs"
@@ -354,6 +496,26 @@
       "stake": 1.1,
       "result": "LOSS",
       "profit": -1.1,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null
+    },
+    {
+      "date": "2026-04-09",
+      "commence": "2026-04-09T17:35:00Z",
+      "betType": "under",
+      "shadow": true,
+      "pitchers": [
+        "Jeffrey Springs"
+      ],
+      "fadeTeam": "OAK",
+      "market": "totals",
+      "selection": "UNDER",
+      "line": 8.0,
+      "odds": -110,
+      "stake": 1.1,
+      "result": "WIN",
+      "profit": 1.0,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
       "reason": null
@@ -381,7 +543,7 @@
     {
       "date": "2026-04-10",
       "commence": "2026-04-10T23:15:00Z",
-      "betType": "total",
+      "betType": "over",
       "shadow": true,
       "pitchers": [
         "Landen Roupp"
@@ -394,6 +556,26 @@
       "stake": 1.0,
       "result": "WIN",
       "profit": 1.0,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null
+    },
+    {
+      "date": "2026-04-10",
+      "commence": "2026-04-10T23:15:00Z",
+      "betType": "under",
+      "shadow": true,
+      "pitchers": [
+        "Landen Roupp"
+      ],
+      "fadeTeam": "SF",
+      "market": "totals",
+      "selection": "UNDER",
+      "line": 8.5,
+      "odds": -122,
+      "stake": 1.22,
+      "result": "LOSS",
+      "profit": -1.22,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
       "reason": null
@@ -421,7 +603,7 @@
     {
       "date": "2026-04-11",
       "commence": "2026-04-11T20:10:00Z",
-      "betType": "total",
+      "betType": "over",
       "shadow": true,
       "pitchers": [
         "Jacob Lopez"
@@ -434,6 +616,26 @@
       "stake": 1.22,
       "result": "WIN",
       "profit": 1.0,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null
+    },
+    {
+      "date": "2026-04-11",
+      "commence": "2026-04-11T20:10:00Z",
+      "betType": "under",
+      "shadow": true,
+      "pitchers": [
+        "Jacob Lopez"
+      ],
+      "fadeTeam": "OAK",
+      "market": "totals",
+      "selection": "UNDER",
+      "line": 7.5,
+      "odds": 100,
+      "stake": 1.0,
+      "result": "LOSS",
+      "profit": -1.0,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
       "reason": null
@@ -461,7 +663,7 @@
     {
       "date": "2026-04-11",
       "commence": "2026-04-12T01:10:00Z",
-      "betType": "total",
+      "betType": "over",
       "shadow": true,
       "pitchers": [
         "Emmet Sheehan"
@@ -474,6 +676,26 @@
       "stake": 1.15,
       "result": "WIN",
       "profit": 1.0,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null
+    },
+    {
+      "date": "2026-04-11",
+      "commence": "2026-04-12T01:10:00Z",
+      "betType": "under",
+      "shadow": true,
+      "pitchers": [
+        "Emmet Sheehan"
+      ],
+      "fadeTeam": "LAD",
+      "market": "totals",
+      "selection": "UNDER",
+      "line": 8.0,
+      "odds": -105,
+      "stake": 1.05,
+      "result": "LOSS",
+      "profit": -1.05,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
       "reason": null
@@ -501,7 +723,7 @@
     {
       "date": "2026-04-12",
       "commence": "2026-04-12T17:35:00Z",
-      "betType": "total",
+      "betType": "over",
       "shadow": true,
       "pitchers": [
         "Zac Gallen"
@@ -514,6 +736,26 @@
       "stake": 1.1,
       "result": "LOSS",
       "profit": -1.1,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null
+    },
+    {
+      "date": "2026-04-12",
+      "commence": "2026-04-12T17:35:00Z",
+      "betType": "under",
+      "shadow": true,
+      "pitchers": [
+        "Zac Gallen"
+      ],
+      "fadeTeam": "ARI",
+      "market": "totals",
+      "selection": "UNDER",
+      "line": 8.5,
+      "odds": -110,
+      "stake": 1.1,
+      "result": "WIN",
+      "profit": 1.0,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
       "reason": null
@@ -542,7 +784,7 @@
     {
       "date": "2026-04-12",
       "commence": "2026-04-12T17:40:00Z",
-      "betType": "total",
+      "betType": "over",
       "shadow": true,
       "pitchers": [
         "Aaron Civale",
@@ -556,6 +798,27 @@
       "stake": 1.18,
       "result": "LOSS",
       "profit": -1.18,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null
+    },
+    {
+      "date": "2026-04-12",
+      "commence": "2026-04-12T17:40:00Z",
+      "betType": "under",
+      "shadow": true,
+      "pitchers": [
+        "Aaron Civale",
+        "Freddy Peralta"
+      ],
+      "fadeTeam": null,
+      "market": "totals",
+      "selection": "UNDER",
+      "line": 7.0,
+      "odds": -104,
+      "stake": 1.04,
+      "result": "WIN",
+      "profit": 1.0,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
       "reason": null
@@ -583,7 +846,7 @@
     {
       "date": "2026-04-12",
       "commence": "2026-04-12T23:20:00Z",
-      "betType": "total",
+      "betType": "over",
       "shadow": true,
       "pitchers": [
         "Tanner Bibee"
@@ -596,6 +859,26 @@
       "stake": 1.18,
       "result": "WIN",
       "profit": 1.0,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null
+    },
+    {
+      "date": "2026-04-12",
+      "commence": "2026-04-12T23:20:00Z",
+      "betType": "under",
+      "shadow": true,
+      "pitchers": [
+        "Tanner Bibee"
+      ],
+      "fadeTeam": "CLE",
+      "market": "totals",
+      "selection": "UNDER",
+      "line": 7.0,
+      "odds": -104,
+      "stake": 1.04,
+      "result": "LOSS",
+      "profit": -1.04,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
       "reason": null
@@ -623,7 +906,7 @@
     {
       "date": "2026-04-13",
       "commence": "2026-04-13T20:10:00Z",
-      "betType": "total",
+      "betType": "over",
       "shadow": true,
       "pitchers": [
         "Mike Burrows"
@@ -636,6 +919,26 @@
       "stake": 1.15,
       "result": "WIN",
       "profit": 1.0,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null
+    },
+    {
+      "date": "2026-04-13",
+      "commence": "2026-04-13T20:10:00Z",
+      "betType": "under",
+      "shadow": true,
+      "pitchers": [
+        "Mike Burrows"
+      ],
+      "fadeTeam": "HOU",
+      "market": "totals",
+      "selection": "UNDER",
+      "line": 7.5,
+      "odds": -105,
+      "stake": 1.05,
+      "result": "LOSS",
+      "profit": -1.05,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
       "reason": null
@@ -663,7 +966,7 @@
     {
       "date": "2026-04-13",
       "commence": "2026-04-14T02:10:00Z",
-      "betType": "total",
+      "betType": "over",
       "shadow": true,
       "pitchers": [
         "David Peterson"
@@ -676,6 +979,26 @@
       "stake": 1.14,
       "result": "LOSS",
       "profit": -1.14,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null
+    },
+    {
+      "date": "2026-04-13",
+      "commence": "2026-04-14T02:10:00Z",
+      "betType": "under",
+      "shadow": true,
+      "pitchers": [
+        "David Peterson"
+      ],
+      "fadeTeam": "NYM",
+      "market": "totals",
+      "selection": "UNDER",
+      "line": 8.5,
+      "odds": -106,
+      "stake": 1.06,
+      "result": "WIN",
+      "profit": 1.0,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
       "reason": null
@@ -703,7 +1026,7 @@
     {
       "date": "2026-04-14",
       "commence": "2026-04-14T22:40:00Z",
-      "betType": "total",
+      "betType": "over",
       "shadow": true,
       "pitchers": [
         "Mitch Keller"
@@ -716,6 +1039,26 @@
       "stake": 1.18,
       "result": "LOSS",
       "profit": -1.18,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null
+    },
+    {
+      "date": "2026-04-14",
+      "commence": "2026-04-14T22:40:00Z",
+      "betType": "under",
+      "shadow": true,
+      "pitchers": [
+        "Mitch Keller"
+      ],
+      "fadeTeam": "PIT",
+      "market": "totals",
+      "selection": "UNDER",
+      "line": 9.5,
+      "odds": -104,
+      "stake": 1.04,
+      "result": "WIN",
+      "profit": 1.0,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
       "reason": null
@@ -743,7 +1086,7 @@
     {
       "date": "2026-04-14",
       "commence": "2026-04-15T01:40:00Z",
-      "betType": "total",
+      "betType": "over",
       "shadow": true,
       "pitchers": [
         "Jeffrey Springs"
@@ -756,6 +1099,26 @@
       "stake": 1.22,
       "result": "LOSS",
       "profit": -1.22,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null
+    },
+    {
+      "date": "2026-04-14",
+      "commence": "2026-04-15T01:40:00Z",
+      "betType": "under",
+      "shadow": true,
+      "pitchers": [
+        "Jeffrey Springs"
+      ],
+      "fadeTeam": "OAK",
+      "market": "totals",
+      "selection": "UNDER",
+      "line": 8.5,
+      "odds": 100,
+      "stake": 1.0,
+      "result": "WIN",
+      "profit": 1.0,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
       "reason": null
@@ -783,7 +1146,7 @@
     {
       "date": "2026-04-16",
       "commence": "2026-04-16T16:40:00Z",
-      "betType": "total",
+      "betType": "over",
       "shadow": true,
       "pitchers": [
         "Landen Roupp"
@@ -796,6 +1159,26 @@
       "stake": 1.18,
       "result": "LOSS",
       "profit": -1.18,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null
+    },
+    {
+      "date": "2026-04-16",
+      "commence": "2026-04-16T16:40:00Z",
+      "betType": "under",
+      "shadow": true,
+      "pitchers": [
+        "Landen Roupp"
+      ],
+      "fadeTeam": "SF",
+      "market": "totals",
+      "selection": "UNDER",
+      "line": 8.0,
+      "odds": -104,
+      "stake": 1.04,
+      "result": "WIN",
+      "profit": 1.0,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
       "reason": null
@@ -823,7 +1206,7 @@
     {
       "date": "2026-04-16",
       "commence": "2026-04-16T19:05:00Z",
-      "betType": "total",
+      "betType": "over",
       "shadow": true,
       "pitchers": [
         "Jacob Lopez"
@@ -836,6 +1219,26 @@
       "stake": 1.05,
       "result": "WIN",
       "profit": 1.0,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null
+    },
+    {
+      "date": "2026-04-16",
+      "commence": "2026-04-16T19:05:00Z",
+      "betType": "under",
+      "shadow": true,
+      "pitchers": [
+        "Jacob Lopez"
+      ],
+      "fadeTeam": "OAK",
+      "market": "totals",
+      "selection": "UNDER",
+      "line": 8.0,
+      "odds": -115,
+      "stake": 1.15,
+      "result": "LOSS",
+      "profit": -1.15,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
       "reason": null
@@ -863,7 +1266,7 @@
     {
       "date": "2026-04-17",
       "commence": "2026-04-17T22:10:00Z",
-      "betType": "total",
+      "betType": "over",
       "shadow": true,
       "pitchers": [
         "Tanner Bibee"
@@ -876,6 +1279,26 @@
       "stake": 1.1,
       "result": "WIN",
       "profit": 1.0,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null
+    },
+    {
+      "date": "2026-04-17",
+      "commence": "2026-04-17T22:10:00Z",
+      "betType": "under",
+      "shadow": true,
+      "pitchers": [
+        "Tanner Bibee"
+      ],
+      "fadeTeam": "CLE",
+      "market": "totals",
+      "selection": "UNDER",
+      "line": 8.0,
+      "odds": -110,
+      "stake": 1.1,
+      "result": "LOSS",
+      "profit": -1.1,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
       "reason": null
@@ -903,7 +1326,7 @@
     {
       "date": "2026-04-17",
       "commence": "2026-04-17T22:45:00Z",
-      "betType": "total",
+      "betType": "over",
       "shadow": true,
       "pitchers": [
         "Zack Littell"
@@ -916,6 +1339,26 @@
       "stake": 1.02,
       "result": "WIN",
       "profit": 1.0,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null
+    },
+    {
+      "date": "2026-04-17",
+      "commence": "2026-04-17T22:45:00Z",
+      "betType": "under",
+      "shadow": true,
+      "pitchers": [
+        "Zack Littell"
+      ],
+      "fadeTeam": "WSH",
+      "market": "totals",
+      "selection": "UNDER",
+      "line": 8.5,
+      "odds": -120,
+      "stake": 1.2,
+      "result": "LOSS",
+      "profit": -1.2,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
       "reason": null
@@ -943,7 +1386,7 @@
     {
       "date": "2026-04-17",
       "commence": "2026-04-18T01:40:00Z",
-      "betType": "total",
+      "betType": "over",
       "shadow": true,
       "pitchers": [
         "Aaron Civale"
@@ -956,6 +1399,26 @@
       "stake": 1.06,
       "result": "WIN",
       "profit": 1.0,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null
+    },
+    {
+      "date": "2026-04-17",
+      "commence": "2026-04-18T01:40:00Z",
+      "betType": "under",
+      "shadow": true,
+      "pitchers": [
+        "Aaron Civale"
+      ],
+      "fadeTeam": "OAK",
+      "market": "totals",
+      "selection": "UNDER",
+      "line": 9.0,
+      "odds": -114,
+      "stake": 1.14,
+      "result": "LOSS",
+      "profit": -1.14,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
       "reason": null
@@ -983,7 +1446,7 @@
     {
       "date": "2026-04-18",
       "commence": "2026-04-18T18:20:00Z",
-      "betType": "total",
+      "betType": "over",
       "shadow": true,
       "pitchers": [
         "Freddy Peralta"
@@ -996,6 +1459,26 @@
       "stake": 1.05,
       "result": "LOSS",
       "profit": -1.05,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null
+    },
+    {
+      "date": "2026-04-18",
+      "commence": "2026-04-18T18:20:00Z",
+      "betType": "under",
+      "shadow": true,
+      "pitchers": [
+        "Freddy Peralta"
+      ],
+      "fadeTeam": "NYM",
+      "market": "totals",
+      "selection": "UNDER",
+      "line": 8.5,
+      "odds": -115,
+      "stake": 1.15,
+      "result": "WIN",
+      "profit": 1.0,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
       "reason": null
@@ -1043,7 +1526,7 @@
     {
       "date": "2026-04-18",
       "commence": "2026-04-19T00:10:00Z",
-      "betType": "total",
+      "betType": "over",
       "shadow": true,
       "pitchers": [
         "Zac Gallen"
@@ -1063,7 +1546,7 @@
     {
       "date": "2026-04-18",
       "commence": "2026-04-19T00:10:00Z",
-      "betType": "total",
+      "betType": "over",
       "shadow": true,
       "pitchers": [
         "Emmet Sheehan"
@@ -1076,6 +1559,46 @@
       "stake": 1.14,
       "result": "LOSS",
       "profit": -1.14,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null
+    },
+    {
+      "date": "2026-04-18",
+      "commence": "2026-04-19T00:10:00Z",
+      "betType": "under",
+      "shadow": true,
+      "pitchers": [
+        "Zac Gallen"
+      ],
+      "fadeTeam": "ARI",
+      "market": "totals",
+      "selection": "UNDER",
+      "line": 9.0,
+      "odds": -105,
+      "stake": 1.05,
+      "result": "WIN",
+      "profit": 1.0,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null
+    },
+    {
+      "date": "2026-04-18",
+      "commence": "2026-04-19T00:10:00Z",
+      "betType": "under",
+      "shadow": true,
+      "pitchers": [
+        "Emmet Sheehan"
+      ],
+      "fadeTeam": "LAD",
+      "market": "totals",
+      "selection": "UNDER",
+      "line": 10.5,
+      "odds": -106,
+      "stake": 1.06,
+      "result": "WIN",
+      "profit": 1.0,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
       "reason": null
@@ -1103,7 +1626,7 @@
     {
       "date": "2026-04-19",
       "commence": "2026-04-19T17:35:00Z",
-      "betType": "total",
+      "betType": "over",
       "shadow": true,
       "pitchers": [
         "Mitch Keller"
@@ -1116,6 +1639,26 @@
       "stake": 1.05,
       "result": "WIN",
       "profit": 1.0,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null
+    },
+    {
+      "date": "2026-04-19",
+      "commence": "2026-04-19T17:35:00Z",
+      "betType": "under",
+      "shadow": true,
+      "pitchers": [
+        "Mitch Keller"
+      ],
+      "fadeTeam": "PIT",
+      "market": "totals",
+      "selection": "UNDER",
+      "line": 8.0,
+      "odds": -115,
+      "stake": 1.15,
+      "result": "LOSS",
+      "profit": -1.15,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
       "reason": null
@@ -1143,7 +1686,7 @@
     {
       "date": "2026-04-19",
       "commence": "2026-04-19T18:10:00Z",
-      "betType": "total",
+      "betType": "over",
       "shadow": true,
       "pitchers": [
         "Mike Burrows"
@@ -1156,6 +1699,26 @@
       "stake": 1.18,
       "result": "WIN",
       "profit": 1.0,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null
+    },
+    {
+      "date": "2026-04-19",
+      "commence": "2026-04-19T18:10:00Z",
+      "betType": "under",
+      "shadow": true,
+      "pitchers": [
+        "Mike Burrows"
+      ],
+      "fadeTeam": "HOU",
+      "market": "totals",
+      "selection": "UNDER",
+      "line": 8.5,
+      "odds": -104,
+      "stake": 1.04,
+      "result": "LOSS",
+      "profit": -1.04,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
       "reason": null
@@ -1183,7 +1746,7 @@
     {
       "date": "2026-04-19",
       "commence": "2026-04-19T20:05:00Z",
-      "betType": "total",
+      "betType": "over",
       "shadow": true,
       "pitchers": [
         "Jeffrey Springs"
@@ -1196,6 +1759,26 @@
       "stake": 1.0,
       "result": "WIN",
       "profit": 1.0,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null
+    },
+    {
+      "date": "2026-04-19",
+      "commence": "2026-04-19T20:05:00Z",
+      "betType": "under",
+      "shadow": true,
+      "pitchers": [
+        "Jeffrey Springs"
+      ],
+      "fadeTeam": "OAK",
+      "market": "totals",
+      "selection": "UNDER",
+      "line": 9.5,
+      "odds": -122,
+      "stake": 1.22,
+      "result": "LOSS",
+      "profit": -1.22,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
       "reason": null
@@ -1223,7 +1806,7 @@
     {
       "date": "2026-04-19",
       "commence": "2026-04-19T23:20:00Z",
-      "betType": "total",
+      "betType": "over",
       "shadow": true,
       "pitchers": [
         "Andrew Painter"
@@ -1236,6 +1819,26 @@
       "stake": 1.1,
       "result": "LOSS",
       "profit": -1.1,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null
+    },
+    {
+      "date": "2026-04-19",
+      "commence": "2026-04-19T23:20:00Z",
+      "betType": "under",
+      "shadow": true,
+      "pitchers": [
+        "Andrew Painter"
+      ],
+      "fadeTeam": "PHI",
+      "market": "totals",
+      "selection": "UNDER",
+      "line": 8.0,
+      "odds": -110,
+      "stake": 1.1,
+      "result": "WIN",
+      "profit": 1.0,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
       "reason": null
@@ -1263,7 +1866,7 @@
     {
       "date": "2026-04-21",
       "commence": "2026-04-22T00:05:00Z",
-      "betType": "total",
+      "betType": "over",
       "shadow": true,
       "pitchers": [
         "Kumar Rocker"
@@ -1276,6 +1879,26 @@
       "stake": 1.12,
       "result": "LOSS",
       "profit": -1.12,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null
+    },
+    {
+      "date": "2026-04-21",
+      "commence": "2026-04-22T00:05:00Z",
+      "betType": "under",
+      "shadow": true,
+      "pitchers": [
+        "Kumar Rocker"
+      ],
+      "fadeTeam": "TEX",
+      "market": "totals",
+      "selection": "UNDER",
+      "line": 8.0,
+      "odds": -108,
+      "stake": 1.08,
+      "result": "WIN",
+      "profit": 1.0,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
       "reason": null
@@ -1303,7 +1926,7 @@
     {
       "date": "2026-04-21",
       "commence": "2026-04-22T01:40:00Z",
-      "betType": "total",
+      "betType": "over",
       "shadow": true,
       "pitchers": [
         "Jacob Lopez"
@@ -1316,6 +1939,26 @@
       "stake": 1.04,
       "result": "LOSS",
       "profit": -1.04,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null
+    },
+    {
+      "date": "2026-04-21",
+      "commence": "2026-04-22T01:40:00Z",
+      "betType": "under",
+      "shadow": true,
+      "pitchers": [
+        "Jacob Lopez"
+      ],
+      "fadeTeam": "OAK",
+      "market": "totals",
+      "selection": "UNDER",
+      "line": 8.0,
+      "odds": -118,
+      "stake": 1.18,
+      "result": "WIN",
+      "profit": 1.0,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
       "reason": null
@@ -1343,7 +1986,7 @@
     {
       "date": "2026-04-21",
       "commence": "2026-04-22T01:45:00Z",
-      "betType": "total",
+      "betType": "over",
       "shadow": true,
       "pitchers": [
         "Landen Roupp"
@@ -1356,6 +1999,26 @@
       "stake": 1.02,
       "result": "LOSS",
       "profit": -1.02,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null
+    },
+    {
+      "date": "2026-04-21",
+      "commence": "2026-04-22T01:45:00Z",
+      "betType": "under",
+      "shadow": true,
+      "pitchers": [
+        "Landen Roupp"
+      ],
+      "fadeTeam": "SF",
+      "market": "totals",
+      "selection": "UNDER",
+      "line": 7.5,
+      "odds": -120,
+      "stake": 1.2,
+      "result": "WIN",
+      "profit": 1.0,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
       "reason": null
@@ -1383,7 +2046,7 @@
     {
       "date": "2026-04-22",
       "commence": "2026-04-22T17:10:00Z",
-      "betType": "total",
+      "betType": "over",
       "shadow": true,
       "pitchers": [
         "Tanner Bibee"
@@ -1396,6 +2059,26 @@
       "stake": 1.1,
       "result": "LOSS",
       "profit": -1.1,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null
+    },
+    {
+      "date": "2026-04-22",
+      "commence": "2026-04-22T17:10:00Z",
+      "betType": "under",
+      "shadow": true,
+      "pitchers": [
+        "Tanner Bibee"
+      ],
+      "fadeTeam": "CLE",
+      "market": "totals",
+      "selection": "UNDER",
+      "line": 8.0,
+      "odds": -110,
+      "stake": 1.1,
+      "result": "WIN",
+      "profit": 1.0,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
       "reason": null
@@ -1423,7 +2106,7 @@
     {
       "date": "2026-04-22",
       "commence": "2026-04-22T20:10:00Z",
-      "betType": "total",
+      "betType": "over",
       "shadow": true,
       "pitchers": [
         "Aaron Civale"
@@ -1436,6 +2119,26 @@
       "stake": 1.15,
       "result": "WIN",
       "profit": 1.0,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null
+    },
+    {
+      "date": "2026-04-22",
+      "commence": "2026-04-22T20:10:00Z",
+      "betType": "under",
+      "shadow": true,
+      "pitchers": [
+        "Aaron Civale"
+      ],
+      "fadeTeam": "OAK",
+      "market": "totals",
+      "selection": "UNDER",
+      "line": 7.5,
+      "odds": -105,
+      "stake": 1.05,
+      "result": "LOSS",
+      "profit": -1.05,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
       "reason": null
@@ -1463,7 +2166,7 @@
     {
       "date": "2026-04-22",
       "commence": "2026-04-22T22:45:00Z",
-      "betType": "total",
+      "betType": "over",
       "shadow": true,
       "pitchers": [
         "Zack Littell"
@@ -1476,6 +2179,26 @@
       "stake": 1.15,
       "result": "WIN",
       "profit": 1.0,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null
+    },
+    {
+      "date": "2026-04-22",
+      "commence": "2026-04-22T22:45:00Z",
+      "betType": "under",
+      "shadow": true,
+      "pitchers": [
+        "Zack Littell"
+      ],
+      "fadeTeam": "WSH",
+      "market": "totals",
+      "selection": "UNDER",
+      "line": 9.0,
+      "odds": -105,
+      "stake": 1.05,
+      "result": "LOSS",
+      "profit": -1.05,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
       "reason": null
@@ -1503,7 +2226,7 @@
     {
       "date": "2026-04-24",
       "commence": "2026-04-24T23:10:00Z",
-      "betType": "total",
+      "betType": "over",
       "shadow": true,
       "pitchers": [
         "Freddy Peralta"
@@ -1516,6 +2239,26 @@
       "stake": 1.0,
       "result": "LOSS",
       "profit": -1.0,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null
+    },
+    {
+      "date": "2026-04-24",
+      "commence": "2026-04-24T23:10:00Z",
+      "betType": "under",
+      "shadow": true,
+      "pitchers": [
+        "Freddy Peralta"
+      ],
+      "fadeTeam": "NYM",
+      "market": "totals",
+      "selection": "UNDER",
+      "line": 7.5,
+      "odds": -122,
+      "stake": 1.22,
+      "result": "WIN",
+      "profit": 1.0,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
       "reason": null
@@ -1543,7 +2286,7 @@
     {
       "date": "2026-04-24",
       "commence": "2026-04-24T23:15:00Z",
-      "betType": "total",
+      "betType": "over",
       "shadow": true,
       "pitchers": [
         "Andrew Painter"
@@ -1556,6 +2299,26 @@
       "stake": 1.05,
       "result": "LOSS",
       "profit": -1.05,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null
+    },
+    {
+      "date": "2026-04-24",
+      "commence": "2026-04-24T23:15:00Z",
+      "betType": "under",
+      "shadow": true,
+      "pitchers": [
+        "Andrew Painter"
+      ],
+      "fadeTeam": "PHI",
+      "market": "totals",
+      "selection": "UNDER",
+      "line": 9.0,
+      "odds": -115,
+      "stake": 1.15,
+      "result": "WIN",
+      "profit": 1.0,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
       "reason": null
@@ -1583,7 +2346,7 @@
     {
       "date": "2026-04-24",
       "commence": "2026-04-25T02:15:00Z",
-      "betType": "total",
+      "betType": "over",
       "shadow": true,
       "pitchers": [
         "Emmet Sheehan"
@@ -1596,6 +2359,26 @@
       "stake": 1.08,
       "result": "WIN",
       "profit": 1.0,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null
+    },
+    {
+      "date": "2026-04-24",
+      "commence": "2026-04-25T02:15:00Z",
+      "betType": "under",
+      "shadow": true,
+      "pitchers": [
+        "Emmet Sheehan"
+      ],
+      "fadeTeam": "LAD",
+      "market": "totals",
+      "selection": "UNDER",
+      "line": 9.0,
+      "odds": -112,
+      "stake": 1.12,
+      "result": "LOSS",
+      "profit": -1.12,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
       "reason": null
@@ -1623,7 +2406,7 @@
     {
       "date": "2026-04-25",
       "commence": "2026-04-25T22:05:00Z",
-      "betType": "total",
+      "betType": "over",
       "shadow": true,
       "pitchers": [
         "Zac Gallen"
@@ -1636,6 +2419,26 @@
       "stake": 1.05,
       "result": "LOSS",
       "profit": -1.05,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null
+    },
+    {
+      "date": "2026-04-25",
+      "commence": "2026-04-25T22:05:00Z",
+      "betType": "under",
+      "shadow": true,
+      "pitchers": [
+        "Zac Gallen"
+      ],
+      "fadeTeam": "ARI",
+      "market": "totals",
+      "selection": "UNDER",
+      "line": 16.0,
+      "odds": -115,
+      "stake": 1.15,
+      "result": "WIN",
+      "profit": 1.0,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
       "reason": null
@@ -1663,7 +2466,7 @@
     {
       "date": "2026-04-25",
       "commence": "2026-04-25T23:05:00Z",
-      "betType": "total",
+      "betType": "over",
       "shadow": true,
       "pitchers": [
         "Jeffrey Springs"
@@ -1676,6 +2479,26 @@
       "stake": 1.14,
       "result": "LOSS",
       "profit": -1.14,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null
+    },
+    {
+      "date": "2026-04-25",
+      "commence": "2026-04-25T23:05:00Z",
+      "betType": "under",
+      "shadow": true,
+      "pitchers": [
+        "Jeffrey Springs"
+      ],
+      "fadeTeam": "OAK",
+      "market": "totals",
+      "selection": "UNDER",
+      "line": 8.0,
+      "odds": -106,
+      "stake": 1.06,
+      "result": "WIN",
+      "profit": 1.0,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
       "reason": null
@@ -1723,7 +2546,7 @@
     {
       "date": "2026-04-25",
       "commence": "2026-04-25T23:10:00Z",
-      "betType": "total",
+      "betType": "over",
       "shadow": true,
       "pitchers": [
         "Mike Burrows"
@@ -1743,7 +2566,7 @@
     {
       "date": "2026-04-25",
       "commence": "2026-04-25T23:10:00Z",
-      "betType": "total",
+      "betType": "over",
       "shadow": true,
       "pitchers": [
         "Mitch Keller"
@@ -1756,6 +2579,46 @@
       "stake": 1.18,
       "result": "WIN",
       "profit": 1.0,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null
+    },
+    {
+      "date": "2026-04-25",
+      "commence": "2026-04-25T23:10:00Z",
+      "betType": "under",
+      "shadow": true,
+      "pitchers": [
+        "Mike Burrows"
+      ],
+      "fadeTeam": "HOU",
+      "market": "totals",
+      "selection": "UNDER",
+      "line": 9.0,
+      "odds": -102,
+      "stake": 1.02,
+      "result": "LOSS",
+      "profit": -1.02,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null
+    },
+    {
+      "date": "2026-04-25",
+      "commence": "2026-04-25T23:10:00Z",
+      "betType": "under",
+      "shadow": true,
+      "pitchers": [
+        "Mitch Keller"
+      ],
+      "fadeTeam": "PIT",
+      "market": "totals",
+      "selection": "UNDER",
+      "line": 7.5,
+      "odds": -104,
+      "stake": 1.04,
+      "result": "LOSS",
+      "profit": -1.04,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
       "reason": null
@@ -1783,7 +2646,7 @@
     {
       "date": "2026-04-26",
       "commence": "2026-04-26T18:35:00Z",
-      "betType": "total",
+      "betType": "over",
       "shadow": true,
       "pitchers": [
         "Kumar Rocker"
@@ -1796,6 +2659,26 @@
       "stake": 1.2,
       "result": "LOSS",
       "profit": -1.2,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null
+    },
+    {
+      "date": "2026-04-26",
+      "commence": "2026-04-26T18:35:00Z",
+      "betType": "under",
+      "shadow": true,
+      "pitchers": [
+        "Kumar Rocker"
+      ],
+      "fadeTeam": "TEX",
+      "market": "totals",
+      "selection": "UNDER",
+      "line": 8.5,
+      "odds": -102,
+      "stake": 1.02,
+      "result": "WIN",
+      "profit": 1.0,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
       "reason": null
@@ -1823,7 +2706,7 @@
     {
       "date": "2026-04-26",
       "commence": "2026-04-26T20:05:00Z",
-      "betType": "total",
+      "betType": "over",
       "shadow": true,
       "pitchers": [
         "Landen Roupp"
@@ -1836,6 +2719,26 @@
       "stake": 1.04,
       "result": "WIN",
       "profit": 1.0,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null
+    },
+    {
+      "date": "2026-04-26",
+      "commence": "2026-04-26T20:05:00Z",
+      "betType": "under",
+      "shadow": true,
+      "pitchers": [
+        "Landen Roupp"
+      ],
+      "fadeTeam": "SF",
+      "market": "totals",
+      "selection": "UNDER",
+      "line": 7.5,
+      "odds": -118,
+      "stake": 1.18,
+      "result": "LOSS",
+      "profit": -1.18,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
       "reason": null
@@ -1863,7 +2766,7 @@
     {
       "date": "2026-04-28",
       "commence": "2026-04-28T22:10:00Z",
-      "betType": "total",
+      "betType": "over",
       "shadow": true,
       "pitchers": [
         "Tanner Bibee"
@@ -1876,6 +2779,26 @@
       "stake": 1.12,
       "result": "LOSS",
       "profit": -1.12,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null
+    },
+    {
+      "date": "2026-04-28",
+      "commence": "2026-04-28T22:10:00Z",
+      "betType": "under",
+      "shadow": true,
+      "pitchers": [
+        "Tanner Bibee"
+      ],
+      "fadeTeam": "CLE",
+      "market": "totals",
+      "selection": "UNDER",
+      "line": 7.5,
+      "odds": -108,
+      "stake": 1.08,
+      "result": "WIN",
+      "profit": 1.0,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
       "reason": null
@@ -1903,7 +2826,7 @@
     {
       "date": "2026-04-28",
       "commence": "2026-04-28T23:10:00Z",
-      "betType": "total",
+      "betType": "over",
       "shadow": true,
       "pitchers": [
         "Zack Littell"
@@ -1914,6 +2837,26 @@
       "line": 8.0,
       "odds": -118,
       "stake": 1.18,
+      "result": "VOID",
+      "profit": 0.0,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": "push"
+    },
+    {
+      "date": "2026-04-28",
+      "commence": "2026-04-28T23:10:00Z",
+      "betType": "under",
+      "shadow": true,
+      "pitchers": [
+        "Zack Littell"
+      ],
+      "fadeTeam": "WSH",
+      "market": "totals",
+      "selection": "UNDER",
+      "line": 8.0,
+      "odds": -104,
+      "stake": 1.04,
       "result": "VOID",
       "profit": 0.0,
       "book": "fanduel",
@@ -1943,7 +2886,7 @@
     {
       "date": "2026-04-28",
       "commence": "2026-04-28T23:40:00Z",
-      "betType": "total",
+      "betType": "over",
       "shadow": true,
       "pitchers": [
         "Merrill Kelly"
@@ -1956,6 +2899,26 @@
       "stake": 1.12,
       "result": "WIN",
       "profit": 1.0,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null
+    },
+    {
+      "date": "2026-04-28",
+      "commence": "2026-04-28T23:40:00Z",
+      "betType": "under",
+      "shadow": true,
+      "pitchers": [
+        "Merrill Kelly"
+      ],
+      "fadeTeam": "ARI",
+      "market": "totals",
+      "selection": "UNDER",
+      "line": 8.0,
+      "odds": -108,
+      "stake": 1.08,
+      "result": "LOSS",
+      "profit": -1.08,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
       "reason": null
@@ -1983,7 +2946,7 @@
     {
       "date": "2026-04-28",
       "commence": "2026-04-29T01:40:00Z",
-      "betType": "total",
+      "betType": "over",
       "shadow": true,
       "pitchers": [
         "Aaron Civale"
@@ -1996,6 +2959,26 @@
       "stake": 1.05,
       "result": "LOSS",
       "profit": -1.05,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null
+    },
+    {
+      "date": "2026-04-28",
+      "commence": "2026-04-29T01:40:00Z",
+      "betType": "under",
+      "shadow": true,
+      "pitchers": [
+        "Aaron Civale"
+      ],
+      "fadeTeam": "OAK",
+      "market": "totals",
+      "selection": "UNDER",
+      "line": 9.5,
+      "odds": -115,
+      "stake": 1.15,
+      "result": "WIN",
+      "profit": 1.0,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
       "reason": null
@@ -2023,7 +3006,7 @@
     {
       "date": "2026-04-29",
       "commence": "2026-04-29T23:10:00Z",
-      "betType": "total",
+      "betType": "over",
       "shadow": true,
       "pitchers": [
         "David Peterson"
@@ -2036,6 +3019,26 @@
       "stake": 1.22,
       "result": "WIN",
       "profit": 1.0,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null
+    },
+    {
+      "date": "2026-04-29",
+      "commence": "2026-04-29T23:10:00Z",
+      "betType": "under",
+      "shadow": true,
+      "pitchers": [
+        "David Peterson"
+      ],
+      "fadeTeam": "NYM",
+      "market": "totals",
+      "selection": "UNDER",
+      "line": 7.0,
+      "odds": 100,
+      "stake": 1.0,
+      "result": "LOSS",
+      "profit": -1.0,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
       "reason": null
@@ -2064,7 +3067,7 @@
     {
       "date": "2026-04-30",
       "commence": "2026-04-30T17:10:00Z",
-      "betType": "total",
+      "betType": "over",
       "shadow": true,
       "pitchers": [
         "Miles Mikolas",
@@ -2078,6 +3081,27 @@
       "stake": 1.0,
       "result": "WIN",
       "profit": 1.0,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null
+    },
+    {
+      "date": "2026-04-30",
+      "commence": "2026-04-30T17:10:00Z",
+      "betType": "under",
+      "shadow": true,
+      "pitchers": [
+        "Miles Mikolas",
+        "Freddy Peralta"
+      ],
+      "fadeTeam": null,
+      "market": "totals",
+      "selection": "UNDER",
+      "line": 8.0,
+      "odds": -122,
+      "stake": 1.22,
+      "result": "LOSS",
+      "profit": -1.22,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
       "reason": null
@@ -2105,7 +3129,7 @@
     {
       "date": "2026-04-30",
       "commence": "2026-04-30T19:05:00Z",
-      "betType": "total",
+      "betType": "over",
       "shadow": true,
       "pitchers": [
         "Jeffrey Springs"
@@ -2118,6 +3142,26 @@
       "stake": 1.0,
       "result": "LOSS",
       "profit": -1.0,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null
+    },
+    {
+      "date": "2026-04-30",
+      "commence": "2026-04-30T19:05:00Z",
+      "betType": "under",
+      "shadow": true,
+      "pitchers": [
+        "Jeffrey Springs"
+      ],
+      "fadeTeam": "OAK",
+      "market": "totals",
+      "selection": "UNDER",
+      "line": 9.5,
+      "odds": -122,
+      "stake": 1.22,
+      "result": "WIN",
+      "profit": 1.0,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
       "reason": null
@@ -2145,7 +3189,7 @@
     {
       "date": "2026-05-01",
       "commence": "2026-05-01T18:20:00Z",
-      "betType": "total",
+      "betType": "over",
       "shadow": true,
       "pitchers": [
         "Zac Gallen"
@@ -2158,6 +3202,26 @@
       "stake": 1.15,
       "result": "WIN",
       "profit": 1.0,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null
+    },
+    {
+      "date": "2026-05-01",
+      "commence": "2026-05-01T18:20:00Z",
+      "betType": "under",
+      "shadow": true,
+      "pitchers": [
+        "Zac Gallen"
+      ],
+      "fadeTeam": "ARI",
+      "market": "totals",
+      "selection": "UNDER",
+      "line": 7.0,
+      "odds": -105,
+      "stake": 1.05,
+      "result": "LOSS",
+      "profit": -1.05,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
       "reason": null
@@ -2185,7 +3249,7 @@
     {
       "date": "2026-05-01",
       "commence": "2026-05-01T22:45:00Z",
-      "betType": "total",
+      "betType": "over",
       "shadow": true,
       "pitchers": [
         "Mitch Keller"
@@ -2198,6 +3262,26 @@
       "stake": 1.18,
       "result": "WIN",
       "profit": 1.0,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null
+    },
+    {
+      "date": "2026-05-01",
+      "commence": "2026-05-01T22:45:00Z",
+      "betType": "under",
+      "shadow": true,
+      "pitchers": [
+        "Mitch Keller"
+      ],
+      "fadeTeam": "PIT",
+      "market": "totals",
+      "selection": "UNDER",
+      "line": 8.0,
+      "odds": -104,
+      "stake": 1.04,
+      "result": "LOSS",
+      "profit": -1.04,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
       "reason": null
@@ -2225,7 +3309,7 @@
     {
       "date": "2026-05-01",
       "commence": "2026-05-01T23:10:00Z",
-      "betType": "total",
+      "betType": "over",
       "shadow": true,
       "pitchers": [
         "Mike Burrows"
@@ -2238,6 +3322,26 @@
       "stake": 1.12,
       "result": "LOSS",
       "profit": -1.12,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null
+    },
+    {
+      "date": "2026-05-01",
+      "commence": "2026-05-01T23:10:00Z",
+      "betType": "under",
+      "shadow": true,
+      "pitchers": [
+        "Mike Burrows"
+      ],
+      "fadeTeam": "HOU",
+      "market": "totals",
+      "selection": "UNDER",
+      "line": 9.0,
+      "odds": -108,
+      "stake": 1.08,
+      "result": "WIN",
+      "profit": 1.0,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
       "reason": null
@@ -2265,7 +3369,7 @@
     {
       "date": "2026-05-01",
       "commence": "2026-05-02T00:15:00Z",
-      "betType": "total",
+      "betType": "over",
       "shadow": true,
       "pitchers": [
         "Emmet Sheehan"
@@ -2278,6 +3382,26 @@
       "stake": 1.05,
       "result": "WIN",
       "profit": 1.0,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null
+    },
+    {
+      "date": "2026-05-01",
+      "commence": "2026-05-02T00:15:00Z",
+      "betType": "under",
+      "shadow": true,
+      "pitchers": [
+        "Emmet Sheehan"
+      ],
+      "fadeTeam": "LAD",
+      "market": "totals",
+      "selection": "UNDER",
+      "line": 8.5,
+      "odds": -115,
+      "stake": 1.15,
+      "result": "LOSS",
+      "profit": -1.15,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
       "reason": null
@@ -2305,7 +3429,7 @@
     {
       "date": "2026-05-02",
       "commence": "2026-05-02T20:05:00Z",
-      "betType": "total",
+      "betType": "over",
       "shadow": true,
       "pitchers": [
         "Jacob Lopez"
@@ -2318,6 +3442,26 @@
       "stake": 1.06,
       "result": "WIN",
       "profit": 1.0,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null
+    },
+    {
+      "date": "2026-05-02",
+      "commence": "2026-05-02T20:05:00Z",
+      "betType": "under",
+      "shadow": true,
+      "pitchers": [
+        "Jacob Lopez"
+      ],
+      "fadeTeam": "OAK",
+      "market": "totals",
+      "selection": "UNDER",
+      "line": 10.5,
+      "odds": -114,
+      "stake": 1.14,
+      "result": "LOSS",
+      "profit": -1.14,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
       "reason": null
@@ -2345,7 +3489,7 @@
     {
       "date": "2026-05-02",
       "commence": "2026-05-02T20:10:00Z",
-      "betType": "total",
+      "betType": "over",
       "shadow": true,
       "pitchers": [
         "Andrew Painter"
@@ -2358,6 +3502,26 @@
       "stake": 1.18,
       "result": "LOSS",
       "profit": -1.18,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null
+    },
+    {
+      "date": "2026-05-02",
+      "commence": "2026-05-02T20:10:00Z",
+      "betType": "under",
+      "shadow": true,
+      "pitchers": [
+        "Andrew Painter"
+      ],
+      "fadeTeam": "PHI",
+      "market": "totals",
+      "selection": "UNDER",
+      "line": 8.5,
+      "odds": -104,
+      "stake": 1.04,
+      "result": "WIN",
+      "profit": 1.0,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
       "reason": null
@@ -2385,7 +3549,7 @@
     {
       "date": "2026-05-02",
       "commence": "2026-05-02T22:10:00Z",
-      "betType": "total",
+      "betType": "over",
       "shadow": true,
       "pitchers": [
         "Landen Roupp"
@@ -2398,6 +3562,26 @@
       "stake": 1.08,
       "result": "LOSS",
       "profit": -1.08,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null
+    },
+    {
+      "date": "2026-05-02",
+      "commence": "2026-05-02T22:10:00Z",
+      "betType": "under",
+      "shadow": true,
+      "pitchers": [
+        "Landen Roupp"
+      ],
+      "fadeTeam": "SF",
+      "market": "totals",
+      "selection": "UNDER",
+      "line": 7.5,
+      "odds": -112,
+      "stake": 1.12,
+      "result": "WIN",
+      "profit": 1.0,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
       "reason": null
@@ -2425,7 +3609,7 @@
     {
       "date": "2026-05-02",
       "commence": "2026-05-02T23:15:00Z",
-      "betType": "total",
+      "betType": "over",
       "shadow": true,
       "pitchers": [
         "Kumar Rocker"
@@ -2438,6 +3622,26 @@
       "stake": 1.02,
       "result": "LOSS",
       "profit": -1.02,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null
+    },
+    {
+      "date": "2026-05-02",
+      "commence": "2026-05-02T23:15:00Z",
+      "betType": "under",
+      "shadow": true,
+      "pitchers": [
+        "Kumar Rocker"
+      ],
+      "fadeTeam": "TEX",
+      "market": "totals",
+      "selection": "UNDER",
+      "line": 8.5,
+      "odds": -120,
+      "stake": 1.2,
+      "result": "WIN",
+      "profit": 1.0,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
       "reason": null
@@ -2465,7 +3669,7 @@
     {
       "date": "2026-05-03",
       "commence": "2026-05-03T18:20:00Z",
-      "betType": "total",
+      "betType": "over",
       "shadow": true,
       "pitchers": [
         "Merrill Kelly"
@@ -2478,6 +3682,26 @@
       "stake": 1.22,
       "result": "WIN",
       "profit": 1.0,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null
+    },
+    {
+      "date": "2026-05-03",
+      "commence": "2026-05-03T18:20:00Z",
+      "betType": "under",
+      "shadow": true,
+      "pitchers": [
+        "Merrill Kelly"
+      ],
+      "fadeTeam": "ARI",
+      "market": "totals",
+      "selection": "UNDER",
+      "line": 11.5,
+      "odds": 100,
+      "stake": 1.0,
+      "result": "LOSS",
+      "profit": -1.0,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
       "reason": null
@@ -2505,7 +3729,7 @@
     {
       "date": "2026-05-03",
       "commence": "2026-05-03T20:05:00Z",
-      "betType": "total",
+      "betType": "over",
       "shadow": true,
       "pitchers": [
         "Aaron Civale"
@@ -2518,6 +3742,26 @@
       "stake": 1.02,
       "result": "LOSS",
       "profit": -1.02,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null
+    },
+    {
+      "date": "2026-05-03",
+      "commence": "2026-05-03T20:05:00Z",
+      "betType": "under",
+      "shadow": true,
+      "pitchers": [
+        "Aaron Civale"
+      ],
+      "fadeTeam": "OAK",
+      "market": "totals",
+      "selection": "UNDER",
+      "line": 9.5,
+      "odds": -120,
+      "stake": 1.2,
+      "result": "WIN",
+      "profit": 1.0,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
       "reason": null
@@ -2545,7 +3789,7 @@
     {
       "date": "2026-05-04",
       "commence": "2026-05-04T23:40:00Z",
-      "betType": "total",
+      "betType": "over",
       "shadow": true,
       "pitchers": [
         "Tanner Bibee"
@@ -2558,6 +3802,26 @@
       "stake": 1.12,
       "result": "LOSS",
       "profit": -1.12,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null
+    },
+    {
+      "date": "2026-05-04",
+      "commence": "2026-05-04T23:40:00Z",
+      "betType": "under",
+      "shadow": true,
+      "pitchers": [
+        "Tanner Bibee"
+      ],
+      "fadeTeam": "CLE",
+      "market": "totals",
+      "selection": "UNDER",
+      "line": 9.0,
+      "odds": -108,
+      "stake": 1.08,
+      "result": "WIN",
+      "profit": 1.0,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
       "reason": null
@@ -2585,7 +3849,7 @@
     {
       "date": "2026-05-06",
       "commence": "2026-05-06T22:40:00Z",
-      "betType": "total",
+      "betType": "over",
       "shadow": true,
       "pitchers": [
         "Jeffrey Springs"
@@ -2598,6 +3862,26 @@
       "stake": 1.04,
       "result": "WIN",
       "profit": 1.0,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null
+    },
+    {
+      "date": "2026-05-06",
+      "commence": "2026-05-06T22:40:00Z",
+      "betType": "under",
+      "shadow": true,
+      "pitchers": [
+        "Jeffrey Springs"
+      ],
+      "fadeTeam": "OAK",
+      "market": "totals",
+      "selection": "UNDER",
+      "line": 8.5,
+      "odds": -118,
+      "stake": 1.18,
+      "result": "LOSS",
+      "profit": -1.18,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
       "reason": null
@@ -2625,7 +3909,7 @@
     {
       "date": "2026-05-06",
       "commence": "2026-05-06T22:45:00Z",
-      "betType": "total",
+      "betType": "over",
       "shadow": true,
       "pitchers": [
         "Miles Mikolas"
@@ -2638,6 +3922,26 @@
       "stake": 1.05,
       "result": "WIN",
       "profit": 1.0,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null
+    },
+    {
+      "date": "2026-05-06",
+      "commence": "2026-05-06T22:45:00Z",
+      "betType": "under",
+      "shadow": true,
+      "pitchers": [
+        "Miles Mikolas"
+      ],
+      "fadeTeam": "WSH",
+      "market": "totals",
+      "selection": "UNDER",
+      "line": 9.5,
+      "odds": -115,
+      "stake": 1.15,
+      "result": "LOSS",
+      "profit": -1.15,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
       "reason": null
@@ -2665,7 +3969,7 @@
     {
       "date": "2026-05-06",
       "commence": "2026-05-07T01:20:00Z",
-      "betType": "total",
+      "betType": "over",
       "shadow": true,
       "pitchers": [
         "Freddy Peralta"
@@ -2678,6 +3982,26 @@
       "stake": 1.0,
       "result": "WIN",
       "profit": 1.0,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null
+    },
+    {
+      "date": "2026-05-06",
+      "commence": "2026-05-07T01:20:00Z",
+      "betType": "under",
+      "shadow": true,
+      "pitchers": [
+        "Freddy Peralta"
+      ],
+      "fadeTeam": "NYM",
+      "market": "totals",
+      "selection": "UNDER",
+      "line": 9.5,
+      "odds": -122,
+      "stake": 1.22,
+      "result": "LOSS",
+      "profit": -1.22,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
       "reason": null
@@ -2706,7 +4030,7 @@
     {
       "date": "2026-05-07",
       "commence": "2026-05-07T19:40:00Z",
-      "betType": "total",
+      "betType": "over",
       "shadow": true,
       "pitchers": [
         "Zac Gallen",
@@ -2720,6 +4044,27 @@
       "stake": 1.2,
       "result": "LOSS",
       "profit": -1.2,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null
+    },
+    {
+      "date": "2026-05-07",
+      "commence": "2026-05-07T19:40:00Z",
+      "betType": "under",
+      "shadow": true,
+      "pitchers": [
+        "Zac Gallen",
+        "Mitch Keller"
+      ],
+      "fadeTeam": null,
+      "market": "totals",
+      "selection": "UNDER",
+      "line": 8.5,
+      "odds": -102,
+      "stake": 1.02,
+      "result": "WIN",
+      "profit": 1.0,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
       "reason": null
@@ -2747,7 +4092,7 @@
     {
       "date": "2026-05-07",
       "commence": "2026-05-07T22:40:00Z",
-      "betType": "total",
+      "betType": "over",
       "shadow": true,
       "pitchers": [
         "Andrew Painter"
@@ -2760,6 +4105,26 @@
       "stake": 1.15,
       "result": "WIN",
       "profit": 1.0,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null
+    },
+    {
+      "date": "2026-05-07",
+      "commence": "2026-05-07T22:40:00Z",
+      "betType": "under",
+      "shadow": true,
+      "pitchers": [
+        "Andrew Painter"
+      ],
+      "fadeTeam": "PHI",
+      "market": "totals",
+      "selection": "UNDER",
+      "line": 9.0,
+      "odds": -105,
+      "stake": 1.05,
+      "result": "LOSS",
+      "profit": -1.05,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
       "reason": null
@@ -2787,7 +4152,7 @@
     {
       "date": "2026-05-08",
       "commence": "2026-05-08T22:10:00Z",
-      "betType": "total",
+      "betType": "over",
       "shadow": true,
       "pitchers": [
         "Mike Burrows"
@@ -2800,6 +4165,26 @@
       "stake": 1.08,
       "result": "WIN",
       "profit": 1.0,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null
+    },
+    {
+      "date": "2026-05-08",
+      "commence": "2026-05-08T22:10:00Z",
+      "betType": "under",
+      "shadow": true,
+      "pitchers": [
+        "Mike Burrows"
+      ],
+      "fadeTeam": "HOU",
+      "market": "totals",
+      "selection": "UNDER",
+      "line": 9.0,
+      "odds": -112,
+      "stake": 1.12,
+      "result": "LOSS",
+      "profit": -1.12,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
       "reason": null
@@ -2827,7 +4212,7 @@
     {
       "date": "2026-05-08",
       "commence": "2026-05-08T23:05:00Z",
-      "betType": "total",
+      "betType": "over",
       "shadow": true,
       "pitchers": [
         "Jacob Lopez"
@@ -2840,6 +4225,26 @@
       "stake": 1.0,
       "result": "LOSS",
       "profit": -1.0,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null
+    },
+    {
+      "date": "2026-05-08",
+      "commence": "2026-05-08T23:05:00Z",
+      "betType": "under",
+      "shadow": true,
+      "pitchers": [
+        "Jacob Lopez"
+      ],
+      "fadeTeam": "OAK",
+      "market": "totals",
+      "selection": "UNDER",
+      "line": 9.5,
+      "odds": -122,
+      "stake": 1.22,
+      "result": "WIN",
+      "profit": 1.0,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
       "reason": null
@@ -2867,7 +4272,7 @@
     {
       "date": "2026-05-08",
       "commence": "2026-05-09T00:05:00Z",
-      "betType": "total",
+      "betType": "over",
       "shadow": true,
       "pitchers": [
         "Kumar Rocker"
@@ -2880,6 +4285,26 @@
       "stake": 1.04,
       "result": "LOSS",
       "profit": -1.04,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null
+    },
+    {
+      "date": "2026-05-08",
+      "commence": "2026-05-09T00:05:00Z",
+      "betType": "under",
+      "shadow": true,
+      "pitchers": [
+        "Kumar Rocker"
+      ],
+      "fadeTeam": "TEX",
+      "market": "totals",
+      "selection": "UNDER",
+      "line": 8.5,
+      "odds": -118,
+      "stake": 1.18,
+      "result": "WIN",
+      "profit": 1.0,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
       "reason": null
@@ -2907,7 +4332,7 @@
     {
       "date": "2026-05-08",
       "commence": "2026-05-09T02:10:00Z",
-      "betType": "total",
+      "betType": "over",
       "shadow": true,
       "pitchers": [
         "Emmet Sheehan"
@@ -2920,6 +4345,26 @@
       "stake": 1.04,
       "result": "LOSS",
       "profit": -1.04,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null
+    },
+    {
+      "date": "2026-05-08",
+      "commence": "2026-05-09T02:10:00Z",
+      "betType": "under",
+      "shadow": true,
+      "pitchers": [
+        "Emmet Sheehan"
+      ],
+      "fadeTeam": "LAD",
+      "market": "totals",
+      "selection": "UNDER",
+      "line": 8.0,
+      "odds": -118,
+      "stake": 1.18,
+      "result": "WIN",
+      "profit": 1.0,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
       "reason": null
@@ -2947,7 +4392,7 @@
     {
       "date": "2026-05-09",
       "commence": "2026-05-09T20:05:00Z",
-      "betType": "total",
+      "betType": "over",
       "shadow": true,
       "pitchers": [
         "Aaron Civale"
@@ -2960,6 +4405,26 @@
       "stake": 1.15,
       "result": "LOSS",
       "profit": -1.15,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null
+    },
+    {
+      "date": "2026-05-09",
+      "commence": "2026-05-09T20:05:00Z",
+      "betType": "under",
+      "shadow": true,
+      "pitchers": [
+        "Aaron Civale"
+      ],
+      "fadeTeam": "OAK",
+      "market": "totals",
+      "selection": "UNDER",
+      "line": 9.5,
+      "odds": -105,
+      "stake": 1.05,
+      "result": "WIN",
+      "profit": 1.0,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
       "reason": null
@@ -2987,7 +4452,7 @@
     {
       "date": "2026-05-09",
       "commence": "2026-05-09T22:10:00Z",
-      "betType": "total",
+      "betType": "over",
       "shadow": true,
       "pitchers": [
         "Tanner Bibee"
@@ -3000,6 +4465,26 @@
       "stake": 1.05,
       "result": "LOSS",
       "profit": -1.05,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null
+    },
+    {
+      "date": "2026-05-09",
+      "commence": "2026-05-09T22:10:00Z",
+      "betType": "under",
+      "shadow": true,
+      "pitchers": [
+        "Tanner Bibee"
+      ],
+      "fadeTeam": "CLE",
+      "market": "totals",
+      "selection": "UNDER",
+      "line": 8.0,
+      "odds": -115,
+      "stake": 1.15,
+      "result": "WIN",
+      "profit": 1.0,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
       "reason": null
@@ -3027,7 +4512,7 @@
     {
       "date": "2026-05-09",
       "commence": "2026-05-09T23:15:00Z",
-      "betType": "total",
+      "betType": "over",
       "shadow": true,
       "pitchers": [
         "Merrill Kelly"
@@ -3040,6 +4525,26 @@
       "stake": 1.08,
       "result": "LOSS",
       "profit": -1.08,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null
+    },
+    {
+      "date": "2026-05-09",
+      "commence": "2026-05-09T23:15:00Z",
+      "betType": "under",
+      "shadow": true,
+      "pitchers": [
+        "Merrill Kelly"
+      ],
+      "fadeTeam": "ARI",
+      "market": "totals",
+      "selection": "UNDER",
+      "line": 9.5,
+      "odds": -112,
+      "stake": 1.12,
+      "result": "WIN",
+      "profit": 1.0,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
       "reason": null
@@ -3067,7 +4572,7 @@
     {
       "date": "2026-05-09",
       "commence": "2026-05-10T01:05:00Z",
-      "betType": "total",
+      "betType": "over",
       "shadow": true,
       "pitchers": [
         "Landen Roupp"
@@ -3080,6 +4585,26 @@
       "stake": 1.22,
       "result": "WIN",
       "profit": 1.0,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null
+    },
+    {
+      "date": "2026-05-09",
+      "commence": "2026-05-10T01:05:00Z",
+      "betType": "under",
+      "shadow": true,
+      "pitchers": [
+        "Landen Roupp"
+      ],
+      "fadeTeam": "SF",
+      "market": "totals",
+      "selection": "UNDER",
+      "line": 7.0,
+      "odds": 100,
+      "stake": 1.0,
+      "result": "LOSS",
+      "profit": -1.0,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
       "reason": null
@@ -3107,7 +4632,7 @@
     {
       "date": "2026-05-12",
       "commence": "2026-05-12T22:40:00Z",
-      "betType": "total",
+      "betType": "over",
       "shadow": true,
       "pitchers": [
         "Miles Mikolas"
@@ -3120,6 +4645,26 @@
       "stake": 1.1,
       "result": "WIN",
       "profit": 1.0,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null
+    },
+    {
+      "date": "2026-05-12",
+      "commence": "2026-05-12T22:40:00Z",
+      "betType": "under",
+      "shadow": true,
+      "pitchers": [
+        "Miles Mikolas"
+      ],
+      "fadeTeam": "WSH",
+      "market": "totals",
+      "selection": "UNDER",
+      "line": 9.5,
+      "odds": -110,
+      "stake": 1.1,
+      "result": "LOSS",
+      "profit": -1.1,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
       "reason": null
@@ -3147,7 +4692,7 @@
     {
       "date": "2026-05-12",
       "commence": "2026-05-12T23:10:00Z",
-      "betType": "total",
+      "betType": "over",
       "shadow": true,
       "pitchers": [
         "Freddy Peralta"
@@ -3160,6 +4705,26 @@
       "stake": 1.04,
       "result": "WIN",
       "profit": 1.0,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null
+    },
+    {
+      "date": "2026-05-12",
+      "commence": "2026-05-12T23:10:00Z",
+      "betType": "under",
+      "shadow": true,
+      "pitchers": [
+        "Freddy Peralta"
+      ],
+      "fadeTeam": "NYM",
+      "market": "totals",
+      "selection": "UNDER",
+      "line": 7.5,
+      "odds": -118,
+      "stake": 1.18,
+      "result": "LOSS",
+      "profit": -1.18,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
       "reason": null
@@ -3187,7 +4752,7 @@
     {
       "date": "2026-05-12",
       "commence": "2026-05-13T00:05:00Z",
-      "betType": "total",
+      "betType": "over",
       "shadow": true,
       "pitchers": [
         "Zac Gallen"
@@ -3200,6 +4765,26 @@
       "stake": 1.04,
       "result": "WIN",
       "profit": 1.0,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null
+    },
+    {
+      "date": "2026-05-12",
+      "commence": "2026-05-13T00:05:00Z",
+      "betType": "under",
+      "shadow": true,
+      "pitchers": [
+        "Zac Gallen"
+      ],
+      "fadeTeam": "ARI",
+      "market": "totals",
+      "selection": "UNDER",
+      "line": 8.0,
+      "odds": -118,
+      "stake": 1.18,
+      "result": "LOSS",
+      "profit": -1.18,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
       "reason": null
@@ -3227,7 +4812,7 @@
     {
       "date": "2026-05-12",
       "commence": "2026-05-13T01:40:00Z",
-      "betType": "total",
+      "betType": "over",
       "shadow": true,
       "pitchers": [
         "Jeffrey Springs"
@@ -3238,6 +4823,26 @@
       "line": 10.0,
       "odds": -102,
       "stake": 1.02,
+      "result": "VOID",
+      "profit": 0.0,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": "push"
+    },
+    {
+      "date": "2026-05-12",
+      "commence": "2026-05-13T01:40:00Z",
+      "betType": "under",
+      "shadow": true,
+      "pitchers": [
+        "Jeffrey Springs"
+      ],
+      "fadeTeam": "OAK",
+      "market": "totals",
+      "selection": "UNDER",
+      "line": 10.0,
+      "odds": -120,
+      "stake": 1.2,
       "result": "VOID",
       "profit": 0.0,
       "book": "fanduel",
@@ -3267,7 +4872,7 @@
     {
       "date": "2026-05-13",
       "commence": "2026-05-13T22:40:00Z",
-      "betType": "total",
+      "betType": "over",
       "shadow": true,
       "pitchers": [
         "Mitch Keller"
@@ -3280,6 +4885,26 @@
       "stake": 1.06,
       "result": "WIN",
       "profit": 1.0,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null
+    },
+    {
+      "date": "2026-05-13",
+      "commence": "2026-05-13T22:40:00Z",
+      "betType": "under",
+      "shadow": true,
+      "pitchers": [
+        "Mitch Keller"
+      ],
+      "fadeTeam": "PIT",
+      "market": "totals",
+      "selection": "UNDER",
+      "line": 8.5,
+      "odds": -114,
+      "stake": 1.14,
+      "result": "LOSS",
+      "profit": -1.14,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
       "reason": null
@@ -3307,7 +4932,7 @@
     {
       "date": "2026-05-13",
       "commence": "2026-05-13T22:45:00Z",
-      "betType": "total",
+      "betType": "over",
       "shadow": true,
       "pitchers": [
         "Andrew Painter"
@@ -3320,6 +4945,26 @@
       "stake": 1.08,
       "result": "LOSS",
       "profit": -1.08,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null
+    },
+    {
+      "date": "2026-05-13",
+      "commence": "2026-05-13T22:45:00Z",
+      "betType": "under",
+      "shadow": true,
+      "pitchers": [
+        "Andrew Painter"
+      ],
+      "fadeTeam": "PHI",
+      "market": "totals",
+      "selection": "UNDER",
+      "line": 9.0,
+      "odds": -112,
+      "stake": 1.12,
+      "result": "WIN",
+      "profit": 1.0,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
       "reason": null
@@ -3347,7 +4992,7 @@
     {
       "date": "2026-05-13",
       "commence": "2026-05-14T00:05:00Z",
-      "betType": "total",
+      "betType": "over",
       "shadow": true,
       "pitchers": [
         "Kumar Rocker"
@@ -3360,6 +5005,26 @@
       "stake": 1.12,
       "result": "WIN",
       "profit": 1.0,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null
+    },
+    {
+      "date": "2026-05-13",
+      "commence": "2026-05-14T00:05:00Z",
+      "betType": "under",
+      "shadow": true,
+      "pitchers": [
+        "Kumar Rocker"
+      ],
+      "fadeTeam": "TEX",
+      "market": "totals",
+      "selection": "UNDER",
+      "line": 8.0,
+      "odds": -108,
+      "stake": 1.08,
+      "result": "LOSS",
+      "profit": -1.08,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
       "reason": null
@@ -3387,7 +5052,7 @@
     {
       "date": "2026-05-14",
       "commence": "2026-05-14T17:40:00Z",
-      "betType": "total",
+      "betType": "over",
       "shadow": true,
       "pitchers": [
         "Griffin Canning"
@@ -3400,6 +5065,26 @@
       "stake": 1.15,
       "result": "WIN",
       "profit": 1.0,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null
+    },
+    {
+      "date": "2026-05-14",
+      "commence": "2026-05-14T17:40:00Z",
+      "betType": "under",
+      "shadow": true,
+      "pitchers": [
+        "Griffin Canning"
+      ],
+      "fadeTeam": "SD",
+      "market": "totals",
+      "selection": "UNDER",
+      "line": 7.5,
+      "odds": -105,
+      "stake": 1.05,
+      "result": "LOSS",
+      "profit": -1.05,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
       "reason": null
@@ -3427,7 +5112,7 @@
     {
       "date": "2026-05-14",
       "commence": "2026-05-14T18:10:00Z",
-      "betType": "total",
+      "betType": "over",
       "shadow": true,
       "pitchers": [
         "Mike Burrows"
@@ -3440,6 +5125,26 @@
       "stake": 1.08,
       "result": "WIN",
       "profit": 1.0,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null
+    },
+    {
+      "date": "2026-05-14",
+      "commence": "2026-05-14T18:10:00Z",
+      "betType": "under",
+      "shadow": true,
+      "pitchers": [
+        "Mike Burrows"
+      ],
+      "fadeTeam": "HOU",
+      "market": "totals",
+      "selection": "UNDER",
+      "line": 9.0,
+      "odds": -112,
+      "stake": 1.12,
+      "result": "LOSS",
+      "profit": -1.12,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
       "reason": null
@@ -3467,7 +5172,7 @@
     {
       "date": "2026-05-14",
       "commence": "2026-05-14T19:05:00Z",
-      "betType": "total",
+      "betType": "over",
       "shadow": true,
       "pitchers": [
         "Jacob Lopez"
@@ -3480,6 +5185,26 @@
       "stake": 1.18,
       "result": "LOSS",
       "profit": -1.18,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null
+    },
+    {
+      "date": "2026-05-14",
+      "commence": "2026-05-14T19:05:00Z",
+      "betType": "under",
+      "shadow": true,
+      "pitchers": [
+        "Jacob Lopez"
+      ],
+      "fadeTeam": "OAK",
+      "market": "totals",
+      "selection": "UNDER",
+      "line": 9.5,
+      "odds": -104,
+      "stake": 1.04,
+      "result": "WIN",
+      "profit": 1.0,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
       "reason": null
@@ -3508,7 +5233,7 @@
     {
       "date": "2026-05-14",
       "commence": "2026-05-15T02:10:00Z",
-      "betType": "total",
+      "betType": "over",
       "shadow": true,
       "pitchers": [
         "Emmet Sheehan",
@@ -3522,6 +5247,27 @@
       "stake": 1.0,
       "result": "LOSS",
       "profit": -1.0,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null
+    },
+    {
+      "date": "2026-05-14",
+      "commence": "2026-05-15T02:10:00Z",
+      "betType": "under",
+      "shadow": true,
+      "pitchers": [
+        "Emmet Sheehan",
+        "Landen Roupp"
+      ],
+      "fadeTeam": null,
+      "market": "totals",
+      "selection": "UNDER",
+      "line": 8.0,
+      "odds": -122,
+      "stake": 1.22,
+      "result": "WIN",
+      "profit": 1.0,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
       "reason": null
@@ -3549,7 +5295,7 @@
     {
       "date": "2026-05-15",
       "commence": "2026-05-15T22:45:00Z",
-      "betType": "total",
+      "betType": "over",
       "shadow": true,
       "pitchers": [
         "Zack Littell"
@@ -3562,6 +5308,26 @@
       "stake": 1.04,
       "result": "LOSS",
       "profit": -1.04,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null
+    },
+    {
+      "date": "2026-05-15",
+      "commence": "2026-05-15T22:45:00Z",
+      "betType": "under",
+      "shadow": true,
+      "pitchers": [
+        "Zack Littell"
+      ],
+      "fadeTeam": "WSH",
+      "market": "totals",
+      "selection": "UNDER",
+      "line": 9.5,
+      "odds": -118,
+      "stake": 1.18,
+      "result": "WIN",
+      "profit": 1.0,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
       "reason": null
@@ -3589,7 +5355,7 @@
     {
       "date": "2026-05-15",
       "commence": "2026-05-15T23:10:00Z",
-      "betType": "total",
+      "betType": "over",
       "shadow": true,
       "pitchers": [
         "Tanner Bibee"
@@ -3602,6 +5368,26 @@
       "stake": 1.04,
       "result": "WIN",
       "profit": 1.0,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null
+    },
+    {
+      "date": "2026-05-15",
+      "commence": "2026-05-15T23:10:00Z",
+      "betType": "under",
+      "shadow": true,
+      "pitchers": [
+        "Tanner Bibee"
+      ],
+      "fadeTeam": "CLE",
+      "market": "totals",
+      "selection": "UNDER",
+      "line": 8.0,
+      "odds": -118,
+      "stake": 1.18,
+      "result": "LOSS",
+      "profit": -1.18,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
       "reason": null
@@ -3629,7 +5415,7 @@
     {
       "date": "2026-05-15",
       "commence": "2026-05-16T00:40:00Z",
-      "betType": "total",
+      "betType": "over",
       "shadow": true,
       "pitchers": [
         "Merrill Kelly"
@@ -3642,6 +5428,26 @@
       "stake": 1.15,
       "result": "LOSS",
       "profit": -1.15,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null
+    },
+    {
+      "date": "2026-05-15",
+      "commence": "2026-05-16T00:40:00Z",
+      "betType": "under",
+      "shadow": true,
+      "pitchers": [
+        "Merrill Kelly"
+      ],
+      "fadeTeam": "ARI",
+      "market": "totals",
+      "selection": "UNDER",
+      "line": 11.5,
+      "odds": -105,
+      "stake": 1.05,
+      "result": "WIN",
+      "profit": 1.0,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
       "reason": null
@@ -3669,7 +5475,7 @@
     {
       "date": "2026-05-15",
       "commence": "2026-05-16T01:40:00Z",
-      "betType": "total",
+      "betType": "over",
       "shadow": true,
       "pitchers": [
         "Aaron Civale"
@@ -3682,6 +5488,26 @@
       "stake": 1.22,
       "result": "LOSS",
       "profit": -1.22,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null
+    },
+    {
+      "date": "2026-05-15",
+      "commence": "2026-05-16T01:40:00Z",
+      "betType": "under",
+      "shadow": true,
+      "pitchers": [
+        "Aaron Civale"
+      ],
+      "fadeTeam": "OAK",
+      "market": "totals",
+      "selection": "UNDER",
+      "line": 9.5,
+      "odds": 100,
+      "stake": 1.0,
+      "result": "WIN",
+      "profit": 1.0,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
       "reason": null
@@ -3709,7 +5535,7 @@
     {
       "date": "2026-05-17",
       "commence": "2026-05-17T17:40:00Z",
-      "betType": "total",
+      "betType": "over",
       "shadow": true,
       "pitchers": [
         "Freddy Peralta"
@@ -3722,6 +5548,26 @@
       "stake": 1.22,
       "result": "WIN",
       "profit": 1.0,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null
+    },
+    {
+      "date": "2026-05-17",
+      "commence": "2026-05-17T17:40:00Z",
+      "betType": "under",
+      "shadow": true,
+      "pitchers": [
+        "Freddy Peralta"
+      ],
+      "fadeTeam": "NYM",
+      "market": "totals",
+      "selection": "UNDER",
+      "line": 8.5,
+      "odds": 100,
+      "stake": 1.0,
+      "result": "LOSS",
+      "profit": -1.0,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
       "reason": null
@@ -3749,7 +5595,7 @@
     {
       "date": "2026-05-17",
       "commence": "2026-05-17T20:05:00Z",
-      "betType": "total",
+      "betType": "over",
       "shadow": true,
       "pitchers": [
         "Jeffrey Springs"
@@ -3762,6 +5608,26 @@
       "stake": 1.0,
       "result": "WIN",
       "profit": 1.0,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null
+    },
+    {
+      "date": "2026-05-17",
+      "commence": "2026-05-17T20:05:00Z",
+      "betType": "under",
+      "shadow": true,
+      "pitchers": [
+        "Jeffrey Springs"
+      ],
+      "fadeTeam": "OAK",
+      "market": "totals",
+      "selection": "UNDER",
+      "line": 9.5,
+      "odds": -122,
+      "stake": 1.22,
+      "result": "LOSS",
+      "profit": -1.22,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
       "reason": null
@@ -3789,7 +5655,7 @@
     {
       "date": "2026-05-18",
       "commence": "2026-05-18T22:40:00Z",
-      "betType": "total",
+      "betType": "over",
       "shadow": true,
       "pitchers": [
         "Andrew Painter"
@@ -3802,6 +5668,26 @@
       "stake": 1.0,
       "result": "LOSS",
       "profit": -1.0,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null
+    },
+    {
+      "date": "2026-05-18",
+      "commence": "2026-05-18T22:40:00Z",
+      "betType": "under",
+      "shadow": true,
+      "pitchers": [
+        "Andrew Painter"
+      ],
+      "fadeTeam": "PHI",
+      "market": "totals",
+      "selection": "UNDER",
+      "line": 10.0,
+      "odds": -122,
+      "stake": 1.22,
+      "result": "WIN",
+      "profit": 1.0,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
       "reason": null
@@ -3829,7 +5715,7 @@
     {
       "date": "2026-05-18",
       "commence": "2026-05-19T01:40:00Z",
-      "betType": "total",
+      "betType": "over",
       "shadow": true,
       "pitchers": [
         "Zac Gallen"
@@ -3842,6 +5728,26 @@
       "stake": 1.15,
       "result": "WIN",
       "profit": 1.0,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null
+    },
+    {
+      "date": "2026-05-18",
+      "commence": "2026-05-19T01:40:00Z",
+      "betType": "under",
+      "shadow": true,
+      "pitchers": [
+        "Zac Gallen"
+      ],
+      "fadeTeam": "ARI",
+      "market": "totals",
+      "selection": "UNDER",
+      "line": 9.0,
+      "odds": -105,
+      "stake": 1.05,
+      "result": "LOSS",
+      "profit": -1.05,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
       "reason": null
@@ -3869,7 +5775,7 @@
     {
       "date": "2026-05-19",
       "commence": "2026-05-19T23:45:00Z",
-      "betType": "total",
+      "betType": "over",
       "shadow": true,
       "pitchers": [
         "Mitch Keller"
@@ -3882,6 +5788,26 @@
       "stake": 1.06,
       "result": "WIN",
       "profit": 1.0,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null
+    },
+    {
+      "date": "2026-05-19",
+      "commence": "2026-05-19T23:45:00Z",
+      "betType": "under",
+      "shadow": true,
+      "pitchers": [
+        "Mitch Keller"
+      ],
+      "fadeTeam": "PIT",
+      "market": "totals",
+      "selection": "UNDER",
+      "line": 8.0,
+      "odds": -114,
+      "stake": 1.14,
+      "result": "LOSS",
+      "profit": -1.14,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
       "reason": null
@@ -3909,7 +5835,7 @@
     {
       "date": "2026-05-19",
       "commence": "2026-05-20T01:38:00Z",
-      "betType": "total",
+      "betType": "over",
       "shadow": true,
       "pitchers": [
         "Jacob Lopez"
@@ -3922,6 +5848,26 @@
       "stake": 1.1,
       "result": "WIN",
       "profit": 1.0,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null
+    },
+    {
+      "date": "2026-05-19",
+      "commence": "2026-05-20T01:38:00Z",
+      "betType": "under",
+      "shadow": true,
+      "pitchers": [
+        "Jacob Lopez"
+      ],
+      "fadeTeam": "OAK",
+      "market": "totals",
+      "selection": "UNDER",
+      "line": 9.0,
+      "odds": -110,
+      "stake": 1.1,
+      "result": "LOSS",
+      "profit": -1.1,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
       "reason": null
@@ -3970,7 +5916,7 @@
     {
       "date": "2026-05-19",
       "commence": "2026-05-20T01:40:00Z",
-      "betType": "total",
+      "betType": "over",
       "shadow": true,
       "pitchers": [
         "Landen Roupp"
@@ -3990,7 +5936,7 @@
     {
       "date": "2026-05-19",
       "commence": "2026-05-20T01:40:00Z",
-      "betType": "total",
+      "betType": "over",
       "shadow": true,
       "pitchers": [
         "Emmet Sheehan",
@@ -4004,6 +5950,47 @@
       "stake": 1.12,
       "result": "WIN",
       "profit": 1.0,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null
+    },
+    {
+      "date": "2026-05-19",
+      "commence": "2026-05-20T01:40:00Z",
+      "betType": "under",
+      "shadow": true,
+      "pitchers": [
+        "Landen Roupp"
+      ],
+      "fadeTeam": "SF",
+      "market": "totals",
+      "selection": "UNDER",
+      "line": 8.5,
+      "odds": -110,
+      "stake": 1.1,
+      "result": "WIN",
+      "profit": 1.0,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null
+    },
+    {
+      "date": "2026-05-19",
+      "commence": "2026-05-20T01:40:00Z",
+      "betType": "under",
+      "shadow": true,
+      "pitchers": [
+        "Emmet Sheehan",
+        "Griffin Canning"
+      ],
+      "fadeTeam": null,
+      "market": "totals",
+      "selection": "UNDER",
+      "line": 8.0,
+      "odds": -108,
+      "stake": 1.08,
+      "result": "LOSS",
+      "profit": -1.08,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
       "reason": null
@@ -4031,7 +6018,7 @@
     {
       "date": "2026-05-20",
       "commence": "2026-05-20T17:40:00Z",
-      "betType": "total",
+      "betType": "over",
       "shadow": true,
       "pitchers": [
         "Mike Burrows"
@@ -4044,6 +6031,26 @@
       "stake": 1.15,
       "result": "LOSS",
       "profit": -1.15,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null
+    },
+    {
+      "date": "2026-05-20",
+      "commence": "2026-05-20T17:40:00Z",
+      "betType": "under",
+      "shadow": true,
+      "pitchers": [
+        "Mike Burrows"
+      ],
+      "fadeTeam": "HOU",
+      "market": "totals",
+      "selection": "UNDER",
+      "line": 7.5,
+      "odds": -105,
+      "stake": 1.05,
+      "result": "WIN",
+      "profit": 1.0,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
       "reason": null
@@ -4071,7 +6078,7 @@
     {
       "date": "2026-05-20",
       "commence": "2026-05-20T19:40:00Z",
-      "betType": "total",
+      "betType": "over",
       "shadow": true,
       "pitchers": [
         "Merrill Kelly"
@@ -4084,6 +6091,26 @@
       "stake": 1.1,
       "result": "WIN",
       "profit": 1.0,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null
+    },
+    {
+      "date": "2026-05-20",
+      "commence": "2026-05-20T19:40:00Z",
+      "betType": "under",
+      "shadow": true,
+      "pitchers": [
+        "Merrill Kelly"
+      ],
+      "fadeTeam": "ARI",
+      "market": "totals",
+      "selection": "UNDER",
+      "line": 8.5,
+      "odds": -110,
+      "stake": 1.1,
+      "result": "LOSS",
+      "profit": -1.1,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
       "reason": null
@@ -4111,7 +6138,7 @@
     {
       "date": "2026-05-20",
       "commence": "2026-05-20T22:40:00Z",
-      "betType": "total",
+      "betType": "over",
       "shadow": true,
       "pitchers": [
         "Tanner Bibee"
@@ -4124,6 +6151,26 @@
       "stake": 1.0,
       "result": "LOSS",
       "profit": -1.0,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null
+    },
+    {
+      "date": "2026-05-20",
+      "commence": "2026-05-20T22:40:00Z",
+      "betType": "under",
+      "shadow": true,
+      "pitchers": [
+        "Tanner Bibee"
+      ],
+      "fadeTeam": "CLE",
+      "market": "totals",
+      "selection": "UNDER",
+      "line": 7.5,
+      "odds": -122,
+      "stake": 1.22,
+      "result": "WIN",
+      "profit": 1.0,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
       "reason": null
@@ -4151,7 +6198,7 @@
     {
       "date": "2026-05-20",
       "commence": "2026-05-20T22:45:00Z",
-      "betType": "total",
+      "betType": "over",
       "shadow": true,
       "pitchers": [
         "Zack Littell"
@@ -4164,6 +6211,26 @@
       "stake": 1.02,
       "result": "WIN",
       "profit": 1.0,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null
+    },
+    {
+      "date": "2026-05-20",
+      "commence": "2026-05-20T22:45:00Z",
+      "betType": "under",
+      "shadow": true,
+      "pitchers": [
+        "Zack Littell"
+      ],
+      "fadeTeam": "WSH",
+      "market": "totals",
+      "selection": "UNDER",
+      "line": 9.5,
+      "odds": -120,
+      "stake": 1.2,
+      "result": "LOSS",
+      "profit": -1.2,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
       "reason": null
@@ -4191,7 +6258,7 @@
     {
       "date": "2026-05-20",
       "commence": "2026-05-21T01:38:00Z",
-      "betType": "total",
+      "betType": "over",
       "shadow": true,
       "pitchers": [
         "Aaron Civale"
@@ -4204,6 +6271,26 @@
       "stake": 1.1,
       "result": "WIN",
       "profit": 1.0,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null
+    },
+    {
+      "date": "2026-05-20",
+      "commence": "2026-05-21T01:38:00Z",
+      "betType": "under",
+      "shadow": true,
+      "pitchers": [
+        "Aaron Civale"
+      ],
+      "fadeTeam": "OAK",
+      "market": "totals",
+      "selection": "UNDER",
+      "line": 9.5,
+      "odds": -110,
+      "stake": 1.1,
+      "result": "LOSS",
+      "profit": -1.1,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
       "reason": null
@@ -4231,7 +6318,7 @@
     {
       "date": "2026-05-21",
       "commence": "2026-05-21T20:05:00Z",
-      "betType": "total",
+      "betType": "over",
       "shadow": true,
       "pitchers": [
         "David Peterson"
@@ -4244,6 +6331,26 @@
       "stake": 1.22,
       "result": "LOSS",
       "profit": -1.22,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null
+    },
+    {
+      "date": "2026-05-21",
+      "commence": "2026-05-21T20:05:00Z",
+      "betType": "under",
+      "shadow": true,
+      "pitchers": [
+        "David Peterson"
+      ],
+      "fadeTeam": "NYM",
+      "market": "totals",
+      "selection": "UNDER",
+      "line": 7.5,
+      "odds": 100,
+      "stake": 1.0,
+      "result": "WIN",
+      "profit": 1.0,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
       "reason": null
@@ -4271,7 +6378,7 @@
     {
       "date": "2026-05-22",
       "commence": "2026-05-23T01:40:00Z",
-      "betType": "total",
+      "betType": "over",
       "shadow": true,
       "pitchers": [
         "Jeffrey Springs"
@@ -4284,6 +6391,26 @@
       "stake": 1.18,
       "result": "WIN",
       "profit": 1.0,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null
+    },
+    {
+      "date": "2026-05-22",
+      "commence": "2026-05-23T01:40:00Z",
+      "betType": "under",
+      "shadow": true,
+      "pitchers": [
+        "Jeffrey Springs"
+      ],
+      "fadeTeam": "OAK",
+      "market": "totals",
+      "selection": "UNDER",
+      "line": 7.5,
+      "odds": -104,
+      "stake": 1.04,
+      "result": "LOSS",
+      "profit": -1.04,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
       "reason": null
@@ -4311,7 +6438,7 @@
     {
       "date": "2026-05-23",
       "commence": "2026-05-23T20:10:00Z",
-      "betType": "total",
+      "betType": "over",
       "shadow": true,
       "pitchers": [
         "Freddy Peralta"
@@ -4324,6 +6451,26 @@
       "stake": 1.2,
       "result": "LOSS",
       "profit": -1.2,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null
+    },
+    {
+      "date": "2026-05-23",
+      "commence": "2026-05-23T20:10:00Z",
+      "betType": "under",
+      "shadow": true,
+      "pitchers": [
+        "Freddy Peralta"
+      ],
+      "fadeTeam": "NYM",
+      "market": "totals",
+      "selection": "UNDER",
+      "line": 7.5,
+      "odds": -102,
+      "stake": 1.02,
+      "result": "WIN",
+      "profit": 1.0,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
       "reason": null
@@ -4351,7 +6498,7 @@
     {
       "date": "2026-05-23",
       "commence": "2026-05-24T02:10:00Z",
-      "betType": "total",
+      "betType": "over",
       "shadow": true,
       "pitchers": [
         "Zac Gallen"
@@ -4364,6 +6511,26 @@
       "stake": 1.0,
       "result": "LOSS",
       "profit": -1.0,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null
+    },
+    {
+      "date": "2026-05-23",
+      "commence": "2026-05-24T02:10:00Z",
+      "betType": "under",
+      "shadow": true,
+      "pitchers": [
+        "Zac Gallen"
+      ],
+      "fadeTeam": "ARI",
+      "market": "totals",
+      "selection": "UNDER",
+      "line": 9.5,
+      "odds": -122,
+      "stake": 1.22,
+      "result": "WIN",
+      "profit": 1.0,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
       "reason": null
@@ -4391,7 +6558,7 @@
     {
       "date": "2026-05-24",
       "commence": "2026-05-24T16:15:00Z",
-      "betType": "total",
+      "betType": "over",
       "shadow": true,
       "pitchers": [
         "Mitch Keller"
@@ -4404,6 +6571,26 @@
       "stake": 1.1,
       "result": "LOSS",
       "profit": -1.1,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null
+    },
+    {
+      "date": "2026-05-24",
+      "commence": "2026-05-24T16:15:00Z",
+      "betType": "under",
+      "shadow": true,
+      "pitchers": [
+        "Mitch Keller"
+      ],
+      "fadeTeam": "PIT",
+      "market": "totals",
+      "selection": "UNDER",
+      "line": 7.5,
+      "odds": -110,
+      "stake": 1.1,
+      "result": "WIN",
+      "profit": 1.0,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
       "reason": null
@@ -4431,7 +6618,7 @@
     {
       "date": "2026-05-24",
       "commence": "2026-05-24T17:35:00Z",
-      "betType": "total",
+      "betType": "over",
       "shadow": true,
       "pitchers": [
         "Andrew Painter"
@@ -4444,6 +6631,26 @@
       "stake": 1.0,
       "result": "LOSS",
       "profit": -1.0,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null
+    },
+    {
+      "date": "2026-05-24",
+      "commence": "2026-05-24T17:35:00Z",
+      "betType": "under",
+      "shadow": true,
+      "pitchers": [
+        "Andrew Painter"
+      ],
+      "fadeTeam": "PHI",
+      "market": "totals",
+      "selection": "UNDER",
+      "line": 7.5,
+      "odds": -128,
+      "stake": 1.28,
+      "result": "WIN",
+      "profit": 1.0,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
       "reason": null
@@ -4472,7 +6679,7 @@
     {
       "date": "2026-05-25",
       "commence": "2026-05-25T21:05:00Z",
-      "betType": "total",
+      "betType": "over",
       "shadow": true,
       "pitchers": [
         "Landen Roupp",
@@ -4486,6 +6693,27 @@
       "stake": 1.15,
       "result": "WIN",
       "profit": 1.0,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null
+    },
+    {
+      "date": "2026-05-25",
+      "commence": "2026-05-25T21:05:00Z",
+      "betType": "under",
+      "shadow": true,
+      "pitchers": [
+        "Landen Roupp",
+        "Merrill Kelly"
+      ],
+      "fadeTeam": null,
+      "market": "totals",
+      "selection": "UNDER",
+      "line": 7.5,
+      "odds": -105,
+      "stake": 1.05,
+      "result": "LOSS",
+      "profit": -1.05,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
       "reason": null
@@ -4513,7 +6741,7 @@
     {
       "date": "2026-05-25",
       "commence": "2026-05-25T22:10:00Z",
-      "betType": "total",
+      "betType": "over",
       "shadow": true,
       "pitchers": [
         "Tanner Bibee"
@@ -4526,6 +6754,26 @@
       "stake": 1.02,
       "result": "WIN",
       "profit": 1.0,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null
+    },
+    {
+      "date": "2026-05-25",
+      "commence": "2026-05-25T22:10:00Z",
+      "betType": "under",
+      "shadow": true,
+      "pitchers": [
+        "Tanner Bibee"
+      ],
+      "fadeTeam": "CLE",
+      "market": "totals",
+      "selection": "UNDER",
+      "line": 8.5,
+      "odds": -120,
+      "stake": 1.2,
+      "result": "LOSS",
+      "profit": -1.2,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
       "reason": null
@@ -4553,7 +6801,7 @@
     {
       "date": "2026-05-25",
       "commence": "2026-05-25T22:40:00Z",
-      "betType": "total",
+      "betType": "over",
       "shadow": true,
       "pitchers": [
         "Griffin Canning"
@@ -4566,6 +6814,26 @@
       "stake": 1.04,
       "result": "LOSS",
       "profit": -1.04,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null
+    },
+    {
+      "date": "2026-05-25",
+      "commence": "2026-05-25T22:40:00Z",
+      "betType": "under",
+      "shadow": true,
+      "pitchers": [
+        "Griffin Canning"
+      ],
+      "fadeTeam": "SD",
+      "market": "totals",
+      "selection": "UNDER",
+      "line": 7.5,
+      "odds": -118,
+      "stake": 1.18,
+      "result": "WIN",
+      "profit": 1.0,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
       "reason": null
@@ -4593,7 +6861,7 @@
     {
       "date": "2026-05-25",
       "commence": "2026-05-25T23:05:00Z",
-      "betType": "total",
+      "betType": "over",
       "shadow": true,
       "pitchers": [
         "Kumar Rocker"
@@ -4606,6 +6874,26 @@
       "stake": 1.1,
       "result": "WIN",
       "profit": 1.0,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null
+    },
+    {
+      "date": "2026-05-25",
+      "commence": "2026-05-25T23:05:00Z",
+      "betType": "under",
+      "shadow": true,
+      "pitchers": [
+        "Kumar Rocker"
+      ],
+      "fadeTeam": "TEX",
+      "market": "totals",
+      "selection": "UNDER",
+      "line": 8.0,
+      "odds": -110,
+      "stake": 1.1,
+      "result": "LOSS",
+      "profit": -1.1,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
       "reason": null
@@ -4633,7 +6921,7 @@
     {
       "date": "2026-05-25",
       "commence": "2026-05-26T01:10:00Z",
-      "betType": "total",
+      "betType": "over",
       "shadow": true,
       "pitchers": [
         "Emmet Sheehan"
@@ -4646,6 +6934,26 @@
       "stake": 1.28,
       "result": "LOSS",
       "profit": -1.28,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null
+    },
+    {
+      "date": "2026-05-25",
+      "commence": "2026-05-26T01:10:00Z",
+      "betType": "under",
+      "shadow": true,
+      "pitchers": [
+        "Emmet Sheehan"
+      ],
+      "fadeTeam": "LAD",
+      "market": "totals",
+      "selection": "UNDER",
+      "line": 8.5,
+      "odds": 104,
+      "stake": 1.0,
+      "result": "WIN",
+      "profit": 1.04,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
       "reason": null
@@ -4673,7 +6981,7 @@
     {
       "date": "2026-05-25",
       "commence": "2026-05-26T01:40:00Z",
-      "betType": "total",
+      "betType": "over",
       "shadow": true,
       "pitchers": [
         "Aaron Civale"
@@ -4686,6 +6994,26 @@
       "stake": 1.1,
       "result": "WIN",
       "profit": 1.0,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null
+    },
+    {
+      "date": "2026-05-25",
+      "commence": "2026-05-26T01:40:00Z",
+      "betType": "under",
+      "shadow": true,
+      "pitchers": [
+        "Aaron Civale"
+      ],
+      "fadeTeam": "OAK",
+      "market": "totals",
+      "selection": "UNDER",
+      "line": 10.5,
+      "odds": -110,
+      "stake": 1.1,
+      "result": "LOSS",
+      "profit": -1.1,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
       "reason": null
@@ -4713,7 +7041,7 @@
     {
       "date": "2026-05-26",
       "commence": "2026-05-26T23:10:00Z",
-      "betType": "total",
+      "betType": "over",
       "shadow": true,
       "pitchers": [
         "David Peterson"
@@ -4726,6 +7054,26 @@
       "stake": 1.05,
       "result": "WIN",
       "profit": 1.0,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null
+    },
+    {
+      "date": "2026-05-26",
+      "commence": "2026-05-26T23:10:00Z",
+      "betType": "under",
+      "shadow": true,
+      "pitchers": [
+        "David Peterson"
+      ],
+      "fadeTeam": "NYM",
+      "market": "totals",
+      "selection": "UNDER",
+      "line": 7.5,
+      "odds": -115,
+      "stake": 1.15,
+      "result": "LOSS",
+      "profit": -1.15,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
       "reason": null
@@ -4753,7 +7101,7 @@
     {
       "date": "2026-05-27",
       "commence": "2026-05-27T19:05:00Z",
-      "betType": "total",
+      "betType": "over",
       "shadow": true,
       "pitchers": [
         "Jeffrey Springs"
@@ -4766,6 +7114,26 @@
       "stake": 1.05,
       "result": "WIN",
       "profit": 1.0,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null
+    },
+    {
+      "date": "2026-05-27",
+      "commence": "2026-05-27T19:05:00Z",
+      "betType": "under",
+      "shadow": true,
+      "pitchers": [
+        "Jeffrey Springs"
+      ],
+      "fadeTeam": "OAK",
+      "market": "totals",
+      "selection": "UNDER",
+      "line": 9.0,
+      "odds": -115,
+      "stake": 1.15,
+      "result": "LOSS",
+      "profit": -1.15,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
       "reason": null
@@ -4793,7 +7161,7 @@
     {
       "date": "2026-05-27",
       "commence": "2026-05-28T00:05:00Z",
-      "betType": "total",
+      "betType": "over",
       "shadow": true,
       "pitchers": [
         "Mike Burrows"
@@ -4806,6 +7174,26 @@
       "stake": 1.0,
       "result": "LOSS",
       "profit": -1.0,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null
+    },
+    {
+      "date": "2026-05-27",
+      "commence": "2026-05-28T00:05:00Z",
+      "betType": "under",
+      "shadow": true,
+      "pitchers": [
+        "Mike Burrows"
+      ],
+      "fadeTeam": "HOU",
+      "market": "totals",
+      "selection": "UNDER",
+      "line": 7.5,
+      "odds": -132,
+      "stake": 1.32,
+      "result": "WIN",
+      "profit": 1.0,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
       "reason": null
@@ -4833,7 +7221,7 @@
     {
       "date": "2026-05-29",
       "commence": "2026-05-29T23:10:00Z",
-      "betType": "total",
+      "betType": "over",
       "shadow": true,
       "pitchers": [
         "Freddy Peralta"
@@ -4846,6 +7234,26 @@
       "stake": 1.14,
       "result": "WIN",
       "profit": 1.0,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null
+    },
+    {
+      "date": "2026-05-29",
+      "commence": "2026-05-29T23:10:00Z",
+      "betType": "under",
+      "shadow": true,
+      "pitchers": [
+        "Freddy Peralta"
+      ],
+      "fadeTeam": "NYM",
+      "market": "totals",
+      "selection": "UNDER",
+      "line": 7.5,
+      "odds": -106,
+      "stake": 1.06,
+      "result": "LOSS",
+      "profit": -1.06,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
       "reason": null
@@ -4873,7 +7281,7 @@
     {
       "date": "2026-05-29",
       "commence": "2026-05-30T02:10:00Z",
-      "betType": "total",
+      "betType": "over",
       "shadow": true,
       "pitchers": [
         "Zac Gallen"
@@ -4886,6 +7294,26 @@
       "stake": 1.04,
       "result": "WIN",
       "profit": 1.0,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null
+    },
+    {
+      "date": "2026-05-29",
+      "commence": "2026-05-30T02:10:00Z",
+      "betType": "under",
+      "shadow": true,
+      "pitchers": [
+        "Zac Gallen"
+      ],
+      "fadeTeam": "ARI",
+      "market": "totals",
+      "selection": "UNDER",
+      "line": 7.0,
+      "odds": -118,
+      "stake": 1.18,
+      "result": "LOSS",
+      "profit": -1.18,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
       "reason": null
@@ -4933,7 +7361,7 @@
     {
       "date": "2026-05-30",
       "commence": "2026-05-30T20:05:00Z",
-      "betType": "total",
+      "betType": "over",
       "shadow": true,
       "pitchers": [
         "Kumar Rocker"
@@ -4953,7 +7381,7 @@
     {
       "date": "2026-05-30",
       "commence": "2026-05-30T20:05:00Z",
-      "betType": "total",
+      "betType": "over",
       "shadow": true,
       "pitchers": [
         "Mitch Keller"
@@ -4966,6 +7394,46 @@
       "stake": 1.05,
       "result": "WIN",
       "profit": 1.0,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null
+    },
+    {
+      "date": "2026-05-30",
+      "commence": "2026-05-30T20:05:00Z",
+      "betType": "under",
+      "shadow": true,
+      "pitchers": [
+        "Kumar Rocker"
+      ],
+      "fadeTeam": "TEX",
+      "market": "totals",
+      "selection": "UNDER",
+      "line": 8.0,
+      "odds": -122,
+      "stake": 1.22,
+      "result": "LOSS",
+      "profit": -1.22,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null
+    },
+    {
+      "date": "2026-05-30",
+      "commence": "2026-05-30T20:05:00Z",
+      "betType": "under",
+      "shadow": true,
+      "pitchers": [
+        "Mitch Keller"
+      ],
+      "fadeTeam": "PIT",
+      "market": "totals",
+      "selection": "UNDER",
+      "line": 8.5,
+      "odds": -115,
+      "stake": 1.15,
+      "result": "LOSS",
+      "profit": -1.15,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
       "reason": null
@@ -4994,7 +7462,7 @@
     {
       "date": "2026-05-31",
       "commence": "2026-05-31T17:35:00Z",
-      "betType": "total",
+      "betType": "over",
       "shadow": true,
       "pitchers": [
         "Zack Littell",
@@ -5008,6 +7476,27 @@
       "stake": 1.0,
       "result": "LOSS",
       "profit": -1.0,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null
+    },
+    {
+      "date": "2026-05-31",
+      "commence": "2026-05-31T17:35:00Z",
+      "betType": "under",
+      "shadow": true,
+      "pitchers": [
+        "Zack Littell",
+        "Griffin Canning"
+      ],
+      "fadeTeam": null,
+      "market": "totals",
+      "selection": "UNDER",
+      "line": 9.5,
+      "odds": -122,
+      "stake": 1.22,
+      "result": "WIN",
+      "profit": 1.0,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
       "reason": null
@@ -5035,7 +7524,7 @@
     {
       "date": "2026-05-31",
       "commence": "2026-05-31T17:40:00Z",
-      "betType": "total",
+      "betType": "over",
       "shadow": true,
       "pitchers": [
         "Tanner Bibee"
@@ -5048,6 +7537,26 @@
       "stake": 1.0,
       "result": "WIN",
       "profit": 1.0,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null
+    },
+    {
+      "date": "2026-05-31",
+      "commence": "2026-05-31T17:40:00Z",
+      "betType": "under",
+      "shadow": true,
+      "pitchers": [
+        "Tanner Bibee"
+      ],
+      "fadeTeam": "CLE",
+      "market": "totals",
+      "selection": "UNDER",
+      "line": 7.0,
+      "odds": -122,
+      "stake": 1.22,
+      "result": "LOSS",
+      "profit": -1.22,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
       "reason": null
@@ -5075,7 +7584,7 @@
     {
       "date": "2026-05-31",
       "commence": "2026-05-31T20:05:00Z",
-      "betType": "total",
+      "betType": "over",
       "shadow": true,
       "pitchers": [
         "Jacob Lopez"
@@ -5088,6 +7597,26 @@
       "stake": 1.15,
       "result": "WIN",
       "profit": 1.0,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null
+    },
+    {
+      "date": "2026-05-31",
+      "commence": "2026-05-31T20:05:00Z",
+      "betType": "under",
+      "shadow": true,
+      "pitchers": [
+        "Jacob Lopez"
+      ],
+      "fadeTeam": "OAK",
+      "market": "totals",
+      "selection": "UNDER",
+      "line": 9.5,
+      "odds": -105,
+      "stake": 1.05,
+      "result": "LOSS",
+      "profit": -1.05,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
       "reason": null
@@ -5135,7 +7664,7 @@
     {
       "date": "2026-05-31",
       "commence": "2026-05-31T20:10:00Z",
-      "betType": "total",
+      "betType": "over",
       "shadow": true,
       "pitchers": [
         "Merrill Kelly"
@@ -5155,7 +7684,7 @@
     {
       "date": "2026-05-31",
       "commence": "2026-05-31T20:10:00Z",
-      "betType": "total",
+      "betType": "over",
       "shadow": true,
       "pitchers": [
         "Andrew Painter"
@@ -5168,6 +7697,46 @@
       "stake": 1.04,
       "result": "WIN",
       "profit": 1.0,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null
+    },
+    {
+      "date": "2026-05-31",
+      "commence": "2026-05-31T20:10:00Z",
+      "betType": "under",
+      "shadow": true,
+      "pitchers": [
+        "Merrill Kelly"
+      ],
+      "fadeTeam": "ARI",
+      "market": "totals",
+      "selection": "UNDER",
+      "line": 7.5,
+      "odds": -120,
+      "stake": 1.2,
+      "result": "WIN",
+      "profit": 1.0,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null
+    },
+    {
+      "date": "2026-05-31",
+      "commence": "2026-05-31T20:10:00Z",
+      "betType": "under",
+      "shadow": true,
+      "pitchers": [
+        "Andrew Painter"
+      ],
+      "fadeTeam": "PHI",
+      "market": "totals",
+      "selection": "UNDER",
+      "line": 9.0,
+      "odds": -118,
+      "stake": 1.18,
+      "result": "LOSS",
+      "profit": -1.18,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
       "reason": null
@@ -5195,7 +7764,7 @@
     {
       "date": "2026-06-01",
       "commence": "2026-06-01T23:40:00Z",
-      "betType": "total",
+      "betType": "over",
       "shadow": true,
       "pitchers": [
         "Landen Roupp"
@@ -5208,6 +7777,26 @@
       "stake": 1.0,
       "result": "WIN",
       "profit": 1.0,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null
+    },
+    {
+      "date": "2026-06-01",
+      "commence": "2026-06-01T23:40:00Z",
+      "betType": "under",
+      "shadow": true,
+      "pitchers": [
+        "Landen Roupp"
+      ],
+      "fadeTeam": "SF",
+      "market": "totals",
+      "selection": "UNDER",
+      "line": 7.5,
+      "odds": -122,
+      "stake": 1.22,
+      "result": "LOSS",
+      "profit": -1.22,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
       "reason": null
@@ -5235,7 +7824,7 @@
     {
       "date": "2026-06-01",
       "commence": "2026-06-02T01:40:00Z",
-      "betType": "total",
+      "betType": "over",
       "shadow": true,
       "pitchers": [
         "Emmet Sheehan"
@@ -5248,6 +7837,26 @@
       "stake": 1.18,
       "result": "LOSS",
       "profit": -1.18,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null
+    },
+    {
+      "date": "2026-06-01",
+      "commence": "2026-06-02T01:40:00Z",
+      "betType": "under",
+      "shadow": true,
+      "pitchers": [
+        "Emmet Sheehan"
+      ],
+      "fadeTeam": "LAD",
+      "market": "totals",
+      "selection": "UNDER",
+      "line": 8.5,
+      "odds": -104,
+      "stake": 1.04,
+      "result": "WIN",
+      "profit": 1.0,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
       "reason": null
@@ -5275,7 +7884,7 @@
     {
       "date": "2026-06-02",
       "commence": "2026-06-03T00:10:00Z",
-      "betType": "total",
+      "betType": "over",
       "shadow": true,
       "pitchers": [
         "Mike Burrows"
@@ -5288,6 +7897,26 @@
       "stake": 1.08,
       "result": "WIN",
       "profit": 1.0,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null
+    },
+    {
+      "date": "2026-06-02",
+      "commence": "2026-06-03T00:10:00Z",
+      "betType": "under",
+      "shadow": true,
+      "pitchers": [
+        "Mike Burrows"
+      ],
+      "fadeTeam": "HOU",
+      "market": "totals",
+      "selection": "UNDER",
+      "line": 9.0,
+      "odds": -112,
+      "stake": 1.12,
+      "result": "LOSS",
+      "profit": -1.12,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
       "reason": null
@@ -5315,7 +7944,7 @@
     {
       "date": "2026-06-03",
       "commence": "2026-06-03T19:40:00Z",
-      "betType": "total",
+      "betType": "over",
       "shadow": true,
       "pitchers": [
         "Freddy Peralta"
@@ -5328,6 +7957,26 @@
       "stake": 1.0,
       "result": "WIN",
       "profit": 1.02,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null
+    },
+    {
+      "date": "2026-06-03",
+      "commence": "2026-06-03T19:40:00Z",
+      "betType": "under",
+      "shadow": true,
+      "pitchers": [
+        "Freddy Peralta"
+      ],
+      "fadeTeam": "NYM",
+      "market": "totals",
+      "selection": "UNDER",
+      "line": 7.5,
+      "odds": -124,
+      "stake": 1.24,
+      "result": "LOSS",
+      "profit": -1.24,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
       "reason": null
@@ -5355,7 +8004,7 @@
     {
       "date": "2026-06-03",
       "commence": "2026-06-04T00:05:00Z",
-      "betType": "total",
+      "betType": "over",
       "shadow": true,
       "pitchers": [
         "Jeffrey Springs"
@@ -5368,6 +8017,26 @@
       "stake": 1.15,
       "result": "WIN",
       "profit": 1.0,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null
+    },
+    {
+      "date": "2026-06-03",
+      "commence": "2026-06-04T00:05:00Z",
+      "betType": "under",
+      "shadow": true,
+      "pitchers": [
+        "Jeffrey Springs"
+      ],
+      "fadeTeam": "OAK",
+      "market": "totals",
+      "selection": "UNDER",
+      "line": 8.5,
+      "odds": -105,
+      "stake": 1.05,
+      "result": "LOSS",
+      "profit": -1.05,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
       "reason": null
@@ -5395,7 +8064,7 @@
     {
       "date": "2026-06-03",
       "commence": "2026-06-04T01:40:00Z",
-      "betType": "total",
+      "betType": "over",
       "shadow": true,
       "pitchers": [
         "Zac Gallen"
@@ -5408,6 +8077,26 @@
       "stake": 1.05,
       "result": "LOSS",
       "profit": -1.05,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null
+    },
+    {
+      "date": "2026-06-03",
+      "commence": "2026-06-04T01:40:00Z",
+      "betType": "under",
+      "shadow": true,
+      "pitchers": [
+        "Zac Gallen"
+      ],
+      "fadeTeam": "ARI",
+      "market": "totals",
+      "selection": "UNDER",
+      "line": 8.5,
+      "odds": -115,
+      "stake": 1.15,
+      "result": "WIN",
+      "profit": 1.0,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
       "reason": null
@@ -5435,7 +8124,7 @@
     {
       "date": "2026-06-05",
       "commence": "2026-06-05T23:15:00Z",
-      "betType": "total",
+      "betType": "over",
       "shadow": true,
       "pitchers": [
         "Mitch Keller"
@@ -5448,6 +8137,26 @@
       "stake": 1.02,
       "result": "WIN",
       "profit": 1.0,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null
+    },
+    {
+      "date": "2026-06-05",
+      "commence": "2026-06-05T23:15:00Z",
+      "betType": "under",
+      "shadow": true,
+      "pitchers": [
+        "Mitch Keller"
+      ],
+      "fadeTeam": "PIT",
+      "market": "totals",
+      "selection": "UNDER",
+      "line": 8.5,
+      "odds": -120,
+      "stake": 1.2,
+      "result": "LOSS",
+      "profit": -1.2,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
       "reason": null
@@ -5475,7 +8184,7 @@
     {
       "date": "2026-06-05",
       "commence": "2026-06-06T00:15:00Z",
-      "betType": "total",
+      "betType": "over",
       "shadow": true,
       "pitchers": [
         "Kumar Rocker"
@@ -5488,6 +8197,26 @@
       "stake": 1.1,
       "result": "LOSS",
       "profit": -1.1,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null
+    },
+    {
+      "date": "2026-06-05",
+      "commence": "2026-06-06T00:15:00Z",
+      "betType": "under",
+      "shadow": true,
+      "pitchers": [
+        "Kumar Rocker"
+      ],
+      "fadeTeam": "TEX",
+      "market": "totals",
+      "selection": "UNDER",
+      "line": 7.5,
+      "odds": -110,
+      "stake": 1.1,
+      "result": "WIN",
+      "profit": 1.0,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
       "reason": null
@@ -5515,7 +8244,7 @@
     {
       "date": "2026-06-05",
       "commence": "2026-06-06T01:40:00Z",
-      "betType": "total",
+      "betType": "over",
       "shadow": true,
       "pitchers": [
         "Merrill Kelly"
@@ -5528,6 +8257,26 @@
       "stake": 1.04,
       "result": "WIN",
       "profit": 1.0,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null
+    },
+    {
+      "date": "2026-06-05",
+      "commence": "2026-06-06T01:40:00Z",
+      "betType": "under",
+      "shadow": true,
+      "pitchers": [
+        "Merrill Kelly"
+      ],
+      "fadeTeam": "ARI",
+      "market": "totals",
+      "selection": "UNDER",
+      "line": 9.0,
+      "odds": -118,
+      "stake": 1.18,
+      "result": "LOSS",
+      "profit": -1.18,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
       "reason": null
@@ -5555,7 +8304,7 @@
     {
       "date": "2026-06-06",
       "commence": "2026-06-06T18:20:00Z",
-      "betType": "total",
+      "betType": "over",
       "shadow": true,
       "pitchers": [
         "Landen Roupp"
@@ -5568,6 +8317,26 @@
       "stake": 1.06,
       "result": "LOSS",
       "profit": -1.06,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null
+    },
+    {
+      "date": "2026-06-06",
+      "commence": "2026-06-06T18:20:00Z",
+      "betType": "under",
+      "shadow": true,
+      "pitchers": [
+        "Landen Roupp"
+      ],
+      "fadeTeam": "SF",
+      "market": "totals",
+      "selection": "UNDER",
+      "line": 7.5,
+      "odds": -114,
+      "stake": 1.14,
+      "result": "WIN",
+      "profit": 1.0,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
       "reason": null
@@ -5595,7 +8364,7 @@
     {
       "date": "2026-06-06",
       "commence": "2026-06-06T20:05:00Z",
-      "betType": "total",
+      "betType": "over",
       "shadow": true,
       "pitchers": [
         "Andrew Painter"
@@ -5608,6 +8377,26 @@
       "stake": 1.24,
       "result": "LOSS",
       "profit": -1.24,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null
+    },
+    {
+      "date": "2026-06-06",
+      "commence": "2026-06-06T20:05:00Z",
+      "betType": "under",
+      "shadow": true,
+      "pitchers": [
+        "Andrew Painter"
+      ],
+      "fadeTeam": "PHI",
+      "market": "totals",
+      "selection": "UNDER",
+      "line": 9.5,
+      "odds": 102,
+      "stake": 1.0,
+      "result": "WIN",
+      "profit": 1.02,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
       "reason": null
@@ -5635,7 +8424,7 @@
     {
       "date": "2026-06-06",
       "commence": "2026-06-06T20:10:00Z",
-      "betType": "total",
+      "betType": "over",
       "shadow": true,
       "pitchers": [
         "Zack Littell"
@@ -5648,6 +8437,26 @@
       "stake": 1.1,
       "result": "LOSS",
       "profit": -1.1,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null
+    },
+    {
+      "date": "2026-06-06",
+      "commence": "2026-06-06T20:10:00Z",
+      "betType": "under",
+      "shadow": true,
+      "pitchers": [
+        "Zack Littell"
+      ],
+      "fadeTeam": "WSH",
+      "market": "totals",
+      "selection": "UNDER",
+      "line": 9.0,
+      "odds": -110,
+      "stake": 1.1,
+      "result": "WIN",
+      "profit": 1.0,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
       "reason": null
@@ -5675,7 +8484,7 @@
     {
       "date": "2026-06-06",
       "commence": "2026-06-06T23:35:00Z",
-      "betType": "total",
+      "betType": "over",
       "shadow": true,
       "pitchers": [
         "Tanner Bibee"
@@ -5688,6 +8497,26 @@
       "stake": 1.1,
       "result": "LOSS",
       "profit": -1.1,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null
+    },
+    {
+      "date": "2026-06-06",
+      "commence": "2026-06-06T23:35:00Z",
+      "betType": "under",
+      "shadow": true,
+      "pitchers": [
+        "Tanner Bibee"
+      ],
+      "fadeTeam": "CLE",
+      "market": "totals",
+      "selection": "UNDER",
+      "line": 7.5,
+      "odds": -110,
+      "stake": 1.1,
+      "result": "WIN",
+      "profit": 1.0,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
       "reason": null
@@ -5715,7 +8544,7 @@
     {
       "date": "2026-06-06",
       "commence": "2026-06-07T02:10:00Z",
-      "betType": "total",
+      "betType": "over",
       "shadow": true,
       "pitchers": [
         "Griffin Canning"
@@ -5728,6 +8557,26 @@
       "stake": 1.08,
       "result": "LOSS",
       "profit": -1.08,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null
+    },
+    {
+      "date": "2026-06-06",
+      "commence": "2026-06-07T02:10:00Z",
+      "betType": "under",
+      "shadow": true,
+      "pitchers": [
+        "Griffin Canning"
+      ],
+      "fadeTeam": "SD",
+      "market": "totals",
+      "selection": "UNDER",
+      "line": 7.5,
+      "odds": -112,
+      "stake": 1.12,
+      "result": "WIN",
+      "profit": 1.0,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
       "reason": null
@@ -5755,7 +8604,7 @@
     {
       "date": "2026-06-07",
       "commence": "2026-06-07T18:10:00Z",
-      "betType": "total",
+      "betType": "over",
       "shadow": true,
       "pitchers": [
         "Mike Burrows"
@@ -5768,6 +8617,26 @@
       "stake": 1.1,
       "result": "LOSS",
       "profit": -1.1,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null
+    },
+    {
+      "date": "2026-06-07",
+      "commence": "2026-06-07T18:10:00Z",
+      "betType": "under",
+      "shadow": true,
+      "pitchers": [
+        "Mike Burrows"
+      ],
+      "fadeTeam": "HOU",
+      "market": "totals",
+      "selection": "UNDER",
+      "line": 9.0,
+      "odds": -110,
+      "stake": 1.1,
+      "result": "WIN",
+      "profit": 1.0,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
       "reason": null
@@ -5795,7 +8664,7 @@
     {
       "date": "2026-06-07",
       "commence": "2026-06-07T20:10:00Z",
-      "betType": "total",
+      "betType": "over",
       "shadow": true,
       "pitchers": [
         "Emmet Sheehan"
@@ -5808,6 +8677,26 @@
       "stake": 1.0,
       "result": "WIN",
       "profit": 1.0,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null
+    },
+    {
+      "date": "2026-06-07",
+      "commence": "2026-06-07T20:10:00Z",
+      "betType": "under",
+      "shadow": true,
+      "pitchers": [
+        "Emmet Sheehan"
+      ],
+      "fadeTeam": "LAD",
+      "market": "totals",
+      "selection": "UNDER",
+      "line": 8.5,
+      "odds": -122,
+      "stake": 1.22,
+      "result": "LOSS",
+      "profit": -1.22,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
       "reason": null
@@ -5835,7 +8724,7 @@
     {
       "date": "2026-06-08",
       "commence": "2026-06-09T02:05:00Z",
-      "betType": "total",
+      "betType": "over",
       "shadow": true,
       "pitchers": [
         "Jeffrey Springs"
@@ -5848,6 +8737,26 @@
       "stake": 1.22,
       "result": "WIN",
       "profit": 1.0,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null
+    },
+    {
+      "date": "2026-06-08",
+      "commence": "2026-06-09T02:05:00Z",
+      "betType": "under",
+      "shadow": true,
+      "pitchers": [
+        "Jeffrey Springs"
+      ],
+      "fadeTeam": "OAK",
+      "market": "totals",
+      "selection": "UNDER",
+      "line": 10.5,
+      "odds": 100,
+      "stake": 1.0,
+      "result": "LOSS",
+      "profit": -1.0,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
       "reason": null
@@ -5875,7 +8784,7 @@
     {
       "date": "2026-06-09",
       "commence": "2026-06-09T22:40:00Z",
-      "betType": "total",
+      "betType": "over",
       "shadow": true,
       "pitchers": [
         "Zac Gallen"
@@ -5888,6 +8797,26 @@
       "stake": 1.24,
       "result": "WIN",
       "profit": 1.0,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null
+    },
+    {
+      "date": "2026-06-09",
+      "commence": "2026-06-09T22:40:00Z",
+      "betType": "under",
+      "shadow": true,
+      "pitchers": [
+        "Zac Gallen"
+      ],
+      "fadeTeam": "ARI",
+      "market": "totals",
+      "selection": "UNDER",
+      "line": 7.5,
+      "odds": 102,
+      "stake": 1.0,
+      "result": "LOSS",
+      "profit": -1.0,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
       "reason": null
@@ -5915,7 +8844,7 @@
     {
       "date": "2026-06-09",
       "commence": "2026-06-09T23:10:00Z",
-      "betType": "total",
+      "betType": "over",
       "shadow": true,
       "pitchers": [
         "Freddy Peralta"
@@ -5928,6 +8857,26 @@
       "stake": 1.22,
       "result": "LOSS",
       "profit": -1.22,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null
+    },
+    {
+      "date": "2026-06-09",
+      "commence": "2026-06-09T23:10:00Z",
+      "betType": "under",
+      "shadow": true,
+      "pitchers": [
+        "Freddy Peralta"
+      ],
+      "fadeTeam": "NYM",
+      "market": "totals",
+      "selection": "UNDER",
+      "line": 7.5,
+      "odds": 100,
+      "stake": 1.0,
+      "result": "WIN",
+      "profit": 1.0,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
       "reason": null
@@ -5955,7 +8904,7 @@
     {
       "date": "2026-06-10",
       "commence": "2026-06-10T22:40:00Z",
-      "betType": "total",
+      "betType": "over",
       "shadow": true,
       "pitchers": [
         "Jared Jones"
@@ -5968,6 +8917,26 @@
       "stake": 1.12,
       "result": "WIN",
       "profit": 1.0,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null
+    },
+    {
+      "date": "2026-06-10",
+      "commence": "2026-06-10T22:40:00Z",
+      "betType": "under",
+      "shadow": true,
+      "pitchers": [
+        "Jared Jones"
+      ],
+      "fadeTeam": "PIT",
+      "market": "totals",
+      "selection": "UNDER",
+      "line": 8.5,
+      "odds": -108,
+      "stake": 1.08,
+      "result": "LOSS",
+      "profit": -1.08,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
       "reason": null
@@ -5995,7 +8964,7 @@
     {
       "date": "2026-06-11",
       "commence": "2026-06-11T17:10:00Z",
-      "betType": "total",
+      "betType": "over",
       "shadow": true,
       "pitchers": [
         "Merrill Kelly"
@@ -6008,6 +8977,26 @@
       "stake": 1.08,
       "result": "LOSS",
       "profit": -1.08,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null
+    },
+    {
+      "date": "2026-06-11",
+      "commence": "2026-06-11T17:10:00Z",
+      "betType": "under",
+      "shadow": true,
+      "pitchers": [
+        "Merrill Kelly"
+      ],
+      "fadeTeam": "ARI",
+      "market": "totals",
+      "selection": "UNDER",
+      "line": 8.5,
+      "odds": -112,
+      "stake": 1.12,
+      "result": "WIN",
+      "profit": 1.0,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
       "reason": null
@@ -6035,7 +9024,7 @@
     {
       "date": "2026-06-11",
       "commence": "2026-06-11T18:10:00Z",
-      "betType": "total",
+      "betType": "over",
       "shadow": true,
       "pitchers": [
         "Kumar Rocker"
@@ -6048,6 +9037,26 @@
       "stake": 1.04,
       "result": "LOSS",
       "profit": -1.04,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null
+    },
+    {
+      "date": "2026-06-11",
+      "commence": "2026-06-11T18:10:00Z",
+      "betType": "under",
+      "shadow": true,
+      "pitchers": [
+        "Kumar Rocker"
+      ],
+      "fadeTeam": "TEX",
+      "market": "totals",
+      "selection": "UNDER",
+      "line": 10.5,
+      "odds": -118,
+      "stake": 1.18,
+      "result": "WIN",
+      "profit": 1.0,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
       "reason": null
@@ -6075,7 +9084,7 @@
     {
       "date": "2026-06-11",
       "commence": "2026-06-11T22:40:00Z",
-      "betType": "total",
+      "betType": "over",
       "shadow": true,
       "pitchers": [
         "Mitch Keller"
@@ -6088,6 +9097,26 @@
       "stake": 1.1,
       "result": "WIN",
       "profit": 1.0,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null
+    },
+    {
+      "date": "2026-06-11",
+      "commence": "2026-06-11T22:40:00Z",
+      "betType": "under",
+      "shadow": true,
+      "pitchers": [
+        "Mitch Keller"
+      ],
+      "fadeTeam": "PIT",
+      "market": "totals",
+      "selection": "UNDER",
+      "line": 9.5,
+      "odds": -110,
+      "stake": 1.1,
+      "result": "LOSS",
+      "profit": -1.1,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
       "reason": null
@@ -6115,7 +9144,7 @@
     {
       "date": "2026-06-12",
       "commence": "2026-06-12T22:45:00Z",
-      "betType": "total",
+      "betType": "over",
       "shadow": true,
       "pitchers": [
         "Zack Littell"
@@ -6128,6 +9157,26 @@
       "stake": 1.04,
       "result": "WIN",
       "profit": 1.0,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null
+    },
+    {
+      "date": "2026-06-12",
+      "commence": "2026-06-12T22:45:00Z",
+      "betType": "under",
+      "shadow": true,
+      "pitchers": [
+        "Zack Littell"
+      ],
+      "fadeTeam": "WSH",
+      "market": "totals",
+      "selection": "UNDER",
+      "line": 9.5,
+      "odds": -118,
+      "stake": 1.18,
+      "result": "LOSS",
+      "profit": -1.18,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
       "reason": null
@@ -6155,7 +9204,7 @@
     {
       "date": "2026-06-12",
       "commence": "2026-06-12T23:05:00Z",
-      "betType": "total",
+      "betType": "over",
       "shadow": true,
       "pitchers": [
         "Griffin Canning"
@@ -6168,6 +9217,26 @@
       "stake": 1.0,
       "result": "WIN",
       "profit": 1.0,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null
+    },
+    {
+      "date": "2026-06-12",
+      "commence": "2026-06-12T23:05:00Z",
+      "betType": "under",
+      "shadow": true,
+      "pitchers": [
+        "Griffin Canning"
+      ],
+      "fadeTeam": "SD",
+      "market": "totals",
+      "selection": "UNDER",
+      "line": 9.5,
+      "odds": -122,
+      "stake": 1.22,
+      "result": "LOSS",
+      "profit": -1.22,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
       "reason": null
@@ -6195,7 +9264,7 @@
     {
       "date": "2026-06-12",
       "commence": "2026-06-12T23:10:00Z",
-      "betType": "total",
+      "betType": "over",
       "shadow": true,
       "pitchers": [
         "Tanner Bibee"
@@ -6208,6 +9277,26 @@
       "stake": 1.12,
       "result": "LOSS",
       "profit": -1.12,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null
+    },
+    {
+      "date": "2026-06-12",
+      "commence": "2026-06-12T23:10:00Z",
+      "betType": "under",
+      "shadow": true,
+      "pitchers": [
+        "Tanner Bibee"
+      ],
+      "fadeTeam": "CLE",
+      "market": "totals",
+      "selection": "UNDER",
+      "line": 8.5,
+      "odds": -108,
+      "stake": 1.08,
+      "result": "WIN",
+      "profit": 1.0,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
       "reason": null
@@ -6235,7 +9324,7 @@
     {
       "date": "2026-06-12",
       "commence": "2026-06-13T02:15:00Z",
-      "betType": "total",
+      "betType": "over",
       "shadow": true,
       "pitchers": [
         "Landen Roupp"
@@ -6248,6 +9337,26 @@
       "stake": 1.06,
       "result": "LOSS",
       "profit": -1.06,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null
+    },
+    {
+      "date": "2026-06-12",
+      "commence": "2026-06-13T02:15:00Z",
+      "betType": "under",
+      "shadow": true,
+      "pitchers": [
+        "Landen Roupp"
+      ],
+      "fadeTeam": "SF",
+      "market": "totals",
+      "selection": "UNDER",
+      "line": 8.5,
+      "odds": -114,
+      "stake": 1.14,
+      "result": "WIN",
+      "profit": 1.0,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
       "reason": null
@@ -6275,7 +9384,7 @@
     {
       "date": "2026-06-13",
       "commence": "2026-06-13T23:10:00Z",
-      "betType": "total",
+      "betType": "over",
       "shadow": true,
       "pitchers": [
         "Mike Burrows"
@@ -6288,6 +9397,26 @@
       "stake": 1.12,
       "result": "WIN",
       "profit": 1.0,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null
+    },
+    {
+      "date": "2026-06-13",
+      "commence": "2026-06-13T23:10:00Z",
+      "betType": "under",
+      "shadow": true,
+      "pitchers": [
+        "Mike Burrows"
+      ],
+      "fadeTeam": "HOU",
+      "market": "totals",
+      "selection": "UNDER",
+      "line": 9.5,
+      "odds": -108,
+      "stake": 1.08,
+      "result": "LOSS",
+      "profit": -1.08,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
       "reason": null
@@ -6335,7 +9464,7 @@
     {
       "date": "2026-06-14",
       "commence": "2026-06-14T17:40:00Z",
-      "betType": "total",
+      "betType": "over",
       "shadow": true,
       "pitchers": [
         "Zac Gallen"
@@ -6355,7 +9484,7 @@
     {
       "date": "2026-06-14",
       "commence": "2026-06-14T17:40:00Z",
-      "betType": "total",
+      "betType": "over",
       "shadow": true,
       "pitchers": [
         "Freddy Peralta"
@@ -6368,6 +9497,46 @@
       "stake": 1.1,
       "result": "WIN",
       "profit": 1.0,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null
+    },
+    {
+      "date": "2026-06-14",
+      "commence": "2026-06-14T17:40:00Z",
+      "betType": "under",
+      "shadow": true,
+      "pitchers": [
+        "Zac Gallen"
+      ],
+      "fadeTeam": "ARI",
+      "market": "totals",
+      "selection": "UNDER",
+      "line": 10.0,
+      "odds": -115,
+      "stake": 1.15,
+      "result": "WIN",
+      "profit": 1.0,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null
+    },
+    {
+      "date": "2026-06-14",
+      "commence": "2026-06-14T17:40:00Z",
+      "betType": "under",
+      "shadow": true,
+      "pitchers": [
+        "Freddy Peralta"
+      ],
+      "fadeTeam": "NYM",
+      "market": "totals",
+      "selection": "UNDER",
+      "line": 8.5,
+      "odds": -110,
+      "stake": 1.1,
+      "result": "LOSS",
+      "profit": -1.1,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
       "reason": null
@@ -6395,7 +9564,7 @@
     {
       "date": "2026-06-14",
       "commence": "2026-06-14T18:10:00Z",
-      "betType": "total",
+      "betType": "over",
       "shadow": true,
       "pitchers": [
         "Emmet Sheehan"
@@ -6408,6 +9577,26 @@
       "stake": 1.02,
       "result": "WIN",
       "profit": 1.0,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null
+    },
+    {
+      "date": "2026-06-14",
+      "commence": "2026-06-14T18:10:00Z",
+      "betType": "under",
+      "shadow": true,
+      "pitchers": [
+        "Emmet Sheehan"
+      ],
+      "fadeTeam": "LAD",
+      "market": "totals",
+      "selection": "UNDER",
+      "line": 9.5,
+      "odds": -120,
+      "stake": 1.2,
+      "result": "LOSS",
+      "profit": -1.2,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
       "reason": null
@@ -6435,7 +9624,7 @@
     {
       "date": "2026-06-14",
       "commence": "2026-06-14T19:05:00Z",
-      "betType": "total",
+      "betType": "over",
       "shadow": true,
       "pitchers": [
         "Jeffrey Springs"
@@ -6448,6 +9637,26 @@
       "stake": 1.18,
       "result": "WIN",
       "profit": 1.0,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null
+    },
+    {
+      "date": "2026-06-14",
+      "commence": "2026-06-14T19:05:00Z",
+      "betType": "under",
+      "shadow": true,
+      "pitchers": [
+        "Jeffrey Springs"
+      ],
+      "fadeTeam": "OAK",
+      "market": "totals",
+      "selection": "UNDER",
+      "line": 13.5,
+      "odds": -104,
+      "stake": 1.04,
+      "result": "LOSS",
+      "profit": -1.04,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
       "reason": null
@@ -6475,7 +9684,7 @@
     {
       "date": "2026-06-15",
       "commence": "2026-06-16T01:40:00Z",
-      "betType": "total",
+      "betType": "over",
       "shadow": true,
       "pitchers": [
         "Jared Jones"
@@ -6488,6 +9697,26 @@
       "stake": 1.04,
       "result": "WIN",
       "profit": 1.0,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null
+    },
+    {
+      "date": "2026-06-15",
+      "commence": "2026-06-16T01:40:00Z",
+      "betType": "under",
+      "shadow": true,
+      "pitchers": [
+        "Jared Jones"
+      ],
+      "fadeTeam": "PIT",
+      "market": "totals",
+      "selection": "UNDER",
+      "line": 10.5,
+      "odds": -118,
+      "stake": 1.18,
+      "result": "LOSS",
+      "profit": -1.18,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
       "reason": null
@@ -6515,7 +9744,7 @@
     {
       "date": "2026-06-16",
       "commence": "2026-06-17T00:05:00Z",
-      "betType": "total",
+      "betType": "over",
       "shadow": true,
       "pitchers": [
         "Kumar Rocker"
@@ -6528,6 +9757,26 @@
       "stake": 1.05,
       "result": "WIN",
       "profit": 1.0,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null
+    },
+    {
+      "date": "2026-06-16",
+      "commence": "2026-06-17T00:05:00Z",
+      "betType": "under",
+      "shadow": true,
+      "pitchers": [
+        "Kumar Rocker"
+      ],
+      "fadeTeam": "TEX",
+      "market": "totals",
+      "selection": "UNDER",
+      "line": 8.5,
+      "odds": -115,
+      "stake": 1.15,
+      "result": "LOSS",
+      "profit": -1.15,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
       "reason": null
@@ -6575,7 +9824,7 @@
     {
       "date": "2026-06-16",
       "commence": "2026-06-17T01:40:00Z",
-      "betType": "total",
+      "betType": "over",
       "shadow": true,
       "pitchers": [
         "Merrill Kelly"
@@ -6595,7 +9844,7 @@
     {
       "date": "2026-06-16",
       "commence": "2026-06-17T01:40:00Z",
-      "betType": "total",
+      "betType": "over",
       "shadow": true,
       "pitchers": [
         "Mitch Keller"
@@ -6608,6 +9857,46 @@
       "stake": 1.24,
       "result": "WIN",
       "profit": 1.0,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null
+    },
+    {
+      "date": "2026-06-16",
+      "commence": "2026-06-17T01:40:00Z",
+      "betType": "under",
+      "shadow": true,
+      "pitchers": [
+        "Merrill Kelly"
+      ],
+      "fadeTeam": "ARI",
+      "market": "totals",
+      "selection": "UNDER",
+      "line": 8.5,
+      "odds": -106,
+      "stake": 1.06,
+      "result": "WIN",
+      "profit": 1.0,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null
+    },
+    {
+      "date": "2026-06-16",
+      "commence": "2026-06-17T01:40:00Z",
+      "betType": "under",
+      "shadow": true,
+      "pitchers": [
+        "Mitch Keller"
+      ],
+      "fadeTeam": "PIT",
+      "market": "totals",
+      "selection": "UNDER",
+      "line": 10.5,
+      "odds": 102,
+      "stake": 1.0,
+      "result": "LOSS",
+      "profit": -1.0,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
       "reason": null
@@ -6655,7 +9944,7 @@
     {
       "date": "2026-06-17",
       "commence": "2026-06-17T17:05:00Z",
-      "betType": "total",
+      "betType": "over",
       "shadow": true,
       "pitchers": [
         "Zack Littell"
@@ -6675,7 +9964,7 @@
     {
       "date": "2026-06-17",
       "commence": "2026-06-17T17:05:00Z",
-      "betType": "total",
+      "betType": "over",
       "shadow": true,
       "pitchers": [
         "Andrew Painter"
@@ -6688,6 +9977,46 @@
       "stake": 1.0,
       "result": "WIN",
       "profit": 1.0,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null
+    },
+    {
+      "date": "2026-06-17",
+      "commence": "2026-06-17T17:05:00Z",
+      "betType": "under",
+      "shadow": true,
+      "pitchers": [
+        "Zack Littell"
+      ],
+      "fadeTeam": "WSH",
+      "market": "totals",
+      "selection": "UNDER",
+      "line": 10.5,
+      "odds": -112,
+      "stake": 1.12,
+      "result": "WIN",
+      "profit": 1.0,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null
+    },
+    {
+      "date": "2026-06-17",
+      "commence": "2026-06-17T17:05:00Z",
+      "betType": "under",
+      "shadow": true,
+      "pitchers": [
+        "Andrew Painter"
+      ],
+      "fadeTeam": "PHI",
+      "market": "totals",
+      "selection": "UNDER",
+      "line": 9.5,
+      "odds": -122,
+      "stake": 1.22,
+      "result": "LOSS",
+      "profit": -1.22,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
       "reason": null
@@ -6715,7 +10044,7 @@
     {
       "date": "2026-06-17",
       "commence": "2026-06-17T19:40:00Z",
-      "betType": "total",
+      "betType": "over",
       "shadow": true,
       "pitchers": [
         "Sam Aldegheri"
@@ -6728,6 +10057,26 @@
       "stake": 1.0,
       "result": "LOSS",
       "profit": -1.0,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null
+    },
+    {
+      "date": "2026-06-17",
+      "commence": "2026-06-17T19:40:00Z",
+      "betType": "under",
+      "shadow": true,
+      "pitchers": [
+        "Sam Aldegheri"
+      ],
+      "fadeTeam": "LAA",
+      "market": "totals",
+      "selection": "UNDER",
+      "line": 9.5,
+      "odds": -124,
+      "stake": 1.24,
+      "result": "WIN",
+      "profit": 1.0,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
       "reason": null
@@ -6755,7 +10104,7 @@
     {
       "date": "2026-06-17",
       "commence": "2026-06-18T01:40:00Z",
-      "betType": "total",
+      "betType": "over",
       "shadow": true,
       "pitchers": [
         "Aaron Civale"
@@ -6768,6 +10117,26 @@
       "stake": 1.06,
       "result": "WIN",
       "profit": 1.0,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null
+    },
+    {
+      "date": "2026-06-17",
+      "commence": "2026-06-18T01:40:00Z",
+      "betType": "under",
+      "shadow": true,
+      "pitchers": [
+        "Aaron Civale"
+      ],
+      "fadeTeam": "OAK",
+      "market": "totals",
+      "selection": "UNDER",
+      "line": 10.5,
+      "odds": -114,
+      "stake": 1.14,
+      "result": "LOSS",
+      "profit": -1.14,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
       "reason": null
@@ -6795,7 +10164,7 @@
     {
       "date": "2026-06-19",
       "commence": "2026-06-19T23:10:00Z",
-      "betType": "total",
+      "betType": "over",
       "shadow": true,
       "pitchers": [
         "Landen Roupp"
@@ -6808,6 +10177,26 @@
       "stake": 1.15,
       "result": "LOSS",
       "profit": -1.15,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null
+    },
+    {
+      "date": "2026-06-19",
+      "commence": "2026-06-19T23:10:00Z",
+      "betType": "under",
+      "shadow": true,
+      "pitchers": [
+        "Landen Roupp"
+      ],
+      "fadeTeam": "SF",
+      "market": "totals",
+      "selection": "UNDER",
+      "line": 8.0,
+      "odds": -105,
+      "stake": 1.05,
+      "result": "WIN",
+      "profit": 1.0,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
       "reason": null
@@ -6835,7 +10224,7 @@
     {
       "date": "2026-06-19",
       "commence": "2026-06-20T00:10:00Z",
-      "betType": "total",
+      "betType": "over",
       "shadow": true,
       "pitchers": [
         "Tanner Bibee"
@@ -6848,6 +10237,26 @@
       "stake": 1.04,
       "result": "WIN",
       "profit": 1.0,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null
+    },
+    {
+      "date": "2026-06-19",
+      "commence": "2026-06-20T00:10:00Z",
+      "betType": "under",
+      "shadow": true,
+      "pitchers": [
+        "Tanner Bibee"
+      ],
+      "fadeTeam": "CLE",
+      "market": "totals",
+      "selection": "UNDER",
+      "line": 8.5,
+      "odds": -118,
+      "stake": 1.18,
+      "result": "LOSS",
+      "profit": -1.18,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
       "reason": null
@@ -6875,7 +10284,7 @@
     {
       "date": "2026-06-19",
       "commence": "2026-06-20T01:40:00Z",
-      "betType": "total",
+      "betType": "over",
       "shadow": true,
       "pitchers": [
         "Jeffrey Springs"
@@ -6888,6 +10297,26 @@
       "stake": 1.05,
       "result": "WIN",
       "profit": 1.0,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null
+    },
+    {
+      "date": "2026-06-19",
+      "commence": "2026-06-20T01:40:00Z",
+      "betType": "under",
+      "shadow": true,
+      "pitchers": [
+        "Jeffrey Springs"
+      ],
+      "fadeTeam": "OAK",
+      "market": "totals",
+      "selection": "UNDER",
+      "line": 10.0,
+      "odds": -115,
+      "stake": 1.15,
+      "result": "LOSS",
+      "profit": -1.15,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
       "reason": null
@@ -6915,7 +10344,7 @@
     {
       "date": "2026-06-20",
       "commence": "2026-06-20T23:15:00Z",
-      "betType": "total",
+      "betType": "over",
       "shadow": true,
       "pitchers": [
         "Freddy Peralta"
@@ -6928,6 +10357,26 @@
       "stake": 1.12,
       "result": "WIN",
       "profit": 1.0,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null
+    },
+    {
+      "date": "2026-06-20",
+      "commence": "2026-06-20T23:15:00Z",
+      "betType": "under",
+      "shadow": true,
+      "pitchers": [
+        "Freddy Peralta"
+      ],
+      "fadeTeam": "NYM",
+      "market": "totals",
+      "selection": "UNDER",
+      "line": 7.5,
+      "odds": -108,
+      "stake": 1.08,
+      "result": "LOSS",
+      "profit": -1.08,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
       "reason": null
@@ -6955,7 +10404,7 @@
     {
       "date": "2026-06-20",
       "commence": "2026-06-21T02:10:00Z",
-      "betType": "total",
+      "betType": "over",
       "shadow": true,
       "pitchers": [
         "Zac Gallen"
@@ -6968,6 +10417,26 @@
       "stake": 1.04,
       "result": "WIN",
       "profit": 1.0,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null
+    },
+    {
+      "date": "2026-06-20",
+      "commence": "2026-06-21T02:10:00Z",
+      "betType": "under",
+      "shadow": true,
+      "pitchers": [
+        "Zac Gallen"
+      ],
+      "fadeTeam": "ARI",
+      "market": "totals",
+      "selection": "UNDER",
+      "line": 9.5,
+      "odds": -118,
+      "stake": 1.18,
+      "result": "LOSS",
+      "profit": -1.18,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
       "reason": null
@@ -6995,7 +10464,7 @@
     {
       "date": "2026-06-21",
       "commence": "2026-06-21T19:10:00Z",
-      "betType": "total",
+      "betType": "over",
       "shadow": true,
       "pitchers": [
         "Jared Jones"
@@ -7008,6 +10477,26 @@
       "stake": 1.06,
       "result": "WIN",
       "profit": 1.0,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null
+    },
+    {
+      "date": "2026-06-21",
+      "commence": "2026-06-21T19:10:00Z",
+      "betType": "under",
+      "shadow": true,
+      "pitchers": [
+        "Jared Jones"
+      ],
+      "fadeTeam": "PIT",
+      "market": "totals",
+      "selection": "UNDER",
+      "line": 11.5,
+      "odds": -114,
+      "stake": 1.14,
+      "result": "LOSS",
+      "profit": -1.14,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
       "reason": null
@@ -7035,7 +10524,7 @@
     {
       "date": "2026-06-21",
       "commence": "2026-06-21T20:10:00Z",
-      "betType": "total",
+      "betType": "over",
       "shadow": true,
       "pitchers": [
         "Emmet Sheehan"
@@ -7048,6 +10537,26 @@
       "stake": 1.15,
       "result": "WIN",
       "profit": 1.0,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null
+    },
+    {
+      "date": "2026-06-21",
+      "commence": "2026-06-21T20:10:00Z",
+      "betType": "under",
+      "shadow": true,
+      "pitchers": [
+        "Emmet Sheehan"
+      ],
+      "fadeTeam": "LAD",
+      "market": "totals",
+      "selection": "UNDER",
+      "line": 9.0,
+      "odds": -105,
+      "stake": 1.05,
+      "result": "LOSS",
+      "profit": -1.05,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
       "reason": null
@@ -7075,7 +10584,7 @@
     {
       "date": "2026-06-21",
       "commence": "2026-06-21T23:20:00Z",
-      "betType": "total",
+      "betType": "over",
       "shadow": true,
       "pitchers": [
         "David Peterson"
@@ -7088,6 +10597,26 @@
       "stake": 1.0,
       "result": "LOSS",
       "profit": -1.0,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null
+    },
+    {
+      "date": "2026-06-21",
+      "commence": "2026-06-21T23:20:00Z",
+      "betType": "under",
+      "shadow": true,
+      "pitchers": [
+        "David Peterson"
+      ],
+      "fadeTeam": "NYM",
+      "market": "totals",
+      "selection": "UNDER",
+      "line": 8.5,
+      "odds": -124,
+      "stake": 1.24,
+      "result": "WIN",
+      "profit": 1.0,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
       "reason": null
@@ -7115,7 +10644,7 @@
     {
       "date": "2026-06-22",
       "commence": "2026-06-22T23:45:00Z",
-      "betType": "total",
+      "betType": "over",
       "shadow": true,
       "pitchers": [
         "Merrill Kelly"
@@ -7128,6 +10657,26 @@
       "stake": 1.12,
       "result": "LOSS",
       "profit": -1.12,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null
+    },
+    {
+      "date": "2026-06-22",
+      "commence": "2026-06-22T23:45:00Z",
+      "betType": "under",
+      "shadow": true,
+      "pitchers": [
+        "Merrill Kelly"
+      ],
+      "fadeTeam": "ARI",
+      "market": "totals",
+      "selection": "UNDER",
+      "line": 8.5,
+      "odds": -108,
+      "stake": 1.08,
+      "result": "WIN",
+      "profit": 1.0,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
       "reason": null
@@ -7155,7 +10704,7 @@
     {
       "date": "2026-06-22",
       "commence": "2026-06-23T01:38:00Z",
-      "betType": "total",
+      "betType": "over",
       "shadow": true,
       "pitchers": [
         "Sam Aldegheri"
@@ -7168,6 +10717,26 @@
       "stake": 1.24,
       "result": "LOSS",
       "profit": -1.24,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null
+    },
+    {
+      "date": "2026-06-22",
+      "commence": "2026-06-23T01:38:00Z",
+      "betType": "under",
+      "shadow": true,
+      "pitchers": [
+        "Sam Aldegheri"
+      ],
+      "fadeTeam": "LAA",
+      "market": "totals",
+      "selection": "UNDER",
+      "line": 8.5,
+      "odds": 102,
+      "stake": 1.0,
+      "result": "WIN",
+      "profit": 1.02,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
       "reason": null
@@ -7195,7 +10764,7 @@
     {
       "date": "2026-06-23",
       "commence": "2026-06-23T22:40:00Z",
-      "betType": "total",
+      "betType": "over",
       "shadow": true,
       "pitchers": [
         "Mitch Keller"
@@ -7208,6 +10777,26 @@
       "stake": 1.18,
       "result": "LOSS",
       "profit": -1.18,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null
+    },
+    {
+      "date": "2026-06-23",
+      "commence": "2026-06-23T22:40:00Z",
+      "betType": "under",
+      "shadow": true,
+      "pitchers": [
+        "Mitch Keller"
+      ],
+      "fadeTeam": "PIT",
+      "market": "totals",
+      "selection": "UNDER",
+      "line": 8.5,
+      "odds": -104,
+      "stake": 1.04,
+      "result": "WIN",
+      "profit": 1.0,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
       "reason": null
@@ -7235,7 +10824,7 @@
     {
       "date": "2026-06-23",
       "commence": "2026-06-24T01:38:00Z",
-      "betType": "total",
+      "betType": "over",
       "shadow": true,
       "pitchers": [
         "Ryan Johnson"
@@ -7248,6 +10837,26 @@
       "stake": 1.0,
       "result": "LOSS",
       "profit": -1.0,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null
+    },
+    {
+      "date": "2026-06-23",
+      "commence": "2026-06-24T01:38:00Z",
+      "betType": "under",
+      "shadow": true,
+      "pitchers": [
+        "Ryan Johnson"
+      ],
+      "fadeTeam": "LAA",
+      "market": "totals",
+      "selection": "UNDER",
+      "line": 9.0,
+      "odds": -122,
+      "stake": 1.22,
+      "result": "WIN",
+      "profit": 1.0,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
       "reason": null
@@ -7275,7 +10884,7 @@
     {
       "date": "2026-06-23",
       "commence": "2026-06-24T01:45:00Z",
-      "betType": "total",
+      "betType": "over",
       "shadow": true,
       "pitchers": [
         "Aaron Civale"
@@ -7288,6 +10897,26 @@
       "stake": 1.24,
       "result": "LOSS",
       "profit": -1.24,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null
+    },
+    {
+      "date": "2026-06-23",
+      "commence": "2026-06-24T01:45:00Z",
+      "betType": "under",
+      "shadow": true,
+      "pitchers": [
+        "Aaron Civale"
+      ],
+      "fadeTeam": "OAK",
+      "market": "totals",
+      "selection": "UNDER",
+      "line": 8.5,
+      "odds": 102,
+      "stake": 1.0,
+      "result": "WIN",
+      "profit": 1.02,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
       "reason": null
@@ -7315,7 +10944,7 @@
     {
       "date": "2026-06-24",
       "commence": "2026-06-24T18:10:00Z",
-      "betType": "total",
+      "betType": "over",
       "shadow": true,
       "pitchers": [
         "Tanner Bibee"
@@ -7328,6 +10957,26 @@
       "stake": 1.04,
       "result": "LOSS",
       "profit": -1.04,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null
+    },
+    {
+      "date": "2026-06-24",
+      "commence": "2026-06-24T18:10:00Z",
+      "betType": "under",
+      "shadow": true,
+      "pitchers": [
+        "Tanner Bibee"
+      ],
+      "fadeTeam": "CLE",
+      "market": "totals",
+      "selection": "UNDER",
+      "line": 8.5,
+      "odds": -118,
+      "stake": 1.18,
+      "result": "WIN",
+      "profit": 1.0,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
       "reason": null
@@ -7355,7 +11004,7 @@
     {
       "date": "2026-06-24",
       "commence": "2026-06-24T23:07:00Z",
-      "betType": "total",
+      "betType": "over",
       "shadow": true,
       "pitchers": [
         "Mike Burrows"
@@ -7368,6 +11017,26 @@
       "stake": 1.12,
       "result": "LOSS",
       "profit": -1.12,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null
+    },
+    {
+      "date": "2026-06-24",
+      "commence": "2026-06-24T23:07:00Z",
+      "betType": "under",
+      "shadow": true,
+      "pitchers": [
+        "Mike Burrows"
+      ],
+      "fadeTeam": "HOU",
+      "market": "totals",
+      "selection": "UNDER",
+      "line": 8.5,
+      "odds": -108,
+      "stake": 1.08,
+      "result": "WIN",
+      "profit": 1.0,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
       "reason": null
@@ -7396,7 +11065,7 @@
     {
       "date": "2026-06-25",
       "commence": "2026-06-25T19:45:00Z",
-      "betType": "total",
+      "betType": "over",
       "shadow": true,
       "pitchers": [
         "Landen Roupp",
@@ -7410,6 +11079,27 @@
       "stake": 1.18,
       "result": "WIN",
       "profit": 1.0,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null
+    },
+    {
+      "date": "2026-06-25",
+      "commence": "2026-06-25T19:45:00Z",
+      "betType": "under",
+      "shadow": true,
+      "pitchers": [
+        "Landen Roupp",
+        "Jeffrey Springs"
+      ],
+      "fadeTeam": null,
+      "market": "totals",
+      "selection": "UNDER",
+      "line": 8.0,
+      "odds": -104,
+      "stake": 1.04,
+      "result": "LOSS",
+      "profit": -1.04,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
       "reason": null
@@ -7437,7 +11127,7 @@
     {
       "date": "2026-06-25",
       "commence": "2026-06-25T23:10:00Z",
-      "betType": "total",
+      "betType": "over",
       "shadow": true,
       "pitchers": [
         "Freddy Peralta"
@@ -7450,6 +11140,26 @@
       "stake": 1.15,
       "result": "LOSS",
       "profit": -1.15,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null
+    },
+    {
+      "date": "2026-06-25",
+      "commence": "2026-06-25T23:10:00Z",
+      "betType": "under",
+      "shadow": true,
+      "pitchers": [
+        "Freddy Peralta"
+      ],
+      "fadeTeam": "NYM",
+      "market": "totals",
+      "selection": "UNDER",
+      "line": 8.5,
+      "odds": -105,
+      "stake": 1.05,
+      "result": "WIN",
+      "profit": 1.0,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
       "reason": null
@@ -7477,7 +11187,7 @@
     {
       "date": "2026-06-26",
       "commence": "2026-06-26T23:10:00Z",
-      "betType": "total",
+      "betType": "over",
       "shadow": true,
       "pitchers": [
         "Zac Gallen"
@@ -7490,6 +11200,26 @@
       "stake": 1.12,
       "result": "LOSS",
       "profit": -1.12,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null
+    },
+    {
+      "date": "2026-06-26",
+      "commence": "2026-06-26T23:10:00Z",
+      "betType": "under",
+      "shadow": true,
+      "pitchers": [
+        "Zac Gallen"
+      ],
+      "fadeTeam": "ARI",
+      "market": "totals",
+      "selection": "UNDER",
+      "line": 8.5,
+      "odds": -108,
+      "stake": 1.08,
+      "result": "WIN",
+      "profit": 1.0,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
       "reason": null
@@ -7517,7 +11247,7 @@
     {
       "date": "2026-06-27",
       "commence": "2026-06-27T20:05:00Z",
-      "betType": "total",
+      "betType": "over",
       "shadow": true,
       "pitchers": [
         "Jared Jones"
@@ -7530,6 +11260,26 @@
       "stake": 1.06,
       "result": "WIN",
       "profit": 1.0,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null
+    },
+    {
+      "date": "2026-06-27",
+      "commence": "2026-06-27T20:05:00Z",
+      "betType": "under",
+      "shadow": true,
+      "pitchers": [
+        "Jared Jones"
+      ],
+      "fadeTeam": "PIT",
+      "market": "totals",
+      "selection": "UNDER",
+      "line": 8.0,
+      "odds": -114,
+      "stake": 1.14,
+      "result": "LOSS",
+      "profit": -1.14,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
       "reason": null
@@ -7557,7 +11307,7 @@
     {
       "date": "2026-06-27",
       "commence": "2026-06-27T23:10:00Z",
-      "betType": "total",
+      "betType": "over",
       "shadow": true,
       "pitchers": [
         "David Peterson"
@@ -7570,6 +11320,26 @@
       "stake": 1.05,
       "result": "WIN",
       "profit": 1.0,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null
+    },
+    {
+      "date": "2026-06-27",
+      "commence": "2026-06-27T23:10:00Z",
+      "betType": "under",
+      "shadow": true,
+      "pitchers": [
+        "David Peterson"
+      ],
+      "fadeTeam": "CHC",
+      "market": "totals",
+      "selection": "UNDER",
+      "line": 8.0,
+      "odds": -115,
+      "stake": 1.15,
+      "result": "LOSS",
+      "profit": -1.15,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
       "reason": null
@@ -7617,7 +11387,7 @@
     {
       "date": "2026-06-28",
       "commence": "2026-06-28T17:35:00Z",
-      "betType": "total",
+      "betType": "over",
       "shadow": true,
       "pitchers": [
         "Zack Littell"
@@ -7637,7 +11407,7 @@
     {
       "date": "2026-06-28",
       "commence": "2026-06-28T17:35:00Z",
-      "betType": "total",
+      "betType": "over",
       "shadow": true,
       "pitchers": [
         "Mitch Keller"
@@ -7650,6 +11420,46 @@
       "stake": 1.18,
       "result": "WIN",
       "profit": 1.0,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null
+    },
+    {
+      "date": "2026-06-28",
+      "commence": "2026-06-28T17:35:00Z",
+      "betType": "under",
+      "shadow": true,
+      "pitchers": [
+        "Zack Littell"
+      ],
+      "fadeTeam": "WSH",
+      "market": "totals",
+      "selection": "UNDER",
+      "line": 9.5,
+      "odds": -122,
+      "stake": 1.22,
+      "result": "LOSS",
+      "profit": -1.22,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null
+    },
+    {
+      "date": "2026-06-28",
+      "commence": "2026-06-28T17:35:00Z",
+      "betType": "under",
+      "shadow": true,
+      "pitchers": [
+        "Mitch Keller"
+      ],
+      "fadeTeam": "PIT",
+      "market": "totals",
+      "selection": "UNDER",
+      "line": 9.0,
+      "odds": -104,
+      "stake": 1.04,
+      "result": "LOSS",
+      "profit": -1.04,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
       "reason": null
@@ -7677,7 +11487,7 @@
     {
       "date": "2026-06-28",
       "commence": "2026-06-28T17:37:00Z",
-      "betType": "total",
+      "betType": "over",
       "shadow": true,
       "pitchers": [
         "Kumar Rocker"
@@ -7690,6 +11500,26 @@
       "stake": 1.24,
       "result": "LOSS",
       "profit": -1.24,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null
+    },
+    {
+      "date": "2026-06-28",
+      "commence": "2026-06-28T17:37:00Z",
+      "betType": "under",
+      "shadow": true,
+      "pitchers": [
+        "Kumar Rocker"
+      ],
+      "fadeTeam": "TEX",
+      "market": "totals",
+      "selection": "UNDER",
+      "line": 8.5,
+      "odds": 102,
+      "stake": 1.0,
+      "result": "WIN",
+      "profit": 1.02,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
       "reason": null
@@ -7717,7 +11547,7 @@
     {
       "date": "2026-06-28",
       "commence": "2026-06-28T17:40:00Z",
-      "betType": "total",
+      "betType": "over",
       "shadow": true,
       "pitchers": [
         "Merrill Kelly"
@@ -7730,6 +11560,26 @@
       "stake": 1.2,
       "result": "LOSS",
       "profit": -1.2,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null
+    },
+    {
+      "date": "2026-06-28",
+      "commence": "2026-06-28T17:40:00Z",
+      "betType": "under",
+      "shadow": true,
+      "pitchers": [
+        "Merrill Kelly"
+      ],
+      "fadeTeam": "ARI",
+      "market": "totals",
+      "selection": "UNDER",
+      "line": 7.5,
+      "odds": -102,
+      "stake": 1.02,
+      "result": "WIN",
+      "profit": 1.0,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
       "reason": null
@@ -7758,7 +11608,7 @@
     {
       "date": "2026-06-28",
       "commence": "2026-06-28T19:15:00Z",
-      "betType": "total",
+      "betType": "over",
       "shadow": true,
       "pitchers": [
         "Sam Aldegheri",
@@ -7772,6 +11622,27 @@
       "stake": 1.08,
       "result": "LOSS",
       "profit": -1.08,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null
+    },
+    {
+      "date": "2026-06-28",
+      "commence": "2026-06-28T19:15:00Z",
+      "betType": "under",
+      "shadow": true,
+      "pitchers": [
+        "Sam Aldegheri",
+        "Aaron Civale"
+      ],
+      "fadeTeam": null,
+      "market": "totals",
+      "selection": "UNDER",
+      "line": 9.5,
+      "odds": -112,
+      "stake": 1.12,
+      "result": "WIN",
+      "profit": 1.0,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
       "reason": null
@@ -7799,7 +11670,7 @@
     {
       "date": "2026-06-28",
       "commence": "2026-06-28T20:10:00Z",
-      "betType": "total",
+      "betType": "over",
       "shadow": true,
       "pitchers": [
         "Emmet Sheehan"
@@ -7812,6 +11683,26 @@
       "stake": 1.05,
       "result": "LOSS",
       "profit": -1.05,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null
+    },
+    {
+      "date": "2026-06-28",
+      "commence": "2026-06-28T20:10:00Z",
+      "betType": "under",
+      "shadow": true,
+      "pitchers": [
+        "Emmet Sheehan"
+      ],
+      "fadeTeam": "LAD",
+      "market": "totals",
+      "selection": "UNDER",
+      "line": 8.0,
+      "odds": -115,
+      "stake": 1.15,
+      "result": "WIN",
+      "profit": 1.0,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
       "reason": null
@@ -7839,7 +11730,7 @@
     {
       "date": "2026-06-29",
       "commence": "2026-06-29T23:10:00Z",
-      "betType": "total",
+      "betType": "over",
       "shadow": true,
       "pitchers": [
         "Miles Mikolas"
@@ -7852,6 +11743,26 @@
       "stake": 1.06,
       "result": "WIN",
       "profit": 1.0,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null
+    },
+    {
+      "date": "2026-06-29",
+      "commence": "2026-06-29T23:10:00Z",
+      "betType": "under",
+      "shadow": true,
+      "pitchers": [
+        "Miles Mikolas"
+      ],
+      "fadeTeam": "WSH",
+      "market": "totals",
+      "selection": "UNDER",
+      "line": 8.5,
+      "odds": -114,
+      "stake": 1.14,
+      "result": "LOSS",
+      "profit": -1.14,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
       "reason": null
@@ -7879,7 +11790,7 @@
     {
       "date": "2026-06-29",
       "commence": "2026-06-30T00:05:00Z",
-      "betType": "total",
+      "betType": "over",
       "shadow": true,
       "pitchers": [
         "Griffin Canning"
@@ -7892,6 +11803,26 @@
       "stake": 1.0,
       "result": "LOSS",
       "profit": -1.0,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null
+    },
+    {
+      "date": "2026-06-29",
+      "commence": "2026-06-30T00:05:00Z",
+      "betType": "under",
+      "shadow": true,
+      "pitchers": [
+        "Griffin Canning"
+      ],
+      "fadeTeam": "SD",
+      "market": "totals",
+      "selection": "UNDER",
+      "line": 11.5,
+      "odds": -122,
+      "stake": 1.22,
+      "result": "WIN",
+      "profit": 1.0,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
       "reason": null
@@ -7919,7 +11850,7 @@
     {
       "date": "2026-06-29",
       "commence": "2026-06-30T01:40:00Z",
-      "betType": "total",
+      "betType": "over",
       "shadow": true,
       "pitchers": [
         "Ryan Johnson"
@@ -7932,6 +11863,26 @@
       "stake": 1.24,
       "result": "WIN",
       "profit": 1.0,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null
+    },
+    {
+      "date": "2026-06-29",
+      "commence": "2026-06-30T01:40:00Z",
+      "betType": "under",
+      "shadow": true,
+      "pitchers": [
+        "Ryan Johnson"
+      ],
+      "fadeTeam": "LAA",
+      "market": "totals",
+      "selection": "UNDER",
+      "line": 7.5,
+      "odds": 102,
+      "stake": 1.0,
+      "result": "LOSS",
+      "profit": -1.0,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
       "reason": null
@@ -7959,7 +11910,7 @@
     {
       "date": "2026-06-30",
       "commence": "2026-06-30T22:40:00Z",
-      "betType": "total",
+      "betType": "over",
       "shadow": true,
       "pitchers": [
         "Tanner Bibee"
@@ -7972,6 +11923,26 @@
       "stake": 1.18,
       "result": "LOSS",
       "profit": -1.18,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null
+    },
+    {
+      "date": "2026-06-30",
+      "commence": "2026-06-30T22:40:00Z",
+      "betType": "under",
+      "shadow": true,
+      "pitchers": [
+        "Tanner Bibee"
+      ],
+      "fadeTeam": "CLE",
+      "market": "totals",
+      "selection": "UNDER",
+      "line": 7.5,
+      "odds": -104,
+      "stake": 1.04,
+      "result": "WIN",
+      "profit": 1.0,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
       "reason": null
@@ -7999,7 +11970,7 @@
     {
       "date": "2026-06-30",
       "commence": "2026-07-01T00:10:00Z",
-      "betType": "total",
+      "betType": "over",
       "shadow": true,
       "pitchers": [
         "Mike Burrows"
@@ -8012,6 +11983,26 @@
       "stake": 1.0,
       "result": "WIN",
       "profit": 1.0,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null
+    },
+    {
+      "date": "2026-06-30",
+      "commence": "2026-07-01T00:10:00Z",
+      "betType": "under",
+      "shadow": true,
+      "pitchers": [
+        "Mike Burrows"
+      ],
+      "fadeTeam": "HOU",
+      "market": "totals",
+      "selection": "UNDER",
+      "line": 8.5,
+      "odds": -122,
+      "stake": 1.22,
+      "result": "LOSS",
+      "profit": -1.22,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
       "reason": null
@@ -8059,7 +12050,7 @@
     {
       "date": "2026-06-30",
       "commence": "2026-07-01T01:40:00Z",
-      "betType": "total",
+      "betType": "over",
       "shadow": true,
       "pitchers": [
         "Landen Roupp"
@@ -8079,7 +12070,7 @@
     {
       "date": "2026-06-30",
       "commence": "2026-07-01T01:40:00Z",
-      "betType": "total",
+      "betType": "over",
       "shadow": true,
       "pitchers": [
         "Jeffrey Springs"
@@ -8092,6 +12083,46 @@
       "stake": 1.15,
       "result": "WIN",
       "profit": 1.0,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null
+    },
+    {
+      "date": "2026-06-30",
+      "commence": "2026-07-01T01:40:00Z",
+      "betType": "under",
+      "shadow": true,
+      "pitchers": [
+        "Landen Roupp"
+      ],
+      "fadeTeam": "SF",
+      "market": "totals",
+      "selection": "UNDER",
+      "line": 9.0,
+      "odds": -120,
+      "stake": 1.2,
+      "result": "LOSS",
+      "profit": -1.2,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null
+    },
+    {
+      "date": "2026-06-30",
+      "commence": "2026-07-01T01:40:00Z",
+      "betType": "under",
+      "shadow": true,
+      "pitchers": [
+        "Jeffrey Springs"
+      ],
+      "fadeTeam": "OAK",
+      "market": "totals",
+      "selection": "UNDER",
+      "line": 11.0,
+      "odds": -105,
+      "stake": 1.05,
+      "result": "LOSS",
+      "profit": -1.05,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
       "reason": null
@@ -8119,7 +12150,7 @@
     {
       "date": "2026-07-01",
       "commence": "2026-07-01T19:07:00Z",
-      "betType": "total",
+      "betType": "over",
       "shadow": true,
       "pitchers": [
         "Freddy Peralta"
@@ -8132,6 +12163,26 @@
       "stake": 1.15,
       "result": "WIN",
       "profit": 1.0,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null
+    },
+    {
+      "date": "2026-07-01",
+      "commence": "2026-07-01T19:07:00Z",
+      "betType": "under",
+      "shadow": true,
+      "pitchers": [
+        "Freddy Peralta"
+      ],
+      "fadeTeam": "NYM",
+      "market": "totals",
+      "selection": "UNDER",
+      "line": 8.5,
+      "odds": -105,
+      "stake": 1.05,
+      "result": "LOSS",
+      "profit": -1.05,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
       "reason": null
@@ -8159,7 +12210,7 @@
     {
       "date": "2026-07-01",
       "commence": "2026-07-02T01:40:00Z",
-      "betType": "total",
+      "betType": "over",
       "shadow": true,
       "pitchers": [
         "Zac Gallen"
@@ -8172,6 +12223,26 @@
       "stake": 1.05,
       "result": "WIN",
       "profit": 1.0,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null
+    },
+    {
+      "date": "2026-07-01",
+      "commence": "2026-07-02T01:40:00Z",
+      "betType": "under",
+      "shadow": true,
+      "pitchers": [
+        "Zac Gallen"
+      ],
+      "fadeTeam": "ARI",
+      "market": "totals",
+      "selection": "UNDER",
+      "line": 9.5,
+      "odds": -115,
+      "stake": 1.15,
+      "result": "LOSS",
+      "profit": -1.15,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
       "reason": null
@@ -8199,7 +12270,7 @@
     {
       "date": "2026-07-02",
       "commence": "2026-07-02T16:35:00Z",
-      "betType": "total",
+      "betType": "over",
       "shadow": true,
       "pitchers": [
         "Jared Jones"
@@ -8212,6 +12283,26 @@
       "stake": 1.1,
       "result": "LOSS",
       "profit": -1.1,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null
+    },
+    {
+      "date": "2026-07-02",
+      "commence": "2026-07-02T16:35:00Z",
+      "betType": "under",
+      "shadow": true,
+      "pitchers": [
+        "Jared Jones"
+      ],
+      "fadeTeam": "PIT",
+      "market": "totals",
+      "selection": "UNDER",
+      "line": 10.5,
+      "odds": -110,
+      "stake": 1.1,
+      "result": "WIN",
+      "profit": 1.0,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
       "reason": null
@@ -8239,7 +12330,7 @@
     {
       "date": "2026-07-03",
       "commence": "2026-07-03T20:05:00Z",
-      "betType": "total",
+      "betType": "over",
       "shadow": true,
       "pitchers": [
         "David Peterson"
@@ -8252,6 +12343,26 @@
       "stake": 1.22,
       "result": "WIN",
       "profit": 1.0,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null
+    },
+    {
+      "date": "2026-07-03",
+      "commence": "2026-07-03T20:05:00Z",
+      "betType": "under",
+      "shadow": true,
+      "pitchers": [
+        "David Peterson"
+      ],
+      "fadeTeam": "CHC",
+      "market": "totals",
+      "selection": "UNDER",
+      "line": 10.5,
+      "odds": 100,
+      "stake": 1.0,
+      "result": "LOSS",
+      "profit": -1.0,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
       "reason": null
@@ -8279,7 +12390,7 @@
     {
       "date": "2026-07-03",
       "commence": "2026-07-03T22:45:00Z",
-      "betType": "total",
+      "betType": "over",
       "shadow": true,
       "pitchers": [
         "Mitch Keller"
@@ -8292,6 +12403,26 @@
       "stake": 1.2,
       "result": "WIN",
       "profit": 1.0,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null
+    },
+    {
+      "date": "2026-07-03",
+      "commence": "2026-07-03T22:45:00Z",
+      "betType": "under",
+      "shadow": true,
+      "pitchers": [
+        "Mitch Keller"
+      ],
+      "fadeTeam": "PIT",
+      "market": "totals",
+      "selection": "UNDER",
+      "line": 9.5,
+      "odds": -102,
+      "stake": 1.02,
+      "result": "LOSS",
+      "profit": -1.02,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
       "reason": null
@@ -8319,7 +12450,7 @@
     {
       "date": "2026-07-04",
       "commence": "2026-07-05T01:38:00Z",
-      "betType": "total",
+      "betType": "over",
       "shadow": true,
       "pitchers": [
         "Sam Aldegheri"
@@ -8332,6 +12463,26 @@
       "stake": 1.08,
       "result": "WIN",
       "profit": 1.0,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null
+    },
+    {
+      "date": "2026-07-04",
+      "commence": "2026-07-05T01:38:00Z",
+      "betType": "under",
+      "shadow": true,
+      "pitchers": [
+        "Sam Aldegheri"
+      ],
+      "fadeTeam": "LAA",
+      "market": "totals",
+      "selection": "UNDER",
+      "line": 8.5,
+      "odds": -112,
+      "stake": 1.12,
+      "result": "LOSS",
+      "profit": -1.12,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
       "reason": null
@@ -8379,7 +12530,7 @@
     {
       "date": "2026-07-04",
       "commence": "2026-07-05T01:40:00Z",
-      "betType": "total",
+      "betType": "over",
       "shadow": true,
       "pitchers": [
         "Merrill Kelly"
@@ -8399,7 +12550,7 @@
     {
       "date": "2026-07-04",
       "commence": "2026-07-05T01:40:00Z",
-      "betType": "total",
+      "betType": "over",
       "shadow": true,
       "pitchers": [
         "Aaron Civale"
@@ -8412,6 +12563,46 @@
       "stake": 1.02,
       "result": "LOSS",
       "profit": -1.02,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null
+    },
+    {
+      "date": "2026-07-04",
+      "commence": "2026-07-05T01:40:00Z",
+      "betType": "under",
+      "shadow": true,
+      "pitchers": [
+        "Merrill Kelly"
+      ],
+      "fadeTeam": "ARI",
+      "market": "totals",
+      "selection": "UNDER",
+      "line": 9.5,
+      "odds": -122,
+      "stake": 1.22,
+      "result": "WIN",
+      "profit": 1.0,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null
+    },
+    {
+      "date": "2026-07-04",
+      "commence": "2026-07-05T01:40:00Z",
+      "betType": "under",
+      "shadow": true,
+      "pitchers": [
+        "Aaron Civale"
+      ],
+      "fadeTeam": "OAK",
+      "market": "totals",
+      "selection": "UNDER",
+      "line": 11.5,
+      "odds": -120,
+      "stake": 1.2,
+      "result": "WIN",
+      "profit": 1.0,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
       "reason": null
@@ -8439,7 +12630,7 @@
     {
       "date": "2026-07-05",
       "commence": "2026-07-05T18:00:00Z",
-      "betType": "total",
+      "betType": "over",
       "shadow": true,
       "pitchers": [
         "Tanner Bibee"
@@ -8452,6 +12643,26 @@
       "stake": 1.0,
       "result": "WIN",
       "profit": 1.02,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null
+    },
+    {
+      "date": "2026-07-05",
+      "commence": "2026-07-05T18:00:00Z",
+      "betType": "under",
+      "shadow": true,
+      "pitchers": [
+        "Tanner Bibee"
+      ],
+      "fadeTeam": "CLE",
+      "market": "totals",
+      "selection": "UNDER",
+      "line": 8.5,
+      "odds": -124,
+      "stake": 1.24,
+      "result": "LOSS",
+      "profit": -1.24,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
       "reason": null
@@ -8479,7 +12690,7 @@
     {
       "date": "2026-07-05",
       "commence": "2026-07-05T19:30:00Z",
-      "betType": "total",
+      "betType": "over",
       "shadow": true,
       "pitchers": [
         "Kumar Rocker"
@@ -8492,6 +12703,26 @@
       "stake": 1.18,
       "result": "WIN",
       "profit": 1.0,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null
+    },
+    {
+      "date": "2026-07-05",
+      "commence": "2026-07-05T19:30:00Z",
+      "betType": "under",
+      "shadow": true,
+      "pitchers": [
+        "Kumar Rocker"
+      ],
+      "fadeTeam": "TEX",
+      "market": "totals",
+      "selection": "UNDER",
+      "line": 7.5,
+      "odds": -104,
+      "stake": 1.04,
+      "result": "LOSS",
+      "profit": -1.04,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
       "reason": null
@@ -8519,7 +12750,7 @@
     {
       "date": "2026-07-05",
       "commence": "2026-07-05T23:20:00Z",
-      "betType": "total",
+      "betType": "over",
       "shadow": true,
       "pitchers": [
         "Emmet Sheehan"
@@ -8532,6 +12763,26 @@
       "stake": 1.32,
       "result": "LOSS",
       "profit": -1.32,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null
+    },
+    {
+      "date": "2026-07-05",
+      "commence": "2026-07-05T23:20:00Z",
+      "betType": "under",
+      "shadow": true,
+      "pitchers": [
+        "Emmet Sheehan"
+      ],
+      "fadeTeam": "LAD",
+      "market": "totals",
+      "selection": "UNDER",
+      "line": 9.5,
+      "odds": 108,
+      "stake": 1.0,
+      "result": "WIN",
+      "profit": 1.08,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
       "reason": null
@@ -8559,7 +12810,7 @@
     {
       "date": "2026-07-05",
       "commence": "2026-07-06T01:30:00Z",
-      "betType": "total",
+      "betType": "over",
       "shadow": true,
       "pitchers": [
         "Ryan Johnson"
@@ -8572,6 +12823,26 @@
       "stake": 1.1,
       "result": "WIN",
       "profit": 1.0,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null
+    },
+    {
+      "date": "2026-07-05",
+      "commence": "2026-07-06T01:30:00Z",
+      "betType": "under",
+      "shadow": true,
+      "pitchers": [
+        "Ryan Johnson"
+      ],
+      "fadeTeam": "LAA",
+      "market": "totals",
+      "selection": "UNDER",
+      "line": 8.0,
+      "odds": -110,
+      "stake": 1.1,
+      "result": "LOSS",
+      "profit": -1.1,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
       "reason": null
@@ -8600,7 +12871,7 @@
     {
       "date": "2026-07-06",
       "commence": "2026-07-06T22:45:00Z",
-      "betType": "total",
+      "betType": "over",
       "shadow": true,
       "pitchers": [
         "Miles Mikolas",
@@ -8614,6 +12885,27 @@
       "stake": 1.22,
       "result": "WIN",
       "profit": 1.0,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null
+    },
+    {
+      "date": "2026-07-06",
+      "commence": "2026-07-06T22:45:00Z",
+      "betType": "under",
+      "shadow": true,
+      "pitchers": [
+        "Miles Mikolas",
+        "Mike Burrows"
+      ],
+      "fadeTeam": null,
+      "market": "totals",
+      "selection": "UNDER",
+      "line": 9.5,
+      "odds": 100,
+      "stake": 1.0,
+      "result": "LOSS",
+      "profit": -1.0,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
       "reason": null
@@ -8641,7 +12933,7 @@
     {
       "date": "2026-07-06",
       "commence": "2026-07-06T23:15:00Z",
-      "betType": "total",
+      "betType": "over",
       "shadow": true,
       "pitchers": [
         "Freddy Peralta"
@@ -8654,6 +12946,26 @@
       "stake": 1.12,
       "result": "WIN",
       "profit": 1.0,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null
+    },
+    {
+      "date": "2026-07-06",
+      "commence": "2026-07-06T23:15:00Z",
+      "betType": "under",
+      "shadow": true,
+      "pitchers": [
+        "Freddy Peralta"
+      ],
+      "fadeTeam": "NYM",
+      "market": "totals",
+      "selection": "UNDER",
+      "line": 9.0,
+      "odds": -108,
+      "stake": 1.08,
+      "result": "LOSS",
+      "profit": -1.08,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
       "reason": null
@@ -8681,7 +12993,7 @@
     {
       "date": "2026-07-06",
       "commence": "2026-07-07T01:45:00Z",
-      "betType": "total",
+      "betType": "over",
       "shadow": true,
       "pitchers": [
         "Landen Roupp"
@@ -8694,6 +13006,26 @@
       "stake": 1.2,
       "result": "WIN",
       "profit": 1.0,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null
+    },
+    {
+      "date": "2026-07-06",
+      "commence": "2026-07-07T01:45:00Z",
+      "betType": "under",
+      "shadow": true,
+      "pitchers": [
+        "Landen Roupp"
+      ],
+      "fadeTeam": "SF",
+      "market": "totals",
+      "selection": "UNDER",
+      "line": 7.5,
+      "odds": -102,
+      "stake": 1.02,
+      "result": "LOSS",
+      "profit": -1.02,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
       "reason": null
@@ -8721,7 +13053,7 @@
     {
       "date": "2026-07-07",
       "commence": "2026-07-08T01:40:00Z",
-      "betType": "total",
+      "betType": "over",
       "shadow": true,
       "pitchers": [
         "Zac Gallen"
@@ -8734,6 +13066,26 @@
       "stake": 1.08,
       "result": "LOSS",
       "profit": -1.08,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null
+    },
+    {
+      "date": "2026-07-07",
+      "commence": "2026-07-08T01:40:00Z",
+      "betType": "under",
+      "shadow": true,
+      "pitchers": [
+        "Zac Gallen"
+      ],
+      "fadeTeam": "ARI",
+      "market": "totals",
+      "selection": "UNDER",
+      "line": 9.0,
+      "odds": -112,
+      "stake": 1.12,
+      "result": "WIN",
+      "profit": 1.0,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
       "reason": null
@@ -8781,7 +13133,7 @@
     {
       "date": "2026-07-08",
       "commence": "2026-07-08T22:40:00Z",
-      "betType": "total",
+      "betType": "over",
       "shadow": true,
       "pitchers": [
         "Jeffrey Springs"
@@ -8801,7 +13153,7 @@
     {
       "date": "2026-07-08",
       "commence": "2026-07-08T22:40:00Z",
-      "betType": "total",
+      "betType": "over",
       "shadow": true,
       "pitchers": [
         "Jared Jones"
@@ -8814,6 +13166,46 @@
       "stake": 1.06,
       "result": "LOSS",
       "profit": -1.06,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null
+    },
+    {
+      "date": "2026-07-08",
+      "commence": "2026-07-08T22:40:00Z",
+      "betType": "under",
+      "shadow": true,
+      "pitchers": [
+        "Jeffrey Springs"
+      ],
+      "fadeTeam": "OAK",
+      "market": "totals",
+      "selection": "UNDER",
+      "line": 9.5,
+      "odds": -118,
+      "stake": 1.18,
+      "result": "WIN",
+      "profit": 1.0,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null
+    },
+    {
+      "date": "2026-07-08",
+      "commence": "2026-07-08T22:40:00Z",
+      "betType": "under",
+      "shadow": true,
+      "pitchers": [
+        "Jared Jones"
+      ],
+      "fadeTeam": "PIT",
+      "market": "totals",
+      "selection": "UNDER",
+      "line": 9.5,
+      "odds": -114,
+      "stake": 1.14,
+      "result": "WIN",
+      "profit": 1.0,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
       "reason": null
@@ -8841,7 +13233,7 @@
     {
       "date": "2026-07-09",
       "commence": "2026-07-09T16:35:00Z",
-      "betType": "total",
+      "betType": "over",
       "shadow": true,
       "pitchers": [
         "Mitch Keller"
@@ -8854,6 +13246,26 @@
       "stake": 1.1,
       "result": "WIN",
       "profit": 1.0,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null
+    },
+    {
+      "date": "2026-07-09",
+      "commence": "2026-07-09T16:35:00Z",
+      "betType": "under",
+      "shadow": true,
+      "pitchers": [
+        "Mitch Keller"
+      ],
+      "fadeTeam": "PIT",
+      "market": "totals",
+      "selection": "UNDER",
+      "line": 10.0,
+      "odds": -110,
+      "stake": 1.1,
+      "result": "LOSS",
+      "profit": -1.1,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
       "reason": null
@@ -8881,7 +13293,7 @@
     {
       "date": "2026-07-09",
       "commence": "2026-07-09T17:35:00Z",
-      "betType": "total",
+      "betType": "over",
       "shadow": true,
       "pitchers": [
         "David Peterson"
@@ -8894,6 +13306,26 @@
       "stake": 1.2,
       "result": "LOSS",
       "profit": -1.2,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null
+    },
+    {
+      "date": "2026-07-09",
+      "commence": "2026-07-09T17:35:00Z",
+      "betType": "under",
+      "shadow": true,
+      "pitchers": [
+        "David Peterson"
+      ],
+      "fadeTeam": "CHC",
+      "market": "totals",
+      "selection": "UNDER",
+      "line": 9.5,
+      "odds": -102,
+      "stake": 1.02,
+      "result": "WIN",
+      "profit": 1.0,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
       "reason": null
@@ -8922,7 +13354,7 @@
     {
       "date": "2026-07-09",
       "commence": "2026-07-10T01:40:00Z",
-      "betType": "total",
+      "betType": "over",
       "shadow": true,
       "pitchers": [
         "Griffin Canning",
@@ -8936,6 +13368,27 @@
       "stake": 1.24,
       "result": "LOSS",
       "profit": -1.24,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null
+    },
+    {
+      "date": "2026-07-09",
+      "commence": "2026-07-10T01:40:00Z",
+      "betType": "under",
+      "shadow": true,
+      "pitchers": [
+        "Griffin Canning",
+        "Merrill Kelly"
+      ],
+      "fadeTeam": null,
+      "market": "totals",
+      "selection": "UNDER",
+      "line": 8.5,
+      "odds": 102,
+      "stake": 1.0,
+      "result": "WIN",
+      "profit": 1.02,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
       "reason": null
@@ -8963,7 +13416,7 @@
     {
       "date": "2026-07-11",
       "commence": "2026-07-11T18:10:00Z",
-      "betType": "total",
+      "betType": "over",
       "shadow": true,
       "pitchers": [
         "Ryan Johnson"
@@ -8976,6 +13429,26 @@
       "stake": 1.08,
       "result": "LOSS",
       "profit": -1.08,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null
+    },
+    {
+      "date": "2026-07-11",
+      "commence": "2026-07-11T18:10:00Z",
+      "betType": "under",
+      "shadow": true,
+      "pitchers": [
+        "Ryan Johnson"
+      ],
+      "fadeTeam": "LAA",
+      "market": "totals",
+      "selection": "UNDER",
+      "line": 9.0,
+      "odds": -112,
+      "stake": 1.12,
+      "result": "WIN",
+      "profit": 1.0,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
       "reason": null
@@ -9023,7 +13496,7 @@
     {
       "date": "2026-07-11",
       "commence": "2026-07-11T20:10:00Z",
-      "betType": "total",
+      "betType": "over",
       "shadow": true,
       "pitchers": [
         "Freddy Peralta"
@@ -9043,7 +13516,7 @@
     {
       "date": "2026-07-11",
       "commence": "2026-07-11T20:10:00Z",
-      "betType": "total",
+      "betType": "over",
       "shadow": true,
       "pitchers": [
         "Tanner Bibee"
@@ -9056,6 +13529,46 @@
       "stake": 1.22,
       "result": "LOSS",
       "profit": -1.22,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null
+    },
+    {
+      "date": "2026-07-11",
+      "commence": "2026-07-11T20:10:00Z",
+      "betType": "under",
+      "shadow": true,
+      "pitchers": [
+        "Freddy Peralta"
+      ],
+      "fadeTeam": "NYM",
+      "market": "totals",
+      "selection": "UNDER",
+      "line": 7.5,
+      "odds": -102,
+      "stake": 1.02,
+      "result": "WIN",
+      "profit": 1.0,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null
+    },
+    {
+      "date": "2026-07-11",
+      "commence": "2026-07-11T20:10:00Z",
+      "betType": "under",
+      "shadow": true,
+      "pitchers": [
+        "Tanner Bibee"
+      ],
+      "fadeTeam": "CLE",
+      "market": "totals",
+      "selection": "UNDER",
+      "line": 7.5,
+      "odds": 100,
+      "stake": 1.0,
+      "result": "WIN",
+      "profit": 1.0,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
       "reason": null
@@ -9083,7 +13596,7 @@
     {
       "date": "2026-07-11",
       "commence": "2026-07-11T23:05:00Z",
-      "betType": "total",
+      "betType": "over",
       "shadow": true,
       "pitchers": [
         "Kumar Rocker"
@@ -9096,6 +13609,26 @@
       "stake": 1.22,
       "result": "WIN",
       "profit": 1.0,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null
+    },
+    {
+      "date": "2026-07-11",
+      "commence": "2026-07-11T23:05:00Z",
+      "betType": "under",
+      "shadow": true,
+      "pitchers": [
+        "Kumar Rocker"
+      ],
+      "fadeTeam": "TEX",
+      "market": "totals",
+      "selection": "UNDER",
+      "line": 8.5,
+      "odds": 100,
+      "stake": 1.0,
+      "result": "LOSS",
+      "profit": -1.0,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
       "reason": null
@@ -9123,7 +13656,7 @@
     {
       "date": "2026-07-12",
       "commence": "2026-07-12T20:10:00Z",
-      "betType": "total",
+      "betType": "over",
       "shadow": true,
       "pitchers": [
         "Emmet Sheehan"
@@ -9136,6 +13669,26 @@
       "stake": 1.04,
       "result": "LOSS",
       "profit": -1.04,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null
+    },
+    {
+      "date": "2026-07-12",
+      "commence": "2026-07-12T20:10:00Z",
+      "betType": "under",
+      "shadow": true,
+      "pitchers": [
+        "Emmet Sheehan"
+      ],
+      "fadeTeam": "LAD",
+      "market": "totals",
+      "selection": "UNDER",
+      "line": 9.5,
+      "odds": -118,
+      "stake": 1.18,
+      "result": "WIN",
+      "profit": 1.0,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
       "reason": null
