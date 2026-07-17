@@ -1618,10 +1618,48 @@ def run_daily(date_key=None):
         new_today_keys = {_pkey(p) for p in merged_props if p.get("date") == date_iso}
         dropped = prev_locked_keys - new_today_keys
         if dropped:
-            raise RuntimeError(
-                f"Refusing to erase {len(dropped)} locked picks on {date_iso}: "
-                f"{sorted(dropped)[:5]}{'...' if len(dropped) > 5 else ''}"
-            )
+            # A locked pick can be dropped when its game is postponed after the
+            # lineup confirmed: the opponent's lineup un-confirms, so
+            # _current_lock_state() now reads "pending", the pick falls out of
+            # already_locked_entries, and no fresh projection replaces it. Don't
+            # erase it — void it and keep it (mirrors the pitcher-swap void
+            # path), so the no-erase guard is satisfied and grading skips it.
+            #
+            # A lineup_confirmed pick with no result yet is safe to void this
+            # way (postponement or lineup un-confirm — no game outcome is lost).
+            # A game_started/final pick should NEVER drop; if one does it's a
+            # real bug, so those still raise.
+            unresolved = []
+            for k in sorted(dropped):
+                ep = existing_today_by_key.get(k)
+                if ep is None:
+                    unresolved.append(k)
+                    continue
+                team = ep.get("team", "") or ""
+                started_or_final = (
+                    _current_lock_state(ep) in ("game_started", "final")
+                    or ep.get("lockState") in ("game_started", "final")
+                    or ep.get("actual") is not None
+                )
+                if started_or_final:
+                    unresolved.append(k)
+                    continue
+                vp = _stamp(dict(ep), ep)
+                vp["result"] = "VOID"
+                vp["voidReason"] = ("postponed"
+                                    if _is_game_postponed(team, date_iso)
+                                    else "lineup_unconfirmed")
+                vp.setdefault("voidNote", "game postponed / lineup un-confirmed after lock")
+                merged_props.append(vp)
+            if unresolved:
+                raise RuntimeError(
+                    f"Refusing to erase {len(unresolved)} locked picks on {date_iso}: "
+                    f"{sorted(unresolved)[:5]}{'...' if len(unresolved) > 5 else ''}"
+                )
+            n_voided = len(dropped) - len(unresolved)
+            if n_voided:
+                print(f"  [merge] Voided {n_voided} locked pick(s) whose game "
+                      f"was postponed / lineup un-confirmed (kept, result=VOID)")
 
         def _merge_projections(existing_list, fresh_list):
             _LS = ("lineup_confirmed", "game_started", "final")
