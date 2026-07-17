@@ -2028,6 +2028,10 @@ async function render() {
   if (activeTab === 'mlb-batter-props') {
     return renderMLBBatterProps();
   }
+  // MLB Fade-list Moneyline
+  if (activeTab === 'mlb-fade-ml') {
+    return renderMLBFadeML();
+  }
 
   const data = await fetchData(activeTab);
   if (!data || !data.runs) {

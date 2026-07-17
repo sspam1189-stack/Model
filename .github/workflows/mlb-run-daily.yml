@@ -75,11 +75,31 @@ jobs:
           MLB_K_VARIANT: w01c26
         run: python -m scripts.run_daily
 
+      # Fade-list moneyline model ("MLB Fade ML"): when a fade-list pitcher
+      # starts, bet the opponent's FanDuel moneyline. Grades prior bets from
+      # the frozen ML cache + game results, then writes today's picks. Live
+      # odds come from FanDuel's own API (Odds API fallback). Runs AFTER the K
+      # steps; writes only mlb-fade-ml.json + data/odds_cache/mlb_ml.
+      - name: Run daily MLB fade ML
+        working-directory: MLBstrikeouts
+        env:
+          PYTHONUTF8: "1"
+          PYTHONUNBUFFERED: "1"
+          PYTHONIOENCODING: "utf-8"
+          ODDS_API_KEY: ${{ secrets.ODDS_API_KEY }}
+        run: python -m scripts.run_daily_ml
+
       - name: Upload MLBstrikeouts data
         uses: actions/upload-artifact@v7
         with:
           name: MLBstrikeouts-data
           path: MLBstrikeouts/data
+
+      - name: Upload shared MLB fade-ML odds cache
+        uses: actions/upload-artifact@v7
+        with:
+          name: shared-mlb-ml-cache
+          path: data/odds_cache/mlb_ml
 
       - name: Upload shared MLB props cache
         uses: actions/upload-artifact@v7
@@ -139,6 +159,11 @@ jobs:
           name: shared-mlb-emp-std-cache-w01c26
           path: artifacts/mlb-emp-std-cache-w01c26
 
+      - uses: actions/download-artifact@v8
+        with:
+          name: shared-mlb-ml-cache
+          path: artifacts/mlb-ml-cache
+
       - name: Copy artifacts
         shell: bash
         run: |
@@ -153,6 +178,9 @@ jobs:
           cp -a artifacts/mlb-emp-std-cache-w01c26/. data/emp_std_cache/mlb_w01c26/
           cp -f artifacts/MLBstrikeouts/mlb-props.json PythonDashboard/data/mlb-props.json 2>/dev/null || true
           cp -f artifacts/MLBstrikeouts/mlb-props_w01c26.json PythonDashboard/data/mlb-props_w01c26.json 2>/dev/null || true
+          cp -f artifacts/MLBstrikeouts/mlb-fade-ml.json PythonDashboard/data/mlb-fade-ml.json 2>/dev/null || true
+          mkdir -p data/odds_cache/mlb_ml
+          cp -a artifacts/mlb-ml-cache/. data/odds_cache/mlb_ml/ 2>/dev/null || true
 
       - name: Commit & push data changes
         shell: bash

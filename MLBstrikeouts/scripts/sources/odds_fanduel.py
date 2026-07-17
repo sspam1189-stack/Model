@@ -488,3 +488,75 @@ def fetch_fanduel_mlb_props(date_key=None, confirmed_team_keys=None,
 
 
 # Batter prop fetch was removed — batter prop strategy is no longer in scope.
+
+
+# ---------------------------------------------------------------------------
+# Game moneyline (h2h) for the fade-list ML model.
+# ---------------------------------------------------------------------------
+import re as _re
+
+
+def _fd_split_matchup(event_name):
+    """'Away (P) @ Home (P)' -> ('away_full', 'home_full'). None on failure."""
+    if not event_name or " @ " not in event_name:
+        return None, None
+    away, home = event_name.split(" @ ", 1)
+    strip = lambda s: _re.sub(r"\s*\([^)]*\)\s*$", "", s).strip()
+    return strip(away), strip(home)
+
+
+def fetch_fanduel_mlb_ml(date_key=None):
+    """Live FanDuel game moneylines (both teams) for a date.
+
+    Returns rows [{date, commence, home, away, home_ml, away_ml, book,
+    source, started}] using props-convention abbreviations. Free, no key.
+    Raises on network/parse failure so the caller can fall back to the
+    Odds API.
+    """
+    from sources.mlb_schedule import team_abbr
+
+    url = (f"{FD_BASE}/content-managed-page?page=CUSTOM&customPageId=mlb"
+           f"&_ak={FD_API_KEY}&timezone=America%2FNew_York")
+    resp = requests.get(url, headers=FD_HEADERS, timeout=30)
+    resp.raise_for_status()
+    data = resp.json()
+    att = data.get("attachments", {})
+    markets = att.get("markets", {})
+    events = att.get("events", {})
+
+    date_iso = None
+    if date_key:
+        date_iso = f"{date_key[:4]}-{date_key[4:6]}-{date_key[6:8]}"
+
+    rows = []
+    for m in markets.values():
+        if (m.get("marketType") or "").upper() != "MONEY_LINE":
+            continue
+        ev = events.get(str(m.get("eventId"))) or {}
+        open_date = ev.get("openDate", "")  # e.g. 2026-07-18T00:06:00.000Z
+        commence = open_date.replace(".000Z", "Z") if open_date else None
+        away_full, home_full = _fd_split_matchup(ev.get("name"))
+        home, away = team_abbr(home_full), team_abbr(away_full)
+        if not (home and away):
+            continue
+        prices = {}
+        for r in m.get("runners", []):
+            odds = ((r.get("winRunnerOdds") or {}).get("americanDisplayOdds")
+                    or {}).get("americanOddsInt")
+            ab = team_abbr(r.get("runnerName"))
+            if ab is not None and odds is not None:
+                prices[ab] = odds
+        if home not in prices or away not in prices:
+            continue
+        # FanDuel's page is a rolling window; keep only the requested date.
+        row_date = (commence or "")[:10]
+        if date_iso and row_date != date_iso:
+            continue
+        rows.append({
+            "date": row_date or date_iso,
+            "commence": commence,
+            "home": home, "away": away,
+            "home_ml": prices[home], "away_ml": prices[away],
+            "book": "fanduel", "source": "fanduel_api", "started": False,
+        })
+    return rows
