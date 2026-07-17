@@ -30,12 +30,8 @@ OUTPUT_PATHS = [
 # skip | underdog | favorite. 'underdog' bets the underdog's ML on mutual
 # fades (both starters fade). Weak edge / tiny sample -- tracked separately.
 MUTUAL_FADE_RULE = os.environ.get("MUTUAL_FADE_RULE", "underdog")
-# Compute OVER-on-total results for every fade game. These are SHADOW stats
-# only (not actual bets): they are excluded from the record / units / ROI and
-# shown separately so you can see how the total angle would have done.
-BET_TOTALS = os.environ.get("FADE_BET_TOTALS", "1") != "0"
 
-# Bet types that count toward the real record. Totals are shadow-only.
+# Bet types that make up the record (moneyline only).
 REAL_BET_TYPES = ("ml", "ml_dog")
 
 
@@ -153,20 +149,6 @@ def _settle_ml(g, team):
     return (("WIN" if won else "LOSS"), None)
 
 
-def _settle_total(g, line, side="OVER"):
-    if g is None or g.get("void"):
-        return ("VOID", "postponed")
-    hs, as_ = g.get("home_score"), g.get("away_score")
-    if not g.get("final") or hs is None or as_ is None:
-        return ("pending", None)
-    total = hs + as_
-    if total == line:
-        return ("VOID", "push")
-    over = total > line
-    won = over if side == "OVER" else not over
-    return (("WIN" if won else "LOSS"), None)
-
-
 # --- bet construction (single serializer) ---------------------------------
 
 def _bet(date, commence, bet_type, fg, market, selection, line, odds,
@@ -223,20 +205,6 @@ def build_bets_for_game(date, fg, g, odds_row):
             bets.append(_bet(date, commence, "ml", fg, "h2h", team, None,
                              odds, result, reason, source=source))
 
-    # ----- totals legs (OVER + UNDER) -- shadow stats only, both shown -----
-    if BET_TOTALS:
-        line = (odds_row or {}).get("total_line")
-        for bt_key, side, price in (
-            ("over", "OVER", (odds_row or {}).get("over_ml")),
-            ("under", "UNDER", (odds_row or {}).get("under_ml")),
-        ):
-            if line is None or price is None:
-                bets.append(_bet(date, commence, bt_key, fg, "totals", side,
-                                 line, price, "VOID", "no_price", source=source))
-            else:
-                result, reason = _settle_total(g, line, side)
-                bets.append(_bet(date, commence, bt_key, fg, "totals", side,
-                                 line, price, result, reason, source=source))
     return bets
 
 
@@ -263,7 +231,7 @@ def compute_summary(bets):
     summary = _record(real)
     summary["byType"] = {
         t: _record([b for b in graded if b["betType"] == t])
-        for t in ("ml", "ml_dog", "over", "under")
+        for t in ("ml", "ml_dog")
     }
     return summary
 
@@ -277,7 +245,6 @@ def build_payload(bets, today, generated=None):
             datetime.timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
         "fadeList": list(FADE_LIST),
         "mutualRule": MUTUAL_FADE_RULE,
-        "betTotals": BET_TOTALS,
         "summary": compute_summary(bets),
         "today": today,
         "bets": bets,

@@ -65,8 +65,6 @@ async function renderMLBFadeML() {
   const typeMeta = [
     ['ml', 'Fade ML (opp)', 'Single fade arm → opponent moneyline', false],
     ['ml_dog', 'Mutual → dog', 'Both starters fade → underdog ML', false],
-    ['over', 'OVER (shadow)', 'Not bet — how the OVER would’ve done', true],
-    ['under', 'UNDER (shadow)', 'Not bet — how the UNDER would’ve done', true],
   ];
   const chips = document.createElement('div');
   chips.style.cssText = 'display:flex;gap:10px;flex-wrap:wrap;margin-bottom:16px';
@@ -93,26 +91,20 @@ async function renderMLBFadeML() {
   tCard.className = 'card';
   tCard.style.cssText = 'margin-bottom:16px;padding:12px 16px';
   const pend = today.filter(t => t.result === 'pending');
-  const isTotal = (t) => t.betType === 'over' || t.betType === 'under';
   const label = (t) => {
     const who = (t.pitchers || []).join(' / ');
     if (t.betType === 'ml_dog') return '• Mutual (' + esc(who) + ') → dog <b>' + esc(t.selection || '?') + '</b> ML <span style="color:' + ORANGE + '">' + fmtOdds(t.odds) + '</span>';
     return '• Fade <b>' + esc(who) + '</b> (' + esc(t.fadeTeam || '?') + ') → <b>' + esc(t.selection || '?') + '</b> ML <span style="color:' + ORANGE + '">' + fmtOdds(t.odds) + '</span>';
   };
-  const mls = pend.filter(t => !isTotal(t));
-  const tots = pend.filter(t => t.betType === 'over'); // one line per game (carries the total)
   let th = '<div class="card-title" style="margin-bottom:8px">Today’s plays</div>';
-  if (!mls.length) th += '<div class="no-picks">No fade-list moneyline plays on today’s slate.</div>';
-  else th += mls.map(t => '<div style="font-size:14px;color:#ddd;padding:2px 0">' + label(t) + '</div>').join('');
-  // Totals are shadow-only (not bet) — shown greyed for reference.
-  if (tots.length) th += '<div style="font-size:12px;color:#777;margin:8px 0 2px">Game totals (shadow, not bet)</div>'
-    + tots.map(t => '<div style="font-size:13px;color:#999;padding:1px 0">• ' + esc((t.pitchers || []).join(' / ')) + ' — total <b>' + t.line + '</b></div>').join('');
+  if (!pend.length) th += '<div class="no-picks">No fade-list moneyline plays on today’s slate.</div>';
+  else th += pend.map(t => '<div style="font-size:14px;color:#ddd;padding:2px 0">' + label(t) + '</div>').join('');
   tCard.innerHTML = th;
   el.appendChild(tCard);
 
   // ---- Season bet log (filterable by bet type + month + pitcher) ----
-  const typeTag = { ml: 'ML', ml_dog: 'DOG', over: 'OVER', under: 'UNDER' };
-  const bets = (data.bets || []).slice().reverse(); // all types, newest first
+  const typeTag = { ml: 'ML', ml_dog: 'DOG' };
+  const bets = (data.bets || []).slice().reverse(); // newest first
 
   // Distinct months (latest first) and pitchers (alphabetical).
   const months = [...new Set(bets.map(b => (b.date || '').slice(0, 7)).filter(Boolean))]
@@ -126,11 +118,9 @@ async function renderMLBFadeML() {
   // Bet-type filter groups.
   const typeGroups = {
     real: ['ml', 'ml_dog'], ml: ['ml'], ml_dog: ['ml_dog'],
-    over: ['over'], under: ['under'],
   };
   const typeOpts = [
-    ['real', 'Moneyline bets (all)'], ['ml', 'Fade ML'], ['ml_dog', 'Mutual → dog'],
-    ['over', 'OVER (shadow)'], ['under', 'UNDER (shadow)'],
+    ['real', 'All bets'], ['ml', 'Fade ML'], ['ml_dog', 'Mutual → dog'],
   ];
 
   const log = document.createElement('div');
@@ -177,11 +167,9 @@ async function renderMLBFadeML() {
       if (b.result === 'WIN' || b.result === 'LOSS') { w += b.result === 'WIN'; l += b.result === 'LOSS'; u += b.profit; stk += (b.stake || 0); }
     });
     const roi = stk ? (u / stk * 100) : 0;
-    const shadow = tv === 'over' || tv === 'under';
     recEl.innerHTML = w + '–' + l
       + ' <span style="color:' + uColor(u) + '">' + (u >= 0 ? '+' : '') + u.toFixed(2) + 'u · '
-      + (roi >= 0 ? '+' : '') + roi.toFixed(1) + '%</span>'
-      + (shadow ? ' <span style="font-size:10px;color:#777;font-weight:400">shadow</span>' : '');
+      + (roi >= 0 ? '+' : '') + roi.toFixed(1) + '%</span>';
     let rows = '';
     view.forEach(b => {
       const settled = b.result === 'WIN' || b.result === 'LOSS';
@@ -189,8 +177,7 @@ async function renderMLBFadeML() {
       const resColor = b.result === 'WIN' ? GREEN : (b.result === 'LOSS' ? RED : '#888');
       const prof = settled ? ((b.profit >= 0 ? '+' : '') + b.profit.toFixed(2) + 'u') : '—';
       const profColor = !settled ? '#888' : (b.profit >= 0 ? GREEN : RED);
-      const pick = (b.betType === 'over' || b.betType === 'under')
-        ? (esc(b.selection) + ' ' + b.line) : esc(b.selection || '?');
+      const pick = esc(b.selection || '?');
       const note = b.result === 'VOID' ? (' <span style="color:#777;font-size:10px">' + esc(b.reason || 'void') + '</span>')
         : (b.result === 'SKIP' ? ' <span style="color:#777;font-size:10px">skip</span>' : '');
       rows += '<tr style="' + dim + '">'
