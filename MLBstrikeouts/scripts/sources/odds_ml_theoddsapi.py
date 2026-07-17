@@ -79,27 +79,48 @@ def save_ml_cache(date_key, rows, freeze_started=True):
 
 # --- The Odds API ---------------------------------------------------------
 
+def _fanduel_markets(game):
+    """Return the FanDuel bookmaker's markets list for a game (or [])."""
+    for bk in game.get("bookmakers", []):
+        if bk.get("key") == BOOK:
+            return bk.get("markets", [])
+    return []
+
+
 def _extract_fanduel_h2h(game):
     """Return {home_price, away_price} from a game's FanDuel h2h, or None."""
     home = game.get("home_team")
     away = game.get("away_team")
-    for bk in game.get("bookmakers", []):
-        if bk.get("key") != BOOK:
+    for mk in _fanduel_markets(game):
+        if mk.get("key") != "h2h":
             continue
-        for mk in bk.get("markets", []):
-            if mk.get("key") != "h2h":
-                continue
-            prices = {o.get("name"): o.get("price") for o in mk.get("outcomes", [])}
-            if home in prices and away in prices:
-                return {"home_price": prices[home], "away_price": prices[away]}
+        prices = {o.get("name"): o.get("price") for o in mk.get("outcomes", [])}
+        if home in prices and away in prices:
+            return {"home_price": prices[home], "away_price": prices[away]}
+    return None
+
+
+def _extract_fanduel_totals(game):
+    """Return {line, over_price, under_price} from FanDuel totals, or None."""
+    for mk in _fanduel_markets(game):
+        if mk.get("key") != "totals":
+            continue
+        over = under = line = None
+        for o in mk.get("outcomes", []):
+            if o.get("name") == "Over":
+                over, line = o.get("price"), o.get("point")
+            elif o.get("name") == "Under":
+                under = o.get("price")
+        if over is not None and under is not None and line is not None:
+            return {"line": line, "over_price": over, "under_price": under}
     return None
 
 
 def _historical_snapshot(when_iso):
-    """Fetch the /historical h2h snapshot at-or-before ``when_iso`` (UTC ISO)."""
+    """Fetch the /historical h2h+totals snapshot at-or-before ``when_iso``."""
     url = (
         f"{BASE}/historical/sports/{SPORT_KEY}/odds/"
-        f"?apiKey={_api_key()}&regions=us&markets=h2h&oddsFormat=american"
+        f"?apiKey={_api_key()}&regions=us&markets=h2h,totals&oddsFormat=american"
         f"&bookmakers={BOOK}&date={when_iso}"
     )
     resp = requests.get(url, timeout=30)
@@ -120,11 +141,12 @@ def _abbr(name):
     return team_abbr(name)
 
 
-def historical_closing_ml(commence_iso, home_abbr, away_abbr):
-    """FanDuel closing ML for one game -> both-team row, or None.
+def historical_closing_odds(commence_iso, home_abbr, away_abbr):
+    """FanDuel closing ML + total for one game -> row, or None.
 
-    Snapshots at commence-5min; if FanDuel h2h for the matchup is missing,
-    walks back one snapshot (previous_timestamp) before giving up.
+    Snapshots at commence-5min; if the FanDuel h2h for the matchup is missing,
+    walks back one snapshot (previous_timestamp) before giving up. Totals are
+    included when present (None if FanDuel didn't post a total).
     """
     when = _snapshot_ts_iso(commence_iso, 5)
     for attempt in range(2):
@@ -136,9 +158,13 @@ def historical_closing_ml(commence_iso, home_abbr, away_abbr):
             if _abbr(g.get("home_team")) == home_abbr and _abbr(g.get("away_team")) == away_abbr:
                 fd = _extract_fanduel_h2h(g)
                 if fd:
+                    tot = _extract_fanduel_totals(g) or {}
                     return {
                         "home_ml": fd["home_price"],
                         "away_ml": fd["away_price"],
+                        "total_line": tot.get("line"),
+                        "over_ml": tot.get("over_price"),
+                        "under_ml": tot.get("under_price"),
                         "book": BOOK,
                         "source": "oddsapi_fanduel",
                         "snapshot_ts": snap.get("timestamp"),
@@ -151,15 +177,19 @@ def historical_closing_ml(commence_iso, home_abbr, away_abbr):
     return None
 
 
-def fetch_mlb_ml_live(date_key):
-    """Live fallback: current FanDuel ML for all of a date's games (both teams).
+# Back-compat alias.
+historical_closing_ml = historical_closing_odds
 
-    Returns rows keyed like the cache. Used only when the direct FanDuel API
-    fails; costs Odds API credits.
+
+def fetch_mlb_ml_live(date_key):
+    """Live fallback: current FanDuel ML + totals for a date's games.
+
+    Returns both-team rows keyed like the cache. Used only when the direct
+    FanDuel API fails; costs Odds API credits.
     """
     url = (
         f"{BASE}/sports/{SPORT_KEY}/odds/"
-        f"?apiKey={_api_key()}&regions=us&markets=h2h&oddsFormat=american"
+        f"?apiKey={_api_key()}&regions=us&markets=h2h,totals&oddsFormat=american"
         f"&bookmakers={BOOK}"
     )
     resp = requests.get(url, timeout=30)
@@ -173,6 +203,7 @@ def fetch_mlb_ml_live(date_key):
         fd = _extract_fanduel_h2h(g)
         if not fd:
             continue
+        tot = _extract_fanduel_totals(g) or {}
         rows.append({
             "date": date_iso,
             "commence": commence,
@@ -180,6 +211,9 @@ def fetch_mlb_ml_live(date_key):
             "away": _abbr(g.get("away_team")),
             "home_ml": fd["home_price"],
             "away_ml": fd["away_price"],
+            "total_line": tot.get("line"),
+            "over_ml": tot.get("over_price"),
+            "under_ml": tot.get("under_price"),
             "book": BOOK,
             "source": "oddsapi_fanduel",
             "started": False,

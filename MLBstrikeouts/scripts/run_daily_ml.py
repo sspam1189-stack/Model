@@ -28,8 +28,8 @@ sys.path.insert(0, os.path.dirname(__file__))
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), "sources"))
 
 from fade_ml_common import (
-    load_props_index, starts_from_rows, fade_plays, match_game,
-    odds_for_bet, serialize_bet, build_payload, write_outputs, SCRIPT_DIR,
+    load_props_index, starts_from_rows, fade_games, match_game,
+    odds_row_for, build_bets_for_game, build_payload, write_outputs, SCRIPT_DIR,
 )
 from ml_backfill import grade_date
 from sources.mlb_schedule import fetch_schedule
@@ -87,25 +87,29 @@ def main():
     for d in dates:
         bets.extend(grade_date(d.replace("-", ""), d, props_index))
 
-    # Stage 1 — today's FanDuel MLs + schedule.
+    # Stage 1 — today's FanDuel MLs + totals + schedule.
     games = fetch_schedule(date_key)
     ml_rows = _fetch_today_ml(date_key)
     ml_by_matchup = {frozenset((r.get("home"), r.get("away"))): r for r in ml_rows}
 
     # Persist today's fade-game odds into the per-date cache (freeze rule).
-    plays = fade_plays(starts_from_rows(today_rows))
+    fgs = fade_games(starts_from_rows(today_rows))
     cache_rows = []
     today = []
-    for p in plays:
-        g = match_game(games, p["fade_team"], p["bet_team"], p["pitcher"])
-        commence = g.get("commence") if g else None
-        started = bool(g and (g.get("final") or (not _is_preview(g))))
-        mr = ml_by_matchup.get(frozenset((p["fade_team"], p["bet_team"])))
-        if mr and g:
+    for fg in fgs:
+        pitcher = fg["pitchers"][0] if fg["pitchers"] else None
+        g = match_game(games, fg["teams"], pitcher)
+        if not g:
+            continue
+        started = bool(g.get("final") or (not _is_preview(g)))
+        mr = ml_by_matchup.get(frozenset((g["home"], g["away"])))
+        if mr:
             cache_rows.append({
-                "date": date_iso, "commence": commence,
+                "date": date_iso, "commence": g.get("commence"),
                 "home": g["home"], "away": g["away"],
                 "home_ml": mr["home_ml"], "away_ml": mr["away_ml"],
+                "total_line": mr.get("total_line"), "over_ml": mr.get("over_ml"),
+                "under_ml": mr.get("under_ml"),
                 "book": "fanduel", "source": mr.get("source", "fanduel_api"),
                 "started": started,
             })
@@ -114,28 +118,23 @@ def main():
 
     # Stage 2 — build today's picks (grade any that already finished).
     odds_rows = load_ml_cache(date_key) or []
-    for p in plays:
-        g = match_game(games, p["fade_team"], p["bet_team"], p["pitcher"])
-        commence = g.get("commence") if g else None
-        if p["skipped"]:
-            today.append(serialize_bet(date_iso, p, None, "SKIP", commence))
-            continue
-        odds, source, book = odds_for_bet(odds_rows, g, p["bet_team"]) if g else (None, None, "fanduel")
-        if g and g.get("home_win") is not None and odds is not None:
-            won = (g["home_win"] if p["bet_team"] == g["home"] else not g["home_win"])
-            bets.append(serialize_bet(date_iso, p, odds, "WIN" if won else "LOSS",
-                                      commence, book, source))
-        else:
-            today.append(serialize_bet(date_iso, p, odds, "pending", commence,
-                                       book or "fanduel", source))
+    for fg in fgs:
+        pitcher = fg["pitchers"][0] if fg["pitchers"] else None
+        g = match_game(games, fg["teams"], pitcher)
+        od = odds_row_for(odds_rows, g) if g else None
+        for b in build_bets_for_game(date_iso, fg, g, od):
+            if b["result"] in ("WIN", "LOSS", "VOID"):
+                bets.append(b)
+            else:  # pending / SKIP
+                today.append(b)
 
     payload = build_payload(bets, today)
     write_outputs(payload)
     s = payload["summary"]
-    print(f"[fade-ml] {date_iso}: {len(today)} today "
-          f"({sum(1 for t in today if t['result']=='pending')} pending, "
-          f"{sum(1 for t in today if t['result']=='SKIP')} skip). "
-          f"Season {s['wins']}-{s['losses']}, {s['units']:+.2f}u, ROI {s['roi']*100:+.1f}%")
+    pend = sum(1 for t in today if t["result"] == "pending")
+    print(f"[fade-ml] {date_iso}: {pend} pending picks. "
+          f"Season {s['wins']}-{s['losses']}, {s['units']:+.2f}u, "
+          f"ROI {s['roi']*100:+.1f}%")
 
 
 def _is_preview(g):

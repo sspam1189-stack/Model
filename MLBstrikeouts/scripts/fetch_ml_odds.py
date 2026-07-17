@@ -28,11 +28,11 @@ sys.path.insert(0, os.path.dirname(__file__))
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), "sources"))
 
 from fade_ml_common import (
-    load_props_index, starts_from_rows, fade_plays, match_game,
+    load_props_index, starts_from_rows, fade_games, match_game,
 )
 from sources.mlb_schedule import fetch_schedule
 from sources.odds_ml_theoddsapi import (
-    load_ml_cache, save_ml_cache, historical_closing_ml, _row_key,
+    load_ml_cache, save_ml_cache, historical_closing_odds, _row_key,
 )
 
 
@@ -60,34 +60,35 @@ def main():
 
     for date_key, date_iso in _daterange(args.start, end):
         rows = props_index.get(date_iso, [])
-        plays = [p for p in fade_plays(starts_from_rows(rows)) if not p["skipped"]]
-        if not plays:
+        fgs = fade_games(starts_from_rows(rows))  # single + mutual
+        if not fgs:
             continue
         games = fetch_schedule(date_key)
         cache = load_ml_cache(date_key) or []
         cached_keys = {_row_key(r) for r in cache}
 
         new_rows = []
-        for p in plays:
-            g = match_game(games, p["fade_team"], p["bet_team"], p["pitcher"])
+        for fg in fgs:
+            pitcher = fg["pitchers"][0] if fg["pitchers"] else None
+            g = match_game(games, fg["teams"], pitcher)
             if not g or not g.get("commence"):
                 total_missing += 1
-                print(f"  [{date_iso}] no schedule game for "
-                      f"{p['pitcher']} ({p['fade_team']} v {p['bet_team']})")
+                print(f"  [{date_iso}] no schedule game for {'/'.join(fg['pitchers'])}")
                 continue
             key = (g["away"], g["home"], g["commence"])
             if key in cached_keys:
                 total_cached += 1
                 continue
+            tag = "MUTUAL " if fg["mutual"] else ""
             if args.dry_run:
-                print(f"  [{date_iso}] WOULD fetch {g['away']}@{g['home']} "
-                      f"({g['commence']}) for fade {p['pitcher']}")
+                print(f"  [{date_iso}] WOULD fetch {tag}{g['away']}@{g['home']} "
+                      f"({g['commence']}) for {'/'.join(fg['pitchers'])}")
                 total_fetched += 1
                 continue
-            row = historical_closing_ml(g["commence"], g["home"], g["away"])
+            row = historical_closing_odds(g["commence"], g["home"], g["away"])
             if not row:
                 total_missing += 1
-                print(f"  [{date_iso}] no FanDuel ML {g['away']}@{g['home']}")
+                print(f"  [{date_iso}] no FanDuel odds {g['away']}@{g['home']}")
                 continue
             row.update({
                 "date": date_iso, "commence": g["commence"],
@@ -96,8 +97,10 @@ def main():
             new_rows.append(row)
             cached_keys.add(key)
             total_fetched += 1
-            print(f"  [{date_iso}] {g['away']} {row['away_ml']:+d} @ "
-                  f"{g['home']} {row['home_ml']:+d}  (fade {p['pitcher']})")
+            tl = row.get("total_line")
+            print(f"  [{date_iso}] {tag}{g['away']} {row['away_ml']:+d} @ "
+                  f"{g['home']} {row['home_ml']:+d}  O/U {tl}  "
+                  f"({'/'.join(fg['pitchers'])})")
             time.sleep(args.delay)
 
         if new_rows and not args.dry_run:

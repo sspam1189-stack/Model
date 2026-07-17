@@ -26,8 +26,9 @@ sys.path.insert(0, os.path.dirname(__file__))
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), "sources"))
 
 from fade_ml_common import (
-    load_props_index, starts_from_rows, fade_plays, match_game,
-    odds_for_bet, serialize_bet, build_payload, write_outputs, load_existing,
+    load_props_index, starts_from_rows, fade_games, match_game,
+    odds_row_for, build_bets_for_game, build_payload, write_outputs,
+    load_existing,
 )
 from sources.mlb_schedule import fetch_schedule
 from sources.odds_ml_theoddsapi import load_ml_cache
@@ -44,41 +45,17 @@ def _daterange(start, end):
 def grade_date(date_key, date_iso, props_index):
     """Return the list of graded bet records for one date."""
     rows = props_index.get(date_iso, [])
-    plays = fade_plays(starts_from_rows(rows))
-    if not plays:
+    fgs = fade_games(starts_from_rows(rows))
+    if not fgs:
         return []
     games = fetch_schedule(date_key)
     odds_rows = load_ml_cache(date_key) or []
     bets = []
-    for p in plays:
-        g = match_game(games, p["fade_team"], p["bet_team"], p["pitcher"])
-        commence = g.get("commence") if g else None
-        if p["skipped"]:
-            bets.append(serialize_bet(date_iso, p, None, "SKIP", commence))
-            continue
-        if not g:
-            bets.append(serialize_bet(date_iso, p, None, "VOID", commence))
-            bets[-1]["reason"] = "no_game"
-            continue
-        odds, source, book = odds_for_bet(odds_rows, g, p["bet_team"])
-        if g.get("void"):
-            b = serialize_bet(date_iso, p, odds, "VOID", commence, book, source)
-            b["reason"] = "postponed"
-            bets.append(b)
-            continue
-        if odds is None:
-            b = serialize_bet(date_iso, p, None, "VOID", commence)
-            b["reason"] = "no_price"
-            bets.append(b)
-            continue
-        if g.get("home_win") is None:
-            b = serialize_bet(date_iso, p, odds, "VOID", commence, book, source)
-            b["reason"] = "no_result"
-            bets.append(b)
-            continue
-        won = (g["home_win"] if p["bet_team"] == g["home"] else not g["home_win"])
-        result = "WIN" if won else "LOSS"
-        bets.append(serialize_bet(date_iso, p, odds, result, commence, book, source))
+    for fg in fgs:
+        pitcher = fg["pitchers"][0] if fg["pitchers"] else None
+        g = match_game(games, fg["teams"], pitcher)
+        od = odds_row_for(odds_rows, g) if g else None
+        bets.extend(build_bets_for_game(date_iso, fg, g, od))
     return bets
 
 

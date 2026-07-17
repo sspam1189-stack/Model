@@ -506,12 +506,12 @@ def _fd_split_matchup(event_name):
 
 
 def fetch_fanduel_mlb_ml(date_key=None):
-    """Live FanDuel game moneylines (both teams) for a date.
+    """Live FanDuel game moneylines + totals (both teams) for a date.
 
-    Returns rows [{date, commence, home, away, home_ml, away_ml, book,
-    source, started}] using props-convention abbreviations. Free, no key.
-    Raises on network/parse failure so the caller can fall back to the
-    Odds API.
+    Returns rows [{date, commence, home, away, home_ml, away_ml, total_line,
+    over_ml, under_ml, book, source, started}] using props-convention
+    abbreviations. Free, no key. Raises on network/parse failure so the
+    caller can fall back to the Odds API.
     """
     from sources.mlb_schedule import team_abbr
 
@@ -528,6 +528,26 @@ def fetch_fanduel_mlb_ml(date_key=None):
     if date_key:
         date_iso = f"{date_key[:4]}-{date_key[4:6]}-{date_key[6:8]}"
 
+    def _odds(runner):
+        return ((runner.get("winRunnerOdds") or {}).get("americanDisplayOdds")
+                or {}).get("americanOddsInt")
+
+    # Totals live in a separate market keyed by eventId.
+    totals_by_event = {}
+    for m in markets.values():
+        if (m.get("marketType") or "").upper() != "TOTAL_POINTS_(OVER/UNDER)":
+            continue
+        over = under = line = None
+        for r in m.get("runners", []):
+            nm = (r.get("runnerName") or "").lower()
+            if nm.startswith("over"):
+                over, line = _odds(r), r.get("handicap")
+            elif nm.startswith("under"):
+                under = _odds(r)
+        if over is not None and under is not None and line is not None:
+            totals_by_event[str(m.get("eventId"))] = {
+                "total_line": line, "over_ml": over, "under_ml": under}
+
     rows = []
     for m in markets.values():
         if (m.get("marketType") or "").upper() != "MONEY_LINE":
@@ -541,9 +561,8 @@ def fetch_fanduel_mlb_ml(date_key=None):
             continue
         prices = {}
         for r in m.get("runners", []):
-            odds = ((r.get("winRunnerOdds") or {}).get("americanDisplayOdds")
-                    or {}).get("americanOddsInt")
             ab = team_abbr(r.get("runnerName"))
+            odds = _odds(r)
             if ab is not None and odds is not None:
                 prices[ab] = odds
         if home not in prices or away not in prices:
@@ -552,11 +571,14 @@ def fetch_fanduel_mlb_ml(date_key=None):
         row_date = (commence or "")[:10]
         if date_iso and row_date != date_iso:
             continue
+        tot = totals_by_event.get(str(m.get("eventId")), {})
         rows.append({
             "date": row_date or date_iso,
             "commence": commence,
             "home": home, "away": away,
             "home_ml": prices[home], "away_ml": prices[away],
+            "total_line": tot.get("total_line"),
+            "over_ml": tot.get("over_ml"), "under_ml": tot.get("under_ml"),
             "book": "fanduel", "source": "fanduel_api", "started": False,
         })
     return rows
