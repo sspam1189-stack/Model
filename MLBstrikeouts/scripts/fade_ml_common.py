@@ -237,6 +237,9 @@ def compute_summary(bets):
 
 
 def build_payload(bets, today, generated=None):
+    # Keep only real bet types (drops any stale totals from older data).
+    bets = [b for b in bets if b.get("betType") in REAL_BET_TYPES]
+    today = [t for t in (today or []) if t.get("betType") in REAL_BET_TYPES]
     bets = sorted(bets, key=lambda b: (b["date"], b.get("commence") or "",
                                        b.get("betType") or ""))
     return {

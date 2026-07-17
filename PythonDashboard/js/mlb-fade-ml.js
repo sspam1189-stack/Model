@@ -63,20 +63,18 @@ async function renderMLBFadeML() {
 
   // ---- Per-type sub-records ----
   const typeMeta = [
-    ['ml', 'Fade ML (opp)', 'Single fade arm → opponent moneyline', false],
-    ['ml_dog', 'Mutual → dog', 'Both starters fade → underdog ML', false],
+    ['ml', 'Fade ML (opp)', 'Single fade arm → opponent moneyline'],
+    ['ml_dog', 'Mutual → dog', 'Both starters fade → underdog ML'],
   ];
   const chips = document.createElement('div');
   chips.style.cssText = 'display:flex;gap:10px;flex-wrap:wrap;margin-bottom:16px';
-  typeMeta.forEach(([k, lbl, sub, shadow]) => {
+  typeMeta.forEach(([k, lbl, sub]) => {
     const r = bt[k] || {};
     const card = document.createElement('div');
     card.className = 'card';
-    card.style.cssText = 'flex:1;min-width:180px;padding:10px 14px'
-      + (shadow ? ';border:1px dashed #555;opacity:.85' : '');
+    card.style.cssText = 'flex:1;min-width:180px;padding:10px 14px';
     card.innerHTML =
-      '<div style="font-weight:600;color:' + (shadow ? '#aaa' : '#ddd') + '">' + lbl
-      + (shadow ? ' <span style="font-size:10px;color:#777">shadow</span>' : '') + '</div>'
+      '<div style="font-weight:600;color:#ddd">' + lbl + '</div>'
       + '<div style="font-size:11px;color:#888;margin-bottom:6px">' + sub + '</div>'
       + '<div style="font-size:18px;font-weight:700">' + (r.wins || 0) + '–' + (r.losses || 0)
       + ' <span style="font-size:14px;color:' + uColor(r.units) + '">' + uStr(r.units)
@@ -90,7 +88,8 @@ async function renderMLBFadeML() {
   const tCard = document.createElement('div');
   tCard.className = 'card';
   tCard.style.cssText = 'margin-bottom:16px;padding:12px 16px';
-  const pend = today.filter(t => t.result === 'pending');
+  const REAL = new Set(['ml', 'ml_dog']);
+  const pend = today.filter(t => t.result === 'pending' && REAL.has(t.betType));
   const label = (t) => {
     const who = (t.pitchers || []).join(' / ');
     if (t.betType === 'ml_dog') return '• Mutual (' + esc(who) + ') → dog <b>' + esc(t.selection || '?') + '</b> ML <span style="color:' + ORANGE + '">' + fmtOdds(t.odds) + '</span>';
