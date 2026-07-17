@@ -1,7 +1,7 @@
 {
   "sport": "MLB",
   "type": "fade-ml",
-  "generated": "2026-07-17T21:49:04Z",
+  "generated": "2026-07-17T21:53:20Z",
   "fadeList": [
     "Littell",
     "Mikolas",
@@ -30,7 +30,7 @@
   "summary": {
     "wins": 156,
     "losses": 82,
-    "voids": 0,
+    "voids": 1,
     "skips": 0,
     "staked": 297.09,
     "units": 72.71,
@@ -39,7 +39,7 @@
       "ml": {
         "wins": 147,
         "losses": 76,
-        "voids": 0,
+        "voids": 1,
         "skips": 0,
         "staked": 281.95,
         "units": 68.09,
@@ -71,6 +71,26 @@
       "line": null,
       "odds": -102,
       "stake": 1.02,
+      "result": "pending",
+      "profit": 0.0,
+      "book": "fanduel",
+      "source": "fanduel_api",
+      "reason": null
+    },
+    {
+      "date": "2026-07-17",
+      "commence": "2026-07-18T00:40:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Brady Singer"
+      ],
+      "fadeTeam": "CIN",
+      "market": "h2h",
+      "selection": "COL",
+      "line": null,
+      "odds": -116,
+      "stake": 1.16,
       "result": "pending",
       "profit": 0.0,
       "book": "fanduel",
@@ -4873,6 +4893,26 @@
       "book": "fanduel",
       "source": "oddsapi_fanduel",
       "reason": null
+    },
+    {
+      "date": "2026-07-17",
+      "commence": "2026-07-17T23:10:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Jared Jones"
+      ],
+      "fadeTeam": "PIT",
+      "market": "h2h",
+      "selection": "CLE",
+      "line": null,
+      "odds": null,
+      "stake": null,
+      "result": "VOID",
+      "profit": 0.0,
+      "book": "fanduel",
+      "source": null,
+      "reason": "no_price"
     }
   ]
 }
