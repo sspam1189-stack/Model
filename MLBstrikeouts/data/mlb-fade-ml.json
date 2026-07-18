@@ -1,7 +1,7 @@
 {
   "sport": "MLB",
   "type": "fade-ml",
-  "generated": "2026-07-18T21:49:21Z",
+  "generated": "2026-07-18T23:03:02Z",
   "fadeList": [
     "Littell",
     "Mikolas",
@@ -28,22 +28,22 @@
   ],
   "mutualRule": "underdog",
   "summary": {
-    "wins": 157,
+    "wins": 158,
     "losses": 85,
     "voids": 2,
     "skips": 0,
-    "staked": 301.99,
-    "units": 69.83,
-    "roi": 0.2312,
+    "staked": 304.89,
+    "units": 70.83,
+    "roi": 0.2323,
     "byType": {
       "ml": {
-        "wins": 148,
+        "wins": 149,
         "losses": 79,
         "voids": 2,
         "skips": 0,
-        "staked": 286.85,
-        "units": 65.21,
-        "roi": 0.2273
+        "staked": 289.75,
+        "units": 66.21,
+        "roi": 0.2285
       },
       "ml_dog": {
         "wins": 9,
@@ -57,26 +57,6 @@
     }
   },
   "today": [
-    {
-      "date": "2026-07-18",
-      "commence": "2026-07-18T20:10:00Z",
-      "betType": "ml",
-      "shadow": false,
-      "pitchers": [
-        "Griffin Canning"
-      ],
-      "fadeTeam": "SD",
-      "market": "h2h",
-      "selection": "KC",
-      "line": null,
-      "odds": -290,
-      "stake": 2.9,
-      "result": "pending",
-      "profit": 0.0,
-      "book": "fanduel",
-      "source": "fanduel_api",
-      "reason": null
-    },
     {
       "date": "2026-07-18",
       "commence": "2026-07-19T02:05:00Z",
@@ -4970,6 +4950,26 @@
       "stake": 1.0,
       "result": "LOSS",
       "profit": -1.0,
+      "book": "fanduel",
+      "source": "fanduel_api",
+      "reason": null
+    },
+    {
+      "date": "2026-07-18",
+      "commence": "2026-07-18T20:10:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Griffin Canning"
+      ],
+      "fadeTeam": "SD",
+      "market": "h2h",
+      "selection": "KC",
+      "line": null,
+      "odds": -290,
+      "stake": 2.9,
+      "result": "WIN",
+      "profit": 1.0,
       "book": "fanduel",
       "source": "fanduel_api",
       "reason": null
