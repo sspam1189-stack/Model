@@ -1,7 +1,7 @@
 {
   "sport": "MLB",
   "type": "fade-ml",
-  "generated": "2026-07-18T18:58:56Z",
+  "generated": "2026-07-18T21:02:32Z",
   "fadeList": [
     "Littell",
     "Mikolas",
@@ -29,21 +29,21 @@
   "mutualRule": "underdog",
   "summary": {
     "wins": 157,
-    "losses": 84,
-    "voids": 1,
+    "losses": 85,
+    "voids": 2,
     "skips": 0,
-    "staked": 300.99,
-    "units": 70.83,
-    "roi": 0.2353,
+    "staked": 301.99,
+    "units": 69.83,
+    "roi": 0.2312,
     "byType": {
       "ml": {
         "wins": 148,
-        "losses": 78,
-        "voids": 1,
+        "losses": 79,
+        "voids": 2,
         "skips": 0,
-        "staked": 285.85,
-        "units": 66.21,
-        "roi": 0.2316
+        "staked": 286.85,
+        "units": 65.21,
+        "roi": 0.2273
       },
       "ml_dog": {
         "wins": 9,
@@ -59,26 +59,6 @@
   "today": [
     {
       "date": "2026-07-18",
-      "commence": "2026-07-18T17:10:00Z",
-      "betType": "ml",
-      "shadow": false,
-      "pitchers": [
-        "Jared Jones"
-      ],
-      "fadeTeam": "PIT",
-      "market": "h2h",
-      "selection": "CLE",
-      "line": null,
-      "odds": 900,
-      "stake": 1.0,
-      "result": "pending",
-      "profit": 0.0,
-      "book": "fanduel",
-      "source": "fanduel_api",
-      "reason": null
-    },
-    {
-      "date": "2026-07-18",
       "commence": "2026-07-18T20:10:00Z",
       "betType": "ml",
       "shadow": false,
@@ -89,28 +69,8 @@
       "market": "h2h",
       "selection": "KC",
       "line": null,
-      "odds": -106,
-      "stake": 1.06,
-      "result": "pending",
-      "profit": 0.0,
-      "book": "fanduel",
-      "source": "fanduel_api",
-      "reason": null
-    },
-    {
-      "date": "2026-07-18",
-      "commence": "2026-07-19T00:08:00Z",
-      "betType": "ml",
-      "shadow": false,
-      "pitchers": [
-        "Emmet Sheehan"
-      ],
-      "fadeTeam": "LAD",
-      "market": "h2h",
-      "selection": "NYY",
-      "line": null,
-      "odds": -110,
-      "stake": 1.1,
+      "odds": -290,
+      "stake": 2.9,
       "result": "pending",
       "profit": 0.0,
       "book": "fanduel",
@@ -4993,6 +4953,46 @@
       "book": "fanduel",
       "source": "fanduel_api",
       "reason": null
+    },
+    {
+      "date": "2026-07-18",
+      "commence": "2026-07-18T17:10:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Jared Jones"
+      ],
+      "fadeTeam": "PIT",
+      "market": "h2h",
+      "selection": "CLE",
+      "line": null,
+      "odds": 900,
+      "stake": 1.0,
+      "result": "LOSS",
+      "profit": -1.0,
+      "book": "fanduel",
+      "source": "fanduel_api",
+      "reason": null
+    },
+    {
+      "date": "2026-07-18",
+      "commence": "2026-07-19T00:08:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Emmet Sheehan"
+      ],
+      "fadeTeam": "LAD",
+      "market": "h2h",
+      "selection": "NYY",
+      "line": null,
+      "odds": -102,
+      "stake": 1.02,
+      "result": "VOID",
+      "profit": 0.0,
+      "book": "fanduel",
+      "source": "fanduel_api",
+      "reason": "postponed"
     }
   ]
 }
