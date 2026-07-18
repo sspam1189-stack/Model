@@ -93,7 +93,7 @@ def main():
     ml_by_matchup = {frozenset((r.get("home"), r.get("away"))): r for r in ml_rows}
 
     # Persist today's fade-game odds into the per-date cache (freeze rule).
-    fgs = fade_games(starts_from_rows(today_rows))
+    fgs = fade_games(starts_from_rows(today_rows), date_iso)
     cache_rows = []
     today = []
     for fg in fgs:

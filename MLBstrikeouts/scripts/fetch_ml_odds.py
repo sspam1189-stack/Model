@@ -60,7 +60,7 @@ def main():
 
     for date_key, date_iso in _daterange(args.start, end):
         rows = props_index.get(date_iso, [])
-        fgs = fade_games(starts_from_rows(rows))  # single + mutual
+        fgs = fade_games(starts_from_rows(rows), date_iso)  # single + mutual
         if not fgs:
             continue
         games = fetch_schedule(date_key)

@@ -24,6 +24,16 @@ FADE_LIST = [
     "Jacob Lopez", "Ryan Johnson", "Poulin", "Singer", "Dustin May",
 ]
 
+# Per-arm effective-start dates (ISO YYYY-MM-DD). An entry listed here is only
+# treated as a fade arm on or after its start date, so a pitcher added
+# mid-season is NOT retroactively faded on his earlier (good) starts when the
+# backfill/daily grader re-walks history. Entries not listed are faded for all
+# dates. Date-gating only applies when the caller passes a date; a bare
+# is_fade(name) (no date) matches purely on the roster, unchanged.
+FADE_START = {
+    "Dustin May": "2026-07-18",  # back to fade-worthy from here; good before.
+}
+
 
 def _norm(s):
     """Lower-case, strip accents, drop non-letters -> single-spaced tokens.
@@ -40,21 +50,26 @@ def _norm(s):
 _FADE_TOKENS = [toks for toks in (_norm(e).split() for e in FADE_LIST) if toks]
 
 
-def matched_entry(player_name):
+def matched_entry(player_name, date=None):
     """Return the FADE_LIST entry that matches ``player_name``, or None.
 
     A name matches an entry when every token of the entry appears in the
-    player's normalized name.
+    player's normalized name. When ``date`` (ISO YYYY-MM-DD) is given and the
+    matched entry has a FADE_START, dates before that start don't match, so
+    the arm isn't faded on games that predate its effective date.
     """
     name_tokens = set(_norm(player_name).split())
     if not name_tokens:
         return None
     for entry, toks in zip(FADE_LIST, _FADE_TOKENS):
         if all(t in name_tokens for t in toks):
+            start = FADE_START.get(entry)
+            if date is not None and start is not None and date < start:
+                continue
             return entry
     return None
 
 
-def is_fade(player_name):
-    """True iff ``player_name`` is on the fade list."""
-    return matched_entry(player_name) is not None
+def is_fade(player_name, date=None):
+    """True iff ``player_name`` is a fade arm (on ``date``, if given)."""
+    return matched_entry(player_name, date) is not None
