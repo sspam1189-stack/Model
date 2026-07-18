@@ -1,7 +1,7 @@
 {
   "sport": "MLB",
   "type": "fade-ml",
-  "generated": "2026-07-18T00:31:39Z",
+  "generated": "2026-07-18T13:05:36Z",
   "fadeList": [
     "Littell",
     "Mikolas",
@@ -28,22 +28,22 @@
   ],
   "mutualRule": "underdog",
   "summary": {
-    "wins": 156,
-    "losses": 82,
+    "wins": 157,
+    "losses": 84,
     "voids": 1,
     "skips": 0,
-    "staked": 297.09,
-    "units": 72.71,
-    "roi": 0.2447,
+    "staked": 300.99,
+    "units": 70.83,
+    "roi": 0.2353,
     "byType": {
       "ml": {
-        "wins": 147,
-        "losses": 76,
+        "wins": 148,
+        "losses": 78,
         "voids": 1,
         "skips": 0,
-        "staked": 281.95,
-        "units": 68.09,
-        "roi": 0.2415
+        "staked": 285.85,
+        "units": 66.21,
+        "roi": 0.2316
       },
       "ml_dog": {
         "wins": 9,
@@ -58,16 +58,16 @@
   },
   "today": [
     {
-      "date": "2026-07-17",
-      "commence": "2026-07-18T00:40:00Z",
+      "date": "2026-07-18",
+      "commence": "2026-07-19T00:08:00Z",
       "betType": "ml",
       "shadow": false,
       "pitchers": [
-        "Brady Singer"
+        "Emmet Sheehan"
       ],
-      "fadeTeam": "CIN",
+      "fadeTeam": "LAD",
       "market": "h2h",
-      "selection": "COL",
+      "selection": "NYY",
       "line": null,
       "odds": -104,
       "stake": 1.04,
@@ -78,19 +78,19 @@
       "reason": null
     },
     {
-      "date": "2026-07-17",
-      "commence": "2026-07-18T02:10:00Z",
+      "date": "2026-07-18",
+      "commence": "2026-07-18T17:10:00Z",
       "betType": "ml",
       "shadow": false,
       "pitchers": [
-        "Landen Roupp"
+        "Jared Jones"
       ],
-      "fadeTeam": "SF",
+      "fadeTeam": "PIT",
       "market": "h2h",
-      "selection": "SEA",
+      "selection": "CLE",
       "line": null,
-      "odds": -184,
-      "stake": 1.84,
+      "odds": -122,
+      "stake": 1.22,
       "result": "pending",
       "profit": 0.0,
       "book": "fanduel",
@@ -98,19 +98,39 @@
       "reason": null
     },
     {
-      "date": "2026-07-17",
-      "commence": "2026-07-18T01:40:00Z",
+      "date": "2026-07-18",
+      "commence": "2026-07-18T20:10:00Z",
       "betType": "ml",
       "shadow": false,
       "pitchers": [
-        "Merrill Kelly"
+        "Griffin Canning"
       ],
-      "fadeTeam": "ARI",
+      "fadeTeam": "SD",
       "market": "h2h",
-      "selection": "STL",
+      "selection": "KC",
       "line": null,
-      "odds": -102,
-      "stake": 1.02,
+      "odds": 100,
+      "stake": 1.0,
+      "result": "pending",
+      "profit": 0.0,
+      "book": "fanduel",
+      "source": "fanduel_api",
+      "reason": null
+    },
+    {
+      "date": "2026-07-18",
+      "commence": "2026-07-19T02:05:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Zack Littell"
+      ],
+      "fadeTeam": "WSH",
+      "market": "h2h",
+      "selection": "OAK",
+      "line": null,
+      "odds": -130,
+      "stake": 1.3,
       "result": "pending",
       "profit": 0.0,
       "book": "fanduel",
@@ -4913,6 +4933,66 @@
       "book": "fanduel",
       "source": "fanduel_api",
       "reason": "postponed"
+    },
+    {
+      "date": "2026-07-17",
+      "commence": "2026-07-18T00:40:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Brady Singer"
+      ],
+      "fadeTeam": "CIN",
+      "market": "h2h",
+      "selection": "COL",
+      "line": null,
+      "odds": -104,
+      "stake": 1.04,
+      "result": "LOSS",
+      "profit": -1.04,
+      "book": "fanduel",
+      "source": "fanduel_api",
+      "reason": null
+    },
+    {
+      "date": "2026-07-17",
+      "commence": "2026-07-18T01:40:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Merrill Kelly"
+      ],
+      "fadeTeam": "ARI",
+      "market": "h2h",
+      "selection": "STL",
+      "line": null,
+      "odds": -102,
+      "stake": 1.02,
+      "result": "WIN",
+      "profit": 1.0,
+      "book": "fanduel",
+      "source": "fanduel_api",
+      "reason": null
+    },
+    {
+      "date": "2026-07-17",
+      "commence": "2026-07-18T02:10:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Landen Roupp"
+      ],
+      "fadeTeam": "SF",
+      "market": "h2h",
+      "selection": "SEA",
+      "line": null,
+      "odds": -184,
+      "stake": 1.84,
+      "result": "LOSS",
+      "profit": -1.84,
+      "book": "fanduel",
+      "source": "fanduel_api",
+      "reason": null
     }
   ]
 }
