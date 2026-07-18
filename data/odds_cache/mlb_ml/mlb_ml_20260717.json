@@ -32,13 +32,27 @@
     "commence": "2026-07-18T00:40:00Z",
     "home": "COL",
     "away": "CIN",
-    "home_ml": -116,
-    "away_ml": -102,
-    "total_line": 12,
-    "over_ml": -110,
-    "under_ml": -110,
+    "home_ml": -104,
+    "away_ml": -112,
+    "total_line": 12.5,
+    "over_ml": -114,
+    "under_ml": -106,
     "book": "fanduel",
     "source": "fanduel_api",
     "started": false
+  },
+  {
+    "date": "2026-07-17",
+    "commence": "2026-07-17T23:10:00Z",
+    "home": "CLE",
+    "away": "PIT",
+    "home_ml": -122,
+    "away_ml": 104,
+    "total_line": 7.5,
+    "over_ml": -105,
+    "under_ml": -115,
+    "book": "fanduel",
+    "source": "fanduel_api",
+    "started": true
   }
 ]
