@@ -73,7 +73,7 @@ def fade_games(starts, date=None):
     Each entry: {teams(frozenset), mutual(bool), pitchers[list], fadeTeam,
     betTeam, oppPitcher}. For mutual games fadeTeam/betTeam are None (the ML
     side is decided later from the odds). ``date`` (ISO YYYY-MM-DD) gates
-    arms with a FADE_START so they aren't faded before their effective date.
+    arms with a FADE_WINDOW so they're only faded inside their add/remove dates.
     """
     starter = {s["team"]: s["pitcher"] for s in starts}
     seen, out = set(), []
