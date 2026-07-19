@@ -1,7 +1,7 @@
 {
   "sport": "MLB",
   "type": "fade-ml",
-  "generated": "2026-07-19T21:01:25Z",
+  "generated": "2026-07-19T23:01:42Z",
   "fadeList": [
     "Littell",
     "Mikolas",
@@ -30,22 +30,22 @@
   ],
   "mutualRule": "underdog",
   "summary": {
-    "wins": 159,
-    "losses": 84,
+    "wins": 160,
+    "losses": 85,
     "voids": 3,
     "skips": 0,
-    "staked": 303.13,
-    "units": 72.83,
-    "roi": 0.2403,
+    "staked": 305.97,
+    "units": 72.45,
+    "roi": 0.2368,
     "byType": {
       "ml": {
-        "wins": 150,
-        "losses": 78,
+        "wins": 151,
+        "losses": 79,
         "voids": 3,
         "skips": 0,
-        "staked": 287.99,
-        "units": 68.21,
-        "roi": 0.2368
+        "staked": 290.83,
+        "units": 67.83,
+        "roi": 0.2332
       },
       "ml_dog": {
         "wins": 9,
@@ -58,48 +58,7 @@
       }
     }
   },
-  "today": [
-    {
-      "date": "2026-07-19",
-      "commence": "2026-07-19T20:07:00Z",
-      "betType": "ml",
-      "shadow": false,
-      "pitchers": [
-        "Ryan Johnson"
-      ],
-      "fadeTeam": "LAA",
-      "market": "h2h",
-      "selection": "DET",
-      "line": null,
-      "odds": -138,
-      "stake": 1.38,
-      "result": "pending",
-      "profit": 0.0,
-      "book": "fanduel",
-      "source": "fanduel_api",
-      "reason": null
-    },
-    {
-      "date": "2026-07-19",
-      "commence": "2026-07-19T20:05:00Z",
-      "betType": "ml",
-      "shadow": false,
-      "pitchers": [
-        "Jacob Lopez"
-      ],
-      "fadeTeam": "OAK",
-      "market": "h2h",
-      "selection": "WSH",
-      "line": null,
-      "odds": -146,
-      "stake": 1.46,
-      "result": "pending",
-      "profit": 0.0,
-      "book": "fanduel",
-      "source": "fanduel_api",
-      "reason": null
-    }
-  ],
+  "today": [],
   "bets": [
     {
       "date": "2026-04-06",
@@ -5032,6 +4991,46 @@
       "stake": 1.04,
       "result": "WIN",
       "profit": 1.0,
+      "book": "fanduel",
+      "source": "fanduel_api",
+      "reason": null
+    },
+    {
+      "date": "2026-07-19",
+      "commence": "2026-07-19T20:05:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Jacob Lopez"
+      ],
+      "fadeTeam": "OAK",
+      "market": "h2h",
+      "selection": "WSH",
+      "line": null,
+      "odds": -146,
+      "stake": 1.46,
+      "result": "WIN",
+      "profit": 1.0,
+      "book": "fanduel",
+      "source": "fanduel_api",
+      "reason": null
+    },
+    {
+      "date": "2026-07-19",
+      "commence": "2026-07-19T20:07:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Ryan Johnson"
+      ],
+      "fadeTeam": "LAA",
+      "market": "h2h",
+      "selection": "DET",
+      "line": null,
+      "odds": -138,
+      "stake": 1.38,
+      "result": "LOSS",
+      "profit": -1.38,
       "book": "fanduel",
       "source": "fanduel_api",
       "reason": null
