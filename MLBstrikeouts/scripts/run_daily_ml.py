@@ -29,7 +29,8 @@ sys.path.insert(0, os.path.join(os.path.dirname(__file__), "sources"))
 
 from fade_ml_common import (
     load_props_index, starts_from_rows, fade_games, match_game,
-    odds_row_for, build_bets_for_game, build_payload, write_outputs, SCRIPT_DIR,
+    odds_row_for, build_bets_for_game, build_payload, write_outputs,
+    valid_ml, SCRIPT_DIR,
 )
 from ml_backfill import grade_date
 from sources.mlb_schedule import fetch_schedule
@@ -101,9 +102,17 @@ def main():
         g = match_game(games, fg["teams"], pitcher)
         if not g:
             continue
-        started = bool(g.get("final") or (not _is_preview(g)))
+        # Lock PRE-GAME prices only. Once a game is out of preview, FanDuel's
+        # moneyline is an in-play number (e.g. +900 / -2500 in a blowout);
+        # capturing it would freeze a garbage "closing" line. Skip started/
+        # final games -- the real closing line is the last pre-game snapshot
+        # already frozen in the cache. If we never captured one (job's first
+        # run was post-first-pitch), the game stays unpriced and grades VOID,
+        # which is correct: we have no legitimate closing number.
+        if g.get("final") or not _is_preview(g):
+            continue
         mr = ml_by_matchup.get(frozenset((g["home"], g["away"])))
-        if mr:
+        if mr and valid_ml(mr.get("home_ml"), mr.get("away_ml")):
             cache_rows.append({
                 "date": date_iso, "commence": g.get("commence"),
                 "home": g["home"], "away": g["away"],
@@ -111,7 +120,7 @@ def main():
                 "total_line": mr.get("total_line"), "over_ml": mr.get("over_ml"),
                 "under_ml": mr.get("under_ml"),
                 "book": "fanduel", "source": mr.get("source", "fanduel_api"),
-                "started": started,
+                "started": False,
             })
     if cache_rows:
         save_ml_cache(date_key, cache_rows, freeze_started=True)
