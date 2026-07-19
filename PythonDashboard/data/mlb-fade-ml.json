@@ -1,7 +1,7 @@
 {
   "sport": "MLB",
   "type": "fade-ml",
-  "generated": "2026-07-19T00:31:25Z",
+  "generated": "2026-07-19T13:05:38Z",
   "fadeList": [
     "Littell",
     "Mikolas",
@@ -24,26 +24,28 @@
     "Jacob Lopez",
     "Ryan Johnson",
     "Poulin",
-    "Singer"
+    "Singer",
+    "Dustin May",
+    "Grayson Rodriguez"
   ],
   "mutualRule": "underdog",
   "summary": {
-    "wins": 158,
-    "losses": 85,
-    "voids": 2,
+    "wins": 159,
+    "losses": 84,
+    "voids": 3,
     "skips": 0,
-    "staked": 304.89,
-    "units": 70.83,
-    "roi": 0.2323,
+    "staked": 303.13,
+    "units": 72.83,
+    "roi": 0.2403,
     "byType": {
       "ml": {
-        "wins": 149,
-        "losses": 79,
-        "voids": 2,
+        "wins": 150,
+        "losses": 78,
+        "voids": 3,
         "skips": 0,
-        "staked": 289.75,
-        "units": 66.21,
-        "roi": 0.2285
+        "staked": 287.99,
+        "units": 68.21,
+        "roi": 0.2368
       },
       "ml_dog": {
         "wins": 9,
@@ -58,19 +60,39 @@
   },
   "today": [
     {
-      "date": "2026-07-18",
-      "commence": "2026-07-19T02:05:00Z",
+      "date": "2026-07-19",
+      "commence": "2026-07-19T20:07:00Z",
       "betType": "ml",
       "shadow": false,
       "pitchers": [
-        "Zack Littell"
+        "Ryan Johnson"
       ],
-      "fadeTeam": "WSH",
+      "fadeTeam": "LAA",
       "market": "h2h",
-      "selection": "OAK",
+      "selection": "DET",
       "line": null,
-      "odds": -104,
-      "stake": 1.04,
+      "odds": -152,
+      "stake": 1.52,
+      "result": "pending",
+      "profit": 0.0,
+      "book": "fanduel",
+      "source": "fanduel_api",
+      "reason": null
+    },
+    {
+      "date": "2026-07-19",
+      "commence": "2026-07-19T20:05:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Jacob Lopez"
+      ],
+      "fadeTeam": "OAK",
+      "market": "h2h",
+      "selection": "WSH",
+      "line": null,
+      "odds": -138,
+      "stake": 1.38,
       "result": "pending",
       "profit": 0.0,
       "book": "fanduel",
@@ -4936,26 +4958,6 @@
     },
     {
       "date": "2026-07-18",
-      "commence": "2026-07-18T17:10:00Z",
-      "betType": "ml",
-      "shadow": false,
-      "pitchers": [
-        "Jared Jones"
-      ],
-      "fadeTeam": "PIT",
-      "market": "h2h",
-      "selection": "CLE",
-      "line": null,
-      "odds": 900,
-      "stake": 1.0,
-      "result": "LOSS",
-      "profit": -1.0,
-      "book": "fanduel",
-      "source": "fanduel_api",
-      "reason": null
-    },
-    {
-      "date": "2026-07-18",
       "commence": "2026-07-18T20:10:00Z",
       "betType": "ml",
       "shadow": false,
@@ -4966,13 +4968,33 @@
       "market": "h2h",
       "selection": "KC",
       "line": null,
-      "odds": -290,
-      "stake": 2.9,
+      "odds": -110,
+      "stake": 1.1,
       "result": "WIN",
       "profit": 1.0,
       "book": "fanduel",
-      "source": "fanduel_api",
+      "source": "manual_close",
       "reason": null
+    },
+    {
+      "date": "2026-07-18",
+      "commence": "2026-07-18T20:10:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Dustin May"
+      ],
+      "fadeTeam": "STL",
+      "market": "h2h",
+      "selection": "ARI",
+      "line": null,
+      "odds": null,
+      "stake": null,
+      "result": "VOID",
+      "profit": 0.0,
+      "book": "fanduel",
+      "source": null,
+      "reason": "no_price"
     },
     {
       "date": "2026-07-18",
@@ -4993,6 +5015,26 @@
       "book": "fanduel",
       "source": "fanduel_api",
       "reason": "postponed"
+    },
+    {
+      "date": "2026-07-18",
+      "commence": "2026-07-19T02:05:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Zack Littell"
+      ],
+      "fadeTeam": "WSH",
+      "market": "h2h",
+      "selection": "OAK",
+      "line": null,
+      "odds": -104,
+      "stake": 1.04,
+      "result": "WIN",
+      "profit": 1.0,
+      "book": "fanduel",
+      "source": "fanduel_api",
+      "reason": null
     }
   ]
 }
