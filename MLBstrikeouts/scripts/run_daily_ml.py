@@ -29,8 +29,7 @@ sys.path.insert(0, os.path.join(os.path.dirname(__file__), "sources"))
 
 from fade_ml_common import (
     load_props_index, starts_from_rows, fade_games, match_game,
-    odds_row_for, build_bets_for_game, build_payload, write_outputs,
-    valid_ml, SCRIPT_DIR,
+    odds_row_for, build_bets_for_game, build_payload, write_outputs, SCRIPT_DIR,
 )
 from ml_backfill import grade_date
 from sources.mlb_schedule import fetch_schedule
@@ -102,17 +101,16 @@ def main():
         g = match_game(games, fg["teams"], pitcher)
         if not g:
             continue
-        # Lock PRE-GAME prices only. Once a game is out of preview, FanDuel's
-        # moneyline is an in-play number (e.g. +900 / -2500 in a blowout);
-        # capturing it would freeze a garbage "closing" line. Skip started/
-        # final games -- the real closing line is the last pre-game snapshot
-        # already frozen in the cache. If we never captured one (job's first
-        # run was post-first-pitch), the game stays unpriced and grades VOID,
-        # which is correct: we have no legitimate closing number.
+        # Lock the fade pick's price at first pitch, same as the K model:
+        # once a game is out of preview, FanDuel's moneyline is an in-play
+        # number (e.g. +900 in a blowout), so we never (re)capture it. The
+        # locked price is the last pre-game snapshot already in the cache.
+        # If we never captured one (job's first run was post-first-pitch),
+        # the game stays unpriced and grades VOID -- no legitimate close.
         if g.get("final") or not _is_preview(g):
             continue
         mr = ml_by_matchup.get(frozenset((g["home"], g["away"])))
-        if mr and valid_ml(mr.get("home_ml"), mr.get("away_ml")):
+        if mr and mr.get("home_ml") is not None and mr.get("away_ml") is not None:
             cache_rows.append({
                 "date": date_iso, "commence": g.get("commence"),
                 "home": g["home"], "away": g["away"],
