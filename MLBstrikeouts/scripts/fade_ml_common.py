@@ -126,25 +126,6 @@ def odds_row_for(odds_rows, g):
     return None
 
 
-# --- odds validation ------------------------------------------------------
-# Plausible American moneyline bound. Real pre-game MLB prices sit inside
-# roughly +/-350; anything past this is an in-play / bad-data price (e.g. a
-# blowout live line like +900 / -2500 captured after first pitch) and must
-# never be locked as a closing number or graded as a bet.
-ML_MAX_ABS = 600
-
-
-def valid_price(odds):
-    """True if ``odds`` looks like a real pre-game American moneyline."""
-    return (isinstance(odds, (int, float)) and not isinstance(odds, bool)
-            and 100 <= abs(odds) <= ML_MAX_ABS)
-
-
-def valid_ml(home_ml, away_ml):
-    """True if a home/away price pair both look like real pre-game lines."""
-    return valid_price(home_ml) and valid_price(away_ml)
-
-
 # --- staking + settlement -------------------------------------------------
 
 def stake_for(odds):
@@ -199,7 +180,7 @@ def build_bets_for_game(date, fg, g, odds_row):
         if MUTUAL_FADE_RULE == "skip":
             bets.append(_bet(date, commence, "ml_dog", fg, "h2h", None, None,
                              None, "SKIP", "mutual_skip", source=source))
-        elif odds_row and valid_ml(odds_row.get("home_ml"), odds_row.get("away_ml")):
+        elif odds_row and odds_row.get("home_ml") is not None:
             home, away = g["home"], g["away"]
             mls = {home: odds_row["home_ml"], away: odds_row["away_ml"]}
             if MUTUAL_FADE_RULE == "favorite":
@@ -210,20 +191,16 @@ def build_bets_for_game(date, fg, g, odds_row):
             bets.append(_bet(date, commence, "ml_dog", fg, "h2h", team, None,
                              mls[team], result, reason, source=source))
         else:
-            # No price, or an implausible (in-play/bad-data) price -> VOID.
-            reason = "no_price" if not (odds_row and odds_row.get("home_ml") is not None) else "bad_price"
             bets.append(_bet(date, commence, "ml_dog", fg, "h2h", None, None,
-                             None, "VOID", reason, source=source))
+                             None, "VOID", "no_price", source=source))
     else:
         team = fg["betTeam"]
         odds = None
         if odds_row:
             odds = odds_row["home_ml"] if team == g.get("home") else odds_row["away_ml"]
-        if not valid_price(odds):
-            # None -> no line captured; out-of-range -> in-play/bad price.
-            reason = "no_price" if odds is None else "bad_price"
+        if odds is None:
             bets.append(_bet(date, commence, "ml", fg, "h2h", team, None,
-                             None, "VOID", reason, source=source))
+                             None, "VOID", "no_price", source=source))
         else:
             result, reason = _settle_ml(g, team)
             bets.append(_bet(date, commence, "ml", fg, "h2h", team, None,
