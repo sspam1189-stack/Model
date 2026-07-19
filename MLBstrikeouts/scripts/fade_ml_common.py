@@ -67,24 +67,25 @@ def starts_from_rows(rows):
     return out
 
 
-def fade_games(starts):
+def fade_games(starts, date=None):
     """Return one entry per game that has >=1 fade-list starter.
 
     Each entry: {teams(frozenset), mutual(bool), pitchers[list], fadeTeam,
     betTeam, oppPitcher}. For mutual games fadeTeam/betTeam are None (the ML
-    side is decided later from the odds).
+    side is decided later from the odds). ``date`` (ISO YYYY-MM-DD) gates
+    arms with a FADE_WINDOW so they're only faded inside their add/remove dates.
     """
     starter = {s["team"]: s["pitcher"] for s in starts}
     seen, out = set(), []
     for s in starts:
-        if not is_fade(s["pitcher"]):
+        if not is_fade(s["pitcher"], date):
             continue
         teams = frozenset((s["team"], s["opp"]))
         if teams in seen:
             continue
         seen.add(teams)
         opp_pitcher = starter.get(s["opp"])
-        mutual = bool(opp_pitcher and is_fade(opp_pitcher))
+        mutual = bool(opp_pitcher and is_fade(opp_pitcher, date))
         if mutual:
             out.append({"teams": teams, "mutual": True,
                         "pitchers": [s["pitcher"], opp_pitcher],

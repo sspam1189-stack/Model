@@ -45,7 +45,7 @@ def _daterange(start, end):
 def grade_date(date_key, date_iso, props_index):
     """Return the list of graded bet records for one date."""
     rows = props_index.get(date_iso, [])
-    fgs = fade_games(starts_from_rows(rows))
+    fgs = fade_games(starts_from_rows(rows), date_iso)
     if not fgs:
         return []
     games = fetch_schedule(date_key)
