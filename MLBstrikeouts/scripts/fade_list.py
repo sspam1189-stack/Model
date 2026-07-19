@@ -22,6 +22,7 @@ FADE_LIST = [
     "Merrill Kelly", "Aldegheri", "Gallen", "Civale", "David Peterson",
     "Bibee", "Springs", "Burrows", "Roupp", "Keller", "Peralta", "Canning",
     "Jacob Lopez", "Ryan Johnson", "Poulin", "Singer", "Dustin May",
+    "Grayson Rodriguez",
 ]
 
 # Date the fade model started tracking (earliest graded slate). The season
@@ -66,8 +67,9 @@ FADE_WINDOW = {
     "Singer":         {"add": SEASON_START},
     # Retired mid-season: faded early, back to his old self from 7/18.
     "Jared Jones":    {"add": SEASON_START, "remove": "2026-07-18"},
-    # Added mid-season: good before, fade-worthy from 7/18.
-    "Dustin May":     {"add": "2026-07-18"},
+    # Added mid-season: good before, fade-worthy from these dates on.
+    "Dustin May":        {"add": "2026-07-18"},
+    "Grayson Rodriguez": {"add": "2026-07-19"},
 }
 
 
