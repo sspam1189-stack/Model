@@ -1,7 +1,7 @@
 {
   "sport": "MLB",
   "type": "fade-ml",
-  "generated": "2026-07-20T16:04:25Z",
+  "generated": "2026-07-20T17:58:01Z",
   "fadeList": [
     "Littell",
     "Mikolas",
@@ -26,35 +26,37 @@
     "Poulin",
     "Singer",
     "Dustin May",
-    "Grayson Rodriguez"
+    "Grayson Rodriguez",
+    "Bryan Woo",
+    "Freeland"
   ],
   "mutualRule": "underdog",
   "summary": {
     "wins": 160,
     "losses": 85,
-    "voids": 3,
+    "voids": 16,
     "skips": 0,
     "staked": 305.97,
     "units": 72.45,
     "roi": 0.2368,
     "byType": {
       "ml": {
-        "wins": 151,
-        "losses": 79,
-        "voids": 3,
+        "wins": 150,
+        "losses": 78,
+        "voids": 16,
         "skips": 0,
-        "staked": 290.83,
-        "units": 67.83,
-        "roi": 0.2332
+        "staked": 288.83,
+        "units": 67.39,
+        "roi": 0.2333
       },
       "ml_dog": {
-        "wins": 9,
-        "losses": 6,
+        "wins": 10,
+        "losses": 7,
         "voids": 0,
         "skips": 0,
-        "staked": 15.14,
-        "units": 4.62,
-        "roi": 0.3052
+        "staked": 17.14,
+        "units": 5.06,
+        "roi": 0.2952
       }
     }
   },
@@ -159,7 +161,9 @@
       "profit": 1.0,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
-      "reason": null
+      "reason": null,
+      "home": "CLE",
+      "away": "KC"
     },
     {
       "date": "2026-04-07",
@@ -180,17 +184,20 @@
       "profit": -1.0,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
-      "reason": null
+      "reason": null,
+      "home": "NYM",
+      "away": "ARI"
     },
     {
       "date": "2026-04-07",
       "commence": "2026-04-08T00:40:00Z",
-      "betType": "ml",
+      "betType": "ml_dog",
       "shadow": false,
       "pitchers": [
-        "Mike Burrows"
+        "Mike Burrows",
+        "Kyle Freeland"
       ],
-      "fadeTeam": "HOU",
+      "fadeTeam": null,
       "market": "h2h",
       "selection": "COL",
       "line": null,
@@ -200,7 +207,9 @@
       "profit": 1.44,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
-      "reason": null
+      "reason": null,
+      "home": "COL",
+      "away": "HOU"
     },
     {
       "date": "2026-04-08",
@@ -220,7 +229,9 @@
       "profit": 1.0,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
-      "reason": null
+      "reason": null,
+      "home": "WSH",
+      "away": "STL"
     },
     {
       "date": "2026-04-08",
@@ -240,7 +251,9 @@
       "profit": 1.1,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
-      "reason": null
+      "reason": null,
+      "home": "NYM",
+      "away": "ARI"
     },
     {
       "date": "2026-04-08",
@@ -260,7 +273,9 @@
       "profit": 1.0,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
-      "reason": null
+      "reason": null,
+      "home": "MIA",
+      "away": "CIN"
     },
     {
       "date": "2026-04-09",
@@ -280,7 +295,9 @@
       "profit": -1.88,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
-      "reason": null
+      "reason": null,
+      "home": "NYY",
+      "away": "OAK"
     },
     {
       "date": "2026-04-10",
@@ -300,7 +317,9 @@
       "profit": -1.18,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
-      "reason": null
+      "reason": null,
+      "home": "BAL",
+      "away": "SF"
     },
     {
       "date": "2026-04-11",
@@ -320,7 +339,9 @@
       "profit": -1.66,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
-      "reason": null
+      "reason": null,
+      "home": "NYM",
+      "away": "OAK"
     },
     {
       "date": "2026-04-11",
@@ -340,7 +361,9 @@
       "profit": -1.0,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
-      "reason": null
+      "reason": null,
+      "home": "LAD",
+      "away": "TEX"
     },
     {
       "date": "2026-04-12",
@@ -360,7 +383,9 @@
       "profit": -1.34,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
-      "reason": null
+      "reason": null,
+      "home": "PHI",
+      "away": "ARI"
     },
     {
       "date": "2026-04-12",
@@ -381,7 +406,9 @@
       "profit": 1.4,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
-      "reason": null
+      "reason": null,
+      "home": "NYM",
+      "away": "OAK"
     },
     {
       "date": "2026-04-12",
@@ -401,7 +428,9 @@
       "profit": 1.0,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
-      "reason": null
+      "reason": null,
+      "home": "ATL",
+      "away": "CLE"
     },
     {
       "date": "2026-04-13",
@@ -421,7 +450,9 @@
       "profit": 1.0,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
-      "reason": null
+      "reason": null,
+      "home": "SEA",
+      "away": "HOU"
     },
     {
       "date": "2026-04-13",
@@ -441,7 +472,9 @@
       "profit": 1.0,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
-      "reason": null
+      "reason": null,
+      "home": "LAD",
+      "away": "NYM"
     },
     {
       "date": "2026-04-14",
@@ -461,7 +494,9 @@
       "profit": -1.06,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
-      "reason": null
+      "reason": null,
+      "home": "CIN",
+      "away": "SF"
     },
     {
       "date": "2026-04-14",
@@ -481,7 +516,9 @@
       "profit": 1.54,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
-      "reason": null
+      "reason": null,
+      "home": "PIT",
+      "away": "WSH"
     },
     {
       "date": "2026-04-14",
@@ -501,7 +538,9 @@
       "profit": -1.3,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
-      "reason": null
+      "reason": null,
+      "home": "OAK",
+      "away": "TEX"
     },
     {
       "date": "2026-04-16",
@@ -521,7 +560,9 @@
       "profit": -1.3,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
-      "reason": null
+      "reason": null,
+      "home": "CIN",
+      "away": "SF"
     },
     {
       "date": "2026-04-16",
@@ -541,7 +582,9 @@
       "profit": 1.0,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
-      "reason": null
+      "reason": null,
+      "home": "OAK",
+      "away": "TEX"
     },
     {
       "date": "2026-04-17",
@@ -561,7 +604,9 @@
       "profit": 1.14,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
-      "reason": null
+      "reason": null,
+      "home": "CLE",
+      "away": "BAL"
     },
     {
       "date": "2026-04-17",
@@ -581,7 +626,9 @@
       "profit": 1.0,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
-      "reason": null
+      "reason": null,
+      "home": "WSH",
+      "away": "SF"
     },
     {
       "date": "2026-04-17",
@@ -601,7 +648,9 @@
       "profit": 1.34,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
-      "reason": null
+      "reason": null,
+      "home": "OAK",
+      "away": "CWS"
     },
     {
       "date": "2026-04-18",
@@ -621,7 +670,9 @@
       "profit": 1.0,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
-      "reason": null
+      "reason": null,
+      "home": "CHC",
+      "away": "NYM"
     },
     {
       "date": "2026-04-18",
@@ -641,7 +692,9 @@
       "profit": -1.0,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
-      "reason": null
+      "reason": null,
+      "home": "ARI",
+      "away": "TOR"
     },
     {
       "date": "2026-04-18",
@@ -661,7 +714,9 @@
       "profit": 2.35,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
-      "reason": null
+      "reason": null,
+      "home": "COL",
+      "away": "LAD"
     },
     {
       "date": "2026-04-19",
@@ -681,7 +736,9 @@
       "profit": -1.1,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
-      "reason": null
+      "reason": null,
+      "home": "PIT",
+      "away": "TB"
     },
     {
       "date": "2026-04-19",
@@ -701,7 +758,9 @@
       "profit": -1.16,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
-      "reason": null
+      "reason": null,
+      "home": "MIN",
+      "away": "CIN"
     },
     {
       "date": "2026-04-19",
@@ -721,7 +780,9 @@
       "profit": 1.18,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
-      "reason": null
+      "reason": null,
+      "home": "HOU",
+      "away": "STL"
     },
     {
       "date": "2026-04-19",
@@ -741,7 +802,9 @@
       "profit": 1.32,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
-      "reason": null
+      "reason": null,
+      "home": "OAK",
+      "away": "CWS"
     },
     {
       "date": "2026-04-19",
@@ -761,7 +824,9 @@
       "profit": 1.0,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
-      "reason": null
+      "reason": null,
+      "home": "PHI",
+      "away": "ATL"
     },
     {
       "date": "2026-04-21",
@@ -781,7 +846,9 @@
       "profit": -1.02,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
-      "reason": null
+      "reason": null,
+      "home": "TEX",
+      "away": "PIT"
     },
     {
       "date": "2026-04-21",
@@ -801,7 +868,9 @@
       "profit": -1.66,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
-      "reason": null
+      "reason": null,
+      "home": "SEA",
+      "away": "OAK"
     },
     {
       "date": "2026-04-21",
@@ -821,7 +890,9 @@
       "profit": -1.8,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
-      "reason": null
+      "reason": null,
+      "home": "SF",
+      "away": "LAD"
     },
     {
       "date": "2026-04-22",
@@ -841,7 +912,9 @@
       "profit": 1.36,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
-      "reason": null
+      "reason": null,
+      "home": "CLE",
+      "away": "HOU"
     },
     {
       "date": "2026-04-22",
@@ -861,7 +934,9 @@
       "profit": 1.0,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
-      "reason": null
+      "reason": null,
+      "home": "SEA",
+      "away": "OAK"
     },
     {
       "date": "2026-04-22",
@@ -881,7 +956,9 @@
       "profit": 1.0,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
-      "reason": null
+      "reason": null,
+      "home": "WSH",
+      "away": "ATL"
     },
     {
       "date": "2026-04-24",
@@ -901,7 +978,9 @@
       "profit": 1.72,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
-      "reason": null
+      "reason": null,
+      "home": "NYM",
+      "away": "COL"
     },
     {
       "date": "2026-04-24",
@@ -921,7 +1000,9 @@
       "profit": 1.0,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
-      "reason": null
+      "reason": null,
+      "home": "ATL",
+      "away": "PHI"
     },
     {
       "date": "2026-04-24",
@@ -941,7 +1022,9 @@
       "profit": 1.32,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
-      "reason": null
+      "reason": null,
+      "home": "LAD",
+      "away": "CHC"
     },
     {
       "date": "2026-04-25",
@@ -961,7 +1044,9 @@
       "profit": 1.0,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
-      "reason": null
+      "reason": null,
+      "home": "ARI",
+      "away": "SD"
     },
     {
       "date": "2026-04-25",
@@ -981,7 +1066,9 @@
       "profit": 1.0,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
-      "reason": null
+      "reason": null,
+      "home": "TEX",
+      "away": "OAK"
     },
     {
       "date": "2026-04-25",
@@ -1001,7 +1088,9 @@
       "profit": 1.0,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
-      "reason": null
+      "reason": null,
+      "home": "HOU",
+      "away": "NYY"
     },
     {
       "date": "2026-04-25",
@@ -1021,7 +1110,9 @@
       "profit": -1.42,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
-      "reason": null
+      "reason": null,
+      "home": "MIL",
+      "away": "PIT"
     },
     {
       "date": "2026-04-25",
@@ -1041,7 +1132,9 @@
       "profit": -1.1,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
-      "reason": null
+      "reason": null,
+      "home": "CIN",
+      "away": "DET"
     },
     {
       "date": "2026-04-26",
@@ -1061,7 +1154,9 @@
       "profit": 1.0,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
-      "reason": null
+      "reason": null,
+      "home": "TEX",
+      "away": "OAK"
     },
     {
       "date": "2026-04-26",
@@ -1081,7 +1176,9 @@
       "profit": -1.0,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
-      "reason": null
+      "reason": null,
+      "home": "SF",
+      "away": "MIA"
     },
     {
       "date": "2026-04-28",
@@ -1101,7 +1198,31 @@
       "profit": 1.1,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
-      "reason": null
+      "reason": null,
+      "home": "CLE",
+      "away": "TB"
+    },
+    {
+      "date": "2026-04-28",
+      "commence": "2026-04-28T22:40:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Kyle Freeland"
+      ],
+      "fadeTeam": "COL",
+      "market": "h2h",
+      "selection": "CIN",
+      "line": null,
+      "odds": null,
+      "stake": null,
+      "result": "VOID",
+      "profit": 0.0,
+      "book": "fanduel",
+      "source": null,
+      "reason": "no_price",
+      "home": "CIN",
+      "away": "COL"
     },
     {
       "date": "2026-04-28",
@@ -1121,7 +1242,9 @@
       "profit": 1.0,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
-      "reason": null
+      "reason": null,
+      "home": "NYM",
+      "away": "WSH"
     },
     {
       "date": "2026-04-28",
@@ -1141,7 +1264,9 @@
       "profit": 1.0,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
-      "reason": null
+      "reason": null,
+      "home": "MIL",
+      "away": "ARI"
     },
     {
       "date": "2026-04-28",
@@ -1161,7 +1286,9 @@
       "profit": 1.0,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
-      "reason": null
+      "reason": null,
+      "home": "OAK",
+      "away": "KC"
     },
     {
       "date": "2026-04-29",
@@ -1181,7 +1308,9 @@
       "profit": 1.36,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
-      "reason": null
+      "reason": null,
+      "home": "NYM",
+      "away": "WSH"
     },
     {
       "date": "2026-04-30",
@@ -1202,7 +1331,9 @@
       "profit": 1.66,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
-      "reason": null
+      "reason": null,
+      "home": "NYM",
+      "away": "WSH"
     },
     {
       "date": "2026-04-30",
@@ -1222,7 +1353,9 @@
       "profit": -1.0,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
-      "reason": null
+      "reason": null,
+      "home": "OAK",
+      "away": "KC"
     },
     {
       "date": "2026-05-01",
@@ -1242,7 +1375,9 @@
       "profit": 1.0,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
-      "reason": null
+      "reason": null,
+      "home": "CHC",
+      "away": "ARI"
     },
     {
       "date": "2026-05-01",
@@ -1263,7 +1398,9 @@
       "profit": -1.0,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
-      "reason": null
+      "reason": null,
+      "home": "PIT",
+      "away": "CIN"
     },
     {
       "date": "2026-05-01",
@@ -1283,7 +1420,9 @@
       "profit": 1.0,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
-      "reason": null
+      "reason": null,
+      "home": "BOS",
+      "away": "HOU"
     },
     {
       "date": "2026-05-01",
@@ -1303,7 +1442,9 @@
       "profit": 1.48,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
-      "reason": null
+      "reason": null,
+      "home": "STL",
+      "away": "LAD"
     },
     {
       "date": "2026-05-02",
@@ -1323,7 +1464,9 @@
       "profit": 1.18,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
-      "reason": null
+      "reason": null,
+      "home": "OAK",
+      "away": "CLE"
     },
     {
       "date": "2026-05-02",
@@ -1343,7 +1486,9 @@
       "profit": 1.0,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
-      "reason": null
+      "reason": null,
+      "home": "MIA",
+      "away": "PHI"
     },
     {
       "date": "2026-05-02",
@@ -1363,7 +1508,9 @@
       "profit": 1.0,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
-      "reason": null
+      "reason": null,
+      "home": "TB",
+      "away": "SF"
     },
     {
       "date": "2026-05-02",
@@ -1383,7 +1530,9 @@
       "profit": 1.0,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
-      "reason": null
+      "reason": null,
+      "home": "DET",
+      "away": "TEX"
     },
     {
       "date": "2026-05-03",
@@ -1403,7 +1552,31 @@
       "profit": 1.0,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
-      "reason": null
+      "reason": null,
+      "home": "CHC",
+      "away": "ARI"
+    },
+    {
+      "date": "2026-05-03",
+      "commence": "2026-05-03T19:10:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Kyle Freeland"
+      ],
+      "fadeTeam": "COL",
+      "market": "h2h",
+      "selection": "ATL",
+      "line": null,
+      "odds": null,
+      "stake": null,
+      "result": "VOID",
+      "profit": 0.0,
+      "book": "fanduel",
+      "source": null,
+      "reason": "no_price",
+      "home": "COL",
+      "away": "ATL"
     },
     {
       "date": "2026-05-03",
@@ -1423,7 +1596,9 @@
       "profit": -1.26,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
-      "reason": null
+      "reason": null,
+      "home": "OAK",
+      "away": "CLE"
     },
     {
       "date": "2026-05-04",
@@ -1443,7 +1618,9 @@
       "profit": 1.0,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
-      "reason": null
+      "reason": null,
+      "home": "KC",
+      "away": "CLE"
     },
     {
       "date": "2026-05-06",
@@ -1463,7 +1640,9 @@
       "profit": 1.0,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
-      "reason": null
+      "reason": null,
+      "home": "PHI",
+      "away": "OAK"
     },
     {
       "date": "2026-05-06",
@@ -1483,7 +1662,9 @@
       "profit": -1.2,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
-      "reason": null
+      "reason": null,
+      "home": "WSH",
+      "away": "MIN"
     },
     {
       "date": "2026-05-06",
@@ -1503,7 +1684,9 @@
       "profit": 1.0,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
-      "reason": null
+      "reason": null,
+      "home": "CHC",
+      "away": "CIN"
     },
     {
       "date": "2026-05-06",
@@ -1523,7 +1706,9 @@
       "profit": -1.0,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
-      "reason": null
+      "reason": null,
+      "home": "COL",
+      "away": "NYM"
     },
     {
       "date": "2026-05-07",
@@ -1544,7 +1729,9 @@
       "profit": 1.0,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
-      "reason": null
+      "reason": null,
+      "home": "ARI",
+      "away": "PIT"
     },
     {
       "date": "2026-05-07",
@@ -1564,7 +1751,9 @@
       "profit": 1.08,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
-      "reason": null
+      "reason": null,
+      "home": "PHI",
+      "away": "OAK"
     },
     {
       "date": "2026-05-08",
@@ -1584,7 +1773,9 @@
       "profit": -1.26,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
-      "reason": null
+      "reason": null,
+      "home": "CIN",
+      "away": "HOU"
     },
     {
       "date": "2026-05-08",
@@ -1604,7 +1795,9 @@
       "profit": -1.36,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
-      "reason": null
+      "reason": null,
+      "home": "BAL",
+      "away": "OAK"
     },
     {
       "date": "2026-05-08",
@@ -1624,7 +1817,9 @@
       "profit": 1.0,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
-      "reason": null
+      "reason": null,
+      "home": "TEX",
+      "away": "CHC"
     },
     {
       "date": "2026-05-08",
@@ -1644,7 +1839,9 @@
       "profit": -1.0,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
-      "reason": null
+      "reason": null,
+      "home": "LAD",
+      "away": "ATL"
     },
     {
       "date": "2026-05-09",
@@ -1664,7 +1861,31 @@
       "profit": -1.2,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
-      "reason": null
+      "reason": null,
+      "home": "BAL",
+      "away": "OAK"
+    },
+    {
+      "date": "2026-05-09",
+      "commence": "2026-05-09T22:05:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Kyle Freeland"
+      ],
+      "fadeTeam": "COL",
+      "market": "h2h",
+      "selection": "PHI",
+      "line": null,
+      "odds": null,
+      "stake": null,
+      "result": "VOID",
+      "profit": 0.0,
+      "book": "fanduel",
+      "source": null,
+      "reason": "no_price",
+      "home": "PHI",
+      "away": "COL"
     },
     {
       "date": "2026-05-09",
@@ -1684,7 +1905,9 @@
       "profit": 1.0,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
-      "reason": null
+      "reason": null,
+      "home": "CLE",
+      "away": "MIN"
     },
     {
       "date": "2026-05-09",
@@ -1704,7 +1927,9 @@
       "profit": -1.08,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
-      "reason": null
+      "reason": null,
+      "home": "ARI",
+      "away": "NYM"
     },
     {
       "date": "2026-05-09",
@@ -1724,7 +1949,9 @@
       "profit": 1.0,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
-      "reason": null
+      "reason": null,
+      "home": "SF",
+      "away": "PIT"
     },
     {
       "date": "2026-05-12",
@@ -1745,7 +1972,9 @@
       "profit": 1.22,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
-      "reason": null
+      "reason": null,
+      "home": "CIN",
+      "away": "WSH"
     },
     {
       "date": "2026-05-12",
@@ -1765,7 +1994,9 @@
       "profit": -1.0,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
-      "reason": null
+      "reason": null,
+      "home": "NYM",
+      "away": "DET"
     },
     {
       "date": "2026-05-12",
@@ -1785,7 +2016,9 @@
       "profit": 1.0,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
-      "reason": null
+      "reason": null,
+      "home": "TEX",
+      "away": "ARI"
     },
     {
       "date": "2026-05-12",
@@ -1805,7 +2038,9 @@
       "profit": 1.32,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
-      "reason": null
+      "reason": null,
+      "home": "OAK",
+      "away": "STL"
     },
     {
       "date": "2026-05-13",
@@ -1825,7 +2060,9 @@
       "profit": 1.58,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
-      "reason": null
+      "reason": null,
+      "home": "PIT",
+      "away": "COL"
     },
     {
       "date": "2026-05-13",
@@ -1845,7 +2082,9 @@
       "profit": 1.0,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
-      "reason": null
+      "reason": null,
+      "home": "BOS",
+      "away": "PHI"
     },
     {
       "date": "2026-05-13",
@@ -1865,7 +2104,9 @@
       "profit": -1.12,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
-      "reason": null
+      "reason": null,
+      "home": "TEX",
+      "away": "ARI"
     },
     {
       "date": "2026-05-14",
@@ -1885,7 +2126,9 @@
       "profit": 1.0,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
-      "reason": null
+      "reason": null,
+      "home": "MIL",
+      "away": "SD"
     },
     {
       "date": "2026-05-14",
@@ -1905,7 +2148,9 @@
       "profit": 1.0,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
-      "reason": null
+      "reason": null,
+      "home": "HOU",
+      "away": "SEA"
     },
     {
       "date": "2026-05-14",
@@ -1925,7 +2170,9 @@
       "profit": 1.02,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
-      "reason": null
+      "reason": null,
+      "home": "OAK",
+      "away": "STL"
     },
     {
       "date": "2026-05-14",
@@ -1946,7 +2193,9 @@
       "profit": -1.0,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
-      "reason": null
+      "reason": null,
+      "home": "LAD",
+      "away": "SF"
     },
     {
       "date": "2026-05-15",
@@ -1966,7 +2215,9 @@
       "profit": -1.38,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
-      "reason": null
+      "reason": null,
+      "home": "WSH",
+      "away": "BAL"
     },
     {
       "date": "2026-05-15",
@@ -1986,17 +2237,20 @@
       "profit": 1.1,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
-      "reason": null
+      "reason": null,
+      "home": "CLE",
+      "away": "CIN"
     },
     {
       "date": "2026-05-15",
       "commence": "2026-05-16T00:40:00Z",
-      "betType": "ml",
+      "betType": "ml_dog",
       "shadow": false,
       "pitchers": [
-        "Merrill Kelly"
+        "Merrill Kelly",
+        "Kyle Freeland"
       ],
-      "fadeTeam": "ARI",
+      "fadeTeam": null,
       "market": "h2h",
       "selection": "COL",
       "line": null,
@@ -2006,7 +2260,9 @@
       "profit": -1.0,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
-      "reason": null
+      "reason": null,
+      "home": "COL",
+      "away": "ARI"
     },
     {
       "date": "2026-05-15",
@@ -2026,7 +2282,9 @@
       "profit": -1.0,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
-      "reason": null
+      "reason": null,
+      "home": "OAK",
+      "away": "SF"
     },
     {
       "date": "2026-05-17",
@@ -2046,7 +2304,9 @@
       "profit": -1.0,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
-      "reason": null
+      "reason": null,
+      "home": "NYM",
+      "away": "NYY"
     },
     {
       "date": "2026-05-17",
@@ -2066,7 +2326,9 @@
       "profit": 1.0,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
-      "reason": null
+      "reason": null,
+      "home": "CLE",
+      "away": "CIN"
     },
     {
       "date": "2026-05-17",
@@ -2086,7 +2348,9 @@
       "profit": 1.24,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
-      "reason": null
+      "reason": null,
+      "home": "OAK",
+      "away": "SF"
     },
     {
       "date": "2026-05-18",
@@ -2106,7 +2370,9 @@
       "profit": -1.0,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
-      "reason": null
+      "reason": null,
+      "home": "PHI",
+      "away": "CIN"
     },
     {
       "date": "2026-05-18",
@@ -2126,7 +2392,9 @@
       "profit": -1.0,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
-      "reason": null
+      "reason": null,
+      "home": "ARI",
+      "away": "SF"
     },
     {
       "date": "2026-05-19",
@@ -2146,7 +2414,9 @@
       "profit": 1.0,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
-      "reason": null
+      "reason": null,
+      "home": "STL",
+      "away": "PIT"
     },
     {
       "date": "2026-05-19",
@@ -2166,7 +2436,9 @@
       "profit": -1.32,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
-      "reason": null
+      "reason": null,
+      "home": "LAA",
+      "away": "OAK"
     },
     {
       "date": "2026-05-19",
@@ -2186,7 +2458,9 @@
       "profit": 1.0,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
-      "reason": null
+      "reason": null,
+      "home": "ARI",
+      "away": "SF"
     },
     {
       "date": "2026-05-19",
@@ -2207,7 +2481,9 @@
       "profit": -1.0,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
-      "reason": null
+      "reason": null,
+      "home": "SD",
+      "away": "LAD"
     },
     {
       "date": "2026-05-20",
@@ -2227,7 +2503,31 @@
       "profit": 1.0,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
-      "reason": null
+      "reason": null,
+      "home": "MIN",
+      "away": "HOU"
+    },
+    {
+      "date": "2026-05-20",
+      "commence": "2026-05-20T19:10:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Kyle Freeland"
+      ],
+      "fadeTeam": "COL",
+      "market": "h2h",
+      "selection": "TEX",
+      "line": null,
+      "odds": null,
+      "stake": null,
+      "result": "VOID",
+      "profit": 0.0,
+      "book": "fanduel",
+      "source": null,
+      "reason": "no_price",
+      "home": "COL",
+      "away": "TEX"
     },
     {
       "date": "2026-05-20",
@@ -2247,7 +2547,9 @@
       "profit": -1.06,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
-      "reason": null
+      "reason": null,
+      "home": "ARI",
+      "away": "SF"
     },
     {
       "date": "2026-05-20",
@@ -2267,7 +2569,9 @@
       "profit": -1.0,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
-      "reason": null
+      "reason": null,
+      "home": "DET",
+      "away": "CLE"
     },
     {
       "date": "2026-05-20",
@@ -2287,7 +2591,9 @@
       "profit": -1.3,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
-      "reason": null
+      "reason": null,
+      "home": "WSH",
+      "away": "NYM"
     },
     {
       "date": "2026-05-20",
@@ -2307,7 +2613,9 @@
       "profit": -1.0,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
-      "reason": null
+      "reason": null,
+      "home": "LAA",
+      "away": "OAK"
     },
     {
       "date": "2026-05-21",
@@ -2327,7 +2635,9 @@
       "profit": -1.06,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
-      "reason": null
+      "reason": null,
+      "home": "WSH",
+      "away": "NYM"
     },
     {
       "date": "2026-05-22",
@@ -2347,7 +2657,9 @@
       "profit": 1.0,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
-      "reason": null
+      "reason": null,
+      "home": "SD",
+      "away": "OAK"
     },
     {
       "date": "2026-05-23",
@@ -2367,7 +2679,9 @@
       "profit": 1.0,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
-      "reason": null
+      "reason": null,
+      "home": "MIA",
+      "away": "NYM"
     },
     {
       "date": "2026-05-23",
@@ -2387,7 +2701,9 @@
       "profit": -1.0,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
-      "reason": null
+      "reason": null,
+      "home": "ARI",
+      "away": "COL"
     },
     {
       "date": "2026-05-24",
@@ -2407,7 +2723,9 @@
       "profit": -1.74,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
-      "reason": null
+      "reason": null,
+      "home": "TOR",
+      "away": "PIT"
     },
     {
       "date": "2026-05-24",
@@ -2427,7 +2745,9 @@
       "profit": 1.0,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
-      "reason": null
+      "reason": null,
+      "home": "PHI",
+      "away": "CLE"
     },
     {
       "date": "2026-05-25",
@@ -2448,7 +2768,9 @@
       "profit": 1.14,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
-      "reason": null
+      "reason": null,
+      "home": "SF",
+      "away": "ARI"
     },
     {
       "date": "2026-05-25",
@@ -2468,7 +2790,9 @@
       "profit": 1.6,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
-      "reason": null
+      "reason": null,
+      "home": "CLE",
+      "away": "WSH"
     },
     {
       "date": "2026-05-25",
@@ -2488,7 +2812,9 @@
       "profit": 1.0,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
-      "reason": null
+      "reason": null,
+      "home": "SD",
+      "away": "PHI"
     },
     {
       "date": "2026-05-25",
@@ -2508,7 +2834,9 @@
       "profit": 1.08,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
-      "reason": null
+      "reason": null,
+      "home": "TEX",
+      "away": "HOU"
     },
     {
       "date": "2026-05-25",
@@ -2528,7 +2856,9 @@
       "profit": -1.0,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
-      "reason": null
+      "reason": null,
+      "home": "LAD",
+      "away": "COL"
     },
     {
       "date": "2026-05-25",
@@ -2548,7 +2878,9 @@
       "profit": 1.0,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
-      "reason": null
+      "reason": null,
+      "home": "OAK",
+      "away": "SEA"
     },
     {
       "date": "2026-05-26",
@@ -2568,7 +2900,31 @@
       "profit": 1.0,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
-      "reason": null
+      "reason": null,
+      "home": "NYM",
+      "away": "CIN"
+    },
+    {
+      "date": "2026-05-26",
+      "commence": "2026-05-27T02:10:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Kyle Freeland"
+      ],
+      "fadeTeam": "COL",
+      "market": "h2h",
+      "selection": "LAD",
+      "line": null,
+      "odds": null,
+      "stake": null,
+      "result": "VOID",
+      "profit": 0.0,
+      "book": "fanduel",
+      "source": null,
+      "reason": "no_price",
+      "home": "LAD",
+      "away": "COL"
     },
     {
       "date": "2026-05-27",
@@ -2588,7 +2944,9 @@
       "profit": 1.0,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
-      "reason": null
+      "reason": null,
+      "home": "OAK",
+      "away": "SEA"
     },
     {
       "date": "2026-05-27",
@@ -2608,7 +2966,9 @@
       "profit": -1.46,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
-      "reason": null
+      "reason": null,
+      "home": "TEX",
+      "away": "HOU"
     },
     {
       "date": "2026-05-29",
@@ -2628,7 +2988,9 @@
       "profit": -1.04,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
-      "reason": null
+      "reason": null,
+      "home": "NYM",
+      "away": "MIA"
     },
     {
       "date": "2026-05-29",
@@ -2648,7 +3010,9 @@
       "profit": 1.0,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
-      "reason": null
+      "reason": null,
+      "home": "SEA",
+      "away": "ARI"
     },
     {
       "date": "2026-05-30",
@@ -2668,7 +3032,9 @@
       "profit": -1.0,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
-      "reason": null
+      "reason": null,
+      "home": "TEX",
+      "away": "KC"
     },
     {
       "date": "2026-05-30",
@@ -2688,7 +3054,9 @@
       "profit": -1.0,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
-      "reason": null
+      "reason": null,
+      "home": "PIT",
+      "away": "MIN"
     },
     {
       "date": "2026-05-30",
@@ -2708,7 +3076,9 @@
       "profit": 1.0,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
-      "reason": null
+      "reason": null,
+      "home": "CIN",
+      "away": "ATL"
     },
     {
       "date": "2026-05-31",
@@ -2729,7 +3099,9 @@
       "profit": 1.0,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
-      "reason": null
+      "reason": null,
+      "home": "WSH",
+      "away": "SD"
     },
     {
       "date": "2026-05-31",
@@ -2749,7 +3121,9 @@
       "profit": 1.0,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
-      "reason": null
+      "reason": null,
+      "home": "CLE",
+      "away": "BOS"
     },
     {
       "date": "2026-05-31",
@@ -2769,7 +3143,9 @@
       "profit": 1.0,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
-      "reason": null
+      "reason": null,
+      "home": "OAK",
+      "away": "NYY"
     },
     {
       "date": "2026-05-31",
@@ -2789,7 +3165,9 @@
       "profit": 1.0,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
-      "reason": null
+      "reason": null,
+      "home": "SEA",
+      "away": "ARI"
     },
     {
       "date": "2026-05-31",
@@ -2809,7 +3187,9 @@
       "profit": 1.0,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
-      "reason": null
+      "reason": null,
+      "home": "LAD",
+      "away": "PHI"
     },
     {
       "date": "2026-06-01",
@@ -2829,7 +3209,31 @@
       "profit": 1.0,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
-      "reason": null
+      "reason": null,
+      "home": "MIL",
+      "away": "SF"
+    },
+    {
+      "date": "2026-06-01",
+      "commence": "2026-06-02T01:38:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Kyle Freeland"
+      ],
+      "fadeTeam": "COL",
+      "market": "h2h",
+      "selection": "LAA",
+      "line": null,
+      "odds": null,
+      "stake": null,
+      "result": "VOID",
+      "profit": 0.0,
+      "book": "fanduel",
+      "source": null,
+      "reason": "no_price",
+      "home": "LAA",
+      "away": "COL"
     },
     {
       "date": "2026-06-01",
@@ -2849,7 +3253,9 @@
       "profit": 1.36,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
-      "reason": null
+      "reason": null,
+      "home": "ARI",
+      "away": "LAD"
     },
     {
       "date": "2026-06-02",
@@ -2869,7 +3275,9 @@
       "profit": 1.0,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
-      "reason": null
+      "reason": null,
+      "home": "HOU",
+      "away": "PIT"
     },
     {
       "date": "2026-06-03",
@@ -2889,7 +3297,9 @@
       "profit": -1.42,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
-      "reason": null
+      "reason": null,
+      "home": "SEA",
+      "away": "NYM"
     },
     {
       "date": "2026-06-03",
@@ -2909,7 +3319,9 @@
       "profit": -1.34,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
-      "reason": null
+      "reason": null,
+      "home": "CHC",
+      "away": "OAK"
     },
     {
       "date": "2026-06-03",
@@ -2929,7 +3341,9 @@
       "profit": 1.0,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
-      "reason": null
+      "reason": null,
+      "home": "ARI",
+      "away": "LAD"
     },
     {
       "date": "2026-06-05",
@@ -2949,7 +3363,9 @@
       "profit": 1.0,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
-      "reason": null
+      "reason": null,
+      "home": "ATL",
+      "away": "PIT"
     },
     {
       "date": "2026-06-05",
@@ -2969,7 +3385,9 @@
       "profit": 1.0,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
-      "reason": null
+      "reason": null,
+      "home": "STL",
+      "away": "CIN"
     },
     {
       "date": "2026-06-05",
@@ -2989,7 +3407,9 @@
       "profit": -1.2,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
-      "reason": null
+      "reason": null,
+      "home": "TEX",
+      "away": "CLE"
     },
     {
       "date": "2026-06-05",
@@ -3009,7 +3429,9 @@
       "profit": 1.12,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
-      "reason": null
+      "reason": null,
+      "home": "ARI",
+      "away": "WSH"
     },
     {
       "date": "2026-06-06",
@@ -3029,7 +3451,9 @@
       "profit": 1.0,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
-      "reason": null
+      "reason": null,
+      "home": "CHC",
+      "away": "SF"
     },
     {
       "date": "2026-06-06",
@@ -3049,7 +3473,9 @@
       "profit": 1.16,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
-      "reason": null
+      "reason": null,
+      "home": "PHI",
+      "away": "CWS"
     },
     {
       "date": "2026-06-06",
@@ -3069,7 +3495,9 @@
       "profit": -1.54,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
-      "reason": null
+      "reason": null,
+      "home": "ARI",
+      "away": "WSH"
     },
     {
       "date": "2026-06-06",
@@ -3089,7 +3517,9 @@
       "profit": -1.2,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
-      "reason": null
+      "reason": null,
+      "home": "TEX",
+      "away": "CLE"
     },
     {
       "date": "2026-06-06",
@@ -3109,7 +3539,9 @@
       "profit": -1.24,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
-      "reason": null
+      "reason": null,
+      "home": "SD",
+      "away": "NYM"
     },
     {
       "date": "2026-06-07",
@@ -3129,7 +3561,31 @@
       "profit": 1.0,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
-      "reason": null
+      "reason": null,
+      "home": "HOU",
+      "away": "OAK"
+    },
+    {
+      "date": "2026-06-07",
+      "commence": "2026-06-07T19:10:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Kyle Freeland"
+      ],
+      "fadeTeam": "COL",
+      "market": "h2h",
+      "selection": "MIL",
+      "line": null,
+      "odds": null,
+      "stake": null,
+      "result": "VOID",
+      "profit": 0.0,
+      "book": "fanduel",
+      "source": null,
+      "reason": "no_price",
+      "home": "COL",
+      "away": "MIL"
     },
     {
       "date": "2026-06-07",
@@ -3149,7 +3605,9 @@
       "profit": 2.0,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
-      "reason": null
+      "reason": null,
+      "home": "LAD",
+      "away": "LAA"
     },
     {
       "date": "2026-06-08",
@@ -3169,7 +3627,9 @@
       "profit": 1.0,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
-      "reason": null
+      "reason": null,
+      "home": "OAK",
+      "away": "MIL"
     },
     {
       "date": "2026-06-09",
@@ -3189,7 +3649,9 @@
       "profit": 1.0,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
-      "reason": null
+      "reason": null,
+      "home": "MIA",
+      "away": "ARI"
     },
     {
       "date": "2026-06-09",
@@ -3209,7 +3671,9 @@
       "profit": 1.1,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
-      "reason": null
+      "reason": null,
+      "home": "NYM",
+      "away": "STL"
     },
     {
       "date": "2026-06-10",
@@ -3229,7 +3693,9 @@
       "profit": 1.0,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
-      "reason": null
+      "reason": null,
+      "home": "SD",
+      "away": "CIN"
     },
     {
       "date": "2026-06-10",
@@ -3249,7 +3715,9 @@
       "profit": -1.98,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
-      "reason": null
+      "reason": null,
+      "home": "PIT",
+      "away": "LAD"
     },
     {
       "date": "2026-06-11",
@@ -3269,7 +3737,9 @@
       "profit": 1.0,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
-      "reason": null
+      "reason": null,
+      "home": "MIA",
+      "away": "ARI"
     },
     {
       "date": "2026-06-11",
@@ -3289,7 +3759,9 @@
       "profit": -1.16,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
-      "reason": null
+      "reason": null,
+      "home": "KC",
+      "away": "TEX"
     },
     {
       "date": "2026-06-11",
@@ -3309,7 +3781,9 @@
       "profit": 1.0,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
-      "reason": null
+      "reason": null,
+      "home": "PIT",
+      "away": "LAD"
     },
     {
       "date": "2026-06-12",
@@ -3329,7 +3803,9 @@
       "profit": 1.0,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
-      "reason": null
+      "reason": null,
+      "home": "WSH",
+      "away": "SEA"
     },
     {
       "date": "2026-06-12",
@@ -3349,7 +3825,9 @@
       "profit": 1.0,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
-      "reason": null
+      "reason": null,
+      "home": "BAL",
+      "away": "SD"
     },
     {
       "date": "2026-06-12",
@@ -3369,7 +3847,9 @@
       "profit": -1.0,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
-      "reason": null
+      "reason": null,
+      "home": "CLE",
+      "away": "DET"
     },
     {
       "date": "2026-06-12",
@@ -3389,7 +3869,9 @@
       "profit": 1.06,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
-      "reason": null
+      "reason": null,
+      "home": "SF",
+      "away": "CHC"
     },
     {
       "date": "2026-06-13",
@@ -3409,7 +3891,31 @@
       "profit": -1.32,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
-      "reason": null
+      "reason": null,
+      "home": "KC",
+      "away": "HOU"
+    },
+    {
+      "date": "2026-06-13",
+      "commence": "2026-06-14T02:05:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Kyle Freeland"
+      ],
+      "fadeTeam": "COL",
+      "market": "h2h",
+      "selection": "OAK",
+      "line": null,
+      "odds": null,
+      "stake": null,
+      "result": "VOID",
+      "profit": 0.0,
+      "book": "fanduel",
+      "source": null,
+      "reason": "no_price",
+      "home": "OAK",
+      "away": "COL"
     },
     {
       "date": "2026-06-14",
@@ -3429,7 +3935,9 @@
       "profit": -1.04,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
-      "reason": null
+      "reason": null,
+      "home": "CIN",
+      "away": "ARI"
     },
     {
       "date": "2026-06-14",
@@ -3449,7 +3957,9 @@
       "profit": -1.0,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
-      "reason": null
+      "reason": null,
+      "home": "NYM",
+      "away": "ATL"
     },
     {
       "date": "2026-06-14",
@@ -3469,7 +3979,9 @@
       "profit": 1.64,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
-      "reason": null
+      "reason": null,
+      "home": "CWS",
+      "away": "LAD"
     },
     {
       "date": "2026-06-14",
@@ -3489,7 +4001,9 @@
       "profit": 1.66,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
-      "reason": null
+      "reason": null,
+      "home": "OAK",
+      "away": "COL"
     },
     {
       "date": "2026-06-15",
@@ -3509,7 +4023,9 @@
       "profit": 1.0,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
-      "reason": null
+      "reason": null,
+      "home": "OAK",
+      "away": "PIT"
     },
     {
       "date": "2026-06-16",
@@ -3529,7 +4045,9 @@
       "profit": -1.16,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
-      "reason": null
+      "reason": null,
+      "home": "CIN",
+      "away": "NYM"
     },
     {
       "date": "2026-06-16",
@@ -3549,7 +4067,9 @@
       "profit": 1.1,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
-      "reason": null
+      "reason": null,
+      "home": "TEX",
+      "away": "MIN"
     },
     {
       "date": "2026-06-16",
@@ -3569,7 +4089,9 @@
       "profit": 1.0,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
-      "reason": null
+      "reason": null,
+      "home": "ARI",
+      "away": "LAA"
     },
     {
       "date": "2026-06-16",
@@ -3589,7 +4111,9 @@
       "profit": -1.38,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
-      "reason": null
+      "reason": null,
+      "home": "OAK",
+      "away": "PIT"
     },
     {
       "date": "2026-06-17",
@@ -3609,7 +4133,9 @@
       "profit": 1.08,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
-      "reason": null
+      "reason": null,
+      "home": "WSH",
+      "away": "KC"
     },
     {
       "date": "2026-06-17",
@@ -3629,7 +4155,9 @@
       "profit": 1.02,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
-      "reason": null
+      "reason": null,
+      "home": "PHI",
+      "away": "MIA"
     },
     {
       "date": "2026-06-17",
@@ -3649,7 +4177,9 @@
       "profit": 1.0,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
-      "reason": null
+      "reason": null,
+      "home": "ARI",
+      "away": "LAA"
     },
     {
       "date": "2026-06-17",
@@ -3669,7 +4199,9 @@
       "profit": 1.0,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
-      "reason": null
+      "reason": null,
+      "home": "OAK",
+      "away": "PIT"
     },
     {
       "date": "2026-06-19",
@@ -3689,7 +4221,9 @@
       "profit": 1.0,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
-      "reason": null
+      "reason": null,
+      "home": "MIA",
+      "away": "SF"
     },
     {
       "date": "2026-06-19",
@@ -3709,7 +4243,31 @@
       "profit": 1.0,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
-      "reason": null
+      "reason": null,
+      "home": "HOU",
+      "away": "CLE"
+    },
+    {
+      "date": "2026-06-19",
+      "commence": "2026-06-20T00:40:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Kyle Freeland"
+      ],
+      "fadeTeam": "COL",
+      "market": "h2h",
+      "selection": "PIT",
+      "line": null,
+      "odds": null,
+      "stake": null,
+      "result": "VOID",
+      "profit": 0.0,
+      "book": "fanduel",
+      "source": null,
+      "reason": "no_price",
+      "home": "COL",
+      "away": "PIT"
     },
     {
       "date": "2026-06-19",
@@ -3729,7 +4287,9 @@
       "profit": -1.0,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
-      "reason": null
+      "reason": null,
+      "home": "OAK",
+      "away": "LAA"
     },
     {
       "date": "2026-06-20",
@@ -3749,7 +4309,9 @@
       "profit": 1.0,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
-      "reason": null
+      "reason": null,
+      "home": "PHI",
+      "away": "NYM"
     },
     {
       "date": "2026-06-20",
@@ -3769,7 +4331,9 @@
       "profit": 1.0,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
-      "reason": null
+      "reason": null,
+      "home": "ARI",
+      "away": "MIN"
     },
     {
       "date": "2026-06-21",
@@ -3789,7 +4353,9 @@
       "profit": -1.0,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
-      "reason": null
+      "reason": null,
+      "home": "COL",
+      "away": "PIT"
     },
     {
       "date": "2026-06-21",
@@ -3809,7 +4375,9 @@
       "profit": 1.9,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
-      "reason": null
+      "reason": null,
+      "home": "LAD",
+      "away": "BAL"
     },
     {
       "date": "2026-06-21",
@@ -3829,7 +4397,9 @@
       "profit": 1.0,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
-      "reason": null
+      "reason": null,
+      "home": "PHI",
+      "away": "NYM"
     },
     {
       "date": "2026-06-22",
@@ -3849,7 +4419,9 @@
       "profit": 1.0,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
-      "reason": null
+      "reason": null,
+      "home": "CIN",
+      "away": "MIL"
     },
     {
       "date": "2026-06-22",
@@ -3869,7 +4441,9 @@
       "profit": 1.0,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
-      "reason": null
+      "reason": null,
+      "home": "STL",
+      "away": "ARI"
     },
     {
       "date": "2026-06-22",
@@ -3889,7 +4463,9 @@
       "profit": 1.0,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
-      "reason": null
+      "reason": null,
+      "home": "LAA",
+      "away": "BAL"
     },
     {
       "date": "2026-06-23",
@@ -3909,7 +4485,9 @@
       "profit": 1.0,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
-      "reason": null
+      "reason": null,
+      "home": "PIT",
+      "away": "SEA"
     },
     {
       "date": "2026-06-23",
@@ -3929,7 +4507,9 @@
       "profit": -1.42,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
-      "reason": null
+      "reason": null,
+      "home": "LAA",
+      "away": "BAL"
     },
     {
       "date": "2026-06-23",
@@ -3949,7 +4529,9 @@
       "profit": 1.0,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
-      "reason": null
+      "reason": null,
+      "home": "SF",
+      "away": "OAK"
     },
     {
       "date": "2026-06-24",
@@ -3969,7 +4551,31 @@
       "profit": -1.04,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
-      "reason": null
+      "reason": null,
+      "home": "CWS",
+      "away": "CLE"
+    },
+    {
+      "date": "2026-06-24",
+      "commence": "2026-06-24T19:10:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Kyle Freeland"
+      ],
+      "fadeTeam": "COL",
+      "market": "h2h",
+      "selection": "BOS",
+      "line": null,
+      "odds": null,
+      "stake": null,
+      "result": "VOID",
+      "profit": 0.0,
+      "book": "fanduel",
+      "source": null,
+      "reason": "no_price",
+      "home": "COL",
+      "away": "BOS"
     },
     {
       "date": "2026-06-24",
@@ -3989,7 +4595,9 @@
       "profit": -1.42,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
-      "reason": null
+      "reason": null,
+      "home": "TOR",
+      "away": "HOU"
     },
     {
       "date": "2026-06-25",
@@ -4010,7 +4618,9 @@
       "profit": 1.14,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
-      "reason": null
+      "reason": null,
+      "home": "SF",
+      "away": "OAK"
     },
     {
       "date": "2026-06-25",
@@ -4030,7 +4640,9 @@
       "profit": 1.0,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
-      "reason": null
+      "reason": null,
+      "home": "NYM",
+      "away": "CHC"
     },
     {
       "date": "2026-06-26",
@@ -4050,7 +4662,9 @@
       "profit": 1.0,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
-      "reason": null
+      "reason": null,
+      "home": "TB",
+      "away": "ARI"
     },
     {
       "date": "2026-06-27",
@@ -4070,7 +4684,9 @@
       "profit": 1.0,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
-      "reason": null
+      "reason": null,
+      "home": "PIT",
+      "away": "CIN"
     },
     {
       "date": "2026-06-27",
@@ -4090,7 +4706,9 @@
       "profit": -1.56,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
-      "reason": null
+      "reason": null,
+      "home": "MIL",
+      "away": "CHC"
     },
     {
       "date": "2026-06-28",
@@ -4110,7 +4728,9 @@
       "profit": -1.96,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
-      "reason": null
+      "reason": null,
+      "home": "BAL",
+      "away": "WSH"
     },
     {
       "date": "2026-06-28",
@@ -4131,7 +4751,9 @@
       "profit": -1.0,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
-      "reason": null
+      "reason": null,
+      "home": "PIT",
+      "away": "CIN"
     },
     {
       "date": "2026-06-28",
@@ -4151,7 +4773,9 @@
       "profit": -1.26,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
-      "reason": null
+      "reason": null,
+      "home": "TOR",
+      "away": "TEX"
     },
     {
       "date": "2026-06-28",
@@ -4171,7 +4795,9 @@
       "profit": 1.0,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
-      "reason": null
+      "reason": null,
+      "home": "TB",
+      "away": "ARI"
     },
     {
       "date": "2026-06-28",
@@ -4192,7 +4818,9 @@
       "profit": 1.0,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
-      "reason": null
+      "reason": null,
+      "home": "LAA",
+      "away": "OAK"
     },
     {
       "date": "2026-06-28",
@@ -4212,7 +4840,9 @@
       "profit": -1.0,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
-      "reason": null
+      "reason": null,
+      "home": "SD",
+      "away": "LAD"
     },
     {
       "date": "2026-06-29",
@@ -4232,7 +4862,9 @@
       "profit": 1.0,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
-      "reason": null
+      "reason": null,
+      "home": "BOS",
+      "away": "WSH"
     },
     {
       "date": "2026-06-29",
@@ -4252,7 +4884,9 @@
       "profit": 1.0,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
-      "reason": null
+      "reason": null,
+      "home": "CHC",
+      "away": "SD"
     },
     {
       "date": "2026-06-29",
@@ -4272,7 +4906,9 @@
       "profit": 1.0,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
-      "reason": null
+      "reason": null,
+      "home": "SEA",
+      "away": "LAA"
     },
     {
       "date": "2026-06-30",
@@ -4292,7 +4928,9 @@
       "profit": 1.0,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
-      "reason": null
+      "reason": null,
+      "home": "CLE",
+      "away": "TEX"
     },
     {
       "date": "2026-06-30",
@@ -4312,7 +4950,9 @@
       "profit": -1.12,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
-      "reason": null
+      "reason": null,
+      "home": "HOU",
+      "away": "MIN"
     },
     {
       "date": "2026-06-30",
@@ -4332,7 +4972,9 @@
       "profit": 1.0,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
-      "reason": null
+      "reason": null,
+      "home": "ARI",
+      "away": "SF"
     },
     {
       "date": "2026-06-30",
@@ -4352,7 +4994,9 @@
       "profit": 1.0,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
-      "reason": null
+      "reason": null,
+      "home": "OAK",
+      "away": "LAD"
     },
     {
       "date": "2026-07-01",
@@ -4372,7 +5016,31 @@
       "profit": 1.0,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
-      "reason": null
+      "reason": null,
+      "home": "TOR",
+      "away": "NYM"
+    },
+    {
+      "date": "2026-07-01",
+      "commence": "2026-07-02T00:40:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Kyle Freeland"
+      ],
+      "fadeTeam": "COL",
+      "market": "h2h",
+      "selection": "MIA",
+      "line": null,
+      "odds": null,
+      "stake": null,
+      "result": "VOID",
+      "profit": 0.0,
+      "book": "fanduel",
+      "source": null,
+      "reason": "no_price",
+      "home": "COL",
+      "away": "MIA"
     },
     {
       "date": "2026-07-01",
@@ -4392,7 +5060,9 @@
       "profit": 1.1,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
-      "reason": null
+      "reason": null,
+      "home": "ARI",
+      "away": "SF"
     },
     {
       "date": "2026-07-02",
@@ -4412,7 +5082,9 @@
       "profit": -1.3,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
-      "reason": null
+      "reason": null,
+      "home": "PHI",
+      "away": "PIT"
     },
     {
       "date": "2026-07-03",
@@ -4432,7 +5104,9 @@
       "profit": 1.08,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
-      "reason": null
+      "reason": null,
+      "home": "CHC",
+      "away": "STL"
     },
     {
       "date": "2026-07-03",
@@ -4452,7 +5126,9 @@
       "profit": 1.0,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
-      "reason": null
+      "reason": null,
+      "home": "WSH",
+      "away": "PIT"
     },
     {
       "date": "2026-07-03",
@@ -4472,7 +5148,9 @@
       "profit": 1.0,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
-      "reason": null
+      "reason": null,
+      "home": "CIN",
+      "away": "BAL"
     },
     {
       "date": "2026-07-04",
@@ -4492,7 +5170,9 @@
       "profit": 1.0,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
-      "reason": null
+      "reason": null,
+      "home": "LAA",
+      "away": "BOS"
     },
     {
       "date": "2026-07-04",
@@ -4512,7 +5192,9 @@
       "profit": -1.62,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
-      "reason": null
+      "reason": null,
+      "home": "ARI",
+      "away": "MIL"
     },
     {
       "date": "2026-07-04",
@@ -4532,7 +5214,9 @@
       "profit": 1.0,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
-      "reason": null
+      "reason": null,
+      "home": "OAK",
+      "away": "MIA"
     },
     {
       "date": "2026-07-05",
@@ -4552,7 +5236,9 @@
       "profit": 1.16,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
-      "reason": null
+      "reason": null,
+      "home": "CLE",
+      "away": "CWS"
     },
     {
       "date": "2026-07-05",
@@ -4572,7 +5258,9 @@
       "profit": 1.0,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
-      "reason": null
+      "reason": null,
+      "home": "TEX",
+      "away": "DET"
     },
     {
       "date": "2026-07-05",
@@ -4592,7 +5280,9 @@
       "profit": 1.88,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
-      "reason": null
+      "reason": null,
+      "home": "LAD",
+      "away": "SD"
     },
     {
       "date": "2026-07-05",
@@ -4612,7 +5302,9 @@
       "profit": 1.0,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
-      "reason": null
+      "reason": null,
+      "home": "LAA",
+      "away": "BOS"
     },
     {
       "date": "2026-07-06",
@@ -4633,7 +5325,9 @@
       "profit": -1.02,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
-      "reason": null
+      "reason": null,
+      "home": "WSH",
+      "away": "HOU"
     },
     {
       "date": "2026-07-06",
@@ -4653,7 +5347,9 @@
       "profit": -1.26,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
-      "reason": null
+      "reason": null,
+      "home": "ATL",
+      "away": "NYM"
     },
     {
       "date": "2026-07-06",
@@ -4673,7 +5369,31 @@
       "profit": -1.1,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
-      "reason": null
+      "reason": null,
+      "home": "SF",
+      "away": "TOR"
+    },
+    {
+      "date": "2026-07-06",
+      "commence": "2026-07-07T02:10:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Kyle Freeland"
+      ],
+      "fadeTeam": "COL",
+      "market": "h2h",
+      "selection": "LAD",
+      "line": null,
+      "odds": null,
+      "stake": null,
+      "result": "VOID",
+      "profit": 0.0,
+      "book": "fanduel",
+      "source": null,
+      "reason": "no_price",
+      "home": "LAD",
+      "away": "COL"
     },
     {
       "date": "2026-07-07",
@@ -4693,7 +5413,9 @@
       "profit": 1.0,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
-      "reason": null
+      "reason": null,
+      "home": "SD",
+      "away": "ARI"
     },
     {
       "date": "2026-07-08",
@@ -4713,7 +5435,9 @@
       "profit": 1.0,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
-      "reason": null
+      "reason": null,
+      "home": "DET",
+      "away": "OAK"
     },
     {
       "date": "2026-07-08",
@@ -4733,7 +5457,9 @@
       "profit": 1.02,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
-      "reason": null
+      "reason": null,
+      "home": "PIT",
+      "away": "ATL"
     },
     {
       "date": "2026-07-09",
@@ -4753,7 +5479,9 @@
       "profit": 1.0,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
-      "reason": null
+      "reason": null,
+      "home": "PIT",
+      "away": "ATL"
     },
     {
       "date": "2026-07-09",
@@ -4773,7 +5501,9 @@
       "profit": 1.0,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
-      "reason": null
+      "reason": null,
+      "home": "BAL",
+      "away": "CHC"
     },
     {
       "date": "2026-07-09",
@@ -4793,7 +5523,9 @@
       "profit": 1.0,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
-      "reason": null
+      "reason": null,
+      "home": "CIN",
+      "away": "PHI"
     },
     {
       "date": "2026-07-09",
@@ -4814,7 +5546,9 @@
       "profit": 1.08,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
-      "reason": null
+      "reason": null,
+      "home": "SD",
+      "away": "ARI"
     },
     {
       "date": "2026-07-11",
@@ -4834,7 +5568,31 @@
       "profit": 1.0,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
-      "reason": null
+      "reason": null,
+      "home": "MIN",
+      "away": "LAA"
+    },
+    {
+      "date": "2026-07-11",
+      "commence": "2026-07-11T20:05:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Kyle Freeland"
+      ],
+      "fadeTeam": "COL",
+      "market": "h2h",
+      "selection": "SF",
+      "line": null,
+      "odds": null,
+      "stake": null,
+      "result": "VOID",
+      "profit": 0.0,
+      "book": "fanduel",
+      "source": null,
+      "reason": "no_price",
+      "home": "SF",
+      "away": "COL"
     },
     {
       "date": "2026-07-11",
@@ -4854,7 +5612,9 @@
       "profit": 1.24,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
-      "reason": null
+      "reason": null,
+      "home": "NYM",
+      "away": "BOS"
     },
     {
       "date": "2026-07-11",
@@ -4874,7 +5634,9 @@
       "profit": -1.58,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
-      "reason": null
+      "reason": null,
+      "home": "MIA",
+      "away": "CLE"
     },
     {
       "date": "2026-07-11",
@@ -4894,7 +5656,9 @@
       "profit": 1.0,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
-      "reason": null
+      "reason": null,
+      "home": "TEX",
+      "away": "HOU"
     },
     {
       "date": "2026-07-12",
@@ -4914,7 +5678,9 @@
       "profit": 1.9,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
-      "reason": null
+      "reason": null,
+      "home": "LAD",
+      "away": "ARI"
     },
     {
       "date": "2026-07-17",
@@ -4934,7 +5700,9 @@
       "profit": 0.0,
       "book": "fanduel",
       "source": "fanduel_api",
-      "reason": "postponed"
+      "reason": "postponed",
+      "home": "CLE",
+      "away": "PIT"
     },
     {
       "date": "2026-07-17",
@@ -4954,7 +5722,9 @@
       "profit": -1.04,
       "book": "fanduel",
       "source": "fanduel_api",
-      "reason": null
+      "reason": null,
+      "home": "COL",
+      "away": "CIN"
     },
     {
       "date": "2026-07-17",
@@ -4974,7 +5744,9 @@
       "profit": 1.0,
       "book": "fanduel",
       "source": "fanduel_api",
-      "reason": null
+      "reason": null,
+      "home": "ARI",
+      "away": "STL"
     },
     {
       "date": "2026-07-17",
@@ -4994,7 +5766,9 @@
       "profit": -1.84,
       "book": "fanduel",
       "source": "fanduel_api",
-      "reason": null
+      "reason": null,
+      "home": "SEA",
+      "away": "SF"
     },
     {
       "date": "2026-07-18",
@@ -5014,7 +5788,9 @@
       "profit": 1.0,
       "book": "fanduel",
       "source": "manual_close",
-      "reason": null
+      "reason": null,
+      "home": "KC",
+      "away": "SD"
     },
     {
       "date": "2026-07-18",
@@ -5034,7 +5810,9 @@
       "profit": 0.0,
       "book": "fanduel",
       "source": null,
-      "reason": "no_price"
+      "reason": "no_price",
+      "home": "ARI",
+      "away": "STL"
     },
     {
       "date": "2026-07-18",
@@ -5054,7 +5832,9 @@
       "profit": 0.0,
       "book": "fanduel",
       "source": "fanduel_api",
-      "reason": "postponed"
+      "reason": "postponed",
+      "home": "NYY",
+      "away": "LAD"
     },
     {
       "date": "2026-07-18",
@@ -5074,7 +5854,9 @@
       "profit": 1.0,
       "book": "fanduel",
       "source": "fanduel_api",
-      "reason": null
+      "reason": null,
+      "home": "OAK",
+      "away": "WSH"
     },
     {
       "date": "2026-07-19",
@@ -5094,7 +5876,9 @@
       "profit": 1.0,
       "book": "fanduel",
       "source": "fanduel_api",
-      "reason": null
+      "reason": null,
+      "home": "OAK",
+      "away": "WSH"
     },
     {
       "date": "2026-07-19",
@@ -5114,7 +5898,9 @@
       "profit": -1.38,
       "book": "fanduel",
       "source": "fanduel_api",
-      "reason": null
+      "reason": null,
+      "home": "LAA",
+      "away": "DET"
     }
   ]
 }
