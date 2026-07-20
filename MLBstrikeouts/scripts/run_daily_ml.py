@@ -93,24 +93,24 @@ def main():
     ml_rows = _fetch_today_ml(date_key)
     ml_by_matchup = {frozenset((r.get("home"), r.get("away"))): r for r in ml_rows}
 
-    # Persist today's fade-game odds into the per-date cache (freeze rule).
     fgs = fade_games(starts_from_rows(today_rows), date_iso, venue_map(games))
+
+    # Persist pre-game odds for EVERY game into the per-date cache, not just
+    # today's fade games. FanDuel's page is free (no Odds API credits), so
+    # caching the whole slate means any fade arm added later already has his
+    # closing line -- no historical re-fetch needed to backfill him.
+    #
+    # Lock the price at first pitch, same as the K model: once a game is out
+    # of preview, FanDuel's moneyline is an in-play number (e.g. +900 in a
+    # blowout), so we never (re)capture it. The locked price is the last
+    # pre-game snapshot already in the cache. If we never captured one (job's
+    # first run was post-first-pitch), the game stays unpriced.
     cache_rows = []
     today = []
-    for fg in fgs:
-        pitcher = fg["pitchers"][0] if fg["pitchers"] else None
-        g = match_game(games, fg["teams"], pitcher)
-        if not g:
-            continue
-        # Lock the fade pick's price at first pitch, same as the K model:
-        # once a game is out of preview, FanDuel's moneyline is an in-play
-        # number (e.g. +900 in a blowout), so we never (re)capture it. The
-        # locked price is the last pre-game snapshot already in the cache.
-        # If we never captured one (job's first run was post-first-pitch),
-        # the game stays unpriced and grades VOID -- no legitimate close.
+    for g in games:
         if g.get("final") or not _is_preview(g):
             continue
-        mr = ml_by_matchup.get(frozenset((g["home"], g["away"])))
+        mr = ml_by_matchup.get(frozenset((g.get("home"), g.get("away"))))
         if mr and mr.get("home_ml") is not None and mr.get("away_ml") is not None:
             cache_rows.append({
                 "date": date_iso, "commence": g.get("commence"),
