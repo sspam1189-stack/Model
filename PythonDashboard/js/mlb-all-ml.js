@@ -57,6 +57,8 @@ async function renderMLBAllML() {
     const gameFields = {
       date: g.date, home: g.home, away: g.away,
       homeML: g.home_ml, awayML: g.away_ml,
+      awaySP: g.away_pitcher, homeSP: g.home_pitcher,
+      awaySPHand: g.away_hand, homeSPHand: g.home_hand,
       winner: g.home_win ? g.home : g.away, homeWin: g.home_win === true,
     };
     const home = {
@@ -263,6 +265,9 @@ async function renderMLBAllML() {
       const awayWon = !s.homeWin, homeWon = s.homeWin;
       const winColor = '#eee';
       const td = 'padding:4px 8px;text-align:center';
+      const hnd = (h) => (h ? ' <span style="color:#888">(' + h + ')</span>' : '');
+      const pitchers = esc(s.awaySP || '?') + hnd(s.awaySPHand)
+        + ' <span style="color:#666">vs</span> ' + esc(s.homeSP || '?') + hnd(s.homeSPHand);
       return '<tr style="border-top:1px solid #222">'
         + '<td style="' + td + ';white-space:nowrap;color:#aaa">' + esc(s.date) + '</td>'
         + '<td style="' + td + ';white-space:nowrap;color:#888">' + esc(s.away) + ' @ ' + esc(s.home) + '</td>'
@@ -270,6 +275,7 @@ async function renderMLBAllML() {
         + '<td style="' + td + ';font-weight:600;color:' + (awayWon ? GREEN : '#ccc') + '">' + esc(s.away) + '</td>'
         + '<td style="' + td + ';font-weight:600;color:' + (homeWon ? GREEN : '#ccc') + '">' + esc(s.home) + '</td>'
         + '<td style="' + td + '">' + fmtOdds(s.homeML) + '</td>'
+        + '<td style="' + td + ';white-space:nowrap">' + pitchers + '</td>'
         + '<td style="' + td + ';font-weight:700;color:' + winColor + '">' + esc(s.winner) + '</td>'
         + '</tr>';
     }).join('');
@@ -278,6 +284,7 @@ async function renderMLBAllML() {
       + '<th style="padding:4px 8px">Away odds</th>'
       + '<th style="padding:4px 8px">Away</th><th style="padding:4px 8px">Home</th>'
       + '<th style="padding:4px 8px">Home odds</th>'
+      + '<th style="padding:4px 8px">Pitchers (away vs home)</th>'
       + '<th style="padding:4px 8px">Winner</th></tr>';
     const note = view.length > ROW_CAP
       ? '<div style="padding:6px 8px;color:#888;font-size:11px">Showing newest ' + ROW_CAP

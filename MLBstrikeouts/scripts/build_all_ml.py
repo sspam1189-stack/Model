@@ -33,7 +33,9 @@ from fade_ml_common import SCRIPT_DIR, odds_row_for
 from sources.mlb_schedule import fetch_schedule
 from sources.odds_ml_theoddsapi import load_ml_cache
 
-SEASON_START = "2026-04-05"
+SEASON_START = "2026-03-25"  # MLB 2026 Opening Day (regular season); spring
+                             # training ended 3/24, so the schedule cache from
+                             # 3/25 on is regular-season games only.
 STATS_API = "https://statsapi.mlb.com/api/v1"
 
 OUTPUT_PATHS = [
