@@ -1,0 +1,88 @@
+name: MLB Fade ML — Season Odds Backfill (manual)
+
+# One-off, manually triggered backfill. Fetches FanDuel closing moneylines
+# for the season (ALL games by default, so any fade arm added later already
+# has odds), then re-grades the fade-ML record from that cache.
+#
+# Run this after adding a new fade arm whose historical games weren't cached.
+# Already-cached games are skipped (free), so re-runs are cheap.
+
+on:
+  workflow_dispatch:
+    inputs:
+      start:
+        description: "Start date YYYY-MM-DD"
+        required: true
+        default: "2026-04-05"
+      end:
+        description: "End date YYYY-MM-DD (blank = today, UTC)"
+        required: false
+        default: ""
+      all_games:
+        description: "Fetch EVERY game (not just fade-list games)"
+        type: boolean
+        default: true
+      dry_run:
+        description: "Preview how many games would be fetched (no API spend)"
+        type: boolean
+        default: false
+
+permissions:
+  contents: write
+
+# Share the daily model's concurrency group so a backfill and a daily run
+# never write the ML data files at the same time.
+concurrency:
+  group: mlb-run-daily
+  cancel-in-progress: false
+
+jobs:
+  backfill:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          ref: main
+          fetch-depth: 0
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: pip install -r MLBstrikeouts/requirements.txt
+
+      - name: Fetch season closing moneylines
+        working-directory: MLBstrikeouts
+        env:
+          PYTHONUTF8: "1"
+          PYTHONUNBUFFERED: "1"
+          PYTHONIOENCODING: "utf-8"
+          ODDS_API_KEY: ${{ secrets.ODDS_API_KEY }}
+        run: |
+          END="${{ inputs.end }}"
+          if [ -z "$END" ]; then END="$(date -u +%F)"; fi
+          ARGS="--start ${{ inputs.start }} --end $END"
+          if [ "${{ inputs.all_games }}" = "true" ]; then ARGS="$ARGS --all-games"; fi
+          if [ "${{ inputs.dry_run }}" = "true" ]; then ARGS="$ARGS --dry-run"; fi
+          echo "Running: python -m scripts.fetch_ml_odds $ARGS"
+          python -m scripts.fetch_ml_odds $ARGS
+
+      - name: Re-grade fade-ML backfill
+        if: ${{ inputs.dry_run != true }}
+        working-directory: MLBstrikeouts
+        env:
+          PYTHONUTF8: "1"
+          PYTHONUNBUFFERED: "1"
+          PYTHONIOENCODING: "utf-8"
+        run: python -m scripts.ml_backfill --start "${{ inputs.start }}"
+
+      - name: Commit & push data changes
+        if: ${{ inputs.dry_run != true }}
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git diff --cached --quiet || git commit -m "Backfill season fade-ML closing odds + re-grade [skip ci]"
+          git pull --rebase --autostash origin main
+          git push
