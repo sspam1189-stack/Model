@@ -117,10 +117,16 @@ async function renderMLBFadeML() {
   // Distinct pick teams (the team you bet on), alphabetical.
   const pickTeams = [...new Set(bets.map(b => b.selection).filter(Boolean))].sort();
 
+  // Season date bounds for the date-range filter (ISO strings sort correctly).
+  const allDates = bets.map(b => b.date).filter(Boolean).sort();
+  const minDate = allDates[0] || '';
+  const maxDate = allDates[allDates.length - 1] || '';
+
   const log = document.createElement('div');
   log.className = 'card card-games';
   log.style.cssText = 'padding:8px 4px';
   const selCss = 'background:#1b1b1b;color:#ddd;border:1px solid #333;border-radius:6px;padding:4px 8px;font-size:12px';
+  const dtCss = selCss + ';color-scheme:dark';
   log.innerHTML =
     '<div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap;padding:6px 8px">'
     + '<div class="card-title" style="padding:0">Season bet log</div>'
@@ -134,6 +140,11 @@ async function renderMLBFadeML() {
     + '<select id="fadeMonthSel" style="' + selCss + '"><option value="">All</option>'
     + months.map(m => '<option value="' + m + '">' + monthLabel(m) + '</option>').join('')
     + '</select></label>'
+    + '<label style="font-size:11px;color:#888">From '
+    + '<input type="date" id="fadeFromDt" min="' + minDate + '" max="' + maxDate + '" style="' + dtCss + '"></label>'
+    + '<label style="font-size:11px;color:#888">To '
+    + '<input type="date" id="fadeToDt" min="' + minDate + '" max="' + maxDate + '" style="' + dtCss + '"></label>'
+    + '<button id="fadeDtClear" type="button" style="' + selCss + ';cursor:pointer">Clear dates</button>'
     + '<label style="font-size:11px;color:#888">Pitcher '
     + '<select id="fadePitcherSel" style="' + selCss + '"><option value="">All</option>'
     + pitchers.map(p => '<option value="' + esc(p) + '">' + esc(p) + '</option>').join('')
@@ -146,13 +157,19 @@ async function renderMLBFadeML() {
   const pickSel = log.querySelector('#fadePickSel');
   const monthSel = log.querySelector('#fadeMonthSel');
   const pitcherSel = log.querySelector('#fadePitcherSel');
+  const fromDt = log.querySelector('#fadeFromDt');
+  const toDt = log.querySelector('#fadeToDt');
+  const dtClear = log.querySelector('#fadeDtClear');
   const recEl = log.querySelector('#fadeLogRec');
 
   function drawRows() {
     const kv = pickSel.value, mv = monthSel.value, pv = pitcherSel.value;
+    const fromV = fromDt.value, toV = toDt.value;  // '' or ISO YYYY-MM-DD
     const view = bets.filter(b =>
       (!kv || b.selection === kv) &&
       (!mv || (b.date || '').slice(0, 7) === mv) &&
+      (!fromV || (b.date || '') >= fromV) &&
+      (!toV || (b.date || '') <= toV) &&
       (!pv || (b.pitchers || []).includes(pv)));
     // W-L / units for the current filter (settled only).
     let w = 0, l = 0, u = 0, stk = 0;
@@ -196,6 +213,9 @@ async function renderMLBFadeML() {
   pickSel.addEventListener('change', drawRows);
   monthSel.addEventListener('change', drawRows);
   pitcherSel.addEventListener('change', drawRows);
+  fromDt.addEventListener('change', drawRows);
+  toDt.addEventListener('change', drawRows);
+  dtClear.addEventListener('click', () => { fromDt.value = ''; toDt.value = ''; drawRows(); });
   drawRows();
 }
 
