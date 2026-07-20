@@ -13344,9 +13344,12 @@
           "h2hNote": null,
           "stakeUnits": 1,
           "trends": {
-            "away": "ATS +/- -3.3 \u00b7 Over 70.8% \u00b7 Under 29.2% \u00b7 O/U +/- 5.8",
-            "home": "ATS +/- 2.5 \u00b7 Over 45.8% \u00b7 Under 54.2% \u00b7 O/U +/- 0.0"
-          }
+            "away": "ATS +/- -3.1 \u00b7 Over 68.0% \u00b7 Under 32.0% \u00b7 O/U +/- 5.1",
+            "home": "ATS +/- 2.4 \u00b7 Over 44.0% \u00b7 Under 56.0% \u00b7 O/U +/- -0.4"
+          },
+          "awayScore": 82.0,
+          "homeScore": 90.0,
+          "sResult": "LOSS"
         },
         {
           "away": "Chicago Sky",
@@ -13395,9 +13398,11 @@
           "h2hRecord": null,
           "h2hNote": null,
           "trends": {
-            "away": "ATS +/- 0.1 \u00b7 Over 64.0% \u00b7 Under 36.0% \u00b7 O/U +/- 5.0",
-            "home": "ATS +/- -2.1 \u00b7 Over 56.0% \u00b7 Under 44.0% \u00b7 O/U +/- 4.5"
-          }
+            "away": "ATS +/- 0.5 \u00b7 Over 65.4% \u00b7 Under 34.6% \u00b7 O/U +/- 5.0",
+            "home": "ATS +/- -2.5 \u00b7 Over 57.7% \u00b7 Under 42.3% \u00b7 O/U +/- 4.5"
+          },
+          "awayScore": 91.0,
+          "homeScore": 93.0
         },
         {
           "away": "Connecticut Sun",
@@ -13447,13 +13452,16 @@
           "h2hNote": null,
           "stakeUnits": 1,
           "trends": {
-            "away": "ATS +/- 0.3 \u00b7 Over 56.0% \u00b7 Under 44.0% \u00b7 O/U +/- 0.8",
-            "home": "ATS +/- -2.3 \u00b7 Over 50.0% \u00b7 Under 50.0% \u00b7 O/U +/- 2.1"
-          }
+            "away": "ATS +/- 0.2 \u00b7 Over 53.8% \u00b7 Under 46.2% \u00b7 O/U +/- -0.3",
+            "home": "ATS +/- -2.1 \u00b7 Over 48.2% \u00b7 Under 51.8% \u00b7 O/U +/- 0.9"
+          },
+          "awayScore": 63.0,
+          "homeScore": 72.0,
+          "sResult": "LOSS"
         }
       ],
-      "summaryText": "RECORD (graded picks only)\n\nSPREAD (ATS)\n  All:         48-28-0   (63.2%)   [graded 76]\n  Elite:       48-28-0   (63.2%)   [graded 76]\n\nFAV/DOG (Spread)\n  Favorites:   22-16-0   (57.9%)   [graded 38]\n  Underdogs:   26-12-0   (68.4%)   [graded 38]\n\nTOTAL (O/U)\n  All:         0-0-0   (n/a%)   [graded 0]\n  Elite:       0-0-0   (n/a%)   [graded 0]\n\nOVER/UNDER\n  Over:        0-0-0   (n/a%)   [graded 0]\n  Under:       0-0-0   (n/a%)   [graded 0]",
-      "ranAt": "07/19/2026, 12:32:16 PM"
+      "summaryText": "RECORD (graded picks only)\n\nSPREAD (ATS)\n  All:         48-30-0   (61.5%)   [graded 78]\n  Elite:       48-30-0   (61.5%)   [graded 78]\n\nFAV/DOG (Spread)\n  Favorites:   22-17-0   (56.4%)   [graded 39]\n  Underdogs:   26-13-0   (66.7%)   [graded 39]\n\nTOTAL (O/U)\n  All:         0-0-0   (n/a%)   [graded 0]\n  Elite:       0-0-0   (n/a%)   [graded 0]\n\nOVER/UNDER\n  Over:        0-0-0   (n/a%)   [graded 0]\n  Under:       0-0-0   (n/a%)   [graded 0]",
+      "ranAt": "07/19/2026, 09:08:36 PM"
     }
   ],
   "weights": {
@@ -13477,7 +13485,7 @@
     "locationWeight": 0.25,
     "h2hWeight": 0.0
   },
-  "residualVar": 161.0,
+  "residualVar": 159.4,
   "weightsVar": {
     "wTS": 3.9741,
     "wTO": 3.987,
