@@ -2032,6 +2032,9 @@ async function render() {
   if (activeTab === 'mlb-fade-ml') {
     return renderMLBFadeML();
   }
+  if (activeTab === 'mlb-all-ml') {
+    return renderMLBAllML();
+  }
 
   const data = await fetchData(activeTab);
   if (!data || !data.runs) {
