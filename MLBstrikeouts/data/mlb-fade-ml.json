@@ -1,7 +1,7 @@
 {
   "sport": "MLB",
   "type": "fade-ml",
-  "generated": "2026-07-19T23:01:42Z",
+  "generated": "2026-07-20T13:05:27Z",
   "fadeList": [
     "Littell",
     "Mikolas",
@@ -58,7 +58,88 @@
       }
     }
   },
-  "today": [],
+  "today": [
+    {
+      "date": "2026-07-20",
+      "commence": "2026-07-20T22:40:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Tanner Bibee"
+      ],
+      "fadeTeam": "CLE",
+      "market": "h2h",
+      "selection": "MIN",
+      "line": null,
+      "odds": -124,
+      "stake": 1.24,
+      "result": "pending",
+      "profit": 0.0,
+      "book": "fanduel",
+      "source": "fanduel_api",
+      "reason": null
+    },
+    {
+      "date": "2026-07-20",
+      "commence": "2026-07-20T23:10:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Emmet Sheehan"
+      ],
+      "fadeTeam": "LAD",
+      "market": "h2h",
+      "selection": "PHI",
+      "line": null,
+      "odds": -134,
+      "stake": 1.34,
+      "result": "pending",
+      "profit": 0.0,
+      "book": "fanduel",
+      "source": "fanduel_api",
+      "reason": null
+    },
+    {
+      "date": "2026-07-20",
+      "commence": "2026-07-20T23:40:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Freddy Peralta"
+      ],
+      "fadeTeam": "NYM",
+      "market": "h2h",
+      "selection": "MIL",
+      "line": null,
+      "odds": -205,
+      "stake": 2.05,
+      "result": "pending",
+      "profit": 0.0,
+      "book": "fanduel",
+      "source": "fanduel_api",
+      "reason": null
+    },
+    {
+      "date": "2026-07-20",
+      "commence": "2026-07-21T01:40:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Jeffrey Springs"
+      ],
+      "fadeTeam": "OAK",
+      "market": "h2h",
+      "selection": "ARI",
+      "line": null,
+      "odds": -162,
+      "stake": 1.62,
+      "result": "pending",
+      "profit": 0.0,
+      "book": "fanduel",
+      "source": "fanduel_api",
+      "reason": null
+    }
+  ],
   "bets": [
     {
       "date": "2026-04-06",
