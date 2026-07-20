@@ -67,25 +67,43 @@ def starts_from_rows(rows):
     return out
 
 
-def fade_games(starts, date=None):
+def venue_map(games):
+    """team abbr -> 'home'/'away' for a date's schedule games.
+
+    Feeds the per-arm venue restriction (FADE_VENUE) so an away-only arm is
+    faded only when his team is the away side.
+    """
+    vm = {}
+    for g in games or []:
+        if g.get("home"):
+            vm[g["home"]] = "home"
+        if g.get("away"):
+            vm[g["away"]] = "away"
+    return vm
+
+
+def fade_games(starts, date=None, venue_by_team=None):
     """Return one entry per game that has >=1 fade-list starter.
 
     Each entry: {teams(frozenset), mutual(bool), pitchers[list], fadeTeam,
     betTeam, oppPitcher}. For mutual games fadeTeam/betTeam are None (the ML
     side is decided later from the odds). ``date`` (ISO YYYY-MM-DD) gates
-    arms with a FADE_WINDOW so they're only faded inside their add/remove dates.
+    arms with a FADE_WINDOW so they're only faded inside their add/remove
+    dates. ``venue_by_team`` (team -> 'home'/'away', from venue_map) gates
+    arms with a FADE_VENUE restriction to the required side.
     """
+    venue_by_team = venue_by_team or {}
     starter = {s["team"]: s["pitcher"] for s in starts}
     seen, out = set(), []
     for s in starts:
-        if not is_fade(s["pitcher"], date):
+        if not is_fade(s["pitcher"], date, venue_by_team.get(s["team"])):
             continue
         teams = frozenset((s["team"], s["opp"]))
         if teams in seen:
             continue
         seen.add(teams)
         opp_pitcher = starter.get(s["opp"])
-        mutual = bool(opp_pitcher and is_fade(opp_pitcher, date))
+        mutual = bool(opp_pitcher and is_fade(opp_pitcher, date, venue_by_team.get(s["opp"])))
         if mutual:
             out.append({"teams": teams, "mutual": True,
                         "pitchers": [s["pitcher"], opp_pitcher],
@@ -206,6 +224,12 @@ def build_bets_for_game(date, fg, g, odds_row):
             bets.append(_bet(date, commence, "ml", fg, "h2h", team, None,
                              odds, result, reason, source=source))
 
+    # Stamp the matchup (away @ home) so the dashboard can show where the
+    # game is played.
+    if g:
+        for b in bets:
+            b["home"] = g.get("home")
+            b["away"] = g.get("away")
     return bets
 
 
