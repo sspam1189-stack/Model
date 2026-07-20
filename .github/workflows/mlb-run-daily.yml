@@ -89,6 +89,21 @@ jobs:
           ODDS_API_KEY: ${{ secrets.ODDS_API_KEY }}
         run: python -m scripts.run_daily_ml
 
+      # ALL-ML dataset ("MLB ALL ML" tab): every settled game this season plus
+      # today's slate, with the cached FanDuel odds + pitcher handedness. Reads
+      # the odds cache only (no Odds API spend; one free MLB roster call for
+      # handedness). Runs AFTER the fade step so today's odds are cached. Writes
+      # mlb-all-ml.json to both data locations. Non-blocking: a failure here
+      # must not abort the core daily props/fade pipeline.
+      - name: Build MLB ALL-ML dataset
+        continue-on-error: true
+        working-directory: MLBstrikeouts
+        env:
+          PYTHONUTF8: "1"
+          PYTHONUNBUFFERED: "1"
+          PYTHONIOENCODING: "utf-8"
+        run: python -m scripts.build_all_ml
+
       - name: Upload MLBstrikeouts data
         uses: actions/upload-artifact@v7
         with:
@@ -179,6 +194,7 @@ jobs:
           cp -f artifacts/MLBstrikeouts/mlb-props.json PythonDashboard/data/mlb-props.json 2>/dev/null || true
           cp -f artifacts/MLBstrikeouts/mlb-props_w01c26.json PythonDashboard/data/mlb-props_w01c26.json 2>/dev/null || true
           cp -f artifacts/MLBstrikeouts/mlb-fade-ml.json PythonDashboard/data/mlb-fade-ml.json 2>/dev/null || true
+          cp -f artifacts/MLBstrikeouts/mlb-all-ml.json PythonDashboard/data/mlb-all-ml.json 2>/dev/null || true
           mkdir -p data/odds_cache/mlb_ml
           cp -a artifacts/mlb-ml-cache/. data/odds_cache/mlb_ml/ 2>/dev/null || true
 
