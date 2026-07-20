@@ -75,7 +75,7 @@ jobs:
           PYTHONUTF8: "1"
           PYTHONUNBUFFERED: "1"
           PYTHONIOENCODING: "utf-8"
-        run: python -m scripts.ml_backfill --start "${{ inputs.start }}"
+        run: python -m scripts.ml_backfill  # full season; no --start (see note)
 
       - name: Commit & push data changes
         if: ${{ inputs.dry_run != true }}
