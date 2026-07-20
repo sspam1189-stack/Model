@@ -1,7 +1,7 @@
 {
   "sport": "MLB",
   "type": "fade-ml",
-  "generated": "2026-07-20T17:58:01Z",
+  "generated": "2026-07-20T18:33:55Z",
   "fadeList": [
     "Littell",
     "Mikolas",
@@ -79,7 +79,31 @@
       "profit": 0.0,
       "book": "fanduel",
       "source": "fanduel_api",
-      "reason": null
+      "reason": null,
+      "home": "CLE",
+      "away": "MIN"
+    },
+    {
+      "date": "2026-07-20",
+      "commence": "2026-07-21T00:40:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Kyle Freeland"
+      ],
+      "fadeTeam": "COL",
+      "market": "h2h",
+      "selection": "WSH",
+      "line": null,
+      "odds": -102,
+      "stake": 1.02,
+      "result": "pending",
+      "profit": 0.0,
+      "book": "fanduel",
+      "source": "fanduel_api",
+      "reason": null,
+      "home": "COL",
+      "away": "WSH"
     },
     {
       "date": "2026-07-20",
@@ -99,7 +123,9 @@
       "profit": 0.0,
       "book": "fanduel",
       "source": "fanduel_api",
-      "reason": null
+      "reason": null,
+      "home": "PHI",
+      "away": "LAD"
     },
     {
       "date": "2026-07-20",
@@ -119,7 +145,9 @@
       "profit": 0.0,
       "book": "fanduel",
       "source": "fanduel_api",
-      "reason": null
+      "reason": null,
+      "home": "MIL",
+      "away": "NYM"
     },
     {
       "date": "2026-07-20",
@@ -139,7 +167,9 @@
       "profit": 0.0,
       "book": "fanduel",
       "source": "fanduel_api",
-      "reason": null
+      "reason": null,
+      "home": "ARI",
+      "away": "OAK"
     }
   ],
   "bets": [
