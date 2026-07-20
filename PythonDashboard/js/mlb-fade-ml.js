@@ -119,10 +119,27 @@ async function renderMLBFadeML() {
 
   // Distinct bet dates, newest first, for the date dropdown.
   const dates = [...new Set(bets.map(b => b.date).filter(Boolean))].sort().reverse();
+  const MON = ['', 'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
   const dateLabel = (iso) => {
     const [y, m, d] = iso.split('-');
-    return ['', 'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'][+m] + ' ' + (+d) + ', ' + y;
+    return MON[+m] + ' ' + (+d) + ', ' + y;
   };
+
+  // Distinct weeks (Monday–Sunday), newest first, for the week dropdown.
+  // Compute in UTC from the plain ISO date so it's timezone-independent.
+  const weekStartOf = (iso) => {
+    const [y, m, d] = iso.split('-').map(Number);
+    const dt = new Date(Date.UTC(y, m - 1, d));
+    const dow = dt.getUTCDay();                    // 0=Sun … 6=Sat
+    dt.setUTCDate(dt.getUTCDate() + (dow === 0 ? -6 : 1 - dow)); // back to Monday
+    return dt.toISOString().slice(0, 10);
+  };
+  const weekLabel = (mondayIso) => {
+    const [y, m, d] = mondayIso.split('-').map(Number);
+    const sun = new Date(Date.UTC(y, m - 1, d + 6));
+    return MON[m] + ' ' + d + ' – ' + MON[sun.getUTCMonth() + 1] + ' ' + sun.getUTCDate() + ', ' + sun.getUTCFullYear();
+  };
+  const weeks = [...new Set(bets.map(b => b.date).filter(Boolean).map(weekStartOf))].sort().reverse();
 
   const log = document.createElement('div');
   log.className = 'card card-games';
@@ -141,6 +158,10 @@ async function renderMLBFadeML() {
     + '<select id="fadeMonthSel" style="' + selCss + '"><option value="">All</option>'
     + months.map(m => '<option value="' + m + '">' + monthLabel(m) + '</option>').join('')
     + '</select></label>'
+    + '<label style="font-size:11px;color:#888">Week '
+    + '<select id="fadeWeekSel" style="' + selCss + '"><option value="">All</option>'
+    + weeks.map(w => '<option value="' + w + '">' + weekLabel(w) + '</option>').join('')
+    + '</select></label>'
     + '<label style="font-size:11px;color:#888">Date '
     + '<select id="fadeDateSel" style="' + selCss + '"><option value="">All</option>'
     + dates.map(dt => '<option value="' + dt + '">' + dateLabel(dt) + '</option>').join('')
@@ -156,15 +177,17 @@ async function renderMLBFadeML() {
   const wrap = log.querySelector('#fadeLogWrap');
   const pickSel = log.querySelector('#fadePickSel');
   const monthSel = log.querySelector('#fadeMonthSel');
+  const weekSel = log.querySelector('#fadeWeekSel');
   const dateSel = log.querySelector('#fadeDateSel');
   const pitcherSel = log.querySelector('#fadePitcherSel');
   const recEl = log.querySelector('#fadeLogRec');
 
   function drawRows() {
-    const kv = pickSel.value, mv = monthSel.value, dv = dateSel.value, pv = pitcherSel.value;
+    const kv = pickSel.value, mv = monthSel.value, wv = weekSel.value, dv = dateSel.value, pv = pitcherSel.value;
     const view = bets.filter(b =>
       (!kv || b.selection === kv) &&
       (!mv || (b.date || '').slice(0, 7) === mv) &&
+      (!wv || (b.date && weekStartOf(b.date) === wv)) &&
       (!dv || b.date === dv) &&
       (!pv || (b.pitchers || []).includes(pv)));
     // W-L / units for the current filter (settled only).
@@ -208,6 +231,7 @@ async function renderMLBFadeML() {
   }
   pickSel.addEventListener('change', drawRows);
   monthSel.addEventListener('change', drawRows);
+  weekSel.addEventListener('change', drawRows);
   dateSel.addEventListener('change', drawRows);
   pitcherSel.addEventListener('change', drawRows);
   drawRows();
