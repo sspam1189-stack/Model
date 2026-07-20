@@ -92,8 +92,10 @@ async function renderMLBFadeML() {
   const pend = today.filter(t => t.result === 'pending' && REAL.has(t.betType));
   const label = (t) => {
     const who = (t.pitchers || []).join(' / ');
-    if (t.betType === 'ml_dog') return '• Mutual (' + esc(who) + ') → dog <b>' + esc(t.selection || '?') + '</b> ML <span style="color:' + ORANGE + '">' + fmtOdds(t.odds) + '</span>';
-    return '• Fade <b>' + esc(who) + '</b> (' + esc(t.fadeTeam || '?') + ') → <b>' + esc(t.selection || '?') + '</b> ML <span style="color:' + ORANGE + '">' + fmtOdds(t.odds) + '</span>';
+    const at = (t.away && t.home)
+      ? ' <span style="color:#888">· ' + esc(t.away) + ' @ ' + esc(t.home) + '</span>' : '';
+    if (t.betType === 'ml_dog') return '• Mutual (' + esc(who) + ') → dog <b>' + esc(t.selection || '?') + '</b> ML <span style="color:' + ORANGE + '">' + fmtOdds(t.odds) + '</span>' + at;
+    return '• Fade <b>' + esc(who) + '</b> (' + esc(t.fadeTeam || '?') + ') → <b>' + esc(t.selection || '?') + '</b> ML <span style="color:' + ORANGE + '">' + fmtOdds(t.odds) + '</span>' + at;
   };
   let th = '<div class="card-title" style="margin-bottom:8px">Today’s plays</div>';
   if (!pend.length) th += '<div class="no-picks">No fade-list moneyline plays on today’s slate.</div>';

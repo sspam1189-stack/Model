@@ -28,7 +28,7 @@ sys.path.insert(0, os.path.join(os.path.dirname(__file__), "sources"))
 from fade_ml_common import (
     load_props_index, starts_from_rows, fade_games, match_game,
     odds_row_for, build_bets_for_game, build_payload, write_outputs,
-    load_existing,
+    load_existing, venue_map,
 )
 from sources.mlb_schedule import fetch_schedule
 from sources.odds_ml_theoddsapi import load_ml_cache
@@ -45,10 +45,13 @@ def _daterange(start, end):
 def grade_date(date_key, date_iso, props_index):
     """Return the list of graded bet records for one date."""
     rows = props_index.get(date_iso, [])
-    fgs = fade_games(starts_from_rows(rows), date_iso)
-    if not fgs:
+    starts = starts_from_rows(rows)
+    if not starts:
         return []
     games = fetch_schedule(date_key)
+    fgs = fade_games(starts, date_iso, venue_map(games))
+    if not fgs:
+        return []
     odds_rows = load_ml_cache(date_key) or []
     bets = []
     for fg in fgs:

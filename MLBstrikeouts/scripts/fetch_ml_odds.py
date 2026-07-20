@@ -28,7 +28,7 @@ sys.path.insert(0, os.path.dirname(__file__))
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), "sources"))
 
 from fade_ml_common import (
-    load_props_index, starts_from_rows, fade_games, match_game,
+    load_props_index, starts_from_rows, fade_games, match_game, venue_map,
 )
 from sources.mlb_schedule import fetch_schedule
 from sources.odds_ml_theoddsapi import (
@@ -60,10 +60,13 @@ def main():
 
     for date_key, date_iso in _daterange(args.start, end):
         rows = props_index.get(date_iso, [])
-        fgs = fade_games(starts_from_rows(rows), date_iso)  # single + mutual
-        if not fgs:
+        starts = starts_from_rows(rows)
+        if not starts:
             continue
         games = fetch_schedule(date_key)
+        fgs = fade_games(starts, date_iso, venue_map(games))  # single + mutual
+        if not fgs:
+            continue
         cache = load_ml_cache(date_key) or []
         cached_keys = {_row_key(r) for r in cache}
 

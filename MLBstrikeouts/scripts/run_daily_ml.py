@@ -29,7 +29,8 @@ sys.path.insert(0, os.path.join(os.path.dirname(__file__), "sources"))
 
 from fade_ml_common import (
     load_props_index, starts_from_rows, fade_games, match_game,
-    odds_row_for, build_bets_for_game, build_payload, write_outputs, SCRIPT_DIR,
+    odds_row_for, build_bets_for_game, build_payload, write_outputs,
+    venue_map, SCRIPT_DIR,
 )
 from ml_backfill import grade_date
 from sources.mlb_schedule import fetch_schedule
@@ -93,7 +94,7 @@ def main():
     ml_by_matchup = {frozenset((r.get("home"), r.get("away"))): r for r in ml_rows}
 
     # Persist today's fade-game odds into the per-date cache (freeze rule).
-    fgs = fade_games(starts_from_rows(today_rows), date_iso)
+    fgs = fade_games(starts_from_rows(today_rows), date_iso, venue_map(games))
     cache_rows = []
     today = []
     for fg in fgs:

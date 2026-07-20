@@ -22,8 +22,15 @@ FADE_LIST = [
     "Merrill Kelly", "Aldegheri", "Gallen", "Civale", "David Peterson",
     "Bibee", "Springs", "Burrows", "Roupp", "Keller", "Peralta", "Canning",
     "Jacob Lopez", "Ryan Johnson", "Poulin", "Singer", "Dustin May",
-    "Grayson Rodriguez",
+    "Grayson Rodriguez", "Bryan Woo",
 ]
+
+# Per-arm venue restriction: fade the arm ONLY when his team plays at this
+# venue ('home' or 'away'). Arms not listed are faded regardless of venue.
+# The venue is the arm's-team side of the game (away = he starts on the road).
+FADE_VENUE = {
+    "Bryan Woo": "away",  # only fade when he starts on the road
+}
 
 # Date the fade model started tracking (earliest graded slate). The season
 # backfill grades from here, so arms on the list since inception have been
@@ -70,6 +77,7 @@ FADE_WINDOW = {
     # Added mid-season: good before, fade-worthy from these dates on.
     "Dustin May":        {"add": "2026-07-18"},
     "Grayson Rodriguez": {"add": "2026-07-19"},
+    "Bryan Woo":         {"add": "2026-07-20"},  # away-only (see FADE_VENUE)
 }
 
 
@@ -127,6 +135,18 @@ def matched_entry(player_name, date=None):
     return None
 
 
-def is_fade(player_name, date=None):
-    """True iff ``player_name`` is a fade arm (on ``date``, if given)."""
-    return matched_entry(player_name, date) is not None
+def is_fade(player_name, date=None, venue=None):
+    """True iff ``player_name`` is a fade arm on ``date`` (if given) and, for a
+    venue-restricted arm, when his team plays at the required ``venue``.
+
+    ``venue`` is the arm's-team side of the game ('home'/'away'), or None if
+    unknown. An arm with a FADE_VENUE restriction is not faded unless ``venue``
+    matches it, so an unknown venue means "don't fade" (safe default).
+    """
+    entry = matched_entry(player_name, date)
+    if entry is None:
+        return False
+    required = FADE_VENUE.get(entry)
+    if required is not None and venue != required:
+        return False
+    return True
