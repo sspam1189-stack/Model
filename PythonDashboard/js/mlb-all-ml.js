@@ -24,7 +24,7 @@ async function renderMLBAllML() {
   if (!data || !Array.isArray(data.games)) {
     const c = document.createElement('div');
     c.className = 'card card-games';
-    c.innerHTML = '<div class="card-title">MLB ALL ML</div>'
+    c.innerHTML = '<div class="card-title">2026 MLB Games</div>'
       + '<div class="no-picks" style="padding:20px 0 6px">Unable to load the all-ML feed.</div>';
     el.appendChild(c);
     return;
@@ -33,7 +33,7 @@ async function renderMLBAllML() {
   const runEl = document.getElementById('last-run-info');
   if (runEl && data.generated) {
     const d = new Date(data.generated);
-    runEl.textContent = 'Last run (CT) — MLB ALL ML: '
+    runEl.textContent = 'Last run (CT) — 2026 MLB Games: '
       + d.toLocaleString('en-US', { timeZone: 'America/Chicago', month: '2-digit', day: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit', hour12: true });
   }
 
