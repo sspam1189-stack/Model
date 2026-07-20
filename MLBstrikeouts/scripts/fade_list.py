@@ -22,7 +22,7 @@ FADE_LIST = [
     "Merrill Kelly", "Aldegheri", "Gallen", "Civale", "David Peterson",
     "Bibee", "Springs", "Burrows", "Roupp", "Keller", "Peralta", "Canning",
     "Jacob Lopez", "Ryan Johnson", "Poulin", "Singer", "Dustin May",
-    "Grayson Rodriguez", "Bryan Woo", "Freeland",
+    "Grayson Rodriguez", "Bryan Woo", "Freeland", "Baz",
 ]
 
 # Per-arm venue restriction: fade the arm ONLY when his team plays at this
@@ -31,6 +31,12 @@ FADE_LIST = [
 FADE_VENUE = {
     "Bryan Woo": "away",  # only fade when he starts on the road
 }
+
+# Arms NOT faded on MUTUAL games (both starters are fade arms). When a mutual
+# matchup involves one of these arms, the model places NO bet on the game --
+# it neither takes the dog nor falls back to a single fade of the other arm.
+# The arm is still faded normally on non-mutual starts.
+NO_MUTUAL_FADE = {"Sheehan"}
 
 # Date the fade model started tracking (earliest graded slate). The season
 # backfill grades from here, so arms on the list since inception have been
@@ -73,6 +79,7 @@ FADE_WINDOW = {
     "Poulin":         {"add": SEASON_START},
     "Singer":         {"add": SEASON_START},
     "Freeland":       {"add": SEASON_START},  # backfilled: faded all season
+    "Baz":            {"add": SEASON_START},  # backfilled: faded all season
     # Retired mid-season: faded early, back to his old self from 7/18.
     "Jared Jones":    {"add": SEASON_START, "remove": "2026-07-18"},
     # Added mid-season: good before, fade-worthy from these dates on.
@@ -134,6 +141,16 @@ def matched_entry(player_name, date=None):
                 continue
             return entry
     return None
+
+
+def is_no_mutual_fade(player_name):
+    """True iff ``player_name`` is an arm exempt from mutual fading.
+
+    Used only for MUTUAL games: if either starter is exempt, the model places
+    no bet on that game. Identity match on the roster (no date/window gating);
+    the mutual check has already confirmed both arms are fades on the date.
+    """
+    return matched_entry(player_name) in NO_MUTUAL_FADE
 
 
 def is_fade(player_name, date=None, venue=None):

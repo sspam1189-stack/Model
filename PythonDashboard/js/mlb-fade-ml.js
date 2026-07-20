@@ -151,7 +151,8 @@ async function renderMLBFadeML() {
     '<div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap;padding:6px 8px">'
     + '<div class="card-title" style="padding:0">Season bet log</div>'
     + '<span id="fadeLogRec" style="font-size:13px;font-weight:700"></span>'
-    + '<span style="flex:1"></span>'
+    + '</div>'
+    + '<div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap;padding:0 8px 6px">'
     + '<label style="font-size:11px;color:#888">Pick '
     + '<select id="fadePickSel" style="' + selCss + '"><option value="">All</option>'
     + pickTeams.map(t => '<option value="' + esc(t) + '">' + esc(t) + '</option>').join('')

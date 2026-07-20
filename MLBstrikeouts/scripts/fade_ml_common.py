@@ -16,7 +16,7 @@ import os
 import json
 import datetime
 
-from fade_list import is_fade, matched_entry, _norm, FADE_LIST
+from fade_list import is_fade, is_no_mutual_fade, matched_entry, _norm, FADE_LIST
 
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 
@@ -105,6 +105,11 @@ def fade_games(starts, date=None, venue_by_team=None):
         opp_pitcher = starter.get(s["opp"])
         mutual = bool(opp_pitcher and is_fade(opp_pitcher, date, venue_by_team.get(s["opp"])))
         if mutual:
+            # NO_MUTUAL_FADE arms (e.g. Sheehan) aren't faded on mutual games:
+            # if either starter is exempt, place no bet on the game at all.
+            # (teams is already in `seen`, so it won't be reconsidered.)
+            if is_no_mutual_fade(s["pitcher"]) or is_no_mutual_fade(opp_pitcher):
+                continue
             out.append({"teams": teams, "mutual": True,
                         "pitchers": [s["pitcher"], opp_pitcher],
                         "fadeTeam": None, "betTeam": None,
