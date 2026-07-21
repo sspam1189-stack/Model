@@ -523,8 +523,9 @@ function pickUnit(p) {
   if (!p || !p.result || (p.result !== 'WIN' && p.result !== 'LOSS')) return 0;
   const o = (p.odds !== null && p.odds !== undefined) ? Number(p.odds) : -110;
   const win = p.result === 'WIN';
-  if (o > 0) return win ? (o / 100) : -1;
-  return win ? 1 : -(Math.abs(o) / 100);
+  const stake = (p.stake && p.stake > 0) ? p.stake : 1;
+  if (o > 0) return (win ? (o / 100) : -1) * stake;
+  return (win ? 1 : -(Math.abs(o) / 100)) * stake;
 }
 function calcUnits(w, l, picks) {
   if (Array.isArray(picks) && picks.length) {
@@ -628,7 +629,7 @@ function getGradedPicks(runs) {
   return picks;
 }
 
-function tallyPicks(picks, { conf = null, side = null } = {}) {
+function tallyPicks(picks, { conf = null, side = null, stake = null } = {}) {
   const confKey = conf ? String(conf).trim().toLowerCase() : null;
   let w = 0, l = 0, p = 0;
   const matched = [];
@@ -642,12 +643,18 @@ function tallyPicks(picks, { conf = null, side = null } = {}) {
       const pickSide = parsed.sign === '-' ? 'fav' : 'dog';
       if (pickSide !== side) continue;
     }
+    // Stake tier filter: split by the model's recommended stake (2u for picks
+    // clearing the elite pCover cut, else 1u). When `stake` is set the bucket's
+    // P&L is computed at the ACTUAL stake, not flat 1u.
+    const st = pickStake(g, g.pCover);
+    if (stake === 'two' && st !== 2) continue;
+    if (stake === 'one' && st !== 1) continue;
     const result = g.sResult || gradeSpread(g);
     if (!result) continue;
     if (result === 'WIN') w++;
     else if (result === 'LOSS') l++;
     else p++;
-    matched.push({ result, odds: g.sOdds ?? g.odds });
+    matched.push({ result, odds: g.sOdds ?? g.odds, stake: stake ? st : 1 });
   }
   return { w, l, p, pct: winPct(w, l), units: calcUnits(w, l, matched), played: w + l + p };
 }
@@ -657,6 +664,8 @@ function computeSummary(runs) {
   return {
     all: tallyPicks(picks),
     elite: tallyPicks(picks, { conf: 'elite' }),
+    stake2u: tallyPicks(picks, { stake: 'two' }),
+    stake1u: tallyPicks(picks, { stake: 'one' }),
     fav: tallyPicks(picks, { side: 'fav' }),
     dog: tallyPicks(picks, { side: 'dog' }),
   };
@@ -1067,6 +1076,17 @@ function renderSpreadRecord(runs, modelSummary = null) {
     <td class="center"><span class="${pctClass(b.pct)}">${fmtPct(Number(b.pct || 0))}</span></td>
     <td class="center"><span class="${unitClass(b.units)}">${fmtUnits(b.units)}</span></td>
     <td class="center">${b.played}</td></tr>`;
+  // Stake-tier breakdown: picks clearing the elite pCover cut are staked 2u, the
+  // rest 1u. Units in these rows reflect the ACTUAL stake (2u P&L is not flat).
+  // Only shown where a stake cut is defined (NBA/WNBA); other tabs are flat 1u.
+  const cut = eliteStakeCut();
+  const stakeRows = cut != null
+    ? `${row(`2u (P≥${Math.round(cut * 100)}%)`, s.stake2u)}
+          ${row(`1u (P<${Math.round(cut * 100)}%)`, s.stake1u)}`
+    : '';
+  const stakeNote = cut != null
+    ? ` 2u/1u split each pick by recommended stake (2u when P(cover)≥${Math.round(cut * 100)}%, else 1u); those rows show P&L at the actual stake.`
+    : '';
   return `
     <div class="card card-records">
       <div class="card-title">Spread Record (ATS)</div>
@@ -1074,11 +1094,12 @@ function renderSpreadRecord(runs, modelSummary = null) {
         <thead><tr><th>Bucket</th><th>W-L-P</th><th class="center">Win%</th><th class="center">Flat</th><th class="center">Graded</th></tr></thead>
         <tbody>
           ${row('Model', modelBucket)}
+          ${stakeRows}
           ${row('Favorites', s.fav)}
           ${row('Underdogs', s.dog)}
         </tbody>
       </table>
-      <div class="card-subtitle">Only graded picks (games with final scores + a non-PASS pick).</div>
+      <div class="card-subtitle">Only graded picks (games with final scores + a non-PASS pick).${stakeNote}</div>
     </div>`;
 }
 
