@@ -3364,7 +3364,7 @@
           "h2hNote": null,
           "awayScore": 80.0,
           "homeScore": 85.0,
-          "_recencyWeight": 0.5,
+          "_recencyWeight": 0.25,
           "trends": {
             "away": {
               "atsPct": null,
@@ -3430,7 +3430,7 @@
           "h2hNote": null,
           "awayScore": 104.0,
           "homeScore": 96.0,
-          "_recencyWeight": 0.5,
+          "_recencyWeight": 0.25,
           "trends": {
             "away": {
               "atsPct": null,
@@ -3498,7 +3498,7 @@
           "h2hNote": null,
           "awayScore": 78.0,
           "homeScore": 72.0,
-          "_recencyWeight": 0.5,
+          "_recencyWeight": 0.25,
           "trends": {
             "away": {
               "atsPct": null,
@@ -7001,7 +7001,7 @@
           "h2hNote": null,
           "awayScore": 96.0,
           "homeScore": 113.0,
-          "_recencyWeight": 0.75,
+          "_recencyWeight": 0.5,
           "trends": {
             "away": {
               "atsPct": null,
@@ -7069,7 +7069,7 @@
           "h2hNote": null,
           "awayScore": 73.0,
           "homeScore": 93.0,
-          "_recencyWeight": 0.75,
+          "_recencyWeight": 0.5,
           "trends": {
             "away": {
               "atsPct": null,
@@ -7135,7 +7135,7 @@
           "h2hNote": null,
           "awayScore": 92.0,
           "homeScore": 93.0,
-          "_recencyWeight": 0.75,
+          "_recencyWeight": 0.5,
           "trends": {
             "away": {
               "atsPct": null,
@@ -10176,7 +10176,7 @@
           "h2hNote": null,
           "awayScore": 89.0,
           "homeScore": 76.0,
-          "_recencyWeight": 1.0,
+          "_recencyWeight": 0.75,
           "trends": {
             "away": {
               "atsPct": null,
@@ -10244,7 +10244,7 @@
           "h2hNote": null,
           "awayScore": 84.0,
           "homeScore": 68.0,
-          "_recencyWeight": 1.0,
+          "_recencyWeight": 0.75,
           "trends": {
             "away": {
               "atsPct": null,
@@ -13565,7 +13565,11 @@
           "trends": {
             "away": "ATS +/- -2.7 \u00b7 Over 50.0% \u00b7 Under 50.0% \u00b7 O/U +/- 1.6",
             "home": "ATS +/- -0.2 \u00b7 Over 64.0% \u00b7 Under 36.0% \u00b7 O/U +/- 7.7"
-          }
+          },
+          "awayScore": 109.0,
+          "homeScore": 83.0,
+          "_kalmanDate": "20260720",
+          "_recencyWeight": 1.0
         },
         {
           "away": "New York Liberty",
@@ -13624,7 +13628,12 @@
             "away": "ATS +/- -3.3 \u00b7 Over 60.0% \u00b7 Under 40.0% \u00b7 O/U +/- 1.5",
             "home": "ATS +/- 2.4 \u00b7 Over 44.0% \u00b7 Under 56.0% \u00b7 O/U +/- -0.4"
           },
-          "b2bNote": "Dallas Wings: B2B: OFF -1.5, DEF +0.8"
+          "b2bNote": "Dallas Wings: B2B: OFF -1.5, DEF +0.8",
+          "awayScore": 99.0,
+          "homeScore": 98.0,
+          "sResult": "WIN",
+          "_kalmanDate": "20260720",
+          "_recencyWeight": 1.0
         },
         {
           "away": "Washington Mystics",
@@ -13675,7 +13684,11 @@
           "trends": {
             "away": "ATS +/- 0.2 \u00b7 Over 45.8% \u00b7 Under 54.2% \u00b7 O/U +/- -2.4",
             "home": "ATS +/- 3.7 \u00b7 Over 42.3% \u00b7 Under 57.7% \u00b7 O/U +/- -5.8"
-          }
+          },
+          "awayScore": 90.0,
+          "homeScore": 82.0,
+          "_kalmanDate": "20260720",
+          "_recencyWeight": 1.0
         },
         {
           "away": "Minnesota Lynx",
@@ -13727,42 +13740,97 @@
           "trends": {
             "away": "ATS +/- 3.6 \u00b7 Over 61.5% \u00b7 Under 38.5% \u00b7 O/U +/- 3.3",
             "home": "ATS +/- 1.2 \u00b7 Over 48.2% \u00b7 Under 51.8% \u00b7 O/U +/- 1.1"
-          }
+          },
+          "awayScore": 105.0,
+          "homeScore": 102.0,
+          "sResult": "WIN",
+          "_kalmanDate": "20260720",
+          "_recencyWeight": 1.0
         }
       ],
       "summaryText": "RECORD (graded picks only)\n\nSPREAD (ATS)\n  All:         48-30-0   (61.5%)   [graded 78]\n  Elite:       48-30-0   (61.5%)   [graded 78]\n\nFAV/DOG (Spread)\n  Favorites:   22-17-0   (56.4%)   [graded 39]\n  Underdogs:   26-13-0   (66.7%)   [graded 39]\n\nTOTAL (O/U)\n  All:         0-0-0   (n/a%)   [graded 0]\n  Elite:       0-0-0   (n/a%)   [graded 0]\n\nOVER/UNDER\n  Over:        0-0-0   (n/a%)   [graded 0]\n  Under:       0-0-0   (n/a%)   [graded 0]",
       "ranAt": "07/20/2026, 06:33:36 PM"
+    },
+    {
+      "date": "20260721",
+      "dateDisplay": "2026-07-21",
+      "burnIn": false,
+      "weightsUsed": {
+        "wOFF": 1,
+        "wTS": 0.649,
+        "wTO": 0.717,
+        "wORR": 1.178,
+        "wDEF": 0.668,
+        "constant": -0.157,
+        "paceAdj": 0.838,
+        "hca": 1.881,
+        "sprHigh": 4,
+        "ouHigh": 5,
+        "sprEliteBump": 3,
+        "ouEliteBump": 3,
+        "probHigh": 0.62,
+        "probOUHigh": 0.58,
+        "probOUElite": 0.64,
+        "recentWeight": 0.87,
+        "locationWeight": 0.25,
+        "h2hWeight": 0.0,
+        "probElite": 0.63
+      },
+      "weightsNext": {
+        "wOFF": 1,
+        "wTS": 0.649,
+        "wTO": 0.717,
+        "wORR": 1.178,
+        "wDEF": 0.668,
+        "constant": -0.157,
+        "paceAdj": 0.838,
+        "hca": 1.881,
+        "sprHigh": 4,
+        "ouHigh": 5,
+        "sprEliteBump": 3,
+        "ouEliteBump": 3,
+        "probHigh": 0.62,
+        "probOUHigh": 0.58,
+        "probOUElite": 0.64,
+        "recentWeight": 0.87,
+        "locationWeight": 0.25,
+        "h2hWeight": 0.0,
+        "probElite": 0.63
+      },
+      "games": [],
+      "summaryText": "RECORD (graded picks only)\n\nSPREAD (ATS)\n  All:         50-30-0   (62.5%)   [graded 80]\n  Elite:       50-30-0   (62.5%)   [graded 80]\n\nFAV/DOG (Spread)\n  Favorites:   22-17-0   (56.4%)   [graded 39]\n  Underdogs:   28-13-0   (68.3%)   [graded 41]\n\nTOTAL (O/U)\n  All:         0-0-0   (n/a%)   [graded 0]\n  Elite:       0-0-0   (n/a%)   [graded 0]\n\nOVER/UNDER\n  Over:        0-0-0   (n/a%)   [graded 0]\n  Under:       0-0-0   (n/a%)   [graded 0]",
+      "ranAt": "07/21/2026, 12:54:17 PM"
     }
   ],
   "weights": {
     "wOFF": 1,
-    "wTS": 0.716,
-    "wTO": 0.767,
-    "wORR": 1.149,
-    "wDEF": 0.652,
-    "constant": -0.158,
-    "paceAdj": 0.837,
-    "hca": 1.974,
+    "wTS": 0.649,
+    "wTO": 0.717,
+    "wORR": 1.178,
+    "wDEF": 0.668,
+    "constant": -0.157,
+    "paceAdj": 0.838,
+    "hca": 1.881,
     "sprHigh": 4,
     "ouHigh": 5,
     "sprEliteBump": 3,
     "ouEliteBump": 3,
     "probHigh": 0.62,
-    "probElite": 0.63,
     "probOUHigh": 0.58,
     "probOUElite": 0.64,
     "recentWeight": 0.87,
     "locationWeight": 0.25,
-    "h2hWeight": 0.0
+    "h2hWeight": 0.0,
+    "probElite": 0.63
   },
-  "residualVar": 159.4,
+  "residualVar": 160.7,
   "weightsVar": {
-    "wTS": 3.9687,
-    "wTO": 3.9844,
-    "wORR": 3.9542,
+    "wTS": 3.9632,
+    "wTO": 3.9818,
+    "wORR": 3.946,
     "wDEF": 0.05,
-    "hca": 0.3247,
+    "hca": 0.285,
     "constant": 4.0
   },
-  "lastTuneDate": "20260720"
+  "lastTuneDate": "20260721"
 }
