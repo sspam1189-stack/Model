@@ -552,6 +552,13 @@ function eliteStakeCut() {
   if (activeTab === 'fullseason') return 0.65;
   return null;
 }
+// Fire floor: min P(cover) for a pick to fire (bet), from each model's probHigh.
+// Used as the lower bound of the 1u stake tier label.
+function fireThreshold() {
+  if (activeTab === 'wnba-full') return 0.62;
+  if (activeTab === 'fullseason') return 0.58;
+  return null;
+}
 function stakeUnits(pCover) {
   const cut = eliteStakeCut();
   return (cut != null && pCover != null && pCover >= cut) ? 2 : 1;
@@ -1080,9 +1087,11 @@ function renderSpreadRecord(runs, modelSummary = null) {
   // rest 1u. Units in these rows reflect the ACTUAL stake (2u P&L is not flat).
   // Only shown where a stake cut is defined (NBA/WNBA); other tabs are flat 1u.
   const cut = eliteStakeCut();
+  const fire = fireThreshold();
+  const oneLabel = fire != null ? `1u (P>${Math.round(fire * 100)}%)` : `1u (P<${Math.round(cut * 100)}%)`;
   const stakeRows = cut != null
     ? `${row(`2u (P≥${Math.round(cut * 100)}%)`, s.stake2u)}
-          ${row(`1u (P<${Math.round(cut * 100)}%)`, s.stake1u)}`
+          ${row(oneLabel, s.stake1u)}`
     : '';
   const stakeNote = cut != null
     ? ` 2u/1u split each pick by recommended stake (2u when P(cover)≥${Math.round(cut * 100)}%, else 1u); those rows show P&L at the actual stake.`

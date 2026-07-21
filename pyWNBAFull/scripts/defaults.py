@@ -100,8 +100,11 @@ DEFAULT_W = {
     # fired picks 62.9%/+14.0u, and an uncensored walk-forward sweep shows the
     # sub-0.62 band is net-negative (0.50-0.62 pooled 51.4%, below break-even)
     # while >=0.62 climbs monotonically. 0.62 is the knee — held.
-    "probHigh":  0.62,   # min P(cover) for actionable spread pick
-    "probElite": 0.63,
+    # probElite removed 2026-07-21: it was a dead label cut (the engine tags every
+    # fired pick "elite" unconditionally, never reading probElite) sitting a hair
+    # above probHigh. The real conviction split is the 0.72 stake cut
+    # (ELITE_STAKE_CUT): P>=0.62 fires 1u, P>=0.72 is a 2u play.
+    "probHigh":  0.62,   # min P(cover) for actionable spread pick (fire floor)
 
     "probOUHigh":  0.58, # totals engine is DISABLED for fullseason (see
     "probOUElite": 0.64, # ENGINE bayes config) — kept for shape parity only.
