@@ -1085,15 +1085,16 @@ function renderSpreadRecord(runs, modelSummary = null) {
     <td class="center">${b.played}</td></tr>`;
   // Stake-tier breakdown: picks clearing the elite pCover cut are staked 2u, the
   // rest 1u. Units in these rows reflect the ACTUAL stake (2u P&L is not flat).
-  // Only shown where a stake cut is defined (NBA/WNBA); other tabs are flat 1u.
+  // WNBA only for now.
+  const showStakeRows = activeTab === 'wnba-full';
   const cut = eliteStakeCut();
   const fire = fireThreshold();
   const oneLabel = fire != null ? `1u (P>${Math.round(fire * 100)}%)` : `1u (P<${Math.round(cut * 100)}%)`;
-  const stakeRows = cut != null
+  const stakeRows = showStakeRows
     ? `${row(`2u (P≥${Math.round(cut * 100)}%)`, s.stake2u)}
           ${row(oneLabel, s.stake1u)}`
     : '';
-  const stakeNote = cut != null
+  const stakeNote = showStakeRows
     ? ` 2u/1u split each pick by recommended stake (2u when P(cover)≥${Math.round(cut * 100)}%, else 1u); those rows show P&L at the actual stake.`
     : '';
   return `
