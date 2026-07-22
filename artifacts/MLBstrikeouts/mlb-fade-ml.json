@@ -1,7 +1,7 @@
 {
   "sport": "MLB",
   "type": "fade-ml",
-  "generated": "2026-07-22T00:31:23Z",
+  "generated": "2026-07-22T13:06:23Z",
   "fadeList": [
     "Littell",
     "Mikolas",
@@ -34,21 +34,21 @@
   "mutualRule": "underdog",
   "summary": {
     "wins": 185,
-    "losses": 90,
+    "losses": 92,
     "voids": 2,
     "skips": 0,
-    "staked": 350.43,
-    "units": 90.53,
-    "roi": 0.2583,
+    "staked": 352.43,
+    "units": 88.53,
+    "roi": 0.2512,
     "byType": {
       "ml": {
         "wins": 171,
-        "losses": 84,
+        "losses": 86,
         "voids": 2,
         "skips": 0,
-        "staked": 330.29,
-        "units": 80.07,
-        "roi": 0.2424
+        "staked": 332.29,
+        "units": 78.07,
+        "roi": 0.2349
       },
       "ml_dog": {
         "wins": 14,
@@ -63,38 +63,82 @@
   },
   "today": [
     {
-      "date": "2026-07-21",
-      "commence": "2026-07-22T00:05:00Z",
+      "date": "2026-07-22",
+      "commence": "2026-07-22T19:40:00Z",
       "betType": "ml",
       "shadow": false,
       "pitchers": [
-        "Kumar Rocker"
+        "Merrill Kelly"
       ],
-      "fadeTeam": "TEX",
+      "fadeTeam": "ARI",
       "market": "h2h",
-      "selection": "CWS",
+      "selection": "OAK",
       "line": null,
-      "odds": 102,
-      "stake": 1.0,
+      "odds": -102,
+      "stake": 1.02,
       "result": "pending",
       "profit": 0.0,
       "book": "fanduel",
       "source": "fanduel_api",
       "reason": null,
-      "home": "TEX",
-      "away": "CWS"
+      "home": "ARI",
+      "away": "OAK"
     },
     {
-      "date": "2026-07-21",
-      "commence": "2026-07-22T00:05:00Z",
+      "date": "2026-07-22",
+      "commence": "2026-07-22T19:40:00Z",
       "betType": "ml",
       "shadow": false,
       "pitchers": [
-        "David Peterson"
+        "Brady Singer"
       ],
-      "fadeTeam": "CHC",
+      "fadeTeam": "CIN",
       "market": "h2h",
-      "selection": "DET",
+      "selection": "SEA",
+      "line": null,
+      "odds": -158,
+      "stake": 1.58,
+      "result": "pending",
+      "profit": 0.0,
+      "book": "fanduel",
+      "source": "fanduel_api",
+      "reason": null,
+      "home": "SEA",
+      "away": "CIN"
+    },
+    {
+      "date": "2026-07-22",
+      "commence": "2026-07-22T17:05:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Mitch Keller"
+      ],
+      "fadeTeam": "PIT",
+      "market": "h2h",
+      "selection": "NYY",
+      "line": null,
+      "odds": -178,
+      "stake": 1.78,
+      "result": "pending",
+      "profit": 0.0,
+      "book": "fanduel",
+      "source": "fanduel_api",
+      "reason": null,
+      "home": "NYY",
+      "away": "PIT"
+    },
+    {
+      "date": "2026-07-22",
+      "commence": "2026-07-22T18:10:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Landen Roupp"
+      ],
+      "fadeTeam": "SF",
+      "market": "h2h",
+      "selection": "KC",
       "line": null,
       "odds": 102,
       "stake": 1.0,
@@ -103,8 +147,8 @@
       "book": "fanduel",
       "source": "fanduel_api",
       "reason": null,
-      "home": "CHC",
-      "away": "DET"
+      "home": "KC",
+      "away": "SF"
     }
   ],
   "bets": [
@@ -6221,6 +6265,50 @@
       "reason": null,
       "home": "ARI",
       "away": "OAK"
+    },
+    {
+      "date": "2026-07-21",
+      "commence": "2026-07-22T00:05:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Kumar Rocker"
+      ],
+      "fadeTeam": "TEX",
+      "market": "h2h",
+      "selection": "CWS",
+      "line": null,
+      "odds": 102,
+      "stake": 1.0,
+      "result": "LOSS",
+      "profit": -1.0,
+      "book": "fanduel",
+      "source": "fanduel_api",
+      "reason": null,
+      "home": "TEX",
+      "away": "CWS"
+    },
+    {
+      "date": "2026-07-21",
+      "commence": "2026-07-22T00:05:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "David Peterson"
+      ],
+      "fadeTeam": "CHC",
+      "market": "h2h",
+      "selection": "DET",
+      "line": null,
+      "odds": 102,
+      "stake": 1.0,
+      "result": "LOSS",
+      "profit": -1.0,
+      "book": "fanduel",
+      "source": "fanduel_api",
+      "reason": null,
+      "home": "CHC",
+      "away": "DET"
     }
   ]
 }
