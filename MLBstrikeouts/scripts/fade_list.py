@@ -22,7 +22,7 @@ FADE_LIST = [
     "Merrill Kelly", "Aldegheri", "Gallen", "Civale", "David Peterson",
     "Bibee", "Springs", "Burrows", "Roupp", "Keller", "Peralta", "Canning",
     "Jacob Lopez", "Ryan Johnson", "Poulin", "Singer", "Dustin May",
-    "Grayson Rodriguez", "Bryan Woo", "Freeland", "Baz",
+    "Grayson Rodriguez", "Bryan Woo", "Freeland", "Baz", "Noah Schultz",
 ]
 
 # Per-arm venue restriction: fade the arm ONLY when his team plays at this
@@ -70,7 +70,7 @@ FADE_WINDOW = {
     "Bibee":          {"add": SEASON_START},
     "Springs":        {"add": SEASON_START},
     "Burrows":        {"add": SEASON_START},
-    "Roupp":          {"add": SEASON_START},
+    "Roupp":          {"add": SEASON_START, "remove": "2026-07-22"},  # removed 7/22
     "Keller":         {"add": SEASON_START},
     "Peralta":        {"add": SEASON_START},
     "Canning":        {"add": SEASON_START},
@@ -80,6 +80,7 @@ FADE_WINDOW = {
     "Singer":         {"add": SEASON_START},
     "Freeland":       {"add": SEASON_START},  # backfilled: faded all season
     "Baz":            {"add": SEASON_START},  # backfilled: faded all season
+    "Noah Schultz":   {"add": SEASON_START},  # backfilled: faded all season
     # Retired mid-season: faded early, back to his old self from 7/18.
     "Jared Jones":    {"add": SEASON_START, "remove": "2026-07-18"},
     # Added mid-season: good before, fade-worthy from these dates on.
