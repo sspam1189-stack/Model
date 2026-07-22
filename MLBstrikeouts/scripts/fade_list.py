@@ -70,7 +70,7 @@ FADE_WINDOW = {
     "Bibee":          {"add": SEASON_START},
     "Springs":        {"add": SEASON_START},
     "Burrows":        {"add": SEASON_START},
-    "Roupp":          {"add": SEASON_START, "remove": "2026-07-22"},  # removed 7/22
+    "Roupp":          {"add": SEASON_START, "remove": "2026-07-23"},  # removed 7/23
     "Keller":         {"add": SEASON_START},
     "Peralta":        {"add": SEASON_START},
     "Canning":        {"add": SEASON_START},
