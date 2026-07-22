@@ -1,7 +1,7 @@
 {
   "sport": "MLB",
   "type": "fade-ml",
-  "generated": "2026-07-22T14:28:23Z",
+  "generated": "2026-07-22T19:20:00Z",
   "fadeList": [
     "Littell",
     "Mikolas",
@@ -29,35 +29,36 @@
     "Grayson Rodriguez",
     "Bryan Woo",
     "Freeland",
-    "Baz"
+    "Baz",
+    "Noah Schultz"
   ],
   "mutualRule": "underdog",
   "summary": {
-    "wins": 185,
-    "losses": 92,
+    "wins": 191,
+    "losses": 95,
     "voids": 2,
     "skips": 0,
-    "staked": 352.43,
-    "units": 88.53,
-    "roi": 0.2512,
+    "staked": 363.69,
+    "units": 91.15,
+    "roi": 0.2506,
     "byType": {
       "ml": {
-        "wins": 171,
-        "losses": 86,
+        "wins": 177,
+        "losses": 88,
         "voids": 2,
         "skips": 0,
-        "staked": 332.29,
-        "units": 78.07,
-        "roi": 0.2349
+        "staked": 342.55,
+        "units": 81.69,
+        "roi": 0.2385
       },
       "ml_dog": {
         "wins": 14,
-        "losses": 6,
+        "losses": 7,
         "voids": 0,
         "skips": 0,
-        "staked": 20.14,
-        "units": 10.46,
-        "roi": 0.5194
+        "staked": 21.14,
+        "units": 9.46,
+        "roi": 0.4475
       }
     }
   },
@@ -1082,6 +1083,28 @@
     },
     {
       "date": "2026-04-25",
+      "commence": "2026-04-25T20:10:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Noah Schultz"
+      ],
+      "fadeTeam": "CWS",
+      "market": "h2h",
+      "selection": "WSH",
+      "line": null,
+      "odds": 122,
+      "stake": 1.0,
+      "result": "WIN",
+      "profit": 1.22,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null,
+      "home": "CWS",
+      "away": "WSH"
+    },
+    {
+      "date": "2026-04-25",
       "commence": "2026-04-25T22:05:00Z",
       "betType": "ml",
       "shadow": false,
@@ -1523,6 +1546,28 @@
       "away": "LAD"
     },
     {
+      "date": "2026-05-01",
+      "commence": "2026-05-02T01:40:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Noah Schultz"
+      ],
+      "fadeTeam": "CWS",
+      "market": "h2h",
+      "selection": "SD",
+      "line": null,
+      "odds": -144,
+      "stake": 1.44,
+      "result": "LOSS",
+      "profit": -1.44,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null,
+      "home": "SD",
+      "away": "CWS"
+    },
+    {
       "date": "2026-05-02",
       "commence": "2026-05-02T20:05:00Z",
       "betType": "ml",
@@ -1719,6 +1764,28 @@
       "reason": null,
       "home": "KC",
       "away": "CLE"
+    },
+    {
+      "date": "2026-05-06",
+      "commence": "2026-05-06T20:07:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Noah Schultz"
+      ],
+      "fadeTeam": "CWS",
+      "market": "h2h",
+      "selection": "LAA",
+      "line": null,
+      "odds": -102,
+      "stake": 1.02,
+      "result": "WIN",
+      "profit": 1.0,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null,
+      "home": "LAA",
+      "away": "CWS"
     },
     {
       "date": "2026-05-06",
@@ -2187,6 +2254,28 @@
     },
     {
       "date": "2026-05-13",
+      "commence": "2026-05-13T23:40:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Noah Schultz"
+      ],
+      "fadeTeam": "CWS",
+      "market": "h2h",
+      "selection": "KC",
+      "line": null,
+      "odds": -116,
+      "stake": 1.16,
+      "result": "LOSS",
+      "profit": -1.16,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null,
+      "home": "CWS",
+      "away": "KC"
+    },
+    {
+      "date": "2026-05-13",
       "commence": "2026-05-14T00:05:00Z",
       "betType": "ml",
       "shadow": false,
@@ -2472,6 +2561,28 @@
       "reason": null,
       "home": "ARI",
       "away": "SF"
+    },
+    {
+      "date": "2026-05-18",
+      "commence": "2026-05-19T01:40:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Noah Schultz"
+      ],
+      "fadeTeam": "CWS",
+      "market": "h2h",
+      "selection": "SEA",
+      "line": null,
+      "odds": -162,
+      "stake": 1.62,
+      "result": "WIN",
+      "profit": 1.0,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null,
+      "home": "SEA",
+      "away": "CWS"
     },
     {
       "date": "2026-05-19",
@@ -2824,6 +2935,28 @@
       "reason": null,
       "home": "PHI",
       "away": "CLE"
+    },
+    {
+      "date": "2026-05-24",
+      "commence": "2026-05-24T20:05:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Noah Schultz"
+      ],
+      "fadeTeam": "CWS",
+      "market": "h2h",
+      "selection": "SF",
+      "line": null,
+      "odds": -124,
+      "stake": 1.24,
+      "result": "WIN",
+      "profit": 1.0,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null,
+      "home": "SF",
+      "away": "CWS"
     },
     {
       "date": "2026-05-25",
@@ -5188,6 +5321,28 @@
     },
     {
       "date": "2026-07-01",
+      "commence": "2026-07-01T16:35:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Noah Schultz"
+      ],
+      "fadeTeam": "CWS",
+      "market": "h2h",
+      "selection": "BAL",
+      "line": null,
+      "odds": -154,
+      "stake": 1.54,
+      "result": "WIN",
+      "profit": 1.0,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null,
+      "home": "BAL",
+      "away": "CWS"
+    },
+    {
+      "date": "2026-07-01",
       "commence": "2026-07-01T19:07:00Z",
       "betType": "ml",
       "shadow": false,
@@ -5607,6 +5762,28 @@
     },
     {
       "date": "2026-07-07",
+      "commence": "2026-07-07T23:40:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Noah Schultz"
+      ],
+      "fadeTeam": "CWS",
+      "market": "h2h",
+      "selection": "BOS",
+      "line": null,
+      "odds": -124,
+      "stake": 1.24,
+      "result": "WIN",
+      "profit": 1.0,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null,
+      "home": "CWS",
+      "away": "BOS"
+    },
+    {
+      "date": "2026-07-07",
       "commence": "2026-07-08T01:40:00Z",
       "betType": "ml",
       "shadow": false,
@@ -5891,6 +6068,28 @@
       "reason": null,
       "home": "BAL",
       "away": "KC"
+    },
+    {
+      "date": "2026-07-12",
+      "commence": "2026-07-12T18:10:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Noah Schultz"
+      ],
+      "fadeTeam": "CWS",
+      "market": "h2h",
+      "selection": "OAK",
+      "line": null,
+      "odds": 124,
+      "stake": 1.0,
+      "result": "LOSS",
+      "profit": -1.0,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null,
+      "home": "CWS",
+      "away": "OAK"
     },
     {
       "date": "2026-07-12",
@@ -6272,28 +6471,6 @@
       "betType": "ml",
       "shadow": false,
       "pitchers": [
-        "Kumar Rocker"
-      ],
-      "fadeTeam": "TEX",
-      "market": "h2h",
-      "selection": "CWS",
-      "line": null,
-      "odds": 102,
-      "stake": 1.0,
-      "result": "LOSS",
-      "profit": -1.0,
-      "book": "fanduel",
-      "source": "fanduel_api",
-      "reason": null,
-      "home": "TEX",
-      "away": "CWS"
-    },
-    {
-      "date": "2026-07-21",
-      "commence": "2026-07-22T00:05:00Z",
-      "betType": "ml",
-      "shadow": false,
-      "pitchers": [
         "David Peterson"
       ],
       "fadeTeam": "CHC",
@@ -6309,6 +6486,29 @@
       "reason": null,
       "home": "CHC",
       "away": "DET"
+    },
+    {
+      "date": "2026-07-21",
+      "commence": "2026-07-22T00:05:00Z",
+      "betType": "ml_dog",
+      "shadow": false,
+      "pitchers": [
+        "Kumar Rocker",
+        "Noah Schultz"
+      ],
+      "fadeTeam": null,
+      "market": "h2h",
+      "selection": "CWS",
+      "line": null,
+      "odds": 102,
+      "stake": 1.0,
+      "result": "LOSS",
+      "profit": -1.0,
+      "book": "fanduel",
+      "source": "fanduel_api",
+      "reason": null,
+      "home": "TEX",
+      "away": "CWS"
     }
   ]
 }
