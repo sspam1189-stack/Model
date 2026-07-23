@@ -15,7 +15,7 @@ Usage:
 
 import sys, os, math, argparse, json
 import numpy as np
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from collections import defaultdict
 
 sys.path.insert(0, os.path.dirname(__file__))
@@ -1065,7 +1065,7 @@ def write_dashboard_json(results, season):
         "season": str(season),
         "mode": "backfill",
         "model": "kalman_blend",
-        "generated": datetime.now().isoformat(),
+        "generated": datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
         "totalProjections": sum(len(d["projections"]) for d in results.values()),
         "totalPicks": len(actionable),
         "totalWatchlist": len(all_picks) - len(actionable),

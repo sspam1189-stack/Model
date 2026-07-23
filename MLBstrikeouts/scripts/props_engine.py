@@ -974,7 +974,7 @@ def format_props_for_dashboard(projections, date_str="today"):
         "mode": "live",
         "model": "kalman_blend",
         "date": date_str,
-        "generated": dt.datetime.now().isoformat(),
+        "generated": dt.datetime.now(dt.timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
         "totalProjections": len(projections),
         "totalPicks": len(actionable),
         "totalWatchlist": len(watchlist),
