@@ -26,7 +26,7 @@ concurrency:
 # push means one deploy per run (halves this workflow's deploy load).
 jobs:
   wnba:
-    runs-on: self-hosted
+    runs-on: windows-latest
     defaults:
       run:
         shell: powershell
