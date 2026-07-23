@@ -16,7 +16,7 @@ concurrency:
 
 jobs:
   nba-fullseason:
-    runs-on: self-hosted
+    runs-on: windows-latest
     defaults:
       run:
         shell: powershell
@@ -75,7 +75,7 @@ jobs:
 
   nba-props:
     needs: nba-fullseason
-    runs-on: self-hosted
+    runs-on: windows-latest
     defaults:
       run:
         shell: powershell

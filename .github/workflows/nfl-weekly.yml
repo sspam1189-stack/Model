@@ -51,7 +51,7 @@ jobs:
   # Main pipeline job — runs the chosen stage
   # ---------------------------------------------------------------------------
   nfl-weekly:
-    runs-on: self-hosted
+    runs-on: windows-latest
     defaults:
       run:
         shell: powershell
@@ -124,7 +124,7 @@ jobs:
   # ---------------------------------------------------------------------------
   post-game-grade:
     if: ${{ inputs.stage == 'grade' }}
-    runs-on: self-hosted
+    runs-on: windows-latest
     needs: [commit-and-push]
     defaults:
       run:

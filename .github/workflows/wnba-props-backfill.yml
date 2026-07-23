@@ -15,7 +15,7 @@ concurrency:
 
 jobs:
   backfill:
-    runs-on: self-hosted
+    runs-on: windows-latest
     defaults:
       run:
         shell: powershell
