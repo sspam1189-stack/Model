@@ -1,7 +1,7 @@
 {
   "sport": "MLB",
   "type": "fade-ml",
-  "generated": "2026-07-22T19:20:00Z",
+  "generated": "2026-07-23T12:21:02Z",
   "fadeList": [
     "Littell",
     "Mikolas",
@@ -34,22 +34,22 @@
   ],
   "mutualRule": "underdog",
   "summary": {
-    "wins": 191,
-    "losses": 95,
+    "wins": 192,
+    "losses": 98,
     "voids": 2,
     "skips": 0,
-    "staked": 363.69,
-    "units": 91.15,
-    "roi": 0.2506,
+    "staked": 368.99,
+    "units": 87.91,
+    "roi": 0.2382,
     "byType": {
       "ml": {
-        "wins": 177,
-        "losses": 88,
+        "wins": 178,
+        "losses": 91,
         "voids": 2,
         "skips": 0,
-        "staked": 342.55,
-        "units": 81.69,
-        "roi": 0.2385
+        "staked": 347.85,
+        "units": 78.45,
+        "roi": 0.2255
       },
       "ml_dog": {
         "wins": 14,
@@ -64,92 +64,26 @@
   },
   "today": [
     {
-      "date": "2026-07-22",
-      "commence": "2026-07-22T19:40:00Z",
+      "date": "2026-07-23",
+      "commence": "2026-07-23T16:15:00Z",
       "betType": "ml",
       "shadow": false,
       "pitchers": [
-        "Merrill Kelly"
+        "Griffin Canning"
       ],
-      "fadeTeam": "ARI",
+      "fadeTeam": "SD",
       "market": "h2h",
-      "selection": "OAK",
+      "selection": "ATL",
       "line": null,
-      "odds": 108,
-      "stake": 1.0,
+      "odds": -255,
+      "stake": 2.55,
       "result": "pending",
       "profit": 0.0,
       "book": "fanduel",
       "source": "fanduel_api",
       "reason": null,
-      "home": "ARI",
-      "away": "OAK"
-    },
-    {
-      "date": "2026-07-22",
-      "commence": "2026-07-22T19:40:00Z",
-      "betType": "ml",
-      "shadow": false,
-      "pitchers": [
-        "Brady Singer"
-      ],
-      "fadeTeam": "CIN",
-      "market": "h2h",
-      "selection": "SEA",
-      "line": null,
-      "odds": -158,
-      "stake": 1.58,
-      "result": "pending",
-      "profit": 0.0,
-      "book": "fanduel",
-      "source": "fanduel_api",
-      "reason": null,
-      "home": "SEA",
-      "away": "CIN"
-    },
-    {
-      "date": "2026-07-22",
-      "commence": "2026-07-22T17:05:00Z",
-      "betType": "ml",
-      "shadow": false,
-      "pitchers": [
-        "Mitch Keller"
-      ],
-      "fadeTeam": "PIT",
-      "market": "h2h",
-      "selection": "NYY",
-      "line": null,
-      "odds": -172,
-      "stake": 1.72,
-      "result": "pending",
-      "profit": 0.0,
-      "book": "fanduel",
-      "source": "fanduel_api",
-      "reason": null,
-      "home": "NYY",
-      "away": "PIT"
-    },
-    {
-      "date": "2026-07-22",
-      "commence": "2026-07-22T18:10:00Z",
-      "betType": "ml",
-      "shadow": false,
-      "pitchers": [
-        "Landen Roupp"
-      ],
-      "fadeTeam": "SF",
-      "market": "h2h",
-      "selection": "KC",
-      "line": null,
-      "odds": 106,
-      "stake": 1.0,
-      "result": "pending",
-      "profit": 0.0,
-      "book": "fanduel",
-      "source": "fanduel_api",
-      "reason": null,
-      "home": "KC",
-      "away": "SF"
+      "home": "ATL",
+      "away": "SD"
     }
   ],
   "bets": [
@@ -6509,6 +6443,94 @@
       "reason": null,
       "home": "TEX",
       "away": "CWS"
+    },
+    {
+      "date": "2026-07-22",
+      "commence": "2026-07-22T17:05:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Mitch Keller"
+      ],
+      "fadeTeam": "PIT",
+      "market": "h2h",
+      "selection": "NYY",
+      "line": null,
+      "odds": -172,
+      "stake": 1.72,
+      "result": "LOSS",
+      "profit": -1.72,
+      "book": "fanduel",
+      "source": "fanduel_api",
+      "reason": null,
+      "home": "NYY",
+      "away": "PIT"
+    },
+    {
+      "date": "2026-07-22",
+      "commence": "2026-07-22T18:10:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Landen Roupp"
+      ],
+      "fadeTeam": "SF",
+      "market": "h2h",
+      "selection": "KC",
+      "line": null,
+      "odds": 106,
+      "stake": 1.0,
+      "result": "WIN",
+      "profit": 1.06,
+      "book": "fanduel",
+      "source": "fanduel_api",
+      "reason": null,
+      "home": "KC",
+      "away": "SF"
+    },
+    {
+      "date": "2026-07-22",
+      "commence": "2026-07-22T19:40:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Brady Singer"
+      ],
+      "fadeTeam": "CIN",
+      "market": "h2h",
+      "selection": "SEA",
+      "line": null,
+      "odds": -158,
+      "stake": 1.58,
+      "result": "LOSS",
+      "profit": -1.58,
+      "book": "fanduel",
+      "source": "fanduel_api",
+      "reason": null,
+      "home": "SEA",
+      "away": "CIN"
+    },
+    {
+      "date": "2026-07-22",
+      "commence": "2026-07-22T19:40:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Merrill Kelly"
+      ],
+      "fadeTeam": "ARI",
+      "market": "h2h",
+      "selection": "OAK",
+      "line": null,
+      "odds": 108,
+      "stake": 1.0,
+      "result": "LOSS",
+      "profit": -1.0,
+      "book": "fanduel",
+      "source": "fanduel_api",
+      "reason": null,
+      "home": "ARI",
+      "away": "OAK"
     }
   ]
 }
