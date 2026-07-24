@@ -1,7 +1,7 @@
 {
   "sport": "MLB",
   "type": "all-ml",
-  "generated": "2026-07-23T18:33:20Z",
+  "generated": "2026-07-24T00:16:55Z",
   "seasonStart": "2026-03-25",
   "today": [
     {
@@ -16,8 +16,8 @@
       "away_pitcher": "Kyle Hart",
       "home_hand": "L",
       "away_hand": "L",
-      "home_win": null,
-      "final": false
+      "home_win": true,
+      "final": true
     },
     {
       "date": "2026-07-23",
@@ -31,8 +31,8 @@
       "away_pitcher": "Taj Bradley",
       "home_hand": "R",
       "away_hand": "R",
-      "home_win": null,
-      "final": false
+      "home_win": false,
+      "final": true
     },
     {
       "date": "2026-07-23",
@@ -46,8 +46,8 @@
       "away_pitcher": "Casey Legumina",
       "home_hand": "R",
       "away_hand": "R",
-      "home_win": null,
-      "final": false
+      "home_win": true,
+      "final": true
     },
     {
       "date": "2026-07-23",
@@ -61,8 +61,8 @@
       "away_pitcher": "Brandon Pfaadt",
       "home_hand": "R",
       "away_hand": "R",
-      "home_win": null,
-      "final": false
+      "home_win": false,
+      "final": true
     },
     {
       "date": "2026-07-23",
@@ -19996,6 +19996,58 @@
       "home_hand": "R",
       "away_hand": "R",
       "home_win": true
+    },
+    {
+      "date": "2026-07-23",
+      "commence": "2026-07-23T16:15:00Z",
+      "home": "ATL",
+      "away": "SD",
+      "home_ml": -250,
+      "away_ml": 205,
+      "home_pitcher": "Chris Sale",
+      "away_pitcher": "Kyle Hart",
+      "home_hand": "L",
+      "away_hand": "L",
+      "home_win": true
+    },
+    {
+      "date": "2026-07-23",
+      "commence": "2026-07-23T17:10:00Z",
+      "home": "CLE",
+      "away": "MIN",
+      "home_ml": -138,
+      "away_ml": 118,
+      "home_pitcher": "Gavin Williams",
+      "away_pitcher": "Taj Bradley",
+      "home_hand": "R",
+      "away_hand": "R",
+      "home_win": false
+    },
+    {
+      "date": "2026-07-23",
+      "commence": "2026-07-23T19:07:00Z",
+      "home": "TOR",
+      "away": "TB",
+      "home_ml": -102,
+      "away_ml": -116,
+      "home_pitcher": "Shane Bieber",
+      "away_pitcher": "Casey Legumina",
+      "home_hand": "R",
+      "away_hand": "R",
+      "home_win": true
+    },
+    {
+      "date": "2026-07-23",
+      "commence": "2026-07-23T21:15:00Z",
+      "home": "STL",
+      "away": "ARI",
+      "home_ml": -112,
+      "away_ml": -104,
+      "home_pitcher": "Michael McGreevy",
+      "away_pitcher": "Brandon Pfaadt",
+      "home_hand": "R",
+      "away_hand": "R",
+      "home_win": false
     }
   ]
 }
