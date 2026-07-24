@@ -1,7 +1,7 @@
 {
   "sport": "MLB",
   "type": "all-ml",
-  "generated": "2026-07-24T22:04:54Z",
+  "generated": "2026-07-24T23:53:27Z",
   "seasonStart": "2026-03-25",
   "today": [
     {
@@ -16,8 +16,8 @@
       "away_pitcher": "Tomoyuki Sugano",
       "home_hand": "L",
       "away_hand": "R",
-      "home_win": null,
-      "final": false
+      "home_win": false,
+      "final": true
     },
     {
       "date": "2026-07-24",
@@ -189,8 +189,8 @@
       "commence": "2026-07-25T00:10:00Z",
       "home": "MIN",
       "away": "OAK",
-      "home_ml": -144,
-      "away_ml": 122,
+      "home_ml": -142,
+      "away_ml": 120,
       "total_line": 9.5,
       "home_pitcher": "Zebby Matthews",
       "away_pitcher": "Jacob Lopez",
@@ -20211,6 +20211,19 @@
       "home_hand": "R",
       "away_hand": "R",
       "home_win": true
+    },
+    {
+      "date": "2026-07-24",
+      "commence": "2026-07-24T20:10:00Z",
+      "home": "MIL",
+      "away": "COL",
+      "home_ml": -215,
+      "away_ml": 180,
+      "home_pitcher": "Shane Drohan",
+      "away_pitcher": "Tomoyuki Sugano",
+      "home_hand": "L",
+      "away_hand": "R",
+      "home_win": false
     }
   ]
 }
