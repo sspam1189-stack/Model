@@ -1,7 +1,7 @@
 {
   "sport": "MLB",
   "type": "fade-ml",
-  "generated": "2026-07-24T12:10:01Z",
+  "generated": "2026-07-24T14:47:48Z",
   "fadeList": [
     "Littell",
     "Mikolas",
@@ -66,6 +66,29 @@
   "today": [
     {
       "date": "2026-07-24",
+      "commence": "2026-07-25T00:15:00Z",
+      "betType": "ml_dog",
+      "shadow": false,
+      "pitchers": [
+        "Rhett Lowder",
+        "Dustin May"
+      ],
+      "fadeTeam": null,
+      "market": "h2h",
+      "selection": "CIN",
+      "line": null,
+      "odds": 132,
+      "stake": 1.0,
+      "result": "pending",
+      "profit": 0.0,
+      "book": "fanduel",
+      "source": "fanduel_api",
+      "reason": null,
+      "home": "STL",
+      "away": "CIN"
+    },
+    {
+      "date": "2026-07-24",
       "commence": "2026-07-25T02:15:00Z",
       "betType": "ml",
       "shadow": false,
@@ -76,8 +99,8 @@
       "market": "h2h",
       "selection": "SF",
       "line": null,
-      "odds": -174,
-      "stake": 1.74,
+      "odds": -158,
+      "stake": 1.58,
       "result": "pending",
       "profit": 0.0,
       "book": "fanduel",
@@ -107,28 +130,6 @@
       "reason": null,
       "home": "MIN",
       "away": "OAK"
-    },
-    {
-      "date": "2026-07-24",
-      "commence": "2026-07-25T00:15:00Z",
-      "betType": "ml",
-      "shadow": false,
-      "pitchers": [
-        "Dustin May"
-      ],
-      "fadeTeam": "STL",
-      "market": "h2h",
-      "selection": "CIN",
-      "line": null,
-      "odds": 138,
-      "stake": 1.0,
-      "result": "pending",
-      "profit": 0.0,
-      "book": "fanduel",
-      "source": "fanduel_api",
-      "reason": null,
-      "home": "STL",
-      "away": "CIN"
     }
   ],
   "bets": [
