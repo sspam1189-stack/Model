@@ -20,9 +20,9 @@
     "source": "lineup"
   },
   "PIT": {
-    "PCT_LHB": 0.2778,
+    "PCT_LHB": 0.3333,
     "n_batters": 9,
-    "source": "recent_lineup_fallback"
+    "source": "lineup"
   },
   "CHC": {
     "PCT_LHB": 0.2778,
@@ -65,9 +65,9 @@
     "source": "lineup"
   },
   "LAD": {
-    "PCT_LHB": 0.5556,
+    "PCT_LHB": 0.4444,
     "n_batters": 9,
-    "source": "recent_lineup_fallback"
+    "source": "lineup"
   },
   "TB": {
     "PCT_LHB": 0.3333,
@@ -107,27 +107,27 @@
   "HOU": {
     "PCT_LHB": 0.1111,
     "n_batters": 9,
-    "source": "recent_lineup_fallback"
+    "source": "lineup"
   },
   "TEX": {
-    "PCT_LHB": 0.1111,
-    "n_batters": 9,
-    "source": "recent_lineup_fallback"
-  },
-  "SEA": {
-    "PCT_LHB": 0.5,
-    "n_batters": 9,
-    "source": "recent_lineup_fallback"
-  },
-  "MIN": {
     "PCT_LHB": 0.3333,
     "n_batters": 9,
-    "source": "recent_lineup_fallback"
+    "source": "lineup"
   },
-  "OAK": {
+  "SEA": {
     "PCT_LHB": 0.3889,
     "n_batters": 9,
-    "source": "recent_lineup_fallback"
+    "source": "lineup"
+  },
+  "MIN": {
+    "PCT_LHB": 0.1667,
+    "n_batters": 9,
+    "source": "lineup"
+  },
+  "OAK": {
+    "PCT_LHB": 0.4444,
+    "n_batters": 9,
+    "source": "lineup"
   },
   "STL": {
     "PCT_LHB": 0.3333,
@@ -142,7 +142,7 @@
   "SF": {
     "PCT_LHB": 0.3333,
     "n_batters": 9,
-    "source": "recent_lineup_fallback"
+    "source": "lineup"
   },
   "LAA": {
     "PCT_LHB": 0.2778,
