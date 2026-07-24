@@ -2,6 +2,18 @@ name: MLB Run Daily (8/11/1:30/4/6/7:30 CT)
 
 on:
   workflow_dispatch:
+  # Native GitHub schedule so runs no longer depend on any external/self-hosted
+  # trigger. Cron is UTC-only (no DST) and fires only on the default branch.
+  # Times below target CDT (UTC-5), i.e. the MLB season; they land one hour
+  # later in CT after DST ends in Nov (after the season). Runs serialize via
+  # the concurrency group above, so an overlapping dispatch just queues.
+  schedule:
+    - cron: '0 13 * * *'    # 8:00 AM CT
+    - cron: '0 16 * * *'    # 11:00 AM CT
+    - cron: '30 18 * * *'   # 1:30 PM CT
+    - cron: '0 21 * * *'    # 4:00 PM CT
+    - cron: '0 23 * * *'    # 6:00 PM CT
+    - cron: '30 0 * * *'    # 7:30 PM CT
 
 
 permissions:
