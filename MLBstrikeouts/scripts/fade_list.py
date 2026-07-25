@@ -23,7 +23,7 @@ FADE_LIST = [
     "Bibee", "Springs", "Burrows", "Roupp", "Keller", "Peralta", "Canning",
     "Jacob Lopez", "Ryan Johnson", "Poulin", "Singer", "Dustin May",
     "Grayson Rodriguez", "Bryan Woo", "Freeland", "Baz", "Noah Schultz",
-    "Lowder",
+    "Lowder", "Zebby Matthews",
 ]
 
 # Per-arm venue restriction: fade the arm ONLY when his team plays at this
@@ -89,6 +89,7 @@ FADE_WINDOW = {
     "Dustin May":        {"add": "2026-07-18"},
     "Grayson Rodriguez": {"add": "2026-07-19"},
     "Bryan Woo":         {"add": "2026-07-20"},  # away-only (see FADE_VENUE)
+    "Zebby Matthews":    {"add": "2026-07-25"},  # added 7/25: fade from here on
 }
 
 
