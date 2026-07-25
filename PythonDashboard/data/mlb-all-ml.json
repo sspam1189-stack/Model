@@ -1,7 +1,7 @@
 {
   "sport": "MLB",
   "type": "all-ml",
-  "generated": "2026-07-25T21:54:38Z",
+  "generated": "2026-07-25T23:48:35Z",
   "seasonStart": "2026-03-25",
   "today": [
     {
@@ -31,8 +31,8 @@
       "away_pitcher": "Mitch Bratt",
       "home_hand": "L",
       "away_hand": "L",
-      "home_win": null,
-      "final": false
+      "home_win": true,
+      "final": true
     },
     {
       "date": "2026-07-25",
@@ -46,8 +46,8 @@
       "away_pitcher": "Ryan Johnson",
       "home_hand": "L",
       "away_hand": "R",
-      "home_win": null,
-      "final": false
+      "home_win": true,
+      "final": true
     },
     {
       "date": "2026-07-25",
@@ -61,8 +61,8 @@
       "away_pitcher": "Dylan Cease",
       "home_hand": "R",
       "away_hand": "R",
-      "home_win": null,
-      "final": false
+      "home_win": false,
+      "final": true
     },
     {
       "date": "2026-07-25",
@@ -76,8 +76,8 @@
       "away_pitcher": "Randy V\u00e1squez",
       "home_hand": "R",
       "away_hand": "R",
-      "home_win": null,
-      "final": false
+      "home_win": false,
+      "final": true
     },
     {
       "date": "2026-07-25",
@@ -147,9 +147,9 @@
       "home_ml": -146,
       "away_ml": 124,
       "total_line": 10,
-      "home_pitcher": "Mike Paredes",
+      "home_pitcher": "Kendry Rojas",
       "away_pitcher": "Brady Basso",
-      "home_hand": "R",
+      "home_hand": "L",
       "away_hand": "L",
       "home_win": null,
       "final": false
@@ -20416,6 +20416,58 @@
       "away_ml": 136,
       "home_pitcher": "Casey Mize",
       "away_pitcher": "Michael Wacha",
+      "home_hand": "R",
+      "away_hand": "R",
+      "home_win": false
+    },
+    {
+      "date": "2026-07-25",
+      "commence": "2026-07-25T20:05:00Z",
+      "home": "WSH",
+      "away": "ARI",
+      "home_ml": 100,
+      "away_ml": -118,
+      "home_pitcher": "Foster Griffin",
+      "away_pitcher": "Mitch Bratt",
+      "home_hand": "L",
+      "away_hand": "L",
+      "home_win": true
+    },
+    {
+      "date": "2026-07-25",
+      "commence": "2026-07-25T20:05:00Z",
+      "home": "SF",
+      "away": "LAA",
+      "home_ml": -110,
+      "away_ml": -106,
+      "home_pitcher": "Robbie Ray",
+      "away_pitcher": "Ryan Johnson",
+      "home_hand": "L",
+      "away_hand": "R",
+      "home_win": true
+    },
+    {
+      "date": "2026-07-25",
+      "commence": "2026-07-25T20:10:00Z",
+      "home": "BOS",
+      "away": "TOR",
+      "home_ml": -136,
+      "away_ml": 116,
+      "home_pitcher": "Sonny Gray",
+      "away_pitcher": "Dylan Cease",
+      "home_hand": "R",
+      "away_hand": "R",
+      "home_win": false
+    },
+    {
+      "date": "2026-07-25",
+      "commence": "2026-07-25T20:10:00Z",
+      "home": "MIA",
+      "away": "SD",
+      "home_ml": -142,
+      "away_ml": 120,
+      "home_pitcher": "Eury P\u00e9rez",
+      "away_pitcher": "Randy V\u00e1squez",
       "home_hand": "R",
       "away_hand": "R",
       "home_win": false

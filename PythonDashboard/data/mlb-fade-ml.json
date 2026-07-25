@@ -1,7 +1,7 @@
 {
   "sport": "MLB",
   "type": "fade-ml",
-  "generated": "2026-07-25T21:54:36Z",
+  "generated": "2026-07-25T23:48:33Z",
   "fadeList": [
     "Littell",
     "Mikolas",
@@ -36,22 +36,22 @@
   ],
   "mutualRule": "underdog",
   "summary": {
-    "wins": 202,
+    "wins": 203,
     "losses": 102,
     "voids": 2,
     "skips": 0,
-    "staked": 389.65,
-    "units": 92.95,
-    "roi": 0.2385,
+    "staked": 390.75,
+    "units": 93.95,
+    "roi": 0.2404,
     "byType": {
       "ml": {
-        "wins": 187,
+        "wins": 188,
         "losses": 95,
         "voids": 2,
         "skips": 0,
-        "staked": 367.51,
-        "units": 82.21,
-        "roi": 0.2237
+        "staked": 368.61,
+        "units": 83.21,
+        "roi": 0.2257
       },
       "ml_dog": {
         "wins": 15,
@@ -65,28 +65,6 @@
     }
   },
   "today": [
-    {
-      "date": "2026-07-25",
-      "commence": "2026-07-25T20:05:00Z",
-      "betType": "ml",
-      "shadow": false,
-      "pitchers": [
-        "Ryan Johnson"
-      ],
-      "fadeTeam": "LAA",
-      "market": "h2h",
-      "selection": "SF",
-      "line": null,
-      "odds": -110,
-      "stake": 1.1,
-      "result": "pending",
-      "profit": 0.0,
-      "book": "fanduel",
-      "source": "fanduel_api",
-      "reason": null,
-      "home": "SF",
-      "away": "LAA"
-    },
     {
       "date": "2026-07-25",
       "commence": "2026-07-25T22:10:00Z",
@@ -6879,6 +6857,28 @@
       "line": null,
       "odds": -162,
       "stake": 1.62,
+      "result": "WIN",
+      "profit": 1.0,
+      "book": "fanduel",
+      "source": "fanduel_api",
+      "reason": null,
+      "home": "SF",
+      "away": "LAA"
+    },
+    {
+      "date": "2026-07-25",
+      "commence": "2026-07-25T20:05:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Ryan Johnson"
+      ],
+      "fadeTeam": "LAA",
+      "market": "h2h",
+      "selection": "SF",
+      "line": null,
+      "odds": -110,
+      "stake": 1.1,
       "result": "WIN",
       "profit": 1.0,
       "book": "fanduel",
