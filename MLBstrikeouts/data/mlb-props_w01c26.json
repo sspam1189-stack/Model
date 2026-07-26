@@ -4,7 +4,7 @@
   "season": "2026",
   "mode": "live",
   "model": "kalman_blend",
-  "generated": "2026-07-26T21:58:08Z",
+  "generated": "2026-07-26T23:49:48Z",
   "totalProjections": 30,
   "totalPicks": 2495,
   "totalWatchlist": 28,
@@ -83196,7 +83196,7 @@
       "proj_raw": 4.744,
       "would_be_pick": "OVER",
       "date": "2026-07-26",
-      "lockState": "lineup_confirmed",
+      "lockState": "game_started",
       "lockedAt": "2026-07-26T19:44:10.779198Z",
       "lineupConfirmed": true
     },
@@ -83262,7 +83262,7 @@
       "proj_raw": 7.541,
       "would_be_pick": "UNDER",
       "date": "2026-07-26",
-      "lockState": "lineup_confirmed",
+      "lockState": "game_started",
       "lockedAt": "2026-07-26T21:58:08.481080Z",
       "lineupConfirmed": true
     }
@@ -84046,7 +84046,7 @@
       "to_win_1u": 0.93,
       "proj_raw": 4.744,
       "date": "2026-07-26",
-      "lockState": "lineup_confirmed",
+      "lockState": "game_started",
       "lockedAt": "2026-07-26T19:44:10.779198Z",
       "lineupConfirmed": true
     },
@@ -84111,7 +84111,7 @@
       "to_win_1u": 1.36,
       "proj_raw": 7.541,
       "date": "2026-07-26",
-      "lockState": "lineup_confirmed",
+      "lockState": "game_started",
       "lockedAt": "2026-07-26T21:58:08.481080Z",
       "lineupConfirmed": true
     }
@@ -84175,10 +84175,10 @@
     "CIN": "Final",
     "TEX": "Final",
     "SEA": "Final",
-    "SF": "In Progress",
-    "LAA": "In Progress",
-    "PHI": "Pre-Game",
-    "NYY": "Pre-Game"
+    "SF": "Final",
+    "LAA": "Final",
+    "PHI": "In Progress",
+    "NYY": "In Progress"
   },
   "gameTimesById": {
     "822950": "2026-07-26T16:15:00Z",
@@ -84211,8 +84211,8 @@
     "823755": "Final",
     "823028": "Final",
     "822870": "Final",
-    "823194": "In Progress",
-    "823433": "Pre-Game"
+    "823194": "Final",
+    "823433": "In Progress"
   },
   "todayProbables": [
     {

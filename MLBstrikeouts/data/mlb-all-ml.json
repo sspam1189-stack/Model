@@ -1,7 +1,7 @@
 {
   "sport": "MLB",
   "type": "all-ml",
-  "generated": "2026-07-26T21:58:13Z",
+  "generated": "2026-07-26T23:49:52Z",
   "seasonStart": "2026-03-25",
   "today": [
     {
@@ -211,8 +211,8 @@
       "away_pitcher": "Jos\u00e9 Soriano",
       "home_hand": "L",
       "away_hand": "R",
-      "home_win": null,
-      "final": false
+      "home_win": false,
+      "final": true
     },
     {
       "date": "2026-07-26",
@@ -20768,6 +20768,19 @@
       "home_pitcher": "Jacob deGrom",
       "away_pitcher": "Logan Gilbert",
       "home_hand": "R",
+      "away_hand": "R",
+      "home_win": false
+    },
+    {
+      "date": "2026-07-26",
+      "commence": "2026-07-26T20:05:00Z",
+      "home": "SF",
+      "away": "LAA",
+      "home_ml": -102,
+      "away_ml": -116,
+      "home_pitcher": "Carson Whisenhunt",
+      "away_pitcher": "Jos\u00e9 Soriano",
+      "home_hand": "L",
       "away_hand": "R",
       "home_win": false
     }
