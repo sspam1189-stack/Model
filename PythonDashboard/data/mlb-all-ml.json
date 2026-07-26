@@ -1,7 +1,7 @@
 {
   "sport": "MLB",
   "type": "all-ml",
-  "generated": "2026-07-25T23:48:35Z",
+  "generated": "2026-07-26T04:09:06Z",
   "seasonStart": "2026-03-25",
   "today": [
     {
@@ -91,8 +91,8 @@
       "away_pitcher": "Ryan Weathers",
       "home_hand": "L",
       "away_hand": "L",
-      "home_win": null,
-      "final": false
+      "home_win": false,
+      "final": true
     },
     {
       "date": "2026-07-25",
@@ -106,8 +106,8 @@
       "away_pitcher": "Tanner Bibee",
       "home_hand": "R",
       "away_hand": "R",
-      "home_win": null,
-      "final": false
+      "home_win": true,
+      "final": true
     },
     {
       "date": "2026-07-25",
@@ -121,8 +121,8 @@
       "away_pitcher": "Shota Imanaga",
       "home_hand": "R",
       "away_hand": "L",
-      "home_win": null,
-      "final": false
+      "home_win": false,
+      "final": true
     },
     {
       "date": "2026-07-25",
@@ -136,8 +136,8 @@
       "away_pitcher": "Bryce Elder",
       "home_hand": "R",
       "away_hand": "R",
-      "home_win": null,
-      "final": false
+      "home_win": true,
+      "final": true
     },
     {
       "date": "2026-07-25",
@@ -151,8 +151,8 @@
       "away_pitcher": "Brady Basso",
       "home_hand": "L",
       "away_hand": "L",
-      "home_win": null,
-      "final": false
+      "home_win": true,
+      "final": true
     },
     {
       "date": "2026-07-25",
@@ -166,8 +166,8 @@
       "away_pitcher": "Hunter Brown",
       "home_hand": "R",
       "away_hand": "R",
-      "home_win": null,
-      "final": false
+      "home_win": false,
+      "final": true
     },
     {
       "date": "2026-07-25",
@@ -181,8 +181,8 @@
       "away_pitcher": "Ryan Feltner",
       "home_hand": "L",
       "away_hand": "R",
-      "home_win": null,
-      "final": false
+      "home_win": true,
+      "final": true
     },
     {
       "date": "2026-07-25",
@@ -196,8 +196,8 @@
       "away_pitcher": "Yoshinobu Yamamoto",
       "home_hand": "R",
       "away_hand": "R",
-      "home_win": null,
-      "final": false
+      "home_win": false,
+      "final": true
     },
     {
       "date": "2026-07-25",
@@ -211,8 +211,8 @@
       "away_pitcher": "Hunter Greene",
       "home_hand": "R",
       "away_hand": "R",
-      "home_win": null,
-      "final": false
+      "home_win": true,
+      "final": true
     },
     {
       "date": "2026-07-25",
@@ -226,8 +226,8 @@
       "away_pitcher": "Bryan Woo",
       "home_hand": "R",
       "away_hand": "R",
-      "home_win": null,
-      "final": false
+      "home_win": true,
+      "final": true
     }
   ],
   "games": [
@@ -20471,6 +20471,136 @@
       "home_hand": "R",
       "away_hand": "R",
       "home_win": false
+    },
+    {
+      "date": "2026-07-25",
+      "commence": "2026-07-25T22:05:00Z",
+      "home": "PHI",
+      "away": "NYY",
+      "home_ml": 108,
+      "away_ml": -126,
+      "home_pitcher": "Tim Mayza",
+      "away_pitcher": "Ryan Weathers",
+      "home_hand": "L",
+      "away_hand": "L",
+      "home_win": false
+    },
+    {
+      "date": "2026-07-25",
+      "commence": "2026-07-25T22:10:00Z",
+      "home": "TB",
+      "away": "CLE",
+      "home_ml": -120,
+      "away_ml": 102,
+      "home_pitcher": "Nick Martinez",
+      "away_pitcher": "Tanner Bibee",
+      "home_hand": "R",
+      "away_hand": "R",
+      "home_win": true
+    },
+    {
+      "date": "2026-07-25",
+      "commence": "2026-07-25T22:40:00Z",
+      "home": "PIT",
+      "away": "CHC",
+      "home_ml": -120,
+      "away_ml": 102,
+      "home_pitcher": "Paul Skenes",
+      "away_pitcher": "Shota Imanaga",
+      "home_hand": "R",
+      "away_hand": "L",
+      "home_win": false
+    },
+    {
+      "date": "2026-07-25",
+      "commence": "2026-07-25T23:05:00Z",
+      "home": "BAL",
+      "away": "ATL",
+      "home_ml": -110,
+      "away_ml": -106,
+      "home_pitcher": "Brandon Young",
+      "away_pitcher": "Bryce Elder",
+      "home_hand": "R",
+      "away_hand": "R",
+      "home_win": true
+    },
+    {
+      "date": "2026-07-25",
+      "commence": "2026-07-25T23:10:00Z",
+      "home": "MIN",
+      "away": "OAK",
+      "home_ml": -146,
+      "away_ml": 124,
+      "home_pitcher": "Kendry Rojas",
+      "away_pitcher": "Brady Basso",
+      "home_hand": "L",
+      "away_hand": "L",
+      "home_win": true
+    },
+    {
+      "date": "2026-07-25",
+      "commence": "2026-07-25T23:10:00Z",
+      "home": "CWS",
+      "away": "HOU",
+      "home_ml": -108,
+      "away_ml": -108,
+      "home_pitcher": "Sean Burke",
+      "away_pitcher": "Hunter Brown",
+      "home_hand": "R",
+      "away_hand": "R",
+      "home_win": false
+    },
+    {
+      "date": "2026-07-25",
+      "commence": "2026-07-25T23:10:00Z",
+      "home": "MIL",
+      "away": "COL",
+      "home_ml": -230,
+      "away_ml": 190,
+      "home_pitcher": "Robert Gasser",
+      "away_pitcher": "Ryan Feltner",
+      "home_hand": "L",
+      "away_hand": "R",
+      "home_win": true
+    },
+    {
+      "date": "2026-07-25",
+      "commence": "2026-07-25T23:15:00Z",
+      "home": "NYM",
+      "away": "LAD",
+      "home_ml": 130,
+      "away_ml": -154,
+      "home_pitcher": "Nolan McLean",
+      "away_pitcher": "Yoshinobu Yamamoto",
+      "home_hand": "R",
+      "away_hand": "R",
+      "home_win": false
+    },
+    {
+      "date": "2026-07-25",
+      "commence": "2026-07-25T23:15:00Z",
+      "home": "STL",
+      "away": "CIN",
+      "home_ml": -132,
+      "away_ml": 112,
+      "home_pitcher": "Andre Pallante",
+      "away_pitcher": "Hunter Greene",
+      "home_hand": "R",
+      "away_hand": "R",
+      "home_win": true
+    },
+    {
+      "date": "2026-07-25",
+      "commence": "2026-07-25T23:15:00Z",
+      "home": "TEX",
+      "away": "SEA",
+      "home_ml": -108,
+      "away_ml": -108,
+      "home_pitcher": "Nathan Eovaldi",
+      "away_pitcher": "Bryan Woo",
+      "home_hand": "R",
+      "away_hand": "R",
+      "home_win": true
     }
   ]
 }
