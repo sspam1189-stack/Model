@@ -1,7 +1,7 @@
 {
   "sport": "MLB",
   "type": "fade-ml",
-  "generated": "2026-07-26T04:09:04Z",
+  "generated": "2026-07-26T11:14:18Z",
   "fadeList": [
     "Littell",
     "Mikolas",
@@ -65,7 +65,96 @@
       }
     }
   },
-  "today": [],
+  "today": [
+    {
+      "date": "2026-07-26",
+      "commence": "2026-07-26T17:35:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Shane Baz"
+      ],
+      "fadeTeam": "BAL",
+      "market": "h2h",
+      "selection": "ATL",
+      "line": null,
+      "odds": -104,
+      "stake": 1.04,
+      "result": "pending",
+      "profit": 0.0,
+      "book": "fanduel",
+      "source": "fanduel_api",
+      "reason": null,
+      "home": "BAL",
+      "away": "ATL"
+    },
+    {
+      "date": "2026-07-26",
+      "commence": "2026-07-26T18:10:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Kyle Freeland"
+      ],
+      "fadeTeam": "COL",
+      "market": "h2h",
+      "selection": "MIL",
+      "line": null,
+      "odds": -320,
+      "stake": 3.2,
+      "result": "pending",
+      "profit": 0.0,
+      "book": "fanduel",
+      "source": "fanduel_api",
+      "reason": null,
+      "home": "MIL",
+      "away": "COL"
+    },
+    {
+      "date": "2026-07-26",
+      "commence": "2026-07-26T18:10:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Jeffrey Springs"
+      ],
+      "fadeTeam": "OAK",
+      "market": "h2h",
+      "selection": "MIN",
+      "line": null,
+      "odds": -144,
+      "stake": 1.44,
+      "result": "pending",
+      "profit": 0.0,
+      "book": "fanduel",
+      "source": "fanduel_api",
+      "reason": null,
+      "home": "MIN",
+      "away": "OAK"
+    },
+    {
+      "date": "2026-07-26",
+      "commence": "2026-07-26T17:35:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Miles Mikolas"
+      ],
+      "fadeTeam": "WSH",
+      "market": "h2h",
+      "selection": "ARI",
+      "line": null,
+      "odds": -118,
+      "stake": 1.18,
+      "result": "pending",
+      "profit": 0.0,
+      "book": "fanduel",
+      "source": "fanduel_api",
+      "reason": null,
+      "home": "WSH",
+      "away": "ARI"
+    }
+  ],
   "bets": [
     {
       "date": "2026-04-06",
