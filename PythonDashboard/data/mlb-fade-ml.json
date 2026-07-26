@@ -1,7 +1,7 @@
 {
   "sport": "MLB",
   "type": "fade-ml",
-  "generated": "2026-07-25T23:48:33Z",
+  "generated": "2026-07-26T04:03:08Z",
   "fadeList": [
     "Littell",
     "Mikolas",
@@ -32,26 +32,27 @@
     "Baz",
     "Noah Schultz",
     "Lowder",
-    "Zebby Matthews"
+    "Zebby Matthews",
+    "Skenes"
   ],
   "mutualRule": "underdog",
   "summary": {
-    "wins": 203,
-    "losses": 102,
+    "wins": 217,
+    "losses": 110,
     "voids": 2,
     "skips": 0,
-    "staked": 390.75,
-    "units": 93.95,
-    "roi": 0.2404,
+    "staked": 413.57,
+    "units": 103.89,
+    "roi": 0.2512,
     "byType": {
       "ml": {
-        "wins": 188,
-        "losses": 95,
+        "wins": 202,
+        "losses": 103,
         "voids": 2,
         "skips": 0,
-        "staked": 368.61,
-        "units": 83.21,
-        "roi": 0.2257
+        "staked": 391.43,
+        "units": 93.15,
+        "roi": 0.238
       },
       "ml_dog": {
         "wins": 15,
@@ -155,6 +156,28 @@
       "reason": null,
       "home": "NYM",
       "away": "ARI"
+    },
+    {
+      "date": "2026-04-07",
+      "commence": "2026-04-07T22:40:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Paul Skenes"
+      ],
+      "fadeTeam": "PIT",
+      "market": "h2h",
+      "selection": "SD",
+      "line": null,
+      "odds": 122,
+      "stake": 1.0,
+      "result": "LOSS",
+      "profit": -1.0,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null,
+      "home": "PIT",
+      "away": "SD"
     },
     {
       "date": "2026-04-07",
@@ -425,6 +448,28 @@
     },
     {
       "date": "2026-04-13",
+      "commence": "2026-04-13T22:40:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Paul Skenes"
+      ],
+      "fadeTeam": "PIT",
+      "market": "h2h",
+      "selection": "WSH",
+      "line": null,
+      "odds": 188,
+      "stake": 1.0,
+      "result": "LOSS",
+      "profit": -1.0,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null,
+      "home": "PIT",
+      "away": "WSH"
+    },
+    {
+      "date": "2026-04-13",
       "commence": "2026-04-14T02:10:00Z",
       "betType": "ml",
       "shadow": false,
@@ -686,6 +731,28 @@
       "reason": null,
       "home": "CHC",
       "away": "NYM"
+    },
+    {
+      "date": "2026-04-18",
+      "commence": "2026-04-18T19:30:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Paul Skenes"
+      ],
+      "fadeTeam": "PIT",
+      "market": "h2h",
+      "selection": "TB",
+      "line": null,
+      "odds": 128,
+      "stake": 1.0,
+      "result": "WIN",
+      "profit": 1.28,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null,
+      "home": "PIT",
+      "away": "TB"
     },
     {
       "date": "2026-04-18",
@@ -1063,6 +1130,28 @@
     },
     {
       "date": "2026-04-24",
+      "commence": "2026-04-24T23:40:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Paul Skenes"
+      ],
+      "fadeTeam": "PIT",
+      "market": "h2h",
+      "selection": "MIL",
+      "line": null,
+      "odds": 100,
+      "stake": 1.0,
+      "result": "LOSS",
+      "profit": -1.0,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null,
+      "home": "MIL",
+      "away": "PIT"
+    },
+    {
+      "date": "2026-04-24",
       "commence": "2026-04-25T02:15:00Z",
       "betType": "ml",
       "shadow": false,
@@ -1434,6 +1523,28 @@
       "reason": null,
       "home": "NYM",
       "away": "WSH"
+    },
+    {
+      "date": "2026-04-30",
+      "commence": "2026-04-30T16:35:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Paul Skenes"
+      ],
+      "fadeTeam": "PIT",
+      "market": "h2h",
+      "selection": "STL",
+      "line": null,
+      "odds": 200,
+      "stake": 1.0,
+      "result": "WIN",
+      "profit": 2.0,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null,
+      "home": "PIT",
+      "away": "STL"
     },
     {
       "date": "2026-04-30",
@@ -1922,6 +2033,28 @@
       "away": "NYM"
     },
     {
+      "date": "2026-05-06",
+      "commence": "2026-05-07T01:40:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Paul Skenes"
+      ],
+      "fadeTeam": "PIT",
+      "market": "h2h",
+      "selection": "ARI",
+      "line": null,
+      "odds": 112,
+      "stake": 1.0,
+      "result": "LOSS",
+      "profit": -1.0,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null,
+      "home": "ARI",
+      "away": "PIT"
+    },
+    {
       "date": "2026-05-07",
       "commence": "2026-05-07T18:20:00Z",
       "betType": "ml",
@@ -2186,6 +2319,28 @@
       "reason": null,
       "home": "SF",
       "away": "PIT"
+    },
+    {
+      "date": "2026-05-12",
+      "commence": "2026-05-12T22:40:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Paul Skenes"
+      ],
+      "fadeTeam": "PIT",
+      "market": "h2h",
+      "selection": "COL",
+      "line": null,
+      "odds": 235,
+      "stake": 1.0,
+      "result": "LOSS",
+      "profit": -1.0,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null,
+      "home": "PIT",
+      "away": "COL"
     },
     {
       "date": "2026-05-12",
@@ -2519,6 +2674,28 @@
       "reason": null,
       "home": "OAK",
       "away": "SF"
+    },
+    {
+      "date": "2026-05-17",
+      "commence": "2026-05-17T17:35:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Paul Skenes"
+      ],
+      "fadeTeam": "PIT",
+      "market": "h2h",
+      "selection": "PHI",
+      "line": null,
+      "odds": 110,
+      "stake": 1.0,
+      "result": "WIN",
+      "profit": 1.1,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null,
+      "home": "PIT",
+      "away": "PHI"
     },
     {
       "date": "2026-05-17",
@@ -2918,6 +3095,28 @@
     },
     {
       "date": "2026-05-23",
+      "commence": "2026-05-23T19:07:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Paul Skenes"
+      ],
+      "fadeTeam": "PIT",
+      "market": "h2h",
+      "selection": "TOR",
+      "line": null,
+      "odds": 122,
+      "stake": 1.0,
+      "result": "WIN",
+      "profit": 1.22,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null,
+      "home": "TOR",
+      "away": "PIT"
+    },
+    {
+      "date": "2026-05-23",
       "commence": "2026-05-23T20:10:00Z",
       "betType": "ml",
       "shadow": false,
@@ -3268,6 +3467,28 @@
       "reason": null,
       "home": "TEX",
       "away": "HOU"
+    },
+    {
+      "date": "2026-05-28",
+      "commence": "2026-05-28T22:40:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Paul Skenes"
+      ],
+      "fadeTeam": "PIT",
+      "market": "h2h",
+      "selection": "CHC",
+      "line": null,
+      "odds": 146,
+      "stake": 1.0,
+      "result": "WIN",
+      "profit": 1.46,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null,
+      "home": "PIT",
+      "away": "CHC"
     },
     {
       "date": "2026-05-29",
@@ -3646,6 +3867,28 @@
     },
     {
       "date": "2026-06-03",
+      "commence": "2026-06-04T00:10:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Paul Skenes"
+      ],
+      "fadeTeam": "PIT",
+      "market": "h2h",
+      "selection": "HOU",
+      "line": null,
+      "odds": 124,
+      "stake": 1.0,
+      "result": "WIN",
+      "profit": 1.24,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null,
+      "home": "HOU",
+      "away": "PIT"
+    },
+    {
+      "date": "2026-06-03",
       "commence": "2026-06-04T01:40:00Z",
       "betType": "ml",
       "shadow": false,
@@ -4020,6 +4263,28 @@
     },
     {
       "date": "2026-06-09",
+      "commence": "2026-06-09T22:40:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Paul Skenes"
+      ],
+      "fadeTeam": "PIT",
+      "market": "h2h",
+      "selection": "LAD",
+      "line": null,
+      "odds": 102,
+      "stake": 1.0,
+      "result": "WIN",
+      "profit": 1.02,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null,
+      "home": "PIT",
+      "away": "LAD"
+    },
+    {
+      "date": "2026-06-09",
       "commence": "2026-06-09T23:10:00Z",
       "betType": "ml",
       "shadow": false,
@@ -4304,6 +4569,28 @@
       "reason": null,
       "home": "OAK",
       "away": "COL"
+    },
+    {
+      "date": "2026-06-14",
+      "commence": "2026-06-14T16:15:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Paul Skenes"
+      ],
+      "fadeTeam": "PIT",
+      "market": "h2h",
+      "selection": "MIA",
+      "line": null,
+      "odds": 132,
+      "stake": 1.0,
+      "result": "WIN",
+      "profit": 1.32,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null,
+      "home": "PIT",
+      "away": "MIA"
     },
     {
       "date": "2026-06-14",
@@ -4747,6 +5034,28 @@
     },
     {
       "date": "2026-06-20",
+      "commence": "2026-06-21T01:10:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Paul Skenes"
+      ],
+      "fadeTeam": "PIT",
+      "market": "h2h",
+      "selection": "COL",
+      "line": null,
+      "odds": 184,
+      "stake": 1.0,
+      "result": "WIN",
+      "profit": 1.84,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null,
+      "home": "COL",
+      "away": "PIT"
+    },
+    {
+      "date": "2026-06-20",
       "commence": "2026-06-21T02:10:00Z",
       "betType": "ml",
       "shadow": false,
@@ -5098,6 +5407,28 @@
       "reason": null,
       "home": "NYM",
       "away": "CHC"
+    },
+    {
+      "date": "2026-06-26",
+      "commence": "2026-06-26T22:40:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Paul Skenes"
+      ],
+      "fadeTeam": "PIT",
+      "market": "h2h",
+      "selection": "CIN",
+      "line": null,
+      "odds": 154,
+      "stake": 1.0,
+      "result": "WIN",
+      "profit": 1.54,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null,
+      "home": "PIT",
+      "away": "CIN"
     },
     {
       "date": "2026-06-26",
@@ -5543,6 +5874,28 @@
     },
     {
       "date": "2026-07-01",
+      "commence": "2026-07-01T22:40:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Paul Skenes"
+      ],
+      "fadeTeam": "PIT",
+      "market": "h2h",
+      "selection": "PHI",
+      "line": null,
+      "odds": -144,
+      "stake": 1.44,
+      "result": "WIN",
+      "profit": 1.0,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null,
+      "home": "PHI",
+      "away": "PIT"
+    },
+    {
+      "date": "2026-07-01",
       "commence": "2026-07-02T00:40:00Z",
       "betType": "ml",
       "shadow": false,
@@ -5940,6 +6293,28 @@
     },
     {
       "date": "2026-07-07",
+      "commence": "2026-07-07T22:40:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Paul Skenes"
+      ],
+      "fadeTeam": "PIT",
+      "market": "h2h",
+      "selection": "ATL",
+      "line": null,
+      "odds": 126,
+      "stake": 1.0,
+      "result": "LOSS",
+      "profit": -1.0,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null,
+      "home": "PIT",
+      "away": "ATL"
+    },
+    {
+      "date": "2026-07-07",
       "commence": "2026-07-07T23:40:00Z",
       "betType": "ml",
       "shadow": false,
@@ -6227,6 +6602,28 @@
     },
     {
       "date": "2026-07-12",
+      "commence": "2026-07-12T16:15:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Paul Skenes"
+      ],
+      "fadeTeam": "PIT",
+      "market": "h2h",
+      "selection": "MIL",
+      "line": null,
+      "odds": 110,
+      "stake": 1.0,
+      "result": "LOSS",
+      "profit": -1.0,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null,
+      "home": "PIT",
+      "away": "MIL"
+    },
+    {
+      "date": "2026-07-12",
       "commence": "2026-07-12T17:35:00Z",
       "betType": "ml",
       "shadow": false,
@@ -6488,6 +6885,28 @@
       "reason": null,
       "home": "OAK",
       "away": "WSH"
+    },
+    {
+      "date": "2026-07-19",
+      "commence": "2026-07-19T17:40:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Paul Skenes"
+      ],
+      "fadeTeam": "PIT",
+      "market": "h2h",
+      "selection": "CLE",
+      "line": null,
+      "odds": -110,
+      "stake": 1.1,
+      "result": "LOSS",
+      "profit": -1.1,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null,
+      "home": "CLE",
+      "away": "PIT"
     },
     {
       "date": "2026-07-19",
@@ -6886,6 +7305,72 @@
       "reason": null,
       "home": "SF",
       "away": "LAA"
+    },
+    {
+      "date": "2026-07-25",
+      "commence": "2026-07-25T22:10:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Tanner Bibee"
+      ],
+      "fadeTeam": "CLE",
+      "market": "h2h",
+      "selection": "TB",
+      "line": null,
+      "odds": -120,
+      "stake": 1.2,
+      "result": "WIN",
+      "profit": 1.0,
+      "book": "fanduel",
+      "source": "fanduel_api",
+      "reason": null,
+      "home": "TB",
+      "away": "CLE"
+    },
+    {
+      "date": "2026-07-25",
+      "commence": "2026-07-25T22:40:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Paul Skenes"
+      ],
+      "fadeTeam": "PIT",
+      "market": "h2h",
+      "selection": "CHC",
+      "line": null,
+      "odds": 102,
+      "stake": 1.0,
+      "result": "WIN",
+      "profit": 1.02,
+      "book": "fanduel",
+      "source": "fanduel_api",
+      "reason": null,
+      "home": "PIT",
+      "away": "CHC"
+    },
+    {
+      "date": "2026-07-25",
+      "commence": "2026-07-25T23:15:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Bryan Woo"
+      ],
+      "fadeTeam": "SEA",
+      "market": "h2h",
+      "selection": "TEX",
+      "line": null,
+      "odds": -108,
+      "stake": 1.08,
+      "result": "WIN",
+      "profit": 1.0,
+      "book": "fanduel",
+      "source": "fanduel_api",
+      "reason": null,
+      "home": "TEX",
+      "away": "SEA"
     }
   ]
 }
