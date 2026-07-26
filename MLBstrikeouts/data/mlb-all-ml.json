@@ -1,7 +1,7 @@
 {
   "sport": "MLB",
   "type": "all-ml",
-  "generated": "2026-07-26T19:44:14Z",
+  "generated": "2026-07-26T21:58:13Z",
   "seasonStart": "2026-03-25",
   "today": [
     {
@@ -31,8 +31,8 @@
       "away_pitcher": "Kohl Drake",
       "home_hand": "R",
       "away_hand": "L",
-      "home_win": null,
-      "final": false
+      "home_win": true,
+      "final": true
     },
     {
       "date": "2026-07-26",
@@ -46,8 +46,8 @@
       "away_pitcher": "Jameson Taillon",
       "home_hand": "R",
       "away_hand": "R",
-      "home_win": null,
-      "final": false
+      "home_win": true,
+      "final": true
     },
     {
       "date": "2026-07-26",
@@ -61,8 +61,8 @@
       "away_pitcher": "Kevin Gausman",
       "home_hand": "L",
       "away_hand": "R",
-      "home_win": null,
-      "final": false
+      "home_win": true,
+      "final": true
     },
     {
       "date": "2026-07-26",
@@ -76,8 +76,8 @@
       "away_pitcher": "Reynaldo L\u00f3pez",
       "home_hand": "R",
       "away_hand": "R",
-      "home_win": null,
-      "final": false
+      "home_win": false,
+      "final": true
     },
     {
       "date": "2026-07-26",
@@ -91,8 +91,8 @@
       "away_pitcher": "Luinder Avila",
       "home_hand": "L",
       "away_hand": "R",
-      "home_win": null,
-      "final": false
+      "home_win": false,
+      "final": true
     },
     {
       "date": "2026-07-26",
@@ -106,8 +106,8 @@
       "away_pitcher": "Emmet Sheehan",
       "home_hand": "R",
       "away_hand": "R",
-      "home_win": null,
-      "final": false
+      "home_win": true,
+      "final": true
     },
     {
       "date": "2026-07-26",
@@ -121,8 +121,8 @@
       "away_pitcher": "Walker Buehler",
       "home_hand": "R",
       "away_hand": "R",
-      "home_win": null,
-      "final": false
+      "home_win": false,
+      "final": true
     },
     {
       "date": "2026-07-26",
@@ -136,8 +136,8 @@
       "away_pitcher": "Jeffrey Springs",
       "home_hand": "L",
       "away_hand": "L",
-      "home_win": null,
-      "final": false
+      "home_win": true,
+      "final": true
     },
     {
       "date": "2026-07-26",
@@ -151,8 +151,8 @@
       "away_pitcher": "Ronel Blanco",
       "home_hand": "R",
       "away_hand": "R",
-      "home_win": null,
-      "final": false
+      "home_win": true,
+      "final": true
     },
     {
       "date": "2026-07-26",
@@ -166,8 +166,8 @@
       "away_pitcher": "Kyle Freeland",
       "home_hand": "R",
       "away_hand": "L",
-      "home_win": null,
-      "final": false
+      "home_win": true,
+      "final": true
     },
     {
       "date": "2026-07-26",
@@ -181,8 +181,8 @@
       "away_pitcher": "Andrew Abbott",
       "home_hand": "R",
       "away_hand": "L",
-      "home_win": null,
-      "final": false
+      "home_win": false,
+      "final": true
     },
     {
       "date": "2026-07-26",
@@ -196,8 +196,8 @@
       "away_pitcher": "Logan Gilbert",
       "home_hand": "R",
       "away_hand": "R",
-      "home_win": null,
-      "final": false
+      "home_win": false,
+      "final": true
     },
     {
       "date": "2026-07-26",
@@ -219,8 +219,8 @@
       "commence": "2026-07-26T23:20:00Z",
       "home": "PHI",
       "away": "NYY",
-      "home_ml": -184,
-      "away_ml": 154,
+      "home_ml": -198,
+      "away_ml": 166,
       "total_line": 8,
       "home_pitcher": "Cristopher S\u00e1nchez",
       "away_pitcher": "Will Warren",
@@ -20614,6 +20614,162 @@
       "home_hand": "R",
       "away_hand": "L",
       "home_win": true
+    },
+    {
+      "date": "2026-07-26",
+      "commence": "2026-07-26T17:35:00Z",
+      "home": "WSH",
+      "away": "ARI",
+      "home_ml": 100,
+      "away_ml": -118,
+      "home_pitcher": "Miles Mikolas",
+      "away_pitcher": "Kohl Drake",
+      "home_hand": "R",
+      "away_hand": "L",
+      "home_win": true
+    },
+    {
+      "date": "2026-07-26",
+      "commence": "2026-07-26T17:35:00Z",
+      "home": "PIT",
+      "away": "CHC",
+      "home_ml": -132,
+      "away_ml": 112,
+      "home_pitcher": "Braxton Ashcraft",
+      "away_pitcher": "Jameson Taillon",
+      "home_hand": "R",
+      "away_hand": "R",
+      "home_win": true
+    },
+    {
+      "date": "2026-07-26",
+      "commence": "2026-07-26T17:35:00Z",
+      "home": "BOS",
+      "away": "TOR",
+      "home_ml": -142,
+      "away_ml": 120,
+      "home_pitcher": "Ranger Suarez",
+      "away_pitcher": "Kevin Gausman",
+      "home_hand": "L",
+      "away_hand": "R",
+      "home_win": true
+    },
+    {
+      "date": "2026-07-26",
+      "commence": "2026-07-26T17:35:00Z",
+      "home": "BAL",
+      "away": "ATL",
+      "home_ml": -106,
+      "away_ml": -110,
+      "home_pitcher": "Shane Baz",
+      "away_pitcher": "Reynaldo L\u00f3pez",
+      "home_hand": "R",
+      "away_hand": "R",
+      "home_win": false
+    },
+    {
+      "date": "2026-07-26",
+      "commence": "2026-07-26T17:40:00Z",
+      "home": "DET",
+      "away": "KC",
+      "home_ml": -190,
+      "away_ml": 160,
+      "home_pitcher": "Framber Valdez",
+      "away_pitcher": "Luinder Avila",
+      "home_hand": "L",
+      "away_hand": "R",
+      "home_win": false
+    },
+    {
+      "date": "2026-07-26",
+      "commence": "2026-07-26T17:40:00Z",
+      "home": "NYM",
+      "away": "LAD",
+      "home_ml": 126,
+      "away_ml": -148,
+      "home_pitcher": "Freddy Peralta",
+      "away_pitcher": "Emmet Sheehan",
+      "home_hand": "R",
+      "away_hand": "R",
+      "home_win": true
+    },
+    {
+      "date": "2026-07-26",
+      "commence": "2026-07-26T17:40:00Z",
+      "home": "MIA",
+      "away": "SD",
+      "home_ml": -124,
+      "away_ml": 106,
+      "home_pitcher": "Janson Junk",
+      "away_pitcher": "Walker Buehler",
+      "home_hand": "R",
+      "away_hand": "R",
+      "home_win": false
+    },
+    {
+      "date": "2026-07-26",
+      "commence": "2026-07-26T18:10:00Z",
+      "home": "MIN",
+      "away": "OAK",
+      "home_ml": -156,
+      "away_ml": 132,
+      "home_pitcher": "Connor Prielipp",
+      "away_pitcher": "Jeffrey Springs",
+      "home_hand": "L",
+      "away_hand": "L",
+      "home_win": true
+    },
+    {
+      "date": "2026-07-26",
+      "commence": "2026-07-26T18:10:00Z",
+      "home": "CWS",
+      "away": "HOU",
+      "home_ml": -110,
+      "away_ml": -106,
+      "home_pitcher": "Erick Fedde",
+      "away_pitcher": "Ronel Blanco",
+      "home_hand": "R",
+      "away_hand": "R",
+      "home_win": true
+    },
+    {
+      "date": "2026-07-26",
+      "commence": "2026-07-26T18:10:00Z",
+      "home": "MIL",
+      "away": "COL",
+      "home_ml": -360,
+      "away_ml": 290,
+      "home_pitcher": "Jacob Misiorowski",
+      "away_pitcher": "Kyle Freeland",
+      "home_hand": "R",
+      "away_hand": "L",
+      "home_win": true
+    },
+    {
+      "date": "2026-07-26",
+      "commence": "2026-07-26T18:15:00Z",
+      "home": "STL",
+      "away": "CIN",
+      "home_ml": -134,
+      "away_ml": 116,
+      "home_pitcher": "Kyle Leahy",
+      "away_pitcher": "Andrew Abbott",
+      "home_hand": "R",
+      "away_hand": "L",
+      "home_win": false
+    },
+    {
+      "date": "2026-07-26",
+      "commence": "2026-07-26T18:35:00Z",
+      "home": "TEX",
+      "away": "SEA",
+      "home_ml": -110,
+      "away_ml": -106,
+      "home_pitcher": "Jacob deGrom",
+      "away_pitcher": "Logan Gilbert",
+      "home_hand": "R",
+      "away_hand": "R",
+      "home_win": false
     }
   ]
 }
