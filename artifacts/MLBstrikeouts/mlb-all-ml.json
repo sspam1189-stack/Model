@@ -1,7 +1,7 @@
 {
   "sport": "MLB",
   "type": "all-ml",
-  "generated": "2026-07-26T16:53:57Z",
+  "generated": "2026-07-26T19:44:14Z",
   "seasonStart": "2026-03-25",
   "today": [
     {
@@ -16,8 +16,8 @@
       "away_pitcher": "Parker Messick",
       "home_hand": "R",
       "away_hand": "L",
-      "home_win": null,
-      "final": false
+      "home_win": true,
+      "final": true
     },
     {
       "date": "2026-07-26",
@@ -204,8 +204,8 @@
       "commence": "2026-07-26T20:05:00Z",
       "home": "SF",
       "away": "LAA",
-      "home_ml": -104,
-      "away_ml": -112,
+      "home_ml": -102,
+      "away_ml": -116,
       "total_line": 8.5,
       "home_pitcher": "Carson Whisenhunt",
       "away_pitcher": "Jos\u00e9 Soriano",
@@ -20600,6 +20600,19 @@
       "away_pitcher": "Bryan Woo",
       "home_hand": "R",
       "away_hand": "R",
+      "home_win": true
+    },
+    {
+      "date": "2026-07-26",
+      "commence": "2026-07-26T16:15:00Z",
+      "home": "TB",
+      "away": "CLE",
+      "home_ml": -126,
+      "away_ml": 108,
+      "home_pitcher": "Drew Rasmussen",
+      "away_pitcher": "Parker Messick",
+      "home_hand": "R",
+      "away_hand": "L",
       "home_win": true
     }
   ]
