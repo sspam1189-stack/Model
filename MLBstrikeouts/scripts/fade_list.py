@@ -126,7 +126,7 @@ FADE_WINDOW = {
     "Jacob Lopez":    {"add": SEASON_START},
     "Ryan Johnson":   {"add": SEASON_START},
     "Poulin":         {"add": SEASON_START},
-    "Singer":         {"add": SEASON_START},
+    "Singer":         {"add": SEASON_START, "remove": "2026-07-27"},  # removed from 7/27
     "Freeland":       {"add": SEASON_START},  # backfilled: faded all season
     "Baz":            {"add": SEASON_START},  # backfilled: faded all season
     "Noah Schultz":   {"add": SEASON_START},  # backfilled: faded all season
