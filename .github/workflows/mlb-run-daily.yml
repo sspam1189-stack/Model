@@ -28,7 +28,7 @@ concurrency:
 
 jobs:
   mlb-props:
-    runs-on: windows-latest
+    runs-on: self-hosted
     defaults:
       run:
         shell: powershell
