@@ -27,9 +27,16 @@ OUTPUT_PATHS = [
 ]
 
 # --- config ---------------------------------------------------------------
-# skip | underdog | favorite. 'underdog' bets the underdog's ML on mutual
-# fades (both starters fade). Weak edge / tiny sample -- tracked separately.
-MUTUAL_FADE_RULE = os.environ.get("MUTUAL_FADE_RULE", "underdog")
+# skip | underdog | home_underdog | favorite. On mutual fades (both starters
+# fade) the ml side is chosen by this rule:
+#   underdog       - bet the underdog's ML (any venue).
+#   home_underdog  - bet the underdog's ML ONLY when the dog is the HOME team;
+#                    road dogs are skipped. Leans on the MLB home-underdog
+#                    edge (home mutual dogs 7-2 vs road 17-18 in-sample). LIVE
+#                    default as of 2026-07-27.
+#   favorite       - bet the favorite's ML.
+#   skip           - no ML bet on mutual games.
+MUTUAL_FADE_RULE = os.environ.get("MUTUAL_FADE_RULE", "home_underdog")
 
 # Bet types that make up the record (moneyline only).
 REAL_BET_TYPES = ("ml", "ml_dog")
@@ -208,11 +215,17 @@ def build_bets_for_game(date, fg, g, odds_row):
             mls = {home: odds_row["home_ml"], away: odds_row["away_ml"]}
             if MUTUAL_FADE_RULE == "favorite":
                 team = min(mls, key=lambda t: mls[t])
-            else:  # underdog (default)
+            else:  # underdog / home_underdog
                 team = max(mls, key=lambda t: mls[t])
-            result, reason = _settle_ml(g, team)
-            bets.append(_bet(date, commence, "ml_dog", fg, "h2h", team, None,
-                             mls[team], result, reason, source=source))
+            if MUTUAL_FADE_RULE == "home_underdog" and team != home:
+                # Road dog on a mutual game -> no bet (home-dog-only rule).
+                bets.append(_bet(date, commence, "ml_dog", fg, "h2h", None,
+                                 None, None, "SKIP", "road_dog_skip",
+                                 source=source))
+            else:
+                result, reason = _settle_ml(g, team)
+                bets.append(_bet(date, commence, "ml_dog", fg, "h2h", team, None,
+                                 mls[team], result, reason, source=source))
         else:
             bets.append(_bet(date, commence, "ml_dog", fg, "h2h", None, None,
                              None, "VOID", "no_price", source=source))
