@@ -30,6 +30,7 @@ FADE_LIST = [
     "Ryne Nelson", "Feltner", "Wacha", "Bello", "Agnos",
     # Added 2026-07-27 (venue-split analysis): venue-restricted new arms.
     "Mahle", "Aaron Nola", "Taillon", "Trevor McDonald", "Colin Rea",
+    "Jack Perkins",
 ]
 
 # Per-arm venue restriction: fade the arm ONLY when his team plays at this
@@ -138,6 +139,7 @@ FADE_WINDOW = {
     "Taillon":           {"add": SEASON_START},  # home-only (see FADE_VENUE)
     "Trevor McDonald":   {"add": SEASON_START},  # home-only (see FADE_VENUE)
     "Colin Rea":         {"add": SEASON_START},
+    "Jack Perkins":      {"add": SEASON_START},
 }
 
 
