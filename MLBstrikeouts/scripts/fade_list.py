@@ -24,6 +24,12 @@ FADE_LIST = [
     "Jacob Lopez", "Ryan Johnson", "Poulin", "Singer", "Dustin May",
     "Grayson Rodriguez", "Bryan Woo", "Freeland", "Baz", "Noah Schultz",
     "Lowder", "Zebby Matthews", "Skenes",
+    # Added 2026-07-27 from fade-candidate analysis (forward-only from that date).
+    "Paddack", "Noah Cameron", "Gausman", "Woods Richardson", "Luis Castillo",
+    "Framber Valdez", "Kochanowicz", "Jack Flaherty", "Cecconi", "Detmers",
+    "Ryne Nelson", "Feltner", "Wacha", "Bello", "Agnos",
+    # Added 2026-07-27 (venue-split analysis): venue-restricted new arms.
+    "Mahle", "Aaron Nola", "Taillon", "Trevor McDonald", "Colin Rea",
 ]
 
 # Per-arm venue restriction: fade the arm ONLY when his team plays at this
@@ -31,6 +37,25 @@ FADE_LIST = [
 # The venue is the arm's-team side of the game (away = he starts on the road).
 FADE_VENUE = {
     "Bryan Woo": "away",  # only fade when he starts on the road
+    # Added 2026-07-27 (venue-restricted per candidate analysis).
+    "Framber Valdez": "away",
+    "Jack Flaherty": "away",
+    "Cecconi": "away",
+    "Detmers": "home",
+    "Ryne Nelson": "away",
+    "Feltner": "away",
+    "Wacha": "away",
+    "Jacob Lopez": "home",  # 2026-07-27: away 2-5 -5.42u; fade at home only
+    # 2026-07-27 venue-split analysis: new venue-restricted adds.
+    "Mahle": "away",           # home 3-5 -3.55u; away 8-0 +8.00u
+    "Aaron Nola": "home",      # away 5-6 -1.90u; home 7-3 +4.76u
+    "Taillon": "home",         # away flat +0.10u; home 5-3 +2.52u
+    "Trevor McDonald": "home", # away 3-4 -2.78u; home 5-2 +2.64u
+    # 2026-07-27: existing all-venue arms leaking on one side -> restrict.
+    "Freeland": "away",        # home 5-4 -1.20u; away 9-2 +4.25u
+    "Gallen": "away",          # home flat +0.56u; away 8-2 +5.62u
+    "Dustin May": "home",      # away 4-5 -1.86u; home 7-4 +2.90u
+    "Civale": "home",          # away 4-4 -1.40u; home 5-2 +3.08u
 }
 
 # Arms NOT faded on MUTUAL games (both starters are fade arms). When a mutual
@@ -91,6 +116,29 @@ FADE_WINDOW = {
     "Grayson Rodriguez": {"add": "2026-07-19"},
     "Bryan Woo":         {"add": "2026-07-20"},  # away-only (see FADE_VENUE)
     "Zebby Matthews":    {"add": "2026-07-25"},  # added 7/25: fade from here on
+    # Added 2026-07-27 from fade-candidate analysis — backfilled to season
+    # start so their full-season fade history is on the record. Venue-
+    # restricted arms are faded all season but only on the required side.
+    "Paddack":           {"add": SEASON_START},
+    "Noah Cameron":      {"add": SEASON_START},
+    "Gausman":           {"add": SEASON_START},
+    "Woods Richardson":  {"add": SEASON_START},
+    "Luis Castillo":     {"add": SEASON_START},
+    "Framber Valdez":    {"add": SEASON_START},  # away-only (see FADE_VENUE)
+    "Kochanowicz":       {"add": SEASON_START},
+    "Jack Flaherty":     {"add": SEASON_START},  # away-only (see FADE_VENUE)
+    "Cecconi":           {"add": SEASON_START},  # away-only (see FADE_VENUE)
+    "Detmers":           {"add": SEASON_START},  # home-only (see FADE_VENUE)
+    "Ryne Nelson":       {"add": SEASON_START},  # away-only (see FADE_VENUE)
+    "Feltner":           {"add": SEASON_START},  # away-only (see FADE_VENUE)
+    "Wacha":             {"add": SEASON_START},  # away-only (see FADE_VENUE)
+    "Bello":             {"add": SEASON_START},
+    "Agnos":             {"add": SEASON_START},
+    "Mahle":             {"add": SEASON_START},  # away-only (see FADE_VENUE)
+    "Aaron Nola":        {"add": SEASON_START},  # home-only (see FADE_VENUE)
+    "Taillon":           {"add": SEASON_START},  # home-only (see FADE_VENUE)
+    "Trevor McDonald":   {"add": SEASON_START},  # home-only (see FADE_VENUE)
+    "Colin Rea":         {"add": SEASON_START},
 }
 
 

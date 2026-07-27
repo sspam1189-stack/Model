@@ -1,7 +1,7 @@
 {
   "sport": "MLB",
   "type": "fade-ml",
-  "generated": "2026-07-27T12:53:04Z",
+  "generated": "2026-07-27T15:11:46Z",
   "fadeList": [
     "Littell",
     "Mikolas",
@@ -33,35 +33,55 @@
     "Noah Schultz",
     "Lowder",
     "Zebby Matthews",
-    "Skenes"
+    "Skenes",
+    "Paddack",
+    "Noah Cameron",
+    "Gausman",
+    "Woods Richardson",
+    "Luis Castillo",
+    "Framber Valdez",
+    "Kochanowicz",
+    "Jack Flaherty",
+    "Cecconi",
+    "Detmers",
+    "Ryne Nelson",
+    "Feltner",
+    "Wacha",
+    "Bello",
+    "Agnos",
+    "Mahle",
+    "Aaron Nola",
+    "Taillon",
+    "Trevor McDonald",
+    "Colin Rea"
   ],
   "mutualRule": "underdog",
   "summary": {
-    "wins": 220,
-    "losses": 111,
+    "wins": 333,
+    "losses": 138,
     "voids": 2,
     "skips": 0,
-    "staked": 421.01,
-    "units": 105.71,
-    "roi": 0.2511,
+    "staked": 594.8,
+    "units": 192.84,
+    "roi": 0.3242,
     "byType": {
       "ml": {
-        "wins": 205,
-        "losses": 104,
+        "wins": 313,
+        "losses": 119,
         "voids": 2,
         "skips": 0,
-        "staked": 398.87,
-        "units": 94.97,
-        "roi": 0.2381
+        "staked": 555.34,
+        "units": 189.14,
+        "roi": 0.3406
       },
       "ml_dog": {
-        "wins": 15,
-        "losses": 7,
+        "wins": 20,
+        "losses": 19,
         "voids": 0,
         "skips": 0,
-        "staked": 22.14,
-        "units": 10.74,
-        "roi": 0.4851
+        "staked": 39.46,
+        "units": 3.7,
+        "roi": 0.0938
       }
     }
   },
@@ -226,14 +246,35 @@
     },
     {
       "date": "2026-04-07",
-      "commence": "2026-04-08T00:40:00Z",
-      "betType": "ml_dog",
+      "commence": "2026-04-07T23:07:00Z",
+      "betType": "ml",
       "shadow": false,
       "pitchers": [
-        "Mike Burrows",
-        "Kyle Freeland"
+        "Kevin Gausman"
       ],
-      "fadeTeam": null,
+      "fadeTeam": "TOR",
+      "market": "h2h",
+      "selection": "LAD",
+      "line": null,
+      "odds": -154,
+      "stake": 1.54,
+      "result": "WIN",
+      "profit": 1.0,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null,
+      "home": "TOR",
+      "away": "LAD"
+    },
+    {
+      "date": "2026-04-07",
+      "commence": "2026-04-08T00:40:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Mike Burrows"
+      ],
+      "fadeTeam": "HOU",
       "market": "h2h",
       "selection": "COL",
       "line": null,
@@ -271,13 +312,36 @@
     },
     {
       "date": "2026-04-08",
-      "commence": "2026-04-08T20:10:00Z",
+      "commence": "2026-04-08T20:07:00Z",
       "betType": "ml",
       "shadow": false,
       "pitchers": [
+        "Reid Detmers"
+      ],
+      "fadeTeam": "LAA",
+      "market": "h2h",
+      "selection": "ATL",
+      "line": null,
+      "odds": -126,
+      "stake": 1.26,
+      "result": "WIN",
+      "profit": 1.0,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null,
+      "home": "LAA",
+      "away": "ATL"
+    },
+    {
+      "date": "2026-04-08",
+      "commence": "2026-04-08T20:10:00Z",
+      "betType": "ml_dog",
+      "shadow": false,
+      "pitchers": [
+        "Ryne Nelson",
         "David Peterson"
       ],
-      "fadeTeam": "NYM",
+      "fadeTeam": null,
       "market": "h2h",
       "selection": "ARI",
       "line": null,
@@ -314,6 +378,28 @@
       "away": "CIN"
     },
     {
+      "date": "2026-04-08",
+      "commence": "2026-04-08T23:40:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Framber Valdez"
+      ],
+      "fadeTeam": "DET",
+      "market": "h2h",
+      "selection": "MIN",
+      "line": null,
+      "odds": 134,
+      "stake": 1.0,
+      "result": "WIN",
+      "profit": 1.34,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null,
+      "home": "MIN",
+      "away": "DET"
+    },
+    {
       "date": "2026-04-09",
       "commence": "2026-04-09T17:35:00Z",
       "betType": "ml",
@@ -334,6 +420,94 @@
       "reason": null,
       "home": "NYY",
       "away": "OAK"
+    },
+    {
+      "date": "2026-04-09",
+      "commence": "2026-04-09T17:40:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Jack Flaherty"
+      ],
+      "fadeTeam": "DET",
+      "market": "h2h",
+      "selection": "MIN",
+      "line": null,
+      "odds": 118,
+      "stake": 1.0,
+      "result": "WIN",
+      "profit": 1.18,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null,
+      "home": "MIN",
+      "away": "DET"
+    },
+    {
+      "date": "2026-04-10",
+      "commence": "2026-04-10T22:45:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Jack Kochanowicz"
+      ],
+      "fadeTeam": "LAA",
+      "market": "h2h",
+      "selection": "CIN",
+      "line": null,
+      "odds": -178,
+      "stake": 1.78,
+      "result": "LOSS",
+      "profit": -1.78,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null,
+      "home": "CIN",
+      "away": "LAA"
+    },
+    {
+      "date": "2026-04-10",
+      "commence": "2026-04-10T23:07:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Simeon Woods Richardson"
+      ],
+      "fadeTeam": "MIN",
+      "market": "h2h",
+      "selection": "TOR",
+      "line": null,
+      "odds": -152,
+      "stake": 1.52,
+      "result": "WIN",
+      "profit": 1.0,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null,
+      "home": "TOR",
+      "away": "MIN"
+    },
+    {
+      "date": "2026-04-10",
+      "commence": "2026-04-10T23:15:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Slade Cecconi"
+      ],
+      "fadeTeam": "CLE",
+      "market": "h2h",
+      "selection": "ATL",
+      "line": null,
+      "odds": -138,
+      "stake": 1.38,
+      "result": "WIN",
+      "profit": 1.0,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null,
+      "home": "ATL",
+      "away": "CLE"
     },
     {
       "date": "2026-04-10",
@@ -360,25 +534,25 @@
     },
     {
       "date": "2026-04-11",
-      "commence": "2026-04-11T20:10:00Z",
+      "commence": "2026-04-12T00:40:00Z",
       "betType": "ml",
       "shadow": false,
       "pitchers": [
-        "Jacob Lopez"
+        "Ryan Feltner"
       ],
-      "fadeTeam": "OAK",
+      "fadeTeam": "COL",
       "market": "h2h",
-      "selection": "NYM",
+      "selection": "SD",
       "line": null,
-      "odds": -166,
-      "stake": 1.66,
-      "result": "LOSS",
-      "profit": -1.66,
+      "odds": -168,
+      "stake": 1.68,
+      "result": "WIN",
+      "profit": 1.0,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
       "reason": null,
-      "home": "NYM",
-      "away": "OAK"
+      "home": "SD",
+      "away": "COL"
     },
     {
       "date": "2026-04-11",
@@ -401,6 +575,28 @@
       "reason": null,
       "home": "LAD",
       "away": "TEX"
+    },
+    {
+      "date": "2026-04-11",
+      "commence": "2026-04-12T01:40:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Luis Castillo"
+      ],
+      "fadeTeam": "SEA",
+      "market": "h2h",
+      "selection": "HOU",
+      "line": null,
+      "odds": 128,
+      "stake": 1.0,
+      "result": "LOSS",
+      "profit": -1.0,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null,
+      "home": "SEA",
+      "away": "HOU"
     },
     {
       "date": "2026-04-12",
@@ -427,13 +623,12 @@
     {
       "date": "2026-04-12",
       "commence": "2026-04-12T17:40:00Z",
-      "betType": "ml_dog",
+      "betType": "ml",
       "shadow": false,
       "pitchers": [
-        "Aaron Civale",
         "Freddy Peralta"
       ],
-      "fadeTeam": null,
+      "fadeTeam": "NYM",
       "market": "h2h",
       "selection": "OAK",
       "line": null,
@@ -446,6 +641,72 @@
       "reason": null,
       "home": "NYM",
       "away": "OAK"
+    },
+    {
+      "date": "2026-04-12",
+      "commence": "2026-04-12T18:10:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Noah Cameron"
+      ],
+      "fadeTeam": "KC",
+      "market": "h2h",
+      "selection": "CWS",
+      "line": null,
+      "odds": 152,
+      "stake": 1.0,
+      "result": "WIN",
+      "profit": 1.52,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null,
+      "home": "KC",
+      "away": "CWS"
+    },
+    {
+      "date": "2026-04-12",
+      "commence": "2026-04-12T18:15:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Brayan Bello"
+      ],
+      "fadeTeam": "BOS",
+      "market": "h2h",
+      "selection": "STL",
+      "line": null,
+      "odds": 100,
+      "stake": 1.0,
+      "result": "LOSS",
+      "profit": -1.0,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null,
+      "home": "STL",
+      "away": "BOS"
+    },
+    {
+      "date": "2026-04-12",
+      "commence": "2026-04-12T18:20:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Jameson Taillon"
+      ],
+      "fadeTeam": "CHC",
+      "market": "h2h",
+      "selection": "PIT",
+      "line": null,
+      "odds": 112,
+      "stake": 1.0,
+      "result": "LOSS",
+      "profit": -1.0,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null,
+      "home": "CHC",
+      "away": "PIT"
     },
     {
       "date": "2026-04-12",
@@ -490,6 +751,28 @@
       "reason": null,
       "home": "SEA",
       "away": "HOU"
+    },
+    {
+      "date": "2026-04-13",
+      "commence": "2026-04-13T22:35:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Ryne Nelson"
+      ],
+      "fadeTeam": "ARI",
+      "market": "h2h",
+      "selection": "BAL",
+      "line": null,
+      "odds": -130,
+      "stake": 1.3,
+      "result": "WIN",
+      "profit": 1.0,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null,
+      "home": "BAL",
+      "away": "ARI"
     },
     {
       "date": "2026-04-13",
@@ -581,6 +864,50 @@
     },
     {
       "date": "2026-04-14",
+      "commence": "2026-04-14T22:40:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Aaron Nola"
+      ],
+      "fadeTeam": "PHI",
+      "market": "h2h",
+      "selection": "CHC",
+      "line": null,
+      "odds": 118,
+      "stake": 1.0,
+      "result": "WIN",
+      "profit": 1.18,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null,
+      "home": "PHI",
+      "away": "CHC"
+    },
+    {
+      "date": "2026-04-14",
+      "commence": "2026-04-14T23:40:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Kevin Gausman"
+      ],
+      "fadeTeam": "TOR",
+      "market": "h2h",
+      "selection": "MIL",
+      "line": null,
+      "odds": -120,
+      "stake": 1.2,
+      "result": "LOSS",
+      "profit": -1.2,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null,
+      "home": "MIL",
+      "away": "TOR"
+    },
+    {
+      "date": "2026-04-14",
       "commence": "2026-04-15T01:40:00Z",
       "betType": "ml",
       "shadow": false,
@@ -604,24 +931,69 @@
     {
       "date": "2026-04-15",
       "commence": "2026-04-15T22:40:00Z",
-      "betType": "ml",
+      "betType": "ml_dog",
       "shadow": false,
       "pitchers": [
+        "Tyler Mahle",
         "Rhett Lowder"
       ],
-      "fadeTeam": "CIN",
+      "fadeTeam": null,
       "market": "h2h",
-      "selection": "SF",
+      "selection": "CIN",
       "line": null,
-      "odds": -110,
-      "stake": 1.1,
-      "result": "LOSS",
-      "profit": -1.1,
+      "odds": -106,
+      "stake": 1.06,
+      "result": "WIN",
+      "profit": 1.0,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "CIN",
       "away": "SF"
+    },
+    {
+      "date": "2026-04-15",
+      "commence": "2026-04-15T23:05:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Jack Kochanowicz"
+      ],
+      "fadeTeam": "LAA",
+      "market": "h2h",
+      "selection": "NYY",
+      "line": null,
+      "odds": -196,
+      "stake": 1.96,
+      "result": "WIN",
+      "profit": 1.0,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null,
+      "home": "NYY",
+      "away": "LAA"
+    },
+    {
+      "date": "2026-04-15",
+      "commence": "2026-04-15T23:15:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Chris Paddack"
+      ],
+      "fadeTeam": "MIA",
+      "market": "h2h",
+      "selection": "ATL",
+      "line": null,
+      "odds": -168,
+      "stake": 1.68,
+      "result": "WIN",
+      "profit": 1.0,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null,
+      "home": "ATL",
+      "away": "MIA"
     },
     {
       "date": "2026-04-16",
@@ -690,6 +1062,28 @@
       "away": "BAL"
     },
     {
+      "date": "2026-04-16",
+      "commence": "2026-04-17T00:40:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Luis Castillo"
+      ],
+      "fadeTeam": "SEA",
+      "market": "h2h",
+      "selection": "SD",
+      "line": null,
+      "odds": 104,
+      "stake": 1.0,
+      "result": "WIN",
+      "profit": 1.04,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null,
+      "home": "SD",
+      "away": "SEA"
+    },
+    {
       "date": "2026-04-17",
       "commence": "2026-04-17T22:10:00Z",
       "betType": "ml",
@@ -735,6 +1129,28 @@
     },
     {
       "date": "2026-04-17",
+      "commence": "2026-04-17T23:05:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Michael Wacha"
+      ],
+      "fadeTeam": "KC",
+      "market": "h2h",
+      "selection": "NYY",
+      "line": null,
+      "odds": -172,
+      "stake": 1.72,
+      "result": "WIN",
+      "profit": 1.0,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null,
+      "home": "NYY",
+      "away": "KC"
+    },
+    {
+      "date": "2026-04-17",
       "commence": "2026-04-18T01:40:00Z",
       "betType": "ml",
       "shadow": false,
@@ -757,20 +1173,43 @@
     },
     {
       "date": "2026-04-18",
-      "commence": "2026-04-18T18:20:00Z",
+      "commence": "2026-04-18T17:35:00Z",
       "betType": "ml",
       "shadow": false,
       "pitchers": [
-        "Freddy Peralta"
+        "Noah Cameron"
       ],
-      "fadeTeam": "NYM",
+      "fadeTeam": "KC",
       "market": "h2h",
-      "selection": "CHC",
+      "selection": "NYY",
       "line": null,
-      "odds": -110,
-      "stake": 1.1,
+      "odds": -162,
+      "stake": 1.62,
       "result": "WIN",
       "profit": 1.0,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null,
+      "home": "NYY",
+      "away": "KC"
+    },
+    {
+      "date": "2026-04-18",
+      "commence": "2026-04-18T18:20:00Z",
+      "betType": "ml_dog",
+      "shadow": false,
+      "pitchers": [
+        "Jameson Taillon",
+        "Freddy Peralta"
+      ],
+      "fadeTeam": null,
+      "market": "h2h",
+      "selection": "NYM",
+      "line": null,
+      "odds": -106,
+      "stake": 1.06,
+      "result": "LOSS",
+      "profit": -1.06,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
       "reason": null,
@@ -801,25 +1240,25 @@
     },
     {
       "date": "2026-04-18",
-      "commence": "2026-04-19T00:10:00Z",
+      "commence": "2026-04-18T20:10:00Z",
       "betType": "ml",
       "shadow": false,
       "pitchers": [
-        "Zac Gallen"
+        "Brayan Bello"
       ],
-      "fadeTeam": "ARI",
+      "fadeTeam": "BOS",
       "market": "h2h",
-      "selection": "TOR",
+      "selection": "DET",
       "line": null,
-      "odds": 128,
-      "stake": 1.0,
-      "result": "LOSS",
-      "profit": -1.0,
+      "odds": -148,
+      "stake": 1.48,
+      "result": "WIN",
+      "profit": 1.0,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
       "reason": null,
-      "home": "ARI",
-      "away": "TOR"
+      "home": "BOS",
+      "away": "DET"
     },
     {
       "date": "2026-04-18",
@@ -933,6 +1372,50 @@
     },
     {
       "date": "2026-04-19",
+      "commence": "2026-04-19T20:10:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Kevin Gausman"
+      ],
+      "fadeTeam": "TOR",
+      "market": "h2h",
+      "selection": "ARI",
+      "line": null,
+      "odds": -102,
+      "stake": 1.02,
+      "result": "LOSS",
+      "profit": -1.02,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null,
+      "home": "ARI",
+      "away": "TOR"
+    },
+    {
+      "date": "2026-04-19",
+      "commence": "2026-04-19T20:35:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Framber Valdez"
+      ],
+      "fadeTeam": "DET",
+      "market": "h2h",
+      "selection": "BOS",
+      "line": null,
+      "odds": -142,
+      "stake": 1.42,
+      "result": "LOSS",
+      "profit": -1.42,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null,
+      "home": "BOS",
+      "away": "DET"
+    },
+    {
+      "date": "2026-04-19",
       "commence": "2026-04-19T23:20:00Z",
       "betType": "ml",
       "shadow": false,
@@ -955,6 +1438,28 @@
     },
     {
       "date": "2026-04-20",
+      "commence": "2026-04-20T15:10:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Jack Flaherty"
+      ],
+      "fadeTeam": "DET",
+      "market": "h2h",
+      "selection": "BOS",
+      "line": null,
+      "odds": -136,
+      "stake": 1.36,
+      "result": "WIN",
+      "profit": 1.0,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null,
+      "home": "BOS",
+      "away": "DET"
+    },
+    {
+      "date": "2026-04-20",
       "commence": "2026-04-20T22:40:00Z",
       "betType": "ml",
       "shadow": false,
@@ -974,6 +1479,72 @@
       "reason": null,
       "home": "TB",
       "away": "CIN"
+    },
+    {
+      "date": "2026-04-20",
+      "commence": "2026-04-21T01:38:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Reid Detmers"
+      ],
+      "fadeTeam": "LAA",
+      "market": "h2h",
+      "selection": "TOR",
+      "line": null,
+      "odds": -116,
+      "stake": 1.16,
+      "result": "WIN",
+      "profit": 1.0,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null,
+      "home": "LAA",
+      "away": "TOR"
+    },
+    {
+      "date": "2026-04-21",
+      "commence": "2026-04-21T22:40:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Chris Paddack"
+      ],
+      "fadeTeam": "MIA",
+      "market": "h2h",
+      "selection": "STL",
+      "line": null,
+      "odds": -102,
+      "stake": 1.02,
+      "result": "WIN",
+      "profit": 1.0,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null,
+      "home": "MIA",
+      "away": "STL"
+    },
+    {
+      "date": "2026-04-21",
+      "commence": "2026-04-21T23:10:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Simeon Woods Richardson"
+      ],
+      "fadeTeam": "MIN",
+      "market": "h2h",
+      "selection": "NYM",
+      "line": null,
+      "odds": -162,
+      "stake": 1.62,
+      "result": "LOSS",
+      "profit": -1.62,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null,
+      "home": "NYM",
+      "away": "MIN"
     },
     {
       "date": "2026-04-21",
@@ -1021,20 +1592,42 @@
     },
     {
       "date": "2026-04-21",
+      "commence": "2026-04-22T01:38:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Jack Kochanowicz"
+      ],
+      "fadeTeam": "LAA",
+      "market": "h2h",
+      "selection": "TOR",
+      "line": null,
+      "odds": -104,
+      "stake": 1.04,
+      "result": "WIN",
+      "profit": 1.0,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null,
+      "home": "LAA",
+      "away": "TOR"
+    },
+    {
+      "date": "2026-04-21",
       "commence": "2026-04-22T01:40:00Z",
       "betType": "ml",
       "shadow": false,
       "pitchers": [
-        "Jacob Lopez"
+        "Luis Castillo"
       ],
-      "fadeTeam": "OAK",
+      "fadeTeam": "SEA",
       "market": "h2h",
-      "selection": "SEA",
+      "selection": "OAK",
       "line": null,
-      "odds": -166,
-      "stake": 1.66,
-      "result": "LOSS",
-      "profit": -1.66,
+      "odds": 140,
+      "stake": 1.0,
+      "result": "WIN",
+      "profit": 1.4,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
       "reason": null,
@@ -1087,28 +1680,6 @@
     },
     {
       "date": "2026-04-22",
-      "commence": "2026-04-22T20:10:00Z",
-      "betType": "ml",
-      "shadow": false,
-      "pitchers": [
-        "Aaron Civale"
-      ],
-      "fadeTeam": "OAK",
-      "market": "h2h",
-      "selection": "SEA",
-      "line": null,
-      "odds": -190,
-      "stake": 1.9,
-      "result": "WIN",
-      "profit": 1.0,
-      "book": "fanduel",
-      "source": "oddsapi_fanduel",
-      "reason": null,
-      "home": "SEA",
-      "away": "OAK"
-    },
-    {
-      "date": "2026-04-22",
       "commence": "2026-04-22T22:45:00Z",
       "betType": "ml",
       "shadow": false,
@@ -1128,6 +1699,50 @@
       "reason": null,
       "home": "WSH",
       "away": "ATL"
+    },
+    {
+      "date": "2026-04-24",
+      "commence": "2026-04-24T22:40:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Framber Valdez"
+      ],
+      "fadeTeam": "DET",
+      "market": "h2h",
+      "selection": "CIN",
+      "line": null,
+      "odds": 100,
+      "stake": 1.0,
+      "result": "WIN",
+      "profit": 1.0,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null,
+      "home": "CIN",
+      "away": "DET"
+    },
+    {
+      "date": "2026-04-24",
+      "commence": "2026-04-24T23:05:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Brayan Bello"
+      ],
+      "fadeTeam": "BOS",
+      "market": "h2h",
+      "selection": "BAL",
+      "line": null,
+      "odds": -124,
+      "stake": 1.24,
+      "result": "WIN",
+      "profit": 1.0,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null,
+      "home": "BAL",
+      "away": "BOS"
     },
     {
       "date": "2026-04-24",
@@ -1197,6 +1812,28 @@
     },
     {
       "date": "2026-04-24",
+      "commence": "2026-04-24T23:40:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Noah Cameron"
+      ],
+      "fadeTeam": "KC",
+      "market": "h2h",
+      "selection": "LAA",
+      "line": null,
+      "odds": -108,
+      "stake": 1.08,
+      "result": "LOSS",
+      "profit": -1.08,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null,
+      "home": "KC",
+      "away": "LAA"
+    },
+    {
+      "date": "2026-04-24",
       "commence": "2026-04-25T02:15:00Z",
       "betType": "ml",
       "shadow": false,
@@ -1219,6 +1856,28 @@
     },
     {
       "date": "2026-04-25",
+      "commence": "2026-04-25T19:07:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Kevin Gausman"
+      ],
+      "fadeTeam": "TOR",
+      "market": "h2h",
+      "selection": "CLE",
+      "line": null,
+      "odds": 128,
+      "stake": 1.0,
+      "result": "LOSS",
+      "profit": -1.0,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null,
+      "home": "TOR",
+      "away": "CLE"
+    },
+    {
+      "date": "2026-04-25",
       "commence": "2026-04-25T20:10:00Z",
       "betType": "ml",
       "shadow": false,
@@ -1238,28 +1897,6 @@
       "reason": null,
       "home": "CWS",
       "away": "WSH"
-    },
-    {
-      "date": "2026-04-25",
-      "commence": "2026-04-25T22:05:00Z",
-      "betType": "ml",
-      "shadow": false,
-      "pitchers": [
-        "Zac Gallen"
-      ],
-      "fadeTeam": "ARI",
-      "market": "h2h",
-      "selection": "SD",
-      "line": null,
-      "odds": -102,
-      "stake": 1.02,
-      "result": "WIN",
-      "profit": 1.0,
-      "book": "fanduel",
-      "source": "oddsapi_fanduel",
-      "reason": null,
-      "home": "ARI",
-      "away": "SD"
     },
     {
       "date": "2026-04-25",
@@ -1333,21 +1970,66 @@
       "betType": "ml",
       "shadow": false,
       "pitchers": [
-        "Brady Singer"
+        "Colin Rea"
       ],
-      "fadeTeam": "CIN",
+      "fadeTeam": "CHC",
       "market": "h2h",
-      "selection": "DET",
+      "selection": "LAD",
       "line": null,
-      "odds": -110,
-      "stake": 1.1,
-      "result": "LOSS",
-      "profit": -1.1,
+      "odds": -126,
+      "stake": 1.26,
+      "result": "WIN",
+      "profit": 1.0,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null,
+      "home": "LAD",
+      "away": "CHC"
+    },
+    {
+      "date": "2026-04-25",
+      "commence": "2026-04-25T23:15:00Z",
+      "betType": "ml_dog",
+      "shadow": false,
+      "pitchers": [
+        "Brady Singer",
+        "Jack Flaherty"
+      ],
+      "fadeTeam": null,
+      "market": "h2h",
+      "selection": "CIN",
+      "line": null,
+      "odds": -106,
+      "stake": 1.06,
+      "result": "WIN",
+      "profit": 1.0,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "CIN",
       "away": "DET"
+    },
+    {
+      "date": "2026-04-26",
+      "commence": "2026-04-26T17:37:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Slade Cecconi"
+      ],
+      "fadeTeam": "CLE",
+      "market": "h2h",
+      "selection": "TOR",
+      "line": null,
+      "odds": -130,
+      "stake": 1.3,
+      "result": "WIN",
+      "profit": 1.0,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null,
+      "home": "TOR",
+      "away": "CLE"
     },
     {
       "date": "2026-04-26",
@@ -1370,6 +2052,28 @@
       "reason": null,
       "home": "CIN",
       "away": "DET"
+    },
+    {
+      "date": "2026-04-26",
+      "commence": "2026-04-26T17:40:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Simeon Woods Richardson"
+      ],
+      "fadeTeam": "MIN",
+      "market": "h2h",
+      "selection": "TB",
+      "line": null,
+      "odds": -148,
+      "stake": 1.48,
+      "result": "WIN",
+      "profit": 1.0,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null,
+      "home": "TB",
+      "away": "MIN"
     },
     {
       "date": "2026-04-26",
@@ -1416,6 +2120,72 @@
       "away": "MIA"
     },
     {
+      "date": "2026-04-27",
+      "commence": "2026-04-27T23:40:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Jack Kochanowicz"
+      ],
+      "fadeTeam": "LAA",
+      "market": "h2h",
+      "selection": "CWS",
+      "line": null,
+      "odds": -108,
+      "stake": 1.08,
+      "result": "WIN",
+      "profit": 1.0,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null,
+      "home": "CWS",
+      "away": "LAA"
+    },
+    {
+      "date": "2026-04-27",
+      "commence": "2026-04-27T23:40:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Luis Castillo"
+      ],
+      "fadeTeam": "SEA",
+      "market": "h2h",
+      "selection": "MIN",
+      "line": null,
+      "odds": 110,
+      "stake": 1.0,
+      "result": "WIN",
+      "profit": 1.1,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null,
+      "home": "MIN",
+      "away": "SEA"
+    },
+    {
+      "date": "2026-04-27",
+      "commence": "2026-04-28T02:10:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Chris Paddack"
+      ],
+      "fadeTeam": "MIA",
+      "market": "h2h",
+      "selection": "LAD",
+      "line": null,
+      "odds": -320,
+      "stake": 3.2,
+      "result": "WIN",
+      "profit": 1.0,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null,
+      "home": "LAD",
+      "away": "MIA"
+    },
+    {
       "date": "2026-04-28",
       "commence": "2026-04-28T22:10:00Z",
       "betType": "ml",
@@ -1458,6 +2228,28 @@
       "reason": null,
       "home": "BAL",
       "away": "HOU"
+    },
+    {
+      "date": "2026-04-28",
+      "commence": "2026-04-28T22:40:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Tyler Mahle"
+      ],
+      "fadeTeam": "SF",
+      "market": "h2h",
+      "selection": "PHI",
+      "line": null,
+      "odds": -158,
+      "stake": 1.58,
+      "result": "WIN",
+      "profit": 1.0,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null,
+      "home": "PHI",
+      "away": "SF"
     },
     {
       "date": "2026-04-28",
@@ -1549,6 +2341,28 @@
     },
     {
       "date": "2026-04-29",
+      "commence": "2026-04-29T19:07:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Brayan Bello"
+      ],
+      "fadeTeam": "BOS",
+      "market": "h2h",
+      "selection": "TOR",
+      "line": null,
+      "odds": -116,
+      "stake": 1.16,
+      "result": "WIN",
+      "profit": 1.0,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null,
+      "home": "TOR",
+      "away": "BOS"
+    },
+    {
+      "date": "2026-04-29",
       "commence": "2026-04-29T23:10:00Z",
       "betType": "ml",
       "shadow": false,
@@ -1568,6 +2382,50 @@
       "reason": null,
       "home": "NYM",
       "away": "WSH"
+    },
+    {
+      "date": "2026-04-29",
+      "commence": "2026-04-30T01:40:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Michael Wacha"
+      ],
+      "fadeTeam": "KC",
+      "market": "h2h",
+      "selection": "OAK",
+      "line": null,
+      "odds": -120,
+      "stake": 1.2,
+      "result": "WIN",
+      "profit": 1.0,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null,
+      "home": "OAK",
+      "away": "KC"
+    },
+    {
+      "date": "2026-04-30",
+      "commence": "2026-04-30T16:15:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Framber Valdez"
+      ],
+      "fadeTeam": "DET",
+      "market": "h2h",
+      "selection": "ATL",
+      "line": null,
+      "odds": -122,
+      "stake": 1.22,
+      "result": "LOSS",
+      "profit": -1.22,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null,
+      "home": "ATL",
+      "away": "DET"
     },
     {
       "date": "2026-04-30",
@@ -1617,12 +2475,13 @@
     {
       "date": "2026-04-30",
       "commence": "2026-04-30T19:05:00Z",
-      "betType": "ml",
+      "betType": "ml_dog",
       "shadow": false,
       "pitchers": [
+        "Noah Cameron",
         "Jeffrey Springs"
       ],
-      "fadeTeam": "OAK",
+      "fadeTeam": null,
       "market": "h2h",
       "selection": "KC",
       "line": null,
@@ -1637,21 +2496,44 @@
       "away": "KC"
     },
     {
-      "date": "2026-05-01",
-      "commence": "2026-05-01T18:20:00Z",
+      "date": "2026-04-30",
+      "commence": "2026-04-30T23:40:00Z",
       "betType": "ml",
       "shadow": false,
       "pitchers": [
-        "Zac Gallen"
+        "Kevin Gausman"
       ],
-      "fadeTeam": "ARI",
+      "fadeTeam": "TOR",
       "market": "h2h",
-      "selection": "CHC",
+      "selection": "MIN",
       "line": null,
-      "odds": -142,
-      "stake": 1.42,
+      "odds": 114,
+      "stake": 1.0,
       "result": "WIN",
-      "profit": 1.0,
+      "profit": 1.14,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null,
+      "home": "MIN",
+      "away": "TOR"
+    },
+    {
+      "date": "2026-05-01",
+      "commence": "2026-05-01T18:20:00Z",
+      "betType": "ml_dog",
+      "shadow": false,
+      "pitchers": [
+        "Zac Gallen",
+        "Colin Rea"
+      ],
+      "fadeTeam": null,
+      "market": "h2h",
+      "selection": "ARI",
+      "line": null,
+      "odds": 120,
+      "stake": 1.0,
+      "result": "LOSS",
+      "profit": -1.0,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
       "reason": null,
@@ -1705,6 +2587,28 @@
     },
     {
       "date": "2026-05-01",
+      "commence": "2026-05-02T00:10:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Simeon Woods Richardson"
+      ],
+      "fadeTeam": "MIN",
+      "market": "h2h",
+      "selection": "TOR",
+      "line": null,
+      "odds": -106,
+      "stake": 1.06,
+      "result": "WIN",
+      "profit": 1.0,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null,
+      "home": "MIN",
+      "away": "TOR"
+    },
+    {
+      "date": "2026-05-01",
       "commence": "2026-05-02T00:15:00Z",
       "betType": "ml",
       "shadow": false,
@@ -1749,25 +2653,25 @@
     },
     {
       "date": "2026-05-02",
-      "commence": "2026-05-02T20:05:00Z",
+      "commence": "2026-05-02T18:20:00Z",
       "betType": "ml",
       "shadow": false,
       "pitchers": [
-        "Jacob Lopez"
+        "Ryne Nelson"
       ],
-      "fadeTeam": "OAK",
+      "fadeTeam": "ARI",
       "market": "h2h",
-      "selection": "CLE",
+      "selection": "CHC",
       "line": null,
-      "odds": 118,
-      "stake": 1.0,
+      "odds": -164,
+      "stake": 1.64,
       "result": "WIN",
-      "profit": 1.18,
+      "profit": 1.0,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
       "reason": null,
-      "home": "OAK",
-      "away": "CLE"
+      "home": "CHC",
+      "away": "ARI"
     },
     {
       "date": "2026-05-02",
@@ -1790,6 +2694,29 @@
       "reason": null,
       "home": "PIT",
       "away": "CIN"
+    },
+    {
+      "date": "2026-05-02",
+      "commence": "2026-05-02T20:05:00Z",
+      "betType": "ml_dog",
+      "shadow": false,
+      "pitchers": [
+        "Jacob Lopez",
+        "Slade Cecconi"
+      ],
+      "fadeTeam": null,
+      "market": "h2h",
+      "selection": "CLE",
+      "line": null,
+      "odds": 118,
+      "stake": 1.0,
+      "result": "WIN",
+      "profit": 1.18,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null,
+      "home": "OAK",
+      "away": "CLE"
     },
     {
       "date": "2026-05-02",
@@ -1858,6 +2785,72 @@
       "away": "TEX"
     },
     {
+      "date": "2026-05-02",
+      "commence": "2026-05-03T01:38:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Reid Detmers"
+      ],
+      "fadeTeam": "LAA",
+      "market": "h2h",
+      "selection": "NYM",
+      "line": null,
+      "odds": -126,
+      "stake": 1.26,
+      "result": "LOSS",
+      "profit": -1.26,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null,
+      "home": "LAA",
+      "away": "NYM"
+    },
+    {
+      "date": "2026-05-03",
+      "commence": "2026-05-03T17:40:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Tyler Mahle"
+      ],
+      "fadeTeam": "SF",
+      "market": "h2h",
+      "selection": "TB",
+      "line": null,
+      "odds": -120,
+      "stake": 1.2,
+      "result": "WIN",
+      "profit": 1.0,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null,
+      "home": "TB",
+      "away": "SF"
+    },
+    {
+      "date": "2026-05-03",
+      "commence": "2026-05-03T17:40:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Chris Paddack"
+      ],
+      "fadeTeam": "MIA",
+      "market": "h2h",
+      "selection": "PHI",
+      "line": null,
+      "odds": -144,
+      "stake": 1.44,
+      "result": "WIN",
+      "profit": 1.0,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null,
+      "home": "MIA",
+      "away": "PHI"
+    },
+    {
       "date": "2026-05-03",
       "commence": "2026-05-03T18:20:00Z",
       "betType": "ml",
@@ -1881,28 +2874,6 @@
     },
     {
       "date": "2026-05-03",
-      "commence": "2026-05-03T19:10:00Z",
-      "betType": "ml",
-      "shadow": false,
-      "pitchers": [
-        "Kyle Freeland"
-      ],
-      "fadeTeam": "COL",
-      "market": "h2h",
-      "selection": "ATL",
-      "line": null,
-      "odds": -144,
-      "stake": 1.44,
-      "result": "WIN",
-      "profit": 1.0,
-      "book": "fanduel",
-      "source": "oddsapi_fanduel",
-      "reason": null,
-      "home": "COL",
-      "away": "ATL"
-    },
-    {
-      "date": "2026-05-03",
       "commence": "2026-05-03T20:05:00Z",
       "betType": "ml",
       "shadow": false,
@@ -1922,6 +2893,50 @@
       "reason": null,
       "home": "OAK",
       "away": "CLE"
+    },
+    {
+      "date": "2026-05-03",
+      "commence": "2026-05-03T20:07:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Jack Kochanowicz"
+      ],
+      "fadeTeam": "LAA",
+      "market": "h2h",
+      "selection": "NYM",
+      "line": null,
+      "odds": -132,
+      "stake": 1.32,
+      "result": "WIN",
+      "profit": 1.0,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null,
+      "home": "LAA",
+      "away": "NYM"
+    },
+    {
+      "date": "2026-05-03",
+      "commence": "2026-05-03T20:10:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Luis Castillo"
+      ],
+      "fadeTeam": "SEA",
+      "market": "h2h",
+      "selection": "KC",
+      "line": null,
+      "odds": -102,
+      "stake": 1.02,
+      "result": "WIN",
+      "profit": 1.0,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null,
+      "home": "SEA",
+      "away": "KC"
     },
     {
       "date": "2026-05-04",
@@ -1966,6 +2981,50 @@
       "reason": null,
       "home": "KC",
       "away": "CLE"
+    },
+    {
+      "date": "2026-05-05",
+      "commence": "2026-05-05T22:40:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Kevin Gausman"
+      ],
+      "fadeTeam": "TOR",
+      "market": "h2h",
+      "selection": "TB",
+      "line": null,
+      "odds": -130,
+      "stake": 1.3,
+      "result": "WIN",
+      "profit": 1.0,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null,
+      "home": "TB",
+      "away": "TOR"
+    },
+    {
+      "date": "2026-05-05",
+      "commence": "2026-05-05T23:40:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Jameson Taillon"
+      ],
+      "fadeTeam": "CHC",
+      "market": "h2h",
+      "selection": "CIN",
+      "line": null,
+      "odds": 140,
+      "stake": 1.0,
+      "result": "LOSS",
+      "profit": -1.0,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null,
+      "home": "CHC",
+      "away": "CIN"
     },
     {
       "date": "2026-05-06",
@@ -2036,19 +3095,20 @@
     {
       "date": "2026-05-06",
       "commence": "2026-05-06T23:40:00Z",
-      "betType": "ml",
+      "betType": "ml_dog",
       "shadow": false,
       "pitchers": [
-        "Brady Singer"
+        "Brady Singer",
+        "Colin Rea"
       ],
-      "fadeTeam": "CIN",
+      "fadeTeam": null,
       "market": "h2h",
-      "selection": "CHC",
+      "selection": "CIN",
       "line": null,
-      "odds": -168,
-      "stake": 1.68,
-      "result": "WIN",
-      "profit": 1.0,
+      "odds": 142,
+      "stake": 1.0,
+      "result": "LOSS",
+      "profit": -1.0,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
       "reason": null,
@@ -2101,6 +3161,50 @@
     },
     {
       "date": "2026-05-07",
+      "commence": "2026-05-07T17:05:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Simeon Woods Richardson"
+      ],
+      "fadeTeam": "MIN",
+      "market": "h2h",
+      "selection": "WSH",
+      "line": null,
+      "odds": -124,
+      "stake": 1.24,
+      "result": "WIN",
+      "profit": 1.0,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null,
+      "home": "WSH",
+      "away": "MIN"
+    },
+    {
+      "date": "2026-05-07",
+      "commence": "2026-05-07T18:10:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Slade Cecconi"
+      ],
+      "fadeTeam": "CLE",
+      "market": "h2h",
+      "selection": "KC",
+      "line": null,
+      "odds": -130,
+      "stake": 1.3,
+      "result": "LOSS",
+      "profit": -1.3,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null,
+      "home": "KC",
+      "away": "CLE"
+    },
+    {
+      "date": "2026-05-07",
       "commence": "2026-05-07T18:20:00Z",
       "betType": "ml",
       "shadow": false,
@@ -2124,20 +3228,19 @@
     {
       "date": "2026-05-07",
       "commence": "2026-05-07T19:40:00Z",
-      "betType": "ml_dog",
+      "betType": "ml",
       "shadow": false,
       "pitchers": [
-        "Zac Gallen",
         "Mitch Keller"
       ],
-      "fadeTeam": null,
+      "fadeTeam": "PIT",
       "market": "h2h",
-      "selection": "PIT",
+      "selection": "ARI",
       "line": null,
-      "odds": -104,
-      "stake": 1.04,
-      "result": "WIN",
-      "profit": 1.0,
+      "odds": -112,
+      "stake": 1.12,
+      "result": "LOSS",
+      "profit": -1.12,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
       "reason": null,
@@ -2190,28 +3293,6 @@
     },
     {
       "date": "2026-05-08",
-      "commence": "2026-05-08T23:05:00Z",
-      "betType": "ml",
-      "shadow": false,
-      "pitchers": [
-        "Jacob Lopez"
-      ],
-      "fadeTeam": "OAK",
-      "market": "h2h",
-      "selection": "BAL",
-      "line": null,
-      "odds": -136,
-      "stake": 1.36,
-      "result": "LOSS",
-      "profit": -1.36,
-      "book": "fanduel",
-      "source": "oddsapi_fanduel",
-      "reason": null,
-      "home": "BAL",
-      "away": "OAK"
-    },
-    {
-      "date": "2026-05-08",
       "commence": "2026-05-09T00:05:00Z",
       "betType": "ml",
       "shadow": false,
@@ -2256,14 +3337,35 @@
     },
     {
       "date": "2026-05-09",
-      "commence": "2026-05-09T20:05:00Z",
-      "betType": "ml_dog",
+      "commence": "2026-05-09T19:07:00Z",
+      "betType": "ml",
       "shadow": false,
       "pitchers": [
-        "Shane Baz",
-        "Aaron Civale"
+        "Jack Kochanowicz"
       ],
-      "fadeTeam": null,
+      "fadeTeam": "LAA",
+      "market": "h2h",
+      "selection": "TOR",
+      "line": null,
+      "odds": -184,
+      "stake": 1.84,
+      "result": "WIN",
+      "profit": 1.0,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null,
+      "home": "TOR",
+      "away": "LAA"
+    },
+    {
+      "date": "2026-05-09",
+      "commence": "2026-05-09T20:05:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Shane Baz"
+      ],
+      "fadeTeam": "BAL",
       "market": "h2h",
       "selection": "OAK",
       "line": null,
@@ -2280,19 +3382,20 @@
     {
       "date": "2026-05-09",
       "commence": "2026-05-09T22:05:00Z",
-      "betType": "ml",
+      "betType": "ml_dog",
       "shadow": false,
       "pitchers": [
+        "Aaron Nola",
         "Kyle Freeland"
       ],
-      "fadeTeam": "COL",
+      "fadeTeam": null,
       "market": "h2h",
-      "selection": "PHI",
+      "selection": "COL",
       "line": null,
-      "odds": -184,
-      "stake": 1.84,
-      "result": "WIN",
-      "profit": 1.0,
+      "odds": 154,
+      "stake": 1.0,
+      "result": "LOSS",
+      "profit": -1.0,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
       "reason": null,
@@ -2320,6 +3423,28 @@
       "reason": null,
       "home": "CLE",
       "away": "MIN"
+    },
+    {
+      "date": "2026-05-09",
+      "commence": "2026-05-09T23:10:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Luis Castillo"
+      ],
+      "fadeTeam": "SEA",
+      "market": "h2h",
+      "selection": "CWS",
+      "line": null,
+      "odds": 114,
+      "stake": 1.0,
+      "result": "WIN",
+      "profit": 1.14,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null,
+      "home": "CWS",
+      "away": "SEA"
     },
     {
       "date": "2026-05-09",
@@ -2364,6 +3489,50 @@
       "reason": null,
       "home": "SF",
       "away": "PIT"
+    },
+    {
+      "date": "2026-05-10",
+      "commence": "2026-05-10T23:20:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Noah Cameron"
+      ],
+      "fadeTeam": "KC",
+      "market": "h2h",
+      "selection": "DET",
+      "line": null,
+      "odds": 104,
+      "stake": 1.0,
+      "result": "WIN",
+      "profit": 1.04,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null,
+      "home": "KC",
+      "away": "DET"
+    },
+    {
+      "date": "2026-05-11",
+      "commence": "2026-05-11T23:07:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Kevin Gausman"
+      ],
+      "fadeTeam": "TOR",
+      "market": "h2h",
+      "selection": "TB",
+      "line": null,
+      "odds": 108,
+      "stake": 1.0,
+      "result": "WIN",
+      "profit": 1.08,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null,
+      "home": "TOR",
+      "away": "TB"
     },
     {
       "date": "2026-05-12",
@@ -2413,12 +3582,13 @@
     {
       "date": "2026-05-12",
       "commence": "2026-05-12T23:10:00Z",
-      "betType": "ml",
+      "betType": "ml_dog",
       "shadow": false,
       "pitchers": [
-        "Freddy Peralta"
+        "Freddy Peralta",
+        "Jack Flaherty"
       ],
-      "fadeTeam": "NYM",
+      "fadeTeam": null,
       "market": "h2h",
       "selection": "DET",
       "line": null,
@@ -2431,6 +3601,28 @@
       "reason": null,
       "home": "NYM",
       "away": "DET"
+    },
+    {
+      "date": "2026-05-12",
+      "commence": "2026-05-12T23:15:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Colin Rea"
+      ],
+      "fadeTeam": "CHC",
+      "market": "h2h",
+      "selection": "ATL",
+      "line": null,
+      "odds": -122,
+      "stake": 1.22,
+      "result": "WIN",
+      "profit": 1.0,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null,
+      "home": "ATL",
+      "away": "CHC"
     },
     {
       "date": "2026-05-12",
@@ -2522,6 +3714,50 @@
     },
     {
       "date": "2026-05-13",
+      "commence": "2026-05-13T23:10:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Framber Valdez"
+      ],
+      "fadeTeam": "DET",
+      "market": "h2h",
+      "selection": "NYM",
+      "line": null,
+      "odds": -116,
+      "stake": 1.16,
+      "result": "WIN",
+      "profit": 1.0,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null,
+      "home": "NYM",
+      "away": "DET"
+    },
+    {
+      "date": "2026-05-13",
+      "commence": "2026-05-13T23:40:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Simeon Woods Richardson"
+      ],
+      "fadeTeam": "MIN",
+      "market": "h2h",
+      "selection": "MIA",
+      "line": null,
+      "odds": -130,
+      "stake": 1.3,
+      "result": "WIN",
+      "profit": 1.0,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null,
+      "home": "MIN",
+      "away": "MIA"
+    },
+    {
+      "date": "2026-05-13",
       "commence": "2026-05-13T23:40:00Z",
       "betType": "ml",
       "shadow": false,
@@ -2545,19 +3781,20 @@
     {
       "date": "2026-05-13",
       "commence": "2026-05-14T00:05:00Z",
-      "betType": "ml",
+      "betType": "ml_dog",
       "shadow": false,
       "pitchers": [
+        "Ryne Nelson",
         "Kumar Rocker"
       ],
-      "fadeTeam": "TEX",
+      "fadeTeam": null,
       "market": "h2h",
-      "selection": "ARI",
+      "selection": "TEX",
       "line": null,
-      "odds": -112,
-      "stake": 1.12,
-      "result": "LOSS",
-      "profit": -1.12,
+      "odds": -104,
+      "stake": 1.04,
+      "result": "WIN",
+      "profit": 1.0,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
       "reason": null,
@@ -2589,19 +3826,20 @@
     {
       "date": "2026-05-14",
       "commence": "2026-05-14T18:10:00Z",
-      "betType": "ml",
+      "betType": "ml_dog",
       "shadow": false,
       "pitchers": [
+        "Luis Castillo",
         "Mike Burrows"
       ],
-      "fadeTeam": "HOU",
+      "fadeTeam": null,
       "market": "h2h",
-      "selection": "SEA",
+      "selection": "HOU",
       "line": null,
-      "odds": -112,
-      "stake": 1.12,
-      "result": "WIN",
-      "profit": 1.0,
+      "odds": -104,
+      "stake": 1.04,
+      "result": "LOSS",
+      "profit": -1.04,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
       "reason": null,
@@ -2677,14 +3915,35 @@
     },
     {
       "date": "2026-05-15",
-      "commence": "2026-05-16T00:40:00Z",
-      "betType": "ml_dog",
+      "commence": "2026-05-16T00:15:00Z",
+      "betType": "ml",
       "shadow": false,
       "pitchers": [
-        "Merrill Kelly",
-        "Kyle Freeland"
+        "Michael Wacha"
       ],
-      "fadeTeam": null,
+      "fadeTeam": "KC",
+      "market": "h2h",
+      "selection": "STL",
+      "line": null,
+      "odds": -108,
+      "stake": 1.08,
+      "result": "WIN",
+      "profit": 1.0,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null,
+      "home": "STL",
+      "away": "KC"
+    },
+    {
+      "date": "2026-05-15",
+      "commence": "2026-05-16T00:40:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Merrill Kelly"
+      ],
+      "fadeTeam": "ARI",
       "market": "h2h",
       "selection": "COL",
       "line": null,
@@ -2700,13 +3959,36 @@
     },
     {
       "date": "2026-05-15",
-      "commence": "2026-05-16T01:40:00Z",
+      "commence": "2026-05-16T01:38:00Z",
       "betType": "ml",
       "shadow": false,
       "pitchers": [
-        "Aaron Civale"
+        "Jack Kochanowicz"
       ],
-      "fadeTeam": "OAK",
+      "fadeTeam": "LAA",
+      "market": "h2h",
+      "selection": "LAD",
+      "line": null,
+      "odds": -194,
+      "stake": 1.94,
+      "result": "WIN",
+      "profit": 1.0,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null,
+      "home": "LAA",
+      "away": "LAD"
+    },
+    {
+      "date": "2026-05-15",
+      "commence": "2026-05-16T01:40:00Z",
+      "betType": "ml_dog",
+      "shadow": false,
+      "pitchers": [
+        "Aaron Civale",
+        "Tyler Mahle"
+      ],
+      "fadeTeam": null,
       "market": "h2h",
       "selection": "SF",
       "line": null,
@@ -2719,6 +4001,50 @@
       "reason": null,
       "home": "OAK",
       "away": "SF"
+    },
+    {
+      "date": "2026-05-16",
+      "commence": "2026-05-16T18:15:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Noah Cameron"
+      ],
+      "fadeTeam": "KC",
+      "market": "h2h",
+      "selection": "STL",
+      "line": null,
+      "odds": -110,
+      "stake": 1.1,
+      "result": "WIN",
+      "profit": 1.0,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null,
+      "home": "STL",
+      "away": "KC"
+    },
+    {
+      "date": "2026-05-16",
+      "commence": "2026-05-16T22:10:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Chris Paddack"
+      ],
+      "fadeTeam": "CIN",
+      "market": "h2h",
+      "selection": "CLE",
+      "line": null,
+      "odds": -156,
+      "stake": 1.56,
+      "result": "WIN",
+      "profit": 1.0,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null,
+      "home": "CLE",
+      "away": "CIN"
     },
     {
       "date": "2026-05-17",
@@ -2741,6 +4067,28 @@
       "reason": null,
       "home": "PIT",
       "away": "PHI"
+    },
+    {
+      "date": "2026-05-17",
+      "commence": "2026-05-17T17:35:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Brayan Bello"
+      ],
+      "fadeTeam": "BOS",
+      "market": "h2h",
+      "selection": "ATL",
+      "line": null,
+      "odds": -146,
+      "stake": 1.46,
+      "result": "WIN",
+      "profit": 1.0,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null,
+      "home": "ATL",
+      "away": "BOS"
     },
     {
       "date": "2026-05-17",
@@ -2788,6 +4136,50 @@
     },
     {
       "date": "2026-05-17",
+      "commence": "2026-05-17T17:40:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Kevin Gausman"
+      ],
+      "fadeTeam": "TOR",
+      "market": "h2h",
+      "selection": "DET",
+      "line": null,
+      "odds": 100,
+      "stake": 1.0,
+      "result": "LOSS",
+      "profit": -1.0,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null,
+      "home": "DET",
+      "away": "TOR"
+    },
+    {
+      "date": "2026-05-17",
+      "commence": "2026-05-17T18:10:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Colin Rea"
+      ],
+      "fadeTeam": "CHC",
+      "market": "h2h",
+      "selection": "CWS",
+      "line": null,
+      "odds": 112,
+      "stake": 1.0,
+      "result": "WIN",
+      "profit": 1.12,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null,
+      "home": "CWS",
+      "away": "CHC"
+    },
+    {
+      "date": "2026-05-17",
       "commence": "2026-05-17T20:05:00Z",
       "betType": "ml",
       "shadow": false,
@@ -2814,6 +4206,28 @@
       "betType": "ml",
       "shadow": false,
       "pitchers": [
+        "Slade Cecconi"
+      ],
+      "fadeTeam": "CLE",
+      "market": "h2h",
+      "selection": "DET",
+      "line": null,
+      "odds": -146,
+      "stake": 1.46,
+      "result": "LOSS",
+      "profit": -1.46,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null,
+      "home": "DET",
+      "away": "CLE"
+    },
+    {
+      "date": "2026-05-18",
+      "commence": "2026-05-18T22:40:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
         "Andrew Painter"
       ],
       "fadeTeam": "PHI",
@@ -2829,28 +4243,6 @@
       "reason": null,
       "home": "PHI",
       "away": "CIN"
-    },
-    {
-      "date": "2026-05-18",
-      "commence": "2026-05-19T01:40:00Z",
-      "betType": "ml",
-      "shadow": false,
-      "pitchers": [
-        "Zac Gallen"
-      ],
-      "fadeTeam": "ARI",
-      "market": "h2h",
-      "selection": "SF",
-      "line": null,
-      "odds": 116,
-      "stake": 1.0,
-      "result": "LOSS",
-      "profit": -1.0,
-      "book": "fanduel",
-      "source": "oddsapi_fanduel",
-      "reason": null,
-      "home": "ARI",
-      "away": "SF"
     },
     {
       "date": "2026-05-18",
@@ -2902,16 +4294,16 @@
       "betType": "ml",
       "shadow": false,
       "pitchers": [
-        "Jacob Lopez"
+        "Reid Detmers"
       ],
-      "fadeTeam": "OAK",
+      "fadeTeam": "LAA",
       "market": "h2h",
-      "selection": "LAA",
+      "selection": "OAK",
       "line": null,
-      "odds": -132,
-      "stake": 1.32,
-      "result": "LOSS",
-      "profit": -1.32,
+      "odds": 112,
+      "stake": 1.0,
+      "result": "WIN",
+      "profit": 1.12,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
       "reason": null,
@@ -2939,6 +4331,28 @@
       "reason": null,
       "home": "ARI",
       "away": "SF"
+    },
+    {
+      "date": "2026-05-20",
+      "commence": "2026-05-20T17:05:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Aaron Nola"
+      ],
+      "fadeTeam": "PHI",
+      "market": "h2h",
+      "selection": "CIN",
+      "line": null,
+      "odds": 128,
+      "stake": 1.0,
+      "result": "WIN",
+      "profit": 1.28,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null,
+      "home": "PHI",
+      "away": "CIN"
     },
     {
       "date": "2026-05-20",
@@ -2986,35 +4400,14 @@
     },
     {
       "date": "2026-05-20",
-      "commence": "2026-05-20T19:10:00Z",
-      "betType": "ml",
-      "shadow": false,
-      "pitchers": [
-        "Kyle Freeland"
-      ],
-      "fadeTeam": "COL",
-      "market": "h2h",
-      "selection": "TEX",
-      "line": null,
-      "odds": -120,
-      "stake": 1.2,
-      "result": "WIN",
-      "profit": 1.0,
-      "book": "fanduel",
-      "source": "oddsapi_fanduel",
-      "reason": null,
-      "home": "COL",
-      "away": "TEX"
-    },
-    {
-      "date": "2026-05-20",
       "commence": "2026-05-20T19:40:00Z",
-      "betType": "ml",
+      "betType": "ml_dog",
       "shadow": false,
       "pitchers": [
+        "Tyler Mahle",
         "Merrill Kelly"
       ],
-      "fadeTeam": "ARI",
+      "fadeTeam": null,
       "market": "h2h",
       "selection": "SF",
       "line": null,
@@ -3078,16 +4471,16 @@
       "betType": "ml",
       "shadow": false,
       "pitchers": [
-        "Aaron Civale"
+        "Jack Kochanowicz"
       ],
-      "fadeTeam": "OAK",
+      "fadeTeam": "LAA",
       "market": "h2h",
-      "selection": "LAA",
+      "selection": "OAK",
       "line": null,
-      "odds": 108,
-      "stake": 1.0,
-      "result": "LOSS",
-      "profit": -1.0,
+      "odds": -126,
+      "stake": 1.26,
+      "result": "WIN",
+      "profit": 1.0,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
       "reason": null,
@@ -3118,6 +4511,94 @@
     },
     {
       "date": "2026-05-22",
+      "commence": "2026-05-22T18:20:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Jameson Taillon"
+      ],
+      "fadeTeam": "CHC",
+      "market": "h2h",
+      "selection": "HOU",
+      "line": null,
+      "odds": 120,
+      "stake": 1.0,
+      "result": "WIN",
+      "profit": 1.2,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null,
+      "home": "CHC",
+      "away": "HOU"
+    },
+    {
+      "date": "2026-05-22",
+      "commence": "2026-05-22T23:07:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Kevin Gausman"
+      ],
+      "fadeTeam": "TOR",
+      "market": "h2h",
+      "selection": "PIT",
+      "line": null,
+      "odds": 138,
+      "stake": 1.0,
+      "result": "LOSS",
+      "profit": -1.0,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null,
+      "home": "TOR",
+      "away": "PIT"
+    },
+    {
+      "date": "2026-05-22",
+      "commence": "2026-05-22T23:15:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Jack Flaherty"
+      ],
+      "fadeTeam": "DET",
+      "market": "h2h",
+      "selection": "BAL",
+      "line": null,
+      "odds": -132,
+      "stake": 1.32,
+      "result": "WIN",
+      "profit": 1.0,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null,
+      "home": "BAL",
+      "away": "DET"
+    },
+    {
+      "date": "2026-05-22",
+      "commence": "2026-05-22T23:40:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Noah Cameron"
+      ],
+      "fadeTeam": "KC",
+      "market": "h2h",
+      "selection": "SEA",
+      "line": null,
+      "odds": -118,
+      "stake": 1.18,
+      "result": "WIN",
+      "profit": 1.0,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null,
+      "home": "KC",
+      "away": "SEA"
+    },
+    {
+      "date": "2026-05-22",
       "commence": "2026-05-23T01:40:00Z",
       "betType": "ml",
       "shadow": false,
@@ -3137,6 +4618,72 @@
       "reason": null,
       "home": "SD",
       "away": "OAK"
+    },
+    {
+      "date": "2026-05-22",
+      "commence": "2026-05-23T02:15:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Trevor McDonald"
+      ],
+      "fadeTeam": "SF",
+      "market": "h2h",
+      "selection": "CWS",
+      "line": null,
+      "odds": -112,
+      "stake": 1.12,
+      "result": "WIN",
+      "profit": 1.0,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null,
+      "home": "SF",
+      "away": "CWS"
+    },
+    {
+      "date": "2026-05-23",
+      "commence": "2026-05-23T17:10:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Chris Paddack"
+      ],
+      "fadeTeam": "CIN",
+      "market": "h2h",
+      "selection": "STL",
+      "line": null,
+      "odds": -104,
+      "stake": 1.04,
+      "result": "WIN",
+      "profit": 1.0,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null,
+      "home": "CIN",
+      "away": "STL"
+    },
+    {
+      "date": "2026-05-23",
+      "commence": "2026-05-23T18:20:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Colin Rea"
+      ],
+      "fadeTeam": "CHC",
+      "market": "h2h",
+      "selection": "HOU",
+      "line": null,
+      "odds": 126,
+      "stake": 1.0,
+      "result": "WIN",
+      "profit": 1.26,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null,
+      "home": "CHC",
+      "away": "HOU"
     },
     {
       "date": "2026-05-23",
@@ -3162,6 +4709,28 @@
     },
     {
       "date": "2026-05-23",
+      "commence": "2026-05-23T20:05:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Slade Cecconi"
+      ],
+      "fadeTeam": "CLE",
+      "market": "h2h",
+      "selection": "PHI",
+      "line": null,
+      "odds": -178,
+      "stake": 1.78,
+      "result": "WIN",
+      "profit": 1.0,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null,
+      "home": "PHI",
+      "away": "CLE"
+    },
+    {
+      "date": "2026-05-23",
       "commence": "2026-05-23T20:10:00Z",
       "betType": "ml",
       "shadow": false,
@@ -3181,28 +4750,6 @@
       "reason": null,
       "home": "MIA",
       "away": "NYM"
-    },
-    {
-      "date": "2026-05-23",
-      "commence": "2026-05-24T02:10:00Z",
-      "betType": "ml",
-      "shadow": false,
-      "pitchers": [
-        "Zac Gallen"
-      ],
-      "fadeTeam": "ARI",
-      "market": "h2h",
-      "selection": "COL",
-      "line": null,
-      "odds": 158,
-      "stake": 1.0,
-      "result": "LOSS",
-      "profit": -1.0,
-      "book": "fanduel",
-      "source": "oddsapi_fanduel",
-      "reason": null,
-      "home": "ARI",
-      "away": "COL"
     },
     {
       "date": "2026-05-24",
@@ -3225,6 +4772,28 @@
       "reason": null,
       "home": "TOR",
       "away": "PIT"
+    },
+    {
+      "date": "2026-05-24",
+      "commence": "2026-05-24T16:35:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Framber Valdez"
+      ],
+      "fadeTeam": "DET",
+      "market": "h2h",
+      "selection": "BAL",
+      "line": null,
+      "odds": -126,
+      "stake": 1.26,
+      "result": "WIN",
+      "profit": 1.0,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null,
+      "home": "BAL",
+      "away": "DET"
     },
     {
       "date": "2026-05-24",
@@ -3269,6 +4838,28 @@
       "reason": null,
       "home": "SF",
       "away": "CWS"
+    },
+    {
+      "date": "2026-05-24",
+      "commence": "2026-05-24T23:20:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Reid Detmers"
+      ],
+      "fadeTeam": "LAA",
+      "market": "h2h",
+      "selection": "TEX",
+      "line": null,
+      "odds": 106,
+      "stake": 1.0,
+      "result": "LOSS",
+      "profit": -1.0,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null,
+      "home": "LAA",
+      "away": "TEX"
     },
     {
       "date": "2026-05-25",
@@ -3384,19 +4975,20 @@
     {
       "date": "2026-05-25",
       "commence": "2026-05-26T01:40:00Z",
-      "betType": "ml",
+      "betType": "ml_dog",
       "shadow": false,
       "pitchers": [
+        "Luis Castillo",
         "Aaron Civale"
       ],
-      "fadeTeam": "OAK",
+      "fadeTeam": null,
       "market": "h2h",
-      "selection": "SEA",
+      "selection": "OAK",
       "line": null,
-      "odds": -116,
-      "stake": 1.16,
-      "result": "WIN",
-      "profit": 1.0,
+      "odds": -102,
+      "stake": 1.02,
+      "result": "LOSS",
+      "profit": -1.02,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
       "reason": null,
@@ -3424,6 +5016,28 @@
       "reason": null,
       "home": "BAL",
       "away": "TB"
+    },
+    {
+      "date": "2026-05-26",
+      "commence": "2026-05-26T22:40:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Jack Kochanowicz"
+      ],
+      "fadeTeam": "LAA",
+      "market": "h2h",
+      "selection": "DET",
+      "line": null,
+      "odds": -134,
+      "stake": 1.34,
+      "result": "LOSS",
+      "profit": -1.34,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null,
+      "home": "DET",
+      "away": "LAA"
     },
     {
       "date": "2026-05-26",
@@ -3471,6 +5085,28 @@
     },
     {
       "date": "2026-05-27",
+      "commence": "2026-05-27T17:07:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Kevin Gausman"
+      ],
+      "fadeTeam": "TOR",
+      "market": "h2h",
+      "selection": "MIA",
+      "line": null,
+      "odds": 132,
+      "stake": 1.0,
+      "result": "LOSS",
+      "profit": -1.0,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null,
+      "home": "TOR",
+      "away": "MIA"
+    },
+    {
+      "date": "2026-05-27",
       "commence": "2026-05-27T19:05:00Z",
       "betType": "ml",
       "shadow": false,
@@ -3490,6 +5126,50 @@
       "reason": null,
       "home": "OAK",
       "away": "SEA"
+    },
+    {
+      "date": "2026-05-27",
+      "commence": "2026-05-27T19:45:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Trevor McDonald"
+      ],
+      "fadeTeam": "SF",
+      "market": "h2h",
+      "selection": "ARI",
+      "line": null,
+      "odds": -118,
+      "stake": 1.18,
+      "result": "WIN",
+      "profit": 1.0,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null,
+      "home": "SF",
+      "away": "ARI"
+    },
+    {
+      "date": "2026-05-27",
+      "commence": "2026-05-27T23:40:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Noah Cameron"
+      ],
+      "fadeTeam": "KC",
+      "market": "h2h",
+      "selection": "NYY",
+      "line": null,
+      "odds": -156,
+      "stake": 1.56,
+      "result": "WIN",
+      "profit": 1.0,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null,
+      "home": "KC",
+      "away": "NYY"
     },
     {
       "date": "2026-05-27",
@@ -3516,12 +5196,13 @@
     {
       "date": "2026-05-28",
       "commence": "2026-05-28T22:40:00Z",
-      "betType": "ml",
+      "betType": "ml_dog",
       "shadow": false,
       "pitchers": [
-        "Paul Skenes"
+        "Paul Skenes",
+        "Colin Rea"
       ],
-      "fadeTeam": "PIT",
+      "fadeTeam": null,
       "market": "h2h",
       "selection": "CHC",
       "line": null,
@@ -3534,6 +5215,28 @@
       "reason": null,
       "home": "PIT",
       "away": "CHC"
+    },
+    {
+      "date": "2026-05-29",
+      "commence": "2026-05-29T22:40:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Chris Paddack"
+      ],
+      "fadeTeam": "CIN",
+      "market": "h2h",
+      "selection": "ATL",
+      "line": null,
+      "odds": -136,
+      "stake": 1.36,
+      "result": "WIN",
+      "profit": 1.0,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null,
+      "home": "CIN",
+      "away": "ATL"
     },
     {
       "date": "2026-05-29",
@@ -3578,6 +5281,28 @@
       "reason": null,
       "home": "SEA",
       "away": "ARI"
+    },
+    {
+      "date": "2026-05-30",
+      "commence": "2026-05-30T18:10:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Framber Valdez"
+      ],
+      "fadeTeam": "DET",
+      "market": "h2h",
+      "selection": "CWS",
+      "line": null,
+      "odds": -104,
+      "stake": 1.04,
+      "result": "WIN",
+      "profit": 1.0,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null,
+      "home": "CWS",
+      "away": "DET"
     },
     {
       "date": "2026-05-30",
@@ -3646,6 +5371,28 @@
       "away": "ATL"
     },
     {
+      "date": "2026-05-30",
+      "commence": "2026-05-31T02:10:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Ryne Nelson"
+      ],
+      "fadeTeam": "ARI",
+      "market": "h2h",
+      "selection": "SEA",
+      "line": null,
+      "odds": -148,
+      "stake": 1.48,
+      "result": "WIN",
+      "profit": 1.0,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null,
+      "home": "SEA",
+      "away": "ARI"
+    },
+    {
       "date": "2026-05-31",
       "commence": "2026-05-31T17:35:00Z",
       "betType": "ml_dog",
@@ -3689,6 +5436,50 @@
       "reason": null,
       "home": "CLE",
       "away": "BOS"
+    },
+    {
+      "date": "2026-05-31",
+      "commence": "2026-05-31T17:40:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Jack Kochanowicz"
+      ],
+      "fadeTeam": "LAA",
+      "market": "h2h",
+      "selection": "TB",
+      "line": null,
+      "odds": -210,
+      "stake": 2.1,
+      "result": "WIN",
+      "profit": 1.0,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null,
+      "home": "TB",
+      "away": "LAA"
+    },
+    {
+      "date": "2026-05-31",
+      "commence": "2026-05-31T18:35:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Michael Wacha"
+      ],
+      "fadeTeam": "KC",
+      "market": "h2h",
+      "selection": "TEX",
+      "line": null,
+      "odds": -110,
+      "stake": 1.1,
+      "result": "WIN",
+      "profit": 1.0,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null,
+      "home": "TEX",
+      "away": "KC"
     },
     {
       "date": "2026-05-31",
@@ -3824,6 +5615,50 @@
     },
     {
       "date": "2026-06-02",
+      "commence": "2026-06-02T22:40:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Aaron Nola"
+      ],
+      "fadeTeam": "PHI",
+      "market": "h2h",
+      "selection": "SD",
+      "line": null,
+      "odds": 130,
+      "stake": 1.0,
+      "result": "LOSS",
+      "profit": -1.0,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null,
+      "home": "PHI",
+      "away": "SD"
+    },
+    {
+      "date": "2026-06-02",
+      "commence": "2026-06-02T22:40:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Jack Flaherty"
+      ],
+      "fadeTeam": "DET",
+      "market": "h2h",
+      "selection": "TB",
+      "line": null,
+      "odds": -142,
+      "stake": 1.42,
+      "result": "LOSS",
+      "profit": -1.42,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null,
+      "home": "TB",
+      "away": "DET"
+    },
+    {
+      "date": "2026-06-02",
       "commence": "2026-06-02T22:45:00Z",
       "betType": "ml",
       "shadow": false,
@@ -3843,6 +5678,72 @@
       "reason": null,
       "home": "BOS",
       "away": "BAL"
+    },
+    {
+      "date": "2026-06-02",
+      "commence": "2026-06-02T23:10:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Noah Cameron"
+      ],
+      "fadeTeam": "KC",
+      "market": "h2h",
+      "selection": "CIN",
+      "line": null,
+      "odds": -122,
+      "stake": 1.22,
+      "result": "WIN",
+      "profit": 1.0,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null,
+      "home": "CIN",
+      "away": "KC"
+    },
+    {
+      "date": "2026-06-02",
+      "commence": "2026-06-02T23:15:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Kevin Gausman"
+      ],
+      "fadeTeam": "TOR",
+      "market": "h2h",
+      "selection": "ATL",
+      "line": null,
+      "odds": -120,
+      "stake": 1.2,
+      "result": "WIN",
+      "profit": 1.0,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null,
+      "home": "ATL",
+      "away": "TOR"
+    },
+    {
+      "date": "2026-06-02",
+      "commence": "2026-06-03T00:05:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Jameson Taillon"
+      ],
+      "fadeTeam": "CHC",
+      "market": "h2h",
+      "selection": "OAK",
+      "line": null,
+      "odds": 108,
+      "stake": 1.0,
+      "result": "WIN",
+      "profit": 1.08,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null,
+      "home": "CHC",
+      "away": "OAK"
     },
     {
       "date": "2026-06-02",
@@ -3891,19 +5792,20 @@
     {
       "date": "2026-06-03",
       "commence": "2026-06-04T00:05:00Z",
-      "betType": "ml",
+      "betType": "ml_dog",
       "shadow": false,
       "pitchers": [
-        "Jeffrey Springs"
+        "Jeffrey Springs",
+        "Colin Rea"
       ],
-      "fadeTeam": "OAK",
+      "fadeTeam": null,
       "market": "h2h",
-      "selection": "CHC",
+      "selection": "OAK",
       "line": null,
-      "odds": -134,
-      "stake": 1.34,
-      "result": "LOSS",
-      "profit": -1.34,
+      "odds": 114,
+      "stake": 1.0,
+      "result": "WIN",
+      "profit": 1.14,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
       "reason": null,
@@ -3933,26 +5835,48 @@
       "away": "PIT"
     },
     {
-      "date": "2026-06-03",
-      "commence": "2026-06-04T01:40:00Z",
+      "date": "2026-06-04",
+      "commence": "2026-06-04T17:35:00Z",
       "betType": "ml",
       "shadow": false,
       "pitchers": [
-        "Zac Gallen"
+        "Slade Cecconi"
       ],
-      "fadeTeam": "ARI",
+      "fadeTeam": "CLE",
       "market": "h2h",
-      "selection": "LAD",
+      "selection": "NYY",
       "line": null,
-      "odds": -210,
-      "stake": 2.1,
+      "odds": -164,
+      "stake": 1.64,
       "result": "WIN",
       "profit": 1.0,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
       "reason": null,
-      "home": "ARI",
-      "away": "LAD"
+      "home": "NYY",
+      "away": "CLE"
+    },
+    {
+      "date": "2026-06-04",
+      "commence": "2026-06-04T17:35:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Brayan Bello"
+      ],
+      "fadeTeam": "BOS",
+      "market": "h2h",
+      "selection": "BAL",
+      "line": null,
+      "odds": -102,
+      "stake": 1.02,
+      "result": "WIN",
+      "profit": 1.0,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null,
+      "home": "BOS",
+      "away": "BAL"
     },
     {
       "date": "2026-06-05",
@@ -3997,6 +5921,28 @@
       "reason": null,
       "home": "STL",
       "away": "CIN"
+    },
+    {
+      "date": "2026-06-05",
+      "commence": "2026-06-06T00:15:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Michael Wacha"
+      ],
+      "fadeTeam": "KC",
+      "market": "h2h",
+      "selection": "MIN",
+      "line": null,
+      "odds": -118,
+      "stake": 1.18,
+      "result": "WIN",
+      "profit": 1.0,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null,
+      "home": "MIN",
+      "away": "KC"
     },
     {
       "date": "2026-06-05",
@@ -4136,6 +6082,28 @@
       "betType": "ml",
       "shadow": false,
       "pitchers": [
+        "Jack Kochanowicz"
+      ],
+      "fadeTeam": "LAA",
+      "market": "h2h",
+      "selection": "LAD",
+      "line": null,
+      "odds": -350,
+      "stake": 3.5,
+      "result": "WIN",
+      "profit": 1.0,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null,
+      "home": "LAD",
+      "away": "LAA"
+    },
+    {
+      "date": "2026-06-06",
+      "commence": "2026-06-07T02:10:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
         "Griffin Canning"
       ],
       "fadeTeam": "SD",
@@ -4154,25 +6122,92 @@
     },
     {
       "date": "2026-06-07",
-      "commence": "2026-06-07T17:37:00Z",
+      "commence": "2026-06-07T17:35:00Z",
       "betType": "ml",
       "shadow": false,
       "pitchers": [
+        "Aaron Nola"
+      ],
+      "fadeTeam": "PHI",
+      "market": "h2h",
+      "selection": "CWS",
+      "line": null,
+      "odds": 144,
+      "stake": 1.0,
+      "result": "LOSS",
+      "profit": -1.0,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null,
+      "home": "PHI",
+      "away": "CWS"
+    },
+    {
+      "date": "2026-06-07",
+      "commence": "2026-06-07T17:37:00Z",
+      "betType": "ml_dog",
+      "shadow": false,
+      "pitchers": [
+        "Kevin Gausman",
         "Shane Baz"
       ],
-      "fadeTeam": "BAL",
+      "fadeTeam": null,
       "market": "h2h",
-      "selection": "TOR",
+      "selection": "BAL",
       "line": null,
-      "odds": -136,
-      "stake": 1.36,
-      "result": "WIN",
-      "profit": 1.0,
+      "odds": 116,
+      "stake": 1.0,
+      "result": "LOSS",
+      "profit": -1.0,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "TOR",
       "away": "BAL"
+    },
+    {
+      "date": "2026-06-07",
+      "commence": "2026-06-07T17:40:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Luis Castillo"
+      ],
+      "fadeTeam": "SEA",
+      "market": "h2h",
+      "selection": "DET",
+      "line": null,
+      "odds": -118,
+      "stake": 1.18,
+      "result": "WIN",
+      "profit": 1.0,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null,
+      "home": "DET",
+      "away": "SEA"
+    },
+    {
+      "date": "2026-06-07",
+      "commence": "2026-06-07T18:10:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Noah Cameron"
+      ],
+      "fadeTeam": "KC",
+      "market": "h2h",
+      "selection": "MIN",
+      "line": null,
+      "odds": 102,
+      "stake": 1.0,
+      "result": "LOSS",
+      "profit": -1.0,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null,
+      "home": "MIN",
+      "away": "KC"
     },
     {
       "date": "2026-06-07",
@@ -4220,28 +6255,6 @@
     },
     {
       "date": "2026-06-07",
-      "commence": "2026-06-07T19:10:00Z",
-      "betType": "ml",
-      "shadow": false,
-      "pitchers": [
-        "Kyle Freeland"
-      ],
-      "fadeTeam": "COL",
-      "market": "h2h",
-      "selection": "MIL",
-      "line": null,
-      "odds": -184,
-      "stake": 1.84,
-      "result": "WIN",
-      "profit": 1.0,
-      "book": "fanduel",
-      "source": "oddsapi_fanduel",
-      "reason": null,
-      "home": "COL",
-      "away": "MIL"
-    },
-    {
-      "date": "2026-06-07",
       "commence": "2026-06-07T20:10:00Z",
       "betType": "ml",
       "shadow": false,
@@ -4261,6 +6274,28 @@
       "reason": null,
       "home": "LAD",
       "away": "LAA"
+    },
+    {
+      "date": "2026-06-07",
+      "commence": "2026-06-08T00:30:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Jameson Taillon"
+      ],
+      "fadeTeam": "CHC",
+      "market": "h2h",
+      "selection": "SF",
+      "line": null,
+      "odds": 110,
+      "stake": 1.0,
+      "result": "WIN",
+      "profit": 1.1,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null,
+      "home": "CHC",
+      "away": "SF"
     },
     {
       "date": "2026-06-08",
@@ -4351,6 +6386,28 @@
       "away": "STL"
     },
     {
+      "date": "2026-06-09",
+      "commence": "2026-06-10T00:40:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Colin Rea"
+      ],
+      "fadeTeam": "CHC",
+      "market": "h2h",
+      "selection": "COL",
+      "line": null,
+      "odds": 130,
+      "stake": 1.0,
+      "result": "WIN",
+      "profit": 1.3,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null,
+      "home": "COL",
+      "away": "CHC"
+    },
+    {
       "date": "2026-06-10",
       "commence": "2026-06-10T20:10:00Z",
       "betType": "ml",
@@ -4393,6 +6450,50 @@
       "reason": null,
       "home": "PIT",
       "away": "LAD"
+    },
+    {
+      "date": "2026-06-10",
+      "commence": "2026-06-10T22:40:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Ryne Nelson"
+      ],
+      "fadeTeam": "ARI",
+      "market": "h2h",
+      "selection": "MIA",
+      "line": null,
+      "odds": -102,
+      "stake": 1.02,
+      "result": "WIN",
+      "profit": 1.0,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null,
+      "home": "MIA",
+      "away": "ARI"
+    },
+    {
+      "date": "2026-06-10",
+      "commence": "2026-06-11T01:38:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Reid Detmers"
+      ],
+      "fadeTeam": "LAA",
+      "market": "h2h",
+      "selection": "HOU",
+      "line": null,
+      "odds": 102,
+      "stake": 1.0,
+      "result": "LOSS",
+      "profit": -1.0,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null,
+      "home": "LAA",
+      "away": "HOU"
     },
     {
       "date": "2026-06-11",
@@ -4508,12 +6609,13 @@
     {
       "date": "2026-06-12",
       "commence": "2026-06-12T23:10:00Z",
-      "betType": "ml",
+      "betType": "ml_dog",
       "shadow": false,
       "pitchers": [
+        "Jack Flaherty",
         "Tanner Bibee"
       ],
-      "fadeTeam": "CLE",
+      "fadeTeam": null,
       "market": "h2h",
       "selection": "DET",
       "line": null,
@@ -4551,6 +6653,50 @@
     },
     {
       "date": "2026-06-13",
+      "commence": "2026-06-13T19:07:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Kevin Gausman"
+      ],
+      "fadeTeam": "TOR",
+      "market": "h2h",
+      "selection": "NYY",
+      "line": null,
+      "odds": -120,
+      "stake": 1.2,
+      "result": "WIN",
+      "profit": 1.0,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null,
+      "home": "TOR",
+      "away": "NYY"
+    },
+    {
+      "date": "2026-06-13",
+      "commence": "2026-06-13T20:05:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Luis Castillo"
+      ],
+      "fadeTeam": "SEA",
+      "market": "h2h",
+      "selection": "WSH",
+      "line": null,
+      "odds": -118,
+      "stake": 1.18,
+      "result": "WIN",
+      "profit": 1.0,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null,
+      "home": "WSH",
+      "away": "SEA"
+    },
+    {
+      "date": "2026-06-13",
       "commence": "2026-06-13T20:10:00Z",
       "betType": "ml",
       "shadow": false,
@@ -4574,24 +6720,47 @@
     {
       "date": "2026-06-13",
       "commence": "2026-06-13T23:10:00Z",
-      "betType": "ml",
+      "betType": "ml_dog",
       "shadow": false,
       "pitchers": [
+        "Noah Cameron",
         "Mike Burrows"
       ],
-      "fadeTeam": "HOU",
+      "fadeTeam": null,
       "market": "h2h",
-      "selection": "KC",
+      "selection": "HOU",
       "line": null,
-      "odds": -132,
-      "stake": 1.32,
-      "result": "LOSS",
-      "profit": -1.32,
+      "odds": 112,
+      "stake": 1.0,
+      "result": "WIN",
+      "profit": 1.12,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "KC",
       "away": "HOU"
+    },
+    {
+      "date": "2026-06-13",
+      "commence": "2026-06-14T02:05:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Trevor McDonald"
+      ],
+      "fadeTeam": "SF",
+      "market": "h2h",
+      "selection": "CHC",
+      "line": null,
+      "odds": -118,
+      "stake": 1.18,
+      "result": "WIN",
+      "profit": 1.0,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null,
+      "home": "SF",
+      "away": "CHC"
     },
     {
       "date": "2026-06-13",
@@ -4749,6 +6918,28 @@
     },
     {
       "date": "2026-06-16",
+      "commence": "2026-06-16T22:45:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Michael Wacha"
+      ],
+      "fadeTeam": "KC",
+      "market": "h2h",
+      "selection": "WSH",
+      "line": null,
+      "odds": -136,
+      "stake": 1.36,
+      "result": "WIN",
+      "profit": 1.0,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null,
+      "home": "WSH",
+      "away": "KC"
+    },
+    {
+      "date": "2026-06-16",
       "commence": "2026-06-16T23:10:00Z",
       "betType": "ml",
       "shadow": false,
@@ -4771,6 +6962,28 @@
     },
     {
       "date": "2026-06-16",
+      "commence": "2026-06-16T23:40:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Slade Cecconi"
+      ],
+      "fadeTeam": "CLE",
+      "market": "h2h",
+      "selection": "MIL",
+      "line": null,
+      "odds": -154,
+      "stake": 1.54,
+      "result": "WIN",
+      "profit": 1.0,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null,
+      "home": "MIL",
+      "away": "CLE"
+    },
+    {
+      "date": "2026-06-16",
       "commence": "2026-06-17T00:05:00Z",
       "betType": "ml",
       "shadow": false,
@@ -4790,6 +7003,50 @@
       "reason": null,
       "home": "TEX",
       "away": "MIN"
+    },
+    {
+      "date": "2026-06-16",
+      "commence": "2026-06-17T00:05:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Ryan Feltner"
+      ],
+      "fadeTeam": "COL",
+      "market": "h2h",
+      "selection": "CHC",
+      "line": null,
+      "odds": -205,
+      "stake": 2.05,
+      "result": "LOSS",
+      "profit": -2.05,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null,
+      "home": "CHC",
+      "away": "COL"
+    },
+    {
+      "date": "2026-06-16",
+      "commence": "2026-06-17T00:10:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Framber Valdez"
+      ],
+      "fadeTeam": "DET",
+      "market": "h2h",
+      "selection": "HOU",
+      "line": null,
+      "odds": -168,
+      "stake": 1.68,
+      "result": "WIN",
+      "profit": 1.0,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null,
+      "home": "HOU",
+      "away": "DET"
     },
     {
       "date": "2026-06-16",
@@ -4946,6 +7203,72 @@
       "away": "BAL"
     },
     {
+      "date": "2026-06-18",
+      "commence": "2026-06-18T22:40:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Aaron Nola"
+      ],
+      "fadeTeam": "PHI",
+      "market": "h2h",
+      "selection": "NYM",
+      "line": null,
+      "odds": 102,
+      "stake": 1.0,
+      "result": "WIN",
+      "profit": 1.02,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null,
+      "home": "PHI",
+      "away": "NYM"
+    },
+    {
+      "date": "2026-06-18",
+      "commence": "2026-06-18T23:40:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Noah Cameron"
+      ],
+      "fadeTeam": "KC",
+      "market": "h2h",
+      "selection": "STL",
+      "line": null,
+      "odds": -102,
+      "stake": 1.02,
+      "result": "LOSS",
+      "profit": -1.02,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null,
+      "home": "KC",
+      "away": "STL"
+    },
+    {
+      "date": "2026-06-19",
+      "commence": "2026-06-19T18:20:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Kevin Gausman"
+      ],
+      "fadeTeam": "TOR",
+      "market": "h2h",
+      "selection": "CHC",
+      "line": null,
+      "odds": -124,
+      "stake": 1.24,
+      "result": "WIN",
+      "profit": 1.0,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null,
+      "home": "CHC",
+      "away": "TOR"
+    },
+    {
       "date": "2026-06-19",
       "commence": "2026-06-19T23:05:00Z",
       "betType": "ml",
@@ -5013,28 +7336,6 @@
     },
     {
       "date": "2026-06-19",
-      "commence": "2026-06-20T00:40:00Z",
-      "betType": "ml",
-      "shadow": false,
-      "pitchers": [
-        "Kyle Freeland"
-      ],
-      "fadeTeam": "COL",
-      "market": "h2h",
-      "selection": "PIT",
-      "line": null,
-      "odds": -136,
-      "stake": 1.36,
-      "result": "LOSS",
-      "profit": -1.36,
-      "book": "fanduel",
-      "source": "oddsapi_fanduel",
-      "reason": null,
-      "home": "COL",
-      "away": "PIT"
-    },
-    {
-      "date": "2026-06-19",
       "commence": "2026-06-20T01:40:00Z",
       "betType": "ml",
       "shadow": false,
@@ -5054,6 +7355,28 @@
       "reason": null,
       "home": "OAK",
       "away": "LAA"
+    },
+    {
+      "date": "2026-06-20",
+      "commence": "2026-06-20T18:20:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Colin Rea"
+      ],
+      "fadeTeam": "CHC",
+      "market": "h2h",
+      "selection": "TOR",
+      "line": null,
+      "odds": 110,
+      "stake": 1.0,
+      "result": "WIN",
+      "profit": 1.1,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null,
+      "home": "CHC",
+      "away": "TOR"
     },
     {
       "date": "2026-06-20",
@@ -5100,26 +7423,26 @@
       "away": "PIT"
     },
     {
-      "date": "2026-06-20",
-      "commence": "2026-06-21T02:10:00Z",
+      "date": "2026-06-21",
+      "commence": "2026-06-21T18:10:00Z",
       "betType": "ml",
       "shadow": false,
       "pitchers": [
-        "Zac Gallen"
+        "Slade Cecconi"
       ],
-      "fadeTeam": "ARI",
+      "fadeTeam": "CLE",
       "market": "h2h",
-      "selection": "MIN",
+      "selection": "HOU",
       "line": null,
-      "odds": 100,
-      "stake": 1.0,
+      "odds": -132,
+      "stake": 1.32,
       "result": "WIN",
       "profit": 1.0,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
       "reason": null,
-      "home": "ARI",
-      "away": "MIN"
+      "home": "HOU",
+      "away": "CLE"
     },
     {
       "date": "2026-06-21",
@@ -5186,6 +7509,28 @@
       "reason": null,
       "home": "PHI",
       "away": "NYM"
+    },
+    {
+      "date": "2026-06-22",
+      "commence": "2026-06-22T22:40:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Michael Wacha"
+      ],
+      "fadeTeam": "KC",
+      "market": "h2h",
+      "selection": "TB",
+      "line": null,
+      "odds": -184,
+      "stake": 1.84,
+      "result": "LOSS",
+      "profit": -1.84,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null,
+      "home": "TB",
+      "away": "KC"
     },
     {
       "date": "2026-06-22",
@@ -5299,28 +7644,6 @@
       "away": "BAL"
     },
     {
-      "date": "2026-06-23",
-      "commence": "2026-06-24T01:45:00Z",
-      "betType": "ml",
-      "shadow": false,
-      "pitchers": [
-        "Aaron Civale"
-      ],
-      "fadeTeam": "OAK",
-      "market": "h2h",
-      "selection": "SF",
-      "line": null,
-      "odds": -142,
-      "stake": 1.42,
-      "result": "WIN",
-      "profit": 1.0,
-      "book": "fanduel",
-      "source": "oddsapi_fanduel",
-      "reason": null,
-      "home": "SF",
-      "away": "OAK"
-    },
-    {
       "date": "2026-06-24",
       "commence": "2026-06-24T18:10:00Z",
       "betType": "ml",
@@ -5344,25 +7667,25 @@
     },
     {
       "date": "2026-06-24",
-      "commence": "2026-06-24T19:10:00Z",
+      "commence": "2026-06-24T22:40:00Z",
       "betType": "ml",
       "shadow": false,
       "pitchers": [
-        "Kyle Freeland"
+        "Noah Cameron"
       ],
-      "fadeTeam": "COL",
+      "fadeTeam": "KC",
       "market": "h2h",
-      "selection": "BOS",
+      "selection": "TB",
       "line": null,
-      "odds": -168,
-      "stake": 1.68,
-      "result": "LOSS",
-      "profit": -1.68,
+      "odds": -154,
+      "stake": 1.54,
+      "result": "WIN",
+      "profit": 1.0,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
       "reason": null,
-      "home": "COL",
-      "away": "BOS"
+      "home": "TB",
+      "away": "KC"
     },
     {
       "date": "2026-06-24",
@@ -5433,6 +7756,28 @@
     },
     {
       "date": "2026-06-25",
+      "commence": "2026-06-25T23:07:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Kevin Gausman"
+      ],
+      "fadeTeam": "TOR",
+      "market": "h2h",
+      "selection": "TEX",
+      "line": null,
+      "odds": 124,
+      "stake": 1.0,
+      "result": "WIN",
+      "profit": 1.24,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null,
+      "home": "TOR",
+      "away": "TEX"
+    },
+    {
+      "date": "2026-06-25",
       "commence": "2026-06-25T23:10:00Z",
       "betType": "ml",
       "shadow": false,
@@ -5481,6 +7826,28 @@
       "betType": "ml",
       "shadow": false,
       "pitchers": [
+        "Luis Castillo"
+      ],
+      "fadeTeam": "SEA",
+      "market": "h2h",
+      "selection": "CLE",
+      "line": null,
+      "odds": -108,
+      "stake": 1.08,
+      "result": "LOSS",
+      "profit": -1.08,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null,
+      "home": "CLE",
+      "away": "SEA"
+    },
+    {
+      "date": "2026-06-26",
+      "commence": "2026-06-26T23:10:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
         "Zac Gallen"
       ],
       "fadeTeam": "ARI",
@@ -5496,6 +7863,50 @@
       "reason": null,
       "home": "TB",
       "away": "ARI"
+    },
+    {
+      "date": "2026-06-26",
+      "commence": "2026-06-26T23:45:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Colin Rea"
+      ],
+      "fadeTeam": "CHC",
+      "market": "h2h",
+      "selection": "MIL",
+      "line": null,
+      "odds": -250,
+      "stake": 2.5,
+      "result": "WIN",
+      "profit": 1.0,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null,
+      "home": "MIL",
+      "away": "CHC"
+    },
+    {
+      "date": "2026-06-26",
+      "commence": "2026-06-27T02:15:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Trevor McDonald"
+      ],
+      "fadeTeam": "SF",
+      "market": "h2h",
+      "selection": "ATL",
+      "line": null,
+      "odds": -120,
+      "stake": 1.2,
+      "result": "WIN",
+      "profit": 1.0,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null,
+      "home": "SF",
+      "away": "ATL"
     },
     {
       "date": "2026-06-27",
@@ -5521,6 +7932,28 @@
     },
     {
       "date": "2026-06-27",
+      "commence": "2026-06-27T20:10:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Michael Wacha"
+      ],
+      "fadeTeam": "KC",
+      "market": "h2h",
+      "selection": "CWS",
+      "line": null,
+      "odds": -126,
+      "stake": 1.26,
+      "result": "WIN",
+      "profit": 1.0,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null,
+      "home": "CWS",
+      "away": "KC"
+    },
+    {
+      "date": "2026-06-27",
       "commence": "2026-06-27T23:10:00Z",
       "betType": "ml",
       "shadow": false,
@@ -5540,6 +7973,28 @@
       "reason": null,
       "home": "MIL",
       "away": "CHC"
+    },
+    {
+      "date": "2026-06-27",
+      "commence": "2026-06-28T01:38:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Reid Detmers"
+      ],
+      "fadeTeam": "LAA",
+      "market": "h2h",
+      "selection": "OAK",
+      "line": null,
+      "odds": -104,
+      "stake": 1.04,
+      "result": "LOSS",
+      "profit": -1.04,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null,
+      "home": "LAA",
+      "away": "OAK"
     },
     {
       "date": "2026-06-28",
@@ -5632,21 +8087,42 @@
     },
     {
       "date": "2026-06-28",
-      "commence": "2026-06-28T19:15:00Z",
-      "betType": "ml_dog",
+      "commence": "2026-06-28T18:10:00Z",
+      "betType": "ml",
       "shadow": false,
       "pitchers": [
-        "Sam Aldegheri",
-        "Aaron Civale"
+        "Ryan Feltner"
       ],
-      "fadeTeam": null,
+      "fadeTeam": "COL",
       "market": "h2h",
-      "selection": "LAA",
+      "selection": "MIN",
       "line": null,
-      "odds": -106,
-      "stake": 1.06,
+      "odds": -164,
+      "stake": 1.64,
       "result": "WIN",
       "profit": 1.0,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null,
+      "home": "MIN",
+      "away": "COL"
+    },
+    {
+      "date": "2026-06-28",
+      "commence": "2026-06-28T19:15:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Sam Aldegheri"
+      ],
+      "fadeTeam": "LAA",
+      "market": "h2h",
+      "selection": "OAK",
+      "line": null,
+      "odds": -110,
+      "stake": 1.1,
+      "result": "LOSS",
+      "profit": -1.1,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
       "reason": null,
@@ -5696,6 +8172,28 @@
       "reason": null,
       "home": "BAL",
       "away": "CWS"
+    },
+    {
+      "date": "2026-06-29",
+      "commence": "2026-06-29T22:40:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Aaron Nola"
+      ],
+      "fadeTeam": "PHI",
+      "market": "h2h",
+      "selection": "PIT",
+      "line": null,
+      "odds": -106,
+      "stake": 1.06,
+      "result": "WIN",
+      "profit": 1.0,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null,
+      "home": "PHI",
+      "away": "PIT"
     },
     {
       "date": "2026-06-29",
@@ -5764,6 +8262,28 @@
       "away": "LAA"
     },
     {
+      "date": "2026-06-29",
+      "commence": "2026-06-30T01:40:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Tyler Mahle"
+      ],
+      "fadeTeam": "SF",
+      "market": "h2h",
+      "selection": "ARI",
+      "line": null,
+      "odds": -136,
+      "stake": 1.36,
+      "result": "WIN",
+      "profit": 1.0,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null,
+      "home": "ARI",
+      "away": "SF"
+    },
+    {
       "date": "2026-06-30",
       "commence": "2026-06-30T22:40:00Z",
       "betType": "ml",
@@ -5784,6 +8304,50 @@
       "reason": null,
       "home": "CLE",
       "away": "TEX"
+    },
+    {
+      "date": "2026-06-30",
+      "commence": "2026-06-30T23:07:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Kevin Gausman"
+      ],
+      "fadeTeam": "TOR",
+      "market": "h2h",
+      "selection": "NYM",
+      "line": null,
+      "odds": -116,
+      "stake": 1.16,
+      "result": "WIN",
+      "profit": 1.0,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null,
+      "home": "TOR",
+      "away": "NYM"
+    },
+    {
+      "date": "2026-06-30",
+      "commence": "2026-06-30T23:40:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Noah Cameron"
+      ],
+      "fadeTeam": "KC",
+      "market": "h2h",
+      "selection": "TB",
+      "line": null,
+      "odds": -118,
+      "stake": 1.18,
+      "result": "WIN",
+      "profit": 1.0,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null,
+      "home": "KC",
+      "away": "TB"
     },
     {
       "date": "2026-06-30",
@@ -5897,6 +8461,28 @@
     },
     {
       "date": "2026-07-01",
+      "commence": "2026-07-01T18:20:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Colin Rea"
+      ],
+      "fadeTeam": "CHC",
+      "market": "h2h",
+      "selection": "SD",
+      "line": null,
+      "odds": 102,
+      "stake": 1.0,
+      "result": "LOSS",
+      "profit": -1.0,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null,
+      "home": "CHC",
+      "away": "SD"
+    },
+    {
+      "date": "2026-07-01",
       "commence": "2026-07-01T19:07:00Z",
       "betType": "ml",
       "shadow": false,
@@ -5940,50 +8526,6 @@
       "away": "PIT"
     },
     {
-      "date": "2026-07-01",
-      "commence": "2026-07-02T00:40:00Z",
-      "betType": "ml",
-      "shadow": false,
-      "pitchers": [
-        "Kyle Freeland"
-      ],
-      "fadeTeam": "COL",
-      "market": "h2h",
-      "selection": "MIA",
-      "line": null,
-      "odds": -144,
-      "stake": 1.44,
-      "result": "LOSS",
-      "profit": -1.44,
-      "book": "fanduel",
-      "source": "oddsapi_fanduel",
-      "reason": null,
-      "home": "COL",
-      "away": "MIA"
-    },
-    {
-      "date": "2026-07-01",
-      "commence": "2026-07-02T01:40:00Z",
-      "betType": "ml",
-      "shadow": false,
-      "pitchers": [
-        "Zac Gallen"
-      ],
-      "fadeTeam": "ARI",
-      "market": "h2h",
-      "selection": "SF",
-      "line": null,
-      "odds": 110,
-      "stake": 1.0,
-      "result": "WIN",
-      "profit": 1.1,
-      "book": "fanduel",
-      "source": "oddsapi_fanduel",
-      "reason": null,
-      "home": "ARI",
-      "away": "SF"
-    },
-    {
       "date": "2026-07-02",
       "commence": "2026-07-02T16:35:00Z",
       "betType": "ml",
@@ -6004,6 +8546,28 @@
       "reason": null,
       "home": "PHI",
       "away": "PIT"
+    },
+    {
+      "date": "2026-07-02",
+      "commence": "2026-07-03T00:05:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Framber Valdez"
+      ],
+      "fadeTeam": "DET",
+      "market": "h2h",
+      "selection": "TEX",
+      "line": null,
+      "odds": -108,
+      "stake": 1.08,
+      "result": "WIN",
+      "profit": 1.0,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null,
+      "home": "TEX",
+      "away": "DET"
     },
     {
       "date": "2026-07-03",
@@ -6070,6 +8634,72 @@
       "reason": null,
       "home": "CIN",
       "away": "BAL"
+    },
+    {
+      "date": "2026-07-03",
+      "commence": "2026-07-04T01:38:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Reid Detmers"
+      ],
+      "fadeTeam": "LAA",
+      "market": "h2h",
+      "selection": "BOS",
+      "line": null,
+      "odds": -104,
+      "stake": 1.04,
+      "result": "WIN",
+      "profit": 1.0,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null,
+      "home": "LAA",
+      "away": "BOS"
+    },
+    {
+      "date": "2026-07-03",
+      "commence": "2026-07-04T02:10:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Luis Castillo"
+      ],
+      "fadeTeam": "SEA",
+      "market": "h2h",
+      "selection": "TOR",
+      "line": null,
+      "odds": -134,
+      "stake": 1.34,
+      "result": "WIN",
+      "profit": 1.0,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null,
+      "home": "SEA",
+      "away": "TOR"
+    },
+    {
+      "date": "2026-07-04",
+      "commence": "2026-07-04T20:05:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Jack Flaherty"
+      ],
+      "fadeTeam": "DET",
+      "market": "h2h",
+      "selection": "TEX",
+      "line": null,
+      "odds": 106,
+      "stake": 1.0,
+      "result": "LOSS",
+      "profit": -1.0,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null,
+      "home": "TEX",
+      "away": "DET"
     },
     {
       "date": "2026-07-04",
@@ -6183,6 +8813,28 @@
     },
     {
       "date": "2026-07-05",
+      "commence": "2026-07-05T20:00:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Tyler Mahle"
+      ],
+      "fadeTeam": "SF",
+      "market": "h2h",
+      "selection": "COL",
+      "line": null,
+      "odds": 100,
+      "stake": 1.0,
+      "result": "WIN",
+      "profit": 1.0,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null,
+      "home": "COL",
+      "away": "SF"
+    },
+    {
+      "date": "2026-07-05",
       "commence": "2026-07-05T23:20:00Z",
       "betType": "ml",
       "shadow": false,
@@ -6224,6 +8876,28 @@
       "reason": null,
       "home": "LAA",
       "away": "BOS"
+    },
+    {
+      "date": "2026-07-06",
+      "commence": "2026-07-06T18:10:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Noah Cameron"
+      ],
+      "fadeTeam": "KC",
+      "market": "h2h",
+      "selection": "PHI",
+      "line": null,
+      "odds": -210,
+      "stake": 2.1,
+      "result": "LOSS",
+      "profit": -2.1,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null,
+      "home": "KC",
+      "away": "PHI"
     },
     {
       "date": "2026-07-06",
@@ -6273,19 +8947,20 @@
     {
       "date": "2026-07-06",
       "commence": "2026-07-07T01:45:00Z",
-      "betType": "ml",
+      "betType": "ml_dog",
       "shadow": false,
       "pitchers": [
-        "Landen Roupp"
+        "Landen Roupp",
+        "Kevin Gausman"
       ],
-      "fadeTeam": "SF",
+      "fadeTeam": null,
       "market": "h2h",
-      "selection": "TOR",
+      "selection": "SF",
       "line": null,
-      "odds": -110,
-      "stake": 1.1,
-      "result": "LOSS",
-      "profit": -1.1,
+      "odds": -106,
+      "stake": 1.06,
+      "result": "WIN",
+      "profit": 1.0,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
       "reason": null,
@@ -6403,6 +9078,50 @@
       "away": "ARI"
     },
     {
+      "date": "2026-07-07",
+      "commence": "2026-07-08T01:45:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Trevor McDonald"
+      ],
+      "fadeTeam": "SF",
+      "market": "h2h",
+      "selection": "TOR",
+      "line": null,
+      "odds": -116,
+      "stake": 1.16,
+      "result": "WIN",
+      "profit": 1.0,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null,
+      "home": "SF",
+      "away": "TOR"
+    },
+    {
+      "date": "2026-07-08",
+      "commence": "2026-07-08T22:35:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Colin Rea"
+      ],
+      "fadeTeam": "CHC",
+      "market": "h2h",
+      "selection": "BAL",
+      "line": null,
+      "odds": -126,
+      "stake": 1.26,
+      "result": "LOSS",
+      "profit": -1.26,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null,
+      "home": "BAL",
+      "away": "CHC"
+    },
+    {
       "date": "2026-07-08",
       "commence": "2026-07-08T22:40:00Z",
       "betType": "ml",
@@ -6447,6 +9166,28 @@
       "away": "ATL"
     },
     {
+      "date": "2026-07-08",
+      "commence": "2026-07-08T23:40:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Slade Cecconi"
+      ],
+      "fadeTeam": "CLE",
+      "market": "h2h",
+      "selection": "MIN",
+      "line": null,
+      "odds": -124,
+      "stake": 1.24,
+      "result": "WIN",
+      "profit": 1.0,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null,
+      "home": "MIN",
+      "away": "CLE"
+    },
+    {
       "date": "2026-07-09",
       "commence": "2026-07-09T16:35:00Z",
       "betType": "ml",
@@ -6467,6 +9208,28 @@
       "reason": null,
       "home": "PIT",
       "away": "ATL"
+    },
+    {
+      "date": "2026-07-09",
+      "commence": "2026-07-09T17:10:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Michael Wacha"
+      ],
+      "fadeTeam": "KC",
+      "market": "h2h",
+      "selection": "NYM",
+      "line": null,
+      "odds": -136,
+      "stake": 1.36,
+      "result": "WIN",
+      "profit": 1.0,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null,
+      "home": "NYM",
+      "away": "KC"
     },
     {
       "date": "2026-07-09",
@@ -6534,6 +9297,50 @@
       "reason": null,
       "home": "SD",
       "away": "ARI"
+    },
+    {
+      "date": "2026-07-09",
+      "commence": "2026-07-10T01:45:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Ryan Feltner"
+      ],
+      "fadeTeam": "COL",
+      "market": "h2h",
+      "selection": "SF",
+      "line": null,
+      "odds": -126,
+      "stake": 1.26,
+      "result": "WIN",
+      "profit": 1.0,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null,
+      "home": "SF",
+      "away": "COL"
+    },
+    {
+      "date": "2026-07-10",
+      "commence": "2026-07-10T23:10:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Luis Castillo"
+      ],
+      "fadeTeam": "SEA",
+      "market": "h2h",
+      "selection": "TB",
+      "line": null,
+      "odds": -124,
+      "stake": 1.24,
+      "result": "WIN",
+      "profit": 1.0,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null,
+      "home": "TB",
+      "away": "SEA"
     },
     {
       "date": "2026-07-11",
@@ -6629,6 +9436,28 @@
       "betType": "ml",
       "shadow": false,
       "pitchers": [
+        "Noah Cameron"
+      ],
+      "fadeTeam": "KC",
+      "market": "h2h",
+      "selection": "BAL",
+      "line": null,
+      "odds": -158,
+      "stake": 1.58,
+      "result": "WIN",
+      "profit": 1.0,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null,
+      "home": "BAL",
+      "away": "KC"
+    },
+    {
+      "date": "2026-07-11",
+      "commence": "2026-07-11T23:05:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
         "Kumar Rocker"
       ],
       "fadeTeam": "TEX",
@@ -6713,6 +9542,50 @@
     },
     {
       "date": "2026-07-12",
+      "commence": "2026-07-12T20:05:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Trevor McDonald"
+      ],
+      "fadeTeam": "SF",
+      "market": "h2h",
+      "selection": "COL",
+      "line": null,
+      "odds": 126,
+      "stake": 1.0,
+      "result": "LOSS",
+      "profit": -1.0,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null,
+      "home": "SF",
+      "away": "COL"
+    },
+    {
+      "date": "2026-07-12",
+      "commence": "2026-07-12T20:10:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Kevin Gausman"
+      ],
+      "fadeTeam": "TOR",
+      "market": "h2h",
+      "selection": "SD",
+      "line": null,
+      "odds": 108,
+      "stake": 1.0,
+      "result": "WIN",
+      "profit": 1.08,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null,
+      "home": "SD",
+      "away": "TOR"
+    },
+    {
+      "date": "2026-07-12",
       "commence": "2026-07-12T20:10:00Z",
       "betType": "ml",
       "shadow": false,
@@ -6732,6 +9605,28 @@
       "reason": null,
       "home": "LAD",
       "away": "ARI"
+    },
+    {
+      "date": "2026-07-16",
+      "commence": "2026-07-16T22:10:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Aaron Nola"
+      ],
+      "fadeTeam": "PHI",
+      "market": "h2h",
+      "selection": "NYM",
+      "line": null,
+      "odds": 108,
+      "stake": 1.0,
+      "result": "WIN",
+      "profit": 1.08,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null,
+      "home": "PHI",
+      "away": "NYM"
     },
     {
       "date": "2026-07-17",
@@ -6757,6 +9652,28 @@
     },
     {
       "date": "2026-07-17",
+      "commence": "2026-07-18T00:05:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Colin Rea"
+      ],
+      "fadeTeam": "CHC",
+      "market": "h2h",
+      "selection": "MIN",
+      "line": null,
+      "odds": 124,
+      "stake": 1.0,
+      "result": "WIN",
+      "profit": 1.24,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null,
+      "home": "CHC",
+      "away": "MIN"
+    },
+    {
+      "date": "2026-07-17",
       "commence": "2026-07-18T00:40:00Z",
       "betType": "ml",
       "shadow": false,
@@ -6776,6 +9693,28 @@
       "reason": null,
       "home": "COL",
       "away": "CIN"
+    },
+    {
+      "date": "2026-07-17",
+      "commence": "2026-07-18T01:38:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Reid Detmers"
+      ],
+      "fadeTeam": "LAA",
+      "market": "h2h",
+      "selection": "DET",
+      "line": null,
+      "odds": -116,
+      "stake": 1.16,
+      "result": "WIN",
+      "profit": 1.0,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null,
+      "home": "LAA",
+      "away": "DET"
     },
     {
       "date": "2026-07-17",
@@ -6867,28 +9806,6 @@
     },
     {
       "date": "2026-07-18",
-      "commence": "2026-07-18T20:10:00Z",
-      "betType": "ml",
-      "shadow": false,
-      "pitchers": [
-        "Dustin May"
-      ],
-      "fadeTeam": "STL",
-      "market": "h2h",
-      "selection": "ARI",
-      "line": null,
-      "odds": -116,
-      "stake": 1.16,
-      "result": "WIN",
-      "profit": 1.0,
-      "book": "fanduel",
-      "source": "oddsapi_fanduel",
-      "reason": null,
-      "home": "ARI",
-      "away": "STL"
-    },
-    {
-      "date": "2026-07-18",
       "commence": "2026-07-19T00:08:00Z",
       "betType": "ml",
       "shadow": false,
@@ -6952,6 +9869,28 @@
       "reason": null,
       "home": "CLE",
       "away": "PIT"
+    },
+    {
+      "date": "2026-07-19",
+      "commence": "2026-07-19T18:10:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Noah Cameron"
+      ],
+      "fadeTeam": "KC",
+      "market": "h2h",
+      "selection": "SD",
+      "line": null,
+      "odds": -102,
+      "stake": 1.02,
+      "result": "WIN",
+      "profit": 1.0,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null,
+      "home": "KC",
+      "away": "SD"
     },
     {
       "date": "2026-07-19",
@@ -7087,15 +10026,16 @@
     },
     {
       "date": "2026-07-20",
-      "commence": "2026-07-21T00:40:00Z",
-      "betType": "ml",
+      "commence": "2026-07-21T00:05:00Z",
+      "betType": "ml_dog",
       "shadow": false,
       "pitchers": [
-        "Kyle Freeland"
+        "Jack Flaherty",
+        "Jameson Taillon"
       ],
-      "fadeTeam": "COL",
+      "fadeTeam": null,
       "market": "h2h",
-      "selection": "WSH",
+      "selection": "DET",
       "line": null,
       "odds": -102,
       "stake": 1.02,
@@ -7104,8 +10044,8 @@
       "book": "fanduel",
       "source": "fanduel_api",
       "reason": null,
-      "home": "COL",
-      "away": "WSH"
+      "home": "CHC",
+      "away": "DET"
     },
     {
       "date": "2026-07-20",
@@ -7131,25 +10071,47 @@
     },
     {
       "date": "2026-07-21",
-      "commence": "2026-07-22T00:05:00Z",
+      "commence": "2026-07-21T23:07:00Z",
       "betType": "ml",
       "shadow": false,
       "pitchers": [
-        "David Peterson"
+        "Kevin Gausman"
       ],
-      "fadeTeam": "CHC",
+      "fadeTeam": "TOR",
       "market": "h2h",
-      "selection": "DET",
+      "selection": "TB",
       "line": null,
-      "odds": 102,
-      "stake": 1.0,
-      "result": "LOSS",
-      "profit": -1.0,
+      "odds": -108,
+      "stake": 1.08,
+      "result": "WIN",
+      "profit": 1.0,
       "book": "fanduel",
       "source": "fanduel_api",
       "reason": null,
-      "home": "CHC",
-      "away": "DET"
+      "home": "TOR",
+      "away": "TB"
+    },
+    {
+      "date": "2026-07-21",
+      "commence": "2026-07-21T23:40:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Tyler Mahle"
+      ],
+      "fadeTeam": "SF",
+      "market": "h2h",
+      "selection": "KC",
+      "line": null,
+      "odds": -102,
+      "stake": 1.02,
+      "result": "WIN",
+      "profit": 1.0,
+      "book": "fanduel",
+      "source": "fanduel_api",
+      "reason": null,
+      "home": "KC",
+      "away": "SF"
     },
     {
       "date": "2026-07-21",
@@ -7173,6 +10135,51 @@
       "reason": null,
       "home": "TEX",
       "away": "CWS"
+    },
+    {
+      "date": "2026-07-21",
+      "commence": "2026-07-22T00:05:00Z",
+      "betType": "ml_dog",
+      "shadow": false,
+      "pitchers": [
+        "Framber Valdez",
+        "David Peterson"
+      ],
+      "fadeTeam": null,
+      "market": "h2h",
+      "selection": "DET",
+      "line": null,
+      "odds": 102,
+      "stake": 1.0,
+      "result": "LOSS",
+      "profit": -1.0,
+      "book": "fanduel",
+      "source": "fanduel_api",
+      "reason": null,
+      "home": "CHC",
+      "away": "DET"
+    },
+    {
+      "date": "2026-07-21",
+      "commence": "2026-07-22T01:40:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Luis Castillo"
+      ],
+      "fadeTeam": "SEA",
+      "market": "h2h",
+      "selection": "CIN",
+      "line": null,
+      "odds": 100,
+      "stake": 1.0,
+      "result": "WIN",
+      "profit": 1.0,
+      "book": "fanduel",
+      "source": "fanduel_api",
+      "reason": null,
+      "home": "SEA",
+      "away": "CIN"
     },
     {
       "date": "2026-07-22",
@@ -7263,26 +10270,70 @@
       "away": "OAK"
     },
     {
-      "date": "2026-07-24",
-      "commence": "2026-07-25T00:10:00Z",
+      "date": "2026-07-22",
+      "commence": "2026-07-22T20:07:00Z",
       "betType": "ml",
       "shadow": false,
       "pitchers": [
-        "Jacob Lopez"
+        "Reid Detmers"
       ],
-      "fadeTeam": "OAK",
+      "fadeTeam": "LAA",
       "market": "h2h",
-      "selection": "MIN",
+      "selection": "STL",
       "line": null,
-      "odds": -142,
-      "stake": 1.42,
-      "result": "LOSS",
-      "profit": -1.42,
+      "odds": 108,
+      "stake": 1.0,
+      "result": "WIN",
+      "profit": 1.08,
       "book": "fanduel",
       "source": "fanduel_api",
       "reason": null,
-      "home": "MIN",
-      "away": "OAK"
+      "home": "LAA",
+      "away": "STL"
+    },
+    {
+      "date": "2026-07-22",
+      "commence": "2026-07-22T22:40:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Aaron Nola"
+      ],
+      "fadeTeam": "PHI",
+      "market": "h2h",
+      "selection": "LAD",
+      "line": null,
+      "odds": -118,
+      "stake": 1.18,
+      "result": "WIN",
+      "profit": 1.0,
+      "book": "fanduel",
+      "source": "fanduel_api",
+      "reason": null,
+      "home": "PHI",
+      "away": "LAD"
+    },
+    {
+      "date": "2026-07-22",
+      "commence": "2026-07-23T00:10:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Colin Rea"
+      ],
+      "fadeTeam": "CHC",
+      "market": "h2h",
+      "selection": "DET",
+      "line": null,
+      "odds": -102,
+      "stake": 1.02,
+      "result": "WIN",
+      "profit": 1.0,
+      "book": "fanduel",
+      "source": "fanduel_api",
+      "reason": null,
+      "home": "CHC",
+      "away": "DET"
     },
     {
       "date": "2026-07-24",
@@ -7328,6 +10379,28 @@
       "reason": null,
       "home": "SF",
       "away": "LAA"
+    },
+    {
+      "date": "2026-07-25",
+      "commence": "2026-07-25T17:10:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Michael Wacha"
+      ],
+      "fadeTeam": "KC",
+      "market": "h2h",
+      "selection": "DET",
+      "line": null,
+      "odds": -162,
+      "stake": 1.62,
+      "result": "LOSS",
+      "profit": -1.62,
+      "book": "fanduel",
+      "source": "fanduel_api",
+      "reason": null,
+      "home": "DET",
+      "away": "KC"
     },
     {
       "date": "2026-07-25",
@@ -7397,6 +10470,28 @@
     },
     {
       "date": "2026-07-25",
+      "commence": "2026-07-25T23:10:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Ryan Feltner"
+      ],
+      "fadeTeam": "COL",
+      "market": "h2h",
+      "selection": "MIL",
+      "line": null,
+      "odds": -230,
+      "stake": 2.3,
+      "result": "WIN",
+      "profit": 1.0,
+      "book": "fanduel",
+      "source": "fanduel_api",
+      "reason": null,
+      "home": "MIL",
+      "away": "COL"
+    },
+    {
+      "date": "2026-07-25",
       "commence": "2026-07-25T23:15:00Z",
       "betType": "ml",
       "shadow": false,
@@ -7416,6 +10511,28 @@
       "reason": null,
       "home": "TEX",
       "away": "SEA"
+    },
+    {
+      "date": "2026-07-26",
+      "commence": "2026-07-26T17:35:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Kevin Gausman"
+      ],
+      "fadeTeam": "TOR",
+      "market": "h2h",
+      "selection": "BOS",
+      "line": null,
+      "odds": -142,
+      "stake": 1.42,
+      "result": "WIN",
+      "profit": 1.0,
+      "book": "fanduel",
+      "source": "fanduel_api",
+      "reason": null,
+      "home": "BOS",
+      "away": "TOR"
     },
     {
       "date": "2026-07-26",
