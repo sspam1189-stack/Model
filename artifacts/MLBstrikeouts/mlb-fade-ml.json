@@ -1,7 +1,7 @@
 {
   "sport": "MLB",
   "type": "fade-ml",
-  "generated": "2026-07-27T21:02:37Z",
+  "generated": "2026-07-27T22:17:44Z",
   "fadeList": [
     "Littell",
     "Mikolas",
@@ -72,21 +72,21 @@
   "mutualRule": "underdog_min",
   "summary": {
     "wins": 382,
-    "losses": 137,
+    "losses": 138,
     "voids": 2,
     "skips": 33,
-    "staked": 639.86,
-    "units": 259.13,
-    "roi": 0.405,
+    "staked": 641.18,
+    "units": 257.81,
+    "roi": 0.4021,
     "byType": {
       "ml": {
         "wins": 372,
-        "losses": 128,
+        "losses": 129,
         "voids": 2,
         "skips": 0,
-        "staked": 620.86,
-        "units": 254.43,
-        "roi": 0.4098
+        "staked": 622.18,
+        "units": 253.11,
+        "roi": 0.4068
       },
       "ml_dog": {
         "wins": 10,
@@ -100,28 +100,6 @@
     }
   },
   "today": [
-    {
-      "date": "2026-07-27",
-      "commence": "2026-07-27T18:35:00Z",
-      "betType": "ml",
-      "shadow": false,
-      "pitchers": [
-        "Kumar Rocker"
-      ],
-      "fadeTeam": "TEX",
-      "market": "h2h",
-      "selection": "SEA",
-      "line": null,
-      "odds": -132,
-      "stake": 1.32,
-      "result": "pending",
-      "profit": 0.0,
-      "book": "fanduel",
-      "source": "fanduel_api",
-      "reason": null,
-      "home": "TEX",
-      "away": "SEA"
-    },
     {
       "date": "2026-07-27",
       "commence": "2026-07-27T22:40:00Z",
@@ -222,8 +200,8 @@
       "market": "h2h",
       "selection": "BOS",
       "line": null,
-      "odds": -178,
-      "stake": 1.78,
+      "odds": -184,
+      "stake": 1.84,
       "result": "pending",
       "profit": 0.0,
       "book": "fanduel",
@@ -12473,6 +12451,28 @@
       "reason": null,
       "home": "MIL",
       "away": "COL"
+    },
+    {
+      "date": "2026-07-27",
+      "commence": "2026-07-27T18:35:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Kumar Rocker"
+      ],
+      "fadeTeam": "TEX",
+      "market": "h2h",
+      "selection": "SEA",
+      "line": null,
+      "odds": -132,
+      "stake": 1.32,
+      "result": "LOSS",
+      "profit": -1.32,
+      "book": "fanduel",
+      "source": "fanduel_api",
+      "reason": null,
+      "home": "TEX",
+      "away": "SEA"
     }
   ]
 }
