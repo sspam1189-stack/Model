@@ -54,7 +54,6 @@ FADE_VENUE = {
     # 2026-07-27: existing all-venue arms leaking on one side -> restrict.
     "Freeland": "away",        # home 5-4 -1.20u; away 9-2 +4.25u
     "Gallen": "away",          # home flat +0.56u; away 8-2 +5.62u
-    "Dustin May": "home",      # away 4-5 -1.86u; home 7-4 +2.90u
     "Civale": "home",          # away 4-4 -1.40u; home 5-2 +3.08u
 }
 

@@ -1,7 +1,7 @@
 {
   "sport": "MLB",
   "type": "fade-ml",
-  "generated": "2026-07-27T15:11:46Z",
+  "generated": "2026-07-27T15:14:52Z",
   "fadeList": [
     "Littell",
     "Mikolas",
@@ -57,22 +57,22 @@
   ],
   "mutualRule": "underdog",
   "summary": {
-    "wins": 333,
+    "wins": 334,
     "losses": 138,
     "voids": 2,
     "skips": 0,
-    "staked": 594.8,
-    "units": 192.84,
-    "roi": 0.3242,
+    "staked": 595.96,
+    "units": 193.84,
+    "roi": 0.3253,
     "byType": {
       "ml": {
-        "wins": 313,
+        "wins": 314,
         "losses": 119,
         "voids": 2,
         "skips": 0,
-        "staked": 555.34,
-        "units": 189.14,
-        "roi": 0.3406
+        "staked": 556.5,
+        "units": 190.14,
+        "roi": 0.3417
       },
       "ml_dog": {
         "wins": 20,
@@ -9803,6 +9803,28 @@
       "reason": null,
       "home": "KC",
       "away": "SD"
+    },
+    {
+      "date": "2026-07-18",
+      "commence": "2026-07-18T20:10:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Dustin May"
+      ],
+      "fadeTeam": "STL",
+      "market": "h2h",
+      "selection": "ARI",
+      "line": null,
+      "odds": -116,
+      "stake": 1.16,
+      "result": "WIN",
+      "profit": 1.0,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null,
+      "home": "ARI",
+      "away": "STL"
     },
     {
       "date": "2026-07-18",
