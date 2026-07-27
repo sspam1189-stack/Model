@@ -121,7 +121,7 @@ FADE_WINDOW = {
     "Jared Jones":    {"add": SEASON_START, "remove": "2026-07-18"},
     # Added mid-season: good before, fade-worthy from these dates on.
     "Dustin May":        {"add": "2026-07-18"},
-    "Grayson Rodriguez": {"add": "2026-07-19"},
+    "Grayson Rodriguez": {"add": SEASON_START},  # 2026-07-27: home-only (FADE_VENUE), full season
     "Bryan Woo":         {"add": "2026-07-20"},  # away-only (see FADE_VENUE)
     "Zebby Matthews":    {"add": SEASON_START},  # 2026-07-27: home-only (FADE_VENUE), full season
     # Added 2026-07-27 from fade-candidate analysis — backfilled to season
