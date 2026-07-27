@@ -1,7 +1,7 @@
 {
   "sport": "MLB",
   "type": "fade-ml",
-  "generated": "2026-07-27T17:35:05Z",
+  "generated": "2026-07-27T17:57:23Z",
   "fadeList": [
     "Littell",
     "Mikolas",
@@ -59,31 +59,31 @@
   ],
   "mutualRule": "home_underdog",
   "summary": {
-    "wins": 326,
-    "losses": 119,
+    "wins": 315,
+    "losses": 110,
     "voids": 2,
-    "skips": 33,
-    "staked": 569.98,
-    "units": 202.98,
-    "roi": 0.3561,
+    "skips": 29,
+    "staked": 541.38,
+    "units": 204.96,
+    "roi": 0.3786,
     "byType": {
       "ml": {
-        "wins": 319,
-        "losses": 117,
+        "wins": 309,
+        "losses": 108,
         "voids": 2,
         "skips": 0,
-        "staked": 560.68,
-        "units": 197.66,
-        "roi": 0.3525
+        "staked": 533.14,
+        "units": 200.64,
+        "roi": 0.3763
       },
       "ml_dog": {
-        "wins": 7,
+        "wins": 6,
         "losses": 2,
         "voids": 0,
-        "skips": 33,
-        "staked": 9.3,
-        "units": 5.32,
-        "roi": 0.572
+        "skips": 29,
+        "staked": 8.24,
+        "units": 4.32,
+        "roi": 0.5243
       }
     }
   },
@@ -113,23 +113,22 @@
     {
       "date": "2026-07-27",
       "commence": "2026-07-27T22:40:00Z",
-      "betType": "ml_dog",
+      "betType": "ml",
       "shadow": false,
       "pitchers": [
-        "Merrill Kelly",
-        "Mitch Keller"
+        "Merrill Kelly"
       ],
-      "fadeTeam": null,
+      "fadeTeam": "ARI",
       "market": "h2h",
-      "selection": null,
+      "selection": "PIT",
       "line": null,
-      "odds": null,
-      "stake": null,
-      "result": "SKIP",
+      "odds": -112,
+      "stake": 1.12,
+      "result": "pending",
       "profit": 0.0,
       "book": "fanduel",
       "source": "fanduel_api",
-      "reason": "road_dog_skip",
+      "reason": null,
       "home": "PIT",
       "away": "ARI"
     },
@@ -189,8 +188,8 @@
       "market": "h2h",
       "selection": "NYY",
       "line": null,
-      "odds": -146,
-      "stake": 1.46,
+      "odds": -134,
+      "stake": 1.34,
       "result": "pending",
       "profit": 0.0,
       "book": "fanduel",
@@ -313,28 +312,6 @@
       "away": "LAD"
     },
     {
-      "date": "2026-04-07",
-      "commence": "2026-04-08T00:40:00Z",
-      "betType": "ml",
-      "shadow": false,
-      "pitchers": [
-        "Mike Burrows"
-      ],
-      "fadeTeam": "HOU",
-      "market": "h2h",
-      "selection": "COL",
-      "line": null,
-      "odds": 144,
-      "stake": 1.0,
-      "result": "WIN",
-      "profit": 1.44,
-      "book": "fanduel",
-      "source": "oddsapi_fanduel",
-      "reason": null,
-      "home": "COL",
-      "away": "HOU"
-    },
-    {
       "date": "2026-04-08",
       "commence": "2026-04-08T20:05:00Z",
       "betType": "ml",
@@ -444,28 +421,6 @@
       "reason": null,
       "home": "MIN",
       "away": "DET"
-    },
-    {
-      "date": "2026-04-09",
-      "commence": "2026-04-09T17:35:00Z",
-      "betType": "ml",
-      "shadow": false,
-      "pitchers": [
-        "Jeffrey Springs"
-      ],
-      "fadeTeam": "OAK",
-      "market": "h2h",
-      "selection": "NYY",
-      "line": null,
-      "odds": -188,
-      "stake": 1.88,
-      "result": "LOSS",
-      "profit": -1.88,
-      "book": "fanduel",
-      "source": "oddsapi_fanduel",
-      "reason": null,
-      "home": "NYY",
-      "away": "OAK"
     },
     {
       "date": "2026-04-09",
@@ -753,50 +708,6 @@
       "reason": null,
       "home": "CHC",
       "away": "PIT"
-    },
-    {
-      "date": "2026-04-12",
-      "commence": "2026-04-12T23:20:00Z",
-      "betType": "ml",
-      "shadow": false,
-      "pitchers": [
-        "Tanner Bibee"
-      ],
-      "fadeTeam": "CLE",
-      "market": "h2h",
-      "selection": "ATL",
-      "line": null,
-      "odds": -196,
-      "stake": 1.96,
-      "result": "WIN",
-      "profit": 1.0,
-      "book": "fanduel",
-      "source": "oddsapi_fanduel",
-      "reason": null,
-      "home": "ATL",
-      "away": "CLE"
-    },
-    {
-      "date": "2026-04-13",
-      "commence": "2026-04-13T20:10:00Z",
-      "betType": "ml",
-      "shadow": false,
-      "pitchers": [
-        "Mike Burrows"
-      ],
-      "fadeTeam": "HOU",
-      "market": "h2h",
-      "selection": "SEA",
-      "line": null,
-      "odds": -178,
-      "stake": 1.78,
-      "result": "WIN",
-      "profit": 1.0,
-      "book": "fanduel",
-      "source": "oddsapi_fanduel",
-      "reason": null,
-      "home": "SEA",
-      "away": "HOU"
     },
     {
       "date": "2026-04-13",
@@ -1681,28 +1592,6 @@
       "away": "OAK"
     },
     {
-      "date": "2026-04-21",
-      "commence": "2026-04-22T01:45:00Z",
-      "betType": "ml",
-      "shadow": false,
-      "pitchers": [
-        "Landen Roupp"
-      ],
-      "fadeTeam": "SF",
-      "market": "h2h",
-      "selection": "LAD",
-      "line": null,
-      "odds": -180,
-      "stake": 1.8,
-      "result": "LOSS",
-      "profit": -1.8,
-      "book": "fanduel",
-      "source": "oddsapi_fanduel",
-      "reason": null,
-      "home": "SF",
-      "away": "LAD"
-    },
-    {
       "date": "2026-04-22",
       "commence": "2026-04-22T17:10:00Z",
       "betType": "ml",
@@ -1946,28 +1835,6 @@
     },
     {
       "date": "2026-04-25",
-      "commence": "2026-04-25T23:05:00Z",
-      "betType": "ml",
-      "shadow": false,
-      "pitchers": [
-        "Jeffrey Springs"
-      ],
-      "fadeTeam": "OAK",
-      "market": "h2h",
-      "selection": "TEX",
-      "line": null,
-      "odds": -126,
-      "stake": 1.26,
-      "result": "WIN",
-      "profit": 1.0,
-      "book": "fanduel",
-      "source": "oddsapi_fanduel",
-      "reason": null,
-      "home": "TEX",
-      "away": "OAK"
-    },
-    {
-      "date": "2026-04-25",
       "commence": "2026-04-25T23:10:00Z",
       "betType": "ml",
       "shadow": false,
@@ -2142,28 +2009,6 @@
       "reason": null,
       "home": "TEX",
       "away": "OAK"
-    },
-    {
-      "date": "2026-04-26",
-      "commence": "2026-04-26T20:05:00Z",
-      "betType": "ml",
-      "shadow": false,
-      "pitchers": [
-        "Landen Roupp"
-      ],
-      "fadeTeam": "SF",
-      "market": "h2h",
-      "selection": "MIA",
-      "line": null,
-      "odds": 108,
-      "stake": 1.0,
-      "result": "LOSS",
-      "profit": -1.0,
-      "book": "fanduel",
-      "source": "oddsapi_fanduel",
-      "reason": null,
-      "home": "SF",
-      "away": "MIA"
     },
     {
       "date": "2026-04-27",
@@ -2611,28 +2456,6 @@
     },
     {
       "date": "2026-05-01",
-      "commence": "2026-05-01T23:10:00Z",
-      "betType": "ml",
-      "shadow": false,
-      "pitchers": [
-        "Mike Burrows"
-      ],
-      "fadeTeam": "HOU",
-      "market": "h2h",
-      "selection": "BOS",
-      "line": null,
-      "odds": -120,
-      "stake": 1.2,
-      "result": "WIN",
-      "profit": 1.0,
-      "book": "fanduel",
-      "source": "oddsapi_fanduel",
-      "reason": null,
-      "home": "BOS",
-      "away": "HOU"
-    },
-    {
-      "date": "2026-05-01",
       "commence": "2026-05-02T00:10:00Z",
       "betType": "ml",
       "shadow": false,
@@ -3007,28 +2830,6 @@
       "away": "BAL"
     },
     {
-      "date": "2026-05-04",
-      "commence": "2026-05-04T23:40:00Z",
-      "betType": "ml",
-      "shadow": false,
-      "pitchers": [
-        "Tanner Bibee"
-      ],
-      "fadeTeam": "CLE",
-      "market": "h2h",
-      "selection": "KC",
-      "line": null,
-      "odds": -122,
-      "stake": 1.22,
-      "result": "WIN",
-      "profit": 1.0,
-      "book": "fanduel",
-      "source": "oddsapi_fanduel",
-      "reason": null,
-      "home": "KC",
-      "away": "CLE"
-    },
-    {
       "date": "2026-05-05",
       "commence": "2026-05-05T22:40:00Z",
       "betType": "ml",
@@ -3093,28 +2894,6 @@
       "reason": null,
       "home": "LAA",
       "away": "CWS"
-    },
-    {
-      "date": "2026-05-06",
-      "commence": "2026-05-06T22:40:00Z",
-      "betType": "ml",
-      "shadow": false,
-      "pitchers": [
-        "Jeffrey Springs"
-      ],
-      "fadeTeam": "OAK",
-      "market": "h2h",
-      "selection": "PHI",
-      "line": null,
-      "odds": -166,
-      "stake": 1.66,
-      "result": "WIN",
-      "profit": 1.0,
-      "book": "fanduel",
-      "source": "oddsapi_fanduel",
-      "reason": null,
-      "home": "PHI",
-      "away": "OAK"
     },
     {
       "date": "2026-05-06",
@@ -3317,28 +3096,6 @@
     },
     {
       "date": "2026-05-08",
-      "commence": "2026-05-08T22:10:00Z",
-      "betType": "ml",
-      "shadow": false,
-      "pitchers": [
-        "Mike Burrows"
-      ],
-      "fadeTeam": "HOU",
-      "market": "h2h",
-      "selection": "CIN",
-      "line": null,
-      "odds": -126,
-      "stake": 1.26,
-      "result": "LOSS",
-      "profit": -1.26,
-      "book": "fanduel",
-      "source": "oddsapi_fanduel",
-      "reason": null,
-      "home": "CIN",
-      "away": "HOU"
-    },
-    {
-      "date": "2026-05-08",
       "commence": "2026-05-09T00:05:00Z",
       "betType": "ml",
       "shadow": false,
@@ -3513,28 +3270,6 @@
       "reason": null,
       "home": "ARI",
       "away": "NYM"
-    },
-    {
-      "date": "2026-05-09",
-      "commence": "2026-05-10T01:05:00Z",
-      "betType": "ml",
-      "shadow": false,
-      "pitchers": [
-        "Landen Roupp"
-      ],
-      "fadeTeam": "SF",
-      "market": "h2h",
-      "selection": "PIT",
-      "line": null,
-      "odds": -110,
-      "stake": 1.1,
-      "result": "WIN",
-      "profit": 1.0,
-      "book": "fanduel",
-      "source": "oddsapi_fanduel",
-      "reason": null,
-      "home": "SF",
-      "away": "PIT"
     },
     {
       "date": "2026-05-10",
@@ -4424,28 +4159,6 @@
     },
     {
       "date": "2026-05-20",
-      "commence": "2026-05-20T17:40:00Z",
-      "betType": "ml",
-      "shadow": false,
-      "pitchers": [
-        "Mike Burrows"
-      ],
-      "fadeTeam": "HOU",
-      "market": "h2h",
-      "selection": "MIN",
-      "line": null,
-      "odds": -142,
-      "stake": 1.42,
-      "result": "WIN",
-      "profit": 1.0,
-      "book": "fanduel",
-      "source": "oddsapi_fanduel",
-      "reason": null,
-      "home": "MIN",
-      "away": "HOU"
-    },
-    {
-      "date": "2026-05-20",
       "commence": "2026-05-20T19:40:00Z",
       "betType": "ml_dog",
       "shadow": false,
@@ -4466,28 +4179,6 @@
       "reason": "road_dog_skip",
       "home": "ARI",
       "away": "SF"
-    },
-    {
-      "date": "2026-05-20",
-      "commence": "2026-05-20T22:40:00Z",
-      "betType": "ml",
-      "shadow": false,
-      "pitchers": [
-        "Tanner Bibee"
-      ],
-      "fadeTeam": "CLE",
-      "market": "h2h",
-      "selection": "DET",
-      "line": null,
-      "odds": 104,
-      "stake": 1.0,
-      "result": "LOSS",
-      "profit": -1.0,
-      "book": "fanduel",
-      "source": "oddsapi_fanduel",
-      "reason": null,
-      "home": "DET",
-      "away": "CLE"
     },
     {
       "date": "2026-05-20",
@@ -4642,28 +4333,6 @@
       "reason": null,
       "home": "KC",
       "away": "SEA"
-    },
-    {
-      "date": "2026-05-22",
-      "commence": "2026-05-23T01:40:00Z",
-      "betType": "ml",
-      "shadow": false,
-      "pitchers": [
-        "Jeffrey Springs"
-      ],
-      "fadeTeam": "OAK",
-      "market": "h2h",
-      "selection": "SD",
-      "line": null,
-      "odds": -124,
-      "stake": 1.24,
-      "result": "WIN",
-      "profit": 1.0,
-      "book": "fanduel",
-      "source": "oddsapi_fanduel",
-      "reason": null,
-      "home": "SD",
-      "away": "OAK"
     },
     {
       "date": "2026-05-22",
@@ -4910,23 +4579,22 @@
     {
       "date": "2026-05-25",
       "commence": "2026-05-25T21:05:00Z",
-      "betType": "ml_dog",
+      "betType": "ml",
       "shadow": false,
       "pitchers": [
-        "Landen Roupp",
         "Merrill Kelly"
       ],
-      "fadeTeam": null,
+      "fadeTeam": "ARI",
       "market": "h2h",
-      "selection": null,
+      "selection": "SF",
       "line": null,
-      "odds": null,
-      "stake": null,
-      "result": "SKIP",
-      "profit": 0.0,
+      "odds": -134,
+      "stake": 1.34,
+      "result": "LOSS",
+      "profit": -1.34,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
-      "reason": "road_dog_skip",
+      "reason": null,
       "home": "SF",
       "away": "ARI"
     },
@@ -5216,28 +4884,6 @@
       "reason": null,
       "home": "KC",
       "away": "NYY"
-    },
-    {
-      "date": "2026-05-27",
-      "commence": "2026-05-28T00:05:00Z",
-      "betType": "ml",
-      "shadow": false,
-      "pitchers": [
-        "Mike Burrows"
-      ],
-      "fadeTeam": "HOU",
-      "market": "h2h",
-      "selection": "TEX",
-      "line": null,
-      "odds": -146,
-      "stake": 1.46,
-      "result": "LOSS",
-      "profit": -1.46,
-      "book": "fanduel",
-      "source": "oddsapi_fanduel",
-      "reason": null,
-      "home": "TEX",
-      "away": "HOU"
     },
     {
       "date": "2026-05-28",
@@ -5838,23 +5484,22 @@
     {
       "date": "2026-06-03",
       "commence": "2026-06-04T00:05:00Z",
-      "betType": "ml_dog",
+      "betType": "ml",
       "shadow": false,
       "pitchers": [
-        "Jeffrey Springs",
         "Colin Rea"
       ],
-      "fadeTeam": null,
+      "fadeTeam": "CHC",
       "market": "h2h",
-      "selection": null,
+      "selection": "OAK",
       "line": null,
-      "odds": null,
-      "stake": null,
-      "result": "SKIP",
-      "profit": 0.0,
+      "odds": 114,
+      "stake": 1.0,
+      "result": "WIN",
+      "profit": 1.14,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
-      "reason": "road_dog_skip",
+      "reason": null,
       "home": "CHC",
       "away": "OAK"
     },
@@ -5974,28 +5619,6 @@
       "betType": "ml",
       "shadow": false,
       "pitchers": [
-        "Michael Wacha"
-      ],
-      "fadeTeam": "KC",
-      "market": "h2h",
-      "selection": "MIN",
-      "line": null,
-      "odds": -118,
-      "stake": 1.18,
-      "result": "WIN",
-      "profit": 1.0,
-      "book": "fanduel",
-      "source": "oddsapi_fanduel",
-      "reason": null,
-      "home": "MIN",
-      "away": "KC"
-    },
-    {
-      "date": "2026-06-05",
-      "commence": "2026-06-06T00:15:00Z",
-      "betType": "ml",
-      "shadow": false,
-      "pitchers": [
         "Kumar Rocker"
       ],
       "fadeTeam": "TEX",
@@ -6011,6 +5634,29 @@
       "reason": null,
       "home": "TEX",
       "away": "CLE"
+    },
+    {
+      "date": "2026-06-05",
+      "commence": "2026-06-06T00:15:00Z",
+      "betType": "ml_dog",
+      "shadow": false,
+      "pitchers": [
+        "Zebby Matthews",
+        "Michael Wacha"
+      ],
+      "fadeTeam": null,
+      "market": "h2h",
+      "selection": null,
+      "line": null,
+      "odds": null,
+      "stake": null,
+      "result": "SKIP",
+      "profit": 0.0,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": "road_dog_skip",
+      "home": "MIN",
+      "away": "KC"
     },
     {
       "date": "2026-06-05",
@@ -6099,28 +5745,6 @@
       "reason": null,
       "home": "ARI",
       "away": "WSH"
-    },
-    {
-      "date": "2026-06-06",
-      "commence": "2026-06-06T23:35:00Z",
-      "betType": "ml",
-      "shadow": false,
-      "pitchers": [
-        "Tanner Bibee"
-      ],
-      "fadeTeam": "CLE",
-      "market": "h2h",
-      "selection": "TEX",
-      "line": null,
-      "odds": -120,
-      "stake": 1.2,
-      "result": "LOSS",
-      "profit": -1.2,
-      "book": "fanduel",
-      "source": "oddsapi_fanduel",
-      "reason": null,
-      "home": "TEX",
-      "away": "CLE"
     },
     {
       "date": "2026-06-06",
@@ -6676,28 +6300,6 @@
       "away": "DET"
     },
     {
-      "date": "2026-06-12",
-      "commence": "2026-06-13T02:15:00Z",
-      "betType": "ml",
-      "shadow": false,
-      "pitchers": [
-        "Landen Roupp"
-      ],
-      "fadeTeam": "SF",
-      "market": "h2h",
-      "selection": "CHC",
-      "line": null,
-      "odds": 106,
-      "stake": 1.0,
-      "result": "WIN",
-      "profit": 1.06,
-      "book": "fanduel",
-      "source": "oddsapi_fanduel",
-      "reason": null,
-      "home": "SF",
-      "away": "CHC"
-    },
-    {
       "date": "2026-06-13",
       "commence": "2026-06-13T19:07:00Z",
       "betType": "ml",
@@ -6766,23 +6368,22 @@
     {
       "date": "2026-06-13",
       "commence": "2026-06-13T23:10:00Z",
-      "betType": "ml_dog",
+      "betType": "ml",
       "shadow": false,
       "pitchers": [
-        "Noah Cameron",
-        "Mike Burrows"
+        "Noah Cameron"
       ],
-      "fadeTeam": null,
+      "fadeTeam": "KC",
       "market": "h2h",
-      "selection": null,
+      "selection": "HOU",
       "line": null,
-      "odds": null,
-      "stake": null,
-      "result": "SKIP",
-      "profit": 0.0,
+      "odds": 112,
+      "stake": 1.0,
+      "result": "WIN",
+      "profit": 1.12,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
-      "reason": "road_dog_skip",
+      "reason": null,
       "home": "KC",
       "away": "HOU"
     },
@@ -7383,28 +6984,6 @@
     },
     {
       "date": "2026-06-19",
-      "commence": "2026-06-20T00:10:00Z",
-      "betType": "ml",
-      "shadow": false,
-      "pitchers": [
-        "Tanner Bibee"
-      ],
-      "fadeTeam": "CLE",
-      "market": "h2h",
-      "selection": "HOU",
-      "line": null,
-      "odds": -124,
-      "stake": 1.24,
-      "result": "WIN",
-      "profit": 1.0,
-      "book": "fanduel",
-      "source": "oddsapi_fanduel",
-      "reason": null,
-      "home": "HOU",
-      "away": "CLE"
-    },
-    {
-      "date": "2026-06-19",
       "commence": "2026-06-20T01:40:00Z",
       "betType": "ml",
       "shadow": false,
@@ -7647,6 +7226,28 @@
     },
     {
       "date": "2026-06-22",
+      "commence": "2026-06-22T23:40:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Zebby Matthews"
+      ],
+      "fadeTeam": "MIN",
+      "market": "h2h",
+      "selection": "LAD",
+      "line": null,
+      "odds": -148,
+      "stake": 1.48,
+      "result": "WIN",
+      "profit": 1.0,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null,
+      "home": "MIN",
+      "away": "LAD"
+    },
+    {
+      "date": "2026-06-22",
       "commence": "2026-06-22T23:45:00Z",
       "betType": "ml",
       "shadow": false,
@@ -7736,28 +7337,6 @@
     },
     {
       "date": "2026-06-24",
-      "commence": "2026-06-24T18:10:00Z",
-      "betType": "ml",
-      "shadow": false,
-      "pitchers": [
-        "Tanner Bibee"
-      ],
-      "fadeTeam": "CLE",
-      "market": "h2h",
-      "selection": "CWS",
-      "line": null,
-      "odds": -104,
-      "stake": 1.04,
-      "result": "LOSS",
-      "profit": -1.04,
-      "book": "fanduel",
-      "source": "oddsapi_fanduel",
-      "reason": null,
-      "home": "CWS",
-      "away": "CLE"
-    },
-    {
-      "date": "2026-06-24",
       "commence": "2026-06-24T22:40:00Z",
       "betType": "ml",
       "shadow": false,
@@ -7780,28 +7359,6 @@
     },
     {
       "date": "2026-06-24",
-      "commence": "2026-06-24T23:07:00Z",
-      "betType": "ml",
-      "shadow": false,
-      "pitchers": [
-        "Mike Burrows"
-      ],
-      "fadeTeam": "HOU",
-      "market": "h2h",
-      "selection": "TOR",
-      "line": null,
-      "odds": -142,
-      "stake": 1.42,
-      "result": "LOSS",
-      "profit": -1.42,
-      "book": "fanduel",
-      "source": "oddsapi_fanduel",
-      "reason": null,
-      "home": "TOR",
-      "away": "HOU"
-    },
-    {
-      "date": "2026-06-24",
       "commence": "2026-06-24T23:10:00Z",
       "betType": "ml",
       "shadow": false,
@@ -7821,29 +7378,6 @@
       "reason": null,
       "home": "CIN",
       "away": "MIL"
-    },
-    {
-      "date": "2026-06-25",
-      "commence": "2026-06-25T19:45:00Z",
-      "betType": "ml_dog",
-      "shadow": false,
-      "pitchers": [
-        "Landen Roupp",
-        "Jeffrey Springs"
-      ],
-      "fadeTeam": null,
-      "market": "h2h",
-      "selection": null,
-      "line": null,
-      "odds": null,
-      "stake": null,
-      "result": "SKIP",
-      "profit": 0.0,
-      "book": "fanduel",
-      "source": "oddsapi_fanduel",
-      "reason": "road_dog_skip",
-      "home": "SF",
-      "away": "OAK"
     },
     {
       "date": "2026-06-25",
@@ -9039,23 +8573,22 @@
     {
       "date": "2026-07-06",
       "commence": "2026-07-06T22:45:00Z",
-      "betType": "ml_dog",
+      "betType": "ml",
       "shadow": false,
       "pitchers": [
-        "Miles Mikolas",
-        "Mike Burrows"
+        "Miles Mikolas"
       ],
-      "fadeTeam": null,
+      "fadeTeam": "WSH",
       "market": "h2h",
-      "selection": null,
+      "selection": "HOU",
       "line": null,
-      "odds": null,
-      "stake": null,
-      "result": "SKIP",
-      "profit": 0.0,
+      "odds": -102,
+      "stake": 1.02,
+      "result": "LOSS",
+      "profit": -1.02,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
-      "reason": "road_dog_skip",
+      "reason": null,
       "home": "WSH",
       "away": "HOU"
     },
@@ -9084,13 +8617,12 @@
     {
       "date": "2026-07-06",
       "commence": "2026-07-07T01:45:00Z",
-      "betType": "ml_dog",
+      "betType": "ml",
       "shadow": false,
       "pitchers": [
-        "Landen Roupp",
         "Kevin Gausman"
       ],
-      "fadeTeam": null,
+      "fadeTeam": "TOR",
       "market": "h2h",
       "selection": "SF",
       "line": null,
@@ -9257,28 +8789,6 @@
       "reason": null,
       "home": "BAL",
       "away": "CHC"
-    },
-    {
-      "date": "2026-07-08",
-      "commence": "2026-07-08T22:40:00Z",
-      "betType": "ml",
-      "shadow": false,
-      "pitchers": [
-        "Jeffrey Springs"
-      ],
-      "fadeTeam": "OAK",
-      "market": "h2h",
-      "selection": "DET",
-      "line": null,
-      "odds": -136,
-      "stake": 1.36,
-      "result": "WIN",
-      "profit": 1.0,
-      "book": "fanduel",
-      "source": "oddsapi_fanduel",
-      "reason": null,
-      "home": "DET",
-      "away": "OAK"
     },
     {
       "date": "2026-07-08",
@@ -9480,6 +8990,28 @@
       "away": "SEA"
     },
     {
+      "date": "2026-07-10",
+      "commence": "2026-07-11T00:10:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Zebby Matthews"
+      ],
+      "fadeTeam": "MIN",
+      "market": "h2h",
+      "selection": "LAA",
+      "line": null,
+      "odds": 132,
+      "stake": 1.0,
+      "result": "WIN",
+      "profit": 1.32,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null,
+      "home": "MIN",
+      "away": "LAA"
+    },
+    {
       "date": "2026-07-11",
       "commence": "2026-07-11T18:10:00Z",
       "betType": "ml",
@@ -9544,28 +9076,6 @@
       "reason": null,
       "home": "NYM",
       "away": "BOS"
-    },
-    {
-      "date": "2026-07-11",
-      "commence": "2026-07-11T20:10:00Z",
-      "betType": "ml",
-      "shadow": false,
-      "pitchers": [
-        "Tanner Bibee"
-      ],
-      "fadeTeam": "CLE",
-      "market": "h2h",
-      "selection": "MIA",
-      "line": null,
-      "odds": -158,
-      "stake": 1.58,
-      "result": "LOSS",
-      "profit": -1.58,
-      "book": "fanduel",
-      "source": "oddsapi_fanduel",
-      "reason": null,
-      "home": "MIA",
-      "away": "CLE"
     },
     {
       "date": "2026-07-11",
@@ -10207,28 +9717,6 @@
       "away": "DET"
     },
     {
-      "date": "2026-07-20",
-      "commence": "2026-07-21T01:40:00Z",
-      "betType": "ml",
-      "shadow": false,
-      "pitchers": [
-        "Jeffrey Springs"
-      ],
-      "fadeTeam": "OAK",
-      "market": "h2h",
-      "selection": "ARI",
-      "line": null,
-      "odds": -142,
-      "stake": 1.42,
-      "result": "LOSS",
-      "profit": -1.42,
-      "book": "fanduel",
-      "source": "fanduel_api",
-      "reason": null,
-      "home": "ARI",
-      "away": "OAK"
-    },
-    {
       "date": "2026-07-21",
       "commence": "2026-07-21T23:07:00Z",
       "betType": "ml",
@@ -10540,6 +10028,28 @@
     },
     {
       "date": "2026-07-24",
+      "commence": "2026-07-25T00:10:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Zebby Matthews"
+      ],
+      "fadeTeam": "MIN",
+      "market": "h2h",
+      "selection": "OAK",
+      "line": null,
+      "odds": 120,
+      "stake": 1.0,
+      "result": "WIN",
+      "profit": 1.2,
+      "book": "fanduel",
+      "source": "fanduel_api",
+      "reason": null,
+      "home": "MIN",
+      "away": "OAK"
+    },
+    {
+      "date": "2026-07-24",
       "commence": "2026-07-25T00:15:00Z",
       "betType": "ml_dog",
       "shadow": false,
@@ -10626,28 +10136,6 @@
       "reason": null,
       "home": "SF",
       "away": "LAA"
-    },
-    {
-      "date": "2026-07-25",
-      "commence": "2026-07-25T22:10:00Z",
-      "betType": "ml",
-      "shadow": false,
-      "pitchers": [
-        "Tanner Bibee"
-      ],
-      "fadeTeam": "CLE",
-      "market": "h2h",
-      "selection": "TB",
-      "line": null,
-      "odds": -120,
-      "stake": 1.2,
-      "result": "WIN",
-      "profit": 1.0,
-      "book": "fanduel",
-      "source": "fanduel_api",
-      "reason": null,
-      "home": "TB",
-      "away": "CLE"
     },
     {
       "date": "2026-07-25",
@@ -10802,28 +10290,6 @@
       "reason": null,
       "home": "MIL",
       "away": "COL"
-    },
-    {
-      "date": "2026-07-26",
-      "commence": "2026-07-26T18:10:00Z",
-      "betType": "ml",
-      "shadow": false,
-      "pitchers": [
-        "Jeffrey Springs"
-      ],
-      "fadeTeam": "OAK",
-      "market": "h2h",
-      "selection": "MIN",
-      "line": null,
-      "odds": -156,
-      "stake": 1.56,
-      "result": "WIN",
-      "profit": 1.0,
-      "book": "fanduel",
-      "source": "fanduel_api",
-      "reason": null,
-      "home": "MIN",
-      "away": "OAK"
     }
   ]
 }
