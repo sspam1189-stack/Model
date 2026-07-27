@@ -1,14 +1,13 @@
 {
   "sport": "MLB",
   "type": "fade-ml",
-  "generated": "2026-07-27T17:57:23Z",
+  "generated": "2026-07-27T19:41:52Z",
   "fadeList": [
     "Littell",
     "Mikolas",
     "Painter",
     "Rocker",
     "Sheehan",
-    "Jared Jones",
     "Merrill Kelly",
     "Aldegheri",
     "Gallen",
@@ -59,31 +58,31 @@
   ],
   "mutualRule": "home_underdog",
   "summary": {
-    "wins": 315,
-    "losses": 110,
-    "voids": 2,
+    "wins": 313,
+    "losses": 106,
+    "voids": 1,
     "skips": 29,
-    "staked": 541.38,
-    "units": 204.96,
-    "roi": 0.3786,
+    "staked": 533.82,
+    "units": 209.02,
+    "roi": 0.3916,
     "byType": {
       "ml": {
-        "wins": 309,
-        "losses": 108,
-        "voids": 2,
+        "wins": 308,
+        "losses": 104,
+        "voids": 1,
         "skips": 0,
-        "staked": 533.14,
-        "units": 200.64,
-        "roi": 0.3763
+        "staked": 526.64,
+        "units": 205.7,
+        "roi": 0.3906
       },
       "ml_dog": {
-        "wins": 6,
+        "wins": 5,
         "losses": 2,
         "voids": 0,
         "skips": 29,
-        "staked": 8.24,
-        "units": 4.32,
-        "roi": 0.5243
+        "staked": 7.18,
+        "units": 3.32,
+        "roi": 0.4624
       }
     }
   },
@@ -210,8 +209,8 @@
       "market": "h2h",
       "selection": "BOS",
       "line": null,
-      "odds": -176,
-      "stake": 1.76,
+      "odds": -178,
+      "stake": 1.78,
       "result": "pending",
       "profit": 0.0,
       "book": "fanduel",
@@ -888,13 +887,12 @@
     {
       "date": "2026-04-15",
       "commence": "2026-04-15T22:40:00Z",
-      "betType": "ml_dog",
+      "betType": "ml",
       "shadow": false,
       "pitchers": [
-        "Tyler Mahle",
-        "Rhett Lowder"
+        "Tyler Mahle"
       ],
-      "fadeTeam": null,
+      "fadeTeam": "SF",
       "market": "h2h",
       "selection": "CIN",
       "line": null,
@@ -1943,28 +1941,6 @@
       "reason": null,
       "home": "TOR",
       "away": "CLE"
-    },
-    {
-      "date": "2026-04-26",
-      "commence": "2026-04-26T17:40:00Z",
-      "betType": "ml",
-      "shadow": false,
-      "pitchers": [
-        "Rhett Lowder"
-      ],
-      "fadeTeam": "CIN",
-      "market": "h2h",
-      "selection": "DET",
-      "line": null,
-      "odds": -106,
-      "stake": 1.06,
-      "result": "WIN",
-      "profit": 1.0,
-      "book": "fanduel",
-      "source": "oddsapi_fanduel",
-      "reason": null,
-      "home": "CIN",
-      "away": "DET"
     },
     {
       "date": "2026-04-26",
@@ -5460,6 +5436,28 @@
       "away": "PIT"
     },
     {
+      "date": "2026-06-02",
+      "commence": "2026-06-03T01:38:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Grayson Rodriguez"
+      ],
+      "fadeTeam": "LAA",
+      "market": "h2h",
+      "selection": "COL",
+      "line": null,
+      "odds": 134,
+      "stake": 1.0,
+      "result": "WIN",
+      "profit": 1.34,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null,
+      "home": "LAA",
+      "away": "COL"
+    },
+    {
       "date": "2026-06-03",
       "commence": "2026-06-03T19:40:00Z",
       "betType": "ml",
@@ -5969,6 +5967,28 @@
     },
     {
       "date": "2026-06-08",
+      "commence": "2026-06-09T01:38:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Grayson Rodriguez"
+      ],
+      "fadeTeam": "LAA",
+      "market": "h2h",
+      "selection": "HOU",
+      "line": null,
+      "odds": -136,
+      "stake": 1.36,
+      "result": "WIN",
+      "profit": 1.0,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null,
+      "home": "LAA",
+      "away": "HOU"
+    },
+    {
+      "date": "2026-06-08",
       "commence": "2026-06-09T02:05:00Z",
       "betType": "ml",
       "shadow": false,
@@ -6098,28 +6118,6 @@
       "reason": null,
       "home": "SD",
       "away": "CIN"
-    },
-    {
-      "date": "2026-06-10",
-      "commence": "2026-06-10T22:40:00Z",
-      "betType": "ml",
-      "shadow": false,
-      "pitchers": [
-        "Jared Jones"
-      ],
-      "fadeTeam": "PIT",
-      "market": "h2h",
-      "selection": "LAD",
-      "line": null,
-      "odds": -198,
-      "stake": 1.98,
-      "result": "LOSS",
-      "profit": -1.98,
-      "book": "fanduel",
-      "source": "oddsapi_fanduel",
-      "reason": null,
-      "home": "PIT",
-      "away": "LAD"
     },
     {
       "date": "2026-06-10",
@@ -6345,28 +6343,6 @@
     },
     {
       "date": "2026-06-13",
-      "commence": "2026-06-13T20:10:00Z",
-      "betType": "ml",
-      "shadow": false,
-      "pitchers": [
-        "Rhett Lowder"
-      ],
-      "fadeTeam": "CIN",
-      "market": "h2h",
-      "selection": "ARI",
-      "line": null,
-      "odds": -146,
-      "stake": 1.46,
-      "result": "LOSS",
-      "profit": -1.46,
-      "book": "fanduel",
-      "source": "oddsapi_fanduel",
-      "reason": null,
-      "home": "CIN",
-      "away": "ARI"
-    },
-    {
-      "date": "2026-06-13",
       "commence": "2026-06-13T23:10:00Z",
       "betType": "ml",
       "shadow": false,
@@ -6542,26 +6518,26 @@
       "away": "COL"
     },
     {
-      "date": "2026-06-15",
-      "commence": "2026-06-16T01:40:00Z",
+      "date": "2026-06-14",
+      "commence": "2026-06-14T20:07:00Z",
       "betType": "ml",
       "shadow": false,
       "pitchers": [
-        "Jared Jones"
+        "Grayson Rodriguez"
       ],
-      "fadeTeam": "PIT",
+      "fadeTeam": "LAA",
       "market": "h2h",
-      "selection": "OAK",
+      "selection": "TB",
       "line": null,
-      "odds": -122,
-      "stake": 1.22,
+      "odds": -120,
+      "stake": 1.2,
       "result": "WIN",
       "profit": 1.0,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
       "reason": null,
-      "home": "OAK",
-      "away": "PIT"
+      "home": "LAA",
+      "away": "TB"
     },
     {
       "date": "2026-06-16",
@@ -7094,28 +7070,6 @@
     },
     {
       "date": "2026-06-21",
-      "commence": "2026-06-21T19:10:00Z",
-      "betType": "ml",
-      "shadow": false,
-      "pitchers": [
-        "Jared Jones"
-      ],
-      "fadeTeam": "PIT",
-      "market": "h2h",
-      "selection": "COL",
-      "line": null,
-      "odds": 122,
-      "stake": 1.0,
-      "result": "LOSS",
-      "profit": -1.0,
-      "book": "fanduel",
-      "source": "oddsapi_fanduel",
-      "reason": null,
-      "home": "COL",
-      "away": "PIT"
-    },
-    {
-      "date": "2026-06-21",
       "commence": "2026-06-21T20:05:00Z",
       "betType": "ml",
       "shadow": false,
@@ -7358,28 +7312,6 @@
       "away": "KC"
     },
     {
-      "date": "2026-06-24",
-      "commence": "2026-06-24T23:10:00Z",
-      "betType": "ml",
-      "shadow": false,
-      "pitchers": [
-        "Rhett Lowder"
-      ],
-      "fadeTeam": "CIN",
-      "market": "h2h",
-      "selection": "MIL",
-      "line": null,
-      "odds": -136,
-      "stake": 1.36,
-      "result": "WIN",
-      "profit": 1.0,
-      "book": "fanduel",
-      "source": "oddsapi_fanduel",
-      "reason": null,
-      "home": "CIN",
-      "away": "MIL"
-    },
-    {
       "date": "2026-06-25",
       "commence": "2026-06-25T23:07:00Z",
       "betType": "ml",
@@ -7532,28 +7464,6 @@
       "reason": null,
       "home": "SF",
       "away": "ATL"
-    },
-    {
-      "date": "2026-06-27",
-      "commence": "2026-06-27T20:05:00Z",
-      "betType": "ml",
-      "shadow": false,
-      "pitchers": [
-        "Jared Jones"
-      ],
-      "fadeTeam": "PIT",
-      "market": "h2h",
-      "selection": "CIN",
-      "line": null,
-      "odds": -110,
-      "stake": 1.1,
-      "result": "WIN",
-      "profit": 1.0,
-      "book": "fanduel",
-      "source": "oddsapi_fanduel",
-      "reason": null,
-      "home": "PIT",
-      "away": "CIN"
     },
     {
       "date": "2026-06-27",
@@ -8175,28 +8085,6 @@
     },
     {
       "date": "2026-07-02",
-      "commence": "2026-07-02T16:35:00Z",
-      "betType": "ml",
-      "shadow": false,
-      "pitchers": [
-        "Jared Jones"
-      ],
-      "fadeTeam": "PIT",
-      "market": "h2h",
-      "selection": "PHI",
-      "line": null,
-      "odds": -130,
-      "stake": 1.3,
-      "result": "LOSS",
-      "profit": -1.3,
-      "book": "fanduel",
-      "source": "oddsapi_fanduel",
-      "reason": null,
-      "home": "PHI",
-      "away": "PIT"
-    },
-    {
-      "date": "2026-07-02",
       "commence": "2026-07-03T00:05:00Z",
       "betType": "ml",
       "shadow": false,
@@ -8792,28 +8680,6 @@
     },
     {
       "date": "2026-07-08",
-      "commence": "2026-07-08T22:40:00Z",
-      "betType": "ml",
-      "shadow": false,
-      "pitchers": [
-        "Jared Jones"
-      ],
-      "fadeTeam": "PIT",
-      "market": "h2h",
-      "selection": "ATL",
-      "line": null,
-      "odds": 102,
-      "stake": 1.0,
-      "result": "WIN",
-      "profit": 1.02,
-      "book": "fanduel",
-      "source": "oddsapi_fanduel",
-      "reason": null,
-      "home": "PIT",
-      "away": "ATL"
-    },
-    {
-      "date": "2026-07-08",
       "commence": "2026-07-08T23:40:00Z",
       "betType": "ml",
       "shadow": false,
@@ -9277,28 +9143,6 @@
     },
     {
       "date": "2026-07-17",
-      "commence": "2026-07-17T23:10:00Z",
-      "betType": "ml",
-      "shadow": false,
-      "pitchers": [
-        "Jared Jones"
-      ],
-      "fadeTeam": "PIT",
-      "market": "h2h",
-      "selection": "CLE",
-      "line": null,
-      "odds": -122,
-      "stake": 1.22,
-      "result": "VOID",
-      "profit": 0.0,
-      "book": "fanduel",
-      "source": "fanduel_api",
-      "reason": "postponed",
-      "home": "CLE",
-      "away": "PIT"
-    },
-    {
-      "date": "2026-07-17",
       "commence": "2026-07-18T00:05:00Z",
       "betType": "ml",
       "shadow": false,
@@ -9516,6 +9360,28 @@
       "reason": null,
       "home": "OAK",
       "away": "WSH"
+    },
+    {
+      "date": "2026-07-18",
+      "commence": "2026-07-19T02:07:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Grayson Rodriguez"
+      ],
+      "fadeTeam": "LAA",
+      "market": "h2h",
+      "selection": "DET",
+      "line": null,
+      "odds": -198,
+      "stake": 1.98,
+      "result": "WIN",
+      "profit": 1.0,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null,
+      "home": "LAA",
+      "away": "DET"
     },
     {
       "date": "2026-07-19",
@@ -10070,28 +9936,6 @@
       "reason": "road_dog_skip",
       "home": "STL",
       "away": "CIN"
-    },
-    {
-      "date": "2026-07-24",
-      "commence": "2026-07-25T02:15:00Z",
-      "betType": "ml",
-      "shadow": false,
-      "pitchers": [
-        "Grayson Rodriguez"
-      ],
-      "fadeTeam": "LAA",
-      "market": "h2h",
-      "selection": "SF",
-      "line": null,
-      "odds": -162,
-      "stake": 1.62,
-      "result": "WIN",
-      "profit": 1.0,
-      "book": "fanduel",
-      "source": "fanduel_api",
-      "reason": null,
-      "home": "SF",
-      "away": "LAA"
     },
     {
       "date": "2026-07-25",
