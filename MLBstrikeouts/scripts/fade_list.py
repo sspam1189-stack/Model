@@ -30,7 +30,7 @@ FADE_LIST = [
     "Ryne Nelson", "Feltner", "Wacha", "Bello", "Agnos",
     # Added 2026-07-27 (venue-split analysis): venue-restricted new arms.
     "Mahle", "Aaron Nola", "Taillon", "Trevor McDonald", "Colin Rea",
-    "Jack Perkins",
+    "Jack Perkins", "Tyler Phillips",
 ]
 
 # Per-arm venue restriction: fade the arm ONLY when his team plays at this
@@ -56,6 +56,7 @@ FADE_VENUE = {
     "Freeland": "away",        # home 5-4 -1.20u; away 9-2 +4.25u
     "Gallen": "away",          # home flat +0.56u; away 8-2 +5.62u
     "Civale": "home",          # away 4-4 -1.40u; home 5-2 +3.08u
+    "Tyler Phillips": "away",  # home 2-3 -1.20u; away 4-1 +2.58u (small sample)
 }
 
 # Arms NOT faded on MUTUAL games (both starters are fade arms). When a mutual
@@ -140,6 +141,7 @@ FADE_WINDOW = {
     "Trevor McDonald":   {"add": SEASON_START},  # home-only (see FADE_VENUE)
     "Colin Rea":         {"add": SEASON_START},
     "Jack Perkins":      {"add": SEASON_START},
+    "Tyler Phillips":    {"add": SEASON_START},  # away-only (see FADE_VENUE)
 }
 
 

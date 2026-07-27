@@ -1,7 +1,7 @@
 {
   "sport": "MLB",
   "type": "fade-ml",
-  "generated": "2026-07-27T17:29:43Z",
+  "generated": "2026-07-27T17:31:15Z",
   "fadeList": [
     "Littell",
     "Mikolas",
@@ -54,32 +54,33 @@
     "Taillon",
     "Trevor McDonald",
     "Colin Rea",
-    "Jack Perkins"
+    "Jack Perkins",
+    "Tyler Phillips"
   ],
   "mutualRule": "home_underdog",
   "summary": {
-    "wins": 324,
+    "wins": 326,
     "losses": 119,
     "voids": 2,
-    "skips": 32,
-    "staked": 566.72,
-    "units": 201.18,
-    "roi": 0.355,
+    "skips": 33,
+    "staked": 569.98,
+    "units": 202.98,
+    "roi": 0.3561,
     "byType": {
       "ml": {
-        "wins": 317,
+        "wins": 319,
         "losses": 117,
         "voids": 2,
         "skips": 0,
-        "staked": 557.42,
-        "units": 195.86,
-        "roi": 0.3514
+        "staked": 560.68,
+        "units": 197.66,
+        "roi": 0.3525
       },
       "ml_dog": {
         "wins": 7,
         "losses": 2,
         "voids": 0,
-        "skips": 32,
+        "skips": 33,
         "staked": 9.3,
         "units": 5.32,
         "roi": 0.572
@@ -6941,6 +6942,28 @@
     },
     {
       "date": "2026-06-16",
+      "commence": "2026-06-16T22:40:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Tyler Phillips"
+      ],
+      "fadeTeam": "MIA",
+      "market": "h2h",
+      "selection": "PHI",
+      "line": null,
+      "odds": -178,
+      "stake": 1.78,
+      "result": "WIN",
+      "profit": 1.0,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null,
+      "home": "PHI",
+      "away": "MIA"
+    },
+    {
+      "date": "2026-06-16",
       "commence": "2026-06-16T22:45:00Z",
       "betType": "ml",
       "shadow": false,
@@ -8156,6 +8179,28 @@
     },
     {
       "date": "2026-06-28",
+      "commence": "2026-06-28T18:15:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Tyler Phillips"
+      ],
+      "fadeTeam": "MIA",
+      "market": "h2h",
+      "selection": "STL",
+      "line": null,
+      "odds": -122,
+      "stake": 1.22,
+      "result": "WIN",
+      "profit": 1.0,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null,
+      "home": "STL",
+      "away": "MIA"
+    },
+    {
+      "date": "2026-06-28",
       "commence": "2026-06-28T19:15:00Z",
       "betType": "ml",
       "shadow": false,
@@ -8707,22 +8752,23 @@
     {
       "date": "2026-07-03",
       "commence": "2026-07-04T01:40:00Z",
-      "betType": "ml",
+      "betType": "ml_dog",
       "shadow": false,
       "pitchers": [
-        "Jack Perkins"
+        "Jack Perkins",
+        "Tyler Phillips"
       ],
-      "fadeTeam": "OAK",
+      "fadeTeam": null,
       "market": "h2h",
-      "selection": "MIA",
+      "selection": null,
       "line": null,
-      "odds": 120,
-      "stake": 1.0,
-      "result": "WIN",
-      "profit": 1.2,
+      "odds": null,
+      "stake": null,
+      "result": "SKIP",
+      "profit": 0.0,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
-      "reason": null,
+      "reason": "road_dog_skip",
       "home": "OAK",
       "away": "MIA"
     },
@@ -10249,6 +10295,28 @@
       "reason": "road_dog_skip",
       "home": "CHC",
       "away": "DET"
+    },
+    {
+      "date": "2026-07-21",
+      "commence": "2026-07-22T00:10:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Tyler Phillips"
+      ],
+      "fadeTeam": "MIA",
+      "market": "h2h",
+      "selection": "HOU",
+      "line": null,
+      "odds": -126,
+      "stake": 1.26,
+      "result": "WIN",
+      "profit": 1.0,
+      "book": "fanduel",
+      "source": "fanduel_api",
+      "reason": null,
+      "home": "HOU",
+      "away": "MIA"
     },
     {
       "date": "2026-07-21",
