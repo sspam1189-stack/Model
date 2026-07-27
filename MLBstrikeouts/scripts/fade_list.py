@@ -18,7 +18,7 @@ import re
 
 # The roster. Keep in sync with MLB_FADE_LIST in PythonDashboard/js/mlb-props.js.
 FADE_LIST = [
-    "Littell", "Mikolas", "Painter", "Rocker", "Sheehan", "Jared Jones",
+    "Littell", "Mikolas", "Painter", "Rocker", "Sheehan",
     "Merrill Kelly", "Aldegheri", "Gallen", "Civale", "David Peterson",
     "Bibee", "Springs", "Burrows", "Roupp", "Keller", "Peralta", "Canning",
     "Jacob Lopez", "Ryan Johnson", "Poulin", "Singer", "Dustin May",
@@ -117,8 +117,6 @@ FADE_WINDOW = {
     "Noah Schultz":   {"add": SEASON_START},  # backfilled: faded all season
     "Lowder":         {"add": SEASON_START},  # backfilled: faded all season
     "Skenes":         {"add": SEASON_START},  # backfilled: faded all season (market overprices PIT on his starts)
-    # Retired mid-season: faded early, back to his old self from 7/18.
-    "Jared Jones":    {"add": SEASON_START, "remove": "2026-07-18"},
     # Added mid-season: good before, fade-worthy from these dates on.
     "Dustin May":        {"add": "2026-07-18"},
     "Grayson Rodriguez": {"add": SEASON_START},  # 2026-07-27: home-only (FADE_VENUE), full season
