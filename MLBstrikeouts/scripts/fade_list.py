@@ -57,6 +57,9 @@ FADE_VENUE = {
     "Gallen": "away",          # home flat +0.56u; away 8-2 +5.62u
     "Civale": "home",          # away 4-4 -1.40u; home 5-2 +3.08u
     "Tyler Phillips": "away",  # home 2-3 -1.20u; away 4-1 +2.58u (small sample)
+    "Bibee": "home",           # away 4-5 -2.7u; home 10-2 +9.1u
+    "Springs": "home",         # away 6-4 +0.0u (flat); home 7-4 +4.2u
+    "Burrows": "home",         # away 5-4 -0.0u (flat); home 6-2 +4.0u
 }
 
 # Arms NOT faded on MUTUAL games (both starters are fade arms). When a mutual
