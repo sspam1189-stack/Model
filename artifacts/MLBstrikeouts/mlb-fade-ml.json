@@ -1,7 +1,7 @@
 {
   "sport": "MLB",
   "type": "fade-ml",
-  "generated": "2026-07-27T04:25:08Z",
+  "generated": "2026-07-27T12:53:04Z",
   "fadeList": [
     "Littell",
     "Mikolas",
@@ -65,7 +65,97 @@
       }
     }
   },
-  "today": [],
+  "today": [
+    {
+      "date": "2026-07-27",
+      "commence": "2026-07-27T22:40:00Z",
+      "betType": "ml_dog",
+      "shadow": false,
+      "pitchers": [
+        "Merrill Kelly",
+        "Mitch Keller"
+      ],
+      "fadeTeam": null,
+      "market": "h2h",
+      "selection": "ARI",
+      "line": null,
+      "odds": 100,
+      "stake": 1.0,
+      "result": "pending",
+      "profit": 0.0,
+      "book": "fanduel",
+      "source": "fanduel_api",
+      "reason": null,
+      "home": "PIT",
+      "away": "ARI"
+    },
+    {
+      "date": "2026-07-27",
+      "commence": "2026-07-27T23:45:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "David Peterson"
+      ],
+      "fadeTeam": "CHC",
+      "market": "h2h",
+      "selection": "STL",
+      "line": null,
+      "odds": -102,
+      "stake": 1.02,
+      "result": "pending",
+      "profit": 0.0,
+      "book": "fanduel",
+      "source": "fanduel_api",
+      "reason": null,
+      "home": "STL",
+      "away": "CHC"
+    },
+    {
+      "date": "2026-07-27",
+      "commence": "2026-07-27T23:40:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Noah Schultz"
+      ],
+      "fadeTeam": "CWS",
+      "market": "h2h",
+      "selection": "NYY",
+      "line": null,
+      "odds": -148,
+      "stake": 1.48,
+      "result": "pending",
+      "profit": 0.0,
+      "book": "fanduel",
+      "source": "fanduel_api",
+      "reason": null,
+      "home": "CWS",
+      "away": "NYY"
+    },
+    {
+      "date": "2026-07-27",
+      "commence": "2026-07-27T18:35:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Kumar Rocker"
+      ],
+      "fadeTeam": "TEX",
+      "market": "h2h",
+      "selection": "SEA",
+      "line": null,
+      "odds": -136,
+      "stake": 1.36,
+      "result": "pending",
+      "profit": 0.0,
+      "book": "fanduel",
+      "source": "fanduel_api",
+      "reason": null,
+      "home": "TEX",
+      "away": "SEA"
+    }
+  ],
   "bets": [
     {
       "date": "2026-04-06",
@@ -7333,28 +7423,6 @@
       "betType": "ml",
       "shadow": false,
       "pitchers": [
-        "Shane Baz"
-      ],
-      "fadeTeam": "BAL",
-      "market": "h2h",
-      "selection": "ATL",
-      "line": null,
-      "odds": -110,
-      "stake": 1.1,
-      "result": "WIN",
-      "profit": 1.0,
-      "book": "fanduel",
-      "source": "fanduel_api",
-      "reason": null,
-      "home": "BAL",
-      "away": "ATL"
-    },
-    {
-      "date": "2026-07-26",
-      "commence": "2026-07-26T17:35:00Z",
-      "betType": "ml",
-      "shadow": false,
-      "pitchers": [
         "Miles Mikolas"
       ],
       "fadeTeam": "WSH",
@@ -7370,6 +7438,28 @@
       "reason": null,
       "home": "WSH",
       "away": "ARI"
+    },
+    {
+      "date": "2026-07-26",
+      "commence": "2026-07-26T17:35:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Shane Baz"
+      ],
+      "fadeTeam": "BAL",
+      "market": "h2h",
+      "selection": "ATL",
+      "line": null,
+      "odds": -110,
+      "stake": 1.1,
+      "result": "WIN",
+      "profit": 1.0,
+      "book": "fanduel",
+      "source": "fanduel_api",
+      "reason": null,
+      "home": "BAL",
+      "away": "ATL"
     },
     {
       "date": "2026-07-26",
