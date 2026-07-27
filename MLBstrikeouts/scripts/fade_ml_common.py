@@ -35,8 +35,11 @@ OUTPUT_PATHS = [
 #                    edge (home mutual dogs 7-2 vs road 17-18 in-sample). LIVE
 #                    default as of 2026-07-27.
 #   favorite       - bet the favorite's ML.
-#   skip           - no ML bet on mutual games.
-MUTUAL_FADE_RULE = os.environ.get("MUTUAL_FADE_RULE", "home_underdog")
+#   skip           - no ML bet on mutual games. LIVE default as of 2026-07-27:
+#                    at the 66-arm list the mutual edge is thin (all-dogs
+#                    +5.7%, and the home-dog edge collapsed from +52% on 9
+#                    games to 8-8 on 16), so mutual games are not bet.
+MUTUAL_FADE_RULE = os.environ.get("MUTUAL_FADE_RULE", "skip")
 
 # Bet types that make up the record (moneyline only).
 REAL_BET_TYPES = ("ml", "ml_dog")
