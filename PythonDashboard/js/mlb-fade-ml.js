@@ -152,11 +152,23 @@ async function renderMLBFadeML() {
     + '<div class="card-title" style="padding:0">Season bet log</div>'
     + '<span id="fadeLogRec" style="font-size:13px;font-weight:700"></span>'
     + '</div>'
+    // Row 1: Pick / Pitcher / Venue
     + '<div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap;padding:0 8px 6px">'
     + '<label style="font-size:11px;color:#888">Pick '
     + '<select id="fadePickSel" style="' + selCss + '"><option value="">All</option>'
     + pickTeams.map(t => '<option value="' + esc(t) + '">' + esc(t) + '</option>').join('')
     + '</select></label>'
+    + '<label style="font-size:11px;color:#888">Pitcher '
+    + '<select id="fadePitcherSel" style="' + selCss + '"><option value="">All</option>'
+    + pitchers.map(p => '<option value="' + esc(p) + '">' + esc(p) + '</option>').join('')
+    + '</select></label>'
+    + '<label style="font-size:11px;color:#888">Venue '
+    + '<select id="fadeVenueSel" style="' + selCss + '"><option value="">All</option>'
+    + '<option value="home">Home</option><option value="away">Away</option>'
+    + '</select></label>'
+    + '</div>'
+    // Row 2: Month / Week / Date
+    + '<div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap;padding:0 8px 6px">'
     + '<label style="font-size:11px;color:#888">Month '
     + '<select id="fadeMonthSel" style="' + selCss + '"><option value="">All</option>'
     + months.map(m => '<option value="' + m + '">' + monthLabel(m) + '</option>').join('')
@@ -169,10 +181,6 @@ async function renderMLBFadeML() {
     + '<select id="fadeDateSel" style="' + selCss + '"><option value="">All</option>'
     + dates.map(dt => '<option value="' + dt + '">' + dateLabel(dt) + '</option>').join('')
     + '</select></label>'
-    + '<label style="font-size:11px;color:#888">Pitcher '
-    + '<select id="fadePitcherSel" style="' + selCss + '"><option value="">All</option>'
-    + pitchers.map(p => '<option value="' + esc(p) + '">' + esc(p) + '</option>').join('')
-    + '</select></label>'
     + '</div>'
     + '<div id="fadeLogWrap" style="overflow-x:auto"></div>';
   el.appendChild(log);
@@ -183,16 +191,21 @@ async function renderMLBFadeML() {
   const weekSel = log.querySelector('#fadeWeekSel');
   const dateSel = log.querySelector('#fadeDateSel');
   const pitcherSel = log.querySelector('#fadePitcherSel');
+  const venueSel = log.querySelector('#fadeVenueSel');
   const recEl = log.querySelector('#fadeLogRec');
 
+  // Venue of a fade bet = the faded arm's-team side (home if his team is home).
+  const venueOf = (b) => b.fadeTeam === b.home ? 'home' : (b.fadeTeam === b.away ? 'away' : '');
+
   function drawRows() {
-    const kv = pickSel.value, mv = monthSel.value, wv = weekSel.value, dv = dateSel.value, pv = pitcherSel.value;
+    const kv = pickSel.value, mv = monthSel.value, wv = weekSel.value, dv = dateSel.value, pv = pitcherSel.value, vv = venueSel.value;
     const view = bets.filter(b =>
       (!kv || b.selection === kv) &&
       (!mv || (b.date || '').slice(0, 7) === mv) &&
       (!wv || (b.date && weekStartOf(b.date) === wv)) &&
       (!dv || b.date === dv) &&
-      (!pv || (b.pitchers || []).includes(pv)));
+      (!pv || (b.pitchers || []).includes(pv)) &&
+      (!vv || venueOf(b) === vv));
     // W-L / units for the current filter (settled only).
     let w = 0, l = 0, u = 0, stk = 0;
     view.forEach(b => {
@@ -237,6 +250,7 @@ async function renderMLBFadeML() {
   weekSel.addEventListener('change', drawRows);
   dateSel.addEventListener('change', drawRows);
   pitcherSel.addEventListener('change', drawRows);
+  venueSel.addEventListener('change', drawRows);
   drawRows();
 }
 
