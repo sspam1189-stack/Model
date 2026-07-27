@@ -109,7 +109,7 @@ FADE_WINDOW = {
     "Littell":        {"add": SEASON_START},
     "Mikolas":        {"add": SEASON_START},
     "Painter":        {"add": SEASON_START},
-    "Rocker":         {"add": SEASON_START},
+    "Rocker":         {"add": SEASON_START, "remove": "2026-07-28"},  # removed from 7/28
     "Sheehan":        {"add": SEASON_START},
     "Merrill Kelly":  {"add": SEASON_START},
     "Aldegheri":      {"add": SEASON_START},
