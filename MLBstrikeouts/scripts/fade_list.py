@@ -31,6 +31,10 @@ FADE_LIST = [
     # Added 2026-07-27 (venue-split analysis): venue-restricted new arms.
     "Mahle", "Aaron Nola", "Taillon", "Trevor McDonald", "Colin Rea",
     "Jack Perkins", "Tyler Phillips",
+    # Added 2026-07-27 (all-pitcher fade screen, raw fade record).
+    "Logan Webb", "Lodolo", "Michael King", "Mize", "Bryce Miller",
+    "Yesavage", "Imanaga", "Chandler", "McClanahan",
+    "McLean", "Cavalli", "Trevor Rogers", "Tolle", "Gerrit Cole",
 ]
 
 # Per-arm venue restriction: fade the arm ONLY when his team plays at this
@@ -64,6 +68,17 @@ FADE_VENUE = {
     "Zebby Matthews": "home",  # away 4-3 -0.2u (flat); home 4-2 +2.6u
     "Lowder": "away",          # home 2-3 -1.9u; away 7-3 +2.8u
     "Grayson Rodriguez": "home",  # away 1-2 -1.9u; home 5-1 +3.7u
+    # Added 2026-07-27 (all-pitcher screen): venue-restricted.
+    "Yesavage": "away",        # away 6-2 +3.0u; home 4-4 +0.7u
+    "Imanaga": "away",         # away 6-3 +3.0u; home 5-7 +0.6u
+    "Chandler": "away",        # away 8-3 +4.6u; home 3-4 -1.3u
+    "McClanahan": "away",      # away 7-3 +4.5u; home 1-8 -6.4u
+    "McLean": "home",          # home 8-3 +7.9u; away 4-6 -1.7u
+    "Cavalli": "home",         # home 9-2 +7.3u; away 3-7 -6.6u
+    "Trevor Rogers": "home",   # home 8-4 +4.8u; away 2-5 -4.8u
+    "Tolle": "home",           # home 6-3 +3.8u; away 3-4 -1.2u
+    "Gerrit Cole": "home",     # home 4-2 +2.9u; away 3-2 +1.1u
+    "Lodolo": "home",          # home 6-2 +4.2u; away 3-1 +1.6u
 }
 
 # Arms NOT faded on MUTUAL games (both starters are fade arms). When a mutual
@@ -147,6 +162,21 @@ FADE_WINDOW = {
     "Colin Rea":         {"add": SEASON_START},
     "Jack Perkins":      {"add": SEASON_START},
     "Tyler Phillips":    {"add": SEASON_START},  # away-only (see FADE_VENUE)
+    # Added 2026-07-27 (all-pitcher fade screen), season-backfilled.
+    "Logan Webb":        {"add": SEASON_START},
+    "Lodolo":            {"add": SEASON_START},  # home-only (see FADE_VENUE)
+    "Michael King":      {"add": SEASON_START},
+    "Mize":              {"add": SEASON_START},
+    "Bryce Miller":      {"add": SEASON_START},
+    "Yesavage":          {"add": SEASON_START},  # away-only (see FADE_VENUE)
+    "Imanaga":           {"add": SEASON_START},  # away-only (see FADE_VENUE)
+    "Chandler":          {"add": SEASON_START},  # away-only (see FADE_VENUE)
+    "McClanahan":        {"add": SEASON_START},  # away-only (see FADE_VENUE)
+    "McLean":            {"add": SEASON_START},  # home-only (see FADE_VENUE)
+    "Cavalli":           {"add": SEASON_START},  # home-only (see FADE_VENUE)
+    "Trevor Rogers":     {"add": SEASON_START},  # home-only (see FADE_VENUE)
+    "Tolle":             {"add": SEASON_START},  # home-only (see FADE_VENUE)
+    "Gerrit Cole":       {"add": SEASON_START},  # home-only (see FADE_VENUE)
 }
 
 
