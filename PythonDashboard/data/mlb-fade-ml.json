@@ -1,7 +1,7 @@
 {
   "sport": "MLB",
   "type": "fade-ml",
-  "generated": "2026-07-27T19:32:14Z",
+  "generated": "2026-07-27T19:33:31Z",
   "fadeList": [
     "Littell",
     "Mikolas",
@@ -59,22 +59,22 @@
   ],
   "mutualRule": "home_underdog",
   "summary": {
-    "wins": 313,
+    "wins": 312,
     "losses": 109,
     "voids": 2,
     "skips": 29,
-    "staked": 537.5,
-    "units": 204.42,
-    "roi": 0.3803,
+    "staked": 535.88,
+    "units": 203.42,
+    "roi": 0.3796,
     "byType": {
       "ml": {
-        "wins": 308,
+        "wins": 307,
         "losses": 107,
         "voids": 2,
         "skips": 0,
-        "staked": 530.32,
-        "units": 201.1,
-        "roi": 0.3792
+        "staked": 528.7,
+        "units": 200.1,
+        "roi": 0.3785
       },
       "ml_dog": {
         "wins": 5,
@@ -9870,28 +9870,6 @@
       "reason": "road_dog_skip",
       "home": "STL",
       "away": "CIN"
-    },
-    {
-      "date": "2026-07-24",
-      "commence": "2026-07-25T02:15:00Z",
-      "betType": "ml",
-      "shadow": false,
-      "pitchers": [
-        "Grayson Rodriguez"
-      ],
-      "fadeTeam": "LAA",
-      "market": "h2h",
-      "selection": "SF",
-      "line": null,
-      "odds": -162,
-      "stake": 1.62,
-      "result": "WIN",
-      "profit": 1.0,
-      "book": "fanduel",
-      "source": "fanduel_api",
-      "reason": null,
-      "home": "SF",
-      "away": "LAA"
     },
     {
       "date": "2026-07-25",
