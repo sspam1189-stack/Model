@@ -35,11 +35,16 @@ OUTPUT_PATHS = [
 #                    edge (home mutual dogs 7-2 vs road 17-18 in-sample). LIVE
 #                    default as of 2026-07-27.
 #   favorite       - bet the favorite's ML.
-#   skip           - no ML bet on mutual games. LIVE default as of 2026-07-27:
-#                    at the 66-arm list the mutual edge is thin (all-dogs
-#                    +5.7%, and the home-dog edge collapsed from +52% on 9
-#                    games to 8-8 on 16), so mutual games are not bet.
-MUTUAL_FADE_RULE = os.environ.get("MUTUAL_FADE_RULE", "skip")
+#   skip           - no ML bet on mutual games.
+#   underdog_min   - bet the underdog's ML only when its price >= MUTUAL_DOG_MIN
+#                    (default +120); near-pickem/small dogs and favorites are
+#                    skipped. LIVE default as of 2026-07-27: on the mutual set,
+#                    small dogs (+100..119) run -17.7% over 23g (no plus-money
+#                    cushion) while dogs >= +120 are +43.5% over 25g.
+MUTUAL_FADE_RULE = os.environ.get("MUTUAL_FADE_RULE", "underdog_min")
+# Minimum underdog price (American odds) to bet a mutual game under
+# underdog_min. Dogs priced below this (incl. pickem/favorites) are skipped.
+MUTUAL_DOG_MIN = int(os.environ.get("MUTUAL_DOG_MIN", "120"))
 
 # Bet types that make up the record (moneyline only).
 REAL_BET_TYPES = ("ml", "ml_dog")
@@ -224,6 +229,11 @@ def build_bets_for_game(date, fg, g, odds_row):
                 # Road dog on a mutual game -> no bet (home-dog-only rule).
                 bets.append(_bet(date, commence, "ml_dog", fg, "h2h", None,
                                  None, None, "SKIP", "road_dog_skip",
+                                 source=source))
+            elif MUTUAL_FADE_RULE == "underdog_min" and mls[team] < MUTUAL_DOG_MIN:
+                # Dog below the price floor (near-pickem) -> no bet.
+                bets.append(_bet(date, commence, "ml_dog", fg, "h2h", None,
+                                 None, None, "SKIP", "dog_below_min",
                                  source=source))
             else:
                 result, reason = _settle_ml(g, team)
