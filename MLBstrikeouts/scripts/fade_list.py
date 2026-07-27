@@ -21,7 +21,7 @@ FADE_LIST = [
     "Littell", "Mikolas", "Painter", "Rocker", "Sheehan",
     "Merrill Kelly", "Aldegheri", "Gallen", "Civale", "David Peterson",
     "Bibee", "Springs", "Burrows", "Roupp", "Keller", "Peralta", "Canning",
-    "Jacob Lopez", "Ryan Johnson", "Poulin", "Singer", "Dustin May",
+    "Jacob Lopez", "Ryan Johnson", "Poulin", "Dustin May",
     "Grayson Rodriguez", "Bryan Woo", "Freeland", "Baz", "Noah Schultz",
     "Lowder", "Zebby Matthews", "Skenes",
     # Added 2026-07-27 from fade-candidate analysis (forward-only from that date).
@@ -126,7 +126,6 @@ FADE_WINDOW = {
     "Jacob Lopez":    {"add": SEASON_START},
     "Ryan Johnson":   {"add": SEASON_START},
     "Poulin":         {"add": SEASON_START},
-    "Singer":         {"add": SEASON_START, "remove": "2026-07-27"},  # removed from 7/27
     "Freeland":       {"add": SEASON_START},  # backfilled: faded all season
     "Baz":            {"add": SEASON_START},  # backfilled: faded all season
     "Noah Schultz":   {"add": SEASON_START},  # backfilled: faded all season
