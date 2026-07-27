@@ -62,6 +62,7 @@ FADE_VENUE = {
     "Burrows": "home",         # away 5-4 -0.0u (flat); home 6-2 +4.0u
     "Roupp": "away",           # home 5-3 +1.4u; away 8-4 +2.6u
     "Zebby Matthews": "home",  # away 4-3 -0.2u (flat); home 4-2 +2.6u
+    "Lowder": "away",          # home 2-3 -1.9u; away 7-3 +2.8u
 }
 
 # Arms NOT faded on MUTUAL games (both starters are fade arms). When a mutual

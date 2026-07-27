@@ -1,7 +1,7 @@
 {
   "sport": "MLB",
   "type": "fade-ml",
-  "generated": "2026-07-27T17:52:19Z",
+  "generated": "2026-07-27T19:32:14Z",
   "fadeList": [
     "Littell",
     "Mikolas",
@@ -59,31 +59,31 @@
   ],
   "mutualRule": "home_underdog",
   "summary": {
-    "wins": 315,
-    "losses": 110,
+    "wins": 313,
+    "losses": 109,
     "voids": 2,
     "skips": 29,
-    "staked": 541.38,
-    "units": 204.96,
-    "roi": 0.3786,
+    "staked": 537.5,
+    "units": 204.42,
+    "roi": 0.3803,
     "byType": {
       "ml": {
-        "wins": 309,
-        "losses": 108,
+        "wins": 308,
+        "losses": 107,
         "voids": 2,
         "skips": 0,
-        "staked": 533.14,
-        "units": 200.64,
-        "roi": 0.3763
+        "staked": 530.32,
+        "units": 201.1,
+        "roi": 0.3792
       },
       "ml_dog": {
-        "wins": 6,
+        "wins": 5,
         "losses": 2,
         "voids": 0,
         "skips": 29,
-        "staked": 8.24,
-        "units": 4.32,
-        "roi": 0.5243
+        "staked": 7.18,
+        "units": 3.32,
+        "roi": 0.4624
       }
     }
   },
@@ -755,13 +755,12 @@
     {
       "date": "2026-04-15",
       "commence": "2026-04-15T22:40:00Z",
-      "betType": "ml_dog",
+      "betType": "ml",
       "shadow": false,
       "pitchers": [
-        "Tyler Mahle",
-        "Rhett Lowder"
+        "Tyler Mahle"
       ],
-      "fadeTeam": null,
+      "fadeTeam": "SF",
       "market": "h2h",
       "selection": "CIN",
       "line": null,
@@ -1810,28 +1809,6 @@
       "reason": null,
       "home": "TOR",
       "away": "CLE"
-    },
-    {
-      "date": "2026-04-26",
-      "commence": "2026-04-26T17:40:00Z",
-      "betType": "ml",
-      "shadow": false,
-      "pitchers": [
-        "Rhett Lowder"
-      ],
-      "fadeTeam": "CIN",
-      "market": "h2h",
-      "selection": "DET",
-      "line": null,
-      "odds": -106,
-      "stake": 1.06,
-      "result": "WIN",
-      "profit": 1.0,
-      "book": "fanduel",
-      "source": "oddsapi_fanduel",
-      "reason": null,
-      "home": "CIN",
-      "away": "DET"
     },
     {
       "date": "2026-04-26",
@@ -6212,28 +6189,6 @@
     },
     {
       "date": "2026-06-13",
-      "commence": "2026-06-13T20:10:00Z",
-      "betType": "ml",
-      "shadow": false,
-      "pitchers": [
-        "Rhett Lowder"
-      ],
-      "fadeTeam": "CIN",
-      "market": "h2h",
-      "selection": "ARI",
-      "line": null,
-      "odds": -146,
-      "stake": 1.46,
-      "result": "LOSS",
-      "profit": -1.46,
-      "book": "fanduel",
-      "source": "oddsapi_fanduel",
-      "reason": null,
-      "home": "CIN",
-      "away": "ARI"
-    },
-    {
-      "date": "2026-06-13",
       "commence": "2026-06-13T23:10:00Z",
       "betType": "ml",
       "shadow": false,
@@ -7223,28 +7178,6 @@
       "reason": null,
       "home": "TB",
       "away": "KC"
-    },
-    {
-      "date": "2026-06-24",
-      "commence": "2026-06-24T23:10:00Z",
-      "betType": "ml",
-      "shadow": false,
-      "pitchers": [
-        "Rhett Lowder"
-      ],
-      "fadeTeam": "CIN",
-      "market": "h2h",
-      "selection": "MIL",
-      "line": null,
-      "odds": -136,
-      "stake": 1.36,
-      "result": "WIN",
-      "profit": 1.0,
-      "book": "fanduel",
-      "source": "oddsapi_fanduel",
-      "reason": null,
-      "home": "CIN",
-      "away": "MIL"
     },
     {
       "date": "2026-06-25",
