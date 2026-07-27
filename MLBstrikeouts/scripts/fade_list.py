@@ -60,6 +60,8 @@ FADE_VENUE = {
     "Bibee": "home",           # away 4-5 -2.7u; home 10-2 +9.1u
     "Springs": "home",         # away 6-4 +0.0u (flat); home 7-4 +4.2u
     "Burrows": "home",         # away 5-4 -0.0u (flat); home 6-2 +4.0u
+    "Roupp": "away",           # home 5-3 +1.4u; away 8-4 +2.6u
+    "Zebby Matthews": "home",  # away 4-3 -0.2u (flat); home 4-2 +2.6u
 }
 
 # Arms NOT faded on MUTUAL games (both starters are fade arms). When a mutual
@@ -100,8 +102,8 @@ FADE_WINDOW = {
     "Bibee":          {"add": SEASON_START},
     "Springs":        {"add": SEASON_START},
     "Burrows":        {"add": SEASON_START},
-    "Roupp":          {"add": SEASON_START, "remove": "2026-07-23"},  # removed 7/23
-    "Keller":         {"add": SEASON_START},
+    "Roupp":          {"add": SEASON_START},  # 2026-07-27: reactivated, away-only (see FADE_VENUE)
+    "Keller":         {"add": SEASON_START, "remove": "2026-07-27"},  # removed 7/27 (-2.6u all-venue)
     "Peralta":        {"add": SEASON_START},
     "Canning":        {"add": SEASON_START},
     "Jacob Lopez":    {"add": SEASON_START},
@@ -119,7 +121,7 @@ FADE_WINDOW = {
     "Dustin May":        {"add": "2026-07-18"},
     "Grayson Rodriguez": {"add": "2026-07-19"},
     "Bryan Woo":         {"add": "2026-07-20"},  # away-only (see FADE_VENUE)
-    "Zebby Matthews":    {"add": "2026-07-25"},  # added 7/25: fade from here on
+    "Zebby Matthews":    {"add": SEASON_START},  # 2026-07-27: home-only (FADE_VENUE), full season
     # Added 2026-07-27 from fade-candidate analysis — backfilled to season
     # start so their full-season fade history is on the record. Venue-
     # restricted arms are faded all season but only on the required side.
