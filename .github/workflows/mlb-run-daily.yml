@@ -7,13 +7,17 @@ on:
   # Times below target CDT (UTC-5), i.e. the MLB season; they land one hour
   # later in CT after DST ends in Nov (after the season). Runs serialize via
   # the concurrency group above, so an overlapping dispatch just queues.
+  # Minutes are deliberately OFF :00/:30. GitHub's hosted cron scheduler is
+  # most congested at the top and half of the hour and delays/drops those
+  # runs first (e.g. 2026-07-27: the :00 11am-CT run was dropped while odd
+  # minutes fired). Odd, staggered minutes deliver far more reliably.
   schedule:
-    - cron: '0 13 * * *'    # 8:00 AM CT
-    - cron: '0 16 * * *'    # 11:00 AM CT
-    - cron: '30 18 * * *'   # 1:30 PM CT
-    - cron: '0 21 * * *'    # 4:00 PM CT
-    - cron: '0 23 * * *'    # 6:00 PM CT
-    - cron: '30 0 * * *'    # 7:30 PM CT
+    - cron: '7 13 * * *'    # ~8:07 AM CT
+    - cron: '8 16 * * *'    # ~11:08 AM CT
+    - cron: '37 18 * * *'   # ~1:37 PM CT
+    - cron: '9 21 * * *'    # ~4:09 PM CT
+    - cron: '11 23 * * *'   # ~6:11 PM CT
+    - cron: '38 0 * * *'    # ~7:38 PM CT
 
 
 permissions:
