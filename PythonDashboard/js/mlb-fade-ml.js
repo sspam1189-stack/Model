@@ -36,6 +36,17 @@ async function renderMLBFadeML() {
     catch (e) { /* next */ }
   }
 
+  // Team wRC+ platoon snapshot (FanGraphs true wRC+, manual browser capture —
+  // view-only reference, not part of any pick/grade). Own file; missing = no
+  // table. See MLBstrikeouts/scripts/build_team_wrc.py.
+  const wrcLocal = 'data/mlb-team-wrc.json';
+  const wrcRemote = 'https://raw.githubusercontent.com/sspam1189-stack/Model/main/MLBstrikeouts/data/mlb-team-wrc.json';
+  let wrcData = null;
+  for (const url of [wrcLocal + '?t=' + Date.now(), wrcRemote + '?t=' + Date.now()]) {
+    try { const r = await fetch(url, { cache: 'no-store' }); if (r.ok) { wrcData = await r.json(); break; } }
+    catch (e) { /* next */ }
+  }
+
   el.textContent = '';
   if (!data) {
     const c = document.createElement('div');
@@ -403,6 +414,80 @@ async function renderMLBFadeML() {
       + '<th style="padding:4px 8px;text-align:right">Units</th><th style="padding:4px 8px;text-align:center">GS</th>'
       + '<th style="padding:4px 8px;text-align:right">ERA</th></tr></thead><tbody>' + wrows + '</tbody></table></div>';
     el.appendChild(wc);
+  }
+
+  // ---- Team wRC+ by opposing-starter hand (reference table) ----
+  // FanGraphs TRUE wRC+ (park + league adjusted), captured via browser (see
+  // build_team_wrc.py). View-only: nothing here feeds a fade pick or grade.
+  if (wrcData && wrcData.teams && Object.keys(wrcData.teams).length) {
+    const teams = wrcData.teams;
+    // wRC+ colour: green above 100, red below, intensity by distance (±30 caps).
+    const wrcCell = (v) => {
+      if (v == null) return '<td style="padding:4px 10px;text-align:right;color:#666">—</td>';
+      const dev = Math.max(-1, Math.min(1, (v - 100) / 30));
+      const col = dev >= 0 ? GREEN : RED;
+      const bg = dev >= 0
+        ? 'rgba(63,185,80,' + (0.05 + 0.22 * dev).toFixed(3) + ')'
+        : 'rgba(248,81,73,' + (0.05 + 0.22 * -dev).toFixed(3) + ')';
+      return '<td style="padding:4px 10px;text-align:right;font-weight:600;color:'
+        + col + ';background:' + bg + '">' + v + '</td>';
+    };
+
+    const wrcCard = document.createElement('div');
+    wrcCard.className = 'card card-games';
+    wrcCard.style.cssText = 'padding:8px 4px;margin-top:16px';
+    const asOf = wrcData.asOf ? (' · as of ' + esc(wrcData.asOf)) : '';
+    const season = wrcData.season ? (esc(wrcData.season) + ' ') : '';
+    wrcCard.innerHTML =
+      '<div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap;padding:6px 8px">'
+      + '<span class="card-title" style="padding:0">Team wRC+ by Opposing Starter Hand</span>'
+      + '<label style="font-size:11px;color:#888">Team '
+      + '<select id="wrcTeamSel" style="' + selCss + '"><option value="">All</option>'
+      + Object.keys(teams).sort().map(t => '<option value="' + esc(t) + '">' + esc(t) + '</option>').join('')
+      + '</select></label>'
+      + '</div>'
+      + '<div style="font-size:11px;color:#888;padding:0 8px 6px">'
+      + season + 'FanGraphs true wRC+ (park + league adjusted)' + asOf
+      + ' · 100 = league average · view-only, not used in picks</div>'
+      + '<div id="wrcWrap" style="overflow-x:auto"></div>';
+    el.appendChild(wrcCard);
+
+    const wrcWrap = wrcCard.querySelector('#wrcWrap');
+    const wrcTeamSel = wrcCard.querySelector('#wrcTeamSel');
+    // Sort state: column ('team'|'vsLHP'|'vsRHP') + direction.
+    let wrcSort = { col: 'team', dir: 1 };
+    const arrow = (c) => wrcSort.col === c ? (wrcSort.dir > 0 ? ' ▲' : ' ▼') : '';
+
+    function drawWrc() {
+      const only = wrcTeamSel.value;
+      let list = Object.keys(teams).map(t => ({ team: t, ...teams[t] }));
+      if (only) list = list.filter(r => r.team === only);
+      list.sort((a, b) => {
+        let av, bv;
+        if (wrcSort.col === 'team') { av = a.team; bv = b.team; }
+        else { av = a[wrcSort.col] == null ? -Infinity : a[wrcSort.col]; bv = b[wrcSort.col] == null ? -Infinity : b[wrcSort.col]; }
+        return av < bv ? -wrcSort.dir : av > bv ? wrcSort.dir : 0;
+      });
+      const rows = list.map(r =>
+        '<tr><td style="padding:4px 10px;font-weight:600">' + esc(r.team) + '</td>'
+        + wrcCell(r.vsLHP) + wrcCell(r.vsRHP) + '</tr>').join('');
+      wrcWrap.innerHTML =
+        '<table style="width:100%;border-collapse:collapse;font-size:13px">'
+        + '<thead><tr style="color:#888;text-align:left;border-bottom:1px solid #333">'
+        + '<th data-c="team" style="padding:4px 10px;cursor:pointer">Team' + arrow('team') + '</th>'
+        + '<th data-c="vsLHP" style="padding:4px 10px;text-align:right;cursor:pointer">wRC+ vs LHP' + arrow('vsLHP') + '</th>'
+        + '<th data-c="vsRHP" style="padding:4px 10px;text-align:right;cursor:pointer">wRC+ vs RHP' + arrow('vsRHP') + '</th>'
+        + '</tr></thead><tbody>' + rows + '</tbody></table>';
+      wrcWrap.querySelectorAll('th[data-c]').forEach(th => th.addEventListener('click', () => {
+        const c = th.getAttribute('data-c');
+        // Same column toggles direction; new column sorts asc for team, desc for wRC+.
+        if (wrcSort.col === c) wrcSort.dir *= -1;
+        else wrcSort = { col: c, dir: c === 'team' ? 1 : -1 };
+        drawWrc();
+      }));
+    }
+    wrcTeamSel.addEventListener('change', drawWrc);
+    drawWrc();
   }
 }
 

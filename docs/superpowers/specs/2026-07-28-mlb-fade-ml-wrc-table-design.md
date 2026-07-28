@@ -1,7 +1,34 @@
 # Team wRC+ Platoon Table (Fade ML tab) — Design
 
 **Date:** 2026-07-28
-**Status:** Approved-pending-review
+**Status:** Built
+
+## As-built note (supersedes the "Data source"/"Wiring" sections below)
+
+During implementation we confirmed **FanGraphs' entire domain is behind a
+Cloudflare bot-challenge** — every server-side request (local `requests` and,
+worse, GitHub Actions) gets an HTTP 403 "Just a moment…" page, never data.
+`pybaseball` breaks on the same wall. A **real browser passes the challenge**,
+so the design pivoted (user-approved) to a **manual browser snapshot**:
+
+- **True wRC+ retained** (park + league adjusted) — the metric the user wanted.
+- Data captured through a browser from FanGraphs' *Splits Leaderboards*
+  (`statgroup=2` Advanced carries the wRC+ column; `splitArr=1` vs LHP,
+  `splitArr=2` vs RHP) and committed as a static `mlb-team-wrc.json`.
+- **Not** fetched by the daily pipeline (it can't reach FanGraphs). It is a
+  standalone file the dashboard loads directly, exactly like the hand-tails
+  ledger — **not** stamped into `mlb-fade-ml.json`, so backfill is irrelevant.
+- Refresh = re-capture via browser → update `build_team_wrc.py` → re-run. The
+  script's docstring documents the exact URLs and steps.
+- Season snapshot only (no Window dropdown); FanGraphs publishes season figures
+  and there is no automated refresh to drive a live window control.
+
+Files: `MLBstrikeouts/scripts/build_team_wrc.py` (snapshot + builder),
+`MLBstrikeouts/data/mlb-team-wrc.json` + `PythonDashboard/data/mlb-team-wrc.json`
+(generated), table render added to `PythonDashboard/js/mlb-fade-ml.js`.
+
+---
+
 
 ## Purpose
 
