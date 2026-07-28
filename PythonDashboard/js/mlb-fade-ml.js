@@ -91,21 +91,25 @@ async function renderMLBFadeML() {
       + ' · ' + (((r.roi || 0) * 100 >= 0 ? '+' : '') + ((r.roi || 0) * 100).toFixed(1)) + '%</span></div>';
     chips.appendChild(card);
   });
-  // Tail ML card — hand-tails "take" side (back the arm's own team), own ledger.
-  const tk = ((tailData || {}).summary || {}).byAction && tailData.summary.byAction.take;
-  if (tk) {
-    const card = document.createElement('div');
-    card.className = 'card';
-    card.style.cssText = 'flex:1;min-width:180px;padding:10px 14px';
-    card.innerHTML =
-      '<div style="font-weight:600;color:#ddd">Tail ML</div>'
-      + '<div style="font-size:11px;color:#888;margin-bottom:6px">Back the arm’s team → 6+ opposite-hand lineup</div>'
-      + '<div style="font-size:18px;font-weight:700">' + (tk.wins || 0) + '–' + (tk.losses || 0)
-      + ' <span style="font-size:14px;color:' + uColor(tk.units) + '">' + uStr(tk.units)
-      + ' · ' + (((tk.roi || 0) * 100 >= 0 ? '+' : '') + ((tk.roi || 0) * 100).toFixed(1)) + '%</span></div>';
-    chips.appendChild(card);
-  }
   el.appendChild(chips);
+
+  // ---- Tail ML banner (hand-tails "take" side, own ledger) ----
+  const tk = (((tailData || {}).summary || {}).byAction || {}).take;
+  if (tk) {
+    const TEAL = 'var(--green,#3fb950)';
+    const tb = document.createElement('div');
+    tb.className = 'card';
+    tb.style.cssText = 'margin-bottom:14px;border:1px solid ' + TEAL + ';background:rgba(63,185,80,0.07);padding:14px 18px';
+    tb.innerHTML =
+      '<div style="font-weight:600;color:' + TEAL + ';margin-bottom:10px">Tail ML — back the arm’s team on 6+ opposite-hand lineups</div>'
+      + '<div style="display:flex;gap:20px;flex-wrap:wrap;align-items:center">'
+      + bigStat('Record', (tk.wins || 0) + '–' + (tk.losses || 0))
+      + bigStat('Units', uStr(tk.units), uColor(tk.units))
+      + bigStat('ROI', ((tk.roi >= 0 ? '+' : '') + ((tk.roi || 0) * 100).toFixed(1)) + '%', uColor(tk.units))
+      + bigStat('Risked', (tk.staked || 0).toFixed(1) + 'u')
+      + '</div>';
+    el.appendChild(tb);
+  }
 
   // ---- Today's plays ----
   const today = (data.today || []);
