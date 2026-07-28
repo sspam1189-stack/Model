@@ -178,12 +178,27 @@ async function renderMLBFadeML() {
     const h = handOf(name, fb);
     return h ? ' <span style="color:#7aa2d6;font-size:11px;font-weight:600">(' + h + 'HP)</span>' : '';
   };
+  // wRC+ of the OFFENSE we're buying (the bet team) vs the faded pitcher's hand
+  // — the platoon number that actually matters for the fade. Green above 100,
+  // red below. Needs both the pitcher's hand and a wRC+ row for the bet team.
+  const wrcTeams = (wrcData && wrcData.teams) || {};
+  const betWrcTag = (selection, pitcherName, fbHand) => {
+    const h = handOf(pitcherName, fbHand);
+    const tm = wrcTeams[selection];
+    if (!h || !tm) return '';
+    const v = h === 'L' ? tm.vsLHP : tm.vsRHP;
+    if (v == null) return '';
+    const col = v >= 100 ? GREEN : RED;
+    return ' <span style="color:#888;font-size:11px">· ' + esc(selection) + ' '
+      + '<span style="color:' + col + ';font-weight:600">' + v + '</span> wRC+ vs ' + h + 'HP</span>';
+  };
 
   // Fade-list picks — reason is the venue split (fadeReason: away/home/all).
   const fadeLabel = (t) => {
     const ps = t.pitchers || [];
     if (t.betType === 'ml_dog') {
-      // Mutual: two arms, tag each name individually.
+      // Mutual: two arms, tag each name individually. (No single-hand wRC+ tag
+      // — the dog's offense faces the opposing fade arm, ambiguous to map here.)
       const arms = ps.map(p => esc(p) + handTag(p)).join(' / ');
       return '• Mutual (' + arms + ')' + tag(t.fadeReason || 'all', null, '@ ')
         + ' → dog <b>' + esc(t.selection || '?') + '</b>' + oddsStr(t.odds) + atStr(t);
@@ -191,7 +206,8 @@ async function renderMLBFadeML() {
     const who = ps[0] || ps.join(' / ');
     return '• Fade' + handTag(who) + ' <b>' + esc(who) + '</b> (' + esc(t.fadeTeam || '?') + ')'
       + tag(t.fadeReason || 'all', null, '@ ')
-      + ' → <b>' + esc(t.selection || '?') + '</b>' + oddsStr(t.odds) + atStr(t);
+      + ' → <b>' + esc(t.selection || '?') + '</b>' + oddsStr(t.odds) + atStr(t)
+      + betWrcTag(t.selection, who);
   };
   // Hand-tails picks — reason is handedness; take backs the arm's own team.
   const tailLabel = (t) => {
@@ -357,6 +373,8 @@ async function renderMLBFadeML() {
     pitcherSel.value = ps.includes(cur) ? cur : '';
   }
 
+  const LOG_PAGE_SIZE = 50;
+  let logPage = 0;   // 0-based page index into the current filtered view
   function drawRows() {
     const kv = pickSel.value, mv = monthSel.value, wv = weekSel.value, dv = dateSel.value, pv = pitcherSel.value, vv = venueSel.value, tv = kindSel.value;
     const view = bets.filter(b =>
@@ -376,8 +394,16 @@ async function renderMLBFadeML() {
     recEl.innerHTML = w + '–' + l
       + ' <span style="color:' + uColor(u) + '">' + (u >= 0 ? '+' : '') + u.toFixed(2) + 'u · '
       + (roi >= 0 ? '+' : '') + roi.toFixed(1) + '%</span>';
+    // Paginate the filtered view by 50 (the W-L/units summary above still
+    // covers the WHOLE filter, not just the visible page).
+    const total = view.length;
+    const pages = Math.max(1, Math.ceil(total / LOG_PAGE_SIZE));
+    if (logPage >= pages) logPage = pages - 1;
+    if (logPage < 0) logPage = 0;
+    const start = logPage * LOG_PAGE_SIZE;
+    const pageView = view.slice(start, start + LOG_PAGE_SIZE);
     let rows = '';
-    view.forEach(b => {
+    pageView.forEach(b => {
       const settled = b.result === 'WIN' || b.result === 'LOSS';
       const dim = settled ? '' : 'opacity:.5;';
       const resColor = b.result === 'WIN' ? GREEN : (b.result === 'LOSS' ? RED : '#888');
@@ -396,8 +422,23 @@ async function renderMLBFadeML() {
         + '<td style="padding:4px 8px;text-align:right;color:' + profColor + '">' + prof + '</td>'
         + '</tr>';
     });
+    const shownFrom = total ? start + 1 : 0;
+    const shownTo = Math.min(start + LOG_PAGE_SIZE, total);
+    const btnCss = selCss + ';cursor:pointer';
+    const btnOff = selCss + ';opacity:.4;cursor:default';
+    const pager = total > LOG_PAGE_SIZE
+      ? '<div style="display:flex;gap:8px;align-items:center;font-size:12px;color:#888">'
+        + '<button id="fadeLogPrev" ' + (logPage <= 0 ? 'disabled' : '')
+        + ' style="' + (logPage <= 0 ? btnOff : btnCss) + '">‹ Prev</button>'
+        + '<span>page ' + (logPage + 1) + ' / ' + pages + '</span>'
+        + '<button id="fadeLogNext" ' + (logPage >= pages - 1 ? 'disabled' : '')
+        + ' style="' + (logPage >= pages - 1 ? btnOff : btnCss) + '">Next ›</button>'
+        + '</div>'
+      : '';
     wrap.innerHTML =
-      '<div style="font-size:12px;color:#888;padding:2px 8px 8px">' + view.length + ' bets shown</div>'
+      '<div style="display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;padding:2px 8px 8px">'
+      + '<span style="font-size:12px;color:#888">' + (total ? (shownFrom + '–' + shownTo + ' of ' + total) : '0') + ' bets</span>'
+      + pager + '</div>'
       + '<table style="width:100%;border-collapse:collapse;font-size:13px">'
       + '<thead><tr style="color:#888;text-align:left;border-bottom:1px solid #333">'
       + '<th style="padding:4px 8px">Date</th><th style="padding:4px 6px">Type</th>'
@@ -405,14 +446,20 @@ async function renderMLBFadeML() {
       + '<th style="padding:4px 8px;text-align:right">Odds</th>'
       + '<th style="padding:4px 8px;text-align:center">Result</th><th style="padding:4px 8px;text-align:right">P/L</th>'
       + '</tr></thead><tbody>' + rows + '</tbody></table>';
+    const prevBtn = wrap.querySelector('#fadeLogPrev');
+    const nextBtn = wrap.querySelector('#fadeLogNext');
+    if (prevBtn) prevBtn.addEventListener('click', () => { if (logPage > 0) { logPage--; drawRows(); } });
+    if (nextBtn) nextBtn.addEventListener('click', () => { if (logPage < pages - 1) { logPage++; drawRows(); } });
   }
-  pickSel.addEventListener('change', drawRows);
-  monthSel.addEventListener('change', drawRows);
-  weekSel.addEventListener('change', drawRows);
-  dateSel.addEventListener('change', drawRows);
-  pitcherSel.addEventListener('change', drawRows);
-  venueSel.addEventListener('change', drawRows);
-  kindSel.addEventListener('change', () => { refreshPitcherOptions(); drawRows(); });
+  // Changing any filter resets to the first page before redrawing.
+  const repage = () => { logPage = 0; drawRows(); };
+  pickSel.addEventListener('change', repage);
+  monthSel.addEventListener('change', repage);
+  weekSel.addEventListener('change', repage);
+  dateSel.addEventListener('change', repage);
+  pitcherSel.addEventListener('change', repage);
+  venueSel.addEventListener('change', repage);
+  kindSel.addEventListener('change', () => { refreshPitcherOptions(); repage(); });
   drawRows();
 
   // ---- Shadow watchlist (review-only candidates, not bet) ----
