@@ -3,12 +3,11 @@ name: Python Run Daily WNBA (Fullseason + Props)
 on:
   workflow_dispatch:
   schedule:
-    # ~11:33 AM and ~5:33 PM CT (CDT = UTC-5 during the WNBA season).
-    # GitHub cron is UTC and only fires on the default branch. Minutes are
-    # kept OFF :00/:30 -- those slots are the most congested and get
-    # delayed/dropped first (see mlb-run-daily.yml note).
-    - cron: '33 16 * * *'
-    - cron: '33 22 * * *'
+    # 10:45 AM and 4:45 PM CT (CDT = UTC-5 during the WNBA season).
+    # GitHub cron is UTC and only fires on the default branch. :45 keeps us off
+    # the congested :00/:30 marks (those get delayed/dropped first).
+    - cron: '45 15 * * *'   # 15:45 UTC = 10:45 AM CT
+    - cron: '45 21 * * *'   # 21:45 UTC =  4:45 PM CT
 
 
 permissions:
