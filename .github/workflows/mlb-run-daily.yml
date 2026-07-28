@@ -146,6 +146,18 @@ jobs:
           PYTHONIOENCODING: "utf-8"
         run: python -m scripts.hand_tails_watch
 
+      # Fade watchlist: arms NOT on the active fade list whose home or away fade
+      # clears the bar (>= min games & +min units). Review-only. Reads the
+      # ALL-ML dataset, so runs after it.
+      - name: Build MLB fade watchlist
+        continue-on-error: true
+        working-directory: MLBstrikeouts
+        env:
+          PYTHONUTF8: "1"
+          PYTHONUNBUFFERED: "1"
+          PYTHONIOENCODING: "utf-8"
+        run: python -m scripts.fade_watch
+
       - name: Upload MLBstrikeouts data
         uses: actions/upload-artifact@v7
         with:

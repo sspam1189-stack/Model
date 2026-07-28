@@ -1,0 +1,820 @@
+{
+  "sport": "MLB",
+  "type": "fade-watch",
+  "generated": "2026-07-28T16:13:44Z",
+  "minGames": 3,
+  "minUnits": 2.0,
+  "note": "Shadow review list -- arms NOT on the active fade list whose home or away fade clears the bar (>= 3 games, >= +2.0u). In-sample season replay; watch, don't bet. Promote by editing scripts/fade_list.py.",
+  "today": [
+    {
+      "date": "2026-07-28",
+      "commence": "2026-07-28T22:40:00Z",
+      "betType": "fade_watch",
+      "watch": true,
+      "pitcher": "Sandy Alcantara",
+      "arm_team": "MIA",
+      "fadeTeam": "MIA",
+      "selection": "PHI",
+      "home": "MIA",
+      "away": "PHI",
+      "venue": "home",
+      "odds": -106,
+      "suggest": "home",
+      "suggestUnits": 2.34,
+      "games": 8,
+      "result": "pending"
+    },
+    {
+      "date": "2026-07-28",
+      "commence": "2026-07-28T22:45:00Z",
+      "betType": "fade_watch",
+      "watch": true,
+      "pitcher": "Cade Cavalli",
+      "arm_team": "WSH",
+      "fadeTeam": "WSH",
+      "selection": "TOR",
+      "home": "WSH",
+      "away": "TOR",
+      "venue": "home",
+      "odds": 120,
+      "suggest": "home",
+      "suggestUnits": 7.32,
+      "games": 11,
+      "result": "pending"
+    },
+    {
+      "date": "2026-07-28",
+      "commence": "2026-07-28T23:10:00Z",
+      "betType": "fade_watch",
+      "watch": true,
+      "pitcher": "Chris Sale",
+      "arm_team": "ATL",
+      "fadeTeam": "ATL",
+      "selection": "NYM",
+      "home": "NYM",
+      "away": "ATL",
+      "venue": "away",
+      "odds": 136,
+      "suggest": "away",
+      "suggestUnits": 2.4,
+      "games": 9,
+      "result": "pending"
+    }
+  ],
+  "candidates": [
+    {
+      "pitcher": "Cade Cavalli",
+      "suggest": "home",
+      "suggestUnits": 7.32,
+      "all": {
+        "w": 11,
+        "l": 8,
+        "u": 1.86,
+        "n": 19,
+        "roi": 0.0818
+      },
+      "home": {
+        "w": 9,
+        "l": 2,
+        "u": 7.32,
+        "n": 11,
+        "roi": 0.5782
+      },
+      "away": {
+        "w": 2,
+        "l": 6,
+        "u": -5.46,
+        "n": 8,
+        "roi": -0.5417
+      }
+    },
+    {
+      "pitcher": "Kodai Senga",
+      "suggest": "home",
+      "suggestUnits": 4.45,
+      "all": {
+        "w": 5,
+        "l": 1,
+        "u": 5.25,
+        "n": 6,
+        "roi": 0.7675
+      },
+      "home": {
+        "w": 3,
+        "l": 0,
+        "u": 4.45,
+        "n": 3,
+        "roi": 1.4448
+      },
+      "away": {
+        "w": 2,
+        "l": 1,
+        "u": 0.8,
+        "n": 3,
+        "roi": 0.2128
+      }
+    },
+    {
+      "pitcher": "Max Scherzer",
+      "suggest": "home",
+      "suggestUnits": 4.16,
+      "all": {
+        "w": 5,
+        "l": 1,
+        "u": 3.92,
+        "n": 6,
+        "roi": 0.5144
+      },
+      "home": {
+        "w": 4,
+        "l": 0,
+        "u": 4.16,
+        "n": 4,
+        "roi": 0.856
+      },
+      "away": {
+        "w": 1,
+        "l": 1,
+        "u": -0.24,
+        "n": 2,
+        "roi": -0.087
+      }
+    },
+    {
+      "pitcher": "Carson Palmquist",
+      "suggest": "home",
+      "suggestUnits": 4.0,
+      "all": {
+        "w": 5,
+        "l": 0,
+        "u": 5.0,
+        "n": 5,
+        "roi": 0.7463
+      },
+      "home": {
+        "w": 4,
+        "l": 0,
+        "u": 4.0,
+        "n": 4,
+        "roi": 0.7067
+      },
+      "away": {
+        "w": 1,
+        "l": 0,
+        "u": 1.0,
+        "n": 1,
+        "roi": 0.9615
+      }
+    },
+    {
+      "pitcher": "Sean Burke",
+      "suggest": "home",
+      "suggestUnits": 3.88,
+      "all": {
+        "w": 8,
+        "l": 8,
+        "u": -2.12,
+        "n": 16,
+        "roi": -0.0997
+      },
+      "home": {
+        "w": 7,
+        "l": 3,
+        "u": 3.88,
+        "n": 10,
+        "roi": 0.3024
+      },
+      "away": {
+        "w": 1,
+        "l": 5,
+        "u": -6.0,
+        "n": 6,
+        "roi": -0.7109
+      }
+    },
+    {
+      "pitcher": "Shohei Ohtani",
+      "suggest": "away",
+      "suggestUnits": 3.54,
+      "all": {
+        "w": 5,
+        "l": 8,
+        "u": 0.89,
+        "n": 13,
+        "roi": 0.0685
+      },
+      "home": {
+        "w": 1,
+        "l": 5,
+        "u": -2.65,
+        "n": 6,
+        "roi": -0.4417
+      },
+      "away": {
+        "w": 4,
+        "l": 3,
+        "u": 3.54,
+        "n": 7,
+        "roi": 0.5057
+      }
+    },
+    {
+      "pitcher": "Brady Singer",
+      "suggest": "away",
+      "suggestUnits": 3.22,
+      "all": {
+        "w": 12,
+        "l": 6,
+        "u": 5.12,
+        "n": 18,
+        "roi": 0.2119
+      },
+      "home": {
+        "w": 5,
+        "l": 3,
+        "u": 1.9,
+        "n": 8,
+        "roi": 0.19
+      },
+      "away": {
+        "w": 7,
+        "l": 3,
+        "u": 3.22,
+        "n": 10,
+        "roi": 0.2274
+      }
+    },
+    {
+      "pitcher": "Brandon Woodruff",
+      "suggest": "home",
+      "suggestUnits": 3.08,
+      "all": {
+        "w": 4,
+        "l": 4,
+        "u": 1.34,
+        "n": 8,
+        "roi": 0.1618
+      },
+      "home": {
+        "w": 3,
+        "l": 1,
+        "u": 3.08,
+        "n": 4,
+        "roi": 0.7368
+      },
+      "away": {
+        "w": 1,
+        "l": 3,
+        "u": -1.74,
+        "n": 4,
+        "roi": -0.4244
+      }
+    },
+    {
+      "pitcher": "Yusei Kikuchi",
+      "suggest": "away",
+      "suggestUnits": 3.0,
+      "all": {
+        "w": 5,
+        "l": 0,
+        "u": 5.0,
+        "n": 5,
+        "roi": 0.7886
+      },
+      "home": {
+        "w": 2,
+        "l": 0,
+        "u": 2.0,
+        "n": 2,
+        "roi": 0.8403
+      },
+      "away": {
+        "w": 3,
+        "l": 0,
+        "u": 3.0,
+        "n": 3,
+        "roi": 0.7576
+      }
+    },
+    {
+      "pitcher": "Tobias Myers",
+      "suggest": "away",
+      "suggestUnits": 3.0,
+      "all": {
+        "w": 3,
+        "l": 0,
+        "u": 3.0,
+        "n": 3,
+        "roi": 0.7692
+      },
+      "home": {
+        "w": 0,
+        "l": 0,
+        "u": 0,
+        "n": 0,
+        "roi": 0.0
+      },
+      "away": {
+        "w": 3,
+        "l": 0,
+        "u": 3.0,
+        "n": 3,
+        "roi": 0.7692
+      }
+    },
+    {
+      "pitcher": "Trey Gibson",
+      "suggest": "away",
+      "suggestUnits": 3.0,
+      "all": {
+        "w": 6,
+        "l": 1,
+        "u": 4.98,
+        "n": 7,
+        "roi": 0.4676
+      },
+      "home": {
+        "w": 3,
+        "l": 1,
+        "u": 1.98,
+        "n": 4,
+        "roi": 0.4342
+      },
+      "away": {
+        "w": 3,
+        "l": 0,
+        "u": 3.0,
+        "n": 3,
+        "roi": 0.4926
+      }
+    },
+    {
+      "pitcher": "Sean Sullivan",
+      "suggest": "home",
+      "suggestUnits": 3.0,
+      "all": {
+        "w": 5,
+        "l": 0,
+        "u": 5.0,
+        "n": 5,
+        "roi": 0.5841
+      },
+      "home": {
+        "w": 3,
+        "l": 0,
+        "u": 3.0,
+        "n": 3,
+        "roi": 0.6881
+      },
+      "away": {
+        "w": 2,
+        "l": 0,
+        "u": 2.0,
+        "n": 2,
+        "roi": 0.4762
+      }
+    },
+    {
+      "pitcher": "Ryan Weathers",
+      "suggest": "home",
+      "suggestUnits": 2.98,
+      "all": {
+        "w": 9,
+        "l": 9,
+        "u": 2.22,
+        "n": 18,
+        "roi": 0.1191
+      },
+      "home": {
+        "w": 6,
+        "l": 5,
+        "u": 2.98,
+        "n": 11,
+        "roi": 0.269
+      },
+      "away": {
+        "w": 3,
+        "l": 4,
+        "u": -0.76,
+        "n": 7,
+        "roi": -0.1005
+      }
+    },
+    {
+      "pitcher": "Adrian Houser",
+      "suggest": "home",
+      "suggestUnits": 2.96,
+      "all": {
+        "w": 7,
+        "l": 7,
+        "u": -4.54,
+        "n": 14,
+        "roi": -0.2309
+      },
+      "home": {
+        "w": 4,
+        "l": 1,
+        "u": 2.96,
+        "n": 5,
+        "roi": 0.5421
+      },
+      "away": {
+        "w": 3,
+        "l": 6,
+        "u": -7.5,
+        "n": 9,
+        "roi": -0.5282
+      }
+    },
+    {
+      "pitcher": "Max Fried",
+      "suggest": "home",
+      "suggestUnits": 2.85,
+      "all": {
+        "w": 5,
+        "l": 5,
+        "u": 3.73,
+        "n": 10,
+        "roi": 0.373
+      },
+      "home": {
+        "w": 2,
+        "l": 2,
+        "u": 2.85,
+        "n": 4,
+        "roi": 0.7125
+      },
+      "away": {
+        "w": 3,
+        "l": 3,
+        "u": 0.88,
+        "n": 6,
+        "roi": 0.1467
+      }
+    },
+    {
+      "pitcher": "Jes\u00fas Luzardo",
+      "suggest": "home",
+      "suggestUnits": 2.8,
+      "all": {
+        "w": 6,
+        "l": 13,
+        "u": -5.58,
+        "n": 19,
+        "roi": -0.2815
+      },
+      "home": {
+        "w": 5,
+        "l": 4,
+        "u": 2.8,
+        "n": 9,
+        "roi": 0.305
+      },
+      "away": {
+        "w": 1,
+        "l": 9,
+        "u": -8.38,
+        "n": 10,
+        "roi": -0.7876
+      }
+    },
+    {
+      "pitcher": "MacKenzie Gore",
+      "suggest": "away",
+      "suggestUnits": 2.58,
+      "all": {
+        "w": 10,
+        "l": 10,
+        "u": -0.28,
+        "n": 20,
+        "roi": -0.0124
+      },
+      "home": {
+        "w": 3,
+        "l": 6,
+        "u": -2.86,
+        "n": 9,
+        "roi": -0.3062
+      },
+      "away": {
+        "w": 7,
+        "l": 4,
+        "u": 2.58,
+        "n": 11,
+        "roi": 0.1958
+      }
+    },
+    {
+      "pitcher": "Connor Prielipp",
+      "suggest": "away",
+      "suggestUnits": 2.52,
+      "all": {
+        "w": 8,
+        "l": 6,
+        "u": 1.02,
+        "n": 14,
+        "roi": 0.0573
+      },
+      "home": {
+        "w": 4,
+        "l": 5,
+        "u": -1.5,
+        "n": 9,
+        "roi": -0.1431
+      },
+      "away": {
+        "w": 4,
+        "l": 1,
+        "u": 2.52,
+        "n": 5,
+        "roi": 0.3443
+      }
+    },
+    {
+      "pitcher": "Chris Sale",
+      "suggest": "away",
+      "suggestUnits": 2.4,
+      "all": {
+        "w": 7,
+        "l": 10,
+        "u": 0.11,
+        "n": 17,
+        "roi": 0.0063
+      },
+      "home": {
+        "w": 2,
+        "l": 6,
+        "u": -2.29,
+        "n": 8,
+        "roi": -0.2863
+      },
+      "away": {
+        "w": 5,
+        "l": 4,
+        "u": 2.4,
+        "n": 9,
+        "roi": 0.2553
+      }
+    },
+    {
+      "pitcher": "Robbie Ray",
+      "suggest": "away",
+      "suggestUnits": 2.38,
+      "all": {
+        "w": 7,
+        "l": 11,
+        "u": -5.96,
+        "n": 18,
+        "roi": -0.2513
+      },
+      "home": {
+        "w": 1,
+        "l": 8,
+        "u": -8.34,
+        "n": 9,
+        "roi": -0.7853
+      },
+      "away": {
+        "w": 6,
+        "l": 3,
+        "u": 2.38,
+        "n": 9,
+        "roi": 0.1817
+      }
+    },
+    {
+      "pitcher": "Sandy Alcantara",
+      "suggest": "home",
+      "suggestUnits": 2.34,
+      "all": {
+        "w": 9,
+        "l": 11,
+        "u": -4.41,
+        "n": 20,
+        "roi": -0.1763
+      },
+      "home": {
+        "w": 5,
+        "l": 3,
+        "u": 2.34,
+        "n": 8,
+        "roi": 0.2746
+      },
+      "away": {
+        "w": 4,
+        "l": 8,
+        "u": -6.75,
+        "n": 12,
+        "roi": -0.4093
+      }
+    },
+    {
+      "pitcher": "Edward Cabrera",
+      "suggest": "home",
+      "suggestUnits": 2.3,
+      "all": {
+        "w": 5,
+        "l": 8,
+        "u": -1.68,
+        "n": 13,
+        "roi": -0.1269
+      },
+      "home": {
+        "w": 4,
+        "l": 3,
+        "u": 2.3,
+        "n": 7,
+        "roi": 0.3212
+      },
+      "away": {
+        "w": 1,
+        "l": 5,
+        "u": -3.98,
+        "n": 6,
+        "roi": -0.6546
+      }
+    },
+    {
+      "pitcher": "Michael Soroka",
+      "suggest": "home",
+      "suggestUnits": 2.1,
+      "all": {
+        "w": 6,
+        "l": 7,
+        "u": -0.54,
+        "n": 13,
+        "roi": -0.037
+      },
+      "home": {
+        "w": 4,
+        "l": 3,
+        "u": 2.1,
+        "n": 7,
+        "roi": 0.2807
+      },
+      "away": {
+        "w": 2,
+        "l": 4,
+        "u": -2.64,
+        "n": 6,
+        "roi": -0.3708
+      }
+    },
+    {
+      "pitcher": "Sean Manaea",
+      "suggest": "home",
+      "suggestUnits": 2.04,
+      "all": {
+        "w": 6,
+        "l": 2,
+        "u": 3.84,
+        "n": 8,
+        "roi": 0.3743
+      },
+      "home": {
+        "w": 3,
+        "l": 1,
+        "u": 2.04,
+        "n": 4,
+        "roi": 0.4744
+      },
+      "away": {
+        "w": 3,
+        "l": 1,
+        "u": 1.8,
+        "n": 4,
+        "roi": 0.302
+      }
+    },
+    {
+      "pitcher": "Yoshinobu Yamamoto",
+      "suggest": "home",
+      "suggestUnits": 2.0,
+      "all": {
+        "w": 5,
+        "l": 12,
+        "u": -2.26,
+        "n": 17,
+        "roi": -0.1329
+      },
+      "home": {
+        "w": 3,
+        "l": 5,
+        "u": 2.0,
+        "n": 8,
+        "roi": 0.25
+      },
+      "away": {
+        "w": 2,
+        "l": 7,
+        "u": -4.26,
+        "n": 9,
+        "roi": -0.4733
+      }
+    },
+    {
+      "pitcher": "Jake Irvin",
+      "suggest": "home",
+      "suggestUnits": 2.0,
+      "all": {
+        "w": 4,
+        "l": 5,
+        "u": -3.93,
+        "n": 9,
+        "roi": -0.2793
+      },
+      "home": {
+        "w": 3,
+        "l": 1,
+        "u": 2.0,
+        "n": 4,
+        "roi": 0.3731
+      },
+      "away": {
+        "w": 1,
+        "l": 4,
+        "u": -5.93,
+        "n": 5,
+        "roi": -0.6808
+      }
+    },
+    {
+      "pitcher": "Connelly Early",
+      "suggest": "home",
+      "suggestUnits": 2.0,
+      "all": {
+        "w": 8,
+        "l": 7,
+        "u": 0.4,
+        "n": 15,
+        "roi": 0.0238
+      },
+      "home": {
+        "w": 5,
+        "l": 3,
+        "u": 2.0,
+        "n": 8,
+        "roi": 0.2347
+      },
+      "away": {
+        "w": 3,
+        "l": 4,
+        "u": -1.6,
+        "n": 7,
+        "roi": -0.1923
+      }
+    },
+    {
+      "pitcher": "Walbert Ure\u00f1a",
+      "suggest": "away",
+      "suggestUnits": 2.0,
+      "all": {
+        "w": 9,
+        "l": 8,
+        "u": -1.08,
+        "n": 17,
+        "roi": -0.0471
+      },
+      "home": {
+        "w": 4,
+        "l": 6,
+        "u": -3.08,
+        "n": 10,
+        "roi": -0.2601
+      },
+      "away": {
+        "w": 5,
+        "l": 2,
+        "u": 2.0,
+        "n": 7,
+        "roi": 0.18
+      }
+    },
+    {
+      "pitcher": "JR Ritchie",
+      "suggest": "away",
+      "suggestUnits": 2.0,
+      "all": {
+        "w": 4,
+        "l": 3,
+        "u": 0.24,
+        "n": 7,
+        "roi": 0.0289
+      },
+      "home": {
+        "w": 1,
+        "l": 2,
+        "u": -1.76,
+        "n": 3,
+        "roi": -0.4656
+      },
+      "away": {
+        "w": 3,
+        "l": 1,
+        "u": 2.0,
+        "n": 4,
+        "roi": 0.4425
+      }
+    }
+  ]
+}
