@@ -18,7 +18,7 @@ import re
 
 # The roster. Keep in sync with MLB_FADE_LIST in PythonDashboard/js/mlb-props.js.
 FADE_LIST = [
-    "Littell", "Mikolas", "Painter", "Rocker", "Sheehan",
+    "Mikolas", "Painter", "Rocker", "Sheehan",
     "Merrill Kelly", "Aldegheri", "Gallen", "Civale", "David Peterson",
     "Bibee", "Springs", "Burrows", "Roupp", "Keller", "Peralta", "Canning",
     "Jacob Lopez", "Ryan Johnson", "Poulin", "Dustin May",
@@ -114,7 +114,6 @@ SEASON_START = "2026-04-05"
 # no date matches purely on the roster, unchanged.
 FADE_WINDOW = {
     # Original roster -- faded since the model began tracking (season start).
-    "Littell":        {"add": SEASON_START, "remove": "2026-07-28"},  # 4-3 -0.72u, removed 7/28
     "Mikolas":        {"add": SEASON_START, "remove": "2026-07-28"},  # 2-4 -2.84u, removed 7/28
     "Painter":        {"add": SEASON_START},
     "Rocker":         {"add": SEASON_START, "remove": "2026-07-28"},  # removed from 7/28
