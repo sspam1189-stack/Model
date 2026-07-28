@@ -26,7 +26,7 @@ FADE_LIST = [
     "Lowder", "Zebby Matthews", "Skenes",
     # Added 2026-07-27 from fade-candidate analysis (forward-only from that date).
     "Paddack", "Noah Cameron", "Gausman", "Woods Richardson", "Luis Castillo",
-    "Framber Valdez", "Kochanowicz", "Jack Flaherty", "Cecconi", "Detmers",
+    "Framber Valdez", "Kochanowicz", "Jack Flaherty", "Cecconi",
     "Ryne Nelson", "Feltner", "Wacha", "Bello", "Agnos",
     # Added 2026-07-27 (venue-split analysis): venue-restricted new arms.
     "Mahle", "Aaron Nola", "Trevor McDonald", "Colin Rea",
@@ -53,7 +53,6 @@ FADE_VENUE = {
     # Framber Valdez / Jack Flaherty promoted to all-venue 2026-07-28
     # (green at home too, so no restriction).
     "Cecconi": "away",
-    "Detmers": "home",
     "Ryne Nelson": "away",
     "Feltner": "away",
     "Wacha": "away",
@@ -156,7 +155,6 @@ FADE_WINDOW = {
     "Kochanowicz":       {"add": SEASON_START},
     "Jack Flaherty":     {"add": SEASON_START},  # away-only (see FADE_VENUE)
     "Cecconi":           {"add": SEASON_START},  # away-only (see FADE_VENUE)
-    "Detmers":           {"add": SEASON_START},  # home-only (see FADE_VENUE)
     "Ryne Nelson":       {"add": SEASON_START},  # away-only (see FADE_VENUE)
     "Feltner":           {"add": SEASON_START},  # away-only (see FADE_VENUE)
     "Wacha":             {"add": SEASON_START},  # away-only (see FADE_VENUE)
