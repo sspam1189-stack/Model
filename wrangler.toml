@@ -11,7 +11,7 @@
 # (pydashboard-workflow-proxy.sspam1189.workers.dev, in
 # PythonDashboard/js/workflow-trigger.js) derives from it. Keep this in sync
 # with cloudflare-worker/wrangler.toml.
-name = "pydashboard-workflow-proxy"
+name = "model"
 main = "cloudflare-worker/workflow-proxy.js"
 compatibility_date = "2025-01-01"
 
