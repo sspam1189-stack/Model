@@ -3,7 +3,7 @@
     "game_id": 824490,
     "game_date": "2026-07-28",
     "game_time": "2026-07-28T17:40:00Z",
-    "status": "Pre-Game",
+    "status": "In Progress",
     "home_team": "CIN",
     "home_team_id": 113,
     "away_team": "CLE",
@@ -96,20 +96,6 @@
     "home_pitcher_name": "Cade Cavalli",
     "away_pitcher_id": 669456,
     "away_pitcher_name": "Shane Bieber"
-  },
-  {
-    "game_id": 823598,
-    "game_date": "2026-07-28",
-    "game_time": "2026-07-28T23:10:00Z",
-    "status": "Scheduled",
-    "home_team": "NYM",
-    "home_team_id": 121,
-    "away_team": "ATL",
-    "away_team_id": 144,
-    "home_pitcher_id": 681035,
-    "home_pitcher_name": "Christian Scott",
-    "away_pitcher_id": 519242,
-    "away_pitcher_name": "Chris Sale"
   },
   {
     "game_id": 823676,
@@ -222,5 +208,19 @@
     "home_pitcher_name": "",
     "away_pitcher_id": 622491,
     "away_pitcher_name": "Luis Castillo"
+  },
+  {
+    "game_id": 823598,
+    "game_date": "2026-07-28",
+    "game_time": "2026-07-28T23:10:00Z",
+    "status": "Postponed",
+    "home_team": "NYM",
+    "home_team_id": 121,
+    "away_team": "ATL",
+    "away_team_id": 144,
+    "home_pitcher_id": 681035,
+    "home_pitcher_name": "Christian Scott",
+    "away_pitcher_id": 519242,
+    "away_pitcher_name": "Chris Sale"
   }
 ]
