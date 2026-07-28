@@ -1,12 +1,139 @@
 {
   "sport": "MLB",
   "type": "hand-tails-watch",
-  "generated": "2026-07-28T13:04:14Z",
+  "generated": "2026-07-28T13:32:02Z",
   "handMin": 6,
-  "minGames": 5,
+  "minGames": 3,
   "minUnits": 2.0,
   "note": "Shadow review list -- arms NOT on the active hand-tails list showing a handedness-conditional edge. In-sample season replay; watch, don't bet. Promote by editing scripts/hand_tails.py.",
+  "today": [],
   "candidates": [
+    {
+      "pitcher": "Germ\u00e1n M\u00e1rquez",
+      "hand": "R",
+      "games": 3,
+      "suggest": "take",
+      "suggestUnits": 3.14,
+      "fade": {
+        "w": 0,
+        "l": 3,
+        "u": -3.5
+      },
+      "take": {
+        "w": 3,
+        "l": 0,
+        "u": 3.14
+      },
+      "era": 5.11
+    },
+    {
+      "pitcher": "Luis Castillo",
+      "hand": "R",
+      "games": 3,
+      "suggest": "fade",
+      "suggestUnits": 3.1,
+      "fade": {
+        "w": 3,
+        "l": 0,
+        "u": 3.1
+      },
+      "take": {
+        "w": 0,
+        "l": 3,
+        "u": -3.46
+      },
+      "era": 4.75
+    },
+    {
+      "pitcher": "Will Warren",
+      "hand": "R",
+      "games": 3,
+      "suggest": "take",
+      "suggestUnits": 3.08,
+      "fade": {
+        "w": 0,
+        "l": 3,
+        "u": -3.44
+      },
+      "take": {
+        "w": 3,
+        "l": 0,
+        "u": 3.08
+      },
+      "era": 4.44
+    },
+    {
+      "pitcher": "Nick Lodolo",
+      "hand": "L",
+      "games": 3,
+      "suggest": "fade",
+      "suggestUnits": 3.08,
+      "fade": {
+        "w": 3,
+        "l": 0,
+        "u": 3.08
+      },
+      "take": {
+        "w": 0,
+        "l": 3,
+        "u": -3.54
+      },
+      "era": 4.6
+    },
+    {
+      "pitcher": "Kris Bubic",
+      "hand": "L",
+      "games": 3,
+      "suggest": "take",
+      "suggestUnits": 3.0,
+      "fade": {
+        "w": 0,
+        "l": 3,
+        "u": -3.0
+      },
+      "take": {
+        "w": 3,
+        "l": 0,
+        "u": 3.0
+      },
+      "era": 4.11
+    },
+    {
+      "pitcher": "Trevor McDonald",
+      "hand": "R",
+      "games": 3,
+      "suggest": "fade",
+      "suggestUnits": 3.0,
+      "fade": {
+        "w": 3,
+        "l": 0,
+        "u": 3.0
+      },
+      "take": {
+        "w": 0,
+        "l": 3,
+        "u": -3.0
+      },
+      "era": 5.12
+    },
+    {
+      "pitcher": "PJ Poulin",
+      "hand": "L",
+      "games": 4,
+      "suggest": "take",
+      "suggestUnits": 2.98,
+      "fade": {
+        "w": 1,
+        "l": 3,
+        "u": -3.72
+      },
+      "take": {
+        "w": 3,
+        "l": 1,
+        "u": 2.98
+      },
+      "era": 1.8
+    },
     {
       "pitcher": "Mart\u00edn P\u00e9rez",
       "hand": "L",
@@ -80,6 +207,24 @@
       "era": 3.34
     },
     {
+      "pitcher": "Davis Martin",
+      "hand": "R",
+      "games": 4,
+      "suggest": "take",
+      "suggestUnits": 2.42,
+      "fade": {
+        "w": 1,
+        "l": 3,
+        "u": -2.84
+      },
+      "take": {
+        "w": 3,
+        "l": 1,
+        "u": 2.42
+      },
+      "era": 3.49
+    },
+    {
       "pitcher": "Janson Junk",
       "hand": "R",
       "games": 5,
@@ -134,6 +279,24 @@
       "era": 7.34
     },
     {
+      "pitcher": "Steven Matz",
+      "hand": "L",
+      "games": 4,
+      "suggest": "fade",
+      "suggestUnits": 2.24,
+      "fade": {
+        "w": 3,
+        "l": 1,
+        "u": 2.24
+      },
+      "take": {
+        "w": 1,
+        "l": 3,
+        "u": -2.7
+      },
+      "era": 5.48
+    },
+    {
       "pitcher": "Trevor Rogers",
       "hand": "L",
       "games": 6,
@@ -150,6 +313,78 @@
         "u": -2.8
       },
       "era": 4.17
+    },
+    {
+      "pitcher": "Robert Gasser",
+      "hand": "L",
+      "games": 4,
+      "suggest": "fade",
+      "suggestUnits": 2.16,
+      "fade": {
+        "w": 3,
+        "l": 1,
+        "u": 2.16
+      },
+      "take": {
+        "w": 1,
+        "l": 3,
+        "u": -2.38
+      },
+      "era": 4.71
+    },
+    {
+      "pitcher": "Kyle Bradish",
+      "hand": "R",
+      "games": 4,
+      "suggest": "fade",
+      "suggestUnits": 2.14,
+      "fade": {
+        "w": 3,
+        "l": 1,
+        "u": 2.14
+      },
+      "take": {
+        "w": 1,
+        "l": 3,
+        "u": -2.9
+      },
+      "era": 3.74
+    },
+    {
+      "pitcher": "Jacob deGrom",
+      "hand": "R",
+      "games": 4,
+      "suggest": "take",
+      "suggestUnits": 2.1,
+      "fade": {
+        "w": 1,
+        "l": 3,
+        "u": -2.3
+      },
+      "take": {
+        "w": 3,
+        "l": 1,
+        "u": 2.1
+      },
+      "era": 3.67
+    },
+    {
+      "pitcher": "Clay Holmes",
+      "hand": "R",
+      "games": 4,
+      "suggest": "fade",
+      "suggestUnits": 2.0,
+      "fade": {
+        "w": 3,
+        "l": 1,
+        "u": 2.0
+      },
+      "take": {
+        "w": 1,
+        "l": 3,
+        "u": -2.08
+      },
+      "era": 2.39
     }
   ]
 }

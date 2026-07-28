@@ -1,7 +1,7 @@
 {
   "sport": "MLB",
   "type": "fade-ml",
-  "generated": "2026-07-28T13:04:08Z",
+  "generated": "2026-07-28T13:36:32Z",
   "fadeList": [
     "Littell",
     "Mikolas",
@@ -67,32 +67,33 @@
     "Cavalli",
     "Trevor Rogers",
     "Tolle",
-    "Gerrit Cole"
+    "Gerrit Cole",
+    "Gage Jump"
   ],
   "mutualRule": "underdog_min",
   "summary": {
-    "wins": 385,
-    "losses": 139,
+    "wins": 389,
+    "losses": 140,
     "voids": 3,
-    "skips": 33,
-    "staked": 646.5,
-    "units": 259.81,
-    "roi": 0.4019,
+    "skips": 35,
+    "staked": 652.2,
+    "units": 262.81,
+    "roi": 0.403,
     "byType": {
       "ml": {
-        "wins": 375,
-        "losses": 130,
+        "wins": 379,
+        "losses": 131,
         "voids": 3,
         "skips": 0,
-        "staked": 627.5,
-        "units": 255.11,
-        "roi": 0.4065
+        "staked": 633.2,
+        "units": 258.11,
+        "roi": 0.4076
       },
       "ml_dog": {
         "wins": 10,
         "losses": 9,
         "voids": 0,
-        "skips": 33,
+        "skips": 35,
         "staked": 19.0,
         "units": 4.7,
         "roi": 0.2474
@@ -100,29 +101,6 @@
     }
   },
   "today": [
-    {
-      "date": "2026-07-28",
-      "commence": "2026-07-28T23:45:00Z",
-      "betType": "ml",
-      "shadow": false,
-      "pitchers": [
-        "Colin Rea"
-      ],
-      "fadeTeam": "CHC",
-      "market": "h2h",
-      "selection": "STL",
-      "line": null,
-      "odds": -104,
-      "stake": 1.04,
-      "result": "pending",
-      "profit": 0.0,
-      "book": "fanduel",
-      "source": "fanduel_api",
-      "reason": null,
-      "home": "STL",
-      "away": "CHC",
-      "fadeReason": "all"
-    },
     {
       "date": "2026-07-28",
       "commence": "2026-07-28T17:40:00Z",
@@ -145,6 +123,52 @@
       "home": "CIN",
       "away": "CLE",
       "fadeReason": "away"
+    },
+    {
+      "date": "2026-07-28",
+      "commence": "2026-07-28T22:45:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Cade Cavalli"
+      ],
+      "fadeTeam": "WSH",
+      "market": "h2h",
+      "selection": "TOR",
+      "line": null,
+      "odds": 120,
+      "stake": 1.0,
+      "result": "pending",
+      "profit": 0.0,
+      "book": "fanduel",
+      "source": "fanduel_api",
+      "reason": null,
+      "home": "WSH",
+      "away": "TOR",
+      "fadeReason": "home"
+    },
+    {
+      "date": "2026-07-28",
+      "commence": "2026-07-28T23:45:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Colin Rea"
+      ],
+      "fadeTeam": "CHC",
+      "market": "h2h",
+      "selection": "STL",
+      "line": null,
+      "odds": -104,
+      "stake": 1.04,
+      "result": "pending",
+      "profit": 0.0,
+      "book": "fanduel",
+      "source": "fanduel_api",
+      "reason": null,
+      "home": "STL",
+      "away": "CHC",
+      "fadeReason": "all"
     },
     {
       "date": "2026-07-28",
@@ -194,6 +218,29 @@
     },
     {
       "date": "2026-07-28",
+      "commence": "2026-07-29T01:40:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Gage Jump"
+      ],
+      "fadeTeam": "OAK",
+      "market": "h2h",
+      "selection": "BOS",
+      "line": null,
+      "odds": -144,
+      "stake": 1.44,
+      "result": "pending",
+      "profit": 0.0,
+      "book": "fanduel",
+      "source": "all_ml_today",
+      "reason": null,
+      "home": "OAK",
+      "away": "BOS",
+      "fadeReason": "all"
+    },
+    {
+      "date": "2026-07-28",
       "commence": "2026-07-29T02:10:00Z",
       "betType": "ml",
       "shadow": false,
@@ -214,29 +261,6 @@
       "home": "LAD",
       "away": "SEA",
       "fadeReason": "all"
-    },
-    {
-      "date": "2026-07-28",
-      "commence": "2026-07-28T22:45:00Z",
-      "betType": "ml",
-      "shadow": false,
-      "pitchers": [
-        "Cade Cavalli"
-      ],
-      "fadeTeam": "WSH",
-      "market": "h2h",
-      "selection": "TOR",
-      "line": null,
-      "odds": 120,
-      "stake": 1.0,
-      "result": "pending",
-      "profit": 0.0,
-      "book": "fanduel",
-      "source": "fanduel_api",
-      "reason": null,
-      "home": "WSH",
-      "away": "TOR",
-      "fadeReason": "home"
     }
   ],
   "bets": [
@@ -7425,25 +7449,26 @@
     {
       "date": "2026-06-07",
       "commence": "2026-06-07T18:10:00Z",
-      "betType": "ml",
+      "betType": "ml_dog",
       "shadow": false,
       "pitchers": [
+        "Gage Jump",
         "Mike Burrows"
       ],
-      "fadeTeam": "HOU",
+      "fadeTeam": null,
       "market": "h2h",
-      "selection": "OAK",
+      "selection": null,
       "line": null,
-      "odds": -108,
-      "stake": 1.08,
-      "result": "WIN",
-      "profit": 1.0,
+      "odds": null,
+      "stake": null,
+      "result": "SKIP",
+      "profit": 0.0,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
-      "reason": null,
+      "reason": "dog_below_min",
       "home": "HOU",
       "away": "OAK",
-      "fadeReason": "home"
+      "fadeReason": "all/home"
     },
     {
       "date": "2026-06-07",
@@ -7999,6 +8024,29 @@
       "home": "LAA",
       "away": "TB",
       "fadeReason": "away"
+    },
+    {
+      "date": "2026-06-12",
+      "commence": "2026-06-13T02:05:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Gage Jump"
+      ],
+      "fadeTeam": "OAK",
+      "market": "h2h",
+      "selection": "COL",
+      "line": null,
+      "odds": 180,
+      "stake": 1.0,
+      "result": "LOSS",
+      "profit": -1.0,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null,
+      "home": "OAK",
+      "away": "COL",
+      "fadeReason": "all"
     },
     {
       "date": "2026-06-13",
@@ -8808,6 +8856,29 @@
       "fadeReason": "all"
     },
     {
+      "date": "2026-06-18",
+      "commence": "2026-06-19T01:40:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Gage Jump"
+      ],
+      "fadeTeam": "OAK",
+      "market": "h2h",
+      "selection": "LAA",
+      "line": null,
+      "odds": 152,
+      "stake": 1.0,
+      "result": "LOSS",
+      "profit": -1.0,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null,
+      "home": "OAK",
+      "away": "LAA",
+      "fadeReason": "all"
+    },
+    {
       "date": "2026-06-19",
       "commence": "2026-06-19T18:20:00Z",
       "betType": "ml",
@@ -9382,6 +9453,29 @@
       "reason": null,
       "home": "TB",
       "away": "KC",
+      "fadeReason": "all"
+    },
+    {
+      "date": "2026-06-24",
+      "commence": "2026-06-25T01:45:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Gage Jump"
+      ],
+      "fadeTeam": "OAK",
+      "market": "h2h",
+      "selection": "SF",
+      "line": null,
+      "odds": -102,
+      "stake": 1.02,
+      "result": "WIN",
+      "profit": 1.0,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null,
+      "home": "SF",
+      "away": "OAK",
       "fadeReason": "all"
     },
     {
@@ -10027,6 +10121,29 @@
       "reason": null,
       "home": "SEA",
       "away": "LAA",
+      "fadeReason": "all"
+    },
+    {
+      "date": "2026-06-29",
+      "commence": "2026-06-30T01:40:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Gage Jump"
+      ],
+      "fadeTeam": "OAK",
+      "market": "h2h",
+      "selection": "LAD",
+      "line": null,
+      "odds": -118,
+      "stake": 1.18,
+      "result": "WIN",
+      "profit": 1.0,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null,
+      "home": "OAK",
+      "away": "LAD",
       "fadeReason": "all"
     },
     {
@@ -10793,6 +10910,29 @@
     },
     {
       "date": "2026-07-05",
+      "commence": "2026-07-05T20:30:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Gage Jump"
+      ],
+      "fadeTeam": "OAK",
+      "market": "h2h",
+      "selection": "MIA",
+      "line": null,
+      "odds": 100,
+      "stake": 1.0,
+      "result": "WIN",
+      "profit": 1.0,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null,
+      "home": "OAK",
+      "away": "MIA",
+      "fadeReason": "all"
+    },
+    {
+      "date": "2026-07-05",
       "commence": "2026-07-05T21:00:00Z",
       "betType": "ml",
       "shadow": false,
@@ -11420,6 +11560,29 @@
       "betType": "ml",
       "shadow": false,
       "pitchers": [
+        "Gage Jump"
+      ],
+      "fadeTeam": "OAK",
+      "market": "h2h",
+      "selection": "CWS",
+      "line": null,
+      "odds": -122,
+      "stake": 1.22,
+      "result": "WIN",
+      "profit": 1.0,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null,
+      "home": "CWS",
+      "away": "OAK",
+      "fadeReason": "all"
+    },
+    {
+      "date": "2026-07-11",
+      "commence": "2026-07-11T18:10:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
         "Ryan Johnson"
       ],
       "fadeTeam": "LAA",
@@ -11895,6 +12058,29 @@
       "reason": null,
       "home": "ARI",
       "away": "STL",
+      "fadeReason": "all"
+    },
+    {
+      "date": "2026-07-17",
+      "commence": "2026-07-18T01:40:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Gage Jump"
+      ],
+      "fadeTeam": "OAK",
+      "market": "h2h",
+      "selection": "WSH",
+      "line": null,
+      "odds": -136,
+      "stake": 1.36,
+      "result": "WIN",
+      "profit": 1.0,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null,
+      "home": "OAK",
+      "away": "WSH",
       "fadeReason": "all"
     },
     {
@@ -12551,22 +12737,23 @@
     {
       "date": "2026-07-22",
       "commence": "2026-07-22T19:40:00Z",
-      "betType": "ml",
+      "betType": "ml_dog",
       "shadow": false,
       "pitchers": [
-        "Merrill Kelly"
+        "Merrill Kelly",
+        "Gage Jump"
       ],
-      "fadeTeam": "ARI",
+      "fadeTeam": null,
       "market": "h2h",
-      "selection": "OAK",
+      "selection": null,
       "line": null,
-      "odds": 108,
-      "stake": 1.0,
-      "result": "LOSS",
-      "profit": -1.0,
+      "odds": null,
+      "stake": null,
+      "result": "SKIP",
+      "profit": 0.0,
       "book": "fanduel",
       "source": "fanduel_api",
-      "reason": null,
+      "reason": "dog_below_min",
       "home": "ARI",
       "away": "OAK",
       "fadeReason": "all"

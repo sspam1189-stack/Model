@@ -130,9 +130,12 @@ async function renderMLBFadeML() {
   const tCard = document.createElement('div');
   tCard.className = 'card';
   tCard.style.cssText = 'margin-bottom:16px;padding:12px 16px';
+  const PURPLE = 'var(--purple,#b083f0)';
   const REAL = new Set(['ml', 'ml_dog']);
   const pend = (data.today || []).filter(t => t.result === 'pending' && REAL.has(t.betType));
   const tailPend = ((tailData && tailData.today) || []).filter(t => t.result === 'pending');
+  // Watchlist plays for today (review only, never bet) — surfaced with a WATCH tag.
+  const watchPend = ((watchData && watchData.today) || []).filter(t => t.result === 'pending');
 
   const atStr = (t) => (t.away && t.home)
     ? ' <span style="color:#888">· ' + esc(t.away) + ' @ ' + esc(t.home) + '</span>' : '';
@@ -162,13 +165,29 @@ async function renderMLBFadeML() {
       + tag('handedness', null, '@ ')
       + ' → <b>' + esc(t.selection || '?') + '</b>' + oddsStr(t.odds) + atStr(t);
   };
+  // WATCH badge for watchlist plays — review only, not part of the bet record.
+  const watchBadge = '<span style="background:rgba(176,131,240,0.16);color:' + PURPLE
+    + ';font-size:10px;font-weight:700;letter-spacing:.05em;padding:1px 5px;border-radius:4px;margin-right:4px">WATCH</span>';
+  const watchLabel = (t) => {
+    const arm = esc(t.pitcher || '?');
+    const verb = t.action === 'take'
+      ? '<span style="color:' + TEAL + ';font-weight:600">Tail</span>' : 'Fade';
+    const reasonTag = tag('handedness', t.action === 'take' ? TEAL : null, t.action === 'take' ? '' : '@ ');
+    const gs = t.games ? ' <span style="color:#777;font-size:11px">(' + t.games + 'gs)</span>' : '';
+    return '• ' + watchBadge + verb + ' <b>' + arm + '</b> (' + esc(t.arm_team || '?') + ')'
+      + reasonTag + ' → <b>' + esc(t.selection || '?') + '</b>' + oddsStr(t.odds) + gs + atStr(t);
+  };
 
   let th = '<div class="card-title" style="margin-bottom:8px">Today’s plays</div>';
-  if (!pend.length && !tailPend.length) {
+  if (!pend.length && !tailPend.length && !watchPend.length) {
     th += '<div class="no-picks">No fade-list or hand-tails moneyline plays on today’s slate.</div>';
   } else {
     th += pend.map(t => '<div style="font-size:14px;color:#ddd;padding:2px 0">' + fadeLabel(t) + '</div>').join('');
     th += tailPend.map(t => '<div style="font-size:14px;color:#ddd;padding:2px 0">' + tailLabel(t) + '</div>').join('');
+    if (watchPend.length) {
+      th += watchPend.map(t => '<div style="font-size:14px;color:#cbb8e6;padding:2px 0">' + watchLabel(t) + '</div>').join('');
+      th += '<div style="font-size:11px;color:#777;margin-top:6px">WATCH = handedness watchlist candidate (review only, not bet).</div>';
+    }
   }
   tCard.innerHTML = th;
   el.appendChild(tCard);

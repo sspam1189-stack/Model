@@ -44,6 +44,10 @@
       "hand": "R",
       "action": "take"
     },
+    "Michael Lorenzen": {
+      "hand": "R",
+      "action": "take"
+    },
     "Prielipp": {
       "hand": "L",
       "action": "fade"
@@ -119,11 +123,11 @@
   },
   "note": "In-sample selection; live paper-forward test. Not part of the fade-list ledger. On Nola/Lopez overlap games, hand-tails wins.",
   "summary": {
-    "wins": 124,
+    "wins": 127,
     "losses": 18,
-    "units": 114.28,
-    "staked": 181.07,
-    "roi": 0.6311,
+    "units": 119.5,
+    "staked": 184.11,
+    "roi": 0.6491,
     "byAction": {
       "fade": {
         "wins": 59,
@@ -133,20 +137,20 @@
         "roi": 0.6111
       },
       "take": {
-        "wins": 65,
+        "wins": 68,
         "losses": 10,
-        "units": 60.66,
-        "staked": 93.32,
-        "roi": 0.65
+        "units": 65.88,
+        "staked": 96.36,
+        "roi": 0.6837
       }
     },
     "byHand": {
       "R": {
-        "wins": 53,
+        "wins": 56,
         "losses": 6,
-        "units": 49.52,
-        "staked": 79.51,
-        "roi": 0.6228
+        "units": 54.74,
+        "staked": 82.55,
+        "roi": 0.6631
       },
       "L": {
         "wins": 71,
@@ -938,6 +942,29 @@
       "result": "WIN",
       "reason": null,
       "profit": 1.0,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel"
+    },
+    {
+      "date": "2026-04-19",
+      "commence": "2026-04-19T19:10:00Z",
+      "betType": "hand_take",
+      "action": "take",
+      "pitcher": "Michael Lorenzen",
+      "entry": "Michael Lorenzen",
+      "hand": "R",
+      "arm_team": "COL",
+      "opp_team": "LAD",
+      "selection": "COL",
+      "home": "COL",
+      "away": "LAD",
+      "oppLefty": 6,
+      "oppRighty": 3,
+      "odds": 172,
+      "stake": 1.0,
+      "result": "WIN",
+      "reason": null,
+      "profit": 1.72,
       "book": "fanduel",
       "source": "oddsapi_fanduel"
     },
@@ -3150,6 +3177,29 @@
       "source": "oddsapi_fanduel"
     },
     {
+      "date": "2026-07-07",
+      "commence": "2026-07-08T02:10:00Z",
+      "betType": "hand_take",
+      "action": "take",
+      "pitcher": "Michael Lorenzen",
+      "entry": "Michael Lorenzen",
+      "hand": "R",
+      "arm_team": "COL",
+      "opp_team": "LAD",
+      "selection": "COL",
+      "home": "LAD",
+      "away": "COL",
+      "oppLefty": 6,
+      "oppRighty": 3,
+      "odds": 250,
+      "stake": 1.0,
+      "result": "WIN",
+      "reason": null,
+      "profit": 2.5,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel"
+    },
+    {
       "date": "2026-07-08",
       "commence": "2026-07-08T22:45:00Z",
       "betType": "hand_take",
@@ -3304,6 +3354,29 @@
       "oppRighty": 7,
       "odds": -154,
       "stake": 1.54,
+      "result": "WIN",
+      "reason": null,
+      "profit": 1.0,
+      "book": "fanduel",
+      "source": "fanduel_api"
+    },
+    {
+      "date": "2026-07-21",
+      "commence": "2026-07-22T00:40:00Z",
+      "betType": "hand_take",
+      "action": "take",
+      "pitcher": "Michael Lorenzen",
+      "entry": "Michael Lorenzen",
+      "hand": "R",
+      "arm_team": "COL",
+      "opp_team": "WSH",
+      "selection": "COL",
+      "home": "COL",
+      "away": "WSH",
+      "oppLefty": 7,
+      "oppRighty": 4,
+      "odds": -104,
+      "stake": 1.04,
       "result": "WIN",
       "reason": null,
       "profit": 1.0,

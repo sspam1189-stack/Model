@@ -37,7 +37,7 @@ OUTPUT_PATHS = [
     os.path.normpath(os.path.join(SCRIPT_DIR, "..", "..", "PythonDashboard", "data", "mlb-hand-tails-watch.json")),
 ]
 
-MIN_GAMES = 5      # need at least this many qualifying starts to appear
+MIN_GAMES = 3      # need at least this many qualifying starts to appear
 MIN_UNITS = 2.0    # stronger side must clear +this many units to appear
 
 
@@ -54,7 +54,9 @@ def _load(name_glob):
 
 def build():
     allml_path = os.path.normpath(os.path.join(SCRIPT_DIR, "..", "data", "mlb-all-ml.json"))
-    games = json.load(open(allml_path)).get("games", [])
+    allml = json.load(open(allml_path))
+    games = allml.get("games", [])
+    today_games = allml.get("today", [])
     settled = [g for g in games if g.get("home_win") is not None]
     bat = _load("player_bat_sides_*.json")
     bo = _load("batting_orders_*.json")
@@ -114,6 +116,46 @@ def build():
             "era": ERA.get(nk),
         })
     cands.sort(key=lambda c: -c["suggestUnits"])
+    by_name = {_norm(c["pitcher"]): c for c in cands}
+
+    # Today's watch plays: watch-candidate arms starting today against a
+    # qualifying opposite-hand lineup, applying the candidate's suggested side.
+    # Review-only (never bet) -- surfaced in the dashboard's Today's plays with a
+    # WATCH tag so a leaderboard name that fires today isn't missed. Only appears
+    # once today's lineup is posted and clears HAND_MIN (same gate as the active
+    # list); before that the arm is starting but not yet qualifying.
+    today = []
+    for g in today_games:
+        for side in ("home", "away"):
+            p, hand = g.get(side + "_pitcher"), g.get(side + "_hand")
+            if not p or hand not in ("L", "R"):
+                continue
+            if tail_entry(p)[0]:          # active list -> real bet, not watch
+                continue
+            c = by_name.get(_norm(p))
+            if not c:
+                continue
+            home, away = g.get("home"), g.get("away")
+            arm_team = home if side == "home" else away
+            opp_team = away if side == "home" else home
+            L, R = opp_counts(opp_team, g.get("date"))
+            if L is None or not ((L >= HAND_MIN) if hand == "R" else (R >= HAND_MIN)):
+                continue
+            action = c["suggest"]
+            sel = opp_team if action == "fade" else arm_team
+            odds = g.get("home_ml") if sel == home else g.get("away_ml")
+            today.append({
+                "date": g.get("date"), "commence": g.get("commence"),
+                "betType": "watch_" + action, "action": action, "watch": True,
+                "pitcher": p, "hand": hand,
+                "arm_team": arm_team, "opp_team": opp_team,
+                "selection": sel, "home": home, "away": away,
+                "oppLefty": L, "oppRighty": R,
+                "odds": odds, "suggest": action,
+                "suggestUnits": c["suggestUnits"], "games": c["games"],
+                "result": "pending",
+            })
+    today.sort(key=lambda b: b.get("commence") or "")
 
     payload = {
         "sport": "MLB", "type": "hand-tails-watch",
@@ -123,6 +165,7 @@ def build():
         "note": "Shadow review list -- arms NOT on the active hand-tails list "
                 "showing a handedness-conditional edge. In-sample season replay; "
                 "watch, don't bet. Promote by editing scripts/hand_tails.py.",
+        "today": today,
         "candidates": cands,
     }
     for path in OUTPUT_PATHS:

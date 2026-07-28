@@ -35,6 +35,8 @@ FADE_LIST = [
     "Logan Webb", "Lodolo", "Michael King", "Mize", "Bryce Miller",
     "Yesavage", "Imanaga", "Chandler", "McClanahan",
     "McLean", "Cavalli", "Trevor Rogers", "Tolle", "Gerrit Cole",
+    # Added 2026-07-28 (fade-candidate analysis): all-venue, both sides green.
+    "Gage Jump",
 ]
 
 # Per-arm venue restriction: fade the arm ONLY when his team plays at this
@@ -176,6 +178,8 @@ FADE_WINDOW = {
     "Trevor Rogers":     {"add": SEASON_START},  # home-only (see FADE_VENUE)
     "Tolle":             {"add": SEASON_START},  # home-only (see FADE_VENUE)
     "Gerrit Cole":       {"add": SEASON_START},  # home-only (see FADE_VENUE)
+    # Added 2026-07-28: all-venue fade, season-backfilled (home +18%, away +42%).
+    "Gage Jump":         {"add": SEASON_START},
 }
 
 
