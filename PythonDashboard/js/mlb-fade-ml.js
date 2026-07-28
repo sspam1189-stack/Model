@@ -304,9 +304,12 @@ async function renderMLBFadeML() {
   // Fade-list bets (kind=fade) merged with hand-tails bets (kind=tail when the
   // pick backs the arm's own team, else fade). Normalize hand-tails fields to
   // what the log renderer expects (pitchers[], fadeTeam for the Venue filter).
-  const fadeBets = (data.bets || []).map(b => ({ ...b, kind: 'fade' }));
+  // `source` distinguishes WHY it fired: 'venue' (fade-list) vs 'handedness'
+  // (hand-tails) -- a single arm can be on both lists, so the same game can
+  // appear twice (one venue fade, one handedness fade).
+  const fadeBets = (data.bets || []).map(b => ({ ...b, kind: 'fade', source: 'venue' }));
   const tailBets = ((tailData && tailData.bets) || []).map(b => ({
-    ...b, kind: b.action === 'take' ? 'tail' : 'fade',
+    ...b, kind: b.action === 'take' ? 'tail' : 'fade', source: 'handedness',
     pitchers: b.pitchers || [b.pitcher], fadeTeam: b.arm_team,
   }));
   const bets = [...fadeBets, ...tailBets].sort((a, b) => {
@@ -365,6 +368,10 @@ async function renderMLBFadeML() {
     + '<select id="fadeKindSel" style="' + selCss + '"><option value="">All</option>'
     + '<option value="fade">Fade</option><option value="tail">Tail</option>'
     + '</select></label>'
+    + '<label style="font-size:11px;color:#888">Reason '
+    + '<select id="fadeSourceSel" style="' + selCss + '"><option value="">All</option>'
+    + '<option value="venue">Venue</option><option value="handedness">Handedness</option>'
+    + '</select></label>'
     + '</div>'
     // Row 1: Pick / Pitcher / Venue
     + '<div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap;padding:0 8px 6px">'
@@ -407,6 +414,7 @@ async function renderMLBFadeML() {
   const pitcherSel = log.querySelector('#fadePitcherSel');
   const venueSel = log.querySelector('#fadeVenueSel');
   const kindSel = log.querySelector('#fadeKindSel');
+  const sourceSel = log.querySelector('#fadeSourceSel');
   const recEl = log.querySelector('#fadeLogRec');
 
   // Venue of a fade bet = the faded arm's-team side (home if his team is home).
@@ -427,9 +435,10 @@ async function renderMLBFadeML() {
   const LOG_PAGE_SIZE = 50;
   let logPage = 0;   // 0-based page index into the current filtered view
   function drawRows() {
-    const kv = pickSel.value, mv = monthSel.value, wv = weekSel.value, dv = dateSel.value, pv = pitcherSel.value, vv = venueSel.value, tv = kindSel.value;
+    const kv = pickSel.value, mv = monthSel.value, wv = weekSel.value, dv = dateSel.value, pv = pitcherSel.value, vv = venueSel.value, tv = kindSel.value, sv = sourceSel.value;
     const view = bets.filter(b =>
       (!tv || b.kind === tv) &&
+      (!sv || b.source === sv) &&
       (!kv || b.selection === kv) &&
       (!mv || (b.date || '').slice(0, 7) === mv) &&
       (!wv || (b.date && weekStartOf(b.date) === wv)) &&
@@ -467,9 +476,14 @@ async function renderMLBFadeML() {
       const pick = (sel === b.home ? '@' : '') + esc(sel);
       const note = b.result === 'VOID' ? (' <span style="color:#777;font-size:10px">' + esc(b.reason || 'void') + '</span>')
         : (b.result === 'SKIP' ? ' <span style="color:#777;font-size:10px">skip</span>' : '');
+      // Reason tag: WHY the fade fired — 'venue' (fade list) vs 'hand' (hand-tails).
+      const srcTag = b.source
+        ? '<div style="color:#888;font-weight:400;font-size:9px;letter-spacing:.03em">'
+          + (b.source === 'handedness' ? 'hand' : 'venue') + '</div>'
+        : '';
       rows += '<tr style="' + dim + '">'
         + '<td style="padding:4px 8px;color:#999">' + esc(b.date) + '</td>'
-        + '<td style="padding:4px 6px;color:' + ORANGE + ';font-size:11px;font-weight:700">' + (typeTag[b.betType] || '') + '</td>'
+        + '<td style="padding:4px 6px;font-size:11px;font-weight:700"><span style="color:' + ORANGE + '">' + (typeTag[b.betType] || '') + '</span>' + srcTag + '</td>'
         + '<td style="padding:4px 8px">' + esc((b.pitchers || []).join(' / ')) + '</td>'
         + '<td style="padding:4px 8px;font-weight:600">' + pick + note + '</td>'
         + '<td style="padding:4px 8px;text-align:right;color:' + ORANGE + '">' + fmtOdds(b.odds) + '</td>'
@@ -514,6 +528,7 @@ async function renderMLBFadeML() {
   dateSel.addEventListener('change', repage);
   pitcherSel.addEventListener('change', repage);
   venueSel.addEventListener('change', repage);
+  sourceSel.addEventListener('change', repage);
   kindSel.addEventListener('change', () => { refreshPitcherOptions(); repage(); });
   drawRows();
 
