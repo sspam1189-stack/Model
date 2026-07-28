@@ -26,7 +26,7 @@ FADE_LIST = [
     "Lowder", "Zebby Matthews", "Skenes",
     # Added 2026-07-27 from fade-candidate analysis (forward-only from that date).
     "Paddack", "Noah Cameron", "Gausman", "Woods Richardson", "Luis Castillo",
-    "Framber Valdez", "Kochanowicz", "Jack Flaherty", "Cecconi", "Detmers",
+    "Framber Valdez", "Kochanowicz", "Jack Flaherty", "Cecconi",
     "Ryne Nelson", "Feltner", "Wacha", "Bello", "Agnos",
     # Added 2026-07-27 (venue-split analysis): venue-restricted new arms.
     "Mahle", "Aaron Nola", "Taillon", "Trevor McDonald", "Colin Rea",
@@ -34,7 +34,7 @@ FADE_LIST = [
     # Added 2026-07-27 (all-pitcher fade screen, raw fade record).
     "Logan Webb", "Lodolo", "Michael King", "Mize", "Bryce Miller",
     "Yesavage", "Imanaga", "Chandler", "McClanahan",
-    "McLean", "Cavalli", "Trevor Rogers", "Tolle", "Gerrit Cole",
+    "McLean", "Trevor Rogers", "Tolle", "Gerrit Cole",
     # Added 2026-07-28 (fade-candidate analysis): all-venue, both sides green.
     "Gage Jump",
 ]
@@ -48,7 +48,6 @@ FADE_VENUE = {
     "Framber Valdez": "away",
     "Jack Flaherty": "away",
     "Cecconi": "away",
-    "Detmers": "home",
     "Ryne Nelson": "away",
     "Feltner": "away",
     "Wacha": "away",
@@ -76,7 +75,6 @@ FADE_VENUE = {
     "Chandler": "away",        # away 8-3 +4.6u; home 3-4 -1.3u
     "McClanahan": "away",      # away 7-3 +4.5u; home 1-8 -6.4u
     "McLean": "home",          # home 8-3 +7.9u; away 4-6 -1.7u
-    "Cavalli": "home",         # home 9-2 +7.3u; away 3-7 -6.6u
     "Trevor Rogers": "home",   # home 8-4 +4.8u; away 2-5 -4.8u
     "Tolle": "home",           # home 6-3 +3.8u; away 3-4 -1.2u
     # 2026-07-28: Gerrit Cole promoted to all-venue -- away turned green
@@ -153,7 +151,6 @@ FADE_WINDOW = {
     "Kochanowicz":       {"add": SEASON_START},
     "Jack Flaherty":     {"add": SEASON_START},  # away-only (see FADE_VENUE)
     "Cecconi":           {"add": SEASON_START},  # away-only (see FADE_VENUE)
-    "Detmers":           {"add": SEASON_START},  # home-only (see FADE_VENUE)
     "Ryne Nelson":       {"add": SEASON_START},  # away-only (see FADE_VENUE)
     "Feltner":           {"add": SEASON_START},  # away-only (see FADE_VENUE)
     "Wacha":             {"add": SEASON_START},  # away-only (see FADE_VENUE)
@@ -177,7 +174,6 @@ FADE_WINDOW = {
     "Chandler":          {"add": SEASON_START},  # away-only (see FADE_VENUE)
     "McClanahan":        {"add": SEASON_START},  # away-only (see FADE_VENUE)
     "McLean":            {"add": SEASON_START},  # home-only (see FADE_VENUE)
-    "Cavalli":           {"add": SEASON_START},  # home-only (see FADE_VENUE)
     "Trevor Rogers":     {"add": SEASON_START},  # home-only (see FADE_VENUE)
     "Tolle":             {"add": SEASON_START},  # home-only (see FADE_VENUE)
     "Gerrit Cole":       {"add": SEASON_START},  # all-venue (2026-07-28: restriction lifted)
@@ -279,3 +275,69 @@ def is_fade(player_name, date=None, venue=None):
     if required is not None and venue != required:
         return False
     return True
+
+
+# ---------------------------------------------------------------------------
+# Watch (shadow) tier
+# ---------------------------------------------------------------------------
+# Arms we TRACK but DON'T bet. Their fades are graded as shadow bets so we can
+# watch the edge -- especially the home vs away split -- before deciding to fade
+# for real (or drop them). Watch arms are tracked on ALL venues (no restriction)
+# so both split sides accumulate. Moving an arm here removes it from the live
+# fade record and today's real picks; it surfaces on the dashboard's fade
+# watchlist (home/away split) instead. Promote by moving the entry back into
+# FADE_LIST (+ FADE_VENUE / FADE_WINDOW).
+WATCH_LIST = [
+    # Moved from the fade list 2026-07-28 to watch the home/away split live.
+    "Cavalli", "Detmers",
+]
+
+WATCH_WINDOW = {
+    "Cavalli": {"add": SEASON_START},   # was home-only fade (home 9-2 +7.3u)
+    "Detmers": {"add": SEASON_START},   # was home-only fade
+}
+
+_WATCH_TOKENS = [toks for toks in (_norm(e).split() for e in WATCH_LIST) if toks]
+
+
+def _in_watch_window(entry, date):
+    """True if ``entry`` should be watch-tracked on ``date`` per WATCH_WINDOW.
+
+    Mirrors _in_window but over WATCH_WINDOW. No date -> match on roster alone.
+    """
+    if date is None:
+        return True
+    win = WATCH_WINDOW.get(entry)
+    if not win:
+        return True
+    add, remove = win.get("add"), win.get("remove")
+    if add is not None and date < add:
+        return False
+    if remove is not None and date >= remove:
+        return False
+    return True
+
+
+def matched_watch_entry(player_name, date=None):
+    """Return the WATCH_LIST entry matching ``player_name``, or None.
+
+    Same token-subset match as ``matched_entry`` but over the watch roster.
+    """
+    name_tokens = set(_norm(player_name).split())
+    if not name_tokens:
+        return None
+    for entry, toks in zip(WATCH_LIST, _WATCH_TOKENS):
+        if all(t in name_tokens for t in toks):
+            if not _in_watch_window(entry, date):
+                continue
+            return entry
+    return None
+
+
+def is_watch(player_name, date=None):
+    """True iff ``player_name`` is a WATCH (shadow) arm on ``date``.
+
+    Watch arms are tracked on ALL venues (no venue restriction) so the home/away
+    split builds up. They are never a real bet -- see is_fade for the live tier.
+    """
+    return matched_watch_entry(player_name, date) is not None

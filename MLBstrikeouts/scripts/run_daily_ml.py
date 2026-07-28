@@ -29,8 +29,8 @@ sys.path.insert(0, os.path.join(os.path.dirname(__file__), "sources"))
 
 from fade_ml_common import (
     load_props_index, starts_from_rows, fade_games, match_game,
-    odds_row_for, build_bets_for_game, build_payload, write_outputs,
-    venue_map, SCRIPT_DIR,
+    odds_row_for, build_bets_for_game, build_watch_bets, build_payload,
+    write_outputs, venue_map, SCRIPT_DIR,
 )
 from ml_backfill import grade_date
 from sources.mlb_schedule import fetch_schedule
@@ -135,6 +135,13 @@ def main():
                 bets.append(b)
             else:  # pending / SKIP
                 today.append(b)
+
+    # Shadow watch bets (WATCH_LIST arms) — tracked, never a real bet.
+    for b in build_watch_bets(date_iso, starts_from_rows(today_rows), games, odds_rows):
+        if b["result"] in ("WIN", "LOSS", "VOID"):
+            bets.append(b)
+        else:
+            today.append(b)
 
     payload = build_payload(bets, today)
     write_outputs(payload)

@@ -27,8 +27,8 @@ sys.path.insert(0, os.path.join(os.path.dirname(__file__), "sources"))
 
 from fade_ml_common import (
     load_props_index, starts_from_rows, fade_games, match_game,
-    odds_row_for, build_bets_for_game, build_payload, write_outputs,
-    load_existing, venue_map,
+    odds_row_for, build_bets_for_game, build_watch_bets, build_payload,
+    write_outputs, load_existing, venue_map,
 )
 from sources.mlb_schedule import fetch_schedule
 from sources.odds_ml_theoddsapi import load_ml_cache
@@ -50,8 +50,6 @@ def grade_date(date_key, date_iso, props_index):
         return []
     games = fetch_schedule(date_key)
     fgs = fade_games(starts, date_iso, venue_map(games))
-    if not fgs:
-        return []
     odds_rows = load_ml_cache(date_key) or []
     bets = []
     for fg in fgs:
@@ -59,6 +57,9 @@ def grade_date(date_key, date_iso, props_index):
         g = match_game(games, fg["teams"], pitcher)
         od = odds_row_for(odds_rows, g) if g else None
         bets.extend(build_bets_for_game(date_iso, fg, g, od))
+    # Shadow watch bets (WATCH_LIST arms) — graded on all venues, not counted in
+    # the real record. Produced even on dates with no real fade game.
+    bets.extend(build_watch_bets(date_iso, starts, games, odds_rows))
     return bets
 
 

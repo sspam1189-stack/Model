@@ -17,7 +17,7 @@ import json
 import datetime
 
 from fade_list import (is_fade, is_no_mutual_fade, matched_entry, fade_reason,
-                       _norm, FADE_LIST)
+                       _norm, FADE_LIST, is_watch, WATCH_LIST)
 
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 
@@ -49,6 +49,11 @@ MUTUAL_DOG_MIN = int(os.environ.get("MUTUAL_DOG_MIN", "120"))
 
 # Bet types that make up the record (moneyline only).
 REAL_BET_TYPES = ("ml", "ml_dog")
+# Shadow WATCH bets (WATCH_LIST arms): graded/tracked but NOT part of the real
+# record and never a live bet. Kept in the payload to power the fade watchlist
+# (home/away split). See build_watch_bets.
+WATCH_BET_TYPES = ("ml_watch",)
+KEEP_BET_TYPES = REAL_BET_TYPES + WATCH_BET_TYPES
 
 
 # --- props loading + fade-game extraction ---------------------------------
@@ -293,6 +298,48 @@ def build_bets_for_game(date, fg, g, odds_row):
     return bets
 
 
+def build_watch_bets(date, starts, games, odds_rows):
+    """Shadow 'ml_watch' bets for WATCH_LIST arms.
+
+    A watch arm is graded exactly like a fade (bet the opponent's ML) but the
+    bet is marked shadow -- it never counts in the real record and is never a
+    live pick. It exists so the dashboard's fade watchlist can show the arm's
+    home/away split before we decide to fade for real. Tracked on ALL venues
+    (no venue gate), deduped per (matchup, pitcher).
+    """
+    seen, bets = set(), []
+    for s in starts:
+        if not is_watch(s["pitcher"], date):
+            continue
+        teams = frozenset((s["team"], s["opp"]))
+        key = (teams, s["pitcher"])
+        if key in seen:
+            continue
+        seen.add(key)
+        g = match_game(games, teams, s["pitcher"])
+        od = odds_row_for(odds_rows, g) if g else None
+        commence = g.get("commence") if g else None
+        source = (od or {}).get("source")
+        fg = {"pitchers": [s["pitcher"]], "fadeTeam": s["team"]}
+        bet_team = s["opp"]
+        odds = None
+        if od and g:
+            odds = od["home_ml"] if bet_team == g.get("home") else od["away_ml"]
+        if odds is None:
+            b = _bet(date, commence, "ml_watch", fg, "h2h", bet_team, None,
+                     None, "VOID", "no_price", source=source)
+        else:
+            result, reason = _settle_ml(g, bet_team)
+            b = _bet(date, commence, "ml_watch", fg, "h2h", bet_team, None,
+                     odds, result, reason, source=source)
+        if g:
+            b["home"] = g.get("home")
+            b["away"] = g.get("away")
+        b["fadeReason"] = "watch"
+        bets.append(b)
+    return bets
+
+
 # --- summary + output -----------------------------------------------------
 
 def _record(bets):
@@ -309,22 +356,41 @@ def _record(bets):
             "roi": round(roi, 4)}
 
 
+def _venue_split(bs):
+    """Per-arm record split by the arm's-team venue (home if his team is home)."""
+    home = [b for b in bs if b.get("fadeTeam") == b.get("home")]
+    away = [b for b in bs if b.get("fadeTeam") == b.get("away")]
+    return {"all": _record(bs), "home": _record(home), "away": _record(away)}
+
+
 def compute_summary(bets):
     graded = [b for b in bets if b["result"] in ("WIN", "LOSS", "VOID", "SKIP")]
-    # Overall record counts REAL bets only (totals are shadow stats).
+    # Overall record counts REAL bets only (totals/watch are shadow stats).
     real = [b for b in graded if b["betType"] in REAL_BET_TYPES]
     summary = _record(real)
     summary["byType"] = {
         t: _record([b for b in graded if b["betType"] == t])
         for t in ("ml", "ml_dog")
     }
+    # Shadow watch tier: overall shadow record + per-arm home/away split, so the
+    # dashboard's fade watchlist can show whether each watched arm's fade edge
+    # holds and on which venue side.
+    watch = [b for b in graded if b["betType"] in WATCH_BET_TYPES]
+    by_arm = {}
+    for b in watch:
+        arm = (b.get("pitchers") or ["?"])[0]
+        by_arm.setdefault(arm, []).append(b)
+    summary["watch"] = {
+        "record": _record(watch),
+        "arms": [dict(arm=a, **_venue_split(bs)) for a, bs in sorted(by_arm.items())],
+    }
     return summary
 
 
 def build_payload(bets, today, generated=None):
-    # Keep only real bet types (drops any stale totals from older data).
-    bets = [b for b in bets if b.get("betType") in REAL_BET_TYPES]
-    today = [t for t in (today or []) if t.get("betType") in REAL_BET_TYPES]
+    # Keep real + shadow-watch bet types (drops any stale totals from old data).
+    bets = [b for b in bets if b.get("betType") in KEEP_BET_TYPES]
+    today = [t for t in (today or []) if t.get("betType") in KEEP_BET_TYPES]
     bets = sorted(bets, key=lambda b: (b["date"], b.get("commence") or "",
                                        b.get("betType") or ""))
     return {
@@ -332,6 +398,7 @@ def build_payload(bets, today, generated=None):
         "generated": generated or datetime.datetime.now(
             datetime.timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
         "fadeList": list(FADE_LIST),
+        "watchList": list(WATCH_LIST),
         "mutualRule": MUTUAL_FADE_RULE,
         "summary": compute_summary(bets),
         "today": today,

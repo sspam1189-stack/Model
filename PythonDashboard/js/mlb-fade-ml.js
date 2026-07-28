@@ -154,6 +154,8 @@ async function renderMLBFadeML() {
   const PURPLE = 'var(--purple,#b083f0)';
   const REAL = new Set(['ml', 'ml_dog']);
   const pend = (data.today || []).filter(t => t.result === 'pending' && REAL.has(t.betType));
+  // Fade-WATCH pending (shadow WATCH_LIST arms) — shown with a WATCH badge.
+  const fadeWatchPend = (data.today || []).filter(t => t.result === 'pending' && t.betType === 'ml_watch');
   const tailPend = ((tailData && tailData.today) || []).filter(t => t.result === 'pending');
   // Watchlist plays for today (review only, never bet) — surfaced with a WATCH tag.
   const watchPend = ((watchData && watchData.today) || []).filter(t => t.result === 'pending');
@@ -230,9 +232,19 @@ async function renderMLBFadeML() {
     const who = ps[0] || ps.join(' / ');
     return '• Fade' + handTag(who) + ' <b>' + esc(who) + '</b> (' + esc(t.fadeTeam || '?') + ')'
       + tag(t.fadeReason || 'all', null, '@ ')
+      + fadeWrcTag(t.fadeTeam, t.selection, handOf(who))   // fade team's bat up front
       + ' → ' + takeSpTag(t.selection) + '<b>' + esc(t.selection || '?') + '</b>' + oddsStr(t.odds) + atStr(t)
-      + betWrcTag(t.selection, who)
-      + fadeWrcTag(t.fadeTeam, t.selection, handOf(who));
+      + betWrcTag(t.selection, who);                        // take team's bat at the end
+  };
+  // Fade-WATCH picks (shadow WATCH_LIST arms) — same shape as a fade with a
+  // WATCH badge; tracked, never bet. Rendered in Today's plays for visibility.
+  const fadeWatchLabel = (t) => {
+    const who = (t.pitchers || [])[0] || '';
+    return '• ' + watchBadge + 'Fade' + handTag(who) + ' <b>' + esc(who) + '</b> ('
+      + esc(t.fadeTeam || '?') + ')'
+      + fadeWrcTag(t.fadeTeam, t.selection, handOf(who))
+      + ' → ' + takeSpTag(t.selection) + '<b>' + esc(t.selection || '?') + '</b>'
+      + oddsStr(t.odds) + atStr(t) + betWrcTag(t.selection, who);
   };
   // Hand-tails picks — reason is handedness; take backs the arm's own team.
   const tailLabel = (t) => {
@@ -260,10 +272,11 @@ async function renderMLBFadeML() {
   };
 
   let th = '<div class="card-title" style="margin-bottom:8px">Today’s plays</div>';
-  if (!pend.length && !tailPend.length && !watchPend.length) {
+  if (!pend.length && !fadeWatchPend.length && !tailPend.length && !watchPend.length) {
     th += '<div class="no-picks">No fade-list or hand-tails moneyline plays on today’s slate.</div>';
   } else {
     th += pend.map(t => '<div style="font-size:14px;color:#ddd;padding:2px 0">' + fadeLabel(t) + '</div>').join('');
+    th += fadeWatchPend.map(t => '<div style="font-size:14px;color:#cbb8e6;padding:2px 0">' + fadeWatchLabel(t) + '</div>').join('');
     th += tailPend.map(t => '<div style="font-size:14px;color:#ddd;padding:2px 0">' + tailLabel(t) + '</div>').join('');
     if (watchPend.length) {
       th += watchPend.map(t => '<div style="font-size:14px;color:#cbb8e6;padding:2px 0">' + watchLabel(t) + '</div>').join('');
@@ -490,6 +503,34 @@ async function renderMLBFadeML() {
   venueSel.addEventListener('change', repage);
   kindSel.addEventListener('change', () => { refreshPitcherOptions(); repage(); });
   drawRows();
+
+  // ---- Fade watchlist (shadow WATCH_LIST arms: home/away split, not bet) ----
+  // Arms moved off the fade list into the watch tier (fade_list.py WATCH_LIST).
+  // Their fades are graded but never bet; we watch the home vs away split to
+  // decide whether/how to fade them for real. Sits by the Tail watchlist.
+  const fwatch = (data.summary && data.summary.watch) || {};
+  if ((fwatch.arms || []).length) {
+    const fwc = document.createElement('div');
+    fwc.className = 'card card-games';
+    fwc.style.cssText = 'padding:8px 4px;margin-top:16px';
+    const splitCell = (r) => {
+      const u = (r && r.units) || 0;
+      return '<td style="padding:4px 8px;text-align:center">' + ((r && r.wins) || 0) + '–' + ((r && r.losses) || 0)
+        + ' <span style="color:' + uColor(u) + '">' + (u >= 0 ? '+' : '') + u.toFixed(2) + 'u</span></td>';
+    };
+    const frows = (fwatch.arms || []).map(a =>
+      '<tr><td style="padding:4px 8px;font-weight:600">' + esc(a.arm) + '</td>'
+      + splitCell(a.all) + splitCell(a.home) + splitCell(a.away) + '</tr>').join('');
+    fwc.innerHTML =
+      '<div style="padding:6px 8px"><span class="card-title" style="padding:0">Fade watchlist</span>'
+      + '<span style="font-size:11px;color:#888;margin-left:8px">arms moved off the fade list — shadow-tracked (NOT bet), watching the home/away split</span></div>'
+      + '<div style="overflow-x:auto"><table style="width:100%;border-collapse:collapse;font-size:13px">'
+      + '<thead><tr style="color:#888;text-align:left;border-bottom:1px solid #333">'
+      + '<th style="padding:4px 8px">Arm</th><th style="padding:4px 8px;text-align:center">All</th>'
+      + '<th style="padding:4px 8px;text-align:center">Home</th><th style="padding:4px 8px;text-align:center">Away</th>'
+      + '</tr></thead><tbody>' + frows + '</tbody></table></div>';
+    el.appendChild(fwc);
+  }
 
   // ---- Shadow watchlist (review-only candidates, not bet) ----
   if (watchData && (watchData.candidates || []).length) {
