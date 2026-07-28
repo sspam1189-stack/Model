@@ -27,6 +27,15 @@ async function renderMLBFadeML() {
     catch (e) { /* next */ }
   }
 
+  // Shadow watchlist (arms not on the active hand-tails list showing an edge).
+  const watchLocal = 'data/mlb-hand-tails-watch.json';
+  const watchRemote = 'https://raw.githubusercontent.com/sspam1189-stack/Model/main/MLBstrikeouts/data/mlb-hand-tails-watch.json';
+  let watchData = null;
+  for (const url of [watchLocal + '?t=' + Date.now(), watchRemote + '?t=' + Date.now()]) {
+    try { const r = await fetch(url, { cache: 'no-store' }); if (r.ok) { watchData = await r.json(); break; } }
+    catch (e) { /* next */ }
+  }
+
   el.textContent = '';
   if (!data) {
     const c = document.createElement('div');
@@ -313,6 +322,36 @@ async function renderMLBFadeML() {
   venueSel.addEventListener('change', drawRows);
   kindSel.addEventListener('change', () => { refreshPitcherOptions(); drawRows(); });
   drawRows();
+
+  // ---- Shadow watchlist (review-only candidates, not bet) ----
+  if (watchData && (watchData.candidates || []).length) {
+    const wc = document.createElement('div');
+    wc.className = 'card card-games';
+    wc.style.cssText = 'padding:8px 4px;margin-top:16px';
+    const wrows = watchData.candidates.map(c => {
+      const b = c.suggest === 'fade' ? c.fade : c.take;
+      const sugColor = c.suggest === 'take' ? 'var(--green,#3fb950)' : ORANGE;
+      return '<tr>'
+        + '<td style="padding:4px 8px">' + esc(c.pitcher) + '</td>'
+        + '<td style="padding:4px 6px;text-align:center;color:#999">' + esc(c.hand) + 'HP</td>'
+        + '<td style="padding:4px 8px;text-align:center;color:' + sugColor + ';font-weight:700;text-transform:uppercase">' + esc(c.suggest) + '</td>'
+        + '<td style="padding:4px 8px;text-align:center">' + b.w + '–' + b.l + '</td>'
+        + '<td style="padding:4px 8px;text-align:right;color:' + uColor(b.u) + '">' + (b.u >= 0 ? '+' : '') + b.u.toFixed(2) + 'u</td>'
+        + '<td style="padding:4px 8px;text-align:center;color:#999">' + c.games + '</td>'
+        + '<td style="padding:4px 8px;text-align:right;color:#999">' + (c.era != null ? c.era.toFixed(2) : '—') + '</td>'
+        + '</tr>';
+    }).join('');
+    wc.innerHTML =
+      '<div style="padding:6px 8px"><span class="card-title" style="padding:0">Tail watchlist</span>'
+      + '<span style="font-size:11px;color:#888;margin-left:8px">arms not on the list with a 6+ opposite-hand edge · review only, not bet · in-sample</span></div>'
+      + '<div style="overflow-x:auto"><table style="width:100%;border-collapse:collapse;font-size:13px">'
+      + '<thead><tr style="color:#888;text-align:left;border-bottom:1px solid #333">'
+      + '<th style="padding:4px 8px">Pitcher</th><th style="padding:4px 6px;text-align:center">Hand</th>'
+      + '<th style="padding:4px 8px;text-align:center">Suggest</th><th style="padding:4px 8px;text-align:center">W–L</th>'
+      + '<th style="padding:4px 8px;text-align:right">Units</th><th style="padding:4px 8px;text-align:center">GS</th>'
+      + '<th style="padding:4px 8px;text-align:right">ERA</th></tr></thead><tbody>' + wrows + '</tbody></table></div>';
+    el.appendChild(wc);
+  }
 }
 
 if (typeof esc === 'undefined') {

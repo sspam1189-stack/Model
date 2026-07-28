@@ -134,6 +134,18 @@ jobs:
           PYTHONIOENCODING: "utf-8"
         run: python -m scripts.build_all_ml
 
+      # Shadow watchlist for the handedness fade/tail idea: arms NOT on the
+      # active hand-tails list showing a platoon-disadvantage edge. Review-only
+      # (nothing bet). Reads the ALL-ML dataset built above, so runs after it.
+      - name: Build MLB hand-tails watchlist
+        continue-on-error: true
+        working-directory: MLBstrikeouts
+        env:
+          PYTHONUTF8: "1"
+          PYTHONUNBUFFERED: "1"
+          PYTHONIOENCODING: "utf-8"
+        run: python -m scripts.hand_tails_watch
+
       - name: Upload MLBstrikeouts data
         uses: actions/upload-artifact@v7
         with:
@@ -225,6 +237,7 @@ jobs:
           cp -f artifacts/MLBstrikeouts/mlb-props_w01c26.json PythonDashboard/data/mlb-props_w01c26.json 2>/dev/null || true
           cp -f artifacts/MLBstrikeouts/mlb-fade-ml.json PythonDashboard/data/mlb-fade-ml.json 2>/dev/null || true
           cp -f artifacts/MLBstrikeouts/mlb-hand-tails.json PythonDashboard/data/mlb-hand-tails.json 2>/dev/null || true
+          cp -f artifacts/MLBstrikeouts/mlb-hand-tails-watch.json PythonDashboard/data/mlb-hand-tails-watch.json 2>/dev/null || true
           cp -f artifacts/MLBstrikeouts/mlb-all-ml.json PythonDashboard/data/mlb-all-ml.json 2>/dev/null || true
           mkdir -p data/odds_cache/mlb_ml
           cp -a artifacts/mlb-ml-cache/. data/odds_cache/mlb_ml/ 2>/dev/null || true
