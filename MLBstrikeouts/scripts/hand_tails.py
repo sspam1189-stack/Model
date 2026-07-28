@@ -41,6 +41,11 @@ HAND_TAILS = {
     "Jacob Lopez": ("L", "take"), "Matthew Boyd": ("L", "take"),
     "Foster Griffin": ("L", "take"), "Eduardo Rodriguez": ("L", "take"),
     "Corbin": ("L", "take"),
+    # ---- Added 2026-07-27 from the shadow watchlist (clean, non-redundant) ----
+    "Joey Cantillo": ("L", "take"), "Bryce Elder": ("R", "take"),
+    "Martin Perez": ("L", "fade"), "McClanahan": ("L", "take"),
+    "Robbie Ray": ("L", "fade"), "Janson Junk": ("R", "take"),
+    "Anthony Kay": ("L", "take"),
 }
 _TAIL_TOKENS = {e: set(_norm(e).split()) for e in HAND_TAILS}
 
