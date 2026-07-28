@@ -537,6 +537,7 @@ async function renderMLBFadeML() {
       // Dim the side(s) that didn't qualify (suggest names the qualifying side).
       const homeDim = c.suggest === 'away', awayDim = c.suggest === 'home';
       return '<tr><td style="padding:4px 8px;font-weight:600">' + esc(c.pitcher) + '</td>'
+        + '<td style="padding:4px 6px;color:#999">' + esc(c.team || '') + '</td>'
         + '<td style="padding:4px 6px;text-align:center;color:' + sugColor + ';font-weight:700;text-transform:uppercase">' + esc(c.suggest) + '</td>'
         + splitCell(c.home, homeDim) + splitCell(c.away, awayDim) + splitCell(c.all) + '</tr>';
     }).join('');
@@ -546,7 +547,8 @@ async function renderMLBFadeML() {
       + '<span style="font-size:11px;color:#888;margin-left:8px">arms NOT on the fade list whose home or away fade clears ≥' + mg + ' games & +' + mu + 'u · review only, not bet · in-sample</span></div>'
       + '<div style="overflow-x:auto"><table style="width:100%;border-collapse:collapse;font-size:13px">'
       + '<thead><tr style="color:#888;text-align:left;border-bottom:1px solid #333">'
-      + '<th style="padding:4px 8px">Arm</th><th style="padding:4px 6px;text-align:center">Side</th>'
+      + '<th style="padding:4px 8px">Arm</th><th style="padding:4px 6px">Team</th>'
+      + '<th style="padding:4px 6px;text-align:center">Side</th>'
       + '<th style="padding:4px 8px;text-align:center">Home</th><th style="padding:4px 8px;text-align:center">Away</th>'
       + '<th style="padding:4px 8px;text-align:center">All</th></tr></thead><tbody>' + frows + '</tbody></table></div>';
     el.appendChild(fwc);

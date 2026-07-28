@@ -37,6 +37,9 @@ FADE_LIST = [
     "McLean", "Trevor Rogers", "Tolle", "Gerrit Cole",
     # Added 2026-07-28 (fade-candidate analysis): all-venue, both sides green.
     "Gage Jump",
+    # Promoted from the fade watchlist 2026-07-28 (season-backfilled). Singer
+    # away-only; Sullivan + Kikuchi + Palmquist all-venue.
+    "Brady Singer", "Sean Sullivan", "Yusei Kikuchi", "Carson Palmquist",
 ]
 
 # Per-arm venue restriction: fade the arm ONLY when his team plays at this
@@ -44,6 +47,7 @@ FADE_LIST = [
 # The venue is the arm's-team side of the game (away = he starts on the road).
 FADE_VENUE = {
     "Bryan Woo": "away",  # only fade when he starts on the road
+    "Brady Singer": "away",  # 2026-07-28 re-add from watchlist: away 7-3 +3.22u
     # Added 2026-07-27 (venue-restricted per candidate analysis).
     # Framber Valdez / Jack Flaherty promoted to all-venue 2026-07-28
     # (green at home too, so no restriction).
@@ -179,6 +183,11 @@ FADE_WINDOW = {
     "Gerrit Cole":       {"add": SEASON_START},  # all-venue (2026-07-28: restriction lifted)
     # Added 2026-07-28: all-venue fade, season-backfilled (home +18%, away +42%).
     "Gage Jump":         {"add": SEASON_START},
+    # Promoted from the fade watchlist 2026-07-28 (season-backfilled).
+    "Brady Singer":      {"add": SEASON_START},  # away-only (see FADE_VENUE)
+    "Sean Sullivan":     {"add": SEASON_START},
+    "Yusei Kikuchi":     {"add": SEASON_START},
+    "Carson Palmquist":  {"add": SEASON_START},
 }
 
 

@@ -36,7 +36,7 @@ OUTPUT_PATHS = [
 ]
 
 MIN_GAMES = 3      # a venue side needs at least this many fades to qualify
-MIN_UNITS = 2.0    # ...and must clear +this many units on that side
+MIN_UNITS = 2.5    # ...and must clear +this many units on that side
 
 
 def _rec(rows):
@@ -59,6 +59,7 @@ def build():
     # per pitcher -> {'home': [(profit,won,stake)...], 'away': [...]}. The arm's
     # venue is the side he starts on; the fade bets his opponent's ML.
     per = {}
+    team_by_key = {}   # key -> (latest_date, team_abbr) so the row shows his team
     for g in settled:
         d = g.get("date")
         if d and d < SEASON_START:
@@ -75,6 +76,10 @@ def build():
             key = (_norm(p), p)
             per.setdefault(key, {"home": [], "away": []})
             per[key][side].append((profit_for(odds, opp_won), opp_won, stake_for(odds)))
+            arm_team = g.get(side)                  # the arm's team (his venue side)
+            prev = team_by_key.get(key)
+            if arm_team and (prev is None or (d or "") >= prev[0]):
+                team_by_key[key] = ((d or ""), arm_team)
 
     cands = []
     for (nk, name), vs in per.items():
@@ -86,7 +91,8 @@ def build():
         suggest = "all" if (home_ok and away_ok) else ("home" if home_ok else "away")
         best_u = round((home["u"] if home_ok else 0) + (away["u"] if away_ok else 0), 2)
         cands.append({
-            "pitcher": name, "suggest": suggest, "suggestUnits": best_u,
+            "pitcher": name, "team": team_by_key.get((nk, name), ("", None))[1],
+            "suggest": suggest, "suggestUnits": best_u,
             "all": _rec(vs["home"] + vs["away"]), "home": home, "away": away,
         })
     cands.sort(key=lambda c: -c["suggestUnits"])
