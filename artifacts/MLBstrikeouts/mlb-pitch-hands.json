@@ -2,7 +2,7 @@
   "sport": "MLB",
   "type": "pitch-hands-today",
   "date": "2026-07-28",
-  "generated": "2026-07-28T17:18:06Z",
+  "generated": "2026-07-28T17:48:04Z",
   "hands": {
     "chase burns": "R",
     "slade cecconi": "R",
@@ -16,8 +16,6 @@
     "aaron nola": "R",
     "cade cavalli": "R",
     "shane bieber": "R",
-    "christian scott": "R",
-    "chris sale": "L",
     "taj bradley": "R",
     "seth lugo": "R",
     "anthony kay": "L",
@@ -31,7 +29,9 @@
     "michael lorenzen": "R",
     "landen roupp": "R",
     "logan henderson": "R",
-    "luis castillo": "R"
+    "luis castillo": "R",
+    "christian scott": "R",
+    "chris sale": "L"
   },
   "names": {
     "chase burns": "Chase Burns",
@@ -46,8 +46,6 @@
     "aaron nola": "Aaron Nola",
     "cade cavalli": "Cade Cavalli",
     "shane bieber": "Shane Bieber",
-    "christian scott": "Christian Scott",
-    "chris sale": "Chris Sale",
     "taj bradley": "Taj Bradley",
     "seth lugo": "Seth Lugo",
     "anthony kay": "Anthony Kay",
@@ -61,7 +59,9 @@
     "michael lorenzen": "Michael Lorenzen",
     "landen roupp": "Landen Roupp",
     "logan henderson": "Logan Henderson",
-    "luis castillo": "Luis Castillo"
+    "luis castillo": "Luis Castillo",
+    "christian scott": "Christian Scott",
+    "chris sale": "Chris Sale"
   },
   "starters": {
     "CIN": {
@@ -107,14 +107,6 @@
     "TOR": {
       "name": "Shane Bieber",
       "hand": "R"
-    },
-    "NYM": {
-      "name": "Christian Scott",
-      "hand": "R"
-    },
-    "ATL": {
-      "name": "Chris Sale",
-      "hand": "L"
     },
     "MIN": {
       "name": "Taj Bradley",
@@ -171,6 +163,14 @@
     "SEA": {
       "name": "Luis Castillo",
       "hand": "R"
+    },
+    "NYM": {
+      "name": "Christian Scott",
+      "hand": "R"
+    },
+    "ATL": {
+      "name": "Chris Sale",
+      "hand": "L"
     }
   }
 }
