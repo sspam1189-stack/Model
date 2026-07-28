@@ -409,7 +409,10 @@ async function renderMLBFadeML() {
       const resColor = b.result === 'WIN' ? GREEN : (b.result === 'LOSS' ? RED : '#888');
       const prof = settled ? ((b.profit >= 0 ? '+' : '') + b.profit.toFixed(2) + 'u') : '—';
       const profColor = !settled ? '#888' : (b.profit >= 0 ? GREEN : RED);
-      const pick = esc(b.selection || '?');
+      // Pick shows the bet team with an "@" prefix when it's the AWAY side
+      // (e.g. "@PIT" = betting PIT on the road, "PIT" = betting PIT at home).
+      const sel = b.selection || '?';
+      const pick = (sel === b.away ? '@' : '') + esc(sel);
       const note = b.result === 'VOID' ? (' <span style="color:#777;font-size:10px">' + esc(b.reason || 'void') + '</span>')
         : (b.result === 'SKIP' ? ' <span style="color:#777;font-size:10px">skip</span>' : '');
       rows += '<tr style="' + dim + '">'
