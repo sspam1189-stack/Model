@@ -38,7 +38,7 @@ OUTPUT_PATHS = [
 ]
 
 MIN_GAMES = 3      # need at least this many qualifying starts to appear
-MIN_UNITS = 2.0    # stronger side must clear +this many units to appear
+MIN_UNITS = 2.5    # stronger side must clear +this many units to appear
 
 
 def _norm(s):
