@@ -1,7 +1,7 @@
 {
   "sport": "MLB",
   "type": "fade-ml",
-  "generated": "2026-07-28T16:43:03Z",
+  "generated": "2026-07-28T16:46:57Z",
   "fadeList": [
     "Littell",
     "Mikolas",
@@ -74,28 +74,28 @@
   ],
   "mutualRule": "underdog_min",
   "summary": {
-    "wins": 409,
+    "wins": 407,
     "losses": 141,
     "voids": 3,
-    "skips": 37,
-    "staked": 679.42,
-    "units": 281.83,
-    "roi": 0.4148,
+    "skips": 36,
+    "staked": 677.5,
+    "units": 279.57,
+    "roi": 0.4126,
     "byType": {
       "ml": {
-        "wins": 399,
+        "wins": 397,
         "losses": 131,
         "voids": 3,
         "skips": 0,
-        "staked": 659.42,
-        "units": 278.09,
-        "roi": 0.4217
+        "staked": 657.5,
+        "units": 275.83,
+        "roi": 0.4195
       },
       "ml_dog": {
         "wins": 10,
         "losses": 10,
         "voids": 0,
-        "skips": 37,
+        "skips": 36,
         "staked": 20.0,
         "units": 3.74,
         "roi": 0.187
@@ -147,29 +147,6 @@
       "reason": null,
       "home": "STL",
       "away": "CHC",
-      "fadeReason": "all"
-    },
-    {
-      "date": "2026-07-28",
-      "commence": "2026-07-28T23:40:00Z",
-      "betType": "ml",
-      "shadow": false,
-      "pitchers": [
-        "Gerrit Cole"
-      ],
-      "fadeTeam": "NYY",
-      "market": "h2h",
-      "selection": "CWS",
-      "line": null,
-      "odds": 106,
-      "stake": 1.0,
-      "result": "pending",
-      "profit": 0.0,
-      "book": "fanduel",
-      "source": "fanduel_api",
-      "reason": null,
-      "home": "CWS",
-      "away": "NYY",
       "fadeReason": "all"
     },
     {
@@ -6987,7 +6964,7 @@
       "reason": null,
       "home": "NYY",
       "away": "CLE",
-      "fadeReason": "all"
+      "fadeReason": "home"
     },
     {
       "date": "2026-06-03",
@@ -7751,29 +7728,6 @@
       "reason": null,
       "home": "PIT",
       "away": "LAD",
-      "fadeReason": "all"
-    },
-    {
-      "date": "2026-06-09",
-      "commence": "2026-06-09T22:40:00Z",
-      "betType": "ml",
-      "shadow": false,
-      "pitchers": [
-        "Gerrit Cole"
-      ],
-      "fadeTeam": "NYY",
-      "market": "h2h",
-      "selection": "CLE",
-      "line": null,
-      "odds": 102,
-      "stake": 1.0,
-      "result": "LOSS",
-      "profit": -1.0,
-      "book": "fanduel",
-      "source": "oddsapi_fanduel",
-      "reason": null,
-      "home": "CLE",
-      "away": "NYY",
       "fadeReason": "all"
     },
     {
@@ -8582,7 +8536,7 @@
       "reason": null,
       "home": "NYY",
       "away": "CWS",
-      "fadeReason": "all"
+      "fadeReason": "home"
     },
     {
       "date": "2026-06-16",
@@ -9393,23 +9347,22 @@
     {
       "date": "2026-06-22",
       "commence": "2026-06-22T22:10:00Z",
-      "betType": "ml_dog",
+      "betType": "ml",
       "shadow": false,
       "pitchers": [
-        "Framber Valdez",
-        "Gerrit Cole"
+        "Framber Valdez"
       ],
-      "fadeTeam": null,
+      "fadeTeam": "DET",
       "market": "h2h",
-      "selection": null,
+      "selection": "NYY",
       "line": null,
-      "odds": null,
-      "stake": null,
-      "result": "SKIP",
-      "profit": 0.0,
+      "odds": -126,
+      "stake": 1.26,
+      "result": "LOSS",
+      "profit": -1.26,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
-      "reason": "dog_below_min",
+      "reason": null,
       "home": "DET",
       "away": "NYY",
       "fadeReason": "all"
@@ -9989,29 +9942,6 @@
       "reason": null,
       "home": "DET",
       "away": "HOU",
-      "fadeReason": "all"
-    },
-    {
-      "date": "2026-06-27",
-      "commence": "2026-06-27T17:10:00Z",
-      "betType": "ml",
-      "shadow": false,
-      "pitchers": [
-        "Gerrit Cole"
-      ],
-      "fadeTeam": "NYY",
-      "market": "h2h",
-      "selection": "BOS",
-      "line": null,
-      "odds": 100,
-      "stake": 1.0,
-      "result": "WIN",
-      "profit": 1.0,
-      "book": "fanduel",
-      "source": "oddsapi_fanduel",
-      "reason": null,
-      "home": "BOS",
-      "away": "NYY",
       "fadeReason": "all"
     },
     {
@@ -11002,7 +10932,7 @@
       "reason": null,
       "home": "NYY",
       "away": "MIN",
-      "fadeReason": "all"
+      "fadeReason": "home"
     },
     {
       "date": "2026-07-03",
@@ -11698,29 +11628,6 @@
     },
     {
       "date": "2026-07-08",
-      "commence": "2026-07-08T22:40:00Z",
-      "betType": "ml",
-      "shadow": false,
-      "pitchers": [
-        "Gerrit Cole"
-      ],
-      "fadeTeam": "NYY",
-      "market": "h2h",
-      "selection": "TB",
-      "line": null,
-      "odds": -118,
-      "stake": 1.18,
-      "result": "WIN",
-      "profit": 1.0,
-      "book": "fanduel",
-      "source": "oddsapi_fanduel",
-      "reason": null,
-      "home": "TB",
-      "away": "NYY",
-      "fadeReason": "all"
-    },
-    {
-      "date": "2026-07-08",
       "commence": "2026-07-08T23:40:00Z",
       "betType": "ml",
       "shadow": false,
@@ -12409,7 +12316,7 @@
       "reason": null,
       "home": "NYY",
       "away": "LAD",
-      "fadeReason": "all"
+      "fadeReason": "home"
     },
     {
       "date": "2026-07-17",
@@ -13174,7 +13081,7 @@
       "reason": null,
       "home": "NYY",
       "away": "PIT",
-      "fadeReason": "all"
+      "fadeReason": "all/home"
     },
     {
       "date": "2026-07-22",
