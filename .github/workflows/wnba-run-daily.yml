@@ -27,7 +27,10 @@ concurrency:
 # push means one deploy per run (halves this workflow's deploy load).
 jobs:
   wnba:
-    runs-on: windows-latest
+    # Self-hosted runner (same as the MLB daily): GitHub-hosted IPs are refused
+    # by stats.nba.com, so the WNBA stats fetch fails from windows-latest but
+    # works from the self-hosted runner's IP. Moved 2026-07-28.
+    runs-on: self-hosted
     defaults:
       run:
         shell: powershell
