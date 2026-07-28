@@ -157,12 +157,39 @@ def match_game(games, teams, pitcher=None):
     return cands[0]
 
 
+def _commence_epoch(s):
+    """ISO commence string -> epoch seconds, or None if unparseable."""
+    if not s:
+        return None
+    try:
+        return datetime.datetime.strptime(
+            s.replace("Z", "+0000"), "%Y-%m-%dT%H:%M:%S%z").timestamp()
+    except Exception:
+        return None
+
+
 def odds_row_for(odds_rows, g):
-    """Return the cached odds row for schedule game g, or None."""
-    for r in odds_rows or []:
-        if r.get("home") == g.get("home") and r.get("away") == g.get("away"):
-            return r
-    return None
+    """Return the odds row for schedule game g, matched by team pair AND the
+    nearest commence time.
+
+    Matching on the team pair alone cross-contaminates a two-day series (same
+    teams on consecutive days) and same-day doubleheaders -- the odds feed
+    carries a row per game, so we pick the one whose commence is closest to the
+    schedule game's. Falls back to the first team-pair match when commence times
+    are missing/unparseable.
+    """
+    cands = [r for r in (odds_rows or [])
+             if r.get("home") == g.get("home") and r.get("away") == g.get("away")]
+    if not cands:
+        return None
+    if len(cands) == 1:
+        return cands[0]
+    ge = _commence_epoch(g.get("commence"))
+    if ge is None:
+        return cands[0]
+    return min(cands, key=lambda r: (
+        abs(_commence_epoch(r.get("commence")) - ge)
+        if _commence_epoch(r.get("commence")) is not None else float("inf")))
 
 
 # --- staking + settlement -------------------------------------------------
@@ -281,6 +308,7 @@ def build_bets_for_game(date, fg, g, odds_row):
         for b in bets:
             b["home"] = g.get("home")
             b["away"] = g.get("away")
+            b["gamePk"] = g.get("gamePk")
 
     # Stamp the fade reason(s) so today's picks can show WHY the arm is faded:
     # 'home'/'away' for a venue-restricted arm, 'all' otherwise. Mutual games

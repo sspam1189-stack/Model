@@ -91,7 +91,6 @@ def main():
     # Stage 1 — today's FanDuel MLs + totals + schedule.
     games = fetch_schedule(date_key)
     ml_rows = _fetch_today_ml(date_key)
-    ml_by_matchup = {frozenset((r.get("home"), r.get("away"))): r for r in ml_rows}
 
     fgs = fade_games(starts_from_rows(today_rows), date_iso, venue_map(games))
 
@@ -110,10 +109,13 @@ def main():
     for g in games:
         if g.get("final") or not _is_preview(g):
             continue
-        mr = ml_by_matchup.get(frozenset((g.get("home"), g.get("away"))))
+        # Match by team pair AND nearest commence so a two-day series doesn't
+        # cross-contaminate (e.g. tomorrow's line landing on today's game).
+        mr = odds_row_for(ml_rows, g)
         if mr and mr.get("home_ml") is not None and mr.get("away_ml") is not None:
             cache_rows.append({
                 "date": date_iso, "commence": g.get("commence"),
+                "gamePk": g.get("gamePk"),
                 "home": g["home"], "away": g["away"],
                 "home_ml": mr["home_ml"], "away_ml": mr["away_ml"],
                 "total_line": mr.get("total_line"), "over_ml": mr.get("over_ml"),

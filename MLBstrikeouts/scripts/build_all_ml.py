@@ -116,6 +116,7 @@ def main():
             games.append({
                 "date": date_iso,
                 "commence": g.get("commence"),
+                "gamePk": g.get("gamePk"),
                 "home": g["home"], "away": g["away"],
                 "home_ml": od["home_ml"], "away_ml": od["away_ml"],
                 "home_pitcher": g.get("home_pitcher"),
@@ -143,6 +144,7 @@ def main():
                 continue
             today.append({
                 "date": today_iso, "commence": g.get("commence"),
+                "gamePk": g.get("gamePk"),
                 "home": g["home"], "away": g["away"],
                 "home_ml": od["home_ml"], "away_ml": od["away_ml"],
                 "total_line": od.get("total_line"),
