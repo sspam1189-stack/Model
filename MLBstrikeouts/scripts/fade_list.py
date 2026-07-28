@@ -26,10 +26,10 @@ FADE_LIST = [
     "Lowder", "Zebby Matthews", "Skenes",
     # Added 2026-07-27 from fade-candidate analysis (forward-only from that date).
     "Paddack", "Noah Cameron", "Gausman", "Woods Richardson", "Luis Castillo",
-    "Framber Valdez", "Kochanowicz", "Jack Flaherty", "Cecconi",
+    "Framber Valdez", "Kochanowicz", "Jack Flaherty", "Cecconi", "Detmers",
     "Ryne Nelson", "Feltner", "Wacha", "Bello", "Agnos",
     # Added 2026-07-27 (venue-split analysis): venue-restricted new arms.
-    "Mahle", "Aaron Nola", "Taillon", "Trevor McDonald", "Colin Rea",
+    "Mahle", "Aaron Nola", "Trevor McDonald", "Colin Rea",
     "Jack Perkins", "Tyler Phillips",
     # Added 2026-07-27 (all-pitcher fade screen, raw fade record).
     "Logan Webb", "Lodolo", "Michael King", "Mize", "Bryce Miller",
@@ -48,6 +48,7 @@ FADE_VENUE = {
     "Framber Valdez": "away",
     "Jack Flaherty": "away",
     "Cecconi": "away",
+    "Detmers": "home",
     "Ryne Nelson": "away",
     "Feltner": "away",
     "Wacha": "away",
@@ -55,7 +56,6 @@ FADE_VENUE = {
     # 2026-07-27 venue-split analysis: new venue-restricted adds.
     "Mahle": "away",           # home 3-5 -3.55u; away 8-0 +8.00u
     "Aaron Nola": "home",      # away 5-6 -1.90u; home 7-3 +4.76u
-    "Taillon": "home",         # away flat +0.10u; home 5-3 +2.52u
     "Trevor McDonald": "home", # away 3-4 -2.78u; home 5-2 +2.64u
     # 2026-07-27: existing all-venue arms leaking on one side -> restrict.
     "Freeland": "away",        # home 5-4 -1.20u; away 9-2 +4.25u
@@ -151,6 +151,7 @@ FADE_WINDOW = {
     "Kochanowicz":       {"add": SEASON_START},
     "Jack Flaherty":     {"add": SEASON_START},  # away-only (see FADE_VENUE)
     "Cecconi":           {"add": SEASON_START},  # away-only (see FADE_VENUE)
+    "Detmers":           {"add": SEASON_START},  # home-only (see FADE_VENUE)
     "Ryne Nelson":       {"add": SEASON_START},  # away-only (see FADE_VENUE)
     "Feltner":           {"add": SEASON_START},  # away-only (see FADE_VENUE)
     "Wacha":             {"add": SEASON_START},  # away-only (see FADE_VENUE)
@@ -158,7 +159,6 @@ FADE_WINDOW = {
     "Agnos":             {"add": SEASON_START},
     "Mahle":             {"add": SEASON_START},  # away-only (see FADE_VENUE)
     "Aaron Nola":        {"add": SEASON_START},  # home-only (see FADE_VENUE)
-    "Taillon":           {"add": SEASON_START},  # home-only (see FADE_VENUE)
     "Trevor McDonald":   {"add": SEASON_START},  # home-only (see FADE_VENUE)
     "Colin Rea":         {"add": SEASON_START},
     "Jack Perkins":      {"add": SEASON_START},
@@ -289,12 +289,12 @@ def is_fade(player_name, date=None, venue=None):
 # FADE_LIST (+ FADE_VENUE / FADE_WINDOW).
 WATCH_LIST = [
     # Moved from the fade list 2026-07-28 to watch the home/away split live.
-    "Cavalli", "Detmers",
+    "Cavalli", "Taillon",
 ]
 
 WATCH_WINDOW = {
     "Cavalli": {"add": SEASON_START},   # was home-only fade (home 9-2 +7.3u)
-    "Detmers": {"add": SEASON_START},   # was home-only fade
+    "Taillon": {"add": SEASON_START},   # was home-only fade (softest home edge)
 }
 
 _WATCH_TOKENS = [toks for toks in (_norm(e).split() for e in WATCH_LIST) if toks]

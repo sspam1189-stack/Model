@@ -1,7 +1,7 @@
 {
   "sport": "MLB",
   "type": "fade-ml",
-  "generated": "2026-07-28T15:48:06Z",
+  "generated": "2026-07-28T15:56:56Z",
   "fadeList": [
     "Littell",
     "Mikolas",
@@ -41,6 +41,7 @@
     "Kochanowicz",
     "Jack Flaherty",
     "Cecconi",
+    "Detmers",
     "Ryne Nelson",
     "Feltner",
     "Wacha",
@@ -48,7 +49,6 @@
     "Agnos",
     "Mahle",
     "Aaron Nola",
-    "Taillon",
     "Trevor McDonald",
     "Colin Rea",
     "Jack Perkins",
@@ -70,32 +70,32 @@
   ],
   "watchList": [
     "Cavalli",
-    "Detmers"
+    "Taillon"
   ],
   "mutualRule": "underdog_min",
   "summary": {
-    "wins": 383,
-    "losses": 137,
+    "wins": 387,
+    "losses": 140,
     "voids": 3,
-    "skips": 32,
-    "staked": 641.46,
-    "units": 258.41,
-    "roi": 0.4028,
+    "skips": 30,
+    "staked": 649.8,
+    "units": 258.81,
+    "roi": 0.3983,
     "byType": {
       "ml": {
-        "wins": 374,
-        "losses": 128,
+        "wins": 378,
+        "losses": 131,
         "voids": 3,
         "skips": 0,
-        "staked": 623.46,
-        "units": 254.91,
-        "roi": 0.4089
+        "staked": 631.8,
+        "units": 255.31,
+        "roi": 0.4041
       },
       "ml_dog": {
         "wins": 9,
         "losses": 9,
         "voids": 0,
-        "skips": 32,
+        "skips": 30,
         "staked": 18.0,
         "units": 3.5,
         "roi": 0.1944
@@ -103,13 +103,13 @@
     },
     "watch": {
       "record": {
-        "wins": 23,
-        "losses": 16,
+        "wins": 19,
+        "losses": 14,
         "voids": 0,
         "skips": 0,
-        "staked": 49.43,
-        "units": 3.86,
-        "roi": 0.0781
+        "staked": 39.59,
+        "units": 3.28,
+        "roi": 0.0828
       },
       "arms": [
         {
@@ -143,33 +143,33 @@
           }
         },
         {
-          "arm": "Reid Detmers",
+          "arm": "Jameson Taillon",
           "all": {
-            "wins": 11,
-            "losses": 8,
+            "wins": 7,
+            "losses": 6,
             "voids": 0,
             "skips": 0,
-            "staked": 24.44,
-            "units": 1.0,
-            "roi": 0.0409
+            "staked": 14.6,
+            "units": 0.42,
+            "roi": 0.0288
           },
           "home": {
-            "wins": 6,
-            "losses": 4,
+            "wins": 4,
+            "losses": 3,
             "voids": 0,
             "skips": 0,
-            "staked": 10.92,
-            "units": 1.9,
-            "roi": 0.174
+            "staked": 7.08,
+            "units": 1.32,
+            "roi": 0.1864
           },
           "away": {
-            "wins": 5,
-            "losses": 4,
+            "wins": 3,
+            "losses": 3,
             "voids": 0,
             "skips": 0,
-            "staked": 13.52,
+            "staked": 7.52,
             "units": -0.9,
-            "roi": -0.0666
+            "roi": -0.1197
           }
         }
       ]
@@ -221,6 +221,29 @@
       "home": "STL",
       "away": "CHC",
       "fadeReason": "all"
+    },
+    {
+      "date": "2026-07-28",
+      "commence": "2026-07-29T01:38:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Reid Detmers"
+      ],
+      "fadeTeam": "LAA",
+      "market": "h2h",
+      "selection": "HOU",
+      "line": null,
+      "odds": -106,
+      "stake": 1.06,
+      "result": "pending",
+      "profit": 0.0,
+      "book": "fanduel",
+      "source": "fanduel_api",
+      "reason": null,
+      "home": "LAA",
+      "away": "HOU",
+      "fadeReason": "home"
     },
     {
       "date": "2026-07-28",
@@ -290,29 +313,6 @@
       "home": "LAD",
       "away": "SEA",
       "fadeReason": "all"
-    },
-    {
-      "date": "2026-07-28",
-      "commence": "2026-07-29T01:38:00Z",
-      "betType": "ml_watch",
-      "shadow": true,
-      "pitchers": [
-        "Reid Detmers"
-      ],
-      "fadeTeam": "LAA",
-      "market": "h2h",
-      "selection": "HOU",
-      "line": null,
-      "odds": -106,
-      "stake": 1.06,
-      "result": "pending",
-      "profit": 0.0,
-      "book": "fanduel",
-      "source": "fanduel_api",
-      "reason": null,
-      "home": "LAA",
-      "away": "HOU",
-      "fadeReason": "watch"
     },
     {
       "date": "2026-07-28",
@@ -550,8 +550,8 @@
     {
       "date": "2026-04-08",
       "commence": "2026-04-08T20:07:00Z",
-      "betType": "ml_watch",
-      "shadow": true,
+      "betType": "ml",
+      "shadow": false,
       "pitchers": [
         "Reid Detmers"
       ],
@@ -568,7 +568,7 @@
       "reason": null,
       "home": "LAA",
       "away": "ATL",
-      "fadeReason": "watch"
+      "fadeReason": "home"
     },
     {
       "date": "2026-04-08",
@@ -966,26 +966,48 @@
     {
       "date": "2026-04-12",
       "commence": "2026-04-12T18:20:00Z",
-      "betType": "ml_dog",
+      "betType": "ml",
       "shadow": false,
       "pitchers": [
-        "Jameson Taillon",
         "Bubba Chandler"
       ],
-      "fadeTeam": null,
+      "fadeTeam": "PIT",
       "market": "h2h",
-      "selection": null,
+      "selection": "CHC",
       "line": null,
-      "odds": null,
-      "stake": null,
-      "result": "SKIP",
-      "profit": 0.0,
+      "odds": -132,
+      "stake": 1.32,
+      "result": "WIN",
+      "profit": 1.0,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
-      "reason": "dog_below_min",
+      "reason": null,
       "home": "CHC",
       "away": "PIT",
-      "fadeReason": "home/away"
+      "fadeReason": "away"
+    },
+    {
+      "date": "2026-04-12",
+      "commence": "2026-04-12T18:20:00Z",
+      "betType": "ml_watch",
+      "shadow": true,
+      "pitchers": [
+        "Jameson Taillon"
+      ],
+      "fadeTeam": "CHC",
+      "market": "h2h",
+      "selection": "PIT",
+      "line": null,
+      "odds": 112,
+      "stake": 1.0,
+      "result": "LOSS",
+      "profit": -1.0,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null,
+      "home": "CHC",
+      "away": "PIT",
+      "fadeReason": "watch"
     },
     {
       "date": "2026-04-13",
@@ -1147,29 +1169,6 @@
       "home": "PHI",
       "away": "CHC",
       "fadeReason": "home"
-    },
-    {
-      "date": "2026-04-14",
-      "commence": "2026-04-14T23:05:00Z",
-      "betType": "ml_watch",
-      "shadow": true,
-      "pitchers": [
-        "Reid Detmers"
-      ],
-      "fadeTeam": "LAA",
-      "market": "h2h",
-      "selection": "NYY",
-      "line": null,
-      "odds": -180,
-      "stake": 1.8,
-      "result": "LOSS",
-      "profit": -1.8,
-      "book": "fanduel",
-      "source": "oddsapi_fanduel",
-      "reason": null,
-      "home": "NYY",
-      "away": "LAA",
-      "fadeReason": "watch"
     },
     {
       "date": "2026-04-14",
@@ -1589,26 +1588,48 @@
     {
       "date": "2026-04-18",
       "commence": "2026-04-18T18:20:00Z",
-      "betType": "ml_dog",
+      "betType": "ml",
       "shadow": false,
       "pitchers": [
-        "Jameson Taillon",
         "Freddy Peralta"
       ],
-      "fadeTeam": null,
+      "fadeTeam": "NYM",
       "market": "h2h",
-      "selection": null,
+      "selection": "CHC",
       "line": null,
-      "odds": null,
-      "stake": null,
-      "result": "SKIP",
-      "profit": 0.0,
+      "odds": -110,
+      "stake": 1.1,
+      "result": "WIN",
+      "profit": 1.0,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
-      "reason": "dog_below_min",
+      "reason": null,
       "home": "CHC",
       "away": "NYM",
-      "fadeReason": "home/all"
+      "fadeReason": "all"
+    },
+    {
+      "date": "2026-04-18",
+      "commence": "2026-04-18T18:20:00Z",
+      "betType": "ml_watch",
+      "shadow": true,
+      "pitchers": [
+        "Jameson Taillon"
+      ],
+      "fadeTeam": "CHC",
+      "market": "h2h",
+      "selection": "NYM",
+      "line": null,
+      "odds": -106,
+      "stake": 1.06,
+      "result": "LOSS",
+      "profit": -1.06,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null,
+      "home": "CHC",
+      "away": "NYM",
+      "fadeReason": "watch"
     },
     {
       "date": "2026-04-18",
@@ -1913,8 +1934,8 @@
     {
       "date": "2026-04-20",
       "commence": "2026-04-21T01:38:00Z",
-      "betType": "ml_watch",
-      "shadow": true,
+      "betType": "ml",
+      "shadow": false,
       "pitchers": [
         "Reid Detmers"
       ],
@@ -1931,7 +1952,7 @@
       "reason": null,
       "home": "LAA",
       "away": "TOR",
-      "fadeReason": "watch"
+      "fadeReason": "home"
     },
     {
       "date": "2026-04-21",
@@ -2372,6 +2393,29 @@
       "fadeReason": "all"
     },
     {
+      "date": "2026-04-24",
+      "commence": "2026-04-25T02:15:00Z",
+      "betType": "ml_watch",
+      "shadow": true,
+      "pitchers": [
+        "Jameson Taillon"
+      ],
+      "fadeTeam": "CHC",
+      "market": "h2h",
+      "selection": "LAD",
+      "line": null,
+      "odds": -156,
+      "stake": 1.56,
+      "result": "LOSS",
+      "profit": -1.56,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null,
+      "home": "LAD",
+      "away": "CHC",
+      "fadeReason": "watch"
+    },
+    {
       "date": "2026-04-25",
       "commence": "2026-04-25T16:05:00Z",
       "betType": "ml",
@@ -2694,29 +2738,6 @@
       "fadeReason": "away"
     },
     {
-      "date": "2026-04-26",
-      "commence": "2026-04-26T20:10:00Z",
-      "betType": "ml_watch",
-      "shadow": true,
-      "pitchers": [
-        "Reid Detmers"
-      ],
-      "fadeTeam": "LAA",
-      "market": "h2h",
-      "selection": "KC",
-      "line": null,
-      "odds": -118,
-      "stake": 1.18,
-      "result": "WIN",
-      "profit": 1.0,
-      "book": "fanduel",
-      "source": "oddsapi_fanduel",
-      "reason": null,
-      "home": "KC",
-      "away": "LAA",
-      "fadeReason": "watch"
-    },
-    {
       "date": "2026-04-27",
       "commence": "2026-04-27T23:40:00Z",
       "betType": "ml",
@@ -2991,6 +3012,29 @@
       "home": "TOR",
       "away": "BOS",
       "fadeReason": "all"
+    },
+    {
+      "date": "2026-04-29",
+      "commence": "2026-04-29T20:10:00Z",
+      "betType": "ml_watch",
+      "shadow": true,
+      "pitchers": [
+        "Jameson Taillon"
+      ],
+      "fadeTeam": "CHC",
+      "market": "h2h",
+      "selection": "SD",
+      "line": null,
+      "odds": -112,
+      "stake": 1.12,
+      "result": "LOSS",
+      "profit": -1.12,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null,
+      "home": "SD",
+      "away": "CHC",
+      "fadeReason": "watch"
     },
     {
       "date": "2026-04-29",
@@ -3459,8 +3503,8 @@
     {
       "date": "2026-05-02",
       "commence": "2026-05-03T01:38:00Z",
-      "betType": "ml_watch",
-      "shadow": true,
+      "betType": "ml",
+      "shadow": false,
       "pitchers": [
         "Reid Detmers"
       ],
@@ -3477,7 +3521,7 @@
       "reason": null,
       "home": "LAA",
       "away": "NYM",
-      "fadeReason": "watch"
+      "fadeReason": "home"
     },
     {
       "date": "2026-05-03",
@@ -3689,8 +3733,8 @@
     {
       "date": "2026-05-05",
       "commence": "2026-05-05T23:40:00Z",
-      "betType": "ml",
-      "shadow": false,
+      "betType": "ml_watch",
+      "shadow": true,
       "pitchers": [
         "Jameson Taillon"
       ],
@@ -3707,7 +3751,7 @@
       "reason": null,
       "home": "CHC",
       "away": "CIN",
-      "fadeReason": "home"
+      "fadeReason": "watch"
     },
     {
       "date": "2026-05-05",
@@ -3987,29 +4031,6 @@
     },
     {
       "date": "2026-05-08",
-      "commence": "2026-05-08T23:07:00Z",
-      "betType": "ml_watch",
-      "shadow": true,
-      "pitchers": [
-        "Reid Detmers"
-      ],
-      "fadeTeam": "LAA",
-      "market": "h2h",
-      "selection": "TOR",
-      "line": null,
-      "odds": -158,
-      "stake": 1.58,
-      "result": "WIN",
-      "profit": 1.0,
-      "book": "fanduel",
-      "source": "oddsapi_fanduel",
-      "reason": null,
-      "home": "TOR",
-      "away": "LAA",
-      "fadeReason": "watch"
-    },
-    {
-      "date": "2026-05-08",
       "commence": "2026-05-09T00:05:00Z",
       "betType": "ml",
       "shadow": false,
@@ -4238,6 +4259,29 @@
       "home": "BOS",
       "away": "TB",
       "fadeReason": "home"
+    },
+    {
+      "date": "2026-05-10",
+      "commence": "2026-05-10T18:35:00Z",
+      "betType": "ml_watch",
+      "shadow": true,
+      "pitchers": [
+        "Jameson Taillon"
+      ],
+      "fadeTeam": "CHC",
+      "market": "h2h",
+      "selection": "TEX",
+      "line": null,
+      "odds": -122,
+      "stake": 1.22,
+      "result": "WIN",
+      "profit": 1.0,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null,
+      "home": "TEX",
+      "away": "CHC",
+      "fadeReason": "watch"
     },
     {
       "date": "2026-05-10",
@@ -4515,29 +4559,6 @@
       "home": "OAK",
       "away": "STL",
       "fadeReason": "home"
-    },
-    {
-      "date": "2026-05-13",
-      "commence": "2026-05-13T17:10:00Z",
-      "betType": "ml_watch",
-      "shadow": true,
-      "pitchers": [
-        "Reid Detmers"
-      ],
-      "fadeTeam": "LAA",
-      "market": "h2h",
-      "selection": "CLE",
-      "line": null,
-      "odds": -156,
-      "stake": 1.56,
-      "result": "WIN",
-      "profit": 1.0,
-      "book": "fanduel",
-      "source": "oddsapi_fanduel",
-      "reason": null,
-      "home": "CLE",
-      "away": "LAA",
-      "fadeReason": "watch"
     },
     {
       "date": "2026-05-13",
@@ -5073,6 +5094,29 @@
       "fadeReason": "all"
     },
     {
+      "date": "2026-05-16",
+      "commence": "2026-05-16T23:10:00Z",
+      "betType": "ml_watch",
+      "shadow": true,
+      "pitchers": [
+        "Jameson Taillon"
+      ],
+      "fadeTeam": "CHC",
+      "market": "h2h",
+      "selection": "CWS",
+      "line": null,
+      "odds": -108,
+      "stake": 1.08,
+      "result": "WIN",
+      "profit": 1.0,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null,
+      "home": "CWS",
+      "away": "CHC",
+      "fadeReason": "watch"
+    },
+    {
       "date": "2026-05-17",
       "commence": "2026-05-17T17:35:00Z",
       "betType": "ml",
@@ -5305,8 +5349,8 @@
     {
       "date": "2026-05-19",
       "commence": "2026-05-20T01:38:00Z",
-      "betType": "ml_watch",
-      "shadow": true,
+      "betType": "ml",
+      "shadow": false,
       "pitchers": [
         "Reid Detmers"
       ],
@@ -5323,7 +5367,7 @@
       "reason": null,
       "home": "LAA",
       "away": "OAK",
-      "fadeReason": "watch"
+      "fadeReason": "home"
     },
     {
       "date": "2026-05-19",
@@ -5559,8 +5603,8 @@
     {
       "date": "2026-05-22",
       "commence": "2026-05-22T18:20:00Z",
-      "betType": "ml",
-      "shadow": false,
+      "betType": "ml_watch",
+      "shadow": true,
       "pitchers": [
         "Jameson Taillon"
       ],
@@ -5577,7 +5621,7 @@
       "reason": null,
       "home": "CHC",
       "away": "HOU",
-      "fadeReason": "home"
+      "fadeReason": "watch"
     },
     {
       "date": "2026-05-22",
@@ -5929,8 +5973,8 @@
     {
       "date": "2026-05-24",
       "commence": "2026-05-24T23:20:00Z",
-      "betType": "ml_watch",
-      "shadow": true,
+      "betType": "ml",
+      "shadow": false,
       "pitchers": [
         "Reid Detmers"
       ],
@@ -5947,7 +5991,7 @@
       "reason": null,
       "home": "LAA",
       "away": "TEX",
-      "fadeReason": "watch"
+      "fadeReason": "home"
     },
     {
       "date": "2026-05-25",
@@ -6343,6 +6387,29 @@
     },
     {
       "date": "2026-05-27",
+      "commence": "2026-05-27T22:40:00Z",
+      "betType": "ml_watch",
+      "shadow": true,
+      "pitchers": [
+        "Jameson Taillon"
+      ],
+      "fadeTeam": "CHC",
+      "market": "h2h",
+      "selection": "PIT",
+      "line": null,
+      "odds": -122,
+      "stake": 1.22,
+      "result": "LOSS",
+      "profit": -1.22,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null,
+      "home": "PIT",
+      "away": "CHC",
+      "fadeReason": "watch"
+    },
+    {
+      "date": "2026-05-27",
       "commence": "2026-05-27T23:40:00Z",
       "betType": "ml",
       "shadow": false,
@@ -6663,29 +6730,6 @@
       "home": "BAL",
       "away": "TOR",
       "fadeReason": "away"
-    },
-    {
-      "date": "2026-05-30",
-      "commence": "2026-05-30T20:10:00Z",
-      "betType": "ml_watch",
-      "shadow": true,
-      "pitchers": [
-        "Reid Detmers"
-      ],
-      "fadeTeam": "LAA",
-      "market": "h2h",
-      "selection": "TB",
-      "line": null,
-      "odds": -172,
-      "stake": 1.72,
-      "result": "LOSS",
-      "profit": -1.72,
-      "book": "fanduel",
-      "source": "oddsapi_fanduel",
-      "reason": null,
-      "home": "TB",
-      "away": "LAA",
-      "fadeReason": "watch"
     },
     {
       "date": "2026-05-30",
@@ -7129,8 +7173,8 @@
     {
       "date": "2026-06-02",
       "commence": "2026-06-03T00:05:00Z",
-      "betType": "ml",
-      "shadow": false,
+      "betType": "ml_watch",
+      "shadow": true,
       "pitchers": [
         "Jameson Taillon"
       ],
@@ -7147,7 +7191,7 @@
       "reason": null,
       "home": "CHC",
       "away": "OAK",
-      "fadeReason": "home"
+      "fadeReason": "watch"
     },
     {
       "date": "2026-06-02",
@@ -7495,29 +7539,6 @@
       "home": "ARI",
       "away": "WSH",
       "fadeReason": "all"
-    },
-    {
-      "date": "2026-06-05",
-      "commence": "2026-06-06T02:10:00Z",
-      "betType": "ml_watch",
-      "shadow": true,
-      "pitchers": [
-        "Reid Detmers"
-      ],
-      "fadeTeam": "LAA",
-      "market": "h2h",
-      "selection": "LAD",
-      "line": null,
-      "odds": -196,
-      "stake": 1.96,
-      "result": "WIN",
-      "profit": 1.0,
-      "book": "fanduel",
-      "source": "oddsapi_fanduel",
-      "reason": null,
-      "home": "LAD",
-      "away": "LAA",
-      "fadeReason": "watch"
     },
     {
       "date": "2026-06-06",
@@ -7869,8 +7890,8 @@
     {
       "date": "2026-06-07",
       "commence": "2026-06-08T00:30:00Z",
-      "betType": "ml",
-      "shadow": false,
+      "betType": "ml_watch",
+      "shadow": true,
       "pitchers": [
         "Jameson Taillon"
       ],
@@ -7887,7 +7908,7 @@
       "reason": null,
       "home": "CHC",
       "away": "SF",
-      "fadeReason": "home"
+      "fadeReason": "watch"
     },
     {
       "date": "2026-06-08",
@@ -8145,8 +8166,8 @@
     {
       "date": "2026-06-10",
       "commence": "2026-06-11T01:38:00Z",
-      "betType": "ml_watch",
-      "shadow": true,
+      "betType": "ml",
+      "shadow": false,
       "pitchers": [
         "Reid Detmers"
       ],
@@ -8163,7 +8184,7 @@
       "reason": null,
       "home": "LAA",
       "away": "HOU",
-      "fadeReason": "watch"
+      "fadeReason": "home"
     },
     {
       "date": "2026-06-11",
@@ -8998,29 +9019,6 @@
       "fadeReason": "all"
     },
     {
-      "date": "2026-06-16",
-      "commence": "2026-06-17T01:40:00Z",
-      "betType": "ml_watch",
-      "shadow": true,
-      "pitchers": [
-        "Reid Detmers"
-      ],
-      "fadeTeam": "LAA",
-      "market": "h2h",
-      "selection": "ARI",
-      "line": null,
-      "odds": -108,
-      "stake": 1.08,
-      "result": "LOSS",
-      "profit": -1.08,
-      "book": "fanduel",
-      "source": "oddsapi_fanduel",
-      "reason": null,
-      "home": "ARI",
-      "away": "LAA",
-      "fadeReason": "watch"
-    },
-    {
       "date": "2026-06-17",
       "commence": "2026-06-17T16:40:00Z",
       "betType": "ml",
@@ -9594,29 +9592,6 @@
       "home": "OAK",
       "away": "LAA",
       "fadeReason": "all"
-    },
-    {
-      "date": "2026-06-21",
-      "commence": "2026-06-21T20:05:00Z",
-      "betType": "ml_watch",
-      "shadow": true,
-      "pitchers": [
-        "Reid Detmers"
-      ],
-      "fadeTeam": "LAA",
-      "market": "h2h",
-      "selection": "OAK",
-      "line": null,
-      "odds": -130,
-      "stake": 1.3,
-      "result": "LOSS",
-      "profit": -1.3,
-      "book": "fanduel",
-      "source": "oddsapi_fanduel",
-      "reason": null,
-      "home": "OAK",
-      "away": "LAA",
-      "fadeReason": "watch"
     },
     {
       "date": "2026-06-21",
@@ -10313,48 +10288,26 @@
     {
       "date": "2026-06-27",
       "commence": "2026-06-28T01:38:00Z",
-      "betType": "ml",
+      "betType": "ml_dog",
       "shadow": false,
       "pitchers": [
+        "Reid Detmers",
         "Jack Perkins"
       ],
-      "fadeTeam": "OAK",
+      "fadeTeam": null,
       "market": "h2h",
-      "selection": "LAA",
+      "selection": null,
       "line": null,
-      "odds": -112,
-      "stake": 1.12,
-      "result": "WIN",
-      "profit": 1.0,
+      "odds": null,
+      "stake": null,
+      "result": "SKIP",
+      "profit": 0.0,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
-      "reason": null,
+      "reason": "dog_below_min",
       "home": "LAA",
       "away": "OAK",
-      "fadeReason": "all"
-    },
-    {
-      "date": "2026-06-27",
-      "commence": "2026-06-28T01:38:00Z",
-      "betType": "ml_watch",
-      "shadow": true,
-      "pitchers": [
-        "Reid Detmers"
-      ],
-      "fadeTeam": "LAA",
-      "market": "h2h",
-      "selection": "OAK",
-      "line": null,
-      "odds": -104,
-      "stake": 1.04,
-      "result": "LOSS",
-      "profit": -1.04,
-      "book": "fanduel",
-      "source": "oddsapi_fanduel",
-      "reason": null,
-      "home": "LAA",
-      "away": "OAK",
-      "fadeReason": "watch"
+      "fadeReason": "home/all"
     },
     {
       "date": "2026-06-28",
@@ -11187,8 +11140,8 @@
     {
       "date": "2026-07-03",
       "commence": "2026-07-04T01:38:00Z",
-      "betType": "ml_watch",
-      "shadow": true,
+      "betType": "ml",
+      "shadow": false,
       "pitchers": [
         "Reid Detmers"
       ],
@@ -11205,7 +11158,7 @@
       "reason": null,
       "home": "LAA",
       "away": "BOS",
-      "fadeReason": "watch"
+      "fadeReason": "home"
     },
     {
       "date": "2026-07-03",
@@ -12040,29 +11993,6 @@
     },
     {
       "date": "2026-07-09",
-      "commence": "2026-07-10T00:05:00Z",
-      "betType": "ml_watch",
-      "shadow": true,
-      "pitchers": [
-        "Reid Detmers"
-      ],
-      "fadeTeam": "LAA",
-      "market": "h2h",
-      "selection": "TEX",
-      "line": null,
-      "odds": -134,
-      "stake": 1.34,
-      "result": "WIN",
-      "profit": 1.0,
-      "book": "fanduel",
-      "source": "oddsapi_fanduel",
-      "reason": null,
-      "home": "TEX",
-      "away": "LAA",
-      "fadeReason": "watch"
-    },
-    {
-      "date": "2026-07-09",
       "commence": "2026-07-10T01:40:00Z",
       "betType": "ml_dog",
       "shadow": false,
@@ -12663,8 +12593,8 @@
     {
       "date": "2026-07-17",
       "commence": "2026-07-18T01:38:00Z",
-      "betType": "ml_watch",
-      "shadow": true,
+      "betType": "ml",
+      "shadow": false,
       "pitchers": [
         "Reid Detmers"
       ],
@@ -12681,7 +12611,7 @@
       "reason": null,
       "home": "LAA",
       "away": "DET",
-      "fadeReason": "watch"
+      "fadeReason": "home"
     },
     {
       "date": "2026-07-17",
@@ -13149,26 +13079,48 @@
     {
       "date": "2026-07-20",
       "commence": "2026-07-21T00:05:00Z",
-      "betType": "ml_dog",
+      "betType": "ml",
       "shadow": false,
       "pitchers": [
-        "Jack Flaherty",
-        "Jameson Taillon"
+        "Jack Flaherty"
       ],
-      "fadeTeam": null,
+      "fadeTeam": "DET",
       "market": "h2h",
-      "selection": null,
+      "selection": "CHC",
       "line": null,
-      "odds": null,
-      "stake": null,
-      "result": "SKIP",
-      "profit": 0.0,
+      "odds": -116,
+      "stake": 1.16,
+      "result": "LOSS",
+      "profit": -1.16,
       "book": "fanduel",
       "source": "fanduel_api",
-      "reason": "dog_below_min",
+      "reason": null,
       "home": "CHC",
       "away": "DET",
-      "fadeReason": "away/home"
+      "fadeReason": "away"
+    },
+    {
+      "date": "2026-07-20",
+      "commence": "2026-07-21T00:05:00Z",
+      "betType": "ml_watch",
+      "shadow": true,
+      "pitchers": [
+        "Jameson Taillon"
+      ],
+      "fadeTeam": "CHC",
+      "market": "h2h",
+      "selection": "DET",
+      "line": null,
+      "odds": -102,
+      "stake": 1.02,
+      "result": "WIN",
+      "profit": 1.0,
+      "book": "fanduel",
+      "source": "fanduel_api",
+      "reason": null,
+      "home": "CHC",
+      "away": "DET",
+      "fadeReason": "watch"
     },
     {
       "date": "2026-07-21",
@@ -13453,8 +13405,8 @@
     {
       "date": "2026-07-22",
       "commence": "2026-07-22T20:07:00Z",
-      "betType": "ml_watch",
-      "shadow": true,
+      "betType": "ml",
+      "shadow": false,
       "pitchers": [
         "Reid Detmers"
       ],
@@ -13471,7 +13423,7 @@
       "reason": null,
       "home": "LAA",
       "away": "STL",
-      "fadeReason": "watch"
+      "fadeReason": "home"
     },
     {
       "date": "2026-07-22",
@@ -13889,6 +13841,29 @@
       "home": "BAL",
       "away": "ATL",
       "fadeReason": "all"
+    },
+    {
+      "date": "2026-07-26",
+      "commence": "2026-07-26T17:35:00Z",
+      "betType": "ml_watch",
+      "shadow": true,
+      "pitchers": [
+        "Jameson Taillon"
+      ],
+      "fadeTeam": "CHC",
+      "market": "h2h",
+      "selection": "PIT",
+      "line": null,
+      "odds": -132,
+      "stake": 1.32,
+      "result": "WIN",
+      "profit": 1.0,
+      "book": "fanduel",
+      "source": "fanduel_api",
+      "reason": null,
+      "home": "PIT",
+      "away": "CHC",
+      "fadeReason": "watch"
     },
     {
       "date": "2026-07-26",
