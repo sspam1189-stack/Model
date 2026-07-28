@@ -91,6 +91,20 @@ async function renderMLBFadeML() {
       + ' · ' + (((r.roi || 0) * 100 >= 0 ? '+' : '') + ((r.roi || 0) * 100).toFixed(1)) + '%</span></div>';
     chips.appendChild(card);
   });
+  // Tail ML card — hand-tails "take" side (back the arm's own team), own ledger.
+  const tk = ((tailData || {}).summary || {}).byAction && tailData.summary.byAction.take;
+  if (tk) {
+    const card = document.createElement('div');
+    card.className = 'card';
+    card.style.cssText = 'flex:1;min-width:180px;padding:10px 14px';
+    card.innerHTML =
+      '<div style="font-weight:600;color:#ddd">Tail ML</div>'
+      + '<div style="font-size:11px;color:#888;margin-bottom:6px">Back the arm’s team → 6+ opposite-hand lineup</div>'
+      + '<div style="font-size:18px;font-weight:700">' + (tk.wins || 0) + '–' + (tk.losses || 0)
+      + ' <span style="font-size:14px;color:' + uColor(tk.units) + '">' + uStr(tk.units)
+      + ' · ' + (((tk.roi || 0) * 100 >= 0 ? '+' : '') + ((tk.roi || 0) * 100).toFixed(1)) + '%</span></div>';
+    chips.appendChild(card);
+  }
   el.appendChild(chips);
 
   // ---- Today's plays ----
@@ -114,7 +128,7 @@ async function renderMLBFadeML() {
   el.appendChild(tCard);
 
   // ---- Season bet log (filterable by Fade/Tail + pick + pitcher + venue) ----
-  const typeTag = { ml: 'ML', ml_dog: 'DOG', hand_fade: 'H·FADE', hand_take: 'TAIL' };
+  const typeTag = { ml: 'Fade', ml_dog: 'DOG', hand_fade: 'Fade', hand_take: 'TAIL' };
   // Fade-list bets (kind=fade) merged with hand-tails bets (kind=tail when the
   // pick backs the arm's own team, else fade). Normalize hand-tails fields to
   // what the log renderer expects (pitchers[], fadeTeam for the Venue filter).
