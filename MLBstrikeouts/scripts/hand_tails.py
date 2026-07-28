@@ -88,14 +88,74 @@ def _load_caches():
     return bs, bo
 
 
+@functools.lru_cache(maxsize=16)
+def _load_today_lineups(date_iso):
+    """{team: [player_ids]} from lineups_YYYYMMDD.json -- today's POSTED lineup,
+    which the props model writes for the current (not-yet-played) slate. The
+    season batting_orders cache only holds completed games, so the current
+    date isn't in it; this fills that gap so today's hand-tails triggers fire."""
+    key = str(date_iso).replace("-", "")
+    p = os.path.join(_CACHE_DIR, f"lineups_{key}.json")
+    try:
+        with open(p, "r", encoding="utf-8") as f:
+            data = json.load(f)
+    except Exception:
+        return {}
+    out = {}
+    for team, v in (data or {}).items():
+        ids = v.get("player_ids") if isinstance(v, dict) else v
+        if ids:
+            out[team] = list(ids)
+    return out
+
+
+_LIVE_HAND = {}  # pid(str) -> 'L'/'R'/'S' resolved live for batters missing from bat_sides
+
+
+def _resolve_hands(missing_ids):
+    """Fill _LIVE_HAND for batter ids not in the bat_sides cache via one batched
+    MLB /people call. Best-effort -- covers recent call-ups/trades (e.g. a hitter
+    added after the last cache refresh) so they still count. Failures are silent."""
+    ids = [str(i) for i in dict.fromkeys(missing_ids) if str(i) not in _LIVE_HAND]
+    if not ids:
+        return
+    try:
+        import requests
+        r = requests.get(
+            "https://statsapi.mlb.com/api/v1/people?personIds=" + ",".join(ids),
+            timeout=15)
+        for p in r.json().get("people", []):
+            code = (p.get("batSide") or {}).get("code")
+            if code in ("L", "R", "S"):
+                _LIVE_HAND[str(p.get("id"))] = code
+    except Exception:
+        pass
+
+
 def opp_lineup_counts(opp_team, date_iso):
-    """(lefty L+S, righty R+S) bats in opp_team's lineup on date_iso, or (None, None)."""
+    """(lefty L+S, righty R+S) bats in opp_team's lineup on date_iso, or (None, None).
+
+    Past dates come from the season batting_orders cache; for the current slate
+    (not yet in that cache) it falls back to today's posted lineup
+    (lineups_YYYYMMDD.json, the same source the props model reads). Batters
+    missing from the bat_sides cache are resolved live via /people so newly
+    added hitters still count.
+    """
     bs, bo = _load_caches()
     lu = (bo.get(date_iso) or {}).get(opp_team)
     if not lu:
+        lu = _load_today_lineups(date_iso).get(opp_team)
+    if not lu:
         return None, None
-    lefty = sum(1 for pid in lu if bs.get(str(pid)) in ("L", "S"))
-    righty = sum(1 for pid in lu if bs.get(str(pid)) in ("R", "S"))
+    missing = [pid for pid in lu if str(pid) not in bs and str(pid) not in _LIVE_HAND]
+    if missing:
+        _resolve_hands(missing)
+
+    def side(pid):
+        return bs.get(str(pid)) or _LIVE_HAND.get(str(pid))
+
+    lefty = sum(1 for pid in lu if side(pid) in ("L", "S"))
+    righty = sum(1 for pid in lu if side(pid) in ("R", "S"))
     return lefty, righty
 
 

@@ -28,7 +28,7 @@ import re
 sys.path.insert(0, os.path.dirname(__file__))
 
 from fade_ml_common import stake_for, profit_for
-from hand_tails import tail_entry, HAND_MIN
+from hand_tails import tail_entry, HAND_MIN, opp_lineup_counts
 
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 CACHE_DIR = os.path.normpath(os.path.join(SCRIPT_DIR, "..", "..", "data", "pitcher_cache", "mlb"))
@@ -138,7 +138,9 @@ def build():
             home, away = g.get("home"), g.get("away")
             arm_team = home if side == "home" else away
             opp_team = away if side == "home" else home
-            L, R = opp_counts(opp_team, g.get("date"))
+            # Today's game isn't in the season boxscore cache; use the shared
+            # opp_lineup_counts (posted-lineup + live-handedness fallback).
+            L, R = opp_lineup_counts(opp_team, g.get("date"))
             if L is None or not ((L >= HAND_MIN) if hand == "R" else (R >= HAND_MIN)):
                 continue
             action = c["suggest"]
