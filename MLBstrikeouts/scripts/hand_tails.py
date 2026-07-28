@@ -33,6 +33,9 @@ HAND_TAILS = {
     # ---- RHP, TAKE (vs 6+ lefties) ----
     "Nick Martinez": ("R", "take"), "Soriano": ("R", "take"),
     "Aaron Nola": ("R", "take"), "Glasnow": ("R", "take"), "Ginn": ("R", "take"),
+    # Added 2026-07-28: RHP, COL backed on 6+ lefty lineups. 3-0 +5.22u in-sample
+    # (vs 6+ lefties); small sample, live paper-forward.
+    "Michael Lorenzen": ("R", "take"),
     # ---- LHP, FADE (vs 6+ righties) ----
     "Prielipp": ("L", "fade"), "Tolle": ("L", "fade"),
     "Weathers": ("L", "fade"), "Quintana": ("L", "fade"),
