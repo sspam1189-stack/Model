@@ -120,7 +120,8 @@
       "source": "fanduel_api",
       "reason": null,
       "home": "STL",
-      "away": "CHC"
+      "away": "CHC",
+      "fadeReason": "all"
     },
     {
       "date": "2026-07-28",
@@ -142,7 +143,8 @@
       "source": "fanduel_api",
       "reason": null,
       "home": "CIN",
-      "away": "CLE"
+      "away": "CLE",
+      "fadeReason": "away"
     },
     {
       "date": "2026-07-28",
@@ -164,7 +166,8 @@
       "source": "fanduel_api",
       "reason": null,
       "home": "LAA",
-      "away": "HOU"
+      "away": "HOU",
+      "fadeReason": "home"
     },
     {
       "date": "2026-07-28",
@@ -186,7 +189,8 @@
       "source": "fanduel_api",
       "reason": null,
       "home": "SD",
-      "away": "COL"
+      "away": "COL",
+      "fadeReason": "all"
     },
     {
       "date": "2026-07-28",
@@ -208,7 +212,8 @@
       "source": "fanduel_api",
       "reason": null,
       "home": "LAD",
-      "away": "SEA"
+      "away": "SEA",
+      "fadeReason": "all"
     },
     {
       "date": "2026-07-28",
@@ -230,7 +235,8 @@
       "source": "fanduel_api",
       "reason": null,
       "home": "WSH",
-      "away": "TOR"
+      "away": "TOR",
+      "fadeReason": "home"
     }
   ],
   "bets": [
@@ -254,7 +260,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "SF",
-      "away": "NYM"
+      "away": "NYM",
+      "fadeReason": "all"
     },
     {
       "date": "2026-04-06",
@@ -276,7 +283,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "CLE",
-      "away": "KC"
+      "away": "KC",
+      "fadeReason": "home"
     },
     {
       "date": "2026-04-07",
@@ -299,7 +307,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "NYM",
-      "away": "ARI"
+      "away": "ARI",
+      "fadeReason": "away/all"
     },
     {
       "date": "2026-04-07",
@@ -321,7 +330,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "PIT",
-      "away": "SD"
+      "away": "SD",
+      "fadeReason": "all"
     },
     {
       "date": "2026-04-07",
@@ -343,7 +353,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "WSH",
-      "away": "STL"
+      "away": "STL",
+      "fadeReason": "home"
     },
     {
       "date": "2026-04-07",
@@ -365,7 +376,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "TOR",
-      "away": "LAD"
+      "away": "LAD",
+      "fadeReason": "all"
     },
     {
       "date": "2026-04-08",
@@ -387,7 +399,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "PIT",
-      "away": "SD"
+      "away": "SD",
+      "fadeReason": "all"
     },
     {
       "date": "2026-04-08",
@@ -409,7 +422,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "WSH",
-      "away": "STL"
+      "away": "STL",
+      "fadeReason": "all"
     },
     {
       "date": "2026-04-08",
@@ -431,7 +445,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "LAA",
-      "away": "ATL"
+      "away": "ATL",
+      "fadeReason": "home"
     },
     {
       "date": "2026-04-08",
@@ -454,7 +469,8 @@
       "source": "oddsapi_fanduel",
       "reason": "dog_below_min",
       "home": "NYM",
-      "away": "ARI"
+      "away": "ARI",
+      "fadeReason": "away/all"
     },
     {
       "date": "2026-04-08",
@@ -476,7 +492,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "MIN",
-      "away": "DET"
+      "away": "DET",
+      "fadeReason": "away"
     },
     {
       "date": "2026-04-09",
@@ -498,7 +515,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "MIN",
-      "away": "DET"
+      "away": "DET",
+      "fadeReason": "away"
     },
     {
       "date": "2026-04-09",
@@ -520,7 +538,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "NYM",
-      "away": "ARI"
+      "away": "ARI",
+      "fadeReason": "home"
     },
     {
       "date": "2026-04-10",
@@ -542,7 +561,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "CIN",
-      "away": "LAA"
+      "away": "LAA",
+      "fadeReason": "all"
     },
     {
       "date": "2026-04-10",
@@ -564,7 +584,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "TOR",
-      "away": "MIN"
+      "away": "MIN",
+      "fadeReason": "all"
     },
     {
       "date": "2026-04-10",
@@ -586,7 +607,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "ATL",
-      "away": "CLE"
+      "away": "CLE",
+      "fadeReason": "away"
     },
     {
       "date": "2026-04-10",
@@ -609,7 +631,8 @@
       "source": "oddsapi_fanduel",
       "reason": "dog_below_min",
       "home": "BAL",
-      "away": "SF"
+      "away": "SF",
+      "fadeReason": "all/away"
     },
     {
       "date": "2026-04-11",
@@ -631,7 +654,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "DET",
-      "away": "MIA"
+      "away": "MIA",
+      "fadeReason": "all"
     },
     {
       "date": "2026-04-11",
@@ -653,7 +677,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "BAL",
-      "away": "SF"
+      "away": "SF",
+      "fadeReason": "all"
     },
     {
       "date": "2026-04-11",
@@ -675,7 +700,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "SD",
-      "away": "COL"
+      "away": "COL",
+      "fadeReason": "away"
     },
     {
       "date": "2026-04-11",
@@ -697,7 +723,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "LAD",
-      "away": "TEX"
+      "away": "TEX",
+      "fadeReason": "all"
     },
     {
       "date": "2026-04-11",
@@ -719,7 +746,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "SEA",
-      "away": "HOU"
+      "away": "HOU",
+      "fadeReason": "all"
     },
     {
       "date": "2026-04-12",
@@ -741,7 +769,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "PHI",
-      "away": "ARI"
+      "away": "ARI",
+      "fadeReason": "away"
     },
     {
       "date": "2026-04-12",
@@ -763,7 +792,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "NYM",
-      "away": "OAK"
+      "away": "OAK",
+      "fadeReason": "all"
     },
     {
       "date": "2026-04-12",
@@ -785,7 +815,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "KC",
-      "away": "CWS"
+      "away": "CWS",
+      "fadeReason": "all"
     },
     {
       "date": "2026-04-12",
@@ -807,7 +838,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "STL",
-      "away": "BOS"
+      "away": "BOS",
+      "fadeReason": "all"
     },
     {
       "date": "2026-04-12",
@@ -830,7 +862,8 @@
       "source": "oddsapi_fanduel",
       "reason": "dog_below_min",
       "home": "CHC",
-      "away": "PIT"
+      "away": "PIT",
+      "fadeReason": "home/away"
     },
     {
       "date": "2026-04-13",
@@ -852,7 +885,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "BAL",
-      "away": "ARI"
+      "away": "ARI",
+      "fadeReason": "away"
     },
     {
       "date": "2026-04-13",
@@ -874,7 +908,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "PIT",
-      "away": "WSH"
+      "away": "WSH",
+      "fadeReason": "all"
     },
     {
       "date": "2026-04-13",
@@ -896,7 +931,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "LAD",
-      "away": "NYM"
+      "away": "NYM",
+      "fadeReason": "all"
     },
     {
       "date": "2026-04-14",
@@ -918,7 +954,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "BAL",
-      "away": "ARI"
+      "away": "ARI",
+      "fadeReason": "home"
     },
     {
       "date": "2026-04-14",
@@ -940,7 +977,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "PIT",
-      "away": "WSH"
+      "away": "WSH",
+      "fadeReason": "all"
     },
     {
       "date": "2026-04-14",
@@ -962,7 +1000,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "PHI",
-      "away": "CHC"
+      "away": "CHC",
+      "fadeReason": "home"
     },
     {
       "date": "2026-04-14",
@@ -984,7 +1023,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "MIL",
-      "away": "TOR"
+      "away": "TOR",
+      "fadeReason": "all"
     },
     {
       "date": "2026-04-14",
@@ -1006,7 +1046,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "CWS",
-      "away": "TB"
+      "away": "TB",
+      "fadeReason": "away"
     },
     {
       "date": "2026-04-14",
@@ -1028,7 +1069,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "SD",
-      "away": "SEA"
+      "away": "SEA",
+      "fadeReason": "all"
     },
     {
       "date": "2026-04-14",
@@ -1050,7 +1092,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "OAK",
-      "away": "TEX"
+      "away": "TEX",
+      "fadeReason": "home"
     },
     {
       "date": "2026-04-15",
@@ -1072,7 +1115,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "CIN",
-      "away": "SF"
+      "away": "SF",
+      "fadeReason": "away"
     },
     {
       "date": "2026-04-15",
@@ -1094,7 +1138,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "PHI",
-      "away": "CHC"
+      "away": "CHC",
+      "fadeReason": "away"
     },
     {
       "date": "2026-04-15",
@@ -1116,7 +1161,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "NYY",
-      "away": "LAA"
+      "away": "LAA",
+      "fadeReason": "all"
     },
     {
       "date": "2026-04-15",
@@ -1138,7 +1184,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "ATL",
-      "away": "MIA"
+      "away": "MIA",
+      "fadeReason": "all"
     },
     {
       "date": "2026-04-16",
@@ -1160,7 +1207,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "CIN",
-      "away": "SF"
+      "away": "SF",
+      "fadeReason": "away"
     },
     {
       "date": "2026-04-16",
@@ -1182,7 +1230,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "OAK",
-      "away": "TEX"
+      "away": "TEX",
+      "fadeReason": "home"
     },
     {
       "date": "2026-04-16",
@@ -1204,7 +1253,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "CLE",
-      "away": "BAL"
+      "away": "BAL",
+      "fadeReason": "all"
     },
     {
       "date": "2026-04-16",
@@ -1226,7 +1276,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "SD",
-      "away": "SEA"
+      "away": "SEA",
+      "fadeReason": "all"
     },
     {
       "date": "2026-04-17",
@@ -1248,7 +1299,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "CLE",
-      "away": "BAL"
+      "away": "BAL",
+      "fadeReason": "home"
     },
     {
       "date": "2026-04-17",
@@ -1271,7 +1323,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "WSH",
-      "away": "SF"
+      "away": "SF",
+      "fadeReason": "all"
     },
     {
       "date": "2026-04-17",
@@ -1293,7 +1346,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "NYY",
-      "away": "KC"
+      "away": "KC",
+      "fadeReason": "away"
     },
     {
       "date": "2026-04-17",
@@ -1315,7 +1369,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "BOS",
-      "away": "DET"
+      "away": "DET",
+      "fadeReason": "all"
     },
     {
       "date": "2026-04-17",
@@ -1337,7 +1392,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "OAK",
-      "away": "CWS"
+      "away": "CWS",
+      "fadeReason": "home"
     },
     {
       "date": "2026-04-18",
@@ -1359,7 +1415,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "NYY",
-      "away": "KC"
+      "away": "KC",
+      "fadeReason": "all"
     },
     {
       "date": "2026-04-18",
@@ -1382,7 +1439,8 @@
       "source": "oddsapi_fanduel",
       "reason": "dog_below_min",
       "home": "CHC",
-      "away": "NYM"
+      "away": "NYM",
+      "fadeReason": "home/all"
     },
     {
       "date": "2026-04-18",
@@ -1404,7 +1462,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "PIT",
-      "away": "TB"
+      "away": "TB",
+      "fadeReason": "all"
     },
     {
       "date": "2026-04-18",
@@ -1426,7 +1485,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "WSH",
-      "away": "SF"
+      "away": "SF",
+      "fadeReason": "home"
     },
     {
       "date": "2026-04-18",
@@ -1448,7 +1508,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "BOS",
-      "away": "DET"
+      "away": "DET",
+      "fadeReason": "all"
     },
     {
       "date": "2026-04-18",
@@ -1470,7 +1531,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "COL",
-      "away": "LAD"
+      "away": "LAD",
+      "fadeReason": "all"
     },
     {
       "date": "2026-04-19",
@@ -1493,7 +1555,8 @@
       "source": "oddsapi_fanduel",
       "reason": "dog_below_min",
       "home": "PIT",
-      "away": "TB"
+      "away": "TB",
+      "fadeReason": "all/away"
     },
     {
       "date": "2026-04-19",
@@ -1515,7 +1578,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "HOU",
-      "away": "STL"
+      "away": "STL",
+      "fadeReason": "home"
     },
     {
       "date": "2026-04-19",
@@ -1537,7 +1601,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "OAK",
-      "away": "CWS"
+      "away": "CWS",
+      "fadeReason": "home"
     },
     {
       "date": "2026-04-19",
@@ -1559,7 +1624,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "LAA",
-      "away": "SD"
+      "away": "SD",
+      "fadeReason": "all"
     },
     {
       "date": "2026-04-19",
@@ -1581,7 +1647,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "ARI",
-      "away": "TOR"
+      "away": "TOR",
+      "fadeReason": "all"
     },
     {
       "date": "2026-04-19",
@@ -1603,7 +1670,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "BOS",
-      "away": "DET"
+      "away": "DET",
+      "fadeReason": "away"
     },
     {
       "date": "2026-04-19",
@@ -1625,7 +1693,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "PHI",
-      "away": "ATL"
+      "away": "ATL",
+      "fadeReason": "all"
     },
     {
       "date": "2026-04-20",
@@ -1647,7 +1716,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "BOS",
-      "away": "DET"
+      "away": "DET",
+      "fadeReason": "away"
     },
     {
       "date": "2026-04-20",
@@ -1669,7 +1739,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "TB",
-      "away": "CIN"
+      "away": "CIN",
+      "fadeReason": "away"
     },
     {
       "date": "2026-04-20",
@@ -1691,7 +1762,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "LAA",
-      "away": "TOR"
+      "away": "TOR",
+      "fadeReason": "home"
     },
     {
       "date": "2026-04-21",
@@ -1713,7 +1785,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "MIA",
-      "away": "STL"
+      "away": "STL",
+      "fadeReason": "all"
     },
     {
       "date": "2026-04-21",
@@ -1736,7 +1809,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "NYM",
-      "away": "MIN"
+      "away": "MIN",
+      "fadeReason": "home/all"
     },
     {
       "date": "2026-04-21",
@@ -1758,7 +1832,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "KC",
-      "away": "BAL"
+      "away": "BAL",
+      "fadeReason": "all"
     },
     {
       "date": "2026-04-21",
@@ -1780,7 +1855,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "TEX",
-      "away": "PIT"
+      "away": "PIT",
+      "fadeReason": "all"
     },
     {
       "date": "2026-04-21",
@@ -1802,7 +1878,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "LAA",
-      "away": "TOR"
+      "away": "TOR",
+      "fadeReason": "all"
     },
     {
       "date": "2026-04-21",
@@ -1824,7 +1901,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "SEA",
-      "away": "OAK"
+      "away": "OAK",
+      "fadeReason": "all"
     },
     {
       "date": "2026-04-22",
@@ -1846,7 +1924,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "CLE",
-      "away": "HOU"
+      "away": "HOU",
+      "fadeReason": "home"
     },
     {
       "date": "2026-04-22",
@@ -1868,7 +1947,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "DET",
-      "away": "MIL"
+      "away": "MIL",
+      "fadeReason": "all"
     },
     {
       "date": "2026-04-22",
@@ -1890,7 +1970,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "WSH",
-      "away": "ATL"
+      "away": "ATL",
+      "fadeReason": "all"
     },
     {
       "date": "2026-04-23",
@@ -1912,7 +1993,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "WSH",
-      "away": "ATL"
+      "away": "ATL",
+      "fadeReason": "home"
     },
     {
       "date": "2026-04-23",
@@ -1934,7 +2016,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "SF",
-      "away": "LAD"
+      "away": "LAD",
+      "fadeReason": "all"
     },
     {
       "date": "2026-04-23",
@@ -1956,7 +2039,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "TEX",
-      "away": "PIT"
+      "away": "PIT",
+      "fadeReason": "away"
     },
     {
       "date": "2026-04-24",
@@ -1978,7 +2062,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "CIN",
-      "away": "DET"
+      "away": "DET",
+      "fadeReason": "away"
     },
     {
       "date": "2026-04-24",
@@ -2000,7 +2085,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "BAL",
-      "away": "BOS"
+      "away": "BOS",
+      "fadeReason": "all"
     },
     {
       "date": "2026-04-24",
@@ -2022,7 +2108,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "NYM",
-      "away": "COL"
+      "away": "COL",
+      "fadeReason": "all"
     },
     {
       "date": "2026-04-24",
@@ -2044,7 +2131,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "ATL",
-      "away": "PHI"
+      "away": "PHI",
+      "fadeReason": "all"
     },
     {
       "date": "2026-04-24",
@@ -2066,7 +2154,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "MIL",
-      "away": "PIT"
+      "away": "PIT",
+      "fadeReason": "all"
     },
     {
       "date": "2026-04-24",
@@ -2088,7 +2177,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "KC",
-      "away": "LAA"
+      "away": "LAA",
+      "fadeReason": "all"
     },
     {
       "date": "2026-04-24",
@@ -2110,7 +2200,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "LAD",
-      "away": "CHC"
+      "away": "CHC",
+      "fadeReason": "all"
     },
     {
       "date": "2026-04-25",
@@ -2132,7 +2223,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "BAL",
-      "away": "BOS"
+      "away": "BOS",
+      "fadeReason": "home"
     },
     {
       "date": "2026-04-25",
@@ -2154,7 +2246,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "TOR",
-      "away": "CLE"
+      "away": "CLE",
+      "fadeReason": "all"
     },
     {
       "date": "2026-04-25",
@@ -2176,7 +2269,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "CWS",
-      "away": "WSH"
+      "away": "WSH",
+      "fadeReason": "all"
     },
     {
       "date": "2026-04-25",
@@ -2198,7 +2292,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "HOU",
-      "away": "NYY"
+      "away": "NYY",
+      "fadeReason": "home"
     },
     {
       "date": "2026-04-25",
@@ -2220,7 +2315,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "MIL",
-      "away": "PIT"
+      "away": "PIT",
+      "fadeReason": "all"
     },
     {
       "date": "2026-04-25",
@@ -2242,7 +2338,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "LAD",
-      "away": "CHC"
+      "away": "CHC",
+      "fadeReason": "all"
     },
     {
       "date": "2026-04-25",
@@ -2264,7 +2361,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "CIN",
-      "away": "DET"
+      "away": "DET",
+      "fadeReason": "away"
     },
     {
       "date": "2026-04-26",
@@ -2286,7 +2384,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "TOR",
-      "away": "CLE"
+      "away": "CLE",
+      "fadeReason": "away"
     },
     {
       "date": "2026-04-26",
@@ -2308,7 +2407,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "TB",
-      "away": "MIN"
+      "away": "MIN",
+      "fadeReason": "all"
     },
     {
       "date": "2026-04-26",
@@ -2330,7 +2430,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "NYM",
-      "away": "COL"
+      "away": "COL",
+      "fadeReason": "home"
     },
     {
       "date": "2026-04-26",
@@ -2352,7 +2453,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "TEX",
-      "away": "OAK"
+      "away": "OAK",
+      "fadeReason": "all"
     },
     {
       "date": "2026-04-26",
@@ -2374,7 +2476,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "ARI",
-      "away": "SD"
+      "away": "SD",
+      "fadeReason": "all"
     },
     {
       "date": "2026-04-26",
@@ -2396,7 +2499,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "LAD",
-      "away": "CHC"
+      "away": "CHC",
+      "fadeReason": "away"
     },
     {
       "date": "2026-04-27",
@@ -2418,7 +2522,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "CWS",
-      "away": "LAA"
+      "away": "LAA",
+      "fadeReason": "all"
     },
     {
       "date": "2026-04-27",
@@ -2440,7 +2545,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "MIN",
-      "away": "SEA"
+      "away": "SEA",
+      "fadeReason": "all"
     },
     {
       "date": "2026-04-27",
@@ -2462,7 +2568,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "LAD",
-      "away": "MIA"
+      "away": "MIA",
+      "fadeReason": "all"
     },
     {
       "date": "2026-04-28",
@@ -2484,7 +2591,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "CLE",
-      "away": "TB"
+      "away": "TB",
+      "fadeReason": "home"
     },
     {
       "date": "2026-04-28",
@@ -2506,7 +2614,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "BAL",
-      "away": "HOU"
+      "away": "HOU",
+      "fadeReason": "all"
     },
     {
       "date": "2026-04-28",
@@ -2528,7 +2637,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "PHI",
-      "away": "SF"
+      "away": "SF",
+      "fadeReason": "away"
     },
     {
       "date": "2026-04-28",
@@ -2550,7 +2660,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "CIN",
-      "away": "COL"
+      "away": "COL",
+      "fadeReason": "away"
     },
     {
       "date": "2026-04-28",
@@ -2572,7 +2683,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "NYM",
-      "away": "WSH"
+      "away": "WSH",
+      "fadeReason": "all"
     },
     {
       "date": "2026-04-28",
@@ -2594,7 +2706,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "ATL",
-      "away": "DET"
+      "away": "DET",
+      "fadeReason": "all"
     },
     {
       "date": "2026-04-28",
@@ -2616,7 +2729,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "MIL",
-      "away": "ARI"
+      "away": "ARI",
+      "fadeReason": "all"
     },
     {
       "date": "2026-04-28",
@@ -2638,7 +2752,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "OAK",
-      "away": "KC"
+      "away": "KC",
+      "fadeReason": "home"
     },
     {
       "date": "2026-04-29",
@@ -2660,7 +2775,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "TOR",
-      "away": "BOS"
+      "away": "BOS",
+      "fadeReason": "all"
     },
     {
       "date": "2026-04-29",
@@ -2682,7 +2798,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "NYM",
-      "away": "WSH"
+      "away": "WSH",
+      "fadeReason": "all"
     },
     {
       "date": "2026-04-29",
@@ -2704,7 +2821,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "OAK",
-      "away": "KC"
+      "away": "KC",
+      "fadeReason": "away"
     },
     {
       "date": "2026-04-30",
@@ -2726,7 +2844,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "ATL",
-      "away": "DET"
+      "away": "DET",
+      "fadeReason": "away"
     },
     {
       "date": "2026-04-30",
@@ -2748,7 +2867,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "PHI",
-      "away": "SF"
+      "away": "SF",
+      "fadeReason": "all"
     },
     {
       "date": "2026-04-30",
@@ -2770,7 +2890,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "PIT",
-      "away": "STL"
+      "away": "STL",
+      "fadeReason": "all"
     },
     {
       "date": "2026-04-30",
@@ -2793,7 +2914,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "NYM",
-      "away": "WSH"
+      "away": "WSH",
+      "fadeReason": "all"
     },
     {
       "date": "2026-04-30",
@@ -2816,7 +2938,8 @@
       "source": "oddsapi_fanduel",
       "reason": "dog_below_min",
       "home": "OAK",
-      "away": "KC"
+      "away": "KC",
+      "fadeReason": "all/home"
     },
     {
       "date": "2026-04-30",
@@ -2838,7 +2961,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "MIN",
-      "away": "TOR"
+      "away": "TOR",
+      "fadeReason": "all"
     },
     {
       "date": "2026-05-01",
@@ -2861,7 +2985,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "CHC",
-      "away": "ARI"
+      "away": "ARI",
+      "fadeReason": "away/all"
     },
     {
       "date": "2026-05-01",
@@ -2883,7 +3008,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "PIT",
-      "away": "CIN"
+      "away": "CIN",
+      "fadeReason": "all"
     },
     {
       "date": "2026-05-01",
@@ -2905,7 +3031,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "MIN",
-      "away": "TOR"
+      "away": "TOR",
+      "fadeReason": "all"
     },
     {
       "date": "2026-05-01",
@@ -2927,7 +3054,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "STL",
-      "away": "LAD"
+      "away": "LAD",
+      "fadeReason": "all"
     },
     {
       "date": "2026-05-01",
@@ -2949,7 +3077,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "SD",
-      "away": "CWS"
+      "away": "CWS",
+      "fadeReason": "all"
     },
     {
       "date": "2026-05-02",
@@ -2971,7 +3100,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "CHC",
-      "away": "ARI"
+      "away": "ARI",
+      "fadeReason": "away"
     },
     {
       "date": "2026-05-02",
@@ -2993,7 +3123,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "PIT",
-      "away": "CIN"
+      "away": "CIN",
+      "fadeReason": "away"
     },
     {
       "date": "2026-05-02",
@@ -3016,7 +3147,8 @@
       "source": "oddsapi_fanduel",
       "reason": "dog_below_min",
       "home": "OAK",
-      "away": "CLE"
+      "away": "CLE",
+      "fadeReason": "home/away"
     },
     {
       "date": "2026-05-02",
@@ -3038,7 +3170,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "MIA",
-      "away": "PHI"
+      "away": "PHI",
+      "fadeReason": "all"
     },
     {
       "date": "2026-05-02",
@@ -3060,7 +3193,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "TB",
-      "away": "SF"
+      "away": "SF",
+      "fadeReason": "away"
     },
     {
       "date": "2026-05-02",
@@ -3082,7 +3216,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "DET",
-      "away": "TEX"
+      "away": "TEX",
+      "fadeReason": "all"
     },
     {
       "date": "2026-05-02",
@@ -3104,7 +3239,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "SD",
-      "away": "CWS"
+      "away": "CWS",
+      "fadeReason": "all"
     },
     {
       "date": "2026-05-02",
@@ -3126,7 +3262,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "LAA",
-      "away": "NYM"
+      "away": "NYM",
+      "fadeReason": "home"
     },
     {
       "date": "2026-05-03",
@@ -3148,7 +3285,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "TB",
-      "away": "SF"
+      "away": "SF",
+      "fadeReason": "away"
     },
     {
       "date": "2026-05-03",
@@ -3170,7 +3308,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "MIA",
-      "away": "PHI"
+      "away": "PHI",
+      "fadeReason": "all"
     },
     {
       "date": "2026-05-03",
@@ -3192,7 +3331,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "CHC",
-      "away": "ARI"
+      "away": "ARI",
+      "fadeReason": "all"
     },
     {
       "date": "2026-05-03",
@@ -3214,7 +3354,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "OAK",
-      "away": "CLE"
+      "away": "CLE",
+      "fadeReason": "home"
     },
     {
       "date": "2026-05-03",
@@ -3236,7 +3377,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "LAA",
-      "away": "NYM"
+      "away": "NYM",
+      "fadeReason": "all"
     },
     {
       "date": "2026-05-03",
@@ -3258,7 +3400,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "SEA",
-      "away": "KC"
+      "away": "KC",
+      "fadeReason": "all"
     },
     {
       "date": "2026-05-04",
@@ -3280,7 +3423,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "NYY",
-      "away": "BAL"
+      "away": "BAL",
+      "fadeReason": "all"
     },
     {
       "date": "2026-05-05",
@@ -3302,7 +3446,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "TB",
-      "away": "TOR"
+      "away": "TOR",
+      "fadeReason": "all"
     },
     {
       "date": "2026-05-05",
@@ -3324,7 +3469,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "WSH",
-      "away": "MIN"
+      "away": "MIN",
+      "fadeReason": "home"
     },
     {
       "date": "2026-05-05",
@@ -3346,7 +3492,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "CHC",
-      "away": "CIN"
+      "away": "CIN",
+      "fadeReason": "home"
     },
     {
       "date": "2026-05-05",
@@ -3368,7 +3515,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "ARI",
-      "away": "PIT"
+      "away": "PIT",
+      "fadeReason": "away"
     },
     {
       "date": "2026-05-05",
@@ -3390,7 +3538,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "SF",
-      "away": "SD"
+      "away": "SD",
+      "fadeReason": "all"
     },
     {
       "date": "2026-05-06",
@@ -3412,7 +3561,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "LAA",
-      "away": "CWS"
+      "away": "CWS",
+      "fadeReason": "all"
     },
     {
       "date": "2026-05-06",
@@ -3434,7 +3584,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "WSH",
-      "away": "MIN"
+      "away": "MIN",
+      "fadeReason": "all"
     },
     {
       "date": "2026-05-06",
@@ -3456,7 +3607,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "CHC",
-      "away": "CIN"
+      "away": "CIN",
+      "fadeReason": "all"
     },
     {
       "date": "2026-05-06",
@@ -3478,7 +3630,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "COL",
-      "away": "NYM"
+      "away": "NYM",
+      "fadeReason": "all"
     },
     {
       "date": "2026-05-06",
@@ -3500,7 +3653,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "ARI",
-      "away": "PIT"
+      "away": "PIT",
+      "fadeReason": "all"
     },
     {
       "date": "2026-05-07",
@@ -3522,7 +3676,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "WSH",
-      "away": "MIN"
+      "away": "MIN",
+      "fadeReason": "all"
     },
     {
       "date": "2026-05-07",
@@ -3544,7 +3699,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "KC",
-      "away": "CLE"
+      "away": "CLE",
+      "fadeReason": "away"
     },
     {
       "date": "2026-05-07",
@@ -3566,7 +3722,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "CHC",
-      "away": "CIN"
+      "away": "CIN",
+      "fadeReason": "away"
     },
     {
       "date": "2026-05-07",
@@ -3588,7 +3745,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "ARI",
-      "away": "PIT"
+      "away": "PIT",
+      "fadeReason": "all"
     },
     {
       "date": "2026-05-07",
@@ -3610,7 +3768,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "PHI",
-      "away": "OAK"
+      "away": "OAK",
+      "fadeReason": "all"
     },
     {
       "date": "2026-05-07",
@@ -3632,7 +3791,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "SD",
-      "away": "STL"
+      "away": "STL",
+      "fadeReason": "all"
     },
     {
       "date": "2026-05-08",
@@ -3654,7 +3814,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "TEX",
-      "away": "CHC"
+      "away": "CHC",
+      "fadeReason": "all"
     },
     {
       "date": "2026-05-08",
@@ -3676,7 +3837,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "LAD",
-      "away": "ATL"
+      "away": "ATL",
+      "fadeReason": "all"
     },
     {
       "date": "2026-05-09",
@@ -3698,7 +3860,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "TOR",
-      "away": "LAA"
+      "away": "LAA",
+      "fadeReason": "all"
     },
     {
       "date": "2026-05-09",
@@ -3720,7 +3883,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "BAL",
-      "away": "OAK"
+      "away": "OAK",
+      "fadeReason": "all"
     },
     {
       "date": "2026-05-09",
@@ -3743,7 +3907,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "PHI",
-      "away": "COL"
+      "away": "COL",
+      "fadeReason": "home/away"
     },
     {
       "date": "2026-05-09",
@@ -3765,7 +3930,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "CLE",
-      "away": "MIN"
+      "away": "MIN",
+      "fadeReason": "home"
     },
     {
       "date": "2026-05-09",
@@ -3787,7 +3953,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "CWS",
-      "away": "SEA"
+      "away": "SEA",
+      "fadeReason": "all"
     },
     {
       "date": "2026-05-09",
@@ -3809,7 +3976,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "ARI",
-      "away": "NYM"
+      "away": "NYM",
+      "fadeReason": "all"
     },
     {
       "date": "2026-05-10",
@@ -3831,7 +3999,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "BOS",
-      "away": "TB"
+      "away": "TB",
+      "fadeReason": "home"
     },
     {
       "date": "2026-05-10",
@@ -3853,7 +4022,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "SF",
-      "away": "PIT"
+      "away": "PIT",
+      "fadeReason": "away"
     },
     {
       "date": "2026-05-10",
@@ -3875,7 +4045,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "KC",
-      "away": "DET"
+      "away": "DET",
+      "fadeReason": "all"
     },
     {
       "date": "2026-05-11",
@@ -3897,7 +4068,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "TOR",
-      "away": "TB"
+      "away": "TB",
+      "fadeReason": "all"
     },
     {
       "date": "2026-05-12",
@@ -3919,7 +4091,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "BAL",
-      "away": "NYY"
+      "away": "NYY",
+      "fadeReason": "home"
     },
     {
       "date": "2026-05-12",
@@ -3941,7 +4114,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "PIT",
-      "away": "COL"
+      "away": "COL",
+      "fadeReason": "all"
     },
     {
       "date": "2026-05-12",
@@ -3963,7 +4137,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "CIN",
-      "away": "WSH"
+      "away": "WSH",
+      "fadeReason": "all"
     },
     {
       "date": "2026-05-12",
@@ -3985,7 +4160,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "TOR",
-      "away": "TB"
+      "away": "TB",
+      "fadeReason": "away"
     },
     {
       "date": "2026-05-12",
@@ -4008,7 +4184,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "NYM",
-      "away": "DET"
+      "away": "DET",
+      "fadeReason": "all/away"
     },
     {
       "date": "2026-05-12",
@@ -4030,7 +4207,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "ATL",
-      "away": "CHC"
+      "away": "CHC",
+      "fadeReason": "all"
     },
     {
       "date": "2026-05-12",
@@ -4052,7 +4230,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "TEX",
-      "away": "ARI"
+      "away": "ARI",
+      "fadeReason": "away"
     },
     {
       "date": "2026-05-12",
@@ -4074,7 +4253,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "OAK",
-      "away": "STL"
+      "away": "STL",
+      "fadeReason": "home"
     },
     {
       "date": "2026-05-13",
@@ -4096,7 +4276,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "PIT",
-      "away": "COL"
+      "away": "COL",
+      "fadeReason": "all"
     },
     {
       "date": "2026-05-13",
@@ -4118,7 +4299,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "BOS",
-      "away": "PHI"
+      "away": "PHI",
+      "fadeReason": "all"
     },
     {
       "date": "2026-05-13",
@@ -4140,7 +4322,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "NYM",
-      "away": "DET"
+      "away": "DET",
+      "fadeReason": "away"
     },
     {
       "date": "2026-05-13",
@@ -4162,7 +4345,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "ATL",
-      "away": "CHC"
+      "away": "CHC",
+      "fadeReason": "away"
     },
     {
       "date": "2026-05-13",
@@ -4184,7 +4368,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "MIN",
-      "away": "MIA"
+      "away": "MIA",
+      "fadeReason": "all"
     },
     {
       "date": "2026-05-13",
@@ -4206,7 +4391,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "CWS",
-      "away": "KC"
+      "away": "KC",
+      "fadeReason": "all"
     },
     {
       "date": "2026-05-13",
@@ -4228,7 +4414,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "MIL",
-      "away": "SD"
+      "away": "SD",
+      "fadeReason": "all"
     },
     {
       "date": "2026-05-13",
@@ -4251,7 +4438,8 @@
       "source": "oddsapi_fanduel",
       "reason": "dog_below_min",
       "home": "TEX",
-      "away": "ARI"
+      "away": "ARI",
+      "fadeReason": "away/all"
     },
     {
       "date": "2026-05-14",
@@ -4273,7 +4461,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "NYM",
-      "away": "DET"
+      "away": "DET",
+      "fadeReason": "home"
     },
     {
       "date": "2026-05-14",
@@ -4295,7 +4484,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "MIL",
-      "away": "SD"
+      "away": "SD",
+      "fadeReason": "all"
     },
     {
       "date": "2026-05-14",
@@ -4318,7 +4508,8 @@
       "source": "oddsapi_fanduel",
       "reason": "dog_below_min",
       "home": "HOU",
-      "away": "SEA"
+      "away": "SEA",
+      "fadeReason": "all/home"
     },
     {
       "date": "2026-05-14",
@@ -4340,7 +4531,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "OAK",
-      "away": "STL"
+      "away": "STL",
+      "fadeReason": "home"
     },
     {
       "date": "2026-05-15",
@@ -4362,7 +4554,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "DET",
-      "away": "TOR"
+      "away": "TOR",
+      "fadeReason": "away"
     },
     {
       "date": "2026-05-15",
@@ -4385,7 +4578,8 @@
       "source": "oddsapi_fanduel",
       "reason": "dog_below_min",
       "home": "WSH",
-      "away": "BAL"
+      "away": "BAL",
+      "fadeReason": "all"
     },
     {
       "date": "2026-05-15",
@@ -4407,7 +4601,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "CLE",
-      "away": "CIN"
+      "away": "CIN",
+      "fadeReason": "home"
     },
     {
       "date": "2026-05-15",
@@ -4429,7 +4624,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "STL",
-      "away": "KC"
+      "away": "KC",
+      "fadeReason": "away"
     },
     {
       "date": "2026-05-15",
@@ -4451,7 +4647,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "COL",
-      "away": "ARI"
+      "away": "ARI",
+      "fadeReason": "all"
     },
     {
       "date": "2026-05-15",
@@ -4473,7 +4670,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "LAA",
-      "away": "LAD"
+      "away": "LAD",
+      "fadeReason": "all"
     },
     {
       "date": "2026-05-15",
@@ -4496,7 +4694,8 @@
       "source": "oddsapi_fanduel",
       "reason": "dog_below_min",
       "home": "OAK",
-      "away": "SF"
+      "away": "SF",
+      "fadeReason": "home/away"
     },
     {
       "date": "2026-05-16",
@@ -4518,7 +4717,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "DET",
-      "away": "TOR"
+      "away": "TOR",
+      "fadeReason": "all"
     },
     {
       "date": "2026-05-16",
@@ -4540,7 +4740,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "STL",
-      "away": "KC"
+      "away": "KC",
+      "fadeReason": "all"
     },
     {
       "date": "2026-05-16",
@@ -4562,7 +4763,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "WSH",
-      "away": "BAL"
+      "away": "BAL",
+      "fadeReason": "home"
     },
     {
       "date": "2026-05-16",
@@ -4584,7 +4786,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "CLE",
-      "away": "CIN"
+      "away": "CIN",
+      "fadeReason": "all"
     },
     {
       "date": "2026-05-17",
@@ -4606,7 +4809,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "PIT",
-      "away": "PHI"
+      "away": "PHI",
+      "fadeReason": "all"
     },
     {
       "date": "2026-05-17",
@@ -4628,7 +4832,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "ATL",
-      "away": "BOS"
+      "away": "BOS",
+      "fadeReason": "all"
     },
     {
       "date": "2026-05-17",
@@ -4650,7 +4855,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "NYM",
-      "away": "NYY"
+      "away": "NYY",
+      "fadeReason": "all"
     },
     {
       "date": "2026-05-17",
@@ -4672,7 +4878,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "DET",
-      "away": "TOR"
+      "away": "TOR",
+      "fadeReason": "all"
     },
     {
       "date": "2026-05-17",
@@ -4694,7 +4901,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "CWS",
-      "away": "CHC"
+      "away": "CHC",
+      "fadeReason": "all"
     },
     {
       "date": "2026-05-17",
@@ -4716,7 +4924,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "OAK",
-      "away": "SF"
+      "away": "SF",
+      "fadeReason": "home"
     },
     {
       "date": "2026-05-18",
@@ -4738,7 +4947,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "DET",
-      "away": "CLE"
+      "away": "CLE",
+      "fadeReason": "away"
     },
     {
       "date": "2026-05-18",
@@ -4760,7 +4970,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "PHI",
-      "away": "CIN"
+      "away": "CIN",
+      "fadeReason": "all"
     },
     {
       "date": "2026-05-18",
@@ -4782,7 +4993,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "SD",
-      "away": "LAD"
+      "away": "LAD",
+      "fadeReason": "all"
     },
     {
       "date": "2026-05-18",
@@ -4804,7 +5016,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "SEA",
-      "away": "CWS"
+      "away": "CWS",
+      "fadeReason": "all"
     },
     {
       "date": "2026-05-19",
@@ -4826,7 +5039,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "STL",
-      "away": "PIT"
+      "away": "PIT",
+      "fadeReason": "all"
     },
     {
       "date": "2026-05-19",
@@ -4848,7 +5062,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "LAA",
-      "away": "OAK"
+      "away": "OAK",
+      "fadeReason": "home"
     },
     {
       "date": "2026-05-19",
@@ -4870,7 +5085,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "ARI",
-      "away": "SF"
+      "away": "SF",
+      "fadeReason": "away"
     },
     {
       "date": "2026-05-20",
@@ -4892,7 +5108,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "PHI",
-      "away": "CIN"
+      "away": "CIN",
+      "fadeReason": "home"
     },
     {
       "date": "2026-05-20",
@@ -4914,7 +5131,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "TB",
-      "away": "BAL"
+      "away": "BAL",
+      "fadeReason": "all"
     },
     {
       "date": "2026-05-20",
@@ -4937,7 +5155,8 @@
       "source": "oddsapi_fanduel",
       "reason": "dog_below_min",
       "home": "ARI",
-      "away": "SF"
+      "away": "SF",
+      "fadeReason": "away/all"
     },
     {
       "date": "2026-05-20",
@@ -4959,7 +5178,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "WSH",
-      "away": "NYM"
+      "away": "NYM",
+      "fadeReason": "all"
     },
     {
       "date": "2026-05-20",
@@ -4981,7 +5201,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "NYY",
-      "away": "TOR"
+      "away": "TOR",
+      "fadeReason": "away"
     },
     {
       "date": "2026-05-20",
@@ -5003,7 +5224,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "LAA",
-      "away": "OAK"
+      "away": "OAK",
+      "fadeReason": "all"
     },
     {
       "date": "2026-05-21",
@@ -5025,7 +5247,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "DET",
-      "away": "CLE"
+      "away": "CLE",
+      "fadeReason": "all"
     },
     {
       "date": "2026-05-21",
@@ -5048,7 +5271,8 @@
       "source": "oddsapi_fanduel",
       "reason": "dog_below_min",
       "home": "WSH",
-      "away": "NYM"
+      "away": "NYM",
+      "fadeReason": "home/all"
     },
     {
       "date": "2026-05-22",
@@ -5070,7 +5294,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "CHC",
-      "away": "HOU"
+      "away": "HOU",
+      "fadeReason": "home"
     },
     {
       "date": "2026-05-22",
@@ -5093,7 +5318,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "TOR",
-      "away": "PIT"
+      "away": "PIT",
+      "fadeReason": "away/all"
     },
     {
       "date": "2026-05-22",
@@ -5115,7 +5341,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "BOS",
-      "away": "MIN"
+      "away": "MIN",
+      "fadeReason": "home"
     },
     {
       "date": "2026-05-22",
@@ -5137,7 +5364,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "BAL",
-      "away": "DET"
+      "away": "DET",
+      "fadeReason": "away"
     },
     {
       "date": "2026-05-22",
@@ -5159,7 +5387,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "KC",
-      "away": "SEA"
+      "away": "SEA",
+      "fadeReason": "all"
     },
     {
       "date": "2026-05-22",
@@ -5181,7 +5410,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "SF",
-      "away": "CWS"
+      "away": "CWS",
+      "fadeReason": "home"
     },
     {
       "date": "2026-05-23",
@@ -5203,7 +5433,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "CIN",
-      "away": "STL"
+      "away": "STL",
+      "fadeReason": "all"
     },
     {
       "date": "2026-05-23",
@@ -5225,7 +5456,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "CHC",
-      "away": "HOU"
+      "away": "HOU",
+      "fadeReason": "all"
     },
     {
       "date": "2026-05-23",
@@ -5247,7 +5479,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "TOR",
-      "away": "PIT"
+      "away": "PIT",
+      "fadeReason": "all"
     },
     {
       "date": "2026-05-23",
@@ -5269,7 +5502,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "PHI",
-      "away": "CLE"
+      "away": "CLE",
+      "fadeReason": "away"
     },
     {
       "date": "2026-05-23",
@@ -5291,7 +5525,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "MIA",
-      "away": "NYM"
+      "away": "NYM",
+      "fadeReason": "all"
     },
     {
       "date": "2026-05-24",
@@ -5313,7 +5548,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "TOR",
-      "away": "PIT"
+      "away": "PIT",
+      "fadeReason": "all"
     },
     {
       "date": "2026-05-24",
@@ -5335,7 +5571,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "PHI",
-      "away": "CLE"
+      "away": "CLE",
+      "fadeReason": "all"
     },
     {
       "date": "2026-05-24",
@@ -5357,7 +5594,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "SF",
-      "away": "CWS"
+      "away": "CWS",
+      "fadeReason": "all"
     },
     {
       "date": "2026-05-24",
@@ -5379,7 +5617,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "SD",
-      "away": "OAK"
+      "away": "OAK",
+      "fadeReason": "all"
     },
     {
       "date": "2026-05-24",
@@ -5402,7 +5641,8 @@
       "source": "oddsapi_fanduel",
       "reason": "dog_below_min",
       "home": "BAL",
-      "away": "DET"
+      "away": "DET",
+      "fadeReason": "home/away"
     },
     {
       "date": "2026-05-24",
@@ -5424,7 +5664,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "LAA",
-      "away": "TEX"
+      "away": "TEX",
+      "fadeReason": "home"
     },
     {
       "date": "2026-05-25",
@@ -5446,7 +5687,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "BAL",
-      "away": "TB"
+      "away": "TB",
+      "fadeReason": "away"
     },
     {
       "date": "2026-05-25",
@@ -5468,7 +5710,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "NYM",
-      "away": "CIN"
+      "away": "CIN",
+      "fadeReason": "home"
     },
     {
       "date": "2026-05-25",
@@ -5490,7 +5733,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "SF",
-      "away": "ARI"
+      "away": "ARI",
+      "fadeReason": "all"
     },
     {
       "date": "2026-05-25",
@@ -5512,7 +5756,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "CLE",
-      "away": "WSH"
+      "away": "WSH",
+      "fadeReason": "home"
     },
     {
       "date": "2026-05-25",
@@ -5534,7 +5779,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "SD",
-      "away": "PHI"
+      "away": "PHI",
+      "fadeReason": "all"
     },
     {
       "date": "2026-05-25",
@@ -5556,7 +5802,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "TEX",
-      "away": "HOU"
+      "away": "HOU",
+      "fadeReason": "all"
     },
     {
       "date": "2026-05-25",
@@ -5578,7 +5825,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "LAD",
-      "away": "COL"
+      "away": "COL",
+      "fadeReason": "all"
     },
     {
       "date": "2026-05-25",
@@ -5601,7 +5849,8 @@
       "source": "oddsapi_fanduel",
       "reason": "dog_below_min",
       "home": "OAK",
-      "away": "SEA"
+      "away": "SEA",
+      "fadeReason": "all/home"
     },
     {
       "date": "2026-05-26",
@@ -5623,7 +5872,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "BAL",
-      "away": "TB"
+      "away": "TB",
+      "fadeReason": "all"
     },
     {
       "date": "2026-05-26",
@@ -5645,7 +5895,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "DET",
-      "away": "LAA"
+      "away": "LAA",
+      "fadeReason": "all"
     },
     {
       "date": "2026-05-26",
@@ -5667,7 +5918,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "NYM",
-      "away": "CIN"
+      "away": "CIN",
+      "fadeReason": "all"
     },
     {
       "date": "2026-05-26",
@@ -5689,7 +5941,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "LAD",
-      "away": "COL"
+      "away": "COL",
+      "fadeReason": "away"
     },
     {
       "date": "2026-05-27",
@@ -5711,7 +5964,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "TOR",
-      "away": "MIA"
+      "away": "MIA",
+      "fadeReason": "all"
     },
     {
       "date": "2026-05-27",
@@ -5733,7 +5987,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "OAK",
-      "away": "SEA"
+      "away": "SEA",
+      "fadeReason": "home"
     },
     {
       "date": "2026-05-27",
@@ -5755,7 +6010,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "SF",
-      "away": "ARI"
+      "away": "ARI",
+      "fadeReason": "home"
     },
     {
       "date": "2026-05-27",
@@ -5777,7 +6033,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "DET",
-      "away": "LAA"
+      "away": "LAA",
+      "fadeReason": "all"
     },
     {
       "date": "2026-05-27",
@@ -5799,7 +6056,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "KC",
-      "away": "NYY"
+      "away": "NYY",
+      "fadeReason": "all"
     },
     {
       "date": "2026-05-28",
@@ -5821,7 +6079,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "BOS",
-      "away": "ATL"
+      "away": "ATL",
+      "fadeReason": "home"
     },
     {
       "date": "2026-05-28",
@@ -5844,7 +6103,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "PIT",
-      "away": "CHC"
+      "away": "CHC",
+      "fadeReason": "all"
     },
     {
       "date": "2026-05-29",
@@ -5866,7 +6126,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "CIN",
-      "away": "ATL"
+      "away": "ATL",
+      "fadeReason": "all"
     },
     {
       "date": "2026-05-29",
@@ -5888,7 +6149,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "BAL",
-      "away": "TOR"
+      "away": "TOR",
+      "fadeReason": "home"
     },
     {
       "date": "2026-05-29",
@@ -5910,7 +6172,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "NYM",
-      "away": "MIA"
+      "away": "MIA",
+      "fadeReason": "all"
     },
     {
       "date": "2026-05-29",
@@ -5932,7 +6195,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "STL",
-      "away": "CHC"
+      "away": "CHC",
+      "fadeReason": "away"
     },
     {
       "date": "2026-05-29",
@@ -5954,7 +6218,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "COL",
-      "away": "SF"
+      "away": "SF",
+      "fadeReason": "all"
     },
     {
       "date": "2026-05-29",
@@ -5976,7 +6241,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "SEA",
-      "away": "ARI"
+      "away": "ARI",
+      "fadeReason": "away"
     },
     {
       "date": "2026-05-30",
@@ -5998,7 +6264,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "CWS",
-      "away": "DET"
+      "away": "DET",
+      "fadeReason": "away"
     },
     {
       "date": "2026-05-30",
@@ -6020,7 +6287,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "TEX",
-      "away": "KC"
+      "away": "KC",
+      "fadeReason": "all"
     },
     {
       "date": "2026-05-30",
@@ -6042,7 +6310,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "WSH",
-      "away": "SD"
+      "away": "SD",
+      "fadeReason": "all"
     },
     {
       "date": "2026-05-30",
@@ -6064,7 +6333,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "PIT",
-      "away": "MIN"
+      "away": "MIN",
+      "fadeReason": "all"
     },
     {
       "date": "2026-05-30",
@@ -6086,7 +6356,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "BAL",
-      "away": "TOR"
+      "away": "TOR",
+      "fadeReason": "away"
     },
     {
       "date": "2026-05-30",
@@ -6108,7 +6379,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "SEA",
-      "away": "ARI"
+      "away": "ARI",
+      "fadeReason": "away"
     },
     {
       "date": "2026-05-31",
@@ -6131,7 +6403,8 @@
       "source": "oddsapi_fanduel",
       "reason": "dog_below_min",
       "home": "WSH",
-      "away": "SD"
+      "away": "SD",
+      "fadeReason": "all"
     },
     {
       "date": "2026-05-31",
@@ -6153,7 +6426,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "CIN",
-      "away": "ATL"
+      "away": "ATL",
+      "fadeReason": "home"
     },
     {
       "date": "2026-05-31",
@@ -6175,7 +6449,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "CLE",
-      "away": "BOS"
+      "away": "BOS",
+      "fadeReason": "home"
     },
     {
       "date": "2026-05-31",
@@ -6197,7 +6472,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "NYM",
-      "away": "MIA"
+      "away": "MIA",
+      "fadeReason": "home"
     },
     {
       "date": "2026-05-31",
@@ -6219,7 +6495,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "TB",
-      "away": "LAA"
+      "away": "LAA",
+      "fadeReason": "all"
     },
     {
       "date": "2026-05-31",
@@ -6241,7 +6518,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "TEX",
-      "away": "KC"
+      "away": "KC",
+      "fadeReason": "away"
     },
     {
       "date": "2026-05-31",
@@ -6263,7 +6541,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "OAK",
-      "away": "NYY"
+      "away": "NYY",
+      "fadeReason": "home"
     },
     {
       "date": "2026-05-31",
@@ -6285,7 +6564,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "LAD",
-      "away": "PHI"
+      "away": "PHI",
+      "fadeReason": "all"
     },
     {
       "date": "2026-05-31",
@@ -6308,7 +6588,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "SEA",
-      "away": "ARI"
+      "away": "ARI",
+      "fadeReason": "all"
     },
     {
       "date": "2026-06-01",
@@ -6330,7 +6611,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "WSH",
-      "away": "MIA"
+      "away": "MIA",
+      "fadeReason": "home"
     },
     {
       "date": "2026-06-01",
@@ -6352,7 +6634,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "MIL",
-      "away": "SF"
+      "away": "SF",
+      "fadeReason": "away"
     },
     {
       "date": "2026-06-01",
@@ -6374,7 +6657,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "LAA",
-      "away": "COL"
+      "away": "COL",
+      "fadeReason": "away"
     },
     {
       "date": "2026-06-01",
@@ -6396,7 +6680,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "ARI",
-      "away": "LAD"
+      "away": "LAD",
+      "fadeReason": "all"
     },
     {
       "date": "2026-06-02",
@@ -6418,7 +6703,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "PHI",
-      "away": "SD"
+      "away": "SD",
+      "fadeReason": "home"
     },
     {
       "date": "2026-06-02",
@@ -6440,7 +6726,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "TB",
-      "away": "DET"
+      "away": "DET",
+      "fadeReason": "away"
     },
     {
       "date": "2026-06-02",
@@ -6462,7 +6749,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "BOS",
-      "away": "BAL"
+      "away": "BAL",
+      "fadeReason": "all"
     },
     {
       "date": "2026-06-02",
@@ -6484,7 +6772,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "CIN",
-      "away": "KC"
+      "away": "KC",
+      "fadeReason": "all"
     },
     {
       "date": "2026-06-02",
@@ -6506,7 +6795,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "ATL",
-      "away": "TOR"
+      "away": "TOR",
+      "fadeReason": "all"
     },
     {
       "date": "2026-06-02",
@@ -6528,7 +6818,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "CHC",
-      "away": "OAK"
+      "away": "OAK",
+      "fadeReason": "home"
     },
     {
       "date": "2026-06-02",
@@ -6551,7 +6842,8 @@
       "source": "oddsapi_fanduel",
       "reason": "dog_below_min",
       "home": "HOU",
-      "away": "PIT"
+      "away": "PIT",
+      "fadeReason": "home/away"
     },
     {
       "date": "2026-06-02",
@@ -6573,7 +6865,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "LAA",
-      "away": "COL"
+      "away": "COL",
+      "fadeReason": "home"
     },
     {
       "date": "2026-06-03",
@@ -6595,7 +6888,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "SEA",
-      "away": "NYM"
+      "away": "NYM",
+      "fadeReason": "all"
     },
     {
       "date": "2026-06-03",
@@ -6617,7 +6911,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "BOS",
-      "away": "BAL"
+      "away": "BAL",
+      "fadeReason": "home"
     },
     {
       "date": "2026-06-03",
@@ -6639,7 +6934,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "NYY",
-      "away": "CLE"
+      "away": "CLE",
+      "fadeReason": "home"
     },
     {
       "date": "2026-06-03",
@@ -6661,7 +6957,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "MIL",
-      "away": "SF"
+      "away": "SF",
+      "fadeReason": "all"
     },
     {
       "date": "2026-06-03",
@@ -6683,7 +6980,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "CHC",
-      "away": "OAK"
+      "away": "OAK",
+      "fadeReason": "all"
     },
     {
       "date": "2026-06-03",
@@ -6705,7 +7003,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "HOU",
-      "away": "PIT"
+      "away": "PIT",
+      "fadeReason": "all"
     },
     {
       "date": "2026-06-04",
@@ -6727,7 +7026,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "NYY",
-      "away": "CLE"
+      "away": "CLE",
+      "fadeReason": "away"
     },
     {
       "date": "2026-06-04",
@@ -6749,7 +7049,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "BOS",
-      "away": "BAL"
+      "away": "BAL",
+      "fadeReason": "all"
     },
     {
       "date": "2026-06-05",
@@ -6771,7 +7072,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "ATL",
-      "away": "PIT"
+      "away": "PIT",
+      "fadeReason": "all"
     },
     {
       "date": "2026-06-05",
@@ -6793,7 +7095,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "TEX",
-      "away": "CLE"
+      "away": "CLE",
+      "fadeReason": "all"
     },
     {
       "date": "2026-06-05",
@@ -6816,7 +7119,8 @@
       "source": "oddsapi_fanduel",
       "reason": "dog_below_min",
       "home": "MIN",
-      "away": "KC"
+      "away": "KC",
+      "fadeReason": "home/away"
     },
     {
       "date": "2026-06-05",
@@ -6838,7 +7142,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "ARI",
-      "away": "WSH"
+      "away": "WSH",
+      "fadeReason": "all"
     },
     {
       "date": "2026-06-05",
@@ -6860,7 +7165,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "SD",
-      "away": "NYM"
+      "away": "NYM",
+      "fadeReason": "all"
     },
     {
       "date": "2026-06-06",
@@ -6882,7 +7188,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "DET",
-      "away": "SEA"
+      "away": "SEA",
+      "fadeReason": "all"
     },
     {
       "date": "2026-06-06",
@@ -6904,7 +7211,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "CHC",
-      "away": "SF"
+      "away": "SF",
+      "fadeReason": "away"
     },
     {
       "date": "2026-06-06",
@@ -6926,7 +7234,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "PHI",
-      "away": "CWS"
+      "away": "CWS",
+      "fadeReason": "all"
     },
     {
       "date": "2026-06-06",
@@ -6948,7 +7257,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "ARI",
-      "away": "WSH"
+      "away": "WSH",
+      "fadeReason": "all"
     },
     {
       "date": "2026-06-06",
@@ -6970,7 +7280,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "MIA",
-      "away": "TB"
+      "away": "TB",
+      "fadeReason": "away"
     },
     {
       "date": "2026-06-06",
@@ -6992,7 +7303,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "LAD",
-      "away": "LAA"
+      "away": "LAA",
+      "fadeReason": "all"
     },
     {
       "date": "2026-06-06",
@@ -7014,7 +7326,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "SD",
-      "away": "NYM"
+      "away": "NYM",
+      "fadeReason": "all"
     },
     {
       "date": "2026-06-07",
@@ -7036,7 +7349,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "PHI",
-      "away": "CWS"
+      "away": "CWS",
+      "fadeReason": "home"
     },
     {
       "date": "2026-06-07",
@@ -7059,7 +7373,8 @@
       "source": "oddsapi_fanduel",
       "reason": "dog_below_min",
       "home": "TOR",
-      "away": "BAL"
+      "away": "BAL",
+      "fadeReason": "all"
     },
     {
       "date": "2026-06-07",
@@ -7081,7 +7396,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "DET",
-      "away": "SEA"
+      "away": "SEA",
+      "fadeReason": "all"
     },
     {
       "date": "2026-06-07",
@@ -7103,7 +7419,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "MIN",
-      "away": "KC"
+      "away": "KC",
+      "fadeReason": "all"
     },
     {
       "date": "2026-06-07",
@@ -7125,7 +7442,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "HOU",
-      "away": "OAK"
+      "away": "OAK",
+      "fadeReason": "home"
     },
     {
       "date": "2026-06-07",
@@ -7147,7 +7465,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "STL",
-      "away": "CIN"
+      "away": "CIN",
+      "fadeReason": "away"
     },
     {
       "date": "2026-06-07",
@@ -7169,7 +7488,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "LAD",
-      "away": "LAA"
+      "away": "LAA",
+      "fadeReason": "all"
     },
     {
       "date": "2026-06-07",
@@ -7191,7 +7511,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "CHC",
-      "away": "SF"
+      "away": "SF",
+      "fadeReason": "home"
     },
     {
       "date": "2026-06-08",
@@ -7213,7 +7534,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "LAA",
-      "away": "HOU"
+      "away": "HOU",
+      "fadeReason": "home"
     },
     {
       "date": "2026-06-08",
@@ -7235,7 +7557,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "SF",
-      "away": "WSH"
+      "away": "WSH",
+      "fadeReason": "all"
     },
     {
       "date": "2026-06-08",
@@ -7257,7 +7580,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "OAK",
-      "away": "MIL"
+      "away": "MIL",
+      "fadeReason": "home"
     },
     {
       "date": "2026-06-09",
@@ -7279,7 +7603,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "BAL",
-      "away": "SEA"
+      "away": "SEA",
+      "fadeReason": "home"
     },
     {
       "date": "2026-06-09",
@@ -7301,7 +7626,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "MIA",
-      "away": "ARI"
+      "away": "ARI",
+      "fadeReason": "away"
     },
     {
       "date": "2026-06-09",
@@ -7323,7 +7649,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "PIT",
-      "away": "LAD"
+      "away": "LAD",
+      "fadeReason": "all"
     },
     {
       "date": "2026-06-09",
@@ -7345,7 +7672,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "NYM",
-      "away": "STL"
+      "away": "STL",
+      "fadeReason": "all"
     },
     {
       "date": "2026-06-09",
@@ -7367,7 +7695,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "COL",
-      "away": "CHC"
+      "away": "CHC",
+      "fadeReason": "all"
     },
     {
       "date": "2026-06-10",
@@ -7389,7 +7718,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "SD",
-      "away": "CIN"
+      "away": "CIN",
+      "fadeReason": "all"
     },
     {
       "date": "2026-06-10",
@@ -7411,7 +7741,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "MIA",
-      "away": "ARI"
+      "away": "ARI",
+      "fadeReason": "away"
     },
     {
       "date": "2026-06-10",
@@ -7433,7 +7764,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "COL",
-      "away": "CHC"
+      "away": "CHC",
+      "fadeReason": "away"
     },
     {
       "date": "2026-06-10",
@@ -7455,7 +7787,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "LAA",
-      "away": "HOU"
+      "away": "HOU",
+      "fadeReason": "home"
     },
     {
       "date": "2026-06-11",
@@ -7477,7 +7810,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "MIA",
-      "away": "ARI"
+      "away": "ARI",
+      "fadeReason": "all"
     },
     {
       "date": "2026-06-11",
@@ -7499,7 +7833,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "KC",
-      "away": "TEX"
+      "away": "TEX",
+      "fadeReason": "all"
     },
     {
       "date": "2026-06-11",
@@ -7521,7 +7856,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "PIT",
-      "away": "LAD"
+      "away": "LAD",
+      "fadeReason": "all"
     },
     {
       "date": "2026-06-12",
@@ -7544,7 +7880,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "WSH",
-      "away": "SEA"
+      "away": "SEA",
+      "fadeReason": "all"
     },
     {
       "date": "2026-06-12",
@@ -7567,7 +7904,8 @@
       "source": "oddsapi_fanduel",
       "reason": "dog_below_min",
       "home": "BAL",
-      "away": "SD"
+      "away": "SD",
+      "fadeReason": "all"
     },
     {
       "date": "2026-06-12",
@@ -7590,7 +7928,8 @@
       "source": "oddsapi_fanduel",
       "reason": "dog_below_min",
       "home": "CLE",
-      "away": "DET"
+      "away": "DET",
+      "fadeReason": "away/home"
     },
     {
       "date": "2026-06-12",
@@ -7612,7 +7951,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "NYM",
-      "away": "ATL"
+      "away": "ATL",
+      "fadeReason": "home"
     },
     {
       "date": "2026-06-12",
@@ -7634,7 +7974,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "CIN",
-      "away": "ARI"
+      "away": "ARI",
+      "fadeReason": "home"
     },
     {
       "date": "2026-06-12",
@@ -7656,7 +7997,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "LAA",
-      "away": "TB"
+      "away": "TB",
+      "fadeReason": "away"
     },
     {
       "date": "2026-06-13",
@@ -7678,7 +8020,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "TOR",
-      "away": "NYY"
+      "away": "NYY",
+      "fadeReason": "all"
     },
     {
       "date": "2026-06-13",
@@ -7701,7 +8044,8 @@
       "source": "oddsapi_fanduel",
       "reason": "dog_below_min",
       "home": "WSH",
-      "away": "SEA"
+      "away": "SEA",
+      "fadeReason": "all/home"
     },
     {
       "date": "2026-06-13",
@@ -7723,7 +8067,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "KC",
-      "away": "HOU"
+      "away": "HOU",
+      "fadeReason": "all"
     },
     {
       "date": "2026-06-13",
@@ -7745,7 +8090,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "SF",
-      "away": "CHC"
+      "away": "CHC",
+      "fadeReason": "home"
     },
     {
       "date": "2026-06-13",
@@ -7767,7 +8113,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "OAK",
-      "away": "COL"
+      "away": "COL",
+      "fadeReason": "away"
     },
     {
       "date": "2026-06-14",
@@ -7789,7 +8136,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "PIT",
-      "away": "MIA"
+      "away": "MIA",
+      "fadeReason": "all"
     },
     {
       "date": "2026-06-14",
@@ -7811,7 +8159,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "BAL",
-      "away": "SD"
+      "away": "SD",
+      "fadeReason": "home"
     },
     {
       "date": "2026-06-14",
@@ -7833,7 +8182,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "CIN",
-      "away": "ARI"
+      "away": "ARI",
+      "fadeReason": "away"
     },
     {
       "date": "2026-06-14",
@@ -7855,7 +8205,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "NYM",
-      "away": "ATL"
+      "away": "ATL",
+      "fadeReason": "all"
     },
     {
       "date": "2026-06-14",
@@ -7877,7 +8228,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "CWS",
-      "away": "LAD"
+      "away": "LAD",
+      "fadeReason": "all"
     },
     {
       "date": "2026-06-14",
@@ -7899,7 +8251,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "OAK",
-      "away": "COL"
+      "away": "COL",
+      "fadeReason": "home"
     },
     {
       "date": "2026-06-14",
@@ -7921,7 +8274,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "SF",
-      "away": "CHC"
+      "away": "CHC",
+      "fadeReason": "all"
     },
     {
       "date": "2026-06-14",
@@ -7943,7 +8297,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "LAA",
-      "away": "TB"
+      "away": "TB",
+      "fadeReason": "home"
     },
     {
       "date": "2026-06-16",
@@ -7965,7 +8320,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "PHI",
-      "away": "MIA"
+      "away": "MIA",
+      "fadeReason": "away"
     },
     {
       "date": "2026-06-16",
@@ -7987,7 +8343,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "BOS",
-      "away": "TOR"
+      "away": "TOR",
+      "fadeReason": "home"
     },
     {
       "date": "2026-06-16",
@@ -8009,7 +8366,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "WSH",
-      "away": "KC"
+      "away": "KC",
+      "fadeReason": "away"
     },
     {
       "date": "2026-06-16",
@@ -8031,7 +8389,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "NYY",
-      "away": "CWS"
+      "away": "CWS",
+      "fadeReason": "home"
     },
     {
       "date": "2026-06-16",
@@ -8053,7 +8412,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "MIL",
-      "away": "CLE"
+      "away": "CLE",
+      "fadeReason": "away"
     },
     {
       "date": "2026-06-16",
@@ -8075,7 +8435,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "STL",
-      "away": "SD"
+      "away": "SD",
+      "fadeReason": "all"
     },
     {
       "date": "2026-06-16",
@@ -8097,7 +8458,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "TEX",
-      "away": "MIN"
+      "away": "MIN",
+      "fadeReason": "all"
     },
     {
       "date": "2026-06-16",
@@ -8119,7 +8481,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "CHC",
-      "away": "COL"
+      "away": "COL",
+      "fadeReason": "away"
     },
     {
       "date": "2026-06-16",
@@ -8141,7 +8504,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "HOU",
-      "away": "DET"
+      "away": "DET",
+      "fadeReason": "away"
     },
     {
       "date": "2026-06-16",
@@ -8163,7 +8527,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "ARI",
-      "away": "LAA"
+      "away": "LAA",
+      "fadeReason": "all"
     },
     {
       "date": "2026-06-16",
@@ -8186,7 +8551,8 @@
       "source": "oddsapi_fanduel",
       "reason": "dog_below_min",
       "home": "OAK",
-      "away": "PIT"
+      "away": "PIT",
+      "fadeReason": "all"
     },
     {
       "date": "2026-06-17",
@@ -8208,7 +8574,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "CIN",
-      "away": "NYM"
+      "away": "NYM",
+      "fadeReason": "home"
     },
     {
       "date": "2026-06-17",
@@ -8230,7 +8597,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "WSH",
-      "away": "KC"
+      "away": "KC",
+      "fadeReason": "all"
     },
     {
       "date": "2026-06-17",
@@ -8252,7 +8620,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "PHI",
-      "away": "MIA"
+      "away": "MIA",
+      "fadeReason": "all"
     },
     {
       "date": "2026-06-17",
@@ -8274,7 +8643,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "HOU",
-      "away": "DET"
+      "away": "DET",
+      "fadeReason": "all"
     },
     {
       "date": "2026-06-17",
@@ -8296,7 +8666,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "LAD",
-      "away": "TB"
+      "away": "TB",
+      "fadeReason": "away"
     },
     {
       "date": "2026-06-17",
@@ -8318,7 +8689,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "ARI",
-      "away": "LAA"
+      "away": "LAA",
+      "fadeReason": "all"
     },
     {
       "date": "2026-06-17",
@@ -8340,7 +8712,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "OAK",
-      "away": "PIT"
+      "away": "PIT",
+      "fadeReason": "home"
     },
     {
       "date": "2026-06-18",
@@ -8362,7 +8735,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "BOS",
-      "away": "TOR"
+      "away": "TOR",
+      "fadeReason": "away"
     },
     {
       "date": "2026-06-18",
@@ -8384,7 +8758,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "SEA",
-      "away": "BAL"
+      "away": "BAL",
+      "fadeReason": "all"
     },
     {
       "date": "2026-06-18",
@@ -8406,7 +8781,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "PHI",
-      "away": "NYM"
+      "away": "NYM",
+      "fadeReason": "home"
     },
     {
       "date": "2026-06-18",
@@ -8428,7 +8804,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "KC",
-      "away": "STL"
+      "away": "STL",
+      "fadeReason": "all"
     },
     {
       "date": "2026-06-19",
@@ -8450,7 +8827,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "CHC",
-      "away": "TOR"
+      "away": "TOR",
+      "fadeReason": "all"
     },
     {
       "date": "2026-06-19",
@@ -8472,7 +8850,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "NYY",
-      "away": "CIN"
+      "away": "CIN",
+      "fadeReason": "away"
     },
     {
       "date": "2026-06-19",
@@ -8494,7 +8873,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "MIA",
-      "away": "SF"
+      "away": "SF",
+      "fadeReason": "away"
     },
     {
       "date": "2026-06-19",
@@ -8516,7 +8896,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "COL",
-      "away": "PIT"
+      "away": "PIT",
+      "fadeReason": "away"
     },
     {
       "date": "2026-06-19",
@@ -8538,7 +8919,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "OAK",
-      "away": "LAA"
+      "away": "LAA",
+      "fadeReason": "home"
     },
     {
       "date": "2026-06-19",
@@ -8560,7 +8942,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "SEA",
-      "away": "BOS"
+      "away": "BOS",
+      "fadeReason": "all"
     },
     {
       "date": "2026-06-20",
@@ -8582,7 +8965,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "CHC",
-      "away": "TOR"
+      "away": "TOR",
+      "fadeReason": "all"
     },
     {
       "date": "2026-06-20",
@@ -8604,7 +8988,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "PHI",
-      "away": "NYM"
+      "away": "NYM",
+      "fadeReason": "all"
     },
     {
       "date": "2026-06-20",
@@ -8626,7 +9011,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "COL",
-      "away": "PIT"
+      "away": "PIT",
+      "fadeReason": "all"
     },
     {
       "date": "2026-06-21",
@@ -8648,7 +9034,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "MIA",
-      "away": "SF"
+      "away": "SF",
+      "fadeReason": "all"
     },
     {
       "date": "2026-06-21",
@@ -8670,7 +9057,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "HOU",
-      "away": "CLE"
+      "away": "CLE",
+      "fadeReason": "away"
     },
     {
       "date": "2026-06-21",
@@ -8692,7 +9080,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "OAK",
-      "away": "LAA"
+      "away": "LAA",
+      "fadeReason": "all"
     },
     {
       "date": "2026-06-21",
@@ -8714,7 +9103,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "LAD",
-      "away": "BAL"
+      "away": "BAL",
+      "fadeReason": "all"
     },
     {
       "date": "2026-06-21",
@@ -8736,7 +9126,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "PHI",
-      "away": "NYM"
+      "away": "NYM",
+      "fadeReason": "all"
     },
     {
       "date": "2026-06-22",
@@ -8758,7 +9149,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "TB",
-      "away": "KC"
+      "away": "KC",
+      "fadeReason": "away"
     },
     {
       "date": "2026-06-22",
@@ -8780,7 +9172,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "MIN",
-      "away": "LAD"
+      "away": "LAD",
+      "fadeReason": "home"
     },
     {
       "date": "2026-06-22",
@@ -8802,7 +9195,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "STL",
-      "away": "ARI"
+      "away": "ARI",
+      "fadeReason": "all"
     },
     {
       "date": "2026-06-22",
@@ -8824,7 +9218,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "LAA",
-      "away": "BAL"
+      "away": "BAL",
+      "fadeReason": "all"
     },
     {
       "date": "2026-06-22",
@@ -8846,7 +9241,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "SD",
-      "away": "ATL"
+      "away": "ATL",
+      "fadeReason": "all"
     },
     {
       "date": "2026-06-23",
@@ -8868,7 +9264,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "DET",
-      "away": "NYY"
+      "away": "NYY",
+      "fadeReason": "all"
     },
     {
       "date": "2026-06-23",
@@ -8890,7 +9287,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "PIT",
-      "away": "SEA"
+      "away": "SEA",
+      "fadeReason": "all"
     },
     {
       "date": "2026-06-23",
@@ -8912,7 +9310,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "CIN",
-      "away": "MIL"
+      "away": "MIL",
+      "fadeReason": "home"
     },
     {
       "date": "2026-06-23",
@@ -8935,7 +9334,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "LAA",
-      "away": "BAL"
+      "away": "BAL",
+      "fadeReason": "all"
     },
     {
       "date": "2026-06-24",
@@ -8958,7 +9358,8 @@
       "source": "oddsapi_fanduel",
       "reason": "dog_below_min",
       "home": "NYM",
-      "away": "CHC"
+      "away": "CHC",
+      "fadeReason": "home/away"
     },
     {
       "date": "2026-06-24",
@@ -8980,7 +9381,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "TB",
-      "away": "KC"
+      "away": "KC",
+      "fadeReason": "all"
     },
     {
       "date": "2026-06-25",
@@ -9002,7 +9404,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "PIT",
-      "away": "SEA"
+      "away": "SEA",
+      "fadeReason": "all"
     },
     {
       "date": "2026-06-25",
@@ -9024,7 +9427,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "WSH",
-      "away": "PHI"
+      "away": "PHI",
+      "fadeReason": "home"
     },
     {
       "date": "2026-06-25",
@@ -9046,7 +9450,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "TOR",
-      "away": "TEX"
+      "away": "TEX",
+      "fadeReason": "all"
     },
     {
       "date": "2026-06-25",
@@ -9068,7 +9473,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "NYM",
-      "away": "CHC"
+      "away": "CHC",
+      "fadeReason": "all"
     },
     {
       "date": "2026-06-26",
@@ -9090,7 +9496,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "PIT",
-      "away": "CIN"
+      "away": "CIN",
+      "fadeReason": "all"
     },
     {
       "date": "2026-06-26",
@@ -9112,7 +9519,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "BAL",
-      "away": "WSH"
+      "away": "WSH",
+      "fadeReason": "home"
     },
     {
       "date": "2026-06-26",
@@ -9134,7 +9542,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "CLE",
-      "away": "SEA"
+      "away": "SEA",
+      "fadeReason": "all"
     },
     {
       "date": "2026-06-26",
@@ -9156,7 +9565,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "TB",
-      "away": "ARI"
+      "away": "ARI",
+      "fadeReason": "away"
     },
     {
       "date": "2026-06-26",
@@ -9178,7 +9588,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "BOS",
-      "away": "NYY"
+      "away": "NYY",
+      "fadeReason": "home"
     },
     {
       "date": "2026-06-26",
@@ -9200,7 +9611,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "MIL",
-      "away": "CHC"
+      "away": "CHC",
+      "fadeReason": "all"
     },
     {
       "date": "2026-06-26",
@@ -9222,7 +9634,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "SF",
-      "away": "ATL"
+      "away": "ATL",
+      "fadeReason": "home"
     },
     {
       "date": "2026-06-27",
@@ -9244,7 +9657,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "CWS",
-      "away": "KC"
+      "away": "KC",
+      "fadeReason": "away"
     },
     {
       "date": "2026-06-27",
@@ -9266,7 +9680,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "MIL",
-      "away": "CHC"
+      "away": "CHC",
+      "fadeReason": "all"
     },
     {
       "date": "2026-06-27",
@@ -9288,7 +9703,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "SF",
-      "away": "ATL"
+      "away": "ATL",
+      "fadeReason": "all"
     },
     {
       "date": "2026-06-27",
@@ -9311,7 +9727,8 @@
       "source": "oddsapi_fanduel",
       "reason": "dog_below_min",
       "home": "LAA",
-      "away": "OAK"
+      "away": "OAK",
+      "fadeReason": "home/all"
     },
     {
       "date": "2026-06-28",
@@ -9333,7 +9750,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "BAL",
-      "away": "WSH"
+      "away": "WSH",
+      "fadeReason": "all"
     },
     {
       "date": "2026-06-28",
@@ -9355,7 +9773,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "PIT",
-      "away": "CIN"
+      "away": "CIN",
+      "fadeReason": "all"
     },
     {
       "date": "2026-06-28",
@@ -9377,7 +9796,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "TOR",
-      "away": "TEX"
+      "away": "TEX",
+      "fadeReason": "all"
     },
     {
       "date": "2026-06-28",
@@ -9399,7 +9819,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "TB",
-      "away": "ARI"
+      "away": "ARI",
+      "fadeReason": "all"
     },
     {
       "date": "2026-06-28",
@@ -9421,7 +9842,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "MIN",
-      "away": "COL"
+      "away": "COL",
+      "fadeReason": "away"
     },
     {
       "date": "2026-06-28",
@@ -9443,7 +9865,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "STL",
-      "away": "MIA"
+      "away": "MIA",
+      "fadeReason": "away"
     },
     {
       "date": "2026-06-28",
@@ -9465,7 +9888,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "LAA",
-      "away": "OAK"
+      "away": "OAK",
+      "fadeReason": "all"
     },
     {
       "date": "2026-06-29",
@@ -9487,7 +9911,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "BAL",
-      "away": "CWS"
+      "away": "CWS",
+      "fadeReason": "all"
     },
     {
       "date": "2026-06-29",
@@ -9509,7 +9934,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "PHI",
-      "away": "PIT"
+      "away": "PIT",
+      "fadeReason": "home"
     },
     {
       "date": "2026-06-29",
@@ -9531,7 +9957,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "NYY",
-      "away": "DET"
+      "away": "DET",
+      "fadeReason": "all"
     },
     {
       "date": "2026-06-29",
@@ -9553,7 +9980,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "BOS",
-      "away": "WSH"
+      "away": "WSH",
+      "fadeReason": "all"
     },
     {
       "date": "2026-06-29",
@@ -9575,7 +10003,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "CHC",
-      "away": "SD"
+      "away": "SD",
+      "fadeReason": "all"
     },
     {
       "date": "2026-06-29",
@@ -9597,7 +10026,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "SEA",
-      "away": "LAA"
+      "away": "LAA",
+      "fadeReason": "all"
     },
     {
       "date": "2026-06-29",
@@ -9619,7 +10049,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "ARI",
-      "away": "SF"
+      "away": "SF",
+      "fadeReason": "away"
     },
     {
       "date": "2026-06-30",
@@ -9641,7 +10072,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "CLE",
-      "away": "TEX"
+      "away": "TEX",
+      "fadeReason": "home"
     },
     {
       "date": "2026-06-30",
@@ -9663,7 +10095,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "PHI",
-      "away": "PIT"
+      "away": "PIT",
+      "fadeReason": "away"
     },
     {
       "date": "2026-06-30",
@@ -9685,7 +10118,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "TOR",
-      "away": "NYM"
+      "away": "NYM",
+      "fadeReason": "all"
     },
     {
       "date": "2026-06-30",
@@ -9707,7 +10141,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "KC",
-      "away": "TB"
+      "away": "TB",
+      "fadeReason": "all"
     },
     {
       "date": "2026-06-30",
@@ -9729,7 +10164,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "MIL",
-      "away": "CIN"
+      "away": "CIN",
+      "fadeReason": "away"
     },
     {
       "date": "2026-06-30",
@@ -9751,7 +10187,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "HOU",
-      "away": "MIN"
+      "away": "MIN",
+      "fadeReason": "home"
     },
     {
       "date": "2026-06-30",
@@ -9773,7 +10210,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "ARI",
-      "away": "SF"
+      "away": "SF",
+      "fadeReason": "away"
     },
     {
       "date": "2026-06-30",
@@ -9795,7 +10233,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "OAK",
-      "away": "LAD"
+      "away": "LAD",
+      "fadeReason": "home"
     },
     {
       "date": "2026-07-01",
@@ -9817,7 +10256,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "BAL",
-      "away": "CWS"
+      "away": "CWS",
+      "fadeReason": "all"
     },
     {
       "date": "2026-07-01",
@@ -9839,7 +10279,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "BOS",
-      "away": "WSH"
+      "away": "WSH",
+      "fadeReason": "home"
     },
     {
       "date": "2026-07-01",
@@ -9861,7 +10302,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "CHC",
-      "away": "SD"
+      "away": "SD",
+      "fadeReason": "all"
     },
     {
       "date": "2026-07-01",
@@ -9883,7 +10325,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "TOR",
-      "away": "NYM"
+      "away": "NYM",
+      "fadeReason": "all"
     },
     {
       "date": "2026-07-01",
@@ -9905,7 +10348,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "PHI",
-      "away": "PIT"
+      "away": "PIT",
+      "fadeReason": "all"
     },
     {
       "date": "2026-07-01",
@@ -9927,7 +10371,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "KC",
-      "away": "TB"
+      "away": "TB",
+      "fadeReason": "away"
     },
     {
       "date": "2026-07-02",
@@ -9949,7 +10394,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "TEX",
-      "away": "DET"
+      "away": "DET",
+      "fadeReason": "away"
     },
     {
       "date": "2026-07-02",
@@ -9971,7 +10417,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "SEA",
-      "away": "LAA"
+      "away": "LAA",
+      "fadeReason": "all"
     },
     {
       "date": "2026-07-03",
@@ -9993,7 +10440,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "CHC",
-      "away": "STL"
+      "away": "STL",
+      "fadeReason": "all"
     },
     {
       "date": "2026-07-03",
@@ -10015,7 +10463,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "WSH",
-      "away": "PIT"
+      "away": "PIT",
+      "fadeReason": "all"
     },
     {
       "date": "2026-07-03",
@@ -10037,7 +10486,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "NYY",
-      "away": "MIN"
+      "away": "MIN",
+      "fadeReason": "home"
     },
     {
       "date": "2026-07-03",
@@ -10059,7 +10509,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "LAA",
-      "away": "BOS"
+      "away": "BOS",
+      "fadeReason": "home"
     },
     {
       "date": "2026-07-03",
@@ -10082,7 +10533,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "OAK",
-      "away": "MIA"
+      "away": "MIA",
+      "fadeReason": "all/away"
     },
     {
       "date": "2026-07-03",
@@ -10104,7 +10556,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "LAD",
-      "away": "SD"
+      "away": "SD",
+      "fadeReason": "all"
     },
     {
       "date": "2026-07-03",
@@ -10126,7 +10579,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "SEA",
-      "away": "TOR"
+      "away": "TOR",
+      "fadeReason": "all"
     },
     {
       "date": "2026-07-04",
@@ -10148,7 +10602,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "TEX",
-      "away": "DET"
+      "away": "DET",
+      "fadeReason": "away"
     },
     {
       "date": "2026-07-04",
@@ -10170,7 +10625,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "LAA",
-      "away": "BOS"
+      "away": "BOS",
+      "fadeReason": "all"
     },
     {
       "date": "2026-07-04",
@@ -10192,7 +10648,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "ARI",
-      "away": "MIL"
+      "away": "MIL",
+      "fadeReason": "all"
     },
     {
       "date": "2026-07-04",
@@ -10214,7 +10671,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "OAK",
-      "away": "MIA"
+      "away": "MIA",
+      "fadeReason": "home"
     },
     {
       "date": "2026-07-05",
@@ -10237,7 +10695,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "WSH",
-      "away": "PIT"
+      "away": "PIT",
+      "fadeReason": "home/away"
     },
     {
       "date": "2026-07-05",
@@ -10259,7 +10718,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "CIN",
-      "away": "BAL"
+      "away": "BAL",
+      "fadeReason": "home"
     },
     {
       "date": "2026-07-05",
@@ -10281,7 +10741,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "CLE",
-      "away": "CWS"
+      "away": "CWS",
+      "fadeReason": "home"
     },
     {
       "date": "2026-07-05",
@@ -10304,7 +10765,8 @@
       "source": "oddsapi_fanduel",
       "reason": "dog_below_min",
       "home": "TEX",
-      "away": "DET"
+      "away": "DET",
+      "fadeReason": "all"
     },
     {
       "date": "2026-07-05",
@@ -10326,7 +10788,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "COL",
-      "away": "SF"
+      "away": "SF",
+      "fadeReason": "away"
     },
     {
       "date": "2026-07-05",
@@ -10348,7 +10811,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "SEA",
-      "away": "TOR"
+      "away": "TOR",
+      "fadeReason": "away"
     },
     {
       "date": "2026-07-05",
@@ -10370,7 +10834,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "LAD",
-      "away": "SD"
+      "away": "SD",
+      "fadeReason": "all"
     },
     {
       "date": "2026-07-05",
@@ -10392,7 +10857,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "LAA",
-      "away": "BOS"
+      "away": "BOS",
+      "fadeReason": "all"
     },
     {
       "date": "2026-07-06",
@@ -10414,7 +10880,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "KC",
-      "away": "PHI"
+      "away": "PHI",
+      "fadeReason": "all"
     },
     {
       "date": "2026-07-06",
@@ -10436,7 +10903,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "WSH",
-      "away": "HOU"
+      "away": "HOU",
+      "fadeReason": "all"
     },
     {
       "date": "2026-07-06",
@@ -10458,7 +10926,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "ATL",
-      "away": "NYM"
+      "away": "NYM",
+      "fadeReason": "all"
     },
     {
       "date": "2026-07-06",
@@ -10480,7 +10949,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "SF",
-      "away": "TOR"
+      "away": "TOR",
+      "fadeReason": "all"
     },
     {
       "date": "2026-07-06",
@@ -10502,7 +10972,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "LAD",
-      "away": "COL"
+      "away": "COL",
+      "fadeReason": "away"
     },
     {
       "date": "2026-07-07",
@@ -10524,7 +10995,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "BAL",
-      "away": "CHC"
+      "away": "CHC",
+      "fadeReason": "all"
     },
     {
       "date": "2026-07-07",
@@ -10546,7 +11018,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "PIT",
-      "away": "ATL"
+      "away": "ATL",
+      "fadeReason": "all"
     },
     {
       "date": "2026-07-07",
@@ -10568,7 +11041,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "CWS",
-      "away": "BOS"
+      "away": "BOS",
+      "fadeReason": "all"
     },
     {
       "date": "2026-07-07",
@@ -10590,7 +11064,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "SD",
-      "away": "ARI"
+      "away": "ARI",
+      "fadeReason": "away"
     },
     {
       "date": "2026-07-07",
@@ -10612,7 +11087,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "SF",
-      "away": "TOR"
+      "away": "TOR",
+      "fadeReason": "home"
     },
     {
       "date": "2026-07-08",
@@ -10634,7 +11110,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "SF",
-      "away": "TOR"
+      "away": "TOR",
+      "fadeReason": "all"
     },
     {
       "date": "2026-07-08",
@@ -10656,7 +11133,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "BAL",
-      "away": "CHC"
+      "away": "CHC",
+      "fadeReason": "all"
     },
     {
       "date": "2026-07-08",
@@ -10678,7 +11156,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "MIN",
-      "away": "CLE"
+      "away": "CLE",
+      "fadeReason": "away"
     },
     {
       "date": "2026-07-08",
@@ -10700,7 +11179,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "SD",
-      "away": "ARI"
+      "away": "ARI",
+      "fadeReason": "all"
     },
     {
       "date": "2026-07-09",
@@ -10722,7 +11202,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "PIT",
-      "away": "ATL"
+      "away": "ATL",
+      "fadeReason": "all"
     },
     {
       "date": "2026-07-09",
@@ -10744,7 +11225,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "NYM",
-      "away": "KC"
+      "away": "KC",
+      "fadeReason": "away"
     },
     {
       "date": "2026-07-09",
@@ -10767,7 +11249,8 @@
       "source": "oddsapi_fanduel",
       "reason": "dog_below_min",
       "home": "BAL",
-      "away": "CHC"
+      "away": "CHC",
+      "fadeReason": "all/home"
     },
     {
       "date": "2026-07-09",
@@ -10789,7 +11272,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "MIA",
-      "away": "SEA"
+      "away": "SEA",
+      "fadeReason": "all"
     },
     {
       "date": "2026-07-09",
@@ -10812,7 +11296,8 @@
       "source": "oddsapi_fanduel",
       "reason": "dog_below_min",
       "home": "SD",
-      "away": "ARI"
+      "away": "ARI",
+      "fadeReason": "all"
     },
     {
       "date": "2026-07-09",
@@ -10834,7 +11319,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "SF",
-      "away": "COL"
+      "away": "COL",
+      "fadeReason": "away"
     },
     {
       "date": "2026-07-10",
@@ -10856,7 +11342,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "TB",
-      "away": "SEA"
+      "away": "SEA",
+      "fadeReason": "all"
     },
     {
       "date": "2026-07-10",
@@ -10878,7 +11365,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "CIN",
-      "away": "CHC"
+      "away": "CHC",
+      "fadeReason": "away"
     },
     {
       "date": "2026-07-10",
@@ -10900,7 +11388,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "NYM",
-      "away": "BOS"
+      "away": "BOS",
+      "fadeReason": "home"
     },
     {
       "date": "2026-07-10",
@@ -10922,7 +11411,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "MIN",
-      "away": "LAA"
+      "away": "LAA",
+      "fadeReason": "home"
     },
     {
       "date": "2026-07-11",
@@ -10944,7 +11434,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "MIN",
-      "away": "LAA"
+      "away": "LAA",
+      "fadeReason": "all"
     },
     {
       "date": "2026-07-11",
@@ -10966,7 +11457,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "SF",
-      "away": "COL"
+      "away": "COL",
+      "fadeReason": "away"
     },
     {
       "date": "2026-07-11",
@@ -10988,7 +11480,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "NYM",
-      "away": "BOS"
+      "away": "BOS",
+      "fadeReason": "all"
     },
     {
       "date": "2026-07-11",
@@ -11010,7 +11503,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "DET",
-      "away": "PHI"
+      "away": "PHI",
+      "fadeReason": "all"
     },
     {
       "date": "2026-07-11",
@@ -11032,7 +11526,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "BAL",
-      "away": "KC"
+      "away": "KC",
+      "fadeReason": "all"
     },
     {
       "date": "2026-07-11",
@@ -11054,7 +11549,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "TEX",
-      "away": "HOU"
+      "away": "HOU",
+      "fadeReason": "all"
     },
     {
       "date": "2026-07-11",
@@ -11076,7 +11572,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "CIN",
-      "away": "CHC"
+      "away": "CHC",
+      "fadeReason": "home"
     },
     {
       "date": "2026-07-11",
@@ -11098,7 +11595,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "SD",
-      "away": "TOR"
+      "away": "TOR",
+      "fadeReason": "away"
     },
     {
       "date": "2026-07-12",
@@ -11120,7 +11618,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "PIT",
-      "away": "MIL"
+      "away": "MIL",
+      "fadeReason": "all"
     },
     {
       "date": "2026-07-12",
@@ -11142,7 +11641,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "WSH",
-      "away": "NYY"
+      "away": "NYY",
+      "fadeReason": "home"
     },
     {
       "date": "2026-07-12",
@@ -11164,7 +11664,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "BAL",
-      "away": "KC"
+      "away": "KC",
+      "fadeReason": "all"
     },
     {
       "date": "2026-07-12",
@@ -11186,7 +11687,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "CWS",
-      "away": "OAK"
+      "away": "OAK",
+      "fadeReason": "all"
     },
     {
       "date": "2026-07-12",
@@ -11208,7 +11710,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "SF",
-      "away": "COL"
+      "away": "COL",
+      "fadeReason": "home"
     },
     {
       "date": "2026-07-12",
@@ -11230,7 +11733,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "SD",
-      "away": "TOR"
+      "away": "TOR",
+      "fadeReason": "all"
     },
     {
       "date": "2026-07-12",
@@ -11252,7 +11756,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "LAD",
-      "away": "ARI"
+      "away": "ARI",
+      "fadeReason": "all"
     },
     {
       "date": "2026-07-16",
@@ -11274,7 +11779,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "PHI",
-      "away": "NYM"
+      "away": "NYM",
+      "fadeReason": "home"
     },
     {
       "date": "2026-07-17",
@@ -11296,7 +11802,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "NYY",
-      "away": "LAD"
+      "away": "LAD",
+      "fadeReason": "home"
     },
     {
       "date": "2026-07-17",
@@ -11318,7 +11825,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "CHC",
-      "away": "MIN"
+      "away": "MIN",
+      "fadeReason": "all"
     },
     {
       "date": "2026-07-17",
@@ -11340,7 +11848,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "KC",
-      "away": "SD"
+      "away": "SD",
+      "fadeReason": "all"
     },
     {
       "date": "2026-07-17",
@@ -11362,7 +11871,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "LAA",
-      "away": "DET"
+      "away": "DET",
+      "fadeReason": "home"
     },
     {
       "date": "2026-07-17",
@@ -11384,7 +11894,8 @@
       "source": "fanduel_api",
       "reason": null,
       "home": "ARI",
-      "away": "STL"
+      "away": "STL",
+      "fadeReason": "all"
     },
     {
       "date": "2026-07-17",
@@ -11407,7 +11918,8 @@
       "source": "fanduel_api",
       "reason": null,
       "home": "SEA",
-      "away": "SF"
+      "away": "SF",
+      "fadeReason": "away/all"
     },
     {
       "date": "2026-07-18",
@@ -11429,7 +11941,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "COL",
-      "away": "CIN"
+      "away": "CIN",
+      "fadeReason": "away"
     },
     {
       "date": "2026-07-18",
@@ -11451,7 +11964,8 @@
       "source": "manual_close",
       "reason": null,
       "home": "KC",
-      "away": "SD"
+      "away": "SD",
+      "fadeReason": "all"
     },
     {
       "date": "2026-07-18",
@@ -11473,7 +11987,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "ARI",
-      "away": "STL"
+      "away": "STL",
+      "fadeReason": "all"
     },
     {
       "date": "2026-07-18",
@@ -11495,7 +12010,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "SEA",
-      "away": "SF"
+      "away": "SF",
+      "fadeReason": "all"
     },
     {
       "date": "2026-07-18",
@@ -11517,7 +12033,8 @@
       "source": "fanduel_api",
       "reason": "postponed",
       "home": "NYY",
-      "away": "LAD"
+      "away": "LAD",
+      "fadeReason": "all"
     },
     {
       "date": "2026-07-18",
@@ -11539,7 +12056,8 @@
       "source": "fanduel_api",
       "reason": null,
       "home": "OAK",
-      "away": "WSH"
+      "away": "WSH",
+      "fadeReason": "all"
     },
     {
       "date": "2026-07-18",
@@ -11561,7 +12079,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "LAA",
-      "away": "DET"
+      "away": "DET",
+      "fadeReason": "home"
     },
     {
       "date": "2026-07-19",
@@ -11583,7 +12102,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "BOS",
-      "away": "TB"
+      "away": "TB",
+      "fadeReason": "away"
     },
     {
       "date": "2026-07-19",
@@ -11605,7 +12125,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "CLE",
-      "away": "PIT"
+      "away": "PIT",
+      "fadeReason": "all"
     },
     {
       "date": "2026-07-19",
@@ -11627,7 +12148,8 @@
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "KC",
-      "away": "SD"
+      "away": "SD",
+      "fadeReason": "all"
     },
     {
       "date": "2026-07-19",
@@ -11649,7 +12171,8 @@
       "source": "fanduel_api",
       "reason": null,
       "home": "OAK",
-      "away": "WSH"
+      "away": "WSH",
+      "fadeReason": "home"
     },
     {
       "date": "2026-07-19",
@@ -11672,7 +12195,8 @@
       "source": "fanduel_api",
       "reason": "dog_below_min",
       "home": "LAA",
-      "away": "DET"
+      "away": "DET",
+      "fadeReason": "all"
     },
     {
       "date": "2026-07-20",
@@ -11694,7 +12218,8 @@
       "source": "fanduel_api",
       "reason": null,
       "home": "CLE",
-      "away": "MIN"
+      "away": "MIN",
+      "fadeReason": "home"
     },
     {
       "date": "2026-07-20",
@@ -11716,7 +12241,8 @@
       "source": "fanduel_api",
       "reason": null,
       "home": "PHI",
-      "away": "LAD"
+      "away": "LAD",
+      "fadeReason": "all"
     },
     {
       "date": "2026-07-20",
@@ -11739,7 +12265,8 @@
       "source": "fanduel_api",
       "reason": null,
       "home": "BOS",
-      "away": "BAL"
+      "away": "BAL",
+      "fadeReason": "all/home"
     },
     {
       "date": "2026-07-20",
@@ -11761,7 +12288,8 @@
       "source": "fanduel_api",
       "reason": null,
       "home": "MIL",
-      "away": "NYM"
+      "away": "NYM",
+      "fadeReason": "all"
     },
     {
       "date": "2026-07-20",
@@ -11784,7 +12312,8 @@
       "source": "fanduel_api",
       "reason": "dog_below_min",
       "home": "CHC",
-      "away": "DET"
+      "away": "DET",
+      "fadeReason": "away/home"
     },
     {
       "date": "2026-07-21",
@@ -11806,7 +12335,8 @@
       "source": "fanduel_api",
       "reason": "postponed",
       "home": "NYY",
-      "away": "PIT"
+      "away": "PIT",
+      "fadeReason": "away"
     },
     {
       "date": "2026-07-21",
@@ -11828,7 +12358,8 @@
       "source": "fanduel_api",
       "reason": null,
       "home": "TOR",
-      "away": "TB"
+      "away": "TB",
+      "fadeReason": "all"
     },
     {
       "date": "2026-07-21",
@@ -11850,7 +12381,8 @@
       "source": "fanduel_api",
       "reason": null,
       "home": "KC",
-      "away": "SF"
+      "away": "SF",
+      "fadeReason": "away"
     },
     {
       "date": "2026-07-21",
@@ -11873,7 +12405,8 @@
       "source": "fanduel_api",
       "reason": "dog_below_min",
       "home": "TEX",
-      "away": "CWS"
+      "away": "CWS",
+      "fadeReason": "all"
     },
     {
       "date": "2026-07-21",
@@ -11896,7 +12429,8 @@
       "source": "fanduel_api",
       "reason": "dog_below_min",
       "home": "CHC",
-      "away": "DET"
+      "away": "DET",
+      "fadeReason": "away/all"
     },
     {
       "date": "2026-07-21",
@@ -11918,7 +12452,8 @@
       "source": "fanduel_api",
       "reason": null,
       "home": "HOU",
-      "away": "MIA"
+      "away": "MIA",
+      "fadeReason": "away"
     },
     {
       "date": "2026-07-21",
@@ -11940,7 +12475,8 @@
       "source": "fanduel_api",
       "reason": null,
       "home": "SEA",
-      "away": "CIN"
+      "away": "CIN",
+      "fadeReason": "all"
     },
     {
       "date": "2026-07-21",
@@ -11962,7 +12498,8 @@
       "source": "fanduel_api",
       "reason": null,
       "home": "ARI",
-      "away": "OAK"
+      "away": "OAK",
+      "fadeReason": "all"
     },
     {
       "date": "2026-07-22",
@@ -11985,7 +12522,8 @@
       "source": "fanduel_api",
       "reason": null,
       "home": "NYY",
-      "away": "PIT"
+      "away": "PIT",
+      "fadeReason": "all/home"
     },
     {
       "date": "2026-07-22",
@@ -12007,7 +12545,8 @@
       "source": "fanduel_api",
       "reason": null,
       "home": "KC",
-      "away": "SF"
+      "away": "SF",
+      "fadeReason": "away"
     },
     {
       "date": "2026-07-22",
@@ -12029,7 +12568,8 @@
       "source": "fanduel_api",
       "reason": null,
       "home": "ARI",
-      "away": "OAK"
+      "away": "OAK",
+      "fadeReason": "all"
     },
     {
       "date": "2026-07-22",
@@ -12051,7 +12591,8 @@
       "source": "fanduel_api",
       "reason": null,
       "home": "LAA",
-      "away": "STL"
+      "away": "STL",
+      "fadeReason": "home"
     },
     {
       "date": "2026-07-22",
@@ -12073,7 +12614,8 @@
       "source": "fanduel_api",
       "reason": null,
       "home": "PHI",
-      "away": "LAD"
+      "away": "LAD",
+      "fadeReason": "home"
     },
     {
       "date": "2026-07-22",
@@ -12095,7 +12637,8 @@
       "source": "fanduel_api",
       "reason": null,
       "home": "ATL",
-      "away": "SD"
+      "away": "SD",
+      "fadeReason": "all"
     },
     {
       "date": "2026-07-22",
@@ -12117,7 +12660,8 @@
       "source": "fanduel_api",
       "reason": null,
       "home": "CHC",
-      "away": "DET"
+      "away": "DET",
+      "fadeReason": "all"
     },
     {
       "date": "2026-07-24",
@@ -12139,7 +12683,8 @@
       "source": "fanduel_api",
       "reason": null,
       "home": "BAL",
-      "away": "ATL"
+      "away": "ATL",
+      "fadeReason": "home"
     },
     {
       "date": "2026-07-24",
@@ -12161,7 +12706,8 @@
       "source": "fanduel_api",
       "reason": null,
       "home": "BOS",
-      "away": "TOR"
+      "away": "TOR",
+      "fadeReason": "away"
     },
     {
       "date": "2026-07-24",
@@ -12183,7 +12729,8 @@
       "source": "fanduel_api",
       "reason": null,
       "home": "TEX",
-      "away": "SEA"
+      "away": "SEA",
+      "fadeReason": "all"
     },
     {
       "date": "2026-07-24",
@@ -12205,7 +12752,8 @@
       "source": "fanduel_api",
       "reason": null,
       "home": "MIN",
-      "away": "OAK"
+      "away": "OAK",
+      "fadeReason": "home"
     },
     {
       "date": "2026-07-24",
@@ -12228,7 +12776,8 @@
       "source": "fanduel_api",
       "reason": null,
       "home": "STL",
-      "away": "CIN"
+      "away": "CIN",
+      "fadeReason": "away/all"
     },
     {
       "date": "2026-07-24",
@@ -12250,7 +12799,8 @@
       "source": "fanduel_api",
       "reason": null,
       "home": "SF",
-      "away": "LAA"
+      "away": "LAA",
+      "fadeReason": "all"
     },
     {
       "date": "2026-07-25",
@@ -12273,7 +12823,8 @@
       "source": "fanduel_api",
       "reason": null,
       "home": "DET",
-      "away": "KC"
+      "away": "KC",
+      "fadeReason": "away/all"
     },
     {
       "date": "2026-07-25",
@@ -12295,7 +12846,8 @@
       "source": "fanduel_api",
       "reason": null,
       "home": "SF",
-      "away": "LAA"
+      "away": "LAA",
+      "fadeReason": "all"
     },
     {
       "date": "2026-07-25",
@@ -12318,7 +12870,8 @@
       "source": "fanduel_api",
       "reason": "dog_below_min",
       "home": "PIT",
-      "away": "CHC"
+      "away": "CHC",
+      "fadeReason": "all/away"
     },
     {
       "date": "2026-07-25",
@@ -12340,7 +12893,8 @@
       "source": "fanduel_api",
       "reason": null,
       "home": "MIL",
-      "away": "COL"
+      "away": "COL",
+      "fadeReason": "away"
     },
     {
       "date": "2026-07-25",
@@ -12362,7 +12916,8 @@
       "source": "fanduel_api",
       "reason": null,
       "home": "TEX",
-      "away": "SEA"
+      "away": "SEA",
+      "fadeReason": "away"
     },
     {
       "date": "2026-07-25",
@@ -12384,7 +12939,8 @@
       "source": "fanduel_api",
       "reason": null,
       "home": "NYM",
-      "away": "LAD"
+      "away": "LAD",
+      "fadeReason": "home"
     },
     {
       "date": "2026-07-26",
@@ -12406,7 +12962,8 @@
       "source": "fanduel_api",
       "reason": null,
       "home": "BOS",
-      "away": "TOR"
+      "away": "TOR",
+      "fadeReason": "all"
     },
     {
       "date": "2026-07-26",
@@ -12428,7 +12985,8 @@
       "source": "fanduel_api",
       "reason": null,
       "home": "WSH",
-      "away": "ARI"
+      "away": "ARI",
+      "fadeReason": "all"
     },
     {
       "date": "2026-07-26",
@@ -12450,7 +13008,8 @@
       "source": "fanduel_api",
       "reason": null,
       "home": "BAL",
-      "away": "ATL"
+      "away": "ATL",
+      "fadeReason": "all"
     },
     {
       "date": "2026-07-26",
@@ -12472,7 +13031,8 @@
       "source": "fanduel_api",
       "reason": null,
       "home": "MIL",
-      "away": "COL"
+      "away": "COL",
+      "fadeReason": "away"
     },
     {
       "date": "2026-07-27",
@@ -12494,7 +13054,8 @@
       "source": "fanduel_api",
       "reason": null,
       "home": "TEX",
-      "away": "SEA"
+      "away": "SEA",
+      "fadeReason": "all"
     },
     {
       "date": "2026-07-27",
@@ -12516,7 +13077,8 @@
       "source": "fanduel_api",
       "reason": null,
       "home": "PIT",
-      "away": "ARI"
+      "away": "ARI",
+      "fadeReason": "all"
     },
     {
       "date": "2026-07-27",
@@ -12538,7 +13100,8 @@
       "source": "fanduel_api",
       "reason": "postponed",
       "home": "CIN",
-      "away": "CLE"
+      "away": "CLE",
+      "fadeReason": "away"
     },
     {
       "date": "2026-07-27",
@@ -12560,7 +13123,8 @@
       "source": "fanduel_api",
       "reason": null,
       "home": "CWS",
-      "away": "NYY"
+      "away": "NYY",
+      "fadeReason": "all"
     },
     {
       "date": "2026-07-27",
@@ -12582,7 +13146,8 @@
       "source": "fanduel_api",
       "reason": null,
       "home": "STL",
-      "away": "CHC"
+      "away": "CHC",
+      "fadeReason": "all"
     },
     {
       "date": "2026-07-27",
@@ -12604,7 +13169,8 @@
       "source": "fanduel_api",
       "reason": null,
       "home": "OAK",
-      "away": "BOS"
+      "away": "BOS",
+      "fadeReason": "all"
     }
   ]
 }

@@ -233,6 +233,20 @@ def matched_entry(player_name, date=None):
     return None
 
 
+def fade_reason(player_name, date=None):
+    """Return WHY this arm is faded, for the today's-picks display.
+
+    'home'/'away' when the arm carries a FADE_VENUE restriction (faded only on
+    that side), else 'all' (faded regardless of venue). None if the name isn't a
+    fade arm on ``date``. Lets the dashboard differentiate a venue-driven fade
+    from an all-venue one alongside the handedness-driven hand-tails picks.
+    """
+    entry = matched_entry(player_name, date)
+    if entry is None:
+        return None
+    return FADE_VENUE.get(entry, "all")
+
+
 def is_no_mutual_fade(player_name):
     """True iff ``player_name`` is an arm exempt from mutual fading.
 
