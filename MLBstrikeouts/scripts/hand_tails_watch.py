@@ -37,7 +37,7 @@ OUTPUT_PATHS = [
     os.path.normpath(os.path.join(SCRIPT_DIR, "..", "..", "PythonDashboard", "data", "mlb-hand-tails-watch.json")),
 ]
 
-MIN_GAMES = 5      # need at least this many qualifying starts to appear
+MIN_GAMES = 3      # need at least this many qualifying starts to appear
 MIN_UNITS = 2.0    # stronger side must clear +this many units to appear
 
 
