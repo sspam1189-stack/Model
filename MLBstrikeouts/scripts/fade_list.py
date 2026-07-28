@@ -113,8 +113,8 @@ SEASON_START = "2026-04-05"
 # no date matches purely on the roster, unchanged.
 FADE_WINDOW = {
     # Original roster -- faded since the model began tracking (season start).
-    "Littell":        {"add": SEASON_START},
-    "Mikolas":        {"add": SEASON_START},
+    "Littell":        {"add": SEASON_START, "remove": "2026-07-28"},  # 4-3 -0.72u, removed 7/28
+    "Mikolas":        {"add": SEASON_START, "remove": "2026-07-28"},  # 2-4 -2.84u, removed 7/28
     "Painter":        {"add": SEASON_START},
     "Rocker":         {"add": SEASON_START, "remove": "2026-07-28"},  # removed from 7/28
     "Sheehan":        {"add": SEASON_START},
