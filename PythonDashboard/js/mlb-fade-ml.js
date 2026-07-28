@@ -190,15 +190,31 @@ async function renderMLBFadeML() {
       ? '<span style="color:#9aa2ad;font-size:12px">' + esc(sp.name) + '</span> ' : '';
   };
   const wrcTeams = (wrcData && wrcData.teams) || {};
+  // A "TEAM NN vs XHP" chip (green above 100, red below). `label` adds "wRC+".
+  const wrcChip = (team, v, h, label) => {
+    const col = v >= 100 ? GREEN : RED;
+    return ' <span style="color:#888;font-size:11px">· ' + esc(team) + ' '
+      + '<span style="color:' + col + ';font-weight:600">' + v + '</span>'
+      + (label ? ' wRC+' : '') + ' vs ' + h + 'HP</span>';
+  };
+  // The OFFENSE WE'RE BUYING (bet team) vs the faded pitcher's hand.
   const betWrcTag = (selection, pitcherName, fbHand) => {
     const h = handOf(pitcherName, fbHand);
     const tm = wrcTeams[selection];
     if (!h || !tm) return '';
     const v = h === 'L' ? tm.vsLHP : tm.vsRHP;
-    if (v == null) return '';
-    const col = v >= 100 ? GREEN : RED;
-    return ' <span style="color:#888;font-size:11px">· ' + esc(selection) + ' '
-      + '<span style="color:' + col + ';font-weight:600">' + v + '</span> wRC+ vs ' + h + 'HP</span>';
+    return v == null ? '' : wrcChip(selection, v, h, true);
+  };
+  // The OFFENSE WE'RE FADING (fade team) vs the take starter's hand — falls back
+  // to the faded arm's hand when the take SP is still TBD. Shows both sides.
+  const fadeWrcTag = (fadeTeam, takeTeam, fadedHand) => {
+    const tm = wrcTeams[fadeTeam];
+    if (!tm) return '';
+    const sp = starters[takeTeam];
+    const h = (sp && sp.hand) || fadedHand;
+    if (!h) return '';
+    const v = h === 'L' ? tm.vsLHP : tm.vsRHP;
+    return v == null ? '' : wrcChip(fadeTeam, v, h, false);
   };
 
   // Fade-list picks — reason is the venue split (fadeReason: away/home/all).
@@ -215,7 +231,8 @@ async function renderMLBFadeML() {
     return '• Fade' + handTag(who) + ' <b>' + esc(who) + '</b> (' + esc(t.fadeTeam || '?') + ')'
       + tag(t.fadeReason || 'all', null, '@ ')
       + ' → ' + takeSpTag(t.selection) + '<b>' + esc(t.selection || '?') + '</b>' + oddsStr(t.odds) + atStr(t)
-      + betWrcTag(t.selection, who);
+      + betWrcTag(t.selection, who)
+      + fadeWrcTag(t.fadeTeam, t.selection, handOf(who));
   };
   // Hand-tails picks — reason is handedness; take backs the arm's own team.
   const tailLabel = (t) => {
@@ -417,10 +434,11 @@ async function renderMLBFadeML() {
       const resColor = b.result === 'WIN' ? GREEN : (b.result === 'LOSS' ? RED : '#888');
       const prof = settled ? ((b.profit >= 0 ? '+' : '') + b.profit.toFixed(2) + 'u') : '—';
       const profColor = !settled ? '#888' : (b.profit >= 0 ? GREEN : RED);
-      // Pick shows the bet team with an "@" prefix when it's the AWAY side
-      // (e.g. "@PIT" = betting PIT on the road, "PIT" = betting PIT at home).
+      // Pick shows the bet team with an "@" prefix when it's the HOME side
+      // ("away @ home" notation — the @ marks the host). So "@PIT" = betting PIT
+      // at home, "PIT" = betting PIT on the road.
       const sel = b.selection || '?';
-      const pick = (sel === b.away ? '@' : '') + esc(sel);
+      const pick = (sel === b.home ? '@' : '') + esc(sel);
       const note = b.result === 'VOID' ? (' <span style="color:#777;font-size:10px">' + esc(b.reason || 'void') + '</span>')
         : (b.result === 'SKIP' ? ' <span style="color:#777;font-size:10px">skip</span>' : '');
       rows += '<tr style="' + dim + '">'
