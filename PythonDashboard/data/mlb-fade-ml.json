@@ -1,7 +1,7 @@
 {
   "sport": "MLB",
   "type": "fade-ml",
-  "generated": "2026-07-28T03:51:23Z",
+  "generated": "2026-07-28T12:33:42Z",
   "fadeList": [
     "Littell",
     "Mikolas",
@@ -71,22 +71,22 @@
   ],
   "mutualRule": "underdog_min",
   "summary": {
-    "wins": 384,
-    "losses": 138,
+    "wins": 385,
+    "losses": 139,
     "voids": 3,
     "skips": 33,
-    "staked": 643.64,
+    "staked": 646.5,
     "units": 259.81,
-    "roi": 0.4037,
+    "roi": 0.4019,
     "byType": {
       "ml": {
-        "wins": 374,
-        "losses": 129,
+        "wins": 375,
+        "losses": 130,
         "voids": 3,
         "skips": 0,
-        "staked": 624.64,
+        "staked": 627.5,
         "units": 255.11,
-        "roi": 0.4084
+        "roi": 0.4065
       },
       "ml_dog": {
         "wins": 10,
@@ -101,19 +101,19 @@
   },
   "today": [
     {
-      "date": "2026-07-27",
-      "commence": "2026-07-27T23:45:00Z",
+      "date": "2026-07-28",
+      "commence": "2026-07-28T23:45:00Z",
       "betType": "ml",
       "shadow": false,
       "pitchers": [
-        "David Peterson"
+        "Colin Rea"
       ],
       "fadeTeam": "CHC",
       "market": "h2h",
       "selection": "STL",
       "line": null,
-      "odds": 104,
-      "stake": 1.0,
+      "odds": -104,
+      "stake": 1.04,
       "result": "pending",
       "profit": 0.0,
       "book": "fanduel",
@@ -123,26 +123,114 @@
       "away": "CHC"
     },
     {
-      "date": "2026-07-27",
-      "commence": "2026-07-28T01:40:00Z",
+      "date": "2026-07-28",
+      "commence": "2026-07-28T17:40:00Z",
       "betType": "ml",
       "shadow": false,
       "pitchers": [
-        "Jack Perkins"
+        "Slade Cecconi"
       ],
-      "fadeTeam": "OAK",
+      "fadeTeam": "CLE",
       "market": "h2h",
-      "selection": "BOS",
+      "selection": "CIN",
       "line": null,
-      "odds": -186,
-      "stake": 1.86,
+      "odds": -156,
+      "stake": 1.56,
       "result": "pending",
       "profit": 0.0,
       "book": "fanduel",
       "source": "fanduel_api",
       "reason": null,
-      "home": "OAK",
-      "away": "BOS"
+      "home": "CIN",
+      "away": "CLE"
+    },
+    {
+      "date": "2026-07-28",
+      "commence": "2026-07-29T01:38:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Reid Detmers"
+      ],
+      "fadeTeam": "LAA",
+      "market": "h2h",
+      "selection": "HOU",
+      "line": null,
+      "odds": -106,
+      "stake": 1.06,
+      "result": "pending",
+      "profit": 0.0,
+      "book": "fanduel",
+      "source": "fanduel_api",
+      "reason": null,
+      "home": "LAA",
+      "away": "HOU"
+    },
+    {
+      "date": "2026-07-28",
+      "commence": "2026-07-29T01:40:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Michael King"
+      ],
+      "fadeTeam": "SD",
+      "market": "h2h",
+      "selection": "COL",
+      "line": null,
+      "odds": 158,
+      "stake": 1.0,
+      "result": "pending",
+      "profit": 0.0,
+      "book": "fanduel",
+      "source": "fanduel_api",
+      "reason": null,
+      "home": "SD",
+      "away": "COL"
+    },
+    {
+      "date": "2026-07-28",
+      "commence": "2026-07-29T02:10:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Luis Castillo"
+      ],
+      "fadeTeam": "SEA",
+      "market": "h2h",
+      "selection": "LAD",
+      "line": null,
+      "odds": -188,
+      "stake": 1.88,
+      "result": "pending",
+      "profit": 0.0,
+      "book": "fanduel",
+      "source": "fanduel_api",
+      "reason": null,
+      "home": "LAD",
+      "away": "SEA"
+    },
+    {
+      "date": "2026-07-28",
+      "commence": "2026-07-28T22:45:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Cade Cavalli"
+      ],
+      "fadeTeam": "WSH",
+      "market": "h2h",
+      "selection": "TOR",
+      "line": null,
+      "odds": 116,
+      "stake": 1.0,
+      "result": "pending",
+      "profit": 0.0,
+      "book": "fanduel",
+      "source": "fanduel_api",
+      "reason": null,
+      "home": "WSH",
+      "away": "TOR"
     }
   ],
   "bets": [
@@ -12473,6 +12561,50 @@
       "reason": null,
       "home": "CWS",
       "away": "NYY"
+    },
+    {
+      "date": "2026-07-27",
+      "commence": "2026-07-27T23:45:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "David Peterson"
+      ],
+      "fadeTeam": "CHC",
+      "market": "h2h",
+      "selection": "STL",
+      "line": null,
+      "odds": 104,
+      "stake": 1.0,
+      "result": "LOSS",
+      "profit": -1.0,
+      "book": "fanduel",
+      "source": "fanduel_api",
+      "reason": null,
+      "home": "STL",
+      "away": "CHC"
+    },
+    {
+      "date": "2026-07-27",
+      "commence": "2026-07-28T01:40:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Jack Perkins"
+      ],
+      "fadeTeam": "OAK",
+      "market": "h2h",
+      "selection": "BOS",
+      "line": null,
+      "odds": -186,
+      "stake": 1.86,
+      "result": "WIN",
+      "profit": 1.0,
+      "book": "fanduel",
+      "source": "fanduel_api",
+      "reason": null,
+      "home": "OAK",
+      "away": "BOS"
     }
   ]
 }
