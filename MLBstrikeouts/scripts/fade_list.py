@@ -79,8 +79,11 @@ FADE_VENUE = {
     "Cavalli": "home",         # home 9-2 +7.3u; away 3-7 -6.6u
     "Trevor Rogers": "home",   # home 8-4 +4.8u; away 2-5 -4.8u
     "Tolle": "home",           # home 6-3 +3.8u; away 3-4 -1.2u
-    "Gerrit Cole": "home",     # home 4-2 +2.9u; away 3-2 +1.1u
+    # 2026-07-28: Gerrit Cole promoted to all-venue -- away turned green
+    # (3-1 +2.08u +49.8%) with more data, so no venue restriction (removed).
     "Lodolo": "home",          # home 6-2 +4.2u; away 3-1 +1.6u
+    # 2026-07-28: restrict to stronger road side (home +8.3% weak vs away +23.4%).
+    "Michael King": "away",    # home 5-5 +0.92u; away 6-3 +2.70u
 }
 
 # Arms NOT faded on MUTUAL games (both starters are fade arms). When a mutual
@@ -177,7 +180,7 @@ FADE_WINDOW = {
     "Cavalli":           {"add": SEASON_START},  # home-only (see FADE_VENUE)
     "Trevor Rogers":     {"add": SEASON_START},  # home-only (see FADE_VENUE)
     "Tolle":             {"add": SEASON_START},  # home-only (see FADE_VENUE)
-    "Gerrit Cole":       {"add": SEASON_START},  # home-only (see FADE_VENUE)
+    "Gerrit Cole":       {"add": SEASON_START},  # all-venue (2026-07-28: restriction lifted)
     # Added 2026-07-28: all-venue fade, season-backfilled (home +18%, away +42%).
     "Gage Jump":         {"add": SEASON_START},
 }
