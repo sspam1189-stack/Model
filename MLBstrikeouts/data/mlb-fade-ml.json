@@ -1,7 +1,7 @@
 {
   "sport": "MLB",
   "type": "fade-ml",
-  "generated": "2026-07-28T20:33:09Z",
+  "generated": "2026-07-28T20:39:06Z",
   "fadeList": [
     "Painter",
     "Rocker",
@@ -73,21 +73,21 @@
   "mutualRule": "underdog_min",
   "summary": {
     "wins": 401,
-    "losses": 134,
+    "losses": 135,
     "voids": 3,
     "skips": 36,
-    "staked": 659.28,
-    "units": 283.23,
-    "roi": 0.4296,
+    "staked": 660.9,
+    "units": 281.61,
+    "roi": 0.4261,
     "byType": {
       "ml": {
         "wins": 392,
-        "losses": 126,
+        "losses": 127,
         "voids": 3,
         "skips": 2,
-        "staked": 642.28,
-        "units": 279.15,
-        "roi": 0.4346
+        "staked": 643.9,
+        "units": 277.53,
+        "roi": 0.431
       },
       "ml_dog": {
         "wins": 9,
@@ -101,30 +101,6 @@
     }
   },
   "today": [
-    {
-      "date": "2026-07-28",
-      "commence": "2026-07-28T17:40:00Z",
-      "betType": "ml",
-      "shadow": false,
-      "pitchers": [
-        "Slade Cecconi"
-      ],
-      "fadeTeam": "CLE",
-      "market": "h2h",
-      "selection": "CIN",
-      "line": null,
-      "odds": -162,
-      "stake": 1.62,
-      "result": "pending",
-      "profit": 0.0,
-      "book": "fanduel",
-      "source": "fanduel_api",
-      "reason": null,
-      "home": "CIN",
-      "away": "CLE",
-      "gamePk": 824490,
-      "fadeReason": "away"
-    },
     {
       "date": "2026-07-28",
       "commence": "2026-07-28T23:45:00Z",
@@ -14025,6 +14001,30 @@
       "away": "BOS",
       "gamePk": 824977,
       "fadeReason": "all"
+    },
+    {
+      "date": "2026-07-28",
+      "commence": "2026-07-28T17:40:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Slade Cecconi"
+      ],
+      "fadeTeam": "CLE",
+      "market": "h2h",
+      "selection": "CIN",
+      "line": null,
+      "odds": -162,
+      "stake": 1.62,
+      "result": "LOSS",
+      "profit": -1.62,
+      "book": "fanduel",
+      "source": "fanduel_api",
+      "reason": null,
+      "home": "CIN",
+      "away": "CLE",
+      "gamePk": 824490,
+      "fadeReason": "away"
     }
   ]
 }
