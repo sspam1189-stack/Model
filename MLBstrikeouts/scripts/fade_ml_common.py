@@ -17,7 +17,7 @@ import json
 import datetime
 
 from fade_list import (is_fade, is_no_mutual_fade, matched_entry, fade_reason,
-                       _norm, FADE_LIST, is_watch, WATCH_LIST)
+                       _norm, FADE_LIST, is_watch, watch_reason, WATCH_LIST)
 
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 
@@ -298,18 +298,20 @@ def build_bets_for_game(date, fg, g, odds_row):
     return bets
 
 
-def build_watch_bets(date, starts, games, odds_rows):
+def build_watch_bets(date, starts, games, odds_rows, venue_by_team=None):
     """Shadow 'ml_watch' bets for WATCH_LIST arms.
 
     A watch arm is graded exactly like a fade (bet the opponent's ML) but the
     bet is marked shadow -- it never counts in the real record and is never a
     live pick. It exists so the dashboard's fade watchlist can show the arm's
-    home/away split before we decide to fade for real. Tracked on ALL venues
-    (no venue gate), deduped per (matchup, pitcher).
+    record before we decide to fade for real. A watch arm with a WATCH_VENUE
+    restriction is tracked only on that side (``venue_by_team`` from venue_map);
+    unlisted watch arms are tracked on all venues. Deduped per (matchup, pitcher).
     """
+    venue_by_team = venue_by_team or {}
     seen, bets = set(), []
     for s in starts:
-        if not is_watch(s["pitcher"], date):
+        if not is_watch(s["pitcher"], date, venue_by_team.get(s["team"])):
             continue
         teams = frozenset((s["team"], s["opp"]))
         key = (teams, s["pitcher"])
@@ -335,7 +337,7 @@ def build_watch_bets(date, starts, games, odds_rows):
         if g:
             b["home"] = g.get("home")
             b["away"] = g.get("away")
-        b["fadeReason"] = "watch"
+        b["fadeReason"] = watch_reason(s["pitcher"], date) or "all"
         bets.append(b)
     return bets
 

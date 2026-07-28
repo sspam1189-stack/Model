@@ -242,6 +242,7 @@ async function renderMLBFadeML() {
     const who = (t.pitchers || [])[0] || '';
     return '• ' + watchBadge + 'Fade' + handTag(who) + ' <b>' + esc(who) + '</b> ('
       + esc(t.fadeTeam || '?') + ')'
+      + tag(t.fadeReason || 'all', null, '@ ')
       + fadeWrcTag(t.fadeTeam, t.selection, handOf(who))
       + ' → ' + takeSpTag(t.selection) + '<b>' + esc(t.selection || '?') + '</b>'
       + oddsStr(t.odds) + atStr(t) + betWrcTag(t.selection, who);

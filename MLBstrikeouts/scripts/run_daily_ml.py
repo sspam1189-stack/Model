@@ -137,7 +137,7 @@ def main():
                 today.append(b)
 
     # Shadow watch bets (WATCH_LIST arms) — tracked, never a real bet.
-    for b in build_watch_bets(date_iso, starts_from_rows(today_rows), games, odds_rows):
+    for b in build_watch_bets(date_iso, starts_from_rows(today_rows), games, odds_rows, venue_map(games)):
         if b["result"] in ("WIN", "LOSS", "VOID"):
             bets.append(b)
         else:

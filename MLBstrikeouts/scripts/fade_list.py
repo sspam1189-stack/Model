@@ -45,8 +45,8 @@ FADE_LIST = [
 FADE_VENUE = {
     "Bryan Woo": "away",  # only fade when he starts on the road
     # Added 2026-07-27 (venue-restricted per candidate analysis).
-    "Framber Valdez": "away",
-    "Jack Flaherty": "away",
+    # Framber Valdez / Jack Flaherty promoted to all-venue 2026-07-28
+    # (green at home too, so no restriction).
     "Cecconi": "away",
     "Detmers": "home",
     "Ryne Nelson": "away",
@@ -59,7 +59,7 @@ FADE_VENUE = {
     "Trevor McDonald": "home", # away 3-4 -2.78u; home 5-2 +2.64u
     # 2026-07-27: existing all-venue arms leaking on one side -> restrict.
     "Freeland": "away",        # home 5-4 -1.20u; away 9-2 +4.25u
-    "Gallen": "away",          # home flat +0.56u; away 8-2 +5.62u
+    # Gallen promoted to all-venue 2026-07-28 (home +2.10u too).
     "Civale": "home",          # away 4-4 -1.40u; home 5-2 +3.08u
     "Tyler Phillips": "away",  # home 2-3 -1.20u; away 4-1 +2.58u (small sample)
     "Bibee": "home",           # away 4-5 -2.7u; home 10-2 +9.1u
@@ -297,6 +297,13 @@ WATCH_WINDOW = {
     "Taillon": {"add": SEASON_START},   # was home-only fade (softest home edge)
 }
 
+# Per-arm watch venue restriction (mirrors FADE_VENUE). A watch arm listed here
+# is shadow-tracked ONLY on that side -- i.e. we watch exactly the fade we would
+# have made. Arms NOT listed are watched on all venues (both split sides build).
+WATCH_VENUE = {
+    "Taillon": "home",   # watch only his home fades (the side we'd have bet)
+}
+
 _WATCH_TOKENS = [toks for toks in (_norm(e).split() for e in WATCH_LIST) if toks]
 
 
@@ -334,10 +341,27 @@ def matched_watch_entry(player_name, date=None):
     return None
 
 
-def is_watch(player_name, date=None):
-    """True iff ``player_name`` is a WATCH (shadow) arm on ``date``.
+def watch_reason(player_name, date=None):
+    """'home'/'away' for a venue-restricted watch arm, else 'all'; None if the
+    name isn't a watch arm on ``date``. Mirrors fade_reason for the watch tier."""
+    entry = matched_watch_entry(player_name, date)
+    if entry is None:
+        return None
+    return WATCH_VENUE.get(entry, "all")
 
-    Watch arms are tracked on ALL venues (no venue restriction) so the home/away
-    split builds up. They are never a real bet -- see is_fade for the live tier.
+
+def is_watch(player_name, date=None, venue=None):
+    """True iff ``player_name`` is a WATCH (shadow) arm on ``date`` and, for a
+    venue-restricted watch arm, when his team plays at the required ``venue``.
+
+    Unlisted watch arms are tracked on all venues (both split sides build up).
+    A WATCH_VENUE arm is tracked only on its side, so an unknown venue means
+    "don't track" (safe default). Never a real bet -- see is_fade.
     """
-    return matched_watch_entry(player_name, date) is not None
+    entry = matched_watch_entry(player_name, date)
+    if entry is None:
+        return False
+    required = WATCH_VENUE.get(entry)
+    if required is not None and venue != required:
+        return False
+    return True

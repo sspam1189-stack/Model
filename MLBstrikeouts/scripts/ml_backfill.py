@@ -59,7 +59,7 @@ def grade_date(date_key, date_iso, props_index):
         bets.extend(build_bets_for_game(date_iso, fg, g, od))
     # Shadow watch bets (WATCH_LIST arms) — graded on all venues, not counted in
     # the real record. Produced even on dates with no real fade game.
-    bets.extend(build_watch_bets(date_iso, starts, games, odds_rows))
+    bets.extend(build_watch_bets(date_iso, starts, games, odds_rows, venue_map(games)))
     return bets
 
 
