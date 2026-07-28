@@ -188,6 +188,19 @@ def _settle_ml(g, team):
     return (("WIN" if won else "LOSS"), None)
 
 
+def _hand_tail_override(arm, date, opp_team):
+    """True if the hand-tails list TAKEs this arm on this game (fade yields).
+
+    Lazy import + fail-open: any error (missing caches, module) -> no override,
+    so the fade model is never broken by the experimental hand-tails layer.
+    """
+    try:
+        from hand_tails import fade_overridden_by_take
+        return fade_overridden_by_take(arm, date, opp_team)
+    except Exception:
+        return False
+
+
 # --- bet construction (single serializer) ---------------------------------
 
 def _bet(date, commence, bet_type, fg, market, selection, line, odds,
@@ -244,10 +257,16 @@ def build_bets_for_game(date, fg, g, odds_row):
                              None, "VOID", "no_price", source=source))
     else:
         team = fg["betTeam"]
+        arm = (fg.get("pitchers") or [None])[0]
         odds = None
         if odds_row:
             odds = odds_row["home_ml"] if team == g.get("home") else odds_row["away_ml"]
-        if odds is None:
+        if arm and _hand_tail_override(arm, date, team):
+            # Arm is a hand-tails TAKE facing a qualifying opposite-hand lineup:
+            # hand-tails wins the overlap, so the fade-list fade yields here.
+            bets.append(_bet(date, commence, "ml", fg, "h2h", None, None,
+                             None, "SKIP", "hand_tail_override", source=source))
+        elif odds is None:
             bets.append(_bet(date, commence, "ml", fg, "h2h", team, None,
                              None, "VOID", "no_price", source=source))
         else:
