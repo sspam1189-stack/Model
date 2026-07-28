@@ -1,9 +1,8 @@
 {
   "sport": "MLB",
   "type": "fade-ml",
-  "generated": "2026-07-28T17:36:01Z",
+  "generated": "2026-07-28T17:36:29Z",
   "fadeList": [
-    "Mikolas",
     "Painter",
     "Rocker",
     "Sheehan",
@@ -73,31 +72,31 @@
   ],
   "mutualRule": "underdog_min",
   "summary": {
-    "wins": 405,
-    "losses": 138,
+    "wins": 403,
+    "losses": 134,
     "voids": 3,
     "skips": 34,
-    "staked": 669.34,
-    "units": 282.47,
-    "roi": 0.422,
+    "staked": 661.46,
+    "units": 285.31,
+    "roi": 0.4313,
     "byType": {
       "ml": {
-        "wins": 395,
-        "losses": 130,
+        "wins": 394,
+        "losses": 126,
         "voids": 3,
         "skips": 0,
-        "staked": 651.34,
-        "units": 276.73,
-        "roi": 0.4249
+        "staked": 644.46,
+        "units": 281.23,
+        "roi": 0.4364
       },
       "ml_dog": {
-        "wins": 10,
+        "wins": 9,
         "losses": 8,
         "voids": 0,
         "skips": 34,
-        "staked": 18.0,
-        "units": 5.74,
-        "roi": 0.3189
+        "staked": 17.0,
+        "units": 4.08,
+        "roi": 0.24
       }
     }
   },
@@ -380,29 +379,6 @@
       "home": "TEX",
       "away": "SEA",
       "fadeReason": "away"
-    },
-    {
-      "date": "2026-04-08",
-      "commence": "2026-04-08T20:05:00Z",
-      "betType": "ml",
-      "shadow": false,
-      "pitchers": [
-        "Miles Mikolas"
-      ],
-      "fadeTeam": "WSH",
-      "market": "h2h",
-      "selection": "STL",
-      "line": null,
-      "odds": -126,
-      "stake": 1.26,
-      "result": "WIN",
-      "profit": 1.0,
-      "book": "fanduel",
-      "source": "oddsapi_fanduel",
-      "reason": null,
-      "home": "WSH",
-      "away": "STL",
-      "fadeReason": "all"
     },
     {
       "date": "2026-04-08",
@@ -2965,13 +2941,12 @@
     {
       "date": "2026-04-30",
       "commence": "2026-04-30T17:10:00Z",
-      "betType": "ml_dog",
+      "betType": "ml",
       "shadow": false,
       "pitchers": [
-        "Miles Mikolas",
         "Freddy Peralta"
       ],
-      "fadeTeam": null,
+      "fadeTeam": "NYM",
       "market": "h2h",
       "selection": "WSH",
       "line": null,
@@ -3613,29 +3588,6 @@
     },
     {
       "date": "2026-05-06",
-      "commence": "2026-05-06T22:45:00Z",
-      "betType": "ml",
-      "shadow": false,
-      "pitchers": [
-        "Miles Mikolas"
-      ],
-      "fadeTeam": "WSH",
-      "market": "h2h",
-      "selection": "MIN",
-      "line": null,
-      "odds": -120,
-      "stake": 1.2,
-      "result": "LOSS",
-      "profit": -1.2,
-      "book": "fanduel",
-      "source": "oddsapi_fanduel",
-      "reason": null,
-      "home": "WSH",
-      "away": "MIN",
-      "fadeReason": "all"
-    },
-    {
-      "date": "2026-05-06",
       "commence": "2026-05-06T23:40:00Z",
       "betType": "ml_dog",
       "shadow": false,
@@ -4141,29 +4093,6 @@
       "reason": null,
       "home": "PIT",
       "away": "COL",
-      "fadeReason": "all"
-    },
-    {
-      "date": "2026-05-12",
-      "commence": "2026-05-12T22:40:00Z",
-      "betType": "ml",
-      "shadow": false,
-      "pitchers": [
-        "Miles Mikolas"
-      ],
-      "fadeTeam": "WSH",
-      "market": "h2h",
-      "selection": "CIN",
-      "line": null,
-      "odds": -144,
-      "stake": 1.44,
-      "result": "LOSS",
-      "profit": -1.44,
-      "book": "fanduel",
-      "source": "oddsapi_fanduel",
-      "reason": null,
-      "home": "CIN",
-      "away": "WSH",
       "fadeReason": "all"
     },
     {
@@ -10172,29 +10101,6 @@
     },
     {
       "date": "2026-06-29",
-      "commence": "2026-06-29T23:10:00Z",
-      "betType": "ml",
-      "shadow": false,
-      "pitchers": [
-        "Miles Mikolas"
-      ],
-      "fadeTeam": "WSH",
-      "market": "h2h",
-      "selection": "BOS",
-      "line": null,
-      "odds": -178,
-      "stake": 1.78,
-      "result": "WIN",
-      "profit": 1.0,
-      "book": "fanduel",
-      "source": "oddsapi_fanduel",
-      "reason": null,
-      "home": "BOS",
-      "away": "WSH",
-      "fadeReason": "all"
-    },
-    {
-      "date": "2026-06-29",
       "commence": "2026-06-30T00:05:00Z",
       "betType": "ml",
       "shadow": false,
@@ -11205,29 +11111,6 @@
       "reason": null,
       "home": "KC",
       "away": "PHI",
-      "fadeReason": "all"
-    },
-    {
-      "date": "2026-07-06",
-      "commence": "2026-07-06T22:45:00Z",
-      "betType": "ml",
-      "shadow": false,
-      "pitchers": [
-        "Miles Mikolas"
-      ],
-      "fadeTeam": "WSH",
-      "market": "h2h",
-      "selection": "HOU",
-      "line": null,
-      "odds": -102,
-      "stake": 1.02,
-      "result": "LOSS",
-      "profit": -1.02,
-      "book": "fanduel",
-      "source": "oddsapi_fanduel",
-      "reason": null,
-      "home": "WSH",
-      "away": "HOU",
       "fadeReason": "all"
     },
     {
@@ -13356,29 +13239,6 @@
       "reason": null,
       "home": "BOS",
       "away": "TOR",
-      "fadeReason": "all"
-    },
-    {
-      "date": "2026-07-26",
-      "commence": "2026-07-26T17:35:00Z",
-      "betType": "ml",
-      "shadow": false,
-      "pitchers": [
-        "Miles Mikolas"
-      ],
-      "fadeTeam": "WSH",
-      "market": "h2h",
-      "selection": "ARI",
-      "line": null,
-      "odds": -118,
-      "stake": 1.18,
-      "result": "LOSS",
-      "profit": -1.18,
-      "book": "fanduel",
-      "source": "fanduel_api",
-      "reason": null,
-      "home": "WSH",
-      "away": "ARI",
       "fadeReason": "all"
     },
     {
