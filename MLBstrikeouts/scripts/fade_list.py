@@ -19,9 +19,9 @@ import re
 # The roster. Keep in sync with MLB_FADE_LIST in PythonDashboard/js/mlb-props.js.
 FADE_LIST = [
     "Painter", "Rocker", "Sheehan",
-    "Merrill Kelly", "Aldegheri", "Gallen", "Civale", "David Peterson",
+    "Merrill Kelly", "Gallen", "Civale", "David Peterson",
     "Bibee", "Springs", "Burrows", "Roupp", "Keller", "Peralta", "Canning",
-    "Jacob Lopez", "Ryan Johnson", "Poulin", "Dustin May",
+    "Jacob Lopez", "Ryan Johnson", "Dustin May",
     "Grayson Rodriguez", "Bryan Woo", "Freeland", "Baz", "Noah Schultz",
     "Lowder", "Zebby Matthews", "Skenes",
     # Added 2026-07-27 from fade-candidate analysis (forward-only from that date).
@@ -49,6 +49,7 @@ FADE_LIST = [
 FADE_VENUE = {
     "Bryan Woo": "away",  # only fade when he starts on the road
     "Brady Singer": "away",  # 2026-07-28 re-add from watchlist: away 7-3 +3.22u
+    "Merrill Kelly": "away",  # 2026-07-28: home 4-4 -0.42u; away 7-4 +1.86u
     # Added 2026-07-27 (venue-restricted per candidate analysis).
     # Framber Valdez / Jack Flaherty promoted to all-venue 2026-07-28
     # (green at home too, so no restriction).
@@ -117,8 +118,7 @@ FADE_WINDOW = {
     "Painter":        {"add": SEASON_START},
     "Rocker":         {"add": SEASON_START, "remove": "2026-07-28"},  # removed from 7/28
     "Sheehan":        {"add": SEASON_START},
-    "Merrill Kelly":  {"add": SEASON_START},
-    "Aldegheri":      {"add": SEASON_START},
+    "Merrill Kelly":  {"add": SEASON_START},  # away-only (see FADE_VENUE)
     "Gallen":         {"add": SEASON_START},
     "Civale":         {"add": SEASON_START},
     "David Peterson": {"add": SEASON_START},
@@ -131,7 +131,6 @@ FADE_WINDOW = {
     "Canning":        {"add": SEASON_START},
     "Jacob Lopez":    {"add": SEASON_START},
     "Ryan Johnson":   {"add": SEASON_START},
-    "Poulin":         {"add": SEASON_START},
     "Freeland":       {"add": SEASON_START},  # backfilled: faded all season
     "Baz":            {"add": SEASON_START},  # backfilled: faded all season
     "Noah Schultz":   {"add": SEASON_START},  # backfilled: faded all season
