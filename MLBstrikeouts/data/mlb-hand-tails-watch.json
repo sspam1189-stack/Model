@@ -1,10 +1,155 @@
 {
   "sport": "MLB",
   "type": "hand-tails-watch",
-  "generated": "2026-07-28T04:28:57Z",
+  "generated": "2026-07-28T04:31:05Z",
   "handMin": 6,
   "minGames": 5,
   "minUnits": 2.0,
   "note": "Shadow review list -- arms NOT on the active hand-tails list showing a handedness-conditional edge. In-sample season replay; watch, don't bet. Promote by editing scripts/hand_tails.py.",
-  "candidates": []
+  "candidates": [
+    {
+      "pitcher": "Mart\u00edn P\u00e9rez",
+      "hand": "L",
+      "games": 7,
+      "suggest": "fade",
+      "suggestUnits": 2.96,
+      "fade": {
+        "w": 5,
+        "l": 2,
+        "u": 2.96
+      },
+      "take": {
+        "w": 2,
+        "l": 5,
+        "u": -3.42
+      },
+      "era": 3.55
+    },
+    {
+      "pitcher": "Noah Cameron",
+      "hand": "L",
+      "games": 7,
+      "suggest": "fade",
+      "suggestUnits": 2.88,
+      "fade": {
+        "w": 5,
+        "l": 2,
+        "u": 2.88
+      },
+      "take": {
+        "w": 2,
+        "l": 5,
+        "u": -3.38
+      },
+      "era": 5.27
+    },
+    {
+      "pitcher": "Shane McClanahan",
+      "hand": "L",
+      "games": 9,
+      "suggest": "take",
+      "suggestUnits": 2.8,
+      "fade": {
+        "w": 3,
+        "l": 6,
+        "u": -3.0
+      },
+      "take": {
+        "w": 6,
+        "l": 3,
+        "u": 2.8
+      },
+      "era": 3.09
+    },
+    {
+      "pitcher": "Robbie Ray",
+      "hand": "L",
+      "games": 7,
+      "suggest": "fade",
+      "suggestUnits": 2.42,
+      "fade": {
+        "w": 5,
+        "l": 2,
+        "u": 2.42
+      },
+      "take": {
+        "w": 2,
+        "l": 5,
+        "u": -3.12
+      },
+      "era": 3.34
+    },
+    {
+      "pitcher": "Janson Junk",
+      "hand": "R",
+      "games": 5,
+      "suggest": "take",
+      "suggestUnits": 2.35,
+      "fade": {
+        "w": 2,
+        "l": 3,
+        "u": -3.2
+      },
+      "take": {
+        "w": 3,
+        "l": 2,
+        "u": 2.35
+      },
+      "era": 4.89
+    },
+    {
+      "pitcher": "Anthony Kay",
+      "hand": "L",
+      "games": 6,
+      "suggest": "take",
+      "suggestUnits": 2.32,
+      "fade": {
+        "w": 2,
+        "l": 4,
+        "u": -2.9
+      },
+      "take": {
+        "w": 4,
+        "l": 2,
+        "u": 2.32
+      },
+      "era": 4.24
+    },
+    {
+      "pitcher": "Kyle Freeland",
+      "hand": "L",
+      "games": 5,
+      "suggest": "fade",
+      "suggestUnits": 2.28,
+      "fade": {
+        "w": 4,
+        "l": 1,
+        "u": 2.28
+      },
+      "take": {
+        "w": 1,
+        "l": 4,
+        "u": -2.56
+      },
+      "era": 7.34
+    },
+    {
+      "pitcher": "Trevor Rogers",
+      "hand": "L",
+      "games": 6,
+      "suggest": "fade",
+      "suggestUnits": 2.22,
+      "fade": {
+        "w": 4,
+        "l": 2,
+        "u": 2.22
+      },
+      "take": {
+        "w": 2,
+        "l": 4,
+        "u": -2.8
+      },
+      "era": 4.17
+    }
+  ]
 }

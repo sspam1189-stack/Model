@@ -29,7 +29,6 @@ sys.path.insert(0, os.path.dirname(__file__))
 
 from fade_ml_common import stake_for, profit_for
 from hand_tails import tail_entry, HAND_MIN
-from fade_list import matched_entry
 
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 CACHE_DIR = os.path.normpath(os.path.join(SCRIPT_DIR, "..", "..", "data", "pitcher_cache", "mlb"))
@@ -106,11 +105,6 @@ def build():
         action = "fade" if fu >= tu else "take"
         best_u = max(fu, tu)
         if best_u < MIN_UNITS:
-            continue
-        # A FADE suggestion for an arm already on the fade list is redundant
-        # (already faded elsewhere) -- only surface it if the TAKE side is the
-        # stronger, genuinely-new direction.
-        if action == "fade" and matched_entry(name):
             continue
         cands.append({
             "pitcher": name, "hand": hand, "games": n,
