@@ -1,7 +1,7 @@
 {
   "sport": "MLB",
   "type": "fade-ml",
-  "generated": "2026-07-28T20:18:25Z",
+  "generated": "2026-07-28T21:03:33Z",
   "fadeList": [
     "Painter",
     "Rocker",
@@ -73,21 +73,21 @@
   "mutualRule": "underdog_min",
   "summary": {
     "wins": 401,
-    "losses": 134,
+    "losses": 135,
     "voids": 3,
     "skips": 36,
-    "staked": 659.28,
-    "units": 283.23,
-    "roi": 0.4296,
+    "staked": 660.9,
+    "units": 281.61,
+    "roi": 0.4261,
     "byType": {
       "ml": {
         "wins": 392,
-        "losses": 126,
+        "losses": 127,
         "voids": 3,
         "skips": 2,
-        "staked": 642.28,
-        "units": 279.15,
-        "roi": 0.4346
+        "staked": 643.9,
+        "units": 277.53,
+        "roi": 0.431
       },
       "ml_dog": {
         "wins": 9,
@@ -101,29 +101,6 @@
     }
   },
   "today": [
-    {
-      "date": "2026-07-28",
-      "commence": "2026-07-28T17:40:00Z",
-      "betType": "ml",
-      "shadow": false,
-      "pitchers": [
-        "Slade Cecconi"
-      ],
-      "fadeTeam": "CLE",
-      "market": "h2h",
-      "selection": "CIN",
-      "line": null,
-      "odds": -162,
-      "stake": 1.62,
-      "result": "pending",
-      "profit": 0.0,
-      "book": "fanduel",
-      "source": "fanduel_api",
-      "reason": null,
-      "home": "CIN",
-      "away": "CLE",
-      "fadeReason": "away"
-    },
     {
       "date": "2026-07-28",
       "commence": "2026-07-28T23:45:00Z",
@@ -145,6 +122,7 @@
       "reason": null,
       "home": "STL",
       "away": "CHC",
+      "gamePk": 823026,
       "fadeReason": "all"
     },
     {
@@ -159,8 +137,8 @@
       "market": "h2h",
       "selection": "BOS",
       "line": null,
-      "odds": -142,
-      "stake": 1.42,
+      "odds": -146,
+      "stake": 1.46,
       "result": "pending",
       "profit": 0.0,
       "book": "fanduel",
@@ -168,6 +146,7 @@
       "reason": null,
       "home": "OAK",
       "away": "BOS",
+      "gamePk": 824976,
       "fadeReason": "all"
     },
     {
@@ -182,8 +161,8 @@
       "market": "h2h",
       "selection": "LAD",
       "line": null,
-      "odds": -148,
-      "stake": 1.48,
+      "odds": -235,
+      "stake": 2.35,
       "result": "pending",
       "profit": 0.0,
       "book": "fanduel",
@@ -191,6 +170,7 @@
       "reason": null,
       "home": "LAD",
       "away": "SEA",
+      "gamePk": 823923,
       "fadeReason": "all"
     }
   ],
@@ -216,6 +196,7 @@
       "reason": null,
       "home": "SF",
       "away": "NYM",
+      "gamePk": 823238,
       "fadeReason": "all"
     },
     {
@@ -239,6 +220,7 @@
       "reason": null,
       "home": "CLE",
       "away": "KC",
+      "gamePk": 824456,
       "fadeReason": "home"
     },
     {
@@ -263,6 +245,7 @@
       "reason": null,
       "home": "NYM",
       "away": "ARI",
+      "gamePk": 823648,
       "fadeReason": "all"
     },
     {
@@ -286,6 +269,7 @@
       "reason": null,
       "home": "PIT",
       "away": "SD",
+      "gamePk": 823402,
       "fadeReason": "all"
     },
     {
@@ -309,6 +293,7 @@
       "reason": null,
       "home": "TOR",
       "away": "LAD",
+      "gamePk": 822831,
       "fadeReason": "all"
     },
     {
@@ -332,6 +317,7 @@
       "reason": null,
       "home": "LAA",
       "away": "ATL",
+      "gamePk": 824051,
       "fadeReason": "all"
     },
     {
@@ -355,6 +341,7 @@
       "reason": null,
       "home": "PIT",
       "away": "SD",
+      "gamePk": 823403,
       "fadeReason": "away"
     },
     {
@@ -378,6 +365,7 @@
       "reason": null,
       "home": "TEX",
       "away": "SEA",
+      "gamePk": 822915,
       "fadeReason": "away"
     },
     {
@@ -402,6 +390,7 @@
       "reason": "dog_below_min",
       "home": "NYM",
       "away": "ARI",
+      "gamePk": 823646,
       "fadeReason": "away/all"
     },
     {
@@ -425,6 +414,7 @@
       "reason": null,
       "home": "MIA",
       "away": "CIN",
+      "gamePk": 823885,
       "fadeReason": "away"
     },
     {
@@ -448,6 +438,7 @@
       "reason": null,
       "home": "MIN",
       "away": "DET",
+      "gamePk": 823726,
       "fadeReason": "all"
     },
     {
@@ -471,6 +462,7 @@
       "reason": null,
       "home": "MIN",
       "away": "DET",
+      "gamePk": 823724,
       "fadeReason": "all"
     },
     {
@@ -494,6 +486,7 @@
       "reason": null,
       "home": "NYM",
       "away": "ARI",
+      "gamePk": 823645,
       "fadeReason": "home"
     },
     {
@@ -517,6 +510,7 @@
       "reason": null,
       "home": "CIN",
       "away": "LAA",
+      "gamePk": 824534,
       "fadeReason": "all"
     },
     {
@@ -540,6 +534,7 @@
       "reason": null,
       "home": "TOR",
       "away": "MIN",
+      "gamePk": 822829,
       "fadeReason": "all"
     },
     {
@@ -563,6 +558,7 @@
       "reason": null,
       "home": "ATL",
       "away": "CLE",
+      "gamePk": 824941,
       "fadeReason": "away"
     },
     {
@@ -587,6 +583,7 @@
       "reason": "dog_below_min",
       "home": "BAL",
       "away": "SF",
+      "gamePk": 824858,
       "fadeReason": "all/away"
     },
     {
@@ -610,6 +607,7 @@
       "reason": null,
       "home": "DET",
       "away": "MIA",
+      "gamePk": 824294,
       "fadeReason": "all"
     },
     {
@@ -633,6 +631,7 @@
       "reason": null,
       "home": "BAL",
       "away": "SF",
+      "gamePk": 824857,
       "fadeReason": "all"
     },
     {
@@ -656,6 +655,7 @@
       "reason": null,
       "home": "SD",
       "away": "COL",
+      "gamePk": 823316,
       "fadeReason": "away"
     },
     {
@@ -679,6 +679,7 @@
       "reason": null,
       "home": "LAD",
       "away": "TEX",
+      "gamePk": 823967,
       "fadeReason": "all"
     },
     {
@@ -702,6 +703,7 @@
       "reason": null,
       "home": "SEA",
       "away": "HOU",
+      "gamePk": 823155,
       "fadeReason": "all"
     },
     {
@@ -725,6 +727,7 @@
       "reason": null,
       "home": "PHI",
       "away": "ARI",
+      "gamePk": 823479,
       "fadeReason": "all"
     },
     {
@@ -748,6 +751,7 @@
       "reason": null,
       "home": "NYM",
       "away": "OAK",
+      "gamePk": 823642,
       "fadeReason": "all"
     },
     {
@@ -771,6 +775,7 @@
       "reason": null,
       "home": "KC",
       "away": "CWS",
+      "gamePk": 824126,
       "fadeReason": "all"
     },
     {
@@ -794,6 +799,7 @@
       "reason": null,
       "home": "STL",
       "away": "BOS",
+      "gamePk": 823075,
       "fadeReason": "all"
     },
     {
@@ -817,6 +823,7 @@
       "reason": null,
       "home": "CHC",
       "away": "PIT",
+      "gamePk": 824696,
       "fadeReason": "away"
     },
     {
@@ -840,6 +847,7 @@
       "reason": null,
       "home": "BAL",
       "away": "ARI",
+      "gamePk": 824856,
       "fadeReason": "away"
     },
     {
@@ -863,6 +871,7 @@
       "reason": null,
       "home": "PIT",
       "away": "WSH",
+      "gamePk": 823400,
       "fadeReason": "all"
     },
     {
@@ -886,6 +895,7 @@
       "reason": null,
       "home": "NYY",
       "away": "LAA",
+      "gamePk": 823563,
       "fadeReason": "all"
     },
     {
@@ -909,6 +919,7 @@
       "reason": null,
       "home": "LAD",
       "away": "NYM",
+      "gamePk": 823964,
       "fadeReason": "all"
     },
     {
@@ -932,6 +943,7 @@
       "reason": null,
       "home": "BAL",
       "away": "ARI",
+      "gamePk": 824853,
       "fadeReason": "home"
     },
     {
@@ -955,6 +967,7 @@
       "reason": null,
       "home": "PIT",
       "away": "WSH",
+      "gamePk": 823398,
       "fadeReason": "all"
     },
     {
@@ -978,6 +991,7 @@
       "reason": null,
       "home": "DET",
       "away": "KC",
+      "gamePk": 824292,
       "fadeReason": "all"
     },
     {
@@ -1001,6 +1015,7 @@
       "reason": null,
       "home": "PHI",
       "away": "CHC",
+      "gamePk": 823478,
       "fadeReason": "home"
     },
     {
@@ -1024,6 +1039,7 @@
       "reason": null,
       "home": "MIL",
       "away": "TOR",
+      "gamePk": 823802,
       "fadeReason": "all"
     },
     {
@@ -1047,6 +1063,7 @@
       "reason": null,
       "home": "CWS",
       "away": "TB",
+      "gamePk": 824616,
       "fadeReason": "away"
     },
     {
@@ -1070,6 +1087,7 @@
       "reason": null,
       "home": "OAK",
       "away": "TEX",
+      "gamePk": 825022,
       "fadeReason": "home"
     },
     {
@@ -1093,6 +1111,7 @@
       "reason": null,
       "home": "SD",
       "away": "SEA",
+      "gamePk": 823315,
       "fadeReason": "away"
     },
     {
@@ -1116,6 +1135,7 @@
       "reason": null,
       "home": "DET",
       "away": "KC",
+      "gamePk": 824291,
       "fadeReason": "all"
     },
     {
@@ -1139,6 +1159,7 @@
       "reason": null,
       "home": "CIN",
       "away": "SF",
+      "gamePk": 824532,
       "fadeReason": "away"
     },
     {
@@ -1162,6 +1183,7 @@
       "reason": null,
       "home": "PHI",
       "away": "CHC",
+      "gamePk": 823477,
       "fadeReason": "away"
     },
     {
@@ -1185,6 +1207,7 @@
       "reason": null,
       "home": "NYY",
       "away": "LAA",
+      "gamePk": 823561,
       "fadeReason": "all"
     },
     {
@@ -1208,6 +1231,7 @@
       "reason": null,
       "home": "ATL",
       "away": "MIA",
+      "gamePk": 824936,
       "fadeReason": "all"
     },
     {
@@ -1231,6 +1255,7 @@
       "reason": null,
       "home": "CIN",
       "away": "SF",
+      "gamePk": 824530,
       "fadeReason": "away"
     },
     {
@@ -1254,6 +1279,7 @@
       "reason": null,
       "home": "OAK",
       "away": "TEX",
+      "gamePk": 825023,
       "fadeReason": "home"
     },
     {
@@ -1277,6 +1303,7 @@
       "reason": null,
       "home": "CLE",
       "away": "BAL",
+      "gamePk": 824453,
       "fadeReason": "all"
     },
     {
@@ -1300,6 +1327,7 @@
       "reason": null,
       "home": "SD",
       "away": "SEA",
+      "gamePk": 823313,
       "fadeReason": "all"
     },
     {
@@ -1323,6 +1351,7 @@
       "reason": null,
       "home": "CLE",
       "away": "BAL",
+      "gamePk": 824454,
       "fadeReason": "home"
     },
     {
@@ -1346,6 +1375,7 @@
       "reason": null,
       "home": "WSH",
       "away": "SF",
+      "gamePk": 822752,
       "fadeReason": "all"
     },
     {
@@ -1369,6 +1399,7 @@
       "reason": null,
       "home": "NYY",
       "away": "KC",
+      "gamePk": 823559,
       "fadeReason": "away"
     },
     {
@@ -1392,6 +1423,7 @@
       "reason": null,
       "home": "BOS",
       "away": "DET",
+      "gamePk": 824778,
       "fadeReason": "all"
     },
     {
@@ -1415,6 +1447,7 @@
       "reason": null,
       "home": "OAK",
       "away": "CWS",
+      "gamePk": 825019,
       "fadeReason": "home"
     },
     {
@@ -1438,6 +1471,7 @@
       "reason": null,
       "home": "NYY",
       "away": "KC",
+      "gamePk": 823558,
       "fadeReason": "all"
     },
     {
@@ -1461,6 +1495,7 @@
       "reason": null,
       "home": "CHC",
       "away": "NYM",
+      "gamePk": 824694,
       "fadeReason": "all"
     },
     {
@@ -1484,6 +1519,7 @@
       "reason": null,
       "home": "PIT",
       "away": "TB",
+      "gamePk": 823394,
       "fadeReason": "all"
     },
     {
@@ -1507,6 +1543,7 @@
       "reason": null,
       "home": "BOS",
       "away": "DET",
+      "gamePk": 824775,
       "fadeReason": "all"
     },
     {
@@ -1530,6 +1567,7 @@
       "reason": null,
       "home": "ARI",
       "away": "TOR",
+      "gamePk": 825098,
       "fadeReason": "all"
     },
     {
@@ -1553,6 +1591,7 @@
       "reason": null,
       "home": "COL",
       "away": "LAD",
+      "gamePk": 824372,
       "fadeReason": "all"
     },
     {
@@ -1576,6 +1615,7 @@
       "reason": null,
       "home": "LAA",
       "away": "SD",
+      "gamePk": 824049,
       "fadeReason": "all"
     },
     {
@@ -1600,6 +1640,7 @@
       "reason": "dog_below_min",
       "home": "PIT",
       "away": "TB",
+      "gamePk": 823393,
       "fadeReason": "all/away"
     },
     {
@@ -1623,6 +1664,7 @@
       "reason": null,
       "home": "MIN",
       "away": "CIN",
+      "gamePk": 823718,
       "fadeReason": "away"
     },
     {
@@ -1646,6 +1688,7 @@
       "reason": null,
       "home": "HOU",
       "away": "STL",
+      "gamePk": 824205,
       "fadeReason": "home"
     },
     {
@@ -1669,6 +1712,7 @@
       "reason": null,
       "home": "OAK",
       "away": "CWS",
+      "gamePk": 825018,
       "fadeReason": "home"
     },
     {
@@ -1692,6 +1736,7 @@
       "reason": null,
       "home": "LAA",
       "away": "SD",
+      "gamePk": 824047,
       "fadeReason": "away"
     },
     {
@@ -1715,6 +1760,7 @@
       "reason": null,
       "home": "ARI",
       "away": "TOR",
+      "gamePk": 825100,
       "fadeReason": "all"
     },
     {
@@ -1738,6 +1784,7 @@
       "reason": null,
       "home": "BOS",
       "away": "DET",
+      "gamePk": 824777,
       "fadeReason": "all"
     },
     {
@@ -1761,6 +1808,7 @@
       "reason": null,
       "home": "PHI",
       "away": "ATL",
+      "gamePk": 823475,
       "fadeReason": "all"
     },
     {
@@ -1784,6 +1832,7 @@
       "reason": null,
       "home": "BOS",
       "away": "DET",
+      "gamePk": 824776,
       "fadeReason": "all"
     },
     {
@@ -1807,6 +1856,7 @@
       "reason": null,
       "home": "TB",
       "away": "CIN",
+      "gamePk": 822994,
       "fadeReason": "away"
     },
     {
@@ -1830,6 +1880,7 @@
       "reason": null,
       "home": "MIA",
       "away": "STL",
+      "gamePk": 823880,
       "fadeReason": "all"
     },
     {
@@ -1854,6 +1905,7 @@
       "reason": null,
       "home": "NYM",
       "away": "MIN",
+      "gamePk": 823640,
       "fadeReason": "home/all"
     },
     {
@@ -1877,6 +1929,7 @@
       "reason": null,
       "home": "KC",
       "away": "BAL",
+      "gamePk": 824127,
       "fadeReason": "all"
     },
     {
@@ -1900,6 +1953,7 @@
       "reason": null,
       "home": "TEX",
       "away": "PIT",
+      "gamePk": 822914,
       "fadeReason": "all"
     },
     {
@@ -1923,6 +1977,7 @@
       "reason": null,
       "home": "LAA",
       "away": "TOR",
+      "gamePk": 824045,
       "fadeReason": "all"
     },
     {
@@ -1946,6 +2001,7 @@
       "reason": null,
       "home": "SEA",
       "away": "OAK",
+      "gamePk": 823148,
       "fadeReason": "all"
     },
     {
@@ -1969,6 +2025,7 @@
       "reason": null,
       "home": "CLE",
       "away": "HOU",
+      "gamePk": 824449,
       "fadeReason": "home"
     },
     {
@@ -1992,6 +2049,7 @@
       "reason": null,
       "home": "DET",
       "away": "MIL",
+      "gamePk": 824286,
       "fadeReason": "all"
     },
     {
@@ -2015,6 +2073,7 @@
       "reason": null,
       "home": "SF",
       "away": "LAD",
+      "gamePk": 823233,
       "fadeReason": "all"
     },
     {
@@ -2038,6 +2097,7 @@
       "reason": null,
       "home": "TEX",
       "away": "PIT",
+      "gamePk": 822912,
       "fadeReason": "away"
     },
     {
@@ -2061,6 +2121,7 @@
       "reason": null,
       "home": "CIN",
       "away": "DET",
+      "gamePk": 824529,
       "fadeReason": "all"
     },
     {
@@ -2084,6 +2145,7 @@
       "reason": null,
       "home": "BAL",
       "away": "BOS",
+      "gamePk": 824854,
       "fadeReason": "all"
     },
     {
@@ -2107,6 +2169,7 @@
       "reason": null,
       "home": "NYM",
       "away": "COL",
+      "gamePk": 823638,
       "fadeReason": "all"
     },
     {
@@ -2130,6 +2193,7 @@
       "reason": null,
       "home": "ATL",
       "away": "PHI",
+      "gamePk": 824932,
       "fadeReason": "all"
     },
     {
@@ -2153,6 +2217,7 @@
       "reason": null,
       "home": "MIL",
       "away": "PIT",
+      "gamePk": 823800,
       "fadeReason": "all"
     },
     {
@@ -2177,6 +2242,7 @@
       "reason": "dog_below_min",
       "home": "KC",
       "away": "LAA",
+      "gamePk": 824124,
       "fadeReason": "all"
     },
     {
@@ -2200,6 +2266,7 @@
       "reason": null,
       "home": "LAD",
       "away": "CHC",
+      "gamePk": 823962,
       "fadeReason": "all"
     },
     {
@@ -2223,6 +2290,7 @@
       "reason": null,
       "home": "BAL",
       "away": "BOS",
+      "gamePk": 824851,
       "fadeReason": "home"
     },
     {
@@ -2246,6 +2314,7 @@
       "reason": null,
       "home": "STL",
       "away": "SEA",
+      "gamePk": 823070,
       "fadeReason": "away"
     },
     {
@@ -2269,6 +2338,7 @@
       "reason": null,
       "home": "TOR",
       "away": "CLE",
+      "gamePk": 822826,
       "fadeReason": "all"
     },
     {
@@ -2292,6 +2362,7 @@
       "reason": null,
       "home": "CWS",
       "away": "WSH",
+      "gamePk": 824613,
       "fadeReason": "all"
     },
     {
@@ -2315,6 +2386,7 @@
       "reason": null,
       "home": "ARI",
       "away": "SD",
+      "gamePk": 825093,
       "fadeReason": "all"
     },
     {
@@ -2338,6 +2410,7 @@
       "reason": null,
       "home": "HOU",
       "away": "NYY",
+      "gamePk": 824203,
       "fadeReason": "home"
     },
     {
@@ -2361,6 +2434,7 @@
       "reason": null,
       "home": "MIL",
       "away": "PIT",
+      "gamePk": 823799,
       "fadeReason": "all"
     },
     {
@@ -2384,6 +2458,7 @@
       "reason": null,
       "home": "LAD",
       "away": "CHC",
+      "gamePk": 823960,
       "fadeReason": "all"
     },
     {
@@ -2407,6 +2482,7 @@
       "reason": null,
       "home": "CIN",
       "away": "DET",
+      "gamePk": 824527,
       "fadeReason": "all"
     },
     {
@@ -2430,6 +2506,7 @@
       "reason": null,
       "home": "TOR",
       "away": "CLE",
+      "gamePk": 822824,
       "fadeReason": "away"
     },
     {
@@ -2453,6 +2530,7 @@
       "reason": null,
       "home": "TB",
       "away": "MIN",
+      "gamePk": 822991,
       "fadeReason": "all"
     },
     {
@@ -2476,6 +2554,7 @@
       "reason": null,
       "home": "NYM",
       "away": "COL",
+      "gamePk": 823635,
       "fadeReason": "home"
     },
     {
@@ -2499,6 +2578,7 @@
       "reason": null,
       "home": "TEX",
       "away": "OAK",
+      "gamePk": 822911,
       "fadeReason": "all"
     },
     {
@@ -2522,6 +2602,7 @@
       "reason": null,
       "home": "ARI",
       "away": "SD",
+      "gamePk": 825094,
       "fadeReason": "away"
     },
     {
@@ -2545,6 +2626,7 @@
       "reason": null,
       "home": "LAD",
       "away": "CHC",
+      "gamePk": 823959,
       "fadeReason": "away"
     },
     {
@@ -2568,6 +2650,7 @@
       "reason": null,
       "home": "CWS",
       "away": "LAA",
+      "gamePk": 824609,
       "fadeReason": "all"
     },
     {
@@ -2591,6 +2674,7 @@
       "reason": null,
       "home": "MIN",
       "away": "SEA",
+      "gamePk": 823719,
       "fadeReason": "all"
     },
     {
@@ -2614,6 +2698,7 @@
       "reason": null,
       "home": "LAD",
       "away": "MIA",
+      "gamePk": 823961,
       "fadeReason": "all"
     },
     {
@@ -2637,6 +2722,7 @@
       "reason": null,
       "home": "CLE",
       "away": "TB",
+      "gamePk": 824447,
       "fadeReason": "home"
     },
     {
@@ -2660,6 +2746,7 @@
       "reason": null,
       "home": "BAL",
       "away": "HOU",
+      "gamePk": 824849,
       "fadeReason": "all"
     },
     {
@@ -2683,6 +2770,7 @@
       "reason": null,
       "home": "PHI",
       "away": "SF",
+      "gamePk": 823473,
       "fadeReason": "away"
     },
     {
@@ -2706,6 +2794,7 @@
       "reason": null,
       "home": "CIN",
       "away": "COL",
+      "gamePk": 824526,
       "fadeReason": "away"
     },
     {
@@ -2729,6 +2818,7 @@
       "reason": null,
       "home": "ATL",
       "away": "DET",
+      "gamePk": 824931,
       "fadeReason": "all"
     },
     {
@@ -2752,6 +2842,7 @@
       "reason": null,
       "home": "MIL",
       "away": "ARI",
+      "gamePk": 823798,
       "fadeReason": "all"
     },
     {
@@ -2775,6 +2866,7 @@
       "reason": null,
       "home": "OAK",
       "away": "KC",
+      "gamePk": 825017,
       "fadeReason": "home"
     },
     {
@@ -2798,6 +2890,7 @@
       "reason": null,
       "home": "CWS",
       "away": "LAA",
+      "gamePk": 824608,
       "fadeReason": "all"
     },
     {
@@ -2821,6 +2914,7 @@
       "reason": null,
       "home": "TOR",
       "away": "BOS",
+      "gamePk": 822821,
       "fadeReason": "all"
     },
     {
@@ -2844,6 +2938,7 @@
       "reason": null,
       "home": "NYM",
       "away": "WSH",
+      "gamePk": 823633,
       "fadeReason": "all"
     },
     {
@@ -2867,6 +2962,7 @@
       "reason": null,
       "home": "OAK",
       "away": "KC",
+      "gamePk": 825015,
       "fadeReason": "away"
     },
     {
@@ -2890,6 +2986,7 @@
       "reason": null,
       "home": "ATL",
       "away": "DET",
+      "gamePk": 824929,
       "fadeReason": "all"
     },
     {
@@ -2913,6 +3010,7 @@
       "reason": null,
       "home": "PHI",
       "away": "SF",
+      "gamePk": 823472,
       "fadeReason": "all"
     },
     {
@@ -2936,6 +3034,7 @@
       "reason": null,
       "home": "PIT",
       "away": "STL",
+      "gamePk": 823391,
       "fadeReason": "all"
     },
     {
@@ -2959,6 +3058,7 @@
       "reason": null,
       "home": "NYM",
       "away": "WSH",
+      "gamePk": 823634,
       "fadeReason": "all"
     },
     {
@@ -2983,6 +3083,7 @@
       "reason": "dog_below_min",
       "home": "OAK",
       "away": "KC",
+      "gamePk": 825016,
       "fadeReason": "all/home"
     },
     {
@@ -3006,6 +3107,7 @@
       "reason": null,
       "home": "MIN",
       "away": "TOR",
+      "gamePk": 823714,
       "fadeReason": "all"
     },
     {
@@ -3030,6 +3132,7 @@
       "reason": null,
       "home": "CHC",
       "away": "ARI",
+      "gamePk": 824686,
       "fadeReason": "all"
     },
     {
@@ -3053,6 +3156,7 @@
       "reason": null,
       "home": "DET",
       "away": "TEX",
+      "gamePk": 824287,
       "fadeReason": "all"
     },
     {
@@ -3077,6 +3181,7 @@
       "reason": "dog_below_min",
       "home": "PIT",
       "away": "CIN",
+      "gamePk": 823389,
       "fadeReason": "away/all"
     },
     {
@@ -3100,6 +3205,7 @@
       "reason": null,
       "home": "MIN",
       "away": "TOR",
+      "gamePk": 823713,
       "fadeReason": "all"
     },
     {
@@ -3123,6 +3229,7 @@
       "reason": null,
       "home": "STL",
       "away": "LAD",
+      "gamePk": 823066,
       "fadeReason": "all"
     },
     {
@@ -3146,6 +3253,7 @@
       "reason": null,
       "home": "SD",
       "away": "CWS",
+      "gamePk": 823309,
       "fadeReason": "all"
     },
     {
@@ -3169,6 +3277,7 @@
       "reason": null,
       "home": "CHC",
       "away": "ARI",
+      "gamePk": 824685,
       "fadeReason": "away"
     },
     {
@@ -3192,6 +3301,7 @@
       "reason": null,
       "home": "PIT",
       "away": "CIN",
+      "gamePk": 823388,
       "fadeReason": "away"
     },
     {
@@ -3216,6 +3326,7 @@
       "reason": "dog_below_min",
       "home": "OAK",
       "away": "CLE",
+      "gamePk": 825014,
       "fadeReason": "home/away"
     },
     {
@@ -3239,6 +3350,7 @@
       "reason": null,
       "home": "MIA",
       "away": "PHI",
+      "gamePk": 823876,
       "fadeReason": "all"
     },
     {
@@ -3262,6 +3374,7 @@
       "reason": null,
       "home": "TB",
       "away": "SF",
+      "gamePk": 822988,
       "fadeReason": "away"
     },
     {
@@ -3285,6 +3398,7 @@
       "reason": null,
       "home": "DET",
       "away": "TEX",
+      "gamePk": 824284,
       "fadeReason": "all"
     },
     {
@@ -3308,6 +3422,7 @@
       "reason": null,
       "home": "TB",
       "away": "SF",
+      "gamePk": 822987,
       "fadeReason": "away"
     },
     {
@@ -3331,6 +3446,7 @@
       "reason": null,
       "home": "MIA",
       "away": "PHI",
+      "gamePk": 823875,
       "fadeReason": "all"
     },
     {
@@ -3354,6 +3470,7 @@
       "reason": null,
       "home": "CHC",
       "away": "ARI",
+      "gamePk": 824687,
       "fadeReason": "all"
     },
     {
@@ -3377,6 +3494,7 @@
       "reason": null,
       "home": "OAK",
       "away": "CLE",
+      "gamePk": 825013,
       "fadeReason": "home"
     },
     {
@@ -3400,6 +3518,7 @@
       "reason": null,
       "home": "LAA",
       "away": "NYM",
+      "gamePk": 824043,
       "fadeReason": "all"
     },
     {
@@ -3423,6 +3542,7 @@
       "reason": null,
       "home": "SEA",
       "away": "KC",
+      "gamePk": 823145,
       "fadeReason": "all"
     },
     {
@@ -3446,6 +3566,7 @@
       "reason": null,
       "home": "NYY",
       "away": "BAL",
+      "gamePk": 823552,
       "fadeReason": "all"
     },
     {
@@ -3469,6 +3590,7 @@
       "reason": null,
       "home": "DET",
       "away": "BOS",
+      "gamePk": 824281,
       "fadeReason": "all"
     },
     {
@@ -3492,6 +3614,7 @@
       "reason": null,
       "home": "TB",
       "away": "TOR",
+      "gamePk": 822986,
       "fadeReason": "all"
     },
     {
@@ -3515,6 +3638,7 @@
       "reason": null,
       "home": "ARI",
       "away": "PIT",
+      "gamePk": 825092,
       "fadeReason": "away"
     },
     {
@@ -3538,6 +3662,7 @@
       "reason": null,
       "home": "SF",
       "away": "SD",
+      "gamePk": 823227,
       "fadeReason": "all"
     },
     {
@@ -3561,6 +3686,7 @@
       "reason": null,
       "home": "LAA",
       "away": "CWS",
+      "gamePk": 824036,
       "fadeReason": "all"
     },
     {
@@ -3584,6 +3710,7 @@
       "reason": null,
       "home": "DET",
       "away": "BOS",
+      "gamePk": 824282,
       "fadeReason": "all"
     },
     {
@@ -3608,6 +3735,7 @@
       "reason": null,
       "home": "CHC",
       "away": "CIN",
+      "gamePk": 824683,
       "fadeReason": "away/all"
     },
     {
@@ -3631,6 +3759,7 @@
       "reason": null,
       "home": "COL",
       "away": "NYM",
+      "gamePk": 824361,
       "fadeReason": "all"
     },
     {
@@ -3654,6 +3783,7 @@
       "reason": null,
       "home": "ARI",
       "away": "PIT",
+      "gamePk": 825091,
       "fadeReason": "all"
     },
     {
@@ -3677,6 +3807,7 @@
       "reason": null,
       "home": "WSH",
       "away": "MIN",
+      "gamePk": 822741,
       "fadeReason": "all"
     },
     {
@@ -3700,6 +3831,7 @@
       "reason": null,
       "home": "KC",
       "away": "CLE",
+      "gamePk": 824117,
       "fadeReason": "away"
     },
     {
@@ -3723,6 +3855,7 @@
       "reason": null,
       "home": "CHC",
       "away": "CIN",
+      "gamePk": 824681,
       "fadeReason": "away"
     },
     {
@@ -3747,6 +3880,7 @@
       "reason": "dog_below_min",
       "home": "ARI",
       "away": "PIT",
+      "gamePk": 825090,
       "fadeReason": "all"
     },
     {
@@ -3770,6 +3904,7 @@
       "reason": null,
       "home": "PHI",
       "away": "OAK",
+      "gamePk": 823467,
       "fadeReason": "all"
     },
     {
@@ -3793,6 +3928,7 @@
       "reason": null,
       "home": "TEX",
       "away": "CHC",
+      "gamePk": 822904,
       "fadeReason": "all"
     },
     {
@@ -3816,6 +3952,7 @@
       "reason": null,
       "home": "LAD",
       "away": "ATL",
+      "gamePk": 823957,
       "fadeReason": "all"
     },
     {
@@ -3839,6 +3976,7 @@
       "reason": null,
       "home": "TOR",
       "away": "LAA",
+      "gamePk": 822820,
       "fadeReason": "all"
     },
     {
@@ -3862,6 +4000,7 @@
       "reason": null,
       "home": "BAL",
       "away": "OAK",
+      "gamePk": 824847,
       "fadeReason": "all"
     },
     {
@@ -3886,6 +4025,7 @@
       "reason": null,
       "home": "PHI",
       "away": "COL",
+      "gamePk": 823468,
       "fadeReason": "home/away"
     },
     {
@@ -3909,6 +4049,7 @@
       "reason": null,
       "home": "CLE",
       "away": "MIN",
+      "gamePk": 824444,
       "fadeReason": "home"
     },
     {
@@ -3932,6 +4073,7 @@
       "reason": null,
       "home": "CWS",
       "away": "SEA",
+      "gamePk": 824606,
       "fadeReason": "all"
     },
     {
@@ -3955,6 +4097,7 @@
       "reason": null,
       "home": "ARI",
       "away": "NYM",
+      "gamePk": 825089,
       "fadeReason": "all"
     },
     {
@@ -3978,6 +4121,7 @@
       "reason": null,
       "home": "BOS",
       "away": "TB",
+      "gamePk": 824765,
       "fadeReason": "home"
     },
     {
@@ -4001,6 +4145,7 @@
       "reason": null,
       "home": "SF",
       "away": "PIT",
+      "gamePk": 823221,
       "fadeReason": "away"
     },
     {
@@ -4024,6 +4169,7 @@
       "reason": null,
       "home": "KC",
       "away": "DET",
+      "gamePk": 824113,
       "fadeReason": "all"
     },
     {
@@ -4047,6 +4193,7 @@
       "reason": null,
       "home": "TOR",
       "away": "TB",
+      "gamePk": 822818,
       "fadeReason": "all"
     },
     {
@@ -4070,6 +4217,7 @@
       "reason": null,
       "home": "BAL",
       "away": "NYY",
+      "gamePk": 824843,
       "fadeReason": "home"
     },
     {
@@ -4093,6 +4241,7 @@
       "reason": null,
       "home": "PIT",
       "away": "COL",
+      "gamePk": 823385,
       "fadeReason": "all"
     },
     {
@@ -4116,6 +4265,7 @@
       "reason": null,
       "home": "TOR",
       "away": "TB",
+      "gamePk": 822817,
       "fadeReason": "away"
     },
     {
@@ -4140,6 +4290,7 @@
       "reason": null,
       "home": "NYM",
       "away": "DET",
+      "gamePk": 823632,
       "fadeReason": "all"
     },
     {
@@ -4163,6 +4314,7 @@
       "reason": null,
       "home": "ATL",
       "away": "CHC",
+      "gamePk": 824927,
       "fadeReason": "all"
     },
     {
@@ -4186,6 +4338,7 @@
       "reason": null,
       "home": "TEX",
       "away": "ARI",
+      "gamePk": 822903,
       "fadeReason": "all"
     },
     {
@@ -4209,6 +4362,7 @@
       "reason": null,
       "home": "HOU",
       "away": "SEA",
+      "gamePk": 824197,
       "fadeReason": "away"
     },
     {
@@ -4232,6 +4386,7 @@
       "reason": null,
       "home": "OAK",
       "away": "STL",
+      "gamePk": 825011,
       "fadeReason": "home"
     },
     {
@@ -4255,6 +4410,7 @@
       "reason": null,
       "home": "PIT",
       "away": "COL",
+      "gamePk": 823386,
       "fadeReason": "all"
     },
     {
@@ -4278,6 +4434,7 @@
       "reason": null,
       "home": "BOS",
       "away": "PHI",
+      "gamePk": 824763,
       "fadeReason": "all"
     },
     {
@@ -4301,6 +4458,7 @@
       "reason": null,
       "home": "NYM",
       "away": "DET",
+      "gamePk": 823631,
       "fadeReason": "all"
     },
     {
@@ -4324,6 +4482,7 @@
       "reason": null,
       "home": "ATL",
       "away": "CHC",
+      "gamePk": 824928,
       "fadeReason": "away"
     },
     {
@@ -4347,6 +4506,7 @@
       "reason": null,
       "home": "MIN",
       "away": "MIA",
+      "gamePk": 823710,
       "fadeReason": "all"
     },
     {
@@ -4370,6 +4530,7 @@
       "reason": null,
       "home": "CWS",
       "away": "KC",
+      "gamePk": 824603,
       "fadeReason": "all"
     },
     {
@@ -4393,6 +4554,7 @@
       "reason": null,
       "home": "MIL",
       "away": "SD",
+      "gamePk": 823791,
       "fadeReason": "away"
     },
     {
@@ -4417,6 +4579,7 @@
       "reason": "dog_below_min",
       "home": "TEX",
       "away": "ARI",
+      "gamePk": 822900,
       "fadeReason": "away/all"
     },
     {
@@ -4440,6 +4603,7 @@
       "reason": null,
       "home": "NYM",
       "away": "DET",
+      "gamePk": 823630,
       "fadeReason": "home"
     },
     {
@@ -4463,6 +4627,7 @@
       "reason": null,
       "home": "MIL",
       "away": "SD",
+      "gamePk": 823789,
       "fadeReason": "all"
     },
     {
@@ -4487,6 +4652,7 @@
       "reason": "dog_below_min",
       "home": "HOU",
       "away": "SEA",
+      "gamePk": 824196,
       "fadeReason": "all/home"
     },
     {
@@ -4510,6 +4676,7 @@
       "reason": null,
       "home": "OAK",
       "away": "STL",
+      "gamePk": 825008,
       "fadeReason": "home"
     },
     {
@@ -4533,6 +4700,7 @@
       "reason": null,
       "home": "DET",
       "away": "TOR",
+      "gamePk": 824280,
       "fadeReason": "away"
     },
     {
@@ -4556,6 +4724,7 @@
       "reason": null,
       "home": "WSH",
       "away": "BAL",
+      "gamePk": 822739,
       "fadeReason": "all"
     },
     {
@@ -4579,6 +4748,7 @@
       "reason": null,
       "home": "CLE",
       "away": "CIN",
+      "gamePk": 824439,
       "fadeReason": "home"
     },
     {
@@ -4602,6 +4772,7 @@
       "reason": null,
       "home": "STL",
       "away": "KC",
+      "gamePk": 823061,
       "fadeReason": "away"
     },
     {
@@ -4625,6 +4796,7 @@
       "reason": null,
       "home": "COL",
       "away": "ARI",
+      "gamePk": 824360,
       "fadeReason": "all"
     },
     {
@@ -4648,6 +4820,7 @@
       "reason": null,
       "home": "LAA",
       "away": "LAD",
+      "gamePk": 824037,
       "fadeReason": "all"
     },
     {
@@ -4672,6 +4845,7 @@
       "reason": "dog_below_min",
       "home": "OAK",
       "away": "SF",
+      "gamePk": 825009,
       "fadeReason": "home/away"
     },
     {
@@ -4695,6 +4869,7 @@
       "reason": null,
       "home": "DET",
       "away": "TOR",
+      "gamePk": 824278,
       "fadeReason": "all"
     },
     {
@@ -4718,6 +4893,7 @@
       "reason": null,
       "home": "STL",
       "away": "KC",
+      "gamePk": 823060,
       "fadeReason": "all"
     },
     {
@@ -4741,6 +4917,7 @@
       "reason": null,
       "home": "CLE",
       "away": "CIN",
+      "gamePk": 824435,
       "fadeReason": "all"
     },
     {
@@ -4764,6 +4941,7 @@
       "reason": null,
       "home": "PIT",
       "away": "PHI",
+      "gamePk": 823381,
       "fadeReason": "all"
     },
     {
@@ -4787,6 +4965,7 @@
       "reason": null,
       "home": "ATL",
       "away": "BOS",
+      "gamePk": 824923,
       "fadeReason": "all"
     },
     {
@@ -4810,6 +4989,7 @@
       "reason": null,
       "home": "NYM",
       "away": "NYY",
+      "gamePk": 823628,
       "fadeReason": "all"
     },
     {
@@ -4833,6 +5013,7 @@
       "reason": null,
       "home": "CLE",
       "away": "CIN",
+      "gamePk": 824436,
       "fadeReason": "away"
     },
     {
@@ -4857,6 +5038,7 @@
       "reason": "dog_below_min",
       "home": "DET",
       "away": "TOR",
+      "gamePk": 824279,
       "fadeReason": "all"
     },
     {
@@ -4880,6 +5062,7 @@
       "reason": null,
       "home": "CWS",
       "away": "CHC",
+      "gamePk": 824599,
       "fadeReason": "all"
     },
     {
@@ -4903,6 +5086,7 @@
       "reason": null,
       "home": "OAK",
       "away": "SF",
+      "gamePk": 825006,
       "fadeReason": "home"
     },
     {
@@ -4926,6 +5110,7 @@
       "reason": null,
       "home": "PHI",
       "away": "CIN",
+      "gamePk": 823465,
       "fadeReason": "all"
     },
     {
@@ -4950,6 +5135,7 @@
       "reason": null,
       "home": "DET",
       "away": "CLE",
+      "gamePk": 824277,
       "fadeReason": "away/all"
     },
     {
@@ -4973,6 +5159,7 @@
       "reason": null,
       "home": "ARI",
       "away": "SF",
+      "gamePk": 825087,
       "fadeReason": "all"
     },
     {
@@ -4996,6 +5183,7 @@
       "reason": null,
       "home": "SEA",
       "away": "CWS",
+      "gamePk": 823137,
       "fadeReason": "all"
     },
     {
@@ -5019,6 +5207,7 @@
       "reason": null,
       "home": "STL",
       "away": "PIT",
+      "gamePk": 823059,
       "fadeReason": "all"
     },
     {
@@ -5042,6 +5231,7 @@
       "reason": null,
       "home": "ARI",
       "away": "SF",
+      "gamePk": 825086,
       "fadeReason": "away"
     },
     {
@@ -5065,6 +5255,7 @@
       "reason": null,
       "home": "PHI",
       "away": "CIN",
+      "gamePk": 823462,
       "fadeReason": "home"
     },
     {
@@ -5088,6 +5279,7 @@
       "reason": null,
       "home": "TB",
       "away": "BAL",
+      "gamePk": 822977,
       "fadeReason": "all"
     },
     {
@@ -5112,6 +5304,7 @@
       "reason": "dog_below_min",
       "home": "ARI",
       "away": "SF",
+      "gamePk": 825084,
       "fadeReason": "away/all"
     },
     {
@@ -5135,6 +5328,7 @@
       "reason": null,
       "home": "NYY",
       "away": "TOR",
+      "gamePk": 823547,
       "fadeReason": "away"
     },
     {
@@ -5158,6 +5352,7 @@
       "reason": null,
       "home": "LAA",
       "away": "OAK",
+      "gamePk": 824032,
       "fadeReason": "all"
     },
     {
@@ -5181,6 +5376,7 @@
       "reason": null,
       "home": "DET",
       "away": "CLE",
+      "gamePk": 824274,
       "fadeReason": "all"
     },
     {
@@ -5204,6 +5400,7 @@
       "reason": null,
       "home": "WSH",
       "away": "NYM",
+      "gamePk": 822733,
       "fadeReason": "all"
     },
     {
@@ -5228,6 +5425,7 @@
       "reason": null,
       "home": "TOR",
       "away": "PIT",
+      "gamePk": 822816,
       "fadeReason": "away/all"
     },
     {
@@ -5251,6 +5449,7 @@
       "reason": null,
       "home": "BOS",
       "away": "MIN",
+      "gamePk": 824761,
       "fadeReason": "home"
     },
     {
@@ -5274,6 +5473,7 @@
       "reason": null,
       "home": "BAL",
       "away": "DET",
+      "gamePk": 824842,
       "fadeReason": "all"
     },
     {
@@ -5297,6 +5497,7 @@
       "reason": null,
       "home": "KC",
       "away": "SEA",
+      "gamePk": 824110,
       "fadeReason": "all"
     },
     {
@@ -5320,6 +5521,7 @@
       "reason": null,
       "home": "SF",
       "away": "CWS",
+      "gamePk": 823223,
       "fadeReason": "home"
     },
     {
@@ -5343,6 +5545,7 @@
       "reason": null,
       "home": "CIN",
       "away": "STL",
+      "gamePk": 824518,
       "fadeReason": "all"
     },
     {
@@ -5366,6 +5569,7 @@
       "reason": null,
       "home": "CHC",
       "away": "HOU",
+      "gamePk": 824674,
       "fadeReason": "all"
     },
     {
@@ -5389,6 +5593,7 @@
       "reason": null,
       "home": "TOR",
       "away": "PIT",
+      "gamePk": 822814,
       "fadeReason": "all"
     },
     {
@@ -5412,6 +5617,7 @@
       "reason": null,
       "home": "PHI",
       "away": "CLE",
+      "gamePk": 823458,
       "fadeReason": "away"
     },
     {
@@ -5435,6 +5641,7 @@
       "reason": null,
       "home": "MIA",
       "away": "NYM",
+      "gamePk": 823862,
       "fadeReason": "all"
     },
     {
@@ -5458,6 +5665,7 @@
       "reason": null,
       "home": "ARI",
       "away": "COL",
+      "gamePk": 825080,
       "fadeReason": "all"
     },
     {
@@ -5481,6 +5689,7 @@
       "reason": null,
       "home": "TOR",
       "away": "PIT",
+      "gamePk": 822813,
       "fadeReason": "all"
     },
     {
@@ -5504,6 +5713,7 @@
       "reason": null,
       "home": "PHI",
       "away": "CLE",
+      "gamePk": 823459,
       "fadeReason": "all"
     },
     {
@@ -5527,6 +5737,7 @@
       "reason": null,
       "home": "KC",
       "away": "SEA",
+      "gamePk": 824108,
       "fadeReason": "away"
     },
     {
@@ -5550,6 +5761,7 @@
       "reason": null,
       "home": "SF",
       "away": "CWS",
+      "gamePk": 823220,
       "fadeReason": "all"
     },
     {
@@ -5574,6 +5786,7 @@
       "reason": "dog_below_min",
       "home": "BAL",
       "away": "DET",
+      "gamePk": 824840,
       "fadeReason": "home/all"
     },
     {
@@ -5597,6 +5810,7 @@
       "reason": null,
       "home": "BAL",
       "away": "TB",
+      "gamePk": 824838,
       "fadeReason": "away"
     },
     {
@@ -5620,6 +5834,7 @@
       "reason": null,
       "home": "NYM",
       "away": "CIN",
+      "gamePk": 823625,
       "fadeReason": "home"
     },
     {
@@ -5643,6 +5858,7 @@
       "reason": null,
       "home": "SF",
       "away": "ARI",
+      "gamePk": 823219,
       "fadeReason": "all"
     },
     {
@@ -5666,6 +5882,7 @@
       "reason": null,
       "home": "CLE",
       "away": "WSH",
+      "gamePk": 824437,
       "fadeReason": "home"
     },
     {
@@ -5689,6 +5906,7 @@
       "reason": null,
       "home": "SD",
       "away": "PHI",
+      "gamePk": 823296,
       "fadeReason": "all"
     },
     {
@@ -5712,6 +5930,7 @@
       "reason": null,
       "home": "TEX",
       "away": "HOU",
+      "gamePk": 822899,
       "fadeReason": "all"
     },
     {
@@ -5735,6 +5954,7 @@
       "reason": null,
       "home": "LAD",
       "away": "COL",
+      "gamePk": 823948,
       "fadeReason": "all"
     },
     {
@@ -5759,6 +5979,7 @@
       "reason": "dog_below_min",
       "home": "OAK",
       "away": "SEA",
+      "gamePk": 825005,
       "fadeReason": "all/home"
     },
     {
@@ -5782,6 +6003,7 @@
       "reason": null,
       "home": "BAL",
       "away": "TB",
+      "gamePk": 824837,
       "fadeReason": "all"
     },
     {
@@ -5805,6 +6027,7 @@
       "reason": null,
       "home": "DET",
       "away": "LAA",
+      "gamePk": 824275,
       "fadeReason": "all"
     },
     {
@@ -5828,6 +6051,7 @@
       "reason": null,
       "home": "NYM",
       "away": "CIN",
+      "gamePk": 823624,
       "fadeReason": "all"
     },
     {
@@ -5851,6 +6075,7 @@
       "reason": null,
       "home": "LAD",
       "away": "COL",
+      "gamePk": 823949,
       "fadeReason": "away"
     },
     {
@@ -5874,6 +6099,7 @@
       "reason": null,
       "home": "TOR",
       "away": "MIA",
+      "gamePk": 822809,
       "fadeReason": "all"
     },
     {
@@ -5897,6 +6123,7 @@
       "reason": null,
       "home": "OAK",
       "away": "SEA",
+      "gamePk": 825003,
       "fadeReason": "home"
     },
     {
@@ -5920,6 +6147,7 @@
       "reason": null,
       "home": "SF",
       "away": "ARI",
+      "gamePk": 823217,
       "fadeReason": "home"
     },
     {
@@ -5943,6 +6171,7 @@
       "reason": null,
       "home": "DET",
       "away": "LAA",
+      "gamePk": 824270,
       "fadeReason": "all"
     },
     {
@@ -5966,6 +6195,7 @@
       "reason": null,
       "home": "KC",
       "away": "NYY",
+      "gamePk": 824104,
       "fadeReason": "all"
     },
     {
@@ -5989,6 +6219,7 @@
       "reason": null,
       "home": "DET",
       "away": "LAA",
+      "gamePk": 824272,
       "fadeReason": "all"
     },
     {
@@ -6012,6 +6243,7 @@
       "reason": null,
       "home": "BOS",
       "away": "ATL",
+      "gamePk": 824757,
       "fadeReason": "home"
     },
     {
@@ -6036,6 +6268,7 @@
       "reason": null,
       "home": "PIT",
       "away": "CHC",
+      "gamePk": 823378,
       "fadeReason": "all"
     },
     {
@@ -6059,6 +6292,7 @@
       "reason": null,
       "home": "CIN",
       "away": "ATL",
+      "gamePk": 824515,
       "fadeReason": "all"
     },
     {
@@ -6082,6 +6316,7 @@
       "reason": null,
       "home": "BAL",
       "away": "TOR",
+      "gamePk": 824835,
       "fadeReason": "home"
     },
     {
@@ -6105,6 +6340,7 @@
       "reason": null,
       "home": "NYM",
       "away": "MIA",
+      "gamePk": 823623,
       "fadeReason": "all"
     },
     {
@@ -6128,6 +6364,7 @@
       "reason": null,
       "home": "STL",
       "away": "CHC",
+      "gamePk": 823055,
       "fadeReason": "away"
     },
     {
@@ -6151,6 +6388,7 @@
       "reason": null,
       "home": "COL",
       "away": "SF",
+      "gamePk": 824353,
       "fadeReason": "all"
     },
     {
@@ -6174,6 +6412,7 @@
       "reason": null,
       "home": "SEA",
       "away": "ARI",
+      "gamePk": 823135,
       "fadeReason": "all"
     },
     {
@@ -6197,6 +6436,7 @@
       "reason": null,
       "home": "CWS",
       "away": "DET",
+      "gamePk": 824593,
       "fadeReason": "all"
     },
     {
@@ -6220,6 +6460,7 @@
       "reason": null,
       "home": "TEX",
       "away": "KC",
+      "gamePk": 822893,
       "fadeReason": "all"
     },
     {
@@ -6243,6 +6484,7 @@
       "reason": null,
       "home": "WSH",
       "away": "SD",
+      "gamePk": 822731,
       "fadeReason": "away"
     },
     {
@@ -6266,6 +6508,7 @@
       "reason": null,
       "home": "PIT",
       "away": "MIN",
+      "gamePk": 823375,
       "fadeReason": "all"
     },
     {
@@ -6289,6 +6532,7 @@
       "reason": null,
       "home": "BAL",
       "away": "TOR",
+      "gamePk": 824833,
       "fadeReason": "away"
     },
     {
@@ -6312,6 +6556,7 @@
       "reason": null,
       "home": "SEA",
       "away": "ARI",
+      "gamePk": 823132,
       "fadeReason": "away"
     },
     {
@@ -6335,6 +6580,7 @@
       "reason": null,
       "home": "WSH",
       "away": "SD",
+      "gamePk": 822729,
       "fadeReason": "all"
     },
     {
@@ -6358,6 +6604,7 @@
       "reason": null,
       "home": "CIN",
       "away": "ATL",
+      "gamePk": 824512,
       "fadeReason": "home"
     },
     {
@@ -6381,6 +6628,7 @@
       "reason": null,
       "home": "CLE",
       "away": "BOS",
+      "gamePk": 824430,
       "fadeReason": "home"
     },
     {
@@ -6404,6 +6652,7 @@
       "reason": null,
       "home": "NYM",
       "away": "MIA",
+      "gamePk": 823621,
       "fadeReason": "home"
     },
     {
@@ -6427,6 +6676,7 @@
       "reason": null,
       "home": "TB",
       "away": "LAA",
+      "gamePk": 822976,
       "fadeReason": "all"
     },
     {
@@ -6450,6 +6700,7 @@
       "reason": null,
       "home": "TEX",
       "away": "KC",
+      "gamePk": 822895,
       "fadeReason": "away"
     },
     {
@@ -6473,6 +6724,7 @@
       "reason": null,
       "home": "OAK",
       "away": "NYY",
+      "gamePk": 825001,
       "fadeReason": "home"
     },
     {
@@ -6496,6 +6748,7 @@
       "reason": null,
       "home": "LAD",
       "away": "PHI",
+      "gamePk": 823944,
       "fadeReason": "all"
     },
     {
@@ -6520,6 +6773,7 @@
       "reason": null,
       "home": "SEA",
       "away": "ARI",
+      "gamePk": 823133,
       "fadeReason": "all"
     },
     {
@@ -6543,6 +6797,7 @@
       "reason": null,
       "home": "MIL",
       "away": "SF",
+      "gamePk": 823781,
       "fadeReason": "away"
     },
     {
@@ -6566,6 +6821,7 @@
       "reason": null,
       "home": "LAA",
       "away": "COL",
+      "gamePk": 824027,
       "fadeReason": "away"
     },
     {
@@ -6589,6 +6845,7 @@
       "reason": null,
       "home": "ARI",
       "away": "LAD",
+      "gamePk": 825078,
       "fadeReason": "all"
     },
     {
@@ -6612,6 +6869,7 @@
       "reason": null,
       "home": "PHI",
       "away": "SD",
+      "gamePk": 823460,
       "fadeReason": "home"
     },
     {
@@ -6635,6 +6893,7 @@
       "reason": null,
       "home": "TB",
       "away": "DET",
+      "gamePk": 822971,
       "fadeReason": "all"
     },
     {
@@ -6658,6 +6917,7 @@
       "reason": null,
       "home": "BOS",
       "away": "BAL",
+      "gamePk": 824754,
       "fadeReason": "all"
     },
     {
@@ -6681,6 +6941,7 @@
       "reason": null,
       "home": "CIN",
       "away": "KC",
+      "gamePk": 824511,
       "fadeReason": "all"
     },
     {
@@ -6704,6 +6965,7 @@
       "reason": null,
       "home": "ATL",
       "away": "TOR",
+      "gamePk": 824918,
       "fadeReason": "all"
     },
     {
@@ -6728,6 +6990,7 @@
       "reason": "dog_below_min",
       "home": "HOU",
       "away": "PIT",
+      "gamePk": 824189,
       "fadeReason": "home/away"
     },
     {
@@ -6751,6 +7014,7 @@
       "reason": null,
       "home": "LAA",
       "away": "COL",
+      "gamePk": 824026,
       "fadeReason": "home"
     },
     {
@@ -6774,6 +7038,7 @@
       "reason": null,
       "home": "SEA",
       "away": "NYM",
+      "gamePk": 823130,
       "fadeReason": "all"
     },
     {
@@ -6797,6 +7062,7 @@
       "reason": null,
       "home": "BOS",
       "away": "BAL",
+      "gamePk": 824755,
       "fadeReason": "home"
     },
     {
@@ -6820,6 +7086,7 @@
       "reason": null,
       "home": "NYY",
       "away": "CLE",
+      "gamePk": 823540,
       "fadeReason": "home"
     },
     {
@@ -6843,6 +7110,7 @@
       "reason": null,
       "home": "MIL",
       "away": "SF",
+      "gamePk": 823780,
       "fadeReason": "all"
     },
     {
@@ -6866,6 +7134,7 @@
       "reason": null,
       "home": "CHC",
       "away": "OAK",
+      "gamePk": 824671,
       "fadeReason": "all"
     },
     {
@@ -6889,6 +7158,7 @@
       "reason": null,
       "home": "HOU",
       "away": "PIT",
+      "gamePk": 824188,
       "fadeReason": "all"
     },
     {
@@ -6912,6 +7182,7 @@
       "reason": null,
       "home": "ARI",
       "away": "LAD",
+      "gamePk": 825077,
       "fadeReason": "all"
     },
     {
@@ -6935,6 +7206,7 @@
       "reason": null,
       "home": "NYY",
       "away": "CLE",
+      "gamePk": 823542,
       "fadeReason": "away"
     },
     {
@@ -6958,6 +7230,7 @@
       "reason": null,
       "home": "BOS",
       "away": "BAL",
+      "gamePk": 824753,
       "fadeReason": "all"
     },
     {
@@ -6982,6 +7255,7 @@
       "reason": "dog_below_min",
       "home": "DET",
       "away": "SEA",
+      "gamePk": 824271,
       "fadeReason": "all/away"
     },
     {
@@ -7005,6 +7279,7 @@
       "reason": null,
       "home": "ATL",
       "away": "PIT",
+      "gamePk": 824914,
       "fadeReason": "all"
     },
     {
@@ -7028,6 +7303,7 @@
       "reason": null,
       "home": "STL",
       "away": "CIN",
+      "gamePk": 823049,
       "fadeReason": "away"
     },
     {
@@ -7051,6 +7327,7 @@
       "reason": null,
       "home": "TEX",
       "away": "CLE",
+      "gamePk": 822892,
       "fadeReason": "all"
     },
     {
@@ -7075,6 +7352,7 @@
       "reason": "dog_below_min",
       "home": "MIN",
       "away": "KC",
+      "gamePk": 823699,
       "fadeReason": "home/away"
     },
     {
@@ -7098,6 +7376,7 @@
       "reason": null,
       "home": "ARI",
       "away": "WSH",
+      "gamePk": 825073,
       "fadeReason": "all"
     },
     {
@@ -7121,6 +7400,7 @@
       "reason": null,
       "home": "DET",
       "away": "SEA",
+      "gamePk": 824269,
       "fadeReason": "all"
     },
     {
@@ -7144,6 +7424,7 @@
       "reason": null,
       "home": "CHC",
       "away": "SF",
+      "gamePk": 824669,
       "fadeReason": "away"
     },
     {
@@ -7167,6 +7448,7 @@
       "reason": null,
       "home": "PHI",
       "away": "CWS",
+      "gamePk": 823454,
       "fadeReason": "all"
     },
     {
@@ -7190,6 +7472,7 @@
       "reason": null,
       "home": "MIA",
       "away": "TB",
+      "gamePk": 823859,
       "fadeReason": "away"
     },
     {
@@ -7213,6 +7496,7 @@
       "reason": null,
       "home": "LAD",
       "away": "LAA",
+      "gamePk": 823942,
       "fadeReason": "all"
     },
     {
@@ -7236,6 +7520,7 @@
       "reason": null,
       "home": "SD",
       "away": "NYM",
+      "gamePk": 823292,
       "fadeReason": "all"
     },
     {
@@ -7259,6 +7544,7 @@
       "reason": null,
       "home": "PHI",
       "away": "CWS",
+      "gamePk": 823453,
       "fadeReason": "home"
     },
     {
@@ -7283,6 +7569,7 @@
       "reason": "dog_below_min",
       "home": "TOR",
       "away": "BAL",
+      "gamePk": 822807,
       "fadeReason": "all"
     },
     {
@@ -7307,6 +7594,7 @@
       "reason": "dog_below_min",
       "home": "DET",
       "away": "SEA",
+      "gamePk": 824268,
       "fadeReason": "all"
     },
     {
@@ -7330,6 +7618,7 @@
       "reason": null,
       "home": "MIN",
       "away": "KC",
+      "gamePk": 823696,
       "fadeReason": "all"
     },
     {
@@ -7354,6 +7643,7 @@
       "reason": "dog_below_min",
       "home": "HOU",
       "away": "OAK",
+      "gamePk": 824183,
       "fadeReason": "all/home"
     },
     {
@@ -7377,6 +7667,7 @@
       "reason": null,
       "home": "STL",
       "away": "CIN",
+      "gamePk": 823047,
       "fadeReason": "away"
     },
     {
@@ -7400,6 +7691,7 @@
       "reason": null,
       "home": "LAD",
       "away": "LAA",
+      "gamePk": 823941,
       "fadeReason": "all"
     },
     {
@@ -7423,6 +7715,7 @@
       "reason": null,
       "home": "BAL",
       "away": "SEA",
+      "gamePk": 824829,
       "fadeReason": "all"
     },
     {
@@ -7446,6 +7739,7 @@
       "reason": null,
       "home": "LAA",
       "away": "HOU",
+      "gamePk": 824025,
       "fadeReason": "home"
     },
     {
@@ -7469,6 +7763,7 @@
       "reason": null,
       "home": "SF",
       "away": "WSH",
+      "gamePk": 823218,
       "fadeReason": "all"
     },
     {
@@ -7492,6 +7787,7 @@
       "reason": null,
       "home": "OAK",
       "away": "MIL",
+      "gamePk": 824998,
       "fadeReason": "home"
     },
     {
@@ -7515,6 +7811,7 @@
       "reason": null,
       "home": "BAL",
       "away": "SEA",
+      "gamePk": 824830,
       "fadeReason": "home"
     },
     {
@@ -7538,6 +7835,7 @@
       "reason": null,
       "home": "MIA",
       "away": "ARI",
+      "gamePk": 823858,
       "fadeReason": "all"
     },
     {
@@ -7561,6 +7859,7 @@
       "reason": null,
       "home": "PIT",
       "away": "LAD",
+      "gamePk": 823374,
       "fadeReason": "all"
     },
     {
@@ -7584,6 +7883,7 @@
       "reason": null,
       "home": "NYM",
       "away": "STL",
+      "gamePk": 823620,
       "fadeReason": "all"
     },
     {
@@ -7607,6 +7907,7 @@
       "reason": null,
       "home": "COL",
       "away": "CHC",
+      "gamePk": 824347,
       "fadeReason": "all"
     },
     {
@@ -7630,6 +7931,7 @@
       "reason": null,
       "home": "SD",
       "away": "CIN",
+      "gamePk": 823287,
       "fadeReason": "away"
     },
     {
@@ -7653,6 +7955,7 @@
       "reason": null,
       "home": "DET",
       "away": "MIN",
+      "gamePk": 824266,
       "fadeReason": "all"
     },
     {
@@ -7676,6 +7979,7 @@
       "reason": null,
       "home": "MIA",
       "away": "ARI",
+      "gamePk": 823856,
       "fadeReason": "away"
     },
     {
@@ -7699,6 +8003,7 @@
       "reason": null,
       "home": "COL",
       "away": "CHC",
+      "gamePk": 824348,
       "fadeReason": "away"
     },
     {
@@ -7722,6 +8027,7 @@
       "reason": null,
       "home": "MIA",
       "away": "ARI",
+      "gamePk": 823855,
       "fadeReason": "all"
     },
     {
@@ -7745,6 +8051,7 @@
       "reason": null,
       "home": "KC",
       "away": "TEX",
+      "gamePk": 824101,
       "fadeReason": "all"
     },
     {
@@ -7768,6 +8075,7 @@
       "reason": null,
       "home": "PIT",
       "away": "LAD",
+      "gamePk": 823371,
       "fadeReason": "all"
     },
     {
@@ -7791,6 +8099,7 @@
       "reason": null,
       "home": "BAL",
       "away": "SEA",
+      "gamePk": 824827,
       "fadeReason": "away"
     },
     {
@@ -7814,6 +8123,7 @@
       "reason": null,
       "home": "WSH",
       "away": "SEA",
+      "gamePk": 822726,
       "fadeReason": "all"
     },
     {
@@ -7838,6 +8148,7 @@
       "reason": "dog_below_min",
       "home": "BAL",
       "away": "SD",
+      "gamePk": 824826,
       "fadeReason": "all"
     },
     {
@@ -7862,6 +8173,7 @@
       "reason": "dog_below_min",
       "home": "CLE",
       "away": "DET",
+      "gamePk": 824425,
       "fadeReason": "all/home"
     },
     {
@@ -7885,6 +8197,7 @@
       "reason": null,
       "home": "NYM",
       "away": "ATL",
+      "gamePk": 823617,
       "fadeReason": "home"
     },
     {
@@ -7908,6 +8221,7 @@
       "reason": null,
       "home": "CIN",
       "away": "ARI",
+      "gamePk": 824507,
       "fadeReason": "home"
     },
     {
@@ -7931,6 +8245,7 @@
       "reason": null,
       "home": "LAA",
       "away": "TB",
+      "gamePk": 824020,
       "fadeReason": "away"
     },
     {
@@ -7954,6 +8269,7 @@
       "reason": null,
       "home": "OAK",
       "away": "COL",
+      "gamePk": 824997,
       "fadeReason": "all"
     },
     {
@@ -7977,6 +8293,7 @@
       "reason": null,
       "home": "TOR",
       "away": "NYY",
+      "gamePk": 822802,
       "fadeReason": "all"
     },
     {
@@ -8000,6 +8317,7 @@
       "reason": null,
       "home": "BAL",
       "away": "SD",
+      "gamePk": 824828,
       "fadeReason": "all"
     },
     {
@@ -8023,6 +8341,7 @@
       "reason": null,
       "home": "WSH",
       "away": "SEA",
+      "gamePk": 822725,
       "fadeReason": "all"
     },
     {
@@ -8046,6 +8365,7 @@
       "reason": null,
       "home": "KC",
       "away": "HOU",
+      "gamePk": 824100,
       "fadeReason": "all"
     },
     {
@@ -8069,6 +8389,7 @@
       "reason": null,
       "home": "SF",
       "away": "CHC",
+      "gamePk": 823213,
       "fadeReason": "home"
     },
     {
@@ -8092,6 +8413,7 @@
       "reason": null,
       "home": "OAK",
       "away": "COL",
+      "gamePk": 824995,
       "fadeReason": "away"
     },
     {
@@ -8115,6 +8437,7 @@
       "reason": null,
       "home": "PIT",
       "away": "MIA",
+      "gamePk": 823368,
       "fadeReason": "all"
     },
     {
@@ -8138,6 +8461,7 @@
       "reason": null,
       "home": "BAL",
       "away": "SD",
+      "gamePk": 824823,
       "fadeReason": "home"
     },
     {
@@ -8161,6 +8485,7 @@
       "reason": null,
       "home": "CIN",
       "away": "ARI",
+      "gamePk": 824506,
       "fadeReason": "all"
     },
     {
@@ -8184,6 +8509,7 @@
       "reason": null,
       "home": "NYM",
       "away": "ATL",
+      "gamePk": 823615,
       "fadeReason": "all"
     },
     {
@@ -8207,6 +8533,7 @@
       "reason": null,
       "home": "CWS",
       "away": "LAD",
+      "gamePk": 824586,
       "fadeReason": "all"
     },
     {
@@ -8230,6 +8557,7 @@
       "reason": null,
       "home": "OAK",
       "away": "COL",
+      "gamePk": 824994,
       "fadeReason": "home"
     },
     {
@@ -8253,6 +8581,7 @@
       "reason": null,
       "home": "SF",
       "away": "CHC",
+      "gamePk": 823212,
       "fadeReason": "all"
     },
     {
@@ -8276,6 +8605,7 @@
       "reason": null,
       "home": "LAA",
       "away": "TB",
+      "gamePk": 824021,
       "fadeReason": "home"
     },
     {
@@ -8299,6 +8629,7 @@
       "reason": null,
       "home": "PHI",
       "away": "MIA",
+      "gamePk": 823451,
       "fadeReason": "away"
     },
     {
@@ -8322,6 +8653,7 @@
       "reason": null,
       "home": "BOS",
       "away": "TOR",
+      "gamePk": 824750,
       "fadeReason": "home"
     },
     {
@@ -8345,6 +8677,7 @@
       "reason": null,
       "home": "WSH",
       "away": "KC",
+      "gamePk": 822723,
       "fadeReason": "away"
     },
     {
@@ -8368,6 +8701,7 @@
       "reason": null,
       "home": "NYY",
       "away": "CWS",
+      "gamePk": 823535,
       "fadeReason": "home"
     },
     {
@@ -8391,6 +8725,7 @@
       "reason": null,
       "home": "MIL",
       "away": "CLE",
+      "gamePk": 823775,
       "fadeReason": "away"
     },
     {
@@ -8414,6 +8749,7 @@
       "reason": null,
       "home": "STL",
       "away": "SD",
+      "gamePk": 823045,
       "fadeReason": "away"
     },
     {
@@ -8437,6 +8773,7 @@
       "reason": null,
       "home": "TEX",
       "away": "MIN",
+      "gamePk": 822888,
       "fadeReason": "all"
     },
     {
@@ -8460,6 +8797,7 @@
       "reason": null,
       "home": "CHC",
       "away": "COL",
+      "gamePk": 824667,
       "fadeReason": "away"
     },
     {
@@ -8483,6 +8821,7 @@
       "reason": null,
       "home": "HOU",
       "away": "DET",
+      "gamePk": 824182,
       "fadeReason": "all"
     },
     {
@@ -8506,6 +8845,7 @@
       "reason": null,
       "home": "ARI",
       "away": "LAA",
+      "gamePk": 825070,
       "fadeReason": "all"
     },
     {
@@ -8530,6 +8870,7 @@
       "reason": "dog_below_min",
       "home": "OAK",
       "away": "PIT",
+      "gamePk": 824991,
       "fadeReason": "all"
     },
     {
@@ -8553,6 +8894,7 @@
       "reason": null,
       "home": "CIN",
       "away": "NYM",
+      "gamePk": 824503,
       "fadeReason": "home"
     },
     {
@@ -8576,6 +8918,7 @@
       "reason": null,
       "home": "PHI",
       "away": "MIA",
+      "gamePk": 823450,
       "fadeReason": "all"
     },
     {
@@ -8599,6 +8942,7 @@
       "reason": null,
       "home": "HOU",
       "away": "DET",
+      "gamePk": 824178,
       "fadeReason": "all"
     },
     {
@@ -8622,6 +8966,7 @@
       "reason": null,
       "home": "LAD",
       "away": "TB",
+      "gamePk": 823940,
       "fadeReason": "away"
     },
     {
@@ -8645,6 +8990,7 @@
       "reason": null,
       "home": "ARI",
       "away": "LAA",
+      "gamePk": 825072,
       "fadeReason": "all"
     },
     {
@@ -8668,6 +9014,7 @@
       "reason": null,
       "home": "OAK",
       "away": "PIT",
+      "gamePk": 824992,
       "fadeReason": "home"
     },
     {
@@ -8691,6 +9038,7 @@
       "reason": null,
       "home": "BOS",
       "away": "TOR",
+      "gamePk": 824748,
       "fadeReason": "away"
     },
     {
@@ -8714,6 +9062,7 @@
       "reason": null,
       "home": "SEA",
       "away": "BAL",
+      "gamePk": 823125,
       "fadeReason": "all"
     },
     {
@@ -8737,6 +9086,7 @@
       "reason": null,
       "home": "PHI",
       "away": "NYM",
+      "gamePk": 823448,
       "fadeReason": "home"
     },
     {
@@ -8760,6 +9110,7 @@
       "reason": null,
       "home": "KC",
       "away": "STL",
+      "gamePk": 824098,
       "fadeReason": "all"
     },
     {
@@ -8783,6 +9134,7 @@
       "reason": null,
       "home": "OAK",
       "away": "LAA",
+      "gamePk": 824989,
       "fadeReason": "all"
     },
     {
@@ -8806,6 +9158,7 @@
       "reason": null,
       "home": "CHC",
       "away": "TOR",
+      "gamePk": 824663,
       "fadeReason": "all"
     },
     {
@@ -8829,6 +9182,7 @@
       "reason": null,
       "home": "NYY",
       "away": "CIN",
+      "gamePk": 823534,
       "fadeReason": "away"
     },
     {
@@ -8852,6 +9206,7 @@
       "reason": null,
       "home": "MIA",
       "away": "SF",
+      "gamePk": 823853,
       "fadeReason": "away"
     },
     {
@@ -8875,6 +9230,7 @@
       "reason": null,
       "home": "COL",
       "away": "PIT",
+      "gamePk": 824345,
       "fadeReason": "away"
     },
     {
@@ -8898,6 +9254,7 @@
       "reason": null,
       "home": "OAK",
       "away": "LAA",
+      "gamePk": 824990,
       "fadeReason": "home"
     },
     {
@@ -8921,6 +9278,7 @@
       "reason": null,
       "home": "SEA",
       "away": "BOS",
+      "gamePk": 823124,
       "fadeReason": "all"
     },
     {
@@ -8944,6 +9302,7 @@
       "reason": null,
       "home": "LAD",
       "away": "BAL",
+      "gamePk": 823936,
       "fadeReason": "all"
     },
     {
@@ -8967,6 +9326,7 @@
       "reason": null,
       "home": "CHC",
       "away": "TOR",
+      "gamePk": 824665,
       "fadeReason": "all"
     },
     {
@@ -8990,6 +9350,7 @@
       "reason": null,
       "home": "PHI",
       "away": "NYM",
+      "gamePk": 823447,
       "fadeReason": "all"
     },
     {
@@ -9013,6 +9374,7 @@
       "reason": null,
       "home": "COL",
       "away": "PIT",
+      "gamePk": 824342,
       "fadeReason": "all"
     },
     {
@@ -9036,6 +9398,7 @@
       "reason": null,
       "home": "ARI",
       "away": "MIN",
+      "gamePk": 825068,
       "fadeReason": "all"
     },
     {
@@ -9059,6 +9422,7 @@
       "reason": null,
       "home": "MIA",
       "away": "SF",
+      "gamePk": 823852,
       "fadeReason": "all"
     },
     {
@@ -9082,6 +9446,7 @@
       "reason": null,
       "home": "HOU",
       "away": "CLE",
+      "gamePk": 824177,
       "fadeReason": "away"
     },
     {
@@ -9105,6 +9470,7 @@
       "reason": null,
       "home": "OAK",
       "away": "LAA",
+      "gamePk": 824987,
       "fadeReason": "all"
     },
     {
@@ -9128,6 +9494,7 @@
       "reason": null,
       "home": "LAD",
       "away": "BAL",
+      "gamePk": 823934,
       "fadeReason": "all"
     },
     {
@@ -9151,6 +9518,7 @@
       "reason": null,
       "home": "PHI",
       "away": "NYM",
+      "gamePk": 823449,
       "fadeReason": "all"
     },
     {
@@ -9174,6 +9542,7 @@
       "reason": null,
       "home": "DET",
       "away": "NYY",
+      "gamePk": 824261,
       "fadeReason": "all"
     },
     {
@@ -9197,6 +9566,7 @@
       "reason": null,
       "home": "TB",
       "away": "KC",
+      "gamePk": 822964,
       "fadeReason": "away"
     },
     {
@@ -9220,6 +9590,7 @@
       "reason": null,
       "home": "MIN",
       "away": "LAD",
+      "gamePk": 823692,
       "fadeReason": "home"
     },
     {
@@ -9243,6 +9614,7 @@
       "reason": null,
       "home": "STL",
       "away": "ARI",
+      "gamePk": 823040,
       "fadeReason": "all"
     },
     {
@@ -9266,6 +9638,7 @@
       "reason": null,
       "home": "LAA",
       "away": "BAL",
+      "gamePk": 824016,
       "fadeReason": "all"
     },
     {
@@ -9289,6 +9662,7 @@
       "reason": null,
       "home": "DET",
       "away": "NYY",
+      "gamePk": 824262,
       "fadeReason": "all"
     },
     {
@@ -9312,6 +9686,7 @@
       "reason": null,
       "home": "PIT",
       "away": "SEA",
+      "gamePk": 823365,
       "fadeReason": "all"
     },
     {
@@ -9335,6 +9710,7 @@
       "reason": null,
       "home": "CIN",
       "away": "MIL",
+      "gamePk": 824501,
       "fadeReason": "home"
     },
     {
@@ -9358,6 +9734,7 @@
       "reason": null,
       "home": "COL",
       "away": "BOS",
+      "gamePk": 824340,
       "fadeReason": "all"
     },
     {
@@ -9382,6 +9759,7 @@
       "reason": null,
       "home": "LAA",
       "away": "BAL",
+      "gamePk": 824017,
       "fadeReason": "all"
     },
     {
@@ -9406,6 +9784,7 @@
       "reason": "dog_below_min",
       "home": "NYM",
       "away": "CHC",
+      "gamePk": 823613,
       "fadeReason": "home/away"
     },
     {
@@ -9429,6 +9808,7 @@
       "reason": null,
       "home": "LAA",
       "away": "BAL",
+      "gamePk": 824018,
       "fadeReason": "all"
     },
     {
@@ -9452,6 +9832,7 @@
       "reason": null,
       "home": "PIT",
       "away": "SEA",
+      "gamePk": 823367,
       "fadeReason": "away"
     },
     {
@@ -9475,6 +9856,7 @@
       "reason": null,
       "home": "TB",
       "away": "KC",
+      "gamePk": 822965,
       "fadeReason": "all"
     },
     {
@@ -9498,6 +9880,7 @@
       "reason": null,
       "home": "SF",
       "away": "OAK",
+      "gamePk": 823208,
       "fadeReason": "all"
     },
     {
@@ -9521,6 +9904,7 @@
       "reason": null,
       "home": "PIT",
       "away": "SEA",
+      "gamePk": 823366,
       "fadeReason": "all"
     },
     {
@@ -9544,6 +9928,7 @@
       "reason": null,
       "home": "TOR",
       "away": "TEX",
+      "gamePk": 822797,
       "fadeReason": "all"
     },
     {
@@ -9567,6 +9952,7 @@
       "reason": null,
       "home": "NYM",
       "away": "CHC",
+      "gamePk": 823612,
       "fadeReason": "all"
     },
     {
@@ -9590,6 +9976,7 @@
       "reason": null,
       "home": "PIT",
       "away": "CIN",
+      "gamePk": 823363,
       "fadeReason": "all"
     },
     {
@@ -9613,6 +10000,7 @@
       "reason": null,
       "home": "BAL",
       "away": "WSH",
+      "gamePk": 824824,
       "fadeReason": "home"
     },
     {
@@ -9636,6 +10024,7 @@
       "reason": null,
       "home": "CLE",
       "away": "SEA",
+      "gamePk": 824423,
       "fadeReason": "all"
     },
     {
@@ -9659,6 +10048,7 @@
       "reason": null,
       "home": "TB",
       "away": "ARI",
+      "gamePk": 822962,
       "fadeReason": "all"
     },
     {
@@ -9682,6 +10072,7 @@
       "reason": null,
       "home": "BOS",
       "away": "NYY",
+      "gamePk": 824743,
       "fadeReason": "home"
     },
     {
@@ -9705,6 +10096,7 @@
       "reason": null,
       "home": "MIL",
       "away": "CHC",
+      "gamePk": 823773,
       "fadeReason": "all"
     },
     {
@@ -9728,6 +10120,7 @@
       "reason": null,
       "home": "SF",
       "away": "ATL",
+      "gamePk": 823206,
       "fadeReason": "home"
     },
     {
@@ -9751,6 +10144,7 @@
       "reason": null,
       "home": "DET",
       "away": "HOU",
+      "gamePk": 824257,
       "fadeReason": "all"
     },
     {
@@ -9774,6 +10168,7 @@
       "reason": null,
       "home": "CWS",
       "away": "KC",
+      "gamePk": 824581,
       "fadeReason": "away"
     },
     {
@@ -9797,6 +10192,7 @@
       "reason": null,
       "home": "MIL",
       "away": "CHC",
+      "gamePk": 823770,
       "fadeReason": "all"
     },
     {
@@ -9820,6 +10216,7 @@
       "reason": null,
       "home": "SF",
       "away": "ATL",
+      "gamePk": 823207,
       "fadeReason": "all"
     },
     {
@@ -9843,6 +10240,7 @@
       "reason": null,
       "home": "LAA",
       "away": "OAK",
+      "gamePk": 824015,
       "fadeReason": "all"
     },
     {
@@ -9867,6 +10265,7 @@
       "reason": "dog_below_min",
       "home": "PIT",
       "away": "CIN",
+      "gamePk": 823362,
       "fadeReason": "all/away"
     },
     {
@@ -9890,6 +10289,7 @@
       "reason": null,
       "home": "TOR",
       "away": "TEX",
+      "gamePk": 822795,
       "fadeReason": "all"
     },
     {
@@ -9913,6 +10313,7 @@
       "reason": null,
       "home": "DET",
       "away": "HOU",
+      "gamePk": 824256,
       "fadeReason": "all"
     },
     {
@@ -9936,6 +10337,7 @@
       "reason": null,
       "home": "TB",
       "away": "ARI",
+      "gamePk": 822959,
       "fadeReason": "all"
     },
     {
@@ -9959,6 +10361,7 @@
       "reason": null,
       "home": "MIN",
       "away": "COL",
+      "gamePk": 823686,
       "fadeReason": "away"
     },
     {
@@ -9982,6 +10385,7 @@
       "reason": null,
       "home": "STL",
       "away": "MIA",
+      "gamePk": 823037,
       "fadeReason": "away"
     },
     {
@@ -10005,6 +10409,7 @@
       "reason": null,
       "home": "LAA",
       "away": "OAK",
+      "gamePk": 824011,
       "fadeReason": "all"
     },
     {
@@ -10028,6 +10433,7 @@
       "reason": null,
       "home": "SD",
       "away": "LAD",
+      "gamePk": 823281,
       "fadeReason": "all"
     },
     {
@@ -10051,6 +10457,7 @@
       "reason": null,
       "home": "BAL",
       "away": "CWS",
+      "gamePk": 824822,
       "fadeReason": "all"
     },
     {
@@ -10074,6 +10481,7 @@
       "reason": null,
       "home": "PHI",
       "away": "PIT",
+      "gamePk": 823444,
       "fadeReason": "home"
     },
     {
@@ -10097,6 +10505,7 @@
       "reason": null,
       "home": "NYY",
       "away": "DET",
+      "gamePk": 823529,
       "fadeReason": "all"
     },
     {
@@ -10120,6 +10529,7 @@
       "reason": null,
       "home": "CHC",
       "away": "SD",
+      "gamePk": 824662,
       "fadeReason": "all"
     },
     {
@@ -10143,6 +10553,7 @@
       "reason": null,
       "home": "COL",
       "away": "MIA",
+      "gamePk": 824339,
       "fadeReason": "all"
     },
     {
@@ -10166,6 +10577,7 @@
       "reason": null,
       "home": "SEA",
       "away": "LAA",
+      "gamePk": 823121,
       "fadeReason": "all"
     },
     {
@@ -10189,6 +10601,7 @@
       "reason": null,
       "home": "OAK",
       "away": "LAD",
+      "gamePk": 824986,
       "fadeReason": "all"
     },
     {
@@ -10212,6 +10625,7 @@
       "reason": null,
       "home": "ARI",
       "away": "SF",
+      "gamePk": 825065,
       "fadeReason": "away"
     },
     {
@@ -10235,6 +10649,7 @@
       "reason": null,
       "home": "BAL",
       "away": "CWS",
+      "gamePk": 824819,
       "fadeReason": "all"
     },
     {
@@ -10258,6 +10673,7 @@
       "reason": null,
       "home": "CLE",
       "away": "TEX",
+      "gamePk": 824418,
       "fadeReason": "home"
     },
     {
@@ -10281,6 +10697,7 @@
       "reason": null,
       "home": "PHI",
       "away": "PIT",
+      "gamePk": 823445,
       "fadeReason": "away"
     },
     {
@@ -10304,6 +10721,7 @@
       "reason": null,
       "home": "TOR",
       "away": "NYM",
+      "gamePk": 822793,
       "fadeReason": "all"
     },
     {
@@ -10327,6 +10745,7 @@
       "reason": null,
       "home": "KC",
       "away": "TB",
+      "gamePk": 824096,
       "fadeReason": "all"
     },
     {
@@ -10350,6 +10769,7 @@
       "reason": null,
       "home": "MIL",
       "away": "CIN",
+      "gamePk": 823768,
       "fadeReason": "away"
     },
     {
@@ -10373,6 +10793,7 @@
       "reason": null,
       "home": "HOU",
       "away": "MIN",
+      "gamePk": 824175,
       "fadeReason": "home"
     },
     {
@@ -10396,6 +10817,7 @@
       "reason": null,
       "home": "ARI",
       "away": "SF",
+      "gamePk": 825066,
       "fadeReason": "away"
     },
     {
@@ -10419,6 +10841,7 @@
       "reason": null,
       "home": "OAK",
       "away": "LAD",
+      "gamePk": 824984,
       "fadeReason": "home"
     },
     {
@@ -10442,6 +10865,7 @@
       "reason": null,
       "home": "BAL",
       "away": "CWS",
+      "gamePk": 824818,
       "fadeReason": "all"
     },
     {
@@ -10465,6 +10889,7 @@
       "reason": null,
       "home": "BOS",
       "away": "WSH",
+      "gamePk": 824740,
       "fadeReason": "home"
     },
     {
@@ -10488,6 +10913,7 @@
       "reason": null,
       "home": "CHC",
       "away": "SD",
+      "gamePk": 824660,
       "fadeReason": "all"
     },
     {
@@ -10511,6 +10937,7 @@
       "reason": null,
       "home": "TOR",
       "away": "NYM",
+      "gamePk": 822791,
       "fadeReason": "all"
     },
     {
@@ -10534,6 +10961,7 @@
       "reason": null,
       "home": "PHI",
       "away": "PIT",
+      "gamePk": 823446,
       "fadeReason": "all"
     },
     {
@@ -10557,6 +10985,7 @@
       "reason": null,
       "home": "KC",
       "away": "TB",
+      "gamePk": 824094,
       "fadeReason": "away"
     },
     {
@@ -10580,6 +11009,7 @@
       "reason": null,
       "home": "ARI",
       "away": "SF",
+      "gamePk": 825064,
       "fadeReason": "all"
     },
     {
@@ -10603,6 +11033,7 @@
       "reason": null,
       "home": "TEX",
       "away": "DET",
+      "gamePk": 822884,
       "fadeReason": "all"
     },
     {
@@ -10626,6 +11057,7 @@
       "reason": null,
       "home": "SEA",
       "away": "LAA",
+      "gamePk": 823119,
       "fadeReason": "all"
     },
     {
@@ -10649,6 +11081,7 @@
       "reason": null,
       "home": "CHC",
       "away": "STL",
+      "gamePk": 824659,
       "fadeReason": "all"
     },
     {
@@ -10672,6 +11105,7 @@
       "reason": null,
       "home": "WSH",
       "away": "PIT",
+      "gamePk": 822714,
       "fadeReason": "all"
     },
     {
@@ -10695,6 +11129,7 @@
       "reason": null,
       "home": "NYY",
       "away": "MIN",
+      "gamePk": 823527,
       "fadeReason": "home"
     },
     {
@@ -10719,6 +11154,7 @@
       "reason": null,
       "home": "OAK",
       "away": "MIA",
+      "gamePk": 824982,
       "fadeReason": "all/away"
     },
     {
@@ -10742,6 +11178,7 @@
       "reason": null,
       "home": "LAD",
       "away": "SD",
+      "gamePk": 823933,
       "fadeReason": "away"
     },
     {
@@ -10765,6 +11202,7 @@
       "reason": null,
       "home": "SEA",
       "away": "TOR",
+      "gamePk": 823120,
       "fadeReason": "all"
     },
     {
@@ -10788,6 +11226,7 @@
       "reason": null,
       "home": "TEX",
       "away": "DET",
+      "gamePk": 822882,
       "fadeReason": "all"
     },
     {
@@ -10811,6 +11250,7 @@
       "reason": null,
       "home": "COL",
       "away": "SF",
+      "gamePk": 824334,
       "fadeReason": "all"
     },
     {
@@ -10834,6 +11274,7 @@
       "reason": null,
       "home": "LAA",
       "away": "BOS",
+      "gamePk": 824012,
       "fadeReason": "all"
     },
     {
@@ -10857,6 +11298,7 @@
       "reason": null,
       "home": "ARI",
       "away": "MIL",
+      "gamePk": 825063,
       "fadeReason": "all"
     },
     {
@@ -10880,6 +11322,7 @@
       "reason": null,
       "home": "OAK",
       "away": "MIA",
+      "gamePk": 824983,
       "fadeReason": "home"
     },
     {
@@ -10903,6 +11346,7 @@
       "reason": null,
       "home": "WSH",
       "away": "PIT",
+      "gamePk": 822715,
       "fadeReason": "away"
     },
     {
@@ -10926,6 +11370,7 @@
       "reason": null,
       "home": "CIN",
       "away": "BAL",
+      "gamePk": 824497,
       "fadeReason": "home"
     },
     {
@@ -10949,6 +11394,7 @@
       "reason": null,
       "home": "CLE",
       "away": "CWS",
+      "gamePk": 824413,
       "fadeReason": "home"
     },
     {
@@ -10973,6 +11419,7 @@
       "reason": "dog_below_min",
       "home": "TEX",
       "away": "DET",
+      "gamePk": 822879,
       "fadeReason": "all"
     },
     {
@@ -10996,6 +11443,7 @@
       "reason": null,
       "home": "COL",
       "away": "SF",
+      "gamePk": 824333,
       "fadeReason": "away"
     },
     {
@@ -11019,6 +11467,7 @@
       "reason": null,
       "home": "OAK",
       "away": "MIA",
+      "gamePk": 824980,
       "fadeReason": "all"
     },
     {
@@ -11042,6 +11491,7 @@
       "reason": null,
       "home": "SEA",
       "away": "TOR",
+      "gamePk": 823117,
       "fadeReason": "away"
     },
     {
@@ -11065,6 +11515,7 @@
       "reason": null,
       "home": "LAD",
       "away": "SD",
+      "gamePk": 823931,
       "fadeReason": "all"
     },
     {
@@ -11088,6 +11539,7 @@
       "reason": null,
       "home": "LAA",
       "away": "BOS",
+      "gamePk": 824010,
       "fadeReason": "all"
     },
     {
@@ -11111,6 +11563,7 @@
       "reason": null,
       "home": "KC",
       "away": "PHI",
+      "gamePk": 824089,
       "fadeReason": "all"
     },
     {
@@ -11134,6 +11587,7 @@
       "reason": null,
       "home": "ATL",
       "away": "NYM",
+      "gamePk": 824900,
       "fadeReason": "all"
     },
     {
@@ -11157,6 +11611,7 @@
       "reason": null,
       "home": "SF",
       "away": "TOR",
+      "gamePk": 823205,
       "fadeReason": "all"
     },
     {
@@ -11180,6 +11635,7 @@
       "reason": null,
       "home": "LAD",
       "away": "COL",
+      "gamePk": 823930,
       "fadeReason": "away"
     },
     {
@@ -11203,6 +11659,7 @@
       "reason": null,
       "home": "BAL",
       "away": "CHC",
+      "gamePk": 824820,
       "fadeReason": "all"
     },
     {
@@ -11226,6 +11683,7 @@
       "reason": null,
       "home": "MIA",
       "away": "SEA",
+      "gamePk": 823847,
       "fadeReason": "away"
     },
     {
@@ -11249,6 +11707,7 @@
       "reason": null,
       "home": "PIT",
       "away": "ATL",
+      "gamePk": 823361,
       "fadeReason": "all"
     },
     {
@@ -11272,6 +11731,7 @@
       "reason": null,
       "home": "CWS",
       "away": "BOS",
+      "gamePk": 824579,
       "fadeReason": "all"
     },
     {
@@ -11295,6 +11755,7 @@
       "reason": null,
       "home": "SD",
       "away": "ARI",
+      "gamePk": 823280,
       "fadeReason": "all"
     },
     {
@@ -11318,6 +11779,7 @@
       "reason": null,
       "home": "SF",
       "away": "TOR",
+      "gamePk": 823203,
       "fadeReason": "home"
     },
     {
@@ -11341,6 +11803,7 @@
       "reason": null,
       "home": "SF",
       "away": "TOR",
+      "gamePk": 823202,
       "fadeReason": "all"
     },
     {
@@ -11364,6 +11827,7 @@
       "reason": null,
       "home": "BAL",
       "away": "CHC",
+      "gamePk": 824815,
       "fadeReason": "all"
     },
     {
@@ -11387,6 +11851,7 @@
       "reason": null,
       "home": "MIN",
       "away": "CLE",
+      "gamePk": 823684,
       "fadeReason": "away"
     },
     {
@@ -11410,6 +11875,7 @@
       "reason": null,
       "home": "PIT",
       "away": "ATL",
+      "gamePk": 823359,
       "fadeReason": "all"
     },
     {
@@ -11433,6 +11899,7 @@
       "reason": null,
       "home": "NYM",
       "away": "KC",
+      "gamePk": 823606,
       "fadeReason": "away"
     },
     {
@@ -11457,6 +11924,7 @@
       "reason": "dog_below_min",
       "home": "BAL",
       "away": "CHC",
+      "gamePk": 824816,
       "fadeReason": "all/home"
     },
     {
@@ -11480,6 +11948,7 @@
       "reason": null,
       "home": "MIA",
       "away": "SEA",
+      "gamePk": 823846,
       "fadeReason": "all"
     },
     {
@@ -11503,6 +11972,7 @@
       "reason": null,
       "home": "DET",
       "away": "OAK",
+      "gamePk": 824251,
       "fadeReason": "all"
     },
     {
@@ -11527,6 +11997,7 @@
       "reason": "dog_below_min",
       "home": "SD",
       "away": "ARI",
+      "gamePk": 823277,
       "fadeReason": "all"
     },
     {
@@ -11550,6 +12021,7 @@
       "reason": null,
       "home": "SF",
       "away": "COL",
+      "gamePk": 823201,
       "fadeReason": "away"
     },
     {
@@ -11573,6 +12045,7 @@
       "reason": null,
       "home": "DET",
       "away": "PHI",
+      "gamePk": 824252,
       "fadeReason": "all"
     },
     {
@@ -11596,6 +12069,7 @@
       "reason": null,
       "home": "TB",
       "away": "SEA",
+      "gamePk": 822955,
       "fadeReason": "all"
     },
     {
@@ -11619,6 +12093,7 @@
       "reason": null,
       "home": "CIN",
       "away": "CHC",
+      "gamePk": 824493,
       "fadeReason": "away"
     },
     {
@@ -11642,6 +12117,7 @@
       "reason": null,
       "home": "NYM",
       "away": "BOS",
+      "gamePk": 823604,
       "fadeReason": "home"
     },
     {
@@ -11665,6 +12141,7 @@
       "reason": null,
       "home": "MIN",
       "away": "LAA",
+      "gamePk": 823685,
       "fadeReason": "home"
     },
     {
@@ -11688,6 +12165,7 @@
       "reason": null,
       "home": "CWS",
       "away": "OAK",
+      "gamePk": 824576,
       "fadeReason": "all"
     },
     {
@@ -11711,6 +12189,7 @@
       "reason": null,
       "home": "MIN",
       "away": "LAA",
+      "gamePk": 823682,
       "fadeReason": "all"
     },
     {
@@ -11734,6 +12213,7 @@
       "reason": null,
       "home": "SF",
       "away": "COL",
+      "gamePk": 823198,
       "fadeReason": "away"
     },
     {
@@ -11757,6 +12237,7 @@
       "reason": null,
       "home": "NYM",
       "away": "BOS",
+      "gamePk": 823603,
       "fadeReason": "all"
     },
     {
@@ -11780,6 +12261,7 @@
       "reason": null,
       "home": "DET",
       "away": "PHI",
+      "gamePk": 824249,
       "fadeReason": "all"
     },
     {
@@ -11803,6 +12285,7 @@
       "reason": null,
       "home": "BAL",
       "away": "KC",
+      "gamePk": 824813,
       "fadeReason": "all"
     },
     {
@@ -11826,6 +12309,7 @@
       "reason": null,
       "home": "TEX",
       "away": "HOU",
+      "gamePk": 822875,
       "fadeReason": "all"
     },
     {
@@ -11849,6 +12333,7 @@
       "reason": null,
       "home": "CIN",
       "away": "CHC",
+      "gamePk": 824492,
       "fadeReason": "home"
     },
     {
@@ -11872,6 +12357,7 @@
       "reason": null,
       "home": "SD",
       "away": "TOR",
+      "gamePk": 823276,
       "fadeReason": "away"
     },
     {
@@ -11895,6 +12381,7 @@
       "reason": null,
       "home": "PIT",
       "away": "MIL",
+      "gamePk": 823358,
       "fadeReason": "all"
     },
     {
@@ -11918,6 +12405,7 @@
       "reason": null,
       "home": "BAL",
       "away": "KC",
+      "gamePk": 824814,
       "fadeReason": "all"
     },
     {
@@ -11941,6 +12429,7 @@
       "reason": null,
       "home": "CWS",
       "away": "OAK",
+      "gamePk": 824574,
       "fadeReason": "all"
     },
     {
@@ -11964,6 +12453,7 @@
       "reason": null,
       "home": "SF",
       "away": "COL",
+      "gamePk": 823199,
       "fadeReason": "home"
     },
     {
@@ -11987,6 +12477,7 @@
       "reason": null,
       "home": "SD",
       "away": "TOR",
+      "gamePk": 823274,
       "fadeReason": "all"
     },
     {
@@ -12010,6 +12501,7 @@
       "reason": null,
       "home": "LAD",
       "away": "ARI",
+      "gamePk": 823925,
       "fadeReason": "all"
     },
     {
@@ -12033,6 +12525,7 @@
       "reason": "hand_tail_override",
       "home": "PHI",
       "away": "NYM",
+      "gamePk": 823440,
       "fadeReason": "home"
     },
     {
@@ -12056,6 +12549,7 @@
       "reason": null,
       "home": "NYY",
       "away": "LAD",
+      "gamePk": 823524,
       "fadeReason": "home"
     },
     {
@@ -12079,6 +12573,7 @@
       "reason": null,
       "home": "CHC",
       "away": "MIN",
+      "gamePk": 824655,
       "fadeReason": "all"
     },
     {
@@ -12102,6 +12597,7 @@
       "reason": null,
       "home": "KC",
       "away": "SD",
+      "gamePk": 824090,
       "fadeReason": "away"
     },
     {
@@ -12125,6 +12621,7 @@
       "reason": null,
       "home": "COL",
       "away": "CIN",
+      "gamePk": 824332,
       "fadeReason": "away"
     },
     {
@@ -12148,6 +12645,7 @@
       "reason": null,
       "home": "ARI",
       "away": "STL",
+      "gamePk": 825060,
       "fadeReason": "all"
     },
     {
@@ -12171,6 +12669,7 @@
       "reason": null,
       "home": "OAK",
       "away": "WSH",
+      "gamePk": 824981,
       "fadeReason": "all"
     },
     {
@@ -12195,6 +12694,7 @@
       "reason": null,
       "home": "SEA",
       "away": "SF",
+      "gamePk": 823115,
       "fadeReason": "away/all"
     },
     {
@@ -12218,6 +12718,7 @@
       "reason": null,
       "home": "COL",
       "away": "CIN",
+      "gamePk": 824331,
       "fadeReason": "away"
     },
     {
@@ -12241,6 +12742,7 @@
       "reason": null,
       "home": "KC",
       "away": "SD",
+      "gamePk": 824088,
       "fadeReason": "all"
     },
     {
@@ -12264,6 +12766,7 @@
       "reason": null,
       "home": "ARI",
       "away": "STL",
+      "gamePk": 825059,
       "fadeReason": "all"
     },
     {
@@ -12287,6 +12790,7 @@
       "reason": null,
       "home": "SEA",
       "away": "SF",
+      "gamePk": 823116,
       "fadeReason": "all"
     },
     {
@@ -12310,6 +12814,7 @@
       "reason": "postponed",
       "home": "NYY",
       "away": "LAD",
+      "gamePk": 823523,
       "fadeReason": "all"
     },
     {
@@ -12333,6 +12838,7 @@
       "reason": null,
       "home": "LAA",
       "away": "DET",
+      "gamePk": 824008,
       "fadeReason": "home"
     },
     {
@@ -12356,6 +12862,7 @@
       "reason": null,
       "home": "BOS",
       "away": "TB",
+      "gamePk": 824739,
       "fadeReason": "away"
     },
     {
@@ -12379,6 +12886,7 @@
       "reason": null,
       "home": "CLE",
       "away": "PIT",
+      "gamePk": 824411,
       "fadeReason": "all"
     },
     {
@@ -12402,6 +12910,7 @@
       "reason": null,
       "home": "KC",
       "away": "SD",
+      "gamePk": 824086,
       "fadeReason": "all"
     },
     {
@@ -12425,6 +12934,7 @@
       "reason": null,
       "home": "OAK",
       "away": "WSH",
+      "gamePk": 824978,
       "fadeReason": "home"
     },
     {
@@ -12449,6 +12959,7 @@
       "reason": "dog_below_min",
       "home": "LAA",
       "away": "DET",
+      "gamePk": 824007,
       "fadeReason": "all"
     },
     {
@@ -12472,6 +12983,7 @@
       "reason": null,
       "home": "CLE",
       "away": "MIN",
+      "gamePk": 824410,
       "fadeReason": "home"
     },
     {
@@ -12495,6 +13007,7 @@
       "reason": null,
       "home": "PHI",
       "away": "LAD",
+      "gamePk": 823436,
       "fadeReason": "all"
     },
     {
@@ -12519,6 +13032,7 @@
       "reason": null,
       "home": "BOS",
       "away": "BAL",
+      "gamePk": 824736,
       "fadeReason": "all/home"
     },
     {
@@ -12542,6 +13056,7 @@
       "reason": null,
       "home": "MIL",
       "away": "NYM",
+      "gamePk": 823762,
       "fadeReason": "all"
     },
     {
@@ -12565,6 +13080,7 @@
       "reason": null,
       "home": "CHC",
       "away": "DET",
+      "gamePk": 824654,
       "fadeReason": "all"
     },
     {
@@ -12588,6 +13104,7 @@
       "reason": "postponed",
       "home": "NYY",
       "away": "PIT",
+      "gamePk": 823519,
       "fadeReason": "away"
     },
     {
@@ -12611,6 +13128,7 @@
       "reason": null,
       "home": "TOR",
       "away": "TB",
+      "gamePk": 822787,
       "fadeReason": "all"
     },
     {
@@ -12634,6 +13152,7 @@
       "reason": null,
       "home": "KC",
       "away": "SF",
+      "gamePk": 824085,
       "fadeReason": "away"
     },
     {
@@ -12658,6 +13177,7 @@
       "reason": "dog_below_min",
       "home": "TEX",
       "away": "CWS",
+      "gamePk": 822871,
       "fadeReason": "all"
     },
     {
@@ -12682,6 +13202,7 @@
       "reason": "dog_below_min",
       "home": "CHC",
       "away": "DET",
+      "gamePk": 824652,
       "fadeReason": "all"
     },
     {
@@ -12705,6 +13226,7 @@
       "reason": null,
       "home": "HOU",
       "away": "MIA",
+      "gamePk": 824165,
       "fadeReason": "away"
     },
     {
@@ -12728,6 +13250,7 @@
       "reason": null,
       "home": "COL",
       "away": "WSH",
+      "gamePk": 824329,
       "fadeReason": "all"
     },
     {
@@ -12751,6 +13274,7 @@
       "reason": null,
       "home": "SEA",
       "away": "CIN",
+      "gamePk": 823114,
       "fadeReason": "all"
     },
     {
@@ -12774,6 +13298,7 @@
       "reason": null,
       "home": "ARI",
       "away": "OAK",
+      "gamePk": 825056,
       "fadeReason": "all"
     },
     {
@@ -12798,6 +13323,7 @@
       "reason": null,
       "home": "NYY",
       "away": "PIT",
+      "gamePk": 823518,
       "fadeReason": "all/home"
     },
     {
@@ -12821,6 +13347,7 @@
       "reason": null,
       "home": "KC",
       "away": "SF",
+      "gamePk": 824083,
       "fadeReason": "away"
     },
     {
@@ -12844,6 +13371,7 @@
       "reason": null,
       "home": "SEA",
       "away": "CIN",
+      "gamePk": 823110,
       "fadeReason": "away"
     },
     {
@@ -12868,6 +13396,7 @@
       "reason": "dog_below_min",
       "home": "ARI",
       "away": "OAK",
+      "gamePk": 825055,
       "fadeReason": "all"
     },
     {
@@ -12891,6 +13420,7 @@
       "reason": "hand_tail_override",
       "home": "PHI",
       "away": "LAD",
+      "gamePk": 823438,
       "fadeReason": "home"
     },
     {
@@ -12914,6 +13444,7 @@
       "reason": null,
       "home": "ATL",
       "away": "SD",
+      "gamePk": 824896,
       "fadeReason": "away"
     },
     {
@@ -12937,6 +13468,7 @@
       "reason": null,
       "home": "CHC",
       "away": "DET",
+      "gamePk": 824650,
       "fadeReason": "all"
     },
     {
@@ -12960,6 +13492,7 @@
       "reason": null,
       "home": "BAL",
       "away": "ATL",
+      "gamePk": 824812,
       "fadeReason": "home"
     },
     {
@@ -12983,6 +13516,7 @@
       "reason": null,
       "home": "BOS",
       "away": "TOR",
+      "gamePk": 824733,
       "fadeReason": "away"
     },
     {
@@ -13006,6 +13540,7 @@
       "reason": null,
       "home": "TEX",
       "away": "SEA",
+      "gamePk": 822872,
       "fadeReason": "all"
     },
     {
@@ -13029,6 +13564,7 @@
       "reason": null,
       "home": "MIN",
       "away": "OAK",
+      "gamePk": 823680,
       "fadeReason": "home"
     },
     {
@@ -13053,6 +13589,7 @@
       "reason": null,
       "home": "STL",
       "away": "CIN",
+      "gamePk": 823031,
       "fadeReason": "away/all"
     },
     {
@@ -13076,6 +13613,7 @@
       "reason": null,
       "home": "SF",
       "away": "LAA",
+      "gamePk": 823196,
       "fadeReason": "all"
     },
     {
@@ -13100,6 +13638,7 @@
       "reason": null,
       "home": "DET",
       "away": "KC",
+      "gamePk": 824244,
       "fadeReason": "away/all"
     },
     {
@@ -13123,6 +13662,7 @@
       "reason": null,
       "home": "SF",
       "away": "LAA",
+      "gamePk": 823197,
       "fadeReason": "all"
     },
     {
@@ -13147,6 +13687,7 @@
       "reason": "dog_below_min",
       "home": "PIT",
       "away": "CHC",
+      "gamePk": 823355,
       "fadeReason": "all/away"
     },
     {
@@ -13170,6 +13711,7 @@
       "reason": null,
       "home": "MIL",
       "away": "COL",
+      "gamePk": 823758,
       "fadeReason": "away"
     },
     {
@@ -13193,6 +13735,7 @@
       "reason": null,
       "home": "TEX",
       "away": "SEA",
+      "gamePk": 822869,
       "fadeReason": "away"
     },
     {
@@ -13216,6 +13759,7 @@
       "reason": null,
       "home": "NYM",
       "away": "LAD",
+      "gamePk": 823600,
       "fadeReason": "home"
     },
     {
@@ -13239,6 +13783,7 @@
       "reason": null,
       "home": "BOS",
       "away": "TOR",
+      "gamePk": 824730,
       "fadeReason": "all"
     },
     {
@@ -13262,6 +13807,7 @@
       "reason": null,
       "home": "BAL",
       "away": "ATL",
+      "gamePk": 824810,
       "fadeReason": "all"
     },
     {
@@ -13285,6 +13831,7 @@
       "reason": null,
       "home": "DET",
       "away": "KC",
+      "gamePk": 824246,
       "fadeReason": "all"
     },
     {
@@ -13308,6 +13855,7 @@
       "reason": null,
       "home": "MIL",
       "away": "COL",
+      "gamePk": 823755,
       "fadeReason": "away"
     },
     {
@@ -13331,6 +13879,7 @@
       "reason": null,
       "home": "TEX",
       "away": "SEA",
+      "gamePk": 822868,
       "fadeReason": "all"
     },
     {
@@ -13354,6 +13903,7 @@
       "reason": null,
       "home": "PIT",
       "away": "ARI",
+      "gamePk": 823353,
       "fadeReason": "all"
     },
     {
@@ -13377,6 +13927,7 @@
       "reason": "postponed",
       "home": "CIN",
       "away": "CLE",
+      "gamePk": 824490,
       "fadeReason": "away"
     },
     {
@@ -13400,6 +13951,7 @@
       "reason": null,
       "home": "CWS",
       "away": "NYY",
+      "gamePk": 824570,
       "fadeReason": "all"
     },
     {
@@ -13423,6 +13975,7 @@
       "reason": null,
       "home": "STL",
       "away": "CHC",
+      "gamePk": 823025,
       "fadeReason": "all"
     },
     {
@@ -13446,7 +13999,32 @@
       "reason": null,
       "home": "OAK",
       "away": "BOS",
+      "gamePk": 824977,
       "fadeReason": "all"
+    },
+    {
+      "date": "2026-07-28",
+      "commence": "2026-07-28T17:40:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Slade Cecconi"
+      ],
+      "fadeTeam": "CLE",
+      "market": "h2h",
+      "selection": "CIN",
+      "line": null,
+      "odds": -162,
+      "stake": 1.62,
+      "result": "LOSS",
+      "profit": -1.62,
+      "book": "fanduel",
+      "source": "fanduel_api",
+      "reason": null,
+      "home": "CIN",
+      "away": "CLE",
+      "gamePk": 824490,
+      "fadeReason": "away"
     }
   ]
 }

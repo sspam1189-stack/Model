@@ -1,7 +1,7 @@
 {
   "sport": "MLB",
   "type": "all-ml",
-  "generated": "2026-07-28T20:33:26Z",
+  "generated": "2026-07-28T21:04:11Z",
   "seasonStart": "2026-03-25",
   "today": [
     {
@@ -17,8 +17,8 @@
       "away_pitcher": "Slade Cecconi",
       "home_hand": "R",
       "away_hand": "R",
-      "home_win": null,
-      "final": false
+      "home_win": false,
+      "final": true
     },
     {
       "date": "2026-07-28",
@@ -60,7 +60,7 @@
       "away": "TEX",
       "home_ml": -178,
       "away_ml": 150,
-      "total_line": 8,
+      "total_line": 8.5,
       "home_pitcher": "Griffin Jax",
       "away_pitcher": "Cal Quantrill",
       "home_hand": "R",
@@ -109,9 +109,9 @@
       "home_ml": 120,
       "away_ml": -142,
       "total_line": 9,
-      "home_pitcher": null,
+      "home_pitcher": "Caleb Ferguson",
       "away_pitcher": "Gavin Williams",
-      "home_hand": null,
+      "home_hand": "L",
       "away_hand": "R",
       "home_win": null,
       "final": false
@@ -250,8 +250,8 @@
       "gamePk": 823923,
       "home": "LAD",
       "away": "SEA",
-      "home_ml": -196,
-      "away_ml": 164,
+      "home_ml": -235,
+      "away_ml": 194,
       "total_line": 9.5,
       "home_pitcher": "Justin Wrobleski",
       "away_pitcher": "Luis Castillo",
@@ -22563,6 +22563,20 @@
       "home_hand": "R",
       "away_hand": "R",
       "home_win": true
+    },
+    {
+      "date": "2026-07-28",
+      "commence": "2026-07-28T17:40:00Z",
+      "gamePk": 824490,
+      "home": "CIN",
+      "away": "CLE",
+      "home_ml": -162,
+      "away_ml": 136,
+      "home_pitcher": "Chase Burns",
+      "away_pitcher": "Slade Cecconi",
+      "home_hand": "R",
+      "away_hand": "R",
+      "home_win": false
     }
   ]
 }
