@@ -138,6 +138,15 @@ def main():
 
     payload = build_payload(bets, today)
     write_outputs(payload)
+
+    # Refresh today's pitcher L/R map for the dashboard's "Today's plays" hand
+    # tags. View-only + fail-open: never let it break the fade pipeline.
+    try:
+        from build_pitch_hands_today import build_and_write
+        build_and_write(date_iso)
+    except Exception as e:
+        print(f"  [ml] pitch-hands refresh skipped ({e})")
+
     s = payload["summary"]
     pend = sum(1 for t in today if t["result"] == "pending")
     print(f"[fade-ml] {date_iso}: {pend} pending picks. "

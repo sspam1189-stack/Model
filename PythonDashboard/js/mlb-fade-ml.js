@@ -47,6 +47,16 @@ async function renderMLBFadeML() {
     catch (e) { /* next */ }
   }
 
+  // Today's probable-pitcher hands ({normName: 'L'|'R'}), to tag Today's plays
+  // as RHP/LHP. Own file (build_pitch_hands_today.py); missing = no tags.
+  const handLocal = 'data/mlb-pitch-hands.json';
+  const handRemote = 'https://raw.githubusercontent.com/sspam1189-stack/Model/main/MLBstrikeouts/data/mlb-pitch-hands.json';
+  let handData = null;
+  for (const url of [handLocal + '?t=' + Date.now(), handRemote + '?t=' + Date.now()]) {
+    try { const r = await fetch(url, { cache: 'no-store' }); if (r.ok) { handData = await r.json(); break; } }
+    catch (e) { /* next */ }
+  }
+
   el.textContent = '';
   if (!data) {
     const c = document.createElement('div');
@@ -155,24 +165,43 @@ async function renderMLBFadeML() {
   const tag = (txt, color, prefix) =>
     ' <span style="color:' + (color || '#888') + ';font-size:12px">' + (prefix || '') + esc(txt) + '</span>';
 
+  // Pitcher RHP/LHP tag from today's probable-pitcher map (build_pitch_hands_
+  // today.py). Normalizes the name the same way the Python builder does before
+  // lookup; `fb` is a fallback hand ('L'/'R') carried on the record itself.
+  // Placed right after the Fade/Tail verb: "Fade (RHP) Slade Cecconi (CLE) …".
+  const handMap = (handData && handData.hands) || {};
+  const _hn = (s) => String(s == null ? '' : s).normalize('NFD')
+    .replace(/[̀-ͯ]/g, '').toLowerCase().replace(/[^a-z ]/g, ' ')
+    .replace(/\s+/g, ' ').trim();
+  const handOf = (name, fb) => handMap[_hn(name)] || (fb === 'L' || fb === 'R' ? fb : null);
+  const handTag = (name, fb) => {
+    const h = handOf(name, fb);
+    return h ? ' <span style="color:#7aa2d6;font-size:11px;font-weight:600">(' + h + 'HP)</span>' : '';
+  };
+
   // Fade-list picks — reason is the venue split (fadeReason: away/home/all).
   const fadeLabel = (t) => {
-    const who = (t.pitchers || []).join(' / ');
-    if (t.betType === 'ml_dog')
-      return '• Mutual (' + esc(who) + ')' + tag(t.fadeReason || 'all', null, '@ ')
+    const ps = t.pitchers || [];
+    if (t.betType === 'ml_dog') {
+      // Mutual: two arms, tag each name individually.
+      const arms = ps.map(p => esc(p) + handTag(p)).join(' / ');
+      return '• Mutual (' + arms + ')' + tag(t.fadeReason || 'all', null, '@ ')
         + ' → dog <b>' + esc(t.selection || '?') + '</b>' + oddsStr(t.odds) + atStr(t);
-    return '• Fade <b>' + esc(who) + '</b> (' + esc(t.fadeTeam || '?') + ')'
+    }
+    const who = ps[0] || ps.join(' / ');
+    return '• Fade' + handTag(who) + ' <b>' + esc(who) + '</b> (' + esc(t.fadeTeam || '?') + ')'
       + tag(t.fadeReason || 'all', null, '@ ')
       + ' → <b>' + esc(t.selection || '?') + '</b>' + oddsStr(t.odds) + atStr(t);
   };
   // Hand-tails picks — reason is handedness; take backs the arm's own team.
   const tailLabel = (t) => {
-    const arm = esc(t.pitcher || (t.pitchers || []).join(' / '));
+    const name = t.pitcher || (t.pitchers || []).join(' / ');
+    const htag = handTag(name, t.hand);
     if (t.action === 'take')
-      return '• <span style="color:' + TEAL + ';font-weight:600">Tail</span> <b>' + arm + '</b> ('
-        + esc(t.arm_team || '?') + ')' + tag('handedness', TEAL, '')
+      return '• <span style="color:' + TEAL + ';font-weight:600">Tail</span>' + htag
+        + ' <b>' + esc(name) + '</b> (' + esc(t.arm_team || '?') + ')' + tag('handedness', TEAL, '')
         + ' → <b>' + esc(t.selection || '?') + '</b>' + oddsStr(t.odds) + atStr(t);
-    return '• Fade <b>' + arm + '</b> (' + esc(t.arm_team || '?') + ')'
+    return '• Fade' + htag + ' <b>' + esc(name) + '</b> (' + esc(t.arm_team || '?') + ')'
       + tag('handedness', null, '@ ')
       + ' → <b>' + esc(t.selection || '?') + '</b>' + oddsStr(t.odds) + atStr(t);
   };
@@ -185,7 +214,7 @@ async function renderMLBFadeML() {
       ? '<span style="color:' + TEAL + ';font-weight:600">Tail</span>' : 'Fade';
     const reasonTag = tag('handedness', t.action === 'take' ? TEAL : null, t.action === 'take' ? '' : '@ ');
     const gs = t.games ? ' <span style="color:#777;font-size:11px">(' + t.games + 'gs)</span>' : '';
-    return '• ' + watchBadge + verb + ' <b>' + arm + '</b> (' + esc(t.arm_team || '?') + ')'
+    return '• ' + watchBadge + verb + handTag(t.pitcher, t.hand) + ' <b>' + arm + '</b> (' + esc(t.arm_team || '?') + ')'
       + reasonTag + ' → <b>' + esc(t.selection || '?') + '</b>' + oddsStr(t.odds) + gs + atStr(t);
   };
 
