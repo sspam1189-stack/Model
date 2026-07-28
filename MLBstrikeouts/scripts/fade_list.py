@@ -301,6 +301,7 @@ WATCH_WINDOW = {
 # is shadow-tracked ONLY on that side -- i.e. we watch exactly the fade we would
 # have made. Arms NOT listed are watched on all venues (both split sides build).
 WATCH_VENUE = {
+    "Cavalli": "home",   # watch only his home fades (home 9-2 +7.3u)
     "Taillon": "home",   # watch only his home fades (the side we'd have bet)
 }
 
