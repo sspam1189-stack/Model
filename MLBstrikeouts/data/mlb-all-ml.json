@@ -1,7 +1,7 @@
 {
   "sport": "MLB",
   "type": "all-ml",
-  "generated": "2026-07-27T20:36:58Z",
+  "generated": "2026-07-28T03:51:25Z",
   "seasonStart": "2026-03-25",
   "today": [
     {
@@ -16,8 +16,8 @@
       "away_pitcher": "George Kirby",
       "home_hand": "R",
       "away_hand": "R",
-      "home_win": null,
-      "final": false
+      "home_win": true,
+      "final": true
     },
     {
       "date": "2026-07-27",
@@ -31,8 +31,8 @@
       "away_pitcher": "Kyle Bradish",
       "home_hand": "R",
       "away_hand": "R",
-      "home_win": null,
-      "final": false
+      "home_win": false,
+      "final": true
     },
     {
       "date": "2026-07-27",
@@ -46,8 +46,8 @@
       "away_pitcher": "Merrill Kelly",
       "home_hand": "R",
       "away_hand": "R",
-      "home_win": null,
-      "final": false
+      "home_win": true,
+      "final": true
     },
     {
       "date": "2026-07-27",
@@ -61,8 +61,8 @@
       "away_pitcher": "Zack Wheeler",
       "home_hand": "R",
       "away_hand": "R",
-      "home_win": null,
-      "final": false
+      "home_win": true,
+      "final": true
     },
     {
       "date": "2026-07-27",
@@ -76,8 +76,23 @@
       "away_pitcher": "Max Scherzer",
       "home_hand": "R",
       "away_hand": "R",
-      "home_win": null,
-      "final": false
+      "home_win": false,
+      "final": true
+    },
+    {
+      "date": "2026-07-27",
+      "commence": "2026-07-27T23:10:00Z",
+      "home": "NYM",
+      "away": "ATL",
+      "home_ml": -112,
+      "away_ml": -104,
+      "total_line": 8.5,
+      "home_pitcher": "Zac Thornton",
+      "away_pitcher": "Mart\u00edn P\u00e9rez",
+      "home_hand": "L",
+      "away_hand": "L",
+      "home_win": true,
+      "final": true
     },
     {
       "date": "2026-07-27",
@@ -92,22 +107,7 @@
       "home_hand": "R",
       "away_hand": "R",
       "home_win": null,
-      "final": false
-    },
-    {
-      "date": "2026-07-27",
-      "commence": "2026-07-27T23:10:00Z",
-      "home": "NYM",
-      "away": "ATL",
-      "home_ml": -106,
-      "away_ml": -110,
-      "total_line": 8.5,
-      "home_pitcher": "Zac Thornton",
-      "away_pitcher": "Mart\u00edn P\u00e9rez",
-      "home_hand": "L",
-      "away_hand": "L",
-      "home_win": null,
-      "final": false
+      "final": true
     },
     {
       "date": "2026-07-27",
@@ -121,8 +121,8 @@
       "away_pitcher": "Max Fried",
       "home_hand": "L",
       "away_hand": "L",
-      "home_win": null,
-      "final": false
+      "home_win": false,
+      "final": true
     },
     {
       "date": "2026-07-27",
@@ -132,9 +132,9 @@
       "home_ml": 104,
       "away_ml": -122,
       "total_line": 9.5,
-      "home_pitcher": null,
+      "home_pitcher": "Matthew Liberatore",
       "away_pitcher": "David Peterson",
-      "home_hand": null,
+      "home_hand": "L",
       "away_hand": "L",
       "home_win": null,
       "final": false
@@ -144,9 +144,9 @@
       "commence": "2026-07-28T01:38:00Z",
       "home": "LAA",
       "away": "HOU",
-      "home_ml": -104,
-      "away_ml": -112,
-      "total_line": 9,
+      "home_ml": -110,
+      "away_ml": -106,
+      "total_line": 8.5,
       "home_pitcher": "Walbert Ure\u00f1a",
       "away_pitcher": "Tatsuya Imai",
       "home_hand": "R",
@@ -159,8 +159,8 @@
       "commence": "2026-07-28T01:40:00Z",
       "home": "OAK",
       "away": "BOS",
-      "home_ml": 150,
-      "away_ml": -178,
+      "home_ml": 156,
+      "away_ml": -186,
       "total_line": 9.5,
       "home_pitcher": "Jack Perkins",
       "away_pitcher": "Payton Tolle",
@@ -20751,6 +20751,97 @@
       "home_hand": "L",
       "away_hand": "R",
       "home_win": true
+    },
+    {
+      "date": "2026-07-27",
+      "commence": "2026-07-27T18:35:00Z",
+      "home": "TEX",
+      "away": "SEA",
+      "home_ml": 112,
+      "away_ml": -132,
+      "home_pitcher": "Kumar Rocker",
+      "away_pitcher": "George Kirby",
+      "home_hand": "R",
+      "away_hand": "R",
+      "home_win": true
+    },
+    {
+      "date": "2026-07-27",
+      "commence": "2026-07-27T22:40:00Z",
+      "home": "DET",
+      "away": "BAL",
+      "home_ml": -142,
+      "away_ml": 120,
+      "home_pitcher": "Keider Montero",
+      "away_pitcher": "Kyle Bradish",
+      "home_hand": "R",
+      "away_hand": "R",
+      "home_win": false
+    },
+    {
+      "date": "2026-07-27",
+      "commence": "2026-07-27T22:40:00Z",
+      "home": "PIT",
+      "away": "ARI",
+      "home_ml": -112,
+      "away_ml": -104,
+      "home_pitcher": "Mitch Keller",
+      "away_pitcher": "Merrill Kelly",
+      "home_hand": "R",
+      "away_hand": "R",
+      "home_win": true
+    },
+    {
+      "date": "2026-07-27",
+      "commence": "2026-07-27T22:40:00Z",
+      "home": "MIA",
+      "away": "PHI",
+      "home_ml": -108,
+      "away_ml": -108,
+      "home_pitcher": "Tyler Phillips",
+      "away_pitcher": "Zack Wheeler",
+      "home_hand": "R",
+      "away_hand": "R",
+      "home_win": true
+    },
+    {
+      "date": "2026-07-27",
+      "commence": "2026-07-27T22:45:00Z",
+      "home": "WSH",
+      "away": "TOR",
+      "home_ml": -124,
+      "away_ml": 106,
+      "home_pitcher": "Eddy Yean",
+      "away_pitcher": "Max Scherzer",
+      "home_hand": "R",
+      "away_hand": "R",
+      "home_win": false
+    },
+    {
+      "date": "2026-07-27",
+      "commence": "2026-07-27T23:10:00Z",
+      "home": "NYM",
+      "away": "ATL",
+      "home_ml": -112,
+      "away_ml": -104,
+      "home_pitcher": "Zac Thornton",
+      "away_pitcher": "Mart\u00edn P\u00e9rez",
+      "home_hand": "L",
+      "away_hand": "L",
+      "home_win": true
+    },
+    {
+      "date": "2026-07-27",
+      "commence": "2026-07-27T23:40:00Z",
+      "home": "CWS",
+      "away": "NYY",
+      "home_ml": 114,
+      "away_ml": -134,
+      "home_pitcher": "Noah Schultz",
+      "away_pitcher": "Max Fried",
+      "home_hand": "L",
+      "away_hand": "L",
+      "home_win": false
     }
   ]
 }
