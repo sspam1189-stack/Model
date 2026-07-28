@@ -181,6 +181,14 @@ async function renderMLBFadeML() {
   // wRC+ of the OFFENSE we're buying (the bet team) vs the faded pitcher's hand
   // — the platoon number that actually matters for the fade. Green above 100,
   // red below. Needs both the pitcher's hand and a wRC+ row for the bet team.
+  // Today's per-team probable starter ({abbr: {name, hand}}) — used to show the
+  // starting pitcher of the TAKE (the team we're backing) before its name.
+  const starters = (handData && handData.starters) || {};
+  const takeSpTag = (team) => {
+    const sp = starters[team];
+    return (sp && sp.name)
+      ? '<span style="color:#9aa2ad;font-size:12px">' + esc(sp.name) + '</span> ' : '';
+  };
   const wrcTeams = (wrcData && wrcData.teams) || {};
   const betWrcTag = (selection, pitcherName, fbHand) => {
     const h = handOf(pitcherName, fbHand);
@@ -206,7 +214,7 @@ async function renderMLBFadeML() {
     const who = ps[0] || ps.join(' / ');
     return '• Fade' + handTag(who) + ' <b>' + esc(who) + '</b> (' + esc(t.fadeTeam || '?') + ')'
       + tag(t.fadeReason || 'all', null, '@ ')
-      + ' → <b>' + esc(t.selection || '?') + '</b>' + oddsStr(t.odds) + atStr(t)
+      + ' → ' + takeSpTag(t.selection) + '<b>' + esc(t.selection || '?') + '</b>' + oddsStr(t.odds) + atStr(t)
       + betWrcTag(t.selection, who);
   };
   // Hand-tails picks — reason is handedness; take backs the arm's own team.
