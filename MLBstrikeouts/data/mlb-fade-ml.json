@@ -1,7 +1,7 @@
 {
   "sport": "MLB",
   "type": "fade-ml",
-  "generated": "2026-07-27T23:02:00Z",
+  "generated": "2026-07-28T00:11:24Z",
   "fadeList": [
     "Littell",
     "Mikolas",
@@ -73,7 +73,7 @@
   "summary": {
     "wins": 382,
     "losses": 138,
-    "voids": 2,
+    "voids": 3,
     "skips": 33,
     "staked": 641.18,
     "units": 257.81,
@@ -82,7 +82,7 @@
       "ml": {
         "wins": 372,
         "losses": 129,
-        "voids": 2,
+        "voids": 3,
         "skips": 0,
         "staked": 622.18,
         "units": 253.11,
@@ -121,28 +121,6 @@
       "reason": null,
       "home": "PIT",
       "away": "ARI"
-    },
-    {
-      "date": "2026-07-27",
-      "commence": "2026-07-27T23:10:00Z",
-      "betType": "ml",
-      "shadow": false,
-      "pitchers": [
-        "Slade Cecconi"
-      ],
-      "fadeTeam": "CLE",
-      "market": "h2h",
-      "selection": "CIN",
-      "line": null,
-      "odds": -164,
-      "stake": 1.64,
-      "result": "pending",
-      "profit": 0.0,
-      "book": "fanduel",
-      "source": "fanduel_api",
-      "reason": null,
-      "home": "CIN",
-      "away": "CLE"
     },
     {
       "date": "2026-07-27",
@@ -12473,6 +12451,28 @@
       "reason": null,
       "home": "TEX",
       "away": "SEA"
+    },
+    {
+      "date": "2026-07-27",
+      "commence": "2026-07-27T23:10:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Slade Cecconi"
+      ],
+      "fadeTeam": "CLE",
+      "market": "h2h",
+      "selection": "CIN",
+      "line": null,
+      "odds": -164,
+      "stake": 1.64,
+      "result": "VOID",
+      "profit": 0.0,
+      "book": "fanduel",
+      "source": "fanduel_api",
+      "reason": "postponed",
+      "home": "CIN",
+      "away": "CLE"
     }
   ]
 }
