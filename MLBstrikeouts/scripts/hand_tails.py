@@ -46,7 +46,7 @@ HAND_TAILS = {
     "Corbin": ("L", "take"),
     # ---- Added 2026-07-27 from the shadow watchlist ----
     "Framber Valdez": ("L", "fade"), "Mike Burrows": ("R", "fade"),
-    "David Peterson": ("L", "fade"), "Slade Cecconi": ("R", "fade"),
+    "David Peterson": ("L", "fade"),
     "Joey Cantillo": ("L", "take"), "Shane Baz": ("R", "fade"),
     "Bryce Elder": ("R", "take"),
 }
