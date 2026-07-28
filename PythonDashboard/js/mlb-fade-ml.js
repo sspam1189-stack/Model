@@ -17,6 +17,16 @@ async function renderMLBFadeML() {
     catch (e) { /* next */ }
   }
 
+  // Also pull the handedness-tails ledger (own file) so the bet log can show
+  // Fade vs Tail picks side by side. Missing/failed load just means no tails.
+  const tailLocal = 'data/mlb-hand-tails.json';
+  const tailRemote = 'https://raw.githubusercontent.com/sspam1189-stack/Model/main/MLBstrikeouts/data/mlb-hand-tails.json';
+  let tailData = null;
+  for (const url of [tailLocal + '?t=' + Date.now(), tailRemote + '?t=' + Date.now()]) {
+    try { const r = await fetch(url, { cache: 'no-store' }); if (r.ok) { tailData = await r.json(); break; } }
+    catch (e) { /* next */ }
+  }
+
   el.textContent = '';
   if (!data) {
     const c = document.createElement('div');
@@ -103,9 +113,20 @@ async function renderMLBFadeML() {
   tCard.innerHTML = th;
   el.appendChild(tCard);
 
-  // ---- Season bet log (filterable by bet type + month + pitcher) ----
-  const typeTag = { ml: 'ML', ml_dog: 'DOG' };
-  const bets = (data.bets || []).slice().reverse(); // newest first
+  // ---- Season bet log (filterable by Fade/Tail + pick + pitcher + venue) ----
+  const typeTag = { ml: 'ML', ml_dog: 'DOG', hand_fade: 'H·FADE', hand_take: 'TAIL' };
+  // Fade-list bets (kind=fade) merged with hand-tails bets (kind=tail when the
+  // pick backs the arm's own team, else fade). Normalize hand-tails fields to
+  // what the log renderer expects (pitchers[], fadeTeam for the Venue filter).
+  const fadeBets = (data.bets || []).map(b => ({ ...b, kind: 'fade' }));
+  const tailBets = ((tailData && tailData.bets) || []).map(b => ({
+    ...b, kind: b.action === 'take' ? 'tail' : 'fade',
+    pitchers: b.pitchers || [b.pitcher], fadeTeam: b.arm_team,
+  }));
+  const bets = [...fadeBets, ...tailBets].sort((a, b) => {
+    const ka = (a.date || '') + (a.commence || ''), kb = (b.date || '') + (b.commence || '');
+    return ka < kb ? 1 : ka > kb ? -1 : 0;  // newest first
+  });
 
   // Distinct months (latest first) and pitchers (alphabetical).
   const months = [...new Set(bets.map(b => (b.date || '').slice(0, 7)).filter(Boolean))]
@@ -152,6 +173,13 @@ async function renderMLBFadeML() {
     + '<div class="card-title" style="padding:0">Season bet log</div>'
     + '<span id="fadeLogRec" style="font-size:13px;font-weight:700"></span>'
     + '</div>'
+    // Row 0: Fade / Tail (bet direction)
+    + '<div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap;padding:0 8px 6px">'
+    + '<label style="font-size:11px;color:#888">Type '
+    + '<select id="fadeKindSel" style="' + selCss + '"><option value="">All</option>'
+    + '<option value="fade">Fade</option><option value="tail">Tail</option>'
+    + '</select></label>'
+    + '</div>'
     // Row 1: Pick / Pitcher / Venue
     + '<div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap;padding:0 8px 6px">'
     + '<label style="font-size:11px;color:#888">Pick '
@@ -192,14 +220,16 @@ async function renderMLBFadeML() {
   const dateSel = log.querySelector('#fadeDateSel');
   const pitcherSel = log.querySelector('#fadePitcherSel');
   const venueSel = log.querySelector('#fadeVenueSel');
+  const kindSel = log.querySelector('#fadeKindSel');
   const recEl = log.querySelector('#fadeLogRec');
 
   // Venue of a fade bet = the faded arm's-team side (home if his team is home).
   const venueOf = (b) => b.fadeTeam === b.home ? 'home' : (b.fadeTeam === b.away ? 'away' : '');
 
   function drawRows() {
-    const kv = pickSel.value, mv = monthSel.value, wv = weekSel.value, dv = dateSel.value, pv = pitcherSel.value, vv = venueSel.value;
+    const kv = pickSel.value, mv = monthSel.value, wv = weekSel.value, dv = dateSel.value, pv = pitcherSel.value, vv = venueSel.value, tv = kindSel.value;
     const view = bets.filter(b =>
+      (!tv || b.kind === tv) &&
       (!kv || b.selection === kv) &&
       (!mv || (b.date || '').slice(0, 7) === mv) &&
       (!wv || (b.date && weekStartOf(b.date) === wv)) &&
@@ -251,6 +281,7 @@ async function renderMLBFadeML() {
   dateSel.addEventListener('change', drawRows);
   pitcherSel.addEventListener('change', drawRows);
   venueSel.addEventListener('change', drawRows);
+  kindSel.addEventListener('change', drawRows);
   drawRows();
 }
 
