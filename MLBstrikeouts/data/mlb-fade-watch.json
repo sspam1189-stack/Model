@@ -1,7 +1,7 @@
 {
   "sport": "MLB",
   "type": "fade-watch",
-  "generated": "2026-07-28T16:32:38Z",
+  "generated": "2026-07-28T16:38:30Z",
   "minGames": 3,
   "minUnits": 2.5,
   "note": "Shadow review list -- arms NOT on the active fade list whose home or away fade clears the bar (>= 3 games, >= +2.5u). In-sample season replay; watch, don't bet. Promote by editing scripts/fade_list.py.",
@@ -213,33 +213,6 @@
         "u": 3.0,
         "n": 3,
         "roi": 0.7692
-      }
-    },
-    {
-      "pitcher": "Trey Gibson",
-      "team": "BAL",
-      "suggest": "away",
-      "suggestUnits": 3.0,
-      "all": {
-        "w": 6,
-        "l": 1,
-        "u": 4.98,
-        "n": 7,
-        "roi": 0.4676
-      },
-      "home": {
-        "w": 3,
-        "l": 1,
-        "u": 1.98,
-        "n": 4,
-        "roi": 0.4342
-      },
-      "away": {
-        "w": 3,
-        "l": 0,
-        "u": 3.0,
-        "n": 3,
-        "roi": 0.4926
       }
     },
     {

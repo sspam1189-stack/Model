@@ -38,8 +38,9 @@ FADE_LIST = [
     # Added 2026-07-28 (fade-candidate analysis): all-venue, both sides green.
     "Gage Jump",
     # Promoted from the fade watchlist 2026-07-28 (season-backfilled). Singer
-    # away-only; Sullivan + Kikuchi + Palmquist all-venue.
+    # away-only; Sullivan + Kikuchi + Palmquist + Trey Gibson all-venue.
     "Brady Singer", "Sean Sullivan", "Yusei Kikuchi", "Carson Palmquist",
+    "Trey Gibson",
 ]
 
 # Per-arm venue restriction: fade the arm ONLY when his team plays at this
@@ -188,6 +189,7 @@ FADE_WINDOW = {
     "Sean Sullivan":     {"add": SEASON_START},
     "Yusei Kikuchi":     {"add": SEASON_START},
     "Carson Palmquist":  {"add": SEASON_START},
+    "Trey Gibson":       {"add": SEASON_START},
 }
 
 
