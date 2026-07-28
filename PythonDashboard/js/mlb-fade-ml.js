@@ -240,6 +240,18 @@ async function renderMLBFadeML() {
   // Venue of a fade bet = the faded arm's-team side (home if his team is home).
   const venueOf = (b) => b.fadeTeam === b.home ? 'home' : (b.fadeTeam === b.away ? 'away' : '');
 
+  // Rebuild the Pitcher dropdown to only list arms that have bets of the
+  // currently selected Type (Fade/Tail). Keeps the current pick if still valid.
+  function refreshPitcherOptions() {
+    const tv = kindSel.value;
+    const ps = [...new Set(bets.filter(b => !tv || b.kind === tv)
+      .flatMap(b => b.pitchers || []))].sort();
+    const cur = pitcherSel.value;
+    pitcherSel.innerHTML = '<option value="">All</option>'
+      + ps.map(p => '<option value="' + esc(p) + '">' + esc(p) + '</option>').join('');
+    pitcherSel.value = ps.includes(cur) ? cur : '';
+  }
+
   function drawRows() {
     const kv = pickSel.value, mv = monthSel.value, wv = weekSel.value, dv = dateSel.value, pv = pitcherSel.value, vv = venueSel.value, tv = kindSel.value;
     const view = bets.filter(b =>
@@ -295,7 +307,7 @@ async function renderMLBFadeML() {
   dateSel.addEventListener('change', drawRows);
   pitcherSel.addEventListener('change', drawRows);
   venueSel.addEventListener('change', drawRows);
-  kindSel.addEventListener('change', drawRows);
+  kindSel.addEventListener('change', () => { refreshPitcherOptions(); drawRows(); });
   drawRows();
 }
 
