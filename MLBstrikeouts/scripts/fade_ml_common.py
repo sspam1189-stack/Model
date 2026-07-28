@@ -16,7 +16,8 @@ import os
 import json
 import datetime
 
-from fade_list import is_fade, is_no_mutual_fade, matched_entry, _norm, FADE_LIST
+from fade_list import (is_fade, is_no_mutual_fade, matched_entry, fade_reason,
+                       _norm, FADE_LIST)
 
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 
@@ -280,6 +281,15 @@ def build_bets_for_game(date, fg, g, odds_row):
         for b in bets:
             b["home"] = g.get("home")
             b["away"] = g.get("away")
+
+    # Stamp the fade reason(s) so today's picks can show WHY the arm is faded:
+    # 'home'/'away' for a venue-restricted arm, 'all' otherwise. Mutual games
+    # fade both starters, so join the (deduped) reasons of each.
+    reasons = [r for r in (fade_reason(p, date) for p in fg.get("pitchers", []))
+               if r]
+    reason_str = "/".join(dict.fromkeys(reasons)) if reasons else None
+    for b in bets:
+        b["fadeReason"] = reason_str
     return bets
 
 

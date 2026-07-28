@@ -121,22 +121,55 @@ async function renderMLBFadeML() {
   }
 
   // ---- Today's plays ----
-  const today = (data.today || []);
+  // Fade-list ML picks plus the handedness-driven hand-tails picks, each tagged
+  // with WHY it fired so all four reasons are distinguishable at a glance:
+  //   Fade X (team) @ away/home/all  — fade-list arm (reason = venue split)
+  //   Fade X (team) @ handedness     — hand-tails fade (6+ opposite-hand lineup)
+  //   Tail X (team) handedness       — hand-tails take (6+ opposite-hand lineup)
+  const TEAL = 'var(--green,#3fb950)';
   const tCard = document.createElement('div');
   tCard.className = 'card';
   tCard.style.cssText = 'margin-bottom:16px;padding:12px 16px';
   const REAL = new Set(['ml', 'ml_dog']);
-  const pend = today.filter(t => t.result === 'pending' && REAL.has(t.betType));
-  const label = (t) => {
+  const pend = (data.today || []).filter(t => t.result === 'pending' && REAL.has(t.betType));
+  const tailPend = ((tailData && tailData.today) || []).filter(t => t.result === 'pending');
+
+  const atStr = (t) => (t.away && t.home)
+    ? ' <span style="color:#888">· ' + esc(t.away) + ' @ ' + esc(t.home) + '</span>' : '';
+  const oddsStr = (o) => ' ML <span style="color:' + ORANGE + '">' + fmtOdds(o) + '</span>';
+  // Reason tag next to the pick. `prefix` is '@ ' for a fade, '' for a tail.
+  const tag = (txt, color, prefix) =>
+    ' <span style="color:' + (color || '#888') + ';font-size:12px">' + (prefix || '') + esc(txt) + '</span>';
+
+  // Fade-list picks — reason is the venue split (fadeReason: away/home/all).
+  const fadeLabel = (t) => {
     const who = (t.pitchers || []).join(' / ');
-    const at = (t.away && t.home)
-      ? ' <span style="color:#888">· ' + esc(t.away) + ' @ ' + esc(t.home) + '</span>' : '';
-    if (t.betType === 'ml_dog') return '• Mutual (' + esc(who) + ') → dog <b>' + esc(t.selection || '?') + '</b> ML <span style="color:' + ORANGE + '">' + fmtOdds(t.odds) + '</span>' + at;
-    return '• Fade <b>' + esc(who) + '</b> (' + esc(t.fadeTeam || '?') + ') → <b>' + esc(t.selection || '?') + '</b> ML <span style="color:' + ORANGE + '">' + fmtOdds(t.odds) + '</span>' + at;
+    if (t.betType === 'ml_dog')
+      return '• Mutual (' + esc(who) + ')' + tag(t.fadeReason || 'all', null, '@ ')
+        + ' → dog <b>' + esc(t.selection || '?') + '</b>' + oddsStr(t.odds) + atStr(t);
+    return '• Fade <b>' + esc(who) + '</b> (' + esc(t.fadeTeam || '?') + ')'
+      + tag(t.fadeReason || 'all', null, '@ ')
+      + ' → <b>' + esc(t.selection || '?') + '</b>' + oddsStr(t.odds) + atStr(t);
   };
+  // Hand-tails picks — reason is handedness; take backs the arm's own team.
+  const tailLabel = (t) => {
+    const arm = esc(t.pitcher || (t.pitchers || []).join(' / '));
+    if (t.action === 'take')
+      return '• <span style="color:' + TEAL + ';font-weight:600">Tail</span> <b>' + arm + '</b> ('
+        + esc(t.arm_team || '?') + ')' + tag('handedness', TEAL, '')
+        + ' → <b>' + esc(t.selection || '?') + '</b>' + oddsStr(t.odds) + atStr(t);
+    return '• Fade <b>' + arm + '</b> (' + esc(t.arm_team || '?') + ')'
+      + tag('handedness', null, '@ ')
+      + ' → <b>' + esc(t.selection || '?') + '</b>' + oddsStr(t.odds) + atStr(t);
+  };
+
   let th = '<div class="card-title" style="margin-bottom:8px">Today’s plays</div>';
-  if (!pend.length) th += '<div class="no-picks">No fade-list moneyline plays on today’s slate.</div>';
-  else th += pend.map(t => '<div style="font-size:14px;color:#ddd;padding:2px 0">' + label(t) + '</div>').join('');
+  if (!pend.length && !tailPend.length) {
+    th += '<div class="no-picks">No fade-list or hand-tails moneyline plays on today’s slate.</div>';
+  } else {
+    th += pend.map(t => '<div style="font-size:14px;color:#ddd;padding:2px 0">' + fadeLabel(t) + '</div>').join('');
+    th += tailPend.map(t => '<div style="font-size:14px;color:#ddd;padding:2px 0">' + tailLabel(t) + '</div>').join('');
+  }
   tCard.innerHTML = th;
   el.appendChild(tCard);
 
