@@ -1,7 +1,7 @@
 {
   "sport": "MLB",
   "type": "hand-tails-watch",
-  "generated": "2026-07-29T15:26:37Z",
+  "generated": "2026-07-29T15:34:06Z",
   "handMin": 6,
   "minGames": 3,
   "minUnits": 2.5,
@@ -45,8 +45,29 @@
       "oppRighty": 8,
       "odds": -184,
       "suggest": "take",
-      "suggestUnits": 2.74,
-      "games": 8,
+      "suggestUnits": 3.28,
+      "games": 6,
+      "result": "pending"
+    },
+    {
+      "date": "2026-07-29",
+      "commence": "2026-07-29T23:40:00Z",
+      "betType": "watch_fade",
+      "action": "fade",
+      "watch": true,
+      "pitcher": "Cam Schlittler",
+      "hand": "R",
+      "arm_team": "NYY",
+      "opp_team": "CWS",
+      "selection": "CWS",
+      "home": "CWS",
+      "away": "NYY",
+      "oppLefty": 7,
+      "oppRighty": 4,
+      "odds": 124,
+      "suggest": "fade",
+      "suggestUnits": 2.86,
+      "games": 6,
       "result": "pending"
     }
   ],
@@ -304,6 +325,60 @@
       "era": 6.79
     },
     {
+      "pitcher": "Tarik Skubal",
+      "hand": "L",
+      "games": 6,
+      "suggest": "take",
+      "suggestUnits": 3.28,
+      "fade": {
+        "w": 1,
+        "l": 5,
+        "u": -3.66
+      },
+      "take": {
+        "w": 5,
+        "l": 1,
+        "u": 3.28
+      },
+      "era": 2.7
+    },
+    {
+      "pitcher": "Steven Matz",
+      "hand": "L",
+      "games": 3,
+      "suggest": "fade",
+      "suggestUnits": 3.28,
+      "fade": {
+        "w": 3,
+        "l": 0,
+        "u": 3.28
+      },
+      "take": {
+        "w": 0,
+        "l": 3,
+        "u": -3.7
+      },
+      "era": 5.48
+    },
+    {
+      "pitcher": "Max Meyer",
+      "hand": "R",
+      "games": 5,
+      "suggest": "take",
+      "suggestUnits": 3.28,
+      "fade": {
+        "w": 1,
+        "l": 4,
+        "u": -3.64
+      },
+      "take": {
+        "w": 4,
+        "l": 1,
+        "u": 3.28
+      },
+      "era": 2.68
+    },
+    {
       "pitcher": "Germ\u00e1n M\u00e1rquez",
       "hand": "R",
       "games": 3,
@@ -340,40 +415,22 @@
       "era": 4.43
     },
     {
-      "pitcher": "Tyler Mahle",
-      "hand": "R",
-      "games": 5,
-      "suggest": "fade",
-      "suggestUnits": 3.0,
-      "fade": {
-        "w": 4,
-        "l": 1,
-        "u": 3.0
-      },
-      "take": {
-        "w": 1,
-        "l": 4,
-        "u": -3.18
-      },
-      "era": 4.96
-    },
-    {
-      "pitcher": "Kris Bubic",
+      "pitcher": "Noah Cameron",
       "hand": "L",
-      "games": 3,
-      "suggest": "take",
-      "suggestUnits": 3.0,
+      "games": 7,
+      "suggest": "fade",
+      "suggestUnits": 3.04,
       "fade": {
-        "w": 0,
-        "l": 3,
-        "u": -3.0
+        "w": 5,
+        "l": 2,
+        "u": 3.04
       },
       "take": {
-        "w": 3,
-        "l": 0,
-        "u": 3.0
+        "w": 2,
+        "l": 5,
+        "u": -3.38
       },
-      "era": 4.11
+      "era": 5.27
     },
     {
       "pitcher": "Brayan Bello",
@@ -448,22 +505,58 @@
       "era": 3.67
     },
     {
-      "pitcher": "Andrew Abbott",
-      "hand": "L",
-      "games": 10,
-      "suggest": "fade",
-      "suggestUnits": 2.8,
+      "pitcher": "Gavin Williams",
+      "hand": "R",
+      "games": 7,
+      "suggest": "take",
+      "suggestUnits": 2.9,
       "fade": {
-        "w": 7,
-        "l": 3,
-        "u": 2.8
+        "w": 2,
+        "l": 5,
+        "u": -3.4
       },
       "take": {
-        "w": 3,
-        "l": 7,
-        "u": -3.46
+        "w": 5,
+        "l": 2,
+        "u": 2.9
       },
-      "era": 3.85
+      "era": 3.71
+    },
+    {
+      "pitcher": "Max Fried",
+      "hand": "L",
+      "games": 5,
+      "suggest": "fade",
+      "suggestUnits": 2.89,
+      "fade": {
+        "w": 3,
+        "l": 2,
+        "u": 2.89
+      },
+      "take": {
+        "w": 2,
+        "l": 3,
+        "u": -3.88
+      },
+      "era": 3.23
+    },
+    {
+      "pitcher": "Cam Schlittler",
+      "hand": "R",
+      "games": 6,
+      "suggest": "fade",
+      "suggestUnits": 2.86,
+      "fade": {
+        "w": 4,
+        "l": 2,
+        "u": 2.86
+      },
+      "take": {
+        "w": 2,
+        "l": 4,
+        "u": -3.49
+      },
+      "era": 2.07
     },
     {
       "pitcher": "Nolan McLean",
@@ -482,42 +575,6 @@
         "u": -3.32
       },
       "era": 3.32
-    },
-    {
-      "pitcher": "Cristopher S\u00e1nchez",
-      "hand": "L",
-      "games": 12,
-      "suggest": "take",
-      "suggestUnits": 2.78,
-      "fade": {
-        "w": 4,
-        "l": 8,
-        "u": -3.56
-      },
-      "take": {
-        "w": 8,
-        "l": 4,
-        "u": 2.78
-      },
-      "era": 2.73
-    },
-    {
-      "pitcher": "Tarik Skubal",
-      "hand": "L",
-      "games": 8,
-      "suggest": "take",
-      "suggestUnits": 2.74,
-      "fade": {
-        "w": 2,
-        "l": 6,
-        "u": -3.36
-      },
-      "take": {
-        "w": 6,
-        "l": 2,
-        "u": 2.74
-      },
-      "era": 2.7
     },
     {
       "pitcher": "Braxton Ashcraft",
@@ -572,24 +629,6 @@
         "u": -3.38
       },
       "era": 6.15
-    },
-    {
-      "pitcher": "Logan Webb",
-      "hand": "R",
-      "games": 8,
-      "suggest": "fade",
-      "suggestUnits": 2.5,
-      "fade": {
-        "w": 5,
-        "l": 3,
-        "u": 2.5
-      },
-      "take": {
-        "w": 3,
-        "l": 5,
-        "u": -2.96
-      },
-      "era": 3.98
     }
   ]
 }
