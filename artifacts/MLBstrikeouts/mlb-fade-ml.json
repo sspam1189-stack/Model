@@ -1,13 +1,12 @@
 {
   "sport": "MLB",
   "type": "fade-ml",
-  "generated": "2026-07-28T21:36:35Z",
+  "generated": "2026-07-29T00:31:02Z",
   "fadeList": [
     "Painter",
     "Rocker",
     "Sheehan",
     "Merrill Kelly",
-    "Aldegheri",
     "Gallen",
     "Civale",
     "David Peterson",
@@ -20,7 +19,6 @@
     "Canning",
     "Jacob Lopez",
     "Ryan Johnson",
-    "Poulin",
     "Dustin May",
     "Grayson Rodriguez",
     "Bryan Woo",
@@ -72,28 +70,28 @@
   ],
   "mutualRule": "underdog_min",
   "summary": {
-    "wins": 401,
-    "losses": 135,
+    "wins": 397,
+    "losses": 132,
     "voids": 3,
-    "skips": 36,
-    "staked": 660.9,
-    "units": 281.61,
-    "roi": 0.4261,
+    "skips": 34,
+    "staked": 651.28,
+    "units": 281.29,
+    "roi": 0.4319,
     "byType": {
       "ml": {
-        "wins": 392,
-        "losses": 127,
+        "wins": 388,
+        "losses": 124,
         "voids": 3,
         "skips": 2,
-        "staked": 643.9,
-        "units": 277.53,
-        "roi": 0.431
+        "staked": 634.28,
+        "units": 277.21,
+        "roi": 0.437
       },
       "ml_dog": {
         "wins": 9,
         "losses": 8,
         "voids": 0,
-        "skips": 34,
+        "skips": 32,
         "staked": 17.0,
         "units": 4.08,
         "roi": 0.24
@@ -2843,7 +2841,7 @@
       "home": "MIL",
       "away": "ARI",
       "gamePk": 823798,
-      "fadeReason": "all"
+      "fadeReason": "away"
     },
     {
       "date": "2026-04-28",
@@ -3471,7 +3469,7 @@
       "home": "CHC",
       "away": "ARI",
       "gamePk": 824687,
-      "fadeReason": "all"
+      "fadeReason": "away"
     },
     {
       "date": "2026-05-03",
@@ -4074,30 +4072,6 @@
       "home": "CWS",
       "away": "SEA",
       "gamePk": 824606,
-      "fadeReason": "all"
-    },
-    {
-      "date": "2026-05-09",
-      "commence": "2026-05-09T23:15:00Z",
-      "betType": "ml",
-      "shadow": false,
-      "pitchers": [
-        "Merrill Kelly"
-      ],
-      "fadeTeam": "ARI",
-      "market": "h2h",
-      "selection": "NYM",
-      "line": null,
-      "odds": -108,
-      "stake": 1.08,
-      "result": "LOSS",
-      "profit": -1.08,
-      "book": "fanduel",
-      "source": "oddsapi_fanduel",
-      "reason": null,
-      "home": "ARI",
-      "away": "NYM",
-      "gamePk": 825089,
       "fadeReason": "all"
     },
     {
@@ -4797,7 +4771,7 @@
       "home": "COL",
       "away": "ARI",
       "gamePk": 824360,
-      "fadeReason": "all"
+      "fadeReason": "away"
     },
     {
       "date": "2026-05-15",
@@ -5285,27 +5259,26 @@
     {
       "date": "2026-05-20",
       "commence": "2026-05-20T19:40:00Z",
-      "betType": "ml_dog",
+      "betType": "ml",
       "shadow": false,
       "pitchers": [
-        "Tyler Mahle",
-        "Merrill Kelly"
+        "Tyler Mahle"
       ],
-      "fadeTeam": null,
+      "fadeTeam": "SF",
       "market": "h2h",
-      "selection": null,
+      "selection": "ARI",
       "line": null,
-      "odds": null,
-      "stake": null,
-      "result": "SKIP",
-      "profit": 0.0,
+      "odds": -110,
+      "stake": 1.1,
+      "result": "WIN",
+      "profit": 1.0,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
-      "reason": "dog_below_min",
+      "reason": null,
       "home": "ARI",
       "away": "SF",
       "gamePk": 825084,
-      "fadeReason": "away/all"
+      "fadeReason": "away"
     },
     {
       "date": "2026-05-20",
@@ -5859,7 +5832,7 @@
       "home": "SF",
       "away": "ARI",
       "gamePk": 823219,
-      "fadeReason": "all"
+      "fadeReason": "away"
     },
     {
       "date": "2026-05-25",
@@ -6774,7 +6747,7 @@
       "home": "SEA",
       "away": "ARI",
       "gamePk": 823133,
-      "fadeReason": "all"
+      "fadeReason": "away/all"
     },
     {
       "date": "2026-06-01",
@@ -7354,30 +7327,6 @@
       "away": "KC",
       "gamePk": 823699,
       "fadeReason": "home/away"
-    },
-    {
-      "date": "2026-06-05",
-      "commence": "2026-06-06T01:40:00Z",
-      "betType": "ml",
-      "shadow": false,
-      "pitchers": [
-        "Merrill Kelly"
-      ],
-      "fadeTeam": "ARI",
-      "market": "h2h",
-      "selection": "WSH",
-      "line": null,
-      "odds": 112,
-      "stake": 1.0,
-      "result": "WIN",
-      "profit": 1.12,
-      "book": "fanduel",
-      "source": "oddsapi_fanduel",
-      "reason": null,
-      "home": "ARI",
-      "away": "WSH",
-      "gamePk": 825073,
-      "fadeReason": "all"
     },
     {
       "date": "2026-06-06",
@@ -8028,7 +7977,7 @@
       "home": "MIA",
       "away": "ARI",
       "gamePk": 823855,
-      "fadeReason": "all"
+      "fadeReason": "away"
     },
     {
       "date": "2026-06-11",
@@ -8827,30 +8776,6 @@
     {
       "date": "2026-06-16",
       "commence": "2026-06-17T01:40:00Z",
-      "betType": "ml",
-      "shadow": false,
-      "pitchers": [
-        "Merrill Kelly"
-      ],
-      "fadeTeam": "ARI",
-      "market": "h2h",
-      "selection": "LAA",
-      "line": null,
-      "odds": -108,
-      "stake": 1.08,
-      "result": "WIN",
-      "profit": 1.0,
-      "book": "fanduel",
-      "source": "oddsapi_fanduel",
-      "reason": null,
-      "home": "ARI",
-      "away": "LAA",
-      "gamePk": 825070,
-      "fadeReason": "all"
-    },
-    {
-      "date": "2026-06-16",
-      "commence": "2026-06-17T01:40:00Z",
       "betType": "ml_dog",
       "shadow": false,
       "pitchers": [
@@ -8968,30 +8893,6 @@
       "away": "TB",
       "gamePk": 823940,
       "fadeReason": "away"
-    },
-    {
-      "date": "2026-06-17",
-      "commence": "2026-06-17T19:40:00Z",
-      "betType": "ml",
-      "shadow": false,
-      "pitchers": [
-        "Sam Aldegheri"
-      ],
-      "fadeTeam": "LAA",
-      "market": "h2h",
-      "selection": "ARI",
-      "line": null,
-      "odds": -174,
-      "stake": 1.74,
-      "result": "WIN",
-      "profit": 1.0,
-      "book": "fanduel",
-      "source": "oddsapi_fanduel",
-      "reason": null,
-      "home": "ARI",
-      "away": "LAA",
-      "gamePk": 825072,
-      "fadeReason": "all"
     },
     {
       "date": "2026-06-17",
@@ -9615,31 +9516,7 @@
       "home": "STL",
       "away": "ARI",
       "gamePk": 823040,
-      "fadeReason": "all"
-    },
-    {
-      "date": "2026-06-22",
-      "commence": "2026-06-23T01:38:00Z",
-      "betType": "ml",
-      "shadow": false,
-      "pitchers": [
-        "Sam Aldegheri"
-      ],
-      "fadeTeam": "LAA",
-      "market": "h2h",
-      "selection": "BAL",
-      "line": null,
-      "odds": -162,
-      "stake": 1.62,
-      "result": "WIN",
-      "profit": 1.0,
-      "book": "fanduel",
-      "source": "oddsapi_fanduel",
-      "reason": null,
-      "home": "LAA",
-      "away": "BAL",
-      "gamePk": 824016,
-      "fadeReason": "all"
+      "fadeReason": "away"
     },
     {
       "date": "2026-06-23",
@@ -10338,7 +10215,7 @@
       "home": "TB",
       "away": "ARI",
       "gamePk": 822959,
-      "fadeReason": "all"
+      "fadeReason": "away"
     },
     {
       "date": "2026-06-28",
@@ -10387,30 +10264,6 @@
       "away": "MIA",
       "gamePk": 823037,
       "fadeReason": "away"
-    },
-    {
-      "date": "2026-06-28",
-      "commence": "2026-06-28T19:15:00Z",
-      "betType": "ml",
-      "shadow": false,
-      "pitchers": [
-        "Sam Aldegheri"
-      ],
-      "fadeTeam": "LAA",
-      "market": "h2h",
-      "selection": "OAK",
-      "line": null,
-      "odds": -110,
-      "stake": 1.1,
-      "result": "LOSS",
-      "profit": -1.1,
-      "book": "fanduel",
-      "source": "oddsapi_fanduel",
-      "reason": null,
-      "home": "LAA",
-      "away": "OAK",
-      "gamePk": 824011,
-      "fadeReason": "all"
     },
     {
       "date": "2026-06-28",
@@ -11255,54 +11108,6 @@
     },
     {
       "date": "2026-07-04",
-      "commence": "2026-07-05T01:38:00Z",
-      "betType": "ml",
-      "shadow": false,
-      "pitchers": [
-        "Sam Aldegheri"
-      ],
-      "fadeTeam": "LAA",
-      "market": "h2h",
-      "selection": "BOS",
-      "line": null,
-      "odds": -172,
-      "stake": 1.72,
-      "result": "WIN",
-      "profit": 1.0,
-      "book": "fanduel",
-      "source": "oddsapi_fanduel",
-      "reason": null,
-      "home": "LAA",
-      "away": "BOS",
-      "gamePk": 824012,
-      "fadeReason": "all"
-    },
-    {
-      "date": "2026-07-04",
-      "commence": "2026-07-05T01:40:00Z",
-      "betType": "ml",
-      "shadow": false,
-      "pitchers": [
-        "Merrill Kelly"
-      ],
-      "fadeTeam": "ARI",
-      "market": "h2h",
-      "selection": "MIL",
-      "line": null,
-      "odds": -162,
-      "stake": 1.62,
-      "result": "LOSS",
-      "profit": -1.62,
-      "book": "fanduel",
-      "source": "oddsapi_fanduel",
-      "reason": null,
-      "home": "ARI",
-      "away": "MIL",
-      "gamePk": 825063,
-      "fadeReason": "all"
-    },
-    {
-      "date": "2026-07-04",
       "commence": "2026-07-05T01:40:00Z",
       "betType": "ml",
       "shadow": false,
@@ -11998,7 +11803,7 @@
       "home": "SD",
       "away": "ARI",
       "gamePk": 823277,
-      "fadeReason": "all"
+      "fadeReason": "all/away"
     },
     {
       "date": "2026-07-09",
@@ -12623,30 +12428,6 @@
       "away": "CIN",
       "gamePk": 824332,
       "fadeReason": "away"
-    },
-    {
-      "date": "2026-07-17",
-      "commence": "2026-07-18T01:40:00Z",
-      "betType": "ml",
-      "shadow": false,
-      "pitchers": [
-        "Merrill Kelly"
-      ],
-      "fadeTeam": "ARI",
-      "market": "h2h",
-      "selection": "STL",
-      "line": null,
-      "odds": -102,
-      "stake": 1.02,
-      "result": "WIN",
-      "profit": 1.0,
-      "book": "fanduel",
-      "source": "fanduel_api",
-      "reason": null,
-      "home": "ARI",
-      "away": "STL",
-      "gamePk": 825060,
-      "fadeReason": "all"
     },
     {
       "date": "2026-07-17",
@@ -13377,23 +13158,22 @@
     {
       "date": "2026-07-22",
       "commence": "2026-07-22T19:40:00Z",
-      "betType": "ml_dog",
+      "betType": "ml",
       "shadow": false,
       "pitchers": [
-        "Merrill Kelly",
         "Gage Jump"
       ],
-      "fadeTeam": null,
+      "fadeTeam": "OAK",
       "market": "h2h",
-      "selection": null,
+      "selection": "ARI",
       "line": null,
-      "odds": null,
-      "stake": null,
-      "result": "SKIP",
-      "profit": 0.0,
+      "odds": -126,
+      "stake": 1.26,
+      "result": "WIN",
+      "profit": 1.0,
       "book": "fanduel",
       "source": "fanduel_api",
-      "reason": "dog_below_min",
+      "reason": null,
       "home": "ARI",
       "away": "OAK",
       "gamePk": 825055,
@@ -13904,7 +13684,7 @@
       "home": "PIT",
       "away": "ARI",
       "gamePk": 823353,
-      "fadeReason": "all"
+      "fadeReason": "away"
     },
     {
       "date": "2026-07-27",
