@@ -1,7 +1,7 @@
 {
   "sport": "MLB",
   "type": "fade-ml",
-  "generated": "2026-07-29T19:56:06Z",
+  "generated": "2026-07-29T21:02:50Z",
   "fadeList": [
     "Painter",
     "Rocker",
@@ -71,21 +71,21 @@
   "mutualRule": "underdog_min",
   "summary": {
     "wins": 399,
-    "losses": 135,
+    "losses": 136,
     "voids": 3,
     "skips": 32,
-    "staked": 658.31,
-    "units": 278.52,
-    "roi": 0.4231,
+    "staked": 659.31,
+    "units": 277.52,
+    "roi": 0.4209,
     "byType": {
       "ml": {
         "wins": 390,
-        "losses": 127,
+        "losses": 128,
         "voids": 3,
         "skips": 0,
-        "staked": 641.31,
-        "units": 274.44,
-        "roi": 0.4279
+        "staked": 642.31,
+        "units": 273.44,
+        "roi": 0.4257
       },
       "ml_dog": {
         "wins": 9,
@@ -99,30 +99,6 @@
     }
   },
   "today": [
-    {
-      "date": "2026-07-29",
-      "commence": "2026-07-29T17:05:00Z",
-      "betType": "ml",
-      "shadow": false,
-      "pitchers": [
-        "Trey Yesavage"
-      ],
-      "fadeTeam": "TOR",
-      "market": "h2h",
-      "selection": "WSH",
-      "line": null,
-      "odds": 100,
-      "stake": 1.0,
-      "result": "pending",
-      "profit": 0.0,
-      "book": "fanduel",
-      "source": "fanduel_api",
-      "reason": null,
-      "home": "WSH",
-      "away": "TOR",
-      "gamePk": 822702,
-      "fadeReason": "away"
-    },
     {
       "date": "2026-07-29",
       "commence": "2026-07-29T19:45:00Z",
@@ -159,8 +135,8 @@
       "market": "h2h",
       "selection": "HOU",
       "line": null,
-      "odds": -136,
-      "stake": 1.36,
+      "odds": -134,
+      "stake": 1.34,
       "result": "pending",
       "profit": 0.0,
       "book": "fanduel",
@@ -13925,6 +13901,30 @@
       "away": "SEA",
       "gamePk": 823923,
       "fadeReason": "all"
+    },
+    {
+      "date": "2026-07-29",
+      "commence": "2026-07-29T17:05:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Trey Yesavage"
+      ],
+      "fadeTeam": "TOR",
+      "market": "h2h",
+      "selection": "WSH",
+      "line": null,
+      "odds": 100,
+      "stake": 1.0,
+      "result": "LOSS",
+      "profit": -1.0,
+      "book": "fanduel",
+      "source": "fanduel_api",
+      "reason": null,
+      "home": "WSH",
+      "away": "TOR",
+      "gamePk": 822702,
+      "fadeReason": "away"
     }
   ]
 }
