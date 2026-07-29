@@ -469,15 +469,25 @@ async function renderMLBFadeML() {
       (!dv || b.date === dv) &&
       (!pv || (b.pitchers || []).includes(pv)) &&
       (!vv || venueOf(b) === vv));
-    // W-L / units for the current filter (settled only).
+    // W-L / units for the current filter (settled only), plus home/away split
+    // (by the faded arm's-team venue).
     let w = 0, l = 0, u = 0, stk = 0;
+    const hs = [0, 0, 0.0], as = [0, 0, 0.0];   // [wins, losses, units]
     view.forEach(b => {
-      if (b.result === 'WIN' || b.result === 'LOSS') { w += b.result === 'WIN'; l += b.result === 'LOSS'; u += b.profit; stk += (b.stake || 0); }
+      if (b.result === 'WIN' || b.result === 'LOSS') {
+        w += b.result === 'WIN'; l += b.result === 'LOSS'; u += b.profit; stk += (b.stake || 0);
+        const s = venueOf(b) === 'home' ? hs : (venueOf(b) === 'away' ? as : null);
+        if (s) { s[0] += b.result === 'WIN'; s[1] += b.result === 'LOSS'; s[2] += b.profit; }
+      }
     });
     const roi = stk ? (u / stk * 100) : 0;
+    const mini = (lbl, r) => ' <span style="color:#888;font-weight:400;font-size:12px">· ' + lbl + ' '
+      + r[0] + '–' + r[1] + ' <span style="color:' + uColor(r[2]) + '">'
+      + (r[2] >= 0 ? '+' : '') + r[2].toFixed(2) + 'u</span></span>';
     recEl.innerHTML = w + '–' + l
       + ' <span style="color:' + uColor(u) + '">' + (u >= 0 ? '+' : '') + u.toFixed(2) + 'u · '
-      + (roi >= 0 ? '+' : '') + roi.toFixed(1) + '%</span>';
+      + (roi >= 0 ? '+' : '') + roi.toFixed(1) + '%</span>'
+      + mini('home', hs) + mini('away', as);
     // Paginate the filtered view by 50 (the W-L/units summary above still
     // covers the WHOLE filter, not just the visible page).
     const total = view.length;
