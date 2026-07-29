@@ -1,7 +1,7 @@
 {
   "sport": "MLB",
   "type": "hand-tails",
-  "generated": "2026-07-29T18:33:49Z",
+  "generated": "2026-07-29T18:53:57Z",
   "handMin": 6,
   "roster": {
     "Scherzer": {
@@ -107,11 +107,11 @@
   },
   "note": "In-sample selection; live paper-forward test. Not part of the fade-list ledger. On Nola/Lopez overlap games, hand-tails wins.",
   "summary": {
-    "wins": 134,
+    "wins": 135,
     "losses": 35,
-    "units": 106.9,
-    "staked": 212.74,
-    "roi": 0.5025,
+    "units": 108.06,
+    "staked": 213.74,
+    "roi": 0.5056,
     "byAction": {
       "fade": {
         "wins": 66,
@@ -121,11 +121,11 @@
         "roi": 0.4723
       },
       "take": {
-        "wins": 68,
+        "wins": 69,
         "losses": 17,
-        "units": 56.14,
-        "staked": 105.26,
-        "roi": 0.5333
+        "units": 57.3,
+        "staked": 106.26,
+        "roi": 0.5392
       }
     },
     "byHand": {
@@ -137,38 +137,15 @@
         "roi": 0.5087
       },
       "L": {
-        "wins": 81,
+        "wins": 82,
         "losses": 22,
-        "units": 63.26,
-        "staked": 126.96,
-        "roi": 0.4983
+        "units": 64.42,
+        "staked": 127.96,
+        "roi": 0.5034
       }
     }
   },
   "today": [
-    {
-      "date": "2026-07-29",
-      "commence": "2026-07-29T16:35:00Z",
-      "betType": "hand_take",
-      "action": "take",
-      "pitcher": "Eduardo Rodriguez",
-      "entry": "Eduardo Rodriguez",
-      "hand": "L",
-      "arm_team": "ARI",
-      "opp_team": "PIT",
-      "selection": "ARI",
-      "home": "PIT",
-      "away": "ARI",
-      "oppLefty": 3,
-      "oppRighty": 7,
-      "odds": 116,
-      "stake": 1.0,
-      "result": "pending",
-      "reason": null,
-      "profit": 0.0,
-      "book": "fanduel",
-      "source": "fanduel_api"
-    },
     {
       "date": "2026-07-29",
       "commence": "2026-07-29T23:10:00Z",
@@ -4147,6 +4124,29 @@
       "result": "LOSS",
       "reason": null,
       "profit": -1.0,
+      "book": "fanduel",
+      "source": "fanduel_api"
+    },
+    {
+      "date": "2026-07-29",
+      "commence": "2026-07-29T16:35:00Z",
+      "betType": "hand_take",
+      "action": "take",
+      "pitcher": "Eduardo Rodriguez",
+      "entry": "Eduardo Rodriguez",
+      "hand": "L",
+      "arm_team": "ARI",
+      "opp_team": "PIT",
+      "selection": "ARI",
+      "home": "PIT",
+      "away": "ARI",
+      "oppLefty": 3,
+      "oppRighty": 7,
+      "odds": 116,
+      "stake": 1.0,
+      "result": "WIN",
+      "reason": null,
+      "profit": 1.16,
       "book": "fanduel",
       "source": "fanduel_api"
     }
