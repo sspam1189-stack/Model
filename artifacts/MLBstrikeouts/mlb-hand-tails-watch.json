@@ -1,13 +1,53 @@
 {
   "sport": "MLB",
   "type": "hand-tails-watch",
-  "generated": "2026-07-29T14:59:46Z",
+  "generated": "2026-07-29T15:18:09Z",
   "handMin": 6,
   "minGames": 3,
   "minUnits": 2.5,
   "note": "Shadow review list -- arms NOT on the active hand-tails list showing a handedness-conditional edge. In-sample season replay; watch, don't bet. Promote by editing scripts/hand_tails.py.",
-  "today": [],
+  "today": [
+    {
+      "date": "2026-07-29",
+      "commence": "2026-07-29T23:10:00Z",
+      "betType": "watch_take",
+      "action": "take",
+      "watch": true,
+      "pitcher": "Joey Cantillo",
+      "hand": "L",
+      "arm_team": "CLE",
+      "opp_team": "CIN",
+      "selection": "CLE",
+      "home": "CIN",
+      "away": "CLE",
+      "oppLefty": 3,
+      "oppRighty": 8,
+      "odds": -134,
+      "suggest": "take",
+      "suggestUnits": 3.3,
+      "games": 9,
+      "result": "pending"
+    }
+  ],
   "candidates": [
+    {
+      "pitcher": "Aaron Nola",
+      "hand": "R",
+      "games": 4,
+      "suggest": "take",
+      "suggestUnits": 4.38,
+      "fade": {
+        "w": 0,
+        "l": 4,
+        "u": -4.64
+      },
+      "take": {
+        "w": 4,
+        "l": 0,
+        "u": 4.38
+      },
+      "era": 5.61
+    },
     {
       "pitcher": "Slade Cecconi",
       "hand": "R",
@@ -27,6 +67,24 @@
       "era": 4.78
     },
     {
+      "pitcher": "Joey Cantillo",
+      "hand": "L",
+      "games": 9,
+      "suggest": "take",
+      "suggestUnits": 3.3,
+      "fade": {
+        "w": 3,
+        "l": 6,
+        "u": -4.08
+      },
+      "take": {
+        "w": 6,
+        "l": 3,
+        "u": 3.3
+      },
+      "era": 4.02
+    },
+    {
       "pitcher": "Germ\u00e1n M\u00e1rquez",
       "hand": "R",
       "games": 3,
@@ -43,6 +101,24 @@
         "u": 3.14
       },
       "era": 5.11
+    },
+    {
+      "pitcher": "Bryce Elder",
+      "hand": "R",
+      "games": 7,
+      "suggest": "take",
+      "suggestUnits": 3.1,
+      "fade": {
+        "w": 2,
+        "l": 5,
+        "u": -3.72
+      },
+      "take": {
+        "w": 5,
+        "l": 2,
+        "u": 3.1
+      },
+      "era": 3.96
     },
     {
       "pitcher": "Luis Castillo",

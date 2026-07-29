@@ -1,7 +1,7 @@
 {
   "sport": "MLB",
   "type": "fade-ml",
-  "generated": "2026-07-29T15:12:17Z",
+  "generated": "2026-07-29T15:17:20Z",
   "fadeList": [
     "Painter",
     "Rocker",
@@ -101,6 +101,30 @@
   "today": [
     {
       "date": "2026-07-29",
+      "commence": "2026-07-29T17:05:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Trey Yesavage"
+      ],
+      "fadeTeam": "TOR",
+      "market": "h2h",
+      "selection": "WSH",
+      "line": null,
+      "odds": 100,
+      "stake": 1.0,
+      "result": "pending",
+      "profit": 0.0,
+      "book": "fanduel",
+      "source": "fanduel_api",
+      "reason": null,
+      "home": "WSH",
+      "away": "TOR",
+      "gamePk": 822702,
+      "fadeReason": "away"
+    },
+    {
+      "date": "2026-07-29",
       "commence": "2026-07-30T01:38:00Z",
       "betType": "ml",
       "shadow": false,
@@ -194,30 +218,6 @@
       "away": "CHC",
       "gamePk": 823022,
       "fadeReason": "all"
-    },
-    {
-      "date": "2026-07-29",
-      "commence": "2026-07-29T17:05:00Z",
-      "betType": "ml",
-      "shadow": false,
-      "pitchers": [
-        "Trey Yesavage"
-      ],
-      "fadeTeam": "TOR",
-      "market": "h2h",
-      "selection": "WSH",
-      "line": null,
-      "odds": 100,
-      "stake": 1.0,
-      "result": "pending",
-      "profit": 0.0,
-      "book": "fanduel",
-      "source": "fanduel_api",
-      "reason": null,
-      "home": "WSH",
-      "away": "TOR",
-      "gamePk": 822702,
-      "fadeReason": "away"
     }
   ],
   "bets": [
