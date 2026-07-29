@@ -1,7 +1,7 @@
 {
   "sport": "MLB",
   "type": "fade-ml",
-  "generated": "2026-07-29T00:31:02Z",
+  "generated": "2026-07-29T03:55:44Z",
   "fadeList": [
     "Painter",
     "Rocker",
@@ -71,21 +71,21 @@
   "mutualRule": "underdog_min",
   "summary": {
     "wins": 397,
-    "losses": 132,
+    "losses": 133,
     "voids": 3,
     "skips": 34,
-    "staked": 651.28,
-    "units": 281.29,
-    "roi": 0.4319,
+    "staked": 652.32,
+    "units": 280.25,
+    "roi": 0.4296,
     "byType": {
       "ml": {
         "wins": 388,
-        "losses": 124,
+        "losses": 125,
         "voids": 3,
         "skips": 2,
-        "staked": 634.28,
-        "units": 277.21,
-        "roi": 0.437
+        "staked": 635.32,
+        "units": 276.17,
+        "roi": 0.4347
       },
       "ml_dog": {
         "wins": 9,
@@ -99,30 +99,6 @@
     }
   },
   "today": [
-    {
-      "date": "2026-07-28",
-      "commence": "2026-07-28T23:45:00Z",
-      "betType": "ml",
-      "shadow": false,
-      "pitchers": [
-        "Colin Rea"
-      ],
-      "fadeTeam": "CHC",
-      "market": "h2h",
-      "selection": "STL",
-      "line": null,
-      "odds": -104,
-      "stake": 1.04,
-      "result": "pending",
-      "profit": 0.0,
-      "book": "fanduel",
-      "source": "fanduel_api",
-      "reason": null,
-      "home": "STL",
-      "away": "CHC",
-      "gamePk": 823026,
-      "fadeReason": "all"
-    },
     {
       "date": "2026-07-28",
       "commence": "2026-07-29T01:40:00Z",
@@ -13805,6 +13781,30 @@
       "away": "CLE",
       "gamePk": 824490,
       "fadeReason": "away"
+    },
+    {
+      "date": "2026-07-28",
+      "commence": "2026-07-28T23:45:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Colin Rea"
+      ],
+      "fadeTeam": "CHC",
+      "market": "h2h",
+      "selection": "STL",
+      "line": null,
+      "odds": -104,
+      "stake": 1.04,
+      "result": "LOSS",
+      "profit": -1.04,
+      "book": "fanduel",
+      "source": "fanduel_api",
+      "reason": null,
+      "home": "STL",
+      "away": "CHC",
+      "gamePk": 823026,
+      "fadeReason": "all"
     }
   ]
 }

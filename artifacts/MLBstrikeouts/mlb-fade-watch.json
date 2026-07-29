@@ -1,7 +1,7 @@
 {
   "sport": "MLB",
   "type": "fade-watch",
-  "generated": "2026-07-29T00:31:44Z",
+  "generated": "2026-07-29T03:56:40Z",
   "minGames": 3,
   "minUnits": 2.5,
   "note": "Shadow review list -- arms NOT on the active fade list whose home or away fade clears the bar (>= 3 games, >= +2.5u). In-sample season replay; watch, don't bet. Promote by editing scripts/fade_list.py.",
@@ -20,8 +20,8 @@
       "venue": "home",
       "odds": 120,
       "suggest": "home",
-      "suggestUnits": 7.32,
-      "games": 11,
+      "suggestUnits": 6.32,
+      "games": 12,
       "result": "pending"
     }
   ],
@@ -30,20 +30,20 @@
       "pitcher": "Cade Cavalli",
       "team": "WSH",
       "suggest": "home",
-      "suggestUnits": 7.32,
+      "suggestUnits": 6.32,
       "all": {
         "w": 11,
-        "l": 8,
-        "u": 1.86,
-        "n": 19,
-        "roi": 0.0818
+        "l": 9,
+        "u": 0.86,
+        "n": 20,
+        "roi": 0.0362
       },
       "home": {
         "w": 9,
-        "l": 2,
-        "u": 7.32,
-        "n": 11,
-        "roi": 0.5782
+        "l": 3,
+        "u": 6.32,
+        "n": 12,
+        "roi": 0.4627
       },
       "away": {
         "w": 2,

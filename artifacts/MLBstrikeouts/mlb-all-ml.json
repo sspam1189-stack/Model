@@ -1,7 +1,7 @@
 {
   "sport": "MLB",
   "type": "all-ml",
-  "generated": "2026-07-29T00:31:42Z",
+  "generated": "2026-07-29T03:56:36Z",
   "seasonStart": "2026-03-25",
   "today": [
     {
@@ -33,8 +33,8 @@
       "away_pitcher": "Dean Kremer",
       "home_hand": "R",
       "away_hand": "R",
-      "home_win": null,
-      "final": false
+      "home_win": true,
+      "final": true
     },
     {
       "date": "2026-07-28",
@@ -49,8 +49,8 @@
       "away_pitcher": "Brandon Pfaadt",
       "home_hand": "R",
       "away_hand": "R",
-      "home_win": null,
-      "final": false
+      "home_win": false,
+      "final": true
     },
     {
       "date": "2026-07-28",
@@ -65,8 +65,8 @@
       "away_pitcher": "Cal Quantrill",
       "home_hand": "R",
       "away_hand": "R",
-      "home_win": null,
-      "final": false
+      "home_win": false,
+      "final": true
     },
     {
       "date": "2026-07-28",
@@ -81,8 +81,8 @@
       "away_pitcher": "Aaron Nola",
       "home_hand": "R",
       "away_hand": "R",
-      "home_win": null,
-      "final": false
+      "home_win": true,
+      "final": true
     },
     {
       "date": "2026-07-28",
@@ -97,8 +97,8 @@
       "away_pitcher": "Shane Bieber",
       "home_hand": "R",
       "away_hand": "R",
-      "home_win": null,
-      "final": false
+      "home_win": true,
+      "final": true
     },
     {
       "date": "2026-07-28",
@@ -113,8 +113,8 @@
       "away_pitcher": "Gavin Williams",
       "home_hand": "L",
       "away_hand": "R",
-      "home_win": null,
-      "final": false
+      "home_win": true,
+      "final": true
     },
     {
       "date": "2026-07-28",
@@ -145,8 +145,8 @@
       "away_pitcher": "Seth Lugo",
       "home_hand": "R",
       "away_hand": "R",
-      "home_win": null,
-      "final": false
+      "home_win": true,
+      "final": true
     },
     {
       "date": "2026-07-28",
@@ -161,8 +161,8 @@
       "away_pitcher": "Gerrit Cole",
       "home_hand": "L",
       "away_hand": "R",
-      "home_win": null,
-      "final": false
+      "home_win": false,
+      "final": true
     },
     {
       "date": "2026-07-28",
@@ -177,8 +177,8 @@
       "away_pitcher": "Colin Rea",
       "home_hand": "R",
       "away_hand": "R",
-      "home_win": null,
-      "final": false
+      "home_win": false,
+      "final": true
     },
     {
       "date": "2026-07-28",
@@ -22574,6 +22574,132 @@
       "away_ml": 136,
       "home_pitcher": "Chase Burns",
       "away_pitcher": "Slade Cecconi",
+      "home_hand": "R",
+      "away_hand": "R",
+      "home_win": false
+    },
+    {
+      "date": "2026-07-28",
+      "commence": "2026-07-28T22:40:00Z",
+      "gamePk": 824243,
+      "home": "DET",
+      "away": "BAL",
+      "home_ml": -142,
+      "away_ml": 120,
+      "home_pitcher": "Troy Melton",
+      "away_pitcher": "Dean Kremer",
+      "home_hand": "R",
+      "away_hand": "R",
+      "home_win": true
+    },
+    {
+      "date": "2026-07-28",
+      "commence": "2026-07-28T22:40:00Z",
+      "gamePk": 823350,
+      "home": "PIT",
+      "away": "ARI",
+      "home_ml": -116,
+      "away_ml": -102,
+      "home_pitcher": "Bubba Chandler",
+      "away_pitcher": "Brandon Pfaadt",
+      "home_hand": "R",
+      "away_hand": "R",
+      "home_win": false
+    },
+    {
+      "date": "2026-07-28",
+      "commence": "2026-07-28T22:40:00Z",
+      "gamePk": 822949,
+      "home": "TB",
+      "away": "TEX",
+      "home_ml": -178,
+      "away_ml": 150,
+      "home_pitcher": "Griffin Jax",
+      "away_pitcher": "Cal Quantrill",
+      "home_hand": "R",
+      "away_hand": "R",
+      "home_win": false
+    },
+    {
+      "date": "2026-07-28",
+      "commence": "2026-07-28T22:40:00Z",
+      "gamePk": 823838,
+      "home": "MIA",
+      "away": "PHI",
+      "home_ml": -134,
+      "away_ml": 116,
+      "home_pitcher": "Sandy Alcantara",
+      "away_pitcher": "Aaron Nola",
+      "home_hand": "R",
+      "away_hand": "R",
+      "home_win": true
+    },
+    {
+      "date": "2026-07-28",
+      "commence": "2026-07-28T22:45:00Z",
+      "gamePk": 822703,
+      "home": "WSH",
+      "away": "TOR",
+      "home_ml": -142,
+      "away_ml": 120,
+      "home_pitcher": "Cade Cavalli",
+      "away_pitcher": "Shane Bieber",
+      "home_hand": "R",
+      "away_hand": "R",
+      "home_win": true
+    },
+    {
+      "date": "2026-07-28",
+      "commence": "2026-07-28T23:10:00Z",
+      "gamePk": 824489,
+      "home": "CIN",
+      "away": "CLE",
+      "home_ml": 120,
+      "away_ml": -142,
+      "home_pitcher": "Caleb Ferguson",
+      "away_pitcher": "Gavin Williams",
+      "home_hand": "L",
+      "away_hand": "R",
+      "home_win": true
+    },
+    {
+      "date": "2026-07-28",
+      "commence": "2026-07-28T23:40:00Z",
+      "gamePk": 823676,
+      "home": "MIN",
+      "away": "KC",
+      "home_ml": -178,
+      "away_ml": 150,
+      "home_pitcher": "Taj Bradley",
+      "away_pitcher": "Seth Lugo",
+      "home_hand": "R",
+      "away_hand": "R",
+      "home_win": true
+    },
+    {
+      "date": "2026-07-28",
+      "commence": "2026-07-28T23:40:00Z",
+      "gamePk": 824569,
+      "home": "CWS",
+      "away": "NYY",
+      "home_ml": 100,
+      "away_ml": -118,
+      "home_pitcher": "Anthony Kay",
+      "away_pitcher": "Gerrit Cole",
+      "home_hand": "L",
+      "away_hand": "R",
+      "home_win": false
+    },
+    {
+      "date": "2026-07-28",
+      "commence": "2026-07-28T23:45:00Z",
+      "gamePk": 823026,
+      "home": "STL",
+      "away": "CHC",
+      "home_ml": -104,
+      "away_ml": -112,
+      "home_pitcher": "Michael McGreevy",
+      "away_pitcher": "Colin Rea",
       "home_hand": "R",
       "away_hand": "R",
       "home_win": false
