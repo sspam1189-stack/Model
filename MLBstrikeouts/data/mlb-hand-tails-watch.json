@@ -1,7 +1,7 @@
 {
   "sport": "MLB",
   "type": "hand-tails-watch",
-  "generated": "2026-07-29T15:18:09Z",
+  "generated": "2026-07-29T15:26:37Z",
   "handMin": 6,
   "minGames": 3,
   "minUnits": 2.5,
@@ -9,80 +9,299 @@
   "today": [
     {
       "date": "2026-07-29",
-      "commence": "2026-07-29T23:10:00Z",
+      "commence": "2026-07-29T17:05:00Z",
+      "betType": "watch_fade",
+      "action": "fade",
+      "watch": true,
+      "pitcher": "Trey Yesavage",
+      "hand": "R",
+      "arm_team": "TOR",
+      "opp_team": "WSH",
+      "selection": "WSH",
+      "home": "WSH",
+      "away": "TOR",
+      "oppLefty": 6,
+      "oppRighty": 4,
+      "odds": 100,
+      "suggest": "fade",
+      "suggestUnits": 3.34,
+      "games": 5,
+      "result": "pending"
+    },
+    {
+      "date": "2026-07-29",
+      "commence": "2026-07-29T17:10:00Z",
       "betType": "watch_take",
       "action": "take",
       "watch": true,
-      "pitcher": "Joey Cantillo",
+      "pitcher": "Tarik Skubal",
       "hand": "L",
-      "arm_team": "CLE",
-      "opp_team": "CIN",
-      "selection": "CLE",
-      "home": "CIN",
-      "away": "CLE",
-      "oppLefty": 3,
+      "arm_team": "DET",
+      "opp_team": "BAL",
+      "selection": "DET",
+      "home": "DET",
+      "away": "BAL",
+      "oppLefty": 2,
       "oppRighty": 8,
-      "odds": -134,
+      "odds": -184,
       "suggest": "take",
-      "suggestUnits": 3.3,
-      "games": 9,
+      "suggestUnits": 2.74,
+      "games": 8,
       "result": "pending"
     }
   ],
   "candidates": [
     {
-      "pitcher": "Aaron Nola",
+      "pitcher": "Jacob Misiorowski",
+      "hand": "R",
+      "games": 5,
+      "suggest": "take",
+      "suggestUnits": 5.04,
+      "fade": {
+        "w": 0,
+        "l": 5,
+        "u": -5.22
+      },
+      "take": {
+        "w": 5,
+        "l": 0,
+        "u": 5.04
+      },
+      "era": 1.58
+    },
+    {
+      "pitcher": "Luinder Avila",
       "hand": "R",
       "games": 4,
       "suggest": "take",
-      "suggestUnits": 4.38,
+      "suggestUnits": 4.96,
       "fade": {
         "w": 0,
         "l": 4,
-        "u": -4.64
+        "u": -5.84
       },
       "take": {
         "w": 4,
         "l": 0,
-        "u": 4.38
+        "u": 4.96
       },
-      "era": 5.61
+      "era": 5.33
     },
     {
-      "pitcher": "Slade Cecconi",
+      "pitcher": "Anthony Kay",
+      "hand": "L",
+      "games": 10,
+      "suggest": "take",
+      "suggestUnits": 4.62,
+      "fade": {
+        "w": 3,
+        "l": 7,
+        "u": -5.84
+      },
+      "take": {
+        "w": 7,
+        "l": 3,
+        "u": 4.62
+      },
+      "era": 4.28
+    },
+    {
+      "pitcher": "Tomoyuki Sugano",
+      "hand": "R",
+      "games": 3,
+      "suggest": "take",
+      "suggestUnits": 4.38,
+      "fade": {
+        "w": 0,
+        "l": 3,
+        "u": -5.2
+      },
+      "take": {
+        "w": 3,
+        "l": 0,
+        "u": 4.38
+      },
+      "era": 4.69
+    },
+    {
+      "pitcher": "Merrill Kelly",
       "hand": "R",
       "games": 6,
       "suggest": "fade",
-      "suggestUnits": 3.46,
+      "suggestUnits": 4.34,
       "fade": {
         "w": 5,
         "l": 1,
-        "u": 3.46
+        "u": 4.34
       },
       "take": {
         "w": 1,
         "l": 5,
-        "u": -3.7
+        "u": -4.8
       },
-      "era": 4.78
+      "era": 4.86
     },
     {
-      "pitcher": "Joey Cantillo",
-      "hand": "L",
-      "games": 9,
+      "pitcher": "Sandy Alcantara",
+      "hand": "R",
+      "games": 8,
       "suggest": "take",
-      "suggestUnits": 3.3,
+      "suggestUnits": 4.18,
       "fade": {
-        "w": 3,
+        "w": 2,
         "l": 6,
-        "u": -4.08
+        "u": -5.06
       },
       "take": {
         "w": 6,
-        "l": 3,
-        "u": 3.3
+        "l": 2,
+        "u": 4.18
       },
-      "era": 4.02
+      "era": 3.82
+    },
+    {
+      "pitcher": "Zack Littell",
+      "hand": "R",
+      "games": 4,
+      "suggest": "fade",
+      "suggestUnits": 4.08,
+      "fade": {
+        "w": 4,
+        "l": 0,
+        "u": 4.08
+      },
+      "take": {
+        "w": 0,
+        "l": 4,
+        "u": -4.38
+      },
+      "era": 6.64
+    },
+    {
+      "pitcher": "Nick Lodolo",
+      "hand": "L",
+      "games": 4,
+      "suggest": "fade",
+      "suggestUnits": 4.08,
+      "fade": {
+        "w": 4,
+        "l": 0,
+        "u": 4.08
+      },
+      "take": {
+        "w": 0,
+        "l": 4,
+        "u": -4.66
+      },
+      "era": 4.6
+    },
+    {
+      "pitcher": "Christian Scott",
+      "hand": "R",
+      "games": 6,
+      "suggest": "take",
+      "suggestUnits": 4.0,
+      "fade": {
+        "w": 1,
+        "l": 5,
+        "u": -4.26
+      },
+      "take": {
+        "w": 5,
+        "l": 1,
+        "u": 4.0
+      },
+      "era": 3.13
+    },
+    {
+      "pitcher": "Trevor McDonald",
+      "hand": "R",
+      "games": 4,
+      "suggest": "fade",
+      "suggestUnits": 4.0,
+      "fade": {
+        "w": 4,
+        "l": 0,
+        "u": 4.0
+      },
+      "take": {
+        "w": 0,
+        "l": 4,
+        "u": -4.04
+      },
+      "era": 5.12
+    },
+    {
+      "pitcher": "Nathan Eovaldi",
+      "hand": "R",
+      "games": 5,
+      "suggest": "take",
+      "suggestUnits": 3.46,
+      "fade": {
+        "w": 1,
+        "l": 4,
+        "u": -4.16
+      },
+      "take": {
+        "w": 4,
+        "l": 1,
+        "u": 3.46
+      },
+      "era": 4.05
+    },
+    {
+      "pitcher": "Jack Perkins",
+      "hand": "R",
+      "games": 3,
+      "suggest": "fade",
+      "suggestUnits": 3.38,
+      "fade": {
+        "w": 3,
+        "l": 0,
+        "u": 3.38
+      },
+      "take": {
+        "w": 0,
+        "l": 3,
+        "u": -3.8
+      },
+      "era": 6.99
+    },
+    {
+      "pitcher": "Trey Yesavage",
+      "hand": "R",
+      "games": 5,
+      "suggest": "fade",
+      "suggestUnits": 3.34,
+      "fade": {
+        "w": 4,
+        "l": 1,
+        "u": 3.34
+      },
+      "take": {
+        "w": 1,
+        "l": 4,
+        "u": -3.76
+      },
+      "era": 3.92
+    },
+    {
+      "pitcher": "Griffin Canning",
+      "hand": "R",
+      "games": 5,
+      "suggest": "fade",
+      "suggestUnits": 3.32,
+      "fade": {
+        "w": 4,
+        "l": 1,
+        "u": 3.32
+      },
+      "take": {
+        "w": 1,
+        "l": 4,
+        "u": -3.88
+      },
+      "era": 6.79
     },
     {
       "pitcher": "Germ\u00e1n M\u00e1rquez",
@@ -103,76 +322,40 @@
       "era": 5.11
     },
     {
-      "pitcher": "Bryce Elder",
+      "pitcher": "Randy V\u00e1squez",
       "hand": "R",
-      "games": 7,
-      "suggest": "take",
-      "suggestUnits": 3.1,
-      "fade": {
-        "w": 2,
-        "l": 5,
-        "u": -3.72
-      },
-      "take": {
-        "w": 5,
-        "l": 2,
-        "u": 3.1
-      },
-      "era": 3.96
-    },
-    {
-      "pitcher": "Luis Castillo",
-      "hand": "R",
-      "games": 3,
+      "games": 5,
       "suggest": "fade",
-      "suggestUnits": 3.1,
-      "fade": {
-        "w": 3,
-        "l": 0,
-        "u": 3.1
-      },
-      "take": {
-        "w": 0,
-        "l": 3,
-        "u": -3.46
-      },
-      "era": 4.99
-    },
-    {
-      "pitcher": "Will Warren",
-      "hand": "R",
-      "games": 3,
-      "suggest": "take",
       "suggestUnits": 3.08,
       "fade": {
-        "w": 0,
-        "l": 3,
+        "w": 4,
+        "l": 1,
+        "u": 3.08
+      },
+      "take": {
+        "w": 1,
+        "l": 4,
         "u": -3.44
       },
-      "take": {
-        "w": 3,
-        "l": 0,
-        "u": 3.08
-      },
-      "era": 4.44
+      "era": 4.43
     },
     {
-      "pitcher": "Nick Lodolo",
-      "hand": "L",
-      "games": 3,
+      "pitcher": "Tyler Mahle",
+      "hand": "R",
+      "games": 5,
       "suggest": "fade",
-      "suggestUnits": 3.08,
+      "suggestUnits": 3.0,
       "fade": {
-        "w": 3,
-        "l": 0,
-        "u": 3.08
+        "w": 4,
+        "l": 1,
+        "u": 3.0
       },
       "take": {
-        "w": 0,
-        "l": 3,
-        "u": -3.54
+        "w": 1,
+        "l": 4,
+        "u": -3.18
       },
-      "era": 4.6
+      "era": 4.96
     },
     {
       "pitcher": "Kris Bubic",
@@ -193,7 +376,7 @@
       "era": 4.11
     },
     {
-      "pitcher": "Trevor McDonald",
+      "pitcher": "Brayan Bello",
       "hand": "R",
       "games": 3,
       "suggest": "fade",
@@ -206,9 +389,27 @@
       "take": {
         "w": 0,
         "l": 3,
-        "u": -3.0
+        "u": -3.16
       },
-      "era": 5.12
+      "era": 10.35
+    },
+    {
+      "pitcher": "Griffin Jax",
+      "hand": "R",
+      "games": 5,
+      "suggest": "take",
+      "suggestUnits": 3.0,
+      "fade": {
+        "w": 1,
+        "l": 4,
+        "u": -3.06
+      },
+      "take": {
+        "w": 4,
+        "l": 1,
+        "u": 3.0
+      },
+      "era": 3.24
     },
     {
       "pitcher": "PJ Poulin",
@@ -247,40 +448,148 @@
       "era": 3.67
     },
     {
-      "pitcher": "Noah Cameron",
+      "pitcher": "Andrew Abbott",
       "hand": "L",
-      "games": 7,
+      "games": 10,
       "suggest": "fade",
-      "suggestUnits": 2.88,
-      "fade": {
-        "w": 5,
-        "l": 2,
-        "u": 2.88
-      },
-      "take": {
-        "w": 2,
-        "l": 5,
-        "u": -3.38
-      },
-      "era": 5.27
-    },
-    {
-      "pitcher": "Shane McClanahan",
-      "hand": "L",
-      "games": 9,
-      "suggest": "take",
       "suggestUnits": 2.8,
       "fade": {
-        "w": 3,
-        "l": 6,
-        "u": -3.0
-      },
-      "take": {
-        "w": 6,
+        "w": 7,
         "l": 3,
         "u": 2.8
       },
-      "era": 3.09
+      "take": {
+        "w": 3,
+        "l": 7,
+        "u": -3.46
+      },
+      "era": 3.85
+    },
+    {
+      "pitcher": "Nolan McLean",
+      "hand": "R",
+      "games": 4,
+      "suggest": "fade",
+      "suggestUnits": 2.8,
+      "fade": {
+        "w": 3,
+        "l": 1,
+        "u": 2.8
+      },
+      "take": {
+        "w": 1,
+        "l": 3,
+        "u": -3.32
+      },
+      "era": 3.32
+    },
+    {
+      "pitcher": "Cristopher S\u00e1nchez",
+      "hand": "L",
+      "games": 12,
+      "suggest": "take",
+      "suggestUnits": 2.78,
+      "fade": {
+        "w": 4,
+        "l": 8,
+        "u": -3.56
+      },
+      "take": {
+        "w": 8,
+        "l": 4,
+        "u": 2.78
+      },
+      "era": 2.73
+    },
+    {
+      "pitcher": "Tarik Skubal",
+      "hand": "L",
+      "games": 8,
+      "suggest": "take",
+      "suggestUnits": 2.74,
+      "fade": {
+        "w": 2,
+        "l": 6,
+        "u": -3.36
+      },
+      "take": {
+        "w": 6,
+        "l": 2,
+        "u": 2.74
+      },
+      "era": 2.7
+    },
+    {
+      "pitcher": "Braxton Ashcraft",
+      "hand": "R",
+      "games": 6,
+      "suggest": "fade",
+      "suggestUnits": 2.74,
+      "fade": {
+        "w": 4,
+        "l": 2,
+        "u": 2.74
+      },
+      "take": {
+        "w": 2,
+        "l": 4,
+        "u": -3.5
+      },
+      "era": 4.05
+    },
+    {
+      "pitcher": "Rhett Lowder",
+      "hand": "R",
+      "games": 5,
+      "suggest": "fade",
+      "suggestUnits": 2.74,
+      "fade": {
+        "w": 4,
+        "l": 1,
+        "u": 2.74
+      },
+      "take": {
+        "w": 1,
+        "l": 4,
+        "u": -3.1
+      },
+      "era": 6.04
+    },
+    {
+      "pitcher": "Noah Schultz",
+      "hand": "L",
+      "games": 9,
+      "suggest": "fade",
+      "suggestUnits": 2.62,
+      "fade": {
+        "w": 6,
+        "l": 3,
+        "u": 2.62
+      },
+      "take": {
+        "w": 3,
+        "l": 6,
+        "u": -3.38
+      },
+      "era": 6.15
+    },
+    {
+      "pitcher": "Logan Webb",
+      "hand": "R",
+      "games": 8,
+      "suggest": "fade",
+      "suggestUnits": 2.5,
+      "fade": {
+        "w": 5,
+        "l": 3,
+        "u": 2.5
+      },
+      "take": {
+        "w": 3,
+        "l": 5,
+        "u": -2.96
+      },
+      "era": 3.98
     }
   ]
 }
