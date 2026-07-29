@@ -1,7 +1,7 @@
 {
   "sport": "MLB",
   "type": "fade-ml",
-  "generated": "2026-07-29T22:10:48Z",
+  "generated": "2026-07-29T23:01:44Z",
   "fadeList": [
     "Painter",
     "Rocker",
@@ -71,21 +71,21 @@
   "mutualRule": "underdog_min",
   "summary": {
     "wins": 399,
-    "losses": 136,
+    "losses": 137,
     "voids": 3,
     "skips": 32,
-    "staked": 659.31,
-    "units": 277.52,
-    "roi": 0.4209,
+    "staked": 660.33,
+    "units": 276.5,
+    "roi": 0.4187,
     "byType": {
       "ml": {
         "wins": 390,
-        "losses": 128,
+        "losses": 129,
         "voids": 3,
         "skips": 0,
-        "staked": 642.31,
-        "units": 273.44,
-        "roi": 0.4257
+        "staked": 643.33,
+        "units": 272.42,
+        "roi": 0.4235
       },
       "ml_dog": {
         "wins": 9,
@@ -99,30 +99,6 @@
     }
   },
   "today": [
-    {
-      "date": "2026-07-29",
-      "commence": "2026-07-29T19:45:00Z",
-      "betType": "ml",
-      "shadow": false,
-      "pitchers": [
-        "Logan Webb"
-      ],
-      "fadeTeam": "SF",
-      "market": "h2h",
-      "selection": "MIL",
-      "line": null,
-      "odds": -102,
-      "stake": 1.02,
-      "result": "pending",
-      "profit": 0.0,
-      "book": "fanduel",
-      "source": "fanduel_api",
-      "reason": null,
-      "home": "SF",
-      "away": "MIL",
-      "gamePk": 823192,
-      "fadeReason": "all"
-    },
     {
       "date": "2026-07-29",
       "commence": "2026-07-29T23:45:00Z",
@@ -13925,6 +13901,30 @@
       "away": "TOR",
       "gamePk": 822702,
       "fadeReason": "away"
+    },
+    {
+      "date": "2026-07-29",
+      "commence": "2026-07-29T19:45:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Logan Webb"
+      ],
+      "fadeTeam": "SF",
+      "market": "h2h",
+      "selection": "MIL",
+      "line": null,
+      "odds": -102,
+      "stake": 1.02,
+      "result": "LOSS",
+      "profit": -1.02,
+      "book": "fanduel",
+      "source": "fanduel_api",
+      "reason": null,
+      "home": "SF",
+      "away": "MIL",
+      "gamePk": 823192,
+      "fadeReason": "all"
     }
   ]
 }

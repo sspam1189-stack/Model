@@ -1,7 +1,7 @@
 {
   "sport": "MLB",
   "type": "all-ml",
-  "generated": "2026-07-29T22:11:24Z",
+  "generated": "2026-07-29T23:02:34Z",
   "seasonStart": "2026-03-25",
   "today": [
     {
@@ -97,8 +97,8 @@
       "away_pitcher": "Thomas Pannone",
       "home_hand": "R",
       "away_hand": "L",
-      "home_win": null,
-      "final": false
+      "home_win": true,
+      "final": true
     },
     {
       "date": "2026-07-29",
@@ -113,8 +113,8 @@
       "away_pitcher": "Gabriel Hughes",
       "home_hand": "L",
       "away_hand": "R",
-      "home_win": null,
-      "final": false
+      "home_win": true,
+      "final": true
     },
     {
       "date": "2026-07-29",
@@ -22840,6 +22840,34 @@
       "away_ml": -108,
       "home_pitcher": "Sean Manaea",
       "away_pitcher": "AJ Smith-Shawver",
+      "home_hand": "L",
+      "away_hand": "R",
+      "home_win": true
+    },
+    {
+      "date": "2026-07-29",
+      "commence": "2026-07-29T19:45:00Z",
+      "gamePk": 823192,
+      "home": "SF",
+      "away": "MIL",
+      "home_ml": -116,
+      "away_ml": -102,
+      "home_pitcher": "Logan Webb",
+      "away_pitcher": "Thomas Pannone",
+      "home_hand": "R",
+      "away_hand": "L",
+      "home_win": true
+    },
+    {
+      "date": "2026-07-29",
+      "commence": "2026-07-29T20:10:00Z",
+      "gamePk": 823273,
+      "home": "SD",
+      "away": "COL",
+      "home_ml": -184,
+      "away_ml": 154,
+      "home_pitcher": "Kyle Hart",
+      "away_pitcher": "Gabriel Hughes",
       "home_hand": "L",
       "away_hand": "R",
       "home_win": true
