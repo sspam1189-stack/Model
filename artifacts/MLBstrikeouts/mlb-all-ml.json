@@ -1,7 +1,7 @@
 {
   "sport": "MLB",
   "type": "all-ml",
-  "generated": "2026-07-29T18:54:00Z",
+  "generated": "2026-07-29T19:56:44Z",
   "seasonStart": "2026-03-25",
   "today": [
     {
@@ -81,8 +81,8 @@
       "away_pitcher": "AJ Smith-Shawver",
       "home_hand": "L",
       "away_hand": "R",
-      "home_win": null,
-      "final": false
+      "home_win": true,
+      "final": true
     },
     {
       "date": "2026-07-29",
@@ -106,8 +106,8 @@
       "gamePk": 823273,
       "home": "SD",
       "away": "COL",
-      "home_ml": -162,
-      "away_ml": 136,
+      "home_ml": -184,
+      "away_ml": 154,
       "total_line": 8.5,
       "home_pitcher": "Kyle Hart",
       "away_pitcher": "Gabriel Hughes",
@@ -250,8 +250,8 @@
       "gamePk": 823924,
       "home": "LAD",
       "away": "SEA",
-      "home_ml": -158,
-      "away_ml": 134,
+      "home_ml": -162,
+      "away_ml": 136,
       "total_line": 9.5,
       "home_pitcher": "Eric Lauer",
       "away_pitcher": "Emerson Hancock",
@@ -22801,6 +22801,20 @@
       "home_hand": "R",
       "away_hand": "L",
       "home_win": false
+    },
+    {
+      "date": "2026-07-29",
+      "commence": "2026-07-29T17:10:00Z",
+      "gamePk": 823596,
+      "home": "NYM",
+      "away": "ATL",
+      "home_ml": -108,
+      "away_ml": -108,
+      "home_pitcher": "Sean Manaea",
+      "away_pitcher": "AJ Smith-Shawver",
+      "home_hand": "L",
+      "away_hand": "R",
+      "home_win": true
     }
   ]
 }
