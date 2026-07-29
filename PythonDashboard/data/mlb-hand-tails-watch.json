@@ -1,34 +1,12 @@
 {
   "sport": "MLB",
   "type": "hand-tails-watch",
-  "generated": "2026-07-29T03:56:39Z",
+  "generated": "2026-07-29T13:06:42Z",
   "handMin": 6,
   "minGames": 3,
   "minUnits": 2.5,
   "note": "Shadow review list -- arms NOT on the active hand-tails list showing a handedness-conditional edge. In-sample season replay; watch, don't bet. Promote by editing scripts/hand_tails.py.",
-  "today": [
-    {
-      "date": "2026-07-28",
-      "commence": "2026-07-29T02:10:00Z",
-      "betType": "watch_fade",
-      "action": "fade",
-      "watch": true,
-      "pitcher": "Luis Castillo",
-      "hand": "R",
-      "arm_team": "SEA",
-      "opp_team": "LAD",
-      "selection": "LAD",
-      "home": "LAD",
-      "away": "SEA",
-      "oppLefty": 6,
-      "oppRighty": 4,
-      "odds": -235,
-      "suggest": "fade",
-      "suggestUnits": 3.1,
-      "games": 3,
-      "result": "pending"
-    }
-  ],
+  "today": [],
   "candidates": [
     {
       "pitcher": "Slade Cecconi",
@@ -46,7 +24,7 @@
         "l": 5,
         "u": -3.7
       },
-      "era": 4.6
+      "era": 4.78
     },
     {
       "pitcher": "Germ\u00e1n M\u00e1rquez",
@@ -82,7 +60,7 @@
         "l": 3,
         "u": -3.46
       },
-      "era": 4.75
+      "era": 4.99
     },
     {
       "pitcher": "Will Warren",

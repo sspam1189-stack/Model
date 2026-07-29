@@ -1,7 +1,7 @@
 {
   "sport": "MLB",
   "type": "fade-ml",
-  "generated": "2026-07-29T03:55:44Z",
+  "generated": "2026-07-29T13:05:51Z",
   "fadeList": [
     "Painter",
     "Rocker",
@@ -71,21 +71,21 @@
   "mutualRule": "underdog_min",
   "summary": {
     "wins": 397,
-    "losses": 133,
+    "losses": 135,
     "voids": 3,
     "skips": 34,
-    "staked": 652.32,
-    "units": 280.25,
-    "roi": 0.4296,
+    "staked": 656.13,
+    "units": 276.44,
+    "roi": 0.4213,
     "byType": {
       "ml": {
         "wins": 388,
-        "losses": 125,
+        "losses": 127,
         "voids": 3,
         "skips": 2,
-        "staked": 635.32,
-        "units": 276.17,
-        "roi": 0.4347
+        "staked": 639.13,
+        "units": 272.36,
+        "roi": 0.4261
       },
       "ml_dog": {
         "wins": 9,
@@ -100,52 +100,124 @@
   },
   "today": [
     {
-      "date": "2026-07-28",
-      "commence": "2026-07-29T01:40:00Z",
+      "date": "2026-07-29",
+      "commence": "2026-07-30T01:38:00Z",
       "betType": "ml",
       "shadow": false,
       "pitchers": [
-        "Gage Jump"
+        "Grayson Rodriguez"
+      ],
+      "fadeTeam": "LAA",
+      "market": "h2h",
+      "selection": "HOU",
+      "line": null,
+      "odds": -138,
+      "stake": 1.38,
+      "result": "pending",
+      "profit": 0.0,
+      "book": "fanduel",
+      "source": "fanduel_api",
+      "reason": null,
+      "home": "LAA",
+      "away": "HOU",
+      "gamePk": 824002,
+      "fadeReason": "home"
+    },
+    {
+      "date": "2026-07-29",
+      "commence": "2026-07-30T01:40:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Jacob Lopez"
       ],
       "fadeTeam": "OAK",
       "market": "h2h",
-      "selection": "BOS",
+      "selection": null,
       "line": null,
-      "odds": -146,
-      "stake": 1.46,
-      "result": "pending",
+      "odds": null,
+      "stake": null,
+      "result": "SKIP",
       "profit": 0.0,
       "book": "fanduel",
       "source": "fanduel_api",
-      "reason": null,
+      "reason": "hand_tail_override",
       "home": "OAK",
       "away": "BOS",
-      "gamePk": 824976,
-      "fadeReason": "all"
+      "gamePk": 824973,
+      "fadeReason": "home"
     },
     {
-      "date": "2026-07-28",
-      "commence": "2026-07-29T02:10:00Z",
+      "date": "2026-07-29",
+      "commence": "2026-07-29T19:45:00Z",
       "betType": "ml",
       "shadow": false,
       "pitchers": [
-        "Luis Castillo"
+        "Logan Webb"
       ],
-      "fadeTeam": "SEA",
+      "fadeTeam": "SF",
       "market": "h2h",
-      "selection": "LAD",
+      "selection": "MIL",
       "line": null,
-      "odds": -235,
-      "stake": 2.35,
+      "odds": -122,
+      "stake": 1.22,
       "result": "pending",
       "profit": 0.0,
       "book": "fanduel",
       "source": "fanduel_api",
       "reason": null,
-      "home": "LAD",
-      "away": "SEA",
-      "gamePk": 823923,
+      "home": "SF",
+      "away": "MIL",
+      "gamePk": 823192,
       "fadeReason": "all"
+    },
+    {
+      "date": "2026-07-29",
+      "commence": "2026-07-29T23:45:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Dustin May"
+      ],
+      "fadeTeam": "STL",
+      "market": "h2h",
+      "selection": "CHC",
+      "line": null,
+      "odds": -116,
+      "stake": 1.16,
+      "result": "pending",
+      "profit": 0.0,
+      "book": "fanduel",
+      "source": "fanduel_api",
+      "reason": null,
+      "home": "STL",
+      "away": "CHC",
+      "gamePk": 823022,
+      "fadeReason": "all"
+    },
+    {
+      "date": "2026-07-29",
+      "commence": "2026-07-29T17:05:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Trey Yesavage"
+      ],
+      "fadeTeam": "TOR",
+      "market": "h2h",
+      "selection": "WSH",
+      "line": null,
+      "odds": 100,
+      "stake": 1.0,
+      "result": "pending",
+      "profit": 0.0,
+      "book": "fanduel",
+      "source": "fanduel_api",
+      "reason": null,
+      "home": "WSH",
+      "away": "TOR",
+      "gamePk": 822702,
+      "fadeReason": "away"
     }
   ],
   "bets": [
@@ -13804,6 +13876,54 @@
       "home": "STL",
       "away": "CHC",
       "gamePk": 823026,
+      "fadeReason": "all"
+    },
+    {
+      "date": "2026-07-28",
+      "commence": "2026-07-29T01:40:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Gage Jump"
+      ],
+      "fadeTeam": "OAK",
+      "market": "h2h",
+      "selection": "BOS",
+      "line": null,
+      "odds": -146,
+      "stake": 1.46,
+      "result": "LOSS",
+      "profit": -1.46,
+      "book": "fanduel",
+      "source": "fanduel_api",
+      "reason": null,
+      "home": "OAK",
+      "away": "BOS",
+      "gamePk": 824976,
+      "fadeReason": "all"
+    },
+    {
+      "date": "2026-07-28",
+      "commence": "2026-07-29T02:10:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Luis Castillo"
+      ],
+      "fadeTeam": "SEA",
+      "market": "h2h",
+      "selection": "LAD",
+      "line": null,
+      "odds": -235,
+      "stake": 2.35,
+      "result": "LOSS",
+      "profit": -2.35,
+      "book": "fanduel",
+      "source": "fanduel_api",
+      "reason": null,
+      "home": "LAD",
+      "away": "SEA",
+      "gamePk": 823923,
       "fadeReason": "all"
     }
   ]
