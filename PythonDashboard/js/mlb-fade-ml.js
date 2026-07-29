@@ -196,7 +196,13 @@ async function renderMLBFadeML() {
   // Today's per-team probable starter ({abbr: {name, hand}}) — used to show the
   // starting pitcher of the TAKE (the team we're backing) before its name.
   const starters = (handData && handData.starters) || {};
+  // Only trust the starter map when it's for the CURRENT slate. If the pitch-
+  // hands file lagged (built before today's probables posted), its date won't
+  // match today's picks — show no take-SP (TBD) rather than yesterday's arm.
+  const _slateDate = ((data.today || []).find(t => t.result === 'pending') || {}).date;
+  const _startersFresh = !!(handData && handData.date && _slateDate && handData.date === _slateDate);
   const takeSpTag = (team) => {
+    if (!_startersFresh) return '';
     const sp = starters[team];
     return (sp && sp.name)
       ? '<span style="color:#9aa2ad;font-size:12px">' + esc(sp.name) + '</span> ' : '';
@@ -228,6 +234,15 @@ async function renderMLBFadeML() {
     const v = h === 'L' ? tm.vsLHP : tm.vsRHP;
     return v == null ? '' : wrcChip(fadeTeam, v, h, false);
   };
+  // A team's wRC+ vs a given pitcher hand (for hand-tails picks, both sides).
+  const teamVsHandTag = (team, hand, label) => {
+    const tm = wrcTeams[team];
+    if (!tm || !hand) return '';
+    const v = hand === 'L' ? tm.vsLHP : tm.vsRHP;
+    return v == null ? '' : wrcChip(team, v, hand, label);
+  };
+  // Opposing starter's hand for a team (only when the starter map is fresh).
+  const oppSpHandOf = (team) => (_startersFresh && (starters[team] || {}).hand) || null;
 
   // Fade-list picks — reason is the venue split (fadeReason: away/home/all).
   const fadeLabel = (t) => {
@@ -263,13 +278,22 @@ async function renderMLBFadeML() {
   const tailLabel = (t) => {
     const name = t.pitcher || (t.pitchers || []).join(' / ');
     const htag = handTag(name, t.hand);
+    const armHand = handOf(name, t.hand);       // the arm's own hand
+    const armTeam = t.arm_team, opp = t.opp_team;
     if (t.action === 'take')
+      // Back the arm's team: opp bat vs the arm up front, our bat vs opp SP at end.
       return '• <span style="color:' + TEAL + ';font-weight:600">Tail</span>' + htag
-        + ' <b>' + esc(name) + '</b> (' + esc(t.arm_team || '?') + ')' + tag('handedness', TEAL, '')
-        + ' → <b>' + esc(t.selection || '?') + '</b>' + oddsStr(t.odds) + atStr(t);
-    return '• Fade' + htag + ' <b>' + esc(name) + '</b> (' + esc(t.arm_team || '?') + ')'
+        + ' <b>' + esc(name) + '</b> (' + esc(armTeam || '?') + ')' + tag('handedness', TEAL, '')
+        + teamVsHandTag(opp, armHand, false)
+        + ' → <b>' + esc(t.selection || '?') + '</b>' + oddsStr(t.odds) + atStr(t)
+        + teamVsHandTag(armTeam, oppSpHandOf(opp), true);
+    // Hand-tails fade: bet the opponent — arm's-team bat vs opp SP up front,
+    // opp bat vs the arm at the end.
+    return '• Fade' + htag + ' <b>' + esc(name) + '</b> (' + esc(armTeam || '?') + ')'
       + tag('handedness', null, '@ ')
-      + ' → <b>' + esc(t.selection || '?') + '</b>' + oddsStr(t.odds) + atStr(t);
+      + teamVsHandTag(armTeam, oppSpHandOf(opp), false)
+      + ' → <b>' + esc(t.selection || '?') + '</b>' + oddsStr(t.odds) + atStr(t)
+      + teamVsHandTag(opp, armHand, true);
   };
   // WATCH badge for watchlist plays — review only, not part of the bet record.
   const watchBadge = '<span style="background:rgba(176,131,240,0.16);color:' + PURPLE
@@ -423,8 +447,8 @@ async function renderMLBFadeML() {
   // Rebuild the Pitcher dropdown to only list arms that have bets of the
   // currently selected Type (Fade/Tail). Keeps the current pick if still valid.
   function refreshPitcherOptions() {
-    const tv = kindSel.value;
-    const ps = [...new Set(bets.filter(b => !tv || b.kind === tv)
+    const tv = kindSel.value, sv = sourceSel.value;
+    const ps = [...new Set(bets.filter(b => (!tv || b.kind === tv) && (!sv || b.source === sv))
       .flatMap(b => b.pitchers || []))].sort();
     const cur = pitcherSel.value;
     pitcherSel.innerHTML = '<option value="">All</option>'
@@ -474,6 +498,9 @@ async function renderMLBFadeML() {
       // at home, "PIT" = betting PIT on the road.
       const sel = b.selection || '?';
       const pick = (sel === b.home ? '@' : '') + esc(sel);
+      // Tail (hand-tails take) backs the arm's own team — show who it faces.
+      const oppTag = (b.kind === 'tail' && b.opp_team)
+        ? ' <span style="color:#888;font-weight:400;font-size:11px">vs ' + esc(b.opp_team) + '</span>' : '';
       const note = b.result === 'VOID' ? (' <span style="color:#777;font-size:10px">' + esc(b.reason || 'void') + '</span>')
         : (b.result === 'SKIP' ? ' <span style="color:#777;font-size:10px">skip</span>' : '');
       // Reason: WHY the fade fired — 'venue' (fade list) vs 'hand' (hand-tails).
@@ -483,7 +510,7 @@ async function renderMLBFadeML() {
         + '<td style="padding:4px 6px;color:' + ORANGE + ';font-size:11px;font-weight:700">' + (typeTag[b.betType] || '') + '</td>'
         + '<td style="padding:4px 8px;color:#999;font-size:11px">' + reason + '</td>'
         + '<td style="padding:4px 8px">' + esc((b.pitchers || []).join(' / ')) + '</td>'
-        + '<td style="padding:4px 8px;font-weight:600">' + pick + note + '</td>'
+        + '<td style="padding:4px 8px;font-weight:600">' + pick + oppTag + note + '</td>'
         + '<td style="padding:4px 8px;text-align:right;color:' + ORANGE + '">' + fmtOdds(b.odds) + '</td>'
         + '<td style="padding:4px 8px;text-align:center;color:' + resColor + ';font-weight:700">' + esc(b.result) + '</td>'
         + '<td style="padding:4px 8px;text-align:right;color:' + profColor + '">' + prof + '</td>'
@@ -527,7 +554,7 @@ async function renderMLBFadeML() {
   dateSel.addEventListener('change', repage);
   pitcherSel.addEventListener('change', repage);
   venueSel.addEventListener('change', repage);
-  sourceSel.addEventListener('change', repage);
+  sourceSel.addEventListener('change', () => { refreshPitcherOptions(); repage(); });
   kindSel.addEventListener('change', () => { refreshPitcherOptions(); repage(); });
   drawRows();
 

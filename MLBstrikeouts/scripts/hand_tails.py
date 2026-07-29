@@ -32,7 +32,7 @@ HAND_TAILS = {
     "Imai": ("R", "fade"),
     # ---- RHP, TAKE (vs 6+ lefties) ----
     "Nick Martinez": ("R", "take"), "Soriano": ("R", "take"),
-    "Aaron Nola": ("R", "take"), "Glasnow": ("R", "take"), "Ginn": ("R", "take"),
+    "Glasnow": ("R", "take"), "Ginn": ("R", "take"),
     # Added 2026-07-28: RHP, COL backed on 6+ lefty lineups. 3-0 +5.22u in-sample
     # (vs 6+ lefties); small sample, live paper-forward.
     "Michael Lorenzen": ("R", "take"),
@@ -47,8 +47,7 @@ HAND_TAILS = {
     # ---- Added 2026-07-27 from the shadow watchlist ----
     "Framber Valdez": ("L", "fade"), "Mike Burrows": ("R", "fade"),
     "David Peterson": ("L", "fade"),
-    "Joey Cantillo": ("L", "take"), "Shane Baz": ("R", "fade"),
-    "Bryce Elder": ("R", "take"),
+    "Shane Baz": ("R", "fade"),
 }
 _TAIL_TOKENS = {e: set(_norm(e).split()) for e in HAND_TAILS}
 
