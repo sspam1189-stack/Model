@@ -27,7 +27,7 @@ import re
 
 sys.path.insert(0, os.path.dirname(__file__))
 
-from fade_ml_common import stake_for, profit_for
+from fade_ml_common import stake_for, profit_for, load_props_index
 from hand_tails import tail_entry, HAND_MIN, opp_lineup_counts
 
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
@@ -57,7 +57,13 @@ def build():
     allml = json.load(open(allml_path))
     games = allml.get("games", [])
     today_games = allml.get("today", [])
-    settled = [g for g in games if g.get("home_win") is not None]
+    # Gate to the same game universe the live grader (run_daily_hand_tails)
+    # uses: only dates with a props slate in props_index. Without this the
+    # watchlist replays extra slate-less days (e.g. Opening Day) the grader
+    # never grades, so its records wouldn't match the active ledger.
+    slate_dates = {d for d in load_props_index() if d}
+    settled = [g for g in games
+               if g.get("home_win") is not None and g.get("date") in slate_dates]
     era_adv = _load("pitcher_advanced_starter_2026_thru_*.json")
     ERA = {_norm(v.get("player_name")): v.get("ERA") for v in era_adv.values()}
 
