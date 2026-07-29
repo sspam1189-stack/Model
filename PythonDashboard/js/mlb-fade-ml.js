@@ -476,14 +476,12 @@ async function renderMLBFadeML() {
       const pick = (sel === b.home ? '@' : '') + esc(sel);
       const note = b.result === 'VOID' ? (' <span style="color:#777;font-size:10px">' + esc(b.reason || 'void') + '</span>')
         : (b.result === 'SKIP' ? ' <span style="color:#777;font-size:10px">skip</span>' : '');
-      // Reason tag: WHY the fade fired — 'venue' (fade list) vs 'hand' (hand-tails).
-      const srcTag = b.source
-        ? '<div style="color:#888;font-weight:400;font-size:9px;letter-spacing:.03em">'
-          + (b.source === 'handedness' ? 'hand' : 'venue') + '</div>'
-        : '';
+      // Reason: WHY the fade fired — 'venue' (fade list) vs 'hand' (hand-tails).
+      const reason = b.source === 'handedness' ? 'hand' : (b.source === 'venue' ? 'venue' : '');
       rows += '<tr style="' + dim + '">'
         + '<td style="padding:4px 8px;color:#999">' + esc(b.date) + '</td>'
-        + '<td style="padding:4px 6px;font-size:11px;font-weight:700"><span style="color:' + ORANGE + '">' + (typeTag[b.betType] || '') + '</span>' + srcTag + '</td>'
+        + '<td style="padding:4px 6px;color:' + ORANGE + ';font-size:11px;font-weight:700">' + (typeTag[b.betType] || '') + '</td>'
+        + '<td style="padding:4px 8px;color:#999;font-size:11px">' + reason + '</td>'
         + '<td style="padding:4px 8px">' + esc((b.pitchers || []).join(' / ')) + '</td>'
         + '<td style="padding:4px 8px;font-weight:600">' + pick + note + '</td>'
         + '<td style="padding:4px 8px;text-align:right;color:' + ORANGE + '">' + fmtOdds(b.odds) + '</td>'
@@ -511,6 +509,7 @@ async function renderMLBFadeML() {
       + '<table style="width:100%;border-collapse:collapse;font-size:13px">'
       + '<thead><tr style="color:#888;text-align:left;border-bottom:1px solid #333">'
       + '<th style="padding:4px 8px">Date</th><th style="padding:4px 6px">Type</th>'
+      + '<th style="padding:4px 8px">Reason</th>'
       + '<th style="padding:4px 8px">Fade arm(s)</th><th style="padding:4px 8px">Pick</th>'
       + '<th style="padding:4px 8px;text-align:right">Odds</th>'
       + '<th style="padding:4px 8px;text-align:center">Result</th><th style="padding:4px 8px;text-align:right">P/L</th>'
