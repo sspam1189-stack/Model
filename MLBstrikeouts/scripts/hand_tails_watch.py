@@ -58,17 +58,8 @@ def build():
     games = allml.get("games", [])
     today_games = allml.get("today", [])
     settled = [g for g in games if g.get("home_win") is not None]
-    bat = _load("player_bat_sides_*.json")
-    bo = _load("batting_orders_*.json")
     era_adv = _load("pitcher_advanced_starter_2026_thru_*.json")
     ERA = {_norm(v.get("player_name")): v.get("ERA") for v in era_adv.values()}
-
-    def opp_counts(team, date):
-        lu = (bo.get(date) or {}).get(team)
-        if not lu:
-            return None, None
-        return (sum(1 for p in lu if bat.get(str(p)) in ("L", "S")),
-                sum(1 for p in lu if bat.get(str(p)) in ("R", "S")))
 
     # per pitcher -> list of (fade_profit, take_profit, stake_opp, stake_team, won_team)
     per = {}
@@ -80,7 +71,10 @@ def build():
             if tail_entry(p)[0]:          # already on the active list -> skip
                 continue
             opp = g["away"] if side == "home" else g["home"]
-            L, R = opp_counts(opp, g["date"])
+            # Same lineup source the live grader uses (batting_orders cache +
+            # live-handedness resolution for batters missing from bat_sides), so
+            # the watchlist qualifies exactly the games run_daily_hand_tails does.
+            L, R = opp_lineup_counts(opp, g["date"])
             if L is None:
                 continue
             heavy = (L >= HAND_MIN) if hand == "R" else (R >= HAND_MIN)
