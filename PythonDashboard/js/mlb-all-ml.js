@@ -234,8 +234,8 @@ async function renderMLBAllML() {
     + '<select id="amRole" style="' + selCss + '">' + opt('', 'All', true)
     + opt('fav', 'Favorite') + opt('dog', 'Underdog') + '</select></label>'
     + '<label style="font-size:11px;color:#888">O/U '
-    + '<select id="amOU" style="' + selCss + '">' + opt('', 'All', true)
-    + opt('over', 'Over') + opt('under', 'Under') + opt('push', 'Push') + '</select></label>'
+    + '<select id="amOU" style="' + selCss + '">' + opt('', 'Off', true)
+    + opt('over', 'Bet Over') + opt('under', 'Bet Under') + '</select></label>'
     + '<label style="font-size:11px;color:#888">Venue '
     + '<select id="amVenue" style="' + selCss + '">' + opt('', 'All', true)
     + opt('home', 'Home') + opt('away', 'Away') + '</select></label>'
@@ -280,8 +280,9 @@ async function renderMLBAllML() {
       (!hv || s.oppHand === hv) &&
       (!pv || s.teamSP === pv) &&
       (!rv || (rv === 'fav' ? s.isFav : !s.isFav)) &&
-      (!ouv || ouOf(s) === ouv) &&
       (!vv || s.venue === vv);
+    // Note: the O/U dropdown does NOT filter rows out — it selects which total
+    // side to grade for the O/U record below, over the same slice of games.
     // One row per game: keep the eligible side; if both sides qualify (no
     // filter distinguishes them) show the home side so table == record.
     const view = [];
@@ -302,14 +303,52 @@ async function renderMLBAllML() {
     const wr = n ? (wins / n * 100) : 0;
     const roi = staked ? (units / staked * 100) : 0;
 
-    bigEl.innerHTML =
-      bigStat('Record', wins + '-' + losses)
-      + bigStat('Win %', n ? wr.toFixed(1) + '%' : '—')
-      + bigStat('Units', (units >= 0 ? '+' : '') + units.toFixed(2) + 'u', uColor(units))
-      + bigStat('ROI', n ? (roi >= 0 ? '+' : '') + roi.toFixed(1) + '%' : '—', uColor(units));
-    recEl.textContent = wins + '-' + losses + ' · ' + (units >= 0 ? '+' : '') + units.toFixed(2) + 'u'
+    // O/U record: when a total side is picked, grade betting that side (at the
+    // over/under price) across the same slice. Pushes refund (excluded from W/L
+    // and units). Reuses the American-odds stake/profit math.
+    const ouActive = ouv === 'over' || ouv === 'under';
+    let ow = 0, ol = 0, opush = 0, ou = 0, ostaked = 0;
+    if (ouActive) {
+      for (const s of view) {
+        const res = ouOf(s);
+        const odds = ouv === 'over' ? s.overML : s.underML;
+        if (res == null || odds == null) continue;
+        if (res === 'push') { opush++; continue; }
+        const won = res === ouv;
+        if (won) ow++; else ol++;
+        ou += profitFor(odds, won);
+        ostaked += stakeFor(odds);
+      }
+    }
+    const on = ow + ol;
+    const owr = on ? (ow / on * 100) : 0;
+    const oroi = ostaked ? (ou / ostaked * 100) : 0;
+    const ouLbl = ouv === 'over' ? 'Over' : 'Under';
+    const orec = ow + '-' + ol + (opush ? '-' + opush : '');
+
+    const mlp = ouActive ? 'ML ' : '';
+    let big =
+      bigStat(mlp + 'Record', wins + '-' + losses)
+      + bigStat(mlp + 'Win %', n ? wr.toFixed(1) + '%' : '—')
+      + bigStat(mlp + 'Units', (units >= 0 ? '+' : '') + units.toFixed(2) + 'u', uColor(units))
+      + bigStat(mlp + 'ROI', n ? (roi >= 0 ? '+' : '') + roi.toFixed(1) + '%' : '—', uColor(units));
+    if (ouActive) {
+      big += '<div style="width:1px;align-self:stretch;background:#333;margin:0 4px"></div>'
+        + bigStat(ouLbl + ' Record', orec)
+        + bigStat(ouLbl + ' Win %', on ? owr.toFixed(1) + '%' : '—')
+        + bigStat(ouLbl + ' Units', (ou >= 0 ? '+' : '') + ou.toFixed(2) + 'u', uColor(ou))
+        + bigStat(ouLbl + ' ROI', on ? (oroi >= 0 ? '+' : '') + oroi.toFixed(1) + '%' : '—', uColor(ou));
+    }
+    bigEl.innerHTML = big;
+
+    const mlStr = wins + '-' + losses + ' · ' + (units >= 0 ? '+' : '') + units.toFixed(2) + 'u'
       + (n ? ' · ' + roi.toFixed(1) + '% ROI' : '');
-    recEl.style.color = uColor(units);
+    recEl.innerHTML = '<span style="color:' + uColor(units) + '">' + (ouActive ? 'ML ' : '') + mlStr + '</span>'
+      + (ouActive
+        ? ' <span style="color:#666">|</span> <span style="color:' + uColor(ou) + '">' + ouLbl + ' ' + orec
+          + ' · ' + (ou >= 0 ? '+' : '') + ou.toFixed(2) + 'u' + (on ? ' · ' + oroi.toFixed(1) + '% ROI' : '') + '</span>'
+        : '');
+    recEl.style.color = '';
 
     const rows = view.slice().reverse().slice(0, ROW_CAP); // newest first
     const body = rows.map(s => {
