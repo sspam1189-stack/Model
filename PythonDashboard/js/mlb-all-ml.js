@@ -153,8 +153,9 @@ async function renderMLBAllML() {
           + '<span style="color:#666"> - </span>'
           + sideTxt(esc(g.home_score) + ' ' + esc(g.home), hWon)
         : '<span style="font-weight:600">' + esc(g.away) + ' @ ' + esc(g.home) + '</span>';
-      // Total: closing line, green if the game went Over, red if Under (once final).
-      const runsTot = (g.away_score != null && g.home_score != null) ? g.away_score + g.home_score : null;
+      // Total: closing line, green if the game went Over, red if Under. Only
+      // grade once FINAL — pending games report 0-0, which would false-red every line.
+      const runsTot = done ? g.away_score + g.home_score : null;
       let totalCell = (g.total_line != null ? esc(g.total_line) : '—');
       if (g.total_line != null && runsTot != null) {
         const col = runsTot > g.total_line ? GREEN : (runsTot < g.total_line ? RED : '#aaa');
