@@ -1,7 +1,7 @@
 {
   "sport": "MLB",
   "type": "hand-tails-watch",
-  "generated": "2026-07-30T18:34:05Z",
+  "generated": "2026-07-30T20:06:57Z",
   "handMin": 6,
   "minGames": 3,
   "minUnits": 2.5,
@@ -25,8 +25,8 @@
       "oppRighty": 8,
       "odds": -136,
       "suggest": "fade",
-      "suggestUnits": 3.04,
-      "games": 7,
+      "suggestUnits": 4.04,
+      "games": 8,
       "result": "pending"
     },
     {
@@ -44,7 +44,7 @@
       "away": "PIT",
       "oppLefty": 6,
       "oppRighty": 6,
-      "odds": -112,
+      "odds": -116,
       "suggest": "fade",
       "suggestUnits": 2.74,
       "games": 5,
@@ -326,6 +326,24 @@
       "era": 4.6
     },
     {
+      "pitcher": "Noah Cameron",
+      "hand": "L",
+      "games": 8,
+      "suggest": "fade",
+      "suggestUnits": 4.04,
+      "fade": {
+        "w": 6,
+        "l": 2,
+        "u": 4.04
+      },
+      "take": {
+        "w": 2,
+        "l": 6,
+        "u": -4.38
+      },
+      "era": 5.27
+    },
+    {
       "pitcher": "Christian Scott",
       "hand": "R",
       "games": 6,
@@ -432,24 +450,6 @@
         "u": -3.44
       },
       "era": 4.43
-    },
-    {
-      "pitcher": "Noah Cameron",
-      "hand": "L",
-      "games": 7,
-      "suggest": "fade",
-      "suggestUnits": 3.04,
-      "fade": {
-        "w": 5,
-        "l": 2,
-        "u": 3.04
-      },
-      "take": {
-        "w": 2,
-        "l": 5,
-        "u": -3.38
-      },
-      "era": 5.27
     },
     {
       "pitcher": "Brayan Bello",
