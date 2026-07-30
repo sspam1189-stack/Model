@@ -1522,7 +1522,7 @@ function updateLastRunInfo() {
   const labels = {
     fullseason: 'Full Season', ncaa: 'NCAA', nfl: 'NFL',
     'nba-props': 'NBA Props', 'nfl-props': 'NFL Props',
-    'mlb-props': "MLB K's Whiff .2", 'mlb-props-w01c26': "MLB K's Whiff .1/Cap26",
+    'mlb-props': "MLB K's CSW .1", 'mlb-props-w01c26': "MLB K's Whiff .1/Cap26",
     'mlb-batter-props': 'MLB Batter Props',
   };
   const data = cache[activeTab];

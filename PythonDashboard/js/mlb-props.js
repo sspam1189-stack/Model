@@ -152,7 +152,7 @@
       });
     }
 
-    async function renderMLBProps(sourceKey = 'mlb-props', title = "MLB K's Whiff .2") {
+    async function renderMLBProps(sourceKey = 'mlb-props', title = "MLB K's CSW .1") {
       // Both tabs (live whiff .2 and the whiff .1/cap26 variant) bet the same
       // 0.70 cutoff — the variant differs from live only in blend weight +
       // BF_CAP, so no variant-aware threshold override is needed. (The
