@@ -1,13 +1,168 @@
 {
   "sport": "MLB",
   "type": "hand-tails-watch",
-  "generated": "2026-07-30T03:48:57Z",
+  "generated": "2026-07-30T13:07:43Z",
   "handMin": 6,
   "minGames": 3,
   "minUnits": 2.5,
-  "note": "Shadow review list -- arms NOT on the active hand-tails list showing a handedness-conditional edge. In-sample season replay; watch, don't bet. Promote by editing scripts/hand_tails.py.",
-  "today": [],
+  "minUnitsTake": 4.0,
+  "note": "Shadow review list -- arms NOT on the active hand-tails list showing a handedness-conditional edge (fade or take). The active list is fade-only, so all tail/take arms are review-only here. In-sample season replay; watch, don't bet.",
+  "today": [
+    {
+      "date": "2026-07-30",
+      "commence": "2026-07-30T17:40:00Z",
+      "betType": "watch_fade",
+      "action": "fade",
+      "watch": true,
+      "pitcher": "Noah Cameron",
+      "hand": "L",
+      "arm_team": "KC",
+      "opp_team": "MIN",
+      "selection": "MIN",
+      "home": "MIN",
+      "away": "KC",
+      "oppLefty": 4,
+      "oppRighty": 8,
+      "odds": -142,
+      "suggest": "fade",
+      "suggestUnits": 3.04,
+      "games": 7,
+      "result": "pending"
+    },
+    {
+      "date": "2026-07-30",
+      "commence": "2026-07-30T23:10:00Z",
+      "betType": "watch_fade",
+      "action": "fade",
+      "watch": true,
+      "pitcher": "Rhett Lowder",
+      "hand": "R",
+      "arm_team": "CIN",
+      "opp_team": "PIT",
+      "selection": "PIT",
+      "home": "CIN",
+      "away": "PIT",
+      "oppLefty": 6,
+      "oppRighty": 6,
+      "odds": -112,
+      "suggest": "fade",
+      "suggestUnits": 2.74,
+      "games": 5,
+      "result": "pending"
+    },
+    {
+      "date": "2026-07-30",
+      "commence": "2026-07-30T23:10:00Z",
+      "betType": "watch_fade",
+      "action": "fade",
+      "watch": true,
+      "pitcher": "Nolan McLean",
+      "hand": "R",
+      "arm_team": "NYM",
+      "opp_team": "MIA",
+      "selection": "MIA",
+      "home": "NYM",
+      "away": "MIA",
+      "oppLefty": 6,
+      "oppRighty": 4,
+      "odds": 110,
+      "suggest": "fade",
+      "suggestUnits": 2.8,
+      "games": 4,
+      "result": "pending"
+    }
+  ],
   "candidates": [
+    {
+      "pitcher": "Eduardo Rodriguez",
+      "hand": "L",
+      "games": 7,
+      "suggest": "take",
+      "suggestUnits": 8.64,
+      "fade": {
+        "w": 0,
+        "l": 7,
+        "u": -9.77
+      },
+      "take": {
+        "w": 7,
+        "l": 0,
+        "u": 8.64
+      },
+      "era": 2.48
+    },
+    {
+      "pitcher": "Foster Griffin",
+      "hand": "L",
+      "games": 11,
+      "suggest": "take",
+      "suggestUnits": 8.04,
+      "fade": {
+        "w": 2,
+        "l": 9,
+        "u": -9.32
+      },
+      "take": {
+        "w": 9,
+        "l": 2,
+        "u": 8.04
+      },
+      "era": 2.76
+    },
+    {
+      "pitcher": "Nick Martinez",
+      "hand": "R",
+      "games": 6,
+      "suggest": "take",
+      "suggestUnits": 6.36,
+      "fade": {
+        "w": 0,
+        "l": 6,
+        "u": -6.9
+      },
+      "take": {
+        "w": 6,
+        "l": 0,
+        "u": 6.36
+      },
+      "era": 2.45
+    },
+    {
+      "pitcher": "J.T. Ginn",
+      "hand": "R",
+      "games": 9,
+      "suggest": "take",
+      "suggestUnits": 5.9,
+      "fade": {
+        "w": 2,
+        "l": 7,
+        "u": -7.02
+      },
+      "take": {
+        "w": 7,
+        "l": 2,
+        "u": 5.9
+      },
+      "era": 3.34
+    },
+    {
+      "pitcher": "Matthew Boyd",
+      "hand": "L",
+      "games": 7,
+      "suggest": "take",
+      "suggestUnits": 5.1,
+      "fade": {
+        "w": 1,
+        "l": 6,
+        "u": -5.4
+      },
+      "take": {
+        "w": 6,
+        "l": 1,
+        "u": 5.1
+      },
+      "era": 3.41
+    },
     {
       "pitcher": "Jacob Misiorowski",
       "hand": "R",
@@ -25,6 +180,24 @@
         "u": 5.04
       },
       "era": 1.58
+    },
+    {
+      "pitcher": "Jacob Lopez",
+      "hand": "L",
+      "games": 6,
+      "suggest": "take",
+      "suggestUnits": 4.96,
+      "fade": {
+        "w": 1,
+        "l": 5,
+        "u": -6.02
+      },
+      "take": {
+        "w": 5,
+        "l": 1,
+        "u": 4.96
+      },
+      "era": 5.72
     },
     {
       "pitcher": "Luinder Avila",
@@ -132,7 +305,7 @@
         "l": 4,
         "u": -4.38
       },
-      "era": 6.64
+      "era": 6.18
     },
     {
       "pitcher": "Nick Lodolo",
@@ -168,7 +341,7 @@
         "l": 1,
         "u": 4.0
       },
-      "era": 3.13
+      "era": 2.99
     },
     {
       "pitcher": "Trevor McDonald",
@@ -187,24 +360,6 @@
         "u": -4.04
       },
       "era": 5.12
-    },
-    {
-      "pitcher": "Nathan Eovaldi",
-      "hand": "R",
-      "games": 5,
-      "suggest": "take",
-      "suggestUnits": 3.46,
-      "fade": {
-        "w": 1,
-        "l": 4,
-        "u": -4.16
-      },
-      "take": {
-        "w": 4,
-        "l": 1,
-        "u": 3.46
-      },
-      "era": 4.05
     },
     {
       "pitcher": "Jack Perkins",
@@ -261,42 +416,6 @@
       "era": 5.48
     },
     {
-      "pitcher": "Max Meyer",
-      "hand": "R",
-      "games": 5,
-      "suggest": "take",
-      "suggestUnits": 3.28,
-      "fade": {
-        "w": 1,
-        "l": 4,
-        "u": -3.64
-      },
-      "take": {
-        "w": 4,
-        "l": 1,
-        "u": 3.28
-      },
-      "era": 2.68
-    },
-    {
-      "pitcher": "Germ\u00e1n M\u00e1rquez",
-      "hand": "R",
-      "games": 3,
-      "suggest": "take",
-      "suggestUnits": 3.14,
-      "fade": {
-        "w": 0,
-        "l": 3,
-        "u": -3.5
-      },
-      "take": {
-        "w": 3,
-        "l": 0,
-        "u": 3.14
-      },
-      "era": 5.11
-    },
-    {
       "pitcher": "Randy V\u00e1squez",
       "hand": "R",
       "games": 5,
@@ -351,42 +470,6 @@
       "era": 10.35
     },
     {
-      "pitcher": "Griffin Jax",
-      "hand": "R",
-      "games": 5,
-      "suggest": "take",
-      "suggestUnits": 3.0,
-      "fade": {
-        "w": 1,
-        "l": 4,
-        "u": -3.06
-      },
-      "take": {
-        "w": 4,
-        "l": 1,
-        "u": 3.0
-      },
-      "era": 3.24
-    },
-    {
-      "pitcher": "PJ Poulin",
-      "hand": "L",
-      "games": 4,
-      "suggest": "take",
-      "suggestUnits": 2.98,
-      "fade": {
-        "w": 1,
-        "l": 3,
-        "u": -3.72
-      },
-      "take": {
-        "w": 3,
-        "l": 1,
-        "u": 2.98
-      },
-      "era": 1.8
-    },
-    {
       "pitcher": "Mart\u00edn P\u00e9rez",
       "hand": "L",
       "games": 7,
@@ -403,24 +486,6 @@
         "u": -3.42
       },
       "era": 3.67
-    },
-    {
-      "pitcher": "Gavin Williams",
-      "hand": "R",
-      "games": 7,
-      "suggest": "take",
-      "suggestUnits": 2.9,
-      "fade": {
-        "w": 2,
-        "l": 5,
-        "u": -3.4
-      },
-      "take": {
-        "w": 5,
-        "l": 2,
-        "u": 2.9
-      },
-      "era": 3.71
     },
     {
       "pitcher": "Max Fried",
@@ -456,7 +521,7 @@
         "l": 4,
         "u": -3.49
       },
-      "era": 2.07
+      "era": 2.04
     },
     {
       "pitcher": "Nolan McLean",
