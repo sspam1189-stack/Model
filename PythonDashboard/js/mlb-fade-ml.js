@@ -46,6 +46,17 @@ async function renderMLBFadeML() {
     catch (e) { /* next */ }
   }
 
+  // Pitcher-vs-team fade ledger (fade_vs_team.py) — a separate "fade this arm
+  // vs this specific team" angle. Its graded starts feed the bet log under the
+  // Reason = "Vs team" filter. Own file; missing = no vs-team rows.
+  const vtLocal = 'data/mlb-fade-vs-team.json';
+  const vtRemote = 'https://raw.githubusercontent.com/sspam1189-stack/Model/main/MLBstrikeouts/data/mlb-fade-vs-team.json';
+  let vtData = null;
+  for (const url of [vtLocal + '?t=' + Date.now(), vtRemote + '?t=' + Date.now()]) {
+    try { const r = await fetch(url, { cache: 'no-store' }); if (r.ok) { vtData = await r.json(); break; } }
+    catch (e) { /* next */ }
+  }
+
   // Team wRC+ platoon snapshot (FanGraphs true wRC+, manual browser capture —
   // view-only reference, not part of any pick/grade). Own file; missing = no
   // table. See MLBstrikeouts/scripts/build_team_wrc.py.
@@ -336,7 +347,31 @@ async function renderMLBFadeML() {
     ...b, kind: b.action === 'take' ? 'tail' : 'fade', source: 'handedness',
     pitchers: b.pitchers || [b.pitcher], fadeTeam: b.arm_team,
   }));
-  const bets = [...fadeBets, ...tailBets].sort((a, b) => {
+  // Pitcher-vs-team fades -> bet rows (source 'vs_team'). Each entry's graded
+  // starts are settled bets; the today[] list are pending. Odds->stake/profit
+  // uses flat 1u American-odds math (matches the fade grader).
+  const vtStake = (o) => (o == null ? 0 : (o < 0 ? Math.abs(o) / 100 : 1));
+  const vtProfit = (o, won) => (o == null ? 0 : (won ? (o < 0 ? 1 : o / 100) : -vtStake(o)));
+  const vtSplit = (m) => { const p = (m || '').split(' @ '); return { away: p[0] || '', home: p[1] || '' }; };
+  const vtSettled = ((vtData && vtData.entries) || []).flatMap(e => (e.starts || []).map(s => {
+    const { away, home } = vtSplit(s.matchup);
+    const won = s.result === 'win';
+    return {
+      date: s.date, commence: '', betType: 'ml', kind: 'fade', source: 'vs_team',
+      pitchers: [e.pitcher], fadeTeam: e.arm_team, home, away,
+      selection: s.selection, odds: s.opp_ml,
+      result: won ? 'WIN' : 'LOSS', stake: vtStake(s.opp_ml), profit: vtProfit(s.opp_ml, won),
+    };
+  }));
+  const vtToday = ((vtData && vtData.today) || []).map(t => {
+    const { away, home } = vtSplit(t.matchup);
+    return {
+      date: t.date, commence: t.commence || '', betType: 'ml', kind: 'fade', source: 'vs_team',
+      pitchers: [t.pitcher], fadeTeam: t.arm_team, home, away,
+      selection: t.selection, odds: t.odds, result: 'PENDING', stake: 0, profit: 0,
+    };
+  });
+  const bets = [...fadeBets, ...tailBets, ...vtSettled, ...vtToday].sort((a, b) => {
     const ka = (a.date || '') + (a.commence || ''), kb = (b.date || '') + (b.commence || '');
     return ka < kb ? 1 : ka > kb ? -1 : 0;  // newest first
   });
@@ -395,6 +430,7 @@ async function renderMLBFadeML() {
     + '<label style="font-size:11px;color:#888">Reason '
     + '<select id="fadeSourceSel" style="' + selCss + '"><option value="">All</option>'
     + '<option value="venue">Venue</option><option value="handedness">Handedness</option>'
+    + '<option value="vs_team">Vs team</option>'
     + '</select></label>'
     + '</div>'
     // Row 1: Pick / Pitcher / Venue
@@ -513,8 +549,10 @@ async function renderMLBFadeML() {
         ? ' <span style="color:#888;font-weight:400;font-size:11px">vs ' + esc(b.opp_team) + '</span>' : '';
       const note = b.result === 'VOID' ? (' <span style="color:#777;font-size:10px">' + esc(b.reason || 'void') + '</span>')
         : (b.result === 'SKIP' ? ' <span style="color:#777;font-size:10px">skip</span>' : '');
-      // Reason: WHY the fade fired — 'venue' (fade list) vs 'hand' (hand-tails).
-      const reason = b.source === 'handedness' ? 'hand' : (b.source === 'venue' ? 'venue' : '');
+      // Reason: WHY the fade fired — 'venue' (fade list), 'hand' (hand-tails),
+      // or 'vs team' (pitcher-vs-team fade).
+      const reason = b.source === 'handedness' ? 'hand'
+        : (b.source === 'venue' ? 'venue' : (b.source === 'vs_team' ? 'vs team' : ''));
       rows += '<tr style="' + dim + '">'
         + '<td style="padding:4px 8px;color:#999">' + esc(b.date) + '</td>'
         + '<td style="padding:4px 6px;color:' + ORANGE + ';font-size:11px;font-weight:700">' + (typeTag[b.betType] || '') + '</td>'
