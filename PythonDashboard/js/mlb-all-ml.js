@@ -60,6 +60,7 @@ async function renderMLBAllML() {
       awaySP: g.away_pitcher, homeSP: g.home_pitcher,
       awaySPHand: g.away_hand, homeSPHand: g.home_hand,
       awayScore: g.away_score, homeScore: g.home_score,
+      totalLine: g.total_line, overML: g.over_ml, underML: g.under_ml,
       winner: g.home_win ? g.home : g.away, homeWin: g.home_win === true,
     };
     const home = {
@@ -143,16 +144,32 @@ async function renderMLBAllML() {
     const trows = today.map(g => {
       const done = g.final && g.home_win != null;
       const result = done ? (g.home_win ? g.home : g.away) + ' won' : 'pending';
-      const score = (g.away_score == null || g.home_score == null) ? '—'
-        : esc(g.away_score) + ' – ' + esc(g.home_score);
+      const aWon = done && g.home_win === false, hWon = done && g.home_win === true;
+      const sideTxt = (txt, won) =>
+        '<span style="color:' + (won ? GREEN : '#ccc') + ';font-weight:' + (won ? 700 : 400) + '">' + txt + '</span>';
+      // Matchup: scoreline "ARI 3 - 0 PIT" once final, else "ARI @ PIT".
+      const matchup = done
+        ? sideTxt(esc(g.away) + ' ' + esc(g.away_score), aWon)
+          + '<span style="color:#666"> - </span>'
+          + sideTxt(esc(g.home_score) + ' ' + esc(g.home), hWon)
+        : '<span style="font-weight:600">' + esc(g.away) + ' @ ' + esc(g.home) + '</span>';
+      // Total: closing line, green if the game went Over, red if Under (once final).
+      const runsTot = (g.away_score != null && g.home_score != null) ? g.away_score + g.home_score : null;
+      let totalCell = (g.total_line != null ? esc(g.total_line) : '—');
+      if (g.total_line != null && runsTot != null) {
+        const col = runsTot > g.total_line ? GREEN : (runsTot < g.total_line ? RED : '#aaa');
+        totalCell = '<span style="color:' + col + ';font-weight:700">' + esc(g.total_line) + '</span>';
+      }
+      const ouOdds = g.total_line == null ? '—'
+        : '<span style="color:#aaa">O ' + fmtOdds(g.over_ml) + ' / U ' + fmtOdds(g.under_ml) + '</span>';
       return '<tr style="border-top:1px solid #222">'
-        + '<td style="padding:4px 8px;white-space:nowrap;font-weight:600">' + esc(g.away) + ' @ ' + esc(g.home) + '</td>'
+        + '<td style="padding:4px 8px;white-space:nowrap">' + matchup + '</td>'
         + '<td style="padding:4px 8px;text-align:right">' + fmtOdds(g.away_ml) + '</td>'
         + '<td style="padding:4px 8px;text-align:right">' + fmtOdds(g.home_ml) + '</td>'
-        + '<td style="padding:4px 8px;text-align:right;color:#aaa">' + (g.total_line != null ? g.total_line : '—') + '</td>'
+        + '<td style="padding:4px 8px;text-align:center">' + totalCell + '</td>'
+        + '<td style="padding:4px 8px;text-align:center;white-space:nowrap">' + ouOdds + '</td>'
         + '<td style="padding:4px 8px;white-space:nowrap">' + esc(g.away_pitcher || '?') + hnd(g.away_hand)
           + ' <span style="color:#666">vs</span> ' + esc(g.home_pitcher || '?') + hnd(g.home_hand) + '</td>'
-        + '<td style="padding:4px 8px;text-align:center;white-space:nowrap;color:' + (done ? '#ddd' : '#666') + '">' + score + '</td>'
         + '<td style="padding:4px 8px;color:' + (done ? GREEN : '#888') + '">' + esc(result) + '</td>'
         + '</tr>';
     }).join('');
@@ -160,9 +177,9 @@ async function renderMLBAllML() {
       + '<th style="padding:4px 8px">Matchup</th>'
       + '<th style="padding:4px 8px;text-align:right">Away ML</th>'
       + '<th style="padding:4px 8px;text-align:right">Home ML</th>'
-      + '<th style="padding:4px 8px;text-align:right">O/U</th>'
+      + '<th style="padding:4px 8px;text-align:center">Total</th>'
+      + '<th style="padding:4px 8px;text-align:center">O/U odds</th>'
       + '<th style="padding:4px 8px">Pitchers (away vs home)</th>'
-      + '<th style="padding:4px 8px;text-align:center">Score</th>'
       + '<th style="padding:4px 8px">Result</th></tr>';
     tcard.innerHTML = '<div class="card-title" style="padding:6px 8px">Today’s games &amp; odds — '
       + esc(today[0].date) + ' (' + today.length + ')</div>'
@@ -289,19 +306,35 @@ async function renderMLBAllML() {
       const hnd = (h) => (h ? ' <span style="color:#888">(' + h + ')</span>' : '');
       const pitchers = esc(s.awaySP || '?') + hnd(s.awaySPHand)
         + ' <span style="color:#666">vs</span> ' + esc(s.homeSP || '?') + hnd(s.homeSPHand);
-      // Final score as away–home; the winning side's run total is highlighted.
-      const score = (s.awayScore == null || s.homeScore == null) ? '—'
-        : '<span style="color:' + (awayWon ? GREEN : '#ccc') + ';font-weight:' + (awayWon ? 700 : 400) + '">' + esc(s.awayScore) + '</span>'
-          + '<span style="color:#666">–</span>'
-          + '<span style="color:' + (homeWon ? GREEN : '#ccc') + ';font-weight:' + (homeWon ? 700 : 400) + '">' + esc(s.homeScore) + '</span>';
+      const scored = s.awayScore != null && s.homeScore != null;
+      // Score sits in its own cell between the Away and Home team columns, so
+      // the row reads "ARI  3 - 0  PIT"; the winning side's run total is green.
+      const runCell = (v, won) =>
+        '<span style="color:' + (won ? GREEN : '#ccc') + ';font-weight:' + (won ? 700 : 400) + '">' + esc(v) + '</span>';
+      const scoreCell = scored
+        ? runCell(s.awayScore, awayWon) + '<span style="color:#666"> - </span>' + runCell(s.homeScore, homeWon)
+        : '—';
+      // Total: the closing O/U line, green if the game went Over it, red if
+      // Under, gray on a push. Grade = total runs vs the line.
+      const runsTot = scored ? s.awayScore + s.homeScore : null;
+      let totalCell = '—';
+      if (s.totalLine != null) {
+        const col = runsTot == null ? '#ccc'
+          : (runsTot > s.totalLine ? GREEN : (runsTot < s.totalLine ? RED : '#aaa'));
+        totalCell = '<span style="color:' + col + ';font-weight:700">' + esc(s.totalLine) + '</span>';
+      }
+      const ouOdds = s.totalLine == null ? '—'
+        : '<span style="color:#aaa">O ' + fmtOdds(s.overML) + ' / U ' + fmtOdds(s.underML) + '</span>';
       return '<tr style="border-top:1px solid #222">'
         + '<td style="' + td + ';white-space:nowrap;color:#aaa">' + esc(s.date) + '</td>'
         + '<td style="' + td + ';white-space:nowrap;color:#888">' + esc(s.away) + ' @ ' + esc(s.home) + '</td>'
         + '<td style="' + td + '">' + fmtOdds(s.awayML) + '</td>'
         + '<td style="' + td + ';font-weight:600;color:' + (awayWon ? GREEN : '#ccc') + '">' + esc(s.away) + '</td>'
+        + '<td style="' + td + ';white-space:nowrap">' + scoreCell + '</td>'
         + '<td style="' + td + ';font-weight:600;color:' + (homeWon ? GREEN : '#ccc') + '">' + esc(s.home) + '</td>'
         + '<td style="' + td + '">' + fmtOdds(s.homeML) + '</td>'
-        + '<td style="' + td + ';white-space:nowrap">' + score + '</td>'
+        + '<td style="' + td + ';white-space:nowrap">' + totalCell + '</td>'
+        + '<td style="' + td + ';white-space:nowrap">' + ouOdds + '</td>'
         + '<td style="' + td + ';white-space:nowrap">' + pitchers + '</td>'
         + '<td style="' + td + ';font-weight:700;color:' + winColor + '">' + esc(s.winner) + '</td>'
         + '</tr>';
@@ -309,9 +342,12 @@ async function renderMLBAllML() {
     const head = '<tr style="text-align:center;color:#888;font-size:11px">'
       + '<th style="padding:4px 8px">Date</th><th style="padding:4px 8px">Matchup</th>'
       + '<th style="padding:4px 8px">Away odds</th>'
-      + '<th style="padding:4px 8px">Away</th><th style="padding:4px 8px">Home</th>'
-      + '<th style="padding:4px 8px">Home odds</th>'
+      + '<th style="padding:4px 8px">Away</th>'
       + '<th style="padding:4px 8px">Score</th>'
+      + '<th style="padding:4px 8px">Home</th>'
+      + '<th style="padding:4px 8px">Home odds</th>'
+      + '<th style="padding:4px 8px">Total</th>'
+      + '<th style="padding:4px 8px">O/U odds</th>'
       + '<th style="padding:4px 8px">Pitchers (away vs home)</th>'
       + '<th style="padding:4px 8px">Winner</th></tr>';
     const note = view.length > ROW_CAP
