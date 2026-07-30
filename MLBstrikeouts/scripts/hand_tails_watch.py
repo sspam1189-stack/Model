@@ -9,6 +9,9 @@ already on the active hand_tails list, and writes the candidates (ranked by
 their stronger side) to mlb-hand-tails-watch.json. Nothing here is bet -- it
 is a review list so you can decide later whether to promote an arm.
 
+Note: the active hand-tails list is FADE-ONLY (takes are not bet), so every
+tail/take arm lives HERE as a review-only candidate.
+
 Reads mlb-all-ml.json (all scheduled starters + FanDuel odds + results) plus
 the K-model bat_sides / batting_orders caches. Season replay, so it is an
 in-sample estimate -- treat it as a leaderboard to watch, not a proven edge.
@@ -38,7 +41,8 @@ OUTPUT_PATHS = [
 ]
 
 MIN_GAMES = 3      # need at least this many qualifying starts to appear
-MIN_UNITS = 2.5    # stronger side must clear +this many units to appear
+MIN_UNITS = 2.5    # FADE candidates: stronger side must clear +this many units
+MIN_UNITS_TAKE = 4.0  # TAIL/TAKE candidates: higher bar (tails are watch-only)
 
 
 def _norm(s):
@@ -106,7 +110,8 @@ def build():
         n = len(rs)
         action = "fade" if fu >= tu else "take"
         best_u = max(fu, tu)
-        if best_u < MIN_UNITS:
+        # Only the TAIL/take watchlist is held to the higher 4u bar; fades 2.5u.
+        if best_u < (MIN_UNITS_TAKE if action == "take" else MIN_UNITS):
             continue
         cands.append({
             "pitcher": name, "hand": hand, "games": n,
@@ -164,9 +169,11 @@ def build():
         "generated": datetime.datetime.now(datetime.timezone.utc)
             .strftime("%Y-%m-%dT%H:%M:%SZ"),
         "handMin": HAND_MIN, "minGames": MIN_GAMES, "minUnits": MIN_UNITS,
+        "minUnitsTake": MIN_UNITS_TAKE,
         "note": "Shadow review list -- arms NOT on the active hand-tails list "
-                "showing a handedness-conditional edge. In-sample season replay; "
-                "watch, don't bet. Promote by editing scripts/hand_tails.py.",
+                "showing a handedness-conditional edge (fade or take). The active "
+                "list is fade-only, so all tail/take arms are review-only here. "
+                "In-sample season replay; watch, don't bet.",
         "today": today,
         "candidates": cands,
     }

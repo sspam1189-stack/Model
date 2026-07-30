@@ -1,5 +1,5 @@
 # MLBstrikeouts/scripts/hand_tails.py
-# LIVE handedness-conditional fade/take tracker (own ledger: mlb-hand-tails.json).
+# LIVE handedness-conditional FADE tracker (own ledger: mlb-hand-tails.json).
 #
 # Thesis (walk-forward, 2026): certain arms' game outcomes swing predictably
 # when they face a lineup stacked with opposite-hand bats. Each listed arm is
@@ -8,13 +8,15 @@
 #   LHP -> vs HAND_MIN+ righty bats (R or switch)
 # action:
 #   "fade" -> bet the OPPONENT's moneyline (arm's team expected to lose)
-#   "take" -> bet the arm's OWN team moneyline (expected to win)
 #
-# Tracked in its own ledger, separate from the fade-list model. Where an arm is
-# on BOTH lists in opposite directions (Aaron Nola, Jacob Lopez -> fade-list
-# fades home; here we TAKE on 6+ opposite lineups), hand-tails wins that game
-# (see fade_overridden_by_take). Caveat: the picks were chosen in-sample, so the
-# season backtest overstates edge -- this is a live paper-forward test.
+# 2026-07-28: FADE-ONLY. The "take" (tail) side was removed -- the handedness
+# model no longer backs an arm's own team. Only handedness FADEs are tracked
+# and bet. fade_overridden_by_take is now inert (no take arms) but kept so the
+# fade-list model's optional call site stays valid.
+#
+# Tracked in its own ledger, separate from the fade-list model. Caveat: the
+# picks were chosen in-sample, so the season backtest overstates edge -- this
+# is a live paper-forward test.
 
 import os
 import json
@@ -25,25 +27,18 @@ from fade_list import _norm
 HAND_MIN = 6
 
 # entry -> (pitcher hand, action). RHP qualify vs HAND_MIN+ lefties; LHP vs righties.
+# 2026-07-28: FADE-ONLY. The handedness model no longer places TAKE (tail) bets --
+# all take arms were removed. Only handedness FADEs (bet the OPPONENT when the arm
+# faces an opposite-hand-heavy lineup) remain. The "action" field is kept "fade"
+# for every entry so the ledger/schema is unchanged.
 HAND_TAILS = {
     # ---- RHP, FADE (vs 6+ lefties) ----
     "Scherzer": ("R", "fade"), "Brady Singer": ("R", "fade"),
     "Jack Leiter": ("R", "fade"), "Walbert Urena": ("R", "fade"),
     "Imai": ("R", "fade"),
-    # ---- RHP, TAKE (vs 6+ lefties) ----
-    "Nick Martinez": ("R", "take"), "Soriano": ("R", "take"),
-    "Glasnow": ("R", "take"), "Ginn": ("R", "take"),
-    # Added 2026-07-28: RHP, COL backed on 6+ lefty lineups. 3-0 +5.22u in-sample
-    # (vs 6+ lefties); small sample, live paper-forward.
-    "Michael Lorenzen": ("R", "take"),
     # ---- LHP, FADE (vs 6+ righties) ----
     "Prielipp": ("L", "fade"), "Tolle": ("L", "fade"),
     "Weathers": ("L", "fade"), "Quintana": ("L", "fade"),
-    # ---- LHP, TAKE (vs 6+ righties) ----
-    "Wrobleski": ("L", "take"), "Messick": ("L", "take"),
-    "Jacob Lopez": ("L", "take"), "Matthew Boyd": ("L", "take"),
-    "Foster Griffin": ("L", "take"), "Eduardo Rodriguez": ("L", "take"),
-    "Corbin": ("L", "take"),
     # ---- Added 2026-07-27 from the shadow watchlist ----
     "Framber Valdez": ("L", "fade"), "Mike Burrows": ("R", "fade"),
     "David Peterson": ("L", "fade"),
