@@ -1,7 +1,7 @@
 {
   "sport": "MLB",
   "type": "fade-ml",
-  "generated": "2026-07-30T00:31:26Z",
+  "generated": "2026-07-30T03:45:56Z",
   "fadeList": [
     "Painter",
     "Rocker",
@@ -71,21 +71,21 @@
   "mutualRule": "underdog_min",
   "summary": {
     "wins": 399,
-    "losses": 137,
+    "losses": 138,
     "voids": 3,
     "skips": 32,
-    "staked": 660.33,
-    "units": 276.5,
-    "roi": 0.4187,
+    "staked": 661.37,
+    "units": 275.46,
+    "roi": 0.4165,
     "byType": {
       "ml": {
         "wins": 390,
-        "losses": 129,
+        "losses": 130,
         "voids": 3,
         "skips": 0,
-        "staked": 643.33,
-        "units": 272.42,
-        "roi": 0.4235
+        "staked": 644.37,
+        "units": 271.38,
+        "roi": 0.4212
       },
       "ml_dog": {
         "wins": 9,
@@ -99,30 +99,6 @@
     }
   },
   "today": [
-    {
-      "date": "2026-07-29",
-      "commence": "2026-07-29T23:45:00Z",
-      "betType": "ml",
-      "shadow": false,
-      "pitchers": [
-        "Dustin May"
-      ],
-      "fadeTeam": "STL",
-      "market": "h2h",
-      "selection": "CHC",
-      "line": null,
-      "odds": -104,
-      "stake": 1.04,
-      "result": "pending",
-      "profit": 0.0,
-      "book": "fanduel",
-      "source": "fanduel_api",
-      "reason": null,
-      "home": "STL",
-      "away": "CHC",
-      "gamePk": 823022,
-      "fadeReason": "all"
-    },
     {
       "date": "2026-07-29",
       "commence": "2026-07-30T01:38:00Z",
@@ -13924,6 +13900,30 @@
       "home": "SF",
       "away": "MIL",
       "gamePk": 823192,
+      "fadeReason": "all"
+    },
+    {
+      "date": "2026-07-29",
+      "commence": "2026-07-29T23:45:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Dustin May"
+      ],
+      "fadeTeam": "STL",
+      "market": "h2h",
+      "selection": "CHC",
+      "line": null,
+      "odds": -104,
+      "stake": 1.04,
+      "result": "LOSS",
+      "profit": -1.04,
+      "book": "fanduel",
+      "source": "fanduel_api",
+      "reason": null,
+      "home": "STL",
+      "away": "CHC",
+      "gamePk": 823022,
       "fadeReason": "all"
     }
   ]
