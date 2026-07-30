@@ -1,7 +1,7 @@
 {
   "sport": "MLB",
   "type": "fade-ml",
-  "generated": "2026-07-30T20:05:40Z",
+  "generated": "2026-07-30T21:02:41Z",
   "fadeList": [
     "Painter",
     "Rocker",
@@ -71,22 +71,22 @@
   ],
   "mutualRule": "underdog_min",
   "summary": {
-    "wins": 407,
+    "wins": 408,
     "losses": 139,
     "voids": 0,
     "skips": 34,
-    "staked": 672.93,
-    "units": 282.86,
-    "roi": 0.4203,
+    "staked": 674.29,
+    "units": 283.86,
+    "roi": 0.421,
     "byType": {
       "ml": {
-        "wins": 397,
+        "wins": 398,
         "losses": 131,
         "voids": 0,
         "skips": 0,
-        "staked": 654.93,
-        "units": 277.54,
-        "roi": 0.4238
+        "staked": 656.29,
+        "units": 278.54,
+        "roi": 0.4244
       },
       "ml_dog": {
         "wins": 10,
@@ -100,30 +100,6 @@
     }
   },
   "today": [
-    {
-      "date": "2026-07-30",
-      "commence": "2026-07-30T17:40:00Z",
-      "betType": "ml",
-      "shadow": false,
-      "pitchers": [
-        "Noah Cameron"
-      ],
-      "fadeTeam": "KC",
-      "market": "h2h",
-      "selection": "MIN",
-      "line": null,
-      "odds": -136,
-      "stake": 1.36,
-      "result": "pending",
-      "profit": 0.0,
-      "book": "fanduel",
-      "source": "fanduel_api",
-      "reason": null,
-      "home": "MIN",
-      "away": "KC",
-      "gamePk": 823674,
-      "fadeReason": "all"
-    },
     {
       "date": "2026-07-30",
       "commence": "2026-07-30T23:10:00Z",
@@ -14145,6 +14121,30 @@
       "away": "BOS",
       "gamePk": 824973,
       "fadeReason": "home"
+    },
+    {
+      "date": "2026-07-30",
+      "commence": "2026-07-30T17:40:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Noah Cameron"
+      ],
+      "fadeTeam": "KC",
+      "market": "h2h",
+      "selection": "MIN",
+      "line": null,
+      "odds": -136,
+      "stake": 1.36,
+      "result": "WIN",
+      "profit": 1.0,
+      "book": "fanduel",
+      "source": "fanduel_api",
+      "reason": null,
+      "home": "MIN",
+      "away": "KC",
+      "gamePk": 823674,
+      "fadeReason": "all"
     }
   ]
 }
