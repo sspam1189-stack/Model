@@ -154,10 +154,15 @@ async function renderMLBAllML() {
           + sideTxt(esc(g.home_score) + ' ' + esc(g.home), hWon)
         : '<span style="font-weight:600">' + esc(g.away) + ' @ ' + esc(g.home) + '</span>';
       // Total: closing line, green if the game went Over, red if Under. Only
-      // grade once FINAL — pending games report 0-0, which would false-red every line.
-      const runsTot = done ? g.away_score + g.home_score : null;
-      let totalCell = (g.total_line != null ? esc(g.total_line) : '—');
-      if (g.total_line != null && runsTot != null) {
+      // grade once FINAL — pending games report 0-0, so before then show the
+      // line with a clock (🕐) rather than a color.
+      let totalCell;
+      if (g.total_line == null) {
+        totalCell = '—';
+      } else if (!done) {
+        totalCell = esc(g.total_line) + ' <span title="pending">🕐</span>';
+      } else {
+        const runsTot = g.away_score + g.home_score;
         const col = runsTot > g.total_line ? GREEN : (runsTot < g.total_line ? RED : '#aaa');
         totalCell = '<span style="color:' + col + ';font-weight:700">' + esc(g.total_line) + '</span>';
       }
