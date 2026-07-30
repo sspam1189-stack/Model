@@ -1,11 +1,11 @@
 {
   "sport": "MLB",
   "type": "fade-vs-team-watch",
-  "generated": "2026-07-30T20:14:57Z",
+  "generated": "2026-07-30T20:17:31Z",
   "seasonStart": "2026-04-05",
   "minStarts": 2,
-  "minEra": 8.0,
-  "note": "Auto-screened watch list for the pitcher-vs-team fade angle: >= 2 starts vs the team with ERA >= 8.0 vs them, excluding arms already faded and matchups already curated. fadeRecord is the in-sample fade result (bet the opponent), shown for review -- not a screen filter. Watch, don't bet.",
+  "minEra": 6.0,
+  "note": "Auto-screened watch list for the pitcher-vs-team fade angle: >= 2 starts vs the team with ERA >= 6.0 vs them, excluding arms already faded and matchups already curated. fadeRecord is the in-sample fade result (bet the opponent), shown for review -- not a screen filter. Watch, don't bet.",
   "today": [],
   "candidates": [
     {
@@ -550,6 +550,390 @@
         "u": 2.0,
         "n": 2,
         "roi": 0.7092
+      }
+    },
+    {
+      "pitcher": "Jos\u00e9 Soriano",
+      "opp": "LAD",
+      "arm_team": "LAA",
+      "eraVsOpp": 7.94,
+      "ipVsOpp": 11.3,
+      "erVsOpp": 10,
+      "startsVsOpp": 2,
+      "fadeRecord": {
+        "w": 1,
+        "l": 1,
+        "u": -1.45,
+        "n": 2,
+        "roi": -0.3806
+      }
+    },
+    {
+      "pitcher": "Reid Detmers",
+      "opp": "OAK",
+      "arm_team": "LAA",
+      "eraVsOpp": 7.79,
+      "ipVsOpp": 17.3,
+      "erVsOpp": 15,
+      "startsVsOpp": 3,
+      "fadeRecord": {
+        "w": 1,
+        "l": 2,
+        "u": -1.22,
+        "n": 3,
+        "roi": -0.3653
+      }
+    },
+    {
+      "pitcher": "Gavin Williams",
+      "opp": "PIT",
+      "arm_team": "CLE",
+      "eraVsOpp": 7.5,
+      "ipVsOpp": 12.0,
+      "erVsOpp": 10,
+      "startsVsOpp": 2,
+      "fadeRecord": {
+        "w": 1,
+        "l": 0,
+        "u": 1.1,
+        "n": 1,
+        "roi": 1.1
+      }
+    },
+    {
+      "pitcher": "Lance McCullers Jr.",
+      "opp": "SEA",
+      "arm_team": "HOU",
+      "eraVsOpp": 7.45,
+      "ipVsOpp": 9.7,
+      "erVsOpp": 8,
+      "startsVsOpp": 2,
+      "fadeRecord": {
+        "w": 1,
+        "l": 1,
+        "u": -0.36,
+        "n": 2,
+        "roi": -0.125
+      }
+    },
+    {
+      "pitcher": "Cole Ragans",
+      "opp": "CLE",
+      "arm_team": "KC",
+      "eraVsOpp": 7.36,
+      "ipVsOpp": 3.7,
+      "erVsOpp": 3,
+      "startsVsOpp": 2,
+      "fadeRecord": {
+        "w": 2,
+        "l": 0,
+        "u": 2.3,
+        "n": 2,
+        "roi": 1.15
+      }
+    },
+    {
+      "pitcher": "Kris Bubic",
+      "opp": "DET",
+      "arm_team": "KC",
+      "eraVsOpp": 6.97,
+      "ipVsOpp": 10.3,
+      "erVsOpp": 8,
+      "startsVsOpp": 2,
+      "fadeRecord": {
+        "w": 1,
+        "l": 1,
+        "u": 0.02,
+        "n": 2,
+        "roi": 0.01
+      }
+    },
+    {
+      "pitcher": "Tanner Gordon",
+      "opp": "SF",
+      "arm_team": "COL",
+      "eraVsOpp": 6.92,
+      "ipVsOpp": 13.0,
+      "erVsOpp": 10,
+      "startsVsOpp": 3,
+      "fadeRecord": {
+        "w": 1,
+        "l": 2,
+        "u": -1.7,
+        "n": 3,
+        "roi": -0.445
+      }
+    },
+    {
+      "pitcher": "Brandon Eisert",
+      "opp": "DET",
+      "arm_team": "CWS",
+      "eraVsOpp": 6.75,
+      "ipVsOpp": 2.7,
+      "erVsOpp": 2,
+      "startsVsOpp": 2,
+      "fadeRecord": {
+        "w": 1,
+        "l": 0,
+        "u": 1.0,
+        "n": 1,
+        "roi": 0.4762
+      }
+    },
+    {
+      "pitcher": "Bailey Ober",
+      "opp": "BOS",
+      "arm_team": "MIN",
+      "eraVsOpp": 6.55,
+      "ipVsOpp": 11.0,
+      "erVsOpp": 8,
+      "startsVsOpp": 2,
+      "fadeRecord": {
+        "w": 0,
+        "l": 2,
+        "u": -3.46,
+        "n": 2,
+        "roi": -1.0
+      }
+    },
+    {
+      "pitcher": "Spencer Arrighetti",
+      "opp": "CLE",
+      "arm_team": "HOU",
+      "eraVsOpp": 6.55,
+      "ipVsOpp": 11.0,
+      "erVsOpp": 8,
+      "startsVsOpp": 2,
+      "fadeRecord": {
+        "w": 1,
+        "l": 1,
+        "u": -0.02,
+        "n": 2,
+        "roi": -0.0085
+      }
+    },
+    {
+      "pitcher": "Edward Cabrera",
+      "opp": "COL",
+      "arm_team": "CHC",
+      "eraVsOpp": 6.52,
+      "ipVsOpp": 9.7,
+      "erVsOpp": 7,
+      "startsVsOpp": 2,
+      "fadeRecord": {
+        "w": 1,
+        "l": 1,
+        "u": 0.72,
+        "n": 2,
+        "roi": 0.36
+      }
+    },
+    {
+      "pitcher": "Max Fried",
+      "opp": "BAL",
+      "arm_team": "NYY",
+      "eraVsOpp": 6.48,
+      "ipVsOpp": 8.3,
+      "erVsOpp": 6,
+      "startsVsOpp": 2,
+      "fadeRecord": {
+        "w": 1,
+        "l": 1,
+        "u": 0.4,
+        "n": 2,
+        "roi": 0.2
+      }
+    },
+    {
+      "pitcher": "Braxton Ashcraft",
+      "opp": "PHI",
+      "arm_team": "PIT",
+      "eraVsOpp": 6.39,
+      "ipVsOpp": 12.7,
+      "erVsOpp": 9,
+      "startsVsOpp": 2,
+      "fadeRecord": {
+        "w": 1,
+        "l": 1,
+        "u": 0.06,
+        "n": 2,
+        "roi": 0.0286
+      }
+    },
+    {
+      "pitcher": "Cristopher S\u00e1nchez",
+      "opp": "CHC",
+      "arm_team": "PHI",
+      "eraVsOpp": 6.35,
+      "ipVsOpp": 11.3,
+      "erVsOpp": 8,
+      "startsVsOpp": 2,
+      "fadeRecord": {
+        "w": 1,
+        "l": 1,
+        "u": 0.0,
+        "n": 2,
+        "roi": 0.0
+      }
+    },
+    {
+      "pitcher": "Bryce Elder",
+      "opp": "BOS",
+      "arm_team": "ATL",
+      "eraVsOpp": 6.35,
+      "ipVsOpp": 11.3,
+      "erVsOpp": 8,
+      "startsVsOpp": 2,
+      "fadeRecord": {
+        "w": 2,
+        "l": 0,
+        "u": 2.02,
+        "n": 2,
+        "roi": 0.9352
+      }
+    },
+    {
+      "pitcher": "Adrian Houser",
+      "opp": "WSH",
+      "arm_team": "SF",
+      "eraVsOpp": 6.3,
+      "ipVsOpp": 10.0,
+      "erVsOpp": 7,
+      "startsVsOpp": 2,
+      "fadeRecord": {
+        "w": 1,
+        "l": 1,
+        "u": -0.04,
+        "n": 2,
+        "roi": -0.019
+      }
+    },
+    {
+      "pitcher": "Zack Littell",
+      "opp": "NYM",
+      "arm_team": "WSH",
+      "eraVsOpp": 6.23,
+      "ipVsOpp": 8.7,
+      "erVsOpp": 6,
+      "startsVsOpp": 2,
+      "fadeRecord": {
+        "w": 1,
+        "l": 1,
+        "u": -0.3,
+        "n": 2,
+        "roi": -0.0968
+      }
+    },
+    {
+      "pitcher": "Cam Schlittler",
+      "opp": "LAD",
+      "arm_team": "NYY",
+      "eraVsOpp": 6.23,
+      "ipVsOpp": 8.7,
+      "erVsOpp": 6,
+      "startsVsOpp": 2,
+      "fadeRecord": {
+        "w": 1,
+        "l": 0,
+        "u": 1.0,
+        "n": 1,
+        "roi": 0.7692
+      }
+    },
+    {
+      "pitcher": "Robbie Ray",
+      "opp": "WSH",
+      "arm_team": "SF",
+      "eraVsOpp": 6.17,
+      "ipVsOpp": 11.7,
+      "erVsOpp": 8,
+      "startsVsOpp": 2,
+      "fadeRecord": {
+        "w": 1,
+        "l": 1,
+        "u": 0.16,
+        "n": 2,
+        "roi": 0.0777
+      }
+    },
+    {
+      "pitcher": "Chad Patrick",
+      "opp": "STL",
+      "arm_team": "MIL",
+      "eraVsOpp": 6.14,
+      "ipVsOpp": 7.3,
+      "erVsOpp": 5,
+      "startsVsOpp": 2,
+      "fadeRecord": {
+        "w": 1,
+        "l": 1,
+        "u": 0.1,
+        "n": 2,
+        "roi": 0.05
+      }
+    },
+    {
+      "pitcher": "Michael Lorenzen",
+      "opp": "NYM",
+      "arm_team": "COL",
+      "eraVsOpp": 6.0,
+      "ipVsOpp": 12.0,
+      "erVsOpp": 8,
+      "startsVsOpp": 2,
+      "fadeRecord": {
+        "w": 1,
+        "l": 1,
+        "u": -1.05,
+        "n": 2,
+        "roi": -0.2893
+      }
+    },
+    {
+      "pitcher": "Kyle Leahy",
+      "opp": "CIN",
+      "arm_team": "STL",
+      "eraVsOpp": 6.0,
+      "ipVsOpp": 15.0,
+      "erVsOpp": 10,
+      "startsVsOpp": 3,
+      "fadeRecord": {
+        "w": 2,
+        "l": 1,
+        "u": 1.16,
+        "n": 3,
+        "roi": 0.3791
+      }
+    },
+    {
+      "pitcher": "Sonny Gray",
+      "opp": "TOR",
+      "arm_team": "BOS",
+      "eraVsOpp": 6.0,
+      "ipVsOpp": 12.0,
+      "erVsOpp": 8,
+      "startsVsOpp": 2,
+      "fadeRecord": {
+        "w": 2,
+        "l": 0,
+        "u": 2.34,
+        "n": 2,
+        "roi": 1.17
+      }
+    },
+    {
+      "pitcher": "Brandon Sproat",
+      "opp": "PIT",
+      "arm_team": "MIL",
+      "eraVsOpp": 6.0,
+      "ipVsOpp": 6.0,
+      "erVsOpp": 4,
+      "startsVsOpp": 2,
+      "fadeRecord": {
+        "w": 1,
+        "l": 0,
+        "u": 1.0,
+        "n": 1,
+        "roi": 0.8621
       }
     }
   ]
