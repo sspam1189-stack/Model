@@ -15,7 +15,17 @@ import os
 # ---------------------------------------------------------------------------
 # Student's t degrees of freedom (heavier tails than normal)
 # ---------------------------------------------------------------------------
-PROP_T_DF = 5
+# 2026-07-30: 5 -> 3, shipped as a PAIR with VAR_MULT 1.30 -> 1.25 (see VAR_MULT
+# note). Under csw, a DF x VAR interaction sweep found df3/var1.25 the clean peak:
+# fatter tails (df3) make fewer, higher-quality picks (season ROI 33.4% -> 35.2%);
+# the paired VAR trim 1.30->1.25 recovers most of the volume df3 alone lost. Wins
+# May/Jun/Jul on BOTH ROI and units (Jul +15.5%->+20.0%), with the only cost -2.6u
+# season units isolated to APRIL (the softest-line, most inflated month). NOT the
+# recency-mirage pattern (those lost the season). CAVEAT: this moves TWO interacting
+# knobs off their individually-validated values (df5, var1.30) on a 2D backfit —
+# higher overfit risk than a 1D move, and the +20% July is ~38 picks. Shipped on
+# user call over a shadow-first recommendation. Revert = PROP_T_DF 5 + VAR 1.30.
+PROP_T_DF = 3
 
 # ---------------------------------------------------------------------------
 # Rolling window — pitchers start every 5 days, so 5-7 recent starts
@@ -176,7 +186,14 @@ VAR_MULT = {
     # kcap 0.36 call. CAVEAT: 1.30 is the OLD pre-leakage value (moved off it under
     # csw); the whiff distribution wants the wider std back. June sample is thin
     # (~57 picks) so part of the June edge is a win-swing; revisit if it regresses.
-    "strikeouts":   1.30,
+    #
+    # 2026-07-30: 1.30 -> 1.25, shipped as a PAIR with PROP_T_DF 5 -> 3 (see the
+    # PROP_T_DF note at top of file). VAR was confirmed at 1.30 in isolation (the
+    # 1.15..1.40 sweep peaked ~1.30-1.35), but PAIRED with the fatter df3 tails the
+    # optimum shifts down: df3/var1.25 holds df3's +35.2% season ROI while recovering
+    # ~+3.7u of the volume df3 alone lost (var 1.20/1.15 overshoot, June craters).
+    # Same 2D-backfit caveat as PROP_T_DF. Revert = VAR 1.30 + PROP_T_DF 5.
+    "strikeouts":   1.25,
 }
 
 # ---------------------------------------------------------------------------
