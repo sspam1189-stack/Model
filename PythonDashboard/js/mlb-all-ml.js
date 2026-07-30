@@ -83,6 +83,16 @@ async function renderMLBAllML() {
   const sides = allSides; // used only to derive dropdown option lists below
   const teams = [...new Set(sides.map(s => s.team))].sort();
 
+  // Starting-pitcher options: each side's own starter (teamSP). Keyed by team
+  // so the pitcher dropdown can narrow to just that club's arms when a team is
+  // selected; also flattened to every starter for the no-team "search all" case.
+  const pitchersByTeam = {};
+  for (const s of sides) {
+    if (!s.teamSP) continue;
+    (pitchersByTeam[s.team] || (pitchersByTeam[s.team] = new Set())).add(s.teamSP);
+  }
+  const allPitchers = [...new Set(sides.map(s => s.teamSP).filter(Boolean))].sort();
+
   // Month / week helpers (mirror the Fade-ML tab; computed in UTC from the
   // plain ISO date so they're timezone-independent).
   const MON = ['', 'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
@@ -177,6 +187,9 @@ async function renderMLBAllML() {
     + '<label style="font-size:11px;color:#888">Opp starter '
     + '<select id="amHand" style="' + selCss + '">' + opt('', 'All', true)
     + opt('L', 'vs LHP') + opt('R', 'vs RHP') + '</select></label>'
+    + '<label style="font-size:11px;color:#888">Starter '
+    + '<select id="amPitcher" style="' + selCss + '">' + opt('', 'All pitchers', true)
+    + allPitchers.map(p => opt(p, p)).join('') + '</select></label>'
     + '</div>'
     // Row 2: Month / Week / Day
     + '<div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap;padding:0 8px 6px">'
@@ -208,6 +221,7 @@ async function renderMLBAllML() {
   const weekSel = card.querySelector('#amWeek');
   const daySel = card.querySelector('#amDay');
   const handSel = card.querySelector('#amHand');
+  const pitcherSel = card.querySelector('#amPitcher');
   const roleSel = card.querySelector('#amRole');
   const venueSel = card.querySelector('#amVenue');
   const wrap = card.querySelector('#allMLWrap');
@@ -221,7 +235,8 @@ async function renderMLBAllML() {
 
   function draw() {
     const tv = teamSel.value, ov = oppSel.value, mv = monthSel.value, wv = weekSel.value,
-      dv = daySel.value, hv = handSel.value, rv = roleSel.value, vv = venueSel.value;
+      dv = daySel.value, hv = handSel.value, pv = pitcherSel.value, rv = roleSel.value,
+      vv = venueSel.value;
     const passes = (s) =>
       (!tv || s.team === tv) &&
       (!ov || s.opp === ov) &&
@@ -229,6 +244,7 @@ async function renderMLBAllML() {
       (!wv || s.week === wv) &&
       (!dv || s.date === dv) &&
       (!hv || s.oppHand === hv) &&
+      (!pv || s.teamSP === pv) &&
       (!rv || (rv === 'fav' ? s.isFav : !s.isFav)) &&
       (!vv || s.venue === vv);
     // One row per game: keep the eligible side; if both sides qualify (no
@@ -294,6 +310,20 @@ async function renderMLBAllML() {
       + '<thead>' + head + '</thead><tbody>' + body + '</tbody></table>';
   }
 
-  [teamSel, oppSel, monthSel, weekSel, daySel, handSel, roleSel, venueSel].forEach(s => s.addEventListener('change', draw));
+  // Repopulate the Starter dropdown to match the Team filter: a specific team
+  // narrows it to that club's arms, "All teams" restores every pitcher. The
+  // current pick is kept if it still belongs to the new list, else cleared.
+  function fillPitchers() {
+    const team = teamSel.value;
+    const cur = pitcherSel.value;
+    const list = (team && pitchersByTeam[team]) ? [...pitchersByTeam[team]].sort() : allPitchers;
+    const keep = list.includes(cur) ? cur : '';
+    pitcherSel.innerHTML = opt('', 'All pitchers', !keep)
+      + list.map(p => opt(p, p, p === keep)).join('');
+    pitcherSel.value = keep;
+  }
+  teamSel.addEventListener('change', fillPitchers);
+
+  [teamSel, oppSel, monthSel, weekSel, daySel, handSel, pitcherSel, roleSel, venueSel].forEach(s => s.addEventListener('change', draw));
   draw();
 }
