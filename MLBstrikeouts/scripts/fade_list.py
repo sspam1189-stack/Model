@@ -93,6 +93,20 @@ FADE_VENUE = {
     "MacKenzie Gore": "away",  # 2026-07-28: home 3-6 -2.86u; away 7-4 +2.58u (+19.6%)
 }
 
+# Matchup fade list: fade the pitcher (bet the OPPONENT's ML) ONLY when he
+# starts against one of these specific opponent teams. This is a separate
+# "pitcher vs team" angle, independent of the venue-based FADE_LIST above; a
+# pitcher can appear here without being on FADE_LIST. Team abbreviations use
+# the props convention (NYY, LAD, KC, PHI, CWS, ...). Grade with
+# scripts/fade_vs_team.py (data only -- not wired into the fade-ML model).
+FADE_VS_TEAM = {
+    "Anthony Kay":   ["NYY"],
+    "Davis Martin":  ["NYY"],
+    "Joe Ryan":      ["KC"],
+    "Will Warren":   ["PHI"],
+    "Luis Castillo": ["LAD"],  # already faded all-venue on FADE_LIST; tracked here too
+}
+
 # Arms NOT faded on MUTUAL games (both starters are fade arms). When a mutual
 # matchup involves one of these arms, the model places NO bet on the game --
 # it neither takes the dog nor falls back to a single fade of the other arm.
@@ -269,6 +283,23 @@ def is_no_mutual_fade(player_name):
     the mutual check has already confirmed both arms are fades on the date.
     """
     return matched_entry(player_name) in NO_MUTUAL_FADE
+
+
+_FADE_VS_TEAM_TOKENS = {name: _norm(name).split() for name in FADE_VS_TEAM}
+
+
+def fade_vs_team_teams(player_name):
+    """Return the opponent-team abbrs to fade ``player_name`` against (matchup
+    fade), or [] if he isn't on FADE_VS_TEAM. Token-matched like matched_entry:
+    every token of the list entry must appear in the player's normalized name.
+    """
+    name_tokens = set(_norm(player_name).split())
+    if not name_tokens:
+        return []
+    for name, toks in _FADE_VS_TEAM_TOKENS.items():
+        if toks and all(t in name_tokens for t in toks):
+            return FADE_VS_TEAM[name]
+    return []
 
 
 def is_fade(player_name, date=None, venue=None):

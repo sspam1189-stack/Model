@@ -1,0 +1,171 @@
+{
+  "sport": "MLB",
+  "type": "fade-vs-team",
+  "generated": "2026-07-30T19:55:46Z",
+  "seasonStart": "2026-04-05",
+  "note": "Matchup fade -- bet the listed opponent's ML when the pitcher starts against that specific team. Manually curated; in-sample season replay (flat 1u), not wired into the fade-ML model. eraVsOpp is the pitcher's season ERA vs that team.",
+  "overall": {
+    "w": 6,
+    "l": 2,
+    "u": 3.05,
+    "n": 8,
+    "roi": 0.2523
+  },
+  "today": [],
+  "entries": [
+    {
+      "pitcher": "Joe Ryan",
+      "opp": "KC",
+      "arm_team": "MIN",
+      "record": {
+        "w": 2,
+        "l": 0,
+        "u": 2.86,
+        "n": 2,
+        "roi": 1.43
+      },
+      "eraVsOpp": 5.62,
+      "ipVsOpp": 16.0,
+      "erVsOpp": 10,
+      "startsVsOpp": 3,
+      "starts": [
+        {
+          "date": "2026-06-06",
+          "venue": "home",
+          "matchup": "KC @ MIN",
+          "selection": "KC",
+          "opp_ml": 120,
+          "result": "win"
+        },
+        {
+          "date": "2026-07-29",
+          "venue": "home",
+          "matchup": "KC @ MIN",
+          "selection": "KC",
+          "opp_ml": 166,
+          "result": "win"
+        }
+      ]
+    },
+    {
+      "pitcher": "Anthony Kay",
+      "opp": "NYY",
+      "arm_team": "CWS",
+      "record": {
+        "w": 2,
+        "l": 0,
+        "u": 2.0,
+        "n": 2,
+        "roi": 0.6993
+      },
+      "eraVsOpp": 6.75,
+      "ipVsOpp": 9.3,
+      "erVsOpp": 7,
+      "startsVsOpp": 2,
+      "starts": [
+        {
+          "date": "2026-06-17",
+          "venue": "away",
+          "matchup": "CWS @ NYY",
+          "selection": "NYY",
+          "opp_ml": -168,
+          "result": "win"
+        },
+        {
+          "date": "2026-07-28",
+          "venue": "home",
+          "matchup": "NYY @ CWS",
+          "selection": "NYY",
+          "opp_ml": -118,
+          "result": "win"
+        }
+      ]
+    },
+    {
+      "pitcher": "Will Warren",
+      "opp": "PHI",
+      "arm_team": "NYY",
+      "record": {
+        "w": 1,
+        "l": 0,
+        "u": 1.0,
+        "n": 1,
+        "roi": 0.5051
+      },
+      "eraVsOpp": 18.0,
+      "ipVsOpp": 3.0,
+      "erVsOpp": 6,
+      "startsVsOpp": 1,
+      "starts": [
+        {
+          "date": "2026-07-26",
+          "venue": "away",
+          "matchup": "NYY @ PHI",
+          "selection": "PHI",
+          "opp_ml": -198,
+          "result": "win"
+        }
+      ]
+    },
+    {
+      "pitcher": "Davis Martin",
+      "opp": "NYY",
+      "arm_team": "CWS",
+      "record": {
+        "w": 1,
+        "l": 1,
+        "u": -0.46,
+        "n": 2,
+        "roi": -0.1586
+      },
+      "eraVsOpp": 12.54,
+      "ipVsOpp": 9.3,
+      "erVsOpp": 13,
+      "startsVsOpp": 2,
+      "starts": [
+        {
+          "date": "2026-06-16",
+          "venue": "away",
+          "matchup": "CWS @ NYY",
+          "selection": "NYY",
+          "opp_ml": -144,
+          "result": "win"
+        },
+        {
+          "date": "2026-07-29",
+          "venue": "home",
+          "matchup": "NYY @ CWS",
+          "selection": "NYY",
+          "opp_ml": -146,
+          "result": "loss"
+        }
+      ]
+    },
+    {
+      "pitcher": "Luis Castillo",
+      "opp": "LAD",
+      "arm_team": "SEA",
+      "record": {
+        "w": 0,
+        "l": 1,
+        "u": -2.35,
+        "n": 1,
+        "roi": -1.0
+      },
+      "eraVsOpp": 9.0,
+      "ipVsOpp": 5.0,
+      "erVsOpp": 5,
+      "startsVsOpp": 1,
+      "starts": [
+        {
+          "date": "2026-07-28",
+          "venue": "away",
+          "matchup": "SEA @ LAD",
+          "selection": "LAD",
+          "opp_ml": -235,
+          "result": "loss"
+        }
+      ]
+    }
+  ]
+}
