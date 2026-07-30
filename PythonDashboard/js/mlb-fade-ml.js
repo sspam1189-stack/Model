@@ -133,20 +133,20 @@ async function renderMLBFadeML() {
   });
   el.appendChild(chips);
 
-  // ---- Tail ML banner (hand-tails "take" side, own ledger) ----
-  const tk = (((tailData || {}).summary || {}).byAction || {}).take;
-  if (tk) {
+  // ---- Hand-tails FADE banner (own ledger; fade-only as of 2026-07-28) ----
+  const hf = (((tailData || {}).summary || {}).byAction || {}).fade;
+  if (hf && (hf.wins || hf.losses)) {
     const TEAL = 'var(--green,#3fb950)';
     const tb = document.createElement('div');
     tb.className = 'card';
     tb.style.cssText = 'margin-bottom:14px;border:1px solid ' + TEAL + ';background:rgba(63,185,80,0.07);padding:14px 18px';
     tb.innerHTML =
-      '<div style="font-weight:600;color:' + TEAL + ';margin-bottom:10px">Tail ML — back the arm’s team on 6+ opposite-hand lineups</div>'
+      '<div style="font-weight:600;color:' + TEAL + ';margin-bottom:10px">Hand-fade ML — fade the arm on 6+ opposite-hand lineups</div>'
       + '<div style="display:flex;gap:20px;flex-wrap:wrap;align-items:center">'
-      + bigStat('Record', (tk.wins || 0) + '–' + (tk.losses || 0))
-      + bigStat('Units', uStr(tk.units), uColor(tk.units))
-      + bigStat('ROI', ((tk.roi >= 0 ? '+' : '') + ((tk.roi || 0) * 100).toFixed(1)) + '%', uColor(tk.units))
-      + bigStat('Risked', (tk.staked || 0).toFixed(1) + 'u')
+      + bigStat('Record', (hf.wins || 0) + '–' + (hf.losses || 0))
+      + bigStat('Units', uStr(hf.units), uColor(hf.units))
+      + bigStat('ROI', ((hf.roi >= 0 ? '+' : '') + ((hf.roi || 0) * 100).toFixed(1)) + '%', uColor(hf.units))
+      + bigStat('Risked', (hf.staked || 0).toFixed(1) + 'u')
       + '</div>';
     el.appendChild(tb);
   }

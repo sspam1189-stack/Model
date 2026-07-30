@@ -41,6 +41,8 @@ FADE_LIST = [
     # away-only; Sullivan + Kikuchi + Palmquist + Trey Gibson all-venue.
     "Brady Singer", "Sean Sullivan", "Yusei Kikuchi", "Carson Palmquist",
     "Trey Gibson",
+    # Added 2026-07-28: away-only fade (see FADE_VENUE).
+    "MacKenzie Gore",
 ]
 
 # Per-arm venue restriction: fade the arm ONLY when his team plays at this
@@ -88,6 +90,7 @@ FADE_VENUE = {
     "Lodolo": "home",          # home 6-2 +4.2u; away 3-1 +1.6u
     # 2026-07-28: restrict to stronger road side (home +8.3% weak vs away +23.4%).
     "Michael King": "away",    # home 5-5 +0.92u; away 6-3 +2.70u
+    "MacKenzie Gore": "away",  # 2026-07-28: home 3-6 -2.86u; away 7-4 +2.58u (+19.6%)
 }
 
 # Arms NOT faded on MUTUAL games (both starters are fade arms). When a mutual
@@ -186,6 +189,7 @@ FADE_WINDOW = {
     "Yusei Kikuchi":     {"add": SEASON_START},
     "Carson Palmquist":  {"add": SEASON_START},
     "Trey Gibson":       {"add": SEASON_START},
+    "MacKenzie Gore":    {"add": SEASON_START},  # away-only (see FADE_VENUE)
 }
 
 
