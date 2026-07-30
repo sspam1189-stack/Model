@@ -198,7 +198,7 @@ async function renderMLBAllML() {
     + '<div class="card-title" style="padding:0">Game log</div>'
     + '<span id="allMLRec" style="font-size:13px;font-weight:700"></span>'
     + '</div>'
-    // Row 1: Team / Opponent / Opp starter
+    // Row 1: Team / Opponent
     + '<div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap;padding:0 8px 6px">'
     + '<label style="font-size:11px;color:#888">Team '
     + '<select id="amTeam" style="' + selCss + '">' + opt('', 'All teams', true)
@@ -206,6 +206,9 @@ async function renderMLBAllML() {
     + '<label style="font-size:11px;color:#888">Opponent '
     + '<select id="amOpp" style="' + selCss + '">' + opt('', 'All', true)
     + teams.map(t => opt(t, t)).join('') + '</select></label>'
+    + '</div>'
+    // Row 2: Opp starter / Starter
+    + '<div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap;padding:0 8px 6px">'
     + '<label style="font-size:11px;color:#888">Opp starter '
     + '<select id="amHand" style="' + selCss + '">' + opt('', 'All', true)
     + opt('L', 'vs LHP') + opt('R', 'vs RHP') + '</select></label>'
@@ -213,7 +216,7 @@ async function renderMLBAllML() {
     + '<select id="amPitcher" style="' + selCss + '">' + opt('', 'All pitchers', true)
     + allPitchers.map(p => opt(p, p)).join('') + '</select></label>'
     + '</div>'
-    // Row 2: Month / Week / Day
+    // Row 3: Month / Week / Day
     + '<div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap;padding:0 8px 6px">'
     + '<label style="font-size:11px;color:#888">Month '
     + '<select id="amMonth" style="' + selCss + '">' + opt('', 'All', true)
@@ -225,11 +228,14 @@ async function renderMLBAllML() {
     + '<select id="amDay" style="' + selCss + '">' + opt('', 'All', true)
     + dates.map(dt => opt(dt, dateLabel(dt))).join('') + '</select></label>'
     + '</div>'
-    // Row 3: Role / Venue
+    // Row 4: Role / O/U / Venue
     + '<div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap;padding:0 8px 6px">'
     + '<label style="font-size:11px;color:#888">Role '
     + '<select id="amRole" style="' + selCss + '">' + opt('', 'All', true)
     + opt('fav', 'Favorite') + opt('dog', 'Underdog') + '</select></label>'
+    + '<label style="font-size:11px;color:#888">O/U '
+    + '<select id="amOU" style="' + selCss + '">' + opt('', 'All', true)
+    + opt('over', 'Over') + opt('under', 'Under') + opt('push', 'Push') + '</select></label>'
     + '<label style="font-size:11px;color:#888">Venue '
     + '<select id="amVenue" style="' + selCss + '">' + opt('', 'All', true)
     + opt('home', 'Home') + opt('away', 'Away') + '</select></label>'
@@ -245,6 +251,7 @@ async function renderMLBAllML() {
   const handSel = card.querySelector('#amHand');
   const pitcherSel = card.querySelector('#amPitcher');
   const roleSel = card.querySelector('#amRole');
+  const ouSel = card.querySelector('#amOU');
   const venueSel = card.querySelector('#amVenue');
   const wrap = card.querySelector('#allMLWrap');
   const recEl = card.querySelector('#allMLRec');
@@ -258,7 +265,12 @@ async function renderMLBAllML() {
   function draw() {
     const tv = teamSel.value, ov = oppSel.value, mv = monthSel.value, wv = weekSel.value,
       dv = daySel.value, hv = handSel.value, pv = pitcherSel.value, rv = roleSel.value,
-      vv = venueSel.value;
+      ouv = ouSel.value, vv = venueSel.value;
+    // Over/Under result for a side: total runs vs the closing line (null if
+    // the game has no line or no final score).
+    const ouOf = (s) => (s.totalLine == null || s.awayScore == null || s.homeScore == null) ? null
+      : ((s.awayScore + s.homeScore) > s.totalLine ? 'over'
+        : ((s.awayScore + s.homeScore) < s.totalLine ? 'under' : 'push'));
     const passes = (s) =>
       (!tv || s.team === tv) &&
       (!ov || s.opp === ov) &&
@@ -268,6 +280,7 @@ async function renderMLBAllML() {
       (!hv || s.oppHand === hv) &&
       (!pv || s.teamSP === pv) &&
       (!rv || (rv === 'fav' ? s.isFav : !s.isFav)) &&
+      (!ouv || ouOf(s) === ouv) &&
       (!vv || s.venue === vv);
     // One row per game: keep the eligible side; if both sides qualify (no
     // filter distinguishes them) show the home side so table == record.
@@ -372,6 +385,6 @@ async function renderMLBAllML() {
   }
   teamSel.addEventListener('change', fillPitchers);
 
-  [teamSel, oppSel, monthSel, weekSel, daySel, handSel, pitcherSel, roleSel, venueSel].forEach(s => s.addEventListener('change', draw));
+  [teamSel, oppSel, monthSel, weekSel, daySel, handSel, pitcherSel, roleSel, ouSel, venueSel].forEach(s => s.addEventListener('change', draw));
   draw();
 }
