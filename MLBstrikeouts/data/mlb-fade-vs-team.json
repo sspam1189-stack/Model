@@ -1,17 +1,17 @@
 {
   "sport": "MLB",
   "type": "fade-vs-team",
-  "generated": "2026-07-30T20:21:26Z",
+  "generated": "2026-07-30T20:30:25Z",
   "seasonStart": "2026-04-05",
   "minStarts": 2,
   "fadeEra": 8.0,
   "note": "Pitcher-vs-team FADE: bet the opponent's ML when the pitcher faces that team. Set = curated (FADE_VS_TEAM) + auto-promoted (>= 2 starts vs the team, ERA >= 8.0 vs them). In-sample season replay (flat 1u); data only, not wired into the fade model. Watch tier (6 <= ERA < 8.0) is in mlb-fade-vs-team-watch.json.",
   "overall": {
     "w": 51,
-    "l": 21,
-    "u": 29.91,
-    "n": 72,
-    "roi": 0.31
+    "l": 20,
+    "u": 32.26,
+    "n": 71,
+    "roi": 0.3427
   },
   "today": [],
   "entries": [
@@ -1266,33 +1266,6 @@
           "matchup": "CWS @ CLE",
           "selection": "CLE",
           "opp_ml": -136,
-          "result": "loss"
-        }
-      ]
-    },
-    {
-      "pitcher": "Luis Castillo",
-      "opp": "LAD",
-      "arm_team": "SEA",
-      "source": "curated",
-      "record": {
-        "w": 0,
-        "l": 1,
-        "u": -2.35,
-        "n": 1,
-        "roi": -1.0
-      },
-      "eraVsOpp": 9.0,
-      "ipVsOpp": 5.0,
-      "erVsOpp": 5,
-      "startsVsOpp": 1,
-      "starts": [
-        {
-          "date": "2026-07-28",
-          "venue": "away",
-          "matchup": "SEA @ LAD",
-          "selection": "LAD",
-          "opp_ml": -235,
           "result": "loss"
         }
       ]

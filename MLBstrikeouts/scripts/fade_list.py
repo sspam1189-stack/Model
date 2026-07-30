@@ -104,7 +104,6 @@ FADE_VS_TEAM = {
     "Davis Martin":  ["NYY"],
     "Joe Ryan":      ["KC"],
     "Will Warren":   ["PHI"],
-    "Luis Castillo": ["LAD"],  # already faded all-venue on FADE_LIST; tracked here too
 }
 
 # Arms NOT faded on MUTUAL games (both starters are fade arms). When a mutual
