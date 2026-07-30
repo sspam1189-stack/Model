@@ -464,9 +464,24 @@ PROJ_CALIB_ELITE_K_EXEMPT = 0.29
 # blend), while blend 0.1 + cap 26 led on season ROI (+35.97%) and was the
 # most resilient config in the recent slump. See
 # docs/superpowers/specs/2026-07-14-mlb-whiff01cap26-variant.md.
-K_QUALITY_METRIC = os.environ.get("MLB_K_METRIC", "whiff")
+# 2026-07-30: LIVE metric switched "whiff" -> "csw" (default flipped below), paired
+# with the blend drop 0.2 -> 0.1. Full walk-forward cube this session (metric {whiff,
+# csw} x blend {0.0,0.1} x lineup {0.8,1.0} x calib {on,off}, month-by-month Apr-Jul):
+# at the shipped lineup 0.8 / calib ON, csw blend 0.1 is the top season config
+# (+33.4% ROI / 76.4% WR / +126.1u) and — unlike the old live whiff/0.2 — does NOT
+# collapse in July (csw b0.1 July +15.5% vs whiff/0.2 +1.3%). csw and whiff at blend
+# 0.1 are a near-tie on the season (csw 33.4% vs whiff 33.1%, +0.01 u/pick); csw was
+# chosen for the recent-window (Apr/Jul) edge. IMPORTANT: this "live csw" uses the
+# BASE knobs (K_RATE_CAP_FLOOR 0.36 / VAR 1.30 / threshold 0.70 / BF_CAP 25), NOT the
+# retired csw-variant profile (0.40/1.20/0.68). The old csw-variant branch was removed
+# from the variant block at the end of this file. To revert to whiff live: set the
+# default below back to "whiff" and CSW_XBA_BLEND_WEIGHT back to 0.2, then rebackfill.
+K_QUALITY_METRIC = os.environ.get("MLB_K_METRIC", "csw")
 
-CSW_XBA_BLEND_WEIGHT = 0.2   # 2026-07-02: 0.4->0.2. Walk-forward 2D sweep
+CSW_XBA_BLEND_WEIGHT = 0.1   # 2026-07-30: 0.2->0.1 (see metric-switch note above);
+# the blend optimum is a low plateau (0.1 best season under BOTH metrics; blend >=0.3
+# decays, blend 0.0 turns the regression fully off and is a touch worse). Prior note:
+# 2026-07-02: 0.4->0.2. Walk-forward 2D sweep
 # (blend {0.0,0.2,0.4,0.6} x lineup {1.0,0.8,0.7,0.6}, calib ON) shows 0.2 is
 # the whiff optimum at the shipped lineup 0.8 and it WINS EVERY WINDOW over the
 # old 0.4 (whiff, lineup 0.8, calib ON):
@@ -952,46 +967,35 @@ MLB_TEAM_ABBR = {
 # Runs LAST so it cleanly supersedes the base definitions regardless of their
 # order above.
 #
-#   MLB_K_VARIANT unset      -> live model (whiff, blend 0.2, cap 25), base
+#   MLB_K_VARIANT unset      -> live model (csw, blend 0.1, cap 25), base
 #                               values untouched, un-suffixed outputs.
 #   MLB_K_VARIANT = "w01c26" -> whiff blend 0.1 / BF_CAP 26 variant
-#                               ("MLB K's Whiff .1/Cap26"): IDENTICAL to live
-#                               except CSW_XBA_BLEND_WEIGHT 0.1 (vs 0.2) and
-#                               BF_CAP 26 (vs 25), written to *_w01c26
-#                               outputs. lineup/VAR/threshold/kcap all stay at
-#                               the base whiff values.
-#                               2026-07-14: replaces the Whiff .4 variant
-#                               (user call; a narrow walk-forward sweep of
-#                               lineup x blend x cap x var showed 0.4
-#                               dominated everywhere, while 0.1/cap26 led
-#                               season ROI and was the most resilient config
-#                               in the recent slump). See
-#                               docs/superpowers/specs/2026-07-14-mlb-whiff01cap26-variant.md.
+#                               ("MLB K's Whiff .1/Cap26"): same pipeline, forces
+#                               the whiff metric, CSW_XBA_BLEND_WEIGHT 0.1 and
+#                               BF_CAP 26 (vs live 25); lineup/VAR/threshold/kcap
+#                               stay at the base values. Written to *_w01c26
+#                               outputs.
+#                               2026-07-30: since the live model went csw at
+#                               blend 0.1, this shadow is now effectively the
+#                               whiff-vs-csw A/B at matched blend 0.1 (the two
+#                               were a season tie in backtest, csw a hair ahead;
+#                               the shadow tracks whiff forward, out of sample).
 #
-# The old CSW profile below is kept for manual runs (MLB_K_METRIC=csw) but is
-# no longer run by CI; its dashboard tab and seeded outputs were removed.
+# 2026-07-30: the old `elif K_QUALITY_METRIC == "csw"` variant profile
+# (K_RATE_CAP_FLOOR 0.40 / VAR 1.20 / threshold 0.68 / _csw outputs) was REMOVED.
+# csw is now the LIVE metric and runs on the BASE knobs (kcap 0.36 / VAR 1.30 /
+# threshold 0.70 / BF_CAP 25), so a separate csw profile would conflict with live.
+# A manual `MLB_K_METRIC=whiff` run now reproduces the old whiff live on the base
+# knobs, un-suffixed (it overwrites the live files — use a throwaway checkout).
 #
 # VARIANT_SUFFIX is appended by run_daily.py / props_backfill.py to the
 # config-dependent output paths (kalman_state, mlb-props, emp_std_cache) so
 # variants never clobber the live files.
 MLB_K_VARIANT = os.environ.get("MLB_K_VARIANT", "")
 if MLB_K_VARIANT == "w01c26":
-    K_QUALITY_METRIC = "whiff"      # force whiff even if MLB_K_METRIC is set
+    K_QUALITY_METRIC = "whiff"      # force whiff (shadow A/B vs the live csw model)
     CSW_XBA_BLEND_WEIGHT = 0.1
     BF_CAP = 26.0
     VARIANT_SUFFIX = "_w01c26"
-elif K_QUALITY_METRIC == "csw":
-    K_RATE_CAP_FLOOR = 0.40
-    VAR_MULT = {"strikeouts": 1.20}
-    # 2026-06-30: CSW variant pick threshold 0.70 -> 0.68 (user call). The base
-    # MARKET_THRESHOLDS above stays 0.70 for the live whiff model; only the CSW
-    # variant bets the wider 0.68 cutoff. Re-backfilled mlb-props_csw.json so the
-    # 0.68-0.70 plays are tagged conf="high"/pick (not watch). The CSW dashboard
-    # tab mirrors this with a variant-aware bet cutoff in mlb-props.js.
-    MARKET_THRESHOLDS = {"strikeouts": {"high": 0.68}}
-    VARIANT_SUFFIX = "_csw"
-    # Regression coefficients are NOT overridden here: both the whiff and csw
-    # active sets are defined above (each init to its own fallback), and the
-    # engine/refit select per metric via get/set_active_regression().
-else:                       # whiff — base values unchanged from today
+else:                       # live model (csw, blend 0.1, base knobs)
     VARIANT_SUFFIX = ""
