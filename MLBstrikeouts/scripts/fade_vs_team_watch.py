@@ -31,7 +31,7 @@ from fade_ml_common import stake_for, profit_for
 from fade_list import _norm, matched_entry, FADE_VS_TEAM, SEASON_START
 
 MIN_STARTS = 2     # >= this many starts vs the team
-MIN_ERA = 6.0      # ...and an ERA vs that team at or above this
+MIN_ERA = 8.0      # ...and an ERA vs that team at or above this
 
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 OUTPUT_PATHS = [
