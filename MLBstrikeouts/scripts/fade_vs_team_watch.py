@@ -31,7 +31,9 @@ from fade_ml_common import stake_for, profit_for
 from fade_list import _norm, matched_entry, FADE_VS_TEAM, SEASON_START
 
 MIN_STARTS = 2     # >= this many starts vs the team
-MIN_ERA = 6.0      # ...and an ERA vs that team at or above this
+MIN_ERA = 6.0      # ...and an ERA vs that team at or above this (watch floor)
+FADE_ERA = 8.0     # ...but below this -- ERA >= FADE_ERA auto-promotes to the
+                   # FADE list (fade_vs_team.py), so the watch band is [6, 8).
 
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 OUTPUT_PATHS = [
@@ -103,7 +105,7 @@ def build():
         if e["gs"] < MIN_STARTS or e["ip"] <= 0:
             continue
         era_val = round(e["er"] * 9.0 / e["ip"], 2)
-        if era_val < MIN_ERA:
+        if era_val < MIN_ERA or era_val >= FADE_ERA:   # watch band [6, 8); >=8 is a fade
             continue
         if matched_entry(e["name"]):        # already faded all-venue
             continue
@@ -146,11 +148,13 @@ def build():
             .strftime("%Y-%m-%dT%H:%M:%SZ"),
         "seasonStart": SEASON_START,
         "minStarts": MIN_STARTS, "minEra": MIN_ERA,
-        "note": "Auto-screened watch list for the pitcher-vs-team fade angle: "
-                ">= %d starts vs the team with ERA >= %.1f vs them, excluding "
-                "arms already faded and matchups already curated. fadeRecord is "
-                "the in-sample fade result (bet the opponent), shown for review "
-                "-- not a screen filter. Watch, don't bet." % (MIN_STARTS, MIN_ERA),
+        "note": "Auto-screened WATCH tier for the pitcher-vs-team fade angle: "
+                ">= %d starts vs the team with %.1f <= ERA < %.1f vs them "
+                "(ERA >= %.1f auto-promotes to the FADE list, mlb-fade-vs-team.json), "
+                "excluding arms already faded and matchups already curated. "
+                "fadeRecord is the in-sample fade result (bet the opponent), "
+                "shown for review -- not a screen filter. Watch, don't bet."
+                % (MIN_STARTS, MIN_ERA, FADE_ERA, FADE_ERA),
         "today": today,
         "candidates": cands,
     }
