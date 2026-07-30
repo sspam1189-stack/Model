@@ -59,6 +59,7 @@ async function renderMLBAllML() {
       homeML: g.home_ml, awayML: g.away_ml,
       awaySP: g.away_pitcher, homeSP: g.home_pitcher,
       awaySPHand: g.away_hand, homeSPHand: g.home_hand,
+      awayScore: g.away_score, homeScore: g.home_score,
       winner: g.home_win ? g.home : g.away, homeWin: g.home_win === true,
     };
     const home = {
@@ -142,6 +143,8 @@ async function renderMLBAllML() {
     const trows = today.map(g => {
       const done = g.final && g.home_win != null;
       const result = done ? (g.home_win ? g.home : g.away) + ' won' : 'pending';
+      const score = (g.away_score == null || g.home_score == null) ? '—'
+        : esc(g.away_score) + ' – ' + esc(g.home_score);
       return '<tr style="border-top:1px solid #222">'
         + '<td style="padding:4px 8px;white-space:nowrap;font-weight:600">' + esc(g.away) + ' @ ' + esc(g.home) + '</td>'
         + '<td style="padding:4px 8px;text-align:right">' + fmtOdds(g.away_ml) + '</td>'
@@ -149,6 +152,7 @@ async function renderMLBAllML() {
         + '<td style="padding:4px 8px;text-align:right;color:#aaa">' + (g.total_line != null ? g.total_line : '—') + '</td>'
         + '<td style="padding:4px 8px;white-space:nowrap">' + esc(g.away_pitcher || '?') + hnd(g.away_hand)
           + ' <span style="color:#666">vs</span> ' + esc(g.home_pitcher || '?') + hnd(g.home_hand) + '</td>'
+        + '<td style="padding:4px 8px;text-align:center;white-space:nowrap;color:' + (done ? '#ddd' : '#666') + '">' + score + '</td>'
         + '<td style="padding:4px 8px;color:' + (done ? GREEN : '#888') + '">' + esc(result) + '</td>'
         + '</tr>';
     }).join('');
@@ -158,6 +162,7 @@ async function renderMLBAllML() {
       + '<th style="padding:4px 8px;text-align:right">Home ML</th>'
       + '<th style="padding:4px 8px;text-align:right">O/U</th>'
       + '<th style="padding:4px 8px">Pitchers (away vs home)</th>'
+      + '<th style="padding:4px 8px;text-align:center">Score</th>'
       + '<th style="padding:4px 8px">Result</th></tr>';
     tcard.innerHTML = '<div class="card-title" style="padding:6px 8px">Today’s games &amp; odds — '
       + esc(today[0].date) + ' (' + today.length + ')</div>'
@@ -284,6 +289,11 @@ async function renderMLBAllML() {
       const hnd = (h) => (h ? ' <span style="color:#888">(' + h + ')</span>' : '');
       const pitchers = esc(s.awaySP || '?') + hnd(s.awaySPHand)
         + ' <span style="color:#666">vs</span> ' + esc(s.homeSP || '?') + hnd(s.homeSPHand);
+      // Final score as away–home; the winning side's run total is highlighted.
+      const score = (s.awayScore == null || s.homeScore == null) ? '—'
+        : '<span style="color:' + (awayWon ? GREEN : '#ccc') + ';font-weight:' + (awayWon ? 700 : 400) + '">' + esc(s.awayScore) + '</span>'
+          + '<span style="color:#666">–</span>'
+          + '<span style="color:' + (homeWon ? GREEN : '#ccc') + ';font-weight:' + (homeWon ? 700 : 400) + '">' + esc(s.homeScore) + '</span>';
       return '<tr style="border-top:1px solid #222">'
         + '<td style="' + td + ';white-space:nowrap;color:#aaa">' + esc(s.date) + '</td>'
         + '<td style="' + td + ';white-space:nowrap;color:#888">' + esc(s.away) + ' @ ' + esc(s.home) + '</td>'
@@ -291,6 +301,7 @@ async function renderMLBAllML() {
         + '<td style="' + td + ';font-weight:600;color:' + (awayWon ? GREEN : '#ccc') + '">' + esc(s.away) + '</td>'
         + '<td style="' + td + ';font-weight:600;color:' + (homeWon ? GREEN : '#ccc') + '">' + esc(s.home) + '</td>'
         + '<td style="' + td + '">' + fmtOdds(s.homeML) + '</td>'
+        + '<td style="' + td + ';white-space:nowrap">' + score + '</td>'
         + '<td style="' + td + ';white-space:nowrap">' + pitchers + '</td>'
         + '<td style="' + td + ';font-weight:700;color:' + winColor + '">' + esc(s.winner) + '</td>'
         + '</tr>';
@@ -300,6 +311,7 @@ async function renderMLBAllML() {
       + '<th style="padding:4px 8px">Away odds</th>'
       + '<th style="padding:4px 8px">Away</th><th style="padding:4px 8px">Home</th>'
       + '<th style="padding:4px 8px">Home odds</th>'
+      + '<th style="padding:4px 8px">Score</th>'
       + '<th style="padding:4px 8px">Pitchers (away vs home)</th>'
       + '<th style="padding:4px 8px">Winner</th></tr>';
     const note = view.length > ROW_CAP
