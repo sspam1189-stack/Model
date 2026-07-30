@@ -207,14 +207,14 @@ async function renderMLBAllML() {
     + '<select id="amOpp" style="' + selCss + '">' + opt('', 'All', true)
     + teams.map(t => opt(t, t)).join('') + '</select></label>'
     + '</div>'
-    // Row 2: Opp starter / Starter
+    // Row 2: Starter / Opp starter
     + '<div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap;padding:0 8px 6px">'
-    + '<label style="font-size:11px;color:#888">Opp starter '
-    + '<select id="amHand" style="' + selCss + '">' + opt('', 'All', true)
-    + opt('L', 'vs LHP') + opt('R', 'vs RHP') + '</select></label>'
     + '<label style="font-size:11px;color:#888">Starter '
     + '<select id="amPitcher" style="' + selCss + '">' + opt('', 'All pitchers', true)
     + allPitchers.map(p => opt(p, p)).join('') + '</select></label>'
+    + '<label style="font-size:11px;color:#888">Opp starter '
+    + '<select id="amHand" style="' + selCss + '">' + opt('', 'All', true)
+    + opt('L', 'vs LHP') + opt('R', 'vs RHP') + '</select></label>'
     + '</div>'
     // Row 3: Month / Week / Day
     + '<div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap;padding:0 8px 6px">'
