@@ -57,6 +57,16 @@ async function renderMLBFadeML() {
     catch (e) { /* next */ }
   }
 
+  // Pitcher-vs-team WATCH list (fade_vs_team_watch.py) — the review tier
+  // (ERA 6–8 vs the team), shown as a shadow watchlist card below. Data only.
+  const vtwLocal = 'data/mlb-fade-vs-team-watch.json';
+  const vtwRemote = 'https://raw.githubusercontent.com/sspam1189-stack/Model/main/MLBstrikeouts/data/mlb-fade-vs-team-watch.json';
+  let vtwData = null;
+  for (const url of [vtwLocal + '?t=' + Date.now(), vtwRemote + '?t=' + Date.now()]) {
+    try { const r = await fetch(url, { cache: 'no-store' }); if (r.ok) { vtwData = await r.json(); break; } }
+    catch (e) { /* next */ }
+  }
+
   // Team wRC+ platoon snapshot (FanGraphs true wRC+, manual browser capture —
   // view-only reference, not part of any pick/grade). Own file; missing = no
   // table. See MLBstrikeouts/scripts/build_team_wrc.py.
@@ -671,6 +681,44 @@ async function renderMLBFadeML() {
       + '<th style="padding:4px 8px;text-align:right">Units</th><th style="padding:4px 8px;text-align:center">GS</th>'
       + '<th style="padding:4px 8px;text-align:right">ERA</th></tr></thead><tbody>' + wrows + '</tbody></table></div>';
     el.appendChild(wc);
+  }
+
+  // ---- Fade vs-team watchlist (pitcher-vs-team, review-only) ----
+  // Auto-screen: >= minStarts starts vs a team with minEra ≤ ERA < fadeEra
+  // against them (ERA ≥ fadeEra promotes to the vs-team FADE list). fadeRecord
+  // is the in-sample fade result (bet the opponent), shown for review.
+  if (vtwData && (vtwData.candidates || []).length) {
+    const vtc = document.createElement('div');
+    vtc.className = 'card card-games';
+    vtc.style.cssText = 'padding:8px 4px;margin-top:16px';
+    const vrows = vtwData.candidates.map(c => {
+      const r = c.fadeRecord || {};
+      const u = r.u || 0, n = r.n || 0;
+      const rec = n ? (r.w + '–' + r.l + ' <span style="color:' + uColor(u) + '">'
+        + (u >= 0 ? '+' : '') + u.toFixed(2) + 'u</span>') : '—';
+      return '<tr>'
+        + '<td style="padding:4px 8px;font-weight:600">' + esc(c.pitcher) + '</td>'
+        + '<td style="padding:4px 6px;text-align:center;color:#999">' + esc(c.arm_team || '') + '</td>'
+        + '<td style="padding:4px 6px;text-align:center;color:' + ORANGE + ';font-weight:700">' + esc(c.opp) + '</td>'
+        + '<td style="padding:4px 8px;text-align:right;color:' + RED + ';font-weight:600">'
+          + (c.eraVsOpp != null ? c.eraVsOpp.toFixed(2) : '—') + '</td>'
+        + '<td style="padding:4px 8px;text-align:center;color:#999">' + (c.startsVsOpp || 0) + '</td>'
+        + '<td style="padding:4px 8px;text-align:center">' + rec + '</td>'
+        + '</tr>';
+    }).join('');
+    const ms = vtwData.minStarts, me = vtwData.minEra, fe = vtwData.fadeEra || 8;
+    vtc.innerHTML =
+      '<div style="padding:6px 8px"><span class="card-title" style="padding:0">Fade vs-team watchlist</span>'
+      + '<span style="font-size:11px;color:#888;margin-left:8px">pitchers with ≥' + ms + ' starts vs a team & '
+      + me + ' ≤ ERA &lt; ' + fe + ' vs them (≥' + fe + ' promotes to the vs-team fade list) · review only, not bet · in-sample</span></div>'
+      + '<div style="overflow-x:auto"><table style="width:100%;border-collapse:collapse;font-size:13px">'
+      + '<thead><tr style="color:#888;text-align:left;border-bottom:1px solid #333">'
+      + '<th style="padding:4px 8px">Pitcher</th><th style="padding:4px 6px;text-align:center">Team</th>'
+      + '<th style="padding:4px 6px;text-align:center">vs</th>'
+      + '<th style="padding:4px 8px;text-align:right">ERA vs</th>'
+      + '<th style="padding:4px 8px;text-align:center">GS</th>'
+      + '<th style="padding:4px 8px;text-align:center">Fade (bet opp)</th></tr></thead><tbody>' + vrows + '</tbody></table></div>';
+    el.appendChild(vtc);
   }
 
   // ---- Team wRC+ by opposing-starter hand (reference table) ----

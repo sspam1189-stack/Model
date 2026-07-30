@@ -1,10 +1,11 @@
 {
   "sport": "MLB",
   "type": "fade-vs-team-watch",
-  "generated": "2026-07-30T20:30:25Z",
+  "generated": "2026-07-30T20:35:59Z",
   "seasonStart": "2026-04-05",
   "minStarts": 2,
   "minEra": 6.0,
+  "fadeEra": 8.0,
   "note": "Auto-screened WATCH tier for the pitcher-vs-team fade angle: >= 2 starts vs the team with 6.0 <= ERA < 8.0 vs them (ERA >= 8.0 auto-promotes to the FADE list, mlb-fade-vs-team.json), excluding arms already faded and matchups already curated. fadeRecord is the in-sample fade result (bet the opponent), shown for review -- not a screen filter. Watch, don't bet.",
   "today": [],
   "candidates": [

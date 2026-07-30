@@ -147,7 +147,7 @@ def build():
         "generated": datetime.datetime.now(datetime.timezone.utc)
             .strftime("%Y-%m-%dT%H:%M:%SZ"),
         "seasonStart": SEASON_START,
-        "minStarts": MIN_STARTS, "minEra": MIN_ERA,
+        "minStarts": MIN_STARTS, "minEra": MIN_ERA, "fadeEra": FADE_ERA,
         "note": "Auto-screened WATCH tier for the pitcher-vs-team fade angle: "
                 ">= %d starts vs the team with %.1f <= ERA < %.1f vs them "
                 "(ERA >= %.1f auto-promotes to the FADE list, mlb-fade-vs-team.json), "
