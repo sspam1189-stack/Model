@@ -158,6 +158,39 @@ jobs:
           PYTHONIOENCODING: "utf-8"
         run: python -m scripts.fade_watch
 
+      # Pitcher-vs-team FADE list (curated + auto ERA>=8 matchups). Reads the
+      # ALL-ML dataset + season game logs, so runs after build_all_ml.
+      - name: Build MLB fade-vs-team list
+        continue-on-error: true
+        working-directory: MLBstrikeouts
+        env:
+          PYTHONUTF8: "1"
+          PYTHONUNBUFFERED: "1"
+          PYTHONIOENCODING: "utf-8"
+        run: python -m scripts.fade_vs_team
+
+      # Pitcher-vs-team WATCH list (ERA 6-8 vs the team). Review-only.
+      - name: Build MLB fade-vs-team watchlist
+        continue-on-error: true
+        working-directory: MLBstrikeouts
+        env:
+          PYTHONUTF8: "1"
+          PYTHONUNBUFFERED: "1"
+          PYTHONIOENCODING: "utf-8"
+        run: python -m scripts.fade_vs_team_watch
+
+      # Self-computed team wOBA/wRC+ splits vs LHP/RHP by window (season, each
+      # month, last-30/15). Powers the Team wRC+ card's Window selector. Reads
+      # the batter+pitcher game logs (refreshed by run_daily) and mlb-all-ml.json.
+      - name: Build MLB team wOBA/wRC+ splits
+        continue-on-error: true
+        working-directory: MLBstrikeouts
+        env:
+          PYTHONUTF8: "1"
+          PYTHONUNBUFFERED: "1"
+          PYTHONIOENCODING: "utf-8"
+        run: python -m scripts.build_team_woba_splits
+
       - name: Upload MLBstrikeouts data
         uses: actions/upload-artifact@v7
         with:
@@ -254,6 +287,9 @@ jobs:
           cp -f artifacts/MLBstrikeouts/mlb-fade-watch.json PythonDashboard/data/mlb-fade-watch.json 2>/dev/null || true
           cp -f artifacts/MLBstrikeouts/mlb-pitch-hands.json PythonDashboard/data/mlb-pitch-hands.json 2>/dev/null || true
           cp -f artifacts/MLBstrikeouts/mlb-team-wrc.json PythonDashboard/data/mlb-team-wrc.json 2>/dev/null || true
+          cp -f artifacts/MLBstrikeouts/mlb-fade-vs-team.json PythonDashboard/data/mlb-fade-vs-team.json 2>/dev/null || true
+          cp -f artifacts/MLBstrikeouts/mlb-fade-vs-team-watch.json PythonDashboard/data/mlb-fade-vs-team-watch.json 2>/dev/null || true
+          cp -f artifacts/MLBstrikeouts/mlb-team-woba-splits.json PythonDashboard/data/mlb-team-woba-splits.json 2>/dev/null || true
           mkdir -p data/odds_cache/mlb_ml
           cp -a artifacts/mlb-ml-cache/. data/odds_cache/mlb_ml/ 2>/dev/null || true
 
