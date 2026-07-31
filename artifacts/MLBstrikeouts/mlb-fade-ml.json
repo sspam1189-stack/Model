@@ -1,7 +1,7 @@
 {
   "sport": "MLB",
   "type": "fade-ml",
-  "generated": "2026-07-31T04:06:01Z",
+  "generated": "2026-07-31T13:06:56Z",
   "fadeList": [
     "Painter",
     "Rocker",
@@ -71,58 +71,202 @@
   ],
   "mutualRule": "underdog_min",
   "summary": {
-    "wins": 408,
-    "losses": 140,
+    "wins": 409,
+    "losses": 141,
     "voids": 0,
     "skips": 34,
-    "staked": 675.29,
-    "units": 282.86,
-    "roi": 0.4189,
+    "staked": 681.27,
+    "units": 280.0,
+    "roi": 0.411,
     "byType": {
       "ml": {
-        "wins": 398,
-        "losses": 132,
+        "wins": 400,
+        "losses": 134,
         "voids": 0,
         "skips": 0,
-        "staked": 657.29,
-        "units": 277.54,
-        "roi": 0.4222
+        "staked": 665.27,
+        "units": 275.22,
+        "roi": 0.4137
       },
       "ml_dog": {
-        "wins": 10,
-        "losses": 8,
+        "wins": 9,
+        "losses": 7,
         "voids": 0,
         "skips": 34,
-        "staked": 18.0,
-        "units": 5.32,
-        "roi": 0.2956
+        "staked": 16.0,
+        "units": 4.78,
+        "roi": 0.2988
       }
     }
   },
   "today": [
     {
-      "date": "2026-07-30",
-      "commence": "2026-07-31T02:10:00Z",
+      "date": "2026-07-31",
+      "commence": "2026-07-31T23:10:00Z",
       "betType": "ml",
       "shadow": false,
       "pitchers": [
-        "Bryan Woo"
+        "Tanner Bibee"
       ],
-      "fadeTeam": "SEA",
+      "fadeTeam": "CLE",
       "market": "h2h",
-      "selection": "LAD",
+      "selection": "ARI",
       "line": null,
-      "odds": -144,
-      "stake": 1.44,
+      "odds": 114,
+      "stake": 1.0,
       "result": "pending",
       "profit": 0.0,
       "book": "fanduel",
       "source": "fanduel_api",
       "reason": null,
-      "home": "LAD",
-      "away": "SEA",
-      "gamePk": 823921,
+      "home": "CLE",
+      "away": "ARI",
+      "gamePk": 824407,
+      "fadeReason": "home"
+    },
+    {
+      "date": "2026-07-31",
+      "commence": "2026-08-01T00:40:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Michael Wacha"
+      ],
+      "fadeTeam": "KC",
+      "market": "h2h",
+      "selection": "COL",
+      "line": null,
+      "odds": -108,
+      "stake": 1.08,
+      "result": "pending",
+      "profit": 0.0,
+      "book": "fanduel",
+      "source": "fanduel_api",
+      "reason": null,
+      "home": "COL",
+      "away": "KC",
+      "gamePk": 824325,
       "fadeReason": "away"
+    },
+    {
+      "date": "2026-07-31",
+      "commence": "2026-08-01T01:38:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Ryan Johnson"
+      ],
+      "fadeTeam": "LAA",
+      "market": "h2h",
+      "selection": "MIL",
+      "line": null,
+      "odds": -172,
+      "stake": 1.72,
+      "result": "pending",
+      "profit": 0.0,
+      "book": "fanduel",
+      "source": "fanduel_api",
+      "reason": null,
+      "home": "LAA",
+      "away": "MIL",
+      "gamePk": 823999,
+      "fadeReason": "all"
+    },
+    {
+      "date": "2026-07-31",
+      "commence": "2026-08-01T02:10:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Zebby Matthews"
+      ],
+      "fadeTeam": "MIN",
+      "market": "h2h",
+      "selection": "SEA",
+      "line": null,
+      "odds": -184,
+      "stake": 1.84,
+      "result": "pending",
+      "profit": 0.0,
+      "book": "fanduel",
+      "source": "fanduel_api",
+      "reason": null,
+      "home": "SEA",
+      "away": "MIN",
+      "gamePk": 823111,
+      "fadeReason": "away"
+    },
+    {
+      "date": "2026-07-31",
+      "commence": "2026-07-31T23:10:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Freddy Peralta"
+      ],
+      "fadeTeam": "NYM",
+      "market": "h2h",
+      "selection": "MIA",
+      "line": null,
+      "odds": 108,
+      "stake": 1.0,
+      "result": "pending",
+      "profit": 0.0,
+      "book": "fanduel",
+      "source": "fanduel_api",
+      "reason": null,
+      "home": "NYM",
+      "away": "MIA",
+      "gamePk": 823593,
+      "fadeReason": "all"
+    },
+    {
+      "date": "2026-07-31",
+      "commence": "2026-08-01T01:40:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Jeffrey Springs"
+      ],
+      "fadeTeam": "OAK",
+      "market": "h2h",
+      "selection": "DET",
+      "line": null,
+      "odds": -162,
+      "stake": 1.62,
+      "result": "pending",
+      "profit": 0.0,
+      "book": "fanduel",
+      "source": "fanduel_api",
+      "reason": null,
+      "home": "OAK",
+      "away": "DET",
+      "gamePk": 824975,
+      "fadeReason": "home"
+    },
+    {
+      "date": "2026-07-31",
+      "commence": "2026-07-31T22:10:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Paul Skenes"
+      ],
+      "fadeTeam": "PIT",
+      "market": "h2h",
+      "selection": "CIN",
+      "line": null,
+      "odds": 108,
+      "stake": 1.0,
+      "result": "pending",
+      "profit": 0.0,
+      "book": "fanduel",
+      "source": "fanduel_api",
+      "reason": null,
+      "home": "CIN",
+      "away": "PIT",
+      "gamePk": 824486,
+      "fadeReason": "all"
     }
   ],
   "bets": [
@@ -5839,6 +5983,30 @@
     },
     {
       "date": "2026-05-25",
+      "commence": "2026-05-25T18:10:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Zebby Matthews"
+      ],
+      "fadeTeam": "MIN",
+      "market": "h2h",
+      "selection": "CWS",
+      "line": null,
+      "odds": -106,
+      "stake": 1.06,
+      "result": "WIN",
+      "profit": 1.0,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null,
+      "home": "CWS",
+      "away": "MIN",
+      "gamePk": 824598,
+      "fadeReason": "away"
+    },
+    {
+      "date": "2026-05-25",
       "commence": "2026-05-25T20:10:00Z",
       "betType": "ml",
       "shadow": false,
@@ -6589,6 +6757,30 @@
       "betType": "ml",
       "shadow": false,
       "pitchers": [
+        "Zebby Matthews"
+      ],
+      "fadeTeam": "MIN",
+      "market": "h2h",
+      "selection": "PIT",
+      "line": null,
+      "odds": -166,
+      "stake": 1.66,
+      "result": "WIN",
+      "profit": 1.0,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null,
+      "home": "PIT",
+      "away": "MIN",
+      "gamePk": 823373,
+      "fadeReason": "away"
+    },
+    {
+      "date": "2026-05-31",
+      "commence": "2026-05-31T17:35:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
         "Griffin Canning"
       ],
       "fadeTeam": "SD",
@@ -6757,6 +6949,30 @@
       "betType": "ml",
       "shadow": false,
       "pitchers": [
+        "Merrill Kelly"
+      ],
+      "fadeTeam": "ARI",
+      "market": "h2h",
+      "selection": "SEA",
+      "line": null,
+      "odds": -142,
+      "stake": 1.42,
+      "result": "WIN",
+      "profit": 1.0,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null,
+      "home": "SEA",
+      "away": "ARI",
+      "gamePk": 823133,
+      "fadeReason": "away"
+    },
+    {
+      "date": "2026-05-31",
+      "commence": "2026-05-31T20:10:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
         "Andrew Painter"
       ],
       "fadeTeam": "PHI",
@@ -6774,31 +6990,6 @@
       "away": "PHI",
       "gamePk": 823944,
       "fadeReason": "all"
-    },
-    {
-      "date": "2026-05-31",
-      "commence": "2026-05-31T20:10:00Z",
-      "betType": "ml_dog",
-      "shadow": false,
-      "pitchers": [
-        "Merrill Kelly",
-        "Bryce Miller"
-      ],
-      "fadeTeam": null,
-      "market": "h2h",
-      "selection": "ARI",
-      "line": null,
-      "odds": 120,
-      "stake": 1.0,
-      "result": "LOSS",
-      "profit": -1.0,
-      "book": "fanduel",
-      "source": "oddsapi_fanduel",
-      "reason": null,
-      "home": "SEA",
-      "away": "ARI",
-      "gamePk": 823133,
-      "fadeReason": "away/all"
     },
     {
       "date": "2026-06-01",
@@ -7360,6 +7551,30 @@
       "betType": "ml",
       "shadow": false,
       "pitchers": [
+        "Michael Wacha"
+      ],
+      "fadeTeam": "KC",
+      "market": "h2h",
+      "selection": "MIN",
+      "line": null,
+      "odds": -118,
+      "stake": 1.18,
+      "result": "WIN",
+      "profit": 1.0,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null,
+      "home": "MIN",
+      "away": "KC",
+      "gamePk": 823699,
+      "fadeReason": "away"
+    },
+    {
+      "date": "2026-06-05",
+      "commence": "2026-06-06T00:15:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
         "Kumar Rocker"
       ],
       "fadeTeam": "TEX",
@@ -7377,31 +7592,6 @@
       "away": "CLE",
       "gamePk": 822892,
       "fadeReason": "all"
-    },
-    {
-      "date": "2026-06-05",
-      "commence": "2026-06-06T00:15:00Z",
-      "betType": "ml_dog",
-      "shadow": false,
-      "pitchers": [
-        "Zebby Matthews",
-        "Michael Wacha"
-      ],
-      "fadeTeam": null,
-      "market": "h2h",
-      "selection": null,
-      "line": null,
-      "odds": null,
-      "stake": null,
-      "result": "SKIP",
-      "profit": 0.0,
-      "book": "fanduel",
-      "source": "oddsapi_fanduel",
-      "reason": "dog_below_min",
-      "home": "MIN",
-      "away": "KC",
-      "gamePk": 823699,
-      "fadeReason": "home/away"
     },
     {
       "date": "2026-06-06",
@@ -7425,7 +7615,7 @@
       "home": "DET",
       "away": "SEA",
       "gamePk": 824269,
-      "fadeReason": "all"
+      "fadeReason": "away"
     },
     {
       "date": "2026-06-06",
@@ -8080,6 +8270,30 @@
     },
     {
       "date": "2026-06-11",
+      "commence": "2026-06-11T17:10:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Zebby Matthews"
+      ],
+      "fadeTeam": "MIN",
+      "market": "h2h",
+      "selection": "DET",
+      "line": null,
+      "odds": -130,
+      "stake": 1.3,
+      "result": "WIN",
+      "profit": 1.0,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null,
+      "home": "DET",
+      "away": "MIN",
+      "gamePk": 824265,
+      "fadeReason": "away"
+    },
+    {
+      "date": "2026-06-11",
       "commence": "2026-06-11T18:10:00Z",
       "betType": "ml",
       "shadow": false,
@@ -8172,7 +8386,7 @@
       "home": "WSH",
       "away": "SEA",
       "gamePk": 822726,
-      "fadeReason": "all"
+      "fadeReason": "away"
     },
     {
       "date": "2026-06-12",
@@ -8806,30 +9020,6 @@
       "betType": "ml",
       "shadow": false,
       "pitchers": [
-        "Kumar Rocker"
-      ],
-      "fadeTeam": "TEX",
-      "market": "h2h",
-      "selection": "MIN",
-      "line": null,
-      "odds": 110,
-      "stake": 1.0,
-      "result": "WIN",
-      "profit": 1.1,
-      "book": "fanduel",
-      "source": "oddsapi_fanduel",
-      "reason": null,
-      "home": "TEX",
-      "away": "MIN",
-      "gamePk": 822888,
-      "fadeReason": "all"
-    },
-    {
-      "date": "2026-06-16",
-      "commence": "2026-06-17T00:05:00Z",
-      "betType": "ml",
-      "shadow": false,
-      "pitchers": [
         "Ryan Feltner"
       ],
       "fadeTeam": "COL",
@@ -8847,6 +9037,31 @@
       "away": "COL",
       "gamePk": 824667,
       "fadeReason": "away"
+    },
+    {
+      "date": "2026-06-16",
+      "commence": "2026-06-17T00:05:00Z",
+      "betType": "ml_dog",
+      "shadow": false,
+      "pitchers": [
+        "Kumar Rocker",
+        "Zebby Matthews"
+      ],
+      "fadeTeam": null,
+      "market": "h2h",
+      "selection": null,
+      "line": null,
+      "odds": null,
+      "stake": null,
+      "result": "SKIP",
+      "profit": 0.0,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": "dog_below_min",
+      "home": "TEX",
+      "away": "MIN",
+      "gamePk": 822888,
+      "fadeReason": "all/away"
     },
     {
       "date": "2026-06-16",
@@ -9263,30 +9478,6 @@
       "betType": "ml",
       "shadow": false,
       "pitchers": [
-        "Bryce Miller"
-      ],
-      "fadeTeam": "SEA",
-      "market": "h2h",
-      "selection": "BOS",
-      "line": null,
-      "odds": -104,
-      "stake": 1.04,
-      "result": "WIN",
-      "profit": 1.0,
-      "book": "fanduel",
-      "source": "oddsapi_fanduel",
-      "reason": null,
-      "home": "SEA",
-      "away": "BOS",
-      "gamePk": 823124,
-      "fadeReason": "all"
-    },
-    {
-      "date": "2026-06-19",
-      "commence": "2026-06-20T02:10:00Z",
-      "betType": "ml",
-      "shadow": false,
-      "pitchers": [
         "Trey Gibson"
       ],
       "fadeTeam": "BAL",
@@ -9568,30 +9759,6 @@
       "away": "KC",
       "gamePk": 822964,
       "fadeReason": "away"
-    },
-    {
-      "date": "2026-06-22",
-      "commence": "2026-06-22T23:40:00Z",
-      "betType": "ml",
-      "shadow": false,
-      "pitchers": [
-        "Zebby Matthews"
-      ],
-      "fadeTeam": "MIN",
-      "market": "h2h",
-      "selection": "LAD",
-      "line": null,
-      "odds": -148,
-      "stake": 1.48,
-      "result": "WIN",
-      "profit": 1.0,
-      "book": "fanduel",
-      "source": "oddsapi_fanduel",
-      "reason": null,
-      "home": "MIN",
-      "away": "LAD",
-      "gamePk": 823692,
-      "fadeReason": "home"
     },
     {
       "date": "2026-06-22",
@@ -9881,7 +10048,7 @@
       "home": "PIT",
       "away": "SEA",
       "gamePk": 823366,
-      "fadeReason": "all"
+      "fadeReason": "away"
     },
     {
       "date": "2026-06-25",
@@ -10487,6 +10654,30 @@
     },
     {
       "date": "2026-06-29",
+      "commence": "2026-06-30T00:10:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Zebby Matthews"
+      ],
+      "fadeTeam": "MIN",
+      "market": "h2h",
+      "selection": "HOU",
+      "line": null,
+      "odds": -138,
+      "stake": 1.38,
+      "result": "LOSS",
+      "profit": -1.38,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null,
+      "home": "HOU",
+      "away": "MIN",
+      "gamePk": 824176,
+      "fadeReason": "away"
+    },
+    {
+      "date": "2026-06-29",
       "commence": "2026-06-30T00:40:00Z",
       "betType": "ml",
       "shadow": false,
@@ -11014,30 +11205,6 @@
       "fadeReason": "all"
     },
     {
-      "date": "2026-07-02",
-      "commence": "2026-07-03T01:40:00Z",
-      "betType": "ml",
-      "shadow": false,
-      "pitchers": [
-        "Bryce Miller"
-      ],
-      "fadeTeam": "SEA",
-      "market": "h2h",
-      "selection": "LAA",
-      "line": null,
-      "odds": 188,
-      "stake": 1.0,
-      "result": "LOSS",
-      "profit": -1.0,
-      "book": "fanduel",
-      "source": "oddsapi_fanduel",
-      "reason": null,
-      "home": "SEA",
-      "away": "LAA",
-      "gamePk": 823119,
-      "fadeReason": "all"
-    },
-    {
       "date": "2026-07-03",
       "commence": "2026-07-03T20:05:00Z",
       "betType": "ml",
@@ -11181,6 +11348,30 @@
       "away": "TOR",
       "gamePk": 823120,
       "fadeReason": "all"
+    },
+    {
+      "date": "2026-07-04",
+      "commence": "2026-07-04T17:35:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Zebby Matthews"
+      ],
+      "fadeTeam": "MIN",
+      "market": "h2h",
+      "selection": "NYY",
+      "line": null,
+      "odds": -148,
+      "stake": 1.48,
+      "result": "LOSS",
+      "profit": -1.48,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null,
+      "home": "NYY",
+      "away": "MIN",
+      "gamePk": 823526,
+      "fadeReason": "away"
     },
     {
       "date": "2026-07-04",
@@ -11878,7 +12069,7 @@
       "home": "MIA",
       "away": "SEA",
       "gamePk": 823846,
-      "fadeReason": "all"
+      "fadeReason": "away"
     },
     {
       "date": "2026-07-09",
@@ -12047,30 +12238,6 @@
       "home": "NYM",
       "away": "BOS",
       "gamePk": 823604,
-      "fadeReason": "home"
-    },
-    {
-      "date": "2026-07-10",
-      "commence": "2026-07-11T00:10:00Z",
-      "betType": "ml",
-      "shadow": false,
-      "pitchers": [
-        "Zebby Matthews"
-      ],
-      "fadeTeam": "MIN",
-      "market": "h2h",
-      "selection": "LAA",
-      "line": null,
-      "odds": 132,
-      "stake": 1.0,
-      "result": "WIN",
-      "profit": 1.32,
-      "book": "fanduel",
-      "source": "oddsapi_fanduel",
-      "reason": null,
-      "home": "MIN",
-      "away": "LAA",
-      "gamePk": 823685,
       "fadeReason": "home"
     },
     {
@@ -12580,27 +12747,26 @@
     {
       "date": "2026-07-17",
       "commence": "2026-07-18T02:10:00Z",
-      "betType": "ml_dog",
+      "betType": "ml",
       "shadow": false,
       "pitchers": [
-        "Bryce Miller",
         "Landen Roupp"
       ],
-      "fadeTeam": null,
+      "fadeTeam": "SF",
       "market": "h2h",
-      "selection": "SF",
+      "selection": "SEA",
       "line": null,
-      "odds": 154,
-      "stake": 1.0,
-      "result": "WIN",
-      "profit": 1.54,
+      "odds": -184,
+      "stake": 1.84,
+      "result": "LOSS",
+      "profit": -1.84,
       "book": "fanduel",
       "source": "fanduel_api",
       "reason": null,
       "home": "SEA",
       "away": "SF",
       "gamePk": 823115,
-      "fadeReason": "all/away"
+      "fadeReason": "away"
     },
     {
       "date": "2026-07-18",
@@ -12817,6 +12983,30 @@
       "away": "SD",
       "gamePk": 824086,
       "fadeReason": "all"
+    },
+    {
+      "date": "2026-07-19",
+      "commence": "2026-07-19T18:20:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Zebby Matthews"
+      ],
+      "fadeTeam": "MIN",
+      "market": "h2h",
+      "selection": "CHC",
+      "line": null,
+      "odds": -174,
+      "stake": 1.74,
+      "result": "WIN",
+      "profit": 1.0,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null,
+      "home": "CHC",
+      "away": "MIN",
+      "gamePk": 824653,
+      "fadeReason": "away"
     },
     {
       "date": "2026-07-19",
@@ -13421,31 +13611,7 @@
       "home": "TEX",
       "away": "SEA",
       "gamePk": 822872,
-      "fadeReason": "all"
-    },
-    {
-      "date": "2026-07-24",
-      "commence": "2026-07-25T00:10:00Z",
-      "betType": "ml",
-      "shadow": false,
-      "pitchers": [
-        "Zebby Matthews"
-      ],
-      "fadeTeam": "MIN",
-      "market": "h2h",
-      "selection": "OAK",
-      "line": null,
-      "odds": 120,
-      "stake": 1.0,
-      "result": "WIN",
-      "profit": 1.2,
-      "book": "fanduel",
-      "source": "fanduel_api",
-      "reason": null,
-      "home": "MIN",
-      "away": "OAK",
-      "gamePk": 823680,
-      "fadeReason": "home"
+      "fadeReason": "away"
     },
     {
       "date": "2026-07-24",
@@ -14145,6 +14311,30 @@
       "away": "MIA",
       "gamePk": 823595,
       "fadeReason": "home"
+    },
+    {
+      "date": "2026-07-30",
+      "commence": "2026-07-31T02:10:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Bryan Woo"
+      ],
+      "fadeTeam": "SEA",
+      "market": "h2h",
+      "selection": "LAD",
+      "line": null,
+      "odds": -144,
+      "stake": 1.44,
+      "result": "WIN",
+      "profit": 1.0,
+      "book": "fanduel",
+      "source": "fanduel_api",
+      "reason": null,
+      "home": "LAD",
+      "away": "SEA",
+      "gamePk": 823921,
+      "fadeReason": "away"
     }
   ]
 }

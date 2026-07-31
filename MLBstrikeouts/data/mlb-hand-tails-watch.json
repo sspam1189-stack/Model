@@ -1,7 +1,7 @@
 {
   "sport": "MLB",
   "type": "hand-tails-watch",
-  "generated": "2026-07-31T04:07:19Z",
+  "generated": "2026-07-31T13:09:31Z",
   "handMin": 6,
   "minGames": 3,
   "minUnits": 2.5,
@@ -9,24 +9,45 @@
   "note": "Shadow review list -- arms NOT on the active hand-tails list showing a handedness-conditional edge (fade or take). The active list is fade-only, so all tail/take arms are review-only here. In-sample season replay; watch, don't bet.",
   "today": [
     {
-      "date": "2026-07-30",
-      "commence": "2026-07-30T17:40:00Z",
-      "betType": "watch_fade",
-      "action": "fade",
+      "date": "2026-07-31",
+      "commence": "2026-07-31T23:10:00Z",
+      "betType": "watch_take",
+      "action": "take",
       "watch": true,
-      "pitcher": "Noah Cameron",
-      "hand": "L",
-      "arm_team": "KC",
-      "opp_team": "MIN",
-      "selection": "MIN",
-      "home": "MIN",
+      "pitcher": "Nick Martinez",
+      "hand": "R",
+      "arm_team": "TB",
+      "opp_team": "CWS",
+      "selection": "TB",
+      "home": "TB",
+      "away": "CWS",
+      "oppLefty": 7,
+      "oppRighty": 4,
+      "odds": -142,
+      "suggest": "take",
+      "suggestUnits": 6.36,
+      "games": 6,
+      "result": "pending"
+    },
+    {
+      "date": "2026-07-31",
+      "commence": "2026-08-01T00:40:00Z",
+      "betType": "watch_take",
+      "action": "take",
+      "watch": true,
+      "pitcher": "Tomoyuki Sugano",
+      "hand": "R",
+      "arm_team": "COL",
+      "opp_team": "KC",
+      "selection": "COL",
+      "home": "COL",
       "away": "KC",
-      "oppLefty": 5,
-      "oppRighty": 6,
-      "odds": -136,
-      "suggest": "fade",
-      "suggestUnits": 4.04,
-      "games": 8,
+      "oppLefty": 6,
+      "oppRighty": 5,
+      "odds": -108,
+      "suggest": "take",
+      "suggestUnits": 4.38,
+      "games": 3,
       "result": "pending"
     }
   ],
@@ -299,7 +320,7 @@
         "l": 6,
         "u": -4.38
       },
-      "era": 5.27
+      "era": 4.89
     },
     {
       "pitcher": "Christian Scott",
@@ -515,7 +536,7 @@
         "l": 4,
         "u": -3.1
       },
-      "era": 6.04
+      "era": 5.8
     },
     {
       "pitcher": "Noah Schultz",
