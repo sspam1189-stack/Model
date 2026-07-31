@@ -89,6 +89,15 @@ async function renderMLBFadeML() {
     catch (e) { /* next */ }
   }
 
+  // Today's full slate (all games) — for the wRC+ table's matchup filter buttons.
+  const allmlLocal = 'data/mlb-all-ml.json';
+  const allmlRemote = 'https://raw.githubusercontent.com/sspam1189-stack/Model/main/MLBstrikeouts/data/mlb-all-ml.json';
+  let allmlData = null;
+  for (const url of [allmlLocal + '?t=' + Date.now(), allmlRemote + '?t=' + Date.now()]) {
+    try { const r = await fetch(url, { cache: 'no-store' }); if (r.ok) { allmlData = await r.json(); break; } }
+    catch (e) { /* next */ }
+  }
+
   // Today's probable-pitcher hands ({normName: 'L'|'R'}), to tag Today's plays
   // as RHP/LHP. Own file (build_pitch_hands_today.py); missing = no tags.
   const handLocal = 'data/mlb-pitch-hands.json';
@@ -810,6 +819,7 @@ async function renderMLBFadeML() {
         + allTeams.map(t => '<option value="' + esc(t) + '">' + esc(t) + '</option>').join('')
         + '</select></label>'
         + '</div>'
+        + '<div id="wrcMatchups" style="display:flex;gap:6px;flex-wrap:wrap;padding:0 8px 6px"></div>'
         + '<div id="wrcNote" style="font-size:11px;color:#888;padding:0 8px 6px"></div>'
         + '<div id="wrcWrap" style="overflow-x:auto"></div>';
       el.appendChild(wrcCard);
@@ -818,6 +828,11 @@ async function renderMLBFadeML() {
       const wrcTeamSel = wrcCard.querySelector('#wrcTeamSel');
       const wrcWinSel = wrcCard.querySelector('#wrcWinSel');
       const wrcNote = wrcCard.querySelector('#wrcNote');
+      const wrcMatchupsEl = wrcCard.querySelector('#wrcMatchups');
+      // Today's slate -> matchup filter buttons. Click one to show only that
+      // game's two teams; "All" clears it.
+      const todayGames = ((allmlData && allmlData.today) || []).filter(g => g.away && g.home);
+      let wrcMatchup = null;   // [away, home] or null
       let wrcSort = { col: 'team', dir: 1 };
       const arrow = (c) => wrcSort.col === c ? (wrcSort.dir > 0 ? ' ▲' : ' ▼') : '';
 
@@ -827,6 +842,7 @@ async function renderMLBFadeML() {
         const teams = teamsFor(win);
         const only = wrcTeamSel.value;
         let list = Object.keys(teams).map(t => ({ team: t, ...teams[t] }));
+        if (wrcMatchup) list = list.filter(r => wrcMatchup.includes(r.team));
         if (only) list = list.filter(r => r.team === only);
         list.sort((a, b) => {
           let av, bv;
@@ -859,8 +875,29 @@ async function renderMLBFadeML() {
           drawWrc();
         }));
       }
-      wrcTeamSel.addEventListener('change', drawWrc);
+      // Matchup filter buttons (today's slate). Active button highlighted.
+      function renderMatchupBtns() {
+        if (!todayGames.length) { wrcMatchupsEl.style.display = 'none'; return; }
+        const btnBase = 'font-size:11px;padding:3px 9px;border-radius:12px;border:1px solid #333;background:#1b1b1b;color:#ccc;cursor:pointer;white-space:nowrap';
+        const btnOn = 'font-size:11px;padding:3px 9px;border-radius:12px;border:1px solid var(--blue,#4c9be8);background:rgba(76,155,232,0.20);color:#fff;cursor:pointer;white-space:nowrap';
+        const cur = wrcMatchup ? wrcMatchup.join('|') : '';
+        const btns = [{ label: 'All', teams: null }]
+          .concat(todayGames.map(g => ({ label: g.away + ' vs ' + g.home, teams: [g.away, g.home] })));
+        wrcMatchupsEl.innerHTML = btns.map((b, i) => {
+          const on = (b.teams ? b.teams.join('|') : '') === cur;
+          return '<button data-i="' + i + '" style="' + (on ? btnOn : btnBase) + '">' + esc(b.label) + '</button>';
+        }).join('');
+        wrcMatchupsEl.querySelectorAll('button').forEach(btn => btn.addEventListener('click', () => {
+          const b = btns[+btn.getAttribute('data-i')];
+          wrcMatchup = b.teams;
+          if (b.teams) wrcTeamSel.value = '';   // matchup and single-team filters are exclusive
+          renderMatchupBtns();
+          drawWrc();
+        }));
+      }
+      wrcTeamSel.addEventListener('change', () => { if (wrcTeamSel.value) { wrcMatchup = null; renderMatchupBtns(); } drawWrc(); });
       wrcWinSel.addEventListener('change', drawWrc);
+      renderMatchupBtns();
       drawWrc();
     }
   }
