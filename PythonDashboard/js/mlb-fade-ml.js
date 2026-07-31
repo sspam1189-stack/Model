@@ -392,16 +392,19 @@ async function renderMLBFadeML() {
     if (!pend.length && !fadeWatchPend.length && !tailPend.length && !watchPend.length) {
       th += '<div class="no-picks">No fade-list or hand-tails moneyline plays on today’s slate.</div>';
     } else {
-      // Merge every play type into one list and sort by first pitch (commence).
-      const items = [];
-      pend.forEach(t => items.push({ c: t.commence || '', html: '<div style="font-size:14px;color:#ddd;padding:2px 0">' + timeChip(t.commence) + fadeLabel(t) + '</div>' }));
-      fadeWatchPend.forEach(t => items.push({ c: t.commence || '', html: '<div style="font-size:14px;color:#cbb8e6;padding:2px 0">' + timeChip(t.commence) + fadeWatchLabel(t) + '</div>' }));
-      tailPend.forEach(t => items.push({ c: t.commence || '', html: '<div style="font-size:14px;color:#ddd;padding:2px 0">' + timeChip(t.commence) + tailLabel(t) + '</div>' }));
-      watchPend.forEach(t => items.push({ c: t.commence || '', html: '<div style="font-size:14px;color:#cbb8e6;padding:2px 0">' + timeChip(t.commence) + watchLabel(t) + '</div>' }));
-      items.sort((a, b) => (a.c < b.c ? -1 : a.c > b.c ? 1 : 0));
-      th += items.map(i => i.html).join('');
-      if (watchPend.length) {
-        th += '<div style="font-size:11px;color:#777;margin-top:6px">WATCH = handedness watchlist candidate (review only, not bet).</div>';
+      const byTime = (a, b) => (a.c < b.c ? -1 : a.c > b.c ? 1 : 0);
+      const mk = (list, fn, color) => list.map(t => ({
+        c: t.commence || '',
+        html: '<div style="font-size:14px;color:' + color + ';padding:2px 0">' + timeChip(t.commence) + fn(t) + '</div>',
+      }));
+      // Real bettable plays (fade-list + hand-tails), sorted by first pitch.
+      const real = [...mk(pend, fadeLabel, '#ddd'), ...mk(tailPend, tailLabel, '#ddd')].sort(byTime);
+      // WATCH plays (review-only candidates) in their OWN sorted group below.
+      const watch = [...mk(fadeWatchPend, fadeWatchLabel, '#cbb8e6'), ...mk(watchPend, watchLabel, '#cbb8e6')].sort(byTime);
+      th += real.map(i => i.html).join('');
+      if (watch.length) {
+        th += '<div style="font-size:11px;color:#8a7bb0;font-weight:700;letter-spacing:.05em;text-transform:uppercase;margin:10px 0 2px;border-top:1px solid rgba(255,255,255,0.07);padding-top:8px">Watch — review only, not bet</div>';
+        th += watch.map(i => i.html).join('');
       }
     }
     th += '<div id="playsWrcWin" style="font-size:11px;color:#777;margin-top:6px"></div>';
