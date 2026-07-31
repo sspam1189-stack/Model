@@ -144,7 +144,7 @@ FADE_WINDOW = {
     "Burrows":        {"add": SEASON_START},
     "Roupp":          {"add": SEASON_START},  # 2026-07-27: reactivated, away-only (see FADE_VENUE)
     "Keller":         {"add": SEASON_START, "remove": "2026-07-27"},  # removed 7/27 (-2.6u all-venue)
-    "Peralta":        {"add": SEASON_START, "remove": "2026-07-31"},  # removed 7/31 (per request)
+    "Peralta":        {"add": SEASON_START},
     "Canning":        {"add": SEASON_START},
     "Jacob Lopez":    {"add": SEASON_START},
     "Ryan Johnson":   {"add": SEASON_START},
