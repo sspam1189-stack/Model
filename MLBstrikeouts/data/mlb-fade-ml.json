@@ -1,7 +1,7 @@
 {
   "sport": "MLB",
   "type": "fade-ml",
-  "generated": "2026-07-31T21:03:03Z",
+  "generated": "2026-07-31T22:16:25Z",
   "fadeList": [
     "Painter",
     "Rocker",
@@ -113,7 +113,7 @@
       "market": "h2h",
       "selection": "ARI",
       "line": null,
-      "odds": 126,
+      "odds": 124,
       "stake": 1.0,
       "result": "pending",
       "profit": 0.0,
@@ -151,6 +151,54 @@
     },
     {
       "date": "2026-07-31",
+      "commence": "2026-07-31T23:10:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Kodai Senga"
+      ],
+      "fadeTeam": "NYM",
+      "market": "h2h",
+      "selection": "MIA",
+      "line": null,
+      "odds": 102,
+      "stake": 1.0,
+      "result": "pending",
+      "profit": 0.0,
+      "book": "fanduel",
+      "source": "fanduel_api",
+      "reason": null,
+      "home": "NYM",
+      "away": "MIA",
+      "gamePk": 823593,
+      "fadeReason": "all"
+    },
+    {
+      "date": "2026-07-31",
+      "commence": "2026-07-31T23:05:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Andrew Painter"
+      ],
+      "fadeTeam": "PHI",
+      "market": "h2h",
+      "selection": "BAL",
+      "line": null,
+      "odds": -112,
+      "stake": 1.12,
+      "result": "pending",
+      "profit": 0.0,
+      "book": "fanduel",
+      "source": "fanduel_api",
+      "reason": null,
+      "home": "BAL",
+      "away": "PHI",
+      "gamePk": 824809,
+      "fadeReason": "all"
+    },
+    {
+      "date": "2026-07-31",
       "commence": "2026-08-01T01:38:00Z",
       "betType": "ml",
       "shadow": false,
@@ -161,8 +209,8 @@
       "market": "h2h",
       "selection": "MIL",
       "line": null,
-      "odds": -156,
-      "stake": 1.56,
+      "odds": -160,
+      "stake": 1.6,
       "result": "pending",
       "profit": 0.0,
       "book": "fanduel",
@@ -199,30 +247,6 @@
     },
     {
       "date": "2026-07-31",
-      "commence": "2026-07-31T23:10:00Z",
-      "betType": "ml",
-      "shadow": false,
-      "pitchers": [
-        "Kodai Senga"
-      ],
-      "fadeTeam": "NYM",
-      "market": "h2h",
-      "selection": "MIA",
-      "line": null,
-      "odds": 102,
-      "stake": 1.0,
-      "result": "pending",
-      "profit": 0.0,
-      "book": "fanduel",
-      "source": "fanduel_api",
-      "reason": null,
-      "home": "NYM",
-      "away": "MIA",
-      "gamePk": 823593,
-      "fadeReason": "all"
-    },
-    {
-      "date": "2026-07-31",
       "commence": "2026-08-01T01:40:00Z",
       "betType": "ml",
       "shadow": false,
@@ -244,30 +268,6 @@
       "away": "DET",
       "gamePk": 824975,
       "fadeReason": "home"
-    },
-    {
-      "date": "2026-07-31",
-      "commence": "2026-07-31T23:05:00Z",
-      "betType": "ml",
-      "shadow": false,
-      "pitchers": [
-        "Andrew Painter"
-      ],
-      "fadeTeam": "PHI",
-      "market": "h2h",
-      "selection": "BAL",
-      "line": null,
-      "odds": -112,
-      "stake": 1.12,
-      "result": "pending",
-      "profit": 0.0,
-      "book": "fanduel",
-      "source": "fanduel_api",
-      "reason": null,
-      "home": "BAL",
-      "away": "PHI",
-      "gamePk": 824809,
-      "fadeReason": "all"
     }
   ],
   "bets": [
