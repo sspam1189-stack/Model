@@ -239,7 +239,18 @@ async function renderMLBFadeML() {
     return (sp && sp.name)
       ? '<span style="color:#9aa2ad;font-size:12px">' + esc(sp.name) + '</span> ' : '';
   };
-  const wrcTeams = (wrcData && wrcData.teams) || {};
+  // Today's-plays wRC+ chips use the SELF-COMPUTED season wRC+ (park-adjusted,
+  // build_team_woba_splits.py), falling back to the FanGraphs snapshot if the
+  // computed file is missing. Normalized to {team:{vsLHP:int, vsRHP:int}}.
+  const _calcSeason = (((wobaData || {}).windows || {}).season || {}).teams || {};
+  const wrcTeams = {};
+  if (Object.keys(_calcSeason).length) {
+    Object.keys(_calcSeason).forEach(t => {
+      wrcTeams[t] = { vsLHP: (_calcSeason[t].vsLHP || {}).wrcplus, vsRHP: (_calcSeason[t].vsRHP || {}).wrcplus };
+    });
+  } else {
+    Object.assign(wrcTeams, (wrcData && wrcData.teams) || {});
+  }
   // A "TEAM NN vs XHP" chip (green above 100, red below). `label` adds "wRC+".
   const wrcChip = (team, v, h, label) => {
     const col = v >= 100 ? GREEN : RED;
