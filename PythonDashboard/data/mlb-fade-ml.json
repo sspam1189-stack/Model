@@ -1,7 +1,7 @@
 {
   "sport": "MLB",
   "type": "fade-ml",
-  "generated": "2026-07-31T20:07:08Z",
+  "generated": "2026-07-31T20:13:23Z",
   "fadeList": [
     "Painter",
     "Rocker",
@@ -67,26 +67,27 @@
     "Yusei Kikuchi",
     "Carson Palmquist",
     "Trey Gibson",
-    "MacKenzie Gore"
+    "MacKenzie Gore",
+    "Senga"
   ],
   "mutualRule": "underdog_min",
   "summary": {
-    "wins": 409,
+    "wins": 412,
     "losses": 141,
     "voids": 0,
     "skips": 34,
-    "staked": 681.27,
-    "units": 280.0,
-    "roi": 0.411,
+    "staked": 684.37,
+    "units": 283.55,
+    "roi": 0.4143,
     "byType": {
       "ml": {
-        "wins": 400,
+        "wins": 403,
         "losses": 134,
         "voids": 0,
         "skips": 0,
-        "staked": 665.27,
-        "units": 275.22,
-        "roi": 0.4137
+        "staked": 668.37,
+        "units": 278.77,
+        "roi": 0.4171
       },
       "ml_dog": {
         "wins": 9,
@@ -655,6 +656,30 @@
       "home": "DET",
       "away": "MIA",
       "gamePk": 824294,
+      "fadeReason": "all"
+    },
+    {
+      "date": "2026-04-11",
+      "commence": "2026-04-11T20:10:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Kodai Senga"
+      ],
+      "fadeTeam": "NYM",
+      "market": "h2h",
+      "selection": "OAK",
+      "line": null,
+      "odds": 140,
+      "stake": 1.0,
+      "result": "WIN",
+      "profit": 1.4,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null,
+      "home": "NYM",
+      "away": "OAK",
+      "gamePk": 823644,
       "fadeReason": "all"
     },
     {
@@ -2607,27 +2632,27 @@
     },
     {
       "date": "2026-04-26",
-      "commence": "2026-04-26T17:40:00Z",
+      "commence": "2026-04-26T17:45:00Z",
       "betType": "ml",
       "shadow": false,
       "pitchers": [
-        "Nolan McLean"
+        "Kodai Senga"
       ],
       "fadeTeam": "NYM",
       "market": "h2h",
       "selection": "COL",
       "line": null,
-      "odds": 205,
+      "odds": 220,
       "stake": 1.0,
       "result": "WIN",
-      "profit": 2.05,
+      "profit": 2.2,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
       "reason": null,
       "home": "NYM",
       "away": "COL",
-      "gamePk": 823635,
-      "fadeReason": "home"
+      "gamePk": 823637,
+      "fadeReason": "all"
     },
     {
       "date": "2026-04-26",
@@ -8920,6 +8945,30 @@
     },
     {
       "date": "2026-06-16",
+      "commence": "2026-06-16T23:10:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Kodai Senga"
+      ],
+      "fadeTeam": "NYM",
+      "market": "h2h",
+      "selection": "CIN",
+      "line": null,
+      "odds": -102,
+      "stake": 1.02,
+      "result": "WIN",
+      "profit": 1.0,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null,
+      "home": "CIN",
+      "away": "NYM",
+      "gamePk": 824504,
+      "fadeReason": "all"
+    },
+    {
+      "date": "2026-06-16",
       "commence": "2026-06-16T23:40:00Z",
       "betType": "ml",
       "shadow": false,
@@ -9807,6 +9856,30 @@
       "away": "MIL",
       "gamePk": 824501,
       "fadeReason": "home"
+    },
+    {
+      "date": "2026-06-23",
+      "commence": "2026-06-23T23:10:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Kodai Senga"
+      ],
+      "fadeTeam": "NYM",
+      "market": "h2h",
+      "selection": "CHC",
+      "line": null,
+      "odds": -108,
+      "stake": 1.08,
+      "result": "WIN",
+      "profit": 1.0,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null,
+      "home": "NYM",
+      "away": "CHC",
+      "gamePk": 823614,
+      "fadeReason": "all"
     },
     {
       "date": "2026-06-23",

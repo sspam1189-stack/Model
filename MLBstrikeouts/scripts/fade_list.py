@@ -43,6 +43,8 @@ FADE_LIST = [
     "Trey Gibson",
     # Added 2026-07-28: away-only fade (see FADE_VENUE).
     "MacKenzie Gore",
+    # Added 2026-07-31 (user request). All-venue, season-backfilled.
+    "Senga",
 ]
 
 # Per-arm venue restriction: fade the arm ONLY when his team plays at this
@@ -204,6 +206,9 @@ FADE_WINDOW = {
     "Carson Palmquist":  {"add": SEASON_START},
     "Trey Gibson":       {"add": SEASON_START},
     "MacKenzie Gore":    {"add": SEASON_START},  # away-only (see FADE_VENUE)
+    # Added 2026-07-31 (user request). Season-backfilled, all-venue — no
+    # venue split vetted yet.
+    "Senga":             {"add": SEASON_START},
 }
 
 
