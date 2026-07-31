@@ -57,6 +57,7 @@ OUTPUT_PATHS = [
 W = {"bb": 0.69, "hbp": 0.72, "s": 0.88, "d": 1.24, "t": 1.57, "hr": 2.00}
 WOBA_SCALE = 1.24
 LG_R_PA = 0.117
+ASB_DATE = "2026-07-13"   # first game of the 2026 second half (post All-Star break)
 _ACC = ["pa", "ab", "h", "doubles", "triples", "hr", "bb", "hbp"]
 
 
@@ -109,13 +110,15 @@ def build():
     def window_pred(name):
         if name == "season":
             return lambda d: True
+        if name == "asb":                        # since the All-Star break
+            return lambda d: d >= ASB_DATE
         if name.startswith("last"):
             k = int(name[4:])
             cutoff = (last - datetime.timedelta(days=k - 1)).isoformat()
             return lambda d: d >= cutoff
         return lambda d: d.startswith(name)      # a month "YYYY-MM"
 
-    windows = ["season"] + months + ["last15", "last20", "last30", "last45", "last60"]
+    windows = ["season", "asb"] + months + ["last15", "last20", "last30", "last45", "last60"]
     out = {}
     for wname in windows:
         keep = window_pred(wname)

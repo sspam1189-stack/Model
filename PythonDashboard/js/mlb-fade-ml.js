@@ -811,6 +811,7 @@ async function renderMLBFadeML() {
     const monthKeys = Object.keys(wobaWins).filter(k => /^\d{4}-\d{2}$/.test(k)).sort().reverse();
     // Self-computed windows only (Season first, then rolling/month).
     if (wobaWins.season) winOpts.push({ key: 'season', label: 'Season' });
+    if (wobaWins.asb) winOpts.push({ key: 'asb', label: 'Since All-Star break' });
     if (wobaWins.last15) winOpts.push({ key: 'last15', label: 'Last 15 days' });
     if (wobaWins.last20) winOpts.push({ key: 'last20', label: 'Last 20 days' });
     if (wobaWins.last30) winOpts.push({ key: 'last30', label: 'Last 30 days' });
