@@ -89,6 +89,26 @@ async function renderMLBFadeML() {
     catch (e) { /* next */ }
   }
 
+  // Normalize a computed window into {team:{vsLHP,vsRHP,paL,paR}} (ints). Shared
+  // by the Today's-plays wRC+ chips and the wRC+ table so both track the same
+  // selected window. Falls back to the FanGraphs snapshot for 'fg'/missing.
+  const _wobaWindows = (wobaData && wobaData.windows) || {};
+  const teamsForWindow = (winKey) => {
+    if (winKey === 'fg') {
+      const t = (wrcData && wrcData.teams) || {}; const o = {};
+      Object.keys(t).forEach(k => { o[k] = { vsLHP: t[k].vsLHP, vsRHP: t[k].vsRHP }; });
+      return o;
+    }
+    const t = (_wobaWindows[winKey] || {}).teams || {}; const o = {};
+    Object.keys(t).forEach(k => {
+      o[k] = {
+        vsLHP: (t[k].vsLHP || {}).wrcplus, vsRHP: (t[k].vsRHP || {}).wrcplus,
+        paL: (t[k].vsLHP || {}).pa, paR: (t[k].vsRHP || {}).pa,
+      };
+    });
+    return o;
+  };
+
   // Today's full slate (all games) — for the wRC+ table's matchup filter buttons.
   const allmlLocal = 'data/mlb-all-ml.json';
   const allmlRemote = 'https://raw.githubusercontent.com/sspam1189-stack/Model/main/MLBstrikeouts/data/mlb-all-ml.json';
@@ -248,18 +268,12 @@ async function renderMLBFadeML() {
     return (sp && sp.name)
       ? '<span style="color:#9aa2ad;font-size:12px">' + esc(sp.name) + '</span> ' : '';
   };
-  // Today's-plays wRC+ chips use the SELF-COMPUTED season wRC+ (park-adjusted,
-  // build_team_woba_splits.py), falling back to the FanGraphs snapshot if the
-  // computed file is missing. Normalized to {team:{vsLHP:int, vsRHP:int}}.
-  const _calcSeason = (((wobaData || {}).windows || {}).season || {}).teams || {};
-  const wrcTeams = {};
-  if (Object.keys(_calcSeason).length) {
-    Object.keys(_calcSeason).forEach(t => {
-      wrcTeams[t] = { vsLHP: (_calcSeason[t].vsLHP || {}).wrcplus, vsRHP: (_calcSeason[t].vsRHP || {}).wrcplus };
-    });
-  } else {
-    Object.assign(wrcTeams, (wrcData && wrcData.teams) || {});
-  }
+  // Today's-plays wRC+ chips track the wRC+ table's selected window (default
+  // season). `wrcTeams` is reassigned when the window changes (see the table's
+  // Window select), and the plays are repainted. Falls back to FanGraphs if the
+  // computed season is empty.
+  let wrcTeams = teamsForWindow('season');
+  if (!Object.keys(wrcTeams).length) wrcTeams = teamsForWindow('fg');
   // A "TEAM NN vs XHP" chip (green above 100, red below). `label` adds "wRC+".
   const wrcChip = (team, v, h, label) => {
     const col = v >= 100 ? GREEN : RED;
@@ -360,19 +374,28 @@ async function renderMLBFadeML() {
       + reasonTag + ' → <b>' + esc(t.selection || '?') + '</b>' + oddsStr(t.odds) + gs + atStr(t);
   };
 
-  let th = '<div class="card-title" style="margin-bottom:8px">Today’s plays</div>';
-  if (!pend.length && !fadeWatchPend.length && !tailPend.length && !watchPend.length) {
-    th += '<div class="no-picks">No fade-list or hand-tails moneyline plays on today’s slate.</div>';
-  } else {
-    th += pend.map(t => '<div style="font-size:14px;color:#ddd;padding:2px 0">' + fadeLabel(t) + '</div>').join('');
-    th += fadeWatchPend.map(t => '<div style="font-size:14px;color:#cbb8e6;padding:2px 0">' + fadeWatchLabel(t) + '</div>').join('');
-    th += tailPend.map(t => '<div style="font-size:14px;color:#ddd;padding:2px 0">' + tailLabel(t) + '</div>').join('');
-    if (watchPend.length) {
-      th += watchPend.map(t => '<div style="font-size:14px;color:#cbb8e6;padding:2px 0">' + watchLabel(t) + '</div>').join('');
-      th += '<div style="font-size:11px;color:#777;margin-top:6px">WATCH = handedness watchlist candidate (review only, not bet).</div>';
+  // Re-callable so the wRC+ chips inside the play labels refresh when the wRC+
+  // table's Window selector changes (the labels read the mutable `wrcTeams`).
+  function paintTodayPlays() {
+    let th = '<div class="card-title" style="margin-bottom:8px">Today’s plays</div>';
+    if (!pend.length && !fadeWatchPend.length && !tailPend.length && !watchPend.length) {
+      th += '<div class="no-picks">No fade-list or hand-tails moneyline plays on today’s slate.</div>';
+    } else {
+      th += pend.map(t => '<div style="font-size:14px;color:#ddd;padding:2px 0">' + fadeLabel(t) + '</div>').join('');
+      th += fadeWatchPend.map(t => '<div style="font-size:14px;color:#cbb8e6;padding:2px 0">' + fadeWatchLabel(t) + '</div>').join('');
+      th += tailPend.map(t => '<div style="font-size:14px;color:#ddd;padding:2px 0">' + tailLabel(t) + '</div>').join('');
+      if (watchPend.length) {
+        th += watchPend.map(t => '<div style="font-size:14px;color:#cbb8e6;padding:2px 0">' + watchLabel(t) + '</div>').join('');
+        th += '<div style="font-size:11px;color:#777;margin-top:6px">WATCH = handedness watchlist candidate (review only, not bet).</div>';
+      }
     }
+    th += '<div id="playsWrcWin" style="font-size:11px;color:#777;margin-top:6px"></div>';
+    tCard.innerHTML = th;
+    const w = tCard.querySelector('#playsWrcWin');
+    if (w) w.textContent = 'wRC+ chips: ' + (wrcTeamsWindowLabel || 'Season') + ' (change via the wRC+ table below)';
   }
-  tCard.innerHTML = th;
+  let wrcTeamsWindowLabel = 'Season';
+  paintTodayPlays();
   el.appendChild(tCard);
 
   // ---- Season bet log (filterable by Fade/Tail + pick + pitcher + venue) ----
@@ -769,6 +792,7 @@ async function renderMLBFadeML() {
     if (wobaWins.season) winOpts.push({ key: 'season', label: 'Season' });
     if (wobaWins.last15) winOpts.push({ key: 'last15', label: 'Last 15 days' });
     if (wobaWins.last30) winOpts.push({ key: 'last30', label: 'Last 30 days' });
+    if (wobaWins.last60) winOpts.push({ key: 'last60', label: 'Last 60 days' });
     monthKeys.forEach(m => winOpts.push({ key: m, label: MONW[+m.slice(5)] + ' ' + m.slice(0, 4) }));
 
     if (winOpts.length) {
@@ -783,21 +807,7 @@ async function renderMLBFadeML() {
           + col + ';background:' + bg + '">' + v + '</td>';
       };
       // Normalize either source into {team:{vsLHP,vsRHP,paL,paR}} for a window.
-      const teamsFor = (key) => {
-        if (key === 'fg') {
-          const t = wrcData.teams; const o = {};
-          Object.keys(t).forEach(k => { o[k] = { vsLHP: t[k].vsLHP, vsRHP: t[k].vsRHP }; });
-          return o;
-        }
-        const t = (wobaWins[key] || {}).teams || {}; const o = {};
-        Object.keys(t).forEach(k => {
-          o[k] = {
-            vsLHP: (t[k].vsLHP || {}).wrcplus, vsRHP: (t[k].vsRHP || {}).wrcplus,
-            paL: (t[k].vsLHP || {}).pa, paR: (t[k].vsRHP || {}).pa,
-          };
-        });
-        return o;
-      };
+      const teamsFor = teamsForWindow;   // shared normalizer (defined up top)
       const allTeams = [...new Set(winOpts.flatMap(w => Object.keys(teamsFor(w.key))))].sort();
 
       const wrcCard = document.createElement('div');
@@ -923,7 +933,14 @@ async function renderMLBFadeML() {
         }));
       }
       wrcTeamSel.addEventListener('change', () => { if (wrcTeamSel.value) { wrcMatchup = null; renderMatchupBtns(); } drawWrc(); });
-      wrcWinSel.addEventListener('change', drawWrc);
+      // Changing the window also re-points the Today's-plays wRC+ chips at that
+      // window and repaints them.
+      wrcWinSel.addEventListener('change', () => {
+        wrcTeams = teamsForWindow(wrcWinSel.value);
+        wrcTeamsWindowLabel = (winOpts.find(w => w.key === wrcWinSel.value) || {}).label || wrcWinSel.value;
+        paintTodayPlays();
+        drawWrc();
+      });
       renderMatchupBtns();
       drawWrc();
     }
