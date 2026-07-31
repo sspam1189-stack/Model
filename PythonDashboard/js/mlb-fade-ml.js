@@ -392,10 +392,11 @@ async function renderMLBFadeML() {
     if (!pend.length && !fadeWatchPend.length && !tailPend.length && !watchPend.length) {
       th += '<div class="no-picks">No fade-list or hand-tails moneyline plays on today’s slate.</div>';
     } else {
+      // Sort by first pitch (commence) but don't display the time.
       const byTime = (a, b) => (a.c < b.c ? -1 : a.c > b.c ? 1 : 0);
       const mk = (list, fn, color) => list.map(t => ({
         c: t.commence || '',
-        html: '<div style="font-size:14px;color:' + color + ';padding:2px 0">' + timeChip(t.commence) + fn(t) + '</div>',
+        html: '<div style="font-size:14px;color:' + color + ';padding:2px 0">' + fn(t) + '</div>',
       }));
       // Real bettable plays (fade-list + hand-tails), sorted by first pitch.
       const real = [...mk(pend, fadeLabel, '#ddd'), ...mk(tailPend, tailLabel, '#ddd')].sort(byTime);
