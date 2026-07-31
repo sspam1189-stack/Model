@@ -91,6 +91,7 @@ FADE_VENUE = {
     # 2026-07-28: restrict to stronger road side (home +8.3% weak vs away +23.4%).
     "Michael King": "away",    # home 5-5 +0.92u; away 6-3 +2.70u
     "MacKenzie Gore": "away",  # 2026-07-28: home 3-6 -2.86u; away 7-4 +2.58u (+19.6%)
+    "Bryce Miller": "away",    # 2026-07-31: home 3-2 +1.78u; away 4-2 +2.56u (+42.5%) -- away only
 }
 
 # Matchup fade list: fade the pitcher (bet the OPPONENT's ML) ONLY when he
