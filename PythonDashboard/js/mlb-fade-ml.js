@@ -765,15 +765,11 @@ async function renderMLBFadeML() {
     const winOpts = [];
     const wobaWins = (wobaData && wobaData.windows) || {};
     const monthKeys = Object.keys(wobaWins).filter(k => /^\d{4}-\d{2}$/.test(k)).sort().reverse();
-    // Both season options first, side by side (FanGraphs then calc), then the
-    // rolling/month windows.
-    if (wrcData && wrcData.teams && Object.keys(wrcData.teams).length) {
-      winOpts.push({ key: 'fg', label: 'Season · FanGraphs' });
-    }
-    if (wobaWins.season) winOpts.push({ key: 'season', label: 'Season · calc' });
-    if (wobaWins.last15) winOpts.push({ key: 'last15', label: 'Last 15 days · calc' });
-    if (wobaWins.last30) winOpts.push({ key: 'last30', label: 'Last 30 days · calc' });
-    monthKeys.forEach(m => winOpts.push({ key: m, label: MONW[+m.slice(5)] + ' ' + m.slice(0, 4) + ' · calc' }));
+    // Self-computed windows only (Season first, then rolling/month).
+    if (wobaWins.season) winOpts.push({ key: 'season', label: 'Season' });
+    if (wobaWins.last15) winOpts.push({ key: 'last15', label: 'Last 15 days' });
+    if (wobaWins.last30) winOpts.push({ key: 'last30', label: 'Last 30 days' });
+    monthKeys.forEach(m => winOpts.push({ key: m, label: MONW[+m.slice(5)] + ' ' + m.slice(0, 4) }));
 
     if (winOpts.length) {
       const wrcCell = (v) => {
