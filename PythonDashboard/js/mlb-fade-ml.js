@@ -378,16 +378,32 @@ async function renderMLBFadeML() {
 
   // Re-callable so the wRC+ chips inside the play labels refresh when the wRC+
   // table's Window selector changes (the labels read the mutable `wrcTeams`).
+  // Game start time (CT) from the commence ISO, e.g. "1:10p". Also returns a
+  // sortable key so plays order by first pitch.
+  const gameTime = (iso) => {
+    if (!iso) return '';
+    const d = new Date(iso);
+    if (isNaN(d)) return '';
+    return d.toLocaleTimeString('en-US', { timeZone: 'America/Chicago', hour: 'numeric', minute: '2-digit' })
+      .replace(' AM', 'a').replace(' PM', 'p');
+  };
+  const timeChip = (iso) => '<span style="color:#888;font-size:11px;min-width:52px;display:inline-block">'
+    + (gameTime(iso) || '—') + '</span> ';
+
   function paintTodayPlays() {
     let th = '<div class="card-title" style="margin-bottom:8px">Today’s plays</div>';
     if (!pend.length && !fadeWatchPend.length && !tailPend.length && !watchPend.length) {
       th += '<div class="no-picks">No fade-list or hand-tails moneyline plays on today’s slate.</div>';
     } else {
-      th += pend.map(t => '<div style="font-size:14px;color:#ddd;padding:2px 0">' + fadeLabel(t) + '</div>').join('');
-      th += fadeWatchPend.map(t => '<div style="font-size:14px;color:#cbb8e6;padding:2px 0">' + fadeWatchLabel(t) + '</div>').join('');
-      th += tailPend.map(t => '<div style="font-size:14px;color:#ddd;padding:2px 0">' + tailLabel(t) + '</div>').join('');
+      // Merge every play type into one list and sort by first pitch (commence).
+      const items = [];
+      pend.forEach(t => items.push({ c: t.commence || '', html: '<div style="font-size:14px;color:#ddd;padding:2px 0">' + timeChip(t.commence) + fadeLabel(t) + '</div>' }));
+      fadeWatchPend.forEach(t => items.push({ c: t.commence || '', html: '<div style="font-size:14px;color:#cbb8e6;padding:2px 0">' + timeChip(t.commence) + fadeWatchLabel(t) + '</div>' }));
+      tailPend.forEach(t => items.push({ c: t.commence || '', html: '<div style="font-size:14px;color:#ddd;padding:2px 0">' + timeChip(t.commence) + tailLabel(t) + '</div>' }));
+      watchPend.forEach(t => items.push({ c: t.commence || '', html: '<div style="font-size:14px;color:#cbb8e6;padding:2px 0">' + timeChip(t.commence) + watchLabel(t) + '</div>' }));
+      items.sort((a, b) => (a.c < b.c ? -1 : a.c > b.c ? 1 : 0));
+      th += items.map(i => i.html).join('');
       if (watchPend.length) {
-        th += watchPend.map(t => '<div style="font-size:14px;color:#cbb8e6;padding:2px 0">' + watchLabel(t) + '</div>').join('');
         th += '<div style="font-size:11px;color:#777;margin-top:6px">WATCH = handedness watchlist candidate (review only, not bet).</div>';
       }
     }
