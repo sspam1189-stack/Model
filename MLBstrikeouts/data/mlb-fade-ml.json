@@ -1,7 +1,7 @@
 {
   "sport": "MLB",
   "type": "fade-ml",
-  "generated": "2026-07-31T00:32:05Z",
+  "generated": "2026-07-31T04:06:01Z",
   "fadeList": [
     "Painter",
     "Rocker",
@@ -72,21 +72,21 @@
   "mutualRule": "underdog_min",
   "summary": {
     "wins": 408,
-    "losses": 139,
+    "losses": 140,
     "voids": 0,
     "skips": 34,
-    "staked": 674.29,
-    "units": 283.86,
-    "roi": 0.421,
+    "staked": 675.29,
+    "units": 282.86,
+    "roi": 0.4189,
     "byType": {
       "ml": {
         "wins": 398,
-        "losses": 131,
+        "losses": 132,
         "voids": 0,
         "skips": 0,
-        "staked": 656.29,
-        "units": 278.54,
-        "roi": 0.4244
+        "staked": 657.29,
+        "units": 277.54,
+        "roi": 0.4222
       },
       "ml_dog": {
         "wins": 10,
@@ -100,30 +100,6 @@
     }
   },
   "today": [
-    {
-      "date": "2026-07-30",
-      "commence": "2026-07-30T23:10:00Z",
-      "betType": "ml",
-      "shadow": false,
-      "pitchers": [
-        "Nolan McLean"
-      ],
-      "fadeTeam": "NYM",
-      "market": "h2h",
-      "selection": "MIA",
-      "line": null,
-      "odds": 110,
-      "stake": 1.0,
-      "result": "pending",
-      "profit": 0.0,
-      "book": "fanduel",
-      "source": "fanduel_api",
-      "reason": null,
-      "home": "NYM",
-      "away": "MIA",
-      "gamePk": 823595,
-      "fadeReason": "home"
-    },
     {
       "date": "2026-07-30",
       "commence": "2026-07-31T02:10:00Z",
@@ -14145,6 +14121,30 @@
       "away": "KC",
       "gamePk": 823674,
       "fadeReason": "all"
+    },
+    {
+      "date": "2026-07-30",
+      "commence": "2026-07-30T23:10:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Nolan McLean"
+      ],
+      "fadeTeam": "NYM",
+      "market": "h2h",
+      "selection": "MIA",
+      "line": null,
+      "odds": 110,
+      "stake": 1.0,
+      "result": "LOSS",
+      "profit": -1.0,
+      "book": "fanduel",
+      "source": "fanduel_api",
+      "reason": null,
+      "home": "NYM",
+      "away": "MIA",
+      "gamePk": 823595,
+      "fadeReason": "home"
     }
   ]
 }

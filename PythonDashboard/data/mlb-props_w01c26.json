@@ -4,7 +4,7 @@
   "season": "2026",
   "mode": "live",
   "model": "kalman_blend",
-  "generated": "2026-07-31T00:31:59Z",
+  "generated": "2026-07-31T04:05:58Z",
   "totalProjections": 17,
   "totalPicks": 2592,
   "totalWatchlist": 15,
@@ -86697,7 +86697,7 @@
       "proj_raw": 5.968,
       "would_be_pick": "OVER",
       "date": "2026-07-30",
-      "lockState": "lineup_confirmed",
+      "lockState": "game_started",
       "lockedAt": "2026-07-30T22:18:08.546178Z",
       "lineupConfirmed": true
     },
@@ -86728,7 +86728,7 @@
       "proj_raw": 2.707,
       "would_be_pick": "UNDER",
       "date": "2026-07-30",
-      "lockState": "lineup_confirmed",
+      "lockState": "game_started",
       "lockedAt": "2026-07-30T22:18:08.546178Z",
       "lineupConfirmed": true
     },
@@ -86759,7 +86759,7 @@
       "proj_raw": 4.624,
       "would_be_pick": "OVER",
       "date": "2026-07-30",
-      "lockState": "lineup_confirmed",
+      "lockState": "game_started",
       "lockedAt": "2026-07-30T23:01:34.469516Z",
       "lineupConfirmed": true
     },
@@ -86790,7 +86790,7 @@
       "proj_raw": 5.679,
       "would_be_pick": "OVER",
       "date": "2026-07-30",
-      "lockState": "lineup_confirmed",
+      "lockState": "game_started",
       "lockedAt": "2026-07-30T23:01:34.469516Z",
       "lineupConfirmed": true
     },
@@ -86821,7 +86821,7 @@
       "proj_raw": 4.941,
       "would_be_pick": "OVER",
       "date": "2026-07-30",
-      "lockState": "lineup_confirmed",
+      "lockState": "game_started",
       "lockedAt": "2026-07-31T00:31:59.417798Z",
       "lineupConfirmed": true
     }
@@ -87215,7 +87215,7 @@
       "to_win_1u": 1.2,
       "proj_raw": 2.707,
       "date": "2026-07-30",
-      "lockState": "lineup_confirmed",
+      "lockState": "game_started",
       "lockedAt": "2026-07-30T22:18:08.546178Z",
       "lineupConfirmed": true
     },
@@ -87245,7 +87245,7 @@
       "to_win_1u": 0.83,
       "proj_raw": 5.968,
       "date": "2026-07-30",
-      "lockState": "lineup_confirmed",
+      "lockState": "game_started",
       "lockedAt": "2026-07-30T22:18:08.546178Z",
       "lineupConfirmed": true
     },
@@ -87275,7 +87275,7 @@
       "to_win_1u": 1.42,
       "proj_raw": 4.624,
       "date": "2026-07-30",
-      "lockState": "lineup_confirmed",
+      "lockState": "game_started",
       "lockedAt": "2026-07-30T23:01:34.469516Z",
       "lineupConfirmed": true
     },
@@ -87305,7 +87305,7 @@
       "to_win_1u": 1.08,
       "proj_raw": 5.679,
       "date": "2026-07-30",
-      "lockState": "lineup_confirmed",
+      "lockState": "game_started",
       "lockedAt": "2026-07-30T23:01:34.469516Z",
       "lineupConfirmed": true
     },
@@ -87335,7 +87335,7 @@
       "to_win_1u": 1.04,
       "proj_raw": 4.941,
       "date": "2026-07-30",
-      "lockState": "lineup_confirmed",
+      "lockState": "game_started",
       "lockedAt": "2026-07-31T00:31:59.417798Z",
       "lineupConfirmed": true
     }
@@ -87371,18 +87371,18 @@
     "NYY": "Final",
     "STL": "Final",
     "CHC": "Final",
-    "CIN": "In Progress",
-    "PIT": "In Progress",
-    "NYM": "In Progress",
-    "MIA": "In Progress",
-    "ATL": "In Progress",
-    "WSH": "In Progress",
-    "OAK": "Pre-Game",
-    "BOS": "Pre-Game",
-    "SD": "Pre-Game",
-    "SF": "Pre-Game",
-    "LAD": "Pre-Game",
-    "SEA": "Pre-Game"
+    "CIN": "Final",
+    "PIT": "Final",
+    "NYM": "Final",
+    "MIA": "Final",
+    "ATL": "Final",
+    "WSH": "Final",
+    "OAK": "In Progress",
+    "BOS": "In Progress",
+    "SD": "In Progress",
+    "SF": "In Progress",
+    "LAD": "In Progress",
+    "SEA": "In Progress"
   },
   "gameTimesById": {
     "822946": "2026-07-30T16:10:00Z",
@@ -87401,12 +87401,12 @@
     "823674": "Final",
     "824568": "Final",
     "823023": "Final",
-    "824488": "In Progress",
-    "823595": "In Progress",
-    "824894": "In Progress",
-    "824974": "Pre-Game",
-    "823271": "Pre-Game",
-    "823921": "Pre-Game"
+    "824488": "Final",
+    "823595": "Final",
+    "824894": "Final",
+    "824974": "In Progress",
+    "823271": "In Progress",
+    "823921": "In Progress"
   },
   "todayProbables": [
     {
