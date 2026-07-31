@@ -93,7 +93,8 @@ async function renderMLBFadeML() {
   // by the Today's-plays wRC+ chips and the wRC+ table so both track the same
   // selected window. Falls back to the FanGraphs snapshot for 'fg'/missing.
   const _wobaWindows = (wobaData && wobaData.windows) || {};
-  const teamsForWindow = (winKey) => {
+  // venue: '' (all) | 'home' | 'road'. FanGraphs snapshot has no venue split.
+  const teamsForWindow = (winKey, venue) => {
     if (winKey === 'fg') {
       const t = (wrcData && wrcData.teams) || {}; const o = {};
       Object.keys(t).forEach(k => { o[k] = { vsLHP: t[k].vsLHP, vsRHP: t[k].vsRHP }; });
@@ -101,9 +102,10 @@ async function renderMLBFadeML() {
     }
     const t = (_wobaWindows[winKey] || {}).teams || {}; const o = {};
     Object.keys(t).forEach(k => {
+      const src = (venue === 'home' || venue === 'road') ? (t[k][venue] || {}) : t[k];
       o[k] = {
-        vsLHP: (t[k].vsLHP || {}).wrcplus, vsRHP: (t[k].vsRHP || {}).wrcplus,
-        paL: (t[k].vsLHP || {}).pa, paR: (t[k].vsRHP || {}).pa,
+        vsLHP: (src.vsLHP || {}).wrcplus, vsRHP: (src.vsRHP || {}).wrcplus,
+        paL: (src.vsLHP || {}).pa, paR: (src.vsRHP || {}).pa,
       };
     });
     return o;
@@ -820,6 +822,10 @@ async function renderMLBFadeML() {
         + '<select id="wrcWinSel" style="' + selCss + '">'
         + winOpts.map((w, i) => '<option value="' + esc(w.key) + '"' + (i === 0 ? ' selected' : '') + '>' + esc(w.label) + '</option>').join('')
         + '</select></label>'
+        + '<label style="font-size:11px;color:#888">Venue '
+        + '<select id="wrcVenueSel" style="' + selCss + '">'
+        + '<option value="">All</option><option value="home">Home</option><option value="road">Road</option>'
+        + '</select></label>'
         + '<label style="font-size:11px;color:#888">Team '
         + '<select id="wrcTeamSel" style="' + selCss + '"><option value="">All</option>'
         + allTeams.map(t => '<option value="' + esc(t) + '">' + esc(t) + '</option>').join('')
@@ -833,6 +839,7 @@ async function renderMLBFadeML() {
       const wrcWrap = wrcCard.querySelector('#wrcWrap');
       const wrcTeamSel = wrcCard.querySelector('#wrcTeamSel');
       const wrcWinSel = wrcCard.querySelector('#wrcWinSel');
+      const wrcVenueSel = wrcCard.querySelector('#wrcVenueSel');
       const wrcNote = wrcCard.querySelector('#wrcNote');
       const wrcMatchupsEl = wrcCard.querySelector('#wrcMatchups');
       // Today's slate -> matchup filter buttons. Click one to show only that
@@ -845,14 +852,16 @@ async function renderMLBFadeML() {
       function drawWrc() {
         const win = wrcWinSel.value;
         const isFg = win === 'fg';
-        const teams = teamsFor(win);
+        const venue = wrcVenueSel.value;
+        const teams = teamsForWindow(win, venue);
+        const venLbl = venue === 'home' ? 'home games · ' : (venue === 'road' ? 'road games · ' : '');
         // PA hint (computed windows only) so small samples are visible.
         const paTag = (n) => (isFg || n == null) ? '' : ' <span style="color:#666;font-weight:400;font-size:10px">(' + n + ')</span>';
-        const noteBase = isFg
+        const noteBase = venLbl + (isFg
           ? ((wrcData.season ? esc(wrcData.season) + ' ' : '') + 'FanGraphs true wRC+ (park + league adjusted)'
             + (wrcData.asOf ? ' · as of ' + esc(wrcData.asOf) : '') + ' · 100 = league avg · view-only')
           : ('Self-computed <b>park-adjusted wRC+</b> (PA-weighted by parks played; ≈FG ±6 pts) · '
-            + 'through ' + esc(wobaData.throughDate || '?') + ' · (n) = PA · 100 = league avg · view-only');
+            + 'through ' + esc(wobaData.throughDate || '?') + ' · (n) = PA · 100 = league avg · view-only'));
 
         // FOCUSED matchup mode: a game is selected AND both starters' hands are
         // known -> show ONLY each team vs the hand of the pitcher it faces.
@@ -941,6 +950,7 @@ async function renderMLBFadeML() {
         paintTodayPlays();
         drawWrc();
       });
+      wrcVenueSel.addEventListener('change', drawWrc);
       renderMatchupBtns();
       drawWrc();
     }

@@ -119,13 +119,16 @@ def build():
     out = {}
     for wname in windows:
         keep = window_pred(wname)
-        agg = defaultdict(_blank)                # (team,hand) -> counts
-        pfw = defaultdict(lambda: [0.0, 0])      # (team,hand) -> [sum(pa*PF), sum(pa)]
+        # Keyed by (team, hand, venue) with venue in {'home','road'}; 'all' is
+        # home+road combined at output time.
+        agg = defaultdict(_blank)
+        pfw = defaultdict(lambda: [0.0, 0])      # (team,hand,venue) -> [sum(pa*PF), sum(pa)]
         lg = {"L": _blank(), "R": _blank()}
         for d, tm, h, r in recs:
             if not keep(d):
                 continue
-            a = agg[(tm, h)]
+            venue = "home" if r.get("is_home") else "road"
+            a = agg[(tm, h, venue)]
             for k in _ACC:
                 a[k] += r.get(k) or 0
             for k in _ACC:
@@ -133,7 +136,7 @@ def build():
             # Park the PAs happened in = the home team's park.
             park = tm if r.get("is_home") else r.get("opp")
             pa = r.get("pa") or 0
-            w = pfw[(tm, h)]
+            w = pfw[(tm, h, venue)]
             w[0] += pa * PARK_PF.get(park, 1.0)
             w[1] += pa
         lgwoba = {h: _woba(lg[h]) for h in ("L", "R")}
@@ -146,15 +149,31 @@ def build():
             park_adj = neutral - 100 * (avg_pf - 1.0)
             return round(park_adj), round(neutral)
 
-        teams = {}
-        for (tm, h), d in agg.items():
-            w = pfw[(tm, h)]
-            avg_pf = (w[0] / w[1]) if w[1] else 1.0
+        def _cell(d, h, pf_num, pf_den):
+            avg_pf = (pf_num / pf_den) if pf_den else 1.0
             wp, wn = wrcplus(d, h, avg_pf)
-            teams.setdefault(tm, {})[("vsLHP" if h == "L" else "vsRHP")] = {
-                "woba": round(_woba(d), 3), "wrcplus": wp, "wrcplusNeutral": wn,
-                "parkFactor": round(avg_pf, 3), "pa": d["pa"],
-            }
+            return {"woba": round(_woba(d), 3), "wrcplus": wp, "wrcplusNeutral": wn,
+                    "parkFactor": round(avg_pf, 3), "pa": d["pa"]}
+
+        teams = {}
+        for (tm, h) in {(t, hh) for (t, hh, v) in agg}:
+            hkey = "vsLHP" if h == "L" else "vsRHP"
+            node = teams.setdefault(tm, {})
+            # per-venue cells
+            for venue in ("home", "road"):
+                if (tm, h, venue) in agg:
+                    pn, pd = pfw[(tm, h, venue)]
+                    node.setdefault(venue, {})[hkey] = _cell(agg[(tm, h, venue)], h, pn, pd)
+            # 'all' cell = home + road combined
+            comb = _blank()
+            pn = pd = 0.0
+            for venue in ("home", "road"):
+                if (tm, h, venue) in agg:
+                    for k in _ACC:
+                        comb[k] += agg[(tm, h, venue)][k]
+                    pn += pfw[(tm, h, venue)][0]
+                    pd += pfw[(tm, h, venue)][1]
+            node[hkey] = _cell(comb, h, pn, pd)
         out[wname] = {
             "lgWobaVsLHP": round(lgwoba["L"], 3), "lgWobaVsRHP": round(lgwoba["R"], 3),
             "teams": teams,
