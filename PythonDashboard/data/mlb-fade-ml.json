@@ -1,7 +1,7 @@
 {
   "sport": "MLB",
   "type": "fade-ml",
-  "generated": "2026-07-31T20:13:23Z",
+  "generated": "2026-07-31T20:18:24Z",
   "fadeList": [
     "Painter",
     "Rocker",
@@ -196,6 +196,30 @@
       "away": "MIN",
       "gamePk": 823111,
       "fadeReason": "away"
+    },
+    {
+      "date": "2026-07-31",
+      "commence": "2026-07-31T23:10:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Kodai Senga"
+      ],
+      "fadeTeam": "NYM",
+      "market": "h2h",
+      "selection": "MIA",
+      "line": null,
+      "odds": 102,
+      "stake": 1.0,
+      "result": "pending",
+      "profit": 0.0,
+      "book": "fanduel",
+      "source": "fanduel_api",
+      "reason": null,
+      "home": "NYM",
+      "away": "MIA",
+      "gamePk": 823593,
+      "fadeReason": "all"
     },
     {
       "date": "2026-07-31",
