@@ -78,6 +78,17 @@ async function renderMLBFadeML() {
     catch (e) { /* next */ }
   }
 
+  // Self-computed team wOBA/wRC+ splits by hand, per window (build_team_woba_
+  // splits.py) — lets the wRC+ table slice by month/recent, not just the
+  // FanGraphs full-season snapshot. Own file; missing = FG snapshot only.
+  const wobaLocal = 'data/mlb-team-woba-splits.json';
+  const wobaRemote = 'https://raw.githubusercontent.com/sspam1189-stack/Model/main/MLBstrikeouts/data/mlb-team-woba-splits.json';
+  let wobaData = null;
+  for (const url of [wobaLocal + '?t=' + Date.now(), wobaRemote + '?t=' + Date.now()]) {
+    try { const r = await fetch(url, { cache: 'no-store' }); if (r.ok) { wobaData = await r.json(); break; } }
+    catch (e) { /* next */ }
+  }
+
   // Today's probable-pitcher hands ({normName: 'L'|'R'}), to tag Today's plays
   // as RHP/LHP. Own file (build_pitch_hands_today.py); missing = no tags.
   const handLocal = 'data/mlb-pitch-hands.json';
@@ -722,77 +733,123 @@ async function renderMLBFadeML() {
   }
 
   // ---- Team wRC+ by opposing-starter hand (reference table) ----
-  // FanGraphs TRUE wRC+ (park + league adjusted), captured via browser (see
-  // build_team_wrc.py). View-only: nothing here feeds a fade pick or grade.
-  if (wrcData && wrcData.teams && Object.keys(wrcData.teams).length) {
-    const teams = wrcData.teams;
-    // wRC+ colour: green above 100, red below, intensity by distance (±30 caps).
-    const wrcCell = (v) => {
-      if (v == null) return '<td style="padding:4px 10px;text-align:right;color:#666">—</td>';
-      const dev = Math.max(-1, Math.min(1, (v - 100) / 30));
-      const col = dev >= 0 ? GREEN : RED;
-      const bg = dev >= 0
-        ? 'rgba(63,185,80,' + (0.05 + 0.22 * dev).toFixed(3) + ')'
-        : 'rgba(248,81,73,' + (0.05 + 0.22 * -dev).toFixed(3) + ')';
-      return '<td style="padding:4px 10px;text-align:right;font-weight:600;color:'
-        + col + ';background:' + bg + '">' + v + '</td>';
-    };
-
-    const wrcCard = document.createElement('div');
-    wrcCard.className = 'card card-games';
-    wrcCard.style.cssText = 'padding:8px 4px;margin-top:16px';
-    const asOf = wrcData.asOf ? (' · as of ' + esc(wrcData.asOf)) : '';
-    const season = wrcData.season ? (esc(wrcData.season) + ' ') : '';
-    wrcCard.innerHTML =
-      '<div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap;padding:6px 8px">'
-      + '<span class="card-title" style="padding:0">Team wRC+ by Opposing Starter Hand</span>'
-      + '<label style="font-size:11px;color:#888">Team '
-      + '<select id="wrcTeamSel" style="' + selCss + '"><option value="">All</option>'
-      + Object.keys(teams).sort().map(t => '<option value="' + esc(t) + '">' + esc(t) + '</option>').join('')
-      + '</select></label>'
-      + '</div>'
-      + '<div style="font-size:11px;color:#888;padding:0 8px 6px">'
-      + season + 'FanGraphs true wRC+ (park + league adjusted)' + asOf
-      + ' · 100 = league average · view-only, not used in picks</div>'
-      + '<div id="wrcWrap" style="overflow-x:auto"></div>';
-    el.appendChild(wrcCard);
-
-    const wrcWrap = wrcCard.querySelector('#wrcWrap');
-    const wrcTeamSel = wrcCard.querySelector('#wrcTeamSel');
-    // Sort state: column ('team'|'vsLHP'|'vsRHP') + direction.
-    let wrcSort = { col: 'team', dir: 1 };
-    const arrow = (c) => wrcSort.col === c ? (wrcSort.dir > 0 ? ' ▲' : ' ▼') : '';
-
-    function drawWrc() {
-      const only = wrcTeamSel.value;
-      let list = Object.keys(teams).map(t => ({ team: t, ...teams[t] }));
-      if (only) list = list.filter(r => r.team === only);
-      list.sort((a, b) => {
-        let av, bv;
-        if (wrcSort.col === 'team') { av = a.team; bv = b.team; }
-        else { av = a[wrcSort.col] == null ? -Infinity : a[wrcSort.col]; bv = b[wrcSort.col] == null ? -Infinity : b[wrcSort.col]; }
-        return av < bv ? -wrcSort.dir : av > bv ? wrcSort.dir : 0;
-      });
-      const rows = list.map(r =>
-        '<tr><td style="padding:4px 10px;font-weight:600">' + esc(r.team) + '</td>'
-        + wrcCell(r.vsLHP) + wrcCell(r.vsRHP) + '</tr>').join('');
-      wrcWrap.innerHTML =
-        '<table style="width:100%;border-collapse:collapse;font-size:13px">'
-        + '<thead><tr style="color:#888;text-align:left;border-bottom:1px solid #333">'
-        + '<th data-c="team" style="padding:4px 10px;cursor:pointer">Team' + arrow('team') + '</th>'
-        + '<th data-c="vsLHP" style="padding:4px 10px;text-align:right;cursor:pointer">wRC+ vs LHP' + arrow('vsLHP') + '</th>'
-        + '<th data-c="vsRHP" style="padding:4px 10px;text-align:right;cursor:pointer">wRC+ vs RHP' + arrow('vsRHP') + '</th>'
-        + '</tr></thead><tbody>' + rows + '</tbody></table>';
-      wrcWrap.querySelectorAll('th[data-c]').forEach(th => th.addEventListener('click', () => {
-        const c = th.getAttribute('data-c');
-        // Same column toggles direction; new column sorts asc for team, desc for wRC+.
-        if (wrcSort.col === c) wrcSort.dir *= -1;
-        else wrcSort = { col: c, dir: c === 'team' ? 1 : -1 };
-        drawWrc();
-      }));
+  // Two sources, switchable via the Window dropdown:
+  //   FanGraphs snapshot (build_team_wrc.py) — TRUE park+league wRC+, season only.
+  //   Self-computed windows (build_team_woba_splits.py) — park-neutral wRC+
+  //   approximation, sliceable by month / last-30 / last-15.
+  // View-only: nothing here feeds a fade pick or grade.
+  {
+    // Build the list of windows: FG season snapshot first (if present), then
+    // computed windows (recent first, months newest-first, computed season last).
+    const MONW = ['', 'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+    const winOpts = [];
+    if (wrcData && wrcData.teams && Object.keys(wrcData.teams).length) {
+      winOpts.push({ key: 'fg', label: 'Season · FanGraphs' });
     }
-    wrcTeamSel.addEventListener('change', drawWrc);
-    drawWrc();
+    const wobaWins = (wobaData && wobaData.windows) || {};
+    const monthKeys = Object.keys(wobaWins).filter(k => /^\d{4}-\d{2}$/.test(k)).sort().reverse();
+    if (wobaWins.last15) winOpts.push({ key: 'last15', label: 'Last 15 days · calc' });
+    if (wobaWins.last30) winOpts.push({ key: 'last30', label: 'Last 30 days · calc' });
+    monthKeys.forEach(m => winOpts.push({ key: m, label: MONW[+m.slice(5)] + ' ' + m.slice(0, 4) + ' · calc' }));
+    if (wobaWins.season) winOpts.push({ key: 'season', label: 'Season · calc' });
+
+    if (winOpts.length) {
+      const wrcCell = (v) => {
+        if (v == null) return '<td style="padding:4px 10px;text-align:right;color:#666">—</td>';
+        const dev = Math.max(-1, Math.min(1, (v - 100) / 30));
+        const col = dev >= 0 ? GREEN : RED;
+        const bg = dev >= 0
+          ? 'rgba(63,185,80,' + (0.05 + 0.22 * dev).toFixed(3) + ')'
+          : 'rgba(248,81,73,' + (0.05 + 0.22 * -dev).toFixed(3) + ')';
+        return '<td style="padding:4px 10px;text-align:right;font-weight:600;color:'
+          + col + ';background:' + bg + '">' + v + '</td>';
+      };
+      // Normalize either source into {team:{vsLHP,vsRHP,paL,paR}} for a window.
+      const teamsFor = (key) => {
+        if (key === 'fg') {
+          const t = wrcData.teams; const o = {};
+          Object.keys(t).forEach(k => { o[k] = { vsLHP: t[k].vsLHP, vsRHP: t[k].vsRHP }; });
+          return o;
+        }
+        const t = (wobaWins[key] || {}).teams || {}; const o = {};
+        Object.keys(t).forEach(k => {
+          o[k] = {
+            vsLHP: (t[k].vsLHP || {}).wrcplus, vsRHP: (t[k].vsRHP || {}).wrcplus,
+            paL: (t[k].vsLHP || {}).pa, paR: (t[k].vsRHP || {}).pa,
+          };
+        });
+        return o;
+      };
+      const allTeams = [...new Set(winOpts.flatMap(w => Object.keys(teamsFor(w.key))))].sort();
+
+      const wrcCard = document.createElement('div');
+      wrcCard.className = 'card card-games';
+      wrcCard.style.cssText = 'padding:8px 4px;margin-top:16px';
+      wrcCard.innerHTML =
+        '<div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap;padding:6px 8px">'
+        + '<span class="card-title" style="padding:0">Team wRC+ by Opposing Starter Hand</span>'
+        + '<label style="font-size:11px;color:#888">Window '
+        + '<select id="wrcWinSel" style="' + selCss + '">'
+        + winOpts.map((w, i) => '<option value="' + esc(w.key) + '"' + (i === 0 ? ' selected' : '') + '>' + esc(w.label) + '</option>').join('')
+        + '</select></label>'
+        + '<label style="font-size:11px;color:#888">Team '
+        + '<select id="wrcTeamSel" style="' + selCss + '"><option value="">All</option>'
+        + allTeams.map(t => '<option value="' + esc(t) + '">' + esc(t) + '</option>').join('')
+        + '</select></label>'
+        + '</div>'
+        + '<div id="wrcNote" style="font-size:11px;color:#888;padding:0 8px 6px"></div>'
+        + '<div id="wrcWrap" style="overflow-x:auto"></div>';
+      el.appendChild(wrcCard);
+
+      const wrcWrap = wrcCard.querySelector('#wrcWrap');
+      const wrcTeamSel = wrcCard.querySelector('#wrcTeamSel');
+      const wrcWinSel = wrcCard.querySelector('#wrcWinSel');
+      const wrcNote = wrcCard.querySelector('#wrcNote');
+      let wrcSort = { col: 'team', dir: 1 };
+      const arrow = (c) => wrcSort.col === c ? (wrcSort.dir > 0 ? ' ▲' : ' ▼') : '';
+
+      function drawWrc() {
+        const win = wrcWinSel.value;
+        const isFg = win === 'fg';
+        const teams = teamsFor(win);
+        const only = wrcTeamSel.value;
+        let list = Object.keys(teams).map(t => ({ team: t, ...teams[t] }));
+        if (only) list = list.filter(r => r.team === only);
+        list.sort((a, b) => {
+          let av, bv;
+          if (wrcSort.col === 'team') { av = a.team; bv = b.team; }
+          else { av = a[wrcSort.col] == null ? -Infinity : a[wrcSort.col]; bv = b[wrcSort.col] == null ? -Infinity : b[wrcSort.col]; }
+          return av < bv ? -wrcSort.dir : av > bv ? wrcSort.dir : 0;
+        });
+        // PA hint (computed windows only) so small samples are visible.
+        const paTag = (n) => (isFg || n == null) ? '' : ' <span style="color:#666;font-weight:400;font-size:10px">(' + n + ')</span>';
+        const rows = list.map(r =>
+          '<tr><td style="padding:4px 10px;font-weight:600">' + esc(r.team) + '</td>'
+          + wrcCell(r.vsLHP).replace('</td>', paTag(r.paL) + '</td>')
+          + wrcCell(r.vsRHP).replace('</td>', paTag(r.paR) + '</td>') + '</tr>').join('');
+        wrcWrap.innerHTML =
+          '<table style="width:100%;border-collapse:collapse;font-size:13px">'
+          + '<thead><tr style="color:#888;text-align:left;border-bottom:1px solid #333">'
+          + '<th data-c="team" style="padding:4px 10px;cursor:pointer">Team' + arrow('team') + '</th>'
+          + '<th data-c="vsLHP" style="padding:4px 10px;text-align:right;cursor:pointer">wRC+ vs LHP' + arrow('vsLHP') + '</th>'
+          + '<th data-c="vsRHP" style="padding:4px 10px;text-align:right;cursor:pointer">wRC+ vs RHP' + arrow('vsRHP') + '</th>'
+          + '</tr></thead><tbody>' + rows + '</tbody></table>';
+        wrcNote.innerHTML = isFg
+          ? ((wrcData.season ? esc(wrcData.season) + ' ' : '') + 'FanGraphs true wRC+ (park + league adjusted)'
+            + (wrcData.asOf ? ' · as of ' + esc(wrcData.asOf) : '') + ' · 100 = league avg · view-only')
+          : ('Self-computed <b>park-adjusted wRC+</b> (PA-weighted by parks played; ≈FG ±6 pts) · '
+            + 'through ' + esc(wobaData.throughDate || '?') + ' · (n) = PA · 100 = league avg · view-only');
+        wrcWrap.querySelectorAll('th[data-c]').forEach(th => th.addEventListener('click', () => {
+          const c = th.getAttribute('data-c');
+          if (wrcSort.col === c) wrcSort.dir *= -1;
+          else wrcSort = { col: c, dir: c === 'team' ? 1 : -1 };
+          drawWrc();
+        }));
+      }
+      wrcTeamSel.addEventListener('change', drawWrc);
+      wrcWinSel.addEventListener('change', drawWrc);
+      drawWrc();
+    }
   }
 }
 

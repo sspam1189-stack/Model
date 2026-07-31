@@ -31,7 +31,15 @@ import datetime
 from collections import defaultdict
 
 sys.path.insert(0, os.path.dirname(__file__))
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), "sources"))
 from fade_list import _norm
+from sources.park_factors import PRIOR_PARK_FACTORS
+
+# Single offense park factor per team (its home park), 1.0 = neutral. We use the
+# total-bases factor as the run-environment proxy. Because we know each game's
+# park (the home team's), we PA-weight the ACTUAL parks a team hit in over the
+# window -- more precise than FanGraphs' single regressed home-park factor.
+PARK_PF = {tm: (f.get("tb") or 1.0) for tm, f in PRIOR_PARK_FACTORS.items()}
 
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 ROOT_DATA = os.path.normpath(os.path.join(SCRIPT_DIR, "..", "..", "data"))
@@ -112,6 +120,7 @@ def build():
     for wname in windows:
         keep = window_pred(wname)
         agg = defaultdict(_blank)                # (team,hand) -> counts
+        pfw = defaultdict(lambda: [0.0, 0])      # (team,hand) -> [sum(pa*PF), sum(pa)]
         lg = {"L": _blank(), "R": _blank()}
         for d, tm, h, r in recs:
             if not keep(d):
@@ -121,17 +130,30 @@ def build():
                 a[k] += r.get(k) or 0
             for k in _ACC:
                 lg[h][k] += r.get(k) or 0
+            # Park the PAs happened in = the home team's park.
+            park = tm if r.get("is_home") else r.get("opp")
+            pa = r.get("pa") or 0
+            w = pfw[(tm, h)]
+            w[0] += pa * PARK_PF.get(park, 1.0)
+            w[1] += pa
         lgwoba = {h: _woba(lg[h]) for h in ("L", "R")}
 
-        def wrcplus(d, h):
+        def wrcplus(d, h, avg_pf):
             if not (d["ab"] + d["bb"] + d["hbp"]):
-                return None
-            return round(100 * ((_woba(d) - lgwoba[h]) / WOBA_SCALE + LG_R_PA) / LG_R_PA)
+                return None, None
+            neutral = 100 * ((_woba(d) - lgwoba[h]) / WOBA_SCALE + LG_R_PA) / LG_R_PA
+            # Park term: subtract the park's inflation (avg_pf-1) in wRC+ points.
+            park_adj = neutral - 100 * (avg_pf - 1.0)
+            return round(park_adj), round(neutral)
 
         teams = {}
         for (tm, h), d in agg.items():
+            w = pfw[(tm, h)]
+            avg_pf = (w[0] / w[1]) if w[1] else 1.0
+            wp, wn = wrcplus(d, h, avg_pf)
             teams.setdefault(tm, {})[("vsLHP" if h == "L" else "vsRHP")] = {
-                "woba": round(_woba(d), 3), "wrcplus": wrcplus(d, h), "pa": d["pa"],
+                "woba": round(_woba(d), 3), "wrcplus": wp, "wrcplusNeutral": wn,
+                "parkFactor": round(avg_pf, 3), "pa": d["pa"],
             }
         out[wname] = {
             "lgWobaVsLHP": round(lgwoba["L"], 3), "lgWobaVsRHP": round(lgwoba["R"], 3),
@@ -143,12 +165,15 @@ def build():
         "generated": datetime.datetime.now(datetime.timezone.utc)
             .strftime("%Y-%m-%dT%H:%M:%SZ"),
         "throughDate": dates[-1],
-        "metric": "wOBA + park-neutral wRC+ approximation (self-computed)",
+        "metric": "wOBA + park-adjusted wRC+ (self-computed)",
         "weights": W, "wobaScale": WOBA_SCALE, "lgRperPA": LG_R_PA,
         "note": "Self-computed team offense vs LHP/RHP by opposing STARTER hand, "
-                "per window. wRC+ is a park-neutral approximation (standard wOBA "
-                "weights, league baseline from the same window) -- a relative "
-                "gauge, not FanGraphs' exact park-adjusted wRC+.",
+                "per window. wrcplus is PARK-ADJUSTED (PA-weighted by the actual "
+                "parks the team hit in over the window, using the total-bases park "
+                "factor); wrcplusNeutral is the un-adjusted version; parkFactor is "
+                "the PA-weighted park factor. Standard wOBA weights, league "
+                "baseline from the same window -- close to but not identical to "
+                "FanGraphs' exact wRC+.",
         "windows": out,
     }
     for path in OUTPUT_PATHS:
