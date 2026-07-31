@@ -810,6 +810,7 @@ async function renderMLBFadeML() {
     // Self-computed windows only (Season first, then rolling/month).
     if (wobaWins.season) winOpts.push({ key: 'season', label: 'Season' });
     if (wobaWins.last15) winOpts.push({ key: 'last15', label: 'Last 15 days' });
+    if (wobaWins.last20) winOpts.push({ key: 'last20', label: 'Last 20 days' });
     if (wobaWins.last30) winOpts.push({ key: 'last30', label: 'Last 30 days' });
     if (wobaWins.last60) winOpts.push({ key: 'last60', label: 'Last 60 days' });
     monthKeys.forEach(m => winOpts.push({ key: m, label: MONW[+m.slice(5)] + ' ' + m.slice(0, 4) }));
