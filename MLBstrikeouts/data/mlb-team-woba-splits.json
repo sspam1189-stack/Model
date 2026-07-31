@@ -1,0 +1,2903 @@
+{
+  "sport": "MLB",
+  "type": "team-woba-splits",
+  "generated": "2026-07-31T06:34:20Z",
+  "throughDate": "2026-07-30",
+  "metric": "wOBA + park-neutral wRC+ approximation (self-computed)",
+  "weights": {
+    "bb": 0.69,
+    "hbp": 0.72,
+    "s": 0.88,
+    "d": 1.24,
+    "t": 1.57,
+    "hr": 2.0
+  },
+  "wobaScale": 1.24,
+  "lgRperPA": 0.117,
+  "note": "Self-computed team offense vs LHP/RHP by opposing STARTER hand, per window. wRC+ is a park-neutral approximation (standard wOBA weights, league baseline from the same window) -- a relative gauge, not FanGraphs' exact park-adjusted wRC+.",
+  "windows": {
+    "season": {
+      "lgWobaVsLHP": 0.317,
+      "lgWobaVsRHP": 0.315,
+      "teams": {
+        "NYY": {
+          "vsRHP": {
+            "woba": 0.303,
+            "wrcplus": 92,
+            "pa": 2582
+          },
+          "vsLHP": {
+            "woba": 0.331,
+            "wrcplus": 110,
+            "pa": 1558
+          }
+        },
+        "SF": {
+          "vsLHP": {
+            "woba": 0.332,
+            "wrcplus": 110,
+            "pa": 1119
+          },
+          "vsRHP": {
+            "woba": 0.311,
+            "wrcplus": 97,
+            "pa": 3023
+          }
+        },
+        "CLE": {
+          "vsRHP": {
+            "woba": 0.29,
+            "wrcplus": 83,
+            "pa": 2735
+          },
+          "vsLHP": {
+            "woba": 0.318,
+            "wrcplus": 101,
+            "pa": 1446
+          }
+        },
+        "PIT": {
+          "vsRHP": {
+            "woba": 0.345,
+            "wrcplus": 121,
+            "pa": 3183
+          },
+          "vsLHP": {
+            "woba": 0.29,
+            "wrcplus": 82,
+            "pa": 1235
+          }
+        },
+        "NYM": {
+          "vsRHP": {
+            "woba": 0.303,
+            "wrcplus": 92,
+            "pa": 3071
+          },
+          "vsLHP": {
+            "woba": 0.291,
+            "wrcplus": 82,
+            "pa": 1186
+          }
+        },
+        "CWS": {
+          "vsRHP": {
+            "woba": 0.319,
+            "wrcplus": 103,
+            "pa": 2913
+          },
+          "vsLHP": {
+            "woba": 0.31,
+            "wrcplus": 95,
+            "pa": 1227
+          }
+        },
+        "TOR": {
+          "vsRHP": {
+            "woba": 0.3,
+            "wrcplus": 90,
+            "pa": 3097
+          },
+          "vsLHP": {
+            "woba": 0.296,
+            "wrcplus": 86,
+            "pa": 981
+          }
+        },
+        "PHI": {
+          "vsLHP": {
+            "woba": 0.289,
+            "wrcplus": 81,
+            "pa": 1516
+          },
+          "vsRHP": {
+            "woba": 0.319,
+            "wrcplus": 103,
+            "pa": 2585
+          }
+        },
+        "MIL": {
+          "vsRHP": {
+            "woba": 0.324,
+            "wrcplus": 107,
+            "pa": 3129
+          },
+          "vsLHP": {
+            "woba": 0.324,
+            "wrcplus": 105,
+            "pa": 1174
+          }
+        },
+        "SD": {
+          "vsRHP": {
+            "woba": 0.298,
+            "wrcplus": 88,
+            "pa": 3054
+          },
+          "vsLHP": {
+            "woba": 0.33,
+            "wrcplus": 109,
+            "pa": 951
+          }
+        },
+        "WSH": {
+          "vsLHP": {
+            "woba": 0.345,
+            "wrcplus": 119,
+            "pa": 1414
+          },
+          "vsRHP": {
+            "woba": 0.331,
+            "wrcplus": 111,
+            "pa": 2842
+          }
+        },
+        "CHC": {
+          "vsRHP": {
+            "woba": 0.326,
+            "wrcplus": 108,
+            "pa": 3245
+          },
+          "vsLHP": {
+            "woba": 0.349,
+            "wrcplus": 122,
+            "pa": 1156
+          }
+        },
+        "MIN": {
+          "vsLHP": {
+            "woba": 0.308,
+            "wrcplus": 94,
+            "pa": 1314
+          },
+          "vsRHP": {
+            "woba": 0.321,
+            "wrcplus": 104,
+            "pa": 2846
+          }
+        },
+        "BAL": {
+          "vsRHP": {
+            "woba": 0.316,
+            "wrcplus": 101,
+            "pa": 2973
+          },
+          "vsLHP": {
+            "woba": 0.306,
+            "wrcplus": 93,
+            "pa": 1292
+          }
+        },
+        "BOS": {
+          "vsLHP": {
+            "woba": 0.324,
+            "wrcplus": 105,
+            "pa": 1125
+          },
+          "vsRHP": {
+            "woba": 0.308,
+            "wrcplus": 96,
+            "pa": 2950
+          }
+        },
+        "CIN": {
+          "vsLHP": {
+            "woba": 0.327,
+            "wrcplus": 107,
+            "pa": 914
+          },
+          "vsRHP": {
+            "woba": 0.301,
+            "wrcplus": 91,
+            "pa": 3192
+          }
+        },
+        "LAA": {
+          "vsRHP": {
+            "woba": 0.304,
+            "wrcplus": 93,
+            "pa": 2968
+          },
+          "vsLHP": {
+            "woba": 0.322,
+            "wrcplus": 103,
+            "pa": 1144
+          }
+        },
+        "HOU": {
+          "vsRHP": {
+            "woba": 0.318,
+            "wrcplus": 102,
+            "pa": 3092
+          },
+          "vsLHP": {
+            "woba": 0.319,
+            "wrcplus": 102,
+            "pa": 1113
+          }
+        },
+        "DET": {
+          "vsRHP": {
+            "woba": 0.32,
+            "wrcplus": 104,
+            "pa": 2862
+          },
+          "vsLHP": {
+            "woba": 0.297,
+            "wrcplus": 87,
+            "pa": 1283
+          }
+        },
+        "TB": {
+          "vsLHP": {
+            "woba": 0.326,
+            "wrcplus": 106,
+            "pa": 1228
+          },
+          "vsRHP": {
+            "woba": 0.318,
+            "wrcplus": 102,
+            "pa": 2859
+          }
+        },
+        "STL": {
+          "vsRHP": {
+            "woba": 0.306,
+            "wrcplus": 94,
+            "pa": 3005
+          },
+          "vsLHP": {
+            "woba": 0.311,
+            "wrcplus": 96,
+            "pa": 1235
+          }
+        },
+        "TEX": {
+          "vsLHP": {
+            "woba": 0.33,
+            "wrcplus": 109,
+            "pa": 996
+          },
+          "vsRHP": {
+            "woba": 0.311,
+            "wrcplus": 98,
+            "pa": 3085
+          }
+        },
+        "ARI": {
+          "vsRHP": {
+            "woba": 0.302,
+            "wrcplus": 91,
+            "pa": 3145
+          },
+          "vsLHP": {
+            "woba": 0.342,
+            "wrcplus": 117,
+            "pa": 1008
+          }
+        },
+        "LAD": {
+          "vsRHP": {
+            "woba": 0.335,
+            "wrcplus": 114,
+            "pa": 2997
+          },
+          "vsLHP": {
+            "woba": 0.348,
+            "wrcplus": 121,
+            "pa": 1198
+          }
+        },
+        "SEA": {
+          "vsRHP": {
+            "woba": 0.307,
+            "wrcplus": 95,
+            "pa": 2913
+          },
+          "vsLHP": {
+            "woba": 0.293,
+            "wrcplus": 84,
+            "pa": 1148
+          }
+        },
+        "OAK": {
+          "vsRHP": {
+            "woba": 0.323,
+            "wrcplus": 106,
+            "pa": 2586
+          },
+          "vsLHP": {
+            "woba": 0.305,
+            "wrcplus": 92,
+            "pa": 1507
+          }
+        },
+        "COL": {
+          "vsRHP": {
+            "woba": 0.325,
+            "wrcplus": 107,
+            "pa": 2951
+          },
+          "vsLHP": {
+            "woba": 0.312,
+            "wrcplus": 96,
+            "pa": 1224
+          }
+        },
+        "MIA": {
+          "vsLHP": {
+            "woba": 0.314,
+            "wrcplus": 98,
+            "pa": 1052
+          },
+          "vsRHP": {
+            "woba": 0.324,
+            "wrcplus": 107,
+            "pa": 3082
+          }
+        },
+        "KC": {
+          "vsLHP": {
+            "woba": 0.315,
+            "wrcplus": 99,
+            "pa": 1198
+          },
+          "vsRHP": {
+            "woba": 0.311,
+            "wrcplus": 98,
+            "pa": 2982
+          }
+        },
+        "ATL": {
+          "vsLHP": {
+            "woba": 0.315,
+            "wrcplus": 99,
+            "pa": 1691
+          },
+          "vsRHP": {
+            "woba": 0.316,
+            "wrcplus": 101,
+            "pa": 2499
+          }
+        }
+      }
+    },
+    "2026-03": {
+      "lgWobaVsLHP": 0.31,
+      "lgWobaVsRHP": 0.302,
+      "teams": {
+        "NYY": {
+          "vsRHP": {
+            "woba": 0.281,
+            "wrcplus": 85,
+            "pa": 145
+          },
+          "vsLHP": {
+            "woba": 0.316,
+            "wrcplus": 104,
+            "pa": 37
+          }
+        },
+        "SF": {
+          "vsLHP": {
+            "woba": 0.139,
+            "wrcplus": -18,
+            "pa": 34
+          },
+          "vsRHP": {
+            "woba": 0.294,
+            "wrcplus": 94,
+            "pa": 144
+          }
+        },
+        "PIT": {
+          "vsRHP": {
+            "woba": 0.294,
+            "wrcplus": 94,
+            "pa": 117
+          },
+          "vsLHP": {
+            "woba": 0.317,
+            "wrcplus": 105,
+            "pa": 87
+          }
+        },
+        "NYM": {
+          "vsRHP": {
+            "woba": 0.308,
+            "wrcplus": 104,
+            "pa": 201
+          }
+        },
+        "CWS": {
+          "vsRHP": {
+            "woba": 0.296,
+            "wrcplus": 95,
+            "pa": 184
+          }
+        },
+        "MIL": {
+          "vsRHP": {
+            "woba": 0.367,
+            "wrcplus": 144,
+            "pa": 121
+          },
+          "vsLHP": {
+            "woba": 0.385,
+            "wrcplus": 152,
+            "pa": 78
+          }
+        },
+        "WSH": {
+          "vsLHP": {
+            "woba": 0.4,
+            "wrcplus": 162,
+            "pa": 80
+          },
+          "vsRHP": {
+            "woba": 0.305,
+            "wrcplus": 102,
+            "pa": 119
+          }
+        },
+        "CHC": {
+          "vsRHP": {
+            "woba": 0.304,
+            "wrcplus": 101,
+            "pa": 188
+          }
+        },
+        "MIN": {
+          "vsLHP": {
+            "woba": 0.232,
+            "wrcplus": 46,
+            "pa": 67
+          },
+          "vsRHP": {
+            "woba": 0.325,
+            "wrcplus": 116,
+            "pa": 78
+          }
+        },
+        "BAL": {
+          "vsRHP": {
+            "woba": 0.288,
+            "wrcplus": 90,
+            "pa": 182
+          }
+        },
+        "BOS": {
+          "vsLHP": {
+            "woba": 0.333,
+            "wrcplus": 116,
+            "pa": 40
+          },
+          "vsRHP": {
+            "woba": 0.267,
+            "wrcplus": 76,
+            "pa": 150
+          }
+        },
+        "CIN": {
+          "vsLHP": {
+            "woba": 0.246,
+            "wrcplus": 56,
+            "pa": 68
+          },
+          "vsRHP": {
+            "woba": 0.311,
+            "wrcplus": 106,
+            "pa": 122
+          }
+        },
+        "LAA": {
+          "vsRHP": {
+            "woba": 0.33,
+            "wrcplus": 119,
+            "pa": 237
+          }
+        },
+        "HOU": {
+          "vsRHP": {
+            "woba": 0.332,
+            "wrcplus": 120,
+            "pa": 118
+          },
+          "vsLHP": {
+            "woba": 0.39,
+            "wrcplus": 155,
+            "pa": 120
+          }
+        },
+        "DET": {
+          "vsRHP": {
+            "woba": 0.274,
+            "wrcplus": 80,
+            "pa": 191
+          }
+        },
+        "SD": {
+          "vsLHP": {
+            "woba": 0.242,
+            "wrcplus": 53,
+            "pa": 72
+          },
+          "vsRHP": {
+            "woba": 0.228,
+            "wrcplus": 49,
+            "pa": 103
+          }
+        },
+        "TB": {
+          "vsLHP": {
+            "woba": 0.361,
+            "wrcplus": 135,
+            "pa": 85
+          },
+          "vsRHP": {
+            "woba": 0.319,
+            "wrcplus": 111,
+            "pa": 123
+          }
+        },
+        "STL": {
+          "vsRHP": {
+            "woba": 0.294,
+            "wrcplus": 94,
+            "pa": 145
+          },
+          "vsLHP": {
+            "woba": 0.396,
+            "wrcplus": 159,
+            "pa": 40
+          }
+        },
+        "TEX": {
+          "vsLHP": {
+            "woba": 0.297,
+            "wrcplus": 91,
+            "pa": 75
+          },
+          "vsRHP": {
+            "woba": 0.352,
+            "wrcplus": 134,
+            "pa": 129
+          }
+        },
+        "PHI": {
+          "vsRHP": {
+            "woba": 0.366,
+            "wrcplus": 144,
+            "pa": 36
+          },
+          "vsLHP": {
+            "woba": 0.252,
+            "wrcplus": 60,
+            "pa": 148
+          }
+        },
+        "ARI": {
+          "vsRHP": {
+            "woba": 0.313,
+            "wrcplus": 108,
+            "pa": 177
+          }
+        },
+        "LAD": {
+          "vsRHP": {
+            "woba": 0.338,
+            "wrcplus": 124,
+            "pa": 108
+          },
+          "vsLHP": {
+            "woba": 0.269,
+            "wrcplus": 72,
+            "pa": 65
+          }
+        },
+        "CLE": {
+          "vsRHP": {
+            "woba": 0.257,
+            "wrcplus": 69,
+            "pa": 220
+          }
+        },
+        "SEA": {
+          "vsRHP": {
+            "woba": 0.349,
+            "wrcplus": 132,
+            "pa": 109
+          },
+          "vsLHP": {
+            "woba": 0.26,
+            "wrcplus": 65,
+            "pa": 115
+          }
+        },
+        "OAK": {
+          "vsRHP": {
+            "woba": 0.232,
+            "wrcplus": 52,
+            "pa": 111
+          },
+          "vsLHP": {
+            "woba": 0.254,
+            "wrcplus": 61,
+            "pa": 69
+          }
+        },
+        "TOR": {
+          "vsRHP": {
+            "woba": 0.342,
+            "wrcplus": 127,
+            "pa": 146
+          },
+          "vsLHP": {
+            "woba": 0.393,
+            "wrcplus": 157,
+            "pa": 52
+          }
+        },
+        "COL": {
+          "vsRHP": {
+            "woba": 0.294,
+            "wrcplus": 94,
+            "pa": 187
+          }
+        },
+        "MIA": {
+          "vsLHP": {
+            "woba": 0.338,
+            "wrcplus": 119,
+            "pa": 72
+          },
+          "vsRHP": {
+            "woba": 0.352,
+            "wrcplus": 134,
+            "pa": 110
+          }
+        },
+        "KC": {
+          "vsLHP": {
+            "woba": 0.211,
+            "wrcplus": 32,
+            "pa": 34
+          },
+          "vsRHP": {
+            "woba": 0.27,
+            "wrcplus": 78,
+            "pa": 104
+          }
+        },
+        "ATL": {
+          "vsLHP": {
+            "woba": 0.408,
+            "wrcplus": 167,
+            "pa": 74
+          },
+          "vsRHP": {
+            "woba": 0.272,
+            "wrcplus": 79,
+            "pa": 106
+          }
+        }
+      }
+    },
+    "2026-04": {
+      "lgWobaVsLHP": 0.313,
+      "lgWobaVsRHP": 0.318,
+      "teams": {
+        "NYY": {
+          "vsRHP": {
+            "woba": 0.333,
+            "wrcplus": 110,
+            "pa": 610
+          },
+          "vsLHP": {
+            "woba": 0.336,
+            "wrcplus": 116,
+            "pa": 377
+          }
+        },
+        "SF": {
+          "vsRHP": {
+            "woba": 0.29,
+            "wrcplus": 81,
+            "pa": 690
+          },
+          "vsLHP": {
+            "woba": 0.307,
+            "wrcplus": 96,
+            "pa": 312
+          }
+        },
+        "PIT": {
+          "vsLHP": {
+            "woba": 0.311,
+            "wrcplus": 99,
+            "pa": 226
+          },
+          "vsRHP": {
+            "woba": 0.314,
+            "wrcplus": 97,
+            "pa": 829
+          }
+        },
+        "NYM": {
+          "vsLHP": {
+            "woba": 0.248,
+            "wrcplus": 55,
+            "pa": 247
+          },
+          "vsRHP": {
+            "woba": 0.28,
+            "wrcplus": 73,
+            "pa": 730
+          }
+        },
+        "CWS": {
+          "vsRHP": {
+            "woba": 0.313,
+            "wrcplus": 97,
+            "pa": 595
+          },
+          "vsLHP": {
+            "woba": 0.31,
+            "wrcplus": 98,
+            "pa": 451
+          }
+        },
+        "TOR": {
+          "vsRHP": {
+            "woba": 0.299,
+            "wrcplus": 87,
+            "pa": 776
+          },
+          "vsLHP": {
+            "woba": 0.252,
+            "wrcplus": 58,
+            "pa": 215
+          }
+        },
+        "MIL": {
+          "vsRHP": {
+            "woba": 0.3,
+            "wrcplus": 87,
+            "pa": 779
+          },
+          "vsLHP": {
+            "woba": 0.289,
+            "wrcplus": 84,
+            "pa": 220
+          }
+        },
+        "WSH": {
+          "vsLHP": {
+            "woba": 0.307,
+            "wrcplus": 96,
+            "pa": 393
+          },
+          "vsRHP": {
+            "woba": 0.313,
+            "wrcplus": 96,
+            "pa": 668
+          }
+        },
+        "CHC": {
+          "vsRHP": {
+            "woba": 0.343,
+            "wrcplus": 117,
+            "pa": 640
+          },
+          "vsLHP": {
+            "woba": 0.359,
+            "wrcplus": 132,
+            "pa": 452
+          }
+        },
+        "MIN": {
+          "vsLHP": {
+            "woba": 0.315,
+            "wrcplus": 102,
+            "pa": 464
+          },
+          "vsRHP": {
+            "woba": 0.321,
+            "wrcplus": 102,
+            "pa": 622
+          }
+        },
+        "BAL": {
+          "vsRHP": {
+            "woba": 0.341,
+            "wrcplus": 115,
+            "pa": 817
+          },
+          "vsLHP": {
+            "woba": 0.254,
+            "wrcplus": 59,
+            "pa": 216
+          }
+        },
+        "BOS": {
+          "vsRHP": {
+            "woba": 0.294,
+            "wrcplus": 83,
+            "pa": 744
+          },
+          "vsLHP": {
+            "woba": 0.303,
+            "wrcplus": 94,
+            "pa": 228
+          }
+        },
+        "CIN": {
+          "vsRHP": {
+            "woba": 0.291,
+            "wrcplus": 81,
+            "pa": 789
+          },
+          "vsLHP": {
+            "woba": 0.394,
+            "wrcplus": 156,
+            "pa": 192
+          }
+        },
+        "LAA": {
+          "vsLHP": {
+            "woba": 0.338,
+            "wrcplus": 117,
+            "pa": 429
+          },
+          "vsRHP": {
+            "woba": 0.309,
+            "wrcplus": 93,
+            "pa": 580
+          }
+        },
+        "HOU": {
+          "vsLHP": {
+            "woba": 0.314,
+            "wrcplus": 101,
+            "pa": 305
+          },
+          "vsRHP": {
+            "woba": 0.347,
+            "wrcplus": 120,
+            "pa": 755
+          }
+        },
+        "DET": {
+          "vsRHP": {
+            "woba": 0.333,
+            "wrcplus": 110,
+            "pa": 717
+          },
+          "vsLHP": {
+            "woba": 0.343,
+            "wrcplus": 121,
+            "pa": 304
+          }
+        },
+        "SD": {
+          "vsRHP": {
+            "woba": 0.299,
+            "wrcplus": 87,
+            "pa": 752
+          },
+          "vsLHP": {
+            "woba": 0.392,
+            "wrcplus": 155,
+            "pa": 196
+          }
+        },
+        "TB": {
+          "vsRHP": {
+            "woba": 0.304,
+            "wrcplus": 90,
+            "pa": 796
+          },
+          "vsLHP": {
+            "woba": 0.32,
+            "wrcplus": 105,
+            "pa": 154
+          }
+        },
+        "STL": {
+          "vsRHP": {
+            "woba": 0.331,
+            "wrcplus": 109,
+            "pa": 842
+          },
+          "vsLHP": {
+            "woba": 0.28,
+            "wrcplus": 77,
+            "pa": 180
+          }
+        },
+        "TEX": {
+          "vsLHP": {
+            "woba": 0.285,
+            "wrcplus": 81,
+            "pa": 185
+          },
+          "vsRHP": {
+            "woba": 0.303,
+            "wrcplus": 90,
+            "pa": 773
+          }
+        },
+        "PHI": {
+          "vsRHP": {
+            "woba": 0.343,
+            "wrcplus": 117,
+            "pa": 717
+          },
+          "vsLHP": {
+            "woba": 0.226,
+            "wrcplus": 40,
+            "pa": 317
+          }
+        },
+        "ARI": {
+          "vsLHP": {
+            "woba": 0.358,
+            "wrcplus": 131,
+            "pa": 226
+          },
+          "vsRHP": {
+            "woba": 0.3,
+            "wrcplus": 88,
+            "pa": 697
+          }
+        },
+        "LAD": {
+          "vsRHP": {
+            "woba": 0.346,
+            "wrcplus": 119,
+            "pa": 862
+          },
+          "vsLHP": {
+            "woba": 0.406,
+            "wrcplus": 164,
+            "pa": 160
+          }
+        },
+        "CLE": {
+          "vsRHP": {
+            "woba": 0.3,
+            "wrcplus": 88,
+            "pa": 620
+          },
+          "vsLHP": {
+            "woba": 0.337,
+            "wrcplus": 117,
+            "pa": 379
+          }
+        },
+        "SEA": {
+          "vsRHP": {
+            "woba": 0.314,
+            "wrcplus": 97,
+            "pa": 762
+          },
+          "vsLHP": {
+            "woba": 0.316,
+            "wrcplus": 102,
+            "pa": 229
+          }
+        },
+        "OAK": {
+          "vsLHP": {
+            "woba": 0.263,
+            "wrcplus": 66,
+            "pa": 255
+          },
+          "vsRHP": {
+            "woba": 0.35,
+            "wrcplus": 122,
+            "pa": 756
+          }
+        },
+        "COL": {
+          "vsRHP": {
+            "woba": 0.31,
+            "wrcplus": 94,
+            "pa": 858
+          },
+          "vsLHP": {
+            "woba": 0.339,
+            "wrcplus": 118,
+            "pa": 159
+          }
+        },
+        "MIA": {
+          "vsRHP": {
+            "woba": 0.322,
+            "wrcplus": 103,
+            "pa": 757
+          },
+          "vsLHP": {
+            "woba": 0.272,
+            "wrcplus": 72,
+            "pa": 230
+          }
+        },
+        "KC": {
+          "vsRHP": {
+            "woba": 0.334,
+            "wrcplus": 111,
+            "pa": 768
+          },
+          "vsLHP": {
+            "woba": 0.302,
+            "wrcplus": 93,
+            "pa": 303
+          }
+        },
+        "ATL": {
+          "vsLHP": {
+            "woba": 0.3,
+            "wrcplus": 92,
+            "pa": 299
+          },
+          "vsRHP": {
+            "woba": 0.359,
+            "wrcplus": 129,
+            "pa": 747
+          }
+        }
+      }
+    },
+    "2026-05": {
+      "lgWobaVsLHP": 0.317,
+      "lgWobaVsRHP": 0.306,
+      "teams": {
+        "NYY": {
+          "vsLHP": {
+            "woba": 0.415,
+            "wrcplus": 168,
+            "pa": 336
+          },
+          "vsRHP": {
+            "woba": 0.311,
+            "wrcplus": 104,
+            "pa": 735
+          }
+        },
+        "SF": {
+          "vsLHP": {
+            "woba": 0.354,
+            "wrcplus": 126,
+            "pa": 227
+          },
+          "vsRHP": {
+            "woba": 0.316,
+            "wrcplus": 107,
+            "pa": 838
+          }
+        },
+        "CLE": {
+          "vsRHP": {
+            "woba": 0.296,
+            "wrcplus": 93,
+            "pa": 642
+          },
+          "vsLHP": {
+            "woba": 0.334,
+            "wrcplus": 112,
+            "pa": 458
+          }
+        },
+        "PIT": {
+          "vsRHP": {
+            "woba": 0.355,
+            "wrcplus": 134,
+            "pa": 840
+          },
+          "vsLHP": {
+            "woba": 0.276,
+            "wrcplus": 72,
+            "pa": 260
+          }
+        },
+        "NYM": {
+          "vsRHP": {
+            "woba": 0.3,
+            "wrcplus": 96,
+            "pa": 718
+          },
+          "vsLHP": {
+            "woba": 0.296,
+            "wrcplus": 85,
+            "pa": 364
+          }
+        },
+        "TOR": {
+          "vsRHP": {
+            "woba": 0.308,
+            "wrcplus": 102,
+            "pa": 827
+          },
+          "vsLHP": {
+            "woba": 0.294,
+            "wrcplus": 84,
+            "pa": 260
+          }
+        },
+        "CWS": {
+          "vsRHP": {
+            "woba": 0.32,
+            "wrcplus": 110,
+            "pa": 853
+          },
+          "vsLHP": {
+            "woba": 0.386,
+            "wrcplus": 148,
+            "pa": 194
+          }
+        },
+        "MIL": {
+          "vsRHP": {
+            "woba": 0.294,
+            "wrcplus": 92,
+            "pa": 683
+          },
+          "vsLHP": {
+            "woba": 0.308,
+            "wrcplus": 94,
+            "pa": 293
+          }
+        },
+        "WSH": {
+          "vsRHP": {
+            "woba": 0.345,
+            "wrcplus": 127,
+            "pa": 812
+          },
+          "vsLHP": {
+            "woba": 0.311,
+            "wrcplus": 96,
+            "pa": 263
+          }
+        },
+        "CHC": {
+          "vsRHP": {
+            "woba": 0.305,
+            "wrcplus": 100,
+            "pa": 977
+          },
+          "vsLHP": {
+            "woba": 0.234,
+            "wrcplus": 43,
+            "pa": 142
+          }
+        },
+        "MIN": {
+          "vsLHP": {
+            "woba": 0.334,
+            "wrcplus": 112,
+            "pa": 272
+          },
+          "vsRHP": {
+            "woba": 0.291,
+            "wrcplus": 90,
+            "pa": 771
+          }
+        },
+        "BAL": {
+          "vsRHP": {
+            "woba": 0.294,
+            "wrcplus": 92,
+            "pa": 631
+          },
+          "vsLHP": {
+            "woba": 0.323,
+            "wrcplus": 104,
+            "pa": 499
+          }
+        },
+        "BOS": {
+          "vsRHP": {
+            "woba": 0.312,
+            "wrcplus": 105,
+            "pa": 746
+          },
+          "vsLHP": {
+            "woba": 0.351,
+            "wrcplus": 123,
+            "pa": 287
+          }
+        },
+        "CIN": {
+          "vsRHP": {
+            "woba": 0.297,
+            "wrcplus": 94,
+            "pa": 835
+          },
+          "vsLHP": {
+            "woba": 0.359,
+            "wrcplus": 129,
+            "pa": 237
+          }
+        },
+        "LAA": {
+          "vsRHP": {
+            "woba": 0.29,
+            "wrcplus": 89,
+            "pa": 758
+          },
+          "vsLHP": {
+            "woba": 0.293,
+            "wrcplus": 83,
+            "pa": 263
+          }
+        },
+        "HOU": {
+          "vsLHP": {
+            "woba": 0.346,
+            "wrcplus": 120,
+            "pa": 270
+          },
+          "vsRHP": {
+            "woba": 0.271,
+            "wrcplus": 76,
+            "pa": 783
+          }
+        },
+        "DET": {
+          "vsLHP": {
+            "woba": 0.259,
+            "wrcplus": 60,
+            "pa": 486
+          },
+          "vsRHP": {
+            "woba": 0.276,
+            "wrcplus": 80,
+            "pa": 582
+          }
+        },
+        "SD": {
+          "vsLHP": {
+            "woba": 0.278,
+            "wrcplus": 73,
+            "pa": 279
+          },
+          "vsRHP": {
+            "woba": 0.27,
+            "wrcplus": 76,
+            "pa": 709
+          }
+        },
+        "TB": {
+          "vsRHP": {
+            "woba": 0.328,
+            "wrcplus": 116,
+            "pa": 619
+          },
+          "vsLHP": {
+            "woba": 0.337,
+            "wrcplus": 114,
+            "pa": 378
+          }
+        },
+        "STL": {
+          "vsRHP": {
+            "woba": 0.3,
+            "wrcplus": 96,
+            "pa": 756
+          },
+          "vsLHP": {
+            "woba": 0.302,
+            "wrcplus": 90,
+            "pa": 254
+          }
+        },
+        "TEX": {
+          "vsRHP": {
+            "woba": 0.308,
+            "wrcplus": 101,
+            "pa": 843
+          },
+          "vsLHP": {
+            "woba": 0.325,
+            "wrcplus": 106,
+            "pa": 197
+          }
+        },
+        "PHI": {
+          "vsRHP": {
+            "woba": 0.289,
+            "wrcplus": 88,
+            "pa": 730
+          },
+          "vsLHP": {
+            "woba": 0.295,
+            "wrcplus": 85,
+            "pa": 286
+          }
+        },
+        "ARI": {
+          "vsRHP": {
+            "woba": 0.291,
+            "wrcplus": 90,
+            "pa": 830
+          },
+          "vsLHP": {
+            "woba": 0.341,
+            "wrcplus": 117,
+            "pa": 226
+          }
+        },
+        "LAD": {
+          "vsLHP": {
+            "woba": 0.373,
+            "wrcplus": 139,
+            "pa": 276
+          },
+          "vsRHP": {
+            "woba": 0.329,
+            "wrcplus": 116,
+            "pa": 786
+          }
+        },
+        "SEA": {
+          "vsLHP": {
+            "woba": 0.281,
+            "wrcplus": 75,
+            "pa": 327
+          },
+          "vsRHP": {
+            "woba": 0.333,
+            "wrcplus": 119,
+            "pa": 727
+          }
+        },
+        "OAK": {
+          "vsLHP": {
+            "woba": 0.344,
+            "wrcplus": 119,
+            "pa": 305
+          },
+          "vsRHP": {
+            "woba": 0.314,
+            "wrcplus": 106,
+            "pa": 776
+          }
+        },
+        "COL": {
+          "vsRHP": {
+            "woba": 0.304,
+            "wrcplus": 99,
+            "pa": 711
+          },
+          "vsLHP": {
+            "woba": 0.276,
+            "wrcplus": 72,
+            "pa": 368
+          }
+        },
+        "MIA": {
+          "vsLHP": {
+            "woba": 0.282,
+            "wrcplus": 76,
+            "pa": 250
+          },
+          "vsRHP": {
+            "woba": 0.301,
+            "wrcplus": 97,
+            "pa": 819
+          }
+        },
+        "KC": {
+          "vsRHP": {
+            "woba": 0.296,
+            "wrcplus": 93,
+            "pa": 812
+          },
+          "vsLHP": {
+            "woba": 0.258,
+            "wrcplus": 59,
+            "pa": 216
+          }
+        },
+        "ATL": {
+          "vsLHP": {
+            "woba": 0.331,
+            "wrcplus": 110,
+            "pa": 592
+          },
+          "vsRHP": {
+            "woba": 0.302,
+            "wrcplus": 98,
+            "pa": 471
+          }
+        }
+      }
+    },
+    "2026-06": {
+      "lgWobaVsLHP": 0.324,
+      "lgWobaVsRHP": 0.322,
+      "teams": {
+        "NYY": {
+          "vsLHP": {
+            "woba": 0.293,
+            "wrcplus": 79,
+            "pa": 477
+          },
+          "vsRHP": {
+            "woba": 0.298,
+            "wrcplus": 84,
+            "pa": 477
+          }
+        },
+        "SF": {
+          "vsLHP": {
+            "woba": 0.334,
+            "wrcplus": 107,
+            "pa": 419
+          },
+          "vsRHP": {
+            "woba": 0.333,
+            "wrcplus": 108,
+            "pa": 605
+          }
+        },
+        "CLE": {
+          "vsRHP": {
+            "woba": 0.28,
+            "wrcplus": 71,
+            "pa": 618
+          },
+          "vsLHP": {
+            "woba": 0.273,
+            "wrcplus": 65,
+            "pa": 304
+          }
+        },
+        "PIT": {
+          "vsRHP": {
+            "woba": 0.364,
+            "wrcplus": 129,
+            "pa": 795
+          },
+          "vsLHP": {
+            "woba": 0.28,
+            "wrcplus": 70,
+            "pa": 217
+          }
+        },
+        "NYM": {
+          "vsRHP": {
+            "woba": 0.302,
+            "wrcplus": 87,
+            "pa": 767
+          },
+          "vsLHP": {
+            "woba": 0.333,
+            "wrcplus": 107,
+            "pa": 279
+          }
+        },
+        "CWS": {
+          "vsRHP": {
+            "woba": 0.342,
+            "wrcplus": 114,
+            "pa": 711
+          },
+          "vsLHP": {
+            "woba": 0.302,
+            "wrcplus": 86,
+            "pa": 249
+          }
+        },
+        "PHI": {
+          "vsLHP": {
+            "woba": 0.33,
+            "wrcplus": 104,
+            "pa": 496
+          },
+          "vsRHP": {
+            "woba": 0.342,
+            "wrcplus": 114,
+            "pa": 520
+          }
+        },
+        "MIL": {
+          "vsRHP": {
+            "woba": 0.373,
+            "wrcplus": 135,
+            "pa": 646
+          },
+          "vsLHP": {
+            "woba": 0.34,
+            "wrcplus": 111,
+            "pa": 440
+          }
+        },
+        "WSH": {
+          "vsRHP": {
+            "woba": 0.31,
+            "wrcplus": 92,
+            "pa": 661
+          },
+          "vsLHP": {
+            "woba": 0.325,
+            "wrcplus": 101,
+            "pa": 342
+          }
+        },
+        "CHC": {
+          "vsLHP": {
+            "woba": 0.37,
+            "wrcplus": 132,
+            "pa": 320
+          },
+          "vsRHP": {
+            "woba": 0.336,
+            "wrcplus": 110,
+            "pa": 760
+          }
+        },
+        "MIN": {
+          "vsRHP": {
+            "woba": 0.35,
+            "wrcplus": 120,
+            "pa": 841
+          },
+          "vsLHP": {
+            "woba": 0.313,
+            "wrcplus": 93,
+            "pa": 186
+          }
+        },
+        "BAL": {
+          "vsLHP": {
+            "woba": 0.31,
+            "wrcplus": 90,
+            "pa": 193
+          },
+          "vsRHP": {
+            "woba": 0.311,
+            "wrcplus": 93,
+            "pa": 830
+          }
+        },
+        "BOS": {
+          "vsRHP": {
+            "woba": 0.302,
+            "wrcplus": 86,
+            "pa": 712
+          },
+          "vsLHP": {
+            "woba": 0.292,
+            "wrcplus": 78,
+            "pa": 218
+          }
+        },
+        "CIN": {
+          "vsRHP": {
+            "woba": 0.289,
+            "wrcplus": 78,
+            "pa": 775
+          },
+          "vsLHP": {
+            "woba": 0.32,
+            "wrcplus": 97,
+            "pa": 198
+          }
+        },
+        "LAA": {
+          "vsLHP": {
+            "woba": 0.334,
+            "wrcplus": 107,
+            "pa": 192
+          },
+          "vsRHP": {
+            "woba": 0.32,
+            "wrcplus": 99,
+            "pa": 840
+          }
+        },
+        "HOU": {
+          "vsRHP": {
+            "woba": 0.324,
+            "wrcplus": 101,
+            "pa": 798
+          },
+          "vsLHP": {
+            "woba": 0.282,
+            "wrcplus": 72,
+            "pa": 221
+          }
+        },
+        "DET": {
+          "vsRHP": {
+            "woba": 0.352,
+            "wrcplus": 121,
+            "pa": 724
+          },
+          "vsLHP": {
+            "woba": 0.314,
+            "wrcplus": 93,
+            "pa": 263
+          }
+        },
+        "SD": {
+          "vsRHP": {
+            "woba": 0.298,
+            "wrcplus": 83,
+            "pa": 700
+          },
+          "vsLHP": {
+            "woba": 0.326,
+            "wrcplus": 102,
+            "pa": 271
+          }
+        },
+        "TB": {
+          "vsRHP": {
+            "woba": 0.321,
+            "wrcplus": 100,
+            "pa": 592
+          },
+          "vsLHP": {
+            "woba": 0.346,
+            "wrcplus": 116,
+            "pa": 371
+          }
+        },
+        "STL": {
+          "vsRHP": {
+            "woba": 0.318,
+            "wrcplus": 98,
+            "pa": 646
+          },
+          "vsLHP": {
+            "woba": 0.356,
+            "wrcplus": 122,
+            "pa": 309
+          }
+        },
+        "TEX": {
+          "vsRHP": {
+            "woba": 0.306,
+            "wrcplus": 89,
+            "pa": 754
+          },
+          "vsLHP": {
+            "woba": 0.363,
+            "wrcplus": 127,
+            "pa": 268
+          }
+        },
+        "ARI": {
+          "vsLHP": {
+            "woba": 0.333,
+            "wrcplus": 106,
+            "pa": 356
+          },
+          "vsRHP": {
+            "woba": 0.283,
+            "wrcplus": 73,
+            "pa": 645
+          }
+        },
+        "LAD": {
+          "vsLHP": {
+            "woba": 0.354,
+            "wrcplus": 121,
+            "pa": 400
+          },
+          "vsRHP": {
+            "woba": 0.339,
+            "wrcplus": 112,
+            "pa": 674
+          }
+        },
+        "SEA": {
+          "vsRHP": {
+            "woba": 0.303,
+            "wrcplus": 87,
+            "pa": 745
+          },
+          "vsLHP": {
+            "woba": 0.253,
+            "wrcplus": 51,
+            "pa": 248
+          }
+        },
+        "OAK": {
+          "vsRHP": {
+            "woba": 0.324,
+            "wrcplus": 102,
+            "pa": 611
+          },
+          "vsLHP": {
+            "woba": 0.333,
+            "wrcplus": 106,
+            "pa": 433
+          }
+        },
+        "TOR": {
+          "vsRHP": {
+            "woba": 0.31,
+            "wrcplus": 92,
+            "pa": 663
+          },
+          "vsLHP": {
+            "woba": 0.311,
+            "wrcplus": 91,
+            "pa": 300
+          }
+        },
+        "COL": {
+          "vsRHP": {
+            "woba": 0.363,
+            "wrcplus": 129,
+            "pa": 710
+          },
+          "vsLHP": {
+            "woba": 0.357,
+            "wrcplus": 123,
+            "pa": 311
+          }
+        },
+        "MIA": {
+          "vsRHP": {
+            "woba": 0.343,
+            "wrcplus": 115,
+            "pa": 752
+          },
+          "vsLHP": {
+            "woba": 0.356,
+            "wrcplus": 122,
+            "pa": 234
+          }
+        },
+        "KC": {
+          "vsRHP": {
+            "woba": 0.32,
+            "wrcplus": 99,
+            "pa": 710
+          },
+          "vsLHP": {
+            "woba": 0.35,
+            "wrcplus": 119,
+            "pa": 333
+          }
+        },
+        "ATL": {
+          "vsRHP": {
+            "woba": 0.255,
+            "wrcplus": 54,
+            "pa": 429
+          },
+          "vsLHP": {
+            "woba": 0.277,
+            "wrcplus": 68,
+            "pa": 441
+          }
+        }
+      }
+    },
+    "2026-07": {
+      "lgWobaVsLHP": 0.315,
+      "lgWobaVsRHP": 0.316,
+      "teams": {
+        "NYY": {
+          "vsRHP": {
+            "woba": 0.274,
+            "wrcplus": 71,
+            "pa": 615
+          },
+          "vsLHP": {
+            "woba": 0.298,
+            "wrcplus": 88,
+            "pa": 331
+          }
+        },
+        "SF": {
+          "vsRHP": {
+            "woba": 0.309,
+            "wrcplus": 95,
+            "pa": 746
+          },
+          "vsLHP": {
+            "woba": 0.398,
+            "wrcplus": 157,
+            "pa": 127
+          }
+        },
+        "CLE": {
+          "vsRHP": {
+            "woba": 0.294,
+            "wrcplus": 85,
+            "pa": 635
+          },
+          "vsLHP": {
+            "woba": 0.317,
+            "wrcplus": 101,
+            "pa": 305
+          }
+        },
+        "PIT": {
+          "vsRHP": {
+            "woba": 0.357,
+            "wrcplus": 128,
+            "pa": 602
+          },
+          "vsLHP": {
+            "woba": 0.289,
+            "wrcplus": 82,
+            "pa": 445
+          }
+        },
+        "NYM": {
+          "vsRHP": {
+            "woba": 0.33,
+            "wrcplus": 110,
+            "pa": 655
+          },
+          "vsLHP": {
+            "woba": 0.282,
+            "wrcplus": 77,
+            "pa": 296
+          }
+        },
+        "CWS": {
+          "vsRHP": {
+            "woba": 0.301,
+            "wrcplus": 90,
+            "pa": 570
+          },
+          "vsLHP": {
+            "woba": 0.272,
+            "wrcplus": 70,
+            "pa": 333
+          }
+        },
+        "PHI": {
+          "vsLHP": {
+            "woba": 0.303,
+            "wrcplus": 92,
+            "pa": 269
+          },
+          "vsRHP": {
+            "woba": 0.303,
+            "wrcplus": 91,
+            "pa": 582
+          }
+        },
+        "SD": {
+          "vsRHP": {
+            "woba": 0.329,
+            "wrcplus": 109,
+            "pa": 790
+          },
+          "vsLHP": {
+            "woba": 0.408,
+            "wrcplus": 164,
+            "pa": 133
+          }
+        },
+        "MIL": {
+          "vsRHP": {
+            "woba": 0.328,
+            "wrcplus": 108,
+            "pa": 900
+          },
+          "vsLHP": {
+            "woba": 0.331,
+            "wrcplus": 111,
+            "pa": 143
+          }
+        },
+        "WSH": {
+          "vsLHP": {
+            "woba": 0.422,
+            "wrcplus": 174,
+            "pa": 336
+          },
+          "vsRHP": {
+            "woba": 0.361,
+            "wrcplus": 131,
+            "pa": 582
+          }
+        },
+        "CHC": {
+          "vsRHP": {
+            "woba": 0.337,
+            "wrcplus": 114,
+            "pa": 680
+          },
+          "vsLHP": {
+            "woba": 0.371,
+            "wrcplus": 139,
+            "pa": 242
+          }
+        },
+        "MIN": {
+          "vsRHP": {
+            "woba": 0.316,
+            "wrcplus": 100,
+            "pa": 534
+          },
+          "vsLHP": {
+            "woba": 0.289,
+            "wrcplus": 82,
+            "pa": 325
+          }
+        },
+        "BAL": {
+          "vsLHP": {
+            "woba": 0.313,
+            "wrcplus": 98,
+            "pa": 384
+          },
+          "vsRHP": {
+            "woba": 0.323,
+            "wrcplus": 105,
+            "pa": 513
+          }
+        },
+        "BOS": {
+          "vsRHP": {
+            "woba": 0.34,
+            "wrcplus": 117,
+            "pa": 598
+          },
+          "vsLHP": {
+            "woba": 0.336,
+            "wrcplus": 114,
+            "pa": 352
+          }
+        },
+        "CIN": {
+          "vsLHP": {
+            "woba": 0.266,
+            "wrcplus": 66,
+            "pa": 219
+          },
+          "vsRHP": {
+            "woba": 0.329,
+            "wrcplus": 109,
+            "pa": 671
+          }
+        },
+        "LAA": {
+          "vsRHP": {
+            "woba": 0.28,
+            "wrcplus": 75,
+            "pa": 553
+          },
+          "vsLHP": {
+            "woba": 0.317,
+            "wrcplus": 101,
+            "pa": 260
+          }
+        },
+        "HOU": {
+          "vsRHP": {
+            "woba": 0.33,
+            "wrcplus": 110,
+            "pa": 638
+          },
+          "vsLHP": {
+            "woba": 0.289,
+            "wrcplus": 82,
+            "pa": 197
+          }
+        },
+        "DET": {
+          "vsRHP": {
+            "woba": 0.324,
+            "wrcplus": 106,
+            "pa": 648
+          },
+          "vsLHP": {
+            "woba": 0.301,
+            "wrcplus": 90,
+            "pa": 230
+          }
+        },
+        "TB": {
+          "vsRHP": {
+            "woba": 0.321,
+            "wrcplus": 103,
+            "pa": 729
+          },
+          "vsLHP": {
+            "woba": 0.271,
+            "wrcplus": 69,
+            "pa": 240
+          }
+        },
+        "STL": {
+          "vsRHP": {
+            "woba": 0.27,
+            "wrcplus": 68,
+            "pa": 616
+          },
+          "vsLHP": {
+            "woba": 0.291,
+            "wrcplus": 83,
+            "pa": 452
+          }
+        },
+        "TEX": {
+          "vsLHP": {
+            "woba": 0.341,
+            "wrcplus": 118,
+            "pa": 271
+          },
+          "vsRHP": {
+            "woba": 0.325,
+            "wrcplus": 106,
+            "pa": 586
+          }
+        },
+        "ARI": {
+          "vsRHP": {
+            "woba": 0.327,
+            "wrcplus": 107,
+            "pa": 796
+          },
+          "vsLHP": {
+            "woba": 0.342,
+            "wrcplus": 119,
+            "pa": 200
+          }
+        },
+        "LAD": {
+          "vsRHP": {
+            "woba": 0.32,
+            "wrcplus": 103,
+            "pa": 567
+          },
+          "vsLHP": {
+            "woba": 0.302,
+            "wrcplus": 91,
+            "pa": 297
+          }
+        },
+        "SEA": {
+          "vsRHP": {
+            "woba": 0.262,
+            "wrcplus": 62,
+            "pa": 570
+          },
+          "vsLHP": {
+            "woba": 0.35,
+            "wrcplus": 124,
+            "pa": 229
+          }
+        },
+        "OAK": {
+          "vsRHP": {
+            "woba": 0.311,
+            "wrcplus": 96,
+            "pa": 332
+          },
+          "vsLHP": {
+            "woba": 0.282,
+            "wrcplus": 77,
+            "pa": 445
+          }
+        },
+        "TOR": {
+          "vsRHP": {
+            "woba": 0.275,
+            "wrcplus": 72,
+            "pa": 685
+          },
+          "vsLHP": {
+            "woba": 0.303,
+            "wrcplus": 92,
+            "pa": 154
+          }
+        },
+        "COL": {
+          "vsRHP": {
+            "woba": 0.339,
+            "wrcplus": 116,
+            "pa": 485
+          },
+          "vsLHP": {
+            "woba": 0.298,
+            "wrcplus": 88,
+            "pa": 386
+          }
+        },
+        "MIA": {
+          "vsLHP": {
+            "woba": 0.34,
+            "wrcplus": 117,
+            "pa": 266
+          },
+          "vsRHP": {
+            "woba": 0.329,
+            "wrcplus": 109,
+            "pa": 644
+          }
+        },
+        "KC": {
+          "vsLHP": {
+            "woba": 0.34,
+            "wrcplus": 117,
+            "pa": 312
+          },
+          "vsRHP": {
+            "woba": 0.299,
+            "wrcplus": 88,
+            "pa": 588
+          }
+        },
+        "ATL": {
+          "vsRHP": {
+            "woba": 0.323,
+            "wrcplus": 105,
+            "pa": 746
+          },
+          "vsLHP": {
+            "woba": 0.33,
+            "wrcplus": 110,
+            "pa": 285
+          }
+        }
+      }
+    },
+    "last30": {
+      "lgWobaVsLHP": 0.315,
+      "lgWobaVsRHP": 0.316,
+      "teams": {
+        "NYY": {
+          "vsRHP": {
+            "woba": 0.274,
+            "wrcplus": 71,
+            "pa": 615
+          },
+          "vsLHP": {
+            "woba": 0.298,
+            "wrcplus": 88,
+            "pa": 331
+          }
+        },
+        "SF": {
+          "vsRHP": {
+            "woba": 0.309,
+            "wrcplus": 95,
+            "pa": 746
+          },
+          "vsLHP": {
+            "woba": 0.398,
+            "wrcplus": 157,
+            "pa": 127
+          }
+        },
+        "CLE": {
+          "vsRHP": {
+            "woba": 0.294,
+            "wrcplus": 85,
+            "pa": 635
+          },
+          "vsLHP": {
+            "woba": 0.317,
+            "wrcplus": 101,
+            "pa": 305
+          }
+        },
+        "PIT": {
+          "vsRHP": {
+            "woba": 0.357,
+            "wrcplus": 128,
+            "pa": 602
+          },
+          "vsLHP": {
+            "woba": 0.289,
+            "wrcplus": 82,
+            "pa": 445
+          }
+        },
+        "NYM": {
+          "vsRHP": {
+            "woba": 0.33,
+            "wrcplus": 110,
+            "pa": 655
+          },
+          "vsLHP": {
+            "woba": 0.282,
+            "wrcplus": 77,
+            "pa": 296
+          }
+        },
+        "CWS": {
+          "vsRHP": {
+            "woba": 0.301,
+            "wrcplus": 90,
+            "pa": 570
+          },
+          "vsLHP": {
+            "woba": 0.272,
+            "wrcplus": 70,
+            "pa": 333
+          }
+        },
+        "PHI": {
+          "vsLHP": {
+            "woba": 0.303,
+            "wrcplus": 92,
+            "pa": 269
+          },
+          "vsRHP": {
+            "woba": 0.303,
+            "wrcplus": 91,
+            "pa": 582
+          }
+        },
+        "SD": {
+          "vsRHP": {
+            "woba": 0.329,
+            "wrcplus": 109,
+            "pa": 790
+          },
+          "vsLHP": {
+            "woba": 0.408,
+            "wrcplus": 164,
+            "pa": 133
+          }
+        },
+        "MIL": {
+          "vsRHP": {
+            "woba": 0.328,
+            "wrcplus": 108,
+            "pa": 900
+          },
+          "vsLHP": {
+            "woba": 0.331,
+            "wrcplus": 111,
+            "pa": 143
+          }
+        },
+        "WSH": {
+          "vsLHP": {
+            "woba": 0.422,
+            "wrcplus": 174,
+            "pa": 336
+          },
+          "vsRHP": {
+            "woba": 0.361,
+            "wrcplus": 131,
+            "pa": 582
+          }
+        },
+        "CHC": {
+          "vsRHP": {
+            "woba": 0.337,
+            "wrcplus": 114,
+            "pa": 680
+          },
+          "vsLHP": {
+            "woba": 0.371,
+            "wrcplus": 139,
+            "pa": 242
+          }
+        },
+        "MIN": {
+          "vsRHP": {
+            "woba": 0.316,
+            "wrcplus": 100,
+            "pa": 534
+          },
+          "vsLHP": {
+            "woba": 0.289,
+            "wrcplus": 82,
+            "pa": 325
+          }
+        },
+        "BAL": {
+          "vsLHP": {
+            "woba": 0.313,
+            "wrcplus": 98,
+            "pa": 384
+          },
+          "vsRHP": {
+            "woba": 0.323,
+            "wrcplus": 105,
+            "pa": 513
+          }
+        },
+        "BOS": {
+          "vsRHP": {
+            "woba": 0.34,
+            "wrcplus": 117,
+            "pa": 598
+          },
+          "vsLHP": {
+            "woba": 0.336,
+            "wrcplus": 114,
+            "pa": 352
+          }
+        },
+        "CIN": {
+          "vsLHP": {
+            "woba": 0.266,
+            "wrcplus": 66,
+            "pa": 219
+          },
+          "vsRHP": {
+            "woba": 0.329,
+            "wrcplus": 109,
+            "pa": 671
+          }
+        },
+        "LAA": {
+          "vsRHP": {
+            "woba": 0.28,
+            "wrcplus": 75,
+            "pa": 553
+          },
+          "vsLHP": {
+            "woba": 0.317,
+            "wrcplus": 101,
+            "pa": 260
+          }
+        },
+        "HOU": {
+          "vsRHP": {
+            "woba": 0.33,
+            "wrcplus": 110,
+            "pa": 638
+          },
+          "vsLHP": {
+            "woba": 0.289,
+            "wrcplus": 82,
+            "pa": 197
+          }
+        },
+        "DET": {
+          "vsRHP": {
+            "woba": 0.324,
+            "wrcplus": 106,
+            "pa": 648
+          },
+          "vsLHP": {
+            "woba": 0.301,
+            "wrcplus": 90,
+            "pa": 230
+          }
+        },
+        "TB": {
+          "vsRHP": {
+            "woba": 0.321,
+            "wrcplus": 103,
+            "pa": 729
+          },
+          "vsLHP": {
+            "woba": 0.271,
+            "wrcplus": 69,
+            "pa": 240
+          }
+        },
+        "STL": {
+          "vsRHP": {
+            "woba": 0.27,
+            "wrcplus": 68,
+            "pa": 616
+          },
+          "vsLHP": {
+            "woba": 0.291,
+            "wrcplus": 83,
+            "pa": 452
+          }
+        },
+        "TEX": {
+          "vsLHP": {
+            "woba": 0.341,
+            "wrcplus": 118,
+            "pa": 271
+          },
+          "vsRHP": {
+            "woba": 0.325,
+            "wrcplus": 106,
+            "pa": 586
+          }
+        },
+        "ARI": {
+          "vsRHP": {
+            "woba": 0.327,
+            "wrcplus": 107,
+            "pa": 796
+          },
+          "vsLHP": {
+            "woba": 0.342,
+            "wrcplus": 119,
+            "pa": 200
+          }
+        },
+        "LAD": {
+          "vsRHP": {
+            "woba": 0.32,
+            "wrcplus": 103,
+            "pa": 567
+          },
+          "vsLHP": {
+            "woba": 0.302,
+            "wrcplus": 91,
+            "pa": 297
+          }
+        },
+        "SEA": {
+          "vsRHP": {
+            "woba": 0.262,
+            "wrcplus": 62,
+            "pa": 570
+          },
+          "vsLHP": {
+            "woba": 0.35,
+            "wrcplus": 124,
+            "pa": 229
+          }
+        },
+        "OAK": {
+          "vsRHP": {
+            "woba": 0.311,
+            "wrcplus": 96,
+            "pa": 332
+          },
+          "vsLHP": {
+            "woba": 0.282,
+            "wrcplus": 77,
+            "pa": 445
+          }
+        },
+        "TOR": {
+          "vsRHP": {
+            "woba": 0.275,
+            "wrcplus": 72,
+            "pa": 685
+          },
+          "vsLHP": {
+            "woba": 0.303,
+            "wrcplus": 92,
+            "pa": 154
+          }
+        },
+        "COL": {
+          "vsRHP": {
+            "woba": 0.339,
+            "wrcplus": 116,
+            "pa": 485
+          },
+          "vsLHP": {
+            "woba": 0.298,
+            "wrcplus": 88,
+            "pa": 386
+          }
+        },
+        "MIA": {
+          "vsLHP": {
+            "woba": 0.34,
+            "wrcplus": 117,
+            "pa": 266
+          },
+          "vsRHP": {
+            "woba": 0.329,
+            "wrcplus": 109,
+            "pa": 644
+          }
+        },
+        "KC": {
+          "vsLHP": {
+            "woba": 0.34,
+            "wrcplus": 117,
+            "pa": 312
+          },
+          "vsRHP": {
+            "woba": 0.299,
+            "wrcplus": 88,
+            "pa": 588
+          }
+        },
+        "ATL": {
+          "vsRHP": {
+            "woba": 0.323,
+            "wrcplus": 105,
+            "pa": 746
+          },
+          "vsLHP": {
+            "woba": 0.33,
+            "wrcplus": 110,
+            "pa": 285
+          }
+        }
+      }
+    },
+    "last15": {
+      "lgWobaVsLHP": 0.309,
+      "lgWobaVsRHP": 0.314,
+      "teams": {
+        "NYY": {
+          "vsRHP": {
+            "woba": 0.252,
+            "wrcplus": 57,
+            "pa": 357
+          },
+          "vsLHP": {
+            "woba": 0.269,
+            "wrcplus": 72,
+            "pa": 184
+          }
+        },
+        "SF": {
+          "vsRHP": {
+            "woba": 0.292,
+            "wrcplus": 85,
+            "pa": 405
+          },
+          "vsLHP": {
+            "woba": 0.462,
+            "wrcplus": 205,
+            "pa": 50
+          }
+        },
+        "CLE": {
+          "vsRHP": {
+            "woba": 0.29,
+            "wrcplus": 84,
+            "pa": 380
+          },
+          "vsLHP": {
+            "woba": 0.298,
+            "wrcplus": 92,
+            "pa": 146
+          }
+        },
+        "PIT": {
+          "vsRHP": {
+            "woba": 0.337,
+            "wrcplus": 116,
+            "pa": 278
+          },
+          "vsLHP": {
+            "woba": 0.238,
+            "wrcplus": 51,
+            "pa": 286
+          }
+        },
+        "NYM": {
+          "vsRHP": {
+            "woba": 0.316,
+            "wrcplus": 101,
+            "pa": 381
+          },
+          "vsLHP": {
+            "woba": 0.26,
+            "wrcplus": 66,
+            "pa": 142
+          }
+        },
+        "CWS": {
+          "vsRHP": {
+            "woba": 0.301,
+            "wrcplus": 91,
+            "pa": 384
+          },
+          "vsLHP": {
+            "woba": 0.269,
+            "wrcplus": 72,
+            "pa": 120
+          }
+        },
+        "PHI": {
+          "vsLHP": {
+            "woba": 0.304,
+            "wrcplus": 97,
+            "pa": 149
+          },
+          "vsRHP": {
+            "woba": 0.316,
+            "wrcplus": 101,
+            "pa": 286
+          }
+        },
+        "SD": {
+          "vsLHP": {
+            "woba": 0.408,
+            "wrcplus": 168,
+            "pa": 133
+          },
+          "vsRHP": {
+            "woba": 0.355,
+            "wrcplus": 128,
+            "pa": 344
+          }
+        },
+        "MIL": {
+          "vsRHP": {
+            "woba": 0.331,
+            "wrcplus": 112,
+            "pa": 378
+          },
+          "vsLHP": {
+            "woba": 0.343,
+            "wrcplus": 123,
+            "pa": 70
+          }
+        },
+        "WSH": {
+          "vsLHP": {
+            "woba": 0.429,
+            "wrcplus": 183,
+            "pa": 251
+          },
+          "vsRHP": {
+            "woba": 0.335,
+            "wrcplus": 115,
+            "pa": 271
+          }
+        },
+        "CHC": {
+          "vsRHP": {
+            "woba": 0.335,
+            "wrcplus": 115,
+            "pa": 450
+          },
+          "vsLHP": {
+            "woba": 0.429,
+            "wrcplus": 182,
+            "pa": 90
+          }
+        },
+        "MIN": {
+          "vsLHP": {
+            "woba": 0.27,
+            "wrcplus": 73,
+            "pa": 244
+          },
+          "vsRHP": {
+            "woba": 0.279,
+            "wrcplus": 76,
+            "pa": 235
+          }
+        },
+        "BAL": {
+          "vsRHP": {
+            "woba": 0.287,
+            "wrcplus": 82,
+            "pa": 321
+          },
+          "vsLHP": {
+            "woba": 0.321,
+            "wrcplus": 108,
+            "pa": 207
+          }
+        },
+        "BOS": {
+          "vsRHP": {
+            "woba": 0.341,
+            "wrcplus": 119,
+            "pa": 394
+          },
+          "vsLHP": {
+            "woba": 0.347,
+            "wrcplus": 126,
+            "pa": 153
+          }
+        },
+        "CIN": {
+          "vsRHP": {
+            "woba": 0.313,
+            "wrcplus": 99,
+            "pa": 443
+          },
+          "vsLHP": {
+            "woba": 0.231,
+            "wrcplus": 46,
+            "pa": 38
+          }
+        },
+        "LAA": {
+          "vsRHP": {
+            "woba": 0.289,
+            "wrcplus": 83,
+            "pa": 300
+          },
+          "vsLHP": {
+            "woba": 0.305,
+            "wrcplus": 97,
+            "pa": 145
+          }
+        },
+        "HOU": {
+          "vsRHP": {
+            "woba": 0.327,
+            "wrcplus": 109,
+            "pa": 381
+          },
+          "vsLHP": {
+            "woba": 0.271,
+            "wrcplus": 74,
+            "pa": 83
+          }
+        },
+        "DET": {
+          "vsRHP": {
+            "woba": 0.348,
+            "wrcplus": 123,
+            "pa": 382
+          },
+          "vsLHP": {
+            "woba": 0.27,
+            "wrcplus": 73,
+            "pa": 123
+          }
+        },
+        "TB": {
+          "vsLHP": {
+            "woba": 0.271,
+            "wrcplus": 73,
+            "pa": 240
+          },
+          "vsRHP": {
+            "woba": 0.327,
+            "wrcplus": 109,
+            "pa": 295
+          }
+        },
+        "STL": {
+          "vsRHP": {
+            "woba": 0.272,
+            "wrcplus": 71,
+            "pa": 372
+          },
+          "vsLHP": {
+            "woba": 0.281,
+            "wrcplus": 80,
+            "pa": 197
+          }
+        },
+        "TEX": {
+          "vsLHP": {
+            "woba": 0.278,
+            "wrcplus": 79,
+            "pa": 148
+          },
+          "vsRHP": {
+            "woba": 0.336,
+            "wrcplus": 115,
+            "pa": 335
+          }
+        },
+        "ARI": {
+          "vsRHP": {
+            "woba": 0.359,
+            "wrcplus": 131,
+            "pa": 424
+          },
+          "vsLHP": {
+            "woba": 0.375,
+            "wrcplus": 146,
+            "pa": 155
+          }
+        },
+        "LAD": {
+          "vsRHP": {
+            "woba": 0.331,
+            "wrcplus": 112,
+            "pa": 346
+          },
+          "vsLHP": {
+            "woba": 0.336,
+            "wrcplus": 119,
+            "pa": 115
+          }
+        },
+        "SEA": {
+          "vsRHP": {
+            "woba": 0.256,
+            "wrcplus": 60,
+            "pa": 251
+          },
+          "vsLHP": {
+            "woba": 0.342,
+            "wrcplus": 123,
+            "pa": 188
+          }
+        },
+        "OAK": {
+          "vsRHP": {
+            "woba": 0.367,
+            "wrcplus": 137,
+            "pa": 153
+          },
+          "vsLHP": {
+            "woba": 0.309,
+            "wrcplus": 100,
+            "pa": 304
+          }
+        },
+        "TOR": {
+          "vsLHP": {
+            "woba": 0.307,
+            "wrcplus": 98,
+            "pa": 117
+          },
+          "vsRHP": {
+            "woba": 0.269,
+            "wrcplus": 69,
+            "pa": 354
+          }
+        },
+        "COL": {
+          "vsRHP": {
+            "woba": 0.303,
+            "wrcplus": 92,
+            "pa": 221
+          },
+          "vsLHP": {
+            "woba": 0.291,
+            "wrcplus": 87,
+            "pa": 187
+          }
+        },
+        "MIA": {
+          "vsRHP": {
+            "woba": 0.296,
+            "wrcplus": 88,
+            "pa": 366
+          },
+          "vsLHP": {
+            "woba": 0.296,
+            "wrcplus": 91,
+            "pa": 109
+          }
+        },
+        "KC": {
+          "vsRHP": {
+            "woba": 0.317,
+            "wrcplus": 102,
+            "pa": 412
+          },
+          "vsLHP": {
+            "woba": 0.255,
+            "wrcplus": 63,
+            "pa": 73
+          }
+        },
+        "ATL": {
+          "vsRHP": {
+            "woba": 0.334,
+            "wrcplus": 114,
+            "pa": 358
+          },
+          "vsLHP": {
+            "woba": 0.308,
+            "wrcplus": 99,
+            "pa": 206
+          }
+        }
+      }
+    }
+  }
+}
