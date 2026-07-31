@@ -271,7 +271,9 @@ async function renderMLBFadeML() {
   // season). `wrcTeams` is reassigned when the window changes (see the table's
   // Window select), and the plays are repainted. Falls back to FanGraphs if the
   // computed season is empty.
-  let wrcTeams = teamsForWindow('season');
+  const DEFAULT_WRC_WIN = 'last30';
+  let wrcTeams = teamsForWindow(DEFAULT_WRC_WIN);
+  if (!Object.keys(wrcTeams).length) wrcTeams = teamsForWindow('season');
   if (!Object.keys(wrcTeams).length) wrcTeams = teamsForWindow('fg');
   // A "TEAM NN vs XHP" chip (green above 100, red below). `label` adds "wRC+".
   const wrcChip = (team, v, h, label) => {
@@ -413,7 +415,7 @@ async function renderMLBFadeML() {
     const w = tCard.querySelector('#playsWrcWin');
     if (w) w.textContent = 'wRC+ chips: ' + (wrcTeamsWindowLabel || 'Season') + ' (change via the wRC+ table below)';
   }
-  let wrcTeamsWindowLabel = 'Season';
+  let wrcTeamsWindowLabel = 'Last 30 days';
   paintTodayPlays();
   el.appendChild(tCard);
 
@@ -812,6 +814,7 @@ async function renderMLBFadeML() {
     if (wobaWins.last15) winOpts.push({ key: 'last15', label: 'Last 15 days' });
     if (wobaWins.last20) winOpts.push({ key: 'last20', label: 'Last 20 days' });
     if (wobaWins.last30) winOpts.push({ key: 'last30', label: 'Last 30 days' });
+    if (wobaWins.last45) winOpts.push({ key: 'last45', label: 'Last 45 days' });
     if (wobaWins.last60) winOpts.push({ key: 'last60', label: 'Last 60 days' });
     monthKeys.forEach(m => winOpts.push({ key: m, label: MONW[+m.slice(5)] + ' ' + m.slice(0, 4) }));
 
@@ -838,7 +841,10 @@ async function renderMLBFadeML() {
         + '<span class="card-title" style="padding:0">Team wRC+ by Opposing Starter Hand</span>'
         + '<label style="font-size:11px;color:#888">Window '
         + '<select id="wrcWinSel" style="' + selCss + '">'
-        + winOpts.map((w, i) => '<option value="' + esc(w.key) + '"' + (i === 0 ? ' selected' : '') + '>' + esc(w.label) + '</option>').join('')
+        + (function () {
+          const defKey = winOpts.some(w => w.key === DEFAULT_WRC_WIN) ? DEFAULT_WRC_WIN : (winOpts[0] || {}).key;
+          return winOpts.map(w => '<option value="' + esc(w.key) + '"' + (w.key === defKey ? ' selected' : '') + '>' + esc(w.label) + '</option>').join('');
+        })()
         + '</select></label>'
         + '<label style="font-size:11px;color:#888">Venue '
         + '<select id="wrcVenueSel" style="' + selCss + '">'

@@ -115,7 +115,7 @@ def build():
             return lambda d: d >= cutoff
         return lambda d: d.startswith(name)      # a month "YYYY-MM"
 
-    windows = ["season"] + months + ["last15", "last20", "last30", "last60"]
+    windows = ["season"] + months + ["last15", "last20", "last30", "last45", "last60"]
     out = {}
     for wname in windows:
         keep = window_pred(wname)
