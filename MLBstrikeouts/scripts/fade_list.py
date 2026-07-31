@@ -73,7 +73,7 @@ FADE_VENUE = {
     "Springs": "home",         # away 6-4 +0.0u (flat); home 7-4 +4.2u
     "Burrows": "home",         # away 5-4 -0.0u (flat); home 6-2 +4.0u
     "Roupp": "away",           # home 5-3 +1.4u; away 8-4 +2.6u
-    "Zebby Matthews": "home",  # away 4-3 -0.2u (flat); home 4-2 +2.6u
+    "Zebby Matthews": "away",  # 2026-07-31: flipped home->away-only (ERA 7.58 away vs 2.84 home). NB in-sample fade P&L favored home (home 4-2 +2.6u; away 4-3 -0.2u flat) -- betting the skill split over the ML record
     "Lowder": "away",          # home 2-3 -1.9u; away 7-3 +2.8u
     "Grayson Rodriguez": "home",  # away 1-2 -1.9u; home 5-1 +3.7u
     # Added 2026-07-27 (all-pitcher screen): venue-restricted.
