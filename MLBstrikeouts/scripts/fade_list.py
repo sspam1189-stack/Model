@@ -184,7 +184,7 @@ FADE_WINDOW = {
     "Logan Webb":        {"add": SEASON_START},
     "Lodolo":            {"add": SEASON_START},  # home-only (see FADE_VENUE)
     "Michael King":      {"add": SEASON_START},
-    "Mize":              {"add": SEASON_START},
+    "Mize":              {"add": SEASON_START, "remove": "2026-07-31"},  # removed 7/31: 2.70 ERA (elite); fade was pure market-pricing, too fragile
     "Bryce Miller":      {"add": SEASON_START},
     "Yesavage":          {"add": SEASON_START},  # away-only (see FADE_VENUE)
     "Imanaga":           {"add": SEASON_START},  # away-only (see FADE_VENUE)
