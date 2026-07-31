@@ -850,7 +850,8 @@ async function renderMLBFadeML() {
         + '<div id="wrcMatchups" style="display:flex;gap:6px;flex-wrap:wrap;padding:0 8px 6px"></div>'
         + '<div id="wrcNote" style="font-size:11px;color:#888;padding:0 8px 6px"></div>'
         + '<div id="wrcWrap" style="overflow-x:auto"></div>';
-      el.appendChild(wrcCard);
+      // Place the wRC+ card between Today's plays and the Season bet log.
+      el.insertBefore(wrcCard, log);
 
       const wrcWrap = wrcCard.querySelector('#wrcWrap');
       const wrcTeamSel = wrcCard.querySelector('#wrcTeamSel');
