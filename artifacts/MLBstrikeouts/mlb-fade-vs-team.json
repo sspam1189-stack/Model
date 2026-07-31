@@ -1,17 +1,17 @@
 {
   "sport": "MLB",
   "type": "fade-vs-team",
-  "generated": "2026-07-31T20:10:01Z",
+  "generated": "2026-07-31T21:04:46Z",
   "seasonStart": "2026-04-05",
   "minStarts": 2,
   "fadeEra": 8.0,
   "note": "Pitcher-vs-team FADE: bet the opponent's ML when the pitcher faces that team. Set = curated (FADE_VS_TEAM) + auto-promoted (>= 2 starts vs the team, ERA >= 8.0 vs them). In-sample season replay (flat 1u); data only, not wired into the fade model. Watch tier (6 <= ERA < 8.0) is in mlb-fade-vs-team-watch.json.",
   "overall": {
-    "w": 51,
+    "w": 48,
     "l": 20,
-    "u": 32.26,
-    "n": 71,
-    "roi": 0.3427
+    "u": 28.06,
+    "n": 68,
+    "roi": 0.31
   },
   "today": [],
   "entries": [
@@ -226,33 +226,6 @@
       ]
     },
     {
-      "pitcher": "Kodai Senga",
-      "opp": "COL",
-      "arm_team": "NYM",
-      "source": "auto",
-      "record": {
-        "w": 1,
-        "l": 0,
-        "u": 2.2,
-        "n": 1,
-        "roi": 2.2
-      },
-      "eraVsOpp": 10.12,
-      "ipVsOpp": 5.3,
-      "erVsOpp": 6,
-      "startsVsOpp": 2,
-      "starts": [
-        {
-          "date": "2026-04-26",
-          "venue": "home",
-          "matchup": "COL @ NYM",
-          "selection": "COL",
-          "opp_ml": 220,
-          "result": "win"
-        }
-      ]
-    },
-    {
       "pitcher": "Anthony Kay",
       "opp": "NYY",
       "arm_team": "CWS",
@@ -318,41 +291,6 @@
           "matchup": "SEA @ HOU",
           "selection": "SEA",
           "opp_ml": -200,
-          "result": "win"
-        }
-      ]
-    },
-    {
-      "pitcher": "Kodai Senga",
-      "opp": "CHC",
-      "arm_team": "NYM",
-      "source": "auto",
-      "record": {
-        "w": 2,
-        "l": 0,
-        "u": 2.0,
-        "n": 2,
-        "roi": 0.7634
-      },
-      "eraVsOpp": 16.71,
-      "ipVsOpp": 7.0,
-      "erVsOpp": 13,
-      "startsVsOpp": 2,
-      "starts": [
-        {
-          "date": "2026-04-17",
-          "venue": "away",
-          "matchup": "NYM @ CHC",
-          "selection": "CHC",
-          "opp_ml": -154,
-          "result": "win"
-        },
-        {
-          "date": "2026-06-23",
-          "venue": "home",
-          "matchup": "CHC @ NYM",
-          "selection": "CHC",
-          "opp_ml": -108,
           "result": "win"
         }
       ]
