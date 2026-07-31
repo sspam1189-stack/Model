@@ -832,7 +832,7 @@ async function renderMLBFadeML() {
       // Today's slate -> matchup filter buttons. Click one to show only that
       // game's two teams; "All" clears it.
       const todayGames = ((allmlData && allmlData.today) || []).filter(g => g.away && g.home);
-      let wrcMatchup = null;   // [away, home] or null
+      let wrcMatchup = null;   // today's game object (has hands) or null
       let wrcSort = { col: 'team', dir: 1 };
       const arrow = (c) => wrcSort.col === c ? (wrcSort.dir > 0 ? ' ▲' : ' ▼') : '';
 
@@ -840,9 +840,46 @@ async function renderMLBFadeML() {
         const win = wrcWinSel.value;
         const isFg = win === 'fg';
         const teams = teamsFor(win);
+        // PA hint (computed windows only) so small samples are visible.
+        const paTag = (n) => (isFg || n == null) ? '' : ' <span style="color:#666;font-weight:400;font-size:10px">(' + n + ')</span>';
+        const noteBase = isFg
+          ? ((wrcData.season ? esc(wrcData.season) + ' ' : '') + 'FanGraphs true wRC+ (park + league adjusted)'
+            + (wrcData.asOf ? ' · as of ' + esc(wrcData.asOf) : '') + ' · 100 = league avg · view-only')
+          : ('Self-computed <b>park-adjusted wRC+</b> (PA-weighted by parks played; ≈FG ±6 pts) · '
+            + 'through ' + esc(wobaData.throughDate || '?') + ' · (n) = PA · 100 = league avg · view-only');
+
+        // FOCUSED matchup mode: a game is selected AND both starters' hands are
+        // known -> show ONLY each team vs the hand of the pitcher it faces.
+        const g = wrcMatchup;
+        const knownHand = (h) => h === 'L' || h === 'R';
+        if (g && knownHand(g.away_hand) && knownHand(g.home_hand)) {
+          const sides = [
+            { team: g.away, faceHand: g.home_hand, sp: g.home_pitcher },   // away bats vs home SP
+            { team: g.home, faceHand: g.away_hand, sp: g.away_pitcher },   // home bats vs away SP
+          ];
+          const rows = sides.map(s => {
+            const tm = teams[s.team] || {};
+            const isL = s.faceHand === 'L';
+            return '<tr><td style="padding:4px 10px;font-weight:600">' + esc(s.team) + '</td>'
+              + '<td style="padding:4px 10px;color:#bbb">' + esc(s.sp || '?')
+              + ' <span style="color:#7aa2d6;font-size:11px;font-weight:600">(' + s.faceHand + 'HP)</span></td>'
+              + wrcCell(isL ? tm.vsLHP : tm.vsRHP).replace('</td>', paTag(isL ? tm.paL : tm.paR) + '</td>') + '</tr>';
+          }).join('');
+          wrcWrap.innerHTML =
+            '<table style="width:100%;border-collapse:collapse;font-size:13px">'
+            + '<thead><tr style="color:#888;text-align:left;border-bottom:1px solid #333">'
+            + '<th style="padding:4px 10px">Team</th>'
+            + '<th style="padding:4px 10px">Opposing starter</th>'
+            + '<th style="padding:4px 10px;text-align:right">wRC+ vs their hand</th>'
+            + '</tr></thead><tbody>' + rows + '</tbody></table>';
+          wrcNote.innerHTML = '<b>' + esc(g.away) + ' @ ' + esc(g.home) + '</b> — each team vs the hand it faces · ' + noteBase;
+          return;
+        }
+
+        // Normal table (All, single team, or matchup with unknown hands).
         const only = wrcTeamSel.value;
         let list = Object.keys(teams).map(t => ({ team: t, ...teams[t] }));
-        if (wrcMatchup) list = list.filter(r => wrcMatchup.includes(r.team));
+        if (g) list = list.filter(r => r.team === g.away || r.team === g.home);
         if (only) list = list.filter(r => r.team === only);
         list.sort((a, b) => {
           let av, bv;
@@ -850,8 +887,6 @@ async function renderMLBFadeML() {
           else { av = a[wrcSort.col] == null ? -Infinity : a[wrcSort.col]; bv = b[wrcSort.col] == null ? -Infinity : b[wrcSort.col]; }
           return av < bv ? -wrcSort.dir : av > bv ? wrcSort.dir : 0;
         });
-        // PA hint (computed windows only) so small samples are visible.
-        const paTag = (n) => (isFg || n == null) ? '' : ' <span style="color:#666;font-weight:400;font-size:10px">(' + n + ')</span>';
         const rows = list.map(r =>
           '<tr><td style="padding:4px 10px;font-weight:600">' + esc(r.team) + '</td>'
           + wrcCell(r.vsLHP).replace('</td>', paTag(r.paL) + '</td>')
@@ -863,11 +898,7 @@ async function renderMLBFadeML() {
           + '<th data-c="vsLHP" style="padding:4px 10px;text-align:right;cursor:pointer">wRC+ vs LHP' + arrow('vsLHP') + '</th>'
           + '<th data-c="vsRHP" style="padding:4px 10px;text-align:right;cursor:pointer">wRC+ vs RHP' + arrow('vsRHP') + '</th>'
           + '</tr></thead><tbody>' + rows + '</tbody></table>';
-        wrcNote.innerHTML = isFg
-          ? ((wrcData.season ? esc(wrcData.season) + ' ' : '') + 'FanGraphs true wRC+ (park + league adjusted)'
-            + (wrcData.asOf ? ' · as of ' + esc(wrcData.asOf) : '') + ' · 100 = league avg · view-only')
-          : ('Self-computed <b>park-adjusted wRC+</b> (PA-weighted by parks played; ≈FG ±6 pts) · '
-            + 'through ' + esc(wobaData.throughDate || '?') + ' · (n) = PA · 100 = league avg · view-only');
+        wrcNote.innerHTML = noteBase;
         wrcWrap.querySelectorAll('th[data-c]').forEach(th => th.addEventListener('click', () => {
           const c = th.getAttribute('data-c');
           if (wrcSort.col === c) wrcSort.dir *= -1;
@@ -880,17 +911,17 @@ async function renderMLBFadeML() {
         if (!todayGames.length) { wrcMatchupsEl.style.display = 'none'; return; }
         const btnBase = 'font-size:11px;padding:3px 9px;border-radius:12px;border:1px solid #333;background:#1b1b1b;color:#ccc;cursor:pointer;white-space:nowrap';
         const btnOn = 'font-size:11px;padding:3px 9px;border-radius:12px;border:1px solid var(--blue,#4c9be8);background:rgba(76,155,232,0.20);color:#fff;cursor:pointer;white-space:nowrap';
-        const cur = wrcMatchup ? wrcMatchup.join('|') : '';
-        const btns = [{ label: 'All', teams: null }]
-          .concat(todayGames.map(g => ({ label: g.away + ' vs ' + g.home, teams: [g.away, g.home] })));
+        const cur = wrcMatchup ? (wrcMatchup.away + '@' + wrcMatchup.home) : '';
+        const btns = [{ label: 'All', game: null }]
+          .concat(todayGames.map(g => ({ label: g.away + ' vs ' + g.home, game: g })));
         wrcMatchupsEl.innerHTML = btns.map((b, i) => {
-          const on = (b.teams ? b.teams.join('|') : '') === cur;
+          const on = (b.game ? (b.game.away + '@' + b.game.home) : '') === cur;
           return '<button data-i="' + i + '" style="' + (on ? btnOn : btnBase) + '">' + esc(b.label) + '</button>';
         }).join('');
         wrcMatchupsEl.querySelectorAll('button').forEach(btn => btn.addEventListener('click', () => {
           const b = btns[+btn.getAttribute('data-i')];
-          wrcMatchup = b.teams;
-          if (b.teams) wrcTeamSel.value = '';   // matchup and single-team filters are exclusive
+          wrcMatchup = b.game;
+          if (b.game) wrcTeamSel.value = '';   // matchup and single-team filters are exclusive
           renderMatchupBtns();
           drawWrc();
         }));
