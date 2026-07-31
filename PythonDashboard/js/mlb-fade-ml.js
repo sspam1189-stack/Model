@@ -154,7 +154,9 @@ async function renderMLBFadeML() {
   const s = data.summary || {};
   const bt = s.byType || {};
 
-  // ---- Overall banner ----
+  // ---- Combined banner: fade-list ML + hand-fade ML ----
+  const TEAL = 'var(--green,#3fb950)';
+  const hf = (((tailData || {}).summary || {}).byAction || {}).fade || null;
   const banner = document.createElement('div');
   banner.className = 'card';
   banner.style.cssText = 'margin-bottom:14px;border:1px solid ' + ORANGE + ';background:rgba(232,163,61,0.08);padding:14px 18px';
@@ -163,15 +165,29 @@ async function renderMLBFadeML() {
     + '<div style="font-size:22px;font-weight:700;color:' + (color || '#eee') + '">' + val + '</div>'
     + '<div style="font-size:11px;color:#aaa;text-transform:uppercase;letter-spacing:.04em">' + label + '</div></div>';
   const uStr = (u) => (u >= 0 ? '+' : '') + (u || 0).toFixed(2) + 'u';
+  const roiPct = (r) => ((r >= 0 ? '+' : '') + ((r || 0) * 100).toFixed(1)) + '%';
+  // Combined total = venue fade-list + hand-fade.
+  const cW = (s.wins || 0) + ((hf && hf.wins) || 0);
+  const cL = (s.losses || 0) + ((hf && hf.losses) || 0);
+  const cU = (s.units || 0) + ((hf && hf.units) || 0);
+  const cStk = (s.staked || 0) + ((hf && hf.staked) || 0);
+  const cRoi = cStk ? cU / cStk : 0;
+  const subLine = (color, title, r, extra) =>
+    '<div style="border-top:1px solid rgba(255,255,255,0.08);padding-top:8px;margin-top:8px">'
+    + '<div style="font-size:12px;color:' + color + ';font-weight:600">' + title + '</div>'
+    + '<div style="font-size:15px;font-weight:700;margin-top:2px">' + (r.wins || 0) + '–' + (r.losses || 0)
+    + ' <span style="font-size:13px;color:' + uColor(r.units) + '">' + uStr(r.units) + ' · ' + roiPct(r.roi) + '</span>'
+    + ' <span style="font-size:11px;color:#888;font-weight:400">· ' + (r.staked || 0).toFixed(1) + 'u risked' + (extra || '') + '</span></div></div>';
   banner.innerHTML =
-    '<div style="font-weight:600;color:' + ORANGE + ';margin-bottom:10px">Fade-list moneyline — fade the pitcher, underdog on mutual</div>'
+    '<div style="font-weight:600;color:' + ORANGE + ';margin-bottom:10px">Fade ML — combined (venue + hand)</div>'
     + '<div style="display:flex;gap:20px;flex-wrap:wrap;align-items:center">'
-    + bigStat('Record', (s.wins || 0) + '–' + (s.losses || 0))
-    + bigStat('Units', uStr(s.units), uColor(s.units))
-    + bigStat('ROI', ((s.roi >= 0 ? '+' : '') + ((s.roi || 0) * 100).toFixed(1)) + '%', uColor(s.units))
-    + bigStat('Risked', (s.staked || 0).toFixed(1) + 'u')
-    + bigStat('Voids', (s.voids || 0))
-    + '</div>';
+    + bigStat('Record', cW + '–' + cL)
+    + bigStat('Units', uStr(cU), uColor(cU))
+    + bigStat('ROI', roiPct(cRoi), uColor(cU))
+    + bigStat('Risked', cStk.toFixed(1) + 'u')
+    + '</div>'
+    + subLine(ORANGE, 'Fade-list moneyline — fade the pitcher, underdog on mutual', s, ' · ' + (s.voids || 0) + ' voids')
+    + (hf && (hf.wins || hf.losses) ? subLine(TEAL, 'Hand-fade ML — fade the arm on 6+ opposite-hand lineups', hf, '') : '');
   el.appendChild(banner);
 
   // ---- Per-type sub-records ----
@@ -196,31 +212,12 @@ async function renderMLBFadeML() {
   });
   el.appendChild(chips);
 
-  // ---- Hand-tails FADE banner (own ledger; fade-only as of 2026-07-28) ----
-  const hf = (((tailData || {}).summary || {}).byAction || {}).fade;
-  if (hf && (hf.wins || hf.losses)) {
-    const TEAL = 'var(--green,#3fb950)';
-    const tb = document.createElement('div');
-    tb.className = 'card';
-    tb.style.cssText = 'margin-bottom:14px;border:1px solid ' + TEAL + ';background:rgba(63,185,80,0.07);padding:14px 18px';
-    tb.innerHTML =
-      '<div style="font-weight:600;color:' + TEAL + ';margin-bottom:10px">Hand-fade ML — fade the arm on 6+ opposite-hand lineups</div>'
-      + '<div style="display:flex;gap:20px;flex-wrap:wrap;align-items:center">'
-      + bigStat('Record', (hf.wins || 0) + '–' + (hf.losses || 0))
-      + bigStat('Units', uStr(hf.units), uColor(hf.units))
-      + bigStat('ROI', ((hf.roi >= 0 ? '+' : '') + ((hf.roi || 0) * 100).toFixed(1)) + '%', uColor(hf.units))
-      + bigStat('Risked', (hf.staked || 0).toFixed(1) + 'u')
-      + '</div>';
-    el.appendChild(tb);
-  }
-
   // ---- Today's plays ----
   // Fade-list ML picks plus the handedness-driven hand-tails picks, each tagged
   // with WHY it fired so all four reasons are distinguishable at a glance:
   //   Fade X (team) @ away/home/all  — fade-list arm (reason = venue split)
   //   Fade X (team) @ handedness     — hand-tails fade (6+ opposite-hand lineup)
   //   Tail X (team) handedness       — hand-tails take (6+ opposite-hand lineup)
-  const TEAL = 'var(--green,#3fb950)';
   const tCard = document.createElement('div');
   tCard.className = 'card';
   tCard.style.cssText = 'margin-bottom:16px;padding:12px 16px';

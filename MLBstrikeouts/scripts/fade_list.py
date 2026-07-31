@@ -152,7 +152,7 @@ FADE_WINDOW = {
     "Baz":            {"add": SEASON_START},  # backfilled: faded all season
     "Noah Schultz":   {"add": SEASON_START},  # backfilled: faded all season
     "Lowder":         {"add": SEASON_START},  # backfilled: faded all season
-    "Skenes":         {"add": SEASON_START},  # backfilled: faded all season (market overprices PIT on his starts)
+    "Skenes":         {"add": SEASON_START, "remove": "2026-07-31"},  # removed 7/31: elite arm, fade was pure market-pricing (PIT overpriced) -- too fragile
     # Added mid-season: good before, fade-worthy from these dates on.
     "Dustin May":        {"add": "2026-07-18"},
     "Grayson Rodriguez": {"add": SEASON_START},  # 2026-07-27: home-only (FADE_VENUE), full season
