@@ -23,7 +23,9 @@ FADE_LIST = [
     "Bibee", "Springs", "Burrows", "Roupp", "Keller", "Peralta", "Canning",
     "Jacob Lopez", "Ryan Johnson", "Dustin May",
     "Grayson Rodriguez", "Bryan Woo", "Freeland", "Baz", "Noah Schultz",
-    "Lowder", "Zebby Matthews", "Skenes",
+    "Lowder", "Skenes",
+    # Zebby Matthews moved to the fade WATCHLIST 2026-08-01 (removed from active
+    # roster; fade_watch surfaces his home side 4-2 +2.62u). Re-add if it holds.
     # Added 2026-07-27 from fade-candidate analysis (forward-only from that date).
     "Paddack", "Noah Cameron", "Gausman", "Woods Richardson", "Luis Castillo",
     "Framber Valdez", "Kochanowicz", "Jack Flaherty", "Cecconi",
@@ -77,15 +79,7 @@ FADE_VENUE = {
     "Springs": "home",         # away 6-4 +0.0u (flat); home 7-4 +4.2u
     "Burrows": "home",         # away 5-4 -0.0u (flat); home 6-2 +4.0u
     "Roupp": "away",           # home 5-3 +1.4u; away 8-4 +2.6u
-    # Date-scoped venue: away-only through 2026-07-31 (this is how he was
-    # faded up to and incl. today — that history stays), then home-only from
-    # 2026-08-01 on (user: "home starting tomorrow"). No retroactive re-grade.
-    # ERA split 7.58 away vs 2.84 home; in-sample fade P&L favors home (home
-    # 4-2 +2.6u; away 4-3 -0.2u flat).
-    "Zebby Matthews": [
-        {"from": "2026-04-05", "venue": "away"},   # SEASON_START (defined below)
-        {"from": "2026-08-01", "venue": "home"},
-    ],
+    # Zebby Matthews moved to watchlist 2026-08-01 (see FADE_LIST note).
     "Lowder": "away",          # home 2-3 -1.9u; away 7-3 +2.8u
     "Grayson Rodriguez": "home",  # away 1-2 -1.9u; home 5-1 +3.7u
     # Added 2026-07-27 (all-pitcher screen): venue-restricted.
@@ -185,7 +179,7 @@ FADE_WINDOW = {
     "Dustin May":        {"add": "2026-07-18"},
     "Grayson Rodriguez": {"add": SEASON_START},  # 2026-07-27: home-only (FADE_VENUE), full season
     "Bryan Woo":         {"add": SEASON_START},  # away-only (see FADE_VENUE); backfilled full season 2026-07-28
-    "Zebby Matthews":    {"add": SEASON_START},  # date-scoped venue (FADE_VENUE): away thru 7/31, home from 8/1
+    # Zebby Matthews: moved to watchlist 2026-08-01 (removed from active roster).
     # Added 2026-07-27 from fade-candidate analysis — backfilled to season
     # start so their full-season fade history is on the record. Venue-
     # restricted arms are faded all season but only on the required side.
