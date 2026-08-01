@@ -114,6 +114,12 @@ FADE_VENUE = {
     # 2026-08-01 (user): away-only. Away ERA 6.56 vs 3.86 home, K% 27->19 on
     # the road; away fade 4-1 +2.52u (+34%) vs home 4-5 -1.50u. Away-side edge.
     "Prielipp": "away",
+    # 2026-08-01 (user): date-scoped away-only from 8/1 (all-venue through 7/31,
+    # 14-5 history stays). Fade P&L is almost all road: away 9-1 +8.06u (+59.5%)
+    # vs home 5-4 +1.06u (+11.4%). Drops the 8/1 home BAL->PHI fade.
+    "Baz": [
+        {"from": "2026-08-01", "venue": "away"},
+    ],
 }
 
 # Matchup fade list: fade the pitcher (bet the OPPONENT's ML) ONLY when he
