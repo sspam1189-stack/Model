@@ -1,13 +1,34 @@
 {
   "sport": "MLB",
   "type": "hand-tails-watch",
-  "generated": "2026-08-01T00:33:32Z",
+  "generated": "2026-08-01T04:07:13Z",
   "handMin": 6,
   "minGames": 3,
   "minUnits": 2.5,
   "minUnitsTake": 4.0,
   "note": "Shadow review list -- arms NOT on the active hand-tails list showing a handedness-conditional edge (fade or take). The active list is fade-only, so all tail/take arms are review-only here. In-sample season replay; watch, don't bet.",
   "today": [
+    {
+      "date": "2026-07-31",
+      "commence": "2026-07-31T23:10:00Z",
+      "betType": "watch_fade",
+      "action": "fade",
+      "watch": true,
+      "pitcher": "Tanner Bibee",
+      "hand": "R",
+      "arm_team": "CLE",
+      "opp_team": "ARI",
+      "selection": "ARI",
+      "home": "CLE",
+      "away": "ARI",
+      "oppLefty": 7,
+      "oppRighty": 6,
+      "odds": 124,
+      "suggest": "fade",
+      "suggestUnits": 3.52,
+      "games": 7,
+      "result": "pending"
+    },
     {
       "date": "2026-07-31",
       "commence": "2026-07-31T23:10:00Z",
@@ -25,8 +46,8 @@
       "oppRighty": 4,
       "odds": -126,
       "suggest": "take",
-      "suggestUnits": 6.36,
-      "games": 6,
+      "suggestUnits": 5.1,
+      "games": 7,
       "result": "pending"
     },
     {
@@ -42,12 +63,12 @@
       "selection": "COL",
       "home": "COL",
       "away": "KC",
-      "oppLefty": 7,
+      "oppLefty": 6,
       "oppRighty": 4,
       "odds": -102,
       "suggest": "take",
-      "suggestUnits": 4.38,
-      "games": 3,
+      "suggestUnits": 5.38,
+      "games": 4,
       "result": "pending"
     }
   ],
@@ -89,24 +110,6 @@
       "era": 2.76
     },
     {
-      "pitcher": "Nick Martinez",
-      "hand": "R",
-      "games": 6,
-      "suggest": "take",
-      "suggestUnits": 6.36,
-      "fade": {
-        "w": 0,
-        "l": 6,
-        "u": -6.9
-      },
-      "take": {
-        "w": 6,
-        "l": 0,
-        "u": 6.36
-      },
-      "era": 2.45
-    },
-    {
       "pitcher": "J.T. Ginn",
       "hand": "R",
       "games": 9,
@@ -123,6 +126,42 @@
         "u": 5.9
       },
       "era": 3.34
+    },
+    {
+      "pitcher": "Tomoyuki Sugano",
+      "hand": "R",
+      "games": 4,
+      "suggest": "take",
+      "suggestUnits": 5.38,
+      "fade": {
+        "w": 0,
+        "l": 4,
+        "u": -6.26
+      },
+      "take": {
+        "w": 4,
+        "l": 0,
+        "u": 5.38
+      },
+      "era": 4.69
+    },
+    {
+      "pitcher": "Nick Martinez",
+      "hand": "R",
+      "games": 7,
+      "suggest": "take",
+      "suggestUnits": 5.1,
+      "fade": {
+        "w": 1,
+        "l": 6,
+        "u": -5.72
+      },
+      "take": {
+        "w": 6,
+        "l": 1,
+        "u": 5.1
+      },
+      "era": 2.45
     },
     {
       "pitcher": "Matthew Boyd",
@@ -213,24 +252,6 @@
         "u": 4.62
       },
       "era": 4.28
-    },
-    {
-      "pitcher": "Tomoyuki Sugano",
-      "hand": "R",
-      "games": 3,
-      "suggest": "take",
-      "suggestUnits": 4.38,
-      "fade": {
-        "w": 0,
-        "l": 3,
-        "u": -5.2
-      },
-      "take": {
-        "w": 3,
-        "l": 0,
-        "u": 4.38
-      },
-      "era": 4.69
     },
     {
       "pitcher": "Merrill Kelly",
@@ -357,6 +378,24 @@
         "u": -4.04
       },
       "era": 5.12
+    },
+    {
+      "pitcher": "Tanner Bibee",
+      "hand": "R",
+      "games": 7,
+      "suggest": "fade",
+      "suggestUnits": 3.52,
+      "fade": {
+        "w": 5,
+        "l": 2,
+        "u": 3.52
+      },
+      "take": {
+        "w": 2,
+        "l": 5,
+        "u": -4.56
+      },
+      "era": 3.89
     },
     {
       "pitcher": "Jack Perkins",

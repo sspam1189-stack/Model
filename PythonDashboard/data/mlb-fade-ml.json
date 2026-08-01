@@ -1,7 +1,7 @@
 {
   "sport": "MLB",
   "type": "fade-ml",
-  "generated": "2026-08-01T00:31:48Z",
+  "generated": "2026-08-01T04:05:31Z",
   "fadeList": [
     "Painter",
     "Rocker",
@@ -72,22 +72,22 @@
   ],
   "mutualRule": "underdog_min",
   "summary": {
-    "wins": 412,
+    "wins": 416,
     "losses": 141,
     "voids": 0,
     "skips": 34,
-    "staked": 684.37,
-    "units": 283.55,
-    "roi": 0.4143,
+    "staked": 688.53,
+    "units": 287.83,
+    "roi": 0.418,
     "byType": {
       "ml": {
-        "wins": 403,
+        "wins": 407,
         "losses": 134,
         "voids": 0,
         "skips": 0,
-        "staked": 668.37,
-        "units": 278.77,
-        "roi": 0.4171
+        "staked": 672.53,
+        "units": 283.05,
+        "roi": 0.4209
       },
       "ml_dog": {
         "wins": 9,
@@ -101,102 +101,6 @@
     }
   },
   "today": [
-    {
-      "date": "2026-07-31",
-      "commence": "2026-07-31T23:10:00Z",
-      "betType": "ml",
-      "shadow": false,
-      "pitchers": [
-        "Tanner Bibee"
-      ],
-      "fadeTeam": "CLE",
-      "market": "h2h",
-      "selection": "ARI",
-      "line": null,
-      "odds": 124,
-      "stake": 1.0,
-      "result": "pending",
-      "profit": 0.0,
-      "book": "fanduel",
-      "source": "fanduel_api",
-      "reason": null,
-      "home": "CLE",
-      "away": "ARI",
-      "gamePk": 824407,
-      "fadeReason": "home"
-    },
-    {
-      "date": "2026-07-31",
-      "commence": "2026-08-01T00:40:00Z",
-      "betType": "ml",
-      "shadow": false,
-      "pitchers": [
-        "Michael Wacha"
-      ],
-      "fadeTeam": "KC",
-      "market": "h2h",
-      "selection": "COL",
-      "line": null,
-      "odds": -102,
-      "stake": 1.02,
-      "result": "pending",
-      "profit": 0.0,
-      "book": "fanduel",
-      "source": "fanduel_api",
-      "reason": null,
-      "home": "COL",
-      "away": "KC",
-      "gamePk": 824325,
-      "fadeReason": "away"
-    },
-    {
-      "date": "2026-07-31",
-      "commence": "2026-07-31T23:10:00Z",
-      "betType": "ml",
-      "shadow": false,
-      "pitchers": [
-        "Kodai Senga"
-      ],
-      "fadeTeam": "NYM",
-      "market": "h2h",
-      "selection": "MIA",
-      "line": null,
-      "odds": 104,
-      "stake": 1.0,
-      "result": "pending",
-      "profit": 0.0,
-      "book": "fanduel",
-      "source": "fanduel_api",
-      "reason": null,
-      "home": "NYM",
-      "away": "MIA",
-      "gamePk": 823593,
-      "fadeReason": "all"
-    },
-    {
-      "date": "2026-07-31",
-      "commence": "2026-07-31T23:05:00Z",
-      "betType": "ml",
-      "shadow": false,
-      "pitchers": [
-        "Andrew Painter"
-      ],
-      "fadeTeam": "PHI",
-      "market": "h2h",
-      "selection": "BAL",
-      "line": null,
-      "odds": -114,
-      "stake": 1.14,
-      "result": "pending",
-      "profit": 0.0,
-      "book": "fanduel",
-      "source": "fanduel_api",
-      "reason": null,
-      "home": "BAL",
-      "away": "PHI",
-      "gamePk": 824809,
-      "fadeReason": "all"
-    },
     {
       "date": "2026-07-31",
       "commence": "2026-08-01T01:38:00Z",
@@ -14407,6 +14311,102 @@
       "home": "LAD",
       "away": "SEA",
       "gamePk": 823921,
+      "fadeReason": "away"
+    },
+    {
+      "date": "2026-07-31",
+      "commence": "2026-07-31T23:05:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Andrew Painter"
+      ],
+      "fadeTeam": "PHI",
+      "market": "h2h",
+      "selection": "BAL",
+      "line": null,
+      "odds": -114,
+      "stake": 1.14,
+      "result": "WIN",
+      "profit": 1.0,
+      "book": "fanduel",
+      "source": "fanduel_api",
+      "reason": null,
+      "home": "BAL",
+      "away": "PHI",
+      "gamePk": 824809,
+      "fadeReason": "all"
+    },
+    {
+      "date": "2026-07-31",
+      "commence": "2026-07-31T23:10:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Tanner Bibee"
+      ],
+      "fadeTeam": "CLE",
+      "market": "h2h",
+      "selection": "ARI",
+      "line": null,
+      "odds": 124,
+      "stake": 1.0,
+      "result": "WIN",
+      "profit": 1.24,
+      "book": "fanduel",
+      "source": "fanduel_api",
+      "reason": null,
+      "home": "CLE",
+      "away": "ARI",
+      "gamePk": 824407,
+      "fadeReason": "home"
+    },
+    {
+      "date": "2026-07-31",
+      "commence": "2026-07-31T23:10:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Kodai Senga"
+      ],
+      "fadeTeam": "NYM",
+      "market": "h2h",
+      "selection": "MIA",
+      "line": null,
+      "odds": 104,
+      "stake": 1.0,
+      "result": "WIN",
+      "profit": 1.04,
+      "book": "fanduel",
+      "source": "fanduel_api",
+      "reason": null,
+      "home": "NYM",
+      "away": "MIA",
+      "gamePk": 823593,
+      "fadeReason": "all"
+    },
+    {
+      "date": "2026-07-31",
+      "commence": "2026-08-01T00:40:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Michael Wacha"
+      ],
+      "fadeTeam": "KC",
+      "market": "h2h",
+      "selection": "COL",
+      "line": null,
+      "odds": -102,
+      "stake": 1.02,
+      "result": "WIN",
+      "profit": 1.0,
+      "book": "fanduel",
+      "source": "fanduel_api",
+      "reason": null,
+      "home": "COL",
+      "away": "KC",
+      "gamePk": 824325,
       "fadeReason": "away"
     }
   ]
