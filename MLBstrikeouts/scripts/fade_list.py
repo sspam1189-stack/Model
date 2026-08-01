@@ -45,6 +45,8 @@ FADE_LIST = [
     "MacKenzie Gore",
     # Added 2026-07-31 (user request). All-venue, season-backfilled.
     "Senga",
+    # Added 2026-08-01 (user). Away-only (see FADE_VENUE), season-backfilled.
+    "Prielipp",
 ]
 
 # Per-arm venue restriction: fade the arm ONLY when his team plays at this
@@ -109,6 +111,9 @@ FADE_VENUE = {
     "Gausman": [
         {"from": "2026-08-01", "venue": "away"},
     ],
+    # 2026-08-01 (user): away-only. Away ERA 6.56 vs 3.86 home, K% 27->19 on
+    # the road; away fade 4-1 +2.52u (+34%) vs home 4-5 -1.50u. Away-side edge.
+    "Prielipp": "away",
 }
 
 # Matchup fade list: fade the pitcher (bet the OPPONENT's ML) ONLY when he
@@ -224,6 +229,7 @@ FADE_WINDOW = {
     # Added 2026-07-31 (user request). Season-backfilled, all-venue — no
     # venue split vetted yet.
     "Senga":             {"add": SEASON_START},
+    "Prielipp":          {"add": SEASON_START},  # away-only (see FADE_VENUE), season-backfilled
 }
 
 
