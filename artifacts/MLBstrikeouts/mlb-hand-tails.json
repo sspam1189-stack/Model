@@ -1,7 +1,7 @@
 {
   "sport": "MLB",
   "type": "hand-tails",
-  "generated": "2026-08-01T04:06:02Z",
+  "generated": "2026-08-01T13:06:03Z",
   "handMin": 6,
   "roster": {
     "Scherzer": {
@@ -97,7 +97,31 @@
       }
     }
   },
-  "today": [],
+  "today": [
+    {
+      "date": "2026-08-01",
+      "commence": "2026-08-01T23:15:00Z",
+      "betType": "hand_fade",
+      "action": "fade",
+      "pitcher": "David Peterson",
+      "entry": "David Peterson",
+      "hand": "L",
+      "arm_team": "CHC",
+      "opp_team": "NYY",
+      "selection": "NYY",
+      "home": "CHC",
+      "away": "NYY",
+      "oppLefty": 4,
+      "oppRighty": 6,
+      "odds": -112,
+      "stake": 1.12,
+      "result": "pending",
+      "reason": null,
+      "profit": 0.0,
+      "book": "fanduel",
+      "source": "fanduel_api"
+    }
+  ],
   "bets": [
     {
       "date": "2026-04-06",

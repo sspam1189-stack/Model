@@ -1,7 +1,7 @@
 {
   "sport": "MLB",
   "type": "hand-tails-watch",
-  "generated": "2026-08-01T04:07:13Z",
+  "generated": "2026-08-01T13:07:15Z",
   "handMin": 6,
   "minGames": 3,
   "minUnits": 2.5,
@@ -9,65 +9,44 @@
   "note": "Shadow review list -- arms NOT on the active hand-tails list showing a handedness-conditional edge (fade or take). The active list is fade-only, so all tail/take arms are review-only here. In-sample season replay; watch, don't bet.",
   "today": [
     {
-      "date": "2026-07-31",
-      "commence": "2026-07-31T23:10:00Z",
+      "date": "2026-08-01",
+      "commence": "2026-08-01T23:15:00Z",
       "betType": "watch_fade",
       "action": "fade",
       "watch": true,
-      "pitcher": "Tanner Bibee",
-      "hand": "R",
-      "arm_team": "CLE",
-      "opp_team": "ARI",
-      "selection": "ARI",
-      "home": "CLE",
-      "away": "ARI",
-      "oppLefty": 7,
-      "oppRighty": 6,
-      "odds": 124,
+      "pitcher": "Max Fried",
+      "hand": "L",
+      "arm_team": "NYY",
+      "opp_team": "CHC",
+      "selection": "CHC",
+      "home": "CHC",
+      "away": "NYY",
+      "oppLefty": 3,
+      "oppRighty": 7,
+      "odds": 104,
       "suggest": "fade",
-      "suggestUnits": 3.52,
-      "games": 7,
+      "suggestUnits": 2.89,
+      "games": 5,
       "result": "pending"
     },
     {
-      "date": "2026-07-31",
-      "commence": "2026-07-31T23:10:00Z",
+      "date": "2026-08-01",
+      "commence": "2026-08-02T00:10:00Z",
       "betType": "watch_take",
       "action": "take",
       "watch": true,
-      "pitcher": "Nick Martinez",
+      "pitcher": "Luinder Avila",
       "hand": "R",
-      "arm_team": "TB",
-      "opp_team": "CWS",
-      "selection": "TB",
-      "home": "TB",
-      "away": "CWS",
-      "oppLefty": 7,
-      "oppRighty": 4,
-      "odds": -126,
-      "suggest": "take",
-      "suggestUnits": 5.1,
-      "games": 7,
-      "result": "pending"
-    },
-    {
-      "date": "2026-07-31",
-      "commence": "2026-08-01T00:40:00Z",
-      "betType": "watch_take",
-      "action": "take",
-      "watch": true,
-      "pitcher": "Tomoyuki Sugano",
-      "hand": "R",
-      "arm_team": "COL",
-      "opp_team": "KC",
-      "selection": "COL",
+      "arm_team": "KC",
+      "opp_team": "COL",
+      "selection": "KC",
       "home": "COL",
       "away": "KC",
       "oppLefty": 6,
-      "oppRighty": 4,
-      "odds": -102,
+      "oppRighty": 5,
+      "odds": 106,
       "suggest": "take",
-      "suggestUnits": 5.38,
+      "suggestUnits": 4.96,
       "games": 4,
       "result": "pending"
     }
@@ -107,7 +86,7 @@
         "l": 2,
         "u": 8.04
       },
-      "era": 2.76
+      "era": 3.06
     },
     {
       "pitcher": "J.T. Ginn",
@@ -143,7 +122,7 @@
         "l": 0,
         "u": 5.38
       },
-      "era": 4.69
+      "era": 4.47
     },
     {
       "pitcher": "Nick Martinez",
@@ -161,7 +140,7 @@
         "l": 1,
         "u": 5.1
       },
-      "era": 2.45
+      "era": 2.77
     },
     {
       "pitcher": "Matthew Boyd",
@@ -395,7 +374,7 @@
         "l": 5,
         "u": -4.56
       },
-      "era": 3.89
+      "era": 3.81
     },
     {
       "pitcher": "Jack Perkins",

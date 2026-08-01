@@ -1,17 +1,17 @@
 {
   "sport": "MLB",
   "type": "fade-vs-team",
-  "generated": "2026-08-01T04:07:15Z",
+  "generated": "2026-08-01T13:07:17Z",
   "seasonStart": "2026-04-05",
   "minStarts": 2,
   "fadeEra": 8.0,
   "note": "Pitcher-vs-team FADE: bet the opponent's ML when the pitcher faces that team. Set = curated (FADE_VS_TEAM) + auto-promoted (>= 2 starts vs the team, ERA >= 8.0 vs them). In-sample season replay (flat 1u); data only, not wired into the fade model. Watch tier (6 <= ERA < 8.0) is in mlb-fade-vs-team-watch.json.",
   "overall": {
-    "w": 48,
-    "l": 20,
-    "u": 28.06,
-    "n": 68,
-    "roi": 0.31
+    "w": 47,
+    "l": 19,
+    "u": 28.26,
+    "n": 66,
+    "roi": 0.3203
   },
   "today": [],
   "entries": [
@@ -968,41 +968,6 @@
           "selection": "STL",
           "opp_ml": -130,
           "result": "win"
-        }
-      ]
-    },
-    {
-      "pitcher": "Connor Prielipp",
-      "opp": "CWS",
-      "arm_team": "MIN",
-      "source": "auto",
-      "record": {
-        "w": 1,
-        "l": 1,
-        "u": -0.2,
-        "n": 2,
-        "roi": -0.0877
-      },
-      "eraVsOpp": 8.71,
-      "ipVsOpp": 10.3,
-      "erVsOpp": 10,
-      "startsVsOpp": 2,
-      "starts": [
-        {
-          "date": "2026-05-27",
-          "venue": "away",
-          "matchup": "MIN @ CWS",
-          "selection": "CWS",
-          "opp_ml": -108,
-          "result": "win"
-        },
-        {
-          "date": "2026-06-02",
-          "venue": "home",
-          "matchup": "CWS @ MIN",
-          "selection": "CWS",
-          "opp_ml": -120,
-          "result": "loss"
         }
       ]
     },
