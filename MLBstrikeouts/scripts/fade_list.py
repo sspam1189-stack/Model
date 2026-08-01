@@ -75,7 +75,15 @@ FADE_VENUE = {
     "Springs": "home",         # away 6-4 +0.0u (flat); home 7-4 +4.2u
     "Burrows": "home",         # away 5-4 -0.0u (flat); home 6-2 +4.0u
     "Roupp": "away",           # home 5-3 +1.4u; away 8-4 +2.6u
-    "Zebby Matthews": "away",  # 2026-07-31: flipped home->away-only (ERA 7.58 away vs 2.84 home). NB in-sample fade P&L favored home (home 4-2 +2.6u; away 4-3 -0.2u flat) -- betting the skill split over the ML record
+    # Date-scoped venue: away-only through 2026-07-31 (this is how he was
+    # faded up to and incl. today — that history stays), then home-only from
+    # 2026-08-01 on (user: "home starting tomorrow"). No retroactive re-grade.
+    # ERA split 7.58 away vs 2.84 home; in-sample fade P&L favors home (home
+    # 4-2 +2.6u; away 4-3 -0.2u flat).
+    "Zebby Matthews": [
+        {"from": "2026-04-05", "venue": "away"},   # SEASON_START (defined below)
+        {"from": "2026-08-01", "venue": "home"},
+    ],
     "Lowder": "away",          # home 2-3 -1.9u; away 7-3 +2.8u
     "Grayson Rodriguez": "home",  # away 1-2 -1.9u; home 5-1 +3.7u
     # Added 2026-07-27 (all-pitcher screen): venue-restricted.
@@ -159,7 +167,7 @@ FADE_WINDOW = {
     "Dustin May":        {"add": "2026-07-18"},
     "Grayson Rodriguez": {"add": SEASON_START},  # 2026-07-27: home-only (FADE_VENUE), full season
     "Bryan Woo":         {"add": SEASON_START},  # away-only (see FADE_VENUE); backfilled full season 2026-07-28
-    "Zebby Matthews":    {"add": SEASON_START},  # 2026-07-27: home-only (FADE_VENUE), full season
+    "Zebby Matthews":    {"add": SEASON_START},  # date-scoped venue (FADE_VENUE): away thru 7/31, home from 8/1
     # Added 2026-07-27 from fade-candidate analysis — backfilled to season
     # start so their full-season fade history is on the record. Venue-
     # restricted arms are faded all season but only on the required side.
@@ -266,18 +274,41 @@ def matched_entry(player_name, date=None):
     return None
 
 
+def _venue_for(entry, date=None):
+    """Resolve an arm's required fade venue, supporting date-scoped rules.
+
+    ``FADE_VENUE[entry]`` may be:
+      - a string ('home'/'away') -> a flat restriction applied on every date, or
+      - a list of ``{"from": ISO, "venue": "home"/"away"}`` segments in
+        chronological order -> the venue of the LATEST segment whose ``from`` is
+        <= ``date`` applies (so the restriction can change at a day boundary
+        without retroactively re-grading earlier starts).
+    Returns 'home'/'away', or None when the arm carries no venue restriction.
+    A bare call (``date`` is None) resolves to the latest/current segment.
+    """
+    rule = FADE_VENUE.get(entry)
+    if rule is None or isinstance(rule, str):
+        return rule
+    chosen = None
+    for seg in rule:
+        frm = seg.get("from")
+        if date is None or frm is None or date >= frm:
+            chosen = seg.get("venue")
+    return chosen
+
+
 def fade_reason(player_name, date=None):
     """Return WHY this arm is faded, for the today's-picks display.
 
     'home'/'away' when the arm carries a FADE_VENUE restriction (faded only on
-    that side), else 'all' (faded regardless of venue). None if the name isn't a
-    fade arm on ``date``. Lets the dashboard differentiate a venue-driven fade
-    from an all-venue one alongside the handedness-driven hand-tails picks.
+    that side) on ``date``, else 'all' (faded regardless of venue). None if the
+    name isn't a fade arm on ``date``. Lets the dashboard differentiate a
+    venue-driven fade from an all-venue one alongside the hand-tails picks.
     """
     entry = matched_entry(player_name, date)
     if entry is None:
         return None
-    return FADE_VENUE.get(entry, "all")
+    return _venue_for(entry, date) or "all"
 
 
 def is_no_mutual_fade(player_name):
@@ -318,7 +349,7 @@ def is_fade(player_name, date=None, venue=None):
     entry = matched_entry(player_name, date)
     if entry is None:
         return False
-    required = FADE_VENUE.get(entry)
+    required = _venue_for(entry, date)
     if required is not None and venue != required:
         return False
     return True
