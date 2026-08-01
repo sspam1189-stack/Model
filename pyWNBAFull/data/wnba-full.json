@@ -15212,9 +15212,12 @@
           "h2hNote": null,
           "stakeUnits": 1,
           "trends": {
-            "away": "ATS +/- -1.9 \u00b7 Over 57.1% \u00b7 Under 42.9% \u00b7 O/U +/- 3.9",
-            "home": "ATS +/- 0.7 \u00b7 Over 67.9% \u00b7 Under 32.1% \u00b7 O/U +/- 5.2"
-          }
+            "away": "ATS +/- -2.0 \u00b7 Over 55.2% \u00b7 Under 44.8% \u00b7 O/U +/- 3.2",
+            "home": "ATS +/- 0.9 \u00b7 Over 65.5% \u00b7 Under 34.5% \u00b7 O/U +/- 4.4"
+          },
+          "awayScore": 83.0,
+          "homeScore": 84.0,
+          "sResult": "WIN"
         },
         {
           "away": "New York Liberty",
@@ -15263,13 +15266,15 @@
           "h2hRecord": null,
           "h2hNote": null,
           "trends": {
-            "away": "ATS +/- -3.3 \u00b7 Over 65.5% \u00b7 Under 34.5% \u00b7 O/U +/- 4.5",
-            "home": "ATS +/- -1.5 \u00b7 Over 48.3% \u00b7 Under 51.7% \u00b7 O/U +/- 1.3"
-          }
+            "away": "ATS +/- -3.2 \u00b7 Over 66.7% \u00b7 Under 33.3% \u00b7 O/U +/- 4.7",
+            "home": "ATS +/- -1.5 \u00b7 Over 50.0% \u00b7 Under 50.0% \u00b7 O/U +/- 1.6"
+          },
+          "awayScore": 94.0,
+          "homeScore": 92.0
         }
       ],
-      "summaryText": "RECORD (graded picks only)\n\nSPREAD (ATS)\n  All:         56-32-0   (63.6%)   [graded 88]\n  Elite:       56-32-0   (63.6%)   [graded 88]\n\nFAV/DOG (Spread)\n  Favorites:   25-18-0   (58.1%)   [graded 43]\n  Underdogs:   31-14-0   (68.9%)   [graded 45]\n\nTOTAL (O/U)\n  All:         0-0-0   (n/a%)   [graded 0]\n  Elite:       0-0-0   (n/a%)   [graded 0]\n\nOVER/UNDER\n  Over:        0-0-0   (n/a%)   [graded 0]\n  Under:       0-0-0   (n/a%)   [graded 0]",
-      "ranAt": "08/01/2026, 11:36:09 AM"
+      "summaryText": "RECORD (graded picks only)\n\nSPREAD (ATS)\n  All:         57-32-0   (64.0%)   [graded 89]\n  Elite:       57-32-0   (64.0%)   [graded 89]\n\nFAV/DOG (Spread)\n  Favorites:   25-18-0   (58.1%)   [graded 43]\n  Underdogs:   32-14-0   (69.6%)   [graded 46]\n\nTOTAL (O/U)\n  All:         0-0-0   (n/a%)   [graded 0]\n  Elite:       0-0-0   (n/a%)   [graded 0]\n\nOVER/UNDER\n  Over:        0-0-0   (n/a%)   [graded 0]\n  Under:       0-0-0   (n/a%)   [graded 0]",
+      "ranAt": "08/01/2026, 05:40:33 PM"
     }
   ],
   "weights": {
@@ -15293,7 +15298,7 @@
     "h2hWeight": 0.0,
     "probElite": 0.63
   },
-  "residualVar": 151.6,
+  "residualVar": 150.0,
   "weightsVar": {
     "wTS": 3.9371,
     "wTO": 3.9673,
