@@ -102,6 +102,13 @@ FADE_VENUE = {
     "Michael King": "away",    # home 5-5 +0.92u; away 6-3 +2.70u
     "MacKenzie Gore": "away",  # 2026-07-28: home 3-6 -2.86u; away 7-4 +2.58u (+19.6%)
     "Bryce Miller": "away",    # 2026-07-31: home 3-2 +1.78u; away 4-2 +2.56u (+42.5%) -- away only
+    # 2026-07-31: date-scoped. All-venue through 7/31 (that history stays), then
+    # away-only from 8/1 on (user). No pre-8/1 segment => no restriction before
+    # then. Home is his best ERA split (3.86 vs 5.33 away) & lighter fade side
+    # (home 6-4 +21% vs away 7-3 +35%), so restrict to the away edge going fwd.
+    "Gausman": [
+        {"from": "2026-08-01", "venue": "away"},
+    ],
 }
 
 # Matchup fade list: fade the pitcher (bet the OPPONENT's ML) ONLY when he
