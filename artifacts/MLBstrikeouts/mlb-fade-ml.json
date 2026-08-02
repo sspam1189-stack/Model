@@ -1,7 +1,7 @@
 {
   "sport": "MLB",
   "type": "fade-ml",
-  "generated": "2026-08-02T21:01:31Z",
+  "generated": "2026-08-02T22:07:12Z",
   "fadeList": [
     "Painter",
     "Rocker",
@@ -72,22 +72,22 @@
   ],
   "mutualRule": "underdog_min",
   "summary": {
-    "wins": 420,
+    "wins": 422,
     "losses": 142,
     "voids": 0,
     "skips": 33,
-    "staked": 694.41,
-    "units": 291.53,
-    "roi": 0.4198,
+    "staked": 697.21,
+    "units": 293.53,
+    "roi": 0.421,
     "byType": {
       "ml": {
-        "wins": 410,
+        "wins": 412,
         "losses": 134,
         "voids": 0,
         "skips": 0,
-        "staked": 676.41,
-        "units": 286.49,
-        "roi": 0.4235
+        "staked": 679.21,
+        "units": 288.49,
+        "roi": 0.4247
       },
       "ml_dog": {
         "wins": 10,
@@ -101,54 +101,6 @@
     }
   },
   "today": [
-    {
-      "date": "2026-08-02",
-      "commence": "2026-08-02T17:40:00Z",
-      "betType": "ml",
-      "shadow": false,
-      "pitchers": [
-        "Merrill Kelly"
-      ],
-      "fadeTeam": "ARI",
-      "market": "h2h",
-      "selection": "CLE",
-      "line": null,
-      "odds": -164,
-      "stake": 1.64,
-      "result": "pending",
-      "profit": 0.0,
-      "book": "fanduel",
-      "source": "fanduel_api",
-      "reason": null,
-      "home": "CLE",
-      "away": "ARI",
-      "gamePk": 824404,
-      "fadeReason": "away"
-    },
-    {
-      "date": "2026-08-02",
-      "commence": "2026-08-02T18:20:00Z",
-      "betType": "ml",
-      "shadow": false,
-      "pitchers": [
-        "Colin Rea"
-      ],
-      "fadeTeam": "CHC",
-      "market": "h2h",
-      "selection": "NYY",
-      "line": null,
-      "odds": -116,
-      "stake": 1.16,
-      "result": "pending",
-      "profit": 0.0,
-      "book": "fanduel",
-      "source": "fanduel_api",
-      "reason": null,
-      "home": "CHC",
-      "away": "NYY",
-      "gamePk": 824648,
-      "fadeReason": "all"
-    },
     {
       "date": "2026-08-02",
       "commence": "2026-08-02T20:05:00Z",
@@ -14552,6 +14504,54 @@
       "home": "OAK",
       "away": "DET",
       "gamePk": 824972,
+      "fadeReason": "all"
+    },
+    {
+      "date": "2026-08-02",
+      "commence": "2026-08-02T17:40:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Merrill Kelly"
+      ],
+      "fadeTeam": "ARI",
+      "market": "h2h",
+      "selection": "CLE",
+      "line": null,
+      "odds": -164,
+      "stake": 1.64,
+      "result": "WIN",
+      "profit": 1.0,
+      "book": "fanduel",
+      "source": "fanduel_api",
+      "reason": null,
+      "home": "CLE",
+      "away": "ARI",
+      "gamePk": 824404,
+      "fadeReason": "away"
+    },
+    {
+      "date": "2026-08-02",
+      "commence": "2026-08-02T18:20:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Colin Rea"
+      ],
+      "fadeTeam": "CHC",
+      "market": "h2h",
+      "selection": "NYY",
+      "line": null,
+      "odds": -116,
+      "stake": 1.16,
+      "result": "WIN",
+      "profit": 1.0,
+      "book": "fanduel",
+      "source": "fanduel_api",
+      "reason": null,
+      "home": "CHC",
+      "away": "NYY",
+      "gamePk": 824648,
       "fadeReason": "all"
     }
   ]
