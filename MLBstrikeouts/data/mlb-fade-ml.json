@@ -1,7 +1,7 @@
 {
   "sport": "MLB",
   "type": "fade-ml",
-  "generated": "2026-08-01T23:01:56Z",
+  "generated": "2026-08-02T00:10:13Z",
   "fadeList": [
     "Painter",
     "Rocker",
@@ -72,22 +72,22 @@
   ],
   "mutualRule": "underdog_min",
   "summary": {
-    "wins": 418,
-    "losses": 139,
+    "wins": 419,
+    "losses": 140,
     "voids": 0,
     "skips": 33,
-    "staked": 688.05,
-    "units": 292.79,
-    "roi": 0.4255,
+    "staked": 690.91,
+    "units": 292.53,
+    "roi": 0.4234,
     "byType": {
       "ml": {
-        "wins": 408,
-        "losses": 132,
+        "wins": 409,
+        "losses": 133,
         "voids": 0,
         "skips": 0,
-        "staked": 671.05,
-        "units": 286.75,
-        "roi": 0.4273
+        "staked": 673.91,
+        "units": 286.49,
+        "roi": 0.4251
       },
       "ml_dog": {
         "wins": 10,
@@ -101,54 +101,6 @@
     }
   },
   "today": [
-    {
-      "date": "2026-08-01",
-      "commence": "2026-08-01T20:10:00Z",
-      "betType": "ml",
-      "shadow": false,
-      "pitchers": [
-        "Tyler Phillips"
-      ],
-      "fadeTeam": "MIA",
-      "market": "h2h",
-      "selection": "NYM",
-      "line": null,
-      "odds": -126,
-      "stake": 1.26,
-      "result": "pending",
-      "profit": 0.0,
-      "book": "fanduel",
-      "source": "fanduel_api",
-      "reason": null,
-      "home": "NYM",
-      "away": "MIA",
-      "gamePk": 823594,
-      "fadeReason": "away"
-    },
-    {
-      "date": "2026-08-01",
-      "commence": "2026-08-01T20:10:00Z",
-      "betType": "ml",
-      "shadow": false,
-      "pitchers": [
-        "Connor Prielipp"
-      ],
-      "fadeTeam": "MIN",
-      "market": "h2h",
-      "selection": "SEA",
-      "line": null,
-      "odds": -160,
-      "stake": 1.6,
-      "result": "pending",
-      "profit": 0.0,
-      "book": "fanduel",
-      "source": "fanduel_api",
-      "reason": null,
-      "home": "SEA",
-      "away": "MIN",
-      "gamePk": 823109,
-      "fadeReason": "away"
-    },
     {
       "date": "2026-08-01",
       "commence": "2026-08-01T23:15:00Z",
@@ -14433,6 +14385,54 @@
       "away": "DET",
       "gamePk": 824975,
       "fadeReason": "home"
+    },
+    {
+      "date": "2026-08-01",
+      "commence": "2026-08-01T20:10:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Tyler Phillips"
+      ],
+      "fadeTeam": "MIA",
+      "market": "h2h",
+      "selection": "NYM",
+      "line": null,
+      "odds": -126,
+      "stake": 1.26,
+      "result": "LOSS",
+      "profit": -1.26,
+      "book": "fanduel",
+      "source": "fanduel_api",
+      "reason": null,
+      "home": "NYM",
+      "away": "MIA",
+      "gamePk": 823594,
+      "fadeReason": "away"
+    },
+    {
+      "date": "2026-08-01",
+      "commence": "2026-08-01T20:10:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Connor Prielipp"
+      ],
+      "fadeTeam": "MIN",
+      "market": "h2h",
+      "selection": "SEA",
+      "line": null,
+      "odds": -160,
+      "stake": 1.6,
+      "result": "WIN",
+      "profit": 1.0,
+      "book": "fanduel",
+      "source": "fanduel_api",
+      "reason": null,
+      "home": "SEA",
+      "away": "MIN",
+      "gamePk": 823109,
+      "fadeReason": "away"
     }
   ]
 }

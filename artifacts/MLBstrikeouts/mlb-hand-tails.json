@@ -1,7 +1,7 @@
 {
   "sport": "MLB",
   "type": "hand-tails",
-  "generated": "2026-08-01T23:02:50Z",
+  "generated": "2026-08-02T00:11:03Z",
   "handMin": 6,
   "roster": {
     "Scherzer": {
@@ -59,18 +59,18 @@
   },
   "note": "In-sample selection; live paper-forward test. Not part of the fade-list ledger. On Nola/Lopez overlap games, hand-tails wins.",
   "summary": {
-    "wins": 67,
+    "wins": 68,
     "losses": 18,
-    "units": 51.76,
-    "staked": 108.84,
-    "roi": 0.4756,
+    "units": 52.76,
+    "staked": 110.44,
+    "roi": 0.4777,
     "byAction": {
       "fade": {
-        "wins": 67,
+        "wins": 68,
         "losses": 18,
-        "units": 51.76,
-        "staked": 108.84,
-        "roi": 0.4756
+        "units": 52.76,
+        "staked": 110.44,
+        "roi": 0.4777
       },
       "take": {
         "wins": 0,
@@ -89,11 +89,11 @@
         "roi": 0.4333
       },
       "L": {
-        "wins": 34,
+        "wins": 35,
         "losses": 10,
-        "units": 27.46,
-        "staked": 52.76,
-        "roi": 0.5205
+        "units": 28.46,
+        "staked": 54.36,
+        "roi": 0.5235
       }
     }
   },
@@ -2118,6 +2118,29 @@
       "oppRighty": 5,
       "odds": -136,
       "stake": 1.36,
+      "result": "WIN",
+      "reason": null,
+      "profit": 1.0,
+      "book": "fanduel",
+      "source": "fanduel_api"
+    },
+    {
+      "date": "2026-08-01",
+      "commence": "2026-08-01T20:10:00Z",
+      "betType": "hand_fade",
+      "action": "fade",
+      "pitcher": "Connor Prielipp",
+      "entry": "Prielipp",
+      "hand": "L",
+      "arm_team": "MIN",
+      "opp_team": "SEA",
+      "selection": "SEA",
+      "home": "SEA",
+      "away": "MIN",
+      "oppLefty": 5,
+      "oppRighty": 6,
+      "odds": -160,
+      "stake": 1.6,
       "result": "WIN",
       "reason": null,
       "profit": 1.0,
