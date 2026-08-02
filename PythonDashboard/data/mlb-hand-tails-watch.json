@@ -1,7 +1,7 @@
 {
   "sport": "MLB",
   "type": "hand-tails-watch",
-  "generated": "2026-08-02T22:11:57Z",
+  "generated": "2026-08-02T23:03:06Z",
   "handMin": 6,
   "minGames": 3,
   "minUnits": 2.5,
@@ -25,8 +25,8 @@
       "oppRighty": 5,
       "odds": -164,
       "suggest": "fade",
-      "suggestUnits": 4.34,
-      "games": 6,
+      "suggestUnits": 5.34,
+      "games": 7,
       "result": "pending"
     }
   ],
@@ -102,6 +102,24 @@
         "u": 5.38
       },
       "era": 4.47
+    },
+    {
+      "pitcher": "Merrill Kelly",
+      "hand": "R",
+      "games": 7,
+      "suggest": "fade",
+      "suggestUnits": 5.34,
+      "fade": {
+        "w": 6,
+        "l": 1,
+        "u": 5.34
+      },
+      "take": {
+        "w": 1,
+        "l": 6,
+        "u": -5.8
+      },
+      "era": 4.86
     },
     {
       "pitcher": "Nick Martinez",
@@ -210,24 +228,6 @@
         "u": 4.62
       },
       "era": 4.28
-    },
-    {
-      "pitcher": "Merrill Kelly",
-      "hand": "R",
-      "games": 6,
-      "suggest": "fade",
-      "suggestUnits": 4.34,
-      "fade": {
-        "w": 5,
-        "l": 1,
-        "u": 4.34
-      },
-      "take": {
-        "w": 1,
-        "l": 5,
-        "u": -4.8
-      },
-      "era": 4.86
     },
     {
       "pitcher": "Sandy Alcantara",
