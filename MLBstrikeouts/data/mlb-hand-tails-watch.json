@@ -1,7 +1,7 @@
 {
   "sport": "MLB",
   "type": "hand-tails-watch",
-  "generated": "2026-08-02T04:10:57Z",
+  "generated": "2026-08-02T13:07:13Z",
   "handMin": 6,
   "minGames": 3,
   "minUnits": 2.5,
@@ -9,45 +9,45 @@
   "note": "Shadow review list -- arms NOT on the active hand-tails list showing a handedness-conditional edge (fade or take). The active list is fade-only, so all tail/take arms are review-only here. In-sample season replay; watch, don't bet.",
   "today": [
     {
-      "date": "2026-08-01",
-      "commence": "2026-08-01T22:40:00Z",
+      "date": "2026-08-02",
+      "commence": "2026-08-02T17:40:00Z",
       "betType": "watch_fade",
       "action": "fade",
       "watch": true,
-      "pitcher": "Andrew Abbott",
-      "hand": "L",
-      "arm_team": "CIN",
-      "opp_team": "PIT",
-      "selection": "PIT",
-      "home": "CIN",
-      "away": "PIT",
-      "oppLefty": 3,
-      "oppRighty": 8,
-      "odds": -118,
+      "pitcher": "Merrill Kelly",
+      "hand": "R",
+      "arm_team": "ARI",
+      "opp_team": "CLE",
+      "selection": "CLE",
+      "home": "CLE",
+      "away": "ARI",
+      "oppLefty": 9,
+      "oppRighty": 4,
+      "odds": -156,
       "suggest": "fade",
-      "suggestUnits": 2.8,
-      "games": 10,
+      "suggestUnits": 4.34,
+      "games": 6,
       "result": "pending"
     },
     {
-      "date": "2026-08-01",
-      "commence": "2026-08-01T23:15:00Z",
-      "betType": "watch_fade",
-      "action": "fade",
+      "date": "2026-08-02",
+      "commence": "2026-08-02T17:40:00Z",
+      "betType": "watch_take",
+      "action": "take",
       "watch": true,
-      "pitcher": "Max Fried",
+      "pitcher": "Anthony Kay",
       "hand": "L",
-      "arm_team": "NYY",
-      "opp_team": "CHC",
-      "selection": "CHC",
-      "home": "CHC",
-      "away": "NYY",
-      "oppLefty": 4,
+      "arm_team": "CWS",
+      "opp_team": "TB",
+      "selection": "CWS",
+      "home": "TB",
+      "away": "CWS",
+      "oppLefty": 3,
       "oppRighty": 7,
-      "odds": -118,
-      "suggest": "fade",
-      "suggestUnits": 3.89,
-      "games": 6,
+      "odds": 140,
+      "suggest": "take",
+      "suggestUnits": 4.62,
+      "games": 10,
       "result": "pending"
     }
   ],
@@ -212,7 +212,7 @@
         "l": 0,
         "u": 4.96
       },
-      "era": 5.51
+      "era": 6.27
     },
     {
       "pitcher": "Anthony Kay",
@@ -374,7 +374,7 @@
         "l": 4,
         "u": -4.88
       },
-      "era": 3.23
+      "era": 3.12
     },
     {
       "pitcher": "Tanner Bibee",
@@ -410,7 +410,7 @@
         "l": 3,
         "u": -3.8
       },
-      "era": 6.99
+      "era": 7.38
     },
     {
       "pitcher": "Griffin Canning",
@@ -500,7 +500,7 @@
         "l": 5,
         "u": -3.42
       },
-      "era": 3.67
+      "era": 3.38
     },
     {
       "pitcher": "Cam Schlittler",
@@ -536,7 +536,7 @@
         "l": 7,
         "u": -3.46
       },
-      "era": 3.85
+      "era": 3.91
     },
     {
       "pitcher": "Braxton Ashcraft",
@@ -554,7 +554,7 @@
         "l": 4,
         "u": -3.5
       },
-      "era": 4.05
+      "era": 3.96
     },
     {
       "pitcher": "Rhett Lowder",

@@ -1,7 +1,7 @@
 {
   "sport": "MLB",
   "type": "fade-ml",
-  "generated": "2026-08-02T04:09:12Z",
+  "generated": "2026-08-02T13:05:31Z",
   "fadeList": [
     "Painter",
     "Rocker",
@@ -73,12 +73,12 @@
   "mutualRule": "underdog_min",
   "summary": {
     "wins": 420,
-    "losses": 141,
+    "losses": 142,
     "voids": 0,
     "skips": 33,
-    "staked": 693.41,
-    "units": 292.53,
-    "roi": 0.4219,
+    "staked": 694.41,
+    "units": 291.53,
+    "roi": 0.4198,
     "byType": {
       "ml": {
         "wins": 410,
@@ -91,31 +91,102 @@
       },
       "ml_dog": {
         "wins": 10,
-        "losses": 7,
+        "losses": 8,
         "voids": 0,
         "skips": 33,
-        "staked": 17.0,
-        "units": 6.04,
-        "roi": 0.3553
+        "staked": 18.0,
+        "units": 5.04,
+        "roi": 0.28
       }
     }
   },
   "today": [
     {
-      "date": "2026-08-01",
-      "commence": "2026-08-02T01:40:00Z",
-      "betType": "ml_dog",
+      "date": "2026-08-02",
+      "commence": "2026-08-02T17:40:00Z",
+      "betType": "ml",
       "shadow": false,
       "pitchers": [
-        "Framber Valdez",
-        "Jack Perkins"
+        "Merrill Kelly"
       ],
-      "fadeTeam": null,
+      "fadeTeam": "ARI",
       "market": "h2h",
-      "selection": "OAK",
+      "selection": "CLE",
       "line": null,
-      "odds": 160,
+      "odds": -156,
+      "stake": 1.56,
+      "result": "pending",
+      "profit": 0.0,
+      "book": "fanduel",
+      "source": "fanduel_api",
+      "reason": null,
+      "home": "CLE",
+      "away": "ARI",
+      "gamePk": 824404,
+      "fadeReason": "away"
+    },
+    {
+      "date": "2026-08-02",
+      "commence": "2026-08-02T18:20:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Colin Rea"
+      ],
+      "fadeTeam": "CHC",
+      "market": "h2h",
+      "selection": "NYY",
+      "line": null,
+      "odds": -122,
+      "stake": 1.22,
+      "result": "pending",
+      "profit": 0.0,
+      "book": "fanduel",
+      "source": "fanduel_api",
+      "reason": null,
+      "home": "CHC",
+      "away": "NYY",
+      "gamePk": 824648,
+      "fadeReason": "all"
+    },
+    {
+      "date": "2026-08-02",
+      "commence": "2026-08-02T23:20:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Emmet Sheehan"
+      ],
+      "fadeTeam": "LAD",
+      "market": "h2h",
+      "selection": "BOS",
+      "line": null,
+      "odds": 142,
       "stake": 1.0,
+      "result": "pending",
+      "profit": 0.0,
+      "book": "fanduel",
+      "source": "fanduel_api",
+      "reason": null,
+      "home": "LAD",
+      "away": "BOS",
+      "gamePk": 823919,
+      "fadeReason": "all"
+    },
+    {
+      "date": "2026-08-02",
+      "commence": "2026-08-02T20:05:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Gage Jump"
+      ],
+      "fadeTeam": "OAK",
+      "market": "h2h",
+      "selection": "DET",
+      "line": null,
+      "odds": -110,
+      "stake": 1.1,
       "result": "pending",
       "profit": 0.0,
       "book": "fanduel",
@@ -123,8 +194,32 @@
       "reason": null,
       "home": "OAK",
       "away": "DET",
-      "gamePk": 824972,
+      "gamePk": 824971,
       "fadeReason": "all"
+    },
+    {
+      "date": "2026-08-02",
+      "commence": "2026-08-02T20:10:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Landen Roupp"
+      ],
+      "fadeTeam": "SF",
+      "market": "h2h",
+      "selection": "SD",
+      "line": null,
+      "odds": -142,
+      "stake": 1.42,
+      "result": "pending",
+      "profit": 0.0,
+      "book": "fanduel",
+      "source": "fanduel_api",
+      "reason": null,
+      "home": "SD",
+      "away": "SF",
+      "gamePk": 823270,
+      "fadeReason": "away"
     }
   ],
   "bets": [
@@ -14344,30 +14439,6 @@
       "betType": "ml",
       "shadow": false,
       "pitchers": [
-        "Tyler Phillips"
-      ],
-      "fadeTeam": "MIA",
-      "market": "h2h",
-      "selection": "NYM",
-      "line": null,
-      "odds": -126,
-      "stake": 1.26,
-      "result": "LOSS",
-      "profit": -1.26,
-      "book": "fanduel",
-      "source": "fanduel_api",
-      "reason": null,
-      "home": "NYM",
-      "away": "MIA",
-      "gamePk": 823594,
-      "fadeReason": "away"
-    },
-    {
-      "date": "2026-08-01",
-      "commence": "2026-08-01T20:10:00Z",
-      "betType": "ml",
-      "shadow": false,
-      "pitchers": [
         "Connor Prielipp"
       ],
       "fadeTeam": "MIN",
@@ -14384,6 +14455,30 @@
       "home": "SEA",
       "away": "MIN",
       "gamePk": 823109,
+      "fadeReason": "away"
+    },
+    {
+      "date": "2026-08-01",
+      "commence": "2026-08-01T20:10:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Tyler Phillips"
+      ],
+      "fadeTeam": "MIA",
+      "market": "h2h",
+      "selection": "NYM",
+      "line": null,
+      "odds": -126,
+      "stake": 1.26,
+      "result": "LOSS",
+      "profit": -1.26,
+      "book": "fanduel",
+      "source": "fanduel_api",
+      "reason": null,
+      "home": "NYM",
+      "away": "MIA",
+      "gamePk": 823594,
       "fadeReason": "away"
     },
     {
@@ -14433,6 +14528,31 @@
       "away": "SF",
       "gamePk": 823269,
       "fadeReason": "away"
+    },
+    {
+      "date": "2026-08-01",
+      "commence": "2026-08-02T01:40:00Z",
+      "betType": "ml_dog",
+      "shadow": false,
+      "pitchers": [
+        "Framber Valdez",
+        "Jack Perkins"
+      ],
+      "fadeTeam": null,
+      "market": "h2h",
+      "selection": "OAK",
+      "line": null,
+      "odds": 160,
+      "stake": 1.0,
+      "result": "LOSS",
+      "profit": -1.0,
+      "book": "fanduel",
+      "source": "fanduel_api",
+      "reason": null,
+      "home": "OAK",
+      "away": "DET",
+      "gamePk": 824972,
+      "fadeReason": "all"
     }
   ]
 }
