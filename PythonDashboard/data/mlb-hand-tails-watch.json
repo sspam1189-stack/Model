@@ -1,7 +1,7 @@
 {
   "sport": "MLB",
   "type": "hand-tails-watch",
-  "generated": "2026-08-02T00:33:26Z",
+  "generated": "2026-08-02T04:10:57Z",
   "handMin": 6,
   "minGames": 3,
   "minUnits": 2.5,
@@ -10,23 +10,23 @@
   "today": [
     {
       "date": "2026-08-01",
-      "commence": "2026-08-01T23:15:00Z",
+      "commence": "2026-08-01T22:40:00Z",
       "betType": "watch_fade",
       "action": "fade",
       "watch": true,
-      "pitcher": "Mart\u00edn P\u00e9rez",
+      "pitcher": "Andrew Abbott",
       "hand": "L",
-      "arm_team": "ATL",
-      "opp_team": "WSH",
-      "selection": "WSH",
-      "home": "ATL",
-      "away": "WSH",
-      "oppLefty": 5,
-      "oppRighty": 6,
-      "odds": 148,
+      "arm_team": "CIN",
+      "opp_team": "PIT",
+      "selection": "PIT",
+      "home": "CIN",
+      "away": "PIT",
+      "oppLefty": 3,
+      "oppRighty": 8,
+      "odds": -118,
       "suggest": "fade",
-      "suggestUnits": 2.96,
-      "games": 7,
+      "suggestUnits": 2.8,
+      "games": 10,
       "result": "pending"
     },
     {
@@ -42,12 +42,12 @@
       "selection": "CHC",
       "home": "CHC",
       "away": "NYY",
-      "oppLefty": 3,
+      "oppLefty": 4,
       "oppRighty": 7,
       "odds": -118,
       "suggest": "fade",
-      "suggestUnits": 2.89,
-      "games": 5,
+      "suggestUnits": 3.89,
+      "games": 6,
       "result": "pending"
     }
   ],
@@ -359,6 +359,24 @@
       "era": 5.12
     },
     {
+      "pitcher": "Max Fried",
+      "hand": "L",
+      "games": 6,
+      "suggest": "fade",
+      "suggestUnits": 3.89,
+      "fade": {
+        "w": 4,
+        "l": 2,
+        "u": 3.89
+      },
+      "take": {
+        "w": 2,
+        "l": 4,
+        "u": -4.88
+      },
+      "era": 3.23
+    },
+    {
       "pitcher": "Tanner Bibee",
       "hand": "R",
       "games": 7,
@@ -485,24 +503,6 @@
       "era": 3.67
     },
     {
-      "pitcher": "Max Fried",
-      "hand": "L",
-      "games": 5,
-      "suggest": "fade",
-      "suggestUnits": 2.89,
-      "fade": {
-        "w": 3,
-        "l": 2,
-        "u": 2.89
-      },
-      "take": {
-        "w": 2,
-        "l": 3,
-        "u": -3.88
-      },
-      "era": 3.23
-    },
-    {
       "pitcher": "Cam Schlittler",
       "hand": "R",
       "games": 6,
@@ -519,6 +519,24 @@
         "u": -3.49
       },
       "era": 2.04
+    },
+    {
+      "pitcher": "Andrew Abbott",
+      "hand": "L",
+      "games": 10,
+      "suggest": "fade",
+      "suggestUnits": 2.8,
+      "fade": {
+        "w": 7,
+        "l": 3,
+        "u": 2.8
+      },
+      "take": {
+        "w": 3,
+        "l": 7,
+        "u": -3.46
+      },
+      "era": 3.85
     },
     {
       "pitcher": "Braxton Ashcraft",

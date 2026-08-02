@@ -1,11 +1,30 @@
 {
   "sport": "MLB",
   "type": "fade-watch",
-  "generated": "2026-08-02T00:33:27Z",
+  "generated": "2026-08-02T04:10:58Z",
   "minGames": 3,
   "minUnits": 2.5,
   "note": "Shadow review list -- arms NOT on the active fade list whose home or away fade clears the bar (>= 3 games, >= +2.5u). In-sample season replay; watch, don't bet. Promote by editing scripts/fade_list.py.",
-  "today": [],
+  "today": [
+    {
+      "date": "2026-08-01",
+      "commence": "2026-08-02T01:10:00Z",
+      "betType": "fade_watch",
+      "watch": true,
+      "pitcher": "Yoshinobu Yamamoto",
+      "arm_team": "LAD",
+      "fadeTeam": "LAD",
+      "selection": "BOS",
+      "home": "LAD",
+      "away": "BOS",
+      "venue": "home",
+      "odds": 162,
+      "suggest": "home",
+      "suggestUnits": 3.62,
+      "games": 9,
+      "result": "pending"
+    }
+  ],
   "candidates": [
     {
       "pitcher": "Cade Cavalli",
@@ -59,6 +78,33 @@
         "u": -0.24,
         "n": 2,
         "roi": -0.087
+      }
+    },
+    {
+      "pitcher": "Yoshinobu Yamamoto",
+      "team": "LAD",
+      "suggest": "home",
+      "suggestUnits": 3.62,
+      "all": {
+        "w": 6,
+        "l": 12,
+        "u": -0.64,
+        "n": 18,
+        "roi": -0.0356
+      },
+      "home": {
+        "w": 4,
+        "l": 5,
+        "u": 3.62,
+        "n": 9,
+        "roi": 0.4022
+      },
+      "away": {
+        "w": 2,
+        "l": 7,
+        "u": -4.26,
+        "n": 9,
+        "roi": -0.4733
       }
     },
     {
@@ -256,11 +302,11 @@
       "suggest": "home",
       "suggestUnits": 2.85,
       "all": {
-        "w": 5,
+        "w": 6,
         "l": 5,
-        "u": 3.73,
-        "n": 10,
-        "roi": 0.373
+        "u": 4.73,
+        "n": 11,
+        "roi": 0.4231
       },
       "home": {
         "w": 2,
@@ -270,11 +316,11 @@
         "roi": 0.7125
       },
       "away": {
-        "w": 3,
+        "w": 4,
         "l": 3,
-        "u": 0.88,
-        "n": 6,
-        "roi": 0.1467
+        "u": 1.88,
+        "n": 7,
+        "roi": 0.2618
       }
     },
     {
