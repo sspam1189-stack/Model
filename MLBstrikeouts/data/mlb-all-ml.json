@@ -1,7 +1,7 @@
 {
   "sport": "MLB",
   "type": "all-ml",
-  "generated": "2026-08-03T00:32:00Z",
+  "generated": "2026-08-03T04:21:39Z",
   "seasonStart": "2026-03-25",
   "today": [
     {
@@ -295,14 +295,14 @@
       "total_line": 8.5,
       "over_ml": -108,
       "under_ml": -112,
-      "home_score": 3,
-      "away_score": 5,
+      "home_score": 4,
+      "away_score": 8,
       "home_pitcher": "Emmet Sheehan",
       "away_pitcher": "Jake Bennett",
       "home_hand": "R",
       "away_hand": "L",
-      "home_win": null,
-      "final": false
+      "home_win": false,
+      "final": true
     }
   ],
   "games": [
@@ -32187,6 +32187,25 @@
       "home_hand": "R",
       "away_hand": "R",
       "home_win": true
+    },
+    {
+      "date": "2026-08-02",
+      "commence": "2026-08-02T23:20:00Z",
+      "gamePk": 823919,
+      "home": "LAD",
+      "away": "BOS",
+      "home_ml": -168,
+      "away_ml": 156,
+      "total_line": 8.5,
+      "over_ml": -108,
+      "under_ml": -112,
+      "home_score": 4,
+      "away_score": 8,
+      "home_pitcher": "Emmet Sheehan",
+      "away_pitcher": "Jake Bennett",
+      "home_hand": "R",
+      "away_hand": "L",
+      "home_win": false
     }
   ]
 }

@@ -1,7 +1,7 @@
 {
   "sport": "MLB",
   "type": "fade-ml",
-  "generated": "2026-08-03T00:31:23Z",
+  "generated": "2026-08-03T04:20:48Z",
   "fadeList": [
     "Painter",
     "Rocker",
@@ -72,22 +72,22 @@
   ],
   "mutualRule": "underdog_min",
   "summary": {
-    "wins": 424,
+    "wins": 425,
     "losses": 142,
     "voids": 0,
     "skips": 33,
-    "staked": 699.53,
-    "units": 295.53,
-    "roi": 0.4225,
+    "staked": 700.53,
+    "units": 297.09,
+    "roi": 0.4241,
     "byType": {
       "ml": {
-        "wins": 414,
+        "wins": 415,
         "losses": 134,
         "voids": 0,
         "skips": 0,
-        "staked": 681.53,
-        "units": 290.49,
-        "roi": 0.4262
+        "staked": 682.53,
+        "units": 292.05,
+        "roi": 0.4279
       },
       "ml_dog": {
         "wins": 10,
@@ -100,32 +100,7 @@
       }
     }
   },
-  "today": [
-    {
-      "date": "2026-08-02",
-      "commence": "2026-08-02T23:20:00Z",
-      "betType": "ml",
-      "shadow": false,
-      "pitchers": [
-        "Emmet Sheehan"
-      ],
-      "fadeTeam": "LAD",
-      "market": "h2h",
-      "selection": "BOS",
-      "line": null,
-      "odds": 156,
-      "stake": 1.0,
-      "result": "pending",
-      "profit": 0.0,
-      "book": "fanduel",
-      "source": "fanduel_api",
-      "reason": null,
-      "home": "LAD",
-      "away": "BOS",
-      "gamePk": 823919,
-      "fadeReason": "all"
-    }
-  ],
+  "today": [],
   "bets": [
     {
       "date": "2026-04-05",
@@ -14553,6 +14528,30 @@
       "away": "SF",
       "gamePk": 823270,
       "fadeReason": "away"
+    },
+    {
+      "date": "2026-08-02",
+      "commence": "2026-08-02T23:20:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Emmet Sheehan"
+      ],
+      "fadeTeam": "LAD",
+      "market": "h2h",
+      "selection": "BOS",
+      "line": null,
+      "odds": 156,
+      "stake": 1.0,
+      "result": "WIN",
+      "profit": 1.56,
+      "book": "fanduel",
+      "source": "fanduel_api",
+      "reason": null,
+      "home": "LAD",
+      "away": "BOS",
+      "gamePk": 823919,
+      "fadeReason": "all"
     }
   ]
 }
