@@ -1,13 +1,35 @@
 {
   "sport": "MLB",
   "type": "hand-tails-watch",
-  "generated": "2026-08-03T18:33:36Z",
+  "generated": "2026-08-03T20:17:25Z",
   "handMin": 6,
   "minGames": 3,
   "minUnits": 2.5,
   "minUnitsTake": 4.0,
   "note": "Shadow review list -- arms NOT on the active hand-tails list showing a handedness-conditional edge (fade or take). The active list is fade-only, so all tail/take arms are review-only here. In-sample season replay; watch, don't bet.",
-  "today": [],
+  "today": [
+    {
+      "date": "2026-08-03",
+      "commence": "2026-08-04T00:05:00Z",
+      "betType": "watch_take",
+      "action": "take",
+      "watch": true,
+      "pitcher": "Matthew Boyd",
+      "hand": "L",
+      "arm_team": "CHC",
+      "opp_team": "LAD",
+      "selection": "CHC",
+      "home": "CHC",
+      "away": "LAD",
+      "oppLefty": 5,
+      "oppRighty": 6,
+      "odds": 110,
+      "suggest": "take",
+      "suggestUnits": 5.1,
+      "games": 7,
+      "result": "pending"
+    }
+  ],
   "candidates": [
     {
       "pitcher": "Eduardo Rodriguez",
