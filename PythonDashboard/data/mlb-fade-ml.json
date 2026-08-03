@@ -1,7 +1,7 @@
 {
   "sport": "MLB",
   "type": "fade-ml",
-  "generated": "2026-08-03T20:16:07Z",
+  "generated": "2026-08-03T21:03:15Z",
   "fadeList": [
     "Painter",
     "Rocker",
@@ -103,6 +103,30 @@
   "today": [
     {
       "date": "2026-08-03",
+      "commence": "2026-08-04T00:05:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Logan Webb"
+      ],
+      "fadeTeam": "SF",
+      "market": "h2h",
+      "selection": "TEX",
+      "line": null,
+      "odds": -122,
+      "stake": 1.22,
+      "result": "pending",
+      "profit": 0.0,
+      "book": "fanduel",
+      "source": "fanduel_api",
+      "reason": null,
+      "home": "TEX",
+      "away": "SF",
+      "gamePk": 822867,
+      "fadeReason": "all"
+    },
+    {
+      "date": "2026-08-03",
       "commence": "2026-08-03T22:40:00Z",
       "betType": "ml",
       "shadow": false,
@@ -172,30 +196,6 @@
       "away": "SD",
       "gamePk": 825095,
       "fadeReason": "away"
-    },
-    {
-      "date": "2026-08-03",
-      "commence": "2026-08-04T00:05:00Z",
-      "betType": "ml",
-      "shadow": false,
-      "pitchers": [
-        "Logan Webb"
-      ],
-      "fadeTeam": "SF",
-      "market": "h2h",
-      "selection": "TEX",
-      "line": null,
-      "odds": -118,
-      "stake": 1.18,
-      "result": "pending",
-      "profit": 0.0,
-      "book": "fanduel",
-      "source": "fanduel_api",
-      "reason": null,
-      "home": "TEX",
-      "away": "SF",
-      "gamePk": 822867,
-      "fadeReason": "all"
     }
   ],
   "bets": [
