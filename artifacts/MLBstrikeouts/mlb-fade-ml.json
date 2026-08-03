@@ -1,7 +1,7 @@
 {
   "sport": "MLB",
   "type": "fade-ml",
-  "generated": "2026-08-02T23:01:21Z",
+  "generated": "2026-08-03T00:10:13Z",
   "fadeList": [
     "Painter",
     "Rocker",
@@ -72,22 +72,22 @@
   ],
   "mutualRule": "underdog_min",
   "summary": {
-    "wins": 422,
+    "wins": 424,
     "losses": 142,
     "voids": 0,
     "skips": 33,
-    "staked": 697.21,
-    "units": 293.53,
-    "roi": 0.421,
+    "staked": 699.53,
+    "units": 295.53,
+    "roi": 0.4225,
     "byType": {
       "ml": {
-        "wins": 412,
+        "wins": 414,
         "losses": 134,
         "voids": 0,
         "skips": 0,
-        "staked": 679.21,
-        "units": 288.49,
-        "roi": 0.4247
+        "staked": 681.53,
+        "units": 290.49,
+        "roi": 0.4262
       },
       "ml_dog": {
         "wins": 10,
@@ -101,54 +101,6 @@
     }
   },
   "today": [
-    {
-      "date": "2026-08-02",
-      "commence": "2026-08-02T20:05:00Z",
-      "betType": "ml",
-      "shadow": false,
-      "pitchers": [
-        "Gage Jump"
-      ],
-      "fadeTeam": "OAK",
-      "market": "h2h",
-      "selection": "DET",
-      "line": null,
-      "odds": -114,
-      "stake": 1.14,
-      "result": "pending",
-      "profit": 0.0,
-      "book": "fanduel",
-      "source": "fanduel_api",
-      "reason": null,
-      "home": "OAK",
-      "away": "DET",
-      "gamePk": 824971,
-      "fadeReason": "all"
-    },
-    {
-      "date": "2026-08-02",
-      "commence": "2026-08-02T20:10:00Z",
-      "betType": "ml",
-      "shadow": false,
-      "pitchers": [
-        "Landen Roupp"
-      ],
-      "fadeTeam": "SF",
-      "market": "h2h",
-      "selection": "SD",
-      "line": null,
-      "odds": -118,
-      "stake": 1.18,
-      "result": "pending",
-      "profit": 0.0,
-      "book": "fanduel",
-      "source": "fanduel_api",
-      "reason": null,
-      "home": "SD",
-      "away": "SF",
-      "gamePk": 823270,
-      "fadeReason": "away"
-    },
     {
       "date": "2026-08-02",
       "commence": "2026-08-02T23:20:00Z",
@@ -14553,6 +14505,54 @@
       "away": "NYY",
       "gamePk": 824648,
       "fadeReason": "all"
+    },
+    {
+      "date": "2026-08-02",
+      "commence": "2026-08-02T20:05:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Gage Jump"
+      ],
+      "fadeTeam": "OAK",
+      "market": "h2h",
+      "selection": "DET",
+      "line": null,
+      "odds": -114,
+      "stake": 1.14,
+      "result": "WIN",
+      "profit": 1.0,
+      "book": "fanduel",
+      "source": "fanduel_api",
+      "reason": null,
+      "home": "OAK",
+      "away": "DET",
+      "gamePk": 824971,
+      "fadeReason": "all"
+    },
+    {
+      "date": "2026-08-02",
+      "commence": "2026-08-02T20:10:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Landen Roupp"
+      ],
+      "fadeTeam": "SF",
+      "market": "h2h",
+      "selection": "SD",
+      "line": null,
+      "odds": -118,
+      "stake": 1.18,
+      "result": "WIN",
+      "profit": 1.0,
+      "book": "fanduel",
+      "source": "fanduel_api",
+      "reason": null,
+      "home": "SD",
+      "away": "SF",
+      "gamePk": 823270,
+      "fadeReason": "away"
     }
   ]
 }

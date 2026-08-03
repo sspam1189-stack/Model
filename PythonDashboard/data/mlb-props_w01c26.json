@@ -4,7 +4,7 @@
   "season": "2026",
   "mode": "live",
   "model": "kalman_blend",
-  "generated": "2026-08-02T23:01:15Z",
+  "generated": "2026-08-03T00:10:07Z",
   "totalProjections": 28,
   "totalPicks": 2674,
   "totalWatchlist": 26,
@@ -89698,7 +89698,7 @@
       "daysSinceLastStart": 5,
       "restVerdict": "TAKE",
       "date": "2026-08-02",
-      "lockState": "lineup_confirmed",
+      "lockState": "game_started",
       "lockedAt": "2026-08-02T19:46:31.868150Z",
       "lineupConfirmed": true,
       "readVerdict": "TAKE",
@@ -89731,7 +89731,7 @@
       "proj_raw": 5.654,
       "would_be_pick": "OVER",
       "date": "2026-08-02",
-      "lockState": "lineup_confirmed",
+      "lockState": "game_started",
       "lockedAt": "2026-08-02T19:46:31.868150Z",
       "lineupConfirmed": true
     }
@@ -90551,7 +90551,7 @@
       "daysSinceLastStart": 5,
       "restVerdict": "TAKE",
       "date": "2026-08-02",
-      "lockState": "lineup_confirmed",
+      "lockState": "game_started",
       "lockedAt": "2026-08-02T19:46:31.868150Z",
       "lineupConfirmed": true,
       "readVerdict": "TAKE",
@@ -90583,7 +90583,7 @@
       "to_win_1u": 1.3,
       "proj_raw": 5.654,
       "date": "2026-08-02",
-      "lockState": "lineup_confirmed",
+      "lockState": "game_started",
       "lockedAt": "2026-08-02T19:46:31.868150Z",
       "lineupConfirmed": true
     }
@@ -90643,14 +90643,14 @@
     "KC": "Final",
     "LAA": "Final",
     "MIL": "Final",
-    "OAK": "In Progress",
-    "DET": "In Progress",
-    "SD": "In Progress",
-    "SF": "In Progress",
-    "SEA": "In Progress",
-    "MIN": "In Progress",
-    "LAD": "Warmup",
-    "BOS": "Warmup"
+    "OAK": "Final",
+    "DET": "Final",
+    "SD": "Final",
+    "SF": "Final",
+    "SEA": "Final",
+    "MIN": "Final",
+    "LAD": "In Progress",
+    "BOS": "In Progress"
   },
   "gameTimesById": {
     "824807": "2026-08-02T17:35:00Z",
@@ -90681,10 +90681,10 @@
     "824648": "Final",
     "824323": "Final",
     "823996": "Final",
-    "824971": "In Progress",
-    "823270": "In Progress",
-    "823107": "In Progress",
-    "823919": "Warmup"
+    "824971": "Final",
+    "823270": "Final",
+    "823107": "Final",
+    "823919": "In Progress"
   },
   "todayProbables": [
     {
