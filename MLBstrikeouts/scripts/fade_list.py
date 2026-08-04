@@ -204,7 +204,7 @@ FADE_WINDOW = {
     "Jack Perkins":      {"add": SEASON_START},
     "Tyler Phillips":    {"add": SEASON_START},  # away-only (see FADE_VENUE)
     # Added 2026-07-27 (all-pitcher fade screen), season-backfilled.
-    "Logan Webb":        {"add": SEASON_START},
+    "Logan Webb":        {"add": SEASON_START, "remove": "2026-08-04"},  # removed after 2026-08-03 (user): 8/3 start still faded, no fades from 8/4 on; history stays
     "Lodolo":            {"add": SEASON_START},  # home-only (see FADE_VENUE)
     "Michael King":      {"add": SEASON_START},
     "Mize":              {"add": SEASON_START, "remove": "2026-07-31"},  # removed 7/31: 2.70 ERA (elite); fade was pure market-pricing, too fragile
