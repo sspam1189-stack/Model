@@ -302,7 +302,7 @@
           const tbl = document.createElement('table');
           tbl.className = 'props-data-table';
           tbl.style.cssText = 'width:100%;border-collapse:collapse;margin-top:8px';
-          const todayHeaders = ['Name','Team','Opp','Cat','Proj','Line','Edge','Odds','O/U','Status'];
+          const todayHeaders = ['Name','Team','Opp','Cat','Proj','Line','Edge','Odds','O/U','pCover','Status'];
           const hRow = tbl.createTHead().insertRow();
           todayHeaders.forEach((h, i) => {
             const th = document.createElement('th');
@@ -345,6 +345,7 @@
                 p.line != null ? String(p.line) : '\u2014',
                 tEdgeStr, tPrice,
                 p.pick === 'OVER' ? 'O' : 'U',
+                p.pCover != null ? (p.pCover * 100).toFixed(1) + '%' : '—',
                 started ? '\u{1F552}' : ''
               ];
               cells.forEach((val, i) => {
@@ -357,6 +358,7 @@
                 if (i === 6 && tEdge != null) td.style.color = tEdge > 0 ? 'var(--green)' : tEdge < 0 ? 'var(--red)' : '#999';
                 if (i === 7) td.style.color = '#999';
                 if (i === 8) { td.style.fontWeight = '700'; td.style.color = p.pick === 'OVER' ? 'var(--green)' : 'var(--red)'; }
+                if (i === 9 && p.pCover != null) { td.style.fontWeight = '600'; td.style.color = p.pCover >= 0.65 ? 'var(--green)' : (p.pCover < 0.60 ? '#999' : ''); }
               });
             }
             tbody.replaceWith(newBody);
@@ -394,7 +396,7 @@
             const tomTbl = document.createElement('table');
             tomTbl.className = 'props-data-table';
             tomTbl.style.cssText = 'width:100%;border-collapse:collapse;margin-top:8px';
-            const tomHeaders = ['Name','Team','Opp','Cat','Proj','Line','Edge','Odds','O/U'];
+            const tomHeaders = ['Name','Team','Opp','Cat','Proj','Line','Edge','Odds','O/U','pCover'];
             const tomHRow = tomTbl.createTHead().insertRow();
             tomHeaders.forEach((h) => {
               const th = document.createElement('th');
@@ -422,6 +424,7 @@
                 p.line != null ? String(p.line) : '—',
                 tEdgeStr, tPrice,
                 p.pick === 'OVER' ? 'O' : 'U',
+                p.pCover != null ? (p.pCover * 100).toFixed(1) + '%' : '—',
               ];
               cells.forEach((val, i) => {
                 const td = row.insertCell();
@@ -435,6 +438,7 @@
                 if (i === 6 && tEdge != null) td.style.color = tEdge > 0 ? 'var(--green)' : tEdge < 0 ? 'var(--red)' : '#999';
                 if (i === 7) td.style.color = '#999';
                 if (i === 8) { td.style.fontWeight = '700'; td.style.color = p.pick === 'OVER' ? 'var(--green)' : 'var(--red)'; }
+                if (i === 9 && p.pCover != null) { td.style.fontWeight = '600'; td.style.color = p.pCover >= 0.65 ? 'var(--green)' : (p.pCover < 0.60 ? '#999' : ''); }
               });
             }
             tomCard.appendChild(tomTbl);
