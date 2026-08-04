@@ -1,7 +1,7 @@
 {
   "sport": "MLB",
   "type": "fade-ml",
-  "generated": "2026-08-04T16:47:16Z",
+  "generated": "2026-08-04T17:22:18Z",
   "fadeList": [
     "Painter",
     "Rocker",
@@ -103,30 +103,6 @@
   "today": [
     {
       "date": "2026-08-04",
-      "commence": "2026-08-05T00:40:00Z",
-      "betType": "ml",
-      "shadow": false,
-      "pitchers": [
-        "Freddy Peralta"
-      ],
-      "fadeTeam": "TB",
-      "market": "h2h",
-      "selection": "COL",
-      "line": null,
-      "odds": 146,
-      "stake": 1.0,
-      "result": "pending",
-      "profit": 0.0,
-      "book": "fanduel",
-      "source": "fanduel_api",
-      "reason": null,
-      "home": "COL",
-      "away": "TB",
-      "gamePk": 824321,
-      "fadeReason": "all"
-    },
-    {
-      "date": "2026-08-04",
       "commence": "2026-08-05T00:10:00Z",
       "betType": "ml",
       "shadow": false,
@@ -148,6 +124,30 @@
       "away": "TOR",
       "gamePk": 824161,
       "fadeReason": "away"
+    },
+    {
+      "date": "2026-08-04",
+      "commence": "2026-08-04T22:40:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Carson Palmquist"
+      ],
+      "fadeTeam": "WSH",
+      "market": "h2h",
+      "selection": "PHI",
+      "line": null,
+      "odds": -270,
+      "stake": 2.7,
+      "result": "pending",
+      "profit": 0.0,
+      "book": "fanduel",
+      "source": "fanduel_api",
+      "reason": null,
+      "home": "PHI",
+      "away": "WSH",
+      "gamePk": 823432,
+      "fadeReason": "all"
     }
   ],
   "bets": [
