@@ -1,7 +1,7 @@
 {
   "sport": "MLB",
   "type": "hand-tails",
-  "generated": "2026-08-04T03:56:40Z",
+  "generated": "2026-08-04T12:12:08Z",
   "handMin": 6,
   "roster": {
     "Scherzer": {
@@ -97,7 +97,54 @@
       }
     }
   },
-  "today": [],
+  "today": [
+    {
+      "date": "2026-08-04",
+      "commence": "2026-08-04T22:40:00Z",
+      "betType": "hand_fade",
+      "action": "fade",
+      "pitcher": "Brady Singer",
+      "entry": "Brady Singer",
+      "hand": "R",
+      "arm_team": "CIN",
+      "opp_team": "OAK",
+      "selection": "OAK",
+      "home": "CIN",
+      "away": "OAK",
+      "oppLefty": 6,
+      "oppRighty": 4,
+      "odds": 120,
+      "stake": 1.0,
+      "result": "pending",
+      "reason": null,
+      "profit": 0.0,
+      "book": "fanduel",
+      "source": "fanduel_api"
+    },
+    {
+      "date": "2026-08-04",
+      "commence": "2026-08-04T23:05:00Z",
+      "betType": "hand_fade",
+      "action": "fade",
+      "pitcher": "Ryan Weathers",
+      "entry": "Weathers",
+      "hand": "L",
+      "arm_team": "NYY",
+      "opp_team": "STL",
+      "selection": "STL",
+      "home": "NYY",
+      "away": "STL",
+      "oppLefty": 2,
+      "oppRighty": 7,
+      "odds": 150,
+      "stake": 1.0,
+      "result": "pending",
+      "reason": null,
+      "profit": 0.0,
+      "book": "fanduel",
+      "source": "fanduel_api"
+    }
+  ],
   "bets": [
     {
       "date": "2026-04-06",

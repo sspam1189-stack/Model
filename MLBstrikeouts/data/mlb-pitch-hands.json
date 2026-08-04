@@ -1,107 +1,179 @@
 {
   "sport": "MLB",
   "type": "pitch-hands-today",
-  "date": "2026-08-03",
-  "generated": "2026-08-04T03:55:52Z",
+  "date": "2026-08-04",
+  "generated": "2026-08-04T12:11:37Z",
   "hands": {
-    "aaron nola": "R",
-    "andrew alvarez": "L",
-    "cam schlittler": "R",
-    "michael mcgreevy": "R",
-    "brandon sproat": "R",
-    "bubba chandler": "R",
-    "matthew boyd": "L",
-    "justin wrobleski": "L",
-    "cal quantrill": "R",
-    "logan webb": "R",
-    "cristian javier": "R",
-    "shane bieber": "R",
-    "michael lorenzen": "R",
-    "ian seymour": "L",
-    "brandon pfaadt": "R",
-    "michael king": "R"
+    "grayson rodriguez": "R",
+    "joey cantillo": "L",
+    "sean manaea": "L",
+    "brady singer": "R",
+    "j t ginn": "R",
+    "jesus luzardo": "L",
+    "zack littell": "R",
+    "ryan weathers": "L",
+    "hunter dobbins": "R",
+    "patrick sandoval": "L",
+    "davis martin": "R",
+    "grant holmes": "R",
+    "ryan gusto": "R",
+    "randy dobnak": "R",
+    "joe ryan": "R",
+    "logan henderson": "R",
+    "jared jones": "R",
+    "javier assad": "R",
+    "tarik skubal": "L",
+    "mackenzie gore": "L",
+    "blade tidwell": "R",
+    "hayden wesneski": "R",
+    "trey yesavage": "R",
+    "gabriel hughes": "R",
+    "freddy peralta": "R",
+    "eduardo rodriguez": "L",
+    "randy vasquez": "R",
+    "emerson hancock": "R"
   },
   "names": {
-    "aaron nola": "Aaron Nola",
-    "andrew alvarez": "Andrew Alvarez",
-    "cam schlittler": "Cam Schlittler",
-    "michael mcgreevy": "Michael McGreevy",
-    "brandon sproat": "Brandon Sproat",
-    "bubba chandler": "Bubba Chandler",
-    "matthew boyd": "Matthew Boyd",
-    "justin wrobleski": "Justin Wrobleski",
-    "cal quantrill": "Cal Quantrill",
-    "logan webb": "Logan Webb",
-    "cristian javier": "Cristian Javier",
-    "shane bieber": "Shane Bieber",
-    "michael lorenzen": "Michael Lorenzen",
-    "ian seymour": "Ian Seymour",
-    "brandon pfaadt": "Brandon Pfaadt",
-    "michael king": "Michael King"
+    "grayson rodriguez": "Grayson Rodriguez",
+    "joey cantillo": "Joey Cantillo",
+    "sean manaea": "Sean Manaea",
+    "brady singer": "Brady Singer",
+    "j t ginn": "J.T. Ginn",
+    "jesus luzardo": "Jes\u00fas Luzardo",
+    "zack littell": "Zack Littell",
+    "ryan weathers": "Ryan Weathers",
+    "hunter dobbins": "Hunter Dobbins",
+    "patrick sandoval": "Patrick Sandoval",
+    "davis martin": "Davis Martin",
+    "grant holmes": "Grant Holmes",
+    "ryan gusto": "Ryan Gusto",
+    "randy dobnak": "Randy Dobnak",
+    "joe ryan": "Joe Ryan",
+    "logan henderson": "Logan Henderson",
+    "jared jones": "Jared Jones",
+    "javier assad": "Javier Assad",
+    "tarik skubal": "Tarik Skubal",
+    "mackenzie gore": "MacKenzie Gore",
+    "blade tidwell": "Blade Tidwell",
+    "hayden wesneski": "Hayden Wesneski",
+    "trey yesavage": "Trey Yesavage",
+    "gabriel hughes": "Gabriel Hughes",
+    "freddy peralta": "Freddy Peralta",
+    "eduardo rodriguez": "Eduardo Rodriguez",
+    "randy vasquez": "Randy V\u00e1squez",
+    "emerson hancock": "Emerson Hancock"
   },
   "starters": {
-    "PHI": {
-      "name": "Aaron Nola",
+    "LAA": {
+      "name": "Grayson Rodriguez",
       "hand": "R"
     },
-    "WSH": {
-      "name": "Andrew Alvarez",
+    "CLE": {
+      "name": "Joey Cantillo",
       "hand": "L"
     },
-    "NYY": {
-      "name": "Cam Schlittler",
+    "NYM": {
+      "name": "Sean Manaea",
+      "hand": "L"
+    },
+    "CIN": {
+      "name": "Brady Singer",
       "hand": "R"
     },
+    "OAK": {
+      "name": "J.T. Ginn",
+      "hand": "R"
+    },
+    "PHI": {
+      "name": "Jes\u00fas Luzardo",
+      "hand": "L"
+    },
+    "WSH": {
+      "name": "Zack Littell",
+      "hand": "R"
+    },
+    "NYY": {
+      "name": "Ryan Weathers",
+      "hand": "L"
+    },
     "STL": {
-      "name": "Michael McGreevy",
+      "name": "Hunter Dobbins",
+      "hand": "R"
+    },
+    "BOS": {
+      "name": "Patrick Sandoval",
+      "hand": "L"
+    },
+    "CWS": {
+      "name": "Davis Martin",
+      "hand": "R"
+    },
+    "ATL": {
+      "name": "Grant Holmes",
+      "hand": "R"
+    },
+    "MIA": {
+      "name": "Ryan Gusto",
+      "hand": "R"
+    },
+    "KC": {
+      "name": "Randy Dobnak",
+      "hand": "R"
+    },
+    "MIN": {
+      "name": "Joe Ryan",
       "hand": "R"
     },
     "MIL": {
-      "name": "Brandon Sproat",
+      "name": "Logan Henderson",
       "hand": "R"
     },
     "PIT": {
-      "name": "Bubba Chandler",
+      "name": "Jared Jones",
       "hand": "R"
     },
     "CHC": {
-      "name": "Matthew Boyd",
-      "hand": "L"
+      "name": "Javier Assad",
+      "hand": "R"
     },
     "LAD": {
-      "name": "Justin Wrobleski",
+      "name": "Tarik Skubal",
       "hand": "L"
     },
     "TEX": {
-      "name": "Cal Quantrill",
-      "hand": "R"
+      "name": "MacKenzie Gore",
+      "hand": "L"
     },
     "SF": {
-      "name": "Logan Webb",
+      "name": "Blade Tidwell",
       "hand": "R"
     },
     "HOU": {
-      "name": "Cristian Javier",
+      "name": "Hayden Wesneski",
       "hand": "R"
     },
     "TOR": {
-      "name": "Shane Bieber",
+      "name": "Trey Yesavage",
       "hand": "R"
     },
     "COL": {
-      "name": "Michael Lorenzen",
+      "name": "Gabriel Hughes",
       "hand": "R"
     },
     "TB": {
-      "name": "Ian Seymour",
-      "hand": "L"
-    },
-    "ARI": {
-      "name": "Brandon Pfaadt",
+      "name": "Freddy Peralta",
       "hand": "R"
     },
+    "ARI": {
+      "name": "Eduardo Rodriguez",
+      "hand": "L"
+    },
     "SD": {
-      "name": "Michael King",
+      "name": "Randy V\u00e1squez",
+      "hand": "R"
+    },
+    "SEA": {
+      "name": "Emerson Hancock",
       "hand": "R"
     }
   }

@@ -1,7 +1,7 @@
 {
   "sport": "MLB",
   "type": "fade-ml",
-  "generated": "2026-08-04T03:55:51Z",
+  "generated": "2026-08-04T12:11:36Z",
   "fadeList": [
     "Painter",
     "Rocker",
@@ -72,22 +72,22 @@
   ],
   "mutualRule": "underdog_min",
   "summary": {
-    "wins": 425,
+    "wins": 426,
     "losses": 145,
     "voids": 0,
     "skips": 33,
-    "staked": 704.27,
-    "units": 293.35,
-    "roi": 0.4165,
+    "staked": 705.37,
+    "units": 294.35,
+    "roi": 0.4173,
     "byType": {
       "ml": {
-        "wins": 415,
+        "wins": 416,
         "losses": 137,
         "voids": 0,
         "skips": 0,
-        "staked": 686.27,
-        "units": 288.31,
-        "roi": 0.4201
+        "staked": 687.37,
+        "units": 289.31,
+        "roi": 0.4209
       },
       "ml_dog": {
         "wins": 10,
@@ -102,27 +102,51 @@
   },
   "today": [
     {
-      "date": "2026-08-03",
-      "commence": "2026-08-04T01:40:00Z",
+      "date": "2026-08-04",
+      "commence": "2026-08-05T00:40:00Z",
       "betType": "ml",
       "shadow": false,
       "pitchers": [
-        "Michael King"
+        "Freddy Peralta"
       ],
-      "fadeTeam": "SD",
+      "fadeTeam": "TB",
       "market": "h2h",
-      "selection": "ARI",
+      "selection": "COL",
       "line": null,
-      "odds": -110,
-      "stake": 1.1,
+      "odds": 120,
+      "stake": 1.0,
       "result": "pending",
       "profit": 0.0,
       "book": "fanduel",
       "source": "fanduel_api",
       "reason": null,
-      "home": "ARI",
-      "away": "SD",
-      "gamePk": 825095,
+      "home": "COL",
+      "away": "TB",
+      "gamePk": 824321,
+      "fadeReason": "all"
+    },
+    {
+      "date": "2026-08-04",
+      "commence": "2026-08-05T00:10:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Trey Yesavage"
+      ],
+      "fadeTeam": "TOR",
+      "market": "h2h",
+      "selection": "HOU",
+      "line": null,
+      "odds": -126,
+      "stake": 1.26,
+      "result": "pending",
+      "profit": 0.0,
+      "book": "fanduel",
+      "source": "fanduel_api",
+      "reason": null,
+      "home": "HOU",
+      "away": "TOR",
+      "gamePk": 824161,
       "fadeReason": "away"
     }
   ],
@@ -14649,6 +14673,30 @@
       "away": "SF",
       "gamePk": 822867,
       "fadeReason": "all"
+    },
+    {
+      "date": "2026-08-03",
+      "commence": "2026-08-04T01:40:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Michael King"
+      ],
+      "fadeTeam": "SD",
+      "market": "h2h",
+      "selection": "ARI",
+      "line": null,
+      "odds": -110,
+      "stake": 1.1,
+      "result": "WIN",
+      "profit": 1.0,
+      "book": "fanduel",
+      "source": "fanduel_api",
+      "reason": null,
+      "home": "ARI",
+      "away": "SD",
+      "gamePk": 825095,
+      "fadeReason": "away"
     }
   ]
 }
