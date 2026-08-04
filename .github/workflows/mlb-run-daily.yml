@@ -179,9 +179,24 @@ jobs:
           PYTHONIOENCODING: "utf-8"
         run: python -m scripts.fade_vs_team_watch
 
+      # TRUE all-pitcher PA-level splits source: ingests play-by-play and tallies
+      # each plate appearance under the ACTUAL pitcher's hand (starters AND
+      # relievers), split by the batting team's home/away side. Incremental --
+      # only fetches games not already in the cache, so the daily run just adds
+      # today's slate. Feeds build_team_woba_splits below.
+      - name: Ingest MLB play-by-play PA splits
+        continue-on-error: true
+        working-directory: MLBstrikeouts
+        env:
+          PYTHONUTF8: "1"
+          PYTHONUNBUFFERED: "1"
+          PYTHONIOENCODING: "utf-8"
+        run: python -m scripts.build_pbp_team_pa
+
       # Self-computed team wOBA/wRC+ splits vs LHP/RHP by window (season, each
-      # month, last-30/15). Powers the Team wRC+ card's Window selector. Reads
-      # the batter+pitcher game logs (refreshed by run_daily) and mlb-all-ml.json.
+      # month, last-30/15) and home/away. Powers the Team wRC+ card's Window +
+      # Venue selectors. Reads the TRUE all-pitcher PA splits (team_pa_splits_
+      # 2026.json) from the step above.
       - name: Build MLB team wOBA/wRC+ splits
         continue-on-error: true
         working-directory: MLBstrikeouts

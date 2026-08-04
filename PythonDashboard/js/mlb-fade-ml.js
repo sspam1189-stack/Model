@@ -887,7 +887,7 @@ async function renderMLBFadeML() {
       wrcCard.style.cssText = 'padding:8px 4px;margin-top:16px';
       wrcCard.innerHTML =
         '<div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap;padding:6px 8px">'
-        + '<span class="card-title" style="padding:0">Team wRC+ by Opposing Starter Hand</span>'
+        + '<span class="card-title" style="padding:0">Team wRC+ vs LHP / RHP</span>'
         + '<label style="font-size:11px;color:#888">Window '
         + '<select id="wrcWinSel" style="' + selCss + '">'
         + (function () {
@@ -934,7 +934,8 @@ async function renderMLBFadeML() {
         const noteBase = venLbl + (isFg
           ? ((wrcData.season ? esc(wrcData.season) + ' ' : '') + 'FanGraphs true wRC+ (park + league adjusted)'
             + (wrcData.asOf ? ' · as of ' + esc(wrcData.asOf) : '') + ' · 100 = league avg · view-only')
-          : ('Self-computed <b>park-adjusted wRC+</b> (PA-weighted by parks played; ≈FG ±6 pts) · '
+          : ('Self-computed <b>park-adjusted wRC+</b> vs every pitcher faced (starters + relievers; '
+            + 'PA-weighted by parks; ≈FG ±6 pts) · '
             + 'through ' + esc(wobaData.throughDate || '?') + ' · (n) = PA · 100 = league avg · view-only'));
 
         // FOCUSED matchup mode: a game is selected AND both starters' hands are

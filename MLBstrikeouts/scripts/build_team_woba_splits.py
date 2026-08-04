@@ -5,10 +5,10 @@ Self-computed team offense splits vs LHP / RHP, for ANY time window -- the
 calculable alternative to the manual FanGraphs wRC+ snapshot (build_team_wrc.py)
 so we can look at June / July / recent instead of only full-season.
 
-Reads batter game logs (per hitter, per game: PA/AB/H/2B/3B/HR/BB/HBP + the
-opposing STARTER's id) and the pitcher game logs (id -> name) + mlb-all-ml.json
-(name -> throwing hand) to attribute each hitter-game to the opposing starter's
-hand. Aggregates by team x hand over each window and computes:
+Reads the PA-level splits (build_pbp_team_pa.py: team_pa_splits_2026.json),
+where each plate appearance is already tallied under the ACTUAL pitcher's hand
+(starters AND relievers, from play-by-play) with the batting team's home/away
+side and the park. Aggregates by team x hand over each window and computes:
   * wOBA   -- standard linear-weight wOBA (denominator AB+BB+HBP).
   * wRC+   -- PARK-NEUTRAL approximation: 100 * ((wOBA-lgwOBA)/scale + lgR/PA)
               / (lgR/PA), league baseline computed from the SAME window+hand.
@@ -32,7 +32,6 @@ from collections import defaultdict
 
 sys.path.insert(0, os.path.dirname(__file__))
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), "sources"))
-from fade_list import _norm
 from sources.park_factors import PRIOR_PARK_FACTORS
 
 # Single offense park factor per team (its home park), 1.0 = neutral. We use the
@@ -43,9 +42,9 @@ PARK_PF = {tm: (f.get("tb") or 1.0) for tm, f in PRIOR_PARK_FACTORS.items()}
 
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 ROOT_DATA = os.path.normpath(os.path.join(SCRIPT_DIR, "..", "..", "data"))
-PITCHER_LOGS = os.path.join(ROOT_DATA, "pitcher_cache", "mlb", "game_logs_2026.json")
-BATTER_LOGS = os.path.join(ROOT_DATA, "pitcher_cache", "mlb", "batter_game_logs_2026.json")
-ALLML = os.path.normpath(os.path.join(SCRIPT_DIR, "..", "data", "mlb-all-ml.json"))
+# TRUE all-pitcher PA-level splits (build_pbp_team_pa.py): each row is one
+# (game, batting team, ACTUAL pitcher hand) with wOBA components + venue + park.
+PA_SPLITS = os.path.join(ROOT_DATA, "pitcher_cache", "mlb", "team_pa_splits_2026.json")
 OUTPUT_PATHS = [
     os.path.normpath(os.path.join(SCRIPT_DIR, "..", "data", "mlb-team-woba-splits.json")),
     os.path.normpath(os.path.join(
@@ -61,24 +60,6 @@ ASB_DATE = "2026-07-13"   # first game of the 2026 second half (post All-Star br
 _ACC = ["pa", "ab", "h", "doubles", "triples", "hr", "bb", "hbp"]
 
 
-def _hand_resolver():
-    """opp_pitcher_id -> 'L'/'R', via id->name (pitcher logs) + name->hand (all-ml)."""
-    id2name = {}
-    for r in json.load(open(PITCHER_LOGS, encoding="utf-8")):
-        if r.get("pitcher_id") and r.get("pitcher_name"):
-            id2name[r["pitcher_id"]] = r["pitcher_name"]
-    name2hand = {}
-    for g in json.load(open(ALLML, encoding="utf-8")).get("games", []):
-        for side in ("home", "away"):
-            p, h = g.get(side + "_pitcher"), g.get(side + "_hand")
-            if p and h:
-                name2hand[_norm(p)] = h
-    def hand_of(pid):
-        nm = id2name.get(pid)
-        return name2hand.get(_norm(nm)) if nm else None
-    return hand_of
-
-
 def _woba(d):
     singles = d["h"] - d["doubles"] - d["triples"] - d["hr"]
     num = (W["bb"] * d["bb"] + W["hbp"] * d["hbp"] + W["s"] * singles
@@ -92,18 +73,17 @@ def _blank():
 
 
 def build():
-    hand_of = _hand_resolver()
-    blogs = json.load(open(BATTER_LOGS, encoding="utf-8"))
-    rows = [r for v in blogs.values() for r in (v if isinstance(v, list) else [v])]
-    # Attach resolved hand + keep only rows we can place.
+    # PA-level rows: each already carries the ACTUAL pitcher's hand (starters +
+    # relievers), the batting team's home/away side, and the park's home team.
+    rows = json.load(open(PA_SPLITS, encoding="utf-8"))
     recs = []
     for r in rows:
-        h = hand_of(r.get("opp_pitcher_id"))
+        h = r.get("opp_hand")
         if h in ("L", "R") and r.get("team") and r.get("game_date"):
             recs.append((r["game_date"], r["team"], h, r))
     dates = sorted({d for d, *_ in recs})
     if not dates:
-        raise SystemExit("no resolvable batter-game rows")
+        raise SystemExit("no PA-split rows -- run build_pbp_team_pa first")
     last = datetime.date.fromisoformat(dates[-1])
     months = sorted({d[:7] for d in dates})
 
@@ -189,13 +169,14 @@ def build():
         "throughDate": dates[-1],
         "metric": "wOBA + park-adjusted wRC+ (self-computed)",
         "weights": W, "wobaScale": WOBA_SCALE, "lgRperPA": LG_R_PA,
-        "note": "Self-computed team offense vs LHP/RHP by opposing STARTER hand, "
-                "per window. wrcplus is PARK-ADJUSTED (PA-weighted by the actual "
-                "parks the team hit in over the window, using the total-bases park "
-                "factor); wrcplusNeutral is the un-adjusted version; parkFactor is "
-                "the PA-weighted park factor. Standard wOBA weights, league "
-                "baseline from the same window -- close to but not identical to "
-                "FanGraphs' exact wRC+.",
+        "note": "Self-computed team offense vs LHP/RHP by the ACTUAL pitcher's "
+                "hand each plate appearance (starters + relievers, from "
+                "play-by-play), per window. wrcplus is PARK-ADJUSTED (PA-weighted "
+                "by the actual parks the team hit in over the window, using the "
+                "total-bases park factor); wrcplusNeutral is the un-adjusted "
+                "version; parkFactor is the PA-weighted park factor. Standard wOBA "
+                "weights, league baseline from the same window -- close to but not "
+                "identical to FanGraphs' exact wRC+.",
         "windows": out,
     }
     for path in OUTPUT_PATHS:
