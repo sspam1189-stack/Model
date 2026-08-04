@@ -99,66 +99,95 @@ def build():
         return lambda d: d.startswith(name)      # a month "YYYY-MM"
 
     windows = ["season", "asb"] + months + ["last15", "last20", "last30", "last45", "last60"]
+    ROLES = ("SP", "RP")
+    VENUE_GROUPS = [(("home", "road"), None), (("home",), "home"), (("road",), "road")]
     out = {}
     for wname in windows:
         keep = window_pred(wname)
-        # Keyed by (team, hand, venue) with venue in {'home','road'}; 'all' is
-        # home+road combined at output time.
+        # Keyed by (team, hand, venue, role): venue in {'home','road'}, role in
+        # {'SP','RP'}. Output aggregates 'all' venue (home+road) and 'all' role
+        # (SP+RP), plus per-role branches. League baselines are per (hand, role)
+        # so a starters-only wRC+ is measured against league-average-vs-starters
+        # (relievers are league-wide tougher; a shared baseline would make every
+        # team look worse vs RP rather than isolating team skill).
         agg = defaultdict(_blank)
-        pfw = defaultdict(lambda: [0.0, 0])      # (team,hand,venue) -> [sum(pa*PF), sum(pa)]
-        lg = {"L": _blank(), "R": _blank()}
+        pfw = defaultdict(lambda: [0.0, 0])  # (team,hand,venue,role) -> [sum(pa*PF), sum(pa)]
+        lg = defaultdict(_blank)             # (hand, role) -> league totals
         for d, tm, h, r in recs:
             if not keep(d):
                 continue
+            role = r.get("role") or "SP"
             venue = "home" if r.get("is_home") else "road"
-            a = agg[(tm, h, venue)]
+            a = agg[(tm, h, venue, role)]
+            lgb = lg[(h, role)]
             for k in _ACC:
                 a[k] += r.get(k) or 0
-            for k in _ACC:
-                lg[h][k] += r.get(k) or 0
+                lgb[k] += r.get(k) or 0
             # Park the PAs happened in = the home team's park.
             park = tm if r.get("is_home") else r.get("opp")
             pa = r.get("pa") or 0
-            w = pfw[(tm, h, venue)]
+            w = pfw[(tm, h, venue, role)]
             w[0] += pa * PARK_PF.get(park, 1.0)
             w[1] += pa
-        lgwoba = {h: _woba(lg[h]) for h in ("L", "R")}
+        # League wOBA per (hand, role) and combined all-role ('ALL').
+        lgwoba = {}
+        for h in ("L", "R"):
+            comb = _blank()
+            for role in ROLES:
+                lgwoba[(h, role)] = _woba(lg[(h, role)])
+                for k in _ACC:
+                    comb[k] += lg[(h, role)][k]
+            lgwoba[(h, "ALL")] = _woba(comb)
 
-        def wrcplus(d, h, avg_pf):
+        def wrcplus(d, h, rolekey, avg_pf):
             if not (d["ab"] + d["bb"] + d["hbp"]):
                 return None, None
-            neutral = 100 * ((_woba(d) - lgwoba[h]) / WOBA_SCALE + LG_R_PA) / LG_R_PA
+            base = lgwoba.get((h, rolekey)) or 0.0
+            neutral = 100 * ((_woba(d) - base) / WOBA_SCALE + LG_R_PA) / LG_R_PA
             # Park term: subtract the park's inflation (avg_pf-1) in wRC+ points.
             park_adj = neutral - 100 * (avg_pf - 1.0)
             return round(park_adj), round(neutral)
 
-        def _cell(d, h, pf_num, pf_den):
+        def _cell(d, h, rolekey, pf_num, pf_den):
             avg_pf = (pf_num / pf_den) if pf_den else 1.0
-            wp, wn = wrcplus(d, h, avg_pf)
+            wp, wn = wrcplus(d, h, rolekey, avg_pf)
             return {"woba": round(_woba(d), 3), "wrcplus": wp, "wrcplusNeutral": wn,
                     "parkFactor": round(avg_pf, 3), "pa": d["pa"]}
 
-        teams = {}
-        for (tm, h) in {(t, hh) for (t, hh, v) in agg}:
-            hkey = "vsLHP" if h == "L" else "vsRHP"
-            node = teams.setdefault(tm, {})
-            # per-venue cells
-            for venue in ("home", "road"):
-                if (tm, h, venue) in agg:
-                    pn, pd = pfw[(tm, h, venue)]
-                    node.setdefault(venue, {})[hkey] = _cell(agg[(tm, h, venue)], h, pn, pd)
-            # 'all' cell = home + road combined
-            comb = _blank()
+        def _combine(tm, h, roles, venues):
+            d = _blank()
             pn = pd = 0.0
-            for venue in ("home", "road"):
-                if (tm, h, venue) in agg:
-                    for k in _ACC:
-                        comb[k] += agg[(tm, h, venue)][k]
-                    pn += pfw[(tm, h, venue)][0]
-                    pd += pfw[(tm, h, venue)][1]
-            node[hkey] = _cell(comb, h, pn, pd)
+            for role in roles:
+                for venue in venues:
+                    a = agg.get((tm, h, venue, role))
+                    if a:
+                        for k in _ACC:
+                            d[k] += a[k]
+                        pn += pfw[(tm, h, venue, role)][0]
+                        pd += pfw[(tm, h, venue, role)][1]
+            return d, pn, pd
+
+        teams = {}
+        for tm in {t for (t, h, v, r) in agg}:
+            node = {}
+            for h in ("L", "R"):
+                hkey = "vsLHP" if h == "L" else "vsRHP"
+                # all-role cells at the node top level (backward compatible),
+                # plus starters-only ('sp') and relievers-only ('rp') branches.
+                for roles, rolekey, dest in (
+                        (ROLES, "ALL", node),
+                        (("SP",), "SP", node.setdefault("sp", {})),
+                        (("RP",), "RP", node.setdefault("rp", {}))):
+                    for venues, vlabel in VENUE_GROUPS:
+                        d, pn, pd = _combine(tm, h, roles, venues)
+                        if not d["pa"]:
+                            continue
+                        target = dest if vlabel is None else dest.setdefault(vlabel, {})
+                        target[hkey] = _cell(d, h, rolekey, pn, pd)
+            teams[tm] = node
         out[wname] = {
-            "lgWobaVsLHP": round(lgwoba["L"], 3), "lgWobaVsRHP": round(lgwoba["R"], 3),
+            "lgWobaVsLHP": round(lgwoba[("L", "ALL")], 3),
+            "lgWobaVsRHP": round(lgwoba[("R", "ALL")], 3),
             "teams": teams,
         }
 
@@ -171,7 +200,9 @@ def build():
         "weights": W, "wobaScale": WOBA_SCALE, "lgRperPA": LG_R_PA,
         "note": "Self-computed team offense vs LHP/RHP by the ACTUAL pitcher's "
                 "hand each plate appearance (starters + relievers, from "
-                "play-by-play), per window. wrcplus is PARK-ADJUSTED (PA-weighted "
+                "play-by-play), per window, home/away, and pitcher role (all / "
+                "starters-only 'sp' / relievers-only 'rp', each vs its own league "
+                "baseline). wrcplus is PARK-ADJUSTED (PA-weighted "
                 "by the actual parks the team hit in over the window, using the "
                 "total-bases park factor); wrcplusNeutral is the un-adjusted "
                 "version; parkFactor is the PA-weighted park factor. Standard wOBA "

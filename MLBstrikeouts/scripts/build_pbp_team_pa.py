@@ -94,35 +94,61 @@ def _tally(agg, event_type):
 
 
 def game_rows(pk, date, home, away):
-    """Return per-(team,hand) tally rows for one game, or [] on failure."""
+    """Return per-(team,hand,role) tally rows for one game, or [] on failure.
+
+    role is 'SP' (the plate appearance faced that team's STARTING pitcher) or
+    'RP' (a reliever). The starter for each pitching side is the pitcher in that
+    side's first plate appearance (pitchers can't re-enter, so first-seen ==
+    starter). This lets the wRC+ table split all-pitcher vs starters-only vs
+    relievers-only.
+    """
     try:
         pbp = _fetch_json(f"{BASE}/game/{pk}/playByPlay")
     except Exception as e:
         print(f"  [pbp] {pk} fetch failed: {e}")
         return []
-    # (team, hand, is_home) -> accumulator
-    buckets = defaultdict(_blank)
-    for p in pbp.get("allPlays", []):
-        res = p.get("result", {})
-        if res.get("type") != "atBat":
-            continue  # skip baserunning/substitution "action" plays
-        et = res.get("eventType")
-        if not et:
-            continue
-        m = p.get("matchup", {})
-        hand = (m.get("pitchHand") or {}).get("code")
-        if hand not in ("L", "R"):
-            continue  # switch/unknown pitcher hand -> skip (rare)
-        is_home_bat = not p.get("about", {}).get("isTopInning", True)
+
+    def atbats():
+        for p in pbp.get("allPlays", []):
+            res = p.get("result", {})
+            if res.get("type") != "atBat":
+                continue  # skip baserunning/substitution "action" plays
+            et = res.get("eventType")
+            if not et:
+                continue
+            m = p.get("matchup", {})
+            hand = (m.get("pitchHand") or {}).get("code")
+            pid = (m.get("pitcher") or {}).get("id")
+            top = p.get("about", {}).get("isTopInning", True)
+            if hand in ("L", "R") and pid is not None:
+                yield top, pid, hand, et
+
+    # Starter per pitching side = the first pitcher seen. Home pitches the top
+    # half (away batting); away pitches the bottom half.
+    home_sp = away_sp = None
+    for top, pid, _h, _e in atbats():
+        if top and home_sp is None:
+            home_sp = pid
+        elif not top and away_sp is None:
+            away_sp = pid
+        if home_sp is not None and away_sp is not None:
+            break
+
+    buckets = defaultdict(_blank)  # (team, hand, is_home_bat, role) -> tally
+    for top, pid, hand, et in atbats():
+        is_home_bat = not top
         team = home if is_home_bat else away
-        _tally(buckets[(team, hand, is_home_bat)], et)
+        starter = home_sp if top else away_sp
+        role = "SP" if pid == starter else "RP"
+        _tally(buckets[(team, hand, is_home_bat, role)], et)
+
     rows = []
-    for (team, hand, is_home_bat), agg in buckets.items():
+    for (team, hand, is_home_bat, role), agg in buckets.items():
         # opp lets the wRC+ builder attribute the park (always the home park):
         # park = team if is_home else opp.
         opp = away if is_home_bat else home
         row = {"game_date": date, "team": team, "opp": opp, "opp_hand": hand,
-               "is_home": is_home_bat}
+               "is_home": is_home_bat, "role": role}
         row.update(agg)
         rows.append(row)
     return rows

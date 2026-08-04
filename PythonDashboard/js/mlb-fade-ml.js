@@ -93,8 +93,9 @@ async function renderMLBFadeML() {
   // by the Today's-plays wRC+ chips and the wRC+ table so both track the same
   // selected window. Falls back to the FanGraphs snapshot for 'fg'/missing.
   const _wobaWindows = (wobaData && wobaData.windows) || {};
-  // venue: '' (all) | 'home' | 'road'. FanGraphs snapshot has no venue split.
-  const teamsForWindow = (winKey, venue) => {
+  // venue: '' (all) | 'home' | 'road'; role: '' (all) | 'sp' | 'rp' (starters /
+  // relievers faced). FanGraphs snapshot has no venue/role split.
+  const teamsForWindow = (winKey, venue, role) => {
     if (winKey === 'fg') {
       const t = (wrcData && wrcData.teams) || {}; const o = {};
       Object.keys(t).forEach(k => { o[k] = { vsLHP: t[k].vsLHP, vsRHP: t[k].vsRHP }; });
@@ -102,7 +103,8 @@ async function renderMLBFadeML() {
     }
     const t = (_wobaWindows[winKey] || {}).teams || {}; const o = {};
     Object.keys(t).forEach(k => {
-      const src = (venue === 'home' || venue === 'road') ? (t[k][venue] || {}) : t[k];
+      const roleBase = (role === 'sp' || role === 'rp') ? (t[k][role] || {}) : t[k];
+      const src = (venue === 'home' || venue === 'road') ? (roleBase[venue] || {}) : roleBase;
       o[k] = {
         vsLHP: (src.vsLHP || {}).wrcplus, vsRHP: (src.vsRHP || {}).wrcplus,
         paL: (src.vsLHP || {}).pa, paR: (src.vsRHP || {}).pa,
@@ -899,6 +901,10 @@ async function renderMLBFadeML() {
         + '<select id="wrcVenueSel" style="' + selCss + '">'
         + '<option value="">All</option><option value="home">Home</option><option value="road">Road</option>'
         + '</select></label>'
+        + '<label style="font-size:11px;color:#888">Pitcher '
+        + '<select id="wrcRoleSel" style="' + selCss + '">'
+        + '<option value="">All</option><option value="sp">Starters</option><option value="rp">Relievers</option>'
+        + '</select></label>'
         + '<label style="font-size:11px;color:#888">Team '
         + '<select id="wrcTeamSel" style="' + selCss + '"><option value="">All</option>'
         + allTeams.map(t => '<option value="' + esc(t) + '">' + esc(t) + '</option>').join('')
@@ -914,6 +920,7 @@ async function renderMLBFadeML() {
       const wrcTeamSel = wrcCard.querySelector('#wrcTeamSel');
       const wrcWinSel = wrcCard.querySelector('#wrcWinSel');
       const wrcVenueSel = wrcCard.querySelector('#wrcVenueSel');
+      const wrcRoleSel = wrcCard.querySelector('#wrcRoleSel');
       const wrcNote = wrcCard.querySelector('#wrcNote');
       const wrcMatchupsEl = wrcCard.querySelector('#wrcMatchups');
       // Today's slate -> matchup filter buttons. Click one to show only that
@@ -927,11 +934,13 @@ async function renderMLBFadeML() {
         const win = wrcWinSel.value;
         const isFg = win === 'fg';
         const venue = wrcVenueSel.value;
-        const teams = teamsForWindow(win, venue);
+        const role = wrcRoleSel.value;
+        const teams = teamsForWindow(win, venue, role);
         const venLbl = venue === 'home' ? 'home games · ' : (venue === 'road' ? 'road games · ' : '');
+        const roleLbl = role === 'sp' ? 'vs starters only · ' : (role === 'rp' ? 'vs relievers only · ' : '');
         // PA hint (computed windows only) so small samples are visible.
         const paTag = (n) => (isFg || n == null) ? '' : ' <span style="color:#666;font-weight:400;font-size:10px">(' + n + ')</span>';
-        const noteBase = venLbl + (isFg
+        const noteBase = venLbl + roleLbl + (isFg
           ? ((wrcData.season ? esc(wrcData.season) + ' ' : '') + 'FanGraphs true wRC+ (park + league adjusted)'
             + (wrcData.asOf ? ' · as of ' + esc(wrcData.asOf) : '') + ' · 100 = league avg · view-only')
           : ('Self-computed <b>park-adjusted wRC+</b> vs every pitcher faced (starters + relievers; '
@@ -1026,6 +1035,7 @@ async function renderMLBFadeML() {
         drawWrc();
       });
       wrcVenueSel.addEventListener('change', drawWrc);
+      wrcRoleSel.addEventListener('change', drawWrc);
       renderMatchupBtns();
       drawWrc();
     }
