@@ -860,6 +860,9 @@ async function renderMLBFadeML() {
     const wobaWins = (wobaData && wobaData.windows) || {};
     const monthKeys = Object.keys(wobaWins).filter(k => /^\d{4}-\d{2}$/.test(k)).sort().reverse();
     // Self-computed windows only (Season first, then rolling/month).
+    // "Confirmed Lineup" = tonight's confirmed 9 per team (season split each),
+    // present only when lineups have posted; listed first for tonight's slate.
+    if (wobaWins.lineup) winOpts.push({ key: 'lineup', label: 'Confirmed Lineup' });
     if (wobaWins.season) winOpts.push({ key: 'season', label: 'Season' });
     if (wobaWins.asb) winOpts.push({ key: 'asb', label: 'Since All-Star break' });
     if (wobaWins.last15) winOpts.push({ key: 'last15', label: 'Last 15 days' });
@@ -933,6 +936,7 @@ async function renderMLBFadeML() {
       function drawWrc() {
         const win = wrcWinSel.value;
         const isFg = win === 'fg';
+        const isLineup = win === 'lineup';
         const venue = wrcVenueSel.value;
         const role = wrcRoleSel.value;
         const teams = teamsForWindow(win, venue, role);
@@ -943,6 +947,9 @@ async function renderMLBFadeML() {
         const noteBase = venLbl + roleLbl + (isFg
           ? ((wrcData.season ? esc(wrcData.season) + ' ' : '') + 'FanGraphs true wRC+ (park + league adjusted)'
             + (wrcData.asOf ? ' · as of ' + esc(wrcData.asOf) : '') + ' · 100 = league avg · view-only')
+          : isLineup
+          ? ('<b>Confirmed lineup wRC+</b> — tonight’s posted 9 per team, each on their season split '
+            + '(park-neutral) · confirmed lineups only · (n) = PA · 100 = league avg · view-only')
           : ('Self-computed <b>park-adjusted wRC+</b> vs every pitcher faced (starters + relievers; '
             + 'PA-weighted by parks; ≈FG ±6 pts) · '
             + 'through ' + esc(wobaData.throughDate || '?') + ' · (n) = PA · 100 = league avg · view-only'));

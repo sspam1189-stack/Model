@@ -42,6 +42,9 @@ ROOT_DATA = os.path.normpath(os.path.join(SCRIPT_DIR, "..", "..", "data"))
 CACHE_DIR = os.path.join(ROOT_DATA, "pitcher_cache", "mlb")
 OUT_PATH = os.path.join(CACHE_DIR, "team_pa_splits_2026.json")
 DONE_PATH = os.path.join(CACHE_DIR, "team_pa_splits_2026_done.json")
+# Per-batter SEASON totals by (batter, hand, venue, role) -- powers the
+# "Confirmed Lineup" wRC+ window (aggregate tonight's 9 confirmed hitters).
+BAT_PATH = os.path.join(CACHE_DIR, "batter_pa_splits_2026.json")
 BASE = "https://statsapi.mlb.com/api/v1"
 SEASON = 2026
 SEASON_START, SEASON_END = f"{SEASON}-03-01", f"{SEASON}-11-30"
@@ -106,7 +109,7 @@ def game_rows(pk, date, home, away):
         pbp = _fetch_json(f"{BASE}/game/{pk}/playByPlay")
     except Exception as e:
         print(f"  [pbp] {pk} fetch failed: {e}")
-        return []
+        return [], {}
 
     def atbats():
         for p in pbp.get("allPlays", []):
@@ -119,14 +122,15 @@ def game_rows(pk, date, home, away):
             m = p.get("matchup", {})
             hand = (m.get("pitchHand") or {}).get("code")
             pid = (m.get("pitcher") or {}).get("id")
+            bid = (m.get("batter") or {}).get("id")
             top = p.get("about", {}).get("isTopInning", True)
             if hand in ("L", "R") and pid is not None:
-                yield top, pid, hand, et
+                yield top, pid, hand, et, bid
 
     # Starter per pitching side = the first pitcher seen. Home pitches the top
     # half (away batting); away pitches the bottom half.
     home_sp = away_sp = None
-    for top, pid, _h, _e in atbats():
+    for top, pid, _h, _e, _b in atbats():
         if top and home_sp is None:
             home_sp = pid
         elif not top and away_sp is None:
@@ -134,13 +138,16 @@ def game_rows(pk, date, home, away):
         if home_sp is not None and away_sp is not None:
             break
 
-    buckets = defaultdict(_blank)  # (team, hand, is_home_bat, role) -> tally
-    for top, pid, hand, et in atbats():
+    buckets = defaultdict(_blank)      # (team, hand, is_home_bat, role) -> tally
+    bat_buckets = defaultdict(_blank)  # (batter_id, hand, is_home_bat, role) -> tally
+    for top, pid, hand, et, bid in atbats():
         is_home_bat = not top
         team = home if is_home_bat else away
         starter = home_sp if top else away_sp
         role = "SP" if pid == starter else "RP"
         _tally(buckets[(team, hand, is_home_bat, role)], et)
+        if bid is not None:
+            _tally(bat_buckets[(bid, hand, is_home_bat, role)], et)
 
     rows = []
     for (team, hand, is_home_bat, role), agg in buckets.items():
@@ -151,7 +158,7 @@ def game_rows(pk, date, home, away):
                "is_home": is_home_bat, "role": role}
         row.update(agg)
         rows.append(row)
-    return rows
+    return rows, bat_buckets
 
 
 def _load(path, default):
@@ -192,30 +199,47 @@ def main():
 
     done = set(_load(DONE_PATH, []))
     rows = _load(OUT_PATH, [])
+    # Per-batter SEASON accumulator, keyed (batter_id, hand, is_home, role),
+    # seeded from the existing cache so daily runs add only new games.
+    bat = defaultdict(_blank)
+    for r in _load(BAT_PATH, []):
+        k = (r["batter_id"], r["opp_hand"], r["is_home"], r["role"])
+        for kk in ACC:
+            bat[k][kk] += r.get(kk) or 0
     todo = [g for g in games if g[0] not in done]
     if args.limit:
         todo = todo[:args.limit]
     print(f"[pbp] {len(games)} final games in range, {len(todo)} new to fetch")
 
+    def _flush():
+        with open(OUT_PATH, "w") as f:
+            json.dump(rows, f)
+        with open(DONE_PATH, "w") as f:
+            json.dump(sorted(done), f)
+        bat_rows = [{"batter_id": k[0], "opp_hand": k[1], "is_home": k[2],
+                     "role": k[3], **v} for k, v in bat.items()]
+        with open(BAT_PATH, "w") as f:
+            json.dump(bat_rows, f)
+
     n = 0
     for pk, date, home, away in todo:
-        rows.extend(game_rows(pk, date, home, away))
+        team_rows, bat_b = game_rows(pk, date, home, away)
+        rows.extend(team_rows)
+        for k, v in bat_b.items():
+            acc = bat[k]
+            for kk in ACC:
+                acc[kk] += v[kk]
         done.add(pk)
         n += 1
         time.sleep(0.12)
         if n % 50 == 0:
-            with open(OUT_PATH, "w") as f:
-                json.dump(rows, f)
-            with open(DONE_PATH, "w") as f:
-                json.dump(sorted(done), f)
-            print(f"  [pbp] {n}/{len(todo)} games, {len(rows)} rows cached")
+            _flush()
+            print(f"  [pbp] {n}/{len(todo)} games, {len(rows)} team rows, "
+                  f"{len(bat)} batter splits cached")
 
-    with open(OUT_PATH, "w") as f:
-        json.dump(rows, f)
-    with open(DONE_PATH, "w") as f:
-        json.dump(sorted(done), f)
-    print(f"[pbp] done: {len(done)} games processed, {len(rows)} team-hand rows "
-          f"-> {OUT_PATH}")
+    _flush()
+    print(f"[pbp] done: {len(done)} games processed, {len(rows)} team-hand rows, "
+          f"{len(bat)} batter-hand rows -> {OUT_PATH}, {BAT_PATH}")
 
 
 if __name__ == "__main__":
