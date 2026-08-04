@@ -20,7 +20,7 @@ import re
 FADE_LIST = [
     "Painter", "Rocker", "Sheehan",
     "Merrill Kelly", "Gallen", "Civale", "David Peterson",
-    "Bibee", "Springs", "Burrows", "Roupp", "Keller", "Peralta", "Canning",
+    "Bibee", "Springs", "Burrows", "Roupp", "Keller", "Freddy Peralta", "Canning",
     "Jacob Lopez", "Ryan Johnson", "Dustin May",
     "Grayson Rodriguez", "Bryan Woo", "Freeland", "Baz", "Noah Schultz",
     "Lowder", "Skenes",
@@ -166,7 +166,7 @@ FADE_WINDOW = {
     "Burrows":        {"add": SEASON_START},
     "Roupp":          {"add": SEASON_START},  # 2026-07-27: reactivated, away-only (see FADE_VENUE)
     "Keller":         {"add": SEASON_START, "remove": "2026-07-27"},  # removed 7/27 (-2.6u all-venue)
-    "Peralta":        {"add": SEASON_START},
+    "Freddy Peralta": {"add": SEASON_START},  # renamed from "Peralta" 2026-08-04: the bare surname was also catching Wandy Peralta (SD reliever) + Sammy Peralta (COL), polluting the live list and the record. Name fix only — still faded (incl. after his NYM->TB trade).
     "Canning":        {"add": SEASON_START},
     "Jacob Lopez":    {"add": SEASON_START},
     "Ryan Johnson":   {"add": SEASON_START},
