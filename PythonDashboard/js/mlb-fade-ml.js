@@ -229,6 +229,10 @@ async function renderMLBFadeML() {
   const tailPend = ((tailData && tailData.today) || []).filter(t => t.result === 'pending');
   // Watchlist plays for today (review only, never bet) — surfaced with a WATCH tag.
   const watchPend = ((watchData && watchData.today) || []).filter(t => t.result === 'pending');
+  // Pitcher-vs-team pending picks (fade_vs_team.py) — bettable, but previously
+  // only shown in the Season bet log. Surface them in Today's plays too, tagged
+  // "vs team", so a live vs-team pick isn't hidden from the today view.
+  const vtPend = ((vtData && vtData.today) || []).filter(t => t.result === 'pending');
 
   const atStr = (t) => (t.away && t.home)
     ? ' <span style="color:#888">· ' + esc(t.away) + ' @ ' + esc(t.home) + '</span>' : '';
@@ -389,9 +393,21 @@ async function renderMLBFadeML() {
   const timeChip = (iso) => '<span style="color:#888;font-size:11px;min-width:52px;display:inline-block">'
     + (gameTime(iso) || '—') + '</span> ';
 
+  // Pitcher-vs-team pick label — fade the arm, take the opponent's ML; reason
+  // tag is "vs team". Shows the take team's wRC+ vs the faded arm's hand at the
+  // end, matching fadeLabel.
+  const vtLabel = (t) => {
+    const who = t.pitcher || '';
+    return '• Fade' + handTag(who) + ' <b>' + esc(who) + '</b> (' + esc(t.arm_team || '?') + ')'
+      + tag('vs team', null, '@ ')
+      + ' → ' + takeSpTag(t.selection) + '<b>' + esc(t.selection || '?') + '</b>' + oddsStr(t.odds)
+      + (t.matchup ? ' <span style="color:#888">· ' + esc(t.matchup) + '</span>' : '')
+      + betWrcTag(t.selection, who);
+  };
+
   function paintTodayPlays() {
     let th = '<div class="card-title" style="margin-bottom:8px">Today’s plays</div>';
-    if (!pend.length && !fadeWatchPend.length && !tailPend.length && !watchPend.length) {
+    if (!pend.length && !fadeWatchPend.length && !tailPend.length && !watchPend.length && !vtPend.length) {
       th += '<div class="no-picks">No fade-list or hand-tails moneyline plays on today’s slate.</div>';
     } else {
       // Sort by first pitch (commence) but don't display the time.
@@ -401,7 +417,7 @@ async function renderMLBFadeML() {
         html: '<div style="font-size:14px;color:' + color + ';padding:2px 0">' + fn(t) + '</div>',
       }));
       // Real bettable plays (fade-list + hand-tails), sorted by first pitch.
-      const real = [...mk(pend, fadeLabel, '#ddd'), ...mk(tailPend, tailLabel, '#ddd')].sort(byTime);
+      const real = [...mk(pend, fadeLabel, '#ddd'), ...mk(tailPend, tailLabel, '#ddd'), ...mk(vtPend, vtLabel, '#ddd')].sort(byTime);
       // WATCH plays (review-only candidates) in their OWN sorted group below.
       const watch = [...mk(fadeWatchPend, fadeWatchLabel, '#cbb8e6'), ...mk(watchPend, watchLabel, '#cbb8e6')].sort(byTime);
       th += real.map(i => i.html).join('');
