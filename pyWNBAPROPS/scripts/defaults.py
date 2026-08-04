@@ -123,7 +123,7 @@ MIN_MINUTES = 12
 # pCover bucket calibration itself is honest (0.60 bucket -> 59.7% WR live);
 # the leaks were directional (assists OVER) and the thin threes band.
 MARKET_THRESHOLDS = {
-    "points":        {"high": 0.600},   # OVER-ONLY (see OVER_ONLY_MARKETS); OVER +EV only >=0.60
+    "points":        {"high": 0.620},   # OVER-ONLY (see OVER_ONLY_MARKETS). 2026-08-04: 0.60 -> 0.62. Fine-bucket calib on 108 graded OVER picks showed the 0.60-0.62 band was dead weight (51.8% WR, -0.011 u/pick, below -110 breakeven, 52% of volume); cutting it lifts points to 63.5% WR / +0.211 u/pick (clears the ~0.20 house bar), +11.0u total. >=0.63 sheds too much volume into small-sample noise.
     "rebounds":      {"high": 0.575},   # 2026-07-12: 0.60 -> 0.575 (65.5% / +0.251 u/pk, n=29)
     "assists":       {"high": 0.575},   # UNDER-ONLY (see UNDER_ONLY_MARKETS); UNDER 77.8% / +0.485 u/pk
     "threes":        {"high": 0.600},   # 2026-07-12: 0.575 -> 0.60 (63.0% / +0.202 u/pk; 0.575 band thin)
