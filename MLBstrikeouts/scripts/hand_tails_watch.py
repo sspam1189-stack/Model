@@ -31,7 +31,7 @@ import re
 sys.path.insert(0, os.path.dirname(__file__))
 
 from fade_ml_common import stake_for, profit_for, load_props_index
-from hand_tails import tail_entry, HAND_MIN, opp_lineup_counts
+from hand_tails import tail_entry, HAND_MIN, opp_lineup_counts, opp_lineup_state
 
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 CACHE_DIR = os.path.normpath(os.path.join(SCRIPT_DIR, "..", "..", "data", "pitcher_cache", "mlb"))
@@ -144,13 +144,20 @@ def build():
             arm_team = home if side == "home" else away
             opp_team = away if side == "home" else home
             # Today's game isn't in the season boxscore cache; use the shared
-            # opp_lineup_counts (posted-lineup + live-handedness fallback).
-            L, R = opp_lineup_counts(opp_team, g.get("date"))
+            # opp_lineup_state (posted-lineup + live-handedness fallback), which
+            # also reports whether the lineup is the REAL posted card or a
+            # projected/default one. Mirrors the active grader: a qualifying
+            # projected lineup is tagged unconfirmed (odds withheld) so a
+            # watch play isn't shown as final off a projection.
+            L, R, confirmed = opp_lineup_state(opp_team, g.get("date"))
             if L is None or not ((L >= HAND_MIN) if hand == "R" else (R >= HAND_MIN)):
                 continue
             action = c["suggest"]
             sel = opp_team if action == "fade" else arm_team
             odds = g.get("home_ml") if sel == home else g.get("away_ml")
+            result = "pending" if confirmed else "unconfirmed"
+            if not confirmed:
+                odds = None
             today.append({
                 "date": g.get("date"), "commence": g.get("commence"),
                 "betType": "watch_" + action, "action": action, "watch": True,
@@ -158,9 +165,10 @@ def build():
                 "arm_team": arm_team, "opp_team": opp_team,
                 "selection": sel, "home": home, "away": away,
                 "oppLefty": L, "oppRighty": R,
+                "lineupConfirmed": confirmed,
                 "odds": odds, "suggest": action,
                 "suggestUnits": c["suggestUnits"], "games": c["games"],
-                "result": "pending",
+                "result": result,
             })
     today.sort(key=lambda b: b.get("commence") or "")
 

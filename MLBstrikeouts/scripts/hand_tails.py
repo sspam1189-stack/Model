@@ -84,10 +84,14 @@ def _load_caches():
 
 @functools.lru_cache(maxsize=16)
 def _load_today_lineups(date_iso):
-    """{team: [player_ids]} from lineups_YYYYMMDD.json -- today's POSTED lineup,
-    which the props model writes for the current (not-yet-played) slate. The
-    season batting_orders cache only holds completed games, so the current
-    date isn't in it; this fills that gap so today's hand-tails triggers fire."""
+    """{team: {"ids": [player_ids], "confirmed": bool}} from lineups_YYYYMMDD.json
+    -- the lineup the props model writes for the current (not-yet-played) slate.
+    `confirmed` reflects whether it is a REAL posted lineup (the props model's
+    own `confirmed` flag, i.e. source 'lineup' with a full card) rather than a
+    projected/default card (e.g. 'rotowire_default_vs_LHP'); the hand-tails
+    grader gates bets on it. The season batting_orders cache only holds completed
+    games, so the current date isn't in it; this fills that gap so today's
+    hand-tails triggers fire."""
     key = str(date_iso).replace("-", "")
     p = os.path.join(_CACHE_DIR, f"lineups_{key}.json")
     try:
@@ -97,9 +101,15 @@ def _load_today_lineups(date_iso):
         return {}
     out = {}
     for team, v in (data or {}).items():
-        ids = v.get("player_ids") if isinstance(v, dict) else v
+        if isinstance(v, dict):
+            ids = v.get("player_ids")
+            confirmed = bool(v.get("confirmed")) or v.get("source") == "lineup"
+        else:
+            # Legacy bare-list shape carried no confirmation metadata; a betting
+            # gate should not assume a real lineup, so treat it as unconfirmed.
+            ids, confirmed = v, False
         if ids:
-            out[team] = list(ids)
+            out[team] = {"ids": list(ids), "confirmed": confirmed}
     return out
 
 
@@ -126,21 +136,31 @@ def _resolve_hands(missing_ids):
         pass
 
 
-def opp_lineup_counts(opp_team, date_iso):
-    """(lefty L+S, righty R+S) bats in opp_team's lineup on date_iso, or (None, None).
+def opp_lineup_state(opp_team, date_iso):
+    """(lefty L+S, righty R+S, confirmed) for opp_team's lineup on date_iso, or
+    (None, None, None) if no lineup is available.
+
+    `confirmed` distinguishes a REAL lineup -- a completed game's boxscore (past
+    dates, always confirmed) or today's POSTED lineup -- from a projected/default
+    card (e.g. a RotoWire default-vs-hand lineup). The hand-tails grader only
+    places a bet on a confirmed lineup; a qualifying projected lineup is surfaced
+    as an unconfirmed candidate instead.
 
     Past dates come from the season batting_orders cache; for the current slate
     (not yet in that cache) it falls back to today's posted lineup
-    (lineups_YYYYMMDD.json, the same source the props model reads). Batters
-    missing from the bat_sides cache are resolved live via /people so newly
-    added hitters still count.
+    (lineups_YYYYMMDD.json, the same source the props model reads), whose
+    confirmation flag is carried through. Batters missing from the bat_sides
+    cache are resolved live via /people so newly added hitters still count.
     """
     bs, bo = _load_caches()
     lu = (bo.get(date_iso) or {}).get(opp_team)
+    confirmed = True  # completed-game boxscore is what actually happened
     if not lu:
-        lu = _load_today_lineups(date_iso).get(opp_team)
+        entry = _load_today_lineups(date_iso).get(opp_team)
+        if entry:
+            lu, confirmed = entry["ids"], entry["confirmed"]
     if not lu:
-        return None, None
+        return None, None, None
     missing = [pid for pid in lu if str(pid) not in bs and str(pid) not in _LIVE_HAND]
     if missing:
         _resolve_hands(missing)
@@ -150,6 +170,15 @@ def opp_lineup_counts(opp_team, date_iso):
 
     lefty = sum(1 for pid in lu if side(pid) in ("L", "S"))
     righty = sum(1 for pid in lu if side(pid) in ("R", "S"))
+    return lefty, righty, confirmed
+
+
+def opp_lineup_counts(opp_team, date_iso):
+    """(lefty L+S, righty R+S) bats in opp_team's lineup -- back-compat wrapper
+    over opp_lineup_state that drops the confirmed flag. Used where confirmation
+    doesn't matter: the in-sample season replay in the watchlist and the inert
+    take-override below."""
+    lefty, righty, _ = opp_lineup_state(opp_team, date_iso)
     return lefty, righty
 
 

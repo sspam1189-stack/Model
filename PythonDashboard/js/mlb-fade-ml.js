@@ -233,10 +233,18 @@ async function renderMLBFadeML() {
   // only shown in the Season bet log. Surface them in Today's plays too, tagged
   // "vs team", so a live vs-team pick isn't hidden from the today view.
   const vtPend = ((vtData && vtData.today) || []).filter(t => t.result === 'pending');
+  // Hand-tails plays whose opponent lineup is only PROJECTED so far — a fade
+  // qualifies on a projected card but no pick is made until the real lineup
+  // posts. Shown in their own "awaiting lineup" group, odds withheld, not bet.
+  const tailUnconf = ((tailData && tailData.today) || []).filter(t => t.result === 'unconfirmed');
+  const watchUnconf = ((watchData && watchData.today) || []).filter(t => t.result === 'unconfirmed');
 
   const atStr = (t) => (t.away && t.home)
     ? ' <span style="color:#888">· ' + esc(t.away) + ' @ ' + esc(t.home) + '</span>' : '';
-  const oddsStr = (o) => ' ML <span style="color:' + ORANGE + '">' + fmtOdds(o) + '</span>';
+  // Odds are withheld (null) on unconfirmed rows — the lineup hasn't posted, so
+  // the pick isn't final and the price can drift. Render nothing in that case.
+  const oddsStr = (o) => (o == null) ? ''
+    : ' ML <span style="color:' + ORANGE + '">' + fmtOdds(o) + '</span>';
   // Reason tag next to the pick. `prefix` is '@ ' for a fade, '' for a tail.
   const tag = (txt, color, prefix) =>
     ' <span style="color:' + (color || '#888') + ';font-size:12px">' + (prefix || '') + esc(txt) + '</span>';
@@ -378,6 +386,20 @@ async function renderMLBFadeML() {
     return '• ' + watchBadge + verb + handTag(t.pitcher, t.hand) + ' <b>' + arm + '</b> (' + esc(t.arm_team || '?') + ')'
       + reasonTag + ' → <b>' + esc(t.selection || '?') + '</b>' + oddsStr(t.odds) + gs + atStr(t);
   };
+  // UNCONFIRMED badge + wrapper for hand-tails plays that qualify on a projected
+  // lineup only. The pick isn't placed until the real card posts (odds already
+  // withheld upstream); this surfaces the brewing fade with its projected count.
+  const AMBER = '#c99a3a';
+  const unconfBadge = '<span style="background:rgba(201,154,58,0.16);color:' + AMBER
+    + ';font-size:10px;font-weight:700;letter-spacing:.05em;padding:1px 5px;border-radius:4px;margin-right:4px">UNCONFIRMED</span>';
+  const projNote = (t) => (t.oppRighty != null && t.oppLefty != null)
+    ? ' <span style="color:' + AMBER + ';font-size:11px">· proj ' + t.oppRighty + 'R/'
+      + t.oppLefty + 'L — awaiting lineup</span>'
+    : ' <span style="color:' + AMBER + ';font-size:11px">· awaiting lineup</span>';
+  // Wrap an existing label fn: inject the UNCONFIRMED badge after the bullet and
+  // append the projected-count note. Reuses the same label so wRC+ chips etc.
+  // render identically to a confirmed play.
+  const withUnconf = (fn) => (t) => fn(t).replace(/^• /, '• ' + unconfBadge) + projNote(t);
 
   // Re-callable so the wRC+ chips inside the play labels refresh when the wRC+
   // table's Window selector changes (the labels read the mutable `wrcTeams`).
@@ -407,7 +429,8 @@ async function renderMLBFadeML() {
 
   function paintTodayPlays() {
     let th = '<div class="card-title" style="margin-bottom:8px">Today’s plays</div>';
-    if (!pend.length && !fadeWatchPend.length && !tailPend.length && !watchPend.length && !vtPend.length) {
+    if (!pend.length && !fadeWatchPend.length && !tailPend.length && !watchPend.length
+        && !vtPend.length && !tailUnconf.length && !watchUnconf.length) {
       th += '<div class="no-picks">No fade-list or hand-tails moneyline plays on today’s slate.</div>';
     } else {
       // Sort by first pitch (commence) but don't display the time.
@@ -418,9 +441,18 @@ async function renderMLBFadeML() {
       }));
       // Real bettable plays (fade-list + hand-tails), sorted by first pitch.
       const real = [...mk(pend, fadeLabel, '#ddd'), ...mk(tailPend, tailLabel, '#ddd'), ...mk(vtPend, vtLabel, '#ddd')].sort(byTime);
+      // Hand-tails plays awaiting lineup confirmation — qualify on a projected
+      // card, not yet a pick. Own group between real bets and the watchlist.
+      const unconf = [...mk(tailUnconf, withUnconf(tailLabel), '#d8c08a'),
+                      ...mk(watchUnconf, withUnconf(watchLabel), '#d8c08a')].sort(byTime);
       // WATCH plays (review-only candidates) in their OWN sorted group below.
       const watch = [...mk(fadeWatchPend, fadeWatchLabel, '#cbb8e6'), ...mk(watchPend, watchLabel, '#cbb8e6')].sort(byTime);
-      th += real.map(i => i.html).join('');
+      th += real.length ? real.map(i => i.html).join('')
+        : '<div class="no-picks">No confirmed hand-tails or fade-list plays yet.</div>';
+      if (unconf.length) {
+        th += '<div style="font-size:11px;color:' + AMBER + ';font-weight:700;letter-spacing:.05em;text-transform:uppercase;margin:10px 0 2px;border-top:1px solid rgba(255,255,255,0.07);padding-top:8px">Awaiting lineup confirmation — not yet a pick</div>';
+        th += unconf.map(i => i.html).join('');
+      }
       if (watch.length) {
         th += '<div style="font-size:11px;color:#8a7bb0;font-weight:700;letter-spacing:.05em;text-transform:uppercase;margin:10px 0 2px;border-top:1px solid rgba(255,255,255,0.07);padding-top:8px">Watch — review only, not bet</div>';
         th += watch.map(i => i.html).join('');

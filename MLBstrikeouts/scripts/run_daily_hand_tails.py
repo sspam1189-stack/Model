@@ -26,7 +26,7 @@ sys.path.insert(0, os.path.join(os.path.dirname(__file__), "sources"))
 
 from fade_ml_common import (stake_for, profit_for, _settle_ml,
                             odds_row_for, load_props_index, SCRIPT_DIR)
-from hand_tails import tail_entry, opp_lineup_counts, qualifies, HAND_MIN, HAND_TAILS
+from hand_tails import tail_entry, opp_lineup_state, qualifies, HAND_MIN, HAND_TAILS
 from sources.mlb_schedule import fetch_schedule
 from sources.odds_ml_theoddsapi import load_ml_cache
 
@@ -37,8 +37,15 @@ OUTPUT_PATHS = [
 ]
 
 
-def _bet_for(date_iso, g, side, entry, hand, action, od):
-    """Build one hand-tails bet record for a qualifying start, or None."""
+def _bet_for(date_iso, g, side, entry, hand, action, od, lefty, righty, confirmed):
+    """Build one hand-tails bet record for a qualifying start, or None.
+
+    A not-yet-played game whose opponent lineup is only a projected/default card
+    (confirmed=False) is emitted as an UNCONFIRMED candidate (result
+    "unconfirmed", odds withheld) rather than a placed bet -- projected counts
+    can shift, so no pick is made until the real lineup posts. Completed games
+    (settled) are always graded normally; their lineups are the boxscore truth.
+    """
     home, away = g.get("home"), g.get("away")
     arm_team = home if side == "home" else away
     opp_team = away if side == "home" else home
@@ -51,7 +58,10 @@ def _bet_for(date_iso, g, side, entry, hand, action, od):
         return None
     result, reason = _settle_ml(g, team)
     settled = result in ("WIN", "LOSS")
-    lefty, righty = opp_lineup_counts(opp_team, date_iso)
+    # Confirmation gate: withhold the pick (and its odds) until the lineup posts.
+    if result == "pending" and not confirmed:
+        result = "unconfirmed"
+        odds = None
     return {
         "date": date_iso, "commence": g.get("commence"),
         "betType": "hand_" + action, "action": action,
@@ -59,7 +69,9 @@ def _bet_for(date_iso, g, side, entry, hand, action, od):
         "arm_team": arm_team, "opp_team": opp_team,
         "selection": team, "home": home, "away": away,
         "oppLefty": lefty, "oppRighty": righty,
-        "odds": odds, "stake": round(stake_for(odds), 4),
+        "lineupConfirmed": confirmed,
+        "odds": odds,
+        "stake": round(stake_for(odds), 4) if odds is not None else None,
         "result": result, "reason": reason,
         "profit": round(profit_for(odds, result == "WIN"), 4) if settled else 0.0,
         "book": "fanduel", "source": (od or {}).get("source"),
@@ -79,13 +91,14 @@ def grade_date(date_key, date_iso):
             if not entry:
                 continue
             opp = g.get("away") if side == "home" else g.get("home")
-            lefty, righty = opp_lineup_counts(opp, date_iso)
+            lefty, righty, confirmed = opp_lineup_state(opp, date_iso)
             if not qualifies(hand, lefty, righty):
                 continue
             od = odds_row_for(odds_rows, g)
             if not od or od.get("home_ml") is None:
                 continue
-            b = _bet_for(date_iso, g, side, entry, hand, action, od)
+            b = _bet_for(date_iso, g, side, entry, hand, action, od,
+                         lefty, righty, confirmed)
             if b:
                 out.append(b)
     return out
@@ -109,7 +122,9 @@ def main():
     bets, today = [], []
     for d in dates:
         for b in grade_date(d.replace("-", ""), d):
-            (today if b["result"] == "pending" else bets).append(b)
+            # "pending" (confirmed) and "unconfirmed" both belong to today's
+            # display; only settled WIN/LOSS rows enter the graded ledger.
+            (today if b["result"] in ("pending", "unconfirmed") else bets).append(b)
 
     summary = _record(bets)
     summary["byAction"] = {a: _record([b for b in bets if b["action"] == a])
@@ -134,10 +149,13 @@ def main():
         with open(path, "w") as f:
             json.dump(payload, f, indent=2)
     s = summary
+    n_conf = sum(1 for b in today if b["result"] == "pending")
+    n_unconf = sum(1 for b in today if b["result"] == "unconfirmed")
     print(f"[hand-tails] {s['wins']}-{s['losses']} {s['units']:+.2f}u "
           f"ROI {s['roi']*100:+.1f}% | fade {s['byAction']['fade']['wins']}-"
           f"{s['byAction']['fade']['losses']} take {s['byAction']['take']['wins']}-"
-          f"{s['byAction']['take']['losses']} | {len(today)} pending")
+          f"{s['byAction']['take']['losses']} | {n_conf} confirmed pending, "
+          f"{n_unconf} unconfirmed")
 
 
 if __name__ == "__main__":
