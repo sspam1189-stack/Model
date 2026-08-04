@@ -828,12 +828,17 @@ function computeTeamPicks(runs) {
       // Record the game for BOTH teams so a team's browser is its FULL game log.
       // It's a 'pick' for the team the pick was fired on; from the other team's
       // side (and on a true PASS) it's a 'pass' showing the model's leaned side.
+      // The synthetic "__ALL__" browser gets exactly ONE entry per game (no
+      // per-team duplication): the fired-pick side if it fired, else the model's
+      // leaned side. `repTeam` is the single team whose entry represents the game.
+      const repTeam = (isPick && parsed) ? parsed.team : (leanTeam || g.home);
       for (const t of [g.away, g.home]) {
         if (!t) continue;
         if (!teams[t]) teams[t] = [];
         const isHome = t === g.home;
+        let entry;
         if (isPick && parsed && parsed.team === t) {
-          teams[t].push({
+          entry = {
             ...base,
             bucket: 'pick',
             side: parsed.sign === '-' ? 'fav' : 'dog',
@@ -844,10 +849,10 @@ function computeTeamPicks(runs) {
             stakeUnits: pickStake(g, g.pCover),
             result: hasScore ? (g.sResult || gradeSpread(g)) : null,
             pending: !hasScore,
-          });
+          };
         } else {
           const teamLine = Number.isFinite(g.line) ? (isHome ? g.line : -g.line) : null;
-          teams[t].push({
+          entry = {
             ...base,
             bucket: 'pass',
             side: teamLine == null ? null : (teamLine < 0 ? 'fav' : 'dog'),
@@ -858,8 +863,10 @@ function computeTeamPicks(runs) {
             stakeUnits: 0,
             result: leanResult,       // hypothetical (leaned side vs line)
             pending: !hasScore,
-          });
+          };
         }
+        teams[t].push(entry);
+        if (t === repTeam) (teams.__ALL__ || (teams.__ALL__ = [])).push(entry);
       }
     }
   }
@@ -1343,9 +1350,14 @@ function renderTeamRecords(runs) {
 }
 
 function renderTeamPicksSection(teamPicksMap, selectedTeam, runs) {
-  const teamNames = Object.keys(teamPicksMap).sort();
+  const ALL_TEAMS = '__ALL__';
+  // Real teams (exclude the synthetic all-teams list) for the per-team options.
+  const teamNames = Object.keys(teamPicksMap).filter(n => n !== ALL_TEAMS).sort();
   if (!teamNames.length) return '';
-  const activeTeam = teamPicksMap[selectedTeam] ? selectedTeam : teamNames[0];
+  const hasAll = Array.isArray(teamPicksMap[ALL_TEAMS]);
+  // Default to "All Teams" (one row per game, no per-team duplication).
+  const activeTeam = teamPicksMap[selectedTeam] ? selectedTeam
+    : (hasAll ? ALL_TEAMS : teamNames[0]);
 
   const months = computeAvailableMonths(runs);
   const activeMonth = months.includes(teamPicksMonthFilter) ? teamPicksMonthFilter : 'all';
@@ -1364,9 +1376,11 @@ function renderTeamPicksSection(teamPicksMap, selectedTeam, runs) {
   const picks = pool.filter(p => activeBucket === 'all' || p.bucket === activeBucket);
 
   const selectStyle = 'background:#1e1e1e;color:#e0e0e0;border:1px solid #444;border-radius:6px;padding:4px 10px;font-size:13px;cursor:pointer';
-  const teamOpts = teamNames.map(name =>
-    `<option value="${esc(name)}" ${name === activeTeam ? 'selected' : ''}>${esc(name)}</option>`
-  ).join('');
+  const teamOpts =
+    (hasAll ? `<option value="${ALL_TEAMS}" ${activeTeam === ALL_TEAMS ? 'selected' : ''}>All Teams</option>` : '') +
+    teamNames.map(name =>
+      `<option value="${esc(name)}" ${name === activeTeam ? 'selected' : ''}>${esc(name)}</option>`
+    ).join('');
   const teamSelect = `<select onchange="setTeamPicksFilter(this.value)" style="${selectStyle}">${teamOpts}</select>`;
   const monthOpts = `<option value="all" ${activeMonth === 'all' ? 'selected' : ''}>All Months</option>` +
     [...months].reverse().map(k => `<option value="${k}" ${k === activeMonth ? 'selected' : ''}>${monthLabel(k)}</option>`).join('');
@@ -1413,7 +1427,7 @@ function renderTeamPicksSection(teamPicksMap, selectedTeam, runs) {
     : 'No graded picks';
   const titleHtml = `<div class="card-title" style="display:flex;align-items:center;flex-wrap:wrap;gap:8px">
     <span>Team Picks</span>
-    <span style="font-size:0.85rem;font-weight:700">${esc(teamAlias(activeTeam))}: ${recordHtml}</span>
+    <span style="font-size:0.85rem;font-weight:700">${activeTeam === ALL_TEAMS ? 'All Teams' : esc(teamAlias(activeTeam))}: ${recordHtml}</span>
   </div>`;
 
   const bktBadge = b => {
