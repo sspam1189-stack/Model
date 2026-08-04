@@ -1,7 +1,7 @@
 {
   "sport": "MLB",
   "type": "fade-vs-team-watch",
-  "generated": "2026-08-04T00:34:03Z",
+  "generated": "2026-08-04T03:58:35Z",
   "seasonStart": "2026-04-05",
   "minStarts": 2,
   "minEra": 6.0,
@@ -10,16 +10,16 @@
   "today": [
     {
       "date": "2026-08-03",
-      "commence": "2026-08-03T23:40:00Z",
+      "commence": "2026-08-04T00:05:00Z",
       "betType": "fade_vs_team_watch",
-      "pitcher": "Brandon Sproat",
-      "arm_team": "MIL",
-      "opp": "PIT",
-      "selection": "PIT",
-      "venue": "home",
-      "matchup": "PIT @ MIL",
-      "odds": 134,
-      "eraVsOpp": 6.0,
+      "pitcher": "Justin Wrobleski",
+      "arm_team": "LAD",
+      "opp": "CHC",
+      "selection": "CHC",
+      "venue": "away",
+      "matchup": "LAD @ CHC",
+      "odds": 112,
+      "eraVsOpp": 6.1,
       "startsVsOpp": 2,
       "result": "pending"
     }
@@ -378,6 +378,22 @@
       }
     },
     {
+      "pitcher": "Justin Wrobleski",
+      "opp": "CHC",
+      "arm_team": "LAD",
+      "eraVsOpp": 6.1,
+      "ipVsOpp": 10.3,
+      "erVsOpp": 7,
+      "startsVsOpp": 2,
+      "fadeRecord": {
+        "w": 1,
+        "l": 1,
+        "u": 0.12,
+        "n": 2,
+        "roi": 0.06
+      }
+    },
+    {
       "pitcher": "Michael Lorenzen",
       "opp": "NYM",
       "arm_team": "COL",
@@ -423,22 +439,6 @@
         "u": 2.34,
         "n": 2,
         "roi": 1.17
-      }
-    },
-    {
-      "pitcher": "Brandon Sproat",
-      "opp": "PIT",
-      "arm_team": "MIL",
-      "eraVsOpp": 6.0,
-      "ipVsOpp": 6.0,
-      "erVsOpp": 4,
-      "startsVsOpp": 2,
-      "fadeRecord": {
-        "w": 1,
-        "l": 0,
-        "u": 1.0,
-        "n": 1,
-        "roi": 0.8621
       }
     }
   ]

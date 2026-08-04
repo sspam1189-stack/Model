@@ -4,10 +4,10 @@
   "season": "2026",
   "mode": "live",
   "model": "kalman_blend",
-  "generated": "2026-08-04T00:31:24Z",
+  "generated": "2026-08-04T03:54:41Z",
   "totalProjections": 15,
   "totalPicks": 2675,
-  "totalWatchlist": 12,
+  "totalWatchlist": 11,
   "props": [
     {
       "player": "Sonny Gray",
@@ -88694,7 +88694,7 @@
       "proj_raw": 3.677,
       "would_be_pick": "UNDER",
       "date": "2026-08-03",
-      "lockState": "lineup_confirmed",
+      "lockState": "game_started",
       "lockedAt": "2026-08-03T22:16:02.416183Z",
       "lineupConfirmed": true
     },
@@ -88759,7 +88759,7 @@
       "proj_raw": 5.417,
       "would_be_pick": "OVER",
       "date": "2026-08-03",
-      "lockState": "lineup_confirmed",
+      "lockState": "game_started",
       "lockedAt": "2026-08-03T23:01:47.809815Z",
       "lineupConfirmed": true
     },
@@ -88790,7 +88790,7 @@
       "proj_raw": 5.518,
       "would_be_pick": "OVER",
       "date": "2026-08-03",
-      "lockState": "lineup_confirmed",
+      "lockState": "game_started",
       "lockedAt": "2026-08-03T23:01:47.809815Z",
       "lineupConfirmed": true
     },
@@ -88821,12 +88821,12 @@
       "proj_raw": 3.317,
       "would_be_pick": "UNDER",
       "date": "2026-08-03",
-      "lockState": "lineup_confirmed",
+      "lockState": "game_started",
       "lockedAt": "2026-08-04T00:16:33.051860Z",
       "lineupConfirmed": true
     }
   ],
-  "summary": "1 picks (+12 watch) from 15 projections",
+  "summary": "2 picks (+11 watch) from 15 projections",
   "date": "2026-08-03",
   "todayProjections": [
     {
@@ -89035,7 +89035,7 @@
       "to_win_1u": 1.78,
       "proj_raw": 3.677,
       "date": "2026-08-03",
-      "lockState": "lineup_confirmed",
+      "lockState": "game_started",
       "lockedAt": "2026-08-03T22:16:02.416183Z",
       "lineupConfirmed": true
     },
@@ -89125,7 +89125,7 @@
       "to_win_1u": 0.98,
       "proj_raw": 5.417,
       "date": "2026-08-03",
-      "lockState": "lineup_confirmed",
+      "lockState": "game_started",
       "lockedAt": "2026-08-03T23:01:47.809815Z",
       "lineupConfirmed": true
     },
@@ -89155,7 +89155,7 @@
       "to_win_1u": 1.46,
       "proj_raw": 5.518,
       "date": "2026-08-03",
-      "lockState": "lineup_confirmed",
+      "lockState": "game_started",
       "lockedAt": "2026-08-03T23:01:47.809815Z",
       "lineupConfirmed": true
     },
@@ -89219,7 +89219,7 @@
       "to_win_1u": 1.72,
       "proj_raw": 3.317,
       "date": "2026-08-03",
-      "lockState": "lineup_confirmed",
+      "lockState": "game_started",
       "lockedAt": "2026-08-04T00:16:33.051860Z",
       "lineupConfirmed": true
     }
@@ -89243,22 +89243,22 @@
     "SD": "2026-08-04T01:40:00Z"
   },
   "gameStatuses": {
-    "PHI": "In Progress",
-    "WSH": "In Progress",
-    "NYY": "Player challenge",
-    "STL": "Player challenge",
-    "MIL": "In Progress",
-    "PIT": "In Progress",
-    "CHC": "In Progress",
-    "LAD": "In Progress",
-    "TEX": "In Progress",
-    "SF": "In Progress",
-    "HOU": "In Progress",
-    "TOR": "In Progress",
-    "COL": "Warmup",
-    "TB": "Warmup",
-    "ARI": "Pre-Game",
-    "SD": "Pre-Game"
+    "PHI": "Final",
+    "WSH": "Final",
+    "NYY": "Final",
+    "STL": "Final",
+    "MIL": "Final",
+    "PIT": "Final",
+    "CHC": "Final",
+    "LAD": "Final",
+    "TEX": "Final",
+    "SF": "Final",
+    "HOU": "Final",
+    "TOR": "Final",
+    "COL": "Final",
+    "TB": "Final",
+    "ARI": "In Progress",
+    "SD": "In Progress"
   },
   "gameTimesById": {
     "823431": "2026-08-03T22:40:00Z",
@@ -89271,14 +89271,14 @@
     "825095": "2026-08-04T01:40:00Z"
   },
   "gameStatusesById": {
-    "823431": "In Progress",
-    "823520": "Player challenge",
-    "823757": "In Progress",
-    "824647": "In Progress",
-    "822867": "In Progress",
-    "824160": "In Progress",
-    "824324": "Warmup",
-    "825095": "Pre-Game"
+    "823431": "Final",
+    "823520": "Final",
+    "823757": "Final",
+    "824647": "Final",
+    "822867": "Final",
+    "824160": "Final",
+    "824324": "Final",
+    "825095": "In Progress"
   },
   "todayProbables": [
     {

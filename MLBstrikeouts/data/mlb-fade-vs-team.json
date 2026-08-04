@@ -1,19 +1,35 @@
 {
   "sport": "MLB",
   "type": "fade-vs-team",
-  "generated": "2026-08-04T00:34:02Z",
+  "generated": "2026-08-04T03:58:34Z",
   "seasonStart": "2026-04-05",
   "minStarts": 2,
   "fadeEra": 8.0,
   "note": "Pitcher-vs-team FADE: bet the opponent's ML when the pitcher faces that team. Set = curated (FADE_VS_TEAM) + auto-promoted (>= 2 starts vs the team, ERA >= 8.0 vs them). In-sample season replay (flat 1u); data only, not wired into the fade model. Watch tier (6 <= ERA < 8.0) is in mlb-fade-vs-team-watch.json.",
   "overall": {
-    "w": 47,
+    "w": 49,
     "l": 19,
-    "u": 28.26,
-    "n": 66,
-    "roi": 0.3203
+    "u": 30.6,
+    "n": 68,
+    "roi": 0.3385
   },
-  "today": [],
+  "today": [
+    {
+      "date": "2026-08-03",
+      "commence": "2026-08-03T23:40:00Z",
+      "betType": "fade_vs_team",
+      "pitcher": "Brandon Sproat",
+      "arm_team": "MIL",
+      "opp": "PIT",
+      "selection": "PIT",
+      "venue": "home",
+      "matchup": "PIT @ MIL",
+      "odds": 134,
+      "eraVsOpp": 8.0,
+      "startsVsOpp": 3,
+      "result": "pending"
+    }
+  ],
   "entries": [
     {
       "pitcher": "Joe Ryan",
@@ -151,6 +167,41 @@
           "matchup": "SF @ ATL",
           "selection": "SF",
           "opp_ml": 102,
+          "result": "win"
+        }
+      ]
+    },
+    {
+      "pitcher": "Brandon Sproat",
+      "opp": "PIT",
+      "arm_team": "MIL",
+      "source": "auto",
+      "record": {
+        "w": 2,
+        "l": 0,
+        "u": 2.34,
+        "n": 2,
+        "roi": 1.0833
+      },
+      "eraVsOpp": 8.0,
+      "ipVsOpp": 9.0,
+      "erVsOpp": 8,
+      "startsVsOpp": 3,
+      "starts": [
+        {
+          "date": "2026-07-11",
+          "venue": "away",
+          "matchup": "MIL @ PIT",
+          "selection": "PIT",
+          "opp_ml": -116,
+          "result": "win"
+        },
+        {
+          "date": "2026-08-03",
+          "venue": "home",
+          "matchup": "PIT @ MIL",
+          "selection": "PIT",
+          "opp_ml": 134,
           "result": "win"
         }
       ]

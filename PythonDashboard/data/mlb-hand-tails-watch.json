@@ -1,7 +1,7 @@
 {
   "sport": "MLB",
   "type": "hand-tails-watch",
-  "generated": "2026-08-04T00:34:00Z",
+  "generated": "2026-08-04T03:58:31Z",
   "handMin": 6,
   "minGames": 3,
   "minUnits": 2.5,
@@ -25,8 +25,8 @@
       "oppRighty": 6,
       "odds": 112,
       "suggest": "take",
-      "suggestUnits": 5.1,
-      "games": 7,
+      "suggestUnits": 6.22,
+      "games": 8,
       "result": "pending"
     }
   ],
@@ -66,6 +66,24 @@
         "u": 8.04
       },
       "era": 3.06
+    },
+    {
+      "pitcher": "Matthew Boyd",
+      "hand": "L",
+      "games": 8,
+      "suggest": "take",
+      "suggestUnits": 6.22,
+      "fade": {
+        "w": 1,
+        "l": 7,
+        "u": -6.62
+      },
+      "take": {
+        "w": 7,
+        "l": 1,
+        "u": 6.22
+      },
+      "era": 3.41
     },
     {
       "pitcher": "J.T. Ginn",
@@ -138,24 +156,6 @@
         "u": 5.1
       },
       "era": 2.77
-    },
-    {
-      "pitcher": "Matthew Boyd",
-      "hand": "L",
-      "games": 7,
-      "suggest": "take",
-      "suggestUnits": 5.1,
-      "fade": {
-        "w": 1,
-        "l": 6,
-        "u": -5.4
-      },
-      "take": {
-        "w": 6,
-        "l": 1,
-        "u": 5.1
-      },
-      "era": 3.41
     },
     {
       "pitcher": "Jacob Misiorowski",
