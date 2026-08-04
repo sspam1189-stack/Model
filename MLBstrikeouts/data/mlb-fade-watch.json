@@ -1,7 +1,7 @@
 {
   "sport": "MLB",
   "type": "fade-watch",
-  "generated": "2026-08-04T13:05:45Z",
+  "generated": "2026-08-04T15:35:29Z",
   "minGames": 3,
   "minUnits": 2.5,
   "note": "Shadow review list -- arms NOT on the active fade list whose home or away fade clears the bar (>= 3 games, >= +2.5u). In-sample season replay; watch, don't bet. Promote by editing scripts/fade_list.py.",
@@ -18,7 +18,7 @@
       "home": "PHI",
       "away": "WSH",
       "venue": "home",
-      "odds": 230,
+      "odds": 245,
       "suggest": "home",
       "suggestUnits": 2.8,
       "games": 9,
@@ -36,7 +36,7 @@
       "home": "NYY",
       "away": "STL",
       "venue": "home",
-      "odds": 150,
+      "odds": 170,
       "suggest": "home",
       "suggestUnits": 2.98,
       "games": 11,
@@ -231,6 +231,33 @@
         "u": 3.0,
         "n": 3,
         "roi": 0.7692
+      }
+    },
+    {
+      "pitcher": "Wandy Peralta",
+      "team": "SD",
+      "suggest": "away",
+      "suggestUnits": 3.0,
+      "all": {
+        "w": 3,
+        "l": 1,
+        "u": 1.88,
+        "n": 4,
+        "roi": 0.2705
+      },
+      "home": {
+        "w": 0,
+        "l": 1,
+        "u": -1.12,
+        "n": 1,
+        "roi": -1.0
+      },
+      "away": {
+        "w": 3,
+        "l": 0,
+        "u": 3.0,
+        "n": 3,
+        "roi": 0.5146
       }
     },
     {
