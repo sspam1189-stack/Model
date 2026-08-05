@@ -1,0 +1,342 @@
+{
+  "sport": "MLB",
+  "type": "hand-tails-roster",
+  "generated": "2026-08-05T05:55:35Z",
+  "handMin": 6,
+  "rule": {
+    "minGames": 4,
+    "minUnits": 3.0
+  },
+  "note": "Walk-forward: an arm is faded only from the day its platoon-disadvantage fade record first cleared minGames + minUnits, and only on FUTURE starts (each [add, remove) window). Not in-sample.",
+  "arms": {
+    "Andrew Alvarez": {
+      "hand": "L",
+      "windows": [
+        [
+          "2026-07-20",
+          "2026-08-05"
+        ]
+      ]
+    },
+    "Andrew Painter": {
+      "hand": "R",
+      "windows": [
+        [
+          "2026-06-17",
+          null
+        ]
+      ]
+    },
+    "Brady Singer": {
+      "hand": "R",
+      "windows": [
+        [
+          "2026-06-05",
+          null
+        ]
+      ]
+    },
+    "Colin Rea": {
+      "hand": "R",
+      "windows": [
+        [
+          "2026-08-02",
+          null
+        ]
+      ]
+    },
+    "Connor Prielipp": {
+      "hand": "L",
+      "windows": [
+        [
+          "2026-06-19",
+          "2026-08-05"
+        ]
+      ]
+    },
+    "Emmet Sheehan": {
+      "hand": "R",
+      "windows": [
+        [
+          "2026-07-26",
+          null
+        ]
+      ]
+    },
+    "Eric Lauer": {
+      "hand": "L",
+      "windows": [
+        [
+          "2026-05-26",
+          "2026-06-02"
+        ]
+      ]
+    },
+    "Framber Valdez": {
+      "hand": "L",
+      "windows": [
+        [
+          "2026-05-30",
+          null
+        ]
+      ]
+    },
+    "Jake Bennett": {
+      "hand": "L",
+      "windows": [
+        [
+          "2026-06-27",
+          "2026-07-03"
+        ]
+      ]
+    },
+    "Jeffrey Springs": {
+      "hand": "L",
+      "windows": [
+        [
+          "2026-05-22",
+          "2026-07-08"
+        ],
+        [
+          "2026-07-20",
+          "2026-07-26"
+        ],
+        [
+          "2026-07-31",
+          null
+        ]
+      ]
+    },
+    "Jes\u00fas Luzardo": {
+      "hand": "L",
+      "windows": [
+        [
+          "2026-05-14",
+          "2026-06-05"
+        ]
+      ]
+    },
+    "Keider Montero": {
+      "hand": "R",
+      "windows": [
+        [
+          "2026-06-11",
+          "2026-08-02"
+        ]
+      ]
+    },
+    "Kyle Freeland": {
+      "hand": "L",
+      "windows": [
+        [
+          "2026-05-26",
+          "2026-06-07"
+        ],
+        [
+          "2026-06-13",
+          "2026-06-24"
+        ]
+      ]
+    },
+    "Luis Castillo": {
+      "hand": "R",
+      "windows": [
+        [
+          "2026-06-13",
+          "2026-08-05"
+        ]
+      ]
+    },
+    "Max Scherzer": {
+      "hand": "R",
+      "windows": [
+        [
+          "2026-07-27",
+          "2026-08-05"
+        ]
+      ]
+    },
+    "Merrill Kelly": {
+      "hand": "R",
+      "windows": [
+        [
+          "2026-06-11",
+          null
+        ]
+      ]
+    },
+    "Michael King": {
+      "hand": "R",
+      "windows": [
+        [
+          "2026-07-22",
+          null
+        ]
+      ]
+    },
+    "Michael McGreevy": {
+      "hand": "R",
+      "windows": [
+        [
+          "2026-08-03",
+          "2026-08-05"
+        ]
+      ]
+    },
+    "Mike Burrows": {
+      "hand": "R",
+      "windows": [
+        [
+          "2026-06-02",
+          null
+        ]
+      ]
+    },
+    "Mitch Keller": {
+      "hand": "R",
+      "windows": [
+        [
+          "2026-07-22",
+          "2026-07-27"
+        ]
+      ]
+    },
+    "Nick Lodolo": {
+      "hand": "L",
+      "windows": [
+        [
+          "2026-06-23",
+          null
+        ]
+      ]
+    },
+    "Noah Cameron": {
+      "hand": "L",
+      "windows": [
+        [
+          "2026-06-07",
+          "2026-06-13"
+        ],
+        [
+          "2026-06-18",
+          null
+        ]
+      ]
+    },
+    "Noah Schultz": {
+      "hand": "L",
+      "windows": [
+        [
+          "2026-07-12",
+          "2026-07-21"
+        ],
+        [
+          "2026-07-27",
+          null
+        ]
+      ]
+    },
+    "Payton Tolle": {
+      "hand": "L",
+      "windows": [
+        [
+          "2026-06-26",
+          "2026-07-01"
+        ],
+        [
+          "2026-07-20",
+          "2026-07-27"
+        ]
+      ]
+    },
+    "Reid Detmers": {
+      "hand": "L",
+      "windows": [
+        [
+          "2026-05-24",
+          "2026-05-30"
+        ]
+      ]
+    },
+    "Rhett Lowder": {
+      "hand": "R",
+      "windows": [
+        [
+          "2026-07-30",
+          "2026-08-05"
+        ]
+      ]
+    },
+    "Ryan Weathers": {
+      "hand": "L",
+      "windows": [
+        [
+          "2026-07-10",
+          "2026-07-20"
+        ]
+      ]
+    },
+    "Sean Manaea": {
+      "hand": "L",
+      "windows": [
+        [
+          "2026-07-09",
+          "2026-08-05"
+        ]
+      ]
+    },
+    "Shane Baz": {
+      "hand": "R",
+      "windows": [
+        [
+          "2026-05-20",
+          null
+        ]
+      ]
+    },
+    "Shota Imanaga": {
+      "hand": "L",
+      "windows": [
+        [
+          "2026-06-04",
+          "2026-06-10"
+        ],
+        [
+          "2026-06-15",
+          "2026-06-29"
+        ]
+      ]
+    },
+    "Tatsuya Imai": {
+      "hand": "R",
+      "windows": [
+        [
+          "2026-06-12",
+          "2026-06-19"
+        ]
+      ]
+    },
+    "Trevor McDonald": {
+      "hand": "R",
+      "windows": [
+        [
+          "2026-07-07",
+          null
+        ]
+      ]
+    },
+    "Trevor Rogers": {
+      "hand": "L",
+      "windows": [
+        [
+          "2026-05-29",
+          "2026-07-24"
+        ],
+        [
+          "2026-07-29",
+          "2026-08-05"
+        ]
+      ]
+    }
+  }
+}

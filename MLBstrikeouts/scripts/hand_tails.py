@@ -26,40 +26,77 @@ from fade_list import _norm
 
 HAND_MIN = 6
 
-# entry -> (pitcher hand, action). RHP qualify vs HAND_MIN+ lefties; LHP vs righties.
-# 2026-07-28: FADE-ONLY. The handedness model no longer places TAKE (tail) bets --
-# all take arms were removed. Only handedness FADEs (bet the OPPONENT when the arm
-# faces an opposite-hand-heavy lineup) remain. The "action" field is kept "fade"
-# for every entry so the ledger/schema is unchanged.
-HAND_TAILS = {
-    # ---- RHP, FADE (vs 6+ lefties) ----
-    "Scherzer": ("R", "fade"), "Brady Singer": ("R", "fade"),
-    "Jack Leiter": ("R", "fade"), "Walbert Urena": ("R", "fade"),
-    "Imai": ("R", "fade"),
-    # ---- LHP, FADE (vs 6+ righties) ----
-    "Prielipp": ("L", "fade"), "Tolle": ("L", "fade"),
-    "Weathers": ("L", "fade"), "Quintana": ("L", "fade"),
-    # ---- Added 2026-07-27 from the shadow watchlist ----
-    "Framber Valdez": ("L", "fade"), "Mike Burrows": ("R", "fade"),
-    "David Peterson": ("L", "fade"),
-    "Shane Baz": ("R", "fade"),
+# The active fade list is RULE-DEFINED and WALK-FORWARD. build_hand_tails_roster.py
+# writes hand-tails-roster.json with each arm's [add, remove) active windows -- an
+# arm is a fade ONLY from the day its platoon-disadvantage fade record first
+# cleared >= 4 starts & +3.0u (re-graded on posted PRE-GAME lineups), forward-only,
+# and drops off if it slips back below the bar. tail_entry(name, date) gates bets
+# to those windows. If the roster file is missing, fall back to a hardcoded list
+# (always active) so the model still runs.
+_ROSTER_PATH = os.path.normpath(os.path.join(
+    os.path.dirname(os.path.abspath(__file__)), "..", "data", "hand-tails-roster.json"))
+
+_HARDCODED_FADES = {  # fallback only (used if the roster file is absent)
+    "Brady Singer": "R", "Mike Burrows": "R", "Shane Baz": "R",
+    "Merrill Kelly": "R", "Trevor McDonald": "R",
+    "Framber Valdez": "L", "Nick Lodolo": "L",
 }
-_TAIL_TOKENS = {e: set(_norm(e).split()) for e in HAND_TAILS}
+
+
+def _load_roster():
+    try:
+        with open(_ROSTER_PATH, encoding="utf-8") as f:
+            arms = json.load(f).get("arms", {})
+    except Exception:
+        arms = {}
+    if arms:
+        return {n: {"hand": a.get("hand"), "windows": a.get("windows", [])}
+                for n, a in arms.items()}
+    return {n: {"hand": h, "windows": [["2000-01-01", None]]}
+            for n, h in _HARDCODED_FADES.items()}
+
+
+_ROSTER = _load_roster()
+_TAIL_TOKENS = {n: set(_norm(n).split()) for n in _ROSTER}
+
+
+def _active_on(name, date_iso):
+    """True if the arm is a live fade for date_iso (inside an active [add, remove)
+    window). date_iso=None asks 'currently active' (has an open window)."""
+    wins = _ROSTER.get(name, {}).get("windows", [])
+    if date_iso is None:
+        return any(rem is None for _a, rem in wins)
+    return any(add <= date_iso and (rem is None or date_iso < rem) for add, rem in wins)
 
 _CACHE_DIR = os.path.normpath(os.path.join(
     os.path.dirname(os.path.abspath(__file__)), "..", "..",
     "data", "pitcher_cache", "mlb"))
 
 
-def tail_entry(pitcher_name):
-    """(entry, hand, action) if pitcher is on the hand-tails list, else (None, None, None)."""
+def tail_entry(pitcher_name, date=None):
+    """(entry, hand, 'fade') if pitcher is an ACTIVE fade on `date` (or currently,
+    when date is None), else (None, None, None). Walk-forward: an arm matches only
+    inside one of its qualified [add, remove) windows -- so a start on the day the
+    record first cleared the bar is NOT bet (the arm goes live its next start)."""
     nt = set(_norm(pitcher_name).split())
     if nt:
-        for e, toks in _TAIL_TOKENS.items():
+        for name, toks in _TAIL_TOKENS.items():
             if toks and toks.issubset(nt):
-                hand, action = HAND_TAILS[e]
-                return e, hand, action
+                if _active_on(name, date):
+                    return name, _ROSTER[name]["hand"], "fade"
+                return None, None, None
     return None, None, None
+
+
+def active_roster():
+    """{name: (hand, 'fade')} for arms currently active (an open window)."""
+    return {n: (info["hand"], "fade") for n, info in _ROSTER.items()
+            if _active_on(n, None)}
+
+
+# Back-compat: modules importing HAND_TAILS (watchlist exclusion, roster display)
+# expect the currently-active arms.
+HAND_TAILS = active_roster()
 
 
 @functools.lru_cache(maxsize=1)
@@ -82,7 +119,7 @@ def _load_caches():
     return bs, bo
 
 
-@functools.lru_cache(maxsize=16)
+@functools.lru_cache(maxsize=256)
 def _load_today_lineups(date_iso):
     """{team: {"ids": [player_ids], "confirmed": bool}} from lineups_YYYYMMDD.json
     -- the lineup the props model writes for the current (not-yet-played) slate.
@@ -153,12 +190,19 @@ def opp_lineup_state(opp_team, date_iso):
     cache are resolved live via /people so newly added hitters still count.
     """
     bs, bo = _load_caches()
-    lu = (bo.get(date_iso) or {}).get(opp_team)
-    confirmed = True  # completed-game boxscore is what actually happened
-    if not lu:
-        entry = _load_today_lineups(date_iso).get(opp_team)
-        if entry:
-            lu, confirmed = entry["ids"], entry["confirmed"]
+    # Prefer the PRE-GAME posted lineup (lineups_YYYYMMDD.json -- the same
+    # confirmed card the K's CSW model uses, archived per day). That is the 9
+    # the fade FIRES on, so it must also be the 9 it GRADES on. The boxscore
+    # batting order includes pinch-hitters / substitutions who entered during
+    # the game, so it can differ from the posted card -- grading on it would
+    # erase a bet the announced lineup would have placed (and vice versa). Fall
+    # back to the boxscore only when no posted card was archived for that date.
+    entry = _load_today_lineups(date_iso).get(opp_team)
+    if entry:
+        lu, confirmed = entry["ids"], entry["confirmed"]
+    else:
+        lu = (bo.get(date_iso) or {}).get(opp_team)
+        confirmed = True  # completed-game boxscore is what actually happened
     if not lu:
         return None, None, None
     missing = [pid for pid in lu if str(pid) not in bs and str(pid) not in _LIVE_HAND]

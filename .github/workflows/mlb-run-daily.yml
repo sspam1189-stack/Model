@@ -92,20 +92,6 @@ jobs:
           ODDS_API_KEY: ${{ secrets.ODDS_API_KEY }}
         run: python -m scripts.run_daily_ml
 
-      # Handedness-tails tracker ("MLB Hand Tails"): conditional fade/take on
-      # arms facing 6+ opposite-hand lineups. Reads today's lineup handedness
-      # from the K-model caches (run_daily above populated them) + the cached
-      # FanDuel ML. Own ledger (mlb-hand-tails.json); does not touch the fade
-      # list. Runs AFTER fade ML so today's prices are cached. Non-blocking.
-      - name: Run daily MLB hand-tails
-        continue-on-error: true
-        working-directory: MLBstrikeouts
-        env:
-          PYTHONUTF8: "1"
-          PYTHONUNBUFFERED: "1"
-          PYTHONIOENCODING: "utf-8"
-        run: python -m scripts.run_daily_hand_tails
-
       # ALL-ML dataset ("MLB ALL ML" tab): every settled game this season plus
       # today's slate, with the cached FanDuel odds + pitcher handedness. Reads
       # the odds cache only (no Odds API spend; one free MLB roster call for
@@ -120,6 +106,37 @@ jobs:
           PYTHONUNBUFFERED: "1"
           PYTHONIOENCODING: "utf-8"
         run: python -m scripts.build_all_ml
+
+      # Walk-forward hand-tails ROSTER: recomputes each arm's active [add, remove)
+      # windows from the settled ALL-ML games (re-graded on posted PRE-GAME
+      # lineups). An arm is a fade only from the day its platoon-disadvantage
+      # record first cleared 4 starts & +3.0u, forward-only, and drops off if it
+      # slips back below. Reads mlb-all-ml.json (built above), so runs AFTER it
+      # and BEFORE the grader that consumes the roster. Because it only sees
+      # settled games (through yesterday), an arm crossing the bar on today's
+      # start isn't added until tomorrow's rebuild -- the "add next day" rule.
+      - name: Build MLB hand-tails roster
+        continue-on-error: true
+        working-directory: MLBstrikeouts
+        env:
+          PYTHONUTF8: "1"
+          PYTHONUNBUFFERED: "1"
+          PYTHONIOENCODING: "utf-8"
+        run: python -m scripts.build_hand_tails_roster
+
+      # Handedness-tails tracker ("MLB Hand Tails"): walk-forward conditional fade
+      # on arms facing 6+ opposite-hand lineups, gated to each arm's active roster
+      # windows (built above). Reads today's lineup handedness from the K-model
+      # caches (run_daily above populated them) + the cached FanDuel ML. Own
+      # ledger (mlb-hand-tails.json); does not touch the fade list. Non-blocking.
+      - name: Run daily MLB hand-tails
+        continue-on-error: true
+        working-directory: MLBstrikeouts
+        env:
+          PYTHONUTF8: "1"
+          PYTHONUNBUFFERED: "1"
+          PYTHONIOENCODING: "utf-8"
+        run: python -m scripts.run_daily_hand_tails
 
       # Shadow watchlist for the handedness fade/tail idea: arms NOT on the
       # active hand-tails list showing a platoon-disadvantage edge. Review-only

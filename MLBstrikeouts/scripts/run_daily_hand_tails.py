@@ -87,7 +87,7 @@ def grade_date(date_key, date_iso):
             p = g.get(side + "_pitcher")
             if not p:
                 continue
-            entry, hand, action = tail_entry(p)
+            entry, hand, action = tail_entry(p, date_iso)
             if not entry:
                 continue
             opp = g.get("away") if side == "home" else g.get("home")
