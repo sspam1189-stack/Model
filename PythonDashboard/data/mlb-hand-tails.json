@@ -1,7 +1,7 @@
 {
   "sport": "MLB",
   "type": "hand-tails",
-  "generated": "2026-08-05T06:39:07Z",
+  "generated": "2026-08-05T06:41:57Z",
   "handMin": 6,
   "roster": {
     "Andrew Painter": {
@@ -9,10 +9,6 @@
       "action": "fade"
     },
     "Brady Singer": {
-      "hand": "R",
-      "action": "fade"
-    },
-    "Bryan Woo": {
       "hand": "R",
       "action": "fade"
     },
@@ -92,12 +88,6 @@
   "note": "Bet list is manually curated (hand-tails-manual.json). `promotions` = arms that cleared the walk-forward bar but are not on the manual list (notify); `demotions` = manual arms slipped under the bar. Own ledger; not part of the fade-list ledger.",
   "promotions": [],
   "demotions": [
-    {
-      "name": "Bryan Woo",
-      "hand": "R",
-      "games": 9,
-      "units": 3.28
-    },
     {
       "name": "Bryce Miller",
       "hand": "R",
