@@ -1,45 +1,27 @@
 {
   "sport": "MLB",
   "type": "fade-watch",
-  "generated": "2026-08-05T00:33:15Z",
+  "generated": "2026-08-05T03:50:39Z",
   "minGames": 3,
   "minUnits": 2.5,
   "note": "Shadow review list -- arms NOT on the active fade list whose home or away fade clears the bar (>= 3 games, >= +2.5u). In-sample season replay; watch, don't bet. Promote by editing scripts/fade_list.py.",
   "today": [
     {
       "date": "2026-08-04",
-      "commence": "2026-08-04T22:40:00Z",
+      "commence": "2026-08-05T00:05:00Z",
       "betType": "fade_watch",
       "watch": true,
-      "pitcher": "Jes\u00fas Luzardo",
-      "arm_team": "PHI",
-      "fadeTeam": "PHI",
-      "selection": "WSH",
-      "home": "PHI",
-      "away": "WSH",
-      "venue": "home",
-      "odds": 260,
-      "suggest": "home",
-      "suggestUnits": 2.8,
-      "games": 9,
-      "result": "pending"
-    },
-    {
-      "date": "2026-08-04",
-      "commence": "2026-08-04T23:05:00Z",
-      "betType": "fade_watch",
-      "watch": true,
-      "pitcher": "Ryan Weathers",
-      "arm_team": "NYY",
-      "fadeTeam": "NYY",
-      "selection": "STL",
-      "home": "NYY",
-      "away": "STL",
-      "venue": "home",
-      "odds": 186,
-      "suggest": "home",
-      "suggestUnits": 2.98,
-      "games": 11,
+      "pitcher": "Tarik Skubal",
+      "arm_team": "LAD",
+      "fadeTeam": "LAD",
+      "selection": "CHC",
+      "home": "CHC",
+      "away": "LAD",
+      "venue": "away",
+      "odds": 176,
+      "suggest": "away",
+      "suggestUnits": 2.5,
+      "games": 7,
       "result": "pending"
     }
   ],
@@ -261,33 +243,6 @@
       }
     },
     {
-      "pitcher": "Ryan Weathers",
-      "team": "NYY",
-      "suggest": "home",
-      "suggestUnits": 2.98,
-      "all": {
-        "w": 10,
-        "l": 9,
-        "u": 3.22,
-        "n": 19,
-        "roi": 0.1626
-      },
-      "home": {
-        "w": 6,
-        "l": 5,
-        "u": 2.98,
-        "n": 11,
-        "roi": 0.269
-      },
-      "away": {
-        "w": 4,
-        "l": 4,
-        "u": 0.24,
-        "n": 8,
-        "roi": 0.0275
-      }
-    },
-    {
       "pitcher": "Adrian Houser",
       "team": "SF",
       "suggest": "home",
@@ -396,33 +351,6 @@
       }
     },
     {
-      "pitcher": "Jes\u00fas Luzardo",
-      "team": "PHI",
-      "suggest": "home",
-      "suggestUnits": 2.8,
-      "all": {
-        "w": 7,
-        "l": 13,
-        "u": -4.14,
-        "n": 20,
-        "roi": -0.1988
-      },
-      "home": {
-        "w": 5,
-        "l": 4,
-        "u": 2.8,
-        "n": 9,
-        "roi": 0.305
-      },
-      "away": {
-        "w": 2,
-        "l": 9,
-        "u": -6.94,
-        "n": 11,
-        "roi": -0.5962
-      }
-    },
-    {
       "pitcher": "Zebby Matthews",
       "team": "MIN",
       "suggest": "home",
@@ -447,6 +375,33 @@
         "u": -1.76,
         "n": 8,
         "roi": -0.1528
+      }
+    },
+    {
+      "pitcher": "Tarik Skubal",
+      "team": "LAD",
+      "suggest": "away",
+      "suggestUnits": 2.5,
+      "all": {
+        "w": 7,
+        "l": 8,
+        "u": 1.38,
+        "n": 15,
+        "roi": 0.0914
+      },
+      "home": {
+        "w": 3,
+        "l": 5,
+        "u": -1.12,
+        "n": 8,
+        "roi": -0.14
+      },
+      "away": {
+        "w": 4,
+        "l": 3,
+        "u": 2.5,
+        "n": 7,
+        "roi": 0.3521
       }
     }
   ]

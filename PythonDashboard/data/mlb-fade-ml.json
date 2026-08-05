@@ -1,7 +1,7 @@
 {
   "sport": "MLB",
   "type": "fade-ml",
-  "generated": "2026-08-05T00:31:32Z",
+  "generated": "2026-08-05T03:48:52Z",
   "fadeList": [
     "Painter",
     "Rocker",
@@ -72,22 +72,22 @@
   ],
   "mutualRule": "underdog_min",
   "summary": {
-    "wins": 426,
+    "wins": 428,
     "losses": 145,
     "voids": 0,
     "skips": 33,
-    "staked": 705.37,
-    "units": 294.35,
-    "roi": 0.4173,
+    "staked": 709.73,
+    "units": 296.35,
+    "roi": 0.4176,
     "byType": {
       "ml": {
-        "wins": 416,
+        "wins": 418,
         "losses": 137,
         "voids": 0,
         "skips": 0,
-        "staked": 687.37,
-        "units": 289.31,
-        "roi": 0.4209
+        "staked": 691.73,
+        "units": 291.31,
+        "roi": 0.4211
       },
       "ml_dog": {
         "wins": 10,
@@ -100,56 +100,7 @@
       }
     }
   },
-  "today": [
-    {
-      "date": "2026-08-04",
-      "commence": "2026-08-05T00:10:00Z",
-      "betType": "ml",
-      "shadow": false,
-      "pitchers": [
-        "Trey Yesavage"
-      ],
-      "fadeTeam": "TOR",
-      "market": "h2h",
-      "selection": "HOU",
-      "line": null,
-      "odds": -136,
-      "stake": 1.36,
-      "result": "pending",
-      "profit": 0.0,
-      "book": "fanduel",
-      "source": "fanduel_api",
-      "reason": null,
-      "home": "HOU",
-      "away": "TOR",
-      "gamePk": 824161,
-      "fadeReason": "away"
-    },
-    {
-      "date": "2026-08-04",
-      "commence": "2026-08-04T22:40:00Z",
-      "betType": "ml",
-      "shadow": false,
-      "pitchers": [
-        "Carson Palmquist"
-      ],
-      "fadeTeam": "WSH",
-      "market": "h2h",
-      "selection": "PHI",
-      "line": null,
-      "odds": -300,
-      "stake": 3.0,
-      "result": "pending",
-      "profit": 0.0,
-      "book": "fanduel",
-      "source": "fanduel_api",
-      "reason": null,
-      "home": "PHI",
-      "away": "WSH",
-      "gamePk": 823432,
-      "fadeReason": "all"
-    }
-  ],
+  "today": [],
   "bets": [
     {
       "date": "2026-04-05",
@@ -14696,6 +14647,54 @@
       "home": "ARI",
       "away": "SD",
       "gamePk": 825095,
+      "fadeReason": "away"
+    },
+    {
+      "date": "2026-08-04",
+      "commence": "2026-08-04T22:40:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Carson Palmquist"
+      ],
+      "fadeTeam": "WSH",
+      "market": "h2h",
+      "selection": "PHI",
+      "line": null,
+      "odds": -300,
+      "stake": 3.0,
+      "result": "WIN",
+      "profit": 1.0,
+      "book": "fanduel",
+      "source": "fanduel_api",
+      "reason": null,
+      "home": "PHI",
+      "away": "WSH",
+      "gamePk": 823432,
+      "fadeReason": "all"
+    },
+    {
+      "date": "2026-08-04",
+      "commence": "2026-08-05T00:10:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Trey Yesavage"
+      ],
+      "fadeTeam": "TOR",
+      "market": "h2h",
+      "selection": "HOU",
+      "line": null,
+      "odds": -136,
+      "stake": 1.36,
+      "result": "WIN",
+      "profit": 1.0,
+      "book": "fanduel",
+      "source": "fanduel_api",
+      "reason": null,
+      "home": "HOU",
+      "away": "TOR",
+      "gamePk": 824161,
       "fadeReason": "away"
     }
   ]
