@@ -1,13 +1,17 @@
 {
   "sport": "MLB",
   "type": "hand-tails-roster",
-  "generated": "2026-08-05T05:55:35Z",
+  "generated": "2026-08-05T06:23:50Z",
   "handMin": 6,
   "rule": {
     "minGames": 4,
     "minUnits": 3.0
   },
-  "note": "Walk-forward: an arm is faded only from the day its platoon-disadvantage fade record first cleared minGames + minUnits, and only on FUTURE starts (each [add, remove) window). Not in-sample.",
+  "note": "Walk-forward qualifier computation used to NOTIFY (promotion candidates), not to drive the bet list. The bet list is the manually curated hand-tails-manual.json. `promotions` are arms that clear minGames+minUnits but are not on the manual list; `demotions` are manual-list arms whose record slipped under the bar.",
+  "manualCount": 14,
+  "qualifiedCount": 14,
+  "promotions": [],
+  "demotions": [],
   "arms": {
     "Andrew Alvarez": {
       "hand": "L",

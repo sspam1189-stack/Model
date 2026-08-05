@@ -26,17 +26,19 @@ from fade_list import _norm
 
 HAND_MIN = 6
 
-# The active fade list is RULE-DEFINED and WALK-FORWARD. build_hand_tails_roster.py
-# writes hand-tails-roster.json with each arm's [add, remove) active windows -- an
-# arm is a fade ONLY from the day its platoon-disadvantage fade record first
-# cleared >= 4 starts & +3.0u (re-graded on posted PRE-GAME lineups), forward-only,
-# and drops off if it slips back below the bar. tail_entry(name, date) gates bets
-# to those windows. If the roster file is missing, fall back to a hardcoded list
-# (always active) so the model still runs.
+# The active fade list is MANUALLY CURATED (hand-tails-manual.json). Each listed
+# arm is bet from its `since` date forward (a single open [since, None) window),
+# so the ledger still grades walk-forward (no in-sample credit before `since`).
+# Nothing is auto-added or auto-removed -- the user edits the manual list. The
+# daily run separately computes walk-forward qualifiers and flags any NEW
+# qualifier not on this list as a promotion candidate (dashboard badge); that
+# detection lives in build_hand_tails_roster.py and never edits the manual list.
+# tail_entry(name, date) gates bets to each arm's [since, None) window. If the
+# manual file is missing, fall back to a hardcoded list so the model still runs.
 _ROSTER_PATH = os.path.normpath(os.path.join(
-    os.path.dirname(os.path.abspath(__file__)), "..", "data", "hand-tails-roster.json"))
+    os.path.dirname(os.path.abspath(__file__)), "..", "data", "hand-tails-manual.json"))
 
-_HARDCODED_FADES = {  # fallback only (used if the roster file is absent)
+_HARDCODED_FADES = {  # fallback only (used if the manual file is absent)
     "Brady Singer": "R", "Mike Burrows": "R", "Shane Baz": "R",
     "Merrill Kelly": "R", "Trevor McDonald": "R",
     "Framber Valdez": "L", "Nick Lodolo": "L",
@@ -44,14 +46,19 @@ _HARDCODED_FADES = {  # fallback only (used if the roster file is absent)
 
 
 def _load_roster():
+    """{name: {"hand", "windows": [[since, None]]}} from the manual list. An arm
+    with no `since` is treated as active from the start (grades all its starts)."""
     try:
         with open(_ROSTER_PATH, encoding="utf-8") as f:
             arms = json.load(f).get("arms", {})
     except Exception:
         arms = {}
     if arms:
-        return {n: {"hand": a.get("hand"), "windows": a.get("windows", [])}
-                for n, a in arms.items()}
+        out = {}
+        for n, a in arms.items():
+            since = a.get("since") or "2000-01-01"
+            out[n] = {"hand": a.get("hand"), "windows": [[since, None]]}
+        return out
     return {n: {"hand": h, "windows": [["2000-01-01", None]]}
             for n, h in _HARDCODED_FADES.items()}
 

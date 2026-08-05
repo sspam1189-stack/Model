@@ -197,6 +197,53 @@ async function renderMLBFadeML() {
     + (hf && (hf.wins || hf.losses) ? subLine(TEAL, 'Hand-fade ML — fade the arm on 6+ opposite-hand lineups', hf, '') : '');
   el.appendChild(banner);
 
+  // ---- Hand-tails NOTIFICATIONS: manual list vs walk-forward bar ----
+  // The hand-tails bet list is manually curated (hand-tails-manual.json). The
+  // daily run computes who currently clears 4 starts & +3.0u walk-forward and
+  // flags any qualifier NOT on the manual list as a PROMOTION candidate (badge
+  // below), and any manual-list arm that has slipped under the bar as a
+  // "consider removing" note. Nothing is auto-added or auto-removed.
+  const promos = (tailData && tailData.promotions) || [];
+  const demos = (tailData && tailData.demotions) || [];
+  if (promos.length || demos.length) {
+    const note = document.createElement('div');
+    note.className = 'card';
+    note.style.cssText = 'margin-bottom:14px;padding:12px 16px;border:1px solid '
+      + (promos.length ? TEAL : ORANGE) + ';background:rgba(63,185,80,0.08)';
+    let html = '';
+    if (promos.length) {
+      html += '<div style="font-weight:700;color:' + TEAL + ';margin-bottom:6px">'
+        + '🔔 Hand-tails promotion candidate' + (promos.length > 1 ? 's' : '')
+        + ' (' + promos.length + ')</div>'
+        + '<div style="font-size:12px;color:#aaa;margin-bottom:8px">Cleared 4 starts &amp; '
+        + '+3.0u walk-forward but not on your manual fade list. Review and add to '
+        + '<code>hand-tails-manual.json</code> to bet.</div>';
+      promos.forEach(p => {
+        const uc = ((p.units || 0) >= 0 ? GREEN : RED);
+        html += '<div style="font-size:14px;margin:2px 0">+ <strong>' + p.name + '</strong> '
+          + '<span style="color:#888">(' + p.hand + 'HP)</span> — ' + (p.games || 0) + 'gs '
+          + '<span style="color:' + uc + '">' + ((p.units || 0) >= 0 ? '+' : '')
+          + (p.units || 0).toFixed(2) + 'u</span> '
+          + '<span style="font-size:11px;color:#888">qualified since ' + (p.since || '—')
+          + '</span></div>';
+      });
+    }
+    if (demos.length) {
+      html += '<div style="font-weight:600;color:' + ORANGE + ';margin-top:'
+        + (promos.length ? '10px' : '0') + ';margin-bottom:4px">Consider removing ('
+        + demos.length + ') — on your list but under the bar</div>';
+      demos.forEach(d => {
+        const uc = ((d.units || 0) >= 0 ? GREEN : RED);
+        html += '<div style="font-size:13px;margin:2px 0;color:#bbb">− <strong>' + d.name
+          + '</strong> <span style="color:#888">(' + (d.hand || '') + 'HP)</span> — '
+          + (d.games || 0) + 'gs <span style="color:' + uc + '">' + ((d.units || 0) >= 0 ? '+' : '')
+          + (d.units || 0).toFixed(2) + 'u</span></div>';
+      });
+    }
+    note.innerHTML = html;
+    el.appendChild(note);
+  }
+
   // ---- Per-type sub-records ----
   const typeMeta = [
     ['ml', 'Fade ML (opp)', 'Single fade arm → opponent moneyline'],

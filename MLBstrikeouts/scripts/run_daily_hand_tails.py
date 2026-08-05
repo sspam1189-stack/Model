@@ -36,6 +36,22 @@ OUTPUT_PATHS = [
         SCRIPT_DIR, "..", "..", "PythonDashboard", "data", "mlb-hand-tails.json")),
 ]
 
+_ROSTER_PATH = os.path.normpath(os.path.join(
+    SCRIPT_DIR, "..", "data", "hand-tails-roster.json"))
+
+
+def _load_promotions():
+    """(promotions, demotions) from the roster file written by
+    build_hand_tails_roster (runs earlier in the workflow). Promotions are
+    walk-forward qualifiers not on the manual list; demotions are manual arms
+    that slipped under the bar. Empty lists if the file is missing."""
+    try:
+        with open(_ROSTER_PATH, encoding="utf-8") as f:
+            data = json.load(f)
+        return data.get("promotions", []), data.get("demotions", [])
+    except Exception:
+        return [], []
+
 
 def _bet_for(date_iso, g, side, entry, hand, action, od, lefty, righty, confirmed):
     """Build one hand-tails bet record for a qualifying start, or None.
@@ -132,14 +148,20 @@ def main():
     summary["byHand"] = {h: _record([b for b in bets if b["hand"] == h])
                          for h in ("R", "L")}
 
+    promotions, demotions = _load_promotions()
+
     payload = {
         "sport": "MLB", "type": "hand-tails",
         "generated": datetime.datetime.now(datetime.timezone.utc)
             .strftime("%Y-%m-%dT%H:%M:%SZ"),
         "handMin": HAND_MIN,
         "roster": {e: {"hand": v[0], "action": v[1]} for e, v in HAND_TAILS.items()},
-        "note": "In-sample selection; live paper-forward test. Not part of the "
-                "fade-list ledger. On Nola/Lopez overlap games, hand-tails wins.",
+        "note": "Bet list is manually curated (hand-tails-manual.json). "
+                "`promotions` = arms that cleared the walk-forward bar but are not "
+                "on the manual list (notify); `demotions` = manual arms slipped "
+                "under the bar. Own ledger; not part of the fade-list ledger.",
+        "promotions": promotions,
+        "demotions": demotions,
         "summary": summary,
         "today": sorted(today, key=lambda b: b.get("commence") or ""),
         "bets": sorted(bets, key=lambda b: (b["date"], b.get("commence") or "")),

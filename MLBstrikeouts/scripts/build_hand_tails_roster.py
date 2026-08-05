@@ -1,24 +1,25 @@
 #!/usr/bin/env python3
 """
 MLBstrikeouts/scripts/build_hand_tails_roster.py
-WALK-FORWARD handedness-fade roster.
+Hand-tails PROMOTION DETECTOR (notifier), not the bet list.
 
-The active hand-tails list is now RULE-DEFINED, not hand-picked: an arm is a
-fade once its record on platoon-disadvantage starts (RHP vs HAND_MIN+ lefty
-bats, LHP vs HAND_MIN+ righty bats) reaches MIN_GAMES starts AND >= MIN_UNITS
-fade units -- and it is only faded FORWARD from the day it first qualified.
+The bet list is now MANUALLY CURATED (hand-tails-manual.json) -- the user adds
+and removes arms by hand. This script does NOT drive that list. Instead it
+computes, walk-forward, which arms currently clear the qualifying bar (record on
+platoon-disadvantage starts -- RHP vs HAND_MIN+ lefty bats, LHP vs HAND_MIN+
+righty bats -- reaching MIN_GAMES starts AND >= MIN_UNITS cumulative fade units)
+and diffs that against the manual list:
 
-This removes the in-sample overfitting of a hardcoded list: an arm is selected
-on its PAST record, then bet only on FUTURE starts. If its (cumulative) fade
-record later slips back below the unit bar, it drops off (remove date), and can
-re-qualify later -- so each arm carries a list of active [add, remove) windows.
+  * promotions -- arms qualified today but NOT on the manual list. Surfaced as a
+    dashboard badge so the user can decide whether to add them. Never auto-added.
+  * demotions  -- manual-list arms whose record has slipped back under the bar.
+    Advisory "consider removing" note; the arm stays bet until the user removes it.
 
 Output: MLBstrikeouts/data/hand-tails-roster.json
-  { "rule": {...}, "arms": { "<name>": {"hand": "L/R",
-      "windows": [["YYYY-MM-DD", "YYYY-MM-DD" | null], ...]}, ... } }
-
-run_daily_hand_tails.py grades only games inside an arm's active windows, so
-the ledger it produces is a genuine paper-forward test.
+  { "rule": {...}, "promotions": [...], "demotions": [...],
+    "arms": { "<name>": {"hand", "windows": [[add, remove|null], ...]} } }
+run_daily_hand_tails.py embeds promotions/demotions into the ledger the dashboard
+reads; the `arms` windows are kept for reference/audit of the walk-forward math.
 
 Usage:  cd MLBstrikeouts && python -m scripts.build_hand_tails_roster
 """
@@ -104,23 +105,71 @@ def _windows(games, today):
     return windows
 
 
+MANUAL_PATH = os.path.normpath(os.path.join(
+    SCRIPT_DIR, "..", "data", "hand-tails-manual.json"))
+
+
+def _manual_list():
+    """{name: {"hand", "since"}} from the manually curated fade list."""
+    try:
+        with open(MANUAL_PATH, encoding="utf-8") as f:
+            return json.load(f).get("arms", {})
+    except Exception:
+        return {}
+
+
 def build():
     today = datetime.date.today().isoformat()
     per = _platoon_games()
     arms = {}
+    records = {}  # name -> full-season cumulative platoon-fade record
     for (name, hand), games in per.items():
+        records[name] = {"hand": hand, "games": len(games),
+                         "units": round(sum(p for _d, p in games), 2)}
         wins = _windows(games, today)
         if wins:
             arms[name] = {"hand": hand, "windows": wins}
+
+    # Currently qualified = arm whose most-recent window is still open (its
+    # cumulative platoon-fade record clears the bar as of today).
+    qualified_now = {n for n, a in arms.items()
+                     if a["windows"] and a["windows"][-1][1] is None}
+    manual = _manual_list()
+    manual_names = set(manual)
+
+    # PROMOTIONS: qualified today but NOT on the manual list -> notify the user
+    # (dashboard badge). The user decides whether to add them; nothing is auto-added.
+    promotions = []
+    for n in sorted(qualified_now - manual_names):
+        r = records.get(n, {})
+        promotions.append({
+            "name": n, "hand": r.get("hand"), "games": r.get("games"),
+            "units": r.get("units"), "since": arms[n]["windows"][-1][0]})
+
+    # DEMOTIONS: on the manual list but no longer clearing the bar -> "consider
+    # removing" note. Advisory only; the arm stays bet until the user removes it.
+    demotions = []
+    for n in sorted(manual_names - qualified_now):
+        r = records.get(n, {})
+        demotions.append({
+            "name": n, "hand": manual[n].get("hand") or r.get("hand"),
+            "games": r.get("games"), "units": r.get("units")})
+
     payload = {
         "sport": "MLB", "type": "hand-tails-roster",
         "generated": datetime.datetime.now(datetime.timezone.utc)
             .strftime("%Y-%m-%dT%H:%M:%SZ"),
         "handMin": HAND_MIN,
         "rule": {"minGames": MIN_GAMES, "minUnits": MIN_UNITS},
-        "note": "Walk-forward: an arm is faded only from the day its platoon-"
-                "disadvantage fade record first cleared minGames + minUnits, and "
-                "only on FUTURE starts (each [add, remove) window). Not in-sample.",
+        "note": "Walk-forward qualifier computation used to NOTIFY (promotion "
+                "candidates), not to drive the bet list. The bet list is the "
+                "manually curated hand-tails-manual.json. `promotions` are arms "
+                "that clear minGames+minUnits but are not on the manual list; "
+                "`demotions` are manual-list arms whose record slipped under the bar.",
+        "manualCount": len(manual_names),
+        "qualifiedCount": len(qualified_now),
+        "promotions": promotions,
+        "demotions": demotions,
         "arms": dict(sorted(arms.items())),
     }
     for path in OUTPUT_PATHS:
@@ -132,11 +181,18 @@ def build():
 
 if __name__ == "__main__":
     pay = build()
-    n_active = sum(1 for a in pay["arms"].values()
-                   if a["windows"] and a["windows"][-1][1] is None)
-    print(f"[hand-tails-roster] {len(pay['arms'])} arms have qualified "
-          f"(>= {MIN_GAMES}gs & +{MIN_UNITS}u); {n_active} currently active")
-    for name, a in pay["arms"].items():
-        cur = a["windows"][-1]
-        state = "ACTIVE since " + cur[0] if cur[1] is None else "off (last " + cur[1] + ")"
-        print(f"  {name:<24} {a['hand']}  {state}")
+    print(f"[hand-tails-roster] {pay['qualifiedCount']} arms currently clear "
+          f">= {MIN_GAMES}gs & +{MIN_UNITS}u; manual list has {pay['manualCount']}")
+    if pay["promotions"]:
+        print(f"  ** {len(pay['promotions'])} PROMOTION CANDIDATE(S) -- not on manual list:")
+        for p in pay["promotions"]:
+            print(f"     + {p['name']:<22} {p['hand']}  "
+                  f"{p['games']}gs {p['units']:+.2f}u  (qualified since {p['since']})")
+    else:
+        print("  no promotion candidates (every qualifier is already on the manual list)")
+    if pay["demotions"]:
+        print(f"  ~ {len(pay['demotions'])} on manual list no longer clearing the bar "
+              f"(consider removing):")
+        for d in pay["demotions"]:
+            print(f"     - {d['name']:<22} {d['hand']}  "
+                  f"{d.get('games')}gs {d.get('units'):+.2f}u")
