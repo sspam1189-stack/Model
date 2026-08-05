@@ -1,7 +1,7 @@
 {
   "sport": "MLB",
   "type": "hand-tails-watch",
-  "generated": "2026-08-05T21:06:58Z",
+  "generated": "2026-08-05T21:58:09Z",
   "handMin": 6,
   "minGames": 3,
   "minUnits": 2.5,
@@ -26,8 +26,8 @@
       "lineupConfirmed": true,
       "odds": 142,
       "suggest": "take",
-      "suggestUnits": 6.64,
-      "games": 6,
+      "suggestUnits": 5.64,
+      "games": 7,
       "result": "pending"
     },
     {
@@ -46,7 +46,7 @@
       "oppLefty": 2,
       "oppRighty": 7,
       "lineupConfirmed": true,
-      "odds": -126,
+      "odds": -130,
       "suggest": "fade",
       "suggestUnits": 2.8,
       "games": 18,
@@ -68,7 +68,7 @@
       "oppLefty": 7,
       "oppRighty": 2,
       "lineupConfirmed": true,
-      "odds": -154,
+      "odds": -146,
       "suggest": "fade",
       "suggestUnits": 3.2,
       "games": 3,
@@ -90,7 +90,7 @@
       "oppLefty": 7,
       "oppRighty": 4,
       "lineupConfirmed": true,
-      "odds": -126,
+      "odds": -132,
       "suggest": "take",
       "suggestUnits": 6.4,
       "games": 11,
@@ -189,24 +189,6 @@
       "era": 3.25
     },
     {
-      "pitcher": "Tomoyuki Sugano",
-      "hand": "R",
-      "games": 6,
-      "suggest": "take",
-      "suggestUnits": 6.64,
-      "fade": {
-        "w": 1,
-        "l": 5,
-        "u": -7.97
-      },
-      "take": {
-        "w": 5,
-        "l": 1,
-        "u": 6.64
-      },
-      "era": 4.47
-    },
-    {
       "pitcher": "Sonny Gray",
       "hand": "R",
       "games": 11,
@@ -259,6 +241,24 @@
         "u": 5.8
       },
       "era": 4.02
+    },
+    {
+      "pitcher": "Tomoyuki Sugano",
+      "hand": "R",
+      "games": 7,
+      "suggest": "take",
+      "suggestUnits": 5.64,
+      "fade": {
+        "w": 2,
+        "l": 5,
+        "u": -6.97
+      },
+      "take": {
+        "w": 5,
+        "l": 2,
+        "u": 5.64
+      },
+      "era": 4.47
     },
     {
       "pitcher": "Max Meyer",
