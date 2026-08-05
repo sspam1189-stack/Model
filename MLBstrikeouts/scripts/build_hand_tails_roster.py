@@ -146,14 +146,19 @@ def build():
             "name": n, "hand": r.get("hand"), "games": r.get("games"),
             "units": r.get("units"), "since": arms[n]["windows"][-1][0]})
 
-    # DEMOTIONS: on the manual list but no longer clearing the bar -> "consider
-    # removing" note. Advisory only; the arm stays bet until the user removes it.
+    # DEMOTIONS: on the manual list AND its cumulative platoon-fade record has
+    # actually fallen under the bar -- enough sample (>= MIN_GAMES starts) but
+    # < MIN_UNITS. That is the true "consider removing" signal. We do NOT flag an
+    # arm merely for lacking an open walk-forward window: a freshly added arm can
+    # clear the bar cumulatively yet have no forward start yet (it hasn't pitched
+    # since being added), and must not be shown as under the bar.
     demotions = []
-    for n in sorted(manual_names - qualified_now):
+    for n in sorted(manual_names):
         r = records.get(n, {})
-        demotions.append({
-            "name": n, "hand": manual[n].get("hand") or r.get("hand"),
-            "games": r.get("games"), "units": r.get("units")})
+        if r.get("games", 0) >= MIN_GAMES and r.get("units", 0.0) < MIN_UNITS:
+            demotions.append({
+                "name": n, "hand": manual[n].get("hand") or r.get("hand"),
+                "games": r.get("games"), "units": r.get("units")})
 
     payload = {
         "sport": "MLB", "type": "hand-tails-roster",

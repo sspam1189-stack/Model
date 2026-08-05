@@ -1,7 +1,7 @@
 {
   "sport": "MLB",
   "type": "hand-tails",
-  "generated": "2026-08-05T06:41:57Z",
+  "generated": "2026-08-05T06:50:00Z",
   "handMin": 6,
   "roster": {
     "Andrew Painter": {
@@ -87,44 +87,7 @@
   },
   "note": "Bet list is manually curated (hand-tails-manual.json). `promotions` = arms that cleared the walk-forward bar but are not on the manual list (notify); `demotions` = manual arms slipped under the bar. Own ledger; not part of the fade-list ledger.",
   "promotions": [],
-  "demotions": [
-    {
-      "name": "Bryce Miller",
-      "hand": "R",
-      "games": 4,
-      "units": 3.26
-    },
-    {
-      "name": "Casey Mize",
-      "hand": "R",
-      "games": 5,
-      "units": 3.04
-    },
-    {
-      "name": "Chris Paddack",
-      "hand": "R",
-      "games": 4,
-      "units": 4.0
-    },
-    {
-      "name": "George Kirby",
-      "hand": "R",
-      "games": 5,
-      "units": 3.54
-    },
-    {
-      "name": "Kevin Gausman",
-      "hand": "R",
-      "games": 9,
-      "units": 3.08
-    },
-    {
-      "name": "Sean Sullivan",
-      "hand": "L",
-      "games": 4,
-      "units": 4.0
-    }
-  ],
+  "demotions": [],
   "summary": {
     "wins": 37,
     "losses": 12,
