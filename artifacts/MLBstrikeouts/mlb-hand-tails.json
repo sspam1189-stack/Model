@@ -1,7 +1,7 @@
 {
   "sport": "MLB",
   "type": "hand-tails",
-  "generated": "2026-08-05T15:26:31Z",
+  "generated": "2026-08-05T21:57:07Z",
   "handMin": 6,
   "roster": {
     "Andrew Painter": {
@@ -89,18 +89,18 @@
   "promotions": [],
   "demotions": [],
   "summary": {
-    "wins": 37,
+    "wins": 36,
     "losses": 12,
-    "units": 25.28,
-    "staked": 58.96,
-    "roi": 0.4288,
+    "units": 24.28,
+    "staked": 57.6,
+    "roi": 0.4215,
     "byAction": {
       "fade": {
-        "wins": 37,
+        "wins": 36,
         "losses": 12,
-        "units": 25.28,
-        "staked": 58.96,
-        "roi": 0.4288
+        "units": 24.28,
+        "staked": 57.6,
+        "roi": 0.4215
       },
       "take": {
         "wins": 0,
@@ -119,11 +119,11 @@
         "roi": 0.3799
       },
       "L": {
-        "wins": 17,
+        "wins": 16,
         "losses": 5,
-        "units": 12.82,
-        "staked": 26.16,
-        "roi": 0.4901
+        "units": 11.82,
+        "staked": 24.8,
+        "roi": 0.4766
       }
     }
   },
@@ -143,34 +143,10 @@
       "away": "WSH",
       "oppLefty": 7,
       "oppRighty": 4,
-      "lineupConfirmed": false,
-      "odds": null,
-      "stake": null,
-      "result": "unconfirmed",
-      "reason": null,
-      "profit": 0.0,
-      "book": "fanduel",
-      "source": "fanduel_api"
-    },
-    {
-      "date": "2026-08-05",
-      "commence": "2026-08-05T23:40:00Z",
-      "betType": "hand_fade",
-      "action": "fade",
-      "pitcher": "Noah Cameron",
-      "entry": "Noah Cameron",
-      "hand": "L",
-      "arm_team": "KC",
-      "opp_team": "MIN",
-      "selection": "MIN",
-      "home": "KC",
-      "away": "MIN",
-      "oppLefty": 4,
-      "oppRighty": 8,
-      "lineupConfirmed": false,
-      "odds": null,
-      "stake": null,
-      "result": "unconfirmed",
+      "lineupConfirmed": true,
+      "odds": 182,
+      "stake": 1.0,
+      "result": "pending",
       "reason": null,
       "profit": 0.0,
       "book": "fanduel",
@@ -1201,30 +1177,6 @@
       "away": "CLE",
       "oppLefty": 8,
       "oppRighty": 4,
-      "lineupConfirmed": true,
-      "odds": -136,
-      "stake": 1.36,
-      "result": "WIN",
-      "reason": null,
-      "profit": 1.0,
-      "book": "fanduel",
-      "source": "fanduel_api"
-    },
-    {
-      "date": "2026-07-30",
-      "commence": "2026-07-30T17:40:00Z",
-      "betType": "hand_fade",
-      "action": "fade",
-      "pitcher": "Noah Cameron",
-      "entry": "Noah Cameron",
-      "hand": "L",
-      "arm_team": "KC",
-      "opp_team": "MIN",
-      "selection": "MIN",
-      "home": "MIN",
-      "away": "KC",
-      "oppLefty": 3,
-      "oppRighty": 8,
       "lineupConfirmed": true,
       "odds": -136,
       "stake": 1.36,

@@ -1,7 +1,7 @@
 {
   "sport": "MLB",
   "type": "hand-tails-watch",
-  "generated": "2026-08-05T15:27:35Z",
+  "generated": "2026-08-05T21:58:09Z",
   "handMin": 6,
   "minGames": 3,
   "minUnits": 2.5,
@@ -23,12 +23,12 @@
       "away": "TB",
       "oppLefty": 7,
       "oppRighty": 3,
-      "lineupConfirmed": false,
-      "odds": null,
+      "lineupConfirmed": true,
+      "odds": 142,
       "suggest": "take",
-      "suggestUnits": 6.64,
-      "games": 6,
-      "result": "unconfirmed"
+      "suggestUnits": 5.64,
+      "games": 7,
+      "result": "pending"
     },
     {
       "date": "2026-08-05",
@@ -43,36 +43,14 @@
       "selection": "BAL",
       "home": "BAL",
       "away": "LAA",
-      "oppLefty": 3,
+      "oppLefty": 2,
       "oppRighty": 7,
-      "lineupConfirmed": false,
-      "odds": null,
+      "lineupConfirmed": true,
+      "odds": -130,
       "suggest": "fade",
       "suggestUnits": 2.8,
       "games": 18,
-      "result": "unconfirmed"
-    },
-    {
-      "date": "2026-08-05",
-      "commence": "2026-08-05T22:40:00Z",
-      "betType": "watch_fade",
-      "action": "fade",
-      "watch": true,
-      "pitcher": "Rhett Lowder",
-      "hand": "R",
-      "arm_team": "CIN",
-      "opp_team": "OAK",
-      "selection": "OAK",
-      "home": "CIN",
-      "away": "OAK",
-      "oppLefty": 6,
-      "oppRighty": 4,
-      "lineupConfirmed": false,
-      "odds": null,
-      "suggest": "fade",
-      "suggestUnits": 2.5,
-      "games": 7,
-      "result": "unconfirmed"
+      "result": "pending"
     },
     {
       "date": "2026-08-05",
@@ -89,12 +67,12 @@
       "away": "STL",
       "oppLefty": 7,
       "oppRighty": 2,
-      "lineupConfirmed": false,
-      "odds": null,
+      "lineupConfirmed": true,
+      "odds": -146,
       "suggest": "fade",
       "suggestUnits": 3.2,
       "games": 3,
-      "result": "unconfirmed"
+      "result": "pending"
     },
     {
       "date": "2026-08-05",
@@ -109,14 +87,14 @@
       "selection": "BOS",
       "home": "BOS",
       "away": "CWS",
-      "oppLefty": 6,
+      "oppLefty": 7,
       "oppRighty": 4,
-      "lineupConfirmed": false,
-      "odds": null,
+      "lineupConfirmed": true,
+      "odds": -132,
       "suggest": "take",
       "suggestUnits": 6.4,
       "games": 11,
-      "result": "unconfirmed"
+      "result": "pending"
     }
   ],
   "candidates": [
@@ -211,24 +189,6 @@
       "era": 3.25
     },
     {
-      "pitcher": "Tomoyuki Sugano",
-      "hand": "R",
-      "games": 6,
-      "suggest": "take",
-      "suggestUnits": 6.64,
-      "fade": {
-        "w": 1,
-        "l": 5,
-        "u": -7.97
-      },
-      "take": {
-        "w": 5,
-        "l": 1,
-        "u": 6.64
-      },
-      "era": 4.47
-    },
-    {
       "pitcher": "Sonny Gray",
       "hand": "R",
       "games": 11,
@@ -281,6 +241,24 @@
         "u": 5.8
       },
       "era": 4.02
+    },
+    {
+      "pitcher": "Tomoyuki Sugano",
+      "hand": "R",
+      "games": 7,
+      "suggest": "take",
+      "suggestUnits": 5.64,
+      "fade": {
+        "w": 2,
+        "l": 5,
+        "u": -6.97
+      },
+      "take": {
+        "w": 5,
+        "l": 2,
+        "u": 5.64
+      },
+      "era": 4.47
     },
     {
       "pitcher": "Max Meyer",
