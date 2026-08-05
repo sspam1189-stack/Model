@@ -158,7 +158,15 @@ def game_rows(pk, date, home, away):
                "is_home": is_home_bat, "role": role}
         row.update(agg)
         rows.append(row)
-    return rows, bat_buckets
+    # Per-batter rows carry game_date too, so the builder can WINDOW them (the
+    # 'Confirmed Lineup' roster is pooled per time window).
+    bat_rows = []
+    for (bid, hand, is_home_bat, role), agg in bat_buckets.items():
+        brow = {"game_date": date, "batter_id": bid, "opp_hand": hand,
+                "is_home": is_home_bat, "role": role}
+        brow.update(agg)
+        bat_rows.append(brow)
+    return rows, bat_rows
 
 
 def _load(path, default):
@@ -199,13 +207,7 @@ def main():
 
     done = set(_load(DONE_PATH, []))
     rows = _load(OUT_PATH, [])
-    # Per-batter SEASON accumulator, keyed (batter_id, hand, is_home, role),
-    # seeded from the existing cache so daily runs add only new games.
-    bat = defaultdict(_blank)
-    for r in _load(BAT_PATH, []):
-        k = (r["batter_id"], r["opp_hand"], r["is_home"], r["role"])
-        for kk in ACC:
-            bat[k][kk] += r.get(kk) or 0
+    bat_rows = _load(BAT_PATH, [])  # per-batter, per-game rows (windowable)
     todo = [g for g in games if g[0] not in done]
     if args.limit:
         todo = todo[:args.limit]
@@ -216,30 +218,25 @@ def main():
             json.dump(rows, f)
         with open(DONE_PATH, "w") as f:
             json.dump(sorted(done), f)
-        bat_rows = [{"batter_id": k[0], "opp_hand": k[1], "is_home": k[2],
-                     "role": k[3], **v} for k, v in bat.items()]
         with open(BAT_PATH, "w") as f:
             json.dump(bat_rows, f)
 
     n = 0
     for pk, date, home, away in todo:
-        team_rows, bat_b = game_rows(pk, date, home, away)
+        team_rows, b_rows = game_rows(pk, date, home, away)
         rows.extend(team_rows)
-        for k, v in bat_b.items():
-            acc = bat[k]
-            for kk in ACC:
-                acc[kk] += v[kk]
+        bat_rows.extend(b_rows)
         done.add(pk)
         n += 1
         time.sleep(0.12)
         if n % 50 == 0:
             _flush()
             print(f"  [pbp] {n}/{len(todo)} games, {len(rows)} team rows, "
-                  f"{len(bat)} batter splits cached")
+                  f"{len(bat_rows)} batter rows cached")
 
     _flush()
     print(f"[pbp] done: {len(done)} games processed, {len(rows)} team-hand rows, "
-          f"{len(bat)} batter-hand rows -> {OUT_PATH}, {BAT_PATH}")
+          f"{len(bat_rows)} batter-game rows -> {OUT_PATH}, {BAT_PATH}")
 
 
 if __name__ == "__main__":

@@ -76,6 +76,20 @@ def _blank():
     return {k: 0 for k in _ACC}
 
 
+def _combine_lineup(bagg, bids, h, roles, venues):
+    """Pool a confirmed lineup's hitters' components for the given hand / roles /
+    venues (bagg is the window's per-batter aggregate keyed (bid,hand,venue,role))."""
+    d = {k: 0 for k in _ACC}
+    for bid in bids:
+        for role in roles:
+            for venue in venues:
+                c = bagg.get((bid, h, venue, role))
+                if c:
+                    for k in _ACC:
+                        d[k] += c[k]
+    return d
+
+
 def _read_json(path):
     try:
         with open(path, encoding="utf-8") as f:
@@ -132,12 +146,34 @@ def build():
             return lambda d: d >= cutoff
         return lambda d: d.startswith(name)      # a month "YYYY-MM"
 
+    # Tonight's confirmed lineups + per-batter game rows (only for hitters in a
+    # confirmed lineup) -> the 'Confirmed Lineup' roster, pooled per window.
+    lineups = _load_confirmed_lineups()
+    lu_ids = {bid for bids in lineups.values() for bid in bids}
+    brecs = []
+    if lu_ids:
+        for r in (_read_json(BATTER_SPLITS) or []):
+            if (r.get("batter_id") in lu_ids and r.get("opp_hand") in ("L", "R")
+                    and r.get("game_date")):
+                brecs.append((r["game_date"], r["batter_id"], r["opp_hand"], r))
+
     windows = ["season", "asb"] + months + ["last15", "last20", "last30", "last45", "last60"]
     ROLES = ("SP", "RP")
     VENUE_GROUPS = [(("home", "road"), None), (("home",), "home"), (("road",), "road")]
     out = {}
     for wname in windows:
         keep = window_pred(wname)
+        # Per-batter aggregate for THIS window (confirmed-lineup hitters only),
+        # keyed (batter_id, hand, venue, role) -- pooled into the lineup node.
+        bagg = defaultdict(_blank)
+        for d2, bid, h2, r in brecs:
+            if not keep(d2):
+                continue
+            venue = "home" if r.get("is_home") else "road"
+            role = r.get("role") or "SP"
+            a = bagg[(bid, h2, venue, role)]
+            for k in _ACC:
+                a[k] += r.get(k) or 0
         # Keyed by (team, hand, venue, role): venue in {'home','road'}, role in
         # {'SP','RP'}. Output aggregates 'all' venue (home+road) and 'all' role
         # (SP+RP), plus per-role branches. League baselines are per (hand, role)
@@ -218,64 +254,37 @@ def build():
                             continue
                         target = dest if vlabel is None else dest.setdefault(vlabel, {})
                         target[hkey] = _cell(d, h, rolekey, pn, pd)
+            # 'Confirmed Lineup' roster: if this team has a confirmed lineup
+            # tonight, pool its 9 hitters' THIS-WINDOW components into a parallel
+            # 'lineup' sub-node (same shape), vs this window's league baseline,
+            # park-neutral. So Roster x Window x Venue x Pitcher all compose.
+            bids = lineups.get(tm)
+            if bids:
+                lnode = {}
+                for h in ("L", "R"):
+                    hkey = "vsLHP" if h == "L" else "vsRHP"
+                    for roles, rolekey, dest in (
+                            (ROLES, "ALL", lnode),
+                            (("SP",), "SP", lnode.setdefault("sp", {})),
+                            (("RP",), "RP", lnode.setdefault("rp", {}))):
+                        for venues, vlabel in VENUE_GROUPS:
+                            d = _combine_lineup(bagg, bids, h, roles, venues)
+                            if not d["pa"]:
+                                continue
+                            base = lgwoba.get((h, rolekey)) or 0.0
+                            wp = round(100 * ((_woba(d) - base) / WOBA_SCALE + LG_R_PA) / LG_R_PA)
+                            cell = {"woba": round(_woba(d), 3), "wrcplus": wp,
+                                    "wrcplusNeutral": wp, "parkFactor": 1.0, "pa": d["pa"]}
+                            target = dest if vlabel is None else dest.setdefault(vlabel, {})
+                            target[hkey] = cell
+                if lnode:
+                    node["lineup"] = lnode
             teams[tm] = node
         out[wname] = {
             "lgWobaVsLHP": round(lgwoba[("L", "ALL")], 3),
             "lgWobaVsRHP": round(lgwoba[("R", "ALL")], 3),
             "teams": teams,
         }
-        if wname == "season":
-            season_lg = dict(lgwoba)  # (hand, role) baselines for the lineup window
-
-    # ---- 'Confirmed Lineup' window --------------------------------------
-    # Tonight's confirmed 9 per team, using each hitter's SEASON split. Same
-    # node structure as the other windows (vsLHP/vsRHP + home/road + sp/rp) so
-    # the dashboard's Venue/Pitcher filters apply unchanged. Park-NEUTRAL (the
-    # hitters' season components already blend the parks they played in).
-    lineups = _load_confirmed_lineups()
-    if lineups:
-        bat = {}  # (batter_id, hand, venue, role) -> components
-        for r in (_read_json(BATTER_SPLITS) or []):
-            venue = "home" if r.get("is_home") else "road"
-            bat[(r["batter_id"], r["opp_hand"], venue, r["role"])] = r
-
-        def _lineup_cell(d, h, rolekey):
-            if not (d["ab"] + d["bb"] + d["hbp"]):
-                return None
-            base = season_lg.get((h, rolekey)) or 0.0
-            wp = round(100 * ((_woba(d) - base) / WOBA_SCALE + LG_R_PA) / LG_R_PA)
-            return {"woba": round(_woba(d), 3), "wrcplus": wp,
-                    "wrcplusNeutral": wp, "parkFactor": 1.0, "pa": d["pa"]}
-
-        lu_teams = {}
-        for tm, bids in lineups.items():
-            node = {}
-            for h in ("L", "R"):
-                hkey = "vsLHP" if h == "L" else "vsRHP"
-                for roles, rolekey, dest in (
-                        (ROLES, "ALL", node),
-                        (("SP",), "SP", node.setdefault("sp", {})),
-                        (("RP",), "RP", node.setdefault("rp", {}))):
-                    for venues, vlabel in VENUE_GROUPS:
-                        d = _blank()
-                        for bid in bids:
-                            for role in roles:
-                                for venue in venues:
-                                    c = bat.get((bid, h, venue, role))
-                                    if c:
-                                        for k in _ACC:
-                                            d[k] += c.get(k) or 0
-                        cell = _lineup_cell(d, h, rolekey)
-                        if cell:
-                            target = dest if vlabel is None else dest.setdefault(vlabel, {})
-                            target[hkey] = cell
-            lu_teams[tm] = node
-        if lu_teams:
-            out["lineup"] = {
-                "lgWobaVsLHP": round(season_lg[("L", "ALL")], 3),
-                "lgWobaVsRHP": round(season_lg[("R", "ALL")], 3),
-                "teams": lu_teams,
-            }
 
     payload = {
         "sport": "MLB", "type": "team-woba-splits",

@@ -94,8 +94,9 @@ async function renderMLBFadeML() {
   // selected window. Falls back to the FanGraphs snapshot for 'fg'/missing.
   const _wobaWindows = (wobaData && wobaData.windows) || {};
   // venue: '' (all) | 'home' | 'road'; role: '' (all) | 'sp' | 'rp' (starters /
-  // relievers faced). FanGraphs snapshot has no venue/role split.
-  const teamsForWindow = (winKey, venue, role) => {
+  // relievers faced); roster: '' (whole team) | 'lineup' (tonight's confirmed 9).
+  // FanGraphs snapshot has no venue/role/roster split.
+  const teamsForWindow = (winKey, venue, role, roster) => {
     if (winKey === 'fg') {
       const t = (wrcData && wrcData.teams) || {}; const o = {};
       Object.keys(t).forEach(k => { o[k] = { vsLHP: t[k].vsLHP, vsRHP: t[k].vsRHP }; });
@@ -103,7 +104,11 @@ async function renderMLBFadeML() {
     }
     const t = (_wobaWindows[winKey] || {}).teams || {}; const o = {};
     Object.keys(t).forEach(k => {
-      const roleBase = (role === 'sp' || role === 'rp') ? (t[k][role] || {}) : t[k];
+      // Under the confirmed-lineup roster, only teams whose lineup has posted
+      // have a 'lineup' node -- others are omitted (not shown blank).
+      if (roster === 'lineup' && !t[k].lineup) return;
+      const rosterBase = (roster === 'lineup') ? t[k].lineup : t[k];
+      const roleBase = (role === 'sp' || role === 'rp') ? (rosterBase[role] || {}) : rosterBase;
       const src = (venue === 'home' || venue === 'road') ? (roleBase[venue] || {}) : roleBase;
       o[k] = {
         vsLHP: (src.vsLHP || {}).wrcplus, vsRHP: (src.vsRHP || {}).wrcplus,
@@ -860,9 +865,6 @@ async function renderMLBFadeML() {
     const wobaWins = (wobaData && wobaData.windows) || {};
     const monthKeys = Object.keys(wobaWins).filter(k => /^\d{4}-\d{2}$/.test(k)).sort().reverse();
     // Self-computed windows only (Season first, then rolling/month).
-    // "Confirmed Lineup" = tonight's confirmed 9 per team (season split each),
-    // present only when lineups have posted; listed first for tonight's slate.
-    if (wobaWins.lineup) winOpts.push({ key: 'lineup', label: 'Confirmed Lineup' });
     if (wobaWins.season) winOpts.push({ key: 'season', label: 'Season' });
     if (wobaWins.asb) winOpts.push({ key: 'asb', label: 'Since All-Star break' });
     if (wobaWins.last15) winOpts.push({ key: 'last15', label: 'Last 15 days' });
@@ -908,6 +910,10 @@ async function renderMLBFadeML() {
         + '<select id="wrcRoleSel" style="' + selCss + '">'
         + '<option value="">All</option><option value="sp">Starters</option><option value="rp">Relievers</option>'
         + '</select></label>'
+        + '<label style="font-size:11px;color:#888">Roster '
+        + '<select id="wrcRosterSel" style="' + selCss + '">'
+        + '<option value="">Whole team</option><option value="lineup">Confirmed lineup</option>'
+        + '</select></label>'
         + '<label style="font-size:11px;color:#888">Team '
         + '<select id="wrcTeamSel" style="' + selCss + '"><option value="">All</option>'
         + allTeams.map(t => '<option value="' + esc(t) + '">' + esc(t) + '</option>').join('')
@@ -924,6 +930,7 @@ async function renderMLBFadeML() {
       const wrcWinSel = wrcCard.querySelector('#wrcWinSel');
       const wrcVenueSel = wrcCard.querySelector('#wrcVenueSel');
       const wrcRoleSel = wrcCard.querySelector('#wrcRoleSel');
+      const wrcRosterSel = wrcCard.querySelector('#wrcRosterSel');
       const wrcNote = wrcCard.querySelector('#wrcNote');
       const wrcMatchupsEl = wrcCard.querySelector('#wrcMatchups');
       // Today's slate -> matchup filter buttons. Click one to show only that
@@ -936,10 +943,11 @@ async function renderMLBFadeML() {
       function drawWrc() {
         const win = wrcWinSel.value;
         const isFg = win === 'fg';
-        const isLineup = win === 'lineup';
+        const roster = isFg ? '' : wrcRosterSel.value;   // FG snapshot has no lineup split
+        const isLineup = roster === 'lineup';
         const venue = wrcVenueSel.value;
         const role = wrcRoleSel.value;
-        const teams = teamsForWindow(win, venue, role);
+        const teams = teamsForWindow(win, venue, role, roster);
         const venLbl = venue === 'home' ? 'home games · ' : (venue === 'road' ? 'road games · ' : '');
         const roleLbl = role === 'sp' ? 'vs starters only · ' : (role === 'rp' ? 'vs relievers only · ' : '');
         // PA hint (computed windows only) so small samples are visible.
@@ -948,8 +956,9 @@ async function renderMLBFadeML() {
           ? ((wrcData.season ? esc(wrcData.season) + ' ' : '') + 'FanGraphs true wRC+ (park + league adjusted)'
             + (wrcData.asOf ? ' · as of ' + esc(wrcData.asOf) : '') + ' · 100 = league avg · view-only')
           : isLineup
-          ? ('<b>Confirmed lineup wRC+</b> — tonight’s posted 9 per team, each on their season split '
-            + '(park-neutral) · confirmed lineups only · (n) = PA · 100 = league avg · view-only')
+          ? ('<b>Confirmed lineup wRC+</b> — tonight’s posted 9 per team, pooled over the selected '
+            + 'window (park-neutral) · confirmed lineups only · through ' + esc(wobaData.throughDate || '?')
+            + ' · (n) = PA · 100 = league avg · view-only')
           : ('Self-computed <b>park-adjusted wRC+</b> vs every pitcher faced (starters + relievers; '
             + 'PA-weighted by parks; ≈FG ±6 pts) · '
             + 'through ' + esc(wobaData.throughDate || '?') + ' · (n) = PA · 100 = league avg · view-only'));
@@ -1043,6 +1052,7 @@ async function renderMLBFadeML() {
       });
       wrcVenueSel.addEventListener('change', drawWrc);
       wrcRoleSel.addEventListener('change', drawWrc);
+      wrcRosterSel.addEventListener('change', drawWrc);
       renderMatchupBtns();
       drawWrc();
     }
