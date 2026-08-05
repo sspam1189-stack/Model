@@ -1,7 +1,7 @@
 {
   "sport": "MLB",
   "type": "fade-ml",
-  "generated": "2026-08-05T03:48:52Z",
+  "generated": "2026-08-05T14:04:15Z",
   "fadeList": [
     "Painter",
     "Rocker",
@@ -72,22 +72,22 @@
   ],
   "mutualRule": "underdog_min",
   "summary": {
-    "wins": 428,
+    "wins": 427,
     "losses": 145,
     "voids": 0,
     "skips": 33,
-    "staked": 709.73,
-    "units": 296.35,
-    "roi": 0.4176,
+    "staked": 706.73,
+    "units": 295.35,
+    "roi": 0.4179,
     "byType": {
       "ml": {
-        "wins": 418,
+        "wins": 417,
         "losses": 137,
         "voids": 0,
         "skips": 0,
-        "staked": 691.73,
-        "units": 291.31,
-        "roi": 0.4211
+        "staked": 688.73,
+        "units": 290.31,
+        "roi": 0.4215
       },
       "ml_dog": {
         "wins": 10,
@@ -100,7 +100,104 @@
       }
     }
   },
-  "today": [],
+  "today": [
+    {
+      "date": "2026-08-05",
+      "commence": "2026-08-05T22:35:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Trevor Rogers"
+      ],
+      "fadeTeam": "BAL",
+      "market": "h2h",
+      "selection": "LAA",
+      "line": null,
+      "odds": 114,
+      "stake": 1.0,
+      "result": "pending",
+      "profit": 0.0,
+      "book": "fanduel",
+      "source": "fanduel_api",
+      "reason": null,
+      "home": "BAL",
+      "away": "LAA",
+      "gamePk": 824806,
+      "fadeReason": "home"
+    },
+    {
+      "date": "2026-08-05",
+      "commence": "2026-08-05T22:40:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Tanner Bibee"
+      ],
+      "fadeTeam": "CLE",
+      "market": "h2h",
+      "selection": "NYM",
+      "line": null,
+      "odds": -104,
+      "stake": 1.04,
+      "result": "pending",
+      "profit": 0.0,
+      "book": "fanduel",
+      "source": "fanduel_api",
+      "reason": null,
+      "home": "CLE",
+      "away": "NYM",
+      "gamePk": 824402,
+      "fadeReason": "home"
+    },
+    {
+      "date": "2026-08-05",
+      "commence": "2026-08-05T23:40:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Noah Cameron"
+      ],
+      "fadeTeam": "KC",
+      "market": "h2h",
+      "selection": "MIN",
+      "line": null,
+      "odds": 106,
+      "stake": 1.0,
+      "result": "pending",
+      "profit": 0.0,
+      "book": "fanduel",
+      "source": "fanduel_api",
+      "reason": null,
+      "home": "KC",
+      "away": "MIN",
+      "gamePk": 824082,
+      "fadeReason": "all"
+    },
+    {
+      "date": "2026-08-05",
+      "commence": "2026-08-05T22:40:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Andrew Painter"
+      ],
+      "fadeTeam": "PHI",
+      "market": "h2h",
+      "selection": "WSH",
+      "line": null,
+      "odds": 170,
+      "stake": 1.0,
+      "result": "pending",
+      "profit": 0.0,
+      "book": "fanduel",
+      "source": "fanduel_api",
+      "reason": null,
+      "home": "PHI",
+      "away": "WSH",
+      "gamePk": 823429,
+      "fadeReason": "all"
+    }
+  ],
   "bets": [
     {
       "date": "2026-04-05",
@@ -14648,30 +14745,6 @@
       "away": "SD",
       "gamePk": 825095,
       "fadeReason": "away"
-    },
-    {
-      "date": "2026-08-04",
-      "commence": "2026-08-04T22:40:00Z",
-      "betType": "ml",
-      "shadow": false,
-      "pitchers": [
-        "Carson Palmquist"
-      ],
-      "fadeTeam": "WSH",
-      "market": "h2h",
-      "selection": "PHI",
-      "line": null,
-      "odds": -300,
-      "stake": 3.0,
-      "result": "WIN",
-      "profit": 1.0,
-      "book": "fanduel",
-      "source": "fanduel_api",
-      "reason": null,
-      "home": "PHI",
-      "away": "WSH",
-      "gamePk": 823432,
-      "fadeReason": "all"
     },
     {
       "date": "2026-08-04",

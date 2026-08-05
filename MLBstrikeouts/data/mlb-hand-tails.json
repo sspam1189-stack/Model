@@ -1,7 +1,7 @@
 {
   "sport": "MLB",
   "type": "hand-tails",
-  "generated": "2026-08-05T06:50:00Z",
+  "generated": "2026-08-05T14:05:47Z",
   "handMin": 6,
   "roster": {
     "Andrew Painter": {
@@ -127,7 +127,56 @@
       }
     }
   },
-  "today": [],
+  "today": [
+    {
+      "date": "2026-08-05",
+      "commence": "2026-08-05T22:40:00Z",
+      "betType": "hand_fade",
+      "action": "fade",
+      "pitcher": "Andrew Painter",
+      "entry": "Andrew Painter",
+      "hand": "R",
+      "arm_team": "PHI",
+      "opp_team": "WSH",
+      "selection": "WSH",
+      "home": "PHI",
+      "away": "WSH",
+      "oppLefty": 7,
+      "oppRighty": 4,
+      "lineupConfirmed": false,
+      "odds": null,
+      "stake": null,
+      "result": "unconfirmed",
+      "reason": null,
+      "profit": 0.0,
+      "book": "fanduel",
+      "source": "fanduel_api"
+    },
+    {
+      "date": "2026-08-05",
+      "commence": "2026-08-05T23:40:00Z",
+      "betType": "hand_fade",
+      "action": "fade",
+      "pitcher": "Noah Cameron",
+      "entry": "Noah Cameron",
+      "hand": "L",
+      "arm_team": "KC",
+      "opp_team": "MIN",
+      "selection": "MIN",
+      "home": "KC",
+      "away": "MIN",
+      "oppLefty": 4,
+      "oppRighty": 8,
+      "lineupConfirmed": false,
+      "odds": null,
+      "stake": null,
+      "result": "unconfirmed",
+      "reason": null,
+      "profit": 0.0,
+      "book": "fanduel",
+      "source": "fanduel_api"
+    }
+  ],
   "bets": [
     {
       "date": "2026-05-20",
