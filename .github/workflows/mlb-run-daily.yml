@@ -305,7 +305,6 @@ jobs:
           cp -f artifacts/MLBstrikeouts/mlb-all-ml.json PythonDashboard/data/mlb-all-ml.json 2>/dev/null || true
           cp -f artifacts/MLBstrikeouts/mlb-fade-watch.json PythonDashboard/data/mlb-fade-watch.json 2>/dev/null || true
           cp -f artifacts/MLBstrikeouts/mlb-pitch-hands.json PythonDashboard/data/mlb-pitch-hands.json 2>/dev/null || true
-          cp -f artifacts/MLBstrikeouts/mlb-team-wrc.json PythonDashboard/data/mlb-team-wrc.json 2>/dev/null || true
           cp -f artifacts/MLBstrikeouts/mlb-fade-vs-team.json PythonDashboard/data/mlb-fade-vs-team.json 2>/dev/null || true
           cp -f artifacts/MLBstrikeouts/mlb-fade-vs-team-watch.json PythonDashboard/data/mlb-fade-vs-team-watch.json 2>/dev/null || true
           cp -f artifacts/MLBstrikeouts/mlb-team-woba-splits.json PythonDashboard/data/mlb-team-woba-splits.json 2>/dev/null || true
