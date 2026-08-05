@@ -1,9 +1,20 @@
 name: MLB Run Daily (8/11/1:30/4/6/7:30 CT)
 
 on:
-  # Manual trigger only. The 6×/day native GitHub schedule was removed
-  # (2026-08-05) — dispatch this workflow manually to run the MLB pipeline.
   workflow_dispatch:
+  # Native GitHub schedule so runs no longer depend on any external/self-hosted
+  # trigger. Cron is UTC-only (no DST) and fires only on the default branch.
+  # Runs serialize via the concurrency group below, so an overlapping dispatch
+  # just queues. Minutes are deliberately OFF :00/:30 — GitHub's hosted cron
+  # scheduler is most congested at the top and half of the hour and delays or
+  # drops those. Odd, staggered minutes deliver far more reliably.
+  schedule:
+    - cron: '7 13 * * *'    # ~8:07 AM CT
+    - cron: '8 16 * * *'    # ~11:08 AM CT
+    - cron: '37 18 * * *'   # ~1:37 PM CT
+    - cron: '9 21 * * *'    # ~4:09 PM CT
+    - cron: '11 23 * * *'   # ~6:11 PM CT
+    - cron: '38 0 * * *'    # ~7:38 PM CT
 
 permissions:
   contents: write
