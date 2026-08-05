@@ -1,7 +1,7 @@
 {
   "sport": "MLB",
   "type": "hand-tails",
-  "generated": "2026-08-05T06:24:05Z",
+  "generated": "2026-08-05T06:39:07Z",
   "handMin": 6,
   "roster": {
     "Andrew Painter": {
@@ -9,6 +9,22 @@
       "action": "fade"
     },
     "Brady Singer": {
+      "hand": "R",
+      "action": "fade"
+    },
+    "Bryan Woo": {
+      "hand": "R",
+      "action": "fade"
+    },
+    "Bryce Miller": {
+      "hand": "R",
+      "action": "fade"
+    },
+    "Casey Mize": {
+      "hand": "R",
+      "action": "fade"
+    },
+    "Chris Paddack": {
       "hand": "R",
       "action": "fade"
     },
@@ -24,8 +40,16 @@
       "hand": "L",
       "action": "fade"
     },
+    "George Kirby": {
+      "hand": "R",
+      "action": "fade"
+    },
     "Jeffrey Springs": {
       "hand": "L",
+      "action": "fade"
+    },
+    "Kevin Gausman": {
+      "hand": "R",
       "action": "fade"
     },
     "Merrill Kelly": {
@@ -52,6 +76,10 @@
       "hand": "L",
       "action": "fade"
     },
+    "Sean Sullivan": {
+      "hand": "L",
+      "action": "fade"
+    },
     "Shane Baz": {
       "hand": "R",
       "action": "fade"
@@ -63,7 +91,50 @@
   },
   "note": "Bet list is manually curated (hand-tails-manual.json). `promotions` = arms that cleared the walk-forward bar but are not on the manual list (notify); `demotions` = manual arms slipped under the bar. Own ledger; not part of the fade-list ledger.",
   "promotions": [],
-  "demotions": [],
+  "demotions": [
+    {
+      "name": "Bryan Woo",
+      "hand": "R",
+      "games": 9,
+      "units": 3.28
+    },
+    {
+      "name": "Bryce Miller",
+      "hand": "R",
+      "games": 4,
+      "units": 3.26
+    },
+    {
+      "name": "Casey Mize",
+      "hand": "R",
+      "games": 5,
+      "units": 3.04
+    },
+    {
+      "name": "Chris Paddack",
+      "hand": "R",
+      "games": 4,
+      "units": 4.0
+    },
+    {
+      "name": "George Kirby",
+      "hand": "R",
+      "games": 5,
+      "units": 3.54
+    },
+    {
+      "name": "Kevin Gausman",
+      "hand": "R",
+      "games": 9,
+      "units": 3.08
+    },
+    {
+      "name": "Sean Sullivan",
+      "hand": "L",
+      "games": 4,
+      "units": 4.0
+    }
+  ],
   "summary": {
     "wins": 37,
     "losses": 12,

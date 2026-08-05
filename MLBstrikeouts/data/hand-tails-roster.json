@@ -1,17 +1,60 @@
 {
   "sport": "MLB",
   "type": "hand-tails-roster",
-  "generated": "2026-08-05T06:23:50Z",
+  "generated": "2026-08-05T06:38:52Z",
   "handMin": 6,
   "rule": {
     "minGames": 4,
     "minUnits": 3.0
   },
   "note": "Walk-forward qualifier computation used to NOTIFY (promotion candidates), not to drive the bet list. The bet list is the manually curated hand-tails-manual.json. `promotions` are arms that clear minGames+minUnits but are not on the manual list; `demotions` are manual-list arms whose record slipped under the bar.",
-  "manualCount": 14,
+  "manualCount": 21,
   "qualifiedCount": 14,
   "promotions": [],
-  "demotions": [],
+  "demotions": [
+    {
+      "name": "Bryan Woo",
+      "hand": "R",
+      "games": 9,
+      "units": 3.28
+    },
+    {
+      "name": "Bryce Miller",
+      "hand": "R",
+      "games": 4,
+      "units": 3.26
+    },
+    {
+      "name": "Casey Mize",
+      "hand": "R",
+      "games": 5,
+      "units": 3.04
+    },
+    {
+      "name": "Chris Paddack",
+      "hand": "R",
+      "games": 4,
+      "units": 4.0
+    },
+    {
+      "name": "George Kirby",
+      "hand": "R",
+      "games": 5,
+      "units": 3.54
+    },
+    {
+      "name": "Kevin Gausman",
+      "hand": "R",
+      "games": 9,
+      "units": 3.08
+    },
+    {
+      "name": "Sean Sullivan",
+      "hand": "L",
+      "games": 4,
+      "units": 4.0
+    }
+  ],
   "arms": {
     "Andrew Alvarez": {
       "hand": "L",
