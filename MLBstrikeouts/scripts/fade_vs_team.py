@@ -147,6 +147,11 @@ def build():
     fade_keys = set(fadeset)
     today = []
     for g in today_games:
+        # A settled game is already graded in entries[]; keeping it here (forced
+        # "pending" below) would double-list it in the bet log. Skip finals so
+        # today[] holds only genuinely live picks.
+        if g.get("home_win") is not None:
+            continue
         for side in ("home", "away"):
             p = g.get(side + "_pitcher") or ""
             oppside = "away" if side == "home" else "home"
