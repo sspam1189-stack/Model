@@ -1,7 +1,7 @@
 {
   "sport": "MLB",
   "type": "fade-ml",
-  "generated": "2026-08-05T03:48:52Z",
+  "generated": "2026-08-05T16:28:54Z",
   "fadeList": [
     "Painter",
     "Rocker",
@@ -68,32 +68,33 @@
     "Trey Gibson",
     "MacKenzie Gore",
     "Senga",
-    "Prielipp"
+    "Prielipp",
+    "Jake Irvin"
   ],
   "mutualRule": "underdog_min",
   "summary": {
-    "wins": 428,
-    "losses": 145,
+    "wins": 429,
+    "losses": 144,
     "voids": 0,
-    "skips": 33,
-    "staked": 709.73,
-    "units": 296.35,
-    "roi": 0.4176,
+    "skips": 34,
+    "staked": 710.49,
+    "units": 298.35,
+    "roi": 0.4199,
     "byType": {
       "ml": {
-        "wins": 418,
-        "losses": 137,
+        "wins": 419,
+        "losses": 136,
         "voids": 0,
         "skips": 0,
-        "staked": 691.73,
-        "units": 291.31,
-        "roi": 0.4211
+        "staked": 692.49,
+        "units": 293.31,
+        "roi": 0.4236
       },
       "ml_dog": {
         "wins": 10,
         "losses": 8,
         "voids": 0,
-        "skips": 33,
+        "skips": 34,
         "staked": 18.0,
         "units": 5.04,
         "roi": 0.28
@@ -1836,6 +1837,30 @@
       "fadeReason": "away"
     },
     {
+      "date": "2026-04-20",
+      "commence": "2026-04-20T22:45:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Jake Irvin"
+      ],
+      "fadeTeam": "WSH",
+      "market": "h2h",
+      "selection": "ATL",
+      "line": null,
+      "odds": -156,
+      "stake": 1.56,
+      "result": "WIN",
+      "profit": 1.0,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null,
+      "home": "WSH",
+      "away": "ATL",
+      "gamePk": 822749,
+      "fadeReason": "home"
+    },
+    {
       "date": "2026-04-21",
       "commence": "2026-04-21T22:40:00Z",
       "betType": "ml",
@@ -3139,6 +3164,30 @@
     {
       "date": "2026-05-01",
       "commence": "2026-05-01T22:45:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Jake Irvin"
+      ],
+      "fadeTeam": "WSH",
+      "market": "h2h",
+      "selection": "MIL",
+      "line": null,
+      "odds": -154,
+      "stake": 1.54,
+      "result": "WIN",
+      "profit": 1.0,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null,
+      "home": "WSH",
+      "away": "MIL",
+      "gamePk": 822744,
+      "fadeReason": "home"
+    },
+    {
+      "date": "2026-05-01",
+      "commence": "2026-05-01T22:45:00Z",
       "betType": "ml_dog",
       "shadow": false,
       "pitchers": [
@@ -3790,26 +3839,27 @@
     {
       "date": "2026-05-07",
       "commence": "2026-05-07T17:05:00Z",
-      "betType": "ml",
+      "betType": "ml_dog",
       "shadow": false,
       "pitchers": [
-        "Simeon Woods Richardson"
+        "Simeon Woods Richardson",
+        "Jake Irvin"
       ],
-      "fadeTeam": "MIN",
+      "fadeTeam": null,
       "market": "h2h",
-      "selection": "WSH",
+      "selection": null,
       "line": null,
-      "odds": -124,
-      "stake": 1.24,
-      "result": "WIN",
-      "profit": 1.0,
+      "odds": null,
+      "stake": null,
+      "result": "SKIP",
+      "profit": 0.0,
       "book": "fanduel",
       "source": "oddsapi_fanduel",
-      "reason": null,
+      "reason": "dog_below_min",
       "home": "WSH",
       "away": "MIN",
       "gamePk": 822741,
-      "fadeReason": "all"
+      "fadeReason": "all/home"
     },
     {
       "date": "2026-05-07",
@@ -5138,6 +5188,30 @@
       "away": "CLE",
       "gamePk": 824277,
       "fadeReason": "away/all"
+    },
+    {
+      "date": "2026-05-18",
+      "commence": "2026-05-18T22:45:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Jake Irvin"
+      ],
+      "fadeTeam": "WSH",
+      "market": "h2h",
+      "selection": "NYM",
+      "line": null,
+      "odds": -126,
+      "stake": 1.26,
+      "result": "WIN",
+      "profit": 1.0,
+      "book": "fanduel",
+      "source": "oddsapi_fanduel",
+      "reason": null,
+      "home": "WSH",
+      "away": "NYM",
+      "gamePk": 822734,
+      "fadeReason": "home"
     },
     {
       "date": "2026-05-18",
@@ -7666,30 +7740,6 @@
       "home": "DET",
       "away": "SEA",
       "gamePk": 824268,
-      "fadeReason": "all"
-    },
-    {
-      "date": "2026-06-07",
-      "commence": "2026-06-07T18:10:00Z",
-      "betType": "ml",
-      "shadow": false,
-      "pitchers": [
-        "Noah Cameron"
-      ],
-      "fadeTeam": "KC",
-      "market": "h2h",
-      "selection": "MIN",
-      "line": null,
-      "odds": 102,
-      "stake": 1.0,
-      "result": "LOSS",
-      "profit": -1.0,
-      "book": "fanduel",
-      "source": "oddsapi_fanduel",
-      "reason": null,
-      "home": "MIN",
-      "away": "KC",
-      "gamePk": 823696,
       "fadeReason": "all"
     },
     {
@@ -14095,30 +14145,6 @@
       "away": "BOS",
       "gamePk": 824973,
       "fadeReason": "home"
-    },
-    {
-      "date": "2026-07-30",
-      "commence": "2026-07-30T17:40:00Z",
-      "betType": "ml",
-      "shadow": false,
-      "pitchers": [
-        "Noah Cameron"
-      ],
-      "fadeTeam": "KC",
-      "market": "h2h",
-      "selection": "MIN",
-      "line": null,
-      "odds": -136,
-      "stake": 1.36,
-      "result": "WIN",
-      "profit": 1.0,
-      "book": "fanduel",
-      "source": "fanduel_api",
-      "reason": null,
-      "home": "MIN",
-      "away": "KC",
-      "gamePk": 823674,
-      "fadeReason": "all"
     },
     {
       "date": "2026-07-30",

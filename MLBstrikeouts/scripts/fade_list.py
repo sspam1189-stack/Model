@@ -49,6 +49,8 @@ FADE_LIST = [
     "Senga",
     # Added 2026-08-01 (user). Away-only (see FADE_VENUE), season-backfilled.
     "Prielipp",
+    # Added 2026-08-05 (user). Home-only (see FADE_VENUE), season-backfilled.
+    "Jake Irvin",
 ]
 
 # Per-arm venue restriction: fade the arm ONLY when his team plays at this
@@ -114,6 +116,11 @@ FADE_VENUE = {
     "Baz": [
         {"from": "2026-08-01", "venue": "away"},
     ],
+    # 2026-08-05 (user): home-only. Home ERA 7.04 vs 4.54 away; fading him at
+    # home 4-1 +3.00u (+36.1%) vs away 2-5 -7.48u (-58.4%). All-venue is a
+    # net loser (-21.2%) -- the edge is entirely the home side. Small sample
+    # (5 home starts); revisit as it fills in.
+    "Jake Irvin": "home",
 }
 
 # Matchup fade list: fade the pitcher (bet the OPPONENT's ML) ONLY when he
@@ -127,6 +134,19 @@ FADE_VS_TEAM = {
     "Davis Martin":  ["NYY"],
     "Joe Ryan":      ["KC"],
     "Will Warren":   ["PHI"],
+}
+
+# Matchup fade EXCEPTIONS: do NOT fade this arm against these opponents, even
+# when he is otherwise a fade (venue FADE_LIST, all-venue, etc.). Use when an
+# arm owns a specific team badly enough that fading him vs them is -EV. Opp
+# abbrs use the props convention. Enforced by is_fade() whenever an opponent is
+# supplied, and applied to history too (those starts become no-plays), mirroring
+# how FADE_VENUE / FADE_WINDOW gate the record.
+FADE_EXCEPT_VS_TEAM = {
+    # 2026-08-05 (user): Cameron owns MIN -- 0.47 ERA over 3 starts (19ip 1er,
+    # 19K), and fading him vs MIN is 1-2 -1.16u (the one "win" was an 8ip 0er
+    # gem KC lost anyway). Don't fade Cameron against MIN on any side/venue.
+    "Noah Cameron":  ["MIN"],
 }
 
 # Arms NOT faded on MUTUAL games (both starters are fade arms). When a mutual
@@ -230,6 +250,7 @@ FADE_WINDOW = {
     # venue split vetted yet.
     "Senga":             {"add": SEASON_START},
     "Prielipp":          {"add": SEASON_START},  # away-only (see FADE_VENUE), season-backfilled
+    "Jake Irvin":        {"add": SEASON_START},  # home-only (see FADE_VENUE), season-backfilled 2026-08-05
 }
 
 
@@ -351,18 +372,42 @@ def fade_vs_team_teams(player_name):
     return []
 
 
-def is_fade(player_name, date=None, venue=None):
+_FADE_EXCEPT_TOKENS = {name: _norm(name).split() for name in FADE_EXCEPT_VS_TEAM}
+
+
+def fade_except_vs_team(player_name):
+    """Return the opponent-team abbrs this arm is NOT faded against (matchup
+    exception), or [] if he has none. Token-matched like fade_vs_team_teams:
+    every token of the dict key must appear in the player's normalized name.
+    """
+    name_tokens = set(_norm(player_name).split())
+    if not name_tokens:
+        return []
+    for name, toks in _FADE_EXCEPT_TOKENS.items():
+        if toks and all(t in name_tokens for t in toks):
+            return FADE_EXCEPT_VS_TEAM[name]
+    return []
+
+
+def is_fade(player_name, date=None, venue=None, opp=None):
     """True iff ``player_name`` is a fade arm on ``date`` (if given) and, for a
     venue-restricted arm, when his team plays at the required ``venue``.
 
     ``venue`` is the arm's-team side of the game ('home'/'away'), or None if
     unknown. An arm with a FADE_VENUE restriction is not faded unless ``venue``
     matches it, so an unknown venue means "don't fade" (safe default).
+
+    ``opp`` is the opponent's team abbr (the team we'd bet). When supplied and
+    the arm carries a FADE_EXCEPT_VS_TEAM exception against that opponent, he is
+    NOT faded in this matchup. A None ``opp`` skips the exception check (so
+    callers that don't know the opponent behave exactly as before).
     """
     entry = matched_entry(player_name, date)
     if entry is None:
         return False
     required = _venue_for(entry, date)
     if required is not None and venue != required:
+        return False
+    if opp is not None and opp in fade_except_vs_team(player_name):
         return False
     return True

@@ -112,14 +112,17 @@ def fade_games(starts, date=None, venue_by_team=None):
     starter = {s["team"]: s["pitcher"] for s in starts}
     seen, out = set(), []
     for s in starts:
-        if not is_fade(s["pitcher"], date, venue_by_team.get(s["team"])):
+        if not is_fade(s["pitcher"], date, venue_by_team.get(s["team"]), s["opp"]):
             continue
         teams = frozenset((s["team"], s["opp"]))
         if teams in seen:
             continue
         seen.add(teams)
         opp_pitcher = starter.get(s["opp"])
-        mutual = bool(opp_pitcher and is_fade(opp_pitcher, date, venue_by_team.get(s["opp"])))
+        # The opposing arm's opponent (the team we'd bet if we faded him) is our
+        # own team, so pass s["team"] as his opp for the exception check.
+        mutual = bool(opp_pitcher and is_fade(
+            opp_pitcher, date, venue_by_team.get(s["opp"]), s["team"]))
         if mutual:
             # NO_MUTUAL_FADE arms (e.g. Sheehan) aren't faded on mutual games:
             # if either starter is exempt, place no bet on the game at all.

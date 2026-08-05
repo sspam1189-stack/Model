@@ -27,6 +27,7 @@ sys.path.insert(0, os.path.join(os.path.dirname(__file__), "sources"))
 from fade_ml_common import (stake_for, profit_for, _settle_ml,
                             odds_row_for, load_props_index, SCRIPT_DIR)
 from hand_tails import tail_entry, opp_lineup_state, qualifies, HAND_MIN, HAND_TAILS
+from fade_list import fade_except_vs_team
 from sources.mlb_schedule import fetch_schedule
 from sources.odds_ml_theoddsapi import load_ml_cache
 
@@ -107,6 +108,9 @@ def grade_date(date_key, date_iso):
             if not entry:
                 continue
             opp = g.get("away") if side == "home" else g.get("home")
+            if action == "fade" and opp in fade_except_vs_team(p):
+                continue  # matchup exception (FADE_EXCEPT_VS_TEAM): don't fade
+                          # this arm vs this team, even on a qualifying lineup.
             lefty, righty, confirmed = opp_lineup_state(opp, date_iso)
             if not qualifies(hand, lefty, righty):
                 continue
