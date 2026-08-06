@@ -1,17 +1,17 @@
 {
   "sport": "MLB",
   "type": "fade-vs-team",
-  "generated": "2026-08-06T19:51:04Z",
+  "generated": "2026-08-06T21:04:29Z",
   "seasonStart": "2026-04-05",
   "minStarts": 2,
   "fadeEra": 8.0,
   "note": "Pitcher-vs-team FADE: bet the opponent's ML when the pitcher faces that team. Set = curated (FADE_VS_TEAM) + auto-promoted (>= 2 starts vs the team, ERA >= 8.0 vs them). In-sample season replay (flat 1u); data only, not wired into the fade model. Watch tier (6 <= ERA < 8.0) is in mlb-fade-vs-team-watch.json.",
   "overall": {
-    "w": 49,
-    "l": 16,
-    "u": 34.48,
-    "n": 65,
-    "roi": 0.3993
+    "w": 51,
+    "l": 18,
+    "u": 34.14,
+    "n": 69,
+    "roi": 0.3751
   },
   "today": [],
   "entries": [
@@ -848,6 +848,41 @@
       ]
     },
     {
+      "pitcher": "Braxton Ashcraft",
+      "opp": "MIL",
+      "arm_team": "PIT",
+      "source": "auto",
+      "record": {
+        "w": 1,
+        "l": 1,
+        "u": -0.02,
+        "n": 2,
+        "roi": -0.0089
+      },
+      "eraVsOpp": 8.1,
+      "ipVsOpp": 10.0,
+      "erVsOpp": 9,
+      "startsVsOpp": 2,
+      "starts": [
+        {
+          "date": "2026-07-11",
+          "venue": "home",
+          "matchup": "MIL @ PIT",
+          "selection": "MIL",
+          "opp_ml": -102,
+          "result": "loss"
+        },
+        {
+          "date": "2026-08-06",
+          "venue": "away",
+          "matchup": "PIT @ MIL",
+          "selection": "MIL",
+          "opp_ml": -122,
+          "result": "win"
+        }
+      ]
+    },
+    {
       "pitcher": "Joe Ryan",
       "opp": "CLE",
       "arm_team": "MIN",
@@ -1019,6 +1054,41 @@
           "selection": "DET",
           "opp_ml": -136,
           "result": "loss"
+        }
+      ]
+    },
+    {
+      "pitcher": "Foster Griffin",
+      "opp": "NYM",
+      "arm_team": "CLE",
+      "source": "auto",
+      "record": {
+        "w": 1,
+        "l": 1,
+        "u": -0.32,
+        "n": 2,
+        "roi": -0.1322
+      },
+      "eraVsOpp": 10.0,
+      "ipVsOpp": 9.0,
+      "erVsOpp": 10,
+      "startsVsOpp": 2,
+      "starts": [
+        {
+          "date": "2026-05-19",
+          "venue": "home",
+          "matchup": "NYM @ WSH",
+          "selection": "NYM",
+          "opp_ml": -142,
+          "result": "loss"
+        },
+        {
+          "date": "2026-08-06",
+          "venue": "home",
+          "matchup": "NYM @ CLE",
+          "selection": "NYM",
+          "opp_ml": 110,
+          "result": "win"
         }
       ]
     },

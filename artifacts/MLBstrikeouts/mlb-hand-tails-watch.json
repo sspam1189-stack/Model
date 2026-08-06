@@ -1,7 +1,7 @@
 {
   "sport": "MLB",
   "type": "hand-tails-watch",
-  "generated": "2026-08-06T19:51:01Z",
+  "generated": "2026-08-06T21:04:27Z",
   "handMin": 6,
   "minGames": 3,
   "minUnits": 2.5,
@@ -48,8 +48,8 @@
       "lineupConfirmed": true,
       "odds": -118,
       "suggest": "take",
-      "suggestUnits": 13.58,
-      "games": 16,
+      "suggestUnits": 12.4,
+      "games": 17,
       "result": "pending"
     },
     {
@@ -77,24 +77,6 @@
   ],
   "candidates": [
     {
-      "pitcher": "Foster Griffin",
-      "hand": "L",
-      "games": 16,
-      "suggest": "take",
-      "suggestUnits": 13.58,
-      "fade": {
-        "w": 2,
-        "l": 14,
-        "u": -15.68
-      },
-      "take": {
-        "w": 14,
-        "l": 2,
-        "u": 13.58
-      },
-      "era": 3.06
-    },
-    {
       "pitcher": "Eduardo Rodriguez",
       "hand": "L",
       "games": 17,
@@ -111,6 +93,24 @@
         "u": 13.34
       },
       "era": 2.71
+    },
+    {
+      "pitcher": "Foster Griffin",
+      "hand": "L",
+      "games": 17,
+      "suggest": "take",
+      "suggestUnits": 12.4,
+      "fade": {
+        "w": 3,
+        "l": 14,
+        "u": -14.58
+      },
+      "take": {
+        "w": 14,
+        "l": 3,
+        "u": 12.4
+      },
+      "era": 3.06
     },
     {
       "pitcher": "Sandy Alcantara",

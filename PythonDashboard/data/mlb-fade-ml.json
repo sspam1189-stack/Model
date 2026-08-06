@@ -1,7 +1,7 @@
 {
   "sport": "MLB",
   "type": "fade-ml",
-  "generated": "2026-08-06T19:48:25Z",
+  "generated": "2026-08-06T21:01:49Z",
   "fadeList": [
     "Painter",
     "Rocker",
@@ -74,21 +74,21 @@
   "mutualRule": "underdog_min",
   "summary": {
     "wins": 430,
-    "losses": 146,
+    "losses": 147,
     "voids": 0,
     "skips": 34,
-    "staked": 712.29,
-    "units": 297.37,
-    "roi": 0.4175,
+    "staked": 713.29,
+    "units": 296.37,
+    "roi": 0.4155,
     "byType": {
       "ml": {
         "wins": 420,
-        "losses": 138,
+        "losses": 139,
         "voids": 0,
         "skips": 0,
-        "staked": 694.29,
-        "units": 292.33,
-        "roi": 0.421
+        "staked": 695.29,
+        "units": 291.33,
+        "roi": 0.419
       },
       "ml_dog": {
         "wins": 10,
@@ -124,30 +124,6 @@
       "home": "SEA",
       "away": "DET",
       "gamePk": 823105,
-      "fadeReason": "all"
-    },
-    {
-      "date": "2026-08-06",
-      "commence": "2026-08-06T18:10:00Z",
-      "betType": "ml",
-      "shadow": false,
-      "pitchers": [
-        "Dustin May"
-      ],
-      "fadeTeam": "MIL",
-      "market": "h2h",
-      "selection": "PIT",
-      "line": null,
-      "odds": 114,
-      "stake": 1.0,
-      "result": "pending",
-      "profit": 0.0,
-      "book": "fanduel",
-      "source": "fanduel_api",
-      "reason": null,
-      "home": "MIL",
-      "away": "PIT",
-      "gamePk": 823754,
       "fadeReason": "all"
     },
     {
@@ -14866,6 +14842,30 @@
       "home": "BAL",
       "away": "LAA",
       "gamePk": 824804,
+      "fadeReason": "all"
+    },
+    {
+      "date": "2026-08-06",
+      "commence": "2026-08-06T18:10:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Dustin May"
+      ],
+      "fadeTeam": "MIL",
+      "market": "h2h",
+      "selection": "PIT",
+      "line": null,
+      "odds": 114,
+      "stake": 1.0,
+      "result": "LOSS",
+      "profit": -1.0,
+      "book": "fanduel",
+      "source": "fanduel_api",
+      "reason": null,
+      "home": "MIL",
+      "away": "PIT",
+      "gamePk": 823754,
       "fadeReason": "all"
     }
   ]
