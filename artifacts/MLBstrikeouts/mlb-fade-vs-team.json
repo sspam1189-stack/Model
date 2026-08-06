@@ -1,35 +1,19 @@
 {
   "sport": "MLB",
   "type": "fade-vs-team",
-  "generated": "2026-08-06T13:09:31Z",
+  "generated": "2026-08-06T15:01:02Z",
   "seasonStart": "2026-04-05",
   "minStarts": 2,
   "fadeEra": 8.0,
   "note": "Pitcher-vs-team FADE: bet the opponent's ML when the pitcher faces that team. Set = curated (FADE_VS_TEAM) + auto-promoted (>= 2 starts vs the team, ERA >= 8.0 vs them). In-sample season replay (flat 1u); data only, not wired into the fade model. Watch tier (6 <= ERA < 8.0) is in mlb-fade-vs-team-watch.json.",
   "overall": {
-    "w": 52,
-    "l": 19,
-    "u": 33.9,
-    "n": 71,
-    "roi": 0.3612
+    "w": 49,
+    "l": 16,
+    "u": 34.48,
+    "n": 65,
+    "roi": 0.3993
   },
-  "today": [
-    {
-      "date": "2026-08-06",
-      "commence": "2026-08-06T18:10:00Z",
-      "betType": "fade_vs_team",
-      "pitcher": "Braxton Ashcraft",
-      "arm_team": "PIT",
-      "opp": "MIL",
-      "selection": "MIL",
-      "venue": "away",
-      "matchup": "PIT @ MIL",
-      "odds": -128,
-      "eraVsOpp": 9.0,
-      "startsVsOpp": 2,
-      "result": "pending"
-    }
-  ],
+  "today": [],
   "entries": [
     {
       "pitcher": "Joe Ryan",
@@ -145,41 +129,6 @@
       ]
     },
     {
-      "pitcher": "Grant Holmes",
-      "opp": "SF",
-      "arm_team": "ATL",
-      "source": "auto",
-      "record": {
-        "w": 2,
-        "l": 0,
-        "u": 2.46,
-        "n": 2,
-        "roi": 1.23
-      },
-      "eraVsOpp": 13.5,
-      "ipVsOpp": 4.0,
-      "erVsOpp": 6,
-      "startsVsOpp": 2,
-      "starts": [
-        {
-          "date": "2026-06-16",
-          "venue": "home",
-          "matchup": "SF @ ATL",
-          "selection": "SF",
-          "opp_ml": 144,
-          "result": "win"
-        },
-        {
-          "date": "2026-06-17",
-          "venue": "home",
-          "matchup": "SF @ ATL",
-          "selection": "SF",
-          "opp_ml": 102,
-          "result": "win"
-        }
-      ]
-    },
-    {
       "pitcher": "Brandon Sproat",
       "opp": "PIT",
       "arm_team": "MIL",
@@ -191,10 +140,10 @@
         "n": 2,
         "roi": 1.0833
       },
-      "eraVsOpp": 8.0,
-      "ipVsOpp": 9.0,
-      "erVsOpp": 8,
-      "startsVsOpp": 3,
+      "eraVsOpp": 9.0,
+      "ipVsOpp": 6.0,
+      "erVsOpp": 6,
+      "startsVsOpp": 2,
       "starts": [
         {
           "date": "2026-07-11",
@@ -689,33 +638,6 @@
       ]
     },
     {
-      "pitcher": "Dean Kremer",
-      "opp": "BOS",
-      "arm_team": "BAL",
-      "source": "auto",
-      "record": {
-        "w": 1,
-        "l": 0,
-        "u": 1.0,
-        "n": 1,
-        "roi": 0.6849
-      },
-      "eraVsOpp": 9.0,
-      "ipVsOpp": 12.0,
-      "erVsOpp": 12,
-      "startsVsOpp": 2,
-      "starts": [
-        {
-          "date": "2026-07-22",
-          "venue": "away",
-          "matchup": "BAL @ BOS",
-          "selection": "BOS",
-          "opp_ml": -146,
-          "result": "win"
-        }
-      ]
-    },
-    {
       "pitcher": "Jacob deGrom",
       "opp": "LAA",
       "arm_team": "TEX",
@@ -1007,10 +929,10 @@
         "n": 2,
         "roi": -0.0684
       },
-      "eraVsOpp": 10.29,
-      "ipVsOpp": 14.0,
-      "erVsOpp": 16,
-      "startsVsOpp": 3,
+      "eraVsOpp": 9.0,
+      "ipVsOpp": 9.0,
+      "erVsOpp": 9,
+      "startsVsOpp": 2,
       "starts": [
         {
           "date": "2026-05-07",
@@ -1171,33 +1093,6 @@
       ]
     },
     {
-      "pitcher": "Braxton Ashcraft",
-      "opp": "MIL",
-      "arm_team": "PIT",
-      "source": "auto",
-      "record": {
-        "w": 0,
-        "l": 1,
-        "u": -1.02,
-        "n": 1,
-        "roi": -1.0
-      },
-      "eraVsOpp": 9.0,
-      "ipVsOpp": 10.0,
-      "erVsOpp": 10,
-      "startsVsOpp": 2,
-      "starts": [
-        {
-          "date": "2026-07-11",
-          "venue": "home",
-          "matchup": "MIL @ PIT",
-          "selection": "MIL",
-          "opp_ml": -102,
-          "result": "loss"
-        }
-      ]
-    },
-    {
       "pitcher": "Jameson Taillon",
       "opp": "PIT",
       "arm_team": "CHC",
@@ -1263,41 +1158,6 @@
           "matchup": "CWS @ CLE",
           "selection": "CLE",
           "opp_ml": -136,
-          "result": "loss"
-        }
-      ]
-    },
-    {
-      "pitcher": "Adrian Houser",
-      "opp": "ATL",
-      "arm_team": "SF",
-      "source": "auto",
-      "record": {
-        "w": 0,
-        "l": 2,
-        "u": -3.02,
-        "n": 2,
-        "roi": -1.0
-      },
-      "eraVsOpp": 18.0,
-      "ipVsOpp": 2.0,
-      "erVsOpp": 4,
-      "startsVsOpp": 2,
-      "starts": [
-        {
-          "date": "2026-06-16",
-          "venue": "away",
-          "matchup": "SF @ ATL",
-          "selection": "ATL",
-          "opp_ml": -172,
-          "result": "loss"
-        },
-        {
-          "date": "2026-06-17",
-          "venue": "away",
-          "matchup": "SF @ ATL",
-          "selection": "ATL",
-          "opp_ml": -130,
           "result": "loss"
         }
       ]
