@@ -163,6 +163,34 @@ def _save_cache(cache_path, data):
             pass
 
 
+def _dedup_game_rows(rows):
+    """Drop duplicate pitcher-start rows, keyed by (pitcher_id, game_id).
+
+    The incremental cache can end up with the SAME start stored twice (e.g. a
+    game re-fetched under changed circumstances slips past the cached-pk skip).
+    Once a dup is in the cache it persists forever, since only NEW pks are ever
+    appended -- so callers that count raw rows (start counts, gate thresholds)
+    see inflated totals. Applied at every cache write so the file both
+    self-heals existing dupes and can't accumulate new ones. Rows without a
+    game_id are kept as-is (can't be safely de-duped). Last occurrence wins so a
+    fresh re-fetch replaces a stale (e.g. degenerate) earlier row.
+    """
+    out, seen = [], {}
+    for r in rows:
+        gid = r.get("game_id")
+        pid = r.get("pitcher_id")
+        if gid is None or pid is None:
+            out.append(r)
+            continue
+        key = (pid, gid)
+        if key in seen:
+            out[seen[key]] = r  # keep last occurrence
+        else:
+            seen[key] = len(out)
+            out.append(r)
+    return out
+
+
 def _current_season():
     return datetime.now().year
 
@@ -449,7 +477,7 @@ def fetch_pitcher_game_logs(season=None):
         if (i + 1) % 200 == 0:
             _save_cache(bo_cache_path, batting_orders_by_date)
             _save_cache(batter_cache_path, batter_logs)
-            _save_cache(cache_path, rows)
+            _save_cache(cache_path, _dedup_game_rows(rows))
         time.sleep(0.15)  # light rate limiting
 
     new_pitcher_count = len(rows) - len(existing_rows)
@@ -466,6 +494,7 @@ def fetch_pitcher_game_logs(season=None):
     _save_cache(batter_cache_path, batter_logs)
     print(f"  [mlb_stats] Cached batter game logs: {len(batter_logs)} batters, {batter_total} entries")
 
+    rows = _dedup_game_rows(rows)
     _save_cache(cache_path, rows)
     return rows
 
