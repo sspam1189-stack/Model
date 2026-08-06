@@ -1,7 +1,7 @@
 {
   "sport": "MLB",
   "type": "hand-tails",
-  "generated": "2026-08-06T21:03:23Z",
+  "generated": "2026-08-06T23:03:13Z",
   "handMin": 6,
   "roster": {
     "Andrew Painter": {
@@ -90,17 +90,17 @@
   "demotions": [],
   "summary": {
     "wins": 37,
-    "losses": 12,
-    "units": 26.1,
-    "staked": 58.6,
-    "roi": 0.4454,
+    "losses": 13,
+    "units": 24.94,
+    "staked": 59.76,
+    "roi": 0.4173,
     "byAction": {
       "fade": {
         "wins": 37,
-        "losses": 12,
-        "units": 26.1,
-        "staked": 58.6,
-        "roi": 0.4454
+        "losses": 13,
+        "units": 24.94,
+        "staked": 59.76,
+        "roi": 0.4173
       },
       "take": {
         "wins": 0,
@@ -120,39 +120,14 @@
       },
       "L": {
         "wins": 16,
-        "losses": 5,
-        "units": 11.82,
-        "staked": 24.8,
-        "roi": 0.4766
+        "losses": 6,
+        "units": 10.66,
+        "staked": 25.96,
+        "roi": 0.4106
       }
     }
   },
-  "today": [
-    {
-      "date": "2026-08-06",
-      "commence": "2026-08-06T20:10:00Z",
-      "betType": "hand_fade",
-      "action": "fade",
-      "pitcher": "Framber Valdez",
-      "entry": "Framber Valdez",
-      "hand": "L",
-      "arm_team": "DET",
-      "opp_team": "SEA",
-      "selection": "SEA",
-      "home": "SEA",
-      "away": "DET",
-      "oppLefty": 4,
-      "oppRighty": 6,
-      "lineupConfirmed": true,
-      "odds": -116,
-      "stake": 1.16,
-      "result": "pending",
-      "reason": null,
-      "profit": 0.0,
-      "book": "fanduel",
-      "source": "fanduel_api"
-    }
-  ],
+  "today": [],
   "bets": [
     {
       "date": "2026-05-20",
@@ -1327,6 +1302,30 @@
       "result": "WIN",
       "reason": null,
       "profit": 1.82,
+      "book": "fanduel",
+      "source": "fanduel_api"
+    },
+    {
+      "date": "2026-08-06",
+      "commence": "2026-08-06T20:10:00Z",
+      "betType": "hand_fade",
+      "action": "fade",
+      "pitcher": "Framber Valdez",
+      "entry": "Framber Valdez",
+      "hand": "L",
+      "arm_team": "DET",
+      "opp_team": "SEA",
+      "selection": "SEA",
+      "home": "SEA",
+      "away": "DET",
+      "oppLefty": 4,
+      "oppRighty": 6,
+      "lineupConfirmed": true,
+      "odds": -116,
+      "stake": 1.16,
+      "result": "LOSS",
+      "reason": null,
+      "profit": -1.16,
       "book": "fanduel",
       "source": "fanduel_api"
     }
