@@ -19,7 +19,9 @@ import re
 # The roster. Keep in sync with MLB_FADE_LIST in PythonDashboard/js/mlb-props.js.
 FADE_LIST = [
     "Painter", "Rocker", "Sheehan",
-    "Merrill Kelly", "Gallen", "Civale", "David Peterson",
+    "Merrill Kelly", "Gallen", "Civale",
+    # David Peterson removed 2026-08-06 (user); history stays (see FADE_WINDOW).
+    "David Peterson",
     "Bibee", "Springs", "Burrows", "Roupp", "Keller", "Freddy Peralta", "Canning",
     "Jacob Lopez", "Ryan Johnson", "Dustin May",
     "Grayson Rodriguez", "Bryan Woo", "Freeland", "Baz", "Noah Schultz",
@@ -180,7 +182,7 @@ FADE_WINDOW = {
     "Merrill Kelly":  {"add": SEASON_START},  # away-only (see FADE_VENUE)
     "Gallen":         {"add": SEASON_START},
     "Civale":         {"add": SEASON_START},
-    "David Peterson": {"add": SEASON_START},
+    "David Peterson": {"add": SEASON_START, "remove": "2026-08-06"},  # removed 2026-08-06 (user): 5-4 +0.82u (+7.2%) -- thinnest edge on the roster; no fades from 8/6 on, prior record stays
     "Bibee":          {"add": SEASON_START},
     "Springs":        {"add": SEASON_START},
     "Burrows":        {"add": SEASON_START},
