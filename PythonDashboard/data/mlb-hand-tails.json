@@ -1,7 +1,7 @@
 {
   "sport": "MLB",
   "type": "hand-tails",
-  "generated": "2026-08-06T16:15:34Z",
+  "generated": "2026-08-06T18:34:08Z",
   "handMin": 6,
   "roster": {
     "Andrew Painter": {
@@ -127,7 +127,32 @@
       }
     }
   },
-  "today": [],
+  "today": [
+    {
+      "date": "2026-08-06",
+      "commence": "2026-08-06T20:10:00Z",
+      "betType": "hand_fade",
+      "action": "fade",
+      "pitcher": "Framber Valdez",
+      "entry": "Framber Valdez",
+      "hand": "L",
+      "arm_team": "DET",
+      "opp_team": "SEA",
+      "selection": "SEA",
+      "home": "SEA",
+      "away": "DET",
+      "oppLefty": 4,
+      "oppRighty": 6,
+      "lineupConfirmed": true,
+      "odds": -118,
+      "stake": 1.18,
+      "result": "pending",
+      "reason": null,
+      "profit": 0.0,
+      "book": "fanduel",
+      "source": "fanduel_api"
+    }
+  ],
   "bets": [
     {
       "date": "2026-05-20",
