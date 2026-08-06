@@ -1,7 +1,7 @@
 {
   "sport": "MLB",
   "type": "hand-tails-watch",
-  "generated": "2026-08-06T00:34:20Z",
+  "generated": "2026-08-06T13:09:28Z",
   "handMin": 6,
   "minGames": 3,
   "minUnits": 2.5,
@@ -9,92 +9,70 @@
   "note": "Shadow review list -- arms NOT on the active hand-tails list showing a handedness-conditional edge (fade or take). The active list is fade-only, so all tail/take arms are review-only here. In-sample season replay; watch, don't bet.",
   "today": [
     {
-      "date": "2026-08-05",
-      "commence": "2026-08-05T19:10:00Z",
+      "date": "2026-08-06",
+      "commence": "2026-08-06T16:40:00Z",
       "betType": "watch_take",
       "action": "take",
       "watch": true,
-      "pitcher": "Tomoyuki Sugano",
-      "hand": "R",
-      "arm_team": "COL",
-      "opp_team": "TB",
-      "selection": "COL",
-      "home": "COL",
-      "away": "TB",
-      "oppLefty": 7,
-      "oppRighty": 3,
-      "lineupConfirmed": true,
-      "odds": 142,
-      "suggest": "take",
-      "suggestUnits": 5.64,
-      "games": 7,
-      "result": "pending"
-    },
-    {
-      "date": "2026-08-05",
-      "commence": "2026-08-05T22:35:00Z",
-      "betType": "watch_fade",
-      "action": "fade",
-      "watch": true,
-      "pitcher": "Reid Detmers",
+      "pitcher": "Andrew Abbott",
       "hand": "L",
-      "arm_team": "LAA",
-      "opp_team": "BAL",
-      "selection": "BAL",
-      "home": "BAL",
-      "away": "LAA",
-      "oppLefty": 2,
+      "arm_team": "CIN",
+      "opp_team": "OAK",
+      "selection": "CIN",
+      "home": "CIN",
+      "away": "OAK",
+      "oppLefty": 3,
       "oppRighty": 7,
-      "lineupConfirmed": true,
-      "odds": -130,
-      "suggest": "fade",
-      "suggestUnits": 2.8,
-      "games": 18,
-      "result": "pending"
+      "lineupConfirmed": false,
+      "odds": null,
+      "suggest": "take",
+      "suggestUnits": 4.74,
+      "games": 17,
+      "result": "unconfirmed"
     },
     {
-      "date": "2026-08-05",
-      "commence": "2026-08-05T23:05:00Z",
-      "betType": "watch_fade",
-      "action": "fade",
-      "watch": true,
-      "pitcher": "Andre Pallante",
-      "hand": "R",
-      "arm_team": "STL",
-      "opp_team": "NYY",
-      "selection": "NYY",
-      "home": "NYY",
-      "away": "STL",
-      "oppLefty": 7,
-      "oppRighty": 2,
-      "lineupConfirmed": true,
-      "odds": -146,
-      "suggest": "fade",
-      "suggestUnits": 3.2,
-      "games": 3,
-      "result": "pending"
-    },
-    {
-      "date": "2026-08-05",
-      "commence": "2026-08-05T23:10:00Z",
+      "date": "2026-08-06",
+      "commence": "2026-08-06T17:10:00Z",
       "betType": "watch_take",
       "action": "take",
       "watch": true,
-      "pitcher": "Sonny Gray",
-      "hand": "R",
-      "arm_team": "BOS",
-      "opp_team": "CWS",
-      "selection": "BOS",
-      "home": "BOS",
-      "away": "CWS",
-      "oppLefty": 7,
-      "oppRighty": 4,
-      "lineupConfirmed": true,
-      "odds": -138,
+      "pitcher": "Foster Griffin",
+      "hand": "L",
+      "arm_team": "CLE",
+      "opp_team": "NYM",
+      "selection": "CLE",
+      "home": "CLE",
+      "away": "NYM",
+      "oppLefty": 3,
+      "oppRighty": 7,
+      "lineupConfirmed": false,
+      "odds": null,
       "suggest": "take",
-      "suggestUnits": 6.4,
-      "games": 11,
-      "result": "pending"
+      "suggestUnits": 13.58,
+      "games": 16,
+      "result": "unconfirmed"
+    },
+    {
+      "date": "2026-08-06",
+      "commence": "2026-08-06T22:05:00Z",
+      "betType": "watch_take",
+      "action": "take",
+      "watch": true,
+      "pitcher": "Cristopher S\u00e1nchez",
+      "hand": "L",
+      "arm_team": "PHI",
+      "opp_team": "WSH",
+      "selection": "PHI",
+      "home": "PHI",
+      "away": "WSH",
+      "oppLefty": 4,
+      "oppRighty": 7,
+      "lineupConfirmed": false,
+      "odds": null,
+      "suggest": "take",
+      "suggestUnits": 5.9,
+      "games": 21,
+      "result": "unconfirmed"
     }
   ],
   "candidates": [
@@ -171,6 +149,24 @@
       "era": 2.35
     },
     {
+      "pitcher": "Sonny Gray",
+      "hand": "R",
+      "games": 12,
+      "suggest": "take",
+      "suggestUnits": 7.4,
+      "fade": {
+        "w": 2,
+        "l": 10,
+        "u": -8.68
+      },
+      "take": {
+        "w": 10,
+        "l": 2,
+        "u": 7.4
+      },
+      "era": 2.78
+    },
+    {
       "pitcher": "Robbie Ray",
       "hand": "L",
       "games": 18,
@@ -187,24 +183,6 @@
         "u": 6.76
       },
       "era": 3.25
-    },
-    {
-      "pitcher": "Sonny Gray",
-      "hand": "R",
-      "games": 11,
-      "suggest": "take",
-      "suggestUnits": 6.4,
-      "fade": {
-        "w": 2,
-        "l": 9,
-        "u": -7.68
-      },
-      "take": {
-        "w": 9,
-        "l": 2,
-        "u": 6.4
-      },
-      "era": 2.93
     },
     {
       "pitcher": "Cristopher S\u00e1nchez",
@@ -258,7 +236,7 @@
         "l": 2,
         "u": 5.64
       },
-      "era": 4.47
+      "era": 4.51
     },
     {
       "pitcher": "Max Meyer",
@@ -492,7 +470,7 @@
         "l": 3,
         "u": 4.52
       },
-      "era": 3.35
+      "era": 3.39
     },
     {
       "pitcher": "Spencer Strider",
@@ -549,6 +527,42 @@
       "era": 2.83
     },
     {
+      "pitcher": "Kyle Harrison",
+      "hand": "L",
+      "games": 14,
+      "suggest": "take",
+      "suggestUnits": 4.16,
+      "fade": {
+        "w": 4,
+        "l": 10,
+        "u": -5.4
+      },
+      "take": {
+        "w": 10,
+        "l": 4,
+        "u": 4.16
+      },
+      "era": 2.84
+    },
+    {
+      "pitcher": "Kumar Rocker",
+      "hand": "R",
+      "games": 6,
+      "suggest": "take",
+      "suggestUnits": 4.14,
+      "fade": {
+        "w": 1,
+        "l": 5,
+        "u": -4.68
+      },
+      "take": {
+        "w": 5,
+        "l": 1,
+        "u": 4.14
+      },
+      "era": 4.44
+    },
+    {
       "pitcher": "Troy Melton",
       "hand": "R",
       "games": 6,
@@ -565,6 +579,24 @@
         "u": 4.12
       },
       "era": 1.58
+    },
+    {
+      "pitcher": "Reid Detmers",
+      "hand": "L",
+      "games": 19,
+      "suggest": "fade",
+      "suggestUnits": 3.8,
+      "fade": {
+        "w": 12,
+        "l": 7,
+        "u": 3.8
+      },
+      "take": {
+        "w": 7,
+        "l": 12,
+        "u": -5.18
+      },
+      "era": 4.12
     },
     {
       "pitcher": "Jack Perkins",
@@ -600,7 +632,7 @@
         "l": 6,
         "u": -3.94
       },
-      "era": 4.56
+      "era": 4.31
     },
     {
       "pitcher": "Trey Gibson",
@@ -619,24 +651,6 @@
         "u": -3.46
       },
       "era": 7.55
-    },
-    {
-      "pitcher": "Andre Pallante",
-      "hand": "R",
-      "games": 3,
-      "suggest": "fade",
-      "suggestUnits": 3.2,
-      "fade": {
-        "w": 3,
-        "l": 0,
-        "u": 3.2
-      },
-      "take": {
-        "w": 0,
-        "l": 3,
-        "u": -3.58
-      },
-      "era": 3.72
     },
     {
       "pitcher": "Brayan Bello",
@@ -783,24 +797,6 @@
       "era": 4.99
     },
     {
-      "pitcher": "Reid Detmers",
-      "hand": "L",
-      "games": 18,
-      "suggest": "fade",
-      "suggestUnits": 2.8,
-      "fade": {
-        "w": 11,
-        "l": 7,
-        "u": 2.8
-      },
-      "take": {
-        "w": 7,
-        "l": 11,
-        "u": -4.18
-      },
-      "era": 4.03
-    },
-    {
       "pitcher": "Grayson Rodriguez",
       "hand": "R",
       "games": 5,
@@ -870,7 +866,7 @@
         "l": 5,
         "u": -3.04
       },
-      "era": 5.8
+      "era": 5.6
     }
   ]
 }
