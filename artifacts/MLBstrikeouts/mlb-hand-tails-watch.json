@@ -1,7 +1,7 @@
 {
   "sport": "MLB",
   "type": "hand-tails-watch",
-  "generated": "2026-08-06T18:35:10Z",
+  "generated": "2026-08-06T19:51:01Z",
   "handMin": 6,
   "minGames": 3,
   "minUnits": 2.5,
@@ -26,8 +26,8 @@
       "lineupConfirmed": true,
       "odds": -158,
       "suggest": "take",
-      "suggestUnits": 4.74,
-      "games": 17,
+      "suggestUnits": 5.74,
+      "games": 18,
       "result": "pending"
     },
     {
@@ -66,13 +66,13 @@
       "home": "PHI",
       "away": "WSH",
       "oppLefty": 3,
-      "oppRighty": 7,
-      "lineupConfirmed": false,
-      "odds": null,
+      "oppRighty": 8,
+      "lineupConfirmed": true,
+      "odds": -320,
       "suggest": "take",
       "suggestUnits": 5.9,
       "games": 21,
-      "result": "unconfirmed"
+      "result": "pending"
     }
   ],
   "candidates": [
@@ -219,6 +219,24 @@
         "u": 5.8
       },
       "era": 4.02
+    },
+    {
+      "pitcher": "Andrew Abbott",
+      "hand": "L",
+      "games": 18,
+      "suggest": "take",
+      "suggestUnits": 5.74,
+      "fade": {
+        "w": 7,
+        "l": 11,
+        "u": -7.52
+      },
+      "take": {
+        "w": 11,
+        "l": 7,
+        "u": 5.74
+      },
+      "era": 3.91
     },
     {
       "pitcher": "Tomoyuki Sugano",
@@ -381,24 +399,6 @@
         "u": 4.84
       },
       "era": 3.44
-    },
-    {
-      "pitcher": "Andrew Abbott",
-      "hand": "L",
-      "games": 17,
-      "suggest": "take",
-      "suggestUnits": 4.74,
-      "fade": {
-        "w": 7,
-        "l": 10,
-        "u": -6.52
-      },
-      "take": {
-        "w": 10,
-        "l": 7,
-        "u": 4.74
-      },
-      "era": 3.91
     },
     {
       "pitcher": "Jacob Misiorowski",
