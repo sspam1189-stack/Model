@@ -1,7 +1,7 @@
 {
   "sport": "MLB",
   "type": "fade-ml",
-  "generated": "2026-08-05T16:32:32Z",
+  "generated": "2026-08-06T13:04:47Z",
   "fadeList": [
     "Painter",
     "Rocker",
@@ -73,22 +73,22 @@
   ],
   "mutualRule": "underdog_min",
   "summary": {
-    "wins": 428,
-    "losses": 144,
+    "wins": 430,
+    "losses": 145,
     "voids": 0,
     "skips": 34,
-    "staked": 707.49,
-    "units": 297.35,
-    "roi": 0.4203,
+    "staked": 710.49,
+    "units": 299.17,
+    "roi": 0.4211,
     "byType": {
       "ml": {
-        "wins": 418,
-        "losses": 136,
+        "wins": 420,
+        "losses": 137,
         "voids": 0,
         "skips": 0,
-        "staked": 689.49,
-        "units": 292.31,
-        "roi": 0.424
+        "staked": 692.49,
+        "units": 294.13,
+        "roi": 0.4247
       },
       "ml_dog": {
         "wins": 10,
@@ -103,19 +103,91 @@
   },
   "today": [
     {
-      "date": "2026-08-05",
-      "commence": "2026-08-05T22:35:00Z",
+      "date": "2026-08-06",
+      "commence": "2026-08-06T18:20:00Z",
       "betType": "ml",
       "shadow": false,
       "pitchers": [
-        "Trevor Rogers"
+        "David Peterson"
       ],
-      "fadeTeam": "BAL",
+      "fadeTeam": "CHC",
       "market": "h2h",
-      "selection": "LAA",
+      "selection": "TOR",
       "line": null,
-      "odds": 110,
-      "stake": 1.0,
+      "odds": -114,
+      "stake": 1.14,
+      "result": "pending",
+      "profit": 0.0,
+      "book": "fanduel",
+      "source": "fanduel_api",
+      "reason": null,
+      "home": "CHC",
+      "away": "TOR",
+      "gamePk": 824664,
+      "fadeReason": "all"
+    },
+    {
+      "date": "2026-08-06",
+      "commence": "2026-08-06T23:10:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Luis Castillo"
+      ],
+      "fadeTeam": "CWS",
+      "market": "h2h",
+      "selection": "BOS",
+      "line": null,
+      "odds": -180,
+      "stake": 1.8,
+      "result": "pending",
+      "profit": 0.0,
+      "book": "fanduel",
+      "source": "fanduel_api",
+      "reason": null,
+      "home": "BOS",
+      "away": "CWS",
+      "gamePk": 824729,
+      "fadeReason": "all"
+    },
+    {
+      "date": "2026-08-06",
+      "commence": "2026-08-06T20:10:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Framber Valdez"
+      ],
+      "fadeTeam": "DET",
+      "market": "h2h",
+      "selection": "SEA",
+      "line": null,
+      "odds": -124,
+      "stake": 1.24,
+      "result": "pending",
+      "profit": 0.0,
+      "book": "fanduel",
+      "source": "fanduel_api",
+      "reason": null,
+      "home": "SEA",
+      "away": "DET",
+      "gamePk": 823105,
+      "fadeReason": "all"
+    },
+    {
+      "date": "2026-08-06",
+      "commence": "2026-08-06T16:35:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Ryan Johnson"
+      ],
+      "fadeTeam": "LAA",
+      "market": "h2h",
+      "selection": "BAL",
+      "line": null,
+      "odds": -190,
+      "stake": 1.9,
       "result": "pending",
       "profit": 0.0,
       "book": "fanduel",
@@ -123,55 +195,31 @@
       "reason": null,
       "home": "BAL",
       "away": "LAA",
-      "gamePk": 824806,
-      "fadeReason": "home"
+      "gamePk": 824804,
+      "fadeReason": "all"
     },
     {
-      "date": "2026-08-05",
-      "commence": "2026-08-05T22:40:00Z",
+      "date": "2026-08-06",
+      "commence": "2026-08-06T18:10:00Z",
       "betType": "ml",
       "shadow": false,
       "pitchers": [
-        "Tanner Bibee"
+        "Dustin May"
       ],
-      "fadeTeam": "CLE",
+      "fadeTeam": "MIL",
       "market": "h2h",
-      "selection": "NYM",
+      "selection": "PIT",
       "line": null,
-      "odds": -102,
-      "stake": 1.02,
-      "result": "pending",
-      "profit": 0.0,
-      "book": "fanduel",
-      "source": "fanduel_api",
-      "reason": null,
-      "home": "CLE",
-      "away": "NYM",
-      "gamePk": 824402,
-      "fadeReason": "home"
-    },
-    {
-      "date": "2026-08-05",
-      "commence": "2026-08-05T22:40:00Z",
-      "betType": "ml",
-      "shadow": false,
-      "pitchers": [
-        "Andrew Painter"
-      ],
-      "fadeTeam": "PHI",
-      "market": "h2h",
-      "selection": "WSH",
-      "line": null,
-      "odds": 170,
+      "odds": 120,
       "stake": 1.0,
       "result": "pending",
       "profit": 0.0,
       "book": "fanduel",
       "source": "fanduel_api",
       "reason": null,
-      "home": "PHI",
-      "away": "WSH",
-      "gamePk": 823429,
+      "home": "MIL",
+      "away": "PIT",
+      "gamePk": 823754,
       "fadeReason": "all"
     }
   ],
@@ -14771,6 +14819,78 @@
       "away": "TOR",
       "gamePk": 824161,
       "fadeReason": "away"
+    },
+    {
+      "date": "2026-08-05",
+      "commence": "2026-08-05T22:35:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Trevor Rogers"
+      ],
+      "fadeTeam": "BAL",
+      "market": "h2h",
+      "selection": "LAA",
+      "line": null,
+      "odds": 120,
+      "stake": 1.0,
+      "result": "LOSS",
+      "profit": -1.0,
+      "book": "fanduel",
+      "source": "fanduel_api",
+      "reason": null,
+      "home": "BAL",
+      "away": "LAA",
+      "gamePk": 824806,
+      "fadeReason": "home"
+    },
+    {
+      "date": "2026-08-05",
+      "commence": "2026-08-05T22:40:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Tanner Bibee"
+      ],
+      "fadeTeam": "CLE",
+      "market": "h2h",
+      "selection": "NYM",
+      "line": null,
+      "odds": 100,
+      "stake": 1.0,
+      "result": "WIN",
+      "profit": 1.0,
+      "book": "fanduel",
+      "source": "fanduel_api",
+      "reason": null,
+      "home": "CLE",
+      "away": "NYM",
+      "gamePk": 824402,
+      "fadeReason": "home"
+    },
+    {
+      "date": "2026-08-05",
+      "commence": "2026-08-05T22:40:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Andrew Painter"
+      ],
+      "fadeTeam": "PHI",
+      "market": "h2h",
+      "selection": "WSH",
+      "line": null,
+      "odds": 182,
+      "stake": 1.0,
+      "result": "WIN",
+      "profit": 1.82,
+      "book": "fanduel",
+      "source": "fanduel_api",
+      "reason": null,
+      "home": "PHI",
+      "away": "WSH",
+      "gamePk": 823429,
+      "fadeReason": "all"
     }
   ]
 }

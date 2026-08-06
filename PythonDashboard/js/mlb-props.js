@@ -2293,7 +2293,11 @@
           // pitchers, not just picks/leans in data.props). Then all other
           // pitchers with any historical entry follow so you can look up
           // anyone on their off day.
-          const _pitcherKey = (p) => `${displayName(p)}|${p.team || ''}`;
+          // Key by pitcher NAME only (not name+team) so a pitcher who was
+          // traded mid-season keeps ONE dropdown entry and his full history
+          // across both teams. Keying by team split a traded arm (e.g. Kremer
+          // BAL->MIN) into two keys, hiding all his pre-trade rows.
+          const _pitcherKey = (p) => displayName(p);
 
           // --- Today's probables from todayProjections (includes PASS) ---
           const _todayPropsAll = (data.todayProjections || []).filter(p => p.market === 'strikeouts');
@@ -2647,11 +2651,12 @@
             // The free-text dropdown in Team History still works either way.
             sel.addEventListener('change', () => {
               renderPitcherHistory(sel.value);
-              const parts = (sel.value || '').split('|');
-              const name = parts[0] || '';
-              const team = parts[1] || '';
+              // Key is now the pitcher name only (see _pitcherKey). Find the
+              // today-slate row by name — each pitcher starts at most once, so
+              // no team component is needed to disambiguate.
+              const name = sel.value || '';
               const todayRow = _todayPropsAll.find(p =>
-                displayName(p) === name && p.team === team
+                displayName(p) === name
               );
               if (todayRow && todayRow.team && todayRow.opp) {
                 // Today-slate pitcher: repaint the per-game toggle to THIS

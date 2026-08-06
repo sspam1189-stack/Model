@@ -1,7 +1,7 @@
 {
   "sport": "MLB",
   "type": "fade-watch",
-  "generated": "2026-08-05T16:13:04Z",
+  "generated": "2026-08-06T13:09:29Z",
   "minGames": 3,
   "minUnits": 2.5,
   "note": "Shadow review list -- arms NOT on the active fade list whose home or away fade clears the bar (>= 3 games, >= +2.5u). In-sample season replay; watch, don't bet. Promote by editing scripts/fade_list.py.",
@@ -113,6 +113,60 @@
         "u": 3.54,
         "n": 7,
         "roi": 0.5057
+      }
+    },
+    {
+      "pitcher": "Eury P\u00e9rez",
+      "team": "MIA",
+      "suggest": "away",
+      "suggestUnits": 3.34,
+      "all": {
+        "w": 11,
+        "l": 7,
+        "u": 3.68,
+        "n": 18,
+        "roi": 0.1739
+      },
+      "home": {
+        "w": 4,
+        "l": 4,
+        "u": 0.34,
+        "n": 8,
+        "roi": 0.0402
+      },
+      "away": {
+        "w": 7,
+        "l": 3,
+        "u": 3.34,
+        "n": 10,
+        "roi": 0.263
+      }
+    },
+    {
+      "pitcher": "Will Warren",
+      "team": "NYY",
+      "suggest": "home",
+      "suggestUnits": 3.22,
+      "all": {
+        "w": 8,
+        "l": 12,
+        "u": -2.82,
+        "n": 20,
+        "roi": -0.1251
+      },
+      "home": {
+        "w": 5,
+        "l": 4,
+        "u": 3.22,
+        "n": 9,
+        "roi": 0.3578
+      },
+      "away": {
+        "w": 3,
+        "l": 8,
+        "u": -6.04,
+        "n": 11,
+        "roi": -0.4461
       }
     },
     {
@@ -310,11 +364,11 @@
       "suggest": "home",
       "suggestUnits": 2.9,
       "all": {
-        "w": 12,
+        "w": 13,
         "l": 8,
-        "u": 2.0,
-        "n": 20,
-        "roi": 0.0783
+        "u": 3.0,
+        "n": 21,
+        "roi": 0.1118
       },
       "home": {
         "w": 7,
@@ -324,11 +378,11 @@
         "roi": 0.2413
       },
       "away": {
-        "w": 5,
+        "w": 6,
         "l": 4,
-        "u": -0.9,
-        "n": 9,
-        "roi": -0.0666
+        "u": 0.1,
+        "n": 10,
+        "roi": 0.0067
       }
     },
     {
@@ -337,11 +391,11 @@
       "suggest": "home",
       "suggestUnits": 2.86,
       "all": {
-        "w": 8,
+        "w": 9,
         "l": 9,
-        "u": -3.14,
-        "n": 17,
-        "roi": -0.1409
+        "u": -2.14,
+        "n": 18,
+        "roi": -0.0904
       },
       "home": {
         "w": 7,
@@ -351,11 +405,11 @@
         "roi": 0.2065
       },
       "away": {
-        "w": 1,
+        "w": 2,
         "l": 5,
-        "u": -6.0,
-        "n": 6,
-        "roi": -0.7109
+        "u": -5.0,
+        "n": 7,
+        "roi": -0.5092
       }
     },
     {
@@ -383,6 +437,33 @@
         "u": 1.88,
         "n": 7,
         "roi": 0.2618
+      }
+    },
+    {
+      "pitcher": "Dean Kremer",
+      "team": "MIN",
+      "suggest": "away",
+      "suggestUnits": 2.82,
+      "all": {
+        "w": 5,
+        "l": 3,
+        "u": 1.9,
+        "n": 8,
+        "roi": 0.1992
+      },
+      "home": {
+        "w": 1,
+        "l": 2,
+        "u": -0.92,
+        "n": 3,
+        "roi": -0.3067
+      },
+      "away": {
+        "w": 4,
+        "l": 1,
+        "u": 2.82,
+        "n": 5,
+        "roi": 0.4312
       }
     },
     {

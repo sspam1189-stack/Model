@@ -1,7 +1,7 @@
 {
   "sport": "MLB",
   "type": "fade-vs-team",
-  "generated": "2026-08-05T16:13:06Z",
+  "generated": "2026-08-06T13:09:31Z",
   "seasonStart": "2026-04-05",
   "minStarts": 2,
   "fadeEra": 8.0,
@@ -13,7 +13,23 @@
     "n": 71,
     "roi": 0.3612
   },
-  "today": [],
+  "today": [
+    {
+      "date": "2026-08-06",
+      "commence": "2026-08-06T18:10:00Z",
+      "betType": "fade_vs_team",
+      "pitcher": "Braxton Ashcraft",
+      "arm_team": "PIT",
+      "opp": "MIL",
+      "selection": "MIL",
+      "venue": "away",
+      "matchup": "PIT @ MIL",
+      "odds": -128,
+      "eraVsOpp": 9.0,
+      "startsVsOpp": 2,
+      "result": "pending"
+    }
+  ],
   "entries": [
     {
       "pitcher": "Joe Ryan",

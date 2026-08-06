@@ -1,9 +1,10 @@
 #!/usr/bin/env python3
 """
 MLBstrikeouts/scripts/build_team_woba_splits.py
-Self-computed team offense splits vs LHP / RHP, for ANY time window -- the
-calculable alternative to the manual FanGraphs wRC+ snapshot (build_team_wrc.py)
-so we can look at June / July / recent instead of only full-season.
+Self-computed team offense splits vs LHP / RHP, for ANY time window. Park-
+adjusted wRC+ approximation computed from play-by-play, so we can slice by
+June / July / recent windows -- this is the sole source for the dashboard's
+"Team wRC+ vs LHP / RHP" reference table.
 
 Reads the PA-level splits (build_pbp_team_pa.py: team_pa_splits_2026.json),
 where each plate appearance is already tallied under the ACTUAL pitcher's hand

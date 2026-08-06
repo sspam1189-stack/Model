@@ -1,7 +1,7 @@
 {
   "sport": "MLB",
   "type": "hand-tails",
-  "generated": "2026-08-05T16:32:48Z",
+  "generated": "2026-08-06T13:06:22Z",
   "handMin": 6,
   "roster": {
     "Andrew Painter": {
@@ -89,18 +89,18 @@
   "promotions": [],
   "demotions": [],
   "summary": {
-    "wins": 36,
+    "wins": 37,
     "losses": 12,
-    "units": 24.28,
-    "staked": 57.6,
-    "roi": 0.4215,
+    "units": 26.1,
+    "staked": 58.6,
+    "roi": 0.4454,
     "byAction": {
       "fade": {
-        "wins": 36,
+        "wins": 37,
         "losses": 12,
-        "units": 24.28,
-        "staked": 57.6,
-        "roi": 0.4215
+        "units": 26.1,
+        "staked": 58.6,
+        "roi": 0.4454
       },
       "take": {
         "wins": 0,
@@ -112,11 +112,11 @@
     },
     "byHand": {
       "R": {
-        "wins": 20,
+        "wins": 21,
         "losses": 7,
-        "units": 12.46,
-        "staked": 32.8,
-        "roi": 0.3799
+        "units": 14.28,
+        "staked": 33.8,
+        "roi": 0.4225
       },
       "L": {
         "wins": 16,
@@ -127,32 +127,7 @@
       }
     }
   },
-  "today": [
-    {
-      "date": "2026-08-05",
-      "commence": "2026-08-05T22:40:00Z",
-      "betType": "hand_fade",
-      "action": "fade",
-      "pitcher": "Andrew Painter",
-      "entry": "Andrew Painter",
-      "hand": "R",
-      "arm_team": "PHI",
-      "opp_team": "WSH",
-      "selection": "WSH",
-      "home": "PHI",
-      "away": "WSH",
-      "oppLefty": 7,
-      "oppRighty": 4,
-      "lineupConfirmed": false,
-      "odds": null,
-      "stake": null,
-      "result": "unconfirmed",
-      "reason": null,
-      "profit": 0.0,
-      "book": "fanduel",
-      "source": "fanduel_api"
-    }
-  ],
+  "today": [],
   "bets": [
     {
       "date": "2026-05-20",
@@ -1303,6 +1278,30 @@
       "result": "LOSS",
       "reason": null,
       "profit": -1.0,
+      "book": "fanduel",
+      "source": "fanduel_api"
+    },
+    {
+      "date": "2026-08-05",
+      "commence": "2026-08-05T22:40:00Z",
+      "betType": "hand_fade",
+      "action": "fade",
+      "pitcher": "Andrew Painter",
+      "entry": "Andrew Painter",
+      "hand": "R",
+      "arm_team": "PHI",
+      "opp_team": "WSH",
+      "selection": "WSH",
+      "home": "PHI",
+      "away": "WSH",
+      "oppLefty": 7,
+      "oppRighty": 4,
+      "lineupConfirmed": true,
+      "odds": 182,
+      "stake": 1.0,
+      "result": "WIN",
+      "reason": null,
+      "profit": 1.82,
       "book": "fanduel",
       "source": "fanduel_api"
     }

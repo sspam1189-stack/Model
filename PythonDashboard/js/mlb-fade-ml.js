@@ -67,20 +67,9 @@ async function renderMLBFadeML() {
     catch (e) { /* next */ }
   }
 
-  // Team wRC+ platoon snapshot (FanGraphs true wRC+, manual browser capture —
-  // view-only reference, not part of any pick/grade). Own file; missing = no
-  // table. See MLBstrikeouts/scripts/build_team_wrc.py.
-  const wrcLocal = 'data/mlb-team-wrc.json';
-  const wrcRemote = 'https://raw.githubusercontent.com/sspam1189-stack/Model/main/MLBstrikeouts/data/mlb-team-wrc.json';
-  let wrcData = null;
-  for (const url of [wrcLocal + '?t=' + Date.now(), wrcRemote + '?t=' + Date.now()]) {
-    try { const r = await fetch(url, { cache: 'no-store' }); if (r.ok) { wrcData = await r.json(); break; } }
-    catch (e) { /* next */ }
-  }
-
   // Self-computed team wOBA/wRC+ splits by hand, per window (build_team_woba_
-  // splits.py) — lets the wRC+ table slice by month/recent, not just the
-  // FanGraphs full-season snapshot. Own file; missing = FG snapshot only.
+  // splits.py) — park-adjusted wRC+ approximation, sliceable by
+  // month/recent. Own file; missing = no wRC+ table.
   const wobaLocal = 'data/mlb-team-woba-splits.json';
   const wobaRemote = 'https://raw.githubusercontent.com/sspam1189-stack/Model/main/MLBstrikeouts/data/mlb-team-woba-splits.json';
   let wobaData = null;
@@ -91,17 +80,11 @@ async function renderMLBFadeML() {
 
   // Normalize a computed window into {team:{vsLHP,vsRHP,paL,paR}} (ints). Shared
   // by the Today's-plays wRC+ chips and the wRC+ table so both track the same
-  // selected window. Falls back to the FanGraphs snapshot for 'fg'/missing.
+  // selected window.
   const _wobaWindows = (wobaData && wobaData.windows) || {};
   // venue: '' (all) | 'home' | 'road'; role: '' (all) | 'sp' | 'rp' (starters /
   // relievers faced); roster: '' (whole team) | 'lineup' (tonight's confirmed 9).
-  // FanGraphs snapshot has no venue/role/roster split.
   const teamsForWindow = (winKey, venue, role, roster) => {
-    if (winKey === 'fg') {
-      const t = (wrcData && wrcData.teams) || {}; const o = {};
-      Object.keys(t).forEach(k => { o[k] = { vsLHP: t[k].vsLHP, vsRHP: t[k].vsRHP }; });
-      return o;
-    }
     const t = (_wobaWindows[winKey] || {}).teams || {}; const o = {};
     Object.keys(t).forEach(k => {
       // Under the confirmed-lineup roster, only teams whose lineup has posted
@@ -334,13 +317,12 @@ async function renderMLBFadeML() {
       ? '<span style="color:#9aa2ad;font-size:12px">' + esc(sp.name) + '</span> ' : '';
   };
   // Today's-plays wRC+ chips track the wRC+ table's selected window (default
-  // season). `wrcTeams` is reassigned when the window changes (see the table's
-  // Window select), and the plays are repainted. Falls back to FanGraphs if the
-  // computed season is empty.
+  // last30). `wrcTeams` is reassigned when the window changes (see the table's
+  // Window select), and the plays are repainted. Falls back to the computed
+  // season if the default window is empty.
   const DEFAULT_WRC_WIN = 'last30';
   let wrcTeams = teamsForWindow(DEFAULT_WRC_WIN);
   if (!Object.keys(wrcTeams).length) wrcTeams = teamsForWindow('season');
-  if (!Object.keys(wrcTeams).length) wrcTeams = teamsForWindow('fg');
   // A "TEAM NN vs XHP" chip (green above 100, red below). `label` adds "wRC+".
   const wrcChip = (team, v, h, label) => {
     const col = v >= 100 ? GREEN : RED;
@@ -899,10 +881,8 @@ async function renderMLBFadeML() {
   }
 
   // ---- Team wRC+ by opposing-starter hand (reference table) ----
-  // Two sources, switchable via the Window dropdown:
-  //   FanGraphs snapshot (build_team_wrc.py) — TRUE park+league wRC+, season only.
-  //   Self-computed windows (build_team_woba_splits.py) — park-neutral wRC+
-  //   approximation, sliceable by month / last-30 / last-15.
+  // Self-computed windows (build_team_woba_splits.py) — park-adjusted wRC+
+  // approximation, sliceable by month / last-60..15 via the Window dropdown.
   // View-only: nothing here feeds a fade pick or grade.
   {
     // Build the list of windows: FG season snapshot first (if present), then
@@ -989,20 +969,16 @@ async function renderMLBFadeML() {
 
       function drawWrc() {
         const win = wrcWinSel.value;
-        const isFg = win === 'fg';
-        const roster = isFg ? '' : wrcRosterSel.value;   // FG snapshot has no lineup split
+        const roster = wrcRosterSel.value;
         const isLineup = roster === 'lineup';
         const venue = wrcVenueSel.value;
         const role = wrcRoleSel.value;
         const teams = teamsForWindow(win, venue, role, roster);
         const venLbl = venue === 'home' ? 'home games · ' : (venue === 'road' ? 'road games · ' : '');
         const roleLbl = role === 'sp' ? 'vs starters only · ' : (role === 'rp' ? 'vs relievers only · ' : '');
-        // PA hint (computed windows only) so small samples are visible.
-        const paTag = (n) => (isFg || n == null) ? '' : ' <span style="color:#666;font-weight:400;font-size:10px">(' + n + ')</span>';
-        const noteBase = venLbl + roleLbl + (isFg
-          ? ((wrcData.season ? esc(wrcData.season) + ' ' : '') + 'FanGraphs true wRC+ (park + league adjusted)'
-            + (wrcData.asOf ? ' · as of ' + esc(wrcData.asOf) : '') + ' · 100 = league avg · view-only')
-          : isLineup
+        // PA hint so small samples are visible.
+        const paTag = (n) => (n == null) ? '' : ' <span style="color:#666;font-weight:400;font-size:10px">(' + n + ')</span>';
+        const noteBase = venLbl + roleLbl + (isLineup
           ? ('<b>Confirmed lineup wRC+</b> — tonight’s posted 9 per team, pooled over the selected '
             + 'window (park-neutral) · confirmed lineups only · through ' + esc(wobaData.throughDate || '?')
             + ' · (n) = PA · 100 = league avg · view-only')
