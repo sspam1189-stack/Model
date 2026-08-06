@@ -62,14 +62,22 @@ def build():
     logs = json.load(open(GAMELOGS, encoding="utf-8"))
 
     # ERA vs opp, keyed by (normalized pitcher, opp). Keep a display name.
+    # Dedupe by game_id: the logs occasionally repeat a start (same game_id),
+    # which would double-count er/ip and inflate gs past the MIN_STARTS gate.
     era = defaultdict(lambda: {"er": 0, "ip": 0.0, "gs": 0, "name": ""})
+    seen = set()
     for r in logs:
         if not r.get("is_start"):
             continue
         d = r.get("game_date")
         if d and d < SEASON_START:
             continue
-        k = (_norm(r.get("pitcher_name")), r.get("opp"))
+        nk, opp, gid = _norm(r.get("pitcher_name")), r.get("opp"), r.get("game_id")
+        if gid is not None:
+            if (nk, opp, gid) in seen:
+                continue
+            seen.add((nk, opp, gid))
+        k = (nk, opp)
         e = era[k]
         e["er"] += r.get("er") or 0
         e["ip"] += r.get("ip") or 0.0

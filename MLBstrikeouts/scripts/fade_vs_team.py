@@ -54,15 +54,27 @@ def _rec(rows):
 
 
 def _era_index(logs):
-    """(normalized pitcher, opp) -> {er, ip, gs, name} from starts, season only."""
+    """(normalized pitcher, opp) -> {er, ip, gs, name} from starts, season only.
+
+    Dedupes by game_id: the game logs occasionally carry the SAME start twice
+    (identical game_id), which would double-count er/ip and — critically —
+    inflate gs, letting a 1-start matchup falsely clear the MIN_STARTS
+    auto-promote gate. Each game is counted once per (pitcher, opp).
+    """
     era = defaultdict(lambda: {"er": 0, "ip": 0.0, "gs": 0, "name": ""})
+    seen = set()
     for r in logs:
         if not r.get("is_start"):
             continue
         d = r.get("game_date")
         if d and d < SEASON_START:
             continue
-        e = era[(_norm(r.get("pitcher_name")), r.get("opp"))]
+        nk, opp, gid = _norm(r.get("pitcher_name")), r.get("opp"), r.get("game_id")
+        if gid is not None:
+            if (nk, opp, gid) in seen:
+                continue
+            seen.add((nk, opp, gid))
+        e = era[(nk, opp)]
         e["er"] += r.get("er") or 0
         e["ip"] += r.get("ip") or 0.0
         e["gs"] += 1
