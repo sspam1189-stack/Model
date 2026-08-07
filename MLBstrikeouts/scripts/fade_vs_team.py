@@ -10,6 +10,12 @@ The fade set is the UNION of:
     and an ERA >= FADE_ERA against them (the top of the watch ladder). Arms
     already faded all-venue on FADE_LIST are skipped (already covered).
 
+Auto-promoted records are WALK-FORWARD: a start is graded as a play only if
+the pitcher already met the promote criteria BEFORE that game, so the start
+that first pushes him over the threshold is never itself a counted play (he
+becomes bettable from his NEXT start vs that team). Curated entries keep the
+full season replay -- they are hand-picked as always-fade.
+
 The parallel watch tier (6 <= ERA < FADE_ERA) lives in fade_vs_team_watch.py,
 so a matchup is on exactly one of the two lists.
 
@@ -54,14 +60,17 @@ def _rec(rows):
 
 
 def _era_index(logs):
-    """(normalized pitcher, opp) -> {er, ip, gs, name} from starts, season only.
+    """(normalized pitcher, opp) -> {er, ip, gs, name, hist} from starts, season only.
 
     Dedupes by game_id: the game logs occasionally carry the SAME start twice
     (identical game_id), which would double-count er/ip and — critically —
     inflate gs, letting a 1-start matchup falsely clear the MIN_STARTS
     auto-promote gate. Each game is counted once per (pitcher, opp).
+
+    hist is the per-start [(date, er, ip)] list (date-sorted) feeding the
+    walk-forward qualification check for auto-promoted entries.
     """
-    era = defaultdict(lambda: {"er": 0, "ip": 0.0, "gs": 0, "name": ""})
+    era = defaultdict(lambda: {"er": 0, "ip": 0.0, "gs": 0, "name": "", "hist": []})
     seen = set()
     for r in logs:
         if not r.get("is_start"):
@@ -79,6 +88,9 @@ def _era_index(logs):
         e["ip"] += r.get("ip") or 0.0
         e["gs"] += 1
         e["name"] = r.get("pitcher_name")
+        e["hist"].append((d or "", r.get("er") or 0, r.get("ip") or 0.0))
+    for e in era.values():
+        e["hist"].sort()
     return era
 
 
@@ -98,6 +110,39 @@ def build():
         if not e or e["ip"] <= 0:
             return None, 0.0, 0, 0
         return round(e["er"] * 9.0 / e["ip"], 2), round(e["ip"], 1), e["er"], e["gs"]
+
+    def qualified_before(nk, opp, date):
+        """True if the arm met the auto-promote bar from starts BEFORE date.
+
+        Walk-forward gate: replays only cumulative log starts strictly before
+        the game date, so the start that first clears MIN_STARTS/FADE_ERA is
+        never itself a counted play (the fade goes live the next day).
+        """
+        e = era.get((nk, opp))
+        if not e:
+            return False
+        er = ip = gs = 0.0
+        for d, s_er, s_ip in e["hist"]:
+            if date and d >= date:
+                break
+            er += s_er
+            ip += s_ip
+            gs += 1
+        return gs >= MIN_STARTS and ip > 0 and er * 9.0 / ip >= FADE_ERA
+
+    def qualified_on(nk, opp):
+        """Date of the start that first cleared the auto-promote bar (or None)."""
+        e = era.get((nk, opp))
+        if not e:
+            return None
+        er = ip = gs = 0.0
+        for d, s_er, s_ip in e["hist"]:
+            er += s_er
+            ip += s_ip
+            gs += 1
+            if gs >= MIN_STARTS and ip > 0 and er * 9.0 / ip >= FADE_ERA:
+                return d
+        return None
 
     # Fade set keyed by (normalized name, opp) -> {"name", "opp", "source"}.
     fadeset = {}
@@ -137,9 +182,14 @@ def build():
                 odds = g.get(oppside + "_ml")
                 if odds is None:
                     continue
+                arm_team = g.get(side)
+                # Auto-promoted arms are walk-forward: only starts made AFTER
+                # the matchup already cleared the promote bar count as plays.
+                # Curated (and curated+auto "both") keep the full season replay.
+                if meta["source"] == "auto" and not qualified_before(nk, opp, d):
+                    continue
                 opp_won = (not g["home_win"]) if side == "home" else g["home_win"]
                 rows.append((profit_for(odds, opp_won), opp_won, stake_for(odds)))
-                arm_team = g.get(side)
                 starts.append({
                     "date": d, "venue": side,
                     "matchup": g.get("away") + " @ " + g.get("home"),
@@ -148,12 +198,15 @@ def build():
                 })
         all_rows.extend(rows)
         era_val, ip, er, gs = era_for(nk, opp)
-        entries.append({
+        entry = {
             "pitcher": meta["name"], "opp": opp, "arm_team": arm_team,
             "source": meta["source"], "record": _rec(rows),
             "eraVsOpp": era_val, "ipVsOpp": ip, "erVsOpp": er, "startsVsOpp": gs,
             "starts": starts,
-        })
+        }
+        if meta["source"] == "auto":
+            entry["qualifiedOn"] = qualified_on(nk, opp)
+        entries.append(entry)
     entries.sort(key=lambda e: -e["record"]["u"])
 
     fade_keys = set(fadeset)
@@ -189,10 +242,12 @@ def build():
         "seasonStart": SEASON_START,
         "minStarts": MIN_STARTS, "fadeEra": FADE_ERA,
         "note": "Pitcher-vs-team FADE: bet the opponent's ML when the pitcher "
-                "faces that team. Set = curated (FADE_VS_TEAM) + auto-promoted "
-                "(>= %d starts vs the team, ERA >= %.1f vs them). In-sample "
-                "season replay (flat 1u); data only, not wired into the fade "
-                "model. Watch tier (6 <= ERA < %.1f) is in "
+                "faces that team. Set = curated (FADE_VS_TEAM, full season "
+                "replay) + auto-promoted (>= %d starts vs the team, ERA >= %.1f "
+                "vs them; WALK-FORWARD -- only starts after the promote bar was "
+                "already met count as plays, the qualifying start itself never "
+                "does). Flat 1u; data only, not wired into the fade model. "
+                "Watch tier (6 <= ERA < %.1f) is in "
                 "mlb-fade-vs-team-watch.json." % (MIN_STARTS, FADE_ERA, FADE_ERA),
         "overall": _rec(all_rows),
         "today": today,
