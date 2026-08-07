@@ -28,6 +28,7 @@ from fade_ml_common import (stake_for, profit_for, _settle_ml,
                             odds_row_for, load_props_index, SCRIPT_DIR)
 from hand_tails import tail_entry, opp_lineup_state, qualifies, HAND_MIN, HAND_TAILS
 from fade_list import fade_except_vs_team
+from fade_vs_team import vs_team_selection
 from sources.mlb_schedule import fetch_schedule
 from sources.odds_ml_theoddsapi import load_ml_cache
 
@@ -111,6 +112,13 @@ def grade_date(date_key, date_iso):
             if action == "fade" and opp in fade_except_vs_team(p):
                 continue  # matchup exception (FADE_EXCEPT_VS_TEAM): don't fade
                           # this arm vs this team, even on a qualifying lineup.
+            opp_starter = g.get(("away" if side == "home" else "home")
+                                + "_pitcher")
+            if (action == "fade" and opp_starter
+                    and vs_team_selection(opp_starter, g.get(side), date_iso)):
+                continue  # counter fade: the opposing starter is a LIVE
+                          # vs-team fade whose pick bets OUR arm's team --
+                          # vs-team wins the counter, this hand fade yields.
             lefty, righty, confirmed = opp_lineup_state(opp, date_iso)
             if not qualifies(hand, lefty, righty):
                 continue

@@ -232,6 +232,23 @@ def _hand_tail_override(arm, date, opp_team):
         return False
 
 
+def _vs_team_override(opp_pitcher, fade_team, date):
+    """True if the opposing starter is a LIVE vs-team fade against fade_team.
+
+    Counter-fade precedence (2026-08-07): both fades in the same game point
+    at opposite sides -- our venue fade bets the opponent, the vs-team fade
+    on the opponent's own starter bets fade_team. The vs-team pick wins, so
+    the fade-list fade yields (SKIP). Lazy import + fail-open like
+    _hand_tail_override.
+    """
+    try:
+        from fade_vs_team import vs_team_selection
+        return bool(opp_pitcher) and \
+            vs_team_selection(opp_pitcher, fade_team, date) is not None
+    except Exception:
+        return False
+
+
 # --- bet construction (single serializer) ---------------------------------
 
 def _bet(date, commence, bet_type, fg, market, selection, line, odds,
@@ -292,7 +309,13 @@ def build_bets_for_game(date, fg, g, odds_row):
         odds = None
         if odds_row:
             odds = odds_row["home_ml"] if team == g.get("home") else odds_row["away_ml"]
-        if arm and _hand_tail_override(arm, date, team):
+        if _vs_team_override(fg.get("oppPitcher"), fg.get("fadeTeam"), date):
+            # Counter fade: the opposing starter is a LIVE vs-team fade whose
+            # pick bets OUR fade team. vs-team wins the counter, so this
+            # venue fade yields (the vs-team ledger carries the play).
+            bets.append(_bet(date, commence, "ml", fg, "h2h", None, None,
+                             None, "SKIP", "vs_team_override", source=source))
+        elif arm and _hand_tail_override(arm, date, team):
             # Arm is a hand-tails TAKE facing a qualifying opposite-hand lineup:
             # hand-tails wins the overlap, so the fade-list fade yields here.
             bets.append(_bet(date, commence, "ml", fg, "h2h", None, None,

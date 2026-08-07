@@ -35,7 +35,8 @@ from collections import defaultdict
 sys.path.insert(0, os.path.dirname(__file__))
 
 from fade_ml_common import stake_for, profit_for
-from fade_list import _norm, matched_entry, FADE_VS_TEAM, SEASON_START
+from fade_list import (_norm, matched_entry, fade_vs_team_teams, FADE_VS_TEAM,
+                       SEASON_START)
 
 MIN_STARTS = 2      # a matchup needs at least this many starts vs the team
 FADE_ERA = 8.0      # ...and ERA >= this vs that team to AUTO-promote to a fade
@@ -94,6 +95,81 @@ def _era_index(logs):
     return era
 
 
+def _qualified_before(era, nk, opp, date):
+    """True if the arm met the auto-promote bar from starts BEFORE date.
+
+    Walk-forward gate: replays only cumulative log starts strictly before
+    the game date, so the start that first clears MIN_STARTS/FADE_ERA is
+    never itself a counted play (the fade goes live the next day).
+    """
+    e = era.get((nk, opp))
+    if not e:
+        return False
+    er = ip = gs = 0.0
+    for d, s_er, s_ip in e["hist"]:
+        if date and d >= date:
+            break
+        er += s_er
+        ip += s_ip
+        gs += 1
+    return gs >= MIN_STARTS and ip > 0 and er * 9.0 / ip >= FADE_ERA
+
+
+def _qualified_on(era, nk, opp):
+    """Date of the start that first cleared the auto-promote bar (or None)."""
+    e = era.get((nk, opp))
+    if not e:
+        return None
+    er = ip = gs = 0.0
+    for d, s_er, s_ip in e["hist"]:
+        er += s_er
+        ip += s_ip
+        gs += 1
+        if gs >= MIN_STARTS and ip > 0 and er * 9.0 / ip >= FADE_ERA:
+            return d
+    return None
+
+
+# --- live-pick gate for the other fade models -----------------------------
+
+_GATE_ERA = None
+
+
+def _gate_era():
+    """Cached era index for vs_team_selection (loads game logs once)."""
+    global _GATE_ERA
+    if _GATE_ERA is None:
+        try:
+            logs = json.load(open(GAMELOGS, encoding="utf-8"))
+        except Exception:
+            logs = []
+        _GATE_ERA = _era_index(logs)
+    return _GATE_ERA
+
+
+def vs_team_selection(pitcher_name, opp_team, date):
+    """Team the vs-team model bets (== opp_team) if fading ``pitcher_name``
+    against ``opp_team`` is a LIVE vs-team play on ``date``, else None.
+
+    Live = curated FADE_VS_TEAM matchup (always faded), or auto-promoted
+    walk-forward (the arm already cleared MIN_STARTS/FADE_ERA vs that team
+    BEFORE ``date``). Arms on the all-venue FADE_LIST are the venue model's
+    own fades (same side, never a counter) and return None, mirroring the
+    auto-promote skip in build().
+
+    COUNTER-FADE PRECEDENCE: fade-ML and hand-tails call this on the
+    opposing starter; when their fade points at the opposite side of a live
+    vs-team pick, the vs-team pick wins and they skip their bet.
+    """
+    if opp_team in fade_vs_team_teams(pitcher_name):
+        return opp_team
+    if matched_entry(pitcher_name):
+        return None
+    if _qualified_before(_gate_era(), _norm(pitcher_name), opp_team, date):
+        return opp_team
+    return None
+
+
 def build():
     allml = json.load(open(os.path.normpath(
         os.path.join(SCRIPT_DIR, "..", "data", "mlb-all-ml.json")), encoding="utf-8"))
@@ -110,39 +186,6 @@ def build():
         if not e or e["ip"] <= 0:
             return None, 0.0, 0, 0
         return round(e["er"] * 9.0 / e["ip"], 2), round(e["ip"], 1), e["er"], e["gs"]
-
-    def qualified_before(nk, opp, date):
-        """True if the arm met the auto-promote bar from starts BEFORE date.
-
-        Walk-forward gate: replays only cumulative log starts strictly before
-        the game date, so the start that first clears MIN_STARTS/FADE_ERA is
-        never itself a counted play (the fade goes live the next day).
-        """
-        e = era.get((nk, opp))
-        if not e:
-            return False
-        er = ip = gs = 0.0
-        for d, s_er, s_ip in e["hist"]:
-            if date and d >= date:
-                break
-            er += s_er
-            ip += s_ip
-            gs += 1
-        return gs >= MIN_STARTS and ip > 0 and er * 9.0 / ip >= FADE_ERA
-
-    def qualified_on(nk, opp):
-        """Date of the start that first cleared the auto-promote bar (or None)."""
-        e = era.get((nk, opp))
-        if not e:
-            return None
-        er = ip = gs = 0.0
-        for d, s_er, s_ip in e["hist"]:
-            er += s_er
-            ip += s_ip
-            gs += 1
-            if gs >= MIN_STARTS and ip > 0 and er * 9.0 / ip >= FADE_ERA:
-                return d
-        return None
 
     # Fade set keyed by (normalized name, opp) -> {"name", "opp", "source"}.
     fadeset = {}
@@ -186,7 +229,7 @@ def build():
                 # Auto-promoted arms are walk-forward: only starts made AFTER
                 # the matchup already cleared the promote bar count as plays.
                 # Curated (and curated+auto "both") keep the full season replay.
-                if meta["source"] == "auto" and not qualified_before(nk, opp, d):
+                if meta["source"] == "auto" and not _qualified_before(era, nk, opp, d):
                     continue
                 opp_won = (not g["home_win"]) if side == "home" else g["home_win"]
                 rows.append((profit_for(odds, opp_won), opp_won, stake_for(odds)))
@@ -205,7 +248,7 @@ def build():
             "starts": starts,
         }
         if meta["source"] == "auto":
-            entry["qualifiedOn"] = qualified_on(nk, opp)
+            entry["qualifiedOn"] = _qualified_on(era, nk, opp)
         entries.append(entry)
     entries.sort(key=lambda e: -e["record"]["u"])
 
