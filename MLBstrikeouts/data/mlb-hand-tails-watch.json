@@ -1,7 +1,7 @@
 {
   "sport": "MLB",
   "type": "hand-tails-watch",
-  "generated": "2026-08-07T00:34:26Z",
+  "generated": "2026-08-07T13:08:10Z",
   "handMin": 6,
   "minGames": 3,
   "minUnits": 2.5,
@@ -9,70 +9,48 @@
   "note": "Shadow review list -- arms NOT on the active hand-tails list showing a handedness-conditional edge (fade or take). The active list is fade-only, so all tail/take arms are review-only here. In-sample season replay; watch, don't bet.",
   "today": [
     {
-      "date": "2026-08-06",
-      "commence": "2026-08-06T16:40:00Z",
+      "date": "2026-08-07",
+      "commence": "2026-08-08T00:15:00Z",
       "betType": "watch_take",
       "action": "take",
       "watch": true,
-      "pitcher": "Andrew Abbott",
-      "hand": "L",
-      "arm_team": "CIN",
-      "opp_team": "OAK",
-      "selection": "CIN",
-      "home": "CIN",
-      "away": "OAK",
-      "oppLefty": 3,
-      "oppRighty": 7,
-      "lineupConfirmed": true,
-      "odds": -158,
+      "pitcher": "Kyle Leahy",
+      "hand": "R",
+      "arm_team": "STL",
+      "opp_team": "COL",
+      "selection": "STL",
+      "home": "STL",
+      "away": "COL",
+      "oppLefty": 6,
+      "oppRighty": 5,
+      "lineupConfirmed": false,
+      "odds": null,
       "suggest": "take",
-      "suggestUnits": 5.74,
+      "suggestUnits": 4.84,
+      "games": 6,
+      "result": "unconfirmed"
+    },
+    {
+      "date": "2026-08-07",
+      "commence": "2026-08-08T01:40:00Z",
+      "betType": "watch_take",
+      "action": "take",
+      "watch": true,
+      "pitcher": "Robbie Ray",
+      "hand": "L",
+      "arm_team": "SD",
+      "opp_team": "HOU",
+      "selection": "SD",
+      "home": "SD",
+      "away": "HOU",
+      "oppLefty": 3,
+      "oppRighty": 6,
+      "lineupConfirmed": false,
+      "odds": null,
+      "suggest": "take",
+      "suggestUnits": 6.76,
       "games": 18,
-      "result": "pending"
-    },
-    {
-      "date": "2026-08-06",
-      "commence": "2026-08-06T17:10:00Z",
-      "betType": "watch_take",
-      "action": "take",
-      "watch": true,
-      "pitcher": "Foster Griffin",
-      "hand": "L",
-      "arm_team": "CLE",
-      "opp_team": "NYM",
-      "selection": "CLE",
-      "home": "CLE",
-      "away": "NYM",
-      "oppLefty": 2,
-      "oppRighty": 8,
-      "lineupConfirmed": true,
-      "odds": -118,
-      "suggest": "take",
-      "suggestUnits": 12.4,
-      "games": 17,
-      "result": "pending"
-    },
-    {
-      "date": "2026-08-06",
-      "commence": "2026-08-06T22:05:00Z",
-      "betType": "watch_take",
-      "action": "take",
-      "watch": true,
-      "pitcher": "Cristopher S\u00e1nchez",
-      "hand": "L",
-      "arm_team": "PHI",
-      "opp_team": "WSH",
-      "selection": "PHI",
-      "home": "PHI",
-      "away": "WSH",
-      "oppLefty": 3,
-      "oppRighty": 8,
-      "lineupConfirmed": true,
-      "odds": -320,
-      "suggest": "take",
-      "suggestUnits": 5.9,
-      "games": 21,
-      "result": "pending"
+      "result": "unconfirmed"
     }
   ],
   "candidates": [
@@ -110,7 +88,7 @@
         "l": 3,
         "u": 12.4
       },
-      "era": 3.06
+      "era": 3.31
     },
     {
       "pitcher": "Sandy Alcantara",
@@ -167,6 +145,24 @@
       "era": 2.78
     },
     {
+      "pitcher": "Cristopher S\u00e1nchez",
+      "hand": "L",
+      "games": 22,
+      "suggest": "take",
+      "suggestUnits": 6.9,
+      "fade": {
+        "w": 6,
+        "l": 16,
+        "u": -8.3
+      },
+      "take": {
+        "w": 16,
+        "l": 6,
+        "u": 6.9
+      },
+      "era": 2.65
+    },
+    {
       "pitcher": "Robbie Ray",
       "hand": "L",
       "games": 18,
@@ -183,24 +179,6 @@
         "u": 6.76
       },
       "era": 3.25
-    },
-    {
-      "pitcher": "Cristopher S\u00e1nchez",
-      "hand": "L",
-      "games": 21,
-      "suggest": "take",
-      "suggestUnits": 5.9,
-      "fade": {
-        "w": 6,
-        "l": 15,
-        "u": -7.3
-      },
-      "take": {
-        "w": 15,
-        "l": 6,
-        "u": 5.9
-      },
-      "era": 2.61
     },
     {
       "pitcher": "Anthony Kay",
@@ -236,7 +214,7 @@
         "l": 7,
         "u": 5.74
       },
-      "era": 3.91
+      "era": 3.92
     },
     {
       "pitcher": "Tomoyuki Sugano",
@@ -344,7 +322,7 @@
         "l": 2,
         "u": 5.1
       },
-      "era": 3.31
+      "era": 3.43
     },
     {
       "pitcher": "Patrick Sandoval",
@@ -722,7 +700,7 @@
         "l": 3,
         "u": -3.0
       },
-      "era": 6.8
+      "era": 6.31
     },
     {
       "pitcher": "Gabriel Hughes",
@@ -776,7 +754,7 @@
         "l": 6,
         "u": -3.86
       },
-      "era": 4.99
+      "era": 5.26
     },
     {
       "pitcher": "Grayson Rodriguez",

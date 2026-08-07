@@ -1,7 +1,7 @@
 {
   "sport": "MLB",
   "type": "hand-tails",
-  "generated": "2026-08-07T00:33:23Z",
+  "generated": "2026-08-07T13:07:06Z",
   "handMin": 6,
   "roster": {
     "Andrew Painter": {
@@ -127,7 +127,56 @@
       }
     }
   },
-  "today": [],
+  "today": [
+    {
+      "date": "2026-08-07",
+      "commence": "2026-08-07T23:40:00Z",
+      "betType": "hand_fade",
+      "action": "fade",
+      "pitcher": "Noah Schultz",
+      "entry": "Noah Schultz",
+      "hand": "L",
+      "arm_team": "CWS",
+      "opp_team": "CLE",
+      "selection": "CLE",
+      "home": "CWS",
+      "away": "CLE",
+      "oppLefty": 6,
+      "oppRighty": 6,
+      "lineupConfirmed": false,
+      "odds": null,
+      "stake": null,
+      "result": "unconfirmed",
+      "reason": null,
+      "profit": 0.0,
+      "book": "fanduel",
+      "source": "fanduel_api"
+    },
+    {
+      "date": "2026-08-07",
+      "commence": "2026-08-08T01:40:00Z",
+      "betType": "hand_fade",
+      "action": "fade",
+      "pitcher": "Merrill Kelly",
+      "entry": "Merrill Kelly",
+      "hand": "R",
+      "arm_team": "ARI",
+      "opp_team": "LAD",
+      "selection": "LAD",
+      "home": "ARI",
+      "away": "LAD",
+      "oppLefty": 6,
+      "oppRighty": 4,
+      "lineupConfirmed": false,
+      "odds": null,
+      "stake": null,
+      "result": "unconfirmed",
+      "reason": null,
+      "profit": 0.0,
+      "book": "fanduel",
+      "source": "fanduel_api"
+    }
+  ],
   "bets": [
     {
       "date": "2026-05-20",

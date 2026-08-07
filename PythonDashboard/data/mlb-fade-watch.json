@@ -1,11 +1,48 @@
 {
   "sport": "MLB",
   "type": "fade-watch",
-  "generated": "2026-08-07T00:34:27Z",
+  "generated": "2026-08-07T13:08:11Z",
   "minGames": 3,
   "minUnits": 2.5,
   "note": "Shadow review list -- arms NOT on the active fade list whose home or away fade clears the bar (>= 3 games, >= +2.5u). In-sample season replay; watch, don't bet. Promote by editing scripts/fade_list.py.",
-  "today": [],
+  "today": [
+    {
+      "date": "2026-08-07",
+      "commence": "2026-08-07T22:45:00Z",
+      "betType": "fade_watch",
+      "watch": true,
+      "pitcher": "Cade Cavalli",
+      "arm_team": "WSH",
+      "fadeTeam": "WSH",
+      "selection": "CIN",
+      "home": "WSH",
+      "away": "CIN",
+      "venue": "home",
+      "odds": 110,
+      "suggest": "home",
+      "suggestUnits": 6.32,
+      "games": 12,
+      "result": "pending"
+    },
+    {
+      "date": "2026-08-07",
+      "commence": "2026-08-07T23:05:00Z",
+      "betType": "fade_watch",
+      "watch": true,
+      "pitcher": "Max Fried",
+      "arm_team": "NYY",
+      "fadeTeam": "NYY",
+      "selection": "ATL",
+      "home": "NYY",
+      "away": "ATL",
+      "venue": "home",
+      "odds": 136,
+      "suggest": "home",
+      "suggestUnits": 2.85,
+      "games": 4,
+      "result": "pending"
+    }
+  ],
   "candidates": [
     {
       "pitcher": "Cade Cavalli",
