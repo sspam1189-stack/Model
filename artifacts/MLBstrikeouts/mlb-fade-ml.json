@@ -1,7 +1,7 @@
 {
   "sport": "MLB",
   "type": "fade-ml",
-  "generated": "2026-08-07T20:13:20Z",
+  "generated": "2026-08-07T21:02:44Z",
   "fadeList": [
     "Painter",
     "Rocker",
@@ -222,6 +222,30 @@
       "away": "CLE",
       "gamePk": 824566,
       "fadeReason": "all"
+    },
+    {
+      "date": "2026-08-07",
+      "commence": "2026-08-08T00:10:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Kevin Gausman"
+      ],
+      "fadeTeam": "CHC",
+      "market": "h2h",
+      "selection": "KC",
+      "line": null,
+      "odds": 150,
+      "stake": 1.0,
+      "result": "pending",
+      "profit": 0.0,
+      "book": "fanduel",
+      "source": "fanduel_api",
+      "reason": null,
+      "home": "KC",
+      "away": "CHC",
+      "gamePk": 824081,
+      "fadeReason": "away"
     }
   ],
   "bets": [
