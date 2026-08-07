@@ -3,6 +3,7 @@
 // / ml_backfill.py). Three bet types on fade-list games:
 //   ml      - single fade arm -> bet the OPPONENT moneyline
 //   ml_dog  - mutual fade (both starters fade) -> bet the UNDERDOG moneyline
+//             (retired 2026-08-07: mutual games are skipped going forward)
 //   total   - OVER on the game total (fade arm -> more runs)
 
 async function renderMLBFadeML() {
@@ -176,7 +177,7 @@ async function renderMLBFadeML() {
     + bigStat('ROI', roiPct(cRoi), uColor(cU))
     + bigStat('Risked', cStk.toFixed(1) + 'u')
     + '</div>'
-    + subLine(ORANGE, 'Fade-list moneyline — fade the pitcher, underdog on mutual', s, ' · ' + (s.voids || 0) + ' voids')
+    + subLine(ORANGE, 'Fade-list moneyline — fade the pitcher, mutual games skipped since 8/7', s, ' · ' + (s.voids || 0) + ' voids')
     + (hf && (hf.wins || hf.losses) ? subLine(TEAL, 'Hand-fade ML — fade the arm on 6+ opposite-hand lineups', hf, '') : '');
   el.appendChild(banner);
 
@@ -230,7 +231,7 @@ async function renderMLBFadeML() {
   // ---- Per-type sub-records ----
   const typeMeta = [
     ['ml', 'Fade ML (opp)', 'Single fade arm → opponent moneyline'],
-    ['ml_dog', 'Mutual → dog', 'Both starters fade → underdog ML'],
+    ['ml_dog', 'Mutual → dog', 'Both starters fade → underdog ML (retired 8/7)'],
   ];
   const chips = document.createElement('div');
   chips.style.cssText = 'display:flex;gap:10px;flex-wrap:wrap;margin-bottom:16px';

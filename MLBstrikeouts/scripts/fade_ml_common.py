@@ -6,7 +6,9 @@
 #   ml      - single fade arm: bet the OPPONENT's moneyline.
 #   ml_dog  - MUTUAL fade (both starters fade): bet per MUTUAL_FADE_RULE.
 #             'underdog' (default) bets the underdog ML; 'favorite' the fav;
-#             'skip' places no ML bet.
+#             'skip' places no ML bet. Retired 2026-08-07: dates on/after
+#             MUTUAL_SKIP_START are always 'skip' (walk-forward; history
+#             keeps its original grading).
 #   total   - OVER on the game total (a fade arm -> worse pitcher -> more runs).
 #
 # One serializer builds the record for both the live and backfill paths, so
@@ -46,6 +48,18 @@ MUTUAL_FADE_RULE = os.environ.get("MUTUAL_FADE_RULE", "underdog_min")
 # Minimum underdog price (American odds) to bet a mutual game under
 # underdog_min. Dogs priced below this (incl. pickem/favorites) are skipped.
 MUTUAL_DOG_MIN = int(os.environ.get("MUTUAL_DOG_MIN", "120"))
+# Mutual dogs retired 2026-08-07: from this date onward mutual games place no
+# ML bet (rule forced to 'skip'). Walk-forward only -- earlier dates keep the
+# MUTUAL_FADE_RULE grading above so the season record is unchanged. Set to ""
+# to disable the cutoff.
+MUTUAL_SKIP_START = os.environ.get("MUTUAL_SKIP_START", "2026-08-07")
+
+
+def mutual_rule_for(date):
+    """Effective mutual-fade rule for an ISO date (skip on/after cutoff)."""
+    if MUTUAL_SKIP_START and date and date >= MUTUAL_SKIP_START:
+        return "skip"
+    return MUTUAL_FADE_RULE
 
 # Bet types that make up the record (moneyline only).
 REAL_BET_TYPES = ("ml", "ml_dog")
@@ -276,22 +290,23 @@ def build_bets_for_game(date, fg, g, odds_row):
 
     # ----- moneyline leg -----
     if fg["mutual"]:
-        if MUTUAL_FADE_RULE == "skip":
+        rule = mutual_rule_for(date)
+        if rule == "skip":
             bets.append(_bet(date, commence, "ml_dog", fg, "h2h", None, None,
                              None, "SKIP", "mutual_skip", source=source))
         elif odds_row and odds_row.get("home_ml") is not None:
             home, away = g["home"], g["away"]
             mls = {home: odds_row["home_ml"], away: odds_row["away_ml"]}
-            if MUTUAL_FADE_RULE == "favorite":
+            if rule == "favorite":
                 team = min(mls, key=lambda t: mls[t])
             else:  # underdog / home_underdog
                 team = max(mls, key=lambda t: mls[t])
-            if MUTUAL_FADE_RULE == "home_underdog" and team != home:
+            if rule == "home_underdog" and team != home:
                 # Road dog on a mutual game -> no bet (home-dog-only rule).
                 bets.append(_bet(date, commence, "ml_dog", fg, "h2h", None,
                                  None, None, "SKIP", "road_dog_skip",
                                  source=source))
-            elif MUTUAL_FADE_RULE == "underdog_min" and mls[team] < MUTUAL_DOG_MIN:
+            elif rule == "underdog_min" and mls[team] < MUTUAL_DOG_MIN:
                 # Dog below the price floor (near-pickem) -> no bet.
                 bets.append(_bet(date, commence, "ml_dog", fg, "h2h", None,
                                  None, None, "SKIP", "dog_below_min",
@@ -386,7 +401,7 @@ def build_payload(bets, today, generated=None):
         "generated": generated or datetime.datetime.now(
             datetime.timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
         "fadeList": list(FADE_LIST),
-        "mutualRule": MUTUAL_FADE_RULE,
+        "mutualRule": mutual_rule_for(datetime.date.today().isoformat()),
         "summary": compute_summary(bets),
         "today": today,
         "bets": bets,
