@@ -1,76 +1,12 @@
 {
   "sport": "MLB",
   "type": "fade-watch",
-  "generated": "2026-08-08T00:34:55Z",
+  "generated": "2026-08-08T13:11:21Z",
   "minGames": 3,
   "minUnits": 2.5,
   "note": "Shadow review list -- arms NOT on the active fade list whose home or away fade clears the bar (>= 3 games, >= +2.5u). In-sample season replay; watch, don't bet. Promote by editing scripts/fade_list.py.",
-  "today": [
-    {
-      "date": "2026-08-07",
-      "commence": "2026-08-07T22:45:00Z",
-      "betType": "fade_watch",
-      "watch": true,
-      "pitcher": "Cade Cavalli",
-      "arm_team": "WSH",
-      "fadeTeam": "WSH",
-      "selection": "CIN",
-      "home": "WSH",
-      "away": "CIN",
-      "venue": "home",
-      "odds": 110,
-      "suggest": "home",
-      "suggestUnits": 6.32,
-      "games": 12,
-      "result": "pending"
-    },
-    {
-      "date": "2026-08-07",
-      "commence": "2026-08-07T23:05:00Z",
-      "betType": "fade_watch",
-      "watch": true,
-      "pitcher": "Max Fried",
-      "arm_team": "NYY",
-      "fadeTeam": "NYY",
-      "selection": "ATL",
-      "home": "NYY",
-      "away": "ATL",
-      "venue": "home",
-      "odds": 114,
-      "suggest": "home",
-      "suggestUnits": 2.85,
-      "games": 4,
-      "result": "pending"
-    }
-  ],
+  "today": [],
   "candidates": [
-    {
-      "pitcher": "Cade Cavalli",
-      "team": "WSH",
-      "suggest": "home",
-      "suggestUnits": 6.32,
-      "all": {
-        "w": 12,
-        "l": 9,
-        "u": 1.86,
-        "n": 21,
-        "roi": 0.0744
-      },
-      "home": {
-        "w": 9,
-        "l": 3,
-        "u": 6.32,
-        "n": 12,
-        "roi": 0.4627
-      },
-      "away": {
-        "w": 3,
-        "l": 6,
-        "u": -4.46,
-        "n": 9,
-        "roi": -0.3933
-      }
-    },
     {
       "pitcher": "Max Scherzer",
       "team": "TOR",
@@ -96,6 +32,33 @@
         "u": -0.24,
         "n": 2,
         "roi": -0.087
+      }
+    },
+    {
+      "pitcher": "Cade Cavalli",
+      "team": "WSH",
+      "suggest": "home",
+      "suggestUnits": 5.32,
+      "all": {
+        "w": 12,
+        "l": 10,
+        "u": 0.86,
+        "n": 22,
+        "roi": 0.0331
+      },
+      "home": {
+        "w": 9,
+        "l": 4,
+        "u": 5.32,
+        "n": 13,
+        "roi": 0.3629
+      },
+      "away": {
+        "w": 3,
+        "l": 6,
+        "u": -4.46,
+        "n": 9,
+        "roi": -0.3933
       }
     },
     {
@@ -258,6 +221,33 @@
         "u": -1.74,
         "n": 4,
         "roi": -0.4244
+      }
+    },
+    {
+      "pitcher": "Shane Drohan",
+      "team": "MIL",
+      "suggest": "home",
+      "suggestUnits": 3.0,
+      "all": {
+        "w": 6,
+        "l": 7,
+        "u": 1.2,
+        "n": 13,
+        "roi": 0.0894
+      },
+      "home": {
+        "w": 4,
+        "l": 3,
+        "u": 3.0,
+        "n": 7,
+        "roi": 0.4286
+      },
+      "away": {
+        "w": 2,
+        "l": 4,
+        "u": -1.8,
+        "n": 6,
+        "roi": -0.2804
       }
     },
     {
@@ -450,33 +440,6 @@
       }
     },
     {
-      "pitcher": "Max Fried",
-      "team": "NYY",
-      "suggest": "home",
-      "suggestUnits": 2.85,
-      "all": {
-        "w": 6,
-        "l": 5,
-        "u": 4.73,
-        "n": 11,
-        "roi": 0.4231
-      },
-      "home": {
-        "w": 2,
-        "l": 2,
-        "u": 2.85,
-        "n": 4,
-        "roi": 0.7125
-      },
-      "away": {
-        "w": 4,
-        "l": 3,
-        "u": 1.88,
-        "n": 7,
-        "roi": 0.2618
-      }
-    },
-    {
       "pitcher": "Dean Kremer",
       "team": "MIN",
       "suggest": "away",
@@ -510,10 +473,10 @@
       "suggestUnits": 2.62,
       "all": {
         "w": 8,
-        "l": 6,
-        "u": 0.86,
-        "n": 14,
-        "roi": 0.0475
+        "l": 7,
+        "u": -0.82,
+        "n": 15,
+        "roi": -0.0415
       },
       "home": {
         "w": 4,
@@ -524,10 +487,10 @@
       },
       "away": {
         "w": 4,
-        "l": 4,
-        "u": -1.76,
-        "n": 8,
-        "roi": -0.1528
+        "l": 5,
+        "u": -3.44,
+        "n": 9,
+        "roi": -0.2606
       }
     },
     {

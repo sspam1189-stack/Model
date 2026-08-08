@@ -1,7 +1,7 @@
 {
   "sport": "MLB",
   "type": "hand-tails-watch",
-  "generated": "2026-08-08T00:34:54Z",
+  "generated": "2026-08-08T13:11:20Z",
   "handMin": 6,
   "minGames": 3,
   "minUnits": 2.5,
@@ -9,48 +9,92 @@
   "note": "Shadow review list -- arms NOT on the active hand-tails list showing a handedness-conditional edge (fade or take). The active list is fade-only, so all tail/take arms are review-only here. In-sample season replay; watch, don't bet.",
   "today": [
     {
-      "date": "2026-08-07",
-      "commence": "2026-08-08T00:15:00Z",
-      "betType": "watch_take",
-      "action": "take",
+      "date": "2026-08-08",
+      "commence": "2026-08-08T22:05:00Z",
+      "betType": "watch_fade",
+      "action": "fade",
       "watch": true,
-      "pitcher": "Kyle Leahy",
+      "pitcher": "Max Scherzer",
       "hand": "R",
-      "arm_team": "STL",
-      "opp_team": "COL",
-      "selection": "STL",
-      "home": "STL",
-      "away": "COL",
-      "oppLefty": 7,
-      "oppRighty": 4,
-      "lineupConfirmed": true,
-      "odds": -164,
-      "suggest": "take",
-      "suggestUnits": 4.84,
-      "games": 6,
-      "result": "pending"
+      "arm_team": "TOR",
+      "opp_team": "PHI",
+      "selection": "PHI",
+      "home": "PHI",
+      "away": "TOR",
+      "oppLefty": 6,
+      "oppRighty": 3,
+      "lineupConfirmed": false,
+      "odds": null,
+      "suggest": "fade",
+      "suggestUnits": 2.92,
+      "games": 5,
+      "result": "unconfirmed"
     },
     {
-      "date": "2026-08-07",
-      "commence": "2026-08-08T01:40:00Z",
+      "date": "2026-08-08",
+      "commence": "2026-08-08T22:45:00Z",
       "betType": "watch_take",
       "action": "take",
       "watch": true,
-      "pitcher": "Robbie Ray",
-      "hand": "L",
-      "arm_team": "SD",
-      "opp_team": "HOU",
-      "selection": "SD",
-      "home": "SD",
-      "away": "HOU",
-      "oppLefty": 2,
-      "oppRighty": 7,
-      "lineupConfirmed": true,
-      "odds": -110,
+      "pitcher": "Chase Burns",
+      "hand": "R",
+      "arm_team": "CIN",
+      "opp_team": "WSH",
+      "selection": "CIN",
+      "home": "WSH",
+      "away": "CIN",
+      "oppLefty": 7,
+      "oppRighty": 4,
+      "lineupConfirmed": false,
+      "odds": null,
       "suggest": "take",
-      "suggestUnits": 6.76,
-      "games": 18,
-      "result": "pending"
+      "suggestUnits": 7.52,
+      "games": 12,
+      "result": "unconfirmed"
+    },
+    {
+      "date": "2026-08-08",
+      "commence": "2026-08-08T23:15:00Z",
+      "betType": "watch_take",
+      "action": "take",
+      "watch": true,
+      "pitcher": "Anthony Kay",
+      "hand": "L",
+      "arm_team": "CWS",
+      "opp_team": "CLE",
+      "selection": "CWS",
+      "home": "CWS",
+      "away": "CLE",
+      "oppLefty": 6,
+      "oppRighty": 6,
+      "lineupConfirmed": false,
+      "odds": null,
+      "suggest": "take",
+      "suggestUnits": 5.8,
+      "games": 17,
+      "result": "unconfirmed"
+    },
+    {
+      "date": "2026-08-08",
+      "commence": "2026-08-09T00:10:00Z",
+      "betType": "watch_take",
+      "action": "take",
+      "watch": true,
+      "pitcher": "Brandon Pfaadt",
+      "hand": "R",
+      "arm_team": "ARI",
+      "opp_team": "LAD",
+      "selection": "ARI",
+      "home": "ARI",
+      "away": "LAD",
+      "oppLefty": 6,
+      "oppRighty": 4,
+      "lineupConfirmed": false,
+      "odds": null,
+      "suggest": "take",
+      "suggestUnits": 4.4,
+      "games": 3,
+      "result": "unconfirmed"
     }
   ],
   "candidates": [
@@ -163,22 +207,22 @@
       "era": 2.65
     },
     {
-      "pitcher": "Robbie Ray",
-      "hand": "L",
-      "games": 18,
+      "pitcher": "Kyle Leahy",
+      "hand": "R",
+      "games": 7,
       "suggest": "take",
-      "suggestUnits": 6.76,
+      "suggestUnits": 5.84,
       "fade": {
-        "w": 6,
-        "l": 12,
-        "u": -8.64
+        "w": 1,
+        "l": 6,
+        "u": -6.62
       },
       "take": {
-        "w": 12,
-        "l": 6,
-        "u": 6.76
+        "w": 6,
+        "l": 1,
+        "u": 5.84
       },
-      "era": 3.25
+      "era": 3.45
     },
     {
       "pitcher": "Anthony Kay",
@@ -215,6 +259,24 @@
         "u": 5.74
       },
       "era": 3.92
+    },
+    {
+      "pitcher": "Robbie Ray",
+      "hand": "L",
+      "games": 19,
+      "suggest": "take",
+      "suggestUnits": 5.66,
+      "fade": {
+        "w": 7,
+        "l": 12,
+        "u": -7.62
+      },
+      "take": {
+        "w": 12,
+        "l": 7,
+        "u": 5.66
+      },
+      "era": 3.41
     },
     {
       "pitcher": "Tomoyuki Sugano",
@@ -359,24 +421,6 @@
         "u": 4.9
       },
       "era": 3.41
-    },
-    {
-      "pitcher": "Kyle Leahy",
-      "hand": "R",
-      "games": 6,
-      "suggest": "take",
-      "suggestUnits": 4.84,
-      "fade": {
-        "w": 1,
-        "l": 5,
-        "u": -5.62
-      },
-      "take": {
-        "w": 5,
-        "l": 1,
-        "u": 4.84
-      },
-      "era": 3.44
     },
     {
       "pitcher": "Jacob Misiorowski",
@@ -574,7 +618,7 @@
         "l": 3,
         "u": -3.8
       },
-      "era": 7.38
+      "era": 7.88
     },
     {
       "pitcher": "Bryan Woo",
