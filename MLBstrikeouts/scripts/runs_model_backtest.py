@@ -261,6 +261,7 @@ def main():
 
         off_sp = defaultdict(lambda: defaultdict(float))   # (team, hand) -> agg
         off_rp = defaultdict(lambda: defaultdict(float))   # team -> agg
+        pen_allowed = defaultdict(lambda: defaultdict(float))  # team -> agg vs their bullpen
         lg_sp = defaultdict(lambda: defaultdict(float))    # hand -> agg
         lg_rp = defaultdict(float)
         for r in hist:
@@ -270,6 +271,7 @@ def main():
                 add_row(lg_sp[r["opp_hand"]], r, wt)
             else:
                 add_row(off_rp[r["team"]], r, wt)
+                add_row(pen_allowed[r["opp"]], r, wt)  # r = offense vs opp's bullpen
                 add_row(lg_rp, r, wt)
 
         lg_sp_w = {h: woba_of(lg_sp[h]) for h in ("L", "R")}
@@ -321,9 +323,15 @@ def main():
                 off_exposure = (1.0 + park_tb(off_team)) / 2.0
                 pit_exposure = (1.0 + park_tb(opp_team)) / 2.0
 
+                # opposing bullpen allowed quality (their RP-role rows), shrunk
+                pen = pen_allowed.get(opp_team)
+                pen_w = shrink(woba_of(pen) if pen else None, pen["pa"] if pen else 0.0,
+                               lg_rp_w or 0.310, PRIOR_PA_OFF)
+
                 # combine offense vs pitcher around the league split (ratio space)
                 w_vs_sp = lg_split * (off_w / lg_split / off_exposure) * (pit_w / lg_split / pit_exposure)
-                w_vs_rp = (lg_rp_w or 0.310) * (off_w_rp / (lg_rp_w or 0.310) / off_exposure)
+                w_vs_rp = (lg_rp_w or 0.310) * (off_w_rp / (lg_rp_w or 0.310) / off_exposure) \
+                                             * (pen_w / (lg_rp_w or 0.310) / pit_exposure)
 
                 rppa_sp = lg_rppa + (w_vs_sp - lg_split) / WOBA_SCALE
                 rppa_rp = lg_rppa + (w_vs_rp - (lg_rp_w or 0.310)) / WOBA_SCALE
