@@ -197,7 +197,15 @@ def main():
     ap.add_argument("--start", default="2026-05-01")
     ap.add_argument("--no-decay", action="store_true")
     ap.add_argument("--half-life", type=float, default=45.0)
+    ap.add_argument("--hfa", type=float, default=None, help="override HFA_RUNS")
+    ap.add_argument("--vmr", type=float, default=None, help="override NB_VMR")
+    ap.add_argument("--dump", default=None, help="write per-game predictions JSON here")
     args = ap.parse_args()
+    global HFA_RUNS, NB_VMR
+    if args.hfa is not None:
+        HFA_RUNS = args.hfa
+    if args.vmr is not None:
+        NB_VMR = args.vmr
 
     rows = json.load(open(PA_SPLITS))
     rows.sort(key=lambda r: r["game_date"])
@@ -333,6 +341,23 @@ def main():
                 "p_home": p_home, "p_over": p_over, "p_push": p_push,
             })
 
+    if args.dump:
+        out = []
+        for r in results:
+            g = r["g"]
+            out.append({
+                "date": g["date"], "home": g["home"], "away": g["away"],
+                "home_ml": g.get("home_ml"), "away_ml": g.get("away_ml"),
+                "total_line": g.get("total_line"),
+                "over_ml": g.get("over_ml"), "under_ml": g.get("under_ml"),
+                "home_score": g["home_score"], "away_score": g["away_score"],
+                "home_win": g.get("home_win"),
+                "mu_home": r["mu_home"], "mu_away": r["mu_away"],
+                "p_home": r["p_home"], "p_over": r["p_over"],
+            })
+        with open(args.dump, "w") as f:
+            json.dump(out, f)
+        print(f"dumped {len(out)} predictions -> {args.dump}")
     report(results)
 
 
