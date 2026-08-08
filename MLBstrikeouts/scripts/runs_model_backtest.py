@@ -197,6 +197,8 @@ def main():
     ap.add_argument("--start", default="2026-05-01")
     ap.add_argument("--no-decay", action="store_true")
     ap.add_argument("--half-life", type=float, default=45.0)
+    ap.add_argument("--window-days", type=int, default=0,
+                    help="hard cutoff: ignore data older than N days (0 = use all)")
     ap.add_argument("--hfa", type=float, default=None, help="override HFA_RUNS")
     ap.add_argument("--vmr", type=float, default=None, help="override NB_VMR")
     ap.add_argument("--dump", default=None, help="write per-game predictions JSON here")
@@ -265,6 +267,8 @@ def main():
         lg_sp = defaultdict(lambda: defaultdict(float))    # hand -> agg
         lg_rp = defaultdict(float)
         for r in hist:
+            if args.window_days and today - dord(r["game_date"]) > args.window_days:
+                continue
             wt = 1.0 if args.no_decay else 0.5 ** ((today - dord(r["game_date"])) / args.half_life)
             if r["role"] == "SP":
                 add_row(off_sp[(r["team"], r["opp_hand"])], r, wt)
@@ -287,6 +291,8 @@ def main():
             n_starts, bf_sum, wsum = 0, 0.0, 0.0
             for (sdate, opp_team, own_team) in starts.get(name, ()):
                 if sdate >= date:
+                    continue
+                if args.window_days and today - dord(sdate) > args.window_days:
                     continue
                 row = pa_idx.get((sdate, opp_team, own_team, "SP"))
                 if not row:
