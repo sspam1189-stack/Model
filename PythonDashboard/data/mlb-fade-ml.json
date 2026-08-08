@@ -1,7 +1,7 @@
 {
   "sport": "MLB",
   "type": "fade-ml",
-  "generated": "2026-08-08T21:05:06Z",
+  "generated": "2026-08-08T22:13:58Z",
   "fadeList": [
     "Painter",
     "Rocker",
@@ -74,21 +74,21 @@
   "mutualRule": "skip",
   "summary": {
     "wins": 434,
-    "losses": 148,
+    "losses": 149,
     "voids": 0,
     "skips": 37,
-    "staked": 720.79,
-    "units": 299.21,
-    "roi": 0.4151,
+    "staked": 722.25,
+    "units": 297.75,
+    "roi": 0.4123,
     "byType": {
       "ml": {
         "wins": 424,
-        "losses": 140,
+        "losses": 141,
         "voids": 0,
         "skips": 2,
-        "staked": 702.79,
-        "units": 294.17,
-        "roi": 0.4186
+        "staked": 704.25,
+        "units": 292.71,
+        "roi": 0.4156
       },
       "ml_dog": {
         "wins": 10,
@@ -102,30 +102,6 @@
     }
   },
   "today": [
-    {
-      "date": "2026-08-08",
-      "commence": "2026-08-08T19:05:00Z",
-      "betType": "ml",
-      "shadow": false,
-      "pitchers": [
-        "Gerrit Cole"
-      ],
-      "fadeTeam": "NYY",
-      "market": "h2h",
-      "selection": "ATL",
-      "line": null,
-      "odds": -146,
-      "stake": 1.46,
-      "result": "pending",
-      "profit": 0.0,
-      "book": "fanduel",
-      "source": "fanduel_api",
-      "reason": null,
-      "home": "NYY",
-      "away": "ATL",
-      "gamePk": 823514,
-      "fadeReason": "home"
-    },
     {
       "date": "2026-08-08",
       "commence": "2026-08-08T20:10:00Z",
@@ -15108,6 +15084,30 @@
       "away": "COL",
       "gamePk": 823024,
       "fadeReason": "away"
+    },
+    {
+      "date": "2026-08-08",
+      "commence": "2026-08-08T19:05:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Gerrit Cole"
+      ],
+      "fadeTeam": "NYY",
+      "market": "h2h",
+      "selection": "ATL",
+      "line": null,
+      "odds": -146,
+      "stake": 1.46,
+      "result": "LOSS",
+      "profit": -1.46,
+      "book": "fanduel",
+      "source": "fanduel_api",
+      "reason": null,
+      "home": "NYY",
+      "away": "ATL",
+      "gamePk": 823514,
+      "fadeReason": "home"
     }
   ]
 }
