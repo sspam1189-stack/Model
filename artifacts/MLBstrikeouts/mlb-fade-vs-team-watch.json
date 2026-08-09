@@ -1,7 +1,7 @@
 {
   "sport": "MLB",
   "type": "fade-vs-team-watch",
-  "generated": "2026-08-09T00:34:23Z",
+  "generated": "2026-08-09T13:08:20Z",
   "seasonStart": "2026-04-05",
   "minStarts": 2,
   "minEra": 6.0,
@@ -87,6 +87,22 @@
         "u": -1.0,
         "n": 2,
         "roi": -0.3125
+      }
+    },
+    {
+      "pitcher": "Max Scherzer",
+      "opp": "PHI",
+      "arm_team": "TOR",
+      "eraVsOpp": 7.27,
+      "ipVsOpp": 8.7,
+      "erVsOpp": 7,
+      "startsVsOpp": 2,
+      "fadeRecord": {
+        "w": 1,
+        "l": 1,
+        "u": -0.72,
+        "n": 2,
+        "roi": -0.2368
       }
     },
     {
@@ -231,7 +247,8 @@
         "u": 0.4,
         "n": 2,
         "roi": 0.2
-      }
+      },
+      "excluded": true
     },
     {
       "pitcher": "Jacob deGrom",

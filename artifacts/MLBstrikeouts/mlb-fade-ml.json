@@ -1,7 +1,7 @@
 {
   "sport": "MLB",
   "type": "fade-ml",
-  "generated": "2026-08-09T00:31:38Z",
+  "generated": "2026-08-09T13:05:36Z",
   "fadeList": [
     "Painter",
     "Rocker",
@@ -73,22 +73,22 @@
   ],
   "mutualRule": "skip",
   "summary": {
-    "wins": 434,
-    "losses": 150,
+    "wins": 435,
+    "losses": 151,
     "voids": 0,
     "skips": 37,
-    "staked": 724.75,
-    "units": 295.25,
-    "roi": 0.4074,
+    "staked": 727.29,
+    "units": 295.29,
+    "roi": 0.406,
     "byType": {
       "ml": {
-        "wins": 424,
-        "losses": 142,
+        "wins": 425,
+        "losses": 143,
         "voids": 0,
         "skips": 2,
-        "staked": 706.75,
-        "units": 290.21,
-        "roi": 0.4106
+        "staked": 709.29,
+        "units": 290.25,
+        "roi": 0.4092
       },
       "ml_dog": {
         "wins": 10,
@@ -103,52 +103,52 @@
   },
   "today": [
     {
-      "date": "2026-08-08",
-      "commence": "2026-08-08T23:15:00Z",
+      "date": "2026-08-09",
+      "commence": "2026-08-09T16:15:00Z",
       "betType": "ml",
       "shadow": false,
       "pitchers": [
-        "Kyle Freeland"
+        "Brady Singer"
       ],
-      "fadeTeam": "COL",
+      "fadeTeam": "CIN",
       "market": "h2h",
-      "selection": "STL",
+      "selection": "WSH",
       "line": null,
-      "odds": -154,
-      "stake": 1.54,
-      "result": "pending",
-      "profit": 0.0,
-      "book": "fanduel",
-      "source": "fanduel_api",
-      "reason": null,
-      "home": "STL",
-      "away": "COL",
-      "gamePk": 823021,
-      "fadeReason": "away"
-    },
-    {
-      "date": "2026-08-08",
-      "commence": "2026-08-08T22:05:00Z",
-      "betType": "ml",
-      "shadow": false,
-      "pitchers": [
-        "Aaron Nola"
-      ],
-      "fadeTeam": "PHI",
-      "market": "h2h",
-      "selection": "TOR",
-      "line": null,
-      "odds": 158,
+      "odds": 100,
       "stake": 1.0,
       "result": "pending",
       "profit": 0.0,
       "book": "fanduel",
       "source": "fanduel_api",
       "reason": null,
-      "home": "PHI",
-      "away": "TOR",
-      "gamePk": 823426,
-      "fadeReason": "home"
+      "home": "WSH",
+      "away": "CIN",
+      "gamePk": 822700,
+      "fadeReason": "away"
+    },
+    {
+      "date": "2026-08-09",
+      "commence": "2026-08-09T18:10:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Connor Prielipp"
+      ],
+      "fadeTeam": "MIN",
+      "market": "h2h",
+      "selection": "MIL",
+      "line": null,
+      "odds": -240,
+      "stake": 2.4,
+      "result": "pending",
+      "profit": 0.0,
+      "book": "fanduel",
+      "source": "fanduel_api",
+      "reason": null,
+      "home": "MIL",
+      "away": "MIN",
+      "gamePk": 823751,
+      "fadeReason": "away"
     }
   ],
   "bets": [
@@ -15108,6 +15108,54 @@
       "away": "OAK",
       "gamePk": 824726,
       "fadeReason": "all"
+    },
+    {
+      "date": "2026-08-08",
+      "commence": "2026-08-08T22:05:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Aaron Nola"
+      ],
+      "fadeTeam": "PHI",
+      "market": "h2h",
+      "selection": "TOR",
+      "line": null,
+      "odds": 158,
+      "stake": 1.0,
+      "result": "WIN",
+      "profit": 1.58,
+      "book": "fanduel",
+      "source": "fanduel_api",
+      "reason": null,
+      "home": "PHI",
+      "away": "TOR",
+      "gamePk": 823426,
+      "fadeReason": "home"
+    },
+    {
+      "date": "2026-08-08",
+      "commence": "2026-08-08T23:15:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Kyle Freeland"
+      ],
+      "fadeTeam": "COL",
+      "market": "h2h",
+      "selection": "STL",
+      "line": null,
+      "odds": -154,
+      "stake": 1.54,
+      "result": "LOSS",
+      "profit": -1.54,
+      "book": "fanduel",
+      "source": "fanduel_api",
+      "reason": null,
+      "home": "STL",
+      "away": "COL",
+      "gamePk": 823021,
+      "fadeReason": "away"
     }
   ]
 }

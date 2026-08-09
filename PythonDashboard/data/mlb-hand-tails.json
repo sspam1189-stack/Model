@@ -1,7 +1,7 @@
 {
   "sport": "MLB",
   "type": "hand-tails",
-  "generated": "2026-08-09T00:33:16Z",
+  "generated": "2026-08-09T13:07:13Z",
   "handMin": 6,
   "roster": {
     "Andrew Painter": {
@@ -89,18 +89,18 @@
   "promotions": [],
   "demotions": [],
   "summary": {
-    "wins": 38,
+    "wins": 39,
     "losses": 14,
-    "units": 24.22,
-    "staked": 62.86,
-    "roi": 0.3853,
+    "units": 25.42,
+    "staked": 63.86,
+    "roi": 0.3981,
     "byAction": {
       "fade": {
-        "wins": 38,
+        "wins": 39,
         "losses": 14,
-        "units": 24.22,
-        "staked": 62.86,
-        "roi": 0.3853
+        "units": 25.42,
+        "staked": 63.86,
+        "roi": 0.3981
       },
       "take": {
         "wins": 0,
@@ -112,11 +112,11 @@
     },
     "byHand": {
       "R": {
-        "wins": 21,
+        "wins": 22,
         "losses": 8,
-        "units": 12.56,
-        "staked": 35.52,
-        "roi": 0.3536
+        "units": 13.76,
+        "staked": 36.52,
+        "roi": 0.3768
       },
       "L": {
         "wins": 17,
@@ -129,24 +129,24 @@
   },
   "today": [
     {
-      "date": "2026-08-08",
-      "commence": "2026-08-09T01:50:00Z",
+      "date": "2026-08-09",
+      "commence": "2026-08-09T16:15:00Z",
       "betType": "hand_fade",
       "action": "fade",
-      "pitcher": "George Kirby",
-      "entry": "George Kirby",
+      "pitcher": "Brady Singer",
+      "entry": "Brady Singer",
       "hand": "R",
-      "arm_team": "SEA",
-      "opp_team": "TB",
-      "selection": "TB",
-      "home": "SEA",
-      "away": "TB",
-      "oppLefty": 6,
+      "arm_team": "CIN",
+      "opp_team": "WSH",
+      "selection": "WSH",
+      "home": "WSH",
+      "away": "CIN",
+      "oppLefty": 7,
       "oppRighty": 4,
-      "lineupConfirmed": true,
-      "odds": 120,
-      "stake": 1.0,
-      "result": "pending",
+      "lineupConfirmed": false,
+      "odds": null,
+      "stake": null,
+      "result": "unconfirmed",
       "reason": null,
       "profit": 0.0,
       "book": "fanduel",
@@ -1399,6 +1399,30 @@
       "result": "LOSS",
       "reason": null,
       "profit": -1.72,
+      "book": "fanduel",
+      "source": "fanduel_api"
+    },
+    {
+      "date": "2026-08-08",
+      "commence": "2026-08-09T01:50:00Z",
+      "betType": "hand_fade",
+      "action": "fade",
+      "pitcher": "George Kirby",
+      "entry": "George Kirby",
+      "hand": "R",
+      "arm_team": "SEA",
+      "opp_team": "TB",
+      "selection": "TB",
+      "home": "SEA",
+      "away": "TB",
+      "oppLefty": 6,
+      "oppRighty": 4,
+      "lineupConfirmed": true,
+      "odds": 120,
+      "stake": 1.0,
+      "result": "WIN",
+      "reason": null,
+      "profit": 1.2,
       "book": "fanduel",
       "source": "fanduel_api"
     }

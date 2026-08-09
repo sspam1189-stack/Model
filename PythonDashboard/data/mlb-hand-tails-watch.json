@@ -1,7 +1,7 @@
 {
   "sport": "MLB",
   "type": "hand-tails-watch",
-  "generated": "2026-08-09T00:34:20Z",
+  "generated": "2026-08-09T13:08:17Z",
   "handMin": 6,
   "minGames": 3,
   "minUnits": 2.5,
@@ -9,92 +9,48 @@
   "note": "Shadow review list -- arms NOT on the active hand-tails list showing a handedness-conditional edge (fade or take). The active list is fade-only, so all tail/take arms are review-only here. In-sample season replay; watch, don't bet.",
   "today": [
     {
-      "date": "2026-08-08",
-      "commence": "2026-08-08T22:05:00Z",
-      "betType": "watch_fade",
-      "action": "fade",
-      "watch": true,
-      "pitcher": "Max Scherzer",
-      "hand": "R",
-      "arm_team": "TOR",
-      "opp_team": "PHI",
-      "selection": "PHI",
-      "home": "PHI",
-      "away": "TOR",
-      "oppLefty": 7,
-      "oppRighty": 2,
-      "lineupConfirmed": true,
-      "odds": -172,
-      "suggest": "fade",
-      "suggestUnits": 2.92,
-      "games": 5,
-      "result": "pending"
-    },
-    {
-      "date": "2026-08-08",
-      "commence": "2026-08-08T22:45:00Z",
+      "date": "2026-08-09",
+      "commence": "2026-08-09T18:10:00Z",
       "betType": "watch_take",
       "action": "take",
       "watch": true,
-      "pitcher": "Chase Burns",
-      "hand": "R",
-      "arm_team": "CIN",
-      "opp_team": "WSH",
-      "selection": "CIN",
-      "home": "WSH",
-      "away": "CIN",
-      "oppLefty": 7,
-      "oppRighty": 4,
-      "lineupConfirmed": true,
-      "odds": -130,
-      "suggest": "take",
-      "suggestUnits": 7.52,
-      "games": 12,
-      "result": "pending"
-    },
-    {
-      "date": "2026-08-08",
-      "commence": "2026-08-08T23:15:00Z",
-      "betType": "watch_take",
-      "action": "take",
-      "watch": true,
-      "pitcher": "Anthony Kay",
+      "pitcher": "Matthew Boyd",
       "hand": "L",
-      "arm_team": "CWS",
-      "opp_team": "CLE",
-      "selection": "CWS",
+      "arm_team": "CHC",
+      "opp_team": "KC",
+      "selection": "CHC",
+      "home": "KC",
+      "away": "CHC",
+      "oppLefty": 4,
+      "oppRighty": 6,
+      "lineupConfirmed": false,
+      "odds": null,
+      "suggest": "take",
+      "suggestUnits": 5.18,
+      "games": 9,
+      "result": "unconfirmed"
+    },
+    {
+      "date": "2026-08-09",
+      "commence": "2026-08-09T18:10:00Z",
+      "betType": "watch_take",
+      "action": "take",
+      "watch": true,
+      "pitcher": "Joey Cantillo",
+      "hand": "L",
+      "arm_team": "CLE",
+      "opp_team": "CWS",
+      "selection": "CLE",
       "home": "CWS",
       "away": "CLE",
-      "oppLefty": 6,
-      "oppRighty": 6,
-      "lineupConfirmed": true,
-      "odds": 116,
+      "oppLefty": 4,
+      "oppRighty": 7,
+      "lineupConfirmed": false,
+      "odds": null,
       "suggest": "take",
-      "suggestUnits": 5.8,
-      "games": 17,
-      "result": "pending"
-    },
-    {
-      "date": "2026-08-08",
-      "commence": "2026-08-09T00:10:00Z",
-      "betType": "watch_take",
-      "action": "take",
-      "watch": true,
-      "pitcher": "Brandon Pfaadt",
-      "hand": "R",
-      "arm_team": "ARI",
-      "opp_team": "LAD",
-      "selection": "ARI",
-      "home": "ARI",
-      "away": "LAD",
-      "oppLefty": 6,
-      "oppRighty": 4,
-      "lineupConfirmed": true,
-      "odds": 170,
-      "suggest": "take",
-      "suggestUnits": 4.4,
-      "games": 3,
-      "result": "pending"
+      "suggestUnits": 5.16,
+      "games": 19,
+      "result": "unconfirmed"
     }
   ],
   "candidates": [
@@ -150,25 +106,7 @@
         "l": 1,
         "u": 8.26
       },
-      "era": 3.68
-    },
-    {
-      "pitcher": "Chase Burns",
-      "hand": "R",
-      "games": 12,
-      "suggest": "take",
-      "suggestUnits": 7.52,
-      "fade": {
-        "w": 2,
-        "l": 10,
-        "u": -8.73
-      },
-      "take": {
-        "w": 10,
-        "l": 2,
-        "u": 7.52
-      },
-      "era": 2.35
+      "era": 3.52
     },
     {
       "pitcher": "Sonny Gray",
@@ -189,6 +127,24 @@
       "era": 2.78
     },
     {
+      "pitcher": "Anthony Kay",
+      "hand": "L",
+      "games": 18,
+      "suggest": "take",
+      "suggestUnits": 6.96,
+      "fade": {
+        "w": 6,
+        "l": 12,
+        "u": -9.02
+      },
+      "take": {
+        "w": 12,
+        "l": 6,
+        "u": 6.96
+      },
+      "era": 3.96
+    },
+    {
       "pitcher": "Cristopher S\u00e1nchez",
       "hand": "L",
       "games": 22,
@@ -207,6 +163,24 @@
       "era": 2.65
     },
     {
+      "pitcher": "Chase Burns",
+      "hand": "R",
+      "games": 13,
+      "suggest": "take",
+      "suggestUnits": 6.22,
+      "fade": {
+        "w": 3,
+        "l": 10,
+        "u": -7.51
+      },
+      "take": {
+        "w": 10,
+        "l": 3,
+        "u": 6.22
+      },
+      "era": 2.61
+    },
+    {
       "pitcher": "Kyle Leahy",
       "hand": "R",
       "games": 7,
@@ -223,24 +197,6 @@
         "u": 5.84
       },
       "era": 3.45
-    },
-    {
-      "pitcher": "Anthony Kay",
-      "hand": "L",
-      "games": 17,
-      "suggest": "take",
-      "suggestUnits": 5.8,
-      "fade": {
-        "w": 6,
-        "l": 11,
-        "u": -7.76
-      },
-      "take": {
-        "w": 11,
-        "l": 6,
-        "u": 5.8
-      },
-      "era": 4.02
     },
     {
       "pitcher": "Andrew Abbott",
@@ -531,24 +487,6 @@
       "era": 4.02
     },
     {
-      "pitcher": "Brandon Pfaadt",
-      "hand": "R",
-      "games": 3,
-      "suggest": "take",
-      "suggestUnits": 4.4,
-      "fade": {
-        "w": 0,
-        "l": 3,
-        "u": -5.15
-      },
-      "take": {
-        "w": 3,
-        "l": 0,
-        "u": 4.4
-      },
-      "era": 2.83
-    },
-    {
       "pitcher": "Kyle Harrison",
       "hand": "L",
       "games": 14,
@@ -763,24 +701,6 @@
         "u": -3.0
       },
       "era": 4.73
-    },
-    {
-      "pitcher": "Max Scherzer",
-      "hand": "R",
-      "games": 5,
-      "suggest": "fade",
-      "suggestUnits": 2.92,
-      "fade": {
-        "w": 4,
-        "l": 1,
-        "u": 2.92
-      },
-      "take": {
-        "w": 1,
-        "l": 4,
-        "u": -3.3
-      },
-      "era": 7.92
     },
     {
       "pitcher": "Luis Castillo",

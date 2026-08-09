@@ -1,45 +1,27 @@
 {
   "sport": "MLB",
   "type": "fade-watch",
-  "generated": "2026-08-09T00:34:21Z",
+  "generated": "2026-08-09T13:08:18Z",
   "minGames": 3,
   "minUnits": 2.5,
   "note": "Shadow review list -- arms NOT on the active fade list whose home or away fade clears the bar (>= 3 games, >= +2.5u). In-sample season replay; watch, don't bet. Promote by editing scripts/fade_list.py.",
   "today": [
     {
-      "date": "2026-08-08",
-      "commence": "2026-08-08T19:05:00Z",
+      "date": "2026-08-09",
+      "commence": "2026-08-09T20:10:00Z",
       "betType": "fade_watch",
       "watch": true,
-      "pitcher": "Chris Sale",
-      "arm_team": "ATL",
-      "fadeTeam": "ATL",
-      "selection": "NYY",
-      "home": "NYY",
-      "away": "ATL",
-      "venue": "away",
-      "odds": 136,
-      "suggest": "away",
-      "suggestUnits": 2.76,
-      "games": 11,
-      "result": "pending"
-    },
-    {
-      "date": "2026-08-08",
-      "commence": "2026-08-08T20:10:00Z",
-      "betType": "fade_watch",
-      "watch": true,
-      "pitcher": "Walbert Ure\u00f1a",
-      "arm_team": "LAA",
-      "fadeTeam": "LAA",
-      "selection": "MIA",
-      "home": "MIA",
-      "away": "LAA",
-      "venue": "away",
-      "odds": -154,
-      "suggest": "away",
-      "suggestUnits": 3.0,
-      "games": 8,
+      "pitcher": "Emerson Hancock",
+      "arm_team": "SEA",
+      "fadeTeam": "SEA",
+      "selection": "TB",
+      "home": "SEA",
+      "away": "TB",
+      "venue": "home",
+      "odds": 106,
+      "suggest": "home",
+      "suggestUnits": 2.98,
+      "games": 10,
       "result": "pending"
     }
   ],
@@ -51,10 +33,10 @@
       "suggestUnits": 5.32,
       "all": {
         "w": 6,
-        "l": 1,
-        "u": 5.08,
-        "n": 7,
-        "roi": 0.5893
+        "l": 2,
+        "u": 3.36,
+        "n": 8,
+        "roi": 0.325
       },
       "home": {
         "w": 5,
@@ -65,10 +47,10 @@
       },
       "away": {
         "w": 1,
-        "l": 1,
-        "u": -0.24,
-        "n": 2,
-        "roi": -0.087
+        "l": 2,
+        "u": -1.96,
+        "n": 3,
+        "roi": -0.4375
       }
     },
     {
@@ -105,10 +87,10 @@
       "suggestUnits": 3.62,
       "all": {
         "w": 6,
-        "l": 12,
-        "u": -0.64,
-        "n": 18,
-        "roi": -0.0356
+        "l": 13,
+        "u": -1.64,
+        "n": 19,
+        "roi": -0.0863
       },
       "home": {
         "w": 4,
@@ -119,10 +101,10 @@
       },
       "away": {
         "w": 2,
-        "l": 7,
-        "u": -4.26,
-        "n": 9,
-        "roi": -0.4733
+        "l": 8,
+        "u": -5.26,
+        "n": 10,
+        "roi": -0.526
       }
     },
     {
@@ -213,17 +195,17 @@
       "suggestUnits": 3.14,
       "all": {
         "w": 13,
-        "l": 8,
-        "u": 3.84,
-        "n": 21,
-        "roi": 0.1475
+        "l": 9,
+        "u": 2.34,
+        "n": 22,
+        "roi": 0.085
       },
       "home": {
         "w": 6,
-        "l": 5,
-        "u": 0.7,
-        "n": 11,
-        "roi": 0.0549
+        "l": 6,
+        "u": -0.8,
+        "n": 12,
+        "roi": -0.0561
       },
       "away": {
         "w": 7,
