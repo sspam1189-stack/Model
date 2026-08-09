@@ -35,6 +35,13 @@ MIN_ERA = 6.0      # ...and an ERA vs that team at or above this (watch floor)
 FADE_ERA = 8.0     # ...but below this -- ERA >= FADE_ERA auto-promotes to the
                    # FADE list (fade_vs_team.py), so the watch band is [6, 8).
 
+# Arms excluded from this watch screen (user-curated): never surfaced as a
+# candidate or a today's play, regardless of ERA vs any team. Token-matched
+# like fade_list entries (all tokens must appear in the pitcher's name).
+WATCH_EXCLUDE = [
+    "Max Fried",  # removed 2026-08-09 (user request)
+]
+
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 OUTPUT_PATHS = [
     os.path.normpath(os.path.join(SCRIPT_DIR, "..", "data", "mlb-fade-vs-team-watch.json")),
@@ -43,6 +50,14 @@ OUTPUT_PATHS = [
 ]
 GAMELOGS = os.path.normpath(os.path.join(
     SCRIPT_DIR, "..", "..", "data", "pitcher_cache", "mlb", "game_logs_2026.json"))
+
+
+_EXCLUDE_TOKENS = [toks for toks in (_norm(e).split() for e in WATCH_EXCLUDE) if toks]
+
+
+def _excluded(name):
+    toks = set(_norm(name).split())
+    return any(all(t in toks for t in entry) for entry in _EXCLUDE_TOKENS)
 
 
 def _rec(rows):
@@ -118,6 +133,8 @@ def build():
         if matched_entry(e["name"]):        # already faded all-venue
             continue
         if k in curated:                    # already on the curated vs-team list
+            continue
+        if _excluded(e["name"]):            # user-excluded from the watch screen
             continue
         cands.append({
             "pitcher": e["name"], "opp": opp, "arm_team": arm_team.get(k),
