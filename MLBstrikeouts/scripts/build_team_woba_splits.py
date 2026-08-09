@@ -63,7 +63,7 @@ W = {"bb": 0.69, "hbp": 0.72, "s": 0.88, "d": 1.24, "t": 1.57, "hr": 2.00}
 WOBA_SCALE = 1.24
 LG_R_PA = 0.117
 ASB_DATE = "2026-07-13"   # first game of the 2026 second half (post All-Star break)
-DEADLINE_DATE = "2026-08-01"  # first game day with post-trade-deadline rosters (deadline 7/31)
+DEADLINE_DATE = "2026-08-03"  # 2026 trade deadline day (Aug 3) -- window includes that day's games
 _ACC = ["pa", "ab", "h", "doubles", "triples", "hr", "bb", "hbp"]
 
 
