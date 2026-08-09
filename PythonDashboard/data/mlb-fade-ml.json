@@ -1,7 +1,7 @@
 {
   "sport": "MLB",
   "type": "fade-ml",
-  "generated": "2026-08-08T23:01:30Z",
+  "generated": "2026-08-09T00:31:38Z",
   "fadeList": [
     "Painter",
     "Rocker",
@@ -74,21 +74,21 @@
   "mutualRule": "skip",
   "summary": {
     "wins": 434,
-    "losses": 149,
+    "losses": 150,
     "voids": 0,
     "skips": 37,
-    "staked": 722.25,
-    "units": 297.75,
-    "roi": 0.4123,
+    "staked": 724.75,
+    "units": 295.25,
+    "roi": 0.4074,
     "byType": {
       "ml": {
         "wins": 424,
-        "losses": 141,
+        "losses": 142,
         "voids": 0,
         "skips": 2,
-        "staked": 704.25,
-        "units": 292.71,
-        "roi": 0.4156
+        "staked": 706.75,
+        "units": 290.21,
+        "roi": 0.4106
       },
       "ml_dog": {
         "wins": 10,
@@ -102,30 +102,6 @@
     }
   },
   "today": [
-    {
-      "date": "2026-08-08",
-      "commence": "2026-08-08T20:10:00Z",
-      "betType": "ml",
-      "shadow": false,
-      "pitchers": [
-        "Gage Jump"
-      ],
-      "fadeTeam": "OAK",
-      "market": "h2h",
-      "selection": "BOS",
-      "line": null,
-      "odds": -250,
-      "stake": 2.5,
-      "result": "pending",
-      "profit": 0.0,
-      "book": "fanduel",
-      "source": "fanduel_api",
-      "reason": null,
-      "home": "BOS",
-      "away": "OAK",
-      "gamePk": 824726,
-      "fadeReason": "all"
-    },
     {
       "date": "2026-08-08",
       "commence": "2026-08-08T23:15:00Z",
@@ -15108,6 +15084,30 @@
       "away": "ATL",
       "gamePk": 823514,
       "fadeReason": "home"
+    },
+    {
+      "date": "2026-08-08",
+      "commence": "2026-08-08T20:10:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Gage Jump"
+      ],
+      "fadeTeam": "OAK",
+      "market": "h2h",
+      "selection": "BOS",
+      "line": null,
+      "odds": -250,
+      "stake": 2.5,
+      "result": "LOSS",
+      "profit": -2.5,
+      "book": "fanduel",
+      "source": "fanduel_api",
+      "reason": null,
+      "home": "BOS",
+      "away": "OAK",
+      "gamePk": 824726,
+      "fadeReason": "all"
     }
   ]
 }
