@@ -18,7 +18,8 @@ NOTE: this is an approximation, not FanGraphs' exact wRC+ (which uses their
 proprietary park factors and exact yearly weights). It's park-neutral and uses
 fixed weights, so treat it as a relative gauge, not a to-the-point FG match.
 
-Windows: 'season', each calendar month present, and 'last30' / 'last15'
+Windows: 'season', 'asb' (since the All-Star break), 'deadline' (since the
+trade deadline), each calendar month present, and 'last30' / 'last15'
 (rolling from the latest game date). Writes mlb-team-woba-splits.json.
 
 Usage:
@@ -62,6 +63,7 @@ W = {"bb": 0.69, "hbp": 0.72, "s": 0.88, "d": 1.24, "t": 1.57, "hr": 2.00}
 WOBA_SCALE = 1.24
 LG_R_PA = 0.117
 ASB_DATE = "2026-07-13"   # first game of the 2026 second half (post All-Star break)
+DEADLINE_DATE = "2026-08-03"  # 2026 trade deadline day (Aug 3) -- window includes that day's games
 _ACC = ["pa", "ab", "h", "doubles", "triples", "hr", "bb", "hbp"]
 
 
@@ -141,6 +143,8 @@ def build():
             return lambda d: True
         if name == "asb":                        # since the All-Star break
             return lambda d: d >= ASB_DATE
+        if name == "deadline":                   # since the trade deadline
+            return lambda d: d >= DEADLINE_DATE
         if name.startswith("last"):
             k = int(name[4:])
             cutoff = (last - datetime.timedelta(days=k - 1)).isoformat()
@@ -158,7 +162,7 @@ def build():
                     and r.get("game_date")):
                 brecs.append((r["game_date"], r["batter_id"], r["opp_hand"], r))
 
-    windows = ["season", "asb"] + months + ["last15", "last20", "last30", "last45", "last60"]
+    windows = ["season", "asb", "deadline"] + months + ["last15", "last20", "last30", "last45", "last60"]
     ROLES = ("SP", "RP")
     VENUE_GROUPS = [(("home", "road"), None), (("home",), "home"), (("road",), "road")]
     out = {}
