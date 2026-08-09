@@ -1,7 +1,7 @@
 {
   "sport": "MLB",
   "type": "all-ml",
-  "generated": "2026-08-09T20:51:23Z",
+  "generated": "2026-08-09T21:01:31Z",
   "seasonStart": "2026-03-25",
   "today": [
     {
@@ -141,8 +141,8 @@
       "away_pitcher": "Matthew Boyd",
       "home_hand": "R",
       "away_hand": "L",
-      "home_win": null,
-      "final": false
+      "home_win": false,
+      "final": true
     },
     {
       "date": "2026-08-09",
@@ -256,7 +256,7 @@
       "over_ml": -105,
       "under_ml": -115,
       "home_score": 4,
-      "away_score": 0,
+      "away_score": 1,
       "home_pitcher": "Eduardo Rodriguez",
       "away_pitcher": "Justin Wrobleski",
       "home_hand": "L",
@@ -33802,6 +33802,25 @@
       "home_hand": "R",
       "away_hand": "R",
       "home_win": true
+    },
+    {
+      "date": "2026-08-09",
+      "commence": "2026-08-09T18:10:00Z",
+      "gamePk": 824078,
+      "home": "KC",
+      "away": "CHC",
+      "home_ml": 142,
+      "away_ml": -154,
+      "total_line": 10,
+      "over_ml": -115,
+      "under_ml": -105,
+      "home_score": 2,
+      "away_score": 10,
+      "home_pitcher": "Randy Dobnak",
+      "away_pitcher": "Matthew Boyd",
+      "home_hand": "R",
+      "away_hand": "L",
+      "home_win": false
     }
   ]
 }
