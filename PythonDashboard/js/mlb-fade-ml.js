@@ -856,8 +856,11 @@ async function renderMLBFadeML() {
       const u = r.u || 0, n = r.n || 0;
       const rec = n ? (r.w + '–' + r.l + ' <span style="color:' + uColor(u) + '">'
         + (u >= 0 ? '+' : '') + u.toFixed(2) + 'u</span>') : '—';
-      return '<tr>'
-        + '<td style="padding:4px 8px;font-weight:600">' + esc(c.pitcher) + '</td>'
+      // User-removed arms (WATCH_EXCLUDE) keep their row for history but are
+      // dimmed + badged and never surface as today's plays.
+      return '<tr' + (c.excluded ? ' style="opacity:.45"' : '') + '>'
+        + '<td style="padding:4px 8px;font-weight:600">' + esc(c.pitcher)
+          + (c.excluded ? ' <span style="font-size:10px;color:#888;font-weight:400">(removed)</span>' : '') + '</td>'
         + '<td style="padding:4px 6px;text-align:center;color:#999">' + esc(c.arm_team || '') + '</td>'
         + '<td style="padding:4px 6px;text-align:center;color:' + ORANGE + ';font-weight:700">' + esc(c.opp) + '</td>'
         + '<td style="padding:4px 8px;text-align:right;color:' + RED + ';font-weight:600">'

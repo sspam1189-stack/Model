@@ -35,11 +35,12 @@ MIN_ERA = 6.0      # ...and an ERA vs that team at or above this (watch floor)
 FADE_ERA = 8.0     # ...but below this -- ERA >= FADE_ERA auto-promotes to the
                    # FADE list (fade_vs_team.py), so the watch band is [6, 8).
 
-# Arms excluded from this watch screen (user-curated): never surfaced as a
-# candidate or a today's play, regardless of ERA vs any team. Token-matched
-# like fade_list entries (all tokens must appear in the pitcher's name).
+# Arms removed from this watch screen (user-curated). A removed arm KEEPS his
+# candidate row -- flagged "excluded": true so his history stays visible for
+# review -- but is never surfaced as a today's play. Token-matched like
+# fade_list entries (all tokens must appear in the pitcher's name).
 WATCH_EXCLUDE = [
-    "Max Fried",  # removed 2026-08-09 (user request)
+    "Max Fried",  # removed 2026-08-09 (user request); history stays
 ]
 
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
@@ -134,14 +135,15 @@ def build():
             continue
         if k in curated:                    # already on the curated vs-team list
             continue
-        if _excluded(e["name"]):            # user-excluded from the watch screen
-            continue
-        cands.append({
+        cand = {
             "pitcher": e["name"], "opp": opp, "arm_team": arm_team.get(k),
             "eraVsOpp": era_val, "ipVsOpp": round(e["ip"], 1),
             "erVsOpp": e["er"], "startsVsOpp": e["gs"],
             "fadeRecord": _rec(fade.get(k, [])),
-        })
+        }
+        if _excluded(e["name"]):            # user-removed: keep history, flag it
+            cand["excluded"] = True
+        cands.append(cand)
     # Worst ERA first (the strongest "gets hit" signal).
     cands.sort(key=lambda c: -c["eraVsOpp"])
 
@@ -154,7 +156,7 @@ def build():
             oppside = "away" if side == "home" else "home"
             opp = g.get(oppside)
             c = cand_keys.get((_norm(p), opp))
-            if not c:
+            if not c or c.get("excluded"):  # removed arms never surface as plays
                 continue
             today.append({
                 "date": g.get("date"), "commence": g.get("commence"),
