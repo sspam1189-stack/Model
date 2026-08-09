@@ -2,10 +2,11 @@
   "sport": "MLB",
   "type": "pitch-hands-today",
   "date": "2026-08-09",
-  "generated": "2026-08-09T13:05:37Z",
+  "generated": "2026-08-09T15:37:52Z",
   "hands": {
     "brad lord": "R",
     "brady singer": "R",
+    "erik miller": "L",
     "j t ginn": "R",
     "jared jones": "R",
     "sean manaea": "L",
@@ -30,11 +31,13 @@
     "eduardo rodriguez": "L",
     "justin wrobleski": "L",
     "emerson hancock": "R",
+    "ian seymour": "L",
     "cristian javier": "R"
   },
   "names": {
     "brad lord": "Brad Lord",
     "brady singer": "Brady Singer",
+    "erik miller": "Erik Miller",
     "j t ginn": "J.T. Ginn",
     "jared jones": "Jared Jones",
     "sean manaea": "Sean Manaea",
@@ -59,6 +62,7 @@
     "eduardo rodriguez": "Eduardo Rodriguez",
     "justin wrobleski": "Justin Wrobleski",
     "emerson hancock": "Emerson Hancock",
+    "ian seymour": "Ian Seymour",
     "cristian javier": "Cristian Javier"
   },
   "starters": {
@@ -69,6 +73,10 @@
     "CIN": {
       "name": "Brady Singer",
       "hand": "R"
+    },
+    "BOS": {
+      "name": "Erik Miller",
+      "hand": "L"
     },
     "OAK": {
       "name": "J.T. Ginn",
@@ -165,6 +173,10 @@
     "SEA": {
       "name": "Emerson Hancock",
       "hand": "R"
+    },
+    "TB": {
+      "name": "Ian Seymour",
+      "hand": "L"
     },
     "HOU": {
       "name": "Cristian Javier",
