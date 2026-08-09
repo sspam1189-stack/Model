@@ -1,7 +1,7 @@
 {
   "sport": "MLB",
   "type": "hand-tails-watch",
-  "generated": "2026-08-09T21:04:07Z",
+  "generated": "2026-08-09T23:04:13Z",
   "handMin": 6,
   "minGames": 3,
   "minUnits": 2.5,
@@ -92,8 +92,30 @@
       "lineupConfirmed": true,
       "odds": -245,
       "suggest": "take",
-      "suggestUnits": 4.62,
-      "games": 7,
+      "suggestUnits": 5.62,
+      "games": 8,
+      "result": "pending"
+    },
+    {
+      "date": "2026-08-09",
+      "commence": "2026-08-09T18:10:00Z",
+      "betType": "watch_fade",
+      "action": "fade",
+      "watch": true,
+      "pitcher": "Connor Prielipp",
+      "hand": "L",
+      "arm_team": "MIN",
+      "opp_team": "MIL",
+      "selection": "MIL",
+      "home": "MIL",
+      "away": "MIN",
+      "oppLefty": 4,
+      "oppRighty": 6,
+      "lineupConfirmed": true,
+      "odds": -245,
+      "suggest": "fade",
+      "suggestUnits": 3.02,
+      "games": 14,
       "result": "pending"
     }
   ],
@@ -315,6 +337,24 @@
       "era": 4.51
     },
     {
+      "pitcher": "Jacob Misiorowski",
+      "hand": "R",
+      "games": 8,
+      "suggest": "take",
+      "suggestUnits": 5.62,
+      "fade": {
+        "w": 1,
+        "l": 7,
+        "u": -6.02
+      },
+      "take": {
+        "w": 7,
+        "l": 1,
+        "u": 5.62
+      },
+      "era": 1.63
+    },
+    {
       "pitcher": "Max Meyer",
       "hand": "R",
       "games": 5,
@@ -421,24 +461,6 @@
         "u": 4.9
       },
       "era": 3.41
-    },
-    {
-      "pitcher": "Jacob Misiorowski",
-      "hand": "R",
-      "games": 7,
-      "suggest": "take",
-      "suggestUnits": 4.62,
-      "fade": {
-        "w": 1,
-        "l": 6,
-        "u": -5.02
-      },
-      "take": {
-        "w": 6,
-        "l": 1,
-        "u": 4.62
-      },
-      "era": 1.63
     },
     {
       "pitcher": "Michael Lorenzen",
@@ -655,6 +677,24 @@
         "u": -3.46
       },
       "era": 7.55
+    },
+    {
+      "pitcher": "Connor Prielipp",
+      "hand": "L",
+      "games": 14,
+      "suggest": "fade",
+      "suggestUnits": 3.02,
+      "fade": {
+        "w": 9,
+        "l": 5,
+        "u": 3.02
+      },
+      "take": {
+        "w": 5,
+        "l": 9,
+        "u": -3.76
+      },
+      "era": 4.75
     },
     {
       "pitcher": "Brayan Bello",
