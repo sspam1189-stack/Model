@@ -1,13 +1,35 @@
 {
   "sport": "MLB",
   "type": "hand-tails-watch",
-  "generated": "2026-08-09T18:34:38Z",
+  "generated": "2026-08-09T20:53:59Z",
   "handMin": 6,
   "minGames": 3,
   "minUnits": 2.5,
   "minUnitsTake": 4.0,
   "note": "Shadow review list -- arms NOT on the active hand-tails list showing a handedness-conditional edge (fade or take). The active list is fade-only, so all tail/take arms are review-only here. In-sample season replay; watch, don't bet.",
   "today": [
+    {
+      "date": "2026-08-09",
+      "commence": "2026-08-09T17:35:00Z",
+      "betType": "watch_take",
+      "action": "take",
+      "watch": true,
+      "pitcher": "Grant Holmes",
+      "hand": "R",
+      "arm_team": "ATL",
+      "opp_team": "NYY",
+      "selection": "ATL",
+      "home": "NYY",
+      "away": "ATL",
+      "oppLefty": 7,
+      "oppRighty": 2,
+      "lineupConfirmed": true,
+      "odds": 128,
+      "suggest": "take",
+      "suggestUnits": 4.04,
+      "games": 9,
+      "result": "pending"
+    },
     {
       "date": "2026-08-09",
       "commence": "2026-08-09T18:10:00Z",
@@ -543,6 +565,24 @@
         "u": 4.12
       },
       "era": 1.58
+    },
+    {
+      "pitcher": "Grant Holmes",
+      "hand": "R",
+      "games": 9,
+      "suggest": "take",
+      "suggestUnits": 4.04,
+      "fade": {
+        "w": 2,
+        "l": 7,
+        "u": -4.78
+      },
+      "take": {
+        "w": 7,
+        "l": 2,
+        "u": 4.04
+      },
+      "era": 3.81
     },
     {
       "pitcher": "Reid Detmers",

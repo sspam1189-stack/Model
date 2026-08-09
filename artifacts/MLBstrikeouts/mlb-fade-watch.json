@@ -1,11 +1,47 @@
 {
   "sport": "MLB",
   "type": "fade-watch",
-  "generated": "2026-08-09T18:34:39Z",
+  "generated": "2026-08-09T20:54:00Z",
   "minGames": 3,
   "minUnits": 2.5,
   "note": "Shadow review list -- arms NOT on the active fade list whose home or away fade clears the bar (>= 3 games, >= +2.5u). In-sample season replay; watch, don't bet. Promote by editing scripts/fade_list.py.",
   "today": [
+    {
+      "date": "2026-08-09",
+      "commence": "2026-08-09T17:35:00Z",
+      "betType": "fade_watch",
+      "watch": true,
+      "pitcher": "Jared Jones",
+      "arm_team": "PIT",
+      "fadeTeam": "PIT",
+      "selection": "NYM",
+      "home": "PIT",
+      "away": "NYM",
+      "venue": "home",
+      "odds": 132,
+      "suggest": "home",
+      "suggestUnits": 2.64,
+      "games": 7,
+      "result": "pending"
+    },
+    {
+      "date": "2026-08-09",
+      "commence": "2026-08-09T17:35:00Z",
+      "betType": "fade_watch",
+      "watch": true,
+      "pitcher": "Cam Schlittler",
+      "arm_team": "NYY",
+      "fadeTeam": "NYY",
+      "selection": "ATL",
+      "home": "NYY",
+      "away": "ATL",
+      "venue": "home",
+      "odds": 128,
+      "suggest": "home",
+      "suggestUnits": 3.61,
+      "games": 11,
+      "result": "pending"
+    },
     {
       "date": "2026-08-09",
       "commence": "2026-08-09T20:10:00Z",
@@ -105,6 +141,33 @@
         "u": -5.26,
         "n": 10,
         "roi": -0.526
+      }
+    },
+    {
+      "pitcher": "Cam Schlittler",
+      "team": "NYY",
+      "suggest": "home",
+      "suggestUnits": 3.61,
+      "all": {
+        "w": 10,
+        "l": 13,
+        "u": 0.45,
+        "n": 23,
+        "roi": 0.0193
+      },
+      "home": {
+        "w": 6,
+        "l": 5,
+        "u": 3.61,
+        "n": 11,
+        "roi": 0.3178
+      },
+      "away": {
+        "w": 4,
+        "l": 8,
+        "u": -3.16,
+        "n": 12,
+        "roi": -0.2633
       }
     },
     {
@@ -537,6 +600,33 @@
         "u": 2.76,
         "n": 11,
         "roi": 0.2421
+      }
+    },
+    {
+      "pitcher": "Jared Jones",
+      "team": "PIT",
+      "suggest": "home",
+      "suggestUnits": 2.64,
+      "all": {
+        "w": 7,
+        "l": 6,
+        "u": -0.06,
+        "n": 13,
+        "roi": -0.0039
+      },
+      "home": {
+        "w": 5,
+        "l": 2,
+        "u": 2.64,
+        "n": 7,
+        "roi": 0.3267
+      },
+      "away": {
+        "w": 2,
+        "l": 4,
+        "u": -2.7,
+        "n": 6,
+        "roi": -0.3678
       }
     },
     {
