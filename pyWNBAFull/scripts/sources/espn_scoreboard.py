@@ -33,7 +33,9 @@ def fetch_scoreboard(date_yyyymmdd=None):
 
     base = "https://site.api.espn.com/apis/site/v2/sports/basketball/wnba/scoreboard"
     url = f"{base}?dates={date_yyyymmdd}" if date_yyyymmdd else base
-    res = requests.get(url, headers={"user-agent": "wnba-picks-bot/1.0"})
+    # ESPN's CDN 403s bot/browser-spoof UAs (since 2026-08-06); the
+    # requests default UA is allowed, so send no custom User-Agent.
+    res = requests.get(url)
     if res.status_code != 200:
         raise Exception(f"HTTP {res.status_code} for {url}")
     data = res.json()

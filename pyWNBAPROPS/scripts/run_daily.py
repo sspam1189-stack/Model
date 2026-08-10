@@ -216,7 +216,9 @@ def _get_todays_teams(date_key):
         try:
             import requests
             url = f"https://site.api.espn.com/apis/site/v2/sports/basketball/wnba/scoreboard?dates={date_key}"
-            r = requests.get(url, headers={"user-agent": "wnba-picks-bot/1.0"}, timeout=10)
+            # ESPN's CDN 403s bot/browser-spoof UAs (since 2026-08-06); the
+            # requests default UA is allowed, so send no custom User-Agent.
+            r = requests.get(url, timeout=10)
             if r.status_code == 200:
                 os.makedirs(os.path.dirname(espn_path), exist_ok=True)
                 with open(espn_path, "w") as f:

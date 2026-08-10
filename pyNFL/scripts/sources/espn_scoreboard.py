@@ -104,7 +104,9 @@ def fetch_nfl_scoreboard(week=None, season=None, season_type=2):
         qs = "&".join(f"{k}={v}" for k, v in params.items())
         url = f"{url}?{qs}"
 
-    res = requests.get(url, headers={"user-agent": "nfl-picks-bot/1.0"}, timeout=30)
+    # ESPN's CDN 403s bot/browser-spoof UAs (since 2026-08-06); the
+    # requests default UA is allowed, so send no custom User-Agent.
+    res = requests.get(url, timeout=30)
     if res.status_code != 200:
         raise Exception(f"HTTP {res.status_code} for {url}")
     return res.json()

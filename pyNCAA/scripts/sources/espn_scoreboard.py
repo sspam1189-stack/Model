@@ -32,7 +32,9 @@ def fetch_scoreboard(date_yyyymmdd=None):
     base = "https://site.api.espn.com/apis/site/v2/sports/basketball/mens-college-basketball/scoreboard"
     params = f"?dates={date_yyyymmdd}&groups=50&limit=365" if date_yyyymmdd else "?groups=50&limit=365"
     url = f"{base}{params}"
-    res = requests.get(url, headers={"user-agent": "ncaa-picks-bot/1.0"})
+    # ESPN's CDN 403s bot/browser-spoof UAs (since 2026-08-06); the
+    # requests default UA is allowed, so send no custom User-Agent.
+    res = requests.get(url)
     if not res.ok:
         raise Exception(f"HTTP {res.status_code} for {url}")
     data = res.json()
@@ -97,7 +99,7 @@ def fetch_tournament_teams(date_yyyymmdd, stats_keys=None):
     for groups in (100, 98):
         try:
             url = f"{base}?dates={date_yyyymmdd}&groups={groups}&seasontype=3&limit=200"
-            res = requests.get(url, headers={"user-agent": "ncaa-picks-bot/1.0"}, timeout=10)
+            res = requests.get(url, timeout=10)
             if not res.ok:
                 continue
             data = res.json()
