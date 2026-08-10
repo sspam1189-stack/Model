@@ -1,7 +1,7 @@
 {
   "sport": "MLB",
   "type": "hand-tails-watch",
-  "generated": "2026-08-10T00:33:15Z",
+  "generated": "2026-08-10T13:07:28Z",
   "handMin": 6,
   "minGames": 3,
   "minUnits": 2.5,
@@ -9,92 +9,26 @@
   "note": "Shadow review list -- arms NOT on the active hand-tails list showing a handedness-conditional edge (fade or take). The active list is fade-only, so all tail/take arms are review-only here. In-sample season replay; watch, don't bet.",
   "today": [
     {
-      "date": "2026-08-09",
-      "commence": "2026-08-09T17:35:00Z",
-      "betType": "watch_take",
-      "action": "take",
-      "watch": true,
-      "pitcher": "Grant Holmes",
-      "hand": "R",
-      "arm_team": "ATL",
-      "opp_team": "NYY",
-      "selection": "ATL",
-      "home": "NYY",
-      "away": "ATL",
-      "oppLefty": 7,
-      "oppRighty": 2,
-      "lineupConfirmed": true,
-      "odds": 128,
-      "suggest": "take",
-      "suggestUnits": 4.04,
-      "games": 9,
-      "result": "pending"
-    },
-    {
-      "date": "2026-08-09",
-      "commence": "2026-08-09T18:10:00Z",
-      "betType": "watch_take",
-      "action": "take",
-      "watch": true,
-      "pitcher": "Matthew Boyd",
-      "hand": "L",
-      "arm_team": "CHC",
-      "opp_team": "KC",
-      "selection": "CHC",
-      "home": "KC",
-      "away": "CHC",
-      "oppLefty": 3,
-      "oppRighty": 6,
-      "lineupConfirmed": true,
-      "odds": -154,
-      "suggest": "take",
-      "suggestUnits": 6.18,
-      "games": 10,
-      "result": "pending"
-    },
-    {
-      "date": "2026-08-09",
-      "commence": "2026-08-09T18:10:00Z",
-      "betType": "watch_take",
-      "action": "take",
-      "watch": true,
-      "pitcher": "Jacob Misiorowski",
-      "hand": "R",
-      "arm_team": "MIL",
-      "opp_team": "MIN",
-      "selection": "MIL",
-      "home": "MIL",
-      "away": "MIN",
-      "oppLefty": 6,
-      "oppRighty": 6,
-      "lineupConfirmed": true,
-      "odds": -245,
-      "suggest": "take",
-      "suggestUnits": 5.62,
-      "games": 8,
-      "result": "pending"
-    },
-    {
-      "date": "2026-08-09",
-      "commence": "2026-08-09T18:10:00Z",
+      "date": "2026-08-10",
+      "commence": "2026-08-11T01:38:00Z",
       "betType": "watch_fade",
       "action": "fade",
       "watch": true,
-      "pitcher": "Connor Prielipp",
+      "pitcher": "Reid Detmers",
       "hand": "L",
-      "arm_team": "MIN",
-      "opp_team": "MIL",
-      "selection": "MIL",
-      "home": "MIL",
-      "away": "MIN",
-      "oppLefty": 4,
+      "arm_team": "LAA",
+      "opp_team": "TEX",
+      "selection": "TEX",
+      "home": "LAA",
+      "away": "TEX",
+      "oppLefty": 3,
       "oppRighty": 6,
-      "lineupConfirmed": true,
-      "odds": -245,
+      "lineupConfirmed": false,
+      "odds": null,
       "suggest": "fade",
-      "suggestUnits": 3.02,
-      "games": 14,
-      "result": "pending"
+      "suggestUnits": 3.8,
+      "games": 19,
+      "result": "unconfirmed"
     }
   ],
   "candidates": [
@@ -114,7 +48,7 @@
         "l": 2,
         "u": 13.34
       },
-      "era": 2.71
+      "era": 2.7
     },
     {
       "pitcher": "Foster Griffin",
@@ -240,7 +174,7 @@
         "l": 2,
         "u": 6.18
       },
-      "era": 3.59
+      "era": 3.5
     },
     {
       "pitcher": "Kyle Leahy",
@@ -330,7 +264,7 @@
         "l": 1,
         "u": 5.62
       },
-      "era": 1.63
+      "era": 1.76
     },
     {
       "pitcher": "Max Meyer",
@@ -420,7 +354,7 @@
         "l": 4,
         "u": 4.9
       },
-      "era": 3.41
+      "era": 3.31
     },
     {
       "pitcher": "Michael Lorenzen",
@@ -438,7 +372,7 @@
         "l": 3,
         "u": 4.56
       },
-      "era": 7.0
+      "era": 6.89
     },
     {
       "pitcher": "Logan Henderson",
@@ -510,7 +444,7 @@
         "l": 1,
         "u": 4.5
       },
-      "era": 4.02
+      "era": 5.03
     },
     {
       "pitcher": "Kyle Harrison",
@@ -546,7 +480,7 @@
         "l": 1,
         "u": 4.12
       },
-      "era": 1.58
+      "era": 1.46
     },
     {
       "pitcher": "Grant Holmes",
@@ -564,7 +498,7 @@
         "l": 2,
         "u": 4.04
       },
-      "era": 3.81
+      "era": 3.6
     },
     {
       "pitcher": "Reid Detmers",
@@ -654,7 +588,7 @@
         "l": 9,
         "u": -3.76
       },
-      "era": 4.75
+      "era": 4.79
     },
     {
       "pitcher": "Brayan Bello",
@@ -798,7 +732,7 @@
         "l": 4,
         "u": -3.26
       },
-      "era": 7.24
+      "era": 7.2
     },
     {
       "pitcher": "Aaron Civale",
