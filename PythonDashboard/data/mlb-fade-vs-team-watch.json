@@ -1,13 +1,29 @@
 {
   "sport": "MLB",
   "type": "fade-vs-team-watch",
-  "generated": "2026-08-09T23:04:16Z",
+  "generated": "2026-08-10T00:33:17Z",
   "seasonStart": "2026-04-05",
   "minStarts": 2,
   "minEra": 6.0,
   "fadeEra": 8.0,
   "note": "Auto-screened WATCH tier for the pitcher-vs-team fade angle: >= 2 starts vs the team with 6.0 <= ERA < 8.0 vs them (ERA >= 8.0 auto-promotes to the FADE list, mlb-fade-vs-team.json), excluding arms already faded and matchups already curated. fadeRecord is the in-sample fade result (bet the opponent), shown for review -- not a screen filter. Watch, don't bet.",
-  "today": [],
+  "today": [
+    {
+      "date": "2026-08-09",
+      "commence": "2026-08-09T18:10:00Z",
+      "betType": "fade_vs_team_watch",
+      "pitcher": "Davis Martin",
+      "arm_team": "CWS",
+      "opp": "CLE",
+      "selection": "CLE",
+      "venue": "home",
+      "matchup": "CLE @ CWS",
+      "odds": -126,
+      "eraVsOpp": 6.23,
+      "startsVsOpp": 2,
+      "result": "pending"
+    }
+  ],
   "candidates": [
     {
       "pitcher": "Jos\u00e9 Soriano",
@@ -360,6 +376,22 @@
         "u": -0.3,
         "n": 2,
         "roi": -0.0968
+      }
+    },
+    {
+      "pitcher": "Davis Martin",
+      "opp": "CLE",
+      "arm_team": "CWS",
+      "eraVsOpp": 6.23,
+      "ipVsOpp": 4.3,
+      "erVsOpp": 3,
+      "startsVsOpp": 2,
+      "fadeRecord": {
+        "w": 1,
+        "l": 1,
+        "u": -0.26,
+        "n": 2,
+        "roi": -0.1074
       }
     },
     {

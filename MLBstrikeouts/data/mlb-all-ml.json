@@ -1,7 +1,7 @@
 {
   "sport": "MLB",
   "type": "all-ml",
-  "generated": "2026-08-09T23:01:35Z",
+  "generated": "2026-08-10T00:31:15Z",
   "seasonStart": "2026-03-25",
   "today": [
     {
@@ -156,13 +156,13 @@
       "over_ml": -104,
       "under_ml": -118,
       "home_score": 5,
-      "away_score": 2,
+      "away_score": 3,
       "home_pitcher": "Davis Martin",
       "away_pitcher": "Joey Cantillo",
       "home_hand": "R",
       "away_hand": "L",
-      "home_win": null,
-      "final": false
+      "home_win": true,
+      "final": true
     },
     {
       "date": "2026-08-09",
@@ -33840,6 +33840,25 @@
       "home_hand": "R",
       "away_hand": "L",
       "home_win": false
+    },
+    {
+      "date": "2026-08-09",
+      "commence": "2026-08-09T18:10:00Z",
+      "gamePk": 824564,
+      "home": "CWS",
+      "away": "CLE",
+      "home_ml": 116,
+      "away_ml": -126,
+      "total_line": 8.5,
+      "over_ml": -104,
+      "under_ml": -118,
+      "home_score": 5,
+      "away_score": 3,
+      "home_pitcher": "Davis Martin",
+      "away_pitcher": "Joey Cantillo",
+      "home_hand": "R",
+      "away_hand": "L",
+      "home_win": true
     },
     {
       "date": "2026-08-09",

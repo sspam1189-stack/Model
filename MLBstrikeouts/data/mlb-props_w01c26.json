@@ -4,10 +4,10 @@
   "season": "2026",
   "mode": "live",
   "model": "kalman_blend",
-  "generated": "2026-08-09T23:01:24Z",
+  "generated": "2026-08-10T00:31:08Z",
   "totalProjections": 28,
   "totalPicks": 2846,
-  "totalWatchlist": 28,
+  "totalWatchlist": 27,
   "props": [
     {
       "player": "Sonny Gray",
@@ -95920,7 +95920,7 @@
       "proj_raw": 3.188,
       "would_be_pick": "UNDER",
       "date": "2026-08-09",
-      "lockState": "lineup_confirmed",
+      "lockState": "game_started",
       "lockedAt": "2026-08-09T20:51:11.582686Z",
       "lineupConfirmed": true
     },
@@ -95951,12 +95951,12 @@
       "proj_raw": 1.751,
       "would_be_pick": "UNDER",
       "date": "2026-08-09",
-      "lockState": "lineup_confirmed",
+      "lockState": "game_started",
       "lockedAt": "2026-08-09T23:01:24.342188Z",
       "lineupConfirmed": true
     }
   ],
-  "summary": "0 picks (+28 watch) from 28 projections",
+  "summary": "1 picks (+27 watch) from 28 projections",
   "date": "2026-08-09",
   "todayProjections": [
     {
@@ -96765,7 +96765,7 @@
       "to_win_1u": 1.28,
       "proj_raw": 3.188,
       "date": "2026-08-09",
-      "lockState": "lineup_confirmed",
+      "lockState": "game_started",
       "lockedAt": "2026-08-09T20:51:11.582686Z",
       "lineupConfirmed": true
     },
@@ -96795,7 +96795,7 @@
       "to_win_1u": 0.88,
       "proj_raw": 1.751,
       "date": "2026-08-09",
-      "lockState": "lineup_confirmed",
+      "lockState": "game_started",
       "lockedAt": "2026-08-09T23:01:24.342188Z",
       "lineupConfirmed": true
     }
@@ -96847,22 +96847,22 @@
     "LAA": "Final",
     "KC": "Final",
     "CHC": "Final",
-    "CWS": "In Progress",
-    "CLE": "In Progress",
+    "CWS": "Final",
+    "CLE": "Final",
     "MIL": "Final",
     "MIN": "Final",
     "STL": "Final",
     "COL": "Final",
     "TEX": "Final",
     "BAL": "Final",
-    "SF": "Game Over",
-    "DET": "Game Over",
+    "SF": "Final",
+    "DET": "Final",
     "ARI": "Final",
     "LAD": "Final",
-    "SEA": "Game Over",
-    "TB": "Game Over",
-    "SD": "Pre-Game",
-    "HOU": "Pre-Game"
+    "SEA": "Final",
+    "TB": "Final",
+    "SD": "In Progress",
+    "HOU": "In Progress"
   },
   "gameTimesById": {
     "822700": "2026-08-09T16:15:00Z",
@@ -96889,14 +96889,14 @@
     "823513": "Final",
     "823835": "Final",
     "824078": "Final",
-    "824564": "In Progress",
+    "824564": "Final",
     "823751": "Final",
     "823020": "Final",
     "822862": "Final",
-    "823190": "Game Over",
+    "823190": "Final",
     "825050": "Final",
-    "823104": "Game Over",
-    "823268": "Pre-Game"
+    "823104": "Final",
+    "823268": "In Progress"
   },
   "todayProbables": [
     {
