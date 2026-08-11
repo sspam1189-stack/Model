@@ -1,31 +1,58 @@
 {
   "sport": "MLB",
   "type": "fade-watch",
-  "generated": "2026-08-11T00:33:25Z",
+  "generated": "2026-08-11T13:08:29Z",
   "minGames": 3,
   "minUnits": 2.5,
   "note": "Shadow review list -- arms NOT on the active fade list whose home or away fade clears the bar (>= 3 games, >= +2.5u). In-sample season replay; watch, don't bet. Promote by editing scripts/fade_list.py.",
   "today": [
     {
-      "date": "2026-08-10",
-      "commence": "2026-08-11T01:38:00Z",
+      "date": "2026-08-11",
+      "commence": "2026-08-11T23:40:00Z",
       "betType": "fade_watch",
       "watch": true,
-      "pitcher": "Reid Detmers",
-      "arm_team": "LAA",
-      "fadeTeam": "LAA",
-      "selection": "TEX",
-      "home": "LAA",
-      "away": "TEX",
+      "pitcher": "Sean Burke",
+      "arm_team": "CWS",
+      "fadeTeam": "CWS",
+      "selection": "CIN",
+      "home": "CWS",
+      "away": "CIN",
       "venue": "home",
-      "odds": -108,
+      "odds": 146,
       "suggest": "home",
-      "suggestUnits": 2.9,
+      "suggestUnits": 2.86,
       "games": 11,
       "result": "pending"
     }
   ],
   "candidates": [
+    {
+      "pitcher": "Gabriel Hughes",
+      "team": "COL",
+      "suggest": "all",
+      "suggestUnits": 6.0,
+      "all": {
+        "w": 6,
+        "l": 0,
+        "u": 6.0,
+        "n": 6,
+        "roi": 0.566
+      },
+      "home": {
+        "w": 3,
+        "l": 0,
+        "u": 3.0,
+        "n": 3,
+        "roi": 0.7212
+      },
+      "away": {
+        "w": 3,
+        "l": 0,
+        "u": 3.0,
+        "n": 3,
+        "roi": 0.4658
+      }
+    },
     {
       "pitcher": "Max Scherzer",
       "team": "TOR",
@@ -105,6 +132,33 @@
         "u": -1.46,
         "n": 9,
         "roi": -0.1372
+      }
+    },
+    {
+      "pitcher": "Reid Detmers",
+      "team": "LAA",
+      "suggest": "home",
+      "suggestUnits": 3.9,
+      "all": {
+        "w": 14,
+        "l": 8,
+        "u": 4.0,
+        "n": 22,
+        "roi": 0.1433
+      },
+      "home": {
+        "w": 8,
+        "l": 4,
+        "u": 3.9,
+        "n": 12,
+        "roi": 0.2977
+      },
+      "away": {
+        "w": 6,
+        "l": 4,
+        "u": 0.1,
+        "n": 10,
+        "roi": 0.0067
       }
     },
     {
@@ -432,33 +486,6 @@
       }
     },
     {
-      "pitcher": "Gabriel Hughes",
-      "team": "COL",
-      "suggest": "home",
-      "suggestUnits": 3.0,
-      "all": {
-        "w": 5,
-        "l": 0,
-        "u": 5.0,
-        "n": 5,
-        "roi": 0.5848
-      },
-      "home": {
-        "w": 3,
-        "l": 0,
-        "u": 3.0,
-        "n": 3,
-        "roi": 0.7212
-      },
-      "away": {
-        "w": 2,
-        "l": 0,
-        "u": 2.0,
-        "n": 2,
-        "roi": 0.4556
-      }
-    },
-    {
       "pitcher": "Adrian Houser",
       "team": "SF",
       "suggest": "home",
@@ -483,33 +510,6 @@
         "u": -7.5,
         "n": 9,
         "roi": -0.5304
-      }
-    },
-    {
-      "pitcher": "Reid Detmers",
-      "team": "LAA",
-      "suggest": "home",
-      "suggestUnits": 2.9,
-      "all": {
-        "w": 13,
-        "l": 8,
-        "u": 3.0,
-        "n": 21,
-        "roi": 0.1118
-      },
-      "home": {
-        "w": 7,
-        "l": 4,
-        "u": 2.9,
-        "n": 11,
-        "roi": 0.2413
-      },
-      "away": {
-        "w": 6,
-        "l": 4,
-        "u": 0.1,
-        "n": 10,
-        "roi": 0.0067
       }
     },
     {
@@ -546,17 +546,17 @@
       "suggestUnits": 2.82,
       "all": {
         "w": 5,
-        "l": 3,
-        "u": 1.9,
-        "n": 8,
-        "roi": 0.1992
+        "l": 4,
+        "u": 0.84,
+        "n": 9,
+        "roi": 0.0792
       },
       "home": {
         "w": 1,
-        "l": 2,
-        "u": -0.92,
-        "n": 3,
-        "roi": -0.3067
+        "l": 3,
+        "u": -1.98,
+        "n": 4,
+        "roi": -0.4877
       },
       "away": {
         "w": 4,
@@ -654,17 +654,17 @@
       "suggestUnits": 2.5,
       "all": {
         "w": 7,
-        "l": 8,
-        "u": 1.38,
-        "n": 15,
-        "roi": 0.0914
+        "l": 9,
+        "u": 0.38,
+        "n": 16,
+        "roi": 0.0236
       },
       "home": {
         "w": 3,
-        "l": 5,
-        "u": -1.12,
-        "n": 8,
-        "roi": -0.14
+        "l": 6,
+        "u": -2.12,
+        "n": 9,
+        "roi": -0.2356
       },
       "away": {
         "w": 4,

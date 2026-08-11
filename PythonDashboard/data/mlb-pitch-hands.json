@@ -1,132 +1,180 @@
 {
   "sport": "MLB",
   "type": "pitch-hands-today",
-  "date": "2026-08-10",
-  "generated": "2026-08-11T00:31:24Z",
+  "date": "2026-08-11",
+  "generated": "2026-08-11T13:05:45Z",
   "hands": {
-    "jameson taillon": "R",
-    "sonny gray": "R",
-    "bryce elder": "R",
-    "christian scott": "R",
-    "dean kremer": "R",
-    "trevor rogers": "L",
-    "hunter dobbins": "R",
-    "andrew painter": "R",
-    "reid detmers": "L",
-    "mackenzie gore": "L",
-    "michael soroka": "R",
-    "gabriel hughes": "R",
-    "jacob lopez": "L",
-    "freddy peralta": "R",
-    "casey mize": "R",
-    "logan henderson": "R",
-    "blade tidwell": "R",
-    "hayden wesneski": "R",
-    "tarik skubal": "L",
-    "noah cameron": "L"
+    "drew anderson": "R",
+    "tanner bibee": "R",
+    "eury perez": "R",
+    "paul skenes": "R",
+    "shota imanaga": "L",
+    "ryan weathers": "L",
+    "bryan woo": "R",
+    "dylan cease": "R",
+    "patrick sandoval": "L",
+    "martin perez": "L",
+    "nolan mclean": "R",
+    "bailey ober": "R",
+    "brandon young": "R",
+    "sean burke": "R",
+    "nick lodolo": "L",
+    "andre pallante": "R",
+    "cristopher sanchez": "L",
+    "ryan johnson": "R",
+    "cody bradford": "L",
+    "mitch bratt": "L",
+    "tomoyuki sugano": "R",
+    "mason barnett": "R",
+    "nick martinez": "R",
+    "walker buehler": "R",
+    "kyle harrison": "L",
+    "hunter brown": "R",
+    "blake snell": "L",
+    "michael wacha": "R"
   },
   "names": {
-    "jameson taillon": "Jameson Taillon",
-    "sonny gray": "Sonny Gray",
-    "bryce elder": "Bryce Elder",
-    "christian scott": "Christian Scott",
-    "dean kremer": "Dean Kremer",
-    "trevor rogers": "Trevor Rogers",
-    "hunter dobbins": "Hunter Dobbins",
-    "andrew painter": "Andrew Painter",
-    "reid detmers": "Reid Detmers",
-    "mackenzie gore": "MacKenzie Gore",
-    "michael soroka": "Michael Soroka",
-    "gabriel hughes": "Gabriel Hughes",
-    "jacob lopez": "Jacob Lopez",
-    "freddy peralta": "Freddy Peralta",
-    "casey mize": "Casey Mize",
-    "logan henderson": "Logan Henderson",
-    "blade tidwell": "Blade Tidwell",
-    "hayden wesneski": "Hayden Wesneski",
-    "tarik skubal": "Tarik Skubal",
-    "noah cameron": "Noah Cameron"
+    "drew anderson": "Drew Anderson",
+    "tanner bibee": "Tanner Bibee",
+    "eury perez": "Eury P\u00e9rez",
+    "paul skenes": "Paul Skenes",
+    "shota imanaga": "Shota Imanaga",
+    "ryan weathers": "Ryan Weathers",
+    "bryan woo": "Bryan Woo",
+    "dylan cease": "Dylan Cease",
+    "patrick sandoval": "Patrick Sandoval",
+    "martin perez": "Mart\u00edn P\u00e9rez",
+    "nolan mclean": "Nolan McLean",
+    "bailey ober": "Bailey Ober",
+    "brandon young": "Brandon Young",
+    "sean burke": "Sean Burke",
+    "nick lodolo": "Nick Lodolo",
+    "andre pallante": "Andre Pallante",
+    "cristopher sanchez": "Cristopher S\u00e1nchez",
+    "ryan johnson": "Ryan Johnson",
+    "cody bradford": "Cody Bradford",
+    "mitch bratt": "Mitch Bratt",
+    "tomoyuki sugano": "Tomoyuki Sugano",
+    "mason barnett": "Mason Barnett",
+    "nick martinez": "Nick Martinez",
+    "walker buehler": "Walker Buehler",
+    "kyle harrison": "Kyle Harrison",
+    "hunter brown": "Hunter Brown",
+    "blake snell": "Blake Snell",
+    "michael wacha": "Michael Wacha"
   },
   "starters": {
+    "DET": {
+      "name": "Drew Anderson",
+      "hand": "R"
+    },
+    "CLE": {
+      "name": "Tanner Bibee",
+      "hand": "R"
+    },
+    "MIA": {
+      "name": "Eury P\u00e9rez",
+      "hand": "R"
+    },
+    "PIT": {
+      "name": "Paul Skenes",
+      "hand": "R"
+    },
+    "CHC": {
+      "name": "Shota Imanaga",
+      "hand": "L"
+    },
+    "NYY": {
+      "name": "Ryan Weathers",
+      "hand": "L"
+    },
+    "SEA": {
+      "name": "Bryan Woo",
+      "hand": "R"
+    },
     "TOR": {
-      "name": "Jameson Taillon",
+      "name": "Dylan Cease",
       "hand": "R"
     },
     "BOS": {
-      "name": "Sonny Gray",
-      "hand": "R"
+      "name": "Patrick Sandoval",
+      "hand": "L"
     },
     "ATL": {
-      "name": "Bryce Elder",
-      "hand": "R"
+      "name": "Mart\u00edn P\u00e9rez",
+      "hand": "L"
     },
     "NYM": {
-      "name": "Christian Scott",
+      "name": "Nolan McLean",
       "hand": "R"
     },
     "MIN": {
-      "name": "Dean Kremer",
+      "name": "Bailey Ober",
       "hand": "R"
     },
     "BAL": {
-      "name": "Trevor Rogers",
+      "name": "Brandon Young",
+      "hand": "R"
+    },
+    "CWS": {
+      "name": "Sean Burke",
+      "hand": "R"
+    },
+    "CIN": {
+      "name": "Nick Lodolo",
       "hand": "L"
     },
     "STL": {
-      "name": "Hunter Dobbins",
+      "name": "Andre Pallante",
       "hand": "R"
     },
     "PHI": {
-      "name": "Andrew Painter",
-      "hand": "R"
-    },
-    "LAA": {
-      "name": "Reid Detmers",
+      "name": "Cristopher S\u00e1nchez",
       "hand": "L"
     },
+    "LAA": {
+      "name": "Ryan Johnson",
+      "hand": "R"
+    },
     "TEX": {
-      "name": "MacKenzie Gore",
+      "name": "Cody Bradford",
       "hand": "L"
     },
     "ARI": {
-      "name": "Michael Soroka",
-      "hand": "R"
+      "name": "Mitch Bratt",
+      "hand": "L"
     },
     "COL": {
-      "name": "Gabriel Hughes",
+      "name": "Tomoyuki Sugano",
       "hand": "R"
     },
     "OAK": {
-      "name": "Jacob Lopez",
-      "hand": "L"
+      "name": "Mason Barnett",
+      "hand": "R"
     },
     "TB": {
-      "name": "Freddy Peralta",
+      "name": "Nick Martinez",
       "hand": "R"
     },
     "SD": {
-      "name": "Casey Mize",
+      "name": "Walker Buehler",
       "hand": "R"
     },
     "MIL": {
-      "name": "Logan Henderson",
-      "hand": "R"
-    },
-    "SF": {
-      "name": "Blade Tidwell",
-      "hand": "R"
+      "name": "Kyle Harrison",
+      "hand": "L"
     },
     "HOU": {
-      "name": "Hayden Wesneski",
+      "name": "Hunter Brown",
       "hand": "R"
     },
     "LAD": {
-      "name": "Tarik Skubal",
+      "name": "Blake Snell",
       "hand": "L"
     },
     "KC": {
-      "name": "Noah Cameron",
-      "hand": "L"
+      "name": "Michael Wacha",
+      "hand": "R"
     }
   }
 }
