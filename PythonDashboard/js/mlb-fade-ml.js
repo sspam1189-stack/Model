@@ -318,10 +318,10 @@ async function renderMLBFadeML() {
       ? '<span style="color:#9aa2ad;font-size:12px">' + esc(sp.name) + '</span> ' : '';
   };
   // Today's-plays wRC+ chips track the wRC+ table's selected window (default
-  // last30). `wrcTeams` is reassigned when the window changes (see the table's
+  // last20). `wrcTeams` is reassigned when the window changes (see the table's
   // Window select), and the plays are repainted. Falls back to the computed
   // season if the default window is empty.
-  const DEFAULT_WRC_WIN = 'last30';
+  const DEFAULT_WRC_WIN = 'last20';
   let wrcTeams = teamsForWindow(DEFAULT_WRC_WIN);
   if (!Object.keys(wrcTeams).length) wrcTeams = teamsForWindow('season');
   // A "TEAM NN vs XHP" chip (green above 100, red below). `label` adds "wRC+".
@@ -500,7 +500,7 @@ async function renderMLBFadeML() {
     const w = tCard.querySelector('#playsWrcWin');
     if (w) w.textContent = 'wRC+ chips: ' + (wrcTeamsWindowLabel || 'Season') + ' (change via the wRC+ table below)';
   }
-  let wrcTeamsWindowLabel = 'Last 30 days';
+  let wrcTeamsWindowLabel = 'Last 20 days';
   paintTodayPlays();
   el.appendChild(tCard);
 
