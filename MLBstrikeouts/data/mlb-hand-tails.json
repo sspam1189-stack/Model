@@ -1,7 +1,7 @@
 {
   "sport": "MLB",
   "type": "hand-tails",
-  "generated": "2026-08-11T19:55:49Z",
+  "generated": "2026-08-11T20:50:05Z",
   "handMin": 6,
   "roster": {
     "Andrew Painter": {
@@ -127,7 +127,32 @@
       }
     }
   },
-  "today": [],
+  "today": [
+    {
+      "date": "2026-08-11",
+      "commence": "2026-08-11T23:40:00Z",
+      "betType": "hand_fade",
+      "action": "fade",
+      "pitcher": "Nick Lodolo",
+      "entry": "Nick Lodolo",
+      "hand": "L",
+      "arm_team": "CIN",
+      "opp_team": "CWS",
+      "selection": "CWS",
+      "home": "CWS",
+      "away": "CIN",
+      "oppLefty": 5,
+      "oppRighty": 6,
+      "lineupConfirmed": true,
+      "odds": -154,
+      "stake": 1.54,
+      "result": "pending",
+      "reason": null,
+      "profit": 0.0,
+      "book": "fanduel",
+      "source": "fanduel_api"
+    }
+  ],
   "bets": [
     {
       "date": "2026-05-20",

@@ -1,7 +1,7 @@
 {
   "sport": "MLB",
   "type": "fade-ml",
-  "generated": "2026-08-11T19:54:36Z",
+  "generated": "2026-08-11T20:48:28Z",
   "fadeList": [
     "Painter",
     "Rocker",
@@ -129,6 +129,30 @@
     },
     {
       "date": "2026-08-11",
+      "commence": "2026-08-11T23:05:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Bryan Woo"
+      ],
+      "fadeTeam": "SEA",
+      "market": "h2h",
+      "selection": "NYY",
+      "line": null,
+      "odds": -126,
+      "stake": 1.26,
+      "result": "pending",
+      "profit": 0.0,
+      "book": "fanduel",
+      "source": "fanduel_api",
+      "reason": null,
+      "home": "NYY",
+      "away": "SEA",
+      "gamePk": 823512,
+      "fadeReason": "away"
+    },
+    {
+      "date": "2026-08-11",
       "commence": "2026-08-12T02:10:00Z",
       "betType": "ml",
       "shadow": false,
@@ -174,30 +198,6 @@
       "away": "TEX",
       "gamePk": 823997,
       "fadeReason": "all"
-    },
-    {
-      "date": "2026-08-11",
-      "commence": "2026-08-11T23:05:00Z",
-      "betType": "ml",
-      "shadow": false,
-      "pitchers": [
-        "Bryan Woo"
-      ],
-      "fadeTeam": "SEA",
-      "market": "h2h",
-      "selection": "NYY",
-      "line": null,
-      "odds": -126,
-      "stake": 1.26,
-      "result": "pending",
-      "profit": 0.0,
-      "book": "fanduel",
-      "source": "fanduel_api",
-      "reason": null,
-      "home": "NYY",
-      "away": "SEA",
-      "gamePk": 823512,
-      "fadeReason": "away"
     }
   ],
   "bets": [
