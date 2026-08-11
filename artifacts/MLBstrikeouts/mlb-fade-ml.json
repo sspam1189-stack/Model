@@ -1,7 +1,7 @@
 {
   "sport": "MLB",
   "type": "fade-ml",
-  "generated": "2026-08-11T18:51:28Z",
+  "generated": "2026-08-11T19:54:36Z",
   "fadeList": [
     "Painter",
     "Rocker",
@@ -105,26 +105,27 @@
     {
       "date": "2026-08-11",
       "commence": "2026-08-11T22:45:00Z",
-      "betType": "ml",
+      "betType": "ml_dog",
       "shadow": false,
       "pitchers": [
-        "Shota Imanaga"
+        "Shota Imanaga",
+        "Jake Irvin"
       ],
-      "fadeTeam": "CHC",
+      "fadeTeam": null,
       "market": "h2h",
-      "selection": "WSH",
+      "selection": null,
       "line": null,
-      "odds": 162,
-      "stake": 1.0,
-      "result": "pending",
+      "odds": null,
+      "stake": null,
+      "result": "SKIP",
       "profit": 0.0,
       "book": "fanduel",
       "source": "fanduel_api",
-      "reason": null,
+      "reason": "mutual_skip",
       "home": "WSH",
       "away": "CHC",
       "gamePk": 822697,
-      "fadeReason": "away"
+      "fadeReason": "away/home"
     },
     {
       "date": "2026-08-11",
@@ -186,8 +187,8 @@
       "market": "h2h",
       "selection": "NYY",
       "line": null,
-      "odds": -124,
-      "stake": 1.24,
+      "odds": -126,
+      "stake": 1.26,
       "result": "pending",
       "profit": 0.0,
       "book": "fanduel",
