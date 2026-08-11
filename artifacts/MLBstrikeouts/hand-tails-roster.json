@@ -1,7 +1,7 @@
 {
   "sport": "MLB",
   "type": "hand-tails-roster",
-  "generated": "2026-08-11T13:07:01Z",
+  "generated": "2026-08-11T15:25:22Z",
   "handMin": 6,
   "rule": {
     "minGames": 4,
@@ -10,23 +10,8 @@
   "note": "Walk-forward qualifier computation used to NOTIFY (promotion candidates), not to drive the bet list. The bet list is the manually curated hand-tails-manual.json. `promotions` are arms that clear minGames+minUnits but are not on the manual list; `demotions` are manual-list arms whose record slipped under the bar.",
   "manualCount": 20,
   "qualifiedCount": 16,
-  "promotions": [
-    {
-      "name": "Reid Detmers",
-      "hand": "L",
-      "games": 20,
-      "units": 4.8,
-      "since": "2026-08-10"
-    }
-  ],
-  "demotions": [
-    {
-      "name": "Casey Mize",
-      "hand": "R",
-      "games": 6,
-      "units": 1.84
-    }
-  ],
+  "promotions": [],
+  "demotions": [],
   "arms": {
     "Andrew Alvarez": {
       "hand": "L",

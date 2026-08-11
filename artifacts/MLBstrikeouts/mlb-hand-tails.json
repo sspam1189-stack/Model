@@ -1,7 +1,7 @@
 {
   "sport": "MLB",
   "type": "hand-tails",
-  "generated": "2026-08-11T13:07:22Z",
+  "generated": "2026-08-11T15:25:42Z",
   "handMin": 6,
   "roster": {
     "Andrew Painter": {
@@ -13,10 +13,6 @@
       "action": "fade"
     },
     "Bryce Miller": {
-      "hand": "R",
-      "action": "fade"
-    },
-    "Casey Mize": {
       "hand": "R",
       "action": "fade"
     },
@@ -72,6 +68,10 @@
       "hand": "L",
       "action": "fade"
     },
+    "Reid Detmers": {
+      "hand": "L",
+      "action": "fade"
+    },
     "Sean Sullivan": {
       "hand": "L",
       "action": "fade"
@@ -86,36 +86,21 @@
     }
   },
   "note": "Bet list is manually curated (hand-tails-manual.json). `promotions` = arms that cleared the walk-forward bar but are not on the manual list (notify); `demotions` = manual arms slipped under the bar. Own ledger; not part of the fade-list ledger.",
-  "promotions": [
-    {
-      "name": "Reid Detmers",
-      "hand": "L",
-      "games": 20,
-      "units": 4.8,
-      "since": "2026-08-10"
-    }
-  ],
-  "demotions": [
-    {
-      "name": "Casey Mize",
-      "hand": "R",
-      "games": 6,
-      "units": 1.84
-    }
-  ],
+  "promotions": [],
+  "demotions": [],
   "summary": {
     "wins": 40,
-    "losses": 15,
-    "units": 25.22,
-    "staked": 66.18,
-    "roi": 0.3811,
+    "losses": 14,
+    "units": 26.42,
+    "staked": 64.98,
+    "roi": 0.4066,
     "byAction": {
       "fade": {
         "wins": 40,
-        "losses": 15,
-        "units": 25.22,
-        "staked": 66.18,
-        "roi": 0.3811
+        "losses": 14,
+        "units": 26.42,
+        "staked": 64.98,
+        "roi": 0.4066
       },
       "take": {
         "wins": 0,
@@ -128,10 +113,10 @@
     "byHand": {
       "R": {
         "wins": 23,
-        "losses": 9,
-        "units": 13.56,
-        "staked": 38.84,
-        "roi": 0.3491
+        "losses": 8,
+        "units": 14.76,
+        "staked": 37.64,
+        "roi": 0.3921
       },
       "L": {
         "wins": 17,
@@ -1437,30 +1422,6 @@
       "result": "WIN",
       "reason": null,
       "profit": 1.0,
-      "book": "fanduel",
-      "source": "fanduel_api"
-    },
-    {
-      "date": "2026-08-10",
-      "commence": "2026-08-11T01:40:00Z",
-      "betType": "hand_fade",
-      "action": "fade",
-      "pitcher": "Casey Mize",
-      "entry": "Casey Mize",
-      "hand": "R",
-      "arm_team": "SD",
-      "opp_team": "MIL",
-      "selection": "MIL",
-      "home": "SD",
-      "away": "MIL",
-      "oppLefty": 6,
-      "oppRighty": 4,
-      "lineupConfirmed": true,
-      "odds": -120,
-      "stake": 1.2,
-      "result": "LOSS",
-      "reason": null,
-      "profit": -1.2,
       "book": "fanduel",
       "source": "fanduel_api"
     }
