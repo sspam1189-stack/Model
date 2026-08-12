@@ -1,7 +1,7 @@
 {
   "sport": "MLB",
   "type": "fade-ml",
-  "generated": "2026-08-12T13:06:42Z",
+  "generated": "2026-08-12T21:04:06Z",
   "fadeList": [
     "Painter",
     "Rocker",
@@ -73,22 +73,22 @@
   ],
   "mutualRule": "skip",
   "summary": {
-    "wins": 441,
+    "wins": 442,
     "losses": 154,
     "voids": 0,
     "skips": 38,
-    "staked": 742.44,
-    "units": 297.81,
-    "roi": 0.4011,
+    "staked": 743.48,
+    "units": 298.81,
+    "roi": 0.4019,
     "byType": {
       "ml": {
-        "wins": 431,
+        "wins": 432,
         "losses": 146,
         "voids": 0,
         "skips": 2,
-        "staked": 724.44,
-        "units": 292.77,
-        "roi": 0.4041
+        "staked": 725.48,
+        "units": 293.77,
+        "roi": 0.4049
       },
       "ml_dog": {
         "wins": 10,
@@ -104,27 +104,75 @@
   "today": [
     {
       "date": "2026-08-12",
-      "commence": "2026-08-12T17:40:00Z",
+      "commence": "2026-08-12T19:40:00Z",
       "betType": "ml",
       "shadow": false,
       "pitchers": [
-        "Shane Baz"
+        "Ryan Feltner"
       ],
-      "fadeTeam": "BAL",
+      "fadeTeam": "COL",
       "market": "h2h",
-      "selection": "MIN",
+      "selection": "ARI",
       "line": null,
-      "odds": -106,
-      "stake": 1.06,
+      "odds": -172,
+      "stake": 1.72,
       "result": "pending",
       "profit": 0.0,
       "book": "fanduel",
       "source": "fanduel_api",
       "reason": null,
-      "home": "MIN",
-      "away": "BAL",
-      "gamePk": 823672,
+      "home": "ARI",
+      "away": "COL",
+      "gamePk": 825047,
       "fadeReason": "away"
+    },
+    {
+      "date": "2026-08-12",
+      "commence": "2026-08-12T20:10:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Dustin May"
+      ],
+      "fadeTeam": "MIL",
+      "market": "h2h",
+      "selection": "SD",
+      "line": null,
+      "odds": 108,
+      "stake": 1.0,
+      "result": "pending",
+      "profit": 0.0,
+      "book": "fanduel",
+      "source": "fanduel_api",
+      "reason": null,
+      "home": "SD",
+      "away": "MIL",
+      "gamePk": 823263,
+      "fadeReason": "all"
+    },
+    {
+      "date": "2026-08-12",
+      "commence": "2026-08-12T19:05:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Jack Perkins"
+      ],
+      "fadeTeam": "OAK",
+      "market": "h2h",
+      "selection": "TB",
+      "line": null,
+      "odds": -220,
+      "stake": 2.2,
+      "result": "pending",
+      "profit": 0.0,
+      "book": "fanduel",
+      "source": "fanduel_api",
+      "reason": null,
+      "home": "OAK",
+      "away": "TB",
+      "gamePk": 824967,
+      "fadeReason": "all"
     },
     {
       "date": "2026-08-12",
@@ -153,30 +201,6 @@
     },
     {
       "date": "2026-08-12",
-      "commence": "2026-08-12T19:40:00Z",
-      "betType": "ml",
-      "shadow": false,
-      "pitchers": [
-        "Ryan Feltner"
-      ],
-      "fadeTeam": "COL",
-      "market": "h2h",
-      "selection": "ARI",
-      "line": null,
-      "odds": -172,
-      "stake": 1.72,
-      "result": "pending",
-      "profit": 0.0,
-      "book": "fanduel",
-      "source": "fanduel_api",
-      "reason": null,
-      "home": "ARI",
-      "away": "COL",
-      "gamePk": 825047,
-      "fadeReason": "away"
-    },
-    {
-      "date": "2026-08-12",
       "commence": "2026-08-12T22:40:00Z",
       "betType": "ml",
       "shadow": false,
@@ -187,7 +211,7 @@
       "market": "h2h",
       "selection": "CLE",
       "line": null,
-      "odds": 110,
+      "odds": 114,
       "stake": 1.0,
       "result": "pending",
       "profit": 0.0,
@@ -197,54 +221,6 @@
       "home": "DET",
       "away": "CLE",
       "gamePk": 824241,
-      "fadeReason": "all"
-    },
-    {
-      "date": "2026-08-12",
-      "commence": "2026-08-12T20:10:00Z",
-      "betType": "ml",
-      "shadow": false,
-      "pitchers": [
-        "Dustin May"
-      ],
-      "fadeTeam": "MIL",
-      "market": "h2h",
-      "selection": "SD",
-      "line": null,
-      "odds": 104,
-      "stake": 1.0,
-      "result": "pending",
-      "profit": 0.0,
-      "book": "fanduel",
-      "source": "fanduel_api",
-      "reason": null,
-      "home": "SD",
-      "away": "MIL",
-      "gamePk": 823263,
-      "fadeReason": "all"
-    },
-    {
-      "date": "2026-08-12",
-      "commence": "2026-08-12T19:05:00Z",
-      "betType": "ml",
-      "shadow": false,
-      "pitchers": [
-        "Jack Perkins"
-      ],
-      "fadeTeam": "OAK",
-      "market": "h2h",
-      "selection": "TB",
-      "line": null,
-      "odds": -205,
-      "stake": 2.05,
-      "result": "pending",
-      "profit": 0.0,
-      "book": "fanduel",
-      "source": "fanduel_api",
-      "reason": null,
-      "home": "OAK",
-      "away": "TB",
-      "gamePk": 824967,
       "fadeReason": "all"
     },
     {
@@ -15517,6 +15493,30 @@
       "home": "LAD",
       "away": "KC",
       "gamePk": 823917,
+      "fadeReason": "away"
+    },
+    {
+      "date": "2026-08-12",
+      "commence": "2026-08-12T17:40:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Shane Baz"
+      ],
+      "fadeTeam": "BAL",
+      "market": "h2h",
+      "selection": "MIN",
+      "line": null,
+      "odds": -104,
+      "stake": 1.04,
+      "result": "WIN",
+      "profit": 1.0,
+      "book": "fanduel",
+      "source": "fanduel_api",
+      "reason": null,
+      "home": "MIN",
+      "away": "BAL",
+      "gamePk": 823672,
       "fadeReason": "away"
     }
   ]
