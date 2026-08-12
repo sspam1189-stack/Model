@@ -1,7 +1,7 @@
 {
   "sport": "MLB",
   "type": "fade-ml",
-  "generated": "2026-08-11T23:02:56Z",
+  "generated": "2026-08-12T13:06:42Z",
   "fadeList": [
     "Painter",
     "Rocker",
@@ -73,28 +73,28 @@
   ],
   "mutualRule": "skip",
   "summary": {
-    "wins": 439,
-    "losses": 153,
+    "wins": 441,
+    "losses": 154,
     "voids": 0,
-    "skips": 37,
-    "staked": 737.1,
-    "units": 297.29,
-    "roi": 0.4033,
+    "skips": 38,
+    "staked": 742.44,
+    "units": 297.81,
+    "roi": 0.4011,
     "byType": {
       "ml": {
-        "wins": 429,
-        "losses": 145,
+        "wins": 431,
+        "losses": 146,
         "voids": 0,
         "skips": 2,
-        "staked": 719.1,
-        "units": 292.25,
-        "roi": 0.4064
+        "staked": 724.44,
+        "units": 292.77,
+        "roi": 0.4041
       },
       "ml_dog": {
         "wins": 10,
         "losses": 8,
         "voids": 0,
-        "skips": 35,
+        "skips": 36,
         "staked": 18.0,
         "units": 5.04,
         "roi": 0.28
@@ -103,13 +103,37 @@
   },
   "today": [
     {
-      "date": "2026-08-11",
-      "commence": "2026-08-11T22:45:00Z",
+      "date": "2026-08-12",
+      "commence": "2026-08-12T17:40:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Shane Baz"
+      ],
+      "fadeTeam": "BAL",
+      "market": "h2h",
+      "selection": "MIN",
+      "line": null,
+      "odds": -106,
+      "stake": 1.06,
+      "result": "pending",
+      "profit": 0.0,
+      "book": "fanduel",
+      "source": "fanduel_api",
+      "reason": null,
+      "home": "MIN",
+      "away": "BAL",
+      "gamePk": 823672,
+      "fadeReason": "away"
+    },
+    {
+      "date": "2026-08-12",
+      "commence": "2026-08-12T23:40:00Z",
       "betType": "ml_dog",
       "shadow": false,
       "pitchers": [
-        "Shota Imanaga",
-        "Jake Irvin"
+        "Rhett Lowder",
+        "Luis Castillo"
       ],
       "fadeTeam": null,
       "market": "h2h",
@@ -122,25 +146,121 @@
       "book": "fanduel",
       "source": "fanduel_api",
       "reason": "mutual_skip",
-      "home": "WSH",
-      "away": "CHC",
-      "gamePk": 822697,
-      "fadeReason": "away/home"
+      "home": "CWS",
+      "away": "CIN",
+      "gamePk": 824562,
+      "fadeReason": "away/all"
     },
     {
-      "date": "2026-08-11",
-      "commence": "2026-08-11T23:05:00Z",
+      "date": "2026-08-12",
+      "commence": "2026-08-12T19:40:00Z",
       "betType": "ml",
       "shadow": false,
       "pitchers": [
-        "Bryan Woo"
+        "Ryan Feltner"
+      ],
+      "fadeTeam": "COL",
+      "market": "h2h",
+      "selection": "ARI",
+      "line": null,
+      "odds": -172,
+      "stake": 1.72,
+      "result": "pending",
+      "profit": 0.0,
+      "book": "fanduel",
+      "source": "fanduel_api",
+      "reason": null,
+      "home": "ARI",
+      "away": "COL",
+      "gamePk": 825047,
+      "fadeReason": "away"
+    },
+    {
+      "date": "2026-08-12",
+      "commence": "2026-08-12T22:40:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Framber Valdez"
+      ],
+      "fadeTeam": "DET",
+      "market": "h2h",
+      "selection": "CLE",
+      "line": null,
+      "odds": 110,
+      "stake": 1.0,
+      "result": "pending",
+      "profit": 0.0,
+      "book": "fanduel",
+      "source": "fanduel_api",
+      "reason": null,
+      "home": "DET",
+      "away": "CLE",
+      "gamePk": 824241,
+      "fadeReason": "all"
+    },
+    {
+      "date": "2026-08-12",
+      "commence": "2026-08-12T20:10:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Dustin May"
+      ],
+      "fadeTeam": "MIL",
+      "market": "h2h",
+      "selection": "SD",
+      "line": null,
+      "odds": 104,
+      "stake": 1.0,
+      "result": "pending",
+      "profit": 0.0,
+      "book": "fanduel",
+      "source": "fanduel_api",
+      "reason": null,
+      "home": "SD",
+      "away": "MIL",
+      "gamePk": 823263,
+      "fadeReason": "all"
+    },
+    {
+      "date": "2026-08-12",
+      "commence": "2026-08-12T19:05:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Jack Perkins"
+      ],
+      "fadeTeam": "OAK",
+      "market": "h2h",
+      "selection": "TB",
+      "line": null,
+      "odds": -205,
+      "stake": 2.05,
+      "result": "pending",
+      "profit": 0.0,
+      "book": "fanduel",
+      "source": "fanduel_api",
+      "reason": null,
+      "home": "OAK",
+      "away": "TB",
+      "gamePk": 824967,
+      "fadeReason": "all"
+    },
+    {
+      "date": "2026-08-12",
+      "commence": "2026-08-12T23:05:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Bryce Miller"
       ],
       "fadeTeam": "SEA",
       "market": "h2h",
       "selection": "NYY",
       "line": null,
-      "odds": -126,
-      "stake": 1.26,
+      "odds": -124,
+      "stake": 1.24,
       "result": "pending",
       "profit": 0.0,
       "book": "fanduel",
@@ -148,56 +268,8 @@
       "reason": null,
       "home": "NYY",
       "away": "SEA",
-      "gamePk": 823512,
+      "gamePk": 823511,
       "fadeReason": "away"
-    },
-    {
-      "date": "2026-08-11",
-      "commence": "2026-08-12T02:10:00Z",
-      "betType": "ml",
-      "shadow": false,
-      "pitchers": [
-        "Michael Wacha"
-      ],
-      "fadeTeam": "KC",
-      "market": "h2h",
-      "selection": "LAD",
-      "line": null,
-      "odds": -260,
-      "stake": 2.6,
-      "result": "pending",
-      "profit": 0.0,
-      "book": "fanduel",
-      "source": "fanduel_api",
-      "reason": null,
-      "home": "LAD",
-      "away": "KC",
-      "gamePk": 823917,
-      "fadeReason": "away"
-    },
-    {
-      "date": "2026-08-11",
-      "commence": "2026-08-12T01:38:00Z",
-      "betType": "ml",
-      "shadow": false,
-      "pitchers": [
-        "Ryan Johnson"
-      ],
-      "fadeTeam": "LAA",
-      "market": "h2h",
-      "selection": "TEX",
-      "line": null,
-      "odds": -148,
-      "stake": 1.48,
-      "result": "pending",
-      "profit": 0.0,
-      "book": "fanduel",
-      "source": "fanduel_api",
-      "reason": null,
-      "home": "LAA",
-      "away": "TEX",
-      "gamePk": 823997,
-      "fadeReason": "all"
     }
   ],
   "bets": [
@@ -15349,6 +15421,103 @@
       "away": "KC",
       "gamePk": 823918,
       "fadeReason": "all"
+    },
+    {
+      "date": "2026-08-11",
+      "commence": "2026-08-11T22:45:00Z",
+      "betType": "ml_dog",
+      "shadow": false,
+      "pitchers": [
+        "Shota Imanaga",
+        "Jake Irvin"
+      ],
+      "fadeTeam": null,
+      "market": "h2h",
+      "selection": null,
+      "line": null,
+      "odds": null,
+      "stake": null,
+      "result": "SKIP",
+      "profit": 0.0,
+      "book": "fanduel",
+      "source": "fanduel_api",
+      "reason": "mutual_skip",
+      "home": "WSH",
+      "away": "CHC",
+      "gamePk": 822697,
+      "fadeReason": "away/home"
+    },
+    {
+      "date": "2026-08-11",
+      "commence": "2026-08-11T23:05:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Bryan Woo"
+      ],
+      "fadeTeam": "SEA",
+      "market": "h2h",
+      "selection": "NYY",
+      "line": null,
+      "odds": -126,
+      "stake": 1.26,
+      "result": "WIN",
+      "profit": 1.0,
+      "book": "fanduel",
+      "source": "fanduel_api",
+      "reason": null,
+      "home": "NYY",
+      "away": "SEA",
+      "gamePk": 823512,
+      "fadeReason": "away"
+    },
+    {
+      "date": "2026-08-11",
+      "commence": "2026-08-12T01:38:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Ryan Johnson"
+      ],
+      "fadeTeam": "LAA",
+      "market": "h2h",
+      "selection": "TEX",
+      "line": null,
+      "odds": -148,
+      "stake": 1.48,
+      "result": "LOSS",
+      "profit": -1.48,
+      "book": "fanduel",
+      "source": "fanduel_api",
+      "reason": null,
+      "home": "LAA",
+      "away": "TEX",
+      "gamePk": 823997,
+      "fadeReason": "all"
+    },
+    {
+      "date": "2026-08-11",
+      "commence": "2026-08-12T02:10:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Michael Wacha"
+      ],
+      "fadeTeam": "KC",
+      "market": "h2h",
+      "selection": "LAD",
+      "line": null,
+      "odds": -260,
+      "stake": 2.6,
+      "result": "WIN",
+      "profit": 1.0,
+      "book": "fanduel",
+      "source": "fanduel_api",
+      "reason": null,
+      "home": "LAD",
+      "away": "KC",
+      "gamePk": 823917,
+      "fadeReason": "away"
     }
   ]
 }

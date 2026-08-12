@@ -1,27 +1,45 @@
 {
   "sport": "MLB",
   "type": "fade-watch",
-  "generated": "2026-08-11T23:06:03Z",
+  "generated": "2026-08-12T13:09:28Z",
   "minGames": 3,
   "minUnits": 2.5,
   "note": "Shadow review list -- arms NOT on the active fade list whose home or away fade clears the bar (>= 3 games, >= +2.5u). In-sample season replay; watch, don't bet. Promote by editing scripts/fade_list.py.",
   "today": [
     {
-      "date": "2026-08-11",
-      "commence": "2026-08-11T23:40:00Z",
+      "date": "2026-08-12",
+      "commence": "2026-08-12T17:40:00Z",
       "betType": "fade_watch",
       "watch": true,
-      "pitcher": "Sean Burke",
-      "arm_team": "CWS",
-      "fadeTeam": "CWS",
-      "selection": "CIN",
-      "home": "CWS",
-      "away": "CIN",
+      "pitcher": "Zebby Matthews",
+      "arm_team": "MIN",
+      "fadeTeam": "MIN",
+      "selection": "BAL",
+      "home": "MIN",
+      "away": "BAL",
       "venue": "home",
-      "odds": 142,
+      "odds": -102,
       "suggest": "home",
-      "suggestUnits": 2.86,
-      "games": 11,
+      "suggestUnits": 2.62,
+      "games": 6,
+      "result": "pending"
+    },
+    {
+      "date": "2026-08-12",
+      "commence": "2026-08-12T23:05:00Z",
+      "betType": "fade_watch",
+      "watch": true,
+      "pitcher": "Will Warren",
+      "arm_team": "NYY",
+      "fadeTeam": "NYY",
+      "selection": "SEA",
+      "home": "NYY",
+      "away": "SEA",
+      "venue": "home",
+      "odds": 114,
+      "suggest": "home",
+      "suggestUnits": 3.22,
+      "games": 9,
       "result": "pending"
     }
   ],
@@ -105,6 +123,33 @@
         "u": -4.46,
         "n": 9,
         "roi": -0.3933
+      }
+    },
+    {
+      "pitcher": "Sean Burke",
+      "team": "CWS",
+      "suggest": "home",
+      "suggestUnits": 4.28,
+      "all": {
+        "w": 10,
+        "l": 9,
+        "u": -0.72,
+        "n": 19,
+        "roi": -0.0292
+      },
+      "home": {
+        "w": 8,
+        "l": 4,
+        "u": 4.28,
+        "n": 12,
+        "roi": 0.2882
+      },
+      "away": {
+        "w": 2,
+        "l": 5,
+        "u": -5.0,
+        "n": 7,
+        "roi": -0.5092
       }
     },
     {
@@ -249,17 +294,17 @@
       "suggestUnits": 3.34,
       "all": {
         "w": 11,
-        "l": 7,
-        "u": 3.68,
-        "n": 18,
-        "roi": 0.1739
+        "l": 8,
+        "u": 2.6,
+        "n": 19,
+        "roi": 0.1169
       },
       "home": {
         "w": 4,
-        "l": 4,
-        "u": 0.34,
-        "n": 8,
-        "roi": 0.0402
+        "l": 5,
+        "u": -0.74,
+        "n": 9,
+        "roi": -0.0776
       },
       "away": {
         "w": 7,
@@ -510,33 +555,6 @@
         "u": -7.5,
         "n": 9,
         "roi": -0.5304
-      }
-    },
-    {
-      "pitcher": "Sean Burke",
-      "team": "CWS",
-      "suggest": "home",
-      "suggestUnits": 2.86,
-      "all": {
-        "w": 9,
-        "l": 9,
-        "u": -2.14,
-        "n": 18,
-        "roi": -0.0904
-      },
-      "home": {
-        "w": 7,
-        "l": 4,
-        "u": 2.86,
-        "n": 11,
-        "roi": 0.2065
-      },
-      "away": {
-        "w": 2,
-        "l": 5,
-        "u": -5.0,
-        "n": 7,
-        "roi": -0.5092
       }
     },
     {
