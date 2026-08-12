@@ -53,6 +53,13 @@ MUTUAL_DOG_MIN = int(os.environ.get("MUTUAL_DOG_MIN", "120"))
 # MUTUAL_FADE_RULE grading above so the season record is unchanged. Set to ""
 # to disable the cutoff.
 MUTUAL_SKIP_START = os.environ.get("MUTUAL_SKIP_START", "2026-08-07")
+# Conflicting-fade precedence (2026-08-12, user): vs-team > handedness > venue.
+# From this date onward, a venue (fade-list) fade whose OPPOSING starter is an
+# active hand-tails FADE on a qualifying lineup yields (SKIP) -- the two fades
+# point at opposite sides, and the handedness ledger carries the play. Walk-
+# forward only, like MUTUAL_SKIP_START; set to "" to disable.
+HAND_FADE_OVERRIDE_START = os.environ.get(
+    "HAND_FADE_OVERRIDE_START", "2026-08-12")
 
 
 def mutual_rule_for(date):
@@ -263,6 +270,27 @@ def _vs_team_override(opp_pitcher, fade_team, date):
         return False
 
 
+def _hand_fade_override(opp_pitcher, fade_team, date):
+    """True if the opposing starter is an ACTIVE hand-tails FADE on a
+    qualifying lineup -- his handedness fade bets fade_team, opposite our
+    venue fade's side.
+
+    Conflicting-fade precedence (2026-08-12): vs-team > handedness > venue.
+    Handedness outranks venue, so the fade-list fade yields (SKIP) and the
+    hand-tails ledger carries the play. Date-gated walk-forward via
+    HAND_FADE_OVERRIDE_START so history keeps its original grading. Lazy
+    import + fail-open like the other overrides.
+    """
+    if not HAND_FADE_OVERRIDE_START or not date or date < HAND_FADE_OVERRIDE_START:
+        return False
+    try:
+        from hand_tails import fade_conflicts_hand_fade
+        return bool(opp_pitcher) and \
+            fade_conflicts_hand_fade(opp_pitcher, date, fade_team)
+    except Exception:
+        return False
+
+
 # --- bet construction (single serializer) ---------------------------------
 
 def _bet(date, commence, bet_type, fg, market, selection, line, odds,
@@ -330,6 +358,13 @@ def build_bets_for_game(date, fg, g, odds_row):
             # venue fade yields (the vs-team ledger carries the play).
             bets.append(_bet(date, commence, "ml", fg, "h2h", None, None,
                              None, "SKIP", "vs_team_override", source=source))
+        elif _hand_fade_override(fg.get("oppPitcher"), fg.get("fadeTeam"), date):
+            # Conflicting fades: the opposing starter is an active hand-tails
+            # FADE on a qualifying lineup, betting OUR fade team. Handedness
+            # outranks venue (vs-team > handedness > venue), so this venue
+            # fade yields (the hand-tails ledger carries the play).
+            bets.append(_bet(date, commence, "ml", fg, "h2h", None, None,
+                             None, "SKIP", "hand_fade_override", source=source))
         elif arm and _hand_tail_override(arm, date, team):
             # Arm is a hand-tails TAKE facing a qualifying opposite-hand lineup:
             # hand-tails wins the overlap, so the fade-list fade yields here.

@@ -251,3 +251,25 @@ def fade_overridden_by_take(pitcher_name, date_iso, opp_team):
         return False
     lefty, righty = opp_lineup_counts(opp_team, date_iso)
     return qualifies(hand, lefty, righty)
+
+
+def fade_conflicts_hand_fade(opp_pitcher, date_iso, fade_team):
+    """True if a fade-list fade should yield because the OPPOSING starter is an
+    ACTIVE hand-tails FADE on a qualifying lineup.
+
+    Orientation: the fade-list fade bets opp_pitcher's team; the hand-tails
+    fade of opp_pitcher bets fade_team (his opponent). The two point at
+    opposite sides of the same game, and handedness outranks venue
+    (precedence: vs-team > handedness > venue), so the venue fade yields.
+    fade_team's lineup is the one opp_pitcher's hand is measured against.
+    Honors FADE_EXCEPT_VS_TEAM so the override only fires where hand-tails
+    would actually place its bet.
+    """
+    entry, hand, action = tail_entry(opp_pitcher, date_iso)
+    if action != "fade":
+        return False
+    from fade_list import fade_except_vs_team
+    if fade_team in fade_except_vs_team(opp_pitcher):
+        return False
+    lefty, righty = opp_lineup_counts(fade_team, date_iso)
+    return qualifies(hand, lefty, righty)
