@@ -200,7 +200,7 @@ FADE_WINDOW = {
     "Lowder":         {"add": SEASON_START},  # backfilled: faded all season
     "Skenes":         {"add": SEASON_START, "remove": "2026-07-31"},  # removed 7/31: elite arm, fade was pure market-pricing (PIT overpriced) -- too fragile
     # Added mid-season: good before, fade-worthy from these dates on.
-    "Dustin May":        {"add": "2026-07-18"},
+    "Dustin May":        {"add": "2026-07-18", "remove": "2026-08-13"},  # removed 2026-08-13 (user): no fades from 8/13 on, prior record (incl. 8/12 SD play) stays
     "Grayson Rodriguez": {"add": SEASON_START},  # 2026-07-27: home-only (FADE_VENUE), full season
     "Bryan Woo":         {"add": SEASON_START},  # away-only (see FADE_VENUE); backfilled full season 2026-07-28
     # Zebby Matthews: moved to watchlist 2026-08-01 (removed from active roster).
