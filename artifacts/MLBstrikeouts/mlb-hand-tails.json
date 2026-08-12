@@ -1,7 +1,7 @@
 {
   "sport": "MLB",
   "type": "hand-tails",
-  "generated": "2026-08-12T21:53:38Z",
+  "generated": "2026-08-12T23:04:27Z",
   "handMin": 6,
   "roster": {
     "Andrew Painter": {
@@ -97,18 +97,18 @@
   ],
   "demotions": [],
   "summary": {
-    "wins": 41,
+    "wins": 42,
     "losses": 15,
-    "units": 25.88,
-    "staked": 67.56,
-    "roi": 0.3831,
+    "units": 27.46,
+    "staked": 68.56,
+    "roi": 0.4005,
     "byAction": {
       "fade": {
-        "wins": 41,
+        "wins": 42,
         "losses": 15,
-        "units": 25.88,
-        "staked": 67.56,
-        "roi": 0.3831
+        "units": 27.46,
+        "staked": 68.56,
+        "roi": 0.4005
       },
       "take": {
         "wins": 0,
@@ -120,11 +120,11 @@
     },
     "byHand": {
       "R": {
-        "wins": 24,
+        "wins": 25,
         "losses": 8,
-        "units": 15.76,
-        "staked": 38.68,
-        "roi": 0.4074
+        "units": 17.34,
+        "staked": 39.68,
+        "roi": 0.437
       },
       "L": {
         "wins": 17,
@@ -136,30 +136,6 @@
     }
   },
   "today": [
-    {
-      "date": "2026-08-12",
-      "commence": "2026-08-12T19:40:00Z",
-      "betType": "hand_fade",
-      "action": "fade",
-      "pitcher": "Merrill Kelly",
-      "entry": "Merrill Kelly",
-      "hand": "R",
-      "arm_team": "ARI",
-      "opp_team": "COL",
-      "selection": "COL",
-      "home": "ARI",
-      "away": "COL",
-      "oppLefty": 7,
-      "oppRighty": 4,
-      "lineupConfirmed": true,
-      "odds": 158,
-      "stake": 1.0,
-      "result": "pending",
-      "reason": null,
-      "profit": 0.0,
-      "book": "fanduel",
-      "source": "fanduel_api"
-    },
     {
       "date": "2026-08-12",
       "commence": "2026-08-12T22:40:00Z",
@@ -200,8 +176,8 @@
       "oppLefty": 7,
       "oppRighty": 2,
       "lineupConfirmed": true,
-      "odds": -128,
-      "stake": 1.28,
+      "odds": -122,
+      "stake": 1.22,
       "result": "pending",
       "reason": null,
       "profit": 0.0,
@@ -1551,6 +1527,30 @@
       "result": "WIN",
       "reason": null,
       "profit": 1.0,
+      "book": "fanduel",
+      "source": "fanduel_api"
+    },
+    {
+      "date": "2026-08-12",
+      "commence": "2026-08-12T19:40:00Z",
+      "betType": "hand_fade",
+      "action": "fade",
+      "pitcher": "Merrill Kelly",
+      "entry": "Merrill Kelly",
+      "hand": "R",
+      "arm_team": "ARI",
+      "opp_team": "COL",
+      "selection": "COL",
+      "home": "ARI",
+      "away": "COL",
+      "oppLefty": 7,
+      "oppRighty": 4,
+      "lineupConfirmed": true,
+      "odds": 158,
+      "stake": 1.0,
+      "result": "WIN",
+      "reason": null,
+      "profit": 1.58,
       "book": "fanduel",
       "source": "fanduel_api"
     }
