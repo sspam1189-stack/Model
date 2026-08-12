@@ -1,7 +1,7 @@
 {
   "sport": "MLB",
   "type": "hand-tails",
-  "generated": "2026-08-12T13:08:22Z",
+  "generated": "2026-08-12T16:05:38Z",
   "handMin": 6,
   "roster": {
     "Andrew Painter": {
@@ -136,6 +136,30 @@
     }
   },
   "today": [
+    {
+      "date": "2026-08-12",
+      "commence": "2026-08-12T17:40:00Z",
+      "betType": "hand_fade",
+      "action": "fade",
+      "pitcher": "Shane Baz",
+      "entry": "Shane Baz",
+      "hand": "R",
+      "arm_team": "BAL",
+      "opp_team": "MIN",
+      "selection": "MIN",
+      "home": "MIN",
+      "away": "BAL",
+      "oppLefty": 6,
+      "oppRighty": 6,
+      "lineupConfirmed": true,
+      "odds": -104,
+      "stake": 1.04,
+      "result": "pending",
+      "reason": null,
+      "profit": 0.0,
+      "book": "fanduel",
+      "source": "fanduel_api"
+    },
     {
       "date": "2026-08-12",
       "commence": "2026-08-12T22:40:00Z",
