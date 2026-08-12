@@ -1,7 +1,7 @@
 {
   "sport": "MLB",
   "type": "hand-tails",
-  "generated": "2026-08-12T18:35:30Z",
+  "generated": "2026-08-12T21:05:43Z",
   "handMin": 6,
   "roster": {
     "Andrew Painter": {
@@ -97,18 +97,18 @@
   ],
   "demotions": [],
   "summary": {
-    "wins": 40,
+    "wins": 41,
     "losses": 15,
-    "units": 24.88,
-    "staked": 66.52,
-    "roi": 0.374,
+    "units": 25.88,
+    "staked": 67.56,
+    "roi": 0.3831,
     "byAction": {
       "fade": {
-        "wins": 40,
+        "wins": 41,
         "losses": 15,
-        "units": 24.88,
-        "staked": 66.52,
-        "roi": 0.374
+        "units": 25.88,
+        "staked": 67.56,
+        "roi": 0.3831
       },
       "take": {
         "wins": 0,
@@ -120,11 +120,11 @@
     },
     "byHand": {
       "R": {
-        "wins": 23,
+        "wins": 24,
         "losses": 8,
-        "units": 14.76,
-        "staked": 37.64,
-        "roi": 0.3921
+        "units": 15.76,
+        "staked": 38.68,
+        "roi": 0.4074
       },
       "L": {
         "wins": 17,
@@ -136,30 +136,6 @@
     }
   },
   "today": [
-    {
-      "date": "2026-08-12",
-      "commence": "2026-08-12T17:40:00Z",
-      "betType": "hand_fade",
-      "action": "fade",
-      "pitcher": "Shane Baz",
-      "entry": "Shane Baz",
-      "hand": "R",
-      "arm_team": "BAL",
-      "opp_team": "MIN",
-      "selection": "MIN",
-      "home": "MIN",
-      "away": "BAL",
-      "oppLefty": 6,
-      "oppRighty": 6,
-      "lineupConfirmed": true,
-      "odds": -104,
-      "stake": 1.04,
-      "result": "pending",
-      "reason": null,
-      "profit": 0.0,
-      "book": "fanduel",
-      "source": "fanduel_api"
-    },
     {
       "date": "2026-08-12",
       "commence": "2026-08-12T19:40:00Z",
@@ -198,11 +174,11 @@
       "home": "DET",
       "away": "CLE",
       "oppLefty": 6,
-      "oppRighty": 6,
-      "lineupConfirmed": false,
-      "odds": null,
-      "stake": null,
-      "result": "unconfirmed",
+      "oppRighty": 7,
+      "lineupConfirmed": true,
+      "odds": 114,
+      "stake": 1.0,
+      "result": "pending",
       "reason": null,
       "profit": 0.0,
       "book": "fanduel",
@@ -223,10 +199,10 @@
       "away": "SEA",
       "oppLefty": 7,
       "oppRighty": 2,
-      "lineupConfirmed": false,
-      "odds": null,
-      "stake": null,
-      "result": "unconfirmed",
+      "lineupConfirmed": true,
+      "odds": -124,
+      "stake": 1.24,
+      "result": "pending",
       "reason": null,
       "profit": 0.0,
       "book": "fanduel",
@@ -1551,6 +1527,30 @@
       "result": "LOSS",
       "reason": null,
       "profit": -1.54,
+      "book": "fanduel",
+      "source": "fanduel_api"
+    },
+    {
+      "date": "2026-08-12",
+      "commence": "2026-08-12T17:40:00Z",
+      "betType": "hand_fade",
+      "action": "fade",
+      "pitcher": "Shane Baz",
+      "entry": "Shane Baz",
+      "hand": "R",
+      "arm_team": "BAL",
+      "opp_team": "MIN",
+      "selection": "MIN",
+      "home": "MIN",
+      "away": "BAL",
+      "oppLefty": 6,
+      "oppRighty": 6,
+      "lineupConfirmed": true,
+      "odds": -104,
+      "stake": 1.04,
+      "result": "WIN",
+      "reason": null,
+      "profit": 1.0,
       "book": "fanduel",
       "source": "fanduel_api"
     }

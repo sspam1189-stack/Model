@@ -1,7 +1,7 @@
 {
   "sport": "MLB",
   "type": "fade-ml",
-  "generated": "2026-08-12T18:34:10Z",
+  "generated": "2026-08-12T21:04:06Z",
   "fadeList": [
     "Painter",
     "Rocker",
@@ -73,22 +73,22 @@
   ],
   "mutualRule": "skip",
   "summary": {
-    "wins": 441,
+    "wins": 442,
     "losses": 154,
     "voids": 0,
     "skips": 38,
-    "staked": 742.44,
-    "units": 297.81,
-    "roi": 0.4011,
+    "staked": 743.48,
+    "units": 298.81,
+    "roi": 0.4019,
     "byType": {
       "ml": {
-        "wins": 431,
+        "wins": 432,
         "losses": 146,
         "voids": 0,
         "skips": 2,
-        "staked": 724.44,
-        "units": 292.77,
-        "roi": 0.4041
+        "staked": 725.48,
+        "units": 293.77,
+        "roi": 0.4049
       },
       "ml_dog": {
         "wins": 10,
@@ -102,55 +102,6 @@
     }
   },
   "today": [
-    {
-      "date": "2026-08-12",
-      "commence": "2026-08-12T17:40:00Z",
-      "betType": "ml",
-      "shadow": false,
-      "pitchers": [
-        "Shane Baz"
-      ],
-      "fadeTeam": "BAL",
-      "market": "h2h",
-      "selection": "MIN",
-      "line": null,
-      "odds": -104,
-      "stake": 1.04,
-      "result": "pending",
-      "profit": 0.0,
-      "book": "fanduel",
-      "source": "fanduel_api",
-      "reason": null,
-      "home": "MIN",
-      "away": "BAL",
-      "gamePk": 823672,
-      "fadeReason": "away"
-    },
-    {
-      "date": "2026-08-12",
-      "commence": "2026-08-12T23:40:00Z",
-      "betType": "ml_dog",
-      "shadow": false,
-      "pitchers": [
-        "Rhett Lowder",
-        "Luis Castillo"
-      ],
-      "fadeTeam": null,
-      "market": "h2h",
-      "selection": null,
-      "line": null,
-      "odds": null,
-      "stake": null,
-      "result": "SKIP",
-      "profit": 0.0,
-      "book": "fanduel",
-      "source": "fanduel_api",
-      "reason": "mutual_skip",
-      "home": "CWS",
-      "away": "CIN",
-      "gamePk": 824562,
-      "fadeReason": "away/all"
-    },
     {
       "date": "2026-08-12",
       "commence": "2026-08-12T19:40:00Z",
@@ -174,30 +125,6 @@
       "away": "COL",
       "gamePk": 825047,
       "fadeReason": "away"
-    },
-    {
-      "date": "2026-08-12",
-      "commence": "2026-08-12T22:40:00Z",
-      "betType": "ml",
-      "shadow": false,
-      "pitchers": [
-        "Framber Valdez"
-      ],
-      "fadeTeam": "DET",
-      "market": "h2h",
-      "selection": "CLE",
-      "line": null,
-      "odds": 110,
-      "stake": 1.0,
-      "result": "pending",
-      "profit": 0.0,
-      "book": "fanduel",
-      "source": "fanduel_api",
-      "reason": null,
-      "home": "DET",
-      "away": "CLE",
-      "gamePk": 824241,
-      "fadeReason": "all"
     },
     {
       "date": "2026-08-12",
@@ -245,6 +172,55 @@
       "home": "OAK",
       "away": "TB",
       "gamePk": 824967,
+      "fadeReason": "all"
+    },
+    {
+      "date": "2026-08-12",
+      "commence": "2026-08-12T23:40:00Z",
+      "betType": "ml_dog",
+      "shadow": false,
+      "pitchers": [
+        "Rhett Lowder",
+        "Luis Castillo"
+      ],
+      "fadeTeam": null,
+      "market": "h2h",
+      "selection": null,
+      "line": null,
+      "odds": null,
+      "stake": null,
+      "result": "SKIP",
+      "profit": 0.0,
+      "book": "fanduel",
+      "source": "fanduel_api",
+      "reason": "mutual_skip",
+      "home": "CWS",
+      "away": "CIN",
+      "gamePk": 824562,
+      "fadeReason": "away/all"
+    },
+    {
+      "date": "2026-08-12",
+      "commence": "2026-08-12T22:40:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Framber Valdez"
+      ],
+      "fadeTeam": "DET",
+      "market": "h2h",
+      "selection": "CLE",
+      "line": null,
+      "odds": 114,
+      "stake": 1.0,
+      "result": "pending",
+      "profit": 0.0,
+      "book": "fanduel",
+      "source": "fanduel_api",
+      "reason": null,
+      "home": "DET",
+      "away": "CLE",
+      "gamePk": 824241,
       "fadeReason": "all"
     },
     {
@@ -15517,6 +15493,30 @@
       "home": "LAD",
       "away": "KC",
       "gamePk": 823917,
+      "fadeReason": "away"
+    },
+    {
+      "date": "2026-08-12",
+      "commence": "2026-08-12T17:40:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Shane Baz"
+      ],
+      "fadeTeam": "BAL",
+      "market": "h2h",
+      "selection": "MIN",
+      "line": null,
+      "odds": -104,
+      "stake": 1.04,
+      "result": "WIN",
+      "profit": 1.0,
+      "book": "fanduel",
+      "source": "fanduel_api",
+      "reason": null,
+      "home": "MIN",
+      "away": "BAL",
+      "gamePk": 823672,
       "fadeReason": "away"
     }
   ]
