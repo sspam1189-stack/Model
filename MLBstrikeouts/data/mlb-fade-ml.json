@@ -1,7 +1,7 @@
 {
   "sport": "MLB",
   "type": "fade-ml",
-  "generated": "2026-08-12T21:04:06Z",
+  "generated": "2026-08-12T21:52:19Z",
   "fadeList": [
     "Painter",
     "Rocker",
@@ -73,22 +73,22 @@
   ],
   "mutualRule": "skip",
   "summary": {
-    "wins": 442,
+    "wins": 443,
     "losses": 154,
     "voids": 0,
     "skips": 38,
-    "staked": 743.48,
-    "units": 298.81,
-    "roi": 0.4019,
+    "staked": 745.68,
+    "units": 299.81,
+    "roi": 0.4021,
     "byType": {
       "ml": {
-        "wins": 432,
+        "wins": 433,
         "losses": 146,
         "voids": 0,
         "skips": 2,
-        "staked": 725.48,
-        "units": 293.77,
-        "roi": 0.4049
+        "staked": 727.68,
+        "units": 294.77,
+        "roi": 0.4051
       },
       "ml_dog": {
         "wins": 10,
@@ -112,15 +112,15 @@
       ],
       "fadeTeam": "COL",
       "market": "h2h",
-      "selection": "ARI",
+      "selection": null,
       "line": null,
-      "odds": -172,
-      "stake": 1.72,
-      "result": "pending",
+      "odds": null,
+      "stake": null,
+      "result": "SKIP",
       "profit": 0.0,
       "book": "fanduel",
       "source": "fanduel_api",
-      "reason": null,
+      "reason": "hand_fade_override",
       "home": "ARI",
       "away": "COL",
       "gamePk": 825047,
@@ -148,30 +148,6 @@
       "home": "SD",
       "away": "MIL",
       "gamePk": 823263,
-      "fadeReason": "all"
-    },
-    {
-      "date": "2026-08-12",
-      "commence": "2026-08-12T19:05:00Z",
-      "betType": "ml",
-      "shadow": false,
-      "pitchers": [
-        "Jack Perkins"
-      ],
-      "fadeTeam": "OAK",
-      "market": "h2h",
-      "selection": "TB",
-      "line": null,
-      "odds": -220,
-      "stake": 2.2,
-      "result": "pending",
-      "profit": 0.0,
-      "book": "fanduel",
-      "source": "fanduel_api",
-      "reason": null,
-      "home": "OAK",
-      "away": "TB",
-      "gamePk": 824967,
       "fadeReason": "all"
     },
     {
@@ -235,8 +211,8 @@
       "market": "h2h",
       "selection": "NYY",
       "line": null,
-      "odds": -124,
-      "stake": 1.24,
+      "odds": -128,
+      "stake": 1.28,
       "result": "pending",
       "profit": 0.0,
       "book": "fanduel",
@@ -15518,6 +15494,30 @@
       "away": "BAL",
       "gamePk": 823672,
       "fadeReason": "away"
+    },
+    {
+      "date": "2026-08-12",
+      "commence": "2026-08-12T19:05:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Jack Perkins"
+      ],
+      "fadeTeam": "OAK",
+      "market": "h2h",
+      "selection": "TB",
+      "line": null,
+      "odds": -220,
+      "stake": 2.2,
+      "result": "WIN",
+      "profit": 1.0,
+      "book": "fanduel",
+      "source": "fanduel_api",
+      "reason": null,
+      "home": "OAK",
+      "away": "TB",
+      "gamePk": 824967,
+      "fadeReason": "all"
     }
   ]
 }

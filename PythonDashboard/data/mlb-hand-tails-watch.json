@@ -1,7 +1,7 @@
 {
   "sport": "MLB",
   "type": "hand-tails-watch",
-  "generated": "2026-08-12T21:06:49Z",
+  "generated": "2026-08-12T21:54:28Z",
   "handMin": 6,
   "minGames": 3,
   "minUnits": 2.5,
@@ -48,8 +48,8 @@
       "lineupConfirmed": true,
       "odds": -220,
       "suggest": "fade",
-      "suggestUnits": 3.38,
-      "games": 3,
+      "suggestUnits": 4.38,
+      "games": 4,
       "result": "pending"
     },
     {
@@ -535,6 +535,24 @@
       "era": 5.03
     },
     {
+      "pitcher": "Jack Perkins",
+      "hand": "R",
+      "games": 4,
+      "suggest": "fade",
+      "suggestUnits": 4.38,
+      "fade": {
+        "w": 4,
+        "l": 0,
+        "u": 4.38
+      },
+      "take": {
+        "w": 0,
+        "l": 4,
+        "u": -4.8
+      },
+      "era": 7.88
+    },
+    {
       "pitcher": "Bryan Woo",
       "hand": "R",
       "games": 10,
@@ -605,24 +623,6 @@
         "u": 4.0
       },
       "era": 3.3
-    },
-    {
-      "pitcher": "Jack Perkins",
-      "hand": "R",
-      "games": 3,
-      "suggest": "fade",
-      "suggestUnits": 3.38,
-      "fade": {
-        "w": 3,
-        "l": 0,
-        "u": 3.38
-      },
-      "take": {
-        "w": 0,
-        "l": 3,
-        "u": -3.8
-      },
-      "era": 7.88
     },
     {
       "pitcher": "Trey Gibson",
