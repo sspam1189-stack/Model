@@ -1,7 +1,7 @@
 {
   "sport": "MLB",
   "type": "fade-ml",
-  "generated": "2026-08-13T21:02:04Z",
+  "generated": "2026-08-13T23:02:01Z",
   "fadeList": [
     "Painter",
     "Rocker",
@@ -75,22 +75,22 @@
   ],
   "mutualRule": "skip",
   "summary": {
-    "wins": 446,
+    "wins": 448,
     "losses": 154,
     "voids": 0,
     "skips": 40,
-    "staked": 748.9,
-    "units": 303.03,
-    "roi": 0.4046,
+    "staked": 751.3,
+    "units": 305.37,
+    "roi": 0.4065,
     "byType": {
       "ml": {
-        "wins": 436,
+        "wins": 438,
         "losses": 146,
         "voids": 0,
         "skips": 3,
-        "staked": 730.9,
-        "units": 297.99,
-        "roi": 0.4077
+        "staked": 733.3,
+        "units": 300.33,
+        "roi": 0.4096
       },
       "ml_dog": {
         "wins": 10,
@@ -103,56 +103,7 @@
       }
     }
   },
-  "today": [
-    {
-      "date": "2026-08-13",
-      "commence": "2026-08-13T19:07:00Z",
-      "betType": "ml",
-      "shadow": false,
-      "pitchers": [
-        "Max Scherzer"
-      ],
-      "fadeTeam": "TOR",
-      "market": "h2h",
-      "selection": "BOS",
-      "line": null,
-      "odds": -140,
-      "stake": 1.4,
-      "result": "pending",
-      "profit": 0.0,
-      "book": "fanduel",
-      "source": "fanduel_api",
-      "reason": null,
-      "home": "TOR",
-      "away": "BOS",
-      "gamePk": 822776,
-      "fadeReason": "home"
-    },
-    {
-      "date": "2026-08-13",
-      "commence": "2026-08-13T20:05:00Z",
-      "betType": "ml",
-      "shadow": false,
-      "pitchers": [
-        "Kevin Gausman"
-      ],
-      "fadeTeam": "CHC",
-      "market": "h2h",
-      "selection": "WSH",
-      "line": null,
-      "odds": 134,
-      "stake": 1.0,
-      "result": "pending",
-      "profit": 0.0,
-      "book": "fanduel",
-      "source": "fanduel_api",
-      "reason": null,
-      "home": "WSH",
-      "away": "CHC",
-      "gamePk": 822696,
-      "fadeReason": "away"
-    }
-  ],
+  "today": [],
   "bets": [
     {
       "date": "2026-04-05",
@@ -15568,6 +15519,54 @@
       "away": "CIN",
       "gamePk": 824562,
       "fadeReason": "away/all"
+    },
+    {
+      "date": "2026-08-13",
+      "commence": "2026-08-13T19:07:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Max Scherzer"
+      ],
+      "fadeTeam": "TOR",
+      "market": "h2h",
+      "selection": "BOS",
+      "line": null,
+      "odds": -140,
+      "stake": 1.4,
+      "result": "WIN",
+      "profit": 1.0,
+      "book": "fanduel",
+      "source": "fanduel_api",
+      "reason": null,
+      "home": "TOR",
+      "away": "BOS",
+      "gamePk": 822776,
+      "fadeReason": "home"
+    },
+    {
+      "date": "2026-08-13",
+      "commence": "2026-08-13T20:05:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Kevin Gausman"
+      ],
+      "fadeTeam": "CHC",
+      "market": "h2h",
+      "selection": "WSH",
+      "line": null,
+      "odds": 134,
+      "stake": 1.0,
+      "result": "WIN",
+      "profit": 1.34,
+      "book": "fanduel",
+      "source": "fanduel_api",
+      "reason": null,
+      "home": "WSH",
+      "away": "CHC",
+      "gamePk": 822696,
+      "fadeReason": "away"
     }
   ]
 }
