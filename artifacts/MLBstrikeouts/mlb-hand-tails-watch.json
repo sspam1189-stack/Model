@@ -1,7 +1,7 @@
 {
   "sport": "MLB",
   "type": "hand-tails-watch",
-  "generated": "2026-08-13T18:33:38Z",
+  "generated": "2026-08-13T21:04:52Z",
   "handMin": 6,
   "minGames": 3,
   "minUnits": 2.5,
@@ -26,8 +26,8 @@
       "lineupConfirmed": true,
       "odds": 116,
       "suggest": "take",
-      "suggestUnits": 5.74,
-      "games": 18,
+      "suggestUnits": 6.9,
+      "games": 19,
       "result": "pending"
     }
   ],
@@ -123,6 +123,24 @@
       "era": 3.96
     },
     {
+      "pitcher": "Andrew Abbott",
+      "hand": "L",
+      "games": 19,
+      "suggest": "take",
+      "suggestUnits": 6.9,
+      "fade": {
+        "w": 7,
+        "l": 12,
+        "u": -8.78
+      },
+      "take": {
+        "w": 12,
+        "l": 7,
+        "u": 6.9
+      },
+      "era": 3.92
+    },
+    {
       "pitcher": "Robbie Ray",
       "hand": "L",
       "games": 20,
@@ -193,24 +211,6 @@
         "u": 5.82
       },
       "era": 2.79
-    },
-    {
-      "pitcher": "Andrew Abbott",
-      "hand": "L",
-      "games": 18,
-      "suggest": "take",
-      "suggestUnits": 5.74,
-      "fade": {
-        "w": 7,
-        "l": 11,
-        "u": -7.52
-      },
-      "take": {
-        "w": 11,
-        "l": 7,
-        "u": 5.74
-      },
-      "era": 3.92
     },
     {
       "pitcher": "Tomoyuki Sugano",
