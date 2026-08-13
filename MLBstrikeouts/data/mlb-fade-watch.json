@@ -1,45 +1,45 @@
 {
   "sport": "MLB",
   "type": "fade-watch",
-  "generated": "2026-08-12T21:06:50Z",
+  "generated": "2026-08-13T13:07:01Z",
   "minGames": 3,
   "minUnits": 2.5,
   "note": "Shadow review list -- arms NOT on the active fade list whose home or away fade clears the bar (>= 3 games, >= +2.5u). In-sample season replay; watch, don't bet. Promote by editing scripts/fade_list.py.",
   "today": [
     {
-      "date": "2026-08-12",
-      "commence": "2026-08-12T19:45:00Z",
+      "date": "2026-08-13",
+      "commence": "2026-08-13T19:07:00Z",
       "betType": "fade_watch",
       "watch": true,
-      "pitcher": "Adrian Houser",
-      "arm_team": "SF",
-      "fadeTeam": "SF",
-      "selection": "HOU",
-      "home": "SF",
-      "away": "HOU",
+      "pitcher": "Max Scherzer",
+      "arm_team": "TOR",
+      "fadeTeam": "TOR",
+      "selection": "BOS",
+      "home": "TOR",
+      "away": "BOS",
       "venue": "home",
-      "odds": -140,
+      "odds": -150,
       "suggest": "home",
-      "suggestUnits": 2.96,
+      "suggestUnits": 5.32,
       "games": 5,
       "result": "pending"
     },
     {
-      "date": "2026-08-12",
-      "commence": "2026-08-12T23:05:00Z",
+      "date": "2026-08-13",
+      "commence": "2026-08-13T20:05:00Z",
       "betType": "fade_watch",
       "watch": true,
-      "pitcher": "Will Warren",
-      "arm_team": "NYY",
-      "fadeTeam": "NYY",
-      "selection": "SEA",
-      "home": "NYY",
-      "away": "SEA",
+      "pitcher": "Cade Cavalli",
+      "arm_team": "WSH",
+      "fadeTeam": "WSH",
+      "selection": "CHC",
+      "home": "WSH",
+      "away": "CHC",
       "venue": "home",
-      "odds": 114,
+      "odds": -142,
       "suggest": "home",
-      "suggestUnits": 3.22,
-      "games": 9,
+      "suggestUnits": 5.32,
+      "games": 13,
       "result": "pending"
     }
   ],
@@ -180,6 +180,33 @@
       }
     },
     {
+      "pitcher": "Adrian Houser",
+      "team": "SF",
+      "suggest": "home",
+      "suggestUnits": 3.96,
+      "all": {
+        "w": 8,
+        "l": 7,
+        "u": -3.54,
+        "n": 15,
+        "roi": -0.1686
+      },
+      "home": {
+        "w": 5,
+        "l": 1,
+        "u": 3.96,
+        "n": 6,
+        "roi": 0.5773
+      },
+      "away": {
+        "w": 3,
+        "l": 6,
+        "u": -7.5,
+        "n": 9,
+        "roi": -0.5304
+      }
+    },
+    {
       "pitcher": "Reid Detmers",
       "team": "LAA",
       "suggest": "home",
@@ -312,33 +339,6 @@
         "u": 3.34,
         "n": 10,
         "roi": 0.263
-      }
-    },
-    {
-      "pitcher": "Will Warren",
-      "team": "NYY",
-      "suggest": "home",
-      "suggestUnits": 3.22,
-      "all": {
-        "w": 8,
-        "l": 12,
-        "u": -2.82,
-        "n": 20,
-        "roi": -0.1251
-      },
-      "home": {
-        "w": 5,
-        "l": 4,
-        "u": 3.22,
-        "n": 9,
-        "roi": 0.3578
-      },
-      "away": {
-        "w": 3,
-        "l": 8,
-        "u": -6.04,
-        "n": 11,
-        "roi": -0.4461
       }
     },
     {
@@ -528,33 +528,6 @@
         "u": 3.0,
         "n": 3,
         "roi": 0.5146
-      }
-    },
-    {
-      "pitcher": "Adrian Houser",
-      "team": "SF",
-      "suggest": "home",
-      "suggestUnits": 2.96,
-      "all": {
-        "w": 7,
-        "l": 7,
-        "u": -4.54,
-        "n": 14,
-        "roi": -0.2316
-      },
-      "home": {
-        "w": 4,
-        "l": 1,
-        "u": 2.96,
-        "n": 5,
-        "roi": 0.5421
-      },
-      "away": {
-        "w": 3,
-        "l": 6,
-        "u": -7.5,
-        "n": 9,
-        "roi": -0.5304
       }
     },
     {
