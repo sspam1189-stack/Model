@@ -1,7 +1,7 @@
 {
   "sport": "MLB",
   "type": "fade-ml",
-  "generated": "2026-08-13T16:02:50Z",
+  "generated": "2026-08-13T18:31:34Z",
   "fadeList": [
     "Painter",
     "Rocker",
@@ -66,6 +66,8 @@
     "Yusei Kikuchi",
     "Carson Palmquist",
     "Trey Gibson",
+    "Gabriel Hughes",
+    "Max Scherzer",
     "MacKenzie Gore",
     "Senga",
     "Prielipp",
@@ -114,7 +116,7 @@
       "market": "h2h",
       "selection": "WSH",
       "line": null,
-      "odds": 136,
+      "odds": 134,
       "stake": 1.0,
       "result": "pending",
       "profit": 0.0,
@@ -125,6 +127,30 @@
       "away": "CHC",
       "gamePk": 822696,
       "fadeReason": "away"
+    },
+    {
+      "date": "2026-08-13",
+      "commence": "2026-08-13T19:07:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Max Scherzer"
+      ],
+      "fadeTeam": "TOR",
+      "market": "h2h",
+      "selection": "BOS",
+      "line": null,
+      "odds": -140,
+      "stake": 1.4,
+      "result": "pending",
+      "profit": 0.0,
+      "book": "fanduel",
+      "source": "fanduel_api",
+      "reason": null,
+      "home": "TOR",
+      "away": "BOS",
+      "gamePk": 822776,
+      "fadeReason": "home"
     }
   ],
   "bets": [
