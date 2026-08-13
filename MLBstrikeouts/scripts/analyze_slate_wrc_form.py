@@ -11,8 +11,6 @@ Inputs (all in-repo, no network):
   data/mlb-team-woba-splits.json  self-computed park-adjusted wRC+ by window,
                                   by actual pitcher hand, SP-only / RP-only,
                                   home/road. Regenerated daily.
-  data/mlb-team-wrc.json          FanGraphs true wRC+ season snapshot
-                                  (manual browser capture) — cross-check only.
   data/mlb-props.json             per-start actuals (outs, K, BF, pitches) ->
                                   starter form.
   data/mlb-all-ml.json            season game log w/ starters + finals ->
@@ -25,6 +23,8 @@ Usage:
   python scripts/analyze_slate_wrc_form.py                    # today's unplayed games
   python scripts/analyze_slate_wrc_form.py --games LAD MIN LAA
   python scripts/analyze_slate_wrc_form.py --board board.json # posted prices to compare
+  python scripts/analyze_slate_wrc_form.py --window last30      # headline window
+  python scripts/analyze_slate_wrc_form.py --price-window last30 # what prices it
   python scripts/analyze_slate_wrc_form.py --json             # machine-readable
 
 --board takes {"<home_abbr>": {"home_ml": -139, "away_ml": 126,
@@ -42,8 +42,23 @@ from pathlib import Path
 DATA = Path(__file__).resolve().parent.parent / "data"
 
 # --- scouting constants (documented so the read is auditable) ---------------
-# Blend of wRC+ windows. Season carries the weight; recent windows tilt it.
-WINDOW_BLEND = [("season", 0.50), ("last30", 0.30), ("last15", 0.20)]
+# Two different jobs, two different windows.
+#
+# DISPLAY is what the Fade ML tab shows by default (DEFAULT_WRC_WIN in
+# PythonDashboard/js/mlb-fade-ml.js), so the headline here reconciles with the
+# number on screen.
+DISPLAY_WINDOW = "last20"
+# PRICING is what the run math actually uses. --calibrate 45 (2026-08-13) swept
+# every window as the recent leg; season-only was the best calibrated and the
+# dashboard's last20 was the worst:
+#   season  41.5/44.5  48.8/49.7  55.3/57.7  63.6/61.3   (pred/actual by bucket)
+#   last30  40.5/38.6  48.7/51.9  55.7/59.8  64.8/60.8
+#   last20  39.8/38.1  48.4/57.1  55.5/58.9  65.0/54.4
+# Short windows are 150-300 PA -- fine as a scouting chip, too noisy to price.
+PRICING_WINDOW = "season"
+# Weight on the recent leg when pricing off a non-season window; season anchors
+# the remainder.
+WINDOW_BLEND_RECENT = 0.50
 # A window is dropped (and the blend renormalized) below this many PA.
 MIN_PA = 60
 # Team runs-allowed in a starter's starts is a noisy, bullpen-contaminated
@@ -134,39 +149,90 @@ def league_starter_baseline(props, as_of):
 
 
 # --- offense: wRC+ vs the hand they're facing -------------------------------
-def offense_vs_hand(splits, team, hand, side):
+def _sp_node(splits, wname, team, roster="team"):
     """
-    Blended wRC+ for `team` against `hand` starters, plus the season/window
-    detail and the home-or-road version of the same split.
+    The SP-only node for a team in one window. `roster='lineup'` selects the
+    dashboard's confirmed-nine rows where that team has posted.
+
+    Caveat that keeps the lineup rows OUT of the run math: a starting nine
+    excludes bench and pinch-hit PAs, but the league baseline the wRC+ is
+    computed against does not. Measured on 2026-08-13 the confirmed-nine rows
+    ran +8.0 wRC+ above the whole-team rows on the season (n=28 team-hand
+    pairs). Great as a scouting chip, a level bias in a runs estimate.
+    """
+    t = splits["windows"].get(wname, {}).get("teams", {}).get(team, {})
+    base = t.get("lineup") if (roster == "lineup" and t.get("lineup")) else t
+    return base.get("sp", {}), bool(roster == "lineup" and t.get("lineup"))
+
+
+def _cell(node, key):
+    """wRC+ / wOBA / PA for one hand out of an SP node."""
+    cell = node.get(key) or {}
+    # PA lives on the home/road rows; sum them for the split's total.
+    pa = sum((node.get(s, {}).get(key, {}) or {}).get("pa", 0)
+             for s in ("home", "road"))
+    return {"wrcplus": cell.get("wrcplus"), "woba": cell.get("woba"), "pa": pa}
+
+
+def offense_vs_hand(splits, team, hand, side, display_window,
+                    pricing_window, roster):
+    """
+    wRC+ for `team` against `hand` starters: the dashboard's selected window as
+    the headline, blended with the season anchor for the run math, plus the
+    home-or-road version of the same split.
 
     Uses the SP-only rows: we are pricing the starter's share of the game, and
     the RP-only rows are a different (and later) matchup.
     """
     key = "vsLHP" if hand == "L" else "vsRHP"
-    windows = splits["windows"]
     detail, num, den = {}, 0.0, 0.0
 
-    for wname, weight in WINDOW_BLEND:
-        node = windows.get(wname, {}).get("teams", {}).get(team, {}).get("sp", {})
-        cell = node.get(key) or {}
-        # PA lives on the home/road rows; sum them for the split's total.
-        pa = sum((node.get(s, {}).get(key, {}) or {}).get("pa", 0) for s in ("home", "road"))
-        wrc = cell.get("wrcplus")
-        detail[wname] = {"wrcplus": wrc, "woba": cell.get("woba"), "pa": pa}
-        if wrc is None or pa < MIN_PA:
-            detail[wname]["used"] = False
-            continue
-        detail[wname]["used"] = True
-        num += wrc * weight
-        den += weight
+    blend = [(pricing_window, WINDOW_BLEND_RECENT),
+             ("season", 1 - WINDOW_BLEND_RECENT)]
+    if pricing_window == "season":
+        blend = [("season", 1.0)]
 
-    season_node = windows["season"]["teams"][team]["sp"]
+    # Whole-team rows only — see _sp_node on why the confirmed nine is context.
+    for wname, weight in blend:
+        node, _ = _sp_node(splits, wname, team)
+        d = _cell(node, key)
+        d["used"] = d["wrcplus"] is not None and d["pa"] >= MIN_PA
+        detail[wname] = d
+        if d["used"]:
+            num += d["wrcplus"] * weight
+            den += weight
+
+    # Context windows — shown, never blended.
+    for wname in (display_window, "last30", "last15", "2026-08"):
+        if wname not in detail:
+            node, _ = _sp_node(splits, wname, team)
+            d = _cell(node, key)
+            d["used"] = False
+            detail[wname] = d
+
+    season_node, _ = _sp_node(splits, "season", team)
     venue = (season_node.get(side, {}) or {}).get(key, {}) or {}
+
+    # Confirmed-nine chip, matching the dashboard's roster selector.
+    lineup = None
+    if roster == "lineup":
+        ln, posted = _sp_node(splits, display_window, team, "lineup")
+        if posted:
+            lineup = _cell(ln, key)
+            lineup["delta_vs_team"] = (
+                lineup["wrcplus"] - detail[display_window]["wrcplus"]
+                if lineup["wrcplus"] is not None
+                and detail.get(display_window, {}).get("wrcplus") is not None
+                else None)
 
     return {
         "team": team,
         "vs_hand": hand,
         "side": side,
+        "window": display_window,
+        "pricing_window": pricing_window,
+        "lineup": lineup,
+        "headline_wrcplus": detail.get(display_window, {}).get("wrcplus"),
         "blended_wrcplus": round(num / den, 1) if den else None,
         "blend_weight_used": round(den, 2),
         "windows": detail,
@@ -286,14 +352,18 @@ def expected_runs(offense, opp_form, lg_rpg, lg_sp):
                                             for k, v in supp.items()}
 
 
-def read_game(game, splits, fg, props, allml, kalman, as_of, lg_rpg, lg_sp, board):
+def read_game(game, splits, props, allml, kalman, as_of, lg_rpg, lg_sp, board,
+              display_window=DISPLAY_WINDOW, pricing_window=PRICING_WINDOW,
+              roster="lineup"):
     home, away = game["home"], game["away"]
     hp, ap = game.get("home_pitcher"), game.get("away_pitcher")
     hhand, ahand = game.get("home_hand"), game.get("away_hand")
 
     # Home bats against the away starter's hand, and vice versa.
-    off_home = offense_vs_hand(splits, home, ahand, "home")
-    off_away = offense_vs_hand(splits, away, hhand, "road")
+    off_home = offense_vs_hand(splits, home, ahand, "home", display_window,
+                               pricing_window, roster)
+    off_away = offense_vs_hand(splits, away, hhand, "road", display_window,
+                               pricing_window, roster)
     form_home = starter_form(props, allml, kalman, hp, as_of)
     form_away = starter_form(props, allml, kalman, ap, as_of)
 
@@ -326,15 +396,11 @@ def read_game(game, splits, fg, props, allml, kalman, as_of, lg_rpg, lg_sp, boar
         "home": {
             "team": home, "starter": hp, "hand": hhand,
             "form": form_home, "offense_vs_opp_starter": off_home,
-            "fg_season_wrcplus": fg["teams"].get(home, {}).get(
-                "vsLHP" if ahand == "L" else "vsRHP"),
             "exp_runs": rh, "opp_suppression": sup_h,
         },
         "away": {
             "team": away, "starter": ap, "hand": ahand,
             "form": form_away, "offense_vs_opp_starter": off_away,
-            "fg_season_wrcplus": fg["teams"].get(away, {}).get(
-                "vsLHP" if hhand == "L" else "vsRHP"),
             "exp_runs": ra_, "opp_suppression": sup_a,
         },
         "read": {
@@ -383,18 +449,29 @@ def render(r):
             k = f["kalman"]
             out.append(f"           kalman ({f['kalman_starts']} GS): "
                        f"{k['k']} K, {k['outs']} outs, {k['h']} H, {k['bb']} BB")
-        out.append(f"    offense vs {o['vs_hand']}HP starters (park-adj wRC+):")
+        out.append(f"    offense vs {o['vs_hand']}HP starters "
+                   f"(self-computed park-adj wRC+, whole team):")
         w = o["windows"]
+        order = [o["window"]] + [x for x in ("season", "last30", "last15", "2026-08")
+                                 if x != o["window"]]
         parts = []
-        for wname, _ in WINDOW_BLEND:
-            d = w.get(wname, {})
+        for wname in order:
+            d = w.get(wname)
+            if not d or d.get("wrcplus") is None:
+                continue
             flag = "" if d.get("used") else "*"
-            parts.append(f"{wname} {d.get('wrcplus')}{flag} ({d.get('pa')} PA)")
+            parts.append(f"{wname} {d['wrcplus']}{flag} ({d['pa']} PA)")
         out.append("           " + "  |  ".join(parts))
-        out.append(f"           blended {o['blended_wrcplus']}   "
+        out.append(f"           dashboard window ({o['window']}) "
+                   f"{o['headline_wrcplus']}  |  priced off "
+                   f"{o['pricing_window']} -> {o['blended_wrcplus']}  |  "
                    f"{o['side']}-only season {o['venue_split']['wrcplus']} "
-                   f"({o['venue_split']['pa']} PA)   park {o['park_factor']}   "
-                   f"FG season snapshot {side['fg_season_wrcplus']}")
+                   f"({o['venue_split']['pa']} PA)  |  park {o['park_factor']}")
+        if o.get("lineup") and o["lineup"].get("wrcplus") is not None:
+            ln = o["lineup"]
+            out.append(f"           confirmed 9 ({o['window']}): {ln['wrcplus']} "
+                       f"({ln['pa']} PA, {ln['delta_vs_team']:+} vs whole team) "
+                       f"— context only, runs a level above the league baseline")
         s = side["opp_suppression"] or {}
         out.append(f"    -> {side['team']} indicative runs {side['exp_runs']}  "
                    f"[suppressed x{s.get('total')} by {opp['team']}: "
@@ -410,11 +487,12 @@ def render(r):
         out.append(f"        fair: {h['team']} {fmt_odds(rd['fair_home_ml'])} / "
                    f"{a['team']} {fmt_odds(rd['fair_away_ml'])}   "
                    f"vs no-vig board -> {h['team']} {rd['edge_home_pts']:+} pts")
-    out.append("  (* window below the PA floor, excluded from the blend)")
+    out.append("  (* below the PA floor / context only — not in the blend)")
     return "\n".join(out)
 
 
-def calibrate(games, splits, fg, props, kalman, lg_rpg, lg_sp, days, as_of):
+def calibrate(games, splits, props, kalman, lg_rpg, lg_sp, days, as_of,
+              pricing_window=PRICING_WINDOW, roster='team'):
     """
     Rough bias check on the two scale constants (run level and RUNS_TO_WP_SCALE)
     against recently completed games.
@@ -434,8 +512,8 @@ def calibrate(games, splits, fg, props, kalman, lg_rpg, lg_sp, days, as_of):
     tot_err, wp_rows, n = [], [], 0
     for g in rows:
         try:
-            r = read_game(g, splits, fg, props, games, kalman, g["date"],
-                          lg_rpg, lg_sp, {})
+            r = read_game(g, splits, props, games, kalman, g["date"], lg_rpg,
+                          lg_sp, {}, DISPLAY_WINDOW, pricing_window, roster)
         except (KeyError, TypeError):
             continue
         if r["read"]["exp_total"] is None:
@@ -467,12 +545,20 @@ def main():
     ap.add_argument("--board", default=None,
                     help="JSON file of posted prices keyed by home abbr")
     ap.add_argument("--json", action="store_true")
+    ap.add_argument("--window", default=DISPLAY_WINDOW,
+                    help=f"wRC+ window shown as the headline (default "
+                         f"{DISPLAY_WINDOW}, matching the Fade ML tab)")
+    ap.add_argument("--price-window", dest="price_window",
+                    default=PRICING_WINDOW,
+                    help=f"wRC+ window the run math prices off (default "
+                         f"{PRICING_WINDOW}, best calibrated -- see --calibrate)")
+    ap.add_argument("--no-lineup", action="store_true",
+                    help="hide the confirmed-nine context chip")
     ap.add_argument("--calibrate", type=int, metavar="DAYS", default=None,
                     help="bias probe against completed games (see caveat)")
     args = ap.parse_args()
 
     splits = load("mlb-team-woba-splits.json")
-    fg = load("mlb-team-wrc.json")
     props = load("mlb-props.json")["props"]
     allml = load("mlb-all-ml.json")
     kalman = load("kalman_state.json")
@@ -482,8 +568,8 @@ def main():
     lg_sp = league_starter_baseline(props, args.date)
 
     if args.calibrate:
-        calibrate(allml["games"], splits, fg, props, kalman, lg_rpg, lg_sp,
-                  args.calibrate, args.date)
+        calibrate(allml["games"], splits, props, kalman, lg_rpg, lg_sp,
+                  args.calibrate, args.date, args.price_window, "team")
         return
 
     today = [g for g in allml.get("today", []) if g.get("date") == args.date]
@@ -491,8 +577,10 @@ def main():
         want = {t.upper() for t in args.games}
         today = [g for g in today if g["home"] in want or g["away"] in want]
 
-    reads = [read_game(g, splits, fg, props, allml["games"], kalman,
-                       args.date, lg_rpg, lg_sp, board) for g in today]
+    reads = [read_game(g, splits, props, allml["games"], kalman, args.date,
+                       lg_rpg, lg_sp, board, args.window, args.price_window,
+                       "team" if args.no_lineup else "lineup")
+             for g in today]
 
     if args.json:
         print(json.dumps({
@@ -501,13 +589,16 @@ def main():
             "league_starter_baseline": {k: round(v, 2) for k, v in lg_sp.items()},
             "wrc_source": splits["metric"],
             "wrc_through": splits["throughDate"],
+            "wrc_display_window": args.window,
+            "wrc_pricing_window": args.price_window,
             "games": reads,
         }, indent=2))
         return
 
     print(f"MLB slate read — {args.date}")
-    print(f"wRC+ source: {splits['metric']}, through {splits['throughDate']}")
-    print(f"FanGraphs cross-check snapshot: {fg['asOf']}")
+    print(f"wRC+ source: {splits['metric']}, through {splits['throughDate']} "
+          f"(display {args.window}, pricing {args.price_window}, "
+          f"whole-team rows)")
     print(f"league run environment: {lg_rpg:.2f} R/team/game; "
           f"league starter {lg_sp['k_pct']:.1f} K%, "
           f"{lg_sp['ip_per_start']:.2f} IP/GS ({lg_sp['starts']} GS)")
