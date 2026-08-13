@@ -1,45 +1,45 @@
 {
   "sport": "MLB",
   "type": "fade-watch",
-  "generated": "2026-08-13T00:35:01Z",
+  "generated": "2026-08-13T13:07:01Z",
   "minGames": 3,
   "minUnits": 2.5,
   "note": "Shadow review list -- arms NOT on the active fade list whose home or away fade clears the bar (>= 3 games, >= +2.5u). In-sample season replay; watch, don't bet. Promote by editing scripts/fade_list.py.",
   "today": [
     {
-      "date": "2026-08-12",
-      "commence": "2026-08-12T19:45:00Z",
+      "date": "2026-08-13",
+      "commence": "2026-08-13T19:07:00Z",
       "betType": "fade_watch",
       "watch": true,
-      "pitcher": "Adrian Houser",
-      "arm_team": "SF",
-      "fadeTeam": "SF",
-      "selection": "HOU",
-      "home": "SF",
-      "away": "HOU",
+      "pitcher": "Max Scherzer",
+      "arm_team": "TOR",
+      "fadeTeam": "TOR",
+      "selection": "BOS",
+      "home": "TOR",
+      "away": "BOS",
       "venue": "home",
-      "odds": -140,
+      "odds": -150,
       "suggest": "home",
-      "suggestUnits": 3.96,
-      "games": 6,
+      "suggestUnits": 5.32,
+      "games": 5,
       "result": "pending"
     },
     {
-      "date": "2026-08-12",
-      "commence": "2026-08-12T23:05:00Z",
+      "date": "2026-08-13",
+      "commence": "2026-08-13T20:05:00Z",
       "betType": "fade_watch",
       "watch": true,
-      "pitcher": "Will Warren",
-      "arm_team": "NYY",
-      "fadeTeam": "NYY",
-      "selection": "SEA",
-      "home": "NYY",
-      "away": "SEA",
+      "pitcher": "Cade Cavalli",
+      "arm_team": "WSH",
+      "fadeTeam": "WSH",
+      "selection": "CHC",
+      "home": "WSH",
+      "away": "CHC",
       "venue": "home",
-      "odds": 112,
+      "odds": -142,
       "suggest": "home",
-      "suggestUnits": 3.22,
-      "games": 9,
+      "suggestUnits": 5.32,
+      "games": 13,
       "result": "pending"
     }
   ],
@@ -339,33 +339,6 @@
         "u": 3.34,
         "n": 10,
         "roi": 0.263
-      }
-    },
-    {
-      "pitcher": "Will Warren",
-      "team": "NYY",
-      "suggest": "home",
-      "suggestUnits": 3.22,
-      "all": {
-        "w": 8,
-        "l": 12,
-        "u": -2.82,
-        "n": 20,
-        "roi": -0.1251
-      },
-      "home": {
-        "w": 5,
-        "l": 4,
-        "u": 3.22,
-        "n": 9,
-        "roi": 0.3578
-      },
-      "away": {
-        "w": 3,
-        "l": 8,
-        "u": -6.04,
-        "n": 11,
-        "roi": -0.4461
       }
     },
     {

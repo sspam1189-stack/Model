@@ -1,7 +1,7 @@
 {
   "sport": "MLB",
   "type": "fade-vs-team",
-  "generated": "2026-08-13T00:35:03Z",
+  "generated": "2026-08-13T13:07:02Z",
   "seasonStart": "2026-04-05",
   "minStarts": 2,
   "fadeEra": 8.0,
@@ -13,7 +13,23 @@
     "n": 9,
     "roi": 0.6385
   },
-  "today": [],
+  "today": [
+    {
+      "date": "2026-08-13",
+      "commence": "2026-08-14T02:07:00Z",
+      "betType": "fade_vs_team",
+      "pitcher": "Jacob deGrom",
+      "arm_team": "TEX",
+      "opp": "LAA",
+      "selection": "LAA",
+      "venue": "away",
+      "matchup": "TEX @ LAA",
+      "odds": 136,
+      "eraVsOpp": 9.0,
+      "startsVsOpp": 2,
+      "result": "pending"
+    }
+  ],
   "entries": [
     {
       "pitcher": "Joe Ryan",
