@@ -1,7 +1,7 @@
 {
   "sport": "MLB",
   "type": "fade-ml",
-  "generated": "2026-08-12T23:02:48Z",
+  "generated": "2026-08-13T00:32:12Z",
   "fadeList": [
     "Painter",
     "Rocker",
@@ -73,22 +73,22 @@
   ],
   "mutualRule": "skip",
   "summary": {
-    "wins": 443,
+    "wins": 444,
     "losses": 154,
     "voids": 0,
     "skips": 38,
-    "staked": 745.68,
-    "units": 299.81,
-    "roi": 0.4021,
+    "staked": 746.68,
+    "units": 300.89,
+    "roi": 0.403,
     "byType": {
       "ml": {
-        "wins": 433,
+        "wins": 434,
         "losses": 146,
         "voids": 0,
         "skips": 2,
-        "staked": 727.68,
-        "units": 294.77,
-        "roi": 0.4051
+        "staked": 728.68,
+        "units": 295.85,
+        "roi": 0.406
       },
       "ml_dog": {
         "wins": 10,
@@ -125,30 +125,6 @@
       "away": "COL",
       "gamePk": 825047,
       "fadeReason": "away"
-    },
-    {
-      "date": "2026-08-12",
-      "commence": "2026-08-12T20:10:00Z",
-      "betType": "ml",
-      "shadow": false,
-      "pitchers": [
-        "Dustin May"
-      ],
-      "fadeTeam": "MIL",
-      "market": "h2h",
-      "selection": "SD",
-      "line": null,
-      "odds": 108,
-      "stake": 1.0,
-      "result": "pending",
-      "profit": 0.0,
-      "book": "fanduel",
-      "source": "fanduel_api",
-      "reason": null,
-      "home": "SD",
-      "away": "MIL",
-      "gamePk": 823263,
-      "fadeReason": "all"
     },
     {
       "date": "2026-08-12",
@@ -15517,6 +15493,30 @@
       "home": "OAK",
       "away": "TB",
       "gamePk": 824967,
+      "fadeReason": "all"
+    },
+    {
+      "date": "2026-08-12",
+      "commence": "2026-08-12T20:10:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Dustin May"
+      ],
+      "fadeTeam": "MIL",
+      "market": "h2h",
+      "selection": "SD",
+      "line": null,
+      "odds": 108,
+      "stake": 1.0,
+      "result": "WIN",
+      "profit": 1.08,
+      "book": "fanduel",
+      "source": "fanduel_api",
+      "reason": null,
+      "home": "SD",
+      "away": "MIL",
+      "gamePk": 823263,
       "fadeReason": "all"
     }
   ]
