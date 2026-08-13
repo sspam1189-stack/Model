@@ -47,6 +47,9 @@ FADE_LIST = [
     # away-only; Sullivan + Kikuchi + Palmquist + Trey Gibson all-venue.
     "Brady Singer", "Sean Sullivan", "Yusei Kikuchi", "Carson Palmquist",
     "Trey Gibson",
+    # Added 2026-08-13 (user): Hughes all-venue; Scherzer home-only (see
+    # FADE_VENUE) -- home 9.82 ERA / home-fade 5-1 +4.32u on the watchlist.
+    "Gabriel Hughes", "Max Scherzer",
     # Added 2026-07-28: away-only fade (see FADE_VENUE).
     "MacKenzie Gore",
     # Added 2026-07-31 (user request). All-venue, season-backfilled.
@@ -125,6 +128,9 @@ FADE_VENUE = {
     # net loser (-21.2%) -- the edge is entirely the home side. Small sample
     # (5 home starts); revisit as it fills in.
     "Jake Irvin": "home",
+    # 2026-08-13 (user): home-only. Home 9.82 ERA (22 IP) vs 3.21 away;
+    # watchlist home-fade 5-1 +4.32u before promotion.
+    "Max Scherzer": "home",
 }
 
 # Matchup fade list: fade the pitcher (bet the OPPONENT's ML) ONLY when he
@@ -201,6 +207,9 @@ FADE_WINDOW = {
     "Skenes":         {"add": SEASON_START, "remove": "2026-07-31"},  # removed 7/31: elite arm, fade was pure market-pricing (PIT overpriced) -- too fragile
     # Added mid-season: good before, fade-worthy from these dates on.
     "Dustin May":        {"add": "2026-07-18", "remove": "2026-08-13"},  # removed 2026-08-13 (user): no fades from 8/13 on, prior record (incl. 8/12 SD play) stays
+    # Added 2026-08-13 (user), forward-only from that date.
+    "Gabriel Hughes":    {"add": "2026-08-13"},
+    "Max Scherzer":      {"add": "2026-08-13"},  # home-only (see FADE_VENUE)
     "Grayson Rodriguez": {"add": SEASON_START},  # 2026-07-27: home-only (FADE_VENUE), full season
     "Bryan Woo":         {"add": SEASON_START},  # away-only (see FADE_VENUE); backfilled full season 2026-07-28
     # Zebby Matthews: moved to watchlist 2026-08-01 (removed from active roster).
