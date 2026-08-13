@@ -1,7 +1,7 @@
 {
   "sport": "MLB",
   "type": "hand-tails-roster",
-  "generated": "2026-08-12T13:08:01Z",
+  "generated": "2026-08-13T13:05:32Z",
   "handMin": 6,
   "rule": {
     "minGames": 4,
@@ -9,7 +9,7 @@
   },
   "note": "Walk-forward qualifier computation used to NOTIFY (promotion candidates), not to drive the bet list. The bet list is the manually curated hand-tails-manual.json. `promotions` are arms that clear minGames+minUnits but are not on the manual list; `demotions` are manual-list arms whose record slipped under the bar.",
   "manualCount": 20,
-  "qualifiedCount": 17,
+  "qualifiedCount": 18,
   "promotions": [
     {
       "name": "Bryan Woo",
@@ -57,12 +57,21 @@
         ]
       ]
     },
+    "Bryce Miller": {
+      "hand": "R",
+      "windows": [
+        [
+          "2026-08-12",
+          null
+        ]
+      ]
+    },
     "Casey Mize": {
       "hand": "R",
       "windows": [
         [
           "2026-08-10",
-          "2026-08-12"
+          "2026-08-13"
         ]
       ]
     },
@@ -182,7 +191,7 @@
       "windows": [
         [
           "2026-06-13",
-          "2026-08-12"
+          "2026-08-13"
         ]
       ]
     },
