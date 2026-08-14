@@ -1,30 +1,30 @@
 {
   "sport": "MLB",
   "type": "fade-vs-team",
-  "generated": "2026-08-14T00:33:16Z",
+  "generated": "2026-08-14T13:06:20Z",
   "seasonStart": "2026-04-05",
   "minStarts": 2,
   "fadeEra": 8.0,
   "note": "Pitcher-vs-team FADE: bet the opponent's ML when the pitcher faces that team. Set = curated (FADE_VS_TEAM, full season replay) + auto-promoted (>= 2 starts vs the team, ERA >= 8.0 vs them; WALK-FORWARD -- only starts after the promote bar was already met count as plays, the qualifying start itself never does). Flat 1u; data only, not wired into the fade model. Watch tier (6 <= ERA < 8.0) is in mlb-fade-vs-team-watch.json.",
   "overall": {
-    "w": 8,
+    "w": 9,
     "l": 1,
-    "u": 7.7,
-    "n": 9,
-    "roi": 0.6385
+    "u": 9.06,
+    "n": 10,
+    "roi": 0.6937
   },
   "today": [
     {
-      "date": "2026-08-13",
-      "commence": "2026-08-14T02:07:00Z",
+      "date": "2026-08-14",
+      "commence": "2026-08-14T23:10:00Z",
       "betType": "fade_vs_team",
-      "pitcher": "Jacob deGrom",
-      "arm_team": "TEX",
-      "opp": "LAA",
-      "selection": "LAA",
-      "venue": "away",
-      "matchup": "TEX @ LAA",
-      "odds": 136,
+      "pitcher": "Steven Matz",
+      "arm_team": "TB",
+      "opp": "BAL",
+      "selection": "BAL",
+      "venue": "home",
+      "matchup": "BAL @ TB",
+      "odds": 144,
       "eraVsOpp": 9.0,
       "startsVsOpp": 2,
       "result": "pending"
@@ -108,6 +108,34 @@
           "result": "win"
         }
       ]
+    },
+    {
+      "pitcher": "Jacob deGrom",
+      "opp": "LAA",
+      "arm_team": "TEX",
+      "source": "auto",
+      "record": {
+        "w": 1,
+        "l": 0,
+        "u": 1.36,
+        "n": 1,
+        "roi": 1.36
+      },
+      "eraVsOpp": 9.0,
+      "ipVsOpp": 10.0,
+      "erVsOpp": 10,
+      "startsVsOpp": 3,
+      "starts": [
+        {
+          "date": "2026-08-13",
+          "venue": "away",
+          "matchup": "TEX @ LAA",
+          "selection": "LAA",
+          "opp_ml": 136,
+          "result": "win"
+        }
+      ],
+      "qualifiedOn": "2026-07-07"
     },
     {
       "pitcher": "Will Warren",
@@ -543,25 +571,6 @@
       "startsVsOpp": 2,
       "starts": [],
       "qualifiedOn": "2026-07-02"
-    },
-    {
-      "pitcher": "Jacob deGrom",
-      "opp": "LAA",
-      "arm_team": "TEX",
-      "source": "auto",
-      "record": {
-        "w": 0,
-        "l": 0,
-        "u": 0,
-        "n": 0,
-        "roi": 0.0
-      },
-      "eraVsOpp": 9.0,
-      "ipVsOpp": 8.0,
-      "erVsOpp": 8,
-      "startsVsOpp": 2,
-      "starts": [],
-      "qualifiedOn": "2026-07-07"
     },
     {
       "pitcher": "David Sandlin",
