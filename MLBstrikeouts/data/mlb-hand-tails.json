@@ -1,7 +1,7 @@
 {
   "sport": "MLB",
   "type": "hand-tails",
-  "generated": "2026-08-15T18:37:04Z",
+  "generated": "2026-08-15T21:08:08Z",
   "handMin": 6,
   "roster": {
     "Andrew Painter": {
@@ -142,7 +142,32 @@
       }
     }
   },
-  "today": [],
+  "today": [
+    {
+      "date": "2026-08-15",
+      "commence": "2026-08-15T22:40:00Z",
+      "betType": "hand_fade",
+      "action": "fade",
+      "pitcher": "Brady Singer",
+      "entry": "Brady Singer",
+      "hand": "R",
+      "arm_team": "CIN",
+      "opp_team": "MIA",
+      "selection": "MIA",
+      "home": "CIN",
+      "away": "MIA",
+      "oppLefty": 6,
+      "oppRighty": 4,
+      "lineupConfirmed": true,
+      "odds": -102,
+      "stake": 1.02,
+      "result": "pending",
+      "reason": null,
+      "profit": 0.0,
+      "book": "fanduel",
+      "source": "fanduel_api"
+    }
+  ],
   "bets": [
     {
       "date": "2026-05-20",

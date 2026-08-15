@@ -1,35 +1,13 @@
 {
   "sport": "MLB",
   "type": "hand-tails-watch",
-  "generated": "2026-08-15T18:38:12Z",
+  "generated": "2026-08-15T21:09:16Z",
   "handMin": 6,
   "minGames": 3,
   "minUnits": 2.5,
   "minUnitsTake": 4.0,
   "note": "Shadow review list -- arms NOT on the active hand-tails list showing a handedness-conditional edge (fade or take). The active list is fade-only, so all tail/take arms are review-only here. In-sample season replay; watch, don't bet.",
   "today": [
-    {
-      "date": "2026-08-15",
-      "commence": "2026-08-15T17:10:00Z",
-      "betType": "watch_take",
-      "action": "take",
-      "watch": true,
-      "pitcher": "Troy Melton",
-      "hand": "R",
-      "arm_team": "DET",
-      "opp_team": "CWS",
-      "selection": "DET",
-      "home": "DET",
-      "away": "CWS",
-      "oppLefty": 6,
-      "oppRighty": 4,
-      "lineupConfirmed": true,
-      "odds": -136,
-      "suggest": "take",
-      "suggestUnits": 4.12,
-      "games": 6,
-      "result": "pending"
-    },
     {
       "date": "2026-08-15",
       "commence": "2026-08-15T17:10:00Z",
@@ -48,8 +26,8 @@
       "lineupConfirmed": true,
       "odds": 126,
       "suggest": "take",
-      "suggestUnits": 6.96,
-      "games": 18,
+      "suggestUnits": 8.22,
+      "games": 19,
       "result": "pending"
     },
     {
@@ -70,8 +48,8 @@
       "lineupConfirmed": true,
       "odds": -180,
       "suggest": "take",
-      "suggestUnits": 6.18,
-      "games": 10,
+      "suggestUnits": 4.38,
+      "games": 11,
       "result": "pending"
     },
     {
@@ -111,12 +89,12 @@
       "away": "BOS",
       "oppLefty": 6,
       "oppRighty": 6,
-      "lineupConfirmed": false,
-      "odds": null,
+      "lineupConfirmed": true,
+      "odds": -112,
       "suggest": "take",
       "suggestUnits": 5.82,
       "games": 13,
-      "result": "unconfirmed"
+      "result": "pending"
     },
     {
       "date": "2026-08-15",
@@ -133,34 +111,12 @@
       "away": "ARI",
       "oppLefty": 4,
       "oppRighty": 6,
-      "lineupConfirmed": false,
-      "odds": null,
+      "lineupConfirmed": true,
+      "odds": 120,
       "suggest": "take",
       "suggestUnits": 13.34,
       "games": 17,
-      "result": "unconfirmed"
-    },
-    {
-      "date": "2026-08-15",
-      "commence": "2026-08-15T23:15:00Z",
-      "betType": "watch_take",
-      "action": "take",
-      "watch": true,
-      "pitcher": "Jacob Misiorowski",
-      "hand": "R",
-      "arm_team": "MIL",
-      "opp_team": "LAD",
-      "selection": "MIL",
-      "home": "LAD",
-      "away": "MIL",
-      "oppLefty": 6,
-      "oppRighty": 4,
-      "lineupConfirmed": false,
-      "odds": null,
-      "suggest": "take",
-      "suggestUnits": 5.62,
-      "games": 8,
-      "result": "unconfirmed"
+      "result": "pending"
     }
   ],
   "candidates": [
@@ -219,6 +175,24 @@
       "era": 3.43
     },
     {
+      "pitcher": "Anthony Kay",
+      "hand": "L",
+      "games": 19,
+      "suggest": "take",
+      "suggestUnits": 8.22,
+      "fade": {
+        "w": 6,
+        "l": 13,
+        "u": -10.38
+      },
+      "take": {
+        "w": 13,
+        "l": 6,
+        "u": 8.22
+      },
+      "era": 3.96
+    },
+    {
       "pitcher": "Kyle Leahy",
       "hand": "R",
       "games": 8,
@@ -255,24 +229,6 @@
       "era": 2.47
     },
     {
-      "pitcher": "Anthony Kay",
-      "hand": "L",
-      "games": 18,
-      "suggest": "take",
-      "suggestUnits": 6.96,
-      "fade": {
-        "w": 6,
-        "l": 12,
-        "u": -9.02
-      },
-      "take": {
-        "w": 12,
-        "l": 6,
-        "u": 6.96
-      },
-      "era": 3.96
-    },
-    {
       "pitcher": "Andrew Abbott",
       "hand": "L",
       "games": 19,
@@ -307,24 +263,6 @@
         "u": 6.74
       },
       "era": 3.45
-    },
-    {
-      "pitcher": "Matthew Boyd",
-      "hand": "L",
-      "games": 10,
-      "suggest": "take",
-      "suggestUnits": 6.18,
-      "fade": {
-        "w": 2,
-        "l": 8,
-        "u": -6.54
-      },
-      "take": {
-        "w": 8,
-        "l": 2,
-        "u": 6.18
-      },
-      "era": 3.5
     },
     {
       "pitcher": "Sonny Gray",
@@ -597,6 +535,24 @@
       "era": 5.03
     },
     {
+      "pitcher": "Matthew Boyd",
+      "hand": "L",
+      "games": 11,
+      "suggest": "take",
+      "suggestUnits": 4.38,
+      "fade": {
+        "w": 3,
+        "l": 8,
+        "u": -4.88
+      },
+      "take": {
+        "w": 8,
+        "l": 3,
+        "u": 4.38
+      },
+      "era": 3.5
+    },
+    {
       "pitcher": "Jack Perkins",
       "hand": "R",
       "games": 4,
@@ -631,24 +587,6 @@
         "u": -4.94
       },
       "era": 4.15
-    },
-    {
-      "pitcher": "Troy Melton",
-      "hand": "R",
-      "games": 6,
-      "suggest": "take",
-      "suggestUnits": 4.12,
-      "fade": {
-        "w": 1,
-        "l": 5,
-        "u": -4.5
-      },
-      "take": {
-        "w": 5,
-        "l": 1,
-        "u": 4.12
-      },
-      "era": 1.46
     },
     {
       "pitcher": "Grant Holmes",
