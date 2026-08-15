@@ -1,11 +1,29 @@
 {
   "sport": "MLB",
   "type": "fade-watch",
-  "generated": "2026-08-15T21:09:17Z",
+  "generated": "2026-08-15T23:05:00Z",
   "minGames": 3,
   "minUnits": 2.5,
   "note": "Shadow review list -- arms NOT on the active fade list whose home or away fade clears the bar (>= 3 games, >= +2.5u). In-sample season replay; watch, don't bet. Promote by editing scripts/fade_list.py.",
   "today": [
+    {
+      "date": "2026-08-15",
+      "commence": "2026-08-15T20:05:00Z",
+      "betType": "fade_watch",
+      "watch": true,
+      "pitcher": "Michael Lorenzen",
+      "arm_team": "COL",
+      "fadeTeam": "COL",
+      "selection": "SF",
+      "home": "SF",
+      "away": "COL",
+      "venue": "away",
+      "odds": -168,
+      "suggest": "away",
+      "suggestUnits": 3.49,
+      "games": 13,
+      "result": "pending"
+    },
     {
       "date": "2026-08-15",
       "commence": "2026-08-15T23:10:00Z",
@@ -18,7 +36,7 @@
       "home": "CLE",
       "away": "SD",
       "venue": "away",
-      "odds": -116,
+      "odds": -106,
       "suggest": "away",
       "suggestUnits": 3.0,
       "games": 3,
@@ -36,7 +54,7 @@
       "home": "PIT",
       "away": "BOS",
       "venue": "home",
-      "odds": -112,
+      "odds": -120,
       "suggest": "home",
       "suggestUnits": 2.64,
       "games": 7,
@@ -54,7 +72,7 @@
       "home": "LAA",
       "away": "KC",
       "venue": "home",
-      "odds": 136,
+      "odds": 142,
       "suggest": "home",
       "suggestUnits": 3.9,
       "games": 12,
@@ -203,11 +221,11 @@
       "suggest": "home",
       "suggestUnits": 3.61,
       "all": {
-        "w": 10,
+        "w": 11,
         "l": 13,
-        "u": 0.45,
-        "n": 23,
-        "roi": 0.0193
+        "u": 2.13,
+        "n": 24,
+        "roi": 0.0874
       },
       "home": {
         "w": 6,
@@ -217,11 +235,11 @@
         "roi": 0.3178
       },
       "away": {
-        "w": 4,
+        "w": 5,
         "l": 8,
-        "u": -3.16,
-        "n": 12,
-        "roi": -0.2633
+        "u": -1.48,
+        "n": 13,
+        "roi": -0.1138
       }
     },
     {
@@ -249,6 +267,33 @@
         "u": 3.54,
         "n": 7,
         "roi": 0.5057
+      }
+    },
+    {
+      "pitcher": "Michael Lorenzen",
+      "team": "COL",
+      "suggest": "away",
+      "suggestUnits": 3.49,
+      "all": {
+        "w": 14,
+        "l": 9,
+        "u": -1.68,
+        "n": 23,
+        "roi": -0.0412
+      },
+      "home": {
+        "w": 4,
+        "l": 6,
+        "u": -5.17,
+        "n": 10,
+        "roi": -0.3368
+      },
+      "away": {
+        "w": 10,
+        "l": 3,
+        "u": 3.49,
+        "n": 13,
+        "roi": 0.1373
       }
     },
     {

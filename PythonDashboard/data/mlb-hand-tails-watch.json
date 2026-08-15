@@ -1,7 +1,7 @@
 {
   "sport": "MLB",
   "type": "hand-tails-watch",
-  "generated": "2026-08-15T21:09:16Z",
+  "generated": "2026-08-15T23:04:59Z",
   "handMin": 6,
   "minGames": 3,
   "minUnits": 2.5,
@@ -54,24 +54,24 @@
     },
     {
       "date": "2026-08-15",
-      "commence": "2026-08-15T20:05:00Z",
-      "betType": "watch_take",
-      "action": "take",
+      "commence": "2026-08-15T19:07:00Z",
+      "betType": "watch_fade",
+      "action": "fade",
       "watch": true,
-      "pitcher": "Michael Lorenzen",
+      "pitcher": "Cam Schlittler",
       "hand": "R",
-      "arm_team": "COL",
-      "opp_team": "SF",
-      "selection": "COL",
-      "home": "SF",
-      "away": "COL",
+      "arm_team": "NYY",
+      "opp_team": "TOR",
+      "selection": "TOR",
+      "home": "TOR",
+      "away": "NYY",
       "oppLefty": 6,
-      "oppRighty": 3,
+      "oppRighty": 4,
       "lineupConfirmed": true,
-      "odds": 156,
-      "suggest": "take",
-      "suggestUnits": 4.56,
-      "games": 8,
+      "odds": 168,
+      "suggest": "fade",
+      "suggestUnits": 3.06,
+      "games": 11,
       "result": "pending"
     },
     {
@@ -90,7 +90,7 @@
       "oppLefty": 6,
       "oppRighty": 6,
       "lineupConfirmed": true,
-      "odds": -112,
+      "odds": -120,
       "suggest": "take",
       "suggestUnits": 5.82,
       "games": 13,
@@ -427,24 +427,6 @@
       "era": 3.31
     },
     {
-      "pitcher": "Michael Lorenzen",
-      "hand": "R",
-      "games": 8,
-      "suggest": "take",
-      "suggestUnits": 4.56,
-      "fade": {
-        "w": 3,
-        "l": 5,
-        "u": -6.01
-      },
-      "take": {
-        "w": 5,
-        "l": 3,
-        "u": 4.56
-      },
-      "era": 6.89
-    },
-    {
       "pitcher": "Walker Buehler",
       "hand": "R",
       "games": 6,
@@ -695,6 +677,24 @@
         "u": -3.46
       },
       "era": 7.55
+    },
+    {
+      "pitcher": "Cam Schlittler",
+      "hand": "R",
+      "games": 11,
+      "suggest": "fade",
+      "suggestUnits": 3.06,
+      "fade": {
+        "w": 6,
+        "l": 5,
+        "u": 3.06
+      },
+      "take": {
+        "w": 5,
+        "l": 6,
+        "u": -4.13
+      },
+      "era": 2.21
     },
     {
       "pitcher": "Connor Prielipp",
