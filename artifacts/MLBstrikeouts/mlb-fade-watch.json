@@ -1,45 +1,45 @@
 {
   "sport": "MLB",
   "type": "fade-watch",
-  "generated": "2026-08-15T00:34:52Z",
+  "generated": "2026-08-15T12:58:13Z",
   "minGames": 3,
   "minUnits": 2.5,
   "note": "Shadow review list -- arms NOT on the active fade list whose home or away fade clears the bar (>= 3 games, >= +2.5u). In-sample season replay; watch, don't bet. Promote by editing scripts/fade_list.py.",
   "today": [
     {
-      "date": "2026-08-14",
-      "commence": "2026-08-15T01:38:00Z",
+      "date": "2026-08-15",
+      "commence": "2026-08-15T23:15:00Z",
       "betType": "fade_watch",
       "watch": true,
-      "pitcher": "Seth Lugo",
-      "arm_team": "KC",
-      "fadeTeam": "KC",
-      "selection": "LAA",
-      "home": "LAA",
-      "away": "KC",
-      "venue": "away",
-      "odds": 100,
-      "suggest": "away",
-      "suggestUnits": 3.14,
-      "games": 10,
+      "pitcher": "Jared Jones",
+      "arm_team": "PIT",
+      "fadeTeam": "PIT",
+      "selection": "BOS",
+      "home": "PIT",
+      "away": "BOS",
+      "venue": "home",
+      "odds": -120,
+      "suggest": "home",
+      "suggestUnits": 2.64,
+      "games": 7,
       "result": "pending"
     },
     {
-      "date": "2026-08-14",
-      "commence": "2026-08-15T02:10:00Z",
+      "date": "2026-08-15",
+      "commence": "2026-08-16T01:38:00Z",
       "betType": "fade_watch",
       "watch": true,
-      "pitcher": "Yoshinobu Yamamoto",
-      "arm_team": "LAD",
-      "fadeTeam": "LAD",
-      "selection": "MIL",
-      "home": "LAD",
-      "away": "MIL",
+      "pitcher": "Reid Detmers",
+      "arm_team": "LAA",
+      "fadeTeam": "LAA",
+      "selection": "KC",
+      "home": "LAA",
+      "away": "KC",
       "venue": "home",
-      "odds": 156,
+      "odds": 130,
       "suggest": "home",
-      "suggestUnits": 3.62,
-      "games": 9,
+      "suggestUnits": 3.9,
+      "games": 12,
       "result": "pending"
     }
   ],
@@ -177,33 +177,6 @@
         "u": -4.46,
         "n": 9,
         "roi": -0.3933
-      }
-    },
-    {
-      "pitcher": "Yoshinobu Yamamoto",
-      "team": "LAD",
-      "suggest": "home",
-      "suggestUnits": 3.62,
-      "all": {
-        "w": 6,
-        "l": 13,
-        "u": -1.64,
-        "n": 19,
-        "roi": -0.0863
-      },
-      "home": {
-        "w": 4,
-        "l": 5,
-        "u": 3.62,
-        "n": 9,
-        "roi": 0.4022
-      },
-      "away": {
-        "w": 2,
-        "l": 8,
-        "u": -5.26,
-        "n": 10,
-        "roi": -0.526
       }
     },
     {
@@ -366,33 +339,6 @@
         "u": 3.2,
         "n": 3,
         "roi": 0.904
-      }
-    },
-    {
-      "pitcher": "Seth Lugo",
-      "team": "KC",
-      "suggest": "away",
-      "suggestUnits": 3.14,
-      "all": {
-        "w": 13,
-        "l": 9,
-        "u": 2.34,
-        "n": 22,
-        "roi": 0.085
-      },
-      "home": {
-        "w": 6,
-        "l": 6,
-        "u": -0.8,
-        "n": 12,
-        "roi": -0.0561
-      },
-      "away": {
-        "w": 7,
-        "l": 3,
-        "u": 3.14,
-        "n": 10,
-        "roi": 0.2364
       }
     },
     {
@@ -563,18 +509,18 @@
       "suggest": "away",
       "suggestUnits": 2.76,
       "all": {
-        "w": 8,
+        "w": 9,
         "l": 11,
-        "u": 0.47,
-        "n": 19,
-        "roi": 0.0242
+        "u": 2.27,
+        "n": 20,
+        "roi": 0.1113
       },
       "home": {
-        "w": 2,
+        "w": 3,
         "l": 6,
-        "u": -2.29,
-        "n": 8,
-        "roi": -0.2863
+        "u": -0.49,
+        "n": 9,
+        "roi": -0.0544
       },
       "away": {
         "w": 6,
@@ -609,6 +555,33 @@
         "u": -2.7,
         "n": 6,
         "roi": -0.3678
+      }
+    },
+    {
+      "pitcher": "Yoshinobu Yamamoto",
+      "team": "LAD",
+      "suggest": "home",
+      "suggestUnits": 2.62,
+      "all": {
+        "w": 6,
+        "l": 14,
+        "u": -2.64,
+        "n": 20,
+        "roi": -0.132
+      },
+      "home": {
+        "w": 4,
+        "l": 6,
+        "u": 2.62,
+        "n": 10,
+        "roi": 0.262
+      },
+      "away": {
+        "w": 2,
+        "l": 8,
+        "u": -5.26,
+        "n": 10,
+        "roi": -0.526
       }
     },
     {

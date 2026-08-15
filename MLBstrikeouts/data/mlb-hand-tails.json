@@ -1,7 +1,7 @@
 {
   "sport": "MLB",
   "type": "hand-tails",
-  "generated": "2026-08-15T00:33:44Z",
+  "generated": "2026-08-15T12:57:06Z",
   "handMin": 6,
   "roster": {
     "Andrew Painter": {
@@ -95,20 +95,27 @@
       "since": "2026-08-11"
     }
   ],
-  "demotions": [],
+  "demotions": [
+    {
+      "name": "Michael King",
+      "hand": "R",
+      "games": 10,
+      "units": 2.36
+    }
+  ],
   "summary": {
     "wins": 44,
-    "losses": 15,
-    "units": 29.6,
-    "staked": 70.78,
-    "roi": 0.4182,
+    "losses": 16,
+    "units": 28.44,
+    "staked": 71.94,
+    "roi": 0.3953,
     "byAction": {
       "fade": {
         "wins": 44,
-        "losses": 15,
-        "units": 29.6,
-        "staked": 70.78,
-        "roi": 0.4182
+        "losses": 16,
+        "units": 28.44,
+        "staked": 71.94,
+        "roi": 0.3953
       },
       "take": {
         "wins": 0,
@@ -121,10 +128,10 @@
     "byHand": {
       "R": {
         "wins": 26,
-        "losses": 8,
-        "units": 18.34,
-        "staked": 40.9,
-        "roi": 0.4484
+        "losses": 9,
+        "units": 17.18,
+        "staked": 42.06,
+        "roi": 0.4085
       },
       "L": {
         "wins": 18,
@@ -135,32 +142,7 @@
       }
     }
   },
-  "today": [
-    {
-      "date": "2026-08-14",
-      "commence": "2026-08-14T23:10:00Z",
-      "betType": "hand_fade",
-      "action": "fade",
-      "pitcher": "Michael King",
-      "entry": "Michael King",
-      "hand": "R",
-      "arm_team": "SD",
-      "opp_team": "CLE",
-      "selection": "CLE",
-      "home": "CLE",
-      "away": "SD",
-      "oppLefty": 9,
-      "oppRighty": 4,
-      "lineupConfirmed": true,
-      "odds": -116,
-      "stake": 1.16,
-      "result": "pending",
-      "reason": null,
-      "profit": 0.0,
-      "book": "fanduel",
-      "source": "fanduel_api"
-    }
-  ],
+  "today": [],
   "bets": [
     {
       "date": "2026-05-20",
@@ -1575,6 +1557,30 @@
       "result": "WIN",
       "reason": null,
       "profit": 1.0,
+      "book": "fanduel",
+      "source": "fanduel_api"
+    },
+    {
+      "date": "2026-08-14",
+      "commence": "2026-08-14T23:10:00Z",
+      "betType": "hand_fade",
+      "action": "fade",
+      "pitcher": "Michael King",
+      "entry": "Michael King",
+      "hand": "R",
+      "arm_team": "SD",
+      "opp_team": "CLE",
+      "selection": "CLE",
+      "home": "CLE",
+      "away": "SD",
+      "oppLefty": 9,
+      "oppRighty": 4,
+      "lineupConfirmed": true,
+      "odds": -116,
+      "stake": 1.16,
+      "result": "LOSS",
+      "reason": null,
+      "profit": -1.16,
       "book": "fanduel",
       "source": "fanduel_api"
     }

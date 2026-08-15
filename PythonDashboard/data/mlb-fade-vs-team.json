@@ -1,7 +1,7 @@
 {
   "sport": "MLB",
   "type": "fade-vs-team",
-  "generated": "2026-08-15T00:34:54Z",
+  "generated": "2026-08-15T12:58:15Z",
   "seasonStart": "2026-04-05",
   "minStarts": 2,
   "fadeEra": 8.0,
@@ -13,23 +13,7 @@
     "n": 10,
     "roi": 0.6937
   },
-  "today": [
-    {
-      "date": "2026-08-14",
-      "commence": "2026-08-14T23:10:00Z",
-      "betType": "fade_vs_team",
-      "pitcher": "Steven Matz",
-      "arm_team": "TB",
-      "opp": "BAL",
-      "selection": "BAL",
-      "venue": "home",
-      "matchup": "BAL @ TB",
-      "odds": 142,
-      "eraVsOpp": 9.0,
-      "startsVsOpp": 2,
-      "result": "pending"
-    }
-  ],
+  "today": [],
   "entries": [
     {
       "pitcher": "Joe Ryan",
@@ -288,6 +272,25 @@
       "qualifiedOn": "2026-05-27"
     },
     {
+      "pitcher": "Seth Lugo",
+      "opp": "LAA",
+      "arm_team": "KC",
+      "source": "auto",
+      "record": {
+        "w": 0,
+        "l": 0,
+        "u": 0,
+        "n": 0,
+        "roi": 0.0
+      },
+      "eraVsOpp": 9.82,
+      "ipVsOpp": 11.0,
+      "erVsOpp": 12,
+      "startsVsOpp": 2,
+      "starts": [],
+      "qualifiedOn": "2026-08-14"
+    },
+    {
       "pitcher": "Matthew Boyd",
       "opp": "SD",
       "arm_team": "CHC",
@@ -514,25 +517,6 @@
       "startsVsOpp": 2,
       "starts": [],
       "qualifiedOn": "2026-08-06"
-    },
-    {
-      "pitcher": "Steven Matz",
-      "opp": "BAL",
-      "arm_team": "TB",
-      "source": "auto",
-      "record": {
-        "w": 0,
-        "l": 0,
-        "u": 0,
-        "n": 0,
-        "roi": 0.0
-      },
-      "eraVsOpp": 9.0,
-      "ipVsOpp": 7.0,
-      "erVsOpp": 7,
-      "startsVsOpp": 2,
-      "starts": [],
-      "qualifiedOn": "2026-05-27"
     },
     {
       "pitcher": "Janson Junk",

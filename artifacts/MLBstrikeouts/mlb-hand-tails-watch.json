@@ -1,7 +1,7 @@
 {
   "sport": "MLB",
   "type": "hand-tails-watch",
-  "generated": "2026-08-15T00:34:51Z",
+  "generated": "2026-08-15T12:58:12Z",
   "handMin": 6,
   "minGames": 3,
   "minUnits": 2.5,
@@ -9,48 +9,136 @@
   "note": "Shadow review list -- arms NOT on the active hand-tails list showing a handedness-conditional edge (fade or take). The active list is fade-only, so all tail/take arms are review-only here. In-sample season replay; watch, don't bet.",
   "today": [
     {
-      "date": "2026-08-14",
-      "commence": "2026-08-14T22:10:00Z",
+      "date": "2026-08-15",
+      "commence": "2026-08-15T17:10:00Z",
       "betType": "watch_take",
       "action": "take",
       "watch": true,
-      "pitcher": "Chase Burns",
+      "pitcher": "Troy Melton",
       "hand": "R",
-      "arm_team": "CIN",
-      "opp_team": "MIA",
-      "selection": "CIN",
-      "home": "CIN",
-      "away": "MIA",
+      "arm_team": "DET",
+      "opp_team": "CWS",
+      "selection": "DET",
+      "home": "DET",
+      "away": "CWS",
       "oppLefty": 6,
-      "oppRighty": 4,
-      "lineupConfirmed": true,
-      "odds": -114,
+      "oppRighty": 5,
+      "lineupConfirmed": false,
+      "odds": null,
       "suggest": "take",
-      "suggestUnits": 7.22,
-      "games": 14,
-      "result": "pending"
+      "suggestUnits": 4.12,
+      "games": 6,
+      "result": "unconfirmed"
     },
     {
-      "date": "2026-08-14",
-      "commence": "2026-08-15T01:38:00Z",
-      "betType": "watch_fade",
-      "action": "fade",
+      "date": "2026-08-15",
+      "commence": "2026-08-15T17:10:00Z",
+      "betType": "watch_take",
+      "action": "take",
       "watch": true,
-      "pitcher": "Grayson Rodriguez",
+      "pitcher": "Anthony Kay",
+      "hand": "L",
+      "arm_team": "CWS",
+      "opp_team": "DET",
+      "selection": "CWS",
+      "home": "DET",
+      "away": "CWS",
+      "oppLefty": 2,
+      "oppRighty": 7,
+      "lineupConfirmed": false,
+      "odds": null,
+      "suggest": "take",
+      "suggestUnits": 6.96,
+      "games": 18,
+      "result": "unconfirmed"
+    },
+    {
+      "date": "2026-08-15",
+      "commence": "2026-08-15T18:20:00Z",
+      "betType": "watch_take",
+      "action": "take",
+      "watch": true,
+      "pitcher": "Matthew Boyd",
+      "hand": "L",
+      "arm_team": "CHC",
+      "opp_team": "STL",
+      "selection": "CHC",
+      "home": "CHC",
+      "away": "STL",
+      "oppLefty": 2,
+      "oppRighty": 6,
+      "lineupConfirmed": false,
+      "odds": null,
+      "suggest": "take",
+      "suggestUnits": 6.18,
+      "games": 10,
+      "result": "unconfirmed"
+    },
+    {
+      "date": "2026-08-15",
+      "commence": "2026-08-15T23:15:00Z",
+      "betType": "watch_take",
+      "action": "take",
+      "watch": true,
+      "pitcher": "Sonny Gray",
       "hand": "R",
-      "arm_team": "LAA",
-      "opp_team": "KC",
-      "selection": "KC",
-      "home": "LAA",
-      "away": "KC",
-      "oppLefty": 7,
-      "oppRighty": 3,
-      "lineupConfirmed": true,
-      "odds": -108,
-      "suggest": "fade",
-      "suggestUnits": 2.78,
-      "games": 5,
-      "result": "pending"
+      "arm_team": "BOS",
+      "opp_team": "PIT",
+      "selection": "BOS",
+      "home": "PIT",
+      "away": "BOS",
+      "oppLefty": 6,
+      "oppRighty": 6,
+      "lineupConfirmed": false,
+      "odds": null,
+      "suggest": "take",
+      "suggestUnits": 5.82,
+      "games": 13,
+      "result": "unconfirmed"
+    },
+    {
+      "date": "2026-08-15",
+      "commence": "2026-08-15T23:15:00Z",
+      "betType": "watch_take",
+      "action": "take",
+      "watch": true,
+      "pitcher": "Eduardo Rodriguez",
+      "hand": "L",
+      "arm_team": "ARI",
+      "opp_team": "ATL",
+      "selection": "ARI",
+      "home": "ATL",
+      "away": "ARI",
+      "oppLefty": 4,
+      "oppRighty": 6,
+      "lineupConfirmed": false,
+      "odds": null,
+      "suggest": "take",
+      "suggestUnits": 13.34,
+      "games": 17,
+      "result": "unconfirmed"
+    },
+    {
+      "date": "2026-08-15",
+      "commence": "2026-08-15T23:15:00Z",
+      "betType": "watch_take",
+      "action": "take",
+      "watch": true,
+      "pitcher": "Jacob Misiorowski",
+      "hand": "R",
+      "arm_team": "MIL",
+      "opp_team": "LAD",
+      "selection": "MIL",
+      "home": "LAD",
+      "away": "MIL",
+      "oppLefty": 6,
+      "oppRighty": 4,
+      "lineupConfirmed": false,
+      "odds": null,
+      "suggest": "take",
+      "suggestUnits": 5.62,
+      "games": 8,
+      "result": "unconfirmed"
     }
   ],
   "candidates": [
@@ -106,7 +194,7 @@
         "l": 1,
         "u": 8.26
       },
-      "era": 3.52
+      "era": 3.43
     },
     {
       "pitcher": "Kyle Leahy",
@@ -142,7 +230,7 @@
         "l": 3,
         "u": 7.22
       },
-      "era": 2.61
+      "era": 2.47
     },
     {
       "pitcher": "Anthony Kay",
@@ -305,6 +393,24 @@
         "u": 5.32
       },
       "era": 2.68
+    },
+    {
+      "pitcher": "Brandon Pfaadt",
+      "hand": "R",
+      "games": 5,
+      "suggest": "take",
+      "suggestUnits": 5.2,
+      "fade": {
+        "w": 1,
+        "l": 4,
+        "u": -6.09
+      },
+      "take": {
+        "w": 4,
+        "l": 1,
+        "u": 5.2
+      },
+      "era": 2.27
     },
     {
       "pitcher": "Luinder Avila",
@@ -559,6 +665,24 @@
       "era": 3.3
     },
     {
+      "pitcher": "Grayson Rodriguez",
+      "hand": "R",
+      "games": 6,
+      "suggest": "fade",
+      "suggestUnits": 3.78,
+      "fade": {
+        "w": 5,
+        "l": 1,
+        "u": 3.78
+      },
+      "take": {
+        "w": 1,
+        "l": 5,
+        "u": -4.26
+      },
+      "era": 7.17
+    },
+    {
       "pitcher": "Rhett Lowder",
       "hand": "R",
       "games": 8,
@@ -575,6 +699,24 @@
         "u": -4.04
       },
       "era": 5.46
+    },
+    {
+      "pitcher": "Jake Bennett",
+      "hand": "L",
+      "games": 12,
+      "suggest": "fade",
+      "suggestUnits": 3.48,
+      "fade": {
+        "w": 7,
+        "l": 5,
+        "u": 3.48
+      },
+      "take": {
+        "w": 5,
+        "l": 7,
+        "u": -4.92
+      },
+      "era": 3.46
     },
     {
       "pitcher": "Trey Gibson",
@@ -682,7 +824,7 @@
         "l": 7,
         "u": -4.02
       },
-      "era": 4.41
+      "era": 4.59
     },
     {
       "pitcher": "Ryan Johnson",
@@ -755,24 +897,6 @@
         "u": -3.86
       },
       "era": 4.89
-    },
-    {
-      "pitcher": "Grayson Rodriguez",
-      "hand": "R",
-      "games": 5,
-      "suggest": "fade",
-      "suggestUnits": 2.78,
-      "fade": {
-        "w": 4,
-        "l": 1,
-        "u": 2.78
-      },
-      "take": {
-        "w": 1,
-        "l": 4,
-        "u": -3.26
-      },
-      "era": 7.2
     },
     {
       "pitcher": "Aaron Civale",
