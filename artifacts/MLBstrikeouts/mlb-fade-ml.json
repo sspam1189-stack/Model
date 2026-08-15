@@ -1,7 +1,7 @@
 {
   "sport": "MLB",
   "type": "fade-ml",
-  "generated": "2026-08-14T23:02:36Z",
+  "generated": "2026-08-15T00:32:03Z",
   "fadeList": [
     "Painter",
     "Rocker",
@@ -175,6 +175,30 @@
       "away": "KC",
       "gamePk": 823993,
       "fadeReason": "home"
+    },
+    {
+      "date": "2026-08-14",
+      "commence": "2026-08-15T01:40:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Gage Jump"
+      ],
+      "fadeTeam": "OAK",
+      "market": "h2h",
+      "selection": "TEX",
+      "line": null,
+      "odds": -106,
+      "stake": 1.06,
+      "result": "pending",
+      "profit": 0.0,
+      "book": "fanduel",
+      "source": "fanduel_api",
+      "reason": null,
+      "home": "OAK",
+      "away": "TEX",
+      "gamePk": 824968,
+      "fadeReason": "all"
     }
   ],
   "bets": [

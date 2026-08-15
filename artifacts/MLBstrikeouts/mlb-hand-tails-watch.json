@@ -1,7 +1,7 @@
 {
   "sport": "MLB",
   "type": "hand-tails-watch",
-  "generated": "2026-08-14T23:05:24Z",
+  "generated": "2026-08-15T00:34:51Z",
   "handMin": 6,
   "minGames": 3,
   "minUnits": 2.5,
@@ -26,8 +26,8 @@
       "lineupConfirmed": true,
       "odds": -114,
       "suggest": "take",
-      "suggestUnits": 6.22,
-      "games": 13,
+      "suggestUnits": 7.22,
+      "games": 14,
       "result": "pending"
     },
     {
@@ -127,6 +127,24 @@
       "era": 3.38
     },
     {
+      "pitcher": "Chase Burns",
+      "hand": "R",
+      "games": 14,
+      "suggest": "take",
+      "suggestUnits": 7.22,
+      "fade": {
+        "w": 3,
+        "l": 11,
+        "u": -8.51
+      },
+      "take": {
+        "w": 11,
+        "l": 3,
+        "u": 7.22
+      },
+      "era": 2.61
+    },
+    {
       "pitcher": "Anthony Kay",
       "hand": "L",
       "games": 18,
@@ -179,24 +197,6 @@
         "u": 6.74
       },
       "era": 3.45
-    },
-    {
-      "pitcher": "Chase Burns",
-      "hand": "R",
-      "games": 13,
-      "suggest": "take",
-      "suggestUnits": 6.22,
-      "fade": {
-        "w": 3,
-        "l": 10,
-        "u": -7.51
-      },
-      "take": {
-        "w": 10,
-        "l": 3,
-        "u": 6.22
-      },
-      "era": 2.61
     },
     {
       "pitcher": "Matthew Boyd",
