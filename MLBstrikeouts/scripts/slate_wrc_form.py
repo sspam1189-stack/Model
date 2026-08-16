@@ -60,9 +60,21 @@ ALL_ML = REPO / "MLBstrikeouts" / "data" / "mlb-all-ml.json"
 TEAM_WRC = REPO / "MLBstrikeouts" / "data" / "mlb-team-woba-splits.json"
 GAME_LOGS = REPO / "data" / "pitcher_cache" / "mlb" / "game_logs_2026.json"
 
-# Offense is read against STARTING pitchers only ("sp"), since the arm being
-# scouted is the starter. "all" would fold in every reliever of that hand.
+PA_SPLITS = REPO / "data" / "pitcher_cache" / "mlb" / "team_pa_splits_2026.json"
+
+# The starter matchup is read against STARTING pitchers only ("sp"). The
+# role-less "all" node is deliberately unused: it keys every plate appearance
+# to the pitcher's hand regardless of role, so it answers "how does this
+# offense hit lefties" rather than "how does this offense do in a game a lefty
+# starts" — and it averages together behaviour that often points opposite ways.
+# PHI is 75 vs LH starters but 121 vs LH relievers; both roll up to "all" = 95.
 PITCHER_ROLE = "sp"
+
+# A game is not just the starter, so the full-game figure blends the starter
+# matchup with the bullpen that follows, weighted by each staff's own starter
+# share of PA and its own bullpen handedness mix (league starter share is 57%,
+# but it ranges from 48% for CWS/WSH to 64% for SEA).
+FULL_GAME = True
 
 # Season is the stable read; the secondary window is scoped to the trade
 # deadline so August reads respect roster changes.
@@ -318,6 +330,71 @@ def matchup_wrc(windows, offense_team, pitcher_hand, window=PRIMARY_WINDOW):
     return cell["wrcplus"] if cell else None
 
 
+def staff_profiles(pa_rows):
+    """
+    Per pitching staff: starter share of PA and bullpen handedness mix.
+
+    Each row in the PA splits is one (game, batting team, opposing pitcher
+    hand, role) tally, so grouping by ``opp`` describes the staff that did the
+    pitching rather than the offense that batted.
+    """
+    staff = {}
+    for row in pa_rows:
+        team = row.get("opp")
+        if not team:
+            continue
+        acc = staff.setdefault(team, {"sp": 0, "rp": 0, "rp_L": 0, "rp_R": 0})
+        role = "sp" if row.get("role") == "SP" else "rp"
+        pa = int(row.get("pa") or 0)
+        acc[role] += pa
+        if role == "rp":
+            acc["rp_" + ("L" if row.get("opp_hand") == "L" else "R")] += pa
+
+    out = {}
+    for team, acc in staff.items():
+        total = acc["sp"] + acc["rp"]
+        bullpen = acc["rp"] or 1
+        out[team] = {
+            "sp_share": acc["sp"] / total if total else 0.57,
+            "bp_lhp": acc["rp_L"] / bullpen,
+            "bp_rhp": acc["rp_R"] / bullpen,
+        }
+    return out
+
+
+def full_game_wrc(windows, offense_team, opp_team, starter_hand, staff,
+                  window=PRIMARY_WINDOW):
+    """
+    Expected offensive output across a whole game, in wRC+ units.
+
+    Blends the offense against the starter's hand with the offense against the
+    opposing bullpen, split by that bullpen's actual handedness mix and
+    weighted by that staff's starter share of plate appearances. This is the
+    figure that maps to a moneyline or a total; the starters-only figure
+    answers the narrower question of how the listed arm matches up.
+    """
+    sp_cell = wrc_cell(windows, window, offense_team, starter_hand, role="sp")
+    if not sp_cell:
+        return None
+    prof = staff.get(opp_team) or {"sp_share": 0.57, "bp_lhp": 0.30, "bp_rhp": 0.70}
+
+    rp_l = wrc_cell(windows, window, offense_team, "L", role="rp")
+    rp_r = wrc_cell(windows, window, offense_team, "R", role="rp")
+    weights, values = [], []
+    if rp_l:
+        weights.append(prof["bp_lhp"])
+        values.append(rp_l["wrcplus"])
+    if rp_r:
+        weights.append(prof["bp_rhp"])
+        values.append(rp_r["wrcplus"])
+    if not weights or sum(weights) == 0:
+        return sp_cell["wrcplus"]
+
+    bullpen = sum(w * v for w, v in zip(weights, values)) / sum(weights)
+    share = prof["sp_share"]
+    return round(share * sp_cell["wrcplus"] + (1 - share) * bullpen)
+
+
 def platoon_gap(windows, offense_team, window=PRIMARY_WINDOW):
     """vsLHP minus vsRHP for an offense — how lopsided its platoon profile is."""
     lhp = matchup_wrc(windows, offense_team, "L", window)
@@ -356,6 +433,7 @@ def build_report(slate_date, slate_file=None):
     games = load_slate(slate_date, slate_file)
     wrc, wrc_as_of = load_wrc()
     starts_by_name = organize_starts(_load(GAME_LOGS))
+    staff = staff_profiles(_load(PA_SPLITS))
 
     rows = []
     for game in games:
@@ -393,6 +471,7 @@ def build_report(slate_date, slate_file=None):
                 "team": game[side],
                 "opponent_offense": offense,
                 "opp_wrc_vs_hand": opp_wrc,
+                "opp_wrc_game": full_game_wrc(wrc, offense, game[side], hand, staff),
                 "opp_wrc_recent": recent_cell["wrcplus"] if recent_cell else None,
                 "opp_wrc_recent_pa": recent_cell["pa"] if recent_cell else None,
                 "opp_platoon_gap": platoon_gap(wrc, offense),
@@ -401,6 +480,20 @@ def build_report(slate_date, slate_file=None):
                 "flags": flags,
                 "pressure": pressure(form, opp_wrc),
             }
+        # Full-game offensive expectation for each club. The away starter is
+        # scouted against the home offense, so sides["away"] carries the home
+        # bats and vice versa.
+        home_off = entry["sides"]["away"]["opp_wrc_game"]
+        away_off = entry["sides"]["home"]["opp_wrc_game"]
+        entry["home_offense_game"] = home_off
+        entry["away_offense_game"] = away_off
+        if home_off is not None and away_off is not None:
+            # Run environment for the total, and which way the bats tilt.
+            entry["game_offense"] = round((home_off + away_off) / 2)
+            entry["offense_edge"] = away_off - home_off
+        else:
+            entry["game_offense"] = None
+            entry["offense_edge"] = None
         rows.append(entry)
 
     rows.sort(key=lambda r: r["commence"] or "")
@@ -463,6 +556,13 @@ def render(report):
         lines.append(f"{game['matchup']}   "
                      f"ML {game['away_ml']:+d}/{game['home_ml']:+d}   "
                      f"total {game['total']}")
+        lines.append(
+            f"   full-game offense: {game['away']} "
+            f"{_fmt(game['away_offense_game'], '{:.0f}')} vs {game['home']} "
+            f"{_fmt(game['home_offense_game'], '{:.0f}')}  ->  "
+            f"env {_fmt(game['game_offense'], '{:.0f}')}, "
+            f"edge {_signed(game['offense_edge'], '{:+.0f}')} "
+            f"({game['away']})")
         for side in ("away", "home"):
             s = game["sides"][side]
             if not s["pitcher"]:
@@ -474,8 +574,9 @@ def render(report):
             flags = f"  [{', '.join(s['flags'])}]" if s["flags"] else ""
             lines.append(
                 f"   {s['pitcher']} ({s['hand']}) vs {s['opponent_offense']} "
-                f"wRC+ {_fmt(s['opp_wrc_vs_hand'], '{:.0f}')} "
+                f"vsSP {_fmt(s['opp_wrc_vs_hand'], '{:.0f}')} "
                 f"(dl {_fmt(s['opp_wrc_recent'], '{:.0f}')}, "
+                f"game {_fmt(s['opp_wrc_game'], '{:.0f}')}, "
                 f"gap {_signed(s['opp_platoon_gap'], '{:+.0f}')}){flags}"
             )
             lines.append(
