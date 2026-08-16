@@ -1,39 +1,46 @@
 """
 slate_lineup_edge.py — Does the confirmed lineup beat the team number, against the line?
 
-REFUTED — the edge this script measures is lookahead. Read this first.
-======================================================================
-The apparent edge came entirely from the lineup source. This script reads
-``batting_orders_2026.json``, which is extracted from the BOXSCORE after the
-game — it is the batting order as played, not the one posted beforehand. It
-differs from the pre-game confirmed lineup by a mean of 1.44 of 9 players, and
-matches exactly only 20% of the time, because a slot can hold whoever ended up
-hitting there.
+Reads PRE-GAME lineups by default, and on those the hypothesis is refuted.
+==========================================================================
+``--lineup-source pregame`` (the default) reads the daily
+``lineups_YYYYMMDD.json`` captures: the confirmed lineup as posted, which is
+the only source a decision made before first pitch could use.
 
-That is the artifact: high-scoring games run through more of the bench, bench
-hitters grade worse, so a weak "lineup" is partly a CONSEQUENCE of the runs
-being scored. Checking that the order always contains exactly nine names does
-not rule this out, and an earlier version of this file wrongly claimed it did.
+``--lineup-source postgame`` reads ``batting_orders_2026.json``, taken from the
+boxscore — the order as PLAYED. It covers more dates and must never be used to
+evaluate a rule. A slot there holds whoever ended up hitting in it, so it
+differs from the posted lineup by a mean of 1.44 of 9 players and matches
+exactly only 20% of the time. High-scoring games run deeper into the bench and
+bench hitters grade worse, which makes a weak "lineup" partly a CONSEQUENCE of
+the runs. It is retained only to reproduce the contaminated result below.
+Checking that the order always holds exactly nine names does not rule this out;
+an earlier version of this file wrongly claimed it did.
 
-Re-run on the 115 dates where both sources exist, like for like:
+Like for like on the 115 dates carrying both sources:
 
     source                rule       bets    W-L     win%    ROI
-    post-game (this)      avg<=0      241  143-92   60.9%  +15.4%
-    post-game (this)      both<=0      98   64-32   66.7%  +26.4%
-    post-game (this)      both<=-2     61   41-18   69.5%  +31.4%
-    PRE-GAME (real)       avg<=0      100   50-50   50.0%   -5.3%
-    PRE-GAME (real)       both<=0      21   10-11   47.6%   -9.7%
-    PRE-GAME (real)       both<=-2     10     3-7   30.0%  -44.2%
+    postgame (bad)        avg<=0      241  143-92   60.9%  +15.4%
+    postgame (bad)        both<=0      98   64-32   66.7%  +26.4%
+    postgame (bad)        both<=-2     61   41-18   69.5%  +31.4%
+    PREGAME (honest)      avg<=0      100   50-50   50.0%   -5.3%
+    PREGAME (honest)      both<=0      21   10-11   47.6%   -9.7%
+    PREGAME (honest)      both<=-2     10     3-7   30.0%  -44.2%
 
-Against lineups actually knowable before first pitch there is no edge — 50.0%
-on the only sample large enough to read, against a 52.3% break-even. The
-pre-game source also qualifies far fewer games (100 vs 241), which is itself
-the signature of the contamination.
+On the honest source there is no edge: 50.0% against a 52.3% break-even, and
+the residual correlation of delta against ``runs - total`` falls from -0.123 to
++0.027. The leakage split stops agreeing with itself too — +6.5 points of lift
+for games not yet started against -3.8 for those under way, where the
+contaminated run showed +10.3 and +10.6.
 
-The script is kept because the point-in-time machinery is sound and the
-comparison above is worth preserving. Do not bet anything it reports. Any
-future lineup work must read ``lineups_YYYYMMDD.json`` (pre-game, confirmed),
-never the boxscore batting order.
+Two sanity checks confirm the direction. Pre-game lineups grade +8.3 above
+their club rather than +6.0, which is what a starting nine should do relative
+to a team average that includes the bench. And they qualify far fewer games,
+100 against 241, because the post-game version was manufacturing weak lineups
+out of substitutions.
+
+Kept because the point-in-time machinery is sound and this comparison is worth
+not repeating. Do not bet what it reports.
 
 Original description follows.
 ------------------------------------------------------------------
@@ -47,14 +54,14 @@ For every completed game this rebuilds, point-in-time:
 
   * ``team``   — the club's wRC+ vs the starter's hand, all pitchers, as
     ``slate_wrc_form`` uses it.
-  * ``lineup`` — the same figure computed over only the nine hitters who
-    actually batted that night, from their own prior splits vs that hand.
+  * ``lineup`` — the same figure computed over only the nine hitters in that
+    night's posted lineup, from their own prior splits vs that hand.
   * ``delta``  — lineup minus team. This is the quantity the market plausibly
     does not have: how much better or worse tonight's nine are than the club.
 
-Only the *composition* of the lineup is taken from the game itself; every
-hitter's rate is built strictly from games before that date. Posting time makes
-this realistic — lineups are public pre-game.
+Only the *composition* of the lineup is taken from that night; every hitter's
+rate is built strictly from games before that date. Posting time makes this
+realistic — confirmed lineups are public before first pitch.
 
 The scored quantity is the OVER RATE, not ``mean(runs - total)``. Runs are
 right-skewed — mean runs 8.96 against a mean total of 8.48 while the over rate
@@ -70,14 +77,15 @@ pitch for eastern night games, which raises the possibility that the recorded
 number reflects a game already under way.
 
 ``--split-started`` tests exactly that, partitioning on whether first pitch
-preceded the snapshot. Leakage would concentrate the edge in the started group.
-It does not: the lift over baseline is +10.2 points for games already in
-progress and +10.3 for games not yet begun.
+preceded the snapshot. On the pre-game source the two halves disagree (+6.5
+points of lift for games not yet started, -3.8 for those under way), which is
+what a null result looks like at this sample size.
 
 Usage
 -----
     python MLBstrikeouts/scripts/slate_lineup_edge.py
     python MLBstrikeouts/scripts/slate_lineup_edge.py --min-pa 40 --start 2026-05-01
+    python MLBstrikeouts/scripts/slate_lineup_edge.py --lineup-source postgame
 """
 
 from __future__ import annotations
@@ -95,8 +103,43 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import slate_wrc_form as S
 import slate_wrc_form_backfill as B
 
-BATTING_ORDERS = S.REPO / "data" / "pitcher_cache" / "mlb" / "batting_orders_2026.json"
-BATTER_SPLITS = S.REPO / "data" / "pitcher_cache" / "mlb" / "batter_pa_splits_2026.json"
+CACHE = S.REPO / "data" / "pitcher_cache" / "mlb"
+BATTING_ORDERS = CACHE / "batting_orders_2026.json"   # POST-GAME — see header
+BATTER_SPLITS = CACHE / "batter_pa_splits_2026.json"
+
+
+def load_lineups(source="pregame"):
+    """
+    ``{date: {team: [batter_ids]}}`` for the requested lineup source.
+
+    ``pregame`` reads the daily ``lineups_YYYYMMDD.json`` captures — the
+    confirmed lineup as posted, and the only source a pre-game decision could
+    use. ``postgame`` reads the boxscore batting order, which is the order as
+    played; it is available for more dates but is contaminated by substitution
+    and must not be used to evaluate a rule.
+    """
+    if source == "postgame":
+        return S._load(BATTING_ORDERS)
+
+    out = {}
+    for path in sorted(CACHE.glob("lineups_*.json")):
+        stamp = path.stem.split("_")[-1]
+        if len(stamp) != 8 or not stamp.isdigit():
+            continue
+        date_iso = f"{stamp[:4]}-{stamp[4:6]}-{stamp[6:]}"
+        try:
+            data = S._load(path)
+        except Exception:
+            continue
+        day = {}
+        for team, v in (data or {}).items():
+            if not isinstance(v, dict) or not v.get("player_ids"):
+                continue
+            if bool(v.get("confirmed")) or v.get("source") == "lineup":
+                day[team] = list(v["player_ids"])
+        if day:
+            out[date_iso] = day
+    return out
 
 ACC = B.ACC
 W, WOBA_SCALE, LG_R_PA = B.W, B.WOBA_SCALE, B.LG_R_PA
@@ -169,12 +212,17 @@ def main():
                     help="minimum pooled lineup PA vs the hand to trust the figure")
     ap.add_argument("--cut", type=float, default=0.0,
                     help="back the over when delta is at or below this")
+    ap.add_argument("--lineup-source", default="pregame",
+                    choices=("pregame", "postgame"),
+                    help="pregame reads the confirmed lineups as posted (the "
+                         "only honest source); postgame reads the boxscore "
+                         "batting order and is contaminated by substitution")
     ap.add_argument("--split-started", action="store_true",
                     help="partition on whether first pitch preceded the odds "
                          "snapshot, to test for in-play leakage")
     args = ap.parse_args()
 
-    orders = S._load(BATTING_ORDERS)
+    orders = load_lineups(args.lineup_source)
     bsplits = S._load(BATTER_SPLITS)
     team_rows = S._load(B.PA_SPLITS)
     allml = S._load(S.ALL_ML)
@@ -244,6 +292,7 @@ def main():
         print("no usable games")
         return
 
+    print(f"lineup source: {args.lineup_source}")
     print(f"games scored: {len(recs)}  ({recs[0]['date']} .. {recs[-1]['date']})")
     for k, v in sorted(skipped.items(), key=lambda x: -x[1]):
         print(f"  skipped — {k}: {v}")
