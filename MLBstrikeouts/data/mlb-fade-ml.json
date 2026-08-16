@@ -1,7 +1,7 @@
 {
   "sport": "MLB",
   "type": "fade-ml",
-  "generated": "2026-08-16T18:32:31Z",
+  "generated": "2026-08-16T21:01:30Z",
   "fadeList": [
     "Painter",
     "Rocker",
@@ -75,22 +75,22 @@
   ],
   "mutualRule": "skip",
   "summary": {
-    "wins": 449,
+    "wins": 450,
     "losses": 158,
     "voids": 0,
     "skips": 40,
-    "staked": 756.9,
-    "units": 301.85,
-    "roi": 0.3988,
+    "staked": 758.08,
+    "units": 302.85,
+    "roi": 0.3995,
     "byType": {
       "ml": {
-        "wins": 439,
+        "wins": 440,
         "losses": 150,
         "voids": 0,
         "skips": 3,
-        "staked": 738.9,
-        "units": 296.81,
-        "roi": 0.4017
+        "staked": 740.08,
+        "units": 297.81,
+        "roi": 0.4024
       },
       "ml_dog": {
         "wins": 10,
@@ -104,30 +104,6 @@
     }
   },
   "today": [
-    {
-      "date": "2026-08-16",
-      "commence": "2026-08-16T17:40:00Z",
-      "betType": "ml",
-      "shadow": false,
-      "pitchers": [
-        "Nick Lodolo"
-      ],
-      "fadeTeam": "CIN",
-      "market": "h2h",
-      "selection": "MIA",
-      "line": null,
-      "odds": -118,
-      "stake": 1.18,
-      "result": "pending",
-      "profit": 0.0,
-      "book": "fanduel",
-      "source": "fanduel_api",
-      "reason": null,
-      "home": "CIN",
-      "away": "MIA",
-      "gamePk": 824477,
-      "fadeReason": "home"
-    },
     {
       "date": "2026-08-16",
       "commence": "2026-08-16T17:40:00Z",
@@ -15857,6 +15833,30 @@
       "away": "TEX",
       "gamePk": 824966,
       "fadeReason": "away"
+    },
+    {
+      "date": "2026-08-16",
+      "commence": "2026-08-16T17:40:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Nick Lodolo"
+      ],
+      "fadeTeam": "CIN",
+      "market": "h2h",
+      "selection": "MIA",
+      "line": null,
+      "odds": -118,
+      "stake": 1.18,
+      "result": "WIN",
+      "profit": 1.0,
+      "book": "fanduel",
+      "source": "fanduel_api",
+      "reason": null,
+      "home": "CIN",
+      "away": "MIA",
+      "gamePk": 824477,
+      "fadeReason": "home"
     }
   ]
 }

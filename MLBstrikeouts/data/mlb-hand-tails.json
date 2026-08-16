@@ -1,7 +1,7 @@
 {
   "sport": "MLB",
   "type": "hand-tails",
-  "generated": "2026-08-16T18:34:14Z",
+  "generated": "2026-08-16T21:03:13Z",
   "handMin": 6,
   "roster": {
     "Andrew Painter": {
@@ -104,18 +104,18 @@
     }
   ],
   "summary": {
-    "wins": 45,
+    "wins": 46,
     "losses": 17,
-    "units": 28.44,
-    "staked": 73.96,
-    "roi": 0.3845,
+    "units": 29.44,
+    "staked": 75.14,
+    "roi": 0.3918,
     "byAction": {
       "fade": {
-        "wins": 45,
+        "wins": 46,
         "losses": 17,
-        "units": 28.44,
-        "staked": 73.96,
-        "roi": 0.3845
+        "units": 29.44,
+        "staked": 75.14,
+        "roi": 0.3918
       },
       "take": {
         "wins": 0,
@@ -134,39 +134,15 @@
         "roi": 0.422
       },
       "L": {
-        "wins": 18,
+        "wins": 19,
         "losses": 8,
-        "units": 10.26,
-        "staked": 30.88,
-        "roi": 0.3323
+        "units": 11.26,
+        "staked": 32.06,
+        "roi": 0.3512
       }
     }
   },
   "today": [
-    {
-      "date": "2026-08-16",
-      "commence": "2026-08-16T17:40:00Z",
-      "betType": "hand_fade",
-      "action": "fade",
-      "pitcher": "Nick Lodolo",
-      "entry": "Nick Lodolo",
-      "hand": "L",
-      "arm_team": "CIN",
-      "opp_team": "MIA",
-      "selection": "MIA",
-      "home": "CIN",
-      "away": "MIA",
-      "oppLefty": 2,
-      "oppRighty": 8,
-      "lineupConfirmed": true,
-      "odds": -118,
-      "stake": 1.18,
-      "result": "pending",
-      "reason": null,
-      "profit": 0.0,
-      "book": "fanduel",
-      "source": "fanduel_api"
-    },
     {
       "date": "2026-08-16",
       "commence": "2026-08-16T20:07:00Z",
@@ -1678,6 +1654,30 @@
       "result": "LOSS",
       "reason": null,
       "profit": -1.0,
+      "book": "fanduel",
+      "source": "fanduel_api"
+    },
+    {
+      "date": "2026-08-16",
+      "commence": "2026-08-16T17:40:00Z",
+      "betType": "hand_fade",
+      "action": "fade",
+      "pitcher": "Nick Lodolo",
+      "entry": "Nick Lodolo",
+      "hand": "L",
+      "arm_team": "CIN",
+      "opp_team": "MIA",
+      "selection": "MIA",
+      "home": "CIN",
+      "away": "MIA",
+      "oppLefty": 2,
+      "oppRighty": 8,
+      "lineupConfirmed": true,
+      "odds": -118,
+      "stake": 1.18,
+      "result": "WIN",
+      "reason": null,
+      "profit": 1.0,
       "book": "fanduel",
       "source": "fanduel_api"
     }
