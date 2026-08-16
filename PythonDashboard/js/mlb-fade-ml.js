@@ -899,6 +899,7 @@ async function renderMLBFadeML() {
     if (wobaWins.season) winOpts.push({ key: 'season', label: 'Season' });
     if (wobaWins.asb) winOpts.push({ key: 'asb', label: 'Since All-Star break' });
     if (wobaWins.deadline) winOpts.push({ key: 'deadline', label: 'Since trade deadline' });
+    if (wobaWins.last7) winOpts.push({ key: 'last7', label: 'Last 7 days' });
     if (wobaWins.last15) winOpts.push({ key: 'last15', label: 'Last 15 days' });
     if (wobaWins.last20) winOpts.push({ key: 'last20', label: 'Last 20 days' });
     if (wobaWins.last30) winOpts.push({ key: 'last30', label: 'Last 30 days' });
