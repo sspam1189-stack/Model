@@ -1,29 +1,13 @@
 {
   "sport": "MLB",
   "type": "fade-vs-team-watch",
-  "generated": "2026-08-16T00:34:46Z",
+  "generated": "2026-08-16T13:08:51Z",
   "seasonStart": "2026-04-05",
   "minStarts": 2,
   "minEra": 6.0,
   "fadeEra": 8.0,
   "note": "Auto-screened WATCH tier for the pitcher-vs-team fade angle: >= 2 starts vs the team with 6.0 <= ERA < 8.0 vs them (ERA >= 8.0 auto-promotes to the FADE list, mlb-fade-vs-team.json), excluding arms already faded and matchups already curated. fadeRecord is the in-sample fade result (bet the opponent), shown for review -- not a screen filter. Watch, don't bet.",
-  "today": [
-    {
-      "date": "2026-08-15",
-      "commence": "2026-08-15T20:05:00Z",
-      "betType": "fade_vs_team_watch",
-      "pitcher": "Michael Lorenzen",
-      "arm_team": "COL",
-      "opp": "SF",
-      "selection": "SF",
-      "venue": "away",
-      "matchup": "COL @ SF",
-      "odds": -168,
-      "eraVsOpp": 7.3,
-      "startsVsOpp": 3,
-      "result": "pending"
-    }
-  ],
+  "today": [],
   "candidates": [
     {
       "pitcher": "Jos\u00e9 Soriano",
@@ -119,6 +103,22 @@
         "u": 2.3,
         "n": 2,
         "roi": 1.15
+      }
+    },
+    {
+      "pitcher": "Justin Wrobleski",
+      "opp": "MIL",
+      "arm_team": "LAD",
+      "eraVsOpp": 7.36,
+      "ipVsOpp": 11.0,
+      "erVsOpp": 9,
+      "startsVsOpp": 2,
+      "fadeRecord": {
+        "w": 2,
+        "l": 0,
+        "u": 2.0,
+        "n": 2,
+        "roi": 0.8547
       }
     },
     {

@@ -1,7 +1,7 @@
 {
   "sport": "MLB",
   "type": "fade-vs-team",
-  "generated": "2026-08-16T00:34:45Z",
+  "generated": "2026-08-16T13:08:50Z",
   "seasonStart": "2026-04-05",
   "minStarts": 2,
   "fadeEra": 8.0,
@@ -13,7 +13,23 @@
     "n": 10,
     "roi": 0.6937
   },
-  "today": [],
+  "today": [
+    {
+      "date": "2026-08-16",
+      "commence": "2026-08-16T17:37:00Z",
+      "betType": "fade_vs_team",
+      "pitcher": "Ryan Weathers",
+      "arm_team": "NYY",
+      "opp": "TOR",
+      "selection": "TOR",
+      "venue": "away",
+      "matchup": "NYY @ TOR",
+      "odds": -118,
+      "eraVsOpp": 10.24,
+      "startsVsOpp": 2,
+      "result": "pending"
+    }
+  ],
   "entries": [
     {
       "pitcher": "Joe Ryan",
