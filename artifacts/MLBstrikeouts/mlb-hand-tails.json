@@ -1,7 +1,7 @@
 {
   "sport": "MLB",
   "type": "hand-tails",
-  "generated": "2026-08-16T21:03:13Z",
+  "generated": "2026-08-16T23:03:05Z",
   "handMin": 6,
   "roster": {
     "Andrew Painter": {
@@ -105,17 +105,17 @@
   ],
   "summary": {
     "wins": 46,
-    "losses": 17,
-    "units": 29.44,
-    "staked": 75.14,
-    "roi": 0.3918,
+    "losses": 18,
+    "units": 28.44,
+    "staked": 76.14,
+    "roi": 0.3735,
     "byAction": {
       "fade": {
         "wins": 46,
-        "losses": 17,
-        "units": 29.44,
-        "staked": 75.14,
-        "roi": 0.3918
+        "losses": 18,
+        "units": 28.44,
+        "staked": 76.14,
+        "roi": 0.3735
       },
       "take": {
         "wins": 0,
@@ -135,39 +135,14 @@
       },
       "L": {
         "wins": 19,
-        "losses": 8,
-        "units": 11.26,
-        "staked": 32.06,
-        "roi": 0.3512
+        "losses": 9,
+        "units": 10.26,
+        "staked": 33.06,
+        "roi": 0.3103
       }
     }
   },
-  "today": [
-    {
-      "date": "2026-08-16",
-      "commence": "2026-08-16T20:07:00Z",
-      "betType": "hand_fade",
-      "action": "fade",
-      "pitcher": "Noah Cameron",
-      "entry": "Noah Cameron",
-      "hand": "L",
-      "arm_team": "KC",
-      "opp_team": "LAA",
-      "selection": "LAA",
-      "home": "LAA",
-      "away": "KC",
-      "oppLefty": 2,
-      "oppRighty": 7,
-      "lineupConfirmed": true,
-      "odds": 106,
-      "stake": 1.0,
-      "result": "pending",
-      "reason": null,
-      "profit": 0.0,
-      "book": "fanduel",
-      "source": "fanduel_api"
-    }
-  ],
+  "today": [],
   "bets": [
     {
       "date": "2026-05-20",
@@ -1678,6 +1653,30 @@
       "result": "WIN",
       "reason": null,
       "profit": 1.0,
+      "book": "fanduel",
+      "source": "fanduel_api"
+    },
+    {
+      "date": "2026-08-16",
+      "commence": "2026-08-16T20:07:00Z",
+      "betType": "hand_fade",
+      "action": "fade",
+      "pitcher": "Noah Cameron",
+      "entry": "Noah Cameron",
+      "hand": "L",
+      "arm_team": "KC",
+      "opp_team": "LAA",
+      "selection": "LAA",
+      "home": "LAA",
+      "away": "KC",
+      "oppLefty": 2,
+      "oppRighty": 7,
+      "lineupConfirmed": true,
+      "odds": 106,
+      "stake": 1.0,
+      "result": "LOSS",
+      "reason": null,
+      "profit": -1.0,
       "book": "fanduel",
       "source": "fanduel_api"
     }

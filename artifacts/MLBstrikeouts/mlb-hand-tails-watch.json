@@ -1,35 +1,13 @@
 {
   "sport": "MLB",
   "type": "hand-tails-watch",
-  "generated": "2026-08-16T21:04:22Z",
+  "generated": "2026-08-16T23:04:14Z",
   "handMin": 6,
   "minGames": 3,
   "minUnits": 2.5,
   "minUnitsTake": 4.0,
   "note": "Shadow review list -- arms NOT on the active hand-tails list showing a handedness-conditional edge (fade or take). The active list is fade-only, so all tail/take arms are review-only here. In-sample season replay; watch, don't bet.",
   "today": [
-    {
-      "date": "2026-08-16",
-      "commence": "2026-08-16T17:35:00Z",
-      "betType": "watch_take",
-      "action": "take",
-      "watch": true,
-      "pitcher": "Patrick Sandoval",
-      "hand": "L",
-      "arm_team": "BOS",
-      "opp_team": "PIT",
-      "selection": "BOS",
-      "home": "PIT",
-      "away": "BOS",
-      "oppLefty": 3,
-      "oppRighty": 8,
-      "lineupConfirmed": true,
-      "odds": -110,
-      "suggest": "take",
-      "suggestUnits": 4.0,
-      "games": 6,
-      "result": "pending"
-    },
     {
       "date": "2026-08-16",
       "commence": "2026-08-16T20:05:00Z",
@@ -70,8 +48,8 @@
       "lineupConfirmed": true,
       "odds": -114,
       "suggest": "fade",
-      "suggestUnits": 3.0,
-      "games": 3,
+      "suggestUnits": 4.0,
+      "games": 4,
       "result": "pending"
     },
     {
@@ -603,22 +581,22 @@
       "era": 3.96
     },
     {
-      "pitcher": "Patrick Sandoval",
-      "hand": "L",
-      "games": 6,
-      "suggest": "take",
+      "pitcher": "Ryan Johnson",
+      "hand": "R",
+      "games": 4,
+      "suggest": "fade",
       "suggestUnits": 4.0,
       "fade": {
-        "w": 1,
-        "l": 5,
-        "u": -4.18
-      },
-      "take": {
-        "w": 5,
-        "l": 1,
+        "w": 4,
+        "l": 0,
         "u": 4.0
       },
-      "era": 3.3
+      "take": {
+        "w": 0,
+        "l": 4,
+        "u": -4.0
+      },
+      "era": 5.94
     },
     {
       "pitcher": "Grayson Rodriguez",
@@ -799,24 +777,6 @@
         "u": -4.02
       },
       "era": 4.59
-    },
-    {
-      "pitcher": "Ryan Johnson",
-      "hand": "R",
-      "games": 3,
-      "suggest": "fade",
-      "suggestUnits": 3.0,
-      "fade": {
-        "w": 3,
-        "l": 0,
-        "u": 3.0
-      },
-      "take": {
-        "w": 0,
-        "l": 3,
-        "u": -3.0
-      },
-      "era": 5.94
     },
     {
       "pitcher": "Gabriel Hughes",

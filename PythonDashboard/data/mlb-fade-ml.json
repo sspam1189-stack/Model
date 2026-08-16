@@ -1,7 +1,7 @@
 {
   "sport": "MLB",
   "type": "fade-ml",
-  "generated": "2026-08-16T21:01:30Z",
+  "generated": "2026-08-16T23:01:22Z",
   "fadeList": [
     "Painter",
     "Rocker",
@@ -76,21 +76,21 @@
   "mutualRule": "skip",
   "summary": {
     "wins": 450,
-    "losses": 158,
+    "losses": 160,
     "voids": 0,
     "skips": 40,
-    "staked": 758.08,
-    "units": 302.85,
-    "roi": 0.3995,
+    "staked": 760.38,
+    "units": 300.55,
+    "roi": 0.3953,
     "byType": {
       "ml": {
         "wins": 440,
-        "losses": 150,
+        "losses": 152,
         "voids": 0,
         "skips": 3,
-        "staked": 740.08,
-        "units": 297.81,
-        "roi": 0.4024
+        "staked": 742.38,
+        "units": 295.51,
+        "roi": 0.3981
       },
       "ml_dog": {
         "wins": 10,
@@ -127,30 +127,6 @@
       "away": "SD",
       "gamePk": 824397,
       "fadeReason": "home"
-    },
-    {
-      "date": "2026-08-16",
-      "commence": "2026-08-16T18:10:00Z",
-      "betType": "ml",
-      "shadow": false,
-      "pitchers": [
-        "Andrew Painter"
-      ],
-      "fadeTeam": "PHI",
-      "market": "h2h",
-      "selection": "MIN",
-      "line": null,
-      "odds": -102,
-      "stake": 1.02,
-      "result": "pending",
-      "profit": 0.0,
-      "book": "fanduel",
-      "source": "fanduel_api",
-      "reason": null,
-      "home": "MIN",
-      "away": "PHI",
-      "gamePk": 823670,
-      "fadeReason": "all"
     },
     {
       "date": "2026-08-16",
@@ -203,30 +179,6 @@
     },
     {
       "date": "2026-08-16",
-      "commence": "2026-08-16T20:05:00Z",
-      "betType": "ml",
-      "shadow": false,
-      "pitchers": [
-        "Jacob Lopez"
-      ],
-      "fadeTeam": "OAK",
-      "market": "h2h",
-      "selection": "TEX",
-      "line": null,
-      "odds": -128,
-      "stake": 1.28,
-      "result": "pending",
-      "profit": 0.0,
-      "book": "fanduel",
-      "source": "fanduel_api",
-      "reason": null,
-      "home": "OAK",
-      "away": "TEX",
-      "gamePk": 824965,
-      "fadeReason": "home"
-    },
-    {
-      "date": "2026-08-16",
       "commence": "2026-08-16T23:20:00Z",
       "betType": "ml",
       "shadow": false,
@@ -237,8 +189,8 @@
       "market": "h2h",
       "selection": "HOU",
       "line": null,
-      "odds": -122,
-      "stake": 1.22,
+      "odds": -124,
+      "stake": 1.24,
       "result": "pending",
       "profit": 0.0,
       "book": "fanduel",
@@ -15856,6 +15808,54 @@
       "home": "CIN",
       "away": "MIA",
       "gamePk": 824477,
+      "fadeReason": "home"
+    },
+    {
+      "date": "2026-08-16",
+      "commence": "2026-08-16T18:10:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Andrew Painter"
+      ],
+      "fadeTeam": "PHI",
+      "market": "h2h",
+      "selection": "MIN",
+      "line": null,
+      "odds": -102,
+      "stake": 1.02,
+      "result": "LOSS",
+      "profit": -1.02,
+      "book": "fanduel",
+      "source": "fanduel_api",
+      "reason": null,
+      "home": "MIN",
+      "away": "PHI",
+      "gamePk": 823670,
+      "fadeReason": "all"
+    },
+    {
+      "date": "2026-08-16",
+      "commence": "2026-08-16T20:05:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Jacob Lopez"
+      ],
+      "fadeTeam": "OAK",
+      "market": "h2h",
+      "selection": "TEX",
+      "line": null,
+      "odds": -128,
+      "stake": 1.28,
+      "result": "LOSS",
+      "profit": -1.28,
+      "book": "fanduel",
+      "source": "fanduel_api",
+      "reason": null,
+      "home": "OAK",
+      "away": "TEX",
+      "gamePk": 824965,
       "fadeReason": "home"
     }
   ]
