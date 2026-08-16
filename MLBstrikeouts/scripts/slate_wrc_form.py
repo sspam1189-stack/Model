@@ -5,15 +5,29 @@ Joins three existing repo artifacts for a given slate date:
 
   1. ``MLBstrikeouts/data/mlb-all-ml.json``   -> today's games, odds, totals,
      probable starters and their throwing hand.
-  2. ``MLBstrikeouts/data/mlb-team-wrc.json`` -> FanGraphs true wRC+ by team,
-     split by opposing-starter handedness (vs LHP / vs RHP). Season snapshot,
-     manually captured — see ``docs/superpowers/specs/2026-07-28-mlb-fade-ml-wrc-table-design.md``.
+  2. ``MLBstrikeouts/data/mlb-team-woba-splits.json`` -> self-computed
+     park-adjusted wRC+ by team, split by pitcher hand, pitcher role and
+     window (``build_team_woba_splits.py``).
   3. ``data/pitcher_cache/mlb/game_logs_2026.json`` -> per-game pitching lines,
      from which season / last-5-start / last-3-start form is derived.
 
+Why the self-computed splits and not the FanGraphs snapshot in
+``mlb-team-wrc.json``: that file is a manual browser capture frozen at
+2026-07-28 with no refresh path (FanGraphs is Cloudflare-walled), and the
+dashboard itself moved off it — ``mlb-fade-ml.js`` reads the wOBA splits. The
+self-computed table is rebuilt every daily run, and it carries the split this
+report actually needs: ``sp``, offense against *starting* pitchers of a hand.
+FanGraphs' vs-LHP figure blends in every lefty reliever a team faced, which is
+not the matchup being scouted. Over the season window the two agree to a mean
+absolute 4.0 (vs LHP) / 3.6 (vs RHP), so the switch trades no meaningful
+accuracy for three weeks of freshness and the right role split.
+
+The self-computed metric is an approximation — fixed linear weights, total-bases
+park factor as the run-environment proxy — so treat it as a relative gauge, not
+a figure to quote as a team's published wRC+.
+
 Output is a per-game scouting table, not a betting model: nothing here feeds a
-pick, gate, size or grade. The wRC+ file is explicitly view-only (see the design
-doc), so this report inherits that status.
+pick, gate, size or grade.
 
 Usage
 -----
@@ -43,8 +57,22 @@ from pathlib import Path
 
 REPO = Path(__file__).resolve().parents[2]
 ALL_ML = REPO / "MLBstrikeouts" / "data" / "mlb-all-ml.json"
-TEAM_WRC = REPO / "MLBstrikeouts" / "data" / "mlb-team-wrc.json"
+TEAM_WRC = REPO / "MLBstrikeouts" / "data" / "mlb-team-woba-splits.json"
 GAME_LOGS = REPO / "data" / "pitcher_cache" / "mlb" / "game_logs_2026.json"
+
+# Offense is read against STARTING pitchers only ("sp"), since the arm being
+# scouted is the starter. "all" would fold in every reliever of that hand.
+PITCHER_ROLE = "sp"
+
+# Season is the stable read; the secondary window is scoped to the trade
+# deadline so August reads respect roster changes.
+PRIMARY_WINDOW = "season"
+SECONDARY_WINDOW = "deadline"
+
+# Plate appearances below which a window's wRC+ is too thin to lean on. The
+# deadline window is only ~2 weeks, and a team's PA against same-hand starters
+# inside it can be tiny (PHI vs LHP starters: 28 PA).
+MIN_WINDOW_PA = 75
 
 # Recent-form windows, in starts.
 RECENT_N = 5
@@ -99,9 +127,31 @@ def load_slate(slate_date, slate_file=None):
 
 
 def load_wrc():
-    """Return ``(teams_dict, as_of_str)`` from the team wRC+ snapshot."""
+    """Return ``(windows_dict, through_date)`` from the self-computed splits."""
     blob = _load(TEAM_WRC)
-    return blob.get("teams", {}), blob.get("asOf")
+    return blob.get("windows", {}), blob.get("throughDate")
+
+
+def wrc_cell(windows, window, team, hand, role=PITCHER_ROLE):
+    """
+    Pull one ``{wrcplus, pa}`` cell out of the splits table.
+
+    Path is window -> team -> role -> vsLHP|vsRHP. Falls back to the role-less
+    ("all") node when a team has no plate appearances against that role inside
+    the window, which happens in the short deadline window.
+    """
+    if not hand:
+        return None
+    side = "vsLHP" if hand.upper().startswith("L") else "vsRHP"
+    node = ((windows.get(window) or {}).get("teams") or {}).get(team) or {}
+    cell = (node.get(role) or {}).get(side) or node.get(side)
+    if not cell or cell.get("wrcplus") is None:
+        return None
+    return {
+        "wrcplus": cell["wrcplus"],
+        "pa": cell.get("pa"),
+        "role": role if (node.get(role) or {}).get(side) else "all",
+    }
 
 
 def organize_starts(logs):
@@ -262,20 +312,16 @@ def role_flags(form, slate_date):
     return flags
 
 
-def matchup_wrc(wrc, offense_team, pitcher_hand):
-    """Opposing offense's wRC+ against this starter's throwing hand."""
-    row = wrc.get(offense_team)
-    if not row or not pitcher_hand:
-        return None
-    return row.get("vsLHP" if pitcher_hand.upper().startswith("L") else "vsRHP")
+def matchup_wrc(windows, offense_team, pitcher_hand, window=PRIMARY_WINDOW):
+    """Opposing offense's wRC+ against starters of this pitcher's hand."""
+    cell = wrc_cell(windows, window, offense_team, pitcher_hand)
+    return cell["wrcplus"] if cell else None
 
 
-def platoon_gap(wrc, offense_team):
+def platoon_gap(windows, offense_team, window=PRIMARY_WINDOW):
     """vsLHP minus vsRHP for an offense — how lopsided its platoon profile is."""
-    row = wrc.get(offense_team)
-    if not row:
-        return None
-    lhp, rhp = row.get("vsLHP"), row.get("vsRHP")
+    lhp = matchup_wrc(windows, offense_team, "L", window)
+    rhp = matchup_wrc(windows, offense_team, "R", window)
     if lhp is None or rhp is None:
         return None
     return lhp - rhp
@@ -331,6 +377,14 @@ def build_report(slate_date, slate_file=None):
             name = resolve_pitcher(listed, starts_by_name, game[side])
             form = form_for(starts_by_name.get(name, []), slate_date) if name else {}
             opp_wrc = matchup_wrc(wrc, offense, hand)
+            recent_cell = wrc_cell(wrc, SECONDARY_WINDOW, offense, hand)
+            flags = role_flags(form, slate_date)
+            if recent_cell and (recent_cell["pa"] or 0) < MIN_WINDOW_PA:
+                # Below ~75 PA the wRC+ conversion is unstable enough to print
+                # nonsense (a 9-PA window returned -66), so withhold the value
+                # and surface only the sample size.
+                flags.append(f"thin-{SECONDARY_WINDOW}-{recent_cell['pa']}pa")
+                recent_cell = dict(recent_cell, wrcplus=None)
             entry["sides"][side] = {
                 "pitcher": name or listed,
                 "listed_as": listed,
@@ -339,10 +393,12 @@ def build_report(slate_date, slate_file=None):
                 "team": game[side],
                 "opponent_offense": offense,
                 "opp_wrc_vs_hand": opp_wrc,
+                "opp_wrc_recent": recent_cell["wrcplus"] if recent_cell else None,
+                "opp_wrc_recent_pa": recent_cell["pa"] if recent_cell else None,
                 "opp_platoon_gap": platoon_gap(wrc, offense),
                 "form": form,
                 "trend": trend(form),
-                "flags": role_flags(form, slate_date),
+                "flags": flags,
                 "pressure": pressure(form, opp_wrc),
             }
         rows.append(entry)
@@ -362,6 +418,7 @@ def build_report(slate_date, slate_file=None):
                 "team": s["team"],
                 "opponent_offense": s["opponent_offense"],
                 "opp_wrc_vs_hand": s["opp_wrc_vs_hand"],
+                "opp_wrc_recent": s["opp_wrc_recent"],
                 "pressure": s["pressure"],
                 "flags": s["flags"],
             })
@@ -370,7 +427,10 @@ def build_report(slate_date, slate_file=None):
     return {
         "date": slate_date,
         "games": len(rows),
-        "wrc_as_of": wrc_as_of,
+        "wrc_through": wrc_as_of,
+        "wrc_role": PITCHER_ROLE,
+        "wrc_primary_window": PRIMARY_WINDOW,
+        "wrc_secondary_window": SECONDARY_WINDOW,
         "recent_window_starts": RECENT_N,
         "slate": rows,
         "ranked_pressure": ranked,
@@ -392,8 +452,11 @@ def _signed(value, spec="{:+.2f}", dash=""):
 def render(report):
     lines = []
     lines.append(f"MLB slate scouting — {report['date']}  ({report['games']} games)")
-    lines.append(f"wRC+ snapshot as of {report['wrc_as_of']} | "
-                 f"form window = last {report['recent_window_starts']} starts")
+    lines.append(
+        f"wRC+ self-computed vs {report['wrc_role']}-only, through "
+        f"{report['wrc_through']} | {report['wrc_primary_window']} "
+        f"/ {report['wrc_secondary_window']} | "
+        f"form window = last {report['recent_window_starts']} starts")
     lines.append("")
 
     for game in report["slate"]:
@@ -412,7 +475,8 @@ def render(report):
             lines.append(
                 f"   {s['pitcher']} ({s['hand']}) vs {s['opponent_offense']} "
                 f"wRC+ {_fmt(s['opp_wrc_vs_hand'], '{:.0f}')} "
-                f"(gap {_signed(s['opp_platoon_gap'], '{:+.0f}')}){flags}"
+                f"(dl {_fmt(s['opp_wrc_recent'], '{:.0f}')}, "
+                f"gap {_signed(s['opp_platoon_gap'], '{:+.0f}')}){flags}"
             )
             lines.append(
                 f"      season {season.get('gs', 0):>2} GS  "
@@ -436,7 +500,8 @@ def render(report):
         lines.append(
             f"   {r['pressure']:+6.1f}  {r['pitcher']} ({r['hand']}, {r['team']}) "
             f"vs {r['opponent_offense']} "
-            f"wRC+ {_fmt(r['opp_wrc_vs_hand'], '{:.0f}')}{flags}"
+            f"wRC+ {_fmt(r['opp_wrc_vs_hand'], '{:.0f}')} "
+            f"(dl {_fmt(r['opp_wrc_recent'], '{:.0f}')}){flags}"
         )
     return "\n".join(lines)
 
