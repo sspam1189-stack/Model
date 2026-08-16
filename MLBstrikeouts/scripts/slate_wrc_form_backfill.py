@@ -76,13 +76,18 @@ def _woba(d):
     return num / den if den else 0.0
 
 
-def wrc_as_of(pa_rows, cutoff):
+def wrc_as_of(pa_rows, cutoff, park_adjust=True):
     """
     Rebuild all-role team wRC+ by hand using only games before ``cutoff``.
 
     Mirrors build_team_woba_splits.py: aggregate by (team, hand, role), take
     league baselines per (hand, role), combine roles for the "all" node, and
     subtract the PA-weighted park inflation.
+
+    ``park_adjust=False`` returns the neutral figure instead. Needed whenever
+    this is differenced against another wRC+ that carries no park term — the
+    park adjustment spans 32 points across clubs (SF/OAK -12 to COL +20), so a
+    mismatched comparison measures ballparks rather than the intended quantity.
     """
     agg = defaultdict(_blank)
     park = defaultdict(lambda: [0.0, 0])
@@ -130,7 +135,8 @@ def wrc_as_of(pa_rows, cutoff):
         num, den = park[(team, hand)]
         avg_pf = (num / den) if den else 1.0
         teams[team][hand] = {
-            "wrcplus": round(neutral - 100 * (avg_pf - 1.0)),
+            "wrcplus": round(neutral - 100 * (avg_pf - 1.0) if park_adjust
+                             else neutral),
             "pa": combined["pa"],
         }
 
