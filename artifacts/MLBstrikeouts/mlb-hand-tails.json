@@ -1,7 +1,7 @@
 {
   "sport": "MLB",
   "type": "hand-tails",
-  "generated": "2026-08-16T13:07:39Z",
+  "generated": "2026-08-16T16:05:44Z",
   "handMin": 6,
   "roster": {
     "Andrew Painter": {
@@ -143,6 +143,30 @@
     }
   },
   "today": [
+    {
+      "date": "2026-08-16",
+      "commence": "2026-08-16T17:40:00Z",
+      "betType": "hand_fade",
+      "action": "fade",
+      "pitcher": "Nick Lodolo",
+      "entry": "Nick Lodolo",
+      "hand": "L",
+      "arm_team": "CIN",
+      "opp_team": "MIA",
+      "selection": "MIA",
+      "home": "CIN",
+      "away": "MIA",
+      "oppLefty": 2,
+      "oppRighty": 8,
+      "lineupConfirmed": true,
+      "odds": -118,
+      "stake": 1.18,
+      "result": "pending",
+      "reason": null,
+      "profit": 0.0,
+      "book": "fanduel",
+      "source": "fanduel_api"
+    },
     {
       "date": "2026-08-16",
       "commence": "2026-08-16T20:07:00Z",
