@@ -19,8 +19,9 @@ proprietary park factors and exact yearly weights). It's park-neutral and uses
 fixed weights, so treat it as a relative gauge, not a to-the-point FG match.
 
 Windows: 'season', 'asb' (since the All-Star break), 'deadline' (since the
-trade deadline), each calendar month present, and 'last30' / 'last15'
-(rolling from the latest game date). Writes mlb-team-woba-splits.json.
+trade deadline), each calendar month present, and rolling 'last7' / 'last15' /
+'last20' / 'last30' / 'last45' / 'last60' (from the latest game date). Writes
+mlb-team-woba-splits.json.
 
 Usage:
     cd MLBstrikeouts
@@ -162,7 +163,11 @@ def build():
                     and r.get("game_date")):
                 brecs.append((r["game_date"], r["batter_id"], r["opp_hand"], r))
 
-    windows = ["season", "asb", "deadline"] + months + ["last15", "last20", "last30", "last45", "last60"]
+    # last7 is the shortest window offered. Roughly one turn through a
+    # rotation, so a team's PA against one hand inside it can be very thin --
+    # consumers should check the per-cell `pa` before leaning on it.
+    windows = ["season", "asb", "deadline"] + months + [
+        "last7", "last15", "last20", "last30", "last45", "last60"]
     ROLES = ("SP", "RP")
     VENUE_GROUPS = [(("home", "road"), None), (("home",), "home"), (("road",), "road")]
     out = {}

@@ -78,7 +78,9 @@ PA_SPLITS = REPO / "data" / "pitcher_cache" / "mlb" / "team_pa_splits_2026.json"
 PITCHER_ROLE = "all"
 
 # Season is the stable read; the secondary window is scoped to the trade
-# deadline so August reads respect roster changes.
+# deadline so August reads respect roster changes. Both are selectable with
+# --window / --secondary-window; "last7" is the shortest the builder emits and
+# is thin enough that MIN_WINDOW_PA will suppress most of its cells.
 PRIMARY_WINDOW = "season"
 SECONDARY_WINDOW = "deadline"
 
@@ -438,7 +440,8 @@ def pressure(form, opp_wrc):
     return round(score, 1)
 
 
-def build_report(slate_date, slate_file=None, role=PITCHER_ROLE):
+def build_report(slate_date, slate_file=None, role=PITCHER_ROLE,
+                 window=PRIMARY_WINDOW, secondary=SECONDARY_WINDOW):
     games = load_slate(slate_date, slate_file)
     wrc, wrc_as_of = load_wrc()
     starts_by_name = organize_starts(_load(GAME_LOGS))
@@ -463,14 +466,14 @@ def build_report(slate_date, slate_file=None, role=PITCHER_ROLE):
             hand = game.get(f"{side}_hand")
             name = resolve_pitcher(listed, starts_by_name, game[side])
             form = form_for(starts_by_name.get(name, []), slate_date) if name else {}
-            opp_wrc = matchup_wrc(wrc, offense, hand, role=role)
-            recent_cell = wrc_cell(wrc, SECONDARY_WINDOW, offense, hand, role=role)
+            opp_wrc = matchup_wrc(wrc, offense, hand, window, role=role)
+            recent_cell = wrc_cell(wrc, secondary, offense, hand, role=role)
             flags = role_flags(form, slate_date)
             if recent_cell and (recent_cell["pa"] or 0) < MIN_WINDOW_PA:
                 # Below ~75 PA the wRC+ conversion is unstable enough to print
                 # nonsense (a 9-PA window returned -66), so withhold the value
                 # and surface only the sample size.
-                flags.append(f"thin-{SECONDARY_WINDOW}-{recent_cell['pa']}pa")
+                flags.append(f"thin-{secondary}-{recent_cell['pa']}pa")
                 recent_cell = dict(recent_cell, wrcplus=None)
             entry["sides"][side] = {
                 "pitcher": name or listed,
@@ -480,10 +483,10 @@ def build_report(slate_date, slate_file=None, role=PITCHER_ROLE):
                 "team": game[side],
                 "opponent_offense": offense,
                 "opp_wrc_vs_hand": opp_wrc,
-                "opp_wrc_game": full_game_wrc(wrc, offense, game[side], hand, staff),
+                "opp_wrc_game": full_game_wrc(wrc, offense, game[side], hand, staff, window),
                 "opp_wrc_recent": recent_cell["wrcplus"] if recent_cell else None,
                 "opp_wrc_recent_pa": recent_cell["pa"] if recent_cell else None,
-                "opp_platoon_gap": platoon_gap(wrc, offense, role=role),
+                "opp_platoon_gap": platoon_gap(wrc, offense, window, role=role),
                 "form": form,
                 "trend": trend(form),
                 "flags": flags,
@@ -531,8 +534,8 @@ def build_report(slate_date, slate_file=None, role=PITCHER_ROLE):
         "games": len(rows),
         "wrc_through": wrc_as_of,
         "wrc_role": role,
-        "wrc_primary_window": PRIMARY_WINDOW,
-        "wrc_secondary_window": SECONDARY_WINDOW,
+        "wrc_primary_window": window,
+        "wrc_secondary_window": secondary,
         "recent_window_starts": RECENT_N,
         "slate": rows,
         "ranked_pressure": ranked,
@@ -549,6 +552,13 @@ def _fmt(value, spec="{:.2f}", dash="--"):
 
 def _signed(value, spec="{:+.2f}", dash=""):
     return dash if value is None else spec.format(value)
+
+
+def _win_label(window):
+    """Short column tag for a window key: last7 -> L7, deadline -> dl."""
+    if window.startswith("last"):
+        return "L" + window[4:]
+    return window[:2]
 
 
 def render(report):
@@ -583,8 +593,9 @@ def render(report):
             flags = f"  [{', '.join(s['flags'])}]" if s["flags"] else ""
             lines.append(
                 f"   {s['pitcher']} ({s['hand']}) vs {s['opponent_offense']} "
-                f"vsSP {_fmt(s['opp_wrc_vs_hand'], '{:.0f}')} "
-                f"(dl {_fmt(s['opp_wrc_recent'], '{:.0f}')}, "
+                f"vs{report['wrc_role']} {_fmt(s['opp_wrc_vs_hand'], '{:.0f}')} "
+                f"({_win_label(report['wrc_secondary_window'])} "
+                f"{_fmt(s['opp_wrc_recent'], '{:.0f}')}, "
                 f"game {_fmt(s['opp_wrc_game'], '{:.0f}')}, "
                 f"gap {_signed(s['opp_platoon_gap'], '{:+.0f}')}){flags}"
             )
@@ -611,7 +622,8 @@ def render(report):
             f"   {r['pressure']:+6.1f}  {r['pitcher']} ({r['hand']}, {r['team']}) "
             f"vs {r['opponent_offense']} "
             f"wRC+ {_fmt(r['opp_wrc_vs_hand'], '{:.0f}')} "
-            f"(dl {_fmt(r['opp_wrc_recent'], '{:.0f}')}){flags}"
+            f"({_win_label(report['wrc_secondary_window'])} "
+            f"{_fmt(r['opp_wrc_recent'], '{:.0f}')}){flags}"
         )
     return "\n".join(lines)
 
@@ -622,6 +634,11 @@ def main():
                         help="slate date, YYYY-MM-DD (default: today)")
     parser.add_argument("--json", action="store_true",
                         help="emit the report as JSON instead of a table")
+    parser.add_argument("--window", default=PRIMARY_WINDOW,
+                        help="primary wRC+ window (season, asb, deadline, "
+                             "last7/15/20/30/45/60, or YYYY-MM)")
+    parser.add_argument("--secondary-window", default=SECONDARY_WINDOW,
+                        help="window shown alongside the primary one")
     parser.add_argument("--role", default=PITCHER_ROLE, choices=("all", "sp"),
                         help="offense split to match against: all pitchers of "
                              "the hand (default, the graded method) or "
@@ -631,7 +648,8 @@ def main():
                              "payload does not carry yet")
     args = parser.parse_args()
 
-    report = build_report(args.date, args.slate_file, args.role)
+    report = build_report(args.date, args.slate_file, args.role,
+                          args.window, args.secondary_window)
     if args.json:
         print(json.dumps(report, indent=2))
     else:
