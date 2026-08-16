@@ -1,6 +1,43 @@
 """
 slate_lineup_edge.py — Does the confirmed lineup beat the team number, against the line?
 
+REFUTED — the edge this script measures is lookahead. Read this first.
+======================================================================
+The apparent edge came entirely from the lineup source. This script reads
+``batting_orders_2026.json``, which is extracted from the BOXSCORE after the
+game — it is the batting order as played, not the one posted beforehand. It
+differs from the pre-game confirmed lineup by a mean of 1.44 of 9 players, and
+matches exactly only 20% of the time, because a slot can hold whoever ended up
+hitting there.
+
+That is the artifact: high-scoring games run through more of the bench, bench
+hitters grade worse, so a weak "lineup" is partly a CONSEQUENCE of the runs
+being scored. Checking that the order always contains exactly nine names does
+not rule this out, and an earlier version of this file wrongly claimed it did.
+
+Re-run on the 115 dates where both sources exist, like for like:
+
+    source                rule       bets    W-L     win%    ROI
+    post-game (this)      avg<=0      241  143-92   60.9%  +15.4%
+    post-game (this)      both<=0      98   64-32   66.7%  +26.4%
+    post-game (this)      both<=-2     61   41-18   69.5%  +31.4%
+    PRE-GAME (real)       avg<=0      100   50-50   50.0%   -5.3%
+    PRE-GAME (real)       both<=0      21   10-11   47.6%   -9.7%
+    PRE-GAME (real)       both<=-2     10     3-7   30.0%  -44.2%
+
+Against lineups actually knowable before first pitch there is no edge — 50.0%
+on the only sample large enough to read, against a 52.3% break-even. The
+pre-game source also qualifies far fewer games (100 vs 241), which is itself
+the signature of the contamination.
+
+The script is kept because the point-in-time machinery is sound and the
+comparison above is worth preserving. Do not bet anything it reports. Any
+future lineup work must read ``lineups_YYYYMMDD.json`` (pre-game, confirmed),
+never the boxscore batting order.
+
+Original description follows.
+------------------------------------------------------------------
+
 Team wRC+ is public and priced. The hypothesis worth testing is narrower: the
 market prices the *club*, while the lineup actually posted that night — two
 regulars resting, a callup batting sixth — is known ~2 hours before first pitch
