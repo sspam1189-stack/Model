@@ -210,6 +210,20 @@ jobs:
           PYTHONIOENCODING: "utf-8"
         run: python -m scripts.build_team_woba_splits
 
+      # Slate scouting view for the "MLB Slate Scout" dashboard tab: tonight's
+      # starters with season / last-5 / last-3 form against the opposing
+      # offense's wRC+ by hand, plus the data flags (opener, layoff, stale
+      # window) that say when those rates cannot be read at face value.
+      # Advisory only -- no pick, gate, size or grade reads it. Fails open.
+      - name: Build MLB slate scout view
+        continue-on-error: true
+        working-directory: MLBstrikeouts
+        env:
+          PYTHONUTF8: "1"
+          PYTHONUNBUFFERED: "1"
+          PYTHONIOENCODING: "utf-8"
+        run: python -m scripts.build_slate_scout
+
       - name: Upload MLBstrikeouts data
         uses: actions/upload-artifact@v7
         with:
