@@ -2081,6 +2081,10 @@ async function render() {
     return renderMLBAllML();
   }
 
+  if (activeTab === 'mlb-slate-scout') {
+    return renderMLBSlateScout();
+  }
+
   const data = await fetchData(activeTab);
   if (!data || !data.runs) {
     const cfg = SOURCES[activeTab];
