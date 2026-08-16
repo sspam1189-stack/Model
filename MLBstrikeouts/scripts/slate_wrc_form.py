@@ -20,12 +20,24 @@ Usage
     python MLBstrikeouts/scripts/slate_wrc_form.py                 # today's slate
     python MLBstrikeouts/scripts/slate_wrc_form.py --date 2026-08-15
     python MLBstrikeouts/scripts/slate_wrc_form.py --json          # machine-readable
+
+The all-ML payload only carries the current day, so a future slate has to be
+supplied by hand from the board::
+
+    python MLBstrikeouts/scripts/slate_wrc_form.py --slate-file tomorrow.json
+
+The file is a list of game objects in the same shape ``mlb-all-ml.json`` uses
+(``away``/``home``, ``away_pitcher``/``home_pitcher``, ``away_hand``/``home_hand``,
+``away_ml``/``home_ml``, ``total_line``, ``over_ml``/``under_ml``, ``commence``).
+Pitcher names are resolved loosely, so a board abbreviation like ``M SOROKA``
+matches the ``Michael Soroka`` in the game logs.
 """
 
 from __future__ import annotations
 
 import argparse
 import json
+import unicodedata
 from datetime import date
 from pathlib import Path
 
@@ -46,6 +58,15 @@ OPENER_IP_PER_GS = 3.5
 # rather than presenting them at face value.
 THIN_SAMPLE_GS = 5
 
+# Days since the last start beyond which the arm has been away (IL, demotion,
+# call-up) and "recent form" no longer describes the pitcher taking the ball.
+LAYOFF_DAYS = 12
+
+# A healthy five-start window spans about five turns of a rotation. Much wider
+# than this and the window is reaching back across an absence, so the rates
+# blend two different stretches of season.
+STALE_WINDOW_DAYS = 45
+
 # League-average reference points for the 2026 season, used only to label a
 # starter's rate stats. Kept local so the report never reaches the network.
 LG_K_PCT = 22.0
@@ -61,8 +82,18 @@ def _load(path):
         return json.load(fh)
 
 
-def load_slate(slate_date):
-    """Return the list of games on ``slate_date`` from the all-ML payload."""
+def load_slate(slate_date, slate_file=None):
+    """
+    Return the list of games on ``slate_date``.
+
+    Reads the all-ML payload by default. That payload only ever holds the
+    current day, so ``slate_file`` lets a future slate be supplied by hand.
+    """
+    if slate_file:
+        games = _load(slate_file)
+        if isinstance(games, dict):
+            games = games.get("today") or games.get("games") or []
+        return [g for g in games if g.get("date") in (None, slate_date)]
     games = _load(ALL_ML).get("today", [])
     return [g for g in games if g.get("date") == slate_date]
 
@@ -83,6 +114,46 @@ def organize_starts(logs):
     for rows in by_name.values():
         rows.sort(key=lambda r: r.get("game_date") or "")
     return by_name
+
+
+def _deaccent(text):
+    return "".join(c for c in unicodedata.normalize("NFD", text)
+                   if unicodedata.category(c) != "Mn")
+
+
+def resolve_pitcher(name, by_name, team=None):
+    """
+    Map a board-style pitcher name onto a key in the game-log index.
+
+    Sportsbook boards abbreviate to "M SOROKA"; the logs carry "Michael
+    Soroka", sometimes accented ("Eury Pérez"). Match on surname plus first
+    initial, then disambiguate duplicate surnames by team and start count —
+    Trevor/Taylor/Tyler Rogers all coexist, and only one of them starts.
+    """
+    if not name:
+        return None
+    if name in by_name:
+        return name
+
+    key = _deaccent(name).upper().replace(".", "").split()
+    if not key:
+        return None
+    surname, initial = key[-1], key[0][0]
+
+    matches = [
+        n for n in by_name
+        if _deaccent(n).upper().split()[-1] == surname
+        and _deaccent(n).upper()[0] == initial
+    ]
+    if not matches:
+        return None
+    if len(matches) > 1 and team:
+        on_team = [n for n in matches
+                   if any(r.get("team") == team for r in by_name[n])]
+        if on_team:
+            matches = on_team
+    # Prefer the arm that actually starts.
+    return max(matches, key=lambda n: len(by_name[n]))
 
 
 # ---------------------------------------------------------------------------
@@ -158,16 +229,36 @@ def trend(form):
 # Matchup scoring
 # ---------------------------------------------------------------------------
 
-def role_flags(form):
-    """Label usage patterns that make the rate stats read differently."""
+def _days_between(start, end):
+    return (date.fromisoformat(end) - date.fromisoformat(start)).days
+
+
+def role_flags(form, slate_date):
+    """
+    Label usage patterns that make the rate stats read differently.
+
+    The layoff and stale-window flags matter most: a starter back from two
+    months out still has a full "last 5 starts" line, but it describes a
+    different pitcher in a different month.
+    """
     season = form.get("season") or {}
     recent = form.get("recent") or season
+    starts = form.get("last_starts") or []
     flags = []
+
     ip_per_gs = (recent or {}).get("ip_per_gs")
     if ip_per_gs is not None and ip_per_gs < OPENER_IP_PER_GS:
         flags.append("opener")
     if season.get("gs", 0) < THIN_SAMPLE_GS:
         flags.append("thin-sample")
+
+    if starts:
+        idle = _days_between(starts[-1]["date"], slate_date)
+        if idle > LAYOFF_DAYS:
+            flags.append(f"layoff-{idle}d")
+        span = _days_between(starts[0]["date"], starts[-1]["date"])
+        if len(starts) > 1 and span > STALE_WINDOW_DAYS:
+            flags.append(f"stale-window-{span}d")
     return flags
 
 
@@ -215,8 +306,8 @@ def pressure(form, opp_wrc):
     return round(score, 1)
 
 
-def build_report(slate_date):
-    games = load_slate(slate_date)
+def build_report(slate_date, slate_file=None):
+    games = load_slate(slate_date, slate_file)
     wrc, wrc_as_of = load_wrc()
     starts_by_name = organize_starts(_load(GAME_LOGS))
 
@@ -235,12 +326,15 @@ def build_report(slate_date):
             "sides": {},
         }
         for side, offense in (("away", game["home"]), ("home", game["away"])):
-            name = game.get(f"{side}_pitcher")
+            listed = game.get(f"{side}_pitcher")
             hand = game.get(f"{side}_hand")
+            name = resolve_pitcher(listed, starts_by_name, game[side])
             form = form_for(starts_by_name.get(name, []), slate_date) if name else {}
             opp_wrc = matchup_wrc(wrc, offense, hand)
             entry["sides"][side] = {
-                "pitcher": name,
+                "pitcher": name or listed,
+                "listed_as": listed,
+                "resolved": bool(name),
                 "hand": hand,
                 "team": game[side],
                 "opponent_offense": offense,
@@ -248,7 +342,7 @@ def build_report(slate_date):
                 "opp_platoon_gap": platoon_gap(wrc, offense),
                 "form": form,
                 "trend": trend(form),
-                "flags": role_flags(form),
+                "flags": role_flags(form, slate_date),
                 "pressure": pressure(form, opp_wrc),
             }
         rows.append(entry)
@@ -353,9 +447,12 @@ def main():
                         help="slate date, YYYY-MM-DD (default: today)")
     parser.add_argument("--json", action="store_true",
                         help="emit the report as JSON instead of a table")
+    parser.add_argument("--slate-file",
+                        help="hand-entered slate JSON, for dates the all-ML "
+                             "payload does not carry yet")
     args = parser.parse_args()
 
-    report = build_report(args.date)
+    report = build_report(args.date, args.slate_file)
     if args.json:
         print(json.dumps(report, indent=2))
     else:
