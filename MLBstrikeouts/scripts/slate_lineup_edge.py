@@ -19,9 +19,23 @@ Only the *composition* of the lineup is taken from the game itself; every
 hitter's rate is built strictly from games before that date. Posting time makes
 this realistic — lineups are public pre-game.
 
-The test is residual: correlation against ``runs - closing total``. A signal
-that only correlates with runs (and with the total) is one the book already
-has, which is what the team-level number turned out to be.
+The scored quantity is the OVER RATE, not ``mean(runs - total)``. Runs are
+right-skewed — mean runs 8.96 against a mean total of 8.48 while the over rate
+is 49.4% — because totals sit near the median, so a subgroup holding a few
+blowouts posts a large positive mean and no edge at all.
+
+Line-timing caveat, and the check for it
+----------------------------------------
+``mlb-all-ml.json`` keeps the last odds snapshot of the day (verified on
+2026-08-14: the persisted totals match the final ``today`` values exactly).
+That snapshot lands ~18:09 CT, after lineups post but also at or after first
+pitch for eastern night games, which raises the possibility that the recorded
+number reflects a game already under way.
+
+``--split-started`` tests exactly that, partitioning on whether first pitch
+preceded the snapshot. Leakage would concentrate the edge in the started group.
+It does not: the lift over baseline is +10.2 points for games already in
+progress and +10.3 for games not yet begun.
 
 Usage
 -----
@@ -116,6 +130,11 @@ def main():
     ap.add_argument("--start", default="2026-05-01")
     ap.add_argument("--min-pa", type=int, default=40,
                     help="minimum pooled lineup PA vs the hand to trust the figure")
+    ap.add_argument("--cut", type=float, default=0.0,
+                    help="back the over when delta is at or below this")
+    ap.add_argument("--split-started", action="store_true",
+                    help="partition on whether first pitch preceded the odds "
+                         "snapshot, to test for in-play leakage")
     args = ap.parse_args()
 
     orders = S._load(BATTING_ORDERS)
@@ -178,6 +197,9 @@ def main():
                 row["sides"][bat_team] = {"lineup": lu, "team": tm["wrcplus"],
                                           "delta": lu - tm["wrcplus"],
                                           "pa": pooled["pa"]}
+            # The day's final snapshot lands ~23:00Z; anything starting earlier
+            # was already under way when the recorded line was captured.
+            row["started"] = bool(g.get("commence")) and g["commence"] < f"{d}T23:00:00Z"
             if ok and len(row["sides"]) == 2:
                 recs.append(row)
 
@@ -204,6 +226,24 @@ def main():
                          ("delta (lineup - team)", delta)):
         print(f"{name:<28}{corr(series, runs):>+10.4f}"
               f"{corr(series, total):>+10.4f}{corr(series, resid):>+15.4f}")
+
+    def over_rate(rs):
+        o = sum(1 for r in rs if r["runs"] > r["total"])
+        u = sum(1 for r in rs if r["runs"] < r["total"])
+        return (o / (o + u) * 100 if o + u else 0.0), o + u
+
+    if args.split_started:
+        print(f"\nin-play leakage check (rule: over when delta <= {args.cut:g})")
+        print(f"{'group':<36}{'baseline':>12}{'rule':>16}{'lift':>8}")
+        for lbl, keep in (("all games", lambda r: True),
+                          ("in progress at snapshot", lambda r: r["started"]),
+                          ("not yet started", lambda r: not r["started"])):
+            base = [r for r in recs if keep(r)]
+            rule = [r for r in base
+                    if sum(x["delta"] for x in r["sides"].values()) / 2 <= args.cut]
+            br, bn = over_rate(base)
+            rr, rn = over_rate(rule)
+            print(f"{lbl:<36}{br:>8.1f}% n={bn:<5}{rr:>8.1f}% n={rn:<5}{rr - br:>+7.1f}")
 
     print("\ndelta quintile — is the market missing lineup quality?")
     s = sorted(recs, key=lambda r: sum(x["delta"] for x in r["sides"].values()) / 2)
