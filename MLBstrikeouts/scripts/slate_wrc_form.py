@@ -14,20 +14,23 @@ Joins three existing repo artifacts for a given slate date:
 Why the self-computed splits and not the FanGraphs snapshot in
 ``mlb-team-wrc.json``: that file is a manual browser capture frozen at
 2026-07-28 with no refresh path (FanGraphs is Cloudflare-walled), and the
-dashboard itself moved off it — ``mlb-fade-ml.js`` reads the wOBA splits. The
-self-computed table is rebuilt every daily run, and it carries the split this
-report actually needs: ``sp``, offense against *starting* pitchers of a hand.
-FanGraphs' vs-LHP figure blends in every lefty reliever a team faced, which is
-not the matchup being scouted. Over the season window the two agree to a mean
-absolute 4.0 (vs LHP) / 3.6 (vs RHP), so the switch trades no meaningful
-accuracy for three weeks of freshness and the right role split.
+dashboard itself moved off it — ``mlb-fade-ml.js`` reads the wOBA splits. Over
+the season window the two agree to a mean absolute 4.0 (vs LHP) / 3.6 (vs RHP),
+so this is the same metric definition kept current rather than a new one.
+
+The metric matched is FanGraphs' — offense against ALL pitchers of the
+starter's hand (``--role all``, the default). The table also carries a
+starters-only split, which is available via ``--role sp`` and is a cleaner
+description of the listed arm in isolation, but it is not the default: see the
+note on ``PITCHER_ROLE`` below.
 
 The self-computed metric is an approximation — fixed linear weights, total-bases
 park factor as the run-environment proxy — so treat it as a relative gauge, not
 a figure to quote as a team's published wRC+.
 
 Output is a per-game scouting table, not a betting model: nothing here feeds a
-pick, gate, size or grade.
+pick, gate, size or grade. The per-game "[context] full-game offense" line is
+explicitly not a driver — see ``full_game_wrc``.
 
 Usage
 -----
@@ -62,19 +65,17 @@ GAME_LOGS = REPO / "data" / "pitcher_cache" / "mlb" / "game_logs_2026.json"
 
 PA_SPLITS = REPO / "data" / "pitcher_cache" / "mlb" / "team_pa_splits_2026.json"
 
-# The starter matchup is read against STARTING pitchers only ("sp"). The
-# role-less "all" node is deliberately unused: it keys every plate appearance
-# to the pitcher's hand regardless of role, so it answers "how does this
-# offense hit lefties" rather than "how does this offense do in a game a lefty
-# starts" — and it averages together behaviour that often points opposite ways.
-# PHI is 75 vs LH starters but 121 vs LH relievers; both roll up to "all" = 95.
-PITCHER_ROLE = "sp"
-
-# A game is not just the starter, so the full-game figure blends the starter
-# matchup with the bullpen that follows, weighted by each staff's own starter
-# share of PA and its own bullpen handedness mix (league starter share is 57%,
-# but it ranges from 48% for CWS/WSH to 64% for SEA).
-FULL_GAME = True
+# Offense is read against ALL pitchers of the starter's hand. This is the
+# definition the report shipped with and it is the one that has graded well:
+# on 2026-08-15 it went 4-0 on confirmed results.
+#
+# A starters-only ("sp") read is available via --role and is defensible in
+# theory — it isolates the arm actually being scouted, and it does surface real
+# structure the blended figure hides (PHI is 75 vs LH starters but 121 vs LH
+# relievers, both rolling up to 95). It is NOT the default, because every
+# recommendation it moved on 2026-08-15 moved the wrong way. Change it only
+# with results behind the change.
+PITCHER_ROLE = "all"
 
 # Season is the stable read; the secondary window is scoped to the trade
 # deadline so August reads respect roster changes.
@@ -156,7 +157,8 @@ def wrc_cell(windows, window, team, hand, role=PITCHER_ROLE):
         return None
     side = "vsLHP" if hand.upper().startswith("L") else "vsRHP"
     node = ((windows.get(window) or {}).get("teams") or {}).get(team) or {}
-    cell = (node.get(role) or {}).get(side) or node.get(side)
+    cell = node.get(side) if role == "all" else (
+        (node.get(role) or {}).get(side) or node.get(side))
     if not cell or cell.get("wrcplus") is None:
         return None
     return {
@@ -324,9 +326,10 @@ def role_flags(form, slate_date):
     return flags
 
 
-def matchup_wrc(windows, offense_team, pitcher_hand, window=PRIMARY_WINDOW):
-    """Opposing offense's wRC+ against starters of this pitcher's hand."""
-    cell = wrc_cell(windows, window, offense_team, pitcher_hand)
+def matchup_wrc(windows, offense_team, pitcher_hand, window=PRIMARY_WINDOW,
+                role=PITCHER_ROLE):
+    """Opposing offense's wRC+ against pitchers of this starter's hand."""
+    cell = wrc_cell(windows, window, offense_team, pitcher_hand, role=role)
     return cell["wrcplus"] if cell else None
 
 
@@ -365,13 +368,19 @@ def staff_profiles(pa_rows):
 def full_game_wrc(windows, offense_team, opp_team, starter_hand, staff,
                   window=PRIMARY_WINDOW):
     """
-    Expected offensive output across a whole game, in wRC+ units.
+    Expected offensive output across a whole game, in wRC+ units. CONTEXT ONLY.
 
     Blends the offense against the starter's hand with the offense against the
     opposing bullpen, split by that bullpen's actual handedness mix and
-    weighted by that staff's starter share of plate appearances. This is the
-    figure that maps to a moneyline or a total; the starters-only figure
-    answers the narrower question of how the listed arm matches up.
+    weighted by that staff's starter share of plate appearances.
+
+    Do not drive plays off this. Bullpens are far more alike across teams than
+    starters are, so blending them in compresses the spread — on 2026-08-15 the
+    starter score ranged 104 points across the slate and this figure ranged 18.
+    Small wiggles inside that compressed range read as edges and are not: it
+    ranked BOS @ PIT the top run environment on the slate and the game produced
+    one run. Every recommendation it changed that day was wrong (0-for-4). It is
+    printed as a sanity check on the bullpen side of a game, nothing more.
     """
     sp_cell = wrc_cell(windows, window, offense_team, starter_hand, role="sp")
     if not sp_cell:
@@ -395,10 +404,10 @@ def full_game_wrc(windows, offense_team, opp_team, starter_hand, staff,
     return round(share * sp_cell["wrcplus"] + (1 - share) * bullpen)
 
 
-def platoon_gap(windows, offense_team, window=PRIMARY_WINDOW):
+def platoon_gap(windows, offense_team, window=PRIMARY_WINDOW, role=PITCHER_ROLE):
     """vsLHP minus vsRHP for an offense — how lopsided its platoon profile is."""
-    lhp = matchup_wrc(windows, offense_team, "L", window)
-    rhp = matchup_wrc(windows, offense_team, "R", window)
+    lhp = matchup_wrc(windows, offense_team, "L", window, role=role)
+    rhp = matchup_wrc(windows, offense_team, "R", window, role=role)
     if lhp is None or rhp is None:
         return None
     return lhp - rhp
@@ -429,7 +438,7 @@ def pressure(form, opp_wrc):
     return round(score, 1)
 
 
-def build_report(slate_date, slate_file=None):
+def build_report(slate_date, slate_file=None, role=PITCHER_ROLE):
     games = load_slate(slate_date, slate_file)
     wrc, wrc_as_of = load_wrc()
     starts_by_name = organize_starts(_load(GAME_LOGS))
@@ -454,8 +463,8 @@ def build_report(slate_date, slate_file=None):
             hand = game.get(f"{side}_hand")
             name = resolve_pitcher(listed, starts_by_name, game[side])
             form = form_for(starts_by_name.get(name, []), slate_date) if name else {}
-            opp_wrc = matchup_wrc(wrc, offense, hand)
-            recent_cell = wrc_cell(wrc, SECONDARY_WINDOW, offense, hand)
+            opp_wrc = matchup_wrc(wrc, offense, hand, role=role)
+            recent_cell = wrc_cell(wrc, SECONDARY_WINDOW, offense, hand, role=role)
             flags = role_flags(form, slate_date)
             if recent_cell and (recent_cell["pa"] or 0) < MIN_WINDOW_PA:
                 # Below ~75 PA the wRC+ conversion is unstable enough to print
@@ -474,7 +483,7 @@ def build_report(slate_date, slate_file=None):
                 "opp_wrc_game": full_game_wrc(wrc, offense, game[side], hand, staff),
                 "opp_wrc_recent": recent_cell["wrcplus"] if recent_cell else None,
                 "opp_wrc_recent_pa": recent_cell["pa"] if recent_cell else None,
-                "opp_platoon_gap": platoon_gap(wrc, offense),
+                "opp_platoon_gap": platoon_gap(wrc, offense, role=role),
                 "form": form,
                 "trend": trend(form),
                 "flags": flags,
@@ -521,7 +530,7 @@ def build_report(slate_date, slate_file=None):
         "date": slate_date,
         "games": len(rows),
         "wrc_through": wrc_as_of,
-        "wrc_role": PITCHER_ROLE,
+        "wrc_role": role,
         "wrc_primary_window": PRIMARY_WINDOW,
         "wrc_secondary_window": SECONDARY_WINDOW,
         "recent_window_starts": RECENT_N,
@@ -557,7 +566,7 @@ def render(report):
                      f"ML {game['away_ml']:+d}/{game['home_ml']:+d}   "
                      f"total {game['total']}")
         lines.append(
-            f"   full-game offense: {game['away']} "
+            f"   [context] full-game offense: {game['away']} "
             f"{_fmt(game['away_offense_game'], '{:.0f}')} vs {game['home']} "
             f"{_fmt(game['home_offense_game'], '{:.0f}')}  ->  "
             f"env {_fmt(game['game_offense'], '{:.0f}')}, "
@@ -613,12 +622,16 @@ def main():
                         help="slate date, YYYY-MM-DD (default: today)")
     parser.add_argument("--json", action="store_true",
                         help="emit the report as JSON instead of a table")
+    parser.add_argument("--role", default=PITCHER_ROLE, choices=("all", "sp"),
+                        help="offense split to match against: all pitchers of "
+                             "the hand (default, the graded method) or "
+                             "starters only")
     parser.add_argument("--slate-file",
                         help="hand-entered slate JSON, for dates the all-ML "
                              "payload does not carry yet")
     args = parser.parse_args()
 
-    report = build_report(args.date, args.slate_file)
+    report = build_report(args.date, args.slate_file, args.role)
     if args.json:
         print(json.dumps(report, indent=2))
     else:
