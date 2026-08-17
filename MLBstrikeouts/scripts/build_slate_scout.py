@@ -49,6 +49,9 @@ NOTES = [
     "already in the closing total.",
     "Flags are the useful part: a starter back from a layoff still shows a "
     "full last-5-start line describing a different month.",
+    "Swingmen carry a second form line. The last-5-START rates skip relief "
+    "work entirely, so a bullpen stint reads as a collapse until you see the "
+    "relief innings beside it.",
 ]
 
 
@@ -59,8 +62,11 @@ def build(date_iso):
             s = game["sides"].get(side) or {}
             form = s.get("form") or {}
             # Trim the per-start detail the tab does not render, keeping the
-            # payload small enough to fetch on every tab switch.
-            s["form"] = {k: form.get(k) for k in ("season", "recent", "hot")}
+            # payload small enough to fetch on every tab switch. recent_all
+            # and relief survive the trim: for a swingman they are the only
+            # honest recent-form numbers on the card.
+            s["form"] = {k: form.get(k) for k in
+                         ("season", "recent", "hot", "recent_all", "relief")}
     report["generated"] = (datetime.datetime.now(datetime.timezone.utc)
                            .isoformat(timespec="seconds").replace("+00:00", "Z"))
     report["sport"] = "MLB"

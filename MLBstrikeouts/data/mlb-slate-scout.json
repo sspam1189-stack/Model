@@ -12,102 +12,55 @@
       "away": "STL",
       "home": "CIN",
       "commence": "2026-08-17T17:40:00Z",
-      "away_ml": -110,
-      "home_ml": 100,
+      "away_ml": -114,
+      "home_ml": 106,
       "total": 9.5,
       "over_ml": 100,
       "under_ml": -122,
       "sides": {
         "away": {
-          "pitcher": "Quinn Mathews",
-          "listed_as": "Quinn Mathews",
-          "resolved": true,
-          "hand": "L",
+          "pitcher": null,
+          "listed_as": null,
+          "resolved": false,
+          "hand": null,
           "team": "STL",
           "opponent_offense": "CIN",
-          "opp_wrc_vs_hand": 104,
-          "opp_wrc_game": 93,
+          "opp_wrc_vs_hand": null,
+          "opp_wrc_game": null,
           "opp_wrc_recent": null,
-          "opp_wrc_recent_pa": 74,
+          "opp_wrc_recent_pa": null,
           "opp_platoon_gap": 19,
           "form": {
-            "season": {
-              "gs": 1,
-              "ip": 5.0,
-              "ip_per_gs": 5.0,
-              "era": 3.6,
-              "whip": 1.8,
-              "k_pct": 12.5,
-              "bb_pct": 12.5,
-              "k_bb_pct": 0.0,
-              "hr9": 0.0,
-              "k": 3,
-              "bb": 3,
-              "hr": 0,
-              "er": 2
-            },
-            "recent": {
-              "gs": 1,
-              "ip": 5.0,
-              "ip_per_gs": 5.0,
-              "era": 3.6,
-              "whip": 1.8,
-              "k_pct": 12.5,
-              "bb_pct": 12.5,
-              "k_bb_pct": 0.0,
-              "hr9": 0.0,
-              "k": 3,
-              "bb": 3,
-              "hr": 0,
-              "er": 2
-            },
-            "hot": {
-              "gs": 1,
-              "ip": 5.0,
-              "ip_per_gs": 5.0,
-              "era": 3.6,
-              "whip": 1.8,
-              "k_pct": 12.5,
-              "bb_pct": 12.5,
-              "k_bb_pct": 0.0,
-              "hr9": 0.0,
-              "k": 3,
-              "bb": 3,
-              "hr": 0,
-              "er": 2
-            }
+            "season": null,
+            "recent": null,
+            "hot": null,
+            "recent_all": null,
+            "relief": null
           },
-          "trend": {
-            "era": 0.0,
-            "whip": 0.0,
-            "k_pct": 0.0,
-            "bb_pct": 0.0,
-            "ip_per_gs": 0.0,
-            "hr9": 0.0
-          },
+          "trend": {},
           "flags": [
-            "thin-sample",
-            "layoff-16d",
-            "thin-deadline-74pa"
+            "thin-sample"
           ],
-          "pressure": 15.6
+          "pressure": null
         },
         "home": {
-          "pitcher": "Kent Emanuel",
-          "listed_as": "Kent Emanuel",
+          "pitcher": null,
+          "listed_as": null,
           "resolved": false,
-          "hand": "L",
+          "hand": null,
           "team": "CIN",
           "opponent_offense": "STL",
-          "opp_wrc_vs_hand": 100,
-          "opp_wrc_game": 101,
-          "opp_wrc_recent": 124,
-          "opp_wrc_recent_pa": 150,
+          "opp_wrc_vs_hand": null,
+          "opp_wrc_game": null,
+          "opp_wrc_recent": null,
+          "opp_wrc_recent_pa": null,
           "opp_platoon_gap": 5,
           "form": {
             "season": null,
             "recent": null,
-            "hot": null
+            "hot": null,
+            "recent_all": null,
+            "relief": null
           },
           "trend": {},
           "flags": [
@@ -116,10 +69,10 @@
           "pressure": null
         }
       },
-      "home_offense_game": 93,
-      "away_offense_game": 101,
-      "game_offense": 97,
-      "offense_edge": 8
+      "home_offense_game": null,
+      "away_offense_game": null,
+      "game_offense": null,
+      "offense_edge": null
     },
     {
       "matchup": "BAL @ TB",
@@ -189,7 +142,24 @@
               "bb": 7,
               "hr": 3,
               "er": 8
-            }
+            },
+            "recent_all": {
+              "g": 5,
+              "ip": 29.3,
+              "ip_per_g": 5.87,
+              "era": 3.07,
+              "whip": 1.23,
+              "k_pct": 21.0,
+              "bb_pct": 8.1,
+              "k_bb_pct": 12.9,
+              "hr9": 0.92,
+              "k": 26,
+              "bb": 10,
+              "hr": 3,
+              "er": 10,
+              "gs": 5
+            },
+            "relief": null
           },
           "trend": {
             "era": -0.26,
@@ -259,7 +229,24 @@
               "bb": 7,
               "hr": 1,
               "er": 6
-            }
+            },
+            "recent_all": {
+              "g": 5,
+              "ip": 25.3,
+              "ip_per_g": 5.07,
+              "era": 2.13,
+              "whip": 0.83,
+              "k_pct": 18.6,
+              "bb_pct": 7.2,
+              "k_bb_pct": 11.3,
+              "hr9": 0.36,
+              "k": 18,
+              "bb": 7,
+              "hr": 1,
+              "er": 6,
+              "gs": 5
+            },
+            "relief": null
           },
           "trend": {
             "era": -0.87,
@@ -285,81 +272,36 @@
       "away": "STL",
       "home": "CIN",
       "commence": "2026-08-17T22:40:00Z",
-      "away_ml": -116,
-      "home_ml": 106,
+      "away_ml": -122,
+      "home_ml": 114,
       "total": 9,
       "over_ml": -115,
       "under_ml": -105,
       "sides": {
         "away": {
-          "pitcher": "Andre Pallante",
-          "listed_as": "Andre Pallante",
-          "resolved": true,
-          "hand": "R",
+          "pitcher": null,
+          "listed_as": null,
+          "resolved": false,
+          "hand": null,
           "team": "STL",
           "opponent_offense": "CIN",
-          "opp_wrc_vs_hand": 85,
-          "opp_wrc_game": 89,
-          "opp_wrc_recent": 77,
-          "opp_wrc_recent_pa": 343,
+          "opp_wrc_vs_hand": null,
+          "opp_wrc_game": null,
+          "opp_wrc_recent": null,
+          "opp_wrc_recent_pa": null,
           "opp_platoon_gap": 19,
           "form": {
-            "season": {
-              "gs": 23,
-              "ip": 130.0,
-              "ip_per_gs": 5.65,
-              "era": 3.46,
-              "whip": 1.22,
-              "k_pct": 17.1,
-              "bb_pct": 7.4,
-              "k_bb_pct": 9.6,
-              "hr9": 0.69,
-              "k": 92,
-              "bb": 40,
-              "hr": 10,
-              "er": 50
-            },
-            "recent": {
-              "gs": 5,
-              "ip": 30.0,
-              "ip_per_gs": 6.0,
-              "era": 1.8,
-              "whip": 1.07,
-              "k_pct": 17.2,
-              "bb_pct": 9.5,
-              "k_bb_pct": 7.8,
-              "hr9": 0.0,
-              "k": 20,
-              "bb": 11,
-              "hr": 0,
-              "er": 6
-            },
-            "hot": {
-              "gs": 3,
-              "ip": 17.7,
-              "ip_per_gs": 5.89,
-              "era": 1.53,
-              "whip": 1.25,
-              "k_pct": 12.9,
-              "bb_pct": 11.4,
-              "k_bb_pct": 1.4,
-              "hr9": 0.0,
-              "k": 9,
-              "bb": 8,
-              "hr": 0,
-              "er": 3
-            }
+            "season": null,
+            "recent": null,
+            "hot": null,
+            "recent_all": null,
+            "relief": null
           },
-          "trend": {
-            "era": -1.66,
-            "whip": -0.15,
-            "k_pct": 0.1,
-            "bb_pct": 2.1,
-            "ip_per_gs": 0.35,
-            "hr9": -0.69
-          },
-          "flags": [],
-          "pressure": -27.1
+          "trend": {},
+          "flags": [
+            "thin-sample"
+          ],
+          "pressure": null
         },
         "home": {
           "pitcher": "Rhett Lowder",
@@ -418,7 +360,24 @@
               "bb": 3,
               "hr": 3,
               "er": 6
-            }
+            },
+            "recent_all": {
+              "g": 5,
+              "ip": 24.7,
+              "ip_per_g": 4.93,
+              "era": 5.84,
+              "whip": 1.34,
+              "k_pct": 17.0,
+              "bb_pct": 4.7,
+              "k_bb_pct": 12.3,
+              "hr9": 1.09,
+              "k": 18,
+              "bb": 5,
+              "hr": 3,
+              "er": 16,
+              "gs": 5
+            },
+            "relief": null
           },
           "trend": {
             "era": 0.38,
@@ -432,10 +391,10 @@
           "pressure": 9.8
         }
       },
-      "home_offense_game": 89,
+      "home_offense_game": null,
       "away_offense_game": 95,
-      "game_offense": 92,
-      "offense_edge": 6
+      "game_offense": null,
+      "offense_edge": null
     },
     {
       "matchup": "MIA @ PHI",
@@ -505,7 +464,24 @@
               "bb": 4,
               "hr": 1,
               "er": 3
-            }
+            },
+            "recent_all": {
+              "g": 5,
+              "ip": 22.7,
+              "ip_per_g": 4.53,
+              "era": 3.97,
+              "whip": 1.37,
+              "k_pct": 16.5,
+              "bb_pct": 7.2,
+              "k_bb_pct": 9.3,
+              "hr9": 1.19,
+              "k": 16,
+              "bb": 7,
+              "hr": 3,
+              "er": 10,
+              "gs": 5
+            },
+            "relief": null
           },
           "trend": {
             "era": -0.44,
@@ -575,7 +551,24 @@
               "bb": 7,
               "hr": 1,
               "er": 2
-            }
+            },
+            "recent_all": {
+              "g": 5,
+              "ip": 28.3,
+              "ip_per_g": 5.67,
+              "era": 2.54,
+              "whip": 1.24,
+              "k_pct": 30.6,
+              "bb_pct": 8.3,
+              "k_bb_pct": 22.3,
+              "hr9": 0.32,
+              "k": 37,
+              "bb": 10,
+              "hr": 1,
+              "er": 8,
+              "gs": 5
+            },
+            "relief": null
           },
           "trend": {
             "era": -0.06,
@@ -662,7 +655,24 @@
               "bb": 9,
               "hr": 1,
               "er": 6
-            }
+            },
+            "recent_all": {
+              "g": 5,
+              "ip": 25.3,
+              "ip_per_g": 5.07,
+              "era": 4.97,
+              "whip": 1.7,
+              "k_pct": 16.1,
+              "bb_pct": 11.9,
+              "k_bb_pct": 4.2,
+              "hr9": 0.71,
+              "k": 19,
+              "bb": 14,
+              "hr": 2,
+              "er": 14,
+              "gs": 5
+            },
+            "relief": null
           },
           "trend": {
             "era": 0.71,
@@ -732,6 +742,39 @@
               "bb": 7,
               "hr": 2,
               "er": 10
+            },
+            "recent_all": {
+              "g": 5,
+              "ip": 13.3,
+              "ip_per_g": 2.67,
+              "era": 6.75,
+              "whip": 1.72,
+              "k_pct": 14.8,
+              "bb_pct": 8.2,
+              "k_bb_pct": 6.6,
+              "hr9": 0.67,
+              "k": 9,
+              "bb": 5,
+              "hr": 1,
+              "er": 10,
+              "gs": 2
+            },
+            "relief": {
+              "g": 15,
+              "ip": 44.3,
+              "ip_per_g": 2.96,
+              "era": 2.44,
+              "whip": 1.2,
+              "k_pct": 17.4,
+              "bb_pct": 7.6,
+              "k_bb_pct": 9.8,
+              "hr9": 0.81,
+              "k": 32,
+              "bb": 14,
+              "hr": 4,
+              "er": 12,
+              "from": "2026-05-14",
+              "to": "2026-08-01"
             }
           },
           "trend": {
@@ -743,7 +786,8 @@
             "hr9": 0.54
           },
           "flags": [
-            "stale-window-96d"
+            "stale-window-96d",
+            "swingman-15g"
           ],
           "pressure": 28.8
         }
@@ -758,8 +802,8 @@
       "away": "ARI",
       "home": "BOS",
       "commence": "2026-08-17T23:10:00Z",
-      "away_ml": 120,
-      "home_ml": -130,
+      "away_ml": 126,
+      "home_ml": -138,
       "total": 9,
       "over_ml": -105,
       "under_ml": -115,
@@ -821,7 +865,24 @@
               "bb": 8,
               "hr": 1,
               "er": 3
-            }
+            },
+            "recent_all": {
+              "g": 5,
+              "ip": 27.7,
+              "ip_per_g": 5.53,
+              "era": 3.25,
+              "whip": 1.34,
+              "k_pct": 19.1,
+              "bb_pct": 12.2,
+              "k_bb_pct": 7.0,
+              "hr9": 1.3,
+              "k": 22,
+              "bb": 14,
+              "hr": 4,
+              "er": 10,
+              "gs": 5
+            },
+            "relief": null
           },
           "trend": {
             "era": -0.49,
@@ -849,7 +910,9 @@
           "form": {
             "season": null,
             "recent": null,
-            "hot": null
+            "hot": null,
+            "recent_all": null,
+            "relief": null
           },
           "trend": {},
           "flags": [
@@ -931,7 +994,24 @@
               "bb": 5,
               "hr": 1,
               "er": 5
-            }
+            },
+            "recent_all": {
+              "g": 5,
+              "ip": 25.3,
+              "ip_per_g": 5.07,
+              "era": 3.2,
+              "whip": 1.38,
+              "k_pct": 17.4,
+              "bb_pct": 11.0,
+              "k_bb_pct": 6.4,
+              "hr9": 0.71,
+              "k": 19,
+              "bb": 12,
+              "hr": 2,
+              "er": 9,
+              "gs": 5
+            },
+            "relief": null
           },
           "trend": {
             "era": -1.68,
@@ -1001,7 +1081,24 @@
               "bb": 7,
               "hr": 4,
               "er": 8
-            }
+            },
+            "recent_all": {
+              "g": 5,
+              "ip": 29.3,
+              "ip_per_g": 5.87,
+              "era": 3.07,
+              "whip": 1.19,
+              "k_pct": 28.3,
+              "bb_pct": 9.2,
+              "k_bb_pct": 19.2,
+              "hr9": 1.53,
+              "k": 34,
+              "bb": 11,
+              "hr": 5,
+              "er": 10,
+              "gs": 5
+            },
+            "relief": null
           },
           "trend": {
             "era": -0.35,
@@ -1025,8 +1122,8 @@
       "away": "OAK",
       "home": "KC",
       "commence": "2026-08-17T23:40:00Z",
-      "away_ml": 162,
-      "home_ml": -174,
+      "away_ml": 166,
+      "home_ml": -180,
       "total": 9,
       "over_ml": -110,
       "under_ml": -110,
@@ -1088,7 +1185,24 @@
               "bb": 7,
               "hr": 6,
               "er": 13
-            }
+            },
+            "recent_all": {
+              "g": 5,
+              "ip": 17.7,
+              "ip_per_g": 3.53,
+              "era": 9.17,
+              "whip": 1.7,
+              "k_pct": 17.9,
+              "bb_pct": 10.7,
+              "k_bb_pct": 7.1,
+              "hr9": 3.06,
+              "k": 15,
+              "bb": 9,
+              "hr": 6,
+              "er": 18,
+              "gs": 3
+            },
+            "relief": null
           },
           "trend": {
             "era": 0.0,
@@ -1160,7 +1274,24 @@
               "bb": 3,
               "hr": 2,
               "er": 5
-            }
+            },
+            "recent_all": {
+              "g": 5,
+              "ip": 31.3,
+              "ip_per_g": 6.27,
+              "era": 2.3,
+              "whip": 0.99,
+              "k_pct": 16.8,
+              "bb_pct": 5.6,
+              "k_bb_pct": 11.2,
+              "hr9": 1.15,
+              "k": 21,
+              "bb": 7,
+              "hr": 4,
+              "er": 8,
+              "gs": 5
+            },
+            "relief": null
           },
           "trend": {
             "era": -1.16,
@@ -1184,11 +1315,11 @@
       "away": "ATL",
       "home": "MIN",
       "commence": "2026-08-17T23:40:00Z",
-      "away_ml": -122,
-      "home_ml": 112,
-      "total": 9.5,
-      "over_ml": 100,
-      "under_ml": -122,
+      "away_ml": -120,
+      "home_ml": 110,
+      "total": 9,
+      "over_ml": -118,
+      "under_ml": -104,
       "sides": {
         "away": {
           "pitcher": "Mart\u00edn P\u00e9rez",
@@ -1247,7 +1378,24 @@
               "bb": 6,
               "hr": 0,
               "er": 0
-            }
+            },
+            "recent_all": {
+              "g": 5,
+              "ip": 25.0,
+              "ip_per_g": 5.0,
+              "era": 1.08,
+              "whip": 1.0,
+              "k_pct": 18.6,
+              "bb_pct": 11.3,
+              "k_bb_pct": 7.2,
+              "hr9": 0.36,
+              "k": 18,
+              "bb": 11,
+              "hr": 1,
+              "er": 3,
+              "gs": 5
+            },
+            "relief": null
           },
           "trend": {
             "era": -1.98,
@@ -1317,7 +1465,24 @@
               "bb": 3,
               "hr": 4,
               "er": 10
-            }
+            },
+            "recent_all": {
+              "g": 5,
+              "ip": 27.3,
+              "ip_per_g": 5.47,
+              "era": 5.27,
+              "whip": 1.35,
+              "k_pct": 13.9,
+              "bb_pct": 5.2,
+              "k_bb_pct": 8.7,
+              "hr9": 1.32,
+              "k": 16,
+              "bb": 6,
+              "hr": 4,
+              "er": 16,
+              "gs": 5
+            },
+            "relief": null
           },
           "trend": {
             "era": 0.63,
@@ -1341,8 +1506,8 @@
       "away": "CWS",
       "home": "CHC",
       "commence": "2026-08-18T00:05:00Z",
-      "away_ml": 144,
-      "home_ml": -156,
+      "away_ml": 148,
+      "home_ml": -160,
       "total": 8.5,
       "over_ml": 100,
       "under_ml": -122,
@@ -1404,7 +1569,24 @@
               "bb": 5,
               "hr": 3,
               "er": 10
-            }
+            },
+            "recent_all": {
+              "g": 5,
+              "ip": 28.0,
+              "ip_per_g": 5.6,
+              "era": 5.46,
+              "whip": 1.39,
+              "k_pct": 20.2,
+              "bb_pct": 6.7,
+              "k_bb_pct": 13.4,
+              "hr9": 2.57,
+              "k": 24,
+              "bb": 8,
+              "hr": 8,
+              "er": 17,
+              "gs": 5
+            },
+            "relief": null
           },
           "trend": {
             "era": 0.57,
@@ -1474,7 +1656,24 @@
               "bb": 0,
               "hr": 6,
               "er": 7
-            }
+            },
+            "recent_all": {
+              "g": 5,
+              "ip": 29.3,
+              "ip_per_g": 5.87,
+              "era": 2.15,
+              "whip": 1.02,
+              "k_pct": 21.6,
+              "bb_pct": 1.7,
+              "k_bb_pct": 19.8,
+              "hr9": 1.84,
+              "k": 25,
+              "bb": 2,
+              "hr": 6,
+              "er": 7,
+              "gs": 5
+            },
+            "relief": null
           },
           "trend": {
             "era": -1.59,
@@ -1498,11 +1697,11 @@
       "away": "LAD",
       "home": "COL",
       "commence": "2026-08-18T00:40:00Z",
-      "away_ml": -260,
-      "home_ml": 230,
+      "away_ml": -270,
+      "home_ml": 240,
       "total": 11,
-      "over_ml": -104,
-      "under_ml": -118,
+      "over_ml": -105,
+      "under_ml": -115,
       "sides": {
         "away": {
           "pitcher": "Blake Snell",
@@ -1561,7 +1760,24 @@
               "bb": 3,
               "hr": 0,
               "er": 5
-            }
+            },
+            "recent_all": {
+              "g": 2,
+              "ip": 9.0,
+              "ip_per_g": 4.5,
+              "era": 5.0,
+              "whip": 1.33,
+              "k_pct": 37.5,
+              "bb_pct": 7.5,
+              "k_bb_pct": 30.0,
+              "hr9": 0.0,
+              "k": 15,
+              "bb": 3,
+              "hr": 0,
+              "er": 5,
+              "gs": 2
+            },
+            "relief": null
           },
           "trend": {
             "era": 0.0,
@@ -1634,7 +1850,24 @@
               "bb": 2,
               "hr": 4,
               "er": 6
-            }
+            },
+            "recent_all": {
+              "g": 5,
+              "ip": 29.3,
+              "ip_per_g": 5.87,
+              "era": 3.38,
+              "whip": 1.06,
+              "k_pct": 15.5,
+              "bb_pct": 2.6,
+              "k_bb_pct": 12.9,
+              "hr9": 2.45,
+              "k": 18,
+              "bb": 3,
+              "hr": 8,
+              "er": 11,
+              "gs": 5
+            },
+            "relief": null
           },
           "trend": {
             "era": -1.05,
@@ -1676,7 +1909,8 @@
       "opp_wrc_recent": 114,
       "pressure": 28.8,
       "flags": [
-        "stale-window-96d"
+        "stale-window-96d",
+        "swingman-15g"
       ]
     },
     {
@@ -1698,20 +1932,6 @@
       "opp_wrc_recent": 119,
       "pressure": 16.4,
       "flags": []
-    },
-    {
-      "pitcher": "Quinn Mathews",
-      "hand": "L",
-      "team": "STL",
-      "opponent_offense": "CIN",
-      "opp_wrc_vs_hand": 104,
-      "opp_wrc_recent": null,
-      "pressure": 15.6,
-      "flags": [
-        "thin-sample",
-        "layoff-16d",
-        "thin-deadline-74pa"
-      ]
     },
     {
       "pitcher": "Framber Valdez",
@@ -1857,24 +2077,15 @@
         "thin-sample",
         "stale-window-94d"
       ]
-    },
-    {
-      "pitcher": "Andre Pallante",
-      "hand": "R",
-      "team": "STL",
-      "opponent_offense": "CIN",
-      "opp_wrc_vs_hand": 85,
-      "opp_wrc_recent": 77,
-      "pressure": -27.1,
-      "flags": []
     }
   ],
-  "generated": "2026-08-17T15:16:07Z",
+  "generated": "2026-08-17T15:46:14Z",
   "sport": "MLB",
   "type": "slate-scout",
   "advisory": true,
   "notes": [
     "Scouting only \u2014 the matchup-pressure ranking is NOT a betting signal. Backtested over 1818 games it returns -1.8% ROI; the information is already in the closing total.",
-    "Flags are the useful part: a starter back from a layoff still shows a full last-5-start line describing a different month."
+    "Flags are the useful part: a starter back from a layoff still shows a full last-5-start line describing a different month.",
+    "Swingmen carry a second form line. The last-5-START rates skip relief work entirely, so a bullpen stint reads as a collapse until you see the relief innings beside it."
   ]
 }

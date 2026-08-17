@@ -50,7 +50,9 @@ def dump_features(path, start="2026-05-01"):
     """Walk every completed slate once and emit the inputs a sweep needs."""
     allml = S._load(S.ALL_ML)
     pa_rows = S._load(B.PA_SPLITS)
-    starts_by_name = S.organize_starts(S._load(S.GAME_LOGS))
+    logs = S._load(S.GAME_LOGS)
+    starts_by_name = S.organize_starts(logs)
+    apps_by_name = S.organize_appearances(logs)
 
     by_date, seen = defaultdict(list), set()
     for g in allml.get("games", []):
@@ -82,7 +84,9 @@ def dump_features(path, start="2026-05-01"):
             for side, offense in (("away", game["home"]), ("home", game["away"])):
                 name = S.resolve_pitcher(game.get(f"{side}_pitcher"),
                                         starts_by_name, game[side])
-                form = S.form_for(starts_by_name.get(name, []), d) if name else {}
+                form = (S.form_for(starts_by_name.get(name, []),
+                                   apps_by_name.get(name, []), d)
+                        if name else {})
                 cell = S.wrc_cell(wrc, "season", offense,
                                   game.get(f"{side}_hand"), role="all")
                 if not form or not cell or not form.get("season"):

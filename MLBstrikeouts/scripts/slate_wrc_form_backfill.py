@@ -162,7 +162,7 @@ def grade_total(runs, line, side):
     return "win" if (over == (side == "over")) else "loss"
 
 
-def build_day(slate_date, games, pa_rows, starts_by_name):
+def build_day(slate_date, games, pa_rows, starts_by_name, apps_by_name):
     """Score every game on one slate using only pre-slate information."""
     wrc = wrc_as_of(pa_rows, slate_date)
     rows = []
@@ -172,7 +172,9 @@ def build_day(slate_date, games, pa_rows, starts_by_name):
             listed = game.get(f"{side}_pitcher")
             hand = game.get(f"{side}_hand")
             name = S.resolve_pitcher(listed, starts_by_name, game[side])
-            form = S.form_for(starts_by_name.get(name, []), slate_date) if name else {}
+            form = (S.form_for(starts_by_name.get(name, []),
+                               apps_by_name.get(name, []), slate_date)
+                    if name else {})
             cell = S.wrc_cell(wrc, "season", offense, hand, role="all")
             opp_wrc = cell["wrcplus"] if cell else None
             sides[side] = {
@@ -260,7 +262,9 @@ def main():
 
     allml = S._load(S.ALL_ML)
     pa_rows = S._load(PA_SPLITS)
-    starts_by_name = S.organize_starts(S._load(S.GAME_LOGS))
+    logs = S._load(S.GAME_LOGS)
+    starts_by_name = S.organize_starts(logs)
+    apps_by_name = S.organize_appearances(logs)
 
     by_date = defaultdict(list)
     seen = set()
@@ -281,7 +285,7 @@ def main():
 
     ledger, per_day = [], []
     for d in dates:
-        rows = build_day(d, by_date[d], pa_rows, starts_by_name)
+        rows = build_day(d, by_date[d], pa_rows, starts_by_name, apps_by_name)
         graded = grade(pick_day(rows, args.top, args.clean_only))
         ledger += graded
         per_day.append((d, len(by_date[d]), graded))

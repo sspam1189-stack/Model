@@ -9,7 +9,8 @@ Joins three existing repo artifacts for a given slate date:
      park-adjusted wRC+ by team, split by pitcher hand, pitcher role and
      window (``build_team_woba_splits.py``).
   3. ``data/pitcher_cache/mlb/game_logs_2026.json`` -> per-game pitching lines,
-     from which season / last-5-start / last-3-start form is derived.
+     from which season / last-5-start / last-3-start form is derived, plus the
+     relief outings threaded through that window (see ``form_for``).
 
 Why the self-computed splits and not the FanGraphs snapshot in
 ``mlb-team-wrc.json``: that file is a manual browser capture frozen at
@@ -110,6 +111,13 @@ LAYOFF_DAYS = 12
 # blend two different stretches of season.
 STALE_WINDOW_DAYS = 45
 
+# Relief outings inside the recent-start window past which the arm is a
+# swingman, not a starter who went missing. The start-only line then describes
+# a fraction of his season: Mlodzinski's "last 5 starts" on 2026-08-17 read
+# 6.3% K over 96 days, while the 15 relief outings threaded through that window
+# ran 17.4% K — the collapse was a role change, not a decline.
+SWINGMAN_MIN_G = 2
+
 # League-average reference points for the 2026 season, used only to label a
 # starter's rate stats. Kept local so the report never reaches the network.
 LG_K_PCT = 22.0
@@ -182,6 +190,22 @@ def organize_starts(logs):
     return by_name
 
 
+def organize_appearances(logs):
+    """
+    Group EVERY pitching line by name, oldest first — relief included.
+
+    Kept separate from ``organize_starts`` rather than replacing it, because
+    ``resolve_pitcher`` disambiguates duplicate surnames by start count, and
+    relief appearances would hand that tie-break to the wrong Rogers.
+    """
+    by_name = {}
+    for row in logs:
+        by_name.setdefault(row.get("pitcher_name"), []).append(row)
+    for rows in by_name.values():
+        rows.sort(key=lambda r: r.get("game_date") or "")
+    return by_name
+
+
 def _deaccent(text):
     return "".join(c for c in unicodedata.normalize("NFD", text)
                    if unicodedata.category(c) != "Mn")
@@ -226,8 +250,14 @@ def resolve_pitcher(name, by_name, team=None):
 # Form
 # ---------------------------------------------------------------------------
 
-def aggregate(starts):
-    """Collapse a list of start lines into rate stats. ``None`` if empty."""
+def aggregate(starts, unit="gs"):
+    """
+    Collapse a list of game lines into rate stats. ``None`` if empty.
+
+    ``unit`` names the appearance count: ``gs`` for start-only windows,
+    ``g`` for windows that mix starts and relief outings, where "innings per
+    start" would be a lie.
+    """
     if not starts:
         return None
     outs = sum(int(s.get("outs") or 0) for s in starts)
@@ -239,9 +269,9 @@ def aggregate(starts):
     er = sum(int(s.get("er") or 0) for s in starts)
     ip = outs / 3.0
     return {
-        "gs": len(starts),
+        unit: len(starts),
         "ip": round(ip, 1),
-        "ip_per_gs": round(ip / len(starts), 2),
+        f"ip_per_{unit}": round(ip / len(starts), 2),
         "era": round(er * 9.0 / ip, 2) if ip else None,
         "whip": round((h + bb) / ip, 2) if ip else None,
         "k_pct": round(100.0 * k / bf, 1) if bf else None,
@@ -255,13 +285,47 @@ def aggregate(starts):
     }
 
 
-def form_for(starts, before_date):
-    """Season / last-N / last-3 aggregates for starts strictly before a date."""
+def form_for(starts, appearances, before_date):
+    """
+    Season / last-N / last-3 aggregates for starts strictly before a date.
+
+    The start-only windows come first because tonight's job is starting, and a
+    two-inning relief line does not describe that. But they are not the whole
+    story for a swingman, so two appearance-based reads sit alongside them:
+
+      ``recent_all``  last ``RECENT_N`` outings of any kind, with ``gs`` saying
+                      how many were starts.
+      ``relief``      relief work from the start of the recent-start window
+                      onward — the innings the start-only line drops on the
+                      floor, and usually the reason that line looks broken.
+    """
     prior = [s for s in starts if (s.get("game_date") or "") < before_date]
+    apps = [a for a in appearances if (a.get("game_date") or "") < before_date]
+
+    window = prior[-RECENT_N:]
+    recent_apps = apps[-RECENT_N:]
+    # Anchored at the window's first start rather than a fixed day count, so
+    # the relief line covers exactly the span the start-only rates claim to.
+    relief = []
+    if window:
+        opened = window[0].get("game_date") or ""
+        relief = [a for a in apps
+                  if not a.get("is_start") and (a.get("game_date") or "") >= opened]
+
+    recent_all = aggregate(recent_apps, unit="g")
+    if recent_all:
+        recent_all["gs"] = sum(1 for a in recent_apps if a.get("is_start"))
+    relief_form = aggregate(relief, unit="g")
+    if relief_form:
+        relief_form["from"] = relief[0].get("game_date")
+        relief_form["to"] = relief[-1].get("game_date")
+
     return {
         "season": aggregate(prior),
-        "recent": aggregate(prior[-RECENT_N:]),
+        "recent": aggregate(window),
         "hot": aggregate(prior[-HOT_COLD_N:]),
+        "recent_all": recent_all,
+        "relief": relief_form,
         "last_starts": [
             {
                 "date": s.get("game_date"),
@@ -305,7 +369,10 @@ def role_flags(form, slate_date):
 
     The layoff and stale-window flags matter most: a starter back from two
     months out still has a full "last 5 starts" line, but it describes a
-    different pitcher in a different month.
+    different pitcher in a different month. ``swingman`` is the companion the
+    other two need — it says the gap those flags found was filled with relief
+    work rather than absence, so the arm is current even when the start line
+    is not.
     """
     season = form.get("season") or {}
     recent = form.get("recent") or season
@@ -325,6 +392,10 @@ def role_flags(form, slate_date):
         span = _days_between(starts[0]["date"], starts[-1]["date"])
         if len(starts) > 1 and span > STALE_WINDOW_DAYS:
             flags.append(f"stale-window-{span}d")
+
+    relief = form.get("relief") or {}
+    if relief.get("g", 0) >= SWINGMAN_MIN_G:
+        flags.append(f"swingman-{relief['g']}g")
     return flags
 
 
@@ -444,7 +515,9 @@ def build_report(slate_date, slate_file=None, role=PITCHER_ROLE,
                  window=PRIMARY_WINDOW, secondary=SECONDARY_WINDOW):
     games = load_slate(slate_date, slate_file)
     wrc, wrc_as_of = load_wrc()
-    starts_by_name = organize_starts(_load(GAME_LOGS))
+    logs = _load(GAME_LOGS)
+    starts_by_name = organize_starts(logs)
+    apps_by_name = organize_appearances(logs)
     staff = staff_profiles(_load(PA_SPLITS))
 
     rows = []
@@ -465,7 +538,9 @@ def build_report(slate_date, slate_file=None, role=PITCHER_ROLE,
             listed = game.get(f"{side}_pitcher")
             hand = game.get(f"{side}_hand")
             name = resolve_pitcher(listed, starts_by_name, game[side])
-            form = form_for(starts_by_name.get(name, []), slate_date) if name else {}
+            form = (form_for(starts_by_name.get(name, []),
+                             apps_by_name.get(name, []), slate_date)
+                    if name else {})
             opp_wrc = matchup_wrc(wrc, offense, hand, window, role=role)
             recent_cell = wrc_cell(wrc, secondary, offense, hand, role=role)
             flags = role_flags(form, slate_date)
@@ -611,6 +686,27 @@ def render(report):
                 f"BB% {_fmt(recent.get('bb_pct'), '{:.1f}')} {_signed(t.get('bb_pct'), '{:+.1f}')}  "
                 f"IP/GS {_fmt(recent.get('ip_per_gs'))}"
             )
+            # Only for swingmen: for a pure starter these two lines repeat the
+            # last-5 line above and add nothing but width.
+            relief = s["form"].get("relief") or {}
+            recent_all = s["form"].get("recent_all") or {}
+            if relief.get("g", 0) >= SWINGMAN_MIN_G:
+                lines.append(
+                    f"      relief {relief.get('g', 0):>2} G   "
+                    f"ERA {_fmt(relief.get('era'))}  "
+                    f"K% {_fmt(relief.get('k_pct'), '{:.1f}')}  "
+                    f"BB% {_fmt(relief.get('bb_pct'), '{:.1f}')}  "
+                    f"IP {_fmt(relief.get('ip'), '{:.1f}')}"
+                    f"   ({relief.get('from')} to {relief.get('to')})"
+                )
+                lines.append(
+                    f"      any{RECENT_N}   {recent_all.get('g', 0):>2} G   "
+                    f"ERA {_fmt(recent_all.get('era'))}  "
+                    f"K% {_fmt(recent_all.get('k_pct'), '{:.1f}')}  "
+                    f"BB% {_fmt(recent_all.get('bb_pct'), '{:.1f}')}  "
+                    f"IP/G {_fmt(recent_all.get('ip_per_g'))}"
+                    f"   ({recent_all.get('gs', 0)} of {recent_all.get('g', 0)} were starts)"
+                )
             lines.append(f"      pressure {_fmt(s['pressure'], '{:+.1f}')}")
         lines.append("")
 
