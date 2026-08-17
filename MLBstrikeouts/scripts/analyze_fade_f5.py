@@ -23,7 +23,9 @@
 #      share of runs scored in the first five innings, and re-attributing
 #      `delta` under different assumptions about where the edge lives.
 #   5. Price the F5 market off the no-edge model plus a bookmaker hold and
-#      compute expected ROI for the 3-way ML and the +0.5 run line.
+#      compute expected ROI. Ties through five are PUSHES on FanDuel's two-way
+#      F5 moneyline: stake refunded, so a tie leaves both profit and risk
+#      untouched. A three-way variant (tie loses) is reported for comparison.
 #
 # Usage: python -m scripts.analyze_fade_f5 [--json out.json]
 
@@ -43,6 +45,10 @@ ML_CACHE = os.path.join(REPO, "data", "odds_cache", "mlb_ml")
 # innings carry a bit more than their 5/9 share (first inning is the highest
 # scoring, and the home team often does not bat in the 9th).
 F5_RUN_SHARE = 0.565
+
+# FanDuel prices the F5 moneyline two-way with a tie through five settling as
+# a PUSH, so the modelled hold is a two-way hold rather than a three-way one.
+F5_HOLD = 0.045
 
 MAX_RUNS = 26  # Poisson tail truncation
 
@@ -205,20 +211,24 @@ def calibrate_delta(rows, target_wr):
 
 # ------------------------------------------------------------------ scenarios
 
-def project_f5(rows, delta, attribution, run_share, hold_3way, hold_rl):
+def project_f5(rows, delta, attribution, run_share, hold, hold_3way=0.06):
     """Expected F5 record and ROI for the same slate of fade bets.
 
     `attribution` = share of the full-game edge that lives in innings 1-5.
     1.0 means the entire market error is the starting pitcher (the thesis);
     `run_share` means the edge is spread evenly across the game (the null).
+
+    The headline market is FanDuel's two-way F5 moneyline where a tie through
+    five is a PUSH: the stake comes back, so a tie is neither profit nor risk
+    and drops out of both sides of the ROI ratio. The three-way market (tie
+    loses) is carried alongside for comparison only.
     """
     n = len(rows)
     agg = {
         "n": n, "win": 0.0, "tie": 0.0, "loss": 0.0,
-        "ml_risk": 0.0, "ml_ev": 0.0, "ml_price_sum": 0,
-        "rl_risk": 0.0, "rl_ev": 0.0, "rl_price_sum": 0,
+        "risk": 0.0, "ev": 0.0, "price_sum": 0, "be_num": 0.0, "be_den": 0.0,
+        "ml3_risk": 0.0, "ml3_ev": 0.0, "ml3_price_sum": 0,
         "fg_risk": 0.0, "fg_ev": 0.0,
-        "ml_be_num": 0.0, "ml_be_den": 0.0,
     }
     for g in rows:
         # --- market's own F5 view (no edge) -> fair prices
@@ -232,47 +242,53 @@ def project_f5(rows, delta, attribution, run_share, hold_3way, hold_rl):
         agg["tie"] += p_tie
         agg["loss"] += p_loss
 
-        # --- 3-way F5 moneyline, priced off the market view + hold
-        ml_odds = to_american(min(0.97, q_win * (1 + hold_3way)))
-        st, wp = stake_for(ml_odds), win_profit(ml_odds)
-        agg["ml_risk"] += st
-        agg["ml_ev"] += p_win * wp - (p_tie + p_loss) * st
-        agg["ml_price_sum"] += ml_odds
-        # Break-even bookkeeping: EV is zero when sum(p_win * (win + stake))
-        # equals sum(stake), so this ratio scales the projected win rate down
-        # to the rate the actual price/stake mix requires.
-        agg["ml_be_num"] += st
-        agg["ml_be_den"] += p_win * (wp + st)
+        # --- two-way F5 moneyline, ties push. The book prices the market's
+        # view conditional on a decision, then adds its hold.
+        q_settled = q_win + q_loss
+        odds = to_american(min(0.97, (q_win / q_settled) * (1 + hold)))
+        st, wp = stake_for(odds), win_profit(odds)
+        agg["price_sum"] += odds
+        # A push refunds the stake: no profit, and nothing at risk.
+        agg["ev"] += p_win * wp - p_loss * st
+        agg["risk"] += (p_win + p_loss) * st
+        # Break-even: EV is zero when sum(p_win * (win + stake)) equals the
+        # risk, so this ratio scales the projected win rate down to the rate
+        # the actual price/stake mix requires (both excluding pushes).
+        agg["be_num"] += (p_win + p_loss) * st
+        agg["be_den"] += p_win * (wp + st)
 
-        # --- F5 +0.5 run line (bet side wins or ties through 5)
-        rl_odds = to_american(min(0.97, (q_win + q_tie) * (1 + hold_rl)))
-        st2, wp2 = stake_for(rl_odds), win_profit(rl_odds)
-        agg["rl_risk"] += st2
-        agg["rl_ev"] += (p_win + p_tie) * wp2 - p_loss * st2
-        agg["rl_price_sum"] += rl_odds
+        # --- three-way variant (tie loses), for comparison
+        o3 = to_american(min(0.97, q_win * (1 + hold_3way)))
+        st3, wp3 = stake_for(o3), win_profit(o3)
+        agg["ml3_risk"] += st3
+        agg["ml3_ev"] += p_win * wp3 - (p_tie + p_loss) * st3
+        agg["ml3_price_sum"] += o3
 
         # --- full game at the price actually taken (model validation)
         lb, lo_ = shift(g["lam_bet"], g["lam_opp"], delta)
         p_fg = win_prob_regulation_plus_extras(lb, lo_)
-        st3, wp3 = stake_for(g["odds"]), win_profit(g["odds"])
-        agg["fg_risk"] += st3
-        agg["fg_ev"] += p_fg * wp3 - (1 - p_fg) * st3
+        stf, wpf = stake_for(g["odds"]), win_profit(g["odds"])
+        agg["fg_risk"] += stf
+        agg["fg_ev"] += p_fg * wpf - (1 - p_fg) * stf
 
+    settled = agg["win"] + agg["loss"]
     return {
         "attribution": attribution,
         "run_share": run_share,
-        "hold_3way": hold_3way,
-        "hold_rl": hold_rl,
+        "hold": hold,
         "f5_win_pct": agg["win"] / n,
         "f5_tie_pct": agg["tie"] / n,
         "f5_loss_pct": agg["loss"] / n,
-        "ml_avg_price": agg["ml_price_sum"] / n,
-        "ml_breakeven_win_pct": (agg["win"] / n) * agg["ml_be_num"] / agg["ml_be_den"],
-        "ml_units": agg["ml_ev"],
-        "ml_roi": agg["ml_ev"] / agg["ml_risk"],
-        "rl_avg_price": agg["rl_price_sum"] / n,
-        "rl_units": agg["rl_ev"],
-        "rl_roi": agg["rl_ev"] / agg["rl_risk"],
+        # Win rate among bets that actually settle — the number to compare
+        # against the full game's win rate.
+        "f5_win_pct_ex_push": agg["win"] / settled,
+        "avg_price": agg["price_sum"] / n,
+        "breakeven_win_pct": (agg["win"] / settled) * agg["be_num"] / agg["be_den"],
+        "units": agg["ev"],
+        "roi": agg["ev"] / agg["risk"],
+        "ml3_avg_price": agg["ml3_price_sum"] / n,
+        "ml3_units": agg["ml3_ev"],
+        "ml3_roi": agg["ml3_ev"] / agg["ml3_risk"],
         "fg_model_units": agg["fg_ev"],
         "fg_model_roi": agg["fg_ev"] / agg["fg_risk"],
     }
@@ -320,6 +336,28 @@ def pct(x):
     return f"{100 * x:5.1f}%"
 
 
+def crossover_attribution(rows, delta, fg_roi, run_share, hold):
+    """Attribution share at which F5 ROI equals the full-game ROI.
+
+    Below this share of the edge living in innings 1-5, the full game is the
+    better bet; above it, F5 is. Returns None if F5 wins (or loses) across the
+    whole 0-1 range.
+    """
+    def roi(a):
+        return project_f5(rows, delta, a, run_share, hold)["roi"]
+
+    lo, hi = 0.0, 1.0
+    if (roi(lo) - fg_roi) * (roi(hi) - fg_roi) > 0:
+        return None
+    for _ in range(40):
+        mid = (lo + hi) / 2.0
+        if roi(mid) < fg_roi:
+            lo = mid
+        else:
+            hi = mid
+    return (lo + hi) / 2.0
+
+
 def analyze_sample(label, rows, note):
     """Baseline, calibration and F5 projection for one subset of bets."""
     wins = sum(1 for g in rows if g["result"] == "WIN")
@@ -342,32 +380,40 @@ def analyze_sample(label, rows, note):
     delta, fit = calibrate_delta(rows, wr)
     print(f"  calibrated delta    {delta:.3f} runs of expected margin per game")
 
-    base = project_f5(rows, delta, 1.0, F5_RUN_SHARE, 0.06, 0.045)
+    base = project_f5(rows, delta, 1.0, F5_RUN_SHARE, F5_HOLD)
     print(f"  model validation    full-game ROI {pct(base['fg_model_roi'])} "
           f"vs realized {pct(units / risked)}")
 
-    print(f"\n  F5 projection — where does the edge live?")
-    print(f"  {'edge in innings 1-5':>20} {'W':>7} {'T':>7} {'L':>7} "
-          f"{'3way px':>8} {'3way ROI':>9} {'+0.5 px':>8} {'+0.5 ROI':>9}")
+    fg_roi = units / risked
+    print(f"\n  F5 projection, ties push — where does the edge live?")
+    print(f"  {'edge in innings 1-5':>20} {'W':>7} {'push':>7} {'L':>7} "
+          f"{'win ex-push':>12} {'avg px':>7} {'ROI':>8} {'vs FG':>8} "
+          f"{'3way ROI':>9}")
     results = []
     for slabel, attr in (("uniform (null)", F5_RUN_SHARE), ("70% starter", 0.70),
                          ("85% starter", 0.85), ("100% starter", 1.00)):
-        r = project_f5(rows, delta, attr, F5_RUN_SHARE, 0.06, 0.045)
+        r = project_f5(rows, delta, attr, F5_RUN_SHARE, F5_HOLD)
         r["label"] = slabel
+        r["roi_vs_fg"] = r["roi"] - fg_roi
         results.append(r)
         print(f"  {slabel:>20} {pct(r['f5_win_pct'])} {pct(r['f5_tie_pct'])} "
-              f"{pct(r['f5_loss_pct'])} {r['ml_avg_price']:>8.0f} "
-              f"{pct(r['ml_roi']):>9} {r['rl_avg_price']:>8.0f} {pct(r['rl_roi']):>9}")
+              f"{pct(r['f5_loss_pct'])} {pct(r['f5_win_pct_ex_push']):>12} "
+              f"{r['avg_price']:>7.0f} {pct(r['roi']):>8} "
+              f"{pct(r['roi_vs_fg']):>8} {pct(r['ml3_roi']):>9}")
 
-    fg_roi = units / risked
-    for r in results:
-        r["ml_roi_vs_fg"] = r["ml_roi"] - fg_roi
-        r["rl_roi_vs_fg"] = r["rl_roi"] - fg_roi
+    cross = crossover_attribution(rows, delta, fg_roi, F5_RUN_SHARE, F5_HOLD)
+    if cross is None:
+        print(f"  crossover           F5 beats the full game across the "
+              f"whole attribution range")
+    else:
+        print(f"  crossover           F5 beats the full game once "
+              f"{pct(cross)} of the edge sits in innings 1-5")
     return {
         "label": label, "n": len(rows), "win_rate": wr, "market_win_rate": mkt_wr,
         "edge_pp": wr - mkt_wr, "sigma": (wr - mkt_wr) / se,
         "roi": fg_roi, "units": units, "risked": risked,
         "delta_runs": delta, "fit": fit, "scenarios": results,
+        "crossover_attribution": cross,
     }
 
 
@@ -414,35 +460,34 @@ def main():
           "100% starter edge")
     print("-" * 78)
     delta_live = samples[0]["delta_runs"]
-    print(f"{'run share':>10} {'hold':>7} {'3way ROI':>10} {'+0.5 ROI':>10}")
+    print(f"{'run share':>10} {'hold':>7} {'ROI':>10} {'win ex-push':>12}")
     grid = []
     for share in (0.54, 0.565, 0.59):
-        for hold in (0.045, 0.06, 0.08):
-            r = project_f5(live, delta_live, 1.0, share, hold, hold * 0.75)
+        for hold in (0.035, 0.045, 0.06):
+            r = project_f5(live, delta_live, 1.0, share, hold)
             grid.append(r)
-            print(f"{share:>10.3f} {hold:>7.3f} {pct(r['ml_roi']):>10} "
-                  f"{pct(r['rl_roi']):>10}")
+            print(f"{share:>10.3f} {hold:>7.3f} {pct(r['roi']):>10} "
+                  f"{pct(r['f5_win_pct_ex_push']):>12}")
 
     print("\n" + "-" * 78)
     print("STAKING CONVENTION — live sample, 100% starter edge")
     print("-" * 78)
     saved = STAKE_MODE
-    print(f"{'mode':>10} {'3way ROI':>10} {'+0.5 ROI':>10} {'3way units':>12}")
+    print(f"{'mode':>10} {'ROI':>10} {'units':>10}")
     for mode in ("house", "flat"):
         STAKE_MODE = mode
-        r = project_f5(live, delta_live, 1.0, F5_RUN_SHARE, 0.06, 0.045)
-        print(f"{mode:>10} {pct(r['ml_roi']):>10} {pct(r['rl_roi']):>10} "
-              f"{r['ml_units']:>+11.2f}u")
+        r = project_f5(live, delta_live, 1.0, F5_RUN_SHARE, F5_HOLD)
+        print(f"{mode:>10} {pct(r['roi']):>10} {r['units']:>+9.2f}u")
     STAKE_MODE = saved
 
     print("\n" + "-" * 78)
     print("BREAK-EVEN — live sample")
     print("-" * 78)
     for r in samples[0]["scenarios"]:
-        print(f"  {r['label']:>16}: the 3-way price mix needs "
-              f"{pct(r['ml_breakeven_win_pct'])} F5 wins to break even; "
-              f"model projects {pct(r['f5_win_pct'])} "
-              f"({pct(r['f5_win_pct'] - r['ml_breakeven_win_pct'])} cushion)")
+        print(f"  {r['label']:>16}: the price mix needs "
+              f"{pct(r['breakeven_win_pct'])} F5 wins ex-push to break even; "
+              f"model projects {pct(r['f5_win_pct_ex_push'])} "
+              f"({pct(r['f5_win_pct_ex_push'] - r['breakeven_win_pct'])} cushion)")
 
     if args.json:
         with open(args.json, "w") as f:

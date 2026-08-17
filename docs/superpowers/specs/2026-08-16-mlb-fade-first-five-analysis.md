@@ -73,36 +73,43 @@ per fade game. The model reproduces the ledger's full-game ROI to within 0.3pp
 (20.6% modelled vs 20.3% realized), so the machinery is sound; the open question is
 only where in the game that run lives.
 
-F5 prices are modelled as the market's own view scaled to five innings plus a 6%
-three-way hold. Full-game baseline to beat: **+20.3% ROI**.
+**Ties through five settle as pushes** on the two-way F5 moneyline: the stake comes
+back, so a tie is neither profit nor risk and drops out of both sides of the ROI
+ratio. F5 prices are modelled as the market's own view, conditional on a decision,
+plus a 4.5% two-way hold. Full-game baseline to beat: **+20.3% ROI**.
 
-| share of edge in innings 1-5 | F5 W | T | L | 3-way ROI | F5 +0.5 ROI |
-|---|---|---|---|---|---|
-| uniform across the game (null) | 53.3% | 17.7% | 29.0% | **+17.6%** | +10.3% |
-| 70% starter | 55.8% | 17.4% | 26.8% | +23.2% | +13.6% |
-| 85% starter | 58.6% | 16.9% | 24.5% | +29.4% | +17.0% |
-| 100% starter (thesis) | 61.3% | 16.4% | 22.3% | **+35.4%** | +20.4% |
+| share of edge in innings 1-5 | F5 W | push | L | win ex-push | ROI | vs full game |
+|---|---|---|---|---|---|---|
+| uniform across the game (null) | 53.3% | 17.7% | 29.0% | 64.8% | **+17.3%** | −3.0pp |
+| 70% starter | 55.8% | 17.4% | 26.8% | 67.6% | +22.1% | +1.8pp |
+| 85% starter | 58.6% | 16.9% | 24.5% | 70.5% | +27.3% | +7.0pp |
+| 100% starter (thesis) | 61.3% | 16.4% | 22.3% | 73.3% | **+32.3%** | +11.9pp |
 
 Three things fall out:
 
-1. **The crossover is around 60-65% attribution.** If the fade edge is purely a
-   starting-pitcher effect, F5 roughly *doubles* ROI (+35% vs +20%). If the edge is
-   really a team-quality effect that happens to correlate with bad starters, F5 is
-   slightly *worse* than the full game (+17.6% vs +20.3%). The 92% outs-coverage
-   figure argues for high attribution, but it does not prove it — a fade list of bad
-   pitchers is also a list of bad teams.
-2. **Ties are the tax.** 16-18% of these games are level after five. On a 3-way
-   moneyline a tie is a full loss, which is why the projected win rate drops from
-   66% to 53-61% while the price only improves from a −128 average to about +83.
-3. **The +0.5 F5 run line is worse at every attribution.** Buying tie insurance
-   costs more than the ties do. Only revisit if real F5 pricing differs materially
-   from the scaled model.
+1. **The crossover is 64.8% attribution — an ex-push F5 win rate of 66.5%**
+   (63.5% / 74.6% on the full sample; the attribution figures agree,
+   which is reassuring since they are calibrated on very different deltas). If the
+   fade edge is purely a starting-pitcher effect, F5 lifts ROI from +20.3% to +32.3%.
+   If the edge is really a team-quality effect that happens to correlate with bad
+   starters, F5 is slightly *worse* than the full game. The 92% outs-coverage figure
+   argues for high attribution, but it does not prove it — a fade list of bad pitchers
+   is also a list of bad teams. **This one number is the decision.**
+2. **Pushes are free, but they cost volume.** ~17% of these games are level after
+   five. With ties refunded that is not a tax on ROI — it is why the ex-push win rate
+   (64.8-73.3%) lands near the full game's 66.1% rather than below it — but it does
+   mean roughly one bet in six returns no action, so the same edge needs ~20% more
+   bets to produce the same units. Variance drops accordingly.
+3. **Market form barely matters.** Pricing the same slate as a three-way (tie loses,
+   6% hold) gives +17.6% / +35.4% across the same attribution range — within a few
+   points of the push market at every row. The two are economically near-equivalent,
+   so this conclusion survives if FanDuel's F5 turns out to be three-way after all.
 
-Sensitivity, 100% attribution, live sample: ROI stays in **+31.7% to +38.7%** across
-run-share 0.54-0.59 and hold 4.5-8.0%. Under the null it stays near or below the
+Sensitivity, 100% attribution, live sample: ROI stays in **+29.3% to +34.6%** across
+run-share 0.54-0.59 and hold 3.5-6.0%. Under the null it stays near or below the
 full-game baseline throughout. The conclusion is not sensitive to those two knobs —
 it is sensitive to attribution, which only real F5 results can measure. Results are
-also stable across staking conventions (house risk-to-win-1u +35.4%, flat 1u +35.9%),
+also stable across staking conventions (house risk-to-win-1u +32.3%, flat 1u +34.3%),
 so the choice of stake plan does not drive the answer.
 
 **Caveat on the price model.** Real F5 lines are not the full-game line scaled — books
@@ -120,11 +127,15 @@ Nothing structural blocks it. Item by item:
 - **Grading — free.** The schedule call in `sources/mlb_schedule.py` already hydrates
   `linescore`; `linescore.innings[]` carries per-inning `home.runs` / `away.runs`.
   Sum innings 1-5 and compare. No new endpoint, no new credits.
-- **F5 settlement rule** — a bet has action once 5 innings are complete, or 4.5 with
-  the home team ahead (home team not batting in the bottom of the 5th). Otherwise
-  VOID. This is a new void class beyond the existing postponed/suspended handling and
-  needs its own branch, keyed off `linescore.currentInning` and
-  `innings[4].home` being absent.
+- **F5 settlement rules** — two settlement paths the full-game model does not have:
+  - *Tie through five is a PUSH* — stake refunded. This is a third result alongside
+    WIN/LOSS, distinct from VOID: a push is a real settled game that happens to
+    return the stake, and it belongs in the bet log and the displayed record
+    (`72-37-15` style) even though it contributes nothing to units or to the ROI
+    denominator. Expect roughly one bet in six.
+  - *Shortened games are VOID* — a bet has action once 5 innings are complete, or 4.5
+    with the home team ahead (home not batting in the bottom of the 5th). Otherwise
+    void, keyed off `linescore.currentInning` and `innings[4].home` being absent.
 - **Odds — the one real unknown.** Two transports, matching the existing ones:
   - *Live:* FanDuel's public API already backs `fetch_fanduel_mlb_ml` off the
     `MONEY_LINE` marketType. The same event page carries the first-5-innings
@@ -136,12 +147,11 @@ Nothing structural blocks it. Item by item:
     the same path `odds_theoddsapi.py` already uses for props, costed by that file's
     own accounting at 1 (events list) + N_games credits per date. A season backfill
     is in the low thousands of credits, in line with what the full-game backfill cost.
-  - **Confirm before building:** whether FanDuel posts F5 as a 3-way market
-    (home/away/tie) or as 2-way with ties refunded. The table above assumes 3-way,
-    the harsher case. Tie-refund pricing would improve every row.
-- **Staking** — the house convention carries over unchanged, but note that F5 3-way
-  prices cluster near even money (average +83 for this slate) rather than the −128
-  the full game paid, so the risk-to-win-1u branch will rarely fire.
+  - Ties push, so the market is two-way and the existing both-side ML cache shape
+    carries over unchanged — one `f5_home_ml` / `f5_away_ml` pair per game.
+- **Staking** — the house convention carries over unchanged. F5 prices are shorter
+  than the full game's (−82 average for this slate vs −128), so the risk-to-win-1u
+  branch still dominates, just at smaller stakes per bet.
 
 Suggested shape, mirroring the existing model rather than replacing it:
 `sources/odds_f5_theoddsapi.py` + an `fetch_fanduel_mlb_f5` extension →
@@ -155,8 +165,14 @@ tab. Additive; the full-game model keeps running.
    backfill — full game or F5 — measures anything real, and the two cannot be
    compared to each other.
 2. **Backfill F5 grading on the existing bet log** (free — linescores only). That
-   measures attribution directly: how often did the opponent lead after five, on the
-   same games? This is the single number the decision turns on, and it costs nothing.
+   measures attribution directly: how often did the opponent lead after five, and how
+   often was it level, on the same games?
+
+   **The target: an ex-push F5 win rate above 66.5%** (on the live sample; 74.6% on
+   the contaminated full sample, which is why step 1 comes first). That is the win
+   rate at the crossover — clear it and F5 beats the full game, miss it and the full
+   game is the better bet. No odds purchase required to measure it, because the
+   crossover can be expressed as a win rate rather than an ROI.
 3. **Only then buy F5 odds** for the dates that survive step 1, and run the real ROI
    comparison.
 4. **Shadow before switching.** Run F5 alongside the full game for a few weeks the
