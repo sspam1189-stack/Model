@@ -112,7 +112,7 @@
         "home": {
           "pitcher": "Kent Emanuel",
           "listed_as": "Kent Emanuel",
-          "resolved": false,
+          "resolved": true,
           "hand": "L",
           "team": "CIN",
           "opponent_offense": "STL",
@@ -145,8 +145,8 @@
       "away": "BAL",
       "home": "TB",
       "commence": "2026-08-17T22:05:00Z",
-      "away_ml": 146,
-      "home_ml": -158,
+      "away_ml": 148,
+      "home_ml": -160,
       "total": 7.5,
       "over_ml": -122,
       "under_ml": 100,
@@ -338,8 +338,8 @@
       "away": "STL",
       "home": "CIN",
       "commence": "2026-08-17T22:40:00Z",
-      "away_ml": -116,
-      "home_ml": 106,
+      "away_ml": -118,
+      "home_ml": 110,
       "total": 9,
       "over_ml": -115,
       "under_ml": -105,
@@ -531,9 +531,9 @@
       "commence": "2026-08-17T22:40:00Z",
       "away_ml": 225,
       "home_ml": -245,
-      "total": 8,
-      "over_ml": -115,
-      "under_ml": -105,
+      "total": 8.5,
+      "over_ml": -105,
+      "under_ml": -115,
       "sides": {
         "away": {
           "pitcher": "Janson Junk",
@@ -720,11 +720,11 @@
       "away": "DET",
       "home": "PIT",
       "commence": "2026-08-17T23:05:00Z",
-      "away_ml": -108,
-      "home_ml": 100,
+      "away_ml": -102,
+      "home_ml": -106,
       "total": 8.5,
-      "over_ml": -102,
-      "under_ml": -120,
+      "over_ml": -110,
+      "under_ml": -110,
       "sides": {
         "away": {
           "pitcher": "Framber Valdez",
@@ -1446,8 +1446,8 @@
       "away_ml": -122,
       "home_ml": 112,
       "total": 9,
-      "over_ml": -115,
-      "under_ml": -105,
+      "over_ml": -120,
+      "under_ml": -102,
       "sides": {
         "away": {
           "pitcher": "Mart\u00edn P\u00e9rez",
@@ -1634,11 +1634,11 @@
       "away": "CWS",
       "home": "CHC",
       "commence": "2026-08-18T00:05:00Z",
-      "away_ml": 144,
-      "home_ml": -156,
-      "total": 8.5,
-      "over_ml": 100,
-      "under_ml": -122,
+      "away_ml": 146,
+      "home_ml": -158,
+      "total": 8,
+      "over_ml": -120,
+      "under_ml": -102,
       "sides": {
         "away": {
           "pitcher": "Luis Castillo",
@@ -1825,11 +1825,11 @@
       "away": "LAD",
       "home": "COL",
       "commence": "2026-08-18T00:40:00Z",
-      "away_ml": -250,
-      "home_ml": 230,
+      "away_ml": -260,
+      "home_ml": 235,
       "total": 11,
-      "over_ml": -104,
-      "under_ml": -118,
+      "over_ml": -102,
+      "under_ml": -120,
       "sides": {
         "away": {
           "pitcher": "Blake Snell",
@@ -2231,7 +2231,7 @@
       "flags": []
     }
   ],
-  "generated": "2026-08-17T18:34:45Z",
+  "generated": "2026-08-17T20:48:25Z",
   "sport": "MLB",
   "type": "slate-scout",
   "advisory": true,
