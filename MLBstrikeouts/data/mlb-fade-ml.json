@@ -1,7 +1,7 @@
 {
   "sport": "MLB",
   "type": "fade-ml",
-  "generated": "2026-08-17T00:31:51Z",
+  "generated": "2026-08-17T13:04:35Z",
   "fadeList": [
     "Painter",
     "Rocker",
@@ -76,27 +76,27 @@
   "mutualRule": "skip",
   "summary": {
     "wins": 451,
-    "losses": 161,
+    "losses": 162,
     "voids": 0,
-    "skips": 40,
-    "staked": 762.78,
-    "units": 300.25,
-    "roi": 0.3936,
+    "skips": 41,
+    "staked": 764.02,
+    "units": 299.01,
+    "roi": 0.3914,
     "byType": {
       "ml": {
         "wins": 441,
-        "losses": 153,
+        "losses": 154,
         "voids": 0,
         "skips": 3,
-        "staked": 744.78,
-        "units": 295.21,
-        "roi": 0.3964
+        "staked": 746.02,
+        "units": 293.97,
+        "roi": 0.3941
       },
       "ml_dog": {
         "wins": 10,
         "losses": 8,
         "voids": 0,
-        "skips": 37,
+        "skips": 38,
         "staked": 18.0,
         "units": 5.04,
         "roi": 0.28
@@ -105,53 +105,76 @@
   },
   "today": [
     {
-      "date": "2026-08-16",
-      "commence": "2026-08-16T20:07:00Z",
-      "betType": "ml_dog",
-      "shadow": false,
-      "pitchers": [
-        "Noah Cameron",
-        "Ryan Johnson"
-      ],
-      "fadeTeam": null,
-      "market": "h2h",
-      "selection": null,
-      "line": null,
-      "odds": null,
-      "stake": null,
-      "result": "SKIP",
-      "profit": 0.0,
-      "book": "fanduel",
-      "source": "fanduel_api",
-      "reason": "mutual_skip",
-      "home": "LAA",
-      "away": "KC",
-      "gamePk": 823991,
-      "fadeReason": "all"
-    },
-    {
-      "date": "2026-08-16",
-      "commence": "2026-08-16T23:20:00Z",
+      "date": "2026-08-17",
+      "commence": "2026-08-18T00:05:00Z",
       "betType": "ml",
       "shadow": false,
       "pitchers": [
-        "Bryan Woo"
+        "Luis Castillo"
       ],
-      "fadeTeam": "SEA",
+      "fadeTeam": "CWS",
       "market": "h2h",
-      "selection": "HOU",
+      "selection": "CHC",
       "line": null,
-      "odds": -124,
-      "stake": 1.24,
+      "odds": -160,
+      "stake": 1.6,
       "result": "pending",
       "profit": 0.0,
       "book": "fanduel",
       "source": "fanduel_api",
       "reason": null,
-      "home": "HOU",
-      "away": "SEA",
-      "gamePk": 824156,
-      "fadeReason": "away"
+      "home": "CHC",
+      "away": "CWS",
+      "gamePk": 824641,
+      "fadeReason": "all"
+    },
+    {
+      "date": "2026-08-17",
+      "commence": "2026-08-17T23:05:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Framber Valdez"
+      ],
+      "fadeTeam": "DET",
+      "market": "h2h",
+      "selection": "PIT",
+      "line": null,
+      "odds": 100,
+      "stake": 1.0,
+      "result": "pending",
+      "profit": 0.0,
+      "book": "fanduel",
+      "source": "fanduel_api",
+      "reason": null,
+      "home": "PIT",
+      "away": "DET",
+      "gamePk": 823343,
+      "fadeReason": "all"
+    },
+    {
+      "date": "2026-08-17",
+      "commence": "2026-08-17T23:10:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Nolan McLean"
+      ],
+      "fadeTeam": "NYM",
+      "market": "h2h",
+      "selection": "SD",
+      "line": null,
+      "odds": 108,
+      "stake": 1.0,
+      "result": "pending",
+      "profit": 0.0,
+      "book": "fanduel",
+      "source": "fanduel_api",
+      "reason": null,
+      "home": "NYM",
+      "away": "SD",
+      "gamePk": 823589,
+      "fadeReason": "home"
     }
   ],
   "bets": [
@@ -15857,6 +15880,55 @@
       "away": "TEX",
       "gamePk": 824965,
       "fadeReason": "home"
+    },
+    {
+      "date": "2026-08-16",
+      "commence": "2026-08-16T20:07:00Z",
+      "betType": "ml_dog",
+      "shadow": false,
+      "pitchers": [
+        "Ryan Johnson",
+        "Noah Cameron"
+      ],
+      "fadeTeam": null,
+      "market": "h2h",
+      "selection": null,
+      "line": null,
+      "odds": null,
+      "stake": null,
+      "result": "SKIP",
+      "profit": 0.0,
+      "book": "fanduel",
+      "source": "fanduel_api",
+      "reason": "mutual_skip",
+      "home": "LAA",
+      "away": "KC",
+      "gamePk": 823991,
+      "fadeReason": "all"
+    },
+    {
+      "date": "2026-08-16",
+      "commence": "2026-08-16T23:20:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Bryan Woo"
+      ],
+      "fadeTeam": "SEA",
+      "market": "h2h",
+      "selection": "HOU",
+      "line": null,
+      "odds": -124,
+      "stake": 1.24,
+      "result": "LOSS",
+      "profit": -1.24,
+      "book": "fanduel",
+      "source": "fanduel_api",
+      "reason": null,
+      "home": "HOU",
+      "away": "SEA",
+      "gamePk": 824156,
+      "fadeReason": "away"
     }
   ]
 }

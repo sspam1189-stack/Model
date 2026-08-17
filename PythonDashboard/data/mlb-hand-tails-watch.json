@@ -1,7 +1,7 @@
 {
   "sport": "MLB",
   "type": "hand-tails-watch",
-  "generated": "2026-08-17T00:34:47Z",
+  "generated": "2026-08-17T13:07:29Z",
   "handMin": 6,
   "minGames": 3,
   "minUnits": 2.5,
@@ -9,48 +9,70 @@
   "note": "Shadow review list -- arms NOT on the active hand-tails list showing a handedness-conditional edge (fade or take). The active list is fade-only, so all tail/take arms are review-only here. In-sample season replay; watch, don't bet.",
   "today": [
     {
-      "date": "2026-08-16",
-      "commence": "2026-08-16T20:07:00Z",
-      "betType": "watch_fade",
-      "action": "fade",
-      "watch": true,
-      "pitcher": "Ryan Johnson",
-      "hand": "R",
-      "arm_team": "LAA",
-      "opp_team": "KC",
-      "selection": "KC",
-      "home": "LAA",
-      "away": "KC",
-      "oppLefty": 6,
-      "oppRighty": 4,
-      "lineupConfirmed": true,
-      "odds": -114,
-      "suggest": "fade",
-      "suggestUnits": 4.0,
-      "games": 4,
-      "result": "pending"
-    },
-    {
-      "date": "2026-08-16",
-      "commence": "2026-08-16T20:10:00Z",
+      "date": "2026-08-17",
+      "commence": "2026-08-17T22:05:00Z",
       "betType": "watch_take",
       "action": "take",
       "watch": true,
-      "pitcher": "Logan Henderson",
+      "pitcher": "Brandon Young",
       "hand": "R",
-      "arm_team": "MIL",
+      "arm_team": "BAL",
+      "opp_team": "TB",
+      "selection": "BAL",
+      "home": "TB",
+      "away": "BAL",
+      "oppLefty": 7,
+      "oppRighty": 3,
+      "lineupConfirmed": false,
+      "odds": null,
+      "suggest": "take",
+      "suggestUnits": 5.1,
+      "games": 8,
+      "result": "unconfirmed"
+    },
+    {
+      "date": "2026-08-17",
+      "commence": "2026-08-17T22:40:00Z",
+      "betType": "watch_take",
+      "action": "take",
+      "watch": true,
+      "pitcher": "Cristopher S\u00e1nchez",
+      "hand": "L",
+      "arm_team": "PHI",
+      "opp_team": "MIA",
+      "selection": "PHI",
+      "home": "PHI",
+      "away": "MIA",
+      "oppLefty": 3,
+      "oppRighty": 7,
+      "lineupConfirmed": false,
+      "odds": null,
+      "suggest": "take",
+      "suggestUnits": 5.36,
+      "games": 23,
+      "result": "unconfirmed"
+    },
+    {
+      "date": "2026-08-17",
+      "commence": "2026-08-18T00:40:00Z",
+      "betType": "watch_take",
+      "action": "take",
+      "watch": true,
+      "pitcher": "Tomoyuki Sugano",
+      "hand": "R",
+      "arm_team": "COL",
       "opp_team": "LAD",
-      "selection": "MIL",
-      "home": "LAD",
-      "away": "MIL",
+      "selection": "COL",
+      "home": "COL",
+      "away": "LAD",
       "oppLefty": 6,
       "oppRighty": 4,
-      "lineupConfirmed": true,
-      "odds": 166,
+      "lineupConfirmed": false,
+      "odds": null,
       "suggest": "take",
-      "suggestUnits": 6.22,
-      "games": 8,
-      "result": "pending"
+      "suggestUnits": 5.64,
+      "games": 7,
+      "result": "unconfirmed"
     }
   ],
   "candidates": [
@@ -232,7 +254,7 @@
         "l": 1,
         "u": 6.22
       },
-      "era": 2.88
+      "era": 2.7
     },
     {
       "pitcher": "Tomoyuki Sugano",
@@ -430,7 +452,7 @@
         "l": 3,
         "u": 4.52
       },
-      "era": 3.25
+      "era": 3.44
     },
     {
       "pitcher": "Spencer Strider",
@@ -538,7 +560,7 @@
         "l": 7,
         "u": -4.94
       },
-      "era": 4.15
+      "era": 4.1
     },
     {
       "pitcher": "Grant Holmes",
@@ -574,7 +596,7 @@
         "l": 4,
         "u": -4.0
       },
-      "era": 5.94
+      "era": 5.69
     },
     {
       "pitcher": "Grayson Rodriguez",

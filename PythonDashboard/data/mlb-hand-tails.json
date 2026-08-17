@@ -1,7 +1,7 @@
 {
   "sport": "MLB",
   "type": "hand-tails",
-  "generated": "2026-08-17T00:33:37Z",
+  "generated": "2026-08-17T13:06:20Z",
   "handMin": 6,
   "roster": {
     "Andrew Painter": {
@@ -142,7 +142,32 @@
       }
     }
   },
-  "today": [],
+  "today": [
+    {
+      "date": "2026-08-17",
+      "commence": "2026-08-17T23:05:00Z",
+      "betType": "hand_fade",
+      "action": "fade",
+      "pitcher": "Framber Valdez",
+      "entry": "Framber Valdez",
+      "hand": "L",
+      "arm_team": "DET",
+      "opp_team": "PIT",
+      "selection": "PIT",
+      "home": "PIT",
+      "away": "DET",
+      "oppLefty": 4,
+      "oppRighty": 8,
+      "lineupConfirmed": false,
+      "odds": null,
+      "stake": null,
+      "result": "unconfirmed",
+      "reason": null,
+      "profit": 0.0,
+      "book": "fanduel",
+      "source": "fanduel_api"
+    }
+  ],
   "bets": [
     {
       "date": "2026-05-20",

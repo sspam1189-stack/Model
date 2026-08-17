@@ -1,7 +1,7 @@
 {
   "sport": "MLB",
   "type": "fade-vs-team",
-  "generated": "2026-08-17T00:34:50Z",
+  "generated": "2026-08-17T13:07:32Z",
   "seasonStart": "2026-04-05",
   "minStarts": 2,
   "fadeEra": 8.0,
@@ -13,7 +13,23 @@
     "n": 10,
     "roi": 0.6937
   },
-  "today": [],
+  "today": [
+    {
+      "date": "2026-08-17",
+      "commence": "2026-08-18T00:40:00Z",
+      "betType": "fade_vs_team",
+      "pitcher": "Tomoyuki Sugano",
+      "arm_team": "COL",
+      "opp": "LAD",
+      "selection": "LAD",
+      "venue": "home",
+      "matchup": "LAD @ COL",
+      "odds": -270,
+      "eraVsOpp": 8.31,
+      "startsVsOpp": 2,
+      "result": "pending"
+    }
+  ],
   "entries": [
     {
       "pitcher": "Joe Ryan",
