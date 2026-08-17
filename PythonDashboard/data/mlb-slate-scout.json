@@ -720,11 +720,11 @@
       "away": "DET",
       "home": "PIT",
       "commence": "2026-08-17T23:05:00Z",
-      "away_ml": -110,
+      "away_ml": -108,
       "home_ml": 100,
-      "total": 8,
-      "over_ml": -114,
-      "under_ml": -106,
+      "total": 8.5,
+      "over_ml": -102,
+      "under_ml": -120,
       "sides": {
         "away": {
           "pitcher": "Framber Valdez",
@@ -1024,16 +1024,16 @@
           "pressure": 12.4
         },
         "home": {
-          "pitcher": null,
-          "listed_as": null,
+          "pitcher": "Alec Gamboa",
+          "listed_as": "Alec Gamboa",
           "resolved": false,
-          "hand": null,
+          "hand": "L",
           "team": "BOS",
           "opponent_offense": "ARI",
-          "opp_wrc_vs_hand": null,
-          "opp_wrc_game": null,
-          "opp_wrc_recent": null,
-          "opp_wrc_recent_pa": null,
+          "opp_wrc_vs_hand": 121,
+          "opp_wrc_game": 118,
+          "opp_wrc_recent": 136,
+          "opp_wrc_recent_pa": 133,
           "opp_platoon_gap": 30,
           "form": {
             "season": null,
@@ -1050,20 +1050,20 @@
         }
       },
       "home_offense_game": 108,
-      "away_offense_game": null,
-      "game_offense": null,
-      "offense_edge": null
+      "away_offense_game": 118,
+      "game_offense": 113,
+      "offense_edge": 10
     },
     {
       "matchup": "SD @ NYM",
       "away": "SD",
       "home": "NYM",
       "commence": "2026-08-17T23:10:00Z",
-      "away_ml": 108,
-      "home_ml": -116,
+      "away_ml": 110,
+      "home_ml": -120,
       "total": 8,
-      "over_ml": -114,
-      "under_ml": -106,
+      "over_ml": -106,
+      "under_ml": -114,
       "sides": {
         "away": {
           "pitcher": "Walker Buehler",
@@ -1250,8 +1250,8 @@
       "away": "OAK",
       "home": "KC",
       "commence": "2026-08-17T23:40:00Z",
-      "away_ml": 162,
-      "home_ml": -174,
+      "away_ml": 164,
+      "home_ml": -178,
       "total": 9,
       "over_ml": -110,
       "under_ml": -110,
@@ -1445,9 +1445,9 @@
       "commence": "2026-08-17T23:40:00Z",
       "away_ml": -122,
       "home_ml": 112,
-      "total": 9.5,
-      "over_ml": 100,
-      "under_ml": -122,
+      "total": 9,
+      "over_ml": -115,
+      "under_ml": -105,
       "sides": {
         "away": {
           "pitcher": "Mart\u00edn P\u00e9rez",
@@ -1825,7 +1825,7 @@
       "away": "LAD",
       "home": "COL",
       "commence": "2026-08-18T00:40:00Z",
-      "away_ml": -260,
+      "away_ml": -250,
       "home_ml": 230,
       "total": 11,
       "over_ml": -104,
@@ -2231,7 +2231,7 @@
       "flags": []
     }
   ],
-  "generated": "2026-08-17T17:32:36Z",
+  "generated": "2026-08-17T18:34:45Z",
   "sport": "MLB",
   "type": "slate-scout",
   "advisory": true,
