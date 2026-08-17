@@ -1,35 +1,13 @@
 {
   "sport": "MLB",
   "type": "hand-tails-watch",
-  "generated": "2026-08-16T23:04:14Z",
+  "generated": "2026-08-17T00:34:47Z",
   "handMin": 6,
   "minGames": 3,
   "minUnits": 2.5,
   "minUnitsTake": 4.0,
   "note": "Shadow review list -- arms NOT on the active hand-tails list showing a handedness-conditional edge (fade or take). The active list is fade-only, so all tail/take arms are review-only here. In-sample season replay; watch, don't bet.",
   "today": [
-    {
-      "date": "2026-08-16",
-      "commence": "2026-08-16T20:05:00Z",
-      "betType": "watch_fade",
-      "action": "fade",
-      "watch": true,
-      "pitcher": "Gabriel Hughes",
-      "hand": "R",
-      "arm_team": "COL",
-      "opp_team": "SF",
-      "selection": "SF",
-      "home": "SF",
-      "away": "COL",
-      "oppLefty": 6,
-      "oppRighty": 3,
-      "lineupConfirmed": true,
-      "odds": -130,
-      "suggest": "fade",
-      "suggestUnits": 3.0,
-      "games": 3,
-      "result": "pending"
-    },
     {
       "date": "2026-08-16",
       "commence": "2026-08-16T20:07:00Z",
@@ -70,8 +48,8 @@
       "lineupConfirmed": true,
       "odds": 166,
       "suggest": "take",
-      "suggestUnits": 4.56,
-      "games": 7,
+      "suggestUnits": 6.22,
+      "games": 8,
       "result": "pending"
     }
   ],
@@ -237,6 +215,24 @@
         "u": 6.74
       },
       "era": 3.45
+    },
+    {
+      "pitcher": "Logan Henderson",
+      "hand": "R",
+      "games": 8,
+      "suggest": "take",
+      "suggestUnits": 6.22,
+      "fade": {
+        "w": 1,
+        "l": 7,
+        "u": -6.64
+      },
+      "take": {
+        "w": 7,
+        "l": 1,
+        "u": 6.22
+      },
+      "era": 2.88
     },
     {
       "pitcher": "Tomoyuki Sugano",
@@ -417,24 +413,6 @@
         "u": 4.56
       },
       "era": 4.88
-    },
-    {
-      "pitcher": "Logan Henderson",
-      "hand": "R",
-      "games": 7,
-      "suggest": "take",
-      "suggestUnits": 4.56,
-      "fade": {
-        "w": 1,
-        "l": 6,
-        "u": -4.84
-      },
-      "take": {
-        "w": 6,
-        "l": 1,
-        "u": 4.56
-      },
-      "era": 2.88
     },
     {
       "pitcher": "Sean Burke",
@@ -777,24 +755,6 @@
         "u": -4.02
       },
       "era": 4.59
-    },
-    {
-      "pitcher": "Gabriel Hughes",
-      "hand": "R",
-      "games": 3,
-      "suggest": "fade",
-      "suggestUnits": 3.0,
-      "fade": {
-        "w": 3,
-        "l": 0,
-        "u": 3.0
-      },
-      "take": {
-        "w": 0,
-        "l": 3,
-        "u": -3.0
-      },
-      "era": 6.16
     },
     {
       "pitcher": "Michael Wacha",

@@ -1,7 +1,7 @@
 {
   "sport": "MLB",
   "type": "all-ml",
-  "generated": "2026-08-16T23:01:26Z",
+  "generated": "2026-08-17T00:31:56Z",
   "seasonStart": "2026-03-25",
   "today": [
     {
@@ -116,13 +116,13 @@
       "over_ml": 102,
       "under_ml": -124,
       "home_score": 0,
-      "away_score": 3,
+      "away_score": 5,
       "home_pitcher": "Tanner Bibee",
       "away_pitcher": "Casey Mize",
       "home_hand": "R",
       "away_hand": "R",
-      "home_win": null,
-      "final": false
+      "home_win": false,
+      "final": true
     },
     {
       "date": "2026-08-16",
@@ -221,8 +221,8 @@
       "away_pitcher": "Gabriel Hughes",
       "home_hand": "R",
       "away_hand": "R",
-      "home_win": null,
-      "final": false
+      "home_win": false,
+      "final": true
     },
     {
       "date": "2026-08-16",
@@ -281,8 +281,8 @@
       "away_pitcher": "Logan Henderson",
       "home_hand": "L",
       "away_hand": "R",
-      "home_win": null,
-      "final": false
+      "home_win": false,
+      "final": true
     },
     {
       "date": "2026-08-16",
@@ -295,8 +295,8 @@
       "total_line": 8,
       "over_ml": -104,
       "under_ml": -118,
-      "home_score": 0,
-      "away_score": 0,
+      "home_score": 1,
+      "away_score": 2,
       "home_pitcher": "Hunter Brown",
       "away_pitcher": "Bryan Woo",
       "home_hand": "R",
@@ -35573,6 +35573,25 @@
     {
       "date": "2026-08-16",
       "commence": "2026-08-16T17:40:00Z",
+      "gamePk": 824397,
+      "home": "CLE",
+      "away": "SD",
+      "home_ml": 100,
+      "away_ml": -110,
+      "total_line": 8.5,
+      "over_ml": 102,
+      "under_ml": -124,
+      "home_score": 0,
+      "away_score": 5,
+      "home_pitcher": "Tanner Bibee",
+      "away_pitcher": "Casey Mize",
+      "home_hand": "R",
+      "away_hand": "R",
+      "home_win": false
+    },
+    {
+      "date": "2026-08-16",
+      "commence": "2026-08-16T17:40:00Z",
       "gamePk": 824236,
       "home": "DET",
       "away": "CWS",
@@ -35649,6 +35668,25 @@
     {
       "date": "2026-08-16",
       "commence": "2026-08-16T20:05:00Z",
+      "gamePk": 823182,
+      "home": "SF",
+      "away": "COL",
+      "home_ml": -130,
+      "away_ml": 120,
+      "total_line": 8,
+      "over_ml": -105,
+      "under_ml": -115,
+      "home_score": 7,
+      "away_score": 13,
+      "home_pitcher": "Blade Tidwell",
+      "away_pitcher": "Gabriel Hughes",
+      "home_hand": "R",
+      "away_hand": "R",
+      "home_win": false
+    },
+    {
+      "date": "2026-08-16",
+      "commence": "2026-08-16T20:05:00Z",
       "gamePk": 824965,
       "home": "OAK",
       "away": "TEX",
@@ -35682,6 +35720,25 @@
       "away_pitcher": "Noah Cameron",
       "home_hand": "R",
       "away_hand": "L",
+      "home_win": false
+    },
+    {
+      "date": "2026-08-16",
+      "commence": "2026-08-16T20:10:00Z",
+      "gamePk": 823912,
+      "home": "LAD",
+      "away": "MIL",
+      "home_ml": -180,
+      "away_ml": 166,
+      "total_line": 7.5,
+      "over_ml": 100,
+      "under_ml": -122,
+      "home_score": 2,
+      "away_score": 6,
+      "home_pitcher": "Tarik Skubal",
+      "away_pitcher": "Logan Henderson",
+      "home_hand": "L",
+      "away_hand": "R",
       "home_win": false
     }
   ]

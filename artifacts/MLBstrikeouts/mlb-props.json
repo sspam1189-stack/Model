@@ -4,7 +4,7 @@
   "season": "2026",
   "mode": "live",
   "model": "kalman_blend",
-  "generated": "2026-08-16T23:01:01Z",
+  "generated": "2026-08-17T00:31:25Z",
   "totalProjections": 29,
   "totalPicks": 3006,
   "totalWatchlist": 23,
@@ -100694,7 +100694,7 @@
       "proj_raw": 5.162,
       "would_be_pick": "UNDER",
       "date": "2026-08-16",
-      "lockState": "lineup_confirmed",
+      "lockState": "game_started",
       "lockedAt": "2026-08-16T21:01:04.808221Z",
       "lineupConfirmed": true
     },
@@ -100725,7 +100725,7 @@
       "proj_raw": 6.153,
       "would_be_pick": "OVER",
       "date": "2026-08-16",
-      "lockState": "lineup_confirmed",
+      "lockState": "game_started",
       "lockedAt": "2026-08-16T23:01:01.840340Z",
       "lineupConfirmed": true
     }
@@ -101598,7 +101598,7 @@
       "to_win_1u": 1.13,
       "proj_raw": 5.162,
       "date": "2026-08-16",
-      "lockState": "lineup_confirmed",
+      "lockState": "game_started",
       "lockedAt": "2026-08-16T21:01:04.808221Z",
       "lineupConfirmed": true
     },
@@ -101628,7 +101628,7 @@
       "to_win_1u": 1.15,
       "proj_raw": 6.153,
       "date": "2026-08-16",
-      "lockState": "lineup_confirmed",
+      "lockState": "game_started",
       "lockedAt": "2026-08-16T23:01:01.840340Z",
       "lineupConfirmed": true
     }
@@ -101676,8 +101676,8 @@
     "NYY": "Final",
     "NYM": "Final",
     "WSH": "Final",
-    "CLE": "In Progress",
-    "SD": "In Progress",
+    "CLE": "Final",
+    "SD": "Final",
     "DET": "Final",
     "CWS": "Final",
     "CIN": "Final",
@@ -101686,16 +101686,16 @@
     "PHI": "Final",
     "CHC": "Final",
     "STL": "Final",
-    "SF": "In Progress",
-    "COL": "In Progress",
+    "SF": "Final",
+    "COL": "Final",
     "OAK": "Final",
     "TEX": "Final",
     "LAA": "Final",
     "KC": "Final",
-    "LAD": "In Progress",
-    "MIL": "In Progress",
-    "HOU": "Warmup",
-    "SEA": "Warmup"
+    "LAD": "Final",
+    "MIL": "Final",
+    "HOU": "In Progress",
+    "SEA": "In Progress"
   },
   "gameTimesById": {
     "822940": "2026-08-16T16:15:00Z",
@@ -101720,16 +101720,16 @@
     "824880": "Final",
     "822774": "Final",
     "823590": "Final",
-    "824397": "In Progress",
+    "824397": "Final",
     "824236": "Final",
     "824477": "Final",
     "823670": "Final",
     "824642": "Final",
-    "823182": "In Progress",
+    "823182": "Final",
     "824965": "Final",
     "823991": "Final",
-    "823912": "In Progress",
-    "824156": "Warmup"
+    "823912": "Final",
+    "824156": "In Progress"
   },
   "todayProbables": [
     {

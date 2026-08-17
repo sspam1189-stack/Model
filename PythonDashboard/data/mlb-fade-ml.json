@@ -1,7 +1,7 @@
 {
   "sport": "MLB",
   "type": "fade-ml",
-  "generated": "2026-08-16T23:01:22Z",
+  "generated": "2026-08-17T00:31:51Z",
   "fadeList": [
     "Painter",
     "Rocker",
@@ -75,22 +75,22 @@
   ],
   "mutualRule": "skip",
   "summary": {
-    "wins": 450,
-    "losses": 160,
+    "wins": 451,
+    "losses": 161,
     "voids": 0,
     "skips": 40,
-    "staked": 760.38,
-    "units": 300.55,
-    "roi": 0.3953,
+    "staked": 762.78,
+    "units": 300.25,
+    "roi": 0.3936,
     "byType": {
       "ml": {
-        "wins": 440,
-        "losses": 152,
+        "wins": 441,
+        "losses": 153,
         "voids": 0,
         "skips": 3,
-        "staked": 742.38,
-        "units": 295.51,
-        "roi": 0.3981
+        "staked": 744.78,
+        "units": 295.21,
+        "roi": 0.3964
       },
       "ml_dog": {
         "wins": 10,
@@ -104,54 +104,6 @@
     }
   },
   "today": [
-    {
-      "date": "2026-08-16",
-      "commence": "2026-08-16T17:40:00Z",
-      "betType": "ml",
-      "shadow": false,
-      "pitchers": [
-        "Tanner Bibee"
-      ],
-      "fadeTeam": "CLE",
-      "market": "h2h",
-      "selection": "SD",
-      "line": null,
-      "odds": -110,
-      "stake": 1.1,
-      "result": "pending",
-      "profit": 0.0,
-      "book": "fanduel",
-      "source": "fanduel_api",
-      "reason": null,
-      "home": "CLE",
-      "away": "SD",
-      "gamePk": 824397,
-      "fadeReason": "home"
-    },
-    {
-      "date": "2026-08-16",
-      "commence": "2026-08-16T20:05:00Z",
-      "betType": "ml",
-      "shadow": false,
-      "pitchers": [
-        "Gabriel Hughes"
-      ],
-      "fadeTeam": "COL",
-      "market": "h2h",
-      "selection": "SF",
-      "line": null,
-      "odds": -130,
-      "stake": 1.3,
-      "result": "pending",
-      "profit": 0.0,
-      "book": "fanduel",
-      "source": "fanduel_api",
-      "reason": null,
-      "home": "SF",
-      "away": "COL",
-      "gamePk": 823182,
-      "fadeReason": "all"
-    },
     {
       "date": "2026-08-16",
       "commence": "2026-08-16T20:07:00Z",
@@ -15812,6 +15764,30 @@
     },
     {
       "date": "2026-08-16",
+      "commence": "2026-08-16T17:40:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Tanner Bibee"
+      ],
+      "fadeTeam": "CLE",
+      "market": "h2h",
+      "selection": "SD",
+      "line": null,
+      "odds": -110,
+      "stake": 1.1,
+      "result": "WIN",
+      "profit": 1.0,
+      "book": "fanduel",
+      "source": "fanduel_api",
+      "reason": null,
+      "home": "CLE",
+      "away": "SD",
+      "gamePk": 824397,
+      "fadeReason": "home"
+    },
+    {
+      "date": "2026-08-16",
       "commence": "2026-08-16T18:10:00Z",
       "betType": "ml",
       "shadow": false,
@@ -15832,6 +15808,30 @@
       "home": "MIN",
       "away": "PHI",
       "gamePk": 823670,
+      "fadeReason": "all"
+    },
+    {
+      "date": "2026-08-16",
+      "commence": "2026-08-16T20:05:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Gabriel Hughes"
+      ],
+      "fadeTeam": "COL",
+      "market": "h2h",
+      "selection": "SF",
+      "line": null,
+      "odds": -130,
+      "stake": 1.3,
+      "result": "LOSS",
+      "profit": -1.3,
+      "book": "fanduel",
+      "source": "fanduel_api",
+      "reason": null,
+      "home": "SF",
+      "away": "COL",
+      "gamePk": 823182,
       "fadeReason": "all"
     },
     {
