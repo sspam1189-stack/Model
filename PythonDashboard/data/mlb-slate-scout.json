@@ -12,46 +12,97 @@
       "away": "STL",
       "home": "CIN",
       "commence": "2026-08-17T17:40:00Z",
-      "away_ml": -114,
-      "home_ml": 106,
+      "away_ml": -110,
+      "home_ml": 100,
       "total": 9.5,
       "over_ml": 100,
       "under_ml": -122,
       "sides": {
         "away": {
-          "pitcher": null,
-          "listed_as": null,
-          "resolved": false,
-          "hand": null,
+          "pitcher": "Quinn Mathews",
+          "listed_as": "Quinn Mathews",
+          "resolved": true,
+          "hand": "L",
           "team": "STL",
           "opponent_offense": "CIN",
-          "opp_wrc_vs_hand": null,
-          "opp_wrc_game": null,
+          "opp_wrc_vs_hand": 104,
+          "opp_wrc_game": 93,
           "opp_wrc_recent": null,
-          "opp_wrc_recent_pa": null,
+          "opp_wrc_recent_pa": 74,
           "opp_platoon_gap": 19,
           "form": {
-            "season": null,
-            "recent": null,
-            "hot": null
+            "season": {
+              "gs": 1,
+              "ip": 5.0,
+              "ip_per_gs": 5.0,
+              "era": 3.6,
+              "whip": 1.8,
+              "k_pct": 12.5,
+              "bb_pct": 12.5,
+              "k_bb_pct": 0.0,
+              "hr9": 0.0,
+              "k": 3,
+              "bb": 3,
+              "hr": 0,
+              "er": 2
+            },
+            "recent": {
+              "gs": 1,
+              "ip": 5.0,
+              "ip_per_gs": 5.0,
+              "era": 3.6,
+              "whip": 1.8,
+              "k_pct": 12.5,
+              "bb_pct": 12.5,
+              "k_bb_pct": 0.0,
+              "hr9": 0.0,
+              "k": 3,
+              "bb": 3,
+              "hr": 0,
+              "er": 2
+            },
+            "hot": {
+              "gs": 1,
+              "ip": 5.0,
+              "ip_per_gs": 5.0,
+              "era": 3.6,
+              "whip": 1.8,
+              "k_pct": 12.5,
+              "bb_pct": 12.5,
+              "k_bb_pct": 0.0,
+              "hr9": 0.0,
+              "k": 3,
+              "bb": 3,
+              "hr": 0,
+              "er": 2
+            }
           },
-          "trend": {},
+          "trend": {
+            "era": 0.0,
+            "whip": 0.0,
+            "k_pct": 0.0,
+            "bb_pct": 0.0,
+            "ip_per_gs": 0.0,
+            "hr9": 0.0
+          },
           "flags": [
-            "thin-sample"
+            "thin-sample",
+            "layoff-16d",
+            "thin-deadline-74pa"
           ],
-          "pressure": null
+          "pressure": 15.6
         },
         "home": {
-          "pitcher": null,
-          "listed_as": null,
+          "pitcher": "Kent Emanuel",
+          "listed_as": "Kent Emanuel",
           "resolved": false,
-          "hand": null,
+          "hand": "L",
           "team": "CIN",
           "opponent_offense": "STL",
-          "opp_wrc_vs_hand": null,
-          "opp_wrc_game": null,
-          "opp_wrc_recent": null,
-          "opp_wrc_recent_pa": null,
+          "opp_wrc_vs_hand": 100,
+          "opp_wrc_game": 101,
+          "opp_wrc_recent": 124,
+          "opp_wrc_recent_pa": 150,
           "opp_platoon_gap": 5,
           "form": {
             "season": null,
@@ -65,10 +116,10 @@
           "pressure": null
         }
       },
-      "home_offense_game": null,
-      "away_offense_game": null,
-      "game_offense": null,
-      "offense_edge": null
+      "home_offense_game": 93,
+      "away_offense_game": 101,
+      "game_offense": 97,
+      "offense_edge": 8
     },
     {
       "matchup": "BAL @ TB",
@@ -234,34 +285,81 @@
       "away": "STL",
       "home": "CIN",
       "commence": "2026-08-17T22:40:00Z",
-      "away_ml": -122,
-      "home_ml": 114,
+      "away_ml": -116,
+      "home_ml": 106,
       "total": 9,
       "over_ml": -115,
       "under_ml": -105,
       "sides": {
         "away": {
-          "pitcher": null,
-          "listed_as": null,
-          "resolved": false,
-          "hand": null,
+          "pitcher": "Andre Pallante",
+          "listed_as": "Andre Pallante",
+          "resolved": true,
+          "hand": "R",
           "team": "STL",
           "opponent_offense": "CIN",
-          "opp_wrc_vs_hand": null,
-          "opp_wrc_game": null,
-          "opp_wrc_recent": null,
-          "opp_wrc_recent_pa": null,
+          "opp_wrc_vs_hand": 85,
+          "opp_wrc_game": 89,
+          "opp_wrc_recent": 77,
+          "opp_wrc_recent_pa": 343,
           "opp_platoon_gap": 19,
           "form": {
-            "season": null,
-            "recent": null,
-            "hot": null
+            "season": {
+              "gs": 23,
+              "ip": 130.0,
+              "ip_per_gs": 5.65,
+              "era": 3.46,
+              "whip": 1.22,
+              "k_pct": 17.1,
+              "bb_pct": 7.4,
+              "k_bb_pct": 9.6,
+              "hr9": 0.69,
+              "k": 92,
+              "bb": 40,
+              "hr": 10,
+              "er": 50
+            },
+            "recent": {
+              "gs": 5,
+              "ip": 30.0,
+              "ip_per_gs": 6.0,
+              "era": 1.8,
+              "whip": 1.07,
+              "k_pct": 17.2,
+              "bb_pct": 9.5,
+              "k_bb_pct": 7.8,
+              "hr9": 0.0,
+              "k": 20,
+              "bb": 11,
+              "hr": 0,
+              "er": 6
+            },
+            "hot": {
+              "gs": 3,
+              "ip": 17.7,
+              "ip_per_gs": 5.89,
+              "era": 1.53,
+              "whip": 1.25,
+              "k_pct": 12.9,
+              "bb_pct": 11.4,
+              "k_bb_pct": 1.4,
+              "hr9": 0.0,
+              "k": 9,
+              "bb": 8,
+              "hr": 0,
+              "er": 3
+            }
           },
-          "trend": {},
-          "flags": [
-            "thin-sample"
-          ],
-          "pressure": null
+          "trend": {
+            "era": -1.66,
+            "whip": -0.15,
+            "k_pct": 0.1,
+            "bb_pct": 2.1,
+            "ip_per_gs": 0.35,
+            "hr9": -0.69
+          },
+          "flags": [],
+          "pressure": -27.1
         },
         "home": {
           "pitcher": "Rhett Lowder",
@@ -334,10 +432,10 @@
           "pressure": 9.8
         }
       },
-      "home_offense_game": null,
+      "home_offense_game": 89,
       "away_offense_game": 95,
-      "game_offense": null,
-      "offense_edge": null
+      "game_offense": 92,
+      "offense_edge": 6
     },
     {
       "matchup": "MIA @ PHI",
@@ -660,8 +758,8 @@
       "away": "ARI",
       "home": "BOS",
       "commence": "2026-08-17T23:10:00Z",
-      "away_ml": 126,
-      "home_ml": -138,
+      "away_ml": 120,
+      "home_ml": -130,
       "total": 9,
       "over_ml": -105,
       "under_ml": -115,
@@ -927,8 +1025,8 @@
       "away": "OAK",
       "home": "KC",
       "commence": "2026-08-17T23:40:00Z",
-      "away_ml": 166,
-      "home_ml": -180,
+      "away_ml": 162,
+      "home_ml": -174,
       "total": 9,
       "over_ml": -110,
       "under_ml": -110,
@@ -1086,11 +1184,11 @@
       "away": "ATL",
       "home": "MIN",
       "commence": "2026-08-17T23:40:00Z",
-      "away_ml": -120,
-      "home_ml": 110,
-      "total": 9,
-      "over_ml": -118,
-      "under_ml": -104,
+      "away_ml": -122,
+      "home_ml": 112,
+      "total": 9.5,
+      "over_ml": 100,
+      "under_ml": -122,
       "sides": {
         "away": {
           "pitcher": "Mart\u00edn P\u00e9rez",
@@ -1243,8 +1341,8 @@
       "away": "CWS",
       "home": "CHC",
       "commence": "2026-08-18T00:05:00Z",
-      "away_ml": 148,
-      "home_ml": -160,
+      "away_ml": 144,
+      "home_ml": -156,
       "total": 8.5,
       "over_ml": 100,
       "under_ml": -122,
@@ -1400,11 +1498,11 @@
       "away": "LAD",
       "home": "COL",
       "commence": "2026-08-18T00:40:00Z",
-      "away_ml": -270,
-      "home_ml": 240,
+      "away_ml": -260,
+      "home_ml": 230,
       "total": 11,
-      "over_ml": -105,
-      "under_ml": -115,
+      "over_ml": -104,
+      "under_ml": -118,
       "sides": {
         "away": {
           "pitcher": "Blake Snell",
@@ -1602,6 +1700,20 @@
       "flags": []
     },
     {
+      "pitcher": "Quinn Mathews",
+      "hand": "L",
+      "team": "STL",
+      "opponent_offense": "CIN",
+      "opp_wrc_vs_hand": 104,
+      "opp_wrc_recent": null,
+      "pressure": 15.6,
+      "flags": [
+        "thin-sample",
+        "layoff-16d",
+        "thin-deadline-74pa"
+      ]
+    },
+    {
       "pitcher": "Framber Valdez",
       "hand": "L",
       "team": "DET",
@@ -1745,9 +1857,19 @@
         "thin-sample",
         "stale-window-94d"
       ]
+    },
+    {
+      "pitcher": "Andre Pallante",
+      "hand": "R",
+      "team": "STL",
+      "opponent_offense": "CIN",
+      "opp_wrc_vs_hand": 85,
+      "opp_wrc_recent": 77,
+      "pressure": -27.1,
+      "flags": []
     }
   ],
-  "generated": "2026-08-17T13:07:40Z",
+  "generated": "2026-08-17T15:16:07Z",
   "sport": "MLB",
   "type": "slate-scout",
   "advisory": true,
