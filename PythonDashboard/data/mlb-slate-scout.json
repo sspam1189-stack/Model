@@ -338,11 +338,11 @@
       "away": "STL",
       "home": "CIN",
       "commence": "2026-08-17T22:40:00Z",
-      "away_ml": -118,
-      "home_ml": 110,
+      "away_ml": -116,
+      "home_ml": 108,
       "total": 9,
-      "over_ml": -115,
-      "under_ml": -105,
+      "over_ml": -112,
+      "under_ml": -108,
       "sides": {
         "away": {
           "pitcher": "Andre Pallante",
@@ -529,11 +529,11 @@
       "away": "MIA",
       "home": "PHI",
       "commence": "2026-08-17T22:40:00Z",
-      "away_ml": 225,
-      "home_ml": -245,
+      "away_ml": 215,
+      "home_ml": -235,
       "total": 8.5,
-      "over_ml": -105,
-      "under_ml": -115,
+      "over_ml": -108,
+      "under_ml": -112,
       "sides": {
         "away": {
           "pitcher": "Janson Junk",
@@ -1059,8 +1059,8 @@
       "away": "SD",
       "home": "NYM",
       "commence": "2026-08-17T23:10:00Z",
-      "away_ml": 110,
-      "home_ml": -120,
+      "away_ml": 106,
+      "home_ml": -116,
       "total": 8,
       "over_ml": -106,
       "under_ml": -114,
@@ -1443,8 +1443,8 @@
       "away": "ATL",
       "home": "MIN",
       "commence": "2026-08-17T23:40:00Z",
-      "away_ml": -122,
-      "home_ml": 112,
+      "away_ml": -126,
+      "home_ml": 116,
       "total": 9,
       "over_ml": -120,
       "under_ml": -102,
@@ -1634,8 +1634,8 @@
       "away": "CWS",
       "home": "CHC",
       "commence": "2026-08-18T00:05:00Z",
-      "away_ml": 146,
-      "home_ml": -158,
+      "away_ml": 142,
+      "home_ml": -154,
       "total": 8,
       "over_ml": -120,
       "under_ml": -102,
@@ -1825,11 +1825,11 @@
       "away": "LAD",
       "home": "COL",
       "commence": "2026-08-18T00:40:00Z",
-      "away_ml": -260,
-      "home_ml": 235,
-      "total": 11,
-      "over_ml": -102,
-      "under_ml": -120,
+      "away_ml": -270,
+      "home_ml": 245,
+      "total": 10.5,
+      "over_ml": -124,
+      "under_ml": 102,
       "sides": {
         "away": {
           "pitcher": "Blake Snell",
@@ -2015,15 +2015,6 @@
       "offense_edge": 18
     }
   ],
-  "generated": "2026-08-17T21:04:52Z",
-  "sport": "MLB",
-  "type": "slate-scout",
-  "advisory": true,
-  "notes": [
-    "Scouting only \u2014 the matchup-pressure ranking is NOT a betting signal. Backtested over 1818 games it returns -1.8% ROI; the information is already in the closing total.",
-    "Flags are the useful part: a starter back from a layoff still shows a full last-5-start line describing a different month.",
-    "Swingmen carry a second form line. The last-5-START rates skip relief work entirely, so a bullpen stint reads as a collapse until you see the relief innings beside it."
-  ],
   "ranked_mismatch": [
     {
       "pitcher": "Mason Barnett",
@@ -2032,10 +2023,10 @@
       "opponent_offense": "KC",
       "opp_wrc_vs_hand": 98,
       "opp_wrc_recent": 73,
+      "mismatch": 39.4,
       "flags": [
         "thin-sample"
-      ],
-      "mismatch": 39.4
+      ]
     },
     {
       "pitcher": "Carmen Mlodzinski",
@@ -2044,11 +2035,11 @@
       "opponent_offense": "DET",
       "opp_wrc_vs_hand": 103,
       "opp_wrc_recent": 114,
+      "mismatch": 28.8,
       "flags": [
         "stale-window-96d",
         "swingman-15g"
-      ],
-      "mismatch": 28.8
+      ]
     },
     {
       "pitcher": "Bailey Ober",
@@ -2057,8 +2048,8 @@
       "opponent_offense": "ATL",
       "opp_wrc_vs_hand": 102,
       "opp_wrc_recent": 71,
-      "flags": [],
-      "mismatch": 16.6
+      "mismatch": 16.6,
+      "flags": []
     },
     {
       "pitcher": "Luis Castillo",
@@ -2067,8 +2058,8 @@
       "opponent_offense": "CHC",
       "opp_wrc_vs_hand": 106,
       "opp_wrc_recent": 119,
-      "flags": [],
-      "mismatch": 16.4
+      "mismatch": 16.4,
+      "flags": []
     },
     {
       "pitcher": "Quinn Mathews",
@@ -2077,12 +2068,12 @@
       "opponent_offense": "CIN",
       "opp_wrc_vs_hand": 104,
       "opp_wrc_recent": null,
+      "mismatch": 15.6,
       "flags": [
         "thin-sample",
         "layoff-16d",
         "thin-deadline-74pa"
-      ],
-      "mismatch": 15.6
+      ]
     },
     {
       "pitcher": "Framber Valdez",
@@ -2091,8 +2082,8 @@
       "opponent_offense": "PIT",
       "opp_wrc_vs_hand": 95,
       "opp_wrc_recent": 97,
-      "flags": [],
-      "mismatch": 12.6
+      "mismatch": 12.6,
+      "flags": []
     },
     {
       "pitcher": "Mitch Bratt",
@@ -2101,8 +2092,8 @@
       "opponent_offense": "BOS",
       "opp_wrc_vs_hand": 112,
       "opp_wrc_recent": 51,
-      "flags": [],
-      "mismatch": 12.4
+      "mismatch": 12.4,
+      "flags": []
     },
     {
       "pitcher": "Rhett Lowder",
@@ -2111,8 +2102,8 @@
       "opponent_offense": "STL",
       "opp_wrc_vs_hand": 95,
       "opp_wrc_recent": 114,
-      "flags": [],
-      "mismatch": 9.8
+      "mismatch": 9.8,
+      "flags": []
     },
     {
       "pitcher": "Tomoyuki Sugano",
@@ -2121,8 +2112,8 @@
       "opponent_offense": "LAD",
       "opp_wrc_vs_hand": 113,
       "opp_wrc_recent": 61,
-      "flags": [],
-      "mismatch": 7.4
+      "mismatch": 7.4,
+      "flags": []
     },
     {
       "pitcher": "Brandon Young",
@@ -2131,8 +2122,8 @@
       "opponent_offense": "TB",
       "opp_wrc_vs_hand": 113,
       "opp_wrc_recent": 134,
-      "flags": [],
-      "mismatch": 4.9
+      "mismatch": 4.9,
+      "flags": []
     },
     {
       "pitcher": "Janson Junk",
@@ -2141,8 +2132,8 @@
       "opponent_offense": "PHI",
       "opp_wrc_vs_hand": 96,
       "opp_wrc_recent": 119,
-      "flags": [],
-      "mismatch": -0.6
+      "mismatch": -0.6,
+      "flags": []
     },
     {
       "pitcher": "Walker Buehler",
@@ -2151,8 +2142,8 @@
       "opponent_offense": "NYM",
       "opp_wrc_vs_hand": 93,
       "opp_wrc_recent": 146,
-      "flags": [],
-      "mismatch": -6.2
+      "mismatch": -6.2,
+      "flags": []
     },
     {
       "pitcher": "Michael Wacha",
@@ -2161,8 +2152,8 @@
       "opponent_offense": "OAK",
       "opp_wrc_vs_hand": 106,
       "opp_wrc_recent": 99,
-      "flags": [],
-      "mismatch": -6.2
+      "mismatch": -6.2,
+      "flags": []
     },
     {
       "pitcher": "Shane McClanahan",
@@ -2171,10 +2162,10 @@
       "opponent_offense": "BAL",
       "opp_wrc_vs_hand": 102,
       "opp_wrc_recent": 140,
+      "mismatch": -11.7,
       "flags": [
         "layoff-18d"
-      ],
-      "mismatch": -11.7
+      ]
     },
     {
       "pitcher": "Nolan McLean",
@@ -2183,8 +2174,8 @@
       "opponent_offense": "SD",
       "opp_wrc_vs_hand": 99,
       "opp_wrc_recent": 118,
-      "flags": [],
-      "mismatch": -16.6
+      "mismatch": -16.6,
+      "flags": []
     },
     {
       "pitcher": "Shota Imanaga",
@@ -2193,8 +2184,8 @@
       "opponent_offense": "CWS",
       "opp_wrc_vs_hand": 106,
       "opp_wrc_recent": 149,
-      "flags": [],
-      "mismatch": -17.7
+      "mismatch": -17.7,
+      "flags": []
     },
     {
       "pitcher": "Cristopher S\u00e1nchez",
@@ -2203,8 +2194,8 @@
       "opponent_offense": "MIA",
       "opp_wrc_vs_hand": 103,
       "opp_wrc_recent": 85,
-      "flags": [],
-      "mismatch": -20.6
+      "mismatch": -20.6,
+      "flags": []
     },
     {
       "pitcher": "Mart\u00edn P\u00e9rez",
@@ -2213,8 +2204,8 @@
       "opponent_offense": "MIN",
       "opp_wrc_vs_hand": 95,
       "opp_wrc_recent": 122,
-      "flags": [],
-      "mismatch": -22.2
+      "mismatch": -22.2,
+      "flags": []
     },
     {
       "pitcher": "Blake Snell",
@@ -2223,11 +2214,11 @@
       "opponent_offense": "COL",
       "opp_wrc_vs_hand": 91,
       "opp_wrc_recent": 83,
+      "mismatch": -22.2,
       "flags": [
         "thin-sample",
         "stale-window-94d"
-      ],
-      "mismatch": -22.2
+      ]
     },
     {
       "pitcher": "Andre Pallante",
@@ -2236,8 +2227,17 @@
       "opponent_offense": "CIN",
       "opp_wrc_vs_hand": 85,
       "opp_wrc_recent": 77,
-      "flags": [],
-      "mismatch": -27.1
+      "mismatch": -27.1,
+      "flags": []
     }
+  ],
+  "generated": "2026-08-17T21:48:30Z",
+  "sport": "MLB",
+  "type": "slate-scout",
+  "advisory": true,
+  "notes": [
+    "Scouting only \u2014 the mismatch ranking is NOT a betting signal. Backtested over 1818 games it returns -1.8% ROI; the information is already in the closing total.",
+    "Flags are the useful part: a starter back from a layoff still shows a full last-5-start line describing a different month.",
+    "Swingmen carry a second form line. The last-5-START rates skip relief work entirely, so a bullpen stint reads as a collapse until you see the relief innings beside it."
   ]
 }
