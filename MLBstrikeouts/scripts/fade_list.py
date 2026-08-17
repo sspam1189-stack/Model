@@ -38,6 +38,7 @@ FADE_LIST = [
     # Added 2026-07-27 (all-pitcher fade screen, raw fade record).
     "Logan Webb", "Lodolo", "Michael King", "Mize", "Bryce Miller",
     "Yesavage", "Imanaga", "Chandler", "McClanahan",
+    # McLean removed 2026-08-17 (user); history stays (see FADE_WINDOW).
     "McLean", "Trevor Rogers", "Tolle",
     # Gerrit Cole removed 2026-08-09 (user); history stays (see FADE_WINDOW).
     "Gerrit Cole",
@@ -246,7 +247,14 @@ FADE_WINDOW = {
     "Imanaga":           {"add": SEASON_START},  # away-only (see FADE_VENUE)
     "Chandler":          {"add": SEASON_START},  # away-only (see FADE_VENUE)
     "McClanahan":        {"add": SEASON_START},  # away-only (see FADE_VENUE)
-    "McLean":            {"add": SEASON_START},  # home-only (see FADE_VENUE)
+    # Removed 2026-08-17 (user): no fades from 8/17 on (drops today's NYM->SD
+    # +108 play), prior record stays. Home-only fade went 5-4 +2.34u (+24.5%),
+    # but that P&L is price, not hit rate -- 8 of the 9 graded bets were dogs
+    # averaging about +128, and he is 2-3 over the last five while throwing
+    # better than at any point in the sample (28.3% K / 3.07 ERA last 5).
+    # FADE_VENUE keeps his "home" entry so the prior record still grades
+    # home-only.
+    "McLean":            {"add": SEASON_START, "remove": "2026-08-17"},
     "Trevor Rogers":     {"add": SEASON_START},  # home-only (see FADE_VENUE)
     "Tolle":             {"add": SEASON_START},  # home-only (see FADE_VENUE)
     "Gerrit Cole":       {"add": SEASON_START, "remove": "2026-08-09"},  # removed 2026-08-09 (user): no fades from 8/9 on, prior record stays; home-only as of 2026-07-28 (see FADE_VENUE)
