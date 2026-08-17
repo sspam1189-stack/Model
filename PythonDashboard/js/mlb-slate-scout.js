@@ -19,11 +19,25 @@ async function renderMLBSlateScout() {
 
   const local = 'data/mlb-slate-scout.json';
   const remote = 'https://raw.githubusercontent.com/sspam1189-stack/Model/main/MLBstrikeouts/data/mlb-slate-scout.json';
-  let data = null;
-  for (const url of [local + '?t=' + Date.now(), remote + '?t=' + Date.now()]) {
-    try { const r = await fetch(url, { cache: 'no-store' }); if (r.ok) { data = await r.json(); break; } }
-    catch (e) { /* try the next source */ }
-  }
+
+  // Fetch both sources and keep whichever was generated last, rather than
+  // taking the first one that answers. The local copy is republished by a
+  // hand-edited per-file whitelist in mlb-run-daily.yml; when a new output is
+  // missed there it freezes silently, and a first-wins loop then serves
+  // days-old form as if it were tonight's. Newest-wins heals from the
+  // canonical MLBstrikeouts copy on its own.
+  const grab = async (url) => {
+    try {
+      const r = await fetch(url + '?t=' + Date.now(), { cache: 'no-store' });
+      if (!r.ok) return null;
+      const j = await r.json();
+      return (j && Array.isArray(j.slate) && j.slate.length) ? j : null;
+    } catch (e) { return null; }
+  };
+  // `generated` is ISO-8601 UTC, so a string compare is a date compare.
+  const data = (await Promise.all([grab(local), grab(remote)]))
+    .filter(Boolean)
+    .sort((a, b) => String(b.generated || '').localeCompare(String(a.generated || '')))[0] || null;
 
   el.textContent = '';
   if (!data || !Array.isArray(data.slate) || !data.slate.length) {
@@ -78,9 +92,20 @@ async function renderMLBSlateScout() {
   // ---- Per-game cards ------------------------------------------------------
   const games = document.createElement('div');
   games.className = 'card card-games';
+  // Say so when the published slate is not the current date. Compared in CT
+  // because that is the calendar the pipeline runs on; before the ~08:00 CT
+  // run this legitimately still reads yesterday, which is worth showing rather
+  // than papering over.
+  const todayCT = new Date().toLocaleDateString('en-CA', { timeZone: 'America/Chicago' });
+  const staleChip = (data.date && data.date !== todayCT)
+    ? '<span style="margin-left:8px;padding:1px 6px;border-radius:3px;'
+      + 'background:rgba(210,153,34,.18);color:#d29922;font-size:10px;font-weight:600">'
+      + 'showing ' + esc(data.date) + ' · today (CT) is ' + esc(todayCT) + '</span>'
+    : '';
+
   let html = '<div class="card-title" style="padding:6px 8px">Slate — ' + esc(data.date)
     + ' (' + data.slate.length + ' games) · wRC+ vs ' + esc(data.wrc_role)
-    + ' through ' + esc(data.wrc_through) + '</div>';
+    + ' through ' + esc(data.wrc_through) + staleChip + '</div>';
 
   html += '<div style="overflow-x:auto"><table style="width:100%;border-collapse:collapse;font-size:12px">'
     + '<thead><tr style="text-align:left;color:' + DIM + ';border-bottom:1px solid #30363d">'
