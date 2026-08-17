@@ -21,7 +21,7 @@ Play rules
 The rules are mechanical, so this grades the method rather than my judgement:
 
   * TOTALS — back the Over on the ``--top`` games with the highest combined
-    matchup pressure, and the Under on the ``--top`` lowest.
+    mismatch, and the Under on the ``--top`` lowest.
   * SIDES  — fade the single worst individual starter spot on the slate: back
     the opposing moneyline.
 
@@ -184,9 +184,9 @@ def build_day(slate_date, games, pa_rows, starts_by_name, apps_by_name):
                 "offense": offense,
                 "opp_wrc": opp_wrc,
                 "flags": S.role_flags(form, slate_date) if form else ["no-form"],
-                "pressure": S.pressure(form, opp_wrc) if form else None,
+                "mismatch": S.mismatch(form, opp_wrc) if form else None,
             }
-        ps = [s["pressure"] for s in sides.values() if s["pressure"] is not None]
+        ps = [s["mismatch"] for s in sides.values() if s["mismatch"] is not None]
         rows.append({
             "date": slate_date,
             "matchup": f"{game['away']} @ {game['home']}",
@@ -219,9 +219,9 @@ def pick_day(rows, top, clean_only):
     worst = None
     for r in usable:
         for side, s in r["sides"].items():
-            if s["pressure"] is None or (clean_only and s["flags"]):
+            if s["mismatch"] is None or (clean_only and s["flags"]):
                 continue
-            if worst is None or s["pressure"] > worst[1]["pressure"]:
+            if worst is None or s["mismatch"] > worst[1]["mismatch"]:
                 worst = (r, s, side)
     if worst:
         r, s, side = worst
@@ -254,7 +254,7 @@ def main():
     ap.add_argument("--start", required=True, help="first slate date, YYYY-MM-DD")
     ap.add_argument("--end", help="last slate date (default: latest available)")
     ap.add_argument("--top", type=int, default=2,
-                    help="how many games per side of the pressure ranking to back")
+                    help="how many games per side of the mismatch ranking to back")
     ap.add_argument("--clean-only", action="store_true",
                     help="skip games whose starters carry a data flag")
     ap.add_argument("--picks", action="store_true", help="print every graded pick")

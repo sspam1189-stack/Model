@@ -9,7 +9,7 @@ build_team_woba_splits.py use.
 
 This is a SCOUTING view, not a model. Nothing here is a pick, and nothing
 downstream reads it — the payload carries an explicit ``advisory`` flag so the
-tab can say so on its face. The matchup-pressure score it ranks by has real
+tab can say so on its face. The mismatch score it ranks by has real
 baseball signal and no market edge (it correlates +0.079 with runs scored but
 +0.331 with the market total, leaving +0.001 against the closing number), so
 the tab exists to show WHERE the mismatches and the data problems are, not to
@@ -44,7 +44,7 @@ OUTPUT_PATHS = [
 # Shown on the tab so the view carries its own caveats rather than relying on
 # anyone remembering them.
 NOTES = [
-    "Scouting only — the matchup-pressure ranking is NOT a betting signal. "
+    "Scouting only — the mismatch ranking is NOT a betting signal. "
     "Backtested over 1818 games it returns -1.8% ROI; the information is "
     "already in the closing total.",
     "Flags are the useful part: a starter back from a layoff still shows a "

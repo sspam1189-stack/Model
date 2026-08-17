@@ -4,7 +4,7 @@
 // last-5 / last-3 form, the opposing offense's wRC+ against his hand, and the
 // data flags that say when those rates cannot be read at face value.
 //
-// This tab shows no picks and no records, deliberately. The matchup-pressure
+// This tab shows no picks and no records, deliberately. The mismatch
 // score it sorts by has real baseball signal and no market edge — backtested
 // over 1818 games it returns -1.8% ROI, because the closing total already
 // prices what it knows. It earns its place by surfacing WHERE the mismatches
@@ -72,8 +72,8 @@ async function renderMLBSlateScout() {
     return t > 0 ? `rgba(248,81,73,${0.25 + 0.55 * t})`
                  : `rgba(63,185,80,${0.25 + 0.55 * -t})`;
   };
-  // Pressure is centred on zero: positive means the bats outclass the arm.
-  const pressColor = (v) => (v == null ? DIM : (v > 0 ? RED : GREEN));
+  // Mismatch is centred on zero: positive means the bats outclass the arm.
+  const mismatchColor = (v) => (v == null ? DIM : (v > 0 ? RED : GREEN));
 
   const flagChip = (f) =>
     `<span style="display:inline-block;padding:1px 5px;margin-left:4px;border-radius:3px;`
@@ -116,7 +116,7 @@ async function renderMLBSlateScout() {
     + '<th title="Last 5 STARTS, with change from season. Relief outings are '
     + 'excluded — when an arm has any, they are shown on the row beneath.">Last 5</th>'
     + '<th title="Last 3 starts ERA">L3</th>'
-    + '<th title="Positive = the offense outclasses the arm">Pressure</th>'
+    + '<th title="Positive = the offense outclasses the arm">Mismatch</th>'
     + '</tr></thead><tbody>';
 
   for (const g of data.slate) {
@@ -148,7 +148,7 @@ async function renderMLBSlateScout() {
         + ' · ' + num(recent.k_pct, 1) + '%'
         + '<span style="color:' + (t.k_pct > 0 ? GREEN : RED) + ';font-size:10px"> ' + signed(t.k_pct) + '</span></td>'
         + '<td style="color:' + DIM + '">' + num(hot.era) + '</td>'
-        + '<td style="color:' + pressColor(s.pressure) + ';font-weight:600">' + signed(s.pressure) + '</td>'
+        + '<td style="color:' + mismatchColor(s.mismatch) + ';font-weight:600">' + signed(s.mismatch) + '</td>'
         + '</tr>';
 
       // Swingman sub-row. The Last 5 column counts STARTS only, so for an arm
@@ -177,20 +177,20 @@ async function renderMLBSlateScout() {
   games.innerHTML = html;
   el.appendChild(games);
 
-  // ---- Pressure ranking ----------------------------------------------------
+  // ---- Mismatch ranking ----------------------------------------------------
   const ranked = document.createElement('div');
   ranked.className = 'card card-games';
-  let rhtml = '<div class="card-title" style="padding:6px 8px">Matchup pressure — worst spot first '
+  let rhtml = '<div class="card-title" style="padding:6px 8px">Mismatch — widest first '
     + '<span style="color:' + DIM + ';font-weight:400;font-size:11px">'
     + '(positive = offense outclasses the arm)</span></div>'
     + '<div style="overflow-x:auto"><table style="width:100%;border-collapse:collapse;font-size:12px">'
     + '<thead><tr style="text-align:left;color:' + DIM + ';border-bottom:1px solid #30363d">'
-    + '<th style="padding:4px 6px">Pressure</th><th>Starter</th><th>Team</th>'
+    + '<th style="padding:4px 6px">Mismatch</th><th>Starter</th><th>Team</th>'
     + '<th>Faces</th><th>Opp wRC+</th><th>Flags</th></tr></thead><tbody>';
-  for (const r of (data.ranked_pressure || [])) {
+  for (const r of (data.ranked_mismatch || [])) {
     rhtml += '<tr style="border-top:1px solid #161b22">'
-      + '<td style="padding:3px 6px;color:' + pressColor(r.pressure) + ';font-weight:600">'
-      + signed(r.pressure) + '</td>'
+      + '<td style="padding:3px 6px;color:' + mismatchColor(r.mismatch) + ';font-weight:600">'
+      + signed(r.mismatch) + '</td>'
       + '<td style="padding:3px 6px">' + esc(r.pitcher) + ' <span style="color:' + DIM + '">('
       + esc(r.hand) + ')</span></td>'
       + '<td style="color:' + DIM + '">' + esc(r.team) + '</td>'

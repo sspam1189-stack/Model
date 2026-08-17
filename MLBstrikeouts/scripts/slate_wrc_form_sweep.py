@@ -1,7 +1,7 @@
 """
 slate_wrc_form_sweep.py — Parameter sweep for the slate scouting report, with holdout.
 
-Sweeps the levers in the matchup-pressure score and the play-selection rule,
+Sweeps the levers in the matchup-mismatch score and the play-selection rule,
 scoring every combination on a training period and then re-scoring the winner
 on a held-out period it never saw. The holdout is the point: on a few hundred
 picks, sweeping a handful of parameters will always produce a configuration
@@ -10,9 +10,9 @@ that looks profitable in-sample.
 Levers
 ------
   * form window feeding the score: last-5 starts, last-3, or season
-  * ERA coefficient and baseline in ``pressure``
+  * ERA coefficient and baseline in ``mismatch``
   * K-BB% coefficient
-  * selection rule: top-N by combined pressure, or an absolute threshold
+  * selection rule: top-N by combined mismatch, or an absolute threshold
   * whether to require clean data flags
 
 Reads the feature table produced by ``--dump`` (which walks the season once,
@@ -109,7 +109,7 @@ def dump_features(path, start="2026-05-01"):
 
 
 def score(side, window, era_c, era_base, kbb_c):
-    """Recompute one starter's pressure under a candidate parameter set."""
+    """Recompute one starter's mismatch under a candidate parameter set."""
     w = side.get(window) or side.get("season")
     if not w or w.get("era") is None or w.get("kbb") is None:
         return None

@@ -107,7 +107,7 @@
             "layoff-16d",
             "thin-deadline-74pa"
           ],
-          "pressure": 15.6
+          "mismatch": 15.6
         },
         "home": {
           "pitcher": "Kent Emanuel",
@@ -132,7 +132,7 @@
           "flags": [
             "thin-sample"
           ],
-          "pressure": null
+          "mismatch": null
         }
       },
       "home_offense_game": 93,
@@ -236,7 +236,7 @@
             "hr9": -0.03
           },
           "flags": [],
-          "pressure": 4.9
+          "mismatch": 4.9
         },
         "home": {
           "pitcher": "Shane McClanahan",
@@ -325,7 +325,7 @@
           "flags": [
             "layoff-18d"
           ],
-          "pressure": -11.7
+          "mismatch": -11.7
         }
       },
       "home_offense_game": 109,
@@ -429,7 +429,7 @@
             "hr9": -0.69
           },
           "flags": [],
-          "pressure": -27.1
+          "mismatch": -27.1
         },
         "home": {
           "pitcher": "Rhett Lowder",
@@ -516,7 +516,7 @@
             "hr9": -0.04
           },
           "flags": [],
-          "pressure": 9.8
+          "mismatch": 9.8
         }
       },
       "home_offense_game": 89,
@@ -620,7 +620,7 @@
             "hr9": -0.04
           },
           "flags": [],
-          "pressure": -0.6
+          "mismatch": -0.6
         },
         "home": {
           "pitcher": "Cristopher S\u00e1nchez",
@@ -707,7 +707,7 @@
             "hr9": -0.43
           },
           "flags": [],
-          "pressure": -20.6
+          "mismatch": -20.6
         }
       },
       "home_offense_game": 100,
@@ -811,7 +811,7 @@
             "hr9": -0.17
           },
           "flags": [],
-          "pressure": 12.6
+          "mismatch": 12.6
         },
         "home": {
           "pitcher": "Carmen Mlodzinski",
@@ -917,7 +917,7 @@
             "stale-window-96d",
             "swingman-15g"
           ],
-          "pressure": 28.8
+          "mismatch": 28.8
         }
       },
       "home_offense_game": 93,
@@ -1021,7 +1021,7 @@
             "hr9": -0.04
           },
           "flags": [],
-          "pressure": 12.4
+          "mismatch": 12.4
         },
         "home": {
           "pitcher": "Alec Gamboa",
@@ -1046,7 +1046,7 @@
           "flags": [
             "thin-sample"
           ],
-          "pressure": null
+          "mismatch": null
         }
       },
       "home_offense_game": 108,
@@ -1150,7 +1150,7 @@
             "hr9": -0.39
           },
           "flags": [],
-          "pressure": -6.2
+          "mismatch": -6.2
         },
         "home": {
           "pitcher": "Nolan McLean",
@@ -1237,7 +1237,7 @@
             "hr9": 0.54
           },
           "flags": [],
-          "pressure": -16.6
+          "mismatch": -16.6
         }
       },
       "home_offense_game": 96,
@@ -1343,7 +1343,7 @@
           "flags": [
             "thin-sample"
           ],
-          "pressure": 39.4
+          "mismatch": 39.4
         },
         "home": {
           "pitcher": "Michael Wacha",
@@ -1430,7 +1430,7 @@
             "hr9": 0.07
           },
           "flags": [],
-          "pressure": -6.2
+          "mismatch": -6.2
         }
       },
       "home_offense_game": 100,
@@ -1534,7 +1534,7 @@
             "hr9": -0.48
           },
           "flags": [],
-          "pressure": -22.2
+          "mismatch": -22.2
         },
         "home": {
           "pitcher": "Bailey Ober",
@@ -1621,7 +1621,7 @@
             "hr9": -0.23
           },
           "flags": [],
-          "pressure": 16.6
+          "mismatch": 16.6
         }
       },
       "home_offense_game": 96,
@@ -1725,7 +1725,7 @@
             "hr9": 1.03
           },
           "flags": [],
-          "pressure": 16.4
+          "mismatch": 16.4
         },
         "home": {
           "pitcher": "Shota Imanaga",
@@ -1812,7 +1812,7 @@
             "hr9": 0.01
           },
           "flags": [],
-          "pressure": -17.7
+          "mismatch": -17.7
         }
       },
       "home_offense_game": 108,
@@ -1919,7 +1919,7 @@
             "thin-sample",
             "stale-window-94d"
           ],
-          "pressure": -22.2
+          "mismatch": -22.2
         },
         "home": {
           "pitcher": "Tomoyuki Sugano",
@@ -2006,229 +2006,13 @@
             "hr9": 0.55
           },
           "flags": [],
-          "pressure": 7.4
+          "mismatch": 7.4
         }
       },
       "home_offense_game": 94,
       "away_offense_game": 112,
       "game_offense": 103,
       "offense_edge": 18
-    }
-  ],
-  "ranked_pressure": [
-    {
-      "pitcher": "Mason Barnett",
-      "hand": "R",
-      "team": "OAK",
-      "opponent_offense": "KC",
-      "opp_wrc_vs_hand": 98,
-      "opp_wrc_recent": 73,
-      "pressure": 39.4,
-      "flags": [
-        "thin-sample"
-      ]
-    },
-    {
-      "pitcher": "Carmen Mlodzinski",
-      "hand": "R",
-      "team": "PIT",
-      "opponent_offense": "DET",
-      "opp_wrc_vs_hand": 103,
-      "opp_wrc_recent": 114,
-      "pressure": 28.8,
-      "flags": [
-        "stale-window-96d",
-        "swingman-15g"
-      ]
-    },
-    {
-      "pitcher": "Bailey Ober",
-      "hand": "R",
-      "team": "MIN",
-      "opponent_offense": "ATL",
-      "opp_wrc_vs_hand": 102,
-      "opp_wrc_recent": 71,
-      "pressure": 16.6,
-      "flags": []
-    },
-    {
-      "pitcher": "Luis Castillo",
-      "hand": "R",
-      "team": "CWS",
-      "opponent_offense": "CHC",
-      "opp_wrc_vs_hand": 106,
-      "opp_wrc_recent": 119,
-      "pressure": 16.4,
-      "flags": []
-    },
-    {
-      "pitcher": "Quinn Mathews",
-      "hand": "L",
-      "team": "STL",
-      "opponent_offense": "CIN",
-      "opp_wrc_vs_hand": 104,
-      "opp_wrc_recent": null,
-      "pressure": 15.6,
-      "flags": [
-        "thin-sample",
-        "layoff-16d",
-        "thin-deadline-74pa"
-      ]
-    },
-    {
-      "pitcher": "Framber Valdez",
-      "hand": "L",
-      "team": "DET",
-      "opponent_offense": "PIT",
-      "opp_wrc_vs_hand": 95,
-      "opp_wrc_recent": 97,
-      "pressure": 12.6,
-      "flags": []
-    },
-    {
-      "pitcher": "Mitch Bratt",
-      "hand": "L",
-      "team": "ARI",
-      "opponent_offense": "BOS",
-      "opp_wrc_vs_hand": 112,
-      "opp_wrc_recent": 51,
-      "pressure": 12.4,
-      "flags": []
-    },
-    {
-      "pitcher": "Rhett Lowder",
-      "hand": "R",
-      "team": "CIN",
-      "opponent_offense": "STL",
-      "opp_wrc_vs_hand": 95,
-      "opp_wrc_recent": 114,
-      "pressure": 9.8,
-      "flags": []
-    },
-    {
-      "pitcher": "Tomoyuki Sugano",
-      "hand": "R",
-      "team": "COL",
-      "opponent_offense": "LAD",
-      "opp_wrc_vs_hand": 113,
-      "opp_wrc_recent": 61,
-      "pressure": 7.4,
-      "flags": []
-    },
-    {
-      "pitcher": "Brandon Young",
-      "hand": "R",
-      "team": "BAL",
-      "opponent_offense": "TB",
-      "opp_wrc_vs_hand": 113,
-      "opp_wrc_recent": 134,
-      "pressure": 4.9,
-      "flags": []
-    },
-    {
-      "pitcher": "Janson Junk",
-      "hand": "R",
-      "team": "MIA",
-      "opponent_offense": "PHI",
-      "opp_wrc_vs_hand": 96,
-      "opp_wrc_recent": 119,
-      "pressure": -0.6,
-      "flags": []
-    },
-    {
-      "pitcher": "Walker Buehler",
-      "hand": "R",
-      "team": "SD",
-      "opponent_offense": "NYM",
-      "opp_wrc_vs_hand": 93,
-      "opp_wrc_recent": 146,
-      "pressure": -6.2,
-      "flags": []
-    },
-    {
-      "pitcher": "Michael Wacha",
-      "hand": "R",
-      "team": "KC",
-      "opponent_offense": "OAK",
-      "opp_wrc_vs_hand": 106,
-      "opp_wrc_recent": 99,
-      "pressure": -6.2,
-      "flags": []
-    },
-    {
-      "pitcher": "Shane McClanahan",
-      "hand": "L",
-      "team": "TB",
-      "opponent_offense": "BAL",
-      "opp_wrc_vs_hand": 102,
-      "opp_wrc_recent": 140,
-      "pressure": -11.7,
-      "flags": [
-        "layoff-18d"
-      ]
-    },
-    {
-      "pitcher": "Nolan McLean",
-      "hand": "R",
-      "team": "NYM",
-      "opponent_offense": "SD",
-      "opp_wrc_vs_hand": 99,
-      "opp_wrc_recent": 118,
-      "pressure": -16.6,
-      "flags": []
-    },
-    {
-      "pitcher": "Shota Imanaga",
-      "hand": "L",
-      "team": "CHC",
-      "opponent_offense": "CWS",
-      "opp_wrc_vs_hand": 106,
-      "opp_wrc_recent": 149,
-      "pressure": -17.7,
-      "flags": []
-    },
-    {
-      "pitcher": "Cristopher S\u00e1nchez",
-      "hand": "L",
-      "team": "PHI",
-      "opponent_offense": "MIA",
-      "opp_wrc_vs_hand": 103,
-      "opp_wrc_recent": 85,
-      "pressure": -20.6,
-      "flags": []
-    },
-    {
-      "pitcher": "Mart\u00edn P\u00e9rez",
-      "hand": "L",
-      "team": "ATL",
-      "opponent_offense": "MIN",
-      "opp_wrc_vs_hand": 95,
-      "opp_wrc_recent": 122,
-      "pressure": -22.2,
-      "flags": []
-    },
-    {
-      "pitcher": "Blake Snell",
-      "hand": "L",
-      "team": "LAD",
-      "opponent_offense": "COL",
-      "opp_wrc_vs_hand": 91,
-      "opp_wrc_recent": 83,
-      "pressure": -22.2,
-      "flags": [
-        "thin-sample",
-        "stale-window-94d"
-      ]
-    },
-    {
-      "pitcher": "Andre Pallante",
-      "hand": "R",
-      "team": "STL",
-      "opponent_offense": "CIN",
-      "opp_wrc_vs_hand": 85,
-      "opp_wrc_recent": 77,
-      "pressure": -27.1,
-      "flags": []
     }
   ],
   "generated": "2026-08-17T21:04:52Z",
@@ -2239,5 +2023,221 @@
     "Scouting only \u2014 the matchup-pressure ranking is NOT a betting signal. Backtested over 1818 games it returns -1.8% ROI; the information is already in the closing total.",
     "Flags are the useful part: a starter back from a layoff still shows a full last-5-start line describing a different month.",
     "Swingmen carry a second form line. The last-5-START rates skip relief work entirely, so a bullpen stint reads as a collapse until you see the relief innings beside it."
+  ],
+  "ranked_mismatch": [
+    {
+      "pitcher": "Mason Barnett",
+      "hand": "R",
+      "team": "OAK",
+      "opponent_offense": "KC",
+      "opp_wrc_vs_hand": 98,
+      "opp_wrc_recent": 73,
+      "flags": [
+        "thin-sample"
+      ],
+      "mismatch": 39.4
+    },
+    {
+      "pitcher": "Carmen Mlodzinski",
+      "hand": "R",
+      "team": "PIT",
+      "opponent_offense": "DET",
+      "opp_wrc_vs_hand": 103,
+      "opp_wrc_recent": 114,
+      "flags": [
+        "stale-window-96d",
+        "swingman-15g"
+      ],
+      "mismatch": 28.8
+    },
+    {
+      "pitcher": "Bailey Ober",
+      "hand": "R",
+      "team": "MIN",
+      "opponent_offense": "ATL",
+      "opp_wrc_vs_hand": 102,
+      "opp_wrc_recent": 71,
+      "flags": [],
+      "mismatch": 16.6
+    },
+    {
+      "pitcher": "Luis Castillo",
+      "hand": "R",
+      "team": "CWS",
+      "opponent_offense": "CHC",
+      "opp_wrc_vs_hand": 106,
+      "opp_wrc_recent": 119,
+      "flags": [],
+      "mismatch": 16.4
+    },
+    {
+      "pitcher": "Quinn Mathews",
+      "hand": "L",
+      "team": "STL",
+      "opponent_offense": "CIN",
+      "opp_wrc_vs_hand": 104,
+      "opp_wrc_recent": null,
+      "flags": [
+        "thin-sample",
+        "layoff-16d",
+        "thin-deadline-74pa"
+      ],
+      "mismatch": 15.6
+    },
+    {
+      "pitcher": "Framber Valdez",
+      "hand": "L",
+      "team": "DET",
+      "opponent_offense": "PIT",
+      "opp_wrc_vs_hand": 95,
+      "opp_wrc_recent": 97,
+      "flags": [],
+      "mismatch": 12.6
+    },
+    {
+      "pitcher": "Mitch Bratt",
+      "hand": "L",
+      "team": "ARI",
+      "opponent_offense": "BOS",
+      "opp_wrc_vs_hand": 112,
+      "opp_wrc_recent": 51,
+      "flags": [],
+      "mismatch": 12.4
+    },
+    {
+      "pitcher": "Rhett Lowder",
+      "hand": "R",
+      "team": "CIN",
+      "opponent_offense": "STL",
+      "opp_wrc_vs_hand": 95,
+      "opp_wrc_recent": 114,
+      "flags": [],
+      "mismatch": 9.8
+    },
+    {
+      "pitcher": "Tomoyuki Sugano",
+      "hand": "R",
+      "team": "COL",
+      "opponent_offense": "LAD",
+      "opp_wrc_vs_hand": 113,
+      "opp_wrc_recent": 61,
+      "flags": [],
+      "mismatch": 7.4
+    },
+    {
+      "pitcher": "Brandon Young",
+      "hand": "R",
+      "team": "BAL",
+      "opponent_offense": "TB",
+      "opp_wrc_vs_hand": 113,
+      "opp_wrc_recent": 134,
+      "flags": [],
+      "mismatch": 4.9
+    },
+    {
+      "pitcher": "Janson Junk",
+      "hand": "R",
+      "team": "MIA",
+      "opponent_offense": "PHI",
+      "opp_wrc_vs_hand": 96,
+      "opp_wrc_recent": 119,
+      "flags": [],
+      "mismatch": -0.6
+    },
+    {
+      "pitcher": "Walker Buehler",
+      "hand": "R",
+      "team": "SD",
+      "opponent_offense": "NYM",
+      "opp_wrc_vs_hand": 93,
+      "opp_wrc_recent": 146,
+      "flags": [],
+      "mismatch": -6.2
+    },
+    {
+      "pitcher": "Michael Wacha",
+      "hand": "R",
+      "team": "KC",
+      "opponent_offense": "OAK",
+      "opp_wrc_vs_hand": 106,
+      "opp_wrc_recent": 99,
+      "flags": [],
+      "mismatch": -6.2
+    },
+    {
+      "pitcher": "Shane McClanahan",
+      "hand": "L",
+      "team": "TB",
+      "opponent_offense": "BAL",
+      "opp_wrc_vs_hand": 102,
+      "opp_wrc_recent": 140,
+      "flags": [
+        "layoff-18d"
+      ],
+      "mismatch": -11.7
+    },
+    {
+      "pitcher": "Nolan McLean",
+      "hand": "R",
+      "team": "NYM",
+      "opponent_offense": "SD",
+      "opp_wrc_vs_hand": 99,
+      "opp_wrc_recent": 118,
+      "flags": [],
+      "mismatch": -16.6
+    },
+    {
+      "pitcher": "Shota Imanaga",
+      "hand": "L",
+      "team": "CHC",
+      "opponent_offense": "CWS",
+      "opp_wrc_vs_hand": 106,
+      "opp_wrc_recent": 149,
+      "flags": [],
+      "mismatch": -17.7
+    },
+    {
+      "pitcher": "Cristopher S\u00e1nchez",
+      "hand": "L",
+      "team": "PHI",
+      "opponent_offense": "MIA",
+      "opp_wrc_vs_hand": 103,
+      "opp_wrc_recent": 85,
+      "flags": [],
+      "mismatch": -20.6
+    },
+    {
+      "pitcher": "Mart\u00edn P\u00e9rez",
+      "hand": "L",
+      "team": "ATL",
+      "opponent_offense": "MIN",
+      "opp_wrc_vs_hand": 95,
+      "opp_wrc_recent": 122,
+      "flags": [],
+      "mismatch": -22.2
+    },
+    {
+      "pitcher": "Blake Snell",
+      "hand": "L",
+      "team": "LAD",
+      "opponent_offense": "COL",
+      "opp_wrc_vs_hand": 91,
+      "opp_wrc_recent": 83,
+      "flags": [
+        "thin-sample",
+        "stale-window-94d"
+      ],
+      "mismatch": -22.2
+    },
+    {
+      "pitcher": "Andre Pallante",
+      "hand": "R",
+      "team": "STL",
+      "opponent_offense": "CIN",
+      "opp_wrc_vs_hand": 85,
+      "opp_wrc_recent": 77,
+      "flags": [],
+      "mismatch": -27.1
+    }
   ]
 }

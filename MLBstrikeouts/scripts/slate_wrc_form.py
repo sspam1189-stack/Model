@@ -486,9 +486,9 @@ def platoon_gap(windows, offense_team, window=PRIMARY_WINDOW, role=PITCHER_ROLE)
     return lhp - rhp
 
 
-def pressure(form, opp_wrc):
+def mismatch(form, opp_wrc):
     """
-    Composite matchup-pressure score for one starter, roughly in wRC+ units.
+    Composite matchup-mismatch score for one starter, roughly in wRC+ units.
 
     Positive = the offense he faces is better than the arm he brings, i.e. the
     matchup leans toward the bats. Built from three additive pieces:
@@ -565,7 +565,7 @@ def build_report(slate_date, slate_file=None, role=PITCHER_ROLE,
                 "form": form,
                 "trend": trend(form),
                 "flags": flags,
-                "pressure": pressure(form, opp_wrc),
+                "mismatch": mismatch(form, opp_wrc),
             }
         # Full-game offensive expectation for each club. The away starter is
         # scouted against the home offense, so sides["away"] carries the home
@@ -590,7 +590,7 @@ def build_report(slate_date, slate_file=None, role=PITCHER_ROLE,
     for game in rows:
         for side in ("away", "home"):
             s = game["sides"][side]
-            if s["pressure"] is None:
+            if s["mismatch"] is None:
                 continue
             ranked.append({
                 "pitcher": s["pitcher"],
@@ -599,10 +599,10 @@ def build_report(slate_date, slate_file=None, role=PITCHER_ROLE,
                 "opponent_offense": s["opponent_offense"],
                 "opp_wrc_vs_hand": s["opp_wrc_vs_hand"],
                 "opp_wrc_recent": s["opp_wrc_recent"],
-                "pressure": s["pressure"],
+                "mismatch": s["mismatch"],
                 "flags": s["flags"],
             })
-    ranked.sort(key=lambda r: -r["pressure"])
+    ranked.sort(key=lambda r: -r["mismatch"])
 
     return {
         "date": slate_date,
@@ -613,7 +613,7 @@ def build_report(slate_date, slate_file=None, role=PITCHER_ROLE,
         "wrc_secondary_window": secondary,
         "recent_window_starts": RECENT_N,
         "slate": rows,
-        "ranked_pressure": ranked,
+        "ranked_mismatch": ranked,
     }
 
 
@@ -707,15 +707,15 @@ def render(report):
                     f"IP/G {_fmt(recent_all.get('ip_per_g'))}"
                     f"   ({recent_all.get('gs', 0)} of {recent_all.get('g', 0)} were starts)"
                 )
-            lines.append(f"      pressure {_fmt(s['pressure'], '{:+.1f}')}")
+            lines.append(f"      mismatch {_fmt(s['mismatch'], '{:+.1f}')}")
         lines.append("")
 
-    lines.append("Matchup pressure, worst spot first "
+    lines.append("Mismatch, widest first "
                  "(+ = offense outclasses the arm):")
-    for r in report["ranked_pressure"]:
+    for r in report["ranked_mismatch"]:
         flags = f"  [{', '.join(r['flags'])}]" if r["flags"] else ""
         lines.append(
-            f"   {r['pressure']:+6.1f}  {r['pitcher']} ({r['hand']}, {r['team']}) "
+            f"   {r['mismatch']:+6.1f}  {r['pitcher']} ({r['hand']}, {r['team']}) "
             f"vs {r['opponent_offense']} "
             f"wRC+ {_fmt(r['opp_wrc_vs_hand'], '{:.0f}')} "
             f"({_win_label(report['wrc_secondary_window'])} "
