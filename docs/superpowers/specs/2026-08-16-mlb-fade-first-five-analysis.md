@@ -5,17 +5,28 @@
 **Question:** can the fade-list model bet the opponent's **first 5 innings** (F5)
 instead of the full-game moneyline, and is that better?
 
-Reproduce with `cd MLBstrikeouts && python -m scripts.analyze_fade_f5`.
+Reproduce with `cd MLBstrikeouts && python -m scripts.analyze_fade_f5` and
+`python -m scripts.fade_f5_attribution`.
 
 ## Short answer
 
-**Yes, it is possible** — the trigger, the grading data, and the odds transport all
-extend to F5 without new infrastructure. **Whether it is better is not settled by
-the numbers below**, and the current full-game ledger cannot settle it because that
-ledger is inflated by retroactive fade-list construction. Run the real F5 backfill
-in shadow before moving any money off the full game.
+**Possible: yes.** The trigger, the grading data, and the odds transport all extend
+to F5 without new infrastructure.
 
-## 1. The structural case is strong
+**Better: no — don't switch.** F5 only wins if roughly **65%** of the fade edge is
+produced while the faded starter is on the mound. Measured, that share is **59.8%**
+(90% CI 51.8-67.8%) on the full sample and **44.8%** on the clean live sample. Both
+sit below the crossover, so F5 projects to give up roughly 2-7pp of ROI. A second,
+independent proxy — who won the head-to-head starter duel — agrees, falling 6-7pp
+short of what the crossover requires.
+
+The reason is the finding underneath: **the fade edge is not a starting-pitcher
+effect.** It is spread across the game roughly in proportion to innings, which is
+what a team-quality signal looks like. Fade-list teams concede +0.72 runs over the
+market's expectation *after* the faded starter leaves. Their bullpens are bad too,
+and the full game collects on that; F5 throws it away.
+
+## 1. The structural case looks strong (and turns out to be wrong)
 
 F5 is almost exactly the window the fade thesis is about. Across the 606 graded
 fade bets, matched to each faded starter's actual outs recorded (`mlb-props.json`
@@ -30,8 +41,12 @@ fade bets, matched to each faded starter's actual outs recorded (`mlb-props.json
 | **F5 outs actually covered by the fade starter** | **13.8 of 15 (92.1%)** |
 
 Betting the full game buys 92% signal plus four innings of bullpen, defense, and
-pinch-hitting that the fade list says nothing about. F5 buys the signal and
-discards the noise. That is the whole argument, and it is a good one.
+pinch-hitting that the fade list says nothing about. F5 buys the signal and discards
+the noise. That is the argument for F5, and on workload grounds it is a good one.
+
+It fails anyway, because those extra four innings turn out not to be noise — §4
+measures real edge in them. Coverage of the *starter* was never the binding
+constraint; where the *edge* lives is.
 
 ## 2. The full-game baseline is contaminated — do not calibrate on it
 
@@ -112,13 +127,72 @@ it is sensitive to attribution, which only real F5 results can measure. Results 
 also stable across staking conventions (house risk-to-win-1u +32.3%, flat 1u +34.3%),
 so the choice of stake plan does not drive the answer.
 
-**Caveat on the price model.** Real F5 lines are not the full-game line scaled — books
-weight the starter more heavily over five innings. If the market overrates the fade
-starter, the real F5 price on our side should be *longer* than modelled here, which
-makes these projections conservative. But that is an argument, not a measurement.
-Only real `h2h_1st_5_innings` snapshots settle it.
+## 4. Measured attribution — the crossover is not cleared
 
-## 4. Feasibility — what an F5 build actually needs
+`scripts/fade_f5_attribution.py` estimates attribution instead of assuming it, using
+every start's line from `data/pitcher_cache/mlb/game_logs_2026.json` (starters *and*
+relievers, 15,659 appearances, complete staffs). For each fade game it decomposes the
+run differential against the closing line into the span the faded starter pitched and
+everything after, using the market's own λ as the per-out expectation:
+
+```
+starter window  S_sp = (runs_off_fadeSP  - lam_bet*o_f/27)
+                     - (runs_off_ourSP   - lam_opp*o_b/27)
+rest of game    S_bp = same, over the remaining outs
+identity        S_sp + S_bp == realized margin - market expected margin
+```
+
+The identity is asserted per game, so the split cannot drift. Unearned runs (~8.2%
+league-wide, confirmed against final scores) are allocated to the starter by his share
+of the staff's outs rather than dumped into the post-starter bucket.
+
+| | live (n=104) | full season (n=588) |
+|---|---|---|
+| total edge over market | +0.744 runs/game | +1.793 runs/game |
+| **while the faded starter pitched** | **+0.333** | **+1.072** |
+| **after he left** | **+0.411** | **+0.721** |
+| measured attribution | **44.8%** | **59.8%** |
+| 90% bootstrap CI | −27.9% .. 117.5% | 51.8% .. 67.8% |
+| crossover required | 65.1% | 63.5% |
+| projected F5 ROI at measured | +12.4% | +38.1% |
+| full-game ROI | +19.5% | +40.4% |
+| **verdict** | **full game, −7.2pp** | **full game, −2.3pp** |
+
+Three reasons this is a real answer and not just a noisy one:
+
+1. **The measured share is statistically indistinguishable from the null.** Uniform
+   attribution — the edge spread evenly across the game — is 56.5%. The full sample
+   measures 59.8% ± 8. There is no evidence the edge concentrates in the starter's
+   innings, which is precisely the premise F5 needs.
+2. **The contamination biases attribution *upward*, not down.** Retroactive fade-list
+   selection picks pitchers whose seasons went badly, and their bad outcomes occur in
+   their own innings. So 59.8% is best read as a *ceiling*, and it is already below
+   the 63.5% crossover. Only the upper CI bound (67.8%) clears it, and only by
+   +2.5pp.
+3. **An independent proxy agrees.** Scoring each game by the head-to-head starter duel
+   — did our offense out-score theirs against the opposing starter — gives an ex-push
+   record of 344-161-83, a **68.1%** win rate where the crossover needs **74.6%**. On
+   the live sample it is 59.3% against 66.5% needed. Restricting to games where both
+   starters completed five innings, the cleanest available analogue of the actual F5
+   window, barely moves it (67.4%, n=297). Two methods built on different arithmetic
+   miss the bar by the same 6-7pp.
+
+**What would still change the answer.** This measures "while the faded starter
+pitched", not literally innings 1-5, and it uses run attribution rather than a
+linescore. The definitive test is grading the existing bet log on actual runs through
+five — free, since `linescore.innings[]` needs no odds — and it could not be run here
+because egress to `statsapi.mlb.com` is blocked in this session. Given two
+independent proxies landing 6-7pp short, expect it to confirm rather than overturn.
+
+The one caveat that points the other way is the price model: real F5 lines are not the
+full-game line scaled, since books weight the starter more heavily over five innings.
+But that cuts against F5 here — if the market's starter view is roughly *right*, which
+low attribution implies, then a starter-weighted F5 line is more accurate than the
+scaled proxy, and our F5 price would be worse than modelled, not better.
+
+## 5. Feasibility — what an F5 build would need
+
+Recorded for completeness; the analysis above says don't build it yet.
 
 Nothing structural blocks it. Item by item:
 
@@ -158,30 +232,36 @@ Suggested shape, mirroring the existing model rather than replacing it:
 `data/odds_cache/mlb_f5/` → `fade_f5_backfill.py` → `mlb-fade-f5.json` → a dashboard
 tab. Additive; the full-game model keeps running.
 
-## 5. Recommendation
+## 6. Recommendation
 
-1. **Fix the lookahead first.** Stamp each fade-list entry with the date it was added
-   and have `ml_backfill.py` only bet games on or after that date. Without this, no
-   backfill — full game or F5 — measures anything real, and the two cannot be
-   compared to each other.
-2. **Backfill F5 grading on the existing bet log** (free — linescores only). That
-   measures attribution directly: how often did the opponent lead after five, and how
-   often was it level, on the same games?
+**Keep betting the full game.** F5 is buildable and would work — it clears break-even
+comfortably at every attribution level — it just works *less well* than what is
+already running, because the fade signal collects on bad bullpens as well as bad
+starters and F5 discards half of that.
 
-   **The target: an ex-push F5 win rate above 66.5%** (on the live sample; 74.6% on
-   the contaminated full sample, which is why step 1 comes first). That is the win
-   rate at the crossover — clear it and F5 beats the full game, miss it and the full
-   game is the better bet. No odds purchase required to measure it, because the
-   crossover can be expressed as a win rate rather than an ROI.
-3. **Only then buy F5 odds** for the dates that survive step 1, and run the real ROI
-   comparison.
-4. **Shadow before switching.** Run F5 alongside the full game for a few weeks the
-   way `track_threshold_shadow.py` does. On the live sample the honest full-game
-   number is +20.3% on 109 bets, not +40% on 606 — the bar F5 must clear is lower
-   than the dashboard suggests, but so is the confidence in either figure.
+Two things are worth doing anyway:
+
+1. **Fix the lookahead.** Stamp each fade-list entry with the date it was added and
+   have `ml_backfill.py` only bet games on or after that date. The dashboard is
+   currently advertising +40.1% ROI where the honest, prospective number is +20.3%.
+   That matters independently of F5: it is the figure any future comparison —
+   thresholds, staking, a new market — gets measured against, and right now every such
+   comparison starts from a number inflated by ~20pp.
+2. **Confirm with the free linescore regrade** when egress allows. Grade the existing
+   bet log on runs through five and check the ex-push win rate against **66.5%** (live)
+   / **74.6%** (full sample). Costs nothing — no odds required, because the crossover
+   is expressible as a win rate. Both proxies here predict it lands 6-7pp short.
+
+If F5 gets revisited later, the thing to look for is a *sub-list*: the measured
+attribution is an average, and it is plausible that some faded arms (short-outing,
+high-walk types on teams with decent bullpens) carry most of their edge in the first
+five while others do not. Splitting attribution by pitcher needs more games per arm
+than this season provides, but it is the version of the idea the data does not rule
+out.
 
 ## Out of scope
 
-- Building the F5 pipeline (this is analysis only).
-- F5 totals / F5 run line as separate products.
+- Building the F5 pipeline — the analysis says don't, for now.
+- F5 totals as a separate product.
 - Fixing the fade-list lookahead — flagged here, worth its own change.
+- Per-pitcher attribution splits (not enough games per arm this season).
