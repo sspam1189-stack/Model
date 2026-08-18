@@ -1,7 +1,7 @@
 {
   "sport": "MLB",
   "type": "hand-tails-watch",
-  "generated": "2026-08-18T00:35:06Z",
+  "generated": "2026-08-18T13:08:55Z",
   "handMin": 6,
   "minGames": 3,
   "minUnits": 2.5,
@@ -9,48 +9,92 @@
   "note": "Shadow review list -- arms NOT on the active hand-tails list showing a handedness-conditional edge (fade or take). The active list is fade-only, so all tail/take arms are review-only here. In-sample season replay; watch, don't bet.",
   "today": [
     {
-      "date": "2026-08-17",
-      "commence": "2026-08-17T22:40:00Z",
+      "date": "2026-08-18",
+      "commence": "2026-08-18T22:40:00Z",
       "betType": "watch_take",
       "action": "take",
       "watch": true,
-      "pitcher": "Cristopher S\u00e1nchez",
+      "pitcher": "Foster Griffin",
       "hand": "L",
-      "arm_team": "PHI",
-      "opp_team": "MIA",
-      "selection": "PHI",
-      "home": "PHI",
-      "away": "MIA",
-      "oppLefty": 2,
-      "oppRighty": 8,
-      "lineupConfirmed": true,
-      "odds": -235,
+      "arm_team": "CLE",
+      "opp_team": "SF",
+      "selection": "CLE",
+      "home": "CLE",
+      "away": "SF",
+      "oppLefty": 3,
+      "oppRighty": 6,
+      "lineupConfirmed": false,
+      "odds": null,
       "suggest": "take",
-      "suggestUnits": 5.36,
-      "games": 23,
-      "result": "pending"
+      "suggestUnits": 13.54,
+      "games": 18,
+      "result": "unconfirmed"
     },
     {
-      "date": "2026-08-17",
-      "commence": "2026-08-18T00:40:00Z",
+      "date": "2026-08-18",
+      "commence": "2026-08-18T22:40:00Z",
       "betType": "watch_take",
       "action": "take",
       "watch": true,
-      "pitcher": "Tomoyuki Sugano",
+      "pitcher": "Andrew Abbott",
+      "hand": "L",
+      "arm_team": "CIN",
+      "opp_team": "STL",
+      "selection": "CIN",
+      "home": "CIN",
+      "away": "STL",
+      "oppLefty": 2,
+      "oppRighty": 7,
+      "lineupConfirmed": false,
+      "odds": null,
+      "suggest": "take",
+      "suggestUnits": 6.9,
+      "games": 19,
+      "result": "unconfirmed"
+    },
+    {
+      "date": "2026-08-18",
+      "commence": "2026-08-18T23:10:00Z",
+      "betType": "watch_take",
+      "action": "take",
+      "watch": true,
+      "pitcher": "Robbie Ray",
+      "hand": "L",
+      "arm_team": "SD",
+      "opp_team": "NYM",
+      "selection": "SD",
+      "home": "NYM",
+      "away": "SD",
+      "oppLefty": 3,
+      "oppRighty": 7,
+      "lineupConfirmed": false,
+      "odds": null,
+      "suggest": "take",
+      "suggestUnits": 6.74,
+      "games": 20,
+      "result": "unconfirmed"
+    },
+    {
+      "date": "2026-08-18",
+      "commence": "2026-08-18T23:40:00Z",
+      "betType": "watch_fade",
+      "action": "fade",
+      "watch": true,
+      "pitcher": "Jack Perkins",
       "hand": "R",
-      "arm_team": "COL",
-      "opp_team": "LAD",
-      "selection": "COL",
-      "home": "COL",
-      "away": "LAD",
+      "arm_team": "OAK",
+      "opp_team": "KC",
+      "selection": "KC",
+      "home": "KC",
+      "away": "OAK",
       "oppLefty": 6,
       "oppRighty": 4,
-      "lineupConfirmed": true,
-      "odds": 240,
-      "suggest": "take",
-      "suggestUnits": 5.64,
-      "games": 7,
-      "result": "pending"
+      "lineupConfirmed": false,
+      "odds": null,
+      "suggest": "fade",
+      "suggestUnits": 4.38,
+      "games": 4,
+      "result": "unconfirmed"
     }
   ],
   "candidates": [
@@ -217,6 +261,24 @@
       "era": 3.45
     },
     {
+      "pitcher": "Cristopher S\u00e1nchez",
+      "hand": "L",
+      "games": 24,
+      "suggest": "take",
+      "suggestUnits": 6.36,
+      "fade": {
+        "w": 7,
+        "l": 17,
+        "u": -7.88
+      },
+      "take": {
+        "w": 17,
+        "l": 7,
+        "u": 6.36
+      },
+      "era": 2.51
+    },
+    {
       "pitcher": "Logan Henderson",
       "hand": "R",
       "games": 8,
@@ -235,24 +297,6 @@
       "era": 2.7
     },
     {
-      "pitcher": "Tomoyuki Sugano",
-      "hand": "R",
-      "games": 7,
-      "suggest": "take",
-      "suggestUnits": 5.64,
-      "fade": {
-        "w": 2,
-        "l": 5,
-        "u": -6.97
-      },
-      "take": {
-        "w": 5,
-        "l": 2,
-        "u": 5.64
-      },
-      "era": 4.43
-    },
-    {
       "pitcher": "Jacob Misiorowski",
       "hand": "R",
       "games": 8,
@@ -269,24 +313,6 @@
         "u": 5.62
       },
       "era": 1.75
-    },
-    {
-      "pitcher": "Cristopher S\u00e1nchez",
-      "hand": "L",
-      "games": 23,
-      "suggest": "take",
-      "suggestUnits": 5.36,
-      "fade": {
-        "w": 7,
-        "l": 16,
-        "u": -6.88
-      },
-      "take": {
-        "w": 16,
-        "l": 7,
-        "u": 5.36
-      },
-      "era": 2.54
     },
     {
       "pitcher": "Max Meyer",
@@ -358,7 +384,7 @@
         "l": 2,
         "u": 5.1
       },
-      "era": 3.33
+      "era": 3.52
     },
     {
       "pitcher": "Joey Cantillo",
@@ -397,6 +423,42 @@
       "era": 3.44
     },
     {
+      "pitcher": "Shane McClanahan",
+      "hand": "L",
+      "games": 18,
+      "suggest": "take",
+      "suggestUnits": 4.78,
+      "fade": {
+        "w": 6,
+        "l": 12,
+        "u": -5.46
+      },
+      "take": {
+        "w": 12,
+        "l": 6,
+        "u": 4.78
+      },
+      "era": 3.25
+    },
+    {
+      "pitcher": "Tomoyuki Sugano",
+      "hand": "R",
+      "games": 8,
+      "suggest": "take",
+      "suggestUnits": 4.64,
+      "fade": {
+        "w": 3,
+        "l": 5,
+        "u": -5.97
+      },
+      "take": {
+        "w": 5,
+        "l": 3,
+        "u": 4.64
+      },
+      "era": 4.7
+    },
+    {
       "pitcher": "Walker Buehler",
       "hand": "R",
       "games": 6,
@@ -412,7 +474,7 @@
         "l": 1,
         "u": 4.56
       },
-      "era": 4.88
+      "era": 4.79
     },
     {
       "pitcher": "Sean Burke",
@@ -772,7 +834,7 @@
         "l": 6,
         "u": -3.26
       },
-      "era": 3.46
+      "era": 3.58
     },
     {
       "pitcher": "Luis Castillo",
@@ -790,7 +852,7 @@
         "l": 6,
         "u": -3.86
       },
-      "era": 4.89
+      "era": 4.93
     },
     {
       "pitcher": "Aaron Civale",

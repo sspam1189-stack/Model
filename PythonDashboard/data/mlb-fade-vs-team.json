@@ -1,35 +1,19 @@
 {
   "sport": "MLB",
   "type": "fade-vs-team",
-  "generated": "2026-08-18T00:35:09Z",
+  "generated": "2026-08-18T13:08:58Z",
   "seasonStart": "2026-04-05",
   "minStarts": 2,
   "fadeEra": 8.0,
   "note": "Pitcher-vs-team FADE: bet the opponent's ML when the pitcher faces that team. Set = curated (FADE_VS_TEAM, full season replay) + auto-promoted (>= 2 starts vs the team, ERA >= 8.0 vs them; WALK-FORWARD -- only starts after the promote bar was already met count as plays, the qualifying start itself never does). Flat 1u; data only, not wired into the fade model. Watch tier (6 <= ERA < 8.0) is in mlb-fade-vs-team-watch.json.",
   "overall": {
-    "w": 9,
+    "w": 10,
     "l": 1,
-    "u": 9.06,
-    "n": 10,
-    "roi": 0.6937
+    "u": 10.06,
+    "n": 11,
+    "roi": 0.6383
   },
-  "today": [
-    {
-      "date": "2026-08-17",
-      "commence": "2026-08-18T00:40:00Z",
-      "betType": "fade_vs_team",
-      "pitcher": "Tomoyuki Sugano",
-      "arm_team": "COL",
-      "opp": "LAD",
-      "selection": "LAD",
-      "venue": "home",
-      "matchup": "LAD @ COL",
-      "odds": -270,
-      "eraVsOpp": 8.31,
-      "startsVsOpp": 2,
-      "result": "pending"
-    }
-  ],
+  "today": [],
   "entries": [
     {
       "pitcher": "Joe Ryan",
@@ -193,6 +177,34 @@
       "qualifiedOn": "2026-05-27"
     },
     {
+      "pitcher": "Tomoyuki Sugano",
+      "opp": "LAD",
+      "arm_team": "COL",
+      "source": "auto",
+      "record": {
+        "w": 1,
+        "l": 0,
+        "u": 1.0,
+        "n": 1,
+        "roi": 0.3704
+      },
+      "eraVsOpp": 9.22,
+      "ipVsOpp": 13.7,
+      "erVsOpp": 14,
+      "startsVsOpp": 3,
+      "starts": [
+        {
+          "date": "2026-08-17",
+          "venue": "home",
+          "matchup": "LAD @ COL",
+          "selection": "LAD",
+          "opp_ml": -270,
+          "result": "win"
+        }
+      ],
+      "qualifiedOn": "2026-05-27"
+    },
+    {
       "pitcher": "Tatsuya Imai",
       "opp": "SEA",
       "arm_team": "HOU",
@@ -267,25 +279,6 @@
       "startsVsOpp": 2,
       "starts": [],
       "qualifiedOn": "2026-04-21"
-    },
-    {
-      "pitcher": "Tomoyuki Sugano",
-      "opp": "LAD",
-      "arm_team": "COL",
-      "source": "auto",
-      "record": {
-        "w": 0,
-        "l": 0,
-        "u": 0,
-        "n": 0,
-        "roi": 0.0
-      },
-      "eraVsOpp": 8.31,
-      "ipVsOpp": 8.7,
-      "erVsOpp": 8,
-      "startsVsOpp": 2,
-      "starts": [],
-      "qualifiedOn": "2026-05-27"
     },
     {
       "pitcher": "Seth Lugo",
