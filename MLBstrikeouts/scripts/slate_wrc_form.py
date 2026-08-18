@@ -78,17 +78,30 @@ PA_SPLITS = REPO / "data" / "pitcher_cache" / "mlb" / "team_pa_splits_2026.json"
 # with results behind the change.
 PITCHER_ROLE = "all"
 
-# Season is the stable read; the secondary window is scoped to the trade
-# deadline so August reads respect roster changes. Both are selectable with
-# --window / --secondary-window; "last7" is the shortest the builder emits and
-# is thin enough that MIN_WINDOW_PA will suppress most of its cells.
-PRIMARY_WINDOW = "season"
+# 2026-08-18 (user): primary moved off "season" — five months of April-July
+# lineups describe rosters that no longer exist, and it kept reading as the
+# headline number. "last30" is the largest current window (600-900 PA cells
+# vs RHP, ~300+ vs LHP, all clearing MIN_WINDOW_PA); the secondary stays
+# scoped to the trade deadline so August reads respect roster changes. Both
+# are selectable with --window / --secondary-window; "last7" is the shortest
+# the builder emits and is thin enough that MIN_WINDOW_PA will suppress most
+# of its cells. Advisory-only change: nothing downstream consumes the scout,
+# so no backtest gate applies (the offense window has never been swept —
+# only the pitcher-form window was, see slate_wrc_form_sweep.py).
+PRIMARY_WINDOW = "last30"
 SECONDARY_WINDOW = "deadline"
 
 # Plate appearances below which a window's wRC+ is too thin to lean on. The
 # deadline window is only ~2 weeks, and a team's PA against same-hand starters
 # inside it can be tiny (PHI vs LHP starters: 28 PA).
 MIN_WINDOW_PA = 75
+
+# Rolling offense windows carried on every side of the payload (2026-08-18,
+# user): one window alone reverses reads — DET and WSH both flipped between
+# L30 and L15 in a single week — so the tab shows the ladder and the reader
+# sees the trend, not one snapshot. Cells under MIN_WINDOW_PA still render
+# as sample-size only.
+OFFENSE_WINDOWS = ("last30", "last20", "last15", "last7")
 
 # Recent-form windows, in starts.
 RECENT_N = 5
@@ -550,6 +563,13 @@ def build_report(slate_date, slate_file=None, role=PITCHER_ROLE,
                 # and surface only the sample size.
                 flags.append(f"thin-{secondary}-{recent_cell['pa']}pa")
                 recent_cell = dict(recent_cell, wrcplus=None)
+            # The rolling ladder, thin cells value-suppressed the same way.
+            wrc_windows = {}
+            for win in OFFENSE_WINDOWS:
+                cell = wrc_cell(wrc, win, offense, hand, role=role)
+                if cell and (cell["pa"] or 0) < MIN_WINDOW_PA:
+                    cell = dict(cell, wrcplus=None)
+                wrc_windows[win] = cell
             entry["sides"][side] = {
                 "pitcher": name or listed,
                 "listed_as": listed,
@@ -561,6 +581,7 @@ def build_report(slate_date, slate_file=None, role=PITCHER_ROLE,
                 "opp_wrc_game": full_game_wrc(wrc, offense, game[side], hand, staff, window),
                 "opp_wrc_recent": recent_cell["wrcplus"] if recent_cell else None,
                 "opp_wrc_recent_pa": recent_cell["pa"] if recent_cell else None,
+                "opp_wrc_windows": wrc_windows,
                 "opp_platoon_gap": platoon_gap(wrc, offense, window, role=role),
                 "form": form,
                 "trend": trend(form),
@@ -611,6 +632,7 @@ def build_report(slate_date, slate_file=None, role=PITCHER_ROLE,
         "wrc_role": role,
         "wrc_primary_window": window,
         "wrc_secondary_window": secondary,
+        "wrc_offense_windows": list(OFFENSE_WINDOWS),
         "recent_window_starts": RECENT_N,
         "slate": rows,
         "ranked_mismatch": ranked,

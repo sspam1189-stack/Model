@@ -75,6 +75,18 @@ async function renderMLBSlateScout() {
   // Mismatch is centred on zero: positive means the bats outclass the arm.
   const mismatchColor = (v) => (v == null ? DIM : (v > 0 ? RED : GREEN));
 
+  // Rolling-window ladder (L30/L20/L15/L7). Value-suppressed thin cells
+  // (<75 PA) render as their sample size so a 27-PA week can't print an 18.
+  const wrcLadder = (wins) => {
+    if (!wins) return '<span style="color:' + DIM + '">—</span>';
+    return ['last30', 'last20', 'last15', 'last7'].map((k) => {
+      const c = wins[k];
+      if (!c) return '<span style="color:' + DIM + '">—</span>';
+      if (c.wrcplus == null) return '<span style="color:' + DIM + ';font-size:10px">' + (c.pa || 0) + 'pa</span>';
+      return '<span style="padding:0 3px;border-radius:2px;background:' + wrcColor(c.wrcplus) + '">' + c.wrcplus + '</span>';
+    }).join('<span style="color:#30363d">·</span>');
+  };
+
   const flagChip = (f) =>
     `<span style="display:inline-block;padding:1px 5px;margin-left:4px;border-radius:3px;`
     + `background:rgba(210,153,34,.18);color:#d29922;font-size:10px;white-space:nowrap">${esc(f)}</span>`;
@@ -105,13 +117,17 @@ async function renderMLBSlateScout() {
     : '';
 
   let html = '<div class="card-title" style="padding:6px 8px">Slate — ' + esc(data.date)
-    + ' (' + data.slate.length + ' games) · wRC+ vs ' + esc(data.wrc_role)
+    + ' (' + data.slate.length + ' games) · wRC+ ' + esc(data.wrc_primary_window || 'season')
+    + ' vs ' + esc(data.wrc_role)
     + ' through ' + esc(data.wrc_through) + staleChip + '</div>';
 
   html += '<div style="overflow-x:auto"><table style="width:100%;border-collapse:collapse;font-size:12px">'
     + '<thead><tr style="text-align:left;color:' + DIM + ';border-bottom:1px solid #30363d">'
     + '<th style="padding:4px 6px">Team</th><th>Side</th>'
-    + '<th>Starter</th><th title="Opposing offense wRC+ against this starter\'s hand">Opp wRC+</th>'
+    + '<th>Starter</th>'
+    + '<th title="Opposing offense wRC+ against this starter\'s hand, primary window">Opp wRC+</th>'
+    + '<th title="Rolling wRC+ ladder vs this hand: L30 / L20 / L15 / L7. One window '
+    + 'alone reverses reads; the ladder shows the trend. Thin cells (<75 PA) show PA only.">L30/20/15/7</th>'
     + '<th title="Season ERA / K% / BB%">Season</th>'
     + '<th title="Last 5 STARTS, with change from season. Relief outings are '
     + 'excluded — when an arm has any, they are shown on the row beneath.">Last 5</th>'
@@ -120,7 +136,7 @@ async function renderMLBSlateScout() {
     + '</tr></thead><tbody>';
 
   for (const g of data.slate) {
-    html += '<tr style="border-top:1px solid #21262d"><td colspan="8" style="padding:6px 6px 2px;font-weight:600">'
+    html += '<tr style="border-top:1px solid #21262d"><td colspan="9" style="padding:6px 6px 2px;font-weight:600">'
       + esc(g.matchup)
       + '<span style="color:' + DIM + ';font-weight:400;margin-left:8px">'
       + odds(g.away_ml) + ' / ' + odds(g.home_ml) + ' · O/U ' + num(g.total, 1)
@@ -141,6 +157,7 @@ async function renderMLBSlateScout() {
         + '<td style="padding:3px 6px"><span style="padding:1px 6px;border-radius:3px;background:'
         + wrcColor(s.opp_wrc_vs_hand) + '">' + (s.opp_wrc_vs_hand == null ? '—' : s.opp_wrc_vs_hand)
         + '</span><span style="color:' + DIM + ';font-size:10px"> vs ' + esc(s.opponent_offense) + '</span></td>'
+        + '<td style="padding:3px 6px;white-space:nowrap">' + wrcLadder(s.opp_wrc_windows) + '</td>'
         + '<td style="color:' + DIM + '">' + num(season.era) + ' · '
         + num(season.k_pct, 1) + '% · ' + num(season.bb_pct, 1) + '%</td>'
         + '<td>' + num(recent.era)
@@ -159,7 +176,7 @@ async function renderMLBSlateScout() {
       const relief = f.relief, recentAll = f.recent_all;
       if (relief && relief.g) {
         html += '<tr style="border-top:0"><td colspan="2"></td>'
-          + '<td colspan="6" style="padding:0 6px 4px;color:' + DIM + ';font-size:11px">'
+          + '<td colspan="7" style="padding:0 6px 4px;color:' + DIM + ';font-size:11px">'
           + '+ ' + relief.g + ' relief G in the same window: '
           + num(relief.era) + ' ERA · ' + num(relief.k_pct, 1) + '% K · '
           + num(relief.ip, 1) + ' IP'
