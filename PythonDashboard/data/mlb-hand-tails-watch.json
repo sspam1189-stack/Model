@@ -1,7 +1,7 @@
 {
   "sport": "MLB",
   "type": "hand-tails-watch",
-  "generated": "2026-08-18T18:36:01Z",
+  "generated": "2026-08-18T21:06:13Z",
   "handMin": 6,
   "minGames": 3,
   "minUnits": 2.5,
@@ -23,12 +23,12 @@
       "away": "SF",
       "oppLefty": 3,
       "oppRighty": 6,
-      "lineupConfirmed": false,
-      "odds": null,
+      "lineupConfirmed": true,
+      "odds": -184,
       "suggest": "take",
       "suggestUnits": 13.54,
       "games": 18,
-      "result": "unconfirmed"
+      "result": "pending"
     },
     {
       "date": "2026-08-18",
@@ -45,12 +45,12 @@
       "away": "STL",
       "oppLefty": 2,
       "oppRighty": 7,
-      "lineupConfirmed": false,
-      "odds": null,
+      "lineupConfirmed": true,
+      "odds": 104,
       "suggest": "take",
       "suggestUnits": 6.9,
       "games": 19,
-      "result": "unconfirmed"
+      "result": "pending"
     },
     {
       "date": "2026-08-18",
@@ -67,34 +67,12 @@
       "away": "SD",
       "oppLefty": 3,
       "oppRighty": 7,
-      "lineupConfirmed": false,
-      "odds": null,
+      "lineupConfirmed": true,
+      "odds": -110,
       "suggest": "take",
       "suggestUnits": 6.74,
       "games": 20,
-      "result": "unconfirmed"
-    },
-    {
-      "date": "2026-08-18",
-      "commence": "2026-08-18T23:40:00Z",
-      "betType": "watch_fade",
-      "action": "fade",
-      "watch": true,
-      "pitcher": "Jack Perkins",
-      "hand": "R",
-      "arm_team": "OAK",
-      "opp_team": "KC",
-      "selection": "KC",
-      "home": "KC",
-      "away": "OAK",
-      "oppLefty": 6,
-      "oppRighty": 4,
-      "lineupConfirmed": false,
-      "odds": null,
-      "suggest": "fade",
-      "suggestUnits": 4.38,
-      "games": 4,
-      "result": "unconfirmed"
+      "result": "pending"
     }
   ],
   "candidates": [
