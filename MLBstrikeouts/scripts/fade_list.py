@@ -206,7 +206,14 @@ FADE_WINDOW = {
     "Baz":            {"add": SEASON_START},  # backfilled: faded all season
     "Noah Schultz":   {"add": SEASON_START},  # backfilled: faded all season
     "Lowder":         {"add": SEASON_START},  # backfilled: faded all season
-    "Skenes":         {"add": SEASON_START, "remove": "2026-07-31"},  # removed 7/31: elite arm, fade was pure market-pricing (PIT overpriced) -- too fragile
+    # Removed 7/31 (elite arm, fade was pure market-pricing, too fragile;
+    # record then 11-8 +6.92u). Re-added 2026-08-20 (user): the market still
+    # prices the name (-154 on 2026-08-19) while his last 5 read 5.13 ERA
+    # with BB% doubled to 11.5 -- the overpricing thesis with form behind it
+    # now. Walk-forward: the 8/1-8/19 gap stays no-plays (incl. the 8/19
+    # DET@PIT start), first eligible fade is his next start ~8/24.
+    "Skenes":         [{"add": SEASON_START, "remove": "2026-07-31"},
+                       {"add": "2026-08-20"}],
     # Added mid-season: good before, fade-worthy from these dates on.
     "Dustin May":        {"add": "2026-07-18", "remove": "2026-08-13"},  # removed 2026-08-13 (user): no fades from 8/13 on, prior record (incl. 8/12 SD play) stays
     # Added 2026-08-13 (user), forward-only from that date.
@@ -301,19 +308,25 @@ def _in_window(entry, date):
 
     No date -> match on roster alone (True). No window for the entry -> always
     faded. Otherwise fade only within [add, remove): before ``add`` or on/after
-    ``remove`` is not faded.
+    ``remove`` is not faded. An entry may also carry a LIST of such windows
+    (an arm retired and later re-added, e.g. Skenes 2026-08-20): the date
+    matches if it falls inside any window, and the gaps between windows stay
+    no-plays -- mirrors the list form FADE_VENUE already supports.
     """
     if date is None:
         return True
     win = FADE_WINDOW.get(entry)
     if not win:
         return True
-    add, remove = win.get("add"), win.get("remove")
-    if add is not None and date < add:
-        return False
-    if remove is not None and date >= remove:
-        return False
-    return True
+    windows = win if isinstance(win, list) else [win]
+    for w in windows:
+        add, remove = w.get("add"), w.get("remove")
+        if add is not None and date < add:
+            continue
+        if remove is not None and date >= remove:
+            continue
+        return True
+    return False
 
 
 def matched_entry(player_name, date=None):
