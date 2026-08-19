@@ -1,13 +1,35 @@
 {
   "sport": "MLB",
   "type": "hand-tails-watch",
-  "generated": "2026-08-19T18:35:50Z",
+  "generated": "2026-08-19T21:05:27Z",
   "handMin": 6,
   "minGames": 3,
   "minUnits": 2.5,
   "minUnitsTake": 4.0,
   "note": "Shadow review list -- arms NOT on the active hand-tails list showing a handedness-conditional edge (fade or take). The active list is fade-only, so all tail/take arms are review-only here. In-sample season replay; watch, don't bet.",
   "today": [
+    {
+      "date": "2026-08-19",
+      "commence": "2026-08-19T18:20:00Z",
+      "betType": "watch_fade",
+      "action": "fade",
+      "watch": true,
+      "pitcher": "Clay Holmes",
+      "hand": "R",
+      "arm_team": "CHC",
+      "opp_team": "CWS",
+      "selection": "CWS",
+      "home": "CHC",
+      "away": "CWS",
+      "oppLefty": 6,
+      "oppRighty": 4,
+      "lineupConfirmed": true,
+      "odds": 130,
+      "suggest": "fade",
+      "suggestUnits": 2.7,
+      "games": 6,
+      "result": "pending"
+    },
     {
       "date": "2026-08-19",
       "commence": "2026-08-19T22:05:00Z",
@@ -24,7 +46,7 @@
       "oppLefty": 7,
       "oppRighty": 2,
       "lineupConfirmed": true,
-      "odds": 120,
+      "odds": 122,
       "suggest": "take",
       "suggestUnits": 8.26,
       "games": 9,
@@ -805,6 +827,24 @@
         "u": -2.94
       },
       "era": 5.1
+    },
+    {
+      "pitcher": "Clay Holmes",
+      "hand": "R",
+      "games": 6,
+      "suggest": "fade",
+      "suggestUnits": 2.7,
+      "fade": {
+        "w": 4,
+        "l": 2,
+        "u": 2.7
+      },
+      "take": {
+        "w": 2,
+        "l": 4,
+        "u": -2.9
+      },
+      "era": 2.56
     },
     {
       "pitcher": "Zac Gallen",
