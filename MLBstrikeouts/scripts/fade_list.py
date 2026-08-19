@@ -38,7 +38,8 @@ FADE_LIST = [
     # Added 2026-07-27 (all-pitcher fade screen, raw fade record).
     "Logan Webb", "Lodolo", "Michael King", "Mize", "Bryce Miller",
     "Yesavage", "Imanaga", "Chandler", "McClanahan",
-    # McLean removed 2026-08-17 (user); history stays (see FADE_WINDOW).
+    # McLean removed 2026-08-17, Tolle removed 2026-08-19 (user); history
+    # stays (see FADE_WINDOW).
     "McLean", "Trevor Rogers", "Tolle",
     # Gerrit Cole removed 2026-08-09 (user); history stays (see FADE_WINDOW).
     "Gerrit Cole",
@@ -256,7 +257,12 @@ FADE_WINDOW = {
     # home-only.
     "McLean":            {"add": SEASON_START, "remove": "2026-08-17"},
     "Trevor Rogers":     {"add": SEASON_START},  # home-only (see FADE_VENUE)
-    "Tolle":             {"add": SEASON_START},  # home-only (see FADE_VENUE)
+    # Removed 2026-08-19 (user): no fades from 8/19 on (drops today's home
+    # BOS->ARI +138), prior record stays (5-3 +2.78u overall; home 4-2
+    # +2.52u). Retired on current form, not price: 2.61 ERA / 34.2% K over
+    # his last 5 — the fade had no matchup support left. FADE_VENUE keeps
+    # his "home" entry so the prior record still grades home-only.
+    "Tolle":             {"add": SEASON_START, "remove": "2026-08-19"},
     "Gerrit Cole":       {"add": SEASON_START, "remove": "2026-08-09"},  # removed 2026-08-09 (user): no fades from 8/9 on, prior record stays; home-only as of 2026-07-28 (see FADE_VENUE)
     # Added 2026-07-28: all-venue fade, season-backfilled (home +18%, away +42%).
     "Gage Jump":         {"add": SEASON_START},
