@@ -1,7 +1,7 @@
 {
   "sport": "MLB",
   "type": "fade-ml",
-  "generated": "2026-08-19T00:31:50Z",
+  "generated": "2026-08-19T13:05:54Z",
   "fadeList": [
     "Painter",
     "Rocker",
@@ -75,22 +75,22 @@
   ],
   "mutualRule": "skip",
   "summary": {
-    "wins": 452,
+    "wins": 455,
     "losses": 163,
     "voids": 0,
     "skips": 41,
-    "staked": 766.56,
-    "units": 299.01,
-    "roi": 0.3901,
+    "staked": 770.92,
+    "units": 302.29,
+    "roi": 0.3921,
     "byType": {
       "ml": {
-        "wins": 442,
+        "wins": 445,
         "losses": 155,
         "voids": 0,
         "skips": 3,
-        "staked": 748.56,
-        "units": 293.97,
-        "roi": 0.3927
+        "staked": 752.92,
+        "units": 297.25,
+        "roi": 0.3948
       },
       "ml_dog": {
         "wins": 10,
@@ -105,19 +105,19 @@
   },
   "today": [
     {
-      "date": "2026-08-18",
-      "commence": "2026-08-18T23:10:00Z",
+      "date": "2026-08-19",
+      "commence": "2026-08-19T20:10:00Z",
       "betType": "ml",
       "shadow": false,
       "pitchers": [
-        "Merrill Kelly"
+        "Payton Tolle"
       ],
-      "fadeTeam": "ARI",
+      "fadeTeam": "BOS",
       "market": "h2h",
-      "selection": "BOS",
+      "selection": "ARI",
       "line": null,
-      "odds": -168,
-      "stake": 1.68,
+      "odds": 138,
+      "stake": 1.0,
       "result": "pending",
       "profit": 0.0,
       "book": "fanduel",
@@ -125,55 +125,55 @@
       "reason": null,
       "home": "BOS",
       "away": "ARI",
-      "gamePk": 824723,
-      "fadeReason": "away"
+      "gamePk": 824722,
+      "fadeReason": "home"
     },
     {
-      "date": "2026-08-18",
-      "commence": "2026-08-18T23:40:00Z",
+      "date": "2026-08-19",
+      "commence": "2026-08-19T22:05:00Z",
       "betType": "ml",
       "shadow": false,
       "pitchers": [
-        "Tyler Mahle"
+        "Aaron Nola"
       ],
-      "fadeTeam": "ATL",
+      "fadeTeam": "PHI",
       "market": "h2h",
-      "selection": "MIN",
+      "selection": "MIA",
       "line": null,
-      "odds": 128,
+      "odds": 114,
       "stake": 1.0,
       "result": "pending",
       "profit": 0.0,
       "book": "fanduel",
       "source": "fanduel_api",
       "reason": null,
-      "home": "MIN",
-      "away": "ATL",
-      "gamePk": 823667,
-      "fadeReason": "away"
+      "home": "PHI",
+      "away": "MIA",
+      "gamePk": 823424,
+      "fadeReason": "home"
     },
     {
-      "date": "2026-08-18",
-      "commence": "2026-08-18T23:40:00Z",
+      "date": "2026-08-19",
+      "commence": "2026-08-19T17:10:00Z",
       "betType": "ml",
       "shadow": false,
       "pitchers": [
-        "Bryce Miller"
+        "Michael King"
       ],
-      "fadeTeam": "SEA",
+      "fadeTeam": "SD",
       "market": "h2h",
-      "selection": "MIL",
+      "selection": "NYM",
       "line": null,
-      "odds": -168,
-      "stake": 1.68,
+      "odds": 122,
+      "stake": 1.0,
       "result": "pending",
       "profit": 0.0,
       "book": "fanduel",
       "source": "fanduel_api",
       "reason": null,
-      "home": "MIL",
-      "away": "SEA",
-      "gamePk": 823749,
+      "home": "NYM",
+      "away": "SD",
+      "gamePk": 823587,
       "fadeReason": "away"
     }
   ],
@@ -15977,6 +15977,78 @@
       "away": "CWS",
       "gamePk": 824641,
       "fadeReason": "all"
+    },
+    {
+      "date": "2026-08-18",
+      "commence": "2026-08-18T23:10:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Merrill Kelly"
+      ],
+      "fadeTeam": "ARI",
+      "market": "h2h",
+      "selection": "BOS",
+      "line": null,
+      "odds": -168,
+      "stake": 1.68,
+      "result": "WIN",
+      "profit": 1.0,
+      "book": "fanduel",
+      "source": "fanduel_api",
+      "reason": null,
+      "home": "BOS",
+      "away": "ARI",
+      "gamePk": 824723,
+      "fadeReason": "away"
+    },
+    {
+      "date": "2026-08-18",
+      "commence": "2026-08-18T23:40:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Tyler Mahle"
+      ],
+      "fadeTeam": "ATL",
+      "market": "h2h",
+      "selection": "MIN",
+      "line": null,
+      "odds": 128,
+      "stake": 1.0,
+      "result": "WIN",
+      "profit": 1.28,
+      "book": "fanduel",
+      "source": "fanduel_api",
+      "reason": null,
+      "home": "MIN",
+      "away": "ATL",
+      "gamePk": 823667,
+      "fadeReason": "away"
+    },
+    {
+      "date": "2026-08-18",
+      "commence": "2026-08-18T23:40:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Bryce Miller"
+      ],
+      "fadeTeam": "SEA",
+      "market": "h2h",
+      "selection": "MIL",
+      "line": null,
+      "odds": -168,
+      "stake": 1.68,
+      "result": "WIN",
+      "profit": 1.0,
+      "book": "fanduel",
+      "source": "fanduel_api",
+      "reason": null,
+      "home": "MIL",
+      "away": "SEA",
+      "gamePk": 823749,
+      "fadeReason": "away"
     }
   ]
 }

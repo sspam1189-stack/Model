@@ -1,7 +1,7 @@
 {
   "sport": "MLB",
   "type": "hand-tails-roster",
-  "generated": "2026-08-19T00:33:13Z",
+  "generated": "2026-08-19T13:07:17Z",
   "handMin": 6,
   "rule": {
     "minGames": 4,
@@ -20,6 +20,12 @@
     }
   ],
   "demotions": [
+    {
+      "name": "Kevin Gausman",
+      "hand": "R",
+      "games": 10,
+      "units": 2.08
+    },
     {
       "name": "Michael King",
       "hand": "R",
@@ -180,6 +186,15 @@
         ]
       ]
     },
+    "Kevin Gausman": {
+      "hand": "R",
+      "windows": [
+        [
+          "2026-08-18",
+          "2026-08-19"
+        ]
+      ]
+    },
     "Kyle Freeland": {
       "hand": "L",
       "windows": [
@@ -198,7 +213,7 @@
       "windows": [
         [
           "2026-06-13",
-          "2026-08-18"
+          "2026-08-19"
         ]
       ]
     },
@@ -225,7 +240,7 @@
       "windows": [
         [
           "2026-07-22",
-          "2026-08-18"
+          "2026-08-19"
         ]
       ]
     },

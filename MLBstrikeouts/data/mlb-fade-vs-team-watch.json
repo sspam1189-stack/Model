@@ -1,29 +1,13 @@
 {
   "sport": "MLB",
   "type": "fade-vs-team-watch",
-  "generated": "2026-08-19T00:34:51Z",
+  "generated": "2026-08-19T13:08:53Z",
   "seasonStart": "2026-04-05",
   "minStarts": 2,
   "minEra": 6.0,
   "fadeEra": 8.0,
   "note": "Auto-screened WATCH tier for the pitcher-vs-team fade angle: >= 2 starts vs the team with 6.0 <= ERA < 8.0 vs them (ERA >= 8.0 auto-promotes to the FADE list, mlb-fade-vs-team.json), excluding arms already faded and matchups already curated. fadeRecord is the in-sample fade result (bet the opponent), shown for review -- not a screen filter. Watch, don't bet.",
-  "today": [
-    {
-      "date": "2026-08-18",
-      "commence": "2026-08-18T22:40:00Z",
-      "betType": "fade_vs_team_watch",
-      "pitcher": "Kyle Leahy",
-      "arm_team": "STL",
-      "opp": "CIN",
-      "selection": "CIN",
-      "venue": "away",
-      "matchup": "STL @ CIN",
-      "odds": 104,
-      "eraVsOpp": 6.0,
-      "startsVsOpp": 3,
-      "result": "pending"
-    }
-  ],
+  "today": [],
   "candidates": [
     {
       "pitcher": "Jos\u00e9 Soriano",
@@ -520,22 +504,6 @@
         "u": -1.05,
         "n": 2,
         "roi": -0.2893
-      }
-    },
-    {
-      "pitcher": "Kyle Leahy",
-      "opp": "CIN",
-      "arm_team": "STL",
-      "eraVsOpp": 6.0,
-      "ipVsOpp": 15.0,
-      "erVsOpp": 10,
-      "startsVsOpp": 3,
-      "fadeRecord": {
-        "w": 2,
-        "l": 1,
-        "u": 1.16,
-        "n": 3,
-        "roi": 0.3791
       }
     }
   ]

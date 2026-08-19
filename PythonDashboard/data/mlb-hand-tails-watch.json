@@ -1,7 +1,7 @@
 {
   "sport": "MLB",
   "type": "hand-tails-watch",
-  "generated": "2026-08-19T00:34:47Z",
+  "generated": "2026-08-19T13:08:50Z",
   "handMin": 6,
   "minGames": 3,
   "minUnits": 2.5,
@@ -9,73 +9,47 @@
   "note": "Shadow review list -- arms NOT on the active hand-tails list showing a handedness-conditional edge (fade or take). The active list is fade-only, so all tail/take arms are review-only here. In-sample season replay; watch, don't bet.",
   "today": [
     {
-      "date": "2026-08-18",
-      "commence": "2026-08-18T22:40:00Z",
+      "date": "2026-08-19",
+      "commence": "2026-08-19T22:05:00Z",
       "betType": "watch_take",
       "action": "take",
       "watch": true,
-      "pitcher": "Foster Griffin",
-      "hand": "L",
-      "arm_team": "CLE",
-      "opp_team": "SF",
-      "selection": "CLE",
-      "home": "CLE",
-      "away": "SF",
-      "oppLefty": 3,
-      "oppRighty": 6,
-      "lineupConfirmed": true,
-      "odds": -184,
+      "pitcher": "Sandy Alcantara",
+      "hand": "R",
+      "arm_team": "MIA",
+      "opp_team": "PHI",
+      "selection": "MIA",
+      "home": "PHI",
+      "away": "MIA",
+      "oppLefty": 6,
+      "oppRighty": 3,
+      "lineupConfirmed": false,
+      "odds": null,
       "suggest": "take",
-      "suggestUnits": 13.54,
-      "games": 18,
-      "result": "pending"
-    },
-    {
-      "date": "2026-08-18",
-      "commence": "2026-08-18T22:40:00Z",
-      "betType": "watch_take",
-      "action": "take",
-      "watch": true,
-      "pitcher": "Andrew Abbott",
-      "hand": "L",
-      "arm_team": "CIN",
-      "opp_team": "STL",
-      "selection": "CIN",
-      "home": "CIN",
-      "away": "STL",
-      "oppLefty": 2,
-      "oppRighty": 7,
-      "lineupConfirmed": true,
-      "odds": 104,
-      "suggest": "take",
-      "suggestUnits": 6.9,
-      "games": 19,
-      "result": "pending"
-    },
-    {
-      "date": "2026-08-18",
-      "commence": "2026-08-18T23:10:00Z",
-      "betType": "watch_take",
-      "action": "take",
-      "watch": true,
-      "pitcher": "Robbie Ray",
-      "hand": "L",
-      "arm_team": "SD",
-      "opp_team": "NYM",
-      "selection": "SD",
-      "home": "NYM",
-      "away": "SD",
-      "oppLefty": 3,
-      "oppRighty": 7,
-      "lineupConfirmed": true,
-      "odds": -116,
-      "suggest": "take",
-      "suggestUnits": 6.74,
-      "games": 20,
-      "result": "pending"
+      "suggestUnits": 8.26,
+      "games": 9,
+      "result": "unconfirmed"
     }
   ],
   "candidates": [
+    {
+      "pitcher": "Foster Griffin",
+      "hand": "L",
+      "games": 19,
+      "suggest": "take",
+      "suggestUnits": 14.54,
+      "fade": {
+        "w": 3,
+        "l": 16,
+        "u": -16.82
+      },
+      "take": {
+        "w": 16,
+        "l": 3,
+        "u": 14.54
+      },
+      "era": 3.18
+    },
     {
       "pitcher": "Eduardo Rodriguez",
       "hand": "L",
@@ -93,24 +67,6 @@
         "u": 14.54
       },
       "era": 2.71
-    },
-    {
-      "pitcher": "Foster Griffin",
-      "hand": "L",
-      "games": 18,
-      "suggest": "take",
-      "suggestUnits": 13.54,
-      "fade": {
-        "w": 3,
-        "l": 15,
-        "u": -15.82
-      },
-      "take": {
-        "w": 15,
-        "l": 3,
-        "u": 13.54
-      },
-      "era": 3.25
     },
     {
       "pitcher": "Sandy Alcantara",
@@ -149,6 +105,24 @@
       "era": 4.01
     },
     {
+      "pitcher": "Robbie Ray",
+      "hand": "L",
+      "games": 21,
+      "suggest": "take",
+      "suggestUnits": 7.74,
+      "fade": {
+        "w": 7,
+        "l": 14,
+        "u": -9.78
+      },
+      "take": {
+        "w": 14,
+        "l": 7,
+        "u": 7.74
+      },
+      "era": 3.36
+    },
+    {
       "pitcher": "Kyle Leahy",
       "hand": "R",
       "games": 8,
@@ -164,7 +138,7 @@
         "l": 1,
         "u": 7.32
       },
-      "era": 3.38
+      "era": 3.24
     },
     {
       "pitcher": "Chase Burns",
@@ -185,24 +159,6 @@
       "era": 2.47
     },
     {
-      "pitcher": "Andrew Abbott",
-      "hand": "L",
-      "games": 19,
-      "suggest": "take",
-      "suggestUnits": 6.9,
-      "fade": {
-        "w": 7,
-        "l": 12,
-        "u": -8.78
-      },
-      "take": {
-        "w": 12,
-        "l": 7,
-        "u": 6.9
-      },
-      "era": 4.13
-    },
-    {
       "pitcher": "Sonny Gray",
       "hand": "R",
       "games": 14,
@@ -219,24 +175,6 @@
         "u": 6.82
       },
       "era": 2.65
-    },
-    {
-      "pitcher": "Robbie Ray",
-      "hand": "L",
-      "games": 20,
-      "suggest": "take",
-      "suggestUnits": 6.74,
-      "fade": {
-        "w": 7,
-        "l": 13,
-        "u": -8.78
-      },
-      "take": {
-        "w": 13,
-        "l": 7,
-        "u": 6.74
-      },
-      "era": 3.45
     },
     {
       "pitcher": "Cristopher S\u00e1nchez",
@@ -273,6 +211,24 @@
         "u": 6.22
       },
       "era": 2.7
+    },
+    {
+      "pitcher": "Andrew Abbott",
+      "hand": "L",
+      "games": 20,
+      "suggest": "take",
+      "suggestUnits": 5.9,
+      "fade": {
+        "w": 8,
+        "l": 12,
+        "u": -7.78
+      },
+      "take": {
+        "w": 12,
+        "l": 8,
+        "u": 5.9
+      },
+      "era": 4.07
     },
     {
       "pitcher": "Jacob Misiorowski",
