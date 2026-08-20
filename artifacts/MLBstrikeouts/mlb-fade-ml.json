@@ -1,7 +1,7 @@
 {
   "sport": "MLB",
   "type": "fade-ml",
-  "generated": "2026-08-20T18:31:49Z",
+  "generated": "2026-08-20T21:01:26Z",
   "fadeList": [
     "Painter",
     "Rocker",
@@ -75,22 +75,22 @@
   ],
   "mutualRule": "skip",
   "summary": {
-    "wins": 457,
+    "wins": 458,
     "losses": 164,
     "voids": 0,
     "skips": 41,
-    "staked": 773.92,
-    "units": 303.99,
-    "roi": 0.3928,
+    "staked": 775.97,
+    "units": 304.99,
+    "roi": 0.393,
     "byType": {
       "ml": {
-        "wins": 447,
+        "wins": 448,
         "losses": 156,
         "voids": 0,
         "skips": 3,
-        "staked": 755.92,
-        "units": 298.95,
-        "roi": 0.3955
+        "staked": 757.97,
+        "units": 299.95,
+        "roi": 0.3957
       },
       "ml_dog": {
         "wins": 10,
@@ -127,30 +127,6 @@
       "away": "OAK",
       "gamePk": 824074,
       "fadeReason": "all"
-    },
-    {
-      "date": "2026-08-20",
-      "commence": "2026-08-20T17:10:00Z",
-      "betType": "ml",
-      "shadow": false,
-      "pitchers": [
-        "Landen Roupp"
-      ],
-      "fadeTeam": "SF",
-      "market": "h2h",
-      "selection": "CLE",
-      "line": null,
-      "odds": -205,
-      "stake": 2.05,
-      "result": "pending",
-      "profit": 0.0,
-      "book": "fanduel",
-      "source": "fanduel_api",
-      "reason": null,
-      "home": "CLE",
-      "away": "SF",
-      "gamePk": 824395,
-      "fadeReason": "away"
     }
   ],
   "bets": [
@@ -16097,6 +16073,30 @@
       "away": "MIA",
       "gamePk": 823424,
       "fadeReason": "home"
+    },
+    {
+      "date": "2026-08-20",
+      "commence": "2026-08-20T17:10:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Landen Roupp"
+      ],
+      "fadeTeam": "SF",
+      "market": "h2h",
+      "selection": "CLE",
+      "line": null,
+      "odds": -205,
+      "stake": 2.05,
+      "result": "WIN",
+      "profit": 1.0,
+      "book": "fanduel",
+      "source": "fanduel_api",
+      "reason": null,
+      "home": "CLE",
+      "away": "SF",
+      "gamePk": 824395,
+      "fadeReason": "away"
     }
   ]
 }

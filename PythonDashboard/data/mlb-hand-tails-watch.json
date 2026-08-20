@@ -1,13 +1,35 @@
 {
   "sport": "MLB",
   "type": "hand-tails-watch",
-  "generated": "2026-08-20T18:34:46Z",
+  "generated": "2026-08-20T21:03:38Z",
   "handMin": 6,
   "minGames": 3,
   "minUnits": 2.5,
   "minUnitsTake": 4.0,
   "note": "Shadow review list -- arms NOT on the active hand-tails list showing a handedness-conditional edge (fade or take). The active list is fade-only, so all tail/take arms are review-only here. In-sample season replay; watch, don't bet.",
   "today": [
+    {
+      "date": "2026-08-20",
+      "commence": "2026-08-20T17:10:00Z",
+      "betType": "watch_fade",
+      "action": "fade",
+      "watch": true,
+      "pitcher": "Ian Seymour",
+      "hand": "L",
+      "arm_team": "TB",
+      "opp_team": "TOR",
+      "selection": "TOR",
+      "home": "TB",
+      "away": "TOR",
+      "oppLefty": 2,
+      "oppRighty": 7,
+      "lineupConfirmed": true,
+      "odds": 148,
+      "suggest": "fade",
+      "suggestUnits": 3.9,
+      "games": 7,
+      "result": "pending"
+    },
     {
       "date": "2026-08-20",
       "commence": "2026-08-20T18:10:00Z",
@@ -26,8 +48,8 @@
       "lineupConfirmed": true,
       "odds": -102,
       "suggest": "take",
-      "suggestUnits": 8.22,
-      "games": 19,
+      "suggestUnits": 7.2,
+      "games": 20,
       "result": "pending"
     },
     {
@@ -48,8 +70,8 @@
       "lineupConfirmed": true,
       "odds": -106,
       "suggest": "take",
-      "suggestUnits": 4.04,
-      "games": 9,
+      "suggestUnits": 5.04,
+      "games": 10,
       "result": "pending"
     }
   ],
@@ -89,24 +111,6 @@
         "u": 14.54
       },
       "era": 2.71
-    },
-    {
-      "pitcher": "Anthony Kay",
-      "hand": "L",
-      "games": 19,
-      "suggest": "take",
-      "suggestUnits": 8.22,
-      "fade": {
-        "w": 6,
-        "l": 13,
-        "u": -10.38
-      },
-      "take": {
-        "w": 13,
-        "l": 6,
-        "u": 8.22
-      },
-      "era": 4.01
     },
     {
       "pitcher": "Robbie Ray",
@@ -179,6 +183,24 @@
         "u": 7.22
       },
       "era": 2.51
+    },
+    {
+      "pitcher": "Anthony Kay",
+      "hand": "L",
+      "games": 20,
+      "suggest": "take",
+      "suggestUnits": 7.2,
+      "fade": {
+        "w": 7,
+        "l": 13,
+        "u": -9.38
+      },
+      "take": {
+        "w": 13,
+        "l": 7,
+        "u": 7.2
+      },
+      "era": 4.01
     },
     {
       "pitcher": "Sonny Gray",
@@ -341,6 +363,24 @@
         "u": 5.1
       },
       "era": 3.52
+    },
+    {
+      "pitcher": "Grant Holmes",
+      "hand": "R",
+      "games": 10,
+      "suggest": "take",
+      "suggestUnits": 5.04,
+      "fade": {
+        "w": 2,
+        "l": 8,
+        "u": -5.8
+      },
+      "take": {
+        "w": 8,
+        "l": 2,
+        "u": 5.04
+      },
+      "era": 3.96
     },
     {
       "pitcher": "Joey Cantillo",
@@ -559,24 +599,6 @@
       "era": 4.1
     },
     {
-      "pitcher": "Grant Holmes",
-      "hand": "R",
-      "games": 9,
-      "suggest": "take",
-      "suggestUnits": 4.04,
-      "fade": {
-        "w": 2,
-        "l": 7,
-        "u": -4.78
-      },
-      "take": {
-        "w": 7,
-        "l": 2,
-        "u": 4.04
-      },
-      "era": 3.96
-    },
-    {
       "pitcher": "Ryan Johnson",
       "hand": "R",
       "games": 4,
@@ -593,6 +615,24 @@
         "u": -4.0
       },
       "era": 5.69
+    },
+    {
+      "pitcher": "Ian Seymour",
+      "hand": "L",
+      "games": 7,
+      "suggest": "fade",
+      "suggestUnits": 3.9,
+      "fade": {
+        "w": 5,
+        "l": 2,
+        "u": 3.9
+      },
+      "take": {
+        "w": 2,
+        "l": 5,
+        "u": -4.74
+      },
+      "era": 4.44
     },
     {
       "pitcher": "Grayson Rodriguez",
