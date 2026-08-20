@@ -1,30 +1,11 @@
 {
   "sport": "MLB",
   "type": "fade-watch",
-  "generated": "2026-08-20T00:35:09Z",
+  "generated": "2026-08-20T13:07:12Z",
   "minGames": 3,
   "minUnits": 2.5,
   "note": "Shadow review list -- arms NOT on the active fade list whose home or away fade clears the bar (>= 3 games, >= +2.5u). In-sample season replay; watch, don't bet. Promote by editing scripts/fade_list.py.",
-  "today": [
-    {
-      "date": "2026-08-19",
-      "commence": "2026-08-20T00:10:00Z",
-      "betType": "fade_watch",
-      "watch": true,
-      "pitcher": "Walbert Ure\u00f1a",
-      "arm_team": "LAA",
-      "fadeTeam": "LAA",
-      "selection": "HOU",
-      "home": "HOU",
-      "away": "LAA",
-      "venue": "away",
-      "odds": -144,
-      "suggest": "away",
-      "suggestUnits": 3.0,
-      "games": 8,
-      "result": "pending"
-    }
-  ],
+  "today": [],
   "candidates": [
     {
       "pitcher": "Sean Burke",
@@ -51,6 +32,33 @@
         "u": -6.1,
         "n": 8,
         "roi": -0.5586
+      }
+    },
+    {
+      "pitcher": "Walbert Ure\u00f1a",
+      "team": "LAA",
+      "suggest": "away",
+      "suggestUnits": 4.0,
+      "all": {
+        "w": 11,
+        "l": 10,
+        "u": -2.64,
+        "n": 21,
+        "roi": -0.0895
+      },
+      "home": {
+        "w": 4,
+        "l": 8,
+        "u": -6.64,
+        "n": 12,
+        "roi": -0.4312
+      },
+      "away": {
+        "w": 7,
+        "l": 2,
+        "u": 4.0,
+        "n": 9,
+        "roi": 0.2839
       }
     },
     {
@@ -141,10 +149,10 @@
       "suggestUnits": 3.88,
       "all": {
         "w": 12,
-        "l": 11,
-        "u": -0.58,
-        "n": 23,
-        "roi": -0.0211
+        "l": 12,
+        "u": -1.78,
+        "n": 24,
+        "roi": -0.0622
       },
       "home": {
         "w": 9,
@@ -155,10 +163,10 @@
       },
       "away": {
         "w": 3,
-        "l": 6,
-        "u": -4.46,
-        "n": 9,
-        "roi": -0.3933
+        "l": 7,
+        "u": -5.66,
+        "n": 10,
+        "roi": -0.4514
       }
     },
     {
@@ -405,6 +413,33 @@
       }
     },
     {
+      "pitcher": "Parker Messick",
+      "team": "CLE",
+      "suggest": "home",
+      "suggestUnits": 3.02,
+      "all": {
+        "w": 12,
+        "l": 12,
+        "u": 1.22,
+        "n": 24,
+        "roi": 0.0478
+      },
+      "home": {
+        "w": 7,
+        "l": 6,
+        "u": 3.02,
+        "n": 13,
+        "roi": 0.2267
+      },
+      "away": {
+        "w": 5,
+        "l": 6,
+        "u": -1.8,
+        "n": 11,
+        "roi": -0.1475
+      }
+    },
+    {
       "pitcher": "Shane Drohan",
       "team": "MIL",
       "suggest": "home",
@@ -456,33 +491,6 @@
         "u": 3.0,
         "n": 3,
         "roi": 0.7692
-      }
-    },
-    {
-      "pitcher": "Walbert Ure\u00f1a",
-      "team": "LAA",
-      "suggest": "away",
-      "suggestUnits": 3.0,
-      "all": {
-        "w": 10,
-        "l": 10,
-        "u": -3.64,
-        "n": 20,
-        "roi": -0.1298
-      },
-      "home": {
-        "w": 4,
-        "l": 8,
-        "u": -6.64,
-        "n": 12,
-        "roi": -0.4312
-      },
-      "away": {
-        "w": 6,
-        "l": 2,
-        "u": 3.0,
-        "n": 8,
-        "roi": 0.2372
       }
     },
     {

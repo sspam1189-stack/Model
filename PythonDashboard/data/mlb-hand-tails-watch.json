@@ -1,7 +1,7 @@
 {
   "sport": "MLB",
   "type": "hand-tails-watch",
-  "generated": "2026-08-20T00:35:08Z",
+  "generated": "2026-08-20T13:07:11Z",
   "handMin": 6,
   "minGames": 3,
   "minUnits": 2.5,
@@ -9,48 +9,48 @@
   "note": "Shadow review list -- arms NOT on the active hand-tails list showing a handedness-conditional edge (fade or take). The active list is fade-only, so all tail/take arms are review-only here. In-sample season replay; watch, don't bet.",
   "today": [
     {
-      "date": "2026-08-19",
-      "commence": "2026-08-19T18:20:00Z",
-      "betType": "watch_fade",
-      "action": "fade",
-      "watch": true,
-      "pitcher": "Clay Holmes",
-      "hand": "R",
-      "arm_team": "CHC",
-      "opp_team": "CWS",
-      "selection": "CWS",
-      "home": "CHC",
-      "away": "CWS",
-      "oppLefty": 6,
-      "oppRighty": 4,
-      "lineupConfirmed": true,
-      "odds": 130,
-      "suggest": "fade",
-      "suggestUnits": 2.7,
-      "games": 6,
-      "result": "pending"
-    },
-    {
-      "date": "2026-08-19",
-      "commence": "2026-08-19T22:05:00Z",
+      "date": "2026-08-20",
+      "commence": "2026-08-20T18:10:00Z",
       "betType": "watch_take",
       "action": "take",
       "watch": true,
-      "pitcher": "Sandy Alcantara",
-      "hand": "R",
-      "arm_team": "MIA",
-      "opp_team": "PHI",
-      "selection": "MIA",
-      "home": "PHI",
-      "away": "MIA",
-      "oppLefty": 7,
-      "oppRighty": 2,
-      "lineupConfirmed": true,
-      "odds": 122,
+      "pitcher": "Anthony Kay",
+      "hand": "L",
+      "arm_team": "CWS",
+      "opp_team": "ATL",
+      "selection": "CWS",
+      "home": "CWS",
+      "away": "ATL",
+      "oppLefty": 4,
+      "oppRighty": 6,
+      "lineupConfirmed": false,
+      "odds": null,
       "suggest": "take",
-      "suggestUnits": 8.26,
+      "suggestUnits": 8.22,
+      "games": 19,
+      "result": "unconfirmed"
+    },
+    {
+      "date": "2026-08-20",
+      "commence": "2026-08-20T18:10:00Z",
+      "betType": "watch_take",
+      "action": "take",
+      "watch": true,
+      "pitcher": "Grant Holmes",
+      "hand": "R",
+      "arm_team": "ATL",
+      "opp_team": "CWS",
+      "selection": "ATL",
+      "home": "CWS",
+      "away": "ATL",
+      "oppLefty": 7,
+      "oppRighty": 4,
+      "lineupConfirmed": false,
+      "odds": null,
+      "suggest": "take",
+      "suggestUnits": 4.04,
       "games": 9,
-      "result": "pending"
+      "result": "unconfirmed"
     }
   ],
   "candidates": [
@@ -89,24 +89,6 @@
         "u": 14.54
       },
       "era": 2.71
-    },
-    {
-      "pitcher": "Sandy Alcantara",
-      "hand": "R",
-      "games": 9,
-      "suggest": "take",
-      "suggestUnits": 8.26,
-      "fade": {
-        "w": 1,
-        "l": 8,
-        "u": -9.75
-      },
-      "take": {
-        "w": 8,
-        "l": 1,
-        "u": 8.26
-      },
-      "era": 3.43
     },
     {
       "pitcher": "Anthony Kay",
@@ -163,6 +145,24 @@
       "era": 3.24
     },
     {
+      "pitcher": "Sandy Alcantara",
+      "hand": "R",
+      "games": 10,
+      "suggest": "take",
+      "suggestUnits": 7.26,
+      "fade": {
+        "w": 2,
+        "l": 8,
+        "u": -8.75
+      },
+      "take": {
+        "w": 8,
+        "l": 2,
+        "u": 7.26
+      },
+      "era": 3.46
+    },
+    {
       "pitcher": "Chase Burns",
       "hand": "R",
       "games": 14,
@@ -178,7 +178,7 @@
         "l": 3,
         "u": 7.22
       },
-      "era": 2.47
+      "era": 2.51
     },
     {
       "pitcher": "Sonny Gray",
@@ -304,7 +304,7 @@
         "l": 1,
         "u": 5.2
       },
-      "era": 2.27
+      "era": 2.69
     },
     {
       "pitcher": "Luinder Avila",
@@ -772,7 +772,7 @@
         "l": 7,
         "u": -4.02
       },
-      "era": 4.59
+      "era": 4.71
     },
     {
       "pitcher": "Michael Wacha",
@@ -844,7 +844,7 @@
         "l": 4,
         "u": -2.9
       },
-      "era": 2.56
+      "era": 2.49
     },
     {
       "pitcher": "Zac Gallen",

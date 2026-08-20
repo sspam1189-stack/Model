@@ -1,7 +1,7 @@
 {
   "sport": "MLB",
   "type": "fade-ml",
-  "generated": "2026-08-20T00:32:01Z",
+  "generated": "2026-08-20T13:04:15Z",
   "fadeList": [
     "Painter",
     "Rocker",
@@ -76,21 +76,21 @@
   "mutualRule": "skip",
   "summary": {
     "wins": 457,
-    "losses": 163,
+    "losses": 164,
     "voids": 0,
     "skips": 41,
-    "staked": 772.92,
-    "units": 304.99,
-    "roi": 0.3946,
+    "staked": 773.92,
+    "units": 303.99,
+    "roi": 0.3928,
     "byType": {
       "ml": {
         "wins": 447,
-        "losses": 155,
+        "losses": 156,
         "voids": 0,
         "skips": 3,
-        "staked": 754.92,
-        "units": 299.95,
-        "roi": 0.3973
+        "staked": 755.92,
+        "units": 298.95,
+        "roi": 0.3955
       },
       "ml_dog": {
         "wins": 10,
@@ -105,28 +105,52 @@
   },
   "today": [
     {
-      "date": "2026-08-19",
-      "commence": "2026-08-19T22:05:00Z",
+      "date": "2026-08-20",
+      "commence": "2026-08-20T18:10:00Z",
       "betType": "ml",
       "shadow": false,
       "pitchers": [
-        "Aaron Nola"
+        "Gage Jump"
       ],
-      "fadeTeam": "PHI",
+      "fadeTeam": "OAK",
       "market": "h2h",
-      "selection": "MIA",
+      "selection": "KC",
       "line": null,
-      "odds": 122,
-      "stake": 1.0,
+      "odds": -136,
+      "stake": 1.36,
       "result": "pending",
       "profit": 0.0,
       "book": "fanduel",
       "source": "fanduel_api",
       "reason": null,
-      "home": "PHI",
-      "away": "MIA",
-      "gamePk": 823424,
-      "fadeReason": "home"
+      "home": "KC",
+      "away": "OAK",
+      "gamePk": 824074,
+      "fadeReason": "all"
+    },
+    {
+      "date": "2026-08-20",
+      "commence": "2026-08-20T17:10:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Landen Roupp"
+      ],
+      "fadeTeam": "SF",
+      "market": "h2h",
+      "selection": "CLE",
+      "line": null,
+      "odds": -190,
+      "stake": 1.9,
+      "result": "pending",
+      "profit": 0.0,
+      "book": "fanduel",
+      "source": "fanduel_api",
+      "reason": null,
+      "home": "CLE",
+      "away": "SF",
+      "gamePk": 824395,
+      "fadeReason": "away"
     }
   ],
   "bets": [
@@ -16048,6 +16072,30 @@
       "home": "BOS",
       "away": "ARI",
       "gamePk": 824722,
+      "fadeReason": "home"
+    },
+    {
+      "date": "2026-08-19",
+      "commence": "2026-08-19T22:05:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Aaron Nola"
+      ],
+      "fadeTeam": "PHI",
+      "market": "h2h",
+      "selection": "MIA",
+      "line": null,
+      "odds": 122,
+      "stake": 1.0,
+      "result": "LOSS",
+      "profit": -1.0,
+      "book": "fanduel",
+      "source": "fanduel_api",
+      "reason": null,
+      "home": "PHI",
+      "away": "MIA",
+      "gamePk": 823424,
       "fadeReason": "home"
     }
   ]
