@@ -1,7 +1,7 @@
 {
   "sport": "MLB",
   "type": "hand-tails",
-  "generated": "2026-08-20T16:05:48Z",
+  "generated": "2026-08-20T18:33:37Z",
   "handMin": 6,
   "roster": {
     "Andrew Painter": {
@@ -148,7 +148,32 @@
       }
     }
   },
-  "today": [],
+  "today": [
+    {
+      "date": "2026-08-20",
+      "commence": "2026-08-20T18:10:00Z",
+      "betType": "hand_fade",
+      "action": "fade",
+      "pitcher": "George Kirby",
+      "entry": "George Kirby",
+      "hand": "R",
+      "arm_team": "SEA",
+      "opp_team": "MIL",
+      "selection": "MIL",
+      "home": "MIL",
+      "away": "SEA",
+      "oppLefty": 6,
+      "oppRighty": 4,
+      "lineupConfirmed": true,
+      "odds": -126,
+      "stake": 1.26,
+      "result": "pending",
+      "reason": null,
+      "profit": 0.0,
+      "book": "fanduel",
+      "source": "fanduel_api"
+    }
+  ],
   "bets": [
     {
       "date": "2026-05-20",
