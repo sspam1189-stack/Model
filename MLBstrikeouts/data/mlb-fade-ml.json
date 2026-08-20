@@ -1,7 +1,7 @@
 {
   "sport": "MLB",
   "type": "fade-ml",
-  "generated": "2026-08-19T23:01:38Z",
+  "generated": "2026-08-20T00:32:01Z",
   "fadeList": [
     "Painter",
     "Rocker",
@@ -75,22 +75,22 @@
   ],
   "mutualRule": "skip",
   "summary": {
-    "wins": 456,
+    "wins": 457,
     "losses": 163,
     "voids": 0,
     "skips": 41,
-    "staked": 771.92,
-    "units": 303.53,
-    "roi": 0.3932,
+    "staked": 772.92,
+    "units": 304.99,
+    "roi": 0.3946,
     "byType": {
       "ml": {
-        "wins": 446,
+        "wins": 447,
         "losses": 155,
         "voids": 0,
         "skips": 3,
-        "staked": 753.92,
-        "units": 298.49,
-        "roi": 0.3959
+        "staked": 754.92,
+        "units": 299.95,
+        "roi": 0.3973
       },
       "ml_dog": {
         "wins": 10,
@@ -104,30 +104,6 @@
     }
   },
   "today": [
-    {
-      "date": "2026-08-19",
-      "commence": "2026-08-19T20:10:00Z",
-      "betType": "ml",
-      "shadow": false,
-      "pitchers": [
-        "Payton Tolle"
-      ],
-      "fadeTeam": "BOS",
-      "market": "h2h",
-      "selection": "ARI",
-      "line": null,
-      "odds": 146,
-      "stake": 1.0,
-      "result": "pending",
-      "profit": 0.0,
-      "book": "fanduel",
-      "source": "fanduel_api",
-      "reason": null,
-      "home": "BOS",
-      "away": "ARI",
-      "gamePk": 824722,
-      "fadeReason": "home"
-    },
     {
       "date": "2026-08-19",
       "commence": "2026-08-19T22:05:00Z",
@@ -16049,6 +16025,30 @@
       "away": "SD",
       "gamePk": 823587,
       "fadeReason": "away"
+    },
+    {
+      "date": "2026-08-19",
+      "commence": "2026-08-19T20:10:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Payton Tolle"
+      ],
+      "fadeTeam": "BOS",
+      "market": "h2h",
+      "selection": "ARI",
+      "line": null,
+      "odds": 146,
+      "stake": 1.0,
+      "result": "WIN",
+      "profit": 1.46,
+      "book": "fanduel",
+      "source": "fanduel_api",
+      "reason": null,
+      "home": "BOS",
+      "away": "ARI",
+      "gamePk": 824722,
+      "fadeReason": "home"
     }
   ]
 }
