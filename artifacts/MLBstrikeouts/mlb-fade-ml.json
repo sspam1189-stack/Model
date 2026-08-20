@@ -1,7 +1,7 @@
 {
   "sport": "MLB",
   "type": "fade-ml",
-  "generated": "2026-08-20T21:01:26Z",
+  "generated": "2026-08-20T23:01:17Z",
   "fadeList": [
     "Painter",
     "Rocker",
@@ -75,22 +75,22 @@
   ],
   "mutualRule": "skip",
   "summary": {
-    "wins": 458,
+    "wins": 459,
     "losses": 164,
     "voids": 0,
     "skips": 41,
-    "staked": 775.97,
-    "units": 304.99,
-    "roi": 0.393,
+    "staked": 777.25,
+    "units": 305.99,
+    "roi": 0.3937,
     "byType": {
       "ml": {
-        "wins": 448,
+        "wins": 449,
         "losses": 156,
         "voids": 0,
         "skips": 3,
-        "staked": 757.97,
-        "units": 299.95,
-        "roi": 0.3957
+        "staked": 759.25,
+        "units": 300.95,
+        "roi": 0.3964
       },
       "ml_dog": {
         "wins": 10,
@@ -103,32 +103,7 @@
       }
     }
   },
-  "today": [
-    {
-      "date": "2026-08-20",
-      "commence": "2026-08-20T18:10:00Z",
-      "betType": "ml",
-      "shadow": false,
-      "pitchers": [
-        "Gage Jump"
-      ],
-      "fadeTeam": "OAK",
-      "market": "h2h",
-      "selection": "KC",
-      "line": null,
-      "odds": -128,
-      "stake": 1.28,
-      "result": "pending",
-      "profit": 0.0,
-      "book": "fanduel",
-      "source": "fanduel_api",
-      "reason": null,
-      "home": "KC",
-      "away": "OAK",
-      "gamePk": 824074,
-      "fadeReason": "all"
-    }
-  ],
+  "today": [],
   "bets": [
     {
       "date": "2026-04-05",
@@ -16097,6 +16072,30 @@
       "away": "SF",
       "gamePk": 824395,
       "fadeReason": "away"
+    },
+    {
+      "date": "2026-08-20",
+      "commence": "2026-08-20T18:10:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Gage Jump"
+      ],
+      "fadeTeam": "OAK",
+      "market": "h2h",
+      "selection": "KC",
+      "line": null,
+      "odds": -128,
+      "stake": 1.28,
+      "result": "WIN",
+      "profit": 1.0,
+      "book": "fanduel",
+      "source": "fanduel_api",
+      "reason": null,
+      "home": "KC",
+      "away": "OAK",
+      "gamePk": 824074,
+      "fadeReason": "all"
     }
   ]
 }

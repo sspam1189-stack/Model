@@ -1,7 +1,7 @@
 {
   "sport": "MLB",
   "type": "hand-tails",
-  "generated": "2026-08-20T21:02:47Z",
+  "generated": "2026-08-20T23:03:03Z",
   "handMin": 6,
   "roster": {
     "Andrew Painter": {
@@ -110,18 +110,18 @@
     }
   ],
   "summary": {
-    "wins": 48,
+    "wins": 49,
     "losses": 20,
-    "units": 28.44,
-    "staked": 80.9,
-    "roi": 0.3515,
+    "units": 29.44,
+    "staked": 82.16,
+    "roi": 0.3583,
     "byAction": {
       "fade": {
-        "wins": 48,
+        "wins": 49,
         "losses": 20,
-        "units": 28.44,
-        "staked": 80.9,
-        "roi": 0.3515
+        "units": 29.44,
+        "staked": 82.16,
+        "roi": 0.3583
       },
       "take": {
         "wins": 0,
@@ -133,11 +133,11 @@
     },
     "byHand": {
       "R": {
-        "wins": 29,
+        "wins": 30,
         "losses": 10,
-        "units": 19.18,
-        "staked": 46.84,
-        "roi": 0.4095
+        "units": 20.18,
+        "staked": 48.1,
+        "roi": 0.4195
       },
       "L": {
         "wins": 19,
@@ -148,32 +148,7 @@
       }
     }
   },
-  "today": [
-    {
-      "date": "2026-08-20",
-      "commence": "2026-08-20T18:10:00Z",
-      "betType": "hand_fade",
-      "action": "fade",
-      "pitcher": "George Kirby",
-      "entry": "George Kirby",
-      "hand": "R",
-      "arm_team": "SEA",
-      "opp_team": "MIL",
-      "selection": "MIL",
-      "home": "MIL",
-      "away": "SEA",
-      "oppLefty": 6,
-      "oppRighty": 4,
-      "lineupConfirmed": true,
-      "odds": -126,
-      "stake": 1.26,
-      "result": "pending",
-      "reason": null,
-      "profit": 0.0,
-      "book": "fanduel",
-      "source": "fanduel_api"
-    }
-  ],
+  "today": [],
   "bets": [
     {
       "date": "2026-05-20",
@@ -1804,6 +1779,30 @@
       "result": "LOSS",
       "reason": null,
       "profit": -1.0,
+      "book": "fanduel",
+      "source": "fanduel_api"
+    },
+    {
+      "date": "2026-08-20",
+      "commence": "2026-08-20T18:10:00Z",
+      "betType": "hand_fade",
+      "action": "fade",
+      "pitcher": "George Kirby",
+      "entry": "George Kirby",
+      "hand": "R",
+      "arm_team": "SEA",
+      "opp_team": "MIL",
+      "selection": "MIL",
+      "home": "MIL",
+      "away": "SEA",
+      "oppLefty": 6,
+      "oppRighty": 4,
+      "lineupConfirmed": true,
+      "odds": -126,
+      "stake": 1.26,
+      "result": "WIN",
+      "reason": null,
+      "profit": 1.0,
       "book": "fanduel",
       "source": "fanduel_api"
     }
