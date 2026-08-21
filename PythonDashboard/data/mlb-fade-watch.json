@@ -1,7 +1,7 @@
 {
   "sport": "MLB",
   "type": "fade-watch",
-  "generated": "2026-08-21T21:06:55Z",
+  "generated": "2026-08-21T23:05:31Z",
   "minGames": 3,
   "minUnits": 2.5,
   "note": "Shadow review list -- arms NOT on the active fade list whose home or away fade clears the bar (>= 3 games, >= +2.5u). In-sample season replay; watch, don't bet. Promote by editing scripts/fade_list.py.",
@@ -20,8 +20,8 @@
       "venue": "away",
       "odds": -138,
       "suggest": "away",
-      "suggestUnits": 2.76,
-      "games": 11,
+      "suggestUnits": 3.76,
+      "games": 12,
       "result": "pending"
     },
     {
@@ -36,7 +36,7 @@
       "home": "NYY",
       "away": "TOR",
       "venue": "home",
-      "odds": 182,
+      "odds": 176,
       "suggest": "home",
       "suggestUnits": 3.61,
       "games": 11,
@@ -54,7 +54,7 @@
       "home": "CWS",
       "away": "NYM",
       "venue": "home",
-      "odds": 130,
+      "odds": 114,
       "suggest": "home",
       "suggestUnits": 4.28,
       "games": 12,
@@ -285,6 +285,33 @@
         "u": -3.98,
         "n": 6,
         "roi": -0.6546
+      }
+    },
+    {
+      "pitcher": "Chris Sale",
+      "team": "ATL",
+      "suggest": "away",
+      "suggestUnits": 3.76,
+      "all": {
+        "w": 10,
+        "l": 11,
+        "u": 3.27,
+        "n": 21,
+        "roi": 0.1501
+      },
+      "home": {
+        "w": 3,
+        "l": 6,
+        "u": -0.49,
+        "n": 9,
+        "roi": -0.0544
+      },
+      "away": {
+        "w": 7,
+        "l": 5,
+        "u": 3.76,
+        "n": 12,
+        "roi": 0.2942
       }
     },
     {
@@ -663,33 +690,6 @@
         "u": 2.82,
         "n": 5,
         "roi": 0.4312
-      }
-    },
-    {
-      "pitcher": "Chris Sale",
-      "team": "ATL",
-      "suggest": "away",
-      "suggestUnits": 2.76,
-      "all": {
-        "w": 9,
-        "l": 11,
-        "u": 2.27,
-        "n": 20,
-        "roi": 0.1113
-      },
-      "home": {
-        "w": 3,
-        "l": 6,
-        "u": -0.49,
-        "n": 9,
-        "roi": -0.0544
-      },
-      "away": {
-        "w": 6,
-        "l": 5,
-        "u": 2.76,
-        "n": 11,
-        "roi": 0.2421
       }
     },
     {

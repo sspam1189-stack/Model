@@ -1,7 +1,7 @@
 {
   "sport": "MLB",
   "type": "hand-tails-watch",
-  "generated": "2026-08-21T21:06:54Z",
+  "generated": "2026-08-21T23:05:30Z",
   "handMin": 6,
   "minGames": 3,
   "minUnits": 2.5,
@@ -26,8 +26,8 @@
       "lineupConfirmed": true,
       "odds": -138,
       "suggest": "take",
-      "suggestUnits": 5.62,
-      "games": 8,
+      "suggestUnits": 6.62,
+      "games": 9,
       "result": "pending"
     },
     {
@@ -68,7 +68,7 @@
       "oppLefty": 6,
       "oppRighty": 3,
       "lineupConfirmed": true,
-      "odds": -168,
+      "odds": -172,
       "suggest": "take",
       "suggestUnits": 6.82,
       "games": 14,
@@ -90,7 +90,7 @@
       "oppLefty": 5,
       "oppRighty": 6,
       "lineupConfirmed": true,
-      "odds": -154,
+      "odds": -144,
       "suggest": "take",
       "suggestUnits": 4.9,
       "games": 21,
@@ -111,12 +111,12 @@
       "away": "CIN",
       "oppLefty": 3,
       "oppRighty": 8,
-      "lineupConfirmed": false,
-      "odds": null,
+      "lineupConfirmed": true,
+      "odds": -142,
       "suggest": "take",
       "suggestUnits": 14.54,
       "games": 18,
-      "result": "unconfirmed"
+      "result": "pending"
     },
     {
       "date": "2026-08-21",
@@ -131,36 +131,14 @@
       "selection": "SD",
       "home": "SD",
       "away": "MIN",
-      "oppLefty": 4,
-      "oppRighty": 6,
-      "lineupConfirmed": false,
-      "odds": null,
+      "oppLefty": 3,
+      "oppRighty": 7,
+      "lineupConfirmed": true,
+      "odds": -116,
       "suggest": "fade",
       "suggestUnits": 3.02,
       "games": 14,
-      "result": "unconfirmed"
-    },
-    {
-      "date": "2026-08-21",
-      "commence": "2026-08-22T02:10:00Z",
-      "betType": "watch_take",
-      "action": "take",
-      "watch": true,
-      "pitcher": "Matthew Boyd",
-      "hand": "L",
-      "arm_team": "CHC",
-      "opp_team": "SEA",
-      "selection": "CHC",
-      "home": "SEA",
-      "away": "CHC",
-      "oppLefty": 5,
-      "oppRighty": 6,
-      "lineupConfirmed": false,
-      "odds": null,
-      "suggest": "take",
-      "suggestUnits": 4.38,
-      "games": 11,
-      "result": "unconfirmed"
+      "result": "pending"
     }
   ],
   "candidates": [
@@ -309,6 +287,24 @@
       "era": 2.65
     },
     {
+      "pitcher": "Jacob Misiorowski",
+      "hand": "R",
+      "games": 9,
+      "suggest": "take",
+      "suggestUnits": 6.62,
+      "fade": {
+        "w": 1,
+        "l": 8,
+        "u": -7.02
+      },
+      "take": {
+        "w": 8,
+        "l": 1,
+        "u": 6.62
+      },
+      "era": 1.75
+    },
+    {
       "pitcher": "Cristopher S\u00e1nchez",
       "hand": "L",
       "games": 24,
@@ -361,24 +357,6 @@
         "u": 5.9
       },
       "era": 4.07
-    },
-    {
-      "pitcher": "Jacob Misiorowski",
-      "hand": "R",
-      "games": 8,
-      "suggest": "take",
-      "suggestUnits": 5.62,
-      "fade": {
-        "w": 1,
-        "l": 7,
-        "u": -6.02
-      },
-      "take": {
-        "w": 7,
-        "l": 1,
-        "u": 5.62
-      },
-      "era": 1.75
     },
     {
       "pitcher": "Max Meyer",
