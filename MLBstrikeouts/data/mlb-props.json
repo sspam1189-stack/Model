@@ -4,7 +4,7 @@
   "season": "2026",
   "mode": "live",
   "model": "kalman_blend",
-  "generated": "2026-08-20T23:00:53Z",
+  "generated": "2026-08-21T00:31:19Z",
   "totalProjections": 18,
   "totalPicks": 3094,
   "totalWatchlist": 18,
@@ -103834,7 +103834,7 @@
       "proj_raw": 5.2,
       "would_be_pick": "UNDER",
       "date": "2026-08-20",
-      "lockState": "lineup_confirmed",
+      "lockState": "game_started",
       "lockedAt": "2026-08-20T21:00:56.830955Z",
       "lineupConfirmed": true
     },
@@ -103865,7 +103865,7 @@
       "proj_raw": 5.667,
       "would_be_pick": "OVER",
       "date": "2026-08-20",
-      "lockState": "lineup_confirmed",
+      "lockState": "game_started",
       "lockedAt": "2026-08-20T21:00:56.830955Z",
       "lineupConfirmed": true
     },
@@ -103896,7 +103896,7 @@
       "proj_raw": 4.303,
       "would_be_pick": "UNDER",
       "date": "2026-08-20",
-      "lockState": "lineup_confirmed",
+      "lockState": "game_started",
       "lockedAt": "2026-08-20T21:00:56.830955Z",
       "lineupConfirmed": true
     },
@@ -103958,7 +103958,7 @@
       "proj_raw": 4.765,
       "would_be_pick": "OVER",
       "date": "2026-08-20",
-      "lockState": "lineup_confirmed",
+      "lockState": "game_started",
       "lockedAt": "2026-08-20T21:00:56.830955Z",
       "lineupConfirmed": true
     }
@@ -104386,7 +104386,7 @@
       "to_win_1u": 1.11,
       "proj_raw": 5.667,
       "date": "2026-08-20",
-      "lockState": "lineup_confirmed",
+      "lockState": "game_started",
       "lockedAt": "2026-08-20T21:00:56.830955Z",
       "lineupConfirmed": true
     },
@@ -104416,7 +104416,7 @@
       "to_win_1u": 1.0,
       "proj_raw": 4.303,
       "date": "2026-08-20",
-      "lockState": "lineup_confirmed",
+      "lockState": "game_started",
       "lockedAt": "2026-08-20T21:00:56.830955Z",
       "lineupConfirmed": true
     },
@@ -104476,7 +104476,7 @@
       "to_win_1u": 0.98,
       "proj_raw": 5.2,
       "date": "2026-08-20",
-      "lockState": "lineup_confirmed",
+      "lockState": "game_started",
       "lockedAt": "2026-08-20T21:00:56.830955Z",
       "lineupConfirmed": true
     },
@@ -104506,7 +104506,7 @@
       "to_win_1u": 1.0,
       "proj_raw": 4.765,
       "date": "2026-08-20",
-      "lockState": "lineup_confirmed",
+      "lockState": "game_started",
       "lockedAt": "2026-08-20T21:00:56.830955Z",
       "lineupConfirmed": true
     }
@@ -104546,10 +104546,10 @@
     "SEA": "Final",
     "BAL": "In Progress",
     "NYY": "In Progress",
-    "TEX": "Pre-Game",
-    "WSH": "Pre-Game",
-    "HOU": "Pre-Game",
-    "LAA": "Pre-Game"
+    "TEX": "In Progress",
+    "WSH": "In Progress",
+    "HOU": "In Progress",
+    "LAA": "In Progress"
   },
   "gameTimesById": {
     "824474": "2026-08-20T16:40:00Z",
@@ -104570,8 +104570,8 @@
     "824589": "Final",
     "823747": "Final",
     "824802": "In Progress",
-    "822861": "Pre-Game",
-    "824153": "Pre-Game"
+    "822861": "In Progress",
+    "824153": "In Progress"
   },
   "todayProbables": [
     {
