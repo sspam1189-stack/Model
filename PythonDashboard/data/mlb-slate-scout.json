@@ -21,8 +21,8 @@
       "away_ml": 126,
       "home_ml": -138,
       "total": 6,
-      "over_ml": -115,
-      "under_ml": -105,
+      "over_ml": -105,
+      "under_ml": -115,
       "sides": {
         "away": {
           "pitcher": "Chris Sale",
@@ -253,8 +253,8 @@
       "away": "STL",
       "home": "PHI",
       "commence": "2026-08-21T22:40:00Z",
-      "away_ml": 186,
-      "home_ml": -205,
+      "away_ml": 230,
+      "home_ml": -250,
       "total": 8,
       "over_ml": -110,
       "under_ml": -110,
@@ -410,42 +410,142 @@
       "away": "TOR",
       "home": "NYY",
       "commence": "2026-08-21T23:05:00Z",
-      "away_ml": 210,
-      "home_ml": -230,
-      "total": 7.5,
-      "over_ml": -110,
-      "under_ml": -110,
+      "away_ml": 182,
+      "home_ml": -198,
+      "total": 7,
+      "over_ml": -115,
+      "under_ml": -105,
       "sides": {
         "away": {
-          "pitcher": null,
-          "listed_as": null,
-          "resolved": false,
-          "hand": null,
+          "pitcher": "Mason Fluharty",
+          "listed_as": "Mason Fluharty",
+          "resolved": true,
+          "hand": "L",
           "team": "TOR",
           "opponent_offense": "NYY",
-          "opp_wrc_vs_hand": null,
-          "opp_wrc_game": null,
-          "opp_wrc_recent": null,
-          "opp_wrc_recent_pa": null,
+          "opp_wrc_vs_hand": 83,
+          "opp_wrc_game": 74,
+          "opp_wrc_recent": 99,
+          "opp_wrc_recent_pa": 94,
           "opp_wrc_windows": {
-            "last30": null,
-            "last20": null,
-            "last15": null,
-            "last7": null
+            "last30": {
+              "wrcplus": 83,
+              "pa": 332,
+              "role": "all"
+            },
+            "last20": {
+              "wrcplus": 84,
+              "pa": 128,
+              "role": "all"
+            },
+            "last15": {
+              "wrcplus": 90,
+              "pa": 79,
+              "role": "all"
+            },
+            "last7": {
+              "wrcplus": null,
+              "pa": 27,
+              "role": "all"
+            }
           },
           "opp_platoon_gap": 11,
           "form": {
-            "season": null,
-            "recent": null,
-            "hot": null,
-            "recent_all": null,
-            "relief": null
+            "season": {
+              "gs": 3,
+              "ip": 3.7,
+              "ip_per_gs": 1.22,
+              "era": 2.45,
+              "whip": 1.64,
+              "k_pct": 23.5,
+              "bb_pct": 11.8,
+              "k_bb_pct": 11.8,
+              "hr9": 0.0,
+              "k": 4,
+              "bb": 2,
+              "hr": 0,
+              "er": 1
+            },
+            "recent": {
+              "gs": 3,
+              "ip": 3.7,
+              "ip_per_gs": 1.22,
+              "era": 2.45,
+              "whip": 1.64,
+              "k_pct": 23.5,
+              "bb_pct": 11.8,
+              "k_bb_pct": 11.8,
+              "hr9": 0.0,
+              "k": 4,
+              "bb": 2,
+              "hr": 0,
+              "er": 1
+            },
+            "hot": {
+              "gs": 3,
+              "ip": 3.7,
+              "ip_per_gs": 1.22,
+              "era": 2.45,
+              "whip": 1.64,
+              "k_pct": 23.5,
+              "bb_pct": 11.8,
+              "k_bb_pct": 11.8,
+              "hr9": 0.0,
+              "k": 4,
+              "bb": 2,
+              "hr": 0,
+              "er": 1
+            },
+            "recent_all": {
+              "g": 5,
+              "ip": 4.0,
+              "ip_per_g": 0.8,
+              "era": 0.0,
+              "whip": 0.0,
+              "k_pct": 8.3,
+              "bb_pct": 0.0,
+              "k_bb_pct": 8.3,
+              "hr9": 0.0,
+              "k": 1,
+              "bb": 0,
+              "hr": 0,
+              "er": 0,
+              "gs": 0
+            },
+            "relief": {
+              "g": 60,
+              "ip": 45.7,
+              "ip_per_g": 0.76,
+              "era": 3.55,
+              "whip": 1.18,
+              "k_pct": 25.5,
+              "bb_pct": 9.6,
+              "k_bb_pct": 16.0,
+              "hr9": 1.18,
+              "k": 48,
+              "bb": 18,
+              "hr": 6,
+              "er": 18,
+              "from": "2026-04-07",
+              "to": "2026-08-19"
+            }
           },
-          "trend": {},
+          "trend": {
+            "era": 0.0,
+            "whip": 0.0,
+            "k_pct": 0.0,
+            "bb_pct": 0.0,
+            "ip_per_gs": 0.0,
+            "hr9": 0.0
+          },
           "flags": [
-            "thin-sample"
+            "opener",
+            "thin-sample",
+            "layoff-78d",
+            "stale-window-61d",
+            "swingman-60g"
           ],
-          "mismatch": null
+          "mismatch": -28.7
         },
         "home": {
           "pitcher": "Cam Schlittler",
@@ -557,10 +657,10 @@
           "mismatch": -32.0
         }
       },
-      "home_offense_game": null,
+      "home_offense_game": 74,
       "away_offense_game": 104,
-      "game_offense": null,
-      "offense_edge": null
+      "game_offense": 89,
+      "offense_edge": 30
     },
     {
       "matchup": "SF @ BOS",
@@ -804,9 +904,9 @@
       "commence": "2026-08-21T23:10:00Z",
       "away_ml": 136,
       "home_ml": -146,
-      "total": 8,
-      "over_ml": -118,
-      "under_ml": -104,
+      "total": 7.5,
+      "over_ml": -122,
+      "under_ml": 100,
       "sides": {
         "away": {
           "pitcher": "Brad Lord",
@@ -1060,8 +1160,8 @@
       "away_ml": 116,
       "home_ml": -126,
       "total": 7.5,
-      "over_ml": -118,
-      "under_ml": -104,
+      "over_ml": -122,
+      "under_ml": 100,
       "sides": {
         "away": {
           "pitcher": "Freddy Peralta",
@@ -1529,9 +1629,9 @@
       "commence": "2026-08-22T00:10:00Z",
       "away_ml": -108,
       "home_ml": 100,
-      "total": 8,
-      "over_ml": -118,
-      "under_ml": -104,
+      "total": 8.5,
+      "over_ml": -102,
+      "under_ml": -120,
       "sides": {
         "away": {
           "pitcher": "Troy Melton",
@@ -1778,11 +1878,11 @@
       "away": "OAK",
       "home": "HOU",
       "commence": "2026-08-22T00:10:00Z",
-      "away_ml": 170,
-      "home_ml": -184,
-      "total": 8.5,
-      "over_ml": -102,
-      "under_ml": -120,
+      "away_ml": 164,
+      "home_ml": -178,
+      "total": 8,
+      "over_ml": -110,
+      "under_ml": -110,
       "sides": {
         "away": {
           "pitcher": "J.T. Ginn",
@@ -2250,8 +2350,8 @@
       "away": "CLE",
       "home": "COL",
       "commence": "2026-08-22T00:40:00Z",
-      "away_ml": -150,
-      "home_ml": 140,
+      "away_ml": -154,
+      "home_ml": 142,
       "total": 10.5,
       "over_ml": -122,
       "under_ml": 100,
@@ -2505,8 +2605,8 @@
       "away": "CIN",
       "home": "ARI",
       "commence": "2026-08-22T01:40:00Z",
-      "away_ml": 126,
-      "home_ml": -148,
+      "away_ml": 130,
+      "home_ml": -140,
       "total": 8.5,
       "over_ml": -105,
       "under_ml": -115,
@@ -2742,8 +2842,8 @@
       "away": "MIN",
       "home": "SD",
       "commence": "2026-08-22T01:40:00Z",
-      "away_ml": 116,
-      "home_ml": -134,
+      "away_ml": 106,
+      "home_ml": -116,
       "total": 8,
       "over_ml": -122,
       "under_ml": 100,
@@ -2899,8 +2999,8 @@
       "away": "PIT",
       "home": "LAD",
       "commence": "2026-08-22T02:10:00Z",
-      "away_ml": 190,
-      "home_ml": -230,
+      "away_ml": 205,
+      "home_ml": -225,
       "total": 8,
       "over_ml": -114,
       "under_ml": -106,
@@ -3134,8 +3234,8 @@
       "away": "CHC",
       "home": "SEA",
       "commence": "2026-08-22T02:10:00Z",
-      "away_ml": -104,
-      "home_ml": -112,
+      "away_ml": 100,
+      "home_ml": -108,
       "total": 7.5,
       "over_ml": -122,
       "under_ml": 100,
@@ -3559,6 +3659,22 @@
       "flags": []
     },
     {
+      "pitcher": "Mason Fluharty",
+      "hand": "L",
+      "team": "TOR",
+      "opponent_offense": "NYY",
+      "opp_wrc_vs_hand": 83,
+      "opp_wrc_recent": 99,
+      "mismatch": -28.7,
+      "flags": [
+        "opener",
+        "thin-sample",
+        "layoff-78d",
+        "stale-window-61d",
+        "swingman-60g"
+      ]
+    },
+    {
       "pitcher": "Troy Melton",
       "hand": "R",
       "team": "DET",
@@ -3649,7 +3765,7 @@
       "flags": []
     }
   ],
-  "generated": "2026-08-21T13:08:54Z",
+  "generated": "2026-08-21T16:07:39Z",
   "sport": "MLB",
   "type": "slate-scout",
   "advisory": true,
