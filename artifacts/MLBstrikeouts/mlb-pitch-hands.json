@@ -1,120 +1,174 @@
 {
   "sport": "MLB",
   "type": "pitch-hands-today",
-  "date": "2026-08-20",
-  "generated": "2026-08-21T00:31:46Z",
+  "date": "2026-08-21",
+  "generated": "2026-08-21T13:05:45Z",
   "hands": {
-    "brady singer": "R",
-    "michael mcgreevy": "R",
-    "gavin williams": "R",
-    "landen roupp": "R",
-    "ian seymour": "L",
-    "shane bieber": "R",
-    "randy dobnak": "R",
-    "gage jump": "L",
-    "anthony kay": "L",
-    "grant holmes": "R",
-    "robert gasser": "L",
-    "george kirby": "R",
-    "kyle bradish": "R",
-    "gerrit cole": "R",
-    "jacob degrom": "R",
-    "andrew alvarez": "L",
-    "peter lambert": "R",
-    "grayson rodriguez": "R"
+    "jacob misiorowski": "R",
+    "chris sale": "L",
+    "jesus luzardo": "L",
+    "cam schlittler": "R",
+    "sonny gray": "R",
+    "logan webb": "R",
+    "ryan gusto": "R",
+    "brad lord": "R",
+    "trevor rogers": "L",
+    "freddy peralta": "R",
+    "sean burke": "R",
+    "sean manaea": "L",
+    "noah cameron": "L",
+    "troy melton": "R",
+    "hayden wesneski": "R",
+    "j t ginn": "R",
+    "mackenzie gore": "L",
+    "reid detmers": "L",
+    "tanner gordon": "R",
+    "joey cantillo": "L",
+    "eduardo rodriguez": "L",
+    "nick lodolo": "L",
+    "connor prielipp": "L",
+    "yoshinobu yamamoto": "R",
+    "bubba chandler": "R",
+    "emerson hancock": "R",
+    "matthew boyd": "L"
   },
   "names": {
-    "brady singer": "Brady Singer",
-    "michael mcgreevy": "Michael McGreevy",
-    "gavin williams": "Gavin Williams",
-    "landen roupp": "Landen Roupp",
-    "ian seymour": "Ian Seymour",
-    "shane bieber": "Shane Bieber",
-    "randy dobnak": "Randy Dobnak",
-    "gage jump": "Gage Jump",
-    "anthony kay": "Anthony Kay",
-    "grant holmes": "Grant Holmes",
-    "robert gasser": "Robert Gasser",
-    "george kirby": "George Kirby",
-    "kyle bradish": "Kyle Bradish",
-    "gerrit cole": "Gerrit Cole",
-    "jacob degrom": "Jacob deGrom",
-    "andrew alvarez": "Andrew Alvarez",
-    "peter lambert": "Peter Lambert",
-    "grayson rodriguez": "Grayson Rodriguez"
+    "jacob misiorowski": "Jacob Misiorowski",
+    "chris sale": "Chris Sale",
+    "jesus luzardo": "Jes\u00fas Luzardo",
+    "cam schlittler": "Cam Schlittler",
+    "sonny gray": "Sonny Gray",
+    "logan webb": "Logan Webb",
+    "ryan gusto": "Ryan Gusto",
+    "brad lord": "Brad Lord",
+    "trevor rogers": "Trevor Rogers",
+    "freddy peralta": "Freddy Peralta",
+    "sean burke": "Sean Burke",
+    "sean manaea": "Sean Manaea",
+    "noah cameron": "Noah Cameron",
+    "troy melton": "Troy Melton",
+    "hayden wesneski": "Hayden Wesneski",
+    "j t ginn": "J.T. Ginn",
+    "mackenzie gore": "MacKenzie Gore",
+    "reid detmers": "Reid Detmers",
+    "tanner gordon": "Tanner Gordon",
+    "joey cantillo": "Joey Cantillo",
+    "eduardo rodriguez": "Eduardo Rodriguez",
+    "nick lodolo": "Nick Lodolo",
+    "connor prielipp": "Connor Prielipp",
+    "yoshinobu yamamoto": "Yoshinobu Yamamoto",
+    "bubba chandler": "Bubba Chandler",
+    "emerson hancock": "Emerson Hancock",
+    "matthew boyd": "Matthew Boyd"
   },
   "starters": {
-    "CIN": {
-      "name": "Brady Singer",
+    "MIL": {
+      "name": "Jacob Misiorowski",
       "hand": "R"
     },
-    "STL": {
-      "name": "Michael McGreevy",
+    "ATL": {
+      "name": "Chris Sale",
+      "hand": "L"
+    },
+    "PHI": {
+      "name": "Jes\u00fas Luzardo",
+      "hand": "L"
+    },
+    "NYY": {
+      "name": "Cam Schlittler",
       "hand": "R"
     },
-    "CLE": {
-      "name": "Gavin Williams",
+    "BOS": {
+      "name": "Sonny Gray",
       "hand": "R"
     },
     "SF": {
-      "name": "Landen Roupp",
+      "name": "Logan Webb",
       "hand": "R"
     },
-    "TB": {
-      "name": "Ian Seymour",
-      "hand": "L"
-    },
-    "TOR": {
-      "name": "Shane Bieber",
-      "hand": "R"
-    },
-    "KC": {
-      "name": "Randy Dobnak",
-      "hand": "R"
-    },
-    "OAK": {
-      "name": "Gage Jump",
-      "hand": "L"
-    },
-    "CWS": {
-      "name": "Anthony Kay",
-      "hand": "L"
-    },
-    "ATL": {
-      "name": "Grant Holmes",
-      "hand": "R"
-    },
-    "MIL": {
-      "name": "Robert Gasser",
-      "hand": "L"
-    },
-    "SEA": {
-      "name": "George Kirby",
-      "hand": "R"
-    },
-    "BAL": {
-      "name": "Kyle Bradish",
-      "hand": "R"
-    },
-    "NYY": {
-      "name": "Gerrit Cole",
-      "hand": "R"
-    },
-    "TEX": {
-      "name": "Jacob deGrom",
+    "MIA": {
+      "name": "Ryan Gusto",
       "hand": "R"
     },
     "WSH": {
-      "name": "Andrew Alvarez",
+      "name": "Brad Lord",
+      "hand": "R"
+    },
+    "BAL": {
+      "name": "Trevor Rogers",
       "hand": "L"
     },
-    "HOU": {
-      "name": "Peter Lambert",
+    "TB": {
+      "name": "Freddy Peralta",
       "hand": "R"
     },
-    "LAA": {
-      "name": "Grayson Rodriguez",
+    "CWS": {
+      "name": "Sean Burke",
       "hand": "R"
+    },
+    "NYM": {
+      "name": "Sean Manaea",
+      "hand": "L"
+    },
+    "KC": {
+      "name": "Noah Cameron",
+      "hand": "L"
+    },
+    "DET": {
+      "name": "Troy Melton",
+      "hand": "R"
+    },
+    "HOU": {
+      "name": "Hayden Wesneski",
+      "hand": "R"
+    },
+    "OAK": {
+      "name": "J.T. Ginn",
+      "hand": "R"
+    },
+    "TEX": {
+      "name": "MacKenzie Gore",
+      "hand": "L"
+    },
+    "LAA": {
+      "name": "Reid Detmers",
+      "hand": "L"
+    },
+    "COL": {
+      "name": "Tanner Gordon",
+      "hand": "R"
+    },
+    "CLE": {
+      "name": "Joey Cantillo",
+      "hand": "L"
+    },
+    "ARI": {
+      "name": "Eduardo Rodriguez",
+      "hand": "L"
+    },
+    "CIN": {
+      "name": "Nick Lodolo",
+      "hand": "L"
+    },
+    "MIN": {
+      "name": "Connor Prielipp",
+      "hand": "L"
+    },
+    "LAD": {
+      "name": "Yoshinobu Yamamoto",
+      "hand": "R"
+    },
+    "PIT": {
+      "name": "Bubba Chandler",
+      "hand": "R"
+    },
+    "SEA": {
+      "name": "Emerson Hancock",
+      "hand": "R"
+    },
+    "CHC": {
+      "name": "Matthew Boyd",
+      "hand": "L"
     }
   }
 }

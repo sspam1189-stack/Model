@@ -1,26 +1,98 @@
 {
   "sport": "MLB",
   "type": "fade-watch",
-  "generated": "2026-08-21T00:34:44Z",
+  "generated": "2026-08-21T13:08:43Z",
   "minGames": 3,
   "minUnits": 2.5,
   "note": "Shadow review list -- arms NOT on the active fade list whose home or away fade clears the bar (>= 3 games, >= +2.5u). In-sample season replay; watch, don't bet. Promote by editing scripts/fade_list.py.",
   "today": [
     {
-      "date": "2026-08-20",
-      "commence": "2026-08-20T18:10:00Z",
+      "date": "2026-08-21",
+      "commence": "2026-08-21T20:10:00Z",
       "betType": "fade_watch",
       "watch": true,
-      "pitcher": "George Kirby",
-      "arm_team": "SEA",
-      "fadeTeam": "SEA",
+      "pitcher": "Chris Sale",
+      "arm_team": "ATL",
+      "fadeTeam": "ATL",
       "selection": "MIL",
       "home": "MIL",
-      "away": "SEA",
+      "away": "ATL",
       "venue": "away",
-      "odds": -126,
+      "odds": -138,
       "suggest": "away",
-      "suggestUnits": 3.3,
+      "suggestUnits": 2.76,
+      "games": 11,
+      "result": "pending"
+    },
+    {
+      "date": "2026-08-21",
+      "commence": "2026-08-21T23:05:00Z",
+      "betType": "fade_watch",
+      "watch": true,
+      "pitcher": "Cam Schlittler",
+      "arm_team": "NYY",
+      "fadeTeam": "NYY",
+      "selection": "TOR",
+      "home": "NYY",
+      "away": "TOR",
+      "venue": "home",
+      "odds": 210,
+      "suggest": "home",
+      "suggestUnits": 3.61,
+      "games": 11,
+      "result": "pending"
+    },
+    {
+      "date": "2026-08-21",
+      "commence": "2026-08-21T23:40:00Z",
+      "betType": "fade_watch",
+      "watch": true,
+      "pitcher": "Sean Burke",
+      "arm_team": "CWS",
+      "fadeTeam": "CWS",
+      "selection": "NYM",
+      "home": "CWS",
+      "away": "NYM",
+      "venue": "home",
+      "odds": 130,
+      "suggest": "home",
+      "suggestUnits": 4.28,
+      "games": 12,
+      "result": "pending"
+    },
+    {
+      "date": "2026-08-21",
+      "commence": "2026-08-22T02:10:00Z",
+      "betType": "fade_watch",
+      "watch": true,
+      "pitcher": "Yoshinobu Yamamoto",
+      "arm_team": "LAD",
+      "fadeTeam": "LAD",
+      "selection": "PIT",
+      "home": "LAD",
+      "away": "PIT",
+      "venue": "home",
+      "odds": 190,
+      "suggest": "home",
+      "suggestUnits": 2.62,
+      "games": 10,
+      "result": "pending"
+    },
+    {
+      "date": "2026-08-21",
+      "commence": "2026-08-22T02:10:00Z",
+      "betType": "fade_watch",
+      "watch": true,
+      "pitcher": "Emerson Hancock",
+      "arm_team": "SEA",
+      "fadeTeam": "SEA",
+      "selection": "CHC",
+      "home": "SEA",
+      "away": "CHC",
+      "venue": "home",
+      "odds": -104,
+      "suggest": "home",
+      "suggestUnits": 3.98,
       "games": 11,
       "result": "pending"
     }
@@ -330,17 +402,17 @@
       "suggestUnits": 3.44,
       "all": {
         "w": 11,
-        "l": 11,
-        "u": 1.1,
-        "n": 22,
-        "roi": 0.0469
+        "l": 12,
+        "u": 0.1,
+        "n": 23,
+        "roi": 0.0041
       },
       "home": {
         "w": 4,
-        "l": 7,
-        "u": -2.34,
-        "n": 11,
-        "roi": -0.2074
+        "l": 8,
+        "u": -3.34,
+        "n": 12,
+        "roi": -0.272
       },
       "away": {
         "w": 7,
@@ -618,6 +690,33 @@
         "u": 2.76,
         "n": 11,
         "roi": 0.2421
+      }
+    },
+    {
+      "pitcher": "Andrew Alvarez",
+      "team": "WSH",
+      "suggest": "away",
+      "suggestUnits": 2.74,
+      "all": {
+        "w": 7,
+        "l": 4,
+        "u": 2.44,
+        "n": 11,
+        "roi": 0.1776
+      },
+      "home": {
+        "w": 2,
+        "l": 2,
+        "u": -0.3,
+        "n": 4,
+        "roi": -0.0685
+      },
+      "away": {
+        "w": 5,
+        "l": 2,
+        "u": 2.74,
+        "n": 7,
+        "roi": 0.2927
       }
     },
     {

@@ -1,7 +1,7 @@
 {
   "sport": "MLB",
   "type": "hand-tails-watch",
-  "generated": "2026-08-21T00:34:43Z",
+  "generated": "2026-08-21T13:08:42Z",
   "handMin": 6,
   "minGames": 3,
   "minUnits": 2.5,
@@ -9,70 +9,136 @@
   "note": "Shadow review list -- arms NOT on the active hand-tails list showing a handedness-conditional edge (fade or take). The active list is fade-only, so all tail/take arms are review-only here. In-sample season replay; watch, don't bet.",
   "today": [
     {
-      "date": "2026-08-20",
-      "commence": "2026-08-20T17:10:00Z",
+      "date": "2026-08-21",
+      "commence": "2026-08-21T20:10:00Z",
+      "betType": "watch_take",
+      "action": "take",
+      "watch": true,
+      "pitcher": "Jacob Misiorowski",
+      "hand": "R",
+      "arm_team": "MIL",
+      "opp_team": "ATL",
+      "selection": "MIL",
+      "home": "MIL",
+      "away": "ATL",
+      "oppLefty": 6,
+      "oppRighty": 4,
+      "lineupConfirmed": false,
+      "odds": null,
+      "suggest": "take",
+      "suggestUnits": 5.62,
+      "games": 8,
+      "result": "unconfirmed"
+    },
+    {
+      "date": "2026-08-21",
+      "commence": "2026-08-21T22:40:00Z",
+      "betType": "watch_take",
+      "action": "take",
+      "watch": true,
+      "pitcher": "Jes\u00fas Luzardo",
+      "hand": "L",
+      "arm_team": "PHI",
+      "opp_team": "STL",
+      "selection": "PHI",
+      "home": "PHI",
+      "away": "STL",
+      "oppLefty": 2,
+      "oppRighty": 7,
+      "lineupConfirmed": false,
+      "odds": null,
+      "suggest": "take",
+      "suggestUnits": 4.4,
+      "games": 22,
+      "result": "unconfirmed"
+    },
+    {
+      "date": "2026-08-21",
+      "commence": "2026-08-22T00:40:00Z",
+      "betType": "watch_take",
+      "action": "take",
+      "watch": true,
+      "pitcher": "Joey Cantillo",
+      "hand": "L",
+      "arm_team": "CLE",
+      "opp_team": "COL",
+      "selection": "CLE",
+      "home": "COL",
+      "away": "CLE",
+      "oppLefty": 5,
+      "oppRighty": 7,
+      "lineupConfirmed": false,
+      "odds": null,
+      "suggest": "take",
+      "suggestUnits": 4.9,
+      "games": 21,
+      "result": "unconfirmed"
+    },
+    {
+      "date": "2026-08-21",
+      "commence": "2026-08-22T01:40:00Z",
+      "betType": "watch_take",
+      "action": "take",
+      "watch": true,
+      "pitcher": "Eduardo Rodriguez",
+      "hand": "L",
+      "arm_team": "ARI",
+      "opp_team": "CIN",
+      "selection": "ARI",
+      "home": "ARI",
+      "away": "CIN",
+      "oppLefty": 3,
+      "oppRighty": 8,
+      "lineupConfirmed": false,
+      "odds": null,
+      "suggest": "take",
+      "suggestUnits": 14.54,
+      "games": 18,
+      "result": "unconfirmed"
+    },
+    {
+      "date": "2026-08-21",
+      "commence": "2026-08-22T01:40:00Z",
       "betType": "watch_fade",
       "action": "fade",
       "watch": true,
-      "pitcher": "Ian Seymour",
+      "pitcher": "Connor Prielipp",
       "hand": "L",
-      "arm_team": "TB",
-      "opp_team": "TOR",
-      "selection": "TOR",
-      "home": "TB",
-      "away": "TOR",
-      "oppLefty": 2,
-      "oppRighty": 7,
-      "lineupConfirmed": true,
-      "odds": 148,
-      "suggest": "fade",
-      "suggestUnits": 3.9,
-      "games": 7,
-      "result": "pending"
-    },
-    {
-      "date": "2026-08-20",
-      "commence": "2026-08-20T18:10:00Z",
-      "betType": "watch_take",
-      "action": "take",
-      "watch": true,
-      "pitcher": "Anthony Kay",
-      "hand": "L",
-      "arm_team": "CWS",
-      "opp_team": "ATL",
-      "selection": "CWS",
-      "home": "CWS",
-      "away": "ATL",
+      "arm_team": "MIN",
+      "opp_team": "SD",
+      "selection": "SD",
+      "home": "SD",
+      "away": "MIN",
       "oppLefty": 4,
       "oppRighty": 6,
-      "lineupConfirmed": true,
-      "odds": -102,
-      "suggest": "take",
-      "suggestUnits": 7.2,
-      "games": 20,
-      "result": "pending"
+      "lineupConfirmed": false,
+      "odds": null,
+      "suggest": "fade",
+      "suggestUnits": 3.02,
+      "games": 14,
+      "result": "unconfirmed"
     },
     {
-      "date": "2026-08-20",
-      "commence": "2026-08-20T18:10:00Z",
+      "date": "2026-08-21",
+      "commence": "2026-08-22T02:10:00Z",
       "betType": "watch_take",
       "action": "take",
       "watch": true,
-      "pitcher": "Grant Holmes",
-      "hand": "R",
-      "arm_team": "ATL",
-      "opp_team": "CWS",
-      "selection": "ATL",
-      "home": "CWS",
-      "away": "ATL",
-      "oppLefty": 7,
-      "oppRighty": 4,
-      "lineupConfirmed": true,
-      "odds": -106,
+      "pitcher": "Matthew Boyd",
+      "hand": "L",
+      "arm_team": "CHC",
+      "opp_team": "SEA",
+      "selection": "CHC",
+      "home": "SEA",
+      "away": "CHC",
+      "oppLefty": 5,
+      "oppRighty": 6,
+      "lineupConfirmed": false,
+      "odds": null,
       "suggest": "take",
-      "suggestUnits": 5.04,
-      "games": 10,
-      "result": "pending"
+      "suggestUnits": 4.38,
+      "games": 11,
+      "result": "unconfirmed"
     }
   ],
   "candidates": [
@@ -200,7 +266,7 @@
         "l": 7,
         "u": 7.2
       },
-      "era": 4.01
+      "era": 3.96
     },
     {
       "pitcher": "Sonny Gray",
@@ -380,7 +446,7 @@
         "l": 2,
         "u": 5.04
       },
-      "era": 3.96
+      "era": 3.76
     },
     {
       "pitcher": "Joey Cantillo",
@@ -632,7 +698,7 @@
         "l": 5,
         "u": -4.74
       },
-      "era": 4.44
+      "era": 4.53
     },
     {
       "pitcher": "Grayson Rodriguez",
@@ -650,7 +716,7 @@
         "l": 5,
         "u": -4.26
       },
-      "era": 7.17
+      "era": 6.41
     },
     {
       "pitcher": "Rhett Lowder",
@@ -903,6 +969,24 @@
         "u": -2.96
       },
       "era": 6.34
+    },
+    {
+      "pitcher": "Andrew Alvarez",
+      "hand": "L",
+      "games": 9,
+      "suggest": "fade",
+      "suggestUnits": 2.54,
+      "fade": {
+        "w": 6,
+        "l": 3,
+        "u": 2.54
+      },
+      "take": {
+        "w": 3,
+        "l": 6,
+        "u": -3.04
+      },
+      "era": 3.54
     }
   ]
 }
