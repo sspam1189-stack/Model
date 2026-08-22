@@ -1,7 +1,7 @@
 {
   "sport": "MLB",
   "type": "hand-tails-watch",
-  "generated": "2026-08-22T18:37:58Z",
+  "generated": "2026-08-22T21:07:46Z",
   "handMin": 6,
   "minGames": 3,
   "minUnits": 2.5,
@@ -26,8 +26,8 @@
       "lineupConfirmed": true,
       "odds": -156,
       "suggest": "take",
-      "suggestUnits": 6.22,
-      "games": 8,
+      "suggestUnits": 7.22,
+      "games": 9,
       "result": "pending"
     },
     {
@@ -45,12 +45,12 @@
       "away": "TB",
       "oppLefty": 6,
       "oppRighty": 4,
-      "lineupConfirmed": false,
-      "odds": null,
+      "lineupConfirmed": true,
+      "odds": 116,
       "suggest": "take",
       "suggestUnits": 5.1,
       "games": 8,
-      "result": "unconfirmed"
+      "result": "pending"
     },
     {
       "date": "2026-08-22",
@@ -65,14 +65,36 @@
       "selection": "TB",
       "home": "BAL",
       "away": "TB",
-      "oppLefty": 4,
-      "oppRighty": 6,
-      "lineupConfirmed": false,
-      "odds": null,
+      "oppLefty": 3,
+      "oppRighty": 7,
+      "lineupConfirmed": true,
+      "odds": -126,
       "suggest": "take",
       "suggestUnits": 4.78,
       "games": 18,
-      "result": "unconfirmed"
+      "result": "pending"
+    },
+    {
+      "date": "2026-08-22",
+      "commence": "2026-08-22T23:15:00Z",
+      "betType": "watch_take",
+      "action": "take",
+      "watch": true,
+      "pitcher": "Jared Jones",
+      "hand": "R",
+      "arm_team": "PIT",
+      "opp_team": "LAD",
+      "selection": "PIT",
+      "home": "LAD",
+      "away": "PIT",
+      "oppLefty": 7,
+      "oppRighty": 3,
+      "lineupConfirmed": true,
+      "odds": 235,
+      "suggest": "take",
+      "suggestUnits": 4.5,
+      "games": 6,
+      "result": "pending"
     }
   ],
   "candidates": [
@@ -203,6 +225,24 @@
       "era": 2.51
     },
     {
+      "pitcher": "Logan Henderson",
+      "hand": "R",
+      "games": 9,
+      "suggest": "take",
+      "suggestUnits": 7.22,
+      "fade": {
+        "w": 1,
+        "l": 8,
+        "u": -7.64
+      },
+      "take": {
+        "w": 8,
+        "l": 1,
+        "u": 7.22
+      },
+      "era": 2.7
+    },
+    {
       "pitcher": "Anthony Kay",
       "hand": "L",
       "games": 20,
@@ -255,24 +295,6 @@
         "u": 6.36
       },
       "era": 2.51
-    },
-    {
-      "pitcher": "Logan Henderson",
-      "hand": "R",
-      "games": 8,
-      "suggest": "take",
-      "suggestUnits": 6.22,
-      "fade": {
-        "w": 1,
-        "l": 7,
-        "u": -6.64
-      },
-      "take": {
-        "w": 7,
-        "l": 1,
-        "u": 6.22
-      },
-      "era": 2.7
     },
     {
       "pitcher": "Joey Cantillo",

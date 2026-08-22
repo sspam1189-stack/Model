@@ -1,7 +1,7 @@
 {
   "sport": "MLB",
   "type": "fade-vs-team-watch",
-  "generated": "2026-08-22T18:38:02Z",
+  "generated": "2026-08-22T21:07:50Z",
   "seasonStart": "2026-04-05",
   "minStarts": 2,
   "minEra": 6.0,
@@ -19,8 +19,8 @@
       "venue": "home",
       "matchup": "TOR @ NYY",
       "odds": -104,
-      "eraVsOpp": 6.35,
-      "startsVsOpp": 3,
+      "eraVsOpp": 6.2,
+      "startsVsOpp": 4,
       "result": "pending"
     }
   ],
@@ -395,22 +395,6 @@
       }
     },
     {
-      "pitcher": "Ryan Weathers",
-      "opp": "TOR",
-      "arm_team": "NYY",
-      "eraVsOpp": 6.35,
-      "ipVsOpp": 17.0,
-      "erVsOpp": 12,
-      "startsVsOpp": 3,
-      "fadeRecord": {
-        "w": 1,
-        "l": 2,
-        "u": -1.18,
-        "n": 3,
-        "roi": -0.3471
-      }
-    },
-    {
       "pitcher": "Adrian Houser",
       "opp": "WSH",
       "arm_team": "SF",
@@ -472,6 +456,22 @@
         "u": -0.26,
         "n": 2,
         "roi": -0.1074
+      }
+    },
+    {
+      "pitcher": "Ryan Weathers",
+      "opp": "TOR",
+      "arm_team": "NYY",
+      "eraVsOpp": 6.2,
+      "ipVsOpp": 20.3,
+      "erVsOpp": 14,
+      "startsVsOpp": 4,
+      "fadeRecord": {
+        "w": 2,
+        "l": 2,
+        "u": -0.18,
+        "n": 4,
+        "roi": -0.0405
       }
     },
     {
