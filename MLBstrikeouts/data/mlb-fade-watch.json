@@ -1,130 +1,31 @@
 {
   "sport": "MLB",
   "type": "fade-watch",
-  "generated": "2026-08-22T00:35:19Z",
+  "generated": "2026-08-22T13:20:03Z",
   "minGames": 3,
   "minUnits": 2.5,
   "note": "Shadow review list -- arms NOT on the active fade list whose home or away fade clears the bar (>= 3 games, >= +2.5u). In-sample season replay; watch, don't bet. Promote by editing scripts/fade_list.py.",
   "today": [
     {
-      "date": "2026-08-21",
-      "commence": "2026-08-21T20:10:00Z",
+      "date": "2026-08-22",
+      "commence": "2026-08-23T00:40:00Z",
       "betType": "fade_watch",
       "watch": true,
-      "pitcher": "Chris Sale",
-      "arm_team": "ATL",
-      "fadeTeam": "ATL",
-      "selection": "MIL",
-      "home": "MIL",
-      "away": "ATL",
+      "pitcher": "Dean Kremer",
+      "arm_team": "MIN",
+      "fadeTeam": "MIN",
+      "selection": "SD",
+      "home": "SD",
+      "away": "MIN",
       "venue": "away",
-      "odds": -138,
+      "odds": -150,
       "suggest": "away",
-      "suggestUnits": 3.76,
-      "games": 12,
-      "result": "pending"
-    },
-    {
-      "date": "2026-08-21",
-      "commence": "2026-08-21T23:05:00Z",
-      "betType": "fade_watch",
-      "watch": true,
-      "pitcher": "Cam Schlittler",
-      "arm_team": "NYY",
-      "fadeTeam": "NYY",
-      "selection": "TOR",
-      "home": "NYY",
-      "away": "TOR",
-      "venue": "home",
-      "odds": 176,
-      "suggest": "home",
-      "suggestUnits": 3.61,
-      "games": 11,
-      "result": "pending"
-    },
-    {
-      "date": "2026-08-21",
-      "commence": "2026-08-21T23:40:00Z",
-      "betType": "fade_watch",
-      "watch": true,
-      "pitcher": "Sean Burke",
-      "arm_team": "CWS",
-      "fadeTeam": "CWS",
-      "selection": "NYM",
-      "home": "CWS",
-      "away": "NYM",
-      "venue": "home",
-      "odds": 114,
-      "suggest": "home",
-      "suggestUnits": 4.28,
-      "games": 12,
-      "result": "pending"
-    },
-    {
-      "date": "2026-08-21",
-      "commence": "2026-08-22T02:10:00Z",
-      "betType": "fade_watch",
-      "watch": true,
-      "pitcher": "Yoshinobu Yamamoto",
-      "arm_team": "LAD",
-      "fadeTeam": "LAD",
-      "selection": "PIT",
-      "home": "LAD",
-      "away": "PIT",
-      "venue": "home",
-      "odds": 205,
-      "suggest": "home",
-      "suggestUnits": 2.62,
-      "games": 10,
-      "result": "pending"
-    },
-    {
-      "date": "2026-08-21",
-      "commence": "2026-08-22T02:10:00Z",
-      "betType": "fade_watch",
-      "watch": true,
-      "pitcher": "Emerson Hancock",
-      "arm_team": "SEA",
-      "fadeTeam": "SEA",
-      "selection": "CHC",
-      "home": "SEA",
-      "away": "CHC",
-      "venue": "home",
-      "odds": 100,
-      "suggest": "home",
-      "suggestUnits": 3.98,
-      "games": 11,
+      "suggestUnits": 2.82,
+      "games": 5,
       "result": "pending"
     }
   ],
   "candidates": [
-    {
-      "pitcher": "Sean Burke",
-      "team": "CWS",
-      "suggest": "home",
-      "suggestUnits": 4.28,
-      "all": {
-        "w": 10,
-        "l": 10,
-        "u": -1.82,
-        "n": 20,
-        "roi": -0.0706
-      },
-      "home": {
-        "w": 8,
-        "l": 4,
-        "u": 4.28,
-        "n": 12,
-        "roi": 0.2882
-      },
-      "away": {
-        "w": 2,
-        "l": 6,
-        "u": -6.1,
-        "n": 8,
-        "roi": -0.5586
-      }
-    },
     {
       "pitcher": "Walbert Ure\u00f1a",
       "team": "LAA",
@@ -177,33 +78,6 @@
         "u": 4.0,
         "n": 4,
         "roi": 0.5806
-      }
-    },
-    {
-      "pitcher": "Emerson Hancock",
-      "team": "SEA",
-      "suggest": "home",
-      "suggestUnits": 3.98,
-      "all": {
-        "w": 11,
-        "l": 10,
-        "u": 1.32,
-        "n": 21,
-        "roi": 0.0577
-      },
-      "home": {
-        "w": 7,
-        "l": 4,
-        "u": 3.98,
-        "n": 11,
-        "roi": 0.3612
-      },
-      "away": {
-        "w": 4,
-        "l": 6,
-        "u": -2.66,
-        "n": 10,
-        "roi": -0.2247
       }
     },
     {
@@ -342,33 +216,6 @@
       }
     },
     {
-      "pitcher": "Cam Schlittler",
-      "team": "NYY",
-      "suggest": "home",
-      "suggestUnits": 3.61,
-      "all": {
-        "w": 11,
-        "l": 13,
-        "u": 2.13,
-        "n": 24,
-        "roi": 0.0874
-      },
-      "home": {
-        "w": 6,
-        "l": 5,
-        "u": 3.61,
-        "n": 11,
-        "roi": 0.3178
-      },
-      "away": {
-        "w": 5,
-        "l": 8,
-        "u": -1.48,
-        "n": 13,
-        "roi": -0.1138
-      }
-    },
-    {
       "pitcher": "Shohei Ohtani",
       "team": "LAD",
       "suggest": "away",
@@ -501,6 +348,33 @@
         "u": 3.3,
         "n": 11,
         "roi": 0.2855
+      }
+    },
+    {
+      "pitcher": "Sean Burke",
+      "team": "CWS",
+      "suggest": "home",
+      "suggestUnits": 3.28,
+      "all": {
+        "w": 10,
+        "l": 11,
+        "u": -2.82,
+        "n": 21,
+        "roi": -0.1053
+      },
+      "home": {
+        "w": 8,
+        "l": 5,
+        "u": 3.28,
+        "n": 13,
+        "roi": 0.2069
+      },
+      "away": {
+        "w": 2,
+        "l": 6,
+        "u": -6.1,
+        "n": 8,
+        "roi": -0.5586
       }
     },
     {
@@ -639,16 +513,43 @@
       }
     },
     {
+      "pitcher": "Emerson Hancock",
+      "team": "SEA",
+      "suggest": "home",
+      "suggestUnits": 2.98,
+      "all": {
+        "w": 11,
+        "l": 11,
+        "u": 0.32,
+        "n": 22,
+        "roi": 0.0134
+      },
+      "home": {
+        "w": 7,
+        "l": 5,
+        "u": 2.98,
+        "n": 12,
+        "roi": 0.2479
+      },
+      "away": {
+        "w": 4,
+        "l": 6,
+        "u": -2.66,
+        "n": 10,
+        "roi": -0.2247
+      }
+    },
+    {
       "pitcher": "Reid Detmers",
       "team": "LAA",
       "suggest": "home",
       "suggestUnits": 2.9,
       "all": {
-        "w": 14,
+        "w": 15,
         "l": 9,
-        "u": 3.0,
-        "n": 23,
-        "roi": 0.1037
+        "u": 4.0,
+        "n": 24,
+        "roi": 0.132
       },
       "home": {
         "w": 8,
@@ -658,11 +559,11 @@
         "roi": 0.2057
       },
       "away": {
-        "w": 6,
+        "w": 7,
         "l": 4,
-        "u": 0.1,
-        "n": 10,
-        "roi": 0.0067
+        "u": 1.1,
+        "n": 11,
+        "roi": 0.0679
       }
     },
     {
@@ -720,30 +621,30 @@
       }
     },
     {
-      "pitcher": "Yoshinobu Yamamoto",
-      "team": "LAD",
+      "pitcher": "Cam Schlittler",
+      "team": "NYY",
       "suggest": "home",
-      "suggestUnits": 2.62,
+      "suggestUnits": 2.61,
       "all": {
-        "w": 6,
+        "w": 11,
         "l": 14,
-        "u": -2.64,
-        "n": 20,
-        "roi": -0.132
+        "u": 1.13,
+        "n": 25,
+        "roi": 0.0446
       },
       "home": {
-        "w": 4,
+        "w": 6,
         "l": 6,
-        "u": 2.62,
-        "n": 10,
-        "roi": 0.262
+        "u": 2.61,
+        "n": 12,
+        "roi": 0.2112
       },
       "away": {
-        "w": 2,
+        "w": 5,
         "l": 8,
-        "u": -5.26,
-        "n": 10,
-        "roi": -0.526
+        "u": -1.48,
+        "n": 13,
+        "roi": -0.1138
       }
     },
     {
