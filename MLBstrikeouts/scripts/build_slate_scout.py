@@ -52,6 +52,11 @@ NOTES = [
     "Swingmen carry a second form line. The last-5-START rates skip relief "
     "work entirely, so a bullpen stint reads as a collapse until you see the "
     "relief innings beside it.",
+    "Each side carries its own team's bullpen windows (L30/L20/L15/L7 "
+    "calendar days, rank = league ERA position that window). Totals lean on "
+    "3-4 relief innings a night; a short starter in front of a leaking pen "
+    "and a workhorse in front of a locked-down one are different bets at the "
+    "same number. Advisory like everything else here.",
 ]
 
 

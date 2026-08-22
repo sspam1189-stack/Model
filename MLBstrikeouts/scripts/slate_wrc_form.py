@@ -10,7 +10,9 @@ Joins three existing repo artifacts for a given slate date:
      window (``build_team_woba_splits.py``).
   3. ``data/pitcher_cache/mlb/game_logs_2026.json`` -> per-game pitching lines,
      from which season / last-5-start / last-3-start form is derived, plus the
-     relief outings threaded through that window (see ``form_for``).
+     relief outings threaded through that window (see ``form_for``). The same
+     file's non-start lines also supply each team's bullpen windows
+     (``pen_table``) — no separate bullpen source exists or is needed.
 
 Why the self-computed splits and not the FanGraphs snapshot in
 ``mlb-team-wrc.json``: that file is a manual browser capture frozen at
@@ -56,7 +58,7 @@ from __future__ import annotations
 import argparse
 import json
 import unicodedata
-from datetime import date
+from datetime import date, timedelta
 from pathlib import Path
 
 REPO = Path(__file__).resolve().parents[2]
@@ -102,6 +104,19 @@ MIN_WINDOW_PA = 75
 # sees the trend, not one snapshot. Cells under MIN_WINDOW_PA still render
 # as sample-size only.
 OFFENSE_WINDOWS = ("last30", "last20", "last15", "last7")
+
+# Team bullpen rolling windows, in calendar DAYS strictly before the slate
+# date (2026-08-22, user): totals and team totals lean on 3-4 relief innings
+# a night, and the report carried nothing about the arms throwing them. The
+# labels match the offense ladder so the two read side by side, and the
+# innings come from the same game-log cache — every non-start line is
+# bullpen work, so no new data source is involved.
+PEN_WINDOW_DAYS = {"last30": 30, "last20": 20, "last15": 15, "last7": 7}
+
+# Below this many relief innings a window's rates are one blown save wide,
+# so the cell keeps its workload (g, ip) and withholds the rates — the same
+# value-suppression MIN_WINDOW_PA applies to thin offense cells.
+MIN_PEN_IP = 9.0
 
 # Recent-form windows, in starts.
 RECENT_N = 5
@@ -369,6 +384,56 @@ def trend(form):
 
 
 # ---------------------------------------------------------------------------
+# Bullpens
+# ---------------------------------------------------------------------------
+
+def pen_table(logs, before_date):
+    """
+    Per-team bullpen form over rolling day windows, with a league rank.
+
+    Each window aggregates a team's relief lines (every non-start row in the
+    game logs) inside the last N calendar days strictly before the slate
+    date — the same "through yesterday" cut the offense ladder uses. Cells
+    are ``aggregate`` outputs in ``g`` units plus ``rank``: the team's ERA
+    position among clubs with a readable window (1 = stingiest), so a 3.80
+    carries league context on its face. Windows under MIN_PEN_IP keep their
+    workload and withhold the rates, mirroring the thin-cell handling on the
+    offense side.
+    """
+    relief_by_team = {}
+    for row in logs:
+        if row.get("is_start"):
+            continue
+        team = row.get("team")
+        if team and (row.get("game_date") or "") < before_date:
+            relief_by_team.setdefault(team, []).append(row)
+
+    table = {}
+    for label, days in PEN_WINDOW_DAYS.items():
+        start = (date.fromisoformat(before_date)
+                 - timedelta(days=days)).isoformat()
+        cells = {}
+        for team, rows in relief_by_team.items():
+            cell = aggregate(
+                [r for r in rows if (r.get("game_date") or "") >= start],
+                unit="g")
+            if cell and (cell["ip"] or 0) < MIN_PEN_IP:
+                cell = {k: (v if k in ("g", "ip") else None)
+                        for k, v in cell.items()}
+            cells[team] = cell
+        by_era = sorted((t for t, c in cells.items()
+                         if c and c.get("era") is not None),
+                        key=lambda t: cells[t]["era"])
+        for i, team in enumerate(by_era, 1):
+            cells[team]["rank"] = i
+        for team, cell in cells.items():
+            if cell is not None:
+                cell.setdefault("rank", None)
+            table.setdefault(team, {})[label] = cell
+    return table
+
+
+# ---------------------------------------------------------------------------
 # Matchup scoring
 # ---------------------------------------------------------------------------
 
@@ -532,6 +597,7 @@ def build_report(slate_date, slate_file=None, role=PITCHER_ROLE,
     starts_by_name = organize_starts(logs)
     apps_by_name = organize_appearances(logs)
     staff = staff_profiles(_load(PA_SPLITS))
+    pens = pen_table(logs, slate_date)
 
     rows = []
     for game in games:
@@ -585,6 +651,9 @@ def build_report(slate_date, slate_file=None, role=PITCHER_ROLE,
                 "opp_platoon_gap": platoon_gap(wrc, offense, window, role=role),
                 "form": form,
                 "trend": trend(form),
+                # The pen that inherits this starter's game — keyed to his own
+                # team, independent of whether the probable resolved.
+                "pen": pens.get(game[side]),
                 "flags": flags,
                 "mismatch": mismatch(form, opp_wrc),
             }
@@ -633,6 +702,8 @@ def build_report(slate_date, slate_file=None, role=PITCHER_ROLE,
         "wrc_primary_window": window,
         "wrc_secondary_window": secondary,
         "wrc_offense_windows": list(OFFENSE_WINDOWS),
+        "pen_window_days": dict(PEN_WINDOW_DAYS),
+        "pen_min_ip": MIN_PEN_IP,
         "recent_window_starts": RECENT_N,
         "slate": rows,
         "ranked_mismatch": ranked,
@@ -708,6 +779,18 @@ def render(report):
                 f"BB% {_fmt(recent.get('bb_pct'), '{:.1f}')} {_signed(t.get('bb_pct'), '{:+.1f}')}  "
                 f"IP/GS {_fmt(recent.get('ip_per_gs'))}"
             )
+            pen = s.get("pen") or {}
+            p30, p7 = pen.get("last30") or {}, pen.get("last7") or {}
+            if p30 or p7:
+                rank = (f" (rk {p30['rank']}/30)"
+                        if p30.get("rank") is not None else "")
+                lines.append(
+                    f"      pen    L30 ERA {_fmt(p30.get('era'))}{rank}  "
+                    f"WHIP {_fmt(p30.get('whip'))}  "
+                    f"HR9 {_fmt(p30.get('hr9'))}  ->  "
+                    f"L7 ERA {_fmt(p7.get('era'))} "
+                    f"({_fmt(p7.get('ip'), '{:.1f}')} IP)"
+                )
             # Only for swingmen: for a pure starter these two lines repeat the
             # last-5 line above and add nothing but width.
             relief = s["form"].get("relief") or {}

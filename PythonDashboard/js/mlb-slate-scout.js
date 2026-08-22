@@ -168,6 +168,25 @@ async function renderMLBSlateScout() {
         + '<td style="color:' + mismatchColor(s.mismatch) + ';font-weight:600">' + signed(s.mismatch) + '</td>'
         + '</tr>';
 
+      // Team bullpen sub-row: the pen that inherits this starter's game, as
+      // calendar-day windows of every relief line in the game logs, with the
+      // league ERA rank for that window. Totals lean on 3-4 relief innings a
+      // night, and the ladder above says nothing about who throws them.
+      const pen = s.pen;
+      if (pen && (pen.last30 || pen.last7)) {
+        const p30 = pen.last30 || {}, p7 = pen.last7 || {};
+        const l7Hot = (p7.era != null && p30.era != null)
+          ? (p7.era < p30.era ? GREEN : RED) : DIM;
+        html += '<tr style="border-top:0"><td colspan="2"></td>'
+          + '<td colspan="7" style="padding:0 6px 4px;color:' + DIM + ';font-size:11px">'
+          + esc(s.team) + ' pen: L30 ' + num(p30.era) + ' ERA'
+          + (p30.rank != null ? ' (#' + p30.rank + ')' : '')
+          + ' · ' + num(p30.whip) + ' WHIP · ' + num(p30.hr9) + ' HR9'
+          + ' → L7 <span style="color:' + l7Hot + '">' + num(p7.era) + '</span> ERA'
+          + (p7.ip != null ? ' (' + num(p7.ip, 1) + ' IP)' : '')
+          + '</td></tr>';
+      }
+
       // Swingman sub-row. The Last 5 column counts STARTS only, so for an arm
       // that has been in the bullpen it describes a fraction of his season —
       // Mlodzinski read 6.3% K there on 2026-08-17 while throwing 17.4% in
