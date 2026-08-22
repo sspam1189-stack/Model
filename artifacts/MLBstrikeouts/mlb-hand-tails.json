@@ -1,7 +1,7 @@
 {
   "sport": "MLB",
   "type": "hand-tails",
-  "generated": "2026-08-22T13:17:49Z",
+  "generated": "2026-08-22T16:08:41Z",
   "handMin": 6,
   "roster": {
     "Andrew Painter": {
@@ -117,18 +117,18 @@
     }
   ],
   "summary": {
-    "wins": 50,
-    "losses": 21,
-    "units": 29.44,
-    "staked": 84.64,
-    "roi": 0.3478,
+    "wins": 51,
+    "losses": 19,
+    "units": 32.46,
+    "staked": 83.94,
+    "roi": 0.3867,
     "byAction": {
       "fade": {
-        "wins": 50,
-        "losses": 21,
-        "units": 29.44,
-        "staked": 84.64,
-        "roi": 0.3478
+        "wins": 51,
+        "losses": 19,
+        "units": 32.46,
+        "staked": 83.94,
+        "roi": 0.3867
       },
       "take": {
         "wins": 0,
@@ -147,11 +147,11 @@
         "roi": 0.4195
       },
       "L": {
-        "wins": 20,
-        "losses": 11,
-        "units": 9.26,
-        "staked": 36.54,
-        "roi": 0.2534
+        "wins": 21,
+        "losses": 9,
+        "units": 12.28,
+        "staked": 35.84,
+        "roi": 0.3426
       }
     }
   },
@@ -418,30 +418,6 @@
       "result": "WIN",
       "reason": null,
       "profit": 1.0,
-      "book": "fanduel",
-      "source": "oddsapi_fanduel"
-    },
-    {
-      "date": "2026-06-18",
-      "commence": "2026-06-18T23:40:00Z",
-      "betType": "hand_fade",
-      "action": "fade",
-      "pitcher": "Noah Cameron",
-      "entry": "Noah Cameron",
-      "hand": "L",
-      "arm_team": "KC",
-      "opp_team": "STL",
-      "selection": "STL",
-      "home": "KC",
-      "away": "STL",
-      "oppLefty": 2,
-      "oppRighty": 7,
-      "lineupConfirmed": true,
-      "odds": -102,
-      "stake": 1.02,
-      "result": "LOSS",
-      "reason": null,
-      "profit": -1.02,
       "book": "fanduel",
       "source": "oddsapi_fanduel"
     },
@@ -1190,26 +1166,26 @@
       "source": "fanduel_api"
     },
     {
-      "date": "2026-08-01",
-      "commence": "2026-08-02T01:40:00Z",
+      "date": "2026-07-31",
+      "commence": "2026-08-01T01:40:00Z",
       "betType": "hand_fade",
       "action": "fade",
-      "pitcher": "Framber Valdez",
-      "entry": "Framber Valdez",
+      "pitcher": "Jeffrey Springs",
+      "entry": "Jeffrey Springs",
       "hand": "L",
-      "arm_team": "DET",
-      "opp_team": "OAK",
-      "selection": "OAK",
+      "arm_team": "OAK",
+      "opp_team": "DET",
+      "selection": "DET",
       "home": "OAK",
       "away": "DET",
       "oppLefty": 3,
-      "oppRighty": 7,
+      "oppRighty": 6,
       "lineupConfirmed": true,
-      "odds": 160,
-      "stake": 1.0,
-      "result": "LOSS",
+      "odds": -132,
+      "stake": 1.32,
+      "result": "WIN",
       "reason": null,
-      "profit": -1.0,
+      "profit": 1.0,
       "book": "fanduel",
       "source": "fanduel_api"
     },
