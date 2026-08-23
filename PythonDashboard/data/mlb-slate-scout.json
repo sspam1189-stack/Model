@@ -25,11 +25,11 @@
       "away": "TB",
       "home": "BAL",
       "commence": "2026-08-23T17:35:00Z",
-      "away_ml": -106,
-      "home_ml": -102,
-      "total": 9,
-      "over_ml": -105,
-      "under_ml": -115,
+      "away_ml": 100,
+      "home_ml": -108,
+      "total": 8.5,
+      "over_ml": -122,
+      "under_ml": 100,
       "sides": {
         "away": {
           "pitcher": "Nick Martinez",
@@ -759,11 +759,11 @@
       "away": "TOR",
       "home": "NYY",
       "commence": "2026-08-23T17:35:00Z",
-      "away_ml": 124,
-      "home_ml": -134,
-      "total": 7.5,
-      "over_ml": -120,
-      "under_ml": -102,
+      "away_ml": 120,
+      "home_ml": -130,
+      "total": 8,
+      "over_ml": -105,
+      "under_ml": -115,
       "sides": {
         "away": {
           "pitcher": "Jos\u00e9 Soriano",
@@ -1128,8 +1128,8 @@
       "away": "WSH",
       "home": "MIA",
       "commence": "2026-08-23T17:40:00Z",
-      "away_ml": 142,
-      "home_ml": -154,
+      "away_ml": 144,
+      "home_ml": -156,
       "total": 8.5,
       "over_ml": 100,
       "under_ml": -122,
@@ -1497,28 +1497,44 @@
       "away": "DET",
       "home": "KC",
       "commence": "2026-08-23T18:10:00Z",
-      "away_ml": -108,
+      "away_ml": -110,
       "home_ml": 100,
       "total": 8.5,
-      "over_ml": -115,
-      "under_ml": -105,
+      "over_ml": -114,
+      "under_ml": -106,
       "sides": {
         "away": {
-          "pitcher": null,
-          "listed_as": null,
+          "pitcher": "Jacob Waguespack",
+          "listed_as": "Jacob Waguespack",
           "resolved": false,
-          "hand": null,
+          "hand": "R",
           "team": "DET",
           "opponent_offense": "KC",
-          "opp_wrc_vs_hand": null,
-          "opp_wrc_game": null,
-          "opp_wrc_recent": null,
-          "opp_wrc_recent_pa": null,
+          "opp_wrc_vs_hand": 92,
+          "opp_wrc_game": 103,
+          "opp_wrc_recent": 98,
+          "opp_wrc_recent_pa": 384,
           "opp_wrc_windows": {
-            "last30": null,
-            "last20": null,
-            "last15": null,
-            "last7": null
+            "last30": {
+              "wrcplus": 92,
+              "pa": 587,
+              "role": "all"
+            },
+            "last20": {
+              "wrcplus": 98,
+              "pa": 384,
+              "role": "all"
+            },
+            "last15": {
+              "wrcplus": 115,
+              "pa": 269,
+              "role": "all"
+            },
+            "last7": {
+              "wrcplus": 130,
+              "pa": 172,
+              "role": "all"
+            }
           },
           "opp_platoon_gap": 7,
           "form": {
@@ -1779,18 +1795,18 @@
           "mismatch": 51.0
         }
       },
-      "home_offense_game": null,
+      "home_offense_game": 103,
       "away_offense_game": 119,
-      "game_offense": null,
-      "offense_edge": null
+      "game_offense": 111,
+      "offense_edge": 16
     },
     {
       "matchup": "OAK @ HOU",
       "away": "OAK",
       "home": "HOU",
       "commence": "2026-08-23T18:10:00Z",
-      "away_ml": 166,
-      "home_ml": -180,
+      "away_ml": 162,
+      "home_ml": -174,
       "total": 9,
       "over_ml": 100,
       "under_ml": -122,
@@ -2195,8 +2211,8 @@
       "away": "NYM",
       "home": "CWS",
       "commence": "2026-08-23T18:10:00Z",
-      "away_ml": -108,
-      "home_ml": 100,
+      "away_ml": -104,
+      "home_ml": -104,
       "total": 8.5,
       "over_ml": 102,
       "under_ml": -124,
@@ -2970,11 +2986,11 @@
       "away": "CLE",
       "home": "COL",
       "commence": "2026-08-23T19:10:00Z",
-      "away_ml": -156,
-      "home_ml": 144,
+      "away_ml": -164,
+      "home_ml": 150,
       "total": 11.5,
-      "over_ml": 100,
-      "under_ml": -122,
+      "over_ml": 102,
+      "under_ml": -124,
       "sides": {
         "away": {
           "pitcher": "Foster Griffin",
@@ -3337,11 +3353,11 @@
       "away": "SF",
       "home": "BOS",
       "commence": "2026-08-23T19:15:00Z",
-      "away_ml": 194,
-      "home_ml": -210,
-      "total": 8,
-      "over_ml": -118,
-      "under_ml": -104,
+      "away_ml": 186,
+      "home_ml": -205,
+      "total": 8.5,
+      "over_ml": -106,
+      "under_ml": -114,
       "sides": {
         "away": {
           "pitcher": "Matt Wilkinson",
@@ -3707,11 +3723,11 @@
       "away": "PIT",
       "home": "LAD",
       "commence": "2026-08-23T20:10:00Z",
-      "away_ml": 240,
+      "away_ml": 245,
       "home_ml": -270,
       "total": 8.5,
-      "over_ml": -104,
-      "under_ml": -118,
+      "over_ml": -114,
+      "under_ml": -106,
       "sides": {
         "away": {
           "pitcher": "Lake Bachar",
@@ -4097,11 +4113,11 @@
       "away": "CHC",
       "home": "SEA",
       "commence": "2026-08-23T20:10:00Z",
-      "away_ml": -106,
-      "home_ml": -102,
+      "away_ml": -112,
+      "home_ml": 102,
       "total": 7.5,
-      "over_ml": -112,
-      "under_ml": -108,
+      "over_ml": -110,
+      "under_ml": -110,
       "sides": {
         "away": {
           "pitcher": "Shota Imanaga",
@@ -4833,9 +4849,9 @@
       "commence": "2026-08-23T20:15:00Z",
       "away_ml": 120,
       "home_ml": -130,
-      "total": 9,
-      "over_ml": -110,
-      "under_ml": -110,
+      "total": 8.5,
+      "over_ml": -122,
+      "under_ml": 100,
       "sides": {
         "away": {
           "pitcher": "Andrew Abbott",
@@ -5198,11 +5214,11 @@
       "away": "ATL",
       "home": "MIL",
       "commence": "2026-08-23T23:10:00Z",
-      "away_ml": 110,
-      "home_ml": -120,
+      "away_ml": 106,
+      "home_ml": -114,
       "total": 7.5,
-      "over_ml": -102,
-      "under_ml": -120,
+      "over_ml": -112,
+      "under_ml": -108,
       "sides": {
         "away": {
           "pitcher": "Tyler Mahle",
@@ -5902,7 +5918,7 @@
       "flags": []
     }
   ],
-  "generated": "2026-08-23T13:08:57Z",
+  "generated": "2026-08-23T16:07:11Z",
   "sport": "MLB",
   "type": "slate-scout",
   "advisory": true,
