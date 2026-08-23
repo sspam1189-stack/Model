@@ -1,7 +1,7 @@
 {
   "sport": "MLB",
   "type": "hand-tails-watch",
-  "generated": "2026-08-23T16:06:59Z",
+  "generated": "2026-08-23T18:35:37Z",
   "handMin": 6,
   "minGames": 3,
   "minUnits": 2.5,
@@ -43,14 +43,14 @@
       "selection": "TEX",
       "home": "TEX",
       "away": "LAA",
-      "oppLefty": 3,
-      "oppRighty": 6,
-      "lineupConfirmed": false,
-      "odds": null,
+      "oppLefty": 2,
+      "oppRighty": 7,
+      "lineupConfirmed": true,
+      "odds": -154,
       "suggest": "fade",
       "suggestUnits": 3.0,
       "games": 3,
-      "result": "unconfirmed"
+      "result": "pending"
     },
     {
       "date": "2026-08-23",
@@ -65,14 +65,14 @@
       "selection": "COL",
       "home": "COL",
       "away": "CLE",
-      "oppLefty": 8,
+      "oppLefty": 7,
       "oppRighty": 5,
-      "lineupConfirmed": false,
-      "odds": null,
+      "lineupConfirmed": true,
+      "odds": 146,
       "suggest": "take",
       "suggestUnits": 4.64,
       "games": 8,
-      "result": "unconfirmed"
+      "result": "pending"
     },
     {
       "date": "2026-08-23",
@@ -89,12 +89,34 @@
       "away": "CLE",
       "oppLefty": 5,
       "oppRighty": 6,
-      "lineupConfirmed": false,
-      "odds": null,
+      "lineupConfirmed": true,
+      "odds": -158,
       "suggest": "take",
       "suggestUnits": 14.54,
       "games": 19,
-      "result": "unconfirmed"
+      "result": "pending"
+    },
+    {
+      "date": "2026-08-23",
+      "commence": "2026-08-23T19:15:00Z",
+      "betType": "watch_fade",
+      "action": "fade",
+      "watch": true,
+      "pitcher": "Jake Bennett",
+      "hand": "L",
+      "arm_team": "BOS",
+      "opp_team": "SF",
+      "selection": "SF",
+      "home": "BOS",
+      "away": "SF",
+      "oppLefty": 3,
+      "oppRighty": 6,
+      "lineupConfirmed": true,
+      "odds": 186,
+      "suggest": "fade",
+      "suggestUnits": 3.48,
+      "games": 12,
+      "result": "pending"
     },
     {
       "date": "2026-08-23",
@@ -111,12 +133,12 @@
       "away": "CIN",
       "oppLefty": 3,
       "oppRighty": 8,
-      "lineupConfirmed": false,
-      "odds": null,
+      "lineupConfirmed": true,
+      "odds": 128,
       "suggest": "take",
       "suggestUnits": 5.9,
       "games": 20,
-      "result": "unconfirmed"
+      "result": "pending"
     }
   ],
   "candidates": [
