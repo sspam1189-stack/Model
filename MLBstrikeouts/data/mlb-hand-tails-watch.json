@@ -1,13 +1,35 @@
 {
   "sport": "MLB",
   "type": "hand-tails-watch",
-  "generated": "2026-08-23T18:35:37Z",
+  "generated": "2026-08-23T21:03:37Z",
   "handMin": 6,
   "minGames": 3,
   "minUnits": 2.5,
   "minUnitsTake": 4.0,
   "note": "Shadow review list -- arms NOT on the active hand-tails list showing a handedness-conditional edge (fade or take). The active list is fade-only, so all tail/take arms are review-only here. In-sample season replay; watch, don't bet.",
   "today": [
+    {
+      "date": "2026-08-23",
+      "commence": "2026-08-23T17:35:00Z",
+      "betType": "watch_take",
+      "action": "take",
+      "watch": true,
+      "pitcher": "Nick Martinez",
+      "hand": "R",
+      "arm_team": "TB",
+      "opp_team": "BAL",
+      "selection": "TB",
+      "home": "BAL",
+      "away": "TB",
+      "oppLefty": 6,
+      "oppRighty": 4,
+      "lineupConfirmed": true,
+      "odds": 100,
+      "suggest": "take",
+      "suggestUnits": 4.76,
+      "games": 11,
+      "result": "pending"
+    },
     {
       "date": "2026-08-23",
       "commence": "2026-08-23T17:35:00Z",
@@ -26,8 +48,30 @@
       "lineupConfirmed": true,
       "odds": -210,
       "suggest": "take",
-      "suggestUnits": 6.36,
-      "games": 24,
+      "suggestUnits": 7.36,
+      "games": 25,
+      "result": "pending"
+    },
+    {
+      "date": "2026-08-23",
+      "commence": "2026-08-23T17:40:00Z",
+      "betType": "watch_fade",
+      "action": "fade",
+      "watch": true,
+      "pitcher": "Jackson Kent",
+      "hand": "L",
+      "arm_team": "WSH",
+      "opp_team": "MIA",
+      "selection": "MIA",
+      "home": "MIA",
+      "away": "WSH",
+      "oppLefty": 2,
+      "oppRighty": 8,
+      "lineupConfirmed": true,
+      "odds": -156,
+      "suggest": "fade",
+      "suggestUnits": 3.0,
+      "games": 3,
       "result": "pending"
     },
     {
@@ -215,6 +259,24 @@
       "era": 3.36
     },
     {
+      "pitcher": "Cristopher S\u00e1nchez",
+      "hand": "L",
+      "games": 25,
+      "suggest": "take",
+      "suggestUnits": 7.36,
+      "fade": {
+        "w": 7,
+        "l": 18,
+        "u": -8.88
+      },
+      "take": {
+        "w": 18,
+        "l": 7,
+        "u": 7.36
+      },
+      "era": 2.51
+    },
+    {
       "pitcher": "Kyle Leahy",
       "hand": "R",
       "games": 8,
@@ -321,24 +383,6 @@
         "u": 6.62
       },
       "era": 1.68
-    },
-    {
-      "pitcher": "Cristopher S\u00e1nchez",
-      "hand": "L",
-      "games": 24,
-      "suggest": "take",
-      "suggestUnits": 6.36,
-      "fade": {
-        "w": 7,
-        "l": 17,
-        "u": -7.88
-      },
-      "take": {
-        "w": 17,
-        "l": 7,
-        "u": 6.36
-      },
-      "era": 2.51
     },
     {
       "pitcher": "Brandon Young",
@@ -519,6 +563,24 @@
         "u": 4.9
       },
       "era": 3.52
+    },
+    {
+      "pitcher": "Nick Martinez",
+      "hand": "R",
+      "games": 11,
+      "suggest": "take",
+      "suggestUnits": 4.76,
+      "fade": {
+        "w": 3,
+        "l": 8,
+        "u": -5.66
+      },
+      "take": {
+        "w": 8,
+        "l": 3,
+        "u": 4.76
+      },
+      "era": 3.05
     },
     {
       "pitcher": "Tomoyuki Sugano",
@@ -879,6 +941,24 @@
         "u": -4.02
       },
       "era": 4.71
+    },
+    {
+      "pitcher": "Jackson Kent",
+      "hand": "L",
+      "games": 3,
+      "suggest": "fade",
+      "suggestUnits": 3.0,
+      "fade": {
+        "w": 3,
+        "l": 0,
+        "u": 3.0
+      },
+      "take": {
+        "w": 0,
+        "l": 3,
+        "u": -3.0
+      },
+      "era": 9.39
     },
     {
       "pitcher": "Michael Wacha",

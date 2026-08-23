@@ -1,7 +1,7 @@
 {
   "sport": "MLB",
   "type": "hand-tails",
-  "generated": "2026-08-23T18:34:23Z",
+  "generated": "2026-08-23T21:02:44Z",
   "handMin": 6,
   "roster": {
     "Andrew Painter": {
@@ -117,18 +117,18 @@
     }
   ],
   "summary": {
-    "wins": 51,
+    "wins": 52,
     "losses": 21,
-    "units": 30.44,
-    "staked": 85.96,
-    "roi": 0.3541,
+    "units": 31.44,
+    "staked": 86.96,
+    "roi": 0.3615,
     "byAction": {
       "fade": {
-        "wins": 51,
+        "wins": 52,
         "losses": 21,
-        "units": 30.44,
-        "staked": 85.96,
-        "roi": 0.3541
+        "units": 31.44,
+        "staked": 86.96,
+        "roi": 0.3615
       },
       "take": {
         "wins": 0,
@@ -140,11 +140,11 @@
     },
     "byHand": {
       "R": {
-        "wins": 30,
+        "wins": 31,
         "losses": 10,
-        "units": 20.18,
-        "staked": 48.1,
-        "roi": 0.4195
+        "units": 21.18,
+        "staked": 49.1,
+        "roi": 0.4314
       },
       "L": {
         "wins": 21,
@@ -155,32 +155,7 @@
       }
     }
   },
-  "today": [
-    {
-      "date": "2026-08-23",
-      "commence": "2026-08-23T17:35:00Z",
-      "betType": "hand_fade",
-      "action": "fade",
-      "pitcher": "Shane Baz",
-      "entry": "Shane Baz",
-      "hand": "R",
-      "arm_team": "BAL",
-      "opp_team": "TB",
-      "selection": "TB",
-      "home": "BAL",
-      "away": "TB",
-      "oppLefty": 6,
-      "oppRighty": 4,
-      "lineupConfirmed": true,
-      "odds": 100,
-      "stake": 1.0,
-      "result": "pending",
-      "reason": null,
-      "profit": 0.0,
-      "book": "fanduel",
-      "source": "fanduel_api"
-    }
-  ],
+  "today": [],
   "bets": [
     {
       "date": "2026-05-20",
@@ -1904,6 +1879,30 @@
       "lineupConfirmed": true,
       "odds": -142,
       "stake": 1.42,
+      "result": "WIN",
+      "reason": null,
+      "profit": 1.0,
+      "book": "fanduel",
+      "source": "fanduel_api"
+    },
+    {
+      "date": "2026-08-23",
+      "commence": "2026-08-23T17:35:00Z",
+      "betType": "hand_fade",
+      "action": "fade",
+      "pitcher": "Shane Baz",
+      "entry": "Shane Baz",
+      "hand": "R",
+      "arm_team": "BAL",
+      "opp_team": "TB",
+      "selection": "TB",
+      "home": "BAL",
+      "away": "TB",
+      "oppLefty": 6,
+      "oppRighty": 4,
+      "lineupConfirmed": true,
+      "odds": 100,
+      "stake": 1.0,
       "result": "WIN",
       "reason": null,
       "profit": 1.0,
