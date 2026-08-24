@@ -6,12 +6,39 @@
   "generated": "2026-08-24T00:00:00Z",
   "pre_log_history": [
     {
-      "week_start": "2026-08-17",
-      "note": "Card-grade totals went 3-1 (recorded in CLAUDE.md 2026-08-20). Per-play detail not preserved; calls predate this log.",
-      "wins": 3,
-      "losses": 1
+      "date": "2026-08-17",
+      "wins": 4,
+      "losses": 1,
+      "pushes": 0,
+      "units": 2.33,
+      "source": "user-provided 2026-08-24; per-play detail not preserved"
+    },
+    {
+      "date": "2026-08-18",
+      "wins": 2,
+      "losses": 3,
+      "pushes": 0,
+      "units": -1.16,
+      "source": "user-provided 2026-08-24; per-play detail not preserved"
+    },
+    {
+      "date": "2026-08-19",
+      "wins": 4,
+      "losses": 1,
+      "pushes": 0,
+      "units": 2.15,
+      "source": "user-provided 2026-08-24; per-play detail not preserved"
+    },
+    {
+      "date": "2026-08-20",
+      "wins": 1,
+      "losses": 2,
+      "pushes": 1,
+      "units": -1.15,
+      "source": "user-provided 2026-08-24; per-play detail not preserved"
     }
   ],
+  "pre_log_note": "Daily totals supplied by the user on 2026-08-24 for the days before per-play logging began on 2026-08-21. The card-grade-totals subset of these days went 3-1 per CLAUDE.md (2026-08-20).",
   "entries": [
     {
       "date": "2026-08-21",

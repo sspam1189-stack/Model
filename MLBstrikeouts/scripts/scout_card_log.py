@@ -91,25 +91,44 @@ def cmd_grade(args, blob):
 
 
 def cmd_report(args, blob):
+    # One rollup per Monday-Sunday week, merging the per-play entries with
+    # the pre-log daily aggregates (days before 2026-08-21, where only
+    # day-level W-L-P and units survive).
     weeks = {}
     for e in blob["entries"]:
-        weeks.setdefault(week_start(e["date"]), []).append(e)
-    print(f"Scout card record (weeks run Monday-Sunday)")
+        weeks.setdefault(week_start(e["date"]), {"logged": [], "pre": []})[
+            "logged"].append(e)
     for h in blob.get("pre_log_history", []):
-        print(f"  week of {h['week_start']}  {h['wins']}-{h['losses']} "
-              f"(pre-log aggregate: {h['note']})")
+        weeks.setdefault(week_start(h["date"]), {"logged": [], "pre": []})[
+            "pre"].append(h)
+
+    print("Scout card record (weeks run Monday-Sunday)")
     for wk in sorted(weeks):
-        plays = [e for e in weeks[wk] if not e.get("no_play")]
-        w = sum(1 for e in plays if e.get("result") == "WIN")
-        l = sum(1 for e in plays if e.get("result") == "LOSS")
+        logged, pre = weeks[wk]["logged"], weeks[wk]["pre"]
+        plays = [e for e in logged if not e.get("no_play")]
+        w = sum(h["wins"] for h in pre) + sum(
+            1 for e in plays if e.get("result") == "WIN")
+        l = sum(h["losses"] for h in pre) + sum(
+            1 for e in plays if e.get("result") == "LOSS")
+        t = sum(h.get("pushes", 0) for h in pre) + sum(
+            1 for e in plays if e.get("result") == "PUSH")
         p = sum(1 for e in plays if e.get("result") == "pending")
-        u = sum(e.get("profit") or 0 for e in plays)
-        quiet = sum(1 for e in weeks[wk] if e.get("no_play"))
-        print(f"  week of {wk}  {w}-{l}"
+        u = sum(h.get("units") or 0 for h in pre) + sum(
+            e.get("profit") or 0 for e in plays)
+        quiet = sum(1 for e in logged if e.get("no_play"))
+        rec = f"{w}-{l}" + (f"-{t}" if t else "")
+        print(f"  week of {wk}  {rec}"
               + (f" ({p} pending)" if p else "")
-              + f"  {u:+.2f}u  [{len(plays)} plays, {quiet} no-play days]")
+              + f"  {u:+.2f}u"
+              + (f"  [{len(plays)} logged plays, {quiet} no-play days"
+                 + (f", {len(pre)} pre-log days" if pre else "") + "]"))
         if args.verbose:
-            for e in weeks[wk]:
+            for h in sorted(pre, key=lambda x: x["date"]):
+                rec = f"{h['wins']}-{h['losses']}" + (
+                    f"-{h['pushes']}" if h.get("pushes") else "")
+                print(f"      {h['date']}  pre-log day: {rec}  "
+                      f"{(h.get('units') or 0):+.2f}u")
+            for e in sorted(logged, key=lambda x: x["date"]):
                 if e.get("no_play"):
                     print(f"      {e['date']}  — no play. {e.get('note', '')}")
                 else:
