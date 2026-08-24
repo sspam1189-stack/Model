@@ -1,0 +1,70 @@
+{
+  "sport": "MLB",
+  "type": "scout-card-log",
+  "week_convention": "monday-sunday",
+  "description": "Per-play ledger for scout card calls (tier 2/3 of the daily card policy in MLBstrikeouts/CLAUDE.md). Model plays are NOT logged here - fade-ml/props/hand-tails keep their own files. No-play days are logged too: an empty card is part of the record. Prices are the card-time quote, not the close.",
+  "generated": "2026-08-24T00:00:00Z",
+  "pre_log_history": [
+    {
+      "week_start": "2026-08-17",
+      "note": "Card-grade totals went 3-1 (recorded in CLAUDE.md 2026-08-20). Per-play detail not preserved; calls predate this log.",
+      "wins": 3,
+      "losses": 1
+    }
+  ],
+  "entries": [
+    {
+      "date": "2026-08-21",
+      "play": "MIL ML",
+      "market": "h2h",
+      "game": "ATL @ MIL",
+      "price": -138,
+      "stake": 1.0,
+      "rule": "scout-ml-both-halves-aligned",
+      "basis": "MIL bats 118/111/116/120 vs Sale hand; ATL bats 81/75/59/29 vs Misiorowski",
+      "result": "WIN",
+      "profit": 0.72
+    },
+    {
+      "date": "2026-08-21",
+      "play": "CLE/COL Under 10.5",
+      "market": "totals",
+      "game": "CLE @ COL",
+      "price": 102,
+      "stake": 1.0,
+      "rule": "card-grade-total-aligned-plus-flag",
+      "basis": "Both offenses aligned <=90 all four windows; Gordon layoff-42d/stale-window/swingman flags",
+      "result": "WIN",
+      "profit": 1.02
+    },
+    {
+      "date": "2026-08-22",
+      "play": "BOS ML",
+      "market": "h2h",
+      "game": "SF @ BOS",
+      "price": -198,
+      "stake": 1.0,
+      "rule": "scout-ml-both-halves-aligned",
+      "basis": "BOS bats 138/152/139/165 vs Tidwell (thin-sample); SF bats 60/38/36/42 vs Sandoval",
+      "result": "WIN",
+      "profit": 0.51
+    },
+    {
+      "date": "2026-08-22",
+      "play": "SD ML",
+      "market": "h2h",
+      "game": "MIN @ SD",
+      "price": -150,
+      "stake": 1.0,
+      "rule": "scout-ml-both-halves-aligned",
+      "basis": "SD bats 122/117/122/112 vs Kremer; MIN bats 81/86/83/77 vs Mize",
+      "result": "WIN",
+      "profit": 0.67
+    },
+    {
+      "date": "2026-08-23",
+      "no_play": true,
+      "note": "No qualifying plays. Scout ML nearest miss: SD (MIN ladder 91/87/91/90, cold bar missed by 1pt in two windows). CLE@COL both-cold but flagless = temperature-only."
+    }
+  ]
+}
