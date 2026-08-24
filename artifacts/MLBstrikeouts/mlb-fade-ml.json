@@ -1,7 +1,7 @@
 {
   "sport": "MLB",
   "type": "fade-ml",
-  "generated": "2026-08-23T21:01:22Z",
+  "generated": "2026-08-24T14:36:40Z",
   "fadeList": [
     "Painter",
     "Rocker",
@@ -75,22 +75,22 @@
   ],
   "mutualRule": "skip",
   "summary": {
-    "wins": 464,
-    "losses": 169,
+    "wins": 465,
+    "losses": 171,
     "voids": 0,
     "skips": 41,
-    "staked": 790.48,
-    "units": 304.67,
-    "roi": 0.3854,
+    "staked": 794.16,
+    "units": 303.53,
+    "roi": 0.3822,
     "byType": {
       "ml": {
-        "wins": 454,
-        "losses": 161,
+        "wins": 455,
+        "losses": 163,
         "voids": 0,
         "skips": 3,
-        "staked": 772.48,
-        "units": 299.63,
-        "roi": 0.3879
+        "staked": 776.16,
+        "units": 298.49,
+        "roi": 0.3846
       },
       "ml_dog": {
         "wins": 10,
@@ -105,76 +105,100 @@
   },
   "today": [
     {
-      "date": "2026-08-23",
-      "commence": "2026-08-23T20:10:00Z",
+      "date": "2026-08-24",
+      "commence": "2026-08-25T01:40:00Z",
       "betType": "ml",
       "shadow": false,
       "pitchers": [
-        "Shota Imanaga"
+        "Kevin Gausman"
       ],
       "fadeTeam": "CHC",
       "market": "h2h",
-      "selection": "SEA",
+      "selection": "ARI",
       "line": null,
-      "odds": 104,
+      "odds": 128,
       "stake": 1.0,
       "result": "pending",
       "profit": 0.0,
       "book": "fanduel",
       "source": "fanduel_api",
       "reason": null,
-      "home": "SEA",
+      "home": "ARI",
       "away": "CHC",
-      "gamePk": 823099,
+      "gamePk": 825041,
       "fadeReason": "away"
     },
     {
-      "date": "2026-08-23",
-      "commence": "2026-08-23T18:35:00Z",
+      "date": "2026-08-24",
+      "commence": "2026-08-24T22:45:00Z",
       "betType": "ml",
       "shadow": false,
       "pitchers": [
-        "Yusei Kikuchi"
+        "Ryan Feltner"
       ],
-      "fadeTeam": "LAA",
+      "fadeTeam": "COL",
       "market": "h2h",
-      "selection": "TEX",
+      "selection": "WSH",
       "line": null,
-      "odds": -154,
-      "stake": 1.54,
+      "odds": -184,
+      "stake": 1.84,
       "result": "pending",
       "profit": 0.0,
       "book": "fanduel",
       "source": "fanduel_api",
       "reason": null,
-      "home": "TEX",
-      "away": "LAA",
-      "gamePk": 822856,
+      "home": "WSH",
+      "away": "COL",
+      "gamePk": 822695,
+      "fadeReason": "away"
+    },
+    {
+      "date": "2026-08-24",
+      "commence": "2026-08-24T22:40:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Framber Valdez"
+      ],
+      "fadeTeam": "DET",
+      "market": "h2h",
+      "selection": "TB",
+      "line": null,
+      "odds": -128,
+      "stake": 1.28,
+      "result": "pending",
+      "profit": 0.0,
+      "book": "fanduel",
+      "source": "fanduel_api",
+      "reason": null,
+      "home": "DET",
+      "away": "TB",
+      "gamePk": 824235,
       "fadeReason": "all"
     },
     {
-      "date": "2026-08-23",
-      "commence": "2026-08-23T23:10:00Z",
+      "date": "2026-08-24",
+      "commence": "2026-08-25T01:40:00Z",
       "betType": "ml",
       "shadow": false,
       "pitchers": [
-        "Tyler Mahle"
+        "Jeffrey Springs"
       ],
-      "fadeTeam": "ATL",
+      "fadeTeam": "OAK",
       "market": "h2h",
-      "selection": "MIL",
+      "selection": "MIN",
       "line": null,
-      "odds": -114,
-      "stake": 1.14,
+      "odds": -150,
+      "stake": 1.5,
       "result": "pending",
       "profit": 0.0,
       "book": "fanduel",
       "source": "fanduel_api",
       "reason": null,
-      "home": "MIL",
-      "away": "ATL",
-      "gamePk": 823745,
-      "fadeReason": "away"
+      "home": "OAK",
+      "away": "MIN",
+      "gamePk": 824964,
+      "fadeReason": "home"
     }
   ],
   "bets": [
@@ -16409,6 +16433,78 @@
       "away": "CLE",
       "gamePk": 824316,
       "fadeReason": "all"
+    },
+    {
+      "date": "2026-08-23",
+      "commence": "2026-08-23T18:35:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Yusei Kikuchi"
+      ],
+      "fadeTeam": "LAA",
+      "market": "h2h",
+      "selection": "TEX",
+      "line": null,
+      "odds": -154,
+      "stake": 1.54,
+      "result": "WIN",
+      "profit": 1.0,
+      "book": "fanduel",
+      "source": "fanduel_api",
+      "reason": null,
+      "home": "TEX",
+      "away": "LAA",
+      "gamePk": 822856,
+      "fadeReason": "all"
+    },
+    {
+      "date": "2026-08-23",
+      "commence": "2026-08-23T20:10:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Shota Imanaga"
+      ],
+      "fadeTeam": "CHC",
+      "market": "h2h",
+      "selection": "SEA",
+      "line": null,
+      "odds": 104,
+      "stake": 1.0,
+      "result": "LOSS",
+      "profit": -1.0,
+      "book": "fanduel",
+      "source": "fanduel_api",
+      "reason": null,
+      "home": "SEA",
+      "away": "CHC",
+      "gamePk": 823099,
+      "fadeReason": "away"
+    },
+    {
+      "date": "2026-08-23",
+      "commence": "2026-08-23T23:10:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Tyler Mahle"
+      ],
+      "fadeTeam": "ATL",
+      "market": "h2h",
+      "selection": "MIL",
+      "line": null,
+      "odds": -114,
+      "stake": 1.14,
+      "result": "LOSS",
+      "profit": -1.14,
+      "book": "fanduel",
+      "source": "fanduel_api",
+      "reason": null,
+      "home": "MIL",
+      "away": "ATL",
+      "gamePk": 823745,
+      "fadeReason": "away"
     }
   ]
 }

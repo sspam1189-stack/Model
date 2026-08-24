@@ -1,7 +1,7 @@
 {
   "sport": "MLB",
   "type": "hand-tails",
-  "generated": "2026-08-23T21:02:44Z",
+  "generated": "2026-08-24T14:38:16Z",
   "handMin": 6,
   "roster": {
     "Andrew Painter": {
@@ -155,7 +155,56 @@
       }
     }
   },
-  "today": [],
+  "today": [
+    {
+      "date": "2026-08-24",
+      "commence": "2026-08-24T22:40:00Z",
+      "betType": "hand_fade",
+      "action": "fade",
+      "pitcher": "Framber Valdez",
+      "entry": "Framber Valdez",
+      "hand": "L",
+      "arm_team": "DET",
+      "opp_team": "TB",
+      "selection": "TB",
+      "home": "DET",
+      "away": "TB",
+      "oppLefty": 3,
+      "oppRighty": 7,
+      "lineupConfirmed": false,
+      "odds": null,
+      "stake": null,
+      "result": "unconfirmed",
+      "reason": null,
+      "profit": 0.0,
+      "book": "fanduel",
+      "source": "fanduel_api"
+    },
+    {
+      "date": "2026-08-24",
+      "commence": "2026-08-25T01:40:00Z",
+      "betType": "hand_fade",
+      "action": "fade",
+      "pitcher": "Jeffrey Springs",
+      "entry": "Jeffrey Springs",
+      "hand": "L",
+      "arm_team": "OAK",
+      "opp_team": "MIN",
+      "selection": "MIN",
+      "home": "OAK",
+      "away": "MIN",
+      "oppLefty": 4,
+      "oppRighty": 8,
+      "lineupConfirmed": false,
+      "odds": null,
+      "stake": null,
+      "result": "unconfirmed",
+      "reason": null,
+      "profit": 0.0,
+      "book": "fanduel",
+      "source": "fanduel_api"
+    }
+  ],
   "bets": [
     {
       "date": "2026-05-20",
