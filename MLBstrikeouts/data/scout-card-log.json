@@ -3,7 +3,7 @@
   "type": "scout-card-log",
   "week_convention": "monday-sunday",
   "description": "Per-play ledger for scout card calls (tier 2/3 of the daily card policy in MLBstrikeouts/CLAUDE.md). Model plays are NOT logged here - fade-ml/props/hand-tails keep their own files. No-play days are logged too: an empty card is part of the record. Prices are the card-time quote, not the close.",
-  "generated": "2026-08-24T00:00:00Z",
+  "generated": "2026-08-25T14:59:11Z",
   "pre_log_history": [
     {
       "date": "2026-08-17",
@@ -92,6 +92,23 @@
       "date": "2026-08-23",
       "no_play": true,
       "note": "No qualifying plays. Scout ML nearest miss: SD (MIN ladder 91/87/91/90, cold bar missed by 1pt in two windows). CLE@COL both-cold but flagless = temperature-only."
+    },
+    {
+      "date": "2026-08-24",
+      "play": "SD ML",
+      "market": "h2h",
+      "game": "PIT @ SD",
+      "price": -102,
+      "stake": 1.0,
+      "rule": "scout-ml-both-halves-aligned",
+      "basis": "SD bats 124/127/129/125 vs Ashcraft; PIT bats 70/76/78/33 vs Ray; SD pen #3. Re-added after daily-run clobber.",
+      "result": "LOSS",
+      "profit": -1.0
+    },
+    {
+      "date": "2026-08-25",
+      "no_play": true,
+      "note": "No card-grade plays. PHI@SEA is the first BOTH-HOT aligned game (SEA 112/117/132/128 vs Nola, PHI 116/120/117/122 vs Kirby) with SEA pen #30 at 10.16 L7 -- fails the flag clause only because pen quality is not yet a named defect; shadow-tracking Over 7.5. CLE@LAA both-cold but flagless. PIT@SD: SD bats hot-aligned vs Skenes but PIT ladder 92/96/83/94 misses cold bar."
     }
   ]
 }

@@ -332,6 +332,12 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
+          # The scout card ledger is written by sessions, never by this run.
+          # On a persistent runner the working tree can hold a stale copy,
+          # and `git add -A` then silently reverts ledger entries (it dropped
+          # the 2026-08-24 entry). Always defer to main's version.
+          git fetch origin main
+          git checkout FETCH_HEAD -- MLBstrikeouts/data/scout-card-log.json 2>/dev/null || true
           git add -A
           git diff --cached --quiet || git commit -m "Run daily MLB Pitcher Props (Whiff .2 + .1/Cap26) + Game Hits [skip ci]"
           git pull --rebase --autostash origin main
