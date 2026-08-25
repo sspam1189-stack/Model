@@ -1,7 +1,7 @@
 {
   "sport": "MLB",
   "type": "fade-ml",
-  "generated": "2026-08-25T19:52:21Z",
+  "generated": "2026-08-25T21:03:13Z",
   "fadeList": [
     "Painter",
     "Rocker",
@@ -109,6 +109,30 @@
   "today": [
     {
       "date": "2026-08-25",
+      "commence": "2026-08-25T23:07:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Max Scherzer"
+      ],
+      "fadeTeam": "TOR",
+      "market": "h2h",
+      "selection": "KC",
+      "line": null,
+      "odds": 116,
+      "stake": 1.0,
+      "result": "pending",
+      "profit": 0.0,
+      "book": "fanduel",
+      "source": "fanduel_api",
+      "reason": null,
+      "home": "TOR",
+      "away": "KC",
+      "gamePk": 822773,
+      "fadeReason": "home"
+    },
+    {
+      "date": "2026-08-25",
       "commence": "2026-08-26T01:45:00Z",
       "betType": "ml",
       "shadow": false,
@@ -202,30 +226,6 @@
       "away": "TEX",
       "gamePk": 824556,
       "fadeReason": "away"
-    },
-    {
-      "date": "2026-08-25",
-      "commence": "2026-08-25T23:07:00Z",
-      "betType": "ml",
-      "shadow": false,
-      "pitchers": [
-        "Max Scherzer"
-      ],
-      "fadeTeam": "TOR",
-      "market": "h2h",
-      "selection": "KC",
-      "line": null,
-      "odds": 120,
-      "stake": 1.0,
-      "result": "pending",
-      "profit": 0.0,
-      "book": "fanduel",
-      "source": "fanduel_api",
-      "reason": null,
-      "home": "TOR",
-      "away": "KC",
-      "gamePk": 822773,
-      "fadeReason": "home"
     }
   ],
   "bets": [
