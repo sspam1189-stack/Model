@@ -28,8 +28,8 @@
       "away_ml": -126,
       "home_ml": 116,
       "total": 7.5,
-      "over_ml": -108,
-      "under_ml": -112,
+      "over_ml": -122,
+      "under_ml": 100,
       "sides": {
         "away": {
           "pitcher": "Ian Seymour",
@@ -412,11 +412,11 @@
       "away": "BOS",
       "home": "MIA",
       "commence": "2026-08-25T22:40:00Z",
-      "away_ml": -140,
-      "home_ml": 130,
-      "total": 7.5,
-      "over_ml": -102,
-      "under_ml": -120,
+      "away_ml": -142,
+      "home_ml": 132,
+      "total": 7,
+      "over_ml": -118,
+      "under_ml": -104,
       "sides": {
         "away": {
           "pitcher": "Payton Tolle",
@@ -594,31 +594,127 @@
           "mismatch": -28.2
         },
         "home": {
-          "pitcher": null,
-          "listed_as": null,
-          "resolved": false,
-          "hand": null,
+          "pitcher": "Tyler Phillips",
+          "listed_as": "Tyler Phillips",
+          "resolved": true,
+          "hand": "R",
           "team": "MIA",
           "opponent_offense": "BOS",
-          "opp_wrc_vs_hand": null,
-          "opp_wrc_game": null,
-          "opp_wrc_recent": null,
-          "opp_wrc_recent_pa": null,
+          "opp_wrc_vs_hand": 136,
+          "opp_wrc_game": 129,
+          "opp_wrc_recent": 143,
+          "opp_wrc_recent_pa": 656,
           "opp_wrc_windows": {
-            "last30": null,
-            "last20": null,
-            "last15": null,
-            "last7": null
+            "last30": {
+              "wrcplus": 136,
+              "pa": 852,
+              "role": "all"
+            },
+            "last20": {
+              "wrcplus": 136,
+              "pa": 616,
+              "role": "all"
+            },
+            "last15": {
+              "wrcplus": 129,
+              "pa": 463,
+              "role": "all"
+            },
+            "last7": {
+              "wrcplus": 144,
+              "pa": 196,
+              "role": "all"
+            }
           },
           "opp_platoon_gap": -23,
           "form": {
-            "season": null,
-            "recent": null,
-            "hot": null,
-            "recent_all": null,
-            "relief": null
+            "season": {
+              "gs": 14,
+              "ip": 64.0,
+              "ip_per_gs": 4.57,
+              "era": 4.64,
+              "whip": 1.34,
+              "k_pct": 16.9,
+              "bb_pct": 7.7,
+              "k_bb_pct": 9.2,
+              "hr9": 1.55,
+              "k": 46,
+              "bb": 21,
+              "hr": 11,
+              "er": 33
+            },
+            "recent": {
+              "gs": 5,
+              "ip": 23.7,
+              "ip_per_gs": 4.73,
+              "era": 4.18,
+              "whip": 1.27,
+              "k_pct": 20.0,
+              "bb_pct": 5.0,
+              "k_bb_pct": 15.0,
+              "hr9": 1.9,
+              "k": 20,
+              "bb": 5,
+              "hr": 5,
+              "er": 11
+            },
+            "hot": {
+              "gs": 3,
+              "ip": 14.3,
+              "ip_per_gs": 4.78,
+              "era": 4.4,
+              "whip": 1.33,
+              "k_pct": 21.0,
+              "bb_pct": 3.2,
+              "k_bb_pct": 17.7,
+              "hr9": 1.88,
+              "k": 13,
+              "bb": 2,
+              "hr": 3,
+              "er": 7
+            },
+            "recent_all": {
+              "g": 5,
+              "ip": 21.3,
+              "ip_per_g": 4.27,
+              "era": 4.22,
+              "whip": 1.31,
+              "k_pct": 22.8,
+              "bb_pct": 6.5,
+              "k_bb_pct": 16.3,
+              "hr9": 1.69,
+              "k": 21,
+              "bb": 6,
+              "hr": 4,
+              "er": 10,
+              "gs": 4
+            },
+            "relief": {
+              "g": 1,
+              "ip": 2.0,
+              "ip_per_g": 2.0,
+              "era": 4.5,
+              "whip": 2.0,
+              "k_pct": 30.0,
+              "bb_pct": 20.0,
+              "k_bb_pct": 10.0,
+              "hr9": 0.0,
+              "k": 3,
+              "bb": 2,
+              "hr": 0,
+              "er": 1,
+              "from": "2026-08-18",
+              "to": "2026-08-18"
+            }
           },
-          "trend": {},
+          "trend": {
+            "era": -0.46,
+            "whip": -0.07,
+            "k_pct": 3.1,
+            "bb_pct": -2.7,
+            "ip_per_gs": 0.16,
+            "hr9": 0.35
+          },
           "pen": {
             "last30": {
               "g": 90,
@@ -685,16 +781,14 @@
               "rank": 22
             }
           },
-          "flags": [
-            "thin-sample"
-          ],
-          "mismatch": null
+          "flags": [],
+          "mismatch": 34.3
         }
       },
       "home_offense_game": 112,
-      "away_offense_game": null,
-      "game_offense": null,
-      "offense_edge": null
+      "away_offense_game": 129,
+      "game_offense": 120,
+      "offense_edge": 17
     },
     {
       "matchup": "COL @ WSH",
@@ -1006,8 +1100,8 @@
       "away": "HOU",
       "home": "NYY",
       "commence": "2026-08-25T23:05:00Z",
-      "away_ml": 128,
-      "home_ml": -138,
+      "away_ml": 130,
+      "home_ml": -140,
       "total": 8.5,
       "over_ml": -124,
       "under_ml": 102,
@@ -2111,8 +2205,8 @@
       "away": "LAD",
       "home": "ATL",
       "commence": "2026-08-25T23:15:00Z",
-      "away_ml": -150,
-      "home_ml": 140,
+      "away_ml": -148,
+      "home_ml": 138,
       "total": 8.5,
       "over_ml": -120,
       "under_ml": -102,
@@ -3154,8 +3248,8 @@
       "away": "CLE",
       "home": "LAA",
       "commence": "2026-08-26T01:38:00Z",
-      "away_ml": -140,
-      "home_ml": 130,
+      "away_ml": -138,
+      "home_ml": 128,
       "total": 7,
       "over_ml": -115,
       "under_ml": -105,
@@ -3890,8 +3984,8 @@
       "away": "PIT",
       "home": "SD",
       "commence": "2026-08-26T01:40:00Z",
-      "away_ml": 110,
-      "home_ml": -118,
+      "away_ml": 112,
+      "home_ml": -122,
       "total": 7.5,
       "over_ml": 100,
       "under_ml": -122,
@@ -4259,9 +4353,9 @@
       "commence": "2026-08-26T01:40:00Z",
       "away_ml": -144,
       "home_ml": 134,
-      "total": 9.5,
-      "over_ml": -122,
-      "under_ml": 100,
+      "total": 10.5,
+      "over_ml": -108,
+      "under_ml": -112,
       "sides": {
         "away": {
           "pitcher": "Taj Bradley",
@@ -4626,9 +4720,9 @@
       "commence": "2026-08-26T01:40:00Z",
       "away_ml": 100,
       "home_ml": -110,
-      "total": 7.5,
-      "over_ml": -120,
-      "under_ml": -102,
+      "total": 8,
+      "over_ml": -110,
+      "under_ml": -110,
       "sides": {
         "away": {
           "pitcher": "Aaron Nola",
@@ -4993,9 +5087,9 @@
       "commence": "2026-08-26T01:45:00Z",
       "away_ml": -102,
       "home_ml": -106,
-      "total": 8,
-      "over_ml": -105,
-      "under_ml": -115,
+      "total": 7.5,
+      "over_ml": -115,
+      "under_ml": -105,
       "sides": {
         "away": {
           "pitcher": "Brady Singer",
@@ -5406,6 +5500,16 @@
       "flags": []
     },
     {
+      "pitcher": "Tyler Phillips",
+      "hand": "R",
+      "team": "MIA",
+      "opponent_offense": "BOS",
+      "opp_wrc_vs_hand": 136,
+      "opp_wrc_recent": 143,
+      "mismatch": 34.3,
+      "flags": []
+    },
+    {
       "pitcher": "Seth Lugo",
       "hand": "R",
       "team": "KC",
@@ -5664,7 +5768,7 @@
       "flags": []
     }
   ],
-  "generated": "2026-08-25T16:19:44Z",
+  "generated": "2026-08-25T18:43:20Z",
   "sport": "MLB",
   "type": "slate-scout",
   "advisory": true,
