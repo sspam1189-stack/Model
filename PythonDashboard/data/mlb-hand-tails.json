@@ -1,7 +1,7 @@
 {
   "sport": "MLB",
   "type": "hand-tails",
-  "generated": "2026-08-25T22:29:04Z",
+  "generated": "2026-08-25T22:39:42Z",
   "handMin": 6,
   "roster": {
     "Andrew Painter": {
@@ -40,10 +40,6 @@
       "hand": "L",
       "action": "fade"
     },
-    "Kevin Gausman": {
-      "hand": "R",
-      "action": "fade"
-    },
     "Merrill Kelly": {
       "hand": "R",
       "action": "fade"
@@ -79,25 +75,18 @@
     "Trevor McDonald": {
       "hand": "R",
       "action": "fade"
+    },
+    "Bryan Woo": {
+      "hand": "R",
+      "action": "fade"
+    },
+    "Connor Prielipp": {
+      "hand": "L",
+      "action": "fade"
     }
   },
   "note": "Bet list is manually curated (hand-tails-manual.json). `promotions` = arms that cleared the walk-forward bar but are not on the manual list (notify); `demotions` = manual arms slipped under the bar. Own ledger; not part of the fade-list ledger.",
-  "promotions": [
-    {
-      "name": "Bryan Woo",
-      "hand": "R",
-      "games": 10,
-      "units": 4.28,
-      "since": "2026-08-11"
-    },
-    {
-      "name": "Connor Prielipp",
-      "hand": "L",
-      "games": 15,
-      "units": 4.02,
-      "since": "2026-08-21"
-    }
-  ],
+  "promotions": [],
   "demotions": [
     {
       "name": "Kevin Gausman",
@@ -113,18 +102,18 @@
     }
   ],
   "summary": {
-    "wins": 54,
+    "wins": 56,
     "losses": 21,
-    "units": 33.44,
-    "staked": 89.74,
-    "roi": 0.3726,
+    "units": 35.44,
+    "staked": 92.16,
+    "roi": 0.3845,
     "byAction": {
       "fade": {
-        "wins": 54,
+        "wins": 56,
         "losses": 21,
-        "units": 33.44,
-        "staked": 89.74,
-        "roi": 0.3726
+        "units": 35.44,
+        "staked": 92.16,
+        "roi": 0.3845
       },
       "take": {
         "wins": 0,
@@ -136,18 +125,18 @@
     },
     "byHand": {
       "R": {
-        "wins": 31,
+        "wins": 32,
         "losses": 10,
-        "units": 21.18,
-        "staked": 49.1,
-        "roi": 0.4314
+        "units": 22.18,
+        "staked": 50.36,
+        "roi": 0.4404
       },
       "L": {
-        "wins": 23,
+        "wins": 24,
         "losses": 11,
-        "units": 12.26,
-        "staked": 40.64,
-        "roi": 0.3017
+        "units": 13.26,
+        "staked": 41.8,
+        "roi": 0.3172
       }
     }
   },
@@ -165,12 +154,12 @@
       "selection": "PHI",
       "home": "SEA",
       "away": "PHI",
-      "oppLefty": 6,
-      "oppRighty": 3,
-      "lineupConfirmed": false,
-      "odds": null,
-      "stake": null,
-      "result": "unconfirmed",
+      "oppLefty": 7,
+      "oppRighty": 2,
+      "lineupConfirmed": true,
+      "odds": -104,
+      "stake": 1.04,
+      "result": "pending",
       "reason": null,
       "profit": 0.0,
       "book": "fanduel",
@@ -1500,6 +1489,30 @@
     },
     {
       "date": "2026-08-11",
+      "commence": "2026-08-11T23:05:00Z",
+      "betType": "hand_fade",
+      "action": "fade",
+      "pitcher": "Bryan Woo",
+      "entry": "Bryan Woo",
+      "hand": "R",
+      "arm_team": "SEA",
+      "opp_team": "NYY",
+      "selection": "NYY",
+      "home": "NYY",
+      "away": "SEA",
+      "oppLefty": 7,
+      "oppRighty": 2,
+      "lineupConfirmed": true,
+      "odds": -126,
+      "stake": 1.26,
+      "result": "WIN",
+      "reason": null,
+      "profit": 1.0,
+      "book": "fanduel",
+      "source": "fanduel_api"
+    },
+    {
+      "date": "2026-08-11",
       "commence": "2026-08-11T23:40:00Z",
       "betType": "hand_fade",
       "action": "fade",
@@ -1924,6 +1937,30 @@
       "lineupConfirmed": true,
       "odds": -142,
       "stake": 1.42,
+      "result": "WIN",
+      "reason": null,
+      "profit": 1.0,
+      "book": "fanduel",
+      "source": "fanduel_api"
+    },
+    {
+      "date": "2026-08-21",
+      "commence": "2026-08-22T01:40:00Z",
+      "betType": "hand_fade",
+      "action": "fade",
+      "pitcher": "Connor Prielipp",
+      "entry": "Connor Prielipp",
+      "hand": "L",
+      "arm_team": "MIN",
+      "opp_team": "SD",
+      "selection": "SD",
+      "home": "SD",
+      "away": "MIN",
+      "oppLefty": 3,
+      "oppRighty": 7,
+      "lineupConfirmed": true,
+      "odds": -116,
+      "stake": 1.16,
       "result": "WIN",
       "reason": null,
       "profit": 1.0,

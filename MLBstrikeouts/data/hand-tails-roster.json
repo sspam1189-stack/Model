@@ -1,31 +1,16 @@
 {
   "sport": "MLB",
   "type": "hand-tails-roster",
-  "generated": "2026-08-25T22:28:44Z",
+  "generated": "2026-08-25T22:39:01Z",
   "handMin": 6,
   "rule": {
     "minGames": 4,
     "minUnits": 3.0
   },
   "note": "Walk-forward qualifier computation used to NOTIFY (promotion candidates), not to drive the bet list. The bet list is the manually curated hand-tails-manual.json. `promotions` are arms that clear minGames+minUnits but are not on the manual list; `demotions` are manual-list arms whose record slipped under the bar.",
-  "manualCount": 20,
+  "manualCount": 22,
   "qualifiedCount": 18,
-  "promotions": [
-    {
-      "name": "Bryan Woo",
-      "hand": "R",
-      "games": 10,
-      "units": 4.28,
-      "since": "2026-08-11"
-    },
-    {
-      "name": "Connor Prielipp",
-      "hand": "L",
-      "games": 15,
-      "units": 4.02,
-      "since": "2026-08-21"
-    }
-  ],
+  "promotions": [],
   "demotions": [
     {
       "name": "Kevin Gausman",
