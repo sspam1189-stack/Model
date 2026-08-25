@@ -1,7 +1,7 @@
 {
   "sport": "MLB",
   "type": "fade-vs-team-watch",
-  "generated": "2026-08-25T16:05:26Z",
+  "generated": "2026-08-25T16:19:40Z",
   "seasonStart": "2026-04-05",
   "minStarts": 2,
   "minEra": 6.0,
@@ -135,22 +135,6 @@
         "u": 2.0,
         "n": 2,
         "roi": 0.8547
-      }
-    },
-    {
-      "pitcher": "Michael Lorenzen",
-      "opp": "SF",
-      "arm_team": "COL",
-      "eraVsOpp": 7.3,
-      "ipVsOpp": 12.3,
-      "erVsOpp": 10,
-      "startsVsOpp": 3,
-      "fadeRecord": {
-        "w": 2,
-        "l": 1,
-        "u": 0.52,
-        "n": 3,
-        "roi": 0.1121
       }
     },
     {
@@ -313,22 +297,6 @@
         "roi": 0.2
       },
       "excluded": true
-    },
-    {
-      "pitcher": "Jacob deGrom",
-      "opp": "HOU",
-      "arm_team": "TEX",
-      "eraVsOpp": 6.46,
-      "ipVsOpp": 15.3,
-      "erVsOpp": 11,
-      "startsVsOpp": 3,
-      "fadeRecord": {
-        "w": 3,
-        "l": 0,
-        "u": 3.56,
-        "n": 3,
-        "roi": 1.1867
-      }
     },
     {
       "pitcher": "Braxton Ashcraft",
@@ -520,22 +488,6 @@
         "u": 2.94,
         "n": 2,
         "roi": 1.47
-      }
-    },
-    {
-      "pitcher": "Michael Lorenzen",
-      "opp": "NYM",
-      "arm_team": "COL",
-      "eraVsOpp": 6.0,
-      "ipVsOpp": 12.0,
-      "erVsOpp": 8,
-      "startsVsOpp": 2,
-      "fadeRecord": {
-        "w": 1,
-        "l": 1,
-        "u": -1.05,
-        "n": 2,
-        "roi": -0.2893
       }
     }
   ]

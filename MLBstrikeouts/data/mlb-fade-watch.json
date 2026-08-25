@@ -1,29 +1,11 @@
 {
   "sport": "MLB",
   "type": "fade-watch",
-  "generated": "2026-08-25T16:05:25Z",
+  "generated": "2026-08-25T16:19:39Z",
   "minGames": 3,
   "minUnits": 2.5,
   "note": "Shadow review list -- arms NOT on the active fade list whose home or away fade clears the bar (>= 3 games, >= +2.5u). In-sample season replay; watch, don't bet. Promote by editing scripts/fade_list.py.",
   "today": [
-    {
-      "date": "2026-08-25",
-      "commence": "2026-08-25T23:40:00Z",
-      "betType": "fade_watch",
-      "watch": true,
-      "pitcher": "Jacob deGrom",
-      "arm_team": "TEX",
-      "fadeTeam": "TEX",
-      "selection": "CWS",
-      "home": "CWS",
-      "away": "TEX",
-      "venue": "away",
-      "odds": 100,
-      "suggest": "away",
-      "suggestUnits": 3.44,
-      "games": 11,
-      "result": "pending"
-    },
     {
       "date": "2026-08-25",
       "commence": "2026-08-26T01:45:00Z",
@@ -44,33 +26,6 @@
     }
   ],
   "candidates": [
-    {
-      "pitcher": "Cristian Javier",
-      "team": "HOU",
-      "suggest": "all",
-      "suggestUnits": 7.52,
-      "all": {
-        "w": 6,
-        "l": 0,
-        "u": 7.52,
-        "n": 6,
-        "roi": 1.1498
-      },
-      "home": {
-        "w": 3,
-        "l": 0,
-        "u": 4.32,
-        "n": 3,
-        "roi": 1.44
-      },
-      "away": {
-        "w": 3,
-        "l": 0,
-        "u": 3.2,
-        "n": 3,
-        "roi": 0.904
-      }
-    },
     {
       "pitcher": "Shane Drohan",
       "team": "MIL",
@@ -312,60 +267,6 @@
         "u": 3.54,
         "n": 7,
         "roi": 0.5057
-      }
-    },
-    {
-      "pitcher": "Michael Lorenzen",
-      "team": "COL",
-      "suggest": "away",
-      "suggestUnits": 3.49,
-      "all": {
-        "w": 14,
-        "l": 9,
-        "u": -1.68,
-        "n": 23,
-        "roi": -0.0412
-      },
-      "home": {
-        "w": 4,
-        "l": 6,
-        "u": -5.17,
-        "n": 10,
-        "roi": -0.3368
-      },
-      "away": {
-        "w": 10,
-        "l": 3,
-        "u": 3.49,
-        "n": 13,
-        "roi": 0.1373
-      }
-    },
-    {
-      "pitcher": "Jacob deGrom",
-      "team": "TEX",
-      "suggest": "away",
-      "suggestUnits": 3.44,
-      "all": {
-        "w": 11,
-        "l": 12,
-        "u": 0.1,
-        "n": 23,
-        "roi": 0.0041
-      },
-      "home": {
-        "w": 4,
-        "l": 8,
-        "u": -3.34,
-        "n": 12,
-        "roi": -0.272
-      },
-      "away": {
-        "w": 7,
-        "l": 4,
-        "u": 3.44,
-        "n": 11,
-        "roi": 0.2829
       }
     },
     {

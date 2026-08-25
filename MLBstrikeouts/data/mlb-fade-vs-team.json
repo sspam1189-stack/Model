@@ -1,17 +1,17 @@
 {
   "sport": "MLB",
   "type": "fade-vs-team",
-  "generated": "2026-08-25T16:05:26Z",
+  "generated": "2026-08-25T16:19:40Z",
   "seasonStart": "2026-04-05",
   "minStarts": 2,
   "fadeEra": 8.0,
   "note": "Pitcher-vs-team FADE: bet the opponent's ML when the pitcher faces that team. Set = curated (FADE_VS_TEAM, full season replay) + auto-promoted (>= 2 starts vs the team, ERA >= 8.0 vs them; WALK-FORWARD -- only starts after the promote bar was already met count as plays, the qualifying start itself never does). Flat 1u; data only, not wired into the fade model. Watch tier (6 <= ERA < 8.0) is in mlb-fade-vs-team-watch.json.",
   "overall": {
-    "w": 10,
+    "w": 9,
     "l": 1,
-    "u": 10.06,
-    "n": 11,
-    "roi": 0.6383
+    "u": 8.7,
+    "n": 10,
+    "roi": 0.5894
   },
   "today": [],
   "entries": [
@@ -92,34 +92,6 @@
           "result": "win"
         }
       ]
-    },
-    {
-      "pitcher": "Jacob deGrom",
-      "opp": "LAA",
-      "arm_team": "TEX",
-      "source": "auto",
-      "record": {
-        "w": 1,
-        "l": 0,
-        "u": 1.36,
-        "n": 1,
-        "roi": 1.36
-      },
-      "eraVsOpp": 9.0,
-      "ipVsOpp": 10.0,
-      "erVsOpp": 10,
-      "startsVsOpp": 3,
-      "starts": [
-        {
-          "date": "2026-08-13",
-          "venue": "away",
-          "matchup": "TEX @ LAA",
-          "selection": "LAA",
-          "opp_ml": 136,
-          "result": "win"
-        }
-      ],
-      "qualifiedOn": "2026-07-07"
     },
     {
       "pitcher": "Will Warren",
@@ -450,25 +422,6 @@
       "startsVsOpp": 2,
       "starts": [],
       "qualifiedOn": "2026-06-21"
-    },
-    {
-      "pitcher": "Michael Lorenzen",
-      "opp": "ARI",
-      "arm_team": "COL",
-      "source": "auto",
-      "record": {
-        "w": 0,
-        "l": 0,
-        "u": 0,
-        "n": 0,
-        "roi": 0.0
-      },
-      "eraVsOpp": 10.24,
-      "ipVsOpp": 9.7,
-      "erVsOpp": 11,
-      "startsVsOpp": 2,
-      "starts": [],
-      "qualifiedOn": "2026-05-23"
     },
     {
       "pitcher": "Tatsuya Imai",
