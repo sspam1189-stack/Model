@@ -26,11 +26,15 @@ When building a daily card from this repo's outputs, the tiers are:
    price-bucket cuts, no "backed-side blind spot" skips. Both overlay
    attempts in the week of 8/17 were wrong within 24h (NYM +122 skipped,
    won; CLE −205 cut, and the >−200 fade bucket is itself 21-4 +19.5%).
-2. **Scout O/U plays**: card-grade only — the offense ladder must align
+2. **Scout O/U plays**: card-grade only — BOTH offenses' ladders must align
    across all four rolling windows (L30/L20/L15/L7, role=all, from
-   mlb-team-woba-splits.json) AND the read must be keyed to a named
-   defect/flag (layoff, stale window, opener/swingman, collapsed IP/GS),
-   not temperature alone. Card-grade totals went 3-1 that week.
+   mlb-team-woba-splits.json) in the same direction (both <=90 -> under,
+   both >=110 -> over). Card-grade totals went 3-1 that week.
+   2026-08-25 (user): the named-defect/flag requirement is RETIRED for
+   totals — it benched two winning unders in four days (LAA/TEX U8 on
+   8/22, CLE/COL U11.5 on 8/23) while the aligned-both-cold profile went
+   3-0; full four-window alignment on both offenses IS the requirement.
+   One aligned ladder alone is still not a play.
 3. **Scout MLs**: top conviction only — both halves of the game aligned
    across all four windows — capped at 1u, never opposing a model
    position.
