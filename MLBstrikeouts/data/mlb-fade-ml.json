@@ -1,7 +1,7 @@
 {
   "sport": "MLB",
   "type": "fade-ml",
-  "generated": "2026-08-24T14:36:40Z",
+  "generated": "2026-08-25T14:34:50Z",
   "fadeList": [
     "Painter",
     "Rocker",
@@ -75,22 +75,22 @@
   ],
   "mutualRule": "skip",
   "summary": {
-    "wins": 465,
-    "losses": 171,
+    "wins": 468,
+    "losses": 172,
     "voids": 0,
     "skips": 41,
-    "staked": 794.16,
-    "units": 303.53,
-    "roi": 0.3822,
+    "staked": 799.78,
+    "units": 305.53,
+    "roi": 0.382,
     "byType": {
       "ml": {
-        "wins": 455,
-        "losses": 163,
+        "wins": 458,
+        "losses": 164,
         "voids": 0,
         "skips": 3,
-        "staked": 776.16,
-        "units": 298.49,
-        "roi": 0.3846
+        "staked": 781.78,
+        "units": 300.49,
+        "roi": 0.3844
       },
       "ml_dog": {
         "wins": 10,
@@ -105,91 +105,43 @@
   },
   "today": [
     {
-      "date": "2026-08-24",
-      "commence": "2026-08-25T01:40:00Z",
+      "date": "2026-08-25",
+      "commence": "2026-08-26T01:45:00Z",
       "betType": "ml",
       "shadow": false,
       "pitchers": [
-        "Kevin Gausman"
+        "Brady Singer"
       ],
-      "fadeTeam": "CHC",
+      "fadeTeam": "CIN",
       "market": "h2h",
-      "selection": "ARI",
+      "selection": "SF",
       "line": null,
-      "odds": 128,
-      "stake": 1.0,
+      "odds": -106,
+      "stake": 1.06,
       "result": "pending",
       "profit": 0.0,
       "book": "fanduel",
       "source": "fanduel_api",
       "reason": null,
-      "home": "ARI",
-      "away": "CHC",
-      "gamePk": 825041,
+      "home": "SF",
+      "away": "CIN",
+      "gamePk": 823181,
       "fadeReason": "away"
     },
     {
-      "date": "2026-08-24",
-      "commence": "2026-08-24T22:45:00Z",
+      "date": "2026-08-25",
+      "commence": "2026-08-26T01:40:00Z",
       "betType": "ml",
       "shadow": false,
       "pitchers": [
-        "Ryan Feltner"
-      ],
-      "fadeTeam": "COL",
-      "market": "h2h",
-      "selection": "WSH",
-      "line": null,
-      "odds": -184,
-      "stake": 1.84,
-      "result": "pending",
-      "profit": 0.0,
-      "book": "fanduel",
-      "source": "fanduel_api",
-      "reason": null,
-      "home": "WSH",
-      "away": "COL",
-      "gamePk": 822695,
-      "fadeReason": "away"
-    },
-    {
-      "date": "2026-08-24",
-      "commence": "2026-08-24T22:40:00Z",
-      "betType": "ml",
-      "shadow": false,
-      "pitchers": [
-        "Framber Valdez"
-      ],
-      "fadeTeam": "DET",
-      "market": "h2h",
-      "selection": "TB",
-      "line": null,
-      "odds": -128,
-      "stake": 1.28,
-      "result": "pending",
-      "profit": 0.0,
-      "book": "fanduel",
-      "source": "fanduel_api",
-      "reason": null,
-      "home": "DET",
-      "away": "TB",
-      "gamePk": 824235,
-      "fadeReason": "all"
-    },
-    {
-      "date": "2026-08-24",
-      "commence": "2026-08-25T01:40:00Z",
-      "betType": "ml",
-      "shadow": false,
-      "pitchers": [
-        "Jeffrey Springs"
+        "Gage Jump"
       ],
       "fadeTeam": "OAK",
       "market": "h2h",
       "selection": "MIN",
       "line": null,
-      "odds": -150,
-      "stake": 1.5,
+      "odds": -144,
+      "stake": 1.44,
       "result": "pending",
       "profit": 0.0,
       "book": "fanduel",
@@ -197,7 +149,55 @@
       "reason": null,
       "home": "OAK",
       "away": "MIN",
-      "gamePk": 824964,
+      "gamePk": 824962,
+      "fadeReason": "all"
+    },
+    {
+      "date": "2026-08-25",
+      "commence": "2026-08-26T01:40:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Paul Skenes"
+      ],
+      "fadeTeam": "PIT",
+      "market": "h2h",
+      "selection": null,
+      "line": null,
+      "odds": null,
+      "stake": null,
+      "result": "SKIP",
+      "profit": 0.0,
+      "book": "fanduel",
+      "source": "fanduel_api",
+      "reason": "hand_fade_override",
+      "home": "SD",
+      "away": "PIT",
+      "gamePk": 823259,
+      "fadeReason": "all"
+    },
+    {
+      "date": "2026-08-25",
+      "commence": "2026-08-25T23:07:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Max Scherzer"
+      ],
+      "fadeTeam": "TOR",
+      "market": "h2h",
+      "selection": "KC",
+      "line": null,
+      "odds": 116,
+      "stake": 1.0,
+      "result": "pending",
+      "profit": 0.0,
+      "book": "fanduel",
+      "source": "fanduel_api",
+      "reason": null,
+      "home": "TOR",
+      "away": "KC",
+      "gamePk": 822773,
       "fadeReason": "home"
     }
   ],
@@ -16505,6 +16505,102 @@
       "away": "ATL",
       "gamePk": 823745,
       "fadeReason": "away"
+    },
+    {
+      "date": "2026-08-24",
+      "commence": "2026-08-24T22:40:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Framber Valdez"
+      ],
+      "fadeTeam": "DET",
+      "market": "h2h",
+      "selection": "TB",
+      "line": null,
+      "odds": -128,
+      "stake": 1.28,
+      "result": "WIN",
+      "profit": 1.0,
+      "book": "fanduel",
+      "source": "fanduel_api",
+      "reason": null,
+      "home": "DET",
+      "away": "TB",
+      "gamePk": 824235,
+      "fadeReason": "all"
+    },
+    {
+      "date": "2026-08-24",
+      "commence": "2026-08-24T22:45:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Ryan Feltner"
+      ],
+      "fadeTeam": "COL",
+      "market": "h2h",
+      "selection": "WSH",
+      "line": null,
+      "odds": -184,
+      "stake": 1.84,
+      "result": "WIN",
+      "profit": 1.0,
+      "book": "fanduel",
+      "source": "fanduel_api",
+      "reason": null,
+      "home": "WSH",
+      "away": "COL",
+      "gamePk": 822695,
+      "fadeReason": "away"
+    },
+    {
+      "date": "2026-08-24",
+      "commence": "2026-08-25T01:40:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Kevin Gausman"
+      ],
+      "fadeTeam": "CHC",
+      "market": "h2h",
+      "selection": "ARI",
+      "line": null,
+      "odds": 128,
+      "stake": 1.0,
+      "result": "LOSS",
+      "profit": -1.0,
+      "book": "fanduel",
+      "source": "fanduel_api",
+      "reason": null,
+      "home": "ARI",
+      "away": "CHC",
+      "gamePk": 825041,
+      "fadeReason": "away"
+    },
+    {
+      "date": "2026-08-24",
+      "commence": "2026-08-25T01:40:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Jeffrey Springs"
+      ],
+      "fadeTeam": "OAK",
+      "market": "h2h",
+      "selection": "MIN",
+      "line": null,
+      "odds": -150,
+      "stake": 1.5,
+      "result": "WIN",
+      "profit": 1.0,
+      "book": "fanduel",
+      "source": "fanduel_api",
+      "reason": null,
+      "home": "OAK",
+      "away": "MIN",
+      "gamePk": 824964,
+      "fadeReason": "home"
     }
   ]
 }
