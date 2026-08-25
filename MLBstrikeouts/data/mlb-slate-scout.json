@@ -1100,8 +1100,8 @@
       "away": "HOU",
       "home": "NYY",
       "commence": "2026-08-25T23:05:00Z",
-      "away_ml": 130,
-      "home_ml": -140,
+      "away_ml": 128,
+      "home_ml": -138,
       "total": 8.5,
       "over_ml": -124,
       "under_ml": 102,
@@ -1469,11 +1469,11 @@
       "away": "KC",
       "home": "TOR",
       "commence": "2026-08-25T23:07:00Z",
-      "away_ml": 116,
-      "home_ml": -126,
-      "total": 8.5,
-      "over_ml": -120,
-      "under_ml": -102,
+      "away_ml": 120,
+      "home_ml": -130,
+      "total": 8,
+      "over_ml": -115,
+      "under_ml": -105,
       "sides": {
         "away": {
           "pitcher": "Seth Lugo",
@@ -3141,31 +3141,111 @@
           "mismatch": 0.5
         },
         "home": {
-          "pitcher": null,
-          "listed_as": null,
-          "resolved": false,
-          "hand": null,
+          "pitcher": "Matthew Liberatore",
+          "listed_as": "Matthew Liberatore",
+          "resolved": true,
+          "hand": "L",
           "team": "STL",
           "opponent_offense": "BAL",
-          "opp_wrc_vs_hand": null,
-          "opp_wrc_game": null,
-          "opp_wrc_recent": null,
-          "opp_wrc_recent_pa": null,
+          "opp_wrc_vs_hand": 91,
+          "opp_wrc_game": 85,
+          "opp_wrc_recent": 99,
+          "opp_wrc_recent_pa": 224,
           "opp_wrc_windows": {
-            "last30": null,
-            "last20": null,
-            "last15": null,
-            "last7": null
+            "last30": {
+              "wrcplus": 91,
+              "pa": 311,
+              "role": "all"
+            },
+            "last20": {
+              "wrcplus": 95,
+              "pa": 219,
+              "role": "all"
+            },
+            "last15": {
+              "wrcplus": 89,
+              "pa": 157,
+              "role": "all"
+            },
+            "last7": {
+              "wrcplus": null,
+              "pa": 67,
+              "role": "all"
+            }
           },
           "opp_platoon_gap": 2,
           "form": {
-            "season": null,
-            "recent": null,
-            "hot": null,
-            "recent_all": null,
+            "season": {
+              "gs": 25,
+              "ip": 125.0,
+              "ip_per_gs": 5.0,
+              "era": 5.04,
+              "whip": 1.44,
+              "k_pct": 23.1,
+              "bb_pct": 8.1,
+              "k_bb_pct": 15.0,
+              "hr9": 1.51,
+              "k": 125,
+              "bb": 44,
+              "hr": 21,
+              "er": 70
+            },
+            "recent": {
+              "gs": 5,
+              "ip": 26.0,
+              "ip_per_gs": 5.2,
+              "era": 4.5,
+              "whip": 1.15,
+              "k_pct": 28.8,
+              "bb_pct": 5.8,
+              "k_bb_pct": 23.1,
+              "hr9": 1.04,
+              "k": 30,
+              "bb": 6,
+              "hr": 3,
+              "er": 13
+            },
+            "hot": {
+              "gs": 3,
+              "ip": 16.3,
+              "ip_per_gs": 5.44,
+              "era": 5.51,
+              "whip": 1.1,
+              "k_pct": 27.7,
+              "bb_pct": 4.6,
+              "k_bb_pct": 23.1,
+              "hr9": 1.1,
+              "k": 18,
+              "bb": 3,
+              "hr": 2,
+              "er": 10
+            },
+            "recent_all": {
+              "g": 5,
+              "ip": 26.0,
+              "ip_per_g": 5.2,
+              "era": 4.5,
+              "whip": 1.15,
+              "k_pct": 28.8,
+              "bb_pct": 5.8,
+              "k_bb_pct": 23.1,
+              "hr9": 1.04,
+              "k": 30,
+              "bb": 6,
+              "hr": 3,
+              "er": 13,
+              "gs": 5
+            },
             "relief": null
           },
-          "trend": {},
+          "trend": {
+            "era": -0.54,
+            "whip": -0.29,
+            "k_pct": 5.7,
+            "bb_pct": -2.3,
+            "ip_per_gs": 0.2,
+            "hr9": -0.47
+          },
           "pen": {
             "last30": {
               "g": 92,
@@ -3232,24 +3312,22 @@
               "rank": 28
             }
           },
-          "flags": [
-            "thin-sample"
-          ],
-          "mismatch": null
+          "flags": [],
+          "mismatch": -17.9
         }
       },
       "home_offense_game": 94,
-      "away_offense_game": null,
-      "game_offense": null,
-      "offense_edge": null
+      "away_offense_game": 85,
+      "game_offense": 90,
+      "offense_edge": -9
     },
     {
       "matchup": "CLE @ LAA",
       "away": "CLE",
       "home": "LAA",
       "commence": "2026-08-26T01:38:00Z",
-      "away_ml": -138,
-      "home_ml": 128,
+      "away_ml": -142,
+      "home_ml": 132,
       "total": 7,
       "over_ml": -115,
       "under_ml": -105,
@@ -4351,8 +4429,8 @@
       "away": "MIN",
       "home": "OAK",
       "commence": "2026-08-26T01:40:00Z",
-      "away_ml": -144,
-      "home_ml": 134,
+      "away_ml": -146,
+      "home_ml": 136,
       "total": 10.5,
       "over_ml": -108,
       "under_ml": -112,
@@ -4718,8 +4796,8 @@
       "away": "PHI",
       "home": "SEA",
       "commence": "2026-08-26T01:40:00Z",
-      "away_ml": 100,
-      "home_ml": -110,
+      "away_ml": -102,
+      "home_ml": -106,
       "total": 8,
       "over_ml": -110,
       "under_ml": -110,
@@ -5716,6 +5794,16 @@
       ]
     },
     {
+      "pitcher": "Matthew Liberatore",
+      "hand": "L",
+      "team": "STL",
+      "opponent_offense": "BAL",
+      "opp_wrc_vs_hand": 91,
+      "opp_wrc_recent": 99,
+      "mismatch": -17.9,
+      "flags": []
+    },
+    {
       "pitcher": "Andrew Alvarez",
       "hand": "L",
       "team": "WSH",
@@ -5768,7 +5856,7 @@
       "flags": []
     }
   ],
-  "generated": "2026-08-25T18:43:20Z",
+  "generated": "2026-08-25T19:57:06Z",
   "sport": "MLB",
   "type": "slate-scout",
   "advisory": true,
