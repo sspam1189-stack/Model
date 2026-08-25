@@ -65,6 +65,9 @@ FADE_LIST = [
     # FADE_WINDOW) -- back from a 132-day gap via relief (swingman-4g on the
     # 8/24 scout), so the pre-gap record describes a different pitcher.
     "Cristian Javier",
+    # Added 2026-08-25 (user). Both away-only (see FADE_VENUE),
+    # season-backfilled per the venue-split precedent (Prielipp, Irvin).
+    "Jacob deGrom", "Michael Lorenzen",
 ]
 
 # Per-arm venue restriction: fade the arm ONLY when his team plays at this
@@ -138,6 +141,9 @@ FADE_VENUE = {
     # 2026-08-13 (user): home-only. Home 9.82 ERA (22 IP) vs 3.21 away;
     # watchlist home-fade 5-1 +4.32u before promotion.
     "Max Scherzer": "home",
+    # 2026-08-25 (user): road-only fades on season venue splits.
+    "Jacob deGrom": "away",     # home 2.67 ERA/0.92 WHIP; away 5.01/1.37 with HR9 1.67
+    "Michael Lorenzen": "away", # away 5.70/1.72; home is Coors (9.12) but priced as such
 }
 
 # Matchup fade list: fade the pitcher (bet the OPPONENT's ML) ONLY when he
@@ -292,6 +298,11 @@ FADE_WINDOW = {
     # season was a different pitcher (132-day layoff bridged by relief work);
     # first eligible fade is his next start after 8/25.
     "Cristian Javier":   {"add": "2026-08-25"},
+    # Added 2026-08-25 (user): away-only (see FADE_VENUE), season-backfilled
+    # per the venue-split precedent. deGrom's road start TONIGHT (TEX @ CWS)
+    # is the first live fade.
+    "Jacob deGrom":      {"add": SEASON_START},
+    "Michael Lorenzen":  {"add": SEASON_START},
 }
 
 
