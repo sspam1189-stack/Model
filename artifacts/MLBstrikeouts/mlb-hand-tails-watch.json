@@ -1,7 +1,7 @@
 {
   "sport": "MLB",
   "type": "hand-tails-watch",
-  "generated": "2026-08-25T18:43:09Z",
+  "generated": "2026-08-25T22:29:57Z",
   "handMin": 6,
   "minGames": 3,
   "minUnits": 2.5,
@@ -10,25 +10,25 @@
   "today": [
     {
       "date": "2026-08-25",
-      "commence": "2026-08-25T22:40:00Z",
+      "commence": "2026-08-25T22:45:00Z",
       "betType": "watch_fade",
       "action": "fade",
       "watch": true,
-      "pitcher": "Ian Seymour",
+      "pitcher": "Andrew Alvarez",
       "hand": "L",
-      "arm_team": "TB",
-      "opp_team": "DET",
-      "selection": "DET",
-      "home": "DET",
-      "away": "TB",
-      "oppLefty": 2,
-      "oppRighty": 7,
-      "lineupConfirmed": false,
-      "odds": null,
+      "arm_team": "WSH",
+      "opp_team": "COL",
+      "selection": "COL",
+      "home": "WSH",
+      "away": "COL",
+      "oppLefty": 5,
+      "oppRighty": 6,
+      "lineupConfirmed": true,
+      "odds": 150,
       "suggest": "fade",
-      "suggestUnits": 3.9,
-      "games": 7,
-      "result": "unconfirmed"
+      "suggestUnits": 2.54,
+      "games": 9,
+      "result": "pending"
     },
     {
       "date": "2026-08-25",
@@ -43,14 +43,14 @@
       "selection": "CWS",
       "home": "CWS",
       "away": "TEX",
-      "oppLefty": 3,
-      "oppRighty": 6,
-      "lineupConfirmed": false,
-      "odds": null,
+      "oppLefty": 2,
+      "oppRighty": 7,
+      "lineupConfirmed": true,
+      "odds": 100,
       "suggest": "take",
       "suggestUnits": 7.2,
       "games": 20,
-      "result": "unconfirmed"
+      "result": "pending"
     }
   ],
   "candidates": [

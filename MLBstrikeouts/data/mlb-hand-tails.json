@@ -1,7 +1,7 @@
 {
   "sport": "MLB",
   "type": "hand-tails",
-  "generated": "2026-08-25T18:41:18Z",
+  "generated": "2026-08-25T22:29:04Z",
   "handMin": 6,
   "roster": {
     "Andrew Painter": {
@@ -45,10 +45,6 @@
       "action": "fade"
     },
     "Merrill Kelly": {
-      "hand": "R",
-      "action": "fade"
-    },
-    "Michael King": {
       "hand": "R",
       "action": "fade"
     },
@@ -161,30 +157,6 @@
       "commence": "2026-08-26T01:40:00Z",
       "betType": "hand_fade",
       "action": "fade",
-      "pitcher": "Michael King",
-      "entry": "Michael King",
-      "hand": "R",
-      "arm_team": "SD",
-      "opp_team": "PIT",
-      "selection": "PIT",
-      "home": "SD",
-      "away": "PIT",
-      "oppLefty": 6,
-      "oppRighty": 5,
-      "lineupConfirmed": false,
-      "odds": null,
-      "stake": null,
-      "result": "unconfirmed",
-      "reason": null,
-      "profit": 0.0,
-      "book": "fanduel",
-      "source": "fanduel_api"
-    },
-    {
-      "date": "2026-08-25",
-      "commence": "2026-08-26T01:40:00Z",
-      "betType": "hand_fade",
-      "action": "fade",
       "pitcher": "George Kirby",
       "entry": "George Kirby",
       "hand": "R",
@@ -219,10 +191,10 @@
       "away": "CIN",
       "oppLefty": 7,
       "oppRighty": 2,
-      "lineupConfirmed": false,
-      "odds": null,
-      "stake": null,
-      "result": "unconfirmed",
+      "lineupConfirmed": true,
+      "odds": -106,
+      "stake": 1.06,
+      "result": "pending",
       "reason": null,
       "profit": 0.0,
       "book": "fanduel",
