@@ -1,28 +1,93 @@
 {
-  "sport": "MLB",
-  "type": "hand-tails-manual",
-  "note": "MANUALLY CURATED hand-tails fade list -- these are the arms actually bet. Edit this file to add or remove an arm; nothing is auto-added or auto-removed. Each arm: {\"hand\": \"L\"|\"R\", \"since\": \"YYYY-MM-DD\"}. `since` is the date the arm goes live -- the ledger only bets/grades its platoon-disadvantage starts on or after that date (walk-forward, no in-sample credit). Omit `since` to grade from the arm's first start. The daily run flags NEW walk-forward qualifiers that are NOT on this list as promotion candidates (dashboard badge); it never edits this file.",
-  "rule": {"minGames": 4, "minUnits": 3.0, "handMin": 6},
-  "arms": {
-    "Andrew Painter":  {"hand": "R", "since": "2026-06-17"},
-    "Brady Singer":    {"hand": "R", "since": "2026-06-05"},
-    "Bryce Miller":    {"hand": "R", "since": "2026-08-05"},
-    "Chris Paddack":   {"hand": "R", "since": "2026-08-05"},
-    "Colin Rea":       {"hand": "R", "since": "2026-08-02"},
-    "Emmet Sheehan":   {"hand": "R", "since": "2026-07-26"},
-    "Framber Valdez":  {"hand": "L", "since": "2026-05-30"},
-    "George Kirby":    {"hand": "R", "since": "2026-08-05"},
-    "Jeffrey Springs": {"hand": "L", "since": "2026-07-31"},
-    "Kevin Gausman":   {"hand": "R", "since": "2026-08-05"},
-    "Merrill Kelly":   {"hand": "R", "since": "2026-06-11"},
-    "Michael King":    {"hand": "R", "since": "2026-07-22"},
-    "Mike Burrows":    {"hand": "R", "since": "2026-06-02"},
-    "Nick Lodolo":     {"hand": "L", "since": "2026-06-23"},
-    "Noah Cameron":    {"hand": "L", "since": "2026-06-18"},
-    "Noah Schultz":    {"hand": "L", "since": "2026-07-27"},
-    "Reid Detmers":    {"hand": "L", "since": "2026-08-11"},
-    "Sean Sullivan":   {"hand": "L", "since": "2026-08-05"},
-    "Shane Baz":       {"hand": "R", "since": "2026-05-20"},
-    "Trevor McDonald": {"hand": "R", "since": "2026-07-07"}
+ "sport": "MLB",
+ "type": "hand-tails-manual",
+ "note": "MANUALLY CURATED hand-tails fade list -- these are the arms actually bet. Edit this file to add or remove an arm; nothing is auto-added or auto-removed. Each arm: {\"hand\": \"L\"|\"R\", \"since\": \"YYYY-MM-DD\"}. `since` is the date the arm goes live -- the ledger only bets/grades its platoon-disadvantage starts on or after that date (walk-forward, no in-sample credit). Omit `since` to grade from the arm's first start. The daily run flags NEW walk-forward qualifiers that are NOT on this list as promotion candidates (dashboard badge); it never edits this file. `until` retires an arm walk-forward: starts on/after that date are not bet; the [since, until) history keeps grading.",
+ "rule": {
+  "minGames": 4,
+  "minUnits": 3.0,
+  "handMin": 6
+ },
+ "arms": {
+  "Andrew Painter": {
+   "hand": "R",
+   "since": "2026-06-17"
+  },
+  "Brady Singer": {
+   "hand": "R",
+   "since": "2026-06-05"
+  },
+  "Bryce Miller": {
+   "hand": "R",
+   "since": "2026-08-05"
+  },
+  "Chris Paddack": {
+   "hand": "R",
+   "since": "2026-08-05"
+  },
+  "Colin Rea": {
+   "hand": "R",
+   "since": "2026-08-02"
+  },
+  "Emmet Sheehan": {
+   "hand": "R",
+   "since": "2026-07-26"
+  },
+  "Framber Valdez": {
+   "hand": "L",
+   "since": "2026-05-30"
+  },
+  "George Kirby": {
+   "hand": "R",
+   "since": "2026-08-05"
+  },
+  "Jeffrey Springs": {
+   "hand": "L",
+   "since": "2026-07-31"
+  },
+  "Kevin Gausman": {
+   "hand": "R",
+   "since": "2026-08-05"
+  },
+  "Merrill Kelly": {
+   "hand": "R",
+   "since": "2026-06-11"
+  },
+  "Michael King": {
+   "hand": "R",
+   "since": "2026-07-22",
+   "until": "2026-08-25"
+  },
+  "Mike Burrows": {
+   "hand": "R",
+   "since": "2026-06-02"
+  },
+  "Nick Lodolo": {
+   "hand": "L",
+   "since": "2026-06-23"
+  },
+  "Noah Cameron": {
+   "hand": "L",
+   "since": "2026-06-18"
+  },
+  "Noah Schultz": {
+   "hand": "L",
+   "since": "2026-07-27"
+  },
+  "Reid Detmers": {
+   "hand": "L",
+   "since": "2026-08-11"
+  },
+  "Sean Sullivan": {
+   "hand": "L",
+   "since": "2026-08-05"
+  },
+  "Shane Baz": {
+   "hand": "R",
+   "since": "2026-05-20"
+  },
+  "Trevor McDonald": {
+   "hand": "R",
+   "since": "2026-07-07"
   }
+ }
 }
