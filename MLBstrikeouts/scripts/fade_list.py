@@ -61,6 +61,10 @@ FADE_LIST = [
     "Prielipp",
     # Added 2026-08-05 (user). Home-only (see FADE_VENUE), season-backfilled.
     "Jake Irvin",
+    # Added 2026-08-25 (user). All-venue, forward-only from add date (see
+    # FADE_WINDOW) -- back from a 132-day gap via relief (swingman-4g on the
+    # 8/24 scout), so the pre-gap record describes a different pitcher.
+    "Cristian Javier",
 ]
 
 # Per-arm venue restriction: fade the arm ONLY when his team plays at this
@@ -284,6 +288,10 @@ FADE_WINDOW = {
     "Senga":             {"add": SEASON_START},
     "Prielipp":          {"add": SEASON_START},  # away-only (see FADE_VENUE), season-backfilled
     "Jake Irvin":        {"add": SEASON_START},  # home-only (see FADE_VENUE), season-backfilled 2026-08-05
+    # Added 2026-08-25 (user): forward-only -- no backfill. His pre-gap
+    # season was a different pitcher (132-day layoff bridged by relief work);
+    # first eligible fade is his next start after 8/25.
+    "Cristian Javier":   {"add": "2026-08-25"},
 }
 
 
