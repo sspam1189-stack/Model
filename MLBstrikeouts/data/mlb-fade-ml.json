@@ -1,7 +1,7 @@
 {
   "sport": "MLB",
   "type": "fade-ml",
-  "generated": "2026-08-25T21:03:13Z",
+  "generated": "2026-08-25T22:27:40Z",
   "fadeList": [
     "Painter",
     "Rocker",
@@ -133,6 +133,54 @@
     },
     {
       "date": "2026-08-25",
+      "commence": "2026-08-26T01:40:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Gage Jump"
+      ],
+      "fadeTeam": "OAK",
+      "market": "h2h",
+      "selection": "MIN",
+      "line": null,
+      "odds": -142,
+      "stake": 1.42,
+      "result": "pending",
+      "profit": 0.0,
+      "book": "fanduel",
+      "source": "fanduel_api",
+      "reason": null,
+      "home": "OAK",
+      "away": "MIN",
+      "gamePk": 824962,
+      "fadeReason": "all"
+    },
+    {
+      "date": "2026-08-25",
+      "commence": "2026-08-25T23:40:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Jacob deGrom"
+      ],
+      "fadeTeam": "TEX",
+      "market": "h2h",
+      "selection": "CWS",
+      "line": null,
+      "odds": 100,
+      "stake": 1.0,
+      "result": "pending",
+      "profit": 0.0,
+      "book": "fanduel",
+      "source": "fanduel_api",
+      "reason": null,
+      "home": "CWS",
+      "away": "TEX",
+      "gamePk": 824556,
+      "fadeReason": "away"
+    },
+    {
+      "date": "2026-08-25",
       "commence": "2026-08-26T01:45:00Z",
       "betType": "ml",
       "shadow": false,
@@ -161,38 +209,14 @@
       "betType": "ml",
       "shadow": false,
       "pitchers": [
-        "Gage Jump"
-      ],
-      "fadeTeam": "OAK",
-      "market": "h2h",
-      "selection": "MIN",
-      "line": null,
-      "odds": -146,
-      "stake": 1.46,
-      "result": "pending",
-      "profit": 0.0,
-      "book": "fanduel",
-      "source": "fanduel_api",
-      "reason": null,
-      "home": "OAK",
-      "away": "MIN",
-      "gamePk": 824962,
-      "fadeReason": "all"
-    },
-    {
-      "date": "2026-08-25",
-      "commence": "2026-08-26T01:40:00Z",
-      "betType": "ml",
-      "shadow": false,
-      "pitchers": [
         "Paul Skenes"
       ],
       "fadeTeam": "PIT",
       "market": "h2h",
       "selection": "SD",
       "line": null,
-      "odds": -122,
-      "stake": 1.22,
+      "odds": -120,
+      "stake": 1.2,
       "result": "pending",
       "profit": 0.0,
       "book": "fanduel",
@@ -202,30 +226,6 @@
       "away": "PIT",
       "gamePk": 823259,
       "fadeReason": "all"
-    },
-    {
-      "date": "2026-08-25",
-      "commence": "2026-08-25T23:40:00Z",
-      "betType": "ml",
-      "shadow": false,
-      "pitchers": [
-        "Jacob deGrom"
-      ],
-      "fadeTeam": "TEX",
-      "market": "h2h",
-      "selection": "CWS",
-      "line": null,
-      "odds": 100,
-      "stake": 1.0,
-      "result": "pending",
-      "profit": 0.0,
-      "book": "fanduel",
-      "source": "fanduel_api",
-      "reason": null,
-      "home": "CWS",
-      "away": "TEX",
-      "gamePk": 824556,
-      "fadeReason": "away"
     }
   ],
   "bets": [
