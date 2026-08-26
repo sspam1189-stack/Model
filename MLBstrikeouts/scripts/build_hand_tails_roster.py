@@ -110,12 +110,19 @@ MANUAL_PATH = os.path.normpath(os.path.join(
 
 
 def _manual_list():
-    """{name: {"hand", "since"}} from the manually curated fade list."""
+    """{name: {"hand", "since"[, "until"]}} — ACTIVE arms only from the manually
+    curated fade list. An arm whose `until` has passed is retired (hand_tails.py
+    stops betting it), so it must not count as "on the list": it would otherwise
+    be flagged as a removal candidate forever, and could never resurface as a
+    promotion candidate if it requalifies later."""
+    today = datetime.date.today().isoformat()
     try:
         with open(MANUAL_PATH, encoding="utf-8") as f:
-            return json.load(f).get("arms", {})
+            arms = json.load(f).get("arms", {})
     except Exception:
         return {}
+    return {n: a for n, a in arms.items()
+            if not (a.get("until") and a["until"] <= today)}
 
 
 def build():
