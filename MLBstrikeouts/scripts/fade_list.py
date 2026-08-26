@@ -313,7 +313,7 @@ FADE_WINDOW = {
     "Yusei Kikuchi":     {"add": SEASON_START},
     "Carson Palmquist":  {"add": SEASON_START},
     "Trey Gibson":       {"add": SEASON_START},
-    "MacKenzie Gore":    {"add": SEASON_START},  # away-only (see FADE_VENUE)
+    "MacKenzie Gore":    {"add": SEASON_START, "remove": "2026-08-27"},  # removed 2026-08-27 (user): away fade 5-1 through 6/3, 2-3 since, 0-2 Aug at plus prices vs LAA/OAK, while his form went elite (2.10/0.93 L5) -- the Gore/Nola double signal. Remove dated 8/27 so the live 8/26 CWS fade grades as the window's final play; history stays
     # Added 2026-07-31 (user request). Season-backfilled, all-venue — no
     # venue split vetted yet.
     "Senga":             {"add": SEASON_START},
