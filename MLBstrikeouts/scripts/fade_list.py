@@ -68,6 +68,13 @@ FADE_LIST = [
     # Added 2026-08-25 (user). Both away-only (see FADE_VENUE),
     # season-backfilled per the venue-split precedent (Prielipp, Irvin).
     "Jacob deGrom", "Michael Lorenzen",
+    # Added 2026-08-26 (user): watchlist promotions passing BOTH lenses --
+    # positive August fade record AND current form supporting the thesis
+    # (screens out the Messick/Alvarez trap of fading in-form arms).
+    # Jones/Drohan/Cabrera home-only, Ureña/Kremer away-only (FADE_VENUE);
+    # season-backfilled.
+    "Jared Jones", "Shane Drohan", "Edward Cabrera",
+    "Walbert Ureña", "Dean Kremer",
 ]
 
 # Per-arm venue restriction: fade the arm ONLY when his team plays at this
@@ -144,6 +151,13 @@ FADE_VENUE = {
     # 2026-08-25 (user): road-only fades on season venue splits.
     "Jacob deGrom": "away",     # home 2.67 ERA/0.92 WHIP; away 5.01/1.37 with HR9 1.67
     "Michael Lorenzen": "away", # away 5.70/1.72; home is Coors (9.12) but priced as such
+    # Added 2026-08-26 (user): watchlist promotions, both-lens verified
+    # (August fade record + current form). See FADE_LIST comment.
+    "Jared Jones": "home",     # home fade 6-2 +3.64u; Aug 2-0, L5 6.95 ERA/1.73 WHIP/4.4 IP
+    "Shane Drohan": "home",    # home fade 5-3 +4.04u; Aug 2-0, L5 5.93/1.57
+    "Edward Cabrera": "home",  # home fade 5-3 +3.80u; Aug 1-0, L5 9.82 ERA
+    "Walbert Ureña": "away",   # away fade 7-2 +4.00u; Aug 2-0, 15.2% BB L5
+    "Dean Kremer": "away",     # away fade 5-1 +3.82u; Aug 2-0, L5 5.40
 }
 
 # Matchup fade list: fade the pitcher (bet the OPPONENT's ML) ONLY when he
@@ -309,6 +323,12 @@ FADE_WINDOW = {
     # is the first live fade.
     "Jacob deGrom":      {"add": SEASON_START},
     "Michael Lorenzen":  {"add": SEASON_START},
+    # Added 2026-08-26 (user): both-lens watchlist promotions, season-backfilled.
+    "Jared Jones":       {"add": SEASON_START},  # home-only (see FADE_VENUE)
+    "Shane Drohan":      {"add": SEASON_START},  # home-only
+    "Edward Cabrera":    {"add": SEASON_START},  # home-only
+    "Walbert Ureña":     {"add": SEASON_START},  # away-only
+    "Dean Kremer":       {"add": SEASON_START},  # away-only
 }
 
 
