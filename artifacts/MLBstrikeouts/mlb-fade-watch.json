@@ -1,27 +1,27 @@
 {
   "sport": "MLB",
   "type": "fade-watch",
-  "generated": "2026-08-26T00:33:09Z",
+  "generated": "2026-08-26T12:36:42Z",
   "minGames": 3,
   "minUnits": 2.5,
   "note": "Shadow review list -- arms NOT on the active fade list whose home or away fade clears the bar (>= 3 games, >= +2.5u). In-sample season replay; watch, don't bet. Promote by editing scripts/fade_list.py.",
   "today": [
     {
-      "date": "2026-08-25",
-      "commence": "2026-08-26T01:45:00Z",
+      "date": "2026-08-26",
+      "commence": "2026-08-26T23:40:00Z",
       "betType": "fade_watch",
       "watch": true,
-      "pitcher": "Adrian Houser",
-      "arm_team": "SF",
-      "fadeTeam": "SF",
-      "selection": "CIN",
-      "home": "SF",
-      "away": "CIN",
+      "pitcher": "Sean Burke",
+      "arm_team": "CWS",
+      "fadeTeam": "CWS",
+      "selection": "TEX",
+      "home": "CWS",
+      "away": "TEX",
       "venue": "home",
-      "odds": -102,
+      "odds": 114,
       "suggest": "home",
-      "suggestUnits": 3.96,
-      "games": 6,
+      "suggestUnits": 3.28,
+      "games": 13,
       "result": "pending"
     }
   ],
@@ -59,18 +59,18 @@
       "suggest": "away",
       "suggestUnits": 4.0,
       "all": {
-        "w": 11,
+        "w": 12,
         "l": 10,
-        "u": -2.64,
-        "n": 21,
-        "roi": -0.0895
+        "u": -1.64,
+        "n": 22,
+        "roi": -0.0531
       },
       "home": {
-        "w": 4,
+        "w": 5,
         "l": 8,
-        "u": -6.64,
-        "n": 12,
-        "roi": -0.4312
+        "u": -5.64,
+        "n": 13,
+        "roi": -0.3357
       },
       "away": {
         "w": 7,
@@ -105,33 +105,6 @@
         "u": 4.0,
         "n": 4,
         "roi": 0.5806
-      }
-    },
-    {
-      "pitcher": "Adrian Houser",
-      "team": "SF",
-      "suggest": "home",
-      "suggestUnits": 3.96,
-      "all": {
-        "w": 8,
-        "l": 7,
-        "u": -3.54,
-        "n": 15,
-        "roi": -0.1686
-      },
-      "home": {
-        "w": 5,
-        "l": 1,
-        "u": 3.96,
-        "n": 6,
-        "roi": 0.5773
-      },
-      "away": {
-        "w": 3,
-        "l": 6,
-        "u": -7.5,
-        "n": 9,
-        "roi": -0.5304
       }
     },
     {
@@ -270,6 +243,60 @@
       }
     },
     {
+      "pitcher": "Will Warren",
+      "team": "NYY",
+      "suggest": "home",
+      "suggestUnits": 3.5,
+      "all": {
+        "w": 9,
+        "l": 14,
+        "u": -3.56,
+        "n": 23,
+        "roi": -0.1393
+      },
+      "home": {
+        "w": 6,
+        "l": 5,
+        "u": 3.5,
+        "n": 11,
+        "roi": 0.3182
+      },
+      "away": {
+        "w": 3,
+        "l": 9,
+        "u": -7.06,
+        "n": 12,
+        "roi": -0.4849
+      }
+    },
+    {
+      "pitcher": "Clay Holmes",
+      "team": "CHC",
+      "suggest": "away",
+      "suggestUnits": 3.4,
+      "all": {
+        "w": 7,
+        "l": 4,
+        "u": 3.9,
+        "n": 11,
+        "roi": 0.313
+      },
+      "home": {
+        "w": 3,
+        "l": 3,
+        "u": 0.5,
+        "n": 6,
+        "roi": 0.0774
+      },
+      "away": {
+        "w": 4,
+        "l": 1,
+        "u": 3.4,
+        "n": 5,
+        "roi": 0.5667
+      }
+    },
+    {
       "pitcher": "Max Fried",
       "team": "NYY",
       "suggest": "home",
@@ -330,17 +357,17 @@
       "suggestUnits": 3.3,
       "all": {
         "w": 12,
-        "l": 10,
-        "u": 3.28,
-        "n": 22,
-        "roi": 0.1453
+        "l": 11,
+        "u": 2.28,
+        "n": 23,
+        "roi": 0.0967
       },
       "home": {
         "w": 5,
-        "l": 6,
-        "u": -0.02,
-        "n": 11,
-        "roi": -0.0018
+        "l": 7,
+        "u": -1.02,
+        "n": 12,
+        "roi": -0.0849
       },
       "away": {
         "w": 7,
@@ -486,6 +513,33 @@
       }
     },
     {
+      "pitcher": "Adrian Houser",
+      "team": "SF",
+      "suggest": "home",
+      "suggestUnits": 2.94,
+      "all": {
+        "w": 8,
+        "l": 8,
+        "u": -4.56,
+        "n": 16,
+        "roi": -0.2071
+      },
+      "home": {
+        "w": 5,
+        "l": 2,
+        "u": 2.94,
+        "n": 7,
+        "roi": 0.3731
+      },
+      "away": {
+        "w": 3,
+        "l": 6,
+        "u": -7.5,
+        "n": 9,
+        "roi": -0.5304
+      }
+    },
+    {
       "pitcher": "Reid Detmers",
       "team": "LAA",
       "suggest": "home",
@@ -572,18 +626,18 @@
       "suggest": "away",
       "suggestUnits": 2.74,
       "all": {
-        "w": 7,
+        "w": 8,
         "l": 4,
-        "u": 2.44,
-        "n": 11,
-        "roi": 0.1776
+        "u": 3.94,
+        "n": 12,
+        "roi": 0.2673
       },
       "home": {
-        "w": 2,
+        "w": 3,
         "l": 2,
-        "u": -0.3,
-        "n": 4,
-        "roi": -0.0685
+        "u": 1.2,
+        "n": 5,
+        "roi": 0.223
       },
       "away": {
         "w": 5,
