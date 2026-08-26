@@ -1,7 +1,7 @@
 {
   "sport": "MLB",
   "type": "fade-ml",
-  "generated": "2026-08-26T21:58:33Z",
+  "generated": "2026-08-26T23:02:17Z",
   "fadeList": [
     "Painter",
     "Rocker",
@@ -84,22 +84,22 @@
   ],
   "mutualRule": "skip",
   "summary": {
-    "wins": 512,
+    "wins": 514,
     "losses": 188,
     "voids": 0,
     "skips": 45,
-    "staked": 874.79,
-    "units": 337.59,
-    "roi": 0.3859,
+    "staked": 877.45,
+    "units": 339.59,
+    "roi": 0.387,
     "byType": {
       "ml": {
-        "wins": 500,
+        "wins": 502,
         "losses": 176,
         "voids": 0,
         "skips": 3,
-        "staked": 850.79,
-        "units": 333.11,
-        "roi": 0.3915
+        "staked": 853.45,
+        "units": 335.11,
+        "roi": 0.3927
       },
       "ml_dog": {
         "wins": 12,
@@ -113,54 +113,6 @@
     }
   },
   "today": [
-    {
-      "date": "2026-08-26",
-      "commence": "2026-08-26T20:07:00Z",
-      "betType": "ml",
-      "shadow": false,
-      "pitchers": [
-        "Grayson Rodriguez"
-      ],
-      "fadeTeam": "LAA",
-      "market": "h2h",
-      "selection": "CLE",
-      "line": null,
-      "odds": -134,
-      "stake": 1.34,
-      "result": "pending",
-      "profit": 0.0,
-      "book": "fanduel",
-      "source": "fanduel_api",
-      "reason": null,
-      "home": "LAA",
-      "away": "CLE",
-      "gamePk": 823988,
-      "fadeReason": "home"
-    },
-    {
-      "date": "2026-08-26",
-      "commence": "2026-08-26T20:10:00Z",
-      "betType": "ml",
-      "shadow": false,
-      "pitchers": [
-        "Bubba Chandler"
-      ],
-      "fadeTeam": "PIT",
-      "market": "h2h",
-      "selection": "SD",
-      "line": null,
-      "odds": -132,
-      "stake": 1.32,
-      "result": "pending",
-      "profit": 0.0,
-      "book": "fanduel",
-      "source": "fanduel_api",
-      "reason": null,
-      "home": "SD",
-      "away": "PIT",
-      "gamePk": 823255,
-      "fadeReason": "away"
-    },
     {
       "date": "2026-08-26",
       "commence": "2026-08-26T23:40:00Z",
@@ -18155,6 +18107,54 @@
       "home": "SF",
       "away": "CIN",
       "gamePk": 823181,
+      "fadeReason": "away"
+    },
+    {
+      "date": "2026-08-26",
+      "commence": "2026-08-26T20:07:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Grayson Rodriguez"
+      ],
+      "fadeTeam": "LAA",
+      "market": "h2h",
+      "selection": "CLE",
+      "line": null,
+      "odds": -134,
+      "stake": 1.34,
+      "result": "WIN",
+      "profit": 1.0,
+      "book": "fanduel",
+      "source": "fanduel_api",
+      "reason": null,
+      "home": "LAA",
+      "away": "CLE",
+      "gamePk": 823988,
+      "fadeReason": "home"
+    },
+    {
+      "date": "2026-08-26",
+      "commence": "2026-08-26T20:10:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Bubba Chandler"
+      ],
+      "fadeTeam": "PIT",
+      "market": "h2h",
+      "selection": "SD",
+      "line": null,
+      "odds": -132,
+      "stake": 1.32,
+      "result": "WIN",
+      "profit": 1.0,
+      "book": "fanduel",
+      "source": "fanduel_api",
+      "reason": null,
+      "home": "SD",
+      "away": "PIT",
+      "gamePk": 823255,
       "fadeReason": "away"
     }
   ]

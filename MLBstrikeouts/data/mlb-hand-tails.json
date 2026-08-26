@@ -1,7 +1,7 @@
 {
   "sport": "MLB",
   "type": "hand-tails",
-  "generated": "2026-08-26T22:01:24Z",
+  "generated": "2026-08-26T23:05:05Z",
   "handMin": 6,
   "roster": {
     "Brady Singer": {
@@ -87,6 +87,13 @@
       "since": "2026-06-17"
     },
     {
+      "name": "Grayson Rodriguez",
+      "hand": "R",
+      "games": 7,
+      "units": 4.78,
+      "since": "2026-08-26"
+    },
+    {
       "name": "Noah Cameron",
       "hand": "L",
       "games": 17,
@@ -96,18 +103,18 @@
   ],
   "demotions": [],
   "summary": {
-    "wins": 57,
-    "losses": 22,
-    "units": 35.44,
-    "staked": 94.22,
-    "roi": 0.3761,
+    "wins": 58,
+    "losses": 23,
+    "units": 35.3,
+    "staked": 96.62,
+    "roi": 0.3653,
     "byAction": {
       "fade": {
-        "wins": 57,
-        "losses": 22,
-        "units": 35.44,
-        "staked": 94.22,
-        "roi": 0.3761
+        "wins": 58,
+        "losses": 23,
+        "units": 35.3,
+        "staked": 96.62,
+        "roi": 0.3653
       },
       "take": {
         "wins": 0,
@@ -119,70 +126,22 @@
     },
     "byHand": {
       "R": {
-        "wins": 33,
+        "wins": 34,
         "losses": 11,
-        "units": 22.18,
-        "staked": 52.42,
-        "roi": 0.4231
+        "units": 23.18,
+        "staked": 53.68,
+        "roi": 0.4318
       },
       "L": {
         "wins": 24,
-        "losses": 11,
-        "units": 13.26,
-        "staked": 41.8,
-        "roi": 0.3172
+        "losses": 12,
+        "units": 12.12,
+        "staked": 42.94,
+        "roi": 0.2823
       }
     }
   },
   "today": [
-    {
-      "date": "2026-08-26",
-      "commence": "2026-08-26T19:45:00Z",
-      "betType": "hand_fade",
-      "action": "fade",
-      "pitcher": "Nick Lodolo",
-      "entry": "Nick Lodolo",
-      "hand": "L",
-      "arm_team": "CIN",
-      "opp_team": "SF",
-      "selection": "SF",
-      "home": "SF",
-      "away": "CIN",
-      "oppLefty": 3,
-      "oppRighty": 6,
-      "lineupConfirmed": true,
-      "odds": -114,
-      "stake": 1.14,
-      "result": "pending",
-      "reason": null,
-      "profit": 0.0,
-      "book": "fanduel",
-      "source": "fanduel_api"
-    },
-    {
-      "date": "2026-08-26",
-      "commence": "2026-08-26T20:10:00Z",
-      "betType": "hand_fade",
-      "action": "fade",
-      "pitcher": "Bryan Woo",
-      "entry": "Bryan Woo",
-      "hand": "R",
-      "arm_team": "SEA",
-      "opp_team": "PHI",
-      "selection": "PHI",
-      "home": "SEA",
-      "away": "PHI",
-      "oppLefty": 6,
-      "oppRighty": 3,
-      "lineupConfirmed": true,
-      "odds": -126,
-      "stake": 1.26,
-      "result": "pending",
-      "reason": null,
-      "profit": 0.0,
-      "book": "fanduel",
-      "source": "fanduel_api"
-    },
     {
       "date": "2026-08-26",
       "commence": "2026-08-27T01:05:00Z",
@@ -2099,6 +2058,54 @@
       "lineupConfirmed": true,
       "odds": -106,
       "stake": 1.06,
+      "result": "WIN",
+      "reason": null,
+      "profit": 1.0,
+      "book": "fanduel",
+      "source": "fanduel_api"
+    },
+    {
+      "date": "2026-08-26",
+      "commence": "2026-08-26T19:45:00Z",
+      "betType": "hand_fade",
+      "action": "fade",
+      "pitcher": "Nick Lodolo",
+      "entry": "Nick Lodolo",
+      "hand": "L",
+      "arm_team": "CIN",
+      "opp_team": "SF",
+      "selection": "SF",
+      "home": "SF",
+      "away": "CIN",
+      "oppLefty": 3,
+      "oppRighty": 6,
+      "lineupConfirmed": true,
+      "odds": -114,
+      "stake": 1.14,
+      "result": "LOSS",
+      "reason": null,
+      "profit": -1.14,
+      "book": "fanduel",
+      "source": "fanduel_api"
+    },
+    {
+      "date": "2026-08-26",
+      "commence": "2026-08-26T20:10:00Z",
+      "betType": "hand_fade",
+      "action": "fade",
+      "pitcher": "Bryan Woo",
+      "entry": "Bryan Woo",
+      "hand": "R",
+      "arm_team": "SEA",
+      "opp_team": "PHI",
+      "selection": "PHI",
+      "home": "SEA",
+      "away": "PHI",
+      "oppLefty": 6,
+      "oppRighty": 3,
+      "lineupConfirmed": true,
+      "odds": -126,
+      "stake": 1.26,
       "result": "WIN",
       "reason": null,
       "profit": 1.0,

@@ -1,7 +1,7 @@
 {
   "sport": "MLB",
   "type": "hand-tails-roster",
-  "generated": "2026-08-26T22:00:39Z",
+  "generated": "2026-08-26T23:04:23Z",
   "handMin": 6,
   "rule": {
     "minGames": 4,
@@ -9,7 +9,7 @@
   },
   "note": "Walk-forward qualifier computation used to NOTIFY (promotion candidates), not to drive the bet list. The bet list is the manually curated hand-tails-manual.json. `promotions` are arms that clear minGames+minUnits but are not on the manual list; `demotions` are manual-list arms whose record slipped under the bar.",
   "manualCount": 18,
-  "qualifiedCount": 18,
+  "qualifiedCount": 19,
   "promotions": [
     {
       "name": "Andrew Painter",
@@ -17,6 +17,13 @@
       "games": 6,
       "units": 7.0,
       "since": "2026-06-17"
+    },
+    {
+      "name": "Grayson Rodriguez",
+      "hand": "R",
+      "games": 7,
+      "units": 4.78,
+      "since": "2026-08-26"
     },
     {
       "name": "Noah Cameron",
@@ -136,6 +143,15 @@
       "windows": [
         [
           "2026-08-08",
+          null
+        ]
+      ]
+    },
+    "Grayson Rodriguez": {
+      "hand": "R",
+      "windows": [
+        [
+          "2026-08-26",
           null
         ]
       ]

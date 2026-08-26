@@ -1,7 +1,7 @@
 {
   "sport": "MLB",
   "type": "hand-tails-watch",
-  "generated": "2026-08-26T22:03:14Z",
+  "generated": "2026-08-26T23:06:57Z",
   "handMin": 6,
   "minGames": 3,
   "minUnits": 2.5,
@@ -48,8 +48,8 @@
       "lineupConfirmed": true,
       "odds": -134,
       "suggest": "fade",
-      "suggestUnits": 3.78,
-      "games": 6,
+      "suggestUnits": 4.78,
+      "games": 7,
       "result": "pending"
     },
     {
@@ -70,8 +70,8 @@
       "lineupConfirmed": true,
       "odds": -134,
       "suggest": "take",
-      "suggestUnits": 5.9,
-      "games": 22,
+      "suggestUnits": 6.9,
+      "games": 23,
       "result": "pending"
     },
     {
@@ -92,8 +92,8 @@
       "lineupConfirmed": true,
       "odds": -126,
       "suggest": "take",
-      "suggestUnits": 5.4,
-      "games": 23,
+      "suggestUnits": 6.4,
+      "games": 24,
       "result": "pending"
     },
     {
@@ -283,6 +283,24 @@
       "era": 6.12
     },
     {
+      "pitcher": "Joey Cantillo",
+      "hand": "L",
+      "games": 23,
+      "suggest": "take",
+      "suggestUnits": 6.9,
+      "fade": {
+        "w": 8,
+        "l": 15,
+        "u": -8.6
+      },
+      "take": {
+        "w": 15,
+        "l": 8,
+        "u": 6.9
+      },
+      "era": 3.73
+    },
+    {
       "pitcher": "Robbie Ray",
       "hand": "L",
       "games": 22,
@@ -319,6 +337,24 @@
       "era": 1.68
     },
     {
+      "pitcher": "Jes\u00fas Luzardo",
+      "hand": "L",
+      "games": 24,
+      "suggest": "take",
+      "suggestUnits": 6.4,
+      "fade": {
+        "w": 7,
+        "l": 17,
+        "u": -8.14
+      },
+      "take": {
+        "w": 17,
+        "l": 7,
+        "u": 6.4
+      },
+      "era": 3.23
+    },
+    {
       "pitcher": "Brandon Young",
       "hand": "R",
       "games": 9,
@@ -337,24 +373,6 @@
       "era": 3.5
     },
     {
-      "pitcher": "Joey Cantillo",
-      "hand": "L",
-      "games": 22,
-      "suggest": "take",
-      "suggestUnits": 5.9,
-      "fade": {
-        "w": 8,
-        "l": 14,
-        "u": -7.6
-      },
-      "take": {
-        "w": 14,
-        "l": 8,
-        "u": 5.9
-      },
-      "era": 3.73
-    },
-    {
       "pitcher": "Chase Burns",
       "hand": "R",
       "games": 15,
@@ -371,24 +389,6 @@
         "u": 5.68
       },
       "era": 2.77
-    },
-    {
-      "pitcher": "Jes\u00fas Luzardo",
-      "hand": "L",
-      "games": 23,
-      "suggest": "take",
-      "suggestUnits": 5.4,
-      "fade": {
-        "w": 7,
-        "l": 16,
-        "u": -7.14
-      },
-      "take": {
-        "w": 16,
-        "l": 7,
-        "u": 5.4
-      },
-      "era": 3.23
     },
     {
       "pitcher": "Jacob Lopez",
@@ -533,6 +533,24 @@
         "u": 4.9
       },
       "era": 3.52
+    },
+    {
+      "pitcher": "Grayson Rodriguez",
+      "hand": "R",
+      "games": 7,
+      "suggest": "fade",
+      "suggestUnits": 4.78,
+      "fade": {
+        "w": 6,
+        "l": 1,
+        "u": 4.78
+      },
+      "take": {
+        "w": 1,
+        "l": 6,
+        "u": -5.26
+      },
+      "era": 6.41
     },
     {
       "pitcher": "Nick Martinez",
@@ -713,24 +731,6 @@
         "u": -4.74
       },
       "era": 4.53
-    },
-    {
-      "pitcher": "Grayson Rodriguez",
-      "hand": "R",
-      "games": 6,
-      "suggest": "fade",
-      "suggestUnits": 3.78,
-      "fade": {
-        "w": 5,
-        "l": 1,
-        "u": 3.78
-      },
-      "take": {
-        "w": 1,
-        "l": 5,
-        "u": -4.26
-      },
-      "era": 6.41
     },
     {
       "pitcher": "Michael King",
