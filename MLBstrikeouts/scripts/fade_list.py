@@ -224,11 +224,13 @@ FADE_WINDOW = {
     # now. Walk-forward: the 8/1-8/19 gap stays no-plays (incl. the 8/19
     # DET@PIT start), first eligible fade is his next start ~8/24.
     "Skenes":         [{"add": SEASON_START, "remove": "2026-07-31"},
-                       # Re-add closed 2026-08-26 (user): the one fade it
-                       # produced (8/25 SD -128) lost to a 1-0 gem, and his
-                       # recent fade trend is 1-4. The overpricing thesis
-                       # didn't survive contact; both windows' history stays.
-                       {"add": "2026-08-20", "remove": "2026-08-26"}],
+                       # 2026-08-26: briefly closed after the 8/25 fade lost
+                       # to a 1-0 gem, then reopened the same day (user) --
+                       # one start is not enough to kill the 8/20 re-add
+                       # thesis. Watch: if his walks stay down over the next
+                       # 2-3 starts, the form case is gone and this closes
+                       # for real.
+                       {"add": "2026-08-20"}],
     # Added mid-season: good before, fade-worthy from these dates on.
     "Dustin May":        {"add": "2026-07-18", "remove": "2026-08-13"},  # removed 2026-08-13 (user): no fades from 8/13 on, prior record (incl. 8/12 SD play) stays
     # Added 2026-08-13 (user), forward-only from that date.
