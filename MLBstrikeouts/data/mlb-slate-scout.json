@@ -59,7 +59,7 @@
               "role": "all"
             },
             "last7": {
-              "wrcplus": 45,
+              "wrcplus": null,
               "pa": 144,
               "role": "all"
             }
@@ -591,12 +591,12 @@
               "role": "all"
             },
             "last20": {
-              "wrcplus": 138,
+              "wrcplus": null,
               "pa": 116,
               "role": "all"
             },
             "last15": {
-              "wrcplus": 135,
+              "wrcplus": null,
               "pa": 103,
               "role": "all"
             },
@@ -793,7 +793,7 @@
               "role": "all"
             },
             "last7": {
-              "wrcplus": 50,
+              "wrcplus": null,
               "pa": 83,
               "role": "all"
             }
@@ -1162,7 +1162,7 @@
               "role": "all"
             },
             "last7": {
-              "wrcplus": 111,
+              "wrcplus": null,
               "pa": 120,
               "role": "all"
             }
@@ -1529,7 +1529,7 @@
               "role": "all"
             },
             "last7": {
-              "wrcplus": 97,
+              "wrcplus": null,
               "pa": 136,
               "role": "all"
             }
@@ -1704,7 +1704,7 @@
               "role": "all"
             },
             "last7": {
-              "wrcplus": 77,
+              "wrcplus": null,
               "pa": 93,
               "role": "all"
             }
@@ -1915,7 +1915,7 @@
               "role": "all"
             },
             "last7": {
-              "wrcplus": 100,
+              "wrcplus": null,
               "pa": 103,
               "role": "all"
             }
@@ -2090,7 +2090,7 @@
               "role": "all"
             },
             "last7": {
-              "wrcplus": 108,
+              "wrcplus": null,
               "pa": 141,
               "role": "all"
             }
@@ -2282,7 +2282,7 @@
               "role": "all"
             },
             "last7": {
-              "wrcplus": 113,
+              "wrcplus": null,
               "pa": 94,
               "role": "all"
             }
@@ -2843,7 +2843,7 @@
               "role": "all"
             },
             "last7": {
-              "wrcplus": 71,
+              "wrcplus": null,
               "pa": 104,
               "role": "all"
             }
@@ -3230,7 +3230,7 @@
               "role": "all"
             },
             "last7": {
-              "wrcplus": 107,
+              "wrcplus": null,
               "pa": 136,
               "role": "all"
             }
@@ -3426,7 +3426,7 @@
               "role": "all"
             },
             "last7": {
-              "wrcplus": 107,
+              "wrcplus": null,
               "pa": 119,
               "role": "all"
             }
@@ -3601,7 +3601,7 @@
               "role": "all"
             },
             "last7": {
-              "wrcplus": 137,
+              "wrcplus": null,
               "pa": 132,
               "role": "all"
             }
@@ -3814,7 +3814,7 @@
               "role": "all"
             },
             "last7": {
-              "wrcplus": 147,
+              "wrcplus": null,
               "pa": 104,
               "role": "all"
             }
@@ -3989,7 +3989,7 @@
               "role": "all"
             },
             "last7": {
-              "wrcplus": 130,
+              "wrcplus": null,
               "pa": 78,
               "role": "all"
             }
@@ -4183,7 +4183,7 @@
               "role": "all"
             },
             "last7": {
-              "wrcplus": 60,
+              "wrcplus": null,
               "pa": 96,
               "role": "all"
             }
@@ -4358,7 +4358,7 @@
               "role": "all"
             },
             "last7": {
-              "wrcplus": 85,
+              "wrcplus": null,
               "pa": 143,
               "role": "all"
             }
@@ -4727,7 +4727,7 @@
               "role": "all"
             },
             "last7": {
-              "wrcplus": 114,
+              "wrcplus": null,
               "pa": 107,
               "role": "all"
             }
@@ -4919,7 +4919,7 @@
               "role": "all"
             },
             "last7": {
-              "wrcplus": 44,
+              "wrcplus": null,
               "pa": 116,
               "role": "all"
             }
@@ -5094,7 +5094,7 @@
               "role": "all"
             },
             "last7": {
-              "wrcplus": 86,
+              "wrcplus": null,
               "pa": 107,
               "role": "all"
             }
@@ -5281,7 +5281,7 @@
               "role": "all"
             },
             "last15": {
-              "wrcplus": 123,
+              "wrcplus": null,
               "pa": 118,
               "role": "all"
             },
@@ -5461,7 +5461,7 @@
               "role": "all"
             },
             "last7": {
-              "wrcplus": 78,
+              "wrcplus": null,
               "pa": 108,
               "role": "all"
             }
@@ -5942,7 +5942,7 @@
       "flags": []
     }
   ],
-  "generated": "2026-08-26T21:05:52Z",
+  "generated": "2026-08-26T21:39:52Z",
   "sport": "MLB",
   "type": "slate-scout",
   "advisory": true,
@@ -5950,6 +5950,8 @@
     "Scouting only \u2014 the mismatch ranking is NOT a betting signal. Backtested over 1818 games it returns -1.8% ROI; the information is already in the closing total.",
     "Flags are the useful part: a starter back from a layoff still shows a full last-5-start line describing a different month.",
     "Swingmen carry a second form line. The last-5-START rates skip relief work entirely, so a bullpen stint reads as a collapse until you see the relief innings beside it.",
-    "Each side carries its own team's bullpen windows (L30/L20/L15/L7 calendar days, rank = league ERA position that window). Totals lean on 3-4 relief innings a night; a short starter in front of a leaking pen and a workhorse in front of a locked-down one are different bets at the same number. Advisory like everything else here."
+    "Each side carries its own team's bullpen windows (L30/L20/L15/L7 calendar days, rank = league ERA position that window). Totals lean on 3-4 relief innings a night; a short starter in front of a leaking pen and a workhorse in front of a locked-down one are different bets at the same number. Advisory like everything else here.",
+    "2026-08-26 backtest (scripts/backtest_scout.py, 121 games): the wRC+ ladder does NOT predict runs -- cold-aligned offenses scored 4.64 a game, hot-aligned 4.50. Read it as context only. The bullpen windows DO separate runs (hot pens allow 3.39, leaking 5.09) but the market prices them, so they are not a bet either. The one measured edge is the data-defect flags: layoff/stale-window/opener/swingman played to the under went 22-17, +5.4 points over baseline.",
+    "Short windows are unstable: median plate appearances run 630 (L30) / 403 (L20) / 301 (L15) / 125 (L7). Cells under 150 PA render as a bare PA count on purpose -- a 182 wRC+ on a 125-PA week is noise, not a hot offense."
   ]
 }

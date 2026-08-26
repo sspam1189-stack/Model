@@ -26,18 +26,35 @@ When building a daily card from this repo's outputs, the tiers are:
    price-bucket cuts, no "backed-side blind spot" skips. Both overlay
    attempts in the week of 8/17 were wrong within 24h (NYM +122 skipped,
    won; CLE −205 cut, and the >−200 fade bucket is itself 21-4 +19.5%).
-2. **Scout O/U plays**: card-grade only — BOTH offenses' ladders must align
-   across all four rolling windows (L30/L20/L15/L7, role=all, from
-   mlb-team-woba-splits.json) in the same direction (both <=90 -> under,
-   both >=110 -> over). Card-grade totals went 3-1 that week.
-   2026-08-25 (user): the named-defect/flag requirement is RETIRED for
-   totals — it benched two winning unders in four days (LAA/TEX U8 on
-   8/22, CLE/COL U11.5 on 8/23) while the aligned-both-cold profile went
-   3-0; full four-window alignment on both offenses IS the requirement.
-   One aligned ladder alone is still not a play.
+2. **Scout O/U plays** — REBUILT 2026-08-26 on the first real backtest
+   (`scripts/backtest_scout.py`, 121 games / 10 slates, graded at the
+   payload's own prices against a bet-every-under baseline):
+
+   - **The named-defect flag is the trigger, and it is the ONLY scout rule
+     that has ever cleared both bars**: a layoff, stale window, opener, or
+     swingman flag on either starter, played to the under, went **22-17
+     (n=39, +8.1% ROI, +5.4 points over baseline)** — the sole rule in the
+     battery to clear 25 plays AND beat its baseline. Retiring this clause
+     on 8/25 was exactly backwards and the amendment went 0-2 immediately.
+     It is restored as the primary condition.
+   - **The four-window ladder is CONTEXT, not a trigger.** It has no
+     measurable relationship to runs: cold-aligned offenses scored 4.64
+     runs a game, hot-aligned 4.50, mid 4.07 — flat to inverted. Betting
+     the largest ladder sample (any cold-aligned side, n=32) returned
+     −0.4 points against baseline. A ladder may support or temper a
+     flagged read; it may never create one, and a hot L7 is not evidence
+     of anything (median L7 = 125 PA; see MIN_WINDOW_PA).
+   - **Bullpen L7 is the strongest descriptive field but is NOT yet
+     bettable**: it separates runs cleanly (hot pens allow 3.39, leaking
+     pens 5.09) yet every rule built on it is still under 25 plays, and
+     leaking-pen overs lost money even while those games averaged 11 runs
+     — the market prices pens. Shadow-track; do not card.
+
 3. **Scout MLs**: top conviction only — both halves of the game aligned
    across all four windows — capped at 1u, never opposing a model
-   position.
+   position. NOTE: this tier rests on the same ladder the backtest just
+   found inert (it is 3-1 lifetime, n=4, which is nothing). Treat every
+   scout ML as shadow until it has 25 graded plays.
 4. **Leans are retired**: no half-case totals, no temperature-only reads,
    no "0.5u if you want it" tier. A read is card-grade or it is not
    bettable. If a filter on model plays ever seems attractive, define it
@@ -45,6 +62,35 @@ When building a daily card from this repo's outputs, the tiers are:
 
 The mismatch score and full-game wRC+ remain scouting context, never
 signals (see build_slate_scout.py header for the backtests).
+
+## Changing a scout rule (2026-08-26)
+
+Every scout rule change before this date was made same-day off two or
+three games, and the two that went live both lost immediately (the 8/25
+flag-clause retirement went 0-2; the direction-neutral over half went
+0-1). The gate now:
+
+1. **Backtest first.** `python3 scripts/backtest_scout.py report` — add
+   the proposed rule to `RULES` and grade it. No rule is discussed
+   without its row.
+2. **Clear both bars**: at least 25 graded plays AND a positive edge
+   against the baseline the harness prints. Raw ROI is not evidence — in
+   the 8/17-8/26 window blind unders returned +2.7% and blind overs
+   −12.1%, so direction alone moves a rule 15 points.
+3. **Shadow first, card later.** A rule that clears the backtest still
+   logs to `scout-card-log.json` as shadow (`"shadow": true`) for 15-20
+   live plays before it can produce a real bet.
+4. **Grade closing-line value, not just W/L.** Both 8/25 losses BEAT the
+   close (CLE/LAA 7.5→7, PHI/SEA 7.5→8). Beating the number while losing
+   the game is process working plus variance; losing both is a broken
+   read, and W/L alone cannot tell them apart. Record `close_line` when
+   grading.
+
+Where the scout can actually add value, per the backtest: **defects the
+market prices lazily** (layoffs, stale windows, openers/swingmen — the
+one measured edge) and **confirmed-lineup information**, which posts
+after the number is set and is what makes hand-tails work. Offense
+temperature is priced. Stop rediscovering that weekly.
 
 ## Fade-roster curation standards (2026-08-26, user)
 

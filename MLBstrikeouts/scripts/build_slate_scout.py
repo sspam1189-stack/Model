@@ -57,6 +57,17 @@ NOTES = [
     "3-4 relief innings a night; a short starter in front of a leaking pen "
     "and a workhorse in front of a locked-down one are different bets at the "
     "same number. Advisory like everything else here.",
+    "2026-08-26 backtest (scripts/backtest_scout.py, 121 games): the wRC+ "
+    "ladder does NOT predict runs -- cold-aligned offenses scored 4.64 a "
+    "game, hot-aligned 4.50. Read it as context only. The bullpen windows "
+    "DO separate runs (hot pens allow 3.39, leaking 5.09) but the market "
+    "prices them, so they are not a bet either. The one measured edge is "
+    "the data-defect flags: layoff/stale-window/opener/swingman played to "
+    "the under went 22-17, +5.4 points over baseline.",
+    "Short windows are unstable: median plate appearances run 630 (L30) / "
+    "403 (L20) / 301 (L15) / 125 (L7). Cells under 150 PA render as a bare "
+    "PA count on purpose -- a 182 wRC+ on a 125-PA week is noise, not a "
+    "hot offense.",
 ]
 
 

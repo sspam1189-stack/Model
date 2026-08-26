@@ -59,14 +59,24 @@ def profit_for(price, stake, result):
 
 
 def cmd_add(args, blob):
-    blob["entries"].append({
+    entry = {
         "date": args.date, "play": args.play, "market": args.market,
         "game": args.game, "price": args.price, "stake": args.stake,
         "rule": args.rule, "basis": args.basis,
         "result": "pending", "profit": 0.0,
-    })
+    }
+    if args.shadow:
+        # Shadow plays are tracked but never counted in the card record --
+        # a rule earns its way onto the card with 15-20 of these first
+        # (see "Changing a scout rule" in MLBstrikeouts/CLAUDE.md).
+        entry["shadow"] = True
+    if args.line is not None:
+        entry["line"] = args.line
     _save(blob)
-    print(f"logged: {args.date} {args.play} @ {args.price:+d}")
+    blob["entries"].append(entry)
+    _save(blob)
+    print(f"logged{' SHADOW' if args.shadow else ''}: "
+          f"{args.date} {args.play} @ {args.price:+d}")
 
 
 def cmd_noplay(args, blob):
@@ -83,9 +93,25 @@ def cmd_grade(args, blob):
             e["profit"] = (args.profit if args.profit is not None
                            else profit_for(e["price"], e.get("stake", 1.0),
                                            args.result))
+            if args.close_line is not None:
+                # Closing-line value: did the number move toward the read?
+                # A play can beat the close and still lose (both 8/25 losses
+                # did) -- that is variance on a sound process, and W/L alone
+                # cannot distinguish it from a broken read.
+                e["close_line"] = args.close_line
+                opened = e.get("line")
+                if opened is not None:
+                    move = round(args.close_line - opened, 1)
+                    play = (e.get("play") or "").lower()
+                    if "under" in play:
+                        e["clv"] = "beat" if move < 0 else ("lost" if move > 0 else "flat")
+                    elif "over" in play:
+                        e["clv"] = "beat" if move > 0 else ("lost" if move < 0 else "flat")
+                    e["line_move"] = move
             _save(blob)
+            clv = f", CLV {e['clv']}" if e.get("clv") else ""
             print(f"graded: {args.date} {args.play} -> {args.result} "
-                  f"({e['profit']:+.2f}u)")
+                  f"({e['profit']:+.2f}u{clv})")
             return
     raise SystemExit(f"no entry matches {args.date} / {args.play!r}")
 
@@ -105,6 +131,10 @@ def cmd_report(args, blob):
     print("Scout card record (weeks run Monday-Sunday)")
     for wk in sorted(weeks):
         logged, pre = weeks[wk]["logged"], weeks[wk]["pre"]
+        # Shadow plays are tracked separately and never inflate the card
+        # record -- they are a rule auditioning, not a bet.
+        shadow = [e for e in logged if e.get("shadow") and not e.get("no_play")]
+        logged = [e for e in logged if not e.get("shadow")]
         plays = [e for e in logged if not e.get("no_play")]
         w = sum(h["wins"] for h in pre) + sum(
             1 for e in plays if e.get("result") == "WIN")
@@ -121,7 +151,21 @@ def cmd_report(args, blob):
               + (f" ({p} pending)" if p else "")
               + f"  {u:+.2f}u"
               + (f"  [{len(plays)} logged plays, {quiet} no-play days"
-                 + (f", {len(pre)} pre-log days" if pre else "") + "]"))
+                 + (f", {len(pre)} pre-log days" if pre else "")
+                 + (f", {len(shadow)} shadow" if shadow else "") + "]"))
+        clv = [e for e in plays if e.get("clv")]
+        if clv:
+            beat = sum(1 for e in clv if e["clv"] == "beat")
+            print(f"{'':16}CLV: beat the close {beat}/{len(clv)}"
+                  " (process check, independent of W/L)")
+        if shadow:
+            sw = sum(1 for e in shadow if e.get("result") == "WIN")
+            sl = sum(1 for e in shadow if e.get("result") == "LOSS")
+            su = sum(e.get("profit") or 0 for e in shadow)
+            need = max(0, 15 - (sw + sl))
+            print(f"{'':16}shadow: {sw}-{sl} {su:+.2f}u"
+                  + (f" ({need} more before card-eligible)" if need else
+                     " (eligible for review)"))
         if args.verbose:
             for h in sorted(pre, key=lambda x: x["date"]):
                 rec = f"{h['wins']}-{h['losses']}" + (
@@ -150,6 +194,10 @@ def main():
     p.add_argument("--stake", type=float, default=1.0)
     p.add_argument("--rule", required=True)
     p.add_argument("--basis", default="")
+    p.add_argument("--line", type=float, default=None,
+                   help="the total/spread at card time, for CLV grading")
+    p.add_argument("--shadow", action="store_true",
+                   help="rule auditioning: tracked, never counted as a bet")
 
     p = sub.add_parser("noplay", help="log a day with no qualifying plays")
     p.add_argument("--date", required=True)
@@ -160,6 +208,8 @@ def main():
     p.add_argument("--play", required=True)
     p.add_argument("--result", required=True, choices=("WIN", "LOSS", "PUSH", "pending"))
     p.add_argument("--profit", type=float, default=None)
+    p.add_argument("--close-line", type=float, default=None,
+                   help="closing total/spread, to score CLV against --line")
 
     p = sub.add_parser("report", help="Monday-Sunday weekly rollup")
     p.add_argument("--verbose", "-v", action="store_true")

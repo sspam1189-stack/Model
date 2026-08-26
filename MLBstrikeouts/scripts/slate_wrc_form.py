@@ -93,10 +93,23 @@ PITCHER_ROLE = "all"
 PRIMARY_WINDOW = "last30"
 SECONDARY_WINDOW = "deadline"
 
-# Plate appearances below which a window's wRC+ is too thin to lean on. The
-# deadline window is only ~2 weeks, and a team's PA against same-hand starters
-# inside it can be tiny (PHI vs LHP starters: 28 PA).
-MIN_WINDOW_PA = 75
+# Plate appearances below which a window's wRC+ is too thin to lean on.
+#
+# 2026-08-26: raised 75 -> 150 on backtest evidence (scripts/backtest_scout.py).
+# Team wRC+ needs several hundred PA before it describes anything but schedule
+# and BABIP luck, and the short windows are nowhere near that: median PA runs
+# L30 630 / L20 403 / L15 301 / L7 **125**. At the old threshold a 125-PA week
+# rendered as a hard number and got read as signal -- a 182 in the L7 was called
+# "the loudest window on the board" more than once. It was noise. The measured
+# consequence: across 10 slates, offenses whose ladder was cold in all four
+# windows scored 4.64 runs and hot-aligned ones scored 4.50, i.e. no separation
+# at all, while betting the ladder cold-side under went 17-15 (-0.4 points
+# against a bet-every-under baseline).
+#
+# 150 suppresses the worst cells (most L7s, thin L15s) to a bare PA count while
+# leaving L30/L20 readable. It is a display-honesty fix, not a signal fix: the
+# ladder is CONTEXT now (see MLBstrikeouts/CLAUDE.md), never a play trigger.
+MIN_WINDOW_PA = 150
 
 # Rolling offense windows carried on every side of the payload (2026-08-18,
 # user): one window alone reverses reads — DET and WSH both flipped between
