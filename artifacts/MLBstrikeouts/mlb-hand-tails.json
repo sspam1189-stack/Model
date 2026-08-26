@@ -1,13 +1,9 @@
 {
   "sport": "MLB",
   "type": "hand-tails",
-  "generated": "2026-08-26T21:04:53Z",
+  "generated": "2026-08-26T22:01:24Z",
   "handMin": 6,
   "roster": {
-    "Andrew Painter": {
-      "hand": "R",
-      "action": "fade"
-    },
     "Brady Singer": {
       "hand": "R",
       "action": "fade"
@@ -52,10 +48,6 @@
       "hand": "L",
       "action": "fade"
     },
-    "Noah Cameron": {
-      "hand": "L",
-      "action": "fade"
-    },
     "Noah Schultz": {
       "hand": "L",
       "action": "fade"
@@ -86,7 +78,22 @@
     }
   },
   "note": "Bet list is manually curated (hand-tails-manual.json). `promotions` = arms that cleared the walk-forward bar but are not on the manual list (notify); `demotions` = manual arms slipped under the bar. Own ledger; not part of the fade-list ledger.",
-  "promotions": [],
+  "promotions": [
+    {
+      "name": "Andrew Painter",
+      "hand": "R",
+      "games": 6,
+      "units": 7.0,
+      "since": "2026-06-17"
+    },
+    {
+      "name": "Noah Cameron",
+      "hand": "L",
+      "games": 17,
+      "units": 5.06,
+      "since": "2026-06-18"
+    }
+  ],
   "demotions": [],
   "summary": {
     "wins": 57,
@@ -170,6 +177,30 @@
       "lineupConfirmed": true,
       "odds": -126,
       "stake": 1.26,
+      "result": "pending",
+      "reason": null,
+      "profit": 0.0,
+      "book": "fanduel",
+      "source": "fanduel_api"
+    },
+    {
+      "date": "2026-08-26",
+      "commence": "2026-08-27T01:05:00Z",
+      "betType": "hand_fade",
+      "action": "fade",
+      "pitcher": "Connor Prielipp",
+      "entry": "Connor Prielipp",
+      "hand": "L",
+      "arm_team": "MIN",
+      "opp_team": "OAK",
+      "selection": "OAK",
+      "home": "OAK",
+      "away": "MIN",
+      "oppLefty": 2,
+      "oppRighty": 8,
+      "lineupConfirmed": true,
+      "odds": 122,
+      "stake": 1.0,
       "result": "pending",
       "reason": null,
       "profit": 0.0,
