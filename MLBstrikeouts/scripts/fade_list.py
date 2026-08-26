@@ -212,8 +212,8 @@ FADE_WINDOW = {
     "Freddy Peralta": {"add": SEASON_START, "remove": "2026-08-04"},  # renamed from "Peralta" 2026-08-04 (bare surname also caught Wandy Peralta (SD) + Sammy Peralta (COL)); removed 2026-08-04 (user request)
     "Canning":        {"add": SEASON_START},
     "Jacob Lopez":    {"add": SEASON_START},
-    "Ryan Johnson":   {"add": SEASON_START},
-    "Freeland":       {"add": SEASON_START},  # backfilled: faded all season
+    "Ryan Johnson":   {"add": SEASON_START, "remove": "2026-08-26"},  # removed 2026-08-26 (user): 5-3 +0.06u (+0.5%) over 8 -- dead flat, no edge; history stays
+    "Freeland":       {"add": SEASON_START, "remove": "2026-08-26"},  # removed 2026-08-26 (user): away 6-3 +1.16u (+6.3%), below the Peterson bar; history stays
     "Baz":            {"add": SEASON_START},  # backfilled: faded all season
     "Noah Schultz":   {"add": SEASON_START},  # backfilled: faded all season
     "Lowder":         {"add": SEASON_START},  # backfilled: faded all season
@@ -281,7 +281,7 @@ FADE_WINDOW = {
     "Tolle":             {"add": SEASON_START},
     "Gerrit Cole":       {"add": SEASON_START, "remove": "2026-08-09"},  # removed 2026-08-09 (user): no fades from 8/9 on, prior record stays; home-only as of 2026-07-28 (see FADE_VENUE)
     # Added 2026-07-28: all-venue fade, season-backfilled (home +18%, away +42%).
-    "Gage Jump":         {"add": SEASON_START},
+    "Gage Jump":         {"add": SEASON_START, "remove": "2026-08-26"},  # removed 2026-08-26 (user): 8-6 -0.46u (-2.6%) over 14 -- the only negative arm with a real sample; history stays
     # Promoted from the fade watchlist 2026-07-28 (season-backfilled).
     "Brady Singer":      {"add": SEASON_START},  # away-only (see FADE_VENUE)
     "Sean Sullivan":     {"add": SEASON_START},
