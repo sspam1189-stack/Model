@@ -45,3 +45,26 @@ When building a daily card from this repo's outputs, the tiers are:
 
 The mismatch score and full-game wRC+ remain scouting context, never
 signals (see build_slate_scout.py header for the backtests).
+
+## Fade-roster curation standards (2026-08-26, user)
+
+When auditing, adding, or removing arms on the fade list or hand-tails
+roster:
+
+1. **Venue-restricted arms are judged on the restricted venue's record
+   ONLY.** Never blend home+away into one number for a venue-scoped fade —
+   a "7-4 total" is meaningless if the fade only fires away. Split the
+   ledger by venue first, then evaluate.
+2. **Weight the latest venue-specific results over the season backfill.**
+   A season record front-loaded in April-June with recent fades losing
+   (the Painter/Gore shape) is a removal signal even when the cumulative
+   number still looks healthy. Split pre/post a recent cutoff (e.g. 8/1)
+   and check the last 4-6 fades on the qualifying venue.
+3. **Both lenses must pass for adds**: a positive RECENT fade record on
+   the qualifying venue AND current pitcher form that supports the thesis.
+   An in-form arm whose recent fades happen to have cashed is variance,
+   not an edge (the Messick/Alvarez trap). An elite arm is never added on
+   price alone (Mize/Nola/Skenes-v1 pattern).
+4. **Good form alone doesn't remove a winning fade** — the trigger is form
+   PLUS the venue record turning (Gore, Nola), not form by itself
+   (Mahle/Wacha keep cashing while pitching well).
