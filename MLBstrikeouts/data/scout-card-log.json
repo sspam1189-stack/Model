@@ -3,7 +3,7 @@
   "type": "scout-card-log",
   "week_convention": "monday-sunday",
   "description": "Per-play ledger for scout card calls (tier 2/3 of the daily card policy in MLBstrikeouts/CLAUDE.md). Model plays are NOT logged here - fade-ml/props/hand-tails keep their own files. No-play days are logged too: an empty card is part of the record. Prices are the card-time quote, not the close.",
-  "generated": "2026-08-25T15:14:55Z",
+  "generated": "2026-08-26T14:22:17Z",
   "pre_log_history": [
     {
       "date": "2026-08-17",
@@ -114,8 +114,8 @@
       "stake": 1.0,
       "rule": "card-grade-total-both-aligned",
       "basis": "Both offenses cold-aligned all four windows: LAA bats 71/79/82/79 vs Williams, CLE bats 82/87/80/87 vs Urena. First play under the 8/25 policy amendment retiring the flag clause for totals (benched profile was 2-0).",
-      "result": "pending",
-      "profit": 0.0
+      "result": "LOSS",
+      "profit": -1.0
     },
     {
       "date": "2026-08-25",
@@ -126,8 +126,13 @@
       "stake": 1.0,
       "rule": "card-grade-total-both-aligned",
       "basis": "Both offenses hot-aligned all four windows: SEA bats 112/117/132/128 vs Nola, PHI bats 116/120/117/122 vs Kirby. SEA pen #30 (10.16 L7) as context. Direction-neutral application of the 8/25 amendment.",
-      "result": "pending",
-      "profit": 0.0
+      "result": "LOSS",
+      "profit": -1.0
+    },
+    {
+      "date": "2026-08-26",
+      "no_play": true,
+      "note": "No qualifying plays. Near-misses everywhere: CHC@ARI both-hot blocked by incomplete CHC ladder (ARI bats 136/140/139/182 vs Boyd -- the 182 L7 is the loudest window yet); CIN@SF and LAD@ATL both-cold each broken by a single 92 (CIN L7, LAD L15). TEX@CWS: TEX cold-aligned vs Burke but CWS ladder incomplete."
     }
   ]
 }
