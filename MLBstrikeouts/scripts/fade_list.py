@@ -75,6 +75,11 @@ FADE_LIST = [
     # season-backfilled.
     "Jared Jones", "Shane Drohan", "Edward Cabrera",
     "Walbert Ureña", "Dean Kremer",
+    # Added 2026-08-26 (user): all-venue, season-backfilled. August fades
+    # 4-0 +6.95u (every start a plus-money winner); the 3.62 L5 ERA hides a
+    # 1.43 WHIP / 13% BB -- strand-luck, not dominance. All-venue record
+    # 7-5 +5.0u.
+    "Hunter Brown",
 ]
 
 # Per-arm venue restriction: fade the arm ONLY when his team plays at this
@@ -329,6 +334,7 @@ FADE_WINDOW = {
     "Edward Cabrera":    {"add": SEASON_START},  # home-only
     "Walbert Ureña":     {"add": SEASON_START},  # away-only
     "Dean Kremer":       {"add": SEASON_START},  # away-only
+    "Hunter Brown":      {"add": SEASON_START},  # all-venue (added 2026-08-26, user)
 }
 
 
