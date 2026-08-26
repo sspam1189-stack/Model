@@ -197,7 +197,7 @@ SEASON_START = "2026-04-05"
 # no date matches purely on the roster, unchanged.
 FADE_WINDOW = {
     # Original roster -- faded since the model began tracking (season start).
-    "Painter":        {"add": SEASON_START},
+    "Painter":        {"add": SEASON_START, "remove": "2026-08-26"},  # removed 2026-08-26 (user): pre-Aug 10-1 +9.26u, Aug 1-3 -1.2u -- the rookie adjusted (3.62 ERA/1.06 WHIP L5); retired because the pitcher improved, McLean pattern; history stays
     "Rocker":         {"add": SEASON_START, "remove": "2026-07-28"},  # removed from 7/28
     "Sheehan":        {"add": SEASON_START},
     "Merrill Kelly":  {"add": SEASON_START},  # away-only (see FADE_VENUE)
@@ -257,7 +257,7 @@ FADE_WINDOW = {
     "Bello":             {"add": SEASON_START},
     "Agnos":             {"add": SEASON_START},
     "Mahle":             {"add": SEASON_START},  # away-only (see FADE_VENUE)
-    "Aaron Nola":        {"add": SEASON_START},  # home-only (see FADE_VENUE)
+    "Aaron Nola":        {"add": SEASON_START, "remove": "2026-08-26"},  # removed 2026-08-26 (user): home-fade pre-Aug 6-2 +4.56u, Aug 1-2 -0.42u -- vintage form is back (2.79 ERA/31.4% K L5); elite-arm-fragility pattern (Mize, Skenes-v1); history stays
     "Trevor McDonald":   {"add": SEASON_START},  # home-only (see FADE_VENUE)
     "Colin Rea":         {"add": SEASON_START},
     "Jack Perkins":      {"add": SEASON_START},
