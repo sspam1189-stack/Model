@@ -313,7 +313,7 @@ FADE_WINDOW = {
     "Yusei Kikuchi":     {"add": SEASON_START},
     "Carson Palmquist":  {"add": SEASON_START},
     "Trey Gibson":       {"add": SEASON_START},
-    "MacKenzie Gore":    {"add": SEASON_START, "remove": "2026-08-26"},  # removed 2026-08-26 (user, "don't fade Gore just yet"): effective immediately -- tonight's 8/26 start is NOT faded and the generated CWS play comes off the card. Away fade was 5-1 through 6/3, 2-3 since, 0-2 Aug at plus prices, form elite (2.10/0.93 L5); history through 8/25 stays
+    "MacKenzie Gore":    {"add": SEASON_START, "remove": "2026-08-27"},  # removed 2026-08-27 (user): tonight's 8/26 CWS fade stays live as the window's FINAL play, no fades from 8/27 on. Away fade 5-1 through 6/3, 2-3 since, 0-2 Aug at plus prices, form elite (2.10/0.93 L5) -- the record-turned-plus-form double signal; history stays
     # Added 2026-07-31 (user request). Season-backfilled, all-venue — no
     # venue split vetted yet.
     "Senga":             {"add": SEASON_START},
