@@ -25,11 +25,11 @@
       "away": "TB",
       "home": "DET",
       "commence": "2026-08-26T17:10:00Z",
-      "away_ml": 106,
-      "home_ml": -116,
+      "away_ml": 104,
+      "home_ml": -114,
       "total": 7.5,
-      "over_ml": -105,
-      "under_ml": -115,
+      "over_ml": -108,
+      "under_ml": -112,
       "sides": {
         "away": {
           "pitcher": "Freddy Peralta",
@@ -395,8 +395,8 @@
       "away_ml": -104,
       "home_ml": -104,
       "total": 8.5,
-      "over_ml": -118,
-      "under_ml": -104,
+      "over_ml": -110,
+      "under_ml": -110,
       "sides": {
         "away": {
           "pitcher": "Matthew Boyd",
@@ -759,11 +759,11 @@
       "away": "CIN",
       "home": "SF",
       "commence": "2026-08-26T19:45:00Z",
-      "away_ml": 102,
-      "home_ml": -110,
+      "away_ml": -104,
+      "home_ml": -104,
       "total": 7.5,
-      "over_ml": -120,
-      "under_ml": -102,
+      "over_ml": -115,
+      "under_ml": -105,
       "sides": {
         "away": {
           "pitcher": "Nick Lodolo",
@@ -1131,8 +1131,8 @@
       "away_ml": -134,
       "home_ml": 124,
       "total": 8.5,
-      "over_ml": -112,
-      "under_ml": -108,
+      "over_ml": -110,
+      "under_ml": -110,
       "sides": {
         "away": {
           "pitcher": "Joey Cantillo",
@@ -1498,8 +1498,8 @@
       "away_ml": 120,
       "home_ml": -128,
       "total": 8.5,
-      "over_ml": -105,
-      "under_ml": -115,
+      "over_ml": -102,
+      "under_ml": -120,
       "sides": {
         "away": {
           "pitcher": "Bubba Chandler",
@@ -1884,8 +1884,8 @@
       "away_ml": -126,
       "home_ml": 116,
       "total": 7,
-      "over_ml": 100,
-      "under_ml": -122,
+      "over_ml": -104,
+      "under_ml": -118,
       "sides": {
         "away": {
           "pitcher": "Jes\u00fas Luzardo",
@@ -2248,8 +2248,8 @@
       "away": "BOS",
       "home": "MIA",
       "commence": "2026-08-26T22:40:00Z",
-      "away_ml": -146,
-      "home_ml": 136,
+      "away_ml": -128,
+      "home_ml": 120,
       "total": 7.5,
       "over_ml": -118,
       "under_ml": -104,
@@ -3021,11 +3021,11 @@
       "away": "HOU",
       "home": "NYY",
       "commence": "2026-08-26T23:05:00Z",
-      "away_ml": 114,
-      "home_ml": -124,
-      "total": 8.5,
-      "over_ml": -124,
-      "under_ml": 102,
+      "away_ml": 106,
+      "home_ml": -116,
+      "total": 9,
+      "over_ml": -102,
+      "under_ml": -120,
       "sides": {
         "away": {
           "pitcher": "Peter Lambert",
@@ -3203,31 +3203,111 @@
           "mismatch": -3.1
         },
         "home": {
-          "pitcher": null,
-          "listed_as": null,
-          "resolved": false,
-          "hand": null,
+          "pitcher": "Elmer Rodr\u00edguez",
+          "listed_as": "Elmer Rodr\u00edguez",
+          "resolved": true,
+          "hand": "R",
           "team": "NYY",
           "opponent_offense": "HOU",
-          "opp_wrc_vs_hand": null,
-          "opp_wrc_game": null,
-          "opp_wrc_recent": null,
-          "opp_wrc_recent_pa": null,
+          "opp_wrc_vs_hand": 109,
+          "opp_wrc_game": 106,
+          "opp_wrc_recent": 85,
+          "opp_wrc_recent_pa": 535,
           "opp_wrc_windows": {
-            "last30": null,
-            "last20": null,
-            "last15": null,
-            "last7": null
+            "last30": {
+              "wrcplus": 109,
+              "pa": 730,
+              "role": "all"
+            },
+            "last20": {
+              "wrcplus": 78,
+              "pa": 431,
+              "role": "all"
+            },
+            "last15": {
+              "wrcplus": 84,
+              "pa": 336,
+              "role": "all"
+            },
+            "last7": {
+              "wrcplus": 102,
+              "pa": 163,
+              "role": "all"
+            }
           },
           "opp_platoon_gap": -2,
           "form": {
-            "season": null,
-            "recent": null,
-            "hot": null,
-            "recent_all": null,
+            "season": {
+              "gs": 4,
+              "ip": 17.0,
+              "ip_per_gs": 4.25,
+              "era": 4.76,
+              "whip": 1.76,
+              "k_pct": 12.0,
+              "bb_pct": 13.3,
+              "k_bb_pct": -1.2,
+              "hr9": 0.53,
+              "k": 10,
+              "bb": 11,
+              "hr": 1,
+              "er": 9
+            },
+            "recent": {
+              "gs": 4,
+              "ip": 17.0,
+              "ip_per_gs": 4.25,
+              "era": 4.76,
+              "whip": 1.76,
+              "k_pct": 12.0,
+              "bb_pct": 13.3,
+              "k_bb_pct": -1.2,
+              "hr9": 0.53,
+              "k": 10,
+              "bb": 11,
+              "hr": 1,
+              "er": 9
+            },
+            "hot": {
+              "gs": 3,
+              "ip": 13.0,
+              "ip_per_gs": 4.33,
+              "era": 4.85,
+              "whip": 1.69,
+              "k_pct": 11.1,
+              "bb_pct": 11.1,
+              "k_bb_pct": 0.0,
+              "hr9": 0.69,
+              "k": 7,
+              "bb": 7,
+              "hr": 1,
+              "er": 7
+            },
+            "recent_all": {
+              "g": 4,
+              "ip": 17.0,
+              "ip_per_g": 4.25,
+              "era": 4.76,
+              "whip": 1.76,
+              "k_pct": 12.0,
+              "bb_pct": 13.3,
+              "k_bb_pct": -1.2,
+              "hr9": 0.53,
+              "k": 10,
+              "bb": 11,
+              "hr": 1,
+              "er": 9,
+              "gs": 4
+            },
             "relief": null
           },
-          "trend": {},
+          "trend": {
+            "era": 0.0,
+            "whip": 0.0,
+            "k_pct": 0.0,
+            "bb_pct": 0.0,
+            "ip_per_gs": 0.0,
+            "hr9": 0.0
+          },
           "pen": {
             "last30": {
               "g": 91,
@@ -3295,23 +3375,25 @@
             }
           },
           "flags": [
-            "thin-sample"
+            "thin-sample",
+            "layoff-66d",
+            "stale-window-53d"
           ],
-          "mismatch": null
+          "mismatch": 31.4
         }
       },
       "home_offense_game": 84,
-      "away_offense_game": null,
-      "game_offense": null,
-      "offense_edge": null
+      "away_offense_game": 106,
+      "game_offense": 95,
+      "offense_edge": 22
     },
     {
       "matchup": "KC @ TOR",
       "away": "KC",
       "home": "TOR",
       "commence": "2026-08-26T23:07:00Z",
-      "away_ml": 122,
-      "home_ml": -132,
+      "away_ml": 136,
+      "home_ml": -146,
       "total": 8.5,
       "over_ml": -122,
       "under_ml": 100,
@@ -3698,11 +3780,11 @@
       "away": "MIL",
       "home": "NYM",
       "commence": "2026-08-26T23:10:00Z",
-      "away_ml": -150,
-      "home_ml": 140,
+      "away_ml": -146,
+      "home_ml": 136,
       "total": 8.5,
-      "over_ml": 102,
-      "under_ml": -124,
+      "over_ml": -102,
+      "under_ml": -120,
       "sides": {
         "away": {
           "pitcher": "Dustin May",
@@ -4070,8 +4152,8 @@
       "away_ml": -126,
       "home_ml": 116,
       "total": 8.5,
-      "over_ml": -124,
-      "under_ml": 102,
+      "over_ml": -112,
+      "under_ml": -108,
       "sides": {
         "away": {
           "pitcher": "Roki Sasaki",
@@ -4436,11 +4518,11 @@
       "away": "TEX",
       "home": "CWS",
       "commence": "2026-08-26T23:40:00Z",
-      "away_ml": 114,
-      "home_ml": -124,
+      "away_ml": 110,
+      "home_ml": -120,
       "total": 8,
-      "over_ml": -105,
-      "under_ml": -115,
+      "over_ml": -110,
+      "under_ml": -110,
       "sides": {
         "away": {
           "pitcher": "MacKenzie Gore",
@@ -5170,8 +5252,8 @@
       "away": "MIN",
       "home": "OAK",
       "commence": "2026-08-27T01:05:00Z",
-      "away_ml": -142,
-      "home_ml": 120,
+      "away_ml": -134,
+      "home_ml": 124,
       "total": 10,
       "over_ml": -120,
       "under_ml": -102,
@@ -5604,6 +5686,20 @@
       "flags": []
     },
     {
+      "pitcher": "Elmer Rodr\u00edguez",
+      "hand": "R",
+      "team": "NYY",
+      "opponent_offense": "HOU",
+      "opp_wrc_vs_hand": 109,
+      "opp_wrc_recent": 85,
+      "mismatch": 31.4,
+      "flags": [
+        "thin-sample",
+        "layoff-66d",
+        "stale-window-53d"
+      ]
+    },
+    {
       "pitcher": "Tanner Gordon",
       "hand": "R",
       "team": "COL",
@@ -5846,7 +5942,7 @@
       "flags": []
     }
   ],
-  "generated": "2026-08-26T13:10:08Z",
+  "generated": "2026-08-26T16:12:16Z",
   "sport": "MLB",
   "type": "slate-scout",
   "advisory": true,
