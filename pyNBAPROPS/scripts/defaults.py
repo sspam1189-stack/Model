@@ -131,7 +131,27 @@ MIN_LINE = {
 #   - PRA OVER: 52% → loser. UNDER only.
 #   - Turnovers: not enough edge after calibration. Disabled.
 
-UNDER_ONLY_MARKETS = set()  # no directional filters
+# 2026-08-26 audit of the full 2025-26 season (631 graded picks, +112.9u,
+# +17.9% ROI) re-confirmed the directional split the notes above describe,
+# on a real sample this time:
+#
+#     threes   OVER   74-67  n=141   -0.6% ROI   <- no edge, 141 bets of noise
+#     threes   UNDER  69-28  n= 97  +35.0% ROI
+#     assists  OVER   73-41  n=114  +21.7% ROI   (both directions work)
+#     assists  UNDER  99-56  n=155  +21.6% ROI
+#     rebounds UNDER  52-27  n= 79  +24.5% ROI
+#     rebounds OVER   22-18  n= 40   +3.8% ROI   <- barely above vig, cut too
+#
+# Threes is the widest cell in the portfolio: three-point volume is the
+# highest-variance counting stat in basketball and books shade those lines up
+# because overs sell, so the model's overs pay for the unders' edge. Cutting
+# them lifts the market from +14.0% blended to +35.0%.
+#
+# Rebounds OVER is cut with it (user, 2026-08-26): +3.8% over 40 bets is
+# inside the noise band and matches the older note above ("52% -> loser"),
+# so the same shading logic applies. Both restored for the 2026-27 season.
+# Assists stays two-directional -- it is the one market where overs earn.
+UNDER_ONLY_MARKETS = {"threes", "rebounds"}
 
 DISABLED_MARKETS = {"steals", "blocks", "turnovers", "points", "pts_rebs_asts"}
 
