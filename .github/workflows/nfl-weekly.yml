@@ -1,7 +1,7 @@
 name: NFL Weekly Pipeline
 
 # ─────────────────────────────────────────────────────────────────────────────
-# Cron schedule (commented out — enable once regular season starts)
+# Cron schedule (enabled for the 2026 season — cron runs execute stage 'all').
 # All times are UTC.  CT = UTC-5 (CST) / UTC-6 (CDT).
 #
 #   Wed 10:00 AM CT  =  15:00 UTC (CDT) / 16:00 UTC (CST)
@@ -11,23 +11,22 @@ name: NFL Weekly Pipeline
 #   Sun 11:30 PM CT  =  04:30+1 UTC (CDT) — post-game window (SNF)
 #   Mon 11:30 PM CT  =  04:30+2 UTC (CDT) — post-game window (MNF)
 #   Tue  8:00 AM CT  =  13:00 UTC (CDT)  — morning-after grade
-#
-# schedule:
-#   # Mid-week fetch + project (Wed morning)
-#   - cron: '0 15 * * 3'
-#   # Pre-game refresh (Thu evening)
-#   - cron: '0 23 * * 4'
-#   # Pre-game refresh (Fri evening)
-#   - cron: '0 23 * * 5'
-#   # Sunday morning full pipeline
-#   - cron: '0 15 * * 0'
-#   # Post-SNF grade (Mon early AM UTC)
-#   - cron: '30 4 * * 1'
-#   # Post-MNF grade (Tue early AM UTC)
-#   - cron: '30 4 * * 2'
 # ─────────────────────────────────────────────────────────────────────────────
 
 on:
+  schedule:
+    # Mid-week fetch + project (Wed morning)
+    - cron: '0 15 * * 3'
+    # Pre-game refresh (Thu evening)
+    - cron: '0 23 * * 4'
+    # Pre-game refresh (Fri evening)
+    - cron: '0 23 * * 5'
+    # Sunday morning full pipeline
+    - cron: '0 15 * * 0'
+    # Post-SNF grade (Mon early AM UTC)
+    - cron: '30 4 * * 1'
+    # Post-MNF grade (Tue early AM UTC)
+    - cron: '30 4 * * 2'
   workflow_dispatch:
     inputs:
       stage:
@@ -40,11 +39,16 @@ on:
           - fetch
           - injuries
           - project
+          - props
           - grade
 
 
 permissions:
   contents: write
+
+concurrency:
+  group: nfl-weekly-pipeline
+  cancel-in-progress: false
 
 jobs:
   # ---------------------------------------------------------------------------
@@ -76,7 +80,7 @@ jobs:
           GMAIL_USER: ${{ secrets.GMAIL_USER }}
           GMAIL_APP_PASSWORD: ${{ secrets.GMAIL_APP_PASSWORD }}
           TO_EMAIL: ${{ secrets.TO_EMAIL }}
-        run: python run_weekly.py --stage ${{ inputs.stage }}
+        run: python run_weekly.py --stage ${{ inputs.stage || 'all' }}
 
       - name: Upload pyNFL data
         uses: actions/upload-artifact@v7
