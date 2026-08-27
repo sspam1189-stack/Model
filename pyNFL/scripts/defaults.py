@@ -222,10 +222,26 @@ BACKUP_QB_MARGIN_PENALTY = 3.0
 # run_weekly and backfill_last_n_weeks both import this. They previously
 # disagreed (1 vs 2) while live hardcoded burnIn=False, so live would have
 # counted weeks the backtest never evaluated.
-#   week 1: no prior in-season data at all -> no picks
-#   week 2: one game of data; graded 11-14 (44%) in backtest -> not bettable
-# Picks therefore start in week 3, once power ratings have 2 weeks behind them.
-BURN_IN_WEEKS = 2
+#
+# Picks start in WEEK 4. The gate is projection quality, not pick record:
+# correlation to actual margin by week is wk2 0.123, wk3 0.124, then wk4
+# 0.338, wk5 0.312, wk6 0.362. Weeks 2-3 are near-worthless, and crucially
+# they do NOT self-limit -- week 2 generated the MOST picks of any week (29),
+# because a noisy projection lands far from the line more often. So the
+# probability gate alone does not protect early weeks.
+#   week 1: no prior in-season data at all -> no stats, no picks
+#   week 2: one game of data; graded 11-14 (44%)
+#   week 3: corr 0.124; graded 11-11 (50.0%)
+# Honest record note: a full re-backfill at this setting gives ATS
+# 139-127-4 (52.3%, -0.7u), slightly WORSE than burn-in 2's 149-131-4
+# (53.2%, +4.9u) -- not the +6.0u a naive re-slice of existing picks
+# predicted. Burn-in weeks are excluded from the scale/probability
+# calibration pools and from self_tune, so changing it shifts every
+# downstream projection; you cannot estimate its effect by filtering old
+# results. Both records are inside noise (SE ~3pp on ~260 picks), so this
+# is set on the PRINCIPLE of not betting a 0.124-correlation projection,
+# not on the record. Burn-in 4+ is clearly worse (wk5 start: 51.3%, -5.4u).
+BURN_IN_WEEKS = 3
 MIN_GP = 0                  # No minimum — project from Week 1
 
 # sDiff thresholds for confidence tiers (calibrated by backfill)
