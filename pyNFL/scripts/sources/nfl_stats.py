@@ -374,6 +374,12 @@ def compute_team_stats(pbp_df, decay=0.85):
             "rushDefEPA": _round(def_rush_epa) or 0.0,
             "rzTDOff": _round(rz_td_pct_off, 4) or 0.0,
             "rzTDDef": _round(rz_td_pct_def, 4) or 0.0,
+            "successRateOff": _round(success_rate_off, 4) or 0.0,
+            "successRateDef": _round(success_rate_def, 4) or 0.0,
+            "thirdDownOff": _round(third_down_off, 4) or 0.0,
+            "thirdDownDef": _round(third_down_def, 4) or 0.0,
+            "pressureRateOff": _round(pressure_rate_allowed, 4) or 0.0,
+            "pressureRateDef": _round(pressure_rate_generated, 4) or 0.0,
             "GP": gp,
         }
 

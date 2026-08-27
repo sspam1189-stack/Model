@@ -315,6 +315,14 @@ def backfill(seasons, output_dir=None):
             dynamic_residual_var = compute_residual_var(store.get("runs", []))
             store["residualVar"] = dynamic_residual_var
 
+            # Empirical probability calibration — walk-forward safe: the
+            # store only contains weeks already replayed at this point.
+            try:
+                from prob_calib import build_prob_calibration
+                week_prob_calib = build_prob_calibration(store.get("runs", []))
+            except Exception:
+                week_prob_calib = None
+
             # --- Step E: Fetch final scores for this week (for grading later) ---
             is_playoff = week > NFL_REGULAR_WEEKS
             season_type = 3 if is_playoff else 2
@@ -428,6 +436,7 @@ def backfill(seasons, output_dir=None):
                         injury_deltas=None,    # No historical injury data in backfill
                         residual_var=dynamic_residual_var,
                         thresholds={},
+                        prob_calib=week_prob_calib,
                     )
                 except ImportError:
                     # model_engine.py not yet available — create stub result

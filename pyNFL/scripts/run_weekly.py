@@ -610,6 +610,18 @@ def stage_project(season, week, store):
     dynamic_residual_var = compute_residual_var(store.get("runs", []))
     store["residualVar"] = dynamic_residual_var
 
+    # Empirical probability calibration from graded history (honest pCover)
+    prob_calib = None
+    try:
+        from prob_calib import build_prob_calibration
+        prob_calib = build_prob_calibration(store.get("runs", []))
+        if prob_calib.get("spread"):
+            e = prob_calib["spread"]
+            print(f"  [prob_calib] spread: n={e['n']} alpha={e['alpha']:+.2f} "
+                  f"beta={e['beta']:+.3f}")
+    except Exception as e:
+        print(f"  WARNING: prob calibration failed: {e}")
+
     # Get odds
     odds = store.get("_fetch", {}).get("odds", [])
     if not odds:
@@ -692,6 +704,7 @@ def stage_project(season, week, store):
                 injury_deltas=game_injury,
                 residual_var=dynamic_residual_var,
                 thresholds=thresholds,
+                prob_calib=prob_calib,
             )
         except Exception as e:
             print(f"  WARNING: analyze_game failed for {g.get('away')}@{g.get('home')}: {e}")

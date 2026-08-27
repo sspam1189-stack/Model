@@ -27,6 +27,8 @@ import sys
 import numpy as np
 from scipy.stats import norm, t as t_dist
 
+from prob_calib import calibrated_prob
+
 # Lazy import sklearn — only needed for training, not inference
 _RidgeCV = None
 
@@ -407,7 +409,8 @@ def project_game_scores(home_stats, away_stats, weights,
 # ===========================================================================
 
 def analyze_game(game_data, team_stats, weights, kalman_states=None,
-                 injury_deltas=None, residual_var=None, thresholds=None):
+                 injury_deltas=None, residual_var=None, thresholds=None,
+                 prob_calib=None):
     """
     Full analysis of a single NFL game. This is the primary entry point
     for the pipeline.
@@ -558,6 +561,28 @@ def analyze_game(game_data, team_stats, weights, kalman_states=None,
     p_under = 1.0 - p_over
 
     # ---------------------------------------------------------------------------
+    # Empirical probability calibration (prob_calib.py)
+    # The parametric probabilities above assume the model's edge is real;
+    # walk-forward testing showed it carries no market-beating signal, so
+    # they overstate confidence badly (claimed 0.63 vs 0.53 actual).
+    # Displayed probabilities are recalibrated against graded history; the
+    # raw parametric values are kept for pick gating (selection score) and
+    # diagnostics so the pick record stays comparable across seasons.
+    # ---------------------------------------------------------------------------
+    p_home_cover_raw, p_away_cover_raw = p_home_cover, p_away_cover
+    p_over_raw, p_under_raw = p_over, p_under
+    prob_calibrated = False
+    if prob_calib:
+        _cp = calibrated_prob(prob_calib.get("spread"), margin_vs_line)
+        if _cp is not None:
+            p_home_cover, p_away_cover = _cp, 1.0 - _cp
+            prob_calibrated = True
+        if market_total > 0:
+            _ct = calibrated_prob(prob_calib.get("total"), t_diff)
+            if _ct is not None:
+                p_over, p_under = _ct, 1.0 - _ct
+
+    # ---------------------------------------------------------------------------
     # Pick logic
     # ---------------------------------------------------------------------------
     thresh = thresholds or SDIFF_THRESHOLDS
@@ -570,10 +595,15 @@ def analyze_game(game_data, team_stats, weights, kalman_states=None,
     p_cover = None
     confidence_tier = _classify_confidence(s_diff, thresh)
 
-    # Bayesian pick: use P(cover)
-    best_spread_p = max(p_home_cover, p_away_cover)
-    spread_side = "home" if p_home_cover >= p_away_cover else "away"
-    prob_threshold = DEFAULT_W.get("probHigh", 0.57)
+    # Pick selection runs on the RAW parametric score (stable, comparable
+    # record); the reported pCover is the calibrated probability of the
+    # side actually picked — it may honestly sit near or below 0.50.
+    best_spread_p = max(p_home_cover_raw, p_away_cover_raw)
+    spread_side = "home" if p_home_cover_raw >= p_away_cover_raw else "away"
+    # Read tuned thresholds from live weights (previously read DEFAULT_W,
+    # so self_tune's weekly probHigh adjustments were never applied)
+    prob_threshold = weights.get("probHigh", DEFAULT_W.get("probHigh", 0.57))
+    prob_elite = weights.get("probElite", DEFAULT_W.get("probElite", 0.63))
 
     # Caps: don't pick into huge spreads
     abs_line_cap = 14.0     # Don't pick into lines > 14 pts
@@ -583,22 +613,23 @@ def analyze_game(game_data, team_stats, weights, kalman_states=None,
         s_pick = _format_spread_pick(
             home_name, away_name, spread_side, abs_line, home_fav
         )
-        s_conf = "elite" if best_spread_p >= DEFAULT_W.get("probElite", 0.63) else "high"
-        p_cover = best_spread_p
+        s_conf = "elite" if best_spread_p >= prob_elite else "high"
+        p_cover = p_home_cover if spread_side == "home" else p_away_cover
         confidence_tier = _classify_confidence(s_diff, thresh)
 
-    # Over/Under pick (two tiers like spreads)
+    # Over/Under pick (two tiers like spreads) — gate on raw score,
+    # report calibrated probability
     o_pick = "PASS"
     o_conf = "low"
     p_ou = None
-    best_total_p = max(p_over, p_under)
-    ou_prob_high = DEFAULT_W.get("probOUHigh", 0.59)
-    ou_prob_elite = DEFAULT_W.get("probOUElite", 0.65)
+    best_total_p = max(p_over_raw, p_under_raw)
+    ou_prob_high = weights.get("probOUHigh", DEFAULT_W.get("probOUHigh", 0.59))
+    ou_prob_elite = weights.get("probOUElite", DEFAULT_W.get("probOUElite", 0.65))
 
     if best_total_p >= ou_prob_high and market_total > 0:
-        o_pick = "OVER" if p_over >= p_under else "UNDER"
+        o_pick = "OVER" if p_over_raw >= p_under_raw else "UNDER"
         o_conf = "elite" if best_total_p >= ou_prob_elite else "high"
-        p_ou = best_total_p
+        p_ou = p_over if o_pick == "OVER" else p_under
 
     # ---------------------------------------------------------------------------
     # Injury note
@@ -647,13 +678,17 @@ def analyze_game(game_data, team_stats, weights, kalman_states=None,
         "oConf": o_conf,
         "confidenceTier": confidence_tier,
 
-        # Probabilities
+        # Probabilities (empirically calibrated when prob_calib provided;
+        # *Raw fields keep the parametric selection score for diagnostics)
         "pHomeCover": round(p_home_cover * 1000) / 1000,
         "pAwayCover": round(p_away_cover * 1000) / 1000,
         "pOver": round(p_over * 1000) / 1000,
         "pUnder": round(p_under * 1000) / 1000,
         "pCover": round(p_cover * 1000) / 1000 if p_cover is not None else None,
         "pOU": round(p_ou * 1000) / 1000 if p_ou is not None else None,
+        "pHomeCoverRaw": round(p_home_cover_raw * 1000) / 1000,
+        "pOverRaw": round(p_over_raw * 1000) / 1000,
+        "probCalibrated": prob_calibrated,
 
         # Variance
         "marginVar": round(margin_var * 10) / 10,
