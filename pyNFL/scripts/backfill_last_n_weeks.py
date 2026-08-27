@@ -295,11 +295,18 @@ def backfill(seasons, output_dir=None):
 
         # Backup-QB start flags from nflverse schedules (starters are
         # announced pregame, so this is walk-forward legitimate)
+        # Two flags: strict drives the validated totals system, loose drives
+        # the margin penalty (it also covers weeks 2+ of an absence, where
+        # the offensive rating is still stale).
         backup_qb_flags = {}
+        qb_change_flags = {}
         try:
             from sources.qb_starts import fetch_schedules, build_backup_qb_flags
-            backup_qb_flags = build_backup_qb_flags(fetch_schedules(season))
-            print(f"  Backup-QB flags: {len(backup_qb_flags)} team-weeks flagged")
+            _sched_qb = fetch_schedules(season)
+            backup_qb_flags = build_backup_qb_flags(_sched_qb, strict=True)
+            qb_change_flags = build_backup_qb_flags(_sched_qb, strict=False)
+            print(f"  Backup-QB flags: {len(backup_qb_flags)} strict (totals), "
+                  f"{len(qb_change_flags)} loose (margin)")
         except Exception as e:
             print(f"  WARNING: backup-QB flags unavailable: {e}")
 
@@ -500,13 +507,18 @@ def backfill(seasons, output_dir=None):
                 try:
                     from engine_v2 import analyze_game
                     _situational = None
-                    if backup_qb_flags:
+                    if backup_qb_flags or qb_change_flags:
                         from sources.qb_starts import norm_abbr as _qna
-                        _hb = backup_qb_flags.get((week, _qna(g.get("_homeAbbr"))), False)
-                        _ab = backup_qb_flags.get((week, _qna(g.get("_awayAbbr"))), False)
-                        if _hb or _ab:
+                        _h, _a = _qna(g.get("_homeAbbr")), _qna(g.get("_awayAbbr"))
+                        _hb = backup_qb_flags.get((week, _h), False)
+                        _ab = backup_qb_flags.get((week, _a), False)
+                        _hc = qb_change_flags.get((week, _h), False)
+                        _ac = qb_change_flags.get((week, _a), False)
+                        if _hb or _ab or _hc or _ac:
                             _situational = {"home_backup_qb": _hb,
-                                            "away_backup_qb": _ab}
+                                            "away_backup_qb": _ab,
+                                            "home_qb_change": _hc,
+                                            "away_qb_change": _ac}
                     r = analyze_game(
                         game_data=g,
                         team_stats=team_stats,

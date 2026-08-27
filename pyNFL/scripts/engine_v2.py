@@ -212,6 +212,22 @@ def analyze_game(game_data, team_stats, weights, kalman_states=None,
         if _rm is not None:
             raw_margin, margin_source = _rm, "ratings"
 
+    # Backup-QB margin penalty: the team ratings don't know who is playing
+    # quarterback, so a team starting someone other than the QB its rating
+    # is built on is over-rated by ~3 pts. Uses the LOOSE qb_change flag
+    # (falling back to the strict backup flag) because the rating stays
+    # stale for the whole absence, not just the transition week. Applied to
+    # the RAW margin (pre-scale) to match how it was validated.
+    situational = situational or {}
+    backup_qb_home = bool(situational.get("home_backup_qb"))
+    backup_qb_away = bool(situational.get("away_backup_qb"))
+    qb_change_home = bool(situational.get("home_qb_change", backup_qb_home))
+    qb_change_away = bool(situational.get("away_qb_change", backup_qb_away))
+    if qb_change_home != qb_change_away:   # both sides changed -> cancels
+        from defaults import BACKUP_QB_MARGIN_PENALTY
+        raw_margin += (-BACKUP_QB_MARGIN_PENALTY if qb_change_home
+                       else BACKUP_QB_MARGIN_PENALTY)
+
     scale = scale_calib or DEFAULT_SCALE
     _mkey = "margin_ratings" if margin_source == "ratings" else "margin_structural"
     sm = scale.get(_mkey, DEFAULT_SCALE[_mkey])
@@ -226,9 +242,6 @@ def analyze_game(game_data, team_stats, weights, kalman_states=None,
 
     # Backup-QB structural nudge on the total (the pick itself is
     # situational, below)
-    situational = situational or {}
-    backup_qb_home = bool(situational.get("home_backup_qb"))
-    backup_qb_away = bool(situational.get("away_backup_qb"))
     if backup_qb_home or backup_qb_away:
         from defaults import BACKUP_QB_TOTAL_ADJ
         proj_total += BACKUP_QB_TOTAL_ADJ

@@ -43,13 +43,25 @@ def fetch_schedules(season):
     return sched
 
 
-def build_backup_qb_flags(sched):
+def build_backup_qb_flags(sched, strict=True):
     """
     Walk-forward backup-QB flags from a season schedule.
 
-    A start is flagged when the listed QB differs BOTH from the team's
-    previous-game starter and from its modal starter over the last 4 games
-    (min 2 prior starts — early-season QB competitions don't flag).
+    strict=True (the TOTALS system's definition, validated at 62-54):
+        flags only when the listed QB differs BOTH from the previous-game
+        starter and from the modal starter of the last 4 games — i.e. the
+        *transition* into a backup.
+
+    strict=False (the MARGIN penalty's definition): flags whenever the
+        listed QB differs from the modal starter of the last 4 games. This
+        also catches weeks 2+ of a multi-week absence, where the team's
+        EPA rating is still built mostly on the injured starter and is
+        therefore still stale. Once the backup has started enough games to
+        become the modal starter, the rating has absorbed him and the flag
+        correctly stops firing.
+
+    Either way, a minimum of 2 prior starts is required so early-season QB
+    competitions don't flag.
 
     Returns
     -------
@@ -70,7 +82,9 @@ def build_backup_qb_flags(sched):
             hist = [q for w, q in starts[team] if w < r["week"]]
             if len(hist) >= 2:
                 modal, _n = Counter(hist[-4:]).most_common(1)[0]
-                if qb != hist[-1] and qb != modal:
+                differs = (qb != modal) if not strict else (
+                    qb != hist[-1] and qb != modal)
+                if differs:
                     flags[(int(r["week"]), team)] = True
             starts[team].append((int(r["week"]), qb))
     return flags

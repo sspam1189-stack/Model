@@ -195,6 +195,24 @@ HCA_VAR_FLOOR = 0.3
 BACKUP_QB_TOTAL_ADJ = 2.5
 BACKUP_QB_OVER_RATE = 0.57   # shrunk from 58.3% observed
 
+# Backup-QB MARGIN penalty. Team EPA ratings blend starter and backup weeks
+# into one offensive number, so when a different QB starts the rating is
+# stale by ~3.8 pts (t=2.71). That error is concentrated exactly where it
+# flips the projected favorite: in the games where the market is confident
+# (|line| >= 4) and we call a coin flip, backup-QB situations appear at
+# 35.4% vs a 16.6% base rate -- more than double.
+#
+# Subtracting this from the raw ratings margin for the team starting a
+# backup improved EVERY metric, in every season: corr 0.378 -> 0.403
+# (2023 .315->.337, 2024 .446->.474, 2025 .381->.406), MAE 10.64 -> 10.49,
+# straight-up accuracy 62.8% -> 64.6%, and accuracy on those gap games
+# 53.1% -> 66.7% (paired p=0.015). Shrunk from the measured 3.8.
+#
+# Downweighting backup games in the ratings fit was also tested and is
+# WORSE (corr 0.378 -> 0.343) -- those games still carry real information
+# about the team's defense; it's only the offense rating that goes stale.
+BACKUP_QB_MARGIN_PENALTY = 3.0
+
 
 # ---------------------------------------------------------------------------
 # Engine configuration
