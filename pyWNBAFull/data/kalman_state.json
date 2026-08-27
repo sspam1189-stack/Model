@@ -6,9 +6,9 @@
       "innov_ewma": -7.725608405690426
     },
     "Connecticut Sun": {
-      "adj_mean": -1.0186472283881065,
-      "adj_var": 28.214410684725333,
-      "innov_ewma": 0.27436477665282055
+      "adj_mean": -2.002654342298129,
+      "adj_var": 25.650381590544242,
+      "innov_ewma": -3.2747591371744784
     },
     "Dallas Wings": {
       "adj_mean": 3.7602185167622446,
@@ -22,7 +22,7 @@
     },
     "Las Vegas Aces": {
       "adj_mean": 0.947257314281658,
-      "adj_var": 24.467218365949883,
+      "adj_var": 24.717218365949883,
       "innov_ewma": 3.0272529577017857
     },
     "Los Angeles Sparks": {
@@ -42,37 +42,37 @@
     },
     "Phoenix Mercury": {
       "adj_mean": -0.19171465483574068,
-      "adj_var": 27.35742992570047,
+      "adj_var": 27.60742992570047,
       "innov_ewma": 0.7533185999348446
     },
     "Portland Fire": {
       "adj_mean": -1.1757528869293146,
-      "adj_var": 20.41161429567338,
+      "adj_var": 20.66161429567338,
       "innov_ewma": -5.54719160298792
     },
     "Seattle Storm": {
-      "adj_mean": -0.9585357269352732,
-      "adj_var": 18.84060805410449,
-      "innov_ewma": -7.838288434833097
+      "adj_mean": 0.34091931956903787,
+      "adj_var": 29.68711716530587,
+      "innov_ewma": -1.2232694836244384
     },
     "Toronto Tempo": {
-      "adj_mean": -0.29677001545792026,
-      "adj_var": 30,
-      "innov_ewma": 3.86232090903441
+      "adj_mean": -1.5662855972255387,
+      "adj_var": 29.09708448129892,
+      "innov_ewma": -1.3611094081447086
     },
     "Golden State Valkyries": {
-      "adj_mean": 0.5153635087581372,
+      "adj_mean": 1.7943674055805832,
       "adj_var": 30,
-      "innov_ewma": 5.224281952908823
+      "innov_ewma": 6.848879511389547
     },
     "Atlanta Dream": {
       "adj_mean": 1.0569212111691595,
-      "adj_var": 28.94772692586795,
+      "adj_var": 29.19772692586795,
       "innov_ewma": -4.075114827160309
     },
     "Washington Mystics": {
       "adj_mean": 1.297440350846831,
-      "adj_var": 22.602451793890936,
+      "adj_var": 22.852451793890936,
       "innov_ewma": 1.9394167507915632
     }
   },
@@ -160,9 +160,11 @@
     "20260824:Atlanta Dream@Los Angeles Sparks": true,
     "20260825:Chicago Sky@Connecticut Sun": true,
     "20260825:Portland Fire@Dallas Wings": true,
-    "20260825:Washington Mystics@Phoenix Mercury": true
+    "20260825:Washington Mystics@Phoenix Mercury": true,
+    "20260826:Golden State Valkyries@Connecticut Sun": true,
+    "20260826:Toronto Tempo@Seattle Storm": true
   },
-  "lastDriftDate": "20260826",
+  "lastDriftDate": "20260827",
   "meta": {
     "season": "2025-26",
     "created": "2026-07-16T15:06:03.518205"
