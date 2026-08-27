@@ -549,13 +549,21 @@ def backtest_props(seasons, start_week=4):
             actual_logs = build_player_game_logs(week_pbp)
 
             # --- 6. Load prop lines for this week ---
+            # Team-aware index: name keys like "B.Robinson" collide across
+            # players (Bijan vs Brian Robinson), so each line keeps its
+            # event's team abbrs and only matches a same-team projection.
             prop_lines = _load_prop_lines(season, week)
             line_lookup = {}
             if prop_lines:
                 for pl in prop_lines:
                     nk = _name_key(pl.get("player", ""))
                     key = (nk[0], nk[1], pl.get("market", ""))
-                    line_lookup[key] = pl
+                    entry = dict(pl)
+                    entry["_teams"] = {
+                        _resolve_abbr(pl.get("event_home", "")),
+                        _resolve_abbr(pl.get("event_away", "")),
+                    } - {""}
+                    line_lookup.setdefault(key, []).append(entry)
 
             # --- 7. Project each player ---
             week_picks = 0
@@ -597,7 +605,8 @@ def backtest_props(seasons, start_week=4):
                     if market not in MARKETS:
                         continue
 
-                    actual_val = _find_actual(name, market, actual_logs)
+                    actual_val = _find_actual(name, market, actual_logs,
+                                              team=team)
                     if actual_val is None:
                         continue
 
@@ -611,15 +620,19 @@ def backtest_props(seasons, start_week=4):
                     if market in _DISABLED:
                         continue
 
-                    # Look up real prop line
+                    # Look up real prop line (team-aware)
                     nk = _name_key(name)
-                    line_key = (nk[0], nk[1], market)
-                    line_data = line_lookup.get(line_key)
+                    line_data = None
+                    for cand in line_lookup.get((nk[0], nk[1], market), []):
+                        if cand["_teams"] and team in cand["_teams"]:
+                            line_data = cand
+                            break
                     sim_line = line_data.get("line") if line_data else None
 
                     # Fall back to simulated line if no real line
                     if sim_line is None:
-                        sim_line = _get_simulated_line(name, market, prior_logs)
+                        sim_line = _get_simulated_line(name, market, prior_logs,
+                                                       team=team)
 
                     if sim_line is not None and std > 0:
                         diff = proj_val - sim_line
@@ -714,8 +727,13 @@ def backtest_props(seasons, start_week=4):
 # Grading helpers (same as original)
 # ---------------------------------------------------------------------------
 
-def _find_actual(player_name, market, actual_logs):
-    """Find a player's actual stat value from this week's game logs."""
+def _find_actual(player_name, market, actual_logs, team=None):
+    """Find a player's actual stat value from this week's game logs.
+
+    When `team` is given, only a same-team game log matches — short names
+    like "B.Robinson" are shared by multiple players, and a name-only match
+    can grade one player's pick against another player's stat line.
+    """
     stat_key = {
         "pass_yds": "pass_yds",
         "pass_tds": "pass_td",
@@ -732,16 +750,20 @@ def _find_actual(player_name, market, actual_logs):
     for pid, games in actual_logs.items():
         for g in games:
             if g.get("name") == player_name:
+                if team and g.get("team") != team:
+                    continue
                 val = g.get(stat_key)
                 if val is not None:
                     return float(val)
     return None
 
 
-def _get_simulated_line(player_name, market, prior_logs):
+def _get_simulated_line(player_name, market, prior_logs, team=None):
     """
     Simulate a market line using the player's simple rolling average.
     Markets roughly set lines near recent performance averages.
+    Team-aware when `team` is given (same short-name collision issue
+    as _find_actual).
     """
     stat_key = {
         "pass_yds": "pass_yds",
@@ -765,14 +787,18 @@ def _get_simulated_line(player_name, market, prior_logs):
     if not stat_key:
         return None
     for pid, games in prior_logs.items():
-        for g in games:
-            if g.get("name") == player_name:
-                all_games = sorted(prior_logs[pid], key=lambda x: x.get("week", 0))
-                recent = all_games[-ROLLING_WINDOW:]
-                vals = [gg.get(stat_key, 0) for gg in recent if gg.get(stat_key) is not None]
-                if len(vals) >= min_games:
-                    return round(sum(vals) / len(vals), 1)
-                return None
+        matches = any(
+            g.get("name") == player_name and (not team or g.get("team") == team)
+            for g in games
+        )
+        if not matches:
+            continue
+        all_games = sorted(games, key=lambda x: x.get("week", 0))
+        recent = all_games[-ROLLING_WINDOW:]
+        vals = [gg.get(stat_key, 0) for gg in recent if gg.get(stat_key) is not None]
+        if len(vals) >= min_games:
+            return round(sum(vals) / len(vals), 1)
+        return None
     return None
 
 
