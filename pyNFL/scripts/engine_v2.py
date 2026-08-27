@@ -170,12 +170,13 @@ def _league_avg_off(team_stats):
 def raw_structural(home_st, away_st, league_off):
     """Raw (unshrunk) structural margin and total: EPA/play x plays.
 
-    Each side is blended at its OWN pass rate rather than a league constant.
+    Each side is blended at its OWN pass rate and scaled by ITS OWN play
+    count -- averaging one play count across both teams would discard the
+    pace asymmetry between them.
     """
-    plays = (home_st.get("pace", 63.0) + away_st.get("pace", 63.0)) / 2.0
-
     def team_pts(off_st, def_st):
         pr = _pass_rate(off_st)
+        plays = off_st.get("pace", 63.0)
         edge = ((_blend_epa(off_st, pass_rate=pr) - league_off)
                 + (_blend_epa(def_st, off=False, pass_rate=pr) - league_off))
         return plays * (LEAGUE_PPP + edge)
@@ -227,9 +228,11 @@ def analyze_game(game_data, team_stats, weights, kalman_states=None,
     league_off = _league_avg_off(team_stats)
     raw_margin, raw_total = raw_structural(home_st, away_st, league_off)
     margin_source = "structural"
-    plays = (home_st.get("pace", 63.0) + away_st.get("pace", 63.0)) / 2.0
+    home_plays = home_st.get("pace", 63.0)
+    away_plays = away_st.get("pace", 63.0)
     if power_ratings:
-        _rm = rating_margin(power_ratings, home_key, away_key, plays)
+        _rm = rating_margin(power_ratings, home_key, away_key,
+                            home_plays, away_plays)
         if _rm is not None:
             raw_margin, margin_source = _rm, "ratings"
 

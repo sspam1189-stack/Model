@@ -89,19 +89,30 @@ def fit_epa_ratings(game_epa, through_week, alpha=DEFAULT_ALPHA, min_obs=MIN_OBS
     }
 
 
-def rating_margin(ratings, home, away, plays):
+def rating_margin(ratings, home, away, home_plays, away_plays=None):
     """
     Projected margin in points (positive = home favored) from ratings.
 
     Each side's scoring index is its own offense plus the opponent's
-    defensive rating (which is EPA *allowed*, so it adds), scaled by the
-    expected number of plays.
+    defensive rating (which is EPA *allowed*, so it adds), scaled by THAT
+    TEAM'S OWN expected play count:
+
+        margin = home_idx * home_plays - away_idx * away_plays
+
+    Using one averaged play count for both sides discards the pace
+    asymmetry between them. The effect is small in practice (NFL pace is
+    tightly clustered, so the two forms differ by ~0.13 pts on average)
+    but the per-team form is the correct one.
+
+    away_plays defaults to home_plays for backward compatibility.
     """
     if not ratings:
         return None
     off, dfn = ratings.get("off", {}), ratings.get("def", {})
     if home not in off or away not in off or home not in dfn or away not in dfn:
         return None
+    if away_plays is None:
+        away_plays = home_plays
     home_idx = off[home] + dfn[away]
     away_idx = off[away] + dfn[home]
-    return (home_idx - away_idx) * plays
+    return home_idx * home_plays - away_idx * away_plays
