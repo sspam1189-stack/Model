@@ -263,6 +263,14 @@ def backfill(seasons, output_dir=None):
             # Set lastDriftDate to Aug 1 of new season (YYYYMMDD format required by core)
             kalman_state["lastDriftDate"] = f"{season}0801"
 
+        # Per team-game EPA for joint power ratings (refit each week below)
+        season_game_epa = []
+        try:
+            from power_ratings import compute_game_epa
+            season_game_epa = compute_game_epa(pbp)
+        except Exception as e:
+            print(f"  WARNING: game EPA for power ratings unavailable: {e}")
+
         # Backup-QB start flags from nflverse schedules (starters are
         # announced pregame, so this is walk-forward legitimate)
         backup_qb_flags = {}
@@ -350,6 +358,15 @@ def backfill(seasons, output_dir=None):
                 week_scale_calib = build_scale_calibration(store.get("runs", []))
             except Exception:
                 week_scale_calib = None
+
+            # Joint power ratings from games BEFORE this week (walk-forward)
+            week_power_ratings = None
+            if season_game_epa:
+                try:
+                    from power_ratings import fit_epa_ratings
+                    week_power_ratings = fit_epa_ratings(season_game_epa, week - 1)
+                except Exception:
+                    week_power_ratings = None
 
             # --- Step E: Fetch final scores for this week (for grading later) ---
             is_playoff = week > NFL_REGULAR_WEEKS
@@ -475,6 +492,7 @@ def backfill(seasons, output_dir=None):
                         prob_calib=week_prob_calib,
                         situational=_situational,
                         scale_calib=week_scale_calib,
+                        power_ratings=week_power_ratings,
                     )
                 except ImportError:
                     # model_engine.py not yet available — create stub result

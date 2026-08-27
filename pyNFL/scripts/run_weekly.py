@@ -397,6 +397,21 @@ def stage_fetch(season, week, store):
     except Exception as e:
         print(f"  NGS: Skipped ({e})")
 
+    # Joint power ratings for the margin projection — fit here while the
+    # play-by-play is already in memory (walk-forward: prior weeks only)
+    power_ratings = None
+    try:
+        from power_ratings import compute_game_epa, fit_epa_ratings
+        power_ratings = fit_epa_ratings(compute_game_epa(pbp), through_week)
+        if power_ratings:
+            print(f"  Power ratings fit on {power_ratings['nObs']} team-games "
+                  f"through week {through_week}")
+        else:
+            print(f"  Power ratings: not enough games yet — "
+                  "margin falls back to structural EPA form")
+    except Exception as e:
+        print(f"  WARNING: power ratings failed: {e}")
+
     # Cache in store for downstream stages
     store["_fetch"] = {
         "season": season,
@@ -406,6 +421,7 @@ def stage_fetch(season, week, store):
         "odds": odds,
         "pfr_data": pfr_data,
         "ngs_data": ngs_data,
+        "power_ratings": power_ratings,
         "pbp_loaded": True,
     }
 
@@ -752,6 +768,7 @@ def stage_project(season, week, store):
                 prob_calib=prob_calib,
                 situational=game_situational,
                 scale_calib=scale_calib,
+                power_ratings=store.get("_fetch", {}).get("power_ratings"),
             )
         except Exception as e:
             print(f"  WARNING: analyze_game failed for {g.get('away')}@{g.get('home')}: {e}")

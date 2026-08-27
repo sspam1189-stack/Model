@@ -28,6 +28,7 @@ from scipy.stats import t as t_dist
 
 from defaults import DEFAULT_W, SDIFF_THRESHOLDS, BACKUP_QB_OVER_RATE
 from prob_calib import calibrated_prob
+from power_ratings import rating_margin
 from model_engine import (
     _resolve_team, _classify_confidence, _format_spread_pick,
     _build_injury_note, _extract_margin_features, build_feature_vector,
@@ -37,11 +38,17 @@ from model_engine import (
 PASS_RATE = 0.58          # league dropback share of plays
 LEAGUE_PPP = 22.0 / 63.0  # baseline points per play (pre-shrinkage anchor)
 
-# Fallback scale calibration — LOSO-stable values from 2023-2025
-# (alpha_m ~ HCA in points; beta ~ shrinkage of the noisy raw EPA edge)
+# Fallback scale calibration — LOSO-stable values from 2023-2025.
+# alpha ~ HCA in points; beta ~ shrinkage applied to the raw edge.
+#
+# The two margin paths live on different scales and are calibrated
+# separately.  Joint power ratings come out natively in points, so their
+# beta is ~1.0 and their alpha IS the home-field advantage; the structural
+# EPA-rate form has an arbitrary scale and needs heavy shrinkage.
 DEFAULT_SCALE = {
-    "margin": {"alpha": 2.3, "beta": 0.38},
-    "total":  {"alpha": 34.6, "beta": 0.25},
+    "margin_ratings":    {"alpha": 2.67, "beta": 1.01},
+    "margin_structural": {"alpha": 2.30, "beta": 0.38},
+    "total":             {"alpha": 34.6, "beta": 0.25},
 }
 
 NFL_T_DF = 5
@@ -60,7 +67,7 @@ def build_scale_calibration(runs, min_games=100):
     margin ~ alpha + beta * rawMargin, total ~ alpha + beta * rawTotal.
     Falls back to DEFAULT_SCALE until min_games graded v2 games exist.
     """
-    m_pairs, t_pairs = [], []
+    pairs = {"margin_ratings": [], "margin_structural": [], "total": []}
     for r in runs or []:
         if r.get("burnIn"):
             continue
@@ -70,26 +77,33 @@ def build_scale_calibration(runs, min_games=100):
                 continue
             rm, rt = g.get("_v2RawMargin"), g.get("_v2RawTotal")
             if isinstance(rm, (int, float)):
-                m_pairs.append((rm, hs - as_))
+                # Never mix the two margin scales in one fit
+                src = ("margin_ratings" if g.get("_v2MarginSource") == "ratings"
+                       else "margin_structural")
+                pairs[src].append((rm, hs - as_))
             if isinstance(rt, (int, float)):
-                t_pairs.append((rt, hs + as_))
+                pairs["total"].append((rt, hs + as_))
 
-    def _fit(pairs, default):
-        if len(pairs) < min_games:
+    def _fit(obs, default, beta_cap):
+        if len(obs) < min_games:
             return dict(default)
-        xs = np.array([p[0] for p in pairs])
-        ys = np.array([p[1] for p in pairs])
+        xs = np.array([p[0] for p in obs])
+        ys = np.array([p[1] for p in obs])
         vx = xs.var()
         if vx < 1e-9:
             return dict(default)
         beta = float(np.cov(xs, ys)[0, 1] / vx)
-        beta = min(1.0, max(0.0, beta))   # shrinkage only, never inflate
+        beta = min(beta_cap, max(0.0, beta))   # shrink, never runaway
         alpha = float(ys.mean() - beta * xs.mean())
-        return {"alpha": alpha, "beta": beta, "n": len(pairs)}
+        return {"alpha": alpha, "beta": beta, "n": len(obs)}
 
     return {
-        "margin": _fit(m_pairs, DEFAULT_SCALE["margin"]),
-        "total": _fit(t_pairs, DEFAULT_SCALE["total"]),
+        # ratings are already points-scaled, so beta ~1.0 is expected there
+        "margin_ratings": _fit(pairs["margin_ratings"],
+                               DEFAULT_SCALE["margin_ratings"], 1.5),
+        "margin_structural": _fit(pairs["margin_structural"],
+                                  DEFAULT_SCALE["margin_structural"], 1.0),
+        "total": _fit(pairs["total"], DEFAULT_SCALE["total"], 1.0),
     }
 
 
@@ -130,7 +144,8 @@ def raw_structural(home_st, away_st, league_off):
 
 def analyze_game(game_data, team_stats, weights, kalman_states=None,
                  injury_deltas=None, residual_var=None, thresholds=None,
-                 prob_calib=None, situational=None, scale_calib=None):
+                 prob_calib=None, situational=None, scale_calib=None,
+                 power_ratings=None):
     """
     Analyze one game with the structural v2 engine.
 
@@ -156,11 +171,25 @@ def analyze_game(game_data, team_stats, weights, kalman_states=None,
     inj_home = inj.get("home", 0.0) or 0.0
     inj_away = inj.get("away", 0.0) or 0.0
 
-    # --- Structural raw projection + shrinkage ---
+    # --- Raw projection ---
+    # Margin prefers joint power ratings (opponent adjustment solved
+    # simultaneously, small samples shrunk by the ridge penalty); it falls
+    # back to the structural EPA-rate form early in the season before the
+    # ratings have enough games. Totals always use the structural form —
+    # ratings showed no gain there.
     league_off = _league_avg_off(team_stats)
     raw_margin, raw_total = raw_structural(home_st, away_st, league_off)
+    margin_source = "structural"
+    plays = (home_st.get("pace", 63.0) + away_st.get("pace", 63.0)) / 2.0
+    if power_ratings:
+        _rm = rating_margin(power_ratings, home_key, away_key, plays)
+        if _rm is not None:
+            raw_margin, margin_source = _rm, "ratings"
+
     scale = scale_calib or DEFAULT_SCALE
-    sm, stt = scale.get("margin", DEFAULT_SCALE["margin"]), scale.get("total", DEFAULT_SCALE["total"])
+    _mkey = "margin_ratings" if margin_source == "ratings" else "margin_structural"
+    sm = scale.get(_mkey, DEFAULT_SCALE[_mkey])
+    stt = scale.get("total", DEFAULT_SCALE["total"])
 
     proj_margin = sm["alpha"] + sm["beta"] * raw_margin + inj_home - inj_away
     proj_total = stt["alpha"] + stt["beta"] * raw_total
@@ -295,6 +324,7 @@ def analyze_game(game_data, team_stats, weights, kalman_states=None,
         "engine": "v2",
         "_v2RawMargin": round(raw_margin * 100) / 100,
         "_v2RawTotal": round(raw_total * 100) / 100,
+        "_v2MarginSource": margin_source,
         "_marginFeatures": margin_features,
         "_features": _fv.tolist() if hasattr(_fv, "tolist") else list(_fv),
     }
