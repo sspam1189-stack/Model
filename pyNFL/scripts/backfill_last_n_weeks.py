@@ -263,6 +263,28 @@ def backfill(seasons, output_dir=None):
             # Set lastDriftDate to Aug 1 of new season (YYYYMMDD format required by core)
             kalman_state["lastDriftDate"] = f"{season}0801"
 
+        # Historical weather (temp/wind/roof) per home team-week, so the
+        # weather adjustment is actually exercised in the backtest
+        _hist_weather = {}
+        try:
+            from sources.qb_starts import fetch_schedules, norm_abbr as _qna
+            _sch = fetch_schedules(season)
+            for _, _r in _sch.iterrows():
+                _roof = str(_r.get("roof") or "")
+                _w, _t = _r.get("wind"), _r.get("temp")
+                if _roof in ("dome", "closed"):
+                    continue    # dome handled by is_dome_game()
+                if _w is None and _t is None:
+                    continue
+                _hist_weather[(int(_r["week"]), _qna(_r["home_team"]))] = {
+                    "wind_mph": float(_w) if _w == _w and _w is not None else 9.0,
+                    "temp_f": float(_t) if _t == _t and _t is not None else 60.0,
+                    "precip_mm": 0.0,   # not in the schedules feed
+                }
+            print(f"  Historical weather for {len(_hist_weather)} home team-weeks")
+        except Exception as e:
+            print(f"  WARNING: historical weather unavailable: {e}")
+
         # Per team-game EPA for joint power ratings (refit each week below)
         season_game_epa = []
         try:
@@ -463,8 +485,12 @@ def backfill(seasons, output_dir=None):
                             _n2a[_fn] = _al[0]
                     g["_homeAbbr"] = _n2a.get(home, "")
                     g["_awayAbbr"] = _n2a.get(away, "")
-                    # Dome/outdoor classification (no live weather for backfill)
-                    g["_weatherAdj"] = compute_weather_adjustment(None, g["_homeAbbr"])
+                    # Historical weather from nflverse schedules. Previously
+                    # this passed None, so the weather adjustment was inert
+                    # in every backtest and could never be validated.
+                    _wx = _hist_weather.get((week, g["_homeAbbr"]))
+                    g["_weatherAdj"] = compute_weather_adjustment(
+                        _wx, g["_homeAbbr"])
                     # Rest/schedule from previous week games
                     g["_restAdj"] = compute_rest_adjustment(g, prev_graded)
                 except Exception:
