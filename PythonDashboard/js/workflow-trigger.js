@@ -5,6 +5,13 @@
   const WORKER_URL = "https://pydashboard-workflow-proxy.sspam1189.workers.dev";
   const POLL_INTERVAL_MS = 10_000;
   const ACTIVE_RUN_LS = "pydash.activeRun";
+  // Give up on a run this old. GitHub can strand a run permanently -- one
+  // parked by a `concurrency` group is never handed to a runner, so it reports
+  // "queued" forever and cannot be cancelled, force-cancelled or deleted. Run
+  // #1506 sat that way from 2026-08-26 and, because the poll only cleared
+  // ACTIVE_RUN_LS on "completed", every page load resumed it and re-disabled
+  // all three Run buttons. Real runs finish in 5-19 minutes.
+  const STALE_RUN_MS = 2 * 60 * 60 * 1000;
 
   // Last data file each workflow updates (the one written last in the serial
   // commit chain). Polled after the workflow completes to wait until Pages
@@ -161,6 +168,15 @@
         updateModal({ status: `Poll error: ${err.message}`, elapsedSec });
         return setTimeout(tick, POLL_INTERVAL_MS);
       }
+      if (elapsedSec * 1000 > STALE_RUN_MS) {
+        // Stranded on GitHub's side. Stop polling and hand the buttons back
+        // rather than staying disabled across every future page load.
+        localStorage.removeItem(ACTIVE_RUN_LS);
+        updateModal({ status: "gave up — run appears stranded on GitHub", elapsedSec });
+        dispatchInFlight = false;
+        setButtonsDisabled(false);
+        return;
+      }
       if (!st.found) {
         updateModal({ status: "queued (waiting for run to register)", elapsedSec });
         return setTimeout(tick, POLL_INTERVAL_MS);
@@ -219,6 +235,10 @@
     try {
       const { workflow, since } = JSON.parse(raw);
       if (!workflow || !since) return;
+      if (Date.now() - new Date(since).getTime() > STALE_RUN_MS) {
+        localStorage.removeItem(ACTIVE_RUN_LS);  // stranded — never resume it
+        return;
+      }
       const titleByKey = {
         python: "NBA Run Daily (NBA + Fullseason + Props)",
         mlb: "MLB Run Daily",

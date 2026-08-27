@@ -11,6 +11,16 @@ const WORKFLOWS = {
   wnba: "wnba-run-daily.yml",
 };
 
+// A run older than this that is still queued/in_progress is treated as STALE
+// and no longer blocks a new dispatch. GitHub can strand a run permanently:
+// one parked by a `concurrency` group is never handed to a runner, so it
+// reports "queued" forever and cannot be cancelled, force-cancelled, or
+// deleted (cancel/force-cancel 409 "has not been queued yet", delete 403
+// "could not delete"). Run #1506 has sat this way since 2026-08-26 and was
+// disabling every Run button on the dashboard. Real runs finish in 5-19
+// minutes, so two hours is a wide margin over the slowest observed run.
+const STALE_RUN_MS = 2 * 60 * 60 * 1000;
+
 function corsHeaders(extra = {}) {
   return {
     "Access-Control-Allow-Origin": ALLOWED_ORIGIN,
@@ -72,9 +82,13 @@ async function getActive(env) {
     if (!res.ok) continue;
     const data = await res.json();
     for (const run of data.workflow_runs || []) {
-      if (run.status === "queued" || run.status === "in_progress" || run.status === "waiting") {
-        results.push({ workflow: name, status: run.status, htmlUrl: run.html_url, runNumber: run.run_number });
-      }
+      if (run.status !== "queued" && run.status !== "in_progress" && run.status !== "waiting") continue;
+      const ageMs = Date.now() - new Date(run.created_at).getTime();
+      if (ageMs > STALE_RUN_MS) continue;  // stranded run — do not block dispatch
+      results.push({
+        workflow: name, status: run.status, htmlUrl: run.html_url,
+        runNumber: run.run_number, ageSec: Math.round(ageMs / 1000),
+      });
     }
   }
   return json({ active: results });
