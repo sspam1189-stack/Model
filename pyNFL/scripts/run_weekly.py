@@ -6,9 +6,10 @@ Weekly NFL picks pipeline — main orchestrator.
 Stages:
   fetch     — pull play-by-play, compute team stats, fetch odds
   injuries  — fetch injury data, compute injury deltas
-  grade     — grade previous week's picks, update Kalman, self-tune
+  grade     — grade previous week's picks (spreads + props), update Kalman, self-tune
   project   — load Kalman states, run projections, save picks
-  all       — grade -> fetch -> injuries -> project (full pipeline)
+  props     — project player props for the current week (live picks)
+  all       — grade -> fetch -> injuries -> project -> props (full pipeline)
 
 Usage:
   python scripts/run_weekly.py --stage all
@@ -523,6 +524,33 @@ def stage_grade(season, week, store):
     save_store(store)
     print("  Kalman state saved")
 
+    # 5. Grade last week's player props (isolated — a props failure must
+    # never take down spreads grading)
+    try:
+        from props_weekly import grade_week_props
+        grade_week_props(season, prev_week)
+    except Exception as e:
+        print(f"  WARNING: Props grading failed: {e}")
+
+
+# ---------------------------------------------------------------------------
+# STAGE: props
+# ---------------------------------------------------------------------------
+
+def stage_props(season, week, store):
+    """Project player props for the current week (live picks)."""
+    try:
+        from props_weekly import project_week_props
+        project_week_props(
+            season, week,
+            odds_list=store.get("_fetch", {}).get("odds") or None,
+            injury_report=store.get("_injuries", {}).get("report") or None,
+        )
+    except Exception as e:
+        import traceback
+        traceback.print_exc()
+        print(f"  WARNING: Props projection failed: {e}")
+
 
 # ---------------------------------------------------------------------------
 # STAGE: project
@@ -625,9 +653,10 @@ def stage_project(season, week, store):
             games.append({**g, "status": "MISSING_ODDS"})
             continue
 
-        # Get injury delta for this matchup
-        away_delta = injury_deltas.get(g.get("away"), {})
-        home_delta = injury_deltas.get(g.get("home"), {})
+        # Get injury delta for this matchup (compute_injury_deltas returns
+        # {team_name: float})
+        away_delta = injury_deltas.get(g.get("away"), 0.0) or 0.0
+        home_delta = injury_deltas.get(g.get("home"), 0.0) or 0.0
         game_injury = None
         if away_delta or home_delta:
             game_injury = {"away": away_delta, "home": home_delta}
@@ -658,9 +687,10 @@ def stage_project(season, week, store):
 
         try:
             r = analyze_game(
-                g, team_stats, base_w, kalman_state,
-                base_w_var, dynamic_residual_var,
-                injury_adj=game_injury,
+                g, team_stats, base_w,
+                kalman_states=kalman_state,
+                injury_deltas=game_injury,
+                residual_var=dynamic_residual_var,
                 thresholds=thresholds,
             )
         except Exception as e:
@@ -744,7 +774,7 @@ def main():
     parser = argparse.ArgumentParser(description="NFL weekly picks pipeline")
     parser.add_argument(
         "--stage",
-        choices=["fetch", "injuries", "grade", "project", "all"],
+        choices=["fetch", "injuries", "grade", "project", "props", "all"],
         default="all",
         help="Pipeline stage to run (default: all)",
     )
@@ -769,11 +799,12 @@ def main():
     stage = args.stage
 
     if stage == "all":
-        # Full pipeline: grade -> fetch -> injuries -> project
+        # Full pipeline: grade -> fetch -> injuries -> project -> props
         stage_grade(season, week, store)
         stage_fetch(season, week, store)
         stage_injuries(season, week, store)
         stage_project(season, week, store)
+        stage_props(season, week, store)
     elif stage == "fetch":
         stage_fetch(season, week, store)
     elif stage == "injuries":
@@ -782,6 +813,8 @@ def main():
         stage_grade(season, week, store)
     elif stage == "project":
         stage_project(season, week, store)
+    elif stage == "props":
+        stage_props(season, week, store)
 
     print("\nPipeline complete.\n")
 

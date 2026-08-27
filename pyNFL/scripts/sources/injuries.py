@@ -108,9 +108,11 @@ def fetch_injury_data():
     print("  [injuries] Fetching NFL injury data from ESPN...")
 
     try:
+        # ESPN's CDN 403s custom/bot User-Agents (since 2026-08-06); the
+        # requests default UA is allowed, so send no custom User-Agent.
         res = requests.get(
             ESPN_NFL_INJURIES,
-            headers={"User-Agent": "Mozilla/5.0", "Accept": "application/json"},
+            headers={"Accept": "application/json"},
             timeout=30,
         )
     except Exception as e:
@@ -129,14 +131,23 @@ def fetch_injury_data():
 
     report = {}
 
-    # ESPN returns injuries grouped by team
-    # Response shape: { "items": [ { "team": {...}, "injuries": [...] } ] }
-    # or sometimes: list of team entries directly
-    team_entries = data if isinstance(data, list) else data.get("items", [])
+    # ESPN returns injuries grouped by team.
+    # Live shape (2026): { "injuries": [ { "id", "displayName",
+    #   "injuries": [...] } ] } — team fields sit directly on the entry.
+    # Older shapes: { "items": [ { "team": {...}, "injuries": [...] } ] }
+    # or a bare list of team entries.
+    if isinstance(data, list):
+        team_entries = data
+    else:
+        team_entries = data.get("injuries") or data.get("items") or []
 
     for team_entry in team_entries:
         team_info = team_entry.get("team") or {}
-        team_name = team_info.get("displayName") or team_info.get("name")
+        team_name = (
+            team_entry.get("displayName")
+            or team_info.get("displayName")
+            or team_info.get("name")
+        )
         if not team_name:
             continue
 

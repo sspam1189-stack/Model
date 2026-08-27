@@ -364,6 +364,17 @@ def compute_team_stats(pbp_df, decay=0.85):
             # Meta
             "games_played": gp,
             "total_plays": total_off_plays,
+            # --- camelCase aliases consumed by model_engine.py / defaults.py.
+            # model_engine reads these names with .get(..., 0.0); before the
+            # aliases existed every EPA feature silently defaulted to zero
+            # and the spread model ran on pace + HCA + injuries only.
+            "passOffEPA": _round(off_pass_epa) or 0.0,
+            "rushOffEPA": _round(off_rush_epa) or 0.0,
+            "passDefEPA": _round(def_pass_epa) or 0.0,
+            "rushDefEPA": _round(def_rush_epa) or 0.0,
+            "rzTDOff": _round(rz_td_pct_off, 4) or 0.0,
+            "rzTDDef": _round(rz_td_pct_def, 4) or 0.0,
+            "GP": gp,
         }
 
     print(f"  [nfl_stats] Computed team stats for {len(stats)} teams (decay={decay})")
