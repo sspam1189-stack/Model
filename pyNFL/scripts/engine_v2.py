@@ -46,10 +46,26 @@ LEAGUE_PPP = 22.0 / 63.0  # baseline points per play (pre-shrinkage anchor)
 # beta is ~1.0 and their alpha IS the home-field advantage; the structural
 # EPA-rate form has an arbitrary scale and needs heavy shrinkage.
 DEFAULT_SCALE = {
+    # alpha on margin_ratings carries the home-field advantage (the raw
+    # ratings margin is centered). Measured HFA 2023-2025: raw mean home
+    # margin 2.41, and 2.39 from a ridge controlling for team strength --
+    # two independent methods agreeing. Per-season it reads 2.92 / 2.28 /
+    # 2.03, but each season carries +/-0.85 SE, so that apparent decline is
+    # NOT significant (2023-vs-2025 t=0.75; linear trend t=-0.75). Treat
+    # HFA as a constant ~2.4 until many more seasons say otherwise.
     "margin_ratings":    {"alpha": 2.67, "beta": 1.01},
     "margin_structural": {"alpha": 2.30, "beta": 0.38},
     "total":             {"alpha": 34.6, "beta": 0.25},
 }
+
+# Recency weighting for the scale fit: each season back counts this much.
+# 1.0 = flat, which is what we use. Decay 0.5 was tested (to chase the
+# apparent HFA decline) and REJECTED: the decline isn't statistically real,
+# projection accuracy did not improve (corr 0.374 -> 0.371, MAE 10.66 ->
+# 10.68), and it degraded ATS 52.2% -> 50.3% by firing more away picks.
+# Kept as a knob so this can be revisited once there are enough seasons to
+# actually detect a trend.
+SEASON_DECAY = 1.0
 
 NFL_T_DF = 5
 KEY_NUMBERS = [3.0, 7.0, 10.0, 14.0]
@@ -61,7 +77,7 @@ KEY_NUMBER_DAMPENING = 0.92
 # Scale calibration (walk-forward, like prob_calib)
 # ---------------------------------------------------------------------------
 
-def build_scale_calibration(runs, min_games=100):
+def build_scale_calibration(runs, min_games=100, season_decay=SEASON_DECAY):
     """
     Fit the (alpha, beta) shrinkage per market from graded v2 history:
     margin ~ alpha + beta * rawMargin, total ~ alpha + beta * rawTotal.
@@ -71,6 +87,7 @@ def build_scale_calibration(runs, min_games=100):
     for r in runs or []:
         if r.get("burnIn"):
             continue
+        season = r.get("season") or 0
         for g in r.get("games", []):
             hs, as_ = g.get("homeScore"), g.get("awayScore")
             if not isinstance(hs, (int, float)) or not isinstance(as_, (int, float)):
@@ -80,22 +97,31 @@ def build_scale_calibration(runs, min_games=100):
                 # Never mix the two margin scales in one fit
                 src = ("margin_ratings" if g.get("_v2MarginSource") == "ratings"
                        else "margin_structural")
-                pairs[src].append((rm, hs - as_))
+                pairs[src].append((rm, hs - as_, season))
             if isinstance(rt, (int, float)):
-                pairs["total"].append((rt, hs + as_))
+                pairs["total"].append((rt, hs + as_, season))
 
     def _fit(obs, default, beta_cap):
         if len(obs) < min_games:
             return dict(default)
-        xs = np.array([p[0] for p in obs])
-        ys = np.array([p[1] for p in obs])
-        vx = xs.var()
+        xs = np.array([p[0] for p in obs], dtype=float)
+        ys = np.array([p[1] for p in obs], dtype=float)
+        ss = np.array([p[2] for p in obs], dtype=float)
+        # Recency weights: each season back counts SEASON_DECAY as much.
+        w = season_decay ** np.maximum(0.0, ss.max() - ss)
+        sw = w.sum()
+        if sw <= 0:
+            return dict(default)
+        mx = float((w * xs).sum() / sw)
+        my = float((w * ys).sum() / sw)
+        vx = float((w * (xs - mx) ** 2).sum() / sw)
         if vx < 1e-9:
             return dict(default)
-        beta = float(np.cov(xs, ys)[0, 1] / vx)
+        beta = float((w * (xs - mx) * (ys - my)).sum() / sw / vx)
         beta = min(beta_cap, max(0.0, beta))   # shrink, never runaway
-        alpha = float(ys.mean() - beta * xs.mean())
-        return {"alpha": alpha, "beta": beta, "n": len(obs)}
+        alpha = float(my - beta * mx)
+        return {"alpha": alpha, "beta": beta, "n": len(obs),
+                "effN": round(float(sw), 1)}
 
     return {
         # ratings are already points-scaled, so beta ~1.0 is expected there
