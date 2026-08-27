@@ -62,7 +62,10 @@ from sources.injuries import fetch_injury_data, classify_injuries, get_key_injur
 # ---------------------------------------------------------------------------
 UNIT_WIN = 1.0
 UNIT_LOSS = -1.1   # 1u flat, to-win-1u at standard -110 juice
-CONF_ACTIONABLE = ("high", "elite")
+# NFL runs a SINGLE pick threshold — a game clears the bar or it doesn't.
+# "high"/"elite" are legacy labels kept here so previously graded history
+# still tallies; the engine only emits "pick".
+CONF_ACTIONABLE = ("pick", "high", "elite")
 NFL_WEEKS_REGULAR = 18
 NFL_WEEKS_MAX = 22  # Includes playoffs: 19=WC, 20=Div, 21=Conf, 22=SB
 BURN_IN_WEEKS = 1   # first N weeks in backfill are warm-up only
@@ -321,13 +324,12 @@ def tally_picks(picks, pick_type="spread", conf=None):
 def compute_summary_text(store):
     picks = get_graded_picks(store)
     s_all = tally_picks(picks, "spread")
-    s_elite = tally_picks(picks, "spread", conf="elite")
+    o_all = tally_picks(picks, "total")
 
     lines = [
         "RECORD (graded picks only)", "",
-        "SPREAD (ATS)",
-        f"  All:      {s_all['w']}-{s_all['l']}-{s_all['p']}  ({s_all['pct']}%)  {fmt_units(s_all['units'])}",
-        f"  Elite:    {s_elite['w']}-{s_elite['l']}-{s_elite['p']}  ({s_elite['pct']}%)  {fmt_units(s_elite['units'])}",
+        f"  SPREAD:   {s_all['w']}-{s_all['l']}-{s_all['p']}  ({s_all['pct']}%)  {fmt_units(s_all['units'])}",
+        f"  TOTAL:    {o_all['w']}-{o_all['l']}-{o_all['p']}  ({o_all['pct']}%)  {fmt_units(o_all['units'])}",
     ]
     return "\n".join(lines)
 
@@ -821,7 +823,7 @@ def stage_project(season, week, store):
 
         marker = ""
         if is_actionable(conf):
-            marker = " ***" if conf == "elite" else " **"
+            marker = " **"
             actionable.append(g)
 
         print(

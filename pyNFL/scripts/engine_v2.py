@@ -251,30 +251,33 @@ def analyze_game(game_data, team_stats, weights, kalman_states=None,
     abs_line = abs(market_spread)
     home_fav = market_spread < 0
 
+    # ONE threshold per market — no high/elite split. A game either clears
+    # the bar and is a pick, or it doesn't. Tiering implied that "elite"
+    # picks were better, which three seasons of grading never supported
+    # (elite 53.1% vs high 52.5%), and it invited variable bet sizing on a
+    # difference that was noise.
     s_pick, s_conf, p_cover = "PASS", "low", None
-    confidence_tier = _classify_confidence(s_diff, thresh)
     best_spread_p = max(p_home_cover_raw, p_away_cover_raw)
     spread_side = "home" if p_home_cover_raw >= p_away_cover_raw else "away"
     prob_threshold = weights.get("probHigh", DEFAULT_W.get("probHigh", 0.57))
-    prob_elite = weights.get("probElite", DEFAULT_W.get("probElite", 0.63))
-    if best_spread_p >= prob_threshold and abs_line <= 14.0:
+    if best_spread_p >= prob_threshold:
         s_pick = _format_spread_pick(home_name, away_name, spread_side, abs_line, home_fav)
-        s_conf = "elite" if best_spread_p >= prob_elite else "high"
+        s_conf = "pick"
         p_cover = p_home_cover if spread_side == "home" else p_away_cover
+    confidence_tier = s_conf
 
     o_pick, o_conf, p_ou = "PASS", "low", None
     best_total_p = max(p_over_raw, p_under_raw)
     ou_prob_high = weights.get("probOUHigh", DEFAULT_W.get("probOUHigh", 0.59))
-    ou_prob_elite = weights.get("probOUElite", DEFAULT_W.get("probOUElite", 0.65))
     if best_total_p >= ou_prob_high and market_total > 0:
         o_pick = "OVER" if p_over_raw >= p_under_raw else "UNDER"
-        o_conf = "elite" if best_total_p >= ou_prob_elite else "high"
+        o_conf = "pick"
         p_ou = p_over if o_pick == "OVER" else p_under
 
     # Situational totals pick: validated backup-QB OVER takes precedence
     situational_pick = None
     if (backup_qb_home or backup_qb_away) and market_total > 0:
-        o_pick, o_conf = "OVER", "high"
+        o_pick, o_conf = "OVER", "pick"
         p_ou = BACKUP_QB_OVER_RATE
         situational_pick = "backup_qb_over"
 

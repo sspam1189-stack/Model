@@ -82,10 +82,17 @@ DEFAULT_W = {
     "ouEliteBump": 2.0,     # Extra |tDiff| above ouHigh for "elite"
 
     # -- Bayesian probability thresholds --
-    "probHigh": 0.58,       # Min P(cover) for "high" pick (calibrated for t-dist + variance fix)
-    "probElite": 0.64,      # Min P(cover) for "elite" confidence (lock)
-    "probOUHigh": 0.62,     # Totals: min P(over/under) for "high" (higher bar — totals are noisier)
-    "probOUElite": 0.68,    # Totals: min P(over/under) for "elite"
+    # SINGLE pick threshold per market — no high/elite tiers. Elite graded
+    # 53.1% vs high 52.5% across 2023-2025, i.e. the tier carried no real
+    # information but invited variable bet sizing on noise.
+    # NOTE: these gate the RAW parametric score, not the calibrated pCover
+    # (see prob_calib.py) — 0.58 raw is ~0.52 honest.
+    "probHigh": 0.58,       # Spread: single threshold to make a pick
+    "probOUHigh": 0.62,     # Totals: single threshold (higher — totals are noisier)
+    # Retained only so self_tune's legacy elite branch can't KeyError; the
+    # engine no longer reads them.
+    "probElite": 0.64,      # UNUSED
+    "probOUElite": 0.68,    # UNUSED
 }
 
 
