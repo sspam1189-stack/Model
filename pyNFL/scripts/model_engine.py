@@ -410,7 +410,7 @@ def project_game_scores(home_stats, away_stats, weights,
 
 def analyze_game(game_data, team_stats, weights, kalman_states=None,
                  injury_deltas=None, residual_var=None, thresholds=None,
-                 prob_calib=None):
+                 prob_calib=None, situational=None):
     """
     Full analysis of a single NFL game. This is the primary entry point
     for the pipeline.
@@ -498,6 +498,16 @@ def analyze_game(game_data, team_stats, weights, kalman_states=None,
     weather_adj = game_data.get("_weatherAdj", {})
     weather_total_adj = weather_adj.get("total_adj", 0.0)
     proj_total = round((proj_total + weather_total_adj) * 10) / 10
+
+    # --- Situational: backup-QB totals adjustment ---
+    # Books over-discount backup QBs on totals (validated vs closing lines
+    # 2023-2025, see defaults.BACKUP_QB_TOTAL_ADJ / sources/qb_starts.py).
+    situational = situational or {}
+    backup_qb_home = bool(situational.get("home_backup_qb"))
+    backup_qb_away = bool(situational.get("away_backup_qb"))
+    if backup_qb_home or backup_qb_away:
+        from defaults import BACKUP_QB_TOTAL_ADJ
+        proj_total = round((proj_total + BACKUP_QB_TOTAL_ADJ) * 10) / 10
 
     # --- Apply rest/schedule adjustments (affects spread) ---
     rest_adj = game_data.get("_restAdj", {})
@@ -631,6 +641,17 @@ def analyze_game(game_data, team_stats, weights, kalman_states=None,
         o_conf = "elite" if best_total_p >= ou_prob_elite else "high"
         p_ou = p_over if o_pick == "OVER" else p_under
 
+    # Situational totals pick: backup-QB games take OVER directly at the
+    # empirical cover rate — the projection model has no market edge, so
+    # the validated situational signal takes precedence over it.
+    situational_pick = None
+    if (backup_qb_home or backup_qb_away) and market_total > 0:
+        from defaults import BACKUP_QB_OVER_RATE
+        o_pick = "OVER"
+        o_conf = "high"
+        p_ou = BACKUP_QB_OVER_RATE
+        situational_pick = "backup_qb_over"
+
     # ---------------------------------------------------------------------------
     # Injury note
     # ---------------------------------------------------------------------------
@@ -699,6 +720,9 @@ def analyze_game(game_data, team_stats, weights, kalman_states=None,
         "injuryNote": injury_note,
         "injuryDeltaHome": round(inj_home * 100) / 100,
         "injuryDeltaAway": round(inj_away * 100) / 100,
+        "backupQBHome": backup_qb_home,
+        "backupQBAway": backup_qb_away,
+        "situationalPick": situational_pick,
 
         # Internal features (for self_tune and diagnostics)
         "_marginFeatures": margin_features,

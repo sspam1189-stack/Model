@@ -166,6 +166,23 @@ HCA_VAR_FLOOR = 0.3
 
 
 # ---------------------------------------------------------------------------
+# Situational adjustments (empirically validated vs closing lines)
+# ---------------------------------------------------------------------------
+
+# Backup-QB totals edge: 2023-2025, games with an unexpected starting
+# QB went OVER the closing total by +2.8 pts on average (t=2.05, n=104,
+# blind-over 60-43 (58.3%) +12.7u, positive each season) — books
+# over-discount backup QBs on totals. See sources/qb_starts.py.
+#
+# BACKUP_QB_TOTAL_ADJ nudges projTotal for display; the pick itself is
+# SITUATIONAL: flagged games take OVER directly at the empirical cover
+# rate (routing the signal through the no-edge projection diluted it —
+# verified in backfill).
+BACKUP_QB_TOTAL_ADJ = 2.5
+BACKUP_QB_OVER_RATE = 0.57   # shrunk from 58.3% observed
+
+
+# ---------------------------------------------------------------------------
 # Engine configuration
 # ---------------------------------------------------------------------------
 

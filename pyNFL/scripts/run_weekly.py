@@ -635,6 +635,21 @@ def stage_project(season, week, store):
     # Get injury deltas
     injury_deltas = store.get("_injuries", {}).get("deltas", {})
 
+    # Backup-QB starts (primary QB listed OUT/Doubtful) — totals adjustment
+    backup_qb_teams = {}
+    try:
+        from sources.qb_starts import detect_backup_qb_live
+        from props_engine import _name_key
+        backup_qb_teams = detect_backup_qb_live(
+            store.get("_injuries", {}).get("report", {}),
+            store.get("_fetch", {}).get("player_stats", {}),
+            _name_key,
+        )
+        if backup_qb_teams:
+            print(f"  Backup-QB starts detected: {backup_qb_teams}")
+    except Exception as e:
+        print(f"  WARNING: backup-QB detection failed: {e}")
+
     # Load model engine
     try:
         from model_engine import analyze_game
@@ -698,6 +713,13 @@ def stage_project(season, week, store):
                 print(f"  WARNING: weather/schedule enrichment failed: {_we}")
 
         try:
+            game_situational = None
+            if backup_qb_teams:
+                _hb = g.get("_homeAbbr", "") in backup_qb_teams
+                _ab = g.get("_awayAbbr", "") in backup_qb_teams
+                if _hb or _ab:
+                    game_situational = {"home_backup_qb": _hb,
+                                        "away_backup_qb": _ab}
             r = analyze_game(
                 g, team_stats, base_w,
                 kalman_states=kalman_state,
@@ -705,6 +727,7 @@ def stage_project(season, week, store):
                 residual_var=dynamic_residual_var,
                 thresholds=thresholds,
                 prob_calib=prob_calib,
+                situational=game_situational,
             )
         except Exception as e:
             print(f"  WARNING: analyze_game failed for {g.get('away')}@{g.get('home')}: {e}")

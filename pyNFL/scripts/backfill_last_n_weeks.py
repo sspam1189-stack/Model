@@ -252,6 +252,16 @@ def backfill(seasons, output_dir=None):
             # Set lastDriftDate to Aug 1 of new season (YYYYMMDD format required by core)
             kalman_state["lastDriftDate"] = f"{season}0801"
 
+        # Backup-QB start flags from nflverse schedules (starters are
+        # announced pregame, so this is walk-forward legitimate)
+        backup_qb_flags = {}
+        try:
+            from sources.qb_starts import fetch_schedules, build_backup_qb_flags
+            backup_qb_flags = build_backup_qb_flags(fetch_schedules(season))
+            print(f"  Backup-QB flags: {len(backup_qb_flags)} team-weeks flagged")
+        except Exception as e:
+            print(f"  WARNING: backup-QB flags unavailable: {e}")
+
         # 2. Replay week-by-week
         for week in range(1, max_week + 1):
             week_key = f"{season}_W{week}"
@@ -428,6 +438,14 @@ def backfill(seasons, output_dir=None):
                 # Run model engine
                 try:
                     from model_engine import analyze_game
+                    _situational = None
+                    if backup_qb_flags:
+                        from sources.qb_starts import norm_abbr as _qna
+                        _hb = backup_qb_flags.get((week, _qna(g.get("_homeAbbr"))), False)
+                        _ab = backup_qb_flags.get((week, _qna(g.get("_awayAbbr"))), False)
+                        if _hb or _ab:
+                            _situational = {"home_backup_qb": _hb,
+                                            "away_backup_qb": _ab}
                     r = analyze_game(
                         game_data=g,
                         team_stats=team_stats,
@@ -437,6 +455,7 @@ def backfill(seasons, output_dir=None):
                         residual_var=dynamic_residual_var,
                         thresholds={},
                         prob_calib=week_prob_calib,
+                        situational=_situational,
                     )
                 except ImportError:
                     # model_engine.py not yet available — create stub result
