@@ -88,7 +88,14 @@ DEFAULT_W = {
     # NOTE: these gate the RAW parametric score, not the calibrated pCover
     # (see prob_calib.py) — 0.58 raw is ~0.52 honest.
     "probHigh": 0.58,       # Spread: single threshold to make a pick
-    "probOUHigh": 0.62,     # Totals: single threshold (higher — totals are noisier)
+    # Totals: raised 0.58 -> 0.64 (2026-08-27). 0.64 is the ONLY threshold
+    # in either market above 51.7% in all three seasons (51.7/58.8/56.5,
+    # +3.9u on 69 picks). The old 0.58 lost in every season (45.8/47.0/50.0,
+    # -23.1u) because it dragged in the 0.58-0.64 band where the model is
+    # most wrong (42.5% and 39.5% buckets). Stopped at 0.64 rather than
+    # 0.66 -- 0.66 has a better headline (59.2%) but collapses to 46.2%
+    # in 2024, i.e. single-bin noise. NOT self-tuned, so it stays put.
+    "probOUHigh": 0.64,
     # Retained only so self_tune's legacy elite branch can't KeyError; the
     # engine no longer reads them.
     "probElite": 0.64,      # UNUSED
