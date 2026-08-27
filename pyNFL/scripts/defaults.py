@@ -218,7 +218,14 @@ BACKUP_QB_MARGIN_PENALTY = 3.0
 # Engine configuration
 # ---------------------------------------------------------------------------
 
-BURN_IN_WEEKS = 1           # Weeks before model starts making picks
+# Weeks before the model makes countable picks. SINGLE SOURCE OF TRUTH --
+# run_weekly and backfill_last_n_weeks both import this. They previously
+# disagreed (1 vs 2) while live hardcoded burnIn=False, so live would have
+# counted weeks the backtest never evaluated.
+#   week 1: no prior in-season data at all -> no picks
+#   week 2: one game of data; graded 11-14 (44%) in backtest -> not bettable
+# Picks therefore start in week 3, once power ratings have 2 weeks behind them.
+BURN_IN_WEEKS = 2
 MIN_GP = 0                  # No minimum — project from Week 1
 
 # sDiff thresholds for confidence tiers (calibrated by backfill)

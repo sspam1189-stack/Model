@@ -69,7 +69,7 @@ from sources.espn_scoreboard import fetch_week_scores
 # ---------------------------------------------------------------------------
 # Constants
 # ---------------------------------------------------------------------------
-BURN_IN_WEEKS = 2       # First N weeks per season: warm-up only, picks not evaluated
+BURN_IN_WEEKS = defaults.BURN_IN_WEEKS   # warm-up weeks; picks not evaluated
 MIN_WEEKS_FOR_STATS = 1 # Minimum weeks of data before producing picks
 NFL_REGULAR_WEEKS = 18  # 18 regular season weeks (17 games per team since 2021)
 NFL_PLAYOFF_WEEKS = [19, 20, 21, 22]  # Wild Card, Divisional, Conference Championship, Super Bowl
@@ -338,7 +338,12 @@ def backfill(seasons, output_dir=None):
             # --- Step B: Compute team stats through this week ---
             # We use stats through (week - 1) for projections, then after grading
             # week's games, the stats for *this* week become available.
-            through_week = max(1, week - 1) if week > 1 else 1
+            # STRICTLY prior weeks. The old `max(1, week-1) if week > 1 else 1`
+            # made week 1 compute stats with `week <= 1` -- i.e. from its own
+            # results. That look-ahead is why week 1 graded 22-9 (71%) with
+            # projection corr 0.677 vs ~0.38 everywhere else. week 1 now
+            # yields no stats and therefore no picks, which is correct.
+            through_week = week - 1
             team_stats = compute_team_stats_through_week(pbp, through_week, decay=0.85)
             if not team_stats:
                 print(f"  {week_key}{burn_tag}: No stats available — skipping")

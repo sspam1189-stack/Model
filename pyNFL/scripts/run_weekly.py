@@ -68,7 +68,7 @@ UNIT_LOSS = -1.1   # 1u flat, to-win-1u at standard -110 juice
 CONF_ACTIONABLE = ("pick", "high", "elite")
 NFL_WEEKS_REGULAR = 18
 NFL_WEEKS_MAX = 22  # Includes playoffs: 19=WC, 20=Div, 21=Conf, 22=SB
-BURN_IN_WEEKS = 1   # first N weeks in backfill are warm-up only
+BURN_IN_WEEKS = defaults.BURN_IN_WEEKS   # warm-up weeks; picks not counted
 
 # ---------------------------------------------------------------------------
 # Utility helpers
@@ -356,7 +356,7 @@ def stage_fetch(season, week, store):
 
     # 2. Compute team stats with decay (through previous week)
     print("[fetch 2/4] Computing team stats with exponential decay...")
-    through_week = max(1, week - 1)
+    through_week = week - 1   # strictly prior weeks — never include this one
     team_stats = compute_team_stats_through_week(pbp, through_week, decay=0.85)
     if not team_stats:
         print(f"  WARNING: No stats through week {through_week}")
@@ -791,7 +791,9 @@ def stage_project(season, week, store):
         "week": week,
         "date": datetime.now().strftime("%Y%m%d"),
         "dateDisplay": f"{season} Week {week}",
-        "burnIn": False,
+        # Was hardcoded False, so live counted weeks the backtest never
+        # evaluated (week 2 graded 44% there).
+        "burnIn": week <= BURN_IN_WEEKS,
         "weightsUsed": {**base_w},
         "games": games,
         "summaryText": "",
