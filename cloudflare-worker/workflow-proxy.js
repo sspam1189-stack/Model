@@ -7,7 +7,12 @@ const ALLOWED_ORIGIN = "https://sspam1189-stack.github.io";
 
 const WORKFLOWS = {
   python: "py-run-daily.yml",
-  mlb: "mlb-run-daily.yml",
+  // Renamed from mlb-run-daily.yml 2026-08-27: that workflow entity stopped
+  // scheduling jobs after a disable/enable toggle (dispatches accepted, run
+  // records created, zero jobs ever materialized -- while WNBA on the same
+  // self-hosted runners picked up in 4s). A new path = a new workflow id =
+  // a clean registration.
+  mlb: "mlb-daily.yml",
   wnba: "wnba-run-daily.yml",
 };
 

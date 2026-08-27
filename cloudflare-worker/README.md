@@ -34,7 +34,7 @@ GitHub Actions workflows without exposing a PAT in client-side JS.
 | Method | Path                | Purpose                         |
 |--------|---------------------|---------------------------------|
 | POST   | `/dispatch/python`  | Fires `py-run-daily.yml`        |
-| POST   | `/dispatch/mlb`     | Fires `mlb-run-daily.yml`       |
+| POST   | `/dispatch/mlb`     | Fires `mlb-daily.yml`             |
 | GET    | `/status/python`    | Latest run state for python wf  |
 | GET    | `/status/mlb`       | Latest run state for mlb wf     |
 
