@@ -137,26 +137,47 @@ def build_scale_calibration(runs, min_games=100, season_decay=SEASON_DECAY):
 # Structural projection
 # ---------------------------------------------------------------------------
 
-def _blend_epa(stats, off=True):
+def _pass_rate(stats):
+    """A team's own decay-weighted pass rate, falling back to the league
+    constant when it hasn't been computed yet (early season / thin data)."""
+    pr = stats.get("passRate")
+    if not isinstance(pr, (int, float)) or not (0.30 <= pr <= 0.85):
+        return PASS_RATE
+    return pr
+
+
+def _blend_epa(stats, off=True, pass_rate=None):
+    """
+    Blend a team's pass and rush EPA at a given play mix.
+
+    pass_rate should be the OFFENSE's tendency in both cases — it's the
+    offense that decides the play mix, so it governs both its own blended
+    efficiency and the slice of the defense it exposes.
+    """
+    pr = PASS_RATE if pass_rate is None else pass_rate
     if off:
-        return (PASS_RATE * stats.get("passOffEPA", 0.0)
-                + (1 - PASS_RATE) * stats.get("rushOffEPA", 0.0))
-    return (PASS_RATE * stats.get("passDefEPA", 0.0)
-            + (1 - PASS_RATE) * stats.get("rushDefEPA", 0.0))
+        return (pr * stats.get("passOffEPA", 0.0)
+                + (1 - pr) * stats.get("rushOffEPA", 0.0))
+    return (pr * stats.get("passDefEPA", 0.0)
+            + (1 - pr) * stats.get("rushDefEPA", 0.0))
 
 
 def _league_avg_off(team_stats):
-    vals = [_blend_epa(st) for st in team_stats.values()]
+    vals = [_blend_epa(st, pass_rate=_pass_rate(st)) for st in team_stats.values()]
     return float(np.mean(vals)) if vals else 0.0
 
 
 def raw_structural(home_st, away_st, league_off):
-    """Raw (unshrunk) structural margin and total: EPA/play x plays."""
+    """Raw (unshrunk) structural margin and total: EPA/play x plays.
+
+    Each side is blended at its OWN pass rate rather than a league constant.
+    """
     plays = (home_st.get("pace", 63.0) + away_st.get("pace", 63.0)) / 2.0
 
     def team_pts(off_st, def_st):
-        edge = ((_blend_epa(off_st) - league_off)
-                + (_blend_epa(def_st, off=False) - league_off))
+        pr = _pass_rate(off_st)
+        edge = ((_blend_epa(off_st, pass_rate=pr) - league_off)
+                + (_blend_epa(def_st, off=False, pass_rate=pr) - league_off))
         return plays * (LEAGUE_PPP + edge)
 
     hp = team_pts(home_st, away_st)

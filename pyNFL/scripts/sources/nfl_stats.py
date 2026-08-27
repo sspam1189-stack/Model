@@ -230,6 +230,11 @@ def compute_team_stats(pbp_df, decay=0.85):
         if total_off_plays < _MIN_PLAYS_TEAM:
             continue
 
+        # Offensive pass rate (decay-weighted share of plays that are passes)
+        _wp = float(off_pass["w"].sum()) if len(off_pass) > 0 else 0.0
+        _wr = float(off_rush["w"].sum()) if len(off_rush) > 0 else 0.0
+        pass_rate_off = (_wp / (_wp + _wr)) if (_wp + _wr) > 0 else None
+
         # --- Tier 1: EPA efficiency ---
         off_pass_epa = (
             _weighted_mean(off_pass["epa"].values, off_pass["w"].values)
@@ -374,6 +379,12 @@ def compute_team_stats(pbp_df, decay=0.85):
             "rushDefEPA": _round(def_rush_epa) or 0.0,
             "rzTDOff": _round(rz_td_pct_off, 4) or 0.0,
             "rzTDDef": _round(rz_td_pct_def, 4) or 0.0,
+            # Team play mix. Real NFL pass rates span ~0.52-0.70, so a single
+            # league constant is an unjustified approximation; these let the
+            # engine blend each team's pass/rush EPA at its OWN tendency.
+            # Decay-weighted, matching the EPA figures above.
+            "passRate": _round(pass_rate_off, 4) or 0.0,
+            "rushRate": _round(1.0 - pass_rate_off, 4) if pass_rate_off is not None else 0.0,
             "successRateOff": _round(success_rate_off, 4) or 0.0,
             "successRateDef": _round(success_rate_def, 4) or 0.0,
             "thirdDownOff": _round(third_down_off, 4) or 0.0,
