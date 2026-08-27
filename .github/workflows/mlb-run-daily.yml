@@ -13,8 +13,16 @@ permissions:
 # Serialize runs: a second dispatch queues behind any in-progress run instead
 # of executing in parallel. Prevents two runs writing the same data files and
 # conflicting on push.
+# 2026-08-27: group renamed mlb-run-daily -> mlb-run-daily-v2. Run #1506
+# (dispatched 2026-08-26T15:16:12Z) is permanently stranded in the OLD group:
+# GitHub reports it "queued" but never assigned it a job, and it cannot be
+# cancelled (409 "has not been queued yet"), force-cancelled (409), rerun
+# (403 "already running") or deleted (403). It sat harmlessly for a day, then
+# after the workflow was toggled disabled/enabled it began holding the group
+# and blocked #1515 (0 jobs assigned -- gated, not waiting on the runner).
+# A fresh group name is the only way past it; serialization is unchanged.
 concurrency:
-  group: mlb-run-daily
+  group: mlb-run-daily-v2
   cancel-in-progress: false
 
 jobs:
