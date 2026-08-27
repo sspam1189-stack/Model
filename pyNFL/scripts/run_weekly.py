@@ -131,13 +131,28 @@ def parse_spread_pick(pick):
     return {"team": m.group(1).strip(), "sign": m.group(2), "pts": float(m.group(3))}
 
 
+def _canonical_team(name):
+    """Resolve a team name or abbreviation to its canonical full name."""
+    n = _norm_team(name)
+    aliases = defaults.ENGINE_CONFIG.get("TEAM_NAME_ALIASES", {})
+    return aliases.get(n, n)
+
+
 def grade_spread_pick(g):
     """Grade a spread pick against final scores.  Returns WIN / LOSS / PUSH."""
     parsed = parse_spread_pick(g.get("sPick"))
     if not parsed:
         return None
     team, sign, pts = parsed["team"], parsed["sign"], parsed["pts"]
-    chosen_is_home = team == g.get("home")
+    # sPick holds full names while g["home"]/g["away"] may hold abbrs —
+    # exact equality graded home picks as away picks (inverted margins)
+    c_team = _canonical_team(team)
+    if c_team == _canonical_team(g.get("home", "")):
+        chosen_is_home = True
+    elif c_team == _canonical_team(g.get("away", "")):
+        chosen_is_home = False
+    else:
+        return None
     margin = (g["homeScore"] - g["awayScore"]) if chosen_is_home else (g["awayScore"] - g["homeScore"])
     val = margin + pts if sign == "+" else margin - pts
     if val == 0:
@@ -650,12 +665,20 @@ def stage_project(season, week, store):
     except Exception as e:
         print(f"  WARNING: backup-QB detection failed: {e}")
 
-    # Load model engine
+    # Load model engine (v2 structural; model_engine remains as legacy)
     try:
-        from model_engine import analyze_game
+        from engine_v2 import analyze_game, build_scale_calibration
     except ImportError:
-        print("  ERROR: model_engine.py not yet available — cannot project")
+        print("  ERROR: engine_v2.py not available — cannot project")
         return
+    scale_calib = None
+    try:
+        scale_calib = build_scale_calibration(store.get("runs", []))
+        sm = scale_calib.get("margin", {})
+        print(f"  [scale] margin alpha={sm.get('alpha'):+.2f} beta={sm.get('beta'):.3f} "
+              f"(n={sm.get('n', 'default')})")
+    except Exception as e:
+        print(f"  WARNING: scale calibration failed: {e}")
 
     # --- Weather + schedule enrichment ---
     try:
@@ -728,6 +751,7 @@ def stage_project(season, week, store):
                 thresholds=thresholds,
                 prob_calib=prob_calib,
                 situational=game_situational,
+                scale_calib=scale_calib,
             )
         except Exception as e:
             print(f"  WARNING: analyze_game failed for {g.get('away')}@{g.get('home')}: {e}")

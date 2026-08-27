@@ -142,7 +142,18 @@ def grade_spread_pick(g):
     team = m.group(1).strip()
     sign = m.group(2)
     pts = float(m.group(3))
-    chosen_is_home = team == g.get("home")
+    # Resolve the picked side canonically: sPick holds full names while
+    # g["home"]/g["away"] hold nflfastR abbrs — exact string equality
+    # graded every home pick as an away pick (inverted margins).
+    c_team = _canonical(team)
+    c_home = _canonical(g.get("home", ""))
+    c_away = _canonical(g.get("away", ""))
+    if c_team == c_home:
+        chosen_is_home = True
+    elif c_team == c_away:
+        chosen_is_home = False
+    else:
+        return None
     margin = (g["homeScore"] - g["awayScore"]) if chosen_is_home else (g["awayScore"] - g["homeScore"])
     val = margin + pts if sign == "+" else margin - pts
     if val == 0:
@@ -333,6 +344,13 @@ def backfill(seasons, output_dir=None):
             except Exception:
                 week_prob_calib = None
 
+            # v2 engine scale calibration (same walk-forward guarantee)
+            try:
+                from engine_v2 import build_scale_calibration
+                week_scale_calib = build_scale_calibration(store.get("runs", []))
+            except Exception:
+                week_scale_calib = None
+
             # --- Step E: Fetch final scores for this week (for grading later) ---
             is_playoff = week > NFL_REGULAR_WEEKS
             season_type = 3 if is_playoff else 2
@@ -435,9 +453,9 @@ def backfill(seasons, output_dir=None):
                 except Exception:
                     pass  # Non-critical — proceed without enrichment
 
-                # Run model engine
+                # Run model engine (v2 structural)
                 try:
-                    from model_engine import analyze_game
+                    from engine_v2 import analyze_game
                     _situational = None
                     if backup_qb_flags:
                         from sources.qb_starts import norm_abbr as _qna
@@ -456,6 +474,7 @@ def backfill(seasons, output_dir=None):
                         thresholds={},
                         prob_calib=week_prob_calib,
                         situational=_situational,
+                        scale_calib=week_scale_calib,
                     )
                 except ImportError:
                     # model_engine.py not yet available — create stub result
