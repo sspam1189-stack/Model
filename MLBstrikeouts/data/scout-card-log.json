@@ -1,146 +1,172 @@
 {
- "sport": "MLB",
- "type": "scout-card-log",
- "week_convention": "monday-sunday",
- "description": "Per-play ledger for scout card calls (tier 2/3 of the daily card policy in MLBstrikeouts/CLAUDE.md). Model plays are NOT logged here - fade-ml/props/hand-tails keep their own files. No-play days are logged too: an empty card is part of the record. Prices are the card-time quote, not the close.",
- "generated": "2026-08-26T14:22:17Z",
- "pre_log_history": [
-  {
-   "date": "2026-08-17",
-   "wins": 4,
-   "losses": 1,
-   "pushes": 0,
-   "units": 2.33,
-   "source": "user-provided 2026-08-24; per-play detail not preserved"
-  },
-  {
-   "date": "2026-08-18",
-   "wins": 2,
-   "losses": 3,
-   "pushes": 0,
-   "units": -1.16,
-   "source": "user-provided 2026-08-24; per-play detail not preserved"
-  },
-  {
-   "date": "2026-08-19",
-   "wins": 4,
-   "losses": 1,
-   "pushes": 0,
-   "units": 2.15,
-   "source": "user-provided 2026-08-24; per-play detail not preserved"
-  },
-  {
-   "date": "2026-08-20",
-   "wins": 1,
-   "losses": 2,
-   "pushes": 1,
-   "units": -1.15,
-   "source": "user-provided 2026-08-24; per-play detail not preserved"
-  }
- ],
- "pre_log_note": "Daily totals supplied by the user on 2026-08-24 for the days before per-play logging began on 2026-08-21. The card-grade-totals subset of these days went 3-1 per CLAUDE.md (2026-08-20).",
- "entries": [
-  {
-   "date": "2026-08-21",
-   "play": "MIL ML",
-   "market": "h2h",
-   "game": "ATL @ MIL",
-   "price": -138,
-   "stake": 1.0,
-   "rule": "scout-ml-both-halves-aligned",
-   "basis": "MIL bats 118/111/116/120 vs Sale hand; ATL bats 81/75/59/29 vs Misiorowski",
-   "result": "WIN",
-   "profit": 0.72
-  },
-  {
-   "date": "2026-08-21",
-   "play": "CLE/COL Under 10.5",
-   "market": "totals",
-   "game": "CLE @ COL",
-   "price": 102,
-   "stake": 1.0,
-   "rule": "card-grade-total-aligned-plus-flag",
-   "basis": "Both offenses aligned <=90 all four windows; Gordon layoff-42d/stale-window/swingman flags",
-   "result": "WIN",
-   "profit": 1.02
-  },
-  {
-   "date": "2026-08-22",
-   "play": "BOS ML",
-   "market": "h2h",
-   "game": "SF @ BOS",
-   "price": -198,
-   "stake": 1.0,
-   "rule": "scout-ml-both-halves-aligned",
-   "basis": "BOS bats 138/152/139/165 vs Tidwell (thin-sample); SF bats 60/38/36/42 vs Sandoval",
-   "result": "WIN",
-   "profit": 0.51
-  },
-  {
-   "date": "2026-08-22",
-   "play": "SD ML",
-   "market": "h2h",
-   "game": "MIN @ SD",
-   "price": -150,
-   "stake": 1.0,
-   "rule": "scout-ml-both-halves-aligned",
-   "basis": "SD bats 122/117/122/112 vs Kremer; MIN bats 81/86/83/77 vs Mize",
-   "result": "WIN",
-   "profit": 0.67
-  },
-  {
-   "date": "2026-08-23",
-   "no_play": true,
-   "note": "No qualifying plays. Scout ML nearest miss: SD (MIN ladder 91/87/91/90, cold bar missed by 1pt in two windows). CLE@COL both-cold but flagless = temperature-only."
-  },
-  {
-   "date": "2026-08-24",
-   "play": "SD ML",
-   "market": "h2h",
-   "game": "PIT @ SD",
-   "price": -102,
-   "stake": 1.0,
-   "rule": "scout-ml-both-halves-aligned",
-   "basis": "SD bats 124/127/129/125 vs Ashcraft; PIT bats 70/76/78/33 vs Ray; SD pen #3. Re-added after daily-run clobber.",
-   "result": "LOSS",
-   "profit": -1.0
-  },
-  {
-   "date": "2026-08-25",
-   "play": "CLE/LAA Under 7.5",
-   "market": "totals",
-   "game": "CLE @ LAA",
-   "price": -124,
-   "stake": 1.0,
-   "rule": "card-grade-total-both-aligned",
-   "basis": "Both offenses cold-aligned all four windows: LAA bats 71/79/82/79 vs Williams, CLE bats 82/87/80/87 vs Urena. First play under the 8/25 policy amendment retiring the flag clause for totals (benched profile was 2-0).",
-   "result": "LOSS",
-   "profit": -1.0,
-   "line": 7.5,
-   "close_line": 7.0,
-   "line_move": -0.5,
-   "clv": "beat"
-  },
-  {
-   "date": "2026-08-25",
-   "play": "PHI/SEA Over 7.5",
-   "market": "totals",
-   "game": "PHI @ SEA",
-   "price": 102,
-   "stake": 1.0,
-   "rule": "card-grade-total-both-aligned",
-   "basis": "Both offenses hot-aligned all four windows: SEA bats 112/117/132/128 vs Nola, PHI bats 116/120/117/122 vs Kirby. SEA pen #30 (10.16 L7) as context. Direction-neutral application of the 8/25 amendment.",
-   "result": "LOSS",
-   "profit": -1.0,
-   "line": 7.5,
-   "close_line": 8.0,
-   "line_move": 0.5,
-   "clv": "beat"
-  },
-  {
-   "date": "2026-08-26",
-   "no_play": true,
-   "note": "No qualifying plays. Near-misses everywhere: CHC@ARI both-hot blocked by incomplete CHC ladder (ARI bats 136/140/139/182 vs Boyd -- the 182 L7 is the loudest window yet); CIN@SF and LAD@ATL both-cold each broken by a single 92 (CIN L7, LAD L15). TEX@CWS: TEX cold-aligned vs Burke but CWS ladder incomplete."
-  }
- ]
+  "sport": "MLB",
+  "type": "scout-card-log",
+  "week_convention": "monday-sunday",
+  "description": "Per-play ledger for scout card calls (tier 2/3 of the daily card policy in MLBstrikeouts/CLAUDE.md). Model plays are NOT logged here - fade-ml/props/hand-tails keep their own files. No-play days are logged too: an empty card is part of the record. Prices are the card-time quote, not the close.",
+  "generated": "2026-08-27T13:36:42Z",
+  "pre_log_history": [
+    {
+      "date": "2026-08-17",
+      "wins": 4,
+      "losses": 1,
+      "pushes": 0,
+      "units": 2.33,
+      "source": "user-provided 2026-08-24; per-play detail not preserved"
+    },
+    {
+      "date": "2026-08-18",
+      "wins": 2,
+      "losses": 3,
+      "pushes": 0,
+      "units": -1.16,
+      "source": "user-provided 2026-08-24; per-play detail not preserved"
+    },
+    {
+      "date": "2026-08-19",
+      "wins": 4,
+      "losses": 1,
+      "pushes": 0,
+      "units": 2.15,
+      "source": "user-provided 2026-08-24; per-play detail not preserved"
+    },
+    {
+      "date": "2026-08-20",
+      "wins": 1,
+      "losses": 2,
+      "pushes": 1,
+      "units": -1.15,
+      "source": "user-provided 2026-08-24; per-play detail not preserved"
+    }
+  ],
+  "pre_log_note": "Daily totals supplied by the user on 2026-08-24 for the days before per-play logging began on 2026-08-21. The card-grade-totals subset of these days went 3-1 per CLAUDE.md (2026-08-20).",
+  "entries": [
+    {
+      "date": "2026-08-21",
+      "play": "MIL ML",
+      "market": "h2h",
+      "game": "ATL @ MIL",
+      "price": -138,
+      "stake": 1.0,
+      "rule": "scout-ml-both-halves-aligned",
+      "basis": "MIL bats 118/111/116/120 vs Sale hand; ATL bats 81/75/59/29 vs Misiorowski",
+      "result": "WIN",
+      "profit": 0.72
+    },
+    {
+      "date": "2026-08-21",
+      "play": "CLE/COL Under 10.5",
+      "market": "totals",
+      "game": "CLE @ COL",
+      "price": 102,
+      "stake": 1.0,
+      "rule": "card-grade-total-aligned-plus-flag",
+      "basis": "Both offenses aligned <=90 all four windows; Gordon layoff-42d/stale-window/swingman flags",
+      "result": "WIN",
+      "profit": 1.02
+    },
+    {
+      "date": "2026-08-22",
+      "play": "BOS ML",
+      "market": "h2h",
+      "game": "SF @ BOS",
+      "price": -198,
+      "stake": 1.0,
+      "rule": "scout-ml-both-halves-aligned",
+      "basis": "BOS bats 138/152/139/165 vs Tidwell (thin-sample); SF bats 60/38/36/42 vs Sandoval",
+      "result": "WIN",
+      "profit": 0.51
+    },
+    {
+      "date": "2026-08-22",
+      "play": "SD ML",
+      "market": "h2h",
+      "game": "MIN @ SD",
+      "price": -150,
+      "stake": 1.0,
+      "rule": "scout-ml-both-halves-aligned",
+      "basis": "SD bats 122/117/122/112 vs Kremer; MIN bats 81/86/83/77 vs Mize",
+      "result": "WIN",
+      "profit": 0.67
+    },
+    {
+      "date": "2026-08-23",
+      "no_play": true,
+      "note": "No qualifying plays. Scout ML nearest miss: SD (MIN ladder 91/87/91/90, cold bar missed by 1pt in two windows). CLE@COL both-cold but flagless = temperature-only."
+    },
+    {
+      "date": "2026-08-24",
+      "play": "SD ML",
+      "market": "h2h",
+      "game": "PIT @ SD",
+      "price": -102,
+      "stake": 1.0,
+      "rule": "scout-ml-both-halves-aligned",
+      "basis": "SD bats 124/127/129/125 vs Ashcraft; PIT bats 70/76/78/33 vs Ray; SD pen #3. Re-added after daily-run clobber.",
+      "result": "LOSS",
+      "profit": -1.0
+    },
+    {
+      "date": "2026-08-25",
+      "play": "CLE/LAA Under 7.5",
+      "market": "totals",
+      "game": "CLE @ LAA",
+      "price": -124,
+      "stake": 1.0,
+      "rule": "card-grade-total-both-aligned",
+      "basis": "Both offenses cold-aligned all four windows: LAA bats 71/79/82/79 vs Williams, CLE bats 82/87/80/87 vs Urena. First play under the 8/25 policy amendment retiring the flag clause for totals (benched profile was 2-0).",
+      "result": "LOSS",
+      "profit": -1.0,
+      "line": 7.5,
+      "close_line": 7.0,
+      "line_move": -0.5,
+      "clv": "beat"
+    },
+    {
+      "date": "2026-08-25",
+      "play": "PHI/SEA Over 7.5",
+      "market": "totals",
+      "game": "PHI @ SEA",
+      "price": 102,
+      "stake": 1.0,
+      "rule": "card-grade-total-both-aligned",
+      "basis": "Both offenses hot-aligned all four windows: SEA bats 112/117/132/128 vs Nola, PHI bats 116/120/117/122 vs Kirby. SEA pen #30 (10.16 L7) as context. Direction-neutral application of the 8/25 amendment.",
+      "result": "LOSS",
+      "profit": -1.0,
+      "line": 7.5,
+      "close_line": 8.0,
+      "line_move": 0.5,
+      "clv": "beat"
+    },
+    {
+      "date": "2026-08-26",
+      "no_play": true,
+      "note": "No qualifying plays. Near-misses everywhere: CHC@ARI both-hot blocked by incomplete CHC ladder (ARI bats 136/140/139/182 vs Boyd -- the 182 L7 is the loudest window yet); CIN@SF and LAD@ATL both-cold each broken by a single 92 (CIN L7, LAD L15). TEX@CWS: TEX cold-aligned vs Burke but CWS ladder incomplete."
+    },
+    {
+      "date": "2026-08-27",
+      "play": "KC/TOR Under 8.5",
+      "market": "totals",
+      "game": "KC @ TOR",
+      "price": -118,
+      "stake": 1.0,
+      "rule": "scout-flagged-starter-under",
+      "basis": "Arrighetti layoff-34d: L5-start line (9.95 ERA, 3.8 IP/GS) describes a different month and is not what the number is priced off. TOR pen absorbs the short leash (L30 3.15 #6, L7 3.16 #11). Cameron in form (1.26 ERA, 7.13 IP/GS L5). Ladder neutral (TOR bats 83/90/107 vs L; KC 97/104/106/112) - context only.",
+      "result": "pending",
+      "profit": 0.0,
+      "line": 8.5
+    },
+    {
+      "date": "2026-08-27",
+      "play": "ARI/SF Under 8",
+      "market": "totals",
+      "game": "ARI @ SF",
+      "price": -112,
+      "stake": 1.0,
+      "rule": "scout-flagged-starter-under",
+      "basis": "Cabrera layoff-50d + thin-sample; Roupp poor form (6.20 ERA, 4.93 IP/GS, 14.5 K%) at a suppressing park. TEMPER: SF bats are hot in all four windows (113/112/125/139) - the loudest ladder objection on the card, and ladder is inert per the 8/26 backtest so it does not veto, but this is the weaker of the two flagged unders.",
+      "result": "pending",
+      "profit": 0.0,
+      "line": 8.0
+    }
+  ]
 }
