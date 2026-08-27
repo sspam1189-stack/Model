@@ -86,17 +86,6 @@ FADE_LIST = [
 # venue ('home' or 'away'). Arms not listed are faded regardless of venue.
 # The venue is the arm's-team side of the game (away = he starts on the road).
 FADE_VENUE = {
-    # 2026-08-27 (user): restricted from all-venue to away-only. Home fade
-    # has turned -- 7-3 lifetime but 2-3 over the last five and -2.10u since
-    # 7/1 -- while away stays 6-0. Read it as a TEAM effect, not an arm: blind
-    # fading KC away is 45-23 +32.9%/play (17-7 since 7/1) and KC home is
-    # 30-36 -6.0% (7-17 since 7/1), and Cameron's splits sit inside both
-    # baselines at n=6/n=10. Note the form lens FAILS this add: he is better
-    # on the road (3.67 ERA / 0.98 WHIP / 23.0 K% away vs 4.79 / 1.49 / 18.9
-    # home; 2.73 / 0.67 / 7.42 IP-GS away since 7/1). Kept only because the
-    # KC road baseline carries it -- the removal trigger is that baseline
-    # turning, NOT his ERA.
-    "Noah Cameron": "away",
     "Bryan Woo": "away",  # only fade when he starts on the road
     "Brady Singer": "away",  # 2026-07-28 re-add from watchlist: away 7-3 +3.22u
     "Merrill Kelly": "away",  # 2026-07-28: home 4-4 -0.42u; away 7-4 +1.86u
@@ -273,7 +262,18 @@ FADE_WINDOW = {
     # start so their full-season fade history is on the record. Venue-
     # restricted arms are faded all season but only on the required side.
     "Paddack":           {"add": SEASON_START},
-    "Noah Cameron":      {"add": SEASON_START},
+    # Retired 2026-08-28 (user). All-venue 13-3 +9.56u looks elite and is
+    # not a pitcher edge: it is a KC venue effect. Blind-fading KC away is
+    # 45-23 +32.9%/play (17-7 since 7/1) and KC home 30-36 -6.0% (7-17
+    # since 7/1) -- his 6-0 away / 7-3 home both sit INSIDE those baselines.
+    # Counting the 8/16 @LAA road start the mutual rule skipped (hand-tails
+    # graded the same game a LOSS) the away side is 6-1, p=0.25 against the
+    # KC-away baseline: no signal. Form fails the thesis outright -- he is
+    # BETTER on the road (3.67 ERA / 0.98 WHIP / 23.0 K% away vs 4.79 / 1.49
+    # / 18.9 home). Same reason he came off hand-tails 8/26. History stays
+    # graded; the KC-away read survives him and belongs in a team-venue
+    # tier, not as a pitcher entry.
+    "Noah Cameron":      {"add": SEASON_START, "remove": "2026-08-28"},
     "Gausman":           {"add": SEASON_START},
     "Woods Richardson":  {"add": SEASON_START},
     "Luis Castillo":     {"add": SEASON_START},
