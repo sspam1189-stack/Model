@@ -262,7 +262,7 @@ FADE_WINDOW = {
     # start so their full-season fade history is on the record. Venue-
     # restricted arms are faded all season but only on the required side.
     "Paddack":           {"add": SEASON_START},
-    # Retired 2026-08-28 (user). All-venue 13-3 +9.56u looks elite and is
+    # Retired 2026-08-27 (user), same-day per file convention. All-venue 13-3 +9.56u looks elite and is
     # not a pitcher edge: it is a KC venue effect. Blind-fading KC away is
     # 45-23 +32.9%/play (17-7 since 7/1) and KC home 30-36 -6.0% (7-17
     # since 7/1) -- his 6-0 away / 7-3 home both sit INSIDE those baselines.
@@ -272,8 +272,8 @@ FADE_WINDOW = {
     # BETTER on the road (3.67 ERA / 0.98 WHIP / 23.0 K% away vs 4.79 / 1.49
     # / 18.9 home). Same reason he came off hand-tails 8/26. History stays
     # graded; the KC-away read survives him and belongs in a team-venue
-    # tier, not as a pitcher entry.
-    "Noah Cameron":      {"add": SEASON_START, "remove": "2026-08-28"},
+    # tier, not as a pitcher entry. Same-day removal drops today's TOR play.
+    "Noah Cameron":      {"add": SEASON_START, "remove": "2026-08-27"},
     "Gausman":           {"add": SEASON_START},
     "Woods Richardson":  {"add": SEASON_START},
     "Luis Castillo":     {"add": SEASON_START},
