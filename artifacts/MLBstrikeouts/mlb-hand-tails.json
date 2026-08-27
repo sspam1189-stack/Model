@@ -1,7 +1,7 @@
 {
   "sport": "MLB",
   "type": "hand-tails",
-  "generated": "2026-08-27T00:34:28Z",
+  "generated": "2026-08-27T12:59:11Z",
   "handMin": 6,
   "roster": {
     "Brady Singer": {
@@ -103,18 +103,18 @@
   ],
   "demotions": [],
   "summary": {
-    "wins": 58,
+    "wins": 59,
     "losses": 23,
-    "units": 35.3,
-    "staked": 96.62,
-    "roi": 0.3653,
+    "units": 36.52,
+    "staked": 97.62,
+    "roi": 0.3741,
     "byAction": {
       "fade": {
-        "wins": 58,
+        "wins": 59,
         "losses": 23,
-        "units": 35.3,
-        "staked": 96.62,
-        "roi": 0.3653
+        "units": 36.52,
+        "staked": 97.62,
+        "roi": 0.3741
       },
       "take": {
         "wins": 0,
@@ -133,40 +133,15 @@
         "roi": 0.4318
       },
       "L": {
-        "wins": 24,
+        "wins": 25,
         "losses": 12,
-        "units": 12.12,
-        "staked": 42.94,
-        "roi": 0.2823
+        "units": 13.34,
+        "staked": 43.94,
+        "roi": 0.3036
       }
     }
   },
-  "today": [
-    {
-      "date": "2026-08-26",
-      "commence": "2026-08-27T01:05:00Z",
-      "betType": "hand_fade",
-      "action": "fade",
-      "pitcher": "Connor Prielipp",
-      "entry": "Connor Prielipp",
-      "hand": "L",
-      "arm_team": "MIN",
-      "opp_team": "OAK",
-      "selection": "OAK",
-      "home": "OAK",
-      "away": "MIN",
-      "oppLefty": 2,
-      "oppRighty": 8,
-      "lineupConfirmed": true,
-      "odds": 122,
-      "stake": 1.0,
-      "result": "pending",
-      "reason": null,
-      "profit": 0.0,
-      "book": "fanduel",
-      "source": "fanduel_api"
-    }
-  ],
+  "today": [],
   "bets": [
     {
       "date": "2026-05-20",
@@ -2109,6 +2084,30 @@
       "result": "WIN",
       "reason": null,
       "profit": 1.0,
+      "book": "fanduel",
+      "source": "fanduel_api"
+    },
+    {
+      "date": "2026-08-26",
+      "commence": "2026-08-27T01:05:00Z",
+      "betType": "hand_fade",
+      "action": "fade",
+      "pitcher": "Connor Prielipp",
+      "entry": "Connor Prielipp",
+      "hand": "L",
+      "arm_team": "MIN",
+      "opp_team": "OAK",
+      "selection": "OAK",
+      "home": "OAK",
+      "away": "MIN",
+      "oppLefty": 2,
+      "oppRighty": 8,
+      "lineupConfirmed": true,
+      "odds": 122,
+      "stake": 1.0,
+      "result": "WIN",
+      "reason": null,
+      "profit": 1.22,
       "book": "fanduel",
       "source": "fanduel_api"
     }

@@ -1,7 +1,7 @@
 {
   "sport": "MLB",
   "type": "fade-ml",
-  "generated": "2026-08-27T00:31:35Z",
+  "generated": "2026-08-27T12:56:19Z",
   "fadeList": [
     "Painter",
     "Rocker",
@@ -84,22 +84,22 @@
   ],
   "mutualRule": "skip",
   "summary": {
-    "wins": 514,
+    "wins": 516,
     "losses": 188,
     "voids": 0,
     "skips": 45,
-    "staked": 877.45,
-    "units": 339.59,
-    "roi": 0.387,
+    "staked": 879.65,
+    "units": 341.81,
+    "roi": 0.3886,
     "byType": {
       "ml": {
-        "wins": 502,
+        "wins": 504,
         "losses": 176,
         "voids": 0,
         "skips": 3,
-        "staked": 853.45,
-        "units": 335.11,
-        "roi": 0.3927
+        "staked": 855.65,
+        "units": 337.33,
+        "roi": 0.3942
       },
       "ml_dog": {
         "wins": 12,
@@ -114,52 +114,53 @@
   },
   "today": [
     {
-      "date": "2026-08-26",
-      "commence": "2026-08-26T23:40:00Z",
-      "betType": "ml",
+      "date": "2026-08-27",
+      "commence": "2026-08-27T17:05:00Z",
+      "betType": "ml_dog",
       "shadow": false,
       "pitchers": [
-        "MacKenzie Gore"
+        "Gabriel Hughes",
+        "Jake Irvin"
       ],
-      "fadeTeam": "TEX",
+      "fadeTeam": null,
       "market": "h2h",
-      "selection": "CWS",
+      "selection": null,
       "line": null,
-      "odds": -120,
-      "stake": 1.2,
-      "result": "pending",
+      "odds": null,
+      "stake": null,
+      "result": "SKIP",
       "profit": 0.0,
       "book": "fanduel",
       "source": "fanduel_api",
-      "reason": null,
-      "home": "CWS",
-      "away": "TEX",
-      "gamePk": 824555,
-      "fadeReason": "away"
+      "reason": "mutual_skip",
+      "home": "WSH",
+      "away": "COL",
+      "gamePk": 822694,
+      "fadeReason": "all/home"
     },
     {
-      "date": "2026-08-26",
-      "commence": "2026-08-27T01:05:00Z",
+      "date": "2026-08-27",
+      "commence": "2026-08-27T23:07:00Z",
       "betType": "ml",
       "shadow": false,
       "pitchers": [
-        "Connor Prielipp"
+        "Noah Cameron"
       ],
-      "fadeTeam": "MIN",
+      "fadeTeam": "KC",
       "market": "h2h",
-      "selection": "OAK",
+      "selection": "TOR",
       "line": null,
-      "odds": 122,
+      "odds": 106,
       "stake": 1.0,
       "result": "pending",
       "profit": 0.0,
       "book": "fanduel",
       "source": "fanduel_api",
       "reason": null,
-      "home": "OAK",
-      "away": "MIN",
-      "gamePk": 824963,
-      "fadeReason": "away"
+      "home": "TOR",
+      "away": "KC",
+      "gamePk": 822771,
+      "fadeReason": "all"
     }
   ],
   "bets": [
@@ -18155,6 +18156,54 @@
       "home": "SD",
       "away": "PIT",
       "gamePk": 823255,
+      "fadeReason": "away"
+    },
+    {
+      "date": "2026-08-26",
+      "commence": "2026-08-26T23:40:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "MacKenzie Gore"
+      ],
+      "fadeTeam": "TEX",
+      "market": "h2h",
+      "selection": "CWS",
+      "line": null,
+      "odds": -120,
+      "stake": 1.2,
+      "result": "WIN",
+      "profit": 1.0,
+      "book": "fanduel",
+      "source": "fanduel_api",
+      "reason": null,
+      "home": "CWS",
+      "away": "TEX",
+      "gamePk": 824555,
+      "fadeReason": "away"
+    },
+    {
+      "date": "2026-08-26",
+      "commence": "2026-08-27T01:05:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Connor Prielipp"
+      ],
+      "fadeTeam": "MIN",
+      "market": "h2h",
+      "selection": "OAK",
+      "line": null,
+      "odds": 122,
+      "stake": 1.0,
+      "result": "WIN",
+      "profit": 1.22,
+      "book": "fanduel",
+      "source": "fanduel_api",
+      "reason": null,
+      "home": "OAK",
+      "away": "MIN",
+      "gamePk": 824963,
       "fadeReason": "away"
     }
   ]
