@@ -42,6 +42,7 @@ from player_kalman import (
     apply_drift, kalman_summary, prune_inactive_players,
 )
 from defaults import current_season
+from season_rollover import roll_if_new_season
 
 # Path to persistent Kalman state
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
@@ -402,6 +403,11 @@ def run_daily(date_key=None):
         date_iso = f"{date_key[:4]}-{date_key[4:6]}-{date_key[6:8]}"
 
     season = current_season()
+
+    # New season -> brand new player Kalman + brand new pick record. Must run
+    # BEFORE grading/loading state; keyed to the run date, so props_backfill
+    # (which replays old dates) never trips it. Archives first.
+    roll_if_new_season(date_key)
 
     print(f"\n{'='*60}")
     print(f"  NBA PLAYER PROPS (Kalman) — {date_iso}")

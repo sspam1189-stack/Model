@@ -36,6 +36,7 @@ from kalman_state import (
     apply_daily_drift, batch_update, kalman_summary, prune_processed_games,
 )
 from calibration import build_calibration_table, build_calibration_html
+from season_rollover import roll_if_new_season
 
 
 # ---- Constants ----
@@ -487,6 +488,12 @@ def build_game_prob_table(games):
 def main(subject_label="[PY]"):
     date = today_central_yyyymmdd()
     date_display = to_display_date(date)
+
+    # New season -> brand new Kalman + brand new run history. Must run BEFORE
+    # load_store()/load_kalman_state(), and is keyed to the run date so the
+    # backfill (which replays old dates) can never trip it. Archives first.
+    roll_if_new_season(date)
+
     store = load_store()
     defaults = load_defaults()
 
