@@ -1,7 +1,7 @@
 {
   "sport": "MLB",
   "type": "fade-ml",
-  "generated": "2026-08-28T21:01:35Z",
+  "generated": "2026-08-28T21:33:16Z",
   "fadeList": [
     "Painter",
     "Rocker",
@@ -85,21 +85,21 @@
   "mutualRule": "skip",
   "summary": {
     "wins": 516,
-    "losses": 188,
+    "losses": 189,
     "voids": 0,
     "skips": 46,
-    "staked": 879.65,
-    "units": 341.81,
-    "roi": 0.3886,
+    "staked": 881.59,
+    "units": 339.87,
+    "roi": 0.3855,
     "byType": {
       "ml": {
         "wins": 504,
-        "losses": 176,
+        "losses": 177,
         "voids": 0,
         "skips": 3,
-        "staked": 855.65,
-        "units": 337.33,
-        "roi": 0.3942
+        "staked": 857.59,
+        "units": 335.39,
+        "roi": 0.3911
       },
       "ml_dog": {
         "wins": 12,
@@ -113,30 +113,6 @@
     }
   },
   "today": [
-    {
-      "date": "2026-08-28",
-      "commence": "2026-08-28T18:20:00Z",
-      "betType": "ml",
-      "shadow": false,
-      "pitchers": [
-        "Rhett Lowder"
-      ],
-      "fadeTeam": "CIN",
-      "market": "h2h",
-      "selection": "CHC",
-      "line": null,
-      "odds": -194,
-      "stake": 1.94,
-      "result": "pending",
-      "profit": 0.0,
-      "book": "fanduel",
-      "source": "fanduel_api",
-      "reason": null,
-      "home": "CHC",
-      "away": "CIN",
-      "gamePk": 824638,
-      "fadeReason": "away"
-    },
     {
       "date": "2026-08-28",
       "commence": "2026-08-28T23:10:00Z",
@@ -18302,6 +18278,30 @@
       "away": "COL",
       "gamePk": 822694,
       "fadeReason": "home/all"
+    },
+    {
+      "date": "2026-08-28",
+      "commence": "2026-08-28T18:20:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Rhett Lowder"
+      ],
+      "fadeTeam": "CIN",
+      "market": "h2h",
+      "selection": "CHC",
+      "line": null,
+      "odds": -194,
+      "stake": 1.94,
+      "result": "LOSS",
+      "profit": -1.94,
+      "book": "fanduel",
+      "source": "fanduel_api",
+      "reason": null,
+      "home": "CHC",
+      "away": "CIN",
+      "gamePk": 824638,
+      "fadeReason": "away"
     }
   ]
 }

@@ -1,7 +1,7 @@
 {
   "sport": "MLB",
   "type": "all-ml",
-  "generated": "2026-08-28T21:01:38Z",
+  "generated": "2026-08-28T21:33:19Z",
   "seasonStart": "2026-03-25",
   "today": [
     {
@@ -15,14 +15,14 @@
       "total_line": 9,
       "over_ml": 100,
       "under_ml": -122,
-      "home_score": 4,
-      "away_score": 9,
+      "home_score": 8,
+      "away_score": 10,
       "home_pitcher": "David Peterson",
       "away_pitcher": "Rhett Lowder",
       "home_hand": "L",
       "away_hand": "R",
-      "home_win": null,
-      "final": false
+      "home_win": false,
+      "final": true
     },
     {
       "date": "2026-08-28",
@@ -53,8 +53,8 @@
       "home_ml": 122,
       "away_ml": -132,
       "total_line": 8.5,
-      "over_ml": 100,
-      "under_ml": -122,
+      "over_ml": -104,
+      "under_ml": -118,
       "home_score": 0,
       "away_score": 0,
       "home_pitcher": "Jackson Kent",
@@ -110,8 +110,8 @@
       "gamePk": 822935,
       "home": "TB",
       "away": "SD",
-      "home_ml": -126,
-      "away_ml": 118,
+      "home_ml": -122,
+      "away_ml": 112,
       "total_line": 7.5,
       "over_ml": -102,
       "under_ml": -120,
@@ -215,8 +215,8 @@
       "total_line": 8.5,
       "over_ml": -124,
       "under_ml": 102,
-      "home_score": null,
-      "away_score": null,
+      "home_score": 0,
+      "away_score": 0,
       "home_pitcher": "Dean Kremer",
       "away_pitcher": "Luis Castillo",
       "home_hand": "R",
@@ -38457,6 +38457,25 @@
       "home_hand": "R",
       "away_hand": "R",
       "home_win": true
+    },
+    {
+      "date": "2026-08-28",
+      "commence": "2026-08-28T18:20:00Z",
+      "gamePk": 824638,
+      "home": "CHC",
+      "away": "CIN",
+      "home_ml": -194,
+      "away_ml": 180,
+      "total_line": 9,
+      "over_ml": 100,
+      "under_ml": -122,
+      "home_score": 8,
+      "away_score": 10,
+      "home_pitcher": "David Peterson",
+      "away_pitcher": "Rhett Lowder",
+      "home_hand": "L",
+      "away_hand": "R",
+      "home_win": false
     }
   ]
 }
