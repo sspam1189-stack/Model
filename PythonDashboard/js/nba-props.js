@@ -988,6 +988,9 @@
       teamSel.style.cssText = selStyle;
       const allTeams = [...new Set(picks.map(p => p.team))].filter(Boolean).sort();
       teamSel.innerHTML = '<option value="all">All Teams</option>' + allTeams.map(t => `<option value="${t}">${t}</option>`).join('');
+      // shared with the NFL props toolbar — see makePlayerSearch
+      const playerSearch = makePlayerSearch(() => refreshView());
+
       const filterLabel = document.createElement('span');
       filterLabel.style.cssText = 'color:#666;font-size:12px;margin-left:auto';
       filterLabel.textContent = `${picks.length} picks`;
@@ -1024,6 +1027,7 @@
         if (dateSel.value !== 'all') fp = fp.filter(p => p.date === dateSel.value);
         if (nbaActiveMarket !== 'all') fp = fp.filter(p => p.market === nbaActiveMarket);
         if (teamSel.value !== 'all') fp = fp.filter(p => p.team === teamSel.value);
+        fp = fp.filter(p => playerMatches(p, playerSearch.value));
         fp.sort((a, b) => (b.date || '').localeCompare(a.date || ''));
         return fp;
       }
@@ -1312,6 +1316,7 @@
         let fp = picks.slice();
         if (nbaActiveMarket !== 'all') fp = fp.filter(p => p.market === nbaActiveMarket);
         if (weekSel.value !== 'all') fp = fp.filter(p => p.date && getWeekStart(p.date) === weekSel.value);
+        fp = fp.filter(p => playerMatches(p, playerSearch.value));
 
         // Group by week start
         const weekMap = {};
@@ -1471,9 +1476,11 @@
         if (v === 'all') {
           filterRow.appendChild(dateSel);
           filterRow.appendChild(teamSel);
+          filterRow.appendChild(playerSearch);
           filterRow.appendChild(filterLabel);
         } else {
           filterRow.appendChild(weekSel);
+          filterRow.appendChild(playerSearch);
           filterRow.appendChild(weekFilterLabel);
         }
         refreshView();

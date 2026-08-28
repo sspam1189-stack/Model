@@ -426,6 +426,39 @@ function seasonSelector(runs) {
   return `<select onchange="setSeasonFilter(this.value)" style="background:#1e1e1e;color:#e0e0e0;border:1px solid #444;border-radius:6px;padding:4px 10px;font-size:13px;margin-left:10px;cursor:pointer">${opts}</select>`;
 }
 
+// ─── Shared props-page controls ───
+// NBA, WNBA and NFL props are three separate render paths, so anything built
+// per-file drifts apart. The player search lives here once and is used by all
+// of them, which is what keeps the three toolbars actually consistent rather
+// than merely similar.
+const PROPS_CONTROL_STYLE =
+  'padding:6px 12px;border-radius:6px;background:rgba(255,255,255,0.06);' +
+  'color:#fff;border:1px solid rgba(255,255,255,0.1);font-size:13px;outline:none';
+
+function makePlayerSearch(onChange) {
+  const input = document.createElement('input');
+  input.type = 'search';
+  input.placeholder = 'Search player…';
+  input.setAttribute('aria-label', 'Search player');
+  input.style.cssText = PROPS_CONTROL_STYLE + ';min-width:170px';
+  // debounce so a long name doesn't re-render the table on every keystroke
+  let t = null;
+  input.addEventListener('input', () => {
+    clearTimeout(t);
+    t = setTimeout(onChange, 120);
+  });
+  return input;
+}
+
+// Case- and accent-insensitive substring match on the player's name.
+function playerMatches(pick, query) {
+  const q = String(query || '').trim().toLowerCase();
+  if (!q) return true;
+  const norm = s => String(s || '').toLowerCase()
+    .normalize('NFD').replace(/[̀-ͯ]/g, '');
+  return norm(pick.player).includes(norm(q));
+}
+
 // ─── League selection ───
 // Thirteen tabs in one row was unreadable. The nav is two levels now: pick a
 // league, then a model within it. Only the active league's tabs are mounted,

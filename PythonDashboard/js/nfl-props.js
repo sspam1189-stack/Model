@@ -134,6 +134,9 @@
       const allTeams = [...new Set(picks.map(p => p.team))].filter(Boolean).sort();
       teamSel.innerHTML = '<option value="all">All Teams</option>' + allTeams.map(t => `<option value="${t}">${t}</option>`).join('');
 
+      // shared with the NBA/WNBA props toolbars — see makePlayerSearch
+      const playerSearch = makePlayerSearch(() => refreshNFLView());
+
       const filterLabel = document.createElement('span');
       filterLabel.style.cssText = 'color:#666;font-size:12px;margin-left:auto';
       filterLabel.textContent = `${picks.length} picks`;
@@ -167,6 +170,7 @@
         if (weekSel.value !== 'all') fp = fp.filter(p => String(p.week) === weekSel.value);
         if (activeMarketFilter !== 'all') fp = fp.filter(p => p.market === activeMarketFilter);
         if (teamSel.value !== 'all') fp = fp.filter(p => p.team === teamSel.value);
+        fp = fp.filter(p => playerMatches(p, playerSearch.value));
         fp.sort((a, b) => {
           const wA = (a.season || 0) * 100 + (a.week || 0);
           const wB = (b.season || 0) * 100 + (b.week || 0);
@@ -468,6 +472,7 @@
         let fp = picks.slice();
         if (activeMarketFilter !== 'all') fp = fp.filter(p => p.market === activeMarketFilter);
         if (weeklySeasonSel.value !== 'all') fp = fp.filter(p => String(p.season) === weeklySeasonSel.value);
+        fp = fp.filter(p => playerMatches(p, playerSearch.value));
 
         // Group by season+week
         const weekMap = {};
@@ -541,6 +546,11 @@
             td.style.textAlign = i === 0 ? 'left' : 'right';
             if (i === 5) td.style.color = totU >= 0 ? 'var(--green)' : 'var(--red)';
           });
+          // was never declared here (copy-paste from the All Picks view) --
+          // the ReferenceError aborted the whole weekly render, so By Week
+          // showed its filter row and nothing else
+          const summWrap = document.createElement('div');
+          summWrap.className = 'props-table-wrap';
           summWrap.appendChild(summTbl); summCard.appendChild(summWrap);
           contentArea.appendChild(summCard);
         }
@@ -609,9 +619,11 @@
           filterRow.appendChild(seasonSel);
           filterRow.appendChild(weekSel);
           filterRow.appendChild(teamSel);
+          filterRow.appendChild(playerSearch);
           filterRow.appendChild(filterLabel);
         } else {
           filterRow.appendChild(weeklySeasonSel);
+          filterRow.appendChild(playerSearch);
           filterRow.appendChild(weeklyFilterLabel);
         }
         refreshNFLView();
