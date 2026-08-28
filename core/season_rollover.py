@@ -39,16 +39,55 @@ def _season_of_date(date_str, start_month):
     return season_label(d, start_month)
 
 
-def _archive_target(path, season):
-    """<dir>/archive/<base>-<season>.json, never clobbering an existing file."""
+def _same_bytes(a, b):
+    try:
+        with open(a, "rb") as fa, open(b, "rb") as fb:
+            return fa.read() == fb.read()
+    except Exception:
+        return False
+
+
+def _archive(path, season):
+    """Copy path into <dir>/archive/<base>-<season>.json and return that path.
+
+    Never clobbers: an existing archive with different content gets a -2, -3
+    suffix. An existing byte-identical archive is reused as-is.
+    Raises on any failure — the caller must NOT reset when this raises.
+    """
     arch_dir = os.path.join(os.path.dirname(os.path.abspath(path)), "archive")
     base = os.path.splitext(os.path.basename(path))[0]
     cand = os.path.join(arch_dir, f"{base}-{season}.json")
     n = 2
     while os.path.exists(cand):
+        if _same_bytes(path, cand):
+            return cand  # already archived, byte for byte
         cand = os.path.join(arch_dir, f"{base}-{season}-{n}.json")
         n += 1
+    os.makedirs(arch_dir, exist_ok=True)
+    shutil.copy2(path, cand)
     return cand
+
+
+_COUNT_KEYS = ("runs", "props", "teams", "players")
+
+
+def _payload_counts(data):
+    return {k: len(data.get(k) or []) for k in _COUNT_KEYS if k in data}
+
+
+def _verify_archive(dest, original):
+    """Re-read the archive and confirm it carries the original's payload.
+
+    Nothing is reset until this passes — a truncated or unreadable archive must
+    never be followed by a wipe of the live file.
+    """
+    got = _load(dest)
+    if not isinstance(got, dict):
+        return False, "archive is unreadable"
+    want, have = _payload_counts(original), _payload_counts(got)
+    if want != have:
+        return False, f"archive payload mismatch (expected {want}, got {have})"
+    return True, ""
 
 
 def _load(path):
@@ -141,6 +180,7 @@ def roll_season(date_key, targets, start_month=10, verbose=True):
     """
     season = season_label(date_key, start_month)
     rolled = []
+    failed = []
 
     for t in targets:
         path, kind = os.path.normpath(t["path"]), t["kind"]
@@ -155,15 +195,35 @@ def roll_season(date_key, targets, start_month=10, verbose=True):
         if not found or found >= season:
             continue  # same season, or nothing to roll — the normal case
 
-        dest = _archive_target(path, found)
-        os.makedirs(os.path.dirname(dest), exist_ok=True)
-        shutil.copy2(path, dest)
+        # Archive first, verify it round-trips, and only then reset. Any
+        # failure leaves the live file untouched: keeping last season's state
+        # for another day is always better than losing it.
+        try:
+            dest = _archive(path, found)
+        except Exception as e:
+            print(f"  [season] !! ARCHIVE FAILED for {os.path.basename(path)}: {e}")
+            print(f"  [season] !! NOT resetting it — {found} state left intact.")
+            failed.append(path)
+            continue
+
+        ok, why = _verify_archive(dest, data)
+        if not ok:
+            print(f"  [season] !! {os.path.basename(path)}: {why}")
+            print(f"  [season] !! NOT resetting it — {found} state left intact.")
+            failed.append(path)
+            continue
+
         _write(path, _reset(kind, data, season, keep))
         rolled.append(path)
         if verbose:
             print(f"  [season] {os.path.basename(path)}: {found} -> {season}. "
-                  f"Archived to {os.path.relpath(dest, os.path.dirname(path))}, reset for the new season.")
+                  f"{found} saved to {os.path.relpath(dest, os.path.dirname(path))} "
+                  f"({_payload_counts(data)}), live file reset for the new season.")
 
     if rolled and verbose:
-        print(f"  [season] New season {season} — {len(rolled)} file(s) rolled over.")
+        print(f"  [season] New season {season} — {len(rolled)} file(s) rolled over, "
+              f"previous season archived.")
+    if failed:
+        print(f"  [season] !! {len(failed)} file(s) could NOT be archived and were "
+              f"left as-is. Fix before trusting this season's output.")
     return rolled
