@@ -426,6 +426,47 @@ function seasonSelector(runs) {
   return `<select onchange="setSeasonFilter(this.value)" style="background:#1e1e1e;color:#e0e0e0;border:1px solid #444;border-radius:6px;padding:4px 10px;font-size:13px;margin-left:10px;cursor:pointer">${opts}</select>`;
 }
 
+// ─── League selection ───
+// Thirteen tabs in one row was unreadable. The nav is two levels now: pick a
+// league, then a model within it. Only the active league's tabs are mounted,
+// so the second row stays short. A league with no visible tabs (NCAA has no
+// data) hides its own button rather than leading to an empty row.
+function visibleTabsIn(group) {
+  return [...group.querySelectorAll('.tab')].filter(t => t.style.display !== 'none');
+}
+
+function setLeague(name, { selectFirstTab = true } = {}) {
+  document.querySelectorAll('.tab-group').forEach(g => {
+    g.classList.toggle('is-active', g.getAttribute('aria-label') === name);
+  });
+  document.querySelectorAll('.league').forEach(b => {
+    const on = b.dataset.league === name;
+    b.classList.toggle('active', on);
+    if (on) b.setAttribute('aria-current', 'page');
+    else b.removeAttribute('aria-current');
+  });
+  if (!selectFirstTab) return;
+  const group = [...document.querySelectorAll('.tab-group')]
+    .find(g => g.getAttribute('aria-label') === name);
+  const tabs = group ? visibleTabsIn(group) : [];
+  // keep the current tab if it already belongs to this league
+  if (tabs.some(t => t.dataset.tab === activeTab)) return;
+  if (tabs.length) tabs[0].click();
+}
+
+function leagueOf(tabEl) {
+  const g = tabEl && tabEl.closest('.tab-group');
+  return g ? g.getAttribute('aria-label') : null;
+}
+
+document.querySelectorAll('.league').forEach(btn => {
+  const group = [...document.querySelectorAll('.tab-group')]
+    .find(g => g.getAttribute('aria-label') === btn.dataset.league);
+  // no data for this league -> no button
+  if (!group || !visibleTabsIn(group).length) { btn.style.display = 'none'; return; }
+  btn.addEventListener('click', () => setLeague(btn.dataset.league));
+});
+
 // Tab switching
 document.querySelectorAll('.tab').forEach(tab => {
   tab.addEventListener('click', () => {
@@ -436,6 +477,8 @@ document.querySelectorAll('.tab').forEach(tab => {
     tab.classList.add('active');
     tab.setAttribute('aria-current', 'page');
     activeTab = tab.dataset.tab;
+    const lg = leagueOf(tab);
+    if (lg) setLeague(lg, { selectFirstTab: false });
     historyPage = 0;
     viewMode = 'today';
     seasonFilter = 'all';
@@ -444,6 +487,10 @@ document.querySelectorAll('.tab').forEach(tab => {
     render();
   });
 });
+
+// mount the league that owns whichever tab starts active
+setLeague(leagueOf(document.querySelector('.tab.active')) || 'MLB',
+          { selectFirstTab: false });
 
 async function fetchData(key) {
   if (cache[key]) return cache[key];

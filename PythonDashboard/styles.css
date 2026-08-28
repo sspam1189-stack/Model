@@ -93,26 +93,52 @@ body::before {
   display: flex;
   justify-content: center;
   flex-wrap: wrap;
-  /* wide gap BETWEEN leagues, tight gap within one — see .tab-group */
-  gap: 22px;
-  padding: 24px 16px 16px;
+  gap: 6px;
+  padding: 12px 16px 16px;
   position: sticky;
-  top: 0;
+  /* sits below the sticky league row rather than under it */
+  top: 46px;
   z-index: 100;
   background: linear-gradient(180deg, var(--bg) 60%, transparent 100%);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
 }
-/* One league's tabs. Sits tight internally so the wider .tabs gap reads as
-   the league boundary. A group whose every tab is hidden collapses entirely,
-   so a league with no data (NCAA) leaves no stray gap behind. */
-.tab-group {
+/* One league's tabs — only the selected league is mounted (see setLeague). */
+.tab-group { display: none; gap: 6px; flex-wrap: wrap; justify-content: center; }
+.tab-group.is-active { display: flex; }
+
+/* League row sits above the tabs and picks which group is mounted. */
+.league-bar {
   display: flex;
-  gap: 6px;
-  flex-wrap: wrap;
   justify-content: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding: 20px 16px 0;
+  position: sticky;
+  top: 0;
+  z-index: 101;
+  background: linear-gradient(180deg, var(--bg) 70%, transparent 100%);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
 }
-.tab-group:not(:has(.tab:not([style*="none"]))) { display: none; }
+.league {
+  background: transparent;
+  border: 1px solid var(--border);
+  color: var(--muted);
+  border-radius: 999px;
+  padding: 6px 20px;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  cursor: pointer;
+  transition: color .15s, border-color .15s, background .15s;
+}
+.league:hover { color: var(--text); border-color: rgba(255, 255, 255, 0.18); }
+.league.active {
+  color: #fff;
+  background: var(--accent);
+  border-color: var(--accent);
+}
 .tab {
   padding: 10px 28px;
   border-radius: 999px;
