@@ -3,7 +3,7 @@
   "type": "scout-card-log",
   "week_convention": "monday-sunday",
   "description": "Per-play ledger for scout card calls (tier 2/3 of the daily card policy in MLBstrikeouts/CLAUDE.md). Model plays are NOT logged here - fade-ml/props/hand-tails keep their own files. No-play days are logged too: an empty card is part of the record. Prices are the card-time quote, not the close.",
-  "generated": "2026-08-28T14:20:19Z",
+  "generated": "2026-08-28T14:23:01Z",
   "pre_log_history": [
     {
       "date": "2026-08-17",
@@ -173,6 +173,32 @@
       "close_line": 8.0,
       "clv": "flat",
       "line_move": 0.0
+    },
+    {
+      "date": "2026-08-28",
+      "play": "LAD/DET Under 7.5",
+      "market": "totals",
+      "game": "LAD @ DET",
+      "price": -120,
+      "stake": 1.0,
+      "rule": "scout-flagged-starter-under",
+      "basis": "Drew Anderson carries BOTH qualifying defects: stale-window-68d AND swingman-14g. His 3.54 L5 ERA describes relief work, not the 4.07 IP/GS starts he is priced off. Skubal opposite (3.52 L5, 6.13 IP/GS) and DET bats frozen vs him 107/73/56. LAD pen hot L7 2.41 (#8).",
+      "result": "pending",
+      "profit": 0.0,
+      "line": 7.5
+    },
+    {
+      "date": "2026-08-28",
+      "play": "ARI/SF Under 7.5",
+      "market": "totals",
+      "game": "ARI @ SF",
+      "price": -106,
+      "stake": 1.0,
+      "rule": "scout-flagged-starter-under",
+      "basis": "Kohl Drake layoff-22d + thin-sample; Tidwell also thin-sample. SF bats ice cold in all four windows (91/89/80/60) -- the ladder AGREES with the flag today, unlike yesterday's ARI/SF where it opposed. Both pens mid (#10/#22). Suppressing park.",
+      "result": "pending",
+      "profit": 0.0,
+      "line": 7.5
     }
   ]
 }
