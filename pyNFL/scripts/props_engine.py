@@ -139,13 +139,31 @@ EMPIRICAL_STD = {
 # total units. Tuned after adding Kalman bias correction + EMPIRICAL_STD
 # floor — thresholds below reflect what the calibrated engine actually
 # produces, not raw overconfident pCover.
+# RE-SWEPT 2026-08-27 on the clean pool (UNDER only, real book lines only).
+# The previous notes here cited "+44u vs +42u" and "+59u vs +44u", both
+# measured back when the pool still contained overs and simulated lines --
+# that evidence described a book we do not bet. The values happen to survive
+# re-testing; the justification did not, so it is replaced.
+#
+#   rush_yds   0.75  68.4% +45.7u   0.80  72.0% +48.7u
+#              0.82  72.9% +46.1u  <-- shipped    0.86  72.6% +35.7u
+#   rush_att   0.78  79.0% +45.3u   0.82  81.7% +43.7u
+#              0.84  82.4% +42.8u  <-- shipped    0.90  85.4% +33.3u
+#
+# Both curves are flat plateaus across ~0.78-0.86; the shipped values sit on
+# that plateau and the differences inside it are noise on a 3-season sample.
+# Loosening rush_yds to 0.80 is worth +2.6u over 11 extra picks (0.24u/pick,
+# borderline) and loosening rush_att to 0.78 buys +2.5u while giving up 7pp
+# of ROI -- neither clears the bar for moving a live threshold. Below 0.75
+# both degrade sharply. Do not tune on total units alone: rush_att peaks in
+# raw units at 0.55 (+46.2u) purely by tripling volume at a third the ROI.
 MARKET_THRESHOLDS = {
-    "pass_yds":   0.80,   # no picks fire yet; keep permissive
+    "pass_yds":   0.80,   # disabled; no picks fire at any threshold anyway
     "pass_tds":   0.80,   # disabled via DISABLED_MARKETS
-    "rush_yds":   0.82,   # +44u vs +42u at 0.80 (filtered 0.80-0.82 losers)
-    "rush_att":   0.84,   # +59u vs +44u at 0.80 (clearest signal above 0.84)
-    "rec_yds":    0.80,   # flat curve; tighter only sacrifices volume
-    "receptions": 0.80,   # 69% WR at every threshold; keep all picks
+    "rush_yds":   0.82,   # plateau 0.78-0.86, see sweep above
+    "rush_att":   0.84,   # plateau 0.78-0.86, best ROI of the two markets
+    "rec_yds":    0.80,   # disabled; losing on real lines at EVERY threshold
+    "receptions": 0.80,   # disabled; 62% headline was simulated-line picks
 }
 
 # Opponent adjustment weight (uniform for all markets)
