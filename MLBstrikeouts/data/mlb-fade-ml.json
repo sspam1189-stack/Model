@@ -1,7 +1,7 @@
 {
   "sport": "MLB",
   "type": "fade-ml",
-  "generated": "2026-08-28T00:32:32Z",
+  "generated": "2026-08-28T13:05:45Z",
   "fadeList": [
     "Painter",
     "Rocker",
@@ -87,7 +87,7 @@
     "wins": 516,
     "losses": 188,
     "voids": 0,
-    "skips": 45,
+    "skips": 46,
     "staked": 879.65,
     "units": 341.81,
     "roi": 0.3886,
@@ -105,7 +105,7 @@
         "wins": 12,
         "losses": 12,
         "voids": 0,
-        "skips": 42,
+        "skips": 43,
         "staked": 24.0,
         "units": 4.48,
         "roi": 0.1867
@@ -114,13 +114,37 @@
   },
   "today": [
     {
-      "date": "2026-08-27",
-      "commence": "2026-08-27T17:05:00Z",
+      "date": "2026-08-28",
+      "commence": "2026-08-28T18:20:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Rhett Lowder"
+      ],
+      "fadeTeam": "CIN",
+      "market": "h2h",
+      "selection": "CHC",
+      "line": null,
+      "odds": -184,
+      "stake": 1.84,
+      "result": "pending",
+      "profit": 0.0,
+      "book": "fanduel",
+      "source": "fanduel_api",
+      "reason": null,
+      "home": "CHC",
+      "away": "CIN",
+      "gamePk": 824638,
+      "fadeReason": "away"
+    },
+    {
+      "date": "2026-08-28",
+      "commence": "2026-08-28T23:10:00Z",
       "betType": "ml_dog",
       "shadow": false,
       "pitchers": [
-        "Gabriel Hughes",
-        "Jake Irvin"
+        "Tanner Bibee",
+        "Michael Wacha"
       ],
       "fadeTeam": null,
       "market": "h2h",
@@ -133,10 +157,58 @@
       "book": "fanduel",
       "source": "fanduel_api",
       "reason": "mutual_skip",
-      "home": "WSH",
-      "away": "COL",
-      "gamePk": 822694,
-      "fadeReason": "all/home"
+      "home": "CLE",
+      "away": "KC",
+      "gamePk": 824396,
+      "fadeReason": "home/away"
+    },
+    {
+      "date": "2026-08-28",
+      "commence": "2026-08-29T00:10:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Luis Castillo"
+      ],
+      "fadeTeam": "CWS",
+      "market": "h2h",
+      "selection": "MIN",
+      "line": null,
+      "odds": -114,
+      "stake": 1.14,
+      "result": "pending",
+      "profit": 0.0,
+      "book": "fanduel",
+      "source": "fanduel_api",
+      "reason": null,
+      "home": "MIN",
+      "away": "CWS",
+      "gamePk": 823666,
+      "fadeReason": "all"
+    },
+    {
+      "date": "2026-08-28",
+      "commence": "2026-08-28T23:10:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Hunter Brown"
+      ],
+      "fadeTeam": "HOU",
+      "market": "h2h",
+      "selection": "NYM",
+      "line": null,
+      "odds": 112,
+      "stake": 1.0,
+      "result": "pending",
+      "profit": 0.0,
+      "book": "fanduel",
+      "source": "fanduel_api",
+      "reason": null,
+      "home": "NYM",
+      "away": "HOU",
+      "gamePk": 823583,
+      "fadeReason": "all"
     }
   ],
   "bets": [
@@ -18181,6 +18253,31 @@
       "away": "MIN",
       "gamePk": 824963,
       "fadeReason": "away"
+    },
+    {
+      "date": "2026-08-27",
+      "commence": "2026-08-27T17:05:00Z",
+      "betType": "ml_dog",
+      "shadow": false,
+      "pitchers": [
+        "Jake Irvin",
+        "Gabriel Hughes"
+      ],
+      "fadeTeam": null,
+      "market": "h2h",
+      "selection": null,
+      "line": null,
+      "odds": null,
+      "stake": null,
+      "result": "SKIP",
+      "profit": 0.0,
+      "book": "fanduel",
+      "source": "fanduel_api",
+      "reason": "mutual_skip",
+      "home": "WSH",
+      "away": "COL",
+      "gamePk": 822694,
+      "fadeReason": "home/all"
     }
   ]
 }

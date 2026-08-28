@@ -1,7 +1,7 @@
 {
   "sport": "MLB",
   "type": "hand-tails-watch",
-  "generated": "2026-08-28T00:37:10Z",
+  "generated": "2026-08-28T13:08:41Z",
   "handMin": 6,
   "minGames": 3,
   "minUnits": 2.5,
@@ -9,26 +9,70 @@
   "note": "Shadow review list -- arms NOT on the active hand-tails list showing a handedness-conditional edge (fade or take). The active list is fade-only, so all tail/take arms are review-only here. In-sample season replay; watch, don't bet.",
   "today": [
     {
-      "date": "2026-08-27",
-      "commence": "2026-08-27T23:07:00Z",
+      "date": "2026-08-28",
+      "commence": "2026-08-28T23:10:00Z",
       "betType": "watch_fade",
       "action": "fade",
       "watch": true,
-      "pitcher": "Noah Cameron",
-      "hand": "L",
+      "pitcher": "Michael Wacha",
+      "hand": "R",
       "arm_team": "KC",
-      "opp_team": "TOR",
-      "selection": "TOR",
-      "home": "TOR",
+      "opp_team": "CLE",
+      "selection": "CLE",
+      "home": "CLE",
       "away": "KC",
-      "oppLefty": 1,
-      "oppRighty": 8,
-      "lineupConfirmed": true,
-      "odds": -102,
+      "oppLefty": 8,
+      "oppRighty": 5,
+      "lineupConfirmed": false,
+      "odds": null,
       "suggest": "fade",
-      "suggestUnits": 5.06,
-      "games": 17,
-      "result": "pending"
+      "suggestUnits": 2.98,
+      "games": 9,
+      "result": "unconfirmed"
+    },
+    {
+      "date": "2026-08-28",
+      "commence": "2026-08-28T23:15:00Z",
+      "betType": "watch_take",
+      "action": "take",
+      "watch": true,
+      "pitcher": "Grant Holmes",
+      "hand": "R",
+      "arm_team": "ATL",
+      "opp_team": "COL",
+      "selection": "ATL",
+      "home": "ATL",
+      "away": "COL",
+      "oppLefty": 6,
+      "oppRighty": 5,
+      "lineupConfirmed": false,
+      "odds": null,
+      "suggest": "take",
+      "suggestUnits": 5.04,
+      "games": 10,
+      "result": "unconfirmed"
+    },
+    {
+      "date": "2026-08-28",
+      "commence": "2026-08-28T23:40:00Z",
+      "betType": "watch_fade",
+      "action": "fade",
+      "watch": true,
+      "pitcher": "Cody Bradford",
+      "hand": "L",
+      "arm_team": "TEX",
+      "opp_team": "MIL",
+      "selection": "MIL",
+      "home": "MIL",
+      "away": "TEX",
+      "oppLefty": 3,
+      "oppRighty": 7,
+      "lineupConfirmed": false,
+      "odds": null,
+      "suggest": "fade",
+      "suggestUnits": 4.1,
+      "games": 3,
+      "result": "unconfirmed"
     }
   ],
   "candidates": [
@@ -228,7 +272,7 @@
         "l": 1,
         "u": 6.62
       },
-      "era": 1.68
+      "era": 1.73
     },
     {
       "pitcher": "Sonny Gray",
@@ -373,24 +417,6 @@
         "u": 5.16
       },
       "era": 6.27
-    },
-    {
-      "pitcher": "Noah Cameron",
-      "hand": "L",
-      "games": 17,
-      "suggest": "fade",
-      "suggestUnits": 5.06,
-      "fade": {
-        "w": 11,
-        "l": 6,
-        "u": 5.06
-      },
-      "take": {
-        "w": 6,
-        "l": 11,
-        "u": -5.76
-      },
-      "era": 4.22
     },
     {
       "pitcher": "Grant Holmes",
@@ -573,6 +599,24 @@
       "era": 3.05
     },
     {
+      "pitcher": "Noah Cameron",
+      "hand": "L",
+      "games": 18,
+      "suggest": "fade",
+      "suggestUnits": 4.04,
+      "fade": {
+        "w": 11,
+        "l": 7,
+        "u": 4.04
+      },
+      "take": {
+        "w": 7,
+        "l": 11,
+        "u": -4.76
+      },
+      "era": 4.17
+    },
+    {
       "pitcher": "Andrew Alvarez",
       "hand": "L",
       "games": 10,
@@ -715,6 +759,24 @@
         "u": -3.46
       },
       "era": 7.55
+    },
+    {
+      "pitcher": "Jose Cabrera",
+      "hand": "R",
+      "games": 3,
+      "suggest": "fade",
+      "suggestUnits": 3.1,
+      "fade": {
+        "w": 3,
+        "l": 0,
+        "u": 3.1
+      },
+      "take": {
+        "w": 0,
+        "l": 3,
+        "u": -3.18
+      },
+      "era": 5.32
     },
     {
       "pitcher": "Cam Schlittler",
@@ -894,7 +956,7 @@
         "l": 4,
         "u": -2.8
       },
-      "era": 7.03
+      "era": 7.05
     },
     {
       "pitcher": "Zac Gallen",
