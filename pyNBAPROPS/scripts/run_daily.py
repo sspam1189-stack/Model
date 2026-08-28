@@ -48,6 +48,55 @@ SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 KALMAN_STATE_PATH = os.path.join(SCRIPT_DIR, "..", "data", "kalman_state.json")
 
 
+_PRICE_CACHE = {}
+
+
+def _cached_prices(date_iso):
+    """{(first, last, market): line_dict} from the props cache for one date.
+
+    The per-date props cache holds the real FanDuel board the pick was made
+    against, including over_price/under_price. Picks made before prices were
+    recorded on the pick itself can be repaired from it.
+    """
+    if date_iso in _PRICE_CACHE:
+        return _PRICE_CACHE[date_iso]
+    from props_engine import _name_key
+    from sources.odds_theoddsapi import _props_cache_path, _load_cache
+    out = {}
+    try:
+        lines = _load_cache(_props_cache_path(date_iso.replace("-", ""))) or []
+        for l in lines:
+            nk = _name_key(l.get("player", ""))
+            out[(nk[0], nk[1], l.get("market", ""))] = l
+    except Exception:
+        out = {}
+    _PRICE_CACHE[date_iso] = out
+    return out
+
+
+def _fill_pick_price(pick):
+    """Attach the real book price to a pick that is missing one. True if filled."""
+    if pick.get("odds") is not None:
+        return False
+    from props_engine import _name_key, _to_win_1u, implied_prob, ev_per_unit
+    nk = _name_key(pick.get("player", ""))
+    line = _cached_prices(pick.get("date", "")).get((nk[0], nk[1], pick.get("market", "")))
+    if not line:
+        return False
+    if line.get("line") != pick.get("line"):
+        return False  # board moved — don't grade against a different number
+    price = line.get("over_price") if pick.get("pick") == "OVER" else line.get("under_price")
+    if price is None:
+        return False
+    pick["odds"] = price
+    pick["to_win_1u"] = _to_win_1u(price)
+    pick["over_price"] = line.get("over_price")
+    pick["under_price"] = line.get("under_price")
+    pick["implied"] = round(implied_prob(price), 4)
+    pick["ev"] = ev_per_unit(pick.get("pCover"), price)
+    return True
+
+
 def grade_previous_picks(season=None):
     """Grade ungraded picks from previous dates using actual game logs."""
     from collections import defaultdict
@@ -163,28 +212,45 @@ def grade_previous_picks(season=None):
         print("  [grade] No picks could be matched to actual stats")
         return
 
+    # Repair any pick that has no recorded price from the per-date props
+    # cache before scoring. Grading at a flat -110 when the real board is on
+    # disk overstated season ROI ~2.5x and hid a -15.6% cell.
+    repaired = sum(1 for p in props if _fill_pick_price(p))
+    if repaired:
+        print(f"  [grade] Backfilled real book prices onto {repaired} pick(s)")
+
     total = wins + losses
     pct = wins / max(1, total) * 100
     # Staking: plus odds risk 1u to win payout, negative odds risk X to win 1u
     # +120: risk 1u, win +1.2u, loss -1u
     # -150: risk 1.5u, win +1u, loss -1.5u
     units = 0.0
+    risked = 0.0
+    unpriced = 0
     for pick in props:
         r = pick.get("result")
+        if r not in ("WIN", "LOSS"):
+            continue
         price = pick.get("odds")
-        if r == "WIN":
-            if price is not None and int(price) > 0:
-                units += int(price) / 100.0  # +120 → win 1.2u
-            else:
-                units += 1.0  # negative odds → win 1u
-        elif r == "LOSS":
-            if price is not None and int(price) > 0:
-                units -= 1.0  # plus odds → risk 1u
-            else:
-                w1u = pick.get("to_win_1u")
-                units -= float(w1u) if w1u is not None else 1.1  # -150 → risk 1.5u
-    print(f"  [grade] Graded {graded} picks: {wins}W-{losses}L ({pct:.1f}%) {'+' if units >= 0 else ''}{units:.1f}u"
-          + (f" + {pushes} pushes" if pushes else ""))
+        if price is None:
+            unpriced += 1
+            units += 1.0 if r == "WIN" else -1.1
+            risked += 1.1
+            continue
+        price = int(price)
+        if price > 0:
+            units += price / 100.0 if r == "WIN" else -1.0
+            risked += 1.0
+        else:
+            stake = abs(price) / 100.0
+            units += 1.0 if r == "WIN" else -stake
+            risked += stake
+    roi = (units / risked * 100) if risked else 0.0
+    print(f"  [grade] Graded {graded} picks: {wins}W-{losses}L ({pct:.1f}%)")
+    print(f"  [grade] Season to date: {'+' if units >= 0 else ''}{units:.1f}u on "
+          f"{risked:.1f}u risked ({roi:+.1f}% ROI)"
+          + (f" + {pushes} pushes" if pushes else "")
+          + (f"  [{unpriced} unpriced @-110]" if unpriced else ""))
 
     # Write back to all output paths
     existing["props"] = props
@@ -197,6 +263,16 @@ def grade_previous_picks(season=None):
                 print(f"  [grade] Updated {path}")
             except Exception as e:
                 print(f"  [grade] Failed to write {path}: {e}")
+
+
+# ESPN uses its own abbreviations for some teams; everything downstream
+# (FanDuel event_home/event_away, NBA-API game logs, pick["team"]) uses the
+# NBA-standard set. One shared map so the three ESPN readers below can't drift
+# apart — _get_started_teams used to skip it entirely, which meant GSW/SAS/NYK/
+# UTA/WAS/NOP were never recognised as started and their picks were dropped
+# instead of locked on any re-run after tip-off.
+ESPN_TO_NBA = {"GS": "GSW", "SA": "SAS", "NY": "NYK", "UTAH": "UTA",
+               "WSH": "WAS", "NO": "NOP"}
 
 
 def _get_todays_teams(date_key):
@@ -237,16 +313,13 @@ def _get_todays_teams(date_key):
     except Exception:
         return None
 
-    # ESPN uses non-standard abbreviations for some teams
-    espn_to_fd = {"GS": "GSW", "SA": "SAS", "NY": "NYK", "UTAH": "UTA", "WSH": "WAS"}
-
     teams = set()
     for ev in espn.get("events", []):
         comp = (ev.get("competitions") or [{}])[0]
         for team in comp.get("competitors", []):
             abbr = (team.get("team") or {}).get("abbreviation", "")
             if abbr:
-                teams.add(espn_to_fd.get(abbr, abbr))
+                teams.add(ESPN_TO_NBA.get(abbr, abbr))
 
     return teams
 
@@ -284,7 +357,7 @@ def _get_started_teams(date_key):
             for team in comp.get("competitors", []):
                 abbr = (team.get("team") or {}).get("abbreviation", "")
                 if abbr:
-                    started.add(abbr)
+                    started.add(ESPN_TO_NBA.get(abbr, abbr))
 
     return started
 
@@ -304,7 +377,6 @@ def _get_game_times(date_key):
     except Exception:
         return {}
 
-    espn_to_fd = {"GS": "GSW", "SA": "SAS", "NY": "NYK", "UTAH": "UTA", "WSH": "WAS"}
     times = {}
     for ev in espn.get("events", []):
         comp = (ev.get("competitions") or [{}])[0]
@@ -314,7 +386,7 @@ def _get_game_times(date_key):
         for team in comp.get("competitors", []):
             abbr = (team.get("team") or {}).get("abbreviation", "")
             if abbr:
-                times[espn_to_fd.get(abbr, abbr)] = tip
+                times[ESPN_TO_NBA.get(abbr, abbr)] = tip
     return times
 
 
@@ -503,6 +575,7 @@ def run_daily(date_key=None):
         injury_report=injury_report,
         team_date_roster=team_date_roster,
         team_name_to_pid=team_name_to_pid,
+        game_date=date_iso,
     )
 
     picks = [p for p in projections if p["pick"] != "PASS"]
@@ -564,6 +637,7 @@ def run_daily(date_key=None):
                     injury_report=_tom_injury,
                     team_date_roster=team_date_roster,
                     team_name_to_pid=team_name_to_pid,
+                    game_date=_tom_iso,
                 )
                 _tom_dash = format_props_for_dashboard(_tom_projections, date_str=_tom_iso)
                 tomorrow_picks_out = _tom_dash.get("props", [])

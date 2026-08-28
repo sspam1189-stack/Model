@@ -138,7 +138,16 @@ def _effective_var(team, cfg):
     return min(cfg.get("adaptiveMaxVar", 60.0), base + boost)
 
 
-def update_from_game(state, game, proj_margin, game_date=None, opts=None):
+def update_from_game(state, game, proj_margin, game_date=None, opts=None,
+                     proj_includes_adj=False):
+    """Fold one graded game into the team-strength filter.
+
+    proj_includes_adj: True when proj_margin was produced by a projection that
+    ALREADY had the Kalman offsets baked in (pyFull stores hS/aS post-offset).
+    In that case proj_margin is exactly what the model predicted, so the current
+    offsets must NOT be added again — doing so counted them twice and dragged
+    every innovation back toward zero by (h_adj - a_adj), damping the filter.
+    """
     cfg = {**KALMAN_DEFAULTS, **(opts or {})}
 
     home = game.get("home")
@@ -164,7 +173,10 @@ def update_from_game(state, game, proj_margin, game_date=None, opts=None):
     a = state["teams"][away]
 
     actual_margin = home_score - away_score
-    predicted_margin = proj_margin + h["adj_mean"] - a["adj_mean"]
+    if proj_includes_adj:
+        predicted_margin = proj_margin
+    else:
+        predicted_margin = proj_margin + h["adj_mean"] - a["adj_mean"]
     innovation = actual_margin - predicted_margin
 
     # -- Adaptive gain -------------------------------------------------------
@@ -199,7 +211,7 @@ def update_from_game(state, game, proj_margin, game_date=None, opts=None):
         a["innov_ewma"] = (1 - alpha) * a.get("innov_ewma", 0.0) + alpha * (-innovation)
 
 
-def batch_update(state, graded_games, opts=None):
+def batch_update(state, graded_games, opts=None, proj_includes_adj=False):
     updated = 0
 
     for g in graded_games:
@@ -209,7 +221,8 @@ def batch_update(state, graded_games, opts=None):
             continue
 
         proj_margin = g["hS"] - g["aS"]
-        update_from_game(state, g, proj_margin, g.get("_kalmanDate"), opts)
+        update_from_game(state, g, proj_margin, g.get("_kalmanDate"), opts,
+                         proj_includes_adj=proj_includes_adj)
         updated += 1
 
     if updated > 0:

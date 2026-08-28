@@ -170,7 +170,7 @@ def _weighted_rate_std(games, stat_key, decay=DECAY_FACTOR, min_minutes=MIN_MINU
     return math.sqrt(max(var, 0.001))  # floor appropriate for per-min rates
 
 
-def _weighted_minutes_std(games, decay=DECAY_FACTOR, min_minutes=MIN_MINUTES):
+def _weighted_minutes_std(games, decay=DECAY_FACTOR, min_minutes=0.0):
     """
     Weighted std of actual minutes played.
 
@@ -182,7 +182,7 @@ def _weighted_minutes_std(games, decay=DECAY_FACTOR, min_minutes=MIN_MINUTES):
 
     Returns std in MINUTES.
     """
-    qualified = [g for g in games if g.get("min", 0) >= min_minutes]
+    qualified = [g for g in games if g.get("min", 0) > min_minutes]
     if len(qualified) < 2:
         # Insufficient data — return sentinel so the engine can mark this
         # projection as low-confidence. See _weighted_rate_std for context.
@@ -205,7 +205,8 @@ def project_player_props(player_logs, team_def_stats=None, prop_lines=None,
                          today_games=None, player_positions=None,
                          team_def_by_pos=None, player_per36=None,
                          injury_report=None,
-                         team_date_roster=None, team_name_to_pid=None):
+                         team_date_roster=None, team_name_to_pid=None,
+                         game_date=None):
     """
     Project player props for all players with sufficient game logs.
 
@@ -226,6 +227,13 @@ def project_player_props(player_logs, team_def_stats=None, prop_lines=None,
         {player_id: game_log_dict} for today's actual games.
         Used in backtest to get correct opponent/home/away for each player.
         When None (live mode), falls back to games[-1] (most recent game).
+    game_date : str or None
+        Date being projected, "YYYY-MM-DD". REQUIRED in live mode for rest /
+        back-to-back detection. Without it detect_rest_days() returns its
+        no-prior-games sentinel (99), which handed every live player the
+        rest bonus and never applied the B2B penalty — while the backfill,
+        which passes today_games, got the adjustment right. Live and backfill
+        must run the same adjustment.
 
     Returns
     -------
@@ -291,15 +299,17 @@ def project_player_props(player_logs, team_def_stats=None, prop_lines=None,
         if today_game:
             latest_opp = today_game.get("opp", "")
             is_home = today_game.get("is_home", True)
-            game_date = today_game.get("game_date", "")
+            g_date = today_game.get("game_date", "")
         elif team in team_opp_lookup:
             latest_opp = team_opp_lookup[team]
             is_home = team_home_lookup.get(team, True)
-            game_date = ""
+            g_date = game_date or ""
         else:
             latest_opp = games[-1].get("opp", "")
             is_home = games[-1].get("is_home", True)
-            game_date = games[-1].get("game_date", "")
+            # Fall back to the run date, not the player's last-played date —
+            # rest/B2B must be measured against tonight, not their last game.
+            g_date = game_date or games[-1].get("game_date", "")
 
         # --- Lineup-context filtering ---
         # When key teammates are OUT tonight, prefer games where they were
@@ -314,8 +324,12 @@ def project_player_props(player_logs, team_def_stats=None, prop_lines=None,
                 recent = filter_games_by_lineup_context(
                     recent, int(pid), team, absent_pids, team_date_roster)
 
-        # Filter to games with meaningful minutes
+        # Two windows over the same games:
+        #   qualified  -> per-minute RATES, needs meaningful-minutes samples
+        #   min_window -> MINUTES mean/std, must stay unfiltered so it
+        #                 estimates E[min] rather than E[min | min >= 15]
         qualified = [g for g in recent if g.get("min", 0) >= MIN_MINUTES]
+        min_window = list(recent)
 
         # --- Adaptive window: extend backward when recent is thin ---
         # Playoff schedules + role changes can leave the last ROLLING_WINDOW
@@ -328,6 +342,10 @@ def project_player_props(player_logs, team_def_stats=None, prop_lines=None,
             all_qualified = [g for g in games if g.get("min", 0) >= MIN_MINUTES]
             if len(all_qualified) >= MIN_QUALIFIED:
                 qualified = all_qualified[-ROLLING_WINDOW:]
+                # Widen the minutes window to cover the same span of games.
+                _first = qualified[0].get("game_date", "")
+                min_window = [g for g in games
+                              if g.get("game_date", "") >= _first] or list(qualified)
 
         # Get this player's advanced stats (if available)
         adv = (player_adv_stats or {}).get(str(pid), {})
@@ -339,8 +357,8 @@ def project_player_props(player_logs, team_def_stats=None, prop_lines=None,
         rates = compute_weighted_per_minute_rates(qualified, decay=DECAY_FACTOR)
 
         # --- Projected minutes ---
-        is_b2b = detect_b2b_from_game_logs(games, game_date)
-        proj_min = project_minutes(qualified, adv_stats=adv, is_b2b=is_b2b)
+        is_b2b = detect_b2b_from_game_logs(games, g_date)
+        proj_min = project_minutes(min_window, adv_stats=adv, is_b2b=is_b2b)
 
         if proj_min < 12:
             continue  # Skip players projected for very few minutes
@@ -391,7 +409,7 @@ def project_player_props(player_logs, team_def_stats=None, prop_lines=None,
             # projection size and explains why high-projection picks were
             # systematically overconfident at the previous calibration.
             rate_std = _weighted_rate_std(qualified, stat_key)
-            min_std = _weighted_minutes_std(qualified)
+            min_std = _weighted_minutes_std(min_window, min_minutes=0.0)
             # If either component fell back to insufficient-data, we cannot
             # trust the resulting std. Substitute conservative defaults for
             # math but flag the projection so it can't reach conf=high.
@@ -425,7 +443,7 @@ def project_player_props(player_logs, team_def_stats=None, prop_lines=None,
             if is_b2b:
                 proj += B2B_PENALTIES.get(stat_key, 0.0)
             else:
-                rest_days = detect_rest_days(games, game_date)
+                rest_days = detect_rest_days(games, g_date)
                 if rest_days >= 3:
                     proj += REST_BONUS.get(stat_key, 0.0)
 
@@ -728,6 +746,27 @@ def _to_win_1u(price):
     return None
 
 
+def implied_prob(price):
+    """Vig-inclusive break-even probability for an American price."""
+    dec = _american_to_decimal(price)
+    return None if dec is None else 1.0 / dec
+
+
+def ev_per_unit(p_cover, price):
+    """Expected profit per unit RISKED at this price, given p_cover.
+
+    Same convention as grading (ROI = profit / risked), so it is directly
+    comparable to the realized ROI numbers: p*(decimal-1) - (1-p).
+    Positive = +EV at the offered price. The model does not gate on this —
+    it is recorded so the book's price is visible on every pick instead of
+    every pick being scored as if it were -110.
+    """
+    dec = _american_to_decimal(price)
+    if dec is None or p_cover is None:
+        return None
+    return round(p_cover * (dec - 1.0) - (1.0 - p_cover), 4)
+
+
 def _make_prop(name, team, market, proj, std, line_lookup, opp, low_data_std=False):
     """Build a single prop projection + pick.
 
@@ -806,6 +845,11 @@ def _make_prop(name, team, market, proj, std, line_lookup, opp, low_data_std=Fal
             result["conf"] = "high"
             result["odds"] = pick_price
             result["to_win_1u"] = _to_win_1u(pick_price)
+            # Record the price economics alongside the pick so downstream
+            # grading and reporting never have to assume a flat -110.
+            result["implied"] = (round(implied_prob(pick_price), 4)
+                                 if pick_price is not None else None)
+            result["ev"] = ev_per_unit(best_p, pick_price)
 
     return result
 

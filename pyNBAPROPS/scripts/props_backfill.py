@@ -296,6 +296,15 @@ def backfill(season="2025-26", start_game=15, start_date=None, use_real_lines=Tr
                 "pCover": proj.get("pCover"),
                 "conf": proj.get("conf"),
                 "won": won,
+                # Real book price for the picked side. Without these the whole
+                # backfilled record graded at a flat -110, which overstated
+                # season ROI by ~2.5x and hid that threes OVER was -15.6%.
+                "odds": proj.get("odds"),
+                "to_win_1u": proj.get("to_win_1u"),
+                "over_price": proj.get("over_price"),
+                "under_price": proj.get("under_price"),
+                "implied": proj.get("implied"),
+                "ev": proj.get("ev"),
             })
             date_picks += 1
             total_projected += 1
@@ -318,6 +327,23 @@ def backfill(season="2025-26", start_game=15, start_date=None, use_real_lines=Tr
     _print_summary(results, total_projected, season)
 
     return results
+
+
+def _pick_units(won, price):
+    """Units won/lost on one graded pick at its real price.
+
+    Convention (matches run_daily.grade_previous_picks): negative odds risk
+    to-win-1u, positive odds risk 1u. Returns (profit, risked) so ROI is
+    profit/risked. Falls back to flat -110 when the price is unknown; callers
+    report how many fell back rather than hiding it.
+    """
+    if price is None:
+        return (1.0, 1.1) if won else (-1.1, 1.1)
+    price = int(price)
+    if price > 0:
+        return (price / 100.0, 1.0) if won else (-1.0, 1.0)
+    stake = abs(price) / 100.0
+    return (1.0, stake) if won else (-stake, stake)
 
 
 def _find_actual(player_name, market, actual_games, player_logs):
@@ -351,6 +377,8 @@ def _print_summary(results, total_projected, season):
 
     grand_w = grand_l = 0
     grand_units = 0.0
+    grand_risked = 0.0
+    grand_unpriced = 0
 
     for market in results:
         data = results[market]
@@ -366,19 +394,38 @@ def _print_summary(results, total_projected, season):
 
         wins = sum(1 for p in picks if p["won"])
         losses = len(picks) - wins
-        units = wins * 1.0 + losses * (-1.1)
+        units = 0.0
+        risked = 0.0
+        unpriced = 0
+        for _p in picks:
+            if _p.get("odds") is None:
+                unpriced += 1
+            _u, _r = _pick_units(_p["won"], _p.get("odds"))
+            units += _u
+            risked += _r
         pct = wins / max(1, wins + losses) * 100
+        roi = (units / risked * 100) if risked else 0.0
 
         grand_w += wins
         grand_l += losses
         grand_units += units
+        grand_risked += risked
+        grand_unpriced += unpriced
 
         print(f"  {market:14s}: MAE={mae:6.1f}  corr={corr:.3f}  "
-              f"picks={wins}W-{losses}L ({pct:.1f}%) {'+' if units >= 0 else ''}{units:.1f}u")
+              f"picks={wins}W-{losses}L ({pct:.1f}%) "
+              f"{'+' if units >= 0 else ''}{units:.1f}u on {risked:.1f}u risked "
+              f"({roi:+.1f}% ROI)"
+              + (f"  [{unpriced} unpriced @-110]" if unpriced else ""))
 
     print(f"\n  TOTAL: {grand_w}W-{grand_l}L "
           f"({grand_w / max(1, grand_w + grand_l) * 100:.1f}%) "
-          f"{'+' if grand_units >= 0 else ''}{grand_units:.1f}u")
+          f"{'+' if grand_units >= 0 else ''}{grand_units:.1f}u on "
+          f"{grand_risked:.1f}u risked "
+          f"({(grand_units / grand_risked * 100) if grand_risked else 0.0:+.1f}% ROI)")
+    if grand_unpriced:
+        print(f"  NOTE: {grand_unpriced} pick(s) had no book price and were "
+              f"scored at a flat -110.")
 
 
 def write_dashboard_json(results, season):
@@ -401,13 +448,27 @@ def write_dashboard_json(results, season):
                 "actual": p["actual"],
                 "result": "WIN" if p["won"] else "LOSS",
                 "date": p.get("date", ""),
+                # NOTE: this dict is a FIELD WHITELIST — anything not listed
+                # here is silently dropped from the dashboard/history file.
+                "odds": p.get("odds"),
+                "to_win_1u": p.get("to_win_1u"),
+                "over_price": p.get("over_price"),
+                "under_price": p.get("under_price"),
+                "implied": p.get("implied"),
+                "ev": p.get("ev"),
             })
 
     all_picks.sort(key=lambda x: (-(x.get("pCover") or 0), x.get("date", "")))
 
     total_w = sum(1 for p in all_picks if p["result"] == "WIN")
     total_l = sum(1 for p in all_picks if p["result"] == "LOSS")
-    units = total_w * 1.0 + total_l * (-1.1)
+    units = 0.0
+    risked = 0.0
+    for _p in all_picks:
+        _u, _r = _pick_units(_p["result"] == "WIN", _p.get("odds"))
+        units += _u
+        risked += _r
+    roi = (units / risked * 100) if risked else 0.0
 
     dashboard = {
         "sport": "nba",
@@ -422,7 +483,8 @@ def write_dashboard_json(results, season):
         "summary": (
             f"{len(all_picks)} graded picks for {season}: "
             f"{total_w}W-{total_l}L ({total_w / max(1, total_w + total_l) * 100:.1f}%) "
-            f"{'+' if units >= 0 else ''}{units:.1f}u"
+            f"{'+' if units >= 0 else ''}{units:.1f}u on {risked:.1f}u risked "
+            f"({roi:+.1f}% ROI)"
         ),
     }
 
