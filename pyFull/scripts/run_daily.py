@@ -584,24 +584,6 @@ def main(subject_label="[PY]"):
                 return st in ("STATUS_POSTPONED", "STATUS_CANCELED")
         return False
 
-    # Merge + write injury cache: preserve report entries for started/finished teams
-    try:
-        _locked_teams = set()
-        for (_ea, _eh), _st in _espn_statuses.items():
-            if _st not in ("STATUS_SCHEDULED", "STATUS_DELAYED", "STATUS_POSTPONED", "STATUS_CANCELED", ""):
-                _locked_teams.add(_ea); _locked_teams.add(_eh)
-        _merged_report = dict(injury_data.get("report", {}))
-        if _locked_teams and _old_inj_report:
-            for _team, _entries in _old_inj_report.items():
-                if any(match_team(_team, lt) for lt in _locked_teams):
-                    _merged_report[_team] = _entries
-        _inj_to_write = {"injuryData": {**injury_data, "report": _merged_report}, "playerAdvanced": player_advanced, "h2hMatchups": h2h_matchups}
-        os.makedirs(_inj_cache_dir, exist_ok=True)
-        with open(_inj_cache, "w", encoding="utf-8") as _f:
-            json.dump(_inj_to_write, _f)
-    except Exception:
-        pass
-
     _prev_run = next((r for r in store.get("runs", []) if r.get("date") == date), None)
     _prev_games = {(g.get("away", ""), g.get("home", "")): g for g in (_prev_run or {}).get("games", [])} if _prev_run else {}
 
@@ -642,8 +624,43 @@ def main(subject_label="[PY]"):
     # H2H disabled (h2hWeight=0) — skip fetch entirely
     h2h_matchups = None
 
-    base_w = store.get("weights") or defaults["DEFAULT_W"]
-    base_w_var = store.get("weightsVar") or defaults["DEFAULT_W_VAR"]
+    # Merge + write injury cache: preserve report entries for started/finished
+    # teams so a re-run after tip-off can't repick a locked game off a changed
+    # report. This must stay AFTER injury_data/player_advanced are fetched — it
+    # used to sit ~30 lines earlier, where reading injury_data raised
+    # UnboundLocalError that the bare except swallowed on every single run.
+    #
+    # Shape note: keep "report"/"playerMPG" at the TOP level, matching what
+    # sources/injuries.py::_save_injury_cache writes. pyNBAPROPS reads
+    # data["report"] directly (game_context.load_injury_report); the old
+    # {"injuryData": {...}} wrapper this block used to write made the props
+    # injury filter silently no-op on those dates.
+    try:
+        _locked_teams = set()
+        for (_ea, _eh), _st in _espn_statuses.items():
+            if _st not in ("STATUS_SCHEDULED", "STATUS_DELAYED", "STATUS_POSTPONED", "STATUS_CANCELED", ""):
+                _locked_teams.add(_ea); _locked_teams.add(_eh)
+        _merged_report = dict(injury_data.get("report", {}))
+        if _locked_teams and _old_inj_report:
+            for _team, _entries in _old_inj_report.items():
+                if any(match_team(_team, lt) for lt in _locked_teams):
+                    _merged_report[_team] = _entries
+        _inj_to_write = {**injury_data, "report": _merged_report,
+                         "playerAdvanced": player_advanced}
+        os.makedirs(_inj_cache_dir, exist_ok=True)
+        with open(_inj_cache, "w", encoding="utf-8") as _f:
+            json.dump(_inj_to_write, _f)
+        print(f"  [injury] Cached report for {len(_merged_report)} teams"
+              f" ({len(_locked_teams)} locked)")
+    except Exception as _e:
+        print(f"  [injury] Cache write failed (non-fatal): {_e}")
+
+    # Copy: base_w is mutated in place below (playoff HCA / probHigh overrides).
+    # Aliasing it to store["weights"] made those per-run overrides permanent —
+    # they were written back to history.json and then loaded as the next run's
+    # baseline, so the playoff floors leaked into the regular season.
+    base_w = dict(store.get("weights") or defaults["DEFAULT_W"])
+    base_w_var = dict(store.get("weightsVar") or defaults["DEFAULT_W_VAR"])
 
     # TEMP OVERRIDE: Orlando L10 — drop 3/29 TOR (87-139) + 4/1 ATL (101-130) blowouts
     # Fetches game log at runtime, removes those games, recomputes L10 from remaining.
@@ -758,7 +775,9 @@ def main(subject_label="[PY]"):
             if not isinstance(g.get("homeScore"),(int,float)) or not isinstance(g.get("awayScore"),(int,float)): continue
             if not isinstance(g.get("hS"),(int,float)) or not isinstance(g.get("aS"),(int,float)): continue
             g["_kalmanDate"] = r["date"]; newly_graded.append(g)
-    batch_update(kalman_state, newly_graded)
+    # hS/aS already contain the Kalman offsets (proj_score adds adj_mean),
+    # so the filter must not re-add them when computing the innovation.
+    batch_update(kalman_state, newly_graded, proj_includes_adj=True)
 
     # 3b. Self-tune weights (with recency weighting, matching backfill logic)
     def _recency_weight(days_ago):
@@ -787,8 +806,10 @@ def main(subject_label="[PY]"):
             recent_graded.append(g)
     if recent_graded and store.get("lastTuneDate") != date:
         tuned = tune_weights(base_w, base_w_var, recent_graded)
-        base_w, base_w_var = tuned["W"], tuned["W_var"]
         store["weights"], store["weightsVar"], store["lastTuneDate"] = tuned["W"], tuned["W_var"], date
+        # Copy again — see note above. Only tuned weights are persisted; the
+        # playoff overrides applied below stay local to this run.
+        base_w, base_w_var = dict(tuned["W"]), dict(tuned["W_var"])
         print(f"[3b] Weights tuned on {len(recent_graded)} graded games from last {TUNE_WINDOW} days")
     elif store.get("lastTuneDate") == date:
         print("[3b] Weights already tuned today - skipping")

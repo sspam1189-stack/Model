@@ -69,6 +69,15 @@ MARKET_THRESHOLDS = {
 # threes -14pp gap from claim). Per-market VAR_MULTs tuned from
 # calibrate_threshold output to bring claimed pCover into line with
 # actual realized win rate per market.
+#
+# 2026-08-27 STALE — RE-SWEEP BEFORE THE SEASON OPENS. These were fitted while
+# project_minutes/_weighted_minutes_std both conditioned on min >= 15, so the
+# minutes-variance term was measured on a truncated sample and came out far too
+# small; VAR_MULT was absorbing the gap. Both now use the unfiltered window
+# (real E[min] and its real spread), so base_var is materially larger and these
+# multipliers over-inflate std -> pCover compresses toward 0.5 -> pick volume
+# drops. Re-run scripts/calibrate_threshold.py against a fresh backfill and
+# reset these; do not read pick counts as a signal until that is done.
 VAR_MULT = {
     "points":        2.0,
     "rebounds":      4.03,  # 2026-04-29 final — recal #3, balanced WR + volume
@@ -149,8 +158,29 @@ MIN_LINE = {
 #
 # Rebounds OVER is cut with it (user, 2026-08-26): +3.8% over 40 bets is
 # inside the noise band and matches the older note above ("52% -> loser"),
-# so the same shading logic applies. Both restored for the 2026-27 season.
+# so the same shading logic applies.
 # Assists stays two-directional -- it is the one market where overs earn.
+#
+# 2026-08-27 re-scored at the REAL cached FanDuel prices (the table above was
+# computed at a flat -110, which the 631-pick record was also graded at). Both
+# cuts get stronger, not weaker:
+#
+#     cell             W-L      WR    mean impl   real ROI   @-110 ROI
+#     threes   OVER    74-67   52.5%     59.9%      -11.7%      +0.2%
+#     threes   UNDER   69-28   71.1%     62.5%      +13.6%     +35.8%
+#     rebounds OVER    22-18   55.0%     55.0%       +1.1%      +5.0%
+#     rebounds UNDER   52-27   65.8%     57.2%      +15.7%     +25.7%
+#     assists  OVER    73-41   64.0%     57.8%      +10.4%     +22.2%
+#     assists  UNDER   99-56   63.9%     58.6%       +8.4%     +21.9%
+#     ---------------------------------------------------------------
+#     whole book      392-239  62.1%                 +5.5%     +18.6%
+#     minus both OVER 293-152  65.8%                +11.4%
+#
+# threes OVER is -11.7% at real prices, not the -0.6% the flat-priced table
+# showed: books shade three-point overs (mean implied 59.9% on that cell) and
+# the model fires them anyway. rebounds OVER is +1.1%, below vig, not the
+# +5.0% the flat price implied. RETIRED, both of them -- do not restore
+# either OVER side without re-running the price-aware numbers.
 UNDER_ONLY_MARKETS = {"threes", "rebounds"}
 
 DISABLED_MARKETS = {"steals", "blocks", "turnovers", "points", "pts_rebs_asts"}

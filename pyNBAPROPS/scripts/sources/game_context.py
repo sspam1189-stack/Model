@@ -209,7 +209,9 @@ def load_injury_report(date_key):
     except Exception:
         return {}
 
-    report = data.get("report", {})
+    # Older caches (written by pyFull before 2026-03-28) nested the report
+    # under "injuryData". Accept both so those dates still get an injury filter.
+    report = data.get("report") or (data.get("injuryData") or {}).get("report") or {}
     result = {}
     for full_name, players in report.items():
         abbrev = NAME_TO_ABBREV.get(full_name)
@@ -465,7 +467,7 @@ def compute_weighted_per_minute_rates(player_games, decay=0.92, min_minutes=15):
     return rates
 
 
-def project_minutes(player_games, adv_stats=None, is_b2b=False):
+def project_minutes(player_games, adv_stats=None, is_b2b=False, min_minutes=0.0):
     """
     Project how many minutes a player will play tonight.
 
@@ -476,18 +478,24 @@ def project_minutes(player_games, adv_stats=None, is_b2b=False):
     Parameters
     ----------
     player_games : list[dict]
-        Recent game logs (rolling window).
+        Recent game logs (rolling window). Pass the UNFILTERED window: this
+        must estimate E[minutes], not E[minutes | minutes >= threshold].
+        Callers used to hand in a >=15-minute-filtered list, which dropped
+        blowouts, foul trouble and early exits from the mean and biased every
+        projection high.
     adv_stats : dict or None
         Player's advanced stats {"MIN": float, ...}.
     is_b2b : bool
         Whether the player is on a back-to-back.
+    min_minutes : float
+        Floor for including a game. Default 0 = every logged (played) game.
 
     Returns
     -------
     float
         Projected minutes for tonight.
     """
-    qualified = [g for g in player_games if g.get("min", 0) >= 10]
+    qualified = [g for g in player_games if g.get("min", 0) > min_minutes]
     if not qualified:
         return 0.0
 
