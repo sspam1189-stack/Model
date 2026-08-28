@@ -39,6 +39,7 @@ from props_engine import (
     ROLLING_WINDOW, DECAY_FACTOR, PROP_T_DF,
     MIN_GAMES_PASSER, MIN_GAMES_RECEIVER, MIN_GAMES_RUSHER,
     MARKET_THRESHOLDS, VAR_MULT, UNDER_ONLY,
+    EV_MARGIN, DEFAULT_PRICE, implied_breakeven, pick_units, pick_risk,
 )
 from scipy.stats import t as t_dist
 
@@ -676,7 +677,19 @@ def backtest_props(seasons, start_week=4):
                             # what the live pipeline will actually bet
                             if UNDER_ONLY and pick == "OVER":
                                 continue
-                            # No filters — let the model prove itself
+
+                            # EV gate — identical to props_weekly. Without it
+                            # the backtest graded picks the live pipeline
+                            # refuses to place, so the shipped record was not
+                            # measuring the model that actually bets.
+                            price = (line_data.get("over_price") if pick == "OVER"
+                                     else line_data.get("under_price"))
+                            if price is None:
+                                price = DEFAULT_PRICE
+                            breakeven = implied_breakeven(price)
+                            if best_p < breakeven + EV_MARGIN:
+                                continue
+
                             won = ((pick == "OVER" and actual_val > sim_line) or
                                    (pick == "UNDER" and actual_val < sim_line))
                             if actual_val == sim_line:
@@ -692,6 +705,8 @@ def backtest_props(seasons, start_week=4):
                                 "pCover": round(best_p, 3),
                                 "conf": "high",
                                 "won": won,
+                                "odds": price,
+                                "breakeven": round(breakeven, 3),
                             })
                             week_picks += 1
 
@@ -826,13 +841,23 @@ def write_dashboard_json(results, seasons):
                 "result": "WIN" if p["won"] else "LOSS",
                 "season": p["season"],
                 "week": p["week"],
+                # FIELD WHITELIST — anything not listed here is dropped from
+                # the shipped record. Prices must survive or the season grades
+                # at a flat -110 again.
+                "odds": p.get("odds"),
+                "breakeven": p.get("breakeven"),
+                "units": round(pick_units("WIN" if p["won"] else "LOSS",
+                                          p.get("odds", DEFAULT_PRICE)), 2),
             })
 
     all_picks.sort(key=lambda x: (-x["season"], -x["week"], -(x["pCover"] or 0)))
 
     total_w = sum(1 for p in all_picks if p["result"] == "WIN")
     total_l = sum(1 for p in all_picks if p["result"] == "LOSS")
-    units = total_w * 1.0 + total_l * (-1.1)
+    # Real prices, not a flat -110.
+    units = sum(pick_units(p["result"], p.get("odds", DEFAULT_PRICE)) for p in all_picks)
+    risked = sum(pick_risk(p.get("odds", DEFAULT_PRICE)) for p in all_picks)
+    roi = (units / risked * 100) if risked else 0.0
 
     dashboard = {
         "season": seasons[-1] if seasons else 0,
@@ -842,9 +867,11 @@ def write_dashboard_json(results, seasons):
         "totalPicks": len(all_picks),
         "props": all_picks,
         "summary": (
-            f"{len(all_picks)} graded picks across {len(seasons)} seasons: "
+            f"{len(all_picks)} graded picks across {len(seasons)} seasons "
+            f"(EV-gated, real prices): "
             f"{total_w}W-{total_l}L ({total_w / max(1, total_w + total_l) * 100:.1f}%) "
-            f"{'+' if units >= 0 else ''}{units:.1f}u"
+            f"{'+' if units >= 0 else ''}{units:.1f}u on {risked:.1f}u risked "
+            f"({roi:+.1f}% ROI)"
         ),
     }
 

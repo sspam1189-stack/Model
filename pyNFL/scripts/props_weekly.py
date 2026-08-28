@@ -38,6 +38,8 @@ from player_kalman_nfl import (
 from props_engine import (
     build_player_game_logs, _name_key,
     MARKET_THRESHOLDS, DISABLED_MARKETS, PROP_T_DF,
+    # EV gate lives in props_engine so the backfill applies the identical one
+    EV_MARGIN, DEFAULT_PRICE, implied_breakeven, pick_units,
 )
 from props_backfill import (
     _project_volume_output, _build_kalman_logs,
@@ -57,38 +59,7 @@ _CALIB_PATH = os.path.normpath(
 # Picks only fire on markets that survived the 2023-2025 backtest.
 ACTIVE_MARKETS = [m for m in MARKETS if m not in DISABLED_MARKETS]
 
-EV_MARGIN = 0.02          # pCover must beat implied breakeven by this much
-DEFAULT_PRICE = -110      # assumed juice when the book didn't return a price
 GAME_WINDOW_DAYS = 7      # only project games commencing within this window
-
-
-# ---------------------------------------------------------------------------
-# Odds / price helpers
-# ---------------------------------------------------------------------------
-
-def implied_breakeven(american_odds):
-    """Win probability needed to break even at the given American price."""
-    try:
-        o = float(american_odds)
-    except (TypeError, ValueError):
-        o = DEFAULT_PRICE
-    if o < 0:
-        return -o / (-o + 100.0)
-    return 100.0 / (o + 100.0)
-
-
-def pick_units(result, american_odds):
-    """Units won/lost per house convention: risk-to-win-1u at negative odds,
-    risk-1u at positive odds. VOID/PUSH = 0."""
-    if result not in ("WIN", "LOSS"):
-        return 0.0
-    try:
-        o = float(american_odds)
-    except (TypeError, ValueError):
-        o = DEFAULT_PRICE
-    if result == "WIN":
-        return 1.0 if o < 0 else o / 100.0
-    return -(-o) / 100.0 if o < 0 else -1.0
 
 
 def _parse_iso(ts):

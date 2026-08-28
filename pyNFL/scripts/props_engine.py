@@ -822,6 +822,52 @@ def _make_prop(name, team, market, proj, std, line_lookup, opp):
 
 
 # ---------------------------------------------------------------------------
+# Odds / price helpers — SHARED by props_weekly (live) and props_backfill.
+#
+# These lived only in props_weekly, so the backtest had no EV gate at all and
+# graded picks the live pipeline would refuse to place. One definition here
+# keeps the two paths from drifting again.
+# ---------------------------------------------------------------------------
+
+EV_MARGIN = 0.02          # pCover must beat implied breakeven by this much
+DEFAULT_PRICE = -110      # assumed juice when the book returned no price
+
+
+def implied_breakeven(american_odds):
+    """Win probability needed to break even at the given American price."""
+    try:
+        o = float(american_odds)
+    except (TypeError, ValueError):
+        o = DEFAULT_PRICE
+    if o < 0:
+        return -o / (-o + 100.0)
+    return 100.0 / (o + 100.0)
+
+
+def pick_units(result, american_odds):
+    """Units won/lost per house convention: risk-to-win-1u at negative odds,
+    risk-1u at positive odds. VOID/PUSH = 0."""
+    if result not in ("WIN", "LOSS"):
+        return 0.0
+    try:
+        o = float(american_odds)
+    except (TypeError, ValueError):
+        o = DEFAULT_PRICE
+    if result == "WIN":
+        return 1.0 if o < 0 else o / 100.0
+    return -(-o) / 100.0 if o < 0 else -1.0
+
+
+def pick_risk(american_odds):
+    """Units RISKED on one pick, so ROI can be reported as profit / risked."""
+    try:
+        o = float(american_odds)
+    except (TypeError, ValueError):
+        o = DEFAULT_PRICE
+    return (-o) / 100.0 if o < 0 else 1.0
+
+
+# ---------------------------------------------------------------------------
 # Format for dashboard JSON
 # ---------------------------------------------------------------------------
 

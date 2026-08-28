@@ -40,6 +40,7 @@ load_dotenv()
 # Local imports — thin wrappers over core/ + NFL-specific modules
 # ---------------------------------------------------------------------------
 from store import load_store, save_store, upsert_run
+from season_rollover import roll_if_new_season
 from self_tune import tune_weights, compute_residual_var
 from kalman_state import (
     load_kalman_state, save_kalman_state, initialize_kalman,
@@ -530,7 +531,10 @@ def stage_grade(season, week, store):
     if completed:
         for g in completed:
             g["_kalmanDate"] = f"{season}_W{prev_week}"
-        batch_update(kalman_state, completed)
+        # hS/aS already include the Kalman offsets (model_engine adds
+        # kalman_adj["mean"] into proj_home/proj_away before storing them), so
+        # the filter must not re-add them when forming the innovation.
+        batch_update(kalman_state, completed, proj_includes_adj=True)
         print(f"  Kalman updated with {len(completed)} games")
 
     # 3. Self-tune weights
@@ -613,8 +617,13 @@ def stage_project(season, week, store):
     apply_daily_drift(kalman_state, f"{season}_W{week}")
 
     # Load weights and thresholds
-    base_w = store.get("weights") or defaults.DEFAULT_W
-    base_w_var = store.get("weightsVar") or defaults.DEFAULT_W_VAR
+    # Copy: base_w is mutated in place below when merging weights.json. Without
+    # the copy it aliases store["weights"] (persisted at the end of the run), so
+    # weights.json keys got merged in permanently and — because the merge is
+    # "if k not in base_w" — were then shadowed forever. Worse, with an empty
+    # store base_w WAS defaults.DEFAULT_W and the merge mutated the module global.
+    base_w = dict(store.get("weights") or defaults.DEFAULT_W)
+    base_w_var = dict(store.get("weightsVar") or defaults.DEFAULT_W_VAR)
 
     # Load trained weights from file if available
     weights_path = os.path.join(SCRIPT_DIR, "..", "data", "weights.json")
@@ -907,6 +916,12 @@ def main():
     print(f"\n{'='*60}")
     print(f"  NFL Pipeline — {season} Week {week} — Stage: {args.stage}")
     print(f"{'='*60}\n")
+
+    # New season -> brand new team Kalman. nfl.json is deliberately NOT rolled:
+    # it holds 2023..2025 in one store because the ridge model trains across
+    # seasons. Keyed to the run date, so backfill_last_n_weeks replaying old
+    # weeks never trips it.
+    roll_if_new_season(datetime.now().strftime("%Y%m%d"))
 
     store = load_store()
 

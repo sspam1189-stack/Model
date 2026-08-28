@@ -21,6 +21,7 @@ except ImportError:
 
 # -- Configurable (set by wrapper) --
 STATE_PATH = None  # Must be set by wrapper
+SEASON_START_MONTH = 10  # month the season opens; NFL wrapper sets 9
 
 KALMAN_DEFAULTS = {
     "initialVar": 16,
@@ -277,7 +278,7 @@ def _current_season():
     now = datetime.now()
     y = now.year
     m = now.month
-    start = y if m >= 10 else y - 1
+    start = y if m >= SEASON_START_MONTH else y - 1
     return f"{start}-{str(start + 1)[2:]}"
 
 
