@@ -2187,8 +2187,19 @@ function nflRenderSystemRecord(runs) {
           </tr>
         </tbody>
       </table>
-      <div class="card-subtitle">Click a row to filter the tab to that system. Flat 1u at -110.</div>
+      <div class="card-subtitle">${esc(nflRecordSpan(runs))} · flat 1u at -110. Click a row to filter the tab to that system.</div>
     </div>`;
+}
+
+// The record is cumulative THROUGH the selected week, not the whole history,
+// so it has to say which span it is covering -- otherwise picking a mid-season
+// week silently shrinks every number and the table looks like it disagrees
+// with itself.
+function nflRecordSpan(runs) {
+  if (!runs || !runs.length) return 'No graded weeks';
+  const f = runs[0], l = runs[runs.length - 1];
+  if (f.season === l.season && f.week === l.week) return `${f.season} Week ${f.week}`;
+  return `${f.season} Week ${f.week} through ${l.season} Week ${l.week}`;
 }
 
 // ─── NFL History View ───
