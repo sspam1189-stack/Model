@@ -190,6 +190,67 @@ def raw_structural(home_st, away_st, league_off):
 # Main entry point — signature-compatible with model_engine.analyze_game
 # ---------------------------------------------------------------------------
 
+def _systems_only_game(game_data, home_name, away_name, situational):
+    """
+    Emit a game record carrying ONLY situational-system picks, for games the
+    projection can't handle (week 1 has no prior-week team stats).
+
+    The systems have no warm-up requirement of their own -- day_mismatch_over
+    and home_dog_7_10 need nothing but the market line -- so gating them
+    behind the projection's burn-in throws away real plays.
+    """
+    market_spread = game_data.get("line")
+    market_total = game_data.get("total")
+    if not isinstance(market_spread, (int, float)):
+        return None
+    situational = situational or {}
+    try:
+        from situational_systems import evaluate as _ev, build_context as _ctx_fn
+        ctx = _ctx_fn(
+            spread=market_spread,
+            week=situational.get("week", game_data.get("week")),
+            primetime=situational.get("primetime"),
+            backup_qb=bool(situational.get("home_backup_qb")
+                           or situational.get("away_backup_qb")),
+            dome=situational.get("dome"), temp=situational.get("temp"),
+            rematch=situational.get("rematch"),
+            home_lost_meeting1=situational.get("home_lost_meeting1"),
+            snf=situational.get("snf"),
+        )
+        fired = _ev(ctx)
+    except Exception:
+        return None
+    if not fired["total"] and not fired["spread"]:
+        return None          # nothing fires -> nothing to record
+
+    res = {
+        "home": home_name, "away": away_name,
+        "line": market_spread, "total": market_total,
+        "hS": None, "aS": None, "pT": None, "projSpread": None,
+        "sPick": "PASS", "sConf": "low", "oPick": "PASS", "oConf": "low",
+        "confidenceTier": "low", "pCover": None, "pOU": None,
+        "engine": "v2-systems-only",
+        "systemsFired": fired["all"], "systemsConflict": fired["conflicts"],
+        "situationalPick": None, "situationalSpreadPick": None,
+    }
+    if fired["total"] and isinstance(market_total, (int, float)) and market_total > 0:
+        res["oPick"], res["oConf"] = fired["total"]["side"], "pick"
+        res["pOU"] = fired["total"]["prob"]
+        res["situationalPick"] = fired["total"]["id"]
+    if fired["spread"]:
+        s = fired["spread"]
+        res["sPick"] = _format_spread_pick(
+            home_name, away_name, "home" if s["side"] == "HOME" else "away",
+            abs(market_spread), market_spread < 0)
+        res["sConf"] = "pick"
+        res["pCover"] = s["prob"]
+        res["situationalSpreadPick"] = s["id"]
+    for k in ("date", "week", "gameId", "homeScore", "awayScore"):
+        if k in game_data:
+            res[k] = game_data[k]
+    return res
+
+
 def analyze_game(game_data, team_stats, weights, kalman_states=None,
                  injury_deltas=None, residual_var=None, thresholds=None,
                  prob_calib=None, situational=None, scale_calib=None,
@@ -208,11 +269,14 @@ def analyze_game(game_data, team_stats, weights, kalman_states=None,
 
     home_key = _resolve_team(team_stats, home_name)
     away_key = _resolve_team(team_stats, away_name)
-    if not home_key or not away_key:
-        return None
-    home_st, away_st = team_stats.get(home_key), team_stats.get(away_key)
+    home_st = team_stats.get(home_key) if home_key else None
+    away_st = team_stats.get(away_key) if away_key else None
     if not home_st or not away_st:
-        return None
+        # No team stats yet (week 1, or an unresolved team). The PROJECTION
+        # can't be made -- but the situational systems don't use it, they
+        # only need the line, the schedule and the QB. So fall through to a
+        # systems-only record rather than dropping the game entirely.
+        return _systems_only_game(game_data, home_name, away_name, situational)
 
     weights = weights or {}
     inj = injury_deltas or {}
@@ -359,6 +423,7 @@ def analyze_game(game_data, team_stats, weights, kalman_states=None,
             temp=situational.get("temp"),
             rematch=situational.get("rematch"),
             home_lost_meeting1=situational.get("home_lost_meeting1"),
+            snf=situational.get("snf"),
         )
         _fired = _sys_eval(_ctx)
         systems_fired = _fired["all"]          # EVERY system that fired, not just the pick

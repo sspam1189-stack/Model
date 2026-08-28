@@ -767,9 +767,9 @@ def stage_project(season, week, store):
                     _dt = datetime.fromisoformat(str(_ct).replace("Z", "+00:00"))
                     _local = _dt - timedelta(hours=5)   # UTC -> US Eastern-ish
                     _wd = _local.strftime("%A")
+                    game_situational["snf"] = (_wd == "Sunday" and _local.hour >= 20)
                     game_situational["primetime"] = (
-                        _wd in ("Thursday", "Monday")
-                        or (_wd == "Sunday" and _local.hour >= 20))
+                        _wd in ("Thursday", "Monday") or game_situational["snf"])
             except (ValueError, TypeError):
                 pass
             # roof / temperature from the weather enrichment

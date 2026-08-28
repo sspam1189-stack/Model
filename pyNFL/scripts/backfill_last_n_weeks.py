@@ -333,6 +333,7 @@ def backfill(seasons, output_dir=None):
                 _t = _r.get("temp")
                 _sit_ctx[(int(_r["week"]), _hh)] = dict(
                     week=int(_r["week"]), primetime=_prime,
+                    snf=(_wd == "Sunday" and _hour is not None and _hour >= 20),
                     dome=_roof in ("dome", "closed"),
                     temp=(float(_t) if _t is not None and _t == _t else None),
                     rematch=bool(_hist),
@@ -380,8 +381,12 @@ def backfill(seasons, output_dir=None):
             through_week = week - 1
             team_stats = compute_team_stats_through_week(pbp, through_week, decay=0.85)
             if not team_stats:
-                print(f"  {week_key}{burn_tag}: No stats available — skipping")
-                continue
+                # Week 1 has no prior-week stats, so there is no PROJECTION --
+                # but the situational systems don't need one (day_mismatch and
+                # home_dog fire off the line alone). Carry on with empty stats;
+                # analyze_game emits a systems-only record for these games.
+                print(f"  {week_key}{burn_tag}: No team stats yet — systems-only week")
+                team_stats = {}
 
             # Compute player stats for injury deltas
             try:

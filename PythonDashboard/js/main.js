@@ -203,6 +203,8 @@ const DAYS_PER_PAGE = 7;
 // ─── Generic Season Filter (shared across ALL tabs) ───
 let seasonFilter = 'all';
 let nflWeekFilter = 'latest';
+let nflSystemFilter = 'all';   // which situational system to show ('all' = every one)
+let nflShowModel = false;      // the projection is reference-only; collapsed by default
 let nflHistoryWeekFilter = 'all';
 let teamPicksFilter = null; // selected team for the Team Picks browser; null = not yet chosen
 let spreadTrendsTab = 'weekly'; // active tab for the combined Weekly/Rolling card
@@ -341,8 +343,9 @@ function nflWeekLabel(weekNum, run) {
 function nflWeekSelector(runs) {
   if (activeTab !== 'nfl') return '';
   const showSeason = seasonFilter === 'all';
+  // Burn-in weeks are listed too: the situational systems have no warm-up
+  // and do produce plays in weeks 1-3, even though model picks there don't count.
   const weeks = runs
-    .filter(r => !r.burnIn)
     .map(r => {
       const base = nflWeekLabel(r.week, r);
       const label = showSeason && r.season ? `${r.season} ${base}` : base;
@@ -583,7 +586,9 @@ function unitClass(u) { return u > 0 ? 'win-text' : u < 0 ? 'loss-text' : ''; }
 function pctClass(p) { return p >= 55 ? 'win-text' : p <= 50 ? 'loss-text' : ''; }
 function isActionable(conf) {
   const c = String(conf || '').trim().toLowerCase();
-  return c === 'elite' || c === 'high';
+  // 'pick' is the NFL engine's single-tier label; 'high'/'elite' are the
+  // legacy two-tier values kept so previously graded history still counts.
+  return c === 'pick' || c === 'elite' || c === 'high';
 }
 
 function parseSpreadPick(pick) {
@@ -1618,24 +1623,29 @@ function nflGetActionablePicks(runs) {
 
 // ─── NFL Record Banner ───
 function nflRenderRecordBanner(runs) {
-  const picks = nflGetActionablePicks(runs);
+  // This tab is a SYSTEM NOTIFIER, so the headline number is the SITUATIONAL
+  // SYSTEM record, not the projection's. The projection has no market edge;
+  // its record lives in the collapsed Model Reference section.
   let w = 0, l = 0, p = 0;
-  for (const pk of picks) {
-    if (pk.result === 'WIN') w++;
-    else if (pk.result === 'LOSS') l++;
-    else p++;
-  }
+  (runs || []).forEach(r => (r.games || []).forEach(g => {
+    [[g.situationalPick, g.oResult], [g.situationalSpreadPick, g.sResult]].forEach(([id, res]) => {
+      if (!id) return;
+      if (nflSystemFilter !== 'all' && id !== nflSystemFilter) return;
+      if (res === 'WIN') w++; else if (res === 'LOSS') l++; else p++;
+    });
+  }));
   const total = w + l;
   const pct = total > 0 ? (100 * w / total) : 0;
   const units = calcUnits(w, l);
-  const nonBurn = runs.filter(r => !r.burnIn);
-  const weeksPlayed = nonBurn.length;
+  const weeksPlayed = runs.length;   // systems have no burn-in
   const uClass = units > 0 ? 'positive' : units < 0 ? 'negative' : 'neutral';
   const pClass = pct > 52.4 ? 'positive' : pct < 50 ? 'negative' : 'neutral';
+  const scope = nflSystemFilter === 'all'
+    ? 'System Record' : (NFL_SYSTEM_LABELS[nflSystemFilter] || nflSystemFilter);
   return `
     <div class="record-banner">
       <div class="record-item">
-        <div class="label">ATS Record</div>
+        <div class="label">${esc(scope)}</div>
         <div class="value">${w}-${l}${p > 0 ? `-${p}` : ''}</div>
       </div>
       <div class="record-item">
@@ -2005,85 +2015,167 @@ function nflRenderTodayPicks(run) {
 // Validated pricing-bias systems (see pyNFL/scripts/situational_systems.py).
 // These are the actual betting product; the projection is monitor-only.
 const NFL_SYSTEM_LABELS = {
-  day_mismatch_over:    'Day mismatch (|spread| 7+) — OVER',
-  backup_qb_over:       'Backup QB starting, wks 1-13 — OVER',
-  late_cold_over:       'Late season, outdoors, cold — OVER',
-  home_dog_7_10:        'Home dog of 7-10 — HOME',
-  rematch_home_lost_m1: 'Div rematch, home lost 1st — HOME',
+  day_mismatch_over:     'Day mismatch (|spread| 7+) — OVER',
+  day_mismatch_10_over:  'Day mismatch (|spread| 10+) — OVER · confirms',
+  day_mismatch_late_over:'Day mismatch 7+, wks 14-18 — OVER · confirms',
+  mismatch_10_any_over:  'Mismatch 10+ (any window) — OVER · confirms',
+  backup_qb_over:        'Backup QB starting, wks 1-13 — OVER',
+  late_cold_over:        'Late season, outdoors, cold — OVER',
+  week1_under:           'Week 1 — UNDER',
+  snf_under:             'Sunday Night Football — UNDER',
+  home_dog_7_10:         'Home dog of 7-10 — HOME',
+  rematch_home_lost_m1:  'Div rematch, home lost 1st — HOME',
 };
+
+function setNflSystemFilter(val) { nflSystemFilter = val; render(); }
+function nflToggleModel() { nflShowModel = !nflShowModel; render(); }
+
+function nflSystemSelector() {
+  const ids = Object.keys(NFL_SYSTEM_LABELS);
+  let opts = `<option value="all" ${nflSystemFilter === 'all' ? 'selected' : ''}>All Systems</option>`;
+  for (const id of ids) {
+    opts += `<option value="${id}" ${nflSystemFilter === id ? 'selected' : ''}>${esc(NFL_SYSTEM_LABELS[id])}</option>`;
+  }
+  return `<select onchange="setNflSystemFilter(this.value)" style="background:#1e1e1e;color:#e0e0e0;border:1px solid #444;border-radius:6px;padding:4px 10px;font-size:13px;margin-left:10px;cursor:pointer">${opts}</select>`;
+}
+
+// Does the selected system apply to this game's pick on this market?
+// Matches on FIRED, not just on "was the bet" — three of the registered
+// systems are nested inside a higher-probability parent and so never win the
+// pick, but filtering to them should still surface the games they confirm.
+function nflSystemMatches(g, market) {
+  if (nflSystemFilter === 'all') return true;
+  const id = market === 'total' ? g.situationalPick : g.situationalSpreadPick;
+  if (id === nflSystemFilter) return true;
+  if (!id) return false;
+  return (g.systemsFired || []).includes(nflSystemFilter);
+}
 
 function nflRenderSystemPlays(run) {
   const games = (run.games || []).filter(g =>
     (g.situationalPick || g.situationalSpreadPick) &&
     g.status !== 'MISSING_ODDS' && g.status !== 'SKIPPED');
-  const title = `System Plays — ${nflGetWeekLabel(run)}`;
+  const filterLabel = nflSystemFilter === 'all'
+    ? '' : ` · ${esc(NFL_SYSTEM_LABELS[nflSystemFilter] || nflSystemFilter)}`;
+  const title = `System Plays — ${nflGetWeekLabel(run)}${filterLabel}`;
   if (!games.length) {
     return `<div class="card card-picks"><div class="card-title">${title}</div>
       <div class="no-picks">No system plays this week.</div></div>`;
   }
-  const rows = [];
+  // Group by the system that made the pick, in registry order, so the week
+  // reads as "here is what each system is telling me" rather than a flat list
+  // you have to scan for the system name.
+  const bySystem = new Map();
+  const push = (id, row) => {
+    if (!bySystem.has(id)) bySystem.set(id, []);
+    bySystem.get(id).push(row);
+  };
   games.forEach(g => {
     const matchup = `${esc(g.away)} @ ${esc(g.home)}`;
+    const showTotal = g.situationalPick && nflSystemMatches(g, 'total');
+    const showSpread = g.situationalSpreadPick && nflSystemMatches(g, 'spread');
+    if (!showTotal && !showSpread) return;
     // every system that fired, so overlaps are visible rather than hidden
     const fired = (g.systemsFired || []);
     const extra = fired.length > 1
       ? `<span class="pick-meta">+${fired.length - 1} more system${fired.length > 2 ? 's' : ''} agree</span>` : '';
     const conflict = (g.systemsConflict || []).length
       ? `<span class="pick-meta" style="color:var(--red)">CONFLICT — stood down</span>` : '';
-    if (g.situationalPick) {
+    if (showTotal) {
       const res = g.oResult || null;
-      rows.push(`<div class="pick-item">
+      push(g.situationalPick, `<div class="pick-item">
         <span class="pick-team">${esc(g.oPick)} ${fmtNum(g.total, 1)}</span>
         <span class="pick-meta">${matchup}</span>
-        <span class="pick-meta">${esc(NFL_SYSTEM_LABELS[g.situationalPick] || g.situationalPick)}</span>
         ${g.pOU != null ? `<span class="pick-meta">P=${fmtProb(g.pOU)}</span>` : ''}
         ${extra}${conflict}
         ${res ? resultBadge(res) : '<span class="result-badge pending">PENDING</span>'}
       </div>`);
     }
-    if (g.situationalSpreadPick) {
+    if (showSpread) {
       const res = g.sResult || null;
-      rows.push(`<div class="pick-item">
+      push(g.situationalSpreadPick, `<div class="pick-item">
         <span class="pick-team">${esc(g.sPick)}</span>
         <span class="pick-meta">${matchup}</span>
-        <span class="pick-meta">${esc(NFL_SYSTEM_LABELS[g.situationalSpreadPick] || g.situationalSpreadPick)}</span>
         ${g.pCover != null ? `<span class="pick-meta">P=${fmtProb(g.pCover)}</span>` : ''}
         ${conflict}
         ${res ? resultBadge(res) : '<span class="result-badge pending">PENDING</span>'}
       </div>`);
     }
   });
-  return `<div class="card card-picks"><div class="card-title">${title}</div>${rows.join('')}</div>`;
+  if (!bySystem.size) {
+    return `<div class="card card-picks"><div class="card-title">${title}</div>
+      <div class="no-picks">No system plays this week.</div></div>`;
+  }
+  // registry order first, then anything unrecognised
+  const order = Object.keys(NFL_SYSTEM_LABELS).filter(id => bySystem.has(id))
+    .concat([...bySystem.keys()].filter(id => !(id in NFL_SYSTEM_LABELS)));
+  const body = order.map(id => {
+    const rows = bySystem.get(id);
+    return `<div class="pick-item" style="border:none;padding:10px 0 4px">
+        <span class="pick-team" style="color:var(--muted);font-size:12px;letter-spacing:.04em;text-transform:uppercase">
+          ${esc(NFL_SYSTEM_LABELS[id] || id)} <span style="opacity:.7">(${rows.length})</span>
+        </span>
+      </div>${rows.join('')}`;
+  }).join('');
+  return `<div class="card card-picks"><div class="card-title">${title}</div>${body}</div>`;
 }
 
-// Cumulative system record across the runs in view
+// Cumulative record per system. Rows are clickable to filter the whole tab
+// to one system. Markup mirrors renderSpreadRecord so it picks up the same
+// card/table styling rather than rendering as a bare unstyled table.
 function nflRenderSystemRecord(runs) {
   const tally = {};
   (runs || []).forEach(r => (r.games || []).forEach(g => {
     [[g.situationalPick, g.oResult], [g.situationalSpreadPick, g.sResult]].forEach(([id, res]) => {
-      if (!id || (res !== 'WIN' && res !== 'LOSS')) return;
-      tally[id] = tally[id] || { w: 0, l: 0 };
-      res === 'WIN' ? tally[id].w++ : tally[id].l++;
+      if (!id) return;
+      tally[id] = tally[id] || { w: 0, l: 0, pending: 0 };
+      if (res === 'WIN') tally[id].w++;
+      else if (res === 'LOSS') tally[id].l++;
+      else tally[id].pending++;
     });
   }));
   const ids = Object.keys(tally);
-  if (!ids.length) return '<div class="no-picks">No graded system plays yet.</div>';
-  let TW = 0, TL = 0;
-  const rows = ids.sort((a, b) => (tally[b].w + tally[b].l) - (tally[a].w + tally[a].l)).map(id => {
-    const { w, l } = tally[id]; TW += w; TL += l;
-    const n = w + l, pct = n ? (w / n * 100).toFixed(1) : '0.0';
-    const u = (w - l * 1.1).toFixed(1);
-    return `<tr><td>${esc(NFL_SYSTEM_LABELS[id] || id)}</td><td>${w}-${l}</td>
-      <td>${pct}%</td><td class="${u >= 0 ? 'pos' : 'neg'}">${u >= 0 ? '+' : ''}${u}u</td></tr>`;
-  });
-  const tu = (TW - TL * 1.1).toFixed(1);
-  return `<div class="card"><table class="data-table">
-    <thead><tr><th>System</th><th>W-L</th><th>Hit%</th><th>Units</th></tr></thead>
-    <tbody>${rows.join('')}
-    <tr style="font-weight:600"><td>ALL SYSTEMS</td><td>${TW}-${TL}</td>
-      <td>${TW + TL ? (TW / (TW + TL) * 100).toFixed(1) : '0.0'}%</td>
-      <td class="${tu >= 0 ? 'pos' : 'neg'}">${tu >= 0 ? '+' : ''}${tu}u</td></tr>
-    </tbody></table></div>`;
+  if (!ids.length) {
+    return `<div class="card card-records"><div class="card-title">System Record</div>
+      <div class="no-picks">No system plays yet.</div></div>`;
+  }
+  let TW = 0, TL = 0, TP = 0;
+  const rows = ids
+    .sort((a, b) => (tally[b].w + tally[b].l) - (tally[a].w + tally[a].l))
+    .map(id => {
+      const { w, l, pending } = tally[id];
+      TW += w; TL += l; TP += pending;
+      const n = w + l, pct = n ? (w / n * 100) : 0, u = w - l * 1.1;
+      const on = nflSystemFilter === id;
+      return `<tr onclick="setNflSystemFilter('${on ? 'all' : id}')"
+          style="cursor:pointer${on ? ';background:rgba(124,92,255,0.15)' : ''}"
+          title="Click to ${on ? 'clear the' : 'filter to this'} system">
+        <td>${on ? '▸ ' : ''}${esc(NFL_SYSTEM_LABELS[id] || id)}</td>
+        <td>${w}-${l}</td>
+        <td class="center"><span class="${pctClass(pct)}">${fmtPct(pct)}</span></td>
+        <td class="center"><span class="${unitClass(u)}">${fmtUnits(u)}</span></td>
+        <td class="center">${n}${pending ? ` <span style="color:var(--muted)">(+${pending} pend)</span>` : ''}</td>
+      </tr>`;
+    });
+  const tu = TW - TL * 1.1, tn = TW + TL;
+  return `
+    <div class="card card-records">
+      <div class="card-title">System Record ${nflSystemSelector()}</div>
+      <table class="data">
+        <thead><tr><th>System</th><th>W-L</th><th class="center">Win%</th>
+          <th class="center">Flat</th><th class="center">Graded</th></tr></thead>
+        <tbody>
+          ${rows.join('')}
+          <tr style="font-weight:600;border-top:1px solid var(--border)">
+            <td>ALL SYSTEMS</td><td>${TW}-${TL}</td>
+            <td class="center"><span class="${pctClass(tn ? TW / tn * 100 : 0)}">${fmtPct(tn ? TW / tn * 100 : 0)}</span></td>
+            <td class="center"><span class="${unitClass(tu)}">${fmtUnits(tu)}</span></td>
+            <td class="center">${tn}${TP ? ` <span style="color:var(--muted)">(+${TP} pend)</span>` : ''}</td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="card-subtitle">Click a row to filter the tab to that system. Flat 1u at -110.</div>
+    </div>`;
 }
 
 // ─── NFL History View ───

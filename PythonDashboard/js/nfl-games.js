@@ -19,20 +19,25 @@ async function renderNFL() {
   const latestRun = nonBurnIn.length ? nonBurnIn[nonBurnIn.length - 1] : null;
   const totalPages = Math.ceil(nonBurnIn.length / DAYS_PER_PAGE);
 
-  // Week filter: pick which run to show in the "Latest" view
+  // Week filter: pick which run to show in the "Latest" view.
+  // Search ALL runs, not just non-burn-in ones — the systems fire in weeks
+  // 1-3 and selecting one of those used to fall through to latestRun, which
+  // made the early weeks look like they had no plays at all.
   let selectedRun = latestRun;
   if (nflWeekFilter !== 'latest' && nflWeekFilter !== 'all') {
     const parsed = parseNflWeekFilter(nflWeekFilter);
-    selectedRun = nonBurnIn.find(r =>
+    selectedRun = runs.find(r =>
       r.week === parsed.week && (!parsed.season || r.season == parsed.season)
     ) || latestRun;
   }
 
-  // For stats views: if a specific week is selected, show cumulative up to that week
-  const statsRuns = (nflWeekFilter !== 'latest' && nflWeekFilter !== 'all')
+  // For stats views: if a specific week is selected, show cumulative up to that week.
+  // cutTo() is shared so model stats and system stats slice the same way; the
+  // difference is only WHICH runs feed them.
+  const cutTo = (rs) => (nflWeekFilter !== 'latest' && nflWeekFilter !== 'all')
     ? (() => {
         const parsed = parseNflWeekFilter(nflWeekFilter);
-        return runs.filter(r => {
+        return rs.filter(r => {
           if (parsed.season) {
             // With season: include all prior seasons + weeks up to selected in same season
             return r.season < parsed.season || (r.season == parsed.season && r.week <= parsed.week);
@@ -40,7 +45,12 @@ async function renderNFL() {
           return r.week <= parsed.week;
         });
       })()
-    : runs;
+    : rs;
+  // MODEL stats exclude burn-in (the projection isn't trusted there) ...
+  const statsRuns = cutTo(nonBurnIn);
+  // ... but SYSTEM stats include every week: the systems don't use the
+  // projection, so they have no warm-up and do produce plays in weeks 1-3.
+  const systemStatsRuns = cutTo(runs);
 
   updateLastRunInfo();
   updateLastSyncInfo();
@@ -54,7 +64,9 @@ async function renderNFL() {
         );
       })()
     : statsRuns;
-  const bannerRuns = viewMode === 'history' ? historyWeekStatsRuns : statsRuns;
+  // Banner shows the SYSTEM record, which has no burn-in, so feed it the
+  // all-weeks slice rather than the model's non-burn-in one.
+  const bannerRuns = viewMode === 'history' ? historyWeekStatsRuns : systemStatsRuns;
 
   let html = nflRenderRecordBanner(bannerRuns);
 
@@ -68,32 +80,40 @@ async function renderNFL() {
 
   if (viewMode === 'today' && selectedRun) {
     // Situational systems are the actual betting product — show them first.
+    // They have NO burn-in: they don't use the projection, so they fire from
+    // week 1. Pick their run from all runs, not just non-burn-in ones.
+    const systemsRun = (nflWeekFilter !== 'latest' && nflWeekFilter !== 'all')
+      ? selectedRun
+      : (runs.length ? runs[runs.length - 1] : selectedRun);
+    // ── THE PRODUCT: situational systems ──────────────────────────────
+    // This tab is a SYSTEM NOTIFIER. The spread/total projection has no
+    // measurable edge over the market (see engine_v2 header), so it is
+    // reference material only and lives at the bottom behind a toggle.
     html += '<div class="section-label">System Plays</div>';
-    html += nflRenderSystemPlays(selectedRun);
+    html += nflRenderSystemPlays(systemsRun);
     html += '<div class="section-label">System Record</div>';
-    html += nflRenderSystemRecord(statsRuns);
+    html += nflRenderSystemRecord(systemStatsRuns);
 
-    html += '<div class="section-label">Model Picks (monitor-only)</div>';
-    html += nflRenderTodayPicks(selectedRun);
-    html += nflRenderWeeklyPicks(selectedRun);
-
-    html += '<div class="section-label">Spread Record (ATS)</div>';
-    html += renderSpreadRecord(statsRuns);
-
-    html += '<div class="section-label">Season P&L</div>';
-    html += nflRenderPnL(statsRuns);
-
-    html += '<div class="section-label">Injury Adjustments</div>';
-    html += nflRenderInjuries(selectedRun);
-
-    html += '<div class="section-label">Model vs Market</div>';
-    html += nflRenderScatter(statsRuns);
-
-    html += '<div class="section-label">Hit Rate Trends</div>';
-    html += nflRenderRollingRate(statsRuns);
-
-    html += '<div class="section-label">Calibration</div>';
-    html += nflRenderCalibration(statsRuns);
+    // ── Reference: the projection, collapsed by default ───────────────
+    html += `<div class="section-label" style="cursor:pointer" onclick="nflToggleModel()">
+        ${nflShowModel ? '▾' : '▸'} Model Reference (no market edge — not a betting product)
+      </div>`;
+    if (nflShowModel) {
+      html += nflRenderTodayPicks(selectedRun);
+      html += nflRenderWeeklyPicks(selectedRun);
+      html += '<div class="section-label">Spread Record (ATS)</div>';
+      html += renderSpreadRecord(statsRuns);
+      html += '<div class="section-label">Season P&L</div>';
+      html += nflRenderPnL(statsRuns);
+      html += '<div class="section-label">Injury Adjustments</div>';
+      html += nflRenderInjuries(selectedRun);
+      html += '<div class="section-label">Model vs Market</div>';
+      html += nflRenderScatter(statsRuns);
+      html += '<div class="section-label">Hit Rate Trends</div>';
+      html += nflRenderRollingRate(statsRuns);
+      html += '<div class="section-label">Calibration</div>';
+      html += nflRenderCalibration(statsRuns);
+    }
 
   } else if (viewMode === 'history') {
     // Filter history runs by week if a specific week is selected

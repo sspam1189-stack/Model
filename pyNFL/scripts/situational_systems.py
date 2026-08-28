@@ -43,16 +43,49 @@ BREAKEVEN = 0.524          # -110
 # DIVISIONAL REMATCH, HOME LOST MEETING 1: the market carries the first
 #   meeting forward and underrates the loser now playing at home.
 
+def _mismatch(c, n):
+    return (not c.get("primetime")) and abs(c.get("spread") or 0) >= n
+
 SYSTEMS = [
+    # -- the mismatch family. These are NESTED on purpose: >=10 and the
+    # wk14-18 cut are tighter slices of the >=7 parent, with higher raw rates
+    # on fewer games. They are all registered so overlap is visible ("3
+    # systems agree"), but only one bet per market is ever placed.
     {
         "id": "day_mismatch_over",
         "market": "total", "side": "OVER", "prob": 0.549,
         "desc": "day game, |spread| >= 7 -> OVER",
-        # raw 61.8% (n=173, p=0.002, seasons 62/58/65) -- the anchor system:
-        # most volume (~58/yr) and the only one at p<0.01. Subsumes the
-        # >=10 (65.2%) and wk14-18 (66.7%) variants, which are the same
-        # edge on fewer games.
-        "test": lambda c: (not c.get("primetime")) and abs(c.get("spread", 0)) >= 7,
+        # raw 61.8% (n=173, p=0.002, seasons 62/58/65) -- the anchor:
+        # most volume (~58/yr) and the only system at p<0.01.
+        "test": lambda c: _mismatch(c, 7),
+    },
+    {
+        "id": "day_mismatch_10_over",
+        "market": "total", "side": "OVER", "prob": 0.540,
+        "desc": "day game, |spread| >= 10 -> OVER",
+        # raw 65.2% (n=66, p=0.019, seasons 61/65/68)
+        "test": lambda c: _mismatch(c, 10),
+    },
+    {
+        "id": "day_mismatch_late_over",
+        "market": "total", "side": "OVER", "prob": 0.541,
+        "desc": "day game, |spread| >= 7, weeks 14-18 -> OVER",
+        # raw 66.7% (n=57, p=0.016, seasons 67/62/71) -- highest raw rate
+        "test": lambda c: _mismatch(c, 7) and 14 <= (c.get("week") or 0) <= 18,
+    },
+    {
+        "id": "mismatch_10_any_over",
+        "market": "total", "side": "OVER", "prob": 0.525,
+        "desc": "|spread| >= 10, any window -> OVER  [ADVISORY ONLY]",
+        # ADVISORY: fires and displays, but is never selected as the bet.
+        # Its raw 60.5% (n=81) comes entirely from the day-game subset that
+        # day_mismatch_over already covers. Strip those out and all that is
+        # left is primetime mismatch, which is the ONE slice we know the
+        # market prices correctly (45.5% over 3 seasons, residual -0.25 vs
+        # +2.95 on day games). Backtested as a standalone pick it went 4-7.
+        # It earns its place as a confirmation signal, not as a play.
+        "advisory": True,
+        "test": lambda c: abs(c.get("spread") or 0) >= 10,
     },
     {
         "id": "backup_qb_over",
@@ -60,17 +93,38 @@ SYSTEMS = [
         "desc": "day game, backup QB starting, weeks 1-13 -> OVER",
         # raw 65.6% (n=64, p=0.017, seasons 57/70/70)
         "test": lambda c: (not c.get("primetime")) and c.get("backup_qb")
-                          and 1 <= c.get("week", 0) <= 13,
+                          and 1 <= (c.get("week") or 0) <= 13,
     },
     {
         "id": "late_cold_over",
         "market": "total", "side": "OVER", "prob": 0.522,
         "desc": "weeks 14-18, outdoors, <=35F -> OVER",
-        # raw 64.1% (n=39, seasons 60/56/72). Smallest sample here and the
-        # most likely of the set to be chance -- lowest confidence.
-        "test": lambda c: (14 <= c.get("week", 0) <= 18) and (not c.get("dome"))
+        # raw 64.1% (n=39, seasons 60/56/72). Smallest sample of the OVERs.
+        "test": lambda c: (14 <= (c.get("week") or 0) <= 18) and (not c.get("dome"))
                           and c.get("temp") is not None and c["temp"] <= 35,
     },
+    # -- UNDER systems. LOWER CONFIDENCE: both cleared 60% raw but FAILED the
+    # every-season test that the others passed, so they are the first to drop
+    # if live results disappoint. They also make CONFLICTS possible for the
+    # first time (a cold week-15 SNF game, or a week-1 mismatch, can trigger
+    # both an OVER and an UNDER) -- evaluate() stands down when that happens.
+    {
+        "id": "week1_under",
+        "market": "total", "side": "UNDER", "prob": 0.529,
+        "desc": "week 1 -> UNDER  [failed every-season test: 75/44/75]",
+        # raw 64.6% (n=48) but 2024 was only 43.8%
+        "test": lambda c: (c.get("week") or 0) == 1,
+    },
+    {
+        "id": "snf_under",
+        "market": "total", "side": "UNDER", "prob": 0.529,
+        "desc": "Sunday Night Football -> UNDER  [failed every-season: 74/65/53]",
+        # raw 63.6% (n=55) but 2025 was only 52.6%. NOTE this is SNF ONLY --
+        # Thursday night goes the other way (42.4% under), so primetime must
+        # never be lumped together.
+        "test": lambda c: bool(c.get("snf")),
+    },
+    # -- spread systems
     {
         "id": "home_dog_7_10",
         "market": "spread", "side": "HOME", "prob": 0.529,
@@ -145,16 +199,22 @@ def evaluate(ctx):
         if len({s["side"] for s in cands}) > 1:
             out["conflicts"].append(market)     # disagree -> no pick
             continue
-        out[market] = max(cands, key=lambda s: s["prob"])
+        # advisory systems count toward agreement and conflict, but are never
+        # the bet -- see mismatch_10_any_over for why
+        bettable = [s for s in cands if not s.get("advisory")]
+        if bettable:
+            out[market] = max(bettable, key=lambda s: s["prob"])
     return out
 
 
 def build_context(spread=None, week=None, primetime=None, backup_qb=False,
-                  dome=False, temp=None, rematch=False, home_lost_meeting1=False):
+                  dome=False, temp=None, rematch=False, home_lost_meeting1=False,
+                  snf=False):
     """Assemble a context dict, deriving home_dog_pts from the spread."""
     ctx = dict(spread=spread, week=week, primetime=bool(primetime),
                backup_qb=bool(backup_qb), dome=bool(dome), temp=temp,
-               rematch=bool(rematch), home_lost_meeting1=bool(home_lost_meeting1))
+               rematch=bool(rematch), home_lost_meeting1=bool(home_lost_meeting1),
+               snf=bool(snf))
     # spread convention here matches the engine: negative = home favoured,
     # so a positive spread means the home team is getting points.
     ctx["home_dog_pts"] = spread if (spread is not None and spread > 0) else 0.0

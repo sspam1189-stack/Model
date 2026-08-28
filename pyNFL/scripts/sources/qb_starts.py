@@ -37,6 +37,10 @@ def fetch_schedules(season):
         "game_id", "season", "week", "gameday", "home_team", "away_team",
         "home_qb_name", "away_qb_name", "home_score", "away_score",
         "spread_line", "total_line", "roof", "temp", "wind",
+        # gametime/weekday drive the primetime split, which several
+        # situational systems depend on. Leaving them out silently made every
+        # game look like a day game (kickoff hour unparseable -> not primetime).
+        "gametime", "weekday",
     ) if c in sched.columns]
     sched = sched[keep]
     sched.to_parquet(cache)
