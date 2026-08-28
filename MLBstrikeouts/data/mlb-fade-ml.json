@@ -1,7 +1,7 @@
 {
   "sport": "MLB",
   "type": "fade-ml",
-  "generated": "2026-08-28T16:03:16Z",
+  "generated": "2026-08-28T18:36:53Z",
   "fadeList": [
     "Painter",
     "Rocker",
@@ -209,6 +209,30 @@
       "away": "HOU",
       "gamePk": 823583,
       "fadeReason": "all"
+    },
+    {
+      "date": "2026-08-28",
+      "commence": "2026-08-29T01:40:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Jacob Lopez"
+      ],
+      "fadeTeam": "OAK",
+      "market": "h2h",
+      "selection": "BAL",
+      "line": null,
+      "odds": -108,
+      "stake": 1.08,
+      "result": "pending",
+      "profit": 0.0,
+      "book": "fanduel",
+      "source": "fanduel_api",
+      "reason": null,
+      "home": "OAK",
+      "away": "BAL",
+      "gamePk": 824960,
+      "fadeReason": "home"
     }
   ],
   "bets": [
