@@ -10,7 +10,7 @@ from datetime import datetime
 import pytz
 
 
-PLAYOFF_START = "20270414"  # 2026-27 play-in day 1 — PROVISIONAL estimate; confirm exact date when the NBA releases the 2026-27 schedule (Aug 2026). Any mid-Apr-2027 value keeps the whole 2026-27 regular season classified correctly.
+PLAYOFF_START = "20270414"  # 2026-27 play-in day 1 — STILL PROVISIONAL. Regular season confirmed to open Tue 2026-10-20 (user, 2026-08-27). 2025-26 ran 2025-10-21 -> play-in 2026-04-14 (175 days), so the same span from 2026-10-20 lands on 2027-04-13. Kept one day LATE on purpose: a regular-season day misread as regular season is harmless, whereas a regular-season day misread as playoff applies the playoff HCA and the 0.65 probHigh floor and changes picks. Confirm against the published schedule and set the exact date.
 
 
 def _today_yyyymmdd():

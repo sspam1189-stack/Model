@@ -2,7 +2,15 @@ import time
 import requests
 from urllib.parse import urlencode
 
-SEASON = "2025-26"
+def _current_season():
+    """Auto-detect the NBA season string, e.g. '2026-27'. Season opens in October."""
+    from datetime import datetime
+    now = datetime.now()
+    start = now.year if now.month >= 10 else now.year - 1
+    return f"{start}-{str(start + 1)[2:]}"
+
+
+SEASON = _current_season()
 GAME_LOG_URL = "https://stats.nba.com/stats/leaguegamelog"
 NBA_HEADERS = {
     "User-Agent": "Mozilla/5.0",

@@ -538,14 +538,16 @@ def write_dashboard_json(results, season):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Backtest NBA player prop projections (Kalman)")
-    parser.add_argument("--season", type=str, default="2025-26",
-                        help="NBA season string (e.g. '2025-26')")
+    parser.add_argument("--season", type=str, default=None,
+                        help="NBA season string (e.g. '2026-27'). Defaults to the current season.")
     parser.add_argument("--start-game", type=int, default=15,
                         help="Min game dates before projecting (default: 15)")
     parser.add_argument("--start-date", type=str, default=None,
                         help="Start projecting from this date (YYYY-MM-DD, e.g. '2026-01-01')")
     args = parser.parse_args()
 
-    results = backfill(args.season, args.start_game, start_date=args.start_date)
+    from defaults import current_season
+    results = backfill(args.season or current_season(), args.start_game,
+                       start_date=args.start_date)
     if results:
         write_dashboard_json(results, args.season)

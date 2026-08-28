@@ -43,8 +43,12 @@ from season_rollover import roll_if_new_season
 TIMEZONE = "America/Chicago"
 CONF_ACTIONABLE = ["high", "elite"]
 UNIT_LOSS = -1.1
-TOTAL_HALF_UNIT_START = "2026-03-07"
-TOTAL_PICKS_END_DATE = "2026-03-09"
+# Store run dates are YYYYMMDD, so these must be too. They were YYYY-MM-DD,
+# which made "20260101" >= "2026-03-07" compare True ('0' > '-') and scored every
+# 2026 total as a half unit. Latent only — totals have never fired (the engine
+# has totals disabled) — but wrong the moment they are switched back on.
+TOTAL_HALF_UNIT_START = "20260307"
+TOTAL_PICKS_END_DATE = "20260309"
 
 # ---- Utility Helpers ----
 
@@ -669,50 +673,6 @@ def main(subject_label="[PY]"):
     base_w = dict(store.get("weights") or defaults["DEFAULT_W"])
     base_w_var = dict(store.get("weightsVar") or defaults["DEFAULT_W_VAR"])
 
-    # TEMP OVERRIDE: Orlando L10 — drop 3/29 TOR (87-139) + 4/1 ATL (101-130) blowouts
-    # Fetches game log at runtime, removes those games, recomputes L10 from remaining.
-    # Auto-disables after 2026-04-20 (both games will have dropped out of L10 by then).
-    _orl_deadline = "20260420"
-    if date <= _orl_deadline and enhanced_stats.get("last10", {}).get("Orlando Magic"):
-        try:
-            from nba_api.stats.endpoints import teamgamelog as _tgl
-            from nba_api.stats.endpoints import boxscoreadvancedv3 as _bsa
-            import time as _time
-
-            _logs = _tgl.TeamGameLog(team_id=1610612753, season="2025-26", season_type_all_star="Regular Season", timeout=30)
-            _df = _logs.get_data_frames()[0]
-            _exclude = {"0022501086", "0022501107"}  # TOR 3/29, ATL 4/1
-            _clean = _df[~_df["Game_ID"].isin(_exclude)].head(10)
-
-            if len(_clean) == 10:
-                _adv = []
-                for _, _r in _clean.iterrows():
-                    _time.sleep(0.6)
-                    try:
-                        _box = _bsa.BoxScoreAdvancedV3(game_id=_r["Game_ID"], timeout=30)
-                        _tdf = _box.get_data_frames()[1]
-                        _orl = _tdf[_tdf["teamName"] == "Magic"].iloc[0]
-                        _adv.append({
-                            "OFF": float(_orl["offensiveRating"]),
-                            "DEF": float(_orl["defensiveRating"]),
-                            "TS": float(_orl["trueShootingPercentage"]),
-                            "TO": float(_orl["turnoverRatio"]) / 100,
-                            "ORR": float(_orl["offensiveReboundPercentage"]),
-                            "PACE": float(_orl["pace"]),
-                        })
-                    except Exception:
-                        pass
-
-                if len(_adv) >= 8:
-                    _avg = lambda k: round(sum(g[k] for g in _adv) / len(_adv), 4)
-                    _patch = {k: _avg(k) for k in ["OFF", "DEF", "TS", "TO", "ORR", "PACE"]}
-                    enhanced_stats["last10"]["Orlando Magic"].update(_patch)
-                    print(f"  [override] Patched Orlando Magic L10 from {len(_adv)} clean games: OFF={_patch['OFF']} DEF={_patch['DEF']}")
-                else:
-                    print(f"  [override] Only got {len(_adv)} box scores — skipping Orlando patch")
-        except Exception as _e:
-            print(f"  [override] Orlando L10 patch failed (non-fatal): {_e}")
-
     stats = blend_base(enhanced_stats["season"], enhanced_stats.get("last10"), base_w.get("recentWeight", 0.35))
 
     # Stats already cached in the read-or-fetch block above
@@ -878,9 +838,12 @@ def main(subject_label="[PY]"):
         if not st:
             return True
         try:
-            from datetime import datetime, timezone, timedelta
+            from datetime import datetime
             dt = datetime.fromisoformat(st.replace("Z", "+00:00"))
-            chicago = dt.astimezone(timezone(timedelta(hours=-5)))  # CDT approx
+            # Real Central time, not a hardcoded -5. The season opens in CDT
+            # (UTC-5) but spends Nov-Mar in CST (UTC-6), so a fixed offset
+            # misdates any game tipping in the 05:00-06:00 UTC window.
+            chicago = dt.astimezone(_get_tz())
             game_date = chicago.strftime("%Y%m%d")
             if game_date != date:
                 print(f"  [filter] Skipping {g.get('away','')} @ {g.get('home','')} — game date {game_date} != run date {date}")
