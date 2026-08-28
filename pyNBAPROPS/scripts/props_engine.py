@@ -25,6 +25,7 @@ from defaults import (
     OPP_STAT_KEY, OPP_ADJ_WEIGHT, PACE_ADJ_WEIGHT,
     SEASON_ANCHOR_WEIGHT, PER36_STAT_KEY,
 )
+from defaults import current_season
 from player_kalman import get_player_projection, PLAYER_KALMAN_DEFAULTS
 from sources.game_context import (
     B2B_PENALTIES, REST_BONUS, detect_b2b_from_game_logs, detect_rest_days,
@@ -881,7 +882,7 @@ def format_props_for_dashboard(projections, date_str="today"):
     return {
         "sport": "nba",
         "type": "player_props",
-        "season": "2025-26",
+        "season": current_season(),
         "mode": "live",
         "model": "kalman_blend",
         "date": date_str,
