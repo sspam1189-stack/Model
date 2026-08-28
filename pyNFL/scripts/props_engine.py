@@ -82,7 +82,20 @@ VAR_MULT = {
 #   rec_yds: marginal (+2.7% ROI, +1.4pp edge); 71% of volume was dragging
 #            the overall edge down for almost no profit
 #   pass_yds: no picks fire in backtest anyway (kept for completeness)
-DISABLED_MARKETS = {"pass_tds", "rec_yds", "pass_yds"}
+#
+# 2026-08-27 re-audit on REAL book lines only (the backtest otherwise falls
+# back to _get_simulated_line, the player's own rolling average, which is not
+# a market and is trivially beatable by a projection that regresses):
+#   rec_yds:    767-758  50.3%  losing at EVERY threshold. Its apparent
+#               +138u UNDER at ~55% was entirely fallback picks. Stays off,
+#               and lowering its gate does not help -- the curve is flat.
+#   receptions: DISABLED. Only 28 of its 95 picks ever matched a real line
+#               and those went 12-16 (42.9%); the 62.1% headline came from
+#               67 fallback picks at 70.1%. The rush markets move the other
+#               way on real lines (rush_att 82.4%, rush_yds 72.4%), which is
+#               what an actual pricing edge looks like -- receptions only
+#               beat the naive average, so there is no evidence to bet it.
+DISABLED_MARKETS = {"pass_tds", "rec_yds", "pass_yds", "receptions"}
 
 # UNDER-ONLY. The entire prop edge is on the under side, in every market, in
 # every season. Measured on the 2023-2025 walk-forward backtest:
