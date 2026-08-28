@@ -84,6 +84,26 @@ VAR_MULT = {
 #   pass_yds: no picks fire in backtest anyway (kept for completeness)
 DISABLED_MARKETS = {"pass_tds", "rec_yds", "pass_yds"}
 
+# UNDER-ONLY. The entire prop edge is on the under side, in every market, in
+# every season. Measured on the 2023-2025 walk-forward backtest:
+#
+#   market      UNDER                        OVER
+#   rush_att    72-21   77.4%  +48.9u        113-100  53.1%   +3.0u
+#   rush_yds   112-51   68.7%  +55.9u         65-76   46.1%  -18.6u
+#   receptions  59-36   62.1%  +19.4u          (fires no overs)
+#   ------------------------------------------------------------------
+#   all        243-108  69.2% +124.2u        178-176  50.3%  -15.6u
+#
+# The overs are 354 picks that net -15.6u -- pure variance with a rake. The
+# mechanism is that books set player lines at the MEAN of a right-skewed
+# distribution (a back's yardage has a long upside tail), so the median
+# outcome sits below the line and the under is the correct side more often
+# than half the time. That skew is structural, not a pricing accident.
+#
+# Dropping overs takes the book from 421-284 (59.7%) +108.6u to
+# 243-108 (69.2%) +124.2u -- more units from half the picks.
+UNDER_ONLY = True
+
 # Empirical std floor per market — derived from 2025 season backtest residuals
 # (proj - actual). Model-computed std from rolling std × VAR_MULT was producing
 # overconfident pCover (claimed 98% → actual 55%). These floors represent true
@@ -759,6 +779,8 @@ def _make_prop(name, team, market, proj, std, line_lookup, opp):
         thresh = MARKET_THRESHOLDS.get(market, 0.80)
         if best_p >= thresh:
             direction = "OVER" if p_over > p_under else "UNDER"
+            if UNDER_ONLY and direction == "OVER":
+                return result          # see UNDER_ONLY for why overs are dead
             pick_price = over_price if direction == "OVER" else under_price
 
             result["pick"] = direction

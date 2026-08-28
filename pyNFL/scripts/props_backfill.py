@@ -38,7 +38,7 @@ from props_engine import (
     build_player_game_logs, _name_key, _weighted_avg, _weighted_std,
     ROLLING_WINDOW, DECAY_FACTOR, PROP_T_DF,
     MIN_GAMES_PASSER, MIN_GAMES_RECEIVER, MIN_GAMES_RUSHER,
-    MARKET_THRESHOLDS, VAR_MULT,
+    MARKET_THRESHOLDS, VAR_MULT, UNDER_ONLY,
 )
 from scipy.stats import t as t_dist
 
@@ -644,6 +644,11 @@ def backtest_props(seasons, start_week=4):
                         thresh = MARKET_THRESHOLDS.get(market, 0.80) if isinstance(MARKET_THRESHOLDS.get(market), (int, float)) else 0.80
                         if best_p >= thresh:
                             pick = "OVER" if p_over > p_under else "UNDER"
+                            # the backfill has to gate exactly like the live
+                            # engine or the shipped record stops describing
+                            # what the live pipeline will actually bet
+                            if UNDER_ONLY and pick == "OVER":
+                                continue
                             # No filters — let the model prove itself
                             won = ((pick == "OVER" and actual_val > sim_line) or
                                    (pick == "UNDER" and actual_val < sim_line))
