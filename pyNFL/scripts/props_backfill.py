@@ -629,12 +629,26 @@ def backtest_props(seasons, start_week=4):
                             break
                     sim_line = line_data.get("line") if line_data else None
 
-                    # Fall back to simulated line if no real line
+                    # REAL LINES ONLY. This used to fall back to
+                    # _get_simulated_line (the player's own rolling average)
+                    # whenever the cache had no line, which fabricated
+                    # unbettable numbers -- rushing-yard "lines" of 20.2, 6.8,
+                    # 4.3. No book prices those, so a record built on them
+                    # measures nothing: the projection was being graded
+                    # against a number derived from the same data, with no
+                    # vig and no market information in it.
+                    #
+                    # It also flattered the book by 22% of its volume, and it
+                    # is how receptions passed review at a fake 62%.
+                    #
+                    # props_weekly (the LIVE path) already required a real
+                    # line, so this only ever affected the backtest -- meaning
+                    # the shipped record described something the live pipeline
+                    # would never actually bet. Now the two agree.
                     if sim_line is None:
-                        sim_line = _get_simulated_line(name, market, prior_logs,
-                                                       team=team)
+                        continue
 
-                    if sim_line is not None and std > 0:
+                    if std > 0:
                         diff = proj_val - sim_line
                         z = diff / std
                         p_over = float(t_dist.cdf(z, df=PROP_T_DF))
@@ -763,49 +777,14 @@ def _find_actual(player_name, market, actual_logs, team=None):
     return None
 
 
-def _get_simulated_line(player_name, market, prior_logs, team=None):
-    """
-    Simulate a market line using the player's simple rolling average.
-    Markets roughly set lines near recent performance averages.
-    Team-aware when `team` is given (same short-name collision issue
-    as _find_actual).
-    """
-    stat_key = {
-        "pass_yds": "pass_yds",
-        "pass_tds": "pass_td",
-        "pass_att": "pass_att",
-        "completions": "completions",
-        "rush_yds": "rush_yds",
-        "rush_att": "rush_att",
-        "rec_yds": "rec_yds",
-        "receptions": "receptions",
-        "interceptions": "interceptions",
-    }.get(market)
-    min_games = {
-        "pass_yds": MIN_GAMES_PASSER,
-        "pass_tds": MIN_GAMES_PASSER,
-        "rush_yds": MIN_GAMES_RUSHER,
-        "rush_att": MIN_GAMES_RUSHER,
-        "rec_yds": MIN_GAMES_RECEIVER,
-        "receptions": MIN_GAMES_RECEIVER,
-    }.get(market, 3)
-    if not stat_key:
-        return None
-    for pid, games in prior_logs.items():
-        matches = any(
-            g.get("name") == player_name and (not team or g.get("team") == team)
-            for g in games
-        )
-        if not matches:
-            continue
-        all_games = sorted(games, key=lambda x: x.get("week", 0))
-        recent = all_games[-ROLLING_WINDOW:]
-        vals = [gg.get(stat_key, 0) for gg in recent if gg.get(stat_key) is not None]
-        if len(vals) >= min_games:
-            return round(sum(vals) / len(vals), 1)
-        return None
-    return None
-
+# _get_simulated_line was REMOVED 2026-08-27.
+#
+# It returned the player's own rolling average as a stand-in whenever the
+# odds cache had no line, which produced unbettable rushing-yard 'lines'
+# like 20.2 and 6.8 and graded the model against a number derived from
+# its own inputs -- no vig, no market information, no counterparty. It
+# accounted for 22% of shipped volume and is how receptions passed review
+# at a fake 62%. If a market has no real line, there is no pick.
 
 # ---------------------------------------------------------------------------
 # Dashboard JSON writer (same as original)
