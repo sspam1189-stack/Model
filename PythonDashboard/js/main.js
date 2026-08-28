@@ -2016,16 +2016,28 @@ function nflRenderTodayPicks(run) {
 // These are the actual betting product; the projection is monitor-only.
 const NFL_SYSTEM_LABELS = {
   day_mismatch_over:     'Day mismatch (|spread| 7+) — OVER',
-  day_mismatch_10_over:  'Day mismatch (|spread| 10+) — OVER · confirms',
-  day_mismatch_late_over:'Day mismatch 7+, wks 14-18 — OVER · confirms',
+  day_mismatch_10_over:  'Day mismatch (|spread| 10+) — OVER',
+  day_mismatch_late_over:'Day mismatch 7+, wks 14-18 — OVER',
   mismatch_10_any_over:  'Mismatch 10+ (any window) — OVER · confirms',
-  backup_qb_over:        'Backup QB starting, wks 1-13 — OVER',
-  late_cold_over:        'Late season, outdoors, cold — OVER',
   week1_under:           'Week 1 — UNDER',
   snf_under:             'Sunday Night Football — UNDER',
   home_dog_7_10:         'Home dog of 7-10 — HOME',
-  rematch_home_lost_m1:  'Div rematch, home lost 1st — HOME',
 };
+
+// One colour per system so a group header, a record row and a filter all
+// read as the same thing at a glance. Families share a hue: the mismatch
+// OVERs are oranges, the UNDERs are indigo/violet, the ATS system is green.
+// Red is deliberately unused — it means "loss" everywhere else on the page.
+const NFL_SYSTEM_COLORS = {
+  day_mismatch_over:      'var(--orange)',
+  day_mismatch_10_over:   '#fdba74',
+  day_mismatch_late_over: '#f59e0b',
+  mismatch_10_any_over:   'var(--muted)',   // advisory — never a bet
+  week1_under:            'var(--purple)',
+  snf_under:              '#818cf8',
+  home_dog_7_10:          'var(--green)',
+};
+const nflSystemColor = (id) => NFL_SYSTEM_COLORS[id] || 'var(--muted)';
 
 function setNflSystemFilter(val) { nflSystemFilter = val; render(); }
 function nflToggleModel() { nflShowModel = !nflShowModel; render(); }
@@ -2111,8 +2123,9 @@ function nflRenderSystemPlays(run) {
     .concat([...bySystem.keys()].filter(id => !(id in NFL_SYSTEM_LABELS)));
   const body = order.map(id => {
     const rows = bySystem.get(id);
-    return `<div class="pick-item" style="border:none;padding:10px 0 4px">
-        <span class="pick-team" style="color:var(--muted);font-size:12px;letter-spacing:.04em;text-transform:uppercase">
+    const c = nflSystemColor(id);
+    return `<div class="pick-item" style="border:none;padding:12px 0 4px">
+        <span class="pick-team" style="color:${c};font-size:12px;letter-spacing:.04em;text-transform:uppercase;border-left:3px solid ${c};padding-left:8px">
           ${esc(NFL_SYSTEM_LABELS[id] || id)} <span style="opacity:.7">(${rows.length})</span>
         </span>
       </div>${rows.join('')}`;
@@ -2150,7 +2163,7 @@ function nflRenderSystemRecord(runs) {
       return `<tr onclick="setNflSystemFilter('${on ? 'all' : id}')"
           style="cursor:pointer${on ? ';background:rgba(124,92,255,0.15)' : ''}"
           title="Click to ${on ? 'clear the' : 'filter to this'} system">
-        <td>${on ? '▸ ' : ''}${esc(NFL_SYSTEM_LABELS[id] || id)}</td>
+        <td>${on ? '▸ ' : ''}<span style="display:inline-block;width:8px;height:8px;border-radius:2px;background:${nflSystemColor(id)};margin-right:7px"></span>${esc(NFL_SYSTEM_LABELS[id] || id)}</td>
         <td>${w}-${l}</td>
         <td class="center"><span class="${pctClass(pct)}">${fmtPct(pct)}</span></td>
         <td class="center"><span class="${unitClass(u)}">${fmtUnits(u)}</span></td>

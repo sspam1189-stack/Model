@@ -57,6 +57,7 @@ SYSTEMS = [
         "desc": "day game, |spread| >= 7 -> OVER",
         # raw 61.8% (n=173, p=0.002, seasons 62/58/65) -- the anchor:
         # most volume (~58/yr) and the only system at p<0.01.
+        "specificity": 0,
         "test": lambda c: _mismatch(c, 7),
     },
     {
@@ -64,13 +65,17 @@ SYSTEMS = [
         "market": "total", "side": "OVER", "prob": 0.540,
         "desc": "day game, |spread| >= 10 -> OVER",
         # raw 65.2% (n=66, p=0.019, seasons 61/65/68)
+        "specificity": 1,
         "test": lambda c: _mismatch(c, 10),
     },
     {
         "id": "day_mismatch_late_over",
         "market": "total", "side": "OVER", "prob": 0.541,
         "desc": "day game, |spread| >= 7, weeks 14-18 -> OVER",
-        # raw 66.7% (n=57, p=0.016, seasons 67/62/71) -- highest raw rate
+        # raw 66.7% (n=57, p=0.016, seasons 67/62/71) -- highest raw rate,
+        # and the narrowest slice, so it is the one that gets attributed
+        # when it fires alongside its parents.
+        "specificity": 2,
         "test": lambda c: _mismatch(c, 7) and 14 <= (c.get("week") or 0) <= 18,
     },
     {
@@ -86,22 +91,6 @@ SYSTEMS = [
         # It earns its place as a confirmation signal, not as a play.
         "advisory": True,
         "test": lambda c: abs(c.get("spread") or 0) >= 10,
-    },
-    {
-        "id": "backup_qb_over",
-        "market": "total", "side": "OVER", "prob": 0.541,
-        "desc": "day game, backup QB starting, weeks 1-13 -> OVER",
-        # raw 65.6% (n=64, p=0.017, seasons 57/70/70)
-        "test": lambda c: (not c.get("primetime")) and c.get("backup_qb")
-                          and 1 <= (c.get("week") or 0) <= 13,
-    },
-    {
-        "id": "late_cold_over",
-        "market": "total", "side": "OVER", "prob": 0.522,
-        "desc": "weeks 14-18, outdoors, <=35F -> OVER",
-        # raw 64.1% (n=39, seasons 60/56/72). Smallest sample of the OVERs.
-        "test": lambda c: (14 <= (c.get("week") or 0) <= 18) and (not c.get("dome"))
-                          and c.get("temp") is not None and c["temp"] <= 35,
     },
     # -- UNDER systems. LOWER CONFIDENCE: both cleared 60% raw but FAILED the
     # every-season test that the others passed, so they are the first to drop
@@ -133,14 +122,18 @@ SYSTEMS = [
         # of anything screened, but only ~15 games a year.
         "test": lambda c: 7 <= c.get("home_dog_pts", 0) < 10,
     },
-    {
-        "id": "rematch_home_lost_m1",
-        "market": "spread", "side": "HOME", "prob": 0.527,
-        "desc": "divisional rematch, home team lost meeting 1 -> HOME ATS",
-        # raw 61.0% (n=77, seasons 58/61/63)
-        "test": lambda c: bool(c.get("rematch")) and bool(c.get("home_lost_meeting1")),
-    },
 ]
+
+# RETIRED 2026-08-27 -- all three cleared the original screen but came in
+# under 59% once the primetime filter was fixed and they were re-measured on
+# the live backfill rather than the screen:
+#   backup_qb_over        25-18  58.1%  +5.2u
+#   late_cold_over        14-10  58.3%  +3.0u   (2023 fell to 33%, so it no
+#                                                longer passes every-season)
+#   rematch_home_lost_m1  41-30  57.7%  +8.0u
+# The backup-QB and late-cold MECHANISMS are documented above and still look
+# real; they just aren't priced badly enough to clear the bar after the
+# shrinkage and line-quality haircut. Re-measure before bringing any back.
 
 
 def evaluate(ctx):
@@ -203,7 +196,14 @@ def evaluate(ctx):
         # the bet -- see mismatch_10_any_over for why
         bettable = [s for s in cands if not s.get("advisory")]
         if bettable:
-            out[market] = max(bettable, key=lambda s: s["prob"])
+            # Attribute to the NARROWEST system that fired, not the highest
+            # probability one. The mismatch family is nested and same-side, so
+            # this changes no bet and no side -- only the label. Ranking by
+            # probability instead would hand every play to the >=7 parent
+            # (shrinkage rewards its bigger sample) and the tighter, higher
+            # hit-rate slices would never once appear as a play of their own.
+            out[market] = max(bettable,
+                              key=lambda s: (s.get("specificity", 0), s["prob"]))
     return out
 
 
