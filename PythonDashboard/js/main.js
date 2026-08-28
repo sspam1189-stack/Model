@@ -2141,9 +2141,12 @@ function nflRenderSystemRecord(runs) {
   (runs || []).forEach(r => (r.games || []).forEach(g => {
     [[g.situationalPick, g.oResult], [g.situationalSpreadPick, g.sResult]].forEach(([id, res]) => {
       if (!id) return;
-      tally[id] = tally[id] || { w: 0, l: 0, pending: 0 };
+      tally[id] = tally[id] || { w: 0, l: 0, p: 0, pending: 0 };
       if (res === 'WIN') tally[id].w++;
       else if (res === 'LOSS') tally[id].l++;
+      // a PUSH is GRADED (stake refunded, 0u) -- lumping it in with pending
+      // reported settled games as if they were still waiting on a result
+      else if (res === 'PUSH') tally[id].p++;
       else tally[id].pending++;
     });
   }));
@@ -2152,22 +2155,23 @@ function nflRenderSystemRecord(runs) {
     return `<div class="card card-records"><div class="card-title">System Record</div>
       <div class="no-picks">No system plays yet.</div></div>`;
   }
-  let TW = 0, TL = 0, TP = 0;
+  let TW = 0, TL = 0, TPU = 0, TP = 0;
   const rows = ids
     .sort((a, b) => (tally[b].w + tally[b].l) - (tally[a].w + tally[a].l))
     .map(id => {
-      const { w, l, pending } = tally[id];
-      TW += w; TL += l; TP += pending;
+      const { w, l, p, pending } = tally[id];
+      TW += w; TL += l; TPU += p; TP += pending;
+      // pushes are excluded from win% (standard) but counted as graded
       const n = w + l, pct = n ? (w / n * 100) : 0, u = w - l * 1.1;
       const on = nflSystemFilter === id;
       return `<tr onclick="setNflSystemFilter('${on ? 'all' : id}')"
           style="cursor:pointer${on ? ';background:rgba(124,92,255,0.15)' : ''}"
           title="Click to ${on ? 'clear the' : 'filter to this'} system">
         <td>${on ? '▸ ' : ''}<span style="display:inline-block;width:8px;height:8px;border-radius:2px;background:${nflSystemColor(id)};margin-right:7px"></span>${esc(NFL_SYSTEM_LABELS[id] || id)}</td>
-        <td>${w}-${l}</td>
+        <td>${w}-${l}${p ? `-${p}` : ''}</td>
         <td class="center"><span class="${pctClass(pct)}">${fmtPct(pct)}</span></td>
         <td class="center"><span class="${unitClass(u)}">${fmtUnits(u)}</span></td>
-        <td class="center">${n}${pending ? ` <span style="color:var(--muted)">(+${pending} pend)</span>` : ''}</td>
+        <td class="center">${n + p}${pending ? ` <span style="color:var(--muted)">(+${pending} pend)</span>` : ''}</td>
       </tr>`;
     });
   const tu = TW - TL * 1.1, tn = TW + TL;
@@ -2180,10 +2184,10 @@ function nflRenderSystemRecord(runs) {
         <tbody>
           ${rows.join('')}
           <tr style="font-weight:600;border-top:1px solid var(--border)">
-            <td>ALL SYSTEMS</td><td>${TW}-${TL}</td>
+            <td>ALL SYSTEMS</td><td>${TW}-${TL}${TPU ? `-${TPU}` : ''}</td>
             <td class="center"><span class="${pctClass(tn ? TW / tn * 100 : 0)}">${fmtPct(tn ? TW / tn * 100 : 0)}</span></td>
             <td class="center"><span class="${unitClass(tu)}">${fmtUnits(tu)}</span></td>
-            <td class="center">${tn}${TP ? ` <span style="color:var(--muted)">(+${TP} pend)</span>` : ''}</td>
+            <td class="center">${tn + TPU}${TP ? ` <span style="color:var(--muted)">(+${TP} pend)</span>` : ''}</td>
           </tr>
         </tbody>
       </table>
