@@ -2,23 +2,43 @@
 
 // ─── Dense-table auto-fitter ──────────────────────────────────────────────
 // Many of our cards render tables with 10–18 columns; on phone widths the
-// natural minimum width exceeds the card width and content gets cut off
-// (see e.g. NBA Player Props "Result" column). This module shrinks the
-// table's font until it fits its container — no horizontal scroll, no
-// hidden columns. Fits on insert (via MutationObserver) and re-fits on
-// viewport resize / orientation change.
+// natural minimum width exceeds the card width. This module shrinks the
+// table's font until it fits its container — but only down to a floor that
+// is still readable. A table that needs to go below the floor is moved into
+// a horizontally scrollable wrapper instead, because 6px type that "fits"
+// a 360px screen is not something anyone can read. Fits on insert (via
+// MutationObserver) and re-fits on viewport resize / orientation change.
 (function() {
   const tracked = new Set();
-  const minFont = 6;
   const startFont = 13;
 
-  // Fit one table in isolation: returns the font size at which it fits
-  // its container. Temporarily switches the table to natural sizing for
-  // measurement (a width:100% inline style hides true overflow because
-  // the browser shrinks columns to fit and lets cell content overflow
-  // visually instead).
-  function measureFontFor(tbl) {
-    if (!tbl || !tbl.parentElement || !document.body.contains(tbl)) return startFont;
+  // The width the layout SHOULD be using. window.innerWidth alone is not
+  // trustworthy here: when a page overflows horizontally a mobile browser
+  // widens the layout viewport to fit the content (shrink-to-fit), so one
+  // too-wide table reports innerWidth 755 on a 320px phone. Fitting against
+  // that number is self-fulfilling — everything "fits", nothing gets
+  // wrapped, and the page stays zoomed out. screen.width does not move.
+  function layoutWidth() {
+    const inner = window.innerWidth || Infinity;
+    const screenW = (window.screen && window.screen.width) || Infinity;
+    const w = Math.min(inner, screenW);
+    return w === Infinity ? 1024 : w;
+  }
+
+  // Smallest font we will shrink to before switching a table to sideways
+  // scrolling. One floor for every screen: a wide desktop card fits these
+  // tables well above it, so the only thing a lower desktop floor bought
+  // was illegible type on tablets and landscape phones.
+  const minFont = 10;
+
+  // Measure one table in isolation: the font size at which it fits its
+  // container, and whether it fits at all at that size. Temporarily switches
+  // the table to natural sizing for measurement (a width:100% style hides
+  // true overflow because the browser shrinks columns to fit and lets cell
+  // content overflow visually instead).
+  function measureFontFor(tbl, floor) {
+    const unfit = { font: startFont, fits: true };
+    if (!tbl || !tbl.parentElement || !document.body.contains(tbl)) return unfit;
     const parent = tbl.parentElement;
     // clientWidth includes the parent's own padding, so a `padding:12px 16px`
     // wrapper would over-report the space actually available to a child with
@@ -26,38 +46,65 @@
     const ps = getComputedStyle(parent);
     const padLeft = parseFloat(ps.paddingLeft) || 0;
     const padRight = parseFloat(ps.paddingRight) || 0;
-    const available = parent.clientWidth - padLeft - padRight;
-    if (available <= 0) return startFont;
+    // Capped for the same shrink-to-fit reason: during an overflow the card
+    // itself measures wider than the phone it is on.
+    const available = Math.min(parent.clientWidth - padLeft - padRight, layoutWidth());
+    if (available <= 0) return unfit;
     const cells = tbl.querySelectorAll('th, td');
-    if (!cells.length) return startFont;
+    if (!cells.length) return unfit;
 
-    const origWidth = tbl.style.width;
-    const origMaxWidth = tbl.style.maxWidth;
-    const origTableLayout = tbl.style.tableLayout;
-    tbl.style.width = 'max-content';
-    tbl.style.maxWidth = 'none';
-    tbl.style.tableLayout = 'auto';
+    // The mobile stylesheet sets `width: 100% !important` on card tables, so
+    // the measurement override has to be !important too. Restoring the whole
+    // style attribute puts back any authored inline styles exactly.
+    const origStyle = tbl.getAttribute('style');
+    tbl.style.setProperty('width', 'max-content', 'important');
+    tbl.style.setProperty('max-width', 'none', 'important');
+    tbl.style.setProperty('table-layout', 'auto', 'important');
 
     const setSize = (px) => cells.forEach(c => c.style.setProperty('font-size', px + 'px', 'important'));
     let fontSize = startFont;
     setSize(fontSize);
     let guard = 0;
-    while (tbl.scrollWidth > available + 1 && fontSize > minFont && guard < 60) {
+    while (tbl.scrollWidth > available + 1 && fontSize > floor && guard < 60) {
       fontSize -= 0.5;
       setSize(fontSize);
       guard++;
     }
+    const fits = tbl.scrollWidth <= available + 1;
 
-    tbl.style.width = origWidth;
-    tbl.style.maxWidth = origMaxWidth;
-    tbl.style.tableLayout = origTableLayout;
-    return fontSize;
+    if (origStyle === null) tbl.removeAttribute('style');
+    else tbl.setAttribute('style', origStyle);
+    return { font: fontSize, fits };
   }
 
   // Apply a font size to every cell in a table.
   function applyFont(tbl, px) {
     if (!tbl) return;
     tbl.querySelectorAll('th, td').forEach(c => c.style.setProperty('font-size', px + 'px', 'important'));
+  }
+
+  // Tables nested inside another table's cell (the expanded pick detail under
+  // a trends row) scroll with their parent — they are not sized or wrapped
+  // on their own.
+  function topLevelTables(root) {
+    return Array.from(root.querySelectorAll('table'))
+      .filter(t => t.parentElement && !t.parentElement.closest('table'));
+  }
+
+  // Move a too-wide table into (or out of) a scrolling wrapper.
+  function setScrollable(tbl, on) {
+    const parent = tbl.parentElement;
+    if (!parent) return;
+    const wrapped = parent.classList.contains('table-scroll');
+    if (on && !wrapped) {
+      const wrap = document.createElement('div');
+      wrap.className = 'table-scroll';
+      parent.insertBefore(wrap, tbl);
+      wrap.appendChild(tbl);
+    } else if (!on && wrapped) {
+      parent.parentElement.insertBefore(tbl, parent);
+      parent.remove();
+    }
   }
 
   // Fit a table AND all of its sibling tables in the same card to a
@@ -67,13 +114,19 @@
   function fitTable(tbl) {
     if (!tbl || !tbl.parentElement || !document.body.contains(tbl)) return;
     const card = tbl.closest('.card, .card-games, .card-picks, .card-recap') || tbl.parentElement;
-    const group = Array.from(card.querySelectorAll('table'));
+    const group = topLevelTables(card);
+    if (!group.length) return;
     let minNeeded = startFont;
+    const overflowing = new Set();
     for (const t of group) {
-      const fs = measureFontFor(t);
-      if (fs < minNeeded) minNeeded = fs;
+      const r = measureFontFor(t, minFont);
+      if (r.font < minNeeded) minNeeded = r.font;
+      if (!r.fits) overflowing.add(t);
     }
-    for (const t of group) applyFont(t, minNeeded);
+    // Nested tables get the shared size too, so a row and its expanded
+    // detail match.
+    card.querySelectorAll('table').forEach(t => applyFont(t, minNeeded));
+    for (const t of group) setScrollable(t, overflowing.has(t));
   }
 
   function track(tbl) {
@@ -468,6 +521,20 @@ function visibleTabsIn(group) {
   return [...group.querySelectorAll('.tab')].filter(t => t.style.display !== 'none');
 }
 
+// On a phone both nav rows are single-line and swipe sideways, so the
+// selected chip can sit off-screen — after switching leagues especially,
+// where the new row starts at scrollLeft 0. Nudge it into view. scrollLeft
+// is set directly rather than via scrollIntoView(), which would also scroll
+// the page vertically.
+function revealNavChip(el) {
+  if (!el) return;
+  const row = el.parentElement;
+  if (!row || row.scrollWidth <= row.clientWidth + 1) return;
+  const target = el.offsetLeft - (row.clientWidth - el.offsetWidth) / 2;
+  const max = row.scrollWidth - row.clientWidth;
+  row.scrollTo({ left: Math.max(0, Math.min(target, max)), behavior: 'smooth' });
+}
+
 function setLeague(name, { selectFirstTab = true } = {}) {
   document.querySelectorAll('.tab-group').forEach(g => {
     g.classList.toggle('is-active', g.getAttribute('aria-label') === name);
@@ -478,6 +545,8 @@ function setLeague(name, { selectFirstTab = true } = {}) {
     if (on) b.setAttribute('aria-current', 'page');
     else b.removeAttribute('aria-current');
   });
+  revealNavChip(document.querySelector('.league.active'));
+  requestAnimationFrame(() => revealNavChip(document.querySelector('.tab-group.is-active .tab.active')));
   if (!selectFirstTab) return;
   const group = [...document.querySelectorAll('.tab-group')]
     .find(g => g.getAttribute('aria-label') === name);
@@ -509,6 +578,7 @@ document.querySelectorAll('.tab').forEach(tab => {
     });
     tab.classList.add('active');
     tab.setAttribute('aria-current', 'page');
+    revealNavChip(tab);
     activeTab = tab.dataset.tab;
     const lg = leagueOf(tab);
     if (lg) setLeague(lg, { selectFirstTab: false });

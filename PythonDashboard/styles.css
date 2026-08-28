@@ -25,9 +25,25 @@
   --radius: 16px;
   --radius-sm: 10px;
   --radius-xs: 6px;
+  /* Opaque stand-in for the translucent card background, used where a
+     gradient has to mask something (scroll shadows). */
+  --card-solid: #0f1220;
+  /* Smallest comfortable tap target. */
+  --tap: 40px;
+}
+
+html {
+  /* Stop iOS inflating text in landscape. */
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
 }
 
 * { margin: 0; padding: 0; box-sizing: border-box; }
+
+button, select, input, a, [onclick] {
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: rgba(124, 108, 240, 0.15);
+}
 
 body {
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
@@ -88,20 +104,27 @@ body::before {
   color: var(--accent-light);
 }
 
-/* ─── Tabs ─── */
+/* ─── Nav ─── */
+/* Both nav rows share ONE sticky container. They used to be sticky
+   individually with the tab row offset by a hardcoded `top: 46px`, which
+   only held while the league row was exactly one line tall — on a phone it
+   wraps, and the tab row then sat on top of it. */
+.topbar {
+  position: sticky;
+  top: 0;
+  z-index: 101;
+  background: linear-gradient(180deg, var(--bg) 82%, transparent 100%);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  padding-top: env(safe-area-inset-top, 0px);
+}
+
 .tabs {
   display: flex;
   justify-content: center;
   flex-wrap: wrap;
   gap: 6px;
   padding: 12px 16px 16px;
-  position: sticky;
-  /* sits below the sticky league row rather than under it */
-  top: 46px;
-  z-index: 100;
-  background: linear-gradient(180deg, var(--bg) 60%, transparent 100%);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
 }
 /* One league's tabs — only the selected league is mounted (see setLeague). */
 .tab-group { display: none; gap: 6px; flex-wrap: wrap; justify-content: center; }
@@ -114,12 +137,6 @@ body::before {
   flex-wrap: wrap;
   gap: 8px;
   padding: 20px 16px 0;
-  position: sticky;
-  top: 0;
-  z-index: 101;
-  background: linear-gradient(180deg, var(--bg) 70%, transparent 100%);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
 }
 .league {
   background: transparent;
@@ -194,6 +211,14 @@ body::before {
   padding: 0 20px 60px;
   position: relative;
   z-index: 1;
+  /* Nothing in here may widen the page. A phone browser reacts to horizontal
+     overflow by widening the layout viewport to fit the content, which zooms
+     the whole dashboard out and leaves the sticky nav mis-sized. `clip`
+     rather than `hidden` so this never becomes a scroll container (which
+     would break position:sticky) — and a clip margin so card shadows and
+     hover lifts still bleed normally. */
+  overflow-x: clip;
+  overflow-clip-margin: 12px;
 }
 
 /* ─── Fade-in animation ─── */
@@ -394,7 +419,9 @@ table.data td.right, table.data th.right { text-align: right; }
   transition: background 0.15s;
 }
 .pick-item:last-child { border-bottom: none; }
-.pick-item:hover { background: rgba(255, 255, 255, 0.015); margin: 0 -20px; padding: 12px 20px; }
+@media (hover: hover) {
+  .pick-item:hover { background: rgba(255, 255, 255, 0.015); margin: 0 -20px; padding: 12px 20px; }
+}
 .pick-team { font-weight: 800; letter-spacing: -0.01em; }
 .pick-meta { font-size: 0.75rem; color: var(--muted); }
 
@@ -491,8 +518,11 @@ table.data td.right, table.data th.right { text-align: right; }
 .view-toggle {
   display: flex;
   justify-content: center;
+  flex-wrap: wrap;
+  align-items: center;
   gap: 6px;
   margin-bottom: 20px;
+  max-width: 100%;
 }
 .view-btn {
   padding: 8px 20px;
@@ -544,8 +574,10 @@ table.data td.right, table.data th.right { text-align: right; }
   display: flex;
   justify-content: center;
   align-items: center;
+  flex-wrap: wrap;
   gap: 16px;
   margin-bottom: 20px;
+  max-width: 100%;
 }
 .date-nav button {
   padding: 8px 20px;
@@ -603,61 +635,162 @@ table.data td.right, table.data th.right { text-align: right; }
 ::-webkit-scrollbar-thumb { background: var(--border-light); border-radius: 3px; }
 ::-webkit-scrollbar-thumb:hover { background: var(--muted); }
 
+/* ─── Scrollable dense tables ─── */
+/* Ten-to-eighteen-column tables cannot fit a phone at a readable size. The
+   auto-fitter in main.js shrinks type only down to a legible floor; past
+   that it moves the table in here and lets it scroll sideways instead of
+   shrinking to 6px. The gradients are the standard scroll-shadow trick:
+   the `local` pair masks the `scroll` pair at each end of the range, so a
+   shadow shows only on the side that still has content off-screen. */
+.table-scroll {
+  overflow-x: auto;
+  overflow-y: hidden;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior-x: contain;
+  background:
+    linear-gradient(to right, var(--card-solid), rgba(15, 18, 32, 0)) left center / 20px 100% no-repeat local,
+    linear-gradient(to left, var(--card-solid), rgba(15, 18, 32, 0)) right center / 20px 100% no-repeat local,
+    linear-gradient(to right, rgba(0, 0, 0, 0.45), rgba(0, 0, 0, 0)) left center / 14px 100% no-repeat scroll,
+    linear-gradient(to left, rgba(0, 0, 0, 0.45), rgba(0, 0, 0, 0)) right center / 14px 100% no-repeat scroll;
+}
+.table-scroll > table {
+  /* Beat the `width: 100% !important` mobile rule below — a table that is
+     100% wide cannot scroll, it just squeezes its columns. */
+  width: max-content !important;
+  min-width: 100%;
+  max-width: none !important;
+}
+
 /* ─── Responsive ─── */
-@media (max-width: 700px) {
+/* Header + nav compaction. Also applies to a short landscape viewport: the
+   two nav rows wrapped to 170px there, 44% of the screen, and the sticky
+   bar then left almost nothing for the picks. */
+@media (max-width: 700px), (max-height: 520px) and (orientation: landscape) {
+  .header { padding: 22px 16px 6px; }
   .header h1 { font-size: 1.5rem; }
-  .tabs { flex-wrap: wrap; gap: 12px; }
-  .tab { padding: 8px 18px; font-size: 0.8rem; }
+  .header .subtitle { font-size: 0.78rem; }
+
+  /* One line each, swiped sideways. Wrapping five leagues and five model
+     tabs cost ~180px of a phone screen before any picks were visible, and
+     it left the sticky bar a different height on every tab. */
+  .league-bar,
+  .tab-group.is-active {
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+  .league-bar::-webkit-scrollbar,
+  .tab-group::-webkit-scrollbar { display: none; }
+  .league-bar { padding: 12px 16px 0; }
+  .tabs { padding: 8px 16px 12px; gap: 6px; }
+  .league, .tab { flex: 0 0 auto; }
+  .league { padding: 8px 16px; }
+  .tab { padding: 9px 18px; font-size: 0.8rem; }
+}
+
+@media (max-height: 520px) and (orientation: landscape) {
+  .header { padding: 10px 16px 2px; }
+  .header h1 { font-size: 1.25rem; }
+  .league-bar { padding: 8px 16px 0; }
+  .tabs { padding: 6px 16px 8px; }
+  .wf-trigger-bar { margin-top: 4px; }
+}
+
+@media (max-width: 700px) {
   .record-banner { grid-template-columns: repeat(2, 1fr); }
+  .record-item { padding: 14px 10px; }
   .record-item .value { font-size: 1.3rem; }
   .games-grid { grid-template-columns: 1fr; }
-  table.data th, table.data td { font-size: 0.7rem; padding: 8px 4px; }
-  .content { padding: 0 12px 40px; }
+  table.data th, table.data td { font-size: 0.72rem; padding: 8px 5px; }
+  .content {
+    padding: 0 12px 40px;
+    padding-left: max(12px, env(safe-area-inset-left));
+    padding-right: max(12px, env(safe-area-inset-right));
+  }
   .card { padding: 16px; }
+
+  .date-nav { gap: 10px; }
+}
+
+/* Touch sizing. Wider than the phone breakpoint on purpose: a phone held
+   sideways is 740px and an iPad in portrait is 768px, and both were landing
+   above the old 700px cut-off with 24px buttons and 8px table type. */
+@media (max-width: 900px), (pointer: coarse) {
+  .view-btn, .date-nav button { min-height: var(--tap); padding: 8px 18px; }
+  .record-seg-btn, .wf-btn { min-height: 34px; padding: 6px 14px; }
+  /* Filters, sort toggles and pagers built inline by the render code carry
+     their own 4–6px padding and land around 24px tall. Give every control
+     inside a card a floor, without inflating rows of a dense table. */
+  .card button,
+  .card select,
+  .card label,
+  .view-toggle select,
+  .date-nav select { min-height: 34px; }
+  .card td button, .card th button,
+  .card td select, .card th select { min-height: 0; }
+  .badge { font-size: 0.68rem; }
+  .league { min-height: 36px; }
+  .tab { min-height: var(--tap); }
 }
 
 @media (max-width: 400px) {
   .record-banner { grid-template-columns: repeat(2, 1fr); gap: 8px; }
-  .record-item { padding: 14px 8px; }
+  .record-item { padding: 12px 8px; }
   .record-item .value { font-size: 1.1rem; }
+  .tab { padding: 9px 14px; }
 }
-select { background-color: #1a1a2e; color: #fff; }
+select { background-color: #1a1a2e; color: #fff; max-width: 100%; }
 select option { background-color: #1a1a2e; color: #fff; padding: 4px 8px; }
 
 /* ─── Props mobile responsive ─── */
-.props-table-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+.props-table-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; overscroll-behavior-x: contain; }
 
 /* Cards with dynamically-built tables (today/yesterday picks, recap, leans).
-   Tables are constrained to card width and use dynamic font sizing on
-   mobile so all columns remain visible without horizontal scrolling. */
+   Tables start constrained to the card; the fitter in main.js sizes them
+   down to the legible floor and moves anything still too wide into a
+   .table-scroll wrapper. */
 .card-picks table, .card-recap table, .card-games table {
   min-width: 0;
   width: 100%;
 }
 
-@media (max-width: 700px) {
+@media (max-width: 900px), (pointer: coarse) {
   .props-toolbar-tabs { font-size: 12px !important; }
-  .props-toolbar-tabs button { padding: 6px 12px !important; font-size: 12px !important; }
-  .props-toolbar-pills { padding: 8px 12px !important; gap: 4px !important; }
-  .props-toolbar-pills button { padding: 4px 10px !important; font-size: 11px !important; }
+  .props-toolbar-tabs button { padding: 8px 14px !important; font-size: 12px !important; min-height: 36px; }
+  .props-toolbar-pills { padding: 8px 12px !important; gap: 6px !important; }
+  .props-toolbar-pills button { padding: 7px 12px !important; font-size: 12px !important; min-height: 34px; }
   .props-toolbar-filters { padding: 8px 12px !important; gap: 8px !important; }
-  .props-toolbar-filters select { padding: 5px 8px !important; font-size: 12px !important; }
-  .props-pg-bar { gap: 6px !important; }
-  .props-pg-bar button { padding: 3px 8px !important; font-size: 11px !important; }
-  .props-pg-bar span { font-size: 11px !important; }
+  .props-toolbar-filters select { padding: 8px 10px !important; font-size: 13px !important; min-height: 36px; }
+  .props-pg-bar { gap: 8px !important; }
+  .props-pg-bar button { padding: 7px 12px !important; font-size: 12px !important; min-height: 34px; }
+  .props-pg-bar span { font-size: 12px !important; }
   .props-recap table { min-width: 0; }
-  .props-mini-breakdown { font-size: 11px !important; gap: 8px !important; }
+  .props-mini-breakdown { font-size: 12px !important; gap: 8px !important; }
   .card table { width: 100% !important; table-layout: auto; }
-  /* Compact mobile defaults; the actual font size is shrunk further by the
-     JS fitter (fitMLBTableToContainer in mlb-props.js) so every column fits
-     within the card without horizontal scrolling or hidden columns. */
+  /* Floor of 10px, not 7px. A wide table is moved into a .table-scroll
+     wrapper by the fitter in main.js rather than being shrunk past this. */
   .card table th,
   .card table td {
-    font-size: clamp(8px, 2.2vw, 12px);
-    padding: 3px 4px !important;
+    font-size: clamp(10px, 2.4vw, 12px);
+    padding: 5px 6px !important;
     white-space: nowrap;
   }
   .card { padding: 12px !important; }
+
+  /* A wide control must not set the page width; its container scrolls or
+     wraps instead. Overrides the inline min-widths on the props filters. */
+  .card select,
+  .card input[type="search"],
+  .card input[type="text"] {
+    min-width: 0 !important;
+    max-width: 100%;
+  }
+  /* 16px is the threshold below which iOS zooms the page on focus. */
+  .card input[type="search"],
+  .card input[type="text"] { font-size: 16px !important; min-height: 38px; }
 }
 
 @media (max-width: 480px) {
@@ -673,17 +806,19 @@ select option { background-color: #1a1a2e; color: #fff; padding: 4px 8px; }
   .games-grid { gap: 6px; }
 }
 
-/* Tables in dynamic cards: dynamic font sizing so columns fit in one row. */
-@media (max-width: 700px) {
+/* Tables in dynamic cards: same legible floor as above. */
+@media (max-width: 900px), (pointer: coarse) {
   .card-picks table th, .card-picks table td,
   .card-recap table th, .card-recap table td,
   .card-games table th, .card-games table td {
-    font-size: clamp(7px, 2.2vw, 12px) !important;
-    padding: clamp(2px, 0.6vw, 5px) clamp(1px, 0.4vw, 6px) !important;
+    font-size: clamp(10px, 2.4vw, 12px) !important;
+    padding: 5px 6px !important;
     white-space: nowrap;
   }
   /* Tabs, sort toggle, and other in-card controls */
-  .card-picks button { font-size: 11px !important; padding: 4px 8px !important; }
+  .card-picks button,
+  .card-games button,
+  .card-recap button { font-size: 12px !important; padding: 7px 12px !important; min-height: 34px; }
 }
 
 /* ---- Workflow trigger buttons + modal ---- */
@@ -745,8 +880,9 @@ select option { background-color: #1a1a2e; color: #fff; padding: 4px 8px; }
   border: 1px solid #2a3b52;
   border-radius: 10px;
   padding: 24px 28px;
-  min-width: 320px;
-  max-width: 480px;
+  min-width: min(320px, calc(100% - 32px));
+  max-width: min(480px, calc(100% - 32px));
+  margin: 16px;
   box-shadow: 0 10px 40px rgba(0,0,0,0.6);
   text-align: center;
   color: #d8e6f5;

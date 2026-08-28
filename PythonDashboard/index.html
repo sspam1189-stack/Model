@@ -2,14 +2,14 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <meta name="color-scheme" content="dark">
   <meta name="description" content="Python Bayesian + LR Confirmation spread and totals picks dashboard for NBA and NCAA">
   <title>Python Picks Dashboard</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=5">
+  <link rel="stylesheet" href="styles.css?v=6">
 </head>
 <body>
   <header class="header">
@@ -19,46 +19,48 @@
     <div id="last-sync-info" class="subtitle" style="margin-top:2px;font-size:0.75rem;color:var(--muted)"></div>
   </header>
 
-  <nav class="league-bar" aria-label="League selection">
-    <button class="league" data-league="MLB" type="button">MLB</button>
-    <button class="league" data-league="NBA" type="button">NBA</button>
-    <button class="league" data-league="WNBA" type="button">WNBA</button>
-    <button class="league" data-league="NFL" type="button">NFL</button>
-    <button class="league" data-league="NCAA" type="button">NCAA</button>
-  </nav>
+  <div class="topbar">
+    <nav class="league-bar" aria-label="League selection">
+      <button class="league" data-league="MLB" type="button">MLB</button>
+      <button class="league" data-league="NBA" type="button">NBA</button>
+      <button class="league" data-league="WNBA" type="button">WNBA</button>
+      <button class="league" data-league="NFL" type="button">NFL</button>
+      <button class="league" data-league="NCAA" type="button">NCAA</button>
+    </nav>
 
-  <nav class="tabs" aria-label="Model selection">
-    <span class="tab-group" role="group" aria-label="MLB">
-      <button class="tab active" data-tab="mlb-props" type="button">MLB K's CSW .1</button>
-      <button class="tab" data-tab="mlb-props-w01c26" type="button">MLB K's Whiff .1/Cap26</button>
-      <button class="tab" data-tab="mlb-fade-ml" type="button">MLB Fade ML</button>
-      <button class="tab" data-tab="mlb-all-ml" type="button">2026 MLB Games</button>
-      <button class="tab" data-tab="mlb-slate-scout" type="button">MLB Slate Scout</button>
-      <button class="tab" data-tab="mlb-batter-props" type="button" style="display:none">MLB Batter Props</button>
-    </span>
-    <span class="tab-group" role="group" aria-label="NBA">
-      <button class="tab" data-tab="fullseason" type="button">NBA Full Season</button>
-      <button class="tab" data-tab="nba-props" type="button">NBA Player Props</button>
-    </span>
-    <span class="tab-group" role="group" aria-label="WNBA">
-      <button class="tab" data-tab="wnba-full" type="button">WNBA Full Season</button>
-      <button class="tab" data-tab="wnba-props" type="button">WNBA Player Props</button>
-    </span>
-    <span class="tab-group" role="group" aria-label="NFL">
-      <button class="tab" data-tab="nfl" type="button">NFL Systems</button>
-      <button class="tab" data-tab="nfl-props" type="button">NFL Player Props</button>
-    </span>
-    <span class="tab-group" role="group" aria-label="NCAA">
-      <button class="tab" data-tab="ncaa" type="button" style="display:none">NCAA</button>
-    </span>
-  </nav>
+    <nav class="tabs" aria-label="Model selection">
+      <span class="tab-group" role="group" aria-label="MLB">
+        <button class="tab active" data-tab="mlb-props" type="button">MLB K's CSW .1</button>
+        <button class="tab" data-tab="mlb-props-w01c26" type="button">MLB K's Whiff .1/Cap26</button>
+        <button class="tab" data-tab="mlb-fade-ml" type="button">MLB Fade ML</button>
+        <button class="tab" data-tab="mlb-all-ml" type="button">2026 MLB Games</button>
+        <button class="tab" data-tab="mlb-slate-scout" type="button">MLB Slate Scout</button>
+        <button class="tab" data-tab="mlb-batter-props" type="button" style="display:none">MLB Batter Props</button>
+      </span>
+      <span class="tab-group" role="group" aria-label="NBA">
+        <button class="tab" data-tab="fullseason" type="button">NBA Full Season</button>
+        <button class="tab" data-tab="nba-props" type="button">NBA Player Props</button>
+      </span>
+      <span class="tab-group" role="group" aria-label="WNBA">
+        <button class="tab" data-tab="wnba-full" type="button">WNBA Full Season</button>
+        <button class="tab" data-tab="wnba-props" type="button">WNBA Player Props</button>
+      </span>
+      <span class="tab-group" role="group" aria-label="NFL">
+        <button class="tab" data-tab="nfl" type="button">NFL Systems</button>
+        <button class="tab" data-tab="nfl-props" type="button">NFL Player Props</button>
+      </span>
+      <span class="tab-group" role="group" aria-label="NCAA">
+        <button class="tab" data-tab="ncaa" type="button" style="display:none">NCAA</button>
+      </span>
+    </nav>
+  </div>
 
   <main class="content" id="content">
     <div class="loading"><div class="spinner"></div><br>Loading picks...</div>
   </main>
 
   <script src="js/workflow-trigger.js?v=5"></script>
-  <script src="js/main.js?v=17"></script>
+  <script src="js/main.js?v=18"></script>
   <script src="js/nba-props.js?v=11"></script>
   <script src="js/nfl-props.js?v=5"></script>
   <script src="js/nfl-games.js?v=5"></script>

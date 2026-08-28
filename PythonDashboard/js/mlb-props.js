@@ -39,44 +39,17 @@
       .replace(/[̀-ͯ]/g, '').replace(/[^a-z ]/g, ' ').replace(/\s+/g, ' ').trim();
 
     // Tables on this tab have many columns (pitcher workload + projections +
-    // results). Rather than hide columns or scroll horizontally, shrink the
-    // font until the table fits its container width. Tracked tables are
-    // re-fit on viewport resize / orientation change.
-    const __mlbFitTables = new Set();
+    // results). Sizing them is the shared fitter's job (see main.js): it
+    // shrinks the font only as far as stays readable and moves anything
+    // wider into a horizontally scrollable wrapper, and it already tracks
+    // every table in a card for resize / orientation changes. This used to
+    // be a second, near-identical fitter with a 6px floor, and the two
+    // fought over the same cells.
     function fitMLBTableToContainer(tbl) {
       if (!tbl) return;
-      __mlbFitTables.add(tbl);
-      requestAnimationFrame(() => {
-        const parent = tbl.parentElement;
-        if (!parent || !document.body.contains(tbl)) return;
-        const available = parent.clientWidth;
-        if (available <= 0) return;
-        const cells = tbl.querySelectorAll('th, td');
-        if (!cells.length) return;
-        const setSize = (px) => cells.forEach(c => c.style.setProperty('font-size', px + 'px', 'important'));
-        let fontSize = 13;
-        const minFont = 6;
-        setSize(fontSize);
-        let guard = 0;
-        while (tbl.scrollWidth > available + 1 && fontSize > minFont && guard < 60) {
-          fontSize -= 0.5;
-          setSize(fontSize);
-          guard++;
-        }
-      });
-    }
-    if (typeof window !== 'undefined' && !window.__mlbFitListenerAdded) {
-      window.__mlbFitListenerAdded = true;
-      let __mlbFitTimer;
-      window.addEventListener('resize', () => {
-        clearTimeout(__mlbFitTimer);
-        __mlbFitTimer = setTimeout(() => {
-          for (const t of [...__mlbFitTables]) {
-            if (!document.body.contains(t)) { __mlbFitTables.delete(t); continue; }
-            fitMLBTableToContainer(t);
-          }
-        }, 150);
-      });
+      if (typeof window !== 'undefined' && window.fitTableToContainer) {
+        requestAnimationFrame(() => window.fitTableToContainer(tbl));
+      }
     }
 
     // Staking: plus odds risk 1u to win payout, negative odds risk X to win 1u
