@@ -70,14 +70,22 @@ MARKET_THRESHOLDS = {
 # calibrate_threshold output to bring claimed pCover into line with
 # actual realized win rate per market.
 #
-# 2026-08-27 STALE — RE-SWEEP BEFORE THE SEASON OPENS. These were fitted while
-# project_minutes/_weighted_minutes_std both conditioned on min >= 15, so the
-# minutes-variance term was measured on a truncated sample and came out far too
-# small; VAR_MULT was absorbing the gap. Both now use the unfiltered window
-# (real E[min] and its real spread), so base_var is materially larger and these
-# multipliers over-inflate std -> pCover compresses toward 0.5 -> pick volume
-# drops. Re-run scripts/calibrate_threshold.py against a fresh backfill and
-# reset these; do not read pick counts as a signal until that is done.
+# 2026-08-27 RE-SWEPT AFTER THE MINUTES FIX — NO CHANGE NEEDED, KEEP THESE.
+# These were fitted while project_minutes/_weighted_minutes_std both
+# conditioned on min >= 15, so the minutes-variance term was measured on a
+# truncated sample and VAR_MULT was absorbing the gap. Both now use the
+# unfiltered window (real E[min] and its real spread). I expected that to
+# leave these stale; calibrate_threshold.py on a fresh 2026-01-01..06-13
+# backfill says otherwise — claimed pCover now tracks realised win rate:
+#
+#     market      n    WR    claim    gap        (gap before the fix)
+#     assists   426  0.615   0.603   +0.01              -0.10
+#     rebounds   77  0.610   0.632   -0.02              -0.14
+#     threes    108  0.694   0.636   +0.06              -0.14
+#
+# Every gap is inside its own 95% CI. The suggested rescales (x0.89 / x1.20 /
+# x0.68) are chasing 1-6pp of noise on 77-426 picks, so they are NOT applied.
+# Do not re-tune these on samples this small.
 VAR_MULT = {
     "points":        2.0,
     "rebounds":      4.03,  # 2026-04-29 final — recal #3, balanced WR + volume

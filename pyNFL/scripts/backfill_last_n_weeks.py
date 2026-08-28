@@ -355,16 +355,17 @@ def backfill(seasons, output_dir=None):
             if prev_graded and week > 1:
                 # Kalman batch update from last week's completed games
                 if kalman_state:
-                    batch_update(kalman_state, prev_graded)
+                    batch_update(kalman_state, prev_graded, proj_includes_adj=True)
 
                 # Self-tune weights (skip during burn-in)
                 if not is_burn_in and len(prev_graded) > 0:
                     try:
                         tuned = tune_weights(base_w, base_w_var, prev_graded)
-                        base_w = tuned["W"]
-                        base_w_var = tuned["W_var"]
                         store["weights"] = tuned["W"]
                         store["weightsVar"] = tuned["W_var"]
+                        # copies — base_w must not alias the persisted dict
+                        base_w = {**tuned["W"]}
+                        base_w_var = {**tuned["W_var"]}
                     except Exception as e:
                         print(f"    [tune] Warning: self-tune failed for {week_key}: {e}")
 
@@ -689,15 +690,15 @@ def backfill(seasons, output_dir=None):
         # prev_graded from the last week would otherwise be lost because
         # the next season starts at week=1 where the `week > 1` guard skips it.
         if prev_graded and kalman_state:
-            batch_update(kalman_state, prev_graded)
+            batch_update(kalman_state, prev_graded, proj_includes_adj=True)
             # Self-tune on final week as well
             if len(prev_graded) > 0:
                 try:
                     tuned = tune_weights(base_w, base_w_var, prev_graded)
-                    base_w = tuned["W"]
-                    base_w_var = tuned["W_var"]
                     store["weights"] = tuned["W"]
                     store["weightsVar"] = tuned["W_var"]
+                    base_w = {**tuned["W"]}
+                    base_w_var = {**tuned["W_var"]}
                 except Exception:
                     pass
             prev_graded = []
