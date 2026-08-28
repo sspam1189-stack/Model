@@ -338,11 +338,45 @@ def analyze_game(game_data, team_stats, weights, kalman_states=None,
         p_ou = p_over if o_pick == "OVER" else p_under
 
     # Situational totals pick: validated backup-QB OVER takes precedence
+    # ---------------------------------------------------------------------
+    # SITUATIONAL SYSTEMS (situational_systems.py)
+    # Validated pricing biases take precedence over the model's own pick --
+    # the projection has no market edge, these do. The registry dedupes
+    # nested conditions, so at most ONE system fires per market.
+    # ---------------------------------------------------------------------
     situational_pick = None
-    if (backup_qb_home or backup_qb_away) and market_total > 0:
-        o_pick, o_conf = "OVER", "pick"
-        p_ou = BACKUP_QB_OVER_RATE
-        situational_pick = "backup_qb_over"
+    situational_spread_pick = None
+    systems_fired = []
+    systems_conflict = []
+    try:
+        from situational_systems import evaluate as _sys_eval, build_context as _sys_ctx
+        _ctx = _sys_ctx(
+            spread=market_spread,
+            week=situational.get("week", game_data.get("week")),
+            primetime=situational.get("primetime"),
+            backup_qb=(backup_qb_home or backup_qb_away),
+            dome=situational.get("dome"),
+            temp=situational.get("temp"),
+            rematch=situational.get("rematch"),
+            home_lost_meeting1=situational.get("home_lost_meeting1"),
+        )
+        _fired = _sys_eval(_ctx)
+        systems_fired = _fired["all"]          # EVERY system that fired, not just the pick
+        systems_conflict = _fired["conflicts"]  # markets where systems disagreed -> no bet
+        if _fired["total"] and market_total > 0:
+            o_pick, o_conf = _fired["total"]["side"], "pick"
+            p_ou = _fired["total"]["prob"]
+            situational_pick = _fired["total"]["id"]
+        if _fired["spread"]:
+            _s = _fired["spread"]
+            s_pick = _format_spread_pick(
+                home_name, away_name,
+                "home" if _s["side"] == "HOME" else "away", abs_line, home_fav)
+            s_conf = "pick"
+            p_cover = _s["prob"]
+            situational_spread_pick = _s["id"]
+    except Exception:
+        pass   # a systems failure must never take down the projection
 
     injury_note = _build_injury_note(injury_deltas)
 
@@ -387,6 +421,9 @@ def analyze_game(game_data, team_stats, weights, kalman_states=None,
         "backupQBHome": backup_qb_home,
         "backupQBAway": backup_qb_away,
         "situationalPick": situational_pick,
+        "situationalSpreadPick": situational_spread_pick,
+        "systemsFired": systems_fired,
+        "systemsConflict": systems_conflict,
         "engine": "v2",
         "_v2RawMargin": round(raw_margin * 100) / 100,
         "_v2RawTotal": round(raw_total * 100) / 100,

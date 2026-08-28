@@ -310,6 +310,40 @@ def backfill(seasons, output_dir=None):
         except Exception as e:
             print(f"  WARNING: backup-QB flags unavailable: {e}")
 
+        # Situational-system context per (week, home_abbr): broadcast window,
+        # roof/temperature, and divisional-rematch history.
+        _sit_ctx = {}
+        try:
+            from sources.qb_starts import norm_abbr as _qna2
+            import collections as _c
+            _prev_meet = _c.defaultdict(list)
+            _sch2 = _sched_qb.sort_values("week")
+            for _, _r in _sch2.iterrows():
+                _hh, _aa = _qna2(_r["home_team"]), _qna2(_r["away_team"])
+                _key = tuple(sorted([_hh, _aa]))
+                _hist = _prev_meet[_key]
+                try:
+                    _hour = int(str(_r.get("gametime", "")).split(":")[0])
+                except (ValueError, TypeError):
+                    _hour = None
+                _wd = str(_r.get("weekday", ""))
+                _prime = (_wd in ("Thursday", "Monday")
+                          or (_wd == "Sunday" and _hour is not None and _hour >= 20))
+                _roof = str(_r.get("roof") or "")
+                _t = _r.get("temp")
+                _sit_ctx[(int(_r["week"]), _hh)] = dict(
+                    week=int(_r["week"]), primetime=_prime,
+                    dome=_roof in ("dome", "closed"),
+                    temp=(float(_t) if _t is not None and _t == _t else None),
+                    rematch=bool(_hist),
+                    home_lost_meeting1=bool(_hist) and _hist[0] != _hh,
+                )
+                if _r.get("home_score") is not None and _r.get("home_score") == _r.get("home_score"):
+                    _prev_meet[_key].append(_hh if _r["home_score"] > _r["away_score"] else _aa)
+            print(f"  Situational context built for {len(_sit_ctx)} games")
+        except Exception as e:
+            print(f"  WARNING: situational context unavailable: {e}")
+
         # 2. Replay week-by-week
         for week in range(1, max_week + 1):
             week_key = f"{season}_W{week}"
@@ -524,6 +558,12 @@ def backfill(seasons, output_dir=None):
                                             "away_backup_qb": _ab,
                                             "home_qb_change": _hc,
                                             "away_qb_change": _ac}
+                    # merge in broadcast window / weather / rematch context
+                    if _sit_ctx:
+                        from sources.qb_starts import norm_abbr as _qna_ctx
+                        _extra = _sit_ctx.get((week, _qna_ctx(g.get("_homeAbbr"))))
+                        if _extra:
+                            _situational = {**(_situational or {}), **_extra}
                     r = analyze_game(
                         game_data=g,
                         team_stats=team_stats,

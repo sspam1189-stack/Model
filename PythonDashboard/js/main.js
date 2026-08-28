@@ -2001,6 +2001,91 @@ function nflRenderTodayPicks(run) {
   return `<div class="card card-picks"><div class="card-title">Picks — ${nflGetWeekLabel(run)} (Actionable)</div>${items}</div>`;
 }
 
+// ─── NFL Situational Systems ───
+// Validated pricing-bias systems (see pyNFL/scripts/situational_systems.py).
+// These are the actual betting product; the projection is monitor-only.
+const NFL_SYSTEM_LABELS = {
+  day_mismatch_over:    'Day mismatch (|spread| 7+) — OVER',
+  backup_qb_over:       'Backup QB starting, wks 1-13 — OVER',
+  late_cold_over:       'Late season, outdoors, cold — OVER',
+  home_dog_7_10:        'Home dog of 7-10 — HOME',
+  rematch_home_lost_m1: 'Div rematch, home lost 1st — HOME',
+};
+
+function nflRenderSystemPlays(run) {
+  const games = (run.games || []).filter(g =>
+    (g.situationalPick || g.situationalSpreadPick) &&
+    g.status !== 'MISSING_ODDS' && g.status !== 'SKIPPED');
+  const title = `System Plays — ${nflGetWeekLabel(run)}`;
+  if (!games.length) {
+    return `<div class="card card-picks"><div class="card-title">${title}</div>
+      <div class="no-picks">No system plays this week.</div></div>`;
+  }
+  const rows = [];
+  games.forEach(g => {
+    const matchup = `${esc(g.away)} @ ${esc(g.home)}`;
+    // every system that fired, so overlaps are visible rather than hidden
+    const fired = (g.systemsFired || []);
+    const extra = fired.length > 1
+      ? `<span class="pick-meta">+${fired.length - 1} more system${fired.length > 2 ? 's' : ''} agree</span>` : '';
+    const conflict = (g.systemsConflict || []).length
+      ? `<span class="pick-meta" style="color:var(--red)">CONFLICT — stood down</span>` : '';
+    if (g.situationalPick) {
+      const res = g.oResult || null;
+      rows.push(`<div class="pick-item">
+        <span class="pick-team">${esc(g.oPick)} ${fmtNum(g.total, 1)}</span>
+        <span class="pick-meta">${matchup}</span>
+        <span class="pick-meta">${esc(NFL_SYSTEM_LABELS[g.situationalPick] || g.situationalPick)}</span>
+        ${g.pOU != null ? `<span class="pick-meta">P=${fmtProb(g.pOU)}</span>` : ''}
+        ${extra}${conflict}
+        ${res ? resultBadge(res) : '<span class="result-badge pending">PENDING</span>'}
+      </div>`);
+    }
+    if (g.situationalSpreadPick) {
+      const res = g.sResult || null;
+      rows.push(`<div class="pick-item">
+        <span class="pick-team">${esc(g.sPick)}</span>
+        <span class="pick-meta">${matchup}</span>
+        <span class="pick-meta">${esc(NFL_SYSTEM_LABELS[g.situationalSpreadPick] || g.situationalSpreadPick)}</span>
+        ${g.pCover != null ? `<span class="pick-meta">P=${fmtProb(g.pCover)}</span>` : ''}
+        ${conflict}
+        ${res ? resultBadge(res) : '<span class="result-badge pending">PENDING</span>'}
+      </div>`);
+    }
+  });
+  return `<div class="card card-picks"><div class="card-title">${title}</div>${rows.join('')}</div>`;
+}
+
+// Cumulative system record across the runs in view
+function nflRenderSystemRecord(runs) {
+  const tally = {};
+  (runs || []).forEach(r => (r.games || []).forEach(g => {
+    [[g.situationalPick, g.oResult], [g.situationalSpreadPick, g.sResult]].forEach(([id, res]) => {
+      if (!id || (res !== 'WIN' && res !== 'LOSS')) return;
+      tally[id] = tally[id] || { w: 0, l: 0 };
+      res === 'WIN' ? tally[id].w++ : tally[id].l++;
+    });
+  }));
+  const ids = Object.keys(tally);
+  if (!ids.length) return '<div class="no-picks">No graded system plays yet.</div>';
+  let TW = 0, TL = 0;
+  const rows = ids.sort((a, b) => (tally[b].w + tally[b].l) - (tally[a].w + tally[a].l)).map(id => {
+    const { w, l } = tally[id]; TW += w; TL += l;
+    const n = w + l, pct = n ? (w / n * 100).toFixed(1) : '0.0';
+    const u = (w - l * 1.1).toFixed(1);
+    return `<tr><td>${esc(NFL_SYSTEM_LABELS[id] || id)}</td><td>${w}-${l}</td>
+      <td>${pct}%</td><td class="${u >= 0 ? 'pos' : 'neg'}">${u >= 0 ? '+' : ''}${u}u</td></tr>`;
+  });
+  const tu = (TW - TL * 1.1).toFixed(1);
+  return `<div class="card"><table class="data-table">
+    <thead><tr><th>System</th><th>W-L</th><th>Hit%</th><th>Units</th></tr></thead>
+    <tbody>${rows.join('')}
+    <tr style="font-weight:600"><td>ALL SYSTEMS</td><td>${TW}-${TL}</td>
+      <td>${TW + TL ? (TW / (TW + TL) * 100).toFixed(1) : '0.0'}%</td>
+      <td class="${tu >= 0 ? 'pos' : 'neg'}">${tu >= 0 ? '+' : ''}${tu}u</td></tr>
+    </tbody></table></div>`;
+}
+
 // ─── NFL History View ───
 function nflRenderHistoryWeek(run) {
   const games = run.games || [];

@@ -67,6 +67,13 @@ async function renderNFL() {
     </div>`;
 
   if (viewMode === 'today' && selectedRun) {
+    // Situational systems are the actual betting product — show them first.
+    html += '<div class="section-label">System Plays</div>';
+    html += nflRenderSystemPlays(selectedRun);
+    html += '<div class="section-label">System Record</div>';
+    html += nflRenderSystemRecord(statsRuns);
+
+    html += '<div class="section-label">Model Picks (monitor-only)</div>';
     html += nflRenderTodayPicks(selectedRun);
     html += nflRenderWeeklyPicks(selectedRun);
 

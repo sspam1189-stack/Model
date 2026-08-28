@@ -754,13 +754,46 @@ def stage_project(season, week, store):
                 print(f"  WARNING: weather/schedule enrichment failed: {_we}")
 
         try:
-            game_situational = None
+            # --- situational-system context ---
+            game_situational = {"week": week}
             if backup_qb_teams:
                 _hb = g.get("_homeAbbr", "") in backup_qb_teams
                 _ab = g.get("_awayAbbr", "") in backup_qb_teams
-                if _hb or _ab:
-                    game_situational = {"home_backup_qb": _hb,
-                                        "away_backup_qb": _ab}
+                game_situational.update(home_backup_qb=_hb, away_backup_qb=_ab)
+            # broadcast window: TNF / SNF (Sun >= 20:00 local-ish) / MNF
+            try:
+                _ct = g.get("commenceTimeIso") or g.get("commence_time")
+                if _ct:
+                    _dt = datetime.fromisoformat(str(_ct).replace("Z", "+00:00"))
+                    _local = _dt - timedelta(hours=5)   # UTC -> US Eastern-ish
+                    _wd = _local.strftime("%A")
+                    game_situational["primetime"] = (
+                        _wd in ("Thursday", "Monday")
+                        or (_wd == "Sunday" and _local.hour >= 20))
+            except (ValueError, TypeError):
+                pass
+            # roof / temperature from the weather enrichment
+            _wx = g.get("_weatherAdj") or {}
+            game_situational["dome"] = bool(_wx.get("is_dome"))
+            game_situational["temp"] = _wx.get("temp_f")
+            # divisional rematch: have these two met already this season?
+            try:
+                _pair = tuple(sorted([g.get("home", ""), g.get("away", "")]))
+                _prior = []
+                for _r in store.get("runs", []):
+                    if _r.get("season") != season or _r.get("week", 99) >= week:
+                        continue
+                    for _pg in _r.get("games", []):
+                        if tuple(sorted([_pg.get("home", ""), _pg.get("away", "")])) != _pair:
+                            continue
+                        _hs, _as = _pg.get("homeScore"), _pg.get("awayScore")
+                        if isinstance(_hs, (int, float)) and isinstance(_as, (int, float)):
+                            _prior.append(_pg.get("home") if _hs > _as else _pg.get("away"))
+                if _prior:
+                    game_situational["rematch"] = True
+                    game_situational["home_lost_meeting1"] = _prior[0] != g.get("home")
+            except Exception:
+                pass
             r = analyze_game(
                 g, team_stats, base_w,
                 kalman_states=kalman_state,
