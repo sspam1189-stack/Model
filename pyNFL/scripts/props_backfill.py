@@ -460,6 +460,12 @@ MARKETS = ["pass_tds", "rush_yds", "rush_att", "rec_yds", "receptions"]
 # pass_yds disabled: 0.23 correlation, 44-50% win rate across all variants — no edge
 
 
+# Weeks the backfill actually processed, as (season, week). Populated by
+# backtest_props and consumed by write_dashboard_json so that a covered week
+# which produces no picks still clears its old rows.
+_COVERED_WEEKS = set()
+
+
 def backtest_props(seasons, start_week=4):
     """
     Walk-forward backtest using the volume-based projection pipeline.
@@ -471,6 +477,7 @@ def backtest_props(seasons, start_week=4):
       4. Project via volume * Kalman-smoothed rates
       5. Grade against actual stats + real prop lines
     """
+    _COVERED_WEEKS.clear()
     results = {m: {"projections": [], "actuals": [], "picks": []} for m in MARKETS}
 
     total_projected = 0
@@ -502,6 +509,12 @@ def backtest_props(seasons, start_week=4):
                         batch_update_from_game_logs(kalman_state, kalman_records)
                         apply_drift(kalman_state, games_elapsed=1)
                 continue
+
+            # This week is now owned by the backfill, whether or not it ends
+            # up producing a pick. write_dashboard_json needs the distinction:
+            # "covered but empty" must clear stale rows, "never covered" must
+            # be preserved.
+            _COVERED_WEEKS.add((season, int(week)))
 
             # --- 1. Load Vegas odds for this week ---
             odds_list = _load_odds(season, week)
@@ -861,12 +874,21 @@ def write_dashboard_json(results, seasons):
         except Exception:
             existing_props = []
 
-        new_weeks = set()
-        for p in all_picks:
-            new_weeks.add((p.get("season"), p.get("week")))
+        # Clear every week the backfill COVERED, not just the ones that
+        # yielded picks. Keying off produced picks meant a week that now
+        # legitimately produces nothing kept its old rows forever -- which is
+        # how pre-UNDER_ONLY overs survived in weeks that no longer emit any
+        # (2025 W6, 2023 W21-22). Weeks outside the covered range are still
+        # preserved: that is where live/pending picks live.
+        covered = set(_COVERED_WEEKS)
+        if not covered:                      # nothing tracked -> old behaviour
+            covered = {(p.get("season"), p.get("week")) for p in all_picks}
 
         kept = [p for p in existing_props
-                if (p.get("season"), p.get("week")) not in new_weeks]
+                if (p.get("season"), p.get("week")) not in covered]
+        dropped = len(existing_props) - len(kept)
+        if dropped:
+            print(f"  Cleared {dropped} stale picks from covered weeks")
 
         merged = kept + all_picks
         dashboard_merged = {**dashboard, "props": merged, "totalPicks": len(merged)}
