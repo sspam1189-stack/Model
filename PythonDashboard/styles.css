@@ -92,7 +92,9 @@ body::before {
 .tabs {
   display: flex;
   justify-content: center;
-  gap: 6px;
+  flex-wrap: wrap;
+  /* wide gap BETWEEN leagues, tight gap within one — see .tab-group */
+  gap: 22px;
   padding: 24px 16px 16px;
   position: sticky;
   top: 0;
@@ -101,6 +103,16 @@ body::before {
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
 }
+/* One league's tabs. Sits tight internally so the wider .tabs gap reads as
+   the league boundary. A group whose every tab is hidden collapses entirely,
+   so a league with no data (NCAA) leaves no stray gap behind. */
+.tab-group {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+.tab-group:not(:has(.tab:not([style*="none"]))) { display: none; }
 .tab {
   padding: 10px 28px;
   border-radius: 999px;
@@ -568,7 +580,7 @@ table.data td.right, table.data th.right { text-align: right; }
 /* ─── Responsive ─── */
 @media (max-width: 700px) {
   .header h1 { font-size: 1.5rem; }
-  .tabs { flex-wrap: wrap; gap: 6px; }
+  .tabs { flex-wrap: wrap; gap: 12px; }
   .tab { padding: 8px 18px; font-size: 0.8rem; }
   .record-banner { grid-template-columns: repeat(2, 1fr); }
   .record-item .value { font-size: 1.3rem; }
