@@ -408,8 +408,8 @@
       "away": "LAD",
       "home": "DET",
       "commence": "2026-08-28T22:40:00Z",
-      "away_ml": -184,
-      "home_ml": 170,
+      "away_ml": -174,
+      "home_ml": 162,
       "total": 7.5,
       "over_ml": 102,
       "under_ml": -124,
@@ -794,8 +794,8 @@
       "away": "MIA",
       "home": "WSH",
       "commence": "2026-08-28T22:45:00Z",
-      "away_ml": -146,
-      "home_ml": 136,
+      "away_ml": -134,
+      "home_ml": 124,
       "total": 8.5,
       "over_ml": 100,
       "under_ml": -122,
@@ -1163,8 +1163,8 @@
       "away": "KC",
       "home": "CLE",
       "commence": "2026-08-28T23:10:00Z",
-      "away_ml": 120,
-      "home_ml": -130,
+      "away_ml": 124,
+      "home_ml": -134,
       "total": 7.5,
       "over_ml": 100,
       "under_ml": -122,
@@ -1530,8 +1530,8 @@
       "away": "HOU",
       "home": "NYM",
       "commence": "2026-08-28T23:10:00Z",
-      "away_ml": -106,
-      "home_ml": -102,
+      "away_ml": -104,
+      "home_ml": -104,
       "total": 7.5,
       "over_ml": -122,
       "under_ml": 100,
@@ -2264,38 +2264,118 @@
       "away": "SEA",
       "home": "TOR",
       "commence": "2026-08-28T23:15:00Z",
-      "away_ml": 136,
-      "home_ml": -146,
+      "away_ml": 128,
+      "home_ml": -138,
       "total": 7,
       "over_ml": -104,
       "under_ml": -118,
       "sides": {
         "away": {
-          "pitcher": null,
-          "listed_as": null,
-          "resolved": false,
-          "hand": null,
+          "pitcher": "Emerson Hancock",
+          "listed_as": "Emerson Hancock",
+          "resolved": true,
+          "hand": "R",
           "team": "SEA",
           "opponent_offense": "TOR",
-          "opp_wrc_vs_hand": null,
-          "opp_wrc_game": null,
-          "opp_wrc_recent": null,
-          "opp_wrc_recent_pa": null,
+          "opp_wrc_vs_hand": 102,
+          "opp_wrc_game": 103,
+          "opp_wrc_recent": 99,
+          "opp_wrc_recent_pa": 528,
           "opp_wrc_windows": {
-            "last30": null,
-            "last20": null,
-            "last15": null,
-            "last7": null
+            "last30": {
+              "wrcplus": 102,
+              "pa": 631,
+              "role": "all"
+            },
+            "last20": {
+              "wrcplus": 107,
+              "pa": 403,
+              "role": "all"
+            },
+            "last15": {
+              "wrcplus": 99,
+              "pa": 306,
+              "role": "all"
+            },
+            "last7": {
+              "wrcplus": null,
+              "pa": 138,
+              "role": "all"
+            }
           },
           "opp_platoon_gap": -17,
           "form": {
-            "season": null,
-            "recent": null,
-            "hot": null,
-            "recent_all": null,
+            "season": {
+              "gs": 24,
+              "ip": 133.7,
+              "ip_per_gs": 5.57,
+              "era": 3.37,
+              "whip": 1.12,
+              "k_pct": 23.0,
+              "bb_pct": 5.9,
+              "k_bb_pct": 17.1,
+              "hr9": 1.21,
+              "k": 125,
+              "bb": 32,
+              "hr": 18,
+              "er": 50
+            },
+            "recent": {
+              "gs": 5,
+              "ip": 28.3,
+              "ip_per_gs": 5.67,
+              "era": 4.13,
+              "whip": 1.55,
+              "k_pct": 21.7,
+              "bb_pct": 4.7,
+              "k_bb_pct": 17.1,
+              "hr9": 1.59,
+              "k": 28,
+              "bb": 6,
+              "hr": 5,
+              "er": 13
+            },
+            "hot": {
+              "gs": 3,
+              "ip": 17.3,
+              "ip_per_gs": 5.78,
+              "era": 3.63,
+              "whip": 1.44,
+              "k_pct": 21.8,
+              "bb_pct": 3.8,
+              "k_bb_pct": 17.9,
+              "hr9": 1.56,
+              "k": 17,
+              "bb": 3,
+              "hr": 3,
+              "er": 7
+            },
+            "recent_all": {
+              "g": 5,
+              "ip": 28.3,
+              "ip_per_g": 5.67,
+              "era": 4.13,
+              "whip": 1.55,
+              "k_pct": 21.7,
+              "bb_pct": 4.7,
+              "k_bb_pct": 17.1,
+              "hr9": 1.59,
+              "k": 28,
+              "bb": 6,
+              "hr": 5,
+              "er": 13,
+              "gs": 5
+            },
             "relief": null
           },
-          "trend": {},
+          "trend": {
+            "era": 0.76,
+            "whip": 0.43,
+            "k_pct": -1.3,
+            "bb_pct": -1.2,
+            "ip_per_gs": 0.1,
+            "hr9": 0.38
+          },
           "pen": {
             "last30": {
               "g": 87,
@@ -2362,10 +2442,8 @@
               "rank": 28
             }
           },
-          "flags": [
-            "thin-sample"
-          ],
-          "mismatch": null
+          "flags": [],
+          "mismatch": -2.6
         },
         "home": {
           "pitcher": "Dylan Cease",
@@ -2543,10 +2621,10 @@
           "mismatch": -17.5
         }
       },
-      "home_offense_game": null,
+      "home_offense_game": 103,
       "away_offense_game": 106,
-      "game_offense": null,
-      "offense_edge": null
+      "game_offense": 104,
+      "offense_edge": 3
     },
     {
       "matchup": "COL @ ATL",
@@ -4025,7 +4103,7 @@
       "away": "PIT",
       "home": "STL",
       "commence": "2026-08-29T00:15:00Z",
-      "away_ml": -112,
+      "away_ml": -114,
       "home_ml": 104,
       "total": 7.5,
       "over_ml": -104,
@@ -4394,8 +4472,8 @@
       "away": "PHI",
       "home": "LAA",
       "commence": "2026-08-29T01:38:00Z",
-      "away_ml": -124,
-      "home_ml": 114,
+      "away_ml": -122,
+      "home_ml": 112,
       "total": 8,
       "over_ml": -106,
       "under_ml": -114,
@@ -5654,6 +5732,16 @@
       "flags": []
     },
     {
+      "pitcher": "Emerson Hancock",
+      "hand": "R",
+      "team": "SEA",
+      "opponent_offense": "TOR",
+      "opp_wrc_vs_hand": 102,
+      "opp_wrc_recent": 99,
+      "mismatch": -2.6,
+      "flags": []
+    },
+    {
       "pitcher": "Blade Tidwell",
       "hand": "R",
       "team": "SF",
@@ -5804,7 +5892,7 @@
       "flags": []
     }
   ],
-  "generated": "2026-08-28T18:41:42Z",
+  "generated": "2026-08-28T20:49:14Z",
   "sport": "MLB",
   "type": "slate-scout",
   "advisory": true,
