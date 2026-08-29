@@ -90,7 +90,17 @@ PITCHER_ROLE = "all"
 # of its cells. Advisory-only change: nothing downstream consumes the scout,
 # so no backtest gate applies (the offense window has never been swept —
 # only the pitcher-form window was, see slate_wrc_form_sweep.py).
-PRIMARY_WINDOW = "last30"
+# 2026-08-29 (user): last30 -> last20. Measured first -- swapping the offense
+# window changes nothing descriptively: correlation between the mismatch and
+# runs the offense actually scores is +0.1241 (L20) vs +0.1258 (L30) vs
+# +0.1260 (L45) over ~3,000 pitcher-sides, i.e. flat across the whole range.
+# The trade is recency for coverage: L20 median PA ~403 vs L30 ~630, and 209
+# fewer sides clear MIN_WINDOW_PA, so a few more cells render as a bare PA
+# count. Taken for recency -- L20 respects roster and lineup changes sooner --
+# not because it predicts better. Nothing downstream bets on this column
+# (see build_slate_scout.py header); the mismatch has no market edge at any
+# window, so this is a scouting-view change and no backtest gate applies.
+PRIMARY_WINDOW = "last20"
 SECONDARY_WINDOW = "deadline"
 
 # Plate appearances below which a window's wRC+ is too thin to lean on.
