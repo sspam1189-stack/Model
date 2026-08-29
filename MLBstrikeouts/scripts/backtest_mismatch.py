@@ -44,6 +44,8 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 REPO = os.path.normpath(os.path.join(HERE, "..", ".."))
 ALL_ML = os.path.join(REPO, "MLBstrikeouts", "data", "mlb-all-ml.json")
 GAME_LOGS = os.path.join(REPO, "data", "pitcher_cache", "mlb", "game_logs_2026.json")
+BATTER_LOGS = os.path.join(REPO, "data", "pitcher_cache", "mlb",
+                           "batter_game_logs_2026.json")
 CACHE = os.path.join(REPO, "MLBstrikeouts", "data", "scout-backtest-cache.json")
 
 # Mirrors slate_wrc_form.mismatch(). Kept as literals rather than imported so a
@@ -53,8 +55,13 @@ BASE_ERA = 4.20
 ERA_W, KBB_W = 8.0, 1.2
 RECENT_STARTS = 5
 
-OFFENSE_DAYS = 30        # trailing window for the runs-vs-hand index
-MIN_WINDOW_GAMES = 6     # fewer than this vs a hand and the index is noise
+OFFENSE_DAYS = 30        # trailing window for the offense-vs-hand index
+MIN_WINDOW_GAMES = 6     # kept for the runs fallback
+MIN_WINDOW_PA = 150      # matches slate_wrc_form.MIN_WINDOW_PA
+
+# wOBA linear weights, copied from mlb-team-woba-splits.json so a refresh of
+# that payload cannot silently restate this backtest's history.
+WOBA_W = {"bb": 0.69, "hbp": 0.72, "s": 0.88, "d": 1.24, "t": 1.57, "hr": 2.0}
 
 
 def _load(path):
@@ -69,7 +76,7 @@ def _norm(name):
 class AsOf:
     """As-of-date accessors. Everything filters strictly to dates < the game."""
 
-    def __init__(self, games, logs):
+    def __init__(self, games, logs, batter_rows):
         self.starts = defaultdict(list)
         for r in logs:
             if r.get("is_start"):
@@ -77,16 +84,10 @@ class AsOf:
         for v in self.starts.values():
             v.sort(key=lambda x: x[0])
 
-        # team -> [(date, runs scored, hand of the opposing STARTER)]
+        # team -> [(date, hand, pa, woba_numerator)] from real plate appearances
         self.vs_hand = defaultdict(list)
-        for g in games:
-            if g.get("home_score") is None:
-                continue
-            ah, hh = g.get("away_hand"), g.get("home_hand")
-            if hh:
-                self.vs_hand[g["away"]].append((g["date"], g["away_score"], hh))
-            if ah:
-                self.vs_hand[g["home"]].append((g["date"], g["home_score"], ah))
+        for team, date, hand, pa, num in batter_rows:
+            self.vs_hand[team].append((date, hand, pa, num))
         for v in self.vs_hand.values():
             v.sort(key=lambda x: x[0])
 
@@ -104,38 +105,77 @@ class AsOf:
                 "kbb": 100.0 * (sum(int(r.get("k") or 0) for r in rows)
                                 - sum(int(r.get("bb") or 0) for r in rows)) / bf}
 
-    def _window(self, team, date, hand, days):
+    def woba(self, team, date, hand, days):
+        """(PA, wOBA) for this team vs this hand over the trailing window."""
         start = (datetime.date.fromisoformat(date)
                  - datetime.timedelta(days=days)).isoformat()
-        return [runs for d, runs, h in self.vs_hand.get(team, [])
-                if start <= d < date and h == hand]
+        pa = num = 0.0
+        for d, h, p, n in self.vs_hand.get(team, []):
+            if h == hand and start <= d < date:
+                pa += p
+                num += n
+        return (pa, num / pa) if pa else (0.0, None)
 
-    def offense_index(self, team, date, hand, days, min_games, lg_rate):
-        """Runs/game vs this hand, indexed to the league rate and centred 100.
+    def offense_index(self, team, date, hand, days, min_pa, lg_woba):
+        """Team wOBA vs this hand, indexed to the league mark, centred on 100.
 
-        Stands in for "opponent wRC+ vs his hand". Same units by construction
-        (100 = league average, +10 = 10% better), but it is a team RESULT
-        measure, not a rate-stat: park and schedule are in it.
+        This is the faithful stand-in for "opponent wRC+ vs his hand": same
+        input (plate appearances, not runs), same 100-centred scale. It is not
+        park-adjusted, which is the one thing the published column does that
+        this does not.
         """
-        runs = self._window(team, date, hand, days)
-        if len(runs) < min_games or not lg_rate:
+        pa, w = self.woba(team, date, hand, days)
+        if pa < min_pa or w is None or not lg_woba:
             return None
-        return 100.0 * (sum(runs) / len(runs)) / lg_rate
+        return 100.0 * w / lg_woba
 
 
-def league_rate_by_hand(games, date, days=OFFENSE_DAYS):
-    """League runs/game vs each hand over the same trailing window."""
+def load_batter_rows():
+    """(team, date, opposing-starter hand, PA, wOBA numerator) per batter-game.
+
+    The batter logs carry opp_pitcher_id but leave opp_pitcher_hand blank for
+    every one of the 41,711 rows, so the hand is joined id -> name (pitcher
+    game logs) -> hand (the starter hands in mlb-all-ml). That resolves 100%.
+    """
+    from collections import Counter
+    name2hand = {}
+    for g in _load(ALL_ML)["games"]:
+        for side in ("home", "away"):
+            n, h = g.get(f"{side}_pitcher"), g.get(f"{side}_hand")
+            if n and h:
+                name2hand.setdefault(_norm(n), Counter())[h] += 1
+    name2hand = {k: v.most_common(1)[0][0] for k, v in name2hand.items()}
+    id2name = {str(r["pitcher_id"]): _norm(r["pitcher_name"])
+               for r in _load(GAME_LOGS)}
+
+    rows = []
+    for logs in _load(BATTER_LOGS).values():
+        for r in logs:
+            hand = name2hand.get(id2name.get(str(r.get("opp_pitcher_id")), ""))
+            pa = int(r.get("pa") or 0)
+            if not hand or not pa:
+                continue
+            h_, d_, t_, hr = (int(r.get(k) or 0)
+                              for k in ("h", "doubles", "triples", "hr"))
+            singles = max(0, h_ - d_ - t_ - hr)
+            num = (WOBA_W["bb"] * int(r.get("bb") or 0)
+                   + WOBA_W["hbp"] * int(r.get("hbp") or 0)
+                   + WOBA_W["s"] * singles + WOBA_W["d"] * d_
+                   + WOBA_W["t"] * t_ + WOBA_W["hr"] * hr)
+            rows.append((r["team"], r["game_date"], hand, pa, num))
+    return rows
+
+
+def league_woba_by_hand(batter_rows, date, days=OFFENSE_DAYS):
+    """League wOBA vs each hand over the same trailing window."""
     start = (datetime.date.fromisoformat(date)
              - datetime.timedelta(days=days)).isoformat()
-    tot = defaultdict(list)
-    for g in games:
-        if g.get("home_score") is None or not (start <= g["date"] < date):
-            continue
-        if g.get("home_hand"):
-            tot[g["home_hand"]].append(g["away_score"])
-        if g.get("away_hand"):
-            tot[g["away_hand"]].append(g["home_score"])
-    return {h: (sum(v) / len(v) if v else None) for h, v in tot.items()}
+    agg = defaultdict(lambda: [0.0, 0.0])
+    for _, d, hand, pa, num in batter_rows:
+        if start <= d < date:
+            agg[hand][0] += pa
+            agg[hand][1] += num
+    return {h: (n / p if p else None) for h, (p, n) in agg.items()}
 
 
 def mismatch(opp_index, form):
@@ -147,20 +187,21 @@ def mismatch(opp_index, form):
                  - (form["kbb"] - (LG_K_PCT - LG_BB_PCT)) * KBB_W, 1)
 
 
-def build_rows(min_window_games=MIN_WINDOW_GAMES, days=OFFENSE_DAYS):
+def build_rows(min_window_pa=MIN_WINDOW_PA, days=OFFENSE_DAYS):
     games = [g for g in _load(ALL_ML)["games"]
              if g.get("home_score") is not None
              and g.get("home_pitcher") and g.get("away_pitcher")
              and g.get("home_ml") and g.get("away_ml")]
     games.sort(key=lambda g: g["date"])
-    asof = AsOf(games, _load(GAME_LOGS))
+    batter_rows = load_batter_rows()
+    asof = AsOf(games, _load(GAME_LOGS), batter_rows)
 
     lg_cache = {}
     out = []
     for g in games:
         d = g["date"]
         if d not in lg_cache:
-            lg_cache[d] = league_rate_by_hand(games, d, days)
+            lg_cache[d] = league_woba_by_hand(batter_rows, d, days)
         lg = lg_cache[d]
         sides = {}
         for side in ("away", "home"):
@@ -168,7 +209,7 @@ def build_rows(min_window_games=MIN_WINDOW_GAMES, days=OFFENSE_DAYS):
             hand = g.get(f"{side}_hand")
             opp_team = g["home"] if side == "away" else g["away"]
             form = asof.starter_form(pitcher, d)
-            idx = (asof.offense_index(opp_team, d, hand, days, min_window_games,
+            idx = (asof.offense_index(opp_team, d, hand, days, min_window_pa,
                                       lg.get(hand)) if hand else None)
             sides[side] = {"pitcher": pitcher, "m": mismatch(idx, form)}
         out.append({"game": g, "sides": sides})
@@ -262,7 +303,7 @@ def cmd_validate(args):
             if m is not None:
                 real[(g["date"], _norm(g["sides"][side].get("pitcher")))] = m
 
-    rows = build_rows(args.min_window_games)
+    rows = build_rows(args.min_window_pa)
     pairs = []
     for r in rows:
         for side in ("away", "home"):
@@ -298,7 +339,7 @@ def cmd_validate(args):
 
 
 def cmd_report(args):
-    rows = build_rows(args.min_window_games)
+    rows = build_rows(args.min_window_pa)
     dated = [r for r in rows if r["game"]["date"]]
     print(f"season games with both starters priced: {len(dated)}")
     scored = sum(1 for r in dated
@@ -344,7 +385,7 @@ def main():
     sub = ap.add_subparsers(dest="cmd", required=True)
     for name, fn in (("validate", cmd_validate), ("report", cmd_report)):
         p = sub.add_parser(name)
-        p.add_argument("--min-window-games", type=int, default=MIN_WINDOW_GAMES)
+        p.add_argument("--min-window-pa", type=int, default=MIN_WINDOW_PA)
         p.set_defaults(fn=fn)
     args = ap.parse_args()
     args.fn(args)
