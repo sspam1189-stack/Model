@@ -1,63 +1,45 @@
 {
   "sport": "MLB",
   "type": "fade-watch",
-  "generated": "2026-08-28T13:08:42Z",
+  "generated": "2026-08-29T13:09:21Z",
   "minGames": 3,
   "minUnits": 2.5,
   "note": "Shadow review list -- arms NOT on the active fade list whose home or away fade clears the bar (>= 3 games, >= +2.5u). In-sample season replay; watch, don't bet. Promote by editing scripts/fade_list.py.",
   "today": [
     {
-      "date": "2026-08-28",
-      "commence": "2026-08-28T22:40:00Z",
+      "date": "2026-08-29",
+      "commence": "2026-08-29T20:05:00Z",
       "betType": "fade_watch",
       "watch": true,
-      "pitcher": "Tarik Skubal",
-      "arm_team": "LAD",
-      "fadeTeam": "LAD",
-      "selection": "DET",
-      "home": "DET",
-      "away": "LAD",
-      "venue": "away",
-      "odds": 194,
-      "suggest": "away",
-      "suggestUnits": 2.5,
-      "games": 7,
+      "pitcher": "Cade Cavalli",
+      "arm_team": "WSH",
+      "fadeTeam": "WSH",
+      "selection": "MIA",
+      "home": "WSH",
+      "away": "MIA",
+      "venue": "home",
+      "odds": 100,
+      "suggest": "home",
+      "suggestUnits": 2.88,
+      "games": 15,
       "result": "pending"
     },
     {
-      "date": "2026-08-28",
-      "commence": "2026-08-28T23:15:00Z",
+      "date": "2026-08-29",
+      "commence": "2026-08-29T23:15:00Z",
       "betType": "fade_watch",
       "watch": true,
-      "pitcher": "Cam Schlittler",
+      "pitcher": "Max Fried",
       "arm_team": "NYY",
       "fadeTeam": "NYY",
       "selection": "BOS",
       "home": "NYY",
       "away": "BOS",
       "venue": "home",
-      "odds": 146,
+      "odds": 118,
       "suggest": "home",
-      "suggestUnits": 2.61,
-      "games": 12,
-      "result": "pending"
-    },
-    {
-      "date": "2026-08-28",
-      "commence": "2026-08-29T01:38:00Z",
-      "betType": "fade_watch",
-      "watch": true,
-      "pitcher": "Reid Detmers",
-      "arm_team": "LAA",
-      "fadeTeam": "LAA",
-      "selection": "PHI",
-      "home": "LAA",
-      "away": "PHI",
-      "venue": "home",
-      "odds": -134,
-      "suggest": "home",
-      "suggestUnits": 2.9,
-      "games": 13,
+      "suggestUnits": 3.31,
+      "games": 6,
       "result": "pending"
     }
   ],
@@ -90,6 +72,33 @@
       }
     },
     {
+      "pitcher": "Reid Detmers",
+      "team": "LAA",
+      "suggest": "home",
+      "suggestUnits": 3.9,
+      "all": {
+        "w": 16,
+        "l": 9,
+        "u": 5.0,
+        "n": 25,
+        "roi": 0.1589
+      },
+      "home": {
+        "w": 9,
+        "l": 5,
+        "u": 3.9,
+        "n": 14,
+        "roi": 0.2556
+      },
+      "away": {
+        "w": 7,
+        "l": 4,
+        "u": 1.1,
+        "n": 11,
+        "roi": 0.0679
+      }
+    },
+    {
       "pitcher": "Chris Sale",
       "team": "ATL",
       "suggest": "away",
@@ -114,6 +123,60 @@
         "u": 3.76,
         "n": 12,
         "roi": 0.2942
+      }
+    },
+    {
+      "pitcher": "Cody Bradford",
+      "team": "TEX",
+      "suggest": "away",
+      "suggestUnits": 3.58,
+      "all": {
+        "w": 4,
+        "l": 1,
+        "u": 4.1,
+        "n": 5,
+        "roi": 0.6777
+      },
+      "home": {
+        "w": 1,
+        "l": 1,
+        "u": 0.52,
+        "n": 2,
+        "roi": 0.26
+      },
+      "away": {
+        "w": 3,
+        "l": 0,
+        "u": 3.58,
+        "n": 3,
+        "roi": 0.884
+      }
+    },
+    {
+      "pitcher": "Eury P\u00e9rez",
+      "team": "MIA",
+      "suggest": "away",
+      "suggestUnits": 3.56,
+      "all": {
+        "w": 12,
+        "l": 10,
+        "u": 1.82,
+        "n": 22,
+        "roi": 0.0721
+      },
+      "home": {
+        "w": 4,
+        "l": 6,
+        "u": -1.74,
+        "n": 10,
+        "roi": -0.1651
+      },
+      "away": {
+        "w": 8,
+        "l": 4,
+        "u": 3.56,
+        "n": 12,
+        "roi": 0.2422
       }
     },
     {
@@ -252,6 +315,33 @@
       }
     },
     {
+      "pitcher": "Blade Tidwell",
+      "team": "SF",
+      "suggest": "home",
+      "suggestUnits": 3.2,
+      "all": {
+        "w": 5,
+        "l": 0,
+        "u": 5.2,
+        "n": 5,
+        "roi": 0.6924
+      },
+      "home": {
+        "w": 3,
+        "l": 0,
+        "u": 3.2,
+        "n": 3,
+        "roi": 0.8989
+      },
+      "away": {
+        "w": 2,
+        "l": 0,
+        "u": 2.0,
+        "n": 2,
+        "roi": 0.5063
+      }
+    },
+    {
       "pitcher": "Jose Cabrera",
       "team": "ARI",
       "suggest": "away",
@@ -365,11 +455,11 @@
       "suggest": "home",
       "suggestUnits": 2.98,
       "all": {
-        "w": 11,
+        "w": 12,
         "l": 11,
-        "u": 0.32,
-        "n": 22,
-        "roi": 0.0134
+        "u": 1.32,
+        "n": 23,
+        "roi": 0.0523
       },
       "home": {
         "w": 7,
@@ -379,11 +469,11 @@
         "roi": 0.2479
       },
       "away": {
-        "w": 4,
+        "w": 5,
         "l": 6,
-        "u": -2.66,
-        "n": 10,
-        "roi": -0.2247
+        "u": -1.66,
+        "n": 11,
+        "roi": -0.1254
       }
     },
     {
@@ -411,33 +501,6 @@
         "u": -7.5,
         "n": 9,
         "roi": -0.5304
-      }
-    },
-    {
-      "pitcher": "Reid Detmers",
-      "team": "LAA",
-      "suggest": "home",
-      "suggestUnits": 2.9,
-      "all": {
-        "w": 15,
-        "l": 9,
-        "u": 4.0,
-        "n": 24,
-        "roi": 0.132
-      },
-      "home": {
-        "w": 8,
-        "l": 5,
-        "u": 2.9,
-        "n": 13,
-        "roi": 0.2057
-      },
-      "away": {
-        "w": 7,
-        "l": 4,
-        "u": 1.1,
-        "n": 11,
-        "roi": 0.0679
       }
     },
     {
@@ -522,33 +585,6 @@
       }
     },
     {
-      "pitcher": "Cam Schlittler",
-      "team": "NYY",
-      "suggest": "home",
-      "suggestUnits": 2.61,
-      "all": {
-        "w": 11,
-        "l": 14,
-        "u": 1.13,
-        "n": 25,
-        "roi": 0.0446
-      },
-      "home": {
-        "w": 6,
-        "l": 6,
-        "u": 2.61,
-        "n": 12,
-        "roi": 0.2112
-      },
-      "away": {
-        "w": 5,
-        "l": 8,
-        "u": -1.48,
-        "n": 13,
-        "roi": -0.1138
-      }
-    },
-    {
       "pitcher": "Justin Wrobleski",
       "team": "LAD",
       "suggest": "home",
@@ -573,33 +609,6 @@
         "u": -3.64,
         "n": 12,
         "roi": -0.2955
-      }
-    },
-    {
-      "pitcher": "Tarik Skubal",
-      "team": "LAD",
-      "suggest": "away",
-      "suggestUnits": 2.5,
-      "all": {
-        "w": 8,
-        "l": 10,
-        "u": 1.04,
-        "n": 18,
-        "roi": 0.0575
-      },
-      "home": {
-        "w": 4,
-        "l": 7,
-        "u": -1.46,
-        "n": 11,
-        "roi": -0.1327
-      },
-      "away": {
-        "w": 4,
-        "l": 3,
-        "u": 2.5,
-        "n": 7,
-        "roi": 0.3521
       }
     }
   ]
