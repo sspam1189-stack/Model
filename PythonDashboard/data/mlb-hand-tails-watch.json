@@ -1,7 +1,7 @@
 {
   "sport": "MLB",
   "type": "hand-tails-watch",
-  "generated": "2026-08-29T21:05:57Z",
+  "generated": "2026-08-29T23:05:36Z",
   "handMin": 6,
   "minGames": 3,
   "minUnits": 2.5,
@@ -26,30 +26,8 @@
       "lineupConfirmed": true,
       "odds": -120,
       "suggest": "take",
-      "suggestUnits": 7.32,
-      "games": 8,
-      "result": "pending"
-    },
-    {
-      "date": "2026-08-29",
-      "commence": "2026-08-29T18:20:00Z",
-      "betType": "watch_take",
-      "action": "take",
-      "watch": true,
-      "pitcher": "Andrew Abbott",
-      "hand": "L",
-      "arm_team": "CIN",
-      "opp_team": "CHC",
-      "selection": "CIN",
-      "home": "CHC",
-      "away": "CIN",
-      "oppLefty": 3,
-      "oppRighty": 7,
-      "lineupConfirmed": true,
-      "odds": 182,
-      "suggest": "take",
-      "suggestUnits": 4.9,
-      "games": 21,
+      "suggestUnits": 6.12,
+      "games": 9,
       "result": "pending"
     },
     {
@@ -92,30 +70,8 @@
       "lineupConfirmed": true,
       "odds": -158,
       "suggest": "take",
-      "suggestUnits": 15.54,
-      "games": 20,
-      "result": "pending"
-    },
-    {
-      "date": "2026-08-29",
-      "commence": "2026-08-29T20:10:00Z",
-      "betType": "watch_take",
-      "action": "take",
-      "watch": true,
-      "pitcher": "Walker Buehler",
-      "hand": "R",
-      "arm_team": "SD",
-      "opp_team": "TB",
-      "selection": "SD",
-      "home": "TB",
-      "away": "SD",
-      "oppLefty": 6,
-      "oppRighty": 4,
-      "lineupConfirmed": true,
-      "odds": 116,
-      "suggest": "take",
-      "suggestUnits": 4.56,
-      "games": 6,
+      "suggestUnits": 13.96,
+      "games": 21,
       "result": "pending"
     },
     {
@@ -133,12 +89,12 @@
       "away": "BAL",
       "oppLefty": 6,
       "oppRighty": 4,
-      "lineupConfirmed": false,
-      "odds": null,
+      "lineupConfirmed": true,
+      "odds": -140,
       "suggest": "fade",
       "suggestUnits": 4.38,
       "games": 4,
-      "result": "unconfirmed"
+      "result": "pending"
     },
     {
       "date": "2026-08-29",
@@ -155,12 +111,12 @@
       "away": "PHI",
       "oppLefty": 6,
       "oppRighty": 3,
-      "lineupConfirmed": false,
-      "odds": null,
+      "lineupConfirmed": true,
+      "odds": -230,
       "suggest": "fade",
       "suggestUnits": 4.0,
       "games": 4,
-      "result": "unconfirmed"
+      "result": "pending"
     },
     {
       "date": "2026-08-29",
@@ -175,14 +131,14 @@
       "selection": "PHI",
       "home": "LAA",
       "away": "PHI",
-      "oppLefty": 2,
-      "oppRighty": 7,
-      "lineupConfirmed": false,
-      "odds": null,
+      "oppLefty": 1,
+      "oppRighty": 8,
+      "lineupConfirmed": true,
+      "odds": -230,
       "suggest": "take",
       "suggestUnits": 7.36,
       "games": 25,
-      "result": "unconfirmed"
+      "result": "pending"
     }
   ],
   "candidates": [
@@ -207,18 +163,18 @@
     {
       "pitcher": "Foster Griffin",
       "hand": "L",
-      "games": 20,
+      "games": 21,
       "suggest": "take",
-      "suggestUnits": 15.54,
+      "suggestUnits": 13.96,
       "fade": {
-        "w": 3,
+        "w": 4,
         "l": 17,
-        "u": -17.82
+        "u": -16.36
       },
       "take": {
         "w": 17,
-        "l": 3,
-        "u": 15.54
+        "l": 4,
+        "u": 13.96
       },
       "era": 3.19
     },
@@ -257,24 +213,6 @@
         "u": 7.36
       },
       "era": 2.62
-    },
-    {
-      "pitcher": "Kyle Leahy",
-      "hand": "R",
-      "games": 8,
-      "suggest": "take",
-      "suggestUnits": 7.32,
-      "fade": {
-        "w": 1,
-        "l": 7,
-        "u": -8.22
-      },
-      "take": {
-        "w": 7,
-        "l": 1,
-        "u": 7.32
-      },
-      "era": 3.13
     },
     {
       "pitcher": "Sandy Alcantara",
@@ -439,6 +377,24 @@
       "era": 3.38
     },
     {
+      "pitcher": "Kyle Leahy",
+      "hand": "R",
+      "games": 9,
+      "suggest": "take",
+      "suggestUnits": 6.12,
+      "fade": {
+        "w": 2,
+        "l": 7,
+        "u": -7.12
+      },
+      "take": {
+        "w": 7,
+        "l": 2,
+        "u": 6.12
+      },
+      "era": 3.13
+    },
+    {
       "pitcher": "Grant Holmes",
       "hand": "R",
       "games": 11,
@@ -529,24 +485,6 @@
       "era": 6.27
     },
     {
-      "pitcher": "Andrew Abbott",
-      "hand": "L",
-      "games": 21,
-      "suggest": "take",
-      "suggestUnits": 4.9,
-      "fade": {
-        "w": 9,
-        "l": 12,
-        "u": -6.78
-      },
-      "take": {
-        "w": 12,
-        "l": 9,
-        "u": 4.9
-      },
-      "era": 4.15
-    },
-    {
       "pitcher": "J.T. Ginn",
       "hand": "R",
       "games": 12,
@@ -599,24 +537,6 @@
         "u": 4.76
       },
       "era": 2.93
-    },
-    {
-      "pitcher": "Walker Buehler",
-      "hand": "R",
-      "games": 6,
-      "suggest": "take",
-      "suggestUnits": 4.56,
-      "fade": {
-        "w": 1,
-        "l": 5,
-        "u": -5.8
-      },
-      "take": {
-        "w": 5,
-        "l": 1,
-        "u": 4.56
-      },
-      "era": 4.63
     },
     {
       "pitcher": "Shane McClanahan",
