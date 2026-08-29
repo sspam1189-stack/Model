@@ -3,7 +3,7 @@
   "type": "scout-card-log",
   "week_convention": "monday-sunday",
   "description": "Per-play ledger for scout card calls (tier 2/3 of the daily card policy in MLBstrikeouts/CLAUDE.md). Model plays are NOT logged here - fade-ml/props/hand-tails keep their own files. No-play days are logged too: an empty card is part of the record. Prices are the card-time quote, not the close.",
-  "generated": "2026-08-29T14:50:33Z",
+  "generated": "2026-08-29T14:51:59Z",
   "pre_log_history": [
     {
       "date": "2026-08-17",
@@ -205,6 +205,97 @@
       "close_line": 7.5,
       "clv": "flat",
       "line_move": 0.0
+    },
+    {
+      "date": "2026-08-29",
+      "play": "LAD/DET Under 7",
+      "market": "totals",
+      "game": "LAD @ DET",
+      "price": -104,
+      "stake": 1.0,
+      "rule": "scout-flagged-starter-under",
+      "basis": "Snell stale-window-106d + thin-sample: his L5 line (2.57) describes a pitcher from 3.5 months ago. DET bats collapsing 99/58/49. LAD pen 1.50 L7 (#5). Lowest total on the board.",
+      "result": "pending",
+      "profit": 0.0,
+      "line": 7.0
+    },
+    {
+      "date": "2026-08-29",
+      "play": "BOS/NYY G2 Under 7.5",
+      "market": "totals",
+      "game": "BOS @ NYY (G2)",
+      "price": -102,
+      "stake": 1.0,
+      "rule": "scout-flagged-starter-under",
+      "basis": "Fried layoff-16d, 4.93 IP/GS. NYY pen is #2 L30 and #1 L7 (0.44) -- short leash lands on the best bullpen in baseball right now.",
+      "result": "pending",
+      "profit": 0.0,
+      "line": 7.5
+    },
+    {
+      "date": "2026-08-29",
+      "play": "BOS/NYY G1 Under 8",
+      "market": "totals",
+      "game": "BOS @ NYY (G1)",
+      "price": -120,
+      "stake": 1.0,
+      "rule": "scout-flagged-starter-under",
+      "basis": "Rodon stale-window-67d, 4.67 IP/GS. Same elite NYY pen behind him (#1 L7, 0.44).",
+      "result": "pending",
+      "profit": 0.0,
+      "line": 8.0
+    },
+    {
+      "date": "2026-08-29",
+      "play": "KC/CLE Under 7.5",
+      "market": "totals",
+      "game": "KC @ CLE",
+      "price": 100,
+      "stake": 1.0,
+      "rule": "scout-flagged-starter-under",
+      "basis": "Daniel Lynch IV opener (3.08 IP/GS) + thin-sample. Plus money on a 7.5. CLE bats 114/113 is the objection.",
+      "result": "pending",
+      "profit": 0.0,
+      "line": 7.5
+    },
+    {
+      "date": "2026-08-29",
+      "play": "PIT/STL Under 8.5",
+      "market": "totals",
+      "game": "PIT @ STL",
+      "price": -124,
+      "stake": 1.0,
+      "rule": "scout-flagged-starter-under",
+      "basis": "Bachar TRIPLE flag: opener + stale-window-78d + swingman-21g, 2.27 IP/GS. PIT bats frozen 81/71/65. TEMPER: STL pen 7.62 L7 (#29) inherits most of the game.",
+      "result": "pending",
+      "profit": 0.0,
+      "line": 8.5
+    },
+    {
+      "date": "2026-08-29",
+      "play": "BAL/OAK Under 9.5",
+      "market": "totals",
+      "game": "BAL @ OAK",
+      "price": -105,
+      "stake": 1.0,
+      "rule": "scout-flagged-starter-under",
+      "basis": "Perkins layoff-17d + swingman-2g, 8.25 L5 ERA. BAL pen 0.87 L7 (#2). TEMPER: OAK bats hot all four (104/111/114/125).",
+      "result": "pending",
+      "profit": 0.0,
+      "line": 9.5
+    },
+    {
+      "date": "2026-08-29",
+      "play": "CWS/MIN Under 9.5",
+      "market": "totals",
+      "game": "CWS @ MIN",
+      "price": -124,
+      "stake": 1.0,
+      "rule": "scout-flagged-starter-under",
+      "basis": "Fedde TRIPLE flag: layoff-29d + stale-window-58d + swingman-12g. TEMPER (loudest on the card): MIN pen 11.34 L7 = dead last, and CWS bats hot all four 111/122/130/130. Weakest of the seven.",
+      "result": "pending",
+      "profit": 0.0,
+      "line": 9.5
     }
   ]
 }
