@@ -2456,31 +2456,111 @@
           "mismatch": 57.6
         },
         "home": {
-          "pitcher": null,
-          "listed_as": null,
-          "resolved": false,
-          "hand": null,
+          "pitcher": "Matt Wilkinson",
+          "listed_as": "Matt Wilkinson",
+          "resolved": true,
+          "hand": "L",
           "team": "SF",
           "opponent_offense": "ARI",
-          "opp_wrc_vs_hand": null,
-          "opp_wrc_game": null,
-          "opp_wrc_recent": null,
-          "opp_wrc_recent_pa": null,
+          "opp_wrc_vs_hand": 136,
+          "opp_wrc_game": 119,
+          "opp_wrc_recent": 130,
+          "opp_wrc_recent_pa": 287,
           "opp_wrc_windows": {
-            "last30": null,
-            "last20": null,
-            "last15": null,
-            "last7": null
+            "last30": {
+              "wrcplus": 135,
+              "pa": 324,
+              "role": "all"
+            },
+            "last20": {
+              "wrcplus": 136,
+              "pa": 241,
+              "role": "all"
+            },
+            "last15": {
+              "wrcplus": 125,
+              "pa": 207,
+              "role": "all"
+            },
+            "last7": {
+              "wrcplus": null,
+              "pa": 55,
+              "role": "all"
+            }
           },
           "opp_platoon_gap": 39,
           "form": {
-            "season": null,
-            "recent": null,
-            "hot": null,
-            "recent_all": null,
+            "season": {
+              "gs": 2,
+              "ip": 5.7,
+              "ip_per_gs": 2.83,
+              "era": 6.35,
+              "whip": 1.41,
+              "k_pct": 8.0,
+              "bb_pct": 0.0,
+              "k_bb_pct": 8.0,
+              "hr9": 1.59,
+              "k": 2,
+              "bb": 0,
+              "hr": 1,
+              "er": 4
+            },
+            "recent": {
+              "gs": 2,
+              "ip": 5.7,
+              "ip_per_gs": 2.83,
+              "era": 6.35,
+              "whip": 1.41,
+              "k_pct": 8.0,
+              "bb_pct": 0.0,
+              "k_bb_pct": 8.0,
+              "hr9": 1.59,
+              "k": 2,
+              "bb": 0,
+              "hr": 1,
+              "er": 4
+            },
+            "hot": {
+              "gs": 2,
+              "ip": 5.7,
+              "ip_per_gs": 2.83,
+              "era": 6.35,
+              "whip": 1.41,
+              "k_pct": 8.0,
+              "bb_pct": 0.0,
+              "k_bb_pct": 8.0,
+              "hr9": 1.59,
+              "k": 2,
+              "bb": 0,
+              "hr": 1,
+              "er": 4
+            },
+            "recent_all": {
+              "g": 2,
+              "ip": 5.7,
+              "ip_per_g": 2.83,
+              "era": 6.35,
+              "whip": 1.41,
+              "k_pct": 8.0,
+              "bb_pct": 0.0,
+              "k_bb_pct": 8.0,
+              "hr9": 1.59,
+              "k": 2,
+              "bb": 0,
+              "hr": 1,
+              "er": 4,
+              "gs": 2
+            },
             "relief": null
           },
-          "trend": {},
+          "trend": {
+            "era": 0.0,
+            "whip": 0.0,
+            "k_pct": 0.0,
+            "bb_pct": 0.0,
+            "ip_per_gs": 0.0,
+            "hr9": 0.0
+          },
           "pen": {
             "last30": {
               "g": 93,
@@ -2548,23 +2628,24 @@
             }
           },
           "flags": [
+            "opener",
             "thin-sample"
           ],
-          "mismatch": null
+          "mismatch": 60.0
         }
       },
       "home_offense_game": 115,
-      "away_offense_game": null,
-      "game_offense": null,
-      "offense_edge": null
+      "away_offense_game": 119,
+      "game_offense": 117,
+      "offense_edge": 4
     },
     {
       "matchup": "MIA @ WSH",
       "away": "MIA",
       "home": "WSH",
       "commence": "2026-08-29T20:05:00Z",
-      "away_ml": -102,
-      "home_ml": -106,
+      "away_ml": -104,
+      "home_ml": -104,
       "total": 8,
       "over_ml": -105,
       "under_ml": -115,
@@ -3300,8 +3381,8 @@
       "away": "HOU",
       "home": "NYM",
       "commence": "2026-08-29T20:10:00Z",
-      "away_ml": 132,
-      "home_ml": -142,
+      "away_ml": 136,
+      "home_ml": -146,
       "total": 8,
       "over_ml": -115,
       "under_ml": -105,
@@ -3972,15 +4053,15 @@
       "away": "COL",
       "home": "ATL",
       "commence": "2026-08-29T20:10:00Z",
-      "away_ml": 200,
-      "home_ml": -220,
-      "total": 9,
-      "over_ml": -105,
-      "under_ml": -115,
+      "away_ml": 210,
+      "home_ml": -230,
+      "total": 8.5,
+      "over_ml": -124,
+      "under_ml": 102,
       "sides": {
         "away": {
-          "pitcher": "Ryan Feltner",
-          "listed_as": "Ryan Feltner",
+          "pitcher": "Zach Agnos",
+          "listed_as": "Zach Agnos",
           "resolved": true,
           "hand": "R",
           "team": "COL",
@@ -4014,75 +4095,91 @@
           "opp_platoon_gap": 50,
           "form": {
             "season": {
-              "gs": 20,
-              "ip": 97.7,
-              "ip_per_gs": 4.88,
-              "era": 6.08,
-              "whip": 1.54,
-              "k_pct": 16.1,
-              "bb_pct": 9.9,
-              "k_bb_pct": 6.2,
-              "hr9": 1.75,
-              "k": 70,
-              "bb": 43,
-              "hr": 19,
-              "er": 66
+              "gs": 2,
+              "ip": 8.0,
+              "ip_per_gs": 4.0,
+              "era": 2.25,
+              "whip": 1.0,
+              "k_pct": 15.6,
+              "bb_pct": 12.5,
+              "k_bb_pct": 3.1,
+              "hr9": 2.25,
+              "k": 5,
+              "bb": 4,
+              "hr": 2,
+              "er": 2
             },
             "recent": {
-              "gs": 5,
-              "ip": 27.0,
-              "ip_per_gs": 5.4,
-              "era": 7.0,
-              "whip": 1.74,
-              "k_pct": 12.5,
-              "bb_pct": 10.9,
-              "k_bb_pct": 1.6,
-              "hr9": 1.33,
-              "k": 16,
-              "bb": 14,
-              "hr": 4,
-              "er": 21
+              "gs": 2,
+              "ip": 8.0,
+              "ip_per_gs": 4.0,
+              "era": 2.25,
+              "whip": 1.0,
+              "k_pct": 15.6,
+              "bb_pct": 12.5,
+              "k_bb_pct": 3.1,
+              "hr9": 2.25,
+              "k": 5,
+              "bb": 4,
+              "hr": 2,
+              "er": 2
             },
             "hot": {
-              "gs": 3,
-              "ip": 15.7,
-              "ip_per_gs": 5.22,
-              "era": 8.04,
-              "whip": 1.98,
-              "k_pct": 14.1,
-              "bb_pct": 12.8,
-              "k_bb_pct": 1.3,
-              "hr9": 0.57,
-              "k": 11,
-              "bb": 10,
-              "hr": 1,
-              "er": 14
+              "gs": 2,
+              "ip": 8.0,
+              "ip_per_gs": 4.0,
+              "era": 2.25,
+              "whip": 1.0,
+              "k_pct": 15.6,
+              "bb_pct": 12.5,
+              "k_bb_pct": 3.1,
+              "hr9": 2.25,
+              "k": 5,
+              "bb": 4,
+              "hr": 2,
+              "er": 2
             },
             "recent_all": {
               "g": 5,
-              "ip": 27.0,
-              "ip_per_g": 5.4,
-              "era": 7.0,
-              "whip": 1.74,
-              "k_pct": 12.5,
-              "bb_pct": 10.9,
-              "k_bb_pct": 1.6,
-              "hr9": 1.33,
-              "k": 16,
-              "bb": 14,
-              "hr": 4,
-              "er": 21,
-              "gs": 5
+              "ip": 10.3,
+              "ip_per_g": 2.07,
+              "era": 3.48,
+              "whip": 1.06,
+              "k_pct": 21.4,
+              "bb_pct": 4.8,
+              "k_bb_pct": 16.7,
+              "hr9": 0.87,
+              "k": 9,
+              "bb": 2,
+              "hr": 1,
+              "er": 4,
+              "gs": 0
             },
-            "relief": null
+            "relief": {
+              "g": 19,
+              "ip": 39.0,
+              "ip_per_g": 2.05,
+              "era": 6.46,
+              "whip": 1.54,
+              "k_pct": 14.9,
+              "bb_pct": 6.9,
+              "k_bb_pct": 8.0,
+              "hr9": 0.92,
+              "k": 26,
+              "bb": 12,
+              "hr": 4,
+              "er": 28,
+              "from": "2026-05-26",
+              "to": "2026-08-26"
+            }
           },
           "trend": {
-            "era": 0.92,
-            "whip": 0.2,
-            "k_pct": -3.6,
-            "bb_pct": 1.0,
-            "ip_per_gs": 0.52,
-            "hr9": -0.42
+            "era": 0.0,
+            "whip": 0.0,
+            "k_pct": 0.0,
+            "bb_pct": 0.0,
+            "ip_per_gs": 0.0,
+            "hr9": 0.0
           },
           "pen": {
             "last30": {
@@ -4150,8 +4247,12 @@
               "rank": 15
             }
           },
-          "flags": [],
-          "mismatch": 4.9
+          "flags": [
+            "thin-sample",
+            "layoff-84d",
+            "swingman-19g"
+          ],
+          "mismatch": -34.9
         },
         "home": {
           "pitcher": "Mart\u00edn P\u00e9rez",
@@ -4339,8 +4440,8 @@
       "away": "BOS",
       "home": "NYY",
       "commence": "2026-08-29T23:15:00Z",
-      "away_ml": 118,
-      "home_ml": -126,
+      "away_ml": 122,
+      "home_ml": -132,
       "total": 7.5,
       "over_ml": -120,
       "under_ml": -102,
@@ -5029,8 +5130,8 @@
       "away": "ARI",
       "home": "SF",
       "commence": "2026-08-30T02:05:00Z",
-      "away_ml": -116,
-      "home_ml": 106,
+      "away_ml": -118,
+      "home_ml": 110,
       "total": 7.5,
       "over_ml": -122,
       "under_ml": 100,
@@ -5705,7 +5806,7 @@
       "home": "LAA",
       "commence": "2026-08-30T02:07:00Z",
       "away_ml": -230,
-      "home_ml": 210,
+      "home_ml": 205,
       "total": 8,
       "over_ml": -105,
       "under_ml": -115,
@@ -6069,6 +6170,19 @@
   ],
   "ranked_mismatch": [
     {
+      "pitcher": "Matt Wilkinson",
+      "hand": "L",
+      "team": "SF",
+      "opponent_offense": "ARI",
+      "opp_wrc_vs_hand": 136,
+      "opp_wrc_recent": 130,
+      "mismatch": 60.0,
+      "flags": [
+        "opener",
+        "thin-sample"
+      ]
+    },
+    {
       "pitcher": "Merrill Kelly",
       "hand": "R",
       "team": "ARI",
@@ -6215,16 +6329,6 @@
       "flags": []
     },
     {
-      "pitcher": "Ryan Feltner",
-      "hand": "R",
-      "team": "COL",
-      "opponent_offense": "ATL",
-      "opp_wrc_vs_hand": 68,
-      "opp_wrc_recent": 75,
-      "mismatch": 4.9,
-      "flags": []
-    },
-    {
       "pitcher": "Carlos Rod\u00f3n",
       "hand": "L",
       "team": "NYY",
@@ -6359,6 +6463,20 @@
       "flags": []
     },
     {
+      "pitcher": "Zach Agnos",
+      "hand": "R",
+      "team": "COL",
+      "opponent_offense": "ATL",
+      "opp_wrc_vs_hand": 68,
+      "opp_wrc_recent": 75,
+      "mismatch": -34.9,
+      "flags": [
+        "thin-sample",
+        "layoff-84d",
+        "swingman-19g"
+      ]
+    },
+    {
       "pitcher": "Cristopher S\u00e1nchez",
       "hand": "L",
       "team": "PHI",
@@ -6392,7 +6510,7 @@
       "flags": []
     }
   ],
-  "generated": "2026-08-29T16:52:17Z",
+  "generated": "2026-08-29T18:38:55Z",
   "sport": "MLB",
   "type": "slate-scout",
   "advisory": true,

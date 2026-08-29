@@ -1,7 +1,7 @@
 {
   "sport": "MLB",
   "type": "fade-ml",
-  "generated": "2026-08-29T16:48:59Z",
+  "generated": "2026-08-29T18:33:40Z",
   "fadeList": [
     "Painter",
     "Rocker",
@@ -164,30 +164,6 @@
     },
     {
       "date": "2026-08-29",
-      "commence": "2026-08-29T20:10:00Z",
-      "betType": "ml",
-      "shadow": false,
-      "pitchers": [
-        "Ryan Feltner"
-      ],
-      "fadeTeam": "COL",
-      "market": "h2h",
-      "selection": "ATL",
-      "line": null,
-      "odds": -220,
-      "stake": 2.2,
-      "result": "pending",
-      "profit": 0.0,
-      "book": "fanduel",
-      "source": "fanduel_api",
-      "reason": null,
-      "home": "ATL",
-      "away": "COL",
-      "gamePk": 824874,
-      "fadeReason": "away"
-    },
-    {
-      "date": "2026-08-29",
       "commence": "2026-08-29T23:15:00Z",
       "betType": "ml",
       "shadow": false,
@@ -209,6 +185,30 @@
       "away": "TEX",
       "gamePk": 823741,
       "fadeReason": "home"
+    },
+    {
+      "date": "2026-08-29",
+      "commence": "2026-08-29T20:10:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Zach Agnos"
+      ],
+      "fadeTeam": "COL",
+      "market": "h2h",
+      "selection": "ATL",
+      "line": null,
+      "odds": -230,
+      "stake": 2.3,
+      "result": "pending",
+      "profit": 0.0,
+      "book": "fanduel",
+      "source": "fanduel_api",
+      "reason": null,
+      "home": "ATL",
+      "away": "COL",
+      "gamePk": 824874,
+      "fadeReason": "all"
     }
   ],
   "bets": [
