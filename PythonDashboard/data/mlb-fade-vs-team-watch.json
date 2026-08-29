@@ -1,7 +1,7 @@
 {
   "sport": "MLB",
   "type": "fade-vs-team-watch",
-  "generated": "2026-08-29T00:38:24Z",
+  "generated": "2026-08-29T13:09:24Z",
   "seasonStart": "2026-04-05",
   "minStarts": 2,
   "minEra": 6.0,
@@ -170,6 +170,22 @@
       }
     },
     {
+      "pitcher": "Grant Holmes",
+      "opp": "COL",
+      "arm_team": "ATL",
+      "eraVsOpp": 7.2,
+      "ipVsOpp": 10.0,
+      "erVsOpp": 8,
+      "startsVsOpp": 2,
+      "fadeRecord": {
+        "w": 0,
+        "l": 2,
+        "u": -2.0,
+        "n": 2,
+        "roi": -1.0
+      }
+    },
+    {
       "pitcher": "Eury P\u00e9rez",
       "opp": "ATL",
       "arm_team": "MIA",
@@ -231,6 +247,22 @@
         "u": 1.0,
         "n": 1,
         "roi": 0.4762
+      }
+    },
+    {
+      "pitcher": "Eury P\u00e9rez",
+      "opp": "WSH",
+      "arm_team": "MIA",
+      "eraVsOpp": 6.75,
+      "ipVsOpp": 8.0,
+      "erVsOpp": 6,
+      "startsVsOpp": 2,
+      "fadeRecord": {
+        "w": 1,
+        "l": 1,
+        "u": 0.22,
+        "n": 2,
+        "roi": 0.11
       }
     },
     {

@@ -1,7 +1,7 @@
 {
   "sport": "MLB",
   "type": "hand-tails-watch",
-  "generated": "2026-08-29T00:38:20Z",
+  "generated": "2026-08-29T13:09:20Z",
   "handMin": 6,
   "minGames": 3,
   "minUnits": 2.5,
@@ -9,114 +9,136 @@
   "note": "Shadow review list -- arms NOT on the active hand-tails list showing a handedness-conditional edge (fade or take). The active list is fade-only, so all tail/take arms are review-only here. In-sample season replay; watch, don't bet.",
   "today": [
     {
-      "date": "2026-08-28",
-      "commence": "2026-08-28T22:45:00Z",
-      "betType": "watch_fade",
-      "action": "fade",
-      "watch": true,
-      "pitcher": "Jackson Kent",
-      "hand": "L",
-      "arm_team": "WSH",
-      "opp_team": "MIA",
-      "selection": "MIA",
-      "home": "WSH",
-      "away": "MIA",
-      "oppLefty": 3,
-      "oppRighty": 7,
-      "lineupConfirmed": true,
-      "odds": -132,
-      "suggest": "fade",
-      "suggestUnits": 3.0,
-      "games": 3,
-      "result": "pending"
-    },
-    {
-      "date": "2026-08-28",
-      "commence": "2026-08-28T23:10:00Z",
-      "betType": "watch_fade",
-      "action": "fade",
-      "watch": true,
-      "pitcher": "Michael Wacha",
-      "hand": "R",
-      "arm_team": "KC",
-      "opp_team": "CLE",
-      "selection": "CLE",
-      "home": "CLE",
-      "away": "KC",
-      "oppLefty": 8,
-      "oppRighty": 4,
-      "lineupConfirmed": true,
-      "odds": -130,
-      "suggest": "fade",
-      "suggestUnits": 2.98,
-      "games": 9,
-      "result": "pending"
-    },
-    {
-      "date": "2026-08-28",
-      "commence": "2026-08-28T23:15:00Z",
+      "date": "2026-08-29",
+      "commence": "2026-08-29T18:15:00Z",
       "betType": "watch_take",
       "action": "take",
       "watch": true,
-      "pitcher": "Grant Holmes",
+      "pitcher": "Kyle Leahy",
       "hand": "R",
-      "arm_team": "ATL",
-      "opp_team": "COL",
-      "selection": "ATL",
-      "home": "ATL",
-      "away": "COL",
+      "arm_team": "STL",
+      "opp_team": "PIT",
+      "selection": "STL",
+      "home": "STL",
+      "away": "PIT",
       "oppLefty": 6,
       "oppRighty": 5,
-      "lineupConfirmed": true,
-      "odds": -215,
+      "lineupConfirmed": false,
+      "odds": null,
       "suggest": "take",
-      "suggestUnits": 5.04,
-      "games": 10,
-      "result": "pending"
+      "suggestUnits": 7.32,
+      "games": 8,
+      "result": "unconfirmed"
     },
     {
-      "date": "2026-08-28",
-      "commence": "2026-08-28T23:15:00Z",
-      "betType": "watch_fade",
-      "action": "fade",
-      "watch": true,
-      "pitcher": "Cam Schlittler",
-      "hand": "R",
-      "arm_team": "NYY",
-      "opp_team": "BOS",
-      "selection": "BOS",
-      "home": "NYY",
-      "away": "BOS",
-      "oppLefty": 6,
-      "oppRighty": 7,
-      "lineupConfirmed": true,
-      "odds": 138,
-      "suggest": "fade",
-      "suggestUnits": 3.06,
-      "games": 11,
-      "result": "pending"
-    },
-    {
-      "date": "2026-08-28",
-      "commence": "2026-08-29T01:40:00Z",
+      "date": "2026-08-29",
+      "commence": "2026-08-29T18:20:00Z",
       "betType": "watch_take",
       "action": "take",
       "watch": true,
-      "pitcher": "Jacob Lopez",
+      "pitcher": "Andrew Abbott",
       "hand": "L",
-      "arm_team": "OAK",
-      "opp_team": "BAL",
-      "selection": "OAK",
-      "home": "OAK",
-      "away": "BAL",
+      "arm_team": "CIN",
+      "opp_team": "CHC",
+      "selection": "CIN",
+      "home": "CHC",
+      "away": "CIN",
       "oppLefty": 3,
       "oppRighty": 7,
-      "lineupConfirmed": true,
-      "odds": 100,
+      "lineupConfirmed": false,
+      "odds": null,
       "suggest": "take",
-      "suggestUnits": 5.33,
-      "games": 13,
-      "result": "pending"
+      "suggestUnits": 4.9,
+      "games": 21,
+      "result": "unconfirmed"
+    },
+    {
+      "date": "2026-08-29",
+      "commence": "2026-08-29T20:10:00Z",
+      "betType": "watch_take",
+      "action": "take",
+      "watch": true,
+      "pitcher": "Walker Buehler",
+      "hand": "R",
+      "arm_team": "SD",
+      "opp_team": "TB",
+      "selection": "SD",
+      "home": "TB",
+      "away": "SD",
+      "oppLefty": 6,
+      "oppRighty": 4,
+      "lineupConfirmed": false,
+      "odds": null,
+      "suggest": "take",
+      "suggestUnits": 4.56,
+      "games": 6,
+      "result": "unconfirmed"
+    },
+    {
+      "date": "2026-08-29",
+      "commence": "2026-08-30T02:05:00Z",
+      "betType": "watch_fade",
+      "action": "fade",
+      "watch": true,
+      "pitcher": "Jack Perkins",
+      "hand": "R",
+      "arm_team": "OAK",
+      "opp_team": "BAL",
+      "selection": "BAL",
+      "home": "OAK",
+      "away": "BAL",
+      "oppLefty": 6,
+      "oppRighty": 4,
+      "lineupConfirmed": false,
+      "odds": null,
+      "suggest": "fade",
+      "suggestUnits": 4.38,
+      "games": 4,
+      "result": "unconfirmed"
+    },
+    {
+      "date": "2026-08-29",
+      "commence": "2026-08-30T02:07:00Z",
+      "betType": "watch_fade",
+      "action": "fade",
+      "watch": true,
+      "pitcher": "Ryan Johnson",
+      "hand": "R",
+      "arm_team": "LAA",
+      "opp_team": "PHI",
+      "selection": "PHI",
+      "home": "LAA",
+      "away": "PHI",
+      "oppLefty": 6,
+      "oppRighty": 3,
+      "lineupConfirmed": false,
+      "odds": null,
+      "suggest": "fade",
+      "suggestUnits": 4.0,
+      "games": 4,
+      "result": "unconfirmed"
+    },
+    {
+      "date": "2026-08-29",
+      "commence": "2026-08-30T02:07:00Z",
+      "betType": "watch_take",
+      "action": "take",
+      "watch": true,
+      "pitcher": "Cristopher S\u00e1nchez",
+      "hand": "L",
+      "arm_team": "PHI",
+      "opp_team": "LAA",
+      "selection": "PHI",
+      "home": "LAA",
+      "away": "PHI",
+      "oppLefty": 2,
+      "oppRighty": 7,
+      "lineupConfirmed": false,
+      "odds": null,
+      "suggest": "take",
+      "suggestUnits": 7.36,
+      "games": 25,
+      "result": "unconfirmed"
     }
   ],
   "candidates": [
@@ -244,7 +266,7 @@
         "l": 1,
         "u": 7.22
       },
-      "era": 2.6
+      "era": 2.48
     },
     {
       "pitcher": "Andrew Painter",
@@ -262,7 +284,7 @@
         "l": 6,
         "u": -7.54
       },
-      "era": 6.12
+      "era": 6.01
     },
     {
       "pitcher": "Joey Cantillo",
@@ -370,7 +392,25 @@
         "l": 2,
         "u": 6.26
       },
-      "era": 3.5
+      "era": 3.38
+    },
+    {
+      "pitcher": "Grant Holmes",
+      "hand": "R",
+      "games": 11,
+      "suggest": "take",
+      "suggestUnits": 6.04,
+      "fade": {
+        "w": 2,
+        "l": 9,
+        "u": -6.8
+      },
+      "take": {
+        "w": 9,
+        "l": 2,
+        "u": 6.04
+      },
+      "era": 3.83
     },
     {
       "pitcher": "Chase Burns",
@@ -389,24 +429,6 @@
         "u": 5.68
       },
       "era": 2.77
-    },
-    {
-      "pitcher": "Jacob Lopez",
-      "hand": "L",
-      "games": 13,
-      "suggest": "take",
-      "suggestUnits": 5.33,
-      "fade": {
-        "w": 5,
-        "l": 8,
-        "u": -7.13
-      },
-      "take": {
-        "w": 8,
-        "l": 5,
-        "u": 5.33
-      },
-      "era": 4.85
     },
     {
       "pitcher": "Max Meyer",
@@ -461,24 +483,6 @@
         "u": 5.16
       },
       "era": 6.27
-    },
-    {
-      "pitcher": "Grant Holmes",
-      "hand": "R",
-      "games": 10,
-      "suggest": "take",
-      "suggestUnits": 5.04,
-      "fade": {
-        "w": 2,
-        "l": 8,
-        "u": -5.8
-      },
-      "take": {
-        "w": 8,
-        "l": 2,
-        "u": 5.04
-      },
-      "era": 3.76
     },
     {
       "pitcher": "Andrew Abbott",
@@ -571,6 +575,24 @@
       "era": 4.63
     },
     {
+      "pitcher": "Shane McClanahan",
+      "hand": "L",
+      "games": 20,
+      "suggest": "take",
+      "suggestUnits": 4.52,
+      "fade": {
+        "w": 7,
+        "l": 13,
+        "u": -5.3
+      },
+      "take": {
+        "w": 13,
+        "l": 7,
+        "u": 4.52
+      },
+      "era": 3.19
+    },
+    {
       "pitcher": "Sean Burke",
       "hand": "R",
       "games": 10,
@@ -625,6 +647,24 @@
       "era": 8.17
     },
     {
+      "pitcher": "Jacob Lopez",
+      "hand": "L",
+      "games": 14,
+      "suggest": "take",
+      "suggestUnits": 4.33,
+      "fade": {
+        "w": 6,
+        "l": 8,
+        "u": -6.13
+      },
+      "take": {
+        "w": 8,
+        "l": 6,
+        "u": 4.33
+      },
+      "era": 4.68
+    },
+    {
       "pitcher": "Cody Bradford",
       "hand": "L",
       "games": 3,
@@ -640,7 +680,7 @@
         "l": 3,
         "u": -4.42
       },
-      "era": 3.05
+      "era": 3.42
     },
     {
       "pitcher": "Noah Cameron",
@@ -823,24 +863,6 @@
       "era": 5.32
     },
     {
-      "pitcher": "Cam Schlittler",
-      "hand": "R",
-      "games": 11,
-      "suggest": "fade",
-      "suggestUnits": 3.06,
-      "fade": {
-        "w": 6,
-        "l": 5,
-        "u": 3.06
-      },
-      "take": {
-        "w": 5,
-        "l": 6,
-        "u": -4.13
-      },
-      "era": 2.16
-    },
-    {
       "pitcher": "Brayan Bello",
       "hand": "R",
       "games": 3,
@@ -895,42 +917,6 @@
       "era": 4.61
     },
     {
-      "pitcher": "Jackson Kent",
-      "hand": "L",
-      "games": 3,
-      "suggest": "fade",
-      "suggestUnits": 3.0,
-      "fade": {
-        "w": 3,
-        "l": 0,
-        "u": 3.0
-      },
-      "take": {
-        "w": 0,
-        "l": 3,
-        "u": -3.0
-      },
-      "era": 8.03
-    },
-    {
-      "pitcher": "Michael Wacha",
-      "hand": "R",
-      "games": 9,
-      "suggest": "fade",
-      "suggestUnits": 2.98,
-      "fade": {
-        "w": 6,
-        "l": 3,
-        "u": 2.98
-      },
-      "take": {
-        "w": 3,
-        "l": 6,
-        "u": -3.26
-      },
-      "era": 3.49
-    },
-    {
       "pitcher": "Luis Castillo",
       "hand": "R",
       "games": 8,
@@ -946,7 +932,7 @@
         "l": 6,
         "u": -3.86
       },
-      "era": 5.15
+      "era": 5.29
     },
     {
       "pitcher": "Aaron Civale",

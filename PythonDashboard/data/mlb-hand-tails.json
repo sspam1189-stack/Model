@@ -1,7 +1,7 @@
 {
   "sport": "MLB",
   "type": "hand-tails",
-  "generated": "2026-08-29T00:34:39Z",
+  "generated": "2026-08-29T13:08:10Z",
   "handMin": 6,
   "roster": {
     "Brady Singer": {
@@ -141,7 +141,32 @@
       }
     }
   },
-  "today": [],
+  "today": [
+    {
+      "date": "2026-08-29",
+      "commence": "2026-08-29T20:05:00Z",
+      "betType": "hand_fade",
+      "action": "fade",
+      "pitcher": "Merrill Kelly",
+      "entry": "Merrill Kelly",
+      "hand": "R",
+      "arm_team": "ARI",
+      "opp_team": "SF",
+      "selection": "SF",
+      "home": "SF",
+      "away": "ARI",
+      "oppLefty": 7,
+      "oppRighty": 2,
+      "lineupConfirmed": false,
+      "odds": null,
+      "stake": null,
+      "result": "unconfirmed",
+      "reason": null,
+      "profit": 0.0,
+      "book": "fanduel",
+      "source": "fanduel_api"
+    }
+  ],
   "bets": [
     {
       "date": "2026-05-20",
