@@ -3,7 +3,7 @@
   "type": "scout-card-log",
   "week_convention": "monday-sunday",
   "description": "Per-play ledger for scout card calls (tier 2/3 of the daily card policy in MLBstrikeouts/CLAUDE.md). Model plays are NOT logged here - fade-ml/props/hand-tails keep their own files. No-play days are logged too: an empty card is part of the record. Prices are the card-time quote, not the close.",
-  "generated": "2026-08-29T22:27:16Z",
+  "generated": "2026-08-29T22:27:38Z",
   "pre_log_history": [
     {
       "date": "2026-08-17",
@@ -1523,7 +1523,8 @@
       "line": 7.5,
       "bet_as": {
         "line": 7.0,
-        "note": "took Under 7 after the line moved off 7.5"
+        "price": 105,
+        "note": "took Under 7 at +105 after the line moved off 7.5"
       }
     },
     {
