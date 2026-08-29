@@ -140,6 +140,11 @@ def cmd_report(args, blob):
         logged = [e for e in logged
                   if not e.get("shadow") and not e.get("backfilled")]
         plays = [e for e in logged if not e.get("no_play")]
+        # not_bet: the rule fired and still grades, but the wager was never
+        # placed (missed first pitch, price gone, sizing call). Kept in the
+        # rule's record; held out of the money line so units reflect what was
+        # actually risked.
+        missed = [e for e in plays if e.get("not_bet")]
         w = sum(h["wins"] for h in pre) + sum(
             1 for e in plays if e.get("result") == "WIN")
         l = sum(h["losses"] for h in pre) + sum(
@@ -148,7 +153,7 @@ def cmd_report(args, blob):
             1 for e in plays if e.get("result") == "PUSH")
         p = sum(1 for e in plays if e.get("result") == "pending")
         u = sum(h.get("units") or 0 for h in pre) + sum(
-            e.get("profit") or 0 for e in plays)
+            e.get("profit") or 0 for e in plays if not e.get("not_bet"))
         quiet = sum(1 for e in logged if e.get("no_play"))
         rec = f"{w}-{l}" + (f"-{t}" if t else "")
         print(f"  week of {wk}  {rec}"
@@ -162,6 +167,12 @@ def cmd_report(args, blob):
             beat = sum(1 for e in clv if e["clv"] == "beat")
             print(f"{'':16}CLV: beat the close {beat}/{len(clv)}"
                   " (process check, independent of W/L)")
+        if missed:
+            mw = sum(1 for e in missed if e.get("result") == "WIN")
+            ml_ = sum(1 for e in missed if e.get("result") == "LOSS")
+            mu = sum(e.get("profit") or 0 for e in missed)
+            print(f"{'':16}not bet (rule fired, no wager): {mw}-{ml_} "
+                  f"{mu:+.2f}u — counted in W-L, excluded from units")
         if back:
             bw = sum(1 for e in back if e.get("result") == "WIN")
             bl = sum(1 for e in back if e.get("result") == "LOSS")
