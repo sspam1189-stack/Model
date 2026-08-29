@@ -132,9 +132,13 @@ def cmd_report(args, blob):
     for wk in sorted(weeks):
         logged, pre = weeks[wk]["logged"], weeks[wk]["pre"]
         # Shadow plays are tracked separately and never inflate the card
-        # record -- they are a rule auditioning, not a bet.
+        # record -- they are a rule auditioning, not a bet. Backfilled plays
+        # are held out for a harder reason: they were never wagered at all,
+        # so counting their profit would report money that was never risked.
         shadow = [e for e in logged if e.get("shadow") and not e.get("no_play")]
-        logged = [e for e in logged if not e.get("shadow")]
+        back = [e for e in logged if e.get("backfilled")]
+        logged = [e for e in logged
+                  if not e.get("shadow") and not e.get("backfilled")]
         plays = [e for e in logged if not e.get("no_play")]
         w = sum(h["wins"] for h in pre) + sum(
             1 for e in plays if e.get("result") == "WIN")
@@ -158,6 +162,12 @@ def cmd_report(args, blob):
             beat = sum(1 for e in clv if e["clv"] == "beat")
             print(f"{'':16}CLV: beat the close {beat}/{len(clv)}"
                   " (process check, independent of W/L)")
+        if back:
+            bw = sum(1 for e in back if e.get("result") == "WIN")
+            bl = sum(1 for e in back if e.get("result") == "LOSS")
+            bu = sum(e.get("profit") or 0 for e in back)
+            print(f"{'':16}backfilled (never wagered): {bw}-{bl} {bu:+.2f}u"
+                  f"  ROI {bu/max(1, bw+bl):+.1%}")
         if shadow:
             sw = sum(1 for e in shadow if e.get("result") == "WIN")
             sl = sum(1 for e in shadow if e.get("result") == "LOSS")

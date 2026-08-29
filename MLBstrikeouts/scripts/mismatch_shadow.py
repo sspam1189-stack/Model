@@ -7,10 +7,9 @@ THE RULE (user, 2026-08-29), read off the live scout payload's L20 mismatch:
     m <= -45   the arm outclasses the offense  -> TAIL him  (back his team)
     m >= +55   the offense outclasses the arm  -> FADE him  (back the opponent)
 
-Shadow only. Nothing here is a bet: entries land in scout-card-log.json with
-"shadow": true and never count toward the card record. Fifteen to twenty
-graded plays with closing-line value, then the rule is reviewed -- the gate in
-MLBstrikeouts/CLAUDE.md ("Changing a scout rule").
+CARDED 2026-08-29 (user), without the 15-20 shadow plays the gate in
+MLBstrikeouts/CLAUDE.md normally requires. The evidence that justified
+skipping it, and the one number that argues against, are both below.
 
 WHAT THE BACKTEST ACTUALLY SAID (scripts/backtest_mismatch.py --days 20,
 1,727 games, walk-forward split 2026-06-10). Recorded here so the review has
@@ -33,10 +32,23 @@ the priors and not just the results:
   two. A percentile-based rule would make them comparable; the raw cut is
   what was asked for and is what is tracked.
 
+  PERMUTATION TEST (1,000 shuffles of the mismatch values across games,
+  same rule re-run each time): real +17.2% vs shuffled mean -3.5%, and the
+  shuffles beat it 22/1000 -> p = 0.022. This is the evidence that the
+  column is doing real work rather than the thresholds cutting noise.
+
+  Positive in every month: Apr +29.1%, May +33.8%, Jun +14.6%, Jul +13.1%,
+  Aug +9.4% (66-33 overall, +17.2%, CI +0% to +34%).
+
+  THE ARGUMENT AGAINST: that month series decays monotonically, and every
+  split point confirms it (drift -20.1% at a June cut, -6.0% at a late-July
+  cut). Treat +9.4% as the live expectation, not +17.2%.
+
 Usage:
-    python3 scripts/mismatch_shadow.py            # show today's qualifiers
-    python3 scripts/mismatch_shadow.py --log      # append them as shadow
-    python3 scripts/mismatch_shadow.py --date 2026-08-29 --log
+    python3 scripts/mismatch_shadow.py                 # today's qualifiers
+    python3 scripts/mismatch_shadow.py --log           # record as card plays
+    python3 scripts/mismatch_shadow.py --log --shadow  # record as shadow
+    python3 scripts/mismatch_shadow.py backfill --log  # historical record
 """
 import argparse
 import datetime
@@ -89,9 +101,67 @@ def basis(q):
             "offense outclasses the arm -- fade him")
     return (f"L20 mismatch {q['m']:+.1f} ({verb}). {q['pitcher']} L5 ERA "
             f"{q['l5_era']}, opponent wRC+ vs his hand {q['opp_wrc']}. "
-            f"SHADOW: rule has no confidence interval excluding zero and the "
-            f"band beneath this threshold carries most of the backtest edge "
-            f"(see scripts/mismatch_shadow.py header).")
+            f"Carded 2026-08-29 on a permutation test (p=0.022) and five "
+            f"positive months; expectation is August's +9.4%, not the "
+            f"+17.2% season figure (see scripts/mismatch_shadow.py header).")
+
+
+def backfill(log=False):
+    """Rebuild every historical play the rule would have made, as-of date.
+
+    Written with "backfilled": true so the ledger can report them apart from
+    live bets. These were NEVER WAGERED -- folding them into the card record
+    would report profit that was never risked, which is the one thing a
+    ledger must not do.
+    """
+    sys.path.insert(0, HERE)
+    import backtest_mismatch as BT
+
+    rows = BT.build_rows(BT.MIN_WINDOW_PA, 20)
+    out = []
+    for r in rows:
+        g = r["game"]
+        for side in ("away", "home"):
+            m = r["sides"][side]["m"]
+            if m is None:
+                continue
+            if m <= TAIL_AT:
+                pick = g["away"] if side == "away" else g["home"]
+            elif m >= FADE_AT:
+                pick = g["home"] if side == "away" else g["away"]
+            else:
+                continue
+            ml = g["home_ml"] if pick == g["home"] else g["away_ml"]
+            if not ml:
+                continue
+            won = ((g["home_score"] > g["away_score"]) if pick == g["home"]
+                   else (g["away_score"] > g["home_score"]))
+            out.append({
+                "date": g["date"],
+                "play": f"{pick} ML (mismatch {m:+.1f})",
+                "market": "h2h", "game": f"{g['away']} @ {g['home']}",
+                "price": int(ml), "stake": 1.0, "rule": RULE,
+                "basis": f"Backfilled {'tail' if m < 0 else 'fade'} at L20 "
+                         f"mismatch {m:+.1f}. Not wagered.",
+                "result": "WIN" if won else "LOSS",
+                "profit": round(LEDGER.profit_for(int(ml), 1.0,
+                                                  "WIN" if won else "LOSS"), 2),
+                "backfilled": True,
+            })
+    out.sort(key=lambda e: e["date"])
+    w = sum(1 for e in out if e["result"] == "WIN")
+    u = sum(e["profit"] for e in out)
+    print(f"backfill: {len(out)} plays  {w}-{len(out)-w} ({w/len(out):.1%})  "
+          f"{u:+.2f}u  ROI {u/len(out):+.1%}")
+    if not log:
+        print("(dry run -- pass --log to write them)")
+        return
+    blob = LEDGER._load()
+    blob["entries"] = [e for e in blob["entries"] if not e.get("backfilled")]
+    blob["entries"].extend(out)
+    blob["entries"].sort(key=lambda e: e.get("date", ""))
+    LEDGER._save(blob)
+    print(f"wrote {len(out)} backfilled entries (replacing any previous backfill)")
 
 
 def main():
@@ -100,8 +170,15 @@ def main():
     ap.add_argument("--date", default=None,
                     help="defaults to the payload's own slate date")
     ap.add_argument("--log", action="store_true",
-                    help="append qualifiers to scout-card-log.json as shadow")
+                    help="append qualifiers to scout-card-log.json")
+    ap.add_argument("--shadow", action="store_true",
+                    help="record as shadow instead of live card plays")
+    ap.add_argument("mode", nargs="?", choices=("today", "backfill"),
+                    default="today")
     args = ap.parse_args()
+
+    if args.mode == "backfill":
+        return backfill(args.log)
 
     with open(SCOUT) as fh:
         payload = json.load(fh)
@@ -138,13 +215,16 @@ def main():
             "date": date, "play": play, "market": "h2h",
             "game": q["matchup"], "price": int(q["price"]), "stake": 1.0,
             "rule": RULE, "basis": basis(q),
-            "result": "pending", "profit": 0.0, "shadow": True,
+            "result": "pending", "profit": 0.0,
+            **({"shadow": True} if args.shadow else {}),
         })
         added += 1
-        print(f"  logged SHADOW: {play} @ {q['price']:+d}")
+        print(f"  logged {'SHADOW' if args.shadow else 'CARD'}: "
+              f"{play} @ {q['price']:+d}")
     if added:
         LEDGER._save(blob)
-    print(f"\n{added} shadow entries added")
+    print(f"\n{added} entries added"
+          f"{' (shadow)' if args.shadow else ''}")
 
 
 if __name__ == "__main__":

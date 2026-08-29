@@ -50,12 +50,36 @@ When building a daily card from this repo's outputs, the tiers are:
      leaking-pen overs lost money even while those games averaged 11 runs
      — the market prices pens. Shadow-track; do not card.
 
-3. **Scout MLs**: top conviction only — both halves of the game aligned
+3. **Mismatch ML (carded 2026-08-29, user)**: off the live scout payload's
+   L20 mismatch, one play per qualifying SIDE --
+
+   - `m <= -45` the arm outclasses the offense -> **TAIL him**, back his team
+   - `m >= +55` the offense outclasses the arm -> **FADE him**, back the opponent
+
+   Logged by `scripts/mismatch_shadow.py --log`. Full season 66-33 (+17.2%),
+   positive in all five months, and it clears a permutation test -- 1,000
+   shuffles of the mismatch values re-run through the same rule returned
+   -3.5% on average and beat the real rule 22/1000 (**p = 0.022**). That is
+   the first scout rule to show the column is doing real work rather than a
+   threshold cutting noise attractively.
+
+   Two things to hold onto. **The month series decays monotonically** (Apr
+   +29.1% / May +33.8% / Jun +14.6% / Jul +13.1% / Aug +9.4%) and every
+   split point drifts negative, so **August's +9.4% is the live expectation,
+   not +17.2%**. And this was carded WITHOUT the 15-20 shadow plays the gate
+   below requires -- a deliberate exception, not a precedent. If it runs
+   clearly negative over its first 20 live plays, it comes off.
+
+   The 99 historical plays are backfilled into the ledger with
+   `"backfilled": true` and reported on their own line. They were never
+   wagered, so they never touch the card record.
+
+4. **Scout MLs**: top conviction only — both halves of the game aligned
    across all four windows — capped at 1u, never opposing a model
    position. NOTE: this tier rests on the same ladder the backtest just
    found inert (it is 3-1 lifetime, n=4, which is nothing). Treat every
    scout ML as shadow until it has 25 graded plays.
-4. **Leans are retired**: no half-case totals, no temperature-only reads,
+5. **Leans are retired**: no half-case totals, no temperature-only reads,
    no "0.5u if you want it" tier. A read is card-grade or it is not
    bettable. If a filter on model plays ever seems attractive, define it
    in advance and shadow-track it before it touches a live bet.
