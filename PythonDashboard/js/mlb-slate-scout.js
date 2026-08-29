@@ -72,6 +72,14 @@ async function renderMLBSlateScout() {
     return t > 0 ? `rgba(248,81,73,${0.25 + 0.55 * t})`
                  : `rgba(63,185,80,${0.25 + 0.55 * -t})`;
   };
+  // Carded mismatch ML rule (2026-08-29). Thresholds are calibrated to the
+  // L20 window the payload publishes -- they are NOT portable to L30, where
+  // the same numbers select a broader, weaker set of games (see
+  // MLBstrikeouts/scripts/backtest_mismatch.py).
+  //   m <= -45  the arm outclasses the offense -> TAIL him, back his team
+  //   m >= +55  the offense outclasses the arm -> FADE him, back the opponent
+  const MM_TAIL = -45, MM_FADE = 55;
+
   // Mismatch is centred on zero: positive means the bats outclass the arm.
   const mismatchColor = (v) => (v == null ? DIM : (v > 0 ? RED : GREEN));
 
@@ -213,6 +221,15 @@ async function renderMLBSlateScout() {
   games.innerHTML = html;
   el.appendChild(games);
 
+  // Returns the carded play for a row, or null. `team` is the starter's own
+  // team, `faces` the offense he is up against -- a FADE backs the latter.
+  function mismatchPlay(m, team, faces) {
+    if (m == null) return null;
+    if (m <= MM_TAIL) return { act: 'TAIL', pick: team,  bg: 'rgba(63,185,80,.18)',  fg: '#3fb950' };
+    if (m >= MM_FADE) return { act: 'FADE', pick: faces, bg: 'rgba(248,81,73,.18)', fg: '#f85149' };
+    return null;
+  }
+
   // ---- Mismatch ranking ----------------------------------------------------
   const ranked = document.createElement('div');
   ranked.className = 'card card-games';
@@ -222,7 +239,9 @@ async function renderMLBSlateScout() {
     + '<div style="overflow-x:auto"><table style="width:100%;border-collapse:collapse;font-size:12px">'
     + '<thead><tr style="text-align:left;color:' + DIM + ';border-bottom:1px solid #30363d">'
     + '<th style="padding:4px 6px">Mismatch</th><th>Starter</th><th>Team</th>'
-    + '<th>Faces</th><th>Opp wRC+</th><th>Flags</th></tr></thead><tbody>';
+    + '<th>Faces</th><th>Opp wRC+</th>'
+    + '<th title="Carded rule: tail at m<=-45, fade at m>=+55 (L20 window)">Play</th>'
+    + '<th>Flags</th></tr></thead><tbody>';
   for (const r of (data.ranked_mismatch || [])) {
     rhtml += '<tr style="border-top:1px solid #161b22">'
       + '<td style="padding:3px 6px;color:' + mismatchColor(r.mismatch) + ';font-weight:600">'
@@ -233,10 +252,20 @@ async function renderMLBSlateScout() {
       + '<td style="color:' + DIM + '">' + esc(r.opponent_offense) + '</td>'
       + '<td><span style="padding:1px 6px;border-radius:3px;background:' + wrcColor(r.opp_wrc_vs_hand)
       + '">' + (r.opp_wrc_vs_hand == null ? '—' : r.opp_wrc_vs_hand) + '</span></td>'
+      + '<td>' + (function () {
+          const p = mismatchPlay(r.mismatch, r.team, r.opponent_offense);
+          if (!p) return '<span style="color:' + DIM + '">—</span>';
+          return '<span style="display:inline-block;padding:1px 6px;border-radius:3px;'
+            + 'font-weight:600;white-space:nowrap;background:' + p.bg + ';color:' + p.fg
+            + '">' + p.act + ' ' + esc(p.pick) + ' ML</span>';
+        })() + '</td>'
       + '<td>' + (r.flags || []).map(flagChip).join('') + '</td>'
       + '</tr>';
   }
   rhtml += '</tbody></table></div>';
   ranked.innerHTML = rhtml;
-  el.appendChild(ranked);
+  // Sits directly under the advisory banner, above the per-game table: the
+  // Play column is the only carded thing on this tab, so it should not be a
+  // scroll away at the bottom.
+  el.insertBefore(ranked, banner.nextSibling);
 }
