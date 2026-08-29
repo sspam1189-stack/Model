@@ -303,7 +303,7 @@ def cmd_validate(args):
             if m is not None:
                 real[(g["date"], _norm(g["sides"][side].get("pitcher")))] = m
 
-    rows = build_rows(args.min_window_pa)
+    rows = build_rows(args.min_window_pa, args.days)
     pairs = []
     for r in rows:
         for side in ("away", "home"):
@@ -339,7 +339,7 @@ def cmd_validate(args):
 
 
 def cmd_report(args):
-    rows = build_rows(args.min_window_pa)
+    rows = build_rows(args.min_window_pa, args.days)
     dated = [r for r in rows if r["game"]["date"]]
     print(f"season games with both starters priced: {len(dated)}")
     scored = sum(1 for r in dated
@@ -386,6 +386,9 @@ def main():
     for name, fn in (("validate", cmd_validate), ("report", cmd_report)):
         p = sub.add_parser(name)
         p.add_argument("--min-window-pa", type=int, default=MIN_WINDOW_PA)
+        p.add_argument("--days", type=int, default=OFFENSE_DAYS,
+                       help="trailing offense window in calendar days "
+                            "(20 matches slate_wrc_form PRIMARY_WINDOW=last20)")
         p.set_defaults(fn=fn)
     args = ap.parse_args()
     args.fn(args)
