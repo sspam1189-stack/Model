@@ -3,7 +3,7 @@
   "type": "scout-card-log",
   "week_convention": "monday-sunday",
   "description": "Per-play ledger for scout card calls (tier 2/3 of the daily card policy in MLBstrikeouts/CLAUDE.md). Model plays are NOT logged here - fade-ml/props/hand-tails keep their own files. No-play days are logged too: an empty card is part of the record. Prices are the card-time quote, not the close.",
-  "generated": "2026-08-29T16:28:24Z",
+  "generated": "2026-08-29T20:03:13Z",
   "pre_log_history": [
     {
       "date": "2026-08-17",
@@ -1582,7 +1582,9 @@
       "basis": "Fedde TRIPLE flag: layoff-29d + stale-window-58d + swingman-12g. TEMPER (loudest on the card): MIN pen 11.34 L7 = dead last, and CWS bats hot all four 111/122/130/130. Weakest of the seven.",
       "result": "pending",
       "profit": 0.0,
-      "line": 9.5
+      "line": 9.5,
+      "not_bet": true,
+      "not_bet_reason": "missed the 13:10 CT first pitch"
     },
     {
       "date": "2026-08-29",
