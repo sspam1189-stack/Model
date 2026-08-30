@@ -72,7 +72,13 @@ async function renderMLBSlateScout() {
     return t > 0 ? `rgba(248,81,73,${0.25 + 0.55 * t})`
                  : `rgba(63,185,80,${0.25 + 0.55 * -t})`;
   };
-  // Carded mismatch ML rule (2026-08-29). Thresholds are calibrated to the
+  // RETIRED 2026-08-30 after one day at 1-3. MM_LIVE=false keeps the Play
+  // column rendering as watch-only labels instead of bets; flip it back only
+  // after the rule shadow-trades 15-20 plays (MLBstrikeouts/CLAUDE.md).
+  const MM_LIVE = false;
+
+  // Mismatch ML rule (carded 2026-08-29, retired 2026-08-30). Thresholds are
+  // calibrated to the
   // L20 window the payload publishes -- they are NOT portable to L30, where
   // the same numbers select a broader, weaker set of games (see
   // MLBstrikeouts/scripts/backtest_mismatch.py).
@@ -225,8 +231,13 @@ async function renderMLBSlateScout() {
   // team, `faces` the offense he is up against -- a FADE backs the latter.
   function mismatchPlay(m, team, faces) {
     if (m == null) return null;
-    if (m <= MM_TAIL) return { act: 'TAIL', pick: team,  bg: 'rgba(63,185,80,.18)',  fg: '#3fb950' };
-    if (m >= MM_FADE) return { act: 'FADE', pick: faces, bg: 'rgba(248,81,73,.18)', fg: '#f85149' };
+    const dim = { bg: 'rgba(139,148,158,.14)', fg: DIM };
+    if (m <= MM_TAIL) return MM_LIVE
+      ? { act: 'TAIL', pick: team, bg: 'rgba(63,185,80,.18)', fg: '#3fb950' }
+      : { act: 'tail', pick: team, ...dim };
+    if (m >= MM_FADE) return MM_LIVE
+      ? { act: 'FADE', pick: faces, bg: 'rgba(248,81,73,.18)', fg: '#f85149' }
+      : { act: 'fade', pick: faces, ...dim };
     return null;
   }
 

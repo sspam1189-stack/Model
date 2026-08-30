@@ -50,7 +50,8 @@ When building a daily card from this repo's outputs, the tiers are:
      leaking-pen overs lost money even while those games averaged 11 runs
      — the market prices pens. Shadow-track; do not card.
 
-3. **Mismatch ML (carded 2026-08-29, user)**: off the live scout payload's
+3. **Mismatch ML — RETIRED 2026-08-30 (user), after one day at 1-3.**
+   Kept here because the reasoning is the point, not the result. Was: off the live scout payload's
    L20 mismatch, one play per qualifying SIDE --
 
    - `m <= -45` the arm outclasses the offense -> **TAIL him**, back his team
@@ -73,6 +74,18 @@ When building a daily card from this repo's outputs, the tiers are:
    The 99 historical plays are backfilled into the ledger with
    `"backfilled": true` and reported on their own line. They were never
    wagered, so they never touch the card record.
+
+   **Why it was pulled, and what it does and does not prove.** Four plays
+   cannot overturn a permutation test at p=0.022 -- and four wins would not
+   have confirmed it either. What the episode settles is the PROCESS
+   question. The rule went from backtest to full stake in a single day, so
+   there was no live record to size against when it started losing, and the
+   only honest response to 1-3 was to pull it entirely. That is the failure
+   mode the shadow period exists to prevent: it is not there to prove a rule
+   works, it is there so a bad opening run costs a fraction of a unit
+   instead of a tier. **Do not card another rule without it.** If this one
+   is revived, it shadow-trades 15-20 plays at the +9.4% expectation, not
+   the +17.2% season figure.
 
 4. **Scout MLs**: top conviction only — both halves of the game aligned
    across all four windows — capped at 1u, never opposing a model

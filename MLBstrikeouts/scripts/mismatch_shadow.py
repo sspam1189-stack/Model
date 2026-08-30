@@ -7,9 +7,18 @@ THE RULE (user, 2026-08-29), read off the live scout payload's L20 mismatch:
     m <= -45   the arm outclasses the offense  -> TAIL him  (back his team)
     m >= +55   the offense outclasses the arm  -> FADE him  (back the opponent)
 
-CARDED 2026-08-29 (user), without the 15-20 shadow plays the gate in
-MLBstrikeouts/CLAUDE.md normally requires. The evidence that justified
-skipping it, and the one number that argues against, are both below.
+RETIRED 2026-08-30 (user). Carded 2026-08-29 without the 15-20 shadow plays
+the gate in MLBstrikeouts/CLAUDE.md requires, and pulled after one day at
+1-3. `--log` now refuses; `python3 scripts/mismatch_shadow.py` still prints
+qualifiers so the rule can be watched without betting it.
+
+The retirement is NOT evidence the rule is dead: four plays cannot overturn
+a permutation test at p=0.022, any more than four wins would have proved it.
+What it settles is the process question -- the gate exists because a rule
+that has not shadow-traded has no live record to size against, and this one
+went straight to full stake and lost three of four. If it is ever revived,
+it shadow-trades 15-20 plays first, at the +9.4% expectation below rather
+than the +17.2% season figure.
 
 WHAT THE BACKTEST ACTUALLY SAID (scripts/backtest_mismatch.py --days 20,
 1,727 games, walk-forward split 2026-06-10). Recorded here so the review has
@@ -170,7 +179,7 @@ def main():
     ap.add_argument("--date", default=None,
                     help="defaults to the payload's own slate date")
     ap.add_argument("--log", action="store_true",
-                    help="append qualifiers to scout-card-log.json")
+                    help="RETIRED 2026-08-30 -- refuses; see the header")
     ap.add_argument("--shadow", action="store_true",
                     help="record as shadow instead of live card plays")
     ap.add_argument("mode", nargs="?", choices=("today", "backfill"),
@@ -196,9 +205,14 @@ def main():
         print(f"  {q['action']:4} {q['m']:+7.1f}  {q['pitcher']:20} "
               f"{q['matchup']:12} -> back {q['pick']:4} {price}")
 
-    if not args.log:
-        print("\n(dry run -- pass --log to record these as shadow entries)")
-        return
+    if args.log:
+        raise SystemExit(
+            "\nRETIRED 2026-08-30: this rule no longer produces card plays.\n"
+            "It was carded 2026-08-29 without a shadow period and pulled at\n"
+            "1-3. Reviving it means shadow-trading 15-20 plays first (see the\n"
+            "module header and MLBstrikeouts/CLAUDE.md).")
+    print("\n(watch only -- this rule is retired and no longer logs plays)")
+    return
 
     blob = LEDGER._load()
     have = {(e.get("date"), e.get("play")) for e in blob["entries"]}
