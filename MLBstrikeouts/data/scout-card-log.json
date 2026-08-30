@@ -3,7 +3,7 @@
   "type": "scout-card-log",
   "week_convention": "monday-sunday",
   "description": "Per-play ledger for scout card calls (tier 2/3 of the daily card policy in MLBstrikeouts/CLAUDE.md). Model plays are NOT logged here - fade-ml/props/hand-tails keep their own files. No-play days are logged too: an empty card is part of the record. Prices are the card-time quote, not the close.",
-  "generated": "2026-08-30T16:21:51Z",
+  "generated": "2026-08-30T16:23:01Z",
   "pre_log_history": [
     {
       "date": "2026-08-17",
@@ -1659,6 +1659,94 @@
       "basis": "L20 mismatch -51.6 (arm outclasses the offense -- tail him). Cristopher S\u00e1nchez L5 ERA 2.12, opponent wRC+ vs his hand 75. Carded 2026-08-29 on a permutation test (p=0.022) and five positive months; expectation is August's +9.4%, not the +17.2% season figure (see scripts/mismatch_shadow.py header).",
       "result": "WIN",
       "profit": 0.43
+    },
+    {
+      "date": "2026-08-30",
+      "play": "PHI/LAA Under 7.5",
+      "market": "totals",
+      "game": "PHI @ LAA",
+      "price": -106,
+      "stake": 1.0,
+      "rule": "scout-flagged-starter-under",
+      "basis": "Kikuchi stale-window-132d -- his L5-start line describes a pitcher from 4+ months ago. K-model also has him UNDER 5.5 Ks at pCover .729, same read from the other side.",
+      "result": "pending",
+      "profit": 0.0,
+      "line": 7.5
+    },
+    {
+      "date": "2026-08-30",
+      "play": "LAD/DET Under 7.5",
+      "market": "totals",
+      "game": "LAD @ DET",
+      "price": -122,
+      "stake": 1.0,
+      "rule": "scout-flagged-starter-under",
+      "basis": "Glasnow stale-window-130d. Same game as the LAD fade-ML and the LAD mismatch tail -- three signals, one game.",
+      "result": "pending",
+      "profit": 0.0,
+      "line": 7.5
+    },
+    {
+      "date": "2026-08-30",
+      "play": "CWS/MIN Under 8.5",
+      "market": "totals",
+      "game": "CWS @ MIN",
+      "price": 100,
+      "stake": 1.0,
+      "rule": "scout-flagged-starter-under",
+      "basis": "Hicks TRIPLE flag: opener + layoff-29d + swingman-8g, 2.5 IP/GS profile. Plus money.",
+      "result": "pending",
+      "profit": 0.0,
+      "line": 8.5
+    },
+    {
+      "date": "2026-08-30",
+      "play": "BAL/OAK Under 10",
+      "market": "totals",
+      "game": "BAL @ OAK",
+      "price": -104,
+      "stake": 1.0,
+      "rule": "scout-flagged-starter-under",
+      "basis": "Bassitt stale-window-89d. Highest total on the board at 10.",
+      "result": "pending",
+      "profit": 0.0,
+      "line": 10.0
+    },
+    {
+      "date": "2026-08-30",
+      "play": "NYM ML (mismatch +66.0)",
+      "market": "h2h",
+      "game": "HOU @ NYM",
+      "price": -120,
+      "stake": 1.0,
+      "rule": "shadow-mismatch-ml",
+      "basis": "L20 mismatch +66.0 (offense outclasses the arm -- fade him). Ethan Pecko L5 ERA 7.88, opponent wRC+ vs his hand 114. Carded 2026-08-29 on a permutation test (p=0.022) and five positive months; expectation is August's +9.4%, not the +17.2% season figure (see scripts/mismatch_shadow.py header).",
+      "result": "pending",
+      "profit": 0.0
+    },
+    {
+      "date": "2026-08-30",
+      "play": "CWS ML (mismatch -49.1)",
+      "market": "h2h",
+      "game": "CWS @ MIN",
+      "price": 104,
+      "stake": 1.0,
+      "rule": "shadow-mismatch-ml",
+      "basis": "L20 mismatch -49.1 (arm outclasses the offense -- tail him). Jordan Hicks L5 ERA 0.0, opponent wRC+ vs his hand 108. Carded 2026-08-29 on a permutation test (p=0.022) and five positive months; expectation is August's +9.4%, not the +17.2% season figure (see scripts/mismatch_shadow.py header).",
+      "result": "pending",
+      "profit": 0.0
+    },
+    {
+      "date": "2026-08-30",
+      "play": "LAD ML (mismatch -47.9)",
+      "market": "h2h",
+      "game": "LAD @ DET",
+      "price": -150,
+      "stake": 1.0,
+      "rule": "shadow-mismatch-ml",
+      "basis": "L20 mismatch -47.9 (arm outclasses the offense -- tail him). Tyler Glasnow L5 ERA 2.36, opponent wRC+ vs his hand 81. Carded 2026-08-29 on a permutation test (p=0.022) and five positive months; expectation is August's +9.4%, not the +17.2% season figure (see scripts/mismatch_shadow.py header).",
+      "result": "pending",
+      "profit": 0.0
     }
   ]
 }
