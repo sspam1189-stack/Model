@@ -1,7 +1,7 @@
 {
   "sport": "MLB",
   "type": "hand-tails-roster",
-  "generated": "2026-08-29T23:03:53Z",
+  "generated": "2026-08-30T16:08:02Z",
   "handMin": 6,
   "rule": {
     "minGames": 4,
@@ -9,7 +9,7 @@
   },
   "note": "Walk-forward qualifier computation used to NOTIFY (promotion candidates), not to drive the bet list. The bet list is the manually curated hand-tails-manual.json. `promotions` are arms that clear minGames+minUnits but are not on the manual list; `demotions` are manual-list arms whose record slipped under the bar.",
   "manualCount": 18,
-  "qualifiedCount": 19,
+  "qualifiedCount": 21,
   "promotions": [
     {
       "name": "Andrew Painter",
@@ -26,11 +26,25 @@
       "since": "2026-08-26"
     },
     {
+      "name": "Jack Perkins",
+      "hand": "R",
+      "games": 5,
+      "units": 5.38,
+      "since": "2026-08-29"
+    },
+    {
       "name": "Noah Cameron",
       "hand": "L",
       "games": 18,
       "units": 4.04,
       "since": "2026-06-18"
+    },
+    {
+      "name": "Ryan Johnson",
+      "hand": "R",
+      "games": 5,
+      "units": 5.0,
+      "since": "2026-08-29"
     }
   ],
   "demotions": [],
@@ -85,7 +99,7 @@
       "windows": [
         [
           "2026-08-28",
-          "2026-08-29"
+          "2026-08-30"
         ]
       ]
     },
@@ -165,6 +179,15 @@
         ]
       ]
     },
+    "Jack Perkins": {
+      "hand": "R",
+      "windows": [
+        [
+          "2026-08-29",
+          null
+        ]
+      ]
+    },
     "Jake Bennett": {
       "hand": "L",
       "windows": [
@@ -174,7 +197,7 @@
         ],
         [
           "2026-08-23",
-          "2026-08-29"
+          "2026-08-30"
         ]
       ]
     },
@@ -218,7 +241,7 @@
       "windows": [
         [
           "2026-08-18",
-          "2026-08-29"
+          "2026-08-30"
         ]
       ]
     },
@@ -240,7 +263,7 @@
       "windows": [
         [
           "2026-06-13",
-          "2026-08-29"
+          "2026-08-30"
         ]
       ]
     },
@@ -365,6 +388,15 @@
         [
           "2026-07-30",
           "2026-08-12"
+        ]
+      ]
+    },
+    "Ryan Johnson": {
+      "hand": "R",
+      "windows": [
+        [
+          "2026-08-29",
+          null
         ]
       ]
     },

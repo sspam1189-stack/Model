@@ -1,29 +1,13 @@
 {
   "sport": "MLB",
   "type": "fade-vs-team-watch",
-  "generated": "2026-08-29T23:05:40Z",
+  "generated": "2026-08-30T16:10:41Z",
   "seasonStart": "2026-04-05",
   "minStarts": 2,
   "minEra": 6.0,
   "fadeEra": 8.0,
   "note": "Auto-screened WATCH tier for the pitcher-vs-team fade angle: >= 2 starts vs the team with 6.0 <= ERA < 8.0 vs them (ERA >= 8.0 auto-promotes to the FADE list, mlb-fade-vs-team.json), excluding arms already faded and matchups already curated. fadeRecord is the in-sample fade result (bet the opponent), shown for review -- not a screen filter. Watch, don't bet.",
-  "today": [
-    {
-      "date": "2026-08-29",
-      "commence": "2026-08-29T18:20:00Z",
-      "betType": "fade_vs_team_watch",
-      "pitcher": "Andrew Abbott",
-      "arm_team": "CIN",
-      "opp": "CHC",
-      "selection": "CHC",
-      "venue": "away",
-      "matchup": "CIN @ CHC",
-      "odds": -198,
-      "eraVsOpp": 7.82,
-      "startsVsOpp": 3,
-      "result": "pending"
-    }
-  ],
+  "today": [],
   "candidates": [
     {
       "pitcher": "Jos\u00e9 Soriano",

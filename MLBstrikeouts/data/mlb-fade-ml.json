@@ -1,7 +1,7 @@
 {
   "sport": "MLB",
   "type": "fade-ml",
-  "generated": "2026-08-29T23:02:28Z",
+  "generated": "2026-08-30T16:05:54Z",
   "fadeList": [
     "Painter",
     "Rocker",
@@ -85,27 +85,27 @@
   "mutualRule": "skip",
   "summary": {
     "wins": 517,
-    "losses": 192,
+    "losses": 193,
     "voids": 0,
-    "skips": 47,
-    "staked": 885.97,
-    "units": 337.57,
-    "roi": 0.381,
+    "skips": 48,
+    "staked": 886.97,
+    "units": 336.57,
+    "roi": 0.3795,
     "byType": {
       "ml": {
         "wins": 505,
-        "losses": 180,
+        "losses": 181,
         "voids": 0,
         "skips": 3,
-        "staked": 861.97,
-        "units": 333.09,
-        "roi": 0.3864
+        "staked": 862.97,
+        "units": 332.09,
+        "roi": 0.3848
       },
       "ml_dog": {
         "wins": 12,
         "losses": 12,
         "voids": 0,
-        "skips": 44,
+        "skips": 45,
         "staked": 24.0,
         "units": 4.48,
         "roi": 0.1867
@@ -114,77 +114,100 @@
   },
   "today": [
     {
-      "date": "2026-08-29",
-      "commence": "2026-08-29T23:15:00Z",
+      "date": "2026-08-30",
+      "commence": "2026-08-30T17:40:00Z",
       "betType": "ml",
       "shadow": false,
       "pitchers": [
-        "Shane Drohan"
+        "Framber Valdez"
       ],
-      "fadeTeam": "MIL",
+      "fadeTeam": "DET",
       "market": "h2h",
-      "selection": "TEX",
+      "selection": "LAD",
       "line": null,
-      "odds": 150,
-      "stake": 1.0,
+      "odds": -150,
+      "stake": 1.5,
       "result": "pending",
       "profit": 0.0,
       "book": "fanduel",
       "source": "fanduel_api",
       "reason": null,
-      "home": "MIL",
-      "away": "TEX",
-      "gamePk": 823741,
+      "home": "DET",
+      "away": "LAD",
+      "gamePk": 824232,
+      "fadeReason": "all"
+    },
+    {
+      "date": "2026-08-30",
+      "commence": "2026-08-30T20:07:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Yusei Kikuchi"
+      ],
+      "fadeTeam": "LAA",
+      "market": "h2h",
+      "selection": "PHI",
+      "line": null,
+      "odds": -166,
+      "stake": 1.66,
+      "result": "pending",
+      "profit": 0.0,
+      "book": "fanduel",
+      "source": "fanduel_api",
+      "reason": null,
+      "home": "LAA",
+      "away": "PHI",
+      "gamePk": 823987,
+      "fadeReason": "all"
+    },
+    {
+      "date": "2026-08-30",
+      "commence": "2026-08-30T20:05:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Jeffrey Springs"
+      ],
+      "fadeTeam": "OAK",
+      "market": "h2h",
+      "selection": "BAL",
+      "line": null,
+      "odds": -144,
+      "stake": 1.44,
+      "result": "pending",
+      "profit": 0.0,
+      "book": "fanduel",
+      "source": "fanduel_api",
+      "reason": null,
+      "home": "OAK",
+      "away": "BAL",
+      "gamePk": 824959,
       "fadeReason": "home"
     },
     {
-      "date": "2026-08-29",
-      "commence": "2026-08-30T02:05:00Z",
-      "betType": "ml_dog",
-      "shadow": false,
-      "pitchers": [
-        "Shane Baz",
-        "Jack Perkins"
-      ],
-      "fadeTeam": null,
-      "market": "h2h",
-      "selection": null,
-      "line": null,
-      "odds": null,
-      "stake": null,
-      "result": "SKIP",
-      "profit": 0.0,
-      "book": "fanduel",
-      "source": "fanduel_api",
-      "reason": "mutual_skip",
-      "home": "OAK",
-      "away": "BAL",
-      "gamePk": 824961,
-      "fadeReason": "away/all"
-    },
-    {
-      "date": "2026-08-29",
-      "commence": "2026-08-29T20:10:00Z",
+      "date": "2026-08-30",
+      "commence": "2026-08-30T17:37:00Z",
       "betType": "ml",
       "shadow": false,
       "pitchers": [
-        "Zach Agnos"
+        "Max Scherzer"
       ],
-      "fadeTeam": "COL",
+      "fadeTeam": "TOR",
       "market": "h2h",
-      "selection": "ATL",
+      "selection": "SEA",
       "line": null,
-      "odds": -230,
-      "stake": 2.3,
+      "odds": -132,
+      "stake": 1.32,
       "result": "pending",
       "profit": 0.0,
       "book": "fanduel",
       "source": "fanduel_api",
       "reason": null,
-      "home": "ATL",
-      "away": "COL",
-      "gamePk": 824874,
-      "fadeReason": "all"
+      "home": "TOR",
+      "away": "SEA",
+      "gamePk": 822766,
+      "fadeReason": "home"
     }
   ],
   "bets": [
@@ -18399,6 +18422,55 @@
       "away": "ARI",
       "gamePk": 823177,
       "fadeReason": "away"
+    },
+    {
+      "date": "2026-08-29",
+      "commence": "2026-08-29T23:15:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Shane Drohan"
+      ],
+      "fadeTeam": "MIL",
+      "market": "h2h",
+      "selection": "TEX",
+      "line": null,
+      "odds": 150,
+      "stake": 1.0,
+      "result": "LOSS",
+      "profit": -1.0,
+      "book": "fanduel",
+      "source": "fanduel_api",
+      "reason": null,
+      "home": "MIL",
+      "away": "TEX",
+      "gamePk": 823741,
+      "fadeReason": "home"
+    },
+    {
+      "date": "2026-08-29",
+      "commence": "2026-08-30T02:05:00Z",
+      "betType": "ml_dog",
+      "shadow": false,
+      "pitchers": [
+        "Shane Baz",
+        "Jack Perkins"
+      ],
+      "fadeTeam": null,
+      "market": "h2h",
+      "selection": null,
+      "line": null,
+      "odds": null,
+      "stake": null,
+      "result": "SKIP",
+      "profit": 0.0,
+      "book": "fanduel",
+      "source": "fanduel_api",
+      "reason": "mutual_skip",
+      "home": "OAK",
+      "away": "BAL",
+      "gamePk": 824961,
+      "fadeReason": "away/all"
     }
   ]
 }
