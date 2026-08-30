@@ -1,7 +1,7 @@
 {
   "sport": "MLB",
   "type": "hand-tails-watch",
-  "generated": "2026-08-30T16:10:38Z",
+  "generated": "2026-08-30T21:05:07Z",
   "handMin": 6,
   "minGames": 3,
   "minUnits": 2.5,
@@ -26,30 +26,8 @@
       "lineupConfirmed": true,
       "odds": 110,
       "suggest": "fade",
-      "suggestUnits": 4.04,
-      "games": 10,
-      "result": "pending"
-    },
-    {
-      "date": "2026-08-30",
-      "commence": "2026-08-30T17:37:00Z",
-      "betType": "watch_fade",
-      "action": "fade",
-      "watch": true,
-      "pitcher": "Max Scherzer",
-      "hand": "R",
-      "arm_team": "TOR",
-      "opp_team": "SEA",
-      "selection": "SEA",
-      "home": "TOR",
-      "away": "SEA",
-      "oppLefty": 6,
-      "oppRighty": 5,
-      "lineupConfirmed": true,
-      "odds": -132,
-      "suggest": "fade",
-      "suggestUnits": 3.36,
-      "games": 8,
+      "suggestUnits": 5.14,
+      "games": 11,
       "result": "pending"
     },
     {
@@ -70,8 +48,8 @@
       "lineupConfirmed": true,
       "odds": -178,
       "suggest": "fade",
-      "suggestUnits": 3.0,
-      "games": 10,
+      "suggestUnits": 4.0,
+      "games": 11,
       "result": "pending"
     },
     {
@@ -92,8 +70,8 @@
       "lineupConfirmed": true,
       "odds": 150,
       "suggest": "take",
-      "suggestUnits": 6.72,
-      "games": 22,
+      "suggestUnits": 5.72,
+      "games": 23,
       "result": "pending"
     },
     {
@@ -111,12 +89,12 @@
       "away": "PHI",
       "oppLefty": 3,
       "oppRighty": 6,
-      "lineupConfirmed": false,
-      "odds": null,
+      "lineupConfirmed": true,
+      "odds": -172,
       "suggest": "fade",
       "suggestUnits": 4.0,
       "games": 4,
-      "result": "unconfirmed"
+      "result": "pending"
     }
   ],
   "candidates": [
@@ -247,24 +225,6 @@
       "era": 3.7
     },
     {
-      "pitcher": "Robbie Ray",
-      "hand": "L",
-      "games": 22,
-      "suggest": "take",
-      "suggestUnits": 6.72,
-      "fade": {
-        "w": 8,
-        "l": 14,
-        "u": -8.78
-      },
-      "take": {
-        "w": 14,
-        "l": 8,
-        "u": 6.72
-      },
-      "era": 3.36
-    },
-    {
       "pitcher": "Jacob Misiorowski",
       "hand": "R",
       "games": 9,
@@ -391,6 +351,24 @@
       "era": 3.83
     },
     {
+      "pitcher": "Robbie Ray",
+      "hand": "L",
+      "games": 23,
+      "suggest": "take",
+      "suggestUnits": 5.72,
+      "fade": {
+        "w": 9,
+        "l": 14,
+        "u": -7.78
+      },
+      "take": {
+        "w": 14,
+        "l": 9,
+        "u": 5.72
+      },
+      "era": 3.36
+    },
+    {
       "pitcher": "Chase Burns",
       "hand": "R",
       "games": 15,
@@ -479,6 +457,24 @@
         "u": 5.16
       },
       "era": 6.27
+    },
+    {
+      "pitcher": "Andrew Alvarez",
+      "hand": "L",
+      "games": 11,
+      "suggest": "fade",
+      "suggestUnits": 5.14,
+      "fade": {
+        "w": 8,
+        "l": 3,
+        "u": 5.14
+      },
+      "take": {
+        "w": 3,
+        "l": 8,
+        "u": -5.88
+      },
+      "era": 3.72
     },
     {
       "pitcher": "Ryan Johnson",
@@ -661,24 +657,6 @@
       "era": 4.17
     },
     {
-      "pitcher": "Andrew Alvarez",
-      "hand": "L",
-      "games": 10,
-      "suggest": "fade",
-      "suggestUnits": 4.04,
-      "fade": {
-        "w": 7,
-        "l": 3,
-        "u": 4.04
-      },
-      "take": {
-        "w": 3,
-        "l": 7,
-        "u": -4.68
-      },
-      "era": 3.72
-    },
-    {
       "pitcher": "Yusei Kikuchi",
       "hand": "L",
       "games": 4,
@@ -695,6 +673,24 @@
         "u": -4.3
       },
       "era": 6.25
+    },
+    {
+      "pitcher": "Seth Lugo",
+      "hand": "R",
+      "games": 11,
+      "suggest": "fade",
+      "suggestUnits": 4.0,
+      "fade": {
+        "w": 8,
+        "l": 3,
+        "u": 4.0
+      },
+      "take": {
+        "w": 3,
+        "l": 8,
+        "u": -5.02
+      },
+      "era": 4.61
     },
     {
       "pitcher": "Ian Seymour",
@@ -749,24 +745,6 @@
         "u": -4.04
       },
       "era": 5.4
-    },
-    {
-      "pitcher": "Max Scherzer",
-      "hand": "R",
-      "games": 8,
-      "suggest": "fade",
-      "suggestUnits": 3.36,
-      "fade": {
-        "w": 6,
-        "l": 2,
-        "u": 3.36
-      },
-      "take": {
-        "w": 2,
-        "l": 6,
-        "u": -3.98
-      },
-      "era": 7.02
     },
     {
       "pitcher": "Trey Gibson",
@@ -839,24 +817,6 @@
         "u": -3.0
       },
       "era": 8.26
-    },
-    {
-      "pitcher": "Seth Lugo",
-      "hand": "R",
-      "games": 10,
-      "suggest": "fade",
-      "suggestUnits": 3.0,
-      "fade": {
-        "w": 7,
-        "l": 3,
-        "u": 3.0
-      },
-      "take": {
-        "w": 3,
-        "l": 7,
-        "u": -4.02
-      },
-      "era": 4.61
     },
     {
       "pitcher": "Luis Castillo",
