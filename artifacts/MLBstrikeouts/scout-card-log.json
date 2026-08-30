@@ -3,7 +3,7 @@
   "type": "scout-card-log",
   "week_convention": "monday-sunday",
   "description": "Per-play ledger for scout card calls (tier 2/3 of the daily card policy in MLBstrikeouts/CLAUDE.md). Model plays are NOT logged here - fade-ml/props/hand-tails keep their own files. No-play days are logged too: an empty card is part of the record. Prices are the card-time quote, not the close.",
-  "generated": "2026-08-29T20:03:13Z",
+  "generated": "2026-08-30T22:08:33Z",
   "pre_log_history": [
     {
       "date": "2026-08-17",
@@ -1502,9 +1502,12 @@
       "stake": 1.0,
       "rule": "scout-flagged-starter-under",
       "basis": "Snell stale-window-106d + thin-sample: his L5 line (2.57) describes a pitcher from 3.5 months ago. DET bats collapsing 99/58/49. LAD pen 1.50 L7 (#5). Lowest total on the board.",
-      "result": "pending",
-      "profit": 0.0,
-      "line": 7.0
+      "result": "WIN",
+      "profit": 0.96,
+      "line": 7.0,
+      "close_line": 7.0,
+      "clv": "flat",
+      "line_move": 0.0
     },
     {
       "date": "2026-08-29",
@@ -1515,9 +1518,17 @@
       "stake": 1.0,
       "rule": "scout-flagged-starter-under",
       "basis": "Fried layoff-16d, 4.93 IP/GS. NYY pen is #2 L30 and #1 L7 (0.44) -- short leash lands on the best bullpen in baseball right now.",
-      "result": "pending",
-      "profit": 0.0,
-      "line": 7.5
+      "result": "LOSS",
+      "profit": -1.0,
+      "line": 7.5,
+      "bet_as": {
+        "line": 7.0,
+        "price": 105,
+        "note": "took Under 7 at +105 after the line moved off 7.5"
+      },
+      "close_line": 7.0,
+      "clv": "beat",
+      "line_move": -0.5
     },
     {
       "date": "2026-08-29",
@@ -1528,9 +1539,12 @@
       "stake": 1.0,
       "rule": "scout-flagged-starter-under",
       "basis": "Rodon stale-window-67d, 4.67 IP/GS. Same elite NYY pen behind him (#1 L7, 0.44).",
-      "result": "pending",
-      "profit": 0.0,
-      "line": 8.0
+      "result": "WIN",
+      "profit": 0.83,
+      "line": 8.0,
+      "close_line": 7.5,
+      "clv": "beat",
+      "line_move": -0.5
     },
     {
       "date": "2026-08-29",
@@ -1541,9 +1555,12 @@
       "stake": 1.0,
       "rule": "scout-flagged-starter-under",
       "basis": "Daniel Lynch IV opener (3.08 IP/GS) + thin-sample. Plus money on a 7.5. CLE bats 114/113 is the objection.",
-      "result": "pending",
-      "profit": 0.0,
-      "line": 7.5
+      "result": "LOSS",
+      "profit": -1.0,
+      "line": 7.5,
+      "close_line": 7.5,
+      "clv": "flat",
+      "line_move": 0.0
     },
     {
       "date": "2026-08-29",
@@ -1554,9 +1571,12 @@
       "stake": 1.0,
       "rule": "scout-flagged-starter-under",
       "basis": "Bachar TRIPLE flag: opener + stale-window-78d + swingman-21g, 2.27 IP/GS. PIT bats frozen 81/71/65. TEMPER: STL pen 7.62 L7 (#29) inherits most of the game.",
-      "result": "pending",
-      "profit": 0.0,
-      "line": 8.5
+      "result": "WIN",
+      "profit": 0.81,
+      "line": 8.5,
+      "close_line": 8.5,
+      "clv": "flat",
+      "line_move": 0.0
     },
     {
       "date": "2026-08-29",
@@ -1567,9 +1587,12 @@
       "stake": 1.0,
       "rule": "scout-flagged-starter-under",
       "basis": "Perkins layoff-17d + swingman-2g, 8.25 L5 ERA. BAL pen 0.87 L7 (#2). TEMPER: OAK bats hot all four (104/111/114/125).",
-      "result": "pending",
-      "profit": 0.0,
-      "line": 9.5
+      "result": "WIN",
+      "profit": 0.95,
+      "line": 9.5,
+      "close_line": 9.5,
+      "clv": "flat",
+      "line_move": 0.0
     },
     {
       "date": "2026-08-29",
@@ -1580,11 +1603,14 @@
       "stake": 1.0,
       "rule": "scout-flagged-starter-under",
       "basis": "Fedde TRIPLE flag: layoff-29d + stale-window-58d + swingman-12g. TEMPER (loudest on the card): MIN pen 11.34 L7 = dead last, and CWS bats hot all four 111/122/130/130. Weakest of the seven.",
-      "result": "pending",
-      "profit": 0.0,
+      "result": "WIN",
+      "profit": 0.81,
       "line": 9.5,
       "not_bet": true,
-      "not_bet_reason": "missed the 13:10 CT first pitch"
+      "not_bet_reason": "missed the 13:10 CT first pitch",
+      "close_line": 9.0,
+      "clv": "beat",
+      "line_move": -0.5
     },
     {
       "date": "2026-08-29",
@@ -1595,8 +1621,8 @@
       "stake": 1.0,
       "rule": "shadow-mismatch-ml",
       "basis": "L20 mismatch -63.7 (arm outclasses the offense -- tail him). Kyle Leahy L5 ERA 1.44, opponent wRC+ vs his hand 71. Carded 2026-08-29 on a permutation test (p=0.022) and five positive months; expectation is August's +9.4%, not the +17.2% season figure (see scripts/mismatch_shadow.py header).",
-      "result": "pending",
-      "profit": 0.0
+      "result": "LOSS",
+      "profit": -1.0
     },
     {
       "date": "2026-08-29",
@@ -1607,8 +1633,8 @@
       "stake": 1.0,
       "rule": "shadow-mismatch-ml",
       "basis": "L20 mismatch -62.0 (arm outclasses the offense -- tail him). Blake Snell L5 ERA 2.57, opponent wRC+ vs his hand 58. Carded 2026-08-29 on a permutation test (p=0.022) and five positive months; expectation is August's +9.4%, not the +17.2% season figure (see scripts/mismatch_shadow.py header).",
-      "result": "pending",
-      "profit": 0.0
+      "result": "LOSS",
+      "profit": -1.0
     },
     {
       "date": "2026-08-29",
@@ -1619,8 +1645,8 @@
       "stake": 1.0,
       "rule": "shadow-mismatch-ml",
       "basis": "L20 mismatch +57.6 (offense outclasses the arm -- fade him). Merrill Kelly L5 ERA 7.46, opponent wRC+ vs his hand 114. Carded 2026-08-29 on a permutation test (p=0.022) and five positive months; expectation is August's +9.4%, not the +17.2% season figure (see scripts/mismatch_shadow.py header).",
-      "result": "pending",
-      "profit": 0.0
+      "result": "LOSS",
+      "profit": -1.0
     },
     {
       "date": "2026-08-29",
@@ -1631,8 +1657,102 @@
       "stake": 1.0,
       "rule": "shadow-mismatch-ml",
       "basis": "L20 mismatch -51.6 (arm outclasses the offense -- tail him). Cristopher S\u00e1nchez L5 ERA 2.12, opponent wRC+ vs his hand 75. Carded 2026-08-29 on a permutation test (p=0.022) and five positive months; expectation is August's +9.4%, not the +17.2% season figure (see scripts/mismatch_shadow.py header).",
+      "result": "WIN",
+      "profit": 0.43
+    },
+    {
+      "date": "2026-08-30",
+      "play": "PHI/LAA Under 7.5",
+      "market": "totals",
+      "game": "PHI @ LAA",
+      "price": -106,
+      "stake": 1.0,
+      "rule": "scout-flagged-starter-under",
+      "basis": "Kikuchi stale-window-132d -- his L5-start line describes a pitcher from 4+ months ago. K-model also has him UNDER 5.5 Ks at pCover .729, same read from the other side.",
       "result": "pending",
-      "profit": 0.0
+      "profit": 0.0,
+      "line": 7.5
+    },
+    {
+      "date": "2026-08-30",
+      "play": "LAD/DET Under 7.5",
+      "market": "totals",
+      "game": "LAD @ DET",
+      "price": -122,
+      "stake": 1.0,
+      "rule": "scout-flagged-starter-under",
+      "basis": "Glasnow stale-window-130d. Same game as the LAD fade-ML and the LAD mismatch tail -- three signals, one game.",
+      "result": "pending",
+      "profit": 0.0,
+      "line": 7.5
+    },
+    {
+      "date": "2026-08-30",
+      "play": "CWS/MIN Under 8.5",
+      "market": "totals",
+      "game": "CWS @ MIN",
+      "price": 100,
+      "stake": 1.0,
+      "rule": "scout-flagged-starter-under",
+      "basis": "Hicks TRIPLE flag: opener + layoff-29d + swingman-8g, 2.5 IP/GS profile. Plus money.",
+      "result": "pending",
+      "profit": 0.0,
+      "line": 8.5
+    },
+    {
+      "date": "2026-08-30",
+      "play": "BAL/OAK Under 10",
+      "market": "totals",
+      "game": "BAL @ OAK",
+      "price": -104,
+      "stake": 1.0,
+      "rule": "scout-flagged-starter-under",
+      "basis": "Bassitt stale-window-89d. Highest total on the board at 10.",
+      "result": "pending",
+      "profit": 0.0,
+      "line": 10.0
+    },
+    {
+      "date": "2026-08-30",
+      "play": "NYM ML (mismatch +66.0)",
+      "market": "h2h",
+      "game": "HOU @ NYM",
+      "price": -120,
+      "stake": 1.0,
+      "rule": "shadow-mismatch-ml",
+      "basis": "L20 mismatch +66.0 (offense outclasses the arm -- fade him). Ethan Pecko L5 ERA 7.88, opponent wRC+ vs his hand 114. Carded 2026-08-29 on a permutation test (p=0.022) and five positive months; expectation is August's +9.4%, not the +17.2% season figure (see scripts/mismatch_shadow.py header).",
+      "result": "pending",
+      "profit": 0.0,
+      "not_bet": true,
+      "not_bet_reason": "rule retired 2026-08-30 before first pitch"
+    },
+    {
+      "date": "2026-08-30",
+      "play": "CWS ML (mismatch -49.1)",
+      "market": "h2h",
+      "game": "CWS @ MIN",
+      "price": 104,
+      "stake": 1.0,
+      "rule": "shadow-mismatch-ml",
+      "basis": "L20 mismatch -49.1 (arm outclasses the offense -- tail him). Jordan Hicks L5 ERA 0.0, opponent wRC+ vs his hand 108. Carded 2026-08-29 on a permutation test (p=0.022) and five positive months; expectation is August's +9.4%, not the +17.2% season figure (see scripts/mismatch_shadow.py header).",
+      "result": "pending",
+      "profit": 0.0,
+      "not_bet": true,
+      "not_bet_reason": "rule retired 2026-08-30 before first pitch"
+    },
+    {
+      "date": "2026-08-30",
+      "play": "LAD ML (mismatch -47.9)",
+      "market": "h2h",
+      "game": "LAD @ DET",
+      "price": -150,
+      "stake": 1.0,
+      "rule": "shadow-mismatch-ml",
+      "basis": "L20 mismatch -47.9 (arm outclasses the offense -- tail him). Tyler Glasnow L5 ERA 2.36, opponent wRC+ vs his hand 81. Carded 2026-08-29 on a permutation test (p=0.022) and five positive months; expectation is August's +9.4%, not the +17.2% season figure (see scripts/mismatch_shadow.py header).",
+      "result": "pending",
+      "profit": 0.0,
+      "not_bet": true,
+      "not_bet_reason": "rule retired 2026-08-30 before first pitch"
     }
   ]
 }

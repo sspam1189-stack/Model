@@ -1,7 +1,7 @@
 {
   "sport": "MLB",
   "type": "fade-vs-team-watch",
-  "generated": "2026-08-30T21:05:11Z",
+  "generated": "2026-08-30T23:05:32Z",
   "seasonStart": "2026-04-05",
   "minStarts": 2,
   "minEra": 6.0,
@@ -21,6 +21,21 @@
       "odds": 132,
       "eraVsOpp": 6.06,
       "startsVsOpp": 3,
+      "result": "pending"
+    },
+    {
+      "date": "2026-08-30",
+      "commence": "2026-08-30T18:15:00Z",
+      "betType": "fade_vs_team_watch",
+      "pitcher": "Matthew Liberatore",
+      "arm_team": "STL",
+      "opp": "PIT",
+      "selection": "PIT",
+      "venue": "home",
+      "matchup": "PIT @ STL",
+      "odds": -120,
+      "eraVsOpp": 6.1,
+      "startsVsOpp": 2,
       "result": "pending"
     }
   ],
@@ -552,6 +567,22 @@
         "u": 0.12,
         "n": 2,
         "roi": 0.06
+      }
+    },
+    {
+      "pitcher": "Matthew Liberatore",
+      "opp": "PIT",
+      "arm_team": "STL",
+      "eraVsOpp": 6.1,
+      "ipVsOpp": 10.3,
+      "erVsOpp": 7,
+      "startsVsOpp": 2,
+      "fadeRecord": {
+        "w": 1,
+        "l": 1,
+        "u": -0.04,
+        "n": 2,
+        "roi": -0.0179
       }
     },
     {

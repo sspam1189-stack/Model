@@ -1,7 +1,7 @@
 {
   "sport": "MLB",
   "type": "hand-tails",
-  "generated": "2026-08-30T21:03:57Z",
+  "generated": "2026-08-30T23:04:00Z",
   "handMin": 6,
   "roster": {
     "Brady Singer": {
@@ -131,18 +131,18 @@
   ],
   "demotions": [],
   "summary": {
-    "wins": 59,
+    "wins": 60,
     "losses": 23,
-    "units": 36.52,
-    "staked": 97.62,
-    "roi": 0.3741,
+    "units": 37.52,
+    "staked": 99.06,
+    "roi": 0.3788,
     "byAction": {
       "fade": {
-        "wins": 59,
+        "wins": 60,
         "losses": 23,
-        "units": 36.52,
-        "staked": 97.62,
-        "roi": 0.3741
+        "units": 37.52,
+        "staked": 99.06,
+        "roi": 0.3788
       },
       "take": {
         "wins": 0,
@@ -161,40 +161,15 @@
         "roi": 0.4318
       },
       "L": {
-        "wins": 25,
+        "wins": 26,
         "losses": 12,
-        "units": 13.34,
-        "staked": 43.94,
-        "roi": 0.3036
+        "units": 14.34,
+        "staked": 45.38,
+        "roi": 0.316
       }
     }
   },
-  "today": [
-    {
-      "date": "2026-08-30",
-      "commence": "2026-08-30T20:05:00Z",
-      "betType": "hand_fade",
-      "action": "fade",
-      "pitcher": "Jeffrey Springs",
-      "entry": "Jeffrey Springs",
-      "hand": "L",
-      "arm_team": "OAK",
-      "opp_team": "BAL",
-      "selection": "BAL",
-      "home": "OAK",
-      "away": "BAL",
-      "oppLefty": 3,
-      "oppRighty": 7,
-      "lineupConfirmed": true,
-      "odds": -144,
-      "stake": 1.44,
-      "result": "pending",
-      "reason": null,
-      "profit": 0.0,
-      "book": "fanduel",
-      "source": "fanduel_api"
-    }
-  ],
+  "today": [],
   "bets": [
     {
       "date": "2026-05-20",
@@ -2161,6 +2136,30 @@
       "result": "WIN",
       "reason": null,
       "profit": 1.22,
+      "book": "fanduel",
+      "source": "fanduel_api"
+    },
+    {
+      "date": "2026-08-30",
+      "commence": "2026-08-30T20:05:00Z",
+      "betType": "hand_fade",
+      "action": "fade",
+      "pitcher": "Jeffrey Springs",
+      "entry": "Jeffrey Springs",
+      "hand": "L",
+      "arm_team": "OAK",
+      "opp_team": "BAL",
+      "selection": "BAL",
+      "home": "OAK",
+      "away": "BAL",
+      "oppLefty": 3,
+      "oppRighty": 7,
+      "lineupConfirmed": true,
+      "odds": -144,
+      "stake": 1.44,
+      "result": "WIN",
+      "reason": null,
+      "profit": 1.0,
       "book": "fanduel",
       "source": "fanduel_api"
     }
