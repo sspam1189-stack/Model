@@ -1,7 +1,7 @@
 {
   "sport": "MLB",
   "type": "hand-tails",
-  "generated": "2026-08-30T00:34:42Z",
+  "generated": "2026-08-30T13:07:27Z",
   "handMin": 6,
   "roster": {
     "Brady Singer": {
@@ -94,11 +94,25 @@
       "since": "2026-08-26"
     },
     {
+      "name": "Jack Perkins",
+      "hand": "R",
+      "games": 5,
+      "units": 5.38,
+      "since": "2026-08-29"
+    },
+    {
       "name": "Noah Cameron",
       "hand": "L",
       "games": 18,
       "units": 4.04,
       "since": "2026-06-18"
+    },
+    {
+      "name": "Ryan Johnson",
+      "hand": "R",
+      "games": 5,
+      "units": 5.0,
+      "since": "2026-08-29"
     }
   ],
   "demotions": [],
@@ -141,7 +155,32 @@
       }
     }
   },
-  "today": [],
+  "today": [
+    {
+      "date": "2026-08-30",
+      "commence": "2026-08-30T20:05:00Z",
+      "betType": "hand_fade",
+      "action": "fade",
+      "pitcher": "Jeffrey Springs",
+      "entry": "Jeffrey Springs",
+      "hand": "L",
+      "arm_team": "OAK",
+      "opp_team": "BAL",
+      "selection": "BAL",
+      "home": "OAK",
+      "away": "BAL",
+      "oppLefty": 4,
+      "oppRighty": 6,
+      "lineupConfirmed": false,
+      "odds": null,
+      "stake": null,
+      "result": "unconfirmed",
+      "reason": null,
+      "profit": 0.0,
+      "book": "fanduel",
+      "source": "fanduel_api"
+    }
+  ],
   "bets": [
     {
       "date": "2026-05-20",

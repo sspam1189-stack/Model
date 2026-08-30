@@ -1,27 +1,45 @@
 {
   "sport": "MLB",
   "type": "fade-watch",
-  "generated": "2026-08-30T00:36:38Z",
+  "generated": "2026-08-30T13:08:37Z",
   "minGames": 3,
   "minUnits": 2.5,
   "note": "Shadow review list -- arms NOT on the active fade list whose home or away fade clears the bar (>= 3 games, >= +2.5u). In-sample season replay; watch, don't bet. Promote by editing scripts/fade_list.py.",
   "today": [
     {
-      "date": "2026-08-29",
-      "commence": "2026-08-29T23:15:00Z",
+      "date": "2026-08-30",
+      "commence": "2026-08-30T17:35:00Z",
       "betType": "fade_watch",
       "watch": true,
-      "pitcher": "Max Fried",
+      "pitcher": "Will Warren",
       "arm_team": "NYY",
       "fadeTeam": "NYY",
       "selection": "BOS",
       "home": "NYY",
       "away": "BOS",
       "venue": "home",
-      "odds": 130,
+      "odds": -122,
       "suggest": "home",
-      "suggestUnits": 3.31,
-      "games": 6,
+      "suggestUnits": 3.5,
+      "games": 11,
+      "result": "pending"
+    },
+    {
+      "date": "2026-08-30",
+      "commence": "2026-08-30T17:40:00Z",
+      "betType": "fade_watch",
+      "watch": true,
+      "pitcher": "Parker Messick",
+      "arm_team": "CLE",
+      "fadeTeam": "CLE",
+      "selection": "KC",
+      "home": "CLE",
+      "away": "KC",
+      "venue": "home",
+      "odds": 170,
+      "suggest": "home",
+      "suggestUnits": 3.02,
+      "games": 13,
       "result": "pending"
     }
   ],
@@ -240,33 +258,6 @@
         "u": 3.4,
         "n": 5,
         "roi": 0.5667
-      }
-    },
-    {
-      "pitcher": "Max Fried",
-      "team": "NYY",
-      "suggest": "home",
-      "suggestUnits": 3.31,
-      "all": {
-        "w": 7,
-        "l": 6,
-        "u": 5.19,
-        "n": 13,
-        "roi": 0.3938
-      },
-      "home": {
-        "w": 3,
-        "l": 3,
-        "u": 3.31,
-        "n": 6,
-        "roi": 0.5517
-      },
-      "away": {
-        "w": 4,
-        "l": 3,
-        "u": 1.88,
-        "n": 7,
-        "roi": 0.2618
       }
     },
     {
