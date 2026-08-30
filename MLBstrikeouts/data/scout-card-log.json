@@ -3,7 +3,7 @@
   "type": "scout-card-log",
   "week_convention": "monday-sunday",
   "description": "Per-play ledger for scout card calls (tier 2/3 of the daily card policy in MLBstrikeouts/CLAUDE.md). Model plays are NOT logged here - fade-ml/props/hand-tails keep their own files. No-play days are logged too: an empty card is part of the record. Prices are the card-time quote, not the close.",
-  "generated": "2026-08-29T22:27:38Z",
+  "generated": "2026-08-30T00:21:47Z",
   "pre_log_history": [
     {
       "date": "2026-08-17",
@@ -1552,9 +1552,12 @@
       "stake": 1.0,
       "rule": "scout-flagged-starter-under",
       "basis": "Daniel Lynch IV opener (3.08 IP/GS) + thin-sample. Plus money on a 7.5. CLE bats 114/113 is the objection.",
-      "result": "pending",
-      "profit": 0.0,
-      "line": 7.5
+      "result": "LOSS",
+      "profit": -1.0,
+      "line": 7.5,
+      "close_line": 7.5,
+      "clv": "flat",
+      "line_move": 0.0
     },
     {
       "date": "2026-08-29",
@@ -1565,9 +1568,12 @@
       "stake": 1.0,
       "rule": "scout-flagged-starter-under",
       "basis": "Bachar TRIPLE flag: opener + stale-window-78d + swingman-21g, 2.27 IP/GS. PIT bats frozen 81/71/65. TEMPER: STL pen 7.62 L7 (#29) inherits most of the game.",
-      "result": "pending",
-      "profit": 0.0,
-      "line": 8.5
+      "result": "WIN",
+      "profit": 0.81,
+      "line": 8.5,
+      "close_line": 8.5,
+      "clv": "flat",
+      "line_move": 0.0
     },
     {
       "date": "2026-08-29",
@@ -1609,8 +1615,8 @@
       "stake": 1.0,
       "rule": "shadow-mismatch-ml",
       "basis": "L20 mismatch -63.7 (arm outclasses the offense -- tail him). Kyle Leahy L5 ERA 1.44, opponent wRC+ vs his hand 71. Carded 2026-08-29 on a permutation test (p=0.022) and five positive months; expectation is August's +9.4%, not the +17.2% season figure (see scripts/mismatch_shadow.py header).",
-      "result": "pending",
-      "profit": 0.0
+      "result": "LOSS",
+      "profit": -1.0
     },
     {
       "date": "2026-08-29",
@@ -1633,8 +1639,8 @@
       "stake": 1.0,
       "rule": "shadow-mismatch-ml",
       "basis": "L20 mismatch +57.6 (offense outclasses the arm -- fade him). Merrill Kelly L5 ERA 7.46, opponent wRC+ vs his hand 114. Carded 2026-08-29 on a permutation test (p=0.022) and five positive months; expectation is August's +9.4%, not the +17.2% season figure (see scripts/mismatch_shadow.py header).",
-      "result": "pending",
-      "profit": 0.0
+      "result": "LOSS",
+      "profit": -1.0
     },
     {
       "date": "2026-08-29",
