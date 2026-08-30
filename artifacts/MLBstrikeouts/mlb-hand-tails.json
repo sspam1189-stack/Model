@@ -1,7 +1,7 @@
 {
   "sport": "MLB",
   "type": "hand-tails",
-  "generated": "2026-08-29T23:04:21Z",
+  "generated": "2026-08-30T00:34:42Z",
   "handMin": 6,
   "roster": {
     "Brady Singer": {
@@ -104,17 +104,17 @@
   "demotions": [],
   "summary": {
     "wins": 59,
-    "losses": 24,
-    "units": 35.5,
-    "staked": 98.64,
-    "roi": 0.3599,
+    "losses": 23,
+    "units": 36.52,
+    "staked": 97.62,
+    "roi": 0.3741,
     "byAction": {
       "fade": {
         "wins": 59,
-        "losses": 24,
-        "units": 35.5,
-        "staked": 98.64,
-        "roi": 0.3599
+        "losses": 23,
+        "units": 36.52,
+        "staked": 97.62,
+        "roi": 0.3741
       },
       "take": {
         "wins": 0,
@@ -127,10 +127,10 @@
     "byHand": {
       "R": {
         "wins": 34,
-        "losses": 12,
-        "units": 22.16,
-        "staked": 54.7,
-        "roi": 0.4051
+        "losses": 11,
+        "units": 23.18,
+        "staked": 53.68,
+        "roi": 0.4318
       },
       "L": {
         "wins": 25,
@@ -2108,30 +2108,6 @@
       "result": "WIN",
       "reason": null,
       "profit": 1.22,
-      "book": "fanduel",
-      "source": "fanduel_api"
-    },
-    {
-      "date": "2026-08-29",
-      "commence": "2026-08-29T20:05:00Z",
-      "betType": "hand_fade",
-      "action": "fade",
-      "pitcher": "Merrill Kelly",
-      "entry": "Merrill Kelly",
-      "hand": "R",
-      "arm_team": "ARI",
-      "opp_team": "SF",
-      "selection": "SF",
-      "home": "SF",
-      "away": "ARI",
-      "oppLefty": 7,
-      "oppRighty": 2,
-      "lineupConfirmed": true,
-      "odds": -102,
-      "stake": 1.02,
-      "result": "LOSS",
-      "reason": null,
-      "profit": -1.02,
       "book": "fanduel",
       "source": "fanduel_api"
     }
