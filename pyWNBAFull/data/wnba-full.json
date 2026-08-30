@@ -21220,9 +21220,11 @@
           "h2hRecord": null,
           "h2hNote": null,
           "trends": {
-            "away": "ATS +/- 2.1 \u00b7 Over 56.4% \u00b7 Under 43.6% \u00b7 O/U +/- 1.8",
-            "home": "ATS +/- -1.7 \u00b7 Over 53.8% \u00b7 Under 46.2% \u00b7 O/U +/- 3.1"
-          }
+            "away": "ATS +/- 1.8 \u00b7 Over 55.0% \u00b7 Under 45.0% \u00b7 O/U +/- 1.6",
+            "home": "ATS +/- -1.4 \u00b7 Over 52.5% \u00b7 Under 47.5% \u00b7 O/U +/- 2.9"
+          },
+          "awayScore": 81.0,
+          "homeScore": 89.0
         },
         {
           "away": "Los Angeles Sparks",
@@ -21272,9 +21274,12 @@
           "h2hNote": null,
           "stakeUnits": 1,
           "trends": {
-            "away": "ATS +/- -2.1 \u00b7 Over 56.4% \u00b7 Under 43.6% \u00b7 O/U +/- 2.0",
-            "home": "ATS +/- 0.8 \u00b7 Over 46.2% \u00b7 Under 53.8% \u00b7 O/U +/- 0.6"
-          }
+            "away": "ATS +/- -1.7 \u00b7 Over 55.0% \u00b7 Under 45.0% \u00b7 O/U +/- 1.7",
+            "home": "ATS +/- 0.4 \u00b7 Over 45.0% \u00b7 Under 55.0% \u00b7 O/U +/- 0.4"
+          },
+          "awayScore": 90.0,
+          "homeScore": 74.0,
+          "sResult": "LOSS"
         },
         {
           "away": "Golden State Valkyries",
@@ -21330,28 +21335,28 @@
         {
           "away": "Connecticut Sun",
           "home": "Dallas Wings",
-          "line": -14.5,
+          "line": -15.5,
           "total": 165.5,
           "startTimeUTC": "2026-08-31T00:30:00.000+00:00",
           "_book": "FanDuel",
-          "aS": 73.2,
-          "hS": 94.6,
-          "pT": 167.8,
-          "margin": 6.9,
-          "sDiff": 6.9,
+          "aS": 73.4,
+          "hS": 94.7,
+          "pT": 168.1,
+          "margin": 5.8,
+          "sDiff": 5.8,
           "tDiff": -0.8,
-          "sPick": "Dallas Wings -14.5",
+          "sPick": "Dallas Wings -15.5",
           "sConf": "elite",
           "oPick": "PASS",
           "oConf": "low",
           "injuryNote": null,
-          "pHomeCover": 0.683,
-          "pAwayCover": 0.317,
+          "pHomeCover": 0.655,
+          "pAwayCover": 0.345,
           "pOver": 0.479,
           "pUnder": 0.521,
-          "pCover": 0.683,
+          "pCover": 0.655,
           "pOU": null,
-          "marginVar": 209.9,
+          "marginVar": 210.4,
           "marginStd": 14.5,
           "_features": {
             "dTS": 0.06820400000000004,
@@ -21380,8 +21385,8 @@
           }
         }
       ],
-      "summaryText": "RECORD (graded picks only)\n\nSPREAD (ATS)\n  All:         70-44-0   (61.4%)   [graded 114]\n  Elite:       70-44-0   (61.4%)   [graded 114]\n\nFAV/DOG (Spread)\n  Favorites:   30-23-0   (56.6%)   [graded 53]\n  Underdogs:   40-21-0   (65.6%)   [graded 61]\n\nTOTAL (O/U)\n  All:         0-0-0   (n/a%)   [graded 0]\n  Elite:       0-0-0   (n/a%)   [graded 0]\n\nOVER/UNDER\n  Over:        0-0-0   (n/a%)   [graded 0]\n  Under:       0-0-0   (n/a%)   [graded 0]",
-      "ranAt": "08/30/2026, 01:48:50 PM"
+      "summaryText": "RECORD (graded picks only)\n\nSPREAD (ATS)\n  All:         70-45-0   (60.9%)   [graded 115]\n  Elite:       70-45-0   (60.9%)   [graded 115]\n\nFAV/DOG (Spread)\n  Favorites:   30-23-0   (56.6%)   [graded 53]\n  Underdogs:   40-22-0   (64.5%)   [graded 62]\n\nTOTAL (O/U)\n  All:         0-0-0   (n/a%)   [graded 0]\n  Elite:       0-0-0   (n/a%)   [graded 0]\n\nOVER/UNDER\n  Over:        0-0-0   (n/a%)   [graded 0]\n  Under:       0-0-0   (n/a%)   [graded 0]",
+      "ranAt": "08/30/2026, 06:56:48 PM"
     }
   ],
   "weights": {
@@ -21405,7 +21410,7 @@
     "h2hWeight": 0.0,
     "probElite": 0.63
   },
-  "residualVar": 154.6,
+  "residualVar": 155.0,
   "weightsVar": {
     "wTS": 3.825,
     "wTO": 3.9064,
