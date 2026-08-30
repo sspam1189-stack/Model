@@ -1,7 +1,7 @@
 {
   "sport": "MLB",
   "type": "fade-ml",
-  "generated": "2026-08-29T21:02:47Z",
+  "generated": "2026-08-29T23:02:28Z",
   "fadeList": [
     "Painter",
     "Rocker",
@@ -85,21 +85,21 @@
   "mutualRule": "skip",
   "summary": {
     "wins": 517,
-    "losses": 191,
+    "losses": 192,
     "voids": 0,
     "skips": 47,
-    "staked": 884.95,
-    "units": 338.59,
-    "roi": 0.3826,
+    "staked": 885.97,
+    "units": 337.57,
+    "roi": 0.381,
     "byType": {
       "ml": {
         "wins": 505,
-        "losses": 179,
+        "losses": 180,
         "voids": 0,
         "skips": 3,
-        "staked": 860.95,
-        "units": 334.11,
-        "roi": 0.3881
+        "staked": 861.97,
+        "units": 333.09,
+        "roi": 0.3864
       },
       "ml_dog": {
         "wins": 12,
@@ -115,27 +115,27 @@
   "today": [
     {
       "date": "2026-08-29",
-      "commence": "2026-08-29T20:05:00Z",
+      "commence": "2026-08-29T23:15:00Z",
       "betType": "ml",
       "shadow": false,
       "pitchers": [
-        "Merrill Kelly"
+        "Shane Drohan"
       ],
-      "fadeTeam": "ARI",
+      "fadeTeam": "MIL",
       "market": "h2h",
-      "selection": "SF",
+      "selection": "TEX",
       "line": null,
-      "odds": -102,
-      "stake": 1.02,
+      "odds": 150,
+      "stake": 1.0,
       "result": "pending",
       "profit": 0.0,
       "book": "fanduel",
       "source": "fanduel_api",
       "reason": null,
-      "home": "SF",
-      "away": "ARI",
-      "gamePk": 823177,
-      "fadeReason": "away"
+      "home": "MIL",
+      "away": "TEX",
+      "gamePk": 823741,
+      "fadeReason": "home"
     },
     {
       "date": "2026-08-29",
@@ -161,30 +161,6 @@
       "away": "BAL",
       "gamePk": 824961,
       "fadeReason": "away/all"
-    },
-    {
-      "date": "2026-08-29",
-      "commence": "2026-08-29T23:15:00Z",
-      "betType": "ml",
-      "shadow": false,
-      "pitchers": [
-        "Shane Drohan"
-      ],
-      "fadeTeam": "MIL",
-      "market": "h2h",
-      "selection": "TEX",
-      "line": null,
-      "odds": 148,
-      "stake": 1.0,
-      "result": "pending",
-      "profit": 0.0,
-      "book": "fanduel",
-      "source": "fanduel_api",
-      "reason": null,
-      "home": "MIL",
-      "away": "TEX",
-      "gamePk": 823741,
-      "fadeReason": "home"
     },
     {
       "date": "2026-08-29",
@@ -18399,6 +18375,30 @@
       "away": "BAL",
       "gamePk": 824960,
       "fadeReason": "home"
+    },
+    {
+      "date": "2026-08-29",
+      "commence": "2026-08-29T20:05:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Merrill Kelly"
+      ],
+      "fadeTeam": "ARI",
+      "market": "h2h",
+      "selection": "SF",
+      "line": null,
+      "odds": -102,
+      "stake": 1.02,
+      "result": "LOSS",
+      "profit": -1.02,
+      "book": "fanduel",
+      "source": "fanduel_api",
+      "reason": null,
+      "home": "SF",
+      "away": "ARI",
+      "gamePk": 823177,
+      "fadeReason": "away"
     }
   ]
 }
