@@ -1,7 +1,7 @@
 {
   "sport": "MLB",
   "type": "hand-tails",
-  "generated": "2026-08-30T18:34:21Z",
+  "generated": "2026-08-30T21:03:57Z",
   "handMin": 6,
   "roster": {
     "Brady Singer": {
@@ -80,6 +80,13 @@
   "note": "Bet list is manually curated (hand-tails-manual.json). `promotions` = arms that cleared the walk-forward bar but are not on the manual list (notify); `demotions` = manual arms slipped under the bar. Own ledger; not part of the fade-list ledger.",
   "promotions": [
     {
+      "name": "Andrew Alvarez",
+      "hand": "L",
+      "games": 11,
+      "units": 5.14,
+      "since": "2026-08-30"
+    },
+    {
       "name": "Andrew Painter",
       "hand": "R",
       "games": 6,
@@ -113,6 +120,13 @@
       "games": 5,
       "units": 5.0,
       "since": "2026-08-29"
+    },
+    {
+      "name": "Seth Lugo",
+      "hand": "R",
+      "games": 11,
+      "units": 4.0,
+      "since": "2026-08-30"
     }
   ],
   "demotions": [],

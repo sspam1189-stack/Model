@@ -1,7 +1,7 @@
 {
   "sport": "MLB",
   "type": "fade-ml",
-  "generated": "2026-08-30T18:32:26Z",
+  "generated": "2026-08-30T21:01:59Z",
   "fadeList": [
     "Painter",
     "Rocker",
@@ -85,21 +85,21 @@
   "mutualRule": "skip",
   "summary": {
     "wins": 517,
-    "losses": 193,
+    "losses": 194,
     "voids": 0,
     "skips": 48,
-    "staked": 886.97,
-    "units": 336.57,
-    "roi": 0.3795,
+    "staked": 888.29,
+    "units": 335.25,
+    "roi": 0.3774,
     "byType": {
       "ml": {
         "wins": 505,
-        "losses": 181,
+        "losses": 182,
         "voids": 0,
         "skips": 3,
-        "staked": 862.97,
-        "units": 332.09,
-        "roi": 0.3848
+        "staked": 864.29,
+        "units": 330.77,
+        "roi": 0.3827
       },
       "ml_dog": {
         "wins": 12,
@@ -136,30 +136,6 @@
       "away": "LAD",
       "gamePk": 824232,
       "fadeReason": "all"
-    },
-    {
-      "date": "2026-08-30",
-      "commence": "2026-08-30T17:37:00Z",
-      "betType": "ml",
-      "shadow": false,
-      "pitchers": [
-        "Max Scherzer"
-      ],
-      "fadeTeam": "TOR",
-      "market": "h2h",
-      "selection": "SEA",
-      "line": null,
-      "odds": -132,
-      "stake": 1.32,
-      "result": "pending",
-      "profit": 0.0,
-      "book": "fanduel",
-      "source": "fanduel_api",
-      "reason": null,
-      "home": "TOR",
-      "away": "SEA",
-      "gamePk": 822766,
-      "fadeReason": "home"
     },
     {
       "date": "2026-08-30",
@@ -18471,6 +18447,30 @@
       "away": "BAL",
       "gamePk": 824961,
       "fadeReason": "away/all"
+    },
+    {
+      "date": "2026-08-30",
+      "commence": "2026-08-30T17:37:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Max Scherzer"
+      ],
+      "fadeTeam": "TOR",
+      "market": "h2h",
+      "selection": "SEA",
+      "line": null,
+      "odds": -132,
+      "stake": 1.32,
+      "result": "LOSS",
+      "profit": -1.32,
+      "book": "fanduel",
+      "source": "fanduel_api",
+      "reason": null,
+      "home": "TOR",
+      "away": "SEA",
+      "gamePk": 822766,
+      "fadeReason": "home"
     }
   ]
 }
