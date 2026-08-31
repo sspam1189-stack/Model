@@ -46,7 +46,11 @@ def _save(blob):
 
 # Rules pulled from the card whose history no longer counts toward the week
 # record (user, 2026-08-31). Entries stay in the ledger and report on their
-# own line so money actually risked on them stays visible.
+# own line so money actually risked on them stays visible. The hold-out
+# applies only from RETIRED_FROM (the week the mismatch ML was carded and
+# pulled) -- earlier weeks keep their graded record as bet at the time; the
+# 8/17 week's 15-7-1 stands.
+RETIRED_FROM = "2026-08-24"
 RETIRED_RULES = {
     "shadow-mismatch-ml",              # carded 8/29 without a shadow period, pulled 8/30 at 1-3
     "scout-ml-both-halves-aligned",    # pre-card experiment
@@ -155,10 +159,12 @@ def cmd_report(args, blob):
         # units shown, so real money lost on them is visible, just not mixed
         # into the record of the system that is actually running.
         retired = [e for e in logged
-                   if e.get("rule") in RETIRED_RULES and not e.get("no_play")]
+                   if e.get("rule") in RETIRED_RULES and not e.get("no_play")
+                   and e["date"] >= RETIRED_FROM]
         logged = [e for e in logged
                   if not e.get("shadow") and not e.get("backfilled")
-                  and e.get("rule") not in RETIRED_RULES]
+                  and not (e.get("rule") in RETIRED_RULES
+                           and e["date"] >= RETIRED_FROM)]
         plays = [e for e in logged if not e.get("no_play")]
         # not_bet: the rule fired and still grades, but the wager was never
         # placed (missed first pitch, price gone, sizing call). Kept in the
