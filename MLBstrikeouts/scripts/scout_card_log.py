@@ -44,6 +44,17 @@ def _save(blob):
         json.dump(blob, fh, indent=2)
 
 
+# Rules pulled from the card whose history no longer counts toward the week
+# record (user, 2026-08-31). Entries stay in the ledger and report on their
+# own line so money actually risked on them stays visible.
+RETIRED_RULES = {
+    "shadow-mismatch-ml",              # carded 8/29 without a shadow period, pulled 8/30 at 1-3
+    "scout-ml-both-halves-aligned",    # pre-card experiment
+    "card-grade-total-both-aligned",   # pre-card experiment
+    "card-grade-total-aligned-plus-flag",
+}
+
+
 def week_start(date_iso):
     """Monday of the week containing this date (Monday-Sunday convention)."""
     d = datetime.date.fromisoformat(date_iso)
@@ -137,8 +148,17 @@ def cmd_report(args, blob):
         # so counting their profit would report money that was never risked.
         shadow = [e for e in logged if e.get("shadow") and not e.get("no_play")]
         back = [e for e in logged if e.get("backfilled")]
+        # Retired rules (2026-08-31, user): the mismatch ML and the pre-card
+        # experiments no longer count toward the week record -- the going
+        # concern is the flagged unders (+ whatever graduates from shadow).
+        # Their entries stay in the ledger and get their own line below, with
+        # units shown, so real money lost on them is visible, just not mixed
+        # into the record of the system that is actually running.
+        retired = [e for e in logged
+                   if e.get("rule") in RETIRED_RULES and not e.get("no_play")]
         logged = [e for e in logged
-                  if not e.get("shadow") and not e.get("backfilled")]
+                  if not e.get("shadow") and not e.get("backfilled")
+                  and e.get("rule") not in RETIRED_RULES]
         plays = [e for e in logged if not e.get("no_play")]
         # not_bet: the rule fired and still grades, but the wager was never
         # placed (missed first pitch, price gone, sizing call). Kept in the
@@ -179,6 +199,13 @@ def cmd_report(args, blob):
             bu = sum(e.get("profit") or 0 for e in back)
             print(f"{'':16}backfilled (never wagered): {bw}-{bl} {bu:+.2f}u"
                   f"  ROI {bu/max(1, bw+bl):+.1%}")
+        if retired:
+            rw = sum(1 for e in retired if e.get("result") == "WIN")
+            rl = sum(1 for e in retired if e.get("result") == "LOSS")
+            ru = sum(e.get("profit") or 0 for e in retired
+                     if not e.get("not_bet"))
+            print(f"{'':16}retired rules (excluded from record): {rw}-{rl} "
+                  f"{ru:+.2f}u risked")
         if shadow:
             sw = sum(1 for e in shadow if e.get("result") == "WIN")
             sl = sum(1 for e in shadow if e.get("result") == "LOSS")
