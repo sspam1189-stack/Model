@@ -160,6 +160,15 @@ async function renderMLBSlateScout() {
       underPlays.push({ s, kind: 'dead', side: 'O', rule: 'NO PLAY · form O',
         why: 'm_sum +' + msum.toFixed(1) + ' · over side measured -0.6% ROI, not bet' });
     }
+    // scout-ml-both-halves-aligned at its own 75-PA floor (everything else
+    // stays at 150). Emitted by the builder; shadow until 25 graded plays.
+    if (s.aligned_ml) {
+      const am = s.aligned_ml;
+      underPlays.push({ s, kind: 'shadow', side: 'ML', ml: am,
+        rule: 'SHADOW · aligned ML',
+        why: 'away ' + (am.away_offense || []).join('/') + ' vs home '
+          + (am.home_offense || []).join('/') + ' @75pa' });
+    }
   }
   const playsCard = document.createElement('div');
   playsCard.className = 'card card-games';
@@ -181,14 +190,17 @@ async function renderMLBSlateScout() {
         : p.kind === 'shadow'
           ? 'background:rgba(139,148,158,.14);color:' + DIM
           : 'background:rgba(248,81,73,.12);color:#8b949e';
-      const price = p.side === 'U' ? p.s.under_ml : p.s.over_ml;
+      const playCell = p.side === 'ML'
+        ? esc(p.ml.pick) + ' ML <span style="color:' + DIM + ';font-weight:400">'
+          + mlStr(p.ml.ml) + '</span>'
+        : p.side + (p.s.total == null ? '?' : p.s.total)
+          + ' <span style="color:' + DIM + ';font-weight:400">'
+          + mlStr(p.side === 'U' ? p.s.under_ml : p.s.over_ml) + '</span>';
       phtml += '<tr style="border-top:1px solid #161b22'
         + (p.kind === 'dead' ? ';opacity:.55' : '') + '">'
         + '<td style="padding:3px 6px;color:' + DIM + '">' + ctTime(p.s.commence) + '</td>'
         + '<td style="padding:3px 6px">' + esc(p.s.matchup) + '</td>'
-        + '<td style="padding:3px 6px;font-weight:600;white-space:nowrap">' + p.side
-        + (p.s.total == null ? '?' : p.s.total) + ' <span style="color:' + DIM
-        + ';font-weight:400">' + mlStr(price) + '</span></td>'
+        + '<td style="padding:3px 6px;font-weight:600;white-space:nowrap">' + playCell + '</td>'
         + '<td><span style="display:inline-block;padding:1px 6px;border-radius:3px;'
         + 'font-weight:600;white-space:nowrap;' + chip + '">' + p.rule + '</span></td>'
         + '<td style="color:' + DIM + ';font-size:11px">' + p.why + '</td>'

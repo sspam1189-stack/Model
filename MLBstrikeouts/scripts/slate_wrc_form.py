@@ -121,6 +121,16 @@ SECONDARY_WINDOW = "deadline"
 # ladder is CONTEXT now (see MLBstrikeouts/CLAUDE.md), never a play trigger.
 MIN_WINDOW_PA = 150
 
+# scout-ml-both-halves-aligned only (user, 2026-08-31): the tier-4 aligned-ML
+# rule is evaluated at its own 75-PA floor -- the floor the rule lived under
+# when it went 3-1 (8/21-8/24) before the 8/26 raise to 150 stopped it from
+# ever qualifying (most L7 cells run ~125 PA and render null at 150).
+# STRICTLY scoped: every displayed cell and every other rule stays on
+# MIN_WINDOW_PA. Emitted as `aligned_ml` on the game entry and logged as
+# SHADOW -- n=4 lifetime and the ladder measured inert for runs, so it bets
+# nothing until it clears the 25-play gate.
+ALIGNED_ML_MIN_PA = 75
+
 # Rolling offense windows carried on every side of the payload (2026-08-18,
 # user): one window alone reverses reads — DET and WSH both flipped between
 # L30 and L15 in a single week — so the tab shows the ladder and the reader
@@ -654,8 +664,14 @@ def build_report(slate_date, slate_file=None, role=PITCHER_ROLE,
                 recent_cell = dict(recent_cell, wrcplus=None)
             # The rolling ladder, thin cells value-suppressed the same way.
             wrc_windows = {}
+            aligned75 = []
             for win in OFFENSE_WINDOWS:
                 cell = wrc_cell(wrc, win, offense, hand, role=role)
+                # The aligned-ML rule's own 75-PA floor (see ALIGNED_ML_MIN_PA);
+                # captured before the display suppression below.
+                aligned75.append(cell["wrcplus"] if cell
+                                 and (cell["pa"] or 0) >= ALIGNED_ML_MIN_PA
+                                 else None)
                 if cell and (cell["pa"] or 0) < MIN_WINDOW_PA:
                     cell = dict(cell, wrcplus=None)
                 wrc_windows[win] = cell
@@ -679,6 +695,7 @@ def build_report(slate_date, slate_file=None, role=PITCHER_ROLE,
                 "pen": pens.get(game[side]),
                 "flags": flags,
                 "mismatch": mismatch(form, opp_wrc),
+                "aligned75": aligned75,
             }
         # Full-game offensive expectation for each club. The away starter is
         # scouted against the home offense, so sides["away"] carries the home
@@ -694,6 +711,33 @@ def build_report(slate_date, slate_file=None, role=PITCHER_ROLE,
         else:
             entry["game_offense"] = None
             entry["offense_edge"] = None
+        # scout-ml-both-halves-aligned (tier 4), at its own 75-PA floor: one
+        # offense hot-aligned (all four windows >= 110) while the other is
+        # cold-aligned (all <= 90) -> back the hot side's team ML. Sides carry
+        # the OPPOSING offense's ladder, so the away offense lives on the home
+        # side and vice versa. SHADOW only until 25 graded plays.
+        def _cls75(lad):
+            if any(v is None for v in lad):
+                return None
+            if all(v <= 90 for v in lad):
+                return "cold"
+            if all(v >= 110 for v in lad):
+                return "hot"
+            return "mid"
+        away_off_lad = entry["sides"]["home"]["aligned75"]
+        home_off_lad = entry["sides"]["away"]["aligned75"]
+        a_cls, h_cls = _cls75(away_off_lad), _cls75(home_off_lad)
+        if {a_cls, h_cls} == {"hot", "cold"}:
+            pick_side = "away" if a_cls == "hot" else "home"
+            entry["aligned_ml"] = {
+                "pick": game[pick_side],
+                "ml": game.get(f"{pick_side}_ml"),
+                "away_offense": away_off_lad,
+                "home_offense": home_off_lad,
+                "min_pa": ALIGNED_ML_MIN_PA,
+            }
+        else:
+            entry["aligned_ml"] = None
         rows.append(entry)
 
     rows.sort(key=lambda r: r["commence"] or "")
