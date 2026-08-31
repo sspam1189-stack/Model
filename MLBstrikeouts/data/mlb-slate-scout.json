@@ -25,8 +25,8 @@
       "away": "SF",
       "home": "ATL",
       "commence": "2026-08-31T22:05:00Z",
-      "away_ml": 176,
-      "home_ml": -190,
+      "away_ml": 182,
+      "home_ml": -198,
       "total": 9,
       "over_ml": -105,
       "under_ml": -115,
@@ -333,8 +333,8 @@
       "away_ml": -138,
       "home_ml": 128,
       "total": 9,
-      "over_ml": -108,
-      "under_ml": -112,
+      "over_ml": -105,
+      "under_ml": -115,
       "sides": {
         "away": {
           "pitcher": "Michael King",
@@ -697,11 +697,11 @@
       "away": "NYM",
       "home": "TB",
       "commence": "2026-08-31T22:40:00Z",
-      "away_ml": 156,
-      "home_ml": -168,
+      "away_ml": 158,
+      "home_ml": -172,
       "total": 8,
-      "over_ml": -110,
-      "under_ml": -110,
+      "over_ml": -115,
+      "under_ml": -105,
       "sides": {
         "away": {
           "pitcher": "Robert Stock",
@@ -1449,8 +1449,8 @@
       "away": "MIA",
       "home": "WSH",
       "commence": "2026-08-31T22:45:00Z",
-      "away_ml": -108,
-      "home_ml": 100,
+      "away_ml": -106,
+      "home_ml": -102,
       "total": 8.5,
       "over_ml": -115,
       "under_ml": -105,
@@ -1754,11 +1754,11 @@
       "away": "DET",
       "home": "MIN",
       "commence": "2026-08-31T23:40:00Z",
-      "away_ml": 106,
-      "home_ml": -116,
-      "total": 8.5,
-      "over_ml": -122,
-      "under_ml": 100,
+      "away_ml": 110,
+      "home_ml": -118,
+      "total": 9,
+      "over_ml": -105,
+      "under_ml": -115,
       "sides": {
         "away": {
           "pitcher": "Jackson Jobe",
@@ -2126,8 +2126,8 @@
       "away_ml": 100,
       "home_ml": -108,
       "total": 9.5,
-      "over_ml": -110,
-      "under_ml": -110,
+      "over_ml": -112,
+      "under_ml": -108,
       "sides": {
         "away": {
           "pitcher": "Kyle Harrison",
@@ -2497,8 +2497,8 @@
       "away_ml": 186,
       "home_ml": -205,
       "total": 7.5,
-      "over_ml": 100,
-      "under_ml": -122,
+      "over_ml": -104,
+      "under_ml": -118,
       "sides": {
         "away": {
           "pitcher": "Gage Jump",
@@ -2863,9 +2863,9 @@
       "commence": "2026-09-01T00:10:00Z",
       "away_ml": 120,
       "home_ml": -128,
-      "total": 8.5,
-      "over_ml": -106,
-      "under_ml": -114,
+      "total": 9,
+      "over_ml": -104,
+      "under_ml": -118,
       "sides": {
         "away": {
           "pitcher": "Anthony Kay",
@@ -3231,8 +3231,8 @@
       "away_ml": -126,
       "home_ml": 116,
       "total": 11,
-      "over_ml": 100,
-      "under_ml": -122,
+      "over_ml": -105,
+      "under_ml": -115,
       "sides": {
         "away": {
           "pitcher": null,
@@ -3536,7 +3536,7 @@
       "away": "NYY",
       "home": "LAA",
       "commence": "2026-09-01T01:38:00Z",
-      "away_ml": -118,
+      "away_ml": -120,
       "home_ml": 110,
       "total": 8,
       "over_ml": -115,
@@ -3905,8 +3905,8 @@
       "away": "PHI",
       "home": "ARI",
       "commence": "2026-09-01T01:40:00Z",
-      "away_ml": -112,
-      "home_ml": 102,
+      "away_ml": -114,
+      "home_ml": 106,
       "total": 8.5,
       "over_ml": -105,
       "under_ml": -115,
@@ -4087,31 +4087,111 @@
           "mismatch": -21.3
         },
         "home": {
-          "pitcher": null,
-          "listed_as": null,
-          "resolved": false,
-          "hand": null,
+          "pitcher": "Brandon Pfaadt",
+          "listed_as": "Brandon Pfaadt",
+          "resolved": true,
+          "hand": "R",
           "team": "ARI",
           "opponent_offense": "PHI",
-          "opp_wrc_vs_hand": null,
-          "opp_wrc_game": null,
-          "opp_wrc_recent": null,
-          "opp_wrc_recent_pa": null,
+          "opp_wrc_vs_hand": 113,
+          "opp_wrc_game": 113,
+          "opp_wrc_recent": 115,
+          "opp_wrc_recent_pa": 727,
           "opp_wrc_windows": {
-            "last30": null,
-            "last20": null,
-            "last15": null,
-            "last7": null
+            "last30": {
+              "wrcplus": 116,
+              "pa": 792,
+              "role": "all"
+            },
+            "last20": {
+              "wrcplus": 113,
+              "pa": 454,
+              "role": "all"
+            },
+            "last15": {
+              "wrcplus": 115,
+              "pa": 345,
+              "role": "all"
+            },
+            "last7": {
+              "wrcplus": null,
+              "pa": 149,
+              "role": "all"
+            }
           },
           "opp_platoon_gap": 9,
           "form": {
-            "season": null,
-            "recent": null,
-            "hot": null,
-            "recent_all": null,
+            "season": {
+              "gs": 14,
+              "ip": 83.7,
+              "ip_per_gs": 5.98,
+              "era": 2.9,
+              "whip": 1.03,
+              "k_pct": 15.6,
+              "bb_pct": 4.5,
+              "k_bb_pct": 11.1,
+              "hr9": 0.86,
+              "k": 52,
+              "bb": 15,
+              "hr": 8,
+              "er": 27
+            },
+            "recent": {
+              "gs": 5,
+              "ip": 33.0,
+              "ip_per_gs": 6.6,
+              "era": 2.45,
+              "whip": 0.82,
+              "k_pct": 18.7,
+              "bb_pct": 4.1,
+              "k_bb_pct": 14.6,
+              "hr9": 1.09,
+              "k": 23,
+              "bb": 5,
+              "hr": 4,
+              "er": 9
+            },
+            "hot": {
+              "gs": 3,
+              "ip": 19.3,
+              "ip_per_gs": 6.44,
+              "era": 4.19,
+              "whip": 0.88,
+              "k_pct": 24.0,
+              "bb_pct": 2.7,
+              "k_bb_pct": 21.3,
+              "hr9": 1.86,
+              "k": 18,
+              "bb": 2,
+              "hr": 4,
+              "er": 9
+            },
+            "recent_all": {
+              "g": 5,
+              "ip": 33.0,
+              "ip_per_g": 6.6,
+              "era": 2.45,
+              "whip": 0.82,
+              "k_pct": 18.7,
+              "bb_pct": 4.1,
+              "k_bb_pct": 14.6,
+              "hr9": 1.09,
+              "k": 23,
+              "bb": 5,
+              "hr": 4,
+              "er": 9,
+              "gs": 5
+            },
             "relief": null
           },
-          "trend": {},
+          "trend": {
+            "era": -0.45,
+            "whip": -0.21,
+            "k_pct": 3.1,
+            "bb_pct": -0.4,
+            "ip_per_gs": 0.62,
+            "hr9": 0.23
+          },
           "pen": {
             "last30": {
               "g": 89,
@@ -4178,16 +4258,14 @@
               "rank": 20
             }
           },
-          "flags": [
-            "thin-sample"
-          ],
-          "mismatch": null
+          "flags": [],
+          "mismatch": -2.1
         }
       },
       "home_offense_game": 107,
-      "away_offense_game": null,
-      "game_offense": null,
-      "offense_edge": null
+      "away_offense_game": 113,
+      "game_offense": 110,
+      "offense_edge": 6
     }
   ],
   "ranked_mismatch": [
@@ -4343,6 +4421,16 @@
       "flags": []
     },
     {
+      "pitcher": "Brandon Pfaadt",
+      "hand": "R",
+      "team": "ARI",
+      "opponent_offense": "PHI",
+      "opp_wrc_vs_hand": 113,
+      "opp_wrc_recent": 115,
+      "mismatch": -2.1,
+      "flags": []
+    },
+    {
       "pitcher": "Taj Bradley",
       "hand": "R",
       "team": "MIN",
@@ -4405,7 +4493,7 @@
       "flags": []
     }
   ],
-  "generated": "2026-08-31T16:05:31Z",
+  "generated": "2026-08-31T18:03:04Z",
   "sport": "MLB",
   "type": "slate-scout",
   "advisory": true,
