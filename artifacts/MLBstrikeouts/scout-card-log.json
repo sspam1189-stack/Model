@@ -3,7 +3,7 @@
   "type": "scout-card-log",
   "week_convention": "monday-sunday",
   "description": "Per-play ledger for scout card calls (tier 2/3 of the daily card policy in MLBstrikeouts/CLAUDE.md). Model plays are NOT logged here - fade-ml/props/hand-tails keep their own files. No-play days are logged too: an empty card is part of the record. Prices are the card-time quote, not the close.",
-  "generated": "2026-08-30T22:08:33Z",
+  "generated": "2026-08-31T18:02:13Z",
   "pre_log_history": [
     {
       "date": "2026-08-17",
@@ -1669,8 +1669,8 @@
       "stake": 1.0,
       "rule": "scout-flagged-starter-under",
       "basis": "Kikuchi stale-window-132d -- his L5-start line describes a pitcher from 4+ months ago. K-model also has him UNDER 5.5 Ks at pCover .729, same read from the other side.",
-      "result": "pending",
-      "profit": 0.0,
+      "result": "WIN",
+      "profit": 0.94,
       "line": 7.5
     },
     {
@@ -1682,8 +1682,8 @@
       "stake": 1.0,
       "rule": "scout-flagged-starter-under",
       "basis": "Glasnow stale-window-130d. Same game as the LAD fade-ML and the LAD mismatch tail -- three signals, one game.",
-      "result": "pending",
-      "profit": 0.0,
+      "result": "WIN",
+      "profit": 0.82,
       "line": 7.5
     },
     {
@@ -1695,8 +1695,8 @@
       "stake": 1.0,
       "rule": "scout-flagged-starter-under",
       "basis": "Hicks TRIPLE flag: opener + layoff-29d + swingman-8g, 2.5 IP/GS profile. Plus money.",
-      "result": "pending",
-      "profit": 0.0,
+      "result": "WIN",
+      "profit": 1.0,
       "line": 8.5
     },
     {
@@ -1708,8 +1708,8 @@
       "stake": 1.0,
       "rule": "scout-flagged-starter-under",
       "basis": "Bassitt stale-window-89d. Highest total on the board at 10.",
-      "result": "pending",
-      "profit": 0.0,
+      "result": "LOSS",
+      "profit": -1.0,
       "line": 10.0
     },
     {
@@ -1721,8 +1721,8 @@
       "stake": 1.0,
       "rule": "shadow-mismatch-ml",
       "basis": "L20 mismatch +66.0 (offense outclasses the arm -- fade him). Ethan Pecko L5 ERA 7.88, opponent wRC+ vs his hand 114. Carded 2026-08-29 on a permutation test (p=0.022) and five positive months; expectation is August's +9.4%, not the +17.2% season figure (see scripts/mismatch_shadow.py header).",
-      "result": "pending",
-      "profit": 0.0,
+      "result": "LOSS",
+      "profit": -1.0,
       "not_bet": true,
       "not_bet_reason": "rule retired 2026-08-30 before first pitch"
     },
@@ -1735,8 +1735,8 @@
       "stake": 1.0,
       "rule": "shadow-mismatch-ml",
       "basis": "L20 mismatch -49.1 (arm outclasses the offense -- tail him). Jordan Hicks L5 ERA 0.0, opponent wRC+ vs his hand 108. Carded 2026-08-29 on a permutation test (p=0.022) and five positive months; expectation is August's +9.4%, not the +17.2% season figure (see scripts/mismatch_shadow.py header).",
-      "result": "pending",
-      "profit": 0.0,
+      "result": "LOSS",
+      "profit": -1.0,
       "not_bet": true,
       "not_bet_reason": "rule retired 2026-08-30 before first pitch"
     },
@@ -1749,10 +1749,73 @@
       "stake": 1.0,
       "rule": "shadow-mismatch-ml",
       "basis": "L20 mismatch -47.9 (arm outclasses the offense -- tail him). Tyler Glasnow L5 ERA 2.36, opponent wRC+ vs his hand 81. Carded 2026-08-29 on a permutation test (p=0.022) and five positive months; expectation is August's +9.4%, not the +17.2% season figure (see scripts/mismatch_shadow.py header).",
-      "result": "pending",
-      "profit": 0.0,
+      "result": "WIN",
+      "profit": 0.67,
       "not_bet": true,
       "not_bet_reason": "rule retired 2026-08-30 before first pitch"
+    },
+    {
+      "date": "2026-08-31",
+      "play": "SEA @ BOS UNDER 8 (form-under, m_sum -45.6)",
+      "market": "totals",
+      "game": "SEA @ BOS",
+      "price": -122,
+      "line": 8.0,
+      "stake": 1.0,
+      "rule": "shadow-form-under",
+      "shadow": true,
+      "flagged_overlap": false,
+      "basis": "Shadow only, never bet: sum of both sides' mismatch <= -40 (Tolle -66.3 + Kirby +20.7 = -45.6). Full-season as-of backtest 84-52 +17.2% ROI (n=136, perm p=0.005, bands coherent -40/-60/-80, walk-forward +27.5%/+8.9%) BUT August ran 20-20 -5.7% and 13 of its 29 live-window qualifiers were games the flagged-under rule already cards (unflagged remainder 8-8 -0.89u). Shadows until the UNFLAGGED slice proves out over 15-20 plays. flagged_overlap marks whether the game also carries a defect flag -- this one does not (clean incremental test).",
+      "result": "pending",
+      "profit": 0.0
+    },
+    {
+      "date": "2026-08-31",
+      "play": "NYM/TB Under 8",
+      "market": "totals",
+      "game": "NYM @ TB",
+      "price": -110,
+      "stake": 1.0,
+      "rule": "scout-flagged-starter-under",
+      "basis": "Ian Seymour swingman-3g: last-5-start line skips his relief work",
+      "result": "pending",
+      "profit": 0.0
+    },
+    {
+      "date": "2026-08-31",
+      "play": "MIL/CHC Under 9.5",
+      "market": "totals",
+      "game": "MIL @ CHC",
+      "price": -115,
+      "stake": 1.0,
+      "rule": "scout-flagged-starter-under",
+      "basis": "Both starters stale-window: Harrison 48d, Holmes 102d -- both recent-form lines describe a different month",
+      "result": "pending",
+      "profit": 0.0
+    },
+    {
+      "date": "2026-08-31",
+      "play": "BAL/COL Under 11",
+      "market": "totals",
+      "game": "BAL @ COL",
+      "price": -118,
+      "stake": 1.0,
+      "rule": "scout-flagged-starter-under",
+      "basis": "Tanner Gordon stale-window-57d + swingman-5g (Coors 11)",
+      "result": "pending",
+      "profit": 0.0
+    },
+    {
+      "date": "2026-08-31",
+      "play": "NYY/LAA Under 8.5",
+      "market": "totals",
+      "game": "NYY @ LAA",
+      "price": -115,
+      "stake": 1.0,
+      "rule": "scout-flagged-starter-under",
+      "basis": "Elmer Rodriguez stale-window-119d",
+      "result": "pending",
+      "profit": 0.0
     }
   ]
 }
