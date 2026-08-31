@@ -6,80 +6,77 @@
       "innov_ewma": -7.725608405690426
     },
     "Connecticut Sun": {
-      "adj_mean": -1.3693208482116446,
-      "adj_var": 24.648918070431538,
-      "innov_ewma": 0.1713147191676745
+      "adj_mean": -1.333258691787613,
+      "adj_var": 22.829507879835663,
+      "innov_ewma": 0.2616933451998479
     },
     "Dallas Wings": {
-      "adj_mean": 3.7602185167622446,
+      "adj_mean": 3.685682288825632,
       "adj_var": 30,
-      "innov_ewma": 9.982136380362181
+      "innov_ewma": 6.338049869494558
     },
     "Indiana Fever": {
       "adj_mean": 1.096945321926258,
-      "adj_var": 29.234830989976334,
+      "adj_var": 29.484830989976334,
       "innov_ewma": 0.20424983473533054
     },
     "Las Vegas Aces": {
       "adj_mean": 1.654087976379458,
-      "adj_var": 23.24552521129847,
+      "adj_var": 23.49552521129847,
       "innov_ewma": 4.657974403478643
     },
     "Los Angeles Sparks": {
-      "adj_mean": 1.0084387520191003,
-      "adj_var": 28.662141860793255,
-      "innov_ewma": 7.836900440053011
+      "adj_mean": 3.7414635227537705,
+      "adj_var": 30,
+      "innov_ewma": 11.545353484676937
     },
     "Minnesota Lynx": {
-      "adj_mean": -2.077108244382909,
+      "adj_mean": -2.940142320181626,
       "adj_var": 30,
-      "innov_ewma": -5.018418013400407
+      "innov_ewma": -5.893048304824058
     },
     "New York Liberty": {
       "adj_mean": -3.183454843978719,
-      "adj_var": 27.6416924590931,
+      "adj_var": 27.8916924590931,
       "innov_ewma": -4.704271097388515
     },
     "Phoenix Mercury": {
       "adj_mean": 1.9668050924486156,
-      "adj_var": 23.166047796041603,
+      "adj_var": 23.416047796041603,
       "innov_ewma": 8.435260337681317
     },
     "Portland Fire": {
-      "adj_mean": 2.5395628297871857,
-      "adj_var": 26.13338991902232,
-      "innov_ewma": 9.110761392392318
+      "adj_mean": 1.3910879408855097,
+      "adj_var": 30,
+      "innov_ewma": 3.123100901936851
     },
     "Seattle Storm": {
-      "adj_mean": 0.34091931956903787,
-      "adj_var": 30,
-      "innov_ewma": -1.2232694836244384
+      "adj_mean": -1.5582083977876486,
+      "adj_var": 27.159052402800196,
+      "innov_ewma": -7.246493362998366
     },
     "Toronto Tempo": {
       "adj_mean": -4.801198137370612,
-      "adj_var": 25.488686002680485,
+      "adj_var": 25.738686002680485,
       "innov_ewma": -10.443188177989313
     },
     "Golden State Valkyries": {
-      "adj_mean": 3.5427228208781694,
+      "adj_mean": 4.760508153904035,
       "adj_var": 30,
-      "innov_ewma": 8.716392310282234
+      "innov_ewma": 8.464549004801608
     },
     "Atlanta Dream": {
-      "adj_mean": -3.1944699475651728,
-      "adj_var": 29.3499009317915,
-      "innov_ewma": -15.365260571988667
+      "adj_mean": -1.7582841287054134,
+      "adj_var": 30,
+      "innov_ewma": -7.356342775678839
     },
     "Washington Mystics": {
       "adj_mean": 0.07843114506589499,
-      "adj_var": 20.005876571935104,
+      "adj_var": 20.255876571935104,
       "innov_ewma": -4.64880688350809
     }
   },
   "processedGames": {
-    "20260731:Seattle Storm@Atlanta Dream": true,
-    "20260731:Dallas Wings@Washington Mystics": true,
-    "20260731:Indiana Fever@Portland Fire": true,
     "20260801:Las Vegas Aces@Chicago Sky": true,
     "20260801:New York Liberty@Phoenix Mercury": true,
     "20260802:Indiana Fever@Minnesota Lynx": true,
@@ -159,9 +156,13 @@
     "20260828:Connecticut Sun@Indiana Fever": true,
     "20260828:Toronto Tempo@Las Vegas Aces": true,
     "20260828:Washington Mystics@Los Angeles Sparks": true,
-    "20260829:Toronto Tempo@Phoenix Mercury": true
+    "20260829:Toronto Tempo@Phoenix Mercury": true,
+    "20260830:Minnesota Lynx@Atlanta Dream": true,
+    "20260830:Los Angeles Sparks@Seattle Storm": true,
+    "20260830:Golden State Valkyries@Portland Fire": true,
+    "20260830:Connecticut Sun@Dallas Wings": true
   },
-  "lastDriftDate": "20260830",
+  "lastDriftDate": "20260831",
   "meta": {
     "season": "2025-26",
     "created": "2026-07-16T15:06:03.518205"
