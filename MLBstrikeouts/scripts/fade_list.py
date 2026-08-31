@@ -314,7 +314,14 @@ FADE_WINDOW = {
     # Removed 2026-08-19 on current form (2.61 ERA / 34.2% K last 5),
     # REVERTED the same day before his start (user) -- continuous fade, no
     # gap. Home-only (see FADE_VENUE); record at the flip-flop: 5-3 +2.78u.
-    "Tolle":             {"add": SEASON_START},
+    # Removed AGAIN 2026-08-31 (user), this time for keeps: the rookie
+    # adjusted (Painter/McLean pattern) -- 2.37 ERA / 1.02 WHIP / 32.8 K%
+    # over his last 5, incl. a 14-K game and an 8-inning shutout; the fade
+    # lost 7 of his last 8 starts, and his home 6-3 vs the BOS-home blind
+    # fade baseline (+5.6%/play) is p~0.2 on 9 starts -- team noise, not a
+    # pitcher edge. Ledger record (6-3 +4.24u) stays graded. Same-day
+    # removal drops tonight's SEA +150.
+    "Tolle":             {"add": SEASON_START, "remove": "2026-08-31"},
     "Gerrit Cole":       {"add": SEASON_START, "remove": "2026-08-09"},  # removed 2026-08-09 (user): no fades from 8/9 on, prior record stays; home-only as of 2026-07-28 (see FADE_VENUE)
     # Added 2026-07-28: all-venue fade, season-backfilled (home +18%, away +42%).
     "Gage Jump":         {"add": SEASON_START, "remove": "2026-08-26"},  # removed 2026-08-26 (user): 8-6 -0.46u (-2.6%) over 14 -- the only negative arm with a real sample; history stays
