@@ -310,6 +310,22 @@ def flagged_starter_under(g):
     return None
 
 
+def either_starter_cold_over(g):
+    """Disjunction over the one monotone field (proposed 2026-08-31).
+
+    The field report shows runs allowed climbing 3.80 / 4.16 / 5.08 across
+    the L5-ERA buckets while the offense ladder shows nothing, yet every
+    over rule in the battery is a two-sided conjunction that can't reach 25
+    plays. This is the disjunctive over: either starter above 4.50 over his
+    last five starts -> over. Deliberately mirrors flagged_starter_under's
+    shape so a failure means the field, not the sample size."""
+    for s in ("away", "home"):
+        e = g["sides"][s]["l5_era"]
+        if e is not None and e > 4.50:
+            return "over"
+    return None
+
+
 def unresolved_starter(g):
     """Either probable unresolved -- tests whether the market misprices these."""
     for s in ("away", "home"):
@@ -328,6 +344,7 @@ RULES = {
     "workhorse_elite_pens": workhorse_elite_pens,
     "combo_cold_and_pens": combo_cold_and_pens,
     "flagged_starter_under": flagged_starter_under,
+    "either_starter_cold_over": either_starter_cold_over,
     "unresolved_starter": unresolved_starter,
 }
 
