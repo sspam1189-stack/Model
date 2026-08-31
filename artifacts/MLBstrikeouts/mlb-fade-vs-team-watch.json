@@ -1,44 +1,13 @@
 {
   "sport": "MLB",
   "type": "fade-vs-team-watch",
-  "generated": "2026-08-31T00:38:44Z",
+  "generated": "2026-08-31T13:08:12Z",
   "seasonStart": "2026-04-05",
   "minStarts": 2,
   "minEra": 6.0,
   "fadeEra": 8.0,
   "note": "Auto-screened WATCH tier for the pitcher-vs-team fade angle: >= 2 starts vs the team with 6.0 <= ERA < 8.0 vs them (ERA >= 8.0 auto-promotes to the FADE list, mlb-fade-vs-team.json), excluding arms already faded and matchups already curated. fadeRecord is the in-sample fade result (bet the opponent), shown for review -- not a screen filter. Watch, don't bet.",
-  "today": [
-    {
-      "date": "2026-08-30",
-      "commence": "2026-08-30T17:35:00Z",
-      "betType": "fade_vs_team_watch",
-      "pitcher": "Ranger Suarez",
-      "arm_team": "BOS",
-      "opp": "NYY",
-      "selection": "NYY",
-      "venue": "away",
-      "matchup": "BOS @ NYY",
-      "odds": 132,
-      "eraVsOpp": 6.06,
-      "startsVsOpp": 3,
-      "result": "pending"
-    },
-    {
-      "date": "2026-08-30",
-      "commence": "2026-08-30T18:15:00Z",
-      "betType": "fade_vs_team_watch",
-      "pitcher": "Matthew Liberatore",
-      "arm_team": "STL",
-      "opp": "PIT",
-      "selection": "PIT",
-      "venue": "home",
-      "matchup": "PIT @ STL",
-      "odds": -120,
-      "eraVsOpp": 6.1,
-      "startsVsOpp": 2,
-      "result": "pending"
-    }
-  ],
+  "today": [],
   "candidates": [
     {
       "pitcher": "Jos\u00e9 Soriano",
