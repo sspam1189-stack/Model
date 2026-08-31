@@ -142,7 +142,13 @@
           "flags": [
             "thin-sample"
           ],
-          "mismatch": null
+          "mismatch": null,
+          "aligned75": [
+            84,
+            78,
+            83,
+            115
+          ]
         },
         "home": {
           "pitcher": "Bryce Elder",
@@ -317,21 +323,28 @@
             }
           },
           "flags": [],
-          "mismatch": 21.6
+          "mismatch": 21.6,
+          "aligned75": [
+            113,
+            118,
+            121,
+            128
+          ]
         }
       },
       "home_offense_game": 81,
       "away_offense_game": 111,
       "game_offense": 96,
-      "offense_edge": 30
+      "offense_edge": 30,
+      "aligned_ml": null
     },
     {
       "matchup": "SD @ CIN",
       "away": "SD",
       "home": "CIN",
       "commence": "2026-08-31T22:40:00Z",
-      "away_ml": -140,
-      "home_ml": 130,
+      "away_ml": -144,
+      "home_ml": 134,
       "total": 9,
       "over_ml": -105,
       "under_ml": -115,
@@ -509,7 +522,13 @@
             }
           },
           "flags": [],
-          "mismatch": -20.9
+          "mismatch": -20.9,
+          "aligned75": [
+            96,
+            91,
+            104,
+            130
+          ]
         },
         "home": {
           "pitcher": "Brady Singer",
@@ -684,24 +703,31 @@
             }
           },
           "flags": [],
-          "mismatch": 12.7
+          "mismatch": 12.7,
+          "aligned75": [
+            106,
+            102,
+            95,
+            60
+          ]
         }
       },
       "home_offense_game": 92,
       "away_offense_game": 98,
       "game_offense": 95,
-      "offense_edge": 6
+      "offense_edge": 6,
+      "aligned_ml": null
     },
     {
       "matchup": "NYM @ TB",
       "away": "NYM",
       "home": "TB",
       "commence": "2026-08-31T22:40:00Z",
-      "away_ml": 152,
-      "home_ml": -166,
-      "total": 8,
-      "over_ml": -115,
-      "under_ml": -105,
+      "away_ml": 170,
+      "home_ml": -184,
+      "total": 7.5,
+      "over_ml": -120,
+      "under_ml": -102,
       "sides": {
         "away": {
           "pitcher": "Robert Stock",
@@ -876,7 +902,13 @@
             }
           },
           "flags": [],
-          "mismatch": 54.8
+          "mismatch": 54.8,
+          "aligned75": [
+            120,
+            122,
+            103,
+            120
+          ]
         },
         "home": {
           "pitcher": "Ian Seymour",
@@ -1069,13 +1101,20 @@
           "flags": [
             "swingman-3g"
           ],
-          "mismatch": -51.4
+          "mismatch": -51.4,
+          "aligned75": [
+            91,
+            66,
+            82,
+            null
+          ]
         }
       },
       "home_offense_game": 111,
       "away_offense_game": 85,
       "game_offense": 98,
-      "offense_edge": -26
+      "offense_edge": -26,
+      "aligned_ml": null
     },
     {
       "matchup": "SEA @ BOS",
@@ -1261,7 +1300,13 @@
             }
           },
           "flags": [],
-          "mismatch": 20.7
+          "mismatch": 20.7,
+          "aligned75": [
+            126,
+            114,
+            110,
+            65
+          ]
         },
         "home": {
           "pitcher": "Payton Tolle",
@@ -1436,21 +1481,28 @@
             }
           },
           "flags": [],
-          "mismatch": -66.3
+          "mismatch": -66.3,
+          "aligned75": [
+            76,
+            63,
+            67,
+            null
+          ]
         }
       },
       "home_offense_game": 109,
       "away_offense_game": 68,
       "game_offense": 88,
-      "offense_edge": -41
+      "offense_edge": -41,
+      "aligned_ml": null
     },
     {
       "matchup": "MIA @ WSH",
       "away": "MIA",
       "home": "WSH",
       "commence": "2026-08-31T22:45:00Z",
-      "away_ml": -106,
-      "home_ml": -102,
+      "away_ml": -104,
+      "home_ml": -104,
       "total": 8.5,
       "over_ml": -115,
       "under_ml": -105,
@@ -1628,7 +1680,13 @@
             }
           },
           "flags": [],
-          "mismatch": -33.3
+          "mismatch": -33.3,
+          "aligned75": [
+            87,
+            85,
+            83,
+            117
+          ]
         },
         "home": {
           "pitcher": "Will Dion",
@@ -1741,13 +1799,20 @@
           "flags": [
             "thin-sample"
           ],
-          "mismatch": null
+          "mismatch": null,
+          "aligned75": [
+            91,
+            86,
+            81,
+            78
+          ]
         }
       },
       "home_offense_game": 83,
       "away_offense_game": 95,
       "game_offense": 89,
-      "offense_edge": 12
+      "offense_edge": 12,
+      "aligned_ml": null
     },
     {
       "matchup": "DET @ MIN",
@@ -1935,7 +2000,13 @@
           "flags": [
             "thin-sample"
           ],
-          "mismatch": 8.7
+          "mismatch": 8.7,
+          "aligned75": [
+            97,
+            105,
+            104,
+            130
+          ]
         },
         "home": {
           "pitcher": "Taj Bradley",
@@ -2110,13 +2181,20 @@
             }
           },
           "flags": [],
-          "mismatch": -17.6
+          "mismatch": -17.6,
+          "aligned75": [
+            94,
+            72,
+            66,
+            -14
+          ]
         }
       },
       "home_offense_game": 104,
       "away_offense_game": 64,
       "game_offense": 84,
-      "offense_edge": -40
+      "offense_edge": -40,
+      "aligned_ml": null
     },
     {
       "matchup": "MIL @ CHC",
@@ -2126,8 +2204,8 @@
       "away_ml": 100,
       "home_ml": -108,
       "total": 9.5,
-      "over_ml": -112,
-      "under_ml": -108,
+      "over_ml": -108,
+      "under_ml": -112,
       "sides": {
         "away": {
           "pitcher": "Kyle Harrison",
@@ -2304,7 +2382,13 @@
           "flags": [
             "stale-window-48d"
           ],
-          "mismatch": 19.9
+          "mismatch": 19.9,
+          "aligned75": [
+            138,
+            126,
+            146,
+            null
+          ]
         },
         "home": {
           "pitcher": "Clay Holmes",
@@ -2481,13 +2565,20 @@
           "flags": [
             "stale-window-102d"
           ],
-          "mismatch": 17.8
+          "mismatch": 17.8,
+          "aligned75": [
+            105,
+            121,
+            148,
+            153
+          ]
         }
       },
       "home_offense_game": 132,
       "away_offense_game": 118,
       "game_offense": 125,
-      "offense_edge": -14
+      "offense_edge": -14,
+      "aligned_ml": null
     },
     {
       "matchup": "OAK @ TEX",
@@ -2497,8 +2588,8 @@
       "away_ml": 194,
       "home_ml": -210,
       "total": 7.5,
-      "over_ml": -104,
-      "under_ml": -118,
+      "over_ml": -105,
+      "under_ml": -115,
       "sides": {
         "away": {
           "pitcher": "Gage Jump",
@@ -2673,7 +2764,13 @@
             }
           },
           "flags": [],
-          "mismatch": 35.7
+          "mismatch": 35.7,
+          "aligned75": [
+            118,
+            114,
+            127,
+            129
+          ]
         },
         "home": {
           "pitcher": "Jacob deGrom",
@@ -2848,24 +2945,31 @@
             }
           },
           "flags": [],
-          "mismatch": 38.6
+          "mismatch": 38.6,
+          "aligned75": [
+            108,
+            116,
+            119,
+            130
+          ]
         }
       },
       "home_offense_game": 112,
       "away_offense_game": 115,
       "game_offense": 114,
-      "offense_edge": 3
+      "offense_edge": 3,
+      "aligned_ml": null
     },
     {
       "matchup": "CWS @ HOU",
       "away": "CWS",
       "home": "HOU",
       "commence": "2026-09-01T00:10:00Z",
-      "away_ml": 120,
-      "home_ml": -128,
-      "total": 9,
-      "over_ml": -104,
-      "under_ml": -118,
+      "away_ml": 118,
+      "home_ml": -126,
+      "total": 8.5,
+      "over_ml": -122,
+      "under_ml": 100,
       "sides": {
         "away": {
           "pitcher": "Anthony Kay",
@@ -3040,7 +3144,13 @@
             }
           },
           "flags": [],
-          "mismatch": 4.9
+          "mismatch": 4.9,
+          "aligned75": [
+            106,
+            109,
+            119,
+            null
+          ]
         },
         "home": {
           "pitcher": "Peter Lambert",
@@ -3215,51 +3325,138 @@
             }
           },
           "flags": [],
-          "mismatch": 27.0
+          "mismatch": 27.0,
+          "aligned75": [
+            100,
+            109,
+            102,
+            100
+          ]
         }
       },
       "home_offense_game": 101,
       "away_offense_game": 114,
       "game_offense": 108,
-      "offense_edge": 13
+      "offense_edge": 13,
+      "aligned_ml": null
     },
     {
       "matchup": "BAL @ COL",
       "away": "BAL",
       "home": "COL",
       "commence": "2026-09-01T00:40:00Z",
-      "away_ml": -126,
-      "home_ml": 116,
+      "away_ml": -116,
+      "home_ml": 108,
       "total": 11,
-      "over_ml": -105,
-      "under_ml": -115,
+      "over_ml": -110,
+      "under_ml": -110,
       "sides": {
         "away": {
-          "pitcher": null,
-          "listed_as": null,
-          "resolved": false,
-          "hand": null,
+          "pitcher": "Cade Povich",
+          "listed_as": "Cade Povich",
+          "resolved": true,
+          "hand": "L",
           "team": "BAL",
           "opponent_offense": "COL",
-          "opp_wrc_vs_hand": null,
-          "opp_wrc_game": null,
-          "opp_wrc_recent": null,
-          "opp_wrc_recent_pa": null,
+          "opp_wrc_vs_hand": 77,
+          "opp_wrc_game": 83,
+          "opp_wrc_recent": 76,
+          "opp_wrc_recent_pa": 342,
           "opp_wrc_windows": {
-            "last30": null,
-            "last20": null,
-            "last15": null,
-            "last7": null
+            "last30": {
+              "wrcplus": 86,
+              "pa": 353,
+              "role": "all"
+            },
+            "last20": {
+              "wrcplus": 77,
+              "pa": 263,
+              "role": "all"
+            },
+            "last15": {
+              "wrcplus": 78,
+              "pa": 234,
+              "role": "all"
+            },
+            "last7": {
+              "wrcplus": null,
+              "pa": 95,
+              "role": "all"
+            }
           },
           "opp_platoon_gap": -22,
           "form": {
-            "season": null,
-            "recent": null,
-            "hot": null,
-            "recent_all": null,
+            "season": {
+              "gs": 5,
+              "ip": 22.7,
+              "ip_per_gs": 4.53,
+              "era": 4.76,
+              "whip": 1.46,
+              "k_pct": 19.8,
+              "bb_pct": 7.3,
+              "k_bb_pct": 12.5,
+              "hr9": 1.59,
+              "k": 19,
+              "bb": 7,
+              "hr": 4,
+              "er": 12
+            },
+            "recent": {
+              "gs": 5,
+              "ip": 22.7,
+              "ip_per_gs": 4.53,
+              "era": 4.76,
+              "whip": 1.46,
+              "k_pct": 19.8,
+              "bb_pct": 7.3,
+              "k_bb_pct": 12.5,
+              "hr9": 1.59,
+              "k": 19,
+              "bb": 7,
+              "hr": 4,
+              "er": 12
+            },
+            "hot": {
+              "gs": 3,
+              "ip": 12.0,
+              "ip_per_gs": 4.0,
+              "era": 4.5,
+              "whip": 1.58,
+              "k_pct": 19.2,
+              "bb_pct": 9.6,
+              "k_bb_pct": 9.6,
+              "hr9": 1.5,
+              "k": 10,
+              "bb": 5,
+              "hr": 2,
+              "er": 6
+            },
+            "recent_all": {
+              "g": 5,
+              "ip": 22.7,
+              "ip_per_g": 4.53,
+              "era": 4.76,
+              "whip": 1.46,
+              "k_pct": 19.8,
+              "bb_pct": 7.3,
+              "k_bb_pct": 12.5,
+              "hr9": 1.59,
+              "k": 19,
+              "bb": 7,
+              "hr": 4,
+              "er": 12,
+              "gs": 5
+            },
             "relief": null
           },
-          "trend": {},
+          "trend": {
+            "era": 0.0,
+            "whip": 0.0,
+            "k_pct": 0.0,
+            "bb_pct": 0.0,
+            "ip_per_gs": 0.0,
+            "hr9": 0.0
+          },
           "pen": {
             "last30": {
               "g": 90,
@@ -3327,9 +3524,16 @@
             }
           },
           "flags": [
-            "thin-sample"
+            "layoff-22d",
+            "stale-window-119d"
           ],
-          "mismatch": null
+          "mismatch": -17.1,
+          "aligned75": [
+            86,
+            77,
+            78,
+            123
+          ]
         },
         "home": {
           "pitcher": "Tanner Gordon",
@@ -3523,13 +3727,20 @@
             "stale-window-57d",
             "swingman-5g"
           ],
-          "mismatch": 17.0
+          "mismatch": 17.0,
+          "aligned75": [
+            94,
+            103,
+            88,
+            97
+          ]
         }
       },
-      "home_offense_game": null,
+      "home_offense_game": 83,
       "away_offense_game": 104,
-      "game_offense": null,
-      "offense_edge": null
+      "game_offense": 94,
+      "offense_edge": 21,
+      "aligned_ml": null
     },
     {
       "matchup": "NYY @ LAA",
@@ -3717,7 +3928,13 @@
           "flags": [
             "stale-window-119d"
           ],
-          "mismatch": 3.0
+          "mismatch": 3.0,
+          "aligned75": [
+            75,
+            86,
+            82,
+            91
+          ]
         },
         "home": {
           "pitcher": "Walbert Ure\u00f1a",
@@ -3892,13 +4109,20 @@
             }
           },
           "flags": [],
-          "mismatch": -1.8
+          "mismatch": -1.8,
+          "aligned75": [
+            90,
+            95,
+            105,
+            124
+          ]
         }
       },
       "home_offense_game": 102,
       "away_offense_game": 104,
       "game_offense": 103,
-      "offense_edge": 2
+      "offense_edge": 2,
+      "aligned_ml": null
     },
     {
       "matchup": "PHI @ ARI",
@@ -4084,7 +4308,13 @@
             }
           },
           "flags": [],
-          "mismatch": -21.3
+          "mismatch": -21.3,
+          "aligned75": [
+            102,
+            101,
+            87,
+            88
+          ]
         },
         "home": {
           "pitcher": "Brandon Pfaadt",
@@ -4259,13 +4489,20 @@
             }
           },
           "flags": [],
-          "mismatch": -2.1
+          "mismatch": -2.1,
+          "aligned75": [
+            116,
+            113,
+            115,
+            80
+          ]
         }
       },
       "home_offense_game": 107,
       "away_offense_game": 113,
       "game_offense": 110,
-      "offense_edge": 6
+      "offense_edge": 6,
+      "aligned_ml": null
     }
   ],
   "ranked_mismatch": [
@@ -4431,6 +4668,19 @@
       "flags": []
     },
     {
+      "pitcher": "Cade Povich",
+      "hand": "L",
+      "team": "BAL",
+      "opponent_offense": "COL",
+      "opp_wrc_vs_hand": 77,
+      "opp_wrc_recent": 76,
+      "mismatch": -17.1,
+      "flags": [
+        "layoff-22d",
+        "stale-window-119d"
+      ]
+    },
+    {
       "pitcher": "Taj Bradley",
       "hand": "R",
       "team": "MIN",
@@ -4493,7 +4743,7 @@
       "flags": []
     }
   ],
-  "generated": "2026-08-31T19:10:28Z",
+  "generated": "2026-08-31T21:08:44Z",
   "sport": "MLB",
   "type": "slate-scout",
   "advisory": true,
