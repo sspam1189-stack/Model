@@ -1,7 +1,7 @@
 {
   "sport": "MLB",
   "type": "hand-tails-watch",
-  "generated": "2026-08-30T23:05:28Z",
+  "generated": "2026-08-31T00:38:40Z",
   "handMin": 6,
   "minGames": 3,
   "minUnits": 2.5,
@@ -92,8 +92,8 @@
       "lineupConfirmed": true,
       "odds": -172,
       "suggest": "fade",
-      "suggestUnits": 4.0,
-      "games": 4,
+      "suggestUnits": 5.0,
+      "games": 5,
       "result": "pending"
     }
   ],
@@ -477,6 +477,24 @@
       "era": 3.72
     },
     {
+      "pitcher": "Yusei Kikuchi",
+      "hand": "L",
+      "games": 5,
+      "suggest": "fade",
+      "suggestUnits": 5.0,
+      "fade": {
+        "w": 5,
+        "l": 0,
+        "u": 5.0
+      },
+      "take": {
+        "w": 0,
+        "l": 5,
+        "u": -5.3
+      },
+      "era": 6.25
+    },
+    {
       "pitcher": "Ryan Johnson",
       "hand": "R",
       "games": 5,
@@ -655,24 +673,6 @@
         "u": -4.76
       },
       "era": 4.17
-    },
-    {
-      "pitcher": "Yusei Kikuchi",
-      "hand": "L",
-      "games": 4,
-      "suggest": "fade",
-      "suggestUnits": 4.0,
-      "fade": {
-        "w": 4,
-        "l": 0,
-        "u": 4.0
-      },
-      "take": {
-        "w": 0,
-        "l": 4,
-        "u": -4.3
-      },
-      "era": 6.25
     },
     {
       "pitcher": "Seth Lugo",

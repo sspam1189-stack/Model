@@ -4,10 +4,10 @@
   "season": "2026",
   "mode": "live",
   "model": "kalman_blend",
-  "generated": "2026-08-30T23:01:31Z",
+  "generated": "2026-08-31T00:31:28Z",
   "totalProjections": 27,
   "totalPicks": 3346,
-  "totalWatchlist": 23,
+  "totalWatchlist": 24,
   "props": [
     {
       "player": "Sonny Gray",
@@ -113003,7 +113003,7 @@
       "proj_raw": 5.306,
       "would_be_pick": "UNDER",
       "date": "2026-08-30",
-      "lockState": "lineup_confirmed",
+      "lockState": "game_started",
       "lockedAt": "2026-08-30T21:01:25.720498Z",
       "lineupConfirmed": true
     },
@@ -113034,12 +113034,12 @@
       "proj_raw": 6.321,
       "would_be_pick": "UNDER",
       "date": "2026-08-30",
-      "lockState": "lineup_confirmed",
+      "lockState": "game_started",
       "lockedAt": "2026-08-30T21:01:25.720498Z",
       "lineupConfirmed": true
     }
   ],
-  "summary": "4 picks (+23 watch) from 27 projections",
+  "summary": "3 picks (+24 watch) from 27 projections",
   "date": "2026-08-30",
   "todayProjections": [
     {
@@ -113800,7 +113800,7 @@
       "to_win_1u": 0.89,
       "proj_raw": 5.306,
       "date": "2026-08-30",
-      "lockState": "lineup_confirmed",
+      "lockState": "game_started",
       "lockedAt": "2026-08-30T21:01:25.720498Z",
       "lineupConfirmed": true
     },
@@ -113830,7 +113830,7 @@
       "to_win_1u": 1.64,
       "proj_raw": 6.321,
       "date": "2026-08-30",
-      "lockState": "lineup_confirmed",
+      "lockState": "game_started",
       "lockedAt": "2026-08-30T21:01:25.720498Z",
       "lineupConfirmed": true
     }
@@ -113888,12 +113888,12 @@
     "PIT": "Final",
     "NYM": "Final",
     "HOU": "Final",
-    "OAK": "Game Over",
-    "BAL": "Game Over",
-    "LAA": "In Progress",
-    "PHI": "In Progress",
-    "CHC": "Delayed Start",
-    "CIN": "Delayed Start"
+    "OAK": "Final",
+    "BAL": "Final",
+    "LAA": "Final",
+    "PHI": "Final",
+    "CHC": "In Progress",
+    "CIN": "In Progress"
   },
   "gameTimesById": {
     "822688": "2026-08-30T16:15:00Z",
@@ -113923,9 +113923,9 @@
     "823740": "Final",
     "823010": "Final",
     "823580": "Final",
-    "824959": "Game Over",
-    "823987": "In Progress",
-    "824636": "Delayed Start"
+    "824959": "Final",
+    "823987": "Final",
+    "824636": "In Progress"
   },
   "todayProbables": [
     {
