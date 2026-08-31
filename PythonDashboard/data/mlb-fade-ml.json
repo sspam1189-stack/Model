@@ -1,7 +1,7 @@
 {
   "sport": "MLB",
   "type": "fade-ml",
-  "generated": "2026-08-31T00:32:02Z",
+  "generated": "2026-08-31T13:04:57Z",
   "fadeList": [
     "Painter",
     "Rocker",
@@ -112,7 +112,56 @@
       }
     }
   },
-  "today": [],
+  "today": [
+    {
+      "date": "2026-08-31",
+      "commence": "2026-08-31T22:45:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Payton Tolle"
+      ],
+      "fadeTeam": "BOS",
+      "market": "h2h",
+      "selection": "SEA",
+      "line": null,
+      "odds": 150,
+      "stake": 1.0,
+      "result": "pending",
+      "profit": 0.0,
+      "book": "fanduel",
+      "source": "fanduel_api",
+      "reason": null,
+      "home": "BOS",
+      "away": "SEA",
+      "gamePk": 824719,
+      "fadeReason": "home"
+    },
+    {
+      "date": "2026-08-31",
+      "commence": "2026-08-31T22:40:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Michael King"
+      ],
+      "fadeTeam": "SD",
+      "market": "h2h",
+      "selection": "CIN",
+      "line": null,
+      "odds": 130,
+      "stake": 1.0,
+      "result": "pending",
+      "profit": 0.0,
+      "book": "fanduel",
+      "source": "fanduel_api",
+      "reason": null,
+      "home": "CIN",
+      "away": "SD",
+      "gamePk": 824473,
+      "fadeReason": "away"
+    }
+  ],
   "bets": [
     {
       "date": "2026-04-05",

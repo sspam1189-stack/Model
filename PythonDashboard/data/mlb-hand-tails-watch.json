@@ -1,7 +1,7 @@
 {
   "sport": "MLB",
   "type": "hand-tails-watch",
-  "generated": "2026-08-31T00:38:40Z",
+  "generated": "2026-08-31T13:08:08Z",
   "handMin": 6,
   "minGames": 3,
   "minUnits": 2.5,
@@ -9,92 +9,70 @@
   "note": "Shadow review list -- arms NOT on the active hand-tails list showing a handedness-conditional edge (fade or take). The active list is fade-only, so all tail/take arms are review-only here. In-sample season replay; watch, don't bet.",
   "today": [
     {
-      "date": "2026-08-30",
-      "commence": "2026-08-30T16:15:00Z",
+      "date": "2026-08-31",
+      "commence": "2026-08-31T22:40:00Z",
       "betType": "watch_fade",
       "action": "fade",
       "watch": true,
-      "pitcher": "Andrew Alvarez",
+      "pitcher": "Ian Seymour",
       "hand": "L",
-      "arm_team": "WSH",
-      "opp_team": "MIA",
-      "selection": "MIA",
-      "home": "WSH",
-      "away": "MIA",
-      "oppLefty": 2,
-      "oppRighty": 8,
-      "lineupConfirmed": true,
-      "odds": 110,
+      "arm_team": "TB",
+      "opp_team": "NYM",
+      "selection": "NYM",
+      "home": "TB",
+      "away": "NYM",
+      "oppLefty": 4,
+      "oppRighty": 6,
+      "lineupConfirmed": false,
+      "odds": null,
       "suggest": "fade",
-      "suggestUnits": 5.14,
-      "games": 11,
-      "result": "pending"
+      "suggestUnits": 3.9,
+      "games": 7,
+      "result": "unconfirmed"
     },
     {
-      "date": "2026-08-30",
-      "commence": "2026-08-30T17:40:00Z",
+      "date": "2026-08-31",
+      "commence": "2026-08-31T23:40:00Z",
       "betType": "watch_fade",
       "action": "fade",
       "watch": true,
-      "pitcher": "Seth Lugo",
+      "pitcher": "Clay Holmes",
       "hand": "R",
-      "arm_team": "KC",
-      "opp_team": "CLE",
-      "selection": "CLE",
-      "home": "CLE",
-      "away": "KC",
-      "oppLefty": 7,
-      "oppRighty": 5,
-      "lineupConfirmed": true,
-      "odds": -178,
+      "arm_team": "CHC",
+      "opp_team": "MIL",
+      "selection": "MIL",
+      "home": "CHC",
+      "away": "MIL",
+      "oppLefty": 6,
+      "oppRighty": 3,
+      "lineupConfirmed": false,
+      "odds": null,
       "suggest": "fade",
-      "suggestUnits": 4.0,
-      "games": 11,
-      "result": "pending"
+      "suggestUnits": 2.7,
+      "games": 6,
+      "result": "unconfirmed"
     },
     {
-      "date": "2026-08-30",
-      "commence": "2026-08-30T17:40:00Z",
+      "date": "2026-08-31",
+      "commence": "2026-09-01T00:10:00Z",
       "betType": "watch_take",
       "action": "take",
       "watch": true,
-      "pitcher": "Robbie Ray",
+      "pitcher": "Anthony Kay",
       "hand": "L",
-      "arm_team": "SD",
-      "opp_team": "TB",
-      "selection": "SD",
-      "home": "TB",
-      "away": "SD",
-      "oppLefty": 3,
-      "oppRighty": 7,
-      "lineupConfirmed": true,
-      "odds": 150,
-      "suggest": "take",
-      "suggestUnits": 5.72,
-      "games": 23,
-      "result": "pending"
-    },
-    {
-      "date": "2026-08-30",
-      "commence": "2026-08-30T20:07:00Z",
-      "betType": "watch_fade",
-      "action": "fade",
-      "watch": true,
-      "pitcher": "Yusei Kikuchi",
-      "hand": "L",
-      "arm_team": "LAA",
-      "opp_team": "PHI",
-      "selection": "PHI",
-      "home": "LAA",
-      "away": "PHI",
+      "arm_team": "CWS",
+      "opp_team": "HOU",
+      "selection": "CWS",
+      "home": "HOU",
+      "away": "CWS",
       "oppLefty": 3,
       "oppRighty": 6,
-      "lineupConfirmed": true,
-      "odds": -172,
-      "suggest": "fade",
-      "suggestUnits": 5.0,
-      "games": 5,
-      "result": "pending"
+      "lineupConfirmed": false,
+      "odds": null,
+      "suggest": "take",
+      "suggestUnits": 8.2,
+      "games": 21,
+      "result": "unconfirmed"
     }
   ],
   "candidates": [
@@ -366,7 +344,7 @@
         "l": 9,
         "u": 5.72
       },
-      "era": 3.36
+      "era": 3.28
     },
     {
       "pitcher": "Chase Burns",
@@ -384,7 +362,7 @@
         "l": 4,
         "u": 5.68
       },
-      "era": 2.77
+      "era": 2.79
     },
     {
       "pitcher": "Jack Perkins",
@@ -474,7 +452,7 @@
         "l": 8,
         "u": -5.88
       },
-      "era": 3.72
+      "era": 3.38
     },
     {
       "pitcher": "Yusei Kikuchi",
@@ -492,7 +470,7 @@
         "l": 5,
         "u": -5.3
       },
-      "era": 6.25
+      "era": 5.65
     },
     {
       "pitcher": "Ryan Johnson",
@@ -690,7 +668,7 @@
         "l": 8,
         "u": -5.02
       },
-      "era": 4.61
+      "era": 5.03
     },
     {
       "pitcher": "Ian Seymour",
