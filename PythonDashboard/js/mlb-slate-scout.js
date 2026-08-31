@@ -116,6 +116,89 @@ async function renderMLBSlateScout() {
     + (data.notes || []).map(esc).join('<br>') + '</div>';
   el.appendChild(banner);
 
+  // ---- Today's plays: the two under systems --------------------------------
+  // 1) flagged under (CARD, live): a named data defect on either starter.
+  //    Backtested 34-27 +6.7% ROI, +8.3pts over baseline (n=61) -- the one
+  //    rule in the battery that clears the 25-play bar.
+  // 2) form under (SHADOW, not bet): both arms in form -- sum of the two
+  //    mismatch scores <= -40. Full-season as-of backtest 84-52 +17.2% ROI
+  //    (perm p=0.005) but Aug ran 20-20 and 45% of its live-window plays
+  //    were games the flags already card, so it shadows until the unflagged
+  //    slice proves out. Entries say whether the game is also flagged.
+  const DEFECTS = ['layoff', 'stale-window', 'opener', 'swingman'];
+  const isDefect = (f) => DEFECTS.some((d) => f.startsWith(d));
+  const FORM_UNDER_AT = -40;
+  const ctTime = (iso) => {
+    try {
+      return new Date(iso).toLocaleTimeString('en-US',
+        { timeZone: 'America/Chicago', hour: 'numeric', minute: '2-digit' });
+    } catch (e) { return ''; }
+  };
+  const mlStr = (v) => (v == null ? '' : (v > 0 ? '+' + v : String(v)));
+  const underPlays = [];
+  for (const s of (data.slate || [])) {
+    const sides = ['away', 'home'].map((k) => (s.sides || {})[k] || {});
+    const defSides = sides.filter((x) => (x.flags || []).some(isDefect));
+    const ms = sides.map((x) => x.mismatch);
+    const msum = (ms[0] != null && ms[1] != null) ? ms[0] + ms[1] : null;
+    if (defSides.length) {
+      underPlays.push({ s, kind: 'card', side: 'U', rule: 'CARD · flagged U',
+        why: defSides.map((x) => esc(x.pitcher || '?') + ' '
+          + (x.flags || []).filter(isDefect).join(', ')).join(' · ') });
+    }
+    if (msum != null && msum <= FORM_UNDER_AT) {
+      underPlays.push({ s, kind: 'shadow', side: 'U', rule: 'SHADOW · form U',
+        why: 'm_sum ' + msum.toFixed(1)
+          + (defSides.length ? ' · also flagged' : ' · unflagged') });
+    }
+    // The over sides exist only so the panel answers the question; neither is
+    // bet. Flags have no over rule at all (a data defect backtests as an
+    // under edge, not an over). Form over (m_sum >= +40) was backtested and
+    // MEASURED NEGATIVE: -0.6% at +40, -8.5% at +60, vs blind-over -6.4% --
+    // the market overprices hot bats. Shown dimmed as no-plays.
+    if (msum != null && msum >= -FORM_UNDER_AT) {
+      underPlays.push({ s, kind: 'dead', side: 'O', rule: 'NO PLAY · form O',
+        why: 'm_sum +' + msum.toFixed(1) + ' · over side measured -0.6% ROI, not bet' });
+    }
+  }
+  const playsCard = document.createElement('div');
+  playsCard.className = 'card card-games';
+  let phtml = '<div class="card-title" style="padding:6px 8px">Flagged &amp; form O/U — today\'s plays '
+    + '<span style="color:' + DIM + ';font-weight:400;font-size:11px">'
+    + '(CARD is bet · SHADOW is tracked, not bet · NO PLAY is a measured dead side. '
+    + 'Flags have no over rule: a defect is an under edge only.)</span></div>';
+  if (!underPlays.length) {
+    phtml += '<div style="padding:8px 10px;font-size:12px;color:' + DIM
+      + '">No qualifying plays on this slate.</div>';
+  } else {
+    phtml += '<div style="overflow-x:auto"><table style="width:100%;border-collapse:collapse;font-size:12px">'
+      + '<thead><tr style="text-align:left;color:' + DIM + ';border-bottom:1px solid #30363d">'
+      + '<th style="padding:4px 6px">CT</th><th>Game</th><th>Play</th><th>Rule</th><th>Why</th>'
+      + '</tr></thead><tbody>';
+    for (const p of underPlays) {
+      const chip = p.kind === 'card'
+        ? 'background:rgba(63,185,80,.18);color:#3fb950'
+        : p.kind === 'shadow'
+          ? 'background:rgba(139,148,158,.14);color:' + DIM
+          : 'background:rgba(248,81,73,.12);color:#8b949e';
+      const price = p.side === 'U' ? p.s.under_ml : p.s.over_ml;
+      phtml += '<tr style="border-top:1px solid #161b22'
+        + (p.kind === 'dead' ? ';opacity:.55' : '') + '">'
+        + '<td style="padding:3px 6px;color:' + DIM + '">' + ctTime(p.s.commence) + '</td>'
+        + '<td style="padding:3px 6px">' + esc(p.s.matchup) + '</td>'
+        + '<td style="padding:3px 6px;font-weight:600;white-space:nowrap">' + p.side
+        + (p.s.total == null ? '?' : p.s.total) + ' <span style="color:' + DIM
+        + ';font-weight:400">' + mlStr(price) + '</span></td>'
+        + '<td><span style="display:inline-block;padding:1px 6px;border-radius:3px;'
+        + 'font-weight:600;white-space:nowrap;' + chip + '">' + p.rule + '</span></td>'
+        + '<td style="color:' + DIM + ';font-size:11px">' + p.why + '</td>'
+        + '</tr>';
+    }
+    phtml += '</tbody></table></div>';
+  }
+  playsCard.innerHTML = phtml;
+  el.appendChild(playsCard);
+
   // ---- Per-game cards ------------------------------------------------------
   const games = document.createElement('div');
   games.className = 'card card-games';
@@ -275,8 +358,7 @@ async function renderMLBSlateScout() {
   }
   rhtml += '</tbody></table></div>';
   ranked.innerHTML = rhtml;
-  // Sits directly under the advisory banner, above the per-game table: the
-  // Play column is the only carded thing on this tab, so it should not be a
-  // scroll away at the bottom.
-  el.insertBefore(ranked, banner.nextSibling);
+  // Order at the top of the tab: banner, then the plays panel (the actionable
+  // part), then the mismatch ranking, then the per-game table.
+  el.insertBefore(ranked, playsCard.nextSibling);
 }
