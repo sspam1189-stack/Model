@@ -87,7 +87,20 @@ FADE_LIST = [
 # The venue is the arm's-team side of the game (away = he starts on the road).
 FADE_VENUE = {
     "Bryan Woo": "away",  # only fade when he starts on the road
-    "Brady Singer": "away",  # 2026-07-28 re-add from watchlist: away 7-3 +3.22u
+    # 2026-09-01 (user): Brady Singer promoted to ALL-VENUE going forward,
+    # date-scoped so the away-only history through 8/31 stays graded as bet.
+    # For the record, the home side FAILED the baseline test at promotion:
+    # home fade 8-5 +19.7%/play vs blind-fade-CIN-home at +4.4%, p=0.368 --
+    # indistinguishable from team noise on 13 starts, and he pitches to a
+    # 3.31 ERA at GABP. The user's call rests on decaying form (5.09 ERA /
+    # 14.8 K% / 2.04 HR9 over his last 3; the fade is 4-1 +60% since 8/1).
+    # If the home fades run negative over the first 5-6, revisit. Mutual-rule
+    # note: any start opposite another fade-list arm now skips (King-type
+    # collisions included).
+    "Brady Singer": [
+        {"from": None, "venue": "away"},  # 2026-07-28 re-add: away 7-3 +3.22u
+        {"from": "2026-09-01", "venue": None},  # all-venue from 9/1
+    ],
     "Merrill Kelly": "away",  # 2026-07-28: home 4-4 -0.42u; away 7-4 +1.86u
     # Added 2026-07-27 (venue-restricted per candidate analysis).
     # Framber Valdez / Jack Flaherty promoted to all-venue 2026-07-28
