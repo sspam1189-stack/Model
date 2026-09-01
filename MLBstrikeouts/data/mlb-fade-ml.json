@@ -1,7 +1,7 @@
 {
   "sport": "MLB",
   "type": "fade-ml",
-  "generated": "2026-09-01T19:52:19Z",
+  "generated": "2026-09-01T21:03:33Z",
   "fadeList": [
     "Painter",
     "Rocker",
@@ -139,6 +139,78 @@
     },
     {
       "date": "2026-09-01",
+      "commence": "2026-09-01T23:40:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Tyler Phillips"
+      ],
+      "fadeTeam": "MIA",
+      "market": "h2h",
+      "selection": "KC",
+      "line": null,
+      "odds": -120,
+      "stake": 1.2,
+      "result": "pending",
+      "profit": 0.0,
+      "book": "fanduel",
+      "source": "fanduel_api",
+      "reason": null,
+      "home": "KC",
+      "away": "MIA",
+      "gamePk": 824070,
+      "fadeReason": "away"
+    },
+    {
+      "date": "2026-09-01",
+      "commence": "2026-09-01T22:45:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Bryan Woo"
+      ],
+      "fadeTeam": "SEA",
+      "market": "h2h",
+      "selection": "BOS",
+      "line": null,
+      "odds": -118,
+      "stake": 1.18,
+      "result": "pending",
+      "profit": 0.0,
+      "book": "fanduel",
+      "source": "fanduel_api",
+      "reason": null,
+      "home": "BOS",
+      "away": "SEA",
+      "gamePk": 824716,
+      "fadeReason": "away"
+    },
+    {
+      "date": "2026-09-01",
+      "commence": "2026-09-01T22:45:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Jake Irvin"
+      ],
+      "fadeTeam": "WSH",
+      "market": "h2h",
+      "selection": "ATL",
+      "line": null,
+      "odds": -148,
+      "stake": 1.48,
+      "result": "pending",
+      "profit": 0.0,
+      "book": "fanduel",
+      "source": "fanduel_api",
+      "reason": null,
+      "home": "WSH",
+      "away": "ATL",
+      "gamePk": 822687,
+      "fadeReason": "home"
+    },
+    {
+      "date": "2026-09-01",
       "commence": "2026-09-02T00:40:00Z",
       "betType": "ml",
       "shadow": false,
@@ -173,8 +245,8 @@
       "market": "h2h",
       "selection": "NYY",
       "line": null,
-      "odds": -190,
-      "stake": 1.9,
+      "odds": -188,
+      "stake": 1.88,
       "result": "pending",
       "profit": 0.0,
       "book": "fanduel",
@@ -184,30 +256,6 @@
       "away": "NYY",
       "gamePk": 823984,
       "fadeReason": "home"
-    },
-    {
-      "date": "2026-09-01",
-      "commence": "2026-09-01T23:40:00Z",
-      "betType": "ml",
-      "shadow": false,
-      "pitchers": [
-        "Tyler Phillips"
-      ],
-      "fadeTeam": "MIA",
-      "market": "h2h",
-      "selection": "KC",
-      "line": null,
-      "odds": -120,
-      "stake": 1.2,
-      "result": "pending",
-      "profit": 0.0,
-      "book": "fanduel",
-      "source": "fanduel_api",
-      "reason": null,
-      "home": "KC",
-      "away": "MIA",
-      "gamePk": 824070,
-      "fadeReason": "away"
     },
     {
       "date": "2026-09-01",
@@ -232,54 +280,6 @@
       "away": "SF",
       "gamePk": 823340,
       "fadeReason": "all"
-    },
-    {
-      "date": "2026-09-01",
-      "commence": "2026-09-01T22:45:00Z",
-      "betType": "ml",
-      "shadow": false,
-      "pitchers": [
-        "Bryan Woo"
-      ],
-      "fadeTeam": "SEA",
-      "market": "h2h",
-      "selection": "BOS",
-      "line": null,
-      "odds": -122,
-      "stake": 1.22,
-      "result": "pending",
-      "profit": 0.0,
-      "book": "fanduel",
-      "source": "fanduel_api",
-      "reason": null,
-      "home": "BOS",
-      "away": "SEA",
-      "gamePk": 824716,
-      "fadeReason": "away"
-    },
-    {
-      "date": "2026-09-01",
-      "commence": "2026-09-01T22:45:00Z",
-      "betType": "ml",
-      "shadow": false,
-      "pitchers": [
-        "Jake Irvin"
-      ],
-      "fadeTeam": "WSH",
-      "market": "h2h",
-      "selection": "ATL",
-      "line": null,
-      "odds": -164,
-      "stake": 1.64,
-      "result": "pending",
-      "profit": 0.0,
-      "book": "fanduel",
-      "source": "fanduel_api",
-      "reason": null,
-      "home": "WSH",
-      "away": "ATL",
-      "gamePk": 822687,
-      "fadeReason": "home"
     }
   ],
   "bets": [

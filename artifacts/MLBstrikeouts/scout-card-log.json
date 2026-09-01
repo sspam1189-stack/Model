@@ -3,7 +3,7 @@
   "type": "scout-card-log",
   "week_convention": "monday-sunday",
   "description": "Per-play ledger for scout card calls (tier 2/3 of the daily card policy in MLBstrikeouts/CLAUDE.md). Model plays are NOT logged here - fade-ml/props/hand-tails keep their own files. No-play days are logged too: an empty card is part of the record. Prices are the card-time quote, not the close.",
-  "generated": "2026-09-01T14:16:34Z",
+  "generated": "2026-09-01T20:48:04Z",
   "pre_log_history": [
     {
       "date": "2026-08-17",
@@ -1824,11 +1824,13 @@
       "game": "SD @ CIN",
       "price": -115,
       "stake": 1.0,
-      "rule": "scout-flagged-starter-under",
-      "basis": "Vasquez swingman-2g + Lodolo stale-window-46d (double defect)",
+      "rule": "scout-flagged-starter-under-legacy",
+      "basis": "Vasquez swingman-2g + Lodolo stale-window-46d (double defect) NOTE: carded this morning under the old 'any defect -> under' rule. The per-combo verdicts adopted the same day put swingman+stale-window on the OVER (30-20 +14.7% over vs 20-30 -24.5% under). This entry is the bet that was actually placed, so it stays in the money record, but it is re-tagged -legacy so it does NOT grade as evidence for or against the swingman+stale-window verdict -- it is the wrong side of it.",
       "result": "pending",
       "profit": 0.0,
-      "combo": "swingman+stale-window"
+      "combo": "swingman+stale-window",
+      "verdict_at_bet": "under (pre-verdict rule)",
+      "verdict_now": "over"
     },
     {
       "date": "2026-09-01",
@@ -1903,10 +1905,9 @@
       "price": -102,
       "line": 7.5,
       "stake": 1.0,
-      "rule": "shadow-form-under",
-      "shadow": true,
+      "rule": "form-under",
       "flagged_overlap": false,
-      "basis": "Shadow 2 of 15-20. Both arms in form: m_sum -53.5, no defect flag on either starter (clean incremental test). Shadow 1 (SEA/BOS U8 8/31) lost on a 17-run game.",
+      "basis": "CARDED 2026-09-01 (user) mid-slate, before this game started. Both arms in form: m_sum -53.5, no defect flag on either starter (clean incremental test). Shadow 1 (SEA/BOS U8 8/31) lost on a 17-run game.",
       "result": "pending",
       "profit": 0.0
     },
@@ -1920,6 +1921,52 @@
       "rule": "shadow-aligned-ml",
       "shadow": true,
       "basis": "First fire since the rule got its own 75-PA floor (2026-08-31). NOTE: duplicates a live fade-ML model play (SF +148, fading Skenes) -- the shadow grades the rule, the money is already on via the model.",
+      "result": "pending",
+      "profit": 0.0,
+      "note": "Rule carded 2026-09-01 (user), but this entry stays SHADOW: the game had already started when the change was made. Card status applies from the next slate."
+    },
+    {
+      "date": "2026-09-01",
+      "play": "CHC ML (fav, m_sum +86.7)",
+      "market": "h2h",
+      "game": "MIL @ CHC",
+      "price": -126,
+      "stake": 1.0,
+      "rule": "shadow-msum-better-arm-fav",
+      "shadow": true,
+      "is_dog": false,
+      "msum": 86.7,
+      "basis": "Better arm Matthew Boyd (+30.0) vs +56.7. Pool rule: m_sum>=+40, back the lower-mismatch side. Season 82-56 +9.3% (dogs 19-15 +26.0%); backing the favorite in the same games is -1.9% and the rule is -0.2% outside the pool. SHADOW to 20 plays: p=0.043 out of a heavily scanned session, April -31%. SCOPE NARROWED to dogs only (user, same night): this is a favorite-half entry, kept for measurement, NOT part of the rule's shadow count.",
+      "result": "pending",
+      "profit": 0.0,
+      "out_of_scope": true
+    },
+    {
+      "date": "2026-09-01",
+      "play": "BAL ML (fav, m_sum +63.8)",
+      "market": "h2h",
+      "game": "BAL @ COL",
+      "price": -146,
+      "stake": 1.0,
+      "rule": "shadow-msum-better-arm-fav",
+      "shadow": true,
+      "is_dog": false,
+      "msum": 63.8,
+      "basis": "Better arm Kyle Bradish (+14.1) vs +49.7. Pool rule: m_sum>=+40, back the lower-mismatch side. Season 82-56 +9.3% (dogs 19-15 +26.0%); backing the favorite in the same games is -1.9% and the rule is -0.2% outside the pool. SHADOW to 20 plays: p=0.043 out of a heavily scanned session, April -31%. SCOPE NARROWED to dogs only (user, same night): this is a favorite-half entry, kept for measurement, NOT part of the rule's shadow count.",
+      "result": "pending",
+      "profit": 0.0,
+      "out_of_scope": true
+    },
+    {
+      "date": "2026-09-01",
+      "play": "CHC ML (mismatch +56.7)",
+      "market": "h2h",
+      "game": "MIL @ CHC",
+      "price": -126,
+      "stake": 1.0,
+      "rule": "shadow-mismatch-ml",
+      "shadow": true,
+      "basis": "FADE at L20 mismatch +56.7 (Robert Gasser). SHADOW revival 2026-09-01 after the 8/29-8/30 card-and-pull; expectation is August's +9.4%, not the +17.2% season figure. Not bet.",
       "result": "pending",
       "profit": 0.0
     }
