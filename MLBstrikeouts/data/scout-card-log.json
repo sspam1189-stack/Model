@@ -2222,7 +2222,9 @@
       "result": "pending",
       "profit": 0.0,
       "note": "Rule carded 2026-09-01 (user) after this game's first pitch; the entry was converted to a card play on the user's call so the ledger and the dashboard agree. Aligned ML's card record starts here.",
-      "rule_legacy": "shadow-aligned-ml"
+      "rule_legacy": "shadow-aligned-ml",
+      "gamePk": 823340,
+      "commence": "2026-09-01T22:40:00Z"
     },
     {
       "date": "2026-09-01",
@@ -2239,7 +2241,8 @@
       "result": "pending",
       "profit": 0.0,
       "out_of_scope": true,
-      "rule_legacy": "shadow-msum-better-arm-fav"
+      "rule_legacy": "shadow-msum-better-arm-fav",
+      "gamePk": 824633
     },
     {
       "date": "2026-09-01",
@@ -2256,7 +2259,9 @@
       "result": "pending",
       "profit": 0.0,
       "out_of_scope": true,
-      "rule_legacy": "shadow-msum-better-arm-fav"
+      "rule_legacy": "shadow-msum-better-arm-fav",
+      "gamePk": 824313,
+      "commence": "2026-09-02T00:40:00Z"
     },
     {
       "date": "2026-09-01",
@@ -2271,7 +2276,8 @@
       "profit": 0.0,
       "combo": "swingman+opener+stale-window",
       "rule_legacy": "scout-flagged-starter-under",
-      "line": 7.5
+      "line": 7.5,
+      "gamePk": 824391
     },
     {
       "date": "2026-09-01",
@@ -2286,7 +2292,8 @@
       "profit": 0.0,
       "combo": "swingman+layoff+opener",
       "rule_legacy": "scout-flagged-starter-under",
-      "line": 8.5
+      "line": 8.5,
+      "gamePk": 823661
     },
     {
       "date": "2026-09-01",
@@ -2301,7 +2308,8 @@
       "profit": 0.0,
       "combo": "swingman+opener",
       "rule_legacy": "scout-flagged-starter-under",
-      "line": 7.5
+      "line": 7.5,
+      "gamePk": 822854
     },
     {
       "date": "2026-09-01",
@@ -2316,7 +2324,8 @@
       "profit": 0.0,
       "combo": "layoff",
       "rule_legacy": "scout-flagged-starter-under",
-      "line": 8.5
+      "line": 8.5,
+      "gamePk": 824148
     },
     {
       "date": "2026-09-01",
@@ -2331,7 +2340,8 @@
       "profit": 0.0,
       "combo": "layoff",
       "rule_legacy": "scout-flagged-starter-under",
-      "line": 8.5
+      "line": 8.5,
+      "gamePk": 823908
     },
     {
       "date": "2026-09-01",
@@ -2346,7 +2356,9 @@
       "result": "pending",
       "profit": 0.0,
       "line": 9,
-      "combo": "swingman+stale-window"
+      "combo": "swingman+stale-window",
+      "gamePk": 824472,
+      "commence": "2026-09-01T22:40:00Z"
     },
     {
       "date": "2026-09-01",
@@ -2360,7 +2372,9 @@
       "flagged_overlap": false,
       "basis": "CARDED 2026-09-01 (user) mid-slate, before this game started. Both arms in form: m_sum -53.5, no defect flag on either starter (clean incremental test). Shadow 1 (SEA/BOS U8 8/31) lost on a 17-run game.",
       "result": "pending",
-      "profit": 0.0
+      "profit": 0.0,
+      "gamePk": 823984,
+      "commence": "2026-09-02T01:38:00Z"
     },
     {
       "date": "2026-09-01",
@@ -2374,7 +2388,8 @@
       "basis": "FADE at L20 mismatch +56.7 (Robert Gasser). SHADOW revival 2026-09-01 after the 8/29-8/30 card-and-pull; expectation is August's +9.4%, not the +17.2% season figure. Not bet.",
       "result": "pending",
       "profit": 0.0,
-      "rule_legacy": "shadow-mismatch-ml"
+      "rule_legacy": "shadow-mismatch-ml",
+      "gamePk": 824633
     }
   ]
 }

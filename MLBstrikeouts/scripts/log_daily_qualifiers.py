@@ -44,6 +44,8 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 DATA = os.path.normpath(os.path.join(HERE, "..", "data"))
 SCOUT = os.path.join(DATA, "mlb-slate-scout.json")
 ALLML = os.path.join(DATA, "mlb-all-ml.json")
+FADEML = os.path.join(DATA, "mlb-fade-ml.json")
+PROPS = os.path.join(DATA, "mlb-props.json")
 COMBOS = os.path.join(DATA, "flag-combo-table.json")
 MSUM = os.path.join(DATA, "msum-ml-table.json")
 
@@ -84,13 +86,38 @@ def game_ids():
     halves of a doubleheader exactly.
     """
     out = {}
-    if not os.path.exists(ALLML):
-        return out
-    for g in json.load(open(ALLML, encoding="utf-8")).get("games", []):
-        if g.get("gamePk") is None:
-            continue
-        out[(g.get("date"), g.get("away"), g.get("home"),
-             g.get("commence"))] = g["gamePk"]
+    if os.path.exists(ALLML):
+        for g in json.load(open(ALLML, encoding="utf-8")).get("games", []):
+            if g.get("gamePk") is None:
+                continue
+            out[(g.get("date"), g.get("away"), g.get("home"),
+                 g.get("commence"))] = g["gamePk"]
+    # ALL-ML lags: it is built from settled games, so TODAY's slate is not in
+    # it yet and today's entries would log without an id -- the day they most
+    # need one. The fade-ML ledger carries gamePk on today's block, so take
+    # ids from there too (it never disagrees; both come from the same feed).
+    if os.path.exists(FADEML):
+        fade = json.load(open(FADEML, encoding="utf-8"))
+        for b in (fade.get("today") or []) + (fade.get("bets") or []):
+            if b.get("gamePk") is None:
+                continue
+            out.setdefault((b.get("date"), b.get("away"), b.get("home"),
+                            b.get("commence")), b["gamePk"])
+    # Third source, and the only one that covers the WHOLE slate: the props
+    # payload lists every probable with its game_id. Verified identical to
+    # fade-ML's gamePk on all seven shared games of 2026-09-01, so it is the
+    # same MLB id, not a parallel numbering. Keyed on the team pair because
+    # probables carry team/opp rather than away/home.
+    if os.path.exists(PROPS):
+        pr = json.load(open(PROPS, encoding="utf-8"))
+        pdate = pr.get("date")
+        for x in (pr.get("todayProbables") or []):
+            gid, t, o = x.get("game_id"), x.get("team"), x.get("opp")
+            if gid is None or not t or not o:
+                continue
+            for a, h in ((t, o), (o, t)):
+                out.setdefault((pdate, a, h, x.get("game_time")), gid)
+                out.setdefault((pdate, a, h, None), gid)
     return out
 
 
@@ -115,8 +142,10 @@ def qualifiers(payload, verdicts, msum_table, ids=None):
         ms = [s.get("mismatch") for s in sides]
         msum = (ms[0] + ms[1]) if (ms[0] is not None and ms[1] is not None) else None
         total, u_ml, o_ml = g.get("total"), g.get("under_ml"), g.get("over_ml")
-        gid = ids.get((payload.get("date"), g.get("away"), g.get("home"),
-                       g.get("commence")))
+        gid = (ids.get((payload.get("date"), g.get("away"), g.get("home"),
+                        g.get("commence")))
+               or ids.get((payload.get("date"), g.get("away"), g.get("home"),
+                           None)))
 
         # --- Flag Plays -------------------------------------------------
         if flagged and total is not None:
