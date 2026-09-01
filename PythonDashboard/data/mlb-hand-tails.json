@@ -1,7 +1,7 @@
 {
   "sport": "MLB",
   "type": "hand-tails",
-  "generated": "2026-09-01T00:35:32Z",
+  "generated": "2026-09-01T13:07:43Z",
   "handMin": 6,
   "roster": {
     "Brady Singer": {
@@ -101,6 +101,13 @@
       "since": "2026-08-26"
     },
     {
+      "name": "Ian Seymour",
+      "hand": "L",
+      "games": 8,
+      "units": 5.6,
+      "since": "2026-08-31"
+    },
+    {
       "name": "Jack Perkins",
       "hand": "R",
       "games": 5,
@@ -176,7 +183,32 @@
       }
     }
   },
-  "today": [],
+  "today": [
+    {
+      "date": "2026-09-01",
+      "commence": "2026-09-01T22:45:00Z",
+      "betType": "hand_fade",
+      "action": "fade",
+      "pitcher": "Bryan Woo",
+      "entry": "Bryan Woo",
+      "hand": "R",
+      "arm_team": "SEA",
+      "opp_team": "BOS",
+      "selection": "BOS",
+      "home": "BOS",
+      "away": "SEA",
+      "oppLefty": 6,
+      "oppRighty": 6,
+      "lineupConfirmed": false,
+      "odds": null,
+      "stake": null,
+      "result": "unconfirmed",
+      "reason": null,
+      "profit": 0.0,
+      "book": "fanduel",
+      "source": "fanduel_api"
+    }
+  ],
   "bets": [
     {
       "date": "2026-05-20",

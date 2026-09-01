@@ -1,7 +1,7 @@
 {
   "sport": "MLB",
   "type": "hand-tails-watch",
-  "generated": "2026-09-01T00:37:28Z",
+  "generated": "2026-09-01T13:08:58Z",
   "handMin": 6,
   "minGames": 3,
   "minUnits": 2.5,
@@ -9,92 +9,70 @@
   "note": "Shadow review list -- arms NOT on the active hand-tails list showing a handedness-conditional edge (fade or take). The active list is fade-only, so all tail/take arms are review-only here. In-sample season replay; watch, don't bet.",
   "today": [
     {
-      "date": "2026-08-31",
-      "commence": "2026-08-31T22:40:00Z",
+      "date": "2026-09-01",
+      "commence": "2026-09-02T01:38:00Z",
       "betType": "watch_fade",
       "action": "fade",
       "watch": true,
-      "pitcher": "Ian Seymour",
-      "hand": "L",
-      "arm_team": "TB",
-      "opp_team": "NYM",
-      "selection": "NYM",
-      "home": "TB",
-      "away": "NYM",
-      "oppLefty": 4,
-      "oppRighty": 6,
-      "lineupConfirmed": true,
-      "odds": 170,
+      "pitcher": "Grayson Rodriguez",
+      "hand": "R",
+      "arm_team": "LAA",
+      "opp_team": "NYY",
+      "selection": "NYY",
+      "home": "LAA",
+      "away": "NYY",
+      "oppLefty": 7,
+      "oppRighty": 2,
+      "lineupConfirmed": false,
+      "odds": null,
       "suggest": "fade",
-      "suggestUnits": 3.9,
+      "suggestUnits": 4.78,
       "games": 7,
-      "result": "pending"
+      "result": "unconfirmed"
     },
     {
-      "date": "2026-08-31",
-      "commence": "2026-08-31T23:40:00Z",
-      "betType": "watch_fade",
-      "action": "fade",
-      "watch": true,
-      "pitcher": "Clay Holmes",
-      "hand": "R",
-      "arm_team": "CHC",
-      "opp_team": "MIL",
-      "selection": "MIL",
-      "home": "CHC",
-      "away": "MIL",
-      "oppLefty": 6,
-      "oppRighty": 3,
-      "lineupConfirmed": true,
-      "odds": -106,
-      "suggest": "fade",
-      "suggestUnits": 2.7,
-      "games": 6,
-      "result": "pending"
-    },
-    {
-      "date": "2026-08-31",
-      "commence": "2026-09-01T00:10:00Z",
+      "date": "2026-09-01",
+      "commence": "2026-09-02T01:40:00Z",
       "betType": "watch_take",
       "action": "take",
       "watch": true,
-      "pitcher": "Anthony Kay",
+      "pitcher": "Eduardo Rodriguez",
       "hand": "L",
-      "arm_team": "CWS",
-      "opp_team": "HOU",
-      "selection": "CWS",
-      "home": "HOU",
-      "away": "CWS",
-      "oppLefty": 2,
-      "oppRighty": 7,
-      "lineupConfirmed": true,
-      "odds": 118,
-      "suggest": "take",
-      "suggestUnits": 8.2,
-      "games": 21,
-      "result": "pending"
-    },
-    {
-      "date": "2026-08-31",
-      "commence": "2026-09-01T01:40:00Z",
-      "betType": "watch_take",
-      "action": "take",
-      "watch": true,
-      "pitcher": "Brandon Pfaadt",
-      "hand": "R",
       "arm_team": "ARI",
       "opp_team": "PHI",
       "selection": "ARI",
       "home": "ARI",
       "away": "PHI",
-      "oppLefty": 7,
-      "oppRighty": 2,
-      "lineupConfirmed": true,
-      "odds": 100,
+      "oppLefty": 3,
+      "oppRighty": 6,
+      "lineupConfirmed": false,
+      "odds": null,
       "suggest": "take",
-      "suggestUnits": 5.2,
-      "games": 5,
-      "result": "pending"
+      "suggestUnits": 16.58,
+      "games": 20,
+      "result": "unconfirmed"
+    },
+    {
+      "date": "2026-09-01",
+      "commence": "2026-09-02T01:40:00Z",
+      "betType": "watch_take",
+      "action": "take",
+      "watch": true,
+      "pitcher": "Jes\u00fas Luzardo",
+      "hand": "L",
+      "arm_team": "PHI",
+      "opp_team": "ARI",
+      "selection": "PHI",
+      "home": "ARI",
+      "away": "PHI",
+      "oppLefty": 4,
+      "oppRighty": 7,
+      "lineupConfirmed": false,
+      "odds": null,
+      "suggest": "take",
+      "suggestUnits": 6.4,
+      "games": 24,
+      "result": "unconfirmed"
     }
   ],
   "candidates": [
@@ -153,24 +131,6 @@
       "era": 2.52
     },
     {
-      "pitcher": "Anthony Kay",
-      "hand": "L",
-      "games": 21,
-      "suggest": "take",
-      "suggestUnits": 8.2,
-      "fade": {
-        "w": 7,
-        "l": 14,
-        "u": -10.48
-      },
-      "take": {
-        "w": 14,
-        "l": 7,
-        "u": 8.2
-      },
-      "era": 4.1
-    },
-    {
       "pitcher": "Logan Henderson",
       "hand": "R",
       "games": 9,
@@ -187,6 +147,24 @@
         "u": 7.22
       },
       "era": 2.48
+    },
+    {
+      "pitcher": "Anthony Kay",
+      "hand": "L",
+      "games": 22,
+      "suggest": "take",
+      "suggestUnits": 7.2,
+      "fade": {
+        "w": 8,
+        "l": 14,
+        "u": -9.48
+      },
+      "take": {
+        "w": 14,
+        "l": 8,
+        "u": 7.2
+      },
+      "era": 4.3
     },
     {
       "pitcher": "Andrew Painter",
@@ -387,6 +365,24 @@
       "era": 2.79
     },
     {
+      "pitcher": "Ian Seymour",
+      "hand": "L",
+      "games": 8,
+      "suggest": "fade",
+      "suggestUnits": 5.6,
+      "fade": {
+        "w": 6,
+        "l": 2,
+        "u": 5.6
+      },
+      "take": {
+        "w": 2,
+        "l": 6,
+        "u": -6.58
+      },
+      "era": 4.5
+    },
+    {
       "pitcher": "Jack Perkins",
       "hand": "R",
       "games": 5,
@@ -421,24 +417,6 @@
         "u": 5.32
       },
       "era": 2.68
-    },
-    {
-      "pitcher": "Brandon Pfaadt",
-      "hand": "R",
-      "games": 5,
-      "suggest": "take",
-      "suggestUnits": 5.2,
-      "fade": {
-        "w": 1,
-        "l": 4,
-        "u": -6.09
-      },
-      "take": {
-        "w": 4,
-        "l": 1,
-        "u": 5.2
-      },
-      "era": 2.9
     },
     {
       "pitcher": "Luinder Avila",
@@ -639,6 +617,24 @@
       "era": 4.68
     },
     {
+      "pitcher": "Brandon Pfaadt",
+      "hand": "R",
+      "games": 6,
+      "suggest": "take",
+      "suggestUnits": 4.2,
+      "fade": {
+        "w": 2,
+        "l": 4,
+        "u": -5.09
+      },
+      "take": {
+        "w": 4,
+        "l": 2,
+        "u": 4.2
+      },
+      "era": 2.91
+    },
+    {
       "pitcher": "Cody Bradford",
       "hand": "L",
       "games": 3,
@@ -693,24 +689,6 @@
       "era": 5.03
     },
     {
-      "pitcher": "Ian Seymour",
-      "hand": "L",
-      "games": 7,
-      "suggest": "fade",
-      "suggestUnits": 3.9,
-      "fade": {
-        "w": 5,
-        "l": 2,
-        "u": 3.9
-      },
-      "take": {
-        "w": 2,
-        "l": 5,
-        "u": -4.74
-      },
-      "era": 4.53
-    },
-    {
       "pitcher": "Michael King",
       "hand": "R",
       "games": 11,
@@ -726,7 +704,7 @@
         "l": 7,
         "u": -4.62
       },
-      "era": 3.23
+      "era": 3.11
     },
     {
       "pitcher": "Rhett Lowder",
@@ -853,24 +831,6 @@
         "u": -2.94
       },
       "era": 5.1
-    },
-    {
-      "pitcher": "Clay Holmes",
-      "hand": "R",
-      "games": 6,
-      "suggest": "fade",
-      "suggestUnits": 2.7,
-      "fade": {
-        "w": 4,
-        "l": 2,
-        "u": 2.7
-      },
-      "take": {
-        "w": 2,
-        "l": 4,
-        "u": -2.9
-      },
-      "era": 2.26
     },
     {
       "pitcher": "Gabriel Hughes",

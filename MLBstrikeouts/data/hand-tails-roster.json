@@ -1,7 +1,7 @@
 {
   "sport": "MLB",
   "type": "hand-tails-roster",
-  "generated": "2026-09-01T00:34:45Z",
+  "generated": "2026-09-01T13:07:15Z",
   "handMin": 6,
   "rule": {
     "minGames": 4,
@@ -9,7 +9,7 @@
   },
   "note": "Walk-forward qualifier computation used to NOTIFY (promotion candidates), not to drive the bet list. The bet list is the manually curated hand-tails-manual.json. `promotions` are arms that clear minGames+minUnits but are not on the manual list; `demotions` are manual-list arms whose record slipped under the bar.",
   "manualCount": 18,
-  "qualifiedCount": 24,
+  "qualifiedCount": 25,
   "promotions": [
     {
       "name": "Andrew Alvarez",
@@ -31,6 +31,13 @@
       "games": 7,
       "units": 4.78,
       "since": "2026-08-26"
+    },
+    {
+      "name": "Ian Seymour",
+      "hand": "L",
+      "games": 8,
+      "units": 5.6,
+      "since": "2026-08-31"
     },
     {
       "name": "Jack Perkins",
@@ -124,7 +131,7 @@
       "windows": [
         [
           "2026-08-28",
-          "2026-08-31"
+          "2026-09-01"
         ]
       ]
     },
@@ -204,6 +211,15 @@
         ]
       ]
     },
+    "Ian Seymour": {
+      "hand": "L",
+      "windows": [
+        [
+          "2026-08-31",
+          null
+        ]
+      ]
+    },
     "Jack Perkins": {
       "hand": "R",
       "windows": [
@@ -222,7 +238,7 @@
         ],
         [
           "2026-08-23",
-          "2026-08-31"
+          "2026-09-01"
         ]
       ]
     },
@@ -266,7 +282,7 @@
       "windows": [
         [
           "2026-08-18",
-          "2026-08-31"
+          "2026-09-01"
         ]
       ]
     },
@@ -288,7 +304,7 @@
       "windows": [
         [
           "2026-06-13",
-          "2026-08-31"
+          "2026-09-01"
         ]
       ]
     },
@@ -301,7 +317,7 @@
         ],
         [
           "2026-08-30",
-          "2026-08-31"
+          "2026-09-01"
         ]
       ]
     },

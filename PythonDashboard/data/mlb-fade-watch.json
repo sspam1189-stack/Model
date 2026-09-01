@@ -1,31 +1,39 @@
 {
   "sport": "MLB",
   "type": "fade-watch",
-  "generated": "2026-09-01T00:37:29Z",
+  "generated": "2026-09-01T13:08:59Z",
   "minGames": 3,
   "minUnits": 2.5,
   "note": "Shadow review list -- arms NOT on the active fade list whose home or away fade clears the bar (>= 3 games, >= +2.5u). In-sample season replay; watch, don't bet. Promote by editing scripts/fade_list.py.",
-  "today": [
-    {
-      "date": "2026-08-31",
-      "commence": "2026-08-31T22:45:00Z",
-      "betType": "fade_watch",
-      "watch": true,
-      "pitcher": "George Kirby",
-      "arm_team": "SEA",
-      "fadeTeam": "SEA",
-      "selection": "BOS",
-      "home": "BOS",
-      "away": "SEA",
-      "venue": "away",
-      "odds": -154,
-      "suggest": "away",
-      "suggestUnits": 3.3,
-      "games": 11,
-      "result": "pending"
-    }
-  ],
+  "today": [],
   "candidates": [
+    {
+      "pitcher": "George Kirby",
+      "team": "SEA",
+      "suggest": "away",
+      "suggestUnits": 4.3,
+      "all": {
+        "w": 13,
+        "l": 11,
+        "u": 3.28,
+        "n": 24,
+        "roi": 0.1306
+      },
+      "home": {
+        "w": 5,
+        "l": 7,
+        "u": -1.02,
+        "n": 12,
+        "roi": -0.0849
+      },
+      "away": {
+        "w": 8,
+        "l": 4,
+        "u": 4.3,
+        "n": 12,
+        "roi": 0.3282
+      }
+    },
     {
       "pitcher": "Wandy Peralta",
       "team": "SD",
@@ -105,6 +113,33 @@
         "u": 3.76,
         "n": 12,
         "roi": 0.2942
+      }
+    },
+    {
+      "pitcher": "Ian Seymour",
+      "team": "TB",
+      "suggest": "home",
+      "suggestUnits": 3.6,
+      "all": {
+        "w": 6,
+        "l": 6,
+        "u": 1.54,
+        "n": 12,
+        "roi": 0.125
+      },
+      "home": {
+        "w": 5,
+        "l": 3,
+        "u": 3.6,
+        "n": 8,
+        "roi": 0.4412
+      },
+      "away": {
+        "w": 1,
+        "l": 3,
+        "u": -2.06,
+        "n": 4,
+        "roi": -0.4952
       }
     },
     {
@@ -195,17 +230,17 @@
       "suggestUnits": 3.4,
       "all": {
         "w": 7,
-        "l": 4,
-        "u": 3.9,
-        "n": 11,
-        "roi": 0.313
+        "l": 5,
+        "u": 2.84,
+        "n": 12,
+        "roi": 0.2101
       },
       "home": {
         "w": 3,
-        "l": 3,
-        "u": 0.5,
-        "n": 6,
-        "roi": 0.0774
+        "l": 4,
+        "u": -0.56,
+        "n": 7,
+        "roi": -0.0745
       },
       "away": {
         "w": 4,
@@ -213,33 +248,6 @@
         "u": 3.4,
         "n": 5,
         "roi": 0.5667
-      }
-    },
-    {
-      "pitcher": "George Kirby",
-      "team": "SEA",
-      "suggest": "away",
-      "suggestUnits": 3.3,
-      "all": {
-        "w": 12,
-        "l": 11,
-        "u": 2.28,
-        "n": 23,
-        "roi": 0.0967
-      },
-      "home": {
-        "w": 5,
-        "l": 7,
-        "u": -1.02,
-        "n": 12,
-        "roi": -0.0849
-      },
-      "away": {
-        "w": 7,
-        "l": 4,
-        "u": 3.3,
-        "n": 11,
-        "roi": 0.2855
       }
     },
     {
@@ -267,6 +275,33 @@
         "u": 2.0,
         "n": 2,
         "roi": 0.5063
+      }
+    },
+    {
+      "pitcher": "Elmer Rodr\u00edguez",
+      "team": "NYY",
+      "suggest": "away",
+      "suggestUnits": 3.1,
+      "all": {
+        "w": 4,
+        "l": 2,
+        "u": 2.1,
+        "n": 6,
+        "roi": 0.3365
+      },
+      "home": {
+        "w": 1,
+        "l": 2,
+        "u": -1.0,
+        "n": 3,
+        "roi": -0.3289
+      },
+      "away": {
+        "w": 3,
+        "l": 0,
+        "u": 3.1,
+        "n": 3,
+        "roi": 0.9688
       }
     },
     {
@@ -402,6 +437,33 @@
         "u": -7.5,
         "n": 9,
         "roi": -0.5304
+      }
+    },
+    {
+      "pitcher": "Tanner Gordon",
+      "team": "COL",
+      "suggest": "home",
+      "suggestUnits": 2.82,
+      "all": {
+        "w": 5,
+        "l": 3,
+        "u": 0.98,
+        "n": 8,
+        "roi": 0.0788
+      },
+      "home": {
+        "w": 4,
+        "l": 1,
+        "u": 2.82,
+        "n": 5,
+        "roi": 0.4476
+      },
+      "away": {
+        "w": 1,
+        "l": 2,
+        "u": -1.84,
+        "n": 3,
+        "roi": -0.2997
       }
     },
     {
