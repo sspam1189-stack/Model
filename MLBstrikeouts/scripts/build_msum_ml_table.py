@@ -19,10 +19,21 @@ is actually better.
 The DOG subset is carried separately because that is where the edge
 concentrates -- the better arm priced as an underdog.
 
-Status: SHADOW. It is p=0.043 out of a session that scanned a great many
-cells, and April ran -31%. A rule with better statistics than this one died
-this morning when its sample got real (see build_flag_combo_table.py header).
-15-20 live plays before it can bet.
+Status: CARDED 2026-09-01 (user), dogs only, without a shadow period.
+
+Recorded plainly because the precedent matters: the mismatch ML was carded
+the same way on 8/29 (p=0.022, better than this rule's p=0.043) and was
+pulled at 1-3 the next day, which is why the shadow gate exists at all. This
+rule is n=34 in scope, April ran -31%, and it was found during a session that
+scanned a great many cells. The controls are what carry it -- backing the
+favorite in the same games loses (-1.9%), the same rule outside the pool is
+flat (-0.2%), and the mirror pool is dead -- so the filter is doing real work
+rather than a threshold cutting noise attractively.
+
+It fires about once a week. If it runs clearly negative over its first 10-15
+plays, it comes off; the favorite half stays measured in splits.favorite so
+the rule can be widened instead of scrapped if the dog cut turns out to be
+the overfit part.
 
 Output: MLBstrikeouts/data/msum-ml-table.json (+ the dashboard copy)
 
@@ -47,7 +58,7 @@ OUTPUT_PATHS = [
 ]
 
 MSUM_AT = 40.0     # pool threshold: both arms outclassed by this much, summed
-STATUS = "shadow"  # "shadow" (tracked, not bet) or "card"
+STATUS = "card"    # "shadow" (tracked, not bet) or "card"
 SHADOW_TARGET = 20
 # Scope narrowed to the DOG half (user, 2026-09-01): the rule only produces a
 # play when the better arm is priced at plus money. Full pool 82-56 +9.3%,

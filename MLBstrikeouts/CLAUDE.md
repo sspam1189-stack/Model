@@ -76,7 +76,35 @@ When building a daily card from this repo's outputs, the tiers are:
      leaking-pen overs lost money even while those games averaged 11 runs
      — the market prices pens. Shadow-track; do not card.
 
-3. **Mismatch ML — RETIRED 2026-08-30 (user), after one day at 1-3.**
+3. **Better-arm ML — CARDED 2026-09-01 (user), dogs only.** In games where
+   both starters are outclassed by the bats they face (`m_sum` = the two
+   sides' mismatch scores summed, `>= +40`), back the team whose starter has
+   the LOWER mismatch — but only when that team is priced at plus money.
+
+       rule (dogs only)     19-15  +26.0%   n=34
+       favorite half        63-41   +3.8%   n=104   measured, out of scope
+       whole pool           82-56   +9.3%   n=138   perm p=0.043
+       CONTROL favorite     79-59   -1.9%   n=138
+       same rule outside    677-560 -0.2%   n=1237
+       mirror pool (<= -40) 73-67   -6.1%   p=0.698  DEAD
+
+   The controls are the case, not the ROI: backing the favorite in the same
+   games loses, the identical rule outside the pool is flat, and the mirror
+   pool is dead. So the m_sum filter selects the games, and the arm
+   comparison is not a favorite proxy. Table rebuilt every run by
+   `scripts/build_msum_ml_table.py`; the panel and the ledger read its
+   `status` field, so flipping card/shadow is a one-line change there.
+
+   **Carded without a shadow period, and that is the risk.** The mismatch ML
+   below was carded the same way at a BETTER p-value (0.022) and was pulled
+   at 1-3 the next day. This rule is n=34 in scope, April ran -31%, and it
+   surfaced during a session that scanned a great many cells. It fires about
+   once a week, so a bad run takes months to read; if it is clearly negative
+   over its first 10-15 plays it comes off. The favorite half stays measured
+   so the rule can be WIDENED rather than scrapped if the dog cut is the
+   overfit part.
+
+4. **Mismatch ML — RETIRED 2026-08-30 (user), after one day at 1-3.**
    Kept here because the reasoning is the point, not the result. Was: off the live scout payload's
    L20 mismatch, one play per qualifying SIDE --
 
@@ -113,12 +141,12 @@ When building a daily card from this repo's outputs, the tiers are:
    is revived, it shadow-trades 15-20 plays at the +9.4% expectation, not
    the +17.2% season figure.
 
-4. **Scout MLs**: top conviction only — both halves of the game aligned
+5. **Scout MLs**: top conviction only — both halves of the game aligned
    across all four windows — capped at 1u, never opposing a model
    position. NOTE: this tier rests on the same ladder the backtest just
    found inert (it is 3-1 lifetime, n=4, which is nothing). Treat every
    scout ML as shadow until it has 25 graded plays.
-5. **Leans are retired**: no half-case totals, no temperature-only reads,
+6. **Leans are retired**: no half-case totals, no temperature-only reads,
    no "0.5u if you want it" tier. A read is card-grade or it is not
    bettable. If a filter on model plays ever seems attractive, define it
    in advance and shadow-track it before it touches a live bet.

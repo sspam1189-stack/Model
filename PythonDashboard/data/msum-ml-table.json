@@ -1,13 +1,13 @@
 {
  "sport": "MLB",
  "type": "msum-ml-table",
- "generated": "2026-09-01T20:40:29Z",
+ "generated": "2026-09-01T20:42:43Z",
  "span": {
   "from": "2026-04-12",
   "to": "2026-08-31"
  },
  "threshold": 40.0,
- "status": "shadow",
+ "status": "card",
  "require_dog": true,
  "shadow_target": 20,
  "rule": "m_sum >= +40: back the team whose starter has the LOWER mismatch (the better arm), and only when that team is a plus-money dog.",
