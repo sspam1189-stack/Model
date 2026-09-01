@@ -2081,13 +2081,11 @@
       "stake": 1.0,
       "rule": "flag-plays",
       "auto": true,
-      "basis": "Verdict over for swingman+stale-window. Randy V\u00e1squez swingman-2g \u00b7 Nick Lodolo stale-window-46d.",
+      "basis": "Verdict over for swingman+stale-window (30-20 +14.7% over vs 20-30 -24.5% under). Randy Vasquez swingman-2g \u00b7 Nick Lodolo stale-window-46d. This is the rule's play of record for the game.",
       "result": "pending",
       "profit": 0.0,
       "line": 9,
-      "combo": "swingman+stale-window",
-      "not_bet": true,
-      "not_bet_reason": "verdict flipped to over mid-slate after the under was already carded and bet at 9.5; the game had started when the auto-logger first saw it"
+      "combo": "swingman+stale-window"
     },
     {
       "date": "2026-09-01",
@@ -2104,7 +2102,9 @@
       "verdict_at_bet": "under (pre-verdict rule)",
       "verdict_now": "over",
       "rule_legacy": "scout-flagged-starter-under-legacy",
-      "line": 9.5
+      "line": 9.5,
+      "not_bet": true,
+      "not_bet_reason": "superseded same day: carded under the old any-defect->under rule at 9.5, then the per-combo verdicts put this combo on the OVER. SD/CIN O9 is the play of record; this row is kept only so the morning call is not erased from the history"
     },
     {
       "date": "2026-09-01",
