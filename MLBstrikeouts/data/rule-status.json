@@ -1,38 +1,92 @@
 {
  "sport": "MLB",
  "type": "rule-status",
- "generated": "2026-09-01T21:12:28Z",
+ "generated": "2026-09-01T22:10:18Z",
  "note": "Single source of truth for card/shadow status. The daily logger imports RULE_STATUS from scripts/rule_status.py; the dashboard reads this file. Edit the script, not either surface.",
  "rules": {
   "flag-plays": {
    "status": "card",
    "name": "Flag Plays",
-   "why": "Per-combo verdicts on the defect flags; swingman alone 38-23 +19.0% (p=0.030), seven combos to the under and swingman+stale-window to the over. Carded 2026-09-01."
+   "why": "Per-combo verdicts on the defect flags; swingman alone 38-23 +19.0% (p=0.030), seven combos to the under and swingman+stale-window to the over. Carded 2026-09-01.",
+   "group": "scout"
   },
   "form-under": {
    "status": "card",
    "name": "Form under",
-   "why": "m_sum <= -40 -> under. 84-52 +17.2% (n=136, perm p=0.005), all bands positive, both walk-forward halves positive. Carded 2026-09-01."
+   "why": "m_sum <= -40 -> under. 84-52 +17.2% (n=136, perm p=0.005), all bands positive, both walk-forward halves positive. Carded 2026-09-01.",
+   "group": "scout"
   },
   "better-arm-ml": {
    "status": "card",
    "name": "Better arm ML",
-   "why": "m_sum >= +40, back the lower-mismatch side, plus money only. 19-15 +26.0% (n=34); backing the favorite in the same games is -1.9% and the rule is flat outside the pool. Carded 2026-09-01."
+   "why": "m_sum >= +40, back the lower-mismatch side, plus money only. 19-15 +26.0% (n=34); backing the favorite in the same games is -1.9% and the rule is flat outside the pool. Carded 2026-09-01.",
+   "group": "scout"
   },
   "aligned-ml": {
    "status": "card",
    "name": "Aligned ML",
-   "why": "Hot-aligned offense vs cold-aligned at the 75-PA floor. 3-1 lifetime (n=4) on a ladder measured inert for runs -- a structural read, not a measured edge. Carded 2026-09-01; comes off at 0-3."
+   "why": "Hot-aligned offense vs cold-aligned at the 75-PA floor. 3-1 lifetime (n=4) on a ladder measured inert for runs -- a structural read, not a measured edge. Carded 2026-09-01; comes off at 0-3.",
+   "group": "scout"
   },
   "mismatch-ml": {
    "status": "shadow",
    "name": "Mismatch ML",
-   "why": "tail m <= -45 / fade m >= +55. Carded 8/29 without a shadow period and pulled 8/30 at 1-3; revived 2026-09-01 as shadow for the 15-20 tracked plays the gate asks for, at August's +9.4% expectation."
+   "why": "tail m <= -45 / fade m >= +55. Carded 8/29 without a shadow period and pulled 8/30 at 1-3; revived 2026-09-01 as shadow for the 15-20 tracked plays the gate asks for, at August's +9.4% expectation.",
+   "group": "scout"
   },
   "better-arm-ml-fav": {
    "status": "shadow",
    "name": "Better arm ML (favorite half)",
-   "why": "Out of scope since the dogs-only narrowing; measured, never bet."
+   "why": "Out of scope since the dogs-only narrowing; measured, never bet.",
+   "group": "scout"
+  },
+  "hot-arm-dog-ml": {
+   "status": "card",
+   "name": "Hot arm dog ML",
+   "why": "Back a plus-money side whose starter's team is +40% or better over his last 8 starts.",
+   "group": "non-scout"
+  },
+  "away-dog-ml": {
+   "status": "card",
+   "name": "Away dog ML",
+   "why": "Away team priced as a dog in a game with a total of 9.5 or higher.",
+   "group": "non-scout"
+  },
+  "home-slide-ml": {
+   "status": "card",
+   "name": "Home slide ML",
+   "why": "Home team on a 4-game losing streak or longer, facing a different opponent than its last game.",
+   "group": "non-scout"
+  },
+  "pickem-under": {
+   "status": "card",
+   "name": "Pickem under",
+   "why": "Favorite at -115 or shorter and total 8.5 or higher: under.",
+   "group": "non-scout"
+  },
+  "starter-over-run": {
+   "status": "card",
+   "name": "Starter over run",
+   "why": "Either starter has gone over in 75% or more of his last 8 starts and the total is 8.5 or higher: over.",
+   "group": "non-scout"
+  },
+  "low-line-over": {
+   "status": "card",
+   "name": "Low line over",
+   "why": "Total 7 or lower: over.",
+   "group": "non-scout"
+  },
+  "cold-arms-under": {
+   "status": "card",
+   "name": "Cold arms under",
+   "why": "Both starters have gone over in 35% or less of their last 8: under.",
+   "group": "non-scout"
+  },
+  "under-juice": {
+   "status": "card",
+   "name": "Under juice",
+   "why": "Under priced at -120 or shorter: follow it.",
+   "group": "non-scout"
   }
  }
 }

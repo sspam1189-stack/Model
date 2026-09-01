@@ -21,6 +21,7 @@ Usage:  cd MLBstrikeouts && python -m scripts.rule_status
 import datetime
 import json
 import os
+import sys
 
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 OUTPUT_PATHS = [
@@ -60,7 +61,28 @@ RULES = {
         "Out of scope since the dogs-only narrowing; measured, never bet."),
 }
 
+# The non-scout systems: eight rules found 2026-09-01 by scanning the 2,066
+# settled games in mlb-all-ml.json, using only what that file carries. They
+# read none of the mismatch model, which is why they are grouped apart on the
+# tab and in the ledger -- when one of these agrees with a scout rule it is a
+# second opinion rather than the same inputs counted twice. Carded by the user
+# without a shadow period. Full statistical case, including the two that fail
+# their ladder, lives in scripts/allml_systems.py.
+NON_SCOUT = {}
+if SCRIPT_DIR not in sys.path:      # importable as `scripts.rule_status` or bare
+    sys.path.insert(0, SCRIPT_DIR)
+import allml_systems as _sys        # noqa: E402  (needs the path line above)
+
+for _key in _sys.CARD_ORDER:
+    _name, _market, _rule, _case = _sys.SYSTEMS[_key]
+    NON_SCOUT[_key] = ("card", _name, _rule)
+RULES.update(NON_SCOUT)
+
+# group -> which panel a rule belongs to. Everything not named here is scout.
+GROUPS = {k: "non-scout" for k in NON_SCOUT}
+
 RULE_STATUS = {k: v[0] for k, v in RULES.items()}
+RULE_GROUP = {k: GROUPS.get(k, "scout") for k in RULES}
 
 
 def is_card(rule):
@@ -77,7 +99,8 @@ def main():
                  "logger imports RULE_STATUS from scripts/rule_status.py; the "
                  "dashboard reads this file. Edit the script, not either "
                  "surface."),
-        "rules": {k: {"status": v[0], "name": v[1], "why": v[2]}
+        "rules": {k: {"status": v[0], "name": v[1], "why": v[2],
+                      "group": RULE_GROUP.get(k, "scout")}
                   for k, v in RULES.items()},
     }
     for path in OUTPUT_PATHS:

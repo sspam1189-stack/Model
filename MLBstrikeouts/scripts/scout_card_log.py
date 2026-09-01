@@ -218,6 +218,23 @@ def cmd_report(args, blob):
                      if not e.get("not_bet"))
             print(f"{'':16}retired rules (excluded from record): {rw}-{rl} "
                   f"{ru:+.2f}u risked")
+        # Non-scout systems (2026-09-01): eight rules read off mlb-all-ml.json
+        # with no mismatch-model input. Carded, so they belong in the record
+        # above; split out here because they are a separate bet on a separate
+        # signal, and a week where the scout tier goes cold and these carry it
+        # (or the reverse) should be legible rather than averaged away.
+        ns = [e for e in plays if e.get("non_scout")]
+        if ns:
+            nw = sum(1 for e in ns if e.get("result") == "WIN")
+            nl = sum(1 for e in ns if e.get("result") == "LOSS")
+            nu = sum(e.get("profit") or 0 for e in ns if not e.get("not_bet"))
+            np_ = sum(1 for e in ns if e.get("result") == "pending")
+            sw_ = w - nw - sum(h["wins"] for h in pre)
+            sl_ = l - nl - sum(h["losses"] for h in pre)
+            print(f"{'':16}non-scout systems: {nw}-{nl}"
+                  + (f" ({np_} pending)" if np_ else "")
+                  + f" {nu:+.2f}u    scout tier: {sw_}-{sl_}"
+                  f" {u - nu:+.2f}u — both carded, both in the record above")
         if shadow:
             sw = sum(1 for e in shadow if e.get("result") == "WIN")
             sl = sum(1 for e in shadow if e.get("result") == "LOSS")
