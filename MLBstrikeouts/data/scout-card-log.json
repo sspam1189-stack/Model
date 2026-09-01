@@ -1956,11 +1956,10 @@
       "price": 148,
       "stake": 1.0,
       "rule": "aligned-ml",
-      "shadow": true,
       "basis": "First fire since the rule got its own 75-PA floor (2026-08-31). NOTE: duplicates a live fade-ML model play (SF +148, fading Skenes) -- the shadow grades the rule, the money is already on via the model.",
       "result": "pending",
       "profit": 0.0,
-      "note": "Rule carded 2026-09-01 (user), but this entry stays SHADOW: the game had already started when the change was made. Card status applies from the next slate.",
+      "note": "Rule carded 2026-09-01 (user) after this game's first pitch; the entry was converted to a card play on the user's call so the ledger and the dashboard agree. Aligned ML's card record starts here.",
       "rule_legacy": "shadow-aligned-ml"
     },
     {
