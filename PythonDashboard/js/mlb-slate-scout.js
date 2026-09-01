@@ -228,16 +228,16 @@ async function renderMLBSlateScout() {
       const label = nFlags + ' · ' + combo;
       if (side === 'under' || side === 'over') {
         underPlays.push({ s, kind: 'card', side: side === 'over' ? 'O' : 'U',
-          rule: 'CARD · ' + label, why });
+          rule: 'Flagged · ' + label, why });
       } else {
         underPlays.push({ s, kind: 'dead', side: 'U',
-          rule: 'NO PLAY · ' + label,
+          rule: 'Flagged · ' + label,
           why: why + ' · this configuration measured flat or negative, not bet' });
       }
     }
     if (msum != null && msum <= FORM_UNDER_AT) {
       underPlays.push({ s, kind: FORM_UNDER_LIVE ? 'card' : 'shadow', side: 'U',
-        rule: (FORM_UNDER_LIVE ? 'CARD' : 'SHADOW') + ' · form-under',
+        rule: 'Form under',
         why: 'm_sum ' + msum.toFixed(1)
           + (defSides.length ? ' · also flagged' : ' · unflagged') });
     }
@@ -247,7 +247,7 @@ async function renderMLBSlateScout() {
     // MEASURED NEGATIVE: -0.6% at +40, -8.5% at +60, vs blind-over -6.4% --
     // the market overprices hot bats. Shown dimmed as no-plays.
     if (msum != null && msum >= -FORM_UNDER_AT) {
-      underPlays.push({ s, kind: 'dead', side: 'O', rule: 'NO PLAY · form-over',
+      underPlays.push({ s, kind: 'dead', side: 'O', rule: 'Form over',
         why: 'm_sum +' + msum.toFixed(1) + ' · over side measured -0.6% ROI, not bet' });
     }
     // scout-ml-both-halves-aligned at its own 75-PA floor (everything else
@@ -256,7 +256,7 @@ async function renderMLBSlateScout() {
       const am = s.aligned_ml;
       underPlays.push({ s, kind: ALIGNED_ML_LIVE ? 'card' : 'shadow', side: 'ML',
         ml: am,
-        rule: (ALIGNED_ML_LIVE ? 'CARD' : 'SHADOW') + ' · aligned ML',
+        rule: 'Aligned ML',
         why: 'away ' + (am.away_offense || []).join('/') + ' vs home '
           + (am.home_offense || []).join('/') + ' @75pa' });
     }
