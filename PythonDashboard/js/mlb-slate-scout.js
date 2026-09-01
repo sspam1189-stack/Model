@@ -237,8 +237,9 @@ async function renderMLBSlateScout() {
   playsCard.className = 'card card-games';
   let phtml = '<div class="card-title" style="padding:6px 8px">Flagged &amp; form O/U — today\'s plays '
     + '<span style="color:' + DIM + ';font-weight:400;font-size:11px">'
-    + '(CARD is bet · SHADOW is tracked, not bet · NO PLAY is a measured dead side. '
-    + 'Flags have no over rule: a defect is an under edge only.)</span></div>';
+    + '(CARD is bet · SHADOW is tracked, not bet · NO PLAY is a measured dead '
+    + 'side. Side comes from the combo\'s verdict — most play the under, '
+    + 'swingman+stale-window plays the over.)</span></div>';
   if (!underPlays.length) {
     phtml += '<div style="padding:8px 10px;font-size:12px;color:' + DIM
       + '">No qualifying plays on this slate.</div>';
@@ -247,7 +248,26 @@ async function renderMLBSlateScout() {
       + '<thead><tr style="text-align:left;color:' + DIM + ';border-bottom:1px solid #30363d">'
       + '<th style="padding:4px 6px">CT</th><th>Game</th><th>Play</th><th>Rule</th><th>Why</th>'
       + '</tr></thead><tbody>';
+    const RANK = { card: 0, shadow: 1, dead: 2 };
+    const SECTION = {
+      card: 'CARD — bet these',
+      shadow: 'SHADOW — tracked, not bet',
+      dead: 'NO PLAY — measured dead, shown so the slate is complete',
+    };
+    // Section first, then first pitch inside each: the card is what gets
+    // acted on, so it should not be interleaved with rows that are only
+    // there for the record.
+    underPlays.sort((a, b) => (RANK[a.kind] - RANK[b.kind])
+      || String(a.s.commence || '').localeCompare(String(b.s.commence || '')));
+    let pSection = null;
     for (const p of underPlays) {
+      if (p.kind !== pSection) {
+        pSection = p.kind;
+        phtml += '<tr><td colspan="5" style="padding:5px 6px 2px;font-size:11px;'
+          + 'font-weight:600;border-top:1px solid #30363d;color:'
+          + (p.kind === 'card' ? '#3fb950' : DIM) + '">'
+          + SECTION[p.kind] + '</td></tr>';
+      }
       const chip = p.kind === 'card'
         ? 'background:rgba(63,185,80,.18);color:#3fb950'
         : p.kind === 'shadow'
