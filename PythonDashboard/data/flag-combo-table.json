@@ -1,7 +1,7 @@
 {
  "sport": "MLB",
  "type": "flag-combo-table",
- "generated": "2026-09-01T19:02:59Z",
+ "generated": "2026-09-01T19:24:42Z",
  "span": {
   "from": "2026-03-26",
   "to": "2026-08-31"
@@ -52,11 +52,11 @@
    }
   },
   {
-   "combo": "layoff+opener+swingman",
+   "combo": "swingman+layoff+opener",
    "kinds": [
+    "swingman",
     "layoff",
-    "opener",
-    "swingman"
+    "opener"
    ],
    "carded": true,
    "under": {
@@ -75,10 +75,10 @@
    }
   },
   {
-   "combo": "stale-window+swingman",
+   "combo": "swingman+stale-window",
    "kinds": [
-    "stale-window",
-    "swingman"
+    "swingman",
+    "stale-window"
    ],
    "carded": true,
    "under": {
@@ -97,10 +97,10 @@
    }
   },
   {
-   "combo": "layoff+swingman",
+   "combo": "swingman+layoff",
    "kinds": [
-    "layoff",
-    "swingman"
+    "swingman",
+    "layoff"
    ],
    "carded": true,
    "under": {
@@ -119,10 +119,10 @@
    }
   },
   {
-   "combo": "opener+swingman",
+   "combo": "swingman+opener",
    "kinds": [
-    "opener",
-    "swingman"
+    "swingman",
+    "opener"
    ],
    "carded": true,
    "under": {
@@ -141,11 +141,11 @@
    }
   },
   {
-   "combo": "opener+stale-window+swingman",
+   "combo": "swingman+opener+stale-window",
    "kinds": [
+    "swingman",
     "opener",
-    "stale-window",
-    "swingman"
+    "stale-window"
    ],
    "carded": true,
    "under": {
@@ -164,11 +164,11 @@
    }
   },
   {
-   "combo": "layoff+stale-window+swingman",
+   "combo": "swingman+layoff+stale-window",
    "kinds": [
+    "swingman",
     "layoff",
-    "stale-window",
-    "swingman"
+    "stale-window"
    ],
    "carded": true,
    "under": {
@@ -187,12 +187,12 @@
    }
   },
   {
-   "combo": "layoff+opener+stale-window+swingman",
+   "combo": "swingman+layoff+opener+stale-window",
    "kinds": [
+    "swingman",
     "layoff",
     "opener",
-    "stale-window",
-    "swingman"
+    "stale-window"
    ],
    "carded": true,
    "under": {

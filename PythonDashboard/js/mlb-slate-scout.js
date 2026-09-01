@@ -145,6 +145,11 @@ async function renderMLBSlateScout() {
   //    slice proves out. Entries say whether the game is also flagged.
   const DEFECTS = ['layoff', 'stale-window', 'opener', 'swingman'];
   const isDefect = (f) => DEFECTS.some((d) => f.startsWith(d));
+  // Canonical combo naming, matching build_flag_combo_table.COMBO_ORDER: the
+  // card requirement leads, then the rest alphabetically. One spelling per
+  // combo across the chips, the grid and the ledger.
+  const COMBO_ORDER = ['swingman', 'layoff', 'opener', 'stale-window'];
+  const comboName = (kinds) => COMBO_ORDER.filter((k) => kinds.includes(k)).join('+');
   const FORM_UNDER_AT = -40;
   const ctTime = (iso) => {
     try {
@@ -178,7 +183,7 @@ async function renderMLBSlateScout() {
         const kinds = DEFECTS.filter((d) => defSides.some((x) =>
           (x.flags || []).some((f) => f.startsWith(d))));
         underPlays.push({ s, kind: 'card', side: 'U',
-          rule: 'CARD · ' + kinds.join('+') + ' U', why });
+          rule: 'CARD · ' + comboName(kinds) + ' U', why });
       } else {
         // Rust-only is DEAD both ways per the 2,064-game as-of replay
         // (9/1): under -1.7%, over -7.1% (perm p=0.57). The cache-window

@@ -52,6 +52,19 @@ DEFECTS = ("layoff", "stale-window", "opener", "swingman")
 # Everything else is measurement.
 CARD_REQUIRES = "swingman"
 
+# Canonical combo naming (user, 2026-09-01): the card requirement leads, then
+# the rest alphabetically -- "swingman+opener+stale-window", never
+# "opener+stale-window+swingman". One spelling per combo everywhere it is
+# written (this table, the card chips, the ledger's `combo` tag) so a cell can
+# be tracked across the dashboard, the log and the backtest without a lookup.
+COMBO_ORDER = (CARD_REQUIRES,) + tuple(sorted(k for k in DEFECTS
+                                              if k != CARD_REQUIRES))
+
+
+def canonical_combo(kinds):
+    """The one spelling for a set of defect kinds."""
+    return "+".join(k for k in COMBO_ORDER if k in kinds)
+
 
 def profit(ml, won):
     if not won:
@@ -123,7 +136,7 @@ def main():
 
     combos = {}
     for r in flagged:
-        combos.setdefault("+".join(sorted(r["kinds"])), []).append(r)
+        combos.setdefault(canonical_combo(r["kinds"]), []).append(r)
 
     out_combos = []
     for combo, arr in combos.items():
