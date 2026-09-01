@@ -150,6 +150,14 @@ async function renderMLBSlateScout() {
   // combo across the chips, the grid and the ledger.
   const COMBO_ORDER = ['swingman', 'layoff', 'opener', 'stale-window'];
   const comboName = (kinds) => COMBO_ORDER.filter((k) => kinds.includes(k)).join('+');
+  // The defect kinds present across a game's flagged sides, canonically named.
+  const gameCombo = (defSides) => comboName(COMBO_ORDER.filter((d) =>
+    defSides.some((x) => (x.flags || []).some((f) => f.startsWith(d)))));
+  // A single pitcher's defect flags in the same order, so the Why column reads
+  // "swingman-26g, opener, stale-window-108d" everywhere, never payload order.
+  const canonFlags = (flags) => COMBO_ORDER
+    .map((d) => (flags || []).filter((f) => f.startsWith(d)))
+    .flat().join(', ');
   const FORM_UNDER_AT = -40;
   const ctTime = (iso) => {
     try {
@@ -173,22 +181,22 @@ async function renderMLBSlateScout() {
       // qualifiers render as SHADOW. Date-gated so slates before 9/2 show
       // the rule as it was carded then.
       const why = defSides.map((x) => esc(x.pitcher || '?') + ' '
-        + (x.flags || []).filter(isDefect).join(', ')).join(' · ');
+        + canonFlags(x.flags)).join(' · ');
+      const combo = gameCombo(defSides);
       const amended = (data.date || '') >= '2026-09-02';
-      const hasSwing = defSides.some((x) =>
-        (x.flags || []).some((f) => f.startsWith('swingman')));
+      const hasSwing = combo.startsWith('swingman');
       if (!amended || hasSwing) {
-        // Name the defect kinds in the chip itself; the Why column carries
-        // the per-pitcher detail (who, and the exact flag with its count).
-        const kinds = DEFECTS.filter((d) => defSides.some((x) =>
-          (x.flags || []).some((f) => f.startsWith(d))));
+        // Name the combo in the chip itself, spelled exactly as the combo
+        // grid and the ledger spell it; the Why column carries the
+        // per-pitcher detail (who, and the exact flag with its count).
         underPlays.push({ s, kind: 'card', side: 'U',
-          rule: 'CARD · ' + comboName(kinds) + ' U', why });
+          rule: 'CARD · ' + combo + ' U', why });
       } else {
         // Rust-only is DEAD both ways per the 2,064-game as-of replay
         // (9/1): under -1.7%, over -7.1% (perm p=0.57). The cache-window
         // 24-9 over that briefly earned a shadow was a two-week mirage.
-        underPlays.push({ s, kind: 'dead', side: 'U', rule: 'NO PLAY · rust',
+        underPlays.push({ s, kind: 'dead', side: 'U',
+          rule: 'NO PLAY · ' + combo,
           why: why + ' · rust-only measured dead both ways (full season), not bet' });
       }
     }
