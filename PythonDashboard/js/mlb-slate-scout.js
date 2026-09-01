@@ -155,13 +155,18 @@ async function renderMLBSlateScout() {
       const hasSwing = defSides.some((x) =>
         (x.flags || []).some((f) => f.startsWith('swingman')));
       if (!amended || hasSwing) {
-        underPlays.push({ s, kind: 'card', side: 'U', rule: 'CARD · flagged U', why });
+        // Name the defect kinds in the chip itself; the Why column carries
+        // the per-pitcher detail (who, and the exact flag with its count).
+        const kinds = DEFECTS.filter((d) => defSides.some((x) =>
+          (x.flags || []).some((f) => f.startsWith(d))));
+        underPlays.push({ s, kind: 'card', side: 'U',
+          rule: 'CARD · ' + kinds.join('+') + ' U', why });
       } else {
-        // Rust-only flips to the OVER, in shadow: 24-9 +37.9% on the cache
-        // (both walk-forward halves positive, perm p=0.0027) -- real rust
-        // produces runs. Shadows 15-20 plays before it can bet.
-        underPlays.push({ s, kind: 'shadow', side: 'O', rule: 'SHADOW · rust O',
-          why: why + ' · rust-only: under ran 9-24, over shadowing from 9/2' });
+        // Rust-only is DEAD both ways per the 2,064-game as-of replay
+        // (9/1): under -1.7%, over -7.1% (perm p=0.57). The cache-window
+        // 24-9 over that briefly earned a shadow was a two-week mirage.
+        underPlays.push({ s, kind: 'dead', side: 'U', rule: 'NO PLAY · rust',
+          why: why + ' · rust-only measured dead both ways (full season), not bet' });
       }
     }
     if (msum != null && msum <= FORM_UNDER_AT) {

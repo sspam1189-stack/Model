@@ -47,15 +47,23 @@ When building a daily card from this repo's outputs, the tiers are:
      own docstring: swingman means the start-line gap was filled with
      relief work (arm current, market line stale → overpriced total);
      a solo layoff/stale window is genuine absence, real rust, and those
-     games score. And the flip clears too: rust-only played to the OVER
-     ran **24-9 +37.9%** (+62.9%/+19.5% walk-forward, perm p=0.0027,
-     +43.4pts over the blind-over baseline) — the first over rule ever to
-     clear both bars. Per the gate it SHADOWS 15-20 live plays as
-     `shadow-rust-over` before it can bet; the swingman under is the only
-     card half. All three expressions stay measurable in the battery
+     games score. The FULL-SEASON as-of replay (2,064 games, flags rebuilt
+     from the pitcher game logs, run the same day at the user's push)
+     sized both halves honestly: **swingman under 166-124 +9.1% ROI
+     (n=290, perm p=0.0047, +12.6pts over baseline, improving through the
+     season: +9.3% Jul, +30% Aug)** — the card's live expectation is
+     single digits, not the cache window's +61.6%. And it KILLED the
+     rust-over flip the cache had briefly justified: **rust-only is dead
+     BOTH ways full-season** (under −1.7%, over −7.1%, perm p=0.57; the
+     24-9 over was a two-week mirage — monthly it ran +18 Apr then
+     −10..−22 May-Jul). Rust games are fairly priced; no rust bets, no
+     rust shadow. All three expressions stay registered in the battery
      (`flagged_swingman_under` / `flagged_rust_only_under` /
-     `rust_only_over`). Unlike the 8/25 amendment (made same-day off two
-     games), this one cleared the full gate before touching the card.
+     `rust_only_over`) so the cache-window numbers can never look
+     convincing again. Unlike the 8/25 amendment (made same-day off two
+     games), this one cleared the full gate before touching the card —
+     and the full-season replay is now the required final step for any
+     flag-rule change: the 15-slate cache alone endorsed a dead rule.
    - **The four-window ladder is CONTEXT, not a trigger.** It has no
      measurable relationship to runs: cold-aligned offenses scored 4.64
      runs a game, hot-aligned 4.50, mid 4.07 — flat to inverted. Betting

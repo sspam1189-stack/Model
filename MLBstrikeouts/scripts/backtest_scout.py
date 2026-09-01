@@ -313,10 +313,13 @@ def flagged_starter_under(g):
 def flagged_swingman_under(g):
     """THE 9/2 CARD RULE: flagged under, swingman REQUIRED (either side).
 
-    The 9/1 decomposition of flagged_starter_under (200 games): every combo
-    containing swingman ran 27-5 +61.6%, stable in both walk-forward halves
-    (+59.1%/+64.9%), perm p<0.0003 vs random flagged subsets. Swingman means
-    the start-line gap was filled with relief work -- the arm is current and
+    The 9/1 decomposition of flagged_starter_under (200 games) put
+    swingman-present at 27-5 +61.6%; the full-season as-of replay (2,064
+    games, flags rebuilt from game logs) confirms the edge at honest size:
+    166-124 +9.1% ROI (n=290, perm p=0.0047, +12.6pts over baseline),
+    improving through the season (+9.3% Jul, +30% Aug). Live expectation
+    is single digits, not the cache-window +61.6%. Swingman means the
+    start-line gap was filled with relief work -- the arm is current and
     only the market's line is stale."""
     for s in ("away", "home"):
         if any(f.startswith("swingman") for f in g["sides"][s]["flags"]):
@@ -343,11 +346,13 @@ def flagged_rust_only_under(g):
 def rust_only_over(g):
     """The user's 9/1 flip, SHADOW: rust-only games played to the OVER.
 
-    24-9 +37.9% on the cache (n=33), positive both walk-forward halves
-    (+62.9%/+19.5%), perm p=0.0027 vs random overs, +43.4pts over the
-    blind-over baseline -- the first over rule to clear both bars. Real
-    rust (absence, no relief bridge) produces runs and the market
-    under-charges it. Shadows 15-20 live plays before it can bet."""
+    KILLED SAME DAY by the full-season as-of replay (2,064 games, flags
+    rebuilt from game logs): 107-113 -7.1% over n=220, perm p=0.57 --
+    indistinguishable from random overs. The 24-9 +37.9% on the 15-slate
+    cache that briefly earned it a shadow was a two-week mirage (monthly:
+    +18 Apr, -10..-22 May-Jul, +2 Aug). Rust-only games are fairly priced
+    BOTH ways (the under half graded -1.7% full-season). Kept registered
+    so the cache-window number can never look convincing again."""
     kinds = set()
     for s in ("away", "home"):
         for f in g["sides"][s]["flags"]:
