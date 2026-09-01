@@ -183,6 +183,10 @@ async function renderMLBSlateScout() {
       const why = defSides.map((x) => esc(x.pitcher || '?') + ' '
         + canonFlags(x.flags)).join(' · ');
       const combo = gameCombo(defSides);
+      // Flag count in the chip: "CARD · 2 · swingman+stale-window". The count
+      // is the tier the combo grid groups by, so a row can be placed at a
+      // glance without counting plus signs.
+      const nFlags = combo ? combo.split('+').length : 0;
       const amended = (data.date || '') >= '2026-09-02';
       const hasSwing = combo.startsWith('swingman');
       if (!amended || hasSwing) {
@@ -190,13 +194,13 @@ async function renderMLBSlateScout() {
         // grid and the ledger spell it; the Why column carries the
         // per-pitcher detail (who, and the exact flag with its count).
         underPlays.push({ s, kind: 'card', side: 'U',
-          rule: 'CARD · ' + combo, why });
+          rule: 'CARD · ' + nFlags + ' · ' + combo, why });
       } else {
         // Rust-only is DEAD both ways per the 2,064-game as-of replay
         // (9/1): under -1.7%, over -7.1% (perm p=0.57). The cache-window
         // 24-9 over that briefly earned a shadow was a two-week mirage.
         underPlays.push({ s, kind: 'dead', side: 'U',
-          rule: 'NO PLAY · ' + combo,
+          rule: 'NO PLAY · ' + nFlags + ' · ' + combo,
           why: why + ' · rust-only measured dead both ways (full season), not bet' });
       }
     }
