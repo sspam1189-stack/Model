@@ -1903,10 +1903,9 @@
       "price": -102,
       "line": 7.5,
       "stake": 1.0,
-      "rule": "shadow-form-under",
-      "shadow": true,
+      "rule": "form-under",
       "flagged_overlap": false,
-      "basis": "Shadow 2 of 15-20. Both arms in form: m_sum -53.5, no defect flag on either starter (clean incremental test). Shadow 1 (SEA/BOS U8 8/31) lost on a 17-run game.",
+      "basis": "CARDED 2026-09-01 (user) mid-slate, before this game started. Both arms in form: m_sum -53.5, no defect flag on either starter (clean incremental test). Shadow 1 (SEA/BOS U8 8/31) lost on a 17-run game.",
       "result": "pending",
       "profit": 0.0
     },
@@ -1921,7 +1920,8 @@
       "shadow": true,
       "basis": "First fire since the rule got its own 75-PA floor (2026-08-31). NOTE: duplicates a live fade-ML model play (SF +148, fading Skenes) -- the shadow grades the rule, the money is already on via the model.",
       "result": "pending",
-      "profit": 0.0
+      "profit": 0.0,
+      "note": "Rule carded 2026-09-01 (user), but this entry stays SHADOW: the game had already started when the change was made. Card status applies from the next slate."
     },
     {
       "date": "2026-09-01",

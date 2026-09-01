@@ -70,6 +70,17 @@ When building a daily card from this repo's outputs, the tiers are:
      cell cannot silently flip on a week of variance; revisit if a PLAY cell
      runs clearly negative over its next 15-20.
 
+   - **form-under — CARDED 2026-09-01 (user).** `m_sum <= -40` (both
+     starters' mismatch scores summed: both arms outclass the bats they
+     face) -> bet the UNDER. **84-52 +17.2% ROI, n=136, perm p=0.005**, all
+     bands positive (-40/-60/-80), both walk-forward halves positive
+     (+27.5%/+8.9%). Statistically the strongest scout result in this repo.
+     Live record before carding: 0-1 (SEA/BOS 8/31, a 17-run game).
+     Caveat: 45% of its qualifiers in the flag era were games the flag rule
+     already cards, and the unflagged slice was 8-8 -- the ledger carries
+     `flagged_overlap` on every entry so the incremental half can be judged
+     separately.
+
    - **Bullpen L7 is the strongest descriptive field but is NOT yet
      bettable**: it separates runs cleanly (hot pens allow 3.39, leaking
      pens 5.09) yet every rule built on it is still under 25 plays, and
@@ -141,11 +152,20 @@ When building a daily card from this repo's outputs, the tiers are:
    is revived, it shadow-trades 15-20 plays at the +9.4% expectation, not
    the +17.2% season figure.
 
-5. **Scout MLs**: top conviction only — both halves of the game aligned
-   across all four windows — capped at 1u, never opposing a model
-   position. NOTE: this tier rests on the same ladder the backtest just
-   found inert (it is 3-1 lifetime, n=4, which is nothing). Treat every
-   scout ML as shadow until it has 25 graded plays.
+5. **Aligned ML (scout ML) — CARDED 2026-09-01 (user).** One offense
+   hot-aligned across all four windows (>= 110) while the other is
+   cold-aligned (<= 90), evaluated at this rule's own 75-PA floor
+   (`ALIGNED_ML_MIN_PA`; everything else stays at 150) -> back the hot
+   side's team. Capped at 1u, never opposing a model position.
+
+   **This one has no statistical case and the record should say so.** It is
+   3-1 lifetime (n=4). The four-window ladder it rests on was measured
+   INERT for runs -- cold-aligned offenses scored 4.54 a game, hot-aligned
+   4.52 -- and betting the ladder in any other form returned nothing. It
+   fires roughly twice a month, so 25 graded plays is a year away. It is
+   carded on the user's call as a structural read (a hot lineup against a
+   cold one), not because anything measured supports it. Nothing else in
+   the tier list is this thin; if it goes 0-3 it should come straight off.
 6. **Leans are retired**: no half-case totals, no temperature-only reads,
    no "0.5u if you want it" tier. A read is card-grade or it is not
    bettable. If a filter on model plays ever seems attractive, define it

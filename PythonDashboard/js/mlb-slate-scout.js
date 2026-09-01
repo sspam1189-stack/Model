@@ -174,6 +174,14 @@ async function renderMLBSlateScout() {
     .map((d) => (flags || []).filter((f) => f.startsWith(d)))
     .flat().join(', ');
   const FORM_UNDER_AT = -40;
+  // CARDED 2026-09-01 (user). form-under: m_sum <= -40 -> under, 84-52 +17.2%
+  // full-season as-of, perm p=0.005, coherent bands, both walk-forward halves
+  // positive -- the strongest number in the repo's scout work. aligned-ML:
+  // carded on the user's call at n=4 lifetime, on a ladder the backtest
+  // measured inert for runs (cold offenses 4.54 r/g, hot 4.52); it has no
+  // statistical case, only a structural one.
+  const FORM_UNDER_LIVE = true;
+  const ALIGNED_ML_LIVE = true;
   const ctTime = (iso) => {
     try {
       return new Date(iso).toLocaleTimeString('en-US',
@@ -225,7 +233,8 @@ async function renderMLBSlateScout() {
       }
     }
     if (msum != null && msum <= FORM_UNDER_AT) {
-      underPlays.push({ s, kind: 'shadow', side: 'U', rule: 'SHADOW · form-under',
+      underPlays.push({ s, kind: FORM_UNDER_LIVE ? 'card' : 'shadow', side: 'U',
+        rule: (FORM_UNDER_LIVE ? 'CARD' : 'SHADOW') + ' · form-under',
         why: 'm_sum ' + msum.toFixed(1)
           + (defSides.length ? ' · also flagged' : ' · unflagged') });
     }
@@ -242,8 +251,9 @@ async function renderMLBSlateScout() {
     // stays at 150). Emitted by the builder; shadow until 25 graded plays.
     if (s.aligned_ml) {
       const am = s.aligned_ml;
-      underPlays.push({ s, kind: 'shadow', side: 'ML', ml: am,
-        rule: 'SHADOW · aligned ML',
+      underPlays.push({ s, kind: ALIGNED_ML_LIVE ? 'card' : 'shadow', side: 'ML',
+        ml: am,
+        rule: (ALIGNED_ML_LIVE ? 'CARD' : 'SHADOW') + ' · aligned ML',
         why: 'away ' + (am.away_offense || []).join('/') + ' vs home '
           + (am.home_offense || []).join('/') + ' @75pa' });
     }
