@@ -149,8 +149,13 @@ def main():
             "under": summarize(arr, "pu"),
             "over": summarize(arr, "po"),
         })
-    # Card combos first (widest sample first inside each group), then rust.
-    out_combos.sort(key=lambda c: (not c["carded"], -c["under"]["n"]))
+    # Reading order (user, 2026-09-01): card side first, then by how many
+    # defects stack (1 -> 4), widest sample first inside each tier. That makes
+    # the dose-response legible top to bottom -- swingman alone, then the
+    # pairs, then the stacks -- instead of interleaving a 12-game quad with a
+    # 61-game single.
+    out_combos.sort(key=lambda c: (not c["carded"], len(c["kinds"]),
+                                   -c["under"]["n"]))
 
     out_flags = [{
         "flag": k,
