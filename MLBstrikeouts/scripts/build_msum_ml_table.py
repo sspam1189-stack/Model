@@ -49,6 +49,14 @@ OUTPUT_PATHS = [
 MSUM_AT = 40.0     # pool threshold: both arms outclassed by this much, summed
 STATUS = "shadow"  # "shadow" (tracked, not bet) or "card"
 SHADOW_TARGET = 20
+# Scope narrowed to the DOG half (user, 2026-09-01): the rule only produces a
+# play when the better arm is priced at plus money. Full pool 82-56 +9.3%,
+# dogs 19-15 +26.0% (n=34), favorites 63-41 +3.8% (n=104) -- the favorite half
+# is positive but thin edge, and the dog half is where the market disagreement
+# actually is. Noted for the record: this is a split taken on 34 games, so the
+# favorite half keeps being measured (splits.favorite) rather than discarded,
+# and can be folded back in if the dog half does not hold up.
+REQUIRE_DOG = True
 
 
 def profit(ml, won):
@@ -118,10 +126,11 @@ def summarize(rows, key="p"):
 
 def main():
     rows = build_rows()
-    pool = [r for r in rows if r["msum"] >= MSUM_AT]
+    pool_all = [r for r in rows if r["msum"] >= MSUM_AT]
+    pool = [r for r in pool_all if r["is_dog"]] if REQUIRE_DOG else pool_all
     outside = [r for r in rows if r["msum"] < MSUM_AT]
-    dogs = [r for r in pool if r["is_dog"]]
-    favs = [r for r in pool if not r["is_dog"]]
+    dogs = [r for r in pool_all if r["is_dog"]]
+    favs = [r for r in pool_all if not r["is_dog"]]
 
     by_month = {}
     for r in pool:
@@ -135,9 +144,12 @@ def main():
         "span": {"from": rows[0]["date"], "to": rows[-1]["date"]} if rows else {},
         "threshold": MSUM_AT,
         "status": STATUS,
+        "require_dog": REQUIRE_DOG,
         "shadow_target": SHADOW_TARGET,
         "rule": ("m_sum >= +%g: back the team whose starter has the LOWER "
-                 "mismatch (the better arm)." % MSUM_AT),
+                 "mismatch (the better arm)%s." % (MSUM_AT,
+                 ", and only when that team is a plus-money dog"
+                 if REQUIRE_DOG else "")),
         "note": ("Mismatches computed as-of each game date from the pitcher "
                  "logs and the batter PA logs, graded at the game's own "
                  "moneyline. SHADOW: p=0.043 out of a heavily scanned session, "
@@ -147,7 +159,8 @@ def main():
             "rule": summarize(pool),
             "dog": summarize(dogs),
             "favorite": summarize(favs),
-            "control_back_favorite": summarize(pool, "p_fav"),
+            "pool_all": summarize(pool_all),
+            "control_back_favorite": summarize(pool_all, "p_fav"),
             "outside_pool": summarize(outside),
         },
         "monthly": [{"month": m, **(summarize(v) or {})}

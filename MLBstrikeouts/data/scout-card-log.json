@@ -1930,13 +1930,14 @@
       "game": "MIL @ CHC",
       "price": -126,
       "stake": 1.0,
-      "rule": "shadow-msum-better-arm",
+      "rule": "shadow-msum-better-arm-fav",
       "shadow": true,
       "is_dog": false,
       "msum": 86.7,
-      "basis": "Better arm Matthew Boyd (+30.0) vs +56.7. Pool rule: m_sum>=+40, back the lower-mismatch side. Season 82-56 +9.3% (dogs 19-15 +26.0%); backing the favorite in the same games is -1.9% and the rule is -0.2% outside the pool. SHADOW to 20 plays: p=0.043 out of a heavily scanned session, April -31%.",
+      "basis": "Better arm Matthew Boyd (+30.0) vs +56.7. Pool rule: m_sum>=+40, back the lower-mismatch side. Season 82-56 +9.3% (dogs 19-15 +26.0%); backing the favorite in the same games is -1.9% and the rule is -0.2% outside the pool. SHADOW to 20 plays: p=0.043 out of a heavily scanned session, April -31%. SCOPE NARROWED to dogs only (user, same night): this is a favorite-half entry, kept for measurement, NOT part of the rule's shadow count.",
       "result": "pending",
-      "profit": 0.0
+      "profit": 0.0,
+      "out_of_scope": true
     },
     {
       "date": "2026-09-01",
@@ -1945,13 +1946,14 @@
       "game": "BAL @ COL",
       "price": -146,
       "stake": 1.0,
-      "rule": "shadow-msum-better-arm",
+      "rule": "shadow-msum-better-arm-fav",
       "shadow": true,
       "is_dog": false,
       "msum": 63.8,
-      "basis": "Better arm Kyle Bradish (+14.1) vs +49.7. Pool rule: m_sum>=+40, back the lower-mismatch side. Season 82-56 +9.3% (dogs 19-15 +26.0%); backing the favorite in the same games is -1.9% and the rule is -0.2% outside the pool. SHADOW to 20 plays: p=0.043 out of a heavily scanned session, April -31%.",
+      "basis": "Better arm Kyle Bradish (+14.1) vs +49.7. Pool rule: m_sum>=+40, back the lower-mismatch side. Season 82-56 +9.3% (dogs 19-15 +26.0%); backing the favorite in the same games is -1.9% and the rule is -0.2% outside the pool. SHADOW to 20 plays: p=0.043 out of a heavily scanned session, April -31%. SCOPE NARROWED to dogs only (user, same night): this is a favorite-half entry, kept for measurement, NOT part of the rule's shadow count.",
       "result": "pending",
-      "profit": 0.0
+      "profit": 0.0,
+      "out_of_scope": true
     }
   ]
 }

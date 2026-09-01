@@ -344,9 +344,12 @@ async function renderMLBSlateScout() {
     let m = '<div class="card-title" style="padding:6px 8px">'
       + 'Better-arm ML — m_sum ≥ +' + MSUM_ML_AT + ' '
       + '<span style="color:' + DIM + ';font-weight:400;font-size:11px">('
-      + (live ? 'CARD' : 'SHADOW — tracked, not bet') + ' · season ' + rec('rule')
-      + ' · dogs ' + rec('dog') + ' · backing the favorite instead '
-      + rec('control_back_favorite') + ' · outside the pool ' + rec('outside_pool')
+      + (live ? 'CARD' : 'SHADOW — tracked, not bet')
+      + (msumTable.require_dog ? ' · dogs only' : '')
+      + ' · rule ' + rec('rule')
+      + ' · whole pool ' + rec('pool_all')
+      + ' · backing the favorite instead ' + rec('control_back_favorite')
+      + ' · outside the pool ' + rec('outside_pool')
       + ')</span></div>';
     if (!picks.length) {
       m += '<div style="padding:8px 10px;font-size:12px;color:' + DIM
@@ -362,19 +365,22 @@ async function renderMLBSlateScout() {
           seenFav = true;
           m += '<tr><td colspan="5" style="padding:5px 6px 2px;color:' + DIM
             + ';font-size:11px;border-top:1px solid #30363d">'
-            + 'better arm is the FAVORITE — ' + rec('favorite')
-            + ' (weaker half of the rule)</td></tr>';
+            + (msumTable.require_dog
+              ? 'better arm is the FAVORITE — OUT OF SCOPE, not a play ('
+                + rec('favorite') + ', still measured)'
+              : 'better arm is the FAVORITE — ' + rec('favorite')
+                + ' (weaker half of the rule)') + '</td></tr>';
         } else if (p.dog && !seenFav && picks.indexOf(p) === 0) {
           m += '<tr><td colspan="5" style="padding:5px 6px 2px;color:#3fb950'
             + ';font-size:11px;font-weight:600;border-top:1px solid #30363d">'
-            + 'better arm is the DOG — ' + rec('dog')
-            + ' (where the edge concentrates)</td></tr>';
+            + 'better arm is the DOG — THE RULE — ' + rec('dog')
+            + '</td></tr>';
         }
         m += '<tr style="border-top:1px solid #161b22' + (p.dog ? '' : ';opacity:.7') + '">'
           + '<td style="padding:3px 6px;color:' + DIM + '">' + ctTime(p.g.commence) + '</td>'
           + '<td style="padding:3px 6px">' + esc(p.g.matchup) + '</td>'
           + '<td style="padding:3px 6px;font-weight:600;white-space:nowrap;color:'
-          + (p.dog ? '#3fb950' : '#ccc') + '">' + esc(p.team) + ' ML '
+          + (p.dog ? '#3fb950' : DIM) + '">' + esc(p.team) + ' ML '
           + mlStr(p.ml) + '</td>'
           + '<td style="color:' + DIM + '">+' + p.msum.toFixed(1) + '</td>'
           + '<td style="color:' + DIM + ';font-size:11px">' + esc(p.arm || '?')
@@ -384,7 +390,9 @@ async function renderMLBSlateScout() {
     }
     m += '<div style="padding:6px 8px;font-size:11px;color:' + DIM + ';line-height:1.5">'
       + 'Both starters outclassed by the bats they face (m_sum ≥ +' + MSUM_ML_AT
-      + '); back the side whose arm grades better. Not a favorite bias — backing '
+      + '); back the side whose arm grades better'
+      + (msumTable.require_dog ? ', and only at plus money' : '')
+      + '. Not a favorite bias — backing '
       + 'the favorite in these same games returns ' + rec('control_back_favorite')
       + ', and the rule is ' + rec('outside_pool') + ' outside the pool. '
       + (live ? '' : 'Shadow until ' + (msumTable.shadow_target || 20)

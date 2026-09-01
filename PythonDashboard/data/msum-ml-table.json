@@ -1,23 +1,24 @@
 {
  "sport": "MLB",
  "type": "msum-ml-table",
- "generated": "2026-09-01T20:31:27Z",
+ "generated": "2026-09-01T20:40:29Z",
  "span": {
   "from": "2026-04-12",
   "to": "2026-08-31"
  },
  "threshold": 40.0,
  "status": "shadow",
+ "require_dog": true,
  "shadow_target": 20,
- "rule": "m_sum >= +40: back the team whose starter has the LOWER mismatch (the better arm).",
+ "rule": "m_sum >= +40: back the team whose starter has the LOWER mismatch (the better arm), and only when that team is a plus-money dog.",
  "note": "Mismatches computed as-of each game date from the pitcher logs and the batter PA logs, graded at the game's own moneyline. SHADOW: p=0.043 out of a heavily scanned session, April ran -31%, and a better-looking rule died the same morning when its sample got real.",
  "splits": {
   "rule": {
-   "w": 82,
-   "l": 56,
-   "n": 138,
-   "units": 12.78,
-   "roi": 9.3
+   "w": 19,
+   "l": 15,
+   "n": 34,
+   "units": 8.84,
+   "roi": 26.0
   },
   "dog": {
    "w": 19,
@@ -32,6 +33,13 @@
    "n": 104,
    "units": 3.94,
    "roi": 3.8
+  },
+  "pool_all": {
+   "w": 82,
+   "l": 56,
+   "n": 138,
+   "units": 12.78,
+   "roi": 9.3
   },
   "control_back_favorite": {
    "w": 79,
@@ -51,43 +59,43 @@
  "monthly": [
   {
    "month": "2026-04",
-   "w": 4,
-   "l": 7,
-   "n": 11,
-   "units": -3.41,
-   "roi": -31.0
+   "w": 1,
+   "l": 0,
+   "n": 1,
+   "units": 1.18,
+   "roi": 118.0
   },
   {
    "month": "2026-05",
-   "w": 16,
-   "l": 7,
-   "n": 23,
-   "units": 4.57,
-   "roi": 19.9
+   "w": 2,
+   "l": 2,
+   "n": 4,
+   "units": 0.32,
+   "roi": 8.0
   },
   {
    "month": "2026-06",
-   "w": 17,
-   "l": 12,
-   "n": 29,
-   "units": 3.19,
-   "roi": 11.0
+   "w": 4,
+   "l": 3,
+   "n": 7,
+   "units": 2.36,
+   "roi": 33.7
   },
   {
    "month": "2026-07",
-   "w": 22,
-   "l": 17,
-   "n": 39,
-   "units": 2.04,
-   "roi": 5.2
+   "w": 5,
+   "l": 5,
+   "n": 10,
+   "units": 0.5,
+   "roi": 5.0
   },
   {
    "month": "2026-08",
-   "w": 23,
-   "l": 13,
-   "n": 36,
-   "units": 6.38,
-   "roi": 17.7
+   "w": 7,
+   "l": 5,
+   "n": 12,
+   "units": 4.48,
+   "roi": 37.3
   }
  ]
 }
