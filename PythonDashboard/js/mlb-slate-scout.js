@@ -59,6 +59,27 @@ async function renderMLBSlateScout() {
       return (j && Array.isArray(j.combos) && j.combos.length) ? j : null;
     } catch (e) { return null; }
   };
+  const grabStatus = async (url) => {
+    try {
+      const r = await fetch(url + '?t=' + Date.now(), { cache: 'no-store' });
+      if (!r.ok) return null;
+      const j = await r.json();
+      return (j && j.rules) ? j : null;
+    } catch (e) { return null; }
+  };
+  // Single source of truth for card/shadow (MLBstrikeouts/scripts/rule_status.py).
+  // The daily logger imports the same table, so the ledger and this tab cannot
+  // disagree the way they did on 2026-09-01.
+  const ruleStatus = (await Promise.all([
+    grabStatus('data/rule-status.json'),
+    grabStatus('https://raw.githubusercontent.com/sspam1189-stack/Model/main/'
+      + 'MLBstrikeouts/data/rule-status.json'),
+  ])).filter(Boolean)
+    .sort((a, b) => String(b.generated || '').localeCompare(String(a.generated || '')))[0] || null;
+  const isCard = (rule, fallback) => (ruleStatus && ruleStatus.rules[rule])
+    ? ruleStatus.rules[rule].status === 'card'
+    : fallback;
+
   const msumTable = (await Promise.all([
     grabTableAny('data/msum-ml-table.json'),
     grabTableAny('https://raw.githubusercontent.com/sspam1189-stack/Model/main/'
@@ -183,8 +204,9 @@ async function renderMLBSlateScout() {
   // carded on the user's call at n=4 lifetime, on a ladder the backtest
   // measured inert for runs (cold offenses 4.54 r/g, hot 4.52); it has no
   // statistical case, only a structural one.
-  const FORM_UNDER_LIVE = true;
-  const ALIGNED_ML_LIVE = true;
+  // Fallbacks only -- rule-status.json wins when it loads.
+  const FORM_UNDER_LIVE = isCard('form-under', true);
+  const ALIGNED_ML_LIVE = isCard('aligned-ml', true);
   const ctTime = (iso) => {
     try {
       return new Date(iso).toLocaleTimeString('en-US',
@@ -330,7 +352,7 @@ async function renderMLBSlateScout() {
   // so the filter is doing the selecting. SHADOW until 20 live plays.
   if (msumTable) {
     const MSUM_ML_AT = msumTable.threshold != null ? msumTable.threshold : 40;
-    const live = msumTable.status === 'card';
+    const live = isCard('better-arm-ml', msumTable.status === 'card');
     const picks = [];
     for (const g of (data.slate || [])) {
       const a = (g.sides || {}).away || {}, h = (g.sides || {}).home || {};

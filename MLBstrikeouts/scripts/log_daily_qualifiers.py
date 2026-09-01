@@ -38,6 +38,7 @@ sys.path.insert(0, os.path.dirname(__file__))
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), "sources"))
 
 import scout_card_log as LEDGER
+from rule_status import RULE_STATUS
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 DATA = os.path.normpath(os.path.join(HERE, "..", "data"))
@@ -49,15 +50,11 @@ DEFECTS = ("swingman", "layoff", "opener", "stale-window")   # canonical order
 FORM_UNDER_AT = -40.0
 MISMATCH_TAIL, MISMATCH_FADE = -45.0, 55.0
 
-# Card/shadow status per rule. Mirrors the dashboard's flags and the table
-# `status` fields; keep them in step when a rule is carded or pulled.
-STATUS = {
-    "flag-plays":    "card",
-    "form-under":    "card",
-    "better-arm-ml": "card",     # narrowed to plus-money dogs
-    "aligned-ml":    "card",
-    "mismatch-ml":   "shadow",
-}
+# Card/shadow status comes from scripts/rule_status.py -- the single source
+# of truth both this logger and the dashboard read, after the two drifted
+# apart on 2026-09-01 and aligned ML rendered as CARD while its ledger row
+# said SHADOW.
+STATUS = RULE_STATUS
 
 
 def _load(path):
