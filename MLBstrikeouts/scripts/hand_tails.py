@@ -46,11 +46,17 @@ _HARDCODED_FADES = {  # fallback only (used if the manual file is absent)
 
 
 def _load_roster():
-    """{name: {"hand", "windows": [[since, until]]}} from the manual list. An arm
-    with no `since` is treated as active from the start (grades all its starts).
-    `until` retires an arm walk-forward: starts ON/AFTER it are not bet, while
-    the [since, until) history keeps grading -- same convention as FADE_WINDOW
-    in fade_list.py. Omit `until` for an open window."""
+    """{name: {"hand", "windows": [[since, until], ...]}} from the manual list. An
+    arm with no `since` is treated as active from the start (grades all its
+    starts). `until` retires an arm walk-forward: starts ON/AFTER it are not bet,
+    while the [since, until) history keeps grading -- same convention as
+    FADE_WINDOW in fade_list.py. Omit `until` for an open window.
+
+    An arm that is retired and later re-promoted needs TWO windows, so it can
+    also carry an explicit `windows` list ([[since, until|null], ...]) instead of
+    the single since/until pair. That keeps the retired stretch graded while the
+    arm goes live again from a later date; without it, moving `since` forward
+    would silently drop the earlier history off the ledger."""
     try:
         with open(_ROSTER_PATH, encoding="utf-8") as f:
             arms = json.load(f).get("arms", {})
@@ -59,9 +65,13 @@ def _load_roster():
     if arms:
         out = {}
         for n, a in arms.items():
-            since = a.get("since") or "2000-01-01"
-            out[n] = {"hand": a.get("hand"),
-                      "windows": [[since, a.get("until")]]}
+            wins = a.get("windows")
+            if wins:
+                wins = [[w[0] or "2000-01-01", w[1] if len(w) > 1 else None]
+                        for w in wins]
+            else:
+                wins = [[a.get("since") or "2000-01-01", a.get("until")]]
+            out[n] = {"hand": a.get("hand"), "windows": wins}
         return out
     return {n: {"hand": h, "windows": [["2000-01-01", None]]}
             for n, h in _HARDCODED_FADES.items()}
