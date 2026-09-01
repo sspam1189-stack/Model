@@ -3,7 +3,7 @@
 allml_systems.py — the non-scout systems, computed from mlb-all-ml.json alone.
 
 Everything else in the scout tier reads the mismatch model: pitcher form, the
-batter PA logs, the defect flags. These eight rules read none of it. They come
+batter PA logs, the defect flags. These rules read none of it. They come
 out of a full scan of the 2,066 settled games in mlb-all-ml.json (2026-09-01)
 using only what that file carries -- moneylines, totals, probables, scores,
 dates -- plus what can be derived as-of from its own history: a starter's
@@ -14,7 +14,9 @@ That independence is the point of grouping them separately on the tab and in
 the ledger. When Flag Plays and Form under agree it is partly because they read
 the same inputs; when one of these agrees with them it is a second opinion.
 
-CARDED 2026-09-01 (user), all eight, without a shadow period.
+CARDED 2026-09-01 (user), without a shadow period. Eight were carded; Low
+line over and Under juice were removed the same day, before either settled a
+play (see RETIRED below).
 
 HOW THEY WERE FOUND, stated plainly because it bears on how much to trust them.
 The scan tested every single and pairwise cell over ~30 derived features,
@@ -23,7 +25,7 @@ roughly 4,000 cells per market. About 2,000 beat their baseline per market and
 q ~= 0.18). So p-values here are screening statistics, not proof. What each
 rule below had to also do: beat the blind baseline for its market, hold up in
 both walk-forward halves, ladder sensibly rather than spike in one bucket, and
-have a reason to exist. Two of the eight fail the ladder test and are carded
+have a reason to exist. Two of the six fail the ladder test and are carded
 anyway on the user's call -- they are marked LADDER FAILS and carry the
 numbers against them, so the record can settle it.
 
@@ -76,14 +78,6 @@ SYSTEMS = {
         "totals market is slow to move on a starter's run. Weak point: "
         "monthly alternates (+27/-8/+20/-5/+9). The total>=8.5 half is what "
         "carries it; under 8 the same signal is -3.6%."),
-    "low-line-over": (
-        "Low line over", "totals",
-        "Total 7 or lower: over.",
-        "72-52 +8.9% (n=124, p=0.033), halves +10/+7, all thirds positive, "
-        "five of six months positive. Posted lines of 7 return a mean actual "
-        "total of 8.66. The market posts a pitchers' duel and the run floor "
-        "is still about four a side. Line 6.5 is thin (n=29) and 7.5 is "
-        "-9.4%, so this is the 7-and-under cell, not a low-total trend."),
     "cold-arms-under": (
         "Cold arms under", "totals",
         "Both starters have gone over in 35% or less of their last 8: under.",
@@ -91,14 +85,6 @@ SYSTEMS = {
         "The smallest sample of the eight and the one most likely to be "
         "noise on size alone; kept because it is the exact mirror of Starter "
         "over run and agrees with it."),
-    "under-juice": (
-        "Under juice", "totals",
-        "Under priced at -120 or shorter: follow it.",
-        "234-171 +5.1% (n=405, p=0.020), halves +5/+6. Monotone through the "
-        "juice ladder: -112 -0.8%, -115 -1.2%, -118 +2.6%, -120 +5.1%. Stops "
-        "at -125 (n=24, thin). Smallest edge per play of the eight but the "
-        "biggest sample, and the mechanism is the plainest -- when the book "
-        "is willing to lay real money on the under it is usually right."),
     "away-dog-ml": (
         "Away dog ML", "h2h",
         "Away team priced as a dog in a game with a total of 9.5 or higher.",
@@ -133,8 +119,25 @@ SYSTEMS = {
         "and splitting L4 by the same variable leaves both halves winning."),
 }
 CARD_ORDER = ("hot-arm-dog-ml", "away-dog-ml", "home-slide-ml",
-              "pickem-under", "starter-over-run", "low-line-over",
-              "cold-arms-under", "under-juice")
+              "pickem-under", "starter-over-run", "cold-arms-under")
+
+# REMOVED 2026-09-01 (user), the same day they were carded, before either had
+# a settled play. Kept here rather than deleted so the numbers are not
+# rediscovered later and mistaken for something new. Their branches in
+# plays_for() are inert: add() drops any rule not in SYSTEMS.
+#
+#   low-line-over   total <= 7 -> over. 72-52 +8.9% (n=124, p=0.033), halves
+#                   +10/+7, all thirds positive. Posted lines of 7 returned a
+#                   mean actual total of 8.66. Its neighbours are the problem:
+#                   7.5 runs -9.4% over 457 games, so this was the 7-and-under
+#                   cell rather than a low-total trend.
+#   under-juice     under priced <= -120 -> under. 234-171 +5.1% (n=405,
+#                   p=0.020), halves +5/+6, monotone through the juice ladder
+#                   (-112 -0.8%, -115 -1.2%, -118 +2.6%, -120 +5.1%). The
+#                   biggest sample of the eight and the smallest edge per
+#                   play, at 2.6 plays a day -- the most volume for the least
+#                   conviction, and it is close to just following the book.
+RETIRED = ("low-line-over", "under-juice")
 
 HOT_ARM_ROI = 40.0       # trailing team ROI% in the starter's last 8
 PICKEM_ML = -115         # favorite no shorter than this
@@ -242,7 +245,7 @@ def plays_for(g, feat):
     away_ml, home_ml = g.get("away_ml"), g.get("home_ml")
 
     def add(rule, market, pick, price, side=None, why=""):
-        if price is None:
+        if price is None or rule not in SYSTEMS:
             return
         out.append({"rule": rule, "market": market, "pick": pick,
                     "price": int(price), "side": side, "why": why})

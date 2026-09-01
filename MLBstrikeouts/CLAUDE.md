@@ -172,7 +172,7 @@ When building a daily card from this repo's outputs, the tiers are:
    carded on the user's call as a structural read (a hot lineup against a
    cold one), not because anything measured supports it. Nothing else in
    the tier list is this thin; if it goes 0-3 it should come straight off.
-6. **Non-scout systems — ALL EIGHT CARDED 2026-09-01 (user).** A separate
+6. **Non-scout systems — SIX CARDED 2026-09-01 (user).** A separate
    family, defined in `scripts/allml_systems.py` and grouped apart on the
    tab and in the ledger. They read `mlb-all-ml.json` alone -- prices,
    totals, probables, scores, plus what can be derived as-of from its own
@@ -187,9 +187,16 @@ When building a daily card from this repo's outputs, the tiers are:
    | Home slide ML | home on L4+, new opponent | 33-17 | +25.0% | -3.2% |
    | Pickem under | favorite -115 or shorter, total >= 8.5 | 98-69 | +11.5% | -3.5% |
    | Starter over run | a starter 75%+ overs in his last 8, total >= 8.5 | 120-87 | +10.8% | -6.1% |
-   | Low line over | total <= 7 | 72-52 | +8.9% | -6.1% |
    | Cold arms under | both starters <= 35% overs in last 8 | 27-14 | +23.5% | -3.5% |
-   | Under juice | under priced -120 or shorter | 234-171 | +5.1% | -3.5% |
+
+   Two more were carded the same day and removed before either settled a
+   play: **Low line over** (total <= 7 -> over, 72-52 +8.9%) because the 7.5
+   bucket beside it runs -9.4% over 457 games, so it was the 7-and-under cell
+   rather than a low-total trend; and **Under juice** (under at -120 or
+   shorter, 234-171 +5.1%) because it was the most volume of the eight at 2.6
+   plays a day for the least edge per play, and close to just following the
+   book. Their numbers are kept in `allml_systems.RETIRED` so they are not
+   rediscovered later and mistaken for something new.
 
    **How they were found bears on how much to trust them.** The scan tested
    every single and pairwise cell across ~30 derived features, roughly 4,000

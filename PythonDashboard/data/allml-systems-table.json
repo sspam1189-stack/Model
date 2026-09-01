@@ -1,7 +1,7 @@
 {
  "sport": "MLB",
  "type": "allml-systems-table",
- "generated": "2026-09-01T22:11:08Z",
+ "generated": "2026-09-01T22:15:19Z",
  "span": {
   "from": "2026-03-25",
   "to": "2026-08-31"
@@ -348,79 +348,6 @@
    "per_day": 1.32
   },
   {
-   "baseline_key": "over",
-   "baseline": -6.1,
-   "key": "low-line-over",
-   "name": "Low line over",
-   "market": "totals",
-   "rule": "Total 7 or lower: over.",
-   "case": "72-52 +8.9% (n=124, p=0.033), halves +10/+7, all thirds positive, five of six months positive. Posted lines of 7 return a mean actual total of 8.66. The market posts a pitchers' duel and the run floor is still about four a side. Line 6.5 is thin (n=29) and 7.5 is -9.4%, so this is the 7-and-under cell, not a low-total trend.",
-   "status": "card",
-   "ladder_fails": false,
-   "record": {
-    "w": 72,
-    "l": 52,
-    "n": 124,
-    "units": 11.05,
-    "roi": 8.9
-   },
-   "halves": [
-    9.9,
-    7.4
-   ],
-   "monthly": [
-    {
-     "month": "2026-03",
-     "w": 5,
-     "l": 2,
-     "n": 7,
-     "units": 2.47,
-     "roi": 35.3
-    },
-    {
-     "month": "2026-04",
-     "w": 22,
-     "l": 14,
-     "n": 36,
-     "units": 5.2,
-     "roi": 14.4
-    },
-    {
-     "month": "2026-05",
-     "w": 15,
-     "l": 14,
-     "n": 29,
-     "units": -0.69,
-     "roi": -2.4
-    },
-    {
-     "month": "2026-06",
-     "w": 7,
-     "l": 6,
-     "n": 13,
-     "units": -0.01,
-     "roi": -0.0
-    },
-    {
-     "month": "2026-07",
-     "w": 6,
-     "l": 4,
-     "n": 10,
-     "units": 1.28,
-     "roi": 12.8
-    },
-    {
-     "month": "2026-08",
-     "w": 17,
-     "l": 12,
-     "n": 29,
-     "units": 2.79,
-     "roi": 9.6
-    }
-   ],
-   "per_day": 0.79
-  },
-  {
    "baseline_key": "under",
    "baseline": -3.5,
    "key": "cold-arms-under",
@@ -484,79 +411,6 @@
     }
    ],
    "per_day": 0.26
-  },
-  {
-   "baseline_key": "under",
-   "baseline": -3.5,
-   "key": "under-juice",
-   "name": "Under juice",
-   "market": "totals",
-   "rule": "Under priced at -120 or shorter: follow it.",
-   "case": "234-171 +5.1% (n=405, p=0.020), halves +5/+6. Monotone through the juice ladder: -112 -0.8%, -115 -1.2%, -118 +2.6%, -120 +5.1%. Stops at -125 (n=24, thin). Smallest edge per play of the eight but the biggest sample, and the mechanism is the plainest -- when the book is willing to lay real money on the under it is usually right.",
-   "status": "card",
-   "ladder_fails": false,
-   "record": {
-    "w": 234,
-    "l": 171,
-    "n": 405,
-    "units": 20.57,
-    "roi": 5.1
-   },
-   "halves": [
-    4.6,
-    5.5
-   ],
-   "monthly": [
-    {
-     "month": "2026-03",
-     "w": 7,
-     "l": 6,
-     "n": 13,
-     "units": -0.28,
-     "roi": -2.1
-    },
-    {
-     "month": "2026-04",
-     "w": 42,
-     "l": 28,
-     "n": 70,
-     "units": 6.5,
-     "roi": 9.3
-    },
-    {
-     "month": "2026-05",
-     "w": 53,
-     "l": 32,
-     "n": 85,
-     "units": 11.44,
-     "roi": 13.5
-    },
-    {
-     "month": "2026-06",
-     "w": 45,
-     "l": 44,
-     "n": 89,
-     "units": -7.25,
-     "roi": -8.1
-    },
-    {
-     "month": "2026-07",
-     "w": 39,
-     "l": 22,
-     "n": 61,
-     "units": 9.84,
-     "roi": 16.1
-    },
-    {
-     "month": "2026-08",
-     "w": 48,
-     "l": 39,
-     "n": 87,
-     "units": 0.31,
-     "roi": 0.4
-    }
-   ],
-   "per_day": 2.58
   }
  ],
  "today": [
@@ -664,36 +518,6 @@
    "away": "STL",
    "home": "LAD",
    "total": 8.5
-  },
-  {
-   "rule": "under-juice",
-   "market": "totals",
-   "pick": "under",
-   "price": -124,
-   "side": "U",
-   "why": "book laying -124 on the under",
-   "gamePk": 824716,
-   "date": "2026-09-01",
-   "commence": "2026-09-01T22:45:00Z",
-   "matchup": "SEA @ BOS",
-   "away": "SEA",
-   "home": "BOS",
-   "total": 7.5
-  },
-  {
-   "rule": "under-juice",
-   "market": "totals",
-   "pick": "under",
-   "price": -120,
-   "side": "U",
-   "why": "book laying -120 on the under",
-   "gamePk": 823984,
-   "date": "2026-09-01",
-   "commence": "2026-09-02T01:38:00Z",
-   "matchup": "NYY @ LAA",
-   "away": "NYY",
-   "home": "LAA",
-   "total": 7.5
   }
  ],
  "today_date": "2026-09-01"
