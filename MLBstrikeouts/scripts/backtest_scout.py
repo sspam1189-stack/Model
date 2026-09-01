@@ -310,6 +310,55 @@ def flagged_starter_under(g):
     return None
 
 
+def flagged_swingman_under(g):
+    """THE 9/2 CARD RULE: flagged under, swingman REQUIRED (either side).
+
+    The 9/1 decomposition of flagged_starter_under (200 games): every combo
+    containing swingman ran 27-5 +61.6%, stable in both walk-forward halves
+    (+59.1%/+64.9%), perm p<0.0003 vs random flagged subsets. Swingman means
+    the start-line gap was filled with relief work -- the arm is current and
+    only the market's line is stale."""
+    for s in ("away", "home"):
+        if any(f.startswith("swingman") for f in g["sides"][s]["flags"]):
+            return "under"
+    return None
+
+
+def flagged_rust_only_under(g):
+    """The half the 9/2 amendment DROPPED to shadow: defect flags with no
+    swingman anywhere -- genuine absence, real rust. Ran 9-24 -47.7% to the
+    under (negative both halves): rust games score. Kept as a rule so the
+    demotion stays measurable and reversible on evidence."""
+    kinds = set()
+    for s in ("away", "home"):
+        for f in g["sides"][s]["flags"]:
+            for k in ("layoff", "stale-window", "opener", "swingman"):
+                if f.startswith(k):
+                    kinds.add(k)
+    if kinds and "swingman" not in kinds:
+        return "under"
+    return None
+
+
+def rust_only_over(g):
+    """The user's 9/1 flip, SHADOW: rust-only games played to the OVER.
+
+    24-9 +37.9% on the cache (n=33), positive both walk-forward halves
+    (+62.9%/+19.5%), perm p=0.0027 vs random overs, +43.4pts over the
+    blind-over baseline -- the first over rule to clear both bars. Real
+    rust (absence, no relief bridge) produces runs and the market
+    under-charges it. Shadows 15-20 live plays before it can bet."""
+    kinds = set()
+    for s in ("away", "home"):
+        for f in g["sides"][s]["flags"]:
+            for k in ("layoff", "stale-window", "opener", "swingman"):
+                if f.startswith(k):
+                    kinds.add(k)
+    if kinds and "swingman" not in kinds:
+        return "over"
+    return None
+
+
 def either_starter_cold_over(g):
     """Disjunction over the one monotone field (proposed 2026-08-31).
 
@@ -344,6 +393,9 @@ RULES = {
     "workhorse_elite_pens": workhorse_elite_pens,
     "combo_cold_and_pens": combo_cold_and_pens,
     "flagged_starter_under": flagged_starter_under,
+    "flagged_swingman_under": flagged_swingman_under,
+    "flagged_rust_only_under": flagged_rust_only_under,
+    "rust_only_over": rust_only_over,
     "either_starter_cold_over": either_starter_cold_over,
     "unresolved_starter": unresolved_starter,
 }

@@ -142,9 +142,27 @@ async function renderMLBSlateScout() {
     const ms = sides.map((x) => x.mismatch);
     const msum = (ms[0] != null && ms[1] != null) ? ms[0] + ms[1] : null;
     if (defSides.length) {
-      underPlays.push({ s, kind: 'card', side: 'U', rule: 'CARD · flagged U',
-        why: defSides.map((x) => esc(x.pitcher || '?') + ' '
-          + (x.flags || []).filter(isDefect).join(', ')).join(' · ') });
+      // 2026-09-02 amendment: the card requires a SWINGMAN flag. The 9/1
+      // decomposition (200 games) put swingman-present at 27-5 +61.6%
+      // (stable both walk-forward halves, perm p<0.0003) and rust-only
+      // (layoff/stale-window/opener with no swingman) at 9-24 -47.7% --
+      // genuine absence means real rust, and those games score. Rust-only
+      // qualifiers render as SHADOW. Date-gated so slates before 9/2 show
+      // the rule as it was carded then.
+      const why = defSides.map((x) => esc(x.pitcher || '?') + ' '
+        + (x.flags || []).filter(isDefect).join(', ')).join(' · ');
+      const amended = (data.date || '') >= '2026-09-02';
+      const hasSwing = defSides.some((x) =>
+        (x.flags || []).some((f) => f.startsWith('swingman')));
+      if (!amended || hasSwing) {
+        underPlays.push({ s, kind: 'card', side: 'U', rule: 'CARD · flagged U', why });
+      } else {
+        // Rust-only flips to the OVER, in shadow: 24-9 +37.9% on the cache
+        // (both walk-forward halves positive, perm p=0.0027) -- real rust
+        // produces runs. Shadows 15-20 plays before it can bet.
+        underPlays.push({ s, kind: 'shadow', side: 'O', rule: 'SHADOW · rust O',
+          why: why + ' · rust-only: under ran 9-24, over shadowing from 9/2' });
+      }
     }
     if (msum != null && msum <= FORM_UNDER_AT) {
       underPlays.push({ s, kind: 'shadow', side: 'U', rule: 'SHADOW · form U',

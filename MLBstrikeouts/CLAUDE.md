@@ -37,6 +37,25 @@ When building a daily card from this repo's outputs, the tiers are:
      battery to clear 25 plays AND beat its baseline. Retiring this clause
      on 8/25 was exactly backwards and the amendment went 0-2 immediately.
      It is restored as the primary condition.
+   - **AMENDED 2026-09-02 (user): the card requires a SWINGMAN flag.** The
+     9/1 decomposition (200 games / 15 slates) split the rule cleanly:
+     every combo containing swingman ran **27-5 +61.6%** (positive in both
+     walk-forward halves, +59.1%/+64.9%; the subset beat 4,000/4,000
+     random same-size flagged subsets), while rust-only qualifiers —
+     layoff/stale-window/opener with NO swingman anywhere — ran **9-24
+     −47.7%**, negative in both halves. The mechanism matches role_flags'
+     own docstring: swingman means the start-line gap was filled with
+     relief work (arm current, market line stale → overpriced total);
+     a solo layoff/stale window is genuine absence, real rust, and those
+     games score. And the flip clears too: rust-only played to the OVER
+     ran **24-9 +37.9%** (+62.9%/+19.5% walk-forward, perm p=0.0027,
+     +43.4pts over the blind-over baseline) — the first over rule ever to
+     clear both bars. Per the gate it SHADOWS 15-20 live plays as
+     `shadow-rust-over` before it can bet; the swingman under is the only
+     card half. All three expressions stay measurable in the battery
+     (`flagged_swingman_under` / `flagged_rust_only_under` /
+     `rust_only_over`). Unlike the 8/25 amendment (made same-day off two
+     games), this one cleared the full gate before touching the card.
    - **The four-window ladder is CONTEXT, not a trigger.** It has no
      measurable relationship to runs: cold-aligned offenses scored 4.64
      runs a game, hot-aligned 4.50, mid 4.07 — flat to inverted. Betting
