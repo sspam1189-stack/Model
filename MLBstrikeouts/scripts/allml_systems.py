@@ -47,20 +47,6 @@ PIT_WINDOW = 8          # trailing starts in the over-rate and ROI windows
 
 # key -> (display name, market, one-line rule, the season case)
 SYSTEMS = {
-    "hot-arm-dog-ml": (
-        "Hot arm dog ML", "h2h",
-        "Back a plus-money side whose starter's team is +40% or better over "
-        "his last 8 starts.",
-        "91-90 +12.7% (n=181, p=0.010), halves +15/+12. Plus money only, "
-        "the tracker's definition of a dog; scored as not-the-favorite it is "
-        "109-103 +12.8% on 212 plays, the same edge over more games. The "
-        "ladder is "
-        "monotone at every threshold and window: >=0 +2%, >=25 +7%, >=40 "
-        "+13%, >=60 +24%. Controls say it is the arm, not the team -- a hot "
-        "team behind a not-hot starter is -4.8%, a hot starter on a .500 team "
-        "is +8.3%. Favorite half is dead (-5% at the top cut), hence dogs "
-        "only. April negative in every cut: 8-start windows are not real "
-        "until May."),
     "pickem-under": (
         "Pickem under", "totals",
         "Favorite at -115 or shorter and total 8.5 or higher: under.",
@@ -118,7 +104,7 @@ SYSTEMS = {
         "streaks span multiple opponents 100% of the time and lose money, "
         "and splitting L4 by the same variable leaves both halves winning."),
 }
-CARD_ORDER = ("hot-arm-dog-ml", "away-dog-ml", "home-slide-ml",
+CARD_ORDER = ("away-dog-ml", "home-slide-ml",
               "pickem-under", "starter-over-run", "cold-arms-under")
 
 # REMOVED 2026-09-01 (user), the same day they were carded, before either had
@@ -137,7 +123,15 @@ CARD_ORDER = ("hot-arm-dog-ml", "away-dog-ml", "home-slide-ml",
 #                   biggest sample of the eight and the smallest edge per
 #                   play, at 2.6 plays a day -- the most volume for the least
 #                   conviction, and it is close to just following the book.
-RETIRED = ("low-line-over", "under-juice")
+#   hot-arm-dog-ml  back a plus-money side whose starter's team is +40% or
+#                   better over his last 8 starts. 91-90 +12.7% (n=181,
+#                   p=0.010), halves +17/+11, and the threshold ladder was
+#                   monotone. Removed 2026-09-01 (user) before it settled a
+#                   play: at 91-90 the win rate is a coin flip and the entire
+#                   return is the plus-money prices holding up, which 181
+#                   plays at an even record is thin evidence for. A dog system
+#                   has to beat its price, and this one only matches it.
+RETIRED = ("low-line-over", "under-juice", "hot-arm-dog-ml")
 
 HOT_ARM_ROI = 40.0       # trailing team ROI% in the starter's last 8
 PICKEM_ML = -115         # favorite no shorter than this

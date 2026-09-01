@@ -1,7 +1,7 @@
 {
  "sport": "MLB",
  "type": "rule-status",
- "generated": "2026-09-01T22:16:08Z",
+ "generated": "2026-09-01T22:21:30Z",
  "note": "Single source of truth for card/shadow status. The daily logger imports RULE_STATUS from scripts/rule_status.py; the dashboard reads this file. Edit the script, not either surface.",
  "rules": {
   "flag-plays": {
@@ -39,12 +39,6 @@
    "name": "Better arm ML (favorite half)",
    "why": "Out of scope since the dogs-only narrowing; measured, never bet.",
    "group": "scout"
-  },
-  "hot-arm-dog-ml": {
-   "status": "card",
-   "name": "Hot arm dog ML",
-   "why": "Back a plus-money side whose starter's team is +40% or better over his last 8 starts.",
-   "group": "non-scout"
   },
   "away-dog-ml": {
    "status": "card",

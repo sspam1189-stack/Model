@@ -3,7 +3,7 @@
   "type": "scout-card-log",
   "week_convention": "monday-sunday",
   "description": "Per-play ledger for scout card calls (tier 2/3 of the daily card policy in MLBstrikeouts/CLAUDE.md). Model plays are NOT logged here - fade-ml/props/hand-tails keep their own files. No-play days are logged too: an empty card is part of the record. Prices are the card-time quote, not the close.",
-  "generated": "2026-09-01T22:15:19Z",
+  "generated": "2026-09-01T22:21:29Z",
   "pre_log_history": [
     {
       "date": "2026-08-17",
@@ -2407,38 +2407,6 @@
       "profit": 0.0,
       "gamePk": 823984,
       "commence": "2026-09-02T01:38:00Z"
-    },
-    {
-      "date": "2026-09-01",
-      "play": "ARI ML (hot arm dog)",
-      "market": "h2h",
-      "game": "PHI @ ARI",
-      "price": 114,
-      "stake": 1.0,
-      "rule": "hot-arm-dog-ml",
-      "auto": true,
-      "basis": "Hot arm dog ML: Eduardo Rodriguez \u2014 team +75% over his last 8 starts, priced +114",
-      "result": "pending",
-      "profit": 0.0,
-      "gamePk": 825038,
-      "commence": "2026-09-02T01:40:00Z",
-      "non_scout": true
-    },
-    {
-      "date": "2026-09-01",
-      "play": "STL ML (hot arm dog)",
-      "market": "h2h",
-      "game": "STL @ LAD",
-      "price": 164,
-      "stake": 1.0,
-      "rule": "hot-arm-dog-ml",
-      "auto": true,
-      "basis": "Hot arm dog ML: Michael McGreevy \u2014 team +42% over his last 8 starts, priced +164",
-      "result": "pending",
-      "profit": 0.0,
-      "gamePk": 823908,
-      "commence": "2026-09-02T02:10:00Z",
-      "non_scout": true
     },
     {
       "date": "2026-09-01",

@@ -1,7 +1,7 @@
 {
  "sport": "MLB",
  "type": "allml-systems-table",
- "generated": "2026-09-01T22:16:08Z",
+ "generated": "2026-09-01T22:21:30Z",
  "span": {
   "from": "2026-03-25",
   "to": "2026-08-31"
@@ -14,71 +14,6 @@
   "under": -3.5
  },
  "systems": [
-  {
-   "baseline_key": "side",
-   "baseline": -3.2,
-   "key": "hot-arm-dog-ml",
-   "name": "Hot arm dog ML",
-   "market": "h2h",
-   "rule": "Back a plus-money side whose starter's team is +40% or better over his last 8 starts.",
-   "case": "91-90 +12.7% (n=181, p=0.010), halves +15/+12. Plus money only, the tracker's definition of a dog; scored as not-the-favorite it is 109-103 +12.8% on 212 plays, the same edge over more games. The ladder is monotone at every threshold and window: >=0 +2%, >=25 +7%, >=40 +13%, >=60 +24%. Controls say it is the arm, not the team -- a hot team behind a not-hot starter is -4.8%, a hot starter on a .500 team is +8.3%. Favorite half is dead (-5% at the top cut), hence dogs only. April negative in every cut: 8-start windows are not real until May.",
-   "status": "card",
-   "ladder_fails": false,
-   "record": {
-    "w": 91,
-    "l": 90,
-    "n": 181,
-    "units": 22.92,
-    "roi": 12.7
-   },
-   "halves": [
-    16.5,
-    10.6
-   ],
-   "monthly": [
-    {
-     "month": "2026-04",
-     "w": 5,
-     "l": 6,
-     "n": 11,
-     "units": -0.3,
-     "roi": -2.7
-    },
-    {
-     "month": "2026-05",
-     "w": 19,
-     "l": 18,
-     "n": 37,
-     "units": 4.86,
-     "roi": 13.1
-    },
-    {
-     "month": "2026-06",
-     "w": 24,
-     "l": 18,
-     "n": 42,
-     "units": 12.34,
-     "roi": 29.4
-    },
-    {
-     "month": "2026-07",
-     "w": 22,
-     "l": 17,
-     "n": 39,
-     "units": 9.88,
-     "roi": 25.3
-    },
-    {
-     "month": "2026-08",
-     "w": 21,
-     "l": 31,
-     "n": 52,
-     "units": -3.86,
-     "roi": -7.4
-    }
-   ],
-   "per_day": 1.15
-  },
   {
    "baseline_key": "side",
    "baseline": -3.2,
@@ -414,36 +349,6 @@
   }
  ],
  "today": [
-  {
-   "rule": "hot-arm-dog-ml",
-   "market": "h2h",
-   "pick": "ARI",
-   "price": 114,
-   "side": null,
-   "why": "Eduardo Rodriguez \u2014 team +75% over his last 8 starts, priced +114",
-   "gamePk": 825038,
-   "date": "2026-09-01",
-   "commence": "2026-09-02T01:40:00Z",
-   "matchup": "PHI @ ARI",
-   "away": "PHI",
-   "home": "ARI",
-   "total": 7.5
-  },
-  {
-   "rule": "hot-arm-dog-ml",
-   "market": "h2h",
-   "pick": "STL",
-   "price": 164,
-   "side": null,
-   "why": "Michael McGreevy \u2014 team +42% over his last 8 starts, priced +164",
-   "gamePk": 823908,
-   "date": "2026-09-01",
-   "commence": "2026-09-02T02:10:00Z",
-   "matchup": "STL @ LAD",
-   "away": "STL",
-   "home": "LAD",
-   "total": 8.5
-  },
   {
    "rule": "away-dog-ml",
    "market": "h2h",
