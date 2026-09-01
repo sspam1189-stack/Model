@@ -149,13 +149,14 @@ def main():
             "under": summarize(arr, "pu"),
             "over": summarize(arr, "po"),
         })
-    # Reading order (user, 2026-09-01): card side first, then by how many
-    # defects stack (1 -> 4), widest sample first inside each tier. That makes
-    # the dose-response legible top to bottom -- swingman alone, then the
-    # pairs, then the stacks -- instead of interleaving a 12-game quad with a
-    # 61-game single.
-    out_combos.sort(key=lambda c: (not c["carded"], len(c["kinds"]),
-                                   -c["under"]["n"]))
+    # Reading order (user, 2026-09-01): lexicographic over COMBO_ORDER, i.e.
+    # A, A+B, A+B+C, A+B+C+D, A+B+D, A+C, A+C+D, A+D, B, B+C, ... Every combo
+    # containing a flag sits in that flag's block, deepest-first, so the grid
+    # enumerates the whole space in one pass with no group headers eating
+    # rows. The card side falls out on top for free: swingman is A, so every
+    # carded combo is an A-row.
+    idx = {k: i for i, k in enumerate(COMBO_ORDER)}
+    out_combos.sort(key=lambda c: tuple(idx[k] for k in c["kinds"]))
 
     out_flags = [{
         "flag": k,

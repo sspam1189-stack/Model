@@ -1,7 +1,7 @@
 {
  "sport": "MLB",
  "type": "flag-combo-table",
- "generated": "2026-09-01T20:00:51Z",
+ "generated": "2026-09-01T20:03:38Z",
  "span": {
   "from": "2026-03-26",
   "to": "2026-08-31"
@@ -52,28 +52,6 @@
    }
   },
   {
-   "combo": "swingman+stale-window",
-   "kinds": [
-    "swingman",
-    "stale-window"
-   ],
-   "carded": true,
-   "under": {
-    "w": 20,
-    "l": 30,
-    "n": 50,
-    "units": -12.26,
-    "roi": -24.5
-   },
-   "over": {
-    "w": 30,
-    "l": 20,
-    "n": 50,
-    "units": 7.36,
-    "roi": 14.7
-   }
-  },
-  {
    "combo": "swingman+layoff",
    "kinds": [
     "swingman",
@@ -93,28 +71,6 @@
     "n": 46,
     "units": -3.97,
     "roi": -8.6
-   }
-  },
-  {
-   "combo": "swingman+opener",
-   "kinds": [
-    "swingman",
-    "opener"
-   ],
-   "carded": true,
-   "under": {
-    "w": 23,
-    "l": 16,
-    "n": 39,
-    "units": 5.2,
-    "roi": 13.3
-   },
-   "over": {
-    "w": 16,
-    "l": 23,
-    "n": 39,
-    "units": -8.13,
-    "roi": -20.9
    }
   },
   {
@@ -138,52 +94,6 @@
     "n": 50,
     "units": -6.22,
     "roi": -12.4
-   }
-  },
-  {
-   "combo": "swingman+opener+stale-window",
-   "kinds": [
-    "swingman",
-    "opener",
-    "stale-window"
-   ],
-   "carded": true,
-   "under": {
-    "w": 13,
-    "l": 6,
-    "n": 19,
-    "units": 5.51,
-    "roi": 29.0
-   },
-   "over": {
-    "w": 6,
-    "l": 13,
-    "n": 19,
-    "units": -7.53,
-    "roi": -39.6
-   }
-  },
-  {
-   "combo": "swingman+layoff+stale-window",
-   "kinds": [
-    "swingman",
-    "layoff",
-    "stale-window"
-   ],
-   "carded": true,
-   "under": {
-    "w": 10,
-    "l": 3,
-    "n": 13,
-    "units": 6.07,
-    "roi": 46.7
-   },
-   "over": {
-    "w": 3,
-    "l": 10,
-    "n": 13,
-    "units": -7.47,
-    "roi": -57.5
    }
   },
   {
@@ -211,24 +121,93 @@
    }
   },
   {
-   "combo": "stale-window",
+   "combo": "swingman+layoff+stale-window",
    "kinds": [
+    "swingman",
+    "layoff",
     "stale-window"
    ],
-   "carded": false,
+   "carded": true,
    "under": {
-    "w": 42,
-    "l": 44,
-    "n": 86,
-    "units": -5.59,
-    "roi": -6.5
+    "w": 10,
+    "l": 3,
+    "n": 13,
+    "units": 6.07,
+    "roi": 46.7
    },
    "over": {
-    "w": 44,
-    "l": 42,
-    "n": 86,
-    "units": -1.4,
-    "roi": -1.6
+    "w": 3,
+    "l": 10,
+    "n": 13,
+    "units": -7.47,
+    "roi": -57.5
+   }
+  },
+  {
+   "combo": "swingman+opener",
+   "kinds": [
+    "swingman",
+    "opener"
+   ],
+   "carded": true,
+   "under": {
+    "w": 23,
+    "l": 16,
+    "n": 39,
+    "units": 5.2,
+    "roi": 13.3
+   },
+   "over": {
+    "w": 16,
+    "l": 23,
+    "n": 39,
+    "units": -8.13,
+    "roi": -20.9
+   }
+  },
+  {
+   "combo": "swingman+opener+stale-window",
+   "kinds": [
+    "swingman",
+    "opener",
+    "stale-window"
+   ],
+   "carded": true,
+   "under": {
+    "w": 13,
+    "l": 6,
+    "n": 19,
+    "units": 5.51,
+    "roi": 29.0
+   },
+   "over": {
+    "w": 6,
+    "l": 13,
+    "n": 19,
+    "units": -7.53,
+    "roi": -39.6
+   }
+  },
+  {
+   "combo": "swingman+stale-window",
+   "kinds": [
+    "swingman",
+    "stale-window"
+   ],
+   "carded": true,
+   "under": {
+    "w": 20,
+    "l": 30,
+    "n": 50,
+    "units": -12.26,
+    "roi": -24.5
+   },
+   "over": {
+    "w": 30,
+    "l": 20,
+    "n": 50,
+    "units": 7.36,
+    "roi": 14.7
    }
   },
   {
@@ -250,27 +229,6 @@
     "n": 75,
     "units": -10.35,
     "roi": -13.8
-   }
-  },
-  {
-   "combo": "opener",
-   "kinds": [
-    "opener"
-   ],
-   "carded": false,
-   "under": {
-    "w": 25,
-    "l": 21,
-    "n": 46,
-    "units": 1.39,
-    "roi": 3.0
-   },
-   "over": {
-    "w": 21,
-    "l": 25,
-    "n": 46,
-    "units": -5.98,
-    "roi": -13.0
    }
   },
   {
@@ -296,6 +254,29 @@
    }
   },
   {
+   "combo": "layoff+opener+stale-window",
+   "kinds": [
+    "layoff",
+    "opener",
+    "stale-window"
+   ],
+   "carded": false,
+   "under": {
+    "w": 1,
+    "l": 0,
+    "n": 1,
+    "units": 0.94,
+    "roi": 94.3
+   },
+   "over": {
+    "w": 0,
+    "l": 1,
+    "n": 1,
+    "units": -1.0,
+    "roi": -100.0
+   }
+  },
+  {
    "combo": "layoff+stale-window",
    "kinds": [
     "layoff",
@@ -315,6 +296,27 @@
     "n": 5,
     "units": 4.34,
     "roi": 86.9
+   }
+  },
+  {
+   "combo": "opener",
+   "kinds": [
+    "opener"
+   ],
+   "carded": false,
+   "under": {
+    "w": 25,
+    "l": 21,
+    "n": 46,
+    "units": 1.39,
+    "roi": 3.0
+   },
+   "over": {
+    "w": 21,
+    "l": 25,
+    "n": 46,
+    "units": -5.98,
+    "roi": -13.0
    }
   },
   {
@@ -340,26 +342,24 @@
    }
   },
   {
-   "combo": "layoff+opener+stale-window",
+   "combo": "stale-window",
    "kinds": [
-    "layoff",
-    "opener",
     "stale-window"
    ],
    "carded": false,
    "under": {
-    "w": 1,
-    "l": 0,
-    "n": 1,
-    "units": 0.94,
-    "roi": 94.3
+    "w": 42,
+    "l": 44,
+    "n": 86,
+    "units": -5.59,
+    "roi": -6.5
    },
    "over": {
-    "w": 0,
-    "l": 1,
-    "n": 1,
-    "units": -1.0,
-    "roi": -100.0
+    "w": 44,
+    "l": 42,
+    "n": 86,
+    "units": -1.4,
+    "roi": -1.6
    }
   }
  ],

@@ -294,25 +294,27 @@ async function renderMLBSlateScout() {
       + '<thead><tr style="text-align:left;color:' + DIM + ';border-bottom:1px solid #30363d">'
       + '<th style="padding:4px 6px">Combo</th><th>n</th><th>UNDER</th><th>OVER</th>'
       + '</tr></thead><tbody>';
-    // Group headers: card side by how many defects stack (the dose-response
-    // reads top to bottom), then the rust side once.
-    let lastGroup = null;
+    // Two section headers only -- carded vs rust. Within a section the file is
+    // already ordered lexicographically over the flag list (A, A+B, A+B+C,
+    // A+B+C+D, A+B+D, A+C, ...), so the blocks are self-evident and per-tier
+    // headers would just eat rows.
+    let section = null;
     for (const c of comboTable.combos) {
-      const n = (c.kinds || []).length;
-      const group = c.carded ? 'card:' + n : 'rust';
-      if (group !== lastGroup) {
-        lastGroup = group;
-        const label = c.carded
-          ? (n === 1 ? 'swingman alone'
-            : n === 2 ? 'swingman + 1 other defect'
-              : n === 3 ? 'swingman + 2 others' : 'all four defects')
-          : 'rust side — no swingman, not carded (measured dead both ways)';
-        t += '<tr><td colspan="4" style="padding:6px 6px 2px;color:' + DIM
-          + ';font-size:11px;border-top:1px solid #30363d">' + label + '</td></tr>';
+      const mine = c.carded ? 'card' : 'rust';
+      const rustEdge = mine === 'rust' && section !== 'rust';
+      if (mine !== section) {
+        section = mine;
+        t += '<tr><td colspan="4" style="padding:5px 6px 2px;font-size:11px;'
+          + 'font-weight:600;border-top:1px solid #30363d;color:'
+          + (mine === 'card' ? '#3fb950' : DIM) + '">'
+          + (mine === 'card'
+            ? 'CARDED — swingman present'
+            : 'RUST — no swingman, not carded') + '</td></tr>';
       }
       // Below 25 plays the harness refuses to call anything an edge; dim those.
       const thin = (c.under?.n || 0) < 25;
-      t += '<tr style="border-top:1px solid #161b22' + (thin ? ';opacity:.6' : '') + '">'
+      t += '<tr style="border-top:1px solid '
+        + (rustEdge ? '#30363d' : '#161b22') + (thin ? ';opacity:.6' : '') + '">'
         + '<td style="padding:3px 6px">'
         + (c.carded ? '<span style="color:#3fb950">●</span> ' : '<span style="color:'
           + DIM + '">○</span> ')
