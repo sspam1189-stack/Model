@@ -294,13 +294,21 @@ async function renderMLBSlateScout() {
       + '<thead><tr style="text-align:left;color:' + DIM + ';border-bottom:1px solid #30363d">'
       + '<th style="padding:4px 6px">Combo</th><th>n</th><th>UNDER</th><th>OVER</th>'
       + '</tr></thead><tbody>';
-    let rustHeaderDone = false;
+    // Group headers: card side by how many defects stack (the dose-response
+    // reads top to bottom), then the rust side once.
+    let lastGroup = null;
     for (const c of comboTable.combos) {
-      if (!c.carded && !rustHeaderDone) {
-        rustHeaderDone = true;
+      const n = (c.kinds || []).length;
+      const group = c.carded ? 'card:' + n : 'rust';
+      if (group !== lastGroup) {
+        lastGroup = group;
+        const label = c.carded
+          ? (n === 1 ? 'swingman alone'
+            : n === 2 ? 'swingman + 1 other defect'
+              : n === 3 ? 'swingman + 2 others' : 'all four defects')
+          : 'rust side — no swingman, not carded (measured dead both ways)';
         t += '<tr><td colspan="4" style="padding:6px 6px 2px;color:' + DIM
-          + ';font-size:11px;border-top:1px solid #30363d">rust side — no swingman, '
-          + 'not carded (measured dead both ways)</td></tr>';
+          + ';font-size:11px;border-top:1px solid #30363d">' + label + '</td></tr>';
       }
       // Below 25 plays the harness refuses to call anything an edge; dim those.
       const thin = (c.under?.n || 0) < 25;
