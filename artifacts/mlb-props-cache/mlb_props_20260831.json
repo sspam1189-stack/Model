@@ -285,28 +285,6 @@
     "_event_id": "36004227"
   },
   {
-    "player": "Cade Povich",
-    "market": "strikeouts",
-    "line": 4.5,
-    "over_price": 108,
-    "under_price": -136,
-    "event_home": "COL",
-    "event_away": "BAL",
-    "source": "fanduel",
-    "_event_id": "36004228"
-  },
-  {
-    "player": "Tanner Gordon",
-    "market": "strikeouts",
-    "line": 4.5,
-    "over_price": -106,
-    "under_price": -120,
-    "event_home": "COL",
-    "event_away": "BAL",
-    "source": "fanduel",
-    "_event_id": "36004228"
-  },
-  {
     "player": "Clay Holmes",
     "market": "strikeouts",
     "line": 4.5,
@@ -395,33 +373,11 @@
     "_event_id": "36004232"
   },
   {
-    "player": "Aaron Nola",
-    "market": "strikeouts",
-    "line": 4.5,
-    "over_price": -115,
-    "under_price": -111,
-    "event_home": "ARI",
-    "event_away": "PHI",
-    "source": "fanduel",
-    "_event_id": "36004226"
-  },
-  {
     "player": "Aaron Nola 17.5",
     "market": "outs",
     "line": 17.5,
     "over_price": 108,
     "under_price": -148,
-    "event_home": "ARI",
-    "event_away": "PHI",
-    "source": "fanduel",
-    "_event_id": "36004226"
-  },
-  {
-    "player": "Brandon Pfaadt",
-    "market": "strikeouts",
-    "line": 3.5,
-    "over_price": -128,
-    "under_price": 100,
     "event_home": "ARI",
     "event_away": "PHI",
     "source": "fanduel",
@@ -439,28 +395,6 @@
     "_event_id": "36004233"
   },
   {
-    "player": "Walbert Urena",
-    "market": "strikeouts",
-    "line": 5.5,
-    "over_price": 110,
-    "under_price": -140,
-    "event_home": "LAA",
-    "event_away": "NYY",
-    "source": "fanduel",
-    "_event_id": "36004233"
-  },
-  {
-    "player": "Elmer Rodriguez",
-    "market": "strikeouts",
-    "line": 4.5,
-    "over_price": -111,
-    "under_price": -115,
-    "event_home": "LAA",
-    "event_away": "NYY",
-    "source": "fanduel",
-    "_event_id": "36004233"
-  },
-  {
     "player": "Elmer Rodriguez 14.5",
     "market": "outs",
     "line": 14.5,
@@ -470,5 +404,105 @@
     "event_away": "NYY",
     "source": "fanduel",
     "_event_id": "36004233"
+  },
+  {
+    "player": "Tanner Gordon",
+    "line": 4.5,
+    "over_price": -108,
+    "under_price": -118,
+    "market": "strikeouts",
+    "event_home": "COL",
+    "event_away": "BAL",
+    "_event_id": "25cef778b3e407c237781a8c82899494"
+  },
+  {
+    "player": "Cade Povich",
+    "line": 4.5,
+    "over_price": 101,
+    "under_price": -129,
+    "market": "strikeouts",
+    "event_home": "COL",
+    "event_away": "BAL",
+    "_event_id": "25cef778b3e407c237781a8c82899494"
+  },
+  {
+    "player": "Walbert Urena",
+    "line": 5.5,
+    "over_price": 121,
+    "under_price": -154,
+    "market": "strikeouts",
+    "event_home": "LAA",
+    "event_away": "NYY",
+    "_event_id": "1a445560d2b4ababdc8ae392129d42cb"
+  },
+  {
+    "player": "Elmer Rodriguez",
+    "line": 4.5,
+    "over_price": -116,
+    "under_price": -110,
+    "market": "strikeouts",
+    "event_home": "LAA",
+    "event_away": "NYY",
+    "_event_id": "1a445560d2b4ababdc8ae392129d42cb"
+  },
+  {
+    "player": "Aaron Nola",
+    "line": 4.5,
+    "over_price": 103,
+    "under_price": -131,
+    "market": "strikeouts",
+    "event_home": "ARI",
+    "event_away": "PHI",
+    "_event_id": "a7e19db363201c4f9f334c8e70c4ae71"
+  },
+  {
+    "player": "Brandon Pfaadt",
+    "line": 3.5,
+    "over_price": -117,
+    "under_price": -109,
+    "market": "strikeouts",
+    "event_home": "ARI",
+    "event_away": "PHI",
+    "_event_id": "a7e19db363201c4f9f334c8e70c4ae71"
+  },
+  {
+    "player": "Logan Webb",
+    "line": 4.5,
+    "over_price": -158,
+    "under_price": 124,
+    "market": "strikeouts",
+    "event_home": "PIT",
+    "event_away": "SFG",
+    "_event_id": "0d8e1807210d19a49240ad01d066fb7f"
+  },
+  {
+    "player": "Paul Skenes",
+    "line": 6.5,
+    "over_price": 108,
+    "under_price": -138,
+    "market": "strikeouts",
+    "event_home": "PIT",
+    "event_away": "SFG",
+    "_event_id": "0d8e1807210d19a49240ad01d066fb7f"
+  },
+  {
+    "player": "Grayson Rodriguez",
+    "line": 5.5,
+    "over_price": 128,
+    "under_price": -164,
+    "market": "strikeouts",
+    "event_home": "LAA",
+    "event_away": "NYY",
+    "_event_id": "1b131c580c5da54dd5ca7bcb24d0c131"
+  },
+  {
+    "player": "Gerrit Cole",
+    "line": 6.5,
+    "over_price": -102,
+    "under_price": -125,
+    "market": "strikeouts",
+    "event_home": "LAA",
+    "event_away": "NYY",
+    "_event_id": "1b131c580c5da54dd5ca7bcb24d0c131"
   }
 ]
