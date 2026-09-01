@@ -286,6 +286,21 @@ jobs:
           PYTHONIOENCODING: "utf-8"
         run: python -m scripts.log_daily_qualifiers
 
+      # Settle yesterday's (and any older) pending entries from the finals in
+      # mlb-all-ml.json. Grading was the last hand step -- the 8/30 card sat
+      # open for two days -- and a ledger that logs itself but never grades
+      # itself looks complete while every rule's W-L is stuck. Profit uses each
+      # entry's OWN stored price, so a moved line cannot regrade a play.
+      # Verified against all 131 hand-graded rows before going live.
+      - name: Grade MLB scout ledger
+        continue-on-error: true
+        working-directory: MLBstrikeouts
+        env:
+          PYTHONUTF8: "1"
+          PYTHONUNBUFFERED: "1"
+          PYTHONIOENCODING: "utf-8"
+        run: python -m scripts.grade_scout_ledger
+
       - name: Upload MLBstrikeouts data
         uses: actions/upload-artifact@v7
         with:
@@ -406,6 +421,7 @@ jobs:
           git fetch origin main
           git checkout FETCH_HEAD -- MLBstrikeouts/data/scout-card-log.json 2>/dev/null || true
           (cd MLBstrikeouts && python -m scripts.log_daily_qualifiers) || true
+          (cd MLBstrikeouts && python -m scripts.grade_scout_ledger) || true
           git add -A
           git diff --cached --quiet || git commit -m "Run daily MLB Pitcher Props (Whiff .2 + .1/Cap26) + Game Hits [skip ci]"
           git pull --rebase --autostash origin main
