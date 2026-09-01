@@ -52,7 +52,10 @@ def _save(blob):
 # 8/17 week's 15-7-1 stands.
 RETIRED_FROM = "2026-08-24"
 RETIRED_RULES = {
-    "shadow-mismatch-ml",              # carded 8/29 without a shadow period, pulled 8/30 at 1-3
+    # mismatch-ml is NOT here any more: revived as shadow 2026-09-01, so the
+    # `shadow` flag already keeps it out of the card record while its own
+    # line accumulates the 15-20 tracked plays.
+    "better-arm-ml-fav",               # favorite half, out of scope after the dogs-only narrowing
     "scout-ml-both-halves-aligned",    # pre-card experiment
     "card-grade-total-both-aligned",   # pre-card experiment
     "card-grade-total-aligned-plus-flag",

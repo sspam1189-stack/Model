@@ -260,6 +260,22 @@ jobs:
           PYTHONIOENCODING: "utf-8"
         run: python -m scripts.build_msum_ml_table
 
+      # Log every rule's qualifiers into the scout ledger -- card AND shadow.
+      # Until 2026-09-01 this was hand-work in a session, so a day without a
+      # session left silent holes and shadow periods never filled. Idempotent
+      # by (date, rule, game, line/pick): six runs a day add each play once and
+      # never rewrite a price. Entries carry "auto": true and record that the
+      # RULE fired, not that a bet was placed -- mark one not_bet by hand when
+      # a play was missed. Runs AFTER both tables so verdicts are current.
+      - name: Log MLB scout qualifiers
+        continue-on-error: true
+        working-directory: MLBstrikeouts
+        env:
+          PYTHONUTF8: "1"
+          PYTHONUNBUFFERED: "1"
+          PYTHONIOENCODING: "utf-8"
+        run: python -m scripts.log_daily_qualifiers
+
       - name: Upload MLBstrikeouts data
         uses: actions/upload-artifact@v7
         with:
@@ -370,12 +386,15 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          # The scout card ledger is written by sessions, never by this run.
-          # On a persistent runner the working tree can hold a stale copy,
-          # and `git add -A` then silently reverts ledger entries (it dropped
-          # the 2026-08-24 entry). Always defer to main's version.
+          # The scout ledger is now written by BOTH this run (auto
+          # qualifiers) and by sessions (grades, not_bet marks, notes). A
+          # persistent runner can hold a stale copy, so take main's version
+          # FIRST and re-run the logger against it -- that keeps session edits
+          # and re-adds today's qualifiers idempotently, instead of the old
+          # blanket revert which would now throw away this run's own rows.
           git fetch origin main
           git checkout FETCH_HEAD -- MLBstrikeouts/data/scout-card-log.json 2>/dev/null || true
+          (cd MLBstrikeouts && python -m scripts.log_daily_qualifiers) || true
           git add -A
           git diff --cached --quiet || git commit -m "Run daily MLB Pitcher Props (Whiff .2 + .1/Cap26) + Game Hits [skip ci]"
           git pull --rebase --autostash origin main
