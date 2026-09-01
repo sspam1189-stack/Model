@@ -56,6 +56,9 @@ RETIRED_RULES = {
     # `shadow` flag already keeps it out of the card record while its own
     # line accumulates the 15-20 tracked plays.
     "better-arm-ml-fav",               # favorite half, out of scope after the dogs-only narrowing
+    # flag-plays-legacy was removed entirely 2026-09-01: the SD/CIN under 9.5
+    # was superseded by the O9 the same day and never held, so keeping a
+    # not_bet husk of it only made the day's ledger harder to read.
     "scout-ml-both-halves-aligned",    # pre-card experiment
     "card-grade-total-both-aligned",   # pre-card experiment
     "card-grade-total-aligned-plus-flag",
