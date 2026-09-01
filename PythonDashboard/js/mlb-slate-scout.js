@@ -40,6 +40,24 @@ async function renderMLBSlateScout() {
     .filter(Boolean)
     .sort((a, b) => String(b.generated || '').localeCompare(String(a.generated || '')))[0] || null;
 
+  // The flag-combo grid, rebuilt full-season by every daily run
+  // (scripts/build_flag_combo_table.py). Same newest-wins fetch; a missing
+  // table just hides its panel rather than breaking the tab.
+  const grabTable = async (url) => {
+    try {
+      const r = await fetch(url + '?t=' + Date.now(), { cache: 'no-store' });
+      if (!r.ok) return null;
+      const j = await r.json();
+      return (j && Array.isArray(j.combos) && j.combos.length) ? j : null;
+    } catch (e) { return null; }
+  };
+  const comboTable = (await Promise.all([
+    grabTable('data/flag-combo-table.json'),
+    grabTable('https://raw.githubusercontent.com/sspam1189-stack/Model/main/'
+      + 'MLBstrikeouts/data/flag-combo-table.json'),
+  ])).filter(Boolean)
+    .sort((a, b) => String(b.generated || '').localeCompare(String(a.generated || '')))[0] || null;
+
   el.textContent = '';
   if (!data || !Array.isArray(data.slate) || !data.slate.length) {
     const c = document.createElement('div');
@@ -234,6 +252,65 @@ async function renderMLBSlateScout() {
   playsCard.innerHTML = phtml;
   el.appendChild(playsCard);
 
+  // ---- Flag-combo performance grid -----------------------------------------
+  // Rebuilt full-season on every daily run. This panel exists because the
+  // rust-only OVER rule cleared a 33-game backtest, a walk-forward split and
+  // a permutation test on the 15-slate snapshot window, and died the same day
+  // the whole season was replayed. Numbers here are never remembered, always
+  // recomputed.
+  if (comboTable) {
+    const roiCell = (s, live) => {
+      if (!s) return '<td style="color:' + DIM + '">—</td>';
+      const strong = live && Math.abs(s.roi) >= 10 && s.n >= 25;
+      const col = s.roi > 0 ? '#3fb950' : s.roi < 0 ? '#f85149' : DIM;
+      return '<td style="white-space:nowrap;padding:3px 6px">'
+        + '<span style="color:' + DIM + '">' + s.w + '-' + s.l + '</span> '
+        + '<span style="color:' + col + (strong ? ';font-weight:600' : '') + '">'
+        + (s.roi > 0 ? '+' : '') + s.roi.toFixed(1) + '%</span></td>';
+    };
+    const tbl = document.createElement('div');
+    tbl.className = 'card card-games';
+    const b = comboTable.baselines || {};
+    let t = '<div class="card-title" style="padding:6px 8px">Flag combos — full season '
+      + '<span style="color:' + DIM + ';font-weight:400;font-size:11px">('
+      + esc(comboTable.span?.from || '') + '..' + esc(comboTable.span?.to || '') + ' · '
+      + (comboTable.games?.flagged || 0) + ' flagged of ' + (comboTable.games?.gradeable || 0)
+      + ' · baseline U ' + (b.under ? b.under.roi.toFixed(1) : '?') + '% / O '
+      + (b.over ? b.over.roi.toFixed(1) : '?') + '% · rebuilt each run)</span></div>'
+      + '<div style="overflow-x:auto"><table style="width:100%;border-collapse:collapse;font-size:12px">'
+      + '<thead><tr style="text-align:left;color:' + DIM + ';border-bottom:1px solid #30363d">'
+      + '<th style="padding:4px 6px">Combo</th><th>n</th><th>UNDER</th><th>OVER</th>'
+      + '</tr></thead><tbody>';
+    let rustHeaderDone = false;
+    for (const c of comboTable.combos) {
+      if (!c.carded && !rustHeaderDone) {
+        rustHeaderDone = true;
+        t += '<tr><td colspan="4" style="padding:6px 6px 2px;color:' + DIM
+          + ';font-size:11px;border-top:1px solid #30363d">rust side — no swingman, '
+          + 'not carded (measured dead both ways)</td></tr>';
+      }
+      // Below 25 plays the harness refuses to call anything an edge; dim those.
+      const thin = (c.under?.n || 0) < 25;
+      t += '<tr style="border-top:1px solid #161b22' + (thin ? ';opacity:.6' : '') + '">'
+        + '<td style="padding:3px 6px">'
+        + (c.carded ? '<span style="color:#3fb950">●</span> ' : '<span style="color:'
+          + DIM + '">○</span> ')
+        + esc(c.combo) + (thin ? ' <span style="color:' + DIM
+          + ';font-size:10px">thin</span>' : '') + '</td>'
+        + '<td style="color:' + DIM + '">' + (c.under?.n ?? 0) + '</td>'
+        + roiCell(c.under, c.carded) + roiCell(c.over, false) + '</tr>';
+    }
+    t += '</tbody></table></div>'
+      + '<div style="padding:6px 8px;font-size:11px;color:' + DIM + ';line-height:1.5">'
+      + '● = on the card (requires <b>' + esc(comboTable.card_requires || 'swingman')
+      + '</b>). Combo rows count each game once under its exact flag set. '
+      + 'Rows under 25 plays are dimmed — the harness never calls those an edge. '
+      + 'Flags are replayed as-of each game date from the pitcher logs, graded at '
+      + 'the real payload prices.</div>';
+    tbl.innerHTML = t;
+    el.appendChild(tbl);
+  }
+
   // ---- Per-game cards ------------------------------------------------------
   const games = document.createElement('div');
   games.className = 'card card-games';
@@ -369,7 +446,10 @@ async function renderMLBSlateScout() {
     + '<thead><tr style="text-align:left;color:' + DIM + ';border-bottom:1px solid #30363d">'
     + '<th style="padding:4px 6px">Mismatch</th><th>Starter</th><th>Team</th>'
     + '<th>Faces</th><th>Opp wRC+</th>'
-    + '<th title="Carded rule: tail at m<=-45, fade at m>=+55 (L20 window)">Play</th>'
+    + '<th title="mismatch-ML, RETIRED 2026-08-30 at 1-3: tail at m<=-45, '
+    + 'fade at m>=+55 (L20 window). Labels are watch-only.">Play '
+    + '<span style="color:' + DIM + ';font-weight:400;font-size:10px">'
+    + '(mismatch-ML · retired)</span></th>'
     + '<th>Flags</th></tr></thead><tbody>';
   for (const r of (data.ranked_mismatch || [])) {
     rhtml += '<tr style="border-top:1px solid #161b22">'
