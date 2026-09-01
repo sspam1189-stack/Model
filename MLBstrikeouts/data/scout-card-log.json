@@ -1922,6 +1922,36 @@
       "basis": "First fire since the rule got its own 75-PA floor (2026-08-31). NOTE: duplicates a live fade-ML model play (SF +148, fading Skenes) -- the shadow grades the rule, the money is already on via the model.",
       "result": "pending",
       "profit": 0.0
+    },
+    {
+      "date": "2026-09-01",
+      "play": "CHC ML (fav, m_sum +86.7)",
+      "market": "h2h",
+      "game": "MIL @ CHC",
+      "price": -126,
+      "stake": 1.0,
+      "rule": "shadow-msum-better-arm",
+      "shadow": true,
+      "is_dog": false,
+      "msum": 86.7,
+      "basis": "Better arm Matthew Boyd (+30.0) vs +56.7. Pool rule: m_sum>=+40, back the lower-mismatch side. Season 82-56 +9.3% (dogs 19-15 +26.0%); backing the favorite in the same games is -1.9% and the rule is -0.2% outside the pool. SHADOW to 20 plays: p=0.043 out of a heavily scanned session, April -31%.",
+      "result": "pending",
+      "profit": 0.0
+    },
+    {
+      "date": "2026-09-01",
+      "play": "BAL ML (fav, m_sum +63.8)",
+      "market": "h2h",
+      "game": "BAL @ COL",
+      "price": -146,
+      "stake": 1.0,
+      "rule": "shadow-msum-better-arm",
+      "shadow": true,
+      "is_dog": false,
+      "msum": 63.8,
+      "basis": "Better arm Kyle Bradish (+14.1) vs +49.7. Pool rule: m_sum>=+40, back the lower-mismatch side. Season 82-56 +9.3% (dogs 19-15 +26.0%); backing the favorite in the same games is -1.9% and the rule is -0.2% outside the pool. SHADOW to 20 plays: p=0.043 out of a heavily scanned session, April -31%.",
+      "result": "pending",
+      "profit": 0.0
     }
   ]
 }
