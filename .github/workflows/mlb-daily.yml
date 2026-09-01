@@ -260,6 +260,18 @@ jobs:
           PYTHONIOENCODING: "utf-8"
         run: python -m scripts.build_msum_ml_table
 
+      # The eight non-scout systems: season records replayed as-of every game
+      # date from mlb-all-ml.json alone, plus tonight's qualifiers. Must run
+      # BEFORE the logger, which reads the same module for today's plays.
+      - name: Build MLB non-scout systems table
+        continue-on-error: true
+        working-directory: MLBstrikeouts
+        env:
+          PYTHONUTF8: "1"
+          PYTHONUNBUFFERED: "1"
+          PYTHONIOENCODING: "utf-8"
+        run: python -m scripts.build_allml_systems_table
+
       # Log every rule's qualifiers into the scout ledger -- card AND shadow.
       # Until 2026-09-01 this was hand-work in a session, so a day without a
       # session left silent holes and shadow periods never filled. Idempotent
@@ -403,6 +415,7 @@ jobs:
           cp -f artifacts/MLBstrikeouts/flag-combo-table.json PythonDashboard/data/flag-combo-table.json 2>/dev/null || true
           cp -f artifacts/MLBstrikeouts/msum-ml-table.json PythonDashboard/data/msum-ml-table.json 2>/dev/null || true
           cp -f artifacts/MLBstrikeouts/rule-status.json PythonDashboard/data/rule-status.json 2>/dev/null || true
+          cp -f artifacts/MLBstrikeouts/allml-systems-table.json PythonDashboard/data/allml-systems-table.json 2>/dev/null || true
           cp -f artifacts/MLBstrikeouts/hand-tails-roster.json PythonDashboard/data/hand-tails-roster.json 2>/dev/null || true
           mkdir -p data/odds_cache/mlb_ml
           cp -a artifacts/mlb-ml-cache/. data/odds_cache/mlb_ml/ 2>/dev/null || true

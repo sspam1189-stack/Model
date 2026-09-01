@@ -87,6 +87,25 @@ async function renderMLBSlateScout() {
   ])).filter(Boolean)
     .sort((a, b) => String(b.generated || '').localeCompare(String(a.generated || '')))[0] || null;
 
+  // The non-scout systems (MLBstrikeouts/scripts/allml_systems.py): eight
+  // rules read off mlb-all-ml.json alone, with no input from the mismatch
+  // model. Their own panel, because an agreement between one of these and a
+  // scout rule is a second opinion rather than the same inputs twice.
+  const grabSystems = async (url) => {
+    try {
+      const r = await fetch(url + '?t=' + Date.now(), { cache: 'no-store' });
+      if (!r.ok) return null;
+      const j = await r.json();
+      return (j && Array.isArray(j.systems) && j.systems.length) ? j : null;
+    } catch (e) { return null; }
+  };
+  const sysTable = (await Promise.all([
+    grabSystems('data/allml-systems-table.json'),
+    grabSystems('https://raw.githubusercontent.com/sspam1189-stack/Model/main/'
+      + 'MLBstrikeouts/data/allml-systems-table.json'),
+  ])).filter(Boolean)
+    .sort((a, b) => String(b.generated || '').localeCompare(String(a.generated || '')))[0] || null;
+
   const comboTable = (await Promise.all([
     grabTable('data/flag-combo-table.json'),
     grabTable('https://raw.githubusercontent.com/sspam1189-stack/Model/main/'
@@ -435,6 +454,114 @@ async function renderMLBSlateScout() {
       + '</div>';
     card.innerHTML = m;
     el.appendChild(card);
+  }
+
+  // ---- Non-scout systems ---------------------------------------------------
+  // Eight rules found 2026-09-01 by scanning the 2,066 settled games in
+  // mlb-all-ml.json using only what that file carries. Season records are
+  // replayed as-of each game date by scripts/build_allml_systems_table.py on
+  // every daily run, so nothing here is a number somebody typed once.
+  if (sysTable) {
+    const byKey = {};
+    for (const sy of sysTable.systems) byKey[sy.key] = sy;
+    const plays = (sysTable.today || []).filter(
+      p => !sysTable.today_date || p.date === sysTable.today_date);
+    const recOf = (k) => {
+      const r = byKey[k] && byKey[k].record;
+      return r ? r.w + '-' + r.l + ' ' + (r.roi > 0 ? '+' : '') + r.roi + '%' : '—';
+    };
+    const sc = document.createElement('div');
+    sc.className = 'card card-games';
+    let t = '<div class="card-title" style="padding:6px 8px">'
+      + 'Non-scout systems — today\'s plays '
+      + '<span style="color:' + DIM + ';font-weight:400;font-size:11px">'
+      + '(CARD — all eight are bet. Derived from the all-ML game file alone: '
+      + 'prices, totals, probables, scores. No mismatch-model input, so an '
+      + 'agreement with a scout rule is a second opinion.)</span></div>';
+    if (!plays.length) {
+      t += '<div style="padding:8px 10px;font-size:12px;color:' + DIM
+        + '">No system qualifies on this slate.</div>';
+    } else {
+      t += '<div style="overflow-x:auto"><table style="width:100%;border-collapse:collapse;font-size:12px">'
+        + '<thead><tr style="text-align:left;color:' + DIM + ';border-bottom:1px solid #30363d">'
+        + '<th style="padding:4px 6px">CT</th><th>Game</th><th>Play</th>'
+        + '<th>System</th><th>Season</th><th>Why</th></tr></thead><tbody>'
+        + '<tr><td colspan="6" style="padding:5px 6px 2px;font-size:11px;'
+        + 'font-weight:600;border-top:1px solid #30363d;color:#3fb950">'
+        + 'CARD — bet these</td></tr>';
+      for (const p of plays) {
+        const sy = byKey[p.rule] || {};
+        const playCell = p.market === 'h2h'
+          ? esc(p.pick) + ' ML <span style="color:' + DIM + ';font-weight:400">'
+            + mlStr(p.price) + '</span>'
+          : (p.pick === 'under' ? 'U' : 'O') + (p.total == null ? '?' : p.total)
+            + ' <span style="color:' + DIM + ';font-weight:400">'
+            + mlStr(p.price) + '</span>';
+        t += '<tr style="border-top:1px solid #161b22">'
+          + '<td style="padding:3px 6px;color:' + DIM + '">' + ctTime(p.commence) + '</td>'
+          + '<td style="padding:3px 6px">' + esc(p.matchup) + '</td>'
+          + '<td style="padding:3px 6px;font-weight:600;white-space:nowrap">' + playCell + '</td>'
+          + '<td><span style="display:inline-block;padding:1px 6px;border-radius:3px;'
+          + 'font-weight:600;white-space:nowrap;background:rgba(63,185,80,.18);color:#3fb950">'
+          + esc(sy.name || p.rule) + '</span>'
+          + (sy.ladder_fails ? ' <span title="carded on request; the winning '
+            + 'bucket has losing neighbours" style="color:#d29922">△</span>' : '')
+          + '</td>'
+          + '<td style="color:' + DIM + ';white-space:nowrap">' + recOf(p.rule) + '</td>'
+          + '<td style="color:' + DIM + ';font-size:11px">' + esc(p.why) + '</td>'
+          + '</tr>';
+      }
+      t += '</tbody></table></div>';
+    }
+    // Season table for all eight, whether or not they fired tonight.
+    const b = sysTable.baselines || {};
+    // The builder stores each system's own blind benchmark, so this does not
+    // have to guess one from the rule name.
+    const baseFor = (sy) => (sy.baseline != null ? sy.baseline : null);
+    t += '<div style="overflow-x:auto;border-top:1px solid #30363d">'
+      + '<table style="width:100%;border-collapse:collapse;font-size:12px">'
+      + '<thead><tr style="text-align:left;color:' + DIM + '">'
+      + '<th style="padding:4px 6px">System</th><th>Rule</th><th>Record</th>'
+      + '<th>ROI</th><th>vs blind</th><th>Halves</th><th>Plays/day</th>'
+      + '</tr></thead><tbody>';
+    for (const sy of sysTable.systems) {
+      const r = sy.record || {};
+      const base = baseFor(sy);
+      const edge = (base == null || r.roi == null) ? null : r.roi - base;
+      const col = r.roi > 0 ? '#3fb950' : r.roi < 0 ? '#f85149' : DIM;
+      const hs = (sy.halves || []).map(
+        x => (x == null ? '—' : (x > 0 ? '+' : '') + x.toFixed(0))).join(' / ');
+      const bad = (sy.halves || []).some(x => x != null && x <= 0);
+      t += '<tr style="border-top:1px solid #161b22">'
+        + '<td style="padding:3px 6px;font-weight:600;white-space:nowrap">'
+        + esc(sy.name)
+        + (sy.ladder_fails ? ' <span title="carded on request; the winning '
+          + 'bucket has losing neighbours" style="color:#d29922">△</span>' : '')
+        + '</td>'
+        + '<td style="color:' + DIM + ';font-size:11px">' + esc(sy.rule) + '</td>'
+        + '<td style="color:' + DIM + ';white-space:nowrap">' + r.w + '-' + r.l + '</td>'
+        + '<td style="color:' + col + ';font-weight:600;white-space:nowrap">'
+        + (r.roi > 0 ? '+' : '') + (r.roi == null ? '—' : r.roi.toFixed(1)) + '%</td>'
+        + '<td style="color:' + DIM + ';white-space:nowrap">'
+        + (edge == null ? '—' : (edge > 0 ? '+' : '') + edge.toFixed(1)) + '</td>'
+        + '<td style="color:' + (bad ? '#d29922' : DIM) + ';white-space:nowrap">'
+        + hs + '</td>'
+        + '<td style="color:' + DIM + '">' + (sy.per_day == null ? '—' : sy.per_day) + '</td>'
+        + '</tr>';
+    }
+    t += '</tbody></table></div>'
+      + '<div style="padding:6px 8px;font-size:11px;color:' + DIM + ';line-height:1.5">'
+      + 'Replayed as-of each game date over ' + (sysTable.games || 0)
+      + ' settled games — a game\'s own result is never in the features that '
+      + 'select it. Blind baselines over the same games: backing every side '
+      + b.side + '%, blind over ' + b.over + '%, blind under ' + b.under + '%. '
+      + '<span style="color:#d29922">△</span> marks a system whose winning '
+      + 'bucket has losing neighbours in its own ladder — carded on request, '
+      + 'and the record is what settles it. The scan that produced these tested '
+      + 'thousands of cells, so treat the p-values as screening, not proof.'
+      + '</div>';
+    sc.innerHTML = t;
+    el.appendChild(sc);
   }
 
   // ---- Flag-combo performance grid -----------------------------------------

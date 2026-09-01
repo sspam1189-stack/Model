@@ -16,6 +16,12 @@ So the daily run logs them now. Every rule, card and shadow:
     Aligned ML      hot-vs-cold ladder at the 75-PA floor
     Mismatch ML     tail m <= -45 / fade m >= +55   (shadow)
 
+and, from 2026-09-01, the eight NON-SCOUT systems (scripts/allml_systems.py),
+which read mlb-all-ml.json alone and none of the mismatch model:
+
+    Hot arm dog ML    Away dog ML       Home slide ML     Pickem under
+    Starter over run  Low line over     Cold arms under   Under juice
+
 WHAT THIS DOES AND DOES NOT CLAIM. A card entry written here records that the
 RULE fired at that price, not that a bet was placed -- only a person knows
 that. Every auto entry carries ``"auto": true``; mark one ``"not_bet": true``
@@ -38,6 +44,7 @@ sys.path.insert(0, os.path.dirname(__file__))
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), "sources"))
 
 import scout_card_log as LEDGER
+import allml_systems as ALLSYS
 from rule_status import RULE_STATUS
 
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -248,6 +255,48 @@ def qualifiers(payload, verdicts, msum_table, ids=None):
     return out
 
 
+def allml_qualifiers(date, ids=None):
+    """The non-scout systems' plays for tonight, in ledger shape.
+
+    Reads mlb-all-ml.json's `today` block rather than the scout payload, so a
+    slate the scout model cannot score (no probable, no batter window) still
+    logs these. gamePk comes straight off that block, so the auto-grader joins
+    them exactly rather than by team names.
+    """
+    out = []
+    try:
+        plays = ALLSYS.today_plays()
+    except (OSError, ValueError, KeyError):
+        return out
+    for p in plays:
+        if date and p.get("date") and p["date"] != date:
+            continue
+        name = ALLSYS.SYSTEMS[p["rule"]][0]
+        common = {
+            "rule": p["rule"],
+            "gamePk": p.get("gamePk"),
+            "commence": p.get("commence"),
+            "matchup": p.get("matchup"),
+            "price": int(p["price"]),
+            "basis": f"{name}: {p.get('why', '')}".strip(),
+            "non_scout": True,
+        }
+        if p["market"] == "totals":
+            total = p.get("total")
+            if total is None:
+                continue
+            out.append(dict(common, market="totals", line=total,
+                            key=f"{total}",
+                            play=f"{_short(p['matchup'])} "
+                                 f"{'U' if p['pick'] == 'under' else 'O'}"
+                                 f"{_num(total)}"))
+        else:
+            out.append(dict(common, market="h2h", key=p["pick"],
+                            play=f"{p['pick']} ML "
+                                 f"({ALLSYS.short_tag(p['rule'])})"))
+    return out
+
+
 def main():
     ap = argparse.ArgumentParser(description=__doc__,
                                  formatter_class=argparse.RawDescriptionHelpFormatter)
@@ -265,7 +314,10 @@ def main():
     for g in payload.get("slate", []):
         by_play[g["matchup"]] = g["matchup"]
 
-    qs = qualifiers(payload, verdicts, msum_table, game_ids())
+    ids = game_ids()
+    qs = qualifiers(payload, verdicts, msum_table, ids)
+    # The non-scout systems come off mlb-all-ml.json, not the scout payload.
+    qs += allml_qualifiers(date, ids)
     blob = LEDGER._load()
     # Idempotency key: one entry per (date, rule, play). A re-run never
     # duplicates and never rewrites the price already recorded.
@@ -304,7 +356,8 @@ def main():
         }
         if q.get("line") is not None:
             entry["line"] = q["line"]
-        for extra in ("combo", "is_dog", "flagged_overlap", "gamePk", "commence"):
+        for extra in ("combo", "is_dog", "flagged_overlap", "gamePk",
+                      "commence", "non_scout"):
             if extra in q:
                 entry[extra] = q[extra]
         if status == "shadow":

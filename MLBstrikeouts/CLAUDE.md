@@ -172,7 +172,47 @@ When building a daily card from this repo's outputs, the tiers are:
    carded on the user's call as a structural read (a hot lineup against a
    cold one), not because anything measured supports it. Nothing else in
    the tier list is this thin; if it goes 0-3 it should come straight off.
-6. **Leans are retired**: no half-case totals, no temperature-only reads,
+6. **Non-scout systems — ALL EIGHT CARDED 2026-09-01 (user).** A separate
+   family, defined in `scripts/allml_systems.py` and grouped apart on the
+   tab and in the ledger. They read `mlb-all-ml.json` alone -- prices,
+   totals, probables, scores, plus what can be derived as-of from its own
+   history -- and take no input from the mismatch model, so when one agrees
+   with a scout rule it is a second opinion rather than the same inputs
+   counted twice. Season records, replayed as-of each game date:
+
+   | system | rule | record | ROI | blind |
+   |---|---|---|---|---|
+   | Hot arm dog ML | starter's team +40% or better over his last 8, plus money | 91-90 | +12.7% | -3.2% |
+   | Away dog ML | away dog, total >= 9.5 | 87-76 | +23.4% | -3.2% |
+   | Home slide ML | home on L4+, new opponent | 33-17 | +25.0% | -3.2% |
+   | Pickem under | favorite -115 or shorter, total >= 8.5 | 98-69 | +11.5% | -3.5% |
+   | Starter over run | a starter 75%+ overs in his last 8, total >= 8.5 | 120-87 | +10.8% | -6.1% |
+   | Low line over | total <= 7 | 72-52 | +8.9% | -6.1% |
+   | Cold arms under | both starters <= 35% overs in last 8 | 27-14 | +23.5% | -3.5% |
+   | Under juice | under priced -120 or shorter | 234-171 | +5.1% | -3.5% |
+
+   **How they were found bears on how much to trust them.** The scan tested
+   every single and pairwise cell across ~30 derived features, roughly 4,000
+   cells per market. About 2,000 beat baseline per market and ~100 cleared
+   p<0.05 on chance alone; NONE survived Benjamini-Hochberg (best q ~= 0.18).
+   The p-values here are screening statistics, not proof. Every rule above
+   additionally beats its blind baseline, holds in both walk-forward halves,
+   and has a mechanism.
+
+   **Two fail their ladder and are carded anyway, on the user's call.** Away
+   dog ML is entirely the 9.5 bucket: away dogs run -15.4% at a 9.0 total
+   (n=168, more games than the winning cell) and +6.1% at 10+. Home slide ML
+   is entirely "exactly L4": L3 is -9.4% (n=118) and L5 -6.4% (n=29), and
+   the market prices L2/L3/L5 teams within a few points of their true win
+   rate while missing L4 teams by 15.9 points. Both survive every other test
+   -- trimming the biggest wins, park exclusion, monthly splits -- which is
+   why they are arguable rather than dismissed. They are marked with a
+   warning glyph on the tab and `LADDER FAILS` in the module docstring. The
+   live record settles it.
+
+   Adding or retiring one of these is a `rule_status.py` edit; the logger,
+   the ledger and the dashboard all follow from that one file.
+7. **Leans are retired**: no half-case totals, no temperature-only reads,
    no "0.5u if you want it" tier. A read is card-grade or it is not
    bettable. If a filter on model plays ever seems attractive, define it
    in advance and shadow-track it before it touches a live bet.
