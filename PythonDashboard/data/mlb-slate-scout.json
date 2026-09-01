@@ -25,11 +25,11 @@
       "away": "SD",
       "home": "CIN",
       "commence": "2026-09-01T22:40:00Z",
-      "away_ml": -130,
-      "home_ml": 120,
-      "total": 9.5,
-      "over_ml": -105,
-      "under_ml": -115,
+      "away_ml": -136,
+      "home_ml": 116,
+      "total": 9,
+      "over_ml": -118,
+      "under_ml": -104,
       "sides": {
         "away": {
           "pitcher": "Randy V\u00e1squez",
@@ -425,8 +425,8 @@
       "away": "SF",
       "home": "PIT",
       "commence": "2026-09-01T22:40:00Z",
-      "away_ml": 148,
-      "home_ml": -160,
+      "away_ml": 142,
+      "home_ml": -168,
       "total": 7.5,
       "over_ml": -110,
       "under_ml": -110,
@@ -800,7 +800,7 @@
       "offense_edge": 29,
       "aligned_ml": {
         "pick": "SF",
-        "ml": 148,
+        "ml": 142,
         "away_offense": [
           110,
           115,
@@ -821,11 +821,11 @@
       "away": "NYM",
       "home": "TB",
       "commence": "2026-09-01T22:40:00Z",
-      "away_ml": 114,
-      "home_ml": -124,
+      "away_ml": 108,
+      "home_ml": -126,
       "total": 7.5,
-      "over_ml": -122,
-      "under_ml": 100,
+      "over_ml": -114,
+      "under_ml": -106,
       "sides": {
         "away": {
           "pitcher": "Sean Manaea",
@@ -1201,15 +1201,15 @@
       "away": "TOR",
       "home": "CLE",
       "commence": "2026-09-01T22:40:00Z",
-      "away_ml": 162,
-      "home_ml": -174,
-      "total": 7.5,
-      "over_ml": -122,
-      "under_ml": 100,
+      "away_ml": 154,
+      "home_ml": -184,
+      "total": 8,
+      "over_ml": -105,
+      "under_ml": -115,
       "sides": {
         "away": {
-          "pitcher": "Spencer Arrighetti",
-          "listed_as": "Spencer Arrighetti",
+          "pitcher": "Spencer Miles",
+          "listed_as": "Spencer Miles",
           "resolved": true,
           "hand": "R",
           "team": "TOR",
@@ -1243,91 +1243,91 @@
           "opp_platoon_gap": 20,
           "form": {
             "season": {
-              "gs": 18,
-              "ip": 92.0,
-              "ip_per_gs": 5.11,
-              "era": 4.7,
-              "whip": 1.36,
-              "k_pct": 22.4,
-              "bb_pct": 12.8,
-              "k_bb_pct": 9.6,
-              "hr9": 1.27,
-              "k": 91,
-              "bb": 52,
-              "hr": 13,
-              "er": 48
+              "gs": 5,
+              "ip": 16.0,
+              "ip_per_gs": 3.2,
+              "era": 7.88,
+              "whip": 1.56,
+              "k_pct": 13.9,
+              "bb_pct": 4.2,
+              "k_bb_pct": 9.7,
+              "hr9": 1.12,
+              "k": 10,
+              "bb": 3,
+              "hr": 2,
+              "er": 14
             },
             "recent": {
               "gs": 5,
-              "ip": 20.0,
-              "ip_per_gs": 4.0,
-              "era": 7.2,
-              "whip": 1.6,
-              "k_pct": 17.0,
-              "bb_pct": 16.0,
-              "k_bb_pct": 1.1,
-              "hr9": 1.8,
-              "k": 16,
-              "bb": 15,
-              "hr": 4,
-              "er": 16
+              "ip": 16.0,
+              "ip_per_gs": 3.2,
+              "era": 7.88,
+              "whip": 1.56,
+              "k_pct": 13.9,
+              "bb_pct": 4.2,
+              "k_bb_pct": 9.7,
+              "hr9": 1.12,
+              "k": 10,
+              "bb": 3,
+              "hr": 2,
+              "er": 14
             },
             "hot": {
               "gs": 3,
               "ip": 10.0,
               "ip_per_gs": 3.33,
-              "era": 6.3,
-              "whip": 1.6,
-              "k_pct": 20.0,
-              "bb_pct": 16.0,
-              "k_bb_pct": 4.0,
+              "era": 7.2,
+              "whip": 1.5,
+              "k_pct": 13.6,
+              "bb_pct": 0.0,
+              "k_bb_pct": 13.6,
               "hr9": 0.9,
-              "k": 10,
-              "bb": 8,
+              "k": 6,
+              "bb": 0,
               "hr": 1,
-              "er": 7
+              "er": 8
             },
             "recent_all": {
               "g": 5,
-              "ip": 17.3,
-              "ip_per_g": 3.47,
-              "era": 9.35,
-              "whip": 1.96,
-              "k_pct": 17.8,
-              "bb_pct": 17.8,
-              "k_bb_pct": 0.0,
-              "hr9": 2.08,
-              "k": 16,
-              "bb": 16,
-              "hr": 4,
-              "er": 18,
-              "gs": 4
+              "ip": 5.3,
+              "ip_per_g": 1.07,
+              "era": 0.0,
+              "whip": 0.56,
+              "k_pct": 20.0,
+              "bb_pct": 5.0,
+              "k_bb_pct": 15.0,
+              "hr9": 0.0,
+              "k": 4,
+              "bb": 1,
+              "hr": 0,
+              "er": 0,
+              "gs": 1
             },
             "relief": {
-              "g": 1,
-              "ip": 3.3,
-              "ip_per_g": 3.33,
-              "era": 8.1,
-              "whip": 1.5,
-              "k_pct": 26.7,
-              "bb_pct": 13.3,
-              "k_bb_pct": 13.3,
-              "hr9": 2.7,
-              "k": 4,
-              "bb": 2,
+              "g": 26,
+              "ip": 49.3,
+              "ip_per_g": 1.9,
+              "era": 1.09,
+              "whip": 0.91,
+              "k_pct": 27.0,
+              "bb_pct": 6.9,
+              "k_bb_pct": 20.1,
+              "hr9": 0.18,
+              "k": 51,
+              "bb": 13,
               "hr": 1,
-              "er": 3,
-              "from": "2026-08-21",
-              "to": "2026-08-21"
+              "er": 6,
+              "from": "2026-05-16",
+              "to": "2026-08-30"
             }
           },
           "trend": {
-            "era": 2.5,
-            "whip": 0.24,
-            "k_pct": -5.4,
-            "bb_pct": 3.2,
-            "ip_per_gs": -1.11,
-            "hr9": 0.53
+            "era": 0.0,
+            "whip": 0.0,
+            "k_pct": 0.0,
+            "bb_pct": 0.0,
+            "ip_per_gs": 0.0,
+            "hr9": 0.0
           },
           "pen": {
             "last30": {
@@ -1396,9 +1396,11 @@
             }
           },
           "flags": [
-            "stale-window-55d"
+            "opener",
+            "stale-window-108d",
+            "swingman-26g"
           ],
-          "mismatch": 29.1,
+          "mismatch": 24.2,
           "aligned75": [
             96,
             90,
@@ -1599,11 +1601,11 @@
       "away": "SEA",
       "home": "BOS",
       "commence": "2026-09-01T22:45:00Z",
-      "away_ml": 110,
-      "home_ml": -120,
-      "total": 7,
-      "over_ml": -120,
-      "under_ml": -102,
+      "away_ml": 104,
+      "home_ml": -122,
+      "total": 7.5,
+      "over_ml": 100,
+      "under_ml": -122,
       "sides": {
         "away": {
           "pitcher": "Bryan Woo",
@@ -1787,21 +1789,37 @@
           ]
         },
         "home": {
-          "pitcher": null,
-          "listed_as": null,
+          "pitcher": "Jedixson Paez",
+          "listed_as": "Jedixson Paez",
           "resolved": false,
-          "hand": null,
+          "hand": "R",
           "team": "BOS",
           "opponent_offense": "SEA",
-          "opp_wrc_vs_hand": null,
-          "opp_wrc_game": null,
-          "opp_wrc_recent": null,
-          "opp_wrc_recent_pa": null,
+          "opp_wrc_vs_hand": 104,
+          "opp_wrc_game": 104,
+          "opp_wrc_recent": 92,
+          "opp_wrc_recent_pa": 528,
           "opp_wrc_windows": {
-            "last30": null,
-            "last20": null,
-            "last15": null,
-            "last7": null
+            "last30": {
+              "wrcplus": 95,
+              "pa": 561,
+              "role": "all"
+            },
+            "last20": {
+              "wrcplus": 104,
+              "pa": 415,
+              "role": "all"
+            },
+            "last15": {
+              "wrcplus": 84,
+              "pa": 270,
+              "role": "all"
+            },
+            "last7": {
+              "wrcplus": null,
+              "pa": 136,
+              "role": "all"
+            }
           },
           "opp_platoon_gap": -27,
           "form": {
@@ -1883,17 +1901,17 @@
           ],
           "mismatch": null,
           "aligned75": [
-            null,
-            null,
-            null,
-            null
+            95,
+            104,
+            84,
+            45
           ]
         }
       },
       "home_offense_game": 111,
-      "away_offense_game": null,
-      "game_offense": null,
-      "offense_edge": null,
+      "away_offense_game": 104,
+      "game_offense": 108,
+      "offense_edge": -7,
       "aligned_ml": null
     },
     {
@@ -1901,11 +1919,11 @@
       "away": "ATL",
       "home": "WSH",
       "commence": "2026-09-01T22:45:00Z",
-      "away_ml": -172,
-      "home_ml": 158,
-      "total": 10,
-      "over_ml": -104,
-      "under_ml": -118,
+      "away_ml": -180,
+      "home_ml": 152,
+      "total": 9.5,
+      "over_ml": -122,
+      "under_ml": 100,
       "sides": {
         "away": {
           "pitcher": "AJ Smith-Shawver",
@@ -2283,11 +2301,11 @@
       "away": "DET",
       "home": "MIN",
       "commence": "2026-09-01T23:40:00Z",
-      "away_ml": -112,
-      "home_ml": 102,
+      "away_ml": -108,
+      "home_ml": -108,
       "total": 8.5,
-      "over_ml": -120,
-      "under_ml": -102,
+      "over_ml": -124,
+      "under_ml": 102,
       "sides": {
         "away": {
           "pitcher": "Troy Melton",
@@ -2684,8 +2702,8 @@
       "away": "MIA",
       "home": "KC",
       "commence": "2026-09-01T23:40:00Z",
-      "away_ml": 106,
-      "home_ml": -116,
+      "away_ml": 102,
+      "home_ml": -120,
       "total": 9.5,
       "over_ml": -122,
       "under_ml": 100,
@@ -3080,11 +3098,11 @@
       "away": "MIL",
       "home": "CHC",
       "commence": "2026-09-01T23:40:00Z",
-      "away_ml": 112,
-      "home_ml": -122,
-      "total": 10.5,
-      "over_ml": 100,
-      "under_ml": -122,
+      "away_ml": 108,
+      "home_ml": -126,
+      "total": 10,
+      "over_ml": -105,
+      "under_ml": -115,
       "sides": {
         "away": {
           "pitcher": "Robert Gasser",
@@ -3476,11 +3494,11 @@
       "away": "OAK",
       "home": "TEX",
       "commence": "2026-09-02T00:05:00Z",
-      "away_ml": 176,
-      "home_ml": -190,
+      "away_ml": 184,
+      "home_ml": -220,
       "total": 7.5,
-      "over_ml": 102,
-      "under_ml": -124,
+      "over_ml": -110,
+      "under_ml": -110,
       "sides": {
         "away": {
           "pitcher": "Brady Basso",
@@ -3876,11 +3894,11 @@
       "away": "CWS",
       "home": "HOU",
       "commence": "2026-09-02T00:10:00Z",
-      "away_ml": -116,
-      "home_ml": 106,
+      "away_ml": -108,
+      "home_ml": -108,
       "total": 8.5,
-      "over_ml": -105,
-      "under_ml": -115,
+      "over_ml": -110,
+      "under_ml": -110,
       "sides": {
         "away": {
           "pitcher": "Sean Burke",
@@ -4275,7 +4293,7 @@
       "away": "BAL",
       "home": "COL",
       "commence": "2026-09-02T00:40:00Z",
-      "away_ml": -134,
+      "away_ml": -146,
       "home_ml": 124,
       "total": 11,
       "over_ml": -115,
@@ -4658,8 +4676,8 @@
       "away_ml": -190,
       "home_ml": 160,
       "total": 7.5,
-      "over_ml": -120,
-      "under_ml": -102,
+      "over_ml": -108,
+      "under_ml": -112,
       "sides": {
         "away": {
           "pitcher": "Gerrit Cole",
@@ -5035,11 +5053,11 @@
       "away": "PHI",
       "home": "ARI",
       "commence": "2026-09-02T01:40:00Z",
-      "away_ml": -136,
-      "home_ml": 116,
+      "away_ml": -134,
+      "home_ml": 114,
       "total": 7.5,
-      "over_ml": -122,
-      "under_ml": 100,
+      "over_ml": -115,
+      "under_ml": -105,
       "sides": {
         "away": {
           "pitcher": "Jes\u00fas Luzardo",
@@ -5415,8 +5433,8 @@
       "away": "STL",
       "home": "LAD",
       "commence": "2026-09-02T02:10:00Z",
-      "away_ml": 150,
-      "home_ml": -178,
+      "away_ml": 164,
+      "home_ml": -196,
       "total": 8.5,
       "over_ml": -122,
       "under_ml": 100,
@@ -5854,18 +5872,6 @@
       "flags": []
     },
     {
-      "pitcher": "Spencer Arrighetti",
-      "hand": "R",
-      "team": "TOR",
-      "opponent_offense": "CLE",
-      "opp_wrc_vs_hand": 90,
-      "opp_wrc_recent": 94,
-      "mismatch": 29.1,
-      "flags": [
-        "stale-window-55d"
-      ]
-    },
-    {
       "pitcher": "Brady Basso",
       "hand": "L",
       "team": "OAK",
@@ -5889,6 +5895,20 @@
       "mismatch": 25.6,
       "flags": [
         "layoff-14d"
+      ]
+    },
+    {
+      "pitcher": "Spencer Miles",
+      "hand": "R",
+      "team": "TOR",
+      "opponent_offense": "CLE",
+      "opp_wrc_vs_hand": 90,
+      "opp_wrc_recent": 94,
+      "mismatch": 24.2,
+      "flags": [
+        "opener",
+        "stale-window-108d",
+        "swingman-26g"
       ]
     },
     {
@@ -6123,7 +6143,7 @@
       "flags": []
     }
   ],
-  "generated": "2026-09-01T13:09:13Z",
+  "generated": "2026-09-01T15:37:51Z",
   "sport": "MLB",
   "type": "slate-scout",
   "advisory": true,
