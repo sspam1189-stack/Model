@@ -155,12 +155,21 @@ async function renderMLBAllML() {
         : '<span style="font-weight:600">' + esc(g.away) + ' @ ' + esc(g.home) + '</span>';
       // Total: closing line, green if the game went Over, red if Under. Only
       // grade once FINAL — pending games report 0-0, so before then show the
-      // line with a clock (🕐) rather than a color.
+      // line with that game's own first pitch (CT) instead of a generic
+      // clock, which said nothing except "not graded" and read as "in
+      // progress" on a slate that had not started.
       let totalCell;
       if (g.total_line == null) {
         totalCell = '—';
       } else if (!done) {
-        totalCell = esc(g.total_line) + ' <span title="pending">🕐</span>';
+        let when = '';
+        try {
+          when = new Date(g.commence).toLocaleTimeString('en-US',
+            { timeZone: 'America/Chicago', hour: 'numeric', minute: '2-digit' });
+        } catch (e) { when = ''; }
+        totalCell = esc(g.total_line)
+          + (when ? ' <span style="color:#666;font-size:11px" title="first pitch (CT)">'
+            + esc(when) + '</span>' : '');
       } else {
         const runsTot = g.away_score + g.home_score;
         const col = runsTot > g.total_line ? GREEN : (runsTot < g.total_line ? RED : '#aaa');
