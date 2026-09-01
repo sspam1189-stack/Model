@@ -211,7 +211,12 @@ def main():
     # rows. The card side falls out on top for free: swingman is A, so every
     # carded combo is an A-row.
     idx = {k: i for i, k in enumerate(COMBO_ORDER)}
-    out_combos.sort(key=lambda c: tuple(idx[k] for k in c["kinds"]))
+    # Section first (carded, then no-play), lexicographic INSIDE each section.
+    # Sorting purely lexicographically interleaved the two -- swingman+layoff
+    # is a no-play but sorts between swingman and swingman+layoff+opener, so
+    # the carded block got cut into three by header rows.
+    out_combos.sort(key=lambda c: (not c["carded"],
+                                   tuple(idx[k] for k in c["kinds"])))
 
     out_flags = [{
         "flag": k,

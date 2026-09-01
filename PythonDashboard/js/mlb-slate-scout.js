@@ -317,8 +317,9 @@ async function renderMLBSlateScout() {
           + 'font-weight:600;border-top:1px solid #30363d;color:'
           + (mine === 'card' ? '#3fb950' : DIM) + '">'
           + (mine === 'card'
-            ? 'CARDED — swingman present'
-            : 'RUST — no swingman, not carded') + '</td></tr>';
+            ? 'CARDED — these configurations are bet'
+            : 'NOT CARDED — measured flat, negative, or too thin')
+          + '</td></tr>';
       }
       // Below 25 plays the harness refuses to call anything an edge, so the
       // row still says "thin" -- but only DIM it when it is also not carded.
@@ -338,8 +339,8 @@ async function renderMLBSlateScout() {
     }
     t += '</tbody></table></div>'
       + '<div style="padding:6px 8px;font-size:11px;color:' + DIM + ';line-height:1.5">'
-      + '● = on the card (requires <b>' + esc(comboTable.card_requires || 'swingman')
-      + '</b>). Combo rows count each game once under its exact flag set. '
+      + '● = carded, with the bet side shown in bold; ○ = no play. '
+      + 'Combo rows count each game once under its exact flag set. '
       + 'Rows under 25 plays are dimmed — the harness never calls those an edge. '
       + 'Flags are replayed as-of each game date from the pitcher logs, graded at '
       + 'the real payload prices.</div>';

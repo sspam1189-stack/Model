@@ -1,7 +1,7 @@
 {
  "sport": "MLB",
  "type": "flag-combo-table",
- "generated": "2026-09-01T20:18:06Z",
+ "generated": "2026-09-01T20:23:39Z",
  "span": {
   "from": "2026-03-26",
   "to": "2026-08-31"
@@ -68,29 +68,6 @@
     "n": 61,
     "units": -16.63,
     "roi": -27.3
-   }
-  },
-  {
-   "combo": "swingman+layoff",
-   "kinds": [
-    "swingman",
-    "layoff"
-   ],
-   "verdict": null,
-   "carded": false,
-   "under": {
-    "w": 24,
-    "l": 22,
-    "n": 46,
-    "units": -0.32,
-    "roi": -0.7
-   },
-   "over": {
-    "w": 22,
-    "l": 24,
-    "n": 46,
-    "units": -3.97,
-    "roi": -8.6
    }
   },
   {
@@ -256,6 +233,29 @@
     "n": 75,
     "units": -10.35,
     "roi": -13.8
+   }
+  },
+  {
+   "combo": "swingman+layoff",
+   "kinds": [
+    "swingman",
+    "layoff"
+   ],
+   "verdict": null,
+   "carded": false,
+   "under": {
+    "w": 24,
+    "l": 22,
+    "n": 46,
+    "units": -0.32,
+    "roi": -0.7
+   },
+   "over": {
+    "w": 22,
+    "l": 24,
+    "n": 46,
+    "units": -3.97,
+    "roi": -8.6
    }
   },
   {
