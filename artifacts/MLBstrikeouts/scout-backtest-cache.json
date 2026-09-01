@@ -8819,6 +8819,967 @@
   },
   {
    "date": "2026-08-26",
+   "matchup": "BAL @ STL",
+   "away": "BAL",
+   "home": "STL",
+   "away_runs": 8,
+   "home_runs": 7,
+   "total_runs": 15,
+   "line": 8.5,
+   "over_ml": -105,
+   "under_ml": -115,
+   "away_ml": -108,
+   "home_ml": 100,
+   "sides": {
+    "away": {
+     "pitcher": "Kyle Bradish",
+     "resolved": true,
+     "hand": "R",
+     "flags": [],
+     "mismatch": -4.1,
+     "platoon_gap": 30,
+     "opp_team": "STL",
+     "opp_runs": 7,
+     "ladder": [
+      87,
+      84,
+      72,
+      null
+     ],
+     "ladder_pa": [
+      687,
+      424,
+      302,
+      116
+     ],
+     "l5_era": 4.62,
+     "l5_whip": 1.62,
+     "l5_ip_gs": 5.07,
+     "pen_rank": 20,
+     "pen30": 4.2,
+     "pen7": 1.45
+    },
+    "home": {
+     "pitcher": "Michael McGreevy",
+     "resolved": true,
+     "hand": "R",
+     "flags": [],
+     "mismatch": 8.0,
+     "platoon_gap": 7,
+     "opp_team": "BAL",
+     "opp_runs": 8,
+     "ladder": [
+      92,
+      106,
+      102,
+      null
+     ],
+     "ladder_pa": [
+      588,
+      424,
+      282,
+      107
+     ],
+     "l5_era": 5.87,
+     "l5_whip": 1.61,
+     "l5_ip_gs": 4.6,
+     "pen_rank": 28,
+     "pen30": 4.98,
+     "pen7": 10.41
+    }
+   }
+  },
+  {
+   "date": "2026-08-26",
+   "matchup": "BOS @ MIA",
+   "away": "BOS",
+   "home": "MIA",
+   "away_runs": 0,
+   "home_runs": 4,
+   "total_runs": 4,
+   "line": 7.5,
+   "over_ml": -118,
+   "under_ml": -104,
+   "away_ml": -126,
+   "home_ml": 116,
+   "sides": {
+    "away": {
+     "pitcher": "Sonny Gray",
+     "resolved": true,
+     "hand": "R",
+     "flags": [],
+     "mismatch": -14.7,
+     "platoon_gap": 6,
+     "opp_team": "MIA",
+     "opp_runs": 4,
+     "ladder": [
+      100,
+      113,
+      98,
+      null
+     ],
+     "ladder_pa": [
+      699,
+      476,
+      334,
+      94
+     ],
+     "l5_era": 2.81,
+     "l5_whip": 1.16,
+     "l5_ip_gs": 6.4,
+     "pen_rank": 1,
+     "pen30": 2.19,
+     "pen7": 1.57
+    },
+    "home": {
+     "pitcher": "Ryan Gusto",
+     "resolved": true,
+     "hand": "R",
+     "flags": [],
+     "mismatch": 35.8,
+     "platoon_gap": -26,
+     "opp_team": "BOS",
+     "opp_runs": 0,
+     "ladder": [
+      138,
+      128,
+      129,
+      116
+     ],
+     "ladder_pa": [
+      835,
+      578,
+      426,
+      155
+     ],
+     "l5_era": 4.18,
+     "l5_whip": 1.35,
+     "l5_ip_gs": 4.73,
+     "pen_rank": 22,
+     "pen30": 4.25,
+     "pen7": 4.18
+    }
+   }
+  },
+  {
+   "date": "2026-08-26",
+   "matchup": "CHC @ ARI",
+   "away": "CHC",
+   "home": "ARI",
+   "away_runs": 0,
+   "home_runs": 2,
+   "total_runs": 2,
+   "line": 8.5,
+   "over_ml": 100,
+   "under_ml": -122,
+   "away_ml": -114,
+   "home_ml": 104,
+   "sides": {
+    "away": {
+     "pitcher": "Matthew Boyd",
+     "resolved": true,
+     "hand": "L",
+     "flags": [],
+     "mismatch": 54.6,
+     "platoon_gap": 43,
+     "opp_team": "ARI",
+     "opp_runs": 2,
+     "ladder": [
+      138,
+      138,
+      137,
+      null
+     ],
+     "ladder_pa": [
+      335,
+      252,
+      214,
+      79
+     ],
+     "l5_era": 4.78,
+     "l5_whip": 1.25,
+     "l5_ip_gs": 6.4,
+     "pen_rank": 9,
+     "pen30": 3.39,
+     "pen7": 4.35
+    },
+    "home": {
+     "pitcher": "Eduardo Rodriguez",
+     "resolved": true,
+     "hand": "L",
+     "flags": [],
+     "mismatch": 11.4,
+     "platoon_gap": 8,
+     "opp_team": "CHC",
+     "opp_runs": 0,
+     "ladder": [
+      126,
+      null,
+      null,
+      null
+     ],
+     "ladder_pa": [
+      262,
+      146,
+      133,
+      63
+     ],
+     "l5_era": 2.51,
+     "l5_whip": 1.08,
+     "l5_ip_gs": 6.47,
+     "pen_rank": 26,
+     "pen30": 4.41,
+     "pen7": 3.24
+    }
+   }
+  },
+  {
+   "date": "2026-08-26",
+   "matchup": "CIN @ SF",
+   "away": "CIN",
+   "home": "SF",
+   "away_runs": 10,
+   "home_runs": 9,
+   "total_runs": 19,
+   "line": 7,
+   "over_ml": -122,
+   "under_ml": 100,
+   "away_ml": 104,
+   "home_ml": -114,
+   "sides": {
+    "away": {
+     "pitcher": "Nick Lodolo",
+     "resolved": true,
+     "hand": "L",
+     "flags": [
+      "stale-window-47d"
+     ],
+     "mismatch": -14.1,
+     "platoon_gap": -42,
+     "opp_team": "SF",
+     "opp_runs": 9,
+     "ladder": [
+      72,
+      63,
+      77,
+      null
+     ],
+     "ladder_pa": [
+      400,
+      252,
+      216,
+      107
+     ],
+     "l5_era": 5.01,
+     "l5_whip": 1.63,
+     "l5_ip_gs": 4.67,
+     "pen_rank": 15,
+     "pen30": 3.89,
+     "pen7": 2.7
+    },
+    "home": {
+     "pitcher": "Logan Webb",
+     "resolved": true,
+     "hand": "R",
+     "flags": [],
+     "mismatch": -19.3,
+     "platoon_gap": -22,
+     "opp_team": "CIN",
+     "opp_runs": 10,
+     "ladder": [
+      93,
+      84,
+      87,
+      121
+     ],
+     "ladder_pa": [
+      840,
+      560,
+      460,
+      216
+     ],
+     "l5_era": 2.83,
+     "l5_whip": 1.05,
+     "l5_ip_gs": 5.73,
+     "pen_rank": 8,
+     "pen30": 3.3,
+     "pen7": 1.51
+    }
+   }
+  },
+  {
+   "date": "2026-08-26",
+   "matchup": "CLE @ LAA",
+   "away": "CLE",
+   "home": "LAA",
+   "away_runs": 4,
+   "home_runs": 3,
+   "total_runs": 7,
+   "line": 8.5,
+   "over_ml": -110,
+   "under_ml": -110,
+   "away_ml": -134,
+   "home_ml": 124,
+   "sides": {
+    "away": {
+     "pitcher": "Joey Cantillo",
+     "resolved": true,
+     "hand": "L",
+     "flags": [],
+     "mismatch": -50.0,
+     "platoon_gap": -2,
+     "opp_team": "LAA",
+     "opp_runs": 3,
+     "ladder": [
+      74,
+      75,
+      80,
+      105
+     ],
+     "ladder_pa": [
+      399,
+      283,
+      217,
+      153
+     ],
+     "l5_era": 2.18,
+     "l5_whip": 1.4,
+     "l5_ip_gs": 4.13,
+     "pen_rank": 14,
+     "pen30": 3.66,
+     "pen7": 0.94
+    },
+    "home": {
+     "pitcher": "Grayson Rodriguez",
+     "resolved": true,
+     "hand": "R",
+     "flags": [],
+     "mismatch": -17.0,
+     "platoon_gap": 20,
+     "opp_team": "CLE",
+     "opp_runs": 4,
+     "ladder": [
+      95,
+      96,
+      88,
+      114
+     ],
+     "ladder_pa": [
+      767,
+      506,
+      405,
+      247
+     ],
+     "l5_era": 3.33,
+     "l5_whip": 1.15,
+     "l5_ip_gs": 5.4,
+     "pen_rank": 13,
+     "pen30": 3.61,
+     "pen7": 2.28
+    }
+   }
+  },
+  {
+   "date": "2026-08-26",
+   "matchup": "COL @ WSH",
+   "away": "COL",
+   "home": "WSH",
+   "away_runs": 13,
+   "home_runs": 1,
+   "total_runs": 14,
+   "line": 8.5,
+   "over_ml": -124,
+   "under_ml": 102,
+   "away_ml": 122,
+   "home_ml": -132,
+   "sides": {
+    "away": {
+     "pitcher": "Tanner Gordon",
+     "resolved": true,
+     "hand": "R",
+     "flags": [
+      "stale-window-82d",
+      "swingman-5g"
+     ],
+     "mismatch": 24.0,
+     "platoon_gap": -5,
+     "opp_team": "WSH",
+     "opp_runs": 1,
+     "ladder": [
+      90,
+      84,
+      73,
+      70
+     ],
+     "ladder_pa": [
+      757,
+      500,
+      383,
+      201
+     ],
+     "l5_era": 7.71,
+     "l5_whip": 1.89,
+     "l5_ip_gs": 4.67,
+     "pen_rank": 18,
+     "pen30": 4.03,
+     "pen7": 4.61
+    },
+    "home": {
+     "pitcher": "Matt Waldron",
+     "resolved": true,
+     "hand": "R",
+     "flags": [
+      "thin-sample",
+      "layoff-119d",
+      "swingman-11g"
+     ],
+     "mismatch": 56.7,
+     "platoon_gap": -17,
+     "opp_team": "COL",
+     "opp_runs": 13,
+     "ladder": [
+      100,
+      96,
+      93,
+      null
+     ],
+     "ladder_pa": [
+      647,
+      414,
+      291,
+      104
+     ],
+     "l5_era": 9.88,
+     "l5_whip": 1.98,
+     "l5_ip_gs": 4.56,
+     "pen_rank": 11,
+     "pen30": 3.54,
+     "pen7": 3.0
+    }
+   }
+  },
+  {
+   "date": "2026-08-26",
+   "matchup": "HOU @ NYY",
+   "away": "HOU",
+   "home": "NYY",
+   "away_runs": 3,
+   "home_runs": 9,
+   "total_runs": 12,
+   "line": 8.5,
+   "over_ml": -124,
+   "under_ml": 102,
+   "away_ml": 110,
+   "home_ml": -118,
+   "sides": {
+    "away": {
+     "pitcher": "Peter Lambert",
+     "resolved": true,
+     "hand": "R",
+     "flags": [],
+     "mismatch": -1.1,
+     "platoon_gap": -2,
+     "opp_team": "NYY",
+     "opp_runs": 9,
+     "ladder": [
+      83,
+      90,
+      90,
+      124
+     ],
+     "ladder_pa": [
+      682,
+      477,
+      370,
+      155
+     ],
+     "l5_era": 6.29,
+     "l5_whip": 1.52,
+     "l5_ip_gs": 4.87,
+     "pen_rank": 6,
+     "pen30": 3.17,
+     "pen7": 5.86
+    },
+    "home": {
+     "pitcher": "Elmer Rodr\u00edguez",
+     "resolved": true,
+     "hand": "R",
+     "flags": [
+      "thin-sample",
+      "layoff-66d",
+      "stale-window-53d"
+     ],
+     "mismatch": 33.4,
+     "platoon_gap": -2,
+     "opp_team": "HOU",
+     "opp_runs": 3,
+     "ladder": [
+      111,
+      79,
+      86,
+      null
+     ],
+     "ladder_pa": [
+      688,
+      431,
+      325,
+      136
+     ],
+     "l5_era": 4.76,
+     "l5_whip": 1.76,
+     "l5_ip_gs": 4.25,
+     "pen_rank": 10,
+     "pen30": 3.41,
+     "pen7": 3.51
+    }
+   }
+  },
+  {
+   "date": "2026-08-26",
+   "matchup": "KC @ TOR",
+   "away": "KC",
+   "home": "TOR",
+   "away_runs": 0,
+   "home_runs": 3,
+   "total_runs": 3,
+   "line": 8.5,
+   "over_ml": -106,
+   "under_ml": -114,
+   "away_ml": 138,
+   "home_ml": -148,
+   "sides": {
+    "away": {
+     "pitcher": "Randy Dobnak",
+     "resolved": true,
+     "hand": "R",
+     "flags": [],
+     "mismatch": -6.9,
+     "platoon_gap": -21,
+     "opp_team": "TOR",
+     "opp_runs": 3,
+     "ladder": [
+      105,
+      117,
+      109,
+      null
+     ],
+     "ladder_pa": [
+      627,
+      401,
+      277,
+      119
+     ],
+     "l5_era": 1.69,
+     "l5_whip": 1.43,
+     "l5_ip_gs": 5.33,
+     "pen_rank": 27,
+     "pen30": 4.95,
+     "pen7": 4.76
+    },
+    "home": {
+     "pitcher": "Spencer Miles",
+     "resolved": true,
+     "hand": "R",
+     "flags": [
+      "thin-sample",
+      "layoff-40d",
+      "stale-window-68d",
+      "swingman-25g"
+     ],
+     "mismatch": 44.6,
+     "platoon_gap": 5,
+     "opp_team": "KC",
+     "opp_runs": 0,
+     "ladder": [
+      101,
+      112,
+      117,
+      null
+     ],
+     "ladder_pa": [
+      601,
+      361,
+      271,
+      132
+     ],
+     "l5_era": 9.0,
+     "l5_whip": 1.64,
+     "l5_ip_gs": 3.5,
+     "pen_rank": 7,
+     "pen30": 3.25,
+     "pen7": 3.57
+    }
+   }
+  },
+  {
+   "date": "2026-08-26",
+   "matchup": "LAD @ ATL",
+   "away": "LAD",
+   "home": "ATL",
+   "away_runs": 5,
+   "home_runs": 6,
+   "total_runs": 11,
+   "line": 8.5,
+   "over_ml": -112,
+   "under_ml": -108,
+   "away_ml": -122,
+   "home_ml": 112,
+   "sides": {
+    "away": {
+     "pitcher": "Roki Sasaki",
+     "resolved": true,
+     "hand": "R",
+     "flags": [],
+     "mismatch": -41.2,
+     "platoon_gap": 54,
+     "opp_team": "ATL",
+     "opp_runs": 6,
+     "ladder": [
+      71,
+      51,
+      51,
+      null
+     ],
+     "ladder_pa": [
+      666,
+      402,
+      264,
+      96
+     ],
+     "l5_era": 2.76,
+     "l5_whip": 1.19,
+     "l5_ip_gs": 5.87,
+     "pen_rank": 19,
+     "pen30": 4.09,
+     "pen7": 2.7
+    },
+    "home": {
+     "pitcher": "AJ Smith-Shawver",
+     "resolved": true,
+     "hand": "R",
+     "flags": [
+      "thin-sample"
+     ],
+     "mismatch": 15.7,
+     "platoon_gap": 23,
+     "opp_team": "LAD",
+     "opp_runs": 5,
+     "ladder": [
+      89,
+      86,
+      90,
+      null
+     ],
+     "ladder_pa": [
+      638,
+      450,
+      326,
+      143
+     ],
+     "l5_era": 6.23,
+     "l5_whip": 1.62,
+     "l5_ip_gs": 4.33,
+     "pen_rank": 21,
+     "pen30": 4.2,
+     "pen7": 1.37
+    }
+   }
+  },
+  {
+   "date": "2026-08-26",
+   "matchup": "MIL @ NYM",
+   "away": "MIL",
+   "home": "NYM",
+   "away_runs": 8,
+   "home_runs": 1,
+   "total_runs": 9,
+   "line": 8.5,
+   "over_ml": -102,
+   "under_ml": -120,
+   "away_ml": -148,
+   "home_ml": 138,
+   "sides": {
+    "away": {
+     "pitcher": "Dustin May",
+     "resolved": true,
+     "hand": "R",
+     "flags": [],
+     "mismatch": 8.0,
+     "platoon_gap": -29,
+     "opp_team": "NYM",
+     "opp_runs": 1,
+     "ladder": [
+      109,
+      132,
+      131,
+      null
+     ],
+     "ladder_pa": [
+      645,
+      394,
+      257,
+      104
+     ],
+     "l5_era": 3.81,
+     "l5_whip": 1.23,
+     "l5_ip_gs": 5.2,
+     "pen_rank": 4,
+     "pen30": 2.71,
+     "pen7": 1.01
+    },
+    "home": {
+     "pitcher": "Robert Stock",
+     "resolved": true,
+     "hand": "R",
+     "flags": [
+      "thin-sample"
+     ],
+     "mismatch": 18.2,
+     "platoon_gap": 6,
+     "opp_team": "MIL",
+     "opp_runs": 8,
+     "ladder": [
+      104,
+      106,
+      114,
+      null
+     ],
+     "ladder_pa": [
+      700,
+      405,
+      260,
+      78
+     ],
+     "l5_era": 5.4,
+     "l5_whip": 1.68,
+     "l5_ip_gs": 4.17,
+     "pen_rank": 3,
+     "pen30": 2.65,
+     "pen7": 3.5
+    }
+   }
+  },
+  {
+   "date": "2026-08-26",
+   "matchup": "MIN @ OAK",
+   "away": "MIN",
+   "home": "OAK",
+   "away_runs": 4,
+   "home_runs": 7,
+   "total_runs": 11,
+   "line": 10,
+   "over_ml": -120,
+   "under_ml": -102,
+   "away_ml": -130,
+   "home_ml": 122,
+   "sides": {
+    "away": {
+     "pitcher": "Connor Prielipp",
+     "resolved": true,
+     "hand": "L",
+     "flags": [],
+     "mismatch": 22.0,
+     "platoon_gap": -1,
+     "opp_team": "OAK",
+     "opp_runs": 7,
+     "ladder": [
+      101,
+      96,
+      null,
+      null
+     ],
+     "ladder_pa": [
+      358,
+      197,
+      118,
+      29
+     ],
+     "l5_era": 7.0,
+     "l5_whip": 1.48,
+     "l5_ip_gs": 5.4,
+     "pen_rank": 24,
+     "pen30": 4.32,
+     "pen7": 11.4
+    },
+    "home": {
+     "pitcher": "J.T. Ginn",
+     "resolved": true,
+     "hand": "R",
+     "flags": [],
+     "mismatch": -16.0,
+     "platoon_gap": 28,
+     "opp_team": "MIN",
+     "opp_runs": 4,
+     "ladder": [
+      90,
+      90,
+      99,
+      null
+     ],
+     "ladder_pa": [
+      637,
+      399,
+      292,
+      108
+     ],
+     "l5_era": 3.38,
+     "l5_whip": 1.16,
+     "l5_ip_gs": 5.87,
+     "pen_rank": 29,
+     "pen30": 6.23,
+     "pen7": 5.6
+    }
+   }
+  },
+  {
+   "date": "2026-08-26",
+   "matchup": "PHI @ SEA",
+   "away": "PHI",
+   "home": "SEA",
+   "away_runs": 6,
+   "home_runs": 0,
+   "total_runs": 6,
+   "line": 7,
+   "over_ml": -104,
+   "under_ml": -118,
+   "away_ml": -126,
+   "home_ml": 116,
+   "sides": {
+    "away": {
+     "pitcher": "Jes\u00fas Luzardo",
+     "resolved": true,
+     "hand": "L",
+     "flags": [],
+     "mismatch": -37.5,
+     "platoon_gap": -27,
+     "opp_team": "SEA",
+     "opp_runs": 0,
+     "ladder": [
+      81,
+      72,
+      73,
+      null
+     ],
+     "ladder_pa": [
+      469,
+      312,
+      231,
+      131
+     ],
+     "l5_era": 3.48,
+     "l5_whip": 1.07,
+     "l5_ip_gs": 6.73,
+     "pen_rank": 17,
+     "pen30": 4.01,
+     "pen7": 2.7
+    },
+    "home": {
+     "pitcher": "Bryan Woo",
+     "resolved": true,
+     "hand": "R",
+     "flags": [],
+     "mismatch": 3.4,
+     "platoon_gap": 6,
+     "opp_team": "PHI",
+     "opp_runs": 6,
+     "ladder": [
+      112,
+      113,
+      121,
+      113
+     ],
+     "ladder_pa": [
+      836,
+      563,
+      370,
+      172
+     ],
+     "l5_era": 3.86,
+     "l5_whip": 1.07,
+     "l5_ip_gs": 5.6,
+     "pen_rank": 30,
+     "pen30": 7.38,
+     "pen7": 6.49
+    }
+   }
+  },
+  {
+   "date": "2026-08-26",
+   "matchup": "PIT @ SD",
+   "away": "PIT",
+   "home": "SD",
+   "away_runs": 0,
+   "home_runs": 3,
+   "total_runs": 3,
+   "line": 8.5,
+   "over_ml": -102,
+   "under_ml": -120,
+   "away_ml": 122,
+   "home_ml": -132,
+   "sides": {
+    "away": {
+     "pitcher": "Bubba Chandler",
+     "resolved": true,
+     "hand": "R",
+     "flags": [],
+     "mismatch": 15.9,
+     "platoon_gap": -1,
+     "opp_team": "SD",
+     "opp_runs": 3,
+     "ladder": [
+      114,
+      113,
+      107,
+      97
+     ],
+     "ladder_pa": [
+      736,
+      505,
+      368,
+      169
+     ],
+     "l5_era": 4.38,
+     "l5_whip": 1.34,
+     "l5_ip_gs": 4.93,
+     "pen_rank": 5,
+     "pen30": 2.77,
+     "pen7": 1.84
+    },
+    "home": {
+     "pitcher": "Randy V\u00e1squez",
+     "resolved": true,
+     "hand": "R",
+     "flags": [
+      "stale-window-50d",
+      "swingman-4g"
+     ],
+     "mismatch": -3.1,
+     "platoon_gap": -17,
+     "opp_team": "PIT",
+     "opp_runs": 0,
+     "ladder": [
+      88,
+      95,
+      85,
+      null
+     ],
+     "ladder_pa": [
+      648,
+      385,
+      285,
+      122
+     ],
+     "l5_era": 3.42,
+     "l5_whip": 0.76,
+     "l5_ip_gs": 4.73,
+     "pen_rank": 2,
+     "pen30": 2.56,
+     "pen7": 1.27
+    }
+   }
+  },
+  {
+   "date": "2026-08-26",
    "matchup": "TB @ DET",
    "away": "TB",
    "home": "DET",
@@ -8837,14 +9798,14 @@
      "hand": "R",
      "flags": [],
      "mismatch": 39.7,
-     "platoon_gap": -5,
+     "platoon_gap": -4,
      "opp_team": "DET",
      "opp_runs": 0,
      "ladder": [
       115,
       80,
-      83,
-      45
+      82,
+      null
      ],
      "ladder_pa": [
       705,
@@ -8864,15 +9825,15 @@
      "resolved": true,
      "hand": "R",
      "flags": [],
-     "mismatch": -6.3,
-     "platoon_gap": -28,
+     "mismatch": -7.3,
+     "platoon_gap": -26,
      "opp_team": "TB",
      "opp_runs": 3,
      "ladder": [
-      111,
+      110,
       115,
-      102,
-      49
+      101,
+      48
      ],
      "ladder_pa": [
       760,
@@ -8886,6 +9847,4854 @@
      "pen_rank": 16,
      "pen30": 3.91,
      "pen7": 5.48
+    }
+   }
+  },
+  {
+   "date": "2026-08-26",
+   "matchup": "TEX @ CWS",
+   "away": "TEX",
+   "home": "CWS",
+   "away_runs": 4,
+   "home_runs": 10,
+   "total_runs": 14,
+   "line": 8,
+   "over_ml": -110,
+   "under_ml": -110,
+   "away_ml": 110,
+   "home_ml": -120,
+   "sides": {
+    "away": {
+     "pitcher": "MacKenzie Gore",
+     "resolved": true,
+     "hand": "L",
+     "flags": [],
+     "mismatch": -11.2,
+     "platoon_gap": 9,
+     "opp_team": "CWS",
+     "opp_runs": 10,
+     "ladder": [
+      115,
+      129,
+      125,
+      null
+     ],
+     "ladder_pa": [
+      330,
+      223,
+      155,
+      51
+     ],
+     "l5_era": 2.1,
+     "l5_whip": 0.93,
+     "l5_ip_gs": 6.0,
+     "pen_rank": 25,
+     "pen30": 4.37,
+     "pen7": 3.91
+    },
+    "home": {
+     "pitcher": "Sean Burke",
+     "resolved": true,
+     "hand": "R",
+     "flags": [],
+     "mismatch": -40.6,
+     "platoon_gap": 41,
+     "opp_team": "TEX",
+     "opp_runs": 4,
+     "ladder": [
+      70,
+      64,
+      74,
+      null
+     ],
+     "ladder_pa": [
+      597,
+      372,
+      254,
+      107
+     ],
+     "l5_era": 3.58,
+     "l5_whip": 1.08,
+     "l5_ip_gs": 5.53,
+     "pen_rank": 12,
+     "pen30": 3.59,
+     "pen7": 3.93
+    }
+   }
+  },
+  {
+   "date": "2026-08-27",
+   "matchup": "ARI @ SF",
+   "away": "ARI",
+   "home": "SF",
+   "away_runs": 1,
+   "home_runs": 6,
+   "total_runs": 7,
+   "line": 8,
+   "over_ml": -114,
+   "under_ml": -106,
+   "away_ml": -118,
+   "home_ml": 110,
+   "sides": {
+    "away": {
+     "pitcher": "Jose Cabrera",
+     "resolved": true,
+     "hand": "R",
+     "flags": [
+      "thin-sample",
+      "layoff-50d"
+     ],
+     "mismatch": 36.2,
+     "platoon_gap": -46,
+     "opp_team": "SF",
+     "opp_runs": 6,
+     "ladder": [
+      116,
+      111,
+      132,
+      null
+     ],
+     "ladder_pa": [
+      570,
+      375,
+      240,
+      122
+     ],
+     "l5_era": 5.6,
+     "l5_whip": 1.53,
+     "l5_ip_gs": 4.42,
+     "pen_rank": 23,
+     "pen30": 4.39,
+     "pen7": 3.57
+    },
+    "home": {
+     "pitcher": "Landen Roupp",
+     "resolved": true,
+     "hand": "R",
+     "flags": [],
+     "mismatch": 27.5,
+     "platoon_gap": 46,
+     "opp_team": "ARI",
+     "opp_runs": 1,
+     "ladder": [
+      93,
+      92,
+      84,
+      null
+     ],
+     "ladder_pa": [
+      670,
+      404,
+      248,
+      137
+     ],
+     "l5_era": 6.2,
+     "l5_whip": 1.66,
+     "l5_ip_gs": 4.93,
+     "pen_rank": 16,
+     "pen30": 3.87,
+     "pen7": 3.69
+    }
+   }
+  },
+  {
+   "date": "2026-08-27",
+   "matchup": "BAL @ STL",
+   "away": "BAL",
+   "home": "STL",
+   "away_runs": 5,
+   "home_runs": 7,
+   "total_runs": 12,
+   "line": 8,
+   "over_ml": -108,
+   "under_ml": -112,
+   "away_ml": -126,
+   "home_ml": 116,
+   "sides": {
+    "away": {
+     "pitcher": "Trevor Rogers",
+     "resolved": true,
+     "hand": "L",
+     "flags": [],
+     "mismatch": 6.3,
+     "platoon_gap": 27,
+     "opp_team": "STL",
+     "opp_runs": 7,
+     "ladder": [
+      118,
+      131,
+      138,
+      null
+     ],
+     "ladder_pa": [
+      345,
+      258,
+      190,
+      98
+     ],
+     "l5_era": 4.03,
+     "l5_whip": 1.1,
+     "l5_ip_gs": 5.8,
+     "pen_rank": 22,
+     "pen30": 4.18,
+     "pen7": 0.45
+    },
+    "home": {
+     "pitcher": "Gordon Graceffo",
+     "resolved": true,
+     "hand": "R",
+     "flags": [
+      "thin-sample"
+     ],
+     "mismatch": null,
+     "platoon_gap": 4,
+     "opp_team": "BAL",
+     "opp_runs": 5,
+     "ladder": [
+      99,
+      109,
+      101,
+      97
+     ],
+     "ladder_pa": [
+      624,
+      468,
+      314,
+      150
+     ],
+     "l5_era": null,
+     "l5_whip": null,
+     "l5_ip_gs": null,
+     "pen_rank": 27,
+     "pen30": 4.78,
+     "pen7": 9.24
+    }
+   }
+  },
+  {
+   "date": "2026-08-27",
+   "matchup": "COL @ WSH",
+   "away": "COL",
+   "home": "WSH",
+   "away_runs": 1,
+   "home_runs": 7,
+   "total_runs": 8,
+   "line": 9.5,
+   "over_ml": -120,
+   "under_ml": -102,
+   "away_ml": 126,
+   "home_ml": -138,
+   "sides": {
+    "away": {
+     "pitcher": "Gabriel Hughes",
+     "resolved": true,
+     "hand": "R",
+     "flags": [],
+     "mismatch": 43.2,
+     "platoon_gap": -6,
+     "opp_team": "WSH",
+     "opp_runs": 7,
+     "ladder": [
+      91,
+      91,
+      82,
+      99
+     ],
+     "ladder_pa": [
+      804,
+      543,
+      444,
+      251
+     ],
+     "l5_era": 9.64,
+     "l5_whip": 1.54,
+     "l5_ip_gs": 4.67,
+     "pen_rank": 18,
+     "pen30": 3.95,
+     "pen7": 5.09
+    },
+    "home": {
+     "pitcher": "Jake Irvin",
+     "resolved": true,
+     "hand": "R",
+     "flags": [],
+     "mismatch": 34.4,
+     "platoon_gap": -17,
+     "opp_team": "COL",
+     "opp_runs": 1,
+     "ladder": [
+      103,
+      102,
+      100,
+      96
+     ],
+     "ladder_pa": [
+      684,
+      456,
+      329,
+      174
+     ],
+     "l5_era": 7.01,
+     "l5_whip": 1.36,
+     "l5_ip_gs": 5.13,
+     "pen_rank": 24,
+     "pen30": 4.54,
+     "pen7": 6.75
+    }
+   }
+  },
+  {
+   "date": "2026-08-27",
+   "matchup": "HOU @ NYY",
+   "away": "HOU",
+   "home": "NYY",
+   "away_runs": 5,
+   "home_runs": 1,
+   "total_runs": 6,
+   "line": 7.5,
+   "over_ml": -132,
+   "under_ml": 108,
+   "away_ml": 142,
+   "home_ml": -154,
+   "sides": {
+    "away": {
+     "pitcher": "Hayden Wesneski",
+     "resolved": true,
+     "hand": "R",
+     "flags": [],
+     "mismatch": -12.0,
+     "platoon_gap": 9,
+     "opp_team": "NYY",
+     "opp_runs": 1,
+     "ladder": [
+      84,
+      91,
+      85,
+      109
+     ],
+     "ladder_pa": [
+      713,
+      473,
+      373,
+      155
+     ],
+     "l5_era": 4.23,
+     "l5_whip": 1.23,
+     "l5_ip_gs": 5.53,
+     "pen_rank": 13,
+     "pen30": 3.79,
+     "pen7": 8.76
+    },
+    "home": {
+     "pitcher": "Gerrit Cole",
+     "resolved": true,
+     "hand": "R",
+     "flags": [],
+     "mismatch": -24.2,
+     "platoon_gap": -3,
+     "opp_team": "HOU",
+     "opp_runs": 5,
+     "ladder": [
+      107,
+      76,
+      85,
+      null
+     ],
+     "ladder_pa": [
+      712,
+      462,
+      331,
+      140
+     ],
+     "l5_era": 1.47,
+     "l5_whip": 1.01,
+     "l5_ip_gs": 6.13,
+     "pen_rank": 9,
+     "pen30": 3.42,
+     "pen7": 3.42
+    }
+   }
+  },
+  {
+   "date": "2026-08-27",
+   "matchup": "KC @ TOR",
+   "away": "KC",
+   "home": "TOR",
+   "away_runs": 13,
+   "home_runs": 2,
+   "total_runs": 15,
+   "line": 8.5,
+   "over_ml": -104,
+   "under_ml": -118,
+   "away_ml": -106,
+   "home_ml": -102,
+   "sides": {
+    "away": {
+     "pitcher": "Noah Cameron",
+     "resolved": true,
+     "hand": "L",
+     "flags": [],
+     "mismatch": -41.1,
+     "platoon_gap": -17,
+     "opp_team": "TOR",
+     "opp_runs": 2,
+     "ladder": [
+      84,
+      92,
+      108,
+      null
+     ],
+     "ladder_pa": [
+      327,
+      260,
+      153,
+      53
+     ],
+     "l5_era": 1.26,
+     "l5_whip": 0.59,
+     "l5_ip_gs": 7.13,
+     "pen_rank": 28,
+     "pen30": 4.84,
+     "pen7": 4.15
+    },
+    "home": {
+     "pitcher": "Spencer Arrighetti",
+     "resolved": true,
+     "hand": "R",
+     "flags": [
+      "layoff-34d"
+     ],
+     "mismatch": 62.1,
+     "platoon_gap": 3,
+     "opp_team": "KC",
+     "opp_runs": 13,
+     "ladder": [
+      101,
+      111,
+      112,
+      null
+     ],
+     "ladder_pa": [
+      599,
+      357,
+      288,
+      143
+     ],
+     "l5_era": 9.95,
+     "l5_whip": 1.84,
+     "l5_ip_gs": 3.8,
+     "pen_rank": 6,
+     "pen30": 3.15,
+     "pen7": 3.16
+    }
+   }
+  },
+  {
+   "date": "2026-08-27",
+   "matchup": "LAD @ ATL",
+   "away": "LAD",
+   "home": "ATL",
+   "away_runs": 0,
+   "home_runs": 1,
+   "total_runs": 1,
+   "line": 6.5,
+   "over_ml": 100,
+   "under_ml": -122,
+   "away_ml": 104,
+   "home_ml": -114,
+   "sides": {
+    "away": {
+     "pitcher": "Yoshinobu Yamamoto",
+     "resolved": true,
+     "hand": "R",
+     "flags": [],
+     "mismatch": -45.0,
+     "platoon_gap": 56,
+     "opp_team": "ATL",
+     "opp_runs": 1,
+     "ladder": [
+      77,
+      60,
+      54,
+      null
+     ],
+     "ladder_pa": [
+      667,
+      424,
+      286,
+      126
+     ],
+     "l5_era": 1.97,
+     "l5_whip": 0.97,
+     "l5_ip_gs": 6.4,
+     "pen_rank": 19,
+     "pen30": 4.05,
+     "pen7": 2.65
+    },
+    "home": {
+     "pitcher": "Chris Sale",
+     "resolved": true,
+     "hand": "L",
+     "flags": [],
+     "mismatch": -19.0,
+     "platoon_gap": 35,
+     "opp_team": "LAD",
+     "opp_runs": 0,
+     "ladder": [
+      118,
+      94,
+      null,
+      null
+     ],
+     "ladder_pa": [
+      332,
+      188,
+      124,
+      20
+     ],
+     "l5_era": 2.7,
+     "l5_whip": 0.93,
+     "l5_ip_gs": 6.0,
+     "pen_rank": 7,
+     "pen30": 3.26,
+     "pen7": 1.35
+    }
+   }
+  },
+  {
+   "date": "2026-08-27",
+   "matchup": "MIL @ NYM",
+   "away": "MIL",
+   "home": "NYM",
+   "away_runs": 8,
+   "home_runs": 2,
+   "total_runs": 10,
+   "line": 7,
+   "over_ml": -110,
+   "under_ml": -110,
+   "away_ml": -194,
+   "home_ml": 178,
+   "sides": {
+    "away": {
+     "pitcher": "Jacob Misiorowski",
+     "resolved": true,
+     "hand": "R",
+     "flags": [],
+     "mismatch": -33.4,
+     "platoon_gap": -20,
+     "opp_team": "NYM",
+     "opp_runs": 2,
+     "ladder": [
+      108,
+      128,
+      129,
+      null
+     ],
+     "ladder_pa": [
+      651,
+      375,
+      243,
+      117
+     ],
+     "l5_era": 2.1,
+     "l5_whip": 0.7,
+     "l5_ip_gs": 6.0,
+     "pen_rank": 3,
+     "pen30": 2.62,
+     "pen7": 1.27
+    },
+    "home": {
+     "pitcher": "Sean Manaea",
+     "resolved": true,
+     "hand": "L",
+     "flags": [],
+     "mismatch": -2.8,
+     "platoon_gap": 2,
+     "opp_team": "MIL",
+     "opp_runs": 8,
+     "ladder": [
+      105,
+      100,
+      97,
+      null
+     ],
+     "ladder_pa": [
+      318,
+      273,
+      198,
+      107
+     ],
+     "l5_era": 3.73,
+     "l5_whip": 1.18,
+     "l5_ip_gs": 6.27,
+     "pen_rank": 4,
+     "pen30": 2.68,
+     "pen7": 3.44
+    }
+   }
+  },
+  {
+   "date": "2026-08-28",
+   "matchup": "ARI @ SF",
+   "away": "ARI",
+   "home": "SF",
+   "away_runs": 10,
+   "home_runs": 6,
+   "total_runs": 16,
+   "line": 8,
+   "over_ml": -112,
+   "under_ml": -108,
+   "away_ml": -114,
+   "home_ml": 106,
+   "sides": {
+    "away": {
+     "pitcher": "Kohl Drake",
+     "resolved": true,
+     "hand": "L",
+     "flags": [
+      "thin-sample",
+      "layoff-22d"
+     ],
+     "mismatch": -22.9,
+     "platoon_gap": -47,
+     "opp_team": "SF",
+     "opp_runs": 6,
+     "ladder": [
+      62,
+      70,
+      80,
+      null
+     ],
+     "ladder_pa": [
+      379,
+      240,
+      205,
+      93
+     ],
+     "l5_era": 5.4,
+     "l5_whip": 1.56,
+     "l5_ip_gs": 4.17,
+     "pen_rank": 22,
+     "pen30": 4.26,
+     "pen7": 4.44
+    },
+    "home": {
+     "pitcher": "Blade Tidwell",
+     "resolved": true,
+     "hand": "R",
+     "flags": [
+      "thin-sample"
+     ],
+     "mismatch": -5.2,
+     "platoon_gap": 45,
+     "opp_team": "ARI",
+     "opp_runs": 10,
+     "ladder": [
+      92,
+      87,
+      79,
+      60
+     ],
+     "ladder_pa": [
+      672,
+      404,
+      284,
+      157
+     ],
+     "l5_era": 3.92,
+     "l5_whip": 1.21,
+     "l5_ip_gs": 5.17,
+     "pen_rank": 10,
+     "pen30": 3.59,
+     "pen7": 3.55
+    }
+   }
+  },
+  {
+   "date": "2026-08-28",
+   "matchup": "BAL @ OAK",
+   "away": "BAL",
+   "home": "OAK",
+   "away_runs": 4,
+   "home_runs": 3,
+   "total_runs": 7,
+   "line": 9.5,
+   "over_ml": -104,
+   "under_ml": -118,
+   "away_ml": -108,
+   "home_ml": 100,
+   "sides": {
+    "away": {
+     "pitcher": "Brandon Young",
+     "resolved": true,
+     "hand": "R",
+     "flags": [],
+     "mismatch": 19.7,
+     "platoon_gap": -13,
+     "opp_team": "OAK",
+     "opp_runs": 3,
+     "ladder": [
+      106,
+      113,
+      117,
+      null
+     ],
+     "ladder_pa": [
+      628,
+      474,
+      347,
+      146
+     ],
+     "l5_era": 4.91,
+     "l5_whip": 1.64,
+     "l5_ip_gs": 5.13,
+     "pen_rank": 15,
+     "pen30": 3.83,
+     "pen7": 0.46
+    },
+    "home": {
+     "pitcher": "Jacob Lopez",
+     "resolved": true,
+     "hand": "L",
+     "flags": [],
+     "mismatch": -19.3,
+     "platoon_gap": 11,
+     "opp_team": "BAL",
+     "opp_runs": 4,
+     "ladder": [
+      109,
+      119,
+      112,
+      null
+     ],
+     "ladder_pa": [
+      310,
+      219,
+      181,
+      70
+     ],
+     "l5_era": 2.45,
+     "l5_whip": 1.06,
+     "l5_ip_gs": 5.87,
+     "pen_rank": 29,
+     "pen30": 6.0,
+     "pen7": 3.38
+    }
+   }
+  },
+  {
+   "date": "2026-08-28",
+   "matchup": "BOS @ NYY",
+   "away": "BOS",
+   "home": "NYY",
+   "away_runs": 0,
+   "home_runs": 1,
+   "total_runs": 1,
+   "line": 7.5,
+   "over_ml": 106,
+   "under_ml": -130,
+   "away_ml": 138,
+   "home_ml": -148,
+   "sides": {
+    "away": {
+     "pitcher": "Patrick Sandoval",
+     "resolved": true,
+     "hand": "L",
+     "flags": [
+      "thin-deadline-137pa"
+     ],
+     "mismatch": 0.9,
+     "platoon_gap": 7,
+     "opp_team": "NYY",
+     "opp_runs": 1,
+     "ladder": [
+      90,
+      null,
+      null,
+      null
+     ],
+     "ladder_pa": [
+      215,
+      87,
+      70,
+      35
+     ],
+     "l5_era": 5.26,
+     "l5_whip": 1.83,
+     "l5_ip_gs": 5.13,
+     "pen_rank": 1,
+     "pen30": 2.15,
+     "pen7": 0.43
+    },
+    "home": {
+     "pitcher": "Cam Schlittler",
+     "resolved": true,
+     "hand": "R",
+     "flags": [],
+     "mismatch": 11.0,
+     "platoon_gap": -35,
+     "opp_team": "BOS",
+     "opp_runs": 0,
+     "ladder": [
+      133,
+      115,
+      123,
+      76
+     ],
+     "ladder_pa": [
+      847,
+      564,
+      382,
+      155
+     ],
+     "l5_era": 2.6,
+     "l5_whip": 1.12,
+     "l5_ip_gs": 5.53,
+     "pen_rank": 7,
+     "pen30": 3.33,
+     "pen7": 3.8
+    }
+   }
+  },
+  {
+   "date": "2026-08-28",
+   "matchup": "CIN @ CHC",
+   "away": "CIN",
+   "home": "CHC",
+   "away_runs": 10,
+   "home_runs": 8,
+   "total_runs": 18,
+   "line": 9,
+   "over_ml": 100,
+   "under_ml": -122,
+   "away_ml": 180,
+   "home_ml": -194,
+   "sides": {
+    "away": {
+     "pitcher": "Rhett Lowder",
+     "resolved": true,
+     "hand": "R",
+     "flags": [],
+     "mismatch": 19.5,
+     "platoon_gap": 13,
+     "opp_team": "CHC",
+     "opp_runs": 8,
+     "ladder": [
+      117,
+      129,
+      124,
+      145
+     ],
+     "ladder_pa": [
+      754,
+      530,
+      389,
+      174
+     ],
+     "l5_era": 3.9,
+     "l5_whip": 1.2,
+     "l5_ip_gs": 6.0,
+     "pen_rank": 24,
+     "pen30": 4.52,
+     "pen7": 4.22
+    },
+    "home": {
+     "pitcher": "David Peterson",
+     "resolved": true,
+     "hand": "L",
+     "flags": [],
+     "mismatch": -36.8,
+     "platoon_gap": -25,
+     "opp_team": "CIN",
+     "opp_runs": 10,
+     "ladder": [
+      75,
+      null,
+      null,
+      null
+     ],
+     "ladder_pa": [
+      221,
+      137,
+      117,
+      64
+     ],
+     "l5_era": 2.89,
+     "l5_whip": 1.36,
+     "l5_ip_gs": 5.6,
+     "pen_rank": 9,
+     "pen30": 3.45,
+     "pen7": 4.26
+    }
+   }
+  },
+  {
+   "date": "2026-08-28",
+   "matchup": "COL @ ATL",
+   "away": "COL",
+   "home": "ATL",
+   "away_runs": 4,
+   "home_runs": 6,
+   "total_runs": 10,
+   "line": 9,
+   "over_ml": -106,
+   "under_ml": -114,
+   "away_ml": 198,
+   "home_ml": -215,
+   "sides": {
+    "away": {
+     "pitcher": "Tomoyuki Sugano",
+     "resolved": true,
+     "hand": "R",
+     "flags": [],
+     "mismatch": -6.4,
+     "platoon_gap": 62,
+     "opp_team": "ATL",
+     "opp_runs": 6,
+     "ladder": [
+      75,
+      58,
+      50,
+      null
+     ],
+     "ladder_pa": [
+      655,
+      418,
+      313,
+      115
+     ],
+     "l5_era": 5.96,
+     "l5_whip": 1.4,
+     "l5_ip_gs": 5.13,
+     "pen_rank": 20,
+     "pen30": 4.0,
+     "pen7": 5.54
+    },
+    "home": {
+     "pitcher": "Grant Holmes",
+     "resolved": true,
+     "hand": "R",
+     "flags": [],
+     "mismatch": 6.8,
+     "platoon_gap": -21,
+     "opp_team": "COL",
+     "opp_runs": 4,
+     "ladder": [
+      106,
+      102,
+      99,
+      99
+     ],
+     "ladder_pa": [
+      664,
+      441,
+      329,
+      161
+     ],
+     "l5_era": 3.08,
+     "l5_whip": 1.18,
+     "l5_ip_gs": 5.27,
+     "pen_rank": 6,
+     "pen30": 3.26,
+     "pen7": 1.59
+    }
+   }
+  },
+  {
+   "date": "2026-08-28",
+   "matchup": "CWS @ MIN",
+   "away": "CWS",
+   "home": "MIN",
+   "away_runs": 7,
+   "home_runs": 4,
+   "total_runs": 11,
+   "line": 8.5,
+   "over_ml": -124,
+   "under_ml": 102,
+   "away_ml": 116,
+   "home_ml": -126,
+   "sides": {
+    "away": {
+     "pitcher": "Luis Castillo",
+     "resolved": true,
+     "hand": "R",
+     "flags": [],
+     "mismatch": 14.7,
+     "platoon_gap": 18,
+     "opp_team": "MIN",
+     "opp_runs": 4,
+     "ladder": [
+      95,
+      99,
+      100,
+      null
+     ],
+     "ladder_pa": [
+      604,
+      401,
+      249,
+      108
+     ],
+     "l5_era": 6.56,
+     "l5_whip": 1.76,
+     "l5_ip_gs": 4.67,
+     "pen_rank": 8,
+     "pen30": 3.42,
+     "pen7": 4.96
+    },
+    "home": {
+     "pitcher": "Dean Kremer",
+     "resolved": true,
+     "hand": "R",
+     "flags": [],
+     "mismatch": 19.8,
+     "platoon_gap": 23,
+     "opp_team": "CWS",
+     "opp_runs": 7,
+     "ladder": [
+      108,
+      119,
+      127,
+      124
+     ],
+     "ladder_pa": [
+      641,
+      416,
+      332,
+      153
+     ],
+     "l5_era": 5.4,
+     "l5_whip": 1.16,
+     "l5_ip_gs": 5.33,
+     "pen_rank": 26,
+     "pen30": 4.77,
+     "pen7": 13.17
+    }
+   }
+  },
+  {
+   "date": "2026-08-28",
+   "matchup": "HOU @ NYM",
+   "away": "HOU",
+   "home": "NYM",
+   "away_runs": 3,
+   "home_runs": 1,
+   "total_runs": 4,
+   "line": 7.5,
+   "over_ml": -122,
+   "under_ml": 100,
+   "away_ml": -106,
+   "home_ml": -102,
+   "sides": {
+    "away": {
+     "pitcher": "Hunter Brown",
+     "resolved": true,
+     "hand": "R",
+     "flags": [],
+     "mismatch": 7.3,
+     "platoon_gap": -13,
+     "opp_team": "NYM",
+     "opp_runs": 1,
+     "ladder": [
+      107,
+      130,
+      114,
+      null
+     ],
+     "ladder_pa": [
+      645,
+      375,
+      273,
+      114
+     ],
+     "l5_era": 3.62,
+     "l5_whip": 1.43,
+     "l5_ip_gs": 5.47,
+     "pen_rank": 14,
+     "pen30": 3.79,
+     "pen7": 5.79
+    },
+    "home": {
+     "pitcher": "Christian Scott",
+     "resolved": true,
+     "hand": "R",
+     "flags": [],
+     "mismatch": 7.2,
+     "platoon_gap": -6,
+     "opp_team": "HOU",
+     "opp_runs": 3,
+     "ladder": [
+      106,
+      78,
+      86,
+      96
+     ],
+     "ladder_pa": [
+      726,
+      473,
+      372,
+      153
+     ],
+     "l5_era": 5.19,
+     "l5_whip": 1.46,
+     "l5_ip_gs": 5.2,
+     "pen_rank": 4,
+     "pen30": 2.77,
+     "pen7": 3.74
+    }
+   }
+  },
+  {
+   "date": "2026-08-28",
+   "matchup": "KC @ CLE",
+   "away": "KC",
+   "home": "CLE",
+   "away_runs": 3,
+   "home_runs": 0,
+   "total_runs": 3,
+   "line": 7.5,
+   "over_ml": 100,
+   "under_ml": -122,
+   "away_ml": 120,
+   "home_ml": -130,
+   "sides": {
+    "away": {
+     "pitcher": "Michael Wacha",
+     "resolved": true,
+     "hand": "R",
+     "flags": [],
+     "mismatch": -16.4,
+     "platoon_gap": 18,
+     "opp_team": "CLE",
+     "opp_runs": 0,
+     "ladder": [
+      95,
+      91,
+      96,
+      107
+     ],
+     "ladder_pa": [
+      664,
+      462,
+      369,
+      170
+     ],
+     "l5_era": 2.97,
+     "l5_whip": 0.92,
+     "l5_ip_gs": 6.07,
+     "pen_rank": 25,
+     "pen30": 4.62,
+     "pen7": 3.66
+    },
+    "home": {
+     "pitcher": "Tanner Bibee",
+     "resolved": true,
+     "hand": "R",
+     "flags": [],
+     "mismatch": 5.3,
+     "platoon_gap": -5,
+     "opp_team": "KC",
+     "opp_runs": 3,
+     "ladder": [
+      106,
+      116,
+      124,
+      129
+     ],
+     "ladder_pa": [
+      622,
+      370,
+      337,
+      161
+     ],
+     "l5_era": 4.31,
+     "l5_whip": 0.99,
+     "l5_ip_gs": 6.27,
+     "pen_rank": 11,
+     "pen30": 3.69,
+     "pen7": 1.04
+    }
+   }
+  },
+  {
+   "date": "2026-08-28",
+   "matchup": "LAD @ DET",
+   "away": "LAD",
+   "home": "DET",
+   "away_runs": 2,
+   "home_runs": 1,
+   "total_runs": 3,
+   "line": 7.5,
+   "over_ml": 102,
+   "under_ml": -124,
+   "away_ml": -174,
+   "home_ml": 162,
+   "sides": {
+    "away": {
+     "pitcher": "Tarik Skubal",
+     "resolved": true,
+     "hand": "L",
+     "flags": [],
+     "mismatch": -10.1,
+     "platoon_gap": 1,
+     "opp_team": "DET",
+     "opp_runs": 1,
+     "ladder": [
+      106,
+      63,
+      null,
+      null
+     ],
+     "ladder_pa": [
+      288,
+      187,
+      135,
+      48
+     ],
+     "l5_era": 3.52,
+     "l5_whip": 1.04,
+     "l5_ip_gs": 6.13,
+     "pen_rank": 17,
+     "pen30": 3.92,
+     "pen7": 2.41
+    },
+    "home": {
+     "pitcher": "Drew Anderson",
+     "resolved": true,
+     "hand": "R",
+     "flags": [
+      "stale-window-68d",
+      "swingman-14g"
+     ],
+     "mismatch": -23.1,
+     "platoon_gap": 27,
+     "opp_team": "LAD",
+     "opp_runs": 2,
+     "ladder": [
+      80,
+      93,
+      87,
+      null
+     ],
+     "ladder_pa": [
+      603,
+      419,
+      333,
+      142
+     ],
+     "l5_era": 3.54,
+     "l5_whip": 1.28,
+     "l5_ip_gs": 4.07,
+     "pen_rank": 16,
+     "pen30": 3.91,
+     "pen7": 4.57
+    }
+   }
+  },
+  {
+   "date": "2026-08-28",
+   "matchup": "MIA @ WSH",
+   "away": "MIA",
+   "home": "WSH",
+   "away_runs": 2,
+   "home_runs": 9,
+   "total_runs": 11,
+   "line": 8.5,
+   "over_ml": -104,
+   "under_ml": -118,
+   "away_ml": -132,
+   "home_ml": 122,
+   "sides": {
+    "away": {
+     "pitcher": "Eury P\u00e9rez",
+     "resolved": true,
+     "hand": "R",
+     "flags": [],
+     "mismatch": -27.9,
+     "platoon_gap": -8,
+     "opp_team": "WSH",
+     "opp_runs": 9,
+     "ladder": [
+      92,
+      88,
+      79,
+      96
+     ],
+     "ladder_pa": [
+      767,
+      508,
+      409,
+      217
+     ],
+     "l5_era": 1.86,
+     "l5_whip": 1.1,
+     "l5_ip_gs": 5.8,
+     "pen_rank": 19,
+     "pen30": 3.98,
+     "pen7": 3.6
+    },
+    "home": {
+     "pitcher": "Jackson Kent",
+     "resolved": true,
+     "hand": "L",
+     "flags": [
+      "thin-sample"
+     ],
+     "mismatch": 38.2,
+     "platoon_gap": 0,
+     "opp_team": "MIA",
+     "opp_runs": 2,
+     "ladder": [
+      97,
+      93,
+      92,
+      null
+     ],
+     "ladder_pa": [
+      261,
+      180,
+      172,
+      95
+     ],
+     "l5_era": 8.03,
+     "l5_whip": 2.11,
+     "l5_ip_gs": 4.11,
+     "pen_rank": 23,
+     "pen30": 4.31,
+     "pen7": 6.07
+    }
+   }
+  },
+  {
+   "date": "2026-08-28",
+   "matchup": "PHI @ LAA",
+   "away": "PHI",
+   "home": "LAA",
+   "away_runs": 5,
+   "home_runs": 3,
+   "total_runs": 8,
+   "line": 7.5,
+   "over_ml": -115,
+   "under_ml": -105,
+   "away_ml": -116,
+   "home_ml": 108,
+   "sides": {
+    "away": {
+     "pitcher": "Andrew Painter",
+     "resolved": true,
+     "hand": "R",
+     "flags": [],
+     "mismatch": -31.5,
+     "platoon_gap": -2,
+     "opp_team": "LAA",
+     "opp_runs": 3,
+     "ladder": [
+      74,
+      88,
+      88,
+      null
+     ],
+     "ladder_pa": [
+      529,
+      362,
+      252,
+      84
+     ],
+     "l5_era": 3.62,
+     "l5_whip": 1.06,
+     "l5_ip_gs": 5.47,
+     "pen_rank": 18,
+     "pen30": 3.96,
+     "pen7": 2.7
+    },
+    "home": {
+     "pitcher": "Reid Detmers",
+     "resolved": true,
+     "hand": "L",
+     "flags": [],
+     "mismatch": -17.0,
+     "platoon_gap": 2,
+     "opp_team": "PHI",
+     "opp_runs": 5,
+     "ladder": [
+      117,
+      null,
+      null,
+      null
+     ],
+     "ladder_pa": [
+      201,
+      147,
+      120,
+      40
+     ],
+     "l5_era": 1.86,
+     "l5_whip": 0.9,
+     "l5_ip_gs": 5.8,
+     "pen_rank": 13,
+     "pen30": 3.75,
+     "pen7": 3.27
+    }
+   }
+  },
+  {
+   "date": "2026-08-28",
+   "matchup": "PIT @ STL",
+   "away": "PIT",
+   "home": "STL",
+   "away_runs": 1,
+   "home_runs": 4,
+   "total_runs": 5,
+   "line": 7.5,
+   "over_ml": -102,
+   "under_ml": -120,
+   "away_ml": -112,
+   "home_ml": 104,
+   "sides": {
+    "away": {
+     "pitcher": "Jared Jones",
+     "resolved": true,
+     "hand": "R",
+     "flags": [],
+     "mismatch": 15.8,
+     "platoon_gap": 34,
+     "opp_team": "STL",
+     "opp_runs": 4,
+     "ladder": [
+      90,
+      87,
+      76,
+      null
+     ],
+     "ladder_pa": [
+      692,
+      430,
+      320,
+      116
+     ],
+     "l5_era": 6.95,
+     "l5_whip": 1.73,
+     "l5_ip_gs": 4.4,
+     "pen_rank": 5,
+     "pen30": 3.02,
+     "pen7": 2.33
+    },
+    "home": {
+     "pitcher": "Quinn Mathews",
+     "resolved": true,
+     "hand": "L",
+     "flags": [
+      "thin-sample"
+     ],
+     "mismatch": -3.6,
+     "platoon_gap": -10,
+     "opp_team": "PIT",
+     "opp_runs": 1,
+     "ladder": [
+      73,
+      76,
+      71,
+      null
+     ],
+     "ladder_pa": [
+      368,
+      264,
+      225,
+      107
+     ],
+     "l5_era": 6.43,
+     "l5_whip": 1.79,
+     "l5_ip_gs": 4.67,
+     "pen_rank": 28,
+     "pen30": 5.02,
+     "pen7": 8.13
+    }
+   }
+  },
+  {
+   "date": "2026-08-28",
+   "matchup": "SD @ TB",
+   "away": "SD",
+   "home": "TB",
+   "away_runs": 4,
+   "home_runs": 9,
+   "total_runs": 13,
+   "line": 7.5,
+   "over_ml": -102,
+   "under_ml": -120,
+   "away_ml": 112,
+   "home_ml": -122,
+   "sides": {
+    "away": {
+     "pitcher": "Casey Mize",
+     "resolved": true,
+     "hand": "R",
+     "flags": [],
+     "mismatch": 33.7,
+     "platoon_gap": -28,
+     "opp_team": "TB",
+     "opp_runs": 9,
+     "ladder": [
+      113,
+      115,
+      89,
+      null
+     ],
+     "ladder_pa": [
+      730,
+      485,
+      365,
+      134
+     ],
+     "l5_era": 5.62,
+     "l5_whip": 1.29,
+     "l5_ip_gs": 4.8,
+     "pen_rank": 2,
+     "pen30": 2.38,
+     "pen7": 0.75
+    },
+    "home": {
+     "pitcher": "Shane McClanahan",
+     "resolved": true,
+     "hand": "L",
+     "flags": [],
+     "mismatch": 14.1,
+     "platoon_gap": 3,
+     "opp_team": "SD",
+     "opp_runs": 4,
+     "ladder": [
+      113,
+      126,
+      null,
+      null
+     ],
+     "ladder_pa": [
+      312,
+      157,
+      121,
+      26
+     ],
+     "l5_era": 3.8,
+     "l5_whip": 1.08,
+     "l5_ip_gs": 4.27,
+     "pen_rank": 21,
+     "pen30": 4.11,
+     "pen7": 2.75
+    }
+   }
+  },
+  {
+   "date": "2026-08-28",
+   "matchup": "SEA @ TOR",
+   "away": "SEA",
+   "home": "TOR",
+   "away_runs": 1,
+   "home_runs": 8,
+   "total_runs": 9,
+   "line": 6.5,
+   "over_ml": -128,
+   "under_ml": 104,
+   "away_ml": 130,
+   "home_ml": -140,
+   "sides": {
+    "away": {
+     "pitcher": "Emerson Hancock",
+     "resolved": true,
+     "hand": "R",
+     "flags": [],
+     "mismatch": -5.6,
+     "platoon_gap": -16,
+     "opp_team": "TOR",
+     "opp_runs": 8,
+     "ladder": [
+      99,
+      106,
+      99,
+      null
+     ],
+     "ladder_pa": [
+      587,
+      364,
+      302,
+      105
+     ],
+     "l5_era": 4.13,
+     "l5_whip": 1.55,
+     "l5_ip_gs": 5.67,
+     "pen_rank": 30,
+     "pen30": 7.53,
+     "pen7": 6.35
+    },
+    "home": {
+     "pitcher": "Dylan Cease",
+     "resolved": true,
+     "hand": "R",
+     "flags": [],
+     "mismatch": -19.5,
+     "platoon_gap": -34,
+     "opp_team": "SEA",
+     "opp_runs": 1,
+     "ladder": [
+      107,
+      122,
+      125,
+      null
+     ],
+     "ladder_pa": [
+      534,
+      322,
+      271,
+      102
+     ],
+     "l5_era": 2.03,
+     "l5_whip": 0.97,
+     "l5_ip_gs": 6.2,
+     "pen_rank": 12,
+     "pen30": 3.69,
+     "pen7": 5.65
+    }
+   }
+  },
+  {
+   "date": "2026-08-28",
+   "matchup": "TEX @ MIL",
+   "away": "TEX",
+   "home": "MIL",
+   "away_runs": 1,
+   "home_runs": 6,
+   "total_runs": 7,
+   "line": 7.5,
+   "over_ml": -112,
+   "under_ml": -108,
+   "away_ml": 186,
+   "home_ml": -205,
+   "sides": {
+    "away": {
+     "pitcher": "Cody Bradford",
+     "resolved": true,
+     "hand": "L",
+     "flags": [
+      "thin-sample"
+     ],
+     "mismatch": 0.9,
+     "platoon_gap": 1,
+     "opp_team": "MIL",
+     "opp_runs": 6,
+     "ladder": [
+      106,
+      109,
+      106,
+      null
+     ],
+     "ladder_pa": [
+      339,
+      296,
+      217,
+      101
+     ],
+     "l5_era": 3.05,
+     "l5_whip": 1.4,
+     "l5_ip_gs": 5.17,
+     "pen_rank": 27,
+     "pen30": 4.89,
+     "pen7": 5.16
+    },
+    "home": {
+     "pitcher": "Logan Henderson",
+     "resolved": true,
+     "hand": "R",
+     "flags": [],
+     "mismatch": -51.8,
+     "platoon_gap": 34,
+     "opp_team": "TEX",
+     "opp_runs": 1,
+     "ladder": [
+      75,
+      81,
+      100,
+      null
+     ],
+     "ladder_pa": [
+      584,
+      352,
+      231,
+      118
+     ],
+     "l5_era": 2.03,
+     "l5_whip": 0.84,
+     "l5_ip_gs": 6.2,
+     "pen_rank": 3,
+     "pen30": 2.45,
+     "pen7": 1.38
+    }
+   }
+  },
+  {
+   "date": "2026-08-29",
+   "matchup": "ARI @ SF",
+   "away": "ARI",
+   "home": "SF",
+   "away_runs": 2,
+   "home_runs": 7,
+   "total_runs": 9,
+   "line": 8.5,
+   "over_ml": 102,
+   "under_ml": -124,
+   "away_ml": -106,
+   "home_ml": -102,
+   "sides": {
+    "away": {
+     "pitcher": "Merrill Kelly",
+     "resolved": true,
+     "hand": "R",
+     "flags": [],
+     "mismatch": 59.6,
+     "platoon_gap": -40,
+     "opp_team": "SF",
+     "opp_runs": 7,
+     "ladder": [
+      106,
+      116,
+      117,
+      121
+     ],
+     "ladder_pa": [
+      605,
+      407,
+      323,
+      167
+     ],
+     "l5_era": 7.46,
+     "l5_whip": 1.82,
+     "l5_ip_gs": 5.07,
+     "pen_rank": 21,
+     "pen30": 4.08,
+     "pen7": 4.18
+    },
+    "home": {
+     "pitcher": "Matt Wilkinson",
+     "resolved": true,
+     "hand": "L",
+     "flags": [
+      "opener",
+      "thin-sample"
+     ],
+     "mismatch": 45.0,
+     "platoon_gap": 14,
+     "opp_team": "ARI",
+     "opp_runs": 2,
+     "ladder": [
+      128,
+      121,
+      123,
+      null
+     ],
+     "ladder_pa": [
+      357,
+      254,
+      211,
+      88
+     ],
+     "l5_era": 6.35,
+     "l5_whip": 1.41,
+     "l5_ip_gs": 2.83,
+     "pen_rank": 16,
+     "pen30": 3.8,
+     "pen7": 4.55
+    }
+   }
+  },
+  {
+   "date": "2026-08-29",
+   "matchup": "ARI @ SF",
+   "away": "ARI",
+   "home": "SF",
+   "away_runs": 2,
+   "home_runs": 7,
+   "total_runs": 9,
+   "line": 7.5,
+   "over_ml": -122,
+   "under_ml": 100,
+   "away_ml": -124,
+   "home_ml": 114,
+   "sides": {
+    "away": {
+     "pitcher": "Mitch Bratt",
+     "resolved": true,
+     "hand": "L",
+     "flags": [],
+     "mismatch": -18.9,
+     "platoon_gap": -40,
+     "opp_team": "SF",
+     "opp_runs": 7,
+     "ladder": [
+      58,
+      76,
+      84,
+      null
+     ],
+     "ladder_pa": [
+      380,
+      256,
+      197,
+      89
+     ],
+     "l5_era": 3.38,
+     "l5_whip": 1.29,
+     "l5_ip_gs": 4.8,
+     "pen_rank": 21,
+     "pen30": 4.08,
+     "pen7": 4.18
+    },
+    "home": {
+     "pitcher": "Yunior Marte",
+     "resolved": false,
+     "hand": "R",
+     "flags": [
+      "thin-sample"
+     ],
+     "mismatch": null,
+     "platoon_gap": 14,
+     "opp_team": "ARI",
+     "opp_runs": 2,
+     "ladder": [
+      100,
+      107,
+      94,
+      90
+     ],
+     "ladder_pa": [
+      715,
+      433,
+      317,
+      159
+     ],
+     "l5_era": null,
+     "l5_whip": null,
+     "l5_ip_gs": null,
+     "pen_rank": 16,
+     "pen30": 3.8,
+     "pen7": 4.55
+    }
+   }
+  },
+  {
+   "date": "2026-08-29",
+   "matchup": "BAL @ OAK",
+   "away": "BAL",
+   "home": "OAK",
+   "away_runs": 5,
+   "home_runs": 3,
+   "total_runs": 8,
+   "line": 9.5,
+   "over_ml": -120,
+   "under_ml": -102,
+   "away_ml": -140,
+   "home_ml": 130,
+   "sides": {
+    "away": {
+     "pitcher": "Shane Baz",
+     "resolved": true,
+     "hand": "R",
+     "flags": [],
+     "mismatch": 12.1,
+     "platoon_gap": 11,
+     "opp_team": "OAK",
+     "opp_runs": 3,
+     "ladder": [
+      105,
+      115,
+      113,
+      133
+     ],
+     "ladder_pa": [
+      635,
+      491,
+      358,
+      151
+     ],
+     "l5_era": 4.3,
+     "l5_whip": 1.19,
+     "l5_ip_gs": 5.87,
+     "pen_rank": 18,
+     "pen30": 3.96,
+     "pen7": 0.87
+    },
+    "home": {
+     "pitcher": "Jack Perkins",
+     "resolved": true,
+     "hand": "R",
+     "flags": [
+      "layoff-17d",
+      "swingman-2g"
+     ],
+     "mismatch": 34.9,
+     "platoon_gap": 11,
+     "opp_team": "BAL",
+     "opp_runs": 5,
+     "ladder": [
+      97,
+      100,
+      90,
+      null
+     ],
+     "ladder_pa": [
+      615,
+      417,
+      296,
+      121
+     ],
+     "l5_era": 8.25,
+     "l5_whip": 1.71,
+     "l5_ip_gs": 4.8,
+     "pen_rank": 29,
+     "pen30": 5.98,
+     "pen7": 3.12
+    }
+   }
+  },
+  {
+   "date": "2026-08-29",
+   "matchup": "BOS @ NYY",
+   "away": "BOS",
+   "home": "NYY",
+   "away_runs": 2,
+   "home_runs": 9,
+   "total_runs": 11,
+   "line": 7.5,
+   "over_ml": -112,
+   "under_ml": -108,
+   "away_ml": 100,
+   "home_ml": -110,
+   "sides": {
+    "away": {
+     "pitcher": "Jake Bennett",
+     "resolved": true,
+     "hand": "L",
+     "flags": [],
+     "mismatch": 18.4,
+     "platoon_gap": 22,
+     "opp_team": "NYY",
+     "opp_runs": 9,
+     "ladder": [
+      93,
+      null,
+      null,
+      null
+     ],
+     "ladder_pa": [
+      221,
+      107,
+      91,
+      58
+     ],
+     "l5_era": 5.4,
+     "l5_whip": 1.34,
+     "l5_ip_gs": 5.67,
+     "pen_rank": 2,
+     "pen30": 2.2,
+     "pen7": 0.44
+    },
+    "home": {
+     "pitcher": "Carlos Rod\u00f3n",
+     "resolved": true,
+     "hand": "L",
+     "flags": [
+      "stale-window-67d"
+     ],
+     "mismatch": 8.8,
+     "platoon_gap": 2,
+     "opp_team": "BOS",
+     "opp_runs": 2,
+     "ladder": [
+      99,
+      null,
+      null,
+      null
+     ],
+     "ladder_pa": [
+      205,
+      101,
+      92,
+      40
+     ],
+     "l5_era": 3.09,
+     "l5_whip": 1.24,
+     "l5_ip_gs": 4.67,
+     "pen_rank": 6,
+     "pen30": 3.1,
+     "pen7": 3.75
+    }
+   }
+  },
+  {
+   "date": "2026-08-29",
+   "matchup": "BOS @ NYY",
+   "away": "BOS",
+   "home": "NYY",
+   "away_runs": 2,
+   "home_runs": 9,
+   "total_runs": 11,
+   "line": 7,
+   "over_ml": -115,
+   "under_ml": -105,
+   "away_ml": 130,
+   "home_ml": -140,
+   "sides": {
+    "away": {
+     "pitcher": "Alec Gamboa",
+     "resolved": true,
+     "hand": "L",
+     "flags": [
+      "opener",
+      "thin-sample",
+      "swingman-2g"
+     ],
+     "mismatch": -39.2,
+     "platoon_gap": 22,
+     "opp_team": "NYY",
+     "opp_runs": 9,
+     "ladder": [
+      93,
+      null,
+      null,
+      null
+     ],
+     "ladder_pa": [
+      221,
+      107,
+      91,
+      58
+     ],
+     "l5_era": 0.0,
+     "l5_whip": 0.0,
+     "l5_ip_gs": 1.33,
+     "pen_rank": 2,
+     "pen30": 2.2,
+     "pen7": 0.44
+    },
+    "home": {
+     "pitcher": "Max Fried",
+     "resolved": true,
+     "hand": "L",
+     "flags": [
+      "layoff-16d"
+     ],
+     "mismatch": -13.0,
+     "platoon_gap": 2,
+     "opp_team": "BOS",
+     "opp_runs": 2,
+     "ladder": [
+      99,
+      null,
+      null,
+      null
+     ],
+     "ladder_pa": [
+      205,
+      101,
+      92,
+      40
+     ],
+     "l5_era": 1.82,
+     "l5_whip": 0.97,
+     "l5_ip_gs": 4.93,
+     "pen_rank": 6,
+     "pen30": 3.1,
+     "pen7": 3.75
+    }
+   }
+  },
+  {
+   "date": "2026-08-29",
+   "matchup": "CIN @ CHC",
+   "away": "CIN",
+   "home": "CHC",
+   "away_runs": 5,
+   "home_runs": 17,
+   "total_runs": 22,
+   "line": 9.5,
+   "over_ml": 100,
+   "under_ml": -122,
+   "away_ml": 182,
+   "home_ml": -198,
+   "sides": {
+    "away": {
+     "pitcher": "Andrew Abbott",
+     "resolved": true,
+     "hand": "L",
+     "flags": [],
+     "mismatch": 51.3,
+     "platoon_gap": -2,
+     "opp_team": "CHC",
+     "opp_runs": 17,
+     "ladder": [
+      140,
+      131,
+      null,
+      null
+     ],
+     "ladder_pa": [
+      280,
+      165,
+      120,
+      66
+     ],
+     "l5_era": 5.4,
+     "l5_whip": 1.48,
+     "l5_ip_gs": 5.67,
+     "pen_rank": 26,
+     "pen30": 4.82,
+     "pen7": 5.23
+    },
+    "home": {
+     "pitcher": "Kevin Gausman",
+     "resolved": true,
+     "hand": "R",
+     "flags": [],
+     "mismatch": -19.3,
+     "platoon_gap": 9,
+     "opp_team": "CIN",
+     "opp_runs": 5,
+     "ladder": [
+      100,
+      88,
+      99,
+      113
+     ],
+     "ladder_pa": [
+      795,
+      548,
+      411,
+      170
+     ],
+     "l5_era": 3.77,
+     "l5_whip": 1.26,
+     "l5_ip_gs": 5.73,
+     "pen_rank": 14,
+     "pen30": 3.76,
+     "pen7": 6.98
+    }
+   }
+  },
+  {
+   "date": "2026-08-29",
+   "matchup": "COL @ ATL",
+   "away": "COL",
+   "home": "ATL",
+   "away_runs": 1,
+   "home_runs": 2,
+   "total_runs": 3,
+   "line": 8.5,
+   "over_ml": -124,
+   "under_ml": 102,
+   "away_ml": 210,
+   "home_ml": -230,
+   "sides": {
+    "away": {
+     "pitcher": "Zach Agnos",
+     "resolved": true,
+     "hand": "R",
+     "flags": [
+      "thin-sample",
+      "layoff-84d",
+      "swingman-19g"
+     ],
+     "mismatch": -26.9,
+     "platoon_gap": 37,
+     "opp_team": "ATL",
+     "opp_runs": 2,
+     "ladder": [
+      82,
+      76,
+      76,
+      null
+     ],
+     "ladder_pa": [
+      691,
+      444,
+      345,
+      146
+     ],
+     "l5_era": 2.25,
+     "l5_whip": 1.0,
+     "l5_ip_gs": 4.0,
+     "pen_rank": 19,
+     "pen30": 3.96,
+     "pen7": 4.1
+    },
+    "home": {
+     "pitcher": "Mart\u00edn P\u00e9rez",
+     "resolved": true,
+     "hand": "L",
+     "flags": [],
+     "mismatch": -31.6,
+     "platoon_gap": -23,
+     "opp_team": "COL",
+     "opp_runs": 1,
+     "ladder": [
+      85,
+      77,
+      78,
+      null
+     ],
+     "ladder_pa": [
+      347,
+      257,
+      228,
+      117
+     ],
+     "l5_era": 1.8,
+     "l5_whip": 1.16,
+     "l5_ip_gs": 5.0,
+     "pen_rank": 7,
+     "pen30": 3.36,
+     "pen7": 1.89
+    }
+   }
+  },
+  {
+   "date": "2026-08-29",
+   "matchup": "CWS @ MIN",
+   "away": "CWS",
+   "home": "MIN",
+   "away_runs": 3,
+   "home_runs": 2,
+   "total_runs": 5,
+   "line": 9,
+   "over_ml": -114,
+   "under_ml": -106,
+   "away_ml": 100,
+   "home_ml": -110,
+   "sides": {
+    "away": {
+     "pitcher": "Erick Fedde",
+     "resolved": true,
+     "hand": "R",
+     "flags": [
+      "layoff-29d",
+      "stale-window-58d",
+      "swingman-12g"
+     ],
+     "mismatch": -0.5,
+     "platoon_gap": 3,
+     "opp_team": "MIN",
+     "opp_runs": 2,
+     "ladder": [
+      97,
+      107,
+      106,
+      null
+     ],
+     "ladder_pa": [
+      647,
+      417,
+      297,
+      125
+     ],
+     "l5_era": 3.47,
+     "l5_whip": 1.07,
+     "l5_ip_gs": 4.67,
+     "pen_rank": 8,
+     "pen30": 3.45,
+     "pen7": 4.67
+    },
+    "home": {
+     "pitcher": "Bailey Ober",
+     "resolved": true,
+     "hand": "R",
+     "flags": [],
+     "mismatch": 25.8,
+     "platoon_gap": 35,
+     "opp_team": "CWS",
+     "opp_runs": 3,
+     "ladder": [
+      107,
+      116,
+      113,
+      110
+     ],
+     "ladder_pa": [
+      690,
+      454,
+      359,
+      171
+     ],
+     "l5_era": 4.28,
+     "l5_whip": 1.28,
+     "l5_ip_gs": 5.47,
+     "pen_rank": 25,
+     "pen30": 4.76,
+     "pen7": 11.34
+    }
+   }
+  },
+  {
+   "date": "2026-08-29",
+   "matchup": "HOU @ NYM",
+   "away": "HOU",
+   "home": "NYM",
+   "away_runs": 2,
+   "home_runs": 6,
+   "total_runs": 8,
+   "line": 8,
+   "over_ml": -115,
+   "under_ml": -105,
+   "away_ml": 136,
+   "home_ml": -146,
+   "sides": {
+    "away": {
+     "pitcher": "Bennett Sousa",
+     "resolved": true,
+     "hand": "L",
+     "flags": [
+      "thin-sample"
+     ],
+     "mismatch": null,
+     "platoon_gap": -50,
+     "opp_team": "NYM",
+     "opp_runs": 6,
+     "ladder": [
+      94,
+      64,
+      77,
+      null
+     ],
+     "ladder_pa": [
+      298,
+      217,
+      152,
+      73
+     ],
+     "l5_era": null,
+     "l5_whip": null,
+     "l5_ip_gs": null,
+     "pen_rank": 12,
+     "pen30": 3.74,
+     "pen7": 6.23
+    },
+    "home": {
+     "pitcher": "Nolan McLean",
+     "resolved": true,
+     "hand": "R",
+     "flags": [],
+     "mismatch": -26.9,
+     "platoon_gap": 20,
+     "opp_team": "HOU",
+     "opp_runs": 2,
+     "ladder": [
+      100,
+      79,
+      73,
+      74
+     ],
+     "ladder_pa": [
+      792,
+      513,
+      397,
+      209
+     ],
+     "l5_era": 2.76,
+     "l5_whip": 1.26,
+     "l5_ip_gs": 5.87,
+     "pen_rank": 4,
+     "pen30": 2.84,
+     "pen7": 2.78
+    }
+   }
+  },
+  {
+   "date": "2026-08-29",
+   "matchup": "KC @ CLE",
+   "away": "KC",
+   "home": "CLE",
+   "away_runs": 8,
+   "home_runs": 3,
+   "total_runs": 11,
+   "line": 7.5,
+   "over_ml": -122,
+   "under_ml": 100,
+   "away_ml": 146,
+   "home_ml": -158,
+   "sides": {
+    "away": {
+     "pitcher": "Daniel Lynch IV",
+     "resolved": true,
+     "hand": "L",
+     "flags": [
+      "opener",
+      "thin-sample"
+     ],
+     "mismatch": 47.3,
+     "platoon_gap": 29,
+     "opp_team": "CLE",
+     "opp_runs": 3,
+     "ladder": [
+      111,
+      113,
+      null,
+      null
+     ],
+     "ladder_pa": [
+      311,
+      170,
+      120,
+      54
+     ],
+     "l5_era": 7.3,
+     "l5_whip": 1.38,
+     "l5_ip_gs": 3.08,
+     "pen_rank": 24,
+     "pen30": 4.67,
+     "pen7": 3.24
+    },
+    "home": {
+     "pitcher": "Foster Griffin",
+     "resolved": true,
+     "hand": "L",
+     "flags": [],
+     "mismatch": 19.6,
+     "platoon_gap": -15,
+     "opp_team": "KC",
+     "opp_runs": 8,
+     "ladder": [
+      101,
+      107,
+      116,
+      null
+     ],
+     "ladder_pa": [
+      372,
+      287,
+      185,
+      67
+     ],
+     "l5_era": 5.33,
+     "l5_whip": 1.58,
+     "l5_ip_gs": 5.07,
+     "pen_rank": 17,
+     "pen30": 3.87,
+     "pen7": 1.82
+    }
+   }
+  },
+  {
+   "date": "2026-08-29",
+   "matchup": "LAD @ DET",
+   "away": "LAD",
+   "home": "DET",
+   "away_runs": 1,
+   "home_runs": 2,
+   "total_runs": 3,
+   "line": 7,
+   "over_ml": -115,
+   "under_ml": -105,
+   "away_ml": -178,
+   "home_ml": 162,
+   "sides": {
+    "away": {
+     "pitcher": "Blake Snell",
+     "resolved": true,
+     "hand": "L",
+     "flags": [
+      "thin-sample",
+      "stale-window-106d"
+     ],
+     "mismatch": -58.0,
+     "platoon_gap": -18,
+     "opp_team": "DET",
+     "opp_runs": 2,
+     "ladder": [
+      100,
+      62,
+      61,
+      null
+     ],
+     "ladder_pa": [
+      345,
+      241,
+      183,
+      105
+     ],
+     "l5_era": 2.57,
+     "l5_whip": 1.05,
+     "l5_ip_gs": 5.25,
+     "pen_rank": 13,
+     "pen30": 3.74,
+     "pen7": 1.5
+    },
+    "home": {
+     "pitcher": "Keider Montero",
+     "resolved": true,
+     "hand": "R",
+     "flags": [],
+     "mismatch": 3.9,
+     "platoon_gap": -5,
+     "opp_team": "LAD",
+     "opp_runs": 1,
+     "ladder": [
+      78,
+      93,
+      89,
+      84
+     ],
+     "ladder_pa": [
+      622,
+      467,
+      381,
+      159
+     ],
+     "l5_era": 3.9,
+     "l5_whip": 1.12,
+     "l5_ip_gs": 5.53,
+     "pen_rank": 10,
+     "pen30": 3.66,
+     "pen7": 4.18
+    }
+   }
+  },
+  {
+   "date": "2026-08-29",
+   "matchup": "MIA @ WSH",
+   "away": "MIA",
+   "home": "WSH",
+   "away_runs": 4,
+   "home_runs": 5,
+   "total_runs": 9,
+   "line": 8,
+   "over_ml": -105,
+   "under_ml": -115,
+   "away_ml": -104,
+   "home_ml": -104,
+   "sides": {
+    "away": {
+     "pitcher": "Sandy Alcantara",
+     "resolved": true,
+     "hand": "R",
+     "flags": [],
+     "mismatch": -32.2,
+     "platoon_gap": 27,
+     "opp_team": "WSH",
+     "opp_runs": 5,
+     "ladder": [
+      89,
+      85,
+      84,
+      111
+     ],
+     "ladder_pa": [
+      796,
+      533,
+      432,
+      243
+     ],
+     "l5_era": 1.36,
+     "l5_whip": 1.03,
+     "l5_ip_gs": 6.6,
+     "pen_rank": 23,
+     "pen30": 4.32,
+     "pen7": 4.32
+    },
+    "home": {
+     "pitcher": "Cade Cavalli",
+     "resolved": true,
+     "hand": "R",
+     "flags": [],
+     "mismatch": -37.1,
+     "platoon_gap": -7,
+     "opp_team": "MIA",
+     "opp_runs": 4,
+     "ladder": [
+      97,
+      96,
+      112,
+      null
+     ],
+     "ladder_pa": [
+      699,
+      433,
+      309,
+      110
+     ],
+     "l5_era": 1.97,
+     "l5_whip": 0.91,
+     "l5_ip_gs": 6.4,
+     "pen_rank": 20,
+     "pen30": 4.06,
+     "pen7": 6.15
+    }
+   }
+  },
+  {
+   "date": "2026-08-29",
+   "matchup": "PHI @ LAA",
+   "away": "PHI",
+   "home": "LAA",
+   "away_runs": 4,
+   "home_runs": 2,
+   "total_runs": 6,
+   "line": 8.5,
+   "over_ml": 100,
+   "under_ml": -122,
+   "away_ml": -230,
+   "home_ml": 210,
+   "sides": {
+    "away": {
+     "pitcher": "Cristopher S\u00e1nchez",
+     "resolved": true,
+     "hand": "L",
+     "flags": [],
+     "mismatch": -52.6,
+     "platoon_gap": -10,
+     "opp_team": "LAA",
+     "opp_runs": 2,
+     "ladder": [
+      71,
+      74,
+      67,
+      null
+     ],
+     "ladder_pa": [
+      388,
+      280,
+      202,
+      83
+     ],
+     "l5_era": 2.12,
+     "l5_whip": 1.31,
+     "l5_ip_gs": 5.93,
+     "pen_rank": 11,
+     "pen30": 3.69,
+     "pen7": 2.93
+    },
+    "home": {
+     "pitcher": "Ryan Johnson",
+     "resolved": true,
+     "hand": "R",
+     "flags": [],
+     "mismatch": 17.8,
+     "platoon_gap": 17,
+     "opp_team": "PHI",
+     "opp_runs": 4,
+     "ladder": [
+      115,
+      112,
+      118,
+      null
+     ],
+     "ladder_pa": [
+      784,
+      446,
+      314,
+      141
+     ],
+     "l5_era": 3.16,
+     "l5_whip": 1.25,
+     "l5_ip_gs": 5.13,
+     "pen_rank": 15,
+     "pen30": 3.79,
+     "pen7": 5.06
+    }
+   }
+  },
+  {
+   "date": "2026-08-29",
+   "matchup": "PIT @ STL",
+   "away": "PIT",
+   "home": "STL",
+   "away_runs": 6,
+   "home_runs": 2,
+   "total_runs": 8,
+   "line": 8.5,
+   "over_ml": 102,
+   "under_ml": -124,
+   "away_ml": 110,
+   "home_ml": -120,
+   "sides": {
+    "away": {
+     "pitcher": "Lake Bachar",
+     "resolved": true,
+     "hand": "R",
+     "flags": [
+      "opener",
+      "stale-window-78d",
+      "swingman-21g"
+     ],
+     "mismatch": -36.5,
+     "platoon_gap": 43,
+     "opp_team": "STL",
+     "opp_runs": 2,
+     "ladder": [
+      88,
+      77,
+      84,
+      null
+     ],
+     "ladder_pa": [
+      714,
+      447,
+      342,
+      138
+     ],
+     "l5_era": 2.38,
+     "l5_whip": 1.24,
+     "l5_ip_gs": 2.27,
+     "pen_rank": 5,
+     "pen30": 3.01,
+     "pen7": 2.55
+    },
+    "home": {
+     "pitcher": "Kyle Leahy",
+     "resolved": true,
+     "hand": "R",
+     "flags": [],
+     "mismatch": -57.7,
+     "platoon_gap": 10,
+     "opp_team": "PIT",
+     "opp_runs": 6,
+     "ladder": [
+      84,
+      77,
+      72,
+      null
+     ],
+     "ladder_pa": [
+      601,
+      352,
+      253,
+      113
+     ],
+     "l5_era": 1.44,
+     "l5_whip": 1.12,
+     "l5_ip_gs": 5.0,
+     "pen_rank": 27,
+     "pen30": 5.01,
+     "pen7": 7.62
+    }
+   }
+  },
+  {
+   "date": "2026-08-29",
+   "matchup": "SD @ TB",
+   "away": "SD",
+   "home": "TB",
+   "away_runs": 6,
+   "home_runs": 7,
+   "total_runs": 13,
+   "line": 8,
+   "over_ml": -110,
+   "under_ml": -110,
+   "away_ml": 116,
+   "home_ml": -126,
+   "sides": {
+    "away": {
+     "pitcher": "Walker Buehler",
+     "resolved": true,
+     "hand": "R",
+     "flags": [],
+     "mismatch": 16.2,
+     "platoon_gap": -31,
+     "opp_team": "TB",
+     "opp_runs": 7,
+     "ladder": [
+      117,
+      123,
+      102,
+      103
+     ],
+     "ladder_pa": [
+      777,
+      511,
+      386,
+      161
+     ],
+     "l5_era": 2.73,
+     "l5_whip": 1.14,
+     "l5_ip_gs": 5.27,
+     "pen_rank": 3,
+     "pen30": 2.54,
+     "pen7": 1.44
+    },
+    "home": {
+     "pitcher": "Nick Martinez",
+     "resolved": true,
+     "hand": "R",
+     "flags": [],
+     "mismatch": 8.8,
+     "platoon_gap": 3,
+     "opp_team": "SD",
+     "opp_runs": 6,
+     "ladder": [
+      110,
+      106,
+      99,
+      86
+     ],
+     "ladder_pa": [
+      703,
+      458,
+      332,
+      171
+     ],
+     "l5_era": 4.75,
+     "l5_whip": 1.09,
+     "l5_ip_gs": 6.07,
+     "pen_rank": 22,
+     "pen30": 4.26,
+     "pen7": 2.45
+    }
+   }
+  },
+  {
+   "date": "2026-08-29",
+   "matchup": "SEA @ TOR",
+   "away": "SEA",
+   "home": "TOR",
+   "away_runs": 3,
+   "home_runs": 4,
+   "total_runs": 7,
+   "line": 7.5,
+   "over_ml": -108,
+   "under_ml": -112,
+   "away_ml": 100,
+   "home_ml": -108,
+   "sides": {
+    "away": {
+     "pitcher": "Kade Anderson",
+     "resolved": true,
+     "hand": "L",
+     "flags": [
+      "thin-sample"
+     ],
+     "mismatch": 10.6,
+     "platoon_gap": -2,
+     "opp_team": "TOR",
+     "opp_runs": 4,
+     "ladder": [
+      85,
+      106,
+      126,
+      null
+     ],
+     "ladder_pa": [
+      380,
+      271,
+      180,
+      85
+     ],
+     "l5_era": 4.76,
+     "l5_whip": 1.24,
+     "l5_ip_gs": 5.67,
+     "pen_rank": 30,
+     "pen30": 7.74,
+     "pen7": 7.17
+    },
+    "home": {
+     "pitcher": "Jos\u00e9 Soriano",
+     "resolved": true,
+     "hand": "R",
+     "flags": [],
+     "mismatch": 11.5,
+     "platoon_gap": -48,
+     "opp_team": "SEA",
+     "opp_runs": 3,
+     "ladder": [
+      101,
+      112,
+      108,
+      86
+     ],
+     "ladder_pa": [
+      568,
+      384,
+      303,
+      157
+     ],
+     "l5_era": 3.42,
+     "l5_whip": 1.44,
+     "l5_ip_gs": 5.27,
+     "pen_rank": 9,
+     "pen30": 3.59,
+     "pen7": 5.55
+    }
+   }
+  },
+  {
+   "date": "2026-08-29",
+   "matchup": "TEX @ MIL",
+   "away": "TEX",
+   "home": "MIL",
+   "away_runs": 3,
+   "home_runs": 5,
+   "total_runs": 8,
+   "line": 8,
+   "over_ml": -115,
+   "under_ml": -105,
+   "away_ml": 150,
+   "home_ml": -164,
+   "sides": {
+    "away": {
+     "pitcher": "Cal Quantrill",
+     "resolved": true,
+     "hand": "R",
+     "flags": [],
+     "mismatch": -17.0,
+     "platoon_gap": -7,
+     "opp_team": "MIL",
+     "opp_runs": 5,
+     "ladder": [
+      107,
+      117,
+      148,
+      null
+     ],
+     "ladder_pa": [
+      680,
+      381,
+      235,
+      102
+     ],
+     "l5_era": 0.92,
+     "l5_whip": 0.85,
+     "l5_ip_gs": 5.87,
+     "pen_rank": 28,
+     "pen30": 5.1,
+     "pen7": 6.86
+    },
+    "home": {
+     "pitcher": "Shane Drohan",
+     "resolved": true,
+     "hand": "L",
+     "flags": [],
+     "mismatch": 22.0,
+     "platoon_gap": 30,
+     "opp_team": "TEX",
+     "opp_runs": 3,
+     "ladder": [
+      114,
+      106,
+      121,
+      null
+     ],
+     "ladder_pa": [
+      364,
+      288,
+      204,
+      92
+     ],
+     "l5_era": 5.93,
+     "l5_whip": 1.57,
+     "l5_ip_gs": 5.47,
+     "pen_rank": 1,
+     "pen30": 1.44,
+     "pen7": 1.08
+    }
+   }
+  },
+  {
+   "date": "2026-08-30",
+   "matchup": "BAL @ OAK",
+   "away": "BAL",
+   "home": "OAK",
+   "away_runs": 8,
+   "home_runs": 5,
+   "total_runs": 13,
+   "line": 9.5,
+   "over_ml": -122,
+   "under_ml": 100,
+   "away_ml": -144,
+   "home_ml": 134,
+   "sides": {
+    "away": {
+     "pitcher": "Chris Bassitt",
+     "resolved": true,
+     "hand": "R",
+     "flags": [
+      "stale-window-89d"
+     ],
+     "mismatch": 15.3,
+     "platoon_gap": 7,
+     "opp_team": "OAK",
+     "opp_runs": 5,
+     "ladder": [
+      108,
+      116,
+      119,
+      130
+     ],
+     "ladder_pa": [
+      697,
+      527,
+      429,
+      192
+     ],
+     "l5_era": 3.38,
+     "l5_whip": 1.35,
+     "l5_ip_gs": 5.33,
+     "pen_rank": 16,
+     "pen30": 3.91,
+     "pen7": 1.37
+    },
+    "home": {
+     "pitcher": "Jeffrey Springs",
+     "resolved": true,
+     "hand": "L",
+     "flags": [],
+     "mismatch": 51.6,
+     "platoon_gap": 12,
+     "opp_team": "BAL",
+     "opp_runs": 8,
+     "ladder": [
+      111,
+      115,
+      120,
+      null
+     ],
+     "ladder_pa": [
+      368,
+      254,
+      202,
+      104
+     ],
+     "l5_era": 6.1,
+     "l5_whip": 1.84,
+     "l5_ip_gs": 4.13,
+     "pen_rank": 29,
+     "pen30": 5.98,
+     "pen7": 3.0
+    }
+   }
+  },
+  {
+   "date": "2026-08-30",
+   "matchup": "BOS @ NYY",
+   "away": "BOS",
+   "home": "NYY",
+   "away_runs": 1,
+   "home_runs": 16,
+   "total_runs": 17,
+   "line": 8,
+   "over_ml": -102,
+   "under_ml": -120,
+   "away_ml": -142,
+   "home_ml": 132,
+   "sides": {
+    "away": {
+     "pitcher": "Ranger Suarez",
+     "resolved": true,
+     "hand": "L",
+     "flags": [],
+     "mismatch": 55.8,
+     "platoon_gap": 44,
+     "opp_team": "NYY",
+     "opp_runs": 16,
+     "ladder": [
+      122,
+      139,
+      null,
+      null
+     ],
+     "ladder_pa": [
+      250,
+      163,
+      137,
+      107
+     ],
+     "l5_era": 4.7,
+     "l5_whip": 1.39,
+     "l5_ip_gs": 4.6,
+     "pen_rank": 4,
+     "pen30": 2.78,
+     "pen7": 3.33
+    },
+    "home": {
+     "pitcher": "Will Warren",
+     "resolved": true,
+     "hand": "R",
+     "flags": [],
+     "mismatch": 14.8,
+     "platoon_gap": -5,
+     "opp_team": "BOS",
+     "opp_runs": 1,
+     "ladder": [
+      126,
+      114,
+      110,
+      65
+     ],
+     "ladder_pa": [
+      867,
+      570,
+      387,
+      182
+     ],
+     "l5_era": 4.32,
+     "l5_whip": 1.44,
+     "l5_ip_gs": 5.0,
+     "pen_rank": 7,
+     "pen30": 3.36,
+     "pen7": 4.18
+    }
+   }
+  },
+  {
+   "date": "2026-08-30",
+   "matchup": "CIN @ CHC",
+   "away": "CIN",
+   "home": "CHC",
+   "away_runs": 7,
+   "home_runs": 5,
+   "total_runs": 12,
+   "line": 9,
+   "over_ml": -118,
+   "under_ml": -104,
+   "away_ml": 140,
+   "home_ml": -150,
+   "sides": {
+    "away": {
+     "pitcher": "Chase Burns",
+     "resolved": true,
+     "hand": "R",
+     "flags": [],
+     "mismatch": 22.5,
+     "platoon_gap": -5,
+     "opp_team": "CHC",
+     "opp_runs": 5,
+     "ladder": [
+      131,
+      135,
+      140,
+      null
+     ],
+     "ladder_pa": [
+      707,
+      509,
+      371,
+      141
+     ],
+     "l5_era": 4.33,
+     "l5_whip": 1.3,
+     "l5_ip_gs": 5.4,
+     "pen_rank": 28,
+     "pen30": 5.64,
+     "pen7": 8.34
+    },
+    "home": {
+     "pitcher": "Shota Imanaga",
+     "resolved": true,
+     "hand": "L",
+     "flags": [],
+     "mismatch": -18.4,
+     "platoon_gap": 6,
+     "opp_team": "CIN",
+     "opp_runs": 7,
+     "ladder": [
+      66,
+      null,
+      null,
+      null
+     ],
+     "ladder_pa": [
+      198,
+      131,
+      121,
+      48
+     ],
+     "l5_era": 4.07,
+     "l5_whip": 1.23,
+     "l5_ip_gs": 4.87,
+     "pen_rank": 12,
+     "pen30": 3.73,
+     "pen7": 5.23
+    }
+   }
+  },
+  {
+   "date": "2026-08-30",
+   "matchup": "COL @ ATL",
+   "away": "COL",
+   "home": "ATL",
+   "away_runs": 2,
+   "home_runs": 3,
+   "total_runs": 5,
+   "line": 8.5,
+   "over_ml": -105,
+   "under_ml": -115,
+   "away_ml": 215,
+   "home_ml": -235,
+   "sides": {
+    "away": {
+     "pitcher": "Mason Adams",
+     "resolved": true,
+     "hand": "R",
+     "flags": [
+      "thin-sample"
+     ],
+     "mismatch": -34.5,
+     "platoon_gap": 33,
+     "opp_team": "ATL",
+     "opp_runs": 3,
+     "ladder": [
+      84,
+      78,
+      83,
+      115
+     ],
+     "ladder_pa": [
+      718,
+      447,
+      379,
+      178
+     ],
+     "l5_era": 2.25,
+     "l5_whip": 1.5,
+     "l5_ip_gs": 4.0,
+     "pen_rank": 17,
+     "pen30": 3.93,
+     "pen7": 4.23
+    },
+    "home": {
+     "pitcher": "Tyler Mahle",
+     "resolved": true,
+     "hand": "R",
+     "flags": [],
+     "mismatch": -21.5,
+     "platoon_gap": -22,
+     "opp_team": "COL",
+     "opp_runs": 2,
+     "ladder": [
+      108,
+      99,
+      102,
+      101
+     ],
+     "ladder_pa": [
+      699,
+      439,
+      323,
+      187
+     ],
+     "l5_era": 2.76,
+     "l5_whip": 1.06,
+     "l5_ip_gs": 5.87,
+     "pen_rank": 6,
+     "pen30": 3.3,
+     "pen7": 1.96
+    }
+   }
+  },
+  {
+   "date": "2026-08-30",
+   "matchup": "CWS @ MIN",
+   "away": "CWS",
+   "home": "MIN",
+   "away_runs": 1,
+   "home_runs": 5,
+   "total_runs": 6,
+   "line": 8.5,
+   "over_ml": -122,
+   "under_ml": 100,
+   "away_ml": 104,
+   "home_ml": -114,
+   "sides": {
+    "away": {
+     "pitcher": "Jordan Hicks",
+     "resolved": true,
+     "hand": "R",
+     "flags": [
+      "opener",
+      "thin-sample",
+      "layoff-29d",
+      "swingman-8g"
+     ],
+     "mismatch": -52.1,
+     "platoon_gap": -9,
+     "opp_team": "MIN",
+     "opp_runs": 5,
+     "ladder": [
+      97,
+      105,
+      104,
+      null
+     ],
+     "ladder_pa": [
+      640,
+      429,
+      309,
+      128
+     ],
+     "l5_era": 0.0,
+     "l5_whip": 0.0,
+     "l5_ip_gs": 1.0,
+     "pen_rank": 8,
+     "pen30": 3.47,
+     "pen7": 3.34
+    },
+    "home": {
+     "pitcher": "Zebby Matthews",
+     "resolved": true,
+     "hand": "R",
+     "flags": [],
+     "mismatch": 1.7,
+     "platoon_gap": 41,
+     "opp_team": "CWS",
+     "opp_runs": 1,
+     "ladder": [
+      100,
+      109,
+      102,
+      100
+     ],
+     "ladder_pa": [
+      686,
+      487,
+      362,
+      169
+     ],
+     "l5_era": 3.9,
+     "l5_whip": 1.3,
+     "l5_ip_gs": 5.53,
+     "pen_rank": 25,
+     "pen30": 4.81,
+     "pen7": 9.0
+    }
+   }
+  },
+  {
+   "date": "2026-08-30",
+   "matchup": "HOU @ NYM",
+   "away": "HOU",
+   "home": "NYM",
+   "away_runs": 6,
+   "home_runs": 3,
+   "total_runs": 9,
+   "line": 9,
+   "over_ml": -106,
+   "under_ml": -114,
+   "away_ml": 110,
+   "home_ml": -120,
+   "sides": {
+    "away": {
+     "pitcher": "Ethan Pecko",
+     "resolved": true,
+     "hand": "R",
+     "flags": [
+      "thin-sample"
+     ],
+     "mismatch": 57.0,
+     "platoon_gap": -39,
+     "opp_team": "NYM",
+     "opp_runs": 3,
+     "ladder": [
+      110,
+      105,
+      94,
+      72
+     ],
+     "ladder_pa": [
+      671,
+      397,
+      330,
+      152
+     ],
+     "l5_era": 7.88,
+     "l5_whip": 1.88,
+     "l5_ip_gs": 4.0,
+     "pen_rank": 15,
+     "pen30": 3.9,
+     "pen7": 5.96
+    },
+    "home": {
+     "pitcher": "Zac Thornton",
+     "resolved": true,
+     "hand": "L",
+     "flags": [],
+     "mismatch": 7.2,
+     "platoon_gap": 31,
+     "opp_team": "HOU",
+     "opp_runs": 6,
+     "ladder": [
+      106,
+      null,
+      null,
+      null
+     ],
+     "ladder_pa": [
+      222,
+      141,
+      101,
+      41
+     ],
+     "l5_era": 3.38,
+     "l5_whip": 1.39,
+     "l5_ip_gs": 5.33,
+     "pen_rank": 5,
+     "pen30": 2.96,
+     "pen7": 3.1
+    }
+   }
+  },
+  {
+   "date": "2026-08-30",
+   "matchup": "KC @ CLE",
+   "away": "KC",
+   "home": "CLE",
+   "away_runs": 1,
+   "home_runs": 11,
+   "total_runs": 12,
+   "line": 7.5,
+   "over_ml": -110,
+   "under_ml": -110,
+   "away_ml": 164,
+   "home_ml": -178,
+   "sides": {
+    "away": {
+     "pitcher": "Seth Lugo",
+     "resolved": true,
+     "hand": "R",
+     "flags": [],
+     "mismatch": 14.8,
+     "platoon_gap": 17,
+     "opp_team": "CLE",
+     "opp_runs": 11,
+     "ladder": [
+      98,
+      94,
+      94,
+      119
+     ],
+     "ladder_pa": [
+      732,
+      520,
+      386,
+      178
+     ],
+     "l5_era": 6.41,
+     "l5_whip": 1.46,
+     "l5_ip_gs": 5.33,
+     "pen_rank": 21,
+     "pen30": 4.13,
+     "pen7": 3.1
+    },
+    "home": {
+     "pitcher": "Parker Messick",
+     "resolved": true,
+     "hand": "L",
+     "flags": [],
+     "mismatch": -29.2,
+     "platoon_gap": -21,
+     "opp_team": "KC",
+     "opp_runs": 1,
+     "ladder": [
+      99,
+      101,
+      133,
+      null
+     ],
+     "ladder_pa": [
+      399,
+      284,
+      190,
+      79
+     ],
+     "l5_era": 2.12,
+     "l5_whip": 0.91,
+     "l5_ip_gs": 5.93,
+     "pen_rank": 22,
+     "pen30": 4.18,
+     "pen7": 3.16
+    }
+   }
+  },
+  {
+   "date": "2026-08-30",
+   "matchup": "LAD @ DET",
+   "away": "LAD",
+   "home": "DET",
+   "away_runs": 6,
+   "home_runs": 1,
+   "total_runs": 7,
+   "line": 7.5,
+   "over_ml": 100,
+   "under_ml": -122,
+   "away_ml": -148,
+   "home_ml": 138,
+   "sides": {
+    "away": {
+     "pitcher": "Tyler Glasnow",
+     "resolved": true,
+     "hand": "R",
+     "flags": [
+      "stale-window-130d"
+     ],
+     "mismatch": -56.9,
+     "platoon_gap": -11,
+     "opp_team": "DET",
+     "opp_runs": 1,
+     "ladder": [
+      94,
+      72,
+      66,
+      null
+     ],
+     "ladder_pa": [
+      675,
+      407,
+      312,
+      113
+     ],
+     "l5_era": 2.36,
+     "l5_whip": 0.82,
+     "l5_ip_gs": 5.33,
+     "pen_rank": 14,
+     "pen30": 3.84,
+     "pen7": 1.86
+    },
+    "home": {
+     "pitcher": "Framber Valdez",
+     "resolved": true,
+     "hand": "L",
+     "flags": [],
+     "mismatch": -4.8,
+     "platoon_gap": -8,
+     "opp_team": "LAD",
+     "opp_runs": 6,
+     "ladder": [
+      103,
+      86,
+      null,
+      null
+     ],
+     "ladder_pa": [
+      393,
+      217,
+      143,
+      96
+     ],
+     "l5_era": 3.73,
+     "l5_whip": 1.53,
+     "l5_ip_gs": 6.27,
+     "pen_rank": 9,
+     "pen30": 3.52,
+     "pen7": 4.07
+    }
+   }
+  },
+  {
+   "date": "2026-08-30",
+   "matchup": "MIA @ WSH",
+   "away": "MIA",
+   "home": "WSH",
+   "away_runs": 6,
+   "home_runs": 2,
+   "total_runs": 8,
+   "line": 9.5,
+   "over_ml": 102,
+   "under_ml": -124,
+   "away_ml": 110,
+   "home_ml": -120,
+   "sides": {
+    "away": {
+     "pitcher": "Janson Junk",
+     "resolved": true,
+     "hand": "R",
+     "flags": [],
+     "mismatch": -20.0,
+     "platoon_gap": 27,
+     "opp_team": "WSH",
+     "opp_runs": 2,
+     "ladder": [
+      87,
+      85,
+      83,
+      117
+     ],
+     "ladder_pa": [
+      786,
+      563,
+      459,
+      235
+     ],
+     "l5_era": 2.28,
+     "l5_whip": 1.18,
+     "l5_ip_gs": 4.73,
+     "pen_rank": 19,
+     "pen30": 4.06,
+     "pen7": 4.38
+    },
+    "home": {
+     "pitcher": "Andrew Alvarez",
+     "resolved": true,
+     "hand": "L",
+     "flags": [],
+     "mismatch": -19.6,
+     "platoon_gap": -10,
+     "opp_team": "MIA",
+     "opp_runs": 6,
+     "ladder": [
+      91,
+      87,
+      82,
+      null
+     ],
+     "ladder_pa": [
+      323,
+      244,
+      232,
+      138
+     ],
+     "l5_era": 3.0,
+     "l5_whip": 1.0,
+     "l5_ip_gs": 5.4,
+     "pen_rank": 23,
+     "pen30": 4.28,
+     "pen7": 6.53
+    }
+   }
+  },
+  {
+   "date": "2026-08-30",
+   "matchup": "PHI @ LAA",
+   "away": "PHI",
+   "home": "LAA",
+   "away_runs": 5,
+   "home_runs": 2,
+   "total_runs": 7,
+   "line": 7.5,
+   "over_ml": -115,
+   "under_ml": -105,
+   "away_ml": -172,
+   "home_ml": 158,
+   "sides": {
+    "away": {
+     "pitcher": "Zack Wheeler",
+     "resolved": true,
+     "hand": "R",
+     "flags": [],
+     "mismatch": 17.9,
+     "platoon_gap": -17,
+     "opp_team": "LAA",
+     "opp_runs": 2,
+     "ladder": [
+      75,
+      86,
+      82,
+      null
+     ],
+     "ladder_pa": [
+      598,
+      394,
+      261,
+      124
+     ],
+     "l5_era": 7.59,
+     "l5_whip": 1.88,
+     "l5_ip_gs": 4.27,
+     "pen_rank": 11,
+     "pen30": 3.67,
+     "pen7": 2.2
+    },
+    "home": {
+     "pitcher": "Yusei Kikuchi",
+     "resolved": true,
+     "hand": "L",
+     "flags": [
+      "stale-window-132d"
+     ],
+     "mismatch": 37.0,
+     "platoon_gap": 8,
+     "opp_team": "PHI",
+     "opp_runs": 5,
+     "ladder": [
+      123,
+      122,
+      114,
+      null
+     ],
+     "ladder_pa": [
+      266,
+      199,
+      153,
+      79
+     ],
+     "l5_era": 5.91,
+     "l5_whip": 1.45,
+     "l5_ip_gs": 4.27,
+     "pen_rank": 13,
+     "pen30": 3.78,
+     "pen7": 5.18
+    }
+   }
+  },
+  {
+   "date": "2026-08-30",
+   "matchup": "PIT @ STL",
+   "away": "PIT",
+   "home": "STL",
+   "away_runs": 5,
+   "home_runs": 4,
+   "total_runs": 9,
+   "line": 7.5,
+   "over_ml": -122,
+   "under_ml": 100,
+   "away_ml": -120,
+   "home_ml": 110,
+   "sides": {
+    "away": {
+     "pitcher": "Braxton Ashcraft",
+     "resolved": true,
+     "hand": "R",
+     "flags": [],
+     "mismatch": -43.5,
+     "platoon_gap": 38,
+     "opp_team": "STL",
+     "opp_runs": 4,
+     "ladder": [
+      92,
+      79,
+      85,
+      79
+     ],
+     "ladder_pa": [
+      715,
+      444,
+      368,
+      171
+     ],
+     "l5_era": 2.18,
+     "l5_whip": 0.67,
+     "l5_ip_gs": 6.6,
+     "pen_rank": 3,
+     "pen30": 2.77,
+     "pen7": 1.65
+    },
+    "home": {
+     "pitcher": "Matthew Liberatore",
+     "resolved": true,
+     "hand": "L",
+     "flags": [],
+     "mismatch": -7.2,
+     "platoon_gap": 14,
+     "opp_team": "PIT",
+     "opp_runs": 5,
+     "ladder": [
+      79,
+      91,
+      79,
+      null
+     ],
+     "ladder_pa": [
+      421,
+      304,
+      249,
+      113
+     ],
+     "l5_era": 6.15,
+     "l5_whip": 1.1,
+     "l5_ip_gs": 5.27,
+     "pen_rank": 27,
+     "pen30": 5.25,
+     "pen7": 6.83
+    }
+   }
+  },
+  {
+   "date": "2026-08-30",
+   "matchup": "SD @ TB",
+   "away": "SD",
+   "home": "TB",
+   "away_runs": 4,
+   "home_runs": 5,
+   "total_runs": 9,
+   "line": 7,
+   "over_ml": -115,
+   "under_ml": -105,
+   "away_ml": 150,
+   "home_ml": -164,
+   "sides": {
+    "away": {
+     "pitcher": "Robbie Ray",
+     "resolved": true,
+     "hand": "L",
+     "flags": [],
+     "mismatch": -16.5,
+     "platoon_gap": -41,
+     "opp_team": "TB",
+     "opp_runs": 5,
+     "ladder": [
+      81,
+      81,
+      82,
+      null
+     ],
+     "ladder_pa": [
+      282,
+      178,
+      163,
+      86
+     ],
+     "l5_era": 3.42,
+     "l5_whip": 1.33,
+     "l5_ip_gs": 5.27,
+     "pen_rank": 2,
+     "pen30": 2.59,
+     "pen7": 1.66
+    },
+    "home": {
+     "pitcher": "Drew Rasmussen",
+     "resolved": true,
+     "hand": "R",
+     "flags": [],
+     "mismatch": -22.3,
+     "platoon_gap": 6,
+     "opp_team": "SD",
+     "opp_runs": 4,
+     "ladder": [
+      106,
+      102,
+      95,
+      60
+     ],
+     "ladder_pa": [
+      723,
+      467,
+      364,
+      177
+     ],
+     "l5_era": 2.48,
+     "l5_whip": 0.9,
+     "l5_ip_gs": 5.8,
+     "pen_rank": 24,
+     "pen30": 4.56,
+     "pen7": 3.0
+    }
+   }
+  },
+  {
+   "date": "2026-08-30",
+   "matchup": "SEA @ TOR",
+   "away": "SEA",
+   "home": "TOR",
+   "away_runs": 0,
+   "home_runs": 7,
+   "total_runs": 7,
+   "line": 8,
+   "over_ml": -105,
+   "under_ml": -115,
+   "away_ml": -132,
+   "home_ml": 122,
+   "sides": {
+    "away": {
+     "pitcher": "Logan Gilbert",
+     "resolved": true,
+     "hand": "R",
+     "flags": [],
+     "mismatch": 5.0,
+     "platoon_gap": -4,
+     "opp_team": "TOR",
+     "opp_runs": 7,
+     "ladder": [
+      106,
+      115,
+      119,
+      121
+     ],
+     "ladder_pa": [
+      638,
+      407,
+      324,
+      156
+     ],
+     "l5_era": 3.03,
+     "l5_whip": 1.15,
+     "l5_ip_gs": 5.93,
+     "pen_rank": 30,
+     "pen30": 7.79,
+     "pen7": 7.48
+    },
+    "home": {
+     "pitcher": "Max Scherzer",
+     "resolved": true,
+     "hand": "R",
+     "flags": [],
+     "mismatch": 13.0,
+     "platoon_gap": -38,
+     "opp_team": "SEA",
+     "opp_runs": 0,
+     "ladder": [
+      93,
+      101,
+      84,
+      78
+     ],
+     "ladder_pa": [
+      566,
+      414,
+      293,
+      167
+     ],
+     "l5_era": 4.62,
+     "l5_whip": 1.26,
+     "l5_ip_gs": 5.07,
+     "pen_rank": 10,
+     "pen30": 3.53,
+     "pen7": 4.88
+    }
+   }
+  },
+  {
+   "date": "2026-08-30",
+   "matchup": "TEX @ MIL",
+   "away": "TEX",
+   "home": "MIL",
+   "away_runs": 7,
+   "home_runs": 4,
+   "total_runs": 11,
+   "line": 8.5,
+   "over_ml": -110,
+   "under_ml": -110,
+   "away_ml": 142,
+   "home_ml": -154,
+   "sides": {
+    "away": {
+     "pitcher": "Kumar Rocker",
+     "resolved": true,
+     "hand": "R",
+     "flags": [],
+     "mismatch": 40.6,
+     "platoon_gap": -14,
+     "opp_team": "MIL",
+     "opp_runs": 4,
+     "ladder": [
+      105,
+      121,
+      149,
+      null
+     ],
+     "ladder_pa": [
+      691,
+      407,
+      279,
+      121
+     ],
+     "l5_era": 6.0,
+     "l5_whip": 1.88,
+     "l5_ip_gs": 4.8,
+     "pen_rank": 26,
+     "pen30": 5.17,
+     "pen7": 7.45
+    },
+    "home": {
+     "pitcher": "Dustin May",
+     "resolved": true,
+     "hand": "R",
+     "flags": [],
+     "mismatch": -8.4,
+     "platoon_gap": 32,
+     "opp_team": "TEX",
+     "opp_runs": 7,
+     "ladder": [
+      74,
+      82,
+      89,
+      140
+     ],
+     "ladder_pa": [
+      622,
+      397,
+      271,
+      161
+     ],
+     "l5_era": 4.43,
+     "l5_whip": 1.18,
+     "l5_ip_gs": 4.07,
+     "pen_rank": 1,
+     "pen30": 1.56,
+     "pen7": 1.73
+    }
+   }
+  },
+  {
+   "date": "2026-08-31",
+   "matchup": "BAL @ COL",
+   "away": "BAL",
+   "home": "COL",
+   "away_runs": 2,
+   "home_runs": 1,
+   "total_runs": 3,
+   "line": 11,
+   "over_ml": -110,
+   "under_ml": -110,
+   "away_ml": -120,
+   "home_ml": 110,
+   "sides": {
+    "away": {
+     "pitcher": "Cade Povich",
+     "resolved": true,
+     "hand": "L",
+     "flags": [
+      "layoff-22d",
+      "stale-window-119d"
+     ],
+     "mismatch": -17.1,
+     "platoon_gap": -22,
+     "opp_team": "COL",
+     "opp_runs": 1,
+     "ladder": [
+      86,
+      77,
+      78,
+      null
+     ],
+     "ladder_pa": [
+      353,
+      263,
+      234,
+      95
+     ],
+     "l5_era": 4.76,
+     "l5_whip": 1.46,
+     "l5_ip_gs": 4.53,
+     "pen_rank": 15,
+     "pen30": 3.91,
+     "pen7": 1.37
+    },
+    "home": {
+     "pitcher": "Tanner Gordon",
+     "resolved": true,
+     "hand": "R",
+     "flags": [
+      "stale-window-57d",
+      "swingman-5g"
+     ],
+     "mismatch": 17.0,
+     "platoon_gap": 12,
+     "opp_team": "BAL",
+     "opp_runs": 2,
+     "ladder": [
+      94,
+      103,
+      88,
+      null
+     ],
+     "ladder_pa": [
+      628,
+      434,
+      329,
+      139
+     ],
+     "l5_era": 5.6,
+     "l5_whip": 1.57,
+     "l5_ip_gs": 5.47,
+     "pen_rank": 13,
+     "pen30": 3.87,
+     "pen7": 3.86
+    }
+   }
+  },
+  {
+   "date": "2026-08-31",
+   "matchup": "CWS @ HOU",
+   "away": "CWS",
+   "home": "HOU",
+   "away_runs": 3,
+   "home_runs": 6,
+   "total_runs": 9,
+   "line": 8.5,
+   "over_ml": -122,
+   "under_ml": 100,
+   "away_ml": 118,
+   "home_ml": -126,
+   "sides": {
+    "away": {
+     "pitcher": "Anthony Kay",
+     "resolved": true,
+     "hand": "L",
+     "flags": [],
+     "mismatch": 4.9,
+     "platoon_gap": 31,
+     "opp_team": "HOU",
+     "opp_runs": 6,
+     "ladder": [
+      106,
+      null,
+      null,
+      null
+     ],
+     "ladder_pa": [
+      222,
+      141,
+      101,
+      41
+     ],
+     "l5_era": 3.49,
+     "l5_whip": 1.27,
+     "l5_ip_gs": 5.67,
+     "pen_rank": 9,
+     "pen30": 3.52,
+     "pen7": 3.58
+    },
+    "home": {
+     "pitcher": "Peter Lambert",
+     "resolved": true,
+     "hand": "R",
+     "flags": [],
+     "mismatch": 27.0,
+     "platoon_gap": 41,
+     "opp_team": "CWS",
+     "opp_runs": 3,
+     "ladder": [
+      100,
+      109,
+      102,
+      100
+     ],
+     "ladder_pa": [
+      686,
+      487,
+      362,
+      169
+     ],
+     "l5_era": 6.12,
+     "l5_whip": 1.56,
+     "l5_ip_gs": 5.0,
+     "pen_rank": 14,
+     "pen30": 3.88,
+     "pen7": 4.74
+    }
+   }
+  },
+  {
+   "date": "2026-08-31",
+   "matchup": "DET @ MIN",
+   "away": "DET",
+   "home": "MIN",
+   "away_runs": 1,
+   "home_runs": 11,
+   "total_runs": 12,
+   "line": 9,
+   "over_ml": -105,
+   "under_ml": -115,
+   "away_ml": 110,
+   "home_ml": -118,
+   "sides": {
+    "away": {
+     "pitcher": "Jackson Jobe",
+     "resolved": true,
+     "hand": "R",
+     "flags": [
+      "thin-sample"
+     ],
+     "mismatch": 8.7,
+     "platoon_gap": -9,
+     "opp_team": "MIN",
+     "opp_runs": 11,
+     "ladder": [
+      97,
+      105,
+      104,
+      null
+     ],
+     "ladder_pa": [
+      640,
+      429,
+      309,
+      128
+     ],
+     "l5_era": 3.93,
+     "l5_whip": 1.42,
+     "l5_ip_gs": 4.58,
+     "pen_rank": 16,
+     "pen30": 3.97,
+     "pen7": 2.18
+    },
+    "home": {
+     "pitcher": "Taj Bradley",
+     "resolved": true,
+     "hand": "R",
+     "flags": [],
+     "mismatch": -17.6,
+     "platoon_gap": -11,
+     "opp_team": "DET",
+     "opp_runs": 1,
+     "ladder": [
+      94,
+      72,
+      66,
+      null
+     ],
+     "ladder_pa": [
+      675,
+      407,
+      312,
+      113
+     ],
+     "l5_era": 5.4,
+     "l5_whip": 1.57,
+     "l5_ip_gs": 5.33,
+     "pen_rank": 26,
+     "pen30": 5.01,
+     "pen7": 6.32
+    }
+   }
+  },
+  {
+   "date": "2026-08-31",
+   "matchup": "MIA @ WSH",
+   "away": "MIA",
+   "home": "WSH",
+   "away_runs": 3,
+   "home_runs": 6,
+   "total_runs": 9,
+   "line": 8.5,
+   "over_ml": -115,
+   "under_ml": -105,
+   "away_ml": -104,
+   "home_ml": -104,
+   "sides": {
+    "away": {
+     "pitcher": "Ryan Gusto",
+     "resolved": true,
+     "hand": "R",
+     "flags": [],
+     "mismatch": -33.3,
+     "platoon_gap": 27,
+     "opp_team": "WSH",
+     "opp_runs": 6,
+     "ladder": [
+      87,
+      85,
+      83,
+      117
+     ],
+     "ladder_pa": [
+      786,
+      563,
+      459,
+      235
+     ],
+     "l5_era": 1.85,
+     "l5_whip": 1.15,
+     "l5_ip_gs": 4.87,
+     "pen_rank": 18,
+     "pen30": 4.05,
+     "pen7": 4.38
+    },
+    "home": {
+     "pitcher": "Will Dion",
+     "resolved": false,
+     "hand": "L",
+     "flags": [
+      "thin-sample"
+     ],
+     "mismatch": null,
+     "platoon_gap": -11,
+     "opp_team": "MIA",
+     "opp_runs": 3,
+     "ladder": [
+      91,
+      86,
+      81,
+      null
+     ],
+     "ladder_pa": [
+      323,
+      244,
+      232,
+      138
+     ],
+     "l5_era": null,
+     "l5_whip": null,
+     "l5_ip_gs": null,
+     "pen_rank": 25,
+     "pen30": 4.76,
+     "pen7": 7.5
+    }
+   }
+  },
+  {
+   "date": "2026-08-31",
+   "matchup": "MIL @ CHC",
+   "away": "MIL",
+   "home": "CHC",
+   "away_runs": 3,
+   "home_runs": 17,
+   "total_runs": 20,
+   "line": 9.5,
+   "over_ml": -108,
+   "under_ml": -112,
+   "away_ml": -106,
+   "home_ml": -102,
+   "sides": {
+    "away": {
+     "pitcher": "Kyle Harrison",
+     "resolved": true,
+     "hand": "L",
+     "flags": [
+      "stale-window-48d"
+     ],
+     "mismatch": 19.9,
+     "platoon_gap": -7,
+     "opp_team": "CHC",
+     "opp_runs": 17,
+     "ladder": [
+      138,
+      126,
+      null,
+      null
+     ],
+     "ladder_pa": [
+      285,
+      170,
+      122,
+      64
+     ],
+     "l5_era": 4.56,
+     "l5_whip": 1.27,
+     "l5_ip_gs": 4.73,
+     "pen_rank": 1,
+     "pen30": 1.62,
+     "pen7": 1.69
+    },
+    "home": {
+     "pitcher": "Clay Holmes",
+     "resolved": true,
+     "hand": "R",
+     "flags": [
+      "stale-window-102d"
+     ],
+     "mismatch": 17.8,
+     "platoon_gap": -14,
+     "opp_team": "MIL",
+     "opp_runs": 3,
+     "ladder": [
+      105,
+      121,
+      148,
+      null
+     ],
+     "ladder_pa": [
+      691,
+      407,
+      279,
+      121
+     ],
+     "l5_era": 2.96,
+     "l5_whip": 1.13,
+     "l5_ip_gs": 5.47,
+     "pen_rank": 12,
+     "pen30": 3.76,
+     "pen7": 6.62
+    }
+   }
+  },
+  {
+   "date": "2026-08-31",
+   "matchup": "NYM @ TB",
+   "away": "NYM",
+   "home": "TB",
+   "away_runs": 3,
+   "home_runs": 2,
+   "total_runs": 5,
+   "line": 7.5,
+   "over_ml": -120,
+   "under_ml": -102,
+   "away_ml": 170,
+   "home_ml": -184,
+   "sides": {
+    "away": {
+     "pitcher": "Robert Stock",
+     "resolved": true,
+     "hand": "R",
+     "flags": [],
+     "mismatch": 54.8,
+     "platoon_gap": -41,
+     "opp_team": "TB",
+     "opp_runs": 2,
+     "ladder": [
+      120,
+      122,
+      103,
+      null
+     ],
+     "ladder_pa": [
+      768,
+      514,
+      356,
+      142
+     ],
+     "l5_era": 7.4,
+     "l5_whip": 1.94,
+     "l5_ip_gs": 4.13,
+     "pen_rank": 4,
+     "pen30": 3.09,
+     "pen7": 3.27
+    },
+    "home": {
+     "pitcher": "Ian Seymour",
+     "resolved": true,
+     "hand": "L",
+     "flags": [
+      "swingman-3g"
+     ],
+     "mismatch": -51.4,
+     "platoon_gap": -38,
+     "opp_team": "NYM",
+     "opp_runs": 3,
+     "ladder": [
+      91,
+      66,
+      null,
+      null
+     ],
+     "ladder_pa": [
+      300,
+      212,
+      139,
+      64
+     ],
+     "l5_era": 4.15,
+     "l5_whip": 1.23,
+     "l5_ip_gs": 5.2,
+     "pen_rank": 23,
+     "pen30": 4.47,
+     "pen7": 2.35
+    }
+   }
+  },
+  {
+   "date": "2026-08-31",
+   "matchup": "NYY @ LAA",
+   "away": "NYY",
+   "home": "LAA",
+   "away_runs": 1,
+   "home_runs": 10,
+   "total_runs": 11,
+   "line": 7.5,
+   "over_ml": -122,
+   "under_ml": 100,
+   "away_ml": -120,
+   "home_ml": 110,
+   "sides": {
+    "away": {
+     "pitcher": "Elmer Rodr\u00edguez",
+     "resolved": true,
+     "hand": "R",
+     "flags": [
+      "stale-window-119d"
+     ],
+     "mismatch": 3.0,
+     "platoon_gap": -17,
+     "opp_team": "LAA",
+     "opp_runs": 10,
+     "ladder": [
+      75,
+      86,
+      82,
+      null
+     ],
+     "ladder_pa": [
+      598,
+      394,
+      261,
+      124
+     ],
+     "l5_era": 4.7,
+     "l5_whip": 1.52,
+     "l5_ip_gs": 4.6,
+     "pen_rank": 7,
+     "pen30": 3.38,
+     "pen7": 4.32
+    },
+    "home": {
+     "pitcher": "Walbert Ure\u00f1a",
+     "resolved": true,
+     "hand": "R",
+     "flags": [],
+     "mismatch": -1.8,
+     "platoon_gap": 44,
+     "opp_team": "NYY",
+     "opp_runs": 1,
+     "ladder": [
+      90,
+      95,
+      105,
+      null
+     ],
+     "ladder_pa": [
+      706,
+      501,
+      358,
+      127
+     ],
+     "l5_era": 3.91,
+     "l5_whip": 1.39,
+     "l5_ip_gs": 4.6,
+     "pen_rank": 19,
+     "pen30": 4.07,
+     "pen7": 6.56
+    }
+   }
+  },
+  {
+   "date": "2026-08-31",
+   "matchup": "OAK @ TEX",
+   "away": "OAK",
+   "home": "TEX",
+   "away_runs": 1,
+   "home_runs": 8,
+   "total_runs": 9,
+   "line": 7.5,
+   "over_ml": -105,
+   "under_ml": -115,
+   "away_ml": 194,
+   "home_ml": -210,
+   "sides": {
+    "away": {
+     "pitcher": "Gage Jump",
+     "resolved": true,
+     "hand": "L",
+     "flags": [],
+     "mismatch": 35.7,
+     "platoon_gap": 32,
+     "opp_team": "TEX",
+     "opp_runs": 8,
+     "ladder": [
+      118,
+      114,
+      127,
+      null
+     ],
+     "ladder_pa": [
+      380,
+      277,
+      220,
+      86
+     ],
+     "l5_era": 6.39,
+     "l5_whip": 1.62,
+     "l5_ip_gs": 5.07,
+     "pen_rank": 28,
+     "pen30": 5.25,
+     "pen7": 3.47
+    },
+    "home": {
+     "pitcher": "Jacob deGrom",
+     "resolved": true,
+     "hand": "R",
+     "flags": [],
+     "mismatch": 38.6,
+     "platoon_gap": 7,
+     "opp_team": "OAK",
+     "opp_runs": 1,
+     "ladder": [
+      108,
+      116,
+      119,
+      130
+     ],
+     "ladder_pa": [
+      697,
+      527,
+      429,
+      192
+     ],
+     "l5_era": 7.2,
+     "l5_whip": 1.8,
+     "l5_ip_gs": 4.0,
+     "pen_rank": 24,
+     "pen30": 4.74,
+     "pen7": 6.04
+    }
+   }
+  },
+  {
+   "date": "2026-08-31",
+   "matchup": "PHI @ ARI",
+   "away": "PHI",
+   "home": "ARI",
+   "away_runs": 2,
+   "home_runs": 1,
+   "total_runs": 3,
+   "line": 8.5,
+   "over_ml": 100,
+   "under_ml": -122,
+   "away_ml": -108,
+   "home_ml": 100,
+   "sides": {
+    "away": {
+     "pitcher": "Aaron Nola",
+     "resolved": true,
+     "hand": "R",
+     "flags": [],
+     "mismatch": -21.3,
+     "platoon_gap": 18,
+     "opp_team": "ARI",
+     "opp_runs": 1,
+     "ladder": [
+      102,
+      101,
+      87,
+      88
+     ],
+     "ladder_pa": [
+      719,
+      427,
+      326,
+      184
+     ],
+     "l5_era": 2.79,
+     "l5_whip": 1.21,
+     "l5_ip_gs": 5.8,
+     "pen_rank": 6,
+     "pen30": 3.32,
+     "pen7": 2.65
+    },
+    "home": {
+     "pitcher": "Brandon Pfaadt",
+     "resolved": true,
+     "hand": "R",
+     "flags": [],
+     "mismatch": -2.1,
+     "platoon_gap": 9,
+     "opp_team": "PHI",
+     "opp_runs": 2,
+     "ladder": [
+      116,
+      113,
+      115,
+      null
+     ],
+     "ladder_pa": [
+      792,
+      454,
+      345,
+      149
+     ],
+     "l5_era": 2.45,
+     "l5_whip": 0.82,
+     "l5_ip_gs": 6.6,
+     "pen_rank": 22,
+     "pen30": 4.29,
+     "pen7": 4.5
+    }
+   }
+  },
+  {
+   "date": "2026-08-31",
+   "matchup": "SD @ CIN",
+   "away": "SD",
+   "home": "CIN",
+   "away_runs": 5,
+   "home_runs": 0,
+   "total_runs": 5,
+   "line": 9,
+   "over_ml": -105,
+   "under_ml": -115,
+   "away_ml": -144,
+   "home_ml": 134,
+   "sides": {
+    "away": {
+     "pitcher": "Michael King",
+     "resolved": true,
+     "hand": "R",
+     "flags": [],
+     "mismatch": -20.9,
+     "platoon_gap": 18,
+     "opp_team": "CIN",
+     "opp_runs": 0,
+     "ladder": [
+      96,
+      91,
+      104,
+      130
+     ],
+     "ladder_pa": [
+      770,
+      561,
+      388,
+      162
+     ],
+     "l5_era": 2.64,
+     "l5_whip": 1.14,
+     "l5_ip_gs": 6.13,
+     "pen_rank": 3,
+     "pen30": 2.94,
+     "pen7": 2.74
+    },
+    "home": {
+     "pitcher": "Brady Singer",
+     "resolved": true,
+     "hand": "R",
+     "flags": [],
+     "mismatch": 12.7,
+     "platoon_gap": 6,
+     "opp_team": "SD",
+     "opp_runs": 5,
+     "ladder": [
+      106,
+      102,
+      95,
+      60
+     ],
+     "ladder_pa": [
+      723,
+      467,
+      364,
+      177
+     ],
+     "l5_era": 4.85,
+     "l5_whip": 1.38,
+     "l5_ip_gs": 5.93,
+     "pen_rank": 29,
+     "pen30": 5.53,
+     "pen7": 8.25
+    }
+   }
+  },
+  {
+   "date": "2026-08-31",
+   "matchup": "SEA @ BOS",
+   "away": "SEA",
+   "home": "BOS",
+   "away_runs": 8,
+   "home_runs": 9,
+   "total_runs": 17,
+   "line": 7.5,
+   "over_ml": -115,
+   "under_ml": -105,
+   "away_ml": 142,
+   "home_ml": -154,
+   "sides": {
+    "away": {
+     "pitcher": "George Kirby",
+     "resolved": true,
+     "hand": "R",
+     "flags": [],
+     "mismatch": 20.7,
+     "platoon_gap": -6,
+     "opp_team": "BOS",
+     "opp_runs": 9,
+     "ladder": [
+      126,
+      114,
+      110,
+      65
+     ],
+     "ladder_pa": [
+      867,
+      570,
+      387,
+      182
+     ],
+     "l5_era": 4.23,
+     "l5_whip": 1.48,
+     "l5_ip_gs": 5.53,
+     "pen_rank": 30,
+     "pen30": 7.95,
+     "pen7": 4.05
+    },
+    "home": {
+     "pitcher": "Payton Tolle",
+     "resolved": true,
+     "hand": "L",
+     "flags": [],
+     "mismatch": -66.3,
+     "platoon_gap": -37,
+     "opp_team": "SEA",
+     "opp_runs": 8,
+     "ladder": [
+      76,
+      63,
+      67,
+      null
+     ],
+     "ladder_pa": [
+      400,
+      266,
+      188,
+      39
+     ],
+     "l5_era": 2.37,
+     "l5_whip": 1.02,
+     "l5_ip_gs": 6.07,
+     "pen_rank": 11,
+     "pen30": 3.57,
+     "pen7": 6.51
+    }
+   }
+  },
+  {
+   "date": "2026-08-31",
+   "matchup": "SF @ ATL",
+   "away": "SF",
+   "home": "ATL",
+   "away_runs": 7,
+   "home_runs": 3,
+   "total_runs": 10,
+   "line": 9,
+   "over_ml": -105,
+   "under_ml": -115,
+   "away_ml": 182,
+   "home_ml": -198,
+   "sides": {
+    "away": {
+     "pitcher": "Anthony Molina",
+     "resolved": false,
+     "hand": "R",
+     "flags": [
+      "thin-sample"
+     ],
+     "mismatch": null,
+     "platoon_gap": 33,
+     "opp_team": "ATL",
+     "opp_runs": 3,
+     "ladder": [
+      84,
+      78,
+      83,
+      115
+     ],
+     "ladder_pa": [
+      718,
+      447,
+      379,
+      178
+     ],
+     "l5_era": null,
+     "l5_whip": null,
+     "l5_ip_gs": null,
+     "pen_rank": 20,
+     "pen30": 4.14,
+     "pen7": 4.78
+    },
+    "home": {
+     "pitcher": "Bryce Elder",
+     "resolved": true,
+     "hand": "R",
+     "flags": [],
+     "mismatch": 21.6,
+     "platoon_gap": -39,
+     "opp_team": "SF",
+     "opp_runs": 7,
+     "ladder": [
+      113,
+      118,
+      121,
+      128
+     ],
+     "ladder_pa": [
+      607,
+      402,
+      311,
+      186
+     ],
+     "l5_era": 3.9,
+     "l5_whip": 1.2,
+     "l5_ip_gs": 6.0,
+     "pen_rank": 5,
+     "pen30": 3.29,
+     "pen7": 2.04
     }
    }
   }
