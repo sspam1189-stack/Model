@@ -115,8 +115,12 @@ When building a daily card from this repo's outputs, the tiers are:
    so the rule can be WIDENED rather than scrapped if the dog cut is the
    overfit part.
 
-4. **Mismatch ML — RETIRED 2026-08-30 (user), after one day at 1-3.**
-   Kept here because the reasoning is the point, not the result. Was: off the live scout payload's
+4. **Mismatch ML — REVIVED AS SHADOW 2026-09-01 (user).** Carded 8/29
+   without a shadow period, pulled 8/30 at 1-3, and now doing the shadow
+   period the gate asked for in the first place: `scripts/mismatch_shadow.py
+   --log` writes `shadow-mismatch-ml` entries that are tracked and never bet,
+   15-20 plays at August's **+9.4%** expectation, not the +17.2% season
+   figure. It reads off the live scout payload's
    L20 mismatch, one play per qualifying SIDE --
 
    - `m <= -45` the arm outclasses the offense -> **TAIL him**, back his team
@@ -140,7 +144,8 @@ When building a daily card from this repo's outputs, the tiers are:
    `"backfilled": true` and reported on their own line. They were never
    wagered, so they never touch the card record.
 
-   **Why it was pulled, and what it does and does not prove.** Four plays
+   **Why it was pulled the first time, and what that does and does not
+   prove.** Four plays
    cannot overturn a permutation test at p=0.022 -- and four wins would not
    have confirmed it either. What the episode settles is the PROCESS
    question. The rule went from backtest to full stake in a single day, so
@@ -150,7 +155,8 @@ When building a daily card from this repo's outputs, the tiers are:
    works, it is there so a bad opening run costs a fraction of a unit
    instead of a tier. **Do not card another rule without it.** If this one
    is revived, it shadow-trades 15-20 plays at the +9.4% expectation, not
-   the +17.2% season figure.
+   the +17.2% season figure. **That revival happened 2026-09-01** — this is
+   the one rule on the board that is doing the process in the right order.
 
 5. **Aligned ML (scout ML) — CARDED 2026-09-01 (user).** One offense
    hot-aligned across all four windows (>= 110) while the other is

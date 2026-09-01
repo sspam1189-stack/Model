@@ -7,10 +7,11 @@ THE RULE (user, 2026-08-29), read off the live scout payload's L20 mismatch:
     m <= -45   the arm outclasses the offense  -> TAIL him  (back his team)
     m >= +55   the offense outclasses the arm  -> FADE him  (back the opponent)
 
-RETIRED 2026-08-30 (user). Carded 2026-08-29 without the 15-20 shadow plays
-the gate in MLBstrikeouts/CLAUDE.md requires, and pulled after one day at
-1-3. `--log` now refuses; `python3 scripts/mismatch_shadow.py` still prints
-qualifiers so the rule can be watched without betting it.
+REVIVED AS SHADOW 2026-09-01 (user), which is what the gate asked for in the
+first place. History: carded 2026-08-29 without the 15-20 shadow plays
+MLBstrikeouts/CLAUDE.md requires, pulled 2026-08-30 after one day at 1-3.
+`--log` now writes SHADOW entries (rule `shadow-mismatch-ml`, "shadow": true)
+that are tracked and never bet; it cannot write card plays.
 
 The retirement is NOT evidence the rule is dead: four plays cannot overturn
 a permutation test at p=0.022, any more than four wins would have proved it.
@@ -179,9 +180,8 @@ def main():
     ap.add_argument("--date", default=None,
                     help="defaults to the payload's own slate date")
     ap.add_argument("--log", action="store_true",
-                    help="RETIRED 2026-08-30 -- refuses; see the header")
-    ap.add_argument("--shadow", action="store_true",
-                    help="record as shadow instead of live card plays")
+                    help="write today's qualifiers as SHADOW entries "
+                         "(tracked, never bet)")
     ap.add_argument("mode", nargs="?", choices=("today", "backfill"),
                     default="today")
     args = ap.parse_args()
@@ -205,13 +205,39 @@ def main():
         print(f"  {q['action']:4} {q['m']:+7.1f}  {q['pitcher']:20} "
               f"{q['matchup']:12} -> back {q['pick']:4} {price}")
 
-    if args.log:
-        raise SystemExit(
-            "\nRETIRED 2026-08-30: this rule no longer produces card plays.\n"
-            "It was carded 2026-08-29 without a shadow period and pulled at\n"
-            "1-3. Reviving it means shadow-trading 15-20 plays first (see the\n"
-            "module header and MLBstrikeouts/CLAUDE.md).")
-    print("\n(watch only -- this rule is retired and no longer logs plays)")
+    if not args.log:
+        print("\n(dry run -- pass --log to record these as shadow entries)")
+        return
+
+    # Shadow only. This rule does not get to write a card play again until it
+    # has 15-20 tracked plays, at August's +9.4% expectation rather than the
+    # +17.2% season figure (see the header and CLAUDE.md).
+    blob = LEDGER._load()
+    have = {(e.get("date"), e.get("play")) for e in blob["entries"]}
+    added = 0
+    for q in qs:
+        if q["price"] is None:
+            continue
+        entry = {
+            "date": date,
+            "play": f"{q['pick']} ML (mismatch {q['m']:+.1f})",
+            "market": "h2h", "game": q["matchup"],
+            "price": int(q["price"]), "stake": 1.0,
+            "rule": RULE, "shadow": True,
+            "basis": (f"{q['action']} at L20 mismatch {q['m']:+.1f} "
+                      f"({q['pitcher']}). SHADOW revival 2026-09-01 after the "
+                      f"8/29-8/30 card-and-pull; expectation is August's "
+                      f"+9.4%, not the +17.2% season figure. Not bet."),
+            "result": "pending", "profit": 0.0,
+        }
+        if (entry["date"], entry["play"]) in have:
+            continue
+        blob["entries"].append(entry)
+        added += 1
+    if added:
+        blob["entries"].sort(key=lambda e: e.get("date", ""))
+        LEDGER._save(blob)
+    print(f"\nlogged {added} SHADOW entries (rule {RULE}, never bet)")
     return
 
     blob = LEDGER._load()

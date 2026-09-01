@@ -3,7 +3,7 @@
   "type": "scout-card-log",
   "week_convention": "monday-sunday",
   "description": "Per-play ledger for scout card calls (tier 2/3 of the daily card policy in MLBstrikeouts/CLAUDE.md). Model plays are NOT logged here - fade-ml/props/hand-tails keep their own files. No-play days are logged too: an empty card is part of the record. Prices are the card-time quote, not the close.",
-  "generated": "2026-09-01T14:16:34Z",
+  "generated": "2026-09-01T20:48:04Z",
   "pre_log_history": [
     {
       "date": "2026-08-17",
@@ -1954,6 +1954,19 @@
       "result": "pending",
       "profit": 0.0,
       "out_of_scope": true
+    },
+    {
+      "date": "2026-09-01",
+      "play": "CHC ML (mismatch +56.7)",
+      "market": "h2h",
+      "game": "MIL @ CHC",
+      "price": -126,
+      "stake": 1.0,
+      "rule": "shadow-mismatch-ml",
+      "shadow": true,
+      "basis": "FADE at L20 mismatch +56.7 (Robert Gasser). SHADOW revival 2026-09-01 after the 8/29-8/30 card-and-pull; expectation is August's +9.4%, not the +17.2% season figure. Not bet.",
+      "result": "pending",
+      "profit": 0.0
     }
   ]
 }

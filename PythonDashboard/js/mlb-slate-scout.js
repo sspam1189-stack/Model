@@ -105,10 +105,13 @@ async function renderMLBSlateScout() {
     return t > 0 ? `rgba(248,81,73,${0.25 + 0.55 * t})`
                  : `rgba(63,185,80,${0.25 + 0.55 * -t})`;
   };
-  // RETIRED 2026-08-30 after one day at 1-3. MM_LIVE=false keeps the Play
+  // Carded 8/29 without a shadow period, pulled 8/30 at 1-3, REVIVED AS
+  // SHADOW 2026-09-01 -- tracked by scripts/mismatch_shadow.py --log, never
+  // bet. MM_LIVE=false keeps the Play
   // column rendering as watch-only labels instead of bets; flip it back only
   // after the rule shadow-trades 15-20 plays (MLBstrikeouts/CLAUDE.md).
-  const MM_LIVE = false;
+  const MM_LIVE = false;   // still not a card play
+  const MM_SHADOW = true;  // revived as SHADOW 2026-09-01 (user)
 
   // Mismatch ML rule (carded 2026-08-29, retired 2026-08-30). Thresholds are
   // calibrated to the
@@ -621,10 +624,11 @@ async function renderMLBSlateScout() {
     + '<thead><tr style="text-align:left;color:' + DIM + ';border-bottom:1px solid #30363d">'
     + '<th style="padding:4px 6px">Mismatch</th><th>Starter</th><th>Team</th>'
     + '<th>Faces</th><th>Opp wRC+</th>'
-    + '<th title="mismatch-ML, RETIRED 2026-08-30 at 1-3: tail at m<=-45, '
-    + 'fade at m>=+55 (L20 window). Labels are watch-only.">Play '
+    + '<th title="mismatch-ML: tail at m<=-45, fade at m>=+55 (L20 window). '
+    + 'Carded 8/29, pulled 8/30 at 1-3, revived as SHADOW 9/1 -- tracked, '
+    + 'never bet, until 15-20 plays at August\'s +9.4% expectation.">Play '
     + '<span style="color:' + DIM + ';font-weight:400;font-size:10px">'
-    + '(mismatch-ML · retired)</span></th>'
+    + '(mismatch-ML · ' + (MM_SHADOW ? 'shadow' : 'retired') + ')</span></th>'
     + '<th>Flags</th></tr></thead><tbody>';
   for (const r of (data.ranked_mismatch || [])) {
     rhtml += '<tr style="border-top:1px solid #161b22">'
