@@ -43,6 +43,7 @@ from rule_status import RULE_STATUS
 HERE = os.path.dirname(os.path.abspath(__file__))
 DATA = os.path.normpath(os.path.join(HERE, "..", "data"))
 SCOUT = os.path.join(DATA, "mlb-slate-scout.json")
+ALLML = os.path.join(DATA, "mlb-all-ml.json")
 COMBOS = os.path.join(DATA, "flag-combo-table.json")
 MSUM = os.path.join(DATA, "msum-ml-table.json")
 
@@ -72,6 +73,27 @@ def _num(v):
     return f"{v:g}"
 
 
+def game_ids():
+    """(date, away, home, commence) -> gamePk, from the ALL-ML dataset.
+
+    The scout ledger used to identify a game by team names alone, which is
+    ambiguous on doubleheaders -- 2026-08-29 ARI @ SF was two games and an
+    entry graded against the wrong one. fade-ML has stored gamePk on every
+    bet since March; the scout tier now does too. `commence` is the join key
+    because it is the one field both payloads carry and it separates the
+    halves of a doubleheader exactly.
+    """
+    out = {}
+    if not os.path.exists(ALLML):
+        return out
+    for g in json.load(open(ALLML, encoding="utf-8")).get("games", []):
+        if g.get("gamePk") is None:
+            continue
+        out[(g.get("date"), g.get("away"), g.get("home"),
+             g.get("commence"))] = g["gamePk"]
+    return out
+
+
 def _combo(sides):
     """Canonical combo string for a game's flagged sides."""
     present = [d for d in DEFECTS
@@ -79,9 +101,10 @@ def _combo(sides):
     return "+".join(present)
 
 
-def qualifiers(payload, verdicts, msum_table):
+def qualifiers(payload, verdicts, msum_table, ids=None):
     """Every rule's plays for this slate: (rule, side, play, price, basis)."""
     out = []
+    ids = ids or {}
     dog_only = bool((msum_table or {}).get("require_dog"))
     msum_at = (msum_table or {}).get("threshold", 40.0)
 
@@ -92,6 +115,8 @@ def qualifiers(payload, verdicts, msum_table):
         ms = [s.get("mismatch") for s in sides]
         msum = (ms[0] + ms[1]) if (ms[0] is not None and ms[1] is not None) else None
         total, u_ml, o_ml = g.get("total"), g.get("under_ml"), g.get("over_ml")
+        gid = ids.get((payload.get("date"), g.get("away"), g.get("home"),
+                       g.get("commence")))
 
         # --- Flag Plays -------------------------------------------------
         if flagged and total is not None:
@@ -108,6 +133,7 @@ def qualifiers(payload, verdicts, msum_table):
                                      for s in flagged)
                     out.append({
                         "rule": "flag-plays", "combo": combo,
+                "gamePk": gid, "commence": g.get("commence"),
                         "matchup": g["matchup"], "key": f"{total}",
                         "play": f"{_short(g['matchup'])} "
                                 f"{'U' if side == 'under' else 'O'}{_num(total)}",
@@ -120,6 +146,7 @@ def qualifiers(payload, verdicts, msum_table):
                 and u_ml is not None:
             out.append({
                 "rule": "form-under",
+                "gamePk": gid, "commence": g.get("commence"),
                 "matchup": g["matchup"], "key": f"{total}",
                 "play": f"{_short(g['matchup'])} U{_num(total)}",
                 "market": "totals", "line": total, "price": int(u_ml),
@@ -146,6 +173,7 @@ def qualifiers(payload, verdicts, msum_table):
                 continue
             out.append({
                 "rule": "mismatch-ml",
+                "gamePk": gid, "commence": g.get("commence"),
                 "matchup": g["matchup"], "key": pick,
                 "play": f"{pick} ML (mismatch {m:+.1f})",
                 "market": "h2h", "price": int(price),
@@ -164,6 +192,7 @@ def qualifiers(payload, verdicts, msum_table):
                     arm = sides[0 if better_away else 1]
                     out.append({
                         "rule": "better-arm-ml", "is_dog": is_dog,
+                "gamePk": gid, "commence": g.get("commence"),
                         "matchup": g["matchup"], "key": pick,
                         "play": f"{pick} ML ({'dog' if is_dog else 'fav'}, m_sum {msum:+.1f})",
                         "market": "h2h", "price": int(price),
@@ -177,6 +206,7 @@ def qualifiers(payload, verdicts, msum_table):
         if am and am.get("ml") is not None:
             out.append({
                 "rule": "aligned-ml",
+                "gamePk": gid, "commence": g.get("commence"),
                 "matchup": g["matchup"], "key": am["pick"],
                 "play": f"{am['pick']} ML (aligned)",
                 "market": "h2h", "price": int(am["ml"]),
@@ -206,7 +236,7 @@ def main():
     for g in payload.get("slate", []):
         by_play[g["matchup"]] = g["matchup"]
 
-    qs = qualifiers(payload, verdicts, msum_table)
+    qs = qualifiers(payload, verdicts, msum_table, game_ids())
     blob = LEDGER._load()
     # Idempotency key: one entry per (date, rule, play). A re-run never
     # duplicates and never rewrites the price already recorded.
@@ -216,7 +246,8 @@ def main():
         Deliberately NOT the play text -- hand-logged rows say
         "CWS/HOU Under 8.5" where this writes "CWS @ HOU UNDER 8.5", and
         keying on text would log both."""
-        game = (e.get("game") or "").replace("/", " @ ").strip()
+        game = (e.get("gamePk") or
+                (e.get("game") or "").replace("/", " @ ").strip())
         if e.get("market") == "totals":
             k = str(e.get("line") or "")
         else:
@@ -244,7 +275,7 @@ def main():
         }
         if q.get("line") is not None:
             entry["line"] = q["line"]
-        for extra in ("combo", "is_dog", "flagged_overlap"):
+        for extra in ("combo", "is_dog", "flagged_overlap", "gamePk", "commence"):
             if extra in q:
                 entry[extra] = q[extra]
         if status == "shadow":

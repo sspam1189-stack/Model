@@ -41,8 +41,18 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 ALLML = os.path.normpath(os.path.join(HERE, "..", "data", "mlb-all-ml.json"))
 
 
+def finals_by_id():
+    """gamePk -> settled game. The exact join, used whenever an entry has one."""
+    out = {}
+    for g in json.load(open(ALLML, encoding="utf-8")).get("games", []):
+        if g.get("gamePk") is not None and g.get("away_score") is not None \
+                and g.get("home_score") is not None:
+            out[g["gamePk"]] = g
+    return out
+
+
 def finals():
-    """(date, away, home) -> LIST of settled games.
+    """(date, away, home) -> LIST of settled games. LEGACY fallback.
 
     A list, not a single game, because doubleheaders share all three key
     parts: 2026-08-29 ARI @ SF was ARI 7-1 and then SF 7-2. Keying on one
@@ -81,17 +91,32 @@ def _teams(entry):
     return (parts[0], parts[1]) if len(parts) == 2 else (None, None)
 
 
-def grade_entry(entry, scores):
-    """(result, profit) or None when it cannot be graded yet."""
-    away, home = _teams(entry)
-    if not away or not home:
-        return None
-    games = scores.get((entry.get("date"), away, home))
-    if not games:
-        return None
-    game = _pick_game(games, entry)
+def grade_entry(entry, scores, by_id=None):
+    """(result, profit) or None when it cannot be graded yet.
+
+    Prefers the gamePk join -- exact, and immune to the doubleheader problem
+    that team names have. Rows logged before gamePk was stamped fall back to
+    (date, away, home) plus the price disambiguation below.
+    """
+    game = None
+    gid = entry.get("gamePk")
+    if gid is not None and by_id:
+        game = by_id.get(gid)
+        if game is None:
+            return None        # known id, no final yet
     if game is None:
-        return None            # doubleheader we cannot pin down; stays pending
+        away, home = _teams(entry)
+        if not away or not home:
+            return None
+        games = scores.get((entry.get("date"), away, home))
+        if not games:
+            return None
+        game = _pick_game(games, entry)
+        if game is None:
+            return None        # doubleheader we cannot pin down; stays pending
+    # Teams come from the matched GAME, not the entry text, so the h2h check
+    # below is right even when the ledger's `game` field is missing or odd.
+    away, home = game["away"], game["home"]
     a, h = game["away_score"], game["home_score"]
     price = entry.get("price")
     stake = entry.get("stake", 1.0)
@@ -126,12 +151,12 @@ def main():
     ap.add_argument("--dry-run", action="store_true")
     args = ap.parse_args()
 
-    scores = finals()
+    scores, by_id = finals(), finals_by_id()
     blob = LEDGER._load()
     pending = [e for e in blob["entries"] if e.get("result") == "pending"]
     done, skipped = [], 0
     for e in pending:
-        got = grade_entry(e, scores)
+        got = grade_entry(e, scores, by_id)
         if got is None:
             skipped += 1
             continue
