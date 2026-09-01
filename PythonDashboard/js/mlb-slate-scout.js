@@ -228,10 +228,10 @@ async function renderMLBSlateScout() {
       const label = nFlags + ' · ' + combo;
       if (side === 'under' || side === 'over') {
         underPlays.push({ s, kind: 'card', side: side === 'over' ? 'O' : 'U',
-          rule: 'Flagged · ' + label, why });
+          rule: 'Flag Plays · ' + label, why });
       } else {
         underPlays.push({ s, kind: 'dead', side: 'U',
-          rule: 'Flagged · ' + label,
+          rule: 'Flag Plays · ' + label,
           why: why + ' · this configuration measured flat or negative, not bet' });
       }
     }
@@ -355,7 +355,7 @@ async function renderMLBSlateScout() {
     const card = document.createElement('div');
     card.className = 'card card-games';
     let m = '<div class="card-title" style="padding:6px 8px">'
-      + 'Better-arm ML — m_sum ≥ +' + MSUM_ML_AT + ' '
+      + 'Better arm ML — m_sum ≥ +' + MSUM_ML_AT + ' '
       + '<span style="color:' + DIM + ';font-weight:400;font-size:11px">('
       + (live ? 'CARD' : 'SHADOW — tracked, not bet')
       + (msumTable.require_dog ? ' · dogs only' : '')

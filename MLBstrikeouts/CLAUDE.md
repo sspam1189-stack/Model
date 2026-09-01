@@ -26,7 +26,7 @@ When building a daily card from this repo's outputs, the tiers are:
    price-bucket cuts, no "backed-side blind spot" skips. Both overlay
    attempts in the week of 8/17 were wrong within 24h (NYM +122 skipped,
    won; CLE −205 cut, and the >−200 fade bucket is itself 21-4 +19.5%).
-2. **Scout O/U plays** — REBUILT 2026-08-26 on the first real backtest
+2. **Flag Plays (scout O/U)** — REBUILT 2026-08-26 on the first real backtest
    (`scripts/backtest_scout.py`, 121 games / 10 slates, graded at the
    payload's own prices against a bet-every-under baseline):
 
@@ -70,7 +70,7 @@ When building a daily card from this repo's outputs, the tiers are:
      cell cannot silently flip on a week of variance; revisit if a PLAY cell
      runs clearly negative over its next 15-20.
 
-   - **form-under — CARDED 2026-09-01 (user).** `m_sum <= -40` (both
+   - **Form under — CARDED 2026-09-01 (user).** `m_sum <= -40` (both
      starters' mismatch scores summed: both arms outclass the bats they
      face) -> bet the UNDER. **84-52 +17.2% ROI, n=136, perm p=0.005**, all
      bands positive (-40/-60/-80), both walk-forward halves positive
@@ -87,7 +87,7 @@ When building a daily card from this repo's outputs, the tiers are:
      leaking-pen overs lost money even while those games averaged 11 runs
      — the market prices pens. Shadow-track; do not card.
 
-3. **Better-arm ML — CARDED 2026-09-01 (user), dogs only.** In games where
+3. **Better arm ML — CARDED 2026-09-01 (user), dogs only.** In games where
    both starters are outclassed by the bats they face (`m_sum` = the two
    sides' mismatch scores summed, `>= +40`), back the team whose starter has
    the LOWER mismatch — but only when that team is priced at plus money.
@@ -158,7 +158,7 @@ When building a daily card from this repo's outputs, the tiers are:
    the +17.2% season figure. **That revival happened 2026-09-01** — this is
    the one rule on the board that is doing the process in the right order.
 
-5. **Aligned ML (scout ML) — CARDED 2026-09-01 (user).** One offense
+5. **Aligned ML — CARDED 2026-09-01 (user).** One offense
    hot-aligned across all four windows (>= 110) while the other is
    cold-aligned (<= 90), evaluated at this rule's own 75-PA floor
    (`ALIGNED_ML_MIN_PA`; everything else stays at 150) -> back the hot
