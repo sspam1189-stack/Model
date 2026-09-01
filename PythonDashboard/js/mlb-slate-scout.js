@@ -190,7 +190,7 @@ async function renderMLBSlateScout() {
         // grid and the ledger spell it; the Why column carries the
         // per-pitcher detail (who, and the exact flag with its count).
         underPlays.push({ s, kind: 'card', side: 'U',
-          rule: 'CARD · ' + combo + ' U', why });
+          rule: 'CARD · ' + combo, why });
       } else {
         // Rust-only is DEAD both ways per the 2,064-game as-of replay
         // (9/1): under -1.7%, over -7.1% (perm p=0.57). The cache-window
@@ -201,7 +201,7 @@ async function renderMLBSlateScout() {
       }
     }
     if (msum != null && msum <= FORM_UNDER_AT) {
-      underPlays.push({ s, kind: 'shadow', side: 'U', rule: 'SHADOW · form U',
+      underPlays.push({ s, kind: 'shadow', side: 'U', rule: 'SHADOW · form-under',
         why: 'm_sum ' + msum.toFixed(1)
           + (defSides.length ? ' · also flagged' : ' · unflagged') });
     }
@@ -211,7 +211,7 @@ async function renderMLBSlateScout() {
     // MEASURED NEGATIVE: -0.6% at +40, -8.5% at +60, vs blind-over -6.4% --
     // the market overprices hot bats. Shown dimmed as no-plays.
     if (msum != null && msum >= -FORM_UNDER_AT) {
-      underPlays.push({ s, kind: 'dead', side: 'O', rule: 'NO PLAY · form O',
+      underPlays.push({ s, kind: 'dead', side: 'O', rule: 'NO PLAY · form-over',
         why: 'm_sum +' + msum.toFixed(1) + ' · over side measured -0.6% ROI, not bet' });
     }
     // scout-ml-both-halves-aligned at its own 75-PA floor (everything else
