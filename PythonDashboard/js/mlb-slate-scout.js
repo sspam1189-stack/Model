@@ -320,17 +320,21 @@ async function renderMLBSlateScout() {
             ? 'CARDED — swingman present'
             : 'RUST — no swingman, not carded') + '</td></tr>';
       }
-      // Below 25 plays the harness refuses to call anything an edge; dim those.
+      // Below 25 plays the harness refuses to call anything an edge, so the
+      // row still says "thin" -- but only DIM it when it is also not carded.
+      // Dimming a live play made the carded stacks look retired.
       const thin = (c.under?.n || 0) < 25;
       t += '<tr style="border-top:1px solid '
-        + (rustEdge ? '#30363d' : '#161b22') + (thin ? ';opacity:.6' : '') + '">'
+        + (rustEdge ? '#30363d' : '#161b22')
+        + (thin && !c.carded ? ';opacity:.6' : '') + '">'
         + '<td style="padding:3px 6px">'
         + (c.carded ? '<span style="color:#3fb950">●</span> ' : '<span style="color:'
           + DIM + '">○</span> ')
         + esc(c.combo) + (thin ? ' <span style="color:' + DIM
           + ';font-size:10px">thin</span>' : '') + '</td>'
         + '<td style="color:' + DIM + '">' + (c.under?.n ?? 0) + '</td>'
-        + roiCell(c.under, c.carded) + roiCell(c.over, false) + '</tr>';
+        + roiCell(c.under, c.verdict === 'under')
+        + roiCell(c.over, c.verdict === 'over') + '</tr>';
     }
     t += '</tbody></table></div>'
       + '<div style="padding:6px 8px;font-size:11px;color:' + DIM + ';line-height:1.5">'
