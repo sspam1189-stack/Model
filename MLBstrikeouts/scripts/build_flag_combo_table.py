@@ -66,6 +66,55 @@ def canonical_combo(kinds):
     return "+".join(k for k in COMBO_ORDER if k in kinds)
 
 
+# PER-COMBO VERDICTS (user, 2026-09-01). Replaces the single "swingman
+# present -> under" rule with an explicit decision per configuration, taken
+# after reading the full-season grid. Recorded here rather than derived from
+# the live numbers on purpose: a verdict is a DECISION, and deriving it would
+# let a cell silently flip sides on a week of variance. `main` prints a drift
+# warning when the live ROI stops agreeing with the verdict.
+#
+# What the user accepted, and the honest caveat: this is a post-hoc carve of a
+# validated aggregate (swingman-present was 166-124 +9.1%, p=0.0047 over 290
+# games). Cells are kept or dropped on their own p-values, which is the thing
+# that produced the rust-over mirage when done to a 15-slate window. It is done
+# here on the full season, but the multiple-comparison cost is real: 16 tests
+# were scanned, so ~0.8 cells should look significant by chance.
+#
+# "under"/"over" = bet that side. None = no play.
+COMBO_VERDICTS = {
+    # Cleared the gate outright.
+    "swingman":                            "under",   # 38-23 +19.0% p=0.030
+    # Carded on the user's call at p<0.20 rather than p<0.05.
+    "swingman+opener":                     "under",   # 23-16 +13.3% p=0.118
+    "swingman+stale-window":               "over",    # 30-20 +14.7% p=0.059
+    "layoff":                              "under",   # 41-34  +4.8% p=0.199
+    # Measured and failed -- flat or worse than baseline on a real sample.
+    "swingman+layoff":                     None,      # 24-22  -0.7% p=0.438
+    "swingman+layoff+opener":              None,      # 27-23  +3.4% p=0.296
+    "opener":                              None,      # 25-21  +3.0% p=0.330
+    "stale-window":                        None,      # 42-44  -6.5% p=0.604
+    # Thin swingman stacks (n<25): no verdict of their own, played as the
+    # swingman rule until they have one. All three run +29% to +73% under.
+    "swingman+opener+stale-window":        "under",   # 13-6  +29.0% n=19
+    "swingman+layoff+stale-window":        "under",   # 10-3  +46.7% n=13
+    "swingman+layoff+opener+stale-window": "under",   # 11-1  +73.2% n=12
+    # Thin rust combos (n<=5): nothing to read, and the rust side measured
+    # dead in aggregate. No play.
+    "layoff+opener":                       None,
+    "layoff+stale-window":                 None,
+    "opener+stale-window":                 None,
+    "layoff+opener+stale-window":          None,
+}
+
+
+def verdict_for(combo):
+    """Bet side for a combo, or None. Unknown combos default to the swingman
+    rule so a never-before-seen flag mix still behaves sensibly."""
+    if combo in COMBO_VERDICTS:
+        return COMBO_VERDICTS[combo]
+    return "under" if CARD_REQUIRES in combo.split("+") else None
+
+
 def profit(ml, won):
     if not won:
         return -1.0
@@ -141,11 +190,13 @@ def main():
     out_combos = []
     for combo, arr in combos.items():
         kinds = combo.split("+")
+        side = verdict_for(combo)
         out_combos.append({
             "combo": combo,
             "kinds": kinds,
-            # A combo is on the card when it satisfies the live rule.
-            "carded": CARD_REQUIRES in kinds,
+            # The carded side for this configuration, or None for no play.
+            "verdict": side,
+            "carded": side is not None,
             "under": summarize(arr, "pu"),
             "over": summarize(arr, "po"),
         })
@@ -173,6 +224,8 @@ def main():
         "games": {"gradeable": len(rows), "flagged": len(flagged),
                   "pushes_dropped": pushes},
         "card_requires": CARD_REQUIRES,
+        "verdicts": {k: v for k, v in COMBO_VERDICTS.items()},
+        "verdicts_from": "2026-09-01",
         "note": ("Flags replayed as-of each game date from the pitcher game logs "
                  "(not from payload snapshots, which only start 2026-08-17 and "
                  "produced the rust-over mirage). Graded at the payload's own "

@@ -1,7 +1,7 @@
 {
  "sport": "MLB",
  "type": "flag-combo-table",
- "generated": "2026-09-01T20:03:38Z",
+ "generated": "2026-09-01T20:15:00Z",
  "span": {
   "from": "2026-03-26",
   "to": "2026-08-31"
@@ -12,6 +12,24 @@
   "pushes_dropped": 54
  },
  "card_requires": "swingman",
+ "verdicts": {
+  "swingman": "under",
+  "swingman+opener": "under",
+  "swingman+stale-window": "over",
+  "layoff": "under",
+  "swingman+layoff": null,
+  "swingman+layoff+opener": null,
+  "opener": null,
+  "stale-window": null,
+  "swingman+opener+stale-window": "under",
+  "swingman+layoff+stale-window": "under",
+  "swingman+layoff+opener+stale-window": "under",
+  "layoff+opener": null,
+  "layoff+stale-window": null,
+  "opener+stale-window": null,
+  "layoff+opener+stale-window": null
+ },
+ "verdicts_from": "2026-09-01",
  "note": "Flags replayed as-of each game date from the pitcher game logs (not from payload snapshots, which only start 2026-08-17 and produced the rust-over mirage). Graded at the payload's own over_ml/under_ml, 1u risk. A combo row counts a game once, under its exact flag set; a flag row counts a game under every flag it carries, so flag rows overlap and combo rows do not.",
  "baselines": {
   "under": {
@@ -35,6 +53,7 @@
    "kinds": [
     "swingman"
    ],
+   "verdict": "under",
    "carded": true,
    "under": {
     "w": 38,
@@ -57,7 +76,8 @@
     "swingman",
     "layoff"
    ],
-   "carded": true,
+   "verdict": null,
+   "carded": false,
    "under": {
     "w": 24,
     "l": 22,
@@ -80,7 +100,8 @@
     "layoff",
     "opener"
    ],
-   "carded": true,
+   "verdict": null,
+   "carded": false,
    "under": {
     "w": 27,
     "l": 23,
@@ -104,6 +125,7 @@
     "opener",
     "stale-window"
    ],
+   "verdict": "under",
    "carded": true,
    "under": {
     "w": 11,
@@ -127,6 +149,7 @@
     "layoff",
     "stale-window"
    ],
+   "verdict": "under",
    "carded": true,
    "under": {
     "w": 10,
@@ -149,6 +172,7 @@
     "swingman",
     "opener"
    ],
+   "verdict": "under",
    "carded": true,
    "under": {
     "w": 23,
@@ -172,6 +196,7 @@
     "opener",
     "stale-window"
    ],
+   "verdict": "under",
    "carded": true,
    "under": {
     "w": 13,
@@ -194,6 +219,7 @@
     "swingman",
     "stale-window"
    ],
+   "verdict": "over",
    "carded": true,
    "under": {
     "w": 20,
@@ -215,7 +241,8 @@
    "kinds": [
     "layoff"
    ],
-   "carded": false,
+   "verdict": "under",
+   "carded": true,
    "under": {
     "w": 41,
     "l": 34,
@@ -237,6 +264,7 @@
     "layoff",
     "opener"
    ],
+   "verdict": null,
    "carded": false,
    "under": {
     "w": 3,
@@ -260,6 +288,7 @@
     "opener",
     "stale-window"
    ],
+   "verdict": null,
    "carded": false,
    "under": {
     "w": 1,
@@ -282,6 +311,7 @@
     "layoff",
     "stale-window"
    ],
+   "verdict": null,
    "carded": false,
    "under": {
     "w": 0,
@@ -303,6 +333,7 @@
    "kinds": [
     "opener"
    ],
+   "verdict": null,
    "carded": false,
    "under": {
     "w": 25,
@@ -325,6 +356,7 @@
     "opener",
     "stale-window"
    ],
+   "verdict": null,
    "carded": false,
    "under": {
     "w": 1,
@@ -346,6 +378,7 @@
    "kinds": [
     "stale-window"
    ],
+   "verdict": null,
    "carded": false,
    "under": {
     "w": 42,

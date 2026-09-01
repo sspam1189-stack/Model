@@ -37,40 +37,38 @@ When building a daily card from this repo's outputs, the tiers are:
      battery to clear 25 plays AND beat its baseline. Retiring this clause
      on 8/25 was exactly backwards and the amendment went 0-2 immediately.
      It is restored as the primary condition.
-   - **AMENDED 2026-09-02 (user): the card requires a SWINGMAN flag.** The
-     9/1 decomposition (200 games / 15 slates) split the rule cleanly:
-     every combo containing swingman ran **27-5 +61.6%** (positive in both
-     walk-forward halves, +59.1%/+64.9%; the subset beat 4,000/4,000
-     random same-size flagged subsets), while rust-only qualifiers —
-     layoff/stale-window/opener with NO swingman anywhere — ran **9-24
-     −47.7%**, negative in both halves. The mechanism matches role_flags'
-     own docstring: swingman means the start-line gap was filled with
-     relief work (arm current, market line stale → overpriced total);
-     a solo layoff/stale window is genuine absence, real rust, and those
-     games score. The FULL-SEASON as-of replay (2,064 games, flags rebuilt
-     from the pitcher game logs, run the same day at the user's push)
-     sized both halves honestly: **swingman under 166-124 +9.1% ROI
-     (n=290, perm p=0.0047, +12.6pts over baseline, improving through the
-     season: +9.3% Jul, +30% Aug)** — the card's live expectation is
-     single digits, not the cache window's +61.6%. And it KILLED the
-     rust-over flip the cache had briefly justified: **rust-only is dead
-     BOTH ways full-season** (under −1.7%, over −7.1%, perm p=0.57; the
-     24-9 over was a two-week mirage — monthly it ran +18 Apr then
-     −10..−22 May-Jul). Rust games are fairly priced; no rust bets, no
-     rust shadow. All three expressions stay registered in the battery
-     (`flagged_swingman_under` / `flagged_rust_only_under` /
-     `rust_only_over`) so the cache-window numbers can never look
-     convincing again. Unlike the 8/25 amendment (made same-day off two
-     games), this one cleared the full gate before touching the card —
-     and the full-season replay is now the required final step for any
-     flag-rule change: the 15-slate cache alone endorsed a dead rule.
-   - **The four-window ladder is CONTEXT, not a trigger.** It has no
-     measurable relationship to runs: cold-aligned offenses scored 4.64
-     runs a game, hot-aligned 4.50, mid 4.07 — flat to inverted. Betting
-     the largest ladder sample (any cold-aligned side, n=32) returned
-     −0.4 points against baseline. A ladder may support or temper a
-     flagged read; it may never create one, and a hot L7 is not evidence
-     of anything (median L7 = 125 PA; see MIN_WINDOW_PA).
+   - **AMENDED 2026-09-01 (user), live the same day: PER-COMBO VERDICTS.**
+     The single "swingman present -> under" rule is replaced by an explicit
+     decision per flag configuration, read off the full-season grid
+     (`scripts/build_flag_combo_table.py`, 510 flagged of 2,010 gradeable,
+     flags replayed as-of from the pitcher logs). The verdicts live in
+     `COMBO_VERDICTS` in that script and ride into the payload, so the
+     dashboard and the card cannot disagree:
+
+       PLAY UNDER  swingman (38-23 +19.0% p=0.030) · swingman+opener
+                   (23-16 +13.3% p=0.118) · layoff alone (41-34 +4.8%
+                   p=0.199) · the three thin swingman stacks, which run
+                   +29% to +73% and are played as the swingman rule until
+                   they reach n=25
+       PLAY OVER   swingman+stale-window (30-20 +14.7% p=0.059) -- the
+                   contrarian cell: swingman says the arm is current,
+                   stale-window says his line is two months old
+       NO PLAY     swingman+layoff (-0.7%) · swingman+layoff+opener (+3.4%)
+                   · opener alone (+3.0%) · stale-window alone (-6.5%) ·
+                   every rust combo at n<=5
+
+     **The honest caveat, recorded because it is the whole risk:** this is a
+     post-hoc carve of a validated aggregate. "Swingman present" was 166-124
+     +9.1% at p=0.0047 over 290 games; keeping the cells that looked good and
+     dropping the ones that did not is the same move that produced the
+     rust-over mirage, done here on the full season instead of a 15-slate
+     window. 16 tests were scanned, so ~0.8 cells should look significant by
+     chance, and three of the four PLAY cells sit at p between 0.06 and 0.20 --
+     they are carded on the user's call, not because they cleared the gate.
+     Verdicts are stored as constants, never derived from live numbers, so a
+     cell cannot silently flip on a week of variance; revisit if a PLAY cell
+     runs clearly negative over its next 15-20.
+
    - **Bullpen L7 is the strongest descriptive field but is NOT yet
      bettable**: it separates runs cleanly (hot pens allow 3.39, leaking
      pens 5.09) yet every rule built on it is still under 25 plays, and

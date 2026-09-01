@@ -187,21 +187,26 @@ async function renderMLBSlateScout() {
       // is the tier the combo grid groups by, so a row can be placed at a
       // glance without counting plus signs.
       const nFlags = combo ? combo.split('+').length : 0;
-      const amended = (data.date || '') >= '2026-09-02';
-      const hasSwing = combo.startsWith('swingman');
-      if (!amended || hasSwing) {
-        // Name the combo in the chip itself, spelled exactly as the combo
-        // grid and the ledger spell it; the Why column carries the
-        // per-pitcher detail (who, and the exact flag with its count).
-        underPlays.push({ s, kind: 'card', side: 'U',
-          rule: 'CARD · ' + nFlags + ' · ' + combo, why });
+      // PER-COMBO VERDICTS, live from 2026-09-01 (user). The bet side comes
+      // from the daily-rebuilt table's `verdicts` map -- swingman alone and
+      // swingman+opener and the thin stacks play the under, swingman+
+      // stale-window plays the OVER, swingman+layoff / swingman+layoff+opener
+      // / opener / stale-window are no plays. Falls back to the old
+      // swingman-present rule if the table is unavailable.
+      const verdicts = comboTable && comboTable.verdicts;
+      const side = verdicts
+        ? (Object.prototype.hasOwnProperty.call(verdicts, combo)
+          ? verdicts[combo]
+          : (combo.split('+').includes('swingman') ? 'under' : null))
+        : (combo.split('+').includes('swingman') ? 'under' : null);
+      const label = nFlags + ' · ' + combo;
+      if (side === 'under' || side === 'over') {
+        underPlays.push({ s, kind: 'card', side: side === 'over' ? 'O' : 'U',
+          rule: 'CARD · ' + label, why });
       } else {
-        // Rust-only is DEAD both ways per the 2,064-game as-of replay
-        // (9/1): under -1.7%, over -7.1% (perm p=0.57). The cache-window
-        // 24-9 over that briefly earned a shadow was a two-week mirage.
         underPlays.push({ s, kind: 'dead', side: 'U',
-          rule: 'NO PLAY · ' + nFlags + ' · ' + combo,
-          why: why + ' · rust-only measured dead both ways (full season), not bet' });
+          rule: 'NO PLAY · ' + label,
+          why: why + ' · this configuration measured flat or negative, not bet' });
       }
     }
     if (msum != null && msum <= FORM_UNDER_AT) {
