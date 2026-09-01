@@ -65,6 +65,16 @@ def _load(path):
         return json.load(fh)
 
 
+def _short(matchup):
+    """"SD @ CIN" -> "SD/CIN", the ledger's own convention."""
+    return matchup.replace(" @ ", "/")
+
+
+def _num(v):
+    """9.0 -> "9", 8.5 -> "8.5" -- no trailing .0 on whole numbers."""
+    return f"{v:g}"
+
+
 def _combo(sides):
     """Canonical combo string for a game's flagged sides."""
     present = [d for d in DEFECTS
@@ -102,7 +112,8 @@ def qualifiers(payload, verdicts, msum_table):
                     out.append({
                         "rule": "flag-plays", "combo": combo,
                         "matchup": g["matchup"], "key": f"{total}",
-                        "play": f"{g['matchup']} {'UNDER' if side=='under' else 'OVER'} {total}",
+                        "play": f"{_short(g['matchup'])} "
+                                f"{'U' if side == 'under' else 'O'}{_num(total)}",
                         "market": "totals", "line": total, "price": int(price),
                         "basis": f"Verdict {side} for {combo}. {who}.",
                     })
@@ -113,7 +124,7 @@ def qualifiers(payload, verdicts, msum_table):
             out.append({
                 "rule": "form-under",
                 "matchup": g["matchup"], "key": f"{total}",
-                "play": f"{g['matchup']} UNDER {total}",
+                "play": f"{_short(g['matchup'])} U{_num(total)}",
                 "market": "totals", "line": total, "price": int(u_ml),
                 "flagged_overlap": bool(flagged),
                 "basis": (f"m_sum {msum:+.1f} <= {FORM_UNDER_AT:+.0f}; both arms "
