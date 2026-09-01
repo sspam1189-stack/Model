@@ -362,6 +362,12 @@ async function renderMLBSlateScout() {
   }
   playsCard.innerHTML = phtml;
   el.appendChild(playsCard);
+  // The two "today's plays" panels sit together at the top, scout first then
+  // non-scout, so the whole actionable card is read in one place before the
+  // reference tables below it. Both are built further down (the non-scout one
+  // needs its table fetched first), so they are inserted against this anchor
+  // rather than appended in code order.
+  let playsAnchor = playsCard;
 
   // ---- Better-arm ML (m_sum >= +40) ----------------------------------------
   // Found 2026-09-01 inside the pool the dead form-over rule was sitting on:
@@ -561,7 +567,8 @@ async function renderMLBSlateScout() {
       + 'thousands of cells, so treat the p-values as screening, not proof.'
       + '</div>';
     sc.innerHTML = t;
-    el.appendChild(sc);
+    el.insertBefore(sc, playsAnchor.nextSibling);
+    playsAnchor = sc;
   }
 
   // ---- Flag-combo performance grid -----------------------------------------
@@ -801,7 +808,7 @@ async function renderMLBSlateScout() {
   }
   rhtml += '</tbody></table></div>';
   ranked.innerHTML = rhtml;
-  // Order at the top of the tab: banner, then the plays panel (the actionable
+  // Order at the top of the tab: banner, then both plays panels (the actionable
   // part), then the mismatch ranking, then the per-game table.
-  el.insertBefore(ranked, playsCard.nextSibling);
+  el.insertBefore(ranked, playsAnchor.nextSibling);
 }
