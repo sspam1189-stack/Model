@@ -1,7 +1,7 @@
 {
  "sport": "MLB",
  "type": "flag-combo-table",
- "generated": "2026-09-01T20:15:00Z",
+ "generated": "2026-09-01T20:18:06Z",
  "span": {
   "from": "2026-03-26",
   "to": "2026-08-31"
@@ -17,8 +17,8 @@
   "swingman+opener": "under",
   "swingman+stale-window": "over",
   "layoff": "under",
+  "swingman+layoff+opener": "under",
   "swingman+layoff": null,
-  "swingman+layoff+opener": null,
   "opener": null,
   "stale-window": null,
   "swingman+opener+stale-window": "under",
@@ -100,8 +100,8 @@
     "layoff",
     "opener"
    ],
-   "verdict": null,
-   "carded": false,
+   "verdict": "under",
+   "carded": true,
    "under": {
     "w": 27,
     "l": 23,

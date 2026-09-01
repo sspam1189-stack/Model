@@ -49,13 +49,13 @@ When building a daily card from this repo's outputs, the tiers are:
                    (23-16 +13.3% p=0.118) · layoff alone (41-34 +4.8%
                    p=0.199) · the three thin swingman stacks, which run
                    +29% to +73% and are played as the swingman rule until
-                   they reach n=25
+                   they reach n=25 · swingman+layoff+opener (27-23 +3.4%
+                   p=0.296, carded on the user's call over the gate)
        PLAY OVER   swingman+stale-window (30-20 +14.7% p=0.059) -- the
                    contrarian cell: swingman says the arm is current,
                    stale-window says his line is two months old
-       NO PLAY     swingman+layoff (-0.7%) · swingman+layoff+opener (+3.4%)
-                   · opener alone (+3.0%) · stale-window alone (-6.5%) ·
-                   every rust combo at n<=5
+       NO PLAY     swingman+layoff (-0.7%) · opener alone (+3.0%) ·
+                   stale-window alone (-6.5%) · every rust combo at n<=5
 
      **The honest caveat, recorded because it is the whole risk:** this is a
      post-hoc carve of a validated aggregate. "Swingman present" was 166-124
@@ -63,8 +63,9 @@ When building a daily card from this repo's outputs, the tiers are:
      dropping the ones that did not is the same move that produced the
      rust-over mirage, done here on the full season instead of a 15-slate
      window. 16 tests were scanned, so ~0.8 cells should look significant by
-     chance, and three of the four PLAY cells sit at p between 0.06 and 0.20 --
-     they are carded on the user's call, not because they cleared the gate.
+     chance, and only ONE of the eight PLAY cells (swingman alone, p=0.030)
+     actually cleared the gate -- the rest are carded on the user's call at
+     p=0.06 to 0.30, or on samples too thin to test at all.
      Verdicts are stored as constants, never derived from live numbers, so a
      cell cannot silently flip on a week of variance; revisit if a PLAY cell
      runs clearly negative over its next 15-20.

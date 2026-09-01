@@ -88,9 +88,13 @@ COMBO_VERDICTS = {
     "swingman+opener":                     "under",   # 23-16 +13.3% p=0.118
     "swingman+stale-window":               "over",    # 30-20 +14.7% p=0.059
     "layoff":                              "under",   # 41-34  +4.8% p=0.199
+    # Carded 2026-09-01 (user) despite failing the gate: +3.4% beats the
+    # -3.5% under baseline by ~7pts but p=0.296, i.e. three runs in ten look
+    # this good by chance. The over side of the same cell is -12.4%, so the
+    # direction at least agrees with every other swingman combo.
+    "swingman+layoff+opener":              "under",   # 27-23  +3.4% p=0.296
     # Measured and failed -- flat or worse than baseline on a real sample.
     "swingman+layoff":                     None,      # 24-22  -0.7% p=0.438
-    "swingman+layoff+opener":              None,      # 27-23  +3.4% p=0.296
     "opener":                              None,      # 25-21  +3.0% p=0.330
     "stale-window":                        None,      # 42-44  -6.5% p=0.604
     # Thin swingman stacks (n<25): no verdict of their own, played as the
