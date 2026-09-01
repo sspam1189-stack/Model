@@ -3,7 +3,7 @@
   "type": "scout-card-log",
   "week_convention": "monday-sunday",
   "description": "Per-play ledger for scout card calls (tier 2/3 of the daily card policy in MLBstrikeouts/CLAUDE.md). Model plays are NOT logged here - fade-ml/props/hand-tails keep their own files. No-play days are logged too: an empty card is part of the record. Prices are the card-time quote, not the close.",
-  "generated": "2026-09-01T20:48:04Z",
+  "generated": "2026-09-01T21:01:57Z",
   "pre_log_history": [
     {
       "date": "2026-08-17",
@@ -47,11 +47,14 @@
       "game": "LAA @ CIN",
       "price": -108,
       "stake": 1.0,
-      "rule": "shadow-mismatch-ml",
+      "rule": "mismatch-ml",
       "basis": "Backfilled tail at L20 mismatch -47.5. Not wagered.",
       "result": "WIN",
       "profit": 0.93,
-      "backfilled": true
+      "backfilled": true,
+      "rule_legacy": "shadow-mismatch-ml",
+      "gamePk": 824533,
+      "commence": "2026-04-12T17:40:00Z"
     },
     {
       "date": "2026-04-12",
@@ -60,11 +63,14 @@
       "game": "NYY @ TB",
       "price": -142,
       "stake": 1.0,
-      "rule": "shadow-mismatch-ml",
+      "rule": "mismatch-ml",
       "basis": "Backfilled tail at L20 mismatch -50.3. Not wagered.",
       "result": "LOSS",
       "profit": -1.0,
-      "backfilled": true
+      "backfilled": true,
+      "rule_legacy": "shadow-mismatch-ml",
+      "gamePk": 822998,
+      "commence": "2026-04-12T17:40:00Z"
     },
     {
       "date": "2026-04-12",
@@ -73,11 +79,14 @@
       "game": "CWS @ KC",
       "price": 152,
       "stake": 1.0,
-      "rule": "shadow-mismatch-ml",
+      "rule": "mismatch-ml",
       "basis": "Backfilled tail at L20 mismatch -49.2. Not wagered.",
       "result": "WIN",
       "profit": 1.52,
-      "backfilled": true
+      "backfilled": true,
+      "rule_legacy": "shadow-mismatch-ml",
+      "gamePk": 824126,
+      "commence": "2026-04-12T18:10:00Z"
     },
     {
       "date": "2026-04-14",
@@ -86,11 +95,14 @@
       "game": "TOR @ MIL",
       "price": 102,
       "stake": 1.0,
-      "rule": "shadow-mismatch-ml",
+      "rule": "mismatch-ml",
       "basis": "Backfilled tail at L20 mismatch -50.6. Not wagered.",
       "result": "WIN",
       "profit": 1.02,
-      "backfilled": true
+      "backfilled": true,
+      "rule_legacy": "shadow-mismatch-ml",
+      "gamePk": 823802,
+      "commence": "2026-04-14T23:40:00Z"
     },
     {
       "date": "2026-04-14",
@@ -99,11 +111,14 @@
       "game": "COL @ HOU",
       "price": -168,
       "stake": 1.0,
-      "rule": "shadow-mismatch-ml",
+      "rule": "mismatch-ml",
       "basis": "Backfilled fade at L20 mismatch +59.6. Not wagered.",
       "result": "WIN",
       "profit": 0.6,
-      "backfilled": true
+      "backfilled": true,
+      "rule_legacy": "shadow-mismatch-ml",
+      "gamePk": 824210,
+      "commence": "2026-04-15T00:10:00Z"
     },
     {
       "date": "2026-04-15",
@@ -112,11 +127,14 @@
       "game": "CHC @ PHI",
       "price": 122,
       "stake": 1.0,
-      "rule": "shadow-mismatch-ml",
+      "rule": "mismatch-ml",
       "basis": "Backfilled tail at L20 mismatch -45.6. Not wagered.",
       "result": "WIN",
       "profit": 1.22,
-      "backfilled": true
+      "backfilled": true,
+      "rule_legacy": "shadow-mismatch-ml",
+      "gamePk": 823477,
+      "commence": "2026-04-15T22:40:00Z"
     },
     {
       "date": "2026-04-17",
@@ -125,11 +143,14 @@
       "game": "SD @ LAA",
       "price": -130,
       "stake": 1.0,
-      "rule": "shadow-mismatch-ml",
+      "rule": "mismatch-ml",
       "basis": "Backfilled tail at L20 mismatch -45.4. Not wagered.",
       "result": "WIN",
       "profit": 0.77,
-      "backfilled": true
+      "backfilled": true,
+      "rule_legacy": "shadow-mismatch-ml",
+      "gamePk": 824048,
+      "commence": "2026-04-18T01:38:00Z"
     },
     {
       "date": "2026-04-18",
@@ -138,11 +159,14 @@
       "game": "CIN @ MIN",
       "price": -132,
       "stake": 1.0,
-      "rule": "shadow-mismatch-ml",
+      "rule": "mismatch-ml",
       "basis": "Backfilled tail at L20 mismatch -47.1. Not wagered.",
       "result": "LOSS",
       "profit": -1.0,
-      "backfilled": true
+      "backfilled": true,
+      "rule_legacy": "shadow-mismatch-ml",
+      "gamePk": 823721,
+      "commence": "2026-04-18T18:10:00Z"
     },
     {
       "date": "2026-04-18",
@@ -151,11 +175,14 @@
       "game": "LAD @ COL",
       "price": -290,
       "stake": 1.0,
-      "rule": "shadow-mismatch-ml",
+      "rule": "mismatch-ml",
       "basis": "Backfilled fade at L20 mismatch +56.4. Not wagered.",
       "result": "LOSS",
       "profit": -1.0,
-      "backfilled": true
+      "backfilled": true,
+      "rule_legacy": "shadow-mismatch-ml",
+      "gamePk": 824372,
+      "commence": "2026-04-19T00:10:00Z"
     },
     {
       "date": "2026-04-19",
@@ -164,11 +191,14 @@
       "game": "LAD @ COL",
       "price": -205,
       "stake": 1.0,
-      "rule": "shadow-mismatch-ml",
+      "rule": "mismatch-ml",
       "basis": "Backfilled fade at L20 mismatch +61.7. Not wagered.",
       "result": "LOSS",
       "profit": -1.0,
-      "backfilled": true
+      "backfilled": true,
+      "rule_legacy": "shadow-mismatch-ml",
+      "gamePk": 824371,
+      "commence": "2026-04-19T19:10:00Z"
     },
     {
       "date": "2026-04-21",
@@ -177,11 +207,14 @@
       "game": "PHI @ CHC",
       "price": -126,
       "stake": 1.0,
-      "rule": "shadow-mismatch-ml",
+      "rule": "mismatch-ml",
       "basis": "Backfilled tail at L20 mismatch -59.1. Not wagered.",
       "result": "WIN",
       "profit": 0.79,
-      "backfilled": true
+      "backfilled": true,
+      "rule_legacy": "shadow-mismatch-ml",
+      "gamePk": 824690,
+      "commence": "2026-04-21T23:40:00Z"
     },
     {
       "date": "2026-04-22",
@@ -190,11 +223,14 @@
       "game": "TOR @ LAA",
       "price": -154,
       "stake": 1.0,
-      "rule": "shadow-mismatch-ml",
+      "rule": "mismatch-ml",
       "basis": "Backfilled tail at L20 mismatch -47.7. Not wagered.",
       "result": "WIN",
       "profit": 0.65,
-      "backfilled": true
+      "backfilled": true,
+      "rule_legacy": "shadow-mismatch-ml",
+      "gamePk": 824044,
+      "commence": "2026-04-22T19:07:00Z"
     },
     {
       "date": "2026-05-03",
@@ -203,11 +239,14 @@
       "game": "ARI @ CHC",
       "price": -158,
       "stake": 1.0,
-      "rule": "shadow-mismatch-ml",
+      "rule": "mismatch-ml",
       "basis": "Backfilled fade at L20 mismatch +71.3. Not wagered.",
       "result": "WIN",
       "profit": 0.63,
-      "backfilled": true
+      "backfilled": true,
+      "rule_legacy": "shadow-mismatch-ml",
+      "gamePk": 824687,
+      "commence": "2026-05-03T18:20:00Z"
     },
     {
       "date": "2026-05-05",
@@ -216,11 +255,14 @@
       "game": "CIN @ CHC",
       "price": -166,
       "stake": 1.0,
-      "rule": "shadow-mismatch-ml",
+      "rule": "mismatch-ml",
       "basis": "Backfilled fade at L20 mismatch +66.9. Not wagered.",
       "result": "WIN",
       "profit": 0.6,
-      "backfilled": true
+      "backfilled": true,
+      "rule_legacy": "shadow-mismatch-ml",
+      "gamePk": 824682,
+      "commence": "2026-05-05T23:40:00Z"
     },
     {
       "date": "2026-05-06",
@@ -229,11 +271,14 @@
       "game": "MIN @ WSH",
       "price": -120,
       "stake": 1.0,
-      "rule": "shadow-mismatch-ml",
+      "rule": "mismatch-ml",
       "basis": "Backfilled fade at L20 mismatch +62.9. Not wagered.",
       "result": "LOSS",
       "profit": -1.0,
-      "backfilled": true
+      "backfilled": true,
+      "rule_legacy": "shadow-mismatch-ml",
+      "gamePk": 822740,
+      "commence": "2026-05-06T22:45:00Z"
     },
     {
       "date": "2026-05-13",
@@ -242,11 +287,14 @@
       "game": "SD @ MIL",
       "price": -156,
       "stake": 1.0,
-      "rule": "shadow-mismatch-ml",
+      "rule": "mismatch-ml",
       "basis": "Backfilled tail at L20 mismatch -48.7. Not wagered.",
       "result": "LOSS",
       "profit": -1.0,
-      "backfilled": true
+      "backfilled": true,
+      "rule_legacy": "shadow-mismatch-ml",
+      "gamePk": 823791,
+      "commence": "2026-05-13T23:40:00Z"
     },
     {
       "date": "2026-05-19",
@@ -255,11 +303,14 @@
       "game": "MIL @ CHC",
       "price": -118,
       "stake": 1.0,
-      "rule": "shadow-mismatch-ml",
+      "rule": "mismatch-ml",
       "basis": "Backfilled tail at L20 mismatch -46.1. Not wagered.",
       "result": "WIN",
       "profit": 0.85,
-      "backfilled": true
+      "backfilled": true,
+      "rule_legacy": "shadow-mismatch-ml",
+      "gamePk": 824677,
+      "commence": "2026-05-19T23:40:00Z"
     },
     {
       "date": "2026-05-19",
@@ -268,11 +319,14 @@
       "game": "LAD @ SD",
       "price": -156,
       "stake": 1.0,
-      "rule": "shadow-mismatch-ml",
+      "rule": "mismatch-ml",
       "basis": "Backfilled fade at L20 mismatch +59.7. Not wagered.",
       "result": "WIN",
       "profit": 0.64,
-      "backfilled": true
+      "backfilled": true,
+      "rule_legacy": "shadow-mismatch-ml",
+      "gamePk": 823302,
+      "commence": "2026-05-20T01:40:00Z"
     },
     {
       "date": "2026-05-20",
@@ -281,11 +335,14 @@
       "game": "LAD @ SD",
       "price": -196,
       "stake": 1.0,
-      "rule": "shadow-mismatch-ml",
+      "rule": "mismatch-ml",
       "basis": "Backfilled tail at L20 mismatch -53.6. Not wagered.",
       "result": "WIN",
       "profit": 0.51,
-      "backfilled": true
+      "backfilled": true,
+      "rule_legacy": "shadow-mismatch-ml",
+      "gamePk": 823299,
+      "commence": "2026-05-21T00:40:00Z"
     },
     {
       "date": "2026-05-25",
@@ -294,11 +351,14 @@
       "game": "STL @ MIL",
       "price": -220,
       "stake": 1.0,
-      "rule": "shadow-mismatch-ml",
+      "rule": "mismatch-ml",
       "basis": "Backfilled tail at L20 mismatch -49.8. Not wagered.",
       "result": "WIN",
       "profit": 0.45,
-      "backfilled": true
+      "backfilled": true,
+      "rule_legacy": "shadow-mismatch-ml",
+      "gamePk": 823784,
+      "commence": "2026-05-25T18:10:00Z"
     },
     {
       "date": "2026-05-26",
@@ -307,11 +367,14 @@
       "game": "CIN @ NYM",
       "price": -120,
       "stake": 1.0,
-      "rule": "shadow-mismatch-ml",
+      "rule": "mismatch-ml",
       "basis": "Backfilled fade at L20 mismatch +56.5. Not wagered.",
       "result": "WIN",
       "profit": 0.83,
-      "backfilled": true
+      "backfilled": true,
+      "rule_legacy": "shadow-mismatch-ml",
+      "gamePk": 823624,
+      "commence": "2026-05-26T23:10:00Z"
     },
     {
       "date": "2026-05-27",
@@ -320,11 +383,14 @@
       "game": "COL @ LAD",
       "price": -420,
       "stake": 1.0,
-      "rule": "shadow-mismatch-ml",
+      "rule": "mismatch-ml",
       "basis": "Backfilled tail at L20 mismatch -47.2. Not wagered.",
       "result": "WIN",
       "profit": 0.24,
-      "backfilled": true
+      "backfilled": true,
+      "rule_legacy": "shadow-mismatch-ml",
+      "gamePk": 823947,
+      "commence": "2026-05-28T02:10:00Z"
     },
     {
       "date": "2026-05-28",
@@ -333,11 +399,14 @@
       "game": "MIN @ CWS",
       "price": -178,
       "stake": 1.0,
-      "rule": "shadow-mismatch-ml",
+      "rule": "mismatch-ml",
       "basis": "Backfilled fade at L20 mismatch +70.5. Not wagered.",
       "result": "WIN",
       "profit": 0.56,
-      "backfilled": true
+      "backfilled": true,
+      "rule_legacy": "shadow-mismatch-ml",
+      "gamePk": 824595,
+      "commence": "2026-05-28T18:10:00Z"
     },
     {
       "date": "2026-05-31",
@@ -346,11 +415,14 @@
       "game": "MIL @ HOU",
       "price": -200,
       "stake": 1.0,
-      "rule": "shadow-mismatch-ml",
+      "rule": "mismatch-ml",
       "basis": "Backfilled tail at L20 mismatch -66.5. Not wagered.",
       "result": "WIN",
       "profit": 0.5,
-      "backfilled": true
+      "backfilled": true,
+      "rule_legacy": "shadow-mismatch-ml",
+      "gamePk": 824187,
+      "commence": "2026-05-31T18:10:00Z"
     },
     {
       "date": "2026-05-31",
@@ -359,11 +431,14 @@
       "game": "NYY @ OAK",
       "price": -176,
       "stake": 1.0,
-      "rule": "shadow-mismatch-ml",
+      "rule": "mismatch-ml",
       "basis": "Backfilled fade at L20 mismatch +63.8. Not wagered.",
       "result": "WIN",
       "profit": 0.57,
-      "backfilled": true
+      "backfilled": true,
+      "rule_legacy": "shadow-mismatch-ml",
+      "gamePk": 825001,
+      "commence": "2026-05-31T20:05:00Z"
     },
     {
       "date": "2026-06-03",
@@ -372,11 +447,14 @@
       "game": "SD @ PHI",
       "price": -230,
       "stake": 1.0,
-      "rule": "shadow-mismatch-ml",
+      "rule": "mismatch-ml",
       "basis": "Backfilled tail at L20 mismatch -64.8. Not wagered.",
       "result": "WIN",
       "profit": 0.43,
-      "backfilled": true
+      "backfilled": true,
+      "rule_legacy": "shadow-mismatch-ml",
+      "gamePk": 823456,
+      "commence": "2026-06-03T22:40:00Z"
     },
     {
       "date": "2026-06-04",
@@ -385,11 +463,14 @@
       "game": "BAL @ BOS",
       "price": -116,
       "stake": 1.0,
-      "rule": "shadow-mismatch-ml",
+      "rule": "mismatch-ml",
       "basis": "Backfilled fade at L20 mismatch +73.6. Not wagered.",
       "result": "LOSS",
       "profit": -1.0,
-      "backfilled": true
+      "backfilled": true,
+      "rule_legacy": "shadow-mismatch-ml",
+      "gamePk": 824753,
+      "commence": "2026-06-04T17:35:00Z"
     },
     {
       "date": "2026-06-04",
@@ -398,11 +479,14 @@
       "game": "BAL @ BOS",
       "price": -102,
       "stake": 1.0,
-      "rule": "shadow-mismatch-ml",
+      "rule": "mismatch-ml",
       "basis": "Backfilled fade at L20 mismatch +58.9. Not wagered.",
       "result": "WIN",
       "profit": 0.98,
-      "backfilled": true
+      "backfilled": true,
+      "rule_legacy": "shadow-mismatch-ml",
+      "gamePk": 824753,
+      "commence": "2026-06-04T17:35:00Z"
     },
     {
       "date": "2026-06-06",
@@ -411,11 +495,14 @@
       "game": "BAL @ TOR",
       "price": -112,
       "stake": 1.0,
-      "rule": "shadow-mismatch-ml",
+      "rule": "mismatch-ml",
       "basis": "Backfilled tail at L20 mismatch -52.3. Not wagered.",
       "result": "WIN",
       "profit": 0.89,
-      "backfilled": true
+      "backfilled": true,
+      "rule_legacy": "shadow-mismatch-ml",
+      "gamePk": 822808,
+      "commence": "2026-06-06T19:07:00Z"
     },
     {
       "date": "2026-06-06",
@@ -424,11 +511,14 @@
       "game": "MIL @ COL",
       "price": -300,
       "stake": 1.0,
-      "rule": "shadow-mismatch-ml",
+      "rule": "mismatch-ml",
       "basis": "Backfilled tail at L20 mismatch -57.9. Not wagered.",
       "result": "WIN",
       "profit": 0.33,
-      "backfilled": true
+      "backfilled": true,
+      "rule_legacy": "shadow-mismatch-ml",
+      "gamePk": 824351,
+      "commence": "2026-06-07T01:10:00Z"
     },
     {
       "date": "2026-06-06",
@@ -437,11 +527,14 @@
       "game": "LAA @ LAD",
       "price": -350,
       "stake": 1.0,
-      "rule": "shadow-mismatch-ml",
+      "rule": "mismatch-ml",
       "basis": "Backfilled fade at L20 mismatch +63.3. Not wagered.",
       "result": "WIN",
       "profit": 0.29,
-      "backfilled": true
+      "backfilled": true,
+      "rule_legacy": "shadow-mismatch-ml",
+      "gamePk": 823942,
+      "commence": "2026-06-07T02:10:00Z"
     },
     {
       "date": "2026-06-07",
@@ -450,11 +543,14 @@
       "game": "PIT @ ATL",
       "price": 128,
       "stake": 1.0,
-      "rule": "shadow-mismatch-ml",
+      "rule": "mismatch-ml",
       "basis": "Backfilled tail at L20 mismatch -75.8. Not wagered.",
       "result": "LOSS",
       "profit": -1.0,
-      "backfilled": true
+      "backfilled": true,
+      "rule_legacy": "shadow-mismatch-ml",
+      "gamePk": 824916,
+      "commence": "2026-06-07T17:35:00Z"
     },
     {
       "date": "2026-06-09",
@@ -463,11 +559,14 @@
       "game": "CIN @ SD",
       "price": -130,
       "stake": 1.0,
-      "rule": "shadow-mismatch-ml",
+      "rule": "mismatch-ml",
       "basis": "Backfilled tail at L20 mismatch -49.3. Not wagered.",
       "result": "WIN",
       "profit": 0.77,
-      "backfilled": true
+      "backfilled": true,
+      "rule_legacy": "shadow-mismatch-ml",
+      "gamePk": 823290,
+      "commence": "2026-06-10T01:40:00Z"
     },
     {
       "date": "2026-06-12",
@@ -476,11 +575,14 @@
       "game": "PHI @ MIL",
       "price": -245,
       "stake": 1.0,
-      "rule": "shadow-mismatch-ml",
+      "rule": "mismatch-ml",
       "basis": "Backfilled tail at L20 mismatch -60.3. Not wagered.",
       "result": "WIN",
       "profit": 0.41,
-      "backfilled": true
+      "backfilled": true,
+      "rule_legacy": "shadow-mismatch-ml",
+      "gamePk": 823778,
+      "commence": "2026-06-12T23:40:00Z"
     },
     {
       "date": "2026-06-13",
@@ -489,11 +591,14 @@
       "game": "COL @ OAK",
       "price": -162,
       "stake": 1.0,
-      "rule": "shadow-mismatch-ml",
+      "rule": "mismatch-ml",
       "basis": "Backfilled fade at L20 mismatch +78.2. Not wagered.",
       "result": "WIN",
       "profit": 0.62,
-      "backfilled": true
+      "backfilled": true,
+      "rule_legacy": "shadow-mismatch-ml",
+      "gamePk": 824995,
+      "commence": "2026-06-14T02:05:00Z"
     },
     {
       "date": "2026-06-14",
@@ -502,11 +607,14 @@
       "game": "LAD @ CWS",
       "price": 164,
       "stake": 1.0,
-      "rule": "shadow-mismatch-ml",
+      "rule": "mismatch-ml",
       "basis": "Backfilled tail at L20 mismatch -48.1. Not wagered.",
       "result": "WIN",
       "profit": 1.64,
-      "backfilled": true
+      "backfilled": true,
+      "rule_legacy": "shadow-mismatch-ml",
+      "gamePk": 824586,
+      "commence": "2026-06-14T18:10:00Z"
     },
     {
       "date": "2026-06-17",
@@ -515,11 +623,14 @@
       "game": "KC @ WSH",
       "price": -126,
       "stake": 1.0,
-      "rule": "shadow-mismatch-ml",
+      "rule": "mismatch-ml",
       "basis": "Backfilled fade at L20 mismatch +63.2. Not wagered.",
       "result": "LOSS",
       "profit": -1.0,
-      "backfilled": true
+      "backfilled": true,
+      "rule_legacy": "shadow-mismatch-ml",
+      "gamePk": 822721,
+      "commence": "2026-06-17T17:05:00Z"
     },
     {
       "date": "2026-06-17",
@@ -528,11 +639,14 @@
       "game": "TOR @ BOS",
       "price": 104,
       "stake": 1.0,
-      "rule": "shadow-mismatch-ml",
+      "rule": "mismatch-ml",
       "basis": "Backfilled tail at L20 mismatch -51.3. Not wagered.",
       "result": "WIN",
       "profit": 1.04,
-      "backfilled": true
+      "backfilled": true,
+      "rule_legacy": "shadow-mismatch-ml",
+      "gamePk": 824746,
+      "commence": "2026-06-17T22:45:00Z"
     },
     {
       "date": "2026-06-19",
@@ -541,11 +655,14 @@
       "game": "MIL @ ATL",
       "price": -168,
       "stake": 1.0,
-      "rule": "shadow-mismatch-ml",
+      "rule": "mismatch-ml",
       "basis": "Backfilled tail at L20 mismatch -69.7. Not wagered.",
       "result": "LOSS",
       "profit": -1.0,
-      "backfilled": true
+      "backfilled": true,
+      "rule_legacy": "shadow-mismatch-ml",
+      "gamePk": 824910,
+      "commence": "2026-06-19T23:15:00Z"
     },
     {
       "date": "2026-06-23",
@@ -554,11 +671,14 @@
       "game": "CHC @ NYM",
       "price": -108,
       "stake": 1.0,
-      "rule": "shadow-mismatch-ml",
+      "rule": "mismatch-ml",
       "basis": "Backfilled fade at L20 mismatch +70.8. Not wagered.",
       "result": "WIN",
       "profit": 0.93,
-      "backfilled": true
+      "backfilled": true,
+      "rule_legacy": "shadow-mismatch-ml",
+      "gamePk": 823614,
+      "commence": "2026-06-23T23:10:00Z"
     },
     {
       "date": "2026-06-23",
@@ -567,11 +687,14 @@
       "game": "OAK @ SF",
       "price": 120,
       "stake": 1.0,
-      "rule": "shadow-mismatch-ml",
+      "rule": "mismatch-ml",
       "basis": "Backfilled fade at L20 mismatch +63.1. Not wagered.",
       "result": "LOSS",
       "profit": -1.0,
-      "backfilled": true
+      "backfilled": true,
+      "rule_legacy": "shadow-mismatch-ml",
+      "gamePk": 823210,
+      "commence": "2026-06-24T01:45:00Z"
     },
     {
       "date": "2026-06-25",
@@ -580,11 +703,14 @@
       "game": "OAK @ SF",
       "price": -134,
       "stake": 1.0,
-      "rule": "shadow-mismatch-ml",
+      "rule": "mismatch-ml",
       "basis": "Backfilled fade at L20 mismatch +58.6. Not wagered.",
       "result": "LOSS",
       "profit": -1.0,
-      "backfilled": true
+      "backfilled": true,
+      "rule_legacy": "shadow-mismatch-ml",
+      "gamePk": 823209,
+      "commence": "2026-06-25T19:45:00Z"
     },
     {
       "date": "2026-06-26",
@@ -593,11 +719,14 @@
       "game": "CHC @ MIL",
       "price": -250,
       "stake": 1.0,
-      "rule": "shadow-mismatch-ml",
+      "rule": "mismatch-ml",
       "basis": "Backfilled tail at L20 mismatch -45.6. Not wagered.",
       "result": "WIN",
       "profit": 0.4,
-      "backfilled": true
+      "backfilled": true,
+      "rule_legacy": "shadow-mismatch-ml",
+      "gamePk": 823773,
+      "commence": "2026-06-26T23:45:00Z"
     },
     {
       "date": "2026-06-27",
@@ -606,11 +735,14 @@
       "game": "SEA @ CLE",
       "price": -154,
       "stake": 1.0,
-      "rule": "shadow-mismatch-ml",
+      "rule": "mismatch-ml",
       "basis": "Backfilled tail at L20 mismatch -53.8. Not wagered.",
       "result": "LOSS",
       "profit": -1.0,
-      "backfilled": true
+      "backfilled": true,
+      "rule_legacy": "shadow-mismatch-ml",
+      "gamePk": 824421,
+      "commence": "2026-06-27T23:10:00Z"
     },
     {
       "date": "2026-06-27",
@@ -619,11 +751,14 @@
       "game": "ATL @ SF",
       "price": -132,
       "stake": 1.0,
-      "rule": "shadow-mismatch-ml",
+      "rule": "mismatch-ml",
       "basis": "Backfilled tail at L20 mismatch -54.2. Not wagered.",
       "result": "WIN",
       "profit": 0.76,
-      "backfilled": true
+      "backfilled": true,
+      "rule_legacy": "shadow-mismatch-ml",
+      "gamePk": 823207,
+      "commence": "2026-06-28T01:05:00Z"
     },
     {
       "date": "2026-06-30",
@@ -632,11 +767,14 @@
       "game": "LAD @ OAK",
       "price": -172,
       "stake": 1.0,
-      "rule": "shadow-mismatch-ml",
+      "rule": "mismatch-ml",
       "basis": "Backfilled fade at L20 mismatch +64.3. Not wagered.",
       "result": "WIN",
       "profit": 0.58,
-      "backfilled": true
+      "backfilled": true,
+      "rule_legacy": "shadow-mismatch-ml",
+      "gamePk": 824984,
+      "commence": "2026-07-01T01:40:00Z"
     },
     {
       "date": "2026-07-02",
@@ -645,11 +783,14 @@
       "game": "CIN @ MIL",
       "price": -205,
       "stake": 1.0,
-      "rule": "shadow-mismatch-ml",
+      "rule": "mismatch-ml",
       "basis": "Backfilled tail at L20 mismatch -60.4. Not wagered.",
       "result": "LOSS",
       "profit": -1.0,
-      "backfilled": true
+      "backfilled": true,
+      "rule_legacy": "shadow-mismatch-ml",
+      "gamePk": 823765,
+      "commence": "2026-07-02T18:10:00Z"
     },
     {
       "date": "2026-07-02",
@@ -658,11 +799,14 @@
       "game": "STL @ ATL",
       "price": 100,
       "stake": 1.0,
-      "rule": "shadow-mismatch-ml",
+      "rule": "mismatch-ml",
       "basis": "Backfilled tail at L20 mismatch -49.8. Not wagered.",
       "result": "WIN",
       "profit": 1.0,
-      "backfilled": true
+      "backfilled": true,
+      "rule_legacy": "shadow-mismatch-ml",
+      "gamePk": 824906,
+      "commence": "2026-07-02T23:15:00Z"
     },
     {
       "date": "2026-07-03",
@@ -671,11 +815,14 @@
       "game": "NYM @ ATL",
       "price": -108,
       "stake": 1.0,
-      "rule": "shadow-mismatch-ml",
+      "rule": "mismatch-ml",
       "basis": "Backfilled tail at L20 mismatch -45.6. Not wagered.",
       "result": "LOSS",
       "profit": -1.0,
-      "backfilled": true
+      "backfilled": true,
+      "rule_legacy": "shadow-mismatch-ml",
+      "gamePk": 824904,
+      "commence": "2026-07-03T23:15:00Z"
     },
     {
       "date": "2026-07-04",
@@ -684,11 +831,14 @@
       "game": "TB @ HOU",
       "price": -104,
       "stake": 1.0,
-      "rule": "shadow-mismatch-ml",
+      "rule": "mismatch-ml",
       "basis": "Backfilled tail at L20 mismatch -54.3. Not wagered.",
       "result": "LOSS",
       "profit": -1.0,
-      "backfilled": true
+      "backfilled": true,
+      "rule_legacy": "shadow-mismatch-ml",
+      "gamePk": 824171,
+      "commence": "2026-07-04T23:10:00Z"
     },
     {
       "date": "2026-07-04",
@@ -697,11 +847,14 @@
       "game": "MIA @ OAK",
       "price": -138,
       "stake": 1.0,
-      "rule": "shadow-mismatch-ml",
+      "rule": "mismatch-ml",
       "basis": "Backfilled fade at L20 mismatch +64.9. Not wagered.",
       "result": "WIN",
       "profit": 0.72,
-      "backfilled": true
+      "backfilled": true,
+      "rule_legacy": "shadow-mismatch-ml",
+      "gamePk": 824983,
+      "commence": "2026-07-05T01:40:00Z"
     },
     {
       "date": "2026-07-05",
@@ -710,11 +863,14 @@
       "game": "STL @ CHC",
       "price": -142,
       "stake": 1.0,
-      "rule": "shadow-mismatch-ml",
+      "rule": "mismatch-ml",
       "basis": "Backfilled fade at L20 mismatch +63.6. Not wagered.",
       "result": "WIN",
       "profit": 0.7,
-      "backfilled": true
+      "backfilled": true,
+      "rule_legacy": "shadow-mismatch-ml",
+      "gamePk": 824656,
+      "commence": "2026-07-05T18:30:00Z"
     },
     {
       "date": "2026-07-07",
@@ -723,11 +879,14 @@
       "game": "MIL @ STL",
       "price": -220,
       "stake": 1.0,
-      "rule": "shadow-mismatch-ml",
+      "rule": "mismatch-ml",
       "basis": "Backfilled tail at L20 mismatch -53.9. Not wagered.",
       "result": "WIN",
       "profit": 0.45,
-      "backfilled": true
+      "backfilled": true,
+      "rule_legacy": "shadow-mismatch-ml",
+      "gamePk": 823062,
+      "commence": "2026-07-07T18:15:00Z"
     },
     {
       "date": "2026-07-07",
@@ -736,11 +895,14 @@
       "game": "OAK @ DET",
       "price": -225,
       "stake": 1.0,
-      "rule": "shadow-mismatch-ml",
+      "rule": "mismatch-ml",
       "basis": "Backfilled tail at L20 mismatch -48.1. Not wagered.",
       "result": "WIN",
       "profit": 0.44,
-      "backfilled": true
+      "backfilled": true,
+      "rule_legacy": "shadow-mismatch-ml",
+      "gamePk": 824254,
+      "commence": "2026-07-07T22:40:00Z"
     },
     {
       "date": "2026-07-07",
@@ -749,11 +911,14 @@
       "game": "BOS @ CWS",
       "price": -124,
       "stake": 1.0,
-      "rule": "shadow-mismatch-ml",
+      "rule": "mismatch-ml",
       "basis": "Backfilled fade at L20 mismatch +55.9. Not wagered.",
       "result": "WIN",
       "profit": 0.81,
-      "backfilled": true
+      "backfilled": true,
+      "rule_legacy": "shadow-mismatch-ml",
+      "gamePk": 824579,
+      "commence": "2026-07-07T23:40:00Z"
     },
     {
       "date": "2026-07-09",
@@ -762,11 +927,14 @@
       "game": "NYY @ TB",
       "price": -146,
       "stake": 1.0,
-      "rule": "shadow-mismatch-ml",
+      "rule": "mismatch-ml",
       "basis": "Backfilled tail at L20 mismatch -45.3. Not wagered.",
       "result": "LOSS",
       "profit": -1.0,
-      "backfilled": true
+      "backfilled": true,
+      "rule_legacy": "shadow-mismatch-ml",
+      "gamePk": 822954,
+      "commence": "2026-07-09T17:10:00Z"
     },
     {
       "date": "2026-07-11",
@@ -775,11 +943,14 @@
       "game": "OAK @ CWS",
       "price": -122,
       "stake": 1.0,
-      "rule": "shadow-mismatch-ml",
+      "rule": "mismatch-ml",
       "basis": "Backfilled tail at L20 mismatch -51.1. Not wagered.",
       "result": "WIN",
       "profit": 0.82,
-      "backfilled": true
+      "backfilled": true,
+      "rule_legacy": "shadow-mismatch-ml",
+      "gamePk": 824576,
+      "commence": "2026-07-11T18:10:00Z"
     },
     {
       "date": "2026-07-11",
@@ -788,11 +959,14 @@
       "game": "CLE @ MIA",
       "price": -158,
       "stake": 1.0,
-      "rule": "shadow-mismatch-ml",
+      "rule": "mismatch-ml",
       "basis": "Backfilled tail at L20 mismatch -62.7. Not wagered.",
       "result": "LOSS",
       "profit": -1.0,
-      "backfilled": true
+      "backfilled": true,
+      "rule_legacy": "shadow-mismatch-ml",
+      "gamePk": 823844,
+      "commence": "2026-07-11T20:10:00Z"
     },
     {
       "date": "2026-07-12",
@@ -801,11 +975,14 @@
       "game": "HOU @ TEX",
       "price": -138,
       "stake": 1.0,
-      "rule": "shadow-mismatch-ml",
+      "rule": "mismatch-ml",
       "basis": "Backfilled fade at L20 mismatch +94.9. Not wagered.",
       "result": "WIN",
       "profit": 0.72,
-      "backfilled": true
+      "backfilled": true,
+      "rule_legacy": "shadow-mismatch-ml",
+      "gamePk": 822876,
+      "commence": "2026-07-12T18:35:00Z"
     },
     {
       "date": "2026-07-12",
@@ -814,11 +991,14 @@
       "game": "COL @ SF",
       "price": 126,
       "stake": 1.0,
-      "rule": "shadow-mismatch-ml",
+      "rule": "mismatch-ml",
       "basis": "Backfilled fade at L20 mismatch +61.4. Not wagered.",
       "result": "LOSS",
       "profit": -1.0,
-      "backfilled": true
+      "backfilled": true,
+      "rule_legacy": "shadow-mismatch-ml",
+      "gamePk": 823199,
+      "commence": "2026-07-12T20:05:00Z"
     },
     {
       "date": "2026-07-17",
@@ -827,11 +1007,14 @@
       "game": "DET @ LAA",
       "price": -116,
       "stake": 1.0,
-      "rule": "shadow-mismatch-ml",
+      "rule": "mismatch-ml",
       "basis": "Backfilled tail at L20 mismatch -45.3. Not wagered.",
       "result": "WIN",
       "profit": 0.86,
-      "backfilled": true
+      "backfilled": true,
+      "rule_legacy": "shadow-mismatch-ml",
+      "gamePk": 824009,
+      "commence": "2026-07-18T01:38:00Z"
     },
     {
       "date": "2026-07-18",
@@ -840,11 +1023,14 @@
       "game": "PIT @ CLE",
       "price": -104,
       "stake": 1.0,
-      "rule": "shadow-mismatch-ml",
+      "rule": "mismatch-ml",
       "basis": "Backfilled tail at L20 mismatch -51.5. Not wagered.",
       "result": "LOSS",
       "profit": -1.0,
-      "backfilled": true
+      "backfilled": true,
+      "rule_legacy": "shadow-mismatch-ml",
+      "gamePk": 824412,
+      "commence": "2026-07-18T23:10:00Z"
     },
     {
       "date": "2026-07-19",
@@ -853,11 +1039,14 @@
       "game": "WSH @ OAK",
       "price": -146,
       "stake": 1.0,
-      "rule": "shadow-mismatch-ml",
+      "rule": "mismatch-ml",
       "basis": "Backfilled tail at L20 mismatch -59.9. Not wagered.",
       "result": "WIN",
       "profit": 0.68,
-      "backfilled": true
+      "backfilled": true,
+      "rule_legacy": "shadow-mismatch-ml",
+      "gamePk": 824978,
+      "commence": "2026-07-19T20:05:00Z"
     },
     {
       "date": "2026-07-19",
@@ -866,11 +1055,14 @@
       "game": "WSH @ OAK",
       "price": -146,
       "stake": 1.0,
-      "rule": "shadow-mismatch-ml",
+      "rule": "mismatch-ml",
       "basis": "Backfilled fade at L20 mismatch +68.9. Not wagered.",
       "result": "WIN",
       "profit": 0.68,
-      "backfilled": true
+      "backfilled": true,
+      "rule_legacy": "shadow-mismatch-ml",
+      "gamePk": 824978,
+      "commence": "2026-07-19T20:05:00Z"
     },
     {
       "date": "2026-07-22",
@@ -879,11 +1071,14 @@
       "game": "CWS @ TEX",
       "price": -108,
       "stake": 1.0,
-      "rule": "shadow-mismatch-ml",
+      "rule": "mismatch-ml",
       "basis": "Backfilled tail at L20 mismatch -75.7. Not wagered.",
       "result": "LOSS",
       "profit": -1.0,
-      "backfilled": true
+      "backfilled": true,
+      "rule_legacy": "shadow-mismatch-ml",
+      "gamePk": 822873,
+      "commence": "2026-07-23T00:05:00Z"
     },
     {
       "date": "2026-07-24",
@@ -892,11 +1087,14 @@
       "game": "CIN @ STL",
       "price": 128,
       "stake": 1.0,
-      "rule": "shadow-mismatch-ml",
+      "rule": "mismatch-ml",
       "basis": "Backfilled fade at L20 mismatch +58.5. Not wagered.",
       "result": "WIN",
       "profit": 1.28,
-      "backfilled": true
+      "backfilled": true,
+      "rule_legacy": "shadow-mismatch-ml",
+      "gamePk": 823031,
+      "commence": "2026-07-25T00:15:00Z"
     },
     {
       "date": "2026-07-25",
@@ -905,11 +1103,14 @@
       "game": "TOR @ BOS",
       "price": -136,
       "stake": 1.0,
-      "rule": "shadow-mismatch-ml",
+      "rule": "mismatch-ml",
       "basis": "Backfilled tail at L20 mismatch -49.4. Not wagered.",
       "result": "LOSS",
       "profit": -1.0,
-      "backfilled": true
+      "backfilled": true,
+      "rule_legacy": "shadow-mismatch-ml",
+      "gamePk": 824734,
+      "commence": "2026-07-25T20:10:00Z"
     },
     {
       "date": "2026-07-26",
@@ -918,11 +1119,14 @@
       "game": "KC @ DET",
       "price": 160,
       "stake": 1.0,
-      "rule": "shadow-mismatch-ml",
+      "rule": "mismatch-ml",
       "basis": "Backfilled fade at L20 mismatch +57.0. Not wagered.",
       "result": "WIN",
       "profit": 1.6,
-      "backfilled": true
+      "backfilled": true,
+      "rule_legacy": "shadow-mismatch-ml",
+      "gamePk": 824246,
+      "commence": "2026-07-26T17:40:00Z"
     },
     {
       "date": "2026-07-26",
@@ -931,11 +1135,14 @@
       "game": "COL @ MIL",
       "price": -360,
       "stake": 1.0,
-      "rule": "shadow-mismatch-ml",
+      "rule": "mismatch-ml",
       "basis": "Backfilled tail at L20 mismatch -49.9. Not wagered.",
       "result": "WIN",
       "profit": 0.28,
-      "backfilled": true
+      "backfilled": true,
+      "rule_legacy": "shadow-mismatch-ml",
+      "gamePk": 823755,
+      "commence": "2026-07-26T18:10:00Z"
     },
     {
       "date": "2026-07-27",
@@ -944,11 +1151,14 @@
       "game": "PHI @ MIA",
       "price": -108,
       "stake": 1.0,
-      "rule": "shadow-mismatch-ml",
+      "rule": "mismatch-ml",
       "basis": "Backfilled tail at L20 mismatch -48.2. Not wagered.",
       "result": "LOSS",
       "profit": -1.0,
-      "backfilled": true
+      "backfilled": true,
+      "rule_legacy": "shadow-mismatch-ml",
+      "gamePk": 823839,
+      "commence": "2026-07-27T22:40:00Z"
     },
     {
       "date": "2026-07-27",
@@ -957,11 +1167,14 @@
       "game": "TOR @ WSH",
       "price": -124,
       "stake": 1.0,
-      "rule": "shadow-mismatch-ml",
+      "rule": "mismatch-ml",
       "basis": "Backfilled fade at L20 mismatch +101.4. Not wagered.",
       "result": "LOSS",
       "profit": -1.0,
-      "backfilled": true
+      "backfilled": true,
+      "rule_legacy": "shadow-mismatch-ml",
+      "gamePk": 822705,
+      "commence": "2026-07-27T22:45:00Z"
     },
     {
       "date": "2026-07-28",
@@ -970,11 +1183,14 @@
       "game": "TOR @ WSH",
       "price": -142,
       "stake": 1.0,
-      "rule": "shadow-mismatch-ml",
+      "rule": "mismatch-ml",
       "basis": "Backfilled tail at L20 mismatch -46.6. Not wagered.",
       "result": "WIN",
       "profit": 0.7,
-      "backfilled": true
+      "backfilled": true,
+      "rule_legacy": "shadow-mismatch-ml",
+      "gamePk": 822703,
+      "commence": "2026-07-28T22:45:00Z"
     },
     {
       "date": "2026-07-30",
@@ -983,11 +1199,14 @@
       "game": "NYY @ CWS",
       "price": -116,
       "stake": 1.0,
-      "rule": "shadow-mismatch-ml",
+      "rule": "mismatch-ml",
       "basis": "Backfilled tail at L20 mismatch -58.5. Not wagered.",
       "result": "WIN",
       "profit": 0.86,
-      "backfilled": true
+      "backfilled": true,
+      "rule_legacy": "shadow-mismatch-ml",
+      "gamePk": 824568,
+      "commence": "2026-07-30T18:10:00Z"
     },
     {
       "date": "2026-07-31",
@@ -996,11 +1215,14 @@
       "game": "STL @ TOR",
       "price": -184,
       "stake": 1.0,
-      "rule": "shadow-mismatch-ml",
+      "rule": "mismatch-ml",
       "basis": "Backfilled tail at L20 mismatch -49.7. Not wagered.",
       "result": "WIN",
       "profit": 0.54,
-      "backfilled": true
+      "backfilled": true,
+      "rule_legacy": "shadow-mismatch-ml",
+      "gamePk": 822782,
+      "commence": "2026-07-31T23:07:00Z"
     },
     {
       "date": "2026-07-31",
@@ -1009,11 +1231,14 @@
       "game": "MIA @ NYM",
       "price": 104,
       "stake": 1.0,
-      "rule": "shadow-mismatch-ml",
+      "rule": "mismatch-ml",
       "basis": "Backfilled fade at L20 mismatch +96.6. Not wagered.",
       "result": "WIN",
       "profit": 1.04,
-      "backfilled": true
+      "backfilled": true,
+      "rule_legacy": "shadow-mismatch-ml",
+      "gamePk": 823593,
+      "commence": "2026-07-31T23:10:00Z"
     },
     {
       "date": "2026-07-31",
@@ -1022,11 +1247,14 @@
       "game": "SF @ SD",
       "price": -142,
       "stake": 1.0,
-      "rule": "shadow-mismatch-ml",
+      "rule": "mismatch-ml",
       "basis": "Backfilled tail at L20 mismatch -48.3. Not wagered.",
       "result": "WIN",
       "profit": 0.7,
-      "backfilled": true
+      "backfilled": true,
+      "rule_legacy": "shadow-mismatch-ml",
+      "gamePk": 823272,
+      "commence": "2026-08-01T01:45:00Z"
     },
     {
       "date": "2026-08-01",
@@ -1035,11 +1263,14 @@
       "game": "WSH @ ATL",
       "price": 148,
       "stake": 1.0,
-      "rule": "shadow-mismatch-ml",
+      "rule": "mismatch-ml",
       "basis": "Backfilled fade at L20 mismatch +69.2. Not wagered.",
       "result": "LOSS",
       "profit": -1.0,
-      "backfilled": true
+      "backfilled": true,
+      "rule_legacy": "shadow-mismatch-ml",
+      "gamePk": 824890,
+      "commence": "2026-08-01T23:15:00Z"
     },
     {
       "date": "2026-08-02",
@@ -1048,11 +1279,14 @@
       "game": "STL @ TOR",
       "price": 116,
       "stake": 1.0,
-      "rule": "shadow-mismatch-ml",
+      "rule": "mismatch-ml",
       "basis": "Backfilled fade at L20 mismatch +68.8. Not wagered.",
       "result": "WIN",
       "profit": 1.16,
-      "backfilled": true
+      "backfilled": true,
+      "rule_legacy": "shadow-mismatch-ml",
+      "gamePk": 822783,
+      "commence": "2026-08-02T17:37:00Z"
     },
     {
       "date": "2026-08-02",
@@ -1061,11 +1295,14 @@
       "game": "MIL @ LAA",
       "price": -210,
       "stake": 1.0,
-      "rule": "shadow-mismatch-ml",
+      "rule": "mismatch-ml",
       "basis": "Backfilled tail at L20 mismatch -58.9. Not wagered.",
       "result": "LOSS",
       "profit": -1.0,
-      "backfilled": true
+      "backfilled": true,
+      "rule_legacy": "shadow-mismatch-ml",
+      "gamePk": 823996,
+      "commence": "2026-08-02T19:15:00Z"
     },
     {
       "date": "2026-08-03",
@@ -1074,11 +1311,14 @@
       "game": "STL @ NYY",
       "price": -235,
       "stake": 1.0,
-      "rule": "shadow-mismatch-ml",
+      "rule": "mismatch-ml",
       "basis": "Backfilled tail at L20 mismatch -51.4. Not wagered.",
       "result": "LOSS",
       "profit": -1.0,
-      "backfilled": true
+      "backfilled": true,
+      "rule_legacy": "shadow-mismatch-ml",
+      "gamePk": 823520,
+      "commence": "2026-08-03T23:05:00Z"
     },
     {
       "date": "2026-08-03",
@@ -1087,11 +1327,14 @@
       "game": "TOR @ HOU",
       "price": 122,
       "stake": 1.0,
-      "rule": "shadow-mismatch-ml",
+      "rule": "mismatch-ml",
       "basis": "Backfilled fade at L20 mismatch +73.0. Not wagered.",
       "result": "WIN",
       "profit": 1.22,
-      "backfilled": true
+      "backfilled": true,
+      "rule_legacy": "shadow-mismatch-ml",
+      "gamePk": 824160,
+      "commence": "2026-08-04T00:10:00Z"
     },
     {
       "date": "2026-08-04",
@@ -1100,11 +1343,14 @@
       "game": "SD @ ARI",
       "price": -114,
       "stake": 1.0,
-      "rule": "shadow-mismatch-ml",
+      "rule": "mismatch-ml",
       "basis": "Backfilled fade at L20 mismatch +58.1. Not wagered.",
       "result": "LOSS",
       "profit": -1.0,
-      "backfilled": true
+      "backfilled": true,
+      "rule_legacy": "shadow-mismatch-ml",
+      "gamePk": 825054,
+      "commence": "2026-08-05T01:40:00Z"
     },
     {
       "date": "2026-08-04",
@@ -1113,11 +1359,14 @@
       "game": "DET @ SEA",
       "price": 110,
       "stake": 1.0,
-      "rule": "shadow-mismatch-ml",
+      "rule": "mismatch-ml",
       "basis": "Backfilled tail at L20 mismatch -46.1. Not wagered.",
       "result": "WIN",
       "profit": 1.1,
-      "backfilled": true
+      "backfilled": true,
+      "rule_legacy": "shadow-mismatch-ml",
+      "gamePk": 823108,
+      "commence": "2026-08-05T01:40:00Z"
     },
     {
       "date": "2026-08-07",
@@ -1126,11 +1375,14 @@
       "game": "TOR @ PHI",
       "price": -205,
       "stake": 1.0,
-      "rule": "shadow-mismatch-ml",
+      "rule": "mismatch-ml",
       "basis": "Backfilled tail at L20 mismatch -57.2. Not wagered.",
       "result": "LOSS",
       "profit": -1.0,
-      "backfilled": true
+      "backfilled": true,
+      "rule_legacy": "shadow-mismatch-ml",
+      "gamePk": 823428,
+      "commence": "2026-08-07T22:40:00Z"
     },
     {
       "date": "2026-08-08",
@@ -1139,11 +1391,14 @@
       "game": "ATL @ NYY",
       "price": -146,
       "stake": 1.0,
-      "rule": "shadow-mismatch-ml",
+      "rule": "mismatch-ml",
       "basis": "Backfilled tail at L20 mismatch -50.1. Not wagered.",
       "result": "LOSS",
       "profit": -1.0,
-      "backfilled": true
+      "backfilled": true,
+      "rule_legacy": "shadow-mismatch-ml",
+      "gamePk": 823514,
+      "commence": "2026-08-08T19:05:00Z"
     },
     {
       "date": "2026-08-08",
@@ -1152,11 +1407,14 @@
       "game": "CLE @ CWS",
       "price": -126,
       "stake": 1.0,
-      "rule": "shadow-mismatch-ml",
+      "rule": "mismatch-ml",
       "basis": "Backfilled tail at L20 mismatch -56.6. Not wagered.",
       "result": "LOSS",
       "profit": -1.0,
-      "backfilled": true
+      "backfilled": true,
+      "rule_legacy": "shadow-mismatch-ml",
+      "gamePk": 824565,
+      "commence": "2026-08-08T23:15:00Z"
     },
     {
       "date": "2026-08-09",
@@ -1165,11 +1423,14 @@
       "game": "MIN @ MIL",
       "price": -245,
       "stake": 1.0,
-      "rule": "shadow-mismatch-ml",
+      "rule": "mismatch-ml",
       "basis": "Backfilled tail at L20 mismatch -55.7. Not wagered.",
       "result": "WIN",
       "profit": 0.41,
-      "backfilled": true
+      "backfilled": true,
+      "rule_legacy": "shadow-mismatch-ml",
+      "gamePk": 823751,
+      "commence": "2026-08-09T18:10:00Z"
     },
     {
       "date": "2026-08-09",
@@ -1178,11 +1439,14 @@
       "game": "HOU @ SD",
       "price": -116,
       "stake": 1.0,
-      "rule": "shadow-mismatch-ml",
+      "rule": "mismatch-ml",
       "basis": "Backfilled fade at L20 mismatch +68.6. Not wagered.",
       "result": "WIN",
       "profit": 0.86,
-      "backfilled": true
+      "backfilled": true,
+      "rule_legacy": "shadow-mismatch-ml",
+      "gamePk": 823268,
+      "commence": "2026-08-10T00:20:00Z"
     },
     {
       "date": "2026-08-12",
@@ -1191,11 +1455,14 @@
       "game": "COL @ ARI",
       "price": -172,
       "stake": 1.0,
-      "rule": "shadow-mismatch-ml",
+      "rule": "mismatch-ml",
       "basis": "Backfilled fade at L20 mismatch +62.9. Not wagered.",
       "result": "LOSS",
       "profit": -1.0,
-      "backfilled": true
+      "backfilled": true,
+      "rule_legacy": "shadow-mismatch-ml",
+      "gamePk": 825047,
+      "commence": "2026-08-12T19:40:00Z"
     },
     {
       "date": "2026-08-15",
@@ -1204,11 +1471,14 @@
       "game": "MIL @ LAD",
       "price": -122,
       "stake": 1.0,
-      "rule": "shadow-mismatch-ml",
+      "rule": "mismatch-ml",
       "basis": "Backfilled tail at L20 mismatch -46.6. Not wagered.",
       "result": "WIN",
       "profit": 0.82,
-      "backfilled": true
+      "backfilled": true,
+      "rule_legacy": "shadow-mismatch-ml",
+      "gamePk": 823914,
+      "commence": "2026-08-15T23:15:00Z"
     },
     {
       "date": "2026-08-15",
@@ -1217,11 +1487,14 @@
       "game": "KC @ LAA",
       "price": -154,
       "stake": 1.0,
-      "rule": "shadow-mismatch-ml",
+      "rule": "mismatch-ml",
       "basis": "Backfilled tail at L20 mismatch -46.9. Not wagered.",
       "result": "WIN",
       "profit": 0.65,
-      "backfilled": true
+      "backfilled": true,
+      "rule_legacy": "shadow-mismatch-ml",
+      "gamePk": 823990,
+      "commence": "2026-08-16T01:38:00Z"
     },
     {
       "date": "2026-08-20",
@@ -1230,23 +1503,14 @@
       "game": "SF @ CLE",
       "price": -205,
       "stake": 1.0,
-      "rule": "shadow-mismatch-ml",
+      "rule": "mismatch-ml",
       "basis": "Backfilled tail at L20 mismatch -48.4. Not wagered.",
       "result": "WIN",
       "profit": 0.49,
-      "backfilled": true
-    },
-    {
-      "date": "2026-08-21",
-      "play": "MIL ML",
-      "market": "h2h",
-      "game": "ATL @ MIL",
-      "price": -138,
-      "stake": 1.0,
-      "rule": "scout-ml-both-halves-aligned",
-      "basis": "MIL bats 118/111/116/120 vs Sale hand; ATL bats 81/75/59/29 vs Misiorowski",
-      "result": "WIN",
-      "profit": 0.72
+      "backfilled": true,
+      "rule_legacy": "shadow-mismatch-ml",
+      "gamePk": 824395,
+      "commence": "2026-08-20T17:10:00Z"
     },
     {
       "date": "2026-08-21",
@@ -1258,7 +1522,10 @@
       "rule": "card-grade-total-aligned-plus-flag",
       "basis": "Both offenses aligned <=90 all four windows; Gordon layoff-42d/stale-window/swingman flags",
       "result": "WIN",
-      "profit": 1.02
+      "profit": 1.02,
+      "line": 10.5,
+      "gamePk": 824317,
+      "commence": "2026-08-22T00:40:00Z"
     },
     {
       "date": "2026-08-21",
@@ -1267,11 +1534,14 @@
       "game": "ATL @ MIL",
       "price": 126,
       "stake": 1.0,
-      "rule": "shadow-mismatch-ml",
+      "rule": "mismatch-ml",
       "basis": "Backfilled tail at L20 mismatch -48.1. Not wagered.",
       "result": "LOSS",
       "profit": -1.0,
-      "backfilled": true
+      "backfilled": true,
+      "rule_legacy": "shadow-mismatch-ml",
+      "gamePk": 823746,
+      "commence": "2026-08-21T20:10:00Z"
     },
     {
       "date": "2026-08-21",
@@ -1280,11 +1550,14 @@
       "game": "ATL @ MIL",
       "price": -138,
       "stake": 1.0,
-      "rule": "shadow-mismatch-ml",
+      "rule": "mismatch-ml",
       "basis": "Backfilled tail at L20 mismatch -48.9. Not wagered.",
       "result": "WIN",
       "profit": 0.72,
-      "backfilled": true
+      "backfilled": true,
+      "rule_legacy": "shadow-mismatch-ml",
+      "gamePk": 823746,
+      "commence": "2026-08-21T20:10:00Z"
     },
     {
       "date": "2026-08-21",
@@ -1293,11 +1566,28 @@
       "game": "LAA @ TEX",
       "price": -138,
       "stake": 1.0,
-      "rule": "shadow-mismatch-ml",
+      "rule": "mismatch-ml",
       "basis": "Backfilled tail at L20 mismatch -48.9. Not wagered.",
       "result": "WIN",
       "profit": 0.72,
-      "backfilled": true
+      "backfilled": true,
+      "rule_legacy": "shadow-mismatch-ml",
+      "gamePk": 822857,
+      "commence": "2026-08-22T00:15:00Z"
+    },
+    {
+      "date": "2026-08-21",
+      "play": "MIL ML",
+      "market": "h2h",
+      "game": "ATL @ MIL",
+      "price": -138,
+      "stake": 1.0,
+      "rule": "scout-ml-both-halves-aligned",
+      "basis": "MIL bats 118/111/116/120 vs Sale hand; ATL bats 81/75/59/29 vs Misiorowski",
+      "result": "WIN",
+      "profit": 0.72,
+      "gamePk": 823746,
+      "commence": "2026-08-21T20:10:00Z"
     },
     {
       "date": "2026-08-22",
@@ -1309,7 +1599,9 @@
       "rule": "scout-ml-both-halves-aligned",
       "basis": "BOS bats 138/152/139/165 vs Tidwell (thin-sample); SF bats 60/38/36/42 vs Sandoval",
       "result": "WIN",
-      "profit": 0.51
+      "profit": 0.51,
+      "gamePk": 824718,
+      "commence": "2026-08-22T23:15:00Z"
     },
     {
       "date": "2026-08-22",
@@ -1321,12 +1613,46 @@
       "rule": "scout-ml-both-halves-aligned",
       "basis": "SD bats 122/117/122/112 vs Kremer; MIN bats 81/86/83/77 vs Mize",
       "result": "WIN",
-      "profit": 0.67
+      "profit": 0.67,
+      "gamePk": 823261,
+      "commence": "2026-08-23T00:40:00Z"
     },
     {
       "date": "2026-08-23",
       "no_play": true,
       "note": "No qualifying plays. Scout ML nearest miss: SD (MIN ladder 91/87/91/90, cold bar missed by 1pt in two windows). CLE@COL both-cold but flagless = temperature-only."
+    },
+    {
+      "date": "2026-08-24",
+      "play": "CLE ML (mismatch -60.7)",
+      "market": "h2h",
+      "game": "CLE @ LAA",
+      "price": -156,
+      "stake": 1.0,
+      "rule": "mismatch-ml",
+      "basis": "Backfilled tail at L20 mismatch -60.7. Not wagered.",
+      "result": "WIN",
+      "profit": 0.64,
+      "backfilled": true,
+      "rule_legacy": "shadow-mismatch-ml",
+      "gamePk": 823992,
+      "commence": "2026-08-25T01:38:00Z"
+    },
+    {
+      "date": "2026-08-24",
+      "play": "MIN ML (mismatch +55.1)",
+      "market": "h2h",
+      "game": "MIN @ OAK",
+      "price": -150,
+      "stake": 1.0,
+      "rule": "mismatch-ml",
+      "basis": "Backfilled fade at L20 mismatch +55.1. Not wagered.",
+      "result": "WIN",
+      "profit": 0.67,
+      "backfilled": true,
+      "rule_legacy": "shadow-mismatch-ml",
+      "gamePk": 824964,
+      "commence": "2026-08-25T01:40:00Z"
     },
     {
       "date": "2026-08-24",
@@ -1338,33 +1664,9 @@
       "rule": "scout-ml-both-halves-aligned",
       "basis": "SD bats 124/127/129/125 vs Ashcraft; PIT bats 70/76/78/33 vs Ray; SD pen #3. Re-added after daily-run clobber.",
       "result": "LOSS",
-      "profit": -1.0
-    },
-    {
-      "date": "2026-08-24",
-      "play": "CLE ML (mismatch -60.7)",
-      "market": "h2h",
-      "game": "CLE @ LAA",
-      "price": -156,
-      "stake": 1.0,
-      "rule": "shadow-mismatch-ml",
-      "basis": "Backfilled tail at L20 mismatch -60.7. Not wagered.",
-      "result": "WIN",
-      "profit": 0.64,
-      "backfilled": true
-    },
-    {
-      "date": "2026-08-24",
-      "play": "MIN ML (mismatch +55.1)",
-      "market": "h2h",
-      "game": "MIN @ OAK",
-      "price": -150,
-      "stake": 1.0,
-      "rule": "shadow-mismatch-ml",
-      "basis": "Backfilled fade at L20 mismatch +55.1. Not wagered.",
-      "result": "WIN",
-      "profit": 0.67,
-      "backfilled": true
+      "profit": -1.0,
+      "gamePk": 823260,
+      "commence": "2026-08-25T01:40:00Z"
     },
     {
       "date": "2026-08-25",
@@ -1380,7 +1682,9 @@
       "line": 7.5,
       "close_line": 7.0,
       "line_move": -0.5,
-      "clv": "beat"
+      "clv": "beat",
+      "gamePk": 823989,
+      "commence": "2026-08-26T01:38:00Z"
     },
     {
       "date": "2026-08-25",
@@ -1396,7 +1700,9 @@
       "line": 7.5,
       "close_line": 8.0,
       "line_move": 0.5,
-      "clv": "beat"
+      "clv": "beat",
+      "gamePk": 823098,
+      "commence": "2026-08-26T01:40:00Z"
     },
     {
       "date": "2026-08-26",
@@ -1410,11 +1716,14 @@
       "game": "CLE @ LAA",
       "price": -134,
       "stake": 1.0,
-      "rule": "shadow-mismatch-ml",
+      "rule": "mismatch-ml",
       "basis": "Backfilled tail at L20 mismatch -57.3. Not wagered.",
       "result": "WIN",
       "profit": 0.75,
-      "backfilled": true
+      "backfilled": true,
+      "rule_legacy": "shadow-mismatch-ml",
+      "gamePk": 823988,
+      "commence": "2026-08-26T20:07:00Z"
     },
     {
       "date": "2026-08-27",
@@ -1423,14 +1732,17 @@
       "game": "KC @ TOR",
       "price": -118,
       "stake": 1.0,
-      "rule": "scout-flagged-starter-under",
+      "rule": "flag-plays",
       "basis": "Arrighetti layoff-34d: L5-start line (9.95 ERA, 3.8 IP/GS) describes a different month and is not what the number is priced off. TOR pen absorbs the short leash (L30 3.15 #6, L7 3.16 #11). Cameron in form (1.26 ERA, 7.13 IP/GS L5). Ladder neutral (TOR bats 83/90/107 vs L; KC 97/104/106/112) - context only.",
       "result": "LOSS",
       "profit": -1.0,
       "line": 8.5,
       "close_line": 8.5,
       "clv": "flat",
-      "line_move": 0.0
+      "line_move": 0.0,
+      "rule_legacy": "scout-flagged-starter-under",
+      "gamePk": 822771,
+      "commence": "2026-08-27T23:07:00Z"
     },
     {
       "date": "2026-08-27",
@@ -1439,14 +1751,17 @@
       "game": "ARI @ SF",
       "price": -112,
       "stake": 1.0,
-      "rule": "scout-flagged-starter-under",
+      "rule": "flag-plays",
       "basis": "Cabrera layoff-50d + thin-sample; Roupp poor form (6.20 ERA, 4.93 IP/GS, 14.5 K%) at a suppressing park. TEMPER: SF bats are hot in all four windows (113/112/125/139) - the loudest ladder objection on the card, and ladder is inert per the 8/26 backtest so it does not veto, but this is the weaker of the two flagged unders.",
       "result": "WIN",
       "profit": 0.89,
       "line": 8.0,
       "close_line": 8.0,
       "clv": "flat",
-      "line_move": 0.0
+      "line_move": 0.0,
+      "rule_legacy": "scout-flagged-starter-under",
+      "gamePk": 823179,
+      "commence": "2026-08-28T01:45:00Z"
     },
     {
       "date": "2026-08-27",
@@ -1455,11 +1770,14 @@
       "game": "KC @ TOR",
       "price": -106,
       "stake": 1.0,
-      "rule": "shadow-mismatch-ml",
+      "rule": "mismatch-ml",
       "basis": "Backfilled fade at L20 mismatch +70.7. Not wagered.",
       "result": "WIN",
       "profit": 0.94,
-      "backfilled": true
+      "backfilled": true,
+      "rule_legacy": "shadow-mismatch-ml",
+      "gamePk": 822771,
+      "commence": "2026-08-27T23:07:00Z"
     },
     {
       "date": "2026-08-28",
@@ -1468,14 +1786,17 @@
       "game": "LAD @ DET",
       "price": -120,
       "stake": 1.0,
-      "rule": "scout-flagged-starter-under",
+      "rule": "flag-plays",
       "basis": "Drew Anderson carries BOTH qualifying defects: stale-window-68d AND swingman-14g. His 3.54 L5 ERA describes relief work, not the 4.07 IP/GS starts he is priced off. Skubal opposite (3.52 L5, 6.13 IP/GS) and DET bats frozen vs him 107/73/56. LAD pen hot L7 2.41 (#8).",
       "result": "WIN",
       "profit": 0.83,
       "line": 7.5,
       "close_line": 7.5,
       "clv": "flat",
-      "line_move": 0.0
+      "line_move": 0.0,
+      "rule_legacy": "scout-flagged-starter-under",
+      "gamePk": 824231,
+      "commence": "2026-08-28T22:40:00Z"
     },
     {
       "date": "2026-08-28",
@@ -1484,14 +1805,17 @@
       "game": "ARI @ SF",
       "price": -106,
       "stake": 1.0,
-      "rule": "scout-flagged-starter-under",
+      "rule": "flag-plays",
       "basis": "Kohl Drake layoff-22d + thin-sample; Tidwell also thin-sample. SF bats ice cold in all four windows (91/89/80/60) -- the ladder AGREES with the flag today, unlike yesterday's ARI/SF where it opposed. Both pens mid (#10/#22). Suppressing park.",
       "result": "LOSS",
       "profit": -1.0,
       "line": 7.5,
       "close_line": 7.5,
       "clv": "flat",
-      "line_move": 0.0
+      "line_move": 0.0,
+      "rule_legacy": "scout-flagged-starter-under",
+      "gamePk": 823178,
+      "commence": "2026-08-29T02:15:00Z"
     },
     {
       "date": "2026-08-29",
@@ -1500,14 +1824,17 @@
       "game": "LAD @ DET",
       "price": -104,
       "stake": 1.0,
-      "rule": "scout-flagged-starter-under",
+      "rule": "flag-plays",
       "basis": "Snell stale-window-106d + thin-sample: his L5 line (2.57) describes a pitcher from 3.5 months ago. DET bats collapsing 99/58/49. LAD pen 1.50 L7 (#5). Lowest total on the board.",
       "result": "WIN",
       "profit": 0.96,
       "line": 7.0,
       "close_line": 7.0,
       "clv": "flat",
-      "line_move": 0.0
+      "line_move": 0.0,
+      "rule_legacy": "scout-flagged-starter-under",
+      "gamePk": 824230,
+      "commence": "2026-08-29T17:10:00Z"
     },
     {
       "date": "2026-08-29",
@@ -1516,7 +1843,7 @@
       "game": "BOS @ NYY (G2)",
       "price": -102,
       "stake": 1.0,
-      "rule": "scout-flagged-starter-under",
+      "rule": "flag-plays",
       "basis": "Fried layoff-16d, 4.93 IP/GS. NYY pen is #2 L30 and #1 L7 (0.44) -- short leash lands on the best bullpen in baseball right now.",
       "result": "LOSS",
       "profit": -1.0,
@@ -1528,7 +1855,8 @@
       },
       "close_line": 7.0,
       "clv": "beat",
-      "line_move": -0.5
+      "line_move": -0.5,
+      "rule_legacy": "scout-flagged-starter-under"
     },
     {
       "date": "2026-08-29",
@@ -1537,14 +1865,15 @@
       "game": "BOS @ NYY (G1)",
       "price": -120,
       "stake": 1.0,
-      "rule": "scout-flagged-starter-under",
+      "rule": "flag-plays",
       "basis": "Rodon stale-window-67d, 4.67 IP/GS. Same elite NYY pen behind him (#1 L7, 0.44).",
       "result": "WIN",
       "profit": 0.83,
       "line": 8.0,
       "close_line": 7.5,
       "clv": "beat",
-      "line_move": -0.5
+      "line_move": -0.5,
+      "rule_legacy": "scout-flagged-starter-under"
     },
     {
       "date": "2026-08-29",
@@ -1553,14 +1882,17 @@
       "game": "KC @ CLE",
       "price": 100,
       "stake": 1.0,
-      "rule": "scout-flagged-starter-under",
+      "rule": "flag-plays",
       "basis": "Daniel Lynch IV opener (3.08 IP/GS) + thin-sample. Plus money on a 7.5. CLE bats 114/113 is the objection.",
       "result": "LOSS",
       "profit": -1.0,
       "line": 7.5,
       "close_line": 7.5,
       "clv": "flat",
-      "line_move": 0.0
+      "line_move": 0.0,
+      "rule_legacy": "scout-flagged-starter-under",
+      "gamePk": 824392,
+      "commence": "2026-08-29T20:10:00Z"
     },
     {
       "date": "2026-08-29",
@@ -1569,14 +1901,17 @@
       "game": "PIT @ STL",
       "price": -124,
       "stake": 1.0,
-      "rule": "scout-flagged-starter-under",
+      "rule": "flag-plays",
       "basis": "Bachar TRIPLE flag: opener + stale-window-78d + swingman-21g, 2.27 IP/GS. PIT bats frozen 81/71/65. TEMPER: STL pen 7.62 L7 (#29) inherits most of the game.",
       "result": "WIN",
       "profit": 0.81,
       "line": 8.5,
       "close_line": 8.5,
       "clv": "flat",
-      "line_move": 0.0
+      "line_move": 0.0,
+      "rule_legacy": "scout-flagged-starter-under",
+      "gamePk": 823011,
+      "commence": "2026-08-29T18:15:00Z"
     },
     {
       "date": "2026-08-29",
@@ -1585,14 +1920,17 @@
       "game": "BAL @ OAK",
       "price": -105,
       "stake": 1.0,
-      "rule": "scout-flagged-starter-under",
+      "rule": "flag-plays",
       "basis": "Perkins layoff-17d + swingman-2g, 8.25 L5 ERA. BAL pen 0.87 L7 (#2). TEMPER: OAK bats hot all four (104/111/114/125).",
       "result": "WIN",
       "profit": 0.95,
       "line": 9.5,
       "close_line": 9.5,
       "clv": "flat",
-      "line_move": 0.0
+      "line_move": 0.0,
+      "rule_legacy": "scout-flagged-starter-under",
+      "gamePk": 824961,
+      "commence": "2026-08-30T02:05:00Z"
     },
     {
       "date": "2026-08-29",
@@ -1601,7 +1939,7 @@
       "game": "CWS @ MIN",
       "price": -124,
       "stake": 1.0,
-      "rule": "scout-flagged-starter-under",
+      "rule": "flag-plays",
       "basis": "Fedde TRIPLE flag: layoff-29d + stale-window-58d + swingman-12g. TEMPER (loudest on the card): MIN pen 11.34 L7 = dead last, and CWS bats hot all four 111/122/130/130. Weakest of the seven.",
       "result": "WIN",
       "profit": 0.81,
@@ -1610,7 +1948,10 @@
       "not_bet_reason": "missed the 13:10 CT first pitch",
       "close_line": 9.0,
       "clv": "beat",
-      "line_move": -0.5
+      "line_move": -0.5,
+      "rule_legacy": "scout-flagged-starter-under",
+      "gamePk": 823665,
+      "commence": "2026-08-29T18:10:00Z"
     },
     {
       "date": "2026-08-29",
@@ -1619,10 +1960,13 @@
       "game": "PIT @ STL",
       "price": -120,
       "stake": 1.0,
-      "rule": "shadow-mismatch-ml",
+      "rule": "mismatch-ml",
       "basis": "L20 mismatch -63.7 (arm outclasses the offense -- tail him). Kyle Leahy L5 ERA 1.44, opponent wRC+ vs his hand 71. Carded 2026-08-29 on a permutation test (p=0.022) and five positive months; expectation is August's +9.4%, not the +17.2% season figure (see scripts/mismatch_shadow.py header).",
       "result": "LOSS",
-      "profit": -1.0
+      "profit": -1.0,
+      "rule_legacy": "shadow-mismatch-ml",
+      "gamePk": 823011,
+      "commence": "2026-08-29T18:15:00Z"
     },
     {
       "date": "2026-08-29",
@@ -1631,10 +1975,13 @@
       "game": "LAD @ DET",
       "price": -178,
       "stake": 1.0,
-      "rule": "shadow-mismatch-ml",
+      "rule": "mismatch-ml",
       "basis": "L20 mismatch -62.0 (arm outclasses the offense -- tail him). Blake Snell L5 ERA 2.57, opponent wRC+ vs his hand 58. Carded 2026-08-29 on a permutation test (p=0.022) and five positive months; expectation is August's +9.4%, not the +17.2% season figure (see scripts/mismatch_shadow.py header).",
       "result": "LOSS",
-      "profit": -1.0
+      "profit": -1.0,
+      "rule_legacy": "shadow-mismatch-ml",
+      "gamePk": 824230,
+      "commence": "2026-08-29T17:10:00Z"
     },
     {
       "date": "2026-08-29",
@@ -1643,10 +1990,13 @@
       "game": "ARI @ SF",
       "price": -102,
       "stake": 1.0,
-      "rule": "shadow-mismatch-ml",
+      "rule": "mismatch-ml",
       "basis": "L20 mismatch +57.6 (offense outclasses the arm -- fade him). Merrill Kelly L5 ERA 7.46, opponent wRC+ vs his hand 114. Carded 2026-08-29 on a permutation test (p=0.022) and five positive months; expectation is August's +9.4%, not the +17.2% season figure (see scripts/mismatch_shadow.py header).",
       "result": "LOSS",
-      "profit": -1.0
+      "profit": -1.0,
+      "rule_legacy": "shadow-mismatch-ml",
+      "gamePk": 823177,
+      "commence": "2026-08-29T20:05:00Z"
     },
     {
       "date": "2026-08-29",
@@ -1655,10 +2005,13 @@
       "game": "PHI @ LAA",
       "price": -230,
       "stake": 1.0,
-      "rule": "shadow-mismatch-ml",
+      "rule": "mismatch-ml",
       "basis": "L20 mismatch -51.6 (arm outclasses the offense -- tail him). Cristopher S\u00e1nchez L5 ERA 2.12, opponent wRC+ vs his hand 75. Carded 2026-08-29 on a permutation test (p=0.022) and five positive months; expectation is August's +9.4%, not the +17.2% season figure (see scripts/mismatch_shadow.py header).",
       "result": "WIN",
-      "profit": 0.43
+      "profit": 0.43,
+      "rule_legacy": "shadow-mismatch-ml",
+      "gamePk": 823986,
+      "commence": "2026-08-30T02:07:00Z"
     },
     {
       "date": "2026-08-30",
@@ -1667,11 +2020,14 @@
       "game": "PHI @ LAA",
       "price": -106,
       "stake": 1.0,
-      "rule": "scout-flagged-starter-under",
+      "rule": "flag-plays",
       "basis": "Kikuchi stale-window-132d -- his L5-start line describes a pitcher from 4+ months ago. K-model also has him UNDER 5.5 Ks at pCover .729, same read from the other side.",
       "result": "WIN",
       "profit": 0.94,
-      "line": 7.5
+      "line": 7.5,
+      "rule_legacy": "scout-flagged-starter-under",
+      "gamePk": 823987,
+      "commence": "2026-08-30T20:07:00Z"
     },
     {
       "date": "2026-08-30",
@@ -1680,11 +2036,14 @@
       "game": "LAD @ DET",
       "price": -122,
       "stake": 1.0,
-      "rule": "scout-flagged-starter-under",
+      "rule": "flag-plays",
       "basis": "Glasnow stale-window-130d. Same game as the LAD fade-ML and the LAD mismatch tail -- three signals, one game.",
       "result": "WIN",
       "profit": 0.82,
-      "line": 7.5
+      "line": 7.5,
+      "rule_legacy": "scout-flagged-starter-under",
+      "gamePk": 824232,
+      "commence": "2026-08-30T17:40:00Z"
     },
     {
       "date": "2026-08-30",
@@ -1693,11 +2052,14 @@
       "game": "CWS @ MIN",
       "price": 100,
       "stake": 1.0,
-      "rule": "scout-flagged-starter-under",
+      "rule": "flag-plays",
       "basis": "Hicks TRIPLE flag: opener + layoff-29d + swingman-8g, 2.5 IP/GS profile. Plus money.",
       "result": "WIN",
       "profit": 1.0,
-      "line": 8.5
+      "line": 8.5,
+      "rule_legacy": "scout-flagged-starter-under",
+      "gamePk": 823662,
+      "commence": "2026-08-30T18:10:00Z"
     },
     {
       "date": "2026-08-30",
@@ -1706,11 +2068,14 @@
       "game": "BAL @ OAK",
       "price": -104,
       "stake": 1.0,
-      "rule": "scout-flagged-starter-under",
+      "rule": "flag-plays",
       "basis": "Bassitt stale-window-89d. Highest total on the board at 10.",
       "result": "LOSS",
       "profit": -1.0,
-      "line": 10.0
+      "line": 10.0,
+      "rule_legacy": "scout-flagged-starter-under",
+      "gamePk": 824959,
+      "commence": "2026-08-30T20:05:00Z"
     },
     {
       "date": "2026-08-30",
@@ -1719,12 +2084,15 @@
       "game": "HOU @ NYM",
       "price": -120,
       "stake": 1.0,
-      "rule": "shadow-mismatch-ml",
+      "rule": "mismatch-ml",
       "basis": "L20 mismatch +66.0 (offense outclasses the arm -- fade him). Ethan Pecko L5 ERA 7.88, opponent wRC+ vs his hand 114. Carded 2026-08-29 on a permutation test (p=0.022) and five positive months; expectation is August's +9.4%, not the +17.2% season figure (see scripts/mismatch_shadow.py header).",
       "result": "LOSS",
       "profit": -1.0,
       "not_bet": true,
-      "not_bet_reason": "rule retired 2026-08-30 before first pitch"
+      "not_bet_reason": "rule retired 2026-08-30 before first pitch",
+      "rule_legacy": "shadow-mismatch-ml",
+      "gamePk": 823580,
+      "commence": "2026-08-30T19:10:00Z"
     },
     {
       "date": "2026-08-30",
@@ -1733,12 +2101,15 @@
       "game": "CWS @ MIN",
       "price": 104,
       "stake": 1.0,
-      "rule": "shadow-mismatch-ml",
+      "rule": "mismatch-ml",
       "basis": "L20 mismatch -49.1 (arm outclasses the offense -- tail him). Jordan Hicks L5 ERA 0.0, opponent wRC+ vs his hand 108. Carded 2026-08-29 on a permutation test (p=0.022) and five positive months; expectation is August's +9.4%, not the +17.2% season figure (see scripts/mismatch_shadow.py header).",
       "result": "LOSS",
       "profit": -1.0,
       "not_bet": true,
-      "not_bet_reason": "rule retired 2026-08-30 before first pitch"
+      "not_bet_reason": "rule retired 2026-08-30 before first pitch",
+      "rule_legacy": "shadow-mismatch-ml",
+      "gamePk": 823662,
+      "commence": "2026-08-30T18:10:00Z"
     },
     {
       "date": "2026-08-30",
@@ -1747,12 +2118,79 @@
       "game": "LAD @ DET",
       "price": -150,
       "stake": 1.0,
-      "rule": "shadow-mismatch-ml",
+      "rule": "mismatch-ml",
       "basis": "L20 mismatch -47.9 (arm outclasses the offense -- tail him). Tyler Glasnow L5 ERA 2.36, opponent wRC+ vs his hand 81. Carded 2026-08-29 on a permutation test (p=0.022) and five positive months; expectation is August's +9.4%, not the +17.2% season figure (see scripts/mismatch_shadow.py header).",
       "result": "WIN",
       "profit": 0.67,
       "not_bet": true,
-      "not_bet_reason": "rule retired 2026-08-30 before first pitch"
+      "not_bet_reason": "rule retired 2026-08-30 before first pitch",
+      "rule_legacy": "shadow-mismatch-ml",
+      "gamePk": 824232,
+      "commence": "2026-08-30T17:40:00Z"
+    },
+    {
+      "date": "2026-08-31",
+      "play": "NYM/TB Under 8",
+      "market": "totals",
+      "game": "NYM @ TB",
+      "price": -110,
+      "stake": 1.0,
+      "rule": "flag-plays",
+      "basis": "Ian Seymour swingman-3g: last-5-start line skips his relief work",
+      "result": "WIN",
+      "profit": 0.91,
+      "rule_legacy": "scout-flagged-starter-under",
+      "line": 8.0,
+      "gamePk": 822932,
+      "commence": "2026-08-31T22:40:00Z"
+    },
+    {
+      "date": "2026-08-31",
+      "play": "MIL/CHC Under 9.5",
+      "market": "totals",
+      "game": "MIL @ CHC",
+      "price": -115,
+      "stake": 1.0,
+      "rule": "flag-plays",
+      "basis": "Both starters stale-window: Harrison 48d, Holmes 102d -- both recent-form lines describe a different month",
+      "result": "LOSS",
+      "profit": -1.0,
+      "rule_legacy": "scout-flagged-starter-under",
+      "line": 9.5,
+      "gamePk": 824635,
+      "commence": "2026-08-31T23:40:00Z"
+    },
+    {
+      "date": "2026-08-31",
+      "play": "BAL/COL Under 11",
+      "market": "totals",
+      "game": "BAL @ COL",
+      "price": -118,
+      "stake": 1.0,
+      "rule": "flag-plays",
+      "basis": "Tanner Gordon stale-window-57d + swingman-5g (Coors 11)",
+      "result": "WIN",
+      "profit": 0.85,
+      "rule_legacy": "scout-flagged-starter-under",
+      "line": 11.0,
+      "gamePk": 824314,
+      "commence": "2026-09-01T00:40:00Z"
+    },
+    {
+      "date": "2026-08-31",
+      "play": "NYY/LAA Under 8.5",
+      "market": "totals",
+      "game": "NYY @ LAA",
+      "price": -115,
+      "stake": 1.0,
+      "rule": "flag-plays",
+      "basis": "Elmer Rodriguez stale-window-119d",
+      "result": "LOSS",
+      "profit": -1.0,
+      "rule_legacy": "scout-flagged-starter-under",
+      "line": 8.5,
+      "gamePk": 823982,
+      "commence": "2026-09-01T01:38:00Z"
     },
     {
       "date": "2026-08-31",
@@ -1762,75 +2200,68 @@
       "price": -122,
       "line": 8.0,
       "stake": 1.0,
-      "rule": "shadow-form-under",
+      "rule": "form-under",
       "shadow": true,
       "flagged_overlap": false,
       "basis": "Shadow only, never bet: sum of both sides' mismatch <= -40 (Tolle -66.3 + Kirby +20.7 = -45.6). Full-season as-of backtest 84-52 +17.2% ROI (n=136, perm p=0.005, bands coherent -40/-60/-80, walk-forward +27.5%/+8.9%) BUT August ran 20-20 -5.7% and 13 of its 29 live-window qualifiers were games the flagged-under rule already cards (unflagged remainder 8-8 -0.89u). Shadows until the UNFLAGGED slice proves out over 15-20 plays. flagged_overlap marks whether the game also carries a defect flag -- this one does not (clean incremental test).",
       "result": "LOSS",
-      "profit": -1.0
-    },
-    {
-      "date": "2026-08-31",
-      "play": "NYM/TB Under 8",
-      "market": "totals",
-      "game": "NYM @ TB",
-      "price": -110,
-      "stake": 1.0,
-      "rule": "scout-flagged-starter-under",
-      "basis": "Ian Seymour swingman-3g: last-5-start line skips his relief work",
-      "result": "WIN",
-      "profit": 0.91
-    },
-    {
-      "date": "2026-08-31",
-      "play": "MIL/CHC Under 9.5",
-      "market": "totals",
-      "game": "MIL @ CHC",
-      "price": -115,
-      "stake": 1.0,
-      "rule": "scout-flagged-starter-under",
-      "basis": "Both starters stale-window: Harrison 48d, Holmes 102d -- both recent-form lines describe a different month",
-      "result": "LOSS",
-      "profit": -1.0
-    },
-    {
-      "date": "2026-08-31",
-      "play": "BAL/COL Under 11",
-      "market": "totals",
-      "game": "BAL @ COL",
-      "price": -118,
-      "stake": 1.0,
-      "rule": "scout-flagged-starter-under",
-      "basis": "Tanner Gordon stale-window-57d + swingman-5g (Coors 11)",
-      "result": "WIN",
-      "profit": 0.85
-    },
-    {
-      "date": "2026-08-31",
-      "play": "NYY/LAA Under 8.5",
-      "market": "totals",
-      "game": "NYY @ LAA",
-      "price": -115,
-      "stake": 1.0,
-      "rule": "scout-flagged-starter-under",
-      "basis": "Elmer Rodriguez stale-window-119d",
-      "result": "LOSS",
-      "profit": -1.0
+      "profit": -1.0,
+      "rule_legacy": "shadow-form-under",
+      "gamePk": 824719,
+      "commence": "2026-08-31T22:45:00Z"
     },
     {
       "date": "2026-09-01",
-      "play": "SD/CIN Under 9.5",
-      "market": "totals",
-      "game": "SD @ CIN",
-      "price": -115,
+      "play": "SF ML +148 (aligned, SF hot vs PIT cold @75pa)",
+      "market": "h2h",
+      "game": "SF @ PIT",
+      "price": 148,
       "stake": 1.0,
-      "rule": "scout-flagged-starter-under-legacy",
-      "basis": "Vasquez swingman-2g + Lodolo stale-window-46d (double defect) NOTE: carded this morning under the old 'any defect -> under' rule. The per-combo verdicts adopted the same day put swingman+stale-window on the OVER (30-20 +14.7% over vs 20-30 -24.5% under). This entry is the bet that was actually placed, so it stays in the money record, but it is re-tagged -legacy so it does NOT grade as evidence for or against the swingman+stale-window verdict -- it is the wrong side of it.",
+      "rule": "aligned-ml",
+      "basis": "First fire since the rule got its own 75-PA floor (2026-08-31). NOTE: duplicates a live fade-ML model play (SF +148, fading Skenes) -- the shadow grades the rule, the money is already on via the model.",
       "result": "pending",
       "profit": 0.0,
-      "combo": "swingman+stale-window",
-      "verdict_at_bet": "under (pre-verdict rule)",
-      "verdict_now": "over"
+      "note": "Rule carded 2026-09-01 (user) after this game's first pitch; the entry was converted to a card play on the user's call so the ledger and the dashboard agree. Aligned ML's card record starts here.",
+      "rule_legacy": "shadow-aligned-ml",
+      "gamePk": 823340,
+      "commence": "2026-09-01T22:40:00Z"
+    },
+    {
+      "date": "2026-09-01",
+      "play": "CHC ML (fav, m_sum +86.7)",
+      "market": "h2h",
+      "game": "MIL @ CHC",
+      "price": -126,
+      "stake": 1.0,
+      "rule": "better-arm-ml-fav",
+      "shadow": true,
+      "is_dog": false,
+      "msum": 86.7,
+      "basis": "Better arm Matthew Boyd (+30.0) vs +56.7. Pool rule: m_sum>=+40, back the lower-mismatch side. Season 82-56 +9.3% (dogs 19-15 +26.0%); backing the favorite in the same games is -1.9% and the rule is -0.2% outside the pool. SHADOW to 20 plays: p=0.043 out of a heavily scanned session, April -31%. SCOPE NARROWED to dogs only (user, same night): this is a favorite-half entry, kept for measurement, NOT part of the rule's shadow count.",
+      "result": "pending",
+      "profit": 0.0,
+      "out_of_scope": true,
+      "rule_legacy": "shadow-msum-better-arm-fav",
+      "gamePk": 824633
+    },
+    {
+      "date": "2026-09-01",
+      "play": "BAL ML (fav, m_sum +63.8)",
+      "market": "h2h",
+      "game": "BAL @ COL",
+      "price": -146,
+      "stake": 1.0,
+      "rule": "better-arm-ml-fav",
+      "shadow": true,
+      "is_dog": false,
+      "msum": 63.8,
+      "basis": "Better arm Kyle Bradish (+14.1) vs +49.7. Pool rule: m_sum>=+40, back the lower-mismatch side. Season 82-56 +9.3% (dogs 19-15 +26.0%); backing the favorite in the same games is -1.9% and the rule is -0.2% outside the pool. SHADOW to 20 plays: p=0.043 out of a heavily scanned session, April -31%. SCOPE NARROWED to dogs only (user, same night): this is a favorite-half entry, kept for measurement, NOT part of the rule's shadow count.",
+      "result": "pending",
+      "profit": 0.0,
+      "out_of_scope": true,
+      "rule_legacy": "shadow-msum-better-arm-fav",
+      "gamePk": 824313,
+      "commence": "2026-09-02T00:40:00Z"
     },
     {
       "date": "2026-09-01",
@@ -1839,11 +2270,14 @@
       "game": "TOR @ CLE",
       "price": 100,
       "stake": 1.0,
-      "rule": "scout-flagged-starter-under",
+      "rule": "flag-plays",
       "basis": "Carded on Arrighetti stale-window-55d; the probable CHANGED after the card to Spencer Miles (opener + stale-window-108d + swingman-26g). Under the 9/2 amendment this is a swingman triple-stack, not a rust-only game -- combo layoff-free opener+stale-window+swingman, which grades 13-6 +29.0% full-season. Basis corrected 9/1 before settlement; price and side unchanged.",
       "result": "pending",
       "profit": 0.0,
-      "combo": "swingman+opener+stale-window"
+      "combo": "swingman+opener+stale-window",
+      "rule_legacy": "scout-flagged-starter-under",
+      "line": 7.5,
+      "gamePk": 824391
     },
     {
       "date": "2026-09-01",
@@ -1852,11 +2286,14 @@
       "game": "DET @ MIN",
       "price": -102,
       "stake": 1.0,
-      "rule": "scout-flagged-starter-under",
+      "rule": "flag-plays",
       "basis": "Andrew Morris opener + layoff-89d + swingman-43g",
       "result": "pending",
       "profit": 0.0,
-      "combo": "swingman+layoff+opener"
+      "combo": "swingman+layoff+opener",
+      "rule_legacy": "scout-flagged-starter-under",
+      "line": 8.5,
+      "gamePk": 823661
     },
     {
       "date": "2026-09-01",
@@ -1865,11 +2302,14 @@
       "game": "OAK @ TEX",
       "price": -124,
       "stake": 1.0,
-      "rule": "scout-flagged-starter-under",
+      "rule": "flag-plays",
       "basis": "Brady Basso opener + swingman-10g",
       "result": "pending",
       "profit": 0.0,
-      "combo": "swingman+opener"
+      "combo": "swingman+opener",
+      "rule_legacy": "scout-flagged-starter-under",
+      "line": 7.5,
+      "gamePk": 822854
     },
     {
       "date": "2026-09-01",
@@ -1878,11 +2318,14 @@
       "game": "CWS @ HOU",
       "price": -115,
       "stake": 1.0,
-      "rule": "scout-flagged-starter-under",
+      "rule": "flag-plays",
       "basis": "Ronel Blanco layoff-25d",
       "result": "pending",
       "profit": 0.0,
-      "combo": "layoff"
+      "combo": "layoff",
+      "rule_legacy": "scout-flagged-starter-under",
+      "line": 8.5,
+      "gamePk": 824148
     },
     {
       "date": "2026-09-01",
@@ -1891,11 +2334,31 @@
       "game": "STL @ LAD",
       "price": 100,
       "stake": 1.0,
-      "rule": "scout-flagged-starter-under",
+      "rule": "flag-plays",
       "basis": "Eric Lauer layoff-14d",
       "result": "pending",
       "profit": 0.0,
-      "combo": "layoff"
+      "combo": "layoff",
+      "rule_legacy": "scout-flagged-starter-under",
+      "line": 8.5,
+      "gamePk": 823908
+    },
+    {
+      "date": "2026-09-01",
+      "play": "SD/CIN O9",
+      "market": "totals",
+      "game": "SD @ CIN",
+      "price": -120,
+      "stake": 1.0,
+      "rule": "flag-plays",
+      "auto": true,
+      "basis": "Verdict over for swingman+stale-window (30-20 +14.7% over vs 20-30 -24.5% under). Randy Vasquez swingman-2g \u00b7 Nick Lodolo stale-window-46d. This is the rule's play of record for the game.",
+      "result": "pending",
+      "profit": 0.0,
+      "line": 9,
+      "combo": "swingman+stale-window",
+      "gamePk": 824472,
+      "commence": "2026-09-01T22:40:00Z"
     },
     {
       "date": "2026-09-01",
@@ -1909,53 +2372,9 @@
       "flagged_overlap": false,
       "basis": "CARDED 2026-09-01 (user) mid-slate, before this game started. Both arms in form: m_sum -53.5, no defect flag on either starter (clean incremental test). Shadow 1 (SEA/BOS U8 8/31) lost on a 17-run game.",
       "result": "pending",
-      "profit": 0.0
-    },
-    {
-      "date": "2026-09-01",
-      "play": "SF ML +148 (aligned, SF hot vs PIT cold @75pa)",
-      "market": "h2h",
-      "game": "SF @ PIT",
-      "price": 148,
-      "stake": 1.0,
-      "rule": "shadow-aligned-ml",
-      "shadow": true,
-      "basis": "First fire since the rule got its own 75-PA floor (2026-08-31). NOTE: duplicates a live fade-ML model play (SF +148, fading Skenes) -- the shadow grades the rule, the money is already on via the model.",
-      "result": "pending",
       "profit": 0.0,
-      "note": "Rule carded 2026-09-01 (user), but this entry stays SHADOW: the game had already started when the change was made. Card status applies from the next slate."
-    },
-    {
-      "date": "2026-09-01",
-      "play": "CHC ML (fav, m_sum +86.7)",
-      "market": "h2h",
-      "game": "MIL @ CHC",
-      "price": -126,
-      "stake": 1.0,
-      "rule": "shadow-msum-better-arm-fav",
-      "shadow": true,
-      "is_dog": false,
-      "msum": 86.7,
-      "basis": "Better arm Matthew Boyd (+30.0) vs +56.7. Pool rule: m_sum>=+40, back the lower-mismatch side. Season 82-56 +9.3% (dogs 19-15 +26.0%); backing the favorite in the same games is -1.9% and the rule is -0.2% outside the pool. SHADOW to 20 plays: p=0.043 out of a heavily scanned session, April -31%. SCOPE NARROWED to dogs only (user, same night): this is a favorite-half entry, kept for measurement, NOT part of the rule's shadow count.",
-      "result": "pending",
-      "profit": 0.0,
-      "out_of_scope": true
-    },
-    {
-      "date": "2026-09-01",
-      "play": "BAL ML (fav, m_sum +63.8)",
-      "market": "h2h",
-      "game": "BAL @ COL",
-      "price": -146,
-      "stake": 1.0,
-      "rule": "shadow-msum-better-arm-fav",
-      "shadow": true,
-      "is_dog": false,
-      "msum": 63.8,
-      "basis": "Better arm Kyle Bradish (+14.1) vs +49.7. Pool rule: m_sum>=+40, back the lower-mismatch side. Season 82-56 +9.3% (dogs 19-15 +26.0%); backing the favorite in the same games is -1.9% and the rule is -0.2% outside the pool. SHADOW to 20 plays: p=0.043 out of a heavily scanned session, April -31%. SCOPE NARROWED to dogs only (user, same night): this is a favorite-half entry, kept for measurement, NOT part of the rule's shadow count.",
-      "result": "pending",
-      "profit": 0.0,
-      "out_of_scope": true
+      "gamePk": 823984,
+      "commence": "2026-09-02T01:38:00Z"
     },
     {
       "date": "2026-09-01",
@@ -1964,11 +2383,13 @@
       "game": "MIL @ CHC",
       "price": -126,
       "stake": 1.0,
-      "rule": "shadow-mismatch-ml",
+      "rule": "mismatch-ml",
       "shadow": true,
       "basis": "FADE at L20 mismatch +56.7 (Robert Gasser). SHADOW revival 2026-09-01 after the 8/29-8/30 card-and-pull; expectation is August's +9.4%, not the +17.2% season figure. Not bet.",
       "result": "pending",
-      "profit": 0.0
+      "profit": 0.0,
+      "rule_legacy": "shadow-mismatch-ml",
+      "gamePk": 824633
     }
   ]
 }
