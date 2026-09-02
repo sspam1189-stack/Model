@@ -79,6 +79,11 @@ async function renderMLBSlateScout() {
   const isCard = (rule, fallback) => (ruleStatus && ruleStatus.rules[rule])
     ? ruleStatus.rules[rule].status === 'card'
     : fallback;
+  // Retired is not shadow. A shadow rule still shows on the card so its
+  // tracked plays can be read; a retired one is off and shows nothing, which
+  // is why this needs its own check rather than falling out of !isCard.
+  const isRetired = (rule) => !!(ruleStatus && ruleStatus.rules[rule]
+    && ruleStatus.rules[rule].status === 'retired');
 
   const msumTable = (await Promise.all([
     grabTableAny('data/msum-ml-table.json'),
@@ -260,7 +265,8 @@ async function renderMLBSlateScout() {
   // statistical case, only a structural one.
   // Fallbacks only -- rule-status.json wins when it loads.
   const FORM_UNDER_LIVE = isCard('form-under', true);
-  const ALIGNED_ML_LIVE = isCard('aligned-ml', true);
+  const ALIGNED_ML_LIVE = isCard('aligned-ml', false);
+  const ALIGNED_ML_OFF = isRetired('aligned-ml');
   const ctTime = (iso) => {
     try {
       return new Date(iso).toLocaleTimeString('en-US',
@@ -327,8 +333,9 @@ async function renderMLBSlateScout() {
         why: 'm_sum +' + msum.toFixed(1) + ' · over side measured -0.6% ROI, not bet' });
     }
     // scout-ml-both-halves-aligned at its own 75-PA floor (everything else
-    // stays at 150). Emitted by the builder; shadow until 25 graded plays.
-    if (s.aligned_ml) {
+    // stays at 150). RETIRED 2026-09-02 after the full-season replay put it at
+    // 6-7 -12.8%; the builder still emits it, so this is where it stops.
+    if (s.aligned_ml && !ALIGNED_ML_OFF) {
       const am = s.aligned_ml;
       underPlays.push({ s, kind: ALIGNED_ML_LIVE ? 'card' : 'shadow', side: 'ML',
         ml: am,
@@ -823,6 +830,7 @@ async function renderMLBSlateScout() {
         (x) => (x == null ? '—' : (x > 0 ? '+' : '') + x.toFixed(0))).join(' / ');
       const bad = (r.halves || []).some((x) => x != null && x <= 0);
       const live = r.status === 'card';
+      const off = r.status === 'retired';
       t += '<tr style="border-top:1px solid #161b22">'
         + '<td style="padding:3px 6px;font-weight:600;white-space:nowrap">'
         + esc(r.name) + '</td>'
@@ -831,8 +839,9 @@ async function renderMLBSlateScout() {
         + '<td><span style="display:inline-block;padding:1px 6px;'
         + 'border-radius:3px;font-weight:600;white-space:nowrap;'
         + (live ? 'background:rgba(63,185,80,.18);color:#3fb950'
-          : 'background:rgba(139,148,158,.14);color:' + DIM) + '">'
-        + (live ? 'CARD' : 'SHADOW') + '</span></td>'
+          : off ? 'background:rgba(248,81,73,.12);color:#f85149'
+            : 'background:rgba(139,148,158,.14);color:' + DIM) + '">'
+        + (live ? 'CARD' : off ? 'RETIRED' : 'SHADOW') + '</span></td>'
         + '<td style="color:' + DIM + ';white-space:nowrap">'
         + rec.w + '-' + rec.l + ' <span style="font-size:11px">(n=' + rec.n
         + ')</span></td>'

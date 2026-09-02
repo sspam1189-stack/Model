@@ -1,28 +1,13 @@
 {
  "sport": "MLB",
  "type": "plays-feed",
- "generated": "2026-09-02T00:27:13Z",
+ "generated": "2026-09-02T01:58:45Z",
  "days_kept": 30,
  "note": "A projection of MLBstrikeouts/data/scout-card-log.json for the dashboard's date selector. Results and profit are the ledger's own, settled by scripts/grade_scout_ledger.py from the finals; nothing is recomputed here. Units exclude shadow and not-bet rows, which stay in the W-L. Backfilled rows (replayed after the fact, never wagered) are held out of the record entirely and tallied separately.",
  "days": [
   {
    "date": "2026-09-01",
    "rows": [
-    {
-     "date": "2026-09-01",
-     "play": "SF ML +148 (aligned, SF hot vs PIT cold @75pa)",
-     "market": "h2h",
-     "price": 148,
-     "rule": "aligned-ml",
-     "result": "pending",
-     "profit": 0.0,
-     "game": "SF @ PIT",
-     "gamePk": 823340,
-     "commence": "2026-09-01T22:40:00Z",
-     "basis": "First fire since the rule got its own 75-PA floor (2026-08-31). NOTE: duplicates a live fade-ML model play (SF +148, fading Skenes) -- the shadow grades the rule, the money is already on via the model.",
-     "name": "Aligned ML",
-     "group": "scout"
-    },
     {
      "date": "2026-09-01",
      "play": "SD/CIN O9",
@@ -276,9 +261,9 @@
     "w": 0,
     "l": 0,
     "push": 0,
-    "pending": 16,
-    "n": 16,
-    "live_n": 16,
+    "pending": 15,
+    "n": 15,
+    "live_n": 15,
     "units": 0,
     "backfilled": {
      "w": 0,
@@ -291,9 +276,9 @@
     "w": 0,
     "l": 0,
     "push": 0,
-    "pending": 11,
-    "n": 11,
-    "live_n": 11,
+    "pending": 10,
+    "n": 10,
+    "live_n": 10,
     "units": 0,
     "backfilled": {
      "w": 0,

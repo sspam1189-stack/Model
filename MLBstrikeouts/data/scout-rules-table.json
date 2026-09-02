@@ -1,7 +1,7 @@
 {
  "sport": "MLB",
  "type": "scout-rules-table",
- "generated": "2026-09-02T01:53:20Z",
+ "generated": "2026-09-02T01:58:45Z",
  "span": {
   "from": "2026-03-25",
   "to": "2026-08-31"
@@ -81,7 +81,7 @@
    "name": "Aligned ML",
    "market": "h2h",
    "rule": "One offense hot-aligned across all four windows (>= 110) against one cold-aligned (<= 90) at the 75-PA floor -> back the hot side.",
-   "status": "card",
+   "status": "retired",
    "baseline_key": "side",
    "baseline": -3.3,
    "record": {

@@ -3,7 +3,7 @@
   "type": "scout-card-log",
   "week_convention": "monday-sunday",
   "description": "Per-play ledger for scout card calls (tier 2/3 of the daily card policy in MLBstrikeouts/CLAUDE.md). Model plays are NOT logged here - fade-ml/props/hand-tails keep their own files. No-play days are logged too: an empty card is part of the record. Prices are the card-time quote, not the close.",
-  "generated": "2026-09-02T00:27:13Z",
+  "generated": "2026-09-02T01:58:01Z",
   "pre_log_history": [
     {
       "date": "2026-08-17",
@@ -13444,22 +13444,6 @@
       "play": "PHI/ARI U8.5",
       "result": "WIN",
       "profit": 0.82
-    },
-    {
-      "date": "2026-09-01",
-      "play": "SF ML +148 (aligned, SF hot vs PIT cold @75pa)",
-      "market": "h2h",
-      "game": "SF @ PIT",
-      "price": 148,
-      "stake": 1.0,
-      "rule": "aligned-ml",
-      "basis": "First fire since the rule got its own 75-PA floor (2026-08-31). NOTE: duplicates a live fade-ML model play (SF +148, fading Skenes) -- the shadow grades the rule, the money is already on via the model.",
-      "result": "pending",
-      "profit": 0.0,
-      "note": "Rule carded 2026-09-01 (user) after this game's first pitch; the entry was converted to a card play on the user's call so the ledger and the dashboard agree. Aligned ML's card record starts here.",
-      "rule_legacy": "shadow-aligned-ml",
-      "gamePk": 823340,
-      "commence": "2026-09-01T22:40:00Z"
     },
     {
       "date": "2026-09-01",

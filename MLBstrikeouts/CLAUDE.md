@@ -158,20 +158,25 @@ When building a daily card from this repo's outputs, the tiers are:
    the +17.2% season figure. **That revival happened 2026-09-01** — this is
    the one rule on the board that is doing the process in the right order.
 
-5. **Aligned ML — CARDED 2026-09-01 (user).** One offense
-   hot-aligned across all four windows (>= 110) while the other is
-   cold-aligned (<= 90), evaluated at this rule's own 75-PA floor
-   (`ALIGNED_ML_MIN_PA`; everything else stays at 150) -> back the hot
-   side's team. Capped at 1u, never opposing a model position.
+5. **Aligned ML — RETIRED 2026-09-02 (user).** One offense hot-aligned
+   across all four windows (>= 110) while the other is cold-aligned (<= 90),
+   at its own 75-PA floor (`ALIGNED_ML_MIN_PA`) -> back the hot side's team.
 
-   **This one has no statistical case and the record should say so.** It is
-   3-1 lifetime (n=4). The four-window ladder it rests on was measured
-   INERT for runs -- cold-aligned offenses scored 4.54 a game, hot-aligned
-   4.52 -- and betting the ladder in any other form returned nothing. It
-   fires roughly twice a month, so 25 graded plays is a year away. It is
-   carded on the user's call as a structural read (a hot lineup against a
-   cold one), not because anything measured supports it. Nothing else in
-   the tier list is this thin; if it goes 0-3 it should come straight off.
+   Carded 2026-09-01 on a 3-1 lifetime record (n=4) with no statistical case,
+   on a four-window ladder that had been measured INERT for runs (cold-aligned
+   offenses scored 4.54 a game, hot-aligned 4.52). The full-season replay
+   published the next day, when Form under and Mismatch ML finally got a
+   season table, put it at **6-7, -12.8% over 13 plays, negative in both
+   halves (-8/-30)** against a -3.3% blind baseline. That is the opposite of
+   the 3-1 that justified carding it, on three times the sample, so it came
+   off.
+
+   The lesson is the one the rust-over rule taught in August and this repeats:
+   a rule carded on four games is carded on nothing. The reason it took a day
+   to catch is that Aligned ML had no season grid -- its record lived only in
+   this file as prose. Every rule now has a table (`scout-rules-table.json`
+   covers the three that did not), so the next one cannot hide.
+
 6. **Non-scout systems — FIVE CARDED 2026-09-01 (user).** A separate
    family, defined in `scripts/allml_systems.py` and grouped apart on the
    tab and in the ledger. They read `mlb-all-ml.json` alone -- prices,
