@@ -101,6 +101,33 @@ SYSTEMS = {
         "passes on this file, where one result at p~0.001 is about what "
         "chance produces. Carded on the user's call 2026-09-02 at the "
         "+115..+149 band; the record settles it."),
+    "home-dog-getaway": (
+        "Home dog getaway", "h2h",
+        "Day game, the visitors played a night game yesterday, and the home "
+        "team is a plus-money dog: back the home side.",
+        "26-19 +26.0% (n=45) at plus money; scored as not-the-favourite, "
+        "31-22 +25.5% on 53. Halves +25.6/+25.5. Monthly at plus money runs "
+        "+10/+19/+22/-14/+53, so July is negative -- the 'every month "
+        "positive' reading belongs to the wider not-the-favourite cut, not "
+        "to the version carded here. "
+        "The mechanism is the cleanest of the six: after a night game both "
+        "clubs are short on sleep, but one sleeps at home and the other packs "
+        "for the airport, and the market prices team quality rather than that. "
+        "It shows up where the home side is the weaker team and vanishes where "
+        "it is the favourite (-0.2%).\n\n"
+        "        Controls behave. The same day games WITHOUT the night-before "
+        "condition return -4.9%, home dogs in day games not after a night "
+        "game -1.4%, and leave-one-team-out holds at every one of the five "
+        "most frequent hosts (+22% to +29%), with 15 distinct home teams over "
+        "53 games and no team supplying more than 8. A 2/3-1/3 holdout "
+        "trained +19.0% and tested +34.0%. The calibration gap is +11.6 "
+        "points, and against an exactly-right market the record has "
+        "probability 0.060 -- unremarkable, which is the point: the return "
+        "comes from dog prices rather than from an implausible win rate.\n\n"
+        "        Against it: the price ladder inside the cell is not clean "
+        "(-120..-101 +22.8% on 8, pickem -5.1% on 17, +110..+139 +47.5% on "
+        "24), it is a three-way slice, and n=45 is small. Carded on the "
+        "user's call 2026-09-02."),
     "cold-arms-under": (
         "Cold arms under", "totals",
         "Both starters have gone over in 35% or less of their last 8: under.",
@@ -142,7 +169,8 @@ SYSTEMS = {
         "and splitting L4 by the same variable leaves both halves winning."),
 }
 CARD_ORDER = ("away-dog-ml", "home-slide-ml", "division-home-dog",
-              "pickem-under", "starter-over-run", "cold-arms-under")
+              "home-dog-getaway", "pickem-under", "starter-over-run",
+              "cold-arms-under")
 
 # REMOVED 2026-09-01 (user), the same day they were carded, before either had
 # a settled play. Kept here rather than deleted so the numbers are not
@@ -180,6 +208,8 @@ COLD_ARMS_RATE = 0.35
 UNDER_JUICE_ML = -120
 AWAY_DOG_TOTAL = 9.5
 DIV_DOG_LO, DIV_DOG_HI = 115, 149   # the band the effect lives in
+GETAWAY_DAY_HOUR = 20     # today's first pitch before 20Z is a day game
+GETAWAY_NIGHT_HOUR = 23   # yesterday's at 23Z or later was a night game
 HOME_SLIDE_LOSSES = 4
 
 
@@ -195,6 +225,15 @@ def _profit(ml, won):
 
 def _date(s):
     return datetime.date.fromisoformat(s)
+
+
+def _hour(g):
+    """First pitch hour in UTC, or None. 23Z+ is a night game in the US."""
+    c = g.get("commence") or ""
+    try:
+        return int(c[11:13])
+    except (ValueError, IndexError):
+        return None
 
 
 def load(path=None):
@@ -231,6 +270,8 @@ class AsOf:
             hist = self.team[g[side]]
             if hist:
                 last = hist[-1]
+                f["last_date"] = last["date"]
+                f["last_hour"] = last.get("hour")
                 k = 0
                 for x in reversed(hist):
                     if x["won"] == last["won"]:
@@ -257,6 +298,7 @@ class AsOf:
             other = "home" if side == "away" else "away"
             won = home_won if side == "home" else not home_won
             rec = {"date": g["date"], "won": won, "opp": g[other], "over": over,
+                   "hour": _hour(g),
                    "p": _profit(g[f"{side}_ml"], won)}
             self.team[g[side]].append(rec)
             if g.get(f"{side}_pitcher"):
@@ -301,6 +343,16 @@ def plays_for(g, feat):
                 and DIV_DOG_LO <= home_ml <= DIV_DOG_HI):
             add("division-home-dog", "h2h", g["home"], home_ml,
                 why=f"home to a {DIVISION_OF[g['home']]} rival at +{home_ml}")
+        today_hour = _hour(g)
+        if (today_hour is not None and today_hour < GETAWAY_DAY_HOUR
+                and home_ml > 0
+                and a.get("last_hour") is not None
+                and a["last_hour"] >= GETAWAY_NIGHT_HOUR
+                and a.get("last_date")
+                and (_date(g["date"]) - _date(a["last_date"])).days == 1):
+            add("home-dog-getaway", "h2h", g["home"], home_ml,
+                why=f"{g['away']} played a night game yesterday, day game "
+                    f"today, home dog at +{home_ml}")
         st = h.get("streak")
         if st is not None and st <= -HOME_SLIDE_LOSSES \
                 and h.get("last_opp") and h["last_opp"] != g["away"]:

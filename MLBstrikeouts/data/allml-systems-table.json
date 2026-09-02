@@ -1,7 +1,7 @@
 {
  "sport": "MLB",
  "type": "allml-systems-table",
- "generated": "2026-09-02T04:15:14Z",
+ "generated": "2026-09-02T05:00:11Z",
  "span": {
   "from": "2026-03-25",
   "to": "2026-08-31"
@@ -216,6 +216,71 @@
     }
    ],
    "per_day": 0.46
+  },
+  {
+   "baseline_key": "side",
+   "baseline": -3.2,
+   "key": "home-dog-getaway",
+   "name": "Home dog getaway",
+   "market": "h2h",
+   "rule": "Day game, the visitors played a night game yesterday, and the home team is a plus-money dog: back the home side.",
+   "case": "26-19 +26.0% (n=45) at plus money; scored as not-the-favourite, 31-22 +25.5% on 53. Halves +25.6/+25.5. Monthly at plus money runs +10/+19/+22/-14/+53, so July is negative -- the 'every month positive' reading belongs to the wider not-the-favourite cut, not to the version carded here. The mechanism is the cleanest of the six: after a night game both clubs are short on sleep, but one sleeps at home and the other packs for the airport, and the market prices team quality rather than that. It shows up where the home side is the weaker team and vanishes where it is the favourite (-0.2%).\n\n        Controls behave. The same day games WITHOUT the night-before condition return -4.9%, home dogs in day games not after a night game -1.4%, and leave-one-team-out holds at every one of the five most frequent hosts (+22% to +29%), with 15 distinct home teams over 53 games and no team supplying more than 8. A 2/3-1/3 holdout trained +19.0% and tested +34.0%. The calibration gap is +11.6 points, and against an exactly-right market the record has probability 0.060 -- unremarkable, which is the point: the return comes from dog prices rather than from an implausible win rate.\n\n        Against it: the price ladder inside the cell is not clean (-120..-101 +22.8% on 8, pickem -5.1% on 17, +110..+139 +47.5% on 24), it is a three-way slice, and n=45 is small. Carded on the user's call 2026-09-02.",
+   "status": "card",
+   "ladder_fails": false,
+   "record": {
+    "w": 26,
+    "l": 19,
+    "n": 45,
+    "units": 11.7,
+    "roi": 26.0
+   },
+   "halves": [
+    14.4,
+    34.5
+   ],
+   "monthly": [
+    {
+     "month": "2026-04",
+     "w": 5,
+     "l": 5,
+     "n": 10,
+     "units": 1.02,
+     "roi": 10.2
+    },
+    {
+     "month": "2026-05",
+     "w": 5,
+     "l": 4,
+     "n": 9,
+     "units": 1.72,
+     "roi": 19.1
+    },
+    {
+     "month": "2026-06",
+     "w": 3,
+     "l": 2,
+     "n": 5,
+     "units": 1.12,
+     "roi": 22.4
+    },
+    {
+     "month": "2026-07",
+     "w": 2,
+     "l": 3,
+     "n": 5,
+     "units": -0.68,
+     "roi": -13.6
+    },
+    {
+     "month": "2026-08",
+     "w": 11,
+     "l": 5,
+     "n": 16,
+     "units": 8.52,
+     "roi": 53.2
+    }
+   ],
+   "per_day": 0.29
   },
   {
    "baseline_key": "under",

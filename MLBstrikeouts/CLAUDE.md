@@ -177,7 +177,7 @@ When building a daily card from this repo's outputs, the tiers are:
    this file as prose. Every rule now has a table (`scout-rules-table.json`
    covers the three that did not), so the next one cannot hide.
 
-6. **Non-scout systems — SIX CARDED (five 2026-09-01, one 2026-09-02; user).** A separate
+6. **Non-scout systems — SEVEN CARDED (five 2026-09-01, two 2026-09-02; user).** A separate
    family, defined in `scripts/allml_systems.py` and grouped apart on the
    tab and in the ledger. They read `mlb-all-ml.json` alone -- prices,
    totals, probables, scores, plus what can be derived as-of from its own
@@ -193,6 +193,7 @@ When building a daily card from this repo's outputs, the tiers are:
    | Starter over run | a starter 75%+ overs in his last 8, total >= 8.5 | 120-87 | +10.8% | -6.1% |
    | Cold arms under | both starters <= 35% overs in last 8 | 27-14 | +23.5% | -3.5% |
    | Division home dog | home to a division rival, priced +115 to +149 | 46-27 | +43.0% | -3.2% |
+   | Home dog getaway | day game, visitors played last night, home is a plus-money dog | 26-19 | +26.0% | -3.2% |
 
    Three more were carded the same day and removed before any of them
    settled a play. **Hot arm dog ML** (back a plus-money side whose starter's
@@ -226,6 +227,27 @@ When building a daily card from this repo's outputs, the tiers are:
    price, a 21.3-point miss, where the L4 cell was rejected for a 15.9-point
    one. The effect is also a hump in price, dead below +115 and above +150.
    Carded anyway on the user's call at the +115..+149 band.
+
+   **Home dog getaway (added 2026-09-02, user)** has the cleanest mechanism
+   of the seven: after a night game both clubs are short on sleep, but one
+   sleeps at home and the other packs for the airport, and the market prices
+   team quality rather than that. It shows up only where the home side is the
+   weaker team (the favourite half is -0.2%). Controls behave -- the same day
+   games without the night-before condition return -4.9%, home dogs in day
+   games not following one -1.4%, leave-one-team-out holds at all five most
+   frequent hosts, and a 2/3-1/3 holdout tested +34.0%. Its calibration gap
+   is +11.6 points and the record has probability 0.060 against an
+   exactly-right market, which is unremarkable -- the return comes from dog
+   prices, not from an implausible win rate. Against it: the price ladder
+   inside the cell is not clean, July runs -14%, and n=45 is small.
+
+   **A note on the mirror test that nearly killed it.** The first read
+   rejected this because "home club night-then-day -> back away" measured
+   -13.2%, which looked like the fatigue only affecting visitors. That test
+   was wrong: 172 of the 176 games have BOTH clubs coming off a night game,
+   because they played each other, so the mirror was the same games bet the
+   other way -- the inverse of the result, not a control. Check what a
+   control actually holds constant before trusting it.
 
    **Three fail their ladder and are carded anyway, on the user's call.** Away
    dog ML is entirely the 9.5 bucket: away dogs run -15.4% at a 9.0 total
