@@ -698,6 +698,8 @@ def backtest_props(seasons, start_week=4):
                                 "season": season,
                                 "week": week,
                                 "player": name,
+                                "team": proj.get("team", ""),
+                                "opp": proj.get("opp", ""),
                                 "proj": round(proj_val, 1),
                                 "line": sim_line,
                                 "actual": actual_val,
@@ -827,8 +829,8 @@ def write_dashboard_json(results, seasons):
         for p in data["picks"]:
             all_picks.append({
                 "player": p["player"],
-                "team": "",
-                "opp": "",
+                "team": p.get("team", ""),
+                "opp": p.get("opp", ""),
                 "market": market,
                 "proj": p["proj"],
                 "std": 0,
