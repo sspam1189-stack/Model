@@ -575,7 +575,10 @@ def stage_grade(season, week, store):
 
     # 4. Save Kalman state
     print(f"[grade 4/4] Saving Kalman state...")
-    apply_daily_drift(kalman_state, f"{season}_W{week}")
+    # Drift keys are YYYYMMDD dates (core.kalman_state parses them; the
+    # backfill and initialize_kalman use the same form). Passing a week
+    # label like "2026_W1" crashes the parser.
+    apply_daily_drift(kalman_state, datetime.now().strftime("%Y%m%d"))
     prune_processed_games(kalman_state, 60)
     save_kalman_state(kalman_state)
     save_store(store)
@@ -634,7 +637,10 @@ def stage_project(season, week, store):
             return
 
     # Apply daily drift
-    apply_daily_drift(kalman_state, f"{season}_W{week}")
+    # Drift keys are YYYYMMDD dates (core.kalman_state parses them; the
+    # backfill and initialize_kalman use the same form). Passing a week
+    # label like "2026_W1" crashes the parser.
+    apply_daily_drift(kalman_state, datetime.now().strftime("%Y%m%d"))
 
     # Load weights and thresholds
     # Copy: base_w is mutated in place below when merging weights.json. Without

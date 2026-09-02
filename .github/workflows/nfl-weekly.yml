@@ -87,6 +87,7 @@ jobs:
           GMAIL_USER: ${{ secrets.GMAIL_USER }}
           GMAIL_APP_PASSWORD: ${{ secrets.GMAIL_APP_PASSWORD }}
           TO_EMAIL: ${{ secrets.TO_EMAIL }}
+          ODDS_API_KEY: ${{ secrets.ODDS_API_KEY }}
         run: python run_weekly.py --stage ${{ inputs.stage || 'all' }}
 
       - name: Upload pyNFL data
@@ -170,6 +171,7 @@ jobs:
           PYTHONUTF8: "1"
           PYTHONUNBUFFERED: "1"
           PYTHONIOENCODING: "utf-8"
+          ODDS_API_KEY: ${{ secrets.ODDS_API_KEY }}
         run: python run_weekly.py --stage grade
 
       - name: Upload graded data
