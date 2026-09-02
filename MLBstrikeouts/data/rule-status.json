@@ -1,7 +1,7 @@
 {
  "sport": "MLB",
  "type": "rule-status",
- "generated": "2026-09-02T02:01:26Z",
+ "generated": "2026-09-02T04:15:14Z",
  "note": "Single source of truth for card/shadow status. The daily logger imports RULE_STATUS from scripts/rule_status.py; the dashboard reads this file. Edit the script, not either surface.",
  "rules": {
   "flag-plays": {
@@ -50,6 +50,12 @@
    "status": "card",
    "name": "Home slide ML",
    "why": "Home team on a 4-game losing streak or longer, facing a different opponent than its last game.",
+   "group": "non-scout"
+  },
+  "division-home-dog": {
+   "status": "card",
+   "name": "Division home dog",
+   "why": "Home team hosting a division rival and priced +115 to +149: back the home side.",
    "group": "non-scout"
   },
   "pickem-under": {

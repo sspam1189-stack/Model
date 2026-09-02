@@ -42,6 +42,18 @@ import os
 HERE = os.path.dirname(os.path.abspath(__file__))
 ALLML = os.path.normpath(os.path.join(HERE, "..", "data", "mlb-all-ml.json"))
 
+# Division membership, for the division-home-dog rule. The only thing in this
+# module that is not derivable from mlb-all-ml.json itself.
+DIVISIONS = {
+    "AL East": ("NYY", "BOS", "TB", "TOR", "BAL"),
+    "AL Central": ("CLE", "MIN", "DET", "CWS", "KC"),
+    "AL West": ("HOU", "SEA", "TEX", "LAA", "OAK"),
+    "NL East": ("ATL", "PHI", "NYM", "MIA", "WSH"),
+    "NL Central": ("MIL", "CHC", "STL", "CIN", "PIT"),
+    "NL West": ("LAD", "SD", "SF", "ARI", "COL"),
+}
+DIVISION_OF = {t: d for d, ts in DIVISIONS.items() for t in ts}
+
 MIN_STARTS = 5          # prior starts before a pitcher's trailing form is used
 PIT_WINDOW = 8          # trailing starts in the over-rate and ROI windows
 
@@ -64,6 +76,31 @@ SYSTEMS = {
         "totals market is slow to move on a starter's run. Weak point: "
         "monthly alternates (+27/-8/+20/-5/+9). The total>=8.5 half is what "
         "carries it; under 8 the same signal is -3.6%."),
+    "division-home-dog": (
+        "Division home dog", "h2h",
+        "Home team hosting a division rival and priced +115 to +149: back the "
+        "home side.",
+        "LADDER FAILS. 46-27 +41.0% (n=73), halves positive, and it survives "
+        "leave-one-division-out on all six divisions and leave-one-team-out "
+        "with COL/LAA/WSH removed. Controls are the right shape: the same "
+        "price band in NON-division games is +11.5% at +115-129 and -9.4% at "
+        "+130-149, backing every home team is -3.5%, division home FAVOURITES "
+        "are -0.3%, and the mirror (away side in division games) is -10.6%. A "
+        "true 2/3-1/3 holdout came back 21-8 on the test period.\n\n"
+        "        WHAT IS AGAINST IT, recorded because it is serious. The "
+        "effect is a hump in price, not a trend: +100-114 runs -5.8% and "
+        "+150-179 runs -11.9%, so the market is roughly right on both sides "
+        "of a 73-game island -- structurally the same shape as the away-dog- "
+        "at-9.5 cell. And the calibration gap is not physically plausible: at "
+        "+115-129 these teams won 66.7% against a 45.4% price, a 21.3-point "
+        "miss. When the L4 losing-streak cell was rejected, the stated reason "
+        "was that its 15.9-point gap was larger than any liquid market "
+        "leaves open; this is bigger. Against a market that is exactly right, "
+        "46-27 has probability 0.0009 -- which sounds decisive until you "
+        "count roughly 310 hand-built cells tested across six scanning "
+        "passes on this file, where one result at p~0.001 is about what "
+        "chance produces. Carded on the user's call 2026-09-02 at the "
+        "+115..+149 band; the record settles it."),
     "cold-arms-under": (
         "Cold arms under", "totals",
         "Both starters have gone over in 35% or less of their last 8: under.",
@@ -104,7 +141,7 @@ SYSTEMS = {
         "streaks span multiple opponents 100% of the time and lose money, "
         "and splitting L4 by the same variable leaves both halves winning."),
 }
-CARD_ORDER = ("away-dog-ml", "home-slide-ml",
+CARD_ORDER = ("away-dog-ml", "home-slide-ml", "division-home-dog",
               "pickem-under", "starter-over-run", "cold-arms-under")
 
 # REMOVED 2026-09-01 (user), the same day they were carded, before either had
@@ -142,6 +179,7 @@ LOW_LINE = 7.0
 COLD_ARMS_RATE = 0.35
 UNDER_JUICE_ML = -120
 AWAY_DOG_TOTAL = 9.5
+DIV_DOG_LO, DIV_DOG_HI = 115, 149   # the band the effect lives in
 HOME_SLIDE_LOSSES = 4
 
 
@@ -258,6 +296,11 @@ def plays_for(g, feat):
         if total is not None and total >= AWAY_DOG_TOTAL and away_ml > 0:
             add("away-dog-ml", "h2h", g["away"], away_ml,
                 why=f"away dog at a {total:g} total")
+        if (DIVISION_OF.get(g["away"]) is not None
+                and DIVISION_OF.get(g["away"]) == DIVISION_OF.get(g["home"])
+                and DIV_DOG_LO <= home_ml <= DIV_DOG_HI):
+            add("division-home-dog", "h2h", g["home"], home_ml,
+                why=f"home to a {DIVISION_OF[g['home']]} rival at +{home_ml}")
         st = h.get("streak")
         if st is not None and st <= -HOME_SLIDE_LOSSES \
                 and h.get("last_opp") and h["last_opp"] != g["away"]:

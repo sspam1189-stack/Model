@@ -177,7 +177,7 @@ When building a daily card from this repo's outputs, the tiers are:
    this file as prose. Every rule now has a table (`scout-rules-table.json`
    covers the three that did not), so the next one cannot hide.
 
-6. **Non-scout systems — FIVE CARDED 2026-09-01 (user).** A separate
+6. **Non-scout systems — SIX CARDED (five 2026-09-01, one 2026-09-02; user).** A separate
    family, defined in `scripts/allml_systems.py` and grouped apart on the
    tab and in the ledger. They read `mlb-all-ml.json` alone -- prices,
    totals, probables, scores, plus what can be derived as-of from its own
@@ -192,6 +192,7 @@ When building a daily card from this repo's outputs, the tiers are:
    | Pickem under | favorite -115 or shorter, total >= 8.5 | 98-69 | +11.5% | -3.5% |
    | Starter over run | a starter 75%+ overs in his last 8, total >= 8.5 | 120-87 | +10.8% | -6.1% |
    | Cold arms under | both starters <= 35% overs in last 8 | 27-14 | +23.5% | -3.5% |
+   | Division home dog | home to a division rival, priced +115 to +149 | 46-27 | +43.0% | -3.2% |
 
    Three more were carded the same day and removed before any of them
    settled a play. **Hot arm dog ML** (back a plus-money side whose starter's
@@ -214,7 +215,19 @@ When building a daily card from this repo's outputs, the tiers are:
    additionally beats its blind baseline, holds in both walk-forward halves,
    and has a mechanism.
 
-   **Two fail their ladder and are carded anyway, on the user's call.** Away
+   **Division home dog (added 2026-09-02, user)** is the one find from the
+   sixth scanning pass, which otherwise killed head-to-head history,
+   interleague, trip length, rest differential, repeat pitcher-vs-opponent
+   and scoring form against the line. It survives leave-one-division-out on
+   all six divisions and leave-one-team-out, and its controls are the right
+   shape (non-division same band +11.5%/-9.4%, division home favourites
+   -0.3%, the away mirror -10.6%, blind home -3.5%). **The case against it is
+   the calibration gap**: at +115-129 these teams won 66.7% against a 45.4%
+   price, a 21.3-point miss, where the L4 cell was rejected for a 15.9-point
+   one. The effect is also a hump in price, dead below +115 and above +150.
+   Carded anyway on the user's call at the +115..+149 band.
+
+   **Three fail their ladder and are carded anyway, on the user's call.** Away
    dog ML is entirely the 9.5 bucket: away dogs run -15.4% at a 9.0 total
    (n=168, more games than the winning cell) and +6.1% at 10+. Home slide ML
    is entirely "exactly L4": L3 is -9.4% (n=118) and L5 -6.4% (n=29), and
