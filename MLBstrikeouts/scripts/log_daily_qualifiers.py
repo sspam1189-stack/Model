@@ -241,15 +241,14 @@ def drop_conflicting_overs(entries, date):
                 continue
             if e.get("conflict_skip") and NOTE in (e.get("basis") or ""):
                 continue                       # already handled, nothing to do
-            # Recorded as a PUSH (user, 2026-09-02): the row shows in the log
-            # as a bet that cost nothing, which is how the user reads a play
-            # they deliberately passed. It does overstate starter-over-run's
-            # record -- these were real overs that would have won or lost --
-            # so `conflict_skip` marks every one, and the replay in
-            # allml-systems-table.json still grades them honestly.
-            e["result"] = "PUSH"
-            e["profit"] = 0.0
-            e.pop("not_bet", None)
+            # not_bet, not PUSH (user, 2026-09-02, after seeing what PUSH did
+            # to the record). A push says the number landed and there was no
+            # result; these games had results, and they were 21-30. Booking
+            # them as pushes deleted 30 losses against 21 wins and moved
+            # starter-over-run from a true 122-89 to a flattered 101-60.
+            # not_bet says what happened: the rule fired, no money on it. The
+            # row keeps its real result, stays in the W-L, carries no units.
+            e["not_bet"] = True
             # Its own flag, not a substring of `basis`: a re-price rewrites
             # basis from the engine and would otherwise silently drop the
             # explanation while leaving the row changed and unexplained.

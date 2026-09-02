@@ -98,6 +98,13 @@ def main():
                        else "card")
         if e.get("backfilled"):
             row["backfilled"] = True
+        # Why this row was passed. A conflict skip is otherwise
+        # indistinguishable from any other not-bet row, and it is the one the
+        # record depends on: these keep their real WIN/LOSS so the rule's W-L
+        # stays true, and are held out of the units because no money went on
+        # them.
+        if e.get("conflict_skip"):
+            row["conflict_skip"] = True
         bets.append(row)
     # Newest first, and within a day by first pitch -- the order a bet log is
     # read in.
