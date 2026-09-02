@@ -356,3 +356,35 @@ roster:
 4. **Good form alone doesn't remove a winning fade** — the trigger is form
    PLUS the venue record turning (Gore, Nola), not form by itself
    (Mahle/Wacha keep cashing while pitching well).
+
+## Stacked positions across non-scout systems (2026-09-02)
+
+A "position" is a side two systems can land on together: a team's
+moneyline, or one side of a game's total. A parlay counts toward both —
+its ML leg to that team, its under leg to the under.
+
+Measured over the settled season, carded non-scout systems only:
+
+| position | depth | games | bets | record | ROI/bet | units/game |
+|---|---|---|---|---|---|---|
+| moneyline | 1 | 385 | 385 | 179-206 | +29.1% | +0.291 |
+| moneyline | 2 | 88 | 176 | 86-90 | +47.6% | +0.953 |
+| moneyline | 3 | 8 | 24 | 15-9 | +63.3% | +1.899 |
+| over | 1 | 208 | 208 | 121-87 | +11.2% | +0.112 |
+| under | 1 | 445 | 445 | 203-242 | +31.4% | +0.314 |
+| under | 2 | 8 | 16 | 8-8 | +20.2% | +0.403 |
+
+The moneyline ladder is monotone (29 → 48 → 63%), both walk-forward
+halves hold (+47.3% / +51.9%) and all three thirds are positive
+(+49.6 / +20.6 / +72.7%). So stacking is not a totals-only effect: it
+is strongest on the ML.
+
+Caveat that belongs next to the number: every depth-2 ML stack contains
+home-dog-under-parlay, and 66 of 96 are that plus division-home-dog —
+the same home dog priced +115 to +149 in a division game. The stack is
+therefore mostly one trigger family agreeing with itself, not two
+independent reads confirming each other. Treat it as a sharper filter on
+the home-dog band, not as evidence that unrelated systems corroborate.
+
+Doubling a stacked position was not tested and is not implied: every
+number above is flat stakes on each system's own bet.

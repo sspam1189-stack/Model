@@ -545,9 +545,12 @@ def today_plays(blob=None):
                          "away": g.get("away"), "home": g.get("home"),
                          "total": g.get("total_line")})
             out.append(play)
-    out.sort(key=lambda p: (CARD_ORDER.index(p["rule"])
-                            if p["rule"] in CARD_ORDER else 99,
-                            str(p.get("commence") or "")))
+    # First pitch leads: the card reads top-to-bottom as the night unfolds,
+    # so a game about to start is never buried under a later one. Games with
+    # no commence time sink to the bottom; system order only breaks ties.
+    out.sort(key=lambda p: (str(p.get("commence") or "~"),
+                            CARD_ORDER.index(p["rule"])
+                            if p["rule"] in CARD_ORDER else 99))
     return out
 
 

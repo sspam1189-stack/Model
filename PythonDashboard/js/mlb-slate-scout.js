@@ -550,8 +550,12 @@ async function renderMLBSlateScout() {
   if (sysTable) {
     const byKey = {};
     for (const sy of sysTable.systems) byKey[sy.key] = sy;
+    // Ordered by first pitch, not by system, so the card reads in the order
+    // the games actually start. Sorted here too rather than trusting the
+    // JSON, which a cached build may still have grouped by system.
     const plays = (sysTable.today || []).filter(
-      p => !sysTable.today_date || p.date === sysTable.today_date);
+      p => !sysTable.today_date || p.date === sysTable.today_date)
+      .sort((a, b) => String(a.commence || '~').localeCompare(String(b.commence || '~')));
     const recOf = (k) => {
       const r = byKey[k] && byKey[k].record;
       return r ? r.w + '-' + r.l + ' ' + (r.roi > 0 ? '+' : '') + r.roi + '%' : '—';
