@@ -4804,7 +4804,7 @@
         }
         playerSelect.onchange = () => { activePlayer = playerSelect.value; currentPage = 0; renderGameTable(); };
 
-        const PAGE_SIZE = 30;
+        const PAGE_SIZE = 25;
         let currentPage = 0;
         // sortCol: 'cat'|'edge'|'cover'|'proj'  sortDir: 1=desc -1=asc (legacy convention)
         let sortCol = 'cover'; // default: directional spectrum (OVER 70% top, UNDER 70% bottom)
@@ -6298,7 +6298,7 @@
         }
         playerSelect.onchange = () => { activePlayer = playerSelect.value; bCurrentPage = 0; renderBatterTable(); };
 
-        const B_PAGE_SIZE = 30;
+        const B_PAGE_SIZE = 25;
         let bCurrentPage = 0;
         let bSortCol = 'cover';
         let bSortDir = -1;

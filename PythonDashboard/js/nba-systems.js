@@ -47,7 +47,7 @@ let nbasShowMechanism = null;   // system id whose mechanism is expanded
 // Last feed, kept so a filter change is a pure re-render rather than two more
 // 1.4MB fetches. Refreshed whenever the tab is entered.
 let nbasData = null;
-const NBAS_PAGE = 60;
+const NBAS_PAGE = 25;
 
 // Filters re-render IN PLACE. Calling the global render() here used to rebuild
 // #content from scratch, which threw the reader back to the top of a 3,700px

@@ -662,7 +662,7 @@ async function renderMLBFadeML() {
     pitcherSel.value = ps.includes(cur) ? cur : '';
   }
 
-  const LOG_PAGE_SIZE = 50;
+  const LOG_PAGE_SIZE = 25;
   let logPage = 0;   // 0-based page index into the current filtered view
   function drawRows() {
     const kv = pickSel.value, mv = monthSel.value, wv = weekSel.value, dv = dateSel.value, pv = pitcherSel.value, vv = venueSel.value, tv = kindSel.value, sv = sourceSel.value;

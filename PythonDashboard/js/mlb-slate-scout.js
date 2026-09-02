@@ -14,9 +14,64 @@
 // out of the bullpen. The advisory banner says so on the tab rather than in a
 // doc nobody opens.
 
+// Reader-controlled text size for the whole tab, remembered per browser.
+// Absolute px sizes in the tables cannot answer "too small" on their own --
+// what is comfortable depends on the screen and the browser zoom, neither of
+// which the page can see. `zoom` scales the laid-out result rather than a
+// root font-size, so the hard-coded px in these tables scale with it.
+const SCOUT_ZOOM_KEY = 'scoutTextScale';
+const SCOUT_ZOOM_MIN = 1.0;
+const SCOUT_ZOOM_MAX = 1.8;
+const SCOUT_ZOOM_STEP = 0.1;
+
+function scoutZoomGet() {
+  try {
+    const v = parseFloat(localStorage.getItem(SCOUT_ZOOM_KEY));
+    if (v >= SCOUT_ZOOM_MIN && v <= SCOUT_ZOOM_MAX) return v;
+  } catch (e) { /* private mode, blocked storage */ }
+  return 1.0;
+}
+
+function scoutZoomApply(el, v) {
+  el.style.zoom = v === 1 ? '' : String(v);
+  try { localStorage.setItem(SCOUT_ZOOM_KEY, String(v)); } catch (e) { /* ignore */ }
+}
+
+// Built as a DOM node rather than an HTML string: the panels below are
+// assembled by innerHTML, and a control that lives through a re-render needs
+// its own listeners.
+function scoutZoomControl(el) {
+  const wrap = document.createElement('div');
+  wrap.style.cssText = 'display:flex;gap:6px;align-items:center;justify-content:flex-end;'
+    + 'padding:4px 8px 0;font-size:12px;color:#8b949e';
+  const label = document.createElement('span');
+  label.textContent = 'Text size';
+  const out = document.createElement('span');
+  out.style.cssText = 'min-width:34px;text-align:right;font-variant-numeric:tabular-nums';
+  const btn = (txt, delta) => {
+    const b = document.createElement('button');
+    b.textContent = txt;
+    b.setAttribute('aria-label', delta < 0 ? 'Smaller text' : 'Larger text');
+    b.style.cssText = 'background:#161b22;border:1px solid #30363d;color:#c9d1d9;'
+      + 'border-radius:4px;width:26px;height:22px;cursor:pointer;font-size:13px;'
+      + 'line-height:1;padding:0';
+    b.addEventListener('click', () => {
+      const next = Math.min(SCOUT_ZOOM_MAX, Math.max(SCOUT_ZOOM_MIN,
+        Math.round((scoutZoomGet() + delta) * 10) / 10));
+      scoutZoomApply(el, next);
+      out.textContent = Math.round(next * 100) + '%';
+    });
+    return b;
+  };
+  out.textContent = Math.round(scoutZoomGet() * 100) + '%';
+  wrap.append(label, btn('\u2212', -SCOUT_ZOOM_STEP), btn('+', SCOUT_ZOOM_STEP), out);
+  return wrap;
+}
+
 async function renderMLBSlateScout() {
   const el = document.getElementById('content');
   el.innerHTML = '<div class="loading"><div class="spinner"></div><br>Loading slate scout...</div>';
+  scoutZoomApply(el, scoutZoomGet());
 
   const local = 'data/mlb-slate-scout.json';
   const remote = 'https://raw.githubusercontent.com/sspam1189-stack/Model/main/MLBstrikeouts/data/mlb-slate-scout.json';
@@ -39,18 +94,6 @@ async function renderMLBSlateScout() {
   const data = (await Promise.all([grab(local), grab(remote)]))
     .filter(Boolean)
     .sort((a, b) => String(b.generated || '').localeCompare(String(a.generated || '')))[0] || null;
-
-  // The flag-combo grid, rebuilt full-season by every daily run
-  // (scripts/build_flag_combo_table.py). Same newest-wins fetch; a missing
-  // table just hides its panel rather than breaking the tab.
-  const grabTableAny = async (url) => {
-    try {
-      const r = await fetch(url + '?t=' + Date.now(), { cache: 'no-store' });
-      if (!r.ok) return null;
-      const j = await r.json();
-      return (j && j.splits) ? j : null;
-    } catch (e) { return null; }
-  };
   const grabTable = async (url) => {
     try {
       const r = await fetch(url + '?t=' + Date.now(), { cache: 'no-store' });
@@ -84,13 +127,6 @@ async function renderMLBSlateScout() {
   // is why this needs its own check rather than falling out of !isCard.
   const isRetired = (rule) => !!(ruleStatus && ruleStatus.rules[rule]
     && ruleStatus.rules[rule].status === 'retired');
-
-  const msumTable = (await Promise.all([
-    grabTableAny('data/msum-ml-table.json'),
-    grabTableAny('https://raw.githubusercontent.com/sspam1189-stack/Model/main/'
-      + 'MLBstrikeouts/data/msum-ml-table.json'),
-  ])).filter(Boolean)
-    .sort((a, b) => String(b.generated || '').localeCompare(String(a.generated || '')))[0] || null;
 
   // The non-scout systems (MLBstrikeouts/scripts/allml_systems.py): eight
   // rules read off mlb-all-ml.json alone, with no input from the mismatch
@@ -127,24 +163,6 @@ async function renderMLBSlateScout() {
       + 'MLBstrikeouts/data/plays-feed.json'),
   ])).filter(Boolean)
     .sort((a, b) => String(b.generated || '').localeCompare(String(a.generated || '')))[0] || null;
-
-  // Season history for the scout rules that had no table of their own
-  // (scripts/build_scout_rules_table.py): Form under, Aligned ML, Mismatch ML.
-  const grabScoutRules = async (url) => {
-    try {
-      const r = await fetch(url + '?t=' + Date.now(), { cache: 'no-store' });
-      if (!r.ok) return null;
-      const j = await r.json();
-      return (j && Array.isArray(j.rules) && j.rules.length) ? j : null;
-    } catch (e) { return null; }
-  };
-  const scoutRules = (await Promise.all([
-    grabScoutRules('data/scout-rules-table.json'),
-    grabScoutRules('https://raw.githubusercontent.com/sspam1189-stack/Model/main/'
-      + 'MLBstrikeouts/data/scout-rules-table.json'),
-  ])).filter(Boolean)
-    .sort((a, b) => String(b.generated || '').localeCompare(String(a.generated || '')))[0] || null;
-
   const comboTable = (await Promise.all([
     grabTable('data/flag-combo-table.json'),
     grabTable('https://raw.githubusercontent.com/sspam1189-stack/Model/main/'
@@ -229,6 +247,9 @@ async function renderMLBSlateScout() {
     + 'Scouting view — not a betting model</div>'
     + '<div style="font-size:11px;color:' + DIM + ';line-height:1.5">'
     + (data.notes || []).map(esc).join('<br>') + '</div>';
+  // Above the banner, so it is the first thing reachable when the text is
+  // too small to find anything else.
+  el.appendChild(scoutZoomControl(el));
   el.appendChild(banner);
 
   // ---- Today's plays: the two under systems --------------------------------
@@ -404,7 +425,7 @@ async function renderMLBSlateScout() {
     // The two plays panels are what gets read at a glance and acted on, so
     // they sit a step larger than the reference tables further down.
     phtml += '<div class="scout-scroll"><table style="width:100%;'
-      + 'border-collapse:collapse;font-size:13.5px;line-height:1.45">'
+      + 'border-collapse:collapse;font-size:15px;line-height:1.5">'
       + '<thead><tr style="text-align:left;color:' + DIM + ';border-bottom:1px solid #30363d">'
       + '<th style="padding:4px 6px">CT</th><th>Game</th><th>Play</th><th>Rule</th>'
       + '<th data-col="why">Why</th>'
@@ -462,99 +483,6 @@ async function renderMLBSlateScout() {
   // rather than appended in code order.
   let playsAnchor = playsCard;
 
-  // ---- Better-arm ML (m_sum >= +40) ----------------------------------------
-  // Found 2026-09-01 inside the pool the dead form-over rule was sitting on:
-  // when both starters are outclassed by the bats (m_sum >= +40), back the
-  // team whose starter has the LOWER mismatch. Backing the FAVORITE in the
-  // same games loses (-1.9%) and the rule is flat outside the pool (-0.2%),
-  // so the filter is doing the selecting. SHADOW until 20 live plays.
-  if (msumTable) {
-    const MSUM_ML_AT = msumTable.threshold != null ? msumTable.threshold : 40;
-    const live = isCard('better-arm-ml', msumTable.status === 'card');
-    const picks = [];
-    for (const g of (data.slate || [])) {
-      const a = (g.sides || {}).away || {}, h = (g.sides || {}).home || {};
-      if (a.mismatch == null || h.mismatch == null) continue;
-      const msum = a.mismatch + h.mismatch;
-      if (msum < MSUM_ML_AT) continue;
-      const betterAway = a.mismatch < h.mismatch;
-      const team = betterAway ? g.away : g.home;
-      const ml = betterAway ? g.away_ml : g.home_ml;
-      picks.push({ g, msum, team, ml, dog: ml != null && ml > 0,
-        arm: (betterAway ? a : h).pitcher,
-        armM: betterAway ? a.mismatch : h.mismatch,
-        oppM: betterAway ? h.mismatch : a.mismatch });
-    }
-    // Dogs first — that is where the edge concentrates — then by first pitch.
-    picks.sort((x, y) => (y.dog - x.dog)
-      || String(x.g.commence || '').localeCompare(String(y.g.commence || '')));
-    const sp = msumTable.splits || {};
-    const rec = (k) => sp[k]
-      ? sp[k].w + '-' + sp[k].l + ' ' + (sp[k].roi > 0 ? '+' : '') + sp[k].roi + '%'
-      : '—';
-    const card = document.createElement('div');
-    card.className = 'card card-games';
-    let m = '<div class="card-title" style="padding:6px 8px">'
-      + 'Better arm ML — m_sum ≥ +' + MSUM_ML_AT + ' '
-      + '<span style="color:' + DIM + ';font-weight:400;font-size:11px">('
-      + (live ? 'CARD' : 'SHADOW — tracked, not bet')
-      + (msumTable.require_dog ? ' · dogs only' : '')
-      + ' · rule ' + rec('rule')
-      + ' · whole pool ' + rec('pool_all')
-      + ' · backing the favorite instead ' + rec('control_back_favorite')
-      + ' · outside the pool ' + rec('outside_pool')
-      + ')</span></div>';
-    if (!picks.length) {
-      m += '<div style="padding:8px 10px;font-size:12px;color:' + DIM
-        + '">No game reaches m_sum +' + MSUM_ML_AT + ' on this slate.</div>';
-    } else {
-      m += '<div class="scout-scroll"><table style="width:100%;border-collapse:collapse;font-size:12px">'
-        + '<thead><tr style="text-align:left;color:' + DIM + ';border-bottom:1px solid #30363d">'
-        + '<th style="padding:4px 6px">CT</th><th>Game</th><th>Play</th>'
-        + '<th>m_sum</th><th>Better arm</th></tr></thead><tbody>';
-      let seenFav = false;
-      for (const p of picks) {
-        if (!p.dog && !seenFav) {
-          seenFav = true;
-          m += '<tr><td colspan="5" style="padding:5px 6px 2px;color:' + DIM
-            + ';font-size:11px;border-top:1px solid #30363d">'
-            + (msumTable.require_dog
-              ? 'better arm is the FAVORITE — OUT OF SCOPE, not a play ('
-                + rec('favorite') + ', still measured)'
-              : 'better arm is the FAVORITE — ' + rec('favorite')
-                + ' (weaker half of the rule)') + '</td></tr>';
-        } else if (p.dog && !seenFav && picks.indexOf(p) === 0) {
-          m += '<tr><td colspan="5" style="padding:5px 6px 2px;color:#3fb950'
-            + ';font-size:11px;font-weight:600;border-top:1px solid #30363d">'
-            + 'better arm is the DOG — THE RULE — ' + rec('dog')
-            + '</td></tr>';
-        }
-        m += '<tr style="border-top:1px solid #161b22' + (p.dog ? '' : ';opacity:.7') + '">'
-          + '<td style="padding:3px 6px;color:' + DIM + '">' + ctTime(p.g.commence) + '</td>'
-          + '<td style="padding:3px 6px">' + esc(p.g.matchup) + '</td>'
-          + '<td style="padding:3px 6px;font-weight:600;white-space:nowrap;color:'
-          + (p.dog ? '#3fb950' : DIM) + '">' + esc(p.team) + ' ML '
-          + mlStr(p.ml) + '</td>'
-          + '<td style="color:' + DIM + '">+' + p.msum.toFixed(1) + '</td>'
-          + '<td style="color:' + DIM + ';font-size:11px">' + esc(p.arm || '?')
-          + ' (' + signed(p.armM) + ' vs ' + signed(p.oppM) + ')</td></tr>';
-      }
-      m += '</tbody></table></div>';
-    }
-    m += '<div style="padding:6px 8px;font-size:11px;color:' + DIM + ';line-height:1.5">'
-      + 'Both starters outclassed by the bats they face (m_sum ≥ +' + MSUM_ML_AT
-      + '); back the side whose arm grades better'
-      + (msumTable.require_dog ? ', and only at plus money' : '')
-      + '. Not a favorite bias — backing '
-      + 'the favorite in these same games returns ' + rec('control_back_favorite')
-      + ', and the rule is ' + rec('outside_pool') + ' outside the pool. '
-      + (live ? '' : 'Shadow until ' + (msumTable.shadow_target || 20)
-        + ' live plays: p=0.043 out of a heavily scanned session, and April ran −31%.')
-      + '</div>';
-    card.innerHTML = m;
-    el.appendChild(card);
-  }
-
   // ---- Non-scout systems ---------------------------------------------------
   // Eleven rules found 2026-09-01 by scanning the 2,066 settled games in
   // mlb-all-ml.json using only what that file carries. Season records are
@@ -588,7 +516,7 @@ async function renderMLBSlateScout() {
         + '">No system qualifies on this slate.</div>';
     } else {
       t += '<div class="scout-scroll"><table style="width:100%;'
-        + 'border-collapse:collapse;font-size:13.5px;line-height:1.45">'
+        + 'border-collapse:collapse;font-size:15px;line-height:1.5">'
         + '<thead><tr style="text-align:left;color:' + DIM + ';border-bottom:1px solid #30363d">'
         + '<th style="padding:5px 6px">CT</th><th>Game</th><th>Play</th>'
         + '<th>System</th><th data-col="season">Season</th>'
@@ -661,7 +589,7 @@ async function renderMLBSlateScout() {
     // have to guess one from the rule name.
     const baseFor = (sy) => (sy.baseline != null ? sy.baseline : null);
     t += '<div class="scout-scroll" style="border-top:1px solid #30363d">'
-      + '<table style="width:100%;border-collapse:collapse;font-size:12px">'
+      + '<table style="width:100%;border-collapse:collapse;font-size:13px">'
       + '<thead><tr style="text-align:left;color:' + DIM + '">'
       + '<th style="padding:4px 6px">System</th>'
       + '<th data-col="rule-desc">Rule</th><th>Record</th>'
@@ -740,69 +668,6 @@ async function renderMLBSlateScout() {
     playsAnchor = sc;
   }
 
-  // ---- Scout rule history --------------------------------------------------
-  // Form under, Aligned ML and Mismatch ML had no season table anywhere: their
-  // records lived only as prose in CLAUDE.md, which is the "number somebody
-  // typed once" problem the other grids exist to prevent. Replayed full-season
-  // by every daily run.
-  if (scoutRules) {
-    const sr = document.createElement('div');
-    sr.className = 'card card-games';
-    let t = '<div class="card-title" style="padding:6px 8px">'
-      + 'Scout rule history — full season '
-      + '<span class="scout-note" style="color:' + DIM + ';font-weight:400;font-size:11px">'
-      + '(the three scout rules with no grid of their own. Replayed as-of each '
-      + 'game date over ' + (scoutRules.games || 0) + ' games — a game\'s own '
-      + 'result is never in the features that select it.)</span></div>'
-      + '<div class="scout-scroll"><table style="width:100%;'
-      + 'border-collapse:collapse;font-size:12px">'
-      + '<thead><tr style="text-align:left;color:' + DIM
-      + ';border-bottom:1px solid #30363d">'
-      + '<th style="padding:4px 6px">Rule</th>'
-      + '<th data-col="rule-desc">What it does</th><th>Status</th>'
-      + '<th>Record</th><th>ROI</th><th>vs blind</th><th>Halves</th>'
-      + '<th data-col="perday">Plays/day</th></tr></thead><tbody>';
-    for (const r of scoutRules.rules) {
-      const rec = r.record || {};
-      const edge = (r.baseline == null || rec.roi == null)
-        ? null : rec.roi - r.baseline;
-      const col = rec.roi > 0 ? '#3fb950' : rec.roi < 0 ? '#f85149' : DIM;
-      const hs = (r.halves || []).map(
-        (x) => (x == null ? '—' : (x > 0 ? '+' : '') + x.toFixed(0))).join(' / ');
-      const bad = (r.halves || []).some((x) => x != null && x <= 0);
-      const live = r.status === 'card';
-      const off = r.status === 'retired';
-      t += '<tr style="border-top:1px solid #161b22">'
-        + '<td style="padding:3px 6px;font-weight:600">'
-        + esc(r.name) + monthStrip(r.monthly) + '</td>'
-        + '<td data-col="rule-desc" style="color:' + DIM + ';font-size:11px">'
-        + esc(r.rule) + '</td>'
-        + '<td><span style="display:inline-block;padding:1px 6px;'
-        + 'border-radius:3px;font-weight:600;white-space:nowrap;'
-        + (live ? 'background:rgba(63,185,80,.18);color:#3fb950'
-          : off ? 'background:rgba(248,81,73,.12);color:#f85149'
-            : 'background:rgba(139,148,158,.14);color:' + DIM) + '">'
-        + (live ? 'CARD' : off ? 'RETIRED' : 'SHADOW') + '</span></td>'
-        + '<td style="color:' + DIM + ';white-space:nowrap">'
-        + rec.w + '-' + rec.l + ' <span style="font-size:11px">(n=' + rec.n
-        + ')</span></td>'
-        + '<td style="color:' + col + ';font-weight:600;white-space:nowrap">'
-        + (rec.roi > 0 ? '+' : '') + (rec.roi == null ? '—' : rec.roi.toFixed(1))
-        + '%</td>'
-        + '<td style="color:' + DIM + ';white-space:nowrap">'
-        + (edge == null ? '—' : (edge > 0 ? '+' : '') + edge.toFixed(1)) + '</td>'
-        + '<td style="color:' + (bad ? '#d29922' : DIM) + ';white-space:nowrap">'
-        + hs + '</td>'
-        + '<td data-col="perday" style="color:' + DIM + '">'
-        + (r.per_day == null ? '—' : r.per_day) + '</td></tr>';
-    }
-    t += '</tbody></table></div>'
-      + '<div class="scout-foot" style="padding:6px 8px;font-size:11px;color:'
-      + DIM + ';line-height:1.5">' + esc(scoutRules.note || '') + '</div>';
-    sr.innerHTML = t;
-    el.appendChild(sr);
-  }
-
   // ---- Flag-combo performance grid -----------------------------------------
   // Rebuilt full-season on every daily run. This panel exists because the
   // rust-only OVER rule cleared a 33-game backtest, a walk-forward split and
@@ -828,7 +693,7 @@ async function renderMLBSlateScout() {
       + (comboTable.games?.flagged || 0) + ' flagged of ' + (comboTable.games?.gradeable || 0)
       + ' · baseline U ' + (b.under ? b.under.roi.toFixed(1) : '?') + '% / O '
       + (b.over ? b.over.roi.toFixed(1) : '?') + '% · rebuilt each run)</span></div>'
-      + '<div class="scout-scroll"><table style="width:100%;border-collapse:collapse;font-size:12px">'
+      + '<div class="scout-scroll"><table style="width:100%;border-collapse:collapse;font-size:13px">'
       + '<thead><tr style="text-align:left;color:' + DIM + ';border-bottom:1px solid #30363d">'
       + '<th style="padding:4px 6px">Combo</th><th>n</th><th>UNDER</th><th>OVER</th>'
       + '</tr></thead><tbody>';
@@ -911,7 +776,7 @@ async function renderMLBSlateScout() {
     + ' vs ' + esc(data.wrc_role)
     + ' through ' + esc(data.wrc_through) + staleChip + '</div>';
 
-  html += '<div class="scout-scroll"><table style="width:100%;border-collapse:collapse;font-size:12px">'
+  html += '<div class="scout-scroll"><table style="width:100%;border-collapse:collapse;font-size:13px">'
     + '<thead><tr style="text-align:left;color:' + DIM + ';border-bottom:1px solid #30363d">'
     + '<th style="padding:4px 6px">Team</th><th>Side</th>'
     + '<th>Starter</th>'
@@ -1023,7 +888,7 @@ async function renderMLBSlateScout() {
   let rhtml = '<div class="card-title" style="padding:6px 8px">Mismatch — widest first '
     + '<span style="color:' + DIM + ';font-weight:400;font-size:11px">'
     + '(positive = offense outclasses the arm)</span></div>'
-    + '<div class="scout-scroll"><table style="width:100%;border-collapse:collapse;font-size:12px">'
+    + '<div class="scout-scroll"><table style="width:100%;border-collapse:collapse;font-size:13px">'
     + '<thead><tr style="text-align:left;color:' + DIM + ';border-bottom:1px solid #30363d">'
     + '<th style="padding:4px 6px">Mismatch</th><th>Starter</th><th>Team</th>'
     + '<th>Faces</th><th>Opp wRC+</th>'
@@ -1170,7 +1035,7 @@ async function renderMLBSlateScout() {
       ruleSel.value = rs.includes(cur) ? cur : '';
     };
     groupSel.addEventListener('change', refreshRules);
-    const PAGE = 50;
+    const PAGE = 25;
     let page = 0;
 
     function draw() {
@@ -1255,7 +1120,7 @@ async function renderMLBSlateScout() {
         + DIM + '">' + (total ? (start + 1) + '-'
           + Math.min(start + PAGE, total) + ' of ' + total : '0') + ' bets</span>'
         + pager + '</div>'
-        + '<div class="scout-scroll"><table style="width:100%;border-collapse:collapse;font-size:12px">'
+        + '<div class="scout-scroll"><table style="width:100%;border-collapse:collapse;font-size:13px">'
         + '<thead><tr style="text-align:left;color:' + DIM
         + ';border-bottom:1px solid #30363d">'
         + '<th style="padding:4px 6px">Date</th><th>Rule</th>'

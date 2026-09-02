@@ -117,7 +117,11 @@ async function renderMLBAllML() {
   const dates = [...new Set(sides.map(s => s.date).filter(Boolean))].sort().reverse();
   const dateLabel = (iso) => { const [y, m, d] = iso.split('-').map(Number); return MON[m] + ' ' + d + ', ' + y; };
 
-  const ROW_CAP = 500;
+  // Paged rather than capped (user, 2026-09-02). A 500-row cap meant the
+  // table both dumped a wall of rows and silently hid the rest; 25 a page
+  // shows every game and stays readable.
+  const LOG_PAGE_SIZE = 25;
+  let logPage = 0;
   const selCss = 'background:#1b1b1b;color:#ddd;border:1px solid #333;border-radius:6px;padding:4px 8px;font-size:12px';
 
   // ---- Banner ----
@@ -365,7 +369,13 @@ async function renderMLBAllML() {
         : '');
     recEl.style.color = '';
 
-    const rows = view.slice().reverse().slice(0, ROW_CAP); // newest first
+    const ordered = view.slice().reverse();               // newest first
+    const total = ordered.length;
+    const pages = Math.max(1, Math.ceil(total / LOG_PAGE_SIZE));
+    if (logPage >= pages) logPage = pages - 1;
+    if (logPage < 0) logPage = 0;
+    const start = logPage * LOG_PAGE_SIZE;
+    const rows = ordered.slice(start, start + LOG_PAGE_SIZE);
     const body = rows.map(s => {
       const awayWon = !s.homeWin, homeWon = s.homeWin;
       const winColor = '#eee';
@@ -417,12 +427,27 @@ async function renderMLBAllML() {
       + '<th style="padding:4px 8px">O/U odds</th>'
       + '<th style="padding:4px 8px">Pitchers (away vs home)</th>'
       + '<th style="padding:4px 8px">Winner</th></tr>';
-    const note = view.length > ROW_CAP
-      ? '<div style="padding:6px 8px;color:#888;font-size:11px">Showing newest ' + ROW_CAP
-        + ' of ' + view.length + ' games (record above reflects all ' + view.length + ').</div>'
+    const btn = selCss + ';cursor:pointer';
+    const btnOff = selCss + ';opacity:.4;cursor:default';
+    const pager = total > LOG_PAGE_SIZE
+      ? '<div style="display:flex;gap:8px;align-items:center;font-size:12px;color:#888">'
+        + '<button id="amPrev" ' + (logPage <= 0 ? 'disabled' : '')
+        + ' style="' + (logPage <= 0 ? btnOff : btn) + '">‹ Prev</button>'
+        + '<span>page ' + (logPage + 1) + ' / ' + pages + '</span>'
+        + '<button id="amNext" ' + (logPage >= pages - 1 ? 'disabled' : '')
+        + ' style="' + (logPage >= pages - 1 ? btnOff : btn) + '">Next ›</button></div>'
       : '';
+    const note = '<div style="display:flex;justify-content:space-between;'
+      + 'align-items:center;gap:12px;flex-wrap:wrap;padding:2px 8px 8px">'
+      + '<span style="font-size:12px;color:#888">'
+      + (total ? (start + 1) + '-' + Math.min(start + LOG_PAGE_SIZE, total)
+        + ' of ' + total : '0') + ' games</span>' + pager + '</div>';
     wrap.innerHTML = note + '<table style="width:100%;border-collapse:collapse;font-size:12px">'
       + '<thead>' + head + '</thead><tbody>' + body + '</tbody></table>';
+    const prev = wrap.querySelector('#amPrev');
+    const next = wrap.querySelector('#amNext');
+    if (prev) prev.onclick = () => { logPage--; draw(); };
+    if (next) next.onclick = () => { logPage++; draw(); };
   }
 
   // Repopulate the Starter dropdown to match the Team filter: a specific team
@@ -439,6 +464,7 @@ async function renderMLBAllML() {
   }
   teamSel.addEventListener('change', fillPitchers);
 
-  [teamSel, oppSel, monthSel, weekSel, daySel, handSel, pitcherSel, roleSel, ouSel, venueSel].forEach(s => s.addEventListener('change', draw));
+  [teamSel, oppSel, monthSel, weekSel, daySel, handSel, pitcherSel, roleSel, ouSel, venueSel]
+    .forEach(s => s.addEventListener('change', () => { logPage = 0; draw(); }));
   draw();
 }

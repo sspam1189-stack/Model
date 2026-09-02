@@ -581,7 +581,7 @@
         }
         playerSelect.onchange = () => { activePlayer = playerSelect.value; currentPage = 0; renderGameTable(); };
 
-        const PAGE_SIZE = 30;
+        const PAGE_SIZE = 25;
         let currentPage = 0;
         // sortCol: 'cat'|'edge'|'cover'|'proj'  sortDir: 1=asc -1=desc
         let sortCol = 'cat';
