@@ -218,7 +218,11 @@ let expandedTrendKey = null; // week/window row expanded to reveal its picks
 let teamPicksMonthFilter = 'all'; // month key (YYYYMM) filtering the Team Picks browser
 let teamPicksSideFilter = 'all'; // 'all' | 'fav' | 'dog' filtering the Team Picks browser
 let teamPicksLocationFilter = 'all'; // 'all' | 'home' | 'away' filtering the Team Picks browser
-let teamPicksBucketFilter = 'all'; // 'all' | 'pick' | 'pass' — bucket tabs
+let teamPicksBucketFilter = 'all';
+// Team Picks browser paging (user, 2026-09-02): 50 rows a page. The browser
+// is a full season game log and was rendering every row at once.
+let teamPicksPage = 0;
+const TEAM_PICKS_PAGE_SIZE = 50; // 'all' | 'pick' | 'pass' — bucket tabs
 
 // NBA playoff cutoff (includes play-in 4/14-4/17 + playoffs proper 4/18+).
 // Shared between the record banner segment buttons and downstream widgets.
@@ -282,6 +286,7 @@ function setSeasonFilter(val) {
 
 function setTeamPicksFilter(team) {
   teamPicksFilter = team;
+  teamPicksPage = 0;
   render();
 }
 
@@ -298,21 +303,25 @@ function toggleTrendRow(key) {
 
 function setTeamPicksMonthFilter(month) {
   teamPicksMonthFilter = month;
+  teamPicksPage = 0;
   render();
 }
 
 function setTeamPicksSideFilter(side) {
   teamPicksSideFilter = side;
+  teamPicksPage = 0;
   render();
 }
 
 function setTeamPicksLocationFilter(location) {
   teamPicksLocationFilter = location;
+  teamPicksPage = 0;
   render();
 }
 
 function setTeamPicksBucketFilter(bucket) {
   teamPicksBucketFilter = bucket;
+  teamPicksPage = 0;
   render();
 }
 
@@ -1535,7 +1544,13 @@ function renderTeamPicksSection(teamPicksMap, selectedTeam, runs) {
     return teamHasPlayoffs ? ` <span class="badge" style="background:#334155;color:#94a3b8" title="Regular season">RS</span>` : '';
   };
 
-  const rows = picks.length ? picks.map(p => {
+  const pkTotal = picks.length;
+  const pkPages = Math.max(1, Math.ceil(pkTotal / TEAM_PICKS_PAGE_SIZE));
+  const pkPage = Math.min(Math.max(0, teamPicksPage), pkPages - 1);
+  const pkStart = pkPage * TEAM_PICKS_PAGE_SIZE;
+  const pagePicks = picks.slice(pkStart, pkStart + TEAM_PICKS_PAGE_SIZE);
+
+  const rows = pagePicks.length ? pagePicks.map(p => {
     const hypothetical = p.bucket !== 'pick';
     const resultCell = p.pending
       ? '<span class="result-badge pending">PENDING</span>'
@@ -1560,15 +1575,38 @@ function renderTeamPicksSection(teamPicksMap, selectedTeam, runs) {
     </tr>`;
   }).join('') : `<tr><td colspan="10" class="no-picks">No games match these filters for this team.</td></tr>`;
 
+  // Shown above the table always (so the count is visible even on one page)
+  // and again below it when there is more than one page to walk.
+  const pkBtn = (label, target, on) => on
+    ? `<button onclick="setTeamPicksPage(${target})" style="background:#1e1e1e;color:#e0e0e0;`
+      + `border:1px solid #444;border-radius:6px;padding:3px 10px;font-size:0.75rem;`
+      + `cursor:pointer">${label}</button>`
+    : `<button disabled style="background:#1e1e1e;color:#e0e0e0;border:1px solid #444;`
+      + `border-radius:6px;padding:3px 10px;font-size:0.75rem;opacity:.4">${label}</button>`;
+  const pkPager = `<div style="display:flex;justify-content:space-between;align-items:center;`
+    + `gap:12px;flex-wrap:wrap;padding:4px 12px">`
+    + `<span style="font-size:0.72rem;color:var(--muted)">`
+    + (pkTotal ? `${pkStart + 1}-${Math.min(pkStart + TEAM_PICKS_PAGE_SIZE, pkTotal)} of ${pkTotal}` : '0')
+    + ` games</span>`
+    + (pkTotal > TEAM_PICKS_PAGE_SIZE
+      ? `<span style="display:flex;gap:8px;align-items:center;font-size:0.72rem;color:var(--muted)">`
+        + pkBtn('‹ Prev', pkPage - 1, pkPage > 0)
+        + `<span>page ${pkPage + 1} / ${pkPages}</span>`
+        + pkBtn('Next ›', pkPage + 1, pkPage < pkPages - 1) + `</span>`
+      : '')
+    + `</div>`;
+
   return `
     <div class="card card-records">
       ${titleHtml}
       ${bucketTabs}
       ${filterRow}
+      ${pkPager}
       <table class="data">
         <thead><tr><th>Date</th><th class="center">Bkt</th><th>Matchup</th><th>Pick</th><th class="center">Line</th><th class="center">Proj Margin</th><th class="center">P(Cover)</th><th class="center">Result</th><th class="center">Units</th><th class="center">Final</th></tr></thead>
         <tbody>${rows}</tbody>
       </table>
+      ${pkTotal > TEAM_PICKS_PAGE_SIZE ? pkPager : ''}
       <div class="card-subtitle">Record is fired picks only. Passes show the model's projected side graded vs the closing line — hypothetical, not bet.</div>
     </div>`;
 }
@@ -2469,3 +2507,11 @@ function setRecordFilter(filter) {
 function prevPage() { if (historyPage > 0) { historyPage--; render(); } }
 function nextPage() { historyPage++; render(); }
 
+
+
+// Page controls for the Team Picks browser. Global because the section is
+// rendered as an HTML string with inline handlers, like its filters.
+function setTeamPicksPage(n) {
+  teamPicksPage = Math.max(0, n);
+  render();
+}
