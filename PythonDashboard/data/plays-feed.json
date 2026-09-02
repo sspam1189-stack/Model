@@ -1,7 +1,7 @@
 {
  "sport": "MLB",
  "type": "plays-feed",
- "generated": "2026-09-02T17:10:39Z",
+ "generated": "2026-09-02T17:14:49Z",
  "note": "The scout bet log: a projection of MLBstrikeouts/data/scout-card-log.json. Results and profit are the ledger's own, settled by grade_scout_ledger.py from the finals; nothing is recomputed here. `kind` is one of card / shadow / not_bet / backfilled, and only card rows carry units; not-bet rows (which include what used to be tracked separately as shadow) fired live with no money on them, so they stay out of the units. Backfilled rows count as card (user, 2026-09-02) and keep a `backfilled` flag so they can still be isolated.",
  "bets": [
   {
@@ -19,23 +19,6 @@
    "name": "Mismatch ML",
    "group": "scout",
    "kind": "not_bet"
-  },
-  {
-   "date": "2026-09-02",
-   "play": "LAA ML +140 + U7 (4.487x)",
-   "market": "parlay",
-   "line": 7,
-   "price": 349,
-   "rule": "home-dog-under-parlay",
-   "result": "pending",
-   "profit": 0.0,
-   "game": "NYY @ LAA",
-   "gamePk": 823983,
-   "commence": "2026-09-03T01:38:00Z",
-   "basis": "Home dog + under: LAA ML +140 with U7 -115, pays 4.49x",
-   "name": "Home dog + under",
-   "group": "non-scout",
-   "kind": "card"
   },
   {
    "date": "2026-09-02",
@@ -102,40 +85,6 @@
    "commence": "2026-09-02T23:40:00Z",
    "basis": "Home dog + under: CHC ML +136 with U8.5 -118, pays 4.36x",
    "name": "Home dog + under",
-   "group": "non-scout",
-   "kind": "card"
-  },
-  {
-   "date": "2026-09-02",
-   "play": "DET/MIN U9",
-   "market": "totals",
-   "line": 9,
-   "price": -120,
-   "rule": "pickem-under",
-   "result": "pending",
-   "profit": 0.0,
-   "game": "DET @ MIN",
-   "gamePk": 823660,
-   "commence": "2026-09-02T23:40:00Z",
-   "basis": "Pickem under: favorite only -112 at a 9 total",
-   "name": "Pickem under",
-   "group": "non-scout",
-   "kind": "card"
-  },
-  {
-   "date": "2026-09-02",
-   "play": "MIA/KC U8.5",
-   "market": "totals",
-   "line": 8.5,
-   "price": -104,
-   "rule": "pickem-under",
-   "result": "pending",
-   "profit": 0.0,
-   "game": "MIA @ KC",
-   "gamePk": 824068,
-   "commence": "2026-09-02T23:40:00Z",
-   "basis": "Pickem under: favorite only -112 at a 8.5 total",
-   "name": "Pickem under",
    "group": "non-scout",
    "kind": "card"
   },
@@ -229,7 +178,7 @@
    "play": "SEA/BOS O8.5",
    "market": "totals",
    "line": 8.5,
-   "price": -106,
+   "price": -110,
    "rule": "starter-over-run",
    "result": "pending",
    "profit": 0.0,
@@ -237,23 +186,6 @@
    "gamePk": 824717,
    "commence": "2026-09-02T20:10:00Z",
    "basis": "Starter over run: over in Bryce Miller 100% of last 8, total 8.5",
-   "name": "Starter over run",
-   "group": "non-scout",
-   "kind": "card"
-  },
-  {
-   "date": "2026-09-02",
-   "play": "PHI/ARI O9.5",
-   "market": "totals",
-   "line": 9.5,
-   "price": 100,
-   "rule": "starter-over-run",
-   "result": "pending",
-   "profit": 0.0,
-   "game": "PHI @ ARI",
-   "gamePk": 825037,
-   "commence": "2026-09-02T19:40:00Z",
-   "basis": "Starter over run: over in Andrew Painter 88% of last 8, total 9.5",
    "name": "Starter over run",
    "group": "non-scout",
    "kind": "card"
@@ -344,24 +276,6 @@
   },
   {
    "date": "2026-09-02",
-   "play": "ATL/WSH U9",
-   "market": "totals",
-   "line": 9,
-   "price": -104,
-   "rule": "flag-plays",
-   "result": "pending",
-   "profit": 0.0,
-   "game": "ATL @ WSH",
-   "gamePk": 822686,
-   "commence": "2026-09-02T17:05:00Z",
-   "basis": "Verdict under for swingman+opener+stale-window. Brad Lord swingman-4g, opener, stale-window-51d.",
-   "combo": "swingman+opener+stale-window",
-   "name": "Flag Plays",
-   "group": "scout",
-   "kind": "card"
-  },
-  {
-   "date": "2026-09-02",
    "play": "ATL/WSH U9.5",
    "market": "totals",
    "line": 9.5,
@@ -376,23 +290,6 @@
    "combo": "swingman+opener+stale-window",
    "name": "Flag Plays",
    "group": "scout",
-   "kind": "card"
-  },
-  {
-   "date": "2026-09-02",
-   "play": "WSH ML +130 + U9 (4.512x)",
-   "market": "parlay",
-   "line": 9,
-   "price": 351,
-   "rule": "home-dog-under-parlay",
-   "result": "pending",
-   "profit": 0.0,
-   "game": "ATL @ WSH",
-   "gamePk": 822686,
-   "commence": "2026-09-02T17:05:00Z",
-   "basis": "Home dog + under: WSH ML +130 with U9 -104, pays 4.51x",
-   "name": "Home dog + under",
-   "group": "non-scout",
    "kind": "card"
   },
   {
@@ -20720,16 +20617,16 @@
    "w": 613,
    "l": 533,
    "push": 8,
-   "n": 1180,
-   "pending": 26,
+   "n": 1174,
+   "pending": 20,
    "units": 277.98
   },
   "card": {
    "w": 612,
    "l": 527,
    "push": 8,
-   "n": 1168,
-   "pending": 21,
+   "n": 1162,
+   "pending": 15,
    "units": 277.98
   },
   "by_rule": {
@@ -20785,8 +20682,8 @@
     "w": 14,
     "l": 11,
     "push": 0,
-    "n": 30,
-    "pending": 5,
+    "n": 29,
+    "pending": 4,
     "units": 1.47
    },
    "form-under": {
@@ -20809,8 +20706,8 @@
     "w": 85,
     "l": 166,
     "push": 0,
-    "n": 258,
-    "pending": 7,
+    "n": 256,
+    "pending": 5,
     "units": 114.07
    },
    "home-slide-ml": {
@@ -20833,8 +20730,8 @@
     "w": 99,
     "l": 70,
     "push": 4,
-    "n": 177,
-    "pending": 4,
+    "n": 175,
+    "pending": 2,
     "units": 19.04
    },
    "scout-ml-both-halves-aligned": {
@@ -20849,8 +20746,8 @@
     "w": 121,
     "l": 87,
     "push": 3,
-    "n": 216,
-    "pending": 5,
+    "n": 215,
+    "pending": 4,
     "units": 23.24
    }
   }

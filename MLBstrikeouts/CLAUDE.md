@@ -388,3 +388,32 @@ the home-dog band, not as evidence that unrelated systems corroborate.
 
 Doubling a stacked position was not tested and is not implied: every
 number above is flat stakes on each system's own bet.
+
+## Ledger rows track the market until first pitch (2026-09-02, user)
+
+A logged row is not a snapshot of the first quote of the morning. It
+follows the book and then freezes:
+
+- **Re-price, don't duplicate.** The idempotency key `sig_of` is
+  `(date, rule, market, game, side)`. The total is deliberately NOT in
+  it. It used to be, so a line move between two runs of the workflow
+  read as a different bet — on 9/2 the book moved DET/MIN from 9 to 8.5
+  and the ledger carried two pickem-under rows for one play, staking 2u
+  where 1u was made. Six rows that day across five rules.
+- **Overwrite with the latest quote.** A re-run updates the row to what
+  the market shows now. The number you would actually get is the latest
+  one, not whichever the first run happened to catch.
+- **Lock at first pitch.** Once `commence` has passed, the row is frozen
+  — price, line and play text — however many times the workflow runs
+  after it. A graded row is locked too, and a row with no `commence` is
+  treated as locked rather than risk rewriting a game in progress.
+- **Only market fields move** (`PRICE_FIELDS`). Result, profit, stake,
+  `not_bet` and anything hand-edited belong to the ledger, not the book,
+  and a re-price never touches them.
+
+Known exception, left alone deliberately: 2026-07-19 WSH @ OAK carries
+two backfilled mismatch-ml rows on the same side (WSH ML −146), one from
+the tail arm and one from the fade arm, both WIN +0.68. Whether a rule
+firing twice on one side is one position or two is a rules question, not
+a bug, so it stands until someone decides it. It is the only such pair
+in the season.

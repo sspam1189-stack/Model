@@ -28,16 +28,26 @@ that. Every auto entry carries ``"auto": true``; mark one ``"not_bet": true``
 by hand (or with scout_card_log.py) when a play was missed, and the report
 already holds those out of the units while keeping them in the rule's W-L.
 
-Idempotent by (date, rule, game): the daily workflow runs six times a day and
-re-running never duplicates a row or rewrites a price. The FIRST price seen is
-the one kept, which matches the ledger's card-time-quote convention -- a later
-run seeing a moved line does not silently regrade the entry.
+Idempotent by (date, rule, game, side): the daily workflow runs six times a
+day and re-running never duplicates a row. It DOES re-price one. A row tracks
+the market until first pitch -- the number you would actually get is the
+latest quote, not whichever one the first run of the morning happened to
+catch -- and locks the moment the game starts. After that the price, the
+line and the play text are frozen, whatever the book does and however many
+times the workflow runs, so a settled row always reads the way it was bet.
+A graded row is locked too, regardless of clock.
+
+Only market fields move (PRICE_FIELDS). Result, profit, stake, not_bet and
+anything else hand-edited belong to the ledger, not the book, and are never
+touched by a re-price.
 
 Usage:  cd MLBstrikeouts && python -m scripts.log_daily_qualifiers [--dry-run]
 """
 import argparse
+import datetime
 import json
 import os
+import re
 import sys
 
 sys.path.insert(0, os.path.dirname(__file__))
@@ -55,6 +65,12 @@ FADEML = os.path.join(DATA, "mlb-fade-ml.json")
 PROPS = os.path.join(DATA, "mlb-props.json")
 COMBOS = os.path.join(DATA, "flag-combo-table.json")
 MSUM = os.path.join(DATA, "msum-ml-table.json")
+
+# What a re-price is allowed to move: the market's description of the bet,
+# and nothing the ledger owns. `play` carries the line in its text, so it
+# moves with it or the row would read "U9" at a price quoted for 8.5.
+PRICE_FIELDS = ("price", "line", "play", "basis",
+                "ml_price", "under_price", "payout")
 
 DEFECTS = ("swingman", "layoff", "opener", "stale-window")   # canonical order
 FORM_UNDER_AT = -40.0
@@ -128,12 +144,26 @@ def game_ids():
     return out
 
 
+# " O9.5" or " Over 9.5" -- the over token in a play string, never a team
+# abbreviation (those are not preceded by a space in "OAK/TEX U7.5").
+_OVER_TEXT = re.compile(r"\sO(?:ver)?\s*\d")
+
+
 def sig_of(e):
     """Structural identity of a ledger row: date + rule + game + thing bet.
 
-    The idempotency key. One entry per (date, rule, market, game, line-or-pick),
-    so the daily workflow running six times adds each play once and never
+    The idempotency key. One entry per (date, rule, market, game, side), so
+    the daily workflow running six times adds each play once and never
     rewrites a price already recorded.
+
+    The TOTAL IS NOT PART OF THE KEY (fixed 2026-09-02). It used to be, and
+    a line move between two runs of the workflow therefore read as a
+    different bet: on 9/2 the book moved DET/MIN from 9 to 8.5 and the
+    ledger carried two pickem-under rows for one game, staking 2u on a play
+    that was made once. Twelve rows across six rules that day. A rule fires
+    at most once per game per market, so the game and the side are the
+    identity; the total is a price, and the first price recorded is the one
+    kept, exactly as it is for the moneyline.
 
     Deliberately NOT the play text -- hand-logged rows say "CWS/HOU Under 8.5"
     where this writes "CWS @ HOU UNDER 8.5", and keying on text would log both.
@@ -144,12 +174,39 @@ def sig_of(e):
     game = (e.get("gamePk") or
             (e.get("game") or "").replace("/", " @ ").strip())
     if e.get("market") == "parlay":
-        k = "parlay:" + str(e.get("line") or "")
+        k = "parlay"
     elif e.get("market") == "totals":
-        k = str(e.get("line") or "")
+        # The side, not the number: a moved total is the same bet. Prefer an
+        # explicit pick; fall back to the play text, which reads either
+        # "SD/CIN U9.5" or the hand-logged "SD/CIN Under 9.5".
+        pick = (e.get("pick") or "").lower()
+        if pick not in ("over", "under"):
+            pick = "over" if _OVER_TEXT.search(e.get("play") or "") else "under"
+        k = pick
     else:
         k = (e.get("play") or "").split(" ML")[0].strip()
     return (e.get("date"), e.get("rule"), e.get("market"), game, k)
+
+
+def _locked(entry, now):
+    """True once a row may no longer be re-priced.
+
+    Locked at first pitch, or as soon as it has been graded. A row with no
+    commence time cannot be shown to be un-started, so it locks rather than
+    risk rewriting a game already in progress.
+    """
+    if (entry.get("result") or "pending") != "pending":
+        return True
+    when = entry.get("commence")
+    if not when:
+        return True
+    try:
+        t = datetime.datetime.fromisoformat(str(when).replace("Z", "+00:00"))
+    except ValueError:
+        return True
+    if t.tzinfo is None:
+        t = t.replace(tzinfo=datetime.timezone.utc)
+    return now >= t
 
 
 def _combo(sides):
@@ -362,10 +419,14 @@ def main():
     qs = qualifiers(payload, verdicts, msum_table, ids, shadow_combos)
     # The non-scout systems come off mlb-all-ml.json, not the scout payload.
     qs += allml_qualifiers(date, ids)
+    now = datetime.datetime.now(datetime.timezone.utc)
     blob = LEDGER._load()
-    have = {sig_of(e) for e in blob["entries"]}
+    by_sig = {}
+    for e in blob["entries"]:
+        by_sig.setdefault(sig_of(e), e)
 
     added = []
+    moved = []
     for q in qs:
         rule = q["rule"]
         status = STATUS.get(rule, "shadow")
@@ -397,21 +458,42 @@ def main():
         # combo inside an otherwise carded rule (flag-plays/layoff).
         if status == "shadow" or q.get("shadow"):
             entry["shadow"] = True
-        if sig_of(entry) in have:
+        prior = by_sig.get(sig_of(entry))
+        if prior is not None:
+            # The play is already on the books. Re-price it to the market the
+            # workflow is seeing now -- the number you would actually get is
+            # the latest one, not whatever the first run of the morning
+            # happened to catch -- and LOCK it at first pitch, so a row never
+            # changes after the game it describes has started. Everything the
+            # ledger owns rather than the market (result, profit, stake,
+            # hand edits) is left alone.
+            if _locked(prior, now):
+                continue
+            changed = {k: v for k, v in entry.items()
+                       if k in PRICE_FIELDS and prior.get(k) != v}
+            if not changed:
+                continue
+            prior.update(changed)
+            moved.append((prior, changed))
             continue
-        have.add(sig_of(entry))
+        by_sig[sig_of(entry)] = entry
         added.append(entry)
+
+    for e, changed in moved:
+        bits = ", ".join(f"{k} {v}" for k, v in sorted(changed.items()))
+        print(f"  REPRICE {e['rule']:14} {e['play'][:40]:40} {bits}")
 
     counts = {}
     for e in added:
         counts[e["rule"]] = counts.get(e["rule"], 0) + 1
     label = ", ".join(f"{k} {v}" for k, v in sorted(counts.items())) or "nothing new"
-    print(f"{date}: {len(qs)} qualifiers, {len(added)} new -> {label}")
+    print(f"{date}: {len(qs)} qualifiers, {len(added)} new, "
+          f"{len(moved)} repriced -> {label}")
     for e in added:
         tag = "SHADOW" if e.get("shadow") else "CARD  "
         print(f"  {tag} {e['rule']:14} {e['play'][:46]:46} {e['price']:>5}")
 
-    if args.dry_run or not added:
+    if args.dry_run or not (added or moved):
         if args.dry_run:
             print("(dry run -- nothing written)")
         return
