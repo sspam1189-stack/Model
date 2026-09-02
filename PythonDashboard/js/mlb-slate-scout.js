@@ -108,6 +108,27 @@ async function renderMLBSlateScout() {
       + 'MLBstrikeouts/data/plays-feed.json'),
   ])).filter(Boolean)
     .sort((a, b) => String(b.generated || '').localeCompare(String(a.generated || '')))[0] || null;
+  // The Better arm ML panel is gone (user, 2026-09-02) but the rule is still
+  // CARD and still logging bets, so its thresholds are still needed: the
+  // plays now render inside the scout plays panel instead of a panel of
+  // their own. Read from the table rather than hard-coded, so a threshold
+  // change in the builder cannot drift from what the tab shows.
+  const grabMsum = async (url) => {
+    try {
+      const r = await fetch(url + '?t=' + Date.now(), { cache: 'no-store' });
+      if (!r.ok) return null;
+      const j = await r.json();
+      return (j && typeof j.threshold === 'number') ? j : null;
+    } catch (e) { return null; }
+  };
+  const msumCfg = (await Promise.all([
+    grabMsum('data/msum-ml-table.json'),
+    grabMsum('https://raw.githubusercontent.com/sspam1189-stack/Model/main/'
+      + 'MLBstrikeouts/data/msum-ml-table.json'),
+  ])).filter(Boolean)
+    .sort((a, b) => String(b.generated || '').localeCompare(String(a.generated || '')))[0]
+    || { threshold: 40, require_dog: true };
+
   const comboTable = (await Promise.all([
     grabTable('data/flag-combo-table.json'),
     grabTable('https://raw.githubusercontent.com/sspam1189-stack/Model/main/'
@@ -318,6 +339,25 @@ async function renderMLBSlateScout() {
     if (msum != null && msum >= -FORM_UNDER_AT) {
       underPlays.push({ s, kind: 'dead', side: 'O', rule: 'Form over',
         why: 'm_sum +' + msum.toFixed(1) + ' · over side measured -0.6% ROI, not bet' });
+    }
+    // Better arm ML: m_sum at or above the threshold, back the side with the
+    // LOWER mismatch (the better arm), plus money only when require_dog. The
+    // rule kept firing and betting after its panel was removed, so two
+    // graded card plays on 2026-09-02 never appeared on the board at all.
+    if (msum != null && msum >= msumCfg.threshold
+        && ms[0] != null && ms[1] != null) {
+      const betterAway = ms[0] < ms[1];
+      const bml = betterAway ? s.away_ml : s.home_ml;
+      if (bml != null && (bml > 0 || !msumCfg.require_dog)) {
+        underPlays.push({
+          s, kind: isCard('better-arm-ml', true) ? 'card' : 'shadow', side: 'ML',
+          ml: { pick: betterAway ? s.away : s.home, ml: bml },
+          rule: 'Better arm ML',
+          why: 'm_sum +' + msum.toFixed(1) + ' · '
+            + esc((sides[betterAway ? 0 : 1] || {}).pitcher || '?')
+            + ' is the better arm' + (bml > 0 ? ', plus money' : ''),
+        });
+      }
     }
     // scout-ml-both-halves-aligned at its own 75-PA floor (everything else
     // stays at 150). RETIRED 2026-09-02 after the full-season replay put it at
