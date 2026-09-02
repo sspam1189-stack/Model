@@ -44,22 +44,48 @@ let nbasFilters = {
 };
 let nbasLogPage = 0;
 let nbasShowMechanism = null;   // system id whose mechanism is expanded
+// Last feed, kept so a filter change is a pure re-render rather than two more
+// 1.4MB fetches. Refreshed whenever the tab is entered.
+let nbasData = null;
 const NBAS_PAGE = 60;
 
-function nbasSetFilter(k, v) {
+// Filters re-render IN PLACE. Calling the global render() here used to rebuild
+// #content from scratch, which threw the reader back to the top of a 3,700px
+// page on every filter change and page turn -- and re-fetched the 1.4MB feed
+// twice (local + remote) each time. Only the three filter-dependent panels are
+// rewritten now; the banner and the definitions card never change, so the page
+// above the fold does not move and scroll position survives untouched.
+function nbasRerender(focusId) {
+  if (!nbasData) { render(); return; }
+  const set = (id, html) => {
+    const el = document.getElementById(id);
+    if (el) el.innerHTML = html;
+  };
+  set('nbas-today', nbasTodayCard(nbasData));
+  set('nbas-record', nbasRecordTable(nbasData));
+  set('nbas-log', nbasLogTable(nbasData));
+  // The <select> that triggered this was just destroyed and rebuilt, so hand
+  // focus back to its replacement or the next keyboard change goes nowhere.
+  if (focusId) {
+    const f = document.getElementById(focusId);
+    if (f) f.focus();
+  }
+}
+
+function nbasSetFilter(k, v, focusId) {
   nbasFilters[k] = v;
   nbasLogPage = 0;
-  render();
+  nbasRerender(focusId);
 }
 function nbasSetSystem(id) {
   nbasFilters.system = (nbasFilters.system === id) ? 'all' : id;
   nbasLogPage = 0;
-  render();
+  nbasRerender();
 }
-function nbasPage(d) { nbasLogPage = Math.max(0, nbasLogPage + d); render(); }
+function nbasPage(d) { nbasLogPage = Math.max(0, nbasLogPage + d); nbasRerender(); }
 function nbasToggleMech(id) {
   nbasShowMechanism = (nbasShowMechanism === id) ? null : id;
-  render();
+  nbasRerender();
 }
 
 // Season label from a YYYYMMDD date. The NBA year straddles the calendar, so
@@ -141,12 +167,14 @@ async function renderNBASystems() {
     return;
   }
 
-  let html = nbasBanner(data);
-  html += nbasTodayCard(data);
-  html += nbasRecordTable(data);
-  html += nbasDefinitions(data);
-  html += nbasLogTable(data);
-  el.innerHTML = html;
+  nbasData = data;
+  // Stable wrappers so nbasRerender() can replace just the filter-dependent
+  // panels instead of the whole page.
+  el.innerHTML = nbasBanner(data)
+    + '<div id="nbas-today">' + nbasTodayCard(data) + '</div>'
+    + '<div id="nbas-record">' + nbasRecordTable(data) + '</div>'
+    + nbasDefinitions(data)
+    + '<div id="nbas-log">' + nbasLogTable(data) + '</div>';
 }
 
 // ---------------------------------------------------------------------------
@@ -303,7 +331,7 @@ function nbasRecordTable(d) {
   return `
     <div class="card card-records">
       <div class="card-title">System record
-        <select onchange="nbasSetFilter('tier', this.value)"
+        <select id="nbas-sel-tier" onchange="nbasSetFilter('tier', this.value, this.id)"
           style="background:#1e1e1e;color:#e0e0e0;border:1px solid #444;border-radius:6px;
                  padding:4px 10px;font-size:13px;margin-left:10px;cursor:pointer">${tierSel}</select>
       </div>
@@ -376,7 +404,8 @@ function nbasLogTable(d) {
     || String(a.system).localeCompare(String(b.system)));
 
   const seasons = [...new Set(all.map(e => nbasSeason(e.date)))].sort().reverse();
-  const sel = (key, opts, labels) => `<select onchange="nbasSetFilter('${key}', this.value)"
+  const sel = (key, opts, labels) => `<select id="nbas-sel-${key}"
+      onchange="nbasSetFilter('${key}', this.value, this.id)"
       style="background:#1e1e1e;color:#e0e0e0;border:1px solid #444;border-radius:6px;
              padding:3px 8px;font-size:12px;margin-right:6px;cursor:pointer">`
     + opts.map((o, i) => `<option value="${o}" ${f[key] === o ? 'selected' : ''}>`
