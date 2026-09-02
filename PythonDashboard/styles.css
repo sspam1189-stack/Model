@@ -785,3 +785,29 @@ select option { background-color: #1a1a2e; color: #fff; padding: 4px 8px; }
 }
 .wf-modal-actions a:hover,
 .wf-modal-actions button:hover { background: #2c5282; }
+
+/* ─── MLB slate-scout panels: phone layout ───
+   These panels carry a prose column ("Why", the rule description) that cannot
+   usefully shrink, so on a phone it pushed the play, the price and the result
+   off the right edge behind a sideways scroll. Below 560px the explanatory
+   columns are hidden and the actionable ones fit; the same information is a
+   tap away on a wider screen and in the season table underneath. */
+.scout-scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+
+@media (max-width: 560px) {
+  .card-games [data-col="why"],
+  .card-games [data-col="season"],
+  .card-games [data-col="rule-desc"],
+  .card-games [data-col="perday"] { display: none; }
+  /* The paragraph-length note in a panel header pushed the first play four
+     lines down the screen. It explains the panel rather than the slate. */
+  .card-games .scout-note { display: none; }
+  /* Long closing footnotes shrink rather than push the next panel away. */
+  .card-games .scout-foot { font-size: 10px !important; line-height: 1.4 !important; }
+  /* The shared date selector sits on its own line rather than floating into
+     the title text. */
+  .card-games [data-date-filter] {
+    float: none !important; display: block; margin-top: 4px;
+  }
+  .card-games [data-date-filter] select { max-width: 100%; }
+}
