@@ -26,7 +26,7 @@ from datetime import datetime, timedelta, timezone
 
 from scipy.stats import t as t_dist
 
-from sources.nflfastr import fetch_pbp
+from sources.nflfastr import fetch_pbp, NoPBPDataError
 from sources.odds_theoddsapi import fetch_nfl_odds, fetch_nfl_player_props
 from team_environment import (
     compute_team_pace, compute_team_pass_rate, project_game_environment,
@@ -178,9 +178,13 @@ def project_week_props(season, week, odds_list=None, injury_report=None):
     """
     print(f"\n== PROPS PROJECT — {season} Week {week} ==\n")
 
-    pbp = fetch_pbp(season)
+    try:
+        pbp = fetch_pbp(season)
+    except NoPBPDataError:
+        pbp = None
     if pbp is None or pbp.empty:
-        print("  [props] No PBP data — cannot project")
+        print(f"  [props] No {season} PBP data yet — cannot project "
+              "(picks start once players have 3+ games)")
         return
     prior_pbp = pbp[pbp["week"] < week].copy()
     if prior_pbp.empty:

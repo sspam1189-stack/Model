@@ -79,11 +79,69 @@ async function renderMLBSlateScout() {
   const isCard = (rule, fallback) => (ruleStatus && ruleStatus.rules[rule])
     ? ruleStatus.rules[rule].status === 'card'
     : fallback;
+  // Retired is not shadow. A shadow rule still shows on the card so its
+  // tracked plays can be read; a retired one is off and shows nothing, which
+  // is why this needs its own check rather than falling out of !isCard.
+  const isRetired = (rule) => !!(ruleStatus && ruleStatus.rules[rule]
+    && ruleStatus.rules[rule].status === 'retired');
 
   const msumTable = (await Promise.all([
     grabTableAny('data/msum-ml-table.json'),
     grabTableAny('https://raw.githubusercontent.com/sspam1189-stack/Model/main/'
       + 'MLBstrikeouts/data/msum-ml-table.json'),
+  ])).filter(Boolean)
+    .sort((a, b) => String(b.generated || '').localeCompare(String(a.generated || '')))[0] || null;
+
+  // The non-scout systems (MLBstrikeouts/scripts/allml_systems.py): eight
+  // rules read off mlb-all-ml.json alone, with no input from the mismatch
+  // model. Their own panel, because an agreement between one of these and a
+  // scout rule is a second opinion rather than the same inputs twice.
+  const grabSystems = async (url) => {
+    try {
+      const r = await fetch(url + '?t=' + Date.now(), { cache: 'no-store' });
+      if (!r.ok) return null;
+      const j = await r.json();
+      return (j && Array.isArray(j.systems) && j.systems.length) ? j : null;
+    } catch (e) { return null; }
+  };
+  const sysTable = (await Promise.all([
+    grabSystems('data/allml-systems-table.json'),
+    grabSystems('https://raw.githubusercontent.com/sspam1189-stack/Model/main/'
+      + 'MLBstrikeouts/data/allml-systems-table.json'),
+  ])).filter(Boolean)
+    .sort((a, b) => String(b.generated || '').localeCompare(String(a.generated || '')))[0] || null;
+
+  // The bet log (scripts/build_plays_feed.py): every logged play with the
+  // result and profit the auto-grader settled, as a flat list.
+  const grabFeed = async (url) => {
+    try {
+      const r = await fetch(url + '?t=' + Date.now(), { cache: 'no-store' });
+      if (!r.ok) return null;
+      const j = await r.json();
+      return (j && Array.isArray(j.bets) && j.bets.length) ? j : null;
+    } catch (e) { return null; }
+  };
+  const playsFeed = (await Promise.all([
+    grabFeed('data/plays-feed.json'),
+    grabFeed('https://raw.githubusercontent.com/sspam1189-stack/Model/main/'
+      + 'MLBstrikeouts/data/plays-feed.json'),
+  ])).filter(Boolean)
+    .sort((a, b) => String(b.generated || '').localeCompare(String(a.generated || '')))[0] || null;
+
+  // Season history for the scout rules that had no table of their own
+  // (scripts/build_scout_rules_table.py): Form under, Aligned ML, Mismatch ML.
+  const grabScoutRules = async (url) => {
+    try {
+      const r = await fetch(url + '?t=' + Date.now(), { cache: 'no-store' });
+      if (!r.ok) return null;
+      const j = await r.json();
+      return (j && Array.isArray(j.rules) && j.rules.length) ? j : null;
+    } catch (e) { return null; }
+  };
+  const scoutRules = (await Promise.all([
+    grabScoutRules('data/scout-rules-table.json'),
+    grabScoutRules('https://raw.githubusercontent.com/sspam1189-stack/Model/main/'
+      + 'MLBstrikeouts/data/scout-rules-table.json'),
   ])).filter(Boolean)
     .sort((a, b) => String(b.generated || '').localeCompare(String(a.generated || '')))[0] || null;
 
@@ -206,7 +264,8 @@ async function renderMLBSlateScout() {
   // statistical case, only a structural one.
   // Fallbacks only -- rule-status.json wins when it loads.
   const FORM_UNDER_LIVE = isCard('form-under', true);
-  const ALIGNED_ML_LIVE = isCard('aligned-ml', true);
+  const ALIGNED_ML_LIVE = isCard('aligned-ml', false);
+  const ALIGNED_ML_OFF = isRetired('aligned-ml');
   const ctTime = (iso) => {
     try {
       return new Date(iso).toLocaleTimeString('en-US',
@@ -247,8 +306,18 @@ async function renderMLBSlateScout() {
           ? verdicts[combo]
           : (combo.split('+').includes('swingman') ? 'under' : null))
         : (combo.split('+').includes('swingman') ? 'under' : null);
+      // A shadowed combo keeps its measured side but is not bet, so it
+      // belongs in the SHADOW block rather than either of the other two.
+      // Reading `verdicts` alone would card it; reading `carded` alone would
+      // bury it with the configurations that measured dead.
+      const shadowed = ((comboTable && comboTable.verdicts_shadow) || [])
+        .includes(combo);
       const label = nFlags + ' · ' + combo;
-      if (side === 'under' || side === 'over') {
+      if (shadowed && (side === 'under' || side === 'over')) {
+        underPlays.push({ s, kind: 'shadow', side: side === 'over' ? 'O' : 'U',
+          rule: 'Flag Plays · ' + label,
+          why: why + ' · tracked, not bet' });
+      } else if (side === 'under' || side === 'over') {
         underPlays.push({ s, kind: 'card', side: side === 'over' ? 'O' : 'U',
           rule: 'Flag Plays · ' + label, why });
       } else {
@@ -273,8 +342,9 @@ async function renderMLBSlateScout() {
         why: 'm_sum +' + msum.toFixed(1) + ' · over side measured -0.6% ROI, not bet' });
     }
     // scout-ml-both-halves-aligned at its own 75-PA floor (everything else
-    // stays at 150). Emitted by the builder; shadow until 25 graded plays.
-    if (s.aligned_ml) {
+    // stays at 150). RETIRED 2026-09-02 after the full-season replay put it at
+    // 6-7 -12.8%; the builder still emits it, so this is where it stops.
+    if (s.aligned_ml && !ALIGNED_ML_OFF) {
       const am = s.aligned_ml;
       underPlays.push({ s, kind: ALIGNED_ML_LIVE ? 'card' : 'shadow', side: 'ML',
         ml: am,
@@ -283,20 +353,61 @@ async function renderMLBSlateScout() {
           + (am.home_offense || []).join('/') + ' @75pa' });
     }
   }
+  // Shared formatters for the bet log below.
+  const RESULT_STYLE = {
+    WIN: ['#3fb950', 'rgba(63,185,80,.18)'],
+    LOSS: ['#f85149', 'rgba(248,81,73,.14)'],
+    PUSH: [DIM, 'rgba(139,148,158,.14)'],
+  };
+  const resultChip = (r) => {
+    const c = RESULT_STYLE[r] || [DIM, 'rgba(139,148,158,.10)'];
+    return '<span style="display:inline-block;padding:1px 6px;border-radius:3px;'
+      + 'font-weight:600;white-space:nowrap;color:' + c[0] + ';background:'
+      + c[1] + '">' + esc(r === 'pending' ? 'PENDING' : r) + '</span>';
+  };
+  const unitStr = (u) => '<span style="color:'
+    + (u > 0 ? '#3fb950' : u < 0 ? '#f85149' : DIM) + ';font-weight:600">'
+    + (u > 0 ? '+' : '') + Number(u).toFixed(2) + 'u</span>';
+
+  // A rule's month-by-month ROI as a compact strip. Both season tables have
+  // published a `monthly` array all along and nothing rendered it, so a rule
+  // could be carried by one hot month with no way to see it on the tab.
+  const monthStrip = (monthly) => {
+    if (!monthly || !monthly.length) return '';
+    const MN = ['', 'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug',
+      'Sep', 'Oct', 'Nov', 'Dec'];
+    return '<div style="display:flex;flex-wrap:wrap;gap:6px;padding:1px 0 3px;'
+      + 'font-size:10px;color:' + DIM + '">'
+      + monthly.map((m) => {
+        const roi = m.roi == null ? null : m.roi;
+        const col = roi == null ? DIM : roi > 0 ? '#3fb950' : roi < 0 ? '#f85149' : DIM;
+        return '<span style="white-space:nowrap">'
+          + MN[+String(m.month).slice(5, 7)] + ' '
+          + '<span style="color:' + col + ';font-weight:600">'
+          + (roi == null ? '—' : (roi > 0 ? '+' : '') + roi.toFixed(0) + '%')
+          + '</span> <span style="opacity:.7">' + m.w + '-' + m.l + '</span></span>';
+      }).join('') + '</div>';
+  };
+
   const playsCard = document.createElement('div');
   playsCard.className = 'card card-games';
   let phtml = '<div class="card-title" style="padding:6px 8px">Flagged &amp; form O/U — today\'s plays '
-    + '<span style="color:' + DIM + ';font-weight:400;font-size:11px">'
+    + '<span class="scout-note" style="color:' + DIM + ';font-weight:400;font-size:11px">'
     + '(CARD is bet · SHADOW is tracked, not bet · NO PLAY is a measured dead '
     + 'side. Side comes from the combo\'s verdict — most play the under, '
-    + 'swingman+stale-window plays the over.)</span></div>';
+    + 'swingman+stale-window plays the over.)</span>'
+    + '</div>';
   if (!underPlays.length) {
     phtml += '<div style="padding:8px 10px;font-size:12px;color:' + DIM
       + '">No qualifying plays on this slate.</div>';
   } else {
-    phtml += '<div style="overflow-x:auto"><table style="width:100%;border-collapse:collapse;font-size:12px">'
+    // The two plays panels are what gets read at a glance and acted on, so
+    // they sit a step larger than the reference tables further down.
+    phtml += '<div class="scout-scroll"><table style="width:100%;'
+      + 'border-collapse:collapse;font-size:13.5px;line-height:1.45">'
       + '<thead><tr style="text-align:left;color:' + DIM + ';border-bottom:1px solid #30363d">'
-      + '<th style="padding:4px 6px">CT</th><th>Game</th><th>Play</th><th>Rule</th><th>Why</th>'
+      + '<th style="padding:4px 6px">CT</th><th>Game</th><th>Play</th><th>Rule</th>'
+      + '<th data-col="why">Why</th>'
       + '</tr></thead><tbody>';
     const RANK = { card: 0, shadow: 1, dead: 2 };
     const SECTION = {
@@ -336,13 +447,20 @@ async function renderMLBSlateScout() {
         + '<td style="padding:3px 6px;font-weight:600;white-space:nowrap">' + playCell + '</td>'
         + '<td><span style="display:inline-block;padding:1px 6px;border-radius:3px;'
         + 'font-weight:600;white-space:nowrap;' + chip + '">' + p.rule + '</span></td>'
-        + '<td style="color:' + DIM + ';font-size:11px">' + p.why + '</td>'
+        + '<td data-col="why" style="color:' + DIM + ';font-size:11px">'
+        + p.why + '</td>'
         + '</tr>';
     }
     phtml += '</tbody></table></div>';
   }
   playsCard.innerHTML = phtml;
   el.appendChild(playsCard);
+  // The two "today's plays" panels sit together at the top, scout first then
+  // non-scout, so the whole actionable card is read in one place before the
+  // reference tables below it. Both are built further down (the non-scout one
+  // needs its table fetched first), so they are inserted against this anchor
+  // rather than appended in code order.
+  let playsAnchor = playsCard;
 
   // ---- Better-arm ML (m_sum >= +40) ----------------------------------------
   // Found 2026-09-01 inside the pool the dead form-over rule was sitting on:
@@ -390,7 +508,7 @@ async function renderMLBSlateScout() {
       m += '<div style="padding:8px 10px;font-size:12px;color:' + DIM
         + '">No game reaches m_sum +' + MSUM_ML_AT + ' on this slate.</div>';
     } else {
-      m += '<div style="overflow-x:auto"><table style="width:100%;border-collapse:collapse;font-size:12px">'
+      m += '<div class="scout-scroll"><table style="width:100%;border-collapse:collapse;font-size:12px">'
         + '<thead><tr style="text-align:left;color:' + DIM + ';border-bottom:1px solid #30363d">'
         + '<th style="padding:4px 6px">CT</th><th>Game</th><th>Play</th>'
         + '<th>m_sum</th><th>Better arm</th></tr></thead><tbody>';
@@ -437,6 +555,254 @@ async function renderMLBSlateScout() {
     el.appendChild(card);
   }
 
+  // ---- Non-scout systems ---------------------------------------------------
+  // Eleven rules found 2026-09-01 by scanning the 2,066 settled games in
+  // mlb-all-ml.json using only what that file carries. Season records are
+  // replayed as-of each game date by scripts/build_allml_systems_table.py on
+  // every daily run, so nothing here is a number somebody typed once.
+  if (sysTable) {
+    const byKey = {};
+    for (const sy of sysTable.systems) byKey[sy.key] = sy;
+    // Ordered by first pitch, not by system, so the card reads in the order
+    // the games actually start. Sorted here too rather than trusting the
+    // JSON, which a cached build may still have grouped by system.
+    const plays = (sysTable.today || []).filter(
+      p => !sysTable.today_date || p.date === sysTable.today_date)
+      .sort((a, b) => String(a.commence || '~').localeCompare(String(b.commence || '~')));
+    const recOf = (k) => {
+      const r = byKey[k] && byKey[k].record;
+      return r ? r.w + '-' + r.l + ' ' + (r.roi > 0 ? '+' : '') + r.roi + '%' : '—';
+    };
+    const sc = document.createElement('div');
+    sc.className = 'card card-games';
+    let t = '<div class="card-title" style="padding:6px 8px">'
+      + 'Non-scout systems — today\'s plays '
+      + '<span class="scout-note" style="color:' + DIM + ';font-weight:400;font-size:11px">'
+      + '(Derived from the all-ML game file alone: prices, totals, probables, '
+      + 'scores. No mismatch-model input, so an agreement with a scout rule '
+      + 'is a second opinion. Card rows are bet; shadow rows are tracked at '
+      + 'no stake while their doubts resolve.)</span>'
+      + '</div>';
+    if (!plays.length) {
+      t += '<div style="padding:8px 10px;font-size:12px;color:' + DIM
+        + '">No system qualifies on this slate.</div>';
+    } else {
+      t += '<div class="scout-scroll"><table style="width:100%;'
+        + 'border-collapse:collapse;font-size:13.5px;line-height:1.45">'
+        + '<thead><tr style="text-align:left;color:' + DIM + ';border-bottom:1px solid #30363d">'
+        + '<th style="padding:5px 6px">CT</th><th>Game</th><th>Play</th>'
+        + '<th>System</th><th data-col="season">Season</th>'
+        + '<th data-col="why">Why</th></tr></thead><tbody>';
+      // Card block first, then shadow, and first pitch inside each. Mixing
+      // them by time alone would put a no-stake row above a bet one.
+      const tierOf = (p) => (byKey[p.rule] && byKey[p.rule].status === 'shadow')
+        ? 'shadow' : 'card';
+      const ordered = plays.slice().sort((a, b) =>
+        (tierOf(a) === 'shadow') - (tierOf(b) === 'shadow')
+        || String(a.commence || '~').localeCompare(String(b.commence || '~')));
+      const nShadow = ordered.filter((p) => tierOf(p) === 'shadow').length;
+      let nsSection = null;
+      for (const p of ordered) {
+        const sy = byKey[p.rule] || {};
+        const tier = tierOf(p);
+        if (tier !== nsSection) {
+          nsSection = tier;
+          // The shadow header is a toggle and starts closed: these rows are
+          // not bet, so they should not push the card off the screen. The
+          // count goes in the header so nothing is hidden silently.
+          t += tier === 'card'
+            ? '<tr><td colspan="6" style="padding:6px 6px 3px;font-size:12px;'
+              + 'font-weight:600;border-top:1px solid #30363d;color:#3fb950">'
+              + 'CARD — bet these</td></tr>'
+            : '<tr><td colspan="6" id="nsShadowHead" style="padding:6px 6px 3px;'
+              + 'font-size:12px;font-weight:600;border-top:1px solid #30363d;'
+              + 'color:' + DIM + ';cursor:pointer;user-select:none">'
+              + '<span id="nsShadowCaret">▸</span> SHADOW — tracked, not bet '
+              + '<span style="font-weight:400">(' + nShadow + ')</span></td></tr>';
+        }
+        // A parlay is two legs in one row, so it prints both and the payout
+        // rather than a single price.
+        const playCell = p.market === 'parlay'
+          ? esc(p.pick) + ' ML ' + mlStr(p.ml_price) + ' + U'
+            + (p.line == null ? '?' : p.line)
+            + ' <span style="color:' + DIM + ';font-weight:400">'
+            + (p.payout ? p.payout.toFixed(2) + 'x' : '') + '</span>'
+          : p.market === 'h2h'
+            ? esc(p.pick) + ' ML <span style="color:' + DIM + ';font-weight:400">'
+              + mlStr(p.price) + '</span>'
+            : (p.pick === 'under' ? 'U' : 'O') + (p.total == null ? '?' : p.total)
+              + ' <span style="color:' + DIM + ';font-weight:400">'
+              + mlStr(p.price) + '</span>';
+        t += '<tr class="' + (tier === 'shadow' ? 'ns-shadow-row' : 'ns-card-row')
+          + '" style="border-top:1px solid #161b22'
+          + (tier === 'shadow' ? ';display:none' : '') + '">'
+          + '<td style="padding:4px 6px;color:' + DIM + '">' + ctTime(p.commence) + '</td>'
+          + '<td style="padding:4px 6px">' + esc(p.matchup) + '</td>'
+          + '<td style="padding:4px 6px;font-weight:600;white-space:nowrap">' + playCell + '</td>'
+          + '<td><span style="display:inline-block;padding:1px 6px;border-radius:3px;'
+          + 'font-weight:600;white-space:nowrap;' + (tier === 'shadow'
+            ? 'background:rgba(139,148,158,.14);color:' + DIM
+            : 'background:rgba(63,185,80,.18);color:#3fb950') + '">'
+          + esc(sy.name || p.rule) + '</span>'
+          + (sy.ladder_fails ? ' <span title="carded on request; the winning '
+            + 'bucket has losing neighbours" style="color:#d29922">△</span>' : '')
+          + '</td>'
+          + '<td data-col="season" style="color:' + DIM
+          + ';white-space:nowrap">' + recOf(p.rule) + '</td>'
+          + '<td data-col="why" style="color:' + DIM + ';font-size:11px">'
+          + esc(p.why) + '</td>'
+          + '</tr>';
+      }
+      t += '</tbody></table></div>';
+    }
+    // Season table for all eight, whether or not they fired tonight.
+    const b = sysTable.baselines || {};
+    // The builder stores each system's own blind benchmark, so this does not
+    // have to guess one from the rule name.
+    const baseFor = (sy) => (sy.baseline != null ? sy.baseline : null);
+    t += '<div class="scout-scroll" style="border-top:1px solid #30363d">'
+      + '<table style="width:100%;border-collapse:collapse;font-size:12px">'
+      + '<thead><tr style="text-align:left;color:' + DIM + '">'
+      + '<th style="padding:4px 6px">System</th>'
+      + '<th data-col="rule-desc">Rule</th><th>Record</th>'
+      + '<th>ROI</th><th>vs blind</th><th>Halves</th>'
+      + '<th data-col="perday">Plays/day</th>'
+      + '</tr></thead><tbody>';
+    for (const sy of sysTable.systems) {
+      const r = sy.record || {};
+      const base = baseFor(sy);
+      const edge = (base == null || r.roi == null) ? null : r.roi - base;
+      const col = r.roi > 0 ? '#3fb950' : r.roi < 0 ? '#f85149' : DIM;
+      const hs = (sy.halves || []).map(
+        x => (x == null ? '—' : (x > 0 ? '+' : '') + x.toFixed(0))).join(' / ');
+      const bad = (sy.halves || []).some(x => x != null && x <= 0);
+      t += '<tr style="border-top:1px solid #161b22">'
+        + '<td style="padding:3px 6px;font-weight:600">'
+        + esc(sy.name)
+        + (sy.ladder_fails ? ' <span title="carded on request; the winning '
+          + 'bucket has losing neighbours" style="color:#d29922">△</span>' : '')
+        + monthStrip(sy.monthly)
+        + '</td>'
+        + '<td data-col="rule-desc" style="color:' + DIM
+        + ';font-size:11px">' + esc(sy.rule) + '</td>'
+        + '<td style="color:' + DIM + ';white-space:nowrap">' + r.w + '-' + r.l + '</td>'
+        + '<td style="color:' + col + ';font-weight:600;white-space:nowrap">'
+        + (r.roi > 0 ? '+' : '') + (r.roi == null ? '—' : r.roi.toFixed(1)) + '%</td>'
+        + '<td style="color:' + DIM + ';white-space:nowrap">'
+        + (edge == null ? '—' : (edge > 0 ? '+' : '') + edge.toFixed(1)) + '</td>'
+        + '<td style="color:' + (bad ? '#d29922' : DIM) + ';white-space:nowrap">'
+        + hs + '</td>'
+        + '<td data-col="perday" style="color:' + DIM + '">'
+        + (sy.per_day == null ? '—' : sy.per_day) + '</td>'
+        + '</tr>';
+    }
+    // What each system actually bets, and why it might work. This replaced a
+    // methodology paragraph: the panel already shows the record, so the
+    // footnote's job is to say what the rule IS. Where a system has no
+    // mechanism the text says so rather than inventing one.
+    t += '</tbody></table></div>'
+      + '<div class="scout-foot" style="padding:8px 8px 6px;font-size:11px;color:'
+      + DIM + ';line-height:1.55">'
+      + '<div style="font-weight:600;color:#c9d1d9;padding-bottom:4px">'
+      + 'What each system bets</div>'
+      + sysTable.systems.map((sy) => '<div style="padding:0 0 5px">'
+        + '<span style="color:#c9d1d9;font-weight:600">' + esc(sy.name) + '</span>'
+        + (sy.ladder_fails ? ' <span title="the winning bucket has losing '
+          + 'neighbours in its own ladder" style="color:#d29922">△</span>' : '')
+        + ' <span style="color:' + DIM + '">— ' + esc(sy.plain || sy.rule)
+        + '</span></div>').join('')
+      + '<div style="padding-top:4px;border-top:1px solid #21262d;margin-top:2px">'
+      + 'Replayed as-of each game date over ' + (sysTable.games || 0)
+      + ' settled games — a game\'s own result is never in the features that '
+      + 'select it. Blind baselines: backing every side ' + b.side
+      + '%, blind over ' + b.over + '%, blind under ' + b.under + '%. '
+      + '<span style="color:#d29922">△</span> marks a system whose winning '
+      + 'bucket has losing neighbours in its own ladder. The scan behind these '
+      + 'tested thousands of cells, so treat the p-values as screening, not '
+      + 'proof — the live record is what settles them.</div>'
+      + '</div>';
+    sc.innerHTML = t;
+    // Shadow rows start hidden; the header row toggles them. Written after
+    // innerHTML rather than as an inline onclick so the handler survives the
+    // esc() escaping and does not depend on a global.
+    const shHead = sc.querySelector('#nsShadowHead');
+    if (shHead) {
+      const caret = sc.querySelector('#nsShadowCaret');
+      const shRows = [...sc.querySelectorAll('tr.ns-shadow-row')];
+      let open = false;
+      shHead.addEventListener('click', () => {
+        open = !open;
+        for (const r of shRows) r.style.display = open ? '' : 'none';
+        if (caret) caret.textContent = open ? '▾' : '▸';
+      });
+    }
+    el.insertBefore(sc, playsAnchor.nextSibling);
+    playsAnchor = sc;
+  }
+
+  // ---- Scout rule history --------------------------------------------------
+  // Form under, Aligned ML and Mismatch ML had no season table anywhere: their
+  // records lived only as prose in CLAUDE.md, which is the "number somebody
+  // typed once" problem the other grids exist to prevent. Replayed full-season
+  // by every daily run.
+  if (scoutRules) {
+    const sr = document.createElement('div');
+    sr.className = 'card card-games';
+    let t = '<div class="card-title" style="padding:6px 8px">'
+      + 'Scout rule history — full season '
+      + '<span class="scout-note" style="color:' + DIM + ';font-weight:400;font-size:11px">'
+      + '(the three scout rules with no grid of their own. Replayed as-of each '
+      + 'game date over ' + (scoutRules.games || 0) + ' games — a game\'s own '
+      + 'result is never in the features that select it.)</span></div>'
+      + '<div class="scout-scroll"><table style="width:100%;'
+      + 'border-collapse:collapse;font-size:12px">'
+      + '<thead><tr style="text-align:left;color:' + DIM
+      + ';border-bottom:1px solid #30363d">'
+      + '<th style="padding:4px 6px">Rule</th>'
+      + '<th data-col="rule-desc">What it does</th><th>Status</th>'
+      + '<th>Record</th><th>ROI</th><th>vs blind</th><th>Halves</th>'
+      + '<th data-col="perday">Plays/day</th></tr></thead><tbody>';
+    for (const r of scoutRules.rules) {
+      const rec = r.record || {};
+      const edge = (r.baseline == null || rec.roi == null)
+        ? null : rec.roi - r.baseline;
+      const col = rec.roi > 0 ? '#3fb950' : rec.roi < 0 ? '#f85149' : DIM;
+      const hs = (r.halves || []).map(
+        (x) => (x == null ? '—' : (x > 0 ? '+' : '') + x.toFixed(0))).join(' / ');
+      const bad = (r.halves || []).some((x) => x != null && x <= 0);
+      const live = r.status === 'card';
+      const off = r.status === 'retired';
+      t += '<tr style="border-top:1px solid #161b22">'
+        + '<td style="padding:3px 6px;font-weight:600">'
+        + esc(r.name) + monthStrip(r.monthly) + '</td>'
+        + '<td data-col="rule-desc" style="color:' + DIM + ';font-size:11px">'
+        + esc(r.rule) + '</td>'
+        + '<td><span style="display:inline-block;padding:1px 6px;'
+        + 'border-radius:3px;font-weight:600;white-space:nowrap;'
+        + (live ? 'background:rgba(63,185,80,.18);color:#3fb950'
+          : off ? 'background:rgba(248,81,73,.12);color:#f85149'
+            : 'background:rgba(139,148,158,.14);color:' + DIM) + '">'
+        + (live ? 'CARD' : off ? 'RETIRED' : 'SHADOW') + '</span></td>'
+        + '<td style="color:' + DIM + ';white-space:nowrap">'
+        + rec.w + '-' + rec.l + ' <span style="font-size:11px">(n=' + rec.n
+        + ')</span></td>'
+        + '<td style="color:' + col + ';font-weight:600;white-space:nowrap">'
+        + (rec.roi > 0 ? '+' : '') + (rec.roi == null ? '—' : rec.roi.toFixed(1))
+        + '%</td>'
+        + '<td style="color:' + DIM + ';white-space:nowrap">'
+        + (edge == null ? '—' : (edge > 0 ? '+' : '') + edge.toFixed(1)) + '</td>'
+        + '<td style="color:' + (bad ? '#d29922' : DIM) + ';white-space:nowrap">'
+        + hs + '</td>'
+        + '<td data-col="perday" style="color:' + DIM + '">'
+        + (r.per_day == null ? '—' : r.per_day) + '</td></tr>';
+    }
+    t += '</tbody></table></div>'
+      + '<div class="scout-foot" style="padding:6px 8px;font-size:11px;color:'
+      + DIM + ';line-height:1.5">' + esc(scoutRules.note || '') + '</div>';
+    sr.innerHTML = t;
+    el.appendChild(sr);
+  }
+
   // ---- Flag-combo performance grid -----------------------------------------
   // Rebuilt full-season on every daily run. This panel exists because the
   // rust-only OVER rule cleared a 33-game backtest, a walk-forward split and
@@ -462,26 +828,31 @@ async function renderMLBSlateScout() {
       + (comboTable.games?.flagged || 0) + ' flagged of ' + (comboTable.games?.gradeable || 0)
       + ' · baseline U ' + (b.under ? b.under.roi.toFixed(1) : '?') + '% / O '
       + (b.over ? b.over.roi.toFixed(1) : '?') + '% · rebuilt each run)</span></div>'
-      + '<div style="overflow-x:auto"><table style="width:100%;border-collapse:collapse;font-size:12px">'
+      + '<div class="scout-scroll"><table style="width:100%;border-collapse:collapse;font-size:12px">'
       + '<thead><tr style="text-align:left;color:' + DIM + ';border-bottom:1px solid #30363d">'
       + '<th style="padding:4px 6px">Combo</th><th>n</th><th>UNDER</th><th>OVER</th>'
       + '</tr></thead><tbody>';
-    // Two section headers only -- carded vs rust. Within a section the file is
-    // already ordered lexicographically over the flag list (A, A+B, A+B+C,
-    // A+B+C+D, A+B+D, A+C, ...), so the blocks are self-evident and per-tier
-    // headers would just eat rows.
+    // Three section headers -- carded, shadow, rust. Within a section the
+    // file is already ordered lexicographically over the flag list (A, A+B,
+    // A+B+C, A+B+C+D, A+B+D, A+C, ...), so the blocks are self-evident and
+    // per-tier headers would just eat rows. Shadow gets its own block
+    // because it is not the same claim as rust: the side is measured and
+    // still tracked, it just carries no money.
+    const SECTION_LABEL = {
+      card: 'CARDED — these configurations are bet',
+      shadow: 'SHADOW — side still tracked, no money on it',
+      rust: 'NOT CARDED — measured flat, negative, or too thin',
+    };
     let section = null;
     for (const c of comboTable.combos) {
-      const mine = c.carded ? 'card' : 'rust';
-      const rustEdge = mine === 'rust' && section !== 'rust';
+      const mine = c.carded ? 'card' : (c.shadow ? 'shadow' : 'rust');
+      const rustEdge = mine !== 'card' && section !== mine;
       if (mine !== section) {
         section = mine;
         t += '<tr><td colspan="4" style="padding:5px 6px 2px;font-size:11px;'
           + 'font-weight:600;border-top:1px solid #30363d;color:'
           + (mine === 'card' ? '#3fb950' : DIM) + '">'
-          + (mine === 'card'
-            ? 'CARDED — these configurations are bet'
-            : 'NOT CARDED — measured flat, negative, or too thin')
+          + SECTION_LABEL[mine]
           + '</td></tr>';
       }
       // Below 25 plays the harness refuses to call anything an edge, so the
@@ -490,11 +861,20 @@ async function renderMLBSlateScout() {
       const thin = (c.under?.n || 0) < 25;
       t += '<tr style="border-top:1px solid '
         + (rustEdge ? '#30363d' : '#161b22')
-        + (thin && !c.carded ? ';opacity:.6' : '') + '">'
+        + (thin && !c.carded && !c.shadow ? ';opacity:.6' : '') + '">'
         + '<td style="padding:3px 6px">'
-        + (c.carded ? '<span style="color:#3fb950">●</span> ' : '<span style="color:'
-          + DIM + '">○</span> ')
-        + esc(c.combo) + (thin ? ' <span style="color:' + DIM
+        + (c.carded ? '<span style="color:#3fb950">●</span> '
+          : c.shadow ? '<span style="color:#d29922">◐</span> '
+            : '<span style="color:' + DIM + '">○</span> ')
+        + esc(c.combo)
+        // A dated shadow move: the combo is still a play today and stops
+        // being bet on its date. Saying so beats having it silently drop off
+        // the card overnight with the row looking like it was never carded.
+        + (c.shadow_from
+          ? ' <span style="color:#d29922;font-size:10px;white-space:nowrap">'
+            + (c.carded ? 'shadow from ' : 'shadow since ') + esc(c.shadow_from)
+            + '</span>' : '')
+        + (thin ? ' <span style="color:' + DIM
           + ';font-size:10px">thin</span>' : '') + '</td>'
         + '<td style="color:' + DIM + '">' + (c.under?.n ?? 0) + '</td>'
         + roiCell(c.under, c.verdict === 'under')
@@ -502,7 +882,8 @@ async function renderMLBSlateScout() {
     }
     t += '</tbody></table></div>'
       + '<div style="padding:6px 8px;font-size:11px;color:' + DIM + ';line-height:1.5">'
-      + '● = carded, with the bet side shown in bold; ○ = no play. '
+      + '● = carded, with the bet side shown in bold; ◐ = shadow, tracked '
+      + 'but not bet; ○ = no play. '
       + 'Combo rows count each game once under its exact flag set. '
       + 'Rows under 25 plays are dimmed — the harness never calls those an edge. '
       + 'Flags are replayed as-of each game date from the pitcher logs, graded at '
@@ -530,7 +911,7 @@ async function renderMLBSlateScout() {
     + ' vs ' + esc(data.wrc_role)
     + ' through ' + esc(data.wrc_through) + staleChip + '</div>';
 
-  html += '<div style="overflow-x:auto"><table style="width:100%;border-collapse:collapse;font-size:12px">'
+  html += '<div class="scout-scroll"><table style="width:100%;border-collapse:collapse;font-size:12px">'
     + '<thead><tr style="text-align:left;color:' + DIM + ';border-bottom:1px solid #30363d">'
     + '<th style="padding:4px 6px">Team</th><th>Side</th>'
     + '<th>Starter</th>'
@@ -642,7 +1023,7 @@ async function renderMLBSlateScout() {
   let rhtml = '<div class="card-title" style="padding:6px 8px">Mismatch — widest first '
     + '<span style="color:' + DIM + ';font-weight:400;font-size:11px">'
     + '(positive = offense outclasses the arm)</span></div>'
-    + '<div style="overflow-x:auto"><table style="width:100%;border-collapse:collapse;font-size:12px">'
+    + '<div class="scout-scroll"><table style="width:100%;border-collapse:collapse;font-size:12px">'
     + '<thead><tr style="text-align:left;color:' + DIM + ';border-bottom:1px solid #30363d">'
     + '<th style="padding:4px 6px">Mismatch</th><th>Starter</th><th>Team</th>'
     + '<th>Faces</th><th>Opp wRC+</th>'
@@ -674,7 +1055,225 @@ async function renderMLBSlateScout() {
   }
   rhtml += '</tbody></table></div>';
   ranked.innerHTML = rhtml;
-  // Order at the top of the tab: banner, then the plays panel (the actionable
+  // Order at the top of the tab: banner, then both plays panels (the actionable
   // part), then the mismatch ranking, then the per-game table.
-  el.insertBefore(ranked, playsCard.nextSibling);
+  // ---- Season bet log ------------------------------------------------------
+  // Every play the ledger holds, newest first, in the shape the fade-ML tab
+  // uses. This replaced a date selector: that answered "what happened on one
+  // day" when the question is nearly always "how is this rule doing", and it
+  // could only reach as far back as the feed's window.
+  //
+  // Status defaults to CARD because that is the real record. Shadow, not-bet
+  // and backfilled rows were never wagered -- they are in the log so they can
+  // be read, and they carry no units in any total.
+  if (playsFeed && Array.isArray(playsFeed.bets) && playsFeed.bets.length) {
+    const bets = playsFeed.bets;
+    const MON = ['', 'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug',
+      'Sep', 'Oct', 'Nov', 'Dec'];
+    const monthLabel = (ym) => {
+      const [y, m] = ym.split('-');
+      return MON[+m] + ' ' + y;
+    };
+    const dateLabel = (iso) => {
+      const [y, m, d] = iso.split('-');
+      return MON[+m] + ' ' + (+d) + ', ' + y;
+    };
+    // Monday-Sunday weeks, computed in UTC from the plain ISO date so the
+    // bucket does not shift with the viewer's timezone.
+    const weekStartOf = (iso) => {
+      const [y, m, d] = iso.split('-').map(Number);
+      const dt = new Date(Date.UTC(y, m - 1, d));
+      const dow = dt.getUTCDay();                       // 0=Sun … 6=Sat
+      dt.setUTCDate(dt.getUTCDate() + (dow === 0 ? -6 : 1 - dow));
+      return dt.toISOString().slice(0, 10);
+    };
+    const weekLabel = (monIso) => {
+      const [y, m, d] = monIso.split('-').map(Number);
+      const sun = new Date(Date.UTC(y, m - 1, d + 6));
+      return MON[m] + ' ' + d + ' – ' + MON[sun.getUTCMonth() + 1] + ' '
+        + sun.getUTCDate();
+    };
+    const uniq = (vals) => [...new Set(vals.filter(Boolean))];
+    const rules = uniq(bets.map((b) => b.rule)).sort();
+    const nameOf = {};
+    for (const b of bets) nameOf[b.rule] = b.name || b.rule;
+    const months = uniq(bets.map((b) => (b.date || '').slice(0, 7))).sort().reverse();
+    const dates = uniq(bets.map((b) => b.date)).sort().reverse();
+    const weeks = uniq(bets.map((b) => b.date).filter(Boolean)
+      .map(weekStartOf)).sort().reverse();
+
+    // Shadow and not-bet are one status: both mean the rule fired and no
+    // money was risked. Backfilled is not a `kind` any more -- it counts as
+    // card -- so it filters on the row's own flag.
+    const KIND_LABEL = { card: 'Card (bet)', not_bet: 'Not bet' };
+    const selCss = 'background:#1b1b1b;color:#ddd;border:1px solid #333;'
+      + 'border-radius:6px;padding:4px 8px;font-size:12px';
+    const opts = (list, label) => '<option value="">' + label + '</option>'
+      + list.map((v) => '<option value="' + esc(v[0]) + '">' + esc(v[1])
+        + '</option>').join('');
+    const lbl = (text, id, inner) =>
+      '<label style="font-size:11px;color:#888;display:inline-flex;gap:5px;'
+      + 'align-items:center">' + text
+      + '<select id="' + id + '" style="' + selCss + '">' + inner
+      + '</select></label>';
+    const row = (inner) => '<div style="display:flex;gap:10px;align-items:center;'
+      + 'flex-wrap:wrap;padding:0 8px 6px">' + inner + '</div>';
+
+    const log = document.createElement('div');
+    log.className = 'card card-games';
+    log.style.cssText = 'padding:8px 4px';
+    log.innerHTML =
+      '<div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap;padding:6px 8px">'
+      + '<div class="card-title" style="padding:0">Season bet log</div>'
+      + '<span id="scoutLogRec" style="font-size:13px;font-weight:700"></span>'
+      + '</div>'
+      // Filters laid out in rows (user): what/where, then which, then result,
+      // then when. Each row wraps on its own, so a phone stacks them in the
+      // same reading order instead of reflowing eight controls into a block.
+      + row(
+        lbl('Status', 'slKind',
+          Object.keys(KIND_LABEL).map((k) => '<option value="' + k + '"'
+            + (k === 'card' ? ' selected' : '') + '>' + KIND_LABEL[k]
+            + '</option>').join('')
+          + '<option value="backfilled">Backfilled only</option>'
+          + '<option value="">All</option>')
+        + lbl('System', 'slGroup', opts([['scout', 'Flagged &amp; form O/U'],
+          ['non-scout', 'Non-scout systems']], 'All systems')))
+      + row(
+        lbl('Rule', 'slRule', opts(rules.map((r) => [r, nameOf[r]]), 'All rules'))
+        + lbl('Market', 'slMarket', opts([['h2h', 'Moneyline'],
+          ['totals', 'Total']], 'All')))
+      + row(
+        lbl('Result', 'slResult', opts([['WIN', 'Win'], ['LOSS', 'Loss'],
+          ['PUSH', 'Push'], ['pending', 'Pending']], 'All')))
+      + row(
+        lbl('Month', 'slMonth', opts(months.map((m) => [m, monthLabel(m)]), 'All'))
+        + lbl('Week', 'slWeek', opts(weeks.map((w) => [w, weekLabel(w)]), 'All'))
+        + lbl('Day', 'slDate', opts(dates.map((d) => [d, dateLabel(d)]), 'All')))
+      + '<div id="scoutLogBody"></div>';
+    el.appendChild(log);
+
+    const recEl = log.querySelector('#scoutLogRec');
+    const wrap = log.querySelector('#scoutLogBody');
+    const ctl = ['slKind', 'slRule', 'slGroup', 'slResult', 'slMarket',
+      'slMonth', 'slWeek', 'slDate'].map((id) => log.querySelector('#' + id));
+    const ruleSel = log.querySelector('#slRule');
+    const groupSel = log.querySelector('#slGroup');
+    // The Rule list narrows to the chosen system, so picking "Non-scout
+    // systems" does not leave Flag Plays selectable and returning nothing.
+    const refreshRules = () => {
+      const g = groupSel.value;
+      const rs = uniq(bets.filter((b) => !g || b.group === g)
+        .map((b) => b.rule)).sort();
+      const cur = ruleSel.value;
+      ruleSel.innerHTML = opts(rs.map((r) => [r, nameOf[r]]), 'All rules');
+      ruleSel.value = rs.includes(cur) ? cur : '';
+    };
+    groupSel.addEventListener('change', refreshRules);
+    const PAGE = 50;
+    let page = 0;
+
+    function draw() {
+      const [k, r, g, res, mk, mo, wk, dt] = ctl.map((c) => c.value);
+      const view = bets.filter((b) =>
+        (!k || (k === 'backfilled' ? !!b.backfilled : b.kind === k))
+        && (!r || b.rule === r) && (!g || b.group === g)
+        && (!res || b.result === res) && (!mk || b.market === mk)
+        && (!mo || (b.date || '').slice(0, 7) === mo)
+        && (!wk || (b.date && weekStartOf(b.date) === wk))
+        && (!dt || b.date === dt));
+      let w = 0, l = 0, pu = 0, u = 0, pend = 0;
+      for (const b of view) {
+        if (b.result === 'WIN') w++;
+        else if (b.result === 'LOSS') l++;
+        else if (b.result === 'PUSH') pu++;
+        else if (b.result === 'pending') pend++;
+        // Only card rows move money, whatever the filter shows.
+        if (b.kind === 'card') u += (b.profit || 0);
+      }
+      const settled = w + l;
+      const roi = settled ? (u / settled * 100) : 0;
+      recEl.innerHTML = w + '-' + l + (pu ? '-' + pu : '')
+        + ' ' + unitStr(u)
+        + ' <span style="color:' + (roi > 0 ? '#3fb950' : roi < 0 ? '#f85149' : DIM)
+        + '">' + (roi > 0 ? '+' : '') + roi.toFixed(1) + '%</span>'
+        + (pend ? ' <span style="color:' + DIM + ';font-weight:400;font-size:12px">· '
+          + pend + ' pending</span>' : '')
+        + (k === 'not_bet' ? ' <span style="color:' + DIM
+          + ';font-weight:400;font-size:11px">· rule fired, no money on it</span>'
+          : '')
+        + (k === 'backfilled' ? ' <span style="color:' + DIM
+          + ';font-weight:400;font-size:11px">· replayed after the fact</span>'
+          : '');
+
+      const total = view.length;
+      const pages = Math.max(1, Math.ceil(total / PAGE));
+      if (page >= pages) page = pages - 1;
+      if (page < 0) page = 0;
+      const start = page * PAGE;
+      let rows = '';
+      for (const b of view.slice(start, start + PAGE)) {
+        const held = b.kind !== 'card';   // backfilled is card, so it pays
+        const settledRow = b.result === 'WIN' || b.result === 'LOSS';
+        rows += '<tr style="border-top:1px solid #161b22'
+          + (held ? ';opacity:.6' : '') + '">'
+          + '<td style="padding:3px 6px;color:' + DIM + ';white-space:nowrap">'
+          + esc(b.date) + '</td>'
+          + '<td style="padding:3px 6px;white-space:nowrap">'
+          + esc(b.name || b.rule) + '</td>'
+          + '<td data-col="kind" style="padding:3px 6px;color:' + DIM
+          + ';font-size:11px">'
+          // Backfilled IS card, so it gets no marker here -- only a row with
+          // no money on it is called out. The Status filter still isolates
+          // backfilled rows for anyone who wants them separated.
+          + esc(b.kind !== 'card' ? 'not bet' : '') + '</td>'
+          + '<td data-col="game" style="padding:3px 6px;color:' + DIM + '">'
+          + esc(b.game || '') + '</td>'
+          + '<td style="padding:3px 6px;font-weight:600;white-space:nowrap">'
+          + esc(b.play || '') + '</td>'
+          + '<td style="padding:3px 6px;text-align:right;color:' + DIM
+          + ';white-space:nowrap">' + mlStr(b.price) + '</td>'
+          + '<td style="padding:3px 6px;text-align:center">'
+          + resultChip(b.result) + '</td>'
+          + '<td style="padding:3px 6px;text-align:right;white-space:nowrap">'
+          + (settledRow && !held ? unitStr(b.profit || 0)
+            : '<span style="color:' + DIM + '">—</span>') + '</td></tr>';
+      }
+      const btn = selCss + ';cursor:pointer';
+      const btnOff = selCss + ';opacity:.4;cursor:default';
+      const pager = total > PAGE
+        ? '<div style="display:flex;gap:8px;align-items:center;font-size:12px;color:'
+          + DIM + '"><button id="slPrev" ' + (page <= 0 ? 'disabled' : '')
+          + ' style="' + (page <= 0 ? btnOff : btn) + '">‹ Prev</button>'
+          + '<span>page ' + (page + 1) + ' / ' + pages + '</span>'
+          + '<button id="slNext" ' + (page >= pages - 1 ? 'disabled' : '')
+          + ' style="' + (page >= pages - 1 ? btnOff : btn) + '">Next ›</button></div>'
+        : '';
+      wrap.innerHTML =
+        '<div style="display:flex;justify-content:space-between;align-items:center;'
+        + 'gap:12px;flex-wrap:wrap;padding:2px 8px 8px"><span style="font-size:12px;color:'
+        + DIM + '">' + (total ? (start + 1) + '-'
+          + Math.min(start + PAGE, total) + ' of ' + total : '0') + ' bets</span>'
+        + pager + '</div>'
+        + '<div class="scout-scroll"><table style="width:100%;border-collapse:collapse;font-size:12px">'
+        + '<thead><tr style="text-align:left;color:' + DIM
+        + ';border-bottom:1px solid #30363d">'
+        + '<th style="padding:4px 6px">Date</th><th>Rule</th>'
+        + '<th data-col="kind">Status</th><th data-col="game">Game</th>'
+        + '<th>Play</th><th style="text-align:right">Odds</th>'
+        + '<th style="text-align:center">Result</th>'
+        + '<th style="text-align:right">P/L</th></tr></thead><tbody>'
+        + (rows || '<tr><td colspan="8" style="padding:10px 8px;color:' + DIM
+          + '">No bets match this filter.</td></tr>')
+        + '</tbody></table></div>';
+      const prev = wrap.querySelector('#slPrev');
+      const next = wrap.querySelector('#slNext');
+      if (prev) prev.onclick = () => { page--; draw(); };
+      if (next) next.onclick = () => { page++; draw(); };
+    }
+    for (const c of ctl) c.addEventListener('change', () => { page = 0; draw(); });
+    draw();
+  }
+
+  el.insertBefore(ranked, playsAnchor.nextSibling);
 }

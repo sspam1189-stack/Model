@@ -74,7 +74,7 @@ def _pick_game(games, entry):
     if len(games) == 1:
         return games[0]
     price, line = entry.get("price"), entry.get("line")
-    if entry.get("market") == "totals":
+    if entry.get("market") in ("totals", "parlay"):
         hits = [g for g in games
                 if g.get("total_line") == line
                 and price in (g.get("over_ml"), g.get("under_ml"))]
@@ -120,6 +120,25 @@ def grade_entry(entry, scores, by_id=None):
     a, h = game["away_score"], game["home_score"]
     price = entry.get("price")
     stake = entry.get("stake", 1.0)
+
+    if entry.get("market") == "parlay":
+        # Home ML + under, both legs. A pushed total drops that leg and the
+        # parlay reduces to the moneyline at its own price, which is the
+        # standard book rule.
+        line, pick = entry.get("line"), (entry.get("play") or "").split()[0]
+        if line is None or pick not in (away, home):
+            return None
+        total = a + h
+        ml_won = (h > a) if pick == home else (a > h)
+        if total == line:
+            mlp = entry.get("ml_price")
+            if mlp is None:
+                return None
+            return ("WIN" if ml_won else "LOSS",
+                    LEDGER.profit_for(mlp, stake, "WIN" if ml_won else "LOSS"))
+        won = ml_won and total < line
+        return ("WIN" if won else "LOSS",
+                LEDGER.profit_for(price, stake, "WIN" if won else "LOSS"))
 
     if entry.get("market") == "totals":
         line = entry.get("line")

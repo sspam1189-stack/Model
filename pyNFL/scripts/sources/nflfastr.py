@@ -92,6 +92,14 @@ def _is_cache_fresh(path, max_age_hours=6):
 # Play-by-play
 # ---------------------------------------------------------------------------
 
+class NoPBPDataError(RuntimeError):
+    """nflverse has no play-by-play for this season yet (pre-Week-1 404).
+
+    Distinct from a network/transport failure so callers can fall back
+    deliberately instead of masking a real outage.
+    """
+
+
 def fetch_pbp(season, weeks=None, force_refresh=False):
     """
     Fetch play-by-play data for a given NFL season.
@@ -157,7 +165,7 @@ def fetch_pbp(season, weeks=None, force_refresh=False):
             time.sleep(wait)
 
     if df is None or df.empty:
-        raise RuntimeError(f"No play-by-play data returned for season {season}")
+        raise NoPBPDataError(f"No play-by-play data returned for season {season}")
 
     # Keep only requested columns that actually exist
     existing = [c for c in PBP_COLUMNS if c in df.columns]

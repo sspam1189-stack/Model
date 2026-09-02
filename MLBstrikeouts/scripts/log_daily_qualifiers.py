@@ -16,28 +16,45 @@ So the daily run logs them now. Every rule, card and shadow:
     Aligned ML      hot-vs-cold ladder at the 75-PA floor
     Mismatch ML     tail m <= -45 / fade m >= +55   (shadow)
 
+and, from 2026-09-01, the eight NON-SCOUT systems (scripts/allml_systems.py),
+which read mlb-all-ml.json alone and none of the mismatch model:
+
+    Hot arm dog ML    Away dog ML       Home slide ML     Pickem under
+    Starter over run  Low line over     Cold arms under   Under juice
+
 WHAT THIS DOES AND DOES NOT CLAIM. A card entry written here records that the
 RULE fired at that price, not that a bet was placed -- only a person knows
 that. Every auto entry carries ``"auto": true``; mark one ``"not_bet": true``
 by hand (or with scout_card_log.py) when a play was missed, and the report
 already holds those out of the units while keeping them in the rule's W-L.
 
-Idempotent by (date, rule, game): the daily workflow runs six times a day and
-re-running never duplicates a row or rewrites a price. The FIRST price seen is
-the one kept, which matches the ledger's card-time-quote convention -- a later
-run seeing a moved line does not silently regrade the entry.
+Idempotent by (date, rule, game, side): the daily workflow runs six times a
+day and re-running never duplicates a row. It DOES re-price one. A row tracks
+the market until first pitch -- the number you would actually get is the
+latest quote, not whichever one the first run of the morning happened to
+catch -- and locks the moment the game starts. After that the price, the
+line and the play text are frozen, whatever the book does and however many
+times the workflow runs, so a settled row always reads the way it was bet.
+A graded row is locked too, regardless of clock.
+
+Only market fields move (PRICE_FIELDS). Result, profit, stake, not_bet and
+anything else hand-edited belong to the ledger, not the book, and are never
+touched by a re-price.
 
 Usage:  cd MLBstrikeouts && python -m scripts.log_daily_qualifiers [--dry-run]
 """
 import argparse
+import datetime
 import json
 import os
+import re
 import sys
 
 sys.path.insert(0, os.path.dirname(__file__))
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), "sources"))
 
 import scout_card_log as LEDGER
+import allml_systems as ALLSYS
 from rule_status import RULE_STATUS
 
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -48,6 +65,12 @@ FADEML = os.path.join(DATA, "mlb-fade-ml.json")
 PROPS = os.path.join(DATA, "mlb-props.json")
 COMBOS = os.path.join(DATA, "flag-combo-table.json")
 MSUM = os.path.join(DATA, "msum-ml-table.json")
+
+# What a re-price is allowed to move: the market's description of the bet,
+# and nothing the ledger owns. `play` carries the line in its text, so it
+# moves with it or the row would read "U9" at a price quoted for 8.5.
+PRICE_FIELDS = ("price", "line", "play", "basis",
+                "ml_price", "under_price", "payout")
 
 DEFECTS = ("swingman", "layoff", "opener", "stale-window")   # canonical order
 FORM_UNDER_AT = -40.0
@@ -121,6 +144,71 @@ def game_ids():
     return out
 
 
+# " O9.5" or " Over 9.5" -- the over token in a play string, never a team
+# abbreviation (those are not preceded by a space in "OAK/TEX U7.5").
+_OVER_TEXT = re.compile(r"\sO(?:ver)?\s*\d")
+
+
+def sig_of(e):
+    """Structural identity of a ledger row: date + rule + game + thing bet.
+
+    The idempotency key. One entry per (date, rule, market, game, side), so
+    the daily workflow running six times adds each play once and never
+    rewrites a price already recorded.
+
+    The TOTAL IS NOT PART OF THE KEY (fixed 2026-09-02). It used to be, and
+    a line move between two runs of the workflow therefore read as a
+    different bet: on 9/2 the book moved DET/MIN from 9 to 8.5 and the
+    ledger carried two pickem-under rows for one game, staking 2u on a play
+    that was made once. Twelve rows across six rules that day. A rule fires
+    at most once per game per market, so the game and the side are the
+    identity; the total is a price, and the first price recorded is the one
+    kept, exactly as it is for the moneyline.
+
+    Deliberately NOT the play text -- hand-logged rows say "CWS/HOU Under 8.5"
+    where this writes "CWS @ HOU UNDER 8.5", and keying on text would log both.
+    Module level rather than nested because the season backfill
+    (scripts/backfill_allml_systems.py) has to agree with it exactly; two
+    copies of this would drift and duplicate the ledger.
+    """
+    game = (e.get("gamePk") or
+            (e.get("game") or "").replace("/", " @ ").strip())
+    if e.get("market") == "parlay":
+        k = "parlay"
+    elif e.get("market") == "totals":
+        # The side, not the number: a moved total is the same bet. Prefer an
+        # explicit pick; fall back to the play text, which reads either
+        # "SD/CIN U9.5" or the hand-logged "SD/CIN Under 9.5".
+        pick = (e.get("pick") or "").lower()
+        if pick not in ("over", "under"):
+            pick = "over" if _OVER_TEXT.search(e.get("play") or "") else "under"
+        k = pick
+    else:
+        k = (e.get("play") or "").split(" ML")[0].strip()
+    return (e.get("date"), e.get("rule"), e.get("market"), game, k)
+
+
+def _locked(entry, now):
+    """True once a row may no longer be re-priced.
+
+    Locked at first pitch, or as soon as it has been graded. A row with no
+    commence time cannot be shown to be un-started, so it locks rather than
+    risk rewriting a game already in progress.
+    """
+    if (entry.get("result") or "pending") != "pending":
+        return True
+    when = entry.get("commence")
+    if not when:
+        return True
+    try:
+        t = datetime.datetime.fromisoformat(str(when).replace("Z", "+00:00"))
+    except ValueError:
+        return True
+    if t.tzinfo is None:
+        t = t.replace(tzinfo=datetime.timezone.utc)
+    return now >= t
+
+
 def _combo(sides):
     """Canonical combo string for a game's flagged sides."""
     present = [d for d in DEFECTS
@@ -128,7 +216,7 @@ def _combo(sides):
     return "+".join(present)
 
 
-def qualifiers(payload, verdicts, msum_table, ids=None):
+def qualifiers(payload, verdicts, msum_table, ids=None, shadow_combos=()):
     """Every rule's plays for this slate: (rule, side, play, price, basis)."""
     out = []
     ids = ids or {}
@@ -152,6 +240,10 @@ def qualifiers(payload, verdicts, msum_table, ids=None):
             combo = _combo(flagged)
             side = verdicts.get(combo, "under" if "swingman" in combo.split("+")
                                 else None)
+            # A shadowed combo still qualifies and still gets logged -- it is
+            # the tracking that makes shadow worth anything -- but the entry
+            # is marked so it is written with no stake.
+            combo_shadow = combo in shadow_combos
             if side in ("under", "over"):
                 price = u_ml if side == "under" else o_ml
                 if price is not None:
@@ -167,6 +259,7 @@ def qualifiers(payload, verdicts, msum_table, ids=None):
                         "play": f"{_short(g['matchup'])} "
                                 f"{'U' if side == 'under' else 'O'}{_num(total)}",
                         "market": "totals", "line": total, "price": int(price),
+                        "shadow": combo_shadow,
                         "basis": f"Verdict {side} for {combo}. {who}.",
                     })
 
@@ -248,6 +341,60 @@ def qualifiers(payload, verdicts, msum_table, ids=None):
     return out
 
 
+def allml_qualifiers(date, ids=None):
+    """The non-scout systems' plays for tonight, in ledger shape.
+
+    Reads mlb-all-ml.json's `today` block rather than the scout payload, so a
+    slate the scout model cannot score (no probable, no batter window) still
+    logs these. gamePk comes straight off that block, so the auto-grader joins
+    them exactly rather than by team names.
+    """
+    out = []
+    try:
+        plays = ALLSYS.today_plays()
+    except (OSError, ValueError, KeyError):
+        return out
+    for p in plays:
+        if date and p.get("date") and p["date"] != date:
+            continue
+        name = ALLSYS.SYSTEMS[p["rule"]][0]
+        common = {
+            "rule": p["rule"],
+            "gamePk": p.get("gamePk"),
+            "commence": p.get("commence"),
+            "matchup": p.get("matchup"),
+            "price": int(p["price"]),
+            "basis": f"{name}: {p.get('why', '')}".strip(),
+            "non_scout": True,
+        }
+        if p["market"] == "parlay":
+            # Two legs in one row: the ledger keeps the combined American
+            # price so profit_for works unchanged, plus each leg so the
+            # grader can reduce to the survivor when the total pushes.
+            out.append(dict(common, market="parlay", line=p.get("line"),
+                            key=f"{p['pick']}|{p.get('line')}",
+                            ml_price=p.get("ml_price"),
+                            under_price=p.get("under_price"),
+                            payout=p.get("payout"),
+                            play=f"{p['pick']} ML +{p.get('ml_price')} "
+                                 f"+ U{_num(p.get('line'))} "
+                                 f"({p.get('payout')}x)"))
+        elif p["market"] == "totals":
+            total = p.get("total")
+            if total is None:
+                continue
+            out.append(dict(common, market="totals", line=total,
+                            key=f"{total}",
+                            play=f"{_short(p['matchup'])} "
+                                 f"{'U' if p['pick'] == 'under' else 'O'}"
+                                 f"{_num(total)}"))
+        else:
+            out.append(dict(common, market="h2h", key=p["pick"],
+                            play=f"{p['pick']} ML "
+                                 f"({ALLSYS.short_tag(p['rule'])})"))
+    return out
+
+
 def main():
     ap = argparse.ArgumentParser(description=__doc__,
                                  formatter_class=argparse.RawDescriptionHelpFormatter)
@@ -257,7 +404,10 @@ def main():
 
     payload = _load(SCOUT)
     date = payload.get("date")
-    verdicts = (_load(COMBOS).get("verdicts") or {}) if os.path.exists(COMBOS) else {}
+    combo_blob = _load(COMBOS) if os.path.exists(COMBOS) else {}
+    verdicts = combo_blob.get("verdicts") or {}
+    # Combos whose side is measured and tracked but not bet tonight.
+    shadow_combos = set(combo_blob.get("verdicts_shadow") or ())
     msum_table = _load(MSUM) if os.path.exists(MSUM) else {}
 
     # Game name per play, resolved from the slate for the ledger's `game`.
@@ -265,30 +415,25 @@ def main():
     for g in payload.get("slate", []):
         by_play[g["matchup"]] = g["matchup"]
 
-    qs = qualifiers(payload, verdicts, msum_table, game_ids())
+    ids = game_ids()
+    qs = qualifiers(payload, verdicts, msum_table, ids, shadow_combos)
+    # The non-scout systems come off mlb-all-ml.json, not the scout payload.
+    qs += allml_qualifiers(date, ids)
+    now = datetime.datetime.now(datetime.timezone.utc)
     blob = LEDGER._load()
-    # Idempotency key: one entry per (date, rule, play). A re-run never
-    # duplicates and never rewrites the price already recorded.
-    def sig(e):
-        """Structural identity: date + rule + game + the thing bet.
-
-        Deliberately NOT the play text -- hand-logged rows say
-        "CWS/HOU Under 8.5" where this writes "CWS @ HOU UNDER 8.5", and
-        keying on text would log both."""
-        game = (e.get("gamePk") or
-                (e.get("game") or "").replace("/", " @ ").strip())
-        if e.get("market") == "totals":
-            k = str(e.get("line") or "")
-        else:
-            k = (e.get("play") or "").split(" ML")[0].strip()
-        return (e.get("date"), e.get("rule"), e.get("market"), game, k)
-
-    have = {sig(e) for e in blob["entries"]}
+    by_sig = {}
+    for e in blob["entries"]:
+        by_sig.setdefault(sig_of(e), e)
 
     added = []
+    moved = []
     for q in qs:
         rule = q["rule"]
         status = STATUS.get(rule, "shadow")
+        # A retired rule logs nothing further. Without this it would fall
+        # through the `shadow` check below and be written as a CARD row.
+        if status == "retired":
+            continue
         entry = {
             "date": date,
             "play": q["play"],
@@ -304,26 +449,51 @@ def main():
         }
         if q.get("line") is not None:
             entry["line"] = q["line"]
-        for extra in ("combo", "is_dog", "flagged_overlap", "gamePk", "commence"):
+        for extra in ("combo", "is_dog", "flagged_overlap", "gamePk",
+                      "commence", "non_scout", "ml_price", "under_price",
+                      "payout"):
             if extra in q:
                 entry[extra] = q[extra]
-        if status == "shadow":
+        # Shadow comes from either level: the rule as a whole, or this one
+        # combo inside an otherwise carded rule (flag-plays/layoff).
+        if status == "shadow" or q.get("shadow"):
             entry["shadow"] = True
-        if sig(entry) in have:
+        prior = by_sig.get(sig_of(entry))
+        if prior is not None:
+            # The play is already on the books. Re-price it to the market the
+            # workflow is seeing now -- the number you would actually get is
+            # the latest one, not whatever the first run of the morning
+            # happened to catch -- and LOCK it at first pitch, so a row never
+            # changes after the game it describes has started. Everything the
+            # ledger owns rather than the market (result, profit, stake,
+            # hand edits) is left alone.
+            if _locked(prior, now):
+                continue
+            changed = {k: v for k, v in entry.items()
+                       if k in PRICE_FIELDS and prior.get(k) != v}
+            if not changed:
+                continue
+            prior.update(changed)
+            moved.append((prior, changed))
             continue
-        have.add(sig(entry))
+        by_sig[sig_of(entry)] = entry
         added.append(entry)
+
+    for e, changed in moved:
+        bits = ", ".join(f"{k} {v}" for k, v in sorted(changed.items()))
+        print(f"  REPRICE {e['rule']:14} {e['play'][:40]:40} {bits}")
 
     counts = {}
     for e in added:
         counts[e["rule"]] = counts.get(e["rule"], 0) + 1
     label = ", ".join(f"{k} {v}" for k, v in sorted(counts.items())) or "nothing new"
-    print(f"{date}: {len(qs)} qualifiers, {len(added)} new -> {label}")
+    print(f"{date}: {len(qs)} qualifiers, {len(added)} new, "
+          f"{len(moved)} repriced -> {label}")
     for e in added:
         tag = "SHADOW" if e.get("shadow") else "CARD  "
         print(f"  {tag} {e['rule']:14} {e['play'][:46]:46} {e['price']:>5}")
 
-    if args.dry_run or not added:
+    if args.dry_run or not (added or moved):
         if args.dry_run:
             print("(dry run -- nothing written)")
         return

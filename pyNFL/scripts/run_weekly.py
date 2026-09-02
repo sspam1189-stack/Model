@@ -50,7 +50,7 @@ from calibration import build_calibration_table
 import defaults
 
 # Source modules
-from sources.nflfastr import fetch_pbp, current_season
+from sources.nflfastr import fetch_pbp, current_season, NoPBPDataError
 from sources.nfl_stats import compute_team_stats, compute_team_stats_through_week, compute_player_stats
 from sources.odds_theoddsapi import fetch_nfl_odds, fetch_historical_odds
 from sources.espn_scoreboard import (
@@ -95,6 +95,52 @@ def is_actionable(conf):
     return str(conf or "").lower() in CONF_ACTIONABLE
 
 
+def week1_start(season):
+    """Tuesday after Labor Day: the first day of NFL Week 1 (kickoff is the
+    Thursday). Every week is the 7-day span starting on a Tuesday."""
+    # Find Labor Day (first Monday in September)
+    sept1 = datetime(season, 9, 1)
+    days_to_monday = (7 - sept1.weekday()) % 7
+    if sept1.weekday() == 0:
+        days_to_monday = 0
+    labor_day = sept1 + timedelta(days=days_to_monday)
+    return labor_day + timedelta(days=1)
+
+
+def week_window(season, week):
+    """[start, end) datetimes for an NFL week (Tuesday to Tuesday)."""
+    start = week1_start(season) + timedelta(weeks=week - 1)
+    return start, start + timedelta(days=7)
+
+
+def filter_odds_to_week(odds, season, week):
+    """Keep only games that kick off inside this week's window.
+
+    In-season the odds feed only carries the next week or two, so the loop
+    over it was implicitly the current week. Pre-season the books post the
+    whole schedule (272 games) and the project stage was analysing every one
+    of them, with a weather call each. Games with no parseable commence time
+    are kept so they surface as MISSING_ODDS rather than vanish."""
+    from zoneinfo import ZoneInfo
+    eastern = ZoneInfo("America/New_York")
+    start, end = week_window(season, week)
+    kept = []
+    for g in odds:
+        iso = g.get("commenceTimeIso")
+        try:
+            # Feed times are UTC. Compare in Eastern: Monday Night Football
+            # kicks off at 00:15 UTC Tuesday, which a UTC window would push
+            # into the following week (Week 1 2026 lost DEN @ KC that way).
+            when = (datetime.fromisoformat(str(iso).replace("Z", "+00:00"))
+                    .astimezone(eastern).replace(tzinfo=None))
+        except (TypeError, ValueError):
+            kept.append(g)
+            continue
+        if start <= when < end:
+            kept.append(g)
+    return kept
+
+
 def current_nfl_week(season=None):
     """
     Estimate the current NFL week based on today's date.
@@ -104,17 +150,7 @@ def current_nfl_week(season=None):
         season = current_season()
 
     now = datetime.now()
-    # Find Labor Day (first Monday in September)
-    sept1 = datetime(season, 9, 1)
-    days_to_monday = (7 - sept1.weekday()) % 7
-    if sept1.weekday() == 0:
-        days_to_monday = 0
-    labor_day = sept1 + timedelta(days=days_to_monday)
-
-    # Week 1 starts the Tuesday after Labor Day (first game is Thursday)
-    week1_start = labor_day + timedelta(days=1)  # Tuesday
-
-    delta = (now - week1_start).days
+    delta = (now - week1_start(season)).days
     if delta < 0:
         return 0  # preseason
     week = delta // 7 + 1
@@ -348,16 +384,35 @@ def stage_fetch(season, week, store):
 
     # 1. Pull play-by-play
     print("[fetch 1/4] Pulling play-by-play via nflfastR...")
+    pbp_season = season
+    through_week = week - 1   # strictly prior weeks — never include this one
     try:
         pbp = fetch_pbp(season)
         print(f"  Got {len(pbp):,} plays for {season}")
+    except NoPBPDataError as e:
+        # nflverse publishes nothing for a season until Week 1 has been played,
+        # so every pre-season / Week 1 run 404s here.  Week 1 has no
+        # current-season form anyway: use the full prior season (decay-weighted
+        # toward its end) as the prior.  That is what the Kalman initialises
+        # from after the rollover, and it gives backup-QB detection real
+        # starter data.  Only Week 1 qualifies — a missing season in Week 2+
+        # is an outage, and silently projecting off last year would be wrong.
+        if week != 1:
+            print(f"  ERROR: PBP fetch failed: {e}")
+            raise
+        pbp_season = season - 1
+        through_week = NFL_WEEKS_MAX
+        print(f"  {e}")
+        print(f"  Week 1: no {season} play-by-play yet — using full {pbp_season} "
+              f"season as the prior")
+        pbp = fetch_pbp(pbp_season)
+        print(f"  Got {len(pbp):,} plays for {pbp_season}")
     except Exception as e:
         print(f"  ERROR: PBP fetch failed: {e}")
         raise
 
     # 2. Compute team stats with decay (through previous week)
     print("[fetch 2/4] Computing team stats with exponential decay...")
-    through_week = week - 1   # strictly prior weeks — never include this one
     team_stats = compute_team_stats_through_week(pbp, through_week, decay=0.85)
     if not team_stats:
         print(f"  WARNING: No stats through week {through_week}")
@@ -426,6 +481,7 @@ def stage_fetch(season, week, store):
         "ngs_data": ngs_data,
         "power_ratings": power_ratings,
         "pbp_loaded": True,
+        "pbp_season": pbp_season,   # == season-1 on a Week 1 prior-season fallback
     }
 
     print(f"\nFetch complete: {len(team_stats)} teams, {len(odds)} games, {len(player_stats)} players")
@@ -555,7 +611,10 @@ def stage_grade(season, week, store):
 
     # 4. Save Kalman state
     print(f"[grade 4/4] Saving Kalman state...")
-    apply_daily_drift(kalman_state, f"{season}_W{week}")
+    # Drift keys are YYYYMMDD dates (core.kalman_state parses them; the
+    # backfill and initialize_kalman use the same form). Passing a week
+    # label like "2026_W1" crashes the parser.
+    apply_daily_drift(kalman_state, datetime.now().strftime("%Y%m%d"))
     prune_processed_games(kalman_state, 60)
     save_kalman_state(kalman_state)
     save_store(store)
@@ -614,7 +673,10 @@ def stage_project(season, week, store):
             return
 
     # Apply daily drift
-    apply_daily_drift(kalman_state, f"{season}_W{week}")
+    # Drift keys are YYYYMMDD dates (core.kalman_state parses them; the
+    # backfill and initialize_kalman use the same form). Passing a week
+    # label like "2026_W1" crashes the parser.
+    apply_daily_drift(kalman_state, datetime.now().strftime("%Y%m%d"))
 
     # Load weights and thresholds
     # Copy: base_w is mutated in place below when merging weights.json. Without
@@ -702,8 +764,13 @@ def stage_project(season, week, store):
     try:
         scale_calib = build_scale_calibration(store.get("runs", []))
         sm = scale_calib.get("margin", {})
-        print(f"  [scale] margin alpha={sm.get('alpha'):+.2f} beta={sm.get('beta'):.3f} "
-              f"(n={sm.get('n', 'default')})")
+        if isinstance(sm.get("alpha"), (int, float)) and isinstance(sm.get("beta"), (int, float)):
+            print(f"  [scale] margin alpha={sm['alpha']:+.2f} beta={sm['beta']:.3f} "
+                  f"(n={sm.get('n', 'default')})")
+        else:
+            # build_scale_calibration returns its DEFAULT_SCALE dict until
+            # min_games graded v2 games exist; that dict has no alpha/beta.
+            print(f"  [scale] margin: default scale (fewer than min_games graded)")
     except Exception as e:
         print(f"  WARNING: scale calibration failed: {e}")
 
@@ -721,7 +788,11 @@ def stage_project(season, week, store):
         print(f"  WARNING: weather/schedule modules not available: {_e}")
         _has_weather_sched = False
 
-    # Analyze each matchup
+    # Analyze each matchup — this week's only
+    n_all = len(odds)
+    odds = filter_odds_to_week(odds, season, week)
+    if len(odds) != n_all:
+        print(f"[project] {n_all} games in odds feed, {len(odds)} in Week {week} window")
     print(f"[project] Analyzing {len(odds)} matchups...")
     games = []
 

@@ -158,21 +158,146 @@ When building a daily card from this repo's outputs, the tiers are:
    the +17.2% season figure. **That revival happened 2026-09-01** — this is
    the one rule on the board that is doing the process in the right order.
 
-5. **Aligned ML — CARDED 2026-09-01 (user).** One offense
-   hot-aligned across all four windows (>= 110) while the other is
-   cold-aligned (<= 90), evaluated at this rule's own 75-PA floor
-   (`ALIGNED_ML_MIN_PA`; everything else stays at 150) -> back the hot
-   side's team. Capped at 1u, never opposing a model position.
+5. **Aligned ML — RETIRED 2026-09-02 (user).** One offense hot-aligned
+   across all four windows (>= 110) while the other is cold-aligned (<= 90),
+   at its own 75-PA floor (`ALIGNED_ML_MIN_PA`) -> back the hot side's team.
 
-   **This one has no statistical case and the record should say so.** It is
-   3-1 lifetime (n=4). The four-window ladder it rests on was measured
-   INERT for runs -- cold-aligned offenses scored 4.54 a game, hot-aligned
-   4.52 -- and betting the ladder in any other form returned nothing. It
-   fires roughly twice a month, so 25 graded plays is a year away. It is
-   carded on the user's call as a structural read (a hot lineup against a
-   cold one), not because anything measured supports it. Nothing else in
-   the tier list is this thin; if it goes 0-3 it should come straight off.
-6. **Leans are retired**: no half-case totals, no temperature-only reads,
+   Carded 2026-09-01 on a 3-1 lifetime record (n=4) with no statistical case,
+   on a four-window ladder that had been measured INERT for runs (cold-aligned
+   offenses scored 4.54 a game, hot-aligned 4.52). The full-season replay
+   published the next day, when Form under and Mismatch ML finally got a
+   season table, put it at **6-7, -12.8% over 13 plays, negative in both
+   halves (-8/-30)** against a -3.3% blind baseline. That is the opposite of
+   the 3-1 that justified carding it, on three times the sample, so it came
+   off.
+
+   The lesson is the one the rust-over rule taught in August and this repeats:
+   a rule carded on four games is carded on nothing. The reason it took a day
+   to catch is that Aligned ML had no season grid -- its record lived only in
+   this file as prose. Every rule now has a table (`scout-rules-table.json`
+   covers the three that did not), so the next one cannot hide.
+
+6. **Non-scout systems — EIGHT CARDED (five 2026-09-01, three 2026-09-02; user).** A separate
+   family, defined in `scripts/allml_systems.py` and grouped apart on the
+   tab and in the ledger. They read `mlb-all-ml.json` alone -- prices,
+   totals, probables, scores, plus what can be derived as-of from its own
+   history -- and take no input from the mismatch model, so when one agrees
+   with a scout rule it is a second opinion rather than the same inputs
+   counted twice. Season records, replayed as-of each game date:
+
+   | system | rule | record | ROI | blind |
+   |---|---|---|---|---|
+   | Away dog ML | away dog, total >= 9.5 | 87-76 | +23.4% | -3.2% |
+   | Home slide ML | home on L4+, new opponent | 33-17 | +25.0% | -3.2% |
+   | Pickem under | favorite -115 or shorter, total >= 8.5 | 98-69 | +11.5% | -3.5% |
+   | Starter over run | a starter 75%+ overs in his last 8, total >= 8.5 | 120-87 | +10.8% | -6.1% |
+   | Cold arms under | both starters <= 35% overs in last 8 | 27-14 | +23.5% | -3.5% |
+   | Division home dog | home to a division rival, priced +115 to +149 | 46-27 | +43.0% | -3.2% |
+   | Home dog getaway | day game, visitors played last night, home is a plus-money dog | 26-19 | +26.0% | -3.2% |
+   | Home dog + under | home dog +115 to +149, parlay the ML with the under | 83-165 | +43.6% | 0.0% |
+
+   Three more were carded the same day and removed before any of them
+   settled a play. **Hot arm dog ML** (back a plus-money side whose starter's
+   team is +40% or better over his last 8 starts, 91-90 +12.7%) because at
+   91-90 the win rate is a coin flip and the whole return is the plus-money
+   prices holding -- a dog system has to beat its price, and that one only
+   matched it. **Low line over** (total <= 7 -> over, 72-52 +8.9%) because the 7.5
+   bucket beside it runs -9.4% over 457 games, so it was the 7-and-under cell
+   rather than a low-total trend; and **Under juice** (under at -120 or
+   shorter, 234-171 +5.1%) because it was the most volume of the eight at 2.6
+   plays a day for the least edge per play, and close to just following the
+   book. All three keep their numbers in `allml_systems.RETIRED` so they are not
+   rediscovered later and mistaken for something new.
+
+   **How they were found bears on how much to trust them.** The scan tested
+   every single and pairwise cell across ~30 derived features, roughly 4,000
+   cells per market. About 2,000 beat baseline per market and ~100 cleared
+   p<0.05 on chance alone; NONE survived Benjamini-Hochberg (best q ~= 0.18).
+   The p-values here are screening statistics, not proof. Every rule above
+   additionally beats its blind baseline, holds in both walk-forward halves,
+   and has a mechanism.
+
+   **Division home dog (added 2026-09-02, user)** is the one find from the
+   sixth scanning pass, which otherwise killed head-to-head history,
+   interleague, trip length, rest differential, repeat pitcher-vs-opponent
+   and scoring form against the line. It survives leave-one-division-out on
+   all six divisions and leave-one-team-out, and its controls are the right
+   shape (non-division same band +11.5%/-9.4%, division home favourites
+   -0.3%, the away mirror -10.6%, blind home -3.5%). **The case against it is
+   the calibration gap**: at +115-129 these teams won 66.7% against a 45.4%
+   price, a 21.3-point miss, where the L4 cell was rejected for a 15.9-point
+   one. The effect is also a hump in price, dead below +115 and above +150.
+   Carded anyway on the user's call at the +115..+149 band.
+
+   **Home dog getaway (added 2026-09-02, user)** has the cleanest mechanism
+   of the seven: after a night game both clubs are short on sleep, but one
+   sleeps at home and the other packs for the airport, and the market prices
+   team quality rather than that. It shows up only where the home side is the
+   weaker team (the favourite half is -0.2%). Controls behave -- the same day
+   games without the night-before condition return -4.9%, home dogs in day
+   games not following one -1.4%, leave-one-team-out holds at all five most
+   frequent hosts, and a 2/3-1/3 holdout tested +34.0%. Its calibration gap
+   is +11.6 points and the record has probability 0.060 against an
+   exactly-right market, which is unremarkable -- the return comes from dog
+   prices, not from an implausible win rate. Against it: the price ladder
+   inside the cell is not clean, July runs -14%, and n=45 is small.
+
+   **A note on the mirror test that nearly killed it.** The first read
+   rejected this because "home club night-then-day -> back away" measured
+   -13.2%, which looked like the fatigue only affecting visitors. That test
+   was wrong: 172 of the 176 games have BOTH clubs coming off a night game,
+   because they played each other, so the mirror was the same games bet the
+   other way -- the inverse of the result, not a control. Check what a
+   control actually holds constant before trusting it.
+
+   **Home dog + under (added 2026-09-02, user)** is the first PARLAY on the
+   board and the only rule whose mirror fails for the right reason. A home
+   win means the bottom of the ninth is never played, so home wins skew
+   under (league total 8.77 when the home side wins, 9.15 when it loses).
+   An away win carries no such property, and away dog +115..+149 parlayed
+   with the under is duly dead at -11.1% over 517 games. The edge is not the
+   moneyline leg repeating Division home dog: in non-division games that leg
+   alone is flat at +1.8% while the parlay returns +40.5%, because these home
+   dogs go under 72.7% of the time when they win against 51.6% league-wide.
+
+   Against it: the no-bottom-ninth effect is worth ~2 points league-wide and
+   here it is 20, only inside one price band, and the mechanism does not
+   explain why +125 differs from +110. Variance is severe -- 13 straight
+   losses and a -13.0u drawdown inside a recent 8-week run that finished
+   +40u -- and plays cluster by series. **It also assumes the book prices a
+   same-game ML+total parlay at multiplied odds; a correlation-priced parlay
+   removes exactly the edge measured here.**
+
+   `parlay` is a market type across the whole tier now: the ledger stores the
+   combined American price plus each leg, and a pushed total drops that leg
+   and reduces the bet to its moneyline at its own price, which is the
+   standard book rule and is why the recorded n (248) exceeds the scan's
+   push-excluded 243.
+
+   **Three fail their ladder and are carded anyway, on the user's call.** Away
+   dog ML is entirely the 9.5 bucket: away dogs run -15.4% at a 9.0 total
+   (n=168, more games than the winning cell) and +6.1% at 10+. Home slide ML
+   is entirely "exactly L4": L3 is -9.4% (n=118) and L5 -6.4% (n=29), and
+   the market prices L2/L3/L5 teams within a few points of their true win
+   rate while missing L4 teams by 15.9 points. Both survive every other test
+   -- trimming the biggest wins, park exclusion, monthly splits -- which is
+   why they are arguable rather than dismissed. They are marked with a
+   warning glyph on the tab and `LADDER FAILS` in the module docstring. The
+   live record settles it.
+
+   Adding or retiring one of these is a `rule_status.py` edit; the logger,
+   the ledger and the dashboard all follow from that one file.
+
+   The season is in the ledger too: `scripts/backfill_allml_systems.py`
+   replayed all 636 historical plays as `backfilled` rows, so the tab's date
+   filter can show them for past days instead of saying "no plays" while the
+   season table underneath claimed 628. Backfilled rows are hindsight and are
+   held out of the record entirely -- no units, their own section on the tab,
+   their own line in the report -- exactly as the 99 mismatch-ML rows written
+   the same way are. That script is a ONE-SHOT tool and is deliberately not in
+   the daily workflow: it is idempotent, but running it after a rule changes
+   would rewrite history to match the current definition.
+7. **Leans are retired**: no half-case totals, no temperature-only reads,
    no "0.5u if you want it" tier. A read is card-grade or it is not
    bettable. If a filter on model plays ever seems attractive, define it
    in advance and shadow-track it before it touches a live bet.
@@ -231,3 +356,64 @@ roster:
 4. **Good form alone doesn't remove a winning fade** — the trigger is form
    PLUS the venue record turning (Gore, Nola), not form by itself
    (Mahle/Wacha keep cashing while pitching well).
+
+## Stacked positions across non-scout systems (2026-09-02)
+
+A "position" is a side two systems can land on together: a team's
+moneyline, or one side of a game's total. A parlay counts toward both —
+its ML leg to that team, its under leg to the under.
+
+Measured over the settled season, carded non-scout systems only:
+
+| position | depth | games | bets | record | ROI/bet | units/game |
+|---|---|---|---|---|---|---|
+| moneyline | 1 | 385 | 385 | 179-206 | +29.1% | +0.291 |
+| moneyline | 2 | 88 | 176 | 86-90 | +47.6% | +0.953 |
+| moneyline | 3 | 8 | 24 | 15-9 | +63.3% | +1.899 |
+| over | 1 | 208 | 208 | 121-87 | +11.2% | +0.112 |
+| under | 1 | 445 | 445 | 203-242 | +31.4% | +0.314 |
+| under | 2 | 8 | 16 | 8-8 | +20.2% | +0.403 |
+
+The moneyline ladder is monotone (29 → 48 → 63%), both walk-forward
+halves hold (+47.3% / +51.9%) and all three thirds are positive
+(+49.6 / +20.6 / +72.7%). So stacking is not a totals-only effect: it
+is strongest on the ML.
+
+Caveat that belongs next to the number: every depth-2 ML stack contains
+home-dog-under-parlay, and 66 of 96 are that plus division-home-dog —
+the same home dog priced +115 to +149 in a division game. The stack is
+therefore mostly one trigger family agreeing with itself, not two
+independent reads confirming each other. Treat it as a sharper filter on
+the home-dog band, not as evidence that unrelated systems corroborate.
+
+Doubling a stacked position was not tested and is not implied: every
+number above is flat stakes on each system's own bet.
+
+## Ledger rows track the market until first pitch (2026-09-02, user)
+
+A logged row is not a snapshot of the first quote of the morning. It
+follows the book and then freezes:
+
+- **Re-price, don't duplicate.** The idempotency key `sig_of` is
+  `(date, rule, market, game, side)`. The total is deliberately NOT in
+  it. It used to be, so a line move between two runs of the workflow
+  read as a different bet — on 9/2 the book moved DET/MIN from 9 to 8.5
+  and the ledger carried two pickem-under rows for one play, staking 2u
+  where 1u was made. Six rows that day across five rules.
+- **Overwrite with the latest quote.** A re-run updates the row to what
+  the market shows now. The number you would actually get is the latest
+  one, not whichever the first run happened to catch.
+- **Lock at first pitch.** Once `commence` has passed, the row is frozen
+  — price, line and play text — however many times the workflow runs
+  after it. A graded row is locked too, and a row with no `commence` is
+  treated as locked rather than risk rewriting a game in progress.
+- **Only market fields move** (`PRICE_FIELDS`). Result, profit, stake,
+  `not_bet` and anything hand-edited belong to the ledger, not the book,
+  and a re-price never touches them.
+
+Known exception, left alone deliberately: 2026-07-19 WSH @ OAK carries
+two backfilled mismatch-ml rows on the same side (WSH ML −146), one from
+the tail arm and one from the fade arm, both WIN +0.68. Whether a rule
+firing twice on one side is one position or two is a rules question, not
+a bug, so it stands until someone decides it. It is the only such pair
+in the season.

@@ -4,12 +4,20 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="color-scheme" content="dark">
+  <!-- The page itself must never be cached. Script tags carry a ?v= buster,
+       but that only helps if the browser re-fetches THIS file to see the new
+       version string; a cached index.html keeps requesting the old JS URL and
+       renders fresh JSON with stale code. That is what showed a home-dog +
+       under parlay as a bare "O9.5" on 2026-09-02. -->
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+  <meta http-equiv="Pragma" content="no-cache">
+  <meta http-equiv="Expires" content="0">
   <meta name="description" content="Python Bayesian + LR Confirmation spread and totals picks dashboard for NBA and NCAA">
   <title>Python Picks Dashboard</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=5">
+  <link rel="stylesheet" href="styles.css?v=7">
 </head>
 <body>
   <header class="header">
@@ -67,7 +75,7 @@
   <script src="js/mlb-props.js?v=38"></script>
   <script src="js/mlb-fade-ml.js?v=55"></script>
   <script src="js/mlb-all-ml.js?v=19"></script>
-  <script src="js/mlb-slate-scout.js?v=2026090117"></script>
+  <script src="js/mlb-slate-scout.js?v=2026090143"></script>
   <script>render();</script>
 </body>
 </html>

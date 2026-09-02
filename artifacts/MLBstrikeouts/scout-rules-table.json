@@ -1,0 +1,206 @@
+{
+ "sport": "MLB",
+ "type": "scout-rules-table",
+ "generated": "2026-09-02T18:35:28Z",
+ "span": {
+  "from": "2026-03-25",
+  "to": "2026-09-01"
+ },
+ "games": 2079,
+ "baselines": {
+  "side": -3.3,
+  "under": -3.8
+ },
+ "note": "Season history for the scout rules that had no table: Form under, Aligned ML and Mismatch ML. Replayed as-of each game date -- a game's own result is never in the features that select it. CAVEAT: the live rules read published wRC+ cells; this replay uses the wOBA index computed from the batter PA logs, the only version recomputable for a past date. Same construction, same input, not byte-identical -- a faithful replay of the rule, not of the exact cells the tab printed.",
+ "rules": [
+  {
+   "key": "form-under",
+   "name": "Form under",
+   "market": "totals",
+   "rule": "m_sum <= -40: both arms outclassed by the bats -> under.",
+   "status": "card",
+   "baseline_key": "under",
+   "baseline": -3.8,
+   "record": {
+    "w": 84,
+    "l": 53,
+    "n": 137,
+    "units": 22.45,
+    "roi": 16.4
+   },
+   "halves": [
+    23.5,
+    12.0
+   ],
+   "monthly": [
+    {
+     "month": "2026-04",
+     "w": 10,
+     "l": 10,
+     "n": 20,
+     "units": -1.04,
+     "roi": -5.2
+    },
+    {
+     "month": "2026-05",
+     "w": 20,
+     "l": 7,
+     "n": 27,
+     "units": 10.75,
+     "roi": 39.8
+    },
+    {
+     "month": "2026-06",
+     "w": 13,
+     "l": 4,
+     "n": 17,
+     "units": 7.86,
+     "roi": 46.3
+    },
+    {
+     "month": "2026-07",
+     "w": 21,
+     "l": 11,
+     "n": 32,
+     "units": 8.13,
+     "roi": 25.4
+    },
+    {
+     "month": "2026-08",
+     "w": 20,
+     "l": 20,
+     "n": 40,
+     "units": -2.26,
+     "roi": -5.7
+    },
+    {
+     "month": "2026-09",
+     "w": 0,
+     "l": 1,
+     "n": 1,
+     "units": -1.0,
+     "roi": -100.0
+    }
+   ],
+   "per_day": 0.87
+  },
+  {
+   "key": "aligned-ml",
+   "name": "Aligned ML",
+   "market": "h2h",
+   "rule": "One offense hot-aligned across all four windows (>= 110) against one cold-aligned (<= 90) at the 75-PA floor -> back the hot side.",
+   "status": "retired",
+   "baseline_key": "side",
+   "baseline": -3.3,
+   "record": {
+    "w": 6,
+    "l": 7,
+    "n": 13,
+    "units": -1.66,
+    "roi": -12.8
+   },
+   "halves": [
+    -7.6,
+    -30.0
+   ],
+   "monthly": [
+    {
+     "month": "2026-04",
+     "w": 4,
+     "l": 5,
+     "n": 9,
+     "units": -1.72,
+     "roi": -19.2
+    },
+    {
+     "month": "2026-05",
+     "w": 1,
+     "l": 0,
+     "n": 1,
+     "units": 0.96,
+     "roi": 96.2
+    },
+    {
+     "month": "2026-07",
+     "w": 1,
+     "l": 2,
+     "n": 3,
+     "units": -0.9,
+     "roi": -30.0
+    }
+   ],
+   "per_day": 0.08
+  },
+  {
+   "key": "mismatch-ml",
+   "name": "Mismatch ML",
+   "market": "h2h",
+   "rule": "Starter at mismatch <= -45 -> back his team; at >= +55 -> back the opponent.",
+   "status": "shadow",
+   "baseline_key": "side",
+   "baseline": -3.3,
+   "record": {
+    "w": 63,
+    "l": 41,
+    "n": 104,
+    "units": 5.55,
+    "roi": 5.3
+   },
+   "halves": [
+    18.3,
+    -4.5
+   ],
+   "monthly": [
+    {
+     "month": "2026-04",
+     "w": 7,
+     "l": 6,
+     "n": 13,
+     "units": 0.84,
+     "roi": 6.5
+    },
+    {
+     "month": "2026-05",
+     "w": 16,
+     "l": 4,
+     "n": 20,
+     "units": 6.94,
+     "roi": 34.7
+    },
+    {
+     "month": "2026-06",
+     "w": 12,
+     "l": 9,
+     "n": 21,
+     "units": -1.93,
+     "roi": -9.2
+    },
+    {
+     "month": "2026-07",
+     "w": 14,
+     "l": 12,
+     "n": 26,
+     "units": -1.88,
+     "roi": -7.2
+    },
+    {
+     "month": "2026-08",
+     "w": 14,
+     "l": 9,
+     "n": 23,
+     "units": 2.58,
+     "roi": 11.2
+    },
+    {
+     "month": "2026-09",
+     "w": 0,
+     "l": 1,
+     "n": 1,
+     "units": -1.0,
+     "roi": -100.0
+    }
+   ],
+   "per_day": 0.66
+  }
+ ]
+}

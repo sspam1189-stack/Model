@@ -17,7 +17,9 @@ _CACHE_DIR = os.path.normpath(os.path.join(
     "..", "..", "..", "data", "stats_cache", "nfl"))
 
 # nflverse team codes that differ from this repo's canonical abbreviations
-_ABBR_FIX = {"LA": "LAR", "WSH": "WAS", "JAC": "JAX"}
+# Map stray codes onto the nflfastR ones. "LA" IS the nflfastR Rams code (and
+# the first alias in defaults.NFL_TEAMS), so it is deliberately not rewritten.
+_ABBR_FIX = {"LAR": "LA", "WSH": "WAS", "JAC": "JAX"}
 
 
 def norm_abbr(abbr):

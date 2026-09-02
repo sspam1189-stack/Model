@@ -1,0 +1,836 @@
+{
+ "sport": "MLB",
+ "type": "allml-systems-table",
+ "generated": "2026-09-02T18:35:24Z",
+ "span": {
+  "from": "2026-03-25",
+  "to": "2026-09-01"
+ },
+ "games": 2081,
+ "note": "Systems derived from mlb-all-ml.json alone -- moneylines, totals, probables, scores -- with no input from the mismatch model. Replayed as-of each game date: a game's own result is never in the features that select it. Each system carries the blind baseline it is measured against: backing every side at market price for moneylines, blind over or blind under for totals.",
+ "baselines": {
+  "side": -3.2,
+  "over": -5.8,
+  "under": -3.7,
+  "parlay": 0.0
+ },
+ "systems": [
+  {
+   "baseline_key": "side",
+   "baseline": -3.2,
+   "key": "away-dog-ml",
+   "name": "Away dog ML",
+   "market": "h2h",
+   "rule": "Away team priced as a dog in a game with a total of 9.5 or higher.",
+   "plain": "Backs the visiting underdog whenever the posted total is 9.5 or higher. No mechanism: it is a price-and-total cell that measured well, and 9.0 totals measure badly, so treat the record as the only evidence.",
+   "case": "LADDER FAILS. 87-76 +23.4% (n=163, p<0.001) at plus money; scored as not-the-favorite, 102-85 +23.4% on 187 plays. Halves +24/+23, five of six months positive, and it survives every robustness test I ran: removing the three biggest wins leaves +26.6%, and excluding Coors/GABP/Fenway leaves +16.6% (p=0.007), so it is not a park cell. What is against it: the whole effect is the 9.5 bucket. By line, away dogs run -5.2% at 7.5, -11.7% at 8.5, -15.4% at 9.0 (n=168, MORE games than the winning cell), +31.4% at 9.5, +6.1% at 10+. There is no story where a market is calibrated at 9.0, badly wrong at 9.5, and calibrated again at 10. Under the search that found it the false-discovery rate is about 47%. The smooth version of the same idea, away dog at total >= 9, is +5.1% (n=355, p=0.052).",
+   "status": "card",
+   "ladder_fails": true,
+   "record": {
+    "w": 89,
+    "l": 76,
+    "n": 165,
+    "units": 40.32,
+    "roi": 24.4
+   },
+   "halves": [
+    20.7,
+    26.4
+   ],
+   "monthly": [
+    {
+     "month": "2026-03",
+     "w": 1,
+     "l": 3,
+     "n": 4,
+     "units": -0.9,
+     "roi": -22.5
+    },
+    {
+     "month": "2026-04",
+     "w": 9,
+     "l": 10,
+     "n": 19,
+     "units": 2.99,
+     "roi": 15.7
+    },
+    {
+     "month": "2026-05",
+     "w": 15,
+     "l": 7,
+     "n": 22,
+     "units": 11.26,
+     "roi": 51.2
+    },
+    {
+     "month": "2026-06",
+     "w": 29,
+     "l": 21,
+     "n": 50,
+     "units": 14.78,
+     "roi": 29.6
+    },
+    {
+     "month": "2026-07",
+     "w": 26,
+     "l": 24,
+     "n": 50,
+     "units": 9.78,
+     "roi": 19.6
+    },
+    {
+     "month": "2026-08",
+     "w": 7,
+     "l": 11,
+     "n": 18,
+     "units": 0.31,
+     "roi": 1.7
+    },
+    {
+     "month": "2026-09",
+     "w": 2,
+     "l": 0,
+     "n": 2,
+     "units": 2.1,
+     "roi": 105.0
+    }
+   ],
+   "per_day": 1.04
+  },
+  {
+   "baseline_key": "side",
+   "baseline": -3.2,
+   "key": "home-slide-ml",
+   "name": "Home slide ML",
+   "market": "h2h",
+   "rule": "Home team on a 4-game losing streak or longer, facing a different opponent than its last game.",
+   "plain": "Backs a home team that has lost four or more in a row and is facing a different opponent than its last game. The idea is that the market over-adjusts to a visible losing streak. Weak support: the effect is entirely at exactly four losses, and three or five measure negative.",
+   "case": "LADDER FAILS. 33-17 +25.0% (n=50, p=0.027), halves +25/+25, all thirds and all five months positive (+19/+28/+31/+35/+14). The new-opponent condition is what makes it behave -- on a new opponent the streak ladder runs L2+ -4.7%, L3+ +13.0%, L4+ +25.0%. What is against it: the parent cell is entirely 'exactly L4' (+32.2%, n=66) with L3 at -9.4% (n=118) and L5 at -6.4% (n=29). The market prices L2, L3 and L5 teams within a few points of their true win rate and misses L4 teams by 15.9 points; the favorite half of that cell is 27-6, an 81.8% win rate against a 58.6% price. Series length does make L4 structurally different (98% of L4 streaks span two or more opponents against 67% at L3), but that cannot be the cause: L5 streaks span multiple opponents 100% of the time and lose money, and splitting L4 by the same variable leaves both halves winning.",
+   "status": "card",
+   "ladder_fails": true,
+   "record": {
+    "w": 33,
+    "l": 17,
+    "n": 50,
+    "units": 12.52,
+    "roi": 25.0
+   },
+   "halves": [
+    28.5,
+    20.2
+   ],
+   "monthly": [
+    {
+     "month": "2026-04",
+     "w": 8,
+     "l": 4,
+     "n": 12,
+     "units": 2.33,
+     "roi": 19.4
+    },
+    {
+     "month": "2026-05",
+     "w": 8,
+     "l": 4,
+     "n": 12,
+     "units": 3.37,
+     "roi": 28.1
+    },
+    {
+     "month": "2026-06",
+     "w": 6,
+     "l": 3,
+     "n": 9,
+     "units": 2.8,
+     "roi": 31.1
+    },
+    {
+     "month": "2026-07",
+     "w": 6,
+     "l": 2,
+     "n": 8,
+     "units": 2.79,
+     "roi": 34.9
+    },
+    {
+     "month": "2026-08",
+     "w": 5,
+     "l": 4,
+     "n": 9,
+     "units": 1.23,
+     "roi": 13.6
+    }
+   ],
+   "per_day": 0.32
+  },
+  {
+   "baseline_key": "side",
+   "baseline": -3.2,
+   "key": "division-home-dog",
+   "name": "Division home dog",
+   "market": "h2h",
+   "rule": "Home team hosting a division rival and priced +115 to +149: back the home side.",
+   "plain": "Backs the home side when it hosts a division rival and is priced between +115 and +149. Familiar opponents in a narrow price window. The same price band outside the division is roughly flat, which is the whole case; below +115 and above +150 the market is right.",
+   "case": "LADDER FAILS. 46-27 +41.0% (n=73), halves positive, and it survives leave-one-division-out on all six divisions and leave-one-team-out with COL/LAA/WSH removed. Controls are the right shape: the same price band in NON-division games is +11.5% at +115-129 and -9.4% at +130-149, backing every home team is -3.5%, division home FAVOURITES are -0.3%, and the mirror (away side in division games) is -10.6%. A true 2/3-1/3 holdout came back 21-8 on the test period.\n\n        WHAT IS AGAINST IT, recorded because it is serious. The effect is a hump in price, not a trend: +100-114 runs -5.8% and +150-179 runs -11.9%, so the market is roughly right on both sides of a 73-game island -- structurally the same shape as the away-dog- at-9.5 cell. And the calibration gap is not physically plausible: at +115-129 these teams won 66.7% against a 45.4% price, a 21.3-point miss. When the L4 losing-streak cell was rejected, the stated reason was that its 15.9-point gap was larger than any liquid market leaves open; this is bigger. Against a market that is exactly right, 46-27 has probability 0.0009 -- which sounds decisive until you count roughly 310 hand-built cells tested across six scanning passes on this file, where one result at p~0.001 is about what chance produces. Carded on the user's call 2026-09-02 at the +115..+149 band; the record settles it.",
+   "status": "card",
+   "ladder_fails": true,
+   "record": {
+    "w": 47,
+    "l": 27,
+    "n": 74,
+    "units": 32.62,
+    "roi": 44.1
+   },
+   "halves": [
+    27.6,
+    64.5
+   ],
+   "monthly": [
+    {
+     "month": "2026-04",
+     "w": 9,
+     "l": 9,
+     "n": 18,
+     "units": 2.94,
+     "roi": 16.3
+    },
+    {
+     "month": "2026-05",
+     "w": 12,
+     "l": 8,
+     "n": 20,
+     "units": 6.84,
+     "roi": 34.2
+    },
+    {
+     "month": "2026-06",
+     "w": 5,
+     "l": 6,
+     "n": 11,
+     "units": 0.26,
+     "roi": 2.4
+    },
+    {
+     "month": "2026-07",
+     "w": 5,
+     "l": 1,
+     "n": 6,
+     "units": 5.42,
+     "roi": 90.3
+    },
+    {
+     "month": "2026-08",
+     "w": 15,
+     "l": 3,
+     "n": 18,
+     "units": 15.9,
+     "roi": 88.3
+    },
+    {
+     "month": "2026-09",
+     "w": 1,
+     "l": 0,
+     "n": 1,
+     "units": 1.26,
+     "roi": 126.0
+    }
+   ],
+   "per_day": 0.47
+  },
+  {
+   "baseline_key": "side",
+   "baseline": -3.2,
+   "key": "home-dog-getaway",
+   "name": "Home dog getaway",
+   "market": "h2h",
+   "rule": "Day game, the visitors played a night game yesterday, and the home team is a plus-money dog: back the home side.",
+   "plain": "Backs a home underdog in a day game when the visitors played a night game the day before. Both clubs are short on sleep, but one slept at home and the other packs for the airport. It only shows up when the home side is the weaker team, which is what makes it credible.",
+   "case": "26-19 +26.0% (n=45) at plus money; scored as not-the-favourite, 31-22 +25.5% on 53. Halves +25.6/+25.5. Monthly at plus money runs +10/+19/+22/-14/+53, so July is negative -- the 'every month positive' reading belongs to the wider not-the-favourite cut, not to the version carded here. The mechanism is the cleanest of the six: after a night game both clubs are short on sleep, but one sleeps at home and the other packs for the airport, and the market prices team quality rather than that. It shows up where the home side is the weaker team and vanishes where it is the favourite (-0.2%).\n\n        Controls behave. The same day games WITHOUT the night-before condition return -4.9%, home dogs in day games not after a night game -1.4%, and leave-one-team-out holds at every one of the five most frequent hosts (+22% to +29%), with 15 distinct home teams over 53 games and no team supplying more than 8. A 2/3-1/3 holdout trained +19.0% and tested +34.0%. The calibration gap is +11.6 points, and against an exactly-right market the record has probability 0.060 -- unremarkable, which is the point: the return comes from dog prices rather than from an implausible win rate.\n\n        Against it: the price ladder inside the cell is not clean (-120..-101 +22.8% on 8, pickem -5.1% on 17, +110..+139 +47.5% on 24), it is a three-way slice, and n=45 is small. Carded on the user's call 2026-09-02.",
+   "status": "card",
+   "ladder_fails": false,
+   "record": {
+    "w": 26,
+    "l": 19,
+    "n": 45,
+    "units": 11.7,
+    "roi": 26.0
+   },
+   "halves": [
+    14.4,
+    34.5
+   ],
+   "monthly": [
+    {
+     "month": "2026-04",
+     "w": 5,
+     "l": 5,
+     "n": 10,
+     "units": 1.02,
+     "roi": 10.2
+    },
+    {
+     "month": "2026-05",
+     "w": 5,
+     "l": 4,
+     "n": 9,
+     "units": 1.72,
+     "roi": 19.1
+    },
+    {
+     "month": "2026-06",
+     "w": 3,
+     "l": 2,
+     "n": 5,
+     "units": 1.12,
+     "roi": 22.4
+    },
+    {
+     "month": "2026-07",
+     "w": 2,
+     "l": 3,
+     "n": 5,
+     "units": -0.68,
+     "roi": -13.6
+    },
+    {
+     "month": "2026-08",
+     "w": 11,
+     "l": 5,
+     "n": 16,
+     "units": 8.52,
+     "roi": 53.2
+    }
+   ],
+   "per_day": 0.28
+  },
+  {
+   "baseline_key": "parlay",
+   "baseline": 0.0,
+   "key": "home-dog-under-parlay",
+   "name": "Home dog + under",
+   "market": "parlay",
+   "rule": "Home dog priced +115 to +149: parlay the home moneyline with the under, both legs at book price.",
+   "plain": "Parlays a +115 to +149 home underdog with the under. When the home team wins it does not bat in the ninth, so home wins skew under -- these dogs go under 73% of the time when they win, against 52% league-wide. The away-side version is correctly dead, which is the strongest structural check on the board.",
+   "case": "83-165 +43.6% (n=248) at book odds on both legs, 1.58 plays a day. Excluding the 5 games where the total pushed and the parlay reduced to its moneyline leg, 82-161 +45.6% on 243 -- the figure the scan reported before push handling existed. Average payout 4.35x, so it needs a 23.0% hit rate and gets 33.7%. Halves +45.9/+45.3, every month positive, and leave-one-team-out holds at all six most frequent hosts across 26 distinct home teams.\n\n        THE MECHANISM IS REAL AND ITS MIRROR FAILS CORRECTLY, which is what separates this from the rest of the board. A home win means the bottom of the ninth is never played, so home wins skew under: the league total averages 8.77 when the home side wins against 9.15 when it loses. An away win carries no such property, and the away mirror is duly dead -- away dog +115..+149 parlayed with the under is -11.1% over 517 games, joint 0.205 against 0.213 independent. It is the first mirror in nine scanning passes to fail for the right reason rather than by construction.\n\n        The edge is NOT the moneyline leg repeating another system. In non-division games that leg alone is 77-95 +1.8%, flat, and the parlay still returns +40.5%: the return comes from the correlation, with these home dogs going under 72.7% of the time when they win against 51.6% league-wide for any home win.\n\n        AGAINST IT. The no-bottom-ninth effect is worth about two points league-wide and here it is twenty, and only inside one price band: the under rate when home dogs win runs 0.486 at +100..+114, 0.717-0.742 at +115..+149, 0.500 at +150+. The under leg alone follows the same hump. The mechanism explains the direction and the mirror; it does not explain why +125 differs from +110. Variance is severe -- 13 straight losses and a -13.0u drawdown inside a recent 8-week stretch that finished +40u -- and plays cluster by series, so a bad matchup costs three units rather than one. Carded on the user's call 2026-09-02. NOTE: assumes the book prices a same-game ML+total parlay at multiplied odds; a correlation-priced parlay removes exactly the edge measured here.",
+   "status": "card",
+   "ladder_fails": false,
+   "record": {
+    "w": 85,
+    "l": 166,
+    "n": 251,
+    "units": 114.07,
+    "roi": 45.4
+   },
+   "halves": [
+    42.6,
+    48.0
+   ],
+   "monthly": [
+    {
+     "month": "2026-03",
+     "w": 2,
+     "l": 2,
+     "n": 4,
+     "units": 4.37,
+     "roi": 109.2
+    },
+    {
+     "month": "2026-04",
+     "w": 16,
+     "l": 34,
+     "n": 50,
+     "units": 19.86,
+     "roi": 39.7
+    },
+    {
+     "month": "2026-05",
+     "w": 15,
+     "l": 35,
+     "n": 50,
+     "units": 13.03,
+     "roi": 26.1
+    },
+    {
+     "month": "2026-06",
+     "w": 15,
+     "l": 26,
+     "n": 41,
+     "units": 23.67,
+     "roi": 57.7
+    },
+    {
+     "month": "2026-07",
+     "w": 11,
+     "l": 28,
+     "n": 39,
+     "units": 8.41,
+     "roi": 21.6
+    },
+    {
+     "month": "2026-08",
+     "w": 24,
+     "l": 40,
+     "n": 64,
+     "units": 38.9,
+     "roi": 60.8
+    },
+    {
+     "month": "2026-09",
+     "w": 2,
+     "l": 1,
+     "n": 3,
+     "units": 5.83,
+     "roi": 194.3
+    }
+   ],
+   "per_day": 1.59
+  },
+  {
+   "baseline_key": "under",
+   "baseline": -3.7,
+   "key": "pickem-under",
+   "name": "Pickem under",
+   "market": "totals",
+   "rule": "Favorite at -115 or shorter and total 8.5 or higher: under.",
+   "plain": "Takes the under when the game is priced close to even (favourite -115 or shorter) but the total is 8.5 or higher. Reads as the market unable to separate two offences and settling on a big number.",
+   "case": "98-69 +11.5% (n=167, p=0.017), halves +7/+14, all thirds positive. Ladders in favorite size -- pickem +11.5%, -116..-149 -6.7%, -150..-179 -12.8%, -180+ -13.7% -- and in total, +11.5% at 8.5+ and +17.2% at 9+. The read: an evenly-priced game with a big number is the market pricing two offenses it cannot separate.",
+   "status": "card",
+   "ladder_fails": false,
+   "record": {
+    "w": 99,
+    "l": 70,
+    "n": 169,
+    "units": 19.04,
+    "roi": 11.3
+   },
+   "halves": [
+    7.0,
+    13.8
+   ],
+   "monthly": [
+    {
+     "month": "2026-04",
+     "w": 10,
+     "l": 12,
+     "n": 22,
+     "units": -3.31,
+     "roi": -15.1
+    },
+    {
+     "month": "2026-05",
+     "w": 20,
+     "l": 11,
+     "n": 31,
+     "units": 7.08,
+     "roi": 22.8
+    },
+    {
+     "month": "2026-06",
+     "w": 20,
+     "l": 12,
+     "n": 32,
+     "units": 6.16,
+     "roi": 19.2
+    },
+    {
+     "month": "2026-07",
+     "w": 23,
+     "l": 14,
+     "n": 37,
+     "units": 6.75,
+     "roi": 18.2
+    },
+    {
+     "month": "2026-08",
+     "w": 25,
+     "l": 20,
+     "n": 45,
+     "units": 2.46,
+     "roi": 5.5
+    },
+    {
+     "month": "2026-09",
+     "w": 1,
+     "l": 1,
+     "n": 2,
+     "units": -0.09,
+     "roi": -4.5
+    }
+   ],
+   "per_day": 1.07
+  },
+  {
+   "baseline_key": "over",
+   "baseline": -5.8,
+   "key": "starter-over-run",
+   "name": "Starter over run",
+   "market": "totals",
+   "rule": "Either starter has gone over in 75% or more of his last 8 starts and the total is 8.5 or higher: over.",
+   "plain": "Takes the over when either starter has gone over in 75% or more of his last eight starts and the total is 8.5 or higher. The totals market is slow to move on a starter's run -- the same lag the flag rules exploit.",
+   "case": "120-87 +10.8% (n=207, p=0.004), halves +13/+10, all thirds positive. The L10 window agrees (+8.3%). Same story as the flag rules -- the totals market is slow to move on a starter's run. Weak point: monthly alternates (+27/-8/+20/-5/+9). The total>=8.5 half is what carries it; under 8 the same signal is -3.6%.",
+   "status": "card",
+   "ladder_fails": false,
+   "record": {
+    "w": 121,
+    "l": 87,
+    "n": 208,
+    "units": 23.26,
+    "roi": 11.2
+   },
+   "halves": [
+    13.4,
+    10.1
+   ],
+   "monthly": [
+    {
+     "month": "2026-04",
+     "w": 9,
+     "l": 4,
+     "n": 13,
+     "units": 4.28,
+     "roi": 32.9
+    },
+    {
+     "month": "2026-05",
+     "w": 19,
+     "l": 20,
+     "n": 39,
+     "units": -2.83,
+     "roi": -7.3
+    },
+    {
+     "month": "2026-06",
+     "w": 36,
+     "l": 21,
+     "n": 57,
+     "units": 11.68,
+     "roi": 20.5
+    },
+    {
+     "month": "2026-07",
+     "w": 28,
+     "l": 30,
+     "n": 58,
+     "units": -4.71,
+     "roi": -8.1
+    },
+    {
+     "month": "2026-08",
+     "w": 28,
+     "l": 12,
+     "n": 40,
+     "units": 14.02,
+     "roi": 35.1
+    },
+    {
+     "month": "2026-09",
+     "w": 1,
+     "l": 0,
+     "n": 1,
+     "units": 0.82,
+     "roi": 82.0
+    }
+   ],
+   "per_day": 1.32
+  },
+  {
+   "baseline_key": "under",
+   "baseline": -3.7,
+   "key": "cold-arms-under",
+   "name": "Cold arms under",
+   "market": "totals",
+   "rule": "Both starters have gone over in 35% or less of their last 8: under.",
+   "plain": "Takes the under when BOTH starters have gone over in 35% or less of their last eight. The exact mirror of Starter over run, and it agrees with it, which is why a 41-game cell is on the board at all.",
+   "case": "27-14 +23.5% (n=41, p=0.038), halves +28/+20, every month positive. The smallest sample of the eight and the one most likely to be noise on size alone; kept because it is the exact mirror of Starter over run and agrees with it.",
+   "status": "card",
+   "ladder_fails": false,
+   "record": {
+    "w": 27,
+    "l": 14,
+    "n": 41,
+    "units": 9.64,
+    "roi": 23.5
+   },
+   "halves": [
+    21.7,
+    25.3
+   ],
+   "monthly": [
+    {
+     "month": "2026-04",
+     "w": 1,
+     "l": 0,
+     "n": 1,
+     "units": 0.82,
+     "roi": 82.0
+    },
+    {
+     "month": "2026-05",
+     "w": 9,
+     "l": 6,
+     "n": 15,
+     "units": 1.94,
+     "roi": 12.9
+    },
+    {
+     "month": "2026-06",
+     "w": 5,
+     "l": 4,
+     "n": 9,
+     "units": 0.34,
+     "roi": 3.8
+    },
+    {
+     "month": "2026-07",
+     "w": 6,
+     "l": 3,
+     "n": 9,
+     "units": 2.34,
+     "roi": 26.1
+    },
+    {
+     "month": "2026-08",
+     "w": 6,
+     "l": 1,
+     "n": 7,
+     "units": 4.2,
+     "roi": 60.0
+    }
+   ],
+   "per_day": 0.26
+  }
+ ],
+ "today": [
+  {
+   "rule": "home-dog-under-parlay",
+   "market": "parlay",
+   "pick": "CIN",
+   "price": 325,
+   "side": null,
+   "why": "CIN ML +132 with U9.5 -120, pays 4.25x",
+   "line": 9.5,
+   "ml_price": 132,
+   "under_price": -120,
+   "payout": 4.253,
+   "gamePk": 824470,
+   "date": "2026-09-02",
+   "commence": "2026-09-02T16:40:00Z",
+   "matchup": "SD @ CIN",
+   "away": "SD",
+   "home": "CIN",
+   "total": 9.5
+  },
+  {
+   "rule": "division-home-dog",
+   "market": "h2h",
+   "pick": "WSH",
+   "price": 120,
+   "side": null,
+   "why": "home to a NL East rival at +120",
+   "gamePk": 822686,
+   "date": "2026-09-02",
+   "commence": "2026-09-02T17:05:00Z",
+   "matchup": "ATL @ WSH",
+   "away": "ATL",
+   "home": "WSH",
+   "total": 9.5
+  },
+  {
+   "rule": "home-dog-under-parlay",
+   "market": "parlay",
+   "pick": "WSH",
+   "price": 300,
+   "side": null,
+   "why": "WSH ML +120 with U9.5 -122, pays 4.00x",
+   "line": 9.5,
+   "ml_price": 120,
+   "under_price": -122,
+   "payout": 4.003,
+   "gamePk": 822686,
+   "date": "2026-09-02",
+   "commence": "2026-09-02T17:05:00Z",
+   "matchup": "ATL @ WSH",
+   "away": "ATL",
+   "home": "WSH",
+   "total": 9.5
+  },
+  {
+   "rule": "cold-arms-under",
+   "market": "totals",
+   "pick": "under",
+   "price": 100,
+   "side": "U",
+   "why": "both starters Jacob Lopez 12%, Cody Bradford 0% over in last 8",
+   "gamePk": 822851,
+   "date": "2026-09-02",
+   "commence": "2026-09-02T18:35:00Z",
+   "matchup": "OAK @ TEX",
+   "away": "OAK",
+   "home": "TEX",
+   "total": 7.5
+  },
+  {
+   "rule": "home-dog-under-parlay",
+   "market": "parlay",
+   "pick": "COL",
+   "price": 348,
+   "side": null,
+   "why": "COL ML +146 with U11.5 -122, pays 4.48x",
+   "line": 11.5,
+   "ml_price": 146,
+   "under_price": -122,
+   "payout": 4.476,
+   "gamePk": 824312,
+   "date": "2026-09-02",
+   "commence": "2026-09-02T19:10:00Z",
+   "matchup": "BAL @ COL",
+   "away": "BAL",
+   "home": "COL",
+   "total": 11.5
+  },
+  {
+   "rule": "starter-over-run",
+   "market": "totals",
+   "pick": "over",
+   "price": 100,
+   "side": "O",
+   "why": "over in Trevor Rogers 75% of last 8, total 11.5",
+   "gamePk": 824312,
+   "date": "2026-09-02",
+   "commence": "2026-09-02T19:10:00Z",
+   "matchup": "BAL @ COL",
+   "away": "BAL",
+   "home": "COL",
+   "total": 11.5
+  },
+  {
+   "rule": "starter-over-run",
+   "market": "totals",
+   "pick": "over",
+   "price": -118,
+   "side": "O",
+   "why": "over in Andrew Painter 88% of last 8, total 8.5",
+   "gamePk": 825037,
+   "date": "2026-09-02",
+   "commence": "2026-09-02T19:40:00Z",
+   "matchup": "PHI @ ARI",
+   "away": "PHI",
+   "home": "ARI",
+   "total": 8.5
+  },
+  {
+   "rule": "starter-over-run",
+   "market": "totals",
+   "pick": "over",
+   "price": -105,
+   "side": "O",
+   "why": "over in Bryce Miller 100% of last 8, total 8.5",
+   "gamePk": 824717,
+   "date": "2026-09-02",
+   "commence": "2026-09-02T20:10:00Z",
+   "matchup": "SEA @ BOS",
+   "away": "SEA",
+   "home": "BOS",
+   "total": 8.5
+  },
+  {
+   "rule": "division-home-dog",
+   "market": "h2h",
+   "pick": "CHC",
+   "price": 136,
+   "side": null,
+   "why": "home to a NL Central rival at +136",
+   "gamePk": 824634,
+   "date": "2026-09-02",
+   "commence": "2026-09-02T23:40:00Z",
+   "matchup": "MIL @ CHC",
+   "away": "MIL",
+   "home": "CHC",
+   "total": 8.5
+  },
+  {
+   "rule": "home-dog-under-parlay",
+   "market": "parlay",
+   "pick": "CHC",
+   "price": 336,
+   "side": null,
+   "why": "CHC ML +136 with U8.5 -118, pays 4.36x",
+   "line": 8.5,
+   "ml_price": 136,
+   "under_price": -118,
+   "payout": 4.36,
+   "gamePk": 824634,
+   "date": "2026-09-02",
+   "commence": "2026-09-02T23:40:00Z",
+   "matchup": "MIL @ CHC",
+   "away": "MIL",
+   "home": "CHC",
+   "total": 8.5
+  },
+  {
+   "rule": "pickem-under",
+   "market": "totals",
+   "pick": "under",
+   "price": -104,
+   "side": "U",
+   "why": "favorite only -112 at a 8.5 total",
+   "gamePk": 823660,
+   "date": "2026-09-02",
+   "commence": "2026-09-02T23:40:00Z",
+   "matchup": "DET @ MIN",
+   "away": "DET",
+   "home": "MIN",
+   "total": 8.5
+  },
+  {
+   "rule": "pickem-under",
+   "market": "totals",
+   "pick": "under",
+   "price": -115,
+   "side": "U",
+   "why": "favorite only -112 at a 9 total",
+   "gamePk": 824068,
+   "date": "2026-09-02",
+   "commence": "2026-09-02T23:40:00Z",
+   "matchup": "MIA @ KC",
+   "away": "MIA",
+   "home": "KC",
+   "total": 9
+  },
+  {
+   "rule": "starter-over-run",
+   "market": "totals",
+   "pick": "over",
+   "price": -104,
+   "side": "O",
+   "why": "over in David Peterson 75% of last 8, total 8.5",
+   "gamePk": 824634,
+   "date": "2026-09-02",
+   "commence": "2026-09-02T23:40:00Z",
+   "matchup": "MIL @ CHC",
+   "away": "MIL",
+   "home": "CHC",
+   "total": 8.5
+  },
+  {
+   "rule": "home-dog-under-parlay",
+   "market": "parlay",
+   "pick": "LAA",
+   "price": 362,
+   "side": null,
+   "why": "LAA ML +140 with U6.5 -108, pays 4.62x",
+   "line": 6.5,
+   "ml_price": 140,
+   "under_price": -108,
+   "payout": 4.622,
+   "gamePk": 823983,
+   "date": "2026-09-02",
+   "commence": "2026-09-03T01:38:00Z",
+   "matchup": "NYY @ LAA",
+   "away": "NYY",
+   "home": "LAA",
+   "total": 6.5
+  }
+ ],
+ "today_date": "2026-09-02"
+}
