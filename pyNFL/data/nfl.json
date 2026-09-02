@@ -66280,10 +66280,87 @@
             -0.32424000000000075,
             -0.03460000000000002
           ]
+        },
+        {
+          "home": "KC",
+          "away": "DEN",
+          "line": -3.0,
+          "total": 42.5,
+          "hS": 21.9,
+          "aS": 21.2,
+          "pT": 43.1,
+          "projSpread": -0.7,
+          "margin": -2.3,
+          "sDiff": 2.3,
+          "tDiff": 0.6,
+          "sPick": "PASS",
+          "sConf": "low",
+          "oPick": "UNDER",
+          "oConf": "pick",
+          "confidenceTier": "low",
+          "pHomeCover": 0.533,
+          "pAwayCover": 0.467,
+          "pOver": 0.511,
+          "pUnder": 0.489,
+          "pCover": null,
+          "pOU": 0.529,
+          "pHomeCoverRaw": 0.439,
+          "pOverRaw": 0.515,
+          "probCalibrated": true,
+          "marginVar": 171.7,
+          "marginStd": 13.1,
+          "residualVar": 171.7,
+          "injuryNote": null,
+          "injuryDeltaHome": 0.0,
+          "injuryDeltaAway": 0.0,
+          "backupQBHome": false,
+          "backupQBAway": false,
+          "situationalPick": "week1_under",
+          "situationalSpreadPick": null,
+          "systemsFired": [
+            "week1_under"
+          ],
+          "systemsConflict": [],
+          "engine": "v2",
+          "_v2RawMargin": -1.93,
+          "_v2RawTotal": 32.45,
+          "_v2MarginSource": "ratings",
+          "_marginFeatures": {
+            "dPassOff": 0.0010999999999999899,
+            "dRushOff": -0.07250000000000001,
+            "dPassDef": -0.005300000000000001,
+            "dRushDef": -0.0598,
+            "dPace": -0.5499999999999972,
+            "dRZ": -0.008700000000000013,
+            "hca": 1.0,
+            "injHome": 0.0,
+            "injAway": 0.0,
+            "_baseline": -0.06825
+          },
+          "_features": [
+            0.0010999999999999899,
+            -0.07250000000000001,
+            -0.005300000000000001,
+            -0.0598,
+            -0.5499999999999972,
+            -0.008700000000000013,
+            1.0,
+            -1.7525999999999997,
+            0.0,
+            0.02200000000000002,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.02287626,
+            -0.00126576,
+            0.039269999999999805,
+            -0.10339999999999999
+          ]
         }
       ],
       "summaryText": "RECORD (graded picks only)\n\n  SPREAD:   153-134-5  (53.3%)  +5.6u\n  TOTAL:    153-106-2  (59.1%)  +36.4u",
-      "ranAt": "09/02/2026, 02:53:07 PM"
+      "ranAt": "09/02/2026, 02:57:09 PM"
     }
   ],
   "meta": {
@@ -72187,7 +72264,23 @@
         "line": -3.0,
         "total": 42.5,
         "commenceTimeIso": "2026-09-15T00:15:00Z",
-        "_book": "DraftKings"
+        "_book": "DraftKings",
+        "_homeAbbr": "KC",
+        "_awayAbbr": "DEN",
+        "_weatherAdj": {
+          "total_adj": 0.4,
+          "spread_adj": 0.0,
+          "is_dome": false,
+          "weather_note": "clear"
+        },
+        "_restAdj": {
+          "home_rest_adj": 0.0,
+          "away_rest_adj": 0.0,
+          "home_days_rest": null,
+          "away_days_rest": null,
+          "travel_adj": 0.0,
+          "rest_note": "standard rest"
+        }
       },
       {
         "away": "Detroit Lions",
