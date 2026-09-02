@@ -125,7 +125,11 @@ def fetch_todays_odds():
             f"{BASE}/sports/basketball_nba/odds?"
             f"apiKey={quote(api_key)}"
             f"&regions=us"
-            f"&markets=spreads,totals"
+            # h2h added 2026-09: the situational-systems registry has
+            # moneyline systems and the feed had never carried a price for
+            # them, so their entire backtest ROI was converted from the
+            # spread. Costs one extra market per call.
+            f"&markets=spreads,totals,h2h"
             f"&oddsFormat=american"
         )
         res = requests.get(url, timeout=30)
@@ -179,6 +183,13 @@ def fetch_todays_odds():
 
         spreads = _find_market(book, "spreads") if book else None
         totals = _find_market(book, "totals") if book else None
+        h2h = _find_market(book, "h2h") if book else None
+
+        # Prices, not just numbers. The response always carried these; the
+        # parser threw them away, so every historical row grades at an assumed
+        # -110 and no moneyline could be graded at all.
+        away_ml = home_ml = over_ml = under_ml = None
+        spread_price_away = spread_price_home = None
 
         if spreads and spreads.get("outcomes"):
             out = next(
@@ -190,6 +201,14 @@ def fetch_todays_odds():
                 team_for_spread = _norm_team(out.get("name"))
                 pts = float(out["point"])
                 line = _to_model_line(home, away, pts, team_for_spread)
+            for o in spreads["outcomes"]:
+                nm, pr = _norm_team(o.get("name")), o.get("price")
+                if not isinstance(pr, (int, float)):
+                    continue
+                if nm and nm == _norm_team(home):
+                    spread_price_home = int(pr)
+                elif nm and nm == _norm_team(away):
+                    spread_price_away = int(pr)
 
         if totals and totals.get("outcomes"):
             out = next(
@@ -199,6 +218,24 @@ def fetch_todays_odds():
             )
             if out:
                 total = float(out["point"])
+            for o in totals["outcomes"]:
+                nm, pr = str(o.get("name") or "").lower(), o.get("price")
+                if not isinstance(pr, (int, float)):
+                    continue
+                if nm == "over":
+                    over_ml = int(pr)
+                elif nm == "under":
+                    under_ml = int(pr)
+
+        if h2h and h2h.get("outcomes"):
+            for o in h2h["outcomes"]:
+                nm, pr = _norm_team(o.get("name")), o.get("price")
+                if not isinstance(pr, (int, float)):
+                    continue
+                if nm and nm == _norm_team(home):
+                    home_ml = int(pr)
+                elif nm and nm == _norm_team(away):
+                    away_ml = int(pr)
 
         games.append({
             "away": away,
@@ -207,6 +244,12 @@ def fetch_todays_odds():
             "total": total,
             "startTimeUTC": commence_str,
             "_book": book.get("title") if book else None,
+            "away_ml": away_ml,
+            "home_ml": home_ml,
+            "over_ml": over_ml,
+            "under_ml": under_ml,
+            "spread_price_away": spread_price_away,
+            "spread_price_home": spread_price_home,
         })
 
     # Load existing cache
@@ -226,7 +269,17 @@ def fetch_todays_odds():
             os.makedirs(ODDS_CACHE_DIR, exist_ok=True)
             for g in games:
                 key = f"{g['away']}@{g['home']}"
-                existing[key] = {"line": g["line"], "total": g["total"], "_book": g["_book"], "_note": "live fetch"}
+                # Prices are cached alongside the numbers. Without this the
+                # cache round-trip silently drops them and a game backfilled
+                # from cache grades at an assumed -110 with no moneyline.
+                existing[key] = {
+                    "line": g["line"], "total": g["total"], "_book": g["_book"],
+                    "_note": "live fetch",
+                    "away_ml": g.get("away_ml"), "home_ml": g.get("home_ml"),
+                    "over_ml": g.get("over_ml"), "under_ml": g.get("under_ml"),
+                    "spread_price_away": g.get("spread_price_away"),
+                    "spread_price_home": g.get("spread_price_home"),
+                }
             with open(cache_path, "w") as f:
                 json.dump(existing, f, indent=2)
             print(f"  [odds] Cached {len(games)} games to {date_key}.json")
@@ -239,8 +292,14 @@ def fetch_todays_odds():
         if key not in fresh_keys and val.get("line") is not None:
             parts = key.split("@", 1)
             if len(parts) == 2:
-                games.append({"away": parts[0], "home": parts[1], "line": val["line"],
-                              "total": val.get("total"), "_book": val.get("_book")})
+                games.append({
+                    "away": parts[0], "home": parts[1], "line": val["line"],
+                    "total": val.get("total"), "_book": val.get("_book"),
+                    "away_ml": val.get("away_ml"), "home_ml": val.get("home_ml"),
+                    "over_ml": val.get("over_ml"), "under_ml": val.get("under_ml"),
+                    "spread_price_away": val.get("spread_price_away"),
+                    "spread_price_home": val.get("spread_price_home"),
+                })
                 print(f"  [odds] Backfilled started/finished game from cache: {key}")
 
     return games

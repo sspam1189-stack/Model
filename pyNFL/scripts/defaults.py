@@ -314,7 +314,11 @@ NFL_TEAMS = {
 
     # NFC West
     "Arizona Cardinals": ["ARI", "arizona", "cardinals"],
-    "Los Angeles Rams": ["LAR", "la rams", "rams", "st louis rams", "STL"],
+    # First alias must be the nflfastR code: play-by-play, weather, schedule
+    # and props all key on it, and nflverse codes the Rams "LA", not "LAR".
+    # With "LAR" first, no Rams game ever resolved to team stats (every one
+    # went systems-only) and no Rams player ever got a prop.
+    "Los Angeles Rams": ["LA", "LAR", "la rams", "rams", "st louis rams", "STL"],
     "San Francisco 49ers": ["SF", "san francisco", "49ers", "niners"],
     "Seattle Seahawks": ["SEA", "seattle", "seahawks"],
 }

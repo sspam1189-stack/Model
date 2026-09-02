@@ -52,14 +52,16 @@ jobs:
         run: python run_daily.py
 
       - name: Copy dashboard data
-        run: Copy-Item pyFull/data/history.json PythonDashboard/data/fullseason.json -Force
+        run: |
+          Copy-Item pyFull/data/history.json PythonDashboard/data/fullseason.json -Force
+          Copy-Item pyFull/data/nba-systems.json PythonDashboard/data/nba-systems.json -Force -ErrorAction SilentlyContinue
 
       - name: Commit & push Fullseason data
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           # Scope to pyFull-owned paths so a parallel pyNBAPROPS push can't race us.
-          git add pyFull/data/ PythonDashboard/data/fullseason.json data/odds_cache/nba/ data/stats_cache/nba/ data/injury_cache/nba/ data/espn_cache/nba/
+          git add pyFull/data/ PythonDashboard/data/fullseason.json PythonDashboard/data/nba-systems.json data/odds_cache/nba/ data/stats_cache/nba/ data/injury_cache/nba/ data/espn_cache/nba/
           git diff --cached --quiet
           if ($LASTEXITCODE -eq 0) { exit 0 }
           git commit -m "Run daily Python Fullseason [skip ci]"

@@ -109,20 +109,32 @@ MANUAL_PATH = os.path.normpath(os.path.join(
     SCRIPT_DIR, "..", "data", "hand-tails-manual.json"))
 
 
+def _retired(arm, today):
+    """True if the arm has no window still open as of `today`. Mirrors
+    hand_tails._load_roster: an explicit `windows` list wins over since/until."""
+    wins = arm.get("windows")
+    if wins:
+        for w in wins:
+            until = w[1] if len(w) > 1 else None
+            if until is None or until > today:
+                return False
+        return True
+    return bool(arm.get("until") and arm["until"] <= today)
+
+
 def _manual_list():
-    """{name: {"hand", "since"[, "until"]}} — ACTIVE arms only from the manually
-    curated fade list. An arm whose `until` has passed is retired (hand_tails.py
-    stops betting it), so it must not count as "on the list": it would otherwise
-    be flagged as a removal candidate forever, and could never resurface as a
-    promotion candidate if it requalifies later."""
+    """{name: {"hand", "since"[, "until"] | "windows"}} — ACTIVE arms only from the
+    manually curated fade list. An arm whose window has closed is retired
+    (hand_tails.py stops betting it), so it must not count as "on the list": it
+    would otherwise be flagged as a removal candidate forever, and could never
+    resurface as a promotion candidate if it requalifies later."""
     today = datetime.date.today().isoformat()
     try:
         with open(MANUAL_PATH, encoding="utf-8") as f:
             arms = json.load(f).get("arms", {})
     except Exception:
         return {}
-    return {n: a for n, a in arms.items()
-            if not (a.get("until") and a["until"] <= today)}
+    return {n: a for n, a in arms.items() if not _retired(a, today)}
 
 
 def build():
