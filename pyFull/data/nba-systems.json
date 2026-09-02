@@ -1,7 +1,7 @@
 {
  "sport": "NBA",
  "type": "systems",
- "generated": "2026-09-02T19:38:57Z",
+ "generated": "2026-09-02T19:43:42Z",
  "date": "20260902",
  "dateDisplay": "2026-09-02",
  "registry_frozen": "2026-09-02",
@@ -21,6 +21,9 @@
    "market": "h2h",
    "side": "TEAM",
    "label": ".650+ SU team as a dog -> ML",
+   "name": "Elite dog ML",
+   "rule": "Team SU win% >= .650 over 10+ prior games AND getting points (spread > 0) -> back that team on the moneyline.",
+   "why": "SU .650+ team getting points -> its ML. 54-52 +38.6% (n=106) at the CONVERTED price; price-free the wins beat a spread-matched baseline 54 vs 40.9 expected (z=+2.66), so the win rate is real even though the ROI is not observed. Cannot fire before ~day 21. Carded 2026-09-02.",
    "mechanism": "The market prices a good team's off night off its season number rather than off why it is a dog tonight. Price-free, these teams won 54 of 106 where teams laid the same number won 40.9 (z=+2.66), so the win rate is real even though the +38.6% is not observed. A .650-calibre team taking dog money is also exactly what public money shades, the one direction that would eat it. Fires from ~day 21.",
    "backtest": {
     "w": 54,
@@ -38,6 +41,9 @@
    "market": "h2h",
    "side": "TEAM",
    "label": "Dog facing the same opponent as last game -> ML",
+   "name": "Rematch dog ML",
+   "rule": "Getting points (spread > 0) AND the opponent is the same team this side played in its previous game -> back the dog on the moneyline.",
+   "why": "Dog facing the team it just played -> its ML. 50-69 +30.5% (n=119) at the CONVERTED price. WEAKEST IN THE REGISTRY: price-free z is only +1.88 against a noise maximum averaging 2.52, and the ATS twin of the same trigger is -0.5%, so the number lives in the conversion rather than in the wins. First to drop. Carded 2026-09-02.",
    "mechanism": "Back-to-back meetings, mostly playoff series and scheduling quirks: the market carries the first result forward harder than it should. WEAKEST CANDIDATE IN THE FILE -- price-free z is only +1.88 against a noise maximum averaging 2.52, and the ATS twin of this same trigger is -0.5%, which means the whole number lives in the conversion rather than in the wins. First to drop.",
    "backtest": {
     "w": 50,
@@ -55,6 +61,9 @@
    "market": "h2h",
    "side": "TEAM",
    "label": "Dog off a 15+ point win -> ML",
+   "name": "Blowout dog ML",
+   "rule": "Getting points (spread > 0) AND this side won its previous game by 15 or more -> back it on the moneyline.",
+   "why": "Dog off a 15+ point win -> its ML. 80-100 +21.1% (n=180) at the CONVERTED price; price-free 80 wins against 63.6 expected (z=+2.63). Gradient by the size of the prior win rather than a threshold: after 20+ largest, 10-14 smaller, 1-9 inverts, after a loss firmly negative. Carded 2026-09-02.",
    "mechanism": "A gradient by size of the previous win rather than a threshold: after a 20+ win the price-free edge is largest, after a 10-14 win smaller, after a 1-9 win it inverts, after a loss it is firmly negative. A market that moves too little on a blowout makes exactly that shape.",
    "backtest": {
     "w": 80,
@@ -72,6 +81,9 @@
    "market": "spread",
    "side": "TEAM",
    "label": ".650+ SU team as a dog -> ATS",
+   "name": "Elite dog ATS",
+   "rule": "Same trigger as Elite dog ML -- SU .650+ over 10+ games, getting points -- but take the points instead of the moneyline.",
+   "why": "SU .650+ team getting points -> ATS. 63-43 +13.5% (n=106) at a REAL -110, both walk-forward halves positive (+8.2u / +6.1u). The trustworthy half of the elite-dog pair: identical trigger, price that actually existed. Carded 2026-09-02.",
    "mechanism": "The spread twin of elite_dog_ml, and the more trustworthy half: same trigger, but settled at a price that actually existed. When the two disagree next season, the difference is the conversion.",
    "backtest": {
     "w": 63,
@@ -91,6 +103,9 @@
    "market": "total",
    "side": "UNDER",
    "label": "Pick'em (|spread| <= 2) -> UNDER",
+   "name": "Pick'em under",
+   "rule": "Game spread of 2 points or less either way (|spread| <= 2) -> UNDER.",
+   "why": "|spread| <= 2 -> under. 87-62 +11.5% (n=149, p=0.049), both halves positive. Over-rate is 41.6% here against 49-53% in every other bucket, averaging -1.85 points versus the number. The edge sits in the 1.5-2 slice (85-59) and decays to 73-61 at 2.5-3, so the threshold is doing real work. One of only 5 of 22 systems to survive the walk-forward test. Carded 2026-09-02.",
    "mechanism": "Evenly-matched games grind: 41.6% over-rate at |spread| <= 2 against 49-53% in every other bucket, averaging -1.85 points versus the number. The edge sits in the 1.5-2 slice (85-59) and decays to 73-61 at 2.5-3, so the threshold is doing real work rather than being a cut point chosen after the fact. One of only five systems out of 22 to survive the walk-forward test.",
    "backtest": {
     "w": 87,
@@ -110,6 +125,9 @@
    "market": "spread",
    "side": "TEAM",
    "label": "Dog off a 15+ point win -> ATS",
+   "name": "Blowout dog ATS",
+   "rule": "Same trigger as Blowout dog ML -- a dog whose previous game was a 15+ point win -- but take the points instead of the moneyline.",
+   "why": "Dog off a 15+ point win -> ATS. 105-75 +11.4% (n=180) at a REAL -110, both halves positive (+11.9u / +8.5u). The observed-price half of the blowout pair; if this pays and the ML twin does not, the price was the answer. Carded 2026-09-02.",
    "mechanism": "The spread twin of blowout_dog_ml, settled at an observed price. If this pays next season and the ML twin does not, the price was the answer.",
    "backtest": {
     "w": 105,
@@ -129,6 +147,9 @@
    "market": "total",
    "side": "OVER",
    "label": "Home dog of +5 or more -> OVER",
+   "name": "Home dog over",
+   "rule": "Home team getting 5 or more points (home spread >= +5) -> OVER.",
+   "why": "Home dog of +5 or more -> over. 166-120 +10.8% (n=286, p=0.008), both halves positive. The book lifts the total only 0.7 over average for these games and they land 3.7 over it, with the scoring coming from the ROAD FAVOURITE (121.7 points against a 114.2 league average) rather than the home dog collapsing. Mirror test: home favourites of 5+ lean under at 250-262. CAUTION -- at +30.9u this is the screen's best system and the permutation null clears that mark one time in five. Carded 2026-09-02.",
    "mechanism": "The book lifts the total only 0.7 over average for these games; they land 3.7 over it. The scoring comes from the ROAD FAVOURITE (121.7 points against a 114.2 league average), not from the home dog collapsing. Stronger at +8 or more (97-65). The mirror is the test: home favourites of 5+ lean UNDER at 250-262. Same shape as the day-mismatch OVER already registered in pyNFL -- an independent replication in another sport. CAUTION: at +30.9u this is the screen's best system, and the permutation null clears that mark 20% of the time.",
    "backtest": {
     "w": 166,
@@ -148,6 +169,9 @@
    "market": "total",
    "side": "OVER",
    "label": "REF: model pOver >= .60 -> OVER",
+   "name": "Model over (benchmark)",
+   "rule": "pyFull's own projected P(over) >= .60 -> OVER. Not situational.",
+   "why": "NOT A SYSTEM and never bet from this tab: the model's own totals probability, carried as the benchmark a situational system has to beat to justify existing. 67-46 +13.2% (n=113), and among the few things in the whole screen that held up out of sample (+4.5u where selected, +10.4u after). Shadow.",
    "mechanism": "pyFull's own totals probability, not a situational system. Here as the benchmark: it was among the few things in the whole screen that held up out of sample (+4.5u selected, +10.4u after). A situational system that cannot beat this has no reason to be bet. Never carded from this tab -- the model has its own.",
    "backtest": {
     "w": 67,

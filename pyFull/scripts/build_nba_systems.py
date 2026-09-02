@@ -158,7 +158,13 @@ def build(date=None, store=None, pending=None, write_dashboard=True):
                           "note": "frozen at the 2025-26 fit; never refit"},
         "systems": [{
             "id": s["id"], "tier": s["tier"], "market": s["market"],
-            "side": s["side"], "label": s["label"], "mechanism": s["mechanism"],
+            "side": s["side"], "label": s["label"],
+            # the MLB rule-status shape: display name, the literal trigger, and
+            # a one-line why carrying the record and the carding date
+            "name": s.get("name", s["id"]),
+            "rule": s.get("rule", ""),
+            "why": s.get("why", ""),
+            "mechanism": s["mechanism"],
             "backtest": dict(s["backtest"]),
             "status": s.get("status", LOG.SHADOW),
         } for s in R.SYSTEMS],

@@ -15,9 +15,10 @@
 // screen returns on nothing -- and the reader deserves to know which of those
 // two comparisons they are looking at.
 //
-// Three panels: today's card (sectioned CARD / SHADOW, because that is what
+// Four panels: today's card (sectioned CARD / SHADOW, because that is what
 // gets acted on), the per-system record with live and backtest kept strictly
-// apart, and the filterable season log.
+// apart, a definitions card stating each system's literal trigger, and the
+// filterable season log.
 
 const NBAS_DIM = '#8b949e';
 const NBAS_GREEN = '#3fb950';
@@ -84,6 +85,12 @@ function nbasCtTime(iso) {
   } catch (e) { return ''; }
 }
 
+// id -> display name, so a play row reads "Home dog over" rather than an id
+function nbasName(d, id) {
+  const s = (d.systems || []).find(x => x.id === id);
+  return (s && s.name) || id;
+}
+
 function nbasPrice(p) {
   if (p === null || p === undefined) return '';
   return p > 0 ? '+' + p : String(p);
@@ -137,6 +144,7 @@ async function renderNBASystems() {
   let html = nbasBanner(data);
   html += nbasTodayCard(data);
   html += nbasRecordTable(data);
+  html += nbasDefinitions(data);
   html += nbasLogTable(data);
   el.innerHTML = html;
 }
@@ -234,7 +242,8 @@ function nbasTodayCard(d) {
       + `<td style="padding:3px 6px;color:${NBAS_DIM};white-space:nowrap">${esc(nbasPrice(p.price))}${conv}</td>`
       + `<td><span style="display:inline-block;padding:1px 6px;border-radius:3px;font-weight:600;`
       + `white-space:nowrap;background:${c}22;color:${c};cursor:pointer" `
-      + `onclick="nbasSetSystem('${p.system}')">${esc(p.system)}</span></td></tr>`;
+      + `onclick="nbasSetSystem('${p.system}')" title="${esc(p.label || '')}">`
+      + `${esc(nbasName(d, p.system))}</span></td></tr>`;
   }
   h += '</tbody></table></div>';
   if (plays.some(p => p.market === 'h2h')) {
@@ -271,7 +280,8 @@ function nbasRecordTable(d) {
     return `<tr style="cursor:pointer${on ? ';background:rgba(124,92,255,0.15)' : ''}">
         <td onclick="nbasSetSystem('${s.id}')">${on ? '▸ ' : ''}
           <span style="display:inline-block;width:8px;height:8px;border-radius:2px;
-            background:${c};margin-right:7px"></span>${esc(s.id)}</td>
+            background:${c};margin-right:7px"></span>${esc(s.name || s.id)}
+          <span style="color:${NBAS_DIM};font-size:10px">${esc(s.id)}</span></td>
         <td>${stat}</td>
         <td style="color:${c};font-size:11px">${esc(s.tier)}</td>
         <td style="color:${NBAS_DIM};font-size:11px">${esc(s.market)}</td>
@@ -318,7 +328,40 @@ function nbasRecordTable(d) {
 }
 
 // ---------------------------------------------------------------------------
-// Panel 3 — the season bet log, filterable.
+// Panel 3 — what each system actually IS. Always visible, never behind a
+// toggle: a page that shows a play and a record without stating the trigger
+// leaves the reader guessing at what was bet and why. Same shape as the MLB
+// rule-status card — display name, the literal rule, then a one-line why
+// carrying the record and the carding date.
+function nbasDefinitions(d) {
+  const rows = d.systems.map(s => {
+    const c = NBAS_TIER_COLOR[s.tier] || NBAS_DIM;
+    const carded = s.status === 'card';
+    const chip = carded
+      ? `<span style="background:rgba(63,185,80,.18);color:${NBAS_GREEN};
+           padding:1px 6px;border-radius:3px;font-weight:600;font-size:10px">CARD</span>`
+      : `<span style="background:rgba(139,148,158,.14);color:${NBAS_DIM};
+           padding:1px 6px;border-radius:3px;font-weight:600;font-size:10px">SHADOW</span>`;
+    return `<div style="padding:9px 10px;border-top:1px solid #161b22">
+      <div style="font-size:12px;font-weight:600;color:${c}">
+        ${esc(s.name || s.id)} ${chip}
+        <span style="color:${NBAS_DIM};font-weight:400;font-size:11px">
+          · ${esc(s.id)} · ${esc(s.market)}</span>
+      </div>
+      <div style="font-size:12px;color:#c9d1d9;margin-top:3px">${esc(s.rule || s.label)}</div>
+      <div style="font-size:11px;color:${NBAS_DIM};margin-top:3px;line-height:1.5">${esc(s.why || '')}</div>
+    </div>`;
+  }).join('');
+  return `<div class="card card-games">
+    <div class="card-title">What these systems are
+      <span style="color:${NBAS_DIM};font-weight:400;font-size:11px">
+        (the literal trigger, then the evidence behind it — every record quoted
+        here is in-sample 2025-26)</span></div>
+    ${rows}</div>`;
+}
+
+// ---------------------------------------------------------------------------
+// Panel 4 — the season bet log, filterable.
 function nbasLogTable(d) {
   const all = (d.log || []).filter(e => !e.no_play);
   const f = nbasFilters;

@@ -134,6 +134,17 @@ SYSTEMS = [
     {
         "id": "elite_dog_ml", "tier": "candidate", "status": CARD, "market": "h2h", "side": "TEAM",
         "label": ".650+ SU team as a dog -> ML",
+        "name": (
+            "Elite dog ML"),
+        "rule": (
+            "Team SU win% >= .650 over 10+ prior games AND getting points "
+            "(spread > 0) -> back that team on the moneyline."),
+        "why": (
+            "SU .650+ team getting points -> its ML. 54-52 +38.6% (n=106) at "
+            "the CONVERTED price; price-free the wins beat a spread-matched "
+            "baseline 54 vs 40.9 expected (z=+2.66), so the win rate is real "
+            "even though the ROI is not observed. Cannot fire before ~day 21. "
+            "Carded 2026-09-02."),
         "backtest": {"w": 54, "l": 52, "units": 41.0, "roi": 0.386, "z": 2.66,
                      "priced": "converted"},
         "mechanism": (
@@ -149,6 +160,18 @@ SYSTEMS = [
     {
         "id": "rematch_dog_ml", "tier": "candidate", "status": CARD, "market": "h2h", "side": "TEAM",
         "label": "Dog facing the same opponent as last game -> ML",
+        "name": (
+            "Rematch dog ML"),
+        "rule": (
+            "Getting points (spread > 0) AND the opponent is the same team this "
+            "side played in its previous game -> back the dog on the moneyline."),
+        "why": (
+            "Dog facing the team it just played -> its ML. 50-69 +30.5% (n=119) "
+            "at the CONVERTED price. WEAKEST IN THE REGISTRY: price-free z is "
+            "only +1.88 against a noise maximum averaging 2.52, and the ATS "
+            "twin of the same trigger is -0.5%, so the number lives in the "
+            "conversion rather than in the wins. First to drop. Carded "
+            "2026-09-02."),
         "backtest": {"w": 50, "l": 69, "units": 36.3, "roi": 0.305, "z": 1.88,
                      "priced": "converted"},
         "mechanism": (
@@ -163,6 +186,17 @@ SYSTEMS = [
     {
         "id": "blowout_dog_ml", "tier": "candidate", "status": CARD, "market": "h2h", "side": "TEAM",
         "label": "Dog off a 15+ point win -> ML",
+        "name": (
+            "Blowout dog ML"),
+        "rule": (
+            "Getting points (spread > 0) AND this side won its previous game by "
+            "15 or more -> back it on the moneyline."),
+        "why": (
+            "Dog off a 15+ point win -> its ML. 80-100 +21.1% (n=180) at the "
+            "CONVERTED price; price-free 80 wins against 63.6 expected "
+            "(z=+2.63). Gradient by the size of the prior win rather than a "
+            "threshold: after 20+ largest, 10-14 smaller, 1-9 inverts, after a "
+            "loss firmly negative. Carded 2026-09-02."),
         "backtest": {"w": 80, "l": 100, "units": 38.0, "roi": 0.211, "z": 2.63,
                      "priced": "converted"},
         "mechanism": (
@@ -176,6 +210,16 @@ SYSTEMS = [
     {
         "id": "elite_dog_ats", "tier": "candidate", "status": CARD, "market": "spread", "side": "TEAM",
         "label": ".650+ SU team as a dog -> ATS",
+        "name": (
+            "Elite dog ATS"),
+        "rule": (
+            "Same trigger as Elite dog ML -- SU .650+ over 10+ games, getting "
+            "points -- but take the points instead of the moneyline."),
+        "why": (
+            "SU .650+ team getting points -> ATS. 63-43 +13.5% (n=106) at a "
+            "REAL -110, both walk-forward halves positive (+8.2u / +6.1u). The "
+            "trustworthy half of the elite-dog pair: identical trigger, price "
+            "that actually existed. Carded 2026-09-02."),
         "backtest": {"w": 63, "l": 43, "units": 14.3, "roi": 0.135, "z": 2.66,
                      "h1": 8.2, "h2": 6.1, "priced": "real -110"},
         "mechanism": (
@@ -187,6 +231,18 @@ SYSTEMS = [
     {
         "id": "pickem_under", "tier": "candidate", "status": CARD, "market": "total", "side": "UNDER",
         "label": "Pick'em (|spread| <= 2) -> UNDER",
+        "name": (
+            "Pick'em under"),
+        "rule": (
+            "Game spread of 2 points or less either way (|spread| <= 2) -> "
+            "UNDER."),
+        "why": (
+            "|spread| <= 2 -> under. 87-62 +11.5% (n=149, p=0.049), both halves "
+            "positive. Over-rate is 41.6% here against 49-53% in every other "
+            "bucket, averaging -1.85 points versus the number. The edge sits in "
+            "the 1.5-2 slice (85-59) and decays to 73-61 at 2.5-3, so the "
+            "threshold is doing real work. One of only 5 of 22 systems to "
+            "survive the walk-forward test. Carded 2026-09-02."),
         "backtest": {"w": 87, "l": 62, "units": 17.1, "roi": 0.115, "p": 0.049,
                      "h1": 11.0, "h2": 6.1, "priced": "real -110"},
         "mechanism": (
@@ -201,6 +257,16 @@ SYSTEMS = [
     {
         "id": "blowout_dog_ats", "tier": "candidate", "status": CARD, "market": "spread", "side": "TEAM",
         "label": "Dog off a 15+ point win -> ATS",
+        "name": (
+            "Blowout dog ATS"),
+        "rule": (
+            "Same trigger as Blowout dog ML -- a dog whose previous game was a "
+            "15+ point win -- but take the points instead of the moneyline."),
+        "why": (
+            "Dog off a 15+ point win -> ATS. 105-75 +11.4% (n=180) at a REAL "
+            "-110, both halves positive (+11.9u / +8.5u). The observed-price "
+            "half of the blowout pair; if this pays and the ML twin does not, "
+            "the price was the answer. Carded 2026-09-02."),
         "backtest": {"w": 105, "l": 75, "units": 20.5, "roi": 0.114, "z": 2.63,
                      "h1": 11.9, "h2": 8.5, "priced": "real -110"},
         "mechanism": (
@@ -212,6 +278,19 @@ SYSTEMS = [
     {
         "id": "home_dog_5_over", "tier": "candidate", "status": CARD, "market": "total", "side": "OVER",
         "label": "Home dog of +5 or more -> OVER",
+        "name": (
+            "Home dog over"),
+        "rule": (
+            "Home team getting 5 or more points (home spread >= +5) -> OVER."),
+        "why": (
+            "Home dog of +5 or more -> over. 166-120 +10.8% (n=286, p=0.008), "
+            "both halves positive. The book lifts the total only 0.7 over "
+            "average for these games and they land 3.7 over it, with the "
+            "scoring coming from the ROAD FAVOURITE (121.7 points against a "
+            "114.2 league average) rather than the home dog collapsing. Mirror "
+            "test: home favourites of 5+ lean under at 250-262. CAUTION -- at "
+            "+30.9u this is the screen's best system and the permutation null "
+            "clears that mark one time in five. Carded 2026-09-02."),
         "backtest": {"w": 166, "l": 120, "units": 30.9, "roi": 0.108, "p": 0.008,
                      "h1": 13.9, "h2": 17.0, "priced": "real -110"},
         "mechanism": (
@@ -254,6 +333,16 @@ SYSTEMS = [
     {
         "id": "model_over_60", "tier": "reference", "status": SHADOW, "market": "total", "side": "OVER",
         "label": "REF: model pOver >= .60 -> OVER",
+        "name": (
+            "Model over (benchmark)"),
+        "rule": (
+            "pyFull's own projected P(over) >= .60 -> OVER. Not situational."),
+        "why": (
+            "NOT A SYSTEM and never bet from this tab: the model's own totals "
+            "probability, carried as the benchmark a situational system has to "
+            "beat to justify existing. 67-46 +13.2% (n=113), and among the few "
+            "things in the whole screen that held up out of sample (+4.5u where "
+            "selected, +10.4u after). Shadow."),
         "backtest": {"w": 67, "l": 46, "units": 14.9, "roi": 0.132,
                      "h1": 4.5, "h2": 10.4, "priced": "real -110"},
         "mechanism": (
