@@ -177,7 +177,7 @@ When building a daily card from this repo's outputs, the tiers are:
    this file as prose. Every rule now has a table (`scout-rules-table.json`
    covers the three that did not), so the next one cannot hide.
 
-6. **Non-scout systems — SEVEN CARDED (five 2026-09-01, two 2026-09-02; user).** A separate
+6. **Non-scout systems — EIGHT CARDED (five 2026-09-01, three 2026-09-02; user).** A separate
    family, defined in `scripts/allml_systems.py` and grouped apart on the
    tab and in the ledger. They read `mlb-all-ml.json` alone -- prices,
    totals, probables, scores, plus what can be derived as-of from its own
@@ -194,6 +194,7 @@ When building a daily card from this repo's outputs, the tiers are:
    | Cold arms under | both starters <= 35% overs in last 8 | 27-14 | +23.5% | -3.5% |
    | Division home dog | home to a division rival, priced +115 to +149 | 46-27 | +43.0% | -3.2% |
    | Home dog getaway | day game, visitors played last night, home is a plus-money dog | 26-19 | +26.0% | -3.2% |
+   | Home dog + under | home dog +115 to +149, parlay the ML with the under | 83-165 | +43.6% | 0.0% |
 
    Three more were carded the same day and removed before any of them
    settled a play. **Hot arm dog ML** (back a plus-money side whose starter's
@@ -248,6 +249,30 @@ When building a daily card from this repo's outputs, the tiers are:
    because they played each other, so the mirror was the same games bet the
    other way -- the inverse of the result, not a control. Check what a
    control actually holds constant before trusting it.
+
+   **Home dog + under (added 2026-09-02, user)** is the first PARLAY on the
+   board and the only rule whose mirror fails for the right reason. A home
+   win means the bottom of the ninth is never played, so home wins skew
+   under (league total 8.77 when the home side wins, 9.15 when it loses).
+   An away win carries no such property, and away dog +115..+149 parlayed
+   with the under is duly dead at -11.1% over 517 games. The edge is not the
+   moneyline leg repeating Division home dog: in non-division games that leg
+   alone is flat at +1.8% while the parlay returns +40.5%, because these home
+   dogs go under 72.7% of the time when they win against 51.6% league-wide.
+
+   Against it: the no-bottom-ninth effect is worth ~2 points league-wide and
+   here it is 20, only inside one price band, and the mechanism does not
+   explain why +125 differs from +110. Variance is severe -- 13 straight
+   losses and a -13.0u drawdown inside a recent 8-week run that finished
+   +40u -- and plays cluster by series. **It also assumes the book prices a
+   same-game ML+total parlay at multiplied odds; a correlation-priced parlay
+   removes exactly the edge measured here.**
+
+   `parlay` is a market type across the whole tier now: the ledger stores the
+   combined American price plus each leg, and a pushed total drops that leg
+   and reduces the bet to its moneyline at its own price, which is the
+   standard book rule and is why the recorded n (248) exceeds the scan's
+   push-excluded 243.
 
    **Three fail their ladder and are carded anyway, on the user's call.** Away
    dog ML is entirely the 9.5 bucket: away dogs run -15.4% at a 9.0 total

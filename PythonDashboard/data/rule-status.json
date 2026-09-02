@@ -1,7 +1,7 @@
 {
  "sport": "MLB",
  "type": "rule-status",
- "generated": "2026-09-02T05:00:11Z",
+ "generated": "2026-09-02T05:27:21Z",
  "note": "Single source of truth for card/shadow status. The daily logger imports RULE_STATUS from scripts/rule_status.py; the dashboard reads this file. Edit the script, not either surface.",
  "rules": {
   "flag-plays": {
@@ -62,6 +62,12 @@
    "status": "card",
    "name": "Home dog getaway",
    "why": "Day game, the visitors played a night game yesterday, and the home team is a plus-money dog: back the home side.",
+   "group": "non-scout"
+  },
+  "home-dog-under-parlay": {
+   "status": "card",
+   "name": "Home dog + under",
+   "why": "Home dog priced +115 to +149: parlay the home moneyline with the under, both legs at book price.",
    "group": "non-scout"
   },
   "pickem-under": {

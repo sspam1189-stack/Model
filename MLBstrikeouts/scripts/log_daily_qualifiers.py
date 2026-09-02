@@ -143,7 +143,9 @@ def sig_of(e):
     """
     game = (e.get("gamePk") or
             (e.get("game") or "").replace("/", " @ ").strip())
-    if e.get("market") == "totals":
+    if e.get("market") == "parlay":
+        k = "parlay:" + str(e.get("line") or "")
+    elif e.get("market") == "totals":
         k = str(e.get("line") or "")
     else:
         k = (e.get("play") or "").split(" ML")[0].strip()
@@ -303,7 +305,19 @@ def allml_qualifiers(date, ids=None):
             "basis": f"{name}: {p.get('why', '')}".strip(),
             "non_scout": True,
         }
-        if p["market"] == "totals":
+        if p["market"] == "parlay":
+            # Two legs in one row: the ledger keeps the combined American
+            # price so profit_for works unchanged, plus each leg so the
+            # grader can reduce to the survivor when the total pushes.
+            out.append(dict(common, market="parlay", line=p.get("line"),
+                            key=f"{p['pick']}|{p.get('line')}",
+                            ml_price=p.get("ml_price"),
+                            under_price=p.get("under_price"),
+                            payout=p.get("payout"),
+                            play=f"{p['pick']} ML +{p.get('ml_price')} "
+                                 f"+ U{_num(p.get('line'))} "
+                                 f"({p.get('payout')}x)"))
+        elif p["market"] == "totals":
             total = p.get("total")
             if total is None:
                 continue
@@ -367,7 +381,8 @@ def main():
         if q.get("line") is not None:
             entry["line"] = q["line"]
         for extra in ("combo", "is_dog", "flagged_overlap", "gamePk",
-                      "commence", "non_scout"):
+                      "commence", "non_scout", "ml_price", "under_price",
+                      "payout"):
             if extra in q:
                 entry[extra] = q[extra]
         if status == "shadow":

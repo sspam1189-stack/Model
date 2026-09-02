@@ -57,7 +57,14 @@ def rows_for_season():
                 "backfilled": True,
                 "non_scout": True,
             }
-            if play["market"] == "totals":
+            if play["market"] == "parlay":
+                entry["line"] = total
+                entry["ml_price"] = play.get("ml_price")
+                entry["under_price"] = play.get("under_price")
+                entry["payout"] = play.get("payout")
+                entry["play"] = (f"{play['pick']} ML +{play.get('ml_price')} "
+                                 f"+ U{_num(total)} ({play.get('payout')}x)")
+            elif play["market"] == "totals":
                 entry["line"] = total
                 entry["play"] = (f"{_short(matchup)} "
                                  f"{'U' if play['pick'] == 'under' else 'O'}"

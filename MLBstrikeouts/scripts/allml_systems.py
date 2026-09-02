@@ -128,6 +128,43 @@ SYSTEMS = {
         "(-120..-101 +22.8% on 8, pickem -5.1% on 17, +110..+139 +47.5% on "
         "24), it is a three-way slice, and n=45 is small. Carded on the "
         "user's call 2026-09-02."),
+    "home-dog-under-parlay": (
+        "Home dog + under", "parlay",
+        "Home dog priced +115 to +149: parlay the home moneyline with the "
+        "under, both legs at book price.",
+        "83-165 +43.6% (n=248) at book odds on both legs, 1.58 plays a day. "
+        "Excluding the 5 games where the total pushed and the parlay reduced "
+        "to its moneyline leg, 82-161 +45.6% on 243 -- the figure the scan "
+        "reported before push handling existed. "
+        "Average payout 4.35x, so it needs a 23.0% hit rate and gets 33.7%. "
+        "Halves +45.9/+45.3, every month positive, and leave-one-team-out "
+        "holds at all six most frequent hosts across 26 distinct home teams.\n\n"
+        "        THE MECHANISM IS REAL AND ITS MIRROR FAILS CORRECTLY, which "
+        "is what separates this from the rest of the board. A home win means "
+        "the bottom of the ninth is never played, so home wins skew under: "
+        "the league total averages 8.77 when the home side wins against 9.15 "
+        "when it loses. An away win carries no such property, and the away "
+        "mirror is duly dead -- away dog +115..+149 parlayed with the under "
+        "is -11.1% over 517 games, joint 0.205 against 0.213 independent. It "
+        "is the first mirror in nine scanning passes to fail for the right "
+        "reason rather than by construction.\n\n"
+        "        The edge is NOT the moneyline leg repeating another system. "
+        "In non-division games that leg alone is 77-95 +1.8%, flat, and the "
+        "parlay still returns +40.5%: the return comes from the correlation, "
+        "with these home dogs going under 72.7% of the time when they win "
+        "against 51.6% league-wide for any home win.\n\n"
+        "        AGAINST IT. The no-bottom-ninth effect is worth about two "
+        "points league-wide and here it is twenty, and only inside one price "
+        "band: the under rate when home dogs win runs 0.486 at +100..+114, "
+        "0.717-0.742 at +115..+149, 0.500 at +150+. The under leg alone "
+        "follows the same hump. The mechanism explains the direction and the "
+        "mirror; it does not explain why +125 differs from +110. Variance is "
+        "severe -- 13 straight losses and a -13.0u drawdown inside a "
+        "recent 8-week stretch that finished +40u -- and plays cluster by "
+        "series, so a bad matchup costs three units rather than one. Carded "
+        "on the user's call 2026-09-02. NOTE: assumes the book prices a "
+        "same-game ML+total parlay at multiplied odds; a correlation-priced "
+        "parlay removes exactly the edge measured here."),
     "cold-arms-under": (
         "Cold arms under", "totals",
         "Both starters have gone over in 35% or less of their last 8: under.",
@@ -169,8 +206,8 @@ SYSTEMS = {
         "and splitting L4 by the same variable leaves both halves winning."),
 }
 CARD_ORDER = ("away-dog-ml", "home-slide-ml", "division-home-dog",
-              "home-dog-getaway", "pickem-under", "starter-over-run",
-              "cold-arms-under")
+              "home-dog-getaway", "home-dog-under-parlay", "pickem-under",
+              "starter-over-run", "cold-arms-under")
 
 # REMOVED 2026-09-01 (user), the same day they were carded, before either had
 # a settled play. Kept here rather than deleted so the numbers are not
@@ -208,6 +245,7 @@ COLD_ARMS_RATE = 0.35
 UNDER_JUICE_ML = -120
 AWAY_DOG_TOTAL = 9.5
 DIV_DOG_LO, DIV_DOG_HI = 115, 149   # the band the effect lives in
+PARLAY_DOG_LO, PARLAY_DOG_HI = 115, 149
 GETAWAY_DAY_HOUR = 20     # today's first pitch before 20Z is a day game
 GETAWAY_NIGHT_HOUR = 23   # yesterday's at 23Z or later was a night game
 HOME_SLIDE_LOSSES = 4
@@ -217,6 +255,15 @@ def short_tag(key):
     """Ledger tag for a moneyline play: "Hot arm dog ML" -> "hot arm dog"."""
     name = SYSTEMS[key][0]
     return (name[:-3].strip() if name.endswith(" ML") else name).lower()
+
+
+def to_american(dec):
+    """Decimal payout -> American odds, so a parlay prices like any other row."""
+    return int(round((dec - 1) * 100)) if dec >= 2 else int(round(-100 / (dec - 1)))
+
+
+def _dec(ml):
+    return (1 + ml / 100.0) if ml > 0 else (1 + 100.0 / -ml)
 
 
 def _profit(ml, won):
@@ -318,11 +365,11 @@ def plays_for(g, feat):
     over_ml, under_ml = g.get("over_ml"), g.get("under_ml")
     away_ml, home_ml = g.get("away_ml"), g.get("home_ml")
 
-    def add(rule, market, pick, price, side=None, why=""):
+    def add(rule, market, pick, price, side=None, why="", **extra):
         if price is None or rule not in SYSTEMS:
             return
         out.append({"rule": rule, "market": market, "pick": pick,
-                    "price": int(price), "side": side, "why": why})
+                    "price": int(price), "side": side, "why": why, **extra})
 
     # ---- moneyline ----------------------------------------------------
     if away_ml and home_ml:
@@ -343,6 +390,14 @@ def plays_for(g, feat):
                 and DIV_DOG_LO <= home_ml <= DIV_DOG_HI):
             add("division-home-dog", "h2h", g["home"], home_ml,
                 why=f"home to a {DIVISION_OF[g['home']]} rival at +{home_ml}")
+        if (PARLAY_DOG_LO <= home_ml <= PARLAY_DOG_HI
+                and total is not None and under_ml is not None):
+            payout = _dec(home_ml) * _dec(under_ml)
+            add("home-dog-under-parlay", "parlay", g["home"],
+                to_american(payout), line=total, ml_price=home_ml,
+                under_price=under_ml, payout=round(payout, 3),
+                why=f"{g['home']} ML +{home_ml} with U{total:g} "
+                    f"{under_ml:+d}, pays {payout:.2f}x")
         today_hour = _hour(g)
         if (today_hour is not None and today_hour < GETAWAY_DAY_HOUR
                 and home_ml > 0
@@ -390,6 +445,16 @@ def plays_for(g, feat):
 
 def _graded(play, g):
     """(won, profit) for a settled game, or None on a push."""
+    if play["market"] == "parlay":
+        total = g["away_score"] + g["home_score"]
+        ml_won = (g["home_score"] > g["away_score"]) == (play["pick"] == g["home"])
+        if total == g["total_line"]:
+            # Standard rule: a pushed leg drops out and the parlay reduces to
+            # the surviving one. The backtest excluded pushes, so this path is
+            # live-only and is why the recorded n is smaller than the pool.
+            return ml_won, _profit(play["ml_price"], ml_won)
+        won = ml_won and total < g["total_line"]
+        return won, _profit(play["price"], won)
     if play["market"] == "h2h":
         won = (g["home_score"] > g["away_score"]) == (play["pick"] == g["home"])
     else:

@@ -1,7 +1,7 @@
 {
  "sport": "MLB",
  "type": "allml-systems-table",
- "generated": "2026-09-02T05:00:11Z",
+ "generated": "2026-09-02T05:27:21Z",
  "span": {
   "from": "2026-03-25",
   "to": "2026-08-31"
@@ -11,7 +11,8 @@
  "baselines": {
   "side": -3.2,
   "over": -6.1,
-  "under": -3.5
+  "under": -3.5,
+  "parlay": 0.0
  },
  "systems": [
   {
@@ -283,6 +284,79 @@
    "per_day": 0.29
   },
   {
+   "baseline_key": "parlay",
+   "baseline": 0.0,
+   "key": "home-dog-under-parlay",
+   "name": "Home dog + under",
+   "market": "parlay",
+   "rule": "Home dog priced +115 to +149: parlay the home moneyline with the under, both legs at book price.",
+   "case": "83-165 +43.6% (n=248) at book odds on both legs, 1.58 plays a day. Excluding the 5 games where the total pushed and the parlay reduced to its moneyline leg, 82-161 +45.6% on 243 -- the figure the scan reported before push handling existed. Average payout 4.35x, so it needs a 23.0% hit rate and gets 33.7%. Halves +45.9/+45.3, every month positive, and leave-one-team-out holds at all six most frequent hosts across 26 distinct home teams.\n\n        THE MECHANISM IS REAL AND ITS MIRROR FAILS CORRECTLY, which is what separates this from the rest of the board. A home win means the bottom of the ninth is never played, so home wins skew under: the league total averages 8.77 when the home side wins against 9.15 when it loses. An away win carries no such property, and the away mirror is duly dead -- away dog +115..+149 parlayed with the under is -11.1% over 517 games, joint 0.205 against 0.213 independent. It is the first mirror in nine scanning passes to fail for the right reason rather than by construction.\n\n        The edge is NOT the moneyline leg repeating another system. In non-division games that leg alone is 77-95 +1.8%, flat, and the parlay still returns +40.5%: the return comes from the correlation, with these home dogs going under 72.7% of the time when they win against 51.6% league-wide for any home win.\n\n        AGAINST IT. The no-bottom-ninth effect is worth about two points league-wide and here it is twenty, and only inside one price band: the under rate when home dogs win runs 0.486 at +100..+114, 0.717-0.742 at +115..+149, 0.500 at +150+. The under leg alone follows the same hump. The mechanism explains the direction and the mirror; it does not explain why +125 differs from +110. Variance is severe -- 13 straight losses and a -13.0u drawdown inside a recent 8-week stretch that finished +40u -- and plays cluster by series, so a bad matchup costs three units rather than one. Carded on the user's call 2026-09-02. NOTE: assumes the book prices a same-game ML+total parlay at multiplied odds; a correlation-priced parlay removes exactly the edge measured here.",
+   "status": "card",
+   "ladder_fails": false,
+   "record": {
+    "w": 83,
+    "l": 165,
+    "n": 248,
+    "units": 108.24,
+    "roi": 43.6
+   },
+   "halves": [
+    42.1,
+    45.0
+   ],
+   "monthly": [
+    {
+     "month": "2026-03",
+     "w": 2,
+     "l": 2,
+     "n": 4,
+     "units": 4.37,
+     "roi": 109.2
+    },
+    {
+     "month": "2026-04",
+     "w": 16,
+     "l": 34,
+     "n": 50,
+     "units": 19.86,
+     "roi": 39.7
+    },
+    {
+     "month": "2026-05",
+     "w": 15,
+     "l": 35,
+     "n": 50,
+     "units": 13.03,
+     "roi": 26.1
+    },
+    {
+     "month": "2026-06",
+     "w": 15,
+     "l": 26,
+     "n": 41,
+     "units": 23.67,
+     "roi": 57.7
+    },
+    {
+     "month": "2026-07",
+     "w": 11,
+     "l": 28,
+     "n": 39,
+     "units": 8.41,
+     "roi": 21.6
+    },
+    {
+     "month": "2026-08",
+     "w": 24,
+     "l": 40,
+     "n": 64,
+     "units": 38.9,
+     "roi": 60.8
+    }
+   ],
+   "per_day": 1.58
+  },
+  {
    "baseline_key": "under",
    "baseline": -3.5,
    "key": "pickem-under",
@@ -523,6 +597,63 @@
    "away": "ATL",
    "home": "WSH",
    "total": 9.5
+  },
+  {
+   "rule": "home-dog-under-parlay",
+   "market": "parlay",
+   "pick": "CIN",
+   "price": 328,
+   "side": null,
+   "why": "CIN ML +116 with U9 -102, pays 4.28x",
+   "line": 9,
+   "ml_price": 116,
+   "under_price": -102,
+   "payout": 4.278,
+   "gamePk": 824472,
+   "date": "2026-09-01",
+   "commence": "2026-09-01T22:40:00Z",
+   "matchup": "SD @ CIN",
+   "away": "SD",
+   "home": "CIN",
+   "total": 9
+  },
+  {
+   "rule": "home-dog-under-parlay",
+   "market": "parlay",
+   "pick": "WSH",
+   "price": 341,
+   "side": null,
+   "why": "WSH ML +126 with U9.5 -105, pays 4.41x",
+   "line": 9.5,
+   "ml_price": 126,
+   "under_price": -105,
+   "payout": 4.412,
+   "gamePk": 822687,
+   "date": "2026-09-01",
+   "commence": "2026-09-01T22:45:00Z",
+   "matchup": "ATL @ WSH",
+   "away": "ATL",
+   "home": "WSH",
+   "total": 9.5
+  },
+  {
+   "rule": "home-dog-under-parlay",
+   "market": "parlay",
+   "pick": "COL",
+   "price": 355,
+   "side": null,
+   "why": "COL ML +132 with U11 -104, pays 4.55x",
+   "line": 11,
+   "ml_price": 132,
+   "under_price": -104,
+   "payout": 4.551,
+   "gamePk": 824313,
+   "date": "2026-09-01",
+   "commence": "2026-09-02T00:40:00Z",
+   "matchup": "BAL @ COL",
+   "away": "BAL",
+   "home": "COL",
+   "total": 11
   },
   {
    "rule": "pickem-under",

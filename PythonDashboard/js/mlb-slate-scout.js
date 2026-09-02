@@ -579,12 +579,19 @@ async function renderMLBSlateScout() {
         + 'CARD — bet these</td></tr>';
       for (const p of plays) {
         const sy = byKey[p.rule] || {};
-        const playCell = p.market === 'h2h'
-          ? esc(p.pick) + ' ML <span style="color:' + DIM + ';font-weight:400">'
-            + mlStr(p.price) + '</span>'
-          : (p.pick === 'under' ? 'U' : 'O') + (p.total == null ? '?' : p.total)
+        // A parlay is two legs in one row, so it prints both and the payout
+        // rather than a single price.
+        const playCell = p.market === 'parlay'
+          ? esc(p.pick) + ' ML ' + mlStr(p.ml_price) + ' + U'
+            + (p.line == null ? '?' : p.line)
             + ' <span style="color:' + DIM + ';font-weight:400">'
-            + mlStr(p.price) + '</span>';
+            + (p.payout ? p.payout.toFixed(2) + 'x' : '') + '</span>'
+          : p.market === 'h2h'
+            ? esc(p.pick) + ' ML <span style="color:' + DIM + ';font-weight:400">'
+              + mlStr(p.price) + '</span>'
+            : (p.pick === 'under' ? 'U' : 'O') + (p.total == null ? '?' : p.total)
+              + ' <span style="color:' + DIM + ';font-weight:400">'
+              + mlStr(p.price) + '</span>';
         t += '<tr style="border-top:1px solid #161b22">'
           + '<td style="padding:3px 6px;color:' + DIM + '">' + ctTime(p.commence) + '</td>'
           + '<td style="padding:3px 6px">' + esc(p.matchup) + '</td>'

@@ -53,7 +53,8 @@ def blind_baselines(settled):
         over.append(SYS._profit(g["over_ml"], tot > g["total_line"]))
         under.append(SYS._profit(g["under_ml"], tot < g["total_line"]))
     pct = lambda v: round(sum(v) / len(v) * 100, 1) if v else None
-    return {"side": pct(side), "over": pct(over), "under": pct(under)}
+    return {"side": pct(side), "over": pct(over), "under": pct(under),
+            "parlay": 0.0}
 
 
 def split(rows, at):
@@ -76,7 +77,11 @@ def main():
         for r in rs:
             by[r["date"][:7]].append(r["p"])
         a, b = split(rs, mid) if mid else ([], [])
-        if market == "h2h":
+        if market == "parlay":
+            # No blind baseline exists for a two-leg parlay; the honest
+            # benchmark is break-even, so it is measured against zero.
+            bkey = "parlay"
+        elif market == "h2h":
             bkey = "side"
         else:
             bkey = "over" if any(r["pick"] == "over" for r in rs) else "under"
