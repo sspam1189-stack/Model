@@ -105,9 +105,21 @@ SYSTEMS = {
         "Home dog getaway", "h2h",
         "Day game, the visitors played a night game yesterday, and the home "
         "team is a plus-money dog: back the home side.",
-        "26-19 +26.0% (n=45) at plus money; scored as not-the-favourite, "
-        "31-22 +25.5% on 53. Halves +25.6/+25.5. Monthly at plus money runs "
-        "+10/+19/+22/-14/+53, so July is negative -- the 'every month "
+        "56-50 +20.2% (n=106) at plus money, halves +21.9/+18.5 and all "
+        "three thirds positive (+28.8/+18.2/+13.1).\n\n"
+        "        WINDOW WIDENED 2026-09-02 (user). The night-before test was "
+        "`hour >= 23` on a UTC hour, which reads as 7 pm ET or later but "
+        "silently dropped every start from 8 pm ET on -- those are hour 0 in "
+        "UTC and 0 >= 23 is false -- excluding a 23-22 +22.0% bucket of 45 "
+        "games for no reason but arithmetic. The window is now minute-based "
+        "and wraps: 22:30Z to 00:59Z, i.e. 6:30 pm to 8:59 pm ET. The old "
+        "cell was 26-19 +26.0% on 45; the fix alone (7 pm+, wrap correct) "
+        "gives 49-41 +24.0% on 90, and the user chose the 6:30 start. "
+        "Dropping the lower bound the rest of the way to 6:00 pm ET adds 2 "
+        "games and 0.20u, and extending past 00:59Z pulls in 9 pm ET starts "
+        "at -7.2% over 68 games, which is where the edge dies.\n\n"
+        "        Monthly at plus money on the original 7 pm+ cell ran "
+        "+10/+19/+22/-14/+53, so July was negative -- the 'every month "
         "positive' reading belongs to the wider not-the-favourite cut, not "
         "to the version carded here. "
         "The mechanism is the cleanest of the six: after a night game both "
@@ -126,8 +138,8 @@ SYSTEMS = {
         "comes from dog prices rather than from an implausible win rate.\n\n"
         "        Against it: the price ladder inside the cell is not clean "
         "(-120..-101 +22.8% on 8, pickem -5.1% on 17, +110..+139 +47.5% on "
-        "24), it is a three-way slice, and n=45 is small. Carded on the "
-        "user's call 2026-09-02."),
+        "24) and it is a three-way slice. Carded on the user's call "
+        "2026-09-02."),
     "home-dog-under-parlay": (
         "Home dog + under", "parlay",
         "Home dog priced +115 to +149: parlay the home moneyline with the "
@@ -293,7 +305,18 @@ AWAY_DOG_TOTAL = 9.5
 DIV_DOG_LO, DIV_DOG_HI = 115, 149   # the band the effect lives in
 PARLAY_DOG_LO, PARLAY_DOG_HI = 115, 149
 GETAWAY_DAY_HOUR = 20     # today's first pitch before 20Z is a day game
-GETAWAY_NIGHT_HOUR = 23   # yesterday's at 23Z or later was a night game
+# Yesterday's night window, as minutes past midnight UTC, WRAPPING past
+# midnight: 22:30Z (6:30 pm ET) through 00:59Z (8:59 pm ET).
+#
+# It has to wrap, and that is the whole reason this is not an hour compare.
+# The test used to be `hour >= 23`, which reads as "7 pm ET or later" but
+# silently dropped every start from 8 pm ET on -- those are hour 0 or 1 in
+# UTC, and 0 >= 23 is false. That excluded a 23-22 +22.0% bucket of 45 games
+# for no reason but arithmetic. The upper end stops before 01:00Z because
+# 9 pm ET starts (mostly West-coast) measure -7.2% over 68 games and undo
+# the edge.
+GETAWAY_NIGHT_FROM = 22 * 60 + 30   # 22:30Z
+GETAWAY_NIGHT_TO = 59               # 00:59Z, the morning side of the wrap
 HOME_SLIDE_LOSSES = 4
 
 
@@ -321,10 +344,23 @@ def _date(s):
 
 
 def _hour(g):
-    """First pitch hour in UTC, or None. 23Z+ is a night game in the US."""
+    """First pitch hour in UTC, or None."""
     c = g.get("commence") or ""
     try:
         return int(c[11:13])
+    except (ValueError, IndexError):
+        return None
+
+
+def _clock(g):
+    """First pitch as minutes past midnight UTC, or None.
+
+    Hour resolution is not enough for the getaway night window: the cut sits
+    at 6:30 pm ET, which is 22:30Z, in the middle of an hour.
+    """
+    c = g.get("commence") or ""
+    try:
+        return int(c[11:13]) * 60 + int(c[14:16])
     except (ValueError, IndexError):
         return None
 
@@ -365,6 +401,7 @@ class AsOf:
                 last = hist[-1]
                 f["last_date"] = last["date"]
                 f["last_hour"] = last.get("hour")
+                f["last_clock"] = last.get("clock")
                 k = 0
                 for x in reversed(hist):
                     if x["won"] == last["won"]:
@@ -391,7 +428,7 @@ class AsOf:
             other = "home" if side == "away" else "away"
             won = home_won if side == "home" else not home_won
             rec = {"date": g["date"], "won": won, "opp": g[other], "over": over,
-                   "hour": _hour(g),
+                   "hour": _hour(g), "clock": _clock(g),
                    "p": _profit(g[f"{side}_ml"], won)}
             self.team[g[side]].append(rec)
             if g.get(f"{side}_pitcher"):
@@ -445,10 +482,12 @@ def plays_for(g, feat):
                 why=f"{g['home']} ML +{home_ml} with U{total:g} "
                     f"{under_ml:+d}, pays {payout:.2f}x")
         today_hour = _hour(g)
+        last_clock = a.get("last_clock")
+        night_before = last_clock is not None and (
+            last_clock >= GETAWAY_NIGHT_FROM or last_clock <= GETAWAY_NIGHT_TO)
         if (today_hour is not None and today_hour < GETAWAY_DAY_HOUR
                 and home_ml > 0
-                and a.get("last_hour") is not None
-                and a["last_hour"] >= GETAWAY_NIGHT_HOUR
+                and night_before
                 and a.get("last_date")
                 and (_date(g["date"]) - _date(a["last_date"])).days == 1):
             add("home-dog-getaway", "h2h", g["home"], home_ml,
