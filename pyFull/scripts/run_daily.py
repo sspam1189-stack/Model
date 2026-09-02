@@ -928,6 +928,18 @@ def main(subject_label="[PY]"):
     upsert_run(store, run); save_store(store)
     prune_processed_games(kalman_state, 30); save_kalman_state(kalman_state)
 
+    # 6b. Situational systems — evaluate the frozen registry, log tonight's
+    # plays, grade whatever finished, write the tab's feed. Runs AFTER the run
+    # is saved so it reads today's games from the store like any other date,
+    # which is what keeps the live path and the backtest on one code path.
+    # Non-fatal by design: the systems tab is an experiment and must never be
+    # able to take the picks pipeline down with it.
+    try:
+        import build_nba_systems
+        build_nba_systems.build(date=date, store=store)
+    except Exception as e:
+        print(f"  [systems] build failed (non-fatal): {e}")
+
     # Sync to PythonDashboard
     try:
         import shutil

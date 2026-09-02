@@ -33,6 +33,15 @@ def _norm_team(name):
     return str(name or "").strip()
 
 
+def _same_team(runner_name, team):
+    """FanDuel runner names are not always the full team name ("Celtics" for
+    "Boston Celtics"), so price lookups must use the same loose substring
+    match _to_model_line already relies on rather than string equality."""
+    a = _norm_team(runner_name).lower()
+    b = _norm_team(team).lower()
+    return bool(a) and bool(b) and (a in b or b in a)
+
+
 def _to_model_line(home, away, spread_pts, spread_team):
     """Convert sportsbook spread to model format: negative = home favored."""
     if not spread_team:
@@ -45,6 +54,33 @@ def _to_model_line(home, away, spread_pts, spread_team):
     elif spread_team_norm in away_norm or away_norm in spread_team_norm:
         return -spread_pts  # Away team spread — flip for model
     return spread_pts
+
+
+def _american(runner):
+    """American price off a FanDuel runner, or None.
+
+    FanDuel nests it as winRunnerOdds.americanDisplayOdds.americanOddsInt, but
+    the payload shape is not contractual and this is the credit-saving PRIMARY
+    source -- a shape change here must degrade to "no price" rather than take
+    the whole odds fetch down with it. Callers treat None as "assume -110" for
+    spreads and totals, and as "no book price" for the moneyline.
+    """
+    try:
+        wro = runner.get("winRunnerOdds") or {}
+        for key in ("americanDisplayOdds", "americanOdds"):
+            node = wro.get(key)
+            if isinstance(node, dict):
+                for f in ("americanOddsInt", "americanOdds"):
+                    v = node.get(f)
+                    if isinstance(v, (int, float)):
+                        return int(v)
+                    if isinstance(v, str) and v.strip().lstrip("+-").isdigit():
+                        return int(v.replace("+", ""))
+            elif isinstance(node, (int, float)):
+                return int(node)
+    except Exception:
+        pass
+    return None
 
 
 def fetch_fanduel_nba_odds():
@@ -105,6 +141,8 @@ def fetch_fanduel_nba_odds():
 
         line = None
         total = None
+        away_ml = home_ml = over_ml = under_ml = None
+        spread_price_away = spread_price_home = None
 
         for m in ev_markets:
             mt = m.get("marketType", "")
@@ -117,13 +155,36 @@ def fetch_fanduel_nba_odds():
                         if h < 0:
                             spread_team = runner.get("runnerName", "")
                             line = _to_model_line(home, away, h, spread_team)
+                    rn, pr = runner.get("runnerName", ""), _american(runner)
+                    if pr is None:
+                        continue
+                    if _same_team(rn, home):
+                        spread_price_home = pr
+                    elif _same_team(rn, away):
+                        spread_price_away = pr
             # Total: TOTAL_POINTS_(OVER/UNDER)
             if "TOTAL_POINTS" in mt:
                 for runner in m.get("runners", []):
-                    if runner.get("runnerName") == "Over":
+                    rn = runner.get("runnerName")
+                    if rn == "Over":
                         h = runner.get("handicap")
                         if h is not None:
                             total = float(h)
+                        over_ml = _american(runner)
+                    elif rn == "Under":
+                        under_ml = _american(runner)
+            # Moneyline: MONEY_LINE. Added 2026-09 -- the registry has ML
+            # systems whose entire backtest price was converted from the
+            # spread, because no feed here had ever carried a real one.
+            if "MONEY_LINE" in mt or mt == "MATCH_ODDS":
+                for runner in m.get("runners", []):
+                    rn, pr = runner.get("runnerName", ""), _american(runner)
+                    if pr is None:
+                        continue
+                    if _same_team(rn, home):
+                        home_ml = pr
+                    elif _same_team(rn, away):
+                        away_ml = pr
 
         games.append({
             "away": away,
@@ -132,6 +193,12 @@ def fetch_fanduel_nba_odds():
             "total": total,
             "startTimeUTC": start_time_utc,
             "_book": "FanDuel",
+            "away_ml": away_ml,
+            "home_ml": home_ml,
+            "over_ml": over_ml,
+            "under_ml": under_ml,
+            "spread_price_away": spread_price_away,
+            "spread_price_home": spread_price_home,
         })
 
     # Cache today's odds
@@ -157,7 +224,14 @@ def fetch_fanduel_nba_odds():
                         except Exception:
                             pass
                     if key not in existing or not started:
-                        existing[key] = {"line": g["line"], "total": g["total"], "_book": "FanDuel", "_note": "fanduel live"}
+                        existing[key] = {
+                            "line": g["line"], "total": g["total"],
+                            "_book": "FanDuel", "_note": "fanduel live",
+                            "away_ml": g.get("away_ml"), "home_ml": g.get("home_ml"),
+                            "over_ml": g.get("over_ml"), "under_ml": g.get("under_ml"),
+                            "spread_price_away": g.get("spread_price_away"),
+                            "spread_price_home": g.get("spread_price_home"),
+                        }
             with open(cache_path, "w") as f:
                 json.dump(existing, f, indent=2)
             print(f"  [fanduel] Cached {len(games)} games to {date_key}.json")
