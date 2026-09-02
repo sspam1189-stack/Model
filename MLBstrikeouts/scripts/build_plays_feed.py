@@ -148,9 +148,14 @@ def main():
         with open(path, "w") as fh:
             json.dump(out, fh, indent=1)
     c = out["summary"]["card"]
-    print(f"bet log: {len(bets)} rows "
-          f"({sum(1 for b in bets if b['kind'] == 'card')} card, of which "
-          f"{sum(1 for b in bets if b.get('backfilled'))} backfilled) · "
+    # "of which" has to mean of the CARD rows, not of every row -- once the
+    # shadow systems were backfilled the all-rows count exceeded the card
+    # count and the line read as an impossible subset.
+    n_card = sum(1 for b in bets if b["kind"] == "card")
+    n_card_bf = sum(1 for b in bets if b["kind"] == "card" and b.get("backfilled"))
+    n_bf = sum(1 for b in bets if b.get("backfilled"))
+    print(f"bet log: {len(bets)} rows ({n_card} card, of which {n_card_bf} "
+          f"backfilled; {n_bf - n_card_bf} more backfilled at no stake) · "
           f"card record {c['w']}-{c['l']} {c['units']:+.2f}u "
           f"-> {len(OUTPUT_PATHS)} paths")
 

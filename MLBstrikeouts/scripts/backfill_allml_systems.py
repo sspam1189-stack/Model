@@ -34,7 +34,11 @@ from log_daily_qualifiers import _short, _num, sig_of
 
 
 def rows_for_season():
-    """Every historical play the carded systems would have made, graded."""
+    """Every historical play the systems would have made, graded.
+
+    Card and shadow tiers both, with shadow rows flagged so they carry no
+    units.
+    """
     blob = SYS.load()
     asof = SYS.AsOf()
     out = []
@@ -57,6 +61,12 @@ def rows_for_season():
                 "backfilled": True,
                 "non_scout": True,
             }
+            # A shadow system's history is tracked, not staked. Without this
+            # the backfill would write its season as card rows, and under
+            # this repo's convention backfilled counts as card -- so a rule
+            # nobody is betting would book units.
+            if play["rule"] not in SYS.CARD_ORDER:
+                entry["shadow"] = True
             if play["market"] == "parlay":
                 entry["line"] = total
                 entry["ml_price"] = play.get("ml_price")

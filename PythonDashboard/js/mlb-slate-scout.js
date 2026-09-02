@@ -553,7 +553,7 @@ async function renderMLBSlateScout() {
   }
 
   // ---- Non-scout systems ---------------------------------------------------
-  // Eight rules found 2026-09-01 by scanning the 2,066 settled games in
+  // Eleven rules found 2026-09-01 by scanning the 2,066 settled games in
   // mlb-all-ml.json using only what that file carries. Season records are
   // replayed as-of each game date by scripts/build_allml_systems_table.py on
   // every daily run, so nothing here is a number somebody typed once.
@@ -575,9 +575,10 @@ async function renderMLBSlateScout() {
     let t = '<div class="card-title" style="padding:6px 8px">'
       + 'Non-scout systems — today\'s plays '
       + '<span class="scout-note" style="color:' + DIM + ';font-weight:400;font-size:11px">'
-      + '(CARD — all of these are bet. Derived from the all-ML game file '
-      + 'alone: prices, totals, probables, scores. No mismatch-model input, '
-      + 'so an agreement with a scout rule is a second opinion.)</span>'
+      + '(Derived from the all-ML game file alone: prices, totals, probables, '
+      + 'scores. No mismatch-model input, so an agreement with a scout rule '
+      + 'is a second opinion. Card rows are bet; shadow rows are tracked at '
+      + 'no stake while their doubts resolve.)</span>'
       + '</div>';
     if (!plays.length) {
       t += '<div style="padding:8px 10px;font-size:12px;color:' + DIM
@@ -587,12 +588,28 @@ async function renderMLBSlateScout() {
         + '<thead><tr style="text-align:left;color:' + DIM + ';border-bottom:1px solid #30363d">'
         + '<th style="padding:4px 6px">CT</th><th>Game</th><th>Play</th>'
         + '<th>System</th><th data-col="season">Season</th>'
-        + '<th data-col="why">Why</th></tr></thead><tbody>'
-        + '<tr><td colspan="6" style="padding:5px 6px 2px;font-size:11px;'
-        + 'font-weight:600;border-top:1px solid #30363d;color:#3fb950">'
-        + 'CARD — bet these</td></tr>';
-      for (const p of plays) {
+        + '<th data-col="why">Why</th></tr></thead><tbody>';
+      // Card block first, then shadow, and first pitch inside each. Mixing
+      // them by time alone would put a no-stake row above a bet one.
+      const NS_SECTION = {
+        card: ['CARD — bet these', '#3fb950'],
+        shadow: ['SHADOW — tracked, not bet', DIM],
+      };
+      const tierOf = (p) => (byKey[p.rule] && byKey[p.rule].status === 'shadow')
+        ? 'shadow' : 'card';
+      const ordered = plays.slice().sort((a, b) =>
+        (tierOf(a) === 'shadow') - (tierOf(b) === 'shadow')
+        || String(a.commence || '~').localeCompare(String(b.commence || '~')));
+      let nsSection = null;
+      for (const p of ordered) {
         const sy = byKey[p.rule] || {};
+        const tier = tierOf(p);
+        if (tier !== nsSection) {
+          nsSection = tier;
+          t += '<tr><td colspan="6" style="padding:5px 6px 2px;font-size:11px;'
+            + 'font-weight:600;border-top:1px solid #30363d;color:'
+            + NS_SECTION[tier][1] + '">' + NS_SECTION[tier][0] + '</td></tr>';
+        }
         // A parlay is two legs in one row, so it prints both and the payout
         // rather than a single price.
         const playCell = p.market === 'parlay'
@@ -611,7 +628,9 @@ async function renderMLBSlateScout() {
           + '<td style="padding:3px 6px">' + esc(p.matchup) + '</td>'
           + '<td style="padding:3px 6px;font-weight:600;white-space:nowrap">' + playCell + '</td>'
           + '<td><span style="display:inline-block;padding:1px 6px;border-radius:3px;'
-          + 'font-weight:600;white-space:nowrap;background:rgba(63,185,80,.18);color:#3fb950">'
+          + 'font-weight:600;white-space:nowrap;' + (tier === 'shadow'
+            ? 'background:rgba(139,148,158,.14);color:' + DIM
+            : 'background:rgba(63,185,80,.18);color:#3fb950') + '">'
           + esc(sy.name || p.rule) + '</span>'
           + (sy.ladder_fails ? ' <span title="carded on request; the winning '
             + 'bucket has losing neighbours" style="color:#d29922">△</span>' : '')

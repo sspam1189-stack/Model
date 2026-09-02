@@ -16,7 +16,7 @@ the same inputs; when one of these agrees with them it is a second opinion.
 
 CARDED 2026-09-01 (user), without a shadow period. Eight were carded; Low
 line over and Under juice were removed the same day, before either settled a
-play (see RETIRED below).
+play (see SHADOW_ORDER below).
 
 HOW THEY WERE FOUND, stated plainly because it bears on how much to trust them.
 The scan tested every single and pairwise cell over ~30 derived features,
@@ -224,6 +224,40 @@ SYSTEMS = {
         "opponents against 67% at L3), but that cannot be the cause: L5 "
         "streaks span multiple opponents 100% of the time and lose money, "
         "and splitting L4 by the same variable leaves both halves winning."),
+    "low-line-over": (
+        "Low line over", "totals",
+        "Posted total of 7 or lower: over.",
+        "72-52 +8.9% (n=124, p=0.033) against a -6.1% blind-over baseline, "
+        "halves +9.9/+7.4, all thirds positive. Lines of 7 came back with a "
+        "mean actual total of 8.66, which is a real mechanism: the book posts "
+        "7 rarely and grudgingly, and when it does the number is too low.\n\n"
+        "        LADDER FAILS, which is why it is shadow and not card. The "
+        "edge is a cliff, not a slope: 6.5 +2.8% (29), 7.0 +11.4% (91), then "
+        "7.5 -8.2% over 464 games. Step one half-run up and it is negative on "
+        "a sample four times the size. 91 of the 124 plays sit in the single "
+        "7.0 bucket, so this is that bucket, not a low-total trend."),
+    "under-juice": (
+        "Under juice", "totals",
+        "Under priced -120 or shorter: under.",
+        "234-171 +5.1% (n=405, p=0.020), halves +5/+6, and the juice ladder "
+        "is monotone -- -112 -0.8%, -115 -1.2%, -118 +2.6%, -120 +5.1%. That "
+        "monotonicity is the case for it: nothing about it looks like an "
+        "artifact.\n\n"
+        "        Against it: the biggest sample of the nine and the smallest "
+        "edge per play, at 2.6 plays a day. The most volume for the least "
+        "conviction, and following the juice is close to just following the "
+        "book -- if the edge is real it is the book's, borrowed."),
+    "hot-arm-dog-ml": (
+        "Hot arm dog ML", "h2h",
+        "Plus-money side whose starter's team is +40% ROI or better over his "
+        "last 8 starts: back that side.",
+        "91-90 +12.7% (n=181, p=0.010), halves +17/+11, threshold ladder "
+        "monotone.\n\n"
+        "        The problem is where the return comes from. At 91-90 the win "
+        "rate is a coin flip and the entire edge is plus-money prices holding "
+        "up. A dog system has to beat its price; this one only matches it, "
+        "and 181 plays at an even record is thin evidence that the prices "
+        "stay generous."),
 }
 # Plain-English gloss for the tab: what the system bets, and why it might
 # work. Where there is no mechanism, it says so -- three of these are carded
@@ -269,37 +303,47 @@ PLAIN = {
         "Takes the under when BOTH starters have gone over in 35% or less of "
         "their last eight. The exact mirror of Starter over run, and it "
         "agrees with it, which is why a 41-game cell is on the board at all.",
+    "low-line-over":
+        "Takes the over on any total of 7 or lower. Books post a 7 rarely, "
+        "and when they do those games came back averaging 8.66 runs. Shadow "
+        "because the edge is a cliff rather than a slope: 7.5 loses over 464 "
+        "games, so this is the 7-and-under bucket, not a low-total trend.",
+    "under-juice":
+        "Takes the under whenever the book is laying -120 or shorter on it. "
+        "The heavier the juice the better it does, which is the whole case. "
+        "Shadow because it is the most volume for the least conviction -- "
+        "2.6 plays a day for +5% -- and it is close to just following the "
+        "book.",
+    "hot-arm-dog-ml":
+        "Backs a plus-money side whose starter's team has returned +40% or "
+        "better over his last eight starts. Shadow because at 91-90 the win "
+        "rate is a coin flip: the whole return is the dog prices, and a dog "
+        "system has to beat its price rather than merely match it.",
 }
 
 CARD_ORDER = ("away-dog-ml", "home-slide-ml", "division-home-dog",
               "home-dog-getaway", "home-dog-under-parlay", "pickem-under",
               "starter-over-run", "cold-arms-under")
 
-# REMOVED 2026-09-01 (user), the same day they were carded, before either had
-# a settled play. Kept here rather than deleted so the numbers are not
-# rediscovered later and mistaken for something new. Their branches in
-# plays_for() are inert: add() drops any rule not in SYSTEMS.
+# SHADOW (user, 2026-09-02). Carded 2026-09-01, pulled the same day before
+# any of them settled a play, and kept out of SYSTEMS entirely so they logged
+# nothing. That was the wrong instrument: a rule with no plays generates no
+# evidence, so a doubt about it can never resolve. These three are tracked
+# now -- they qualify, they are logged, they carry no units -- and the full
+# case for and against each one lives in its SYSTEMS entry above.
 #
-#   low-line-over   total <= 7 -> over. 72-52 +8.9% (n=124, p=0.033), halves
-#                   +10/+7, all thirds positive. Posted lines of 7 returned a
-#                   mean actual total of 8.66. Its neighbours are the problem:
-#                   7.5 runs -9.4% over 457 games, so this was the 7-and-under
-#                   cell rather than a low-total trend.
-#   under-juice     under priced <= -120 -> under. 234-171 +5.1% (n=405,
-#                   p=0.020), halves +5/+6, monotone through the juice ladder
-#                   (-112 -0.8%, -115 -1.2%, -118 +2.6%, -120 +5.1%). The
-#                   biggest sample of the eight and the smallest edge per
-#                   play, at 2.6 plays a day -- the most volume for the least
-#                   conviction, and it is close to just following the book.
-#   hot-arm-dog-ml  back a plus-money side whose starter's team is +40% or
-#                   better over his last 8 starts. 91-90 +12.7% (n=181,
-#                   p=0.010), halves +17/+11, and the threshold ladder was
-#                   monotone. Removed 2026-09-01 (user) before it settled a
-#                   play: at 91-90 the win rate is a coin flip and the entire
-#                   return is the plus-money prices holding up, which 181
-#                   plays at an even record is thin evidence for. A dog system
-#                   has to beat its price, and this one only matches it.
-RETIRED = ("low-line-over", "under-juice", "hot-arm-dog-ml")
+#   low-line-over   total <= 7 -> over. Ladder fails: the 7.0 bucket carries
+#                   it and 7.5 loses over 464 games.
+#   under-juice     under priced <= -120 -> under. Monotone and the largest
+#                   sample here, but the thinnest edge per play and close to
+#                   just following the book.
+#   hot-arm-dog-ml  plus-money side, starter's team +40% over 8 starts. 91-90
+#                   is a coin flip; the return is entirely the dog prices.
+SHADOW_ORDER = ("low-line-over", "under-juice", "hot-arm-dog-ml")
+
+# Every system the engine knows, card tier first. Consumers that render or
+# replay all of them walk this; CARD_ORDER alone is the bet list.
+ALL_ORDER = CARD_ORDER + SHADOW_ORDER
 
 HOT_ARM_ROI = 40.0       # trailing team ROI% in the starter's last 8
 PICKEM_ML = -115         # favorite no shorter than this

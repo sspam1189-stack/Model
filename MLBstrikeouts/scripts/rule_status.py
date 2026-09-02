@@ -73,16 +73,18 @@ RULES = {
 # read none of the mismatch model, which is why they are grouped apart on the
 # tab and in the ledger -- when one of these agrees with a scout rule it is a
 # second opinion rather than the same inputs counted twice. Carded by the user
-# without a shadow period. Full statistical case, including the two that fail
-# their ladder, lives in scripts/allml_systems.py.
+# without a shadow period. Three more are tracked on shadow -- they qualify
+# and are logged, they carry no units. Full statistical case for every one,
+# including those that fail their ladder, lives in scripts/allml_systems.py.
 NON_SCOUT = {}
 if SCRIPT_DIR not in sys.path:      # importable as `scripts.rule_status` or bare
     sys.path.insert(0, SCRIPT_DIR)
 import allml_systems as _sys        # noqa: E402  (needs the path line above)
 
-for _key in _sys.CARD_ORDER:
+for _key in _sys.ALL_ORDER:
     _name, _market, _rule, _case = _sys.SYSTEMS[_key]
-    NON_SCOUT[_key] = ("card", _name, _rule)
+    NON_SCOUT[_key] = ("card" if _key in _sys.CARD_ORDER else "shadow",
+                       _name, _rule)
 RULES.update(NON_SCOUT)
 
 # group -> which panel a rule belongs to. Everything not named here is scout.

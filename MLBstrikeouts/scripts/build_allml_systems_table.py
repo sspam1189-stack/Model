@@ -70,7 +70,7 @@ def main():
 
     base = blind_baselines(settled)
     systems = []
-    for key in SYS.CARD_ORDER:
+    for key in SYS.ALL_ORDER:
         name, market, rule, case = SYS.SYSTEMS[key]
         rs = rows.get(key, [])
         by = collections.defaultdict(list)
