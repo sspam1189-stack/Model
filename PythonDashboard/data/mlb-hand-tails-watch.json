@@ -1,13 +1,35 @@
 {
   "sport": "MLB",
   "type": "hand-tails-watch",
-  "generated": "2026-09-02T13:12:31Z",
+  "generated": "2026-09-02T16:06:07Z",
   "handMin": 6,
   "minGames": 3,
   "minUnits": 2.5,
   "minUnitsTake": 4.0,
   "note": "Shadow review list -- arms NOT on the active hand-tails list showing a handedness-conditional edge (fade or take). The active list is fade-only, so all tail/take arms are review-only here. In-sample season replay; watch, don't bet.",
   "today": [
+    {
+      "date": "2026-09-02",
+      "commence": "2026-09-02T17:05:00Z",
+      "betType": "watch_take",
+      "action": "take",
+      "watch": true,
+      "pitcher": "Grant Holmes",
+      "hand": "R",
+      "arm_team": "ATL",
+      "opp_team": "WSH",
+      "selection": "ATL",
+      "home": "WSH",
+      "away": "ATL",
+      "oppLefty": 6,
+      "oppRighty": 5,
+      "lineupConfirmed": true,
+      "odds": -142,
+      "suggest": "take",
+      "suggestUnits": 6.04,
+      "games": 11,
+      "result": "pending"
+    },
     {
       "date": "2026-09-02",
       "commence": "2026-09-02T18:35:00Z",
@@ -21,14 +43,14 @@
       "selection": "OAK",
       "home": "TEX",
       "away": "OAK",
-      "oppLefty": 4,
-      "oppRighty": 6,
-      "lineupConfirmed": false,
-      "odds": null,
+      "oppLefty": 3,
+      "oppRighty": 7,
+      "lineupConfirmed": true,
+      "odds": 136,
       "suggest": "fade",
       "suggestUnits": 4.1,
       "games": 3,
-      "result": "unconfirmed"
+      "result": "pending"
     },
     {
       "date": "2026-09-02",
@@ -45,12 +67,12 @@
       "away": "OAK",
       "oppLefty": 2,
       "oppRighty": 7,
-      "lineupConfirmed": false,
-      "odds": null,
+      "lineupConfirmed": true,
+      "odds": 136,
       "suggest": "take",
       "suggestUnits": 4.33,
       "games": 14,
-      "result": "unconfirmed"
+      "result": "pending"
     },
     {
       "date": "2026-09-02",
