@@ -1,8 +1,8 @@
 {
  "sport": "MLB",
  "type": "plays-feed",
- "generated": "2026-09-02T02:33:53Z",
- "note": "The scout bet log: a projection of MLBstrikeouts/data/scout-card-log.json. Results and profit are the ledger's own, settled by grade_scout_ledger.py from the finals; nothing is recomputed here. `kind` is one of card / shadow / not_bet / backfilled, and only card rows carry units -- the other three were never wagered, so counting their profit would report money never risked.",
+ "generated": "2026-09-02T02:45:02Z",
+ "note": "The scout bet log: a projection of MLBstrikeouts/data/scout-card-log.json. Results and profit are the ledger's own, settled by grade_scout_ledger.py from the finals; nothing is recomputed here. `kind` is one of card / shadow / not_bet / backfilled, and only card rows carry units; not-bet rows (which include what used to be tracked separately as shadow) fired live with no money on them, so they stay out of the units. Backfilled rows count as card (user, 2026-09-02) and keep a `backfilled` flag so they can still be isolated.",
  "bets": [
   {
    "date": "2026-09-01",
@@ -52,7 +52,7 @@
    "basis": "Better arm Kyle Bradish (+14.1) vs +49.7. Pool rule: m_sum>=+40, back the lower-mismatch side. Season 82-56 +9.3% (dogs 19-15 +26.0%); backing the favorite in the same games is -1.9% and the rule is -0.2% outside the pool. SHADOW to 20 plays: p=0.043 out of a heavily scanned session, April -31%. SCOPE NARROWED to dogs only (user, same night): this is a favorite-half entry, kept for measurement, NOT part of the rule's shadow count.",
    "name": "Better arm ML (favorite half)",
    "group": "scout",
-   "kind": "shadow"
+   "kind": "not_bet"
   },
   {
    "date": "2026-09-01",
@@ -151,7 +151,7 @@
    "basis": "Better arm Matthew Boyd (+30.0) vs +56.7. Pool rule: m_sum>=+40, back the lower-mismatch side. Season 82-56 +9.3% (dogs 19-15 +26.0%); backing the favorite in the same games is -1.9% and the rule is -0.2% outside the pool. SHADOW to 20 plays: p=0.043 out of a heavily scanned session, April -31%. SCOPE NARROWED to dogs only (user, same night): this is a favorite-half entry, kept for measurement, NOT part of the rule's shadow count.",
    "name": "Better arm ML (favorite half)",
    "group": "scout",
-   "kind": "shadow"
+   "kind": "not_bet"
   },
   {
    "date": "2026-09-01",
@@ -251,7 +251,7 @@
    "basis": "FADE at L20 mismatch +56.7 (Robert Gasser). SHADOW revival 2026-09-01 after the 8/29-8/30 card-and-pull; expectation is August's +9.4%, not the +17.2% season figure. Not bet.",
    "name": "Mismatch ML",
    "group": "scout",
-   "kind": "shadow"
+   "kind": "not_bet"
   },
   {
    "date": "2026-08-31",
@@ -268,7 +268,8 @@
    "basis": "Pickem under: favorite only -108 at a 8.5 total",
    "name": "Pickem under",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-08-31",
@@ -301,7 +302,8 @@
    "basis": "Home slide ML: home on L7, new opponent (last faced PHI)",
    "name": "Home slide ML",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-08-31",
@@ -334,7 +336,8 @@
    "basis": "Home slide ML: home on L4, new opponent (last faced ATL)",
    "name": "Home slide ML",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-08-31",
@@ -368,7 +371,8 @@
    "basis": "Pickem under: favorite only -106 at a 9.5 total",
    "name": "Pickem under",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-08-31",
@@ -385,7 +389,7 @@
    "basis": "Shadow only, never bet: sum of both sides' mismatch <= -40 (Tolle -66.3 + Kirby +20.7 = -45.6). Full-season as-of backtest 84-52 +17.2% ROI (n=136, perm p=0.005, bands coherent -40/-60/-80, walk-forward +27.5%/+8.9%) BUT August ran 20-20 -5.7% and 13 of its 29 live-window qualifiers were games the flagged-under rule already cards (unflagged remainder 8-8 -0.89u). Shadows until the UNFLAGGED slice proves out over 15-20 plays. flagged_overlap marks whether the game also carries a defect flag -- this one does not (clean incremental test).",
    "name": "Form under",
    "group": "scout",
-   "kind": "shadow"
+   "kind": "not_bet"
   },
   {
    "date": "2026-08-31",
@@ -402,7 +406,8 @@
    "basis": "Pickem under: favorite only -104 at a 8.5 total",
    "name": "Pickem under",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-08-31",
@@ -436,7 +441,8 @@
    "basis": "Starter over run: over in Shota Imanaga 75% of last 8, total 9",
    "name": "Starter over run",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-08-30",
@@ -487,7 +493,8 @@
    "basis": "Starter over run: over in Chris Bassitt 75%, Jeffrey Springs 75% of last 8, total 9.5",
    "name": "Starter over run",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-08-30",
@@ -553,7 +560,8 @@
    "basis": "Pickem under: favorite only -114 at a 8.5 total",
    "name": "Pickem under",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-08-30",
@@ -570,7 +578,8 @@
    "basis": "Starter over run: over in Kumar Rocker 88% of last 8, total 8.5",
    "name": "Starter over run",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-08-30",
@@ -619,7 +628,8 @@
    "basis": "Away dog ML: away dog at a 9.5 total",
    "name": "Away dog ML",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-08-29",
@@ -669,7 +679,8 @@
    "basis": "Starter over run: over in Jack Perkins 75% of last 8, total 9.5",
    "name": "Starter over run",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-08-29",
@@ -719,7 +730,8 @@
    "basis": "Pickem under: favorite only -106 at a 8.5 total",
    "name": "Pickem under",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-08-29",
@@ -735,7 +747,8 @@
    "basis": "Away dog ML: away dog at a 9.5 total",
    "name": "Away dog ML",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-08-29",
@@ -752,7 +765,8 @@
    "basis": "Cold arms under: both starters Lake Bachar 33%, Kyle Leahy 14% over in last 8",
    "name": "Cold arms under",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-08-29",
@@ -802,7 +816,7 @@
    "basis": "Fedde TRIPLE flag: layoff-29d + stale-window-58d + swingman-12g. TEMPER (loudest on the card): MIN pen 11.34 L7 = dead last, and CWS bats hot all four 111/122/130/130. Weakest of the seven.",
    "name": "Flag Plays",
    "group": "scout",
-   "kind": "not_bet"
+   "kind": "card"
   },
   {
    "date": "2026-08-29",
@@ -819,7 +833,8 @@
    "basis": "Pickem under: favorite only -110 at a 9 total",
    "name": "Pickem under",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-08-29",
@@ -916,7 +931,8 @@
    "basis": "Cold arms under: both starters Brandon Young 25%, Jacob Lopez 25% over in last 8",
    "name": "Cold arms under",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-08-28",
@@ -933,7 +949,8 @@
    "basis": "Pickem under: favorite only -108 at a 9.5 total",
    "name": "Pickem under",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-08-28",
@@ -949,7 +966,8 @@
    "basis": "Home slide ML: home on L4, new opponent (last faced CLE)",
    "name": "Home slide ML",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-08-28",
@@ -983,7 +1001,8 @@
    "basis": "Starter over run: over in David Peterson 75% of last 8, total 9",
    "name": "Starter over run",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-08-27",
@@ -1033,7 +1052,8 @@
    "basis": "Backfilled fade at L20 mismatch +70.7. Not wagered.",
    "name": "Mismatch ML",
    "group": "scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-08-27",
@@ -1050,7 +1070,8 @@
    "basis": "Pickem under: favorite only -106 at a 8.5 total",
    "name": "Pickem under",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-08-27",
@@ -1066,7 +1087,8 @@
    "basis": "Away dog ML: away dog at a 9.5 total",
    "name": "Away dog ML",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-08-26",
@@ -1083,7 +1105,8 @@
    "basis": "Pickem under: favorite only -108 at a 8.5 total",
    "name": "Pickem under",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-08-26",
@@ -1100,7 +1123,8 @@
    "basis": "Starter over run: over in Michael McGreevy 86% of last 8, total 8.5",
    "name": "Starter over run",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-08-26",
@@ -1117,7 +1141,8 @@
    "basis": "Starter over run: over in Randy V\u00e1squez 86% of last 8, total 8.5",
    "name": "Starter over run",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-08-26",
@@ -1133,7 +1158,8 @@
    "basis": "Backfilled tail at L20 mismatch -57.3. Not wagered.",
    "name": "Mismatch ML",
    "group": "scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-08-26",
@@ -1150,7 +1176,8 @@
    "basis": "Pickem under: favorite only -114 at a 8.5 total",
    "name": "Pickem under",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-08-25",
@@ -1184,7 +1211,8 @@
    "basis": "Pickem under: favorite only -106 at a 8.5 total",
    "name": "Pickem under",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-08-25",
@@ -1217,7 +1245,8 @@
    "basis": "Home slide ML: home on L4, new opponent (last faced BOS)",
    "name": "Home slide ML",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-08-24",
@@ -1233,7 +1262,8 @@
    "basis": "Backfilled fade at L20 mismatch +55.1. Not wagered.",
    "name": "Mismatch ML",
    "group": "scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-08-24",
@@ -1266,7 +1296,8 @@
    "basis": "Starter over run: over in Jeffrey Springs 75% of last 8, total 10.5",
    "name": "Starter over run",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-08-24",
@@ -1282,7 +1313,8 @@
    "basis": "Backfilled tail at L20 mismatch -60.7. Not wagered.",
    "name": "Mismatch ML",
    "group": "scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-08-24",
@@ -1298,7 +1330,8 @@
    "basis": "Home slide ML: home on L4, new opponent (last faced MIA)",
    "name": "Home slide ML",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-08-24",
@@ -1314,7 +1347,8 @@
    "basis": "Home slide ML: home on L5, new opponent (last faced KC)",
    "name": "Home slide ML",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-08-23",
@@ -1331,7 +1365,8 @@
    "basis": "Pickem under: favorite only -110 at a 8.5 total",
    "name": "Pickem under",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-08-23",
@@ -1348,7 +1383,8 @@
    "basis": "Pickem under: favorite only -104 at a 8.5 total",
    "name": "Pickem under",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-08-23",
@@ -1365,7 +1401,8 @@
    "basis": "Starter over run: over in Janson Junk 75% of last 8, total 8.5",
    "name": "Starter over run",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-08-23",
@@ -1382,7 +1419,8 @@
    "basis": "Pickem under: favorite only -108 at a 8.5 total",
    "name": "Pickem under",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-08-22",
@@ -1415,7 +1453,8 @@
    "basis": "Pickem under: favorite only -104 at a 8.5 total",
    "name": "Pickem under",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-08-22",
@@ -1448,7 +1487,8 @@
    "basis": "Pickem under: favorite only -110 at a 8.5 total",
    "name": "Pickem under",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-08-22",
@@ -1465,7 +1505,8 @@
    "basis": "Starter over run: over in Andrew Painter 75% of last 8, total 9",
    "name": "Starter over run",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-08-21",
@@ -1482,7 +1523,8 @@
    "basis": "Starter over run: over in Randy V\u00e1squez 86% of last 8, total 8.5",
    "name": "Starter over run",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-08-21",
@@ -1515,7 +1557,8 @@
    "basis": "Backfilled tail at L20 mismatch -48.9. Not wagered.",
    "name": "Mismatch ML",
    "group": "scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-08-21",
@@ -1532,7 +1575,8 @@
    "basis": "Pickem under: favorite only -108 at a 8.5 total",
    "name": "Pickem under",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-08-21",
@@ -1548,7 +1592,8 @@
    "basis": "Home slide ML: home on L4, new opponent (last faced NYY)",
    "name": "Home slide ML",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-08-21",
@@ -1564,7 +1609,8 @@
    "basis": "Backfilled tail at L20 mismatch -48.1. Not wagered.",
    "name": "Mismatch ML",
    "group": "scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-08-21",
@@ -1580,7 +1626,8 @@
    "basis": "Backfilled tail at L20 mismatch -48.9. Not wagered.",
    "name": "Mismatch ML",
    "group": "scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-08-21",
@@ -1613,7 +1660,8 @@
    "basis": "Cold arms under: both starters Gerrit Cole 12%, Kyle Bradish 29% over in last 8",
    "name": "Cold arms under",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-08-20",
@@ -1630,7 +1678,8 @@
    "basis": "Pickem under: favorite only -106 at a 8.5 total",
    "name": "Pickem under",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-08-20",
@@ -1647,7 +1696,8 @@
    "basis": "Starter over run: over in Gage Jump 75% of last 8, total 8.5",
    "name": "Starter over run",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-08-20",
@@ -1663,7 +1713,8 @@
    "basis": "Backfilled tail at L20 mismatch -48.4. Not wagered.",
    "name": "Mismatch ML",
    "group": "scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-08-20",
@@ -1680,7 +1731,8 @@
    "basis": "Pickem under: favorite only -108 at a 8.5 total",
    "name": "Pickem under",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-08-19",
@@ -1697,7 +1749,8 @@
    "basis": "Starter over run: over in Jeffrey Springs 75% of last 8, total 8.5",
    "name": "Starter over run",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-08-19",
@@ -1714,7 +1767,8 @@
    "basis": "Starter over run: over in Chase Burns 75% of last 8, total 8.5",
    "name": "Starter over run",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-08-19",
@@ -1731,7 +1785,8 @@
    "basis": "Pickem under: favorite only -106 at a 9 total",
    "name": "Pickem under",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-08-19",
@@ -1748,7 +1803,8 @@
    "basis": "Starter over run: over in Chris Bassitt 88% of last 8, total 9",
    "name": "Starter over run",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-08-19",
@@ -1765,7 +1821,8 @@
    "basis": "Pickem under: favorite only -110 at a 8.5 total",
    "name": "Pickem under",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-08-18",
@@ -1782,7 +1839,8 @@
    "basis": "Starter over run: over in Ryan Feltner 75% of last 8, total 11.5",
    "name": "Starter over run",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-08-18",
@@ -1798,7 +1856,8 @@
    "basis": "Away dog ML: away dog at a 9.5 total",
    "name": "Away dog ML",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-08-18",
@@ -1815,7 +1874,8 @@
    "basis": "Starter over run: over in Zebby Matthews 75% of last 8, total 8.5",
    "name": "Starter over run",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-08-18",
@@ -1832,7 +1892,8 @@
    "basis": "Pickem under: favorite only -112 at a 9 total",
    "name": "Pickem under",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-08-18",
@@ -1849,7 +1910,8 @@
    "basis": "Pickem under: favorite only -108 at a 8.5 total",
    "name": "Pickem under",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-08-17",
@@ -1866,7 +1928,8 @@
    "basis": "Pickem under: favorite only -108 at a 8.5 total",
    "name": "Pickem under",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-08-17",
@@ -1883,7 +1946,8 @@
    "basis": "Starter over run: over in Framber Valdez 86% of last 8, total 8.5",
    "name": "Starter over run",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-08-17",
@@ -1900,7 +1964,8 @@
    "basis": "Starter over run: over in Janson Junk 75% of last 8, total 8.5",
    "name": "Starter over run",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-08-17",
@@ -1917,7 +1982,8 @@
    "basis": "Pickem under: favorite only -110 at a 9.5 total",
    "name": "Pickem under",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-08-16",
@@ -1934,7 +2000,8 @@
    "basis": "Pickem under: favorite only -114 at a 8.5 total",
    "name": "Pickem under",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-08-16",
@@ -1951,7 +2018,8 @@
    "basis": "Pickem under: favorite only -106 at a 9.5 total",
    "name": "Pickem under",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-08-16",
@@ -1968,7 +2036,8 @@
    "basis": "Pickem under: favorite only -110 at a 8.5 total",
    "name": "Pickem under",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-08-15",
@@ -1985,7 +2054,8 @@
    "basis": "Starter over run: over in MacKenzie Gore 75% of last 8, total 9.5",
    "name": "Starter over run",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-08-15",
@@ -2001,7 +2071,8 @@
    "basis": "Backfilled tail at L20 mismatch -46.9. Not wagered.",
    "name": "Mismatch ML",
    "group": "scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-08-15",
@@ -2017,7 +2088,8 @@
    "basis": "Backfilled tail at L20 mismatch -46.6. Not wagered.",
    "name": "Mismatch ML",
    "group": "scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-08-15",
@@ -2034,7 +2106,8 @@
    "basis": "Pickem under: favorite only -106 at a 8.5 total",
    "name": "Pickem under",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-08-15",
@@ -2051,7 +2124,8 @@
    "basis": "Pickem under: favorite only -106 at a 9.5 total",
    "name": "Pickem under",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-08-14",
@@ -2068,7 +2142,8 @@
    "basis": "Pickem under: favorite only -106 at a 9.5 total",
    "name": "Pickem under",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-08-14",
@@ -2085,7 +2160,8 @@
    "basis": "Starter over run: over in Kumar Rocker 88%, Gage Jump 75% of last 8, total 9.5",
    "name": "Starter over run",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-08-14",
@@ -2102,7 +2178,8 @@
    "basis": "Pickem under: favorite only -108 at a 8.5 total",
    "name": "Pickem under",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-08-14",
@@ -2119,7 +2196,8 @@
    "basis": "Starter over run: over in Chris Bassitt 88% of last 8, total 8.5",
    "name": "Starter over run",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-08-13",
@@ -2136,7 +2214,8 @@
    "basis": "Pickem under: favorite only -104 at a 8.5 total",
    "name": "Pickem under",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-08-12",
@@ -2153,7 +2232,8 @@
    "basis": "Starter over run: over in Eric Lauer 75% of last 8, total 9",
    "name": "Starter over run",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-08-12",
@@ -2170,7 +2250,8 @@
    "basis": "Pickem under: favorite only -114 at a 8.5 total",
    "name": "Pickem under",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-08-12",
@@ -2187,7 +2268,8 @@
    "basis": "Starter over run: over in Janson Junk 75% of last 8, total 8.5",
    "name": "Starter over run",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-08-12",
@@ -2203,7 +2285,8 @@
    "basis": "Away dog ML: away dog at a 9.5 total",
    "name": "Away dog ML",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-08-12",
@@ -2219,7 +2302,8 @@
    "basis": "Backfilled fade at L20 mismatch +62.9. Not wagered.",
    "name": "Mismatch ML",
    "group": "scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-08-12",
@@ -2236,7 +2320,8 @@
    "basis": "Starter over run: over in Jack Perkins 75% of last 8, total 9.5",
    "name": "Starter over run",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-08-12",
@@ -2253,7 +2338,8 @@
    "basis": "Pickem under: favorite only -104 at a 8.5 total",
    "name": "Pickem under",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-08-11",
@@ -2269,7 +2355,8 @@
    "basis": "Away dog ML: away dog at a 9.5 total",
    "name": "Away dog ML",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-08-11",
@@ -2286,7 +2373,8 @@
    "basis": "Pickem under: favorite only -110 at a 9 total",
    "name": "Pickem under",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-08-10",
@@ -2303,7 +2391,8 @@
    "basis": "Starter over run: over in Freddy Peralta 75% of last 8, total 10",
    "name": "Starter over run",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-08-10",
@@ -2320,7 +2409,8 @@
    "basis": "Pickem under: favorite only -106 at a 8.5 total",
    "name": "Pickem under",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-08-09",
@@ -2336,7 +2426,8 @@
    "basis": "Backfilled fade at L20 mismatch +68.6. Not wagered.",
    "name": "Mismatch ML",
    "group": "scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-08-09",
@@ -2353,7 +2444,8 @@
    "basis": "Starter over run: over in Randy V\u00e1squez 75% of last 8, total 9",
    "name": "Starter over run",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-08-09",
@@ -2370,7 +2462,8 @@
    "basis": "Starter over run: over in Kumar Rocker 75% of last 8, total 8.5",
    "name": "Starter over run",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-08-09",
@@ -2386,7 +2479,8 @@
    "basis": "Away dog ML: away dog at a 9.5 total",
    "name": "Away dog ML",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-08-09",
@@ -2403,7 +2497,8 @@
    "basis": "Starter over run: over in Michael Lorenzen 75% of last 8, total 9.5",
    "name": "Starter over run",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-08-09",
@@ -2419,7 +2514,8 @@
    "basis": "Backfilled tail at L20 mismatch -55.7. Not wagered.",
    "name": "Mismatch ML",
    "group": "scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-08-09",
@@ -2435,7 +2531,8 @@
    "basis": "Away dog ML: away dog at a 9.5 total",
    "name": "Away dog ML",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-08-09",
@@ -2451,7 +2548,8 @@
    "basis": "Away dog ML: away dog at a 9.5 total",
    "name": "Away dog ML",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-08-09",
@@ -2468,7 +2566,8 @@
    "basis": "Pickem under: favorite only -112 at a 9.5 total",
    "name": "Pickem under",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-08-08",
@@ -2484,7 +2583,8 @@
    "basis": "Backfilled tail at L20 mismatch -56.6. Not wagered.",
    "name": "Mismatch ML",
    "group": "scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-08-08",
@@ -2501,7 +2601,8 @@
    "basis": "Starter over run: over in Chase Burns 75% of last 8, total 8.5",
    "name": "Starter over run",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-08-08",
@@ -2518,7 +2619,8 @@
    "basis": "Pickem under: favorite only -114 at a 9 total",
    "name": "Pickem under",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-08-08",
@@ -2534,7 +2636,8 @@
    "basis": "Away dog ML: away dog at a 9.5 total",
    "name": "Away dog ML",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-08-08",
@@ -2550,7 +2653,8 @@
    "basis": "Backfilled tail at L20 mismatch -50.1. Not wagered.",
    "name": "Mismatch ML",
    "group": "scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-08-07",
@@ -2567,7 +2671,8 @@
    "basis": "Pickem under: favorite only -110 at a 8.5 total",
    "name": "Pickem under",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-08-07",
@@ -2583,7 +2688,8 @@
    "basis": "Backfilled tail at L20 mismatch -57.2. Not wagered.",
    "name": "Mismatch ML",
    "group": "scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-08-06",
@@ -2600,7 +2706,8 @@
    "basis": "Pickem under: favorite only -104 at a 9 total",
    "name": "Pickem under",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-08-06",
@@ -2617,7 +2724,8 @@
    "basis": "Starter over run: over in Walker Buehler 75% of last 8, total 9",
    "name": "Starter over run",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-08-06",
@@ -2634,7 +2742,8 @@
    "basis": "Starter over run: over in Janson Junk 75% of last 8, total 9",
    "name": "Starter over run",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-08-06",
@@ -2651,7 +2760,8 @@
    "basis": "Starter over run: over in Ranger Suarez 75% of last 8, total 8.5",
    "name": "Starter over run",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-08-06",
@@ -2668,7 +2778,8 @@
    "basis": "Starter over run: over in Miles Mikolas 88% of last 8, total 9",
    "name": "Starter over run",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-08-06",
@@ -2684,7 +2795,8 @@
    "basis": "Away dog ML: away dog at a 9.5 total",
    "name": "Away dog ML",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-08-05",
@@ -2701,7 +2813,8 @@
    "basis": "Cold arms under: both starters Casey Mize 25%, Mitch Bratt 20% over in last 8",
    "name": "Cold arms under",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-08-05",
@@ -2718,7 +2831,8 @@
    "basis": "Pickem under: favorite only -114 at a 8.5 total",
    "name": "Pickem under",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-08-05",
@@ -2735,7 +2849,8 @@
    "basis": "Starter over run: over in Noah Cameron 75% of last 8, total 8.5",
    "name": "Starter over run",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-08-05",
@@ -2751,7 +2866,8 @@
    "basis": "Away dog ML: away dog at a 9.5 total",
    "name": "Away dog ML",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-08-05",
@@ -2767,7 +2883,8 @@
    "basis": "Away dog ML: away dog at a 9.5 total",
    "name": "Away dog ML",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-08-05",
@@ -2784,7 +2901,8 @@
    "basis": "Cold arms under: both starters Reid Detmers 25%, Trevor Rogers 25% over in last 8",
    "name": "Cold arms under",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-08-05",
@@ -2800,7 +2918,8 @@
    "basis": "Away dog ML: away dog at a 10 total",
    "name": "Away dog ML",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-08-05",
@@ -2817,7 +2936,8 @@
    "basis": "Starter over run: over in Eric Lauer 75% of last 8, total 10",
    "name": "Starter over run",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-08-04",
@@ -2833,7 +2953,8 @@
    "basis": "Backfilled fade at L20 mismatch +58.1. Not wagered.",
    "name": "Mismatch ML",
    "group": "scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-08-04",
@@ -2849,7 +2970,8 @@
    "basis": "Backfilled tail at L20 mismatch -46.1. Not wagered.",
    "name": "Mismatch ML",
    "group": "scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-08-04",
@@ -2866,7 +2988,8 @@
    "basis": "Pickem under: favorite only -114 at a 9 total",
    "name": "Pickem under",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-08-04",
@@ -2883,7 +3006,8 @@
    "basis": "Starter over run: over in Freddy Peralta 75% of last 8, total 11",
    "name": "Starter over run",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-08-04",
@@ -2899,7 +3023,8 @@
    "basis": "Home slide ML: home on L4, new opponent (last faced COL)",
    "name": "Home slide ML",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-08-04",
@@ -2916,7 +3041,8 @@
    "basis": "Cold arms under: both starters Ryan Gusto 25%, Grant Holmes 29% over in last 8",
    "name": "Cold arms under",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-08-04",
@@ -2932,7 +3058,8 @@
    "basis": "Away dog ML: away dog at a 9.5 total",
    "name": "Away dog ML",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-08-03",
@@ -2949,7 +3076,8 @@
    "basis": "Pickem under: favorite only -110 at a 9 total",
    "name": "Pickem under",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-08-03",
@@ -2965,7 +3093,8 @@
    "basis": "Backfilled fade at L20 mismatch +73.0. Not wagered.",
    "name": "Mismatch ML",
    "group": "scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-08-03",
@@ -2981,7 +3110,8 @@
    "basis": "Home slide ML: home on L5, new opponent (last faced HOU)",
    "name": "Home slide ML",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-08-03",
@@ -2998,7 +3128,8 @@
    "basis": "Cold arms under: both starters Bubba Chandler 25%, Brandon Sproat 25% over in last 8",
    "name": "Cold arms under",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-08-03",
@@ -3014,7 +3145,8 @@
    "basis": "Backfilled tail at L20 mismatch -51.4. Not wagered.",
    "name": "Mismatch ML",
    "group": "scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-08-02",
@@ -3031,7 +3163,8 @@
    "basis": "Pickem under: favorite only -114 at a 10.5 total",
    "name": "Pickem under",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-08-02",
@@ -3047,7 +3180,8 @@
    "basis": "Backfilled tail at L20 mismatch -58.9. Not wagered.",
    "name": "Mismatch ML",
    "group": "scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-08-02",
@@ -3063,7 +3197,8 @@
    "basis": "Away dog ML: away dog at a 11.5 total",
    "name": "Away dog ML",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-08-02",
@@ -3080,7 +3215,8 @@
    "basis": "Starter over run: over in Seth Lugo 75% of last 8, total 11.5",
    "name": "Starter over run",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-08-02",
@@ -3097,7 +3233,8 @@
    "basis": "Pickem under: favorite only -112 at a 8.5 total",
    "name": "Pickem under",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-08-02",
@@ -3114,7 +3251,8 @@
    "basis": "Starter over run: over in Chase Burns 75% of last 8, total 8.5",
    "name": "Starter over run",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-08-02",
@@ -3130,7 +3268,8 @@
    "basis": "Backfilled fade at L20 mismatch +68.8. Not wagered.",
    "name": "Mismatch ML",
    "group": "scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-08-01",
@@ -3146,7 +3285,8 @@
    "basis": "Away dog ML: away dog at a 11.5 total",
    "name": "Away dog ML",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-08-01",
@@ -3162,7 +3302,8 @@
    "basis": "Away dog ML: away dog at a 9.5 total",
    "name": "Away dog ML",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-08-01",
@@ -3178,7 +3319,8 @@
    "basis": "Backfilled fade at L20 mismatch +69.2. Not wagered.",
    "name": "Mismatch ML",
    "group": "scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-08-01",
@@ -3195,7 +3337,8 @@
    "basis": "Starter over run: over in Miles Mikolas 88% of last 8, total 9.5",
    "name": "Starter over run",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-08-01",
@@ -3212,7 +3355,8 @@
    "basis": "Starter over run: over in Jacob deGrom 75% of last 8, total 8.5",
    "name": "Starter over run",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-07-31",
@@ -3229,7 +3373,8 @@
    "basis": "Starter over run: over in Ranger Suarez 75% of last 8, total 8.5",
    "name": "Starter over run",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-07-31",
@@ -3245,7 +3390,8 @@
    "basis": "Backfilled tail at L20 mismatch -48.3. Not wagered.",
    "name": "Mismatch ML",
    "group": "scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-07-31",
@@ -3262,7 +3408,8 @@
    "basis": "Starter over run: over in Jeffrey Springs 75% of last 8, total 10.5",
    "name": "Starter over run",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-07-31",
@@ -3278,7 +3425,8 @@
    "basis": "Home slide ML: home on L4, new opponent (last faced SD)",
    "name": "Home slide ML",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-07-31",
@@ -3295,7 +3443,8 @@
    "basis": "Pickem under: favorite only -106 at a 11.5 total",
    "name": "Pickem under",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-07-31",
@@ -3311,7 +3460,8 @@
    "basis": "Backfilled fade at L20 mismatch +96.6. Not wagered.",
    "name": "Mismatch ML",
    "group": "scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-07-31",
@@ -3328,7 +3478,8 @@
    "basis": "Pickem under: favorite only -114 at a 8.5 total",
    "name": "Pickem under",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-07-31",
@@ -3345,7 +3496,8 @@
    "basis": "Starter over run: over in Janson Junk 75% of last 8, total 8.5",
    "name": "Starter over run",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-07-31",
@@ -3361,7 +3513,8 @@
    "basis": "Backfilled tail at L20 mismatch -49.7. Not wagered.",
    "name": "Mismatch ML",
    "group": "scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-07-31",
@@ -3378,7 +3531,8 @@
    "basis": "Pickem under: favorite only -114 at a 9 total",
    "name": "Pickem under",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-07-30",
@@ -3395,7 +3549,8 @@
    "basis": "Starter over run: over in Bryan Woo 86% of last 8, total 8.5",
    "name": "Starter over run",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-07-30",
@@ -3411,7 +3566,8 @@
    "basis": "Away dog ML: away dog at a 10 total",
    "name": "Away dog ML",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-07-30",
@@ -3427,7 +3583,8 @@
    "basis": "Backfilled tail at L20 mismatch -58.5. Not wagered.",
    "name": "Mismatch ML",
    "group": "scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-07-30",
@@ -3444,7 +3601,8 @@
    "basis": "Starter over run: over in Noah Cameron 88% of last 8, total 9",
    "name": "Starter over run",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-07-29",
@@ -3460,7 +3618,8 @@
    "basis": "Away dog ML: away dog at a 9.5 total",
    "name": "Away dog ML",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-07-29",
@@ -3477,7 +3636,8 @@
    "basis": "Starter over run: over in Eric Lauer 75% of last 8, total 9.5",
    "name": "Starter over run",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-07-29",
@@ -3494,7 +3654,8 @@
    "basis": "Cold arms under: both starters Trevor Rogers 25%, Tarik Skubal 12% over in last 8",
    "name": "Cold arms under",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-07-29",
@@ -3511,7 +3672,8 @@
    "basis": "Pickem under: favorite only -108 at a 8.5 total",
    "name": "Pickem under",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-07-28",
@@ -3527,7 +3689,8 @@
    "basis": "Away dog ML: away dog at a 9.5 total",
    "name": "Away dog ML",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-07-28",
@@ -3544,7 +3707,8 @@
    "basis": "Pickem under: favorite only -110 at a 8.5 total",
    "name": "Pickem under",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-07-28",
@@ -3561,7 +3725,8 @@
    "basis": "Pickem under: favorite only -112 at a 9 total",
    "name": "Pickem under",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-07-28",
@@ -3578,7 +3743,8 @@
    "basis": "Starter over run: over in Seth Lugo 86% of last 8, total 9",
    "name": "Starter over run",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-07-28",
@@ -3594,7 +3760,8 @@
    "basis": "Backfilled tail at L20 mismatch -46.6. Not wagered.",
    "name": "Mismatch ML",
    "group": "scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-07-28",
@@ -3610,7 +3777,8 @@
    "basis": "Away dog ML: away dog at a 9.5 total",
    "name": "Away dog ML",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-07-28",
@@ -3627,7 +3795,8 @@
    "basis": "Cold arms under: both starters Dean Kremer 33%, Troy Melton 25% over in last 8",
    "name": "Cold arms under",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-07-28",
@@ -3644,7 +3813,8 @@
    "basis": "Starter over run: over in Cal Quantrill 80% of last 8, total 8.5",
    "name": "Starter over run",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-07-27",
@@ -3661,7 +3831,8 @@
    "basis": "Pickem under: favorite only -110 at a 8.5 total",
    "name": "Pickem under",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-07-27",
@@ -3678,7 +3849,8 @@
    "basis": "Starter over run: over in Noah Schultz 75% of last 8, total 8.5",
    "name": "Starter over run",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-07-27",
@@ -3695,7 +3867,8 @@
    "basis": "Pickem under: favorite only -112 at a 8.5 total",
    "name": "Pickem under",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-07-27",
@@ -3711,7 +3884,8 @@
    "basis": "Away dog ML: away dog at a 10 total",
    "name": "Away dog ML",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-07-27",
@@ -3727,7 +3901,8 @@
    "basis": "Backfilled fade at L20 mismatch +101.4. Not wagered.",
    "name": "Mismatch ML",
    "group": "scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-07-27",
@@ -3743,7 +3918,8 @@
    "basis": "Away dog ML: away dog at a 9.5 total",
    "name": "Away dog ML",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-07-27",
@@ -3760,7 +3936,8 @@
    "basis": "Cold arms under: both starters Zack Wheeler 12%, Tyler Phillips 25% over in last 8",
    "name": "Cold arms under",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-07-27",
@@ -3776,7 +3953,8 @@
    "basis": "Home slide ML: home on L12, new opponent (last faced SD)",
    "name": "Home slide ML",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-07-27",
@@ -3792,7 +3970,8 @@
    "basis": "Backfilled tail at L20 mismatch -48.2. Not wagered.",
    "name": "Mismatch ML",
    "group": "scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-07-27",
@@ -3809,7 +3988,8 @@
    "basis": "Pickem under: favorite only -112 at a 9 total",
    "name": "Pickem under",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-07-27",
@@ -3826,7 +4006,8 @@
    "basis": "Pickem under: favorite only -108 at a 8.5 total",
    "name": "Pickem under",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-07-27",
@@ -3843,7 +4024,8 @@
    "basis": "Starter over run: over in Mitch Keller 75% of last 8, total 9",
    "name": "Starter over run",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-07-26",
@@ -3859,7 +4041,8 @@
    "basis": "Away dog ML: away dog at a 10 total",
    "name": "Away dog ML",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-07-26",
@@ -3875,7 +4058,8 @@
    "basis": "Backfilled tail at L20 mismatch -49.9. Not wagered.",
    "name": "Mismatch ML",
    "group": "scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-07-26",
@@ -3892,7 +4076,8 @@
    "basis": "Pickem under: favorite only -110 at a 9 total",
    "name": "Pickem under",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-07-26",
@@ -3909,7 +4094,8 @@
    "basis": "Starter over run: over in Jeffrey Springs 75%, Connor Prielipp 88% of last 8, total 10",
    "name": "Starter over run",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-07-26",
@@ -3925,7 +4111,8 @@
    "basis": "Backfilled fade at L20 mismatch +57.0. Not wagered.",
    "name": "Mismatch ML",
    "group": "scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-07-26",
@@ -3942,7 +4129,8 @@
    "basis": "Starter over run: over in Walker Buehler 75%, Janson Junk 75% of last 8, total 8.5",
    "name": "Starter over run",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-07-26",
@@ -3959,7 +4147,8 @@
    "basis": "Pickem under: favorite only -110 at a 8.5 total",
    "name": "Pickem under",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-07-26",
@@ -3976,7 +4165,8 @@
    "basis": "Starter over run: over in Miles Mikolas 88% of last 8, total 10",
    "name": "Starter over run",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-07-26",
@@ -3993,7 +4183,8 @@
    "basis": "Starter over run: over in Braxton Ashcraft 88% of last 8, total 9",
    "name": "Starter over run",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-07-25",
@@ -4009,7 +4200,8 @@
    "basis": "Away dog ML: away dog at a 10 total",
    "name": "Away dog ML",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-07-25",
@@ -4026,7 +4218,8 @@
    "basis": "Pickem under: favorite only -108 at a 9.5 total",
    "name": "Pickem under",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-07-25",
@@ -4043,7 +4236,8 @@
    "basis": "Pickem under: favorite only -110 at a 8.5 total",
    "name": "Pickem under",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-07-25",
@@ -4059,7 +4253,8 @@
    "basis": "Backfilled tail at L20 mismatch -49.4. Not wagered.",
    "name": "Mismatch ML",
    "group": "scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-07-25",
@@ -4076,7 +4271,8 @@
    "basis": "Cold arms under: both starters Michael Wacha 25%, Casey Mize 25% over in last 8",
    "name": "Cold arms under",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-07-24",
@@ -4092,7 +4288,8 @@
    "basis": "Home slide ML: home on L5, new opponent (last faced KC)",
    "name": "Home slide ML",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-07-24",
@@ -4108,7 +4305,8 @@
    "basis": "Backfilled fade at L20 mismatch +58.5. Not wagered.",
    "name": "Mismatch ML",
    "group": "scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-07-24",
@@ -4124,7 +4322,8 @@
    "basis": "Away dog ML: away dog at a 9.5 total",
    "name": "Away dog ML",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-07-24",
@@ -4140,7 +4339,8 @@
    "basis": "Home slide ML: home on L9, new opponent (last faced HOU)",
    "name": "Home slide ML",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-07-22",
@@ -4156,7 +4356,8 @@
    "basis": "Backfilled tail at L20 mismatch -75.7. Not wagered.",
    "name": "Mismatch ML",
    "group": "scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-07-22",
@@ -4173,7 +4374,8 @@
    "basis": "Pickem under: favorite only -108 at a 8.5 total",
    "name": "Pickem under",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-07-22",
@@ -4190,7 +4392,8 @@
    "basis": "Starter over run: over in Anthony Kay 75% of last 8, total 8.5",
    "name": "Starter over run",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-07-22",
@@ -4206,7 +4409,8 @@
    "basis": "Away dog ML: away dog at a 9.5 total",
    "name": "Away dog ML",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-07-22",
@@ -4223,7 +4427,8 @@
    "basis": "Starter over run: over in Eric Lauer 75% of last 8, total 9.5",
    "name": "Starter over run",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-07-22",
@@ -4240,7 +4445,8 @@
    "basis": "Cold arms under: both starters Christian Scott 0%, Logan Henderson 29% over in last 8",
    "name": "Cold arms under",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-07-22",
@@ -4257,7 +4463,8 @@
    "basis": "Starter over run: over in Seth Lugo 86% of last 8, total 8.5",
    "name": "Starter over run",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-07-22",
@@ -4273,7 +4480,8 @@
    "basis": "Away dog ML: away dog at a 9.5 total",
    "name": "Away dog ML",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-07-22",
@@ -4290,7 +4498,8 @@
    "basis": "Starter over run: over in Mitch Keller 88% of last 8, total 8.5",
    "name": "Starter over run",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-07-21",
@@ -4306,7 +4515,8 @@
    "basis": "Away dog ML: away dog at a 9.5 total",
    "name": "Away dog ML",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-07-21",
@@ -4322,7 +4532,8 @@
    "basis": "Away dog ML: away dog at a 9.5 total",
    "name": "Away dog ML",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-07-21",
@@ -4339,7 +4550,8 @@
    "basis": "Pickem under: favorite only -112 at a 13.5 total",
    "name": "Pickem under",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-07-21",
@@ -4356,7 +4568,8 @@
    "basis": "Starter over run: over in Noah Schultz 75% of last 8, total 8.5",
    "name": "Starter over run",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-07-20",
@@ -4373,7 +4586,8 @@
    "basis": "Pickem under: favorite only -112 at a 9 total",
    "name": "Pickem under",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-07-20",
@@ -4390,7 +4604,8 @@
    "basis": "Starter over run: over in Jos\u00e9 Soriano 75% of last 8, total 9",
    "name": "Starter over run",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-07-20",
@@ -4407,7 +4622,8 @@
    "basis": "Starter over run: over in Jeffrey Springs 88% of last 8, total 9",
    "name": "Starter over run",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-07-20",
@@ -4423,7 +4639,8 @@
    "basis": "Home slide ML: home on L4, new opponent (last faced BAL)",
    "name": "Home slide ML",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-07-20",
@@ -4439,7 +4656,8 @@
    "basis": "Away dog ML: away dog at a 10.5 total",
    "name": "Away dog ML",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-07-19",
@@ -4456,7 +4674,8 @@
    "basis": "Cold arms under: both starters Casey Mize 25%, Ryan Johnson 33% over in last 8",
    "name": "Cold arms under",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-07-19",
@@ -4472,7 +4691,8 @@
    "basis": "Backfilled tail at L20 mismatch -59.9. Not wagered.",
    "name": "Mismatch ML",
    "group": "scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-07-19",
@@ -4488,7 +4708,8 @@
    "basis": "Backfilled fade at L20 mismatch +68.9. Not wagered.",
    "name": "Mismatch ML",
    "group": "scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-07-19",
@@ -4505,7 +4726,8 @@
    "basis": "Starter over run: over in Noah Cameron 75% of last 8, total 9.5",
    "name": "Starter over run",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-07-19",
@@ -4522,7 +4744,8 @@
    "basis": "Starter over run: over in Nolan McLean 75% of last 8, total 8.5",
    "name": "Starter over run",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-07-18",
@@ -4539,7 +4762,8 @@
    "basis": "Pickem under: favorite only -112 at a 11.5 total",
    "name": "Pickem under",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-07-18",
@@ -4555,7 +4779,8 @@
    "basis": "Backfilled tail at L20 mismatch -51.5. Not wagered.",
    "name": "Mismatch ML",
    "group": "scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-07-18",
@@ -4572,7 +4797,8 @@
    "basis": "Pickem under: favorite only -112 at a 8.5 total",
    "name": "Pickem under",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-07-18",
@@ -4589,7 +4815,8 @@
    "basis": "Cold arms under: both starters Trevor Rogers 25%, Spencer Arrighetti 33% over in last 8",
    "name": "Cold arms under",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-07-18",
@@ -4606,7 +4833,8 @@
    "basis": "Pickem under: favorite only -108 at a 9 total",
    "name": "Pickem under",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-07-18",
@@ -4623,7 +4851,8 @@
    "basis": "Pickem under: favorite only -110 at a 10.5 total",
    "name": "Pickem under",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-07-18",
@@ -4640,7 +4869,8 @@
    "basis": "Pickem under: favorite only -110 at a 9.5 total",
    "name": "Pickem under",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-07-18",
@@ -4657,7 +4887,8 @@
    "basis": "Pickem under: favorite only -112 at a 9 total",
    "name": "Pickem under",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-07-18",
@@ -4674,7 +4905,8 @@
    "basis": "Starter over run: over in MacKenzie Gore 86% of last 8, total 9",
    "name": "Starter over run",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-07-18",
@@ -4691,7 +4923,8 @@
    "basis": "Pickem under: favorite only -110 at a 9.5 total",
    "name": "Pickem under",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-07-18",
@@ -4708,7 +4941,8 @@
    "basis": "Starter over run: over in Matthew Boyd 75% of last 8, total 8.5",
    "name": "Starter over run",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-07-17",
@@ -4725,7 +4959,8 @@
    "basis": "Cold arms under: both starters Michael McGreevy 12%, Merrill Kelly 12% over in last 8",
    "name": "Cold arms under",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-07-17",
@@ -4741,7 +4976,8 @@
    "basis": "Home slide ML: home on L9, new opponent (last faced CWS)",
    "name": "Home slide ML",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-07-17",
@@ -4757,7 +4993,8 @@
    "basis": "Backfilled tail at L20 mismatch -45.3. Not wagered.",
    "name": "Mismatch ML",
    "group": "scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-07-17",
@@ -4774,7 +5011,8 @@
    "basis": "Pickem under: favorite only -112 at a 12.5 total",
    "name": "Pickem under",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-07-17",
@@ -4790,7 +5028,8 @@
    "basis": "Home slide ML: home on L5, new opponent (last faced BAL)",
    "name": "Home slide ML",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-07-17",
@@ -4807,7 +5046,8 @@
    "basis": "Starter over run: over in Seth Lugo 86% of last 8, total 10",
    "name": "Starter over run",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-07-17",
@@ -4823,7 +5063,8 @@
    "basis": "Away dog ML: away dog at a 11 total",
    "name": "Away dog ML",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-07-17",
@@ -4840,7 +5081,8 @@
    "basis": "Starter over run: over in Colin Rea 75% of last 8, total 11",
    "name": "Starter over run",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-07-17",
@@ -4857,7 +5099,8 @@
    "basis": "Starter over run: over in Anthony Kay 75% of last 8, total 8.5",
    "name": "Starter over run",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-07-17",
@@ -4874,7 +5117,8 @@
    "basis": "Pickem under: favorite only -112 at a 9 total",
    "name": "Pickem under",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-07-16",
@@ -4890,7 +5134,8 @@
    "basis": "Away dog ML: away dog at a 9.5 total",
    "name": "Away dog ML",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-07-12",
@@ -4906,7 +5151,8 @@
    "basis": "Away dog ML: away dog at a 9.5 total",
    "name": "Away dog ML",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-07-12",
@@ -4922,7 +5168,8 @@
    "basis": "Away dog ML: away dog at a 9.5 total",
    "name": "Away dog ML",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-07-12",
@@ -4938,7 +5185,8 @@
    "basis": "Backfilled fade at L20 mismatch +61.4. Not wagered.",
    "name": "Mismatch ML",
    "group": "scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-07-12",
@@ -4954,7 +5202,8 @@
    "basis": "Backfilled fade at L20 mismatch +94.9. Not wagered.",
    "name": "Mismatch ML",
    "group": "scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-07-12",
@@ -4971,7 +5220,8 @@
    "basis": "Starter over run: over in MacKenzie Gore 86% of last 8, total 9",
    "name": "Starter over run",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-07-12",
@@ -4987,7 +5237,8 @@
    "basis": "Away dog ML: away dog at a 9.5 total",
    "name": "Away dog ML",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-07-12",
@@ -5004,7 +5255,8 @@
    "basis": "Starter over run: over in Jos\u00e9 Soriano 75% of last 8, total 9.5",
    "name": "Starter over run",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-07-12",
@@ -5021,7 +5273,8 @@
    "basis": "Starter over run: over in Noah Schultz 75% of last 8, total 9",
    "name": "Starter over run",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-07-12",
@@ -5038,7 +5291,8 @@
    "basis": "Cold arms under: both starters Zack Wheeler 25%, Tarik Skubal 25% over in last 8",
    "name": "Cold arms under",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-07-12",
@@ -5055,7 +5309,8 @@
    "basis": "Starter over run: over in Matthew Boyd 75% of last 8, total 9",
    "name": "Starter over run",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-07-12",
@@ -5071,7 +5326,8 @@
    "basis": "Away dog ML: away dog at a 9.5 total",
    "name": "Away dog ML",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-07-12",
@@ -5087,7 +5343,8 @@
    "basis": "Away dog ML: away dog at a 9.5 total",
    "name": "Away dog ML",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-07-12",
@@ -5104,7 +5361,8 @@
    "basis": "Starter over run: over in Seth Lugo 86% of last 8, total 9.5",
    "name": "Starter over run",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-07-12",
@@ -5121,7 +5379,8 @@
    "basis": "Starter over run: over in Paul Skenes 75% of last 8, total 8.5",
    "name": "Starter over run",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-07-11",
@@ -5138,7 +5397,8 @@
    "basis": "Pickem under: favorite only -112 at a 8.5 total",
    "name": "Pickem under",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-07-11",
@@ -5155,7 +5415,8 @@
    "basis": "Starter over run: over in Noah Cameron 75%, Kyle Bradish 75% of last 8, total 9",
    "name": "Starter over run",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-07-11",
@@ -5171,7 +5432,8 @@
    "basis": "Backfilled tail at L20 mismatch -62.7. Not wagered.",
    "name": "Mismatch ML",
    "group": "scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-07-11",
@@ -5187,7 +5449,8 @@
    "basis": "Backfilled tail at L20 mismatch -51.1. Not wagered.",
    "name": "Mismatch ML",
    "group": "scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-07-11",
@@ -5204,7 +5467,8 @@
    "basis": "Starter over run: over in Braxton Ashcraft 88% of last 8, total 8.5",
    "name": "Starter over run",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-07-10",
@@ -5220,7 +5484,8 @@
    "basis": "Away dog ML: away dog at a 9.5 total",
    "name": "Away dog ML",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-07-10",
@@ -5236,7 +5501,8 @@
    "basis": "Away dog ML: away dog at a 9.5 total",
    "name": "Away dog ML",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-07-10",
@@ -5253,7 +5519,8 @@
    "basis": "Starter over run: over in Grayson Rodriguez 80% of last 8, total 9.5",
    "name": "Starter over run",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-07-10",
@@ -5269,7 +5536,8 @@
    "basis": "Away dog ML: away dog at a 10.5 total",
    "name": "Away dog ML",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-07-09",
@@ -5286,7 +5554,8 @@
    "basis": "Starter over run: over in Framber Valdez 75% of last 8, total 9",
    "name": "Starter over run",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-07-09",
@@ -5303,7 +5572,8 @@
    "basis": "Pickem under: favorite only -112 at a 9 total",
    "name": "Pickem under",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-07-09",
@@ -5320,7 +5590,8 @@
    "basis": "Starter over run: over in Anthony Kay 75% of last 8, total 9",
    "name": "Starter over run",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-07-09",
@@ -5337,7 +5608,8 @@
    "basis": "Starter over run: over in Bailey Ober 75% of last 8, total 8.5",
    "name": "Starter over run",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-07-09",
@@ -5353,7 +5625,8 @@
    "basis": "Away dog ML: away dog at a 9.5 total",
    "name": "Away dog ML",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-07-09",
@@ -5369,7 +5642,8 @@
    "basis": "Backfilled tail at L20 mismatch -45.3. Not wagered.",
    "name": "Mismatch ML",
    "group": "scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-07-09",
@@ -5386,7 +5660,8 @@
    "basis": "Pickem under: favorite only -110 at a 10 total",
    "name": "Pickem under",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-07-09",
@@ -5403,7 +5678,8 @@
    "basis": "Starter over run: over in Mitch Keller 88% of last 8, total 10",
    "name": "Starter over run",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-07-08",
@@ -5419,7 +5695,8 @@
    "basis": "Away dog ML: away dog at a 10 total",
    "name": "Away dog ML",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-07-08",
@@ -5436,7 +5713,8 @@
    "basis": "Starter over run: over in Roki Sasaki 75% of last 8, total 10",
    "name": "Starter over run",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-07-08",
@@ -5453,7 +5731,8 @@
    "basis": "Starter over run: over in Connor Prielipp 75% of last 8, total 8.5",
    "name": "Starter over run",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-07-08",
@@ -5469,7 +5748,8 @@
    "basis": "Away dog ML: away dog at a 9.5 total",
    "name": "Away dog ML",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-07-08",
@@ -5485,7 +5765,8 @@
    "basis": "Away dog ML: away dog at a 10 total",
    "name": "Away dog ML",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-07-08",
@@ -5501,7 +5782,8 @@
    "basis": "Away dog ML: away dog at a 9.5 total",
    "name": "Away dog ML",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-07-08",
@@ -5517,7 +5799,8 @@
    "basis": "Away dog ML: away dog at a 9.5 total",
    "name": "Away dog ML",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-07-08",
@@ -5534,7 +5817,8 @@
    "basis": "Starter over run: over in Jeffrey Springs 100% of last 8, total 9.5",
    "name": "Starter over run",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-07-08",
@@ -5550,7 +5834,8 @@
    "basis": "Away dog ML: away dog at a 10 total",
    "name": "Away dog ML",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-07-08",
@@ -5567,7 +5852,8 @@
    "basis": "Starter over run: over in Colin Rea 75% of last 8, total 10",
    "name": "Starter over run",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-07-07",
@@ -5583,7 +5869,8 @@
    "basis": "Away dog ML: away dog at a 9.5 total",
    "name": "Away dog ML",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-07-07",
@@ -5600,7 +5887,8 @@
    "basis": "Pickem under: favorite only -112 at a 8.5 total",
    "name": "Pickem under",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-07-07",
@@ -5616,7 +5904,8 @@
    "basis": "Backfilled fade at L20 mismatch +55.9. Not wagered.",
    "name": "Mismatch ML",
    "group": "scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-07-07",
@@ -5633,7 +5922,8 @@
    "basis": "Pickem under: favorite only -110 at a 8.5 total",
    "name": "Pickem under",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-07-07",
@@ -5650,7 +5940,8 @@
    "basis": "Starter over run: over in Noah Schultz 75% of last 8, total 8.5",
    "name": "Starter over run",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-07-07",
@@ -5666,7 +5957,8 @@
    "basis": "Away dog ML: away dog at a 9.5 total",
    "name": "Away dog ML",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-07-07",
@@ -5682,7 +5974,8 @@
    "basis": "Backfilled tail at L20 mismatch -48.1. Not wagered.",
    "name": "Mismatch ML",
    "group": "scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-07-07",
@@ -5699,7 +5992,8 @@
    "basis": "Pickem under: favorite only -108 at a 9.5 total",
    "name": "Pickem under",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-07-07",
@@ -5716,7 +6010,8 @@
    "basis": "Starter over run: over in Matthew Boyd 86% of last 8, total 9.5",
    "name": "Starter over run",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-07-07",
@@ -5732,7 +6027,8 @@
    "basis": "Backfilled tail at L20 mismatch -53.9. Not wagered.",
    "name": "Mismatch ML",
    "group": "scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-07-06",
@@ -5748,7 +6044,8 @@
    "basis": "Away dog ML: away dog at a 9.5 total",
    "name": "Away dog ML",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-07-06",
@@ -5765,7 +6062,8 @@
    "basis": "Starter over run: over in Eric Lauer 75% of last 8, total 9.5",
    "name": "Starter over run",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-07-06",
@@ -5782,7 +6080,8 @@
    "basis": "Starter over run: over in Miles Mikolas 86% of last 8, total 9.5",
    "name": "Starter over run",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-07-05",
@@ -5798,7 +6097,8 @@
    "basis": "Away dog ML: away dog at a 9.5 total",
    "name": "Away dog ML",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-07-05",
@@ -5814,7 +6114,8 @@
    "basis": "Away dog ML: away dog at a 10 total",
    "name": "Away dog ML",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-07-05",
@@ -5830,7 +6131,8 @@
    "basis": "Backfilled fade at L20 mismatch +63.6. Not wagered.",
    "name": "Mismatch ML",
    "group": "scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-07-05",
@@ -5847,7 +6149,8 @@
    "basis": "Pickem under: favorite only -112 at a 9.5 total",
    "name": "Pickem under",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-07-05",
@@ -5864,7 +6167,8 @@
    "basis": "Starter over run: over in Kyle Bradish 75% of last 8, total 9.5",
    "name": "Starter over run",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-07-05",
@@ -5880,7 +6184,8 @@
    "basis": "Away dog ML: away dog at a 10 total",
    "name": "Away dog ML",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-07-05",
@@ -5897,7 +6202,8 @@
    "basis": "Pickem under: favorite only -110 at a 8.5 total",
    "name": "Pickem under",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-07-05",
@@ -5914,7 +6220,8 @@
    "basis": "Starter over run: over in Nolan McLean 75% of last 8, total 8.5",
    "name": "Starter over run",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-07-04",
@@ -5930,7 +6237,8 @@
    "basis": "Backfilled fade at L20 mismatch +64.9. Not wagered.",
    "name": "Mismatch ML",
    "group": "scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-07-04",
@@ -5947,7 +6255,8 @@
    "basis": "Starter over run: over in Sandy Alcantara 88% of last 8, total 11.5",
    "name": "Starter over run",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-07-04",
@@ -5963,7 +6272,8 @@
    "basis": "Away dog ML: away dog at a 9.5 total",
    "name": "Away dog ML",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-07-04",
@@ -5979,7 +6289,8 @@
    "basis": "Backfilled tail at L20 mismatch -54.3. Not wagered.",
    "name": "Mismatch ML",
    "group": "scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-07-04",
@@ -5995,7 +6306,8 @@
    "basis": "Away dog ML: away dog at a 10 total",
    "name": "Away dog ML",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-07-04",
@@ -6012,7 +6324,8 @@
    "basis": "Starter over run: over in Braxton Ashcraft 100% of last 8, total 10.5",
    "name": "Starter over run",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-07-03",
@@ -6029,7 +6342,8 @@
    "basis": "Cold arms under: both starters Michael King 25%, Shohei Ohtani 25% over in last 8",
    "name": "Cold arms under",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-07-03",
@@ -6045,7 +6359,8 @@
    "basis": "Away dog ML: away dog at a 10.5 total",
    "name": "Away dog ML",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-07-03",
@@ -6062,7 +6377,8 @@
    "basis": "Pickem under: favorite only -108 at a 9 total",
    "name": "Pickem under",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-07-03",
@@ -6078,7 +6394,8 @@
    "basis": "Backfilled tail at L20 mismatch -45.6. Not wagered.",
    "name": "Mismatch ML",
    "group": "scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-07-03",
@@ -6095,7 +6412,8 @@
    "basis": "Pickem under: favorite only -108 at a 9 total",
    "name": "Pickem under",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-07-03",
@@ -6111,7 +6429,8 @@
    "basis": "Away dog ML: away dog at a 9.5 total",
    "name": "Away dog ML",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-07-03",
@@ -6127,7 +6446,8 @@
    "basis": "Home slide ML: home on L7, new opponent (last faced DET)",
    "name": "Home slide ML",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-07-03",
@@ -6143,7 +6463,8 @@
    "basis": "Away dog ML: away dog at a 9.5 total",
    "name": "Away dog ML",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-07-03",
@@ -6160,7 +6481,8 @@
    "basis": "Starter over run: over in Mitch Keller 75% of last 8, total 9.5",
    "name": "Starter over run",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-07-03",
@@ -6176,7 +6498,8 @@
    "basis": "Away dog ML: away dog at a 10.5 total",
    "name": "Away dog ML",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-07-02",
@@ -6192,7 +6515,8 @@
    "basis": "Away dog ML: away dog at a 9.5 total",
    "name": "Away dog ML",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-07-02",
@@ -6209,7 +6533,8 @@
    "basis": "Starter over run: over in Roki Sasaki 75% of last 8, total 9.5",
    "name": "Starter over run",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-07-02",
@@ -6225,7 +6550,8 @@
    "basis": "Backfilled tail at L20 mismatch -49.8. Not wagered.",
    "name": "Mismatch ML",
    "group": "scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-07-02",
@@ -6241,7 +6567,8 @@
    "basis": "Backfilled tail at L20 mismatch -60.4. Not wagered.",
    "name": "Mismatch ML",
    "group": "scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-07-02",
@@ -6257,7 +6584,8 @@
    "basis": "Away dog ML: away dog at a 10.5 total",
    "name": "Away dog ML",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-07-02",
@@ -6274,7 +6602,8 @@
    "basis": "Starter over run: over in Jared Jones 83% of last 8, total 10.5",
    "name": "Starter over run",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-07-01",
@@ -6290,7 +6619,8 @@
    "basis": "Away dog ML: away dog at a 9.5 total",
    "name": "Away dog ML",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-07-01",
@@ -6307,7 +6637,8 @@
    "basis": "Starter over run: over in Seth Lugo 86% of last 8, total 10.5",
    "name": "Starter over run",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-07-01",
@@ -6324,7 +6655,8 @@
    "basis": "Pickem under: favorite only -112 at a 8.5 total",
    "name": "Pickem under",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-07-01",
@@ -6340,7 +6672,8 @@
    "basis": "Away dog ML: away dog at a 12 total",
    "name": "Away dog ML",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-07-01",
@@ -6356,7 +6689,8 @@
    "basis": "Away dog ML: away dog at a 9.5 total",
    "name": "Away dog ML",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-07-01",
@@ -6372,7 +6706,8 @@
    "basis": "Away dog ML: away dog at a 9.5 total",
    "name": "Away dog ML",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-07-01",
@@ -6388,7 +6723,8 @@
    "basis": "Away dog ML: away dog at a 10 total",
    "name": "Away dog ML",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-07-01",
@@ -6405,7 +6741,8 @@
    "basis": "Starter over run: over in Noah Schultz 88% of last 8, total 10",
    "name": "Starter over run",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-06-30",
@@ -6421,7 +6758,8 @@
    "basis": "Backfilled fade at L20 mismatch +64.3. Not wagered.",
    "name": "Mismatch ML",
    "group": "scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-06-30",
@@ -6438,7 +6776,8 @@
    "basis": "Pickem under: favorite only -112 at a 9 total",
    "name": "Pickem under",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-06-30",
@@ -6455,7 +6794,8 @@
    "basis": "Starter over run: over in Jeffrey Springs 100% of last 8, total 11",
    "name": "Starter over run",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-06-30",
@@ -6472,7 +6812,8 @@
    "basis": "Pickem under: favorite only -112 at a 8.5 total",
    "name": "Pickem under",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-06-30",
@@ -6488,7 +6829,8 @@
    "basis": "Away dog ML: away dog at a 11.5 total",
    "name": "Away dog ML",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-06-30",
@@ -6505,7 +6847,8 @@
    "basis": "Starter over run: over in Matthew Boyd 83% of last 8, total 11.5",
    "name": "Starter over run",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-06-30",
@@ -6521,7 +6864,8 @@
    "basis": "Away dog ML: away dog at a 9.5 total",
    "name": "Away dog ML",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-06-30",
@@ -6537,7 +6881,8 @@
    "basis": "Away dog ML: away dog at a 9.5 total",
    "name": "Away dog ML",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-06-30",
@@ -6553,7 +6898,8 @@
    "basis": "Away dog ML: away dog at a 9.5 total",
    "name": "Away dog ML",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-06-30",
@@ -6570,7 +6916,8 @@
    "basis": "Cold arms under: both starters Bubba Chandler 33%, Cristopher S\u00e1nchez 25% over in last 8",
    "name": "Cold arms under",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-06-30",
@@ -6586,7 +6933,8 @@
    "basis": "Away dog ML: away dog at a 10.5 total",
    "name": "Away dog ML",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-06-30",
@@ -6603,7 +6951,8 @@
    "basis": "Starter over run: over in Trey Gibson 100% of last 8, total 10.5",
    "name": "Starter over run",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-06-29",
@@ -6620,7 +6969,8 @@
    "basis": "Starter over run: over in Eric Lauer 75% of last 8, total 10.5",
    "name": "Starter over run",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-06-29",
@@ -6637,7 +6987,8 @@
    "basis": "Starter over run: over in Sandy Alcantara 88% of last 8, total 11.5",
    "name": "Starter over run",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-06-29",
@@ -6653,7 +7004,8 @@
    "basis": "Away dog ML: away dog at a 11.5 total",
    "name": "Away dog ML",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-06-29",
@@ -6670,7 +7022,8 @@
    "basis": "Starter over run: over in Miles Mikolas 83%, Ranger Suarez 75% of last 8, total 8.5",
    "name": "Starter over run",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-06-29",
@@ -6686,7 +7039,8 @@
    "basis": "Home slide ML: home on L6, new opponent (last faced TEX)",
    "name": "Home slide ML",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-06-29",
@@ -6702,7 +7056,8 @@
    "basis": "Home slide ML: home on L4, new opponent (last faced BOS)",
    "name": "Home slide ML",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-06-29",
@@ -6719,7 +7074,8 @@
    "basis": "Pickem under: favorite only -110 at a 8.5 total",
    "name": "Pickem under",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-06-29",
@@ -6736,7 +7092,8 @@
    "basis": "Starter over run: over in Braxton Ashcraft 100% of last 8, total 8.5",
    "name": "Starter over run",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-06-29",
@@ -6752,7 +7109,8 @@
    "basis": "Away dog ML: away dog at a 9.5 total",
    "name": "Away dog ML",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-06-28",
@@ -6769,7 +7127,8 @@
    "basis": "Pickem under: favorite only -110 at a 9.5 total",
    "name": "Pickem under",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-06-28",
@@ -6786,7 +7145,8 @@
    "basis": "Starter over run: over in Connor Prielipp 88% of last 8, total 9",
    "name": "Starter over run",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-06-28",
@@ -6803,7 +7163,8 @@
    "basis": "Starter over run: over in Anthony Kay 75% of last 8, total 8.5",
    "name": "Starter over run",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-06-28",
@@ -6819,7 +7180,8 @@
    "basis": "Away dog ML: away dog at a 9.5 total",
    "name": "Away dog ML",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-06-28",
@@ -6836,7 +7198,8 @@
    "basis": "Starter over run: over in Mitch Keller 75% of last 8, total 9",
    "name": "Starter over run",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-06-27",
@@ -6853,7 +7216,8 @@
    "basis": "Pickem under: favorite only -112 at a 8.5 total",
    "name": "Pickem under",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-06-27",
@@ -6869,7 +7233,8 @@
    "basis": "Backfilled tail at L20 mismatch -54.2. Not wagered.",
    "name": "Mismatch ML",
    "group": "scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-06-27",
@@ -6885,7 +7250,8 @@
    "basis": "Away dog ML: away dog at a 9.5 total",
    "name": "Away dog ML",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-06-27",
@@ -6901,7 +7267,8 @@
    "basis": "Backfilled tail at L20 mismatch -53.8. Not wagered.",
    "name": "Mismatch ML",
    "group": "scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-06-27",
@@ -6918,7 +7285,8 @@
    "basis": "Starter over run: over in Foster Griffin 75% of last 8, total 9",
    "name": "Starter over run",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-06-26",
@@ -6935,7 +7303,8 @@
    "basis": "Starter over run: over in Reynaldo L\u00f3pez 80% of last 8, total 8.5",
    "name": "Starter over run",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-06-26",
@@ -6952,7 +7321,8 @@
    "basis": "Pickem under: favorite only -108 at a 8.5 total",
    "name": "Pickem under",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-06-26",
@@ -6968,7 +7338,8 @@
    "basis": "Away dog ML: away dog at a 9.5 total",
    "name": "Away dog ML",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-06-26",
@@ -6984,7 +7355,8 @@
    "basis": "Backfilled tail at L20 mismatch -45.6. Not wagered.",
    "name": "Mismatch ML",
    "group": "scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-06-26",
@@ -7000,7 +7372,8 @@
    "basis": "Home slide ML: home on L6, new opponent (last faced CHC)",
    "name": "Home slide ML",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-06-26",
@@ -7017,7 +7390,8 @@
    "basis": "Pickem under: favorite only -110 at a 8.5 total",
    "name": "Pickem under",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-06-26",
@@ -7034,7 +7408,8 @@
    "basis": "Pickem under: favorite only -112 at a 9 total",
    "name": "Pickem under",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-06-25",
@@ -7051,7 +7426,8 @@
    "basis": "Cold arms under: both starters Cam Schlittler 29%, Connelly Early 12% over in last 8",
    "name": "Cold arms under",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-06-25",
@@ -7068,7 +7444,8 @@
    "basis": "Pickem under: favorite only -110 at a 8.5 total",
    "name": "Pickem under",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-06-25",
@@ -7085,7 +7462,8 @@
    "basis": "Starter over run: over in Matthew Boyd 100%, Freddy Peralta 75% of last 8, total 8.5",
    "name": "Starter over run",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-06-25",
@@ -7102,7 +7480,8 @@
    "basis": "Starter over run: over in Tatsuya Imai 75% of last 8, total 9",
    "name": "Starter over run",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-06-25",
@@ -7118,7 +7497,8 @@
    "basis": "Backfilled fade at L20 mismatch +58.6. Not wagered.",
    "name": "Mismatch ML",
    "group": "scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-06-25",
@@ -7135,7 +7515,8 @@
    "basis": "Starter over run: over in Seth Lugo 86% of last 8, total 8.5",
    "name": "Starter over run",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-06-24",
@@ -7152,7 +7533,8 @@
    "basis": "Starter over run: over in Aaron Nola 75% of last 8, total 9.5",
    "name": "Starter over run",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-06-24",
@@ -7169,7 +7551,8 @@
    "basis": "Starter over run: over in Trey Gibson 100% of last 8, total 9",
    "name": "Starter over run",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-06-24",
@@ -7186,7 +7569,8 @@
    "basis": "Pickem under: favorite only -112 at a 8.5 total",
    "name": "Pickem under",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-06-24",
@@ -7203,7 +7587,8 @@
    "basis": "Starter over run: over in Nolan McLean 75% of last 8, total 8.5",
    "name": "Starter over run",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-06-23",
@@ -7219,7 +7604,8 @@
    "basis": "Backfilled fade at L20 mismatch +63.1. Not wagered.",
    "name": "Mismatch ML",
    "group": "scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-06-23",
@@ -7236,7 +7622,8 @@
    "basis": "Pickem under: favorite only -112 at a 8.5 total",
    "name": "Pickem under",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-06-23",
@@ -7253,7 +7640,8 @@
    "basis": "Pickem under: favorite only -112 at a 8.5 total",
    "name": "Pickem under",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-06-23",
@@ -7269,7 +7657,8 @@
    "basis": "Backfilled fade at L20 mismatch +70.8. Not wagered.",
    "name": "Mismatch ML",
    "group": "scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-06-23",
@@ -7286,7 +7675,8 @@
    "basis": "Pickem under: favorite only -108 at a 8.5 total",
    "name": "Pickem under",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-06-23",
@@ -7303,7 +7693,8 @@
    "basis": "Pickem under: favorite only -112 at a 9.5 total",
    "name": "Pickem under",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-06-23",
@@ -7320,7 +7711,8 @@
    "basis": "Starter over run: over in Brandon Sproat 75%, Nick Lodolo 75% of last 8, total 9.5",
    "name": "Starter over run",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-06-23",
@@ -7337,7 +7729,8 @@
    "basis": "Starter over run: over in Mitch Keller 88% of last 8, total 8.5",
    "name": "Starter over run",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-06-23",
@@ -7354,7 +7747,8 @@
    "basis": "Starter over run: over in Sandy Alcantara 75% of last 8, total 8.5",
    "name": "Starter over run",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-06-22",
@@ -7371,7 +7765,8 @@
    "basis": "Starter over run: over in Brady Singer 75% of last 8, total 9.5",
    "name": "Starter over run",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-06-22",
@@ -7387,7 +7782,8 @@
    "basis": "Away dog ML: away dog at a 9.5 total",
    "name": "Away dog ML",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-06-22",
@@ -7404,7 +7800,8 @@
    "basis": "Starter over run: over in Foster Griffin 75% of last 8, total 9.5",
    "name": "Starter over run",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-06-22",
@@ -7421,7 +7818,8 @@
    "basis": "Starter over run: over in Framber Valdez 75% of last 8, total 8.5",
    "name": "Starter over run",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-06-21",
@@ -7437,7 +7835,8 @@
    "basis": "Away dog ML: away dog at a 9.5 total",
    "name": "Away dog ML",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-06-21",
@@ -7453,7 +7852,8 @@
    "basis": "Away dog ML: away dog at a 9.5 total",
    "name": "Away dog ML",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-06-21",
@@ -7470,7 +7870,8 @@
    "basis": "Pickem under: favorite only -112 at a 8.5 total",
    "name": "Pickem under",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-06-20",
@@ -7486,7 +7887,8 @@
    "basis": "Away dog ML: away dog at a 9.5 total",
    "name": "Away dog ML",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-06-20",
@@ -7502,7 +7904,8 @@
    "basis": "Away dog ML: away dog at a 9.5 total",
    "name": "Away dog ML",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-06-20",
@@ -7518,7 +7921,8 @@
    "basis": "Away dog ML: away dog at a 9.5 total",
    "name": "Away dog ML",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-06-19",
@@ -7535,7 +7939,8 @@
    "basis": "Starter over run: over in Connor Prielipp 88% of last 8, total 8.5",
    "name": "Starter over run",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-06-19",
@@ -7551,7 +7956,8 @@
    "basis": "Away dog ML: away dog at a 10 total",
    "name": "Away dog ML",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-06-19",
@@ -7568,7 +7974,8 @@
    "basis": "Starter over run: over in Jeffrey Springs 100% of last 8, total 10",
    "name": "Starter over run",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-06-19",
@@ -7585,7 +7992,8 @@
    "basis": "Starter over run: over in Tatsuya Imai 75% of last 8, total 8.5",
    "name": "Starter over run",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-06-19",
@@ -7602,7 +8010,8 @@
    "basis": "Cold arms under: both starters Jacob Misiorowski 0%, Mart\u00edn P\u00e9rez 25% over in last 8",
    "name": "Cold arms under",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-06-19",
@@ -7618,7 +8027,8 @@
    "basis": "Home slide ML: home on L4, new opponent (last faced SF)",
    "name": "Home slide ML",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-06-19",
@@ -7634,7 +8044,8 @@
    "basis": "Backfilled tail at L20 mismatch -69.7. Not wagered.",
    "name": "Mismatch ML",
    "group": "scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-06-18",
@@ -7650,7 +8061,8 @@
    "basis": "Away dog ML: away dog at a 10 total",
    "name": "Away dog ML",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-06-18",
@@ -7666,7 +8078,8 @@
    "basis": "Away dog ML: away dog at a 10 total",
    "name": "Away dog ML",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-06-18",
@@ -7682,7 +8095,8 @@
    "basis": "Away dog ML: away dog at a 9.5 total",
    "name": "Away dog ML",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-06-18",
@@ -7698,7 +8112,8 @@
    "basis": "Away dog ML: away dog at a 9.5 total",
    "name": "Away dog ML",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-06-17",
@@ -7715,7 +8130,8 @@
    "basis": "Starter over run: over in Braxton Ashcraft 88% of last 8, total 10.5",
    "name": "Starter over run",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-06-17",
@@ -7731,7 +8147,8 @@
    "basis": "Away dog ML: away dog at a 10 total",
    "name": "Away dog ML",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-06-17",
@@ -7747,7 +8164,8 @@
    "basis": "Away dog ML: away dog at a 10 total",
    "name": "Away dog ML",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-06-17",
@@ -7763,7 +8181,8 @@
    "basis": "Backfilled tail at L20 mismatch -51.3. Not wagered.",
    "name": "Mismatch ML",
    "group": "scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-06-17",
@@ -7779,7 +8198,8 @@
    "basis": "Away dog ML: away dog at a 9.5 total",
    "name": "Away dog ML",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-06-17",
@@ -7795,7 +8215,8 @@
    "basis": "Away dog ML: away dog at a 10.5 total",
    "name": "Away dog ML",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-06-17",
@@ -7812,7 +8233,8 @@
    "basis": "Pickem under: favorite only -112 at a 8.5 total",
    "name": "Pickem under",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-06-17",
@@ -7828,7 +8250,8 @@
    "basis": "Away dog ML: away dog at a 11.5 total",
    "name": "Away dog ML",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-06-17",
@@ -7844,7 +8267,8 @@
    "basis": "Away dog ML: away dog at a 10.5 total",
    "name": "Away dog ML",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-06-17",
@@ -7860,7 +8284,8 @@
    "basis": "Away dog ML: away dog at a 9.5 total",
    "name": "Away dog ML",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-06-17",
@@ -7876,7 +8301,8 @@
    "basis": "Backfilled fade at L20 mismatch +63.2. Not wagered.",
    "name": "Mismatch ML",
    "group": "scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-06-17",
@@ -7893,7 +8319,8 @@
    "basis": "Starter over run: over in Sandy Alcantara 75% of last 8, total 9.5",
    "name": "Starter over run",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-06-16",
@@ -7909,7 +8336,8 @@
    "basis": "Away dog ML: away dog at a 10.5 total",
    "name": "Away dog ML",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-06-16",
@@ -7926,7 +8354,8 @@
    "basis": "Pickem under: favorite only -108 at a 8.5 total",
    "name": "Pickem under",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-06-16",
@@ -7943,7 +8372,8 @@
    "basis": "Starter over run: over in Mitch Keller 75% of last 8, total 10.5",
    "name": "Starter over run",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-06-16",
@@ -7960,7 +8390,8 @@
    "basis": "Starter over run: over in Framber Valdez 75% of last 8, total 8.5",
    "name": "Starter over run",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-06-16",
@@ -7976,7 +8407,8 @@
    "basis": "Away dog ML: away dog at a 9.5 total",
    "name": "Away dog ML",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-06-16",
@@ -7993,7 +8425,8 @@
    "basis": "Starter over run: over in Brady Singer 88% of last 8, total 9.5",
    "name": "Starter over run",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-06-15",
@@ -8009,7 +8442,8 @@
    "basis": "Away dog ML: away dog at a 9.5 total",
    "name": "Away dog ML",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-06-15",
@@ -8026,7 +8460,8 @@
    "basis": "Starter over run: over in Eric Lauer 75% of last 8, total 9.5",
    "name": "Starter over run",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-06-15",
@@ -8042,7 +8477,8 @@
    "basis": "Away dog ML: away dog at a 10.5 total",
    "name": "Away dog ML",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-06-15",
@@ -8058,7 +8494,8 @@
    "basis": "Away dog ML: away dog at a 9.5 total",
    "name": "Away dog ML",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-06-15",
@@ -8075,7 +8512,8 @@
    "basis": "Starter over run: over in MacKenzie Gore 86% of last 8, total 8.5",
    "name": "Starter over run",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-06-15",
@@ -8091,7 +8529,8 @@
    "basis": "Away dog ML: away dog at a 9.5 total",
    "name": "Away dog ML",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-06-14",
@@ -8108,7 +8547,8 @@
    "basis": "Cold arms under: both starters Nathan Eovaldi 29%, Connelly Early 14% over in last 8",
    "name": "Cold arms under",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-06-14",
@@ -8125,7 +8565,8 @@
    "basis": "Starter over run: over in Grayson Rodriguez 75% of last 8, total 9",
    "name": "Starter over run",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-06-14",
@@ -8141,7 +8582,8 @@
    "basis": "Away dog ML: away dog at a 13.5 total",
    "name": "Away dog ML",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-06-14",
@@ -8158,7 +8600,8 @@
    "basis": "Starter over run: over in Jeffrey Springs 86% of last 8, total 13.5",
    "name": "Starter over run",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-06-14",
@@ -8174,7 +8617,8 @@
    "basis": "Backfilled tail at L20 mismatch -48.1. Not wagered.",
    "name": "Mismatch ML",
    "group": "scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-06-14",
@@ -8191,7 +8635,8 @@
    "basis": "Pickem under: favorite only -112 at a 9.5 total",
    "name": "Pickem under",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-06-14",
@@ -8208,7 +8653,8 @@
    "basis": "Pickem under: favorite only -112 at a 10 total",
    "name": "Pickem under",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-06-14",
@@ -8225,7 +8671,8 @@
    "basis": "Starter over run: over in Freddy Peralta 75% of last 8, total 8.5",
    "name": "Starter over run",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-06-14",
@@ -8241,7 +8688,8 @@
    "basis": "Away dog ML: away dog at a 10.5 total",
    "name": "Away dog ML",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-06-14",
@@ -8258,7 +8706,8 @@
    "basis": "Cold arms under: both starters Emerson Hancock 29%, PJ Poulin 25% over in last 8",
    "name": "Cold arms under",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-06-13",
@@ -8275,7 +8724,8 @@
    "basis": "Pickem under: favorite only -112 at a 8.5 total",
    "name": "Pickem under",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-06-13",
@@ -8291,7 +8741,8 @@
    "basis": "Away dog ML: away dog at a 14.5 total",
    "name": "Away dog ML",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-06-13",
@@ -8307,7 +8758,8 @@
    "basis": "Backfilled fade at L20 mismatch +78.2. Not wagered.",
    "name": "Mismatch ML",
    "group": "scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-06-13",
@@ -8324,7 +8776,8 @@
    "basis": "Starter over run: over in Kyle Freeland 75% of last 8, total 14.5",
    "name": "Starter over run",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-06-13",
@@ -8340,7 +8793,8 @@
    "basis": "Away dog ML: away dog at a 9.5 total",
    "name": "Away dog ML",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-06-13",
@@ -8357,7 +8811,8 @@
    "basis": "Starter over run: over in Sean Burke 75% of last 8, total 8.5",
    "name": "Starter over run",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-06-13",
@@ -8373,7 +8828,8 @@
    "basis": "Away dog ML: away dog at a 10 total",
    "name": "Away dog ML",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-06-13",
@@ -8390,7 +8846,8 @@
    "basis": "Pickem under: favorite only -110 at a 9 total",
    "name": "Pickem under",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-06-13",
@@ -8407,7 +8864,8 @@
    "basis": "Starter over run: over in Connor Prielipp 88% of last 8, total 9",
    "name": "Starter over run",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-06-12",
@@ -8423,7 +8881,8 @@
    "basis": "Away dog ML: away dog at a 13.5 total",
    "name": "Away dog ML",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-06-12",
@@ -8440,7 +8899,8 @@
    "basis": "Pickem under: favorite only -112 at a 9.5 total",
    "name": "Pickem under",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-06-12",
@@ -8457,7 +8917,8 @@
    "basis": "Starter over run: over in Tatsuya Imai 75% of last 8, total 9.5",
    "name": "Starter over run",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-06-12",
@@ -8473,7 +8934,8 @@
    "basis": "Backfilled tail at L20 mismatch -60.3. Not wagered.",
    "name": "Mismatch ML",
    "group": "scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-06-12",
@@ -8490,7 +8952,8 @@
    "basis": "Pickem under: favorite only -112 at a 9.5 total",
    "name": "Pickem under",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-06-12",
@@ -8507,7 +8970,8 @@
    "basis": "Starter over run: over in Nick Lodolo 83% of last 8, total 9.5",
    "name": "Starter over run",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-06-12",
@@ -8523,7 +8987,8 @@
    "basis": "Home slide ML: home on L4, new opponent (last faced NYY)",
    "name": "Home slide ML",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-06-12",
@@ -8539,7 +9004,8 @@
    "basis": "Home slide ML: home on L4, new opponent (last faced TB)",
    "name": "Home slide ML",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-06-12",
@@ -8555,7 +9021,8 @@
    "basis": "Away dog ML: away dog at a 9.5 total",
    "name": "Away dog ML",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-06-12",
@@ -8572,7 +9039,8 @@
    "basis": "Cold arms under: both starters Griffin Canning 29%, Shane Baz 25% over in last 8",
    "name": "Cold arms under",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-06-12",
@@ -8589,7 +9057,8 @@
    "basis": "Starter over run: over in Braxton Ashcraft 88% of last 8, total 8.5",
    "name": "Starter over run",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-06-11",
@@ -8606,7 +9075,8 @@
    "basis": "Starter over run: over in Mitch Keller 75% of last 8, total 9.5",
    "name": "Starter over run",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-06-11",
@@ -8622,7 +9092,8 @@
    "basis": "Away dog ML: away dog at a 9.5 total",
    "name": "Away dog ML",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-06-10",
@@ -8639,7 +9110,8 @@
    "basis": "Pickem under: favorite only -112 at a 14.5 total",
    "name": "Pickem under",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-06-10",
@@ -8656,7 +9128,8 @@
    "basis": "Starter over run: over in Brandon Sproat 75% of last 8, total 14.5",
    "name": "Starter over run",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-06-10",
@@ -8673,7 +9146,8 @@
    "basis": "Pickem under: favorite only -112 at a 10 total",
    "name": "Pickem under",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-06-10",
@@ -8690,7 +9164,8 @@
    "basis": "Starter over run: over in MacKenzie Gore 75%, Seth Lugo 75% of last 8, total 10",
    "name": "Starter over run",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-06-10",
@@ -8706,7 +9181,8 @@
    "basis": "Away dog ML: away dog at a 9.5 total",
    "name": "Away dog ML",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-06-10",
@@ -8723,7 +9199,8 @@
    "basis": "Starter over run: over in Framber Valdez 75% of last 8, total 9.5",
    "name": "Starter over run",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-06-10",
@@ -8740,7 +9217,8 @@
    "basis": "Pickem under: favorite only -110 at a 9 total",
    "name": "Pickem under",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-06-10",
@@ -8757,7 +9235,8 @@
    "basis": "Starter over run: over in Brandon Young 86% of last 8, total 9",
    "name": "Starter over run",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-06-10",
@@ -8774,7 +9253,8 @@
    "basis": "Starter over run: over in Brady Singer 88% of last 8, total 8.5",
    "name": "Starter over run",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-06-10",
@@ -8791,7 +9271,8 @@
    "basis": "Pickem under: favorite only -110 at a 8.5 total",
    "name": "Pickem under",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-06-09",
@@ -8808,7 +9289,8 @@
    "basis": "Pickem under: favorite only -112 at a 13.5 total",
    "name": "Pickem under",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-06-09",
@@ -8825,7 +9307,8 @@
    "basis": "Pickem under: favorite only -110 at a 8.5 total",
    "name": "Pickem under",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-06-09",
@@ -8841,7 +9324,8 @@
    "basis": "Backfilled tail at L20 mismatch -49.3. Not wagered.",
    "name": "Mismatch ML",
    "group": "scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-06-09",
@@ -8857,7 +9341,8 @@
    "basis": "Home slide ML: home on L4, new opponent (last faced MIL)",
    "name": "Home slide ML",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-06-09",
@@ -8874,7 +9359,8 @@
    "basis": "Starter over run: over in Colin Rea 75% of last 8, total 12.5",
    "name": "Starter over run",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-06-09",
@@ -8891,7 +9377,8 @@
    "basis": "Starter over run: over in Logan Gilbert 75% of last 8, total 8.5",
    "name": "Starter over run",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-06-07",
@@ -8908,7 +9395,8 @@
    "basis": "Starter over run: over in Kyle Freeland 75% of last 8, total 11.5",
    "name": "Starter over run",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-06-07",
@@ -8924,7 +9412,8 @@
    "basis": "Away dog ML: away dog at a 9.5 total",
    "name": "Away dog ML",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-06-07",
@@ -8941,7 +9430,8 @@
    "basis": "Pickem under: favorite only -108 at a 9 total",
    "name": "Pickem under",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-06-07",
@@ -8958,7 +9448,8 @@
    "basis": "Starter over run: over in Connor Prielipp 75% of last 8, total 8.5",
    "name": "Starter over run",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-06-07",
@@ -8974,7 +9465,8 @@
    "basis": "Backfilled tail at L20 mismatch -75.8. Not wagered.",
    "name": "Mismatch ML",
    "group": "scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-06-06",
@@ -8990,7 +9482,8 @@
    "basis": "Backfilled fade at L20 mismatch +63.3. Not wagered.",
    "name": "Mismatch ML",
    "group": "scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-06-06",
@@ -9006,7 +9499,8 @@
    "basis": "Backfilled tail at L20 mismatch -57.9. Not wagered.",
    "name": "Mismatch ML",
    "group": "scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-06-06",
@@ -9022,7 +9516,8 @@
    "basis": "Away dog ML: away dog at a 9.5 total",
    "name": "Away dog ML",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-06-06",
@@ -9038,7 +9533,8 @@
    "basis": "Away dog ML: away dog at a 9.5 total",
    "name": "Away dog ML",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-06-06",
@@ -9054,7 +9550,8 @@
    "basis": "Backfilled tail at L20 mismatch -52.3. Not wagered.",
    "name": "Mismatch ML",
    "group": "scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-06-06",
@@ -9071,7 +9568,8 @@
    "basis": "Pickem under: favorite only -112 at a 8.5 total",
    "name": "Pickem under",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-06-06",
@@ -9088,7 +9586,8 @@
    "basis": "Starter over run: over in Nick Lodolo 80% of last 8, total 9",
    "name": "Starter over run",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-06-05",
@@ -9105,7 +9604,8 @@
    "basis": "Cold arms under: both starters Christian Scott 33%, Michael King 25% over in last 8",
    "name": "Cold arms under",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-06-05",
@@ -9121,7 +9621,8 @@
    "basis": "Home slide ML: home on L5, new opponent (last faced PHI)",
    "name": "Home slide ML",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-06-05",
@@ -9137,7 +9638,8 @@
    "basis": "Away dog ML: away dog at a 9.5 total",
    "name": "Away dog ML",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-06-05",
@@ -9154,7 +9656,8 @@
    "basis": "Starter over run: over in Brady Singer 75% of last 8, total 9.5",
    "name": "Starter over run",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-06-05",
@@ -9171,7 +9674,8 @@
    "basis": "Pickem under: favorite only -108 at a 8.5 total",
    "name": "Pickem under",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-06-05",
@@ -9188,7 +9692,8 @@
    "basis": "Starter over run: over in Mitch Keller 75% of last 8, total 8.5",
    "name": "Starter over run",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-06-05",
@@ -9204,7 +9709,8 @@
    "basis": "Away dog ML: away dog at a 10.5 total",
    "name": "Away dog ML",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-06-04",
@@ -9221,7 +9727,8 @@
    "basis": "Pickem under: favorite only -110 at a 8.5 total",
    "name": "Pickem under",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-06-04",
@@ -9237,7 +9744,8 @@
    "basis": "Away dog ML: away dog at a 10.5 total",
    "name": "Away dog ML",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-06-04",
@@ -9254,7 +9762,8 @@
    "basis": "Starter over run: over in Seth Lugo 75% of last 8, total 8.5",
    "name": "Starter over run",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-06-04",
@@ -9270,7 +9779,8 @@
    "basis": "Backfilled fade at L20 mismatch +73.6. Not wagered.",
    "name": "Mismatch ML",
    "group": "scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-06-04",
@@ -9286,7 +9796,8 @@
    "basis": "Backfilled fade at L20 mismatch +58.9. Not wagered.",
    "name": "Mismatch ML",
    "group": "scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-06-04",
@@ -9303,7 +9814,8 @@
    "basis": "Starter over run: over in Brayan Bello 86% of last 8, total 10.5",
    "name": "Starter over run",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-06-03",
@@ -9320,7 +9832,8 @@
    "basis": "Starter over run: over in Chris Bassitt 88% of last 8, total 8.5",
    "name": "Starter over run",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-06-03",
@@ -9336,7 +9849,8 @@
    "basis": "Backfilled tail at L20 mismatch -64.8. Not wagered.",
    "name": "Mismatch ML",
    "group": "scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-06-02",
@@ -9353,7 +9867,8 @@
    "basis": "Pickem under: favorite only -112 at a 9 total",
    "name": "Pickem under",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-06-02",
@@ -9370,7 +9885,8 @@
    "basis": "Cold arms under: both starters Shane Baz 25%, Connelly Early 29% over in last 8",
    "name": "Cold arms under",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-06-01",
@@ -9387,7 +9903,8 @@
    "basis": "Cold arms under: both starters Jacob deGrom 25%, Michael McGreevy 12% over in last 8",
    "name": "Cold arms under",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-06-01",
@@ -9403,7 +9920,8 @@
    "basis": "Home slide ML: home on L5, new opponent (last faced PIT)",
    "name": "Home slide ML",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-06-01",
@@ -9419,7 +9937,8 @@
    "basis": "Away dog ML: away dog at a 9.5 total",
    "name": "Away dog ML",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-05-31",
@@ -9436,7 +9955,8 @@
    "basis": "Cold arms under: both starters Andrew Painter 25%, Yoshinobu Yamamoto 25% over in last 8",
    "name": "Cold arms under",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-05-31",
@@ -9452,7 +9972,8 @@
    "basis": "Backfilled fade at L20 mismatch +63.8. Not wagered.",
    "name": "Mismatch ML",
    "group": "scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-05-31",
@@ -9469,7 +9990,8 @@
    "basis": "Pickem under: favorite only -112 at a 11 total",
    "name": "Pickem under",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-05-31",
@@ -9485,7 +10007,8 @@
    "basis": "Backfilled tail at L20 mismatch -66.5. Not wagered.",
    "name": "Mismatch ML",
    "group": "scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-05-31",
@@ -9502,7 +10025,8 @@
    "basis": "Starter over run: over in Spencer Strider 80% of last 8, total 8.5",
    "name": "Starter over run",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-05-31",
@@ -9519,7 +10043,8 @@
    "basis": "Starter over run: over in Zack Littell 83% of last 8, total 9.5",
    "name": "Starter over run",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-05-30",
@@ -9536,7 +10061,8 @@
    "basis": "Starter over run: over in Roki Sasaki 75% of last 8, total 8.5",
    "name": "Starter over run",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-05-30",
@@ -9553,7 +10079,8 @@
    "basis": "Starter over run: over in Brady Singer 88% of last 8, total 9.5",
    "name": "Starter over run",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-05-30",
@@ -9570,7 +10097,8 @@
    "basis": "Cold arms under: both starters Sonny Gray 25%, Parker Messick 25% over in last 8",
    "name": "Cold arms under",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-05-30",
@@ -9587,7 +10115,8 @@
    "basis": "Starter over run: over in Bailey Ober 75%, Mitch Keller 75% of last 8, total 8.5",
    "name": "Starter over run",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-05-29",
@@ -9603,7 +10132,8 @@
    "basis": "Home slide ML: home on L5, new opponent (last faced LAD)",
    "name": "Home slide ML",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-05-29",
@@ -9620,7 +10150,8 @@
    "basis": "Pickem under: favorite only -108 at a 8.5 total",
    "name": "Pickem under",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-05-29",
@@ -9636,7 +10167,8 @@
    "basis": "Home slide ML: home on L4, new opponent (last faced MIL)",
    "name": "Home slide ML",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-05-29",
@@ -9653,7 +10185,8 @@
    "basis": "Cold arms under: both starters Walbert Ure\u00f1a 29%, Nick Martinez 25% over in last 8",
    "name": "Cold arms under",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-05-29",
@@ -9669,7 +10202,8 @@
    "basis": "Home slide ML: home on L4, new opponent (last faced BAL)",
    "name": "Home slide ML",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-05-29",
@@ -9685,7 +10219,8 @@
    "basis": "Away dog ML: away dog at a 9.5 total",
    "name": "Away dog ML",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-05-28",
@@ -9702,7 +10237,8 @@
    "basis": "Starter over run: over in Chris Bassitt 88% of last 8, total 8.5",
    "name": "Starter over run",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-05-28",
@@ -9718,7 +10254,8 @@
    "basis": "Backfilled fade at L20 mismatch +70.5. Not wagered.",
    "name": "Mismatch ML",
    "group": "scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-05-27",
@@ -9735,7 +10272,8 @@
    "basis": "Cold arms under: both starters Tomoyuki Sugano 12%, Shohei Ohtani 14% over in last 8",
    "name": "Cold arms under",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-05-27",
@@ -9751,7 +10289,8 @@
    "basis": "Backfilled tail at L20 mismatch -47.2. Not wagered.",
    "name": "Mismatch ML",
    "group": "scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-05-27",
@@ -9768,7 +10307,8 @@
    "basis": "Starter over run: over in Andrew Abbott 75% of last 8, total 8.5",
    "name": "Starter over run",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-05-27",
@@ -9785,7 +10325,8 @@
    "basis": "Starter over run: over in Braxton Ashcraft 88% of last 8, total 8.5",
    "name": "Starter over run",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-05-27",
@@ -9802,7 +10343,8 @@
    "basis": "Cold arms under: both starters Dustin May 25%, Chad Patrick 25% over in last 8",
    "name": "Cold arms under",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-05-26",
@@ -9819,7 +10361,8 @@
    "basis": "Pickem under: favorite only -112 at a 9.5 total",
    "name": "Pickem under",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-05-26",
@@ -9835,7 +10378,8 @@
    "basis": "Backfilled fade at L20 mismatch +56.5. Not wagered.",
    "name": "Mismatch ML",
    "group": "scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-05-26",
@@ -9852,7 +10396,8 @@
    "basis": "Pickem under: favorite only -112 at a 8.5 total",
    "name": "Pickem under",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-05-25",
@@ -9868,7 +10413,8 @@
    "basis": "Backfilled tail at L20 mismatch -49.8. Not wagered.",
    "name": "Mismatch ML",
    "group": "scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-05-25",
@@ -9885,7 +10431,8 @@
    "basis": "Pickem under: favorite only -110 at a 8.5 total",
    "name": "Pickem under",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-05-24",
@@ -9902,7 +10449,8 @@
    "basis": "Cold arms under: both starters Parker Messick 25%, Andrew Painter 25% over in last 8",
    "name": "Cold arms under",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-05-23",
@@ -9918,7 +10466,8 @@
    "basis": "Away dog ML: away dog at a 9.5 total",
    "name": "Away dog ML",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-05-23",
@@ -9935,7 +10484,8 @@
    "basis": "Pickem under: favorite only -110 at a 9.5 total",
    "name": "Pickem under",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-05-23",
@@ -9952,7 +10502,8 @@
    "basis": "Starter over run: over in Jake Irvin 75% of last 8, total 8.5",
    "name": "Starter over run",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-05-23",
@@ -9969,7 +10520,8 @@
    "basis": "Pickem under: favorite only -112 at a 8.5 total",
    "name": "Pickem under",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-05-23",
@@ -9986,7 +10538,8 @@
    "basis": "Pickem under: favorite only -112 at a 9.5 total",
    "name": "Pickem under",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-05-22",
@@ -10003,7 +10556,8 @@
    "basis": "Pickem under: favorite only -112 at a 8.5 total",
    "name": "Pickem under",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-05-22",
@@ -10019,7 +10573,8 @@
    "basis": "Home slide ML: home on L5, new opponent (last faced MIL)",
    "name": "Home slide ML",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-05-21",
@@ -10035,7 +10590,8 @@
    "basis": "Away dog ML: away dog at a 9.5 total",
    "name": "Away dog ML",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-05-20",
@@ -10051,7 +10607,8 @@
    "basis": "Backfilled tail at L20 mismatch -53.6. Not wagered.",
    "name": "Mismatch ML",
    "group": "scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-05-20",
@@ -10068,7 +10625,8 @@
    "basis": "Cold arms under: both starters Carmen Mlodzinski 14%, Michael McGreevy 12% over in last 8",
    "name": "Cold arms under",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-05-20",
@@ -10085,7 +10643,8 @@
    "basis": "Cold arms under: both starters Connelly Early 29%, Michael Wacha 25% over in last 8",
    "name": "Cold arms under",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-05-20",
@@ -10102,7 +10661,8 @@
    "basis": "Starter over run: over in Zack Littell 80% of last 8, total 9.5",
    "name": "Starter over run",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-05-20",
@@ -10119,7 +10679,8 @@
    "basis": "Pickem under: favorite only -110 at a 8.5 total",
    "name": "Pickem under",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-05-20",
@@ -10135,7 +10696,8 @@
    "basis": "Away dog ML: away dog at a 9.5 total",
    "name": "Away dog ML",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-05-20",
@@ -10152,7 +10714,8 @@
    "basis": "Starter over run: over in Andrew Abbott 75% of last 8, total 9.5",
    "name": "Starter over run",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-05-19",
@@ -10168,7 +10731,8 @@
    "basis": "Backfilled fade at L20 mismatch +59.7. Not wagered.",
    "name": "Mismatch ML",
    "group": "scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-05-19",
@@ -10185,7 +10749,8 @@
    "basis": "Starter over run: over in Ryne Nelson 75% of last 8, total 8.5",
    "name": "Starter over run",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-05-19",
@@ -10202,7 +10767,8 @@
    "basis": "Pickem under: favorite only -108 at a 10 total",
    "name": "Pickem under",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-05-19",
@@ -10218,7 +10784,8 @@
    "basis": "Backfilled tail at L20 mismatch -46.1. Not wagered.",
    "name": "Mismatch ML",
    "group": "scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-05-18",
@@ -10235,7 +10802,8 @@
    "basis": "Cold arms under: both starters Robbie Ray 25%, Zac Gallen 29% over in last 8",
    "name": "Cold arms under",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-05-18",
@@ -10251,7 +10819,8 @@
    "basis": "Home slide ML: home on L6, new opponent (last faced LAD)",
    "name": "Home slide ML",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-05-18",
@@ -10267,7 +10836,8 @@
    "basis": "Away dog ML: away dog at a 10.5 total",
    "name": "Away dog ML",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-05-18",
@@ -10284,7 +10854,8 @@
    "basis": "Pickem under: favorite only -110 at a 9.5 total",
    "name": "Pickem under",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-05-18",
@@ -10301,7 +10872,8 @@
    "basis": "Pickem under: favorite only -112 at a 9 total",
    "name": "Pickem under",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-05-18",
@@ -10318,7 +10890,8 @@
    "basis": "Starter over run: over in Jake Irvin 75% of last 8, total 10",
    "name": "Starter over run",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-05-18",
@@ -10334,7 +10907,8 @@
    "basis": "Away dog ML: away dog at a 10 total",
    "name": "Away dog ML",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-05-18",
@@ -10351,7 +10925,8 @@
    "basis": "Pickem under: favorite only -112 at a 8.5 total",
    "name": "Pickem under",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-05-17",
@@ -10367,7 +10942,8 @@
    "basis": "Away dog ML: away dog at a 9.5 total",
    "name": "Away dog ML",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-05-17",
@@ -10384,7 +10960,8 @@
    "basis": "Starter over run: over in Brady Singer 86% of last 8, total 8.5",
    "name": "Starter over run",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-05-17",
@@ -10401,7 +10978,8 @@
    "basis": "Starter over run: over in Brayan Bello 83% of last 8, total 8.5",
    "name": "Starter over run",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-05-16",
@@ -10417,7 +10995,8 @@
    "basis": "Away dog ML: away dog at a 9.5 total",
    "name": "Away dog ML",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-05-16",
@@ -10434,7 +11013,8 @@
    "basis": "Pickem under: favorite only -108 at a 8.5 total",
    "name": "Pickem under",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-05-16",
@@ -10451,7 +11031,8 @@
    "basis": "Starter over run: over in Joey Cantillo 75% of last 8, total 8.5",
    "name": "Starter over run",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-05-16",
@@ -10468,7 +11049,8 @@
    "basis": "Pickem under: favorite only -108 at a 10 total",
    "name": "Pickem under",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-05-16",
@@ -10485,7 +11067,8 @@
    "basis": "Starter over run: over in Chris Bassitt 86%, Cade Cavalli 86% of last 8, total 10",
    "name": "Starter over run",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-05-16",
@@ -10502,7 +11085,8 @@
    "basis": "Pickem under: favorite only -110 at a 9 total",
    "name": "Pickem under",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-05-15",
@@ -10518,7 +11102,8 @@
    "basis": "Away dog ML: away dog at a 9.5 total",
    "name": "Away dog ML",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-05-15",
@@ -10535,7 +11120,8 @@
    "basis": "Cold arms under: both starters Michael Wacha 12%, Dustin May 25% over in last 8",
    "name": "Cold arms under",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-05-15",
@@ -10552,7 +11138,8 @@
    "basis": "Pickem under: favorite only -108 at a 8.5 total",
    "name": "Pickem under",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-05-15",
@@ -10569,7 +11156,8 @@
    "basis": "Pickem under: favorite only -112 at a 8.5 total",
    "name": "Pickem under",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-05-15",
@@ -10586,7 +11174,8 @@
    "basis": "Pickem under: favorite only -108 at a 8.5 total",
    "name": "Pickem under",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-05-15",
@@ -10603,7 +11192,8 @@
    "basis": "Starter over run: over in Zack Littell 100% of last 8, total 9.5",
    "name": "Starter over run",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-05-14",
@@ -10619,7 +11209,8 @@
    "basis": "Away dog ML: away dog at a 9.5 total",
    "name": "Away dog ML",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-05-14",
@@ -10636,7 +11227,8 @@
    "basis": "Pickem under: favorite only -112 at a 9 total",
    "name": "Pickem under",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-05-14",
@@ -10653,7 +11245,8 @@
    "basis": "Pickem under: favorite only -110 at a 8.5 total",
    "name": "Pickem under",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-05-13",
@@ -10670,7 +11263,8 @@
    "basis": "Cold arms under: both starters Robbie Ray 25%, Shohei Ohtani 20% over in last 8",
    "name": "Cold arms under",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-05-13",
@@ -10686,7 +11280,8 @@
    "basis": "Away dog ML: away dog at a 9.5 total",
    "name": "Away dog ML",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-05-13",
@@ -10703,7 +11298,8 @@
    "basis": "Starter over run: over in Matthew Liberatore 75% of last 8, total 9.5",
    "name": "Starter over run",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-05-13",
@@ -10720,7 +11316,8 @@
    "basis": "Starter over run: over in Lance McCullers Jr. 100% of last 8, total 9",
    "name": "Starter over run",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-05-13",
@@ -10736,7 +11333,8 @@
    "basis": "Backfilled tail at L20 mismatch -48.7. Not wagered.",
    "name": "Mismatch ML",
    "group": "scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-05-13",
@@ -10753,7 +11351,8 @@
    "basis": "Cold arms under: both starters Andrew Painter 33%, Sonny Gray 33% over in last 8",
    "name": "Cold arms under",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-05-13",
@@ -10769,7 +11368,8 @@
    "basis": "Away dog ML: away dog at a 9.5 total",
    "name": "Away dog ML",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-05-13",
@@ -10786,7 +11386,8 @@
    "basis": "Starter over run: over in Kyle Bradish 75% of last 8, total 8.5",
    "name": "Starter over run",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-05-12",
@@ -10802,7 +11403,8 @@
    "basis": "Away dog ML: away dog at a 10 total",
    "name": "Away dog ML",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-05-12",
@@ -10819,7 +11421,8 @@
    "basis": "Pickem under: favorite only -110 at a 9 total",
    "name": "Pickem under",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-05-12",
@@ -10836,7 +11439,8 @@
    "basis": "Starter over run: over in Eury P\u00e9rez 88%, Bailey Ober 88% of last 8, total 9",
    "name": "Starter over run",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-05-12",
@@ -10852,7 +11456,8 @@
    "basis": "Away dog ML: away dog at a 9.5 total",
    "name": "Away dog ML",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-05-12",
@@ -10869,7 +11474,8 @@
    "basis": "Starter over run: over in Miles Mikolas 80%, Brady Singer 86% of last 8, total 9.5",
    "name": "Starter over run",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-05-11",
@@ -10885,7 +11491,8 @@
    "basis": "Away dog ML: away dog at a 9.5 total",
    "name": "Away dog ML",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-05-10",
@@ -10901,7 +11508,8 @@
    "basis": "Away dog ML: away dog at a 9.5 total",
    "name": "Away dog ML",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-05-10",
@@ -10918,7 +11526,8 @@
    "basis": "Pickem under: favorite only -112 at a 9.5 total",
    "name": "Pickem under",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-05-10",
@@ -10935,7 +11544,8 @@
    "basis": "Starter over run: over in Andrew Abbott 75% of last 8, total 9.5",
    "name": "Starter over run",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-05-10",
@@ -10952,7 +11562,8 @@
    "basis": "Pickem under: favorite only -108 at a 10.5 total",
    "name": "Pickem under",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-05-10",
@@ -10969,7 +11580,8 @@
    "basis": "Starter over run: over in Cade Cavalli 100% of last 8, total 8.5",
    "name": "Starter over run",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-05-09",
@@ -10986,7 +11598,8 @@
    "basis": "Pickem under: favorite only -108 at a 9.5 total",
    "name": "Pickem under",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-05-09",
@@ -11003,7 +11616,8 @@
    "basis": "Starter over run: over in Spencer Arrighetti 75% of last 8, total 8.5",
    "name": "Starter over run",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-05-09",
@@ -11019,7 +11633,8 @@
    "basis": "Away dog ML: away dog at a 9.5 total",
    "name": "Away dog ML",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-05-08",
@@ -11036,7 +11651,8 @@
    "basis": "Cold arms under: both starters Carmen Mlodzinski 17%, Robbie Ray 29% over in last 8",
    "name": "Cold arms under",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-05-08",
@@ -11053,7 +11669,8 @@
    "basis": "Starter over run: over in Ryne Nelson 86% of last 8, total 8.5",
    "name": "Starter over run",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-05-08",
@@ -11069,7 +11686,8 @@
    "basis": "Home slide ML: home on L4, new opponent (last faced TB)",
    "name": "Home slide ML",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-05-08",
@@ -11085,7 +11703,8 @@
    "basis": "Away dog ML: away dog at a 9.5 total",
    "name": "Away dog ML",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-05-08",
@@ -11102,7 +11721,8 @@
    "basis": "Starter over run: over in Kyle Bradish 86% of last 8, total 9.5",
    "name": "Starter over run",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-05-08",
@@ -11118,7 +11738,8 @@
    "basis": "Home slide ML: home on L7, new opponent (last faced CHC)",
    "name": "Home slide ML",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-05-07",
@@ -11135,7 +11756,8 @@
    "basis": "Pickem under: favorite only -112 at a 8.5 total",
    "name": "Pickem under",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-05-07",
@@ -11151,7 +11773,8 @@
    "basis": "Away dog ML: away dog at a 9.5 total",
    "name": "Away dog ML",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-05-06",
@@ -11167,7 +11790,8 @@
    "basis": "Backfilled fade at L20 mismatch +62.9. Not wagered.",
    "name": "Mismatch ML",
    "group": "scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-05-06",
@@ -11184,7 +11808,8 @@
    "basis": "Starter over run: over in Bailey Ober 86% of last 8, total 9.5",
    "name": "Starter over run",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-05-06",
@@ -11201,7 +11826,8 @@
    "basis": "Pickem under: favorite only -108 at a 8.5 total",
    "name": "Pickem under",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-05-06",
@@ -11218,7 +11844,8 @@
    "basis": "Starter over run: over in Eury P\u00e9rez 86% of last 8, total 8.5",
    "name": "Starter over run",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-05-06",
@@ -11235,7 +11862,8 @@
    "basis": "Pickem under: favorite only -108 at a 8.5 total",
    "name": "Pickem under",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-05-06",
@@ -11252,7 +11880,8 @@
    "basis": "Starter over run: over in Adrian Houser 80% of last 8, total 8.5",
    "name": "Starter over run",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-05-06",
@@ -11269,7 +11898,8 @@
    "basis": "Starter over run: over in Lance McCullers Jr. 100% of last 8, total 8.5",
    "name": "Starter over run",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-05-05",
@@ -11285,7 +11915,8 @@
    "basis": "Home slide ML: home on L4, new opponent (last faced CHC)",
    "name": "Home slide ML",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-05-05",
@@ -11301,7 +11932,8 @@
    "basis": "Backfilled fade at L20 mismatch +66.9. Not wagered.",
    "name": "Mismatch ML",
    "group": "scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-05-05",
@@ -11318,7 +11950,8 @@
    "basis": "Starter over run: over in Andrew Abbott 86% of last 8, total 8.5",
    "name": "Starter over run",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-05-05",
@@ -11335,7 +11968,8 @@
    "basis": "Starter over run: over in Cade Cavalli 100% of last 8, total 9.5",
    "name": "Starter over run",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-05-05",
@@ -11352,7 +11986,8 @@
    "basis": "Starter over run: over in Chris Bassitt 83% of last 8, total 8.5",
    "name": "Starter over run",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-05-04",
@@ -11368,7 +12003,8 @@
    "basis": "Home slide ML: home on L6, new opponent (last faced TB)",
    "name": "Home slide ML",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-05-04",
@@ -11384,7 +12020,8 @@
    "basis": "Away dog ML: away dog at a 11.5 total",
    "name": "Away dog ML",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-05-04",
@@ -11401,7 +12038,8 @@
    "basis": "Pickem under: favorite only -110 at a 8.5 total",
    "name": "Pickem under",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-05-04",
@@ -11417,7 +12055,8 @@
    "basis": "Home slide ML: home on L4, new opponent (last faced ATL)",
    "name": "Home slide ML",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-05-03",
@@ -11434,7 +12073,8 @@
    "basis": "Cold arms under: both starters Parker Messick 33%, Aaron Civale 33% over in last 8",
    "name": "Cold arms under",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-05-03",
@@ -11450,7 +12090,8 @@
    "basis": "Away dog ML: away dog at a 11.5 total",
    "name": "Away dog ML",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-05-03",
@@ -11466,7 +12107,8 @@
    "basis": "Backfilled fade at L20 mismatch +71.3. Not wagered.",
    "name": "Mismatch ML",
    "group": "scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-05-02",
@@ -11483,7 +12125,8 @@
    "basis": "Starter over run: over in Keider Montero 75% of last 8, total 8.5",
    "name": "Starter over run",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-05-02",
@@ -11499,7 +12142,8 @@
    "basis": "Away dog ML: away dog at a 10.5 total",
    "name": "Away dog ML",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-05-02",
@@ -11516,7 +12160,8 @@
    "basis": "Starter over run: over in Kyle Bradish 83% of last 8, total 8.5",
    "name": "Starter over run",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-05-01",
@@ -11533,7 +12178,8 @@
    "basis": "Cold arms under: both starters Cole Ragans 33%, Bryan Woo 33% over in last 8",
    "name": "Cold arms under",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-05-01",
@@ -11550,7 +12196,8 @@
    "basis": "Starter over run: over in Joey Cantillo 83% of last 8, total 9.5",
    "name": "Starter over run",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-05-01",
@@ -11566,7 +12213,8 @@
    "basis": "Home slide ML: home on L6, new opponent (last faced CWS)",
    "name": "Home slide ML",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-05-01",
@@ -11583,7 +12231,8 @@
    "basis": "Pickem under: favorite only -108 at a 9 total",
    "name": "Pickem under",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-05-01",
@@ -11600,7 +12249,8 @@
    "basis": "Starter over run: over in Emmet Sheehan 80%, Matthew Liberatore 83% of last 8, total 8.5",
    "name": "Starter over run",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-05-01",
@@ -11617,7 +12267,8 @@
    "basis": "Pickem under: favorite only -110 at a 8.5 total",
    "name": "Pickem under",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-05-01",
@@ -11633,7 +12284,8 @@
    "basis": "Home slide ML: home on L5, new opponent (last faced STL)",
    "name": "Home slide ML",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-04-30",
@@ -11650,7 +12302,8 @@
    "basis": "Starter over run: over in Adrian Houser 75% of last 8, total 8.5",
    "name": "Starter over run",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-04-30",
@@ -11666,7 +12319,8 @@
    "basis": "Away dog ML: away dog at a 9.5 total",
    "name": "Away dog ML",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-04-30",
@@ -11683,7 +12337,8 @@
    "basis": "Starter over run: over in Noah Cameron 80% of last 8, total 9.5",
    "name": "Starter over run",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-04-30",
@@ -11700,7 +12355,8 @@
    "basis": "Starter over run: over in Lance McCullers Jr. 100% of last 8, total 9",
    "name": "Starter over run",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-04-30",
@@ -11717,7 +12373,8 @@
    "basis": "Starter over run: over in Andrew Abbott 83% of last 8, total 9",
    "name": "Starter over run",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-04-30",
@@ -11734,7 +12391,8 @@
    "basis": "Starter over run: over in Chris Bassitt 80% of last 8, total 9",
    "name": "Starter over run",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-04-29",
@@ -11750,7 +12408,8 @@
    "basis": "Away dog ML: away dog at a 9.5 total",
    "name": "Away dog ML",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-04-29",
@@ -11766,7 +12425,8 @@
    "basis": "Away dog ML: away dog at a 9.5 total",
    "name": "Away dog ML",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-04-29",
@@ -11783,7 +12443,8 @@
    "basis": "Pickem under: favorite only -112 at a 8.5 total",
    "name": "Pickem under",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-04-29",
@@ -11800,7 +12461,8 @@
    "basis": "Starter over run: over in Brayan Bello 80% of last 8, total 8.5",
    "name": "Starter over run",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-04-29",
@@ -11817,7 +12479,8 @@
    "basis": "Starter over run: over in Nathan Eovaldi 80% of last 8, total 8.5",
    "name": "Starter over run",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-04-28",
@@ -11834,7 +12497,8 @@
    "basis": "Pickem under: favorite only -112 at a 9.5 total",
    "name": "Pickem under",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-04-28",
@@ -11851,7 +12515,8 @@
    "basis": "Cold arms under: both starters Cam Schlittler 33%, Jacob deGrom 20% over in last 8",
    "name": "Cold arms under",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-04-28",
@@ -11868,7 +12533,8 @@
    "basis": "Starter over run: over in Braxton Ashcraft 80% of last 8, total 8.5",
    "name": "Starter over run",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-04-27",
@@ -11884,7 +12550,8 @@
    "basis": "Home slide ML: home on L5, new opponent (last faced TB)",
    "name": "Home slide ML",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-04-27",
@@ -11901,7 +12568,8 @@
    "basis": "Pickem under: favorite only -108 at a 9 total",
    "name": "Pickem under",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-04-26",
@@ -11918,7 +12586,8 @@
    "basis": "Starter over run: over in Ryne Nelson 100% of last 8, total 15",
    "name": "Starter over run",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-04-26",
@@ -11935,7 +12604,8 @@
    "basis": "Starter over run: over in Emerson Hancock 80% of last 8, total 8.5",
    "name": "Starter over run",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-04-26",
@@ -11952,7 +12622,8 @@
    "basis": "Pickem under: favorite only -110 at a 9 total",
    "name": "Pickem under",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-04-25",
@@ -11968,7 +12639,8 @@
    "basis": "Away dog ML: away dog at a 9.5 total",
    "name": "Away dog ML",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-04-25",
@@ -11985,7 +12657,8 @@
    "basis": "Pickem under: favorite only -110 at a 9.5 total",
    "name": "Pickem under",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-04-25",
@@ -12002,7 +12675,8 @@
    "basis": "Starter over run: over in Brady Singer 75% of last 8, total 9.5",
    "name": "Starter over run",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-04-25",
@@ -12019,7 +12693,8 @@
    "basis": "Starter over run: over in Bailey Ober 100% of last 8, total 8.5",
    "name": "Starter over run",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-04-24",
@@ -12035,7 +12710,8 @@
    "basis": "Away dog ML: away dog at a 9.5 total",
    "name": "Away dog ML",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-04-24",
@@ -12052,7 +12728,8 @@
    "basis": "Pickem under: favorite only -108 at a 8.5 total",
    "name": "Pickem under",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-04-24",
@@ -12069,7 +12746,8 @@
    "basis": "Starter over run: over in Andrew Abbott 80% of last 8, total 9",
    "name": "Starter over run",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-04-22",
@@ -12085,7 +12763,8 @@
    "basis": "Backfilled tail at L20 mismatch -47.7. Not wagered.",
    "name": "Mismatch ML",
    "group": "scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-04-22",
@@ -12101,7 +12780,8 @@
    "basis": "Away dog ML: away dog at a 9.5 total",
    "name": "Away dog ML",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-04-21",
@@ -12118,7 +12798,8 @@
    "basis": "Pickem under: favorite only -112 at a 9 total",
    "name": "Pickem under",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-04-21",
@@ -12134,7 +12815,8 @@
    "basis": "Backfilled tail at L20 mismatch -59.1. Not wagered.",
    "name": "Mismatch ML",
    "group": "scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-04-21",
@@ -12150,7 +12832,8 @@
    "basis": "Home slide ML: home on L11, new opponent (last faced CHC)",
    "name": "Home slide ML",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-04-21",
@@ -12167,7 +12850,8 @@
    "basis": "Pickem under: favorite only -112 at a 8.5 total",
    "name": "Pickem under",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-04-20",
@@ -12183,7 +12867,8 @@
    "basis": "Home slide ML: home on L7, new opponent (last faced NYY)",
    "name": "Home slide ML",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-04-19",
@@ -12199,7 +12884,8 @@
    "basis": "Away dog ML: away dog at a 9.5 total",
    "name": "Away dog ML",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-04-19",
@@ -12215,7 +12901,8 @@
    "basis": "Backfilled fade at L20 mismatch +61.7. Not wagered.",
    "name": "Mismatch ML",
    "group": "scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-04-18",
@@ -12232,7 +12919,8 @@
    "basis": "Pickem under: favorite only -112 at a 9.5 total",
    "name": "Pickem under",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-04-18",
@@ -12248,7 +12936,8 @@
    "basis": "Backfilled fade at L20 mismatch +56.4. Not wagered.",
    "name": "Mismatch ML",
    "group": "scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-04-18",
@@ -12265,7 +12954,8 @@
    "basis": "Pickem under: favorite only -112 at a 9.5 total",
    "name": "Pickem under",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-04-18",
@@ -12282,7 +12972,8 @@
    "basis": "Pickem under: favorite only -110 at a 8.5 total",
    "name": "Pickem under",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-04-18",
@@ -12298,7 +12989,8 @@
    "basis": "Backfilled tail at L20 mismatch -47.1. Not wagered.",
    "name": "Mismatch ML",
    "group": "scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-04-17",
@@ -12314,7 +13006,8 @@
    "basis": "Backfilled tail at L20 mismatch -45.4. Not wagered.",
    "name": "Mismatch ML",
    "group": "scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-04-17",
@@ -12331,7 +13024,8 @@
    "basis": "Pickem under: favorite only -112 at a 9.5 total",
    "name": "Pickem under",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-04-17",
@@ -12347,7 +13041,8 @@
    "basis": "Away dog ML: away dog at a 10 total",
    "name": "Away dog ML",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-04-16",
@@ -12363,7 +13058,8 @@
    "basis": "Away dog ML: away dog at a 9.5 total",
    "name": "Away dog ML",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-04-15",
@@ -12379,7 +13075,8 @@
    "basis": "Away dog ML: away dog at a 9.5 total",
    "name": "Away dog ML",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-04-15",
@@ -12395,7 +13092,8 @@
    "basis": "Away dog ML: away dog at a 10.5 total",
    "name": "Away dog ML",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-04-15",
@@ -12411,7 +13109,8 @@
    "basis": "Away dog ML: away dog at a 9.5 total",
    "name": "Away dog ML",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-04-15",
@@ -12427,7 +13126,8 @@
    "basis": "Backfilled tail at L20 mismatch -45.6. Not wagered.",
    "name": "Mismatch ML",
    "group": "scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-04-15",
@@ -12444,7 +13144,8 @@
    "basis": "Pickem under: favorite only -110 at a 9.5 total",
    "name": "Pickem under",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-04-15",
@@ -12461,7 +13162,8 @@
    "basis": "Pickem under: favorite only -112 at a 9 total",
    "name": "Pickem under",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-04-14",
@@ -12477,7 +13179,8 @@
    "basis": "Home slide ML: home on L8, new opponent (last faced SEA)",
    "name": "Home slide ML",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-04-14",
@@ -12493,7 +13196,8 @@
    "basis": "Backfilled fade at L20 mismatch +59.6. Not wagered.",
    "name": "Mismatch ML",
    "group": "scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-04-14",
@@ -12509,7 +13213,8 @@
    "basis": "Home slide ML: home on L5, new opponent (last faced WSH)",
    "name": "Home slide ML",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-04-14",
@@ -12525,7 +13230,8 @@
    "basis": "Backfilled tail at L20 mismatch -50.6. Not wagered.",
    "name": "Mismatch ML",
    "group": "scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-04-14",
@@ -12541,7 +13247,8 @@
    "basis": "Away dog ML: away dog at a 9.5 total",
    "name": "Away dog ML",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-04-14",
@@ -12557,7 +13264,8 @@
    "basis": "Away dog ML: away dog at a 9.5 total",
    "name": "Away dog ML",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-04-14",
@@ -12573,7 +13281,8 @@
    "basis": "Away dog ML: away dog at a 10 total",
    "name": "Away dog ML",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-04-14",
@@ -12590,7 +13299,8 @@
    "basis": "Pickem under: favorite only -110 at a 9 total",
    "name": "Pickem under",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-04-13",
@@ -12606,7 +13316,8 @@
    "basis": "Away dog ML: away dog at a 9.5 total",
    "name": "Away dog ML",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-04-13",
@@ -12622,7 +13333,8 @@
    "basis": "Home slide ML: home on L5, new opponent (last faced TB)",
    "name": "Home slide ML",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-04-12",
@@ -12638,7 +13350,8 @@
    "basis": "Away dog ML: away dog at a 12.5 total",
    "name": "Away dog ML",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-04-12",
@@ -12654,7 +13367,8 @@
    "basis": "Backfilled tail at L20 mismatch -49.2. Not wagered.",
    "name": "Mismatch ML",
    "group": "scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-04-12",
@@ -12670,7 +13384,8 @@
    "basis": "Backfilled tail at L20 mismatch -47.5. Not wagered.",
    "name": "Mismatch ML",
    "group": "scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-04-12",
@@ -12686,7 +13401,8 @@
    "basis": "Backfilled tail at L20 mismatch -50.3. Not wagered.",
    "name": "Mismatch ML",
    "group": "scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-04-12",
@@ -12703,7 +13419,8 @@
    "basis": "Pickem under: favorite only -108 at a 8.5 total",
    "name": "Pickem under",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-04-10",
@@ -12719,7 +13436,8 @@
    "basis": "Home slide ML: home on L5, new opponent (last faced TEX)",
    "name": "Home slide ML",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-04-10",
@@ -12735,7 +13453,8 @@
    "basis": "Home slide ML: home on L5, new opponent (last faced MIN)",
    "name": "Home slide ML",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-04-08",
@@ -12752,7 +13471,8 @@
    "basis": "Pickem under: favorite only -110 at a 8.5 total",
    "name": "Pickem under",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-04-06",
@@ -12768,7 +13488,8 @@
    "basis": "Home slide ML: home on L4, new opponent (last faced CIN)",
    "name": "Home slide ML",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-04-06",
@@ -12784,7 +13505,8 @@
    "basis": "Home slide ML: home on L4, new opponent (last faced CWS)",
    "name": "Home slide ML",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-04-06",
@@ -12800,7 +13522,8 @@
    "basis": "Home slide ML: home on L5, new opponent (last faced LAD)",
    "name": "Home slide ML",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-04-05",
@@ -12817,7 +13540,8 @@
    "basis": "Pickem under: favorite only -112 at a 9 total",
    "name": "Pickem under",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-04-05",
@@ -12833,7 +13557,8 @@
    "basis": "Away dog ML: away dog at a 9.5 total",
    "name": "Away dog ML",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-04-04",
@@ -12850,7 +13575,8 @@
    "basis": "Pickem under: favorite only -112 at a 9.5 total",
    "name": "Pickem under",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-04-04",
@@ -12867,7 +13593,8 @@
    "basis": "Pickem under: favorite only -108 at a 9.5 total",
    "name": "Pickem under",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-04-04",
@@ -12884,7 +13611,8 @@
    "basis": "Pickem under: favorite only -112 at a 8.5 total",
    "name": "Pickem under",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-04-03",
@@ -12901,7 +13629,8 @@
    "basis": "Pickem under: favorite only -108 at a 9.5 total",
    "name": "Pickem under",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-04-03",
@@ -12917,7 +13646,8 @@
    "basis": "Home slide ML: home on L5, new opponent (last faced HOU)",
    "name": "Home slide ML",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-04-02",
@@ -12933,7 +13663,8 @@
    "basis": "Away dog ML: away dog at a 9.5 total",
    "name": "Away dog ML",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-03-31",
@@ -12949,7 +13680,8 @@
    "basis": "Away dog ML: away dog at a 9.5 total",
    "name": "Away dog ML",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-03-30",
@@ -12965,7 +13697,8 @@
    "basis": "Away dog ML: away dog at a 10 total",
    "name": "Away dog ML",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-03-30",
@@ -12981,7 +13714,8 @@
    "basis": "Away dog ML: away dog at a 10.5 total",
    "name": "Away dog ML",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   },
   {
    "date": "2026-03-29",
@@ -12997,7 +13731,8 @@
    "basis": "Away dog ML: away dog at a 9.5 total",
    "name": "Away dog ML",
    "group": "non-scout",
-   "kind": "backfilled"
+   "kind": "card",
+   "backfilled": true
   }
  ],
  "summary": {
@@ -13007,15 +13742,15 @@
    "push": 8,
    "n": 784,
    "pending": 15,
-   "units": 0.14
+   "units": 119.89
   },
   "card": {
-   "w": 16,
-   "l": 13,
-   "push": 0,
-   "n": 41,
+   "w": 448,
+   "l": 309,
+   "push": 8,
+   "n": 777,
    "pending": 12,
-   "units": 0.14
+   "units": 119.89
   },
   "by_rule": {
    "away-dog-ml": {
@@ -13024,7 +13759,7 @@
     "push": 0,
     "n": 165,
     "pending": 2,
-    "units": 0
+    "units": 38.22
    },
    "better-arm-ml-fav": {
     "w": 0,
@@ -13056,7 +13791,7 @@
     "push": 1,
     "n": 42,
     "pending": 0,
-    "units": 0
+    "units": 9.65
    },
    "flag-plays": {
     "w": 12,
@@ -13064,7 +13799,7 @@
     "push": 0,
     "n": 25,
     "pending": 6,
-    "units": 2.79
+    "units": 3.6
    },
    "form-under": {
     "w": 0,
@@ -13080,7 +13815,7 @@
     "push": 0,
     "n": 50,
     "pending": 0,
-    "units": 0
+    "units": 12.54
    },
    "mismatch-ml": {
     "w": 68,
@@ -13088,7 +13823,7 @@
     "push": 0,
     "n": 107,
     "pending": 1,
-    "units": -2.57
+    "units": 14.41
    },
    "pickem-under": {
     "w": 98,
@@ -13096,7 +13831,7 @@
     "push": 4,
     "n": 173,
     "pending": 2,
-    "units": 0
+    "units": 19.13
    },
    "scout-ml-both-halves-aligned": {
     "w": 3,
@@ -13112,7 +13847,7 @@
     "push": 3,
     "n": 211,
     "pending": 1,
-    "units": 0
+    "units": 22.42
    }
   }
  }

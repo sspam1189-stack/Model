@@ -79,10 +79,25 @@ def main():
         row["group"] = RULE_GROUP.get(e.get("rule"), "scout")
         # One status per row, so the tab can filter on it without re-deriving
         # the ledger's precedence rules in JavaScript.
-        row["kind"] = ("backfilled" if e.get("backfilled")
-                       else "not_bet" if e.get("not_bet")
-                       else "shadow" if e.get("shadow")
+        #
+        # BACKFILLED COUNTS AS CARD (user, 2026-09-02). These rows were
+        # replayed after the fact rather than wagered, so they were held out
+        # of the units at first and every total read 0.00u, which made a log
+        # of 735 rows look empty. They now carry their profit like any card
+        # row. The `backfilled` flag is kept on the row so the Status filter
+        # can still isolate them, and scout_card_log.py's own report is
+        # untouched -- the ledger still separates hindsight from money that
+        # was actually risked.
+        # SHADOW AND NOT-BET ARE ONE STATUS (user, 2026-09-02). They arrive
+        # for different reasons -- a shadow rule is auditioning, a not-bet row
+        # is a card rule whose wager was missed -- but in a bet log they mean
+        # the same thing: the rule fired and no money was risked. Splitting
+        # them just gave two dropdown entries that both read "no units". The
+        # underlying flags stay on the row.
+        row["kind"] = ("not_bet" if (e.get("not_bet") or e.get("shadow"))
                        else "card")
+        if e.get("backfilled"):
+            row["backfilled"] = True
         bets.append(row)
     # Newest first, and within a day by first pitch -- the order a bet log is
     # read in.
@@ -94,8 +109,9 @@ def main():
         w = sum(1 for r in graded if r["result"] == "WIN")
         l = sum(1 for r in graded if r["result"] == "LOSS")
         p = sum(1 for r in graded if r["result"] == "PUSH")
-        # Only card rows carry units. Shadow, not-bet and backfilled plays
-        # were never wagered, so their profit is money that was never risked.
+        # Card rows carry units, backfilled ones included since they are
+        # card now. Shadow and not-bet stay out: those fired live and were
+        # deliberately not wagered.
         u = sum(r.get("profit") or 0 for r in graded if r.get("kind") == "card")
         return {"w": w, "l": l, "push": p, "n": len(rows),
                 "pending": sum(1 for r in rows if r.get("result") == "pending"),
@@ -115,8 +131,11 @@ def main():
                  "are the ledger's own, settled by grade_scout_ledger.py from "
                  "the finals; nothing is recomputed here. `kind` is one of "
                  "card / shadow / not_bet / backfilled, and only card rows "
-                 "carry units -- the other three were never wagered, so "
-                 "counting their profit would report money never risked."),
+                 "carry units; not-bet rows (which include what used to be "
+                 "tracked separately as shadow) fired live with no money on "
+                 "them, so they stay out of the units. "
+                 "Backfilled rows count as card (user, 2026-09-02) and keep a "
+                 "`backfilled` flag so they can still be isolated."),
         "bets": bets,
         "summary": {
             "all": tally(bets),
@@ -130,8 +149,8 @@ def main():
             json.dump(out, fh, indent=1)
     c = out["summary"]["card"]
     print(f"bet log: {len(bets)} rows "
-          f"({sum(1 for b in bets if b['kind'] == 'card')} card, "
-          f"{sum(1 for b in bets if b['kind'] == 'backfilled')} backfilled) · "
+          f"({sum(1 for b in bets if b['kind'] == 'card')} card, of which "
+          f"{sum(1 for b in bets if b.get('backfilled'))} backfilled) · "
           f"card record {c['w']}-{c['l']} {c['units']:+.2f}u "
           f"-> {len(OUTPUT_PATHS)} paths")
 

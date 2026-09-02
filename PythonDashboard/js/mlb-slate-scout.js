@@ -359,6 +359,26 @@ async function renderMLBSlateScout() {
     + (u > 0 ? '#3fb950' : u < 0 ? '#f85149' : DIM) + ';font-weight:600">'
     + (u > 0 ? '+' : '') + Number(u).toFixed(2) + 'u</span>';
 
+  // A rule's month-by-month ROI as a compact strip. Both season tables have
+  // published a `monthly` array all along and nothing rendered it, so a rule
+  // could be carried by one hot month with no way to see it on the tab.
+  const monthStrip = (monthly) => {
+    if (!monthly || !monthly.length) return '';
+    const MN = ['', 'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug',
+      'Sep', 'Oct', 'Nov', 'Dec'];
+    return '<div style="display:flex;flex-wrap:wrap;gap:6px;padding:1px 0 3px;'
+      + 'font-size:10px;color:' + DIM + '">'
+      + monthly.map((m) => {
+        const roi = m.roi == null ? null : m.roi;
+        const col = roi == null ? DIM : roi > 0 ? '#3fb950' : roi < 0 ? '#f85149' : DIM;
+        return '<span style="white-space:nowrap">'
+          + MN[+String(m.month).slice(5, 7)] + ' '
+          + '<span style="color:' + col + ';font-weight:600">'
+          + (roi == null ? '—' : (roi > 0 ? '+' : '') + roi.toFixed(0) + '%')
+          + '</span> <span style="opacity:.7">' + m.w + '-' + m.l + '</span></span>';
+      }).join('') + '</div>';
+  };
+
   const playsCard = document.createElement('div');
   playsCard.className = 'card card-games';
   let phtml = '<div class="card-title" style="padding:6px 8px">Flagged &amp; form O/U — today\'s plays '
@@ -605,10 +625,11 @@ async function renderMLBSlateScout() {
         x => (x == null ? '—' : (x > 0 ? '+' : '') + x.toFixed(0))).join(' / ');
       const bad = (sy.halves || []).some(x => x != null && x <= 0);
       t += '<tr style="border-top:1px solid #161b22">'
-        + '<td style="padding:3px 6px;font-weight:600;white-space:nowrap">'
+        + '<td style="padding:3px 6px;font-weight:600">'
         + esc(sy.name)
         + (sy.ladder_fails ? ' <span title="carded on request; the winning '
           + 'bucket has losing neighbours" style="color:#d29922">△</span>' : '')
+        + monthStrip(sy.monthly)
         + '</td>'
         + '<td data-col="rule-desc" style="color:' + DIM
         + ';font-size:11px">' + esc(sy.rule) + '</td>'
@@ -673,8 +694,8 @@ async function renderMLBSlateScout() {
       const live = r.status === 'card';
       const off = r.status === 'retired';
       t += '<tr style="border-top:1px solid #161b22">'
-        + '<td style="padding:3px 6px;font-weight:600;white-space:nowrap">'
-        + esc(r.name) + '</td>'
+        + '<td style="padding:3px 6px;font-weight:600">'
+        + esc(r.name) + monthStrip(r.monthly) + '</td>'
         + '<td data-col="rule-desc" style="color:' + DIM + ';font-size:11px">'
         + esc(r.rule) + '</td>'
         + '<td><span style="display:inline-block;padding:1px 6px;'
@@ -987,8 +1008,10 @@ async function renderMLBSlateScout() {
     const weeks = uniq(bets.map((b) => b.date).filter(Boolean)
       .map(weekStartOf)).sort().reverse();
 
-    const KIND_LABEL = { card: 'Card (bet)', shadow: 'Shadow',
-      not_bet: 'Not bet', backfilled: 'Backfilled' };
+    // Shadow and not-bet are one status: both mean the rule fired and no
+    // money was risked. Backfilled is not a `kind` any more -- it counts as
+    // card -- so it filters on the row's own flag.
+    const KIND_LABEL = { card: 'Card (bet)', not_bet: 'Not bet' };
     const selCss = 'background:#1b1b1b;color:#ddd;border:1px solid #333;'
       + 'border-radius:6px;padding:4px 8px;font-size:12px';
     const opts = (list, label) => '<option value="">' + label + '</option>'
@@ -1008,6 +1031,7 @@ async function renderMLBSlateScout() {
       + '<select id="slKind" style="' + selCss + '">'
       + Object.keys(KIND_LABEL).map((k) => '<option value="' + k + '"'
         + (k === 'card' ? ' selected' : '') + '>' + KIND_LABEL[k] + '</option>').join('')
+      + '<option value="backfilled">Backfilled only</option>'
       + '<option value="">All</option></select></label>'
       + '<label style="font-size:11px;color:#888">Rule '
       + '<select id="slRule" style="' + selCss + '">'
@@ -1058,7 +1082,8 @@ async function renderMLBSlateScout() {
     function draw() {
       const [k, r, g, res, mk, mo, wk, dt] = ctl.map((c) => c.value);
       const view = bets.filter((b) =>
-        (!k || b.kind === k) && (!r || b.rule === r) && (!g || b.group === g)
+        (!k || (k === 'backfilled' ? !!b.backfilled : b.kind === k))
+        && (!r || b.rule === r) && (!g || b.group === g)
         && (!res || b.result === res) && (!mk || b.market === mk)
         && (!mo || (b.date || '').slice(0, 7) === mo)
         && (!wk || (b.date && weekStartOf(b.date) === wk))
@@ -1080,8 +1105,12 @@ async function renderMLBSlateScout() {
         + '">' + (roi > 0 ? '+' : '') + roi.toFixed(1) + '%</span>'
         + (pend ? ' <span style="color:' + DIM + ';font-weight:400;font-size:12px">· '
           + pend + ' pending</span>' : '')
-        + (k && k !== 'card' ? ' <span style="color:' + DIM
-          + ';font-weight:400;font-size:11px">· never wagered, no units</span>' : '');
+        + (k === 'not_bet' ? ' <span style="color:' + DIM
+          + ';font-weight:400;font-size:11px">· rule fired, no money on it</span>'
+          : '')
+        + (k === 'backfilled' ? ' <span style="color:' + DIM
+          + ';font-weight:400;font-size:11px">· replayed after the fact</span>'
+          : '');
 
       const total = view.length;
       const pages = Math.max(1, Math.ceil(total / PAGE));
@@ -1090,7 +1119,7 @@ async function renderMLBSlateScout() {
       const start = page * PAGE;
       let rows = '';
       for (const b of view.slice(start, start + PAGE)) {
-        const held = b.kind !== 'card';
+        const held = b.kind !== 'card';   // backfilled is card, so it pays
         const settledRow = b.result === 'WIN' || b.result === 'LOSS';
         rows += '<tr style="border-top:1px solid #161b22'
           + (held ? ';opacity:.6' : '') + '">'
@@ -1099,8 +1128,11 @@ async function renderMLBSlateScout() {
           + '<td style="padding:3px 6px;white-space:nowrap">'
           + esc(b.name || b.rule) + '</td>'
           + '<td data-col="kind" style="padding:3px 6px;color:' + DIM
-          + ';font-size:11px">' + esc(b.kind === 'card' ? '' : b.kind.replace('_', ' '))
-          + '</td>'
+          + ';font-size:11px">'
+          // Backfilled IS card, so it gets no marker here -- only a row with
+          // no money on it is called out. The Status filter still isolates
+          // backfilled rows for anyone who wants them separated.
+          + esc(b.kind !== 'card' ? 'not bet' : '') + '</td>'
           + '<td data-col="game" style="padding:3px 6px;color:' + DIM + '">'
           + esc(b.game || '') + '</td>'
           + '<td style="padding:3px 6px;font-weight:600;white-space:nowrap">'
