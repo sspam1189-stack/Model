@@ -1,78 +1,22 @@
 {
   "sport": "MLB",
   "type": "hand-tails-roster",
-  "generated": "2026-09-02T18:34:02Z",
+  "generated": "2026-09-02T20:10:28Z",
   "handMin": 6,
   "rule": {
     "minGames": 4,
     "minUnits": 3.0
   },
   "note": "Walk-forward qualifier computation used to NOTIFY (promotion candidates), not to drive the bet list. The bet list is the manually curated hand-tails-manual.json. `promotions` are arms that clear minGames+minUnits but are not on the manual list; `demotions` are manual-list arms whose record slipped under the bar.",
-  "manualCount": 18,
+  "manualCount": 26,
   "qualifiedCount": 25,
   "promotions": [
-    {
-      "name": "Andrew Alvarez",
-      "hand": "L",
-      "games": 11,
-      "units": 5.14,
-      "since": "2026-08-30"
-    },
-    {
-      "name": "Andrew Painter",
-      "hand": "R",
-      "games": 6,
-      "units": 7.0,
-      "since": "2026-06-17"
-    },
-    {
-      "name": "Grayson Rodriguez",
-      "hand": "R",
-      "games": 8,
-      "units": 5.78,
-      "since": "2026-08-26"
-    },
-    {
-      "name": "Ian Seymour",
-      "hand": "L",
-      "games": 8,
-      "units": 5.6,
-      "since": "2026-08-31"
-    },
-    {
-      "name": "Jack Perkins",
-      "hand": "R",
-      "games": 5,
-      "units": 5.38,
-      "since": "2026-08-29"
-    },
     {
       "name": "Noah Cameron",
       "hand": "L",
       "games": 18,
       "units": 4.04,
       "since": "2026-06-18"
-    },
-    {
-      "name": "Ryan Johnson",
-      "hand": "R",
-      "games": 5,
-      "units": 5.0,
-      "since": "2026-08-29"
-    },
-    {
-      "name": "Seth Lugo",
-      "hand": "R",
-      "games": 11,
-      "units": 4.0,
-      "since": "2026-08-30"
-    },
-    {
-      "name": "Yusei Kikuchi",
-      "hand": "L",
-      "games": 5,
-      "units": 5.0,
-      "since": "2026-08-30"
     }
   ],
   "demotions": [],
