@@ -121,14 +121,18 @@ def filter_odds_to_week(odds, season, week):
     whole schedule (272 games) and the project stage was analysing every one
     of them, with a weather call each. Games with no parseable commence time
     are kept so they surface as MISSING_ODDS rather than vanish."""
+    from zoneinfo import ZoneInfo
+    eastern = ZoneInfo("America/New_York")
     start, end = week_window(season, week)
     kept = []
     for g in odds:
         iso = g.get("commenceTimeIso")
         try:
-            # Feed times are UTC; the window is a Tuesday-to-Tuesday span, so
-            # the few hours of offset can't move a game across a boundary.
-            when = datetime.fromisoformat(str(iso).replace("Z", "+00:00")).replace(tzinfo=None)
+            # Feed times are UTC. Compare in Eastern: Monday Night Football
+            # kicks off at 00:15 UTC Tuesday, which a UTC window would push
+            # into the following week (Week 1 2026 lost DEN @ KC that way).
+            when = (datetime.fromisoformat(str(iso).replace("Z", "+00:00"))
+                    .astimezone(eastern).replace(tzinfo=None))
         except (TypeError, ValueError):
             kept.append(g)
             continue
