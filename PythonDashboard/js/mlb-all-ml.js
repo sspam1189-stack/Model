@@ -118,9 +118,9 @@ async function renderMLBAllML() {
   const dateLabel = (iso) => { const [y, m, d] = iso.split('-').map(Number); return MON[m] + ' ' + d + ', ' + y; };
 
   // Paged rather than capped (user, 2026-09-02). A 500-row cap meant the
-  // table both dumped a wall of rows and silently hid the rest; 50 a page
+  // table both dumped a wall of rows and silently hid the rest; 25 a page
   // shows every game and stays readable.
-  const LOG_PAGE_SIZE = 50;
+  const LOG_PAGE_SIZE = 25;
   let logPage = 0;
   const selCss = 'background:#1b1b1b;color:#ddd;border:1px solid #333;border-radius:6px;padding:4px 8px;font-size:12px';
 

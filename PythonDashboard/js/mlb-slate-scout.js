@@ -1035,7 +1035,7 @@ async function renderMLBSlateScout() {
       ruleSel.value = rs.includes(cur) ? cur : '';
     };
     groupSel.addEventListener('change', refreshRules);
-    const PAGE = 50;
+    const PAGE = 25;
     let page = 0;
 
     function draw() {

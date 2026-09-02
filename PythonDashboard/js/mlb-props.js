@@ -3302,7 +3302,7 @@
                 return;
               }
 
-              const TH_PAGE_SIZE = 50;
+              const TH_PAGE_SIZE = 25;
               const _thPages = Math.max(1, Math.ceil(all.length / TH_PAGE_SIZE));
               if (_thPage >= _thPages) _thPage = _thPages - 1;
               if (_thPage < 0) _thPage = 0;
@@ -4804,7 +4804,7 @@
         }
         playerSelect.onchange = () => { activePlayer = playerSelect.value; currentPage = 0; renderGameTable(); };
 
-        const PAGE_SIZE = 50;
+        const PAGE_SIZE = 25;
         let currentPage = 0;
         // sortCol: 'cat'|'edge'|'cover'|'proj'  sortDir: 1=desc -1=asc (legacy convention)
         let sortCol = 'cover'; // default: directional spectrum (OVER 70% top, UNDER 70% bottom)
@@ -5436,7 +5436,7 @@
         return wrap;
       }
 
-      const PAGE_SIZE = 50;
+      const PAGE_SIZE = 25;
       const WEEKS_PER_PAGE = 1;
       let allPicksPage = 0;
       let weeklyPage = 0;
@@ -6298,7 +6298,7 @@
         }
         playerSelect.onchange = () => { activePlayer = playerSelect.value; bCurrentPage = 0; renderBatterTable(); };
 
-        const B_PAGE_SIZE = 50;
+        const B_PAGE_SIZE = 25;
         let bCurrentPage = 0;
         let bSortCol = 'cover';
         let bSortDir = -1;
@@ -6571,7 +6571,7 @@
         return wrap;
       }
 
-      const BAT_PAGE_SIZE = 50;
+      const BAT_PAGE_SIZE = 25;
       let allPicksPage = 0;
       let weeklyPage = 0;
 

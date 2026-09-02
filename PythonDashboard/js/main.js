@@ -219,10 +219,10 @@ let teamPicksMonthFilter = 'all'; // month key (YYYYMM) filtering the Team Picks
 let teamPicksSideFilter = 'all'; // 'all' | 'fav' | 'dog' filtering the Team Picks browser
 let teamPicksLocationFilter = 'all'; // 'all' | 'home' | 'away' filtering the Team Picks browser
 let teamPicksBucketFilter = 'all';
-// Team Picks browser paging (user, 2026-09-02): 50 rows a page. The browser
+// Team Picks browser paging (user, 2026-09-02): 25 rows a page. The browser
 // is a full season game log and was rendering every row at once.
 let teamPicksPage = 0;
-const TEAM_PICKS_PAGE_SIZE = 50; // 'all' | 'pick' | 'pass' — bucket tabs
+const TEAM_PICKS_PAGE_SIZE = 25;   // rows a page in the Team Picks browser
 
 // NBA playoff cutoff (includes play-in 4/14-4/17 + playoffs proper 4/18+).
 // Shared between the record banner segment buttons and downstream widgets.
