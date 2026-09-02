@@ -25,26 +25,23 @@ whether any of this is real.
 
 WHAT IS BET (2026-09-02): the seven candidates are CARDED. That decision was
 taken at freeze, on the in-sample evidence above, without waiting for the
-PROMOTION_MIN_PLAYS gate. The controls remain SHADOW and keep grading, so the
-comparison the registry exists for is intact -- if the carded candidates and
-the unbet controls finish the season looking alike, the money was on noise.
+PROMOTION_MIN_PLAYS gate.
 
-THREE TIERS, AND THE CONTROLS ARE THE POINT
+THE CONTROLS WERE DROPPED THE SAME DAY (see the note in SYSTEMS below). Five
+known-junk conditions that cleared the identical ROI > 10% bar were carried so
+the season could show whether the carded systems were distinguishable from
+noise; they are gone. Nothing now separates "this edge is real" from "this
+screen returns +14% on anything" except the forward record itself, read against
+break-even rather than against a null.
 
-  candidate  a stated mechanism, cleared ROI > 10% on 2025-26.
-  control    KNOWN JUNK that also cleared ROI > 10%. If the candidates and the
-             controls look alike next season, that is the answer and it needs
-             no interpretation. Each control is chosen to be maximally
-             embarrassing: sunday_home_ats has no mechanism and its Saturday
-             mirror runs 68-101 the other way; jan_under earned all +30.5u in
-             the first half and exactly 0.0u after; cover10_ml carries the
-             highest price-free z in the entire screen (3.94) and still died
-             out of sample; bigdog_ml has NO price-free edge at all (z=+0.89)
-             and clears the bar purely on the conversion's own miscalibration.
+TWO TIERS
+
+  candidate  a stated mechanism, cleared ROI > 10% on 2025-26. All seven are
+             carded and bet.
   reference  the model's own totals probability. Not a system and never bet
              from this tab -- the benchmark a situational system must beat to
              justify existing. It was among the few things in the screen that
-             held up out of sample.
+             held up out of sample, which makes it the last comparison left.
 
 MONEYLINE PRICING -- THE ONE PLACE THIS FILE PRINTS A NUMBER IT DID NOT OBSERVE
 
@@ -57,7 +54,10 @@ That conversion is known to be wrong in a specific, measurable way. Fit
 in-sample, it should return about -2.25% in every spread bucket; instead it
 returns -13.1% on small favourites and +7.3% on small dogs, a swing of twenty
 points. Any ML system concentrated in one bucket inherits that error as fake
-edge -- which is precisely what bigdog_ml is in the registry to expose.
+edge. bigdog_ml was the control that would have exposed exactly that and has
+been dropped, so THREE carded systems (elite_dog_ml, rematch_dog_ml,
+blowout_dog_ml) now settle on a price this file knows to be miscalibrated with
+nothing left to measure the miscalibration against.
 
 From 2026-09 the feed carries real h2h. Every live ML play therefore records
 BOTH prices: `price` (converted, so the forward record stays comparable with
@@ -227,67 +227,28 @@ SYSTEMS = [
         "test": lambda r: r["is_home"] and r["spread"] >= 5,
     },
 
-    # ------------------------------------------------------------------ CONTROLS
-    {
-        "id": "dec_dog_ml", "tier": "control", "status": SHADOW, "market": "h2h", "side": "TEAM",
-        "label": "CONTROL: December dog -> ML",
-        "backtest": {"w": 74, "l": 124, "units": 40.2, "roi": 0.203, "z": 1.58,
-                     "priced": "converted"},
-        "mechanism": (
-            "NONE. A calendar artifact: November dogs are -44.8u and March "
-            "dogs -67.1u on the identical rule."),
-        "test": lambda r: r["month"] == 12 and r["dog"],
-    },
-    {
-        "id": "bigdog_ml", "tier": "control", "status": SHADOW, "market": "h2h", "side": "TEAM",
-        "label": "CONTROL: dog of +9.5 to +12 -> ML",
-        "backtest": {"w": 47, "l": 134, "units": 23.7, "roi": 0.131, "z": 0.89,
-                     "priced": "converted"},
-        "mechanism": (
-            "NONE, and this is the most useful control in the file. Its "
-            "price-free z is +0.89 -- no edge in the wins at all -- yet it "
-            "clears the bar at +13.1% purely because the frozen conversion "
-            "misprices big dogs. If THIS system wins next season, the "
-            "conversion is broken rather than the systems, and every "
-            "converted-price line in the registry has to be re-read."),
-        "test": lambda r: 9.5 <= r["spread"] <= 12,
-    },
-    {
-        "id": "sunday_home_ats", "tier": "control", "status": SHADOW, "market": "spread", "side": "TEAM",
-        "label": "CONTROL: Sunday home team -> ATS",
-        # one push, counted in the ROI denominator as a graded 0u play
-        "backtest": {"w": 125, "l": 86, "push": 1, "units": 27.6, "roi": 0.130,
-                     "p": 0.009, "priced": "real -110"},
-        "mechanism": (
-            "NONE, deliberately. Day-of-week is what a 30-cell search returns "
-            "by chance, and Saturday home runs 68-101 the other way."),
-        "test": lambda r: r["is_home"] and r["dow"] == 6,
-    },
-    {
-        "id": "jan_under", "tier": "control", "status": SHADOW, "market": "total", "side": "UNDER",
-        "label": "CONTROL: January regular season -> UNDER",
-        "backtest": {"w": 138, "l": 95, "units": 30.5, "roi": 0.131, "p": 0.006,
-                     "h1": 30.5, "h2": 0.0, "priced": "real -110"},
-        "mechanism": (
-            "NONE. December is -10.9u and February -28.5u on the same rule. "
-            "Every unit came from the first half of the season and precisely "
-            "zero from the second -- the clearest example in the file of a "
-            "number that means nothing."),
-        "test": lambda r: r["is_home"] and r["month"] == 1 and not r["playoffs"],
-    },
-    {
-        "id": "cover10_ml", "tier": "control", "status": SHADOW, "market": "h2h", "side": "TEAM",
-        "label": "CONTROL: after an ATS cover by 10+ -> ML",
-        "backtest": {"w": 348, "l": 252, "units": 67.0, "roi": 0.112, "z": 3.94,
-                     "h1": 69.7, "h2": -2.7, "priced": "converted"},
-        "mechanism": (
-            "NONE. Carries the highest price-free z in the entire screen "
-            "(3.94, the only condition to beat the permutation null) and still "
-            "died out of sample: +69.7u in the first half, -2.7u in the "
-            "second. The registry's reminder that a big z on one season "
-            "predicts nothing. Highest volume here at ~600 plays a season."),
-        "test": lambda r: r["prev_ats_margin"] is not None and r["prev_ats_margin"] >= 10,
-    },
+    # ---------------------------------------------------------- CONTROLS (DROPPED)
+    # Removed 2026-09-02 by user decision, the same day the candidates were
+    # carded. They were: dec_dog_ml (+20.3%), bigdog_ml (+13.1%),
+    # sunday_home_ats (+13.0%), jan_under (+13.1%), cover10_ml (+11.2%) --
+    # five known-junk conditions that cleared the identical ROI > 10% bar on
+    # the identical data, carried so the season could answer whether the
+    # carded systems were distinguishable from noise.
+    #
+    # WHAT THAT COSTS, recorded so nobody has to rediscover it: there is now
+    # no null to compare the carded record against. A +14% in-sample edge and
+    # a +14% in-sample artifact looked identical here, and the controls were
+    # the only thing that could have separated them going forward.
+    #
+    # bigdog_ml is the specific loss. Its price-free z was +0.89 -- no edge in
+    # the wins at all -- and it cleared the bar purely on the frozen
+    # spread-to-moneyline conversion mispricing big dogs. It was the canary
+    # for that conversion, which prices THREE of the seven carded systems
+    # (elite_dog_ml, rematch_dog_ml, blowout_dog_ml). Without it, a profit on
+    # those three cannot be told apart from the conversion being wrong.
+    #
+    # The measurements survive in validate_systems.py and can be re-run; the
+    # controls can be restored from git history if the comparison is wanted.
 
     # ----------------------------------------------------------------- REFERENCE
     {
@@ -307,6 +268,8 @@ SYSTEMS = [
 ]
 
 BY_ID = {s["id"]: s for s in SYSTEMS}
+#: "control" is retained in the ordering only so ledger rows written before
+#: the controls were dropped still sort and render.
 TIERS = ("candidate", "control", "reference")
 CONVERTED_PRICE_MARKETS = ("h2h",)
 

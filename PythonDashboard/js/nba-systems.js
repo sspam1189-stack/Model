@@ -2,18 +2,18 @@
 // Renderer for the "NBA Systems" tab. Reads nba-systems.json
 // (pyFull/scripts/build_nba_systems.py).
 //
-// Seven candidates are CARDED (bet); the controls and the model reference stay
-// SHADOW (graded, never bet). The carding decision was taken at registry freeze
-// on in-sample evidence, so the page leads with what that evidence is worth
-// rather than with the numbers: the systems come from ~3,600 conditions
-// screened against ONE season, a permutation test returns 13 winners where
-// noise returns 7.1, and systems picked this way lost 4.2% out of sample in a
-// walk-forward test.
+// Seven candidates are CARDED (bet); the model reference stays SHADOW (graded,
+// never bet). The carding decision was taken at registry freeze on in-sample
+// evidence, so the page leads with what that evidence is worth rather than with
+// the numbers: the systems come from ~3,600 conditions screened against ONE
+// season, a permutation test returns 13 winners where noise returns 7.1, and
+// systems picked this way lost 4.2% out of sample in a walk-forward test.
 //
-// That is why the controls -- known junk that cleared the same ROI > 10% bar --
-// sit in the same tables as the carded systems. If the two groups look alike at
-// the end of the season, the money was on noise, and no interpretation is
-// needed to see it.
+// Five known-junk controls used to run alongside these as a null and were
+// dropped 2026-09-02. The banner says so, because without them the forward
+// record can only be read against break-even rather than against what this
+// screen returns on nothing -- and the reader deserves to know which of those
+// two comparisons they are looking at.
 //
 // Three panels: today's card (sectioned CARD / SHADOW, because that is what
 // gets acted on), the per-system record with live and backtest kept strictly
@@ -144,7 +144,6 @@ async function renderNBASystems() {
 // ---------------------------------------------------------------------------
 function nbasBanner(d) {
   const nCard = d.systems.filter(s => s.status === 'card').length;
-  const nCtrl = d.systems.filter(s => s.tier === 'control').length;
   const live = (d.totals && d.totals.live) || {};
   const card = (d.totals && d.totals.card) || {};
   const graded = (live.n || 0) + (live.p || 0);
@@ -168,10 +167,12 @@ function nbasBanner(d) {
         this way on the first half of 2025-26 lost 4.2% on the second, with 5 of
         22 staying positive where chance predicts 11.
         <br><br>
-        <b style="color:${NBAS_AMBER}">${nCtrl} controls stay unbet</b> — known
-        junk that cleared the same ROI &gt; 10% bar, still logged and graded. That
-        comparison is the point of this tab: if the carded systems and the unbet
-        controls finish the season looking alike, the money was on noise.
+        <b style="color:${NBAS_AMBER}">The controls were dropped.</b> Five
+        known-junk conditions that cleared the same ROI &gt; 10% bar used to run
+        alongside these unbet, so the season could show whether the carded
+        systems were distinguishable from noise. Without them this record can
+        only be read against break-even, not against what the screen returns on
+        nothing. They are recoverable from git if that comparison is wanted.
         <br><br>
         <span style="color:${NBAS_DIM}">Live graded so far: <b>${graded}</b> plays
         ${graded ? '· card ' + nbasUnits(card.units) : '· the season has not started'}.

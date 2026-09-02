@@ -39,24 +39,22 @@ NOTES = [
     "conditions. A permutation test says that screen returns 13 winners where "
     "noise returns 7.1, and that its best system (+30.9u) is what noise "
     "produces one time in five.",
-    "A walk-forward test is the reason the controls exist: 22 systems selected "
+    "A walk-forward test says systems picked this way do not hold: 22 selected "
     "on the first half of 2025-26 went -76.2u, -4.2% ROI on the second half, "
     "with 5 of 22 staying positive where chance predicts 11.",
-    "CONTROLS ARE IN THE TABLE ON PURPOSE. They are known junk that also "
-    "cleared ROI > 10%. If the candidates and the controls perform alike this "
-    "season, that is the answer. bigdog_ml is the sharpest of them: it has no "
-    "price-free edge at all (z=+0.89) and clears the bar only because the "
-    "frozen spread-to-moneyline conversion misprices big dogs.",
+    "THE CONTROLS WERE DROPPED 2026-09-02. Five known-junk conditions that "
+    "cleared the same ROI > 10% bar used to run alongside these as a null. "
+    "Without them the forward record can only be read against break-even, not "
+    "against what this screen returns on nothing. bigdog_ml in particular was "
+    "the canary for the frozen moneyline conversion, which still prices three "
+    "of the seven carded systems.",
     "MONEYLINE PLAYS CARRY TWO PRICES. `price` is the frozen conversion and "
     "grades the entry so the forward record stays comparable with the "
     "backtest; `book_price` is the real h2h number. Their difference measures "
     "how wrong the conversion is -- something the backtest could never do.",
-    "CARDED 2026-09-02: the seven candidates are bet. That was decided at "
+    "CARDED 2026-09-02: all seven candidates are bet. That was decided at "
     "registry freeze, on the in-sample evidence above, without waiting for the "
-    "25-play out-of-sample gate. The controls stay SHADOW and keep grading, so "
-    "the comparison this registry exists for still runs -- it is now money "
-    "against no money. If the carded candidates and the unbet controls finish "
-    "the season alike, the money was on noise.",
+    "25-play out-of-sample gate.",
 ]
 
 
@@ -173,8 +171,7 @@ def build(date=None, store=None, pending=None, write_dashboard=True):
             "shadow": LOG.tally(blob["entries"], status=LOG.SHADOW),
             "candidate": LOG.tally([e for e in blob["entries"]
                                     if e.get("tier") == "candidate"]),
-            "control": LOG.tally([e for e in blob["entries"]
-                                  if e.get("tier") == "control"]),
+
         },
         "notes": NOTES,
     }
