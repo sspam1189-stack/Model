@@ -46,17 +46,22 @@ def _now():
             .isoformat(timespec="seconds").replace("+00:00", "Z"))
 
 
+DESCRIPTION = (
+    "Forward record for the pre-registered NBA situational systems. Seven "
+    "candidates are CARDED (bet) and the model reference is SHADOW (graded, "
+    "never bet); the carding decision was taken at registry freeze on "
+    "in-sample evidence, without waiting for the promotion gate, and the five "
+    "known-junk controls that would have served as the null were dropped the "
+    "same day. The 2025-26 backtest lives in backtest_history and is held out "
+    "of the live record on purpose: it is the claim being tested, not evidence "
+    "for it.")
+
+
 def empty_blob():
     return {
         "sport": "NBA",
         "type": "systems-log",
-        "description": (
-            "Forward record for the pre-registered NBA situational systems. "
-            "Every system is SHADOW at open -- graded and priced, no money on "
-            "it -- until it clears a promotion bar on games the registry never "
-            "saw. The 2025-26 backtest lives in backtest_history and is held "
-            "out of the live record on purpose: it is the claim being tested, "
-            "not evidence for it."),
+        "description": DESCRIPTION,
         "registry_frozen": "2026-09-02",
         "promotion_min_plays": R.PROMOTION_MIN_PLAYS,
         "generated": _now(),
@@ -71,7 +76,12 @@ def load():
     with open(LOG, encoding="utf-8") as fh:
         blob = json.load(fh)
     blob.setdefault("entries", [])
-    # keep the backtest block in step with the registry without touching entries
+    # Derived metadata is refreshed from the registry on every load; only
+    # `entries` is data. Without this the description and the per-system
+    # backtest block drift out of step the moment the registry changes, and a
+    # ledger that describes a policy it is no longer running is worse than one
+    # that describes none.
+    blob["description"] = DESCRIPTION
     blob["backtest_history"] = {s["id"]: dict(s["backtest"]) for s in R.SYSTEMS}
     return blob
 
