@@ -1,7 +1,7 @@
 {
   "sport": "MLB",
   "type": "hand-tails",
-  "generated": "2026-09-02T00:35:07Z",
+  "generated": "2026-09-02T13:10:29Z",
   "handMin": 6,
   "roster": {
     "Brady Singer": {
@@ -96,8 +96,8 @@
     {
       "name": "Grayson Rodriguez",
       "hand": "R",
-      "games": 7,
-      "units": 4.78,
+      "games": 8,
+      "units": 5.78,
       "since": "2026-08-26"
     },
     {
@@ -146,17 +146,17 @@
   "demotions": [],
   "summary": {
     "wins": 60,
-    "losses": 23,
-    "units": 37.52,
-    "staked": 99.06,
-    "roi": 0.3788,
+    "losses": 24,
+    "units": 36.16,
+    "staked": 100.42,
+    "roi": 0.3601,
     "byAction": {
       "fade": {
         "wins": 60,
-        "losses": 23,
-        "units": 37.52,
-        "staked": 99.06,
-        "roi": 0.3788
+        "losses": 24,
+        "units": 36.16,
+        "staked": 100.42,
+        "roi": 0.3601
       },
       "take": {
         "wins": 0,
@@ -176,33 +176,33 @@
       },
       "L": {
         "wins": 26,
-        "losses": 12,
-        "units": 14.34,
-        "staked": 45.38,
-        "roi": 0.316
+        "losses": 13,
+        "units": 12.98,
+        "staked": 46.74,
+        "roi": 0.2777
       }
     }
   },
   "today": [
     {
-      "date": "2026-09-01",
-      "commence": "2026-09-01T22:40:00Z",
+      "date": "2026-09-02",
+      "commence": "2026-09-03T01:38:00Z",
       "betType": "hand_fade",
       "action": "fade",
-      "pitcher": "Nick Lodolo",
-      "entry": "Nick Lodolo",
+      "pitcher": "Reid Detmers",
+      "entry": "Reid Detmers",
       "hand": "L",
-      "arm_team": "CIN",
-      "opp_team": "SD",
-      "selection": "SD",
-      "home": "CIN",
-      "away": "SD",
-      "oppLefty": 1,
-      "oppRighty": 8,
-      "lineupConfirmed": true,
-      "odds": -136,
-      "stake": 1.36,
-      "result": "pending",
+      "arm_team": "LAA",
+      "opp_team": "NYY",
+      "selection": "NYY",
+      "home": "LAA",
+      "away": "NYY",
+      "oppLefty": 3,
+      "oppRighty": 6,
+      "lineupConfirmed": false,
+      "odds": null,
+      "stake": null,
+      "result": "unconfirmed",
       "reason": null,
       "profit": 0.0,
       "book": "fanduel",
@@ -2199,6 +2199,30 @@
       "result": "WIN",
       "reason": null,
       "profit": 1.0,
+      "book": "fanduel",
+      "source": "fanduel_api"
+    },
+    {
+      "date": "2026-09-01",
+      "commence": "2026-09-01T22:40:00Z",
+      "betType": "hand_fade",
+      "action": "fade",
+      "pitcher": "Nick Lodolo",
+      "entry": "Nick Lodolo",
+      "hand": "L",
+      "arm_team": "CIN",
+      "opp_team": "SD",
+      "selection": "SD",
+      "home": "CIN",
+      "away": "SD",
+      "oppLefty": 1,
+      "oppRighty": 8,
+      "lineupConfirmed": true,
+      "odds": -136,
+      "stake": 1.36,
+      "result": "LOSS",
+      "reason": null,
+      "profit": -1.36,
       "book": "fanduel",
       "source": "fanduel_api"
     }

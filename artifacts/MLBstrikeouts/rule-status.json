@@ -1,7 +1,7 @@
 {
  "sport": "MLB",
  "type": "rule-status",
- "generated": "2026-09-02T00:37:21Z",
+ "generated": "2026-09-02T13:13:06Z",
  "note": "Single source of truth for card/shadow status. The daily logger imports RULE_STATUS from scripts/rule_status.py; the dashboard reads this file. Edit the script, not either surface.",
  "rules": {
   "flag-plays": {
@@ -23,9 +23,9 @@
    "group": "scout"
   },
   "aligned-ml": {
-   "status": "card",
+   "status": "retired",
    "name": "Aligned ML",
-   "why": "Hot-aligned offense vs cold-aligned at the 75-PA floor. 3-1 lifetime (n=4) on a ladder measured inert for runs -- a structural read, not a measured edge. Carded 2026-09-01; comes off at 0-3.",
+   "why": "RETIRED 2026-09-02 (user). Hot-aligned offense vs cold-aligned at the 75-PA floor. Carded 2026-09-01 on a 3-1 lifetime record (n=4) with no statistical case, on a ladder measured inert for runs. The full-season replay published the next day (scout-rules-table.json) put it at 6-7 -12.8% over 13 plays, negative in both halves (-8/-30) against a -3.3% blind baseline -- the opposite of the 3-1 that justified carding it. Settled rows stay in the ledger; it logs nothing further.",
    "group": "scout"
   },
   "mismatch-ml": {
@@ -50,6 +50,24 @@
    "status": "card",
    "name": "Home slide ML",
    "why": "Home team on a 4-game losing streak or longer, facing a different opponent than its last game.",
+   "group": "non-scout"
+  },
+  "division-home-dog": {
+   "status": "card",
+   "name": "Division home dog",
+   "why": "Home team hosting a division rival and priced +115 to +149: back the home side.",
+   "group": "non-scout"
+  },
+  "home-dog-getaway": {
+   "status": "card",
+   "name": "Home dog getaway",
+   "why": "Day game, the visitors played a night game yesterday, and the home team is a plus-money dog: back the home side.",
+   "group": "non-scout"
+  },
+  "home-dog-under-parlay": {
+   "status": "card",
+   "name": "Home dog + under",
+   "why": "Home dog priced +115 to +149: parlay the home moneyline with the under, both legs at book price.",
    "group": "non-scout"
   },
   "pickem-under": {
