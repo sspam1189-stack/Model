@@ -106,6 +106,24 @@ async function renderMLBSlateScout() {
   ])).filter(Boolean)
     .sort((a, b) => String(b.generated || '').localeCompare(String(a.generated || '')))[0] || null;
 
+  // Recent logged plays and how they graded (scripts/build_plays_feed.py), a
+  // projection of the ledger the auto-grader settles. Tonight comes from the
+  // live payloads; anything earlier is read from here.
+  const grabFeed = async (url) => {
+    try {
+      const r = await fetch(url + '?t=' + Date.now(), { cache: 'no-store' });
+      if (!r.ok) return null;
+      const j = await r.json();
+      return (j && Array.isArray(j.days) && j.days.length) ? j : null;
+    } catch (e) { return null; }
+  };
+  const playsFeed = (await Promise.all([
+    grabFeed('data/plays-feed.json'),
+    grabFeed('https://raw.githubusercontent.com/sspam1189-stack/Model/main/'
+      + 'MLBstrikeouts/data/plays-feed.json'),
+  ])).filter(Boolean)
+    .sort((a, b) => String(b.generated || '').localeCompare(String(a.generated || '')))[0] || null;
+
   const comboTable = (await Promise.all([
     grabTable('data/flag-combo-table.json'),
     grabTable('https://raw.githubusercontent.com/sspam1189-stack/Model/main/'
@@ -302,13 +320,117 @@ async function renderMLBSlateScout() {
           + (am.home_offense || []).join('/') + ' @75pa' });
     }
   }
+  // ---- date filter shared by both plays panels ----------------------------
+  // Each panel keeps its OWN selector so one can stay on tonight while the
+  // other shows how yesterday finished. Tonight is rendered from the live
+  // payloads exactly as before; past dates come from plays-feed.json, whose
+  // results and profit are the ledger's own -- nothing is regraded here.
+  const feedDays = (playsFeed && playsFeed.days) ? playsFeed.days : [];
+  const slateDate = data.date || (feedDays[0] && feedDays[0].date) || '';
+  const feedFor = (d) => feedDays.filter((x) => x.date === d)[0] || null;
+  // Per group, only the past days that actually hold one of its rows. The
+  // non-scout systems started 2026-09-01, so offering them a fortnight of
+  // empty dates would be thirteen dead options in the dropdown.
+  const pastDatesFor = (group) => feedDays
+    .filter((x) => x.date !== slateDate
+      && x.rows.some((r) => r.group === group))
+    .map((x) => x.date);
+  const yesterdayOf = (d) => {
+    const t = Date.parse(d + 'T12:00:00Z');
+    return isNaN(t) ? null
+      : new Date(t - 86400000).toISOString().slice(0, 10);
+  };
+  const RESULT_STYLE = {
+    WIN: ['#3fb950', 'rgba(63,185,80,.18)'],
+    LOSS: ['#f85149', 'rgba(248,81,73,.14)'],
+    PUSH: [DIM, 'rgba(139,148,158,.14)'],
+  };
+  const resultChip = (r) => {
+    const c = RESULT_STYLE[r] || [DIM, 'rgba(139,148,158,.10)'];
+    return '<span style="display:inline-block;padding:1px 6px;border-radius:3px;'
+      + 'font-weight:600;white-space:nowrap;color:' + c[0] + ';background:'
+      + c[1] + '">' + esc(r === 'pending' ? 'PENDING' : r) + '</span>';
+  };
+  const unitStr = (u) => '<span style="color:'
+    + (u > 0 ? '#3fb950' : u < 0 ? '#f85149' : DIM) + ';font-weight:600">'
+    + (u > 0 ? '+' : '') + Number(u).toFixed(2) + 'u</span>';
+
+  // One past day for one group, in the same column shape as the live tables.
+  const pastPlaysHtml = (dateStr, group, emptyMsg) => {
+    const day = feedFor(dateStr);
+    const rows = day ? day.rows.filter((r) => r.group === group) : [];
+    if (!rows.length) {
+      return '<div style="padding:8px 10px;font-size:12px;color:' + DIM + '">'
+        + esc(emptyMsg) + '</div>';
+    }
+    const t = group === 'scout' ? day.scout : day.non_scout;
+    let h = '<div style="padding:5px 8px;font-size:11px;color:' + DIM + '">'
+      + esc(dateStr) + ' — ' + t.w + '-' + t.l + (t.push ? '-' + t.push : '')
+      + (t.pending ? ' (' + t.pending + ' pending)' : '') + ' · '
+      + unitStr(t.units) + ' · graded from the finals by the ledger'
+      + '</div>'
+      + '<div style="overflow-x:auto"><table style="width:100%;'
+      + 'border-collapse:collapse;font-size:12px">'
+      + '<thead><tr style="text-align:left;color:' + DIM
+      + ';border-bottom:1px solid #30363d">'
+      + '<th style="padding:4px 6px">CT</th><th>Game</th><th>Play</th>'
+      + '<th>Rule</th><th>Result</th><th>Unit</th></tr></thead><tbody>';
+    for (const r of rows) {
+      const held = r.shadow || r.not_bet;
+      h += '<tr style="border-top:1px solid #161b22'
+        + (held ? ';opacity:.6' : '') + '">'
+        + '<td style="padding:3px 6px;color:' + DIM + '">'
+        + (r.commence ? ctTime(r.commence) : '—') + '</td>'
+        + '<td style="padding:3px 6px">' + esc(r.game || '') + '</td>'
+        + '<td style="padding:3px 6px;font-weight:600;white-space:nowrap">'
+        + esc(r.play || '') + ' <span style="color:' + DIM
+        + ';font-weight:400">' + mlStr(r.price) + '</span></td>'
+        + '<td style="white-space:nowrap">' + esc(r.name || r.rule || '')
+        + (r.shadow ? ' <span style="color:' + DIM + ';font-size:11px">shadow</span>' : '')
+        + (r.not_bet ? ' <span style="color:' + DIM + ';font-size:11px">not bet</span>' : '')
+        + '</td>'
+        + '<td>' + resultChip(r.result) + '</td>'
+        + '<td style="white-space:nowrap">'
+        + (r.result === 'pending' || held ? '<span style="color:' + DIM + '">—</span>'
+          : unitStr(r.profit || 0)) + '</td>'
+        + '</tr>';
+    }
+    return h + '</tbody></table></div>';
+  };
+
+  // Swap a panel's body between tonight and a past date. Does nothing when
+  // the feed is missing, so the panel keeps working as a today-only table.
+  const attachDateFilter = (cardEl, group, todayHtml, emptyMsg) => {
+    const wrap = cardEl.querySelector('[data-date-filter]');
+    const body = cardEl.querySelector('[data-plays-body]');
+    const dates = pastDatesFor(group);
+    if (!wrap || !body || !dates.length) return;
+    const yday = yesterdayOf(slateDate);
+    const opts = ['<option value="__today">Today'
+      + (slateDate ? ' · ' + slateDate : '') + '</option>']
+      .concat(dates.map((d) => '<option value="' + d + '">'
+        + (d === yday ? 'Yesterday · ' : '') + d + '</option>'));
+    wrap.innerHTML = '<select style="background:#0d1117;color:#c9d1d9;'
+      + 'border:1px solid #30363d;border-radius:4px;font-size:11px;'
+      + 'padding:1px 4px;font-weight:400">' + opts.join('') + '</select>';
+    const sel = wrap.querySelector('select');
+    sel.addEventListener('change', () => {
+      body.innerHTML = sel.value === '__today'
+        ? todayHtml : pastPlaysHtml(sel.value, group, emptyMsg);
+    });
+  };
+
   const playsCard = document.createElement('div');
   playsCard.className = 'card card-games';
   let phtml = '<div class="card-title" style="padding:6px 8px">Flagged &amp; form O/U — today\'s plays '
     + '<span style="color:' + DIM + ';font-weight:400;font-size:11px">'
     + '(CARD is bet · SHADOW is tracked, not bet · NO PLAY is a measured dead '
     + 'side. Side comes from the combo\'s verdict — most play the under, '
-    + 'swingman+stale-window plays the over.)</span></div>';
+    + 'swingman+stale-window plays the over.)</span>'
+    + '<span data-date-filter style="float:right;font-weight:400"></span>'
+    + '</div>';
+  const scoutTitleHtml = phtml;
+  phtml = '';
   if (!underPlays.length) {
     phtml += '<div style="padding:8px 10px;font-size:12px;color:' + DIM
       + '">No qualifying plays on this slate.</div>';
@@ -360,8 +482,12 @@ async function renderMLBSlateScout() {
     }
     phtml += '</tbody></table></div>';
   }
-  playsCard.innerHTML = phtml;
+  const scoutTodayHtml = phtml;
+  playsCard.innerHTML = scoutTitleHtml
+    + '<div data-plays-body>' + scoutTodayHtml + '</div>';
   el.appendChild(playsCard);
+  attachDateFilter(playsCard, 'scout', scoutTodayHtml,
+    'Nothing was logged for the scout rules that day.');
   // The two "today's plays" panels sit together at the top, scout first then
   // non-scout, so the whole actionable card is read in one place before the
   // reference tables below it. Both are built further down (the non-scout one
@@ -481,9 +607,13 @@ async function renderMLBSlateScout() {
     let t = '<div class="card-title" style="padding:6px 8px">'
       + 'Non-scout systems — today\'s plays '
       + '<span style="color:' + DIM + ';font-weight:400;font-size:11px">'
-      + '(CARD — all eight are bet. Derived from the all-ML game file alone: '
-      + 'prices, totals, probables, scores. No mismatch-model input, so an '
-      + 'agreement with a scout rule is a second opinion.)</span></div>';
+      + '(CARD — all of these are bet. Derived from the all-ML game file '
+      + 'alone: prices, totals, probables, scores. No mismatch-model input, '
+      + 'so an agreement with a scout rule is a second opinion.)</span>'
+      + '<span data-date-filter style="float:right;font-weight:400"></span>'
+      + '</div>';
+    const sysTitleHtml = t;
+    t = '';
     if (!plays.length) {
       t += '<div style="padding:8px 10px;font-size:12px;color:' + DIM
         + '">No system qualifies on this slate.</div>';
@@ -520,6 +650,8 @@ async function renderMLBSlateScout() {
       t += '</tbody></table></div>';
     }
     // Season table for all eight, whether or not they fired tonight.
+    const sysTodayHtml = t;
+    t = '';
     const b = sysTable.baselines || {};
     // The builder stores each system's own blind benchmark, so this does not
     // have to guess one from the rule name.
@@ -566,9 +698,14 @@ async function renderMLBSlateScout() {
       + 'and the record is what settles it. The scan that produced these tested '
       + 'thousands of cells, so treat the p-values as screening, not proof.'
       + '</div>';
-    sc.innerHTML = t;
+    // Only the plays half swaps with the date; the season table underneath is
+    // full-season and the same whichever day is being looked at.
+    sc.innerHTML = sysTitleHtml
+      + '<div data-plays-body>' + sysTodayHtml + '</div>' + t;
     el.insertBefore(sc, playsAnchor.nextSibling);
     playsAnchor = sc;
+    attachDateFilter(sc, 'non-scout', sysTodayHtml,
+      'No non-scout system logged a play that day.');
   }
 
   // ---- Flag-combo performance grid -----------------------------------------
