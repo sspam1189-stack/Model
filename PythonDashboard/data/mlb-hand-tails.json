@@ -1,9 +1,13 @@
 {
   "sport": "MLB",
   "type": "hand-tails",
-  "generated": "2026-09-02T18:34:23Z",
+  "generated": "2026-09-02T21:04:43Z",
   "handMin": 6,
   "roster": {
+    "Andrew Painter": {
+      "hand": "R",
+      "action": "fade"
+    },
     "Brady Singer": {
       "hand": "R",
       "action": "fade"
@@ -75,88 +79,60 @@
     "Connor Prielipp": {
       "hand": "L",
       "action": "fade"
+    },
+    "Andrew Alvarez": {
+      "hand": "L",
+      "action": "fade"
+    },
+    "Grayson Rodriguez": {
+      "hand": "R",
+      "action": "fade"
+    },
+    "Ian Seymour": {
+      "hand": "L",
+      "action": "fade"
+    },
+    "Jack Perkins": {
+      "hand": "R",
+      "action": "fade"
+    },
+    "Ryan Johnson": {
+      "hand": "R",
+      "action": "fade"
+    },
+    "Seth Lugo": {
+      "hand": "R",
+      "action": "fade"
+    },
+    "Yusei Kikuchi": {
+      "hand": "L",
+      "action": "fade"
     }
   },
   "note": "Bet list is manually curated (hand-tails-manual.json). `promotions` = arms that cleared the walk-forward bar but are not on the manual list (notify); `demotions` = manual arms slipped under the bar. Own ledger; not part of the fade-list ledger.",
   "promotions": [
-    {
-      "name": "Andrew Alvarez",
-      "hand": "L",
-      "games": 11,
-      "units": 5.14,
-      "since": "2026-08-30"
-    },
-    {
-      "name": "Andrew Painter",
-      "hand": "R",
-      "games": 6,
-      "units": 7.0,
-      "since": "2026-06-17"
-    },
-    {
-      "name": "Grayson Rodriguez",
-      "hand": "R",
-      "games": 8,
-      "units": 5.78,
-      "since": "2026-08-26"
-    },
-    {
-      "name": "Ian Seymour",
-      "hand": "L",
-      "games": 8,
-      "units": 5.6,
-      "since": "2026-08-31"
-    },
-    {
-      "name": "Jack Perkins",
-      "hand": "R",
-      "games": 5,
-      "units": 5.38,
-      "since": "2026-08-29"
-    },
     {
       "name": "Noah Cameron",
       "hand": "L",
       "games": 18,
       "units": 4.04,
       "since": "2026-06-18"
-    },
-    {
-      "name": "Ryan Johnson",
-      "hand": "R",
-      "games": 5,
-      "units": 5.0,
-      "since": "2026-08-29"
-    },
-    {
-      "name": "Seth Lugo",
-      "hand": "R",
-      "games": 11,
-      "units": 4.0,
-      "since": "2026-08-30"
-    },
-    {
-      "name": "Yusei Kikuchi",
-      "hand": "L",
-      "games": 5,
-      "units": 5.0,
-      "since": "2026-08-30"
     }
   ],
   "demotions": [],
   "summary": {
-    "wins": 60,
+    "wins": 61,
     "losses": 24,
-    "units": 36.16,
-    "staked": 100.42,
-    "roi": 0.3601,
+    "units": 37.16,
+    "staked": 102.3,
+    "roi": 0.3632,
     "byAction": {
       "fade": {
-        "wins": 60,
+        "wins": 61,
         "losses": 24,
-        "units": 36.16,
-        "staked": 100.42,
-        "roi": 0.3601
+        "units": 37.16,
+        "staked": 102.3,
+        "roi": 0.3632
       },
       "take": {
         "wins": 0,
@@ -168,11 +144,11 @@
     },
     "byHand": {
       "R": {
-        "wins": 34,
+        "wins": 35,
         "losses": 11,
-        "units": 23.18,
-        "staked": 53.68,
-        "roi": 0.4318
+        "units": 24.18,
+        "staked": 55.56,
+        "roi": 0.4352
       },
       "L": {
         "wins": 26,
@@ -2223,6 +2199,30 @@
       "result": "LOSS",
       "reason": null,
       "profit": -1.36,
+      "book": "fanduel",
+      "source": "fanduel_api"
+    },
+    {
+      "date": "2026-09-01",
+      "commence": "2026-09-02T01:38:00Z",
+      "betType": "hand_fade",
+      "action": "fade",
+      "pitcher": "Grayson Rodriguez",
+      "entry": "Grayson Rodriguez",
+      "hand": "R",
+      "arm_team": "LAA",
+      "opp_team": "NYY",
+      "selection": "NYY",
+      "home": "LAA",
+      "away": "NYY",
+      "oppLefty": 8,
+      "oppRighty": 1,
+      "lineupConfirmed": true,
+      "odds": -188,
+      "stake": 1.88,
+      "result": "WIN",
+      "reason": null,
+      "profit": 1.0,
       "book": "fanduel",
       "source": "fanduel_api"
     }

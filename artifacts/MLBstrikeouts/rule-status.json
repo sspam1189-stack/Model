@@ -1,7 +1,7 @@
 {
  "sport": "MLB",
  "type": "rule-status",
- "generated": "2026-09-02T18:35:28Z",
+ "generated": "2026-09-02T21:05:54Z",
  "note": "Single source of truth for card/shadow status. The daily logger imports RULE_STATUS from scripts/rule_status.py; the dashboard reads this file. Edit the script, not either surface.",
  "rules": {
   "flag-plays": {
@@ -86,6 +86,24 @@
    "status": "card",
    "name": "Cold arms under",
    "why": "Both starters have gone over in 35% or less of their last 8: under.",
+   "group": "non-scout"
+  },
+  "low-line-over": {
+   "status": "shadow",
+   "name": "Low line over",
+   "why": "Posted total of 7 or lower: over.",
+   "group": "non-scout"
+  },
+  "under-juice": {
+   "status": "shadow",
+   "name": "Under juice",
+   "why": "Under priced -120 or shorter: under.",
+   "group": "non-scout"
+  },
+  "hot-arm-dog-ml": {
+   "status": "shadow",
+   "name": "Hot arm dog ML",
+   "why": "Plus-money side whose starter's team is +40% ROI or better over his last 8 starts: back that side.",
    "group": "non-scout"
   }
  }

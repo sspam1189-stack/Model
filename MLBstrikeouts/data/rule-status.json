@@ -1,7 +1,7 @@
 {
  "sport": "MLB",
  "type": "rule-status",
- "generated": "2026-09-02T21:34:36Z",
+ "generated": "2026-09-02T21:05:54Z",
  "note": "Single source of truth for card/shadow status. The daily logger imports RULE_STATUS from scripts/rule_status.py; the dashboard reads this file. Edit the script, not either surface.",
  "rules": {
   "flag-plays": {
@@ -104,12 +104,6 @@
    "status": "shadow",
    "name": "Hot arm dog ML",
    "why": "Plus-money side whose starter's team is +40% ROI or better over his last 8 starts: back that side.",
-   "group": "non-scout"
-  },
-  "monday-over": {
-   "status": "shadow",
-   "name": "Monday over",
-   "why": "Any game on a Monday: over.",
    "group": "non-scout"
   }
  }

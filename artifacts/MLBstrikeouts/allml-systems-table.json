@@ -1,12 +1,12 @@
 {
  "sport": "MLB",
  "type": "allml-systems-table",
- "generated": "2026-09-02T18:35:24Z",
+ "generated": "2026-09-02T21:05:49Z",
  "span": {
   "from": "2026-03-25",
-  "to": "2026-09-01"
+  "to": "2026-09-02"
  },
- "games": 2081,
+ "games": 2082,
  "note": "Systems derived from mlb-all-ml.json alone -- moneylines, totals, probables, scores -- with no input from the mismatch model. Replayed as-of each game date: a game's own result is never in the features that select it. Each system carries the blind baseline it is measured against: backing every side at market price for moneylines, blind over or blind under for totals.",
  "baselines": {
   "side": -3.2,
@@ -161,7 +161,7 @@
      "roi": 13.6
     }
    ],
-   "per_day": 0.32
+   "per_day": 0.31
   },
   {
    "baseline_key": "side",
@@ -245,63 +245,71 @@
    "market": "h2h",
    "rule": "Day game, the visitors played a night game yesterday, and the home team is a plus-money dog: back the home side.",
    "plain": "Backs a home underdog in a day game when the visitors played a night game the day before. Both clubs are short on sleep, but one slept at home and the other packs for the airport. It only shows up when the home side is the weaker team, which is what makes it credible.",
-   "case": "26-19 +26.0% (n=45) at plus money; scored as not-the-favourite, 31-22 +25.5% on 53. Halves +25.6/+25.5. Monthly at plus money runs +10/+19/+22/-14/+53, so July is negative -- the 'every month positive' reading belongs to the wider not-the-favourite cut, not to the version carded here. The mechanism is the cleanest of the six: after a night game both clubs are short on sleep, but one sleeps at home and the other packs for the airport, and the market prices team quality rather than that. It shows up where the home side is the weaker team and vanishes where it is the favourite (-0.2%).\n\n        Controls behave. The same day games WITHOUT the night-before condition return -4.9%, home dogs in day games not after a night game -1.4%, and leave-one-team-out holds at every one of the five most frequent hosts (+22% to +29%), with 15 distinct home teams over 53 games and no team supplying more than 8. A 2/3-1/3 holdout trained +19.0% and tested +34.0%. The calibration gap is +11.6 points, and against an exactly-right market the record has probability 0.060 -- unremarkable, which is the point: the return comes from dog prices rather than from an implausible win rate.\n\n        Against it: the price ladder inside the cell is not clean (-120..-101 +22.8% on 8, pickem -5.1% on 17, +110..+139 +47.5% on 24), it is a three-way slice, and n=45 is small. Carded on the user's call 2026-09-02.",
+   "case": "42-38 +16.0% (n=80) at plus money, halves +7.4/+24.2, all three thirds positive (+14.9/+12.9/+19.3) and every month positive (+21/+2/+20/+9/+23).\n\n        BOTH TIME TESTS WERE WRONG, and in opposite directions. Fixed 2026-09-02, the second one on the user spotting a night game on the card.\n\n        The night-before test was `hour >= 23` on a UTC hour. That reads as 7 pm ET or later but dropped every start from 8 pm ET on -- those are hour 0 in UTC and 0 >= 23 is false -- excluding a 23-22 +22.0% bucket of 45 games. The window is now minute-based and wraps: 22:30Z to 00:59Z, 6:30 pm to 8:59 pm ET, the 6:30 start on the user's call. Extending past 00:59Z pulls in 9 pm ET starts at -7.2% over 68 games, which is where the edge dies.\n\n        The day-game test was `hour < 20`, which reads as 'before 4 pm ET' and let the SAME wrap through the other way: an 8:40 pm ET first pitch is 00:40Z, hour 0, and 0 < 20 is true. 26 of the rule's plays were night games scored as day games, carrying +8.59u of what looked like +21.39u -- 40% of the profit from games that did not meet the rule's own definition. BAL @ COL on 2026-09-01 is the one that surfaced it. The window is 10:00Z to 19:59Z now and does not wrap.\n\n        So the honest cell is smaller and flatter than either earlier number: 26-19 +26.0% on 45 was the buggy original, 56-50 +20.2% on 106 was half-fixed, and 42-38 +16.0% on 80 is what the rule as described actually returns. The mechanism is the cleanest of the six: after a night game both clubs are short on sleep, but one sleeps at home and the other packs for the airport, and the market prices team quality rather than that. It shows up where the home side is the weaker team and vanishes where it is the favourite (-0.2%).\n\n        Controls behave. The same day games WITHOUT the night-before condition return -4.9%, home dogs in day games not after a night game -1.4%, and leave-one-team-out holds at every one of the five most frequent hosts (+22% to +29%), with 15 distinct home teams over 53 games and no team supplying more than 8. A 2/3-1/3 holdout trained +19.0% and tested +34.0%. The calibration gap is +11.6 points, and against an exactly-right market the record has probability 0.060 -- unremarkable, which is the point: the return comes from dog prices rather than from an implausible win rate.\n\n        Against it: the price ladder inside the cell is not clean (-120..-101 +22.8% on 8, pickem -5.1% on 17, +110..+139 +47.5% on 24) and it is a three-way slice. Carded on the user's call 2026-09-02.",
    "status": "card",
    "ladder_fails": false,
    "record": {
-    "w": 26,
-    "l": 19,
-    "n": 45,
-    "units": 11.7,
-    "roi": 26.0
+    "w": 43,
+    "l": 38,
+    "n": 81,
+    "units": 14.12,
+    "roi": 17.4
    },
    "halves": [
-    14.4,
-    34.5
+    7.4,
+    26.8
    ],
    "monthly": [
     {
      "month": "2026-04",
-     "w": 5,
-     "l": 5,
-     "n": 10,
-     "units": 1.02,
-     "roi": 10.2
+     "w": 12,
+     "l": 10,
+     "n": 22,
+     "units": 4.56,
+     "roi": 20.7
     },
     {
      "month": "2026-05",
-     "w": 5,
-     "l": 4,
-     "n": 9,
-     "units": 1.72,
-     "roi": 19.1
+     "w": 7,
+     "l": 8,
+     "n": 15,
+     "units": 0.32,
+     "roi": 2.1
     },
     {
      "month": "2026-06",
-     "w": 3,
-     "l": 2,
-     "n": 5,
-     "units": 1.12,
-     "roi": 22.4
+     "w": 5,
+     "l": 4,
+     "n": 9,
+     "units": 1.84,
+     "roi": 20.4
     },
     {
      "month": "2026-07",
-     "w": 2,
-     "l": 3,
-     "n": 5,
-     "units": -0.68,
-     "roi": -13.6
+     "w": 6,
+     "l": 6,
+     "n": 12,
+     "units": 1.06,
+     "roi": 8.8
     },
     {
      "month": "2026-08",
-     "w": 11,
-     "l": 5,
-     "n": 16,
-     "units": 8.52,
-     "roi": 53.2
+     "w": 12,
+     "l": 10,
+     "n": 22,
+     "units": 5.02,
+     "roi": 22.8
+    },
+    {
+     "month": "2026-09",
+     "w": 1,
+     "l": 0,
+     "n": 1,
+     "units": 1.32,
+     "roi": 132.0
     }
    ],
-   "per_day": 0.28
+   "per_day": 0.51
   },
   {
    "baseline_key": "parlay",
@@ -316,14 +324,14 @@
    "ladder_fails": false,
    "record": {
     "w": 85,
-    "l": 166,
-    "n": 251,
-    "units": 114.07,
-    "roi": 45.4
+    "l": 167,
+    "n": 252,
+    "units": 113.07,
+    "roi": 44.9
    },
    "halves": [
     42.6,
-    48.0
+    46.9
    ],
    "monthly": [
     {
@@ -377,13 +385,13 @@
     {
      "month": "2026-09",
      "w": 2,
-     "l": 1,
-     "n": 3,
-     "units": 5.83,
-     "roi": 194.3
+     "l": 2,
+     "n": 4,
+     "units": 4.83,
+     "roi": 120.8
     }
    ],
-   "per_day": 1.59
+   "per_day": 1.58
   },
   {
    "baseline_key": "under",
@@ -457,7 +465,7 @@
      "roi": -4.5
     }
    ],
-   "per_day": 1.07
+   "per_day": 1.06
   },
   {
    "baseline_key": "over",
@@ -531,7 +539,7 @@
      "roi": 82.0
     }
    ],
-   "per_day": 1.32
+   "per_day": 1.31
   },
   {
    "baseline_key": "under",
@@ -598,28 +606,239 @@
     }
    ],
    "per_day": 0.26
+  },
+  {
+   "baseline_key": "over",
+   "baseline": -5.8,
+   "key": "low-line-over",
+   "name": "Low line over",
+   "market": "totals",
+   "rule": "Posted total of 7 or lower: over.",
+   "plain": "Takes the over on any total of 7 or lower. Books post a 7 rarely, and when they do those games came back averaging 8.66 runs. Shadow because the edge is a cliff rather than a slope: 7.5 loses over 464 games, so this is the 7-and-under bucket, not a low-total trend.",
+   "case": "72-52 +8.9% (n=124, p=0.033) against a -6.1% blind-over baseline, halves +9.9/+7.4, all thirds positive. Lines of 7 came back with a mean actual total of 8.66, which is a real mechanism: the book posts 7 rarely and grudgingly, and when it does the number is too low.\n\n        LADDER FAILS, which is why it is shadow and not card. The edge is a cliff, not a slope: 6.5 +2.8% (29), 7.0 +11.4% (91), then 7.5 -8.2% over 464 games. Step one half-run up and it is negative on a sample four times the size. 91 of the 124 plays sit in the single 7.0 bucket, so this is that bucket, not a low-total trend.",
+   "status": "shadow",
+   "ladder_fails": false,
+   "record": {
+    "w": 72,
+    "l": 52,
+    "n": 124,
+    "units": 11.05,
+    "roi": 8.9
+   },
+   "halves": [
+    9.9,
+    7.4
+   ],
+   "monthly": [
+    {
+     "month": "2026-03",
+     "w": 5,
+     "l": 2,
+     "n": 7,
+     "units": 2.47,
+     "roi": 35.3
+    },
+    {
+     "month": "2026-04",
+     "w": 22,
+     "l": 14,
+     "n": 36,
+     "units": 5.2,
+     "roi": 14.4
+    },
+    {
+     "month": "2026-05",
+     "w": 15,
+     "l": 14,
+     "n": 29,
+     "units": -0.69,
+     "roi": -2.4
+    },
+    {
+     "month": "2026-06",
+     "w": 7,
+     "l": 6,
+     "n": 13,
+     "units": -0.01,
+     "roi": -0.0
+    },
+    {
+     "month": "2026-07",
+     "w": 6,
+     "l": 4,
+     "n": 10,
+     "units": 1.28,
+     "roi": 12.8
+    },
+    {
+     "month": "2026-08",
+     "w": 17,
+     "l": 12,
+     "n": 29,
+     "units": 2.79,
+     "roi": 9.6
+    }
+   ],
+   "per_day": 0.78
+  },
+  {
+   "baseline_key": "under",
+   "baseline": -3.7,
+   "key": "under-juice",
+   "name": "Under juice",
+   "market": "totals",
+   "rule": "Under priced -120 or shorter: under.",
+   "plain": "Takes the under whenever the book is laying -120 or shorter on it. The heavier the juice the better it does, which is the whole case. Shadow because it is the most volume for the least conviction -- 2.6 plays a day for +5% -- and it is close to just following the book.",
+   "case": "234-171 +5.1% (n=405, p=0.020), halves +5/+6, and the juice ladder is monotone -- -112 -0.8%, -115 -1.2%, -118 +2.6%, -120 +5.1%. That monotonicity is the case for it: nothing about it looks like an artifact.\n\n        Against it: the biggest sample of the nine and the smallest edge per play, at 2.6 plays a day. The most volume for the least conviction, and following the juice is close to just following the book -- if the edge is real it is the book's, borrowed.",
+   "status": "shadow",
+   "ladder_fails": false,
+   "record": {
+    "w": 234,
+    "l": 174,
+    "n": 408,
+    "units": 17.57,
+    "roi": 4.3
+   },
+   "halves": [
+    3.6,
+    5.0
+   ],
+   "monthly": [
+    {
+     "month": "2026-03",
+     "w": 7,
+     "l": 6,
+     "n": 13,
+     "units": -0.28,
+     "roi": -2.1
+    },
+    {
+     "month": "2026-04",
+     "w": 42,
+     "l": 28,
+     "n": 70,
+     "units": 6.5,
+     "roi": 9.3
+    },
+    {
+     "month": "2026-05",
+     "w": 53,
+     "l": 32,
+     "n": 85,
+     "units": 11.44,
+     "roi": 13.5
+    },
+    {
+     "month": "2026-06",
+     "w": 45,
+     "l": 44,
+     "n": 89,
+     "units": -7.25,
+     "roi": -8.1
+    },
+    {
+     "month": "2026-07",
+     "w": 39,
+     "l": 22,
+     "n": 61,
+     "units": 9.84,
+     "roi": 16.1
+    },
+    {
+     "month": "2026-08",
+     "w": 48,
+     "l": 39,
+     "n": 87,
+     "units": 0.31,
+     "roi": 0.4
+    },
+    {
+     "month": "2026-09",
+     "w": 0,
+     "l": 3,
+     "n": 3,
+     "units": -3.0,
+     "roi": -100.0
+    }
+   ],
+   "per_day": 2.57
+  },
+  {
+   "baseline_key": "side",
+   "baseline": -3.2,
+   "key": "hot-arm-dog-ml",
+   "name": "Hot arm dog ML",
+   "market": "h2h",
+   "rule": "Plus-money side whose starter's team is +40% ROI or better over his last 8 starts: back that side.",
+   "plain": "Backs a plus-money side whose starter's team has returned +40% or better over his last eight starts. Shadow because at 91-90 the win rate is a coin flip: the whole return is the dog prices, and a dog system has to beat its price rather than merely match it.",
+   "case": "91-90 +12.7% (n=181, p=0.010), halves +17/+11, threshold ladder monotone.\n\n        The problem is where the return comes from. At 91-90 the win rate is a coin flip and the entire edge is plus-money prices holding up. A dog system has to beat its price; this one only matches it, and 181 plays at an even record is thin evidence that the prices stay generous.",
+   "status": "shadow",
+   "ladder_fails": false,
+   "record": {
+    "w": 92,
+    "l": 91,
+    "n": 183,
+    "units": 23.56,
+    "roi": 12.9
+   },
+   "halves": [
+    14.7,
+    11.9
+   ],
+   "monthly": [
+    {
+     "month": "2026-04",
+     "w": 5,
+     "l": 6,
+     "n": 11,
+     "units": -0.3,
+     "roi": -2.7
+    },
+    {
+     "month": "2026-05",
+     "w": 19,
+     "l": 18,
+     "n": 37,
+     "units": 4.86,
+     "roi": 13.1
+    },
+    {
+     "month": "2026-06",
+     "w": 24,
+     "l": 18,
+     "n": 42,
+     "units": 12.34,
+     "roi": 29.4
+    },
+    {
+     "month": "2026-07",
+     "w": 22,
+     "l": 17,
+     "n": 39,
+     "units": 9.88,
+     "roi": 25.3
+    },
+    {
+     "month": "2026-08",
+     "w": 21,
+     "l": 31,
+     "n": 52,
+     "units": -3.86,
+     "roi": -7.4
+    },
+    {
+     "month": "2026-09",
+     "w": 1,
+     "l": 1,
+     "n": 2,
+     "units": 0.64,
+     "roi": 32.0
+    }
+   ],
+   "per_day": 1.15
   }
  ],
  "today": [
-  {
-   "rule": "home-dog-under-parlay",
-   "market": "parlay",
-   "pick": "CIN",
-   "price": 325,
-   "side": null,
-   "why": "CIN ML +132 with U9.5 -120, pays 4.25x",
-   "line": 9.5,
-   "ml_price": 132,
-   "under_price": -120,
-   "payout": 4.253,
-   "gamePk": 824470,
-   "date": "2026-09-02",
-   "commence": "2026-09-02T16:40:00Z",
-   "matchup": "SD @ CIN",
-   "away": "SD",
-   "home": "CIN",
-   "total": 9.5
-  },
   {
    "rule": "division-home-dog",
    "market": "h2h",
@@ -627,6 +846,21 @@
    "price": 120,
    "side": null,
    "why": "home to a NL East rival at +120",
+   "gamePk": 822686,
+   "date": "2026-09-02",
+   "commence": "2026-09-02T17:05:00Z",
+   "matchup": "ATL @ WSH",
+   "away": "ATL",
+   "home": "WSH",
+   "total": 9.5
+  },
+  {
+   "rule": "home-dog-getaway",
+   "market": "h2h",
+   "pick": "WSH",
+   "price": 120,
+   "side": null,
+   "why": "ATL played a night game yesterday, day game today, home dog at +120",
    "gamePk": 822686,
    "date": "2026-09-02",
    "commence": "2026-09-02T17:05:00Z",
@@ -655,6 +889,21 @@
    "total": 9.5
   },
   {
+   "rule": "under-juice",
+   "market": "totals",
+   "pick": "under",
+   "price": -122,
+   "side": "U",
+   "why": "book laying -122 on the under",
+   "gamePk": 822686,
+   "date": "2026-09-02",
+   "commence": "2026-09-02T17:05:00Z",
+   "matchup": "ATL @ WSH",
+   "away": "ATL",
+   "home": "WSH",
+   "total": 9.5
+  },
+  {
    "rule": "cold-arms-under",
    "market": "totals",
    "pick": "under",
@@ -668,6 +917,21 @@
    "away": "OAK",
    "home": "TEX",
    "total": 7.5
+  },
+  {
+   "rule": "home-dog-getaway",
+   "market": "h2h",
+   "pick": "COL",
+   "price": 146,
+   "side": null,
+   "why": "BAL played a night game yesterday, day game today, home dog at +146",
+   "gamePk": 824312,
+   "date": "2026-09-02",
+   "commence": "2026-09-02T19:10:00Z",
+   "matchup": "BAL @ COL",
+   "away": "BAL",
+   "home": "COL",
+   "total": 11.5
   },
   {
    "rule": "home-dog-under-parlay",
@@ -695,6 +959,21 @@
    "price": 100,
    "side": "O",
    "why": "over in Trevor Rogers 75% of last 8, total 11.5",
+   "gamePk": 824312,
+   "date": "2026-09-02",
+   "commence": "2026-09-02T19:10:00Z",
+   "matchup": "BAL @ COL",
+   "away": "BAL",
+   "home": "COL",
+   "total": 11.5
+  },
+  {
+   "rule": "under-juice",
+   "market": "totals",
+   "pick": "under",
+   "price": -122,
+   "side": "U",
+   "why": "book laying -122 on the under",
    "gamePk": 824312,
    "date": "2026-09-02",
    "commence": "2026-09-02T19:10:00Z",
@@ -734,12 +1013,27 @@
    "total": 8.5
   },
   {
+   "rule": "under-juice",
+   "market": "totals",
+   "pick": "under",
+   "price": -122,
+   "side": "U",
+   "why": "book laying -122 on the under",
+   "gamePk": 824390,
+   "date": "2026-09-02",
+   "commence": "2026-09-02T22:40:00Z",
+   "matchup": "TOR @ CLE",
+   "away": "TOR",
+   "home": "CLE",
+   "total": 7.5
+  },
+  {
    "rule": "division-home-dog",
    "market": "h2h",
    "pick": "CHC",
-   "price": 136,
+   "price": 130,
    "side": null,
-   "why": "home to a NL Central rival at +136",
+   "why": "home to a NL Central rival at +130",
    "gamePk": 824634,
    "date": "2026-09-02",
    "commence": "2026-09-02T23:40:00Z",
@@ -752,34 +1046,19 @@
    "rule": "home-dog-under-parlay",
    "market": "parlay",
    "pick": "CHC",
-   "price": 336,
+   "price": 325,
    "side": null,
-   "why": "CHC ML +136 with U8.5 -118, pays 4.36x",
+   "why": "CHC ML +130 with U8.5 -118, pays 4.25x",
    "line": 8.5,
-   "ml_price": 136,
+   "ml_price": 130,
    "under_price": -118,
-   "payout": 4.36,
+   "payout": 4.249,
    "gamePk": 824634,
    "date": "2026-09-02",
    "commence": "2026-09-02T23:40:00Z",
    "matchup": "MIL @ CHC",
    "away": "MIL",
    "home": "CHC",
-   "total": 8.5
-  },
-  {
-   "rule": "pickem-under",
-   "market": "totals",
-   "pick": "under",
-   "price": -104,
-   "side": "U",
-   "why": "favorite only -112 at a 8.5 total",
-   "gamePk": 823660,
-   "date": "2026-09-02",
-   "commence": "2026-09-02T23:40:00Z",
-   "matchup": "DET @ MIN",
-   "away": "DET",
-   "home": "MIN",
    "total": 8.5
   },
   {
@@ -823,6 +1102,21 @@
    "ml_price": 140,
    "under_price": -108,
    "payout": 4.622,
+   "gamePk": 823983,
+   "date": "2026-09-02",
+   "commence": "2026-09-03T01:38:00Z",
+   "matchup": "NYY @ LAA",
+   "away": "NYY",
+   "home": "LAA",
+   "total": 6.5
+  },
+  {
+   "rule": "low-line-over",
+   "market": "totals",
+   "pick": "over",
+   "price": -112,
+   "side": "O",
+   "why": "posted total 6.5; lines of 7 and under average 8.66 runs",
    "gamePk": 823983,
    "date": "2026-09-02",
    "commence": "2026-09-03T01:38:00Z",
