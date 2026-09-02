@@ -401,7 +401,10 @@ async function renderMLBSlateScout() {
     phtml += '<div style="padding:8px 10px;font-size:12px;color:' + DIM
       + '">No qualifying plays on this slate.</div>';
   } else {
-    phtml += '<div class="scout-scroll"><table style="width:100%;border-collapse:collapse;font-size:12px">'
+    // The two plays panels are what gets read at a glance and acted on, so
+    // they sit a step larger than the reference tables further down.
+    phtml += '<div class="scout-scroll"><table style="width:100%;'
+      + 'border-collapse:collapse;font-size:13.5px;line-height:1.45">'
       + '<thead><tr style="text-align:left;color:' + DIM + ';border-bottom:1px solid #30363d">'
       + '<th style="padding:4px 6px">CT</th><th>Game</th><th>Play</th><th>Rule</th>'
       + '<th data-col="why">Why</th>'
@@ -584,31 +587,38 @@ async function renderMLBSlateScout() {
       t += '<div style="padding:8px 10px;font-size:12px;color:' + DIM
         + '">No system qualifies on this slate.</div>';
     } else {
-      t += '<div class="scout-scroll"><table style="width:100%;border-collapse:collapse;font-size:12px">'
+      t += '<div class="scout-scroll"><table style="width:100%;'
+        + 'border-collapse:collapse;font-size:13.5px;line-height:1.45">'
         + '<thead><tr style="text-align:left;color:' + DIM + ';border-bottom:1px solid #30363d">'
-        + '<th style="padding:4px 6px">CT</th><th>Game</th><th>Play</th>'
+        + '<th style="padding:5px 6px">CT</th><th>Game</th><th>Play</th>'
         + '<th>System</th><th data-col="season">Season</th>'
         + '<th data-col="why">Why</th></tr></thead><tbody>';
       // Card block first, then shadow, and first pitch inside each. Mixing
       // them by time alone would put a no-stake row above a bet one.
-      const NS_SECTION = {
-        card: ['CARD — bet these', '#3fb950'],
-        shadow: ['SHADOW — tracked, not bet', DIM],
-      };
       const tierOf = (p) => (byKey[p.rule] && byKey[p.rule].status === 'shadow')
         ? 'shadow' : 'card';
       const ordered = plays.slice().sort((a, b) =>
         (tierOf(a) === 'shadow') - (tierOf(b) === 'shadow')
         || String(a.commence || '~').localeCompare(String(b.commence || '~')));
+      const nShadow = ordered.filter((p) => tierOf(p) === 'shadow').length;
       let nsSection = null;
       for (const p of ordered) {
         const sy = byKey[p.rule] || {};
         const tier = tierOf(p);
         if (tier !== nsSection) {
           nsSection = tier;
-          t += '<tr><td colspan="6" style="padding:5px 6px 2px;font-size:11px;'
-            + 'font-weight:600;border-top:1px solid #30363d;color:'
-            + NS_SECTION[tier][1] + '">' + NS_SECTION[tier][0] + '</td></tr>';
+          // The shadow header is a toggle and starts closed: these rows are
+          // not bet, so they should not push the card off the screen. The
+          // count goes in the header so nothing is hidden silently.
+          t += tier === 'card'
+            ? '<tr><td colspan="6" style="padding:6px 6px 3px;font-size:12px;'
+              + 'font-weight:600;border-top:1px solid #30363d;color:#3fb950">'
+              + 'CARD — bet these</td></tr>'
+            : '<tr><td colspan="6" id="nsShadowHead" style="padding:6px 6px 3px;'
+              + 'font-size:12px;font-weight:600;border-top:1px solid #30363d;'
+              + 'color:' + DIM + ';cursor:pointer;user-select:none">'
+              + '<span id="nsShadowCaret">▸</span> SHADOW — tracked, not bet '
+              + '<span style="font-weight:400">(' + nShadow + ')</span></td></tr>';
         }
         // A parlay is two legs in one row, so it prints both and the payout
         // rather than a single price.
@@ -623,10 +633,12 @@ async function renderMLBSlateScout() {
             : (p.pick === 'under' ? 'U' : 'O') + (p.total == null ? '?' : p.total)
               + ' <span style="color:' + DIM + ';font-weight:400">'
               + mlStr(p.price) + '</span>';
-        t += '<tr style="border-top:1px solid #161b22">'
-          + '<td style="padding:3px 6px;color:' + DIM + '">' + ctTime(p.commence) + '</td>'
-          + '<td style="padding:3px 6px">' + esc(p.matchup) + '</td>'
-          + '<td style="padding:3px 6px;font-weight:600;white-space:nowrap">' + playCell + '</td>'
+        t += '<tr class="' + (tier === 'shadow' ? 'ns-shadow-row' : 'ns-card-row')
+          + '" style="border-top:1px solid #161b22'
+          + (tier === 'shadow' ? ';display:none' : '') + '">'
+          + '<td style="padding:4px 6px;color:' + DIM + '">' + ctTime(p.commence) + '</td>'
+          + '<td style="padding:4px 6px">' + esc(p.matchup) + '</td>'
+          + '<td style="padding:4px 6px;font-weight:600;white-space:nowrap">' + playCell + '</td>'
           + '<td><span style="display:inline-block;padding:1px 6px;border-radius:3px;'
           + 'font-weight:600;white-space:nowrap;' + (tier === 'shadow'
             ? 'background:rgba(139,148,158,.14);color:' + DIM
@@ -710,6 +722,20 @@ async function renderMLBSlateScout() {
       + 'proof — the live record is what settles them.</div>'
       + '</div>';
     sc.innerHTML = t;
+    // Shadow rows start hidden; the header row toggles them. Written after
+    // innerHTML rather than as an inline onclick so the handler survives the
+    // esc() escaping and does not depend on a global.
+    const shHead = sc.querySelector('#nsShadowHead');
+    if (shHead) {
+      const caret = sc.querySelector('#nsShadowCaret');
+      const shRows = [...sc.querySelectorAll('tr.ns-shadow-row')];
+      let open = false;
+      shHead.addEventListener('click', () => {
+        open = !open;
+        for (const r of shRows) r.style.display = open ? '' : 'none';
+        if (caret) caret.textContent = open ? '▾' : '▸';
+      });
+    }
     el.insertBefore(sc, playsAnchor.nextSibling);
     playsAnchor = sc;
   }
