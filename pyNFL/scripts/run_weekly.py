@@ -760,8 +760,13 @@ def stage_project(season, week, store):
     try:
         scale_calib = build_scale_calibration(store.get("runs", []))
         sm = scale_calib.get("margin", {})
-        print(f"  [scale] margin alpha={sm.get('alpha'):+.2f} beta={sm.get('beta'):.3f} "
-              f"(n={sm.get('n', 'default')})")
+        if isinstance(sm.get("alpha"), (int, float)) and isinstance(sm.get("beta"), (int, float)):
+            print(f"  [scale] margin alpha={sm['alpha']:+.2f} beta={sm['beta']:.3f} "
+                  f"(n={sm.get('n', 'default')})")
+        else:
+            # build_scale_calibration returns its DEFAULT_SCALE dict until
+            # min_games graded v2 games exist; that dict has no alpha/beta.
+            print(f"  [scale] margin: default scale (fewer than min_games graded)")
     except Exception as e:
         print(f"  WARNING: scale calibration failed: {e}")
 
