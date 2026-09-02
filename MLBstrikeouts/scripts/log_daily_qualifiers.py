@@ -44,6 +44,7 @@ touched by a re-price.
 Usage:  cd MLBstrikeouts && python -m scripts.log_daily_qualifiers [--dry-run]
 """
 import argparse
+import collections
 import datetime
 import json
 import os
@@ -186,6 +187,70 @@ def sig_of(e):
     else:
         k = (e.get("play") or "").split(" ML")[0].strip()
     return (e.get("date"), e.get("rule"), e.get("market"), game, k)
+
+
+def total_side(entry):
+    """Which side of the total a ledger row is on, or None.
+
+    A parlay's second leg is the under, so a parlay row conflicts with an
+    over on the same game exactly as a straight under would.
+    """
+    mk = entry.get("market")
+    if mk == "parlay":
+        return "under"
+    if mk != "totals":
+        return None
+    pick = (entry.get("pick") or "").lower()
+    if pick in ("over", "under"):
+        return pick
+    return "over" if _OVER_TEXT.search(entry.get("play") or "") else "under"
+
+
+NOTE = "Conflicting under carded on this game; over not taken."
+
+
+def drop_conflicting_overs(entries, date):
+    """When a game carries both a carded over and a carded under, drop the OVER.
+
+    The two cancel: taking both is -3.6% over the season, taking only the
+    over -20.9%, taking only the under +13.7%. The user's rule is to keep
+    the under and skip the over, so the over row is marked not_bet -- it
+    stays in the rule's W-L, which is what the replay measures, and out of
+    the units, which is what was actually risked.
+
+    Only PENDING rows are touched, so a settled night is never rewritten by
+    a later run. Returns the rows it changed.
+    """
+    by_game = collections.defaultdict(list)
+    for e in entries:
+        if e.get("date") != date or e.get("shadow"):
+            continue
+        if total_side(e) is None:
+            continue
+        by_game[e.get("gamePk") or e.get("game")].append(e)
+
+    changed = []
+    for rows in by_game.values():
+        sides = {total_side(e) for e in rows
+                 if not e.get("not_bet") or e.get("conflict_skip")}
+        if sides != {"over", "under"}:
+            continue
+        for e in rows:
+            if total_side(e) != "over":
+                continue
+            if e.get("not_bet") and e.get("conflict_skip") and NOTE in (e.get("basis") or ""):
+                continue                       # already handled, nothing to do
+            if not e.get("conflict_skip") and (e.get("result") or "pending") != "pending":
+                continue                       # settled before the rule existed
+            e["not_bet"] = True
+            # Its own flag, not a substring of `basis`: a re-price rewrites
+            # basis from the engine and would otherwise silently drop the
+            # explanation while leaving the row not_bet and unexplained.
+            e["conflict_skip"] = True
+            if NOTE not in (e.get("basis") or ""):
+                e["basis"] = (e.get("basis", "") + " " + NOTE).strip()
+            changed.append(e)
+    return changed
 
 
 def _locked(entry, now):
@@ -479,6 +544,13 @@ def main():
         by_sig[sig_of(entry)] = entry
         added.append(entry)
 
+    # Conflicts are resolved across the WHOLE day's rows, not just the ones
+    # added this run: the over and the under can be logged by different runs.
+    dropped = drop_conflicting_overs(blob["entries"] + added, date)
+    for e in dropped:
+        print(f"  SKIP-OVER {e['rule']:14} {e['play'][:40]:40} "
+              f"conflicting under carded")
+
     for e, changed in moved:
         bits = ", ".join(f"{k} {v}" for k, v in sorted(changed.items()))
         print(f"  REPRICE {e['rule']:14} {e['play'][:40]:40} {bits}")
@@ -493,7 +565,7 @@ def main():
         tag = "SHADOW" if e.get("shadow") else "CARD  "
         print(f"  {tag} {e['rule']:14} {e['play'][:46]:46} {e['price']:>5}")
 
-    if args.dry_run or not (added or moved):
+    if args.dry_run or not (added or moved or dropped):
         if args.dry_run:
             print("(dry run -- nothing written)")
         return
