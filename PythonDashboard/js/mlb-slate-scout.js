@@ -111,15 +111,14 @@ async function renderMLBSlateScout() {
   ])).filter(Boolean)
     .sort((a, b) => String(b.generated || '').localeCompare(String(a.generated || '')))[0] || null;
 
-  // Recent logged plays and how they graded (scripts/build_plays_feed.py), a
-  // projection of the ledger the auto-grader settles. Tonight comes from the
-  // live payloads; anything earlier is read from here.
+  // The bet log (scripts/build_plays_feed.py): every logged play with the
+  // result and profit the auto-grader settled, as a flat list.
   const grabFeed = async (url) => {
     try {
       const r = await fetch(url + '?t=' + Date.now(), { cache: 'no-store' });
       if (!r.ok) return null;
       const j = await r.json();
-      return (j && Array.isArray(j.days) && j.days.length) ? j : null;
+      return (j && Array.isArray(j.bets) && j.bets.length) ? j : null;
     } catch (e) { return null; }
   };
   const playsFeed = (await Promise.all([
@@ -344,33 +343,7 @@ async function renderMLBSlateScout() {
           + (am.home_offense || []).join('/') + ' @75pa' });
     }
   }
-  // ---- date filter shared by both plays panels ----------------------------
-  // Each panel keeps its OWN selector so one can stay on tonight while the
-  // other shows how yesterday finished. Tonight is rendered from the live
-  // payloads exactly as before; past dates come from plays-feed.json, whose
-  // results and profit are the ledger's own -- nothing is regraded here.
-  const feedDays = (playsFeed && playsFeed.days) ? playsFeed.days : [];
-  const slateDate = data.date || (feedDays[0] && feedDays[0].date) || '';
-  const feedFor = (d) => feedDays.filter((x) => x.date === d)[0] || null;
-  const pastDates = feedDays.map((x) => x.date).filter((d) => d !== slateDate);
-  // ONE selector drives both plays panels. They are read together as a single
-  // card, so two independent dropdowns just made it possible to compare
-  // tonight's systems against yesterday's scout plays by accident. Option
-  // labels carry the combined record for the day; each panel still prints its
-  // own record in its body, and a panel with nothing logged says so.
-  const dayLabel = (d) => {
-    const day = feedFor(d);
-    const t = day && day.all;
-    if (!t || !t.n) return 'no plays';
-    if (t.pending && !t.w && !t.l) return t.pending + ' pending';
-    return t.w + '-' + t.l + (t.push ? '-' + t.push : '')
-      + (t.pending ? ' +' + t.pending + 'p' : '');
-  };
-  const yesterdayOf = (d) => {
-    const t = Date.parse(d + 'T12:00:00Z');
-    return isNaN(t) ? null
-      : new Date(t - 86400000).toISOString().slice(0, 10);
-  };
+  // Shared formatters for the bet log below.
   const RESULT_STYLE = {
     WIN: ['#3fb950', 'rgba(63,185,80,.18)'],
     LOSS: ['#f85149', 'rgba(248,81,73,.14)'],
@@ -386,133 +359,14 @@ async function renderMLBSlateScout() {
     + (u > 0 ? '#3fb950' : u < 0 ? '#f85149' : DIM) + ';font-weight:600">'
     + (u > 0 ? '+' : '') + Number(u).toFixed(2) + 'u</span>';
 
-  // One past day for one group, sectioned the way the live table is: what was
-  // bet, then what was only tracked, then what the rule called and nobody
-  // wagered. Sorting the three together by first pitch reads as one card and
-  // hides that a losing row never cost anything.
-  const PAST_SECTIONS = [
-    ['card', 'CARD — bet these', '#3fb950'],
-    ['shadow', 'SHADOW — tracked, not bet', DIM],
-    ['not_bet', 'NOT BET — rule fired, no wager', DIM],
-    ['backfilled', 'BACKFILLED — replayed after the fact, never wagered', DIM],
-  ];
-  // Backfilled is checked FIRST. These rows were written by replaying the
-  // season once the rule was carded, so treating one as a card play would put
-  // hindsight money in the day's units.
-  const pastKind = (r) => (r.backfilled ? 'backfilled'
-    : r.not_bet ? 'not_bet' : (r.shadow ? 'shadow' : 'card'));
-  const pastPlaysHtml = (dateStr, group, emptyMsg) => {
-    const day = feedFor(dateStr);
-    const rows = day ? day.rows.filter((r) => r.group === group) : [];
-    if (!rows.length) {
-      return '<div style="padding:8px 10px;font-size:12px;color:' + DIM + '">'
-        + esc(emptyMsg) + '</div>';
-    }
-    const t = group === 'scout' ? day.scout : day.non_scout;
-    const bf = t.backfilled || { n: 0, w: 0, l: 0, push: 0 };
-    const liveN = t.live_n == null ? t.n : t.live_n;
-    // A day with nothing but backfilled rows has no record and no money, so
-    // it says what it actually is instead of reporting 0-0 and +0.00u.
-    const headline = liveN
-      ? (t.w + '-' + t.l + (t.push ? '-' + t.push : '')
-        + (t.pending ? ' (' + t.pending + ' pending)' : '') + ' · '
-        + unitStr(t.units) + ' · graded from the finals by the ledger'
-        + (bf.n ? ' · plus ' + bf.n + ' backfilled' : ''))
-      : (bf.w + '-' + bf.l + (bf.push ? '-' + bf.push : '')
-        + ' · backfilled only — replayed after the fact, never wagered');
-    let h = '<div style="padding:5px 8px;font-size:11px;color:' + DIM + '">'
-      + esc(dateStr) + ' — ' + headline + '</div>'
-      + '<div class="scout-scroll"><table style="width:100%;'
-      + 'border-collapse:collapse;font-size:12px">'
-      + '<thead><tr style="text-align:left;color:' + DIM
-      + ';border-bottom:1px solid #30363d">'
-      + '<th style="padding:4px 6px">CT</th><th>Game</th><th>Play</th>'
-      + '<th>Rule</th><th>Result</th><th>Unit</th></tr></thead><tbody>';
-    for (const [kind, label, colour] of PAST_SECTIONS) {
-      const group_ = rows.filter((r) => pastKind(r) === kind)
-        .sort((a, b) => String(a.commence || '~').localeCompare(
-          String(b.commence || '~')));
-      if (!group_.length) continue;
-      const gr = group_.filter((r) => r.result === 'WIN' || r.result === 'LOSS');
-      const gw = gr.filter((r) => r.result === 'WIN').length;
-      const gp = group_.filter((r) => r.result === 'pending').length;
-      const gu = kind === 'card'
-        ? group_.reduce((a, r) => a + (r.profit || 0), 0) : null;
-      h += '<tr><td colspan="6" style="padding:5px 6px 2px;font-size:11px;'
-        + 'font-weight:600;border-top:1px solid #30363d;color:' + colour + '">'
-        + label + ' — ' + gw + '-' + (gr.length - gw)
-        + (gp ? ' (' + gp + ' pending)' : '')
-        + (gu === null ? ' · no units by design' : ' · ' + unitStr(gu))
-        + '</td></tr>';
-      for (const r of group_) {
-        const held = kind !== 'card';
-        h += '<tr style="border-top:1px solid #161b22'
-          + (held ? ';opacity:.6' : '') + '">'
-          + '<td style="padding:3px 6px;color:' + DIM + '">'
-          + (r.commence ? ctTime(r.commence) : '—') + '</td>'
-          + '<td style="padding:3px 6px">' + esc(r.game || '') + '</td>'
-          + '<td style="padding:3px 6px;font-weight:600;white-space:nowrap">'
-          + esc(r.play || '') + ' <span style="color:' + DIM
-          + ';font-weight:400">' + mlStr(r.price) + '</span></td>'
-          + '<td style="white-space:nowrap">' + esc(r.name || r.rule || '') + '</td>'
-          + '<td>' + resultChip(r.result) + '</td>'
-          + '<td style="white-space:nowrap">'
-          + (r.result === 'pending' || held
-            ? '<span style="color:' + DIM + '">—</span>'
-            : unitStr(r.profit || 0)) + '</td>'
-          + '</tr>';
-      }
-    }
-    return h + '</tbody></table></div>';
-  };
-
-  // Each plays panel registers its swappable body; the selector is mounted
-  // once, after both exist, and drives all of them together.
-  const datePanels = [];
-  const registerPlaysPanel = (cardEl, group, todayHtml, emptyMsg) => {
-    const body = cardEl.querySelector('[data-plays-body]');
-    if (body) datePanels.push({ cardEl, group, todayHtml, emptyMsg, body });
-  };
-  const mountDateFilter = () => {
-    if (!datePanels.length || !pastDates.length) return;
-    const wrap = datePanels[0].cardEl.querySelector('[data-date-filter]');
-    if (!wrap) return;
-    const yday = yesterdayOf(slateDate);
-    const opts = ['<option value="__today">Today'
-      + (slateDate ? ' · ' + slateDate : '') + '</option>']
-      .concat(pastDates.map((d) => '<option value="' + d + '">'
-        + (d === yday ? 'Yesterday · ' : '') + d
-        + ' · ' + dayLabel(d) + '</option>'));
-    wrap.innerHTML = '<span style="color:' + DIM + ';font-size:11px">'
-      + 'plays date </span><select style="background:#0d1117;color:#c9d1d9;'
-      + 'border:1px solid #30363d;border-radius:4px;font-size:11px;'
-      + 'padding:1px 4px;font-weight:400">' + opts.join('') + '</select>';
-    const sel = wrap.querySelector('select');
-    sel.addEventListener('change', () => {
-      const today = sel.value === '__today';
-      for (const p of datePanels) {
-        p.body.innerHTML = today
-          ? p.todayHtml : pastPlaysHtml(sel.value, p.group, p.emptyMsg);
-        // A panel showing an earlier day must not still be headed "today's
-        // plays" -- on a phone the title is the only thing above the fold.
-        const when = p.cardEl.querySelector('[data-plays-when]');
-        if (when) when.textContent = today ? "today's plays" : sel.value;
-      }
-    });
-  };
-
   const playsCard = document.createElement('div');
   playsCard.className = 'card card-games';
-  let phtml = '<div class="card-title" style="padding:6px 8px">Flagged &amp; form O/U — '
-    + '<span data-plays-when>today\'s plays</span> '
+  let phtml = '<div class="card-title" style="padding:6px 8px">Flagged &amp; form O/U — today\'s plays '
     + '<span class="scout-note" style="color:' + DIM + ';font-weight:400;font-size:11px">'
     + '(CARD is bet · SHADOW is tracked, not bet · NO PLAY is a measured dead '
     + 'side. Side comes from the combo\'s verdict — most play the under, '
     + 'swingman+stale-window plays the over.)</span>'
-    + '<span data-date-filter style="float:right;font-weight:400"></span>'
     + '</div>';
-  const scoutTitleHtml = phtml;
-  phtml = '';
   if (!underPlays.length) {
     phtml += '<div style="padding:8px 10px;font-size:12px;color:' + DIM
       + '">No qualifying plays on this slate.</div>';
@@ -566,12 +420,8 @@ async function renderMLBSlateScout() {
     }
     phtml += '</tbody></table></div>';
   }
-  const scoutTodayHtml = phtml;
-  playsCard.innerHTML = scoutTitleHtml
-    + '<div data-plays-body>' + scoutTodayHtml + '</div>';
+  playsCard.innerHTML = phtml;
   el.appendChild(playsCard);
-  registerPlaysPanel(playsCard, 'scout', scoutTodayHtml,
-    'Nothing was logged for the scout rules that day.');
   // The two "today's plays" panels sit together at the top, scout first then
   // non-scout, so the whole actionable card is read in one place before the
   // reference tables below it. Both are built further down (the non-scout one
@@ -689,14 +539,12 @@ async function renderMLBSlateScout() {
     const sc = document.createElement('div');
     sc.className = 'card card-games';
     let t = '<div class="card-title" style="padding:6px 8px">'
-      + 'Non-scout systems — <span data-plays-when>today\'s plays</span> '
+      + 'Non-scout systems — today\'s plays '
       + '<span class="scout-note" style="color:' + DIM + ';font-weight:400;font-size:11px">'
       + '(CARD — all of these are bet. Derived from the all-ML game file '
       + 'alone: prices, totals, probables, scores. No mismatch-model input, '
       + 'so an agreement with a scout rule is a second opinion.)</span>'
       + '</div>';
-    const sysTitleHtml = t;
-    t = '';
     if (!plays.length) {
       t += '<div style="padding:8px 10px;font-size:12px;color:' + DIM
         + '">No system qualifies on this slate.</div>';
@@ -736,8 +584,6 @@ async function renderMLBSlateScout() {
       t += '</tbody></table></div>';
     }
     // Season table for all eight, whether or not they fired tonight.
-    const sysTodayHtml = t;
-    t = '';
     const b = sysTable.baselines || {};
     // The builder stores each system's own blind benchmark, so this does not
     // have to guess one from the rule name.
@@ -789,14 +635,9 @@ async function renderMLBSlateScout() {
       + 'and the record is what settles it. The scan that produced these tested '
       + 'thousands of cells, so treat the p-values as screening, not proof.'
       + '</div>';
-    // Only the plays half swaps with the date; the season table underneath is
-    // full-season and the same whichever day is being looked at.
-    sc.innerHTML = sysTitleHtml
-      + '<div data-plays-body>' + sysTodayHtml + '</div>' + t;
+    sc.innerHTML = t;
     el.insertBefore(sc, playsAnchor.nextSibling);
     playsAnchor = sc;
-    registerPlaysPanel(sc, 'non-scout', sysTodayHtml,
-      'No non-scout system logged a play that day.');
   }
 
   // ---- Scout rule history --------------------------------------------------
@@ -1101,7 +942,212 @@ async function renderMLBSlateScout() {
   ranked.innerHTML = rhtml;
   // Order at the top of the tab: banner, then both plays panels (the actionable
   // part), then the mismatch ranking, then the per-game table.
+  // ---- Season bet log ------------------------------------------------------
+  // Every play the ledger holds, newest first, in the shape the fade-ML tab
+  // uses. This replaced a date selector: that answered "what happened on one
+  // day" when the question is nearly always "how is this rule doing", and it
+  // could only reach as far back as the feed's window.
+  //
+  // Status defaults to CARD because that is the real record. Shadow, not-bet
+  // and backfilled rows were never wagered -- they are in the log so they can
+  // be read, and they carry no units in any total.
+  if (playsFeed && Array.isArray(playsFeed.bets) && playsFeed.bets.length) {
+    const bets = playsFeed.bets;
+    const MON = ['', 'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug',
+      'Sep', 'Oct', 'Nov', 'Dec'];
+    const monthLabel = (ym) => {
+      const [y, m] = ym.split('-');
+      return MON[+m] + ' ' + y;
+    };
+    const dateLabel = (iso) => {
+      const [y, m, d] = iso.split('-');
+      return MON[+m] + ' ' + (+d) + ', ' + y;
+    };
+    // Monday-Sunday weeks, computed in UTC from the plain ISO date so the
+    // bucket does not shift with the viewer's timezone.
+    const weekStartOf = (iso) => {
+      const [y, m, d] = iso.split('-').map(Number);
+      const dt = new Date(Date.UTC(y, m - 1, d));
+      const dow = dt.getUTCDay();                       // 0=Sun … 6=Sat
+      dt.setUTCDate(dt.getUTCDate() + (dow === 0 ? -6 : 1 - dow));
+      return dt.toISOString().slice(0, 10);
+    };
+    const weekLabel = (monIso) => {
+      const [y, m, d] = monIso.split('-').map(Number);
+      const sun = new Date(Date.UTC(y, m - 1, d + 6));
+      return MON[m] + ' ' + d + ' – ' + MON[sun.getUTCMonth() + 1] + ' '
+        + sun.getUTCDate();
+    };
+    const uniq = (vals) => [...new Set(vals.filter(Boolean))];
+    const rules = uniq(bets.map((b) => b.rule)).sort();
+    const nameOf = {};
+    for (const b of bets) nameOf[b.rule] = b.name || b.rule;
+    const months = uniq(bets.map((b) => (b.date || '').slice(0, 7))).sort().reverse();
+    const dates = uniq(bets.map((b) => b.date)).sort().reverse();
+    const weeks = uniq(bets.map((b) => b.date).filter(Boolean)
+      .map(weekStartOf)).sort().reverse();
+
+    const KIND_LABEL = { card: 'Card (bet)', shadow: 'Shadow',
+      not_bet: 'Not bet', backfilled: 'Backfilled' };
+    const selCss = 'background:#1b1b1b;color:#ddd;border:1px solid #333;'
+      + 'border-radius:6px;padding:4px 8px;font-size:12px';
+    const opts = (list, label) => '<option value="">' + label + '</option>'
+      + list.map((v) => '<option value="' + esc(v[0]) + '">' + esc(v[1])
+        + '</option>').join('');
+
+    const log = document.createElement('div');
+    log.className = 'card card-games';
+    log.style.cssText = 'padding:8px 4px';
+    log.innerHTML =
+      '<div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap;padding:6px 8px">'
+      + '<div class="card-title" style="padding:0">Season bet log</div>'
+      + '<span id="scoutLogRec" style="font-size:13px;font-weight:700"></span>'
+      + '</div>'
+      + '<div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;padding:0 8px 8px">'
+      + '<label style="font-size:11px;color:#888">Status '
+      + '<select id="slKind" style="' + selCss + '">'
+      + Object.keys(KIND_LABEL).map((k) => '<option value="' + k + '"'
+        + (k === 'card' ? ' selected' : '') + '>' + KIND_LABEL[k] + '</option>').join('')
+      + '<option value="">All</option></select></label>'
+      + '<label style="font-size:11px;color:#888">Rule '
+      + '<select id="slRule" style="' + selCss + '">'
+      + opts(rules.map((r) => [r, nameOf[r]]), 'All rules') + '</select></label>'
+      + '<label style="font-size:11px;color:#888">System '
+      + '<select id="slGroup" style="' + selCss + '">'
+      + opts([['scout', 'Flagged &amp; form O/U'],
+        ['non-scout', 'Non-scout systems']], 'All systems') + '</select></label>'
+      + '<label style="font-size:11px;color:#888">Result '
+      + '<select id="slResult" style="' + selCss + '">'
+      + opts([['WIN', 'Win'], ['LOSS', 'Loss'], ['PUSH', 'Push'],
+        ['pending', 'Pending']], 'All') + '</select></label>'
+      + '<label style="font-size:11px;color:#888">Market '
+      + '<select id="slMarket" style="' + selCss + '">'
+      + opts([['h2h', 'Moneyline'], ['totals', 'Total']], 'All') + '</select></label>'
+      + '<label style="font-size:11px;color:#888">Month '
+      + '<select id="slMonth" style="' + selCss + '">'
+      + opts(months.map((m) => [m, monthLabel(m)]), 'All') + '</select></label>'
+      + '<label style="font-size:11px;color:#888">Week '
+      + '<select id="slWeek" style="' + selCss + '">'
+      + opts(weeks.map((w) => [w, weekLabel(w)]), 'All') + '</select></label>'
+      + '<label style="font-size:11px;color:#888">Day '
+      + '<select id="slDate" style="' + selCss + '">'
+      + opts(dates.map((d) => [d, dateLabel(d)]), 'All') + '</select></label>'
+      + '</div><div id="scoutLogBody"></div>';
+    el.appendChild(log);
+
+    const recEl = log.querySelector('#scoutLogRec');
+    const wrap = log.querySelector('#scoutLogBody');
+    const ctl = ['slKind', 'slRule', 'slGroup', 'slResult', 'slMarket',
+      'slMonth', 'slWeek', 'slDate'].map((id) => log.querySelector('#' + id));
+    const ruleSel = log.querySelector('#slRule');
+    const groupSel = log.querySelector('#slGroup');
+    // The Rule list narrows to the chosen system, so picking "Non-scout
+    // systems" does not leave Flag Plays selectable and returning nothing.
+    const refreshRules = () => {
+      const g = groupSel.value;
+      const rs = uniq(bets.filter((b) => !g || b.group === g)
+        .map((b) => b.rule)).sort();
+      const cur = ruleSel.value;
+      ruleSel.innerHTML = opts(rs.map((r) => [r, nameOf[r]]), 'All rules');
+      ruleSel.value = rs.includes(cur) ? cur : '';
+    };
+    groupSel.addEventListener('change', refreshRules);
+    const PAGE = 50;
+    let page = 0;
+
+    function draw() {
+      const [k, r, g, res, mk, mo, wk, dt] = ctl.map((c) => c.value);
+      const view = bets.filter((b) =>
+        (!k || b.kind === k) && (!r || b.rule === r) && (!g || b.group === g)
+        && (!res || b.result === res) && (!mk || b.market === mk)
+        && (!mo || (b.date || '').slice(0, 7) === mo)
+        && (!wk || (b.date && weekStartOf(b.date) === wk))
+        && (!dt || b.date === dt));
+      let w = 0, l = 0, pu = 0, u = 0, pend = 0;
+      for (const b of view) {
+        if (b.result === 'WIN') w++;
+        else if (b.result === 'LOSS') l++;
+        else if (b.result === 'PUSH') pu++;
+        else if (b.result === 'pending') pend++;
+        // Only card rows move money, whatever the filter shows.
+        if (b.kind === 'card') u += (b.profit || 0);
+      }
+      const settled = w + l;
+      const roi = settled ? (u / settled * 100) : 0;
+      recEl.innerHTML = w + '-' + l + (pu ? '-' + pu : '')
+        + ' ' + unitStr(u)
+        + ' <span style="color:' + (roi > 0 ? '#3fb950' : roi < 0 ? '#f85149' : DIM)
+        + '">' + (roi > 0 ? '+' : '') + roi.toFixed(1) + '%</span>'
+        + (pend ? ' <span style="color:' + DIM + ';font-weight:400;font-size:12px">· '
+          + pend + ' pending</span>' : '')
+        + (k && k !== 'card' ? ' <span style="color:' + DIM
+          + ';font-weight:400;font-size:11px">· never wagered, no units</span>' : '');
+
+      const total = view.length;
+      const pages = Math.max(1, Math.ceil(total / PAGE));
+      if (page >= pages) page = pages - 1;
+      if (page < 0) page = 0;
+      const start = page * PAGE;
+      let rows = '';
+      for (const b of view.slice(start, start + PAGE)) {
+        const held = b.kind !== 'card';
+        const settledRow = b.result === 'WIN' || b.result === 'LOSS';
+        rows += '<tr style="border-top:1px solid #161b22'
+          + (held ? ';opacity:.6' : '') + '">'
+          + '<td style="padding:3px 6px;color:' + DIM + ';white-space:nowrap">'
+          + esc(b.date) + '</td>'
+          + '<td style="padding:3px 6px;white-space:nowrap">'
+          + esc(b.name || b.rule) + '</td>'
+          + '<td data-col="kind" style="padding:3px 6px;color:' + DIM
+          + ';font-size:11px">' + esc(b.kind === 'card' ? '' : b.kind.replace('_', ' '))
+          + '</td>'
+          + '<td data-col="game" style="padding:3px 6px;color:' + DIM + '">'
+          + esc(b.game || '') + '</td>'
+          + '<td style="padding:3px 6px;font-weight:600;white-space:nowrap">'
+          + esc(b.play || '') + '</td>'
+          + '<td style="padding:3px 6px;text-align:right;color:' + DIM
+          + ';white-space:nowrap">' + mlStr(b.price) + '</td>'
+          + '<td style="padding:3px 6px;text-align:center">'
+          + resultChip(b.result) + '</td>'
+          + '<td style="padding:3px 6px;text-align:right;white-space:nowrap">'
+          + (settledRow && !held ? unitStr(b.profit || 0)
+            : '<span style="color:' + DIM + '">—</span>') + '</td></tr>';
+      }
+      const btn = selCss + ';cursor:pointer';
+      const btnOff = selCss + ';opacity:.4;cursor:default';
+      const pager = total > PAGE
+        ? '<div style="display:flex;gap:8px;align-items:center;font-size:12px;color:'
+          + DIM + '"><button id="slPrev" ' + (page <= 0 ? 'disabled' : '')
+          + ' style="' + (page <= 0 ? btnOff : btn) + '">‹ Prev</button>'
+          + '<span>page ' + (page + 1) + ' / ' + pages + '</span>'
+          + '<button id="slNext" ' + (page >= pages - 1 ? 'disabled' : '')
+          + ' style="' + (page >= pages - 1 ? btnOff : btn) + '">Next ›</button></div>'
+        : '';
+      wrap.innerHTML =
+        '<div style="display:flex;justify-content:space-between;align-items:center;'
+        + 'gap:12px;flex-wrap:wrap;padding:2px 8px 8px"><span style="font-size:12px;color:'
+        + DIM + '">' + (total ? (start + 1) + '-'
+          + Math.min(start + PAGE, total) + ' of ' + total : '0') + ' bets</span>'
+        + pager + '</div>'
+        + '<div class="scout-scroll"><table style="width:100%;border-collapse:collapse;font-size:12px">'
+        + '<thead><tr style="text-align:left;color:' + DIM
+        + ';border-bottom:1px solid #30363d">'
+        + '<th style="padding:4px 6px">Date</th><th>Rule</th>'
+        + '<th data-col="kind">Status</th><th data-col="game">Game</th>'
+        + '<th>Play</th><th style="text-align:right">Odds</th>'
+        + '<th style="text-align:center">Result</th>'
+        + '<th style="text-align:right">P/L</th></tr></thead><tbody>'
+        + (rows || '<tr><td colspan="8" style="padding:10px 8px;color:' + DIM
+          + '">No bets match this filter.</td></tr>')
+        + '</tbody></table></div>';
+      const prev = wrap.querySelector('#slPrev');
+      const next = wrap.querySelector('#slNext');
+      if (prev) prev.onclick = () => { page--; draw(); };
+      if (next) next.onclick = () => { page++; draw(); };
+    }
+    for (const c of ctl) c.addEventListener('change', () => { page = 0; draw(); });
+    draw();
+  }
+
   el.insertBefore(ranked, playsAnchor.nextSibling);
-  // Both plays panels exist by now, so the shared selector can be wired.
-  mountDateFilter();
 }

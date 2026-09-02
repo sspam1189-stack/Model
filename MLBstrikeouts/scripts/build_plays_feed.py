@@ -1,15 +1,17 @@
 #!/usr/bin/env python3
 """
-build_plays_feed.py — recent logged plays and how they graded, for the tab.
+build_plays_feed.py — the scout bet log: every logged play and how it graded.
 
-Both "today's plays" panels could only ever show tonight. To see whether
-yesterday's card actually won you had to run the ledger report in a terminal,
-which is the same gap that let the 8/30 card sit ungraded for two days.
+The tab could only ever show tonight. To see whether yesterday's card won you
+had to run the ledger report in a terminal, which is the same gap that let the
+8/30 card sit ungraded for two days.
 
-So the daily run publishes the last DAYS days of ledger entries in the shape
-the panels already render: one row per logged play, with its result and the
-profit computed from its own stored price. The tab adds a date selector and
-reads this for anything that is not tonight.
+A date selector was tried first and was the wrong shape: it answered "what
+happened on one day" when the question is nearly always "how is this rule
+doing". So this publishes the WHOLE ledger as a flat bet log instead, in the
+shape the fade-ML and props tabs already use -- one row per logged play,
+newest first, filterable by rule, status, result and date, with the record for
+the current filter in the header.
 
 Deliberately a projection of the ledger, not a second copy of it. Nothing here
 is computed -- results and profit come straight from scout-card-log.json,
@@ -43,101 +45,95 @@ OUTPUT_PATHS = [
                                   "data", "plays-feed.json")),
 ]
 
-DAYS = 30          # how far back the selector can reach
 FIELDS = ("date", "play", "market", "line", "price", "rule", "result",
           "profit", "game", "gamePk", "commence", "basis", "combo")
 
 
+# Rules retired before the 2026-09-01 naming migration, which never had an
+# entry in rule_status. Their rows are still in the ledger, so the bet log's
+# Rule dropdown would otherwise list raw keys next to proper names.
+LEGACY_NAMES = {
+    "scout-ml-both-halves-aligned": "Aligned ML (old name)",
+    "card-grade-total-both-aligned": "Both-aligned total (retired)",
+    "card-grade-total-aligned-plus-flag": "Aligned + flag total (retired)",
+    "flag-plays-legacy": "Flag Plays (old name)",
+}
+
+
 def display_name(rule):
-    """The rule's canonical name, or the raw key for a retired one."""
+    """The rule's canonical name, its legacy label, or the raw key."""
     r = RULES.get(rule)
-    return r[1] if r else rule
+    return r[1] if r else LEGACY_NAMES.get(rule, rule)
 
 
 def main():
     with open(LEDGER, encoding="utf-8") as fh:
         blob = json.load(fh)
     entries = [e for e in blob.get("entries", []) if not e.get("no_play")]
-    dates = sorted({e["date"] for e in entries})[-DAYS:]
-    keep = set(dates)
 
-    by_date = collections.defaultdict(list)
+    bets = []
     for e in entries:
-        if e["date"] not in keep:
-            continue
         row = {k: e.get(k) for k in FIELDS if e.get(k) is not None}
         row["rule"] = e.get("rule")
         row["name"] = display_name(e.get("rule"))
         row["group"] = RULE_GROUP.get(e.get("rule"), "scout")
-        for flag in ("shadow", "not_bet", "backfilled", "auto", "non_scout"):
-            if e.get(flag):
-                row[flag] = True
-        by_date[e["date"]].append(row)
-
-    def _wl(rows):
-        g = [r for r in rows if r.get("result") in ("WIN", "LOSS", "PUSH")]
-        return (sum(1 for r in g if r["result"] == "WIN"),
-                sum(1 for r in g if r["result"] == "LOSS"),
-                sum(1 for r in g if r["result"] == "PUSH"))
+        # One status per row, so the tab can filter on it without re-deriving
+        # the ledger's precedence rules in JavaScript.
+        row["kind"] = ("backfilled" if e.get("backfilled")
+                       else "not_bet" if e.get("not_bet")
+                       else "shadow" if e.get("shadow")
+                       else "card")
+        bets.append(row)
+    # Newest first, and within a day by first pitch -- the order a bet log is
+    # read in.
+    bets.sort(key=lambda r: (r.get("date") or "", str(r.get("commence") or "")),
+              reverse=True)
 
     def tally(rows):
-        """The day's record, with backfilled rows held out of it entirely.
+        graded = [r for r in rows if r.get("result") in ("WIN", "LOSS", "PUSH")]
+        w = sum(1 for r in graded if r["result"] == "WIN")
+        l = sum(1 for r in graded if r["result"] == "LOSS")
+        p = sum(1 for r in graded if r["result"] == "PUSH")
+        # Only card rows carry units. Shadow, not-bet and backfilled plays
+        # were never wagered, so their profit is money that was never risked.
+        u = sum(r.get("profit") or 0 for r in graded if r.get("kind") == "card")
+        return {"w": w, "l": l, "push": p, "n": len(rows),
+                "pending": sum(1 for r in rows if r.get("result") == "pending"),
+                "units": round(u, 2)}
 
-        Backfilled plays were replayed after the fact and never wagered, so
-        counting them would report both a record and money that never
-        happened -- the ledger report excludes them for the same reason. They
-        get their own sub-tally so the tab can show them under their own
-        heading. `n` counts every row, backfilled included, because it is what
-        decides whether there is anything to render at all.
-        """
-        live = [r for r in rows if not r.get("backfilled")]
-        back = [r for r in rows if r.get("backfilled")]
-        w, l, p = _wl(live)
-        bw, bl, bp = _wl(back)
-        # Units follow the ledger's own convention: shadow and not-bet rows
-        # stay in the W-L and out of the money.
-        u = sum(r.get("profit") or 0 for r in live
-                if not r.get("not_bet") and not r.get("shadow"))
-        return {"w": w, "l": l, "push": p,
-                "pending": sum(1 for r in live if r.get("result") == "pending"),
-                "n": len(rows), "live_n": len(live), "units": round(u, 2),
-                "backfilled": {"w": bw, "l": bl, "push": bp, "n": len(back)}}
-
-    days = []
-    for d in sorted(dates, reverse=True):
-        rows = sorted(by_date[d], key=lambda r: (str(r.get("commence") or "~"),
-                                                 r.get("name") or "",
-                                                 r.get("play") or ""))
-        days.append({
-            "date": d,
-            "rows": rows,
-            "all": tally(rows),
-            "scout": tally([r for r in rows if r["group"] == "scout"]),
-            "non_scout": tally([r for r in rows if r["group"] == "non-scout"]),
-        })
+    by_rule = collections.defaultdict(list)
+    for r in bets:
+        by_rule[r["rule"]].append(r)
 
     out = {
         "sport": "MLB",
         "type": "plays-feed",
         "generated": datetime.datetime.now(datetime.timezone.utc)
                              .isoformat(timespec="seconds").replace("+00:00", "Z"),
-        "days_kept": DAYS,
-        "note": ("A projection of MLBstrikeouts/data/scout-card-log.json for "
-                 "the dashboard's date selector. Results and profit are the "
-                 "ledger's own, settled by scripts/grade_scout_ledger.py from "
-                 "the finals; nothing is recomputed here. Units exclude shadow "
-                 "and not-bet rows, which stay in the W-L. Backfilled rows "
-                 "(replayed after the fact, never wagered) are held out of the "
-                 "record entirely and tallied separately."),
-        "days": days,
+        "note": ("The scout bet log: a projection of "
+                 "MLBstrikeouts/data/scout-card-log.json. Results and profit "
+                 "are the ledger's own, settled by grade_scout_ledger.py from "
+                 "the finals; nothing is recomputed here. `kind` is one of "
+                 "card / shadow / not_bet / backfilled, and only card rows "
+                 "carry units -- the other three were never wagered, so "
+                 "counting their profit would report money never risked."),
+        "bets": bets,
+        "summary": {
+            "all": tally(bets),
+            "card": tally([r for r in bets if r["kind"] == "card"]),
+            "by_rule": {k: tally(v) for k, v in sorted(by_rule.items())},
+        },
     }
     for path in OUTPUT_PATHS:
         os.makedirs(os.path.dirname(path), exist_ok=True)
         with open(path, "w") as fh:
             json.dump(out, fh, indent=1)
-    graded = sum(d["all"]["w"] + d["all"]["l"] for d in days)
-    print(f"plays feed: {len(days)} days, {sum(len(d['rows']) for d in days)} "
-          f"rows ({graded} graded) -> {len(OUTPUT_PATHS)} paths")
+    c = out["summary"]["card"]
+    print(f"bet log: {len(bets)} rows "
+          f"({sum(1 for b in bets if b['kind'] == 'card')} card, "
+          f"{sum(1 for b in bets if b['kind'] == 'backfilled')} backfilled) · "
+          f"card record {c['w']}-{c['l']} {c['units']:+.2f}u "
+          f"-> {len(OUTPUT_PATHS)} paths")
 
 
 if __name__ == "__main__":
