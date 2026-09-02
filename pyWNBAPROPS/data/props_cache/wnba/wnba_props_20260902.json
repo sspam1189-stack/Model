@@ -460,16 +460,6 @@
     "source": "odds_api"
   },
   {
-    "player": "Alanna Smith",
-    "line": 4.5,
-    "over_price": -154,
-    "under_price": 116,
-    "market": "rebounds",
-    "event_home": "DAL",
-    "event_away": "LAS",
-    "source": "odds_api"
-  },
-  {
     "player": "Awak Kuier",
     "line": 6.5,
     "over_price": -114,
@@ -494,6 +484,16 @@
     "line": 10.5,
     "over_price": -112,
     "under_price": -118,
+    "market": "rebounds",
+    "event_home": "DAL",
+    "event_away": "LAS",
+    "source": "odds_api"
+  },
+  {
+    "player": "Alanna Smith",
+    "line": 4.5,
+    "over_price": -154,
+    "under_price": 116,
     "market": "rebounds",
     "event_home": "DAL",
     "event_away": "LAS",
@@ -560,6 +560,16 @@
     "source": "odds_api"
   },
   {
+    "player": "Dominique Malonga",
+    "line": 17.5,
+    "over_price": -122,
+    "under_price": -106,
+    "market": "points",
+    "event_home": "SEA",
+    "event_away": "LVA",
+    "source": "odds_api"
+  },
+  {
     "player": "Jackie Young",
     "line": 20.5,
     "over_price": -120,
@@ -571,10 +581,10 @@
   },
   {
     "player": "Dominique Malonga",
-    "line": 17.5,
-    "over_price": -122,
-    "under_price": -106,
-    "market": "points",
+    "line": 28.5,
+    "over_price": -120,
+    "under_price": -110,
+    "market": "pts_rebs_asts",
     "event_home": "SEA",
     "event_away": "LVA",
     "source": "odds_api"
@@ -600,16 +610,6 @@
     "source": "odds_api"
   },
   {
-    "player": "Dominique Malonga",
-    "line": 28.5,
-    "over_price": -120,
-    "under_price": -110,
-    "market": "pts_rebs_asts",
-    "event_home": "SEA",
-    "event_away": "LVA",
-    "source": "odds_api"
-  },
-  {
     "player": "A'ja Wilson",
     "line": 9.5,
     "over_price": -114,
@@ -620,8 +620,8 @@
     "source": "odds_api"
   },
   {
-    "player": "Jackie Young",
-    "line": 4.5,
+    "player": "Dominique Malonga",
+    "line": 8.5,
     "over_price": -138,
     "under_price": 104,
     "market": "rebounds",
@@ -630,8 +630,8 @@
     "source": "odds_api"
   },
   {
-    "player": "Dominique Malonga",
-    "line": 8.5,
+    "player": "Jackie Young",
+    "line": 4.5,
     "over_price": -138,
     "under_price": 104,
     "market": "rebounds",
@@ -660,20 +660,20 @@
     "source": "odds_api"
   },
   {
-    "player": "Kelsey Mitchell",
-    "line": 2.5,
-    "over_price": -112,
-    "under_price": -118,
+    "player": "Aliyah Boston",
+    "line": 3.5,
+    "over_price": 140,
+    "under_price": -188,
     "market": "assists",
     "event_home": "TOR",
     "event_away": "IND",
     "source": "odds_api"
   },
   {
-    "player": "Aliyah Boston",
-    "line": 3.5,
-    "over_price": 140,
-    "under_price": -188,
+    "player": "Kelsey Mitchell",
+    "line": 2.5,
+    "over_price": -112,
+    "under_price": -118,
     "market": "assists",
     "event_home": "TOR",
     "event_away": "IND",
@@ -685,6 +685,16 @@
     "over_price": 116,
     "under_price": -154,
     "market": "assists",
+    "event_home": "TOR",
+    "event_away": "IND",
+    "source": "odds_api"
+  },
+  {
+    "player": "Aliyah Boston",
+    "line": 16.5,
+    "over_price": -118,
+    "under_price": -110,
+    "market": "points",
     "event_home": "TOR",
     "event_away": "IND",
     "source": "odds_api"
@@ -710,11 +720,11 @@
     "source": "odds_api"
   },
   {
-    "player": "Aliyah Boston",
-    "line": 16.5,
-    "over_price": -118,
-    "under_price": -110,
-    "market": "points",
+    "player": "Kelsey Mitchell",
+    "line": 30.5,
+    "over_price": -122,
+    "under_price": -108,
+    "market": "pts_rebs_asts",
     "event_home": "TOR",
     "event_away": "IND",
     "source": "odds_api"
@@ -724,16 +734,6 @@
     "line": 36.5,
     "over_price": -106,
     "under_price": -125,
-    "market": "pts_rebs_asts",
-    "event_home": "TOR",
-    "event_away": "IND",
-    "source": "odds_api"
-  },
-  {
-    "player": "Kelsey Mitchell",
-    "line": 30.5,
-    "over_price": -122,
-    "under_price": -108,
     "market": "pts_rebs_asts",
     "event_home": "TOR",
     "event_away": "IND",
