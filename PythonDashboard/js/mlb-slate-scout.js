@@ -14,9 +14,64 @@
 // out of the bullpen. The advisory banner says so on the tab rather than in a
 // doc nobody opens.
 
+// Reader-controlled text size for the whole tab, remembered per browser.
+// Absolute px sizes in the tables cannot answer "too small" on their own --
+// what is comfortable depends on the screen and the browser zoom, neither of
+// which the page can see. `zoom` scales the laid-out result rather than a
+// root font-size, so the hard-coded px in these tables scale with it.
+const SCOUT_ZOOM_KEY = 'scoutTextScale';
+const SCOUT_ZOOM_MIN = 1.0;
+const SCOUT_ZOOM_MAX = 1.8;
+const SCOUT_ZOOM_STEP = 0.1;
+
+function scoutZoomGet() {
+  try {
+    const v = parseFloat(localStorage.getItem(SCOUT_ZOOM_KEY));
+    if (v >= SCOUT_ZOOM_MIN && v <= SCOUT_ZOOM_MAX) return v;
+  } catch (e) { /* private mode, blocked storage */ }
+  return 1.0;
+}
+
+function scoutZoomApply(el, v) {
+  el.style.zoom = v === 1 ? '' : String(v);
+  try { localStorage.setItem(SCOUT_ZOOM_KEY, String(v)); } catch (e) { /* ignore */ }
+}
+
+// Built as a DOM node rather than an HTML string: the panels below are
+// assembled by innerHTML, and a control that lives through a re-render needs
+// its own listeners.
+function scoutZoomControl(el) {
+  const wrap = document.createElement('div');
+  wrap.style.cssText = 'display:flex;gap:6px;align-items:center;justify-content:flex-end;'
+    + 'padding:4px 8px 0;font-size:12px;color:#8b949e';
+  const label = document.createElement('span');
+  label.textContent = 'Text size';
+  const out = document.createElement('span');
+  out.style.cssText = 'min-width:34px;text-align:right;font-variant-numeric:tabular-nums';
+  const btn = (txt, delta) => {
+    const b = document.createElement('button');
+    b.textContent = txt;
+    b.setAttribute('aria-label', delta < 0 ? 'Smaller text' : 'Larger text');
+    b.style.cssText = 'background:#161b22;border:1px solid #30363d;color:#c9d1d9;'
+      + 'border-radius:4px;width:26px;height:22px;cursor:pointer;font-size:13px;'
+      + 'line-height:1;padding:0';
+    b.addEventListener('click', () => {
+      const next = Math.min(SCOUT_ZOOM_MAX, Math.max(SCOUT_ZOOM_MIN,
+        Math.round((scoutZoomGet() + delta) * 10) / 10));
+      scoutZoomApply(el, next);
+      out.textContent = Math.round(next * 100) + '%';
+    });
+    return b;
+  };
+  out.textContent = Math.round(scoutZoomGet() * 100) + '%';
+  wrap.append(label, btn('\u2212', -SCOUT_ZOOM_STEP), btn('+', SCOUT_ZOOM_STEP), out);
+  return wrap;
+}
+
 async function renderMLBSlateScout() {
   const el = document.getElementById('content');
   el.innerHTML = '<div class="loading"><div class="spinner"></div><br>Loading slate scout...</div>';
+  scoutZoomApply(el, scoutZoomGet());
 
   const local = 'data/mlb-slate-scout.json';
   const remote = 'https://raw.githubusercontent.com/sspam1189-stack/Model/main/MLBstrikeouts/data/mlb-slate-scout.json';
@@ -229,6 +284,9 @@ async function renderMLBSlateScout() {
     + 'Scouting view — not a betting model</div>'
     + '<div style="font-size:11px;color:' + DIM + ';line-height:1.5">'
     + (data.notes || []).map(esc).join('<br>') + '</div>';
+  // Above the banner, so it is the first thing reachable when the text is
+  // too small to find anything else.
+  el.appendChild(scoutZoomControl(el));
   el.appendChild(banner);
 
   // ---- Today's plays: the two under systems --------------------------------
@@ -404,7 +462,7 @@ async function renderMLBSlateScout() {
     // The two plays panels are what gets read at a glance and acted on, so
     // they sit a step larger than the reference tables further down.
     phtml += '<div class="scout-scroll"><table style="width:100%;'
-      + 'border-collapse:collapse;font-size:13.5px;line-height:1.45">'
+      + 'border-collapse:collapse;font-size:15px;line-height:1.5">'
       + '<thead><tr style="text-align:left;color:' + DIM + ';border-bottom:1px solid #30363d">'
       + '<th style="padding:4px 6px">CT</th><th>Game</th><th>Play</th><th>Rule</th>'
       + '<th data-col="why">Why</th>'
@@ -508,7 +566,7 @@ async function renderMLBSlateScout() {
       m += '<div style="padding:8px 10px;font-size:12px;color:' + DIM
         + '">No game reaches m_sum +' + MSUM_ML_AT + ' on this slate.</div>';
     } else {
-      m += '<div class="scout-scroll"><table style="width:100%;border-collapse:collapse;font-size:12px">'
+      m += '<div class="scout-scroll"><table style="width:100%;border-collapse:collapse;font-size:13px">'
         + '<thead><tr style="text-align:left;color:' + DIM + ';border-bottom:1px solid #30363d">'
         + '<th style="padding:4px 6px">CT</th><th>Game</th><th>Play</th>'
         + '<th>m_sum</th><th>Better arm</th></tr></thead><tbody>';
@@ -588,7 +646,7 @@ async function renderMLBSlateScout() {
         + '">No system qualifies on this slate.</div>';
     } else {
       t += '<div class="scout-scroll"><table style="width:100%;'
-        + 'border-collapse:collapse;font-size:13.5px;line-height:1.45">'
+        + 'border-collapse:collapse;font-size:15px;line-height:1.5">'
         + '<thead><tr style="text-align:left;color:' + DIM + ';border-bottom:1px solid #30363d">'
         + '<th style="padding:5px 6px">CT</th><th>Game</th><th>Play</th>'
         + '<th>System</th><th data-col="season">Season</th>'
@@ -661,7 +719,7 @@ async function renderMLBSlateScout() {
     // have to guess one from the rule name.
     const baseFor = (sy) => (sy.baseline != null ? sy.baseline : null);
     t += '<div class="scout-scroll" style="border-top:1px solid #30363d">'
-      + '<table style="width:100%;border-collapse:collapse;font-size:12px">'
+      + '<table style="width:100%;border-collapse:collapse;font-size:13px">'
       + '<thead><tr style="text-align:left;color:' + DIM + '">'
       + '<th style="padding:4px 6px">System</th>'
       + '<th data-col="rule-desc">Rule</th><th>Record</th>'
@@ -755,7 +813,7 @@ async function renderMLBSlateScout() {
       + 'game date over ' + (scoutRules.games || 0) + ' games — a game\'s own '
       + 'result is never in the features that select it.)</span></div>'
       + '<div class="scout-scroll"><table style="width:100%;'
-      + 'border-collapse:collapse;font-size:12px">'
+      + 'border-collapse:collapse;font-size:13px">'
       + '<thead><tr style="text-align:left;color:' + DIM
       + ';border-bottom:1px solid #30363d">'
       + '<th style="padding:4px 6px">Rule</th>'
@@ -828,7 +886,7 @@ async function renderMLBSlateScout() {
       + (comboTable.games?.flagged || 0) + ' flagged of ' + (comboTable.games?.gradeable || 0)
       + ' · baseline U ' + (b.under ? b.under.roi.toFixed(1) : '?') + '% / O '
       + (b.over ? b.over.roi.toFixed(1) : '?') + '% · rebuilt each run)</span></div>'
-      + '<div class="scout-scroll"><table style="width:100%;border-collapse:collapse;font-size:12px">'
+      + '<div class="scout-scroll"><table style="width:100%;border-collapse:collapse;font-size:13px">'
       + '<thead><tr style="text-align:left;color:' + DIM + ';border-bottom:1px solid #30363d">'
       + '<th style="padding:4px 6px">Combo</th><th>n</th><th>UNDER</th><th>OVER</th>'
       + '</tr></thead><tbody>';
@@ -911,7 +969,7 @@ async function renderMLBSlateScout() {
     + ' vs ' + esc(data.wrc_role)
     + ' through ' + esc(data.wrc_through) + staleChip + '</div>';
 
-  html += '<div class="scout-scroll"><table style="width:100%;border-collapse:collapse;font-size:12px">'
+  html += '<div class="scout-scroll"><table style="width:100%;border-collapse:collapse;font-size:13px">'
     + '<thead><tr style="text-align:left;color:' + DIM + ';border-bottom:1px solid #30363d">'
     + '<th style="padding:4px 6px">Team</th><th>Side</th>'
     + '<th>Starter</th>'
@@ -1023,7 +1081,7 @@ async function renderMLBSlateScout() {
   let rhtml = '<div class="card-title" style="padding:6px 8px">Mismatch — widest first '
     + '<span style="color:' + DIM + ';font-weight:400;font-size:11px">'
     + '(positive = offense outclasses the arm)</span></div>'
-    + '<div class="scout-scroll"><table style="width:100%;border-collapse:collapse;font-size:12px">'
+    + '<div class="scout-scroll"><table style="width:100%;border-collapse:collapse;font-size:13px">'
     + '<thead><tr style="text-align:left;color:' + DIM + ';border-bottom:1px solid #30363d">'
     + '<th style="padding:4px 6px">Mismatch</th><th>Starter</th><th>Team</th>'
     + '<th>Faces</th><th>Opp wRC+</th>'
@@ -1255,7 +1313,7 @@ async function renderMLBSlateScout() {
         + DIM + '">' + (total ? (start + 1) + '-'
           + Math.min(start + PAGE, total) + ' of ' + total : '0') + ' bets</span>'
         + pager + '</div>'
-        + '<div class="scout-scroll"><table style="width:100%;border-collapse:collapse;font-size:12px">'
+        + '<div class="scout-scroll"><table style="width:100%;border-collapse:collapse;font-size:13px">'
         + '<thead><tr style="text-align:left;color:' + DIM
         + ';border-bottom:1px solid #30363d">'
         + '<th style="padding:4px 6px">Date</th><th>Rule</th>'
