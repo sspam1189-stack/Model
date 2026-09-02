@@ -105,23 +105,31 @@ SYSTEMS = {
         "Home dog getaway", "h2h",
         "Day game, the visitors played a night game yesterday, and the home "
         "team is a plus-money dog: back the home side.",
-        "56-50 +20.2% (n=106) at plus money, halves +21.9/+18.5 and all "
-        "three thirds positive (+28.8/+18.2/+13.1).\n\n"
-        "        WINDOW WIDENED 2026-09-02 (user). The night-before test was "
-        "`hour >= 23` on a UTC hour, which reads as 7 pm ET or later but "
-        "silently dropped every start from 8 pm ET on -- those are hour 0 in "
-        "UTC and 0 >= 23 is false -- excluding a 23-22 +22.0% bucket of 45 "
-        "games for no reason but arithmetic. The window is now minute-based "
-        "and wraps: 22:30Z to 00:59Z, i.e. 6:30 pm to 8:59 pm ET. The old "
-        "cell was 26-19 +26.0% on 45; the fix alone (7 pm+, wrap correct) "
-        "gives 49-41 +24.0% on 90, and the user chose the 6:30 start. "
-        "Dropping the lower bound the rest of the way to 6:00 pm ET adds 2 "
-        "games and 0.20u, and extending past 00:59Z pulls in 9 pm ET starts "
-        "at -7.2% over 68 games, which is where the edge dies.\n\n"
-        "        Monthly at plus money on the original 7 pm+ cell ran "
-        "+10/+19/+22/-14/+53, so July was negative -- the 'every month "
-        "positive' reading belongs to the wider not-the-favourite cut, not "
-        "to the version carded here. "
+        "42-38 +16.0% (n=80) at plus money, halves +7.4/+24.2, all three "
+        "thirds positive (+14.9/+12.9/+19.3) and every month positive "
+        "(+21/+2/+20/+9/+23).\n\n"
+        "        BOTH TIME TESTS WERE WRONG, and in opposite directions. "
+        "Fixed 2026-09-02, the second one on the user spotting a night game "
+        "on the card.\n\n"
+        "        The night-before test was `hour >= 23` on a UTC hour. That "
+        "reads as 7 pm ET or later but dropped every start from 8 pm ET on "
+        "-- those are hour 0 in UTC and 0 >= 23 is false -- excluding a "
+        "23-22 +22.0% bucket of 45 games. The window is now minute-based and "
+        "wraps: 22:30Z to 00:59Z, 6:30 pm to 8:59 pm ET, the 6:30 start on "
+        "the user's call. Extending past 00:59Z pulls in 9 pm ET starts at "
+        "-7.2% over 68 games, which is where the edge dies.\n\n"
+        "        The day-game test was `hour < 20`, which reads as 'before "
+        "4 pm ET' and let the SAME wrap through the other way: an 8:40 pm ET "
+        "first pitch is 00:40Z, hour 0, and 0 < 20 is true. 26 of the "
+        "rule's plays were night games scored as day games, carrying +8.59u "
+        "of what looked like +21.39u -- 40% of the profit from games that "
+        "did not meet the rule's own definition. BAL @ COL on 2026-09-01 is "
+        "the one that surfaced it. The window is 10:00Z to 19:59Z now and "
+        "does not wrap.\n\n"
+        "        So the honest cell is smaller and flatter than either "
+        "earlier number: 26-19 +26.0% on 45 was the buggy original, "
+        "56-50 +20.2% on 106 was half-fixed, and 42-38 +16.0% on 80 is what "
+        "the rule as described actually returns. "
         "The mechanism is the cleanest of the six: after a night game both "
         "clubs are short on sleep, but one sleeps at home and the other packs "
         "for the airport, and the market prices team quality rather than that. "
@@ -304,7 +312,20 @@ UNDER_JUICE_ML = -120
 AWAY_DOG_TOTAL = 9.5
 DIV_DOG_LO, DIV_DOG_HI = 115, 149   # the band the effect lives in
 PARLAY_DOG_LO, PARLAY_DOG_HI = 115, 149
-GETAWAY_DAY_HOUR = 20     # today's first pitch before 20Z is a day game
+# Today's day-game window, as minutes past midnight UTC. This one does NOT
+# wrap, and that is the point: the test used to be `hour < 20`, which reads
+# as "before 4 pm ET" but let every night game starting after midnight UTC
+# through -- an 8:40 pm ET first pitch is 00:40Z, hour 0, and 0 < 20 is
+# true. 26 of the rule's 106 plays were night games scored as day games,
+# carrying +8.59u of its +21.39u. BAL @ COL on 2026-09-01 (00:40Z, a night
+# game in Denver) is the one that surfaced it.
+#
+# The file's first pitches fall in two clean blocks -- 15Z-20Z and 21Z-02Z,
+# with nothing between 03Z and 14Z -- so any bound inside that gap is
+# equivalent on this data. 10:00Z leaves room for an early international
+# start without reaching the small-hours wrap.
+GETAWAY_DAY_FROM = 10 * 60          # 10:00Z
+GETAWAY_DAY_TO = 20 * 60            # 20:00Z, exclusive: 4 pm ET is not a day game
 # Yesterday's night window, as minutes past midnight UTC, WRAPPING past
 # midnight: 22:30Z (6:30 pm ET) through 00:59Z (8:59 pm ET).
 #
@@ -481,11 +502,13 @@ def plays_for(g, feat):
                 under_price=under_ml, payout=round(payout, 3),
                 why=f"{g['home']} ML +{home_ml} with U{total:g} "
                     f"{under_ml:+d}, pays {payout:.2f}x")
-        today_hour = _hour(g)
+        today_clock = _clock(g)
+        day_today = (today_clock is not None
+                     and GETAWAY_DAY_FROM <= today_clock < GETAWAY_DAY_TO)
         last_clock = a.get("last_clock")
         night_before = last_clock is not None and (
             last_clock >= GETAWAY_NIGHT_FROM or last_clock <= GETAWAY_NIGHT_TO)
-        if (today_hour is not None and today_hour < GETAWAY_DAY_HOUR
+        if (day_today
                 and home_ml > 0
                 and night_before
                 and a.get("last_date")
