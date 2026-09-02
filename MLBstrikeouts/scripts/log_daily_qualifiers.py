@@ -159,7 +159,7 @@ def _combo(sides):
     return "+".join(present)
 
 
-def qualifiers(payload, verdicts, msum_table, ids=None):
+def qualifiers(payload, verdicts, msum_table, ids=None, shadow_combos=()):
     """Every rule's plays for this slate: (rule, side, play, price, basis)."""
     out = []
     ids = ids or {}
@@ -183,6 +183,10 @@ def qualifiers(payload, verdicts, msum_table, ids=None):
             combo = _combo(flagged)
             side = verdicts.get(combo, "under" if "swingman" in combo.split("+")
                                 else None)
+            # A shadowed combo still qualifies and still gets logged -- it is
+            # the tracking that makes shadow worth anything -- but the entry
+            # is marked so it is written with no stake.
+            combo_shadow = combo in shadow_combos
             if side in ("under", "over"):
                 price = u_ml if side == "under" else o_ml
                 if price is not None:
@@ -198,6 +202,7 @@ def qualifiers(payload, verdicts, msum_table, ids=None):
                         "play": f"{_short(g['matchup'])} "
                                 f"{'U' if side == 'under' else 'O'}{_num(total)}",
                         "market": "totals", "line": total, "price": int(price),
+                        "shadow": combo_shadow,
                         "basis": f"Verdict {side} for {combo}. {who}.",
                     })
 
@@ -342,7 +347,10 @@ def main():
 
     payload = _load(SCOUT)
     date = payload.get("date")
-    verdicts = (_load(COMBOS).get("verdicts") or {}) if os.path.exists(COMBOS) else {}
+    combo_blob = _load(COMBOS) if os.path.exists(COMBOS) else {}
+    verdicts = combo_blob.get("verdicts") or {}
+    # Combos whose side is measured and tracked but not bet tonight.
+    shadow_combos = set(combo_blob.get("verdicts_shadow") or ())
     msum_table = _load(MSUM) if os.path.exists(MSUM) else {}
 
     # Game name per play, resolved from the slate for the ledger's `game`.
@@ -351,7 +359,7 @@ def main():
         by_play[g["matchup"]] = g["matchup"]
 
     ids = game_ids()
-    qs = qualifiers(payload, verdicts, msum_table, ids)
+    qs = qualifiers(payload, verdicts, msum_table, ids, shadow_combos)
     # The non-scout systems come off mlb-all-ml.json, not the scout payload.
     qs += allml_qualifiers(date, ids)
     blob = LEDGER._load()
@@ -385,7 +393,9 @@ def main():
                       "payout"):
             if extra in q:
                 entry[extra] = q[extra]
-        if status == "shadow":
+        # Shadow comes from either level: the rule as a whole, or this one
+        # combo inside an otherwise carded rule (flag-plays/layoff).
+        if status == "shadow" or q.get("shadow"):
             entry["shadow"] = True
         if sig_of(entry) in have:
             continue

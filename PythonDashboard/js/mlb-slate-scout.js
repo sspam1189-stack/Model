@@ -306,8 +306,18 @@ async function renderMLBSlateScout() {
           ? verdicts[combo]
           : (combo.split('+').includes('swingman') ? 'under' : null))
         : (combo.split('+').includes('swingman') ? 'under' : null);
+      // A shadowed combo keeps its measured side but is not bet, so it
+      // belongs in the SHADOW block rather than either of the other two.
+      // Reading `verdicts` alone would card it; reading `carded` alone would
+      // bury it with the configurations that measured dead.
+      const shadowed = ((comboTable && comboTable.verdicts_shadow) || [])
+        .includes(combo);
       const label = nFlags + ' · ' + combo;
-      if (side === 'under' || side === 'over') {
+      if (shadowed && (side === 'under' || side === 'over')) {
+        underPlays.push({ s, kind: 'shadow', side: side === 'over' ? 'O' : 'U',
+          rule: 'Flag Plays · ' + label,
+          why: why + ' · tracked, not bet' });
+      } else if (side === 'under' || side === 'over') {
         underPlays.push({ s, kind: 'card', side: side === 'over' ? 'O' : 'U',
           rule: 'Flag Plays · ' + label, why });
       } else {
@@ -777,22 +787,27 @@ async function renderMLBSlateScout() {
       + '<thead><tr style="text-align:left;color:' + DIM + ';border-bottom:1px solid #30363d">'
       + '<th style="padding:4px 6px">Combo</th><th>n</th><th>UNDER</th><th>OVER</th>'
       + '</tr></thead><tbody>';
-    // Two section headers only -- carded vs rust. Within a section the file is
-    // already ordered lexicographically over the flag list (A, A+B, A+B+C,
-    // A+B+C+D, A+B+D, A+C, ...), so the blocks are self-evident and per-tier
-    // headers would just eat rows.
+    // Three section headers -- carded, shadow, rust. Within a section the
+    // file is already ordered lexicographically over the flag list (A, A+B,
+    // A+B+C, A+B+C+D, A+B+D, A+C, ...), so the blocks are self-evident and
+    // per-tier headers would just eat rows. Shadow gets its own block
+    // because it is not the same claim as rust: the side is measured and
+    // still tracked, it just carries no money.
+    const SECTION_LABEL = {
+      card: 'CARDED — these configurations are bet',
+      shadow: 'SHADOW — side still tracked, no money on it',
+      rust: 'NOT CARDED — measured flat, negative, or too thin',
+    };
     let section = null;
     for (const c of comboTable.combos) {
-      const mine = c.carded ? 'card' : 'rust';
-      const rustEdge = mine === 'rust' && section !== 'rust';
+      const mine = c.carded ? 'card' : (c.shadow ? 'shadow' : 'rust');
+      const rustEdge = mine !== 'card' && section !== mine;
       if (mine !== section) {
         section = mine;
         t += '<tr><td colspan="4" style="padding:5px 6px 2px;font-size:11px;'
           + 'font-weight:600;border-top:1px solid #30363d;color:'
           + (mine === 'card' ? '#3fb950' : DIM) + '">'
-          + (mine === 'card'
-            ? 'CARDED — these configurations are bet'
-            : 'NOT CARDED — measured flat, negative, or too thin')
+          + SECTION_LABEL[mine]
           + '</td></tr>';
       }
       // Below 25 plays the harness refuses to call anything an edge, so the
@@ -801,17 +816,18 @@ async function renderMLBSlateScout() {
       const thin = (c.under?.n || 0) < 25;
       t += '<tr style="border-top:1px solid '
         + (rustEdge ? '#30363d' : '#161b22')
-        + (thin && !c.carded ? ';opacity:.6' : '') + '">'
+        + (thin && !c.carded && !c.shadow ? ';opacity:.6' : '') + '">'
         + '<td style="padding:3px 6px">'
-        + (c.carded ? '<span style="color:#3fb950">●</span> ' : '<span style="color:'
-          + DIM + '">○</span> ')
+        + (c.carded ? '<span style="color:#3fb950">●</span> '
+          : c.shadow ? '<span style="color:#d29922">◐</span> '
+            : '<span style="color:' + DIM + '">○</span> ')
         + esc(c.combo)
-        // A dated retirement: the combo is still a play today and stops on
-        // its date. Saying so beats having it silently drop off the card
-        // overnight with the row looking like it was never carded.
-        + (c.retired_from
+        // A dated shadow move: the combo is still a play today and stops
+        // being bet on its date. Saying so beats having it silently drop off
+        // the card overnight with the row looking like it was never carded.
+        + (c.shadow_from
           ? ' <span style="color:#d29922;font-size:10px;white-space:nowrap">'
-            + (c.carded ? 'retires ' : 'retired ') + esc(c.retired_from)
+            + (c.carded ? 'shadow from ' : 'shadow since ') + esc(c.shadow_from)
             + '</span>' : '')
         + (thin ? ' <span style="color:' + DIM
           + ';font-size:10px">thin</span>' : '') + '</td>'
@@ -821,7 +837,8 @@ async function renderMLBSlateScout() {
     }
     t += '</tbody></table></div>'
       + '<div style="padding:6px 8px;font-size:11px;color:' + DIM + ';line-height:1.5">'
-      + '● = carded, with the bet side shown in bold; ○ = no play. '
+      + '● = carded, with the bet side shown in bold; ◐ = shadow, tracked '
+      + 'but not bet; ○ = no play. '
       + 'Combo rows count each game once under its exact flag set. '
       + 'Rows under 25 plays are dimmed — the harness never calls those an edge. '
       + 'Flags are replayed as-of each game date from the pitcher logs, graded at '

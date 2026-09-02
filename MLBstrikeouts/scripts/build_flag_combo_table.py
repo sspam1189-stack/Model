@@ -130,37 +130,51 @@ COMBO_VERDICTS = {
 }
 
 
-# Combos retired from a DATE rather than deleted, so the change applies to
-# slates on and after it and yesterday's card still reads the way it was bet.
-# Same shape as the fade roster's dated segments.
+# Combos moved to SHADOW from a DATE rather than deleted, so the change
+# applies to slates on and after it and yesterday's card still reads the way
+# it was bet. Same shape as the fade roster's dated segments.
 #
-#   layoff (alone)  RETIRED FROM 2026-09-02 (user). Dated 9/3 first, on
-#                   "starting tomorrow"; the user then moved it forward a day,
-#                   so 9/2's three layoff-alone unders come off the card too.
-#                   41-34 +4.8% under over 75
-#                   games against a -3.5% blind baseline -- positive, but it
+# Shadow is not retirement. The combo keeps its measured side, keeps
+# qualifying, and keeps being written to the ledger -- as a not-bet row
+# carrying no units. That is the difference that matters: a retired combo
+# stops producing evidence, a shadowed one goes on producing it while
+# costing nothing. If the record firms up it can be carded again from a
+# date, using the same map.
+#
+#   layoff (alone)  SHADOW FROM 2026-09-02 (user). 41-34 +4.8% under over 75
+#                   games at the time of the call, against a -3.5% blind
+#                   baseline -- positive, but it
 #                   never cleared significance (p=0.21) and it is the only
-#                   carded combo with no swingman in it, so it was carrying
-#                   the card rule's one exception on the weakest evidence on
-#                   the grid. The row stays in the table and keeps measuring;
-#                   it just stops being a play.
-VERDICT_RETIRED = {"layoff": "2026-09-02"}
+#                   combo with no swingman in it that was ever carded, so it
+#                   was carrying the card rule's one exception on the weakest
+#                   evidence on the grid. It stays measured and tracked; it
+#                   just stops being bet.
+VERDICT_SHADOW = {"layoff": "2026-09-02"}
 
 
 def _today():
     return datetime.date.today().isoformat()
 
 
-def verdict_for(combo, as_of=None):
-    """Bet side for a combo on a given date, or None for no play.
+def shadow_from(combo, as_of=None):
+    """The date this combo went to shadow, or None if it is not shadowed.
+
+    Returns the date only once that date has arrived, so a slate before it
+    still reads as carded.
+    """
+    off = VERDICT_SHADOW.get(combo)
+    return off if off and (as_of or _today()) >= off else None
+
+
+def verdict_for(combo):
+    """Measured side for a combo, or None where no side was ever carded.
 
     Unknown combos default to the swingman rule so a never-before-seen flag
-    mix still behaves sensibly. A combo in VERDICT_RETIRED returns None from
-    its retirement date onward.
+    mix still behaves sensibly. Undated on purpose: a shadowed combo keeps
+    its side here -- the side is what makes a tracked no-stake row
+    meaningful -- so a caller deciding whether to BET must check
+    ``shadow_from`` as well. Only the stake is dated, not the side.
     """
-    off = VERDICT_RETIRED.get(combo)
-    if off and (as_of or _today()) >= off:
-        return None
     if combo in COMBO_VERDICTS:
         return COMBO_VERDICTS[combo]
     return "under" if CARD_REQUIRES in combo.split("+") else None
@@ -242,18 +256,19 @@ def main():
     out_combos = []
     for combo, arr in combos.items():
         kinds = combo.split("+")
-        side = verdict_for(combo, today)
+        side = verdict_for(combo)
+        shadowed = shadow_from(combo, today)
         out_combos.append({
             "combo": combo,
             "kinds": kinds,
-            # The carded side for this configuration TODAY, or None for no
-            # play. A retired combo carries the date it came off so the tab
-            # can say so rather than silently showing it as never-carded.
+            # The measured side for this configuration, or None where none
+            # was ever carded. `carded` is the narrower question -- has a
+            # side AND is not shadowed -- and is what decides whether the
+            # tab bets the row.
             "verdict": side,
-            "carded": side is not None,
-            "retired_from": VERDICT_RETIRED.get(combo),
-            "verdict_was": COMBO_VERDICTS.get(combo)
-                           if VERDICT_RETIRED.get(combo) else None,
+            "carded": side is not None and not shadowed,
+            "shadow": bool(shadowed),
+            "shadow_from": shadowed,
             "under": summarize(arr, "pu"),
             "over": summarize(arr, "po"),
         })
@@ -264,11 +279,16 @@ def main():
     # rows. The card side falls out on top for free: swingman is A, so every
     # carded combo is an A-row.
     idx = {k: i for i, k in enumerate(COMBO_ORDER)}
-    # Section first (carded, then no-play), lexicographic INSIDE each section.
-    # Sorting purely lexicographically interleaved the two -- swingman+layoff
-    # is a no-play but sorts between swingman and swingman+layoff+opener, so
-    # the carded block got cut into three by header rows.
-    out_combos.sort(key=lambda c: (not c["carded"],
+    # Section first (carded, then shadow, then no-play), lexicographic INSIDE
+    # each section. Sorting purely lexicographically interleaved them --
+    # swingman+layoff is a no-play but sorts between swingman and
+    # swingman+layoff+opener, so the carded block got cut into three by
+    # header rows. Shadow sits between the two: it has a side, it just isn't
+    # bet, so it does not belong under a header reading "measured flat".
+    def _section(c):
+        return 0 if c["carded"] else (1 if c["shadow"] else 2)
+
+    out_combos.sort(key=lambda c: (_section(c),
                                    tuple(idx[k] for k in c["kinds"])))
 
     out_flags = [{
@@ -287,11 +307,16 @@ def main():
                   "pushes_dropped": pushes},
         "card_requires": CARD_REQUIRES,
         # Resolved AS OF today, so the daily logger and the tab both read the
-        # verdicts that apply to tonight's slate without knowing about dated
-        # retirements. The raw table and the retirement dates ship alongside.
-        "verdicts": {k: verdict_for(k, today) for k in COMBO_VERDICTS},
+        # sides that apply to tonight's slate without knowing about dated
+        # shadow moves. `verdicts` is the SIDE; `verdicts_shadow` is the list
+        # of combos whose side is tracked but not bet tonight. A consumer that
+        # only reads `verdicts` will bet a shadowed combo, so both are
+        # required to decide a stake.
+        "verdicts": {k: verdict_for(k) for k in COMBO_VERDICTS},
         "verdicts_declared": {k: v for k, v in COMBO_VERDICTS.items()},
-        "verdicts_retired": VERDICT_RETIRED,
+        "verdicts_shadow": sorted(k for k in VERDICT_SHADOW
+                                  if shadow_from(k, today)),
+        "verdicts_shadow_from": VERDICT_SHADOW,
         "verdicts_as_of": today,
         "verdicts_from": "2026-09-01",
         "note": ("Flags replayed as-of each game date from the pitcher game logs "
