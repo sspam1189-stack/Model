@@ -134,14 +134,17 @@ COMBO_VERDICTS = {
 # slates on and after it and yesterday's card still reads the way it was bet.
 # Same shape as the fade roster's dated segments.
 #
-#   layoff (alone)  RETIRED FROM 2026-09-03 (user). 41-34 +4.8% under over 75
+#   layoff (alone)  RETIRED FROM 2026-09-02 (user). Dated 9/3 first, on
+#                   "starting tomorrow"; the user then moved it forward a day,
+#                   so 9/2's three layoff-alone unders come off the card too.
+#                   41-34 +4.8% under over 75
 #                   games against a -3.5% blind baseline -- positive, but it
 #                   never cleared significance (p=0.21) and it is the only
 #                   carded combo with no swingman in it, so it was carrying
 #                   the card rule's one exception on the weakest evidence on
 #                   the grid. The row stays in the table and keeps measuring;
 #                   it just stops being a play.
-VERDICT_RETIRED = {"layoff": "2026-09-03"}
+VERDICT_RETIRED = {"layoff": "2026-09-02"}
 
 
 def _today():
