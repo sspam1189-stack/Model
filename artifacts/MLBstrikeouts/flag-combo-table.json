@@ -1,7 +1,7 @@
 {
  "sport": "MLB",
  "type": "flag-combo-table",
- "generated": "2026-09-02T16:06:15Z",
+ "generated": "2026-09-02T18:35:22Z",
  "span": {
   "from": "2026-03-26",
   "to": "2026-09-01"
@@ -46,8 +46,11 @@
   "opener+stale-window": null,
   "layoff+opener+stale-window": null
  },
- "verdicts_retired": {
-  "layoff": "2026-09-03"
+ "verdicts_shadow": [
+  "layoff"
+ ],
+ "verdicts_shadow_from": {
+  "layoff": "2026-09-02"
  },
  "verdicts_as_of": "2026-09-02",
  "verdicts_from": "2026-09-01",
@@ -76,8 +79,8 @@
    ],
    "verdict": "under",
    "carded": true,
-   "retired_from": null,
-   "verdict_was": null,
+   "shadow": false,
+   "shadow_from": null,
    "under": {
     "w": 38,
     "l": 23,
@@ -102,8 +105,8 @@
    ],
    "verdict": "under",
    "carded": true,
-   "retired_from": null,
-   "verdict_was": null,
+   "shadow": false,
+   "shadow_from": null,
    "under": {
     "w": 27,
     "l": 24,
@@ -129,8 +132,8 @@
    ],
    "verdict": "under",
    "carded": true,
-   "retired_from": null,
-   "verdict_was": null,
+   "shadow": false,
+   "shadow_from": null,
    "under": {
     "w": 11,
     "l": 1,
@@ -155,8 +158,8 @@
    ],
    "verdict": "under",
    "carded": true,
-   "retired_from": null,
-   "verdict_was": null,
+   "shadow": false,
+   "shadow_from": null,
    "under": {
     "w": 10,
     "l": 3,
@@ -180,8 +183,8 @@
    ],
    "verdict": "under",
    "carded": true,
-   "retired_from": null,
-   "verdict_was": null,
+   "shadow": false,
+   "shadow_from": null,
    "under": {
     "w": 23,
     "l": 17,
@@ -206,8 +209,8 @@
    ],
    "verdict": "under",
    "carded": true,
-   "retired_from": null,
-   "verdict_was": null,
+   "shadow": false,
+   "shadow_from": null,
    "under": {
     "w": 14,
     "l": 6,
@@ -231,8 +234,8 @@
    ],
    "verdict": "over",
    "carded": true,
-   "retired_from": null,
-   "verdict_was": null,
+   "shadow": false,
+   "shadow_from": null,
    "under": {
     "w": 21,
     "l": 30,
@@ -254,9 +257,9 @@
     "layoff"
    ],
    "verdict": "under",
-   "carded": true,
-   "retired_from": "2026-09-03",
-   "verdict_was": "under",
+   "carded": false,
+   "shadow": true,
+   "shadow_from": "2026-09-02",
    "under": {
     "w": 42,
     "l": 35,
@@ -280,8 +283,8 @@
    ],
    "verdict": null,
    "carded": false,
-   "retired_from": null,
-   "verdict_was": null,
+   "shadow": false,
+   "shadow_from": null,
    "under": {
     "w": 24,
     "l": 22,
@@ -305,8 +308,8 @@
    ],
    "verdict": null,
    "carded": false,
-   "retired_from": null,
-   "verdict_was": null,
+   "shadow": false,
+   "shadow_from": null,
    "under": {
     "w": 3,
     "l": 2,
@@ -331,8 +334,8 @@
    ],
    "verdict": null,
    "carded": false,
-   "retired_from": null,
-   "verdict_was": null,
+   "shadow": false,
+   "shadow_from": null,
    "under": {
     "w": 1,
     "l": 0,
@@ -356,8 +359,8 @@
    ],
    "verdict": null,
    "carded": false,
-   "retired_from": null,
-   "verdict_was": null,
+   "shadow": false,
+   "shadow_from": null,
    "under": {
     "w": 0,
     "l": 5,
@@ -380,8 +383,8 @@
    ],
    "verdict": null,
    "carded": false,
-   "retired_from": null,
-   "verdict_was": null,
+   "shadow": false,
+   "shadow_from": null,
    "under": {
     "w": 25,
     "l": 21,
@@ -405,8 +408,8 @@
    ],
    "verdict": null,
    "carded": false,
-   "retired_from": null,
-   "verdict_was": null,
+   "shadow": false,
+   "shadow_from": null,
    "under": {
     "w": 1,
     "l": 1,
@@ -429,8 +432,8 @@
    ],
    "verdict": null,
    "carded": false,
-   "retired_from": null,
-   "verdict_was": null,
+   "shadow": false,
+   "shadow_from": null,
    "under": {
     "w": 42,
     "l": 44,
