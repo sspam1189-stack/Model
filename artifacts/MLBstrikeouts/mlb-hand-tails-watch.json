@@ -1,7 +1,7 @@
 {
   "sport": "MLB",
   "type": "hand-tails-watch",
-  "generated": "2026-09-02T21:05:37Z",
+  "generated": "2026-09-02T23:04:22Z",
   "handMin": 6,
   "minGames": 3,
   "minUnits": 2.5,
@@ -26,8 +26,8 @@
       "lineupConfirmed": true,
       "odds": -142,
       "suggest": "take",
-      "suggestUnits": 6.04,
-      "games": 11,
+      "suggestUnits": 7.04,
+      "games": 12,
       "result": "pending"
     },
     {
@@ -48,8 +48,8 @@
       "lineupConfirmed": true,
       "odds": 136,
       "suggest": "fade",
-      "suggestUnits": 4.1,
-      "games": 3,
+      "suggestUnits": 5.46,
+      "games": 4,
       "result": "pending"
     },
     {
@@ -70,8 +70,30 @@
       "lineupConfirmed": true,
       "odds": 136,
       "suggest": "take",
-      "suggestUnits": 4.33,
-      "games": 14,
+      "suggestUnits": 5.69,
+      "games": 15,
+      "result": "pending"
+    },
+    {
+      "date": "2026-09-02",
+      "commence": "2026-09-02T19:10:00Z",
+      "betType": "watch_fade",
+      "action": "fade",
+      "watch": true,
+      "pitcher": "Trevor Rogers",
+      "hand": "L",
+      "arm_team": "BAL",
+      "opp_team": "COL",
+      "selection": "COL",
+      "home": "COL",
+      "away": "BAL",
+      "oppLefty": 4,
+      "oppRighty": 7,
+      "lineupConfirmed": true,
+      "odds": 146,
+      "suggest": "fade",
+      "suggestUnits": 2.82,
+      "games": 19,
       "result": "pending"
     },
     {
@@ -229,6 +251,24 @@
       "era": 4.3
     },
     {
+      "pitcher": "Grant Holmes",
+      "hand": "R",
+      "games": 12,
+      "suggest": "take",
+      "suggestUnits": 7.04,
+      "fade": {
+        "w": 2,
+        "l": 10,
+        "u": -7.8
+      },
+      "take": {
+        "w": 10,
+        "l": 2,
+        "u": 7.04
+      },
+      "era": 3.83
+    },
+    {
       "pitcher": "Joey Cantillo",
       "hand": "L",
       "games": 23,
@@ -337,24 +377,6 @@
       "era": 3.13
     },
     {
-      "pitcher": "Grant Holmes",
-      "hand": "R",
-      "games": 11,
-      "suggest": "take",
-      "suggestUnits": 6.04,
-      "fade": {
-        "w": 2,
-        "l": 9,
-        "u": -6.8
-      },
-      "take": {
-        "w": 9,
-        "l": 2,
-        "u": 6.04
-      },
-      "era": 3.83
-    },
-    {
       "pitcher": "Robbie Ray",
       "hand": "L",
       "games": 23,
@@ -373,6 +395,24 @@
       "era": 3.28
     },
     {
+      "pitcher": "Jacob Lopez",
+      "hand": "L",
+      "games": 15,
+      "suggest": "take",
+      "suggestUnits": 5.69,
+      "fade": {
+        "w": 6,
+        "l": 9,
+        "u": -7.75
+      },
+      "take": {
+        "w": 9,
+        "l": 6,
+        "u": 5.69
+      },
+      "era": 4.68
+    },
+    {
       "pitcher": "Chase Burns",
       "hand": "R",
       "games": 15,
@@ -389,6 +429,24 @@
         "u": 5.68
       },
       "era": 2.79
+    },
+    {
+      "pitcher": "Cody Bradford",
+      "hand": "L",
+      "games": 4,
+      "suggest": "fade",
+      "suggestUnits": 5.46,
+      "fade": {
+        "w": 4,
+        "l": 0,
+        "u": 5.46
+      },
+      "take": {
+        "w": 0,
+        "l": 4,
+        "u": -6.04
+      },
+      "era": 3.42
     },
     {
       "pitcher": "Max Meyer",
@@ -517,24 +575,6 @@
       "era": 5.31
     },
     {
-      "pitcher": "Jacob Lopez",
-      "hand": "L",
-      "games": 14,
-      "suggest": "take",
-      "suggestUnits": 4.33,
-      "fade": {
-        "w": 6,
-        "l": 8,
-        "u": -6.13
-      },
-      "take": {
-        "w": 8,
-        "l": 6,
-        "u": 4.33
-      },
-      "era": 4.68
-    },
-    {
       "pitcher": "Brandon Pfaadt",
       "hand": "R",
       "games": 6,
@@ -551,24 +591,6 @@
         "u": 4.2
       },
       "era": 2.91
-    },
-    {
-      "pitcher": "Cody Bradford",
-      "hand": "L",
-      "games": 3,
-      "suggest": "fade",
-      "suggestUnits": 4.1,
-      "fade": {
-        "w": 3,
-        "l": 0,
-        "u": 4.1
-      },
-      "take": {
-        "w": 0,
-        "l": 3,
-        "u": -4.42
-      },
-      "era": 3.42
     },
     {
       "pitcher": "Noah Cameron",
@@ -713,6 +735,24 @@
         "u": -3.0
       },
       "era": 8.26
+    },
+    {
+      "pitcher": "Trevor Rogers",
+      "hand": "L",
+      "games": 19,
+      "suggest": "fade",
+      "suggestUnits": 2.82,
+      "fade": {
+        "w": 11,
+        "l": 8,
+        "u": 2.82
+      },
+      "take": {
+        "w": 8,
+        "l": 11,
+        "u": -4.88
+      },
+      "era": 4.38
     },
     {
       "pitcher": "Luis Castillo",

@@ -1,7 +1,7 @@
 {
   "sport": "MLB",
   "type": "fade-ml",
-  "generated": "2026-09-02T21:03:16Z",
+  "generated": "2026-09-02T23:01:59Z",
   "fadeList": [
     "Painter",
     "Rocker",
@@ -85,21 +85,21 @@
   "mutualRule": "skip",
   "summary": {
     "wins": 521,
-    "losses": 201,
+    "losses": 202,
     "voids": 0,
     "skips": 48,
-    "staked": 903.59,
-    "units": 330.47,
-    "roi": 0.3657,
+    "staked": 905.03,
+    "units": 329.03,
+    "roi": 0.3636,
     "byType": {
       "ml": {
         "wins": 509,
-        "losses": 189,
+        "losses": 190,
         "voids": 0,
         "skips": 3,
-        "staked": 879.59,
-        "units": 325.99,
-        "roi": 0.3706
+        "staked": 881.03,
+        "units": 324.55,
+        "roi": 0.3684
       },
       "ml_dog": {
         "wins": 12,
@@ -113,30 +113,6 @@
     }
   },
   "today": [
-    {
-      "date": "2026-09-02",
-      "commence": "2026-09-02T20:10:00Z",
-      "betType": "ml",
-      "shadow": false,
-      "pitchers": [
-        "Bryce Miller"
-      ],
-      "fadeTeam": "SEA",
-      "market": "h2h",
-      "selection": "BOS",
-      "line": null,
-      "odds": -144,
-      "stake": 1.44,
-      "result": "pending",
-      "profit": 0.0,
-      "book": "fanduel",
-      "source": "fanduel_api",
-      "reason": null,
-      "home": "BOS",
-      "away": "SEA",
-      "gamePk": 824717,
-      "fadeReason": "away"
-    },
     {
       "date": "2026-09-02",
       "commence": "2026-09-02T22:40:00Z",
@@ -18711,6 +18687,30 @@
       "away": "NYY",
       "gamePk": 823984,
       "fadeReason": "home"
+    },
+    {
+      "date": "2026-09-02",
+      "commence": "2026-09-02T20:10:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Bryce Miller"
+      ],
+      "fadeTeam": "SEA",
+      "market": "h2h",
+      "selection": "BOS",
+      "line": null,
+      "odds": -144,
+      "stake": 1.44,
+      "result": "LOSS",
+      "profit": -1.44,
+      "book": "fanduel",
+      "source": "fanduel_api",
+      "reason": null,
+      "home": "BOS",
+      "away": "SEA",
+      "gamePk": 824717,
+      "fadeReason": "away"
     }
   ]
 }
