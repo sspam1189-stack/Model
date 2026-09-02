@@ -61,6 +61,63 @@ def split(rows, at):
     return [r for r in rows if r["date"] < at], [r for r in rows if r["date"] >= at]
 
 
+LEDGER_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)),
+                           "..", "data", "scout-card-log.json")
+
+
+def _with_stale(today, blob):
+    """Add back plays that fired earlier today but no longer qualify.
+
+    A rule is evaluated against the CURRENT market, so a line move can drop
+    a play out of `today` while the bet is still live in the ledger. On
+    2026-09-02 DET/MIN went from a -112 favourite to -116, one tick past
+    pickem-under's threshold, and a logged card play vanished from the panel
+    with money on it.
+
+    The ledger is the bet; the panel should not quietly disagree. Any
+    non-scout row logged for today that the engine no longer produces is
+    appended with `stale`, so the tab can show it as still-on rather than
+    drop it. Matched on (rule, gamePk) -- the price and line are expected to
+    have moved, that is the whole point.
+    """
+    date = (blob.get("today") or [{}])[0].get("date")
+    if not date or not os.path.exists(LEDGER_PATH):
+        return today
+    with open(LEDGER_PATH, encoding="utf-8") as fh:
+        entries = json.load(fh).get("entries") or []
+    live = {(p["rule"], p.get("gamePk")) for p in today}
+    finals = {g.get("gamePk") for g in (blob.get("today") or []) if g.get("final")}
+    out = list(today)
+    for e in entries:
+        key = (e.get("rule"), e.get("gamePk"))
+        if (e.get("date") != date or e.get("rule") not in SYS.SYSTEMS
+                or key in live or e.get("gamePk") in finals):
+            continue
+        live.add(key)
+        out.append({
+            "rule": e["rule"], "market": e.get("market"),
+            "pick": e.get("pick") or _pick_from(e),
+            "price": e.get("price"), "line": e.get("line"),
+            "ml_price": e.get("ml_price"), "under_price": e.get("under_price"),
+            "payout": e.get("payout"),
+            "gamePk": e.get("gamePk"), "date": e.get("date"),
+            "commence": e.get("commence"),
+            "matchup": e.get("game"), "total": e.get("line"),
+            "why": (e.get("basis") or "").split(": ", 1)[-1],
+            "stale": True,
+        })
+    out.sort(key=lambda p: (str(p.get("commence") or "~"), p["rule"]))
+    return out
+
+
+def _pick_from(entry):
+    """Side for a ledger row that predates the engine carrying `pick`."""
+    play = entry.get("play") or ""
+    if entry.get("market") == "totals":
+        return "over" if " O" in play else "under"
+    return play.split(" ML")[0].strip()
+
+
 def main():
     blob = SYS.load()
     rows = SYS.replay(blob)
@@ -105,6 +162,7 @@ def main():
         })
 
     today = SYS.today_plays(blob)
+    today = _with_stale(today, blob)
     blob_out = {
         "sport": "MLB",
         "type": "allml-systems-table",

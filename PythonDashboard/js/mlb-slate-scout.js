@@ -183,16 +183,31 @@ async function renderMLBSlateScout() {
     `<span style="display:inline-block;padding:1px 5px;margin-left:4px;border-radius:3px;`
     + `background:rgba(210,153,34,.18);color:#d29922;font-size:10px;white-space:nowrap">${esc(f)}</span>`;
 
-  // ---- Advisory banner -----------------------------------------------------
+  // ---- Advisory notes ------------------------------------------------------
+  // Built here, appended LAST and collapsed (user, 2026-09-02). Nine
+  // paragraphs of caveats at the top of the tab pushed tonight's plays below
+  // the fold -- the thing you open the tab to read was the thing you had to
+  // scroll past the methodology to reach. The text is unchanged and one
+  // click away; it just no longer sits between you and the card.
   const banner = document.createElement('div');
   banner.className = 'card';
-  banner.style.cssText = 'border-left:3px solid #d29922;padding:10px 12px';
+  banner.style.cssText = 'border-left:3px solid #d29922;padding:8px 12px';
   banner.innerHTML =
-    '<div style="font-weight:600;color:#d29922;font-size:16px;margin-bottom:4px">'
-    + 'Scouting view — not a betting model</div>'
-    + '<div style="font-size:15px;color:' + DIM + ';line-height:1.5">'
-    + (data.notes || []).map(esc).join('<br>') + '</div>';
-  el.appendChild(banner);
+    '<div id="scoutNotesHead" style="font-weight:600;color:#d29922;'
+    + 'font-size:15px;cursor:pointer;user-select:none">'
+    + '<span id="scoutNotesCaret">▸</span> Scouting view — not a betting model'
+    + '</div>'
+    + '<div id="scoutNotesBody" style="display:none;font-size:15px;color:' + DIM
+    + ';line-height:1.5;padding-top:6px">'
+    + (data.notes || []).map(esc).join('<br><br>') + '</div>';
+  const notesHead = banner.querySelector('#scoutNotesHead');
+  const notesBody = banner.querySelector('#scoutNotesBody');
+  let notesOpen = false;
+  notesHead.addEventListener('click', () => {
+    notesOpen = !notesOpen;
+    notesBody.style.display = notesOpen ? '' : 'none';
+    banner.querySelector('#scoutNotesCaret').textContent = notesOpen ? '▾' : '▸';
+  });
 
   // ---- Today's plays: the two under systems --------------------------------
   // 1) flagged under (CARD, live): a named data defect on either starter.
@@ -503,8 +518,13 @@ async function renderMLBSlateScout() {
             : (p.pick === 'under' ? 'U' : 'O') + (p.total == null ? '?' : p.total)
               + ' <span style="color:' + DIM + ';font-weight:400">'
               + mlStr(p.price) + '</span>';
+        // A stale row fired earlier today and is still a live bet, but the
+        // market has moved past the rule's threshold so the engine no longer
+        // produces it. Shown, because the ledger has money on it -- dimmed
+        // and labelled, because it would not fire at tonight's current price.
         t += '<tr class="' + (tier === 'shadow' ? 'ns-shadow-row' : 'ns-card-row')
           + '" style="border-top:1px solid #161b22'
+          + (p.stale ? ';opacity:.72' : '')
           + (tier === 'shadow' ? ';display:none' : '') + '">'
           + '<td style="padding:4px 6px;color:' + DIM + '">' + ctTime(p.commence) + '</td>'
           + '<td style="padding:4px 6px">' + esc(p.matchup) + '</td>'
@@ -514,6 +534,11 @@ async function renderMLBSlateScout() {
             ? 'background:rgba(139,148,158,.14);color:' + DIM
             : 'background:rgba(63,185,80,.18);color:#3fb950') + '">'
           + esc(sy.name || p.rule) + '</span>'
+          + (p.stale ? ' <span title="Logged earlier today and still a live '
+            + 'bet. The line has since moved past this rule\'s threshold, so '
+            + 'it would not fire at the current price." '
+            + 'style="color:#d29922;font-size:11px;white-space:nowrap">'
+            + 'line moved</span>' : '')
           + (sy.ladder_fails ? ' <span title="carded on request; the winning '
             + 'bucket has losing neighbours" style="color:#d29922">△</span>' : '')
           + '</td>'
@@ -1083,4 +1108,8 @@ async function renderMLBSlateScout() {
   }
 
   el.insertBefore(ranked, playsAnchor.nextSibling);
+
+  // Methodology last. Everything above it is either a play or a record; this
+  // is the standing caveat, and it belongs after both.
+  el.appendChild(banner);
 }

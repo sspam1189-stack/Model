@@ -1,7 +1,7 @@
 {
  "sport": "MLB",
  "type": "allml-systems-table",
- "generated": "2026-09-02T21:36:22Z",
+ "generated": "2026-09-02T23:06:31Z",
  "span": {
   "from": "2026-03-25",
   "to": "2026-09-02"
@@ -1149,6 +1149,23 @@
    "away": "MIA",
    "home": "KC",
    "total": 9
+  },
+  {
+   "rule": "pickem-under",
+   "market": "totals",
+   "pick": "under",
+   "price": -104,
+   "line": 8.5,
+   "ml_price": null,
+   "under_price": null,
+   "payout": null,
+   "gamePk": 823660,
+   "date": "2026-09-02",
+   "commence": "2026-09-02T23:40:00Z",
+   "matchup": "DET @ MIN",
+   "total": 8.5,
+   "why": "favorite only -112 at a 8.5 total",
+   "stale": true
   },
   {
    "rule": "starter-over-run",
