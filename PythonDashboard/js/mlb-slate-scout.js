@@ -328,13 +328,23 @@ async function renderMLBSlateScout() {
   const feedDays = (playsFeed && playsFeed.days) ? playsFeed.days : [];
   const slateDate = data.date || (feedDays[0] && feedDays[0].date) || '';
   const feedFor = (d) => feedDays.filter((x) => x.date === d)[0] || null;
-  // Per group, only the past days that actually hold one of its rows. The
-  // non-scout systems started 2026-09-01, so offering them a fortnight of
-  // empty dates would be thirteen dead options in the dropdown.
-  const pastDatesFor = (group) => feedDays
-    .filter((x) => x.date !== slateDate
-      && x.rows.some((r) => r.group === group))
-    .map((x) => x.date);
+  const pastDates = feedDays.map((x) => x.date).filter((d) => d !== slateDate);
+  // Both panels offer every past day the feed holds, even ones where this
+  // panel logged nothing -- hiding those made the non-scout panel look like
+  // it had no filter at all. Each option carries that panel's record for the
+  // day instead, so an empty day reads as empty rather than as a dead option.
+  const dayTally = (d, group) => {
+    const day = feedFor(d);
+    if (!day) return null;
+    return group === 'scout' ? day.scout : day.non_scout;
+  };
+  const dayLabel = (d, group) => {
+    const t = dayTally(d, group);
+    if (!t || !t.n) return 'no plays';
+    if (t.pending && !t.w && !t.l) return t.pending + ' pending';
+    return t.w + '-' + t.l + (t.push ? '-' + t.push : '')
+      + (t.pending ? ' +' + t.pending + 'p' : '');
+  };
   const yesterdayOf = (d) => {
     const t = Date.parse(d + 'T12:00:00Z');
     return isNaN(t) ? null
@@ -355,7 +365,16 @@ async function renderMLBSlateScout() {
     + (u > 0 ? '#3fb950' : u < 0 ? '#f85149' : DIM) + ';font-weight:600">'
     + (u > 0 ? '+' : '') + Number(u).toFixed(2) + 'u</span>';
 
-  // One past day for one group, in the same column shape as the live tables.
+  // One past day for one group, sectioned the way the live table is: what was
+  // bet, then what was only tracked, then what the rule called and nobody
+  // wagered. Sorting the three together by first pitch reads as one card and
+  // hides that a losing row never cost anything.
+  const PAST_SECTIONS = [
+    ['card', 'CARD — bet these', '#3fb950'],
+    ['shadow', 'SHADOW — tracked, not bet', DIM],
+    ['not_bet', 'NOT BET — rule fired, no wager', DIM],
+  ];
+  const pastKind = (r) => (r.not_bet ? 'not_bet' : (r.shadow ? 'shadow' : 'card'));
   const pastPlaysHtml = (dateStr, group, emptyMsg) => {
     const day = feedFor(dateStr);
     const rows = day ? day.rows.filter((r) => r.group === group) : [];
@@ -375,25 +394,40 @@ async function renderMLBSlateScout() {
       + ';border-bottom:1px solid #30363d">'
       + '<th style="padding:4px 6px">CT</th><th>Game</th><th>Play</th>'
       + '<th>Rule</th><th>Result</th><th>Unit</th></tr></thead><tbody>';
-    for (const r of rows) {
-      const held = r.shadow || r.not_bet;
-      h += '<tr style="border-top:1px solid #161b22'
-        + (held ? ';opacity:.6' : '') + '">'
-        + '<td style="padding:3px 6px;color:' + DIM + '">'
-        + (r.commence ? ctTime(r.commence) : '—') + '</td>'
-        + '<td style="padding:3px 6px">' + esc(r.game || '') + '</td>'
-        + '<td style="padding:3px 6px;font-weight:600;white-space:nowrap">'
-        + esc(r.play || '') + ' <span style="color:' + DIM
-        + ';font-weight:400">' + mlStr(r.price) + '</span></td>'
-        + '<td style="white-space:nowrap">' + esc(r.name || r.rule || '')
-        + (r.shadow ? ' <span style="color:' + DIM + ';font-size:11px">shadow</span>' : '')
-        + (r.not_bet ? ' <span style="color:' + DIM + ';font-size:11px">not bet</span>' : '')
-        + '</td>'
-        + '<td>' + resultChip(r.result) + '</td>'
-        + '<td style="white-space:nowrap">'
-        + (r.result === 'pending' || held ? '<span style="color:' + DIM + '">—</span>'
-          : unitStr(r.profit || 0)) + '</td>'
-        + '</tr>';
+    for (const [kind, label, colour] of PAST_SECTIONS) {
+      const group_ = rows.filter((r) => pastKind(r) === kind)
+        .sort((a, b) => String(a.commence || '~').localeCompare(
+          String(b.commence || '~')));
+      if (!group_.length) continue;
+      const gr = group_.filter((r) => r.result === 'WIN' || r.result === 'LOSS');
+      const gw = gr.filter((r) => r.result === 'WIN').length;
+      const gp = group_.filter((r) => r.result === 'pending').length;
+      const gu = kind === 'card'
+        ? group_.reduce((a, r) => a + (r.profit || 0), 0) : null;
+      h += '<tr><td colspan="6" style="padding:5px 6px 2px;font-size:11px;'
+        + 'font-weight:600;border-top:1px solid #30363d;color:' + colour + '">'
+        + label + ' — ' + gw + '-' + (gr.length - gw)
+        + (gp ? ' (' + gp + ' pending)' : '')
+        + (gu === null ? ' · no units by design' : ' · ' + unitStr(gu))
+        + '</td></tr>';
+      for (const r of group_) {
+        const held = kind !== 'card';
+        h += '<tr style="border-top:1px solid #161b22'
+          + (held ? ';opacity:.6' : '') + '">'
+          + '<td style="padding:3px 6px;color:' + DIM + '">'
+          + (r.commence ? ctTime(r.commence) : '—') + '</td>'
+          + '<td style="padding:3px 6px">' + esc(r.game || '') + '</td>'
+          + '<td style="padding:3px 6px;font-weight:600;white-space:nowrap">'
+          + esc(r.play || '') + ' <span style="color:' + DIM
+          + ';font-weight:400">' + mlStr(r.price) + '</span></td>'
+          + '<td style="white-space:nowrap">' + esc(r.name || r.rule || '') + '</td>'
+          + '<td>' + resultChip(r.result) + '</td>'
+          + '<td style="white-space:nowrap">'
+          + (r.result === 'pending' || held
+            ? '<span style="color:' + DIM + '">—</span>'
+            : unitStr(r.profit || 0)) + '</td>'
+          + '</tr>';
+      }
     }
     return h + '</tbody></table></div>';
   };
@@ -403,13 +437,13 @@ async function renderMLBSlateScout() {
   const attachDateFilter = (cardEl, group, todayHtml, emptyMsg) => {
     const wrap = cardEl.querySelector('[data-date-filter]');
     const body = cardEl.querySelector('[data-plays-body]');
-    const dates = pastDatesFor(group);
-    if (!wrap || !body || !dates.length) return;
+    if (!wrap || !body || !pastDates.length) return;
     const yday = yesterdayOf(slateDate);
     const opts = ['<option value="__today">Today'
       + (slateDate ? ' · ' + slateDate : '') + '</option>']
-      .concat(dates.map((d) => '<option value="' + d + '">'
-        + (d === yday ? 'Yesterday · ' : '') + d + '</option>'));
+      .concat(pastDates.map((d) => '<option value="' + d + '">'
+        + (d === yday ? 'Yesterday · ' : '') + d
+        + ' · ' + dayLabel(d, group) + '</option>'));
     wrap.innerHTML = '<select style="background:#0d1117;color:#c9d1d9;'
       + 'border:1px solid #30363d;border-radius:4px;font-size:11px;'
       + 'padding:1px 4px;font-weight:400">' + opts.join('') + '</select>';
