@@ -329,17 +329,14 @@ async function renderMLBSlateScout() {
   const slateDate = data.date || (feedDays[0] && feedDays[0].date) || '';
   const feedFor = (d) => feedDays.filter((x) => x.date === d)[0] || null;
   const pastDates = feedDays.map((x) => x.date).filter((d) => d !== slateDate);
-  // Both panels offer every past day the feed holds, even ones where this
-  // panel logged nothing -- hiding those made the non-scout panel look like
-  // it had no filter at all. Each option carries that panel's record for the
-  // day instead, so an empty day reads as empty rather than as a dead option.
-  const dayTally = (d, group) => {
+  // ONE selector drives both plays panels. They are read together as a single
+  // card, so two independent dropdowns just made it possible to compare
+  // tonight's systems against yesterday's scout plays by accident. Option
+  // labels carry the combined record for the day; each panel still prints its
+  // own record in its body, and a panel with nothing logged says so.
+  const dayLabel = (d) => {
     const day = feedFor(d);
-    if (!day) return null;
-    return group === 'scout' ? day.scout : day.non_scout;
-  };
-  const dayLabel = (d, group) => {
-    const t = dayTally(d, group);
+    const t = day && day.all;
     if (!t || !t.n) return 'no plays';
     if (t.pending && !t.w && !t.l) return t.pending + ' pending';
     return t.w + '-' + t.l + (t.push ? '-' + t.push : '')
@@ -432,25 +429,33 @@ async function renderMLBSlateScout() {
     return h + '</tbody></table></div>';
   };
 
-  // Swap a panel's body between tonight and a past date. Does nothing when
-  // the feed is missing, so the panel keeps working as a today-only table.
-  const attachDateFilter = (cardEl, group, todayHtml, emptyMsg) => {
-    const wrap = cardEl.querySelector('[data-date-filter]');
+  // Each plays panel registers its swappable body; the selector is mounted
+  // once, after both exist, and drives all of them together.
+  const datePanels = [];
+  const registerPlaysPanel = (cardEl, group, todayHtml, emptyMsg) => {
     const body = cardEl.querySelector('[data-plays-body]');
-    if (!wrap || !body || !pastDates.length) return;
+    if (body) datePanels.push({ cardEl, group, todayHtml, emptyMsg, body });
+  };
+  const mountDateFilter = () => {
+    if (!datePanels.length || !pastDates.length) return;
+    const wrap = datePanels[0].cardEl.querySelector('[data-date-filter]');
+    if (!wrap) return;
     const yday = yesterdayOf(slateDate);
     const opts = ['<option value="__today">Today'
       + (slateDate ? ' · ' + slateDate : '') + '</option>']
       .concat(pastDates.map((d) => '<option value="' + d + '">'
         + (d === yday ? 'Yesterday · ' : '') + d
-        + ' · ' + dayLabel(d, group) + '</option>'));
-    wrap.innerHTML = '<select style="background:#0d1117;color:#c9d1d9;'
+        + ' · ' + dayLabel(d) + '</option>'));
+    wrap.innerHTML = '<span style="color:' + DIM + ';font-size:11px">'
+      + 'plays date </span><select style="background:#0d1117;color:#c9d1d9;'
       + 'border:1px solid #30363d;border-radius:4px;font-size:11px;'
       + 'padding:1px 4px;font-weight:400">' + opts.join('') + '</select>';
     const sel = wrap.querySelector('select');
     sel.addEventListener('change', () => {
-      body.innerHTML = sel.value === '__today'
-        ? todayHtml : pastPlaysHtml(sel.value, group, emptyMsg);
+      for (const p of datePanels) {
+        p.body.innerHTML = sel.value === '__today'
+          ? p.todayHtml : pastPlaysHtml(sel.value, p.group, p.emptyMsg);
+      }
     });
   };
 
@@ -520,7 +525,7 @@ async function renderMLBSlateScout() {
   playsCard.innerHTML = scoutTitleHtml
     + '<div data-plays-body>' + scoutTodayHtml + '</div>';
   el.appendChild(playsCard);
-  attachDateFilter(playsCard, 'scout', scoutTodayHtml,
+  registerPlaysPanel(playsCard, 'scout', scoutTodayHtml,
     'Nothing was logged for the scout rules that day.');
   // The two "today's plays" panels sit together at the top, scout first then
   // non-scout, so the whole actionable card is read in one place before the
@@ -644,7 +649,6 @@ async function renderMLBSlateScout() {
       + '(CARD — all of these are bet. Derived from the all-ML game file '
       + 'alone: prices, totals, probables, scores. No mismatch-model input, '
       + 'so an agreement with a scout rule is a second opinion.)</span>'
-      + '<span data-date-filter style="float:right;font-weight:400"></span>'
       + '</div>';
     const sysTitleHtml = t;
     t = '';
@@ -738,7 +742,7 @@ async function renderMLBSlateScout() {
       + '<div data-plays-body>' + sysTodayHtml + '</div>' + t;
     el.insertBefore(sc, playsAnchor.nextSibling);
     playsAnchor = sc;
-    attachDateFilter(sc, 'non-scout', sysTodayHtml,
+    registerPlaysPanel(sc, 'non-scout', sysTodayHtml,
       'No non-scout system logged a play that day.');
   }
 
@@ -982,4 +986,6 @@ async function renderMLBSlateScout() {
   // Order at the top of the tab: banner, then both plays panels (the actionable
   // part), then the mismatch ranking, then the per-game table.
   el.insertBefore(ranked, playsAnchor.nextSibling);
+  // Both plays panels exist by now, so the shared selector can be wired.
+  mountDateFilter();
 }
