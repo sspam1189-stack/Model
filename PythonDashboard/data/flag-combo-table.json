@@ -1,7 +1,7 @@
 {
  "sport": "MLB",
  "type": "flag-combo-table",
- "generated": "2026-09-02T02:01:18Z",
+ "generated": "2026-09-02T03:29:33Z",
  "span": {
   "from": "2026-03-26",
   "to": "2026-08-31"
@@ -29,6 +29,27 @@
   "opener+stale-window": null,
   "layoff+opener+stale-window": null
  },
+ "verdicts_declared": {
+  "swingman": "under",
+  "swingman+opener": "under",
+  "swingman+stale-window": "over",
+  "layoff": "under",
+  "swingman+layoff+opener": "under",
+  "swingman+layoff": null,
+  "opener": null,
+  "stale-window": null,
+  "swingman+opener+stale-window": "under",
+  "swingman+layoff+stale-window": "under",
+  "swingman+layoff+opener+stale-window": "under",
+  "layoff+opener": null,
+  "layoff+stale-window": null,
+  "opener+stale-window": null,
+  "layoff+opener+stale-window": null
+ },
+ "verdicts_retired": {
+  "layoff": "2026-09-03"
+ },
+ "verdicts_as_of": "2026-09-02",
  "verdicts_from": "2026-09-01",
  "note": "Flags replayed as-of each game date from the pitcher game logs (not from payload snapshots, which only start 2026-08-17 and produced the rust-over mirage). Graded at the payload's own over_ml/under_ml, 1u risk. A combo row counts a game once, under its exact flag set; a flag row counts a game under every flag it carries, so flag rows overlap and combo rows do not.",
  "baselines": {
@@ -55,6 +76,8 @@
    ],
    "verdict": "under",
    "carded": true,
+   "retired_from": null,
+   "verdict_was": null,
    "under": {
     "w": 38,
     "l": 23,
@@ -79,6 +102,8 @@
    ],
    "verdict": "under",
    "carded": true,
+   "retired_from": null,
+   "verdict_was": null,
    "under": {
     "w": 27,
     "l": 23,
@@ -104,6 +129,8 @@
    ],
    "verdict": "under",
    "carded": true,
+   "retired_from": null,
+   "verdict_was": null,
    "under": {
     "w": 11,
     "l": 1,
@@ -128,6 +155,8 @@
    ],
    "verdict": "under",
    "carded": true,
+   "retired_from": null,
+   "verdict_was": null,
    "under": {
     "w": 10,
     "l": 3,
@@ -151,6 +180,8 @@
    ],
    "verdict": "under",
    "carded": true,
+   "retired_from": null,
+   "verdict_was": null,
    "under": {
     "w": 23,
     "l": 16,
@@ -175,6 +206,8 @@
    ],
    "verdict": "under",
    "carded": true,
+   "retired_from": null,
+   "verdict_was": null,
    "under": {
     "w": 13,
     "l": 6,
@@ -198,6 +231,8 @@
    ],
    "verdict": "over",
    "carded": true,
+   "retired_from": null,
+   "verdict_was": null,
    "under": {
     "w": 20,
     "l": 30,
@@ -220,6 +255,8 @@
    ],
    "verdict": "under",
    "carded": true,
+   "retired_from": "2026-09-03",
+   "verdict_was": "under",
    "under": {
     "w": 41,
     "l": 34,
@@ -243,6 +280,8 @@
    ],
    "verdict": null,
    "carded": false,
+   "retired_from": null,
+   "verdict_was": null,
    "under": {
     "w": 24,
     "l": 22,
@@ -266,6 +305,8 @@
    ],
    "verdict": null,
    "carded": false,
+   "retired_from": null,
+   "verdict_was": null,
    "under": {
     "w": 3,
     "l": 2,
@@ -290,6 +331,8 @@
    ],
    "verdict": null,
    "carded": false,
+   "retired_from": null,
+   "verdict_was": null,
    "under": {
     "w": 1,
     "l": 0,
@@ -313,6 +356,8 @@
    ],
    "verdict": null,
    "carded": false,
+   "retired_from": null,
+   "verdict_was": null,
    "under": {
     "w": 0,
     "l": 5,
@@ -335,6 +380,8 @@
    ],
    "verdict": null,
    "carded": false,
+   "retired_from": null,
+   "verdict_was": null,
    "under": {
     "w": 25,
     "l": 21,
@@ -358,6 +405,8 @@
    ],
    "verdict": null,
    "carded": false,
+   "retired_from": null,
+   "verdict_was": null,
    "under": {
     "w": 1,
     "l": 1,
@@ -380,6 +429,8 @@
    ],
    "verdict": null,
    "carded": false,
+   "retired_from": null,
+   "verdict_was": null,
    "under": {
     "w": 42,
     "l": 44,

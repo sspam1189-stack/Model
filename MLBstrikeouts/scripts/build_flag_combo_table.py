@@ -130,9 +130,34 @@ COMBO_VERDICTS = {
 }
 
 
-def verdict_for(combo):
-    """Bet side for a combo, or None. Unknown combos default to the swingman
-    rule so a never-before-seen flag mix still behaves sensibly."""
+# Combos retired from a DATE rather than deleted, so the change applies to
+# slates on and after it and yesterday's card still reads the way it was bet.
+# Same shape as the fade roster's dated segments.
+#
+#   layoff (alone)  RETIRED FROM 2026-09-03 (user). 41-34 +4.8% under over 75
+#                   games against a -3.5% blind baseline -- positive, but it
+#                   never cleared significance (p=0.21) and it is the only
+#                   carded combo with no swingman in it, so it was carrying
+#                   the card rule's one exception on the weakest evidence on
+#                   the grid. The row stays in the table and keeps measuring;
+#                   it just stops being a play.
+VERDICT_RETIRED = {"layoff": "2026-09-03"}
+
+
+def _today():
+    return datetime.date.today().isoformat()
+
+
+def verdict_for(combo, as_of=None):
+    """Bet side for a combo on a given date, or None for no play.
+
+    Unknown combos default to the swingman rule so a never-before-seen flag
+    mix still behaves sensibly. A combo in VERDICT_RETIRED returns None from
+    its retirement date onward.
+    """
+    off = VERDICT_RETIRED.get(combo)
+    if off and (as_of or _today()) >= off:
+        return None
     if combo in COMBO_VERDICTS:
         return COMBO_VERDICTS[combo]
     return "under" if CARD_REQUIRES in combo.split("+") else None
@@ -210,16 +235,22 @@ def main():
     for r in flagged:
         combos.setdefault(canonical_combo(r["kinds"]), []).append(r)
 
+    today = _today()
     out_combos = []
     for combo, arr in combos.items():
         kinds = combo.split("+")
-        side = verdict_for(combo)
+        side = verdict_for(combo, today)
         out_combos.append({
             "combo": combo,
             "kinds": kinds,
-            # The carded side for this configuration, or None for no play.
+            # The carded side for this configuration TODAY, or None for no
+            # play. A retired combo carries the date it came off so the tab
+            # can say so rather than silently showing it as never-carded.
             "verdict": side,
             "carded": side is not None,
+            "retired_from": VERDICT_RETIRED.get(combo),
+            "verdict_was": COMBO_VERDICTS.get(combo)
+                           if VERDICT_RETIRED.get(combo) else None,
             "under": summarize(arr, "pu"),
             "over": summarize(arr, "po"),
         })
@@ -252,7 +283,13 @@ def main():
         "games": {"gradeable": len(rows), "flagged": len(flagged),
                   "pushes_dropped": pushes},
         "card_requires": CARD_REQUIRES,
-        "verdicts": {k: v for k, v in COMBO_VERDICTS.items()},
+        # Resolved AS OF today, so the daily logger and the tab both read the
+        # verdicts that apply to tonight's slate without knowing about dated
+        # retirements. The raw table and the retirement dates ship alongside.
+        "verdicts": {k: verdict_for(k, today) for k in COMBO_VERDICTS},
+        "verdicts_declared": {k: v for k, v in COMBO_VERDICTS.items()},
+        "verdicts_retired": VERDICT_RETIRED,
+        "verdicts_as_of": today,
         "verdicts_from": "2026-09-01",
         "note": ("Flags replayed as-of each game date from the pitcher game logs "
                  "(not from payload snapshots, which only start 2026-08-17 and "

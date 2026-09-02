@@ -781,7 +781,15 @@ async function renderMLBSlateScout() {
         + '<td style="padding:3px 6px">'
         + (c.carded ? '<span style="color:#3fb950">●</span> ' : '<span style="color:'
           + DIM + '">○</span> ')
-        + esc(c.combo) + (thin ? ' <span style="color:' + DIM
+        + esc(c.combo)
+        // A dated retirement: the combo is still a play today and stops on
+        // its date. Saying so beats having it silently drop off the card
+        // overnight with the row looking like it was never carded.
+        + (c.retired_from
+          ? ' <span style="color:#d29922;font-size:10px;white-space:nowrap">'
+            + (c.carded ? 'retires ' : 'retired ') + esc(c.retired_from)
+            + '</span>' : '')
+        + (thin ? ' <span style="color:' + DIM
           + ';font-size:10px">thin</span>' : '') + '</td>'
         + '<td style="color:' + DIM + '">' + (c.under?.n ?? 0) + '</td>'
         + roiCell(c.under, c.verdict === 'under')
@@ -1017,6 +1025,13 @@ async function renderMLBSlateScout() {
     const opts = (list, label) => '<option value="">' + label + '</option>'
       + list.map((v) => '<option value="' + esc(v[0]) + '">' + esc(v[1])
         + '</option>').join('');
+    const lbl = (text, id, inner) =>
+      '<label style="font-size:11px;color:#888;display:inline-flex;gap:5px;'
+      + 'align-items:center">' + text
+      + '<select id="' + id + '" style="' + selCss + '">' + inner
+      + '</select></label>';
+    const row = (inner) => '<div style="display:flex;gap:10px;align-items:center;'
+      + 'flex-wrap:wrap;padding:0 8px 6px">' + inner + '</div>';
 
     const log = document.createElement('div');
     log.className = 'card card-games';
@@ -1026,37 +1041,30 @@ async function renderMLBSlateScout() {
       + '<div class="card-title" style="padding:0">Season bet log</div>'
       + '<span id="scoutLogRec" style="font-size:13px;font-weight:700"></span>'
       + '</div>'
-      + '<div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;padding:0 8px 8px">'
-      + '<label style="font-size:11px;color:#888">Status '
-      + '<select id="slKind" style="' + selCss + '">'
-      + Object.keys(KIND_LABEL).map((k) => '<option value="' + k + '"'
-        + (k === 'card' ? ' selected' : '') + '>' + KIND_LABEL[k] + '</option>').join('')
-      + '<option value="backfilled">Backfilled only</option>'
-      + '<option value="">All</option></select></label>'
-      + '<label style="font-size:11px;color:#888">Rule '
-      + '<select id="slRule" style="' + selCss + '">'
-      + opts(rules.map((r) => [r, nameOf[r]]), 'All rules') + '</select></label>'
-      + '<label style="font-size:11px;color:#888">System '
-      + '<select id="slGroup" style="' + selCss + '">'
-      + opts([['scout', 'Flagged &amp; form O/U'],
-        ['non-scout', 'Non-scout systems']], 'All systems') + '</select></label>'
-      + '<label style="font-size:11px;color:#888">Result '
-      + '<select id="slResult" style="' + selCss + '">'
-      + opts([['WIN', 'Win'], ['LOSS', 'Loss'], ['PUSH', 'Push'],
-        ['pending', 'Pending']], 'All') + '</select></label>'
-      + '<label style="font-size:11px;color:#888">Market '
-      + '<select id="slMarket" style="' + selCss + '">'
-      + opts([['h2h', 'Moneyline'], ['totals', 'Total']], 'All') + '</select></label>'
-      + '<label style="font-size:11px;color:#888">Month '
-      + '<select id="slMonth" style="' + selCss + '">'
-      + opts(months.map((m) => [m, monthLabel(m)]), 'All') + '</select></label>'
-      + '<label style="font-size:11px;color:#888">Week '
-      + '<select id="slWeek" style="' + selCss + '">'
-      + opts(weeks.map((w) => [w, weekLabel(w)]), 'All') + '</select></label>'
-      + '<label style="font-size:11px;color:#888">Day '
-      + '<select id="slDate" style="' + selCss + '">'
-      + opts(dates.map((d) => [d, dateLabel(d)]), 'All') + '</select></label>'
-      + '</div><div id="scoutLogBody"></div>';
+      // Filters laid out in rows (user): what/where, then which, then result,
+      // then when. Each row wraps on its own, so a phone stacks them in the
+      // same reading order instead of reflowing eight controls into a block.
+      + row(
+        lbl('Status', 'slKind',
+          Object.keys(KIND_LABEL).map((k) => '<option value="' + k + '"'
+            + (k === 'card' ? ' selected' : '') + '>' + KIND_LABEL[k]
+            + '</option>').join('')
+          + '<option value="backfilled">Backfilled only</option>'
+          + '<option value="">All</option>')
+        + lbl('System', 'slGroup', opts([['scout', 'Flagged &amp; form O/U'],
+          ['non-scout', 'Non-scout systems']], 'All systems')))
+      + row(
+        lbl('Rule', 'slRule', opts(rules.map((r) => [r, nameOf[r]]), 'All rules'))
+        + lbl('Market', 'slMarket', opts([['h2h', 'Moneyline'],
+          ['totals', 'Total']], 'All')))
+      + row(
+        lbl('Result', 'slResult', opts([['WIN', 'Win'], ['LOSS', 'Loss'],
+          ['PUSH', 'Push'], ['pending', 'Pending']], 'All')))
+      + row(
+        lbl('Month', 'slMonth', opts(months.map((m) => [m, monthLabel(m)]), 'All'))
+        + lbl('Week', 'slWeek', opts(weeks.map((w) => [w, weekLabel(w)]), 'All'))
+        + lbl('Day', 'slDate', opts(dates.map((d) => [d, dateLabel(d)]), 'All')))
+      + '<div id="scoutLogBody"></div>';
     el.appendChild(log);
 
     const recEl = log.querySelector('#scoutLogRec');
