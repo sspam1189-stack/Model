@@ -104,9 +104,13 @@ def profit_for(price, stake, result):
 
 
 # ---------------------------------------------------------------------------
-def add(blob, *, date, system, row, status=SHADOW, stake=1.0):
-    """Append one play. Returns the entry, or None if it is already logged."""
+def add(blob, *, date, system, row, status=None, stake=1.0):
+    """Append one play. Returns the entry, or None if it is already logged.
+
+    Status defaults to the REGISTRY's, never to shadow: a caller that forgets
+    to pass one must not silently log a carded play as untracked."""
     s = R.BY_ID[system]
+    status = status or s.get("status", SHADOW)
     market = s["market"]
     away, home = _sides(row)
 
@@ -269,13 +273,16 @@ def tally(entries, system=None, status=None, backfilled=False):
 def report(blob, system=None):
     entries = blob["entries"]
     live = [e for e in entries if not e.get("no_play")]
-    print(f"NBA systems ledger -- {len(live)} plays, "
-          f"registry frozen {blob.get('registry_frozen')}")
+    ncard = sum(1 for x in R.SYSTEMS if x.get("status") == CARD)
+    print("NBA systems ledger -- {0} plays, registry frozen {1}, {2} carded / "
+          "{3} shadow".format(len(live), blob.get("registry_frozen"), ncard,
+                              len(R.SYSTEMS) - ncard))
     if not live:
         print("  no live plays yet. The registry is pre-registered and idle "
               "until the season opens.")
-    print(f"\n  {'system':18s} {'tier':10s} {'live':>12s} {'units':>8s} "
-          f"{'ROI':>8s} | {'2025-26 backtest':>18s} {'ROI':>8s}")
+    print("\n  {0:18s} {1:7s} {2:10s} {3:>12s} {4:>8s} {5:>8s} | {6:>18s} {7:>8s}"
+          .format("system", "status", "tier", "live", "units", "ROI",
+                  "2025-26 backtest", "ROI"))
     print("  " + "-" * 92)
     for s in R.SYSTEMS:
         if system and s["id"] != system:
@@ -287,14 +294,21 @@ def report(blob, system=None):
         broi = "{0:+.1f}%".format((b.get("roi") or 0) * 100) if b.get("roi") else "-"
         brec = "{0}-{1}".format(b.get("w", "?"), b.get("l", "?"))
         pend = "  (+{0} pend)".format(t["pending"]) if t["pending"] else ""
-        print("  {0:18s} {1:10s} {2:>12s} {3:+7.1f}u {4:>8s} | {5:>18s} {6:>8s}{7}"
-              .format(s["id"], s["tier"], rec, t["units"], roi, brec, broi, pend))
+        print("  {0:18s} {1:7s} {2:10s} {3:>12s} {4:+7.1f}u {5:>8s} | {6:>18s} {7:>8s}{8}"
+              .format(s["id"], s.get("status", SHADOW).upper(), s["tier"], rec,
+                      t["units"], roi, brec, broi, pend))
     tot = tally(entries)
     print("  " + "-" * 92)
     trec = "{0}-{1}".format(tot["w"], tot["l"])
     troi = "{0:+.1f}%".format(tot["roi"] * 100) if tot["roi"] is not None else "-"
-    print("  {0:18s} {1:10s} {2:>12s} {3:+7.1f}u {4:>8s}"
-          .format("ALL", "", trec, tot["units"], troi))
+    print("  {0:18s} {1:7s} {2:10s} {3:>12s} {4:+7.1f}u {5:>8s}"
+          .format("ALL", "", "", trec, tot["units"], troi))
+    for st in (CARD, SHADOW):
+        t = tally(entries, status=st)
+        if t["n"] or t["pending"]:
+            print("  {0:18s} {1:7s} {2:10s} {3:>12s} {4:+7.1f}u"
+                  .format("  " + st, "", "",
+                          "{0}-{1}".format(t["w"], t["l"]), t["units"]))
     if tot["book_n"]:
         print(f"  moneyline at REAL book prices where available: "
               f"{tot['book_units']:+.1f}u over {tot['book_n']} graded plays "

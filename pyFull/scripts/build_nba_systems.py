@@ -39,7 +39,7 @@ NOTES = [
     "conditions. A permutation test says that screen returns 13 winners where "
     "noise returns 7.1, and that its best system (+30.9u) is what noise "
     "produces one time in five.",
-    "A walk-forward test is the reason nothing is carded: 22 systems selected "
+    "A walk-forward test is the reason the controls exist: 22 systems selected "
     "on the first half of 2025-26 went -76.2u, -4.2% ROI on the second half, "
     "with 5 of 22 staying positive where chance predicts 11.",
     "CONTROLS ARE IN THE TABLE ON PURPOSE. They are known junk that also "
@@ -51,9 +51,12 @@ NOTES = [
     "grades the entry so the forward record stays comparable with the "
     "backtest; `book_price` is the real h2h number. Their difference measures "
     "how wrong the conversion is -- something the backtest could never do.",
-    "Everything is SHADOW: logged, priced and graded, with no money on it, "
-    "until a system clears its promotion bar on games the registry never saw. "
-    "Promotion is by hand and never automatic.",
+    "CARDED 2026-09-02: the seven candidates are bet. That was decided at "
+    "registry freeze, on the in-sample evidence above, without waiting for the "
+    "25-play out-of-sample gate. The controls stay SHADOW and keep grading, so "
+    "the comparison this registry exists for still runs -- it is now money "
+    "against no money. If the carded candidates and the unbet controls finish "
+    "the season alike, the money was on noise.",
 ]
 
 
@@ -87,7 +90,8 @@ def _play_row(row, s, date):
         "line": row["total"] if s["market"] == "total" else row["spread"],
         "spread": row["spread"], "total": row["total"],
         "price": price, "book_price": row.get("ml_price") if s["market"] == "h2h" else None,
-        "status": LOG.SHADOW, "startTimeUTC": row.get("startTimeUTC"),
+        "status": s.get("status", LOG.SHADOW),
+        "startTimeUTC": row.get("startTimeUTC"),
     }
 
 
@@ -115,7 +119,10 @@ def build(date=None, store=None, pending=None, write_dashboard=True):
     for row in todays:
         for s in R.evaluate(row):
             plays.append(_play_row(row, s, date))
-    plays.sort(key=lambda p: (R.TIERS.index(p["tier"]) if p["tier"] in R.TIERS else 9,
+    # card first, then shadow, first tip inside each: the card is what gets
+    # acted on and must not be interleaved with rows kept only for the record
+    plays.sort(key=lambda p: (0 if p["status"] == LOG.CARD else 1,
+                              R.TIERS.index(p["tier"]) if p["tier"] in R.TIERS else 9,
                               str(p.get("startTimeUTC") or ""), p["system"]))
 
     # 3. log them (idempotent on date|system|away|home)
@@ -154,13 +161,16 @@ def build(date=None, store=None, pending=None, write_dashboard=True):
         "systems": [{
             "id": s["id"], "tier": s["tier"], "market": s["market"],
             "side": s["side"], "label": s["label"], "mechanism": s["mechanism"],
-            "backtest": dict(s["backtest"]), "status": LOG.SHADOW,
+            "backtest": dict(s["backtest"]),
+            "status": s.get("status", LOG.SHADOW),
         } for s in R.SYSTEMS],
         "today": plays,
         "records": records,
         "log": blob["entries"],
         "totals": {
             "live": LOG.tally(blob["entries"]),
+            "card": LOG.tally(blob["entries"], status=LOG.CARD),
+            "shadow": LOG.tally(blob["entries"], status=LOG.SHADOW),
             "candidate": LOG.tally([e for e in blob["entries"]
                                     if e.get("tier") == "candidate"]),
             "control": LOG.tally([e for e in blob["entries"]

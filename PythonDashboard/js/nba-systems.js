@@ -2,17 +2,22 @@
 // Renderer for the "NBA Systems" tab. Reads nba-systems.json
 // (pyFull/scripts/build_nba_systems.py).
 //
-// This tab is a PRE-REGISTERED EXPERIMENT, not a betting product, and the page
-// says so before it shows a single number. The systems were found by screening
-// ~3,600 conditions against ONE season; a permutation test says that screen
-// returns 13 winners where noise returns 7.1, and a walk-forward test says
-// systems picked that way lose 4.2% out of sample. So nothing is carded,
-// everything is shadow, and the controls -- known junk that cleared the same
-// ROI > 10% bar -- sit in the same tables as the candidates on purpose. If the
-// two groups look alike at the end of the season, that is the answer.
+// Seven candidates are CARDED (bet); the controls and the model reference stay
+// SHADOW (graded, never bet). The carding decision was taken at registry freeze
+// on in-sample evidence, so the page leads with what that evidence is worth
+// rather than with the numbers: the systems come from ~3,600 conditions
+// screened against ONE season, a permutation test returns 13 winners where
+// noise returns 7.1, and systems picked this way lost 4.2% out of sample in a
+// walk-forward test.
 //
-// Three panels: tonight's card, the per-system record (live and backtest kept
-// strictly apart), and the filterable season log.
+// That is why the controls -- known junk that cleared the same ROI > 10% bar --
+// sit in the same tables as the carded systems. If the two groups look alike at
+// the end of the season, the money was on noise, and no interpretation is
+// needed to see it.
+//
+// Three panels: today's card (sectioned CARD / SHADOW, because that is what
+// gets acted on), the per-system record with live and backtest kept strictly
+// apart, and the filterable season log.
 
 const NBAS_DIM = '#8b949e';
 const NBAS_GREEN = '#3fb950';
@@ -138,32 +143,38 @@ async function renderNBASystems() {
 
 // ---------------------------------------------------------------------------
 function nbasBanner(d) {
-  const nCand = d.systems.filter(s => s.tier === 'candidate').length;
+  const nCard = d.systems.filter(s => s.status === 'card').length;
   const nCtrl = d.systems.filter(s => s.tier === 'control').length;
   const live = (d.totals && d.totals.live) || {};
+  const card = (d.totals && d.totals.card) || {};
   const graded = (live.n || 0) + (live.p || 0);
   return `
-    <div class="card card-games" style="border-left:3px solid ${NBAS_AMBER}">
-      <div class="card-title">NBA Systems — pre-registered experiment
+    <div class="card card-games" style="border-left:3px solid ${NBAS_GREEN}">
+      <div class="card-title">NBA Systems
         <span style="color:${NBAS_DIM};font-weight:400;font-size:11px">
-          registry frozen ${esc(d.registry_frozen || '?')} · nothing is carded</span>
+          registry frozen ${esc(d.registry_frozen || '?')} ·
+          <b style="color:${NBAS_GREEN}">${nCard} carded</b> ·
+          ${d.systems.length - nCard} shadow</span>
       </div>
       <div style="padding:2px 10px 10px;font-size:12px;color:#c9d1d9;line-height:1.55">
-        Every backtest number here is <b>in-sample</b>, from one season screened
-        over ~3,600 conditions. A permutation test returns 7.1 winners from pure
-        noise where the screen found 13, and its best system (+30.9u) is what
-        noise produces one time in five. A walk-forward test is why nothing is
-        bet: 22 systems selected on the first half of 2025-26 lost 4.2% on the
-        second, with 5 of 22 staying positive where chance predicts 11.
+        <b style="color:${NBAS_GREEN}">${nCard} candidates are bet.</b> That was
+        decided at registry freeze, on in-sample evidence, without waiting for
+        the ${d.promotion_min_plays || 25}-play out-of-sample gate — so the
+        backtest below is a claim these plays are testing, not a result they
+        have earned. The numbers behind that caveat: the systems come from one
+        season screened over ~3,600 conditions; a permutation test returns 7.1
+        winners from pure noise where the screen found 13; its best system
+        (+30.9u) is what noise produces one time in five; and 22 systems picked
+        this way on the first half of 2025-26 lost 4.2% on the second, with 5 of
+        22 staying positive where chance predicts 11.
         <br><br>
-        So ${nCand} candidates run alongside <b style="color:${NBAS_AMBER}">${nCtrl}
-        controls</b> — known junk that cleared the same ROI &gt; 10% bar. If the
-        two groups look alike this season, that is the answer and it needs no
-        interpretation. Promotion off shadow is by hand, after
-        ${d.promotion_min_plays || 25}+ live plays.
+        <b style="color:${NBAS_AMBER}">${nCtrl} controls stay unbet</b> — known
+        junk that cleared the same ROI &gt; 10% bar, still logged and graded. That
+        comparison is the point of this tab: if the carded systems and the unbet
+        controls finish the season looking alike, the money was on noise.
         <br><br>
         <span style="color:${NBAS_DIM}">Live graded so far: <b>${graded}</b> plays
-        ${graded ? '· ' + nbasUnits(live.units) : '· the season has not started'}.
+        ${graded ? '· card ' + nbasUnits(card.units) : '· the season has not started'}.
         Seeded 2025-26 plays appear in the log below but are held out of every
         live record.</span>
       </div>
@@ -175,10 +186,10 @@ function nbasBanner(d) {
 function nbasTodayCard(d) {
   const plays = (d.today || []).filter(p =>
     (nbasFilters.system === 'all' || p.system === nbasFilters.system));
-  const title = `Today's plays — ${esc(d.dateDisplay || d.date || '')}`
+  const title = `Today's card — ${esc(d.dateDisplay || d.date || '')}`
     + `<span style="color:${NBAS_DIM};font-weight:400;font-size:11px">`
     + ` (${d.games_today || 0} game${d.games_today === 1 ? '' : 's'} on the slate`
-    + ` · every play is SHADOW: logged and graded, no money on it)</span>`;
+    + ` · CARD is bet · SHADOW is graded but never bet)</span>`;
 
   if (!plays.length) {
     const why = (d.games_today || 0) === 0
@@ -194,16 +205,23 @@ function nbasTodayCard(d) {
     + '<th style="padding:4px 6px">CT</th><th>Game</th><th>Play</th>'
     + '<th>Price</th><th>System</th></tr></thead><tbody>';
 
-  let tier = null;
+  // Sectioned by what gets ACTED ON, not by tier: the card is the thing you
+  // bet, and interleaving it with rows kept only for the record is how a
+  // shadow play ends up on a bet slip. Tier stays visible as the chip colour.
+  const SECTION = {
+    card: 'CARD — bet these',
+    shadow: 'SHADOW — graded, never bet',
+  };
+  let status = null;
   for (const p of plays) {
-    if (p.tier !== tier) {
-      tier = p.tier;
-      const c = NBAS_TIER_COLOR[tier] || NBAS_DIM;
+    if (p.status !== status) {
+      status = p.status;
+      const sc = status === 'card' ? NBAS_GREEN : NBAS_DIM;
       h += `<tr><td colspan="5" style="padding:7px 6px 3px;font-size:11px;font-weight:600;`
-        + `border-top:1px solid #30363d;color:${c}">${esc(NBAS_TIER_LABEL[tier] || tier)}</td></tr>`;
+        + `border-top:1px solid #30363d;color:${sc}">${esc(SECTION[status] || status)}</td></tr>`;
     }
     const c = NBAS_TIER_COLOR[p.tier] || NBAS_DIM;
-    const dim = p.tier !== 'candidate' ? ';opacity:.68' : '';
+    const dim = p.status !== 'card' ? ';opacity:.68' : '';
     // A converted moneyline price is not a real quote. Marking it on the row is
     // the only place a reader would otherwise assume it was.
     const conv = p.market === 'h2h'
@@ -244,12 +262,16 @@ function nbasRecordTable(d) {
     const conv = b.priced === 'converted'
       ? `<span style="color:${NBAS_AMBER}" title="units from the frozen conversion, not observed prices">*</span>` : '';
     const mech = nbasShowMechanism === s.id
-      ? `<tr><td colspan="8" style="padding:6px 10px 10px;font-size:11px;color:${NBAS_DIM};`
+      ? `<tr><td colspan="9" style="padding:6px 10px 10px;font-size:11px;color:${NBAS_DIM};`
         + `line-height:1.5;background:#0d1117">${esc(s.mechanism)}</td></tr>` : '';
+    const stat = s.status === 'card'
+      ? `<span style="color:${NBAS_GREEN};font-weight:600;font-size:11px">CARD</span>`
+      : `<span style="color:${NBAS_DIM};font-size:11px">shadow</span>`;
     return `<tr style="cursor:pointer${on ? ';background:rgba(124,92,255,0.15)' : ''}">
         <td onclick="nbasSetSystem('${s.id}')">${on ? '▸ ' : ''}
           <span style="display:inline-block;width:8px;height:8px;border-radius:2px;
             background:${c};margin-right:7px"></span>${esc(s.id)}</td>
+        <td>${stat}</td>
         <td style="color:${c};font-size:11px">${esc(s.tier)}</td>
         <td style="color:${NBAS_DIM};font-size:11px">${esc(s.market)}</td>
         <td class="center">${liveRec}</td>
@@ -276,7 +298,7 @@ function nbasRecordTable(d) {
       </div>
       <div style="overflow-x:auto"><table class="data">
         <thead><tr>
-          <th>System</th><th>Tier</th><th>Market</th>
+          <th>System</th><th>Status</th><th>Tier</th><th>Market</th>
           <th class="center">Live W-L</th><th class="center">Live units</th>
           <th class="center">Pending</th>
           <th class="center">2025-26 (in-sample)</th><th class="center">ROI</th>
@@ -353,7 +375,8 @@ function nbasLogTable(d) {
       <td style="padding:3px 6px">${esc(e.game || '')}</td>
       <td style="padding:3px 6px;font-weight:600;white-space:nowrap">${esc(e.play || '')}</td>
       <td style="padding:3px 6px;color:${NBAS_DIM};white-space:nowrap">${esc(nbasPrice(e.price))} ${bp}</td>
-      <td style="padding:3px 6px"><span style="color:${c};font-size:11px">${esc(e.system || '')}</span></td>
+      <td style="padding:3px 6px"><span style="color:${c};font-size:11px">${esc(e.system || '')}</span>
+        ${e.status === 'card' ? `<span style="color:${NBAS_GREEN};font-size:10px;font-weight:600"> CARD</span>` : ''}</td>
       <td class="center">${res}</td>
       <td class="center">${prof}</td></tr>`;
   }).join('');

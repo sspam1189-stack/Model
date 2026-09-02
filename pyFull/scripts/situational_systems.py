@@ -19,11 +19,15 @@ screen that size cannot separate signal from noise (validate_systems.py):
   that cleared the bar on the first half went 915-908, -76.2u, -4.2% ROI on
   the second. Five of 22 stayed positive where chance predicts eleven.
 
-So this file is not a betting product. It is a PRE-REGISTERED EXPERIMENT: the
-registry freezes before a ball is tipped, every system logs and grades forward,
-and next season's out-of-sample record -- not the backtest -- decides whether
-any of it is real. Nothing is CARDED at open; everything is SHADOW until it
-clears a promotion bar on games this registry never saw, by hand.
+The registry still freezes before a ball is tipped and every system grades
+forward, so next season's out-of-sample record remains the thing that decides
+whether any of this is real.
+
+WHAT IS BET (2026-09-02): the seven candidates are CARDED. That decision was
+taken at freeze, on the in-sample evidence above, without waiting for the
+PROMOTION_MIN_PLAYS gate. The controls remain SHADOW and keep grading, so the
+comparison the registry exists for is intact -- if the carded candidates and
+the unbet controls finish the season looking alike, the money was on noise.
 
 THREE TIERS, AND THE CONTROLS ARE THE POINT
 
@@ -62,8 +66,21 @@ them is the measurement this registry could never make before.
 """
 import math
 
+CARD, SHADOW = "card", "shadow"
+
 BAR_ROI = 0.10             # shipping bar, applied to the tier's own pricing
 PROMOTION_MIN_PLAYS = 25   # live plays before a shadow system may be promoted
+
+# Status is per system and lives HERE -- the single source of truth. The ledger
+# reads it when it logs a play; the dashboard reads it out of the feed. Edit
+# this file, never either surface.
+#
+# 2026-09-02, user decision: the seven candidates were promoted to CARD at
+# registry freeze, BEFORE any out-of-sample game existed. The 25-play gate
+# below was written for exactly that moment and was not used. The controls stay
+# SHADOW, so the candidate-versus-control comparison this registry was built
+# around still runs -- it is now a comparison between money and no money rather
+# than between two tracked groups.
 
 # --- frozen spread -> moneyline conversion (2025-26 logistic fit) -----------
 # P(win) = sigmoid(ML_FIT_A + ML_FIT_B * -spread), then half the hold per side.
@@ -115,7 +132,7 @@ def _rematch_dog(r):
 SYSTEMS = [
     # ---------------------------------------------------------------- CANDIDATES
     {
-        "id": "elite_dog_ml", "tier": "candidate", "market": "h2h", "side": "TEAM",
+        "id": "elite_dog_ml", "tier": "candidate", "status": CARD, "market": "h2h", "side": "TEAM",
         "label": ".650+ SU team as a dog -> ML",
         "backtest": {"w": 54, "l": 52, "units": 41.0, "roi": 0.386, "z": 2.66,
                      "priced": "converted"},
@@ -130,7 +147,7 @@ SYSTEMS = [
         "test": _elite_dog,
     },
     {
-        "id": "rematch_dog_ml", "tier": "candidate", "market": "h2h", "side": "TEAM",
+        "id": "rematch_dog_ml", "tier": "candidate", "status": CARD, "market": "h2h", "side": "TEAM",
         "label": "Dog facing the same opponent as last game -> ML",
         "backtest": {"w": 50, "l": 69, "units": 36.3, "roi": 0.305, "z": 1.88,
                      "priced": "converted"},
@@ -144,7 +161,7 @@ SYSTEMS = [
         "test": _rematch_dog,
     },
     {
-        "id": "blowout_dog_ml", "tier": "candidate", "market": "h2h", "side": "TEAM",
+        "id": "blowout_dog_ml", "tier": "candidate", "status": CARD, "market": "h2h", "side": "TEAM",
         "label": "Dog off a 15+ point win -> ML",
         "backtest": {"w": 80, "l": 100, "units": 38.0, "roi": 0.211, "z": 2.63,
                      "priced": "converted"},
@@ -157,7 +174,7 @@ SYSTEMS = [
         "test": _blowout_dog,
     },
     {
-        "id": "elite_dog_ats", "tier": "candidate", "market": "spread", "side": "TEAM",
+        "id": "elite_dog_ats", "tier": "candidate", "status": CARD, "market": "spread", "side": "TEAM",
         "label": ".650+ SU team as a dog -> ATS",
         "backtest": {"w": 63, "l": 43, "units": 14.3, "roi": 0.135, "z": 2.66,
                      "h1": 8.2, "h2": 6.1, "priced": "real -110"},
@@ -168,7 +185,7 @@ SYSTEMS = [
         "test": _elite_dog,
     },
     {
-        "id": "pickem_under", "tier": "candidate", "market": "total", "side": "UNDER",
+        "id": "pickem_under", "tier": "candidate", "status": CARD, "market": "total", "side": "UNDER",
         "label": "Pick'em (|spread| <= 2) -> UNDER",
         "backtest": {"w": 87, "l": 62, "units": 17.1, "roi": 0.115, "p": 0.049,
                      "h1": 11.0, "h2": 6.1, "priced": "real -110"},
@@ -182,7 +199,7 @@ SYSTEMS = [
         "test": lambda r: r["is_home"] and abs(r["spread"]) <= 2,
     },
     {
-        "id": "blowout_dog_ats", "tier": "candidate", "market": "spread", "side": "TEAM",
+        "id": "blowout_dog_ats", "tier": "candidate", "status": CARD, "market": "spread", "side": "TEAM",
         "label": "Dog off a 15+ point win -> ATS",
         "backtest": {"w": 105, "l": 75, "units": 20.5, "roi": 0.114, "z": 2.63,
                      "h1": 11.9, "h2": 8.5, "priced": "real -110"},
@@ -193,7 +210,7 @@ SYSTEMS = [
         "test": _blowout_dog,
     },
     {
-        "id": "home_dog_5_over", "tier": "candidate", "market": "total", "side": "OVER",
+        "id": "home_dog_5_over", "tier": "candidate", "status": CARD, "market": "total", "side": "OVER",
         "label": "Home dog of +5 or more -> OVER",
         "backtest": {"w": 166, "l": 120, "units": 30.9, "roi": 0.108, "p": 0.008,
                      "h1": 13.9, "h2": 17.0, "priced": "real -110"},
@@ -212,7 +229,7 @@ SYSTEMS = [
 
     # ------------------------------------------------------------------ CONTROLS
     {
-        "id": "dec_dog_ml", "tier": "control", "market": "h2h", "side": "TEAM",
+        "id": "dec_dog_ml", "tier": "control", "status": SHADOW, "market": "h2h", "side": "TEAM",
         "label": "CONTROL: December dog -> ML",
         "backtest": {"w": 74, "l": 124, "units": 40.2, "roi": 0.203, "z": 1.58,
                      "priced": "converted"},
@@ -222,7 +239,7 @@ SYSTEMS = [
         "test": lambda r: r["month"] == 12 and r["dog"],
     },
     {
-        "id": "bigdog_ml", "tier": "control", "market": "h2h", "side": "TEAM",
+        "id": "bigdog_ml", "tier": "control", "status": SHADOW, "market": "h2h", "side": "TEAM",
         "label": "CONTROL: dog of +9.5 to +12 -> ML",
         "backtest": {"w": 47, "l": 134, "units": 23.7, "roi": 0.131, "z": 0.89,
                      "priced": "converted"},
@@ -236,7 +253,7 @@ SYSTEMS = [
         "test": lambda r: 9.5 <= r["spread"] <= 12,
     },
     {
-        "id": "sunday_home_ats", "tier": "control", "market": "spread", "side": "TEAM",
+        "id": "sunday_home_ats", "tier": "control", "status": SHADOW, "market": "spread", "side": "TEAM",
         "label": "CONTROL: Sunday home team -> ATS",
         # one push, counted in the ROI denominator as a graded 0u play
         "backtest": {"w": 125, "l": 86, "push": 1, "units": 27.6, "roi": 0.130,
@@ -247,7 +264,7 @@ SYSTEMS = [
         "test": lambda r: r["is_home"] and r["dow"] == 6,
     },
     {
-        "id": "jan_under", "tier": "control", "market": "total", "side": "UNDER",
+        "id": "jan_under", "tier": "control", "status": SHADOW, "market": "total", "side": "UNDER",
         "label": "CONTROL: January regular season -> UNDER",
         "backtest": {"w": 138, "l": 95, "units": 30.5, "roi": 0.131, "p": 0.006,
                      "h1": 30.5, "h2": 0.0, "priced": "real -110"},
@@ -259,7 +276,7 @@ SYSTEMS = [
         "test": lambda r: r["is_home"] and r["month"] == 1 and not r["playoffs"],
     },
     {
-        "id": "cover10_ml", "tier": "control", "market": "h2h", "side": "TEAM",
+        "id": "cover10_ml", "tier": "control", "status": SHADOW, "market": "h2h", "side": "TEAM",
         "label": "CONTROL: after an ATS cover by 10+ -> ML",
         "backtest": {"w": 348, "l": 252, "units": 67.0, "roi": 0.112, "z": 3.94,
                      "h1": 69.7, "h2": -2.7, "priced": "converted"},
@@ -274,7 +291,7 @@ SYSTEMS = [
 
     # ----------------------------------------------------------------- REFERENCE
     {
-        "id": "model_over_60", "tier": "reference", "market": "total", "side": "OVER",
+        "id": "model_over_60", "tier": "reference", "status": SHADOW, "market": "total", "side": "OVER",
         "label": "REF: model pOver >= .60 -> OVER",
         "backtest": {"w": 67, "l": 46, "units": 14.9, "roi": 0.132,
                      "h1": 4.5, "h2": 10.4, "priced": "real -110"},
