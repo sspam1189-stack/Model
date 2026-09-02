@@ -50,7 +50,7 @@ from calibration import build_calibration_table
 import defaults
 
 # Source modules
-from sources.nflfastr import fetch_pbp, current_season
+from sources.nflfastr import fetch_pbp, current_season, NoPBPDataError
 from sources.nfl_stats import compute_team_stats, compute_team_stats_through_week, compute_player_stats
 from sources.odds_theoddsapi import fetch_nfl_odds, fetch_historical_odds
 from sources.espn_scoreboard import (
@@ -348,16 +348,35 @@ def stage_fetch(season, week, store):
 
     # 1. Pull play-by-play
     print("[fetch 1/4] Pulling play-by-play via nflfastR...")
+    pbp_season = season
+    through_week = week - 1   # strictly prior weeks — never include this one
     try:
         pbp = fetch_pbp(season)
         print(f"  Got {len(pbp):,} plays for {season}")
+    except NoPBPDataError as e:
+        # nflverse publishes nothing for a season until Week 1 has been played,
+        # so every pre-season / Week 1 run 404s here.  Week 1 has no
+        # current-season form anyway: use the full prior season (decay-weighted
+        # toward its end) as the prior.  That is what the Kalman initialises
+        # from after the rollover, and it gives backup-QB detection real
+        # starter data.  Only Week 1 qualifies — a missing season in Week 2+
+        # is an outage, and silently projecting off last year would be wrong.
+        if week != 1:
+            print(f"  ERROR: PBP fetch failed: {e}")
+            raise
+        pbp_season = season - 1
+        through_week = NFL_WEEKS_MAX
+        print(f"  {e}")
+        print(f"  Week 1: no {season} play-by-play yet — using full {pbp_season} "
+              f"season as the prior")
+        pbp = fetch_pbp(pbp_season)
+        print(f"  Got {len(pbp):,} plays for {pbp_season}")
     except Exception as e:
         print(f"  ERROR: PBP fetch failed: {e}")
         raise
 
     # 2. Compute team stats with decay (through previous week)
     print("[fetch 2/4] Computing team stats with exponential decay...")
-    through_week = week - 1   # strictly prior weeks — never include this one
     team_stats = compute_team_stats_through_week(pbp, through_week, decay=0.85)
     if not team_stats:
         print(f"  WARNING: No stats through week {through_week}")
@@ -426,6 +445,7 @@ def stage_fetch(season, week, store):
         "ngs_data": ngs_data,
         "power_ratings": power_ratings,
         "pbp_loaded": True,
+        "pbp_season": pbp_season,   # == season-1 on a Week 1 prior-season fallback
     }
 
     print(f"\nFetch complete: {len(team_stats)} teams, {len(odds)} games, {len(player_stats)} players")
@@ -555,7 +575,10 @@ def stage_grade(season, week, store):
 
     # 4. Save Kalman state
     print(f"[grade 4/4] Saving Kalman state...")
-    apply_daily_drift(kalman_state, f"{season}_W{week}")
+    # Drift keys are YYYYMMDD dates (core.kalman_state parses them; the
+    # backfill and initialize_kalman use the same form). Passing a week
+    # label like "2026_W1" crashes the parser.
+    apply_daily_drift(kalman_state, datetime.now().strftime("%Y%m%d"))
     prune_processed_games(kalman_state, 60)
     save_kalman_state(kalman_state)
     save_store(store)
@@ -614,7 +637,10 @@ def stage_project(season, week, store):
             return
 
     # Apply daily drift
-    apply_daily_drift(kalman_state, f"{season}_W{week}")
+    # Drift keys are YYYYMMDD dates (core.kalman_state parses them; the
+    # backfill and initialize_kalman use the same form). Passing a week
+    # label like "2026_W1" crashes the parser.
+    apply_daily_drift(kalman_state, datetime.now().strftime("%Y%m%d"))
 
     # Load weights and thresholds
     # Copy: base_w is mutated in place below when merging weights.json. Without
