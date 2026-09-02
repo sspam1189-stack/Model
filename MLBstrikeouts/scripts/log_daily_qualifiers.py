@@ -347,6 +347,10 @@ def main():
     for q in qs:
         rule = q["rule"]
         status = STATUS.get(rule, "shadow")
+        # A retired rule logs nothing further. Without this it would fall
+        # through the `shadow` check below and be written as a CARD row.
+        if status == "retired":
+            continue
         entry = {
             "date": date,
             "play": q["play"],

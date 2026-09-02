@@ -48,6 +48,25 @@ OUTPUT_PATHS = [
 
 DEFECTS = ("layoff", "stale-window", "opener", "swingman")
 
+# thin-sample is deliberately NOT here, though slate_wrc_form emits it as a
+# flag (season GS < THIN_SAMPLE_GS). It marks "this arm has fewer than five
+# starts on the year", which in April and May is most of the league: it fires
+# on 923 of 2,010 gradeable games, 46% of the season. That is a season-stage
+# marker, not a defect in the data the way a swingman's missing relief work is.
+#
+# Measured full-season 2026-09-02 rather than assumed. Alone it goes 321-341
+# -7.7% to the under against a -3.5% blind baseline, and -1.7% to the over
+# (p=0.073) against -6.0%. Adding it here would newly flag 662 games on top of
+# the current 510 and bet them at -7.7%, so it would more than double the card
+# to lose money faster.
+#
+# One real finding, recorded so it is not rediscovered as new: inside the
+# swingman rule thin-sample sorts the winners -- swingman+thin-sample is
+# 99-68 +13.3% (n=167) against 67-56 +3.3% (n=123) for swingman without it.
+# The reading is that a reliever-turned-starter early in his year is where the
+# market has least to price on. NOT acted on: the halves run -9.1/+27.5, and
+# it is a split taken after the fact on 167 games.
+
 # The card rule as of 2026-09-02: a swingman flag anywhere on the game.
 # Everything else is measurement.
 CARD_REQUIRES = "swingman"

@@ -79,6 +79,11 @@ async function renderMLBSlateScout() {
   const isCard = (rule, fallback) => (ruleStatus && ruleStatus.rules[rule])
     ? ruleStatus.rules[rule].status === 'card'
     : fallback;
+  // Retired is not shadow. A shadow rule still shows on the card so its
+  // tracked plays can be read; a retired one is off and shows nothing, which
+  // is why this needs its own check rather than falling out of !isCard.
+  const isRetired = (rule) => !!(ruleStatus && ruleStatus.rules[rule]
+    && ruleStatus.rules[rule].status === 'retired');
 
   const msumTable = (await Promise.all([
     grabTableAny('data/msum-ml-table.json'),
@@ -121,6 +126,23 @@ async function renderMLBSlateScout() {
     grabFeed('data/plays-feed.json'),
     grabFeed('https://raw.githubusercontent.com/sspam1189-stack/Model/main/'
       + 'MLBstrikeouts/data/plays-feed.json'),
+  ])).filter(Boolean)
+    .sort((a, b) => String(b.generated || '').localeCompare(String(a.generated || '')))[0] || null;
+
+  // Season history for the scout rules that had no table of their own
+  // (scripts/build_scout_rules_table.py): Form under, Aligned ML, Mismatch ML.
+  const grabScoutRules = async (url) => {
+    try {
+      const r = await fetch(url + '?t=' + Date.now(), { cache: 'no-store' });
+      if (!r.ok) return null;
+      const j = await r.json();
+      return (j && Array.isArray(j.rules) && j.rules.length) ? j : null;
+    } catch (e) { return null; }
+  };
+  const scoutRules = (await Promise.all([
+    grabScoutRules('data/scout-rules-table.json'),
+    grabScoutRules('https://raw.githubusercontent.com/sspam1189-stack/Model/main/'
+      + 'MLBstrikeouts/data/scout-rules-table.json'),
   ])).filter(Boolean)
     .sort((a, b) => String(b.generated || '').localeCompare(String(a.generated || '')))[0] || null;
 
@@ -243,7 +265,8 @@ async function renderMLBSlateScout() {
   // statistical case, only a structural one.
   // Fallbacks only -- rule-status.json wins when it loads.
   const FORM_UNDER_LIVE = isCard('form-under', true);
-  const ALIGNED_ML_LIVE = isCard('aligned-ml', true);
+  const ALIGNED_ML_LIVE = isCard('aligned-ml', false);
+  const ALIGNED_ML_OFF = isRetired('aligned-ml');
   const ctTime = (iso) => {
     try {
       return new Date(iso).toLocaleTimeString('en-US',
@@ -310,8 +333,9 @@ async function renderMLBSlateScout() {
         why: 'm_sum +' + msum.toFixed(1) + ' · over side measured -0.6% ROI, not bet' });
     }
     // scout-ml-both-halves-aligned at its own 75-PA floor (everything else
-    // stays at 150). Emitted by the builder; shadow until 25 graded plays.
-    if (s.aligned_ml) {
+    // stays at 150). RETIRED 2026-09-02 after the full-season replay put it at
+    // 6-7 -12.8%; the builder still emits it, so this is where it stops.
+    if (s.aligned_ml && !ALIGNED_ML_OFF) {
       const am = s.aligned_ml;
       underPlays.push({ s, kind: ALIGNED_ML_LIVE ? 'card' : 'shadow', side: 'ML',
         ml: am,
@@ -398,7 +422,7 @@ async function renderMLBSlateScout() {
         + ' · backfilled only — replayed after the fact, never wagered');
     let h = '<div style="padding:5px 8px;font-size:11px;color:' + DIM + '">'
       + esc(dateStr) + ' — ' + headline + '</div>'
-      + '<div style="overflow-x:auto"><table style="width:100%;'
+      + '<div class="scout-scroll"><table style="width:100%;'
       + 'border-collapse:collapse;font-size:12px">'
       + '<thead><tr style="text-align:left;color:' + DIM
       + ';border-bottom:1px solid #30363d">'
@@ -465,17 +489,23 @@ async function renderMLBSlateScout() {
       + 'padding:1px 4px;font-weight:400">' + opts.join('') + '</select>';
     const sel = wrap.querySelector('select');
     sel.addEventListener('change', () => {
+      const today = sel.value === '__today';
       for (const p of datePanels) {
-        p.body.innerHTML = sel.value === '__today'
+        p.body.innerHTML = today
           ? p.todayHtml : pastPlaysHtml(sel.value, p.group, p.emptyMsg);
+        // A panel showing an earlier day must not still be headed "today's
+        // plays" -- on a phone the title is the only thing above the fold.
+        const when = p.cardEl.querySelector('[data-plays-when]');
+        if (when) when.textContent = today ? "today's plays" : sel.value;
       }
     });
   };
 
   const playsCard = document.createElement('div');
   playsCard.className = 'card card-games';
-  let phtml = '<div class="card-title" style="padding:6px 8px">Flagged &amp; form O/U — today\'s plays '
-    + '<span style="color:' + DIM + ';font-weight:400;font-size:11px">'
+  let phtml = '<div class="card-title" style="padding:6px 8px">Flagged &amp; form O/U — '
+    + '<span data-plays-when>today\'s plays</span> '
+    + '<span class="scout-note" style="color:' + DIM + ';font-weight:400;font-size:11px">'
     + '(CARD is bet · SHADOW is tracked, not bet · NO PLAY is a measured dead '
     + 'side. Side comes from the combo\'s verdict — most play the under, '
     + 'swingman+stale-window plays the over.)</span>'
@@ -487,9 +517,10 @@ async function renderMLBSlateScout() {
     phtml += '<div style="padding:8px 10px;font-size:12px;color:' + DIM
       + '">No qualifying plays on this slate.</div>';
   } else {
-    phtml += '<div style="overflow-x:auto"><table style="width:100%;border-collapse:collapse;font-size:12px">'
+    phtml += '<div class="scout-scroll"><table style="width:100%;border-collapse:collapse;font-size:12px">'
       + '<thead><tr style="text-align:left;color:' + DIM + ';border-bottom:1px solid #30363d">'
-      + '<th style="padding:4px 6px">CT</th><th>Game</th><th>Play</th><th>Rule</th><th>Why</th>'
+      + '<th style="padding:4px 6px">CT</th><th>Game</th><th>Play</th><th>Rule</th>'
+      + '<th data-col="why">Why</th>'
       + '</tr></thead><tbody>';
     const RANK = { card: 0, shadow: 1, dead: 2 };
     const SECTION = {
@@ -529,7 +560,8 @@ async function renderMLBSlateScout() {
         + '<td style="padding:3px 6px;font-weight:600;white-space:nowrap">' + playCell + '</td>'
         + '<td><span style="display:inline-block;padding:1px 6px;border-radius:3px;'
         + 'font-weight:600;white-space:nowrap;' + chip + '">' + p.rule + '</span></td>'
-        + '<td style="color:' + DIM + ';font-size:11px">' + p.why + '</td>'
+        + '<td data-col="why" style="color:' + DIM + ';font-size:11px">'
+        + p.why + '</td>'
         + '</tr>';
     }
     phtml += '</tbody></table></div>';
@@ -593,7 +625,7 @@ async function renderMLBSlateScout() {
       m += '<div style="padding:8px 10px;font-size:12px;color:' + DIM
         + '">No game reaches m_sum +' + MSUM_ML_AT + ' on this slate.</div>';
     } else {
-      m += '<div style="overflow-x:auto"><table style="width:100%;border-collapse:collapse;font-size:12px">'
+      m += '<div class="scout-scroll"><table style="width:100%;border-collapse:collapse;font-size:12px">'
         + '<thead><tr style="text-align:left;color:' + DIM + ';border-bottom:1px solid #30363d">'
         + '<th style="padding:4px 6px">CT</th><th>Game</th><th>Play</th>'
         + '<th>m_sum</th><th>Better arm</th></tr></thead><tbody>';
@@ -657,8 +689,8 @@ async function renderMLBSlateScout() {
     const sc = document.createElement('div');
     sc.className = 'card card-games';
     let t = '<div class="card-title" style="padding:6px 8px">'
-      + 'Non-scout systems — today\'s plays '
-      + '<span style="color:' + DIM + ';font-weight:400;font-size:11px">'
+      + 'Non-scout systems — <span data-plays-when>today\'s plays</span> '
+      + '<span class="scout-note" style="color:' + DIM + ';font-weight:400;font-size:11px">'
       + '(CARD — all of these are bet. Derived from the all-ML game file '
       + 'alone: prices, totals, probables, scores. No mismatch-model input, '
       + 'so an agreement with a scout rule is a second opinion.)</span>'
@@ -669,10 +701,11 @@ async function renderMLBSlateScout() {
       t += '<div style="padding:8px 10px;font-size:12px;color:' + DIM
         + '">No system qualifies on this slate.</div>';
     } else {
-      t += '<div style="overflow-x:auto"><table style="width:100%;border-collapse:collapse;font-size:12px">'
+      t += '<div class="scout-scroll"><table style="width:100%;border-collapse:collapse;font-size:12px">'
         + '<thead><tr style="text-align:left;color:' + DIM + ';border-bottom:1px solid #30363d">'
         + '<th style="padding:4px 6px">CT</th><th>Game</th><th>Play</th>'
-        + '<th>System</th><th>Season</th><th>Why</th></tr></thead><tbody>'
+        + '<th>System</th><th data-col="season">Season</th>'
+        + '<th data-col="why">Why</th></tr></thead><tbody>'
         + '<tr><td colspan="6" style="padding:5px 6px 2px;font-size:11px;'
         + 'font-weight:600;border-top:1px solid #30363d;color:#3fb950">'
         + 'CARD — bet these</td></tr>';
@@ -694,8 +727,10 @@ async function renderMLBSlateScout() {
           + (sy.ladder_fails ? ' <span title="carded on request; the winning '
             + 'bucket has losing neighbours" style="color:#d29922">△</span>' : '')
           + '</td>'
-          + '<td style="color:' + DIM + ';white-space:nowrap">' + recOf(p.rule) + '</td>'
-          + '<td style="color:' + DIM + ';font-size:11px">' + esc(p.why) + '</td>'
+          + '<td data-col="season" style="color:' + DIM
+          + ';white-space:nowrap">' + recOf(p.rule) + '</td>'
+          + '<td data-col="why" style="color:' + DIM + ';font-size:11px">'
+          + esc(p.why) + '</td>'
           + '</tr>';
       }
       t += '</tbody></table></div>';
@@ -707,11 +742,13 @@ async function renderMLBSlateScout() {
     // The builder stores each system's own blind benchmark, so this does not
     // have to guess one from the rule name.
     const baseFor = (sy) => (sy.baseline != null ? sy.baseline : null);
-    t += '<div style="overflow-x:auto;border-top:1px solid #30363d">'
+    t += '<div class="scout-scroll" style="border-top:1px solid #30363d">'
       + '<table style="width:100%;border-collapse:collapse;font-size:12px">'
       + '<thead><tr style="text-align:left;color:' + DIM + '">'
-      + '<th style="padding:4px 6px">System</th><th>Rule</th><th>Record</th>'
-      + '<th>ROI</th><th>vs blind</th><th>Halves</th><th>Plays/day</th>'
+      + '<th style="padding:4px 6px">System</th>'
+      + '<th data-col="rule-desc">Rule</th><th>Record</th>'
+      + '<th>ROI</th><th>vs blind</th><th>Halves</th>'
+      + '<th data-col="perday">Plays/day</th>'
       + '</tr></thead><tbody>';
     for (const sy of sysTable.systems) {
       const r = sy.record || {};
@@ -727,7 +764,8 @@ async function renderMLBSlateScout() {
         + (sy.ladder_fails ? ' <span title="carded on request; the winning '
           + 'bucket has losing neighbours" style="color:#d29922">△</span>' : '')
         + '</td>'
-        + '<td style="color:' + DIM + ';font-size:11px">' + esc(sy.rule) + '</td>'
+        + '<td data-col="rule-desc" style="color:' + DIM
+        + ';font-size:11px">' + esc(sy.rule) + '</td>'
         + '<td style="color:' + DIM + ';white-space:nowrap">' + r.w + '-' + r.l + '</td>'
         + '<td style="color:' + col + ';font-weight:600;white-space:nowrap">'
         + (r.roi > 0 ? '+' : '') + (r.roi == null ? '—' : r.roi.toFixed(1)) + '%</td>'
@@ -735,11 +773,13 @@ async function renderMLBSlateScout() {
         + (edge == null ? '—' : (edge > 0 ? '+' : '') + edge.toFixed(1)) + '</td>'
         + '<td style="color:' + (bad ? '#d29922' : DIM) + ';white-space:nowrap">'
         + hs + '</td>'
-        + '<td style="color:' + DIM + '">' + (sy.per_day == null ? '—' : sy.per_day) + '</td>'
+        + '<td data-col="perday" style="color:' + DIM + '">'
+        + (sy.per_day == null ? '—' : sy.per_day) + '</td>'
         + '</tr>';
     }
     t += '</tbody></table></div>'
-      + '<div style="padding:6px 8px;font-size:11px;color:' + DIM + ';line-height:1.5">'
+      + '<div class="scout-foot" style="padding:6px 8px;font-size:11px;color:'
+      + DIM + ';line-height:1.5">'
       + 'Replayed as-of each game date over ' + (sysTable.games || 0)
       + ' settled games — a game\'s own result is never in the features that '
       + 'select it. Blind baselines over the same games: backing every side '
@@ -757,6 +797,69 @@ async function renderMLBSlateScout() {
     playsAnchor = sc;
     registerPlaysPanel(sc, 'non-scout', sysTodayHtml,
       'No non-scout system logged a play that day.');
+  }
+
+  // ---- Scout rule history --------------------------------------------------
+  // Form under, Aligned ML and Mismatch ML had no season table anywhere: their
+  // records lived only as prose in CLAUDE.md, which is the "number somebody
+  // typed once" problem the other grids exist to prevent. Replayed full-season
+  // by every daily run.
+  if (scoutRules) {
+    const sr = document.createElement('div');
+    sr.className = 'card card-games';
+    let t = '<div class="card-title" style="padding:6px 8px">'
+      + 'Scout rule history — full season '
+      + '<span class="scout-note" style="color:' + DIM + ';font-weight:400;font-size:11px">'
+      + '(the three scout rules with no grid of their own. Replayed as-of each '
+      + 'game date over ' + (scoutRules.games || 0) + ' games — a game\'s own '
+      + 'result is never in the features that select it.)</span></div>'
+      + '<div class="scout-scroll"><table style="width:100%;'
+      + 'border-collapse:collapse;font-size:12px">'
+      + '<thead><tr style="text-align:left;color:' + DIM
+      + ';border-bottom:1px solid #30363d">'
+      + '<th style="padding:4px 6px">Rule</th>'
+      + '<th data-col="rule-desc">What it does</th><th>Status</th>'
+      + '<th>Record</th><th>ROI</th><th>vs blind</th><th>Halves</th>'
+      + '<th data-col="perday">Plays/day</th></tr></thead><tbody>';
+    for (const r of scoutRules.rules) {
+      const rec = r.record || {};
+      const edge = (r.baseline == null || rec.roi == null)
+        ? null : rec.roi - r.baseline;
+      const col = rec.roi > 0 ? '#3fb950' : rec.roi < 0 ? '#f85149' : DIM;
+      const hs = (r.halves || []).map(
+        (x) => (x == null ? '—' : (x > 0 ? '+' : '') + x.toFixed(0))).join(' / ');
+      const bad = (r.halves || []).some((x) => x != null && x <= 0);
+      const live = r.status === 'card';
+      const off = r.status === 'retired';
+      t += '<tr style="border-top:1px solid #161b22">'
+        + '<td style="padding:3px 6px;font-weight:600;white-space:nowrap">'
+        + esc(r.name) + '</td>'
+        + '<td data-col="rule-desc" style="color:' + DIM + ';font-size:11px">'
+        + esc(r.rule) + '</td>'
+        + '<td><span style="display:inline-block;padding:1px 6px;'
+        + 'border-radius:3px;font-weight:600;white-space:nowrap;'
+        + (live ? 'background:rgba(63,185,80,.18);color:#3fb950'
+          : off ? 'background:rgba(248,81,73,.12);color:#f85149'
+            : 'background:rgba(139,148,158,.14);color:' + DIM) + '">'
+        + (live ? 'CARD' : off ? 'RETIRED' : 'SHADOW') + '</span></td>'
+        + '<td style="color:' + DIM + ';white-space:nowrap">'
+        + rec.w + '-' + rec.l + ' <span style="font-size:11px">(n=' + rec.n
+        + ')</span></td>'
+        + '<td style="color:' + col + ';font-weight:600;white-space:nowrap">'
+        + (rec.roi > 0 ? '+' : '') + (rec.roi == null ? '—' : rec.roi.toFixed(1))
+        + '%</td>'
+        + '<td style="color:' + DIM + ';white-space:nowrap">'
+        + (edge == null ? '—' : (edge > 0 ? '+' : '') + edge.toFixed(1)) + '</td>'
+        + '<td style="color:' + (bad ? '#d29922' : DIM) + ';white-space:nowrap">'
+        + hs + '</td>'
+        + '<td data-col="perday" style="color:' + DIM + '">'
+        + (r.per_day == null ? '—' : r.per_day) + '</td></tr>';
+    }
+    t += '</tbody></table></div>'
+      + '<div class="scout-foot" style="padding:6px 8px;font-size:11px;color:'
+      + DIM + ';line-height:1.5">' + esc(scoutRules.note || '') + '</div>';
+    sr.innerHTML = t;
+    el.appendChild(sr);
   }
 
   // ---- Flag-combo performance grid -----------------------------------------
@@ -784,7 +887,7 @@ async function renderMLBSlateScout() {
       + (comboTable.games?.flagged || 0) + ' flagged of ' + (comboTable.games?.gradeable || 0)
       + ' · baseline U ' + (b.under ? b.under.roi.toFixed(1) : '?') + '% / O '
       + (b.over ? b.over.roi.toFixed(1) : '?') + '% · rebuilt each run)</span></div>'
-      + '<div style="overflow-x:auto"><table style="width:100%;border-collapse:collapse;font-size:12px">'
+      + '<div class="scout-scroll"><table style="width:100%;border-collapse:collapse;font-size:12px">'
       + '<thead><tr style="text-align:left;color:' + DIM + ';border-bottom:1px solid #30363d">'
       + '<th style="padding:4px 6px">Combo</th><th>n</th><th>UNDER</th><th>OVER</th>'
       + '</tr></thead><tbody>';
@@ -852,7 +955,7 @@ async function renderMLBSlateScout() {
     + ' vs ' + esc(data.wrc_role)
     + ' through ' + esc(data.wrc_through) + staleChip + '</div>';
 
-  html += '<div style="overflow-x:auto"><table style="width:100%;border-collapse:collapse;font-size:12px">'
+  html += '<div class="scout-scroll"><table style="width:100%;border-collapse:collapse;font-size:12px">'
     + '<thead><tr style="text-align:left;color:' + DIM + ';border-bottom:1px solid #30363d">'
     + '<th style="padding:4px 6px">Team</th><th>Side</th>'
     + '<th>Starter</th>'
@@ -964,7 +1067,7 @@ async function renderMLBSlateScout() {
   let rhtml = '<div class="card-title" style="padding:6px 8px">Mismatch — widest first '
     + '<span style="color:' + DIM + ';font-weight:400;font-size:11px">'
     + '(positive = offense outclasses the arm)</span></div>'
-    + '<div style="overflow-x:auto"><table style="width:100%;border-collapse:collapse;font-size:12px">'
+    + '<div class="scout-scroll"><table style="width:100%;border-collapse:collapse;font-size:12px">'
     + '<thead><tr style="text-align:left;color:' + DIM + ';border-bottom:1px solid #30363d">'
     + '<th style="padding:4px 6px">Mismatch</th><th>Starter</th><th>Team</th>'
     + '<th>Faces</th><th>Opp wRC+</th>'

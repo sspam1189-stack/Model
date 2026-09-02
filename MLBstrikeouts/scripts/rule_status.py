@@ -13,8 +13,11 @@ So the answer lives here, once. The logger imports RULE_STATUS directly; the
 dashboard reads the JSON this writes. Flipping a rule between card and shadow
 is a one-line edit in this file and both surfaces follow on the next run.
 
-  card    the rule produces real plays; entries count in the card record
-  shadow  tracked, never bet; held out of the record until it earns its way in
+  card     the rule produces real plays; entries count in the card record
+  shadow   tracked, never bet; held out of the record until it earns its way in
+  retired  off. The daily logger skips it entirely, so it writes no new rows;
+           whatever it already settled stays in the ledger and in its season
+           table, because a rule that lost money should keep saying so.
 
 Usage:  cd MLBstrikeouts && python -m scripts.rule_status
 """
@@ -47,10 +50,14 @@ RULES = {
         "+26.0% (n=34); backing the favorite in the same games is -1.9% and "
         "the rule is flat outside the pool. Carded 2026-09-01."),
     "aligned-ml": (
-        "card", "Aligned ML",
-        "Hot-aligned offense vs cold-aligned at the 75-PA floor. 3-1 lifetime "
-        "(n=4) on a ladder measured inert for runs -- a structural read, not a "
-        "measured edge. Carded 2026-09-01; comes off at 0-3."),
+        "retired", "Aligned ML",
+        "RETIRED 2026-09-02 (user). Hot-aligned offense vs cold-aligned at the "
+        "75-PA floor. Carded 2026-09-01 on a 3-1 lifetime record (n=4) with no "
+        "statistical case, on a ladder measured inert for runs. The full-season "
+        "replay published the next day (scout-rules-table.json) put it at 6-7 "
+        "-12.8% over 13 plays, negative in both halves (-8/-30) against a -3.3% "
+        "blind baseline -- the opposite of the 3-1 that justified carding it. "
+        "Settled rows stay in the ledger; it logs nothing further."),
     "mismatch-ml": (
         "shadow", "Mismatch ML",
         "tail m <= -45 / fade m >= +55. Carded 8/29 without a shadow period "
@@ -107,9 +114,15 @@ def main():
         os.makedirs(os.path.dirname(path), exist_ok=True)
         with open(path, "w") as fh:
             json.dump(blob, fh, indent=1)
-    carded = [k for k, v in RULES.items() if v[0] == "card"]
-    print(f"rule status: {len(carded)} card ({', '.join(sorted(carded))}), "
-          f"{len(RULES) - len(carded)} shadow -> {len(OUTPUT_PATHS)} paths")
+    by = {}
+    for k, v in RULES.items():
+        by.setdefault(v[0], []).append(k)
+    carded = sorted(by.get("card", []))
+    print(f"rule status: {len(carded)} card ({', '.join(carded)}), "
+          f"{len(by.get('shadow', []))} shadow, "
+          f"{len(by.get('retired', []))} retired "
+          f"({', '.join(sorted(by.get('retired', []))) or 'none'}) "
+          f"-> {len(OUTPUT_PATHS)} paths")
 
 
 if __name__ == "__main__":

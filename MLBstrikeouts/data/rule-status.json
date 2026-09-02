@@ -1,7 +1,7 @@
 {
  "sport": "MLB",
  "type": "rule-status",
- "generated": "2026-09-02T00:37:21Z",
+ "generated": "2026-09-02T02:00:48Z",
  "note": "Single source of truth for card/shadow status. The daily logger imports RULE_STATUS from scripts/rule_status.py; the dashboard reads this file. Edit the script, not either surface.",
  "rules": {
   "flag-plays": {
@@ -23,9 +23,9 @@
    "group": "scout"
   },
   "aligned-ml": {
-   "status": "card",
+   "status": "retired",
    "name": "Aligned ML",
-   "why": "Hot-aligned offense vs cold-aligned at the 75-PA floor. 3-1 lifetime (n=4) on a ladder measured inert for runs -- a structural read, not a measured edge. Carded 2026-09-01; comes off at 0-3.",
+   "why": "RETIRED 2026-09-02 (user). Hot-aligned offense vs cold-aligned at the 75-PA floor. Carded 2026-09-01 on a 3-1 lifetime record (n=4) with no statistical case, on a ladder measured inert for runs. The full-season replay published the next day (scout-rules-table.json) put it at 6-7 -12.8% over 13 plays, negative in both halves (-8/-30) against a -3.3% blind baseline -- the opposite of the 3-1 that justified carding it. Settled rows stay in the ledger; it logs nothing further.",
    "group": "scout"
   },
   "mismatch-ml": {
