@@ -86,7 +86,8 @@ def _with_stale(today, blob):
     with open(LEDGER_PATH, encoding="utf-8") as fh:
         entries = json.load(fh).get("entries") or []
     live = {(p["rule"], p.get("gamePk")) for p in today}
-    finals = {g.get("gamePk") for g in (blob.get("today") or []) if g.get("final")}
+    games = {g.get("gamePk"): g for g in (blob.get("today") or [])}
+    finals = {k for k, g in games.items() if g.get("final")}
     out = list(today)
     for e in entries:
         key = (e.get("rule"), e.get("gamePk"))
@@ -105,9 +106,31 @@ def _with_stale(today, blob):
             "matchup": e.get("game"), "total": e.get("line"),
             "why": (e.get("basis") or "").split(": ", 1)[-1],
             "stale": True,
+            "stale_now": _moved(e, games.get(e.get("gamePk"))),
         })
     out.sort(key=lambda p: (str(p.get("commence") or "~"), p["rule"]))
     return out
+
+
+def _moved(entry, game):
+    """What the market looks like NOW, for a row that stopped qualifying.
+
+    A bare "line moved" tag makes the reader go and check. Saying which
+    number moved and to what answers the question on the row.
+    """
+    if not game:
+        return "no longer on the slate"
+    bits = []
+    fav = None
+    if game.get("away_ml") is not None and game.get("home_ml") is not None:
+        fav = min(game["away_ml"], game["home_ml"])
+        bits.append(f"favourite now {fav:+d}")
+    tot = game.get("total_line")
+    if tot is not None and entry.get("line") is not None and tot != entry["line"]:
+        bits.append(f"total now {tot:g} (was {entry['line']:g})")
+    elif tot is not None:
+        bits.append(f"total still {tot:g}")
+    return ", ".join(bits) or "market moved"
 
 
 def _pick_from(entry):

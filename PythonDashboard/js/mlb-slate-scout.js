@@ -535,9 +535,9 @@ async function renderMLBSlateScout() {
             : 'background:rgba(63,185,80,.18);color:#3fb950') + '">'
           + esc(sy.name || p.rule) + '</span>'
           + (p.stale ? ' <span title="Logged earlier today and still a live '
-            + 'bet. The line has since moved past this rule\'s threshold, so '
-            + 'it would not fire at the current price." '
-            + 'style="color:#d29922;font-size:11px;white-space:nowrap">'
+            + 'bet. The market has since moved past this rule\'s threshold, '
+            + 'so it would not fire at the current price."'
+            + ' style="color:#d29922;font-size:13px;white-space:nowrap">'
             + 'line moved</span>' : '')
           + (sy.ladder_fails ? ' <span title="carded on request; the winning '
             + 'bucket has losing neighbours" style="color:#d29922">△</span>' : '')
@@ -545,7 +545,13 @@ async function renderMLBSlateScout() {
           + '<td data-col="season" style="color:' + DIM
           + ';white-space:nowrap">' + recOf(p.rule) + '</td>'
           + '<td data-col="why" style="color:' + DIM + ';font-size:15px">'
-          + esc(p.why) + '</td>'
+          + esc(p.why)
+          // Say what moved, on the row. A bare tag makes the reader go and
+          // look the price up again.
+          + (p.stale ? ' <span style="color:#d29922">· still on at the logged '
+            + 'price; ' + esc(p.stale_now || 'market moved')
+            + ', would not fire now</span>' : '')
+          + '</td>'
           + '</tr>';
       }
       t += '</tbody></table></div>';
