@@ -14,67 +14,9 @@
 // out of the bullpen. The advisory banner says so on the tab rather than in a
 // doc nobody opens.
 
-// Reader-controlled text size for the whole tab, remembered per browser.
-// Absolute px sizes in the tables cannot answer "too small" on their own --
-// what is comfortable depends on the screen and the browser zoom, neither of
-// which the page can see. `zoom` scales the laid-out result rather than a
-// root font-size, so the hard-coded px in these tables scale with it.
-const SCOUT_ZOOM_KEY = 'scoutTextScale';
-const SCOUT_ZOOM_MIN = 1.0;
-const SCOUT_ZOOM_MAX = 1.8;
-const SCOUT_ZOOM_STEP = 0.1;
-
-function scoutZoomGet() {
-  try {
-    const v = parseFloat(localStorage.getItem(SCOUT_ZOOM_KEY));
-    if (v >= SCOUT_ZOOM_MIN && v <= SCOUT_ZOOM_MAX) return v;
-  } catch (e) { /* private mode, blocked storage */ }
-  // No stored choice: start at 115%, not 100%. Two rounds of raising the px
-  // sizes still read as small on a large display, and a control nobody has
-  // found yet is not a default.
-  return 1.15;
-}
-
-function scoutZoomApply(el, v) {
-  el.style.zoom = v === 1 ? '' : String(v);
-  try { localStorage.setItem(SCOUT_ZOOM_KEY, String(v)); } catch (e) { /* ignore */ }
-}
-
-// Built as a DOM node rather than an HTML string: the panels below are
-// assembled by innerHTML, and a control that lives through a re-render needs
-// its own listeners.
-function scoutZoomControl(el) {
-  const wrap = document.createElement('div');
-  wrap.style.cssText = 'display:flex;gap:8px;align-items:center;justify-content:flex-end;'
-    + 'padding:6px 8px 0;font-size:14px;color:#c9d1d9';
-  const label = document.createElement('span');
-  label.textContent = 'Text size';
-  const out = document.createElement('span');
-  out.style.cssText = 'min-width:34px;text-align:right;font-variant-numeric:tabular-nums';
-  const btn = (txt, delta) => {
-    const b = document.createElement('button');
-    b.textContent = txt;
-    b.setAttribute('aria-label', delta < 0 ? 'Smaller text' : 'Larger text');
-    b.style.cssText = 'background:#21262d;border:1px solid #444c56;color:#e6edf3;'
-      + 'border-radius:5px;width:34px;height:30px;cursor:pointer;font-size:17px;'
-      + 'line-height:1;padding:0';
-    b.addEventListener('click', () => {
-      const next = Math.min(SCOUT_ZOOM_MAX, Math.max(SCOUT_ZOOM_MIN,
-        Math.round((scoutZoomGet() + delta) * 10) / 10));
-      scoutZoomApply(el, next);
-      out.textContent = Math.round(next * 100) + '%';
-    });
-    return b;
-  };
-  out.textContent = Math.round(scoutZoomGet() * 100) + '%';
-  wrap.append(label, btn('\u2212', -SCOUT_ZOOM_STEP), btn('+', SCOUT_ZOOM_STEP), out);
-  return wrap;
-}
-
 async function renderMLBSlateScout() {
   const el = document.getElementById('content');
   el.innerHTML = '<div class="loading"><div class="spinner"></div><br>Loading slate scout...</div>';
-  scoutZoomApply(el, scoutZoomGet());
 
   const local = 'data/mlb-slate-scout.json';
   const remote = 'https://raw.githubusercontent.com/sspam1189-stack/Model/main/MLBstrikeouts/data/mlb-slate-scout.json';
@@ -246,13 +188,10 @@ async function renderMLBSlateScout() {
   banner.className = 'card';
   banner.style.cssText = 'border-left:3px solid #d29922;padding:10px 12px';
   banner.innerHTML =
-    '<div style="font-weight:600;color:#d29922;font-size:14px;margin-bottom:4px">'
+    '<div style="font-weight:600;color:#d29922;font-size:16px;margin-bottom:4px">'
     + 'Scouting view — not a betting model</div>'
-    + '<div style="font-size:13px;color:' + DIM + ';line-height:1.5">'
+    + '<div style="font-size:15px;color:' + DIM + ';line-height:1.5">'
     + (data.notes || []).map(esc).join('<br>') + '</div>';
-  // Above the banner, so it is the first thing reachable when the text is
-  // too small to find anything else.
-  el.appendChild(scoutZoomControl(el));
   el.appendChild(banner);
 
   // ---- Today's plays: the two under systems --------------------------------
@@ -416,19 +355,19 @@ async function renderMLBSlateScout() {
   const playsCard = document.createElement('div');
   playsCard.className = 'card card-games';
   let phtml = '<div class="card-title" style="padding:6px 8px">Flagged &amp; form O/U — today\'s plays '
-    + '<span class="scout-note" style="color:' + DIM + ';font-weight:400;font-size:13px">'
+    + '<span class="scout-note" style="color:' + DIM + ';font-weight:400;font-size:15px">'
     + '(CARD is bet · SHADOW is tracked, not bet · NO PLAY is a measured dead '
     + 'side. Side comes from the combo\'s verdict — most play the under, '
     + 'swingman+stale-window plays the over.)</span>'
     + '</div>';
   if (!underPlays.length) {
-    phtml += '<div style="padding:8px 10px;font-size:14px;color:' + DIM
+    phtml += '<div style="padding:8px 10px;font-size:16px;color:' + DIM
       + '">No qualifying plays on this slate.</div>';
   } else {
     // The two plays panels are what gets read at a glance and acted on, so
     // they sit a step larger than the reference tables further down.
     phtml += '<div class="scout-scroll"><table style="width:100%;'
-      + 'border-collapse:collapse;font-size:17px;line-height:1.5">'
+      + 'border-collapse:collapse;font-size:19px;line-height:1.55">'
       + '<thead><tr style="text-align:left;color:' + DIM + ';border-bottom:1px solid #30363d">'
       + '<th style="padding:4px 6px">CT</th><th>Game</th><th>Play</th><th>Rule</th>'
       + '<th data-col="why">Why</th>'
@@ -448,7 +387,7 @@ async function renderMLBSlateScout() {
     for (const p of underPlays) {
       if (p.kind !== pSection) {
         pSection = p.kind;
-        phtml += '<tr><td colspan="5" style="padding:5px 6px 2px;font-size:13px;'
+        phtml += '<tr><td colspan="5" style="padding:5px 6px 2px;font-size:15px;'
           + 'font-weight:600;border-top:1px solid #30363d;color:'
           + (p.kind === 'card' ? '#3fb950' : DIM) + '">'
           + SECTION[p.kind] + '</td></tr>';
@@ -471,7 +410,7 @@ async function renderMLBSlateScout() {
         + '<td style="padding:3px 6px;font-weight:600;white-space:nowrap">' + playCell + '</td>'
         + '<td><span style="display:inline-block;padding:1px 6px;border-radius:3px;'
         + 'font-weight:600;white-space:nowrap;' + chip + '">' + p.rule + '</span></td>'
-        + '<td data-col="why" style="color:' + DIM + ';font-size:13px">'
+        + '<td data-col="why" style="color:' + DIM + ';font-size:15px">'
         + p.why + '</td>'
         + '</tr>';
     }
@@ -508,18 +447,18 @@ async function renderMLBSlateScout() {
     sc.className = 'card card-games';
     let t = '<div class="card-title" style="padding:6px 8px">'
       + 'Non-scout systems — today\'s plays '
-      + '<span class="scout-note" style="color:' + DIM + ';font-weight:400;font-size:13px">'
+      + '<span class="scout-note" style="color:' + DIM + ';font-weight:400;font-size:15px">'
       + '(Derived from the all-ML game file alone: prices, totals, probables, '
       + 'scores. No mismatch-model input, so an agreement with a scout rule '
       + 'is a second opinion. Card rows are bet; shadow rows are tracked at '
       + 'no stake while their doubts resolve.)</span>'
       + '</div>';
     if (!plays.length) {
-      t += '<div style="padding:8px 10px;font-size:14px;color:' + DIM
+      t += '<div style="padding:8px 10px;font-size:16px;color:' + DIM
         + '">No system qualifies on this slate.</div>';
     } else {
       t += '<div class="scout-scroll"><table style="width:100%;'
-        + 'border-collapse:collapse;font-size:17px;line-height:1.5">'
+        + 'border-collapse:collapse;font-size:19px;line-height:1.55">'
         + '<thead><tr style="text-align:left;color:' + DIM + ';border-bottom:1px solid #30363d">'
         + '<th style="padding:5px 6px">CT</th><th>Game</th><th>Play</th>'
         + '<th>System</th><th data-col="season">Season</th>'
@@ -542,11 +481,11 @@ async function renderMLBSlateScout() {
           // not bet, so they should not push the card off the screen. The
           // count goes in the header so nothing is hidden silently.
           t += tier === 'card'
-            ? '<tr><td colspan="6" style="padding:6px 6px 3px;font-size:14px;'
+            ? '<tr><td colspan="6" style="padding:6px 6px 3px;font-size:16px;'
               + 'font-weight:600;border-top:1px solid #30363d;color:#3fb950">'
               + 'CARD — bet these</td></tr>'
             : '<tr><td colspan="6" id="nsShadowHead" style="padding:6px 6px 3px;'
-              + 'font-size:14px;font-weight:600;border-top:1px solid #30363d;'
+              + 'font-size:16px;font-weight:600;border-top:1px solid #30363d;'
               + 'color:' + DIM + ';cursor:pointer;user-select:none">'
               + '<span id="nsShadowCaret">▸</span> SHADOW — tracked, not bet '
               + '<span style="font-weight:400">(' + nShadow + ')</span></td></tr>';
@@ -580,7 +519,7 @@ async function renderMLBSlateScout() {
           + '</td>'
           + '<td data-col="season" style="color:' + DIM
           + ';white-space:nowrap">' + recOf(p.rule) + '</td>'
-          + '<td data-col="why" style="color:' + DIM + ';font-size:13px">'
+          + '<td data-col="why" style="color:' + DIM + ';font-size:15px">'
           + esc(p.why) + '</td>'
           + '</tr>';
       }
@@ -592,7 +531,7 @@ async function renderMLBSlateScout() {
     // have to guess one from the rule name.
     const baseFor = (sy) => (sy.baseline != null ? sy.baseline : null);
     t += '<div class="scout-scroll" style="border-top:1px solid #30363d">'
-      + '<table style="width:100%;border-collapse:collapse;font-size:13px">'
+      + '<table style="width:100%;border-collapse:collapse;font-size:16px">'
       + '<thead><tr style="text-align:left;color:' + DIM + '">'
       + '<th style="padding:4px 6px">System</th>'
       + '<th data-col="rule-desc">Rule</th><th>Record</th>'
@@ -615,7 +554,7 @@ async function renderMLBSlateScout() {
         + monthStrip(sy.monthly)
         + '</td>'
         + '<td data-col="rule-desc" style="color:' + DIM
-        + ';font-size:13px">' + esc(sy.rule) + '</td>'
+        + ';font-size:15px">' + esc(sy.rule) + '</td>'
         + '<td style="color:' + DIM + ';white-space:nowrap">' + r.w + '-' + r.l + '</td>'
         + '<td style="color:' + col + ';font-weight:600;white-space:nowrap">'
         + (r.roi > 0 ? '+' : '') + (r.roi == null ? '—' : r.roi.toFixed(1)) + '%</td>'
@@ -632,7 +571,7 @@ async function renderMLBSlateScout() {
     // footnote's job is to say what the rule IS. Where a system has no
     // mechanism the text says so rather than inventing one.
     t += '</tbody></table></div>'
-      + '<div class="scout-foot" style="padding:8px 8px 6px;font-size:13px;color:'
+      + '<div class="scout-foot" style="padding:8px 8px 6px;font-size:15px;color:'
       + DIM + ';line-height:1.55">'
       + '<div style="font-weight:600;color:#c9d1d9;padding-bottom:4px">'
       + 'What each system bets</div>'
@@ -691,12 +630,12 @@ async function renderMLBSlateScout() {
     tbl.className = 'card card-games';
     const b = comboTable.baselines || {};
     let t = '<div class="card-title" style="padding:6px 8px">Flag combos — full season '
-      + '<span style="color:' + DIM + ';font-weight:400;font-size:13px">('
+      + '<span style="color:' + DIM + ';font-weight:400;font-size:15px">('
       + esc(comboTable.span?.from || '') + '..' + esc(comboTable.span?.to || '') + ' · '
       + (comboTable.games?.flagged || 0) + ' flagged of ' + (comboTable.games?.gradeable || 0)
       + ' · baseline U ' + (b.under ? b.under.roi.toFixed(1) : '?') + '% / O '
       + (b.over ? b.over.roi.toFixed(1) : '?') + '% · rebuilt each run)</span></div>'
-      + '<div class="scout-scroll"><table style="width:100%;border-collapse:collapse;font-size:13px">'
+      + '<div class="scout-scroll"><table style="width:100%;border-collapse:collapse;font-size:16px">'
       + '<thead><tr style="text-align:left;color:' + DIM + ';border-bottom:1px solid #30363d">'
       + '<th style="padding:4px 6px">Combo</th><th>n</th><th>UNDER</th><th>OVER</th>'
       + '</tr></thead><tbody>';
@@ -717,7 +656,7 @@ async function renderMLBSlateScout() {
       const rustEdge = mine !== 'card' && section !== mine;
       if (mine !== section) {
         section = mine;
-        t += '<tr><td colspan="4" style="padding:5px 6px 2px;font-size:13px;'
+        t += '<tr><td colspan="4" style="padding:5px 6px 2px;font-size:15px;'
           + 'font-weight:600;border-top:1px solid #30363d;color:'
           + (mine === 'card' ? '#3fb950' : DIM) + '">'
           + SECTION_LABEL[mine]
@@ -749,7 +688,7 @@ async function renderMLBSlateScout() {
         + roiCell(c.over, c.verdict === 'over') + '</tr>';
     }
     t += '</tbody></table></div>'
-      + '<div style="padding:6px 8px;font-size:13px;color:' + DIM + ';line-height:1.5">'
+      + '<div style="padding:6px 8px;font-size:15px;color:' + DIM + ';line-height:1.5">'
       + '● = carded, with the bet side shown in bold; ◐ = shadow, tracked '
       + 'but not bet; ○ = no play. '
       + 'Combo rows count each game once under its exact flag set. '
@@ -779,7 +718,7 @@ async function renderMLBSlateScout() {
     + ' vs ' + esc(data.wrc_role)
     + ' through ' + esc(data.wrc_through) + staleChip + '</div>';
 
-  html += '<div class="scout-scroll"><table style="width:100%;border-collapse:collapse;font-size:13px">'
+  html += '<div class="scout-scroll"><table style="width:100%;border-collapse:collapse;font-size:16px">'
     + '<thead><tr style="text-align:left;color:' + DIM + ';border-bottom:1px solid #30363d">'
     + '<th style="padding:4px 6px">Team</th><th>Side</th>'
     + '<th>Starter</th>'
@@ -836,7 +775,7 @@ async function renderMLBSlateScout() {
         const l7Hot = (p7.era != null && p30.era != null)
           ? (p7.era < p30.era ? GREEN : RED) : DIM;
         html += '<tr style="border-top:0"><td colspan="2"></td>'
-          + '<td colspan="7" style="padding:0 6px 4px;color:' + DIM + ';font-size:13px">'
+          + '<td colspan="7" style="padding:0 6px 4px;color:' + DIM + ';font-size:15px">'
           + esc(s.team) + ' pen: L30 ' + num(p30.era) + ' ERA'
           + (p30.rank != null ? ' (#' + p30.rank + ')' : '')
           + ' · ' + num(p30.whip) + ' WHIP · ' + num(p30.hr9) + ' HR9'
@@ -853,7 +792,7 @@ async function renderMLBSlateScout() {
       const relief = f.relief, recentAll = f.recent_all;
       if (relief && relief.g) {
         html += '<tr style="border-top:0"><td colspan="2"></td>'
-          + '<td colspan="7" style="padding:0 6px 4px;color:' + DIM + ';font-size:13px">'
+          + '<td colspan="7" style="padding:0 6px 4px;color:' + DIM + ';font-size:15px">'
           + '+ ' + relief.g + ' relief G in the same window: '
           + num(relief.era) + ' ERA · ' + num(relief.k_pct, 1) + '% K · '
           + num(relief.ip, 1) + ' IP'
@@ -889,9 +828,9 @@ async function renderMLBSlateScout() {
   const ranked = document.createElement('div');
   ranked.className = 'card card-games';
   let rhtml = '<div class="card-title" style="padding:6px 8px">Mismatch — widest first '
-    + '<span style="color:' + DIM + ';font-weight:400;font-size:13px">'
+    + '<span style="color:' + DIM + ';font-weight:400;font-size:15px">'
     + '(positive = offense outclasses the arm)</span></div>'
-    + '<div class="scout-scroll"><table style="width:100%;border-collapse:collapse;font-size:13px">'
+    + '<div class="scout-scroll"><table style="width:100%;border-collapse:collapse;font-size:16px">'
     + '<thead><tr style="text-align:left;color:' + DIM + ';border-bottom:1px solid #30363d">'
     + '<th style="padding:4px 6px">Mismatch</th><th>Starter</th><th>Team</th>'
     + '<th>Faces</th><th>Opp wRC+</th>'
@@ -975,12 +914,12 @@ async function renderMLBSlateScout() {
     // card -- so it filters on the row's own flag.
     const KIND_LABEL = { card: 'Card (bet)', not_bet: 'Not bet' };
     const selCss = 'background:#1b1b1b;color:#ddd;border:1px solid #333;'
-      + 'border-radius:6px;padding:4px 8px;font-size:14px';
+      + 'border-radius:6px;padding:4px 8px;font-size:16px';
     const opts = (list, label) => '<option value="">' + label + '</option>'
       + list.map((v) => '<option value="' + esc(v[0]) + '">' + esc(v[1])
         + '</option>').join('');
     const lbl = (text, id, inner) =>
-      '<label style="font-size:13px;color:#888;display:inline-flex;gap:5px;'
+      '<label style="font-size:15px;color:#888;display:inline-flex;gap:5px;'
       + 'align-items:center">' + text
       + '<select id="' + id + '" style="' + selCss + '">' + inner
       + '</select></label>';
@@ -993,7 +932,7 @@ async function renderMLBSlateScout() {
     log.innerHTML =
       '<div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap;padding:6px 8px">'
       + '<div class="card-title" style="padding:0">Season bet log</div>'
-      + '<span id="scoutLogRec" style="font-size:13px;font-weight:700"></span>'
+      + '<span id="scoutLogRec" style="font-size:15px;font-weight:700"></span>'
       + '</div>'
       // Filters laid out in rows (user): what/where, then which, then result,
       // then when. Each row wraps on its own, so a phone stacks them in the
@@ -1065,13 +1004,13 @@ async function renderMLBSlateScout() {
         + ' ' + unitStr(u)
         + ' <span style="color:' + (roi > 0 ? '#3fb950' : roi < 0 ? '#f85149' : DIM)
         + '">' + (roi > 0 ? '+' : '') + roi.toFixed(1) + '%</span>'
-        + (pend ? ' <span style="color:' + DIM + ';font-weight:400;font-size:14px">· '
+        + (pend ? ' <span style="color:' + DIM + ';font-weight:400;font-size:16px">· '
           + pend + ' pending</span>' : '')
         + (k === 'not_bet' ? ' <span style="color:' + DIM
-          + ';font-weight:400;font-size:13px">· rule fired, no money on it</span>'
+          + ';font-weight:400;font-size:15px">· rule fired, no money on it</span>'
           : '')
         + (k === 'backfilled' ? ' <span style="color:' + DIM
-          + ';font-weight:400;font-size:13px">· replayed after the fact</span>'
+          + ';font-weight:400;font-size:15px">· replayed after the fact</span>'
           : '');
 
       const total = view.length;
@@ -1090,7 +1029,7 @@ async function renderMLBSlateScout() {
           + '<td style="padding:3px 6px;white-space:nowrap">'
           + esc(b.name || b.rule) + '</td>'
           + '<td data-col="kind" style="padding:3px 6px;color:' + DIM
-          + ';font-size:13px">'
+          + ';font-size:15px">'
           // Backfilled IS card, so it gets no marker here -- only a row with
           // no money on it is called out. The Status filter still isolates
           // backfilled rows for anyone who wants them separated.
@@ -1110,7 +1049,7 @@ async function renderMLBSlateScout() {
       const btn = selCss + ';cursor:pointer';
       const btnOff = selCss + ';opacity:.4;cursor:default';
       const pager = total > PAGE
-        ? '<div style="display:flex;gap:8px;align-items:center;font-size:14px;color:'
+        ? '<div style="display:flex;gap:8px;align-items:center;font-size:16px;color:'
           + DIM + '"><button id="slPrev" ' + (page <= 0 ? 'disabled' : '')
           + ' style="' + (page <= 0 ? btnOff : btn) + '">‹ Prev</button>'
           + '<span>page ' + (page + 1) + ' / ' + pages + '</span>'
@@ -1119,11 +1058,11 @@ async function renderMLBSlateScout() {
         : '';
       wrap.innerHTML =
         '<div style="display:flex;justify-content:space-between;align-items:center;'
-        + 'gap:12px;flex-wrap:wrap;padding:2px 8px 8px"><span style="font-size:14px;color:'
+        + 'gap:12px;flex-wrap:wrap;padding:2px 8px 8px"><span style="font-size:16px;color:'
         + DIM + '">' + (total ? (start + 1) + '-'
           + Math.min(start + PAGE, total) + ' of ' + total : '0') + ' bets</span>'
         + pager + '</div>'
-        + '<div class="scout-scroll"><table style="width:100%;border-collapse:collapse;font-size:13px">'
+        + '<div class="scout-scroll"><table style="width:100%;border-collapse:collapse;font-size:16px">'
         + '<thead><tr style="text-align:left;color:' + DIM
         + ';border-bottom:1px solid #30363d">'
         + '<th style="padding:4px 6px">Date</th><th>Rule</th>'
