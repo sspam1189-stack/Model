@@ -201,7 +201,11 @@ let cache = {};
 let sourceMeta = {};
 let summaryCache = {};
 let summaryMeta = {};
-let activeTab = 'mlb-props';
+// CSW .1 is hidden (user, 2026-09-02); its tab button carries display:none
+// and the renderer is untouched, so unhiding is a one-line change in
+// index.html. The default has to move with it or the page opens on a tab
+// with no button to leave.
+let activeTab = 'mlb-props-w01c26';
 let viewMode = 'today';
 let historyPage = 0;
 const DAYS_PER_PAGE = 7;
