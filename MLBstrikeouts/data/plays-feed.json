@@ -1,7 +1,7 @@
 {
  "sport": "MLB",
  "type": "plays-feed",
- "generated": "2026-09-02T19:34:03Z",
+ "generated": "2026-09-02T19:41:53Z",
  "note": "The scout bet log: a projection of MLBstrikeouts/data/scout-card-log.json. Results and profit are the ledger's own, settled by grade_scout_ledger.py from the finals; nothing is recomputed here. `kind` is one of card / shadow / not_bet / backfilled, and only card rows carry units; not-bet rows (which include what used to be tracked separately as shadow) fired live with no money on them, so they stay out of the units. Backfilled rows count as card (user, 2026-09-02) and keep a `backfilled` flag so they can still be isolated.",
  "bets": [
   {
@@ -370,10 +370,10 @@
    "game": "ATL @ WSH",
    "gamePk": 822686,
    "commence": "2026-09-02T17:05:00Z",
-   "basis": "Home dog getaway: ATL played a night game yesterday, day game today, home dog at +120 Rule window widened after first pitch (2026-09-02); not wagered.",
+   "basis": "Home dog getaway: ATL played a night game yesterday, day game today, home dog at +120",
    "name": "Home dog getaway",
    "group": "non-scout",
-   "kind": "not_bet"
+   "kind": "card"
   },
   {
    "date": "2026-09-02",
@@ -438,10 +438,10 @@
    "game": "SD @ CIN",
    "gamePk": 824470,
    "commence": "2026-09-02T16:40:00Z",
-   "basis": "Home dog getaway: SD played a night game yesterday, day game today, home dog at +132 Rule window widened after first pitch (2026-09-02); not wagered.",
+   "basis": "Home dog getaway: SD played a night game yesterday, day game today, home dog at +132",
    "name": "Home dog getaway",
    "group": "non-scout",
-   "kind": "not_bet"
+   "kind": "card"
   },
   {
    "date": "2026-09-02",
@@ -34238,8 +34238,8 @@
    "w": 628,
    "l": 546,
    "push": 8,
-   "n": 1198,
-   "pending": 16,
+   "n": 1200,
+   "pending": 18,
    "units": 279.08
   },
   "by_rule": {
