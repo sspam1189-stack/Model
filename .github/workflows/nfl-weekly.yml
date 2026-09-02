@@ -69,7 +69,14 @@ jobs:
           clean: true
 
       - name: Install dependencies
-        run: pip install -r pyNFL/requirements.txt
+        # nfl-data-py 0.3.3 declares numpy<2 but runs fine on numpy 2 (matches local
+        # setup). Install everything else normally, then nfl-data-py with --no-deps
+        # so pip never has to reconcile its numpy<2 metadata with numpy==2.4.4.
+        # (Keeping it in the same resolve fails even when already installed.)
+        run: |
+          Get-Content pyNFL/requirements.txt | Where-Object { $_ -notmatch '^nfl-data-py' } | Set-Content $env:RUNNER_TEMP/req-nonfl.txt
+          pip install -r $env:RUNNER_TEMP/req-nonfl.txt
+          pip install --no-deps nfl-data-py==0.3.3
 
       - name: Run weekly pipeline
         working-directory: pyNFL/scripts
@@ -148,7 +155,14 @@ jobs:
           git pull origin main
 
       - name: Install dependencies
-        run: pip install -r pyNFL/requirements.txt
+        # nfl-data-py 0.3.3 declares numpy<2 but runs fine on numpy 2 (matches local
+        # setup). Install everything else normally, then nfl-data-py with --no-deps
+        # so pip never has to reconcile its numpy<2 metadata with numpy==2.4.4.
+        # (Keeping it in the same resolve fails even when already installed.)
+        run: |
+          Get-Content pyNFL/requirements.txt | Where-Object { $_ -notmatch '^nfl-data-py' } | Set-Content $env:RUNNER_TEMP/req-nonfl.txt
+          pip install -r $env:RUNNER_TEMP/req-nonfl.txt
+          pip install --no-deps nfl-data-py==0.3.3
 
       - name: Grade previous week
         working-directory: pyNFL/scripts
