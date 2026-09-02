@@ -43,7 +43,7 @@ OUTPUT_PATHS = [
                                   "data", "plays-feed.json")),
 ]
 
-DAYS = 14          # how far back the selector can reach
+DAYS = 30          # how far back the selector can reach
 FIELDS = ("date", "play", "market", "line", "price", "rule", "result",
           "profit", "game", "gamePk", "commence", "basis", "combo")
 
@@ -74,18 +74,34 @@ def main():
                 row[flag] = True
         by_date[e["date"]].append(row)
 
+    def _wl(rows):
+        g = [r for r in rows if r.get("result") in ("WIN", "LOSS", "PUSH")]
+        return (sum(1 for r in g if r["result"] == "WIN"),
+                sum(1 for r in g if r["result"] == "LOSS"),
+                sum(1 for r in g if r["result"] == "PUSH"))
+
     def tally(rows):
-        graded = [r for r in rows if r.get("result") in ("WIN", "LOSS", "PUSH")]
-        w = sum(1 for r in graded if r["result"] == "WIN")
-        l = sum(1 for r in graded if r["result"] == "LOSS")
-        p = sum(1 for r in graded if r["result"] == "PUSH")
+        """The day's record, with backfilled rows held out of it entirely.
+
+        Backfilled plays were replayed after the fact and never wagered, so
+        counting them would report both a record and money that never
+        happened -- the ledger report excludes them for the same reason. They
+        get their own sub-tally so the tab can show them under their own
+        heading. `n` counts every row, backfilled included, because it is what
+        decides whether there is anything to render at all.
+        """
+        live = [r for r in rows if not r.get("backfilled")]
+        back = [r for r in rows if r.get("backfilled")]
+        w, l, p = _wl(live)
+        bw, bl, bp = _wl(back)
         # Units follow the ledger's own convention: shadow and not-bet rows
         # stay in the W-L and out of the money.
-        u = sum(r.get("profit") or 0 for r in graded
+        u = sum(r.get("profit") or 0 for r in live
                 if not r.get("not_bet") and not r.get("shadow"))
         return {"w": w, "l": l, "push": p,
-                "pending": sum(1 for r in rows if r.get("result") == "pending"),
-                "n": len(rows), "units": round(u, 2)}
+                "pending": sum(1 for r in live if r.get("result") == "pending"),
+                "n": len(rows), "live_n": len(live), "units": round(u, 2),
+                "backfilled": {"w": bw, "l": bl, "push": bp, "n": len(back)}}
 
     days = []
     for d in sorted(dates, reverse=True):
@@ -110,7 +126,9 @@ def main():
                  "the dashboard's date selector. Results and profit are the "
                  "ledger's own, settled by scripts/grade_scout_ledger.py from "
                  "the finals; nothing is recomputed here. Units exclude shadow "
-                 "and not-bet rows, which stay in the W-L."),
+                 "and not-bet rows, which stay in the W-L. Backfilled rows "
+                 "(replayed after the fact, never wagered) are held out of the "
+                 "record entirely and tallied separately."),
         "days": days,
     }
     for path in OUTPUT_PATHS:

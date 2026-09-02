@@ -222,6 +222,16 @@ When building a daily card from this repo's outputs, the tiers are:
 
    Adding or retiring one of these is a `rule_status.py` edit; the logger,
    the ledger and the dashboard all follow from that one file.
+
+   The season is in the ledger too: `scripts/backfill_allml_systems.py`
+   replayed all 636 historical plays as `backfilled` rows, so the tab's date
+   filter can show them for past days instead of saying "no plays" while the
+   season table underneath claimed 628. Backfilled rows are hindsight and are
+   held out of the record entirely -- no units, their own section on the tab,
+   their own line in the report -- exactly as the 99 mismatch-ML rows written
+   the same way are. That script is a ONE-SHOT tool and is deliberately not in
+   the daily workflow: it is idempotent, but running it after a rule changes
+   would rewrite history to match the current definition.
 7. **Leans are retired**: no half-case totals, no temperature-only reads,
    no "0.5u if you want it" tier. A read is card-grade or it is not
    bettable. If a filter on model plays ever seems attractive, define it

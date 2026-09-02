@@ -370,8 +370,13 @@ async function renderMLBSlateScout() {
     ['card', 'CARD — bet these', '#3fb950'],
     ['shadow', 'SHADOW — tracked, not bet', DIM],
     ['not_bet', 'NOT BET — rule fired, no wager', DIM],
+    ['backfilled', 'BACKFILLED — replayed after the fact, never wagered', DIM],
   ];
-  const pastKind = (r) => (r.not_bet ? 'not_bet' : (r.shadow ? 'shadow' : 'card'));
+  // Backfilled is checked FIRST. These rows were written by replaying the
+  // season once the rule was carded, so treating one as a card play would put
+  // hindsight money in the day's units.
+  const pastKind = (r) => (r.backfilled ? 'backfilled'
+    : r.not_bet ? 'not_bet' : (r.shadow ? 'shadow' : 'card'));
   const pastPlaysHtml = (dateStr, group, emptyMsg) => {
     const day = feedFor(dateStr);
     const rows = day ? day.rows.filter((r) => r.group === group) : [];
@@ -380,11 +385,19 @@ async function renderMLBSlateScout() {
         + esc(emptyMsg) + '</div>';
     }
     const t = group === 'scout' ? day.scout : day.non_scout;
+    const bf = t.backfilled || { n: 0, w: 0, l: 0, push: 0 };
+    const liveN = t.live_n == null ? t.n : t.live_n;
+    // A day with nothing but backfilled rows has no record and no money, so
+    // it says what it actually is instead of reporting 0-0 and +0.00u.
+    const headline = liveN
+      ? (t.w + '-' + t.l + (t.push ? '-' + t.push : '')
+        + (t.pending ? ' (' + t.pending + ' pending)' : '') + ' · '
+        + unitStr(t.units) + ' · graded from the finals by the ledger'
+        + (bf.n ? ' · plus ' + bf.n + ' backfilled' : ''))
+      : (bf.w + '-' + bf.l + (bf.push ? '-' + bf.push : '')
+        + ' · backfilled only — replayed after the fact, never wagered');
     let h = '<div style="padding:5px 8px;font-size:11px;color:' + DIM + '">'
-      + esc(dateStr) + ' — ' + t.w + '-' + t.l + (t.push ? '-' + t.push : '')
-      + (t.pending ? ' (' + t.pending + ' pending)' : '') + ' · '
-      + unitStr(t.units) + ' · graded from the finals by the ledger'
-      + '</div>'
+      + esc(dateStr) + ' — ' + headline + '</div>'
       + '<div style="overflow-x:auto"><table style="width:100%;'
       + 'border-collapse:collapse;font-size:12px">'
       + '<thead><tr style="text-align:left;color:' + DIM

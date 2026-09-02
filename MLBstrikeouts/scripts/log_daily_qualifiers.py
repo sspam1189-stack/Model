@@ -128,6 +128,28 @@ def game_ids():
     return out
 
 
+def sig_of(e):
+    """Structural identity of a ledger row: date + rule + game + thing bet.
+
+    The idempotency key. One entry per (date, rule, market, game, line-or-pick),
+    so the daily workflow running six times adds each play once and never
+    rewrites a price already recorded.
+
+    Deliberately NOT the play text -- hand-logged rows say "CWS/HOU Under 8.5"
+    where this writes "CWS @ HOU UNDER 8.5", and keying on text would log both.
+    Module level rather than nested because the season backfill
+    (scripts/backfill_allml_systems.py) has to agree with it exactly; two
+    copies of this would drift and duplicate the ledger.
+    """
+    game = (e.get("gamePk") or
+            (e.get("game") or "").replace("/", " @ ").strip())
+    if e.get("market") == "totals":
+        k = str(e.get("line") or "")
+    else:
+        k = (e.get("play") or "").split(" ML")[0].strip()
+    return (e.get("date"), e.get("rule"), e.get("market"), game, k)
+
+
 def _combo(sides):
     """Canonical combo string for a game's flagged sides."""
     present = [d for d in DEFECTS
@@ -319,23 +341,7 @@ def main():
     # The non-scout systems come off mlb-all-ml.json, not the scout payload.
     qs += allml_qualifiers(date, ids)
     blob = LEDGER._load()
-    # Idempotency key: one entry per (date, rule, play). A re-run never
-    # duplicates and never rewrites the price already recorded.
-    def sig(e):
-        """Structural identity: date + rule + game + the thing bet.
-
-        Deliberately NOT the play text -- hand-logged rows say
-        "CWS/HOU Under 8.5" where this writes "CWS @ HOU UNDER 8.5", and
-        keying on text would log both."""
-        game = (e.get("gamePk") or
-                (e.get("game") or "").replace("/", " @ ").strip())
-        if e.get("market") == "totals":
-            k = str(e.get("line") or "")
-        else:
-            k = (e.get("play") or "").split(" ML")[0].strip()
-        return (e.get("date"), e.get("rule"), e.get("market"), game, k)
-
-    have = {sig(e) for e in blob["entries"]}
+    have = {sig_of(e) for e in blob["entries"]}
 
     added = []
     for q in qs:
@@ -362,9 +368,9 @@ def main():
                 entry[extra] = q[extra]
         if status == "shadow":
             entry["shadow"] = True
-        if sig(entry) in have:
+        if sig_of(entry) in have:
             continue
-        have.add(sig(entry))
+        have.add(sig_of(entry))
         added.append(entry)
 
     counts = {}

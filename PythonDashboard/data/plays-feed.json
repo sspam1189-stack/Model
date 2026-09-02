@@ -1,9 +1,9 @@
 {
  "sport": "MLB",
  "type": "plays-feed",
- "generated": "2026-09-02T00:19:06Z",
- "days_kept": 14,
- "note": "A projection of MLBstrikeouts/data/scout-card-log.json for the dashboard's date selector. Results and profit are the ledger's own, settled by scripts/grade_scout_ledger.py from the finals; nothing is recomputed here. Units exclude shadow and not-bet rows, which stay in the W-L.",
+ "generated": "2026-09-02T00:27:13Z",
+ "days_kept": 30,
+ "note": "A projection of MLBstrikeouts/data/scout-card-log.json for the dashboard's date selector. Results and profit are the ledger's own, settled by scripts/grade_scout_ledger.py from the finals; nothing is recomputed here. Units exclude shadow and not-bet rows, which stay in the W-L. Backfilled rows (replayed after the fact, never wagered) are held out of the record entirely and tallied separately.",
  "days": [
   {
    "date": "2026-09-01",
@@ -278,7 +278,14 @@
     "push": 0,
     "pending": 16,
     "n": 16,
-    "units": 0
+    "live_n": 16,
+    "units": 0,
+    "backfilled": {
+     "w": 0,
+     "l": 0,
+     "push": 0,
+     "n": 0
+    }
    },
    "scout": {
     "w": 0,
@@ -286,7 +293,14 @@
     "push": 0,
     "pending": 11,
     "n": 11,
-    "units": 0
+    "live_n": 11,
+    "units": 0,
+    "backfilled": {
+     "w": 0,
+     "l": 0,
+     "push": 0,
+     "n": 0
+    }
    },
    "non_scout": {
     "w": 0,
@@ -294,7 +308,14 @@
     "push": 0,
     "pending": 5,
     "n": 5,
-    "units": 0
+    "live_n": 5,
+    "units": 0,
+    "backfilled": {
+     "w": 0,
+     "l": 0,
+     "push": 0,
+     "n": 0
+    }
    }
   },
   {
@@ -335,6 +356,25 @@
     },
     {
      "date": "2026-08-31",
+     "play": "MIA/WSH U8.5",
+     "market": "totals",
+     "line": 8.5,
+     "price": -105,
+     "rule": "pickem-under",
+     "result": "LOSS",
+     "profit": -1.0,
+     "game": "MIA @ WSH",
+     "gamePk": 822689,
+     "commence": "2026-08-31T22:45:00Z",
+     "basis": "Pickem under: favorite only -104 at a 8.5 total",
+     "name": "Pickem under",
+     "group": "non-scout",
+     "backfilled": true,
+     "auto": true,
+     "non_scout": true
+    },
+    {
+     "date": "2026-08-31",
      "play": "MIL/CHC Under 9.5",
      "market": "totals",
      "line": 9.5,
@@ -348,6 +388,25 @@
      "basis": "Both starters stale-window: Harrison 48d, Holmes 102d -- both recent-form lines describe a different month",
      "name": "Flag Plays",
      "group": "scout"
+    },
+    {
+     "date": "2026-08-31",
+     "play": "MIL/CHC U9.5",
+     "market": "totals",
+     "line": 9.5,
+     "price": -112,
+     "rule": "pickem-under",
+     "result": "LOSS",
+     "profit": -1.0,
+     "game": "MIL @ CHC",
+     "gamePk": 824635,
+     "commence": "2026-08-31T23:40:00Z",
+     "basis": "Pickem under: favorite only -106 at a 9.5 total",
+     "name": "Pickem under",
+     "group": "non-scout",
+     "backfilled": true,
+     "auto": true,
+     "non_scout": true
     },
     {
      "date": "2026-08-31",
@@ -367,6 +426,24 @@
     },
     {
      "date": "2026-08-31",
+     "play": "COL ML (home slide)",
+     "market": "h2h",
+     "price": 110,
+     "rule": "home-slide-ml",
+     "result": "LOSS",
+     "profit": -1.0,
+     "game": "BAL @ COL",
+     "gamePk": 824314,
+     "commence": "2026-09-01T00:40:00Z",
+     "basis": "Home slide ML: home on L4, new opponent (last faced ATL)",
+     "name": "Home slide ML",
+     "group": "non-scout",
+     "backfilled": true,
+     "auto": true,
+     "non_scout": true
+    },
+    {
+     "date": "2026-08-31",
      "play": "NYY/LAA Under 8.5",
      "market": "totals",
      "line": 8.5,
@@ -380,6 +457,43 @@
      "basis": "Elmer Rodriguez stale-window-119d",
      "name": "Flag Plays",
      "group": "scout"
+    },
+    {
+     "date": "2026-08-31",
+     "play": "LAA ML (home slide)",
+     "market": "h2h",
+     "price": 110,
+     "rule": "home-slide-ml",
+     "result": "WIN",
+     "profit": 1.1,
+     "game": "NYY @ LAA",
+     "gamePk": 823982,
+     "commence": "2026-09-01T01:38:00Z",
+     "basis": "Home slide ML: home on L7, new opponent (last faced PHI)",
+     "name": "Home slide ML",
+     "group": "non-scout",
+     "backfilled": true,
+     "auto": true,
+     "non_scout": true
+    },
+    {
+     "date": "2026-08-31",
+     "play": "PHI/ARI U8.5",
+     "market": "totals",
+     "line": 8.5,
+     "price": -122,
+     "rule": "pickem-under",
+     "result": "WIN",
+     "profit": 0.82,
+     "game": "PHI @ ARI",
+     "gamePk": 825040,
+     "commence": "2026-09-01T01:40:00Z",
+     "basis": "Pickem under: favorite only -108 at a 8.5 total",
+     "name": "Pickem under",
+     "group": "non-scout",
+     "backfilled": true,
+     "auto": true,
+     "non_scout": true
     }
    ],
    "all": {
@@ -387,8 +501,15 @@
     "l": 3,
     "push": 0,
     "pending": 0,
-    "n": 5,
-    "units": -0.24
+    "n": 10,
+    "live_n": 5,
+    "units": -0.24,
+    "backfilled": {
+     "w": 2,
+     "l": 3,
+     "push": 0,
+     "n": 5
+    }
    },
    "scout": {
     "w": 2,
@@ -396,20 +517,52 @@
     "push": 0,
     "pending": 0,
     "n": 5,
-    "units": -0.24
+    "live_n": 5,
+    "units": -0.24,
+    "backfilled": {
+     "w": 0,
+     "l": 0,
+     "push": 0,
+     "n": 0
+    }
    },
    "non_scout": {
     "w": 0,
     "l": 0,
     "push": 0,
     "pending": 0,
-    "n": 0,
-    "units": 0
+    "n": 5,
+    "live_n": 0,
+    "units": 0,
+    "backfilled": {
+     "w": 2,
+     "l": 3,
+     "push": 0,
+     "n": 5
+    }
    }
   },
   {
    "date": "2026-08-30",
    "rows": [
+    {
+     "date": "2026-08-30",
+     "play": "MIA ML (away dog)",
+     "market": "h2h",
+     "price": 110,
+     "rule": "away-dog-ml",
+     "result": "WIN",
+     "profit": 1.1,
+     "game": "MIA @ WSH",
+     "gamePk": 822688,
+     "commence": "2026-08-30T16:15:00Z",
+     "basis": "Away dog ML: away dog at a 9.5 total",
+     "name": "Away dog ML",
+     "group": "non-scout",
+     "backfilled": true,
+     "auto": true,
+     "non_scout": true
+    },
     {
      "date": "2026-08-30",
      "play": "LAD/DET Under 7.5",
@@ -476,6 +629,44 @@
     },
     {
      "date": "2026-08-30",
+     "play": "CWS/MIN U8.5",
+     "market": "totals",
+     "line": 8.5,
+     "price": 100,
+     "rule": "pickem-under",
+     "result": "WIN",
+     "profit": 1.0,
+     "game": "CWS @ MIN",
+     "gamePk": 823662,
+     "commence": "2026-08-30T18:10:00Z",
+     "basis": "Pickem under: favorite only -114 at a 8.5 total",
+     "name": "Pickem under",
+     "group": "non-scout",
+     "backfilled": true,
+     "auto": true,
+     "non_scout": true
+    },
+    {
+     "date": "2026-08-30",
+     "play": "TEX/MIL O8.5",
+     "market": "totals",
+     "line": 8.5,
+     "price": -110,
+     "rule": "starter-over-run",
+     "result": "WIN",
+     "profit": 0.91,
+     "game": "TEX @ MIL",
+     "gamePk": 823740,
+     "commence": "2026-08-30T18:10:00Z",
+     "basis": "Starter over run: over in Kumar Rocker 88% of last 8, total 8.5",
+     "name": "Starter over run",
+     "group": "non-scout",
+     "backfilled": true,
+     "auto": true,
+     "non_scout": true
+    },
+    {
+     "date": "2026-08-30",
      "play": "NYM ML (mismatch +66.0)",
      "market": "h2h",
      "price": -120,
@@ -508,6 +699,25 @@
     },
     {
      "date": "2026-08-30",
+     "play": "BAL/OAK O9.5",
+     "market": "totals",
+     "line": 9.5,
+     "price": -122,
+     "rule": "starter-over-run",
+     "result": "WIN",
+     "profit": 0.82,
+     "game": "BAL @ OAK",
+     "gamePk": 824959,
+     "commence": "2026-08-30T20:05:00Z",
+     "basis": "Starter over run: over in Chris Bassitt 75%, Jeffrey Springs 75% of last 8, total 9.5",
+     "name": "Starter over run",
+     "group": "non-scout",
+     "backfilled": true,
+     "auto": true,
+     "non_scout": true
+    },
+    {
+     "date": "2026-08-30",
      "play": "PHI/LAA Under 7.5",
      "market": "totals",
      "line": 7.5,
@@ -521,6 +731,25 @@
      "basis": "Kikuchi stale-window-132d -- his L5-start line describes a pitcher from 4+ months ago. K-model also has him UNDER 5.5 Ks at pCover .729, same read from the other side.",
      "name": "Flag Plays",
      "group": "scout"
+    },
+    {
+     "date": "2026-08-30",
+     "play": "CIN/CHC O9",
+     "market": "totals",
+     "line": 9,
+     "price": -118,
+     "rule": "starter-over-run",
+     "result": "WIN",
+     "profit": 0.85,
+     "game": "CIN @ CHC",
+     "gamePk": 824636,
+     "commence": "2026-08-30T23:20:00Z",
+     "basis": "Starter over run: over in Shota Imanaga 75% of last 8, total 9",
+     "name": "Starter over run",
+     "group": "non-scout",
+     "backfilled": true,
+     "auto": true,
+     "non_scout": true
     }
    ],
    "all": {
@@ -528,8 +757,15 @@
     "l": 3,
     "push": 0,
     "pending": 0,
-    "n": 7,
-    "units": 1.76
+    "n": 12,
+    "live_n": 7,
+    "units": 1.76,
+    "backfilled": {
+     "w": 5,
+     "l": 0,
+     "push": 0,
+     "n": 5
+    }
    },
    "scout": {
     "w": 4,
@@ -537,15 +773,29 @@
     "push": 0,
     "pending": 0,
     "n": 7,
-    "units": 1.76
+    "live_n": 7,
+    "units": 1.76,
+    "backfilled": {
+     "w": 0,
+     "l": 0,
+     "push": 0,
+     "n": 0
+    }
    },
    "non_scout": {
     "w": 0,
     "l": 0,
     "push": 0,
     "pending": 0,
-    "n": 0,
-    "units": 0
+    "n": 5,
+    "live_n": 0,
+    "units": 0,
+    "backfilled": {
+     "w": 5,
+     "l": 0,
+     "push": 0,
+     "n": 5
+    }
    }
   },
   {
@@ -601,6 +851,44 @@
     },
     {
      "date": "2026-08-29",
+     "play": "CWS/MIN U9",
+     "market": "totals",
+     "line": 9,
+     "price": -106,
+     "rule": "pickem-under",
+     "result": "WIN",
+     "profit": 0.94,
+     "game": "CWS @ MIN",
+     "gamePk": 823665,
+     "commence": "2026-08-29T18:10:00Z",
+     "basis": "Pickem under: favorite only -110 at a 9 total",
+     "name": "Pickem under",
+     "group": "non-scout",
+     "backfilled": true,
+     "auto": true,
+     "non_scout": true
+    },
+    {
+     "date": "2026-08-29",
+     "play": "PIT/STL U8.5",
+     "market": "totals",
+     "line": 8.5,
+     "price": -124,
+     "rule": "cold-arms-under",
+     "result": "WIN",
+     "profit": 0.81,
+     "game": "PIT @ STL",
+     "gamePk": 823011,
+     "commence": "2026-08-29T18:15:00Z",
+     "basis": "Cold arms under: both starters Lake Bachar 33%, Kyle Leahy 14% over in last 8",
+     "name": "Cold arms under",
+     "group": "non-scout",
+     "backfilled": true,
+     "auto": true,
+     "non_scout": true
+    },
+    {
+     "date": "2026-08-29",
      "play": "PIT/STL Under 8.5",
      "market": "totals",
      "line": 8.5,
@@ -632,6 +920,24 @@
     },
     {
      "date": "2026-08-29",
+     "play": "CIN ML (away dog)",
+     "market": "h2h",
+     "price": 182,
+     "rule": "away-dog-ml",
+     "result": "LOSS",
+     "profit": -1.0,
+     "game": "CIN @ CHC",
+     "gamePk": 824637,
+     "commence": "2026-08-29T18:20:00Z",
+     "basis": "Away dog ML: away dog at a 9.5 total",
+     "name": "Away dog ML",
+     "group": "non-scout",
+     "backfilled": true,
+     "auto": true,
+     "non_scout": true
+    },
+    {
+     "date": "2026-08-29",
      "play": "SF ML (mismatch +57.6)",
      "market": "h2h",
      "price": -102,
@@ -644,6 +950,25 @@
      "basis": "L20 mismatch +57.6 (offense outclasses the arm -- fade him). Merrill Kelly L5 ERA 7.46, opponent wRC+ vs his hand 114. Carded 2026-08-29 on a permutation test (p=0.022) and five positive months; expectation is August's +9.4%, not the +17.2% season figure (see scripts/mismatch_shadow.py header).",
      "name": "Mismatch ML",
      "group": "scout"
+    },
+    {
+     "date": "2026-08-29",
+     "play": "ARI/SF U8.5",
+     "market": "totals",
+     "line": 8.5,
+     "price": -124,
+     "rule": "pickem-under",
+     "result": "WIN",
+     "profit": 0.81,
+     "game": "ARI @ SF",
+     "gamePk": 823177,
+     "commence": "2026-08-29T20:05:00Z",
+     "basis": "Pickem under: favorite only -106 at a 8.5 total",
+     "name": "Pickem under",
+     "group": "non-scout",
+     "backfilled": true,
+     "auto": true,
+     "non_scout": true
     },
     {
      "date": "2026-08-29",
@@ -676,6 +1001,25 @@
      "basis": "Perkins layoff-17d + swingman-2g, 8.25 L5 ERA. BAL pen 0.87 L7 (#2). TEMPER: OAK bats hot all four (104/111/114/125).",
      "name": "Flag Plays",
      "group": "scout"
+    },
+    {
+     "date": "2026-08-29",
+     "play": "BAL/OAK O9.5",
+     "market": "totals",
+     "line": 9.5,
+     "price": -120,
+     "rule": "starter-over-run",
+     "result": "LOSS",
+     "profit": -1.0,
+     "game": "BAL @ OAK",
+     "gamePk": 824961,
+     "commence": "2026-08-30T02:05:00Z",
+     "basis": "Starter over run: over in Jack Perkins 75% of last 8, total 9.5",
+     "name": "Starter over run",
+     "group": "non-scout",
+     "backfilled": true,
+     "auto": true,
+     "non_scout": true
     },
     {
      "date": "2026-08-29",
@@ -726,8 +1070,15 @@
     "l": 5,
     "push": 0,
     "pending": 0,
-    "n": 11,
-    "units": -1.02
+    "n": 16,
+    "live_n": 11,
+    "units": -1.02,
+    "backfilled": {
+     "w": 3,
+     "l": 2,
+     "push": 0,
+     "n": 5
+    }
    },
    "scout": {
     "w": 6,
@@ -735,20 +1086,53 @@
     "push": 0,
     "pending": 0,
     "n": 11,
-    "units": -1.02
+    "live_n": 11,
+    "units": -1.02,
+    "backfilled": {
+     "w": 0,
+     "l": 0,
+     "push": 0,
+     "n": 0
+    }
    },
    "non_scout": {
     "w": 0,
     "l": 0,
     "push": 0,
     "pending": 0,
-    "n": 0,
-    "units": 0
+    "n": 5,
+    "live_n": 0,
+    "units": 0,
+    "backfilled": {
+     "w": 3,
+     "l": 2,
+     "push": 0,
+     "n": 5
+    }
    }
   },
   {
    "date": "2026-08-28",
    "rows": [
+    {
+     "date": "2026-08-28",
+     "play": "CIN/CHC O9",
+     "market": "totals",
+     "line": 9,
+     "price": 100,
+     "rule": "starter-over-run",
+     "result": "WIN",
+     "profit": 1.0,
+     "game": "CIN @ CHC",
+     "gamePk": 824638,
+     "commence": "2026-08-28T18:20:00Z",
+     "basis": "Starter over run: over in David Peterson 75% of last 8, total 9",
+     "name": "Starter over run",
+     "group": "non-scout",
+     "backfilled": true,
+     "auto": true,
+     "non_scout": true
+    },
     {
      "date": "2026-08-28",
      "play": "LAD/DET Under 7.5",
@@ -764,6 +1148,62 @@
      "basis": "Drew Anderson carries BOTH qualifying defects: stale-window-68d AND swingman-14g. His 3.54 L5 ERA describes relief work, not the 4.07 IP/GS starts he is priced off. Skubal opposite (3.52 L5, 6.13 IP/GS) and DET bats frozen vs him 107/73/56. LAD pen hot L7 2.41 (#8).",
      "name": "Flag Plays",
      "group": "scout"
+    },
+    {
+     "date": "2026-08-28",
+     "play": "LAA ML (home slide)",
+     "market": "h2h",
+     "price": 108,
+     "rule": "home-slide-ml",
+     "result": "LOSS",
+     "profit": -1.0,
+     "game": "PHI @ LAA",
+     "gamePk": 823985,
+     "commence": "2026-08-29T01:38:00Z",
+     "basis": "Home slide ML: home on L4, new opponent (last faced CLE)",
+     "name": "Home slide ML",
+     "group": "non-scout",
+     "backfilled": true,
+     "auto": true,
+     "non_scout": true
+    },
+    {
+     "date": "2026-08-28",
+     "play": "BAL/OAK U9.5",
+     "market": "totals",
+     "line": 9.5,
+     "price": -118,
+     "rule": "cold-arms-under",
+     "result": "WIN",
+     "profit": 0.85,
+     "game": "BAL @ OAK",
+     "gamePk": 824960,
+     "commence": "2026-08-29T01:40:00Z",
+     "basis": "Cold arms under: both starters Brandon Young 25%, Jacob Lopez 25% over in last 8",
+     "name": "Cold arms under",
+     "group": "non-scout",
+     "backfilled": true,
+     "auto": true,
+     "non_scout": true
+    },
+    {
+     "date": "2026-08-28",
+     "play": "BAL/OAK U9.5",
+     "market": "totals",
+     "line": 9.5,
+     "price": -118,
+     "rule": "pickem-under",
+     "result": "WIN",
+     "profit": 0.85,
+     "game": "BAL @ OAK",
+     "gamePk": 824960,
+     "commence": "2026-08-29T01:40:00Z",
+     "basis": "Pickem under: favorite only -108 at a 9.5 total",
+     "name": "Pickem under",
+     "group": "non-scout",
+     "backfilled": true,
+     "auto": true,
+     "non_scout": true
     },
     {
      "date": "2026-08-28",
@@ -787,8 +1227,15 @@
     "l": 1,
     "push": 0,
     "pending": 0,
-    "n": 2,
-    "units": -0.17
+    "n": 6,
+    "live_n": 2,
+    "units": -0.17,
+    "backfilled": {
+     "w": 3,
+     "l": 1,
+     "push": 0,
+     "n": 4
+    }
    },
    "scout": {
     "w": 1,
@@ -796,20 +1243,52 @@
     "push": 0,
     "pending": 0,
     "n": 2,
-    "units": -0.17
+    "live_n": 2,
+    "units": -0.17,
+    "backfilled": {
+     "w": 0,
+     "l": 0,
+     "push": 0,
+     "n": 0
+    }
    },
    "non_scout": {
     "w": 0,
     "l": 0,
     "push": 0,
     "pending": 0,
-    "n": 0,
-    "units": 0
+    "n": 4,
+    "live_n": 0,
+    "units": 0,
+    "backfilled": {
+     "w": 3,
+     "l": 1,
+     "push": 0,
+     "n": 4
+    }
    }
   },
   {
    "date": "2026-08-27",
    "rows": [
+    {
+     "date": "2026-08-27",
+     "play": "COL ML (away dog)",
+     "market": "h2h",
+     "price": 126,
+     "rule": "away-dog-ml",
+     "result": "LOSS",
+     "profit": -1.0,
+     "game": "COL @ WSH",
+     "gamePk": 822694,
+     "commence": "2026-08-27T17:05:00Z",
+     "basis": "Away dog ML: away dog at a 9.5 total",
+     "name": "Away dog ML",
+     "group": "non-scout",
+     "backfilled": true,
+     "auto": true,
+     "non_scout": true
+    },
     {
      "date": "2026-08-27",
      "play": "KC/TOR Under 8.5",
@@ -844,6 +1323,25 @@
     },
     {
      "date": "2026-08-27",
+     "play": "KC/TOR U8.5",
+     "market": "totals",
+     "line": 8.5,
+     "price": -118,
+     "rule": "pickem-under",
+     "result": "LOSS",
+     "profit": -1.0,
+     "game": "KC @ TOR",
+     "gamePk": 822771,
+     "commence": "2026-08-27T23:07:00Z",
+     "basis": "Pickem under: favorite only -106 at a 8.5 total",
+     "name": "Pickem under",
+     "group": "non-scout",
+     "backfilled": true,
+     "auto": true,
+     "non_scout": true
+    },
+    {
+     "date": "2026-08-27",
      "play": "ARI/SF Under 8",
      "market": "totals",
      "line": 8.0,
@@ -860,33 +1358,73 @@
     }
    ],
    "all": {
-    "w": 2,
+    "w": 1,
     "l": 1,
     "push": 0,
     "pending": 0,
-    "n": 3,
-    "units": 0.83
+    "n": 5,
+    "live_n": 2,
+    "units": -0.11,
+    "backfilled": {
+     "w": 1,
+     "l": 2,
+     "push": 0,
+     "n": 3
+    }
    },
    "scout": {
-    "w": 2,
+    "w": 1,
     "l": 1,
     "push": 0,
     "pending": 0,
     "n": 3,
-    "units": 0.83
+    "live_n": 2,
+    "units": -0.11,
+    "backfilled": {
+     "w": 1,
+     "l": 0,
+     "push": 0,
+     "n": 1
+    }
    },
    "non_scout": {
     "w": 0,
     "l": 0,
     "push": 0,
     "pending": 0,
-    "n": 0,
-    "units": 0
+    "n": 2,
+    "live_n": 0,
+    "units": 0,
+    "backfilled": {
+     "w": 0,
+     "l": 2,
+     "push": 0,
+     "n": 2
+    }
    }
   },
   {
    "date": "2026-08-26",
    "rows": [
+    {
+     "date": "2026-08-26",
+     "play": "CHC/ARI U8.5",
+     "market": "totals",
+     "line": 8.5,
+     "price": -122,
+     "rule": "pickem-under",
+     "result": "WIN",
+     "profit": 0.82,
+     "game": "CHC @ ARI",
+     "gamePk": 825039,
+     "commence": "2026-08-26T19:40:00Z",
+     "basis": "Pickem under: favorite only -114 at a 8.5 total",
+     "name": "Pickem under",
+     "group": "non-scout",
+     "backfilled": true,
+     "auto": true,
+     "non_scout": true
+    },
     {
      "date": "2026-08-26",
      "play": "CLE ML (mismatch -57.3)",
@@ -902,31 +1440,109 @@
      "name": "Mismatch ML",
      "group": "scout",
      "backfilled": true
+    },
+    {
+     "date": "2026-08-26",
+     "play": "PIT/SD O8.5",
+     "market": "totals",
+     "line": 8.5,
+     "price": -102,
+     "rule": "starter-over-run",
+     "result": "LOSS",
+     "profit": -1.0,
+     "game": "PIT @ SD",
+     "gamePk": 823255,
+     "commence": "2026-08-26T20:10:00Z",
+     "basis": "Starter over run: over in Randy V\u00e1squez 86% of last 8, total 8.5",
+     "name": "Starter over run",
+     "group": "non-scout",
+     "backfilled": true,
+     "auto": true,
+     "non_scout": true
+    },
+    {
+     "date": "2026-08-26",
+     "play": "BAL/STL U8.5",
+     "market": "totals",
+     "line": 8.5,
+     "price": -115,
+     "rule": "pickem-under",
+     "result": "LOSS",
+     "profit": -1.0,
+     "game": "BAL @ STL",
+     "gamePk": 823015,
+     "commence": "2026-08-26T23:45:00Z",
+     "basis": "Pickem under: favorite only -108 at a 8.5 total",
+     "name": "Pickem under",
+     "group": "non-scout",
+     "backfilled": true,
+     "auto": true,
+     "non_scout": true
+    },
+    {
+     "date": "2026-08-26",
+     "play": "BAL/STL O8.5",
+     "market": "totals",
+     "line": 8.5,
+     "price": -105,
+     "rule": "starter-over-run",
+     "result": "WIN",
+     "profit": 0.95,
+     "game": "BAL @ STL",
+     "gamePk": 823015,
+     "commence": "2026-08-26T23:45:00Z",
+     "basis": "Starter over run: over in Michael McGreevy 86% of last 8, total 8.5",
+     "name": "Starter over run",
+     "group": "non-scout",
+     "backfilled": true,
+     "auto": true,
+     "non_scout": true
     }
    ],
    "all": {
-    "w": 1,
+    "w": 0,
     "l": 0,
     "push": 0,
     "pending": 0,
-    "n": 1,
-    "units": 0.75
+    "n": 5,
+    "live_n": 0,
+    "units": 0,
+    "backfilled": {
+     "w": 3,
+     "l": 2,
+     "push": 0,
+     "n": 5
+    }
    },
    "scout": {
-    "w": 1,
+    "w": 0,
     "l": 0,
     "push": 0,
     "pending": 0,
     "n": 1,
-    "units": 0.75
+    "live_n": 0,
+    "units": 0,
+    "backfilled": {
+     "w": 1,
+     "l": 0,
+     "push": 0,
+     "n": 1
+    }
    },
    "non_scout": {
     "w": 0,
     "l": 0,
     "push": 0,
     "pending": 0,
-    "n": 0,
-    "units": 0
+    "n": 4,
+    "live_n": 0,
+    "units": 0,
+    "backfilled": {
+     "w": 2,
+     "l": 2,
+     "push": 0,
+     "n": 4
+    }
    }
   },
   {
@@ -950,6 +1566,25 @@
     },
     {
      "date": "2026-08-25",
+     "play": "CHC/ARI U8.5",
+     "market": "totals",
+     "line": 8.5,
+     "price": -124,
+     "rule": "pickem-under",
+     "result": "LOSS",
+     "profit": -1.0,
+     "game": "CHC @ ARI",
+     "gamePk": 825042,
+     "commence": "2026-08-26T01:40:00Z",
+     "basis": "Pickem under: favorite only -106 at a 8.5 total",
+     "name": "Pickem under",
+     "group": "non-scout",
+     "backfilled": true,
+     "auto": true,
+     "non_scout": true
+    },
+    {
+     "date": "2026-08-25",
      "play": "PHI/SEA Over 7.5",
      "market": "totals",
      "line": 7.5,
@@ -970,8 +1605,15 @@
     "l": 2,
     "push": 0,
     "pending": 0,
-    "n": 2,
-    "units": -2.0
+    "n": 3,
+    "live_n": 2,
+    "units": -2.0,
+    "backfilled": {
+     "w": 0,
+     "l": 1,
+     "push": 0,
+     "n": 1
+    }
    },
    "scout": {
     "w": 0,
@@ -979,20 +1621,70 @@
     "push": 0,
     "pending": 0,
     "n": 2,
-    "units": -2.0
+    "live_n": 2,
+    "units": -2.0,
+    "backfilled": {
+     "w": 0,
+     "l": 0,
+     "push": 0,
+     "n": 0
+    }
    },
    "non_scout": {
     "w": 0,
     "l": 0,
     "push": 0,
     "pending": 0,
-    "n": 0,
-    "units": 0
+    "n": 1,
+    "live_n": 0,
+    "units": 0,
+    "backfilled": {
+     "w": 0,
+     "l": 1,
+     "push": 0,
+     "n": 1
+    }
    }
   },
   {
    "date": "2026-08-24",
    "rows": [
+    {
+     "date": "2026-08-24",
+     "play": "DET ML (home slide)",
+     "market": "h2h",
+     "price": 120,
+     "rule": "home-slide-ml",
+     "result": "LOSS",
+     "profit": -1.0,
+     "game": "TB @ DET",
+     "gamePk": 824235,
+     "commence": "2026-08-24T22:40:00Z",
+     "basis": "Home slide ML: home on L5, new opponent (last faced KC)",
+     "name": "Home slide ML",
+     "group": "non-scout",
+     "backfilled": true,
+     "auto": true,
+     "non_scout": true
+    },
+    {
+     "date": "2026-08-24",
+     "play": "WSH ML (home slide)",
+     "market": "h2h",
+     "price": -184,
+     "rule": "home-slide-ml",
+     "result": "WIN",
+     "profit": 0.54,
+     "game": "COL @ WSH",
+     "gamePk": 822695,
+     "commence": "2026-08-24T22:45:00Z",
+     "basis": "Home slide ML: home on L4, new opponent (last faced MIA)",
+     "name": "Home slide ML",
+     "group": "non-scout",
+     "backfilled": true,
+     "auto": true,
+     "non_scout": true
+    },
     {
      "date": "2026-08-24",
      "play": "CLE ML (mismatch -60.7)",
@@ -1027,6 +1719,25 @@
     },
     {
      "date": "2026-08-24",
+     "play": "MIN/OAK O10.5",
+     "market": "totals",
+     "line": 10.5,
+     "price": -115,
+     "rule": "starter-over-run",
+     "result": "WIN",
+     "profit": 0.87,
+     "game": "MIN @ OAK",
+     "gamePk": 824964,
+     "commence": "2026-08-25T01:40:00Z",
+     "basis": "Starter over run: over in Jeffrey Springs 75% of last 8, total 10.5",
+     "name": "Starter over run",
+     "group": "non-scout",
+     "backfilled": true,
+     "auto": true,
+     "non_scout": true
+    },
+    {
+     "date": "2026-08-24",
      "play": "SD ML",
      "market": "h2h",
      "price": -102,
@@ -1039,36 +1750,258 @@
      "basis": "SD bats 124/127/129/125 vs Ashcraft; PIT bats 70/76/78/33 vs Ray; SD pen #3. Re-added after daily-run clobber.",
      "name": "scout-ml-both-halves-aligned",
      "group": "scout"
+    },
+    {
+     "date": "2026-08-24",
+     "play": "SF ML (home slide)",
+     "market": "h2h",
+     "price": 142,
+     "rule": "home-slide-ml",
+     "result": "WIN",
+     "profit": 1.42,
+     "game": "CIN @ SF",
+     "gamePk": 823183,
+     "commence": "2026-08-25T01:45:00Z",
+     "basis": "Home slide ML: home on L4, new opponent (last faced BOS)",
+     "name": "Home slide ML",
+     "group": "non-scout",
+     "backfilled": true,
+     "auto": true,
+     "non_scout": true
     }
    ],
    "all": {
-    "w": 2,
+    "w": 0,
     "l": 1,
     "push": 0,
     "pending": 0,
-    "n": 3,
-    "units": 0.31
+    "n": 7,
+    "live_n": 1,
+    "units": -1.0,
+    "backfilled": {
+     "w": 5,
+     "l": 1,
+     "push": 0,
+     "n": 6
+    }
    },
    "scout": {
-    "w": 2,
+    "w": 0,
     "l": 1,
     "push": 0,
     "pending": 0,
     "n": 3,
-    "units": 0.31
+    "live_n": 1,
+    "units": -1.0,
+    "backfilled": {
+     "w": 2,
+     "l": 0,
+     "push": 0,
+     "n": 2
+    }
    },
    "non_scout": {
     "w": 0,
     "l": 0,
     "push": 0,
     "pending": 0,
+    "n": 4,
+    "live_n": 0,
+    "units": 0,
+    "backfilled": {
+     "w": 3,
+     "l": 1,
+     "push": 0,
+     "n": 4
+    }
+   }
+  },
+  {
+   "date": "2026-08-23",
+   "rows": [
+    {
+     "date": "2026-08-23",
+     "play": "TB/BAL U8.5",
+     "market": "totals",
+     "line": 8.5,
+     "price": 100,
+     "rule": "pickem-under",
+     "result": "WIN",
+     "profit": 1.0,
+     "game": "TB @ BAL",
+     "gamePk": 824799,
+     "commence": "2026-08-23T17:35:00Z",
+     "basis": "Pickem under: favorite only -108 at a 8.5 total",
+     "name": "Pickem under",
+     "group": "non-scout",
+     "backfilled": true,
+     "auto": true,
+     "non_scout": true
+    },
+    {
+     "date": "2026-08-23",
+     "play": "WSH/MIA O8.5",
+     "market": "totals",
+     "line": 8.5,
+     "price": 100,
+     "rule": "starter-over-run",
+     "result": "LOSS",
+     "profit": -1.0,
+     "game": "WSH @ MIA",
+     "gamePk": 823827,
+     "commence": "2026-08-23T17:40:00Z",
+     "basis": "Starter over run: over in Janson Junk 75% of last 8, total 8.5",
+     "name": "Starter over run",
+     "group": "non-scout",
+     "backfilled": true,
+     "auto": true,
+     "non_scout": true
+    },
+    {
+     "date": "2026-08-23",
+     "play": "DET/KC U8.5",
+     "market": "totals",
+     "line": 8.5,
+     "price": -106,
+     "rule": "pickem-under",
+     "result": "LOSS",
+     "profit": -1.0,
+     "game": "DET @ KC",
+     "gamePk": 824071,
+     "commence": "2026-08-23T18:10:00Z",
+     "basis": "Pickem under: favorite only -110 at a 8.5 total",
+     "name": "Pickem under",
+     "group": "non-scout",
+     "backfilled": true,
+     "auto": true,
+     "non_scout": true
+    },
+    {
+     "date": "2026-08-23",
+     "play": "NYM/CWS U8.5",
+     "market": "totals",
+     "line": 8.5,
+     "price": -124,
+     "rule": "pickem-under",
+     "result": "WIN",
+     "profit": 0.81,
+     "game": "NYM @ CWS",
+     "gamePk": 824558,
+     "commence": "2026-08-23T18:10:00Z",
+     "basis": "Pickem under: favorite only -104 at a 8.5 total",
+     "name": "Pickem under",
+     "group": "non-scout",
+     "backfilled": true,
+     "auto": true,
+     "non_scout": true
+    }
+   ],
+   "all": {
+    "w": 0,
+    "l": 0,
+    "push": 0,
+    "pending": 0,
+    "n": 4,
+    "live_n": 0,
+    "units": 0,
+    "backfilled": {
+     "w": 2,
+     "l": 2,
+     "push": 0,
+     "n": 4
+    }
+   },
+   "scout": {
+    "w": 0,
+    "l": 0,
+    "push": 0,
+    "pending": 0,
     "n": 0,
-    "units": 0
+    "live_n": 0,
+    "units": 0,
+    "backfilled": {
+     "w": 0,
+     "l": 0,
+     "push": 0,
+     "n": 0
+    }
+   },
+   "non_scout": {
+    "w": 0,
+    "l": 0,
+    "push": 0,
+    "pending": 0,
+    "n": 4,
+    "live_n": 0,
+    "units": 0,
+    "backfilled": {
+     "w": 2,
+     "l": 2,
+     "push": 0,
+     "n": 4
+    }
    }
   },
   {
    "date": "2026-08-22",
    "rows": [
+    {
+     "date": "2026-08-22",
+     "play": "STL/PHI O9",
+     "market": "totals",
+     "line": 9,
+     "price": 100,
+     "rule": "starter-over-run",
+     "result": "WIN",
+     "profit": 1.0,
+     "game": "STL @ PHI",
+     "gamePk": 823422,
+     "commence": "2026-08-22T22:05:00Z",
+     "basis": "Starter over run: over in Andrew Painter 75% of last 8, total 9",
+     "name": "Starter over run",
+     "group": "non-scout",
+     "backfilled": true,
+     "auto": true,
+     "non_scout": true
+    },
+    {
+     "date": "2026-08-22",
+     "play": "NYM/CWS U8.5",
+     "market": "totals",
+     "line": 8.5,
+     "price": -110,
+     "rule": "pickem-under",
+     "result": "LOSS",
+     "profit": -1.0,
+     "game": "NYM @ CWS",
+     "gamePk": 824560,
+     "commence": "2026-08-22T23:10:00Z",
+     "basis": "Pickem under: favorite only -110 at a 8.5 total",
+     "name": "Pickem under",
+     "group": "non-scout",
+     "backfilled": true,
+     "auto": true,
+     "non_scout": true
+    },
+    {
+     "date": "2026-08-22",
+     "play": "DET/KC U8.5",
+     "market": "totals",
+     "line": 8.5,
+     "price": -115,
+     "rule": "pickem-under",
+     "result": "WIN",
+     "profit": 0.87,
+     "game": "DET @ KC",
+     "gamePk": 824073,
+     "commence": "2026-08-22T23:15:00Z",
+     "basis": "Pickem under: favorite only -104 at a 8.5 total",
+     "name": "Pickem under",
+     "group": "non-scout",
+     "backfilled": true,
+     "auto": true,
+     "non_scout": true
+    },
     {
      "date": "2026-08-22",
      "play": "BOS ML",
@@ -1105,8 +2038,15 @@
     "l": 0,
     "push": 0,
     "pending": 0,
-    "n": 2,
-    "units": 1.18
+    "n": 5,
+    "live_n": 2,
+    "units": 1.18,
+    "backfilled": {
+     "w": 2,
+     "l": 1,
+     "push": 0,
+     "n": 3
+    }
    },
    "scout": {
     "w": 2,
@@ -1114,15 +2054,29 @@
     "push": 0,
     "pending": 0,
     "n": 2,
-    "units": 1.18
+    "live_n": 2,
+    "units": 1.18,
+    "backfilled": {
+     "w": 0,
+     "l": 0,
+     "push": 0,
+     "n": 0
+    }
    },
    "non_scout": {
     "w": 0,
     "l": 0,
     "push": 0,
     "pending": 0,
-    "n": 0,
-    "units": 0
+    "n": 3,
+    "live_n": 0,
+    "units": 0,
+    "backfilled": {
+     "w": 2,
+     "l": 1,
+     "push": 0,
+     "n": 3
+    }
    }
   },
   {
@@ -1177,6 +2131,43 @@
     },
     {
      "date": "2026-08-21",
+     "play": "BAL ML (home slide)",
+     "market": "h2h",
+     "price": -116,
+     "rule": "home-slide-ml",
+     "result": "WIN",
+     "profit": 0.86,
+     "game": "TB @ BAL",
+     "gamePk": 824800,
+     "commence": "2026-08-21T23:15:00Z",
+     "basis": "Home slide ML: home on L4, new opponent (last faced NYY)",
+     "name": "Home slide ML",
+     "group": "non-scout",
+     "backfilled": true,
+     "auto": true,
+     "non_scout": true
+    },
+    {
+     "date": "2026-08-21",
+     "play": "DET/KC U8.5",
+     "market": "totals",
+     "line": 8.5,
+     "price": -122,
+     "rule": "pickem-under",
+     "result": "WIN",
+     "profit": 0.82,
+     "game": "DET @ KC",
+     "gamePk": 824072,
+     "commence": "2026-08-22T00:10:00Z",
+     "basis": "Pickem under: favorite only -108 at a 8.5 total",
+     "name": "Pickem under",
+     "group": "non-scout",
+     "backfilled": true,
+     "auto": true,
+     "non_scout": true
+    },
+    {
+     "date": "2026-08-21",
      "play": "TEX ML (mismatch -48.9)",
      "market": "h2h",
      "price": -138,
@@ -1206,36 +2197,95 @@
      "basis": "Both offenses aligned <=90 all four windows; Gordon layoff-42d/stale-window/swingman flags",
      "name": "card-grade-total-aligned-plus-flag",
      "group": "scout"
+    },
+    {
+     "date": "2026-08-21",
+     "play": "MIN/SD O8.5",
+     "market": "totals",
+     "line": 8.5,
+     "price": 100,
+     "rule": "starter-over-run",
+     "result": "LOSS",
+     "profit": -1.0,
+     "game": "MIN @ SD",
+     "gamePk": 823262,
+     "commence": "2026-08-22T01:40:00Z",
+     "basis": "Starter over run: over in Randy V\u00e1squez 86% of last 8, total 8.5",
+     "name": "Starter over run",
+     "group": "non-scout",
+     "backfilled": true,
+     "auto": true,
+     "non_scout": true
     }
    ],
    "all": {
-    "w": 4,
-    "l": 1,
+    "w": 2,
+    "l": 0,
     "push": 0,
     "pending": 0,
-    "n": 5,
-    "units": 2.18
+    "n": 8,
+    "live_n": 2,
+    "units": 1.74,
+    "backfilled": {
+     "w": 4,
+     "l": 2,
+     "push": 0,
+     "n": 6
+    }
    },
    "scout": {
-    "w": 4,
-    "l": 1,
+    "w": 2,
+    "l": 0,
     "push": 0,
     "pending": 0,
     "n": 5,
-    "units": 2.18
+    "live_n": 2,
+    "units": 1.74,
+    "backfilled": {
+     "w": 2,
+     "l": 1,
+     "push": 0,
+     "n": 3
+    }
    },
    "non_scout": {
     "w": 0,
     "l": 0,
     "push": 0,
     "pending": 0,
-    "n": 0,
-    "units": 0
+    "n": 3,
+    "live_n": 0,
+    "units": 0,
+    "backfilled": {
+     "w": 2,
+     "l": 1,
+     "push": 0,
+     "n": 3
+    }
    }
   },
   {
    "date": "2026-08-20",
    "rows": [
+    {
+     "date": "2026-08-20",
+     "play": "STL/CIN U8.5",
+     "market": "totals",
+     "line": 8.5,
+     "price": 100,
+     "rule": "pickem-under",
+     "result": "LOSS",
+     "profit": -1.0,
+     "game": "STL @ CIN",
+     "gamePk": 824474,
+     "commence": "2026-08-20T16:40:00Z",
+     "basis": "Pickem under: favorite only -108 at a 8.5 total",
+     "name": "Pickem under",
+     "group": "non-scout",
+     "backfilled": true,
+     "auto": true,
+     "non_scout": true
+    },
     {
      "date": "2026-08-20",
      "play": "CLE ML (mismatch -48.4)",
@@ -1251,36 +2301,674 @@
      "name": "Mismatch ML",
      "group": "scout",
      "backfilled": true
+    },
+    {
+     "date": "2026-08-20",
+     "play": "ATL/CWS U8.5",
+     "market": "totals",
+     "line": 8.5,
+     "price": -106,
+     "rule": "pickem-under",
+     "result": "WIN",
+     "profit": 0.94,
+     "game": "ATL @ CWS",
+     "gamePk": 824589,
+     "commence": "2026-08-20T18:10:00Z",
+     "basis": "Pickem under: favorite only -106 at a 8.5 total",
+     "name": "Pickem under",
+     "group": "non-scout",
+     "backfilled": true,
+     "auto": true,
+     "non_scout": true
+    },
+    {
+     "date": "2026-08-20",
+     "play": "OAK/KC O8.5",
+     "market": "totals",
+     "line": 8.5,
+     "price": 102,
+     "rule": "starter-over-run",
+     "result": "LOSS",
+     "profit": -1.0,
+     "game": "OAK @ KC",
+     "gamePk": 824074,
+     "commence": "2026-08-20T18:10:00Z",
+     "basis": "Starter over run: over in Gage Jump 75% of last 8, total 8.5",
+     "name": "Starter over run",
+     "group": "non-scout",
+     "backfilled": true,
+     "auto": true,
+     "non_scout": true
+    },
+    {
+     "date": "2026-08-20",
+     "play": "NYY/BAL U7.5",
+     "market": "totals",
+     "line": 7.5,
+     "price": -118,
+     "rule": "cold-arms-under",
+     "result": "WIN",
+     "profit": 0.85,
+     "game": "NYY @ BAL",
+     "gamePk": 824802,
+     "commence": "2026-08-20T22:35:00Z",
+     "basis": "Cold arms under: both starters Gerrit Cole 12%, Kyle Bradish 29% over in last 8",
+     "name": "Cold arms under",
+     "group": "non-scout",
+     "backfilled": true,
+     "auto": true,
+     "non_scout": true
     }
    ],
    "all": {
-    "w": 1,
+    "w": 0,
     "l": 0,
     "push": 0,
     "pending": 0,
-    "n": 1,
-    "units": 0.49
+    "n": 5,
+    "live_n": 0,
+    "units": 0,
+    "backfilled": {
+     "w": 3,
+     "l": 2,
+     "push": 0,
+     "n": 5
+    }
    },
    "scout": {
-    "w": 1,
+    "w": 0,
     "l": 0,
     "push": 0,
     "pending": 0,
     "n": 1,
-    "units": 0.49
+    "live_n": 0,
+    "units": 0,
+    "backfilled": {
+     "w": 1,
+     "l": 0,
+     "push": 0,
+     "n": 1
+    }
    },
    "non_scout": {
     "w": 0,
     "l": 0,
     "push": 0,
     "pending": 0,
+    "n": 4,
+    "live_n": 0,
+    "units": 0,
+    "backfilled": {
+     "w": 2,
+     "l": 2,
+     "push": 0,
+     "n": 4
+    }
+   }
+  },
+  {
+   "date": "2026-08-19",
+   "rows": [
+    {
+     "date": "2026-08-19",
+     "play": "ATL/MIN U8.5",
+     "market": "totals",
+     "line": 8.5,
+     "price": -105,
+     "rule": "pickem-under",
+     "result": "LOSS",
+     "profit": -1.0,
+     "game": "ATL @ MIN",
+     "gamePk": 823664,
+     "commence": "2026-08-19T17:40:00Z",
+     "basis": "Pickem under: favorite only -110 at a 8.5 total",
+     "name": "Pickem under",
+     "group": "non-scout",
+     "backfilled": true,
+     "auto": true,
+     "non_scout": true
+    },
+    {
+     "date": "2026-08-19",
+     "play": "NYY/BAL U9",
+     "market": "totals",
+     "line": 9,
+     "price": -102,
+     "rule": "pickem-under",
+     "result": "WIN",
+     "profit": 0.98,
+     "game": "NYY @ BAL",
+     "gamePk": 824801,
+     "commence": "2026-08-19T22:35:00Z",
+     "basis": "Pickem under: favorite only -106 at a 9 total",
+     "name": "Pickem under",
+     "group": "non-scout",
+     "backfilled": true,
+     "auto": true,
+     "non_scout": true
+    },
+    {
+     "date": "2026-08-19",
+     "play": "NYY/BAL O9",
+     "market": "totals",
+     "line": 9,
+     "price": -120,
+     "rule": "starter-over-run",
+     "result": "LOSS",
+     "profit": -1.0,
+     "game": "NYY @ BAL",
+     "gamePk": 824801,
+     "commence": "2026-08-19T22:35:00Z",
+     "basis": "Starter over run: over in Chris Bassitt 88% of last 8, total 9",
+     "name": "Starter over run",
+     "group": "non-scout",
+     "backfilled": true,
+     "auto": true,
+     "non_scout": true
+    },
+    {
+     "date": "2026-08-19",
+     "play": "STL/CIN O8.5",
+     "market": "totals",
+     "line": 8.5,
+     "price": -106,
+     "rule": "starter-over-run",
+     "result": "WIN",
+     "profit": 0.94,
+     "game": "STL @ CIN",
+     "gamePk": 824476,
+     "commence": "2026-08-19T22:40:00Z",
+     "basis": "Starter over run: over in Chase Burns 75% of last 8, total 8.5",
+     "name": "Starter over run",
+     "group": "non-scout",
+     "backfilled": true,
+     "auto": true,
+     "non_scout": true
+    },
+    {
+     "date": "2026-08-19",
+     "play": "OAK/KC O8.5",
+     "market": "totals",
+     "line": 8.5,
+     "price": -122,
+     "rule": "starter-over-run",
+     "result": "WIN",
+     "profit": 0.82,
+     "game": "OAK @ KC",
+     "gamePk": 824076,
+     "commence": "2026-08-19T23:40:00Z",
+     "basis": "Starter over run: over in Jeffrey Springs 75% of last 8, total 8.5",
+     "name": "Starter over run",
+     "group": "non-scout",
+     "backfilled": true,
+     "auto": true,
+     "non_scout": true
+    }
+   ],
+   "all": {
+    "w": 0,
+    "l": 0,
+    "push": 0,
+    "pending": 0,
+    "n": 5,
+    "live_n": 0,
+    "units": 0,
+    "backfilled": {
+     "w": 3,
+     "l": 2,
+     "push": 0,
+     "n": 5
+    }
+   },
+   "scout": {
+    "w": 0,
+    "l": 0,
+    "push": 0,
+    "pending": 0,
     "n": 0,
-    "units": 0
+    "live_n": 0,
+    "units": 0,
+    "backfilled": {
+     "w": 0,
+     "l": 0,
+     "push": 0,
+     "n": 0
+    }
+   },
+   "non_scout": {
+    "w": 0,
+    "l": 0,
+    "push": 0,
+    "pending": 0,
+    "n": 5,
+    "live_n": 0,
+    "units": 0,
+    "backfilled": {
+     "w": 3,
+     "l": 2,
+     "push": 0,
+     "n": 5
+    }
+   }
+  },
+  {
+   "date": "2026-08-18",
+   "rows": [
+    {
+     "date": "2026-08-18",
+     "play": "NYY/BAL U8.5",
+     "market": "totals",
+     "line": 8.5,
+     "price": -104,
+     "rule": "pickem-under",
+     "result": "WIN",
+     "profit": 0.96,
+     "game": "NYY @ BAL",
+     "gamePk": 824803,
+     "commence": "2026-08-18T22:35:00Z",
+     "basis": "Pickem under: favorite only -108 at a 8.5 total",
+     "name": "Pickem under",
+     "group": "non-scout",
+     "backfilled": true,
+     "auto": true,
+     "non_scout": true
+    },
+    {
+     "date": "2026-08-18",
+     "play": "STL/CIN U9",
+     "market": "totals",
+     "line": 9,
+     "price": -114,
+     "rule": "pickem-under",
+     "result": "WIN",
+     "profit": 0.88,
+     "game": "STL @ CIN",
+     "gamePk": 824475,
+     "commence": "2026-08-18T22:40:00Z",
+     "basis": "Pickem under: favorite only -112 at a 9 total",
+     "name": "Pickem under",
+     "group": "non-scout",
+     "backfilled": true,
+     "auto": true,
+     "non_scout": true
+    },
+    {
+     "date": "2026-08-18",
+     "play": "ATL/MIN O8.5",
+     "market": "totals",
+     "line": 8.5,
+     "price": -120,
+     "rule": "starter-over-run",
+     "result": "LOSS",
+     "profit": -1.0,
+     "game": "ATL @ MIN",
+     "gamePk": 823667,
+     "commence": "2026-08-18T23:40:00Z",
+     "basis": "Starter over run: over in Zebby Matthews 75% of last 8, total 8.5",
+     "name": "Starter over run",
+     "group": "non-scout",
+     "backfilled": true,
+     "auto": true,
+     "non_scout": true
+    },
+    {
+     "date": "2026-08-18",
+     "play": "CWS ML (away dog)",
+     "market": "h2h",
+     "price": 156,
+     "rule": "away-dog-ml",
+     "result": "LOSS",
+     "profit": -1.0,
+     "game": "CWS @ CHC",
+     "gamePk": 824639,
+     "commence": "2026-08-19T00:05:00Z",
+     "basis": "Away dog ML: away dog at a 9.5 total",
+     "name": "Away dog ML",
+     "group": "non-scout",
+     "backfilled": true,
+     "auto": true,
+     "non_scout": true
+    },
+    {
+     "date": "2026-08-18",
+     "play": "LAD/COL O11.5",
+     "market": "totals",
+     "line": 11.5,
+     "price": -115,
+     "rule": "starter-over-run",
+     "result": "WIN",
+     "profit": 0.87,
+     "game": "LAD @ COL",
+     "gamePk": 824319,
+     "commence": "2026-08-19T00:40:00Z",
+     "basis": "Starter over run: over in Ryan Feltner 75% of last 8, total 11.5",
+     "name": "Starter over run",
+     "group": "non-scout",
+     "backfilled": true,
+     "auto": true,
+     "non_scout": true
+    }
+   ],
+   "all": {
+    "w": 0,
+    "l": 0,
+    "push": 0,
+    "pending": 0,
+    "n": 5,
+    "live_n": 0,
+    "units": 0,
+    "backfilled": {
+     "w": 3,
+     "l": 2,
+     "push": 0,
+     "n": 5
+    }
+   },
+   "scout": {
+    "w": 0,
+    "l": 0,
+    "push": 0,
+    "pending": 0,
+    "n": 0,
+    "live_n": 0,
+    "units": 0,
+    "backfilled": {
+     "w": 0,
+     "l": 0,
+     "push": 0,
+     "n": 0
+    }
+   },
+   "non_scout": {
+    "w": 0,
+    "l": 0,
+    "push": 0,
+    "pending": 0,
+    "n": 5,
+    "live_n": 0,
+    "units": 0,
+    "backfilled": {
+     "w": 3,
+     "l": 2,
+     "push": 0,
+     "n": 5
+    }
+   }
+  },
+  {
+   "date": "2026-08-17",
+   "rows": [
+    {
+     "date": "2026-08-17",
+     "play": "STL/CIN U9.5",
+     "market": "totals",
+     "line": 9.5,
+     "price": -122,
+     "rule": "pickem-under",
+     "result": "WIN",
+     "profit": 0.82,
+     "game": "STL @ CIN",
+     "gamePk": 824514,
+     "commence": "2026-08-17T17:40:00Z",
+     "basis": "Pickem under: favorite only -110 at a 9.5 total",
+     "name": "Pickem under",
+     "group": "non-scout",
+     "backfilled": true,
+     "auto": true,
+     "non_scout": true
+    },
+    {
+     "date": "2026-08-17",
+     "play": "MIA/PHI O8.5",
+     "market": "totals",
+     "line": 8.5,
+     "price": -108,
+     "rule": "starter-over-run",
+     "result": "WIN",
+     "profit": 0.93,
+     "game": "MIA @ PHI",
+     "gamePk": 823427,
+     "commence": "2026-08-17T22:40:00Z",
+     "basis": "Starter over run: over in Janson Junk 75% of last 8, total 8.5",
+     "name": "Starter over run",
+     "group": "non-scout",
+     "backfilled": true,
+     "auto": true,
+     "non_scout": true
+    },
+    {
+     "date": "2026-08-17",
+     "play": "DET/PIT U8.5",
+     "market": "totals",
+     "line": 8.5,
+     "price": -110,
+     "rule": "pickem-under",
+     "result": "LOSS",
+     "profit": -1.0,
+     "game": "DET @ PIT",
+     "gamePk": 823343,
+     "commence": "2026-08-17T23:05:00Z",
+     "basis": "Pickem under: favorite only -108 at a 8.5 total",
+     "name": "Pickem under",
+     "group": "non-scout",
+     "backfilled": true,
+     "auto": true,
+     "non_scout": true
+    },
+    {
+     "date": "2026-08-17",
+     "play": "DET/PIT O8.5",
+     "market": "totals",
+     "line": 8.5,
+     "price": -110,
+     "rule": "starter-over-run",
+     "result": "WIN",
+     "profit": 0.91,
+     "game": "DET @ PIT",
+     "gamePk": 823343,
+     "commence": "2026-08-17T23:05:00Z",
+     "basis": "Starter over run: over in Framber Valdez 86% of last 8, total 8.5",
+     "name": "Starter over run",
+     "group": "non-scout",
+     "backfilled": true,
+     "auto": true,
+     "non_scout": true
+    }
+   ],
+   "all": {
+    "w": 0,
+    "l": 0,
+    "push": 0,
+    "pending": 0,
+    "n": 4,
+    "live_n": 0,
+    "units": 0,
+    "backfilled": {
+     "w": 3,
+     "l": 1,
+     "push": 0,
+     "n": 4
+    }
+   },
+   "scout": {
+    "w": 0,
+    "l": 0,
+    "push": 0,
+    "pending": 0,
+    "n": 0,
+    "live_n": 0,
+    "units": 0,
+    "backfilled": {
+     "w": 0,
+     "l": 0,
+     "push": 0,
+     "n": 0
+    }
+   },
+   "non_scout": {
+    "w": 0,
+    "l": 0,
+    "push": 0,
+    "pending": 0,
+    "n": 4,
+    "live_n": 0,
+    "units": 0,
+    "backfilled": {
+     "w": 3,
+     "l": 1,
+     "push": 0,
+     "n": 4
+    }
+   }
+  },
+  {
+   "date": "2026-08-16",
+   "rows": [
+    {
+     "date": "2026-08-16",
+     "play": "SD/CLE U8.5",
+     "market": "totals",
+     "line": 8.5,
+     "price": -124,
+     "rule": "pickem-under",
+     "result": "WIN",
+     "profit": 0.81,
+     "game": "SD @ CLE",
+     "gamePk": 824397,
+     "commence": "2026-08-16T17:40:00Z",
+     "basis": "Pickem under: favorite only -110 at a 8.5 total",
+     "name": "Pickem under",
+     "group": "non-scout",
+     "backfilled": true,
+     "auto": true,
+     "non_scout": true
+    },
+    {
+     "date": "2026-08-16",
+     "play": "PHI/MIN U9.5",
+     "market": "totals",
+     "line": 9.5,
+     "price": -115,
+     "rule": "pickem-under",
+     "result": "LOSS",
+     "profit": -1.0,
+     "game": "PHI @ MIN",
+     "gamePk": 823670,
+     "commence": "2026-08-16T18:10:00Z",
+     "basis": "Pickem under: favorite only -106 at a 9.5 total",
+     "name": "Pickem under",
+     "group": "non-scout",
+     "backfilled": true,
+     "auto": true,
+     "non_scout": true
+    },
+    {
+     "date": "2026-08-16",
+     "play": "KC/LAA U8.5",
+     "market": "totals",
+     "line": 8.5,
+     "price": -108,
+     "rule": "pickem-under",
+     "result": "WIN",
+     "profit": 0.93,
+     "game": "KC @ LAA",
+     "gamePk": 823991,
+     "commence": "2026-08-16T20:07:00Z",
+     "basis": "Pickem under: favorite only -114 at a 8.5 total",
+     "name": "Pickem under",
+     "group": "non-scout",
+     "backfilled": true,
+     "auto": true,
+     "non_scout": true
+    }
+   ],
+   "all": {
+    "w": 0,
+    "l": 0,
+    "push": 0,
+    "pending": 0,
+    "n": 3,
+    "live_n": 0,
+    "units": 0,
+    "backfilled": {
+     "w": 2,
+     "l": 1,
+     "push": 0,
+     "n": 3
+    }
+   },
+   "scout": {
+    "w": 0,
+    "l": 0,
+    "push": 0,
+    "pending": 0,
+    "n": 0,
+    "live_n": 0,
+    "units": 0,
+    "backfilled": {
+     "w": 0,
+     "l": 0,
+     "push": 0,
+     "n": 0
+    }
+   },
+   "non_scout": {
+    "w": 0,
+    "l": 0,
+    "push": 0,
+    "pending": 0,
+    "n": 3,
+    "live_n": 0,
+    "units": 0,
+    "backfilled": {
+     "w": 2,
+     "l": 1,
+     "push": 0,
+     "n": 3
+    }
    }
   },
   {
    "date": "2026-08-15",
    "rows": [
+    {
+     "date": "2026-08-15",
+     "play": "MIA/CIN U9.5",
+     "market": "totals",
+     "line": 9.5,
+     "price": -124,
+     "rule": "pickem-under",
+     "result": "LOSS",
+     "profit": -1.0,
+     "game": "MIA @ CIN",
+     "gamePk": 824480,
+     "commence": "2026-08-15T22:40:00Z",
+     "basis": "Pickem under: favorite only -106 at a 9.5 total",
+     "name": "Pickem under",
+     "group": "non-scout",
+     "backfilled": true,
+     "auto": true,
+     "non_scout": true
+    },
+    {
+     "date": "2026-08-15",
+     "play": "SD/CLE U8.5",
+     "market": "totals",
+     "line": 8.5,
+     "price": -110,
+     "rule": "pickem-under",
+     "result": "WIN",
+     "profit": 0.91,
+     "game": "SD @ CLE",
+     "gamePk": 824400,
+     "commence": "2026-08-15T23:10:00Z",
+     "basis": "Pickem under: favorite only -106 at a 8.5 total",
+     "name": "Pickem under",
+     "group": "non-scout",
+     "backfilled": true,
+     "auto": true,
+     "non_scout": true
+    },
     {
      "date": "2026-08-15",
      "play": "MIL ML (mismatch -46.6)",
@@ -1312,36 +3000,327 @@
      "name": "Mismatch ML",
      "group": "scout",
      "backfilled": true
+    },
+    {
+     "date": "2026-08-15",
+     "play": "TEX/OAK O9.5",
+     "market": "totals",
+     "line": 9.5,
+     "price": 100,
+     "rule": "starter-over-run",
+     "result": "LOSS",
+     "profit": -1.0,
+     "game": "TEX @ OAK",
+     "gamePk": 824966,
+     "commence": "2026-08-16T01:40:00Z",
+     "basis": "Starter over run: over in MacKenzie Gore 75% of last 8, total 9.5",
+     "name": "Starter over run",
+     "group": "non-scout",
+     "backfilled": true,
+     "auto": true,
+     "non_scout": true
     }
    ],
    "all": {
-    "w": 2,
+    "w": 0,
     "l": 0,
     "push": 0,
     "pending": 0,
-    "n": 2,
-    "units": 1.47
+    "n": 5,
+    "live_n": 0,
+    "units": 0,
+    "backfilled": {
+     "w": 3,
+     "l": 2,
+     "push": 0,
+     "n": 5
+    }
    },
    "scout": {
-    "w": 2,
+    "w": 0,
     "l": 0,
     "push": 0,
     "pending": 0,
     "n": 2,
-    "units": 1.47
+    "live_n": 0,
+    "units": 0,
+    "backfilled": {
+     "w": 2,
+     "l": 0,
+     "push": 0,
+     "n": 2
+    }
    },
    "non_scout": {
     "w": 0,
     "l": 0,
     "push": 0,
     "pending": 0,
+    "n": 3,
+    "live_n": 0,
+    "units": 0,
+    "backfilled": {
+     "w": 1,
+     "l": 2,
+     "push": 0,
+     "n": 3
+    }
+   }
+  },
+  {
+   "date": "2026-08-14",
+   "rows": [
+    {
+     "date": "2026-08-14",
+     "play": "BAL/TB O8.5",
+     "market": "totals",
+     "line": 8.5,
+     "price": 102,
+     "rule": "starter-over-run",
+     "result": "WIN",
+     "profit": 1.02,
+     "game": "BAL @ TB",
+     "gamePk": 822942,
+     "commence": "2026-08-14T23:10:00Z",
+     "basis": "Starter over run: over in Chris Bassitt 88% of last 8, total 8.5",
+     "name": "Starter over run",
+     "group": "non-scout",
+     "backfilled": true,
+     "auto": true,
+     "non_scout": true
+    },
+    {
+     "date": "2026-08-14",
+     "play": "KC/LAA U8.5",
+     "market": "totals",
+     "line": 8.5,
+     "price": -106,
+     "rule": "pickem-under",
+     "result": "LOSS",
+     "profit": -1.0,
+     "game": "KC @ LAA",
+     "gamePk": 823993,
+     "commence": "2026-08-15T01:38:00Z",
+     "basis": "Pickem under: favorite only -108 at a 8.5 total",
+     "name": "Pickem under",
+     "group": "non-scout",
+     "backfilled": true,
+     "auto": true,
+     "non_scout": true
+    },
+    {
+     "date": "2026-08-14",
+     "play": "TEX/OAK U9.5",
+     "market": "totals",
+     "line": 9.5,
+     "price": -118,
+     "rule": "pickem-under",
+     "result": "LOSS",
+     "profit": -1.0,
+     "game": "TEX @ OAK",
+     "gamePk": 824968,
+     "commence": "2026-08-15T01:40:00Z",
+     "basis": "Pickem under: favorite only -106 at a 9.5 total",
+     "name": "Pickem under",
+     "group": "non-scout",
+     "backfilled": true,
+     "auto": true,
+     "non_scout": true
+    },
+    {
+     "date": "2026-08-14",
+     "play": "TEX/OAK O9.5",
+     "market": "totals",
+     "line": 9.5,
+     "price": -104,
+     "rule": "starter-over-run",
+     "result": "WIN",
+     "profit": 0.96,
+     "game": "TEX @ OAK",
+     "gamePk": 824968,
+     "commence": "2026-08-15T01:40:00Z",
+     "basis": "Starter over run: over in Kumar Rocker 88%, Gage Jump 75% of last 8, total 9.5",
+     "name": "Starter over run",
+     "group": "non-scout",
+     "backfilled": true,
+     "auto": true,
+     "non_scout": true
+    }
+   ],
+   "all": {
+    "w": 0,
+    "l": 0,
+    "push": 0,
+    "pending": 0,
+    "n": 4,
+    "live_n": 0,
+    "units": 0,
+    "backfilled": {
+     "w": 2,
+     "l": 2,
+     "push": 0,
+     "n": 4
+    }
+   },
+   "scout": {
+    "w": 0,
+    "l": 0,
+    "push": 0,
+    "pending": 0,
     "n": 0,
-    "units": 0
+    "live_n": 0,
+    "units": 0,
+    "backfilled": {
+     "w": 0,
+     "l": 0,
+     "push": 0,
+     "n": 0
+    }
+   },
+   "non_scout": {
+    "w": 0,
+    "l": 0,
+    "push": 0,
+    "pending": 0,
+    "n": 4,
+    "live_n": 0,
+    "units": 0,
+    "backfilled": {
+     "w": 2,
+     "l": 2,
+     "push": 0,
+     "n": 4
+    }
+   }
+  },
+  {
+   "date": "2026-08-13",
+   "rows": [
+    {
+     "date": "2026-08-13",
+     "play": "PHI/MIN U8.5",
+     "market": "totals",
+     "line": 8.5,
+     "price": -104,
+     "rule": "pickem-under",
+     "result": "WIN",
+     "profit": 0.96,
+     "game": "PHI @ MIN",
+     "gamePk": 823669,
+     "commence": "2026-08-13T23:30:00Z",
+     "basis": "Pickem under: favorite only -104 at a 8.5 total",
+     "name": "Pickem under",
+     "group": "non-scout",
+     "backfilled": true,
+     "auto": true,
+     "non_scout": true
+    }
+   ],
+   "all": {
+    "w": 0,
+    "l": 0,
+    "push": 0,
+    "pending": 0,
+    "n": 1,
+    "live_n": 0,
+    "units": 0,
+    "backfilled": {
+     "w": 1,
+     "l": 0,
+     "push": 0,
+     "n": 1
+    }
+   },
+   "scout": {
+    "w": 0,
+    "l": 0,
+    "push": 0,
+    "pending": 0,
+    "n": 0,
+    "live_n": 0,
+    "units": 0,
+    "backfilled": {
+     "w": 0,
+     "l": 0,
+     "push": 0,
+     "n": 0
+    }
+   },
+   "non_scout": {
+    "w": 0,
+    "l": 0,
+    "push": 0,
+    "pending": 0,
+    "n": 1,
+    "live_n": 0,
+    "units": 0,
+    "backfilled": {
+     "w": 1,
+     "l": 0,
+     "push": 0,
+     "n": 1
+    }
    }
   },
   {
    "date": "2026-08-12",
    "rows": [
+    {
+     "date": "2026-08-12",
+     "play": "BAL/MIN U8.5",
+     "market": "totals",
+     "line": 8.5,
+     "price": 102,
+     "rule": "pickem-under",
+     "result": "LOSS",
+     "profit": -1.0,
+     "game": "BAL @ MIN",
+     "gamePk": 823672,
+     "commence": "2026-08-12T17:40:00Z",
+     "basis": "Pickem under: favorite only -104 at a 8.5 total",
+     "name": "Pickem under",
+     "group": "non-scout",
+     "backfilled": true,
+     "auto": true,
+     "non_scout": true
+    },
+    {
+     "date": "2026-08-12",
+     "play": "TB/OAK O9.5",
+     "market": "totals",
+     "line": 9.5,
+     "price": -102,
+     "rule": "starter-over-run",
+     "result": "WIN",
+     "profit": 0.98,
+     "game": "TB @ OAK",
+     "gamePk": 824967,
+     "commence": "2026-08-12T19:05:00Z",
+     "basis": "Starter over run: over in Jack Perkins 75% of last 8, total 9.5",
+     "name": "Starter over run",
+     "group": "non-scout",
+     "backfilled": true,
+     "auto": true,
+     "non_scout": true
+    },
+    {
+     "date": "2026-08-12",
+     "play": "COL ML (away dog)",
+     "market": "h2h",
+     "price": 158,
+     "rule": "away-dog-ml",
+     "result": "WIN",
+     "profit": 1.58,
+     "game": "COL @ ARI",
+     "gamePk": 825047,
+     "commence": "2026-08-12T19:40:00Z",
+     "basis": "Away dog ML: away dog at a 9.5 total",
+     "name": "Away dog ML",
+     "group": "non-scout",
+     "backfilled": true,
+     "auto": true,
+     "non_scout": true
+    },
     {
      "date": "2026-08-12",
      "play": "ARI ML (mismatch +62.9)",
@@ -1357,31 +3336,1394 @@
      "name": "Mismatch ML",
      "group": "scout",
      "backfilled": true
+    },
+    {
+     "date": "2026-08-12",
+     "play": "PIT/MIA U8.5",
+     "market": "totals",
+     "line": 8.5,
+     "price": -122,
+     "rule": "pickem-under",
+     "result": "LOSS",
+     "profit": -1.0,
+     "game": "PIT @ MIA",
+     "gamePk": 823833,
+     "commence": "2026-08-12T22:40:00Z",
+     "basis": "Pickem under: favorite only -114 at a 8.5 total",
+     "name": "Pickem under",
+     "group": "non-scout",
+     "backfilled": true,
+     "auto": true,
+     "non_scout": true
+    },
+    {
+     "date": "2026-08-12",
+     "play": "PIT/MIA O8.5",
+     "market": "totals",
+     "line": 8.5,
+     "price": 100,
+     "rule": "starter-over-run",
+     "result": "WIN",
+     "profit": 1.0,
+     "game": "PIT @ MIA",
+     "gamePk": 823833,
+     "commence": "2026-08-12T22:40:00Z",
+     "basis": "Starter over run: over in Janson Junk 75% of last 8, total 8.5",
+     "name": "Starter over run",
+     "group": "non-scout",
+     "backfilled": true,
+     "auto": true,
+     "non_scout": true
+    },
+    {
+     "date": "2026-08-12",
+     "play": "KC/LAD O9",
+     "market": "totals",
+     "line": 9,
+     "price": -112,
+     "rule": "starter-over-run",
+     "result": "LOSS",
+     "profit": -1.0,
+     "game": "KC @ LAD",
+     "gamePk": 823916,
+     "commence": "2026-08-13T02:10:00Z",
+     "basis": "Starter over run: over in Eric Lauer 75% of last 8, total 9",
+     "name": "Starter over run",
+     "group": "non-scout",
+     "backfilled": true,
+     "auto": true,
+     "non_scout": true
     }
    ],
    "all": {
     "w": 0,
-    "l": 1,
+    "l": 0,
     "push": 0,
     "pending": 0,
-    "n": 1,
-    "units": -1.0
+    "n": 7,
+    "live_n": 0,
+    "units": 0,
+    "backfilled": {
+     "w": 3,
+     "l": 4,
+     "push": 0,
+     "n": 7
+    }
    },
    "scout": {
     "w": 0,
-    "l": 1,
+    "l": 0,
     "push": 0,
     "pending": 0,
     "n": 1,
-    "units": -1.0
+    "live_n": 0,
+    "units": 0,
+    "backfilled": {
+     "w": 0,
+     "l": 1,
+     "push": 0,
+     "n": 1
+    }
    },
    "non_scout": {
     "w": 0,
     "l": 0,
     "push": 0,
     "pending": 0,
+    "n": 6,
+    "live_n": 0,
+    "units": 0,
+    "backfilled": {
+     "w": 3,
+     "l": 3,
+     "push": 0,
+     "n": 6
+    }
+   }
+  },
+  {
+   "date": "2026-08-11",
+   "rows": [
+    {
+     "date": "2026-08-11",
+     "play": "BAL/MIN U9",
+     "market": "totals",
+     "line": 9,
+     "price": -104,
+     "rule": "pickem-under",
+     "result": "WIN",
+     "profit": 0.96,
+     "game": "BAL @ MIN",
+     "gamePk": 823673,
+     "commence": "2026-08-11T23:40:00Z",
+     "basis": "Pickem under: favorite only -110 at a 9 total",
+     "name": "Pickem under",
+     "group": "non-scout",
+     "backfilled": true,
+     "auto": true,
+     "non_scout": true
+    },
+    {
+     "date": "2026-08-11",
+     "play": "COL ML (away dog)",
+     "market": "h2h",
+     "price": 152,
+     "rule": "away-dog-ml",
+     "result": "WIN",
+     "profit": 1.52,
+     "game": "COL @ ARI",
+     "gamePk": 825046,
+     "commence": "2026-08-12T01:40:00Z",
+     "basis": "Away dog ML: away dog at a 9.5 total",
+     "name": "Away dog ML",
+     "group": "non-scout",
+     "backfilled": true,
+     "auto": true,
+     "non_scout": true
+    }
+   ],
+   "all": {
+    "w": 0,
+    "l": 0,
+    "push": 0,
+    "pending": 0,
+    "n": 2,
+    "live_n": 0,
+    "units": 0,
+    "backfilled": {
+     "w": 2,
+     "l": 0,
+     "push": 0,
+     "n": 2
+    }
+   },
+   "scout": {
+    "w": 0,
+    "l": 0,
+    "push": 0,
+    "pending": 0,
     "n": 0,
-    "units": 0
+    "live_n": 0,
+    "units": 0,
+    "backfilled": {
+     "w": 0,
+     "l": 0,
+     "push": 0,
+     "n": 0
+    }
+   },
+   "non_scout": {
+    "w": 0,
+    "l": 0,
+    "push": 0,
+    "pending": 0,
+    "n": 2,
+    "live_n": 0,
+    "units": 0,
+    "backfilled": {
+     "w": 2,
+     "l": 0,
+     "push": 0,
+     "n": 2
+    }
+   }
+  },
+  {
+   "date": "2026-08-10",
+   "rows": [
+    {
+     "date": "2026-08-10",
+     "play": "BAL/MIN U8.5",
+     "market": "totals",
+     "line": 8.5,
+     "price": -110,
+     "rule": "pickem-under",
+     "result": "LOSS",
+     "profit": -1.0,
+     "game": "BAL @ MIN",
+     "gamePk": 823675,
+     "commence": "2026-08-10T23:40:00Z",
+     "basis": "Pickem under: favorite only -106 at a 8.5 total",
+     "name": "Pickem under",
+     "group": "non-scout",
+     "backfilled": true,
+     "auto": true,
+     "non_scout": true
+    },
+    {
+     "date": "2026-08-10",
+     "play": "TB/OAK O10",
+     "market": "totals",
+     "line": 10,
+     "price": -105,
+     "rule": "starter-over-run",
+     "result": "WIN",
+     "profit": 0.95,
+     "game": "TB @ OAK",
+     "gamePk": 824969,
+     "commence": "2026-08-11T01:40:00Z",
+     "basis": "Starter over run: over in Freddy Peralta 75% of last 8, total 10",
+     "name": "Starter over run",
+     "group": "non-scout",
+     "backfilled": true,
+     "auto": true,
+     "non_scout": true
+    }
+   ],
+   "all": {
+    "w": 0,
+    "l": 0,
+    "push": 0,
+    "pending": 0,
+    "n": 2,
+    "live_n": 0,
+    "units": 0,
+    "backfilled": {
+     "w": 1,
+     "l": 1,
+     "push": 0,
+     "n": 2
+    }
+   },
+   "scout": {
+    "w": 0,
+    "l": 0,
+    "push": 0,
+    "pending": 0,
+    "n": 0,
+    "live_n": 0,
+    "units": 0,
+    "backfilled": {
+     "w": 0,
+     "l": 0,
+     "push": 0,
+     "n": 0
+    }
+   },
+   "non_scout": {
+    "w": 0,
+    "l": 0,
+    "push": 0,
+    "pending": 0,
+    "n": 2,
+    "live_n": 0,
+    "units": 0,
+    "backfilled": {
+     "w": 1,
+     "l": 1,
+     "push": 0,
+     "n": 2
+    }
+   }
+  },
+  {
+   "date": "2026-08-09",
+   "rows": [
+    {
+     "date": "2026-08-09",
+     "play": "CIN ML (away dog)",
+     "market": "h2h",
+     "price": 102,
+     "rule": "away-dog-ml",
+     "result": "LOSS",
+     "profit": -1.0,
+     "game": "CIN @ WSH",
+     "gamePk": 822700,
+     "commence": "2026-08-09T16:15:00Z",
+     "basis": "Away dog ML: away dog at a 9.5 total",
+     "name": "Away dog ML",
+     "group": "non-scout",
+     "backfilled": true,
+     "auto": true,
+     "non_scout": true
+    },
+    {
+     "date": "2026-08-09",
+     "play": "CIN/WSH U9.5",
+     "market": "totals",
+     "line": 9.5,
+     "price": -122,
+     "rule": "pickem-under",
+     "result": "WIN",
+     "profit": 0.82,
+     "game": "CIN @ WSH",
+     "gamePk": 822700,
+     "commence": "2026-08-09T16:15:00Z",
+     "basis": "Pickem under: favorite only -112 at a 9.5 total",
+     "name": "Pickem under",
+     "group": "non-scout",
+     "backfilled": true,
+     "auto": true,
+     "non_scout": true
+    },
+    {
+     "date": "2026-08-09",
+     "play": "OAK ML (away dog)",
+     "market": "h2h",
+     "price": 205,
+     "rule": "away-dog-ml",
+     "result": "WIN",
+     "profit": 2.05,
+     "game": "OAK @ BOS",
+     "gamePk": 824724,
+     "commence": "2026-08-09T17:35:00Z",
+     "basis": "Away dog ML: away dog at a 9.5 total",
+     "name": "Away dog ML",
+     "group": "non-scout",
+     "backfilled": true,
+     "auto": true,
+     "non_scout": true
+    },
+    {
+     "date": "2026-08-09",
+     "play": "MIL ML (mismatch -55.7)",
+     "market": "h2h",
+     "price": -245,
+     "rule": "mismatch-ml",
+     "result": "WIN",
+     "profit": 0.41,
+     "game": "MIN @ MIL",
+     "gamePk": 823751,
+     "commence": "2026-08-09T18:10:00Z",
+     "basis": "Backfilled tail at L20 mismatch -55.7. Not wagered.",
+     "name": "Mismatch ML",
+     "group": "scout",
+     "backfilled": true
+    },
+    {
+     "date": "2026-08-09",
+     "play": "COL ML (away dog)",
+     "market": "h2h",
+     "price": 146,
+     "rule": "away-dog-ml",
+     "result": "LOSS",
+     "profit": -1.0,
+     "game": "COL @ STL",
+     "gamePk": 823020,
+     "commence": "2026-08-09T18:15:00Z",
+     "basis": "Away dog ML: away dog at a 9.5 total",
+     "name": "Away dog ML",
+     "group": "non-scout",
+     "backfilled": true,
+     "auto": true,
+     "non_scout": true
+    },
+    {
+     "date": "2026-08-09",
+     "play": "COL/STL O9.5",
+     "market": "totals",
+     "line": 9.5,
+     "price": 104,
+     "rule": "starter-over-run",
+     "result": "WIN",
+     "profit": 1.04,
+     "game": "COL @ STL",
+     "gamePk": 823020,
+     "commence": "2026-08-09T18:15:00Z",
+     "basis": "Starter over run: over in Michael Lorenzen 75% of last 8, total 9.5",
+     "name": "Starter over run",
+     "group": "non-scout",
+     "backfilled": true,
+     "auto": true,
+     "non_scout": true
+    },
+    {
+     "date": "2026-08-09",
+     "play": "BAL/TEX O8.5",
+     "market": "totals",
+     "line": 8.5,
+     "price": 100,
+     "rule": "starter-over-run",
+     "result": "WIN",
+     "profit": 1.0,
+     "game": "BAL @ TEX",
+     "gamePk": 822862,
+     "commence": "2026-08-09T18:35:00Z",
+     "basis": "Starter over run: over in Kumar Rocker 75% of last 8, total 8.5",
+     "name": "Starter over run",
+     "group": "non-scout",
+     "backfilled": true,
+     "auto": true,
+     "non_scout": true
+    },
+    {
+     "date": "2026-08-09",
+     "play": "SD ML (mismatch +68.6)",
+     "market": "h2h",
+     "price": -116,
+     "rule": "mismatch-ml",
+     "result": "WIN",
+     "profit": 0.86,
+     "game": "HOU @ SD",
+     "gamePk": 823268,
+     "commence": "2026-08-10T00:20:00Z",
+     "basis": "Backfilled fade at L20 mismatch +68.6. Not wagered.",
+     "name": "Mismatch ML",
+     "group": "scout",
+     "backfilled": true
+    },
+    {
+     "date": "2026-08-09",
+     "play": "HOU/SD O9",
+     "market": "totals",
+     "line": 9,
+     "price": -106,
+     "rule": "starter-over-run",
+     "result": "PUSH",
+     "profit": 0.0,
+     "game": "HOU @ SD",
+     "gamePk": 823268,
+     "commence": "2026-08-10T00:20:00Z",
+     "basis": "Starter over run: over in Randy V\u00e1squez 75% of last 8, total 9",
+     "name": "Starter over run",
+     "group": "non-scout",
+     "backfilled": true,
+     "auto": true,
+     "non_scout": true
+    }
+   ],
+   "all": {
+    "w": 0,
+    "l": 0,
+    "push": 0,
+    "pending": 0,
+    "n": 9,
+    "live_n": 0,
+    "units": 0,
+    "backfilled": {
+     "w": 6,
+     "l": 2,
+     "push": 1,
+     "n": 9
+    }
+   },
+   "scout": {
+    "w": 0,
+    "l": 0,
+    "push": 0,
+    "pending": 0,
+    "n": 2,
+    "live_n": 0,
+    "units": 0,
+    "backfilled": {
+     "w": 2,
+     "l": 0,
+     "push": 0,
+     "n": 2
+    }
+   },
+   "non_scout": {
+    "w": 0,
+    "l": 0,
+    "push": 0,
+    "pending": 0,
+    "n": 7,
+    "live_n": 0,
+    "units": 0,
+    "backfilled": {
+     "w": 4,
+     "l": 2,
+     "push": 1,
+     "n": 7
+    }
+   }
+  },
+  {
+   "date": "2026-08-08",
+   "rows": [
+    {
+     "date": "2026-08-08",
+     "play": "ATL ML (mismatch -50.1)",
+     "market": "h2h",
+     "price": -146,
+     "rule": "mismatch-ml",
+     "result": "LOSS",
+     "profit": -1.0,
+     "game": "ATL @ NYY",
+     "gamePk": 823514,
+     "commence": "2026-08-08T19:05:00Z",
+     "basis": "Backfilled tail at L20 mismatch -50.1. Not wagered.",
+     "name": "Mismatch ML",
+     "group": "scout",
+     "backfilled": true
+    },
+    {
+     "date": "2026-08-08",
+     "play": "TOR ML (away dog)",
+     "market": "h2h",
+     "price": 158,
+     "rule": "away-dog-ml",
+     "result": "WIN",
+     "profit": 1.58,
+     "game": "TOR @ PHI",
+     "gamePk": 823426,
+     "commence": "2026-08-08T22:05:00Z",
+     "basis": "Away dog ML: away dog at a 9.5 total",
+     "name": "Away dog ML",
+     "group": "non-scout",
+     "backfilled": true,
+     "auto": true,
+     "non_scout": true
+    },
+    {
+     "date": "2026-08-08",
+     "play": "NYM/PIT U9",
+     "market": "totals",
+     "line": 9,
+     "price": -106,
+     "rule": "pickem-under",
+     "result": "PUSH",
+     "profit": 0.0,
+     "game": "NYM @ PIT",
+     "gamePk": 823348,
+     "commence": "2026-08-08T22:40:00Z",
+     "basis": "Pickem under: favorite only -114 at a 9 total",
+     "name": "Pickem under",
+     "group": "non-scout",
+     "backfilled": true,
+     "auto": true,
+     "non_scout": true
+    },
+    {
+     "date": "2026-08-08",
+     "play": "CIN/WSH O8.5",
+     "market": "totals",
+     "line": 8.5,
+     "price": -115,
+     "rule": "starter-over-run",
+     "result": "WIN",
+     "profit": 0.87,
+     "game": "CIN @ WSH",
+     "gamePk": 822701,
+     "commence": "2026-08-08T22:45:00Z",
+     "basis": "Starter over run: over in Chase Burns 75% of last 8, total 8.5",
+     "name": "Starter over run",
+     "group": "non-scout",
+     "backfilled": true,
+     "auto": true,
+     "non_scout": true
+    },
+    {
+     "date": "2026-08-08",
+     "play": "CLE ML (mismatch -56.6)",
+     "market": "h2h",
+     "price": -126,
+     "rule": "mismatch-ml",
+     "result": "LOSS",
+     "profit": -1.0,
+     "game": "CLE @ CWS",
+     "gamePk": 824565,
+     "commence": "2026-08-08T23:15:00Z",
+     "basis": "Backfilled tail at L20 mismatch -56.6. Not wagered.",
+     "name": "Mismatch ML",
+     "group": "scout",
+     "backfilled": true
+    }
+   ],
+   "all": {
+    "w": 0,
+    "l": 0,
+    "push": 0,
+    "pending": 0,
+    "n": 5,
+    "live_n": 0,
+    "units": 0,
+    "backfilled": {
+     "w": 2,
+     "l": 2,
+     "push": 1,
+     "n": 5
+    }
+   },
+   "scout": {
+    "w": 0,
+    "l": 0,
+    "push": 0,
+    "pending": 0,
+    "n": 2,
+    "live_n": 0,
+    "units": 0,
+    "backfilled": {
+     "w": 0,
+     "l": 2,
+     "push": 0,
+     "n": 2
+    }
+   },
+   "non_scout": {
+    "w": 0,
+    "l": 0,
+    "push": 0,
+    "pending": 0,
+    "n": 3,
+    "live_n": 0,
+    "units": 0,
+    "backfilled": {
+     "w": 2,
+     "l": 0,
+     "push": 1,
+     "n": 3
+    }
+   }
+  },
+  {
+   "date": "2026-08-07",
+   "rows": [
+    {
+     "date": "2026-08-07",
+     "play": "PHI ML (mismatch -57.2)",
+     "market": "h2h",
+     "price": -205,
+     "rule": "mismatch-ml",
+     "result": "LOSS",
+     "profit": -1.0,
+     "game": "TOR @ PHI",
+     "gamePk": 823428,
+     "commence": "2026-08-07T22:40:00Z",
+     "basis": "Backfilled tail at L20 mismatch -57.2. Not wagered.",
+     "name": "Mismatch ML",
+     "group": "scout",
+     "backfilled": true
+    },
+    {
+     "date": "2026-08-07",
+     "play": "HOU/SD U8.5",
+     "market": "totals",
+     "line": 8.5,
+     "price": -110,
+     "rule": "pickem-under",
+     "result": "LOSS",
+     "profit": -1.0,
+     "game": "HOU @ SD",
+     "gamePk": 823266,
+     "commence": "2026-08-08T01:40:00Z",
+     "basis": "Pickem under: favorite only -110 at a 8.5 total",
+     "name": "Pickem under",
+     "group": "non-scout",
+     "backfilled": true,
+     "auto": true,
+     "non_scout": true
+    }
+   ],
+   "all": {
+    "w": 0,
+    "l": 0,
+    "push": 0,
+    "pending": 0,
+    "n": 2,
+    "live_n": 0,
+    "units": 0,
+    "backfilled": {
+     "w": 0,
+     "l": 2,
+     "push": 0,
+     "n": 2
+    }
+   },
+   "scout": {
+    "w": 0,
+    "l": 0,
+    "push": 0,
+    "pending": 0,
+    "n": 1,
+    "live_n": 0,
+    "units": 0,
+    "backfilled": {
+     "w": 0,
+     "l": 1,
+     "push": 0,
+     "n": 1
+    }
+   },
+   "non_scout": {
+    "w": 0,
+    "l": 0,
+    "push": 0,
+    "pending": 0,
+    "n": 1,
+    "live_n": 0,
+    "units": 0,
+    "backfilled": {
+     "w": 0,
+     "l": 1,
+     "push": 0,
+     "n": 1
+    }
+   }
+  },
+  {
+   "date": "2026-08-06",
+   "rows": [
+    {
+     "date": "2026-08-06",
+     "play": "LAA ML (away dog)",
+     "market": "h2h",
+     "price": 166,
+     "rule": "away-dog-ml",
+     "result": "WIN",
+     "profit": 1.66,
+     "game": "LAA @ BAL",
+     "gamePk": 824804,
+     "commence": "2026-08-06T16:35:00Z",
+     "basis": "Away dog ML: away dog at a 9.5 total",
+     "name": "Away dog ML",
+     "group": "non-scout",
+     "backfilled": true,
+     "auto": true,
+     "non_scout": true
+    },
+    {
+     "date": "2026-08-06",
+     "play": "WSH/PHI O9",
+     "market": "totals",
+     "line": 9,
+     "price": -105,
+     "rule": "starter-over-run",
+     "result": "WIN",
+     "profit": 0.95,
+     "game": "WSH @ PHI",
+     "gamePk": 823430,
+     "commence": "2026-08-06T22:05:00Z",
+     "basis": "Starter over run: over in Miles Mikolas 88% of last 8, total 9",
+     "name": "Starter over run",
+     "group": "non-scout",
+     "backfilled": true,
+     "auto": true,
+     "non_scout": true
+    },
+    {
+     "date": "2026-08-06",
+     "play": "CWS/BOS O8.5",
+     "market": "totals",
+     "line": 8.5,
+     "price": -112,
+     "rule": "starter-over-run",
+     "result": "WIN",
+     "profit": 0.89,
+     "game": "CWS @ BOS",
+     "gamePk": 824729,
+     "commence": "2026-08-06T23:10:00Z",
+     "basis": "Starter over run: over in Ranger Suarez 75% of last 8, total 8.5",
+     "name": "Starter over run",
+     "group": "non-scout",
+     "backfilled": true,
+     "auto": true,
+     "non_scout": true
+    },
+    {
+     "date": "2026-08-06",
+     "play": "MIA/ATL O9",
+     "market": "totals",
+     "line": 9,
+     "price": -115,
+     "rule": "starter-over-run",
+     "result": "WIN",
+     "profit": 0.87,
+     "game": "MIA @ ATL",
+     "gamePk": 824885,
+     "commence": "2026-08-06T23:15:00Z",
+     "basis": "Starter over run: over in Janson Junk 75% of last 8, total 9",
+     "name": "Starter over run",
+     "group": "non-scout",
+     "backfilled": true,
+     "auto": true,
+     "non_scout": true
+    },
+    {
+     "date": "2026-08-06",
+     "play": "SD/ARI U9",
+     "market": "totals",
+     "line": 9,
+     "price": -106,
+     "rule": "pickem-under",
+     "result": "WIN",
+     "profit": 0.94,
+     "game": "SD @ ARI",
+     "gamePk": 825053,
+     "commence": "2026-08-07T01:40:00Z",
+     "basis": "Pickem under: favorite only -104 at a 9 total",
+     "name": "Pickem under",
+     "group": "non-scout",
+     "backfilled": true,
+     "auto": true,
+     "non_scout": true
+    },
+    {
+     "date": "2026-08-06",
+     "play": "SD/ARI O9",
+     "market": "totals",
+     "line": 9,
+     "price": -114,
+     "rule": "starter-over-run",
+     "result": "LOSS",
+     "profit": -1.0,
+     "game": "SD @ ARI",
+     "gamePk": 825053,
+     "commence": "2026-08-07T01:40:00Z",
+     "basis": "Starter over run: over in Walker Buehler 75% of last 8, total 9",
+     "name": "Starter over run",
+     "group": "non-scout",
+     "backfilled": true,
+     "auto": true,
+     "non_scout": true
+    }
+   ],
+   "all": {
+    "w": 0,
+    "l": 0,
+    "push": 0,
+    "pending": 0,
+    "n": 6,
+    "live_n": 0,
+    "units": 0,
+    "backfilled": {
+     "w": 5,
+     "l": 1,
+     "push": 0,
+     "n": 6
+    }
+   },
+   "scout": {
+    "w": 0,
+    "l": 0,
+    "push": 0,
+    "pending": 0,
+    "n": 0,
+    "live_n": 0,
+    "units": 0,
+    "backfilled": {
+     "w": 0,
+     "l": 0,
+     "push": 0,
+     "n": 0
+    }
+   },
+   "non_scout": {
+    "w": 0,
+    "l": 0,
+    "push": 0,
+    "pending": 0,
+    "n": 6,
+    "live_n": 0,
+    "units": 0,
+    "backfilled": {
+     "w": 5,
+     "l": 1,
+     "push": 0,
+     "n": 6
+    }
+   }
+  },
+  {
+   "date": "2026-08-05",
+   "rows": [
+    {
+     "date": "2026-08-05",
+     "play": "LAD ML (away dog)",
+     "market": "h2h",
+     "price": 106,
+     "rule": "away-dog-ml",
+     "result": "LOSS",
+     "profit": -1.0,
+     "game": "LAD @ CHC",
+     "gamePk": 824646,
+     "commence": "2026-08-05T18:20:00Z",
+     "basis": "Away dog ML: away dog at a 10 total",
+     "name": "Away dog ML",
+     "group": "non-scout",
+     "backfilled": true,
+     "auto": true,
+     "non_scout": true
+    },
+    {
+     "date": "2026-08-05",
+     "play": "LAD/CHC O10",
+     "market": "totals",
+     "line": 10,
+     "price": -112,
+     "rule": "starter-over-run",
+     "result": "WIN",
+     "profit": 0.89,
+     "game": "LAD @ CHC",
+     "gamePk": 824646,
+     "commence": "2026-08-05T18:20:00Z",
+     "basis": "Starter over run: over in Eric Lauer 75% of last 8, total 10",
+     "name": "Starter over run",
+     "group": "non-scout",
+     "backfilled": true,
+     "auto": true,
+     "non_scout": true
+    },
+    {
+     "date": "2026-08-05",
+     "play": "LAA/BAL U8",
+     "market": "totals",
+     "line": 8,
+     "price": -115,
+     "rule": "cold-arms-under",
+     "result": "WIN",
+     "profit": 0.87,
+     "game": "LAA @ BAL",
+     "gamePk": 824806,
+     "commence": "2026-08-05T22:35:00Z",
+     "basis": "Cold arms under: both starters Reid Detmers 25%, Trevor Rogers 25% over in last 8",
+     "name": "Cold arms under",
+     "group": "non-scout",
+     "backfilled": true,
+     "auto": true,
+     "non_scout": true
+    },
+    {
+     "date": "2026-08-05",
+     "play": "OAK ML (away dog)",
+     "market": "h2h",
+     "price": 148,
+     "rule": "away-dog-ml",
+     "result": "LOSS",
+     "profit": -1.0,
+     "game": "OAK @ CIN",
+     "gamePk": 824482,
+     "commence": "2026-08-05T22:40:00Z",
+     "basis": "Away dog ML: away dog at a 9.5 total",
+     "name": "Away dog ML",
+     "group": "non-scout",
+     "backfilled": true,
+     "auto": true,
+     "non_scout": true
+    },
+    {
+     "date": "2026-08-05",
+     "play": "WSH ML (away dog)",
+     "market": "h2h",
+     "price": 182,
+     "rule": "away-dog-ml",
+     "result": "WIN",
+     "profit": 1.82,
+     "game": "WSH @ PHI",
+     "gamePk": 823429,
+     "commence": "2026-08-05T22:40:00Z",
+     "basis": "Away dog ML: away dog at a 9.5 total",
+     "name": "Away dog ML",
+     "group": "non-scout",
+     "backfilled": true,
+     "auto": true,
+     "non_scout": true
+    },
+    {
+     "date": "2026-08-05",
+     "play": "MIN/KC U8.5",
+     "market": "totals",
+     "line": 8.5,
+     "price": -102,
+     "rule": "pickem-under",
+     "result": "WIN",
+     "profit": 0.98,
+     "game": "MIN @ KC",
+     "gamePk": 824082,
+     "commence": "2026-08-05T23:40:00Z",
+     "basis": "Pickem under: favorite only -114 at a 8.5 total",
+     "name": "Pickem under",
+     "group": "non-scout",
+     "backfilled": true,
+     "auto": true,
+     "non_scout": true
+    },
+    {
+     "date": "2026-08-05",
+     "play": "MIN/KC O8.5",
+     "market": "totals",
+     "line": 8.5,
+     "price": -120,
+     "rule": "starter-over-run",
+     "result": "LOSS",
+     "profit": -1.0,
+     "game": "MIN @ KC",
+     "gamePk": 824082,
+     "commence": "2026-08-05T23:40:00Z",
+     "basis": "Starter over run: over in Noah Cameron 75% of last 8, total 8.5",
+     "name": "Starter over run",
+     "group": "non-scout",
+     "backfilled": true,
+     "auto": true,
+     "non_scout": true
+    },
+    {
+     "date": "2026-08-05",
+     "play": "SD/ARI U8.5",
+     "market": "totals",
+     "line": 8.5,
+     "price": -110,
+     "rule": "cold-arms-under",
+     "result": "LOSS",
+     "profit": -1.0,
+     "game": "SD @ ARI",
+     "gamePk": 825052,
+     "commence": "2026-08-06T01:40:00Z",
+     "basis": "Cold arms under: both starters Casey Mize 25%, Mitch Bratt 20% over in last 8",
+     "name": "Cold arms under",
+     "group": "non-scout",
+     "backfilled": true,
+     "auto": true,
+     "non_scout": true
+    }
+   ],
+   "all": {
+    "w": 0,
+    "l": 0,
+    "push": 0,
+    "pending": 0,
+    "n": 8,
+    "live_n": 0,
+    "units": 0,
+    "backfilled": {
+     "w": 4,
+     "l": 4,
+     "push": 0,
+     "n": 8
+    }
+   },
+   "scout": {
+    "w": 0,
+    "l": 0,
+    "push": 0,
+    "pending": 0,
+    "n": 0,
+    "live_n": 0,
+    "units": 0,
+    "backfilled": {
+     "w": 0,
+     "l": 0,
+     "push": 0,
+     "n": 0
+    }
+   },
+   "non_scout": {
+    "w": 0,
+    "l": 0,
+    "push": 0,
+    "pending": 0,
+    "n": 8,
+    "live_n": 0,
+    "units": 0,
+    "backfilled": {
+     "w": 4,
+     "l": 4,
+     "push": 0,
+     "n": 8
+    }
+   }
+  },
+  {
+   "date": "2026-08-04",
+   "rows": [
+    {
+     "date": "2026-08-04",
+     "play": "LAA ML (away dog)",
+     "market": "h2h",
+     "price": 138,
+     "rule": "away-dog-ml",
+     "result": "LOSS",
+     "profit": -1.0,
+     "game": "LAA @ BAL",
+     "gamePk": 824805,
+     "commence": "2026-08-04T22:35:00Z",
+     "basis": "Away dog ML: away dog at a 9.5 total",
+     "name": "Away dog ML",
+     "group": "non-scout",
+     "backfilled": true,
+     "auto": true,
+     "non_scout": true
+    },
+    {
+     "date": "2026-08-04",
+     "play": "MIA/ATL U9",
+     "market": "totals",
+     "line": 9,
+     "price": -102,
+     "rule": "cold-arms-under",
+     "result": "WIN",
+     "profit": 0.98,
+     "game": "MIA @ ATL",
+     "gamePk": 824888,
+     "commence": "2026-08-04T23:15:00Z",
+     "basis": "Cold arms under: both starters Ryan Gusto 25%, Grant Holmes 29% over in last 8",
+     "name": "Cold arms under",
+     "group": "non-scout",
+     "backfilled": true,
+     "auto": true,
+     "non_scout": true
+    },
+    {
+     "date": "2026-08-04",
+     "play": "KC ML (home slide)",
+     "market": "h2h",
+     "price": 130,
+     "rule": "home-slide-ml",
+     "result": "WIN",
+     "profit": 1.3,
+     "game": "MIN @ KC",
+     "gamePk": 824084,
+     "commence": "2026-08-04T23:40:00Z",
+     "basis": "Home slide ML: home on L4, new opponent (last faced COL)",
+     "name": "Home slide ML",
+     "group": "non-scout",
+     "backfilled": true,
+     "auto": true,
+     "non_scout": true
+    },
+    {
+     "date": "2026-08-04",
+     "play": "TB/COL O11",
+     "market": "totals",
+     "line": 11,
+     "price": -106,
+     "rule": "starter-over-run",
+     "result": "WIN",
+     "profit": 0.94,
+     "game": "TB @ COL",
+     "gamePk": 824321,
+     "commence": "2026-08-05T00:40:00Z",
+     "basis": "Starter over run: over in Freddy Peralta 75% of last 8, total 11",
+     "name": "Starter over run",
+     "group": "non-scout",
+     "backfilled": true,
+     "auto": true,
+     "non_scout": true
+    },
+    {
+     "date": "2026-08-04",
+     "play": "ARI ML (mismatch +58.1)",
+     "market": "h2h",
+     "price": -114,
+     "rule": "mismatch-ml",
+     "result": "LOSS",
+     "profit": -1.0,
+     "game": "SD @ ARI",
+     "gamePk": 825054,
+     "commence": "2026-08-05T01:40:00Z",
+     "basis": "Backfilled fade at L20 mismatch +58.1. Not wagered.",
+     "name": "Mismatch ML",
+     "group": "scout",
+     "backfilled": true
+    },
+    {
+     "date": "2026-08-04",
+     "play": "DET ML (mismatch -46.1)",
+     "market": "h2h",
+     "price": 110,
+     "rule": "mismatch-ml",
+     "result": "WIN",
+     "profit": 1.1,
+     "game": "DET @ SEA",
+     "gamePk": 823108,
+     "commence": "2026-08-05T01:40:00Z",
+     "basis": "Backfilled tail at L20 mismatch -46.1. Not wagered.",
+     "name": "Mismatch ML",
+     "group": "scout",
+     "backfilled": true
+    },
+    {
+     "date": "2026-08-04",
+     "play": "SD/ARI U9",
+     "market": "totals",
+     "line": 9,
+     "price": -122,
+     "rule": "pickem-under",
+     "result": "LOSS",
+     "profit": -1.0,
+     "game": "SD @ ARI",
+     "gamePk": 825054,
+     "commence": "2026-08-05T01:40:00Z",
+     "basis": "Pickem under: favorite only -114 at a 9 total",
+     "name": "Pickem under",
+     "group": "non-scout",
+     "backfilled": true,
+     "auto": true,
+     "non_scout": true
+    }
+   ],
+   "all": {
+    "w": 0,
+    "l": 0,
+    "push": 0,
+    "pending": 0,
+    "n": 7,
+    "live_n": 0,
+    "units": 0,
+    "backfilled": {
+     "w": 4,
+     "l": 3,
+     "push": 0,
+     "n": 7
+    }
+   },
+   "scout": {
+    "w": 0,
+    "l": 0,
+    "push": 0,
+    "pending": 0,
+    "n": 2,
+    "live_n": 0,
+    "units": 0,
+    "backfilled": {
+     "w": 1,
+     "l": 1,
+     "push": 0,
+     "n": 2
+    }
+   },
+   "non_scout": {
+    "w": 0,
+    "l": 0,
+    "push": 0,
+    "pending": 0,
+    "n": 5,
+    "live_n": 0,
+    "units": 0,
+    "backfilled": {
+     "w": 3,
+     "l": 2,
+     "push": 0,
+     "n": 5
+    }
+   }
+  },
+  {
+   "date": "2026-08-03",
+   "rows": [
+    {
+     "date": "2026-08-03",
+     "play": "NYY ML (mismatch -51.4)",
+     "market": "h2h",
+     "price": -235,
+     "rule": "mismatch-ml",
+     "result": "LOSS",
+     "profit": -1.0,
+     "game": "STL @ NYY",
+     "gamePk": 823520,
+     "commence": "2026-08-03T23:05:00Z",
+     "basis": "Backfilled tail at L20 mismatch -51.4. Not wagered.",
+     "name": "Mismatch ML",
+     "group": "scout",
+     "backfilled": true
+    },
+    {
+     "date": "2026-08-03",
+     "play": "PIT/MIL U8.5",
+     "market": "totals",
+     "line": 8.5,
+     "price": -118,
+     "rule": "cold-arms-under",
+     "result": "WIN",
+     "profit": 0.85,
+     "game": "PIT @ MIL",
+     "gamePk": 823757,
+     "commence": "2026-08-03T23:40:00Z",
+     "basis": "Cold arms under: both starters Bubba Chandler 25%, Brandon Sproat 25% over in last 8",
+     "name": "Cold arms under",
+     "group": "non-scout",
+     "backfilled": true,
+     "auto": true,
+     "non_scout": true
+    },
+    {
+     "date": "2026-08-03",
+     "play": "TEX ML (home slide)",
+     "market": "h2h",
+     "price": -130,
+     "rule": "home-slide-ml",
+     "result": "LOSS",
+     "profit": -1.0,
+     "game": "SF @ TEX",
+     "gamePk": 822867,
+     "commence": "2026-08-04T00:05:00Z",
+     "basis": "Home slide ML: home on L5, new opponent (last faced HOU)",
+     "name": "Home slide ML",
+     "group": "non-scout",
+     "backfilled": true,
+     "auto": true,
+     "non_scout": true
+    },
+    {
+     "date": "2026-08-03",
+     "play": "TOR ML (mismatch +73.0)",
+     "market": "h2h",
+     "price": 122,
+     "rule": "mismatch-ml",
+     "result": "WIN",
+     "profit": 1.22,
+     "game": "TOR @ HOU",
+     "gamePk": 824160,
+     "commence": "2026-08-04T00:10:00Z",
+     "basis": "Backfilled fade at L20 mismatch +73.0. Not wagered.",
+     "name": "Mismatch ML",
+     "group": "scout",
+     "backfilled": true
+    },
+    {
+     "date": "2026-08-03",
+     "play": "SD/ARI U9",
+     "market": "totals",
+     "line": 9,
+     "price": -120,
+     "rule": "pickem-under",
+     "result": "WIN",
+     "profit": 0.83,
+     "game": "SD @ ARI",
+     "gamePk": 825095,
+     "commence": "2026-08-04T01:40:00Z",
+     "basis": "Pickem under: favorite only -110 at a 9 total",
+     "name": "Pickem under",
+     "group": "non-scout",
+     "backfilled": true,
+     "auto": true,
+     "non_scout": true
+    }
+   ],
+   "all": {
+    "w": 0,
+    "l": 0,
+    "push": 0,
+    "pending": 0,
+    "n": 5,
+    "live_n": 0,
+    "units": 0,
+    "backfilled": {
+     "w": 3,
+     "l": 2,
+     "push": 0,
+     "n": 5
+    }
+   },
+   "scout": {
+    "w": 0,
+    "l": 0,
+    "push": 0,
+    "pending": 0,
+    "n": 2,
+    "live_n": 0,
+    "units": 0,
+    "backfilled": {
+     "w": 1,
+     "l": 1,
+     "push": 0,
+     "n": 2
+    }
+   },
+   "non_scout": {
+    "w": 0,
+    "l": 0,
+    "push": 0,
+    "pending": 0,
+    "n": 3,
+    "live_n": 0,
+    "units": 0,
+    "backfilled": {
+     "w": 2,
+     "l": 1,
+     "push": 0,
+     "n": 3
+    }
    }
   }
  ]
