@@ -56,6 +56,7 @@ jobs:
   # ---------------------------------------------------------------------------
   nfl-weekly:
     runs-on: windows-latest
+    timeout-minutes: 30   # a normal run is ~5 min; the 272-game feed loop showed what an unbounded one costs
     defaults:
       run:
         shell: powershell
@@ -137,6 +138,7 @@ jobs:
   post-game-grade:
     if: ${{ inputs.stage == 'grade' }}
     runs-on: windows-latest
+    timeout-minutes: 20
     needs: [commit-and-push]
     defaults:
       run:

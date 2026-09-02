@@ -383,7 +383,7 @@ def stage_fetch(season, week, store):
     print(f"\n== FETCH — {season} Week {week} ==\n")
 
     # 1. Pull play-by-play
-    print("[fetch 1/4] Pulling play-by-play via nflfastR...")
+    print("[fetch 1/3] Pulling play-by-play via nflfastR...")
     pbp_season = season
     through_week = week - 1   # strictly prior weeks — never include this one
     try:
@@ -412,7 +412,7 @@ def stage_fetch(season, week, store):
         raise
 
     # 2. Compute team stats with decay (through previous week)
-    print("[fetch 2/4] Computing team stats with exponential decay...")
+    print("[fetch 2/3] Computing team stats with exponential decay...")
     team_stats = compute_team_stats_through_week(pbp, through_week, decay=0.85)
     if not team_stats:
         print(f"  WARNING: No stats through week {through_week}")
@@ -429,7 +429,7 @@ def stage_fetch(season, week, store):
         player_stats = {}
 
     # 3. Fetch odds
-    print("[fetch 3/4] Fetching current NFL odds...")
+    print("[fetch 3/3] Fetching current NFL odds...")
     try:
         odds = fetch_nfl_odds()
         print(f"  Got odds for {len(odds)} games")
@@ -437,23 +437,11 @@ def stage_fetch(season, week, store):
         print(f"  WARNING: Odds fetch failed: {e}")
         odds = []
 
-    # 4. Optional supplementary sources (PFR, NGS)
-    print("[fetch 4/4] Optional supplementary data...")
-    pfr_data = None
-    ngs_data = None
-    try:
-        from sources.pfr_stats import fetch_pfr_data
-        pfr_data = fetch_pfr_data(season)
-        print(f"  PFR: OK")
-    except Exception as e:
-        print(f"  PFR: Skipped ({e})")
-
-    try:
-        from sources.nextgenstats import fetch_ngs_data
-        ngs_data = fetch_ngs_data(season)
-        print(f"  NGS: OK")
-    except Exception as e:
-        print(f"  NGS: Skipped ({e})")
+    # PFR and Next Gen Stats used to be fetched here as "optional supplementary
+    # data". Both are blocked (PFR 403s every user agent; NGS wants an auth
+    # token, 401) and nothing downstream ever read the result — it sat in the
+    # in-memory _fetch cache and was discarded. Removed 2026-09-02; the source
+    # modules stay on disk if a use for them appears.
 
     # Joint power ratings for the margin projection — fit here while the
     # play-by-play is already in memory (walk-forward: prior weeks only)
@@ -477,8 +465,6 @@ def stage_fetch(season, week, store):
         "team_stats": team_stats,
         "player_stats": player_stats,
         "odds": odds,
-        "pfr_data": pfr_data,
-        "ngs_data": ngs_data,
         "power_ratings": power_ratings,
         "pbp_loaded": True,
         "pbp_season": pbp_season,   # == season-1 on a Week 1 prior-season fallback
