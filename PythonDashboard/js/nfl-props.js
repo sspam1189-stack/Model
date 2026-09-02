@@ -162,7 +162,7 @@
       const contentArea = document.createElement('div');
       el.appendChild(contentArea);
 
-      const PAGE_SIZE = 25;
+      const PAGE_SIZE = 50;
 
       function getFilteredPicks() {
         let fp = data.props.filter(p => p.pick !== 'PASS');

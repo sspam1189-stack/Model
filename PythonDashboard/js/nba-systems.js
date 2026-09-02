@@ -44,7 +44,7 @@ let nbasFilters = {
 };
 let nbasLogPage = 0;
 let nbasShowMechanism = null;   // system id whose mechanism is expanded
-const NBAS_PAGE = 60;
+const NBAS_PAGE = 50;
 
 function nbasSetFilter(k, v) {
   nbasFilters[k] = v;
