@@ -124,6 +124,23 @@ async function renderMLBSlateScout() {
   ])).filter(Boolean)
     .sort((a, b) => String(b.generated || '').localeCompare(String(a.generated || '')))[0] || null;
 
+  // Season history for the scout rules that had no table of their own
+  // (scripts/build_scout_rules_table.py): Form under, Aligned ML, Mismatch ML.
+  const grabScoutRules = async (url) => {
+    try {
+      const r = await fetch(url + '?t=' + Date.now(), { cache: 'no-store' });
+      if (!r.ok) return null;
+      const j = await r.json();
+      return (j && Array.isArray(j.rules) && j.rules.length) ? j : null;
+    } catch (e) { return null; }
+  };
+  const scoutRules = (await Promise.all([
+    grabScoutRules('data/scout-rules-table.json'),
+    grabScoutRules('https://raw.githubusercontent.com/sspam1189-stack/Model/main/'
+      + 'MLBstrikeouts/data/scout-rules-table.json'),
+  ])).filter(Boolean)
+    .sort((a, b) => String(b.generated || '').localeCompare(String(a.generated || '')))[0] || null;
+
   const comboTable = (await Promise.all([
     grabTable('data/flag-combo-table.json'),
     grabTable('https://raw.githubusercontent.com/sspam1189-stack/Model/main/'
@@ -773,6 +790,67 @@ async function renderMLBSlateScout() {
     playsAnchor = sc;
     registerPlaysPanel(sc, 'non-scout', sysTodayHtml,
       'No non-scout system logged a play that day.');
+  }
+
+  // ---- Scout rule history --------------------------------------------------
+  // Form under, Aligned ML and Mismatch ML had no season table anywhere: their
+  // records lived only as prose in CLAUDE.md, which is the "number somebody
+  // typed once" problem the other grids exist to prevent. Replayed full-season
+  // by every daily run.
+  if (scoutRules) {
+    const sr = document.createElement('div');
+    sr.className = 'card card-games';
+    let t = '<div class="card-title" style="padding:6px 8px">'
+      + 'Scout rule history — full season '
+      + '<span class="scout-note" style="color:' + DIM + ';font-weight:400;font-size:11px">'
+      + '(the three scout rules with no grid of their own. Replayed as-of each '
+      + 'game date over ' + (scoutRules.games || 0) + ' games — a game\'s own '
+      + 'result is never in the features that select it.)</span></div>'
+      + '<div class="scout-scroll"><table style="width:100%;'
+      + 'border-collapse:collapse;font-size:12px">'
+      + '<thead><tr style="text-align:left;color:' + DIM
+      + ';border-bottom:1px solid #30363d">'
+      + '<th style="padding:4px 6px">Rule</th>'
+      + '<th data-col="rule-desc">What it does</th><th>Status</th>'
+      + '<th>Record</th><th>ROI</th><th>vs blind</th><th>Halves</th>'
+      + '<th data-col="perday">Plays/day</th></tr></thead><tbody>';
+    for (const r of scoutRules.rules) {
+      const rec = r.record || {};
+      const edge = (r.baseline == null || rec.roi == null)
+        ? null : rec.roi - r.baseline;
+      const col = rec.roi > 0 ? '#3fb950' : rec.roi < 0 ? '#f85149' : DIM;
+      const hs = (r.halves || []).map(
+        (x) => (x == null ? '—' : (x > 0 ? '+' : '') + x.toFixed(0))).join(' / ');
+      const bad = (r.halves || []).some((x) => x != null && x <= 0);
+      const live = r.status === 'card';
+      t += '<tr style="border-top:1px solid #161b22">'
+        + '<td style="padding:3px 6px;font-weight:600;white-space:nowrap">'
+        + esc(r.name) + '</td>'
+        + '<td data-col="rule-desc" style="color:' + DIM + ';font-size:11px">'
+        + esc(r.rule) + '</td>'
+        + '<td><span style="display:inline-block;padding:1px 6px;'
+        + 'border-radius:3px;font-weight:600;white-space:nowrap;'
+        + (live ? 'background:rgba(63,185,80,.18);color:#3fb950'
+          : 'background:rgba(139,148,158,.14);color:' + DIM) + '">'
+        + (live ? 'CARD' : 'SHADOW') + '</span></td>'
+        + '<td style="color:' + DIM + ';white-space:nowrap">'
+        + rec.w + '-' + rec.l + ' <span style="font-size:11px">(n=' + rec.n
+        + ')</span></td>'
+        + '<td style="color:' + col + ';font-weight:600;white-space:nowrap">'
+        + (rec.roi > 0 ? '+' : '') + (rec.roi == null ? '—' : rec.roi.toFixed(1))
+        + '%</td>'
+        + '<td style="color:' + DIM + ';white-space:nowrap">'
+        + (edge == null ? '—' : (edge > 0 ? '+' : '') + edge.toFixed(1)) + '</td>'
+        + '<td style="color:' + (bad ? '#d29922' : DIM) + ';white-space:nowrap">'
+        + hs + '</td>'
+        + '<td data-col="perday" style="color:' + DIM + '">'
+        + (r.per_day == null ? '—' : r.per_day) + '</td></tr>';
+    }
+    t += '</tbody></table></div>'
+      + '<div class="scout-foot" style="padding:6px 8px;font-size:11px;color:'
+      + DIM + ';line-height:1.5">' + esc(scoutRules.note || '') + '</div>';
+    sr.innerHTML = t;
+    el.appendChild(sr);
   }
 
   // ---- Flag-combo performance grid -----------------------------------------
