@@ -151,6 +151,12 @@ const SOURCES = {
     remote: 'https://raw.githubusercontent.com/sspam1189-stack/Model/main/pyNBAPROPS/data/nba-props.json',
     repo: 'https://github.com/sspam1189-stack/Model'
   },
+  'nba-systems': {
+    name: 'NBA Systems',
+    local: 'data/nba-systems.json',
+    remote: 'https://raw.githubusercontent.com/sspam1189-stack/Model/main/pyFull/data/nba-systems.json',
+    repo: 'https://github.com/sspam1189-stack/Model'
+  },
   'wnba-props': {
     name: 'WNBA Props',
     local: 'data/wnba-props.json',
@@ -2337,6 +2343,10 @@ async function render() {
   // NBA Player Props
   if (activeTab === 'nba-props') {
     return renderNBAProps();
+  }
+  // NBA situational systems (pre-registered experiment; own renderer)
+  if (activeTab === 'nba-systems') {
+    return renderNBASystems();
   }
   // WNBA Player Props (same renderer; keep the points market — it ships for WNBA)
   if (activeTab === 'wnba-props') {
