@@ -247,6 +247,27 @@ SYSTEMS = {
         "edge per play, at 2.6 plays a day. The most volume for the least "
         "conviction, and following the juice is close to just following the "
         "book -- if the edge is real it is the book's, borrowed."),
+    "monday-over": (
+        "Monday over", "totals",
+        "Any game on a Monday: over.",
+        "129-104 +5.1% (n=233, perm p=0.031) against a -6.1% blind-over "
+        "baseline -- 11.2 points -- with both walk-forward halves positive "
+        "(+4.2/+5.9).\n\n"
+        "        The mechanism is the schedule, not the weekday. Monday is "
+        "the league's travel day: 10.8 games a Monday against ~14.5 every "
+        "other day, so Mondays are disproportionately series openers played "
+        "by clubs that flew in that morning, with bullpens and lineups the "
+        "total does not assume. 224 of the 233 are night games and they carry "
+        "the whole cell (125-99 +6.0%, halves +6.6/+5.4); the 9 day Mondays "
+        "are noise and are left in rather than cut, because slicing to the "
+        "subset that measures best is how a fitted boundary gets made.\n\n"
+        "        SHADOW, not card. The middle third is negative "
+        "(+0.9/-2.5/+17.4), two of six months are double-digit negative "
+        "(Mar -36, Jun -11), it is an isolated calendar cell with no "
+        "neighbouring day to support it -- Sunday over -4.2%, Tuesday over "
+        "-3.2% -- and it came out of a sweep of 14 cells (7 days x 2 sides), "
+        "where one at p=0.03 is what chance produces. p=0.031 is screening, "
+        "not proof; the live record settles it."),
     "hot-arm-dog-ml": (
         "Hot arm dog ML", "h2h",
         "Plus-money side whose starter's team is +40% ROI or better over his "
@@ -314,6 +335,13 @@ PLAIN = {
         "Shadow because it is the most volume for the least conviction -- "
         "2.6 plays a day for +5% -- and it is close to just following the "
         "book.",
+    "monday-over":
+        "Takes the over in any Monday game. Monday is the league's travel "
+        "day and runs a light schedule -- about 11 games against 14.5 the "
+        "rest of the week -- so Mondays skew to series openers played by "
+        "clubs that just flew in. Shadow because it is an isolated calendar "
+        "cell: neither Sunday nor Tuesday shows anything, and one day of "
+        "seven landing at p=0.03 is what a sweep produces.",
     "hot-arm-dog-ml":
         "Backs a plus-money side whose starter's team has returned +40% or "
         "better over his last eight starts. Shadow because at 91-90 the win "
@@ -339,7 +367,8 @@ CARD_ORDER = ("away-dog-ml", "home-slide-ml", "division-home-dog",
 #                   just following the book.
 #   hot-arm-dog-ml  plus-money side, starter's team +40% over 8 starts. 91-90
 #                   is a coin flip; the return is entirely the dog prices.
-SHADOW_ORDER = ("low-line-over", "under-juice", "hot-arm-dog-ml")
+SHADOW_ORDER = ("low-line-over", "under-juice", "hot-arm-dog-ml",
+                "monday-over")
 
 # Every system the engine knows, card tier first. Consumers that render or
 # replay all of them walk this; CARD_ORDER alone is the bet list.
@@ -368,6 +397,8 @@ PARLAY_DOG_LO, PARLAY_DOG_HI = 115, 149
 # with nothing between 03Z and 14Z -- so any bound inside that gap is
 # equivalent on this data. 10:00Z leaves room for an early international
 # start without reaching the small-hours wrap.
+MONDAY = 0                          # datetime.date.weekday() for Monday
+
 GETAWAY_DAY_FROM = 10 * 60          # 10:00Z
 GETAWAY_DAY_TO = 20 * 60            # 20:00Z, exclusive: 4 pm ET is not a day game
 # Yesterday's night window, as minutes past midnight UTC, WRAPPING past
@@ -589,6 +620,9 @@ def plays_for(g, feat):
             why="both starters "
                 + ", ".join(f"{g.get(s + '_pitcher')} {r:.0%}" for s, r in hot)
                 + f" over in last {PIT_WINDOW}")
+    if _date(g["date"]).weekday() == MONDAY and over_ml is not None:
+        add("monday-over", "totals", "over", over_ml, side="O",
+            why="Monday: travel day, light schedule, series openers")
     if under_ml is not None and under_ml <= UNDER_JUICE_ML:
         add("under-juice", "totals", "under", under_ml, side="U",
             why=f"book laying {under_ml} on the under")
