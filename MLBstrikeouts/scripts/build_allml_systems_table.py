@@ -133,6 +133,32 @@ def _moved(entry, game):
     return ", ".join(bits) or "market moved"
 
 
+def _mark_conflicts(today):
+    """Flag an over that shares a game with a carded under.
+
+    The engine has no notion of conflicts -- each rule answers only for
+    itself -- so starter-over-run still fires on a game the parlay is
+    already taking the under in. The play stays on the board, because a
+    row that vanishes is how a live bet gets lost, and carries the flag so
+    the tab can say why it is not being taken. A parlay's second leg counts
+    as an under.
+    """
+    # Card rules only. A shadow rule has no money on it, so it can neither
+    # create a conflict nor be told to stand down for one.
+    by_game = collections.defaultdict(list)
+    for p in today:
+        if (p.get("market") in ("totals", "parlay")
+                and RULE_STATUS.get(p["rule"]) == "card"):
+            by_game[p.get("gamePk")].append(p)
+    for rows in by_game.values():
+        sides = {("under" if r.get("market") == "parlay" else r.get("pick"))
+                 for r in rows}
+        if "over" in sides and "under" in sides:
+            for r in rows:
+                if r.get("market") == "totals" and r.get("pick") == "over":
+                    r["conflict_skip"] = True
+
+
 def _pick_from(entry):
     """Side for a ledger row that predates the engine carrying `pick`."""
     play = entry.get("play") or ""
@@ -186,6 +212,7 @@ def main():
 
     today = SYS.today_plays(blob)
     today = _with_stale(today, blob)
+    _mark_conflicts(today)
     blob_out = {
         "sport": "MLB",
         "type": "allml-systems-table",

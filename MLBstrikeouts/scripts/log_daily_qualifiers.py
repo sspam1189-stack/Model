@@ -233,19 +233,26 @@ def drop_conflicting_overs(entries, date):
     for rows in by_game.values():
         sides = {total_side(e) for e in rows
                  if not e.get("not_bet") or e.get("conflict_skip")}
+
         if sides != {"over", "under"}:
             continue
         for e in rows:
             if total_side(e) != "over":
                 continue
-            if e.get("not_bet") and e.get("conflict_skip") and NOTE in (e.get("basis") or ""):
+            if e.get("conflict_skip") and NOTE in (e.get("basis") or ""):
                 continue                       # already handled, nothing to do
-            if not e.get("conflict_skip") and (e.get("result") or "pending") != "pending":
-                continue                       # settled before the rule existed
-            e["not_bet"] = True
+            # Recorded as a PUSH (user, 2026-09-02): the row shows in the log
+            # as a bet that cost nothing, which is how the user reads a play
+            # they deliberately passed. It does overstate starter-over-run's
+            # record -- these were real overs that would have won or lost --
+            # so `conflict_skip` marks every one, and the replay in
+            # allml-systems-table.json still grades them honestly.
+            e["result"] = "PUSH"
+            e["profit"] = 0.0
+            e.pop("not_bet", None)
             # Its own flag, not a substring of `basis`: a re-price rewrites
             # basis from the engine and would otherwise silently drop the
-            # explanation while leaving the row not_bet and unexplained.
+            # explanation while leaving the row changed and unexplained.
             e["conflict_skip"] = True
             if NOTE not in (e.get("basis") or ""):
                 e["basis"] = (e.get("basis", "") + " " + NOTE).strip()

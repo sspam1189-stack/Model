@@ -1,7 +1,7 @@
 {
  "sport": "MLB",
  "type": "allml-systems-table",
- "generated": "2026-09-02T23:09:30Z",
+ "generated": "2026-09-02T23:49:09Z",
  "span": {
   "from": "2026-03-25",
   "to": "2026-09-02"
@@ -1016,7 +1016,8 @@
    "matchup": "MIL @ CHC",
    "away": "MIL",
    "home": "CHC",
-   "total": 8.5
+   "total": 8.5,
+   "conflict_skip": true
   },
   {
    "rule": "home-dog-under-parlay",

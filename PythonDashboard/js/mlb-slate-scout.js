@@ -480,6 +480,22 @@ async function renderMLBSlateScout() {
   // rather than appended in code order.
   let playsAnchor = playsCard;
 
+  // Shadow rows start hidden; the header row toggles them. A function rather
+  // than inline, because the plays card is now written and wired before the
+  // season card is built.
+  const wireShadowToggle = (card) => {
+    const head = card.querySelector('#nsShadowHead');
+    if (!head) return;
+    const caret = card.querySelector('#nsShadowCaret');
+    const rows = [...card.querySelectorAll('tr.ns-shadow-row')];
+    let open = false;
+    head.addEventListener('click', () => {
+      open = !open;
+      for (const r of rows) r.style.display = open ? '' : 'none';
+      if (caret) caret.textContent = open ? '▾' : '▸';
+    });
+  };
+
   // ---- Non-scout systems ---------------------------------------------------
   // Eleven rules found 2026-09-01 by scanning the 2,066 settled games in
   // mlb-all-ml.json using only what that file carries. Season records are
@@ -564,7 +580,7 @@ async function renderMLBSlateScout() {
         // and labelled, because it would not fire at tonight's current price.
         t += '<tr class="' + (tier === 'shadow' ? 'ns-shadow-row' : 'ns-card-row')
           + '" style="border-top:1px solid #161b22'
-          + (p.stale ? ';opacity:.72' : '')
+          + (p.stale || p.conflict_skip ? ';opacity:.72' : '')
           + (tier === 'shadow' ? ';display:none' : '') + '">'
           + '<td style="padding:4px 6px;color:' + DIM + '">' + ctTime(p.commence) + '</td>'
           + '<td style="padding:4px 6px">' + esc(p.matchup) + '</td>'
@@ -574,6 +590,11 @@ async function renderMLBSlateScout() {
             ? 'background:rgba(139,148,158,.14);color:' + DIM
             : 'background:rgba(63,185,80,.18);color:#3fb950') + '">'
           + esc(sy.name || p.rule) + '</span>'
+          + (p.conflict_skip ? ' <span title="A carded under is on this same '
+            + 'game. Taking both cancels out (-3.6% on the season); the under '
+            + 'alone returns +13.7%, the over alone -20.9%. Logged as a push."'
+            + ' style="color:#d29922;font-size:13px;white-space:nowrap">'
+            + 'under carded — passed</span>' : '')
           + (p.stale ? ' <span title="Logged earlier today and still a live '
             + 'bet. The market has since moved past this rule\'s threshold, '
             + 'so it would not fire at the current price."'
@@ -588,6 +609,9 @@ async function renderMLBSlateScout() {
           + esc(p.why)
           // Say what moved, on the row. A bare tag makes the reader go and
           // look the price up again.
+          + (p.conflict_skip ? ' <span style="color:#d29922">· conflicts with '
+            + 'the under carded on this game; passed and logged as a push'
+            + '</span>' : '')
           + (p.stale ? ' <span style="color:#d29922">· still on at the logged '
             + 'price; ' + esc(p.stale_now || 'market moved')
             + ', would not fire now</span>' : '')
@@ -596,7 +620,23 @@ async function renderMLBSlateScout() {
       }
       t += '</tbody></table></div>';
     }
-    // Season table for all eight, whether or not they fired tonight.
+    // SEPARATE CARD (user, 2026-09-02). The season grid and the footnote
+    // used to live in the same card as tonight's plays, so a 19px plays
+    // table sat directly above a 16px reference grid and read as a font
+    // bug. They are different things -- what to bet now, versus the record
+    // behind it -- and now they are different cards.
+    sc.innerHTML = t;
+    wireShadowToggle(sc);
+    el.insertBefore(sc, playsAnchor.nextSibling);
+    playsAnchor = sc;
+
+    const rec = document.createElement('div');
+    rec.className = 'card card-games';
+    t = '<div class="card-title" style="padding:6px 8px">'
+      + 'Non-scout systems — season records '
+      + '<span class="scout-note" style="color:' + DIM
+      + ';font-weight:400;font-size:15px">(every system, whether or not it '
+      + 'fired tonight. Replayed as-of each game date.)</span></div>';
     const b = sysTable.baselines || {};
     // The builder stores each system's own blind benchmark, so this does not
     // have to guess one from the rule name.
@@ -625,7 +665,7 @@ async function renderMLBSlateScout() {
         + monthStrip(sy.monthly)
         + '</td>'
         + '<td data-col="rule-desc" style="color:' + DIM
-        + ';font-size:15px">' + esc(sy.rule) + '</td>'
+        + ';font-size:16px">' + esc(sy.rule) + '</td>'
         + '<td style="color:' + DIM + ';white-space:nowrap">' + r.w + '-' + r.l + '</td>'
         + '<td style="color:' + col + ';font-weight:600;white-space:nowrap">'
         + (r.roi > 0 ? '+' : '') + (r.roi == null ? '—' : r.roi.toFixed(1)) + '%</td>'
@@ -662,23 +702,9 @@ async function renderMLBSlateScout() {
       + 'tested thousands of cells, so treat the p-values as screening, not '
       + 'proof — the live record is what settles them.</div>'
       + '</div>';
-    sc.innerHTML = t;
-    // Shadow rows start hidden; the header row toggles them. Written after
-    // innerHTML rather than as an inline onclick so the handler survives the
-    // esc() escaping and does not depend on a global.
-    const shHead = sc.querySelector('#nsShadowHead');
-    if (shHead) {
-      const caret = sc.querySelector('#nsShadowCaret');
-      const shRows = [...sc.querySelectorAll('tr.ns-shadow-row')];
-      let open = false;
-      shHead.addEventListener('click', () => {
-        open = !open;
-        for (const r of shRows) r.style.display = open ? '' : 'none';
-        if (caret) caret.textContent = open ? '▾' : '▸';
-      });
-    }
-    el.insertBefore(sc, playsAnchor.nextSibling);
-    playsAnchor = sc;
+    rec.innerHTML = t;
+    el.insertBefore(rec, playsAnchor.nextSibling);
+    playsAnchor = rec;
   }
 
   // ---- Flag-combo performance grid -----------------------------------------
