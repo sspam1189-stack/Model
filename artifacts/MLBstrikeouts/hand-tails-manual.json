@@ -1,7 +1,7 @@
 {
  "sport": "MLB",
  "type": "hand-tails-manual",
- "note": "MANUALLY CURATED hand-tails fade list -- these are the arms actually bet. Edit this file to add or remove an arm; nothing is auto-added or auto-removed. Each arm: {\"hand\": \"L\"|\"R\", \"since\": \"YYYY-MM-DD\"}. `since` is the date the arm goes live -- the ledger only bets/grades its platoon-disadvantage starts on or after that date (walk-forward, no in-sample credit). Omit `since` to grade from the arm's first start. The daily run flags NEW walk-forward qualifiers that are NOT on this list as promotion candidates (dashboard badge); it never edits this file. `until` retires an arm walk-forward: starts on/after that date are not bet; the [since, until) history keeps grading.",
+ "note": "MANUALLY CURATED hand-tails fade list -- these are the arms actually bet. Edit this file to add or remove an arm; nothing is auto-added or auto-removed. Each arm: {\"hand\": \"L\"|\"R\", \"since\": \"YYYY-MM-DD\"}. An arm that was retired and later re-promoted instead carries \"windows\": [[since, until], [since, null]] -- an explicit list of [add, remove) windows, which wins over since/until and keeps the earlier stretch graded. `since` is the date the arm goes live -- the ledger only bets/grades its platoon-disadvantage starts on or after that date (walk-forward, no in-sample credit). Omit `since` to grade from the arm's first start. The daily run flags NEW walk-forward qualifiers that are NOT on this list as promotion candidates (dashboard badge); it never edits this file. `until` retires an arm walk-forward: starts on/after that date are not bet; the [since, until) history keeps grading.",
  "rule": {
   "minGames": 4,
   "minUnits": 3.0,
@@ -10,8 +10,17 @@
  "arms": {
   "Andrew Painter": {
    "hand": "R",
-   "since": "2026-06-17",
-   "until": "2026-08-26"
+   "windows": [
+    [
+     "2026-06-17",
+     "2026-08-26"
+    ],
+    [
+     "2026-09-02",
+     null
+    ]
+   ],
+   "note": "Retired 8/26 (platoon thesis called dead, rookie adjusted); re-promoted live 9/02. Two windows so the 6/17-8/26 stretch (2-0 +2.84u) keeps grading instead of being dropped."
   },
   "Brady Singer": {
    "hand": "R",
@@ -100,6 +109,34 @@
   "Connor Prielipp": {
    "hand": "L",
    "since": "2026-08-21"
+  },
+  "Andrew Alvarez": {
+   "hand": "L",
+   "since": "2026-09-01"
+  },
+  "Grayson Rodriguez": {
+   "hand": "R",
+   "since": "2026-09-01"
+  },
+  "Ian Seymour": {
+   "hand": "L",
+   "since": "2026-09-01"
+  },
+  "Jack Perkins": {
+   "hand": "R",
+   "since": "2026-09-01"
+  },
+  "Ryan Johnson": {
+   "hand": "R",
+   "since": "2026-09-01"
+  },
+  "Seth Lugo": {
+   "hand": "R",
+   "since": "2026-09-01"
+  },
+  "Yusei Kikuchi": {
+   "hand": "L",
+   "since": "2026-09-01"
   }
  }
 }
