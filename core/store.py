@@ -50,11 +50,20 @@ def load_store():
         return {**EMPTY_STORE, "runs": []}
 
 
+def _json_default(o):
+    """Serialise numpy scalars/arrays that leak into run records (pandas
+    downcasts play-by-play to float32; one np.float32 in a game dict used to
+    abort the whole save). Duck-typed so this file stays numpy-free."""
+    if hasattr(o, "tolist") and callable(o.tolist):
+        return o.tolist()   # np scalar -> Python scalar, ndarray -> list
+    raise TypeError(f"Object of type {o.__class__.__name__} is not JSON serializable")
+
+
 def save_store(store):
     path = _get_data_path()
     os.makedirs(os.path.dirname(path), exist_ok=True)
     with open(path, "w", encoding="utf-8") as f:
-        json.dump(store, f, indent=2)
+        json.dump(store, f, indent=2, default=_json_default)
 
 
 def upsert_run(store, run):

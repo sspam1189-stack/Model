@@ -95,6 +95,52 @@ def is_actionable(conf):
     return str(conf or "").lower() in CONF_ACTIONABLE
 
 
+def week1_start(season):
+    """Tuesday after Labor Day: the first day of NFL Week 1 (kickoff is the
+    Thursday). Every week is the 7-day span starting on a Tuesday."""
+    # Find Labor Day (first Monday in September)
+    sept1 = datetime(season, 9, 1)
+    days_to_monday = (7 - sept1.weekday()) % 7
+    if sept1.weekday() == 0:
+        days_to_monday = 0
+    labor_day = sept1 + timedelta(days=days_to_monday)
+    return labor_day + timedelta(days=1)
+
+
+def week_window(season, week):
+    """[start, end) datetimes for an NFL week (Tuesday to Tuesday)."""
+    start = week1_start(season) + timedelta(weeks=week - 1)
+    return start, start + timedelta(days=7)
+
+
+def filter_odds_to_week(odds, season, week):
+    """Keep only games that kick off inside this week's window.
+
+    In-season the odds feed only carries the next week or two, so the loop
+    over it was implicitly the current week. Pre-season the books post the
+    whole schedule (272 games) and the project stage was analysing every one
+    of them, with a weather call each. Games with no parseable commence time
+    are kept so they surface as MISSING_ODDS rather than vanish."""
+    from zoneinfo import ZoneInfo
+    eastern = ZoneInfo("America/New_York")
+    start, end = week_window(season, week)
+    kept = []
+    for g in odds:
+        iso = g.get("commenceTimeIso")
+        try:
+            # Feed times are UTC. Compare in Eastern: Monday Night Football
+            # kicks off at 00:15 UTC Tuesday, which a UTC window would push
+            # into the following week (Week 1 2026 lost DEN @ KC that way).
+            when = (datetime.fromisoformat(str(iso).replace("Z", "+00:00"))
+                    .astimezone(eastern).replace(tzinfo=None))
+        except (TypeError, ValueError):
+            kept.append(g)
+            continue
+        if start <= when < end:
+            kept.append(g)
+    return kept
+
+
 def current_nfl_week(season=None):
     """
     Estimate the current NFL week based on today's date.
@@ -104,17 +150,7 @@ def current_nfl_week(season=None):
         season = current_season()
 
     now = datetime.now()
-    # Find Labor Day (first Monday in September)
-    sept1 = datetime(season, 9, 1)
-    days_to_monday = (7 - sept1.weekday()) % 7
-    if sept1.weekday() == 0:
-        days_to_monday = 0
-    labor_day = sept1 + timedelta(days=days_to_monday)
-
-    # Week 1 starts the Tuesday after Labor Day (first game is Thursday)
-    week1_start = labor_day + timedelta(days=1)  # Tuesday
-
-    delta = (now - week1_start).days
+    delta = (now - week1_start(season)).days
     if delta < 0:
         return 0  # preseason
     week = delta // 7 + 1
@@ -728,8 +764,13 @@ def stage_project(season, week, store):
     try:
         scale_calib = build_scale_calibration(store.get("runs", []))
         sm = scale_calib.get("margin", {})
-        print(f"  [scale] margin alpha={sm.get('alpha'):+.2f} beta={sm.get('beta'):.3f} "
-              f"(n={sm.get('n', 'default')})")
+        if isinstance(sm.get("alpha"), (int, float)) and isinstance(sm.get("beta"), (int, float)):
+            print(f"  [scale] margin alpha={sm['alpha']:+.2f} beta={sm['beta']:.3f} "
+                  f"(n={sm.get('n', 'default')})")
+        else:
+            # build_scale_calibration returns its DEFAULT_SCALE dict until
+            # min_games graded v2 games exist; that dict has no alpha/beta.
+            print(f"  [scale] margin: default scale (fewer than min_games graded)")
     except Exception as e:
         print(f"  WARNING: scale calibration failed: {e}")
 
@@ -747,7 +788,11 @@ def stage_project(season, week, store):
         print(f"  WARNING: weather/schedule modules not available: {_e}")
         _has_weather_sched = False
 
-    # Analyze each matchup
+    # Analyze each matchup — this week's only
+    n_all = len(odds)
+    odds = filter_odds_to_week(odds, season, week)
+    if len(odds) != n_all:
+        print(f"[project] {n_all} games in odds feed, {len(odds)} in Week {week} window")
     print(f"[project] Analyzing {len(odds)} matchups...")
     games = []
 
