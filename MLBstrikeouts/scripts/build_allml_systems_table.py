@@ -92,6 +92,7 @@ def main():
             "name": name,
             "market": market,
             "rule": rule,
+            "plain": SYS.PLAIN.get(key, ""),
             "case": case,
             "status": RULE_STATUS.get(key, "shadow"),
             "ladder_fails": case.startswith("LADDER FAILS"),

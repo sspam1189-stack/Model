@@ -651,17 +651,30 @@ async function renderMLBSlateScout() {
         + (sy.per_day == null ? '—' : sy.per_day) + '</td>'
         + '</tr>';
     }
+    // What each system actually bets, and why it might work. This replaced a
+    // methodology paragraph: the panel already shows the record, so the
+    // footnote's job is to say what the rule IS. Where a system has no
+    // mechanism the text says so rather than inventing one.
     t += '</tbody></table></div>'
-      + '<div class="scout-foot" style="padding:6px 8px;font-size:11px;color:'
-      + DIM + ';line-height:1.5">'
+      + '<div class="scout-foot" style="padding:8px 8px 6px;font-size:11px;color:'
+      + DIM + ';line-height:1.55">'
+      + '<div style="font-weight:600;color:#c9d1d9;padding-bottom:4px">'
+      + 'What each system bets</div>'
+      + sysTable.systems.map((sy) => '<div style="padding:0 0 5px">'
+        + '<span style="color:#c9d1d9;font-weight:600">' + esc(sy.name) + '</span>'
+        + (sy.ladder_fails ? ' <span title="the winning bucket has losing '
+          + 'neighbours in its own ladder" style="color:#d29922">△</span>' : '')
+        + ' <span style="color:' + DIM + '">— ' + esc(sy.plain || sy.rule)
+        + '</span></div>').join('')
+      + '<div style="padding-top:4px;border-top:1px solid #21262d;margin-top:2px">'
       + 'Replayed as-of each game date over ' + (sysTable.games || 0)
       + ' settled games — a game\'s own result is never in the features that '
-      + 'select it. Blind baselines over the same games: backing every side '
-      + b.side + '%, blind over ' + b.over + '%, blind under ' + b.under + '%. '
+      + 'select it. Blind baselines: backing every side ' + b.side
+      + '%, blind over ' + b.over + '%, blind under ' + b.under + '%. '
       + '<span style="color:#d29922">△</span> marks a system whose winning '
-      + 'bucket has losing neighbours in its own ladder — carded on request, '
-      + 'and the record is what settles it. The scan that produced these tested '
-      + 'thousands of cells, so treat the p-values as screening, not proof.'
+      + 'bucket has losing neighbours in its own ladder. The scan behind these '
+      + 'tested thousands of cells, so treat the p-values as screening, not '
+      + 'proof — the live record is what settles them.</div>'
       + '</div>';
     sc.innerHTML = t;
     el.insertBefore(sc, playsAnchor.nextSibling);

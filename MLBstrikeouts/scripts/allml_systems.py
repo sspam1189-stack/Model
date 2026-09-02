@@ -205,6 +205,52 @@ SYSTEMS = {
         "streaks span multiple opponents 100% of the time and lose money, "
         "and splitting L4 by the same variable leaves both halves winning."),
 }
+# Plain-English gloss for the tab: what the system bets, and why it might
+# work. Where there is no mechanism, it says so -- three of these are carded
+# on a measured cell with no story behind it, and the panel should not pretend
+# otherwise.
+PLAIN = {
+    "away-dog-ml":
+        "Backs the visiting underdog whenever the posted total is 9.5 or "
+        "higher. No mechanism: it is a price-and-total cell that measured "
+        "well, and 9.0 totals measure badly, so treat the record as the only "
+        "evidence.",
+    "home-slide-ml":
+        "Backs a home team that has lost four or more in a row and is facing "
+        "a different opponent than its last game. The idea is that the market "
+        "over-adjusts to a visible losing streak. Weak support: the effect is "
+        "entirely at exactly four losses, and three or five measure negative.",
+    "division-home-dog":
+        "Backs the home side when it hosts a division rival and is priced "
+        "between +115 and +149. Familiar opponents in a narrow price window. "
+        "The same price band outside the division is roughly flat, which is "
+        "the whole case; below +115 and above +150 the market is right.",
+    "home-dog-getaway":
+        "Backs a home underdog in a day game when the visitors played a night "
+        "game the day before. Both clubs are short on sleep, but one slept at "
+        "home and the other packs for the airport. It only shows up when the "
+        "home side is the weaker team, which is what makes it credible.",
+    "home-dog-under-parlay":
+        "Parlays a +115 to +149 home underdog with the under. When the home "
+        "team wins it does not bat in the ninth, so home wins skew under -- "
+        "these dogs go under 73% of the time when they win, against 52% "
+        "league-wide. The away-side version is correctly dead, which is the "
+        "strongest structural check on the board.",
+    "pickem-under":
+        "Takes the under when the game is priced close to even (favourite "
+        "-115 or shorter) but the total is 8.5 or higher. Reads as the market "
+        "unable to separate two offences and settling on a big number.",
+    "starter-over-run":
+        "Takes the over when either starter has gone over in 75% or more of "
+        "his last eight starts and the total is 8.5 or higher. The totals "
+        "market is slow to move on a starter's run -- the same lag the flag "
+        "rules exploit.",
+    "cold-arms-under":
+        "Takes the under when BOTH starters have gone over in 35% or less of "
+        "their last eight. The exact mirror of Starter over run, and it "
+        "agrees with it, which is why a 41-game cell is on the board at all.",
+}
+
 CARD_ORDER = ("away-dog-ml", "home-slide-ml", "division-home-dog",
               "home-dog-getaway", "home-dog-under-parlay", "pickem-under",
               "starter-over-run", "cold-arms-under")
