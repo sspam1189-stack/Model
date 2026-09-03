@@ -415,25 +415,6 @@ GETAWAY_NIGHT_FROM = 22 * 60 + 30   # 22:30Z
 GETAWAY_NIGHT_TO = 59               # 00:59Z, the morning side of the wrap
 HOME_SLIDE_LOSSES = 4
 
-# When two carded systems land on opposite sides of a game's total, no side is
-# taken. From this date the PARLAY stands down with them; before it, the parlay
-# was detected as an under but stayed live. Dated rather than switched so the
-# ledger is never rewritten backwards: rows already logged under the old policy
-# keep the bet that was actually made, and the change reads off the record
-# instead of silently restating history.
-#
-# Both surfaces import this one constant. The dashboard and the daily logger
-# each carried their own answer to a question like this once (see
-# rule_status.py) and gave two different ones on the same play.
-#
-# WHAT IT COSTS, recorded because it is a cost: the parlay on a conflicted
-# game went 6-14 +32.1% (+6.42u over 20 settled plays). Passing it takes the
-# card tier from +271.87u to +265.45u. The case for it is that a parlay on a
-# conflicted game measures WORSE than one nobody argues with (+32.1% against
-# +46.6% unopposed, n=234) -- the "+27.7% when opposed" figure that justified
-# the original exemption was the under leg graded straight, against a +9.9%
-# unopposed baseline, which is a different bet from the parlay itself.
-CONFLICT_PARLAY_FROM = "2026-09-04"
 
 
 def short_tag(key):

@@ -159,14 +159,17 @@ def _mark_conflicts(today):
     the single statement that starter-over-run is wrong when a carded under
     contradicts it (+23.4% unopposed, -9.7% opposed).
 
-    The parlay stands down with them from SYS.CONFLICT_PARLAY_FROM
-    (2026-09-04, user); before that date it was detected as an under but
-    stayed live. Dated rather than switched so rows already logged keep the
-    bet that was actually made. It costs 6-14 +32.1% (+6.42u over 20 plays)
-    and is defensible because a parlay on a conflicted game measures worse
-    than an unopposed one (+32.1% against +46.6%, n=234) -- the +27.7% that
-    justified the original exemption was the under leg graded STRAIGHT,
-    against a +9.9% unopposed baseline, which is a different bet.
+    The parlay stands down with them, on every date (user, 2026-09-03). It
+    briefly carried a CONFLICT_PARLAY_FROM start date so the ledger would
+    not be restated; the user asked for the whole season instead, and
+    scripts/backfill_conflict_skips.py marked the history to match. One
+    policy, one record, no date seam in the middle of it.
+
+    It costs 6-14 +32.1% (+6.42u over 20 plays) and is defensible because a
+    parlay on a conflicted game measures worse than an unopposed one
+    (+32.1% against +46.6%, n=234) -- the +27.7% that justified the original
+    exemption was the under leg graded STRAIGHT, against a +9.9% unopposed
+    baseline, which is a different bet.
     """
     # Card rules only. A shadow rule has no money on it, so it can neither
     # create a conflict nor be told to stand down for one.
@@ -180,9 +183,7 @@ def _mark_conflicts(today):
                  for r in rows}
         if "over" in sides and "under" in sides:
             for r in rows:
-                if (r.get("market") == "totals"
-                        or (r.get("date") or "") >= SYS.CONFLICT_PARLAY_FROM):
-                    r["conflict_skip"] = True
+                r["conflict_skip"] = True
 
 
 def _pick_from(entry):

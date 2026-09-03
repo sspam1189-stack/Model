@@ -262,14 +262,6 @@ def drop_conflicting_totals(entries, date, now=None):
         if sides != {"over", "under"}:
             continue
         for e in rows:
-            # The parlay stands down with the straight totals from
-            # CONFLICT_PARLAY_FROM (2026-09-04, user). Before that date it was
-            # detected as an under but stayed live, so a row logged then keeps
-            # the bet that was actually made rather than being rewritten by
-            # today's policy.
-            if (e.get("market") == "parlay"
-                    and date < ALLSYS.CONFLICT_PARLAY_FROM):
-                continue
             # Started or graded: the bet was made and stands. Detection above
             # already counted it, so its partner is still passed.
             if _locked(e, now):

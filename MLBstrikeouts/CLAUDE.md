@@ -393,11 +393,29 @@ number above is flat stakes on each system's own bet.
 
 The mirror of the stacking table above. When two carded systems land on
 opposite sides of the same total, neither side is taken. A parlay's under
-leg counts as an under for detection, and **from 2026-09-04 the parlay
-stands down with them** (`CONFLICT_PARLAY_FROM` in allml_systems.py, which
-both surfaces import so they cannot drift). Dated rather than switched:
-rows logged before it keep the bet that was actually made, so the change
-reads off the record instead of restating history.
+leg counts as an under for detection, and **the parlay stands down with
+them**.
+
+**Applied to the WHOLE SEASON (user, 2026-09-03), history rewritten.** The
+parlay half briefly carried a `CONFLICT_PARLAY_FROM = "2026-09-04"` start
+date so the ledger would keep the bets actually made; the user asked for
+one policy and one record with no date seam in the middle, so the constant
+was deleted and `scripts/backfill_conflict_skips.py` marked the history to
+match. 110 rows across 54 conflicted games now carry `not_bet` +
+`conflict_skip` (was 54, all overs): 53 starter-over-run, 31 pickem-under,
+22 home-dog-under-parlay, 4 flag-plays. **+5.71u came out of the live
+record**; the rest were backfilled rows, which carry no units either way.
+Results and profits are untouched — the rows keep their W-L and lose only
+the units, which is what `not_bet` has always meant here.
+
+That script is a ONE-SHOT and is deliberately not in the daily workflow. It
+ignores `_locked` on purpose, which is the one thing the daily path must
+never do. The pre-rewrite ledger is recoverable from git.
+
+Detection spans every carded rule with a total side, scout and non-scout
+alike — flag-plays unders conflict with starter-over-run overs exactly as
+pickem-under does. That is what the daily logger already did; the backfill
+just matches it.
 
 Before this the over was passed and the under was kept. Passing the under
 too **costs 17-12 +12.6% (+3.66u over 29 settled plays)** — the over was
