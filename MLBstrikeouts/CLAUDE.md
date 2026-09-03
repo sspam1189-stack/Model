@@ -51,9 +51,18 @@ When building a daily card from this repo's outputs, the tiers are:
                    +29% to +73% and are played as the swingman rule until
                    they reach n=25 · swingman+layoff+opener (27-23 +3.4%
                    p=0.296, carded on the user's call over the gate)
-       PLAY OVER   swingman+stale-window (30-20 +14.7% p=0.059) -- the
-                   contrarian cell: swingman says the arm is current,
-                   stale-window says his line is two months old
+       SHADOW      swingman+stale-window (30-20 +14.7% p=0.059), the only
+                   OVER on the grid -- SHADOWED FROM 2026-09-03 (user).
+                   Tracked, still qualifying, no units. The contrarian
+                   read is that swingman says the arm is current while
+                   stale-window says his line is two months old; against it,
+                   it never cleared the gate and it is the one cell with no
+                   neighbour to corroborate it, since every other verdict
+                   here is an under. Live record at the call: 0-1 (SD @ CIN
+                   9/1, Vasquez swingman-2g vs Lodolo stale-window-46d, O9
+                   lost). It keeps its "over" side so a tracked row still
+                   means something, and can be carded again from a date via
+                   VERDICT_SHADOW if 15-20 plays firm it up.
        NO PLAY     swingman+layoff (-0.7%) · opener alone (+3.0%) ·
                    stale-window alone (-6.5%) · every rust combo at n<=5
 
@@ -69,6 +78,13 @@ When building a daily card from this repo's outputs, the tiers are:
      Verdicts are stored as constants, never derived from live numbers, so a
      cell cannot silently flip on a week of variance; revisit if a PLAY cell
      runs clearly negative over its next 15-20.
+
+     Two cells have since been shadowed rather than deleted, both dated in
+     `VERDICT_SHADOW` so an earlier slate still reads the way it was bet:
+     **layoff alone** (2026-09-02) and **swingman+stale-window**
+     (2026-09-03). A shadowed combo keeps its measured side, keeps
+     qualifying and keeps writing a no-stake row, so it goes on producing
+     evidence while costing nothing -- which a retired one cannot do.
 
    - **Form under — CARDED 2026-09-01 (user).** `m_sum <= -40` (both
      starters' mismatch scores summed: both arms outclass the bats they

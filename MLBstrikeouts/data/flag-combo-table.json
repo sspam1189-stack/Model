@@ -1,7 +1,7 @@
 {
  "sport": "MLB",
  "type": "flag-combo-table",
- "generated": "2026-09-03T00:33:43Z",
+ "generated": "2026-09-03T02:54:22Z",
  "span": {
   "from": "2026-03-26",
   "to": "2026-09-02"
@@ -47,12 +47,14 @@
   "layoff+opener+stale-window": null
  },
  "verdicts_shadow": [
-  "layoff"
+  "layoff",
+  "swingman+stale-window"
  ],
  "verdicts_shadow_from": {
-  "layoff": "2026-09-02"
+  "layoff": "2026-09-02",
+  "swingman+stale-window": "2026-09-03"
  },
- "verdicts_as_of": "2026-09-02",
+ "verdicts_as_of": "2026-09-03",
  "verdicts_from": "2026-09-01",
  "note": "Flags replayed as-of each game date from the pitcher game logs (not from payload snapshots, which only start 2026-08-17 and produced the rust-over mirage). Graded at the payload's own over_ml/under_ml, 1u risk. A combo row counts a game once, under its exact flag set; a flag row counts a game under every flag it carries, so flag rows overlap and combo rows do not.",
  "baselines": {
@@ -233,9 +235,9 @@
     "stale-window"
    ],
    "verdict": "over",
-   "carded": true,
-   "shadow": false,
-   "shadow_from": null,
+   "carded": false,
+   "shadow": true,
+   "shadow_from": "2026-09-03",
    "under": {
     "w": 21,
     "l": 30,

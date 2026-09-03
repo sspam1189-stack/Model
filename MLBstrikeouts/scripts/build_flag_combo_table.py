@@ -149,7 +149,33 @@ COMBO_VERDICTS = {
 #                   was carrying the card rule's one exception on the weakest
 #                   evidence on the grid. It stays measured and tracked; it
 #                   just stops being bet.
-VERDICT_SHADOW = {"layoff": "2026-09-02"}
+#
+#   swingman+stale-window
+#                   SHADOW FROM 2026-09-03 (user). 30-20 +14.7% p=0.059 on
+#                   the season grid -- the largest edge of any cell that
+#                   never cleared the gate, and the ONLY combo on the board
+#                   played to the OVER. That is what makes it worth
+#                   shadowing rather than keeping: every other verdict on
+#                   this grid is an under, so the one contrarian cell is
+#                   also the one with no neighbour to corroborate it. If it
+#                   is real, the story is that swingman says the arm is
+#                   current while stale-window says his line is two months
+#                   old; if it is not, it is the cell a 16-test scan is
+#                   expected to throw up, and CLAUDE.md already records that
+#                   ~0.8 cells should look significant by chance and that
+#                   only swingman-alone (p=0.030) actually cleared.
+#
+#                   Live record before the call: 0-1. SD @ CIN on 9/1
+#                   (Vasquez swingman-2g, Lodolo stale-window-46d) went
+#                   O9 and lost. One game settles nothing either way -- it
+#                   is listed because it is the whole live sample.
+#
+#                   It keeps its "over" side in COMBO_VERDICTS, so it goes
+#                   on qualifying and logging as a no-stake row. If the over
+#                   thesis firms up over 15-20 tracked plays it can be
+#                   carded again from a date, using this same map.
+VERDICT_SHADOW = {"layoff": "2026-09-02",
+                  "swingman+stale-window": "2026-09-03"}
 
 
 def _today():
