@@ -82,12 +82,17 @@ SYSTEMS = {
     "starter-over-run": (
         "Starter over run", "totals",
         "Either starter has gone over in 75% or more of his last 8 starts "
-        "and the total is 8.5 or higher: over.",
-        "120-87 +10.8% (n=207, p=0.004), halves +13/+10, all thirds positive. "
-        "The L10 window agrees (+8.3%). Same story as the flag rules -- the "
-        "totals market is slow to move on a starter's run. Weak point: "
-        "monthly alternates (+27/-8/+20/-5/+9). The total>=8.5 half is what "
-        "carries it; under 8 the same signal is -3.6%."),
+        "and the total is 8.0 or higher: over. The gate was 8.5 before "
+        "2026-09-03.",
+        "120-87 +10.8% (n=207, p=0.004) under the 8.5 gate, halves +13/+10, "
+        "all thirds positive. The L10 window agrees (+8.3%). Same story as "
+        "the flag rules -- the totals market is slow to move on a starter's "
+        "run. Weak point: monthly alternates (+27/-8/+20/-5/+9). "
+        "GATE MOVED 8.5 -> 8.0 on 2026-09-03 (user, forward-only): the dead "
+        "zone is the 7.5 bucket (32-43 -18.9%, n=75), not everything under "
+        "8.5 -- the 8.0 bucket is 23-13 +22.1%, and >=8.0 replays to "
+        "145-102 +12.2% z=2.74 against 122-89 +10.5% z=2.27. See "
+        "OVER_RUN_TOTAL for the full case and what argues against it."),
     "division-home-dog": (
         "Division home dog", "h2h",
         "Home team hosting a division rival and priced +115 to +149: back the "
@@ -332,7 +337,8 @@ PLAIN = {
         "positive in both halves.",
     "starter-over-run":
         "Takes the over when either starter has gone over in 75% or more of "
-        "his last eight starts and the total is 8.5 or higher. The totals "
+        "his last eight starts and the total is 8.0 or higher (8.5 before "
+        "2026-09-03). The totals "
         "market is slow to move on a starter's run -- the same lag the flag "
         "rules exploit.",
     "cold-arms-under":
@@ -418,7 +424,28 @@ HOT_ARM_ROI = 40.0       # trailing team ROI% in the starter's last 8
 PICKEM_ML = -115         # favorite no shorter than this
 PICKEM_TOTAL = 8.5
 OVER_RUN_RATE = 0.75
-OVER_RUN_TOTAL = 8.5
+# 2026-09-03 (user): the starter-over-run total gate moves 8.5 -> 8.0 from
+# this date on. Forward-only, the same shape as MUTUAL_SKIP_START in
+# fade_ml_common, so a row before the date still grades against the gate it
+# was actually bet under.
+#
+# The 8.5 sat one notch above what the evidence supported. The case for it
+# below -- "under 8 the same signal is -3.6%" -- is an aggregate the 7.5
+# bucket drags negative by itself (32-43, -18.9%, n=75); the 8.0 bucket
+# inside that same aggregate is 23-13 +22.1%. Laddered, >=8.0 dominates
+# >=8.5 on every metric at once: 145-102 +33.17u +12.2% z=2.74 against
+# 122-89 +24.44u +10.5% z=2.27, and runs-line +1.40 against +1.32. It adds
+# 36 plays worth +8.73u, or +0.243u per pick added.
+#
+# Against it, stated plainly: one season, in-sample, and n=36 on the added
+# bucket (z=+1.67 on its own). What makes it a gate move rather than a
+# re-tune is that a 42-cell sweep of window x rate around it is a plateau --
+# every L8-L16 x 0.75-0.80 cell lands between +12.0% and +15.6% -- so the
+# edge does not depend on hitting an exact setting. Rates <=0.625 are dead
+# at every window, which is the low-side boundary holding.
+OVER_RUN_TOTAL = 8.5              # gate before OVER_RUN_TOTAL_FROM
+OVER_RUN_TOTAL_LATE = 8.0         # gate from OVER_RUN_TOTAL_FROM on
+OVER_RUN_TOTAL_FROM = "2026-09-03"
 LOW_LINE = 7.0
 COLD_ARMS_RATE = 0.35
 UNDER_JUICE_ML = -120
@@ -572,6 +599,18 @@ class AsOf:
                 self.pit[g[f"{side}_pitcher"]].append(rec)
 
 
+def over_run_total(date):
+    """The starter-over-run total gate as of `date`.
+
+    Forward-only: rows dated before OVER_RUN_TOTAL_FROM keep the 8.5 they
+    were bet under, so the ledger does not rewrite itself. Set
+    OVER_RUN_TOTAL_FROM to "" to apply the new gate to all history.
+    """
+    if OVER_RUN_TOTAL_FROM and date and str(date)[:10] >= OVER_RUN_TOTAL_FROM:
+        return OVER_RUN_TOTAL_LATE
+    return OVER_RUN_TOTAL
+
+
 def plays_for(g, feat):
     """Every system firing on one game: list of dicts, at most one per rule.
 
@@ -648,7 +687,7 @@ def plays_for(g, feat):
             why=f"favorite only {min(away_ml, home_ml):+d} at a {total:g} total")
     hot = [(s, (a if s == "away" else h).get("pit_over")) for s in ("away", "home")]
     hot = [(s, r) for s, r in hot if r is not None]
-    if hot and total >= OVER_RUN_TOTAL and max(r for _, r in hot) >= OVER_RUN_RATE:
+    if hot and total >= over_run_total(g.get("date"))             and max(r for _, r in hot) >= OVER_RUN_RATE:
         who = ", ".join(f"{g.get(s + '_pitcher')} {r:.0%}"
                         for s, r in hot if r >= OVER_RUN_RATE)
         add("starter-over-run", "totals", "over", over_ml, side="O",
