@@ -209,7 +209,7 @@ def total_side(entry):
 NOTE = "Carded over and under on this game; neither side taken."
 
 
-def drop_conflicting_totals(entries, date):
+def drop_conflicting_totals(entries, date, now=None):
     """When a game carries both a carded over and a carded under, drop BOTH.
 
     BOTH SIDES SINCE 2026-09-03 (user). The old rule kept the under and
@@ -230,9 +230,22 @@ def drop_conflicting_totals(entries, date):
     what the replay measures, and out of the units, which is what was
     actually risked. Not PUSH: these games had results.
 
-    Only PENDING rows are touched, so a settled night is never rewritten by
-    a later run. Returns the rows it changed.
+    Only PENDING rows are SUPPRESSED, and that is enforced with _locked, not
+    merely by being called with today's date (fixed 2026-09-03). The date
+    filter alone was never the guarantee this docstring claimed: the daily
+    workflow runs six times a day, so a late run on a day whose early games
+    have already finished would have marked a settled row not_bet and taken
+    a real, risked bet out of the units. Harmless while only overs were
+    suppressed and they were flagged before first pitch anyway; not harmless
+    once both sides and the parlay are in scope.
+
+    Locked rows still COUNT for detection. A settled over is proof the
+    conflict was real, so the pending under is still passed -- what cannot
+    be done is un-betting a game that has already started.
+
+    Returns the rows it changed.
     """
+    now = now or datetime.datetime.now(datetime.timezone.utc)
     by_game = collections.defaultdict(list)
     for e in entries:
         if e.get("date") != date or e.get("shadow"):
@@ -256,6 +269,10 @@ def drop_conflicting_totals(entries, date):
             # today's policy.
             if (e.get("market") == "parlay"
                     and date < ALLSYS.CONFLICT_PARLAY_FROM):
+                continue
+            # Started or graded: the bet was made and stands. Detection above
+            # already counted it, so its partner is still passed.
+            if _locked(e, now):
                 continue
             if e.get("conflict_skip") and NOTE in (e.get("basis") or ""):
                 continue                       # already handled, nothing to do
@@ -570,7 +587,7 @@ def main():
 
     # Conflicts are resolved across the WHOLE day's rows, not just the ones
     # added this run: the over and the under can be logged by different runs.
-    dropped = drop_conflicting_totals(blob["entries"] + added, date)
+    dropped = drop_conflicting_totals(blob["entries"] + added, date, now)
     for e in dropped:
         print(f"  SKIP-TOTAL {e['rule']:14} {e['play'][:40]:40} "
               f"carded over and under on this game")
