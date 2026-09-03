@@ -1,7 +1,7 @@
 {
  "sport": "MLB",
  "type": "rule-status",
- "generated": "2026-09-03T00:33:49Z",
+ "generated": "2026-09-03T10:26:12Z",
  "note": "Single source of truth for card/shadow status. The daily logger imports RULE_STATUS from scripts/rule_status.py; the dashboard reads this file. Edit the script, not either surface.",
  "rules": {
   "flag-plays": {
@@ -70,12 +70,6 @@
    "why": "Home dog priced +115 to +149: parlay the home moneyline with the under, both legs at book price.",
    "group": "non-scout"
   },
-  "pickem-under": {
-   "status": "card",
-   "name": "Pickem under",
-   "why": "Favorite at -115 or shorter and total 8.5 or higher: under.",
-   "group": "non-scout"
-  },
   "starter-over-run": {
    "status": "card",
    "name": "Starter over run",
@@ -110,6 +104,12 @@
    "status": "shadow",
    "name": "Monday over",
    "why": "Any game on a Monday: over.",
+   "group": "non-scout"
+  },
+  "pickem-under": {
+   "status": "shadow",
+   "name": "Pickem under",
+   "why": "Favorite at -115 or shorter and total 8.5 or higher: under.",
    "group": "non-scout"
   }
  }

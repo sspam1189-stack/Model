@@ -1,29 +1,13 @@
 {
   "sport": "MLB",
   "type": "fade-vs-team-watch",
-  "generated": "2026-09-03T00:33:37Z",
+  "generated": "2026-09-03T10:25:45Z",
   "seasonStart": "2026-04-05",
   "minStarts": 2,
   "minEra": 6.0,
   "fadeEra": 8.0,
   "note": "Auto-screened WATCH tier for the pitcher-vs-team fade angle: >= 2 starts vs the team with 6.0 <= ERA < 8.0 vs them (ERA >= 8.0 auto-promotes to the FADE list, mlb-fade-vs-team.json), excluding arms already faded and matchups already curated. fadeRecord is the in-sample fade result (bet the opponent), shown for review -- not a screen filter. Watch, don't bet.",
-  "today": [
-    {
-      "date": "2026-09-02",
-      "commence": "2026-09-02T18:35:00Z",
-      "betType": "fade_vs_team_watch",
-      "pitcher": "Cody Bradford",
-      "arm_team": "TEX",
-      "opp": "OAK",
-      "selection": "OAK",
-      "venue": "home",
-      "matchup": "OAK @ TEX",
-      "odds": 136,
-      "eraVsOpp": 7.88,
-      "startsVsOpp": 2,
-      "result": "pending"
-    }
-  ],
+  "today": [],
   "candidates": [
     {
       "pitcher": "Jos\u00e9 Soriano",

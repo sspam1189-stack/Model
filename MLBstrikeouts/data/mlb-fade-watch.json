@@ -1,49 +1,39 @@
 {
   "sport": "MLB",
   "type": "fade-watch",
-  "generated": "2026-09-03T00:33:35Z",
+  "generated": "2026-09-03T10:25:42Z",
   "minGames": 3,
   "minUnits": 2.5,
   "note": "Shadow review list -- arms NOT on the active fade list whose home or away fade clears the bar (>= 3 games, >= +2.5u). In-sample season replay; watch, don't bet. Promote by editing scripts/fade_list.py.",
-  "today": [
-    {
-      "date": "2026-09-02",
-      "commence": "2026-09-02T23:40:00Z",
-      "betType": "fade_watch",
-      "watch": true,
-      "pitcher": "Eury P\u00e9rez",
-      "arm_team": "MIA",
-      "fadeTeam": "MIA",
-      "selection": "KC",
-      "home": "KC",
-      "away": "MIA",
-      "venue": "away",
-      "odds": -112,
-      "suggest": "away",
-      "suggestUnits": 3.56,
-      "games": 12,
-      "result": "pending"
-    },
-    {
-      "date": "2026-09-02",
-      "commence": "2026-09-03T01:38:00Z",
-      "betType": "fade_watch",
-      "watch": true,
-      "pitcher": "Reid Detmers",
-      "arm_team": "LAA",
-      "fadeTeam": "LAA",
-      "selection": "NYY",
-      "home": "LAA",
-      "away": "NYY",
-      "venue": "home",
-      "odds": -162,
-      "suggest": "home",
-      "suggestUnits": 3.9,
-      "games": 14,
-      "result": "pending"
-    }
-  ],
+  "today": [],
   "candidates": [
+    {
+      "pitcher": "Reid Detmers",
+      "team": "LAA",
+      "suggest": "home",
+      "suggestUnits": 4.9,
+      "all": {
+        "w": 17,
+        "l": 9,
+        "u": 6.0,
+        "n": 26,
+        "roi": 0.1814
+      },
+      "home": {
+        "w": 10,
+        "l": 5,
+        "u": 4.9,
+        "n": 15,
+        "roi": 0.2903
+      },
+      "away": {
+        "w": 7,
+        "l": 4,
+        "u": 1.1,
+        "n": 11,
+        "roi": 0.0679
+      }
+    },
     {
       "pitcher": "George Kirby",
       "team": "SEA",
@@ -99,30 +89,30 @@
       }
     },
     {
-      "pitcher": "Reid Detmers",
-      "team": "LAA",
+      "pitcher": "Yoshinobu Yamamoto",
+      "team": "LAD",
       "suggest": "home",
-      "suggestUnits": 3.9,
+      "suggestUnits": 3.97,
       "all": {
-        "w": 16,
-        "l": 9,
-        "u": 5.0,
-        "n": 25,
-        "roi": 0.1589
+        "w": 8,
+        "l": 15,
+        "u": -0.29,
+        "n": 23,
+        "roi": -0.0125
       },
       "home": {
-        "w": 9,
-        "l": 5,
-        "u": 3.9,
-        "n": 14,
-        "roi": 0.2556
+        "w": 5,
+        "l": 7,
+        "u": 3.97,
+        "n": 12,
+        "roi": 0.3308
       },
       "away": {
-        "w": 7,
-        "l": 4,
-        "u": 1.1,
+        "w": 3,
+        "l": 8,
+        "u": -4.26,
         "n": 11,
-        "roi": 0.0679
+        "roi": -0.3824
       }
     },
     {
@@ -204,33 +194,6 @@
         "u": 3.58,
         "n": 3,
         "roi": 0.884
-      }
-    },
-    {
-      "pitcher": "Eury P\u00e9rez",
-      "team": "MIA",
-      "suggest": "away",
-      "suggestUnits": 3.56,
-      "all": {
-        "w": 12,
-        "l": 10,
-        "u": 1.82,
-        "n": 22,
-        "roi": 0.0721
-      },
-      "home": {
-        "w": 4,
-        "l": 6,
-        "u": -1.74,
-        "n": 10,
-        "roi": -0.1651
-      },
-      "away": {
-        "w": 8,
-        "l": 4,
-        "u": 3.56,
-        "n": 12,
-        "roi": 0.2422
       }
     },
     {

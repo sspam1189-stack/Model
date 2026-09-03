@@ -1,14 +1,14 @@
 {
  "sport": "MLB",
  "type": "flag-combo-table",
- "generated": "2026-09-03T00:33:43Z",
+ "generated": "2026-09-03T10:25:57Z",
  "span": {
   "from": "2026-03-26",
   "to": "2026-09-02"
  },
  "games": {
-  "gradeable": 2031,
-  "flagged": 518,
+  "gradeable": 2040,
+  "flagged": 520,
   "pushes_dropped": 54
  },
  "card_requires": "swingman",
@@ -47,28 +47,30 @@
   "layoff+opener+stale-window": null
  },
  "verdicts_shadow": [
-  "layoff"
+  "layoff",
+  "swingman+stale-window"
  ],
  "verdicts_shadow_from": {
-  "layoff": "2026-09-02"
+  "layoff": "2026-09-02",
+  "swingman+stale-window": "2026-09-03"
  },
- "verdicts_as_of": "2026-09-02",
+ "verdicts_as_of": "2026-09-03",
  "verdicts_from": "2026-09-01",
  "note": "Flags replayed as-of each game date from the pitcher game logs (not from payload snapshots, which only start 2026-08-17 and produced the rust-over mirage). Graded at the payload's own over_ml/under_ml, 1u risk. A combo row counts a game once, under its exact flag set; a flag row counts a game under every flag it carries, so flag rows overlap and combo rows do not.",
  "baselines": {
   "under": {
-   "w": 1027,
-   "l": 1004,
-   "n": 2031,
-   "units": -76.84,
-   "roi": -3.8
+   "w": 1028,
+   "l": 1012,
+   "n": 2040,
+   "units": -83.9,
+   "roi": -4.1
   },
   "over": {
-   "w": 1004,
-   "l": 1027,
-   "n": 2031,
-   "units": -116.11,
-   "roi": -5.7
+   "w": 1012,
+   "l": 1028,
+   "n": 2040,
+   "units": -110.05,
+   "roi": -5.4
   }
  },
  "combos": [
@@ -233,9 +235,9 @@
     "stale-window"
    ],
    "verdict": "over",
-   "carded": true,
-   "shadow": false,
-   "shadow_from": null,
+   "carded": false,
+   "shadow": true,
+   "shadow_from": "2026-09-03",
    "under": {
     "w": 21,
     "l": 30,
@@ -261,18 +263,18 @@
    "shadow": true,
    "shadow_from": "2026-09-02",
    "under": {
-    "w": 42,
-    "l": 36,
-    "n": 78,
-    "units": 2.5,
-    "roi": 3.2
+    "w": 43,
+    "l": 37,
+    "n": 80,
+    "units": 2.44,
+    "roi": 3.1
    },
    "over": {
-    "w": 36,
-    "l": 42,
-    "n": 78,
-    "units": -9.55,
-    "roi": -12.2
+    "w": 37,
+    "l": 43,
+    "n": 80,
+    "units": -9.64,
+    "roi": -12.1
    }
   },
   {
@@ -454,18 +456,18 @@
   {
    "flag": "layoff",
    "under": {
-    "w": 118,
-    "l": 93,
-    "n": 211,
-    "units": 14.54,
-    "roi": 6.9
+    "w": 119,
+    "l": 94,
+    "n": 213,
+    "units": 14.48,
+    "roi": 6.8
    },
    "over": {
-    "w": 93,
-    "l": 118,
-    "n": 211,
-    "units": -34.37,
-    "roi": -16.3
+    "w": 94,
+    "l": 119,
+    "n": 213,
+    "units": -34.46,
+    "roi": -16.2
    }
   },
   {
