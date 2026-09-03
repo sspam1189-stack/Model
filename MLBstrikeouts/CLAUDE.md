@@ -389,6 +389,52 @@ the home-dog band, not as evidence that unrelated systems corroborate.
 Doubling a stacked position was not tested and is not implied: every
 number above is flat stakes on each system's own bet.
 
+## Conflicting total positions — BOTH sides passed (2026-09-03, user)
+
+The mirror of the stacking table above. When two carded systems land on
+opposite sides of the same total, neither side is taken. A parlay's under
+leg counts as an under for detection but the parlay is never suppressed.
+
+Before this the over was passed and the under was kept. Passing the under
+too **costs 17-12 +12.6% (+3.66u over 29 settled plays)** — the over was
+already being passed, so this is a cost, not a saving, and the card tier's
+ROI only rises +27.6% -> +28.0% because that cell sits below the tier
+average. Units go down. Recorded plainly because the change was made on
+judgement, not on a number that favoured it.
+
+What it buys, measured across carded and shadow systems together:
+
+| on a 1-over-vs-1-under game | n | ROI |
+|---|---|---|
+| take the under | 150 | -4.1% |
+| take the over | 150 | -3.8% |
+| take the ML dog instead | 148 | +2.6% (p=0.44) |
+| pass | — | 0.0% |
+
+Two systems disagreeing cancel to the vig, and there is no side to be on.
+The moneyline dog was tested as the alternative and is worse: **-12.8% on
+the carded conflicts** against a -3.1% blind dog, and -1.9% over the wider
+set at p=0.44 — no better than the -1.5% that games with an UNOPPOSED total
+rule return, so the disagreement carries no moneyline information either.
+
+Every system is worse when contradicted, which is the finding underneath
+all of this — unopposed vs opposed: starter-over-run +23.4% -> -9.7%,
+low-line-over +15.2% -> -13.7%, monday-over +12.4% -> -9.2%, pickem-under
++13.9% -> +3.7%, under-juice +6.6% -> -1.9%. In aggregate over unopposed
++17.3% (n=361) against -10.8% opposed; under unopposed +10.7% (n=585)
+against +1.8% opposed.
+
+**The parlay is the sole exception and is why it is exempt.** Its under leg
+graded straight at the book's own price returns **+27.7% (n=57) when
+opposed against +9.9% (n=192) unopposed** — the one position on the board
+that wants the disagreement. Stripping the ML leg is what made that
+measurable: as a parlay it could never be compared like-for-like against a
+straight over.
+
+Reverting is a two-line change (`_mark_conflicts` in
+build_allml_systems_table.py, `drop_conflicting_totals` in
+log_daily_qualifiers.py); the ledger flag is `conflict_skip` on both rows.
+
 ## Ledger rows track the market until first pitch (2026-09-02, user)
 
 A logged row is not a snapshot of the first quote of the morning. It

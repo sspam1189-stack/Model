@@ -617,11 +617,15 @@ async function renderMLBSlateScout() {
             ? 'background:rgba(139,148,158,.14);color:' + DIM
             : 'background:rgba(63,185,80,.18);color:#3fb950') + '">'
           + esc(sy.name || p.rule) + '</span>'
-          + (p.conflict_skip ? ' <span title="A carded under is on this same '
-            + 'game. Taking both cancels out (-3.6% on the season); the under '
-            + 'alone returns +13.7%, the over alone -20.9%. Logged as a push."'
+          + (p.conflict_skip ? ' <span title="A carded over and a carded '
+            + 'under are both on this game, so neither side is taken. Two '
+            + 'rules disagreeing cancel to the vig: one-over-vs-one-under '
+            + 'games return -4.1% to the under and -3.8% to the over over '
+            + '150 plays, and the moneyline dog instead is worse still. '
+            + 'Logged as not-bet: the row keeps its real result and carries '
+            + 'no units."'
             + ' style="color:#d29922;font-size:13px;white-space:nowrap">'
-            + 'under carded — passed</span>' : '')
+            + 'conflict — passed</span>' : '')
           + (p.stale ? ' <span title="Logged earlier today and still a live '
             + 'bet. The market has since moved past this rule\'s threshold, '
             + 'so it would not fire at the current price."'
@@ -636,8 +640,8 @@ async function renderMLBSlateScout() {
           + esc(p.why)
           // Say what moved, on the row. A bare tag makes the reader go and
           // look the price up again.
-          + (p.conflict_skip ? ' <span style="color:#d29922">· conflicts with '
-            + 'the under carded on this game; passed and logged as a push'
+          + (p.conflict_skip ? ' <span style="color:#d29922">· a carded over '
+            + 'and under are both on this game; neither side taken'
             + '</span>' : '')
           + (p.stale ? ' <span style="color:#d29922">· still on at the logged '
             + 'price; ' + esc(p.stale_now || 'market moved')
