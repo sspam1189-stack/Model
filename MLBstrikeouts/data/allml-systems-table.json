@@ -1,7 +1,7 @@
 {
  "sport": "MLB",
  "type": "allml-systems-table",
- "generated": "2026-09-03T16:09:18Z",
+ "generated": "2026-09-03T18:34:54Z",
  "span": {
   "from": "2026-03-25",
   "to": "2026-09-02"
@@ -1048,22 +1048,7 @@
    "market": "totals",
    "pick": "over",
    "price": -118,
-   "side": "O",
-   "why": "posted total 7; lines of 7 and under average 8.66 runs",
-   "gamePk": 823095,
-   "date": "2026-09-03",
-   "commence": "2026-09-04T01:40:00Z",
-   "matchup": "OAK @ SEA",
-   "away": "OAK",
-   "home": "SEA",
-   "total": 7
-  },
-  {
-   "rule": "under-juice",
-   "market": "totals",
-   "pick": "under",
-   "price": -122,
-   "line": 7.5,
+   "line": 7,
    "ml_price": null,
    "under_price": null,
    "payout": null,
@@ -1071,10 +1056,25 @@
    "date": "2026-09-03",
    "commence": "2026-09-04T01:40:00Z",
    "matchup": "OAK @ SEA",
-   "total": 7.5,
-   "why": "book laying -122 on the under",
+   "total": 7,
+   "why": "posted total 7; lines of 7 and under average 8.66 runs",
    "stale": true,
-   "stale_now": "favourite now -215, total now 7 (was 7.5)"
+   "stale_now": "favourite now -215, total now 7.5 (was 7)"
+  },
+  {
+   "rule": "under-juice",
+   "market": "totals",
+   "pick": "under",
+   "price": -122,
+   "side": "U",
+   "why": "book laying -122 on the under",
+   "gamePk": 823095,
+   "date": "2026-09-03",
+   "commence": "2026-09-04T01:40:00Z",
+   "matchup": "OAK @ SEA",
+   "away": "OAK",
+   "home": "SEA",
+   "total": 7.5
   }
  ],
  "today_date": "2026-09-03"

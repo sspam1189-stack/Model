@@ -3,7 +3,7 @@
   "type": "scout-card-log",
   "week_convention": "monday-sunday",
   "description": "Per-play ledger for scout card calls (tier 2/3 of the daily card policy in MLBstrikeouts/CLAUDE.md). Model plays are NOT logged here - fade-ml/props/hand-tails keep their own files. No-play days are logged too: an empty card is part of the record. Prices are the card-time quote, not the close.",
-  "generated": "2026-09-03T16:12:33Z",
+  "generated": "2026-09-03T18:37:25Z",
   "pre_log_history": [
     {
       "date": "2026-08-17",
@@ -40478,17 +40478,17 @@
     },
     {
       "date": "2026-09-03",
-      "play": "OAK/SEA U7",
+      "play": "OAK/SEA U7.5",
       "market": "totals",
       "game": "OAK @ SEA",
-      "price": -104,
+      "price": -122,
       "stake": 1.0,
       "rule": "flag-plays",
       "auto": true,
       "basis": "Verdict under for swingman. Jack Perkins swingman-2g.",
       "result": "pending",
       "profit": 0.0,
-      "line": 7,
+      "line": 7.5,
       "combo": "swingman",
       "gamePk": 823095,
       "commence": "2026-09-04T01:40:00Z"
