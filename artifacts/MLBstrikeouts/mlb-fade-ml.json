@@ -1,7 +1,7 @@
 {
   "sport": "MLB",
   "type": "fade-ml",
-  "generated": "2026-09-03T00:31:17Z",
+  "generated": "2026-09-03T21:02:28Z",
   "fadeList": [
     "Painter",
     "Rocker",
@@ -84,22 +84,22 @@
   ],
   "mutualRule": "skip",
   "summary": {
-    "wins": 521,
-    "losses": 202,
+    "wins": 522,
+    "losses": 203,
     "voids": 0,
     "skips": 48,
-    "staked": 905.03,
-    "units": 329.03,
-    "roi": 0.3636,
+    "staked": 907.63,
+    "units": 328.51,
+    "roi": 0.3619,
     "byType": {
       "ml": {
-        "wins": 509,
-        "losses": 190,
+        "wins": 510,
+        "losses": 191,
         "voids": 0,
         "skips": 3,
-        "staked": 881.03,
-        "units": 324.55,
-        "roi": 0.3684
+        "staked": 883.63,
+        "units": 324.03,
+        "roi": 0.3667
       },
       "ml_dog": {
         "wins": 12,
@@ -114,27 +114,76 @@
   },
   "today": [
     {
-      "date": "2026-09-02",
-      "commence": "2026-09-02T22:40:00Z",
+      "date": "2026-09-03",
+      "commence": "2026-09-03T18:10:00Z",
+      "betType": "ml_dog",
+      "shadow": false,
+      "pitchers": [
+        "Luis Castillo",
+        "Hunter Brown"
+      ],
+      "fadeTeam": null,
+      "market": "h2h",
+      "selection": null,
+      "line": null,
+      "odds": null,
+      "stake": null,
+      "result": "SKIP",
+      "profit": 0.0,
+      "book": "fanduel",
+      "source": "fanduel_api",
+      "reason": "mutual_skip",
+      "home": "HOU",
+      "away": "CWS",
+      "gamePk": 824144,
+      "fadeReason": "all"
+    },
+    {
+      "date": "2026-09-03",
+      "commence": "2026-09-04T01:40:00Z",
       "betType": "ml",
       "shadow": false,
       "pitchers": [
-        "Landen Roupp"
+        "Jack Perkins"
       ],
-      "fadeTeam": "SF",
+      "fadeTeam": "OAK",
       "market": "h2h",
-      "selection": "PIT",
+      "selection": "SEA",
       "line": null,
-      "odds": -152,
-      "stake": 1.52,
+      "odds": -215,
+      "stake": 2.15,
       "result": "pending",
       "profit": 0.0,
       "book": "fanduel",
       "source": "fanduel_api",
       "reason": null,
-      "home": "PIT",
-      "away": "SF",
-      "gamePk": 823339,
+      "home": "SEA",
+      "away": "OAK",
+      "gamePk": 823095,
+      "fadeReason": "all"
+    },
+    {
+      "date": "2026-09-03",
+      "commence": "2026-09-04T00:05:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Shane McClanahan"
+      ],
+      "fadeTeam": "TB",
+      "market": "h2h",
+      "selection": "TEX",
+      "line": null,
+      "odds": 112,
+      "stake": 1.0,
+      "result": "pending",
+      "profit": 0.0,
+      "book": "fanduel",
+      "source": "fanduel_api",
+      "reason": null,
+      "home": "TEX",
+      "away": "TB",
+      "gamePk": 822853,
       "fadeReason": "away"
     }
   ],
@@ -18711,6 +18760,54 @@
       "away": "SEA",
       "gamePk": 824717,
       "fadeReason": "away"
+    },
+    {
+      "date": "2026-09-02",
+      "commence": "2026-09-02T22:40:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Landen Roupp"
+      ],
+      "fadeTeam": "SF",
+      "market": "h2h",
+      "selection": "PIT",
+      "line": null,
+      "odds": -152,
+      "stake": 1.52,
+      "result": "LOSS",
+      "profit": -1.52,
+      "book": "fanduel",
+      "source": "fanduel_api",
+      "reason": null,
+      "home": "PIT",
+      "away": "SF",
+      "gamePk": 823339,
+      "fadeReason": "away"
+    },
+    {
+      "date": "2026-09-03",
+      "commence": "2026-09-03T17:10:00Z",
+      "betType": "ml",
+      "shadow": false,
+      "pitchers": [
+        "Tanner Bibee"
+      ],
+      "fadeTeam": "CLE",
+      "market": "h2h",
+      "selection": "TOR",
+      "line": null,
+      "odds": -108,
+      "stake": 1.08,
+      "result": "WIN",
+      "profit": 1.0,
+      "book": "fanduel",
+      "source": "fanduel_api",
+      "reason": null,
+      "home": "CLE",
+      "away": "TOR",
+      "gamePk": 824388,
+      "fadeReason": "home"
     }
   ]
 }
