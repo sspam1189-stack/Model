@@ -462,7 +462,7 @@ SHADOW_ORDER = ("low-line-over", "under-juice", "hot-arm-dog-ml",
 # because that is what the rule IS from here; only the ledger waits.
 #
 # Remove an entry once its date has passed; it is inert after that.
-SHADOW_FROM = {"pickem-under": "2026-09-04"}   # user, 2026-09-03
+SHADOW_FROM = {"pickem-under": "2026-09-03"}   # user, 2026-09-03
 
 # Every system the engine knows, card tier first. Consumers that render or
 # replay all of them walk this; CARD_ORDER alone is the bet list.
