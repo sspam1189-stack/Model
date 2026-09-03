@@ -528,6 +528,11 @@ def main():
     for q in qs:
         rule = q["rule"]
         status = STATUS.get(rule, "shadow")
+        # A demotion that starts on a later slate still logs as a card bet
+        # until then. pickem-under was shadowed 2026-09-03 effective 09-04;
+        # the 9/2 rows already on the books were bet and stay bet.
+        if (status == "shadow" and date < ALLSYS.SHADOW_FROM.get(rule, "")):
+            status = "card"
         # A retired rule logs nothing further. Without this it would fall
         # through the `shadow` check below and be written as a CARD row.
         if status == "retired":
