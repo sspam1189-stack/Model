@@ -429,7 +429,7 @@ async function renderMLBSlateScout() {
     // they sit a step larger than the reference tables further down.
     phtml += '<div class="scout-scroll"><table class="' + PLAYS_TABLE + '">'
       + '<thead><tr style="text-align:left;color:' + DIM + ';border-bottom:1px solid #30363d">'
-      + '<th style="padding:4px 6px">CT</th><th>Game</th><th>Play</th><th>Rule</th>'
+      + '<th style="padding:5px 6px">CT</th><th>Game</th><th>Play</th><th>System</th>'
       + '<th data-col="why">Why</th>'
       + '</tr></thead><tbody>';
     const RANK = { card: 0, shadow: 1, dead: 2 };
@@ -443,14 +443,25 @@ async function renderMLBSlateScout() {
     // there for the record.
     underPlays.sort((a, b) => (RANK[a.kind] - RANK[b.kind])
       || String(a.s.commence || '').localeCompare(String(b.s.commence || '')));
+    // SHADOW and NO PLAY collapse, closed by default (user). Neither is bet,
+    // so neither should push the card down the screen; the count stays in the
+    // header so nothing is hidden silently. CARD never collapses.
+    const nOf = (k) => underPlays.filter((x) => x.kind === k).length;
     let pSection = null;
     for (const p of underPlays) {
       if (p.kind !== pSection) {
         pSection = p.kind;
-        phtml += '<tr><td colspan="5" style="padding:5px 6px 2px;font-size:15px;'
-          + 'font-weight:600;border-top:1px solid #30363d;color:'
-          + (p.kind === 'card' ? '#3fb950' : DIM) + '">'
-          + SECTION[p.kind] + '</td></tr>';
+        phtml += p.kind === 'card'
+          ? '<tr><td colspan="5" style="padding:6px 6px 3px;font-size:15px;'
+            + 'font-weight:600;border-top:1px solid #30363d;color:#3fb950">'
+            + SECTION.card + '</td></tr>'
+          : '<tr><td colspan="5" class="fp-head" data-kind="' + p.kind + '"'
+            + ' style="padding:6px 6px 3px;font-size:15px;font-weight:600;'
+            + 'border-top:1px solid #30363d;color:' + DIM
+            + ';cursor:pointer;user-select:none">'
+            + '<span class="fp-caret">▸</span> ' + SECTION[p.kind]
+            + ' <span style="font-weight:400">(' + nOf(p.kind) + ')</span>'
+            + '</td></tr>';
       }
       const chip = p.kind === 'card'
         ? 'background:rgba(63,185,80,.18);color:#3fb950'
@@ -463,11 +474,12 @@ async function renderMLBSlateScout() {
         : p.side + (p.s.total == null ? '?' : p.s.total)
           + ' <span style="color:' + DIM + ';font-weight:400">'
           + mlStr(p.side === 'U' ? p.s.under_ml : p.s.over_ml) + '</span>';
-      phtml += '<tr style="border-top:1px solid #161b22'
-        + (p.kind === 'dead' ? ';opacity:.55' : '') + '">'
-        + '<td style="padding:3px 6px;color:' + DIM + '">' + ctTime(p.s.commence) + '</td>'
-        + '<td style="padding:3px 6px">' + esc(p.s.matchup) + '</td>'
-        + '<td style="padding:3px 6px;font-weight:600;white-space:nowrap">' + playCell + '</td>'
+      phtml += '<tr class="fp-row-' + p.kind + '" style="border-top:1px solid #161b22'
+        + (p.kind === 'dead' ? ';opacity:.55' : '')
+        + (p.kind === 'card' ? '' : ';display:none') + '">'
+        + '<td style="padding:4px 6px;color:' + DIM + '">' + ctTime(p.s.commence) + '</td>'
+        + '<td style="padding:4px 6px">' + esc(p.s.matchup) + '</td>'
+        + '<td style="padding:4px 6px;font-weight:600;white-space:nowrap">' + playCell + '</td>'
         + '<td><span style="display:inline-block;padding:1px 6px;border-radius:3px;'
         + 'font-weight:600;white-space:nowrap;' + chip + '">' + p.rule + '</span></td>'
         + '<td data-col="why" style="color:' + DIM + ';font-size:15px">'
@@ -477,6 +489,17 @@ async function renderMLBSlateScout() {
     phtml += '</tbody></table></div>';
   }
   playsCard.innerHTML = phtml;
+  for (const head of playsCard.querySelectorAll('.fp-head')) {
+    const kind = head.dataset.kind;
+    const rows = [...playsCard.querySelectorAll('tr.fp-row-' + kind)];
+    const caret = head.querySelector('.fp-caret');
+    let open = false;
+    head.addEventListener('click', () => {
+      open = !open;
+      for (const r of rows) r.style.display = open ? '' : 'none';
+      caret.textContent = open ? '▾' : '▸';
+    });
+  }
   el.appendChild(playsCard);
   // The two "today's plays" panels sit together at the top, scout first then
   // non-scout, so the whole actionable card is read in one place before the
