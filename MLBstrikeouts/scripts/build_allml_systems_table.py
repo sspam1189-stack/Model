@@ -157,6 +157,12 @@ def _mark_conflicts(today):
             for r in rows:
                 if r.get("market") == "totals" and r.get("pick") == "over":
                     r["conflict_skip"] = True
+                else:
+                    # The side that survives the conflict. Flagged too, so the
+                    # tab can show both halves of the pairing -- otherwise the
+                    # under looks like an ordinary play and the passed over
+                    # looks like an unexplained straggler.
+                    r["conflict_take"] = True
 
 
 def _pick_from(entry):
