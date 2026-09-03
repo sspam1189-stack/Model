@@ -1066,24 +1066,51 @@ async function renderMLBSlateScout() {
       'slMonth', 'slWeek', 'slDate'].map((id) => log.querySelector('#' + id));
     const ruleSel = log.querySelector('#slRule');
     const groupSel = log.querySelector('#slGroup');
-    // The Rule list narrows to the chosen system, so picking "Non-scout
-    // systems" does not leave Flag Plays selectable and returning nothing.
+    const kindSel = log.querySelector('#slKind');
+    const marketSel = log.querySelector('#slMarket');
+    // One definition of the Status test, shared by the row filter and by the
+    // dropdown narrowing below, so the two cannot disagree about what a
+    // status means.
+    const kindOk = (b, k) => !k
+      || (k === 'backfilled' ? !!b.backfilled : b.kind === k);
+
+    // Rule and Market narrow to what the OTHER filters can actually return.
+    // Picking "Non-scout systems" should not leave Flag Plays selectable and
+    // returning nothing, and neither should picking a status the rule has no
+    // rows in -- a shadow-only rule under "Card (bet)" is a dead option.
+    // Each list is built ignoring its own value, so choosing one never
+    // narrows itself out of existence.
     const refreshRules = () => {
       const g = groupSel.value;
-      const rs = uniq(bets.filter((b) => !g || b.group === g)
-        .map((b) => b.rule)).sort();
-      const cur = ruleSel.value;
-      ruleSel.innerHTML = opts(rs.map((r) => [r, nameOf[r]]), 'All rules');
-      ruleSel.value = rs.includes(cur) ? cur : '';
+      const k = kindSel.value;
+      const inScope = (b) => (!g || b.group === g) && kindOk(b, k);
+
+      const rs = uniq(bets.filter(inScope).map((b) => b.rule)).sort();
+      const curRule = ruleSel.value;
+      ruleSel.innerHTML = opts(rs.map((r) => [r, nameOf[r]]),
+        'All rules (' + rs.length + ')');
+      ruleSel.value = rs.includes(curRule) ? curRule : '';
+
+      const r = ruleSel.value;
+      const mks = uniq(bets.filter((b) => inScope(b) && (!r || b.rule === r))
+        .map((b) => b.market));
+      const curMk = marketSel.value;
+      const LABEL = { h2h: 'Moneyline', totals: 'Total', parlay: 'Parlay' };
+      marketSel.innerHTML = opts(
+        mks.filter((m) => LABEL[m]).sort().map((m) => [m, LABEL[m]]), 'All');
+      marketSel.value = mks.includes(curMk) ? curMk : '';
     };
     groupSel.addEventListener('change', refreshRules);
+    kindSel.addEventListener('change', refreshRules);
+    ruleSel.addEventListener('change', refreshRules);
+    refreshRules();
     const PAGE = 25;
     let page = 0;
 
     function draw() {
       const [k, r, g, res, mk, mo, wk, dt] = ctl.map((c) => c.value);
       const view = bets.filter((b) =>
-        (!k || (k === 'backfilled' ? !!b.backfilled : b.kind === k))
+        kindOk(b, k)
         && (!r || b.rule === r) && (!g || b.group === g)
         && (!res || b.result === res) && (!mk || b.market === mk)
         && (!mo || (b.date || '').slice(0, 7) === mo)
