@@ -389,31 +389,6 @@ the home-dog band, not as evidence that unrelated systems corroborate.
 Doubling a stacked position was not tested and is not implied: every
 number above is flat stakes on each system's own bet.
 
-## Pickem under → SHADOW from 2026-09-04 (2026-09-03, user)
-
-Not bet from tomorrow's slate on: tracked and logged, no units, until 15-20
-plays say card it or drop it. `pickem-under` moved from `CARD_ORDER` to
-`SHADOW_ORDER` in allml_systems.py, which is where `rule_status.RULE_STATUS`
-derives the non-scout statuses from, so the tab, the logger and the ledger
-all follow from that one edit.
-
-**Demoted from a healthy record, not a broken one** — 99-70 +11.3% (n=169),
-halves +13.0/+9.5, every month positive but April (-15%, n=22). Nothing
-measured turned against it. What is true: it was carded 2026-09-01 WITHOUT
-the shadow period this file's own gate requires, exactly as the mismatch ML
-was before it went 1-3 and came off. This is that gate applied late rather
-than skipped, and it costs almost nothing — its live record is 4 plays and
--0.09u. The one measured mark against it is the conflict split, +13.9%
-unopposed (n=125) against +3.7% opposed (n=44).
-
-**Dated, unlike the conflict rewrite.** `SHADOW_FROM` in allml_systems.py
-holds `{"pickem-under": "2026-09-04"}`; the logger asks it before writing a
-row, so slates through 9/3 still log as card bets and the two pending 9/2
-rows settle as the bets they were. Everything else — the tab, the season
-table, RULE_STATUS — reads the destination status immediately, because that
-is what the rule is from here; only the ledger waits. Delete the entry once
-the date has passed; it is inert after that.
-
 ## Conflicting total positions — BOTH sides passed (2026-09-03, user)
 
 The mirror of the stacking table above. When two carded systems land on
