@@ -1,7 +1,7 @@
 {
  "sport": "MLB",
  "type": "rule-status",
- "generated": "2026-09-02T23:04:39Z",
+ "generated": "2026-09-03T00:33:49Z",
  "note": "Single source of truth for card/shadow status. The daily logger imports RULE_STATUS from scripts/rule_status.py; the dashboard reads this file. Edit the script, not either surface.",
  "rules": {
   "flag-plays": {

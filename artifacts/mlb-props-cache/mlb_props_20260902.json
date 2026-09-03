@@ -624,8 +624,8 @@
   {
     "player": "Cam Schlittler",
     "line": 7.5,
-    "over_price": -146,
-    "under_price": 114,
+    "over_price": -141,
+    "under_price": 111,
     "market": "strikeouts",
     "event_home": "LAA",
     "event_away": "NYY",
@@ -634,8 +634,8 @@
   {
     "player": "Reid Detmers",
     "line": 6.5,
-    "over_price": -115,
-    "under_price": -111,
+    "over_price": -123,
+    "under_price": -104,
     "market": "strikeouts",
     "event_home": "LAA",
     "event_away": "NYY",
@@ -650,5 +650,55 @@
     "event_home": "LAD",
     "event_away": "STL",
     "_event_id": "8cc27a7b0c6903978e605ba541bed625"
+  },
+  {
+    "player": "Kevin Gausman",
+    "line": 5.5,
+    "over_price": 104,
+    "under_price": -132,
+    "market": "strikeouts",
+    "event_home": "CHC",
+    "event_away": "MIL",
+    "_event_id": "c3d5e91757e67f6c08706b0970a77f89"
+  },
+  {
+    "player": "Logan Henderson",
+    "line": 5.5,
+    "over_price": -113,
+    "under_price": -113,
+    "market": "strikeouts",
+    "event_home": "CHC",
+    "event_away": "MIL",
+    "_event_id": "c3d5e91757e67f6c08706b0970a77f89"
+  },
+  {
+    "player": "Jake Bennett",
+    "line": 4.5,
+    "over_price": -131,
+    "under_price": 102,
+    "market": "strikeouts",
+    "event_home": "BAL",
+    "event_away": "BOS",
+    "_event_id": "b27b102032634f4f3dc542889c7d62e9"
+  },
+  {
+    "player": "Quinn Mathews",
+    "line": 4.5,
+    "over_price": -111,
+    "under_price": -115,
+    "market": "strikeouts",
+    "event_home": "LAD",
+    "event_away": "STL",
+    "_event_id": "a7447a61565d33b1dcfb229c623b45cb"
+  },
+  {
+    "player": "Tarik Skubal",
+    "line": 8.5,
+    "over_price": -111,
+    "under_price": -115,
+    "market": "strikeouts",
+    "event_home": "LAD",
+    "event_away": "STL",
+    "_event_id": "a7447a61565d33b1dcfb229c623b45cb"
   }
 ]
