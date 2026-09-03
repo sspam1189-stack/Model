@@ -490,16 +490,17 @@ async function renderMLBSlateScout() {
   // than inline, because the plays card is now written and wired before the
   // season card is built.
   const wireShadowToggle = (card) => {
-    const head = card.querySelector('#nsShadowHead');
-    if (!head) return;
-    const caret = card.querySelector('#nsShadowCaret');
-    const rows = [...card.querySelectorAll('tr.ns-shadow-row')];
-    let open = false;
-    head.addEventListener('click', () => {
-      open = !open;
-      for (const r of rows) r.style.display = open ? '' : 'none';
-      if (caret) caret.textContent = open ? '▾' : '▸';
-    });
+    for (const head of card.querySelectorAll('.ns-head')) {
+      const tier = head.dataset.tier;
+      const caret = head.querySelector('.ns-caret');
+      const rows = [...card.querySelectorAll('tr.ns-row-' + tier)];
+      let open = false;
+      head.addEventListener('click', () => {
+        open = !open;
+        for (const r of rows) r.style.display = open ? '' : 'none';
+        if (caret) caret.textContent = open ? '▾' : '▸';
+      });
+    }
   };
 
   // ---- Non-scout systems ---------------------------------------------------
@@ -541,12 +542,16 @@ async function renderMLBSlateScout() {
         + '<th data-col="why">Why</th></tr></thead><tbody>';
       // Card block first, then shadow, and first pitch inside each. Mixing
       // them by time alone would put a no-stake row above a bet one.
-      const tierOf = (p) => (byKey[p.rule] && byKey[p.rule].status === 'shadow')
-        ? 'shadow' : 'card';
+      // Three tiers. A passed row is a carded rule that fired and was not
+      // taken, so it belongs under neither CARD -- it is not bet -- nor
+      // SHADOW, which is a status of the rule rather than of one play.
+      const tierOf = (p) => p.conflict_skip ? 'passed'
+        : (byKey[p.rule] && byKey[p.rule].status === 'shadow') ? 'shadow' : 'card';
+      const TIER_RANK = { card: 0, passed: 1, shadow: 2 };
       const ordered = plays.slice().sort((a, b) =>
-        (tierOf(a) === 'shadow') - (tierOf(b) === 'shadow')
+        (TIER_RANK[tierOf(a)] - TIER_RANK[tierOf(b)])
         || String(a.commence || '~').localeCompare(String(b.commence || '~')));
-      const nShadow = ordered.filter((p) => tierOf(p) === 'shadow').length;
+      const nOfTier = (t) => ordered.filter((p) => tierOf(p) === t).length;
       let nsSection = null;
       for (const p of ordered) {
         const sy = byKey[p.rule] || {};
@@ -556,15 +561,26 @@ async function renderMLBSlateScout() {
           // The shadow header is a toggle and starts closed: these rows are
           // not bet, so they should not push the card off the screen. The
           // count goes in the header so nothing is hidden silently.
+          //
+          // PASSED says "neither side taken", not "the other side was taken":
+          // since 2026-09-03 a conflict stands both halves down, so the
+          // pairing has no surviving leg to point at.
+          const HEAD = {
+            passed: 'PASSED — a carded over and under on the same game; '
+              + 'neither side taken',
+            shadow: 'SHADOW — tracked, not bet',
+          };
           t += tier === 'card'
             ? '<tr><td colspan="6" style="padding:6px 6px 3px;font-size:16px;'
               + 'font-weight:600;border-top:1px solid #30363d;color:#3fb950">'
               + 'CARD — bet these</td></tr>'
-            : '<tr><td colspan="6" id="nsShadowHead" style="padding:6px 6px 3px;'
-              + 'font-size:16px;font-weight:600;border-top:1px solid #30363d;'
-              + 'color:' + DIM + ';cursor:pointer;user-select:none">'
-              + '<span id="nsShadowCaret">▸</span> SHADOW — tracked, not bet '
-              + '<span style="font-weight:400">(' + nShadow + ')</span></td></tr>';
+            : '<tr><td colspan="6" class="ns-head" data-tier="' + tier + '"'
+              + ' style="padding:6px 6px 3px;font-size:16px;font-weight:600;'
+              + 'border-top:1px solid #30363d;color:' + DIM
+              + ';cursor:pointer;user-select:none">'
+              + '<span class="ns-caret">▸</span> ' + HEAD[tier]
+              + ' <span style="font-weight:400">(' + nOfTier(tier)
+              + ')</span></td></tr>';
         }
         // A parlay is two legs in one row, so it prints both and the payout
         // rather than a single price.
@@ -583,15 +599,14 @@ async function renderMLBSlateScout() {
         // market has moved past the rule's threshold so the engine no longer
         // produces it. Shown, because the ledger has money on it -- dimmed
         // and labelled, because it would not fire at tonight's current price.
-        t += '<tr class="' + (tier === 'shadow' ? 'ns-shadow-row' : 'ns-card-row')
-          + '" style="border-top:1px solid #161b22'
+        t += '<tr class="ns-row-' + tier + '" style="border-top:1px solid #161b22'
           + (p.stale || p.conflict_skip ? ';opacity:.72' : '')
-          + (tier === 'shadow' ? ';display:none' : '') + '">'
+          + (tier === 'card' ? '' : ';display:none') + '">'
           + '<td style="padding:4px 6px;color:' + DIM + '">' + ctTime(p.commence) + '</td>'
           + '<td style="padding:4px 6px">' + esc(p.matchup) + '</td>'
           + '<td style="padding:4px 6px;font-weight:600;white-space:nowrap">' + playCell + '</td>'
           + '<td><span style="display:inline-block;padding:1px 6px;border-radius:3px;'
-          + 'font-weight:600;white-space:nowrap;' + (tier === 'shadow'
+          + 'font-weight:600;white-space:nowrap;' + (tier !== 'card'
             ? 'background:rgba(139,148,158,.14);color:' + DIM
             : 'background:rgba(63,185,80,.18);color:#3fb950') + '">'
           + esc(sy.name || p.rule) + '</span>'
