@@ -249,11 +249,13 @@ def drop_conflicting_totals(entries, date):
         if sides != {"over", "under"}:
             continue
         for e in rows:
-            # Detected as an under, never suppressed: a parlay is not an O/U
-            # play, and its under leg graded straight is the one position on
-            # the board that does better opposed (+27.7%, n=57) than alone
-            # (+9.9%, n=192). Passing it would remove exactly that.
-            if e.get("market") == "parlay":
+            # The parlay stands down with the straight totals from
+            # CONFLICT_PARLAY_FROM (2026-09-04, user). Before that date it was
+            # detected as an under but stayed live, so a row logged then keeps
+            # the bet that was actually made rather than being rewritten by
+            # today's policy.
+            if (e.get("market") == "parlay"
+                    and date < ALLSYS.CONFLICT_PARLAY_FROM):
                 continue
             if e.get("conflict_skip") and NOTE in (e.get("basis") or ""):
                 continue                       # already handled, nothing to do

@@ -393,7 +393,11 @@ number above is flat stakes on each system's own bet.
 
 The mirror of the stacking table above. When two carded systems land on
 opposite sides of the same total, neither side is taken. A parlay's under
-leg counts as an under for detection but the parlay is never suppressed.
+leg counts as an under for detection, and **from 2026-09-04 the parlay
+stands down with them** (`CONFLICT_PARLAY_FROM` in allml_systems.py, which
+both surfaces import so they cannot drift). Dated rather than switched:
+rows logged before it keep the bet that was actually made, so the change
+reads off the record instead of restating history.
 
 Before this the over was passed and the under was kept. Passing the under
 too **costs 17-12 +12.6% (+3.66u over 29 settled plays)** — the over was
@@ -424,12 +428,19 @@ low-line-over +15.2% -> -13.7%, monday-over +12.4% -> -9.2%, pickem-under
 +17.3% (n=361) against -10.8% opposed; under unopposed +10.7% (n=585)
 against +1.8% opposed.
 
-**The parlay is the sole exception and is why it is exempt.** Its under leg
-graded straight at the book's own price returns **+27.7% (n=57) when
-opposed against +9.9% (n=192) unopposed** — the one position on the board
-that wants the disagreement. Stripping the ML leg is what made that
-measurable: as a parlay it could never be compared like-for-like against a
-straight over.
+**The parlay was exempt for one day and no longer is (2026-09-04, user).**
+The exemption rested on the under leg graded STRAIGHT returning +27.7%
+(n=57) opposed against +9.9% (n=192) unopposed — the one position on the
+board that wanted the disagreement, and only measurable once the ML leg was
+stripped. But that is a different bet from the parlay, and the parlay
+itself measures the ordinary way round: **+32.1% (n=20) on conflicted games
+against +46.6% (n=234) unopposed.** Passing it costs +6.42u over those 20
+plays and takes the card tier from +271.87u to +265.45u.
+
+Worth keeping straight, because the two numbers describe the same games and
+point opposite ways: the under leg alone beats its own baseline when
+opposed; the parlay as priced does not beat its own. The leg's baseline is
+a straight under (+9.9%), the parlay's is a two-leg payout (+46.6%).
 
 Reverting is a two-line change (`_mark_conflicts` in
 build_allml_systems_table.py, `drop_conflicting_totals` in
