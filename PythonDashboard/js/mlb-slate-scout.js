@@ -1048,7 +1048,6 @@ async function renderMLBSlateScout() {
           Object.keys(KIND_LABEL).map((k) => '<option value="' + k + '"'
             + (k === 'card' ? ' selected' : '') + '>' + KIND_LABEL[k]
             + '</option>').join('')
-          + '<option value="backfilled">Backfilled only</option>'
           + '<option value="">All</option>')
         + lbl('System', 'slGroup', opts([['scout', 'Flagged &amp; form O/U'],
           ['non-scout', 'Non-scout systems']], 'All systems')))
@@ -1077,8 +1076,14 @@ async function renderMLBSlateScout() {
     // One definition of the Status test, shared by the row filter and by the
     // dropdown narrowing below, so the two cannot disagree about what a
     // status means.
-    const kindOk = (b, k) => !k
-      || (k === 'backfilled' ? !!b.backfilled : b.kind === k);
+    //
+    // "Backfilled only" was REMOVED as a Status (user, 2026-09-03). It was
+    // the one option that filtered on a row flag rather than on the row's
+    // kind, so it cut across the other two instead of sitting beside them --
+    // a backfilled row counts as card and was reachable from Card (bet)
+    // anyway. The Not-bet view now breaks the hindsight rows out in its own
+    // summary line, which is where that number was actually wanted.
+    const kindOk = (b, k) => !k || b.kind === k;
 
     // Rule and Market narrow to what the OTHER filters can actually return.
     // Picking "Non-scout systems" should not leave Flag Plays selectable and
@@ -1122,29 +1127,51 @@ async function renderMLBSlateScout() {
         && (!mo || (b.date || '').slice(0, 7) === mo)
         && (!wk || (b.date && weekStartOf(b.date) === wk))
         && (!dt || b.date === dt));
-      let w = 0, l = 0, pu = 0, u = 0, pend = 0;
+      let w = 0, l = 0, pu = 0, u = 0, pend = 0, uHeld = 0;
+      let uHeldLive = 0, uHeldBf = 0, nHeldLive = 0, nHeldBf = 0;
       for (const b of view) {
         if (b.result === 'WIN') w++;
         else if (b.result === 'LOSS') l++;
         else if (b.result === 'PUSH') pu++;
         else if (b.result === 'pending') pend++;
-        // Only card rows move money, whatever the filter shows.
+        // Only card rows move money, whatever the filter shows. Held rows
+        // are totalled separately so the Not-bet view can say what passing
+        // them was worth without ever mixing it into the real record.
         if (b.kind === 'card') u += (b.profit || 0);
+        else {
+          uHeld += (b.profit || 0);
+          // Held rows are two very different things and the total alone
+          // hides it: a backfilled row is a hindsight replay that was never
+          // bettable, a live one is a bet actually declined. 1064 vs 27 on
+          // the season, so the pile reads +59u when the decisions cost -2u.
+          if (b.backfilled) { uHeldBf += (b.profit || 0); nHeldBf++; }
+          else { uHeldLive += (b.profit || 0); nHeldLive++; }
+        }
       }
       const settled = w + l;
-      const roi = settled ? (u / settled * 100) : 0;
+      // On the Not-bet view the headline number is the HYPOTHETICAL -- what
+      // these rows would have returned at their logged prices (user,
+      // 2026-09-03). It used to render 0.00u / 0.0%, which is true of the
+      // bankroll and useless for the question you open that filter to ask:
+      // how much did passing them cost or save. Never added to the card
+      // record; the wording says which one you are looking at.
+      const heldView = k === 'not_bet';
+      const uShown = heldView ? uHeld : u;
+      const roi = settled ? (uShown / settled * 100) : 0;
       recEl.innerHTML = w + '-' + l + (pu ? '-' + pu : '')
-        + ' ' + unitStr(u)
+        + ' ' + unitStr(uShown)
         + ' <span style="color:' + (roi > 0 ? '#3fb950' : roi < 0 ? '#f85149' : DIM)
         + '">' + (roi > 0 ? '+' : '') + roi.toFixed(1) + '%</span>'
         + (pend ? ' <span style="color:' + DIM + ';font-weight:400;font-size:16px">· '
           + pend + ' pending</span>' : '')
-        + (k === 'not_bet' ? ' <span style="color:' + DIM
-          + ';font-weight:400;font-size:15px">· rule fired, no money on it</span>'
-          : '')
-        + (k === 'backfilled' ? ' <span style="color:' + DIM
-          + ';font-weight:400;font-size:15px">· replayed after the fact</span>'
-          : '');
+        + (heldView ? ' <span style="color:' + DIM
+          + ';font-weight:400;font-size:15px">· never risked'
+          + (nHeldLive ? ' · declined ' + (uHeldLive >= 0 ? 'cost ' : 'saved ')
+              + Math.abs(uHeldLive).toFixed(2) + 'u (' + nHeldLive + ')' : '')
+          + (nHeldBf ? ' · backfilled ' + (uHeldBf >= 0 ? '+' : '')
+              + uHeldBf.toFixed(2) + 'u (' + nHeldBf + ', hindsight)' : '')
+          + '</span>' : '')
+        ;
 
       const total = view.length;
       const pages = Math.max(1, Math.ceil(total / PAGE));
@@ -1164,8 +1191,8 @@ async function renderMLBSlateScout() {
           + '<td data-col="kind" style="padding:3px 6px;color:' + DIM
           + ';font-size:15px">'
           // Backfilled IS card, so it gets no marker here -- only a row with
-          // no money on it is called out. The Status filter still isolates
-          // backfilled rows for anyone who wants them separated.
+          // no money on it is called out. There is no Status option for them
+          // any more; the Not-bet summary line carries the hindsight total.
           + esc(b.kind !== 'card' ? 'not bet' : '') + '</td>'
           + '<td data-col="game" style="padding:3px 6px;color:' + DIM + '">'
           + esc(b.game || '') + '</td>'
@@ -1176,8 +1203,15 @@ async function renderMLBSlateScout() {
           + '<td style="padding:3px 6px;text-align:center">'
           + resultChip(b.result) + '</td>'
           + '<td style="padding:3px 6px;text-align:right;white-space:nowrap">'
-          + (settledRow && !held ? unitStr(b.profit || 0)
-            : '<span style="color:' + DIM + '">—</span>') + '</td></tr>';
+          // A held row shows what it WOULD have returned, dimmed and in
+          // parentheses so it never reads as money taken. Without it the
+          // Not-bet view's header total had no column to reconcile against.
+          + (settledRow
+              ? (held
+                  ? '<span style="color:' + DIM + '">(' + (b.profit > 0 ? '+' : '')
+                    + (b.profit || 0).toFixed(2) + 'u)</span>'
+                  : unitStr(b.profit || 0))
+              : '<span style="color:' + DIM + '">—</span>') + '</td></tr>';
       }
       const btn = selCss + ';cursor:pointer';
       const btnOff = selCss + ';opacity:.4;cursor:default';
