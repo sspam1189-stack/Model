@@ -389,6 +389,106 @@ the home-dog band, not as evidence that unrelated systems corroborate.
 Doubling a stacked position was not tested and is not implied: every
 number above is flat stakes on each system's own bet.
 
+## Pickem under → SHADOW from 2026-09-04 (2026-09-03, user)
+
+Not bet from tomorrow's slate on: tracked and logged, no units, until 15-20
+plays say card it or drop it. `pickem-under` moved from `CARD_ORDER` to
+`SHADOW_ORDER` in allml_systems.py, which is where `rule_status.RULE_STATUS`
+derives the non-scout statuses from, so the tab, the logger and the ledger
+all follow from that one edit.
+
+**Demoted from a healthy record, not a broken one** — 99-70 +11.3% (n=169),
+halves +13.0/+9.5, every month positive but April (-15%, n=22). Nothing
+measured turned against it. What is true: it was carded 2026-09-01 WITHOUT
+the shadow period this file's own gate requires, exactly as the mismatch ML
+was before it went 1-3 and came off. This is that gate applied late rather
+than skipped, and it costs almost nothing — its live record is 4 plays and
+-0.09u. The one measured mark against it is the conflict split, +13.9%
+unopposed (n=125) against +3.7% opposed (n=44).
+
+**Dated, unlike the conflict rewrite.** `SHADOW_FROM` in allml_systems.py
+holds `{"pickem-under": "2026-09-04"}`; the logger asks it before writing a
+row, so slates through 9/3 still log as card bets and the two pending 9/2
+rows settle as the bets they were. Everything else — the tab, the season
+table, RULE_STATUS — reads the destination status immediately, because that
+is what the rule is from here; only the ledger waits. Delete the entry once
+the date has passed; it is inert after that.
+
+## Conflicting total positions — BOTH sides passed (2026-09-03, user)
+
+The mirror of the stacking table above. When two carded systems land on
+opposite sides of the same total, neither side is taken. A parlay's under
+leg counts as an under for detection, and **the parlay stands down with
+them**.
+
+**Applied to the WHOLE SEASON (user, 2026-09-03), history rewritten.** The
+parlay half briefly carried a `CONFLICT_PARLAY_FROM = "2026-09-04"` start
+date so the ledger would keep the bets actually made; the user asked for
+one policy and one record with no date seam in the middle, so the constant
+was deleted and `scripts/backfill_conflict_skips.py` marked the history to
+match. 110 rows across 54 conflicted games now carry `not_bet` +
+`conflict_skip` (was 54, all overs): 53 starter-over-run, 31 pickem-under,
+22 home-dog-under-parlay, 4 flag-plays. **+5.71u came out of the live
+record**; the rest were backfilled rows, which carry no units either way.
+Results and profits are untouched — the rows keep their W-L and lose only
+the units, which is what `not_bet` has always meant here.
+
+That script is a ONE-SHOT and is deliberately not in the daily workflow. It
+ignores `_locked` on purpose, which is the one thing the daily path must
+never do. The pre-rewrite ledger is recoverable from git.
+
+Detection spans every carded rule with a total side, scout and non-scout
+alike — flag-plays unders conflict with starter-over-run overs exactly as
+pickem-under does. That is what the daily logger already did; the backfill
+just matches it.
+
+Before this the over was passed and the under was kept. Passing the under
+too **costs 17-12 +12.6% (+3.66u over 29 settled plays)** — the over was
+already being passed, so this is a cost, not a saving, and the card tier's
+ROI only rises +27.6% -> +28.0% because that cell sits below the tier
+average. Units go down. Recorded plainly because the change was made on
+judgement, not on a number that favoured it.
+
+What it buys, measured across carded and shadow systems together:
+
+| on a 1-over-vs-1-under game | n | ROI |
+|---|---|---|
+| take the under | 150 | -4.1% |
+| take the over | 150 | -3.8% |
+| take the ML dog instead | 148 | +2.6% (p=0.44) |
+| pass | — | 0.0% |
+
+Two systems disagreeing cancel to the vig, and there is no side to be on.
+The moneyline dog was tested as the alternative and is worse: **-12.8% on
+the carded conflicts** against a -3.1% blind dog, and -1.9% over the wider
+set at p=0.44 — no better than the -1.5% that games with an UNOPPOSED total
+rule return, so the disagreement carries no moneyline information either.
+
+Every system is worse when contradicted, which is the finding underneath
+all of this — unopposed vs opposed: starter-over-run +23.4% -> -9.7%,
+low-line-over +15.2% -> -13.7%, monday-over +12.4% -> -9.2%, pickem-under
++13.9% -> +3.7%, under-juice +6.6% -> -1.9%. In aggregate over unopposed
++17.3% (n=361) against -10.8% opposed; under unopposed +10.7% (n=585)
+against +1.8% opposed.
+
+**The parlay was exempt for one day and no longer is (2026-09-04, user).**
+The exemption rested on the under leg graded STRAIGHT returning +27.7%
+(n=57) opposed against +9.9% (n=192) unopposed — the one position on the
+board that wanted the disagreement, and only measurable once the ML leg was
+stripped. But that is a different bet from the parlay, and the parlay
+itself measures the ordinary way round: **+32.1% (n=20) on conflicted games
+against +46.6% (n=234) unopposed.** Passing it costs +6.42u over those 20
+plays and takes the card tier from +271.87u to +265.45u.
+
+Worth keeping straight, because the two numbers describe the same games and
+point opposite ways: the under leg alone beats its own baseline when
+opposed; the parlay as priced does not beat its own. The leg's baseline is
+a straight under (+9.9%), the parlay's is a two-leg payout (+46.6%).
+
+Reverting is a two-line change (`_mark_conflicts` in
+build_allml_systems_table.py, `drop_conflicting_totals` in
+log_daily_qualifiers.py); the ledger flag is `conflict_skip` on both rows.
+
 ## Ledger rows track the market until first pitch (2026-09-02, user)
 
 A logged row is not a snapshot of the first quote of the morning. It

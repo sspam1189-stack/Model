@@ -66,7 +66,19 @@ SYSTEMS = {
         "Ladders in favorite size -- pickem +11.5%, -116..-149 -6.7%, "
         "-150..-179 -12.8%, -180+ -13.7% -- and in total, +11.5% at 8.5+ and "
         "+17.2% at 9+. The read: an evenly-priced game with a big number is "
-        "the market pricing two offenses it cannot separate."),
+        "the market pricing two offenses it cannot separate.\n\n"
+        "        SHADOW 2026-09-03 (user), from a healthy record rather than "
+        "a broken one -- 99-70 +11.3% (n=169) at the moment of the change, "
+        "halves +13.0/+9.5, every month positive but April. Nothing measured "
+        "turned against it. It was carded 2026-09-01 without the shadow "
+        "period the gate in CLAUDE.md requires, exactly as the mismatch ML "
+        "was before it went 1-3 and came off; this is that gate applied late "
+        "rather than skipped. Its live record was 4 plays and -0.09u, so "
+        "doing it properly costs almost nothing. Tracked, logged, no units, "
+        "until 15-20 plays say card it or drop it.\n\n"
+        "        The one measured mark against it is the conflict split: "
+        "+13.9% unopposed (n=125) against +3.7% when another carded rule "
+        "takes the other side of the total (n=44)."),
     "starter-over-run": (
         "Starter over run", "totals",
         "Either starter has gone over in 75% or more of his last 8 starts "
@@ -314,7 +326,10 @@ PLAIN = {
     "pickem-under":
         "Takes the under when the game is priced close to even (favourite "
         "-115 or shorter) but the total is 8.5 or higher. Reads as the market "
-        "unable to separate two offences and settling on a big number.",
+        "unable to separate two offences and settling on a big number. "
+        "Shadow because it was carded without the shadow period the gate "
+        "asks for -- not because the record turned: it is 99-70 +11.3% and "
+        "positive in both halves.",
     "starter-over-run":
         "Takes the over when either starter has gone over in 75% or more of "
         "his last eight starts and the total is 8.5 or higher. The totals "
@@ -350,7 +365,7 @@ PLAIN = {
 }
 
 CARD_ORDER = ("away-dog-ml", "home-slide-ml", "division-home-dog",
-              "home-dog-getaway", "home-dog-under-parlay", "pickem-under",
+              "home-dog-getaway", "home-dog-under-parlay",
               "starter-over-run", "cold-arms-under")
 
 # SHADOW (user, 2026-09-02). Carded 2026-09-01, pulled the same day before
@@ -367,8 +382,33 @@ CARD_ORDER = ("away-dog-ml", "home-slide-ml", "division-home-dog",
 #                   just following the book.
 #   hot-arm-dog-ml  plus-money side, starter's team +40% over 8 starts. 91-90
 #                   is a coin flip; the return is entirely the dog prices.
+#
+# pickem-under joined them 2026-09-03 (user), and it is the only one demoted
+# from a healthy record rather than a doubtful one: 99-70 +11.3% (n=169) at
+# the moment of the change, halves +13.0/+9.5, every month positive but April
+# (-15%, n=22) and a 2-play September. Nothing measured turned against it.
+#
+# What is true and worth having on the record: it was carded 2026-09-01
+# WITHOUT the shadow period CLAUDE.md's own gate requires, exactly as the
+# mismatch ML was before it went 1-3 and came off. Shadowing it now is that
+# gate applied late rather than skipped -- 15-20 tracked plays, no units,
+# then card it or do not. Its live record to date is 4 plays and -0.09u, so
+# there is almost nothing to give up by doing this properly.
+# The one measured mark against it is the conflict split: +13.9% unopposed
+# (n=125) against +3.7% when another carded rule takes the other side
+# (n=44), and 31 of its season rows are now conflict-passed.
 SHADOW_ORDER = ("low-line-over", "under-juice", "hot-arm-dog-ml",
-                "monday-over")
+                "monday-over", "pickem-under")
+
+# A status change announced today that takes effect on a later SLATE. The
+# logger asks this before writing a row, so a demotion never restates bets
+# already made under the old status -- the ledger says what was actually
+# risked, which is the whole point of it. Everything else (the tab, the
+# season table, RULE_STATUS) reads the destination status immediately,
+# because that is what the rule IS from here; only the ledger waits.
+#
+# Remove an entry once its date has passed; it is inert after that.
+SHADOW_FROM = {"pickem-under": "2026-09-04"}   # user, 2026-09-03
 
 # Every system the engine knows, card tier first. Consumers that render or
 # replay all of them walk this; CARD_ORDER alone is the bet list.
@@ -414,6 +454,7 @@ GETAWAY_DAY_TO = 20 * 60            # 20:00Z, exclusive: 4 pm ET is not a day ga
 GETAWAY_NIGHT_FROM = 22 * 60 + 30   # 22:30Z
 GETAWAY_NIGHT_TO = 59               # 00:59Z, the morning side of the wrap
 HOME_SLIDE_LOSSES = 4
+
 
 
 def short_tag(key):

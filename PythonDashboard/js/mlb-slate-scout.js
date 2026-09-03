@@ -11,8 +11,12 @@
 // are and, more usefully, where the inputs are untrustworthy: an arm back from
 // a two-month layoff still shows a full five-start line describing a different
 // month, and a swingman's five-start line silently drops every inning he threw
-// out of the bullpen. The advisory banner says so on the tab rather than in a
-// doc nobody opens.
+// out of the bullpen.
+//
+// The collapsible advisory banner that carried those caveats was REMOVED
+// 2026-09-03 (user). build_slate_scout.py still writes them into the payload
+// as `notes`, unread by this renderer; the standing caveats live in
+// MLBstrikeouts/CLAUDE.md.
 
 async function renderMLBSlateScout() {
   const el = document.getElementById('content');
@@ -203,32 +207,6 @@ async function renderMLBSlateScout() {
   const flagChip = (f) =>
     `<span style="display:inline-block;padding:1px 5px;margin-left:4px;border-radius:3px;`
     + `background:rgba(210,153,34,.18);color:#d29922;font-size:10px;white-space:nowrap">${esc(f)}</span>`;
-
-  // ---- Advisory notes ------------------------------------------------------
-  // Built here, appended LAST and collapsed (user, 2026-09-02). Nine
-  // paragraphs of caveats at the top of the tab pushed tonight's plays below
-  // the fold -- the thing you open the tab to read was the thing you had to
-  // scroll past the methodology to reach. The text is unchanged and one
-  // click away; it just no longer sits between you and the card.
-  const banner = document.createElement('div');
-  banner.className = 'card';
-  banner.style.cssText = 'border-left:3px solid #d29922;padding:8px 12px';
-  banner.innerHTML =
-    '<div id="scoutNotesHead" style="font-weight:600;color:#d29922;'
-    + 'font-size:15px;cursor:pointer;user-select:none">'
-    + '<span id="scoutNotesCaret">▸</span> Scouting view — not a betting model'
-    + '</div>'
-    + '<div id="scoutNotesBody" style="display:none;font-size:15px;color:' + DIM
-    + ';line-height:1.5;padding-top:6px">'
-    + (data.notes || []).map(esc).join('<br><br>') + '</div>';
-  const notesHead = banner.querySelector('#scoutNotesHead');
-  const notesBody = banner.querySelector('#scoutNotesBody');
-  let notesOpen = false;
-  notesHead.addEventListener('click', () => {
-    notesOpen = !notesOpen;
-    notesBody.style.display = notesOpen ? '' : 'none';
-    banner.querySelector('#scoutNotesCaret').textContent = notesOpen ? '▾' : '▸';
-  });
 
   // ---- Today's plays: the two under systems --------------------------------
   // 1) flagged under (CARD, live): a named data defect on either starter.
@@ -512,17 +490,16 @@ async function renderMLBSlateScout() {
   // than inline, because the plays card is now written and wired before the
   // season card is built.
   const wireShadowToggle = (card) => {
-    for (const head of card.querySelectorAll('.ns-head')) {
-      const tier = head.dataset.tier;
-      const caret = head.querySelector('.ns-caret');
-      const rows = [...card.querySelectorAll('tr.ns-row-' + tier)];
-      let open = false;
-      head.addEventListener('click', () => {
-        open = !open;
-        for (const r of rows) r.style.display = open ? '' : 'none';
-        if (caret) caret.textContent = open ? '▾' : '▸';
-      });
-    }
+    const head = card.querySelector('#nsShadowHead');
+    if (!head) return;
+    const caret = card.querySelector('#nsShadowCaret');
+    const rows = [...card.querySelectorAll('tr.ns-shadow-row')];
+    let open = false;
+    head.addEventListener('click', () => {
+      open = !open;
+      for (const r of rows) r.style.display = open ? '' : 'none';
+      if (caret) caret.textContent = open ? '▾' : '▸';
+    });
   };
 
   // ---- Non-scout systems ---------------------------------------------------
@@ -564,16 +541,12 @@ async function renderMLBSlateScout() {
         + '<th data-col="why">Why</th></tr></thead><tbody>';
       // Card block first, then shadow, and first pitch inside each. Mixing
       // them by time alone would put a no-stake row above a bet one.
-      // Three tiers. A passed row is a card rule that fired and was not
-      // taken, so it belongs under neither CARD -- it is not bet -- nor
-      // SHADOW, which is a status of the rule rather than of one play.
-      const tierOf = (p) => p.conflict_skip ? 'passed'
-        : (byKey[p.rule] && byKey[p.rule].status === 'shadow') ? 'shadow' : 'card';
-      const TIER_RANK = { card: 0, passed: 1, shadow: 2 };
+      const tierOf = (p) => (byKey[p.rule] && byKey[p.rule].status === 'shadow')
+        ? 'shadow' : 'card';
       const ordered = plays.slice().sort((a, b) =>
-        (TIER_RANK[tierOf(a)] - TIER_RANK[tierOf(b)])
+        (tierOf(a) === 'shadow') - (tierOf(b) === 'shadow')
         || String(a.commence || '~').localeCompare(String(b.commence || '~')));
-      const nOfTier = (t) => ordered.filter((p) => tierOf(p) === t).length;
+      const nShadow = ordered.filter((p) => tierOf(p) === 'shadow').length;
       let nsSection = null;
       for (const p of ordered) {
         const sy = byKey[p.rule] || {};
@@ -583,21 +556,15 @@ async function renderMLBSlateScout() {
           // The shadow header is a toggle and starts closed: these rows are
           // not bet, so they should not push the card off the screen. The
           // count goes in the header so nothing is hidden silently.
-          const HEAD = {
-            passed: 'PASSED — a conflicting under is carded on the same game',
-            shadow: 'SHADOW — tracked, not bet',
-          };
           t += tier === 'card'
             ? '<tr><td colspan="6" style="padding:6px 6px 3px;font-size:16px;'
               + 'font-weight:600;border-top:1px solid #30363d;color:#3fb950">'
               + 'CARD — bet these</td></tr>'
-            : '<tr><td colspan="6" class="ns-head" data-tier="' + tier + '"'
-              + ' style="padding:6px 6px 3px;font-size:16px;font-weight:600;'
-              + 'border-top:1px solid #30363d;color:' + DIM
-              + ';cursor:pointer;user-select:none">'
-              + '<span class="ns-caret">▸</span> ' + HEAD[tier]
-              + ' <span style="font-weight:400">(' + nOfTier(tier)
-              + ')</span></td></tr>';
+            : '<tr><td colspan="6" id="nsShadowHead" style="padding:6px 6px 3px;'
+              + 'font-size:16px;font-weight:600;border-top:1px solid #30363d;'
+              + 'color:' + DIM + ';cursor:pointer;user-select:none">'
+              + '<span id="nsShadowCaret">▸</span> SHADOW — tracked, not bet '
+              + '<span style="font-weight:400">(' + nShadow + ')</span></td></tr>';
         }
         // A parlay is two legs in one row, so it prints both and the payout
         // rather than a single price.
@@ -616,9 +583,10 @@ async function renderMLBSlateScout() {
         // market has moved past the rule's threshold so the engine no longer
         // produces it. Shown, because the ledger has money on it -- dimmed
         // and labelled, because it would not fire at tonight's current price.
-        t += '<tr class="ns-row-' + tier + '" style="border-top:1px solid #161b22'
+        t += '<tr class="' + (tier === 'shadow' ? 'ns-shadow-row' : 'ns-card-row')
+          + '" style="border-top:1px solid #161b22'
           + (p.stale || p.conflict_skip ? ';opacity:.72' : '')
-          + (tier === 'card' ? '' : ';display:none') + '">'
+          + (tier === 'shadow' ? ';display:none' : '') + '">'
           + '<td style="padding:4px 6px;color:' + DIM + '">' + ctTime(p.commence) + '</td>'
           + '<td style="padding:4px 6px">' + esc(p.matchup) + '</td>'
           + '<td style="padding:4px 6px;font-weight:600;white-space:nowrap">' + playCell + '</td>'
@@ -627,16 +595,15 @@ async function renderMLBSlateScout() {
             ? 'background:rgba(139,148,158,.14);color:' + DIM
             : 'background:rgba(63,185,80,.18);color:#3fb950') + '">'
           + esc(sy.name || p.rule) + '</span>'
-          + (p.conflict_take ? ' <span title="A carded over fired on this same '
-            + 'game and was passed. This is the side that was taken: the under '
-            + 'alone returns +13.7% on the season, taking both -3.6%."'
-            + ' style="color:#8b949e;font-size:13px;white-space:nowrap">'
-            + 'conflict — took this side</span>' : '')
-          + (p.conflict_skip ? ' <span title="A carded under is on this same '
-            + 'game. Taking both cancels out (-3.6% on the season); the under '
-            + 'alone returns +13.7%, the over alone -20.9%. Logged as a push."'
+          + (p.conflict_skip ? ' <span title="A carded over and a carded '
+            + 'under are both on this game, so neither side is taken. Two '
+            + 'rules disagreeing cancel to the vig: one-over-vs-one-under '
+            + 'games return -4.1% to the under and -3.8% to the over over '
+            + '150 plays, and the moneyline dog instead is worse still. '
+            + 'Logged as not-bet: the row keeps its real result and carries '
+            + 'no units."'
             + ' style="color:#d29922;font-size:13px;white-space:nowrap">'
-            + 'under carded — passed</span>' : '')
+            + 'conflict — passed</span>' : '')
           + (p.stale ? ' <span title="Logged earlier today and still a live '
             + 'bet. The market has since moved past this rule\'s threshold, '
             + 'so it would not fire at the current price."'
@@ -651,8 +618,8 @@ async function renderMLBSlateScout() {
           + esc(p.why)
           // Say what moved, on the row. A bare tag makes the reader go and
           // look the price up again.
-          + (p.conflict_skip ? ' <span style="color:#d29922">· conflicts with '
-            + 'the under carded on this game; passed and logged as a push'
+          + (p.conflict_skip ? ' <span style="color:#d29922">· a carded over '
+            + 'and under are both on this game; neither side taken'
             + '</span>' : '')
           + (p.stale ? ' <span style="color:#d29922">· still on at the logged '
             + 'price; ' + esc(p.stale_now || 'market moved')
@@ -1001,8 +968,8 @@ async function renderMLBSlateScout() {
   }
   rhtml += '</tbody></table></div>';
   ranked.innerHTML = rhtml;
-  // Order at the top of the tab: banner, then both plays panels (the actionable
-  // part), then the mismatch ranking, then the per-game table.
+  // Order at the top of the tab: both plays panels (the actionable part),
+  // then the mismatch ranking, then the per-game table.
   // ---- Season bet log ------------------------------------------------------
   // Every play the ledger holds, newest first, in the shape the fade-ML tab
   // uses. This replaced a date selector: that answered "what happened on one
@@ -1249,8 +1216,4 @@ async function renderMLBSlateScout() {
   }
 
   el.insertBefore(ranked, playsAnchor.nextSibling);
-
-  // Methodology last. Everything above it is either a play or a record; this
-  // is the standing caveat, and it belongs after both.
-  el.appendChild(banner);
 }

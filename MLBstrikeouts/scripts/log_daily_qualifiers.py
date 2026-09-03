@@ -206,21 +206,46 @@ def total_side(entry):
     return "over" if _OVER_TEXT.search(entry.get("play") or "") else "under"
 
 
-NOTE = "Conflicting under carded on this game; over not taken."
+NOTE = "Carded over and under on this game; neither side taken."
 
 
-def drop_conflicting_overs(entries, date):
-    """When a game carries both a carded over and a carded under, drop the OVER.
+def drop_conflicting_totals(entries, date, now=None):
+    """When a game carries both a carded over and a carded under, drop BOTH.
 
-    The two cancel: taking both is -3.6% over the season, taking only the
-    over -20.9%, taking only the under +13.7%. The user's rule is to keep
-    the under and skip the over, so the over row is marked not_bet -- it
-    stays in the rule's W-L, which is what the replay measures, and out of
-    the units, which is what was actually risked.
+    BOTH SIDES SINCE 2026-09-03 (user). The old rule kept the under and
+    passed the over. Passing the under too costs 17-12 +12.6% (+3.66u over
+    29 settled plays) -- the over was already being passed, so this is a
+    cost, not a saving, and the card tier's ROI only rises (+27.6% ->
+    +28.0%) because that cell sits below the tier average.
 
-    Only PENDING rows are touched, so a settled night is never rewritten by
-    a later run. Returns the rows it changed.
+    What it buys is not betting a game the board disagrees about. Over
+    carded and shadow rules together, a one-over-vs-one-under game returns
+    -4.1% to the under and -3.8% to the over across 150 plays: the two
+    cancel to the vig. Taking the moneyline dog instead was measured and is
+    worse -- -12.8% on the carded conflicts against a -3.1% blind dog, and
+    -1.9% over the wider set at p=0.44, no better than the -1.5% that games
+    with an UNOPPOSED total rule return. There is no side to be on here.
+
+    Both rows are marked not_bet -- they stay in their rule's W-L, which is
+    what the replay measures, and out of the units, which is what was
+    actually risked. Not PUSH: these games had results.
+
+    Only PENDING rows are SUPPRESSED, and that is enforced with _locked, not
+    merely by being called with today's date (fixed 2026-09-03). The date
+    filter alone was never the guarantee this docstring claimed: the daily
+    workflow runs six times a day, so a late run on a day whose early games
+    have already finished would have marked a settled row not_bet and taken
+    a real, risked bet out of the units. Harmless while only overs were
+    suppressed and they were flagged before first pitch anyway; not harmless
+    once both sides and the parlay are in scope.
+
+    Locked rows still COUNT for detection. A settled over is proof the
+    conflict was real, so the pending under is still passed -- what cannot
+    be done is un-betting a game that has already started.
+
+    Returns the rows it changed.
     """
+    now = now or datetime.datetime.now(datetime.timezone.utc)
     by_game = collections.defaultdict(list)
     for e in entries:
         if e.get("date") != date or e.get("shadow"):
@@ -237,7 +262,9 @@ def drop_conflicting_overs(entries, date):
         if sides != {"over", "under"}:
             continue
         for e in rows:
-            if total_side(e) != "over":
+            # Started or graded: the bet was made and stands. Detection above
+            # already counted it, so its partner is still passed.
+            if _locked(e, now):
                 continue
             if e.get("conflict_skip") and NOTE in (e.get("basis") or ""):
                 continue                       # already handled, nothing to do
@@ -501,6 +528,11 @@ def main():
     for q in qs:
         rule = q["rule"]
         status = STATUS.get(rule, "shadow")
+        # A demotion that starts on a later slate still logs as a card bet
+        # until then. pickem-under was shadowed 2026-09-03 effective 09-04;
+        # the 9/2 rows already on the books were bet and stay bet.
+        if (status == "shadow" and date < ALLSYS.SHADOW_FROM.get(rule, "")):
+            status = "card"
         # A retired rule logs nothing further. Without this it would fall
         # through the `shadow` check below and be written as a CARD row.
         if status == "retired":
@@ -552,10 +584,10 @@ def main():
 
     # Conflicts are resolved across the WHOLE day's rows, not just the ones
     # added this run: the over and the under can be logged by different runs.
-    dropped = drop_conflicting_overs(blob["entries"] + added, date)
+    dropped = drop_conflicting_totals(blob["entries"] + added, date, now)
     for e in dropped:
-        print(f"  SKIP-OVER {e['rule']:14} {e['play'][:40]:40} "
-              f"conflicting under carded")
+        print(f"  SKIP-TOTAL {e['rule']:14} {e['play'][:40]:40} "
+              f"carded over and under on this game")
 
     for e, changed in moved:
         bits = ", ".join(f"{k} {v}" for k, v in sorted(changed.items()))

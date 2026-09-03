@@ -134,14 +134,42 @@ def _moved(entry, game):
 
 
 def _mark_conflicts(today):
-    """Flag an over that shares a game with a carded under.
+    """Flag BOTH sides of a game two carded rules disagree on.
 
     The engine has no notion of conflicts -- each rule answers only for
     itself -- so starter-over-run still fires on a game the parlay is
-    already taking the under in. The play stays on the board, because a
-    row that vanishes is how a live bet gets lost, and carries the flag so
-    the tab can say why it is not being taken. A parlay's second leg counts
-    as an under.
+    already taking the under in. The plays stay on the board, because a
+    row that vanishes is how a live bet gets lost, and carry the flag so
+    the tab can say why they are not being taken. A parlay's second leg
+    counts as an under for detection.
+
+    SYMMETRIC SINCE 2026-09-03 (user). It used to flag the over only, on
+    the policy of keeping the under and passing the over. Both sides are
+    passed now. What that costs, stated because it is a cost and not a
+    saving: the over side was already being passed, so the change gives up
+    the UNDER side's 17-12 +12.6% (+3.66u over 29 settled plays). The card
+    tier's ROI rises +27.6% -> +28.0% only because +12.6% sits below the
+    tier average -- the units go down.
+
+    The case for it is the disagreement, not the return. Across carded and
+    shadow rules together a one-over-vs-one-under game returns -4.1% to the
+    under and -3.8% to the over over 150 plays: two rules cancelling to the
+    vig, with no side to be on. The carded-only under cell that pays for
+    the old policy is 29 plays with a negative last third, and it is really
+    the single statement that starter-over-run is wrong when a carded under
+    contradicts it (+23.4% unopposed, -9.7% opposed).
+
+    The parlay stands down with them, on every date (user, 2026-09-03). It
+    briefly carried a CONFLICT_PARLAY_FROM start date so the ledger would
+    not be restated; the user asked for the whole season instead, and
+    scripts/backfill_conflict_skips.py marked the history to match. One
+    policy, one record, no date seam in the middle of it.
+
+    It costs 6-14 +32.1% (+6.42u over 20 plays) and is defensible because a
+    parlay on a conflicted game measures worse than an unopposed one
+    (+32.1% against +46.6%, n=234) -- the +27.7% that justified the original
+    exemption was the under leg graded STRAIGHT, against a +9.9% unopposed
+    baseline, which is a different bet.
     """
     # Card rules only. A shadow rule has no money on it, so it can neither
     # create a conflict nor be told to stand down for one.
@@ -155,14 +183,7 @@ def _mark_conflicts(today):
                  for r in rows}
         if "over" in sides and "under" in sides:
             for r in rows:
-                if r.get("market") == "totals" and r.get("pick") == "over":
-                    r["conflict_skip"] = True
-                else:
-                    # The side that survives the conflict. Flagged too, so the
-                    # tab can show both halves of the pairing -- otherwise the
-                    # under looks like an ordinary play and the passed over
-                    # looks like an unexplained straggler.
-                    r["conflict_take"] = True
+                r["conflict_skip"] = True
 
 
 def _pick_from(entry):
