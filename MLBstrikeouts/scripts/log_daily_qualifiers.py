@@ -252,6 +252,23 @@ def drop_conflicting_totals(entries, date, now=None):
             continue
         if total_side(e) is None:
             continue
+        # NON-SCOUT ONLY (user, 2026-09-03). This used to read every carded
+        # rule with a side of the total, which made a scout rule able to pass
+        # a non-scout bet -- and the tab's own detector never did, because it
+        # only ever sees SYS.today_plays(). SD @ CIN on 9/1 was the row that
+        # surfaced it: flag-plays took the over, so the parlay's under leg was
+        # marked not_bet in the ledger while the panel showed no conflict at
+        # all, and a +3.28u winner left the record for no visible reason.
+        #
+        # The scoping is not just consistency. The two families are built to
+        # be independent -- allml_systems reads none of the mismatch model, so
+        # agreement between them is a second opinion. Two INDEPENDENT reads
+        # disagreeing is not the same event as two correlated non-scout rules
+        # cancelling, and the -4.1%/-3.8% that justified passing both sides
+        # was measured entirely inside the non-scout family. Cross-family
+        # disagreement was never measured and is not what that rule covers.
+        if e.get("rule") not in ALLSYS.SYSTEMS:
+            continue
         by_game[e.get("gamePk") or e.get("game")].append(e)
 
     changed = []

@@ -44,6 +44,7 @@ sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)),
                                 "sources"))
 
 import scout_card_log as LEDGER_IO
+import allml_systems as ALLSYS
 from log_daily_qualifiers import NOTE, total_side
 from rule_status import RULE_STATUS
 
@@ -58,11 +59,27 @@ LEDGER = os.path.normpath(os.path.join(HERE, "..", "data",
 
 
 def conflicted(entries):
-    """Rows on games where two carded rules disagree about the total."""
+    """Rows on games where two carded NON-SCOUT rules disagree about the total.
+
+    Non-scout only since 2026-09-03 (user), matching the tab's detector,
+    which only ever saw SYS.today_plays(). A scout rule can no longer pass a
+    non-scout bet: the two families are built to be independent, so their
+    disagreement is not the correlated cancellation the pass rule measured.
+    """
     by_game = collections.defaultdict(list)
     for e in entries:
+        # Status AS OF THE ROW'S DATE, not today's. A rule demoted with a
+        # SHADOW_FROM date was still carded before it, so its old conflicts
+        # are real history and must not dissolve because of a later decision.
+        # Without this, shadowing pickem-under on 9/3 retroactively released
+        # 63 rows it had legitimately been half of.
+        status = RULE_STATUS.get(e.get("rule"))
+        if (status == "shadow"
+                and (e.get("date") or "") < ALLSYS.SHADOW_FROM.get(e.get("rule"), "")):
+            status = "card"
         if (total_side(e)
-                and RULE_STATUS.get(e.get("rule")) == "card"
+                and e.get("rule") in ALLSYS.SYSTEMS
+                and status == "card"
                 and not e.get("shadow")):
             by_game[(e.get("date"), e.get("gamePk") or e.get("game"))].append(e)
     out = []
@@ -82,6 +99,24 @@ def main():
         blob = json.load(fh)
     entries = blob["entries"] if isinstance(blob, dict) else blob
 
+    # Two-way. Narrowing the rule has to give rows BACK, or the ledger keeps
+    # bets passed under a definition that no longer exists. Only rows this
+    # policy marked are released -- the NOTE is the proof it set them, so a
+    # hand-set not_bet is never cleared.
+    keep = {id(e) for e in conflicted(entries)}
+    released, freed = [], 0.0
+    for e in entries:
+        if id(e) in keep:
+            continue
+        if not (e.get("conflict_skip") and NOTE in (e.get("basis") or "")):
+            continue
+        e.pop("conflict_skip", None)
+        e.pop("not_bet", None)
+        e["basis"] = (e.get("basis") or "").replace(NOTE, "").strip()
+        if not e.get("backfilled"):
+            freed += e.get("profit") or 0.0
+        released.append(e)
+
     changed, units = [], 0.0
     for e in conflicted(entries):
         if e.get("conflict_skip") and NOTE in (e.get("basis") or ""):
@@ -98,12 +133,16 @@ def main():
 
     by_rule = collections.Counter((e["rule"], e.get("market")) for e in changed)
     for (rule, market), n in sorted(by_rule.items()):
-        print(f"  {rule:24}{market:8}{n:>4} rows")
-    print(f"\n  {len(changed)} rows marked; "
-          f"{units:+.2f}u removed from the live record "
+        print(f"  marked   {rule:24}{market:8}{n:>4} rows")
+    by_rel = collections.Counter((e["rule"], e.get("market")) for e in released)
+    for (rule, market), n in sorted(by_rel.items()):
+        print(f"  RELEASED {rule:24}{market:8}{n:>4} rows")
+    print(f"\n  {len(changed)} marked ({units:+.2f}u out of the live record), "
+          f"{len(released)} released ({freed:+.2f}u back in)")
+    print(f"  net to the live record: {freed - units:+.2f}u "
           f"(backfilled rows carry none either way)")
 
-    if args.apply:
+    if args.apply and (changed or released):
         LEDGER_IO._save(blob)          # same writer the ledger always uses
         print(f"  written -> {LEDGER}")
     else:

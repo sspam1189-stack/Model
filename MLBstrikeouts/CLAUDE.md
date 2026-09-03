@@ -437,10 +437,28 @@ That script is a ONE-SHOT and is deliberately not in the daily workflow. It
 ignores `_locked` on purpose, which is the one thing the daily path must
 never do. The pre-rewrite ledger is recoverable from git.
 
-Detection spans every carded rule with a total side, scout and non-scout
-alike — flag-plays unders conflict with starter-over-run overs exactly as
-pickem-under does. That is what the daily logger already did; the backfill
-just matches it.
+**Detection is NON-SCOUT ONLY (user, 2026-09-03).** It briefly spanned every
+carded rule with a total side, which let a scout rule pass a non-scout bet
+while the tab's own detector — which only ever sees `SYS.today_plays()` —
+showed no conflict at all. SD @ CIN on 9/1 is the row that surfaced it:
+flag-plays took the over, so the parlay's under leg was marked not_bet in
+the ledger and a +3.28u winner left the record with nothing on the panel to
+explain it.
+
+The scoping is not just consistency between two surfaces. The families are
+built to be independent — allml_systems reads none of the mismatch model, so
+agreement between them is a *second opinion*. Two independent reads
+disagreeing is not the correlated cancellation the pass rule measured, and
+the -4.1%/-3.8% that justified passing both sides came entirely from inside
+the non-scout family. Cross-family disagreement was never measured.
+
+Releasing the 4 cross-family games put **+2.05u back** into the live record
+(6 rows: 4 flag-plays, 1 parlay, 1 starter-over-run). The backfill is
+two-way now — narrowing the rule gives rows back, or the ledger keeps bets
+passed under a definition that no longer exists — and it reads each rule's
+status AS OF THE ROW'S DATE, honouring `SHADOW_FROM`. Without that, shadowing
+pickem-under would have retroactively released 63 rows it had legitimately
+been half of.
 
 Before this the over was passed and the under was kept. Passing the under
 too **costs 17-12 +12.6% (+3.66u over 29 settled plays)** — the over was

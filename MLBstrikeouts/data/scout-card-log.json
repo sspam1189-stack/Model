@@ -3,7 +3,7 @@
   "type": "scout-card-log",
   "week_convention": "monday-sunday",
   "description": "Per-play ledger for scout card calls (tier 2/3 of the daily card policy in MLBstrikeouts/CLAUDE.md). Model plays are NOT logged here - fade-ml/props/hand-tails keep their own files. No-play days are logged too: an empty card is part of the record. Prices are the card-time quote, not the close.",
-  "generated": "2026-09-03T02:05:52Z",
+  "generated": "2026-09-03T02:43:21Z",
   "pre_log_history": [
     {
       "date": "2026-08-17",
@@ -38281,7 +38281,7 @@
       "price": -105,
       "stake": 1.0,
       "rule": "flag-plays",
-      "basis": "Perkins layoff-17d + swingman-2g, 8.25 L5 ERA. BAL pen 0.87 L7 (#2). TEMPER: OAK bats hot all four (104/111/114/125). Carded over and under on this game; neither side taken.",
+      "basis": "Perkins layoff-17d + swingman-2g, 8.25 L5 ERA. BAL pen 0.87 L7 (#2). TEMPER: OAK bats hot all four (104/111/114/125).",
       "result": "WIN",
       "profit": 0.95,
       "line": 9.5,
@@ -38290,9 +38290,7 @@
       "line_move": 0.0,
       "rule_legacy": "scout-flagged-starter-under",
       "gamePk": 824961,
-      "commence": "2026-08-30T02:05:00Z",
-      "not_bet": true,
-      "conflict_skip": true
+      "commence": "2026-08-30T02:05:00Z"
     },
     {
       "date": "2026-08-29",
@@ -38710,15 +38708,13 @@
       "price": -104,
       "stake": 1.0,
       "rule": "flag-plays",
-      "basis": "Bassitt stale-window-89d. Highest total on the board at 10. Carded over and under on this game; neither side taken.",
+      "basis": "Bassitt stale-window-89d. Highest total on the board at 10.",
       "result": "LOSS",
       "profit": -1.0,
       "line": 10.0,
       "rule_legacy": "scout-flagged-starter-under",
       "gamePk": 824959,
-      "commence": "2026-08-30T20:05:00Z",
-      "not_bet": true,
-      "conflict_skip": true
+      "commence": "2026-08-30T20:05:00Z"
     },
     {
       "date": "2026-08-30",
@@ -39673,15 +39669,13 @@
       "price": 100,
       "stake": 1.0,
       "rule": "flag-plays",
-      "basis": "Eric Lauer layoff-14d Carded over and under on this game; neither side taken.",
+      "basis": "Eric Lauer layoff-14d",
       "result": "LOSS",
       "profit": -1.0,
       "combo": "layoff",
       "rule_legacy": "scout-flagged-starter-under",
       "line": 8.5,
-      "gamePk": 823908,
-      "not_bet": true,
-      "conflict_skip": true
+      "gamePk": 823908
     },
     {
       "date": "2026-09-01",
@@ -39692,15 +39686,13 @@
       "stake": 1.0,
       "rule": "flag-plays",
       "auto": true,
-      "basis": "Verdict over for swingman+stale-window (30-20 +14.7% over vs 20-30 -24.5% under). Randy Vasquez swingman-2g \u00b7 Nick Lodolo stale-window-46d. This is the rule's play of record for the game. Carded over and under on this game; neither side taken.",
+      "basis": "Verdict over for swingman+stale-window (30-20 +14.7% over vs 20-30 -24.5% under). Randy Vasquez swingman-2g \u00b7 Nick Lodolo stale-window-46d. This is the rule's play of record for the game.",
       "result": "LOSS",
       "profit": -1.0,
       "line": 9,
       "combo": "swingman+stale-window",
       "gamePk": 824472,
-      "commence": "2026-09-01T22:40:00Z",
-      "conflict_skip": true,
-      "not_bet": true
+      "commence": "2026-09-01T22:40:00Z"
     },
     {
       "date": "2026-09-01",
@@ -39727,7 +39719,7 @@
       "stake": 1.0,
       "rule": "home-dog-under-parlay",
       "auto": true,
-      "basis": "Home dog + under: CIN ML +116 with U9 -102, pays 4.28x Carded over and under on this game; neither side taken.",
+      "basis": "Home dog + under: CIN ML +116 with U9 -102, pays 4.28x",
       "result": "WIN",
       "profit": 3.28,
       "line": 9,
@@ -39736,9 +39728,7 @@
       "non_scout": true,
       "ml_price": 116,
       "under_price": -102,
-      "payout": 4.278,
-      "not_bet": true,
-      "conflict_skip": true
+      "payout": 4.278
     },
     {
       "date": "2026-09-01",
@@ -39874,15 +39864,13 @@
       "stake": 1.0,
       "rule": "starter-over-run",
       "auto": true,
-      "basis": "Starter over run: over in Michael McGreevy 100% of last 8, total 8.5 Carded over and under on this game; neither side taken.",
+      "basis": "Starter over run: over in Michael McGreevy 100% of last 8, total 8.5",
       "result": "WIN",
       "profit": 0.82,
       "line": 8.5,
       "gamePk": 823908,
       "commence": "2026-09-02T02:10:00Z",
-      "non_scout": true,
-      "conflict_skip": true,
-      "not_bet": true
+      "non_scout": true
     },
     {
       "date": "2026-09-01",

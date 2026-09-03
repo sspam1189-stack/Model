@@ -1,7 +1,7 @@
 {
  "sport": "MLB",
  "type": "plays-feed",
- "generated": "2026-09-03T02:21:21Z",
+ "generated": "2026-09-03T02:43:29Z",
  "note": "The scout bet log: a projection of MLBstrikeouts/data/scout-card-log.json. Results and profit are the ledger's own, settled by grade_scout_ledger.py from the finals; nothing is recomputed here. `kind` is one of card / shadow / not_bet / backfilled, and only card rows carry units; not-bet rows (which include what used to be tracked separately as shadow) fired live with no money on them, so they stay out of the units. Backfilled rows count as card (user, 2026-09-02) and keep a `backfilled` flag so they can still be isolated.",
  "bets": [
   {
@@ -542,11 +542,10 @@
    "game": "STL @ LAD",
    "gamePk": 823908,
    "commence": "2026-09-02T02:10:00Z",
-   "basis": "Starter over run: over in Michael McGreevy 100% of last 8, total 8.5 Carded over and under on this game; neither side taken.",
+   "basis": "Starter over run: over in Michael McGreevy 100% of last 8, total 8.5",
    "name": "Starter over run",
    "group": "non-scout",
-   "kind": "not_bet",
-   "conflict_skip": true
+   "kind": "card"
   },
   {
    "date": "2026-09-01",
@@ -762,12 +761,11 @@
    "game": "SD @ CIN",
    "gamePk": 824472,
    "commence": "2026-09-01T22:40:00Z",
-   "basis": "Verdict over for swingman+stale-window (30-20 +14.7% over vs 20-30 -24.5% under). Randy Vasquez swingman-2g \u00b7 Nick Lodolo stale-window-46d. This is the rule's play of record for the game. Carded over and under on this game; neither side taken.",
+   "basis": "Verdict over for swingman+stale-window (30-20 +14.7% over vs 20-30 -24.5% under). Randy Vasquez swingman-2g \u00b7 Nick Lodolo stale-window-46d. This is the rule's play of record for the game.",
    "combo": "swingman+stale-window",
    "name": "Flag Plays",
    "group": "scout",
-   "kind": "not_bet",
-   "conflict_skip": true
+   "kind": "card"
   },
   {
    "date": "2026-09-01",
@@ -781,11 +779,10 @@
    "game": "SD @ CIN",
    "gamePk": 824472,
    "commence": "2026-09-01T22:40:00Z",
-   "basis": "Home dog + under: CIN ML +116 with U9 -102, pays 4.28x Carded over and under on this game; neither side taken.",
+   "basis": "Home dog + under: CIN ML +116 with U9 -102, pays 4.28x",
    "name": "Home dog + under",
    "group": "non-scout",
-   "kind": "not_bet",
-   "conflict_skip": true
+   "kind": "card"
   },
   {
    "date": "2026-09-01",
@@ -881,12 +878,11 @@
    "profit": -1.0,
    "game": "STL @ LAD",
    "gamePk": 823908,
-   "basis": "Eric Lauer layoff-14d Carded over and under on this game; neither side taken.",
+   "basis": "Eric Lauer layoff-14d",
    "combo": "layoff",
    "name": "Flag Plays",
    "group": "scout",
-   "kind": "not_bet",
-   "conflict_skip": true
+   "kind": "card"
   },
   {
    "date": "2026-09-01",
@@ -1409,11 +1405,10 @@
    "game": "BAL @ OAK",
    "gamePk": 824959,
    "commence": "2026-08-30T20:05:00Z",
-   "basis": "Bassitt stale-window-89d. Highest total on the board at 10. Carded over and under on this game; neither side taken.",
+   "basis": "Bassitt stale-window-89d. Highest total on the board at 10.",
    "name": "Flag Plays",
    "group": "scout",
-   "kind": "not_bet",
-   "conflict_skip": true
+   "kind": "card"
   },
   {
    "date": "2026-08-30",
@@ -1811,11 +1806,10 @@
    "game": "BAL @ OAK",
    "gamePk": 824961,
    "commence": "2026-08-30T02:05:00Z",
-   "basis": "Perkins layoff-17d + swingman-2g, 8.25 L5 ERA. BAL pen 0.87 L7 (#2). TEMPER: OAK bats hot all four (104/111/114/125). Carded over and under on this game; neither side taken.",
+   "basis": "Perkins layoff-17d + swingman-2g, 8.25 L5 ERA. BAL pen 0.87 L7 (#2). TEMPER: OAK bats hot all four (104/111/114/125).",
    "name": "Flag Plays",
    "group": "scout",
-   "kind": "not_bet",
-   "conflict_skip": true
+   "kind": "card"
   },
   {
    "date": "2026-08-29",
@@ -38658,15 +38652,15 @@
    "push": 25,
    "n": 2183,
    "pending": 11,
-   "units": 281.71
+   "units": 283.76
   },
   "card": {
-   "w": 589,
-   "l": 495,
+   "w": 592,
+   "l": 498,
    "push": 4,
-   "n": 1092,
+   "n": 1098,
    "pending": 4,
-   "units": 281.71
+   "units": 283.76
   },
   "by_rule": {
    "away-dog-ml": {
@@ -38731,7 +38725,7 @@
     "push": 0,
     "n": 29,
     "pending": 2,
-    "units": 4.34
+    "units": 2.29
    },
    "form-under": {
     "w": 0,
@@ -38755,7 +38749,7 @@
     "push": 0,
     "n": 256,
     "pending": 2,
-    "units": 105.85
+    "units": 109.13
    },
    "home-slide-ml": {
     "w": 33,
@@ -38819,7 +38813,7 @@
     "push": 3,
     "n": 215,
     "pending": 1,
-    "units": 32.41
+    "units": 33.23
    },
    "under-juice": {
     "w": 236,
