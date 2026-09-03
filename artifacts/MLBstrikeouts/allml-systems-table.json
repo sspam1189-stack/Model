@@ -1,7 +1,7 @@
 {
  "sport": "MLB",
  "type": "allml-systems-table",
- "generated": "2026-09-02T23:04:34Z",
+ "generated": "2026-09-03T00:33:45Z",
  "span": {
   "from": "2026-03-25",
   "to": "2026-09-02"
@@ -986,6 +986,24 @@
    "total": 9
   },
   {
+   "rule": "pickem-under",
+   "market": "totals",
+   "pick": "under",
+   "price": -104,
+   "line": 8.5,
+   "ml_price": null,
+   "under_price": null,
+   "payout": null,
+   "gamePk": 823660,
+   "date": "2026-09-02",
+   "commence": "2026-09-02T23:40:00Z",
+   "matchup": "DET @ MIN",
+   "total": 8.5,
+   "why": "favorite only -112 at a 8.5 total",
+   "stale": true,
+   "stale_now": "favourite now -116, total still 8.5"
+  },
+  {
    "rule": "starter-over-run",
    "market": "totals",
    "pick": "over",
@@ -998,7 +1016,8 @@
    "matchup": "MIL @ CHC",
    "away": "MIL",
    "home": "CHC",
-   "total": 8.5
+   "total": 8.5,
+   "conflict_skip": true
   },
   {
    "rule": "home-dog-under-parlay",

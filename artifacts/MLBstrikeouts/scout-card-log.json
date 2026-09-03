@@ -3,7 +3,7 @@
   "type": "scout-card-log",
   "week_convention": "monday-sunday",
   "description": "Per-play ledger for scout card calls (tier 2/3 of the daily card policy in MLBstrikeouts/CLAUDE.md). Model plays are NOT logged here - fade-ml/props/hand-tails keep their own files. No-play days are logged too: an empty card is part of the record. Prices are the card-time quote, not the close.",
-  "generated": "2026-09-02T23:04:40Z",
+  "generated": "2026-09-03T00:33:50Z",
   "pre_log_history": [
     {
       "date": "2026-08-17",
@@ -5888,14 +5888,16 @@
       "rule": "starter-over-run",
       "gamePk": 824527,
       "commence": "2026-04-25T23:15:00Z",
-      "basis": "Starter over run: over in Brady Singer 75% of last 8, total 9.5",
+      "basis": "Starter over run: over in Brady Singer 75% of last 8, total 9.5 Conflicting under carded on this game; over not taken.",
       "auto": true,
       "backfilled": true,
       "non_scout": true,
       "line": 9.5,
       "play": "DET/CIN O9.5",
       "result": "WIN",
-      "profit": 0.96
+      "profit": 0.96,
+      "conflict_skip": true,
+      "not_bet": true
     },
     {
       "date": "2026-04-25",
@@ -7215,14 +7217,16 @@
       "rule": "starter-over-run",
       "gamePk": 823066,
       "commence": "2026-05-02T00:15:00Z",
-      "basis": "Starter over run: over in Emmet Sheehan 80%, Matthew Liberatore 83% of last 8, total 8.5",
+      "basis": "Starter over run: over in Emmet Sheehan 80%, Matthew Liberatore 83% of last 8, total 8.5 Conflicting under carded on this game; over not taken.",
       "auto": true,
       "backfilled": true,
       "non_scout": true,
       "line": 8.5,
       "play": "LAD/STL O8.5",
       "result": "WIN",
-      "profit": 0.95
+      "profit": 0.95,
+      "conflict_skip": true,
+      "not_bet": true
     },
     {
       "date": "2026-05-01",
@@ -8415,14 +8419,16 @@
       "rule": "starter-over-run",
       "gamePk": 823226,
       "commence": "2026-05-06T19:45:00Z",
-      "basis": "Starter over run: over in Adrian Houser 80% of last 8, total 8.5",
+      "basis": "Starter over run: over in Adrian Houser 80% of last 8, total 8.5 Conflicting under carded on this game; over not taken.",
       "auto": true,
       "backfilled": true,
       "non_scout": true,
       "line": 8.5,
       "play": "SD/SF O8.5",
       "result": "LOSS",
-      "profit": -1.0
+      "profit": -1.0,
+      "conflict_skip": true,
+      "not_bet": true
     },
     {
       "date": "2026-05-06",
@@ -9110,14 +9116,16 @@
       "rule": "starter-over-run",
       "gamePk": 824520,
       "commence": "2026-05-10T17:40:00Z",
-      "basis": "Starter over run: over in Andrew Abbott 75% of last 8, total 9.5",
+      "basis": "Starter over run: over in Andrew Abbott 75% of last 8, total 9.5 Conflicting under carded on this game; over not taken.",
       "auto": true,
       "backfilled": true,
       "non_scout": true,
       "line": 9.5,
       "play": "HOU/CIN O9.5",
       "result": "LOSS",
-      "profit": -1.0
+      "profit": -1.0,
+      "conflict_skip": true,
+      "not_bet": true
     },
     {
       "date": "2026-05-10",
@@ -9691,14 +9699,16 @@
       "rule": "starter-over-run",
       "gamePk": 823712,
       "commence": "2026-05-12T23:40:00Z",
-      "basis": "Starter over run: over in Eury P\u00e9rez 88%, Bailey Ober 88% of last 8, total 9",
+      "basis": "Starter over run: over in Eury P\u00e9rez 88%, Bailey Ober 88% of last 8, total 9 Conflicting under carded on this game; over not taken.",
       "auto": true,
       "backfilled": true,
       "non_scout": true,
       "line": 9.0,
       "play": "MIA/MIN O9",
       "result": "LOSS",
-      "profit": -1.0
+      "profit": -1.0,
+      "conflict_skip": true,
+      "not_bet": true
     },
     {
       "date": "2026-05-12",
@@ -10003,14 +10013,16 @@
       "rule": "starter-over-run",
       "gamePk": 824841,
       "commence": "2026-05-13T17:05:00Z",
-      "basis": "Starter over run: over in Kyle Bradish 75% of last 8, total 8.5",
+      "basis": "Starter over run: over in Kyle Bradish 75% of last 8, total 8.5 Conflicting under carded on this game; over not taken.",
       "auto": true,
       "backfilled": true,
       "non_scout": true,
       "line": 8.5,
       "play": "NYY/BAL O8.5",
       "result": "LOSS",
-      "profit": -1.0
+      "profit": -1.0,
+      "conflict_skip": true,
+      "not_bet": true
     },
     {
       "date": "2026-05-13",
@@ -10021,14 +10033,16 @@
       "rule": "starter-over-run",
       "gamePk": 824195,
       "commence": "2026-05-14T00:10:00Z",
-      "basis": "Starter over run: over in Lance McCullers Jr. 100% of last 8, total 9",
+      "basis": "Starter over run: over in Lance McCullers Jr. 100% of last 8, total 9 Conflicting under carded on this game; over not taken.",
       "auto": true,
       "backfilled": true,
       "non_scout": true,
       "line": 9.0,
       "play": "SEA/HOU O9",
       "result": "LOSS",
-      "profit": -1.0
+      "profit": -1.0,
+      "conflict_skip": true,
+      "not_bet": true
     },
     {
       "date": "2026-05-13",
@@ -10467,14 +10481,16 @@
       "rule": "starter-over-run",
       "gamePk": 822739,
       "commence": "2026-05-15T22:45:00Z",
-      "basis": "Starter over run: over in Zack Littell 100% of last 8, total 9.5",
+      "basis": "Starter over run: over in Zack Littell 100% of last 8, total 9.5 Conflicting under carded on this game; over not taken.",
       "auto": true,
       "backfilled": true,
       "non_scout": true,
       "line": 9.5,
       "play": "BAL/WSH O9.5",
       "result": "LOSS",
-      "profit": -1.0
+      "profit": -1.0,
+      "conflict_skip": true,
+      "not_bet": true
     },
     {
       "date": "2026-05-15",
@@ -10747,14 +10763,16 @@
       "rule": "starter-over-run",
       "gamePk": 822737,
       "commence": "2026-05-16T20:05:00Z",
-      "basis": "Starter over run: over in Chris Bassitt 86%, Cade Cavalli 86% of last 8, total 10",
+      "basis": "Starter over run: over in Chris Bassitt 86%, Cade Cavalli 86% of last 8, total 10 Conflicting under carded on this game; over not taken.",
       "auto": true,
       "backfilled": true,
       "non_scout": true,
       "line": 10.0,
       "play": "BAL/WSH O10",
       "result": "WIN",
-      "profit": 0.95
+      "profit": 0.95,
+      "conflict_skip": true,
+      "not_bet": true
     },
     {
       "date": "2026-05-16",
@@ -16681,14 +16699,16 @@
       "rule": "starter-over-run",
       "gamePk": 824347,
       "commence": "2026-06-10T00:40:00Z",
-      "basis": "Starter over run: over in Colin Rea 75% of last 8, total 12.5",
+      "basis": "Starter over run: over in Colin Rea 75% of last 8, total 12.5 Conflicting under carded on this game; over not taken.",
       "auto": true,
       "backfilled": true,
       "non_scout": true,
       "line": 12.5,
       "play": "CHC/COL O12.5",
       "result": "LOSS",
-      "profit": -1.0
+      "profit": -1.0,
+      "conflict_skip": true,
+      "not_bet": true
     },
     {
       "date": "2026-06-09",
@@ -16960,14 +16980,16 @@
       "rule": "starter-over-run",
       "gamePk": 824831,
       "commence": "2026-06-10T22:35:00Z",
-      "basis": "Starter over run: over in Brandon Young 86% of last 8, total 9",
+      "basis": "Starter over run: over in Brandon Young 86% of last 8, total 9 Conflicting under carded on this game; over not taken.",
       "auto": true,
       "backfilled": true,
       "non_scout": true,
       "line": 9.0,
       "play": "SEA/BAL O9",
       "result": "PUSH",
-      "profit": 0.0
+      "profit": 0.0,
+      "conflict_skip": true,
+      "not_bet": true
     },
     {
       "date": "2026-06-10",
@@ -16996,14 +17018,16 @@
       "rule": "starter-over-run",
       "gamePk": 824103,
       "commence": "2026-06-10T23:40:00Z",
-      "basis": "Starter over run: over in MacKenzie Gore 75%, Seth Lugo 75% of last 8, total 10",
+      "basis": "Starter over run: over in MacKenzie Gore 75%, Seth Lugo 75% of last 8, total 10 Conflicting under carded on this game; over not taken.",
       "auto": true,
       "backfilled": true,
       "non_scout": true,
       "line": 10.0,
       "play": "TEX/KC O10",
       "result": "PUSH",
-      "profit": 0.0
+      "profit": 0.0,
+      "conflict_skip": true,
+      "not_bet": true
     },
     {
       "date": "2026-06-10",
@@ -17014,14 +17038,16 @@
       "rule": "starter-over-run",
       "gamePk": 824996,
       "commence": "2026-06-11T01:05:00Z",
-      "basis": "Starter over run: over in Brandon Sproat 75% of last 8, total 14.5",
+      "basis": "Starter over run: over in Brandon Sproat 75% of last 8, total 14.5 Conflicting under carded on this game; over not taken.",
       "auto": true,
       "backfilled": true,
       "non_scout": true,
       "line": 14.5,
       "play": "MIL/OAK O14.5",
       "result": "LOSS",
-      "profit": -1.0
+      "profit": -1.0,
+      "conflict_skip": true,
+      "not_bet": true
     },
     {
       "date": "2026-06-10",
@@ -17473,14 +17499,16 @@
       "rule": "starter-over-run",
       "gamePk": 824507,
       "commence": "2026-06-12T23:15:00Z",
-      "basis": "Starter over run: over in Nick Lodolo 83% of last 8, total 9.5",
+      "basis": "Starter over run: over in Nick Lodolo 83% of last 8, total 9.5 Conflicting under carded on this game; over not taken.",
       "auto": true,
       "backfilled": true,
       "non_scout": true,
       "line": 9.5,
       "play": "ARI/CIN O9.5",
       "result": "LOSS",
-      "profit": -1.0
+      "profit": -1.0,
+      "conflict_skip": true,
+      "not_bet": true
     },
     {
       "date": "2026-06-12",
@@ -17491,14 +17519,16 @@
       "rule": "starter-over-run",
       "gamePk": 824102,
       "commence": "2026-06-13T00:10:00Z",
-      "basis": "Starter over run: over in Tatsuya Imai 75% of last 8, total 9.5",
+      "basis": "Starter over run: over in Tatsuya Imai 75% of last 8, total 9.5 Conflicting under carded on this game; over not taken.",
       "auto": true,
       "backfilled": true,
       "non_scout": true,
       "line": 9.5,
       "play": "HOU/KC O9.5",
       "result": "WIN",
-      "profit": 0.91
+      "profit": 0.91,
+      "conflict_skip": true,
+      "not_bet": true
     },
     {
       "date": "2026-06-12",
@@ -17744,14 +17774,16 @@
       "rule": "starter-over-run",
       "gamePk": 823694,
       "commence": "2026-06-13T18:10:00Z",
-      "basis": "Starter over run: over in Connor Prielipp 88% of last 8, total 9",
+      "basis": "Starter over run: over in Connor Prielipp 88% of last 8, total 9 Conflicting under carded on this game; over not taken.",
       "auto": true,
       "backfilled": true,
       "non_scout": true,
       "line": 9.0,
       "play": "STL/MIN O9",
       "result": "WIN",
-      "profit": 0.85
+      "profit": 0.85,
+      "conflict_skip": true,
+      "not_bet": true
     },
     {
       "date": "2026-06-13",
@@ -20307,14 +20339,16 @@
       "rule": "starter-over-run",
       "gamePk": 824502,
       "commence": "2026-06-22T23:10:00Z",
-      "basis": "Starter over run: over in Brady Singer 75% of last 8, total 9.5",
+      "basis": "Starter over run: over in Brady Singer 75% of last 8, total 9.5 Conflicting under carded on this game; over not taken.",
       "auto": true,
       "backfilled": true,
       "non_scout": true,
       "line": 9.5,
       "play": "MIL/CIN O9.5",
       "result": "LOSS",
-      "profit": -1.0
+      "profit": -1.0,
+      "conflict_skip": true,
+      "not_bet": true
     },
     {
       "date": "2026-06-22",
@@ -20603,14 +20637,16 @@
       "rule": "starter-over-run",
       "gamePk": 824501,
       "commence": "2026-06-23T23:10:00Z",
-      "basis": "Starter over run: over in Brandon Sproat 75%, Nick Lodolo 75% of last 8, total 9.5",
+      "basis": "Starter over run: over in Brandon Sproat 75%, Nick Lodolo 75% of last 8, total 9.5 Conflicting under carded on this game; over not taken.",
       "auto": true,
       "backfilled": true,
       "non_scout": true,
       "line": 9.5,
       "play": "MIL/CIN O9.5",
       "result": "LOSS",
-      "profit": -1.0
+      "profit": -1.0,
+      "conflict_skip": true,
+      "not_bet": true
     },
     {
       "date": "2026-06-23",
@@ -21141,14 +21177,16 @@
       "rule": "starter-over-run",
       "gamePk": 823612,
       "commence": "2026-06-25T23:10:00Z",
-      "basis": "Starter over run: over in Matthew Boyd 100%, Freddy Peralta 75% of last 8, total 8.5",
+      "basis": "Starter over run: over in Matthew Boyd 100%, Freddy Peralta 75% of last 8, total 8.5 Conflicting under carded on this game; over not taken.",
       "auto": true,
       "backfilled": true,
       "non_scout": true,
       "line": 8.5,
       "play": "CHC/NYM O8.5",
       "result": "LOSS",
-      "profit": -1.0
+      "profit": -1.0,
+      "conflict_skip": true,
+      "not_bet": true
     },
     {
       "date": "2026-06-25",
@@ -22298,14 +22336,16 @@
       "rule": "starter-over-run",
       "gamePk": 823444,
       "commence": "2026-06-29T22:40:00Z",
-      "basis": "Starter over run: over in Braxton Ashcraft 100% of last 8, total 8.5",
+      "basis": "Starter over run: over in Braxton Ashcraft 100% of last 8, total 8.5 Conflicting under carded on this game; over not taken.",
       "auto": true,
       "backfilled": true,
       "non_scout": true,
       "line": 8.5,
       "play": "PIT/PHI O8.5",
       "result": "WIN",
-      "profit": 0.81
+      "profit": 0.81,
+      "conflict_skip": true,
+      "not_bet": true
     },
     {
       "date": "2026-06-29",
@@ -22334,14 +22374,16 @@
       "rule": "starter-over-run",
       "gamePk": 824339,
       "commence": "2026-06-30T00:40:00Z",
-      "basis": "Starter over run: over in Sandy Alcantara 88% of last 8, total 11.5",
+      "basis": "Starter over run: over in Sandy Alcantara 88% of last 8, total 11.5 Conflicting under carded on this game; over not taken.",
       "auto": true,
       "backfilled": true,
       "non_scout": true,
       "line": 11.5,
       "play": "MIA/COL O11.5",
       "result": "WIN",
-      "profit": 0.85
+      "profit": 0.85,
+      "conflict_skip": true,
+      "not_bet": true
     },
     {
       "date": "2026-06-29",
@@ -22660,14 +22702,16 @@
       "rule": "starter-over-run",
       "gamePk": 824984,
       "commence": "2026-07-01T01:40:00Z",
-      "basis": "Starter over run: over in Jeffrey Springs 100% of last 8, total 11",
+      "basis": "Starter over run: over in Jeffrey Springs 100% of last 8, total 11 Conflicting under carded on this game; over not taken.",
       "auto": true,
       "backfilled": true,
       "non_scout": true,
       "line": 11.0,
       "play": "LAD/OAK O11",
       "result": "WIN",
-      "profit": 0.87
+      "profit": 0.87,
+      "conflict_skip": true,
+      "not_bet": true
     },
     {
       "date": "2026-06-30",
@@ -23031,14 +23075,16 @@
       "rule": "starter-over-run",
       "gamePk": 824094,
       "commence": "2026-07-01T23:40:00Z",
-      "basis": "Starter over run: over in Seth Lugo 86% of last 8, total 10.5",
+      "basis": "Starter over run: over in Seth Lugo 86% of last 8, total 10.5 Conflicting under carded on this game; over not taken.",
       "auto": true,
       "backfilled": true,
       "non_scout": true,
       "line": 10.5,
       "play": "TB/KC O10.5",
       "result": "LOSS",
-      "profit": -1.0
+      "profit": -1.0,
+      "conflict_skip": true,
+      "not_bet": true
     },
     {
       "date": "2026-07-02",
@@ -23796,14 +23842,16 @@
       "rule": "starter-over-run",
       "gamePk": 822716,
       "commence": "2026-07-04T15:05:00Z",
-      "basis": "Starter over run: over in Braxton Ashcraft 100% of last 8, total 10.5",
+      "basis": "Starter over run: over in Braxton Ashcraft 100% of last 8, total 10.5 Conflicting under carded on this game; over not taken.",
       "auto": true,
       "backfilled": true,
       "non_scout": true,
       "line": 10.5,
       "play": "PIT/WSH O10.5",
       "result": "LOSS",
-      "profit": -1.0
+      "profit": -1.0,
+      "conflict_skip": true,
+      "not_bet": true
     },
     {
       "date": "2026-07-04",
@@ -23814,14 +23862,16 @@
       "rule": "starter-over-run",
       "gamePk": 824983,
       "commence": "2026-07-05T01:40:00Z",
-      "basis": "Starter over run: over in Sandy Alcantara 88% of last 8, total 11.5",
+      "basis": "Starter over run: over in Sandy Alcantara 88% of last 8, total 11.5 Conflicting under carded on this game; over not taken.",
       "auto": true,
       "backfilled": true,
       "non_scout": true,
       "line": 11.5,
       "play": "MIA/OAK O11.5",
       "result": "LOSS",
-      "profit": -1.0
+      "profit": -1.0,
+      "conflict_skip": true,
+      "not_bet": true
     },
     {
       "date": "2026-07-04",
@@ -24123,14 +24173,16 @@
       "rule": "starter-over-run",
       "gamePk": 824902,
       "commence": "2026-07-05T16:30:00Z",
-      "basis": "Starter over run: over in Nolan McLean 75% of last 8, total 8.5",
+      "basis": "Starter over run: over in Nolan McLean 75% of last 8, total 8.5 Conflicting under carded on this game; over not taken.",
       "auto": true,
       "backfilled": true,
       "non_scout": true,
       "line": 8.5,
       "play": "NYM/ATL O8.5",
       "result": "WIN",
-      "profit": 0.89
+      "profit": 0.89,
+      "conflict_skip": true,
+      "not_bet": true
     },
     {
       "date": "2026-07-05",
@@ -24141,14 +24193,16 @@
       "rule": "starter-over-run",
       "gamePk": 824497,
       "commence": "2026-07-05T17:05:00Z",
-      "basis": "Starter over run: over in Kyle Bradish 75% of last 8, total 9.5",
+      "basis": "Starter over run: over in Kyle Bradish 75% of last 8, total 9.5 Conflicting under carded on this game; over not taken.",
       "auto": true,
       "backfilled": true,
       "non_scout": true,
       "line": 9.5,
       "play": "BAL/CIN O9.5",
       "result": "LOSS",
-      "profit": -1.0
+      "profit": -1.0,
+      "conflict_skip": true,
+      "not_bet": true
     },
     {
       "date": "2026-07-05",
@@ -24614,14 +24668,16 @@
       "rule": "starter-over-run",
       "gamePk": 824820,
       "commence": "2026-07-07T22:35:00Z",
-      "basis": "Starter over run: over in Matthew Boyd 86% of last 8, total 9.5",
+      "basis": "Starter over run: over in Matthew Boyd 86% of last 8, total 9.5 Conflicting under carded on this game; over not taken.",
       "auto": true,
       "backfilled": true,
       "non_scout": true,
       "line": 9.5,
       "play": "CHC/BAL O9.5",
       "result": "LOSS",
-      "profit": -1.0
+      "profit": -1.0,
+      "conflict_skip": true,
+      "not_bet": true
     },
     {
       "date": "2026-07-07",
@@ -25062,14 +25118,16 @@
       "rule": "starter-over-run",
       "gamePk": 823359,
       "commence": "2026-07-09T16:35:00Z",
-      "basis": "Starter over run: over in Mitch Keller 88% of last 8, total 10",
+      "basis": "Starter over run: over in Mitch Keller 88% of last 8, total 10 Conflicting under carded on this game; over not taken.",
       "auto": true,
       "backfilled": true,
       "non_scout": true,
       "line": 10.0,
       "play": "ATL/PIT O10",
       "result": "WIN",
-      "profit": 0.91
+      "profit": 0.91,
+      "conflict_skip": true,
+      "not_bet": true
     },
     {
       "date": "2026-07-09",
@@ -25098,14 +25156,16 @@
       "rule": "starter-over-run",
       "gamePk": 824577,
       "commence": "2026-07-09T18:10:00Z",
-      "basis": "Starter over run: over in Anthony Kay 75% of last 8, total 9",
+      "basis": "Starter over run: over in Anthony Kay 75% of last 8, total 9 Conflicting under carded on this game; over not taken.",
       "auto": true,
       "backfilled": true,
       "non_scout": true,
       "line": 9.0,
       "play": "BOS/CWS O9",
       "result": "LOSS",
-      "profit": -1.0
+      "profit": -1.0,
+      "conflict_skip": true,
+      "not_bet": true
     },
     {
       "date": "2026-07-09",
@@ -26543,14 +26603,16 @@
       "rule": "starter-over-run",
       "gamePk": 824899,
       "commence": "2026-07-18T20:10:00Z",
-      "basis": "Starter over run: over in MacKenzie Gore 86% of last 8, total 9",
+      "basis": "Starter over run: over in MacKenzie Gore 86% of last 8, total 9 Conflicting under carded on this game; over not taken.",
       "auto": true,
       "backfilled": true,
       "non_scout": true,
       "line": 9.0,
       "play": "TEX/ATL O9",
       "result": "WIN",
-      "profit": 0.87
+      "profit": 0.87,
+      "conflict_skip": true,
+      "not_bet": true
     },
     {
       "date": "2026-07-18",
@@ -27272,14 +27334,16 @@
       "rule": "starter-over-run",
       "gamePk": 824006,
       "commence": "2026-07-21T02:10:00Z",
-      "basis": "Starter over run: over in Jos\u00e9 Soriano 75% of last 8, total 9",
+      "basis": "Starter over run: over in Jos\u00e9 Soriano 75% of last 8, total 9 Conflicting under carded on this game; over not taken.",
       "auto": true,
       "backfilled": true,
       "non_scout": true,
       "line": 9,
       "play": "STL/LAA O9",
       "result": "LOSS",
-      "profit": -1.0
+      "profit": -1.0,
+      "conflict_skip": true,
+      "not_bet": true
     },
     {
       "date": "2026-07-20",
@@ -27667,14 +27731,16 @@
       "rule": "starter-over-run",
       "gamePk": 822873,
       "commence": "2026-07-23T00:05:00Z",
-      "basis": "Starter over run: over in Anthony Kay 75% of last 8, total 8.5",
+      "basis": "Starter over run: over in Anthony Kay 75% of last 8, total 8.5 Conflicting under carded on this game; over not taken.",
       "auto": true,
       "backfilled": true,
       "non_scout": true,
       "line": 8.5,
       "play": "CWS/TEX O8.5",
       "result": "LOSS",
-      "profit": -1.0
+      "profit": -1.0,
+      "conflict_skip": true,
+      "not_bet": true
     },
     {
       "date": "2026-07-22",
@@ -28811,14 +28877,16 @@
       "rule": "starter-over-run",
       "gamePk": 823353,
       "commence": "2026-07-27T22:40:00Z",
-      "basis": "Starter over run: over in Mitch Keller 75% of last 8, total 9",
+      "basis": "Starter over run: over in Mitch Keller 75% of last 8, total 9 Conflicting under carded on this game; over not taken.",
       "auto": true,
       "backfilled": true,
       "non_scout": true,
       "line": 9,
       "play": "ARI/PIT O9",
       "result": "LOSS",
-      "profit": -1.0
+      "profit": -1.0,
+      "conflict_skip": true,
+      "not_bet": true
     },
     {
       "date": "2026-07-27",
@@ -29916,14 +29984,16 @@
       "rule": "starter-over-run",
       "gamePk": 823593,
       "commence": "2026-07-31T23:10:00Z",
-      "basis": "Starter over run: over in Janson Junk 75% of last 8, total 8.5",
+      "basis": "Starter over run: over in Janson Junk 75% of last 8, total 8.5 Conflicting under carded on this game; over not taken.",
       "auto": true,
       "backfilled": true,
       "non_scout": true,
       "line": 8.5,
       "play": "MIA/NYM O8.5",
       "result": "LOSS",
-      "profit": -1.0
+      "profit": -1.0,
+      "conflict_skip": true,
+      "not_bet": true
     },
     {
       "date": "2026-07-31",
@@ -29934,14 +30004,16 @@
       "rule": "starter-over-run",
       "gamePk": 824975,
       "commence": "2026-08-01T01:40:00Z",
-      "basis": "Starter over run: over in Jeffrey Springs 75% of last 8, total 10.5",
+      "basis": "Starter over run: over in Jeffrey Springs 75% of last 8, total 10.5 Conflicting under carded on this game; over not taken.",
       "auto": true,
       "backfilled": true,
       "non_scout": true,
       "line": 10.5,
       "play": "DET/OAK O10.5",
       "result": "WIN",
-      "profit": 0.81
+      "profit": 0.81,
+      "conflict_skip": true,
+      "not_bet": true
     },
     {
       "date": "2026-07-31",
@@ -31466,14 +31538,16 @@
       "rule": "starter-over-run",
       "gamePk": 824082,
       "commence": "2026-08-05T23:40:00Z",
-      "basis": "Starter over run: over in Noah Cameron 75% of last 8, total 8.5",
+      "basis": "Starter over run: over in Noah Cameron 75% of last 8, total 8.5 Conflicting under carded on this game; over not taken.",
       "auto": true,
       "backfilled": true,
       "non_scout": true,
       "line": 8.5,
       "play": "MIN/KC O8.5",
       "result": "LOSS",
-      "profit": -1.0
+      "profit": -1.0,
+      "conflict_skip": true,
+      "not_bet": true
     },
     {
       "date": "2026-08-06",
@@ -31628,14 +31702,16 @@
       "rule": "starter-over-run",
       "gamePk": 825053,
       "commence": "2026-08-07T01:40:00Z",
-      "basis": "Starter over run: over in Walker Buehler 75% of last 8, total 9",
+      "basis": "Starter over run: over in Walker Buehler 75% of last 8, total 9 Conflicting under carded on this game; over not taken.",
       "auto": true,
       "backfilled": true,
       "non_scout": true,
       "line": 9,
       "play": "SD/ARI O9",
       "result": "LOSS",
-      "profit": -1.0
+      "profit": -1.0,
+      "conflict_skip": true,
+      "not_bet": true
     },
     {
       "date": "2026-08-07",
@@ -32092,14 +32168,16 @@
       "rule": "starter-over-run",
       "gamePk": 822701,
       "commence": "2026-08-08T22:45:00Z",
-      "basis": "Starter over run: over in Chase Burns 75% of last 8, total 8.5",
+      "basis": "Starter over run: over in Chase Burns 75% of last 8, total 8.5 Conflicting under carded on this game; over not taken.",
       "auto": true,
       "backfilled": true,
       "non_scout": true,
       "line": 8.5,
       "play": "CIN/WSH O8.5",
       "result": "WIN",
-      "profit": 0.87
+      "profit": 0.87,
+      "conflict_skip": true,
+      "not_bet": true
     },
     {
       "date": "2026-08-08",
@@ -32872,14 +32950,16 @@
       "rule": "starter-over-run",
       "gamePk": 824969,
       "commence": "2026-08-11T01:40:00Z",
-      "basis": "Starter over run: over in Freddy Peralta 75% of last 8, total 10",
+      "basis": "Starter over run: over in Freddy Peralta 75% of last 8, total 10 Conflicting under carded on this game; over not taken.",
       "auto": true,
       "backfilled": true,
       "non_scout": true,
       "line": 10,
       "play": "TB/OAK O10",
       "result": "WIN",
-      "profit": 0.95
+      "profit": 0.95,
+      "conflict_skip": true,
+      "not_bet": true
     },
     {
       "date": "2026-08-10",
@@ -33470,14 +33550,16 @@
       "rule": "starter-over-run",
       "gamePk": 823833,
       "commence": "2026-08-12T22:40:00Z",
-      "basis": "Starter over run: over in Janson Junk 75% of last 8, total 8.5",
+      "basis": "Starter over run: over in Janson Junk 75% of last 8, total 8.5 Conflicting under carded on this game; over not taken.",
       "auto": true,
       "backfilled": true,
       "non_scout": true,
       "line": 8.5,
       "play": "PIT/MIA O8.5",
       "result": "WIN",
-      "profit": 1.0
+      "profit": 1.0,
+      "conflict_skip": true,
+      "not_bet": true
     },
     {
       "date": "2026-08-12",
@@ -33952,14 +34034,16 @@
       "rule": "starter-over-run",
       "gamePk": 824968,
       "commence": "2026-08-15T01:40:00Z",
-      "basis": "Starter over run: over in Kumar Rocker 88%, Gage Jump 75% of last 8, total 9.5",
+      "basis": "Starter over run: over in Kumar Rocker 88%, Gage Jump 75% of last 8, total 9.5 Conflicting under carded on this game; over not taken.",
       "auto": true,
       "backfilled": true,
       "non_scout": true,
       "line": 9.5,
       "play": "TEX/OAK O9.5",
       "result": "WIN",
-      "profit": 0.96
+      "profit": 0.96,
+      "conflict_skip": true,
+      "not_bet": true
     },
     {
       "date": "2026-08-14",
@@ -34188,14 +34272,16 @@
       "rule": "starter-over-run",
       "gamePk": 824966,
       "commence": "2026-08-16T01:40:00Z",
-      "basis": "Starter over run: over in MacKenzie Gore 75% of last 8, total 9.5",
+      "basis": "Starter over run: over in MacKenzie Gore 75% of last 8, total 9.5 Conflicting under carded on this game; over not taken.",
       "auto": true,
       "backfilled": true,
       "non_scout": true,
       "line": 9.5,
       "play": "TEX/OAK O9.5",
       "result": "LOSS",
-      "profit": -1.0
+      "profit": -1.0,
+      "conflict_skip": true,
+      "not_bet": true
     },
     {
       "date": "2026-08-15",
@@ -34913,14 +34999,16 @@
       "rule": "starter-over-run",
       "gamePk": 823343,
       "commence": "2026-08-17T23:05:00Z",
-      "basis": "Starter over run: over in Framber Valdez 86% of last 8, total 8.5",
+      "basis": "Starter over run: over in Framber Valdez 86% of last 8, total 8.5 Conflicting under carded on this game; over not taken.",
       "auto": true,
       "backfilled": true,
       "non_scout": true,
       "line": 8.5,
       "play": "DET/PIT O8.5",
       "result": "WIN",
-      "profit": 0.91
+      "profit": 0.91,
+      "conflict_skip": true,
+      "not_bet": true
     },
     {
       "date": "2026-08-17",
@@ -35097,14 +35185,16 @@
       "rule": "starter-over-run",
       "gamePk": 823667,
       "commence": "2026-08-18T23:40:00Z",
-      "basis": "Starter over run: over in Zebby Matthews 75% of last 8, total 8.5",
+      "basis": "Starter over run: over in Zebby Matthews 75% of last 8, total 8.5 Conflicting under carded on this game; over not taken.",
       "auto": true,
       "backfilled": true,
       "non_scout": true,
       "line": 8.5,
       "play": "ATL/MIN O8.5",
       "result": "LOSS",
-      "profit": -1.0
+      "profit": -1.0,
+      "conflict_skip": true,
+      "not_bet": true
     },
     {
       "date": "2026-08-18",
@@ -35299,14 +35389,16 @@
       "rule": "starter-over-run",
       "gamePk": 824801,
       "commence": "2026-08-19T22:35:00Z",
-      "basis": "Starter over run: over in Chris Bassitt 88% of last 8, total 9",
+      "basis": "Starter over run: over in Chris Bassitt 88% of last 8, total 9 Conflicting under carded on this game; over not taken.",
       "auto": true,
       "backfilled": true,
       "non_scout": true,
       "line": 9,
       "play": "NYY/BAL O9",
       "result": "LOSS",
-      "profit": -1.0
+      "profit": -1.0,
+      "conflict_skip": true,
+      "not_bet": true
     },
     {
       "date": "2026-08-19",
@@ -36817,14 +36909,16 @@
       "rule": "starter-over-run",
       "gamePk": 824964,
       "commence": "2026-08-25T01:40:00Z",
-      "basis": "Starter over run: over in Jeffrey Springs 75% of last 8, total 10.5",
+      "basis": "Starter over run: over in Jeffrey Springs 75% of last 8, total 10.5 Conflicting under carded on this game; over not taken.",
       "auto": true,
       "backfilled": true,
       "non_scout": true,
       "line": 10.5,
       "play": "MIN/OAK O10.5",
       "result": "WIN",
-      "profit": 0.87
+      "profit": 0.87,
+      "conflict_skip": true,
+      "not_bet": true
     },
     {
       "date": "2026-08-24",
@@ -37420,14 +37514,16 @@
       "rule": "starter-over-run",
       "gamePk": 823015,
       "commence": "2026-08-26T23:45:00Z",
-      "basis": "Starter over run: over in Michael McGreevy 86% of last 8, total 8.5",
+      "basis": "Starter over run: over in Michael McGreevy 86% of last 8, total 8.5 Conflicting under carded on this game; over not taken.",
       "auto": true,
       "backfilled": true,
       "non_scout": true,
       "line": 8.5,
       "play": "BAL/STL O8.5",
       "result": "WIN",
-      "profit": 0.95
+      "profit": 0.95,
+      "conflict_skip": true,
+      "not_bet": true
     },
     {
       "date": "2026-08-26",
@@ -38337,14 +38433,16 @@
       "rule": "starter-over-run",
       "gamePk": 824961,
       "commence": "2026-08-30T02:05:00Z",
-      "basis": "Starter over run: over in Jack Perkins 75% of last 8, total 9.5",
+      "basis": "Starter over run: over in Jack Perkins 75% of last 8, total 9.5 Conflicting under carded on this game; over not taken.",
       "auto": true,
       "backfilled": true,
       "non_scout": true,
       "line": 9.5,
       "play": "BAL/OAK O9.5",
       "result": "LOSS",
-      "profit": -1.0
+      "profit": -1.0,
+      "conflict_skip": true,
+      "not_bet": true
     },
     {
       "date": "2026-08-29",
@@ -38754,14 +38852,16 @@
       "rule": "starter-over-run",
       "gamePk": 824959,
       "commence": "2026-08-30T20:05:00Z",
-      "basis": "Starter over run: over in Chris Bassitt 75%, Jeffrey Springs 75% of last 8, total 9.5",
+      "basis": "Starter over run: over in Chris Bassitt 75%, Jeffrey Springs 75% of last 8, total 9.5 Conflicting under carded on this game; over not taken.",
       "auto": true,
       "backfilled": true,
       "non_scout": true,
       "line": 9.5,
       "play": "BAL/OAK O9.5",
       "result": "WIN",
-      "profit": 0.82
+      "profit": 0.82,
+      "conflict_skip": true,
+      "not_bet": true
     },
     {
       "date": "2026-08-30",
@@ -39486,13 +39586,15 @@
       "stake": 1.0,
       "rule": "flag-plays",
       "auto": true,
-      "basis": "Verdict over for swingman+stale-window (30-20 +14.7% over vs 20-30 -24.5% under). Randy Vasquez swingman-2g \u00b7 Nick Lodolo stale-window-46d. This is the rule's play of record for the game.",
+      "basis": "Verdict over for swingman+stale-window (30-20 +14.7% over vs 20-30 -24.5% under). Randy Vasquez swingman-2g \u00b7 Nick Lodolo stale-window-46d. This is the rule's play of record for the game. Conflicting under carded on this game; over not taken.",
       "result": "LOSS",
       "profit": -1.0,
       "line": 9,
       "combo": "swingman+stale-window",
       "gamePk": 824472,
-      "commence": "2026-09-01T22:40:00Z"
+      "commence": "2026-09-01T22:40:00Z",
+      "conflict_skip": true,
+      "not_bet": true
     },
     {
       "date": "2026-09-01",
@@ -39664,13 +39766,15 @@
       "stake": 1.0,
       "rule": "starter-over-run",
       "auto": true,
-      "basis": "Starter over run: over in Michael McGreevy 100% of last 8, total 8.5",
+      "basis": "Starter over run: over in Michael McGreevy 100% of last 8, total 8.5 Conflicting under carded on this game; over not taken.",
       "result": "WIN",
       "profit": 0.82,
       "line": 8.5,
       "gamePk": 823908,
       "commence": "2026-09-02T02:10:00Z",
-      "non_scout": true
+      "non_scout": true,
+      "conflict_skip": true,
+      "not_bet": true
     },
     {
       "date": "2026-09-01",
@@ -40049,7 +40153,7 @@
       "play": "LAD ML (mismatch -52.2)",
       "market": "h2h",
       "game": "STL @ LAD",
-      "price": -275,
+      "price": -290,
       "stake": 1.0,
       "rule": "mismatch-ml",
       "auto": true,
@@ -40103,13 +40207,15 @@
       "stake": 1.0,
       "rule": "starter-over-run",
       "auto": true,
-      "basis": "Starter over run: over in Trevor Rogers 75% of last 8, total 11.5",
+      "basis": "Starter over run: over in Trevor Rogers 75% of last 8, total 11.5 Conflicting under carded on this game; over not taken.",
       "result": "LOSS",
       "profit": -1.0,
       "line": 11.5,
       "gamePk": 824312,
       "commence": "2026-09-02T19:10:00Z",
-      "non_scout": true
+      "non_scout": true,
+      "conflict_skip": true,
+      "not_bet": true
     },
     {
       "date": "2026-09-02",
@@ -40137,13 +40243,15 @@
       "stake": 1.0,
       "rule": "starter-over-run",
       "auto": true,
-      "basis": "Starter over run: over in David Peterson 75% of last 8, total 8.5",
+      "basis": "Starter over run: over in David Peterson 75% of last 8, total 8.5 Conflicting under carded on this game; over not taken.",
       "result": "pending",
       "profit": 0.0,
       "line": 8.5,
       "gamePk": 824634,
       "commence": "2026-09-02T23:40:00Z",
-      "non_scout": true
+      "non_scout": true,
+      "conflict_skip": true,
+      "not_bet": true
     },
     {
       "date": "2026-09-02",
