@@ -1,7 +1,7 @@
 {
   "sport": "MLB",
   "type": "hand-tails-watch",
-  "generated": "2026-09-03T10:25:41Z",
+  "generated": "2026-09-03T13:06:26Z",
   "handMin": 6,
   "minGames": 3,
   "minUnits": 2.5,
@@ -563,6 +563,24 @@
       "era": 3.11
     },
     {
+      "pitcher": "Rhett Lowder",
+      "hand": "R",
+      "games": 8,
+      "suggest": "fade",
+      "suggestUnits": 3.5,
+      "fade": {
+        "w": 6,
+        "l": 2,
+        "u": 3.5
+      },
+      "take": {
+        "w": 2,
+        "l": 6,
+        "u": -4.04
+      },
+      "era": 5.4
+    },
+    {
       "pitcher": "Bubba Chandler",
       "hand": "R",
       "games": 8,
@@ -651,24 +669,6 @@
         "u": -3.18
       },
       "era": 5.32
-    },
-    {
-      "pitcher": "Cam Schlittler",
-      "hand": "R",
-      "games": 11,
-      "suggest": "fade",
-      "suggestUnits": 3.06,
-      "fade": {
-        "w": 6,
-        "l": 5,
-        "u": 3.06
-      },
-      "take": {
-        "w": 5,
-        "l": 6,
-        "u": -4.13
-      },
-      "era": 2.04
     },
     {
       "pitcher": "Brayan Bello",
@@ -777,24 +777,6 @@
         "u": -2.96
       },
       "era": 6.34
-    },
-    {
-      "pitcher": "Rhett Lowder",
-      "hand": "R",
-      "games": 7,
-      "suggest": "fade",
-      "suggestUnits": 2.5,
-      "fade": {
-        "w": 5,
-        "l": 2,
-        "u": 2.5
-      },
-      "take": {
-        "w": 2,
-        "l": 5,
-        "u": -3.04
-      },
-      "era": 5.4
     }
   ]
 }

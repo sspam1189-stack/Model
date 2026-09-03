@@ -1,7 +1,7 @@
 {
  "sport": "MLB",
  "type": "plays-feed",
- "generated": "2026-09-03T10:30:00Z",
+ "generated": "2026-09-03T13:10:35Z",
  "note": "The scout bet log: a projection of MLBstrikeouts/data/scout-card-log.json. Results and profit are the ledger's own, settled by grade_scout_ledger.py from the finals; nothing is recomputed here. `kind` is one of card / shadow / not_bet / backfilled, and only card rows carry units; not-bet rows (which include what used to be tracked separately as shadow) fired live with no money on them, so they stay out of the units. Backfilled rows count as card (user, 2026-09-02) and keep a `backfilled` flag so they can still be isolated.",
  "bets": [
   {
@@ -9,7 +9,7 @@
    "play": "OAK/SEA U7.5",
    "market": "totals",
    "line": 7.5,
-   "price": -115,
+   "price": -122,
    "rule": "flag-plays",
    "result": "pending",
    "profit": 0.0,
@@ -21,6 +21,23 @@
    "name": "Flag Plays",
    "group": "scout",
    "kind": "card"
+  },
+  {
+   "date": "2026-09-03",
+   "play": "OAK/SEA U7.5",
+   "market": "totals",
+   "line": 7.5,
+   "price": -122,
+   "rule": "under-juice",
+   "result": "pending",
+   "profit": 0.0,
+   "game": "OAK @ SEA",
+   "gamePk": 823095,
+   "commence": "2026-09-04T01:40:00Z",
+   "basis": "Under juice: book laying -122 on the under",
+   "name": "Under juice",
+   "group": "non-scout",
+   "kind": "not_bet"
   },
   {
    "date": "2026-09-03",
@@ -41,16 +58,33 @@
   },
   {
    "date": "2026-09-03",
+   "play": "MIA/KC U9",
+   "market": "totals",
+   "line": 9,
+   "price": -105,
+   "rule": "pickem-under",
+   "result": "pending",
+   "profit": 0.0,
+   "game": "MIA @ KC",
+   "gamePk": 824069,
+   "commence": "2026-09-03T23:40:00Z",
+   "basis": "Pickem under: favorite only -110 at a 9 total",
+   "name": "Pickem under",
+   "group": "non-scout",
+   "kind": "card"
+  },
+  {
+   "date": "2026-09-03",
    "play": "BAL ML (hot arm dog)",
    "market": "h2h",
-   "price": 110,
+   "price": 108,
    "rule": "hot-arm-dog-ml",
    "result": "pending",
    "profit": 0.0,
    "game": "BOS @ BAL",
    "gamePk": 824796,
    "commence": "2026-09-03T23:15:00Z",
-   "basis": "Hot arm dog ML: Brandon Young \u2014 team +49% over his last 8 starts, priced +110",
+   "basis": "Hot arm dog ML: Brandon Young \u2014 team +49% over his last 8 starts, priced +108",
    "name": "Hot arm dog ML",
    "group": "non-scout",
    "kind": "not_bet"
@@ -91,10 +125,27 @@
   },
   {
    "date": "2026-09-03",
+   "play": "CWS/HOU O8.5",
+   "market": "totals",
+   "line": 8.5,
+   "price": -105,
+   "rule": "starter-over-run",
+   "result": "pending",
+   "profit": 0.0,
+   "game": "CWS @ HOU",
+   "gamePk": 824144,
+   "commence": "2026-09-03T18:10:00Z",
+   "basis": "Starter over run: over in Luis Castillo 75% of last 8, total 8.5",
+   "name": "Starter over run",
+   "group": "non-scout",
+   "kind": "card"
+  },
+  {
+   "date": "2026-09-03",
    "play": "SF/PIT U8.5",
    "market": "totals",
    "line": 8.5,
-   "price": -104,
+   "price": 102,
    "rule": "flag-plays",
    "result": "pending",
    "profit": 0.0,
@@ -112,7 +163,7 @@
    "play": "SF/PIT O8.5",
    "market": "totals",
    "line": 8.5,
-   "price": -118,
+   "price": -124,
    "rule": "starter-over-run",
    "result": "pending",
    "profit": 0.0,
@@ -38770,16 +38821,16 @@
    "w": 1168,
    "l": 990,
    "push": 25,
-   "n": 2190,
-   "pending": 7,
+   "n": 2193,
+   "pending": 10,
    "units": 279.76
   },
   "card": {
    "w": 592,
    "l": 502,
    "push": 4,
-   "n": 1103,
-   "pending": 5,
+   "n": 1105,
+   "pending": 7,
    "units": 279.76
   },
   "by_rule": {
@@ -38915,8 +38966,8 @@
     "w": 99,
     "l": 72,
     "push": 4,
-    "n": 176,
-    "pending": 1,
+    "n": 177,
+    "pending": 2,
     "units": 13.39
    },
    "scout-ml-both-halves-aligned": {
@@ -38931,16 +38982,16 @@
     "w": 123,
     "l": 89,
     "push": 3,
-    "n": 216,
-    "pending": 1,
+    "n": 217,
+    "pending": 2,
     "units": 33.23
    },
    "under-juice": {
     "w": 236,
     "l": 175,
     "push": 1,
-    "n": 413,
-    "pending": 1,
+    "n": 414,
+    "pending": 2,
     "units": 0
    }
   }
